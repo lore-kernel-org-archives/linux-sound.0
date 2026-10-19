@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06CC5B9219;
-	Mon, 19 Oct 2026 14:00:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183985BE67A;
+	Mon, 19 Oct 2026 14:01:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418453; cv=none; b=kC8uzZ6U4PbaiffPlq42wxDly1fNCHGr2qV+EXuwTqXP+XaBtPxadmOnEMLU2INVXxlPo6kvx3rD+B6zaTiismP4MeWyjhT60cjpE26d7fOZewZn+9AFeT83RTbByOvVuaZxd6TFhK0PrZDaq+iiED+F8I9Xz/uN5B+Zfasla+s=
+	t=1792418468; cv=none; b=KZJatxGYuXiHBQPxIGLcwxjkT+WYdw/oxn9eGtnuuRW3vELjtZPDz634YSLcp8D5Zpgc35ag3QPR/F13qpNPIxFQKXKFUiCcOISd3u9vlfH5gZRd+dbD9hPUUDXZOWSK5SLcqIS6ubH00muOiTxMqg7yPrWrqm+COdEOG/EjtK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418453; c=relaxed/simple;
-	bh=OOaK2xDcPKnLHz+w9XRDz6Fv9RbM/JNuJJ8P2ww92z0=;
+	s=arc-20240116; t=1792418468; c=relaxed/simple;
+	bh=4NjTx8XdW50H5bbuTROplug+5EW0agz+1V/XruY5rec=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V/+GnvaMUnpZVqbSYhS/0LHb1HiahCWMHl3JH0+Rodsk2uXCAOpW0gMY0Y8nKFb9Qr5l3iTrHz/sJnOZ66NOb4VKs87lnW38XskR6SkpFnZWSg1Zvelm+MYVPoW5Bng0MNJyftR8QLS4qKFX818OLAfmPwTNzTysUiii2OPyyHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QKJqrFKx; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=VfHj0ixBdGpnnGxuJT6lSnF2GuPhwIxHQkDxgL4Mwt5FoNqTN0CfMy1XKtp3H0khi+rRwINKeaF/EuyQJtf5OnIZDEsaIhcxrX+wTQIVP4AR7nC01BDueBVmD4va1Le48qO0DMsrWyaP25L0P8SUJo3lwzqaE/mashHpjQRtmyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bdgBe6gs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QKJqrFKx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA8941F000C4;
-	Mon, 19 Oct 2026 14:00:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bdgBe6gs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16DDC1F000C8;
+	Mon, 19 Oct 2026 14:01:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418449;
-	bh=6TS/Q3pKeENFeHIQnE0m6TxBiMaSVd3lpAbnvj2BRtw=;
+	s=k20260515; t=1792418466;
+	bh=exWpYuFcOfGsyhXx78/xtwD0VeLLPrL+e4s4PSQ6iTs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=QKJqrFKxJ07QdubIgwCCW/GWE5/G9E2Ezrjiiv/5/MuSh3p0cLsfVD985mLI7aoqh
-	 6Btlj4abgNMnk7dVFFitQXzwRkPW4dgLgjGMdJqrwLM6Irrw7EDLFQyIYu13m/7I9g
-	 qeyt27RZTLGobXaGY8eMWK72XlRsrOzv7s5qJu08AlM912ss9/vC2nfFyUmSnm3W9N
-	 ACgRk/49q2w0t9nxbOV6lyUENxpziyRGsV44C1+0p82tmQz7cIA6Xe6iml2lXjgNmD
-	 TW0aUIInkozPxYMLMALCR3IMiUVPWaUPNctmF2yoCqX4hqB4Vgg7sxtMLImLpdCiuI
-	 iAs22YEZZMSaA==
+	b=bdgBe6gsozJC/6PKFM6Zo/meu3g/yXf5r6dMpQaKZAhjqigmCg7RfnMRNhkn/W1v4
+	 VoGyrR8h3uzv6GrqplatT4TbHFQwWJN5v51CE3OWOCYkaBvnO3lGMxWzI1UZssfQc2
+	 B2DH3FLFosXyU1YLhW5Hdyqfid2BYeZsSlB+qTFbYwxKShTFzQc7fVKXyOTLobIVB+
+	 6gQNwufGZlZK+59Mzp7C2HkPbYys60We5MufbNz8nGaL5E0L99EvtUAQyhrsuW7pye
+	 CwKeCNi3O17oYalNB6sNJIa0/bxisRKLI5uIE7iuO3VJxTCSElqKQ9YAvaEhSD41jU
+	 nz/3lBrOSnFVw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
+Cc: Zhang Heng <zhangheng@kylinos.cn>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] ALSA: hda: Force resume if acomp notified during system suspend
-Date: Mon, 19 Oct 2026 09:49:08 -0400
-Message-ID: <20261019135441.1420968-257-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.12] ALSA: hda/realtek: Add quirk for Lenovo ThinkBook G8+
+Date: Mon, 19 Oct 2026 09:49:19 -0400
+Message-ID: <20261019135441.1420968-268-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -48,465 +48,460 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.18.57
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+From: Zhang Heng <zhangheng@kylinos.cn>
 
-[ Upstream commit c0933934d5d96fc641e8d0025f9099e554a7b47a ]
+[ Upstream commit 4322ac247f4ce7932edbd46aa37f3dae62cde424 ]
 
-Currently if an HDMI cable is connected while the system is suspended,
-the HDMI audio jack status stays off after resume.
+Fix Bass Speaker volume control on Lenovo ThinkBook G8+ by adding
+quirk 17aa:38dc with ALC285_FIXUP_SPEAKER2_TO_DAC1.
 
-This is due to the jack state not being synced by the HDA HDMI codec
-device's runtime resume, as that never happens if the device was runtime
-suspended before the system suspended, or by the acomp notification
-triggered from the DRM side if that happens before the HDA HDMI codec
-device has resumed.
-
-To fix this, if snd_hda_hdmi_acomp_pin_eld_notify() gets called before
-the HDA HDMI codec device has resumed, mark it to be forcefully runtime
-resumed at the next PM complete time.
-
-Do this using a separate acomp_requested_resume flag that can be
-temporarily set without overwriting forced_resume for drivers that
-always want to force resume.
-
-Assisted-by: Copilot:claude-sonnet-4.6
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-Link: https://patch.msgid.link/20260626-hda-force-resume-eld-notify-v1-1-a92cb01393e0@collabora.com
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221799
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+Link: https://patch.msgid.link/20260921124450.639601-1-zhangheng@kylinos.cn
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-The local tree is **6.18.y** (`v6.18.53`). The candidate is a small HDMI
-jack-sync fix for AMD/Nvidia HDA; the buggy skip-during-suspend path is
-present at `v6.18.53` and the patch applies there cleanly.
+The local tree is **6.18.57**. The ThinkBook G8+ SSID is not in
+`v6.18.57`; the existing `ALC285_FIXUP_SPEAKER2_TO_DAC1` path is, so
+this is a one-line hardware quirk that belongs in this series.
 
-===============================================================
-PHASE 1: COMMIT MESSAGE FORENSICS
-===============================================================
+---
+
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-Record: `[ALSA: hda]` `[Force]` Force a runtime resume if the DRM audio
-component (acomp) notifies HDMI pin/ELD state during system suspend.
+
+Record: `[ALSA/hda/realtek] [Add] [quirk for Lenovo ThinkBook G8+ to fix
+bass speaker volume]`
+
+- Subsystem: `ALSA: hda/realtek`
+- Verb: `Add` (hardware quirk, not a new API)
+- Intent: enable an existing Realtek fixup for PCI SSID `17aa:38dc`
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
+
 Record:
-- `Assisted-by: Copilot:claude-sonnet-4.6` (authoring aid; not a quality
-  verdict)
-- `Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>`
-  (author)
-- `Link: https://patch.msgid.link/20260626-hda-force-resume-eld-
-  notify-v1-1-a92cb01393e0@collabora.com`
-- `Signed-off-by: Takashi Iwai <tiwai@suse.de>` (ALSA maintainer applied
-  it)
-- Pipeline-added tags ignored: `[Upstream commit ...]`, `Signed-off-by:
-  Sasha Levin`
-- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-
-  by:`, or `Cc: stable` (absence expected)
+- `Link: https://bugzilla.kernel.org/show_bug.cgi?id=221799` — user-
+  filed hardware bug
+- `Link:
+  https://patch.msgid.link/20260921124450.639601-1-zhangheng@kylinos.cn`
+  — original submission
+- `Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>` — author
+- `Signed-off-by: Takashi Iwai <tiwai@suse.de>` — ALSA maintainer
+- No `Fixes:` tag (expected; this adds a device match, it does not
+  revert an earlier logic bug)
+- No `Reported-by:` / `Tested-by:` / `Reviewed-by:` / `Cc: stable`
+  (absence is expected)
+- Pipeline markers (`[Upstream commit 4322ac247f4ce…]`, `Signed-off-by:
+  Sasha Levin`) ignored per instructions
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+
 Record:
-- **Bug:** Plug an HDMI cable while the system is suspended; after
-  resume the HDMI audio jack stays off.
-- **Symptom:** Userspace sees HDMI audio disconnected until a later
-  unplug/replug or some other codec resume.
-- **Root cause:** Two missed sync paths: (1) HDA HDMI runtime resume
-  never runs if the codec was already runtime-suspended before system
-  suspend (direct-complete); (2) DRM `pin_eld_notify` during that window
-  is dropped because `power_state.event == PM_EVENT_SUSPEND`.
-- **Fix:** Remember the notify and force `pm_request_resume()` in
-  `hda_codec_pm_complete()`. Use a dedicated flag so `forced_resume` is
-  not overwritten for codecs that keep it set (Intel KAE / Realtek).
-- **Version info:** None in the message. Author date is 2026-06-26
-  (after 6.18).
+- Bug: bass speaker volume control is broken on Lenovo ThinkBook G8+
+- Symptom: users cannot control bass speaker volume
+- Root cause (from the existing fixup, not restated in this commit): NID
+  0x17 (bass speaker) is not routed to DAC1 (0x02), so volume amp is
+  missing
+- Fix: match SSID `17aa:38dc` to `ALC285_FIXUP_SPEAKER2_TO_DAC1`
+- Version info: none in the message; patch dated 2026-09-21, applied by
+  Takashi Iwai 2026-09-28
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: Not hidden. It is an explicit functional fix for stale HDMI jack
-state after suspend.
 
-===============================================================
-PHASE 2: DIFF ANALYSIS - LINE BY LINE
-===============================================================
+Record: Not a disguised cleanup. This is an explicit hardware quirk for
+a documented laptop audio defect.
+
+---
+
+## PHASE 2: DIFF ANALYSIS
 
 **Step 2.1: INVENTORY THE CHANGES**
+
 Record:
-- `include/sound/hda_codec.h`: +1 (`acomp_requested_resume` bitfield)
-- `sound/hda/codecs/hdmi/hdmi.c`: +3/-1 in
-  `snd_hda_hdmi_acomp_pin_eld_notify()`
-- `sound/hda/common/codec.c`: +4/-1 in `hda_codec_pm_complete()`
-- Scope: 8 insertions, 2 deletions; single-purpose surgical change
-  across HDMI notifier + codec PM
+- File: `sound/hda/codecs/realtek/alc269.c` (`+1 / -0`)
+- Function/table: `alc269_fixup_tbl[]`
+- Scope: single-file, one-line surgical addition
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
+
 Record:
-- **hdmi.c:** Previously, acomp notify during system suspend returned
-  immediately (comment: “state will be updated at resume”). After: same
-  early return, but sets `codec->acomp_requested_resume = 1`.
-- **codec.c `hda_codec_pm_complete()`:** Previously requested runtime
-  resume only for jackpoll, `hda_codec_need_resume()`, or
-  `forced_resume`. After: also if `acomp_requested_resume`, then clear
-  the flag.
-- Path: system-sleep complete of an already runtime-suspended HDMI
-  codec, after DRM notified during HDA’s `PM_EVENT_SUSPEND` window.
+- Before: PCI SSID `17aa:38dc` has no quirk; generic Realtek auto-config
+  is used
+- After: that SSID selects `ALC285_FIXUP_SPEAKER2_TO_DAC1` at codec
+  probe
+- Path: HDA codec probe / pin-config fixup (init path), not a hot path
+  or error path
+- Only machines with that SSID are affected
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
-Record: **Logic / correctness (missed jack sync after suspend/resume).**
-- HDMI acomp codecs set `relaxed_resume` when the DRM notifier is bound
-  (`generic_acomp_notifier_set()`), so `hda_codec_need_resume()` is
-  false.
-- Direct-complete (`hda_codec_pm_prepare`/`complete`, Kai-Heng Feng
-  2020) keeps a runtime-suspended codec suspended through S3.
-- Notify is dropped; resume never runs `snd_hda_hdmi_generic_resume()` →
-  `hdmi_present_sense()` / `sync_eld_via_acomp()`.
-- Jack kcontrol stays off.
+
+Record:
+- Category: hardware workaround / codec quirk (`SND_PCI_QUIRK`)
+- Mechanism: `alc285_fixup_speaker2_to_dac1()` on
+  `HDA_FIXUP_ACT_PRE_PROBE` calls `snd_hda_override_conn_list(codec,
+  0x17, …, {0x02})`, forcing the bass-speaker pin onto DAC1 so volume
+  control works
+- The fixup is also chained to `ALC269_FIXUP_THINKPAD_ACPI` (Lenovo ACPI
+  hooks), which is the same chain already used for Yoga Pro 7 14ARP8
+  (`17aa:386e`)
 
 **Step 2.4: ASSESS THE FIX QUALITY**
-Record: Obviously correct and minimal. Runtime resume already jacks-
-syncs all pins (`hda_call_codec_resume()` → `ops->resume` →
-`hdmi_present_sense` per pin, plus `snd_hda_jack_report_sync()`), so a
-boolean “something changed” is enough. Separate flag avoids clobbering
-`forced_resume`. Regression risk is low: extra `pm_request_resume()`
-only when DRM notified during the suspend window; at worst a short extra
-wake before runtime suspend. Does not change userspace APIs. Intel’s
-`intel_pin_eld_notify()` still skips without this flag (same class of
-bug, different notifier); that gap does not make this AMD/Nvidia-path
-fix incorrect.
 
-===============================================================
-PHASE 3: GIT HISTORY INVESTIGATION
-===============================================================
+Record:
+- Obviously correct: one table entry using an existing, long-lived fixup
+- Minimal: no unrelated edits
+- Regression risk: low and SSID-scoped. Wrong SSID would mis-route audio
+  on that ID only; `17aa:38dc` is unused in this tree’s HDA tables
+- No public API / data-structure change
+
+---
+
+## PHASE 3: GIT HISTORY INVESTIGATION
 
 **Step 3.1: BLAME THE CHANGED LINES**
+
 Record:
-- Skip-during-suspend introduced in `ade49db337a9d` (“ALSA: hda/hdmi -
-  Allow audio component for AMD/ATI and Nvidia HDMI”, Takashi Iwai,
-  2018; contained in v5.4-rc1).
-- `hda_codec_pm_complete()` forced-resume conditions from
-  `215a22ed31a13` (direct-complete, 2020) and `forced_resume` from
-  `a6e7d0a4bdb02` (2020).
-- Buggy combination (drop notify + stay runtime-suspended because of
-  `relaxed_resume`) has been in the tree for years, including 6.18.
+- This is a new table row, not a change to old lines
+- Neighboring Lenovo SSIDs (`0x38d7`, `0x38df`) already exist in
+  `v6.18.57`
+- `alc285_fixup_speaker2_to_dac1` / bass-speaker-to-DAC pattern dates to
+  `e79c22695abd3` (2019; originally `Cc: stable`)
+- Same enum used for Yoga Pro 7 14ARP8 in `1a49509885cd9` (2024-06-16),
+  which **is** an ancestor of `v6.18.57`
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-Record: No `Fixes:` tag. Not applicable. Introducer of the skip is
-`ade49db337a9d`; it is in this tree.
+
+Record: No `Fixes:` tag. Not applicable. The “bug” is missing hardware
+enablement for this SSID, not a regression of a prior commit.
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-Record: Recent HDMI/codec PM work is unrelated (Lisuan IDs, `__force`
-cleanup, power-pm error check). No series (`v1-1` standalone). No
-follow-up on these three files that extends this flag.
+
+Record:
+- Recent `alc269.c` history is dominated by similar `SND_PCI_QUIRK`
+  additions
+- Submitted as `[PATCH 1/2]`; 2/2 is an unrelated Acer Nitro headset-mic
+  quirk (`1025:151e`). Not a prerequisite
+- Standalone
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: Only this HDA commit from Nícolas Prado in this tree. ALSA
-maintainer Takashi Iwai applied it. Author is a regular kernel
-contributor (Collabora), not the HDA maintainer; maintainer SOB is the
-stronger signal.
+
+Record:
+- Zhang Heng is a regular Realtek quirk contributor (ASUS, Lenovo, HP,
+  Samsung entries in this file)
+- Not the subsystem maintainer; Takashi Iwai applied the patch
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record: Uses existing `forced_resume` / `hda_codec_pm_complete()` /
-`snd_hda_hdmi_acomp_pin_eld_notify()`. All present at `v6.18.53`.
-Standalone. File layout `sound/hda/codecs/hdmi/hdmi.c` exists in 6.18
-(`6014e9021b28e` reorg is already in this tree).
 
-===============================================================
-PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-===============================================================
+Record:
+- Needs `ALC285_FIXUP_SPEAKER2_TO_DAC1`,
+  `alc285_fixup_speaker2_to_dac1()`, `ALC269_FIXUP_THINKPAD_ACPI`,
+  `snd_hda_override_conn_list()`, and `alc269_fixup_tbl[]`
+- All present in `v6.18.57`
+- Can apply standalone
+
+---
+
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
+
 Record:
-- `b4 dig -c c0933934d5d96…` → https://patch.msgid.link/20260626-hda-
-  force-resume-eld-notify-v1-1-a92cb01393e0@collabora.com
-- `b4 dig -a`: **v1 only**, no later revisions.
-- Thread (mbox): submission + Takashi Iwai “Applied to for-next branch
-  now. Thanks.” No NAKs, no requested changes, no reviewer `Cc: stable`.
+- `b4 dig -c 4322ac247f4ce7932edbd46aa37f3dae62cde424` →
+  https://patch.msgid.link/20260921124450.639601-1-zhangheng@kylinos.cn
+- Series: **v1 only** (`[PATCH 1/2]`)
+- Takashi Iwai reply (`875wzp5yr7.wl-tiwai@suse.de`, 2026-09-28):
+  “Applied both patches. Thanks.”
+- No NAK, no requested revision, no stable-risk comments
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record (`b4 dig -w`): To Jaroslav Kysela, Takashi Iwai; Cc `linux-
-sound`, `linux-kernel`, Collabora. Maintainer applied v1 as-is.
+
+Record (`b4 dig -w`):
+- To: `tiwai@suse.com` (ALSA maintainer)
+- Cc: `linux-sound@vger.kernel.org`, `linux-kernel@vger.kernel.org`
+- Maintainer applied it after review
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-Record: No `Reported-by` / bugzilla / syzbot. Description is a concrete
-user-visible HDMI jack failure. Severity from the author: HDMI audio
-jack stays off after a plug-during-S3. User count unverified beyond the
-author.
+
+Record:
+- Commit cites bugzilla 221799
+- Direct fetch of bugzilla/lore HTML was blocked by Anubis/captcha (403
+  / bot check)
+- UNVERIFIED: bugzilla comment text, number of duplicates, reporter
+  hardware dump
+- Verified: author and maintainer treated it as a real bass-speaker
+  volume bug for SSID `17aa:38dc`
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: Standalone v1. Intel `intel_pin_eld_notify()` still has the old
-skip; no sibling Intel patch in this tree.
+
+Record:
+- 2/2 is an independent Acer quirk, not required here
+- Same fixup already used for Lenovo Yoga Pro 7 14ARP8 in this tree
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: lore.kernel.org/stable search returned 403; web search did not
-find a stable-list thread for this subject. UNVERIFIED whether anyone
-already nominated or rejected it for stable. That absence is not used as
-a NO.
 
-===============================================================
-PHASE 5: CODE SEMANTIC ANALYSIS
-===============================================================
+Record: lore.kernel.org/stable search blocked by Anubis. UNVERIFIED
+whether anyone already asked for this on stable@. No in-tree evidence of
+a prior rejection.
+
+---
+
+## PHASE 5: CODE SEMANTIC ANALYSIS
 
 **Step 5.1: IDENTIFY KEY FUNCTIONS**
-Record: `snd_hda_hdmi_acomp_pin_eld_notify()`,
-`hda_codec_pm_complete()`. Struct field
-`hda_codec.acomp_requested_resume`.
+
+Record:
+- Modified: `alc269_fixup_tbl[]` (data)
+- Invoked fixup: `alc285_fixup_speaker2_to_dac1()`
+- Lookup at probe: `alc269_fixup_tbl` passed into the generic HDA fixup
+  picker (around line 8558 in this checkout / 8528 in `v6.18.57`)
 
 **Step 5.2: TRACE CALLERS**
+
 Record:
-- `snd_hda_hdmi_acomp_pin_eld_notify` is the `.pin_eld_notify` op for
-  AMD (`atihdmi.c`) and Nvidia (`nvhdmi.c`). DRM calls it via
-  `amdgpu_dm_audio_eld_notify()`, `radeon_audio`, `nouveau dispnv50`.
-  Typical context: display modeset / connector ELD change (hotplug or
-  resume modeset), not a syscall on the ALSA side.
-- `hda_codec_pm_complete` is `.complete` in `hda_codec_driver_pm`
-  (system sleep complete for every HDA codec).
-- Intel uses a separate `intel_pin_eld_notify()` and is **not** covered.
+- Table is consulted during Realtek ALC269-family codec probe
+- Triggered by HDA bus enumeration of matching PCI SSID
+- Not IRQ/hot-path; once per codec init
 
 **Step 5.3: TRACE CALLEES**
-Record: Notify still returns during suspend (no verbs). Complete path
-calls existing `pm_request_resume()`. Runtime resume →
-`hda_call_codec_resume()` → HDMI `snd_hda_hdmi_generic_resume()` →
-`hdmi_present_sense()` (`sync_eld_via_acomp` when acomp is bound).
+
+Record:
+- `snd_hda_override_conn_list()` — present in `v6.18.57`
+  (`include/sound/hda_codec.h`)
+- Chained `ALC269_FIXUP_THINKPAD_ACPI` — present in `v6.18.57`
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-Record: Reachable without privilege: physical HDMI/DP plug while the
-machine is suspended, then resume. Common laptop/dock path. Not a
-fuzzer/syscall crash path.
+
+Record:
+- Userspace-reachable: yes, by using the laptop’s speakers / mixer
+- Unprivileged users cannot attack other machines; they only exercise
+  this laptop’s audio path
+- Impact is functional (bass volume), not a kernel crash
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: Same skip remains in `sound/hda/codecs/hdmi/intelhdmi.c`
-`intel_pin_eld_notify()`. Same `forced_resume` pattern already used for
-jack/KAE. This patch copies that idea for acomp.
 
-===============================================================
-PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
-===============================================================
+Record:
+- Same fixup already bound to Yoga Pro 7 14ARP8 (`SND_PCI_QUIRK(0x17aa,
+  0x386e, …, ALC285_FIXUP_SPEAKER2_TO_DAC1)`)
+- Many other `SND_PCI_QUIRK` Lenovo entries in the same table
+- Systematic, well-worn pattern
+
+---
+
+## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Record: **Yes.** `git describe HEAD` / `make kernelversion` →
-**6.18.53**. At `v6.18.53`:
-- `snd_hda_hdmi_acomp_pin_eld_notify()` still returns on
-  `PM_EVENT_SUSPEND` with no flag.
-- `hda_codec_pm_complete()` has no `acomp_requested_resume`.
-- `hda_codec` has `forced_resume` but not the new bit.
-Bug introduced ~2018/2020; present in 6.18. Upstream SHA `c0933934d5d96`
-is **not** an ancestor of `v6.18.53`.
+
+Record:
+- Tree: `git describe HEAD` → `v6.18.57-155-gcdf239ca885b2`; `make
+  kernelversion` → `6.18.57`
+- `git merge-base --is-ancestor 4322ac247f4ce7932edbd46aa37f3dae62cde424
+  v6.18.57` → **NO** (upstream commit not in 6.18.57)
+- `git grep 0x38dc v6.18.57 -- sound/hda/codecs/realtek/alc269.c` →
+  **absent**
+- The missing-quirk bug **does** exist in this series
+- Driver, fixup enum, and function **do** exist
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: **Clean apply.** `git diff v6.18.53 6a484c2d8404d` on the three
-files is exactly this patch. Context lines match.
+
+Record:
+- Dry-run of the upstream hunk onto
+  `v6.18.57:sound/hda/codecs/realtek/alc269.c`: **Hunk #1 succeeded at
+  7538 (offset -726 lines)**
+- Expected difficulty: clean apply (line-offset only)
+- Neighboring context (`0x38d7` Yoga 9, then `0x38df` Yoga Y990) matches
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: No other 6.18 fix for “acomp notify during suspend” / this jack-
-stays-off sequence. Intel skip is still unfixed; not a substitute.
 
-===============================================================
-PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-===============================================================
+Record:
+- No other `17aa:38dc` HDA quirk in `v6.18.57`
+- No alternate ThinkBook G8+ fix
+- (HEAD currently contains the autosel candidate copy; ignored as
+  pipeline state)
+
+---
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
 **Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: ALSA HD-audio HDMI (AMD/Nvidia acomp). **IMPORTANT** (common
-dGPU/APU HDMI audio), not core mm/vfs. Affects AMD/Nvidia HDMI jack
-kcontrols/PCM availability after S3.
+
+Record:
+- Subsystem: ALSA HD-audio Realtek codec (`sound/hda/codecs/realtek/`)
+- Criticality: IMPORTANT (very common laptop audio), not core
+  mm/scheduler
+- Affects only Lenovo ThinkBook G8+ (`17aa:38dc`)
 
 **Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: Active (quirks, HDMI, PM). The skip itself has been stable since
-2018; this is a late correctness fix, not churn for new infrastructure.
 
-===============================================================
-PHASE 8: IMPACT AND RISK ASSESSMENT
-===============================================================
+Record:
+- Mature but active: `v6.18.57` already contains many similar quirk
+  backports (HP, Lenovo, ASUS)
+- Typical stable material for this file
+
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
 
 **Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: Driver-specific: AMD ATI HDMI (`atihdmi`) and Nvidia HDMI
-(`nvhdmi`) with DRM audio-component binding. Intel HDMI notifier is
-unchanged.
+
+Record: driver-specific / machine-specific — owners of Lenovo ThinkBook
+G8+ with PCI SSID `17aa:38dc`
 
 **Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Record: HDMI/DP cable (or dock) attached while the system is in S3, then
-resume, **and** the HDMI codec was runtime-suspended before suspend
-(normal with `relaxed_resume`). Unprivileged physical hotplug; not a
-syscall exploit. Timing: DRM notify before HDA `complete()`.
+
+Record:
+- Trigger: boot / audio init on that laptop, then using speaker volume
+- Common for those users (every session)
+- Not a security trigger; not a race
 
 **Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record: HDMI audio jack stays reported off; HDMI PCM/jack userspace does
-not see the display. No oops, deadlock, or filesystem corruption.
-**MEDIUM** functional suspend/resume bug (audio device missing until
-another resume/replug).
+
+Record:
+- Failure mode: bass speaker volume control does not work (wrong DAC
+  routing)
+- Severity: MEDIUM functionally, but this is an explicit **hardware
+  quirk** exception that stable routinely takes
+- Not a panic/UAF/corruption
 
 **Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-Record:
-- **Benefit:** High for AMD/Nvidia HDMI users who dock/plug during
-  suspend (common). Jack state is restored via the existing resume path.
-- **Risk:** Very low (8 lines, existing PM helper, 1-bit flag still
-  inside the same `unsigned int` bitfield group of 26 bits). Possible
-  extra runtime resume if DRM notifies on every GPU resume while HDA is
-  still `PM_EVENT_SUSPEND`; that is transient power, not a functional
-  break.
-- **Ratio:** Benefit outweighs risk for 6.18.y.
 
-===============================================================
-PHASE 9: FINAL SYNTHESIS
-===============================================================
+Record:
+- Benefit: high for affected hardware (makes volume control work); zero
+  for everyone else
+- Risk: very low (1 line, existing fixup, SSID-matched)
+- Ratio: strongly favors backport
+
+---
+
+## PHASE 9: FINAL SYNTHESIS
 
 **Step 9.1: COMPILE THE EVIDENCE**
 
 FOR:
-- Real user-visible bug: HDMI audio jack stays off after plug-during-
-  suspend.
-- Mechanism verified in 6.18 code: skip notify + `relaxed_resume` +
-  direct-complete.
-- Tiny, obviously correct, maintainer-applied v1 with no NAKs.
-- Applies cleanly to this tree; all helpers exist.
-- Existing resume path already resyncs ELD/jacks; this only ensures that
-  path runs.
-- Same class of PM/jack workaround already used (`forced_resume`).
+- Real hardware bug with bugzilla link
+- One-line `SND_PCI_QUIRK` using an existing fixup already in 6.18.57
+- ALSA maintainer applied it with no objections
+- Same pattern as Yoga Pro 7 14ARP8 in this tree
+- Applies cleanly to `v6.18.57`
+- Explicit stable exception: audio codec quirks
 
 AGAINST:
-- Not a crash, UAF, or security issue.
-- No independent `Reported-by` / `Tested-by`.
-- Intel HDMI notifier still has the skip (incomplete coverage, not a
-  regression of this patch).
-- Possible extra runtime resume after S3 if DRM notifies during the HDA
-  suspend window.
+- Not a crash/security/data-corruption issue
+- Affects one laptop SSID
+- Bugzilla body could not be fetched (captcha)
 
 UNRESOLVED:
-- Could not fetch lore.kernel.org/stable (403); no verified stable-list
-  discussion.
-- Could not quantify how often AMD/Nvidia DRM notifies during HDA’s
-  suspend window on every resume vs only on true hotplug.
+- Full bugzilla 221799 text
+- Whether stable@ already discussed this commit
+
+Those gaps do not outweigh the verified quirk itself.
 
 **Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — logic matches the resume
-   path; maintainer applied v1. No extra Tested-by, but the change is
-   reviewable from the code.
-2. Fixes a real bug that affects users? **PASS** — stale HDMI jack after
-   a common plug-during-S3.
-3. Important issue? **PASS** — not panic/corruption, but a
-   suspend/resume hardware-functional bug that leaves HDMI audio
-   unavailable; this class is routinely taken in stable.
-4. Small and contained? **PASS** — 8 insertions / 2 deletions, three
-   files, one flag.
-5. No new features or APIs? **PASS** — internal bitfield; no UAPI.
-6. Can apply to the local tree? **PASS** — identical context at
-   `v6.18.53`.
+
+1. Obviously correct and tested? **PASS** — 1-line table entry;
+   maintainer applied; existing fixup
+2. Fixes a real bug that affects users? **PASS** — broken bass volume on
+   ThinkBook G8+
+3. Important issue? **PASS** under the hardware-quirk exception (pin/DAC
+   routing so speakers are controllable)
+4. Small and contained? **PASS** — +1 line, one file
+5. No new features or APIs? **PASS** — no new fixup, no new kAPI; device
+   ID/quirk only
+6. Can apply to the local tree? **PASS** — dry-run succeeded on
+   `v6.18.57`
 
 **Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Record: Not a device-ID/quirk/DT/build/docs exception. It is a normal
-small functional PM/jack fix.
 
-**Step 9.4: MAKE YOUR DECISION**
-This should be backported to this 6.18.y tree. The buggy skip and
-complete-path exist here, the fix is surgical, and the user impact (HDMI
-audio missing after docking/plugging in suspend) is real.
+Record: **Hardware quirk / workaround** (ALSA Realtek `SND_PCI_QUIRK`
+for a specific laptop). This is the documented stable exception for
+codec quirks.
 
-### What the commit solves and why it matters here
-On 6.18, AMD/Nvidia HDMI codecs using acomp set `relaxed_resume` and can
-stay runtime-suspended across system sleep. DRM may notify pin/ELD while
-the codec is still `PM_EVENT_SUSPEND`; that notify is dropped, and
-`hda_codec_pm_complete()` does not wake the codec. HDMI jack kcontrols
-stay off after resume. Forcing a one-shot runtime resume when such a
-notify arrived restores the existing ELD/jack sync in
-`hda_call_codec_resume()`.
+**Step 9.4: DECISION**
 
-### Stable rules / risk vs benefit
-Meets the stable bar: real bug, small, no new API, clean apply, low
-regression risk. Benefit is restoring HDMI audio after a common suspend
-hotplug; risk is an extra runtime resume in that window.
+This should be backported to this 6.18.y tree. The driver and fixup are
+already here; only the SSID match is missing. That is exactly the class
+of change stable takes for laptop audio.
+
+---
+
+### What the commit solves and why it matters
+
+Without the quirk, ThinkBook G8+ (`17aa:38dc`) leaves the bass speaker
+pin on a DAC without volume amp, so bass volume cannot be controlled.
+The one-line match sends that SSID through
+`alc285_fixup_speaker2_to_dac1()`, which is already used for other
+Lenovo dual-speaker machines in this tree.
+
+### Stable rules / risk
+
+It is small, obviously correct, introduces no API, and is SSID-scoped.
+Apply risk is an offset-only hunk. Benefit is real for users of that
+laptop on 6.18.y; risk to other machines is negligible.
 
 ### Concerns
-Intel HDMI still skips notify during suspend (separate function). No
-`Fixes:`/`Cc: stable` (expected). No third-party test tag. Neither is a
-reason to withhold this AMD/Nvidia-path fix from 6.18.y.
+
+None that block backport. Series 2/2 is unrelated. Bugzilla details were
+not readable due to captcha, but the code, existing fixup, and
+maintainer accept are sufficient.
 
 Verification:
-- [Phase 1] Parsed tags: author SOB, Takashi Iwai SOB, msgid Link; no
-  Fixes/Reported-by/Cc:stable
-- [Phase 1] Body: HDMI jack stays off after plug-during-suspend; skipped
-  acomp notify + no runtime resume
-- [Phase 2] Diff: +1 bitfield, set flag in
-  `snd_hda_hdmi_acomp_pin_eld_notify`, test/clear in
-  `hda_codec_pm_complete` (8+/2-)
-- [Phase 2] `hda_codec_need_resume()` is `!relaxed_resume &&
-  jacktbl.used`; acomp sets `relaxed_resume`
-- [Phase 3] blame: skip from `ade49db337a9d` (v5.4-rc1); complete path
-  from `215a22ed31a13` (2020)
-- [Phase 3] `git merge-base --is-ancestor c0933934d5d96 HEAD` → not in
-  v6.18.53; buggy code is
-- [Phase 3] No series/prereqs; files exist at 6.18 paths
-- [Phase 4] `b4 dig -c`: lore msgid; `b4 dig -a`: v1 only; mbox: Takashi
-  “Applied to for-next”; no NAK
-- [Phase 4] `b4 dig -w`: To Iwai/Kysela, Cc linux-sound
-- [Phase 4] UNVERIFIED: stable@ discussion (lore 403)
-- [Phase 5] Callers: atihdmi/nvhdmi ops; DRM amdgpu/radeon/nouveau
-  pin_eld_notify; Intel uses different function
-- [Phase 5] Resume callee chain verified: `hda_codec_runtime_resume` →
-  `hda_call_codec_resume` → HDMI generic_resume → `hdmi_present_sense`
-- [Phase 6] `git describe HEAD` / Makefile: 6.18.53; `git show
-  v6.18.53:...` has pre-fix code; diff vs candidate is this patch only
-- [Phase 7] ALSA HDA HDMI, important, AMD/Nvidia
-- [Phase 8] Trigger: HDMI plug in S3 then resume; failure: jack stays
-  off; severity MEDIUM; risk very low
-- UNVERIFIED: how often DRM notifies on every GPU resume vs only
-  hotplug; Intel still buggy (out of scope of this commit)
+- [Phase 1] Parsed subject/tags: quirk add; bugzilla 221799; Iwai SOB;
+  no Fixes tag
+- [Phase 2] Diff: +1 `SND_PCI_QUIRK(0x17aa, 0x38dc, …,
+  ALC285_FIXUP_SPEAKER2_TO_DAC1)` in `alc269_fixup_tbl`
+- [Phase 2] Read `alc285_fixup_speaker2_to_dac1()` at `alc269.c:2532`:
+  overrides NID 0x17 conn list to DAC 0x02; chained to
+  `ALC269_FIXUP_THINKPAD_ACPI`
+- [Phase 3] `git merge-base --is-ancestor 4322ac247f4ce v6.18.57` → NO
+  (not already in 6.18.57)
+- [Phase 3] Fixup enum/function present in `v6.18.57` (`alc269.c:3791`,
+  `:4907`, Yoga Pro 7 use at `:7492`)
+- [Phase 3] Similar Lenovo quirk `1a49509885cd9` is an ancestor of
+  `v6.18.57`
+- [Phase 3] Series 2/2 is an independent Acer quirk; not a dependency
+- [Phase 4] `b4 dig -c 4322ac247f4ce`: lore/msgid
+  `20260921124450.639601-1-zhangheng@kylinos.cn`; v1 only
+- [Phase 4] `b4 dig -w`: To Iwai, Cc linux-sound
+- [Phase 4] mbox: Iwai “Applied both patches. Thanks.”; no NAK
+- [Phase 4] UNVERIFIED: bugzilla 221799 body (Anubis/403); stable@
+  search (Anubis)
+- [Phase 5] Table consumed at Realtek codec probe;
+  `snd_hda_override_conn_list` exists in `v6.18.57`
+- [Phase 6] `git describe HEAD` / `make kernelversion`: 6.18.57;
+  `0x38dc` absent from `v6.18.57` alc269.c
+- [Phase 6] `patch --dry-run` of upstream hunk onto `v6.18.57` file:
+  succeeded at line 7538
+- [Phase 8] Failure mode: bass speaker volume broken on one Lenovo SSID;
+  quirk-scoped
+- UNVERIFIED: exact bugzilla reporter comments and whether stable@
+  already nominated this
 
 **YES**
 
- include/sound/hda_codec.h    | 1 +
- sound/hda/codecs/hdmi/hdmi.c | 4 +++-
- sound/hda/common/codec.c     | 5 ++++-
- 3 files changed, 8 insertions(+), 2 deletions(-)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
-index 3c9e64dc02524..b801943f0667f 100644
---- a/include/sound/hda_codec.h
-+++ b/include/sound/hda_codec.h
-@@ -257,6 +257,7 @@ struct hda_codec {
- 	unsigned int link_down_at_suspend:1; /* link down at runtime suspend */
- 	unsigned int relaxed_resume:1;	/* don't resume forcibly for jack */
- 	unsigned int forced_resume:1; /* forced resume for jack */
-+	unsigned int acomp_requested_resume:1; /* resume requested by acomp */
- 	unsigned int no_stream_clean_at_suspend:1; /* do not clean streams at suspend */
- 	unsigned int ctl_dev_id:1; /* old control element id build behaviour */
- 	unsigned int eld_jack_detect:1;	/* Machine jack-detection by ELD */
-diff --git a/sound/hda/codecs/hdmi/hdmi.c b/sound/hda/codecs/hdmi/hdmi.c
-index f427d04176e92..42e4dc0949ec9 100644
---- a/sound/hda/codecs/hdmi/hdmi.c
-+++ b/sound/hda/codecs/hdmi/hdmi.c
-@@ -2236,8 +2236,10 @@ void snd_hda_hdmi_acomp_pin_eld_notify(void *audio_ptr, int port, int dev_id)
- 	/* skip notification during system suspend (but not in runtime PM);
- 	 * the state will be updated at resume
- 	 */
--	if (codec->core.dev.power.power_state.event == PM_EVENT_SUSPEND)
-+	if (codec->core.dev.power.power_state.event == PM_EVENT_SUSPEND) {
-+		codec->acomp_requested_resume = 1;
- 		return;
-+	}
- 
- 	snd_hda_hdmi_check_presence_and_report(codec, pin_nid, dev_id);
- }
-diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
-index 164906e2f00f4..8cab932177194 100644
---- a/sound/hda/common/codec.c
-+++ b/sound/hda/common/codec.c
-@@ -2949,8 +2949,11 @@ static void hda_codec_pm_complete(struct device *dev)
- 		dev->power.power_state = PMSG_RESUME;
- 
- 	if (pm_runtime_suspended(dev) && (codec->jackpoll_interval ||
--	    hda_codec_need_resume(codec) || codec->forced_resume))
-+	    hda_codec_need_resume(codec) || codec->forced_resume ||
-+	    codec->acomp_requested_resume)) {
-+		codec->acomp_requested_resume = 0;
- 		pm_request_resume(dev);
-+	}
- }
- 
- static int hda_codec_pm_suspend(struct device *dev)
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index b1cb93922c3bc..6afb35769f746 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7572,6 +7572,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x38d5, "Yoga S990-16 Pro IMH YC Quad", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38d6, "Yoga S990-16 Pro IMH VECO Quad", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38d7, "Lenovo Yoga 9 14IMH9", ALC287_FIXUP_YOGA9_14IMH9_BASS_SPK_PIN),
++	SND_PCI_QUIRK(0x17aa, 0x38dc, "Lenovo ThinkBook G8", ALC285_FIXUP_SPEAKER2_TO_DAC1),
+ 	SND_PCI_QUIRK(0x17aa, 0x38df, "Yoga Y990 Intel YC Dual", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38e0, "Yoga Y990 Intel VECO Dual", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38f8, "Yoga Book 9i", ALC287_FIXUP_TAS2781_I2C),
 -- 
 2.53.0
 
