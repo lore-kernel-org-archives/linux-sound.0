@@ -1,44 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A57526597;
-	Mon, 19 Oct 2026 14:02:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB6E528E9E;
+	Mon, 19 Oct 2026 14:02:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418573; cv=none; b=kk4cELhDuiolgN0dwbZBBmLILGRsKcV2we/y0eBq9aSfwq+oFVI7VuiVQmI/45rC5HmO7c0KyHVt9CgXAWcSx12eZe8PmieHKaCggpEOHjPPEv1EpOtoFN9DiaTdOIR6eMP2+vfNLqcFnj9awFXqT6064xD7p5IflHJY1dRPmYk=
+	t=1792418581; cv=none; b=XTS/C61cSR6d9obMzxfy0rGi4PtpdIb/RUio1VK8eL/AxW3TncNynBJ6VP5YVha7kuRzuMgCO/0euJSujFRVH5ZEGD5QmoRAjvLQsbSG1ndYoApPwM0LCQ54ZxpRi/BeSBYYfrdlNHikJJ/dKEtWuXWK7d70FiYCNPlP8agXS8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418573; c=relaxed/simple;
-	bh=QF1eQoIqa08aJYjuOaD3cOfQFUsXGmH5ogs9SHg25ys=;
+	s=arc-20240116; t=1792418581; c=relaxed/simple;
+	bh=nj+wWcul/WCvXb375pnTWTBUjTJDJxKvaVIaUkqBVrc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kBDyuupke+rkpxX5AUZ5bwT67uQ81WsyUrknJ7q8QvGvL0vHxr8wNFoqaPdvzqSeVGL2iEn4dTSexdwOnglzXZr+tVSLtiWrOZDb+VpjLk5lnDPgp8HKQG/B4J6LAyXNr1l26Bo2P/x7280s+O234bJh2UzIRqa5DPZLvIDcZaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F3ab/Beh; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=kaWdy4F2Uzko327L6dvFV2eTeO7T4A7K+jcLnTli9/6DbBbB20MIu0e00SADSEcA2R3MHRbIphe5HGAav9dXamJhJc97efUAIbt2CUSv45Ojd0yqhd8kbkH2d2h19l0/2Vv6r9YbKNfWw2gLtzDaplOwjrDz72FOY02MUC+vye0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m8NZ0RX6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F3ab/Beh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 030591F000C9;
-	Mon, 19 Oct 2026 14:02:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m8NZ0RX6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D24451F000C6;
+	Mon, 19 Oct 2026 14:02:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418569;
-	bh=EXOEt8iWCksbEuOcUGPJXw9M2YosVwX4WoL1niqqiAo=;
+	s=k20260515; t=1792418577;
+	bh=dnWm2W/fIwCHyOXqzjBdj4X+pTbiNGoc0GD3vQaJuCE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=F3ab/BehDzOhAQAYE+CefBEKbWSvcwvuYFz0d8aLyr4q0mo/yt0fHDmXb2sHfLAC5
-	 WHlyOUXIBtqFm3kQZpM/1EfxtprtibZHkGsNMj5ouzU3wTIvklm2996e3vPPxEEl3L
-	 aULBWUh1caCYR7mzkDCHsrPgG+uWSpZz7GlUzCFfDm2HiBx8chAwGJUsVloZLnkbSR
-	 pBS3umQ2a1ea9Yl6cSJncKV5m54O7ho1fg27USieI1t0GMlvf1bnOh1IeRWoYIOU6h
-	 Q/rnKwFXxcH18fq3Yc4tqqd8dLk3CuJ6YxiADRlPXoRg0U/Q8VSFgYty2velSM2o/l
-	 26GHB/oduPHPQ==
+	b=m8NZ0RX6LwWB/c5hgcs7UqkIKmyD5cAg0ZSV2CDqdBTEfB5mLXZ0Q/uHfsqX4NAIG
+	 Gj1Uavu4IIIOk9xco1pKCxkX+HYpyDjKBicuxuOe+2aDthxZgHJl2G2KlfcxdiDzA7
+	 XryKcD41q+kvp9Pxb9ssikqKAJFeN2YPrsZcWGDTpmEREEk6VYPjEP0cA/mRQ9/btf
+	 MgTGmdYVIP6tF5d2yBDfnw5ksGjgqoIMh6meKwNPrtPdJYI+au+5iQzH9zYv8AL0Cj
+	 7Y7pAzscNB3hKuj3TzKh92pmK7wI0GPAqzZ1tad4Z0ld2uJH5E6n6fV0MnGXY7Ixlt
+	 IHhesgkD17Qew==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Yashraj Ghule <yashrajghule.221@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Daniel Ortiz <letargopausado@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	Vijendar.Mukunda@amd.com,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.12] ALSA: hda/realtek: Fix mute LED for HP Victus 15-fa1xxx (MB 8C3F)
-Date: Mon, 19 Oct 2026 09:50:32 -0400
-Message-ID: <20261019135441.1420968-341-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.1] ASoC: amd: yc: Add DMI quirk for Lenovo V15 G6 ARP
+Date: Mon, 19 Oct 2026 09:50:38 -0400
+Message-ID: <20261019135441.1420968-347-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -54,351 +56,292 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Yashraj Ghule <yashrajghule.221@gmail.com>
+From: Daniel Ortiz <letargopausado@gmail.com>
 
-[ Upstream commit 19b02fecd8f857909af779afe3816e487ac10cd0 ]
+[ Upstream commit d395e1b62d9694f2e4add9122f8d473eacd374aa ]
 
-The HP Victus 15-fa1xxx with motherboard 8C3F is missing the
-existing mute LED quirk for ALC245 codecs.
+The Lenovo V15 G6 ARP (product name 83UU) uses the ACP6x PDM interface
+for its internal digital microphone array. Its firmware exposes neither
+the AcpDmicConnected _DSD property nor the _WOV method, so acp6x_probe()
+falls through to the DMI check and returns -ENODEV, leaving
+acp_yc_mach.0 unbound and no capture device registered.
 
-Add the 103c:8c3f subsystem ID to the existing
-ALC245_FIXUP_HP_MUTE_LED_COEFBIT quirk.
+Add a DMI quirk entry for this model. With it, the machine driver binds
+and the DMIC capture device is created:
 
-Tested on HP Victus 15-fa1xxx (MB 8C3F). The mute LED works
-as intended.
+  acp_yc_mach acp_yc_mach.0: Enabling ACP DMIC support via DMI
+  card 2: acp6x [acp6x], device 0: DMIC capture dmic-hifi-0
 
-Signed-off-by: Yashraj Ghule <yashrajghule.221@gmail.com>
-Link: https://patch.msgid.link/20260816110655.11592-1-yashrajghule.221@gmail.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Capture was verified working with arecord and PipeWire.
+
+Signed-off-by: Daniel Ortiz <letargopausado@gmail.com>
+Link: https://patch.msgid.link/20260920011920.2482786-1-letargopausado@gmail.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Confirmed: this is a one-line HDA subsystem-ID quirk, the existing
-ALC245 mute-LED fixup is already in 6.12, and 0x8c3f is not. Writing the
-full nine-phase analysis.
+Local tree is **6.18.y** (`v6.18.57-155-gcdf239ca885b2`, `VERSION=6
+PATCHLEVEL=18 SUBLEVEL=57`). Verdict is for this tree only.
 
 ===============================================================
 PHASE 1: COMMIT MESSAGE FORENSICS
 ===============================================================
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-
-Record: **[ALSA: hda/realtek]** **[Fix]** mute LED for HP Victus
-15-fa1xxx motherboard 8C3F by adding PCI/HDA subsystem ID `103c:8c3f` to
-an existing quirk.
+Record: **[ASoC/amd/yc] [Add] [DMI quirk so Lenovo V15 G6 ARP (83UU)
+binds the existing ACP6x DMIC machine driver]**
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-
 Record:
-- **Fixes:** none (expected for this review pipeline)
-- **Reported-by:** none
-- **Tested-by:** none as a tag; the body states the author tested it on
-  the matching machine
-- **Reviewed-by:** none
-- **Acked-by:** none
-- **Link:** `https://patch.msgid.link/20260816110655.11592-1-
-  yashrajghule.221@gmail.com`
-- **Cc: stable:** none (expected; not a negative signal)
-- **Signed-off-by:** Yashraj Ghule `<yashrajghule.221@gmail.com>`
-  (author); Takashi Iwai `<tiwai@suse.de>` (ALSA maintainer)
-- Ignore any Sasha Levin SOB if present in candidate packaging
-
-Notable: ALSA maintainer SOB; author-tested; no syzbot/crash report (not
-expected for a hardware quirk).
+- `Fixes:`: none (expected)
+- `Reported-by:`: none
+- `Tested-by:`: none as a tag; body says capture was verified with
+  arecord and PipeWire
+- `Reviewed-by:`: none
+- `Acked-by:`: none
+- `Link:`: https://patch.msgid.link/20260920011920.2482786-1-
+  letargopausado@gmail.com
+- `Cc: stable@vger.kernel.org`: absent (expected; not a negative)
+- `Signed-off-by: Daniel Ortiz <letargopausado@gmail.com>` (author)
+- `Signed-off-by: Mark Brown <broonie@kernel.org>` (ASoC maintainer)
+- Pipeline tags (`[Upstream commit ...]`, `Signed-off-by: Sasha Levin`)
+  ignored per instructions
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
-
 Record:
-- **Bug:** HP Victus 15-fa1xxx with motherboard ID 8C3F does not match
-  the existing ALC245 mute-LED quirk, so the mute LED does not follow
-  mute state.
-- **Symptom:** mute LED stays wrong / does not work.
-- **Version info:** none in the message.
-- **Root cause:** missing `SND_PCI_QUIRK` for SSID `103c:8c3f`. Same
-  product line already has other SSIDs (this tree already has
-  `103c:8bc8` "HP Victus 15-fa1xxx").
-- **Fix:** add that SSID to `ALC245_FIXUP_HP_MUTE_LED_COEFBIT`.
+- **Bug:** Lenovo V15 G6 ARP firmware exposes neither `AcpDmicConnected`
+  `_DSD` nor `_WOV`. `acp6x_probe()` therefore misses ACPI enablement,
+  the DMI table does not match, and probe returns `-ENODEV`.
+- **Symptom:** `acp_yc_mach.0` stays unbound; no capture PCM is
+  registered (internal mic missing).
+- **Root cause:** incomplete ACPI on this model; the driver already has
+  a DMI fallback table for that class of firmware.
+- **Fix:** add `LENOVO` / `83UU` to `yc_acp_quirk_table`. After that,
+  dmesg shows `Enabling ACP DMIC support via DMI` and `DMIC capture
+  dmic-hifi-0`.
+- **Version info:** none in the message. Maintainer applied it to
+  `for-7.3`.
+- **Author explanation:** firmware gap → DMI check → `-ENODEV`; quirk
+  makes the existing machine driver bind.
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-
-Record: Not a hidden fix. It is an explicit hardware quirk / device-ID
-addition. The verb "Fix" is accurate: the LED hardware is already there;
-the driver never maps this SSID onto the existing coefbit LED helper.
+Record: Not a disguised cleanup. It is an explicit hardware-quirk
+addition. That is a documented stable exception (quirks/workarounds for
+broken firmware), not a new driver or API.
 
 ===============================================================
 PHASE 2: DIFF ANALYSIS - LINE BY LINE
 ===============================================================
 
 **Step 2.1: INVENTORY THE CHANGES**
-
 Record:
-- File in the candidate: `sound/hda/codecs/realtek/alc269.c` (+1 / −0)
-- This 6.12 tree still uses `sound/pci/hda/patch_realtek.c` (codec split
-  not present)
-- Function/table: `alc269_fixup_tbl[]`
-- Scope: single-file, one-line surgical quirk addition
+- File: `sound/soc/amd/yc/acp6x-mach.c` — **+7 / -0**
+- Function/object: `yc_acp_quirk_table[]` only
+- Scope: **single-file surgical quirk** (one `dmi_system_id` entry)
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-
 Record:
-- **Before:** `snd_hda_pick_fixup()` during Realtek ALC269-family probe
-  walks `alc269_fixup_tbl` by PCI SSID. `103c:8c3f` does not match.
-  Probe then may fall through to pin fixups and the vendor-wide HP entry
-  `SND_PCI_QUIRK_VENDOR(0x103c, "HP", ALC269_FIXUP_HP_MUTE_LED)`
-  (`alc269_fixup_vendor_tbl`). That generic HP LED path is not the
-  ALC245 coefbit path used by other Victus 15-fa/fb machines.
-- **After:** SSID `103c:8c3f` matches
-  `ALC245_FIXUP_HP_MUTE_LED_COEFBIT`, so
-  `alc245_fixup_hp_mute_led_coefbit()` runs at `HDA_FIXUP_ACT_PRE_PROBE`
-  and registers the mute LED via coef index 0x0b.
-- Path affected: codec probe / mute-LED setup on that one HP SSID only.
+- **Before:** DMI match on this model fails; if ACPI
+  `_WOV`/`AcpDmicConnected` also fail, `platform_get_drvdata()` is NULL
+  and `acp6x_probe()` returns `-ENODEV`.
+- **After:** `dmi_first_match()` hits `LENOVO`+`83UU`, sets drvdata to
+  `&acp6x_card`, and the existing DMIC card is registered.
+- Path affected: **probe/init** for this DMI identity only. Other
+  machines unchanged.
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
-
-Record:
-- **Category:** hardware workaround / device ID addition (stable
-  exception).
-- **Mechanism:** HP reused the Victus 15-fa1xxx name across motherboard
-  SSIDs (`8bc8` already in this tree; mainline also has `8c2d`, `8c3f`,
-  and later `8bb1`). Quirk matching is exact vendor:device. Missing ID →
-  LED not driven by the ALC245 coefbit helper.
-- Not UAF, leak, race, or crash.
+Record: **[Hardware workaround / DMI quirk]** Incomplete ACPI means the
+existing DMI table is the only enable path. Missing table entry → probe
+failure → no capture device. Same pattern as the many Lenovo/HP/ASUS
+entries already in this file.
 
 **Step 2.4: ASSESS THE FIX QUALITY**
-
 Record:
-- Obviously correct: one `SND_PCI_QUIRK` using the same fixup already
-  used by many Victus SKUs in this file (`8a4f`, `8a50`, `8bc8`, `8c30`,
-  `8c99`, `8c9c`, …).
-- Minimal; no unrelated edits.
-- Regression risk is very low: the new entry is SSID-specific. Wrong
-  SSID would not match. Same helper is already production-used on this
-  tree.
-- v2 reordering (SSID sort) does not change runtime (the table is a
-  match list, not order-dependent beyond uniqueness).
+- Obviously correct: copies the established `{ .driver_data =
+  &acp6x_card, DMI_BOARD_VENDOR "LENOVO", DMI_PRODUCT_NAME "<sku>" }`
+  pattern used by `83N6`/`83Q2`/`83Q3`.
+- Minimal: 7 lines, no logic, locking, or API change.
+- Regression risk: **very low**. Match is vendor+product SKU `83UU`.
+  Wrong enablement would only hit that SKU; author confirmed capture
+  works on the real machine.
+- Red flags: none.
 
 ===============================================================
 PHASE 3: GIT HISTORY INVESTIGATION
 ===============================================================
 
 **Step 3.1: BLAME THE CHANGED LINES**
-
 Record:
-- Insertion sits next to `SND_PCI_QUIRK(0x103c, 0x8c30, "HP Victus
-  15-fb1xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT)` — blamed to
-  `b474f60f6a0c9` (Adam Queler, 2024-09-03), already in this tree,
-  originally `Cc: stable`.
-- The fixup enum/function `ALC245_FIXUP_HP_MUTE_LED_COEFBIT` /
-  `alc245_fixup_hp_mute_led_coefbit()` exists here (`patch_realtek.c`
-  around 4778 and 10522).
-- Helper was brought in via `c4cc8f6c31263` ("ALSA: hda/realtek -
-  Support mute led function for HP platform", upstream `22c7f77247a8`),
-  ancestor of HEAD.
-- Same product line: `96fe253552c26` already added `103c:8bc8` "HP
-  Victus 15-fa1xxx" to this tree (upstream `a0914bf56e26`, `Cc:
-  stable`).
+- Insertion sits after Lenovo `83Q3` (from `b9a8ea185f3f8` “ASoC: acp:
+  Support microphone from Lenovo Go S”, in this tree since
+  **v6.14-rc1**).
+- Driver file and table originated in `fa991481b8b22` (“ASoC: amd: add
+  YC machine driver using dmic”, **v5.16-rc3**).
+- DMI override in probe: `e521f087780d07` (2022-04-11).
+- `_WOV` failure → `goto check_dmi_entry`: `984795e76def5c` (“ASoC: amd:
+  yc: Fix the wrong return value”, **v6.13-rc3**).
+- Bug for this laptop is **absence of a DMI row**, not a recent logic
+  regression. The probe fallback this quirk uses is in 6.18.y.
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-
-Record: No `Fixes:` tag. N/A. The "bug" is a missing table entry, not a
-regression from a specific prior commit.
+Record: No `Fixes:` tag. Not applicable. The “broken” thing is this
+model’s firmware plus a missing quirk row.
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-
-Record:
-- This tree already contains many of the same class of patches (git log
-  `--grep='mute LED' -- sound/pci/hda/patch_realtek.c` returned 166
-  commits).
-- Recent examples: Victus 16-e0xxx MB 88ED (`faee5b4612c26`), Victus
-  15-fa0xxx MB 8A50 (`0ecc9d81b46b1`), Victus 16-s0xxx, 16-r0xxx,
-  15-fb1xxx (`b474f60f6a0c9`).
-- Mainline context line `103c:8c2d` "HP Victus 15-fa1xxx (MB 8C2D)" is
-  **not** in this tree (`git log --grep='8C2D' --
-  sound/pci/hda/patch_realtek.c` empty). That is neighboring context,
-  not a functional prerequisite.
-- Standalone: yes. Not patch X/Y.
+Record: This file is a long list of the same DMI additions (HP, Lenovo,
+ASUS, MSI, Acer, …). Recent examples already in this tree: ThinkPad E16
+Gen 2 (`21JN`), Acer Aspire Go 15, HyperX OMEN 16-ap1xxx, HP Victus
+16-e1xxx. Standalone; not patch X/Y. No prerequisites beyond the
+existing table and `acp6x_probe()` DMI fallback, both present.
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-
-Record: `git log --author='Yashraj Ghule' -- sound/pci/hda/` is empty in
-this tree. Author is an end-user contributor, not the subsystem
-maintainer. Weight comes from Takashi Iwai applying it, plus the well-
-worn quirk pattern.
+Record: `git log --author='Daniel Ortiz' -- sound/soc/amd/` shows only
+this commit. Author is a hardware reporter, not the subsystem
+maintainer. Weight comes from Mark Brown applying it and from the
+standard quirk pattern, not from maintainer authorship.
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-
-Record:
-- Needs `ALC245_FIXUP_HP_MUTE_LED_COEFBIT` and `alc269_fixup_tbl` — both
-  present.
-- Does **not** need the later `alc269.c` file split.
-- Does **not** need the 8C2D quirk.
-- Can apply standalone with path remap to
-  `sound/pci/hda/patch_realtek.c` and insertion after the existing
-  `0x8c30` line.
+Record: Diff only needs `yc_acp_quirk_table`, `acp6x_card`, and
+`dmi_first_match()` in `acp6x_probe()`. All exist in this checkout.
+Applies standalone. Parent of the candidate already has `83Q3`
+immediately before the insertion point.
 
 ===============================================================
 PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 ===============================================================
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
-
 Record:
-- `b4 dig -c <HEAD>` cannot match this commit; it is not in this
-  checkout.
-- `b4 mbox` on Message-ID
-  `20260816110655.11592-1-yashrajghule.221@gmail.com` found **4
-  messages**.
-- Thread: v1 (15 Aug 2026) → Takashi review → v2 (16 Aug 2026) → Takashi
-  "Applied now."
-- v1 issues (not technical risk of the quirk): SOB must use a real name;
-  table must stay in PCI SSID order (`8c3f` belongs after `8c30`, not
-  before).
-- v2 addressed both; that is the committed form.
-- No NAK. No reviewer concern about the quirk itself. No `Cc: stable` in
-  the thread.
-- lore.kernel.org HTTP fetch returned 403; thread recovered from lore
-  via `b4 mbox`.
+- `b4 dig -c d395e1b62d9694f2e4add9122f8d473eacd374aa` → https://patch.m
+  sgid.link/20260920011920.2482786-1-letargopausado@gmail.com
+- `b4 dig -a`: **v1 only** (2026-09-19). No later revision.
+- lore.kernel.org fetch returned **403**; thread recovered from
+  Openwall/Patchew mirrors.
+- Mark Brown applied it to
+  `git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git
+  for-7.3` on 2026-09-21. No NAK, no requested respin, no reviewer
+  concern in the apply mail.
+- No reviewer `Cc: stable` in the thread (not a negative).
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-
-Record (from mbox, equivalent of `b4 dig -w`):
-- To: Jaroslav Kysela `perex@perex.cz`
-- Cc: Takashi Iwai `tiwai@suse.de`, `linux-sound@vger.kernel.org`
-- Reviewer/applier: Takashi Iwai (ALSA/HDA maintainer)
+Record (`b4 dig -w`): To/Cc included Vijendar Mukunda (AMD ACP), Mark
+Brown (ASoC), Liam Girdwood, Venkata Prasad Potturu, Jaroslav Kysela,
+Takashi Iwai, linux-sound, linux-kernel. Maintainer applied it. No
+Acked-by/Reviewed-by on the commit itself.
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-
 Record: No bugzilla/syzbot link. Evidence of user impact is the author
-test on HP Victus 15-fa1xxx (MB 8C3F). Same model family already needed
-extra SSIDs (8bc8 here; 8C2D and 8BB1 in later/mainline discussion),
-which matches HP shipping multiple board IDs under one marketing name.
+reproducing missing capture, then verifying arecord/PipeWire after the
+quirk. Web search confirms the same patch text; no independent multi-
+user report found. **UNVERIFIED:** how many other 83UU owners hit this
+(likely all of them given ACPI gap, but not counted).
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-
-Record: Standalone v1→v2, not a multi-patch series. Related but
-independent: 8C2D (Eren Demir) and 8BB1 (Krish Gulati / bugzilla 221982)
-add other fa1xxx SSIDs. None of those replace 8C3F.
+Record: Standalone 1/1 patch. Not part of a multi-patch series.
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-
-Record: No stable-list discussion found for 8C3F specifically. Closely
-related 8bc8 and 8c30 quirks in this tree **did** carry `Cc: stable` and
-were backported. That is the established policy for this exact pattern,
-not evidence this commit was already selected.
+Record: lore.kernel.org/stable search returned 403 / no useful hits for
+this subject. **UNVERIFIED:** no prior stable-list NAK or explicit
+nomination found. Same class of ACP6x DMI quirks has historically been
+AUTOSEL’d (e.g. MSI Bravo 15 C7UCX).
 
 ===============================================================
 PHASE 5: CODE SEMANTIC ANALYSIS
 ===============================================================
 
-**Step 5.1: KEY FUNCTIONS**
+semcode MCP is not available; used file reads and `git grep`.
 
-Record: table `alc269_fixup_tbl`; runtime helper
-`alc245_fixup_hp_mute_led_coefbit()` (unchanged); picker
-`snd_hda_pick_fixup()`.
+**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
+Record: No function body changed. Data only: `yc_acp_quirk_table[]`.
+Consumer: `acp6x_probe()`.
 
 **Step 5.2: TRACE CALLERS**
-
 Record:
-- Realtek ALC269-family probe in `patch_realtek.c` (~12583) calls
-  `snd_hda_pick_fixup(..., alc269_fixup_tbl, alc269_fixups)`.
-- Then `snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PRE_PROBE)` (~12606).
-- Context: codec probe (device enumeration), not IRQ/hot path.
+- `acp6x_mach_driver.probe = acp6x_probe` (`module_platform_driver`).
+- Platform device `"acp_yc_mach"` registered from `sound/soc/amd/yc/pci-
+  acp6x.c` when ACP is in `ACP6x_PDM_MODE`.
+- Context: PCI probe / boot on ACP6x Yellow Carp systems with
+  `CONFIG_SND_SOC_AMD_YC_MACH`. Not a hot path, IRQ, or syscall.
 
 **Step 5.3: TRACE CALLEES**
-
-Record: `alc245_fixup_hp_mute_led_coefbit()` sets `spec->mute_led_coef`
-(idx 0x0b, mask/on/off bits) and `snd_hda_gen_add_mute_led_cdev(codec,
-coef_mute_led_set)`.
+Record: `acp6x_probe()` uses
+`acpi_dev_get_property("AcpDmicConnected")`,
+`acpi_evaluate_integer("_WOV")`, `dmi_first_match(yc_acp_quirk_table)`,
+`devm_snd_soc_register_card()`. The quirk only changes whether
+`dmi_first_match()` returns an entry.
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-
-Record: userspace/hw mute → HDA mixer/LED classdev → coef write.
-Reachable on this laptop at boot + mute key. Not a syscall security
-path.
+Record: Boot → ACP PCI driver → register `acp_yc_mach` → `acp6x_probe()`
+→ ACPI miss → DMI table → with this entry, card registers. Userspace
+then sees the capture PCM (arecord/PipeWire). Reachable on this laptop
+without special config beyond the existing ASoC ACP6x machine driver.
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-
-Record: many `ALC245_FIXUP_HP_MUTE_LED_COEFBIT` rows for Victus SSIDs
-already in this file (including `0x8bc8` 15-fa1xxx and `0x8c30`
-15-fb1xxx). Same bug, different board ID — systematic HP SSID
-fragmentation.
+Record: 108 `DMI_MATCH(DMI_BOARD_VENDOR` rows in this file. `83UU`
+appears only once (this entry). Nearby Lenovo SKUs `83N6`/`83Q2`/`83Q3`
+are Go S quirks from `b9a8ea185f3f8`, not this model.
 
 ===============================================================
 PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 ===============================================================
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-
-Record:
-- Tree: `pending-6.12` / `git describe` `p-6.12-3-gc504cf0baa3d8` /
-  `make kernelversion` **6.12.111**.
-- `sound/hda/codecs/realtek/alc269.c` does **not** exist.
-- Equivalent table: `sound/pci/hda/patch_realtek.c` `alc269_fixup_tbl`.
-- `0x8c3f` is **absent** (`grep` on that file: no match).
-- `ALC245_FIXUP_HP_MUTE_LED_COEFBIT` **is** present.
-- Nearby `0x8c30` **is** present (line 11088).
-- Nearby mainline `0x8c2d` is **absent**.
-- Bug is a missing ID, not a post-6.12 logic regression. The machine and
-  the helper both exist for 6.12 users.
+Record: **Yes.** `sound/soc/amd/yc/acp6x-mach.c` is present.
+`acp6x_probe()` still returns `-ENODEV` when ACPI and DMI both miss
+(lines 845–853). Parent of the candidate has no `83UU`. Without this
+row, Lenovo V15 G6 ARP has no capture device on **this** 6.18.y tree.
+Driver dates to v5.16; DMI fallback is long-standing.
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-
-Record: **minor path/context adjustment**, not a rework.
-- Remap file to `sound/pci/hda/patch_realtek.c`.
-- Insert after `0x8c30` (8c2d context from mainline is missing, so a
-  verbatim git-apply of the mainline hunk may not be fully clean).
-- No API/data-structure change.
+Record: **Clean apply.** Parent context is `83Q3` then Nitro ANV15-41;
+the hunk is a pure insertion. No refactor of the table or probe vs this
+tree.
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-
-Record: `0x8bc8` covers a different fa1xxx SSID, not 8C3F. Exact PCI
-SSID match only. No substitute for this ID.
+Record: Many other DMI quirks are already in this tree. None match
+`83UU`. No alternate fix for this SKU.
 
 ===============================================================
 PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 ===============================================================
 
-**Step 7.1: SUBSYSTEM AND CRITICALITY**
+**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
+Record: **[ASoC AMD Yellow Carp DMIC machine driver] [PERIPHERAL /
+driver-specific]** — important for owners of that laptop, not core
+mm/fs. Config: `CONFIG_SND_SOC_AMD_YC_MACH` (`depends on
+SND_SOC_AMD_ACP6x && ACPI`, `depends on X86 && PCI` for ACP6x).
 
-Record: ALSA HD-audio / Realtek codec (`sound/pci/hda/`). **IMPORTANT**
-for laptop audio users, **PERIPHERAL** in blast radius (one HP SSID).
-Not mm/fs/net core.
-
-**Step 7.2: SUBSYSTEM ACTIVITY**
-
-Record: High churn of device quirks; this file is the standard place for
-HP mute-LED IDs. Mature helper, incremental table growth.
+**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
+Record: Actively maintained quirk table (many DMI additions through
+2025–2026). Mechanism is mature; this commit does not change it.
 
 ===============================================================
 PHASE 8: IMPACT AND RISK ASSESSMENT
 ===============================================================
 
-**Step 8.1: WHO IS AFFECTED**
+**Step 8.1: DETERMINE WHO IS AFFECTED**
+Record: **Driver/platform-specific** — Lenovo V15 G6 ARP (DMI product
+name `83UU`) with ACP6x PDM DMIC. No effect on other DMI IDs.
 
-Record: **driver-specific / hardware-specific** — only HP SSID
-`103c:8c3f` (Victus 15-fa1xxx MB 8C3F). CONFIG_SND_HDA_CODEC_REALTEK
-(standard laptop configs).
+**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
+Record: Every boot/probe on that model. Not a race. Unprivileged users
+do not trigger a crash; they simply have **no microphone**. Common for
+anyone using this SKU on 6.18.y.
 
-**Step 8.2: TRIGGER CONDITIONS**
+**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
+Record: **Missing audio capture device** (internal mic dead). Not
+panic/UAF/corruption. Severity **MEDIUM** for that hardware, but this is
+the documented **hardware quirk** exception: without the row, the
+existing driver cannot bind.
 
-Record: every boot + mute on that SKU. Not a race. Unprivileged user can
-observe the LED; not a privilege-escalation path.
-
-**Step 8.3: FAILURE MODE SEVERITY**
-
-Record: mute LED does not track mute. **MEDIUM** functionally (no
-oops/corruption). Still a real hardware bug. Stable rules explicitly
-include device IDs and hardware quirks.
-
-**Step 8.4: RISK-BENEFIT RATIO**
-
+**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
 Record:
-- **Benefit:** restores mute LED on a shipping HP Victus SKU for 6.12
-  users; same class already backported here many times.
-- **Risk:** very low (one SSID-guarded line, existing helper).
-- **Ratio:** strongly favors backport.
+- **Benefit:** High for 83UU users (mic actually works); zero for
+  everyone else.
+- **Risk:** Very low (7-line table add, unique SKU, author-tested).
+- **Ratio:** Strongly favors backport.
 
 ===============================================================
 PHASE 9: FINAL SYNTHESIS
@@ -407,116 +350,129 @@ PHASE 9: FINAL SYNTHESIS
 **Step 9.1: COMPILE THE EVIDENCE**
 
 FOR:
-- Stable rules: "fix a real bug … **or just add a device ID**" and
-  "**hardware quirk**" (`Documentation/process/stable-kernel-rules.rst`
-  lines 15–20).
-- One-line addition to an existing driver/fixup.
-- Target SSID missing; helper and table present in 6.12.111.
-- Author tested on the exact machine; ALSA maintainer applied v2.
-- Same Victus 15-fa1xxx family already has `8bc8` in this tree; 8C3F is
-  another board ID.
-- Dozens of identical mute-LED quirk backports already in this file.
+- Real user-visible bug: no DMIC capture on Lenovo V15 G6 ARP because
+  firmware omits ACPI DMIC methods.
+- Existing driver and DMI fallback are in 6.18.y; only the SKU row is
+  missing.
+- Textbook stable exception: hardware quirk / DMI table entry on an
+  existing driver.
+- 7 lines, copy of established pattern, ASoC maintainer applied v1
+  unchanged.
+- Author verified arecord and PipeWire.
+- Same class of ACP6x DMI quirks is already common in this tree.
 
 AGAINST:
-- Not a crash/security/data-corruption fix.
-- Mainline path differs (`alc269.c` vs `patch_realtek.c`); 8c2d context
-  line missing (trivial).
-- No `Cc: stable` on the original (expected here; similar quirks often
-  still go to stable).
+- Not a crash/security/corruption fix.
+- Single-model, one reporter; no `Cc: stable` / `Fixes:` (expected).
+- No independent second user report found.
 
 UNRESOLVED:
-- Direct lore.kernel.org HTTP was 403; discussion was recovered via `b4
-  mbox`.
-- Could not `b4 dig -c` an upstream SHA because that commit is not in
-  this checkout.
-- No independent bugzilla for 8C3F (author is the tester).
+- lore.kernel.org itself 403’d; discussion taken from b4 +
+  Openwall/Patchew.
+- No stable-list thread found.
+- Population of 83UU users not counted.
 
-**Step 9.2: STABLE RULES CHECKLIST**
+**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
+1. Obviously correct and tested? **PASS** — identical table pattern;
+   author tested capture.
+2. Fixes a real bug that affects users? **PASS** — mic never appears
+   without the quirk.
+3. Important issue? **PASS** under the hardware-quirk exception (broken
+   firmware / missing device), not a kernel crash.
+4. Small and contained? **PASS** — +7 lines, one file.
+5. No new features or APIs? **PASS** — no new driver, Kconfig, or
+   userspace API; enables existing DMIC machine driver for one SKU.
+6. Can apply to the local tree? **PASS** — table and probe path present;
+   applies cleanly.
 
-1. Obviously correct and tested? **PASS** — one table entry; author
-   tested; maintainer applied.
-2. Fixes a real bug that affects users? **PASS** — mute LED dead on that
-   SKU.
-3. Important issue? **PASS** as hardware quirk / device ID (severity
-   MEDIUM, allowed exception).
-4. Small and contained? **PASS** — +1 line.
-5. No new features or APIs? **PASS** — enables existing fixup for one
-   SSID.
-6. Can apply to the local tree? **PASS** — helper+table exist; needs
-   path remap and insert after `0x8c30`.
+**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
+Record: **Hardware quirk/workaround** (DMI match for firmware that does
+not describe the DMIC). Closely analogous to device-ID additions.
 
-**Step 9.3: EXCEPTION CATEGORIES**
+**Step 9.4: MAKE YOUR DECISION**
+This tree already has `acp6x_probe()`’s DMI fallback and a large
+`yc_acp_quirk_table`. Adding `LENOVO`/`83UU` is the standard, low-risk
+way to make the internal microphone work on the Lenovo V15 G6 ARP. It
+should be backported to this 6.18.y tree.
 
-Record: **Device ID addition to an existing driver** and **hardware
-quirk/workaround** (HDA `SND_PCI_QUIRK`).
+------------------------------------------------
+What the commit solves
+The laptop’s ACPI does not advertise DMIC (`AcpDmicConnected` / `_WOV`).
+Probe then depends on DMI, finds no match, returns `-ENODEV`, and users
+get no capture device. One quirk row binds `acp_yc_mach` and registers
+the existing ACP6x DMIC PCM.
 
-**Step 9.4: DECISION**
+Why it meets stable rules
+It is a 7-line, obviously correct DMI quirk on a driver that already
+exists in 6.18.y, tested on the hardware, with no API or behavioral
+change except for that SKU.
 
-This should be backported to **this** 6.12 tree. The bug is present
-(missing `103c:8c3f`), the fix is the standard Realtek mute-LED quirk,
-and it is self-contained aside from a trivial file-path/context tweak.
+Risk vs benefit
+Benefit is a working microphone on this model; risk is confined to
+`LENOVO`+`83UU`. That is the usual stable trade-off for ID/quirk
+patches.
 
-What it solves for stable users: HP Victus 15-fa1xxx systems with
-motherboard SSID 8C3F get a working mute LED, matching other
-fa1xxx/fb1xxx board IDs already quirked here.
-
-Risk vs benefit: one SSID-specific line vs a user-visible LED bug on a
-current consumer laptop. Benefit dominates.
-
-Concerns: apply to `sound/pci/hda/patch_realtek.c`, not `alc269.c`; do
-not require the absent 8C2D row.
+Concerns
+None that block backport: no missing prerequisites, no apply conflicts,
+no series dependency. Severity is “device missing,” not a panic, which
+is still accepted for quirks.
 
 Verification:
-- [Phase 1] Parsed subject/tags/body from the candidate message; Link
-  msgid `20260816110655.11592-1-yashrajghule.221@gmail.com`; SOBs Ghule
-  + Iwai; no Fixes/syzbot/stable Cc.
-- [Phase 2] Diff is +1 `SND_PCI_QUIRK(0x103c, 0x8c3f, ...,
-  ALC245_FIXUP_HP_MUTE_LED_COEFBIT)` in `alc269_fixup_tbl`.
-- [Phase 3] `git describe HEAD` → `p-6.12-3-gc504cf0baa3d8`; `make
-  kernelversion` → 6.12.111; branch `pending-6.12`.
-- [Phase 3] `alc269.c` missing; quirk table in
-  `sound/pci/hda/patch_realtek.c`.
-- [Phase 3] `grep 0x8c3f` in that file: no match.
-  `ALC245_FIXUP_HP_MUTE_LED_COEFBIT` present (enum ~8222, fixup ~10522,
-  function ~4778).
-- [Phase 3] `0x8c30` present (blame `b474f60f6a0c9`); `0x8bc8` present
-  (`96fe253552c26`); `0x8c2d` absent.
-- [Phase 3] `git merge-base --is-ancestor` for `b474f60f6a0c9` and
-  `c4cc8f6c31263`: both ancestors of HEAD.
-- [Phase 3] `git log --grep='mute LED' --
-  sound/pci/hda/patch_realtek.c`: 166 commits of the same class.
-- [Phase 4] `b4 mbox` on the msgid: v1, Takashi review (SOB name + SSID
-  sort), v2, "Applied now."
-- [Phase 4] Recipients: perex, tiwai, linux-sound. No NAK.
-- [Phase 4] lore WebFetch 403; discussion taken from the saved mbox.
-- [Phase 5] Probe path `snd_hda_pick_fixup` ~12583 →
-  `snd_hda_apply_fixup` PRE_PROBE ~12606; vendor HP fallback
-  `ALC269_FIXUP_HP_MUTE_LED` at `alc269_fixup_vendor_tbl`.
-- [Phase 6] Backport difficulty: path remap + insert after 8c30 (8c2d
-  context missing).
-- [Phase 7] ALSA HDA Realtek; quirk-table activity high.
-- [Phase 8] Failure: mute LED inoperative on one HP SSID; severity
-  MEDIUM; risk very low.
-- UNVERIFIED: upstream mainline SHA of this commit (not in this
-  checkout; `b4 dig -c HEAD` cannot match it).
+- [Phase 1] Subject/tags: ASoC amd yc DMI quirk; SOB Daniel Ortiz + Mark
+  Brown; Link msgid 20260920011920.2482786-1; no Fixes/Reported-
+  by/Cc:stable
+- [Phase 1] Body: ACPI miss → DMI → -ENODEV; arecord/PipeWire
+  verification quoted
+- [Phase 2] `git show`: +7 lines in `yc_acp_quirk_table` only
+  (`LENOVO`/`83UU` → `&acp6x_card`)
+- [Phase 2] Read `acp6x_probe()` at 807–865: ACPI then
+  `dmi_first_match`; NULL card → `-ENODEV`
+- [Phase 3] `git describe HEAD` / Makefile: **6.18.57**
+- [Phase 3] `git blame`: 83UU row is this commit; neighbors 83Q3 from
+  `b9a8ea185f3f8` (v6.14-rc1)
+- [Phase 3] File added `fa991481b8b22` (v5.16-rc3); DMI fallback
+  `e521f087780d07`; `_WOV` goto `984795e76def5c` (v6.13-rc3)
+- [Phase 3] `git grep 83UU` on parent: absent; on HEAD: only this entry
+- [Phase 3] Author log on `sound/soc/amd/`: only this commit
+- [Phase 4] `b4 dig -c d395e1b62d96`: lore msgid match; `-a` v1 only;
+  `-w` AMD ACP + ASoC maintainers
+- [Phase 4] Openwall 2026/09/20/35: original patch; 2026/09/21/1579:
+  Mark Brown applied to for-7.3
+- [Phase 4] lore.kernel.org WebFetch 403; stable search: no relevant
+  hits
+- [Phase 5] `git grep acp_yc_mach`: defined in acp6x-mach.c; registered
+  in pci-acp6x.c:238
+- [Phase 5] Kconfig `SND_SOC_AMD_YC_MACH` depends on `SND_SOC_AMD_ACP6x
+  && ACPI`
+- [Phase 6] Probe/DMI table present in this tree; insertion context 83Q3
+  → ANV15-41 matches parent
+- [Phase 8] Failure: no capture device on 83UU; not a crash
+- UNVERIFIED: exact number of affected users; full lore.kernel.org HTML
+  (403)
 
 **YES**
 
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 9ec18f779a700..bc33930e83b9f 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6974,6 +6974,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8c21, "HP Pavilion Plus Laptop 14-ey0XXX", ALC245_FIXUP_HP_X360_MUTE_LEDS),
- 	SND_PCI_QUIRK(0x103c, 0x8c2d, "HP Victus 15-fa1xxx (MB 8C2D)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x8c30, "HP Victus 15-fb1xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
-+	SND_PCI_QUIRK(0x103c, 0x8c3f, "HP Victus 15-fa1xxx (MB 8C3F)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x8c46, "HP EliteBook 830 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c47, "HP EliteBook 840 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c48, "HP EliteBook 860 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 507c07efc069b..209ac43f9e31e 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -374,6 +374,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "83Q3"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "83UU"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
 -- 
 2.53.0
 
