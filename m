@@ -1,44 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D616050A3;
-	Mon, 19 Oct 2026 14:03:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B422D6070B6;
+	Mon, 19 Oct 2026 14:03:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418598; cv=none; b=EMj8C1kQQ9ul1qoL5QDcmNcpN1GPup26YMdhDsn/A+WC6x/6gtETFMsIVr8JuXqRYpuaLWfGJxTJY+gongjvYxbVfVxatVctlKJzR2AmkzAIefSgMiNWMeKdDOQIzmEIy8LpuI2FfSHjEOl5WlT/fSRQJv+B/l27KOEGnP+Wv6Q=
+	t=1792418605; cv=none; b=iv3IIh4UPytH7Nn2BUEAu/R8DPr/v3A7Bm46vmFOCvzV8/jYZ8ikUlwCdACU7C33Yiv+jgjaZ4U0Bf9YkoJM0KeKhgMSWjPvB0V7fJ89kgHbyBd6xV/v7FucvXPATMY6BEQRbD999Max0mCAYDYyWf44hoETDxYyr0Qyzgp4n60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418598; c=relaxed/simple;
-	bh=k7uw0K4tIKoECCxLLfNlKCLh8dptzEKDhqhNok8A4Us=;
+	s=arc-20240116; t=1792418605; c=relaxed/simple;
+	bh=Opv6Dq5IPgwtPYeMVrpI7uDhBkUO2SaBh4P9fDleTDo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mJ1HtGyOLbQ1u4iwji/XSDmBBnp7C/AJy0re4DAj7u4AfM34R/dFNnEnXbHw2m7RgfahbWrRkv/nuc88+kwTIp5FusXaggPzx/1GbwIOMlVcAZicfoIaOR33sNsBvMJgzMs7vLNW/Mu3hDF2dy7ca9xFSgoqsj52vzMDuPm3wdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GMdu1m0J; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=fhV5nHEMWVdb9dwIAWahRC6N8265J4gCxlPspbwEq+SX79gsa5QHeJ0PcJpNvCwFQS4VUR0rttvjabQwfO8vLhkJ4+6VNurxSfJiVwlnh6eY4a99QEInCO102fO9Vw+vjfI8o0Hp0klKgKIPKT0Np4lWhu2rOs3bE3CdHE4hr1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y9FoWcEL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GMdu1m0J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B30931F000C7;
-	Mon, 19 Oct 2026 14:03:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y9FoWcEL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9791A1F000C4;
+	Mon, 19 Oct 2026 14:03:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418594;
-	bh=gpac75BMATzt9YGi6lrESx49XbXRDzTsYj+TX3qYF4I=;
+	s=k20260515; t=1792418602;
+	bh=8RY2n4h9VU8wvRSi8/XoaDA5iRfpjbn361O2gW9yk9s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=GMdu1m0JaHfu+yrlAiXnYuOZ3TpENLw7AXj7Oq9Zs7P0cek4w1Ybavc0y9a6vL0oO
-	 p1tkn6Lb3ziDYyvOdgppGnnRTzSC/+cOQUvkt6MkfDKrg7mC6kxKBRm1GfyjpBExVu
-	 SeID9MFGptw5pBcA0eGfS81aCXWqao13qWJEZJ3/0BUIkO/iXoiRFj6jlb/EeqV7A0
-	 zMr2edR2ik+rSDjaaxJD7LOJMoMf6o3r2GwWVYcYeQZClKjp35upjGvisl3yiuiWz7
-	 eb5NeVEPTcv+3iIDHvI3wMDaeXuNIoBP7gNg9QLFQbzGG3H/MMWW1mOqXoIF/Cr6dE
-	 J4Ju6yEtYvo0w==
+	b=Y9FoWcELNY41yP/UoEmi7f8Z7A+BQivcWZ7nLLHUf4NBz4wtenbso6V4PhYAxojRK
+	 ufkPbE6hcR0duexYy3NTAZBSOSu7Vxt4rTHxyaadqw6vHazZJ4pFuDnu9uDeAGEjdt
+	 v5/npDOC49MAl+0Q/j5uPK9/QC5tGB9hz//8FSezNVkci8C2y+hwjqRLAW4N6ReBIg
+	 Zcp8OC3ImomCMsyaOwKC0QrLBj3QM+J40QIMmf6wuJjWrPIIW8OkG5UJOLp12BTost
+	 n6PxZ4anfUzn7Bx4hshxPeddmxetjb3bV9OEJGDZYVm/JgJBB3tPG3HNvimHdYYuoN
+	 AFkBfTd6XgHYQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Federico=20Valent=C3=ADn=20Andrade?= <fandrade@frba.utn.edu.ar>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] ALSA: usb-audio: Skip mixer creation on M-Audio Venom
-Date: Mon, 19 Oct 2026 09:50:50 -0400
-Message-ID: <20261019135441.1420968-359-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.1] ASoC: codecs: max98396: Unwind supplies on resume failure
+Date: Mon, 19 Oct 2026 09:50:56 -0400
+Message-ID: <20261019135441.1420968-365-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -48,448 +49,467 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.18.57
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Federico Valentín Andrade <fandrade@frba.utn.edu.ar>
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 
-[ Upstream commit 4c0ec35e011309bd7091053ad5bbc01420967a66 ]
+[ Upstream commit d20de7409dfa8e3341af7f157cd42130bd4ba3a7 ]
 
-The M-Audio Venom (0763:2084) does not answer any GET_CUR request
-of its feature units, hanging up the USB microcontroller and
-"responding" with timeouts. So the mixer building lasts around 47
-seconds, and the device does not stream at all.
+max98396_resume() enables the core, pvdd, and vbat supplies before
+leaving cache-only mode, resetting the device, and replaying cached
+register state. The function currently ignores regcache_sync() failures,
+and the optional pvdd/vbat enable failures return without unwinding
+supplies that were already enabled in this resume attempt.
 
-The same GET_CUR requests issued through libusb (with no kernel
-driver bound) complete correctly and blazingly fast. So it seems
-to only happen during the initial probe.
+Rework the function to use common error labels. This propagates sync
+failures, restores cache-only/dirty state on failed cache replay, and
+disables each supply acquired by this resume path before returning the
+error.
 
-I defined an explicit composite quirk to bypass the mixer creation,
-as it is not needed (the synth already comes with volume controls).
-
-With both this and the device flag applied, the synth works
-flawlessly.
-
-Signed-off-by: Federico Valentín Andrade <fandrade@frba.utn.edu.ar>
-Link: https://patch.msgid.link/20260824140211.17003-3-fandrade@frba.utn.edu.ar
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Link: https://patch.msgid.link/20260704040651.47558-1-pengpeng@iscas.ac.cn
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-I have enough to decide: this is a device-specific usb-audio quirk, the
-local 6.12 tree has the same table and macros, and the companion flag
-patch is independent.
+The local tree is **v7.3-rc4** (`7.3.0-rc4`). The MAX98396 resume path
+has been in this lineage since v6.0, and this patch is a small, self-
+contained error-path fix for that path.
 
-===============================================================
-PHASE 1: COMMIT MESSAGE FORENSICS
-===============================================================
+---
 
-Step 1.1: PARSE THE SUBJECT LINE
-Record: [ALSA usb-audio] [Skip] [Do not build the mixer for M-Audio
-Venom 0763:2084 because GET_CUR on feature units hangs the device]
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
-Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
+**Step 1.1: PARSE THE SUBJECT LINE**
+Record: **[ASoC/codecs/max98396] [Unwind] [Disable supplies and restore
+cache state if resume fails]**
+Subsystem prefix `ASoC: codecs: max98396:`. Verb **Unwind** is error-
+path cleanup language; the body is a real leak/error-propagation fix,
+not a refactor.
+
+**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
 Record:
-- Signed-off-by: Federico Valentín Andrade <fandrade@frba.utn.edu.ar>
-  (author)
-- Link: https://patch.msgid.link/20260824140211.17003-3-
-  fandrade@frba.utn.edu.ar (v3 series; msgid `-3` is patch 2/2 after the
-  cover)
-- Signed-off-by: Takashi Iwai <tiwai@suse.de> (ALSA maintainer; applied)
-- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or Cc:
-  stable (absence expected)
-- Ignore pipeline markers (Upstream commit / Sasha Levin) if present
+- **Fixes:** none (expected)
+- **Reported-by / Tested-by / Reviewed-by / Acked-by:** none on the
+  commit itself
+- **Link:**
+  https://patch.msgid.link/20260704040651.47558-1-pengpeng@iscas.ac.cn
+- **Cc: stable:** none (expected)
+- **Signed-off-by:** Pengpeng Hou (author); Mark Brown (ASoC
+  maintainer). Ignore any Sasha Levin SOB from candidate prep.
 
-Step 1.3: ANALYZE THE COMMIT BODY TEXT
+No syzbot, no multi-user reports.
+
+**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
 Record:
-- Bug: Venom does not answer GET_CUR on feature units during probe; the
-  USB microcontroller hangs and later transfers time out.
-- Symptom: mixer build ~47 seconds; device does not stream.
-- Contrast: same GET_CUR via libusb with no kernel driver is fast — hang
-  is probe-path specific.
-- Fix: composite quirk ignores interface 0 (AudioControl/mixer);
-  interfaces 1–2 stay standard audio; 3 stays standard MIDI. Hardware
-  already has volume knobs.
-- Author: “With both this and the device flag applied, the synth works
-  flawlessly.”
-- Cover letter (v1 0/2): device has never worked over USB on Linux;
-  users reported the port useless for years. dmesg without quirks:
-  `cannot get freq at ep 0x2`, then many `failed to get current value` /
-  `cannot get min/max` with `-110` (ETIMEDOUT), then looping
-  `usb_set_interface failed (-110)`. Flags alone list the card but
-  produce no sound. Mixer skip is what made audio work.
-- Tested on 7.1.8-arch1-3 xHCI (Intel PCH); alsa-info linked from v1.
+- **Bug:** `max98396_resume()` enables core / optional pvdd / vbat, then
+  leaves cache-only, resets, and calls `regcache_sync()`.
+  `regcache_sync()` errors are ignored. If optional pvdd/vbat enable
+  fails, already-enabled supplies are not disabled.
+- **Symptom:** Regulator enable-count leak after a failed resume; resume
+  can report success while cached register state was not written back
+  (codec left in reset/defaults → broken audio after suspend).
+- **Version info:** none in the message.
+- **Root cause:** Missing unwind and ignored `regcache_sync()` return.
 
-Step 1.4: DETECT HIDDEN BUG FIXES
-Record: Not hidden. Explicit hardware workaround: skip mixer creation so
-probe does not issue the GET_CUR sequence that wedges the MCU.
+**Step 1.4: DETECT HIDDEN BUG FIXES**
+Record: **Yes, a real bug fix described as error-path rework.** “Common
+error labels” is the usual shape of a leak fix: added `goto` cleanup,
+`regulator_disable` / `regulator_bulk_disable`, restore cache-
+only/dirty, propagate `regcache_sync()` failure.
 
-===============================================================
-PHASE 2: DIFF ANALYSIS - LINE BY LINE
-===============================================================
+---
 
-Step 2.1: INVENTORY THE CHANGES
+## PHASE 2: DIFF ANALYSIS
+
+**Step 2.1: INVENTORY THE CHANGES**
 Record:
-- File: `sound/usb/quirks-table.h` only (+22 lines, 0 removed)
-- Function: none; one `usb_device_id` / `snd_usb_audio_quirk` table
-  entry
-- Scope: single-file surgical hardware quirk
+- **File:** `sound/soc/codecs/max98396.c` — **+21 / −3** (`git show
+  --stat`: 24 lines changed)
+- **Function:** `max98396_resume()` only
+- **Scope:** single-file surgical fix
 
-Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
+**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
+Record (verified against `703ee0557f892` original resume and current
+`max98396_resume()`):
+
+| Path | Before | After |
+|---|---|---|
+| core enable fails | return, nothing enabled | unchanged |
+| pvdd enable fails | **return with core still enabled** | `goto
+err_core_supplies` → disable core |
+| vbat enable fails | **return with core (+ pvdd) still enabled** |
+`goto err_pvdd` → disable pvdd if present, then core |
+| `regcache_sync()` fails | **ignored; return 0** | restore cache-only +
+mark dirty, unwind vbat/pvdd/core, **return error** |
+| success | return 0 | return 0 |
+
+Error labels check optional regulators before disable (`if
+(max98396->vbat)` / `if (max98396->pvdd)`), so NULL optional supplies
+are not disabled.
+
+**Step 2.3: IDENTIFY THE BUG MECHANISM**
 Record:
-- Before: 0763:2084 is not in the quirk table. Generic class match in
-  `usb_audio_ids` (`USB_CLASS_AUDIO` / `USB_SUBCLASS_AUDIOCONTROL`,
-  `card.c` 1171–1173) claims it. Probe calls `snd_usb_create_streams()`
-  then `snd_usb_create_mixer()` (`card.c` 899–903). Mixer build issues
-  GET_MIN/GET_MAX/GET_CUR (`get_min_max_with_quirks`, `init_cur_mix_raw`
-  in `mixer.c`).
-- After: `USB_DEVICE_VENDOR_SPEC(0x0763, 0x2084)` + composite:
-  `QUIRK_DATA_IGNORE(0)` → `ignore_interface_quirk()` returns 0 (no
-  mixer); `QUIRK_DATA_STANDARD_AUDIO(1/2)` →
-  `create_standard_audio_quirk()` → `snd_usb_parse_audio_interface()`;
-  `QUIRK_DATA_STANDARD_MIDI(3)`. Because `snd_usb_create_quirk()`
-  returns 0, `card.c` does not take the generic `snd_usb_create_mixer()`
-  path.
+- **Category:** (a) error-path resource leak + (g) ignored return /
+  incorrect success
+- **Mechanism:** resume acquired regulators without matching disable on
+  later failure; `regcache_sync()` failure was dropped so PM treated a
+  failed register restore as success.
 
-Step 2.3: IDENTIFY THE BUG MECHANISM
-Record: [Hardware workaround] Feature-unit GET_CUR during mixer init
-hangs the device MCU; skipping AudioControl interface 0 avoids those
-control messages. Same pattern as existing M-Audio entries (e.g. Quattro
-`QUIRK_DATA_IGNORE(0)` at ~1496).
-
-Step 2.4: ASSESS THE FIX QUALITY
+**Step 2.4: ASSESS THE FIX QUALITY**
 Record:
-- Obviously correct: VID/PID-scoped; uses macros already in this tree;
-  ignore-iface-0 is a long-standing pattern.
-- Minimal: one table entry, no API/data-structure change.
-- Regression risk: very low — only 0763:2084. Worst case if matching
-  were wrong: that one device stays broken (current behavior).
-- Companion: patch 1/2 adds `DEVICE_FLG(0x0763, 0x2084,
-  QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_DISABLE_AUTOSUSPEND)`. Parse
-  still calls `snd_usb_init_sample_rate()` (`stream.c:1255` →
-  `set_sample_rate_v1` GET_CUR). Full device function needs both; this
-  patch still compiles and is safe alone.
+- Unwind order matches enable order (core → pvdd → vbat). Labels are
+  correct for optional supplies.
+- Restoring `regcache_cache_only(true)` + `regcache_mark_dirty()` after
+  a failed sync is the standard pattern so a later resume can retry.
+- **Regression risk:** low. Error paths only. `device_resume()` in this
+  tree sets `dev->power.is_suspended = false` **before** the callback
+  (`drivers/base/power/main.c` line 1129), so a later suspend may
+  `regulator_disable()` already-disabled supplies and warn. That class
+  of imbalance already existed on some old failure paths; leaking
+  enables (keeping rails on) is worse. Sibling ASoC patches in the same
+  series use the same unwind-on-resume-fail pattern.
 
-===============================================================
-PHASE 3: GIT HISTORY INVESTIGATION
-===============================================================
+---
 
-Step 3.1: BLAME THE CHANGED LINES
+## PHASE 3: GIT HISTORY INVESTIGATION
+
+**Step 3.1: BLAME THE CHANGED LINES**
 Record:
-- Insertion is after M-Audio Fast Track Ultra 8R `0x2081` (Felix Homann,
-  2010, `fca5bca48759c`) and before Casio (2006).
-- Buggy path is generic mixer creation, not a recent regression. Class
-  match dates to `e5779998bf8b70` (2010).
-- Venom has been broken on Linux since USB support was expected; not a
-  new-subsystem bug.
+- Driver added: `b585811367705` (“ASoC: max98396: add amplifier driver”)
+- Buggy regulator resume: **`703ee0557f892` (“ASoC: max98396: add
+  voltage regulators”, 2022-06-27)** — **present in v6.0** (`git merge-
+  base --is-ancestor 703ee0557f892 v6.0` succeeded; not in v5.19)
+- Resume body was unchanged from that commit until this fix (blame:
+  Daniel Mack 2022 for enable/return, Pengpeng Hou 2026 for gotos)
 
-Step 3.2: FOLLOW THE FIXES: TAG
-Record: No Fixes: tag. N/A. Bug is device firmware vs generic UAC mixer,
-not a specific introducing commit.
+**Step 3.2: FOLLOW THE FIXES: TAG**
+Record: **No Fixes: tag.** Introducing commit is `703ee0557f892`, in
+this tree and in v6.0+.
 
-Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
+**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
+Record: Later history is probe/PM-macro/style (`c009893bc5864`
+SYSTEM_SLEEP_PM_OPS, DAPM convert, named initializers). **No
+prerequisite refactor of resume.** **Standalone** for this file. Cover
+letter lists it as **18/19** of an independent per-codec series, not a
+stacked dependency.
+
+**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
+Record: Pengpeng Hou is **not** the ASoC maintainer. Same week: many
+`Propagate regcache_sync() errors` codec patches. Maintainer who applied
+this one: **Mark Brown**.
+
+**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
+Record: **None required.** Touches only `max98396_resume()`, existing
+`regulator_*` / `regcache_*` APIs. Can apply standalone. No follow-ups
+on this file after `d20de7409dfa8`.
+
+---
+
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+
+**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
 Record:
-- Recent same-file quirks already in this tree: YAMAHA CDS3000, Novation
-  Mininova, RME Digiface, Pioneer DDJ-800, M-Audio Micro, etc.
-- This entry is not present (`rg` found no `0x2084` / Venom).
-- Series is standalone 2/2: this file vs `quirks.c` flags. No refactor
-  prerequisite.
-- Macros (`QUIRK_DATA_IGNORE`, `QUIRK_DATA_COMPOSITE`,
-  `USB_DEVICE_VENDOR_SPEC`) from `0c3ad39b791c2` / `d79e13f8e8abb`,
-  already here.
+- **b4 dig:**
+  https://patch.msgid.link/20260704040651.47558-1-pengpeng@iscas.ac.cn
+- **Series:** v1 only, **[PATCH 00/19] ASoC: codecs: propagate
+  regcache_sync() failures** (`20260704034845.14291-1`)
+- Cover letter (from saved mbox): *“This series is source-audited only.
+  I did not test on the affected hardware.”* Explicitly calls out
+  max98396 as one of four patches that also unwind resources.
+- **No NAK** on this patch. Richard Fitzgerald `Reviewed-by` on sibling
+  Cirrus patches (wm2200/cs4349/wm8962). Mark Brown discussed revert-on-
+  sync-fail for wm8962 and said not to over-engineer recovery without a
+  real use case — **not a NAK of unwind/propagate**.
+- Mark applied **18/19** (skipped 03/19 lpass-wsa-macro) to `for-7.3`.
+- **No reviewer Cc: stable** on this patch.
 
-Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
-Record: No Andrade commits in `sound/` on this tree. First-time ALSA
-contributor (cover: “first ever patch”). Weight is the maintainer apply,
-not author history.
+**Step 4.2: CHECK WHO REVIEWED THE PATCH**
+Record: Recipients included Mark Brown, Liam Girdwood, linux-sound,
+codec vendors. **No Reviewed-by on the max98396 patch itself.** Applied
+by the ASoC maintainer.
 
-Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
+**Step 4.3: SEARCH FOR THE BUG REPORT**
+Record: **No user/syzbot/bugzilla report.** Source audit only.
+
+**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
+Record: 19 independent per-driver patches. This one does not need the
+others.
+
+**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
+Record: **UNVERIFIED** — lore.kernel.org HTTP search returned 403.
+Thread retrieved via `b4 dig -m` has no stable discussion.
+
+---
+
+## PHASE 5: CODE SEMANTIC ANALYSIS
+
+**Step 5.1: KEY FUNCTIONS**
+Record: `max98396_resume()` only. Helpers used:
+`regulator_bulk_enable/disable`, `regulator_enable/disable`,
+`regcache_cache_only`, `regcache_mark_dirty`, `regcache_sync`,
+`max98396_reset()`.
+
+**Step 5.2: TRACE CALLERS**
+Record: Only wired through `SYSTEM_SLEEP_PM_OPS(max98396_suspend,
+max98396_resume)` → `max98396_pm` → `i2c_driver.driver.pm`. Called from
+**system sleep resume**, not a hot syscall path.
+
+**Step 5.3: TRACE CALLEES**
+Record: Regulator enable/disable and regmap cache replay after
+`max98396_reset()`. Probe enables the same supplies and uses
+`devm_add_action_or_reset()` to unwind; **resume has no equivalent**
+without this patch.
+
+**Step 5.4: FOLLOW THE CALL CHAIN**
+Record: Userspace suspend (`/sys/power/state` or equivalent) →
+`dpm_resume` → `device_resume` → driver resume. **Reachable on any
+machine with this codec that suspends.** Not unprivileged-exploit in the
+UAF sense; it is a normal PM path.
+
+**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
+Record: Same author’s series applies the same propagate/unwind pattern
+across many ASoC codecs. This driver uniquely also unwinds three
+supplies.
+
+---
+
+## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+
+**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
+Record: **Yes.** File `sound/soc/codecs/max98396.c` is present.
+Introducing commit `703ee0557f892` is an ancestor of HEAD. Bug since
+**v6.0**. Current HEAD already contains `d20de7409dfa8` (the candidate);
+pre-image of resume matches the patch’s before-state.
+
+**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
+Record: **Clean apply** to this lineage’s pre-fix resume (identical to
+v6.0-era function). `SYSTEM_SLEEP_PM_OPS` conversion (`c009893bc5864`)
+did not change resume body. No conflicting local changes to that
+function.
+
+**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
+Record: No earlier alternate fix of this leak. No later revert/follow-up
+on this file.
+
+---
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+
+**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
+Record: **ASoC codec driver** (`sound/soc/codecs/max98396.c`).
+**PERIPHERAL / driver-specific** (MAX98396/MAX98397 speaker amps, I2C,
+ACPI IDs `ADS8396`/`ADS8397`). Not core mm/net/fs.
+
+**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
+Record: ASoC codecs are actively developed; this file is **mature**
+(driver 2022, regulators 2022, few functional changes since). Long-lived
+bug, not a brand-new subsystem.
+
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+**Step 8.1: WHO IS AFFECTED**
+Record: **Driver-specific / config-specific**
+(`CONFIG_SND_SOC_MAX98396`). Implied by a large ASoC codec umbrella
+Kconfig; in-tree DT only has the binding example (no board `.dts` in
+this tree). ACPI/OF/I2C IDs exist for real hardware.
+
+**Step 8.2: TRIGGER CONDITIONS**
 Record:
-- Code dependency: none. Applies without patch 1/2.
-- Functional dependency: patch 1/2 recommended so sample-rate GET_CUR /
-  autosuspend do not hang the device. Flags used there
-  (`QUIRK_FLAG_GET_SAMPLE_RATE`, `QUIRK_FLAG_DISABLE_AUTOSUSPEND`)
-  already exist in `usbaudio.h` on this tree. Nearby mainline context
-  uses `QUIRK_FLAG_MIXER_GET_CUR_BROKEN` (not in 6.12) — that is only a
-  context line for patch 1, not this patch.
-- Can apply standalone: yes.
+- System suspend/resume with this codec bound.
+- **pvdd/vbat enable fail:** uncommon (regulator failure).
+- **`regcache_sync()` fail:** more realistic (I2C error after
+  reset/power-up). Old code returned **0** in that case — **every such
+  failure was silent**.
+- Unprivileged user cannot typically force I2C failure; they can trigger
+  suspend.
 
-===============================================================
-PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-===============================================================
-
-Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
+**Step 8.3: FAILURE MODE SEVERITY**
 Record:
-- `b4 dig -c` not run: commit is not in this checkout (no SHA to give
-  b4).
-- Thread via msgid `20260824140211.17003-3-fandrade@frba.utn.edu.ar`:
-  - Cover: https://lists.openwall.net/linux-kernel/2026/08/24/1347
-  - 1/2 flags: https://lists.openwall.net/linux-kernel/2026/08/24/1354
-  - 2/2 this patch: https://lists.openwall.net/linux-
-    kernel/2026/08/24/1356
-  - v1 cover: https://lists.openwall.net/linux-kernel/2026/08/22/126
-- Revisions: v1 (22 Aug) → v2 (23 Aug, extra SOB) → v3 (24 Aug, drop
-  duplicate SOB). Diff of this hunk unchanged across versions.
-- Takashi Iwai on v3 1/2 (25 Aug 2026): “Applied both patches now.
-  Thanks.” (https://lkml.iu.edu/2608.3/02561.html)
-- No NAK. v2 comment was only “a single Signed-off-by is enough.”
-- No reviewer Cc: stable; hardware quirks are still the documented
-  exception.
+- Regulator leak / enable-count imbalance → **HIGH for that class, but
+  rare trigger**
+- Silent successful resume with unrestored registers → **broken audio
+  after suspend**, device in reset defaults → **MEDIUM** (user-visible,
+  not panic/corruption)
+- **Overall severity: MEDIUM** (important for this hardware, not a
+  kernel-wide crash)
 
-Step 4.2: CHECK WHO REVIEWED THE PATCH
-Record: To/Cc: linux-sound, linux-kernel, perex@perex.cz, tiwai@suse.com
-(maintainer, applied), plus unrelated Ccs (kuba, deucher). No extra
-Reviewed-by; maintainer apply is the review.
-
-Step 4.3: SEARCH FOR THE BUG REPORT
-Record: No bugzilla/syzbot. Author is the reporter; cover cites years of
-“USB useless on Linux.” dmesg + USBPcap + pyusb repro. Severity from
-reporter: device never streams.
-
-Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
-Record: Two-patch series, both hardware quirks, independent files. This
-commit is 2/2 (mixer). 1/2 is the flags entry. Both needed for a working
-synth; neither is a code prerequisite of the other.
-
-Step 4.5: CHECK STABLE MAILING LIST HISTORY
-Record: lore.kernel.org/stable search for this VID/subject returned no
-Venom discussion. Not previously rejected for stable.
-
-===============================================================
-PHASE 5: CODE SEMANTIC ANALYSIS
-===============================================================
-
-Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
-Record: No function bodies edited. Runtime path uses
-`create_composite_quirk`, `ignore_interface_quirk`,
-`create_standard_audio_quirk`, `create_any_midi_quirk` (`quirks.c`).
-
-Step 5.2: TRACE CALLERS
+**Step 8.4: RISK-BENEFIT RATIO**
 Record:
-- `usb_audio_ids[]` includes `quirks-table.h` (`card.c:1169–1170`).
-- Match → `usb_audio_probe` → `snd_usb_create_quirk` → composite walk.
-- Context: USB enumeration / driver probe, not IRQ/hot path.
+- **Benefit:** medium for MAX98396/97 users (correct resume failure, no
+  leaked supplies, cache left retryable)
+- **Risk:** low (21 lines, one function, error paths, obvious labels)
+- **Ratio:** favorable
 
-Step 5.3: TRACE CALLEES
-Record: IGNORE: no I/O. STANDARD_AUDIO: `snd_usb_parse_audio_interface`
-(may `snd_usb_init_sample_rate`). STANDARD_MIDI:
-`snd_usb_midi_v2_create`. No new alloc/lock.
+---
 
-Step 5.4: FOLLOW THE CALL CHAIN
-Record: Plug in Venom → snd-usb-audio probe. Userspace not required.
-Reachable on any machine with CONFIG_SND_USB_AUDIO and this hardware.
+## PHASE 9: FINAL SYNTHESIS
 
-Step 5.5: SEARCH FOR SIMILAR PATTERNS
-Record: Many `QUIRK_DATA_IGNORE(0)` entries (19+), including other
-M-Audio 0x0763 devices. Established, not a new mechanism.
+**Step 9.1: COMPILE THE EVIDENCE**
 
-===============================================================
-PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
-===============================================================
+**FOR:**
+- Real bugs: leaked enabled regulators on resume failure; ignored
+  `regcache_sync()` so resume can succeed with hardware not restored
+- Small, contained, obviously correct unwind
+- Bug in this tree since v6.0 (`703ee0557f892`)
+- No extra APIs/features; no series dependency
+- ASoC maintainer merged it; sibling patches reviewed
+- Matches stable’s usual error-path leak / missing-cleanup pattern
 
-Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
-Record:
-- Tree: `p-6.12-3-gc504cf0baa3d8`, `make kernelversion` = 6.12.111.
-- Generic mixer/probe path is present (`card.c`, `mixer.c`).
-- No Venom / 0x2084 entry (`rg` over `sound/usb`).
-- Bug is the generic UAC path vs this firmware, present for many years.
+**AGAINST:**
+- Source-audited only; author did not test on hardware
+- No user/syzbot reports
+- Not a panic, UAF, or data-corruption bug
+- Peripheral codec, not core
+- Possible extra `regulator_disable` on the *next* suspend if PM still
+  treats the device as resumed after a failed callback (pre-existing PM
+  interaction, mild)
 
-Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
-Record: Clean apply. Local `quirks-table.h` 1816–1818 is the same Fast
-Track Ultra 8R end / Casio start as the diff. All macros exist. Expected
-difficulty: clean apply.
+**UNRESOLVED:**
+- lore.kernel.org search 403; no independent confirmation of stable-list
+  discussion
+- No in-tree board DT showing how widely this amp is shipped (ACPI IDs
+  still indicate real products)
 
-Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
-Record: No Venom mixer or flags entry. No alternate fix.
-`QUIRK_FLAG_MIXER_GET_CUR_BROKEN` is not in 6.12 (unused by this patch).
+**Step 9.2: STABLE RULES CHECKLIST**
+1. Obviously correct and tested? **PASS** on correctness (labels match
+   enable order). **Weak on hardware test** (source audit), but soak in
+   this 7.3-rc tree and maintainer merge count as review, not a FAIL.
+2. Fixes a real bug that affects users? **PASS** — leak + silent failed
+   cache replay after suspend.
+3. Important issue? **PASS at MEDIUM** — not crash/security, but broken-
+   audio-after-resume and regulator leak on a production PM path. Error-
+   path resource cleanup is an accepted stable class.
+4. Small and contained? **PASS** — +21/−3, one function, one file.
+5. No new features or APIs? **PASS**
+6. Can apply to the local tree? **PASS** — driver and buggy resume exist
+   here; pre-fix code matches the hunk.
 
-===============================================================
-PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-===============================================================
+**Step 9.3: EXCEPTION CATEGORIES**
+Record: None (not a device ID, quirk, DT, build, or docs-only change).
+Qualifies as a normal small bugfix.
 
-Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
-Record: [sound/usb / ALSA usb-audio] [IMPORTANT] — common USB audio
-stack; this change is one VID/PID.
+**Step 9.4: DECISION**
+This tree has the buggy resume path and the hardware driver. The patch
+is a surgical fix for a real resume leak and a real ignored-error
+success path. Conservative severity, but it meets the letter of the
+stable rules and the “error-path leak = backport” guidance. Risk is low
+enough to take it.
 
-Step 7.2: ASSESS SUBSYSTEM ACTIVITY
-Record: Active (recent CDS3000/Mininova quirks, resume cleanup). Quirk-
-table additions are routine and already land in this 6.12 tree.
+---
 
-===============================================================
-PHASE 8: IMPACT AND RISK ASSESSMENT
-===============================================================
+### What the commit solves for this tree
 
-Step 8.1: DETERMINE WHO IS AFFECTED
-Record: Driver-specific — M-Audio Venom (0763:2084) owners.
-CONFIG_SND_USB_AUDIO. No effect on other devices.
+`max98396_resume()` can enable core (and maybe pvdd) supplies then
+return without disabling them, and it previously ignored
+`regcache_sync()`. After suspend, a failed I2C cache replay left the amp
+in reset/defaults while PM thought resume succeeded. The patch unwinds
+every supply this resume acquired, restores cache-only/dirty on sync
+failure, and returns the error.
 
-Step 8.2: DETERMINE THE TRIGGER CONDITIONS
-Record: Plug in / probe. Certain. Unprivileged user can trigger by
-attaching the USB synth. Not a race.
+### Stable-rules fit
 
-Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
-Record:
-- Failure: MCU hang, ~47s probe, ETIMEDOUT, no PCM/MIDI stream, repeated
-  `usb_set_interface` failures.
-- Severity: HIGH for those users (device unusable). Not a kernel
-  panic/UAF. USB control timeout is 5000 ms (`USB_CTRL_GET_TIMEOUT`);
-  many GET_CUR/GET_MIN/GET_MAX calls match the ~47s story.
+Small, obviously correct, no new API, applies to this tree’s long-
+standing resume function. Importance is medium (driver PM error path),
+not a core crash, but it is a real user-visible resume bug plus a
+resource leak.
 
-Step 8.4: CALCULATE RISK-BENEFIT RATIO
-Record:
-- Benefit: high for Venom owners (first working Linux USB audio/MIDI).
-  Matches “hardware quirk” exception. Cover letter: flags alone were not
-  enough; this skip is what produced sound.
-- Risk: very low (22 lines, one ID, existing macros).
-- Ratio: strongly favors backport.
+### Risk vs benefit
 
-===============================================================
-PHASE 9: FINAL SYNTHESIS
-===============================================================
+Benefit is correct suspend/resume for MAX98396/97. Risk is confined to
+failure paths already returning errors (except the newly propagated sync
+failure, which *should* fail).
 
-Step 9.1: COMPILE THE EVIDENCE
-FOR:
-- Real hardware bug: GET_CUR during mixer init hangs the MCU; no
-  streaming.
-- Author dmesg, USBPcap, libusb/pyusb, and “works with both quirks.”
-- Device never worked on Linux; users have asked for years.
-- Small VID/PID table entry; same pattern as other M-Audio quirks
-  already in this tree.
-- Maintainer Takashi Iwai applied v3.
-- All macros and insertion context exist in 6.12.111.
-- Hardware quirks / workarounds are an explicit stable exception.
-- Does not change APIs or other devices.
+### Concerns
 
-AGAINST:
-- Part of a 2/2 series; sample-rate + autosuspend flags are also needed
-  for a fully working device.
-- Niche synth, not a core-path crash.
-- First-time contributor (offset by maintainer apply).
+Untested on hardware; no field reports. That is not enough to drop a
+21-line leak/error-propagation fix for a driver this tree actually
+ships.
 
-UNRESOLVED:
-- Could not run `b4 dig -c` (commit not in this repo). Threads recovered
-  from msgid/openwall/lkml.
-- Did not independently attach a Venom (author + maintainer evidence
-  used).
-
-Step 9.2: APPLY THE STABLE RULES CHECKLIST
-1. Obviously correct and tested? PASS — table-only, existing macros,
-   author tested, maintainer applied.
-2. Fixes a real bug that affects users? PASS — probe hang and
-   silent/broken USB audio.
-3. Important issue? PASS — HIGH: device freeze and total loss of
-   function (not panic).
-4. Small and contained? PASS — +22 lines, one file, one ID.
-5. No new features or APIs? PASS — quirk for existing snd-usb-audio.
-6. Can apply to the local tree? PASS — clean apply on 6.12.111.
-
-Step 9.3: CHECK FOR EXCEPTION CATEGORIES
-Record: Hardware quirk/workaround (ALSA usb-audio quirk table).
-Qualifies on that exception alone.
-
-Step 9.4: MAKE YOUR DECISION
-This should be backported to this 6.12 tree. It is a contained, VID/PID-
-scoped workaround that stops mixer GET_CUR from wedging the Venom so the
-existing driver can stream. The companion flags patch is a separate two-
-line quirk and is not a apply/compile dependency.
-
-What it solves for stable users: without it, plugging in 0763:2084 runs
-generic mixer init, burns ~47s of USB timeouts, hangs the MCU, and never
-streams. With it, AudioControl is ignored and standard PCM/MIDI
-interfaces are used — the path the author verified.
-
-Risk vs benefit: benefit is a working device for Venom owners; risk is
-limited to that ID. 6.12 already has the same table style and macros, so
-no rework.
-
-Concerns: take the sample-rate/autosuspend flags patch too for full
-function; this commit is still correct and safe on its own.
-
-Verification:
-- [Phase 1] Parsed subject/tags/body: Skip mixer; SOB Andrade + Iwai;
-  msgid 17003-3; no Fixes/stable Cc
-- [Phase 1] Cover letter: never worked on Linux; dmesg -110; flags
-  insufficient; mixer skip enabled sound
-- [Phase 2] Diff: +22 in `sound/usb/quirks-table.h`;
-  IGNORE(0)+STANDARD_AUDIO(1,2)+STANDARD_MIDI(3)
-- [Phase 2] `card.c` 899–903: generic path creates mixer; quirk return 0
-  skips it
-- [Phase 2] `mixer.c` `get_min_max_with_quirks` / `init_cur_mix_raw`:
-  GET_CUR/GET_MIN/GET_MAX on probe
-- [Phase 2] `ignore_interface_quirk` returns 0;
-  `create_standard_audio_quirk` parses then returns 0
-- [Phase 3] Blame: insert after 0x2081 (2010) / before Casio (2006)
-- [Phase 3] `rg` 0x2084/Venom: absent in this tree
-- [Phase 3] Macros present (`quirks-table.h` 20–81)
-- [Phase 3] No Andrade history in `sound/` here
-- [Phase 3] Companion flags: GET_SAMPLE_RATE + DISABLE_AUTOSUSPEND
-  exist; MIXER_GET_CUR_BROKEN does not (irrelevant to this hunk)
-- [Phase 4] lore/openwall v1–v3; technical diff unchanged; Iwai “Applied
-  both patches”
-- [Phase 4] v2 feedback: duplicate SOB only
-- [Phase 4] stable list: no prior Venom discussion found
-- [Phase 4] UNVERIFIED: `b4 dig -c` (no local SHA)
-- [Phase 5] Call chain: `usb_audio_ids` → probe →
-  `create_composite_quirk`
-- [Phase 5] `stream.c:1255` `snd_usb_init_sample_rate` on parse (why
-  flags patch also matters)
-- [Phase 5] 19+ existing `QUIRK_DATA_IGNORE(0)` including M-Audio
-  Quattro
-- [Phase 6] `git describe` p-6.12-3-gc504cf0baa3d8; `make kernelversion`
-  6.12.111
-- [Phase 6] Insertion context matches; clean apply
-- [Phase 7] SOUND maintainers Iwai/Kysela; quirk additions already in
-  this 6.12 tree
-- [Phase 8] Trigger: USB plug-in; timeout 5000 ms; severity HIGH for
-  that device
-- UNVERIFIED: live Venom reproduce
-
-This is a small, tested hardware quirk for existing snd-usb-audio. It
-belongs on this 6.12 tree.
+### Verification
+- **[Phase 1]** Parsed subject/tags/body from `git show d20de7409dfa8`;
+  no Fixes/Reported-by/Cc stable; Link to msgid 20260704040651.47558-1
+- **[Phase 2]** Diff: +21/−3 in `max98396_resume()` only; compared to
+  original resume in `703ee0557f892`
+- **[Phase 3]** `git blame -L 1574,1634 sound/soc/codecs/max98396.c`;
+  introducer `703ee0557f892`; in v6.0, not v5.19; `git merge-base --is-
+  ancestor` for both introducer and fix vs HEAD
+- **[Phase 3]** `git log --oneline -- sound/soc/codecs/max98396.c`; no
+  resume prerequisites; no follow-ups after the fix
+- **[Phase 3]** `git describe HEAD` / `make kernelversion` / Makefile:
+  **v7.3-rc4, 7.3.0-rc4**
+- **[Phase 4]** `b4 dig -c/-a/-w/-m`: series 18/19, v1 only, cover
+  letter “source-audited only”; Mark Brown applied to for-7.3; no NAK on
+  this patch
+- **[Phase 4]** lore HTTP search 403 — stable-list discussion
+  **UNVERIFIED**
+- **[Phase 5]** Callers: only `SYSTEM_SLEEP_PM_OPS` → i2c `.pm`; probe
+  uses `devm_add_action_or_reset` for the same supplies
+- **[Phase 6]** Buggy resume exists in this tree from v6.0; current file
+  already has the fixed form
+- **[Phase 8]** `device_resume()` sets `is_suspended = false` before the
+  callback (main.c:1126–1129, 1192)
+- **UNVERIFIED:** in-tree board usage (no `.dts` nodes; ACPI/OF IDs
+  only)
 
 **YES**
 
- sound/usb/quirks-table.h | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ sound/soc/codecs/max98396.c | 24 +++++++++++++++++++++---
+ 1 file changed, 21 insertions(+), 3 deletions(-)
 
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index d783dae1850a0..061d21da91fbe 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -1814,6 +1814,28 @@ YAMAHA_DEVICE(0x7010, "UB99"),
- 		}
+diff --git a/sound/soc/codecs/max98396.c b/sound/soc/codecs/max98396.c
+index 4b4e1fc98a6da..0255399c405df 100644
+--- a/sound/soc/codecs/max98396.c
++++ b/sound/soc/codecs/max98396.c
+@@ -1601,19 +1601,37 @@ static int max98396_resume(struct device *dev)
+ 	if (max98396->pvdd) {
+ 		ret = regulator_enable(max98396->pvdd);
+ 		if (ret < 0)
+-			return ret;
++			goto err_core_supplies;
  	}
- },
-+{
-+	/*
-+	 * M-Audio Venom
-+	 *
-+	 * The AudioControl interface times out on every GET_CUR request,
-+	 * which adds around 47 seconds to the card registration and
-+	 * freezes the device, blocking streaming.
-+	 * Using an explicit composite quirk to skip the mixer entirely.
-+	 */
-+	USB_DEVICE_VENDOR_SPEC(0x0763, 0x2084),
-+	QUIRK_DRIVER_INFO {
-+		.vendor_name = "M-Audio",
-+		.product_name = "Venom",
-+		QUIRK_DATA_COMPOSITE {
-+			{ QUIRK_DATA_IGNORE(0) },
-+			{ QUIRK_DATA_STANDARD_AUDIO(1) },
-+			{ QUIRK_DATA_STANDARD_AUDIO(2) },
-+			{ QUIRK_DATA_STANDARD_MIDI(3) },
-+			QUIRK_COMPOSITE_END
-+		}
-+	}
-+},
  
- /* Casio devices */
- {
+ 	if (max98396->vbat) {
+ 		ret = regulator_enable(max98396->vbat);
+ 		if (ret < 0)
+-			return ret;
++			goto err_pvdd;
+ 	}
+ 
+ 	regcache_cache_only(max98396->regmap, false);
+ 	max98396_reset(max98396, dev);
+-	regcache_sync(max98396->regmap);
++	ret = regcache_sync(max98396->regmap);
++	if (ret < 0) {
++		regcache_cache_only(max98396->regmap, true);
++		regcache_mark_dirty(max98396->regmap);
++		goto err_vbat;
++	}
++
+ 	return 0;
++
++err_vbat:
++	if (max98396->vbat)
++		regulator_disable(max98396->vbat);
++err_pvdd:
++	if (max98396->pvdd)
++		regulator_disable(max98396->pvdd);
++err_core_supplies:
++	regulator_bulk_disable(MAX98396_NUM_CORE_SUPPLIES,
++			       max98396->core_supplies);
++
++	return ret;
+ }
+ 
+ static const struct dev_pm_ops max98396_pm = {
 -- 
 2.53.0
 
