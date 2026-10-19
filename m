@@ -1,45 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B422D6070B6;
-	Mon, 19 Oct 2026 14:03:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6839060CDA6;
+	Mon, 19 Oct 2026 14:03:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418605; cv=none; b=iv3IIh4UPytH7Nn2BUEAu/R8DPr/v3A7Bm46vmFOCvzV8/jYZ8ikUlwCdACU7C33Yiv+jgjaZ4U0Bf9YkoJM0KeKhgMSWjPvB0V7fJ89kgHbyBd6xV/v7FucvXPATMY6BEQRbD999Max0mCAYDYyWf44hoETDxYyr0Qyzgp4n60=
+	t=1792418618; cv=none; b=KI/1IdUl9BdKG7wVXuybfrjpNRoxIJw/39ZFN2qK7Fl00EIMyBwSsTBulcjiCChueQLaajedbaCYfnU4A1zgzOEJf1YSnShfDeVxAYE6vbPqNgj8nf6yNORUUqVUFfcsbGDNmwFtd/B+vr+LKzTjzmPwcD2SYqBVB3kB7BVxZyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418605; c=relaxed/simple;
-	bh=Opv6Dq5IPgwtPYeMVrpI7uDhBkUO2SaBh4P9fDleTDo=;
+	s=arc-20240116; t=1792418618; c=relaxed/simple;
+	bh=j92dllQBszqrU3b0FCCyQxDoMdsNFcjzZhBXLHCT0go=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fhV5nHEMWVdb9dwIAWahRC6N8265J4gCxlPspbwEq+SX79gsa5QHeJ0PcJpNvCwFQS4VUR0rttvjabQwfO8vLhkJ4+6VNurxSfJiVwlnh6eY4a99QEInCO102fO9Vw+vjfI8o0Hp0klKgKIPKT0Np4lWhu2rOs3bE3CdHE4hr1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y9FoWcEL; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=k1wObC95HiY1sH7a5TUPhMofGjekYrNlWCwdbfk4M05UBzdDLKOOW40RvWkrYB/2jjbTjdjMmwevq6+l9ClcQixiTnUGLeQ8LllIhfBe2DmN9Xj2e6KEeNf7caPDJ5LOPuSgarhM1PNM6nJot4wI06HAQJaTnrZhGd5jVZ3x03M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S8u2ZiDv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y9FoWcEL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9791A1F000C4;
-	Mon, 19 Oct 2026 14:03:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S8u2ZiDv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0CD41F000C4;
+	Mon, 19 Oct 2026 14:03:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418602;
-	bh=8RY2n4h9VU8wvRSi8/XoaDA5iRfpjbn361O2gW9yk9s=;
+	s=k20260515; t=1792418615;
+	bh=27UIU0XeKm7CxyMBtKFouhIEmrD/4xb0FnUHUBFn2Vc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Y9FoWcELNY41yP/UoEmi7f8Z7A+BQivcWZ7nLLHUf4NBz4wtenbso6V4PhYAxojRK
-	 ufkPbE6hcR0duexYy3NTAZBSOSu7Vxt4rTHxyaadqw6vHazZJ4pFuDnu9uDeAGEjdt
-	 v5/npDOC49MAl+0Q/j5uPK9/QC5tGB9hz//8FSezNVkci8C2y+hwjqRLAW4N6ReBIg
-	 Zcp8OC3ImomCMsyaOwKC0QrLBj3QM+J40QIMmf6wuJjWrPIIW8OkG5UJOLp12BTost
-	 n6PxZ4anfUzn7Bx4hshxPeddmxetjb3bV9OEJGDZYVm/JgJBB3tPG3HNvimHdYYuoN
-	 AFkBfTd6XgHYQ==
+	b=S8u2ZiDvHWFJTwUobkWUIG3qDwHM1j8xWr7kSgcEFDwkiutU7MTm5i9rj8GyWv3y5
+	 1myLHIww7iarowmTyrTbofy29UnXM7jJUCBN0SUwQD9Tgr+b3LZASxFDYmAOuZEFwX
+	 pm2GdQ58SLyjWteVxQ9YfRDlLnfMwHGqphPz1z+AAasVcf8TlIEkFlzC/mP9P9Grva
+	 0o3LFkaFszO/zVeVHAKQ0kyy61xz4JtfRGJINiPYoMnCho3ETQXnmRiPPqISZVE8Rv
+	 22YWJnPaHtCH4CtAlr7tUFNzfAe0ciHPUNWGrVNwiPAej15FQ+iFIErW9NPhRN34Wd
+	 zqRTajc91BcxA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
+Cc: Stefan Binding <sbinding@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	david.rhodes@cirrus.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.1] ASoC: codecs: max98396: Unwind supplies on resume failure
-Date: Mon, 19 Oct 2026 09:50:56 -0400
-Message-ID: <20261019135441.1420968-365-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18] ASoC: cs35l56: Add support for CS35L62 for SoundWire
+Date: Mon, 19 Oct 2026 09:51:05 -0400
+Message-ID: <20261019135441.1420968-374-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -55,461 +58,401 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+From: Stefan Binding <sbinding@opensource.cirrus.com>
 
-[ Upstream commit d20de7409dfa8e3341af7f157cd42130bd4ba3a7 ]
+[ Upstream commit 3330b5f6d8dea66df51c07362f01a39ad9845aad ]
 
-max98396_resume() enables the core, pvdd, and vbat supplies before
-leaving cache-only mode, resetting the device, and replaying cached
-register state. The function currently ignores regcache_sync() failures,
-and the optional pvdd/vbat enable failures return without unwinding
-supplies that were already enabled in this resume attempt.
+CS35L62 uses the same control and regmap interface as CS35L63 so
+support for it can be added into the CS35L56 driver.
 
-Rework the function to use common error labels. This propagates sync
-failures, restores cache-only/dirty state on failed cache replay, and
-disables each supply acquired by this resume path before returning the
-error.
-
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Link: https://patch.msgid.link/20260704040651.47558-1-pengpeng@iscas.ac.cn
+Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Link: https://patch.msgid.link/20260715120135.939280-2-rf@opensource.cirrus.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-The local tree is **v7.3-rc4** (`7.3.0-rc4`). The MAX98396 resume path
-has been in this lineage since v6.0, and this patch is a small, self-
-contained error-path fix for that path.
+## Phase 1: Commit message forensics
+
+**Step 1.1 — Subject**
+- Record: `[ASoC/cs35l56] [add] [enable CS35L62 on SoundWire by reusing
+  CS35L63 paths]`
+
+**Step 1.2 — Tags**
+- Record:
+  - `Fixes:` none (expected)
+  - `Reported-by:` none
+  - `Tested-by:` none
+  - `Reviewed-by:` none on the commit
+  - `Acked-by:` none
+  - `Link: https://patch.msgid.link/20260715120135.939280-2-
+    rf@opensource.cirrus.com`
+  - `Cc: stable@vger.kernel.org` none (expected)
+  - `Signed-off-by: Stefan Binding` (author)
+  - `Signed-off-by: Richard Fitzgerald` (Cirrus; submitted the series)
+  - `Signed-off-by: Mark Brown` (ASoC maintainer)
+  - Ignore any Sasha Levin SOB if present — pipeline noise
+
+**Step 1.3 — Body**
+- Record: No bug, crash, leak, or regression is described. Claimed
+  intent is hardware enablement: CS35L62 shares CS35L63’s control/regmap
+  interface, so it can live in the existing cs35l56 driver. Symptom
+  without the patch: a CS35L62 SoundWire amp is not matched (`-ENODEV` /
+  unknown DEVID). Root cause: missing part ID and type cases. No version
+  range is given. Mark Brown applied it to `for-7.3` as merge-window
+  material, not as a bugfix.
+
+**Step 1.4 — Hidden bug fix?**
+- Record: No. Wording is “Add support”, not cleanup/locking/error-path
+  repair. This is new silicon enablement, not a disguised UAF/leak/race
+  fix.
+
+## Phase 2: Diff analysis
+
+**Step 2.1 — Inventory**
+- Record: 3 files, **+7 / −0**, single-driver surgical change.
+  - `sound/soc/codecs/cs35l56-sdw.c` (+2): `cs35l56_sdw_probe()`,
+    `cs35l56_sdw_id[]`
+  - `sound/soc/codecs/cs35l56-shared.c` (+4): `cs35l56_set_patch()`,
+    `cs35l56_set_fw_reg_table()`, `cs35l56_system_reset()`,
+    `cs35l56_hw_init()`
+  - `sound/soc/codecs/cs35l56.c` (+1): `_cs35l56_component_probe()`
+- Scope: device-ID addition to an existing codec driver.
+
+**Step 2.2 — Flow**
+- Before: SoundWire ID `0x01FA:0x3562` is unmatched; type `0x62` / DEVID
+  `0x35A620` fall through to `-ENODEV` or skip CS35L63
+  firmware/reset/controls.
+- After: ID binds; all CS35L63-specific switches also accept CS35L62 and
+  reuse `cs35l63_regmap_sdw`, `cs35l63_patch_fw`, `cs35l63_fw_reg`,
+  `cs35l63_system_reset_seq`, `cs35l63_calibration_controls`,
+  `cs35l63_controls`.
+- Path: probe/init only for the new part. Existing 0x54/56/57/63 paths
+  are unchanged.
+
+**Step 2.3 — Bug mechanism**
+- Record: `[Hardware enablement / SoundWire device ID]` not a memory-
+  safety or locking bug. Mechanism: add `SDW_SLAVE_ENTRY(0x01FA, 0x3562,
+  0x3562)` and sibling `case` labels so CS35L62 is treated as CS35L63.
+
+**Step 2.4 — Fix quality**
+- Record: Obviously correct given the stated aliasing. Minimal. No
+  public API, no new driver. Regression risk for existing chips is very
+  low (new cases only). Completeness: other `type` switches in this
+  driver already use `default:` for CS35L63-class silicon, so they pick
+  up 0x62 without extra cases. I2C/SPI tables are intentionally
+  untouched (series is SoundWire-only). KUnit still special-cases only
+  0x63 in one test; that is test-only.
+
+## Phase 3: Git history
+
+**Step 3.1 — Blame**
+- Record: CS35L63 cases/IDs came from `978858791ceda` (“Add initial
+  support for CS35L63…”, 2025-04-07). That commit is an ancestor of HEAD
+  and is in v6.16. cs35l56 itself dates to `e496112529006` (2023-03-20).
+  The CS35L62 lines are this commit (`3330b5f6d8dea`).
+
+**Step 3.2 — Fixes: tag**
+- Record: None. There is no “buggy commit”; support was simply never
+  added. N/A.
+
+**Step 3.3 — File history / series**
+- Record: Patch **1/2**. Companion `0306d21155819` (“ASoC: sdw_utils:
+  Add codec info for CS35L62”) adds the SOF/generic machine-driver table
+  entry. Cover letter: chip IDs in the codec driver **and** sdw_utils.
+  Follow-up `998b8a6c8aff2` sorted the SDW ID table (addresses Pierre-
+  Louis Bossart’s nit). Later cs35l56 changes are independent (IRQ,
+  probe deadlock, pm_runtime).
+
+**Step 3.4 — Author**
+- Record: Stefan Binding is a regular Cirrus cs35l56/cs35l41 contributor
+  (including the original CS35L63 support). Submitted via Richard
+  Fitzgerald; applied by Mark Brown. High confidence in the ID mapping.
+
+**Step 3.5 — Prerequisites**
+- Record: Needs CS35L63 symbols (`cs35l63_regmap_sdw`,
+  patch/fw/reset/calibration/controls). Those exist in this checkout.
+  Standalone for the codec driver; SOF auto-wiring wants patch 2/2 as
+  well.
+
+## Phase 4: Mailing list / external
+
+**Step 4.1 — b4 dig**
+- Record: Lore/thread: `https://patch.msgid.link/20260715120135.939280-
+  2-rf@opensource.cirrus.com`
+- Series: **v1 only** (no v2/v3). Applied as submitted.
+- Review: Pierre-Louis Bossart (SoundWire) only nitted sort order (62
+  after 63). No NAK, no stable nomination, no functional concern.
+- Mark Brown: applied to `for-7.3`, with the standard note that merge-
+  window patches go in the next window “or sooner **if it is a bug
+  fix**” — i.e. this was **not** treated as a bugfix.
+
+**Step 4.2 — Recipients (`b4 dig -w`)**
+- Record: `broonie@kernel.org`, `linux-sound@vger.kernel.org`, `linux-
+  kernel@vger.kernel.org`, `patches@opensource.cirrus.com`. Maintainer
+  applied it.
+
+**Step 4.3 — Bug report**
+- Record: None. No syzbot, bugzilla, or user crash report.
+
+**Step 4.4 — Related patches**
+- Record: `[PATCH 0/2]` + `[PATCH 2/2]` sdw_utils codec_info. Both
+  applied together (`3330b5f6d8dea`, `0306d21155819`).
+
+**Step 4.5 — stable@**
+- Record: lore.kernel.org/stable WebFetch returned 403. **UNVERIFIED**
+  whether stable@ discussed it. Unlikely: 7.3 is still rc4 and this was
+  merge-window work.
+
+## Phase 5: Semantic / call graph
+
+**Step 5.1 — Functions**
+- Record: `cs35l56_sdw_probe`, `cs35l56_sdw_id[]`, `cs35l56_set_patch`,
+  `cs35l56_set_fw_reg_table`, `cs35l56_system_reset`, `cs35l56_hw_init`,
+  `_cs35l56_component_probe`.
+
+**Step 5.2 — Callers**
+- Record: `cs35l56_sdw_probe` is the `sdw_driver.probe` (SoundWire
+  enumeration). `cs35l56_common_probe()` is called from SDW/I2C/SPI
+  probe. `cs35l56_hw_init` / `cs35l56_set_patch` are called from the
+  codec init path in `cs35l56.c`. `_cs35l56_component_probe` is the ALSA
+  component probe. Not a syscall hot path; probe/runtime of this amp.
+
+**Step 5.3 — Callees**
+- Record: `devm_regmap_init_sdw`, `cs35l56_common_probe`,
+  `regmap_register_patch`, `regmap_multi_reg_write_bypassed`,
+  `snd_soc_add_component_controls`. No new helpers.
+
+**Step 5.4 — Reachability**
+- Record: Reachable when a CS35L62 SoundWire slave enumerates
+  (laptops/SOF). Unprivileged userspace cannot trigger a crash path
+  here; without the ID the device simply does not bind.
+
+**Step 5.5 — Similar patterns**
+- Record: Same pattern as CS35L63 (`978858791ceda`) and CS35L57 IDs.
+  Remaining `case 0x57` blocks use `default:` for CS35L63-class parts,
+  so CS35L62 is covered there.
+
+## Phase 6: This tree
+
+**Step 6.1 — Local tree and whether the code exists**
+- Record: `git describe HEAD` = **v7.3-rc4-27-gf0100363d8c37**; `make
+  kernelversion` = **7.3.0-rc4**. This is mainline 7.3-rc, not an LTS
+  branch.
+- Driver, CS35L63 paths, and the new IDs all exist here. `git merge-base
+  --is-ancestor 978858791ceda HEAD` succeeds. `git merge-base --is-
+  ancestor 3330b5f6d8dea HEAD` succeeds. CS35L62 first appears in
+  **v7.3-rc1**, not v7.2.
+
+**Step 6.2 — Backport difficulty**
+- Record: Context here already includes later IRQ/ID-sort changes, but
+  the hunks are trivial case/ID inserts. Expected apply: clean or
+  trivial reorder. **Low difficulty.**
+
+**Step 6.3 — Related fixes already here**
+- Record: No alternate CS35L62 fix. Support is this series. ID table
+  sort came after.
+
+## Phase 7: Subsystem
+
+**Step 7.1**
+- Record: `[ASoC codec driver, Cirrus CS35L56 family] [IMPORTANT —
+  common laptop speaker amps, not core mm/fs; not staging]`
+
+**Step 7.2**
+- Record: Actively maintained (many 2026 probe/IRQ/pm fixes). CS35L56 is
+  mature; CS35L62 is a small ID alias on top of CS35L63.
+
+## Phase 8: Impact and risk
+
+**Step 8.1 — Who is affected**
+- Record: Driver-specific / config-specific
+  (`CONFIG_SND_SOC_CS35L56_SDW`). Only CS35L62 SoundWire hardware.
+  Existing CS35L54/56/57/63 behavior unchanged.
+
+**Step 8.2 — Trigger**
+- Record: Device enumeration of part `0x3562`. Not a race. Not
+  unprivileged exploit surface.
+
+**Step 8.3 — Failure mode without the patch**
+- Record: Device does not probe; no speaker amp. Severity **LOW** as a
+  kernel bug (no oops/corruption), **HIGH** as hardware enablement for
+  those machines.
+
+**Step 8.4 — Benefit vs risk**
+- Record: Benefit: CS35L62 SoundWire amps work on this kernel. Risk:
+  very low (7 lines, additive cases). Ratio: favorable **if** treating
+  this as a device-ID exception; poor **if** requiring a crash/security
+  bug.
+
+## Phase 9: Synthesis
+
+**Step 9.1 — Evidence**
+
+For:
+- Matches the documented **new device ID** exception (SoundWire ID +
+  cases routing to existing CS35L63 code).
+- Small (7 lines), obviously correct, maintainer-applied.
+- Driver and CS35L63 prerequisites exist in this 7.3 tree.
+- No change to existing IDs’ control flow.
+- Author is the Cirrus driver owner.
+
+Against:
+- Subject/body are **new feature**, not a bugfix. No crash, leak, UAF,
+  deadlock, or CVE.
+- Mark Brown applied it to **for-7.3 merge window**, not as a stable
+  bugfix.
+- Patch 1/2; SOF machine auto-config also wants `0306d21155819`.
+- No `Reported-by` / no in-field bug.
+- Stable rules 2 and 3 fail unless the ID exception is used.
+
+Unresolved:
+- stable@ lore search could not be fetched (403).
+
+**Step 9.2 — Stable rules checklist**
+1. Obviously correct and tested? **PASS** — aliasing is local and
+   reviewed; applied by broonie. Only review comment was sort order.
+2. Fixes a real bug that affects users? **FAIL** as a defect; **PASS**
+   only under the device-ID exception (unsupported CS35L62).
+3. Important issue (crash/security/corruption/deadlock)? **FAIL**
+4. Small and contained? **PASS** (7 lines, one driver)
+5. No new features or APIs? **FAIL** as a feature; **PASS** under
+   device-ID exception (no new driver/API, only an ID)
+6. Can apply to the local tree? **PASS** — CS35L63 paths present on
+   7.3-rc4
+
+**Step 9.3 — Exception**
+- Record: **NEW DEVICE IDs** on an existing driver. Same class as adding
+  a PCI/USB ID. Not a new driver, not a new uAPI.
+
+**Step 9.4 — Decision**
+
+This tree is **7.3.0-rc4**. The cs35l56 driver and CS35L63 handling are
+present, so the patch is applicable here. It does not fix a stability
+bug, but it is the standard “add ID to existing driver” pattern the
+stable rules explicitly allow: one SoundWire ID and a handful of `case`
+labels so CS35L62 reuses CS35L63. Risk to current users is negligible.
+Companion sdw_utils entry is separate and not required for the codec to
+bind.
+
+### What it solves for users of this tree
+Without the ID, a CS35L62 SoundWire amp never matches the driver. With
+it, the existing CS35L63 path runs. That is hardware enablement, not a
+crash fix.
+
+### Rules / risk
+Meets “small, obviously correct, no new API”. Importance is hardware
+support, covered by the device-ID exception. Backport/apply risk is very
+low.
 
 ---
 
-## PHASE 1: COMMIT MESSAGE FORENSICS
-
-**Step 1.1: PARSE THE SUBJECT LINE**
-Record: **[ASoC/codecs/max98396] [Unwind] [Disable supplies and restore
-cache state if resume fails]**
-Subsystem prefix `ASoC: codecs: max98396:`. Verb **Unwind** is error-
-path cleanup language; the body is a real leak/error-propagation fix,
-not a refactor.
-
-**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-Record:
-- **Fixes:** none (expected)
-- **Reported-by / Tested-by / Reviewed-by / Acked-by:** none on the
-  commit itself
-- **Link:**
-  https://patch.msgid.link/20260704040651.47558-1-pengpeng@iscas.ac.cn
-- **Cc: stable:** none (expected)
-- **Signed-off-by:** Pengpeng Hou (author); Mark Brown (ASoC
-  maintainer). Ignore any Sasha Levin SOB from candidate prep.
-
-No syzbot, no multi-user reports.
-
-**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
-Record:
-- **Bug:** `max98396_resume()` enables core / optional pvdd / vbat, then
-  leaves cache-only, resets, and calls `regcache_sync()`.
-  `regcache_sync()` errors are ignored. If optional pvdd/vbat enable
-  fails, already-enabled supplies are not disabled.
-- **Symptom:** Regulator enable-count leak after a failed resume; resume
-  can report success while cached register state was not written back
-  (codec left in reset/defaults → broken audio after suspend).
-- **Version info:** none in the message.
-- **Root cause:** Missing unwind and ignored `regcache_sync()` return.
-
-**Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: **Yes, a real bug fix described as error-path rework.** “Common
-error labels” is the usual shape of a leak fix: added `goto` cleanup,
-`regulator_disable` / `regulator_bulk_disable`, restore cache-
-only/dirty, propagate `regcache_sync()` failure.
-
----
-
-## PHASE 2: DIFF ANALYSIS
-
-**Step 2.1: INVENTORY THE CHANGES**
-Record:
-- **File:** `sound/soc/codecs/max98396.c` — **+21 / −3** (`git show
-  --stat`: 24 lines changed)
-- **Function:** `max98396_resume()` only
-- **Scope:** single-file surgical fix
-
-**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-Record (verified against `703ee0557f892` original resume and current
-`max98396_resume()`):
-
-| Path | Before | After |
-|---|---|---|
-| core enable fails | return, nothing enabled | unchanged |
-| pvdd enable fails | **return with core still enabled** | `goto
-err_core_supplies` → disable core |
-| vbat enable fails | **return with core (+ pvdd) still enabled** |
-`goto err_pvdd` → disable pvdd if present, then core |
-| `regcache_sync()` fails | **ignored; return 0** | restore cache-only +
-mark dirty, unwind vbat/pvdd/core, **return error** |
-| success | return 0 | return 0 |
-
-Error labels check optional regulators before disable (`if
-(max98396->vbat)` / `if (max98396->pvdd)`), so NULL optional supplies
-are not disabled.
-
-**Step 2.3: IDENTIFY THE BUG MECHANISM**
-Record:
-- **Category:** (a) error-path resource leak + (g) ignored return /
-  incorrect success
-- **Mechanism:** resume acquired regulators without matching disable on
-  later failure; `regcache_sync()` failure was dropped so PM treated a
-  failed register restore as success.
-
-**Step 2.4: ASSESS THE FIX QUALITY**
-Record:
-- Unwind order matches enable order (core → pvdd → vbat). Labels are
-  correct for optional supplies.
-- Restoring `regcache_cache_only(true)` + `regcache_mark_dirty()` after
-  a failed sync is the standard pattern so a later resume can retry.
-- **Regression risk:** low. Error paths only. `device_resume()` in this
-  tree sets `dev->power.is_suspended = false` **before** the callback
-  (`drivers/base/power/main.c` line 1129), so a later suspend may
-  `regulator_disable()` already-disabled supplies and warn. That class
-  of imbalance already existed on some old failure paths; leaking
-  enables (keeping rails on) is worse. Sibling ASoC patches in the same
-  series use the same unwind-on-resume-fail pattern.
-
----
-
-## PHASE 3: GIT HISTORY INVESTIGATION
-
-**Step 3.1: BLAME THE CHANGED LINES**
-Record:
-- Driver added: `b585811367705` (“ASoC: max98396: add amplifier driver”)
-- Buggy regulator resume: **`703ee0557f892` (“ASoC: max98396: add
-  voltage regulators”, 2022-06-27)** — **present in v6.0** (`git merge-
-  base --is-ancestor 703ee0557f892 v6.0` succeeded; not in v5.19)
-- Resume body was unchanged from that commit until this fix (blame:
-  Daniel Mack 2022 for enable/return, Pengpeng Hou 2026 for gotos)
-
-**Step 3.2: FOLLOW THE FIXES: TAG**
-Record: **No Fixes: tag.** Introducing commit is `703ee0557f892`, in
-this tree and in v6.0+.
-
-**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-Record: Later history is probe/PM-macro/style (`c009893bc5864`
-SYSTEM_SLEEP_PM_OPS, DAPM convert, named initializers). **No
-prerequisite refactor of resume.** **Standalone** for this file. Cover
-letter lists it as **18/19** of an independent per-codec series, not a
-stacked dependency.
-
-**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: Pengpeng Hou is **not** the ASoC maintainer. Same week: many
-`Propagate regcache_sync() errors` codec patches. Maintainer who applied
-this one: **Mark Brown**.
-
-**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record: **None required.** Touches only `max98396_resume()`, existing
-`regulator_*` / `regcache_*` APIs. Can apply standalone. No follow-ups
-on this file after `d20de7409dfa8`.
-
----
-
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-
-**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
-Record:
-- **b4 dig:**
-  https://patch.msgid.link/20260704040651.47558-1-pengpeng@iscas.ac.cn
-- **Series:** v1 only, **[PATCH 00/19] ASoC: codecs: propagate
-  regcache_sync() failures** (`20260704034845.14291-1`)
-- Cover letter (from saved mbox): *“This series is source-audited only.
-  I did not test on the affected hardware.”* Explicitly calls out
-  max98396 as one of four patches that also unwind resources.
-- **No NAK** on this patch. Richard Fitzgerald `Reviewed-by` on sibling
-  Cirrus patches (wm2200/cs4349/wm8962). Mark Brown discussed revert-on-
-  sync-fail for wm8962 and said not to over-engineer recovery without a
-  real use case — **not a NAK of unwind/propagate**.
-- Mark applied **18/19** (skipped 03/19 lpass-wsa-macro) to `for-7.3`.
-- **No reviewer Cc: stable** on this patch.
-
-**Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record: Recipients included Mark Brown, Liam Girdwood, linux-sound,
-codec vendors. **No Reviewed-by on the max98396 patch itself.** Applied
-by the ASoC maintainer.
-
-**Step 4.3: SEARCH FOR THE BUG REPORT**
-Record: **No user/syzbot/bugzilla report.** Source audit only.
-
-**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: 19 independent per-driver patches. This one does not need the
-others.
-
-**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: **UNVERIFIED** — lore.kernel.org HTTP search returned 403.
-Thread retrieved via `b4 dig -m` has no stable discussion.
-
----
-
-## PHASE 5: CODE SEMANTIC ANALYSIS
-
-**Step 5.1: KEY FUNCTIONS**
-Record: `max98396_resume()` only. Helpers used:
-`regulator_bulk_enable/disable`, `regulator_enable/disable`,
-`regcache_cache_only`, `regcache_mark_dirty`, `regcache_sync`,
-`max98396_reset()`.
-
-**Step 5.2: TRACE CALLERS**
-Record: Only wired through `SYSTEM_SLEEP_PM_OPS(max98396_suspend,
-max98396_resume)` → `max98396_pm` → `i2c_driver.driver.pm`. Called from
-**system sleep resume**, not a hot syscall path.
-
-**Step 5.3: TRACE CALLEES**
-Record: Regulator enable/disable and regmap cache replay after
-`max98396_reset()`. Probe enables the same supplies and uses
-`devm_add_action_or_reset()` to unwind; **resume has no equivalent**
-without this patch.
-
-**Step 5.4: FOLLOW THE CALL CHAIN**
-Record: Userspace suspend (`/sys/power/state` or equivalent) →
-`dpm_resume` → `device_resume` → driver resume. **Reachable on any
-machine with this codec that suspends.** Not unprivileged-exploit in the
-UAF sense; it is a normal PM path.
-
-**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: Same author’s series applies the same propagate/unwind pattern
-across many ASoC codecs. This driver uniquely also unwinds three
-supplies.
-
----
-
-## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
-
-**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Record: **Yes.** File `sound/soc/codecs/max98396.c` is present.
-Introducing commit `703ee0557f892` is an ancestor of HEAD. Bug since
-**v6.0**. Current HEAD already contains `d20de7409dfa8` (the candidate);
-pre-image of resume matches the patch’s before-state.
-
-**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: **Clean apply** to this lineage’s pre-fix resume (identical to
-v6.0-era function). `SYSTEM_SLEEP_PM_OPS` conversion (`c009893bc5864`)
-did not change resume body. No conflicting local changes to that
-function.
-
-**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: No earlier alternate fix of this leak. No later revert/follow-up
-on this file.
-
----
-
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-
-**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: **ASoC codec driver** (`sound/soc/codecs/max98396.c`).
-**PERIPHERAL / driver-specific** (MAX98396/MAX98397 speaker amps, I2C,
-ACPI IDs `ADS8396`/`ADS8397`). Not core mm/net/fs.
-
-**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: ASoC codecs are actively developed; this file is **mature**
-(driver 2022, regulators 2022, few functional changes since). Long-lived
-bug, not a brand-new subsystem.
-
----
-
-## PHASE 8: IMPACT AND RISK ASSESSMENT
-
-**Step 8.1: WHO IS AFFECTED**
-Record: **Driver-specific / config-specific**
-(`CONFIG_SND_SOC_MAX98396`). Implied by a large ASoC codec umbrella
-Kconfig; in-tree DT only has the binding example (no board `.dts` in
-this tree). ACPI/OF/I2C IDs exist for real hardware.
-
-**Step 8.2: TRIGGER CONDITIONS**
-Record:
-- System suspend/resume with this codec bound.
-- **pvdd/vbat enable fail:** uncommon (regulator failure).
-- **`regcache_sync()` fail:** more realistic (I2C error after
-  reset/power-up). Old code returned **0** in that case — **every such
-  failure was silent**.
-- Unprivileged user cannot typically force I2C failure; they can trigger
-  suspend.
-
-**Step 8.3: FAILURE MODE SEVERITY**
-Record:
-- Regulator leak / enable-count imbalance → **HIGH for that class, but
-  rare trigger**
-- Silent successful resume with unrestored registers → **broken audio
-  after suspend**, device in reset defaults → **MEDIUM** (user-visible,
-  not panic/corruption)
-- **Overall severity: MEDIUM** (important for this hardware, not a
-  kernel-wide crash)
-
-**Step 8.4: RISK-BENEFIT RATIO**
-Record:
-- **Benefit:** medium for MAX98396/97 users (correct resume failure, no
-  leaked supplies, cache left retryable)
-- **Risk:** low (21 lines, one function, error paths, obvious labels)
-- **Ratio:** favorable
-
----
-
-## PHASE 9: FINAL SYNTHESIS
-
-**Step 9.1: COMPILE THE EVIDENCE**
-
-**FOR:**
-- Real bugs: leaked enabled regulators on resume failure; ignored
-  `regcache_sync()` so resume can succeed with hardware not restored
-- Small, contained, obviously correct unwind
-- Bug in this tree since v6.0 (`703ee0557f892`)
-- No extra APIs/features; no series dependency
-- ASoC maintainer merged it; sibling patches reviewed
-- Matches stable’s usual error-path leak / missing-cleanup pattern
-
-**AGAINST:**
-- Source-audited only; author did not test on hardware
-- No user/syzbot reports
-- Not a panic, UAF, or data-corruption bug
-- Peripheral codec, not core
-- Possible extra `regulator_disable` on the *next* suspend if PM still
-  treats the device as resumed after a failed callback (pre-existing PM
-  interaction, mild)
-
-**UNRESOLVED:**
-- lore.kernel.org search 403; no independent confirmation of stable-list
-  discussion
-- No in-tree board DT showing how widely this amp is shipped (ACPI IDs
-  still indicate real products)
-
-**Step 9.2: STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** on correctness (labels match
-   enable order). **Weak on hardware test** (source audit), but soak in
-   this 7.3-rc tree and maintainer merge count as review, not a FAIL.
-2. Fixes a real bug that affects users? **PASS** — leak + silent failed
-   cache replay after suspend.
-3. Important issue? **PASS at MEDIUM** — not crash/security, but broken-
-   audio-after-resume and regulator leak on a production PM path. Error-
-   path resource cleanup is an accepted stable class.
-4. Small and contained? **PASS** — +21/−3, one function, one file.
-5. No new features or APIs? **PASS**
-6. Can apply to the local tree? **PASS** — driver and buggy resume exist
-   here; pre-fix code matches the hunk.
-
-**Step 9.3: EXCEPTION CATEGORIES**
-Record: None (not a device ID, quirk, DT, build, or docs-only change).
-Qualifies as a normal small bugfix.
-
-**Step 9.4: DECISION**
-This tree has the buggy resume path and the hardware driver. The patch
-is a surgical fix for a real resume leak and a real ignored-error
-success path. Conservative severity, but it meets the letter of the
-stable rules and the “error-path leak = backport” guidance. Risk is low
-enough to take it.
-
----
-
-### What the commit solves for this tree
-
-`max98396_resume()` can enable core (and maybe pvdd) supplies then
-return without disabling them, and it previously ignored
-`regcache_sync()`. After suspend, a failed I2C cache replay left the amp
-in reset/defaults while PM thought resume succeeded. The patch unwinds
-every supply this resume acquired, restores cache-only/dirty on sync
-failure, and returns the error.
-
-### Stable-rules fit
-
-Small, obviously correct, no new API, applies to this tree’s long-
-standing resume function. Importance is medium (driver PM error path),
-not a core crash, but it is a real user-visible resume bug plus a
-resource leak.
-
-### Risk vs benefit
-
-Benefit is correct suspend/resume for MAX98396/97. Risk is confined to
-failure paths already returning errors (except the newly propagated sync
-failure, which *should* fail).
-
-### Concerns
-
-Untested on hardware; no field reports. That is not enough to drop a
-21-line leak/error-propagation fix for a driver this tree actually
-ships.
-
-### Verification
-- **[Phase 1]** Parsed subject/tags/body from `git show d20de7409dfa8`;
-  no Fixes/Reported-by/Cc stable; Link to msgid 20260704040651.47558-1
-- **[Phase 2]** Diff: +21/−3 in `max98396_resume()` only; compared to
-  original resume in `703ee0557f892`
-- **[Phase 3]** `git blame -L 1574,1634 sound/soc/codecs/max98396.c`;
-  introducer `703ee0557f892`; in v6.0, not v5.19; `git merge-base --is-
-  ancestor` for both introducer and fix vs HEAD
-- **[Phase 3]** `git log --oneline -- sound/soc/codecs/max98396.c`; no
-  resume prerequisites; no follow-ups after the fix
-- **[Phase 3]** `git describe HEAD` / `make kernelversion` / Makefile:
-  **v7.3-rc4, 7.3.0-rc4**
-- **[Phase 4]** `b4 dig -c/-a/-w/-m`: series 18/19, v1 only, cover
-  letter “source-audited only”; Mark Brown applied to for-7.3; no NAK on
-  this patch
-- **[Phase 4]** lore HTTP search 403 — stable-list discussion
-  **UNVERIFIED**
-- **[Phase 5]** Callers: only `SYSTEM_SLEEP_PM_OPS` → i2c `.pm`; probe
-  uses `devm_add_action_or_reset` for the same supplies
-- **[Phase 6]** Buggy resume exists in this tree from v6.0; current file
-  already has the fixed form
-- **[Phase 8]** `device_resume()` sets `is_suspended = false` before the
-  callback (main.c:1126–1129, 1192)
-- **UNVERIFIED:** in-tree board usage (no `.dts` nodes; ACPI/OF IDs
-  only)
+Verification:
+- [Phase 1] Parsed tags: SOB Binding/Fitzgerald/Brown; Link to patch
+  1/2; no Fixes/Reported-by/stable Cc
+- [Phase 2] Diff: +7 lines, ID `0x3562` + cases `0x62`/`0x35A620`
+  reusing CS35L63
+- [Phase 3] `git blame`: CS35L63 from `978858791ceda` (v6.16); CS35L62
+  from `3330b5f6d8dea`
+- [Phase 3] `git merge-base --is-ancestor 978858791ceda HEAD`: CS35L63
+  in this tree
+- [Phase 3] `git merge-base --is-ancestor 3330b5f6d8dea v7.3-rc1`: first
+  in 7.3-rc1; not in v7.2
+- [Phase 3] Series: 1/2 codec IDs, 2/2 `0306d21155819` sdw_utils
+- [Phase 4] `b4 dig -c 3330b5f6d8dea`: v1 only; URL
+  patch.msgid.link/20260715120135.939280-2-…
+- [Phase 4] `b4 dig -a`: no later revision
+- [Phase 4] `b4 dig -w`: broonie + linux-sound
+- [Phase 4] mbox: Bossart sort-order nit only; Brown applied to for-7.3
+- [Phase 4] WebFetch lore.kernel.org: 403; used b4 mbox + openwall
+  instead
+- [Phase 5] grep callers: SDW probe → `cs35l56_common_probe`;
+  hw_init/set_patch from codec init
+- [Phase 5] Other `case 0x63` sites updated; remaining type switches use
+  `default:` for L63-class
+- [Phase 6] `git describe HEAD` / `make kernelversion`: v7.3-rc4 /
+  7.3.0-rc4; files present
+- [Phase 8] Failure mode: no bind for CS35L62, not an oops; existing IDs
+  unchanged
+- UNVERIFIED: stable@ mailing list (lore 403)
 
 **YES**
 
- sound/soc/codecs/max98396.c | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
+ sound/soc/codecs/cs35l56-sdw.c    | 2 ++
+ sound/soc/codecs/cs35l56-shared.c | 4 ++++
+ sound/soc/codecs/cs35l56.c        | 1 +
+ 3 files changed, 7 insertions(+)
 
-diff --git a/sound/soc/codecs/max98396.c b/sound/soc/codecs/max98396.c
-index 4b4e1fc98a6da..0255399c405df 100644
---- a/sound/soc/codecs/max98396.c
-+++ b/sound/soc/codecs/max98396.c
-@@ -1601,19 +1601,37 @@ static int max98396_resume(struct device *dev)
- 	if (max98396->pvdd) {
- 		ret = regulator_enable(max98396->pvdd);
- 		if (ret < 0)
--			return ret;
-+			goto err_core_supplies;
+diff --git a/sound/soc/codecs/cs35l56-sdw.c b/sound/soc/codecs/cs35l56-sdw.c
+index a513a15d7e5a7..a7b4e2a923205 100644
+--- a/sound/soc/codecs/cs35l56-sdw.c
++++ b/sound/soc/codecs/cs35l56-sdw.c
+@@ -529,6 +529,7 @@ static int cs35l56_sdw_probe(struct sdw_slave *peripheral, const struct sdw_devi
+ 		regmap_config = &cs35l56_regmap_sdw;
+ 		break;
+ 	case 0x3563:
++	case 0x3562:
+ 		regmap_config = &cs35l63_regmap_sdw;
+ 		break;
+ 	default:
+@@ -582,6 +583,7 @@ static const struct sdw_device_id cs35l56_sdw_id[] = {
+ 	SDW_SLAVE_ENTRY(0x01FA, 0x3556, 0x3556),
+ 	SDW_SLAVE_ENTRY(0x01FA, 0x3557, 0x3557),
+ 	SDW_SLAVE_ENTRY(0x01FA, 0x3563, 0x3563),
++	SDW_SLAVE_ENTRY(0x01FA, 0x3562, 0x3562),
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(sdw, cs35l56_sdw_id);
+diff --git a/sound/soc/codecs/cs35l56-shared.c b/sound/soc/codecs/cs35l56-shared.c
+index 646bb4fbca025..3001ec45a72de 100644
+--- a/sound/soc/codecs/cs35l56-shared.c
++++ b/sound/soc/codecs/cs35l56-shared.c
+@@ -86,6 +86,7 @@ int cs35l56_set_patch(struct cs35l56_base *cs35l56_base)
+ 					    ARRAY_SIZE(cs35l56_patch_fw));
+ 		break;
+ 	case 0x63:
++	case 0x62:
+ 		ret = regmap_register_patch(cs35l56_base->regmap, cs35l63_patch_fw,
+ 					    ARRAY_SIZE(cs35l63_patch_fw));
+ 		break;
+@@ -370,6 +371,7 @@ static void cs35l56_set_fw_reg_table(struct cs35l56_base *cs35l56_base)
+ 		}
+ 		break;
+ 	case 0x63:
++	case 0x62:
+ 		cs35l56_base->fw_reg = &cs35l63_fw_reg;
+ 		break;
  	}
- 
- 	if (max98396->vbat) {
- 		ret = regulator_enable(max98396->vbat);
- 		if (ret < 0)
--			return ret;
-+			goto err_pvdd;
- 	}
- 
- 	regcache_cache_only(max98396->regmap, false);
- 	max98396_reset(max98396, dev);
--	regcache_sync(max98396->regmap);
-+	ret = regcache_sync(max98396->regmap);
-+	if (ret < 0) {
-+		regcache_cache_only(max98396->regmap, true);
-+		regcache_mark_dirty(max98396->regmap);
-+		goto err_vbat;
-+	}
-+
- 	return 0;
-+
-+err_vbat:
-+	if (max98396->vbat)
-+		regulator_disable(max98396->vbat);
-+err_pvdd:
-+	if (max98396->pvdd)
-+		regulator_disable(max98396->pvdd);
-+err_core_supplies:
-+	regulator_bulk_disable(MAX98396_NUM_CORE_SUPPLIES,
-+			       max98396->core_supplies);
-+
-+	return ret;
- }
- 
- static const struct dev_pm_ops max98396_pm = {
+@@ -576,6 +578,7 @@ void cs35l56_system_reset(struct cs35l56_base *cs35l56_base, bool is_soundwire)
+ 		}
+ 		break;
+ 	case 0x63:
++	case 0x62:
+ 		regmap_multi_reg_write_bypassed(cs35l56_base->regmap,
+ 						cs35l63_system_reset_seq,
+ 						ARRAY_SIZE(cs35l63_system_reset_seq));
+@@ -1080,6 +1083,7 @@ int cs35l56_hw_init(struct cs35l56_base *cs35l56_base)
+ 		cs35l56_base->calibration_controls = &cs35l56_calibration_controls;
+ 		break;
+ 	case 0x35A630:
++	case 0x35A620:
+ 		cs35l56_base->calibration_controls = &cs35l63_calibration_controls;
+ 		devid = devid >> 4;
+ 		break;
+diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
+index e3334b2d84532..69976761ffa50 100644
+--- a/sound/soc/codecs/cs35l56.c
++++ b/sound/soc/codecs/cs35l56.c
+@@ -968,6 +968,7 @@ static int cs35l56_component_probe(struct snd_soc_component *component)
+ 						     ARRAY_SIZE(cs35l56_controls));
+ 		break;
+ 	case 0x63:
++	case 0x62:
+ 		ret = snd_soc_add_component_controls(component, cs35l63_controls,
+ 						     ARRAY_SIZE(cs35l63_controls));
+ 		break;
 -- 
 2.53.0
 
