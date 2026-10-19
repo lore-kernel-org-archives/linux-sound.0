@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521325DD54F;
-	Mon, 19 Oct 2026 14:02:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C7A5DE999;
+	Mon, 19 Oct 2026 14:02:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418533; cv=none; b=Rl7qFAX2yJ3i9e6j0yaRNC/6vKfaVP+LFlMuElMgrZ4JUi46qBpYDdwjToBg7vaSdaI+LHPShf6lAzAOG1u+XswPSMnSw54xjcBuFWWsmIp0d/2T/083Q60Bq3jfGOpfD6mkQaBjoHY495kPALD/4J3IqC778ubMhRAosdcUD30=
+	t=1792418539; cv=none; b=sQSxs9yknSLwNhtGfyipRc3iqgxDztYDdinMr8A2Qnglu+d8xBZ6U9iAiING/IW26yzBOhI31J2Utd7jI5GFTOst1EfmiDiZqQvj/DMxQb5KQhCSNIR46VooLc3H2wNre5egu8Pph07RkVA6H4x0iq6G+slMuyxfIMP2pXRRIVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418533; c=relaxed/simple;
-	bh=dxMTzlf/7ads2KRefFkWIrQo4r+OoK8UUzVnXWVncHk=;
+	s=arc-20240116; t=1792418539; c=relaxed/simple;
+	bh=2p0mEzJLWfOGEC5OD/3TM2/rVM6Kn5a7xXK7lqvUKQY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nbcgsBFKXUaI54I1C3kkpzmJd+4cUOWwzfP52K9br6teGNMN3milZ89dxSk3WXTRhS6qY4HqKKpKSoo/XIVcm++acUtuWPIAiPpscL5gyV2Ftx8UwnXw/rlkwW8Vd3Hu4nWVMDoglDUHtc1n4A3iiKjixdP010axR/zvyaHhF30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g3Hj8G6t; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=Ua8SUNNLpkFctNwZOjgfivelO6c2zmS5gDiGM51IgR0g++Esjcz+dvfmgd8N7VkZHoKWyjx4VQ1V+3Dsb4BUVOT+UgmcLLND7W/jvYQ+CpnRrdaqin/b7+ILhQrAqPtkd6Y41EfbkhYyIjXpOvQLBGIdD//RVVo7vm6FEtx5mN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nqx9rlDX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g3Hj8G6t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D4DB1F000C8;
-	Mon, 19 Oct 2026 14:02:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nqx9rlDX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70E9D1F000C4;
+	Mon, 19 Oct 2026 14:02:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418530;
-	bh=/YsfFDAkMlCm00h3PNsmQrtiYwc9YWb6hLAHoW/doR4=;
+	s=k20260515; t=1792418534;
+	bh=RSFCUUn9tTT4o2aFy4MJqRVfv+N/W91AMgfdwSwp4fc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=g3Hj8G6t1zPawCFOrjuNiD9sxKGflkKH/8ex6sYyxqL1TtEkcJSYEXuwqzx/Xnn9u
-	 vFiIjntSFz+zoDPy+4y24MgiIbjYWh3trj0mBHjaKqRC31CSE75d1WhIzZU7Sm1/2L
-	 GK7zqIAMYwz5PNNGwKsiGiJjGa6TSAljy9XOeaxMmGBJPHggm/wNZutiPId8I48/PZ
-	 5LCAUOv+Km72xNv7iFYNGFAj3NkAYtOm+wdfKjg4yEQzTynaQR3rvsm1Oi+yxPJnSd
-	 h2/aV2aUlc9u09DKacPyjJpJd7lMMq+jmZsmsYryILvyf2HzW6vjVKCOVImmCP+CXb
-	 28K0SaGGHv3GA==
+	b=Nqx9rlDXesh3DNKxHVXSSASUTzLsrfkDaPfNlOjfxePn/MjXrTc2voJboy0hLNOcC
+	 wYyXkuGJVMBvbcF/ta98ypi6l40Db4ArsnQ7Ko44++3k1aydrhuV3f9BjUYUgECrnl
+	 lwwsDHqIQW170v/bZ4nIWAKwHlyCxWHzLs3D5LL9Z6Qvp7RWR8FjTbXDpgghhUC5XV
+	 ZCHCOM6a6w8BcvuNNMLpx07SJWfkwnWov4R3qUvYta2SgjChJ0dgUIWyvxEw0eJ6mh
+	 IDo72EOVTGoWSi2nCA9OsO4ZGWJeGLt9EwRQPm6PONHPrTaufshHk5EAm16XGFs7Zc
+	 lwVqG6DJLs+LQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Hernan Ganzo <gp@sneemgp.com>,
+Cc: Tomasz Bojanowski <tomasz@bojanowski.me>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] ALSA: hda/realtek: Limit internal mic boost on HP Pavilion 15 (103c:2164)
-Date: Mon, 19 Oct 2026 09:50:04 -0400
-Message-ID: <20261019135441.1420968-313-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.15] ALSA: usb-audio: Add mixer mapping for MSI MAG B850M MORTAR WIFI
+Date: Mon, 19 Oct 2026 09:50:07 -0400
+Message-ID: <20261019135441.1420968-316-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -54,456 +54,411 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Hernan Ganzo <gp@sneemgp.com>
+From: Tomasz Bojanowski <tomasz@bojanowski.me>
 
-[ Upstream commit 786fb6b3f513937f712db5a9ba6a12cbc6982ba9 ]
+[ Upstream commit 7b457ae8cf711831f19d20963f5ed2fdf4842d3a ]
 
-The HP Pavilion 15 with the ALC3227 codec (SSID 103c:2164) exposes the full
-four-step internal mic boost on pin 0x12: nsteps=3 with stepsize=0x2f, that is
-0, 12, 24 and 36 dB. Combined with the ADC capture gain of +30 dB the analogue
-cascade reaches 66 dB, and the internal microphone clips on the ambient noise of
-a quiet room; the upper two steps are unusable at any useful input level. This
-is the defect class ALC269_FIXUP_LIMIT_INT_MIC_BOOST exists for.
+The USB audio device 0db0:cc78 (Realtek ALC4080) on the MSI MAG B850M
+MORTAR WIFI motherboard exposes all playback controls as "PCM", which
+makes it hard to tell the outputs apart.
 
-The machine matches no SSID quirk and falls through to the pin table, which
-selects ALC269_FIXUP_HP_MUTE_LED_MIC1 through a pin signature shared with
-several other HP models. Add an SSID entry instead, using
-ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED: the existing fixup that applies
-alc269_fixup_limit_int_mic_boost() and chains to the same mute LED fixup, as
-already done for 103c:218b. The boost becomes 0 or 12 dB and the LED handling is
-unchanged.
+Its mixer layout matches the one of the MSI MPG X570S Carbon Max Wifi
+(units 29, 30 and 32), so reuse msi_mpg_x570s_carbon_max_wifi_alc4080_map
+for this device too. With the mapping applied, the controls show up as
+"Speaker", "Front Headphone" and "IEC958".
 
-Tested on the affected machine by selecting the same fixup through the model
-string (snd-hda-intel.model), which bypasses the SSID and pin tables, with the
-driver confirming the selection:
+Tested with a patched snd-usb-audio module on a 7.2.7 kernel.
 
-  snd_hda_codec_alc269 hdaudioC1D0: ALC3227: picked fixup limit-mic-boost (model specified)
-
-With that, Internal Mic Boost reports Limits 0 - 1 (0 or 12 dB) instead of 0 - 3
-(0 to 36 dB), so alc269_fixup_limit_int_mic_boost() clamps this codec's internal
-mic pin as intended. Note that /proc/asound/card1/codec#0 keeps printing the
-unclamped hardware caps (nsteps=0x03): that file reads codec parameters uncached
-by design, while the fixup overrides the driver's cached parameter that the
-control is built from.
-
-This does not by itself make the default capture volume sane -- the remaining
-12 dB on top of the +30 dB ADC gain is still hotter than this machine's usable
-operating point. It removes the two unusable steps from the hardware range, which
-is what a quirk of this class can do.
-
-Signed-off-by: Hernan Ganzo <gp@sneemgp.com>
-Link: https://patch.msgid.link/20260921205538.41192-1-gp@sneemgp.com
+Signed-off-by: Tomasz Bojanowski <tomasz@bojanowski.me>
+Link: https://patch.msgid.link/20260923184957.6687-1-tomasz@bojanowski.me
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-===============================================================
-PHASE 1: COMMIT MESSAGE FORENSICS
-===============================================================
+This is a four-line USB mixer-map ID addition for an existing `snd-usb-
+audio` quirk table. The local tree is **6.18.57**; the reused ALC4080
+map is already here, and the new ID is not in `v6.18.57`.
 
-Step 1.1: PARSE THE SUBJECT LINE
-Record: [ALSA: hda/realtek] [Limit] [Add an SSID quirk so the HP
-Pavilion 15 (103c:2164) uses the existing internal-mic boost limiter
-plus mute-LED chain]
+---
 
-Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
+## PHASE 1: COMMIT MESSAGE FORENSICS
+
+**Step 1.1: PARSE THE SUBJECT LINE**
+Record: **[ALSA/usb-audio] [Add] mixer mapping for MSI MAG B850M MORTAR
+WIFI (USB ID 0db0:cc78)**
+
+**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
 Record:
-- Link: https://patch.msgid.link/20260921205538.41192-1-gp@sneemgp.com
-- Signed-off-by: Hernan Ganzo <gp@sneemgp.com> (author)
-- Signed-off-by: Takashi Iwai <tiwai@suse.de> (ALSA maintainer)
-- Signed-off-by: Sasha Levin — ignored per instructions
-- `[ Upstream commit 786fb6b3f513937f712db5a9ba6a12cbc6982ba9 ]` —
-  ignored per instructions
-- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or Cc:
-  stable (absence expected)
+- **Fixes:** none (expected for this review class)
+- **Reported-by:** none
+- **Tested-by:** none as a tag; body says the author tested a patched
+  `snd-usb-audio` on **7.2.7**
+- **Reviewed-by / Acked-by:** none in the commit; mailing-list apply-ack
+  from Takashi Iwai
+- **Link:**
+  `https://patch.msgid.link/20260923184957.6687-1-tomasz@bojanowski.me`
+- **Cc: stable:** absent (not a negative signal)
+- **Signed-off-by:** Tomasz Bojanowski (author); Takashi Iwai
+  `<tiwai@suse.de>` (SOUND maintainer). Ignore Sasha Levin.
 
-Step 1.3: ANALYZE THE COMMIT BODY TEXT
+**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
 Record:
-- Bug: HP Pavilion 15 ALC3227 (SSID 103c:2164) exposes a four-step
-  internal mic boost (0/12/24/36 dB) on pin 0x12. With ADC capture gain
-  of +30 dB the analogue cascade is 66 dB; the mic clips on quiet-room
-  ambient noise. The top two steps are unusable.
-- Symptom: Distorted/clipped internal-mic capture; Internal Mic Boost
-  reports Limits 0–3.
-- Root cause: No SSID quirk, so the machine falls through to the pin
-  table and gets only `ALC269_FIXUP_HP_MUTE_LED_MIC1` (mute LED, no
-  boost clamp). This is the class `ALC269_FIXUP_LIMIT_INT_MIC_BOOST`
-  exists for.
-- Fix: Add SSID 103c:2164 using existing
-  `ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED` (same as 103c:218b): clamp
-  boost to 0 or 12 dB, keep mute LED.
-- Tested on the affected machine via `snd-hda-intel.model=limit-mic-
-  boost`; driver log confirmed the pick; mixer Limits became 0–1.
-- Author notes the remaining 12 dB + 30 dB ADC is still hotter than
-  ideal; the quirk only removes the two unusable steps.
-- No kernel-version range given.
+- **Bug:** USB audio `0db0:cc78` (Realtek ALC4080 on MSI MAG B850M
+  MORTAR WIFI) exposes every playback control as `"PCM"`, so speaker,
+  front headphone, and S/PDIF cannot be told apart.
+- **Symptom:** unusable/ambiguous mixer controls;
+  PulseAudio/PipeWire/UCM cannot bind the right output.
+- **Root cause:** generic USB mixer names; layout matches existing MSI
+  ALC4080 maps (units 29, 30, 32).
+- **Fix:** reuse `msi_mpg_x570s_carbon_max_wifi_alc4080_map`.
+- **Version info:** tested on 7.2.7; hardware is a current AM5 board, so
+  6.18.y users have this device.
 
-Step 1.4: DETECT HIDDEN BUG FIXES
-Record: Not a disguised cleanup. It is an explicit hardware quirk: one
-`SND_PCI_QUIRK` for a known broken boost range.
+**Step 1.4: DETECT HIDDEN BUG FIXES**
+Record: **Not a hidden fix.** It is an explicit hardware quirk / mixer-
+map ID addition. Not cleanup or a new API.
 
-===============================================================
-PHASE 2: DIFF ANALYSIS - LINE BY LINE
-===============================================================
+---
 
-Step 2.1: INVENTORY THE CHANGES
+## PHASE 2: DIFF ANALYSIS
+
+**Step 2.1: INVENTORY THE CHANGES**
 Record:
-- File: `sound/hda/codecs/realtek/alc269.c` (+1 / −0)
-- Function/table: `alc269_fixup_tbl[]` only
-- Scope: single-file, one-line table insertion
+- **File:** `sound/usb/mixer_maps.c` — **+4 / −0**
+- **Function/data:** `usbmix_ctl_maps[]` only
+- **Scope:** single-file surgical table entry
 
-Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
-Record:
-- Before: PCI SSID 103c:2164 is absent from `alc269_fixup_tbl`.
-  `snd_hda_pick_fixup()` does not match; `snd_hda_pick_pin_fixup()` then
-  selects `ALC269_FIXUP_HP_MUTE_LED_MIC1` for a shared HP pin signature.
-- After: SSID matches `ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED`. That
-  fixup runs `alc269_fixup_limit_int_mic_boost()` and chains to
-  `ALC269_FIXUP_HP_MUTE_LED_MIC1`.
-- Path: codec probe / fixup selection. Other SSIDs unchanged.
+**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
+Record: **Before:** `snd_usb_mixer_controls()` walks `usbmix_ctl_maps`;
+`0x0db0:0xcc78` misses, so units keep generic `"PCM"` names. **After:**
+that ID selects `msi_mpg_x570s_carbon_max_wifi_alc4080_map`, and
+`find_map()` / `check_mapped_name()` rename units 29/30/32. Probe-time
+mixer build only; other USB IDs unchanged.
 
-Step 2.3: IDENTIFY THE BUG MECHANISM
-Record:
-- Category: hardware workaround (quirk / device-ID table entry)
-- Mechanism: hardware advertises nsteps=3, stepsize=0x2f.
-  `alc269_fixup_limit_int_mic_boost()` calls
-  `snd_hda_override_amp_caps()` on internal-mic pins so NUM_STEPS
-  becomes 1 (0 or 12 dB). Without the SSID, that override never runs.
+**Step 2.3: IDENTIFY THE BUG MECHANISM**
+Record: **[Hardware workaround / USB mixer-map ID]** — same pattern as
+PCI/USB ID additions. No leak, race, or crash.
 
-Verified in this tree (`alc269.c`):
+Verified map in this tree:
 
-```2371:2391:sound/hda/codecs/realtek/alc269.c
-        /* The mic boosts on level 2 and 3 are too noisy
-           on the internal mic input.
-           Therefore limit the boost to 0 or 1. */
-        ...
-                snd_hda_override_amp_caps(codec, nid, HDA_INPUT,
-                                          (0x00 <<
-AC_AMPCAP_OFFSET_SHIFT) |
-                                          (0x01 <<
-AC_AMPCAP_NUM_STEPS_SHIFT) |
-                                          (0x2f <<
-AC_AMPCAP_STEP_SIZE_SHIFT) |
-                                          (0 << AC_AMPCAP_MUTE_SHIFT));
+```476:481:sound/usb/mixer_maps.c
+static const struct usbmix_name_map
+msi_mpg_x570s_carbon_max_wifi_alc4080_map[] = {
+        { 29, "Speaker Playback" },
+        { 30, "Front Headphone Playback" },
+        { 32, "IEC958 Playback" },
+        {}
+};
 ```
 
-Chained fixup verified:
+Lookup in `snd_usb_mixer_controls()`:
 
-```4511:4516:sound/hda/codecs/realtek/alc269.c
-        [ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED] = {
-                .type = HDA_FIXUP_FUNC,
-                .v.func = alc269_fixup_limit_int_mic_boost,
-                .chained = true,
-                .chain_id = ALC269_FIXUP_HP_MUTE_LED_MIC1,
-        },
+```3278:3286:sound/usb/mixer.c
+        for (map = usbmix_ctl_maps; map->id; map++) {
+                if (map->id == state.chip->usb_id) {
+                        state.map = map->map;
+                        state.selector_map = map.selector_map;
+                        mixer->connector_map = map->connector_map;
+                        break;
+                }
+        }
 ```
 
-SSID lookup runs first; pin match is skipped once `fixup_id` is set
-(`snd_hda_pick_pin_fixup()` returns immediately if `codec->fixup_id !=
-HDA_FIXUP_ID_NOT_SET`).
+**Step 2.4: ASSESS THE FIX QUALITY**
+Record: **Obviously correct.** Four lines, reuses a 2022 map already
+used for two MSI ALC4080 IDs. **Regression risk: very low** — scoped to
+one USB ID; wrong names would only affect that board, and the author
+tested it. No locking, allocation, or API change.
 
-Step 2.4: ASSESS THE FIX QUALITY
+---
+
+## PHASE 3: GIT HISTORY INVESTIGATION
+
+**Step 3.1: BLAME THE CHANGED LINES**
+Record: Candidate lines blamed to `53b3abbe6e262` (this patch). Reused
+map from **`5762f980ca10d`** (Johannes Schickel, 2022-01-15, “add
+mapping for MSI MPG X570S Carbon Max Wifi”). Sibling ID `0x0db0:0xa073`
+from **`4ddef9c4d70aa`** (2022-04-18, Torpedo Max). Neighboring
+`usbmix_ctl_maps` MSI/ASUS entries date to 2020.
+
+**Step 3.2: FOLLOW THE FIXES: TAG**
+Record: **No Fixes: tag.** Bug is missing a device-specific map, not a
+regression from a named commit. Prerequisite map **is** in this series:
+`git merge-base --is-ancestor 5762f980ca10d v6.18.57` → yes; same for
+`4ddef9c4d70aa`.
+
+**Step 3.3: CHECK FILE HISTORY**
+Record: Recent `mixer_maps.c` work is more ID/quirk entries (Corsair
+Virtuoso, Razer Barracuda dB map, KTMicro rename, Corsair HS80).
+**Standalone.** No “patch X/Y”.
+
+**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
+Record: Only this ALSA commit in-tree. Author is a hardware reporter,
+not the maintainer. Weight comes from **Takashi Iwai** applying it.
+
+**Step 3.5: DEPENDENT/PREREQUISITE COMMITS**
+Record: Needs `msi_mpg_x570s_carbon_max_wifi_alc4080_map` and
+`usbmix_ctl_maps[]`. Both exist at `v6.18.57`. **Applies standalone.**
+
+Precedent: Torpedo Max (`4ddef9c4d70aa`) is the same reuse and carried
+**`Cc: stable@vger.kernel.org`**. This 6.18.y tree already has later
+mixer-map ID quirks (`5144ddfb71c18` Corsair Virtuoso later revision,
+`a7de2b873f3db` HS80, `93adf20ff4d6e` KTMicro) — `git merge-base --is-
+ancestor` of each vs `v6.18.57` is true.
+
+---
+
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+
+**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
 Record:
-- Obviously correct: reuses a 2013 combined boost+LED fixup already used
-  for 103c:218b.
-- Minimal: one sorted table line; no API, no new fixup enum.
-- Regression risk: very low. Only SSID 103c:2164 is affected. Mute LED
-  is the same chain the pin table already applied. Boost clamp only
-  touches internal-mic amp caps at probe.
-- Caveat (verified): on-machine testing used model string `limit-mic-
-  boost` (`ALC269_FIXUP_LIMIT_INT_MIC_BOOST`, which chains ThinkPad
-  ACPI, not HP mute LED). That proves the clamp works on this codec;
-  SSID selection of the MUTE_LED variant is by construction (same boost
-  function + same LED chain as the pin table).
+- `b4 dig -c 53b3abbe6e262` →
+  https://patch.msgid.link/20260923184957.6687-1-tomasz@bojanowski.me
+- `b4 dig -a`: **v1 only**, 2026-09-23
+- Thread: submission + Takashi Iwai **“Applied now. Thanks.”**
+  (2026-09-28). **No NAK, no revision requests, no stable discussion in-
+  thread.**
 
-===============================================================
-PHASE 3: GIT HISTORY INVESTIGATION
-===============================================================
+**Step 4.2: CHECK WHO REVIEWED THE PATCH**
+Record (`b4 dig -w`): To/Cc **Takashi Iwai**, **Jaroslav Kysela**,
+`linux-sound`, `linux-kernel`. Right maintainers. Maintainer applied v1
+unchanged.
 
-Step 3.1: BLAME THE CHANGED LINES
+**Step 4.3: SEARCH FOR THE BUG REPORT**
+Record: No bugzilla/syzbot. Author hit it on real hardware. Related
+userspace: alsa-ucm-conf PR #581 (“add UCM2 support for MSI MAG B850M
+Mortar Wifi (ALC4080)”) describes **front-panel and S/PDIF routing
+problems** on this board. Kernel mixer names matter for UCM. That PR is
+supporting context, not a second kernel report.
+
+**Step 4.4: RELATED PATCHES AND SERIES**
+Record: Standalone 1/1. A later lore subject “USB-Audio: add MSI MAG
+B850M Mortar **Max** WiFi (0db0:83ed)” is a **different** USB ID — not a
+dependency.
+
+**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
+Record: `lore.kernel.org/stable/?q=...` returned **403**. Openwall/LKML
+copies had **no stable NAK**. Unverified whether anyone mailed stable@
+about this exact patch. Not used as a negative.
+
+---
+
+## PHASE 5: CODE SEMANTIC ANALYSIS
+
+**Step 5.1: KEY FUNCTIONS**
+Record: No function bodies changed. Data consumed by
+`snd_usb_mixer_controls()` → `find_map()` → `check_mapped_name()`.
+
+**Step 5.2: TRACE CALLERS**
+Record: `snd_usb_mixer_controls()` runs when `snd-usb-audio` builds
+mixers for a matching USB audio interface (device probe). Userspace-
+reachable via plugging/enumerating this onboard codec.
+
+**Step 5.3: TRACE CALLEES**
+Record: `find_map` is a linear table walk; `check_mapped_name` copies a
+string into `kctl->id.name`. No alloc/lock beyond existing mixer control
+creation.
+
+**Step 5.4: FOLLOW THE CALL CHAIN**
+Record: USB enumerate → `snd-usb-audio` probe → mixer parse → kcontrol
+names. **Yes, reachable** for anyone with this motherboard. Unprivileged
+users see the names via ALSA/PulseAudio; they cannot trigger a kernel
+crash with this change.
+
+**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
+Record: Same map already used for `0x0db0:0x419c` and `0x0db0:0xa073`.
+This is the established ALC4080 pattern.
+
+---
+
+## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+
+**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
 Record:
-- Insertion sits between 103c:18e6 (`ALC269_FIXUP_HP_GPIO_LED`) and
-  103c:218b (`ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED`).
-- Combined fixup and 103c:218b come from `8e35cd4ac9967` (“ALSA: HDA -
-  Limit mic boost and add mute LED for an HP machine”, 2013-11-06, David
-  Henningsson / Takashi Iwai). That commit exists in this tree (`git
-  merge-base --is-ancestor 8e35cd4ac9967 HEAD` → 0).
-- Boost-limit helper has been in the Realtek HDA driver since that era;
-  file later moved (`6014e9021b28e`) and split (`aeeb85f26c3bb`).
+- `git describe HEAD` → **`v6.18.57-155-gcdf239ca885b2`**
+- `make kernelversion` → **6.18.57**
+- `v6.18.57:sound/usb/mixer_maps.c` has the ALC4080 map and IDs `0x419c`
+  / `0xa073`, **not** `0xcc78`
+- The unmapped-ID bug **exists on this 6.18.y base**
+- `git merge-base --is-ancestor 53b3abbe6e262 v6.18.57` → **false** (not
+  in the 6.18.57 tag)
 
-Step 3.2: FOLLOW THE FIXES: TAG
-Record: No Fixes: tag. Not applicable. The “bug” is a missing per-board
-quirk, not a regression from a later commit.
+(The candidate is present on current HEAD because autosel applied it for
+evaluation. That is ignored as selection evidence.)
 
-Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
-Record: Recent `alc269.c` history is other per-machine quirks (HP mute
-LEDs, ASUS speakers, Star Labs mic boost). Same class of standalone
-entries. No prerequisite refactor needed for this one line.
+**Step 6.2: BACKPORT COMPLICATIONS**
+Record: **Clean apply.** Context around the Torpedo Max entry is
+identical at `v6.18.57`. Needle found; `0xcc78` absent; map symbol
+present.
 
-Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
-Record: Only this Realtek HDA commit from Hernan Ganzo in this tree.
-Signed off by Takashi Iwai, who maintains ALSA HDA and routinely merges
-these quirk lines.
+**Step 6.3: RELATED FIXES ALREADY HERE**
+Record: Carbon Max and Torpedo Max maps are here. **No equivalent
+`0xcc78` mapping** at `v6.18.57`.
 
-Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
-Record: Standalone. Depends only on
-`ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED`,
-`alc269_fixup_limit_int_mic_boost()`, and `alc269_fixup_tbl[]`, all
-present on v6.18.57. Neighboring 103c:18e6 / 103c:218b lines match the
-hunk context, so it applies cleanly to this series.
+---
 
-===============================================================
-PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-===============================================================
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
-Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
-Record:
-- `b4 dig -c 786fb6b3f513937f712db5a9ba6a12cbc6982ba9` →
-  https://patch.msgid.link/20260921205538.41192-1-gp@sneemgp.com
-- `b4 dig -a`: single v1 series, 2026-09-21, Hernan Ganzo. No v2/v3.
-- Thread (via `b4 mbox`): author patch + Takashi Iwai reply 2026-09-28:
-  “Applied now. Thanks.” No NAK, no requested changes, no stable
-  discussion in-thread.
-- lore WebFetch returned 403; thread recovered with b4 instead.
+**Step 7.1:** Record: **ALSA USB audio (`sound/usb/`)** — **IMPORTANT**
+(common onboard USB audio on AM5 boards). Not core mm/net, not staging.
 
-Step 4.2: CHECK WHO REVIEWED THE PATCH
-Record (`b4 dig -w`): To/Cc linux-sound@vger.kernel.org, tiwai@suse.com,
-perex@perex.cz. Subsystem maintainer applied it. No other reviewers.
+**Step 7.2:** Record: Active; this 6.18.y tree already backports mixer-
+map ID quirks. SOUND maintainers: Takashi Iwai, Jaroslav Kysela
+(`MAINTAINERS`).
 
-Step 4.3: SEARCH FOR THE BUG REPORT
-Record: No bugzilla/syzbot/Launchpad link on this patch. Evidence is the
-author’s on-machine test (kmsg + mixer Limits). The 2013 sibling quirk
-103c:218b had Launchpad 1248476 (same defect class: noisy internal mic +
-mute LED).
+---
 
-Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
-Record: Standalone, not part of a multi-patch series. Same table already
-has many `ALC269_FIXUP_LIMIT_INT_MIC_BOOST*` entries (ThinkPad, ASUS,
-Positivo, VAIO, Star Labs). `56b321df2863d` “Limit Star Labs internal
-mic boost” is already in v6.18.57.
+## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-Step 4.5: CHECK STABLE MAILING LIST HISTORY
-Record: UNVERIFIED. `https://lore.kernel.org/stable/?q=...` returned
-403. No evidence in the sound thread that stable was discussed or
-rejected.
+**Step 8.1:** Record: **Driver-specific / USB-ID-specific** — MSI MAG
+B850M MORTAR WIFI (`0db0:cc78`) with `CONFIG_SND_USB_AUDIO`. Other
+devices unaffected.
 
-===============================================================
-PHASE 5: CODE SEMANTIC ANALYSIS
-===============================================================
+**Step 8.2:** Record: Trigger is **every probe** of that codec. Common
+for that board. Unprivileged users see wrong mixer names; not a syscall
+crash.
 
-Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
-Record: No function body changed. Data only: `alc269_fixup_tbl[]`.
-Runtime path: `snd_hda_pick_fixup()` → `snd_hda_apply_fixup()` →
-`alc269_fixup_limit_int_mic_boost()` +
-`alc269_fixup_hp_mute_led_mic1()`.
+**Step 8.3:** Record: **Failure mode:** all playback controls named
+`"PCM"` → users cannot control speaker vs headphone vs IEC958
+independently; userspace routing/UCM can pick the wrong output.
+**Severity: MEDIUM** as a functional hardware quirk (not
+oops/corruption). Still the class stable explicitly wants.
 
-Step 5.2: TRACE CALLERS
-Record:
-- `alc269` probe (`alc269.c` ~8557) calls `snd_hda_pick_fixup(codec,
-  alc269_fixup_models, alc269_fixup_tbl, alc269_fixups)`.
-- Then pin-table pick, which is a no-op once SSID matched.
-- Probe/init path only, not IRQ or syscall hot path.
+**Step 8.4:** Record: **Benefit: high for those boards, zero
+elsewhere.** **Risk: very low** (4 lines, one ID). **Ratio: strongly
+favorable.**
 
-Step 5.3: TRACE CALLEES
-Record: `alc269_fixup_limit_int_mic_boost()` uses
-`snd_hda_codec_get_pincfg()`, `snd_hda_get_input_pin_attr()`,
-`snd_hda_override_amp_caps()`. Mute LED helper registers LED cdev /
-power filter. All already used by other HP SSIDs.
+---
 
-Step 5.4: FOLLOW THE CALL CHAIN
-Record: Reachable when this laptop enumerates HDA (boot / resume /
-module load). Not a userspace-exploit path; userspace mixer sees a
-smaller boost range. Unprivileged users benefit because capture is
-usable without a model= module option.
+## PHASE 9: FINAL SYNTHESIS
 
-Step 5.5: SEARCH FOR SIMILAR PATTERNS
-Record: Same table already maps 103c:218b to this exact fixup. Many
-other boards use `ALC269_FIXUP_LIMIT_INT_MIC_BOOST`. Systematic, well-
-worn pattern.
+**Step 9.1: EVIDENCE**
 
-===============================================================
-PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
-===============================================================
+**For:**
+- Official rule: *“fix a real bug that bothers people **or just add a
+  device ID**”* and *hardware quirk* (`Documentation/process/stable-
+  kernel-rules.rst`)
+- Same class as USB/PCI ID and mixer-map quirks routinely taken into
+  6.18.y
+- Identical 2022 sibling (Torpedo Max) was **Cc: stable**
+- Real hardware: ALC4080 with colliding `"PCM"` names
+- 4 lines, reuses an in-tree map, maintainer-applied, author-tested
+- Map + table exist at `v6.18.57`; applies cleanly
+- Only that USB ID is affected
 
-Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
-Record:
-- Local tree: `v6.18.57-155-gcdf239ca885b2`, `make kernelversion` =
-  6.18.57.
-- Baseline v6.18.57: `sound/hda/codecs/realtek/alc269.c` exists;
-  `ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED` exists; 103c:218b exists;
-  **103c:2164 does not**.
-- Without the line, this HP falls through to the pin table
-  (`ALC269_FIXUP_HP_MUTE_LED_MIC1` entries for codec 0x10ec0282 / vendor
-  0x103c are present). ALC3227 is the HP OEM name for 0x10ec0282
-  (`realtek.c`: `{ 0x10ec0282, 0x103c, 0, "ALC3227" }`).
-- Hardware defect is as old as the machine; software has never limited
-  this SSID.
+**Against:**
+- Not a crash, UAF, or security fix
+- No Fixes:/Cc: stable on this commit (expected; not a veto)
+- No second independent reporter in the kernel thread
 
-Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
-Record: Clean apply. v6.18.57 context is identical to the hunk (`0x18e6`
-then `0x218b`). File path is already `sound/hda/codecs/realtek/alc269.c`
-on 6.18.y (move/split already landed).
+**Unresolved:**
+- lore.kernel.org/stable search 403 — no verified stable-list thread
+- Commit text says controls show as `"Speaker"` / `"Front Headphone"` /
+  `"IEC958"`; table strings are `"* Playback"`. Same as the 2022 map.
+  Does not change correctness.
 
-Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
-Record: No other 103c:2164 quirk. Sibling boost+LED fixup and Star Labs
-boost limit are already in v6.18.57. This SSID is the missing piece.
+**Step 9.2: STABLE RULES CHECKLIST**
+1. Obviously correct and tested? **PASS** — 4-line ID add; author
+   tested; maintainer applied
+2. Fixes a real bug that affects users? **PASS** — indistinguishable
+   mixer controls on real hardware
+3. Important issue? **PASS** as **hardware quirk / device ID**
+   (documented exception); not a panic
+4. Small and contained? **PASS** — +4 lines, one file
+5. No new features or APIs? **PASS** — existing map, existing driver
+6. Can apply to the local tree? **PASS** — clean against `v6.18.57`
 
-===============================================================
-PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-===============================================================
+**Step 9.3: EXCEPTION CATEGORY**
+Record: **Device ID addition + hardware quirk/workaround** (USB mixer-
+map ID on existing `snd-usb-audio`).
 
-Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
-Record: ALSA HD-audio Realtek codec (`sound/hda/codecs/realtek/`).
-IMPORTANT for laptop audio, not core mm/fs. Still a long-lived
-production driver.
+**Step 9.4: DECISION**
+Backport. This is the standard stable-eligible USB mixer ID quirk:
+small, isolated, already-supported driver, real board, in-tree map.
 
-Step 7.2: ASSESS SUBSYSTEM ACTIVITY
-Record: High activity: frequent one-line `SND_PCI_QUIRK` additions,
-routinely taken by Iwai. Mature quirk table; this is not new-subsystem
-code.
+---
 
-===============================================================
-PHASE 8: IMPACT AND RISK ASSESSMENT
-===============================================================
+### What the commit solves and why it matters here
 
-Step 8.1: DETERMINE WHO IS AFFECTED
-Record: Driver-specific / SSID-specific. Only HP Pavilion 15 with PCI
-SSID 103c:2164 (ALC3227). Other machines unchanged.
+On this 6.18.y tree, `snd-usb-audio` already drives Realtek ALC4080
+motherboard codecs, but `0db0:cc78` has no name map. All playback
+volumes appear as `"PCM"`, so users (and UCM) cannot separate speaker,
+front headphone, and S/PDIF. The patch binds that ID to the existing MSI
+ALC4080 map.
 
-Step 8.2: DETERMINE THE TRIGGER CONDITIONS
-Record: Always on that hardware: every probe, default mixer range
-includes 24/36 dB boost. No race. An unprivileged user using the
-internal mic hits it. Workaround today is `snd-hda-intel.model=limit-
-mic-boost`.
+### Stable rules / risk vs benefit
 
-Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
-Record: Internal microphone clips / is unusable at the two highest boost
-steps (and noisy even at ambient). Not oops/deadlock/corruption.
-Severity: MEDIUM for that machine, but it is a documented hardware quirk
-class that stable-kernel-rules explicitly include.
+Meets the written stable rules via the **device ID / hardware quirk**
+exception. Benefit is correct mixer labels for this AM5 board; risk is
+confined to that USB ID. No prerequisites beyond code already in
+`v6.18.57`.
 
-Step 8.4: CALCULATE RISK-BENEFIT RATIO
-Record:
-- Benefit: high for owners of this SKU (usable capture range without a
-  module option); zero for everyone else.
-- Risk: very low (1 line, SSID-gated, existing fixup, maintainer-
-  applied, tested).
-- Ratio: strongly favorable.
+### Concerns
 
-===============================================================
-PHASE 9: FINAL SYNTHESIS
-===============================================================
+None material. Different Mortar **Max** ID `0db0:83ed` is a separate
+patch and not required. Presence of this commit on current autosel HEAD
+is evaluation-pipeline state, not a reason to skip a technical YES.
 
-Step 9.1: COMPILE THE EVIDENCE
-FOR:
-- One-line PCI/SSID quirk on an existing driver — stable-kernel-rules:
-  “fix a real bug that bothers people or just add a device ID”;
-  “hardware quirk” is listed as in-scope.
-- Real user-visible defect: 66 dB analogue cascade, clipping on quiet-
-  room noise; author tested on the machine.
-- Reuses `ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED` already in 6.18.y
-  (103c:218b since 2013).
-- Mute LED preserved via chain to the same pin-table fixup.
-- Applies cleanly to v6.18.57; no new APIs; ALSA maintainer applied v1
-  with no objections.
-- Same class as other boost-limit quirks already in this tree (e.g. Star
-  Labs).
+---
 
-AGAINST:
-- Not a crash/security/data-corruption fix; one laptop SKU.
-- Author says remaining 12 dB + 30 dB ADC is still hotter than ideal
-  (partial mitigation by design of this quirk class).
-- Model-string test used `limit-mic-boost`, not the MUTE_LED SSID id
-  (boost path still verified on hardware).
+### Verification
+- **[Phase 1]** Parsed subject/tags/body from `git show 53b3abbe6e262`;
+  Link msgid `20260923184957.6687-1-tomasz@bojanowski.me`
+- **[Phase 2]** Diff: +4 lines in `usbmix_ctl_maps[]`; map contents and
+  `snd_usb_mixer_controls()` lookup read in this tree
+- **[Phase 3]** `git blame` on map (5762f980ca10d, 2022) and ID rows;
+  Torpedo Max `4ddef9c4d70aa` has `Cc: stable`; `git merge-base --is-
+  ancestor` of map/Torpedo vs `v6.18.57` = yes
+- **[Phase 3]** `git log --oneline -20 -- sound/usb/mixer_maps.c`;
+  author search only this commit
+- **[Phase 4]** `b4 dig -c/-a/-w` and `-m /tmp/thread.mbox`: v1 only; To
+  Iwai/Kysela/linux-sound; Iwai “Applied now”
+- **[Phase 4]** Openwall + LKML mirrors of the same thread;
+  lore.kernel.org 403 on patch.msgid.link and stable search
+- **[Phase 4]** Web search found alsa-ucm-conf PR #581 for this board
+  (userspace routing)
+- **[Phase 5]** Call path: `snd_usb_mixer_controls` → `find_map` →
+  `check_mapped_name` verified in `mixer.c`
+- **[Phase 6]** `git describe HEAD` = `v6.18.57-155-gcdf239ca885b2`;
+  `make kernelversion` = 6.18.57; `git grep` on `v6.18.57 --
+  sound/usb/mixer_maps.c`: map yes, `0xcc78` no; ancestor check of
+  candidate vs `v6.18.57` = no
+- **[Phase 6]** Context around Torpedo Max entry identical at `v6.18.57`
+  (clean apply)
+- **[Phase 6]** Similar mixer-map ID quirks already in `v6.18.57`
+  (Corsair Virtuoso, HS80, KTMicro)
+- **[Phase 7]** SOUND maintainers in `MAINTAINERS`; `sound/usb/` still
+  receiving 6.18.y quirks
+- **[Phase 8]** Failure mode is misnamed mixer controls for one USB ID,
+  not a kernel oops
+- **UNVERIFIED:** whether this patch was already discussed on stable@
+  (lore stable search 403)
 
-UNRESOLVED:
-- Stable mailing-list search blocked (HTTP 403).
-- lore WebFetch 403; discussion recovered via b4 mbox.
-
-Step 9.2: APPLY THE STABLE RULES CHECKLIST
-1. Obviously correct and tested? PASS — one table line, existing fixup,
-   on-machine test, maintainer “Applied now.”
-2. Fixes a real bug that affects users? PASS — unusable internal-mic
-   boost steps on this HP.
-3. Important issue? PASS as hardware quirk (explicitly allowed); not
-   CRITICAL crash.
-4. Small and contained? PASS — +1 line, one file.
-5. No new features or APIs? PASS — existing fixup ID only.
-6. Can apply to the local tree? PASS — v6.18.57 has the file, fixup, and
-   identical hunk context; 103c:2164 is missing on the 6.18.57 baseline.
-
-Step 9.3: CHECK FOR EXCEPTION CATEGORIES
-Record: Hardware quirk / device-ID addition to an existing driver.
-Automatic stable-qualifier.
-
-Step 9.4: MAKE YOUR DECISION
-This is a textbook stable HDA quirk: SSID-matched, one line, existing
-helper, real capture breakage on a shipping laptop, clean apply on
-6.18.y. Include it.
-
-What it solves for stable users: on HP Pavilion 15 103c:2164, Internal
-Mic Boost is clamped to 0/12 dB instead of 0–36 dB, so the mic no longer
-clips at the two hardware steps that this codec cannot use. Mute LED
-behavior stays the pin-table path.
-
-Risk vs benefit: benefit is localized and real; risk is confined to that
-SSID and the helper has been in-tree for years.
-
-Verification:
-- [Phase 1] Parsed tags: Link msgid, SOB Ganzo + Iwai; no
-  Fixes/Reported-by/Cc-stable
-- [Phase 1] Body: 66 dB cascade, pin-table fallback to HP_MUTE_LED_MIC1,
-  reuse of LIMIT_INT_MIC_BOOST_MUTE_LED
-- [Phase 2] Diff: +1 `SND_PCI_QUIRK(0x103c, 0x2164, ...
-  LIMIT_INT_MIC_BOOST_MUTE_LED)` in `alc269_fixup_tbl`
-- [Phase 2] Read `alc269_fixup_limit_int_mic_boost()` and chained fixup
-  in this tree
-- [Phase 2] Read `snd_hda_pick_fixup()` / `snd_hda_pick_pin_fixup()`:
-  SSID wins over pin table
-- [Phase 3] `git blame` around insertion; `git show 8e35cd4ac9967` (2013
-  218b/combined fixup); ancestor of HEAD
-- [Phase 3] `git log -S 'ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED'`
-  traces to 8e35cd4ac9967 via file moves
-- [Phase 3] Author history: only this Realtek commit in-tree
-- [Phase 4] `b4 dig -c 786fb6b3...`: lore URL; `-a` v1 only; `-w` linux-
-  sound/tiwai/perex
-- [Phase 4] `b4 mbox`: Iwai “Applied now. Thanks.”; no NAK
-- [Phase 4] UNVERIFIED: lore WebFetch 403; stable list 403
-- [Phase 5] Callers: alc269 probe → pick_fixup; clamp at
-  HDA_FIXUP_ACT_PROBE
-- [Phase 5] ALC3227 = 0x10ec0282 + HP 0x103c in `realtek.c`
-- [Phase 6] `git describe HEAD` = v6.18.57-155-gcdf239ca885b2; `make
-  kernelversion` = 6.18.57
-- [Phase 6] `git grep 0x2164 v6.18.57 -- alc269.c`: absent; fixup and
-  218b present
-- [Phase 6] Context at v6.18.57 matches the hunk (18e6 then 218b)
-- [Phase 6] Star Labs boost-limit `56b321df2863d` is ancestor of
-  v6.18.57
-- [Phase 7] ALSA HDA Realtek; quirk table still actively extended
-- [Phase 8] Failure mode: clipped/unusable internal mic on one SSID;
-  severity MEDIUM; hardware-quirk exception
-- [Phase 9] `Documentation/process/stable-kernel-rules.rst` lines 15–20:
-  device ID / hardware quirk allowed
+The patch is a contained hardware quirk for an existing driver and
+should be taken into this 6.18.y tree.
 
 **YES**
 
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/usb/mixer_maps.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index bc87062f86da7..10d930d8fed72 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6707,6 +6707,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1028, 0x164b, "Dell", ALC293_FIXUP_DELL1_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x103c, 0x1586, "HP", ALC269_FIXUP_HP_MUTE_LED_MIC2),
- 	SND_PCI_QUIRK(0x103c, 0x18e6, "HP", ALC269_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x2164, "HP Pavilion 15 Notebook PC", ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x218b, "HP", ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x21f9, "HP", ALC269_FIXUP_HP_MUTE_LED_MIC1),
- 	SND_PCI_QUIRK(0x103c, 0x2210, "HP", ALC269_FIXUP_HP_MUTE_LED_MIC1),
+diff --git a/sound/usb/mixer_maps.c b/sound/usb/mixer_maps.c
+index ace4ccad8f51c..a82b9c1d578d9 100644
+--- a/sound/usb/mixer_maps.c
++++ b/sound/usb/mixer_maps.c
+@@ -718,6 +718,10 @@ static const struct usbmix_ctl_map usbmix_ctl_maps[] = {
+ 		.id = USB_ID(0x0db0, 0xa073),
+ 		.map = msi_mpg_x570s_carbon_max_wifi_alc4080_map,
+ 	},
++	{	/* MSI MAG B850M MORTAR WIFI */
++		.id = USB_ID(0x0db0, 0xcc78),
++		.map = msi_mpg_x570s_carbon_max_wifi_alc4080_map,
++	},
+ 	{	/* MSI TRX40 */
+ 		.id = USB_ID(0x0db0, 0x543d),
+ 		.map = trx40_mobo_map,
 -- 
 2.53.0
 
