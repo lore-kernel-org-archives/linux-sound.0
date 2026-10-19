@@ -1,100 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.65.24
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792442563;
-	b=KPvnte2umQxcU+y9DTodq5aq3oJx4EODK0x6ls1DAqdrlIYD9NwOdjfP042BDGoapa8N
-	 6dHzd/AZVaqHQA7r0U7diEjnGPXPSYkgvw1GKyEtxEyJYe8hvvpeH6bEq2LsM7rebG18T
-	 RswY0+nbPi82zMHRGlzHoEAOjWR+I4ksDGX2PQfjW6LVvqxrhjNbf8TV1bYkSSsbv9mfQ
-	 2QQBznJSQDdeDKkKi9Wy9sppaEEBt/b8LR+AVKxHHvBUnRgGuNvfiYvSIbSd4E6lUa8Fh
-	 vFIbhOH7i8Iavmm44YtYvxibXT7BJQWvMETIicBlIIT2BbcyQXW0vL0j+081HwDy/jA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792442563;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=o2QjvA/y5Btd8S5rN1Zmuz1Z4m0p5O6mlwHr8eDsAl4=;
-	b=0SWZXciQsBGuQkgiAH3H1hqKFEWKO4Lm/uqSgMWSMBGQU3pCZYiOmFK9dJHKcnO0dFwe
-	 6CUH62nobKZyODYwHFU1ZcIioy2Vna2FbPES+1sWIDQhLDU126e/OBFZHrCjSd8IDEFDh
-	 EwFdcwTkxKSeevDrrzIukexh3pVn98Y3pBmXARFiSWILcPrjehMcWFDJzAF2yNoxPT9T1
-	 Iv9k0iYEPKxLNIlhRBUooL1X2Ji6Zf4zmkJHtoCIJ7SjVqcw3CYcIYWbVA3zD1y2twvY1
-	 ELLOdRuto7fDSnuxwpWCoip6CoSAg3TebhyaXuG0tLY7wleXsI5NTMy4iLhtpeVQq+A==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.nxp.com;
-	spf=pass smtp.mailfrom=oss.nxp.com;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=f2K5nsOq;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.65.24
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011024.outbound.protection.outlook.com [52.101.65.24])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=46.105.56.113
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792443012;
+	b=sRv1bthZ0htn9z9upykpFufWZ76EfOOD0BWB4RT7HFCu1bSxSlQreuWQKenuoG/c3+G3
+	 3yghR6fzQsAPm+dQ6p7XdY0DpO44e2s41N7SUlizziAjikBj7GziA9Vd7zmsMTg1IHCFt
+	 99Pgd1730LlbPlGpg5EnBvYnl1CtS8BuBhq42rKGPjAmI9PNNPbL4OpLDN88pVR3tnB7K
+	 lQ/sKsGGujtwRZKPL1kt9588aCsPtD49VCwrO0qBuGaLNfHZtMq6ex4/IEqGTKl9WO3lN
+	 EkzjgrU8JjPTySc3krtNJU0d7fHe/csYsHbd44UdRy+9FQb1/L7iCk7RXksZdMbiKgQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792443012;
+	h=DMARC-Filter:Received:Received:Received:X-OVh-ClientIp:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:x-ovh-tracer-id:X-VR-SPAMSTATE:
+	 X-VR-SPAMSCORE:X-VR-SPAMCAUSE:DKIM-Signature;
+	bh=4fn63uVBYvxfQtH2ReBw1SF76TfWdRjqEc3mmjrw420=;
+	b=u5ec4we5WkKsfv/F2UejvzmTPNB64u8oC13JG+hgUXmyNcS7NUv7bFo8FqNCSaa9FNIZ
+	 FeqHfCPasJXVfIcfwQ3UC0ZUQD+eREjuqKbyO97IFiOZ8s5+LRYv5bWeIwCGmULqxBJ1L
+	 6jpAwREvjQpncj8Jg7KXeToeogNEADZB39qw/3tmqKiSiGVRT4xFSAReqDzozrySFOegb
+	 eAhK858SAi1nt06+mGDgNS9/3o1SuBZ9esC1zwhT2v/p0ijEuHcJpAfvgrQqVUo2QCEbu
+	 qewmhApOIo15H/QtAigbfzs4ZxROlv9WLLPil9ERi1d9Ung3/npNJ+27CFxyvY7FX4Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=fortytwo.fr;
+	spf=pass smtp.mailfrom=fortytwo.fr;
+	dkim=pass header.d=fortytwo.fr header.i=@fortytwo.fr header.a=rsa-sha256 header.s=ovhmo5104297-selector1 header.b=U1XPlwa6;
+	arc=none smtp.remote-ip=46.105.56.113
+Received: from 14.mo582.mail-out.ovh.net (14.mo582.mail-out.ovh.net [46.105.56.113])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0572C606A31C;
-	Mon, 19 Oct 2026 20:42:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0572C606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F801606A31C
+	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 20:50:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F801606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fortytwo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fortytwo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=f2K5nsOq
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kmmbb1NftZH9qB+rL6NLH+RrECEORrq6121SAM0xk2fgJcGyQONdHWmJC+5+EsQkmyKcLqBxcbsjWriwkYZVXX7ITDny4eepMqEhYOUuNCKBDs7H5M55e8cU/e6HuZkb3NRRGKCLaC0i6/Jsc+LhLwicARZf0dXT0q0ewOF+LeElzKqvBnGGrv+h423o9JGe5iRGn4xorVuqpjutWsw8LnYG76rutTCKdDvf1bm8T9H8dqYOcdPc153+PZzBJOjCZWgurSpl05fC/r6WPkLurTsKpjPIKCh7BOQX4DtuoNkfbyC0kkTtED8LDpLYoa/h/HH5e7ks3k8p+gbKO+llBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o2QjvA/y5Btd8S5rN1Zmuz1Z4m0p5O6mlwHr8eDsAl4=;
- b=kEClOTy0GYfepV6Nv8LPm+2ubQFgVBEvr6UpwiHpL0d4gd1REVPM5GgMqSnYABO5l0hu9JQTviDw/gDtE0M7QRruWPLT6di538Mf/tfVJgDg1gGrhj+Gc4CCMBCymsPWrr3tj4Lt6oZoE0FFUGdaqYEOX9PWl+rOyA6UBNAZKsefT2j9JsAJy3IhhvOS7NVwiu50DRNGlmvfyntmW7TTfJB5MgZjN5yT2PpUWSIGs7GUXJGwLuBepgk/FfcifFrgsDbPXhSZ4PyxNyyN588WsfcA5gwX2bnRPdyCKS7kEGjfAl1PV/qBbeXD2FldxShF/E+wDSSZ95OBJoX+05r5Qw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o2QjvA/y5Btd8S5rN1Zmuz1Z4m0p5O6mlwHr8eDsAl4=;
- b=f2K5nsOqy/GZwC1cP65AU3cDNkT5E5oN4uIM3M67BUipHY0K0afjqwUb4L7OFYYWnJRp/7By0793HiIaPK6OHeV23Z3A2atuqsxw2i9QI3tGCyK1WyFKc5JQRmBpuvpHIj6KJnZoaoL4ALvPqeoipzTXD33q9m5sZT1evyjTe/ZJRvxC453ZsufMinAX7cQnxV2ijo3pVeSYD56/ocXvmOBYZs5ym+iFNJzYbKccVEfkpy4aZg35tixWoFV+Eqn9oeilGHzKUWVkn7K79z83qRiDRRiUg2raYJ9FnIDaTrq+PZvoucAw8LIjy6JrCdX0UCeKL5yOryxCsgD0BTg3vw==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from MI3PR04MB12438.eurprd04.prod.outlook.com (2603:10a6:290:76::14)
- by MMZPR04MB387749.eurprd04.prod.outlook.com (2603:10a6:190:4f::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Mon, 19 Oct
- 2026 20:42:40 +0000
-Received: from MI3PR04MB12438.eurprd04.prod.outlook.com
- ([fe80::c715:c32:8bb1:b70b]) by MI3PR04MB12438.eurprd04.prod.outlook.com
- ([fe80::c715:c32:8bb1:b70b%6]) with mapi id 15.21.0522.017; Mon, 19 Oct 2026
- 20:42:40 +0000
-Date: Mon, 19 Oct 2026 15:42:29 -0500
-From: Frank Li <Frank.li@oss.nxp.com>
-To: Chancel Liu <chancel.liu@oss.nxp.com>
-Cc: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Chancel Liu <chancel.liu@nxp.com>
-Subject: Re: [PATCH] ASoC: imx-pcm-rpmsg: Flush pending work in hw_free
-Message-ID: <ataAteh8BJKbhyOV@SMW015318>
-References: <20261019-b4-imx-pcm-rpmsg-concurrent-v1-1-c1fb8c33f4db@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261019-b4-imx-pcm-rpmsg-concurrent-v1-1-c1fb8c33f4db@nxp.com>
-X-ClientProxiedBy: PH0PR07CA0074.namprd07.prod.outlook.com
- (2603:10b6:510:f::19) To MI3PR04MB12438.eurprd04.prod.outlook.com
- (2603:10a6:290:76::14)
+	dkim=pass (2048-bit key, unprotected) header.d=fortytwo.fr header.i=@fortytwo.fr header.a=rsa-sha256 header.s=ovhmo5104297-selector1 header.b=U1XPlwa6
+Received: from director2.ghost.mail-out.ovh.net (unknown [10.110.58.215])
+	by mo582.mail-out.ovh.net (Postfix) with ESMTP id 4j7njj0myjz5wb0
+	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 20:50:01 +0000 (UTC)
+Received: from ghost-submission-7ccd8bbbb6-fkvks (unknown [10.108.54.44])
+	by director2.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 5324EC0504;
+	Mon, 19 Oct 2026 20:50:00 +0000 (UTC)
+Received: from fortytwo.fr ([37.59.142.109])
+	by ghost-submission-7ccd8bbbb6-fkvks with ESMTPSA
+	id VEu4BniC1mqXTQgAMqfShQ
+	(envelope-from <thomas.nemer@fortytwo.fr>); Mon, 19 Oct 2026 20:50:00 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-109S003aced7fa9-8cdd-47b0-9b08-e2ff1db65e06,
+                    4B164670A4970DC4CA3EEE43615753EBC6495375) smtp.auth=thomas.nemer@fortytwo.fr
+X-OVh-ClientIp:95.173.222.53
+From: Thomas Nemer <thomas.nemer@fortytwo.fr>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Thomas Nemer <thomas.nemer@fortytwo.fr>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: Skip sample-rate read-back on PreSonus AudioBox USB
+Date: Mon, 19 Oct 2026 22:49:44 +0200
+Message-ID: <20261019204944.28302-1-thomas.nemer@fortytwo.fr>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,128 +67,52 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MI3PR04MB12438:EE_|MMZPR04MB387749:EE_
-X-MS-Office365-Filtering-Correlation-Id: 76e18ae2-ffb4-4414-a6c8-08df2e218486
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|19092799006|23010399003|1800799024|261009223027099003|56012099006|10067099003|6133799003|22082099003|18002099003|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	rYwNi/H6s8/CZGOutrW3XXPmCaHvVlBiTruMS1Cyg1PIVNhOyVEiRLAn03cy5ln0hR2AsNitn1XL8eLJwqVHgxP2xJxObAfH6n2ZODUW7e1qlLnoe+p6bqFjeWdP6PLYXUboJvSpBIYUZzk72qFuBUzMa6ezmwFZJIudqRWQ9jt0uc61DVPO1zHjVpxPyMWGSWeR3Rs0FiW+FndSzGIilgjOvx/63uW7MTq7DPGh7eDj+FcTAZF+aYcdppFRDOxvZr8rW++b/B+LyFVgB+1u1tNJ5OD4P3oazvQALqOhf4mu/SaSMSPtEEUBRcIg3ifbmKB2PdxVX9JFfeD78IOOAlIgetTqCWCViMiMGnZ8l9+x5fZwKRB0bJ/CA+J0u3i80yhAWV5Lxv9fXQVex64zAW3+amN5OWdBZ6n08fs7QjVpusSROXoNm0x/mV3Yc3gNjh7oP2ibY6+An3pYSrospvSZgtMyyefPW+5pNbX961KNDnt2T7IhL9H0KELKfD8iqE/RKAbJ6z8BuihrOv2bDrKfErE3u4idx47/OIfyGQotLSmkUBvxQao87Brq7eYLQdI6C0JZ4kHwMYpHY0vYJbumb9FGY4WrnwG870yn9aAy7lRqrv29kBBQkm87JqOph1xuqPDvUi+A38fi0UXPAfihf17+I0S69PyB3gslEZU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI3PR04MB12438.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(19092799006)(23010399003)(1800799024)(261009223027099003)(56012099006)(10067099003)(6133799003)(22082099003)(18002099003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?kCHzq4ZW/9uyo+57UF8DADhoyovtwxebcYmsd7AeSjlsr9BgpILXjHwQnW1c?=
- =?us-ascii?Q?cljvIiv/2UWGhhKwUVPh6wpN+gYgoEIHu8XlxBGHdGMQXg4NxI+3w8adQKhA?=
- =?us-ascii?Q?pqCnZYsZRtuUG9hWaURSiJILwIqM4TK+UeCZ111562/suKSaak8BRiBhq3XW?=
- =?us-ascii?Q?Eg7RI1KDr15ZIs42mzP5S+LFeWkWTn9hx1m9yS6IYd1bMolfHJFC9R9qKhrF?=
- =?us-ascii?Q?yuZPNQSVBPNS9tW28PS8YgXsDzm95mqZUFh1bGHv+St4EKwTSbnzpONMHFu1?=
- =?us-ascii?Q?627SBoChOt7p0TuzKjK0S0FlHXR67KBM16oYxACMs8yibYcLUlE3+gRmuiVk?=
- =?us-ascii?Q?ov295IlkrScreOX/771bEkNDyRxQAWkT6XeWNHoCKA1cT9nJTfXzSFjTrz1A?=
- =?us-ascii?Q?fYVwJYEbmy0X6nK/bmILI5BsB81YWFkG6zqCtaoWW/mDUxUv9efE5yeYa8Hz?=
- =?us-ascii?Q?ez2mxi1oeXo2tHm4R/wNAlpbzq6PXij2kBhitEt+iu1JTIz1F7gdis7WVDwV?=
- =?us-ascii?Q?eD1Q46hluf70S54YC/F5znaUOJf06WeqojjfEHFDGr620z534nS4At6aCdrN?=
- =?us-ascii?Q?mpeYiTm/CUPX8Z6CShEk/SAfodPLAEPhndrpH80A9myKsl2LROKVwE7mEgMw?=
- =?us-ascii?Q?xwdwyxlH0fkdW7ibjsg3tv7cSB+Vodf7i7QtlSZrdcFg/tc55CISq0ohjkzM?=
- =?us-ascii?Q?PTqQ0nCrH9iOSdfzyJVTWqylI1iAOTkjoN/I1IPFI+mDRQtXa4Gyx1irlBT4?=
- =?us-ascii?Q?B50I4C8CEDA0omrKjoIr1FaZOF6kIPMuC2B9eAJF8wyqApdmLc2ECHQcE3Ol?=
- =?us-ascii?Q?n6bT1khh1KQYJeGVgZpqbteO1TF+Kl8XBDx8I5TxtTAQpljUlJ0UzzNJPEN7?=
- =?us-ascii?Q?ECs4MT6NSFfVHysHfPWyC3CVOxVO6Gl3QM+aL2X77uQcF9US/ExH7t/vzRFc?=
- =?us-ascii?Q?TQjcWhnTYeUMxkl1X5GD0uThef7N5HpMz+nQVVErMdZmcXNq4o8ql/1JVDmW?=
- =?us-ascii?Q?qpOvmAWkWPZl58CyzVGvd/M9YTGu5eWQEcD44s7ZsF0UWX8VwlE7ly00Qg5z?=
- =?us-ascii?Q?KuErMCDhTvxH5oX25HG+NE2BSSUNwh+VQ8ry1MBy4pmIvf0oTK3nDAeS6kmL?=
- =?us-ascii?Q?3FZu3wdFrUzEMd74SjH7QbmIqyj6ZOy8amTvEjOK+vpQQ2A23yg6tmBM6Kvl?=
- =?us-ascii?Q?m7dx5XxG5QjiP9lVGo/rWIzBdDIpISgHD3iGpb4ZHuQg9pOCPWzdx9oSBcrw?=
- =?us-ascii?Q?zjrDmTraZ8kkswFiC4ujApURRIIDfNkEVoR+4RT3w4X1jTAS5r+Ivozfwoyf?=
- =?us-ascii?Q?bvcReCEIX8c+NyQ5qkY1mwn81cyK3qVRnzvsbXXFT6fp1YPsQavgua9TPLCV?=
- =?us-ascii?Q?VDWP/j2TnY66q3gVDXbZNO3f/Kmx2/wMbJVOyhm3AalXwkwZAScoAzLqzXxQ?=
- =?us-ascii?Q?zEi470GEd6MpN8dFiAZh5ZqrqcjexIJvNIT8U7qglK8nxUCX/rSSor1CkjLt?=
- =?us-ascii?Q?tyiwfy7MGStU5eldH1fgk1xfY9t/TqCT2GHXhoqseyWa/EcwzJZg9cdnK+zb?=
- =?us-ascii?Q?ye/DNv8X5d4vduuYBlJNDlrGUMmsu5BqWL+IgeciRR1d3JoBoGtXLLgIKx2P?=
- =?us-ascii?Q?ox5pfLvcbiy2+XF0nYZiUGPmjkZ3eJKRVGqI+GaBX3M5e1F1C1WYyH918cbn?=
- =?us-ascii?Q?PE48Qxh7BEFnbQqbFHOZ0v74MBMsMnHSq1vGi84kDKtOq2pOwpiPAIKYfk0W?=
- =?us-ascii?Q?j1Uts3Z0gBDJgqxS/WN1yujNL0dAAaVjWtSXLSDi57GMg0l3uM/b?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76e18ae2-ffb4-4414-a6c8-08df2e218486
-X-MS-Exchange-CrossTenant-AuthSource: MI3PR04MB12438.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2026 20:42:40.4176
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mqEe2eVFqjATHMCx8ifVXah1qDz7DO4YpB1qf9gjhiqgXm/KjM/18HBdjMCm4a51HVhveCApipP/mfZxRojyH9HLuBjDY+ylgDBvw/JTSM5fkSk6lHRHYJJXAbvWN+Vx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MMZPR04MB387749
+Content-Transfer-Encoding: 8bit
+x-ovh-tracer-id: 9401264225134745115
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: dmFkZTFv5RZtM9mpj8u/H85rF+WBJP6AVAhXJDhfjs/w3KZzF3x+AUV/A/iZe1Syw/fbLg9RO/HYYzDEs/T9QTlanQHvwVlqkko23HTx37doq23Xi0LQQe+o+2jnKeBSBwxE3CDOSsz/9M8RFlL0m2t2PrZpSvlo9Cx5B06BLS51Dmm5uBfI8m+1LYrzWNGnCMAmqth7xBGsKOlByDI0a2PWa4rn31z7d7XImOXCkdzNFmyJroWyKNpRrKFblx9lL74YGzeqChSSPlkQzUVIonkm3UGiPebGfJsg0yNKIAB1Fp9TfK1yNo5dwmVdr78SrSzIneGJmQ3dIJ52I004FjDxpLkCIV6ykRIAAPklWhYqXf4ynn8e++Vgu4bhqzEjGhj+KBTzLNmtDSsmVckwJVak1jNaM20G4Eqxtw9VPvAoDkP23T7Rq9rzld+Eti91ig4ccfa7PAnZJ+1/Z9tNBUgJzbqr/T8R8KIP5mowIi3+S/bjdlN7n02PMB4XyKAeAou6xrXH96gXymlLQ1CleIOhJX5nNQoJZrA3YRcpOGyBSYPEqX0cBbapa3IffIDpor5fsz6xp1B+FsEsjlAfpu1M86AJqjr+uSvL5CewGOEUVA8+/KfZD5L8SreirWm5Tlfe4PeubV602nBvJSDklxztX2K0WF43stItrCKDPSTVul1UMw
+DKIM-Signature: a=rsa-sha256; bh=4fn63uVBYvxfQtH2ReBw1SF76TfWdRjqEc3mmjrw420=;
+ c=relaxed/relaxed; d=fortytwo.fr; h=From; s=ovhmo5104297-selector1;
+ t=1792443001; v=1;
+ b=U1XPlwa6UgLvGOZaHEt7oEl4v2CsZMW6PgstShf6PzjsHZw0a3XXRKnyCyO1UZ924IZmEdK3
+ Z0+amFpNzYUSFVZQq+WBhs0tbSX4xn+5BL1+RTGMJTB4QuK8mefc9ScznhM4lAMqvuA0JcoHm6G
+ GzmwMvJ54YIegbFmv3wyVr98DIGZUX5JdNNicwg6VqXRb00o62jw88ENICV5rmXdXTqvE4nz4ao
+ pKU3lPRZBk1dnibRr6G/TOH1gfN5RlFwhKiNwEritcpp5XVUC53L2rO/by2Pbk3GZ+0EE/TgA+F
+ koZC4v+OEnbimfOv0vYU9SCi95wCqSh0zrCpHgDYgFy1g==
 
-On Mon, Oct 19, 2026 at 03:58:20PM +0900, Chancel Liu wrote:
-> From: Chancel Liu <chancel.liu@nxp.com>
->
-> imx_rpmsg_terminate_all() queues the TERMINATE message to the workqueue
-> and returns, while the DAI hw_free() synchronously gates the audio
-> clock. The two can then run concurrently, and this concurrent access to
-> the shared audio clock path can cause a stop failure or even hang the
-> system.
->
-> Flush the workqueue in a new component hw_free(), which runs before the
-> DAI hw_free(), so TERMINATE is fully handled before the clock is gated.
-> CLOSE stays the last message.
->
-> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
-> ---
+The AudioBox USB stalls the UAC1 GET_CUR SAMPLING_FREQ request on both
+streaming endpoints. After the sample rate is set, the read-back
+verification in set_sample_rate_v1() fails and logs
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
+  usb 1-3.1.2: 2:1: cannot get freq at ep 0x1
+  usb 1-3.1.2: 3:1: cannot get freq at ep 0x82
 
->  sound/soc/fsl/imx-pcm-rpmsg.c | 14 +++++++++++---
->  1 file changed, 11 insertions(+), 3 deletions(-)
->
-> diff --git a/sound/soc/fsl/imx-pcm-rpmsg.c b/sound/soc/fsl/imx-pcm-rpmsg.c
-> index 85b7c929a28a..6a0174d6c78d 100644
-> --- a/sound/soc/fsl/imx-pcm-rpmsg.c
-> +++ b/sound/soc/fsl/imx-pcm-rpmsg.c
-> @@ -178,6 +178,16 @@ static int imx_rpmsg_pcm_hw_params(struct snd_soc_component *component,
->  	return 0;
->  }
->
-> +static int imx_rpmsg_pcm_hw_free(struct snd_soc_component *component,
-> +				 struct snd_pcm_substream *substream)
-> +{
-> +	struct rpmsg_info *info = dev_get_drvdata(component->dev);
-> +
-> +	flush_workqueue(info->rpmsg_wq);
-> +
-> +	return 0;
-> +}
-> +
->  static snd_pcm_uframes_t imx_rpmsg_pcm_pointer(struct snd_soc_component *component,
->  					       struct snd_pcm_substream *substream)
->  {
-> @@ -285,9 +295,6 @@ static int imx_rpmsg_pcm_close(struct snd_soc_component *component,
->  	struct rpmsg_info *info = dev_get_drvdata(component->dev);
->  	struct rpmsg_msg *msg;
->
-> -	/* Flush work in workqueue to make TX_CLOSE is the last message */
-> -	flush_workqueue(info->rpmsg_wq);
-> -
->  	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
->  		msg = &info->msg[TX_CLOSE];
->  		msg->s_msg.header.cmd = TX_CLOSE;
-> @@ -624,6 +631,7 @@ static const struct snd_soc_component_driver imx_rpmsg_soc_component = {
->  	.open		= imx_rpmsg_pcm_open,
->  	.close		= imx_rpmsg_pcm_close,
->  	.hw_params	= imx_rpmsg_pcm_hw_params,
-> +	.hw_free	= imx_rpmsg_pcm_hw_free,
->  	.trigger	= imx_rpmsg_pcm_trigger,
->  	.pointer	= imx_rpmsg_pcm_pointer,
->  	.ack		= imx_rpmsg_pcm_ack,
->
-> ---
-> base-commit: 8d00cfd77ffa64477129969eec8249c8cdadc9c2
-> change-id: 20261019-b4-imx-pcm-rpmsg-concurrent-1522959ba768
->
-> Best regards,
-> --
-> Chancel Liu <chancel.liu@nxp.com>
->
->
+on each endpoint configuration until the sample_rate_read_error counter
+gives up. Set QUIRK_FLAG_GET_SAMPLE_RATE to skip the read-back on this
+device.
+
+Fixes: 1869c47e5d59 ("ALSA: usb-audio: Fix missing sample-rate control for PreSonus AudioBox USB")
+
+Cc: stable@vger.kernel.org
+Signed-off-by: Thomas Nemer <thomas.nemer@fortytwo.fr>
+---
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 4ac4aef47d..43eea72477 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2731,6 +2731,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
+ 	DEVICE_FLG(0x1901, 0x0191, /* GE B850V3 CP2114 audio interface */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
++	DEVICE_FLG(0x194f, 0x0301, /* PreSonus AudioBox USB */
++		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x19f7, 0x0003, /* RODE NT-USB */
+ 		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
+ 	DEVICE_FLG(0x19f7, 0x0035, /* RODE NT-USB+ */
+-- 
+2.56.0
+
