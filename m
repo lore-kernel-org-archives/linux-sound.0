@@ -1,108 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.193
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792432898;
-	b=fQu4as12nawNmxwl6ovpZIVSxb2KMoiAH/5Rxofs4Xq4sxp+2cuT/NBRsDWbKPUBYRFl
-	 dLyVP2ftj0ZgYsesbaFwJk/YsAFY+umEcidoRP4Bzlg2WZll7jx9ZbQXdW7L4rXjhTM86
-	 B5zBzVmVcUAglbcy8Yui2lP0PUxgzw5/ataKwN8hE3MXsNS0qEMF2hA4fNYfL23kv8tyw
-	 StMuF8mrWgXo9H4Ev7I2FF5I2NMLkwNrR5p5WKdXRmsVYs1vnlbpNBDH1Um2xWLdJSkUS
-	 8SqQuZovGqZzGYqluxrY1llg4ZjeQlbZ32tsbaetiGpSQD0vWSnkefgXqBXwcTaqR0g==
+	t=1792432921;
+	b=2UAj9vSAie/YYqvxUGfZaJHm0Jl1MTMcUYze7Ec/liAL8y4Mdn5xw9fffwB63LfrLsFA
+	 bjIF+Ld9vjv4h8ZHLLM01g3TXoPDU2ufd5wBwDt1xN/Yk2sF+YsOL8odfqbkxcQHe3bFU
+	 wzANoLeqUNqvxqRoCKclbqnBhsYBeCuPca3/vlZd3PL3PKvJhQYtjrpeRj6aFYQCQ1Xx2
+	 ymx4Ex4/zw19HTw4cF7uCHSrkEVyG1eWw/euN2AWatxyHRHIN0gdMCM0PRs132D90Cknd
+	 fXCPI90u4yLdCMt1zds0dlY7HUTaeNTmjD8lVmVWnwR7+JhGQb0aZF/TojXzvb5o2oA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792432898;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Rspamd-Server:X-Rspamd-Queue-Id:X-Rspamd-Action:X-Spam-Level:
-	 X-Spamd-Result:X-Spam-Flag:X-Spam-Score;
-	bh=gMyX1wCMryLFWIzR6bIg2Xo01mHrn9QZDtx9J0e+gDc=;
-	b=DVyQNKy/OPN9QRza0M68nHzmkBpx4PMItI5BysRCLDtOUtWdca0AIRknPMUgUNaftavp
-	 mBk/Zcc/pHuw9H/p2NBJufVEM2Z6Ieme72PmKlqT02Y2VCfjJpV2K/70J1yliJhIFnaLm
-	 9pPSe7mS6A2NNNFV7XVx2I2ZjaKsGz10oLi/4CilGC4E2INr6FEYW66emRESXxmKTh9io
-	 OxkYoq7x8NoYpmjgCF/C155HVBntD7zYu1qWeh7hhYYE+F/TXYzabvVkmp3GugcJCP4w6
-	 br2o+k2nzfbiQH5vQxQ8bXBGeJ40OxpvMCPeYtR0GOAacbqJg7bPToTGlPyYVYxyHmw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792432921;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=sW6wsvLSGEQH+dHBFrKQtcaRjqkC6uKag18Gq8M8A28=;
+	b=iltCTqpuesgzWCBNtedBzaG3ax9ZY8y4gUXt+iJ4g396Qq4QlEXV2A5/D0rt7LDCTO/E
+	 df/hUSltbiUss2mMWQr2t3UANxms1yORqB0EUMmIcW1OcKYGdP2lXSFlMIkwVfn1ZCSrz
+	 s1lK3w9lWAEgm7PsvsVt2N+vnfq+OzpkoHDXDIK8DsZDgQZ7J+cPN3Z3GMP/d9hdDQql2
+	 P3Vru6WcBDEJ7C5KvDRFxdcoBW2r2YAXwjMqRi5DJ3fmgbIbDP+XXEFywNdT8drkWjTLM
+	 +BXB2Y/AO47AFh6boPvkdXLyVTkVblj5JlYrjfHBm1VIeUdIT8zXYtJs1ITsKkwFcPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Lh65nbHl;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BgC+HGa7;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=NIUF4aQN;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BU+CC5Aj;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ndyLPVH1;
+	arc=none smtp.remote-ip=95.215.58.193
+Received: from mta1.migadu.com (out-193.mta1.migadu.com [95.215.58.193])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD09606A31B
-	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 18:01:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1CD09606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57BF606A319
+	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 18:01:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A57BF606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Lh65nbHl;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BgC+HGa7;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=NIUF4aQN;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BU+CC5Aj
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EB71E21BDC;
-	Mon, 19 Oct 2026 18:01:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792432896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gMyX1wCMryLFWIzR6bIg2Xo01mHrn9QZDtx9J0e+gDc=;
-	b=Lh65nbHly77wRr0tiATZqHJaR2rIeTOTp5FBYzKgvSleHnyVnGwg4+zpjqOftLxDLk9oeh
-	7w1otnsk9cTRMVp5Wmz5kLBaRnEEATE3vhp4EmGcq5KOmQhaIvZK/9EudxLogAIcSSzW57
-	6UT2GjEWBQ3jmfSxLzAJP3hgrB4VuK4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792432896;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gMyX1wCMryLFWIzR6bIg2Xo01mHrn9QZDtx9J0e+gDc=;
-	b=BgC+HGa7aL3BqLaA8PElAx7chAsAflGygNhgVBka5KVkj1kpgevCt/RCN3zrafWwqCyezG
-	ivmhPY+rdMpOPjDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=NIUF4aQN;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=BU+CC5Aj
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792432895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gMyX1wCMryLFWIzR6bIg2Xo01mHrn9QZDtx9J0e+gDc=;
-	b=NIUF4aQN2VMaJE87nDN6+igBP5r8lABJw8QfAvdrrATrf2YgWz+YhzpLOh6YaH2C7r/6gq
-	fH+ZvpasirhgELVisZPwFcxWSZRGxlUqAVFkDMS2dYxFbE1jPmi/rTNhT1H2FX2C+6+s/x
-	BYE6EPDbRsQj/KWmjgX3Ljk4rNJ67lQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792432895;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gMyX1wCMryLFWIzR6bIg2Xo01mHrn9QZDtx9J0e+gDc=;
-	b=BU+CC5AjloSj9qpltfFuKDN+rN6B6FaW3UsQBfyJz8MF4Jgdyv5GHKr/h1/qSWtQ/uyu7r
-	WuYtRTfRDkZVyIDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A5CDF134B3;
-	Mon, 19 Oct 2026 18:01:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EhzyHv9a1mpTSQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 19 Oct 2026 18:01:35 +0000
-Date: Mon, 19 Oct 2026 20:01:35 +0200
-Message-ID: <87y0btin7k.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [GIT PULL] ASoC updates for v7.4
-In-Reply-To: <20261019171515.805171AC57D0@finisterre.sirena.org.uk>
-References: <20261019171515.805171AC57D0@finisterre.sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ndyLPVH1
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=Sa6gI7A8DHatasyW05KtrCrLMc7JhDUu7H0B12vA+gI=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792432917; v=1; x=1793037717;
+ b=ndyLPVH1H1drKL+VzJ+vDttoMx7wV3mua19LFiLsCux3tyfcERf2nz0UFj1/t0XNurlmRoap
+ CJHWpE/YPJ59boR3WP6O0wR3cb9o1Jax9AewtNpQr94fWwHf1c+TWZJ1dN3MPW5NiBoZOWKHqVd
+ 52jno0a1XmNpTUKHGY1R8fhA=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 0a68e15fcdf969c1;
+	Mon, 19 Oct 2026 18:01:57 +0000
+X-Mizu-Trace-ID: 0a68e15fcdf969c1
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <1d05936f-c5f0-42f5-bc3e-ae793a04b73d@linux.dev>
+Date: Mon, 19 Oct 2026 11:01:53 -0700
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -111,93 +57,92 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: EB71E21BDC
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] ASoC: tas2783-sdw: refuse playback when the init
+ writes failed
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, broonie@kernel.org
+Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Charles Keepax
+ <ckeepax@opensource.cirrus.com>, Niranjan H Y <niranjan.hy@ti.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261018200009.1493438-1-matthew.schwartz@linux.dev>
+ <20261018200009.1493438-4-matthew.schwartz@linux.dev>
+ <3ef796a7-33f5-4b9c-9a18-476acf39c7ac@linux.dev>
+Content-Language: en-US
+From: Matthew Schwartz <matthew.schwartz@linux.dev>
+In-Reply-To: <3ef796a7-33f5-4b9c-9a18-476acf39c7ac@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 19 Oct 2026 19:14:57 +0200,
-Mark Brown wrote:
+On 10/19/26 9:10 AM, Pierre-Louis Bossart wrote:
+> On 10/18/26 22:00, Matthew Schwartz wrote:
+>> When the SDCA function initialization writes fail, tas_io_init() leaves
+>> hw_init false, but the firmware download has already set fw_dl_success,
+>> so tas_sdw_hw_params() goes on to play through an amp that is missing
+>> part of its setup. On the ASUS ROG Xbox Ally X20 those writes come from
+>> the ACPI DisCo initialization table and include the posture, which the
+>> BIOS sets differently on each amp.
+>>
+>> Refuse playback until the init writes have completed as well, and log
+>> which of the two steps is missing. A stream that is only prepared again
+>> after a resume does not go through hw_params, so check in the port
+>> prepare as well.
 > 
-> The following changes since commit 2a31b5378c6db9c4a8d399e5d10d32cd4b732bef:
-> 
->   ASoC: amd: yc: disable MSI on resume (2026-10-13 14:32:22 +0100)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-v7.4
-> 
-> for you to fetch changes up to 73be2ee656f2722d498504259b9f1fdef8419431:
-> 
->   ASoC: codecs: Fix more control definitions that write another control's bits (2026-10-18 13:22:10 +0100)
-> 
-> ----------------------------------------------------------------
-> ASoC: Updates for v7.4
-> 
-> There's an awful lot of cleanup work in this pull request, lots from Bui
-> Duc Phuc, Pengpeng Hou, HyeongJun An and Chancel Liu cleaning up detail
-> issues in drivers in addition to Mormoto-san's ongoing framework work.
-> This time Morimoto-san's work included enabling auto_selectable_formats
-> so there's less manual configuration required for DAI links.
-> 
-> There's also been a huge amount of upstreaming activity from Qualcomm,
-> some pain there but hopefully enough has now landed for things to be
-> smoother in future.
-> 
->  - Use auto_selectable_formats in most drivers to reduce the amount of
->    manual configuration required for DAI links.
->  - Support for compressed audio on SOF IPC4 systems.
->  - Support for AMD ACP 7.B and 7.F, AmLogic A9 and T7, Airoha AN7581,
->    ESS Technology ES9039Q2M, Intel Cherry Trail with RT5688, Nuvoton
->    NAU83G60, nVidia systems with WM8994, Qualcomm QAIF, Senary I2S, WCD9378
->    and various platforms, Realtek RT766 and RT767, Senary SN624x
-> 
-> I also mistakenly merged some SPI changes in here then applied more
-> patches on top before I noticed (it looks like this was b4's base
-> selection logic picking a bad base for some ASoC work), highlights there
-> are:
-> 
->  - Improvements for spidev_test to cover additional use cases, plus be a
->    bit easier to use.
->  - Push more Tegra210 QSPI handling into interrupt context for
->    performance improvements.
->  - Support for Qualcomm QPIC SNAND v2 and RealTek RTD1625 NOR.
->  - Documentation clarifications.
->  - Fixes for some runtime PM and error handling issues.
->  - Support for R-Car Gen5.
-> 
-> (this should also be going in via my SPI pull request)
+> Same comment as the previous patch. This patch logs an error message for
+> a critical error, which seems fine, but what does it take to make the
+> init writes succeed in the first place?
+> IOW, this patch flags an incorrect setup without giving information on
+> what possible corrective actions could be taken.
 
-Pulled now.  Thanks.
+Same as the last one, I haven't seen this fail on the X20. The init
+writes come from the DisCo table on the X20, or from tas2783_init_seq
+on platforms without one, so they'd fail either on a bus error while
+the amp attaches or on an entry that the regmap or the amp rejects. A
+bus error can clear up, since hw_init stays false and the init runs
+again on the next attach, which on the X20 is the next idle wake. A
+rejected entry fails every time, and fixing it means knowing which
+entry it was, which the log doesn't tell you today, as
+sdca_regmap_write_init() just returns the first error. I'll log the
+failing address and value in v2 so a report says what needs fixing.
 
+> 
+>> Fixes: ca8f3611dcf8 ("ASoC: tas2783A: use acpi initialisation table")
+>> Signed-off-by: Matthew Schwartz <matthew.schwartz@linux.dev>
+>> ---
+>>  sound/soc/codecs/tas2783-sdw.c | 11 +++++++++++
+>>  1 file changed, 11 insertions(+)
+>>
+>> diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
+>> index 8e7376889b6d..6c4cc8868415 100644
+>> --- a/sound/soc/codecs/tas2783-sdw.c
+>> +++ b/sound/soc/codecs/tas2783-sdw.c
+>> @@ -1055,6 +1055,11 @@ static s32 tas_sdw_hw_params(struct snd_pcm_substream *substream,
+>>  		return -EINVAL;
+>>  	}
+>>  
+>> +	if (!tas_dev->hw_init) {
+>> +		dev_err(tas_dev->dev, "error playback without init writes");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>>  	sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
+>>  	if (!sdw_stream)
+>>  		return -EINVAL;
+>> @@ -1427,6 +1432,12 @@ static int tas_port_prep(struct sdw_slave *slave, struct sdw_prepare_ch *prep_ch
+>>  	addr = SDW_DPN_PREPARECTRL(prep_ch->num);
+>>  	switch (pre_ops) {
+>>  	case SDW_OPS_PORT_PRE_PREP:
+>> +		if (!tas_dev->hw_init) {
+>> +			dev_err(dev, "error port %d prepare without init writes\n",
+>> +				prep_ch->num);
+>> +			return -EINVAL;
+>> +		}
+>> +
+>>  		/*
+>>  		 * The Function has to be powered before the port can complete
+>>  		 * channel preparation.  hw_params() does that when a stream is
+> 
 
-Takashi
