@@ -1,146 +1,78 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A23E496D53;
-	Mon, 19 Oct 2026 10:23:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DFD4D2ECC;
+	Mon, 19 Oct 2026 10:28:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792405434; cv=none; b=bnKRO82AD9DE+cwNIKdI5TE1aSlaAEPcM0aZs5ysFbIQkEWQbGP8UdafTllNWKvBEjVDlCp26K2thuqOOkQmFkFH560ZYV6j4Bylr8/oCkcOAi2/EF9bKqebGZyfu4BWIJ4LwjZklY/4HIvynmHzRoq9I2nXiVfwDDhNDWGFb1w=
+	t=1792405709; cv=none; b=m8GI/AjBuqKgxne/I6DPlVxyYYhv3so89byO3Jmcjuxhsxs5xtq7zE4vcMxmvq63ukzSAhqN2x3GOAyPuZ51jr7umWRxFd625ebYviU7+F6Qtvr6d3iP0fvhBl6c9HkzyVSvBdUGk4L2RWUTkUmx+NlkqgrERZBIZO5aHrBYOyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792405434; c=relaxed/simple;
-	bh=CaoT/uf9yGNMSnZay0+VPUgCwq0nmEaTd91fIYl4ZGY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AZ4rP2XurhItX+P+BQPUVfLq32pWnWokEjrvDY5gylz8x4S4o3Vn7RJ37/zh0v5+BDJm3ANz3Vx8wEDhjj7oT1Gqt0I8b6T3Z5K1FAFucBugDFV+zis1SX5HAddFEyEltwbAC60rt/mOaCCM18XSVl7/MKDkBT21pZvHWSg+gbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LiLydUbe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ubskq2ys; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LiLydUbe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ubskq2ys; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1792405709; c=relaxed/simple;
+	bh=4qz8eMfz+Jo1KHqS+s17rqoQGTMxaqrvVFecgZkRitY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mt6cTg3Y4X8PRUWNrR5so7RezW4ps50OaEFPVLAohsJ/mBYfbjfEWn4H21Q8Wn4K9g0n0thrOhlRB9QkfXhye0ywoTi/K5AM2LM0HF6doCUGWcRFJZ5F3uXUKsYaqQS5hTSFu+r9s1LbmfnqN28kGbaN/DWGk1AzoEouk/yaFTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UC8edqst; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LiLydUbe";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ubskq2ys";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LiLydUbe";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ubskq2ys"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 83AF31F441;
-	Mon, 19 Oct 2026 10:23:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792405431; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=f3aO6QrmEmWuqorGy29ChZkGSEnc+9ZjcNq9MHbp1SQ=;
-	b=LiLydUbeh9XPXivskgMhZV5sbzrBvy6f65S50Fm7khERCx625dNOtfW+eskD19BPtP4wbv
-	ppTwIIpu8CtVIh3BBoPCZMbC0wzg9MvGI+/zj0b6TZJk1/vU99Axlpepys7Tvp16BY70+x
-	Gbxh6gWcoFLGjxwOuj55UkRoxFylbaA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792405431;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=f3aO6QrmEmWuqorGy29ChZkGSEnc+9ZjcNq9MHbp1SQ=;
-	b=Ubskq2ysujDo2MnFhg8mRbULv8QAKaEQP/aqDLesGJeJ2Kp0IMTcP2bvcogA6blbQm7wNQ
-	k4sosM9zI8P/vNDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792405431; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=f3aO6QrmEmWuqorGy29ChZkGSEnc+9ZjcNq9MHbp1SQ=;
-	b=LiLydUbeh9XPXivskgMhZV5sbzrBvy6f65S50Fm7khERCx625dNOtfW+eskD19BPtP4wbv
-	ppTwIIpu8CtVIh3BBoPCZMbC0wzg9MvGI+/zj0b6TZJk1/vU99Axlpepys7Tvp16BY70+x
-	Gbxh6gWcoFLGjxwOuj55UkRoxFylbaA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792405431;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=f3aO6QrmEmWuqorGy29ChZkGSEnc+9ZjcNq9MHbp1SQ=;
-	b=Ubskq2ysujDo2MnFhg8mRbULv8QAKaEQP/aqDLesGJeJ2Kp0IMTcP2bvcogA6blbQm7wNQ
-	k4sosM9zI8P/vNDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 428E8136CC;
-	Mon, 19 Oct 2026 10:23:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YIgjBrfv1WoXWwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 19 Oct 2026 10:23:51 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Will Bush <will@willbush.dev>
-Subject: [PATCH] ALSA: usb-audio: Avoid applying boot quirk for Behringer UMC204HD
-Date: Mon, 19 Oct 2026 12:23:38 +0200
-Message-ID: <20261019102347.2425406-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UC8edqst"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD15D1F000C5;
+	Mon, 19 Oct 2026 10:28:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792405707;
+	bh=4qz8eMfz+Jo1KHqS+s17rqoQGTMxaqrvVFecgZkRitY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=UC8edqst7rNXAAiHSudn8cE0SpHqwN5mu0IRB3MwqLGkD4KLbdFBkbNH+63YAa1y7
+	 aB2CGqfzuNLYUEeT7JZIUtNoEZMBSJ6iyAPTMSCQsYF4/AAHox96ASbSzDYTJW1dmf
+	 r4yHjsTqITpUsaDtORjeVdJGfu02BatGj4FERcrGXxT/BNOIPjhqDBMeYE5HqSf9ZC
+	 MJyzB67rq1gV2S1IuV8mXA0njjcPsR/nrwLbdxzV/KFU9Z0RF2UCMM20X0AkfD/c+L
+	 zCM4jmT0i+R+hEmaGK6bIQEJ6Nn9LUGG32qhCE7uUShFSd3ABoWIUuoqKSaHcuh9H4
+	 PhldKIEJMV43A==
+Date: Mon, 19 Oct 2026 11:28:23 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: David Carlier <devnexen@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Kazuki Hanai <hnkz.64@gmail.com>, 
+	linux-mm@kvack.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 16/39] mm/vma: only allow mmap to clear
+ VMA_MAYWRITE_BIT if not mm-managed
+Message-ID: <atXvrWt6kpQDPy8y@gremlin>
+References: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-16-1aa3c9b139f9@kernel.org>
+ <20261018025905.201296-1-devnexen@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.com:url,imap1.dmz-prg2.suse.org:helo];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261018025905.201296-1-devnexen@gmail.com>
 
-There have been reports about a regression with the recent boot quirk
-for Behringer devices; it broke UMC204HD models(1397:0508 and
-1397:0509).  The quirk was to just run usb_get_descriptor(), so I
-expected it rather harmful, but in this case, it doesn't look so,
-resulting in an error like 'failed to read device descriptor: -110'
-that leads to a fatal probe error.
+On Sun, Oct 18, 2026 at 03:59:05AM +0100, David Carlier wrote:
+> Hi Lorenzo,
+>
+> I think one site was missed: usb_stream_hwdep_mmap() in
+> sound/usb/usx2y/us122l.c clears VM_MAYWRITE on the read buffer since
+> 71c610aeb177 ("ALSA: us122l: Prevent write upgrades for read mappings"),
+> but sets neither VM_PFNMAP nor VM_MIXEDMAP (pages come from .fault via
+> vmf->page, like the PCM status page in 13/39).
+>
+> So a MAP_PRIVATE mapping of the read buffer, or MAP_SHARED on an O_RDWR
+> fd, now hits the WARN_ON_ONCE in mmap_validate() and fails with -EINVAL.
+>
+> The VM_MAYWRITE clear is a security fix, and the VMA must stay
+> expandable for mremap(), so converting it like 13/39 or setting
+> VM_MIXEDMAP seems the way to go.
+>
+> Found by code reading, not tested on hardware.
 
-As a quick workaround, skip the quirk for those UMC204HD models.
+Thanks. I will check it. Somebody doing something broken as a fix is fun.
 
-Fixes: b5c4823cf3e4 ("ALSA: usb-audio: Apply boot quirk for Behringer models generically")
-Reported-by: Will Bush <will@willbush.dev>
-Closes: https://lore.kernel.org/45162613-2802-401c-84c9-742f9c8c68e6@app.fastmail.com
-Closes: https://bugzilla.suse.com/show_bug.cgi?id=1285896
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/usb/quirks.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+It might be better to fix that with a separate patch, I don't think it really
+makes sense to add a brand new patch to this series just for that.
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 4fadb1fdcdea..4ac4aef47dd7 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -1790,8 +1790,15 @@ int snd_usb_apply_boot_quirk_once(struct usb_device *dev,
- 	}
- 
- 	/* Behringer devices may need explicit device descriptor read at boot */
--	if (USB_ID_VENDOR(id) == 0x1397)
-+	if (USB_ID_VENDOR(id) == 0x1397) {
-+		/* the quirk seems breaking on some Behringer devices */
-+		switch (id) {
-+		case USB_ID(0x1397, 0x0508): /* UMC204HD */
-+		case USB_ID(0x1397, 0x0509): /* UMC204HD */
-+			return 0;
-+		}
- 		return snd_usb_cm1a_boot_quirk(dev);
-+	}
- 
- 	return 0;
- }
--- 
-2.55.0
+I will follow that up.
 
+--
+Cheers, Lorenzo
