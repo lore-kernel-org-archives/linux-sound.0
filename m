@@ -1,44 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D4755F624;
-	Mon, 19 Oct 2026 13:57:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959F655F624;
+	Mon, 19 Oct 2026 13:57:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418246; cv=none; b=CvXIpmtAvijRRvERsC+ufgiiOhvyOxnLelPLvLmJZgOx7j28EH93GACu58AcDCugQapp6dacvebrbQg+t2V4H5xtViRK/NmHmWBn10nPAQ7Zn39/seW4jdZNj3O6sfPaRsuDXsZU3/WXOHHI2QWIRhWo4Ek7ZKHFGpOkDKOPsJg=
+	t=1792418257; cv=none; b=J9moGr1PHWEV/KiyzAzhkEjOauPu3aKAiNum3arFY9uny3veNja/c7mHZ6XKU+i89malDf9tfFhqikw8lhNXJVW7peI0eCUM2m3CZbKpIsTTV8hneAmtuOqxUkTO4jJ6x1xkcvMfvJsM34Z149aFKtqOxY8is85Rsp9aRZm0al8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418246; c=relaxed/simple;
-	bh=qtg5o7vgcWmexblo8MQT+J0ce2cEPo8iV+2RB85ju/o=;
+	s=arc-20240116; t=1792418257; c=relaxed/simple;
+	bh=MM+AaQHsp4wpgAhHNkA8vM0Fly5Ksy7GWA4iSSoDAZI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hDHNXqs/6FrE6uBm7cleY2q/3M2LEqignc5DG7kcU3vZMNsJez8CgM5QFK3G7r7nBWN+y5sSUKHu8drWbPWk5XzmWMONSsRKsevgHTE0wEpqZG8CK921wu+OUkXSfzX239twSS61XbzFai+z+M+SdltDgZGIla3B9lA6bnkEvNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AItLilEc; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=L7xKYS1MOEzJDA6UKiw01gfXgZxdKr6PqwYxZRKGyaAGLIigVkssGgGx7/sae69fSBUub8JNQa+FjyKWKPT3A0N8v7uzxjvTU116EhIgrJgz8DgIGp/DfFl7AdGAN9qpnQGe243ayLbCsFbLsy2qGSIA1JICh/KHnR4MAPUzv1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PBQziWuH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AItLilEc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B8481F000C4;
-	Mon, 19 Oct 2026 13:57:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PBQziWuH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AC6F1F000C4;
+	Mon, 19 Oct 2026 13:57:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418243;
-	bh=yI+FRH+GKlmCSgljWKtK+F9J/s6RC2srfk5ZlIgedqQ=;
+	s=k20260515; t=1792418254;
+	bh=wx9Mb4QsaVFHtSfVFCf4Mf+XgS6xKgB1lDQXb9H3s5w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=AItLilEcGJ/ASp82dX0muBpn3FYL8lFmcKQS9TWM17pOFqUsHlBuYeqbAeChvNc7O
-	 Z5cJpZbzQoqVnXhwfAX5fJ3GDSUvVJtyz5oZ5/8LYNjlVLNzGRvfNgvNZX0/7oQuSa
-	 HzCQBHhqs/L06cegHIChUTZVnkHaPZ7jE0VmLcb4TZNTcQFC/WFbni3phI/i7HUXTq
-	 8edj4GaE6NmcFCBL6k6NcgSdSQZqcnm2xD4ekZOrA0SxqbX4BkHuRqqzuiXhgHM1Fi
-	 fJthc8dgHfgzFtAPOjPmQt49RZZpNdoKtKwL1wOBV5u0W3IWfH1nxFRLDY4f2UX7pn
-	 KPvAcynYZdjiQ==
+	b=PBQziWuHfr3bfy+ejeY4kT9ZGxeU93eLsOlIzTc7Z26oAf3etFgU2AdHR3RewfIlu
+	 XybQSCmmDu8g/ni5e8H505j90YhvqSgv3Poh/cdRWkVzNRO0OY3gFSa+vCKEDns3Gy
+	 XLlbNg1Kfcw3ueZyoW5dotRStmv/IL71mnWmKqhp8b79vlXw+iZXDa/eWHOge/y7Rn
+	 YA25XYqIZZ6G215LxXCIUyeDs9TtthEAKkw2uHQZr1Zo4YlsFn10WhBI5MLt3UyhGb
+	 4T28hnjHhc3sDWnL0PVym4A6rkwQL5BdP1Bxm0xW8yQjptBBvJEEHeFULZYVmImDBO
+	 o+RXHpz71x++Q==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Shang En Sim <sim@shangen.org>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.12] ALSA: hda/realtek: Enable mute LEDs on HP Spectre x360 16-aa0xxx
-Date: Mon, 19 Oct 2026 09:46:45 -0400
-Message-ID: <20261019135441.1420968-114-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] ASoC: codec: max98926: fixup invert setup mask
+Date: Mon, 19 Oct 2026 09:46:53 -0400
+Message-ID: <20261019135441.1420968-122-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -54,357 +55,467 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Shang En Sim <sim@shangen.org>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-[ Upstream commit bfcdc1c0eaeae5525c726193568e8d638b2afdc0 ]
+[ Upstream commit dd0ae9a2e19a24c532c9aa80a44f572b4907bcdf ]
 
-The HP Spectre x360 2-in-1 Laptop 16-aa0xxx with PCI subsystem ID
-0x103c:0x8c17 only gets the CS35L41 amplifier setup from
-ALC287_FIXUP_CS35L41_I2C_2, so the speaker-mute and mic-mute keyboard
-LEDs do not work.
+invert might have both WCI/BCI mask, but regmap_update_bits() masks
+BCI only. It needs both mask. Fixup it.
 
-Use ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX like subsystem ID 0x8c16 so
-the mute LEDs work.
+	static int max98926_dai_set_fmt(...)
+	{
+		...
+		switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
+		case SND_SOC_DAIFMT_NB_NF:
+			break;
+		case SND_SOC_DAIFMT_NB_IF:
+=>			invert = MAX98926_DAI_WCI_MASK;
+			break;   ^^^^^^^^^^^^^^^^^^^^^
+		case SND_SOC_DAIFMT_IB_NF:
+=>			invert = MAX98926_DAI_BCI_MASK;
+			break;   ^^^^^^^^^^^^^^^^^^^^^
+		case SND_SOC_DAIFMT_IB_IF:
+=>			invert = MAX98926_DAI_BCI_MASK | MAX98926_DAI_WCI_MASK;
+			break;   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+		default:
+			...
+		}
+		...
+		regmap_update_bits(max98926->regmap, MAX98926_FORMAT,
+				MAX98926_DAI_BCI_MASK, invert);
+		...		^^^^^^^^^^^^^^^^^^^^^
+	}
 
-Tested on HP Spectre x360 2-in-1 Laptop 16-aa0xxx.
-
-Signed-off-by: Shang En Sim <sim@shangen.org>
-Link: https://patch.msgid.link/20260807055139.58707-1-sim@shangen.org
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Link: https://patch.msgid.link/87wltomc97.wl-kuninori.morimoto.gx@renesas.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-The local tree is **6.18.53** (`pending-6.18`,
-`p-6.18-1-g03b85e06ca9bf`). The buggy `0x8c17` mapping is present here,
-and the target AA0XXX fixup already exists.
+This is a **6.12.111** tree (`pending-6.12`, `p-6.12-3-gc504cf0baa3d8`).
+The candidate is `dd0ae9a2e19a2` (“ASoC: codec: max98926: fixup invert
+setup mask”). It is **not** in this checkout; the buggy
+`regmap_update_bits()` mask **is**.
 
-===============================================================
-PHASE 1: COMMIT MESSAGE FORENSICS
-===============================================================
+---
 
-Step 1.1: PARSE THE SUBJECT LINE
-Record: [ALSA hda/realtek] [Enable] [map HP Spectre x360 16-aa0xxx SSID
-0x8c17 to the mute-LED fixup already used by 0x8c16]
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
-Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
-Record:
-- Fixes: none (expected for this review)
-- Reported-by: none
-- Tested-by: none as a tag; body says the author tested on the 16-aa0xxx
-- Reviewed-by: none
-- Acked-by: none
-- Link: https://patch.msgid.link/20260807055139.58707-1-sim@shangen.org
-- Cc: stable: none (expected)
-- Signed-off-by: Shang En Sim <sim@shangen.org> (author)
-- Signed-off-by: Takashi Iwai <tiwai@suse.de> (ALSA maintainer; applied
-  the patch)
-- No syzbot / sanitizer tags
+**Step 1.1: PARSE THE SUBJECT LINE**
+- Subsystem: `ASoC: codec: max98926`
+- Action verb: `fixup`
+- Claimed intent: correct the invert-mode bit mask written to the
+  MAX98926 FORMAT register
 
-Step 1.3: ANALYZE THE COMMIT BODY TEXT
-Record:
-- Bug: SSID `0x103c:0x8c17` is wired only to
-  `ALC287_FIXUP_CS35L41_I2C_2`, so CS35L41 amps are set up but speaker-
-  mute and mic-mute keyboard LEDs do not work.
-- Symptom: mute/mic-mute LEDs stay dead on this 16-aa0xxx variant.
-- Root cause: sibling `0x8c16` already uses
-  `ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX`; `0x8c17` was left on the
-  amp-only quirk.
-- Version info: none in the message.
-- Author’s fix: use the same AA0XXX fixup as `0x8c16`. Tested on the
-  16-aa0xxx.
+Record: **[ASoC/max98926] [fixup] [WCI invert bit never programmed
+because update mask is BCI-only]**
 
-Step 1.4: DETECT HIDDEN BUG FIXES
-Record: Not hidden. This is an explicit hardware-quirk correction, not
-cleanup disguised as a fix.
+**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
+- `Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>`
+  (author)
+- `Link: https://patch.msgid.link/87wltomc97.wl-
+  kuninori.morimoto.gx@renesas.com`
+- `Signed-off-by: Mark Brown <broonie@kernel.org>` (ASoC maintainer)
+- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-
+  by:`, or `Cc: stable` (absence of the last two is expected for this
+  review)
 
-===============================================================
-PHASE 2: DIFF ANALYSIS - LINE BY LINE
-===============================================================
+Record: **Author + ASoC maintainer SOB; lore Link; no user/syzbot
+report**
 
-Step 2.1: INVENTORY THE CHANGES
-Record:
-- File: `sound/hda/codecs/realtek/alc269.c` (1 hunk)
-- Scope: 1 line changed in `alc269_fixup_tbl[]` (SSID string + fixup id)
-- Classification: single-file surgical quirk-table update
+**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+The body shows `max98926_dai_set_fmt()` building `invert` as:
+- `NB_IF` → `MAX98926_DAI_WCI_MASK`
+- `IB_NF` → `MAX98926_DAI_BCI_MASK`
+- `IB_IF` → `BCI | WCI`
 
-Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
-Record: Before, `SND_PCI_QUIRK(0x103c, 0x8c17, ...)` selected
-`ALC287_FIXUP_CS35L41_I2C_2` (`cs35l41_fixup_i2c_two` only). After, the
-same SSID selects `ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX`. That fixup
-still calls `cs35l41_fixup_i2c_two`, and also applies speaker pin
-configs, GPIO amp enable, mute-LED coefbit, and GPIO LED setup. Path:
-codec probe via `snd_hda_pick_fixup()`.
+then calling `regmap_update_bits(..., MAX98926_DAI_BCI_MASK, invert)`.
+`regmap_update_bits()` only changes bits in the mask, so WCI is never
+written.
 
-Step 2.3: IDENTIFY THE BUG MECHANISM
-Record: [Hardware workaround / audio codec quirk] The wrong existing
-fixup left mute LEDs (and the extra speaker GPIO/pin work from the 2024
-Spectre fixup) unused. The new mapping reuses an already-present fixup.
+Record: **[Bug: WCI invert bit dropped] [Symptom: inverted frame clock
+not applied] [No version info] [Root cause: BCI-only mask]**
 
-Step 2.4: ASSESS THE FIX QUALITY
-Record: Obviously correct: `0x8c16` and `0x8c17` were added together as
-“HP Spectre 16”; `0x8c16` already got the full AA0XXX fixup. One-line
-table change, no new API. Regression risk is low: the author tested
-0x8c17 hardware; the new fixup still runs the old CS35L41 I2C setup.
-Residual risk is that 0x8c17 could differ slightly from 0x8c16 in
-speaker pin/GPIO behavior; that is unverified beyond the author’s test.
+**Step 1.4: DETECT HIDDEN BUG FIXES**
+This is an explicit register-programming bug, not a disguised cleanup.
 
-===============================================================
-PHASE 3: GIT HISTORY INVESTIGATION
-===============================================================
+Record: **Not a hidden fix; it is a real DAI-format bug**
 
-Step 3.1: BLAME THE CHANGED LINES
-Record: In this tree the `0x8c17` line is attributed to `aeeb85f26c3bb`
-(“ALSA: hda: Split Realtek HD-audio codec driver”, 2025-07-09), which is
-a file move. The content originated in `aa8e3ef4fe533` (“ALSA:
-hda/realtek: Add quirks for various HP ENVY models”, 2024-01-26, first
-in v6.9). Both `aa8e3ef4fe533` and `557f6e4ab5ba6` are ancestors of this
-HEAD.
+---
 
-Step 3.2: FOLLOW THE FIXES: TAG
-Record: No Fixes: tag. The incomplete 0x8c17 mapping has been in the
-lineage since v6.9; the AA0XXX fixup landed in `557f6e4ab5ba6` (v6.12)
-for 0x8c16 only and left 0x8c17 on the amp-only quirk.
+## PHASE 2: DIFF ANALYSIS
 
-Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
-Record: Related: `557f6e4ab5ba6` added
-`alc245_fixup_hp_spectre_x360_16_aa0xxx` and switched 0x8c16. Recent
-`alc269.c` history is other HP mute-LED quirks. This commit is
-standalone, not patch X/Y.
+**Step 2.1: INVENTORY THE CHANGES**
+- File: `sound/soc/codecs/max98926.c` (`1 insertion, 1 deletion`)
+- Function: `max98926_dai_set_fmt()`
+- Scope: single-file, one-line surgical fix
 
-Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
-Record: Shang En Sim has no other Realtek commits in this history.
-Takashi Iwai applied it. This tree already contains many similar HP
-mute-LED `SND_PCI_QUIRK` backports.
+Record: **[max98926.c +1/-1] [max98926_dai_set_fmt] [surgical]**
 
-Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
-Record: Needs `ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX` and the 0x8c17
-table row. Both exist here. `git apply --check` of `bfcdc1c0eaeae`
-succeeded (hunk at offset -491). Standalone.
+**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
+Before (this tree, lines 360–363):
 
-===============================================================
-PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-===============================================================
+```360:364:sound/soc/codecs/max98926.c
+        regmap_write(max98926->regmap,
+                        MAX98926_FORMAT, MAX98926_DAI_DLY_MASK);
+        regmap_update_bits(max98926->regmap, MAX98926_FORMAT,
+                        MAX98926_DAI_BCI_MASK, invert);
+        return 0;
+```
 
-Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
-Record:
-- `b4 dig -c bfcdc1c0eaeae`:
-  https://patch.msgid.link/20260807055139.58707-1-sim@shangen.org
-- `b4 dig -a`: v1 only (2026-08-06)
-- Thread (mbox): Takashi Iwai “Applied to for-next branch now. Thanks.”
-  No NAK, no stable request, no design concerns.
+`regmap_write()` sets FORMAT to only `DAI_DLY_MASK` (WCI and BCI
+cleared). Then update_bits can set BCI, but never WCI.
 
-Step 4.2: CHECK WHO REVIEWED THE PATCH
-Record: `b4 dig -w`: To Jaroslav Kysela, Takashi Iwai; Cc linux-sound@.
-Maintainer applied it.
+After: mask is `MAX98926_DAI_BCI_MASK | MAX98926_DAI_WCI_MASK`, so both
+invert bits can be set.
 
-Step 4.3: SEARCH FOR THE BUG REPORT
-Record: No bugzilla/syzbot link. Evidence is the author’s hardware test
-in the commit body. WebFetch of lore/msgid.link returned 403; the thread
-was recovered via `b4 dig -m`.
+Record: **[BCI-only update → BCI|WCI update on DAI set_fmt path]**
 
-Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
-Record: Standalone. Sibling work is `557f6e4ab5ba6` (already in this
-tree).
+**Step 2.3: IDENTIFY THE BUG MECHANISM**
+Header bits in this tree:
 
-Step 4.5: CHECK STABLE MAILING LIST HISTORY
-Record: No lore.kernel.org/stable discussion of this subject was found.
+```525:528:sound/soc/codecs/max98926.h
+#define MAX98926_DAI_WCI_MASK           (1<<3)
+...
+#define MAX98926_DAI_BCI_MASK           (1<<2)
+```
 
-===============================================================
-PHASE 5: CODE SEMANTIC ANALYSIS
-===============================================================
+This is a logic/correctness bug: wrong `regmap` mask, so advertised
+invert modes do not take effect.
 
-Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
-Record: Table `alc269_fixup_tbl[]` only. No function body edited.
-Consumed fixup: `alc245_fixup_hp_spectre_x360_16_aa0xxx`.
+Record: **[Logic/correctness] [WCI never written for NB_IF/IB_IF]**
 
-Step 5.2: TRACE CALLERS
-Record: `alc269_probe()` → `snd_hda_pick_fixup(..., alc269_fixup_tbl,
-alc269_fixups)` (around line 8517). That is HD-audio codec probe, not a
-hot path or IRQ path.
+**Step 2.4: ASSESS THE FIX QUALITY**
+Obviously correct: it matches sibling `max98925.c` (already uses `BCI |
+WCI`). Minimal. No API/locking/refcount change. Regression risk is near
+zero: NB_NF still writes 0 into both bits; IB_NF still sets only BCI.
 
-Step 5.3: TRACE CALLEES
-Record: New fixup calls `snd_hda_apply_pincfgs`,
-`snd_hda_override_conn_list`, `alc_update_gpio_data`,
-`cs35l41_fixup_i2c_two`, `alc245_fixup_hp_mute_led_coefbit`,
-`alc245_fixup_hp_gpio_led`. Old quirk only called
-`cs35l41_fixup_i2c_two`.
+Record: **[Obviously correct, 1-line] [Very low regression risk]**
 
-Step 5.4: FOLLOW THE CALL CHAIN
-Record: PCI/HDA enumeration at boot on this laptop. Userspace mute keys
-then drive the LED hooks. Reachable on that hardware without extra
-privileges.
+---
 
-Step 5.5: SEARCH FOR SIMILAR PATTERNS
-Record: Same file already maps 0x8c16 to AA0XXX. Many nearby HP
-`SND_PCI_QUIRK` mute-LED entries. This is the same pattern, for the
-missed sibling SSID.
+## PHASE 3: GIT HISTORY INVESTIGATION
 
-===============================================================
-PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
-===============================================================
+**Step 3.1: BLAME THE CHANGED LINES**
+`git blame -L 343,363 -- sound/soc/codecs/max98926.c`: the buggy mask is
+from `a2e2876aa0bab` (“ASoC: Add max98926 codec driver”, Anish Kumar,
+2016-01-14). `git describe --contains a2e2876aa0bab` → `v4.6-rc1~...`.
+Present for ~10 years.
 
-Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
-Record: Yes. `sound/hda/codecs/realtek/alc269.c:6957`:
-`SND_PCI_QUIRK(0x103c, 0x8c17, "HP Spectre 16",
-ALC287_FIXUP_CS35L41_I2C_2)`
-Target enum, function, and `alc269_fixups[]` slot all exist. `git merge-
-base --is-ancestor bfcdc1c0eaeae HEAD` is false, so the fix is not in
-this tree yet. Incomplete 0x8c17 mapping dates to v6.9; 6.18 still has
-it.
+Record: **[a2e2876aa0bab, v4.6] [long-standing bug]**
 
-Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
-Record: Clean apply (`git apply --check` succeeded). File layout matches
-mainline (`sound/hda/codecs/realtek/alc269.c`). No rework needed.
+**Step 3.2: FOLLOW THE FIXES: TAG**
+No `Fixes:` tag. The introducing commit is in this tree (`git merge-base
+--is-ancestor a2e2876aa0bab HEAD` succeeded).
 
-Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
-Record: `557f6e4ab5ba6` is here (0x8c16 + AA0XXX function). 0x8c17 is
-still on the amp-only quirk. No substitute fix.
+The **identical** bug in the sibling driver was already treated as
+stable material:
 
-===============================================================
-PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-===============================================================
+```
+0b51601d4504f4 ASoC: max98925: Fix mask for setting DAI invert mode
+...
+Cc: stable@vger.kernel.org
+```
 
-Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
-Record: [ALSA HD-audio Realtek] [IMPORTANT] Common laptop codec path;
-this change is one HP SSID only.
+That 2015 fix is in this tree. max98926 (2016) reintroduced the same
+mistake.
 
-Step 7.2: ASSESS SUBSYSTEM ACTIVITY
-Record: High. Recent `alc269.c` log is mostly HP/Lenovo/ASUS quirk
-additions, including mute LEDs. Mature quirk table, not experimental
-code.
+Record: **[No Fixes tag; sibling max98925 fix was Cc: stable]
+[Introducing commit is in this 6.12 tree]**
 
-===============================================================
-PHASE 8: IMPACT AND RISK ASSESSMENT
-===============================================================
+**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
+Recent `max98926.c` history in this tree is probe/OF/DAI-terminology
+churn, not invert-mask work. No prerequisite refactor. Standalone 1-line
+change.
 
-Step 8.1: DETERMINE WHO IS AFFECTED
-Record: Driver-specific / platform-specific: HP Spectre x360 16-aa0xxx
-with PCI SSID 0x103c:0x8c17 only.
+Record: **[No prerequisites] [Standalone]**
 
-Step 8.2: DETERMINE THE TRIGGER CONDITIONS
-Record: Every probe of that codec (boot). Mute/mic-mute keys then fail
-to light LEDs. Unprivileged users hit it on that laptop. Not a race.
+**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
+Kuninori Morimoto is a regular ASoC contributor. Nearby work includes
+`alc5623` invert tidyup (different driver, “tidyup” not this bug). This
+patch is a standalone `[PATCH]`, not patch X/Y.
 
-Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
-Record: Mute/mic-mute LEDs do not work. The unused AA0XXX path also has
-speaker pin/GPIO amp setup that 0x8c16 already gets. Not a panic,
-deadlock, or corruption. Severity MEDIUM for that hardware; this is the
-documented audio-codec quirk exception.
+Record: **[Core ASoC contributor] [Standalone invert-mask fix, not a
+series]**
 
-Step 8.4: CALCULATE RISK-BENEFIT RATIO
-Record: Benefit high for those users (LEDs, and the same speaker fixup
-as 0x8c16). Risk very low: 1-line table change, same fixup already used
-by sibling SSID, maintainer-applied, author-tested. Ratio strongly
-favors backport.
+**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
+The hunk matches this tree exactly. `git show dd0ae9a2e19a2 | git apply
+--check` → **APPLY_CLEAN**. No new helpers or structs.
 
-===============================================================
-PHASE 9: FINAL SYNTHESIS
-===============================================================
+Record: **[No dependencies] [Applies standalone and cleanly]**
 
-Step 9.1: COMPILE THE EVIDENCE
+---
+
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+
+**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
+`b4 dig -c dd0ae9a2e19a2` → https://patch.msgid.link/87wltomc97.wl-
+kuninori.morimoto.gx@renesas.com
+`b4 dig -a`: single v1, no later revisions.
+Mbox (2 messages): submission + Mark Brown “Applied to for-7.3”. No NAK,
+no review concerns, no `Cc: stable` request. Included in the “sound
+fixes for 7.3-rc1” pull.
+
+Record: **[v1 only] [Applied by ASoC maintainer] [No objections]
+[Treated as a fix in the rc1 pull]**
+
+**Step 4.2: CHECK WHO REVIEWED THE PATCH**
+`b4 dig -w` recipients: Jaroslav Kysela, Liam Girdwood, Mark Brown,
+Takashi Iwai, linux-sound@. Maintainer applied it the same day.
+
+Record: **[ASoC/ALSA maintainers on To; Mark Brown applied]**
+
+**Step 4.3: SEARCH FOR THE BUG REPORT**
+No `Reported-by` / bugzilla / syzbot. Found by code inspection (same
+class as Axel Lin’s 2015 max98925 fix).
+
+Record: **[No user report; bug is visible from the code and sibling
+driver]**
+
+**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
+Standalone `[PATCH]`. No follow-ups on `all-next` after this commit for
+`max98926.c`.
+
+Record: **[Standalone; no later superceding patch]**
+
+**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
+Search for this title on lore stable did not find a prior stable
+discussion (unrelated hits only).
+
+Record: **[No stable-list discussion found]**
+
+---
+
+## PHASE 5: CODE SEMANTIC ANALYSIS
+
+**Step 5.1: IDENTIFY KEY FUNCTIONS**
+Record: **[`max98926_dai_set_fmt`]**
+
+**Step 5.2: TRACE CALLERS**
+Wired as `.set_fmt` in `max98926_dai_ops`. ASoC core
+`snd_soc_dai_set_fmt()` in `sound/soc/soc-dai.c` calls
+`dai->driver->ops->set_fmt`. `sound/soc/soc-core.c` applies DAI format
+from the card/DAI link at setup.
+
+Record: **[Called from ASoC DAI format setup, not a hot IRQ path]**
+
+**Step 5.3: TRACE CALLEES**
+`regmap_write` / `regmap_update_bits` on `MAX98926_FORMAT`.
+
+Record: **[Register programming only]**
+
+**Step 5.4: FOLLOW THE CALL CHAIN**
+Reachable when a MAX98926 card configures DAI format (DT `dai-format` /
+machine driver). Unprivileged users typically cannot change invert
+flags, but boot/stream setup hits this. `NB_IF` / `IB_IF` are the broken
+cases (`soc-dai.h`: inverted frame).
+
+Record: **[Reachable on DAI setup for this codec] [Broken for inverted
+frame clock]**
+
+**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
+This tree: only `max98926.c` still uses BCI-only. `max98925.c` already
+uses `BCI | WCI`.
+
+Record: **[Sibling already fixed; this is the remaining copy of the same
+bug]**
+
+---
+
+## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+
+**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
+Yes. `git merge-base --is-ancestor dd0ae9a2e19a2 HEAD` failed (fix not
+present). Surrounding code in this tree matches the parent of the
+candidate commit. Introduced in v4.6, still here in 6.12.111.
+
+Record: **[Buggy code present at max98926_dai_set_fmt] [Since v4.6]**
+
+**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
+Context is identical; `git apply --check` is clean.
+
+Record: **[Clean apply]**
+
+**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
+No invert-mask fix for max98926 in this tree. max98925’s equivalent fix
+**is** already here.
+
+Record: **[No prior max98926 invert fix; sibling fix already present]**
+
+---
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+
+**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
+`sound/soc/codecs/max98926.c` — Maxim MAX98926 speaker amplifier.
+`CONFIG_SND_SOC_MAX98926` is selected via `SND_SOC_ALL_CODECS` imply; DT
+compatible `maxim,max98926` exists. No in-tree board file found that
+hard-codes this codec.
+
+Record: **[ASoC codec driver] [PERIPHERAL, but real hardware]**
+
+**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
+Codec file is mature; little recent functional change.
+
+Record: **[Mature driver; bug is old, not a new-feature regression]**
+
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+**Step 8.1: DETERMINE WHO IS AFFECTED**
+Users of MAX98926 whose DAI link requests inverted word/frame clock
+(`NB_IF` or `IB_IF`). Default `NB_NF` is unaffected.
+
+Record: **[Driver-specific; only inverted-frame configurations]**
+
+**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
+Triggered at DAI format setup (card bring-up / PCM start). Common I2S is
+`NB_NF` (works). Inverted frame is less common but is a documented,
+handled mode in this function. Not a userspace-triggered security issue.
+
+Record: **[DAI setup] [Uncommon invert modes] [Not unprivileged-
+exploitable]**
+
+**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
+WCI never programmed → LRCLK/frame polarity wrong → swapped channels,
+DAI desync, or unusable playback. Not a panic/UAF/deadlock.
+
+Record: **[Incorrect audio DAI polarity] [Severity: MEDIUM-HIGH for
+affected devices; not CRITICAL crash]**
+
+**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
+- Benefit: makes advertised invert modes actually work; same class of
+  fix max98925 already shipped to stable.
+- Risk: 1-line mask OR, no API/locking change, applies cleanly.
+
+Record: **[Benefit: medium for this hardware] [Risk: very low]
+[Favorable]**
+
+---
+
+## PHASE 9: FINAL SYNTHESIS
+
+**Step 9.1: COMPILE THE EVIDENCE**
+
 FOR:
-- Real hardware bug on a shipping HP Spectre x360 16-aa0xxx SSID
-- Classic `SND_PCI_QUIRK` audio-codec quirk correction (stable
-  exception)
-- Buggy row and target fixup both exist in 6.18.53
-- One-line, applies cleanly, no new API
-- Author tested; Takashi Iwai applied
-- Sibling 0x8c16 already uses this fixup here
-- This tree already takes similar HP mute-LED quirks
+- Real, obvious register bug: WCI invert is computed then discarded
+- One-line, obviously correct; matches max98925
+- Identical max98925 fix (`0b51601d4504f4`) was `Cc: stable`
+- Bug present since v4.6 and in this 6.12 tree
+- Applies cleanly; no dependencies or new APIs
+- Applied by Mark Brown; landed in a sound **fixes** pull
+- User-visible: inverted frame clock does not work
 
 AGAINST:
-- No crash/security/corruption
-- No Fixes:/Cc: stable (not a negative by itself)
-- Author is not the subsystem maintainer (mitigated by Iwai applying it)
-- Theoretical 0x8c16 vs 0x8c17 hardware difference (mitigated by test on
-  0x8c17)
+- Not a crash, UAF, deadlock, or security issue
+- Peripheral codec; no in-tree machine driver found
+- No `Reported-by` / `Tested-by`
+- Common `NB_NF` path already works
 
 UNRESOLVED:
-- Could not HTTP-fetch lore (403); thread recovered via b4 mbox
-- No independent second-user report
+- Direct user reports of broken MAX98926 inverted-frame setups were not
+  found
+- lore.kernel.org WebFetch returned 403; discussion recovered via `b4
+  dig -m`
 
-Step 9.2: APPLY THE STABLE RULES CHECKLIST
-1. Obviously correct and tested? PASS — one-line SSID remap; author
-   tested; maintainer applied
-2. Fixes a real bug that affects users? PASS — mute LEDs dead on this
-   SSID
-3. Important issue? PASS under the audio-codec quirk exception (MEDIUM,
-   not a panic)
-4. Small and contained? PASS — 1 line, one table
-5. No new features or APIs? PASS — reuses existing fixup
-6. Can apply to the local tree? PASS — `git apply --check` succeeded;
-   prerequisites present
+**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
+1. Obviously correct and tested? **PASS** — 1-line mask, sibling
+   precedent, maintainer applied
+2. Fixes a real bug that affects users? **PASS** — advertised invert
+   modes do not program WCI
+3. Important issue? **PASS** — hardware misconfiguration / broken audio
+   for inverted frame (same bar as the 2015 max98925 stable fix), not a
+   panic
+4. Small and contained? **PASS** — 1 line, one function
+5. No new features or APIs? **PASS**
+6. Can apply to the local tree? **PASS** — `git apply --check` clean;
+   context matches
 
-Step 9.3: CHECK FOR EXCEPTION CATEGORIES
-Record: Hardware quirk / audio codec `SND_PCI_QUIRK` (HP mute LED +
-pin/GPIO). This class is treated as stable material.
+**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
+Not a device-ID/quirk/DT/build/docs exception. It is a normal small
+driver correctness fix.
 
-Step 9.4: MAKE YOUR DECISION
-This tree already has the incomplete 0x8c17 mapping and the AA0XXX
-fixup. The commit only points this SSID at that fixup. That is a small,
-tested hardware quirk and should be backported.
+**Step 9.4: MAKE YOUR DECISION**
+This belongs in **this** 6.12 tree. The buggy code is here, the fix is
+trivial and already proven on the sibling codec (including an explicit
+stable nomination there), and the only cost is flipping one register
+mask bit that the driver already intended to set.
 
-What the commit solves: 0x8c17 currently only programs CS35L41 amps, so
-mute LEDs do not work. After the change it matches 0x8c16.
+### What the commit solves for stable users
+On MAX98926, `set_fmt` claims to support word-clock invert (`NB_IF` /
+`IB_IF`) but `regmap_update_bits()` only allows the BCI bit to change,
+so LRCLK invert never reaches the chip. That is broken DAI polarity for
+those boards, not a style change.
 
-Risk vs benefit: very low risk, clear user-visible fix on that laptop.
-No missing prerequisites in 6.18.53.
+### Risk vs benefit
+Very low risk (one OR into an existing mask) versus a real, long-
+standing hardware-config bug that already met the stable bar on
+max98925.
 
-Verification:
-- [Phase 1] Parsed tags: Link to msgid; SOBs Shang En Sim and Takashi
-  Iwai; no Fixes/Reported-by/Cc:stable
-- [Phase 2] Diff: 1 line in `alc269_fixup_tbl`; 0x8c17
-  `ALC287_FIXUP_CS35L41_I2C_2` →
-  `ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX`
-- [Phase 2] Confirmed AA0XXX still calls `cs35l41_fixup_i2c_two` plus
-  mute-LED/GPIO/pin setup (`alc269.c:3550-3590`)
-- [Phase 2] Confirmed old quirk is amp-only
-  (`[ALC287_FIXUP_CS35L41_I2C_2]` → `cs35l41_fixup_i2c_two`)
-- [Phase 3] `git blame -L 6954,6960`: 0x8c17 line from split commit
-  `aeeb85f26c3bb`; origin `aa8e3ef4fe533` (v6.9)
-- [Phase 3] `git merge-base --is-ancestor aa8e3ef4fe533 HEAD` true;
-  `557f6e4ab5ba6` true; `bfcdc1c0eaeae` false
-- [Phase 3] `git show 557f6e4ab5ba6`: added AA0XXX for 0x8c16, left
-  0x8c17 unchanged
-- [Phase 4] `b4 dig -c bfcdc1c0eaeae`:
-  patch.msgid.link/20260807055139.58707-1-sim@shangen.org
+### Concerns
+None for this tree: no prerequisites, no conflict, no follow-up needed.
+Impact is limited to MAX98926 with inverted frame clock.
+
+---
+
+## Verification
+- [Phase 1] Parsed tags: author SOB, Mark Brown SOB, lore Link; no
+  Fixes/Reported-by/Cc: stable
+- [Phase 2] Diff: 1 line in `max98926_dai_set_fmt()`; mask `BCI` → `BCI
+  | WCI`
+- [Phase 2] Header verified: WCI is bit 3, BCI is bit 2 in `max98926.h`
+- [Phase 3] `git blame`: buggy line from `a2e2876aa0bab` (2016, v4.6)
+- [Phase 3] `git merge-base --is-ancestor a2e2876aa0bab HEAD`:
+  introducing commit **is** in this tree
+- [Phase 3] Sibling fix `0b51601d4504f4` (“Fix mask for setting DAI
+  invert mode”) had `Cc: stable@vger.kernel.org` and is in this tree
+- [Phase 3] `git log` on `max98926.c`: no invert-mask prerequisite
+- [Phase 4] `b4 dig -c dd0ae9a2e19a2`: lore URL `87wltomc97.wl-
+  kuninori.morimoto.gx@renesas.com`
 - [Phase 4] `b4 dig -a`: v1 only
-- [Phase 4] `b4 dig -w`: Kysela, Iwai, linux-sound
-- [Phase 4] `b4 dig -m`: Iwai applied to for-next; no NAK
-- [Phase 4] WebFetch lore/msgid.link: 403; used mbox instead
-- [Phase 4] Stable lore search: no discussion of this patch
-- [Phase 5] `alc269_probe()` calls `snd_hda_pick_fixup(...,
-  alc269_fixup_tbl, ...)`
-- [Phase 6] `git describe HEAD`: p-6.18-1-g03b85e06ca9bf; `make
-  kernelversion`: 6.18.53; branch pending-6.18
-- [Phase 6] Buggy line at `alc269.c:6957`; 0x8c16 already AA0XXX at 6956
-- [Phase 6] `git show bfcdc1c0eaeae | git apply --check`: succeeded at
-  offset -491
-- [Phase 8] Failure mode: mute LEDs inoperative on SSID 0x8c17; severity
-  MEDIUM; quirk exception applies
-- UNVERIFIED: HTTP lore body (403); whether any 0x8c17 unit differs
-  electrically from 0x8c16 beyond the author’s test
+- [Phase 4] `b4 dig -w`: Kysela, Girdwood, Brown, Iwai, linux-sound
+- [Phase 4] mbox: Mark Brown applied to for-7.3; no NAKs
+- [Phase 4] WebFetch lore/msgid: 403; discussion taken from b4 mbox
+  instead
+- [Phase 4] Stable lore search: no prior discussion of this patch
+- [Phase 5] Callers: `snd_soc_dai_set_fmt()` → dai ops `.set_fmt`; used
+  from `soc-core.c` DAI setup
+- [Phase 5] `git grep`: only max98926 still has BCI-only invert update
+- [Phase 6] `make kernelversion` / Makefile: **6.12.111**; `git describe
+  HEAD`: `p-6.12-3-gc504cf0baa3d8`
+- [Phase 6] `git merge-base --is-ancestor dd0ae9a2e19a2 HEAD`: fix
+  **not** in this tree
+- [Phase 6] Parent context of candidate matches local `max98926.c` lines
+  360–363
+- [Phase 6] `git apply --check`: APPLY_CLEAN
+- [Phase 7] No in-tree machine driver hard-coding max98926; DT
+  compatible `maxim,max98926` exists
+- [Phase 8] Failure mode: WCI not programmed → wrong frame polarity /
+  broken audio; not a crash
+- UNVERIFIED: specific MAX98926 products using `NB_IF`/`IB_IF` in the
+  field (driver still implements those cases)
 
 **YES**
 
- sound/hda/codecs/realtek/alc269.c | 2 +-
+ sound/soc/codecs/max98926.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 5098d3f375316..97ab2269dc472 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6969,7 +6969,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8bf0, "HP", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c15, "HP Spectre x360 2-in-1 Laptop 14-eu0xxx", ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX),
- 	SND_PCI_QUIRK(0x103c, 0x8c16, "HP Spectre x360 2-in-1 Laptop 16-aa0xxx", ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX),
--	SND_PCI_QUIRK(0x103c, 0x8c17, "HP Spectre 16", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8c17, "HP Spectre x360 2-in-1 Laptop 16-aa0xxx", ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX),
- 	SND_PCI_QUIRK(0x103c, 0x8c21, "HP Pavilion Plus Laptop 14-ey0XXX", ALC245_FIXUP_HP_X360_MUTE_LEDS),
- 	SND_PCI_QUIRK(0x103c, 0x8c2d, "HP Victus 15-fa1xxx (MB 8C2D)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x8c30, "HP Victus 15-fb1xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+diff --git a/sound/soc/codecs/max98926.c b/sound/soc/codecs/max98926.c
+index ae962bda163eb..8f48f702d5621 100644
+--- a/sound/soc/codecs/max98926.c
++++ b/sound/soc/codecs/max98926.c
+@@ -360,7 +360,7 @@ static int max98926_dai_set_fmt(struct snd_soc_dai *codec_dai,
+ 	regmap_write(max98926->regmap,
+ 			MAX98926_FORMAT, MAX98926_DAI_DLY_MASK);
+ 	regmap_update_bits(max98926->regmap, MAX98926_FORMAT,
+-			MAX98926_DAI_BCI_MASK, invert);
++			MAX98926_DAI_BCI_MASK | MAX98926_DAI_WCI_MASK, invert);
+ 	return 0;
+ }
+ 
 -- 
 2.53.0
 
