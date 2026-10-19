@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBFB5172EE;
-	Mon, 19 Oct 2026 13:55:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 102BA52CCCB;
+	Mon, 19 Oct 2026 13:55:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418111; cv=none; b=N1mpOUDpul4bEMQDztboLbk+yk5lBfHLUB71b4RbDJZUHLSvOF/eUt/X/tlAEp+fWRdGku9p0NpfSAXLwBbursHwQpHBLkUiIZ2SVVa0Lrx4hG2aIRwAfy81AJGOkWuCQc9sdRgeQXiwLarlX1VGfc6YzYm4J25XWiIboaelBO4=
+	t=1792418118; cv=none; b=sdi9ZXNx12OW1tjiDrqSBIYCjuoWA8lG8FtXNbyXfaesP32U7PlOTyXtU1t0fYWSgz6nz9nwuXt/dp1Wto+HjZv0hWBmFBE1yNW6InmmKwV5fjLa5OISy8CwGTSJdmrxKQONhNJPKJKSQyKz3nCWfDKNBB7ytHxaNZyLtW0pjwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418111; c=relaxed/simple;
-	bh=A0NjEg9PM04akK49RXHb9ikpdnYdT1NI2cAjgu+MeV4=;
+	s=arc-20240116; t=1792418118; c=relaxed/simple;
+	bh=PmudlrudLdAanj58C1sWrtQ/fZfqREqyylf0yGvFvf4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nDYjqEM7UkrOTmU4Hhqiz0iq6ch+Sm0MADlYk/aaqEmx82P3BNAclg9FaNQ5OnuqUhxVe1Wj31vmSGwAnmCo444hYrVOKfm4+EALkfEy/DLOlf7jUVr8iO7Dab8BIea4neZkNsKkNirHQPpMGAAuTwCYZ2lVvdUAGSXmpZ5zYOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kDq3GAs9; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=aLDye5jcMwLcL7iliZOR/AbNXGb7xmTpXqMGQTv/VvQK043p7kTWz3euRo1J2aEQxnq/QGfUvPi9Fy6Mal5fJVsP8d//+VBSVWVIlwGHw0vFE2+dEWohMsbXqsXh1XRfiI8r2PymPjOLnV6RUvetQpdGpuU+qGuxrsIpolbi1Os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NVxRvnLE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kDq3GAs9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 508731F000C4;
-	Mon, 19 Oct 2026 13:55:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NVxRvnLE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F050C1F000C7;
+	Mon, 19 Oct 2026 13:55:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418109;
-	bh=MWIDjHAuNsyfVsNMCC8w5XczBjDeiBQ7zVYCKN4liAk=;
+	s=k20260515; t=1792418116;
+	bh=eRKh27WTcim/71bt1Dd3x9aJZ+WOlDtE80dMKQu2svo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=kDq3GAs92HH8ErKz2mUlw/1KHbTm2TxJy4didgBuXZmcssXdWf2jq26N31PYHUcEG
-	 yxjfJx5j6Arr4u//ho7tJanfPHs5P6gwLcvl7220yOmY90vGab7wIlYQgbpnIms/E9
-	 ZAGkzIYPSHRVVza/EoH2dccg7sy2uyK34bp+OFmOGCZy69I7LebzSn+TyWkAjzjh7u
-	 A0yxu6t1dD59MK1rz23gKI9p+s/Q2AkmU6CgGp4QlXcA4/mvMbX3ESsYv6Imx4Sp0c
-	 5JKluaQ5+xxNkbvRBy+m9+eVUwcz/FUKqdxmvX2vKSIqKv1deoqUNMtRk7TDWFjsMD
-	 dlTtWE99CWa9Q==
+	b=NVxRvnLEU37Mv4ym6Vsq9IzWSNudFKIcsmvWvXdgpikbZqEg7MJfhdbIesDMuIgST
+	 MGvcoI91X6znr6oma4Y10Ud2PgpG84UVOwIClkq3RiUdWYj2l/tZDqeyfFQGi0KWTY
+	 VMt3JTAIs3a5cVrPhXS6MB67eihtwfjgJ7IBzDGx7u3Gooe2YfM+iDDxWh+cyEA81M
+	 mHi/uuysJSW4czCNnyoU+I4dct/XTJMbu42gjre9olyH+X5ApBL0pr4npME6lGmQNX
+	 4UBty7o+C22G8r41A1kdVoPUQfSvsQNgd00vurMRZRFjTFLHCVh0YmgpRlPcof5gsE
+	 YvM8NFZOA9YYw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Garrett Blackmon <garrett@blackmon.dev>,
+Cc: Zhang Heng <zhangheng@kylinos.cn>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.12] ALSA: hda/realtek: Fix speakers on ASUS ROG Zephyrus G14 GA403UM
-Date: Mon, 19 Oct 2026 09:45:09 -0400
-Message-ID: <20261019135441.1420968-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.1] ALSA: hda/realtek: Add quirk for Lenovo IdeaPad Slim 3 15ABR8
+Date: Mon, 19 Oct 2026 09:45:13 -0400
+Message-ID: <20261019135441.1420968-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -54,284 +54,316 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Garrett Blackmon <garrett@blackmon.dev>
+From: Zhang Heng <zhangheng@kylinos.cn>
 
-[ Upstream commit 140fe610af607fd70da95c447943fc2690855519 ]
+[ Upstream commit be79a45e2ec289eb9fad519e8f5a3d4fc3789dd0 ]
 
-The GA403UM (SSID 1043:1044) uses the same ALC285 codec + dual CS35L56
-I2C amplifier topology as the GA403U and GA403W variants, which already
-have quirk entries (1043:1b13, 1043:1024). Without the quirk, the
-woofers sit on a separate DAC from the tweeters, so the hardware volume
-control only scales part of the speaker system and the headset
-microphone pins are not configured.
+The internal microphone on Lenovo IdeaPad Slim 3 15ABR8 (subsystem
+17aa:3862) exhibits severe distortion at default gain levels. The
+Capture Volume is fixed at 63 (max) and cannot be lowered without
+explicit userspace intervention. The existing fixup
+ALC269_FIXUP_LIMIT_INT_MIC_BOOST limits the gain range and resolves
+the issue.
 
-Apply the existing ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC fixup to the
-GA403UM as well.
-
-Signed-off-by: Garrett Blackmon <garrett@blackmon.dev>
-Link: https://patch.msgid.link/20260807150708.33785-1-garrett@blackmon.dev
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221891
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+Link: https://patch.msgid.link/20260824123752.525173-1-zhangheng@kylinos.cn
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This is a one-line PCI SSID quirk for an existing Realtek fixup. The
-local tree is **6.12.111** (`pending-6.12`, `p-6.12-3-g710455e2077bb`).
-The GA403U fixup chain is already here; SSID `1043:1044` is not.
+This is a one-line Realtek HDA hardware quirk for a specific Lenovo
+laptop. The local tree is **6.12.111** (`pending-6.12`). The Realtek
+quirk table and `ALC269_FIXUP_LIMIT_INT_MIC_BOOST` already exist here;
+SSID `17aa:3862` does not.
 
 ===============================================================
 PHASE 1: COMMIT MESSAGE FORENSICS
 ===============================================================
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-Record: `[ALSA: hda/realtek] [Fix] speakers on ASUS ROG Zephyrus G14
-GA403UM`
+- Record: **[ALSA/hda/realtek] [Add] [quirk for Lenovo IdeaPad Slim 3
+  15ABR8]**
+- Subsystem prefix: `ALSA: hda/realtek`
+- Action verb: **Add** (hardware quirk table entry, not a new feature)
+- Claimed intent: map PCI subsystem `17aa:3862` to an existing internal-
+  mic boost limit fixup
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-Record:
-- `Signed-off-by: Garrett Blackmon <garrett@blackmon.dev>` (author)
-- `Link:
-  https://patch.msgid.link/20260807150708.33785-1-garrett@blackmon.dev`
-- `Signed-off-by: Takashi Iwai <tiwai@suse.de>` (ALSA maintainer)
-- No `Fixes:` tag (expected)
-- No `Cc: stable` (expected; not a negative)
-- No `Reported-by:` / `Tested-by:` / `Reviewed-by:` / `Acked-by:`
-- Ignore pipeline `Signed-off-by: Sasha Levin` if present; it is not on
-  the mainline commit `140fe610af607`
+- Record:
+  - `Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221891` — user-
+    filed kernel.org bug
+  - `Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>` — author
+  - `Link: https://patch.msgid.link/20260824123752.525173-1-
+    zhangheng@kylinos.cn` — original submission msgid
+  - `Signed-off-by: Takashi Iwai <tiwai@suse.de>` — ALSA HDA maintainer
+    applied it
+  - No `Fixes:`, no `Cc: stable`, no `Reported-by`, no `Tested-by`, no
+    `Reviewed-by` (absence of `Fixes:`/`Cc: stable` is expected for this
+    review)
+- Notable: maintainer SOB plus a `Closes:` bugzilla link
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
-Record:
-- **Bug:** GA403UM (SSID `1043:1044`) has ALC285 + dual CS35L56 I2C
-  amps, same topology as GA403U (`1043:1b13`) and GA403W (`1043:1024`).
-- **Symptom:** Without the quirk, woofers are on a different DAC from
-  tweeters, so hardware volume only scales part of the speaker system;
-  headset-mic pins are not configured.
-- **Root cause:** Missing `SND_PCI_QUIRK` entry; the machine never gets
-  `ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC`.
-- **Version info:** None in the message. Commit date is 2026-08-07
-  (after v6.12, 2024-11-17).
+- Record:
+  - **Bug:** Internal mic on IdeaPad Slim 3 15ABR8 (`17aa:3862`) has
+    severe distortion at default gain
+  - **Symptom:** Capture Volume stuck at 63 (max); cannot be lowered
+    without explicit userspace intervention; captured audio is badly
+    distorted
+  - **Root cause (author):** default amp/boost range is too high for
+    this hardware
+  - **Fix:** reuse existing `ALC269_FIXUP_LIMIT_INT_MIC_BOOST`
+  - **Version info:** none in the message; laptop is a 2023 AMD IdeaPad,
+    so 6.12 users are in the affected population
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: Not hidden. It is an explicit hardware-quirk fix for broken
-speakers/headset mic.
+- Record: Not a hidden fix. It is an explicit hardware quirk. The “Add”
+  verb is the standard form for `SND_PCI_QUIRK` table entries that make
+  existing hardware usable.
 
 ===============================================================
 PHASE 2: DIFF ANALYSIS - LINE BY LINE
 ===============================================================
 
 **Step 2.1: INVENTORY THE CHANGES**
-Record:
-- Mainline file: `sound/hda/codecs/realtek/alc269.c` (`+1` / `-0`)
-- Function/table: `alc269_fixup_tbl[]`
-- Scope: single-file, one-line PCI quirk addition
+- Record:
+  - File in the commit: `sound/hda/codecs/realtek/alc269.c` (**+1 /
+    −0**)
+  - Function/table: `alc269_fixup_tbl[]`
+  - Scope: **single-file surgical** — one `SND_PCI_QUIRK` line
+  - Local tree equivalent file: `sound/pci/hda/patch_realtek.c` (HDA
+    codecs were not yet split out of `sound/pci/hda/` in 6.12)
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-Record:
-- **Before:** SSID `1043:1044` does not match; generic auto-parse leaves
-  bass speaker NID `0x17` on a separate DAC and does not set headset-mic
-  pins `0x19`/`0x1b`.
-- **After:** That SSID selects `ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC`,
-  which:
-  1. Sets pins `{0x19, 0x03a11050}` and `{0x1b, 0x03a11c30}`
-  2. Chains to `ALC285_FIXUP_ASUS_GA403U_I2C_SPEAKER2_TO_DAC1`
-     (`alc285_fixup_speaker2_to_dac1` forces NID `0x17` onto
-     DAC1/`0x02`)
-  3. Chains to `ALC285_FIXUP_ASUS_GA403U` (inv-dmic only if codec is not
-     ALC285, for SSID reuse)
-- Path: HDA probe / `patch_alc269()`, not an error path.
+- Record: **Before** — SSID `17aa:3862` matches no quirk; probe uses
+  generic auto-config; internal mic boost stays at the default wide
+  range, Capture Volume sits at max, audio is distorted.
+  **After** — `snd_hda_pick_fixup()` matches
+  `ALC269_FIXUP_LIMIT_INT_MIC_BOOST`. At `HDA_FIXUP_ACT_PROBE`,
+  `alc269_fixup_limit_int_mic_boost()` walks auto-config inputs, and for
+  internal mic pins overrides amp caps to 0 offset, 1 step, step size
+  `0x2f` (boost limited to 0 or 1). Only the probe path for this SSID is
+  affected.
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
-Record: **Hardware workaround (PCI SSID quirk).** Missing table entry
-for a shipped laptop SKU. Not UAF/race/leak.
+- Record: **[Hardware workaround / audio codec quirk]**
+  - Mechanism: Realtek codec exposes boost steps 2 and 3 that are too
+    noisy on this chassis. The existing helper comments: “The mic boosts
+    on level 2 and 3 are too noisy on the internal mic input. Therefore
+    limit the boost to 0 or 1.”
+  - The new line only *selects* that already-present helper for one PCI
+    subsystem ID.
 
 **Step 2.4: ASSESS THE FIX QUALITY**
-Record:
-- Obviously correct: reuse of an existing, already-shipped fixup.
-- Minimal: one `SND_PCI_QUIRK` line.
-- Regression risk: very low; the entry matches only `vendor 0x1043, SSID
-  0x1044`. `0x1044` is unused in this tree’s Realtek quirk table.
-- SSID-reuse note: `alc285_fixup_asus_ga403u` already guards non-ALC285
-  hardware that reused `0x1b13`. This new ID is a distinct SSID, not
-  that reuse case.
+- Record: Obviously correct and minimal. Same pattern already used for
+  ThinkPad T480, Positivo ARN50/N14AP7, several Asus/VAIO machines, etc.
+  - Regression risk: **very low**. Match is vendor+device SSID
+    `17aa:3862` only. `ALC269_FIXUP_LIMIT_INT_MIC_BOOST` also chains to
+    `ALC269_FIXUP_THINKPAD_ACPI`, but `hda_fixup_thinkpad_acpi()`
+    returns immediately unless ACPI IDs `LEN0068`/`LEN0268`/`IBM0068`
+    exist, so LED binding does not run on an IdeaPad.
+    `alc_fixup_no_shutup()` still runs (reduces click noise); that same
+    chain is already used by other non-ThinkPad LIMIT_INT_MIC_BOOST
+    quirks in this tree.
+  - No public API, no new fixup enum, no new module parameter.
 
 ===============================================================
 PHASE 3: GIT HISTORY INVESTIGATION
 ===============================================================
 
 **Step 3.1: BLAME THE CHANGED LINES**
-Record:
-- Insertion sits between existing ASUS entries `0x103f` (TX300, 2013)
-  and `0x1054` (G614, 2025 backport).
-- Buggy “code” is absence of `1043:1044`, not a later regression in
-  shared logic.
-- The fixup being applied was introduced by `0672b017324b1` (“Fixes for
-  Asus GU605M and GA403U sound”, 2024-04-18) and is in this tree.
-- Earlier `c33f0d4fcfe07` (2024-03-30) added CS35L56 laptop quirks and
-  the GA403U SSID-reuse comment; also in this tree.
+- Record: There is no “buggy line” in the table; the bug is a
+  **missing** entry. Neighboring rows in this tree:
+  - `0x3855` Legion 7 16ITHG6 — `1e24881d8b2a7c` (2022)
+  - `0x3865` Lenovo 13X — `25f46354dca912` (2024)
+  - Insertion sits in a long-stable Lenovo SSID block. The helper
+    `alc269_fixup_limit_int_mic_boost()` was introduced in
+    `3e0d611b2045b` (2013-04-22, “Limit internal mic boost for a few
+    Asus machines”) and has been in-tree for years.
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-Record: No `Fixes:` tag. The functional prerequisite is `0672b017324b1`,
-present here (`git merge-base --is-ancestor` → yes).
+- Record: No `Fixes:` tag. Not applicable. The “bug” is hardware that
+  never had a quirk, not a regression from a prior commit.
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-Record:
-- Related in this tree: `c33f0d4fcfe07`, `0672b017324b1`.
-- Sibling mainline quirk `cbd46cbc5470f` (GA403W `1043:1024`, 2026-01)
-  is **not** in this tree. It is a parallel SKU entry, not a
-  prerequisite for `1043:1044`.
-- Candidate `140fe610af607` is **not** an ancestor of HEAD.
-- This 6.12 tree already backports many similar one-line Realtek quirks
-  (recent log is almost entirely `Add quirk for …`).
-- Standalone: one table line; no series (`patch X/Y`).
+- Record: Recent `patch_realtek.c` history is almost entirely other
+  `SND_PCI_QUIRK` additions (HP mute LED, Legion, Yoga, etc.). Same-
+  fixup examples already in this 6.12 tree:
+  - `85981dfd6b0a0` Limit mic boost on T480 (`Cc: stable`)
+  - `86a433862912f` Limit mic boost on N14AP7 (`Cc: stable`)
+  - `d44418f5024f6` Limit mic boost on Positivo ARN50 (already
+    backported here as `[ Upstream commit 76b0a22d4cf7... ]`)
+- Standalone. Not patch X/Y.
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: Garrett Blackmon has this single Realtek commit on
-`origin/master`. Takashi Iwai applied it the same day. Author is a
-hardware user, not the subsystem maintainer; maintainer acked by
-applying.
+- Record: Zhang Heng has other sound quirks in this tree (ASUS UM6702RC,
+  Inspur S14-G1, Samsung 750XBE, AMD YC DMI quirks). Regular hardware-
+  quirk contributor, not the subsystem maintainer. Maintainer Takashi
+  Iwai applied it.
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record:
-- Needs `ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC` and
-  `alc285_fixup_speaker2_to_dac1` — both exist in
-  `sound/pci/hda/patch_realtek.c`.
-- Needs CS35L56 HDA I2C sidecar — `sound/pci/hda/cs35l56_hda_i2c.c` is
-  present.
-- Does **not** need the GA403W `0x1024` entry.
-- Cannot apply the mainline diff as-is: mainline file is
-  `sound/hda/codecs/realtek/alc269.c` (split ~2025-07). This tree still
-  has `sound/pci/hda/patch_realtek.c`. Backport is the same one line at
-  the same SSID sort position (after `0x103f`, before `0x1054`).
+- Record: None. Depends only on `SND_PCI_QUIRK`,
+  `ALC269_FIXUP_LIMIT_INT_MIC_BOOST`, and `alc269_fixup_tbl[]`, all
+  present in 6.12. Can apply standalone with a path remap (`alc269.c` →
+  `patch_realtek.c`).
 
 ===============================================================
 PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 ===============================================================
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
-Record:
-- `b4 dig -c 140fe610af607` →
-  https://patch.msgid.link/20260807150708.33785-1-garrett@blackmon.dev
-- `b4 dig -a`: **v1 only** (2026-08-07), no later revisions.
-- Thread: author submission + Takashi Iwai “Applied to for-next branch
-  now. Thanks.”
-- No NAK, no stable nomination in-thread, no risk discussion.
+- Record: `b4 dig -c` could not be used: this SHA is not in the local
+  tree. Recovered via msgid
+  `20260824123752.525173-1-zhangheng@kylinos.cn`.
+  - Submission: https://lists.openwall.net/linux-kernel/2026/08/24/1126
+    (also lkml.iu.edu/2608.3/00949.html)
+  - Single-patch v1 only; diff is the same one-line quirk as committed
+  - To: `tiwai@suse.de`; Cc: `linux-sound`, `linux-kernel`
+  - Maintainer reply (Takashi Iwai, 2026-08-25): **“Applied now.
+    Thanks.”** (lkml.iu.edu/2608.3/02564.html)
+  - No NAK, no requested respin, no stable discussion in the thread
+  - Lore.kernel.org itself returned Anubis/403 to automated fetch
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record (`b4 dig -w`): To/Cc `tiwai@suse.com`, `perex@perex.cz`, `linux-
-sound@vger.kernel.org`. ALSA maintainers were on the patch; Iwai applied
-it.
+- Record: Sent directly to Takashi Iwai (ALSA HDA maintainer) and linux-
+  sound. Maintainer applied v1 as-is. No other reviewer comments found.
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-Record: No bugzilla/syzbot link. The commit itself is the user report
-(author is fixing their GA403UM). Severity from the text: partial
-speaker volume + unconfigured headset mic.
+- Record: Bugzilla 221891 was 403/Anubis; full comments **UNVERIFIED**.
+  The `Closes:` tag plus the commit body (SSID, Capture Volume 63,
+  distortion) are the verified description.
+  - Related real-world report: Ask Ubuntu “Audio issues on Lenovo
+    Ideapad Slim 3 **16ABR8** — microphone distortion” (sibling ABR8
+    chassis, same symptom class). That report is 16ABR8, not
+    15ABR8/`17aa:3862`, so it does **not** prove this SSID, only that
+    the product family has this class of mic problem.
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: Standalone v1. Related sibling is GA403W `cbd46cbc5470f` (not
-required). No follow-up on `origin/master` that changes `1043:1044`.
+- Record: Standalone 1/1. No series. No extra Realtek patches required.
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: lore.kernel.org/stable search returned HTTP 403. **UNVERIFIED**
-whether it was discussed on stable@. Not used for the verdict.
+- Record: lore.kernel.org/stable search blocked (Anubis). No evidence in
+  this tree that this SSID was already requested or rejected. Identical
+  LIMIT_INT_MIC_BOOST quirks have been accepted into this 6.12 tree
+  before.
 
 ===============================================================
 PHASE 5: CODE SEMANTIC ANALYSIS
 ===============================================================
 
 **Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
-Record: No function body change. Adds one entry to `alc269_fixup_tbl[]`.
-Consumed fixups: `ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC` →
-`alc285_fixup_speaker2_to_dac1` → `alc285_fixup_asus_ga403u`.
+- Record: No function body changed. New table entry in
+  `alc269_fixup_tbl[]`. Runtime functions involved:
+  `snd_hda_pick_fixup()` → `alc269_fixup_limit_int_mic_boost()` (and
+  chained `alc_fixup_thinkpad_acpi()`).
 
 **Step 5.2: TRACE CALLERS**
-Record:
-- `patch_alc269()` calls `snd_hda_pick_fixup(..., alc269_fixup_tbl,
-  alc269_fixups)` at probe (`sound/pci/hda/patch_realtek.c`).
-- `patch_alc269` covers the ALC269 family, including ALC285
-  (`0x10ec0285`).
-- Trigger: HD-audio codec probe on this laptop, not interrupt/hot path.
+- Record: `alc269_fixup_tbl` is passed from the ALC269-family probe
+  path:
+
+```12583:12584:sound/pci/hda/patch_realtek.c
+        snd_hda_pick_fixup(codec, alc269_fixup_models,
+                       alc269_fixup_tbl, alc269_fixups);
+```
+
+That runs during codec probe (device enumeration / module load), not a
+syscall hot path. Reachable on every boot for machines with a Realtek
+ALC269-family HDA codec.
 
 **Step 5.3: TRACE CALLEES**
-Record: `snd_hda_pick_fixup` matches PCI SSID, then pin overrides +
-`snd_hda_override_conn_list(codec, 0x17, …)` so bass/woofer shares DAC1
-with the main speakers.
+- Record: `alc269_fixup_limit_int_mic_boost()` uses
+  `snd_hda_codec_get_pincfg()`, `snd_hda_get_input_pin_attr()`,
+  `snd_hda_override_amp_caps()`. Probe-time mixer cap override only; no
+  allocation, no new locks.
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-Record: PCI/HDA enumeration → Realtek codec probe → `patch_alc269` →
-quirk table. Reachable on every boot of a GA403UM. Not a syscall attack
-path; it is the normal audio device path.
+- Record: Userspace does not need a special trigger. Opening the capture
+  device at default volume is enough. Unprivileged users of this laptop
+  hit it (PulseAudio/PipeWire default capture). High user visibility,
+  hardware-specific.
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: Same fixup already used for `0x1043, 0x1b13` (“ASUS
-U41SV/GA403U”). This commit extends that pattern to another SKU. This
-tree regularly takes the same class of one-line quirk.
+- Record: Many `SND_PCI_QUIRK(..., ALC269_FIXUP_LIMIT_INT_MIC_BOOST)`
+  entries already in this file (ThinkPads
+  `0x2215`/`0x225d`/`0x5013`/`0x5026`/`0x5109`, Asus
+  `0x106d`/`0x115d`/`0x1c23`, Positivo, VAIO). This is a systematic,
+  well-worn workaround, not a one-off invention.
 
 ===============================================================
 PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 ===============================================================
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Record: Yes, as a missing SSID.
-- Tree: 6.12.111 / `pending-6.12`.
-- File: `sound/pci/hda/patch_realtek.c`.
-- Fixup IDs and implementations are present (lines ~7529, ~6831,
-  ~10586–10618).
-- `0x1b13` is present (line 11257). `0x1044` is **not**.
-- Candidate `140fe610af607` is not an ancestor of HEAD.
-- Hardware is a 2026 G14 SKU; 6.12 is LTS, so users can run this kernel
-  on that laptop.
+- Record: **Yes, as a missing quirk.** Local tree:
+  `p-6.12-3-gc504cf0baa3d8`, `VERSION=6 PATCHLEVEL=12 SUBLEVEL=111`.
+  - `sound/hda/codecs/realtek/` does **not** exist (split is post-6.12).
+  - `sound/pci/hda/patch_realtek.c` **does** exist; `alc269_fixup_tbl[]`
+    at line 10675; LIMIT_INT_MIC_BOOST at 8711–8716 and function at
+    6661–6691.
+  - `git grep 0x3862 -- sound/pci/hda/` : **no match**. Between 0x3855
+    and 0x3865 there is a hole exactly where the new line goes (lines
+    11565–11566).
+  - Bug “introduced”: never fixed here; hardware existed well before
+    v6.12 (released 2024-11-17).
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: Raw mainline patch does not apply (file was split to
-`sound/hda/codecs/realtek/alc269.c` after 6.12). Functional backport is
-trivial: insert the same `SND_PCI_QUIRK` between `0x103f` and `0x1054`
-in `patch_realtek.c` (lines 11185–11186). No data-structure or API gap.
+- Record: **Minor path remap, otherwise clean.** Neighboring context in
+  this tree is identical to the mainline hunk (`0x3855` Legion then
+  `0x3865` Lenovo 13X). Need to apply to `sound/pci/hda/patch_realtek.c`
+  instead of `sound/hda/codecs/realtek/alc269.c`. No conflicting SSID,
+  no missing helper.
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: GA403U fixup yes; this SSID no. No alternate GA403UM fix. `git
-grep 0x1044` in `patch_realtek.c` is empty.
+- Record: No `IdeaPad Slim 3 15ABR8` and no `17aa:3862` in
+  `sound/pci/hda/`. Sibling IdeaPad Slim 9i 14ITL5 is a different
+  SSID/fixup. No earlier version of this fix.
 
 ===============================================================
 PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 ===============================================================
 
 **Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: `sound/pci/hda` Realtek HD-audio. **IMPORTANT** (laptop audio),
-not core mm/fs. Maintainers: Takashi Iwai, Jaroslav Kysela
-(`MAINTAINERS` SOUND). Config: `SND_HDA_CODEC_REALTEK`.
+- Record: **[sound/pci/hda Realtek codec] [IMPORTANT]** — not core
+  mm/vfs, but the default laptop audio stack.
+  `CONFIG_SND_HDA_CODEC_REALTEK` is a standard distro config.
+  Criticality is hardware-specific, not peripheral/staging.
 
 **Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: Very active quirk table; recent 6.12 backports are mostly
-device-specific `SND_PCI_QUIRK` additions. Mature pattern, low novelty.
+- Record: Very active: recent history is a stream of model quirks.
+  Mature table, mature helper (2013). Quirk additions are the normal
+  stable-friendly change in this file.
 
 ===============================================================
 PHASE 8: IMPACT AND RISK ASSESSMENT
 ===============================================================
 
 **Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: Driver/platform-specific: ASUS ROG Zephyrus G14 GA403UM, SSID
-`1043:1044`, ALC285 + CS35L56. No effect on other machines.
+- Record: **driver-specific / hardware-specific** — only PCI SSID
+  `17aa:3862` (Lenovo IdeaPad Slim 3 15ABR8). Everyone else unchanged.
 
 **Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Record: Every boot / any speaker volume or headset-mic use on that
-model. Unprivileged user using audio. Not a race.
+- Record: Trigger is default capture on this laptop (every
+  VoIP/recording session). Common for owners of this model. Unprivileged
+  users can trigger it. Not a race.
 
 **Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record:
-- Failure: woofers do not follow master volume (split DAC); headset mic
-  pins unconfigured.
-- **Severity: MEDIUM–HIGH** for that hardware (laptop audio effectively
-  broken), not a kernel oops. This is the class of “device doesn’t work
-  correctly without a quirk.”
+- Record: **[Internal mic unusable / severe distortion] [MEDIUM
+  functionally; HIGH for that hardware]**
+  - Not panic, UAF, or data corruption
+  - Internal microphone is effectively broken at default settings;
+    userspace volume workarounds are the only current escape
+  - This is the documented audio-codec quirk class, routinely taken into
+    stable
 
 **Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-Record:
-- **Benefit:** High for GA403UM owners on 6.12.y (working speakers +
-  headset pins).
-- **Risk:** Very low (one SSID line, existing fixup, SSID unused).
-- **Ratio:** Strongly favors backport. Matches the documented hardware-
-  quirk exception.
+- Record:
+  - **Benefit:** High for 15ABR8 owners on 6.12; mic works without mixer
+    hacks
+  - **Risk:** Very low — 1 line, SSID-gated, helper used for a decade,
+    same pattern already backported here
+  - **Ratio:** strongly in favor of backport
 
 ===============================================================
 PHASE 9: FINAL SYNTHESIS
@@ -340,92 +372,99 @@ PHASE 9: FINAL SYNTHESIS
 **Step 9.1: COMPILE THE EVIDENCE**
 
 FOR:
-- Real user-visible bug: incomplete speaker volume and unconfigured
-  headset mic.
-- One-line `SND_PCI_QUIRK` using a fixup already in 6.12.
-- Prerequisite `0672b017324b1` is in this tree; CS35L56 HDA I2C is in
-  this tree.
-- ALSA maintainer applied v1 the same day; no NAK.
-- Classic stable exception: PCI ID / hardware quirk for an existing
-  driver.
-- This tree already carries the same fixup for GA403U (`0x1b13`).
-- Insertion point exists; `0x1044` is free.
+- Real hardware bug with a kernel.org bugzilla `Closes:` (221891)
+- Severe mic distortion; capture stuck at max gain
+- Classic `SND_PCI_QUIRK` exception (explicitly stable-appropriate)
+- 1 line, existing fixup from 2013
+- Helper and table present in 6.12; SSID absent
+- Maintainer (Takashi Iwai) applied v1 with no objections
+- Identical LIMIT_INT_MIC_BOOST quirks already in this 6.12 tree (T480,
+  N14AP7, Positivo ARN50)
 
 AGAINST:
-- Mainline patch path differs (`alc269.c` vs `patch_realtek.c`); needs a
-  one-line backport, not a raw apply.
-- No `Reported-by` besides the author; no syzbot/CVE.
-- Not a crash/security bug.
-- Sibling `0x1024` (GA403W) is absent — irrelevant; that SKU is
-  independent.
+- Not a crash/security/deadlock (strict reading of “important issue”)
+- Mainline path differs (`alc269.c` vs `patch_realtek.c`) — trivial
+  remap
+- Full bugzilla text could not be fetched (403)
+- `b4 dig` could not run without a local SHA
 
 UNRESOLVED:
-- Stable@ lore search (HTTP 403).
-- WebFetch of lore also 403; thread recovered via `b4 dig -m`.
+- Full bugzilla 221891 comments
+- Whether any other chassis silently shares SSID `17aa:3862` (no in-tree
+  collision)
 
 **Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — reuse of in-tree fixup;
-   maintainer applied.
-2. Fixes a real bug that affects users? **PASS** — broken volume/headset
-   on GA403UM.
-3. Important issue? **PASS** — hardware-quirk exception; audio broken on
-   that laptop, not a panic.
-4. Small and contained? **PASS** — 1 line.
-5. No new features or APIs? **PASS** — existing quirk ID only.
-6. Can apply to the local tree? **PASS** with trivial path adjustment
-   (`patch_realtek.c`, same context).
+1. Obviously correct and tested? **PASS** — one SSID line to a long-used
+   helper; maintainer applied; same pattern proven in this tree
+2. Fixes a real bug that affects users? **PASS** — unusable/distorted
+   internal mic; bugzilla + concrete SSID
+3. Important issue? **PASS via hardware-quirk exception** — not a kernel
+   oops, but a device-breaking audio defect of the class stable already
+   takes (`SND_PCI_QUIRK` in `patch_realtek.c`)
+4. Small and contained? **PASS** — +1 line
+5. No new features or APIs? **PASS** — table entry only
+6. Can apply to the local tree? **PASS** — remap path to
+   `sound/pci/hda/patch_realtek.c`; context around 0x3855/0x3865 matches
 
 **Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Record: **Hardware quirk / PCI SSID addition to an existing driver.**
-Automatic YES class.
+- Record: **AUDIO CODEC QUIRK / hardware workaround** — `SND_PCI_QUIRK`
+  in the Realtek HDA table. This is an automatic YES category.
 
 **Step 9.4: MAKE YOUR DECISION**
-The missing SSID is present as a gap in this 6.12 tree, the target fixup
-chain is complete, and the change cannot affect any other device.
-Backport it.
+Backport. The bug exists on 6.12 for this laptop, the fix is the
+standard one-line quirk, and the only adjustment is the post-6.12
+filename change.
 
 ------------------------------------------------
-What the commit solves for this tree
+What the commit solves and why it matters here
 ------------------------------------------------
-On GA403UM, Linux never applies the GA403U speaker/mic fixup. Master
-volume then moves only tweeters (woofers stay on another DAC), and
-headset-mic pins stay wrong. Adding `SND_PCI_QUIRK(0x1043, 0x1044, "ASUS
-GA403UM", ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC)` to `alc269_fixup_tbl`
-in `sound/pci/hda/patch_realtek.c` is the whole fix.
+On IdeaPad Slim 3 15ABR8 the Realtek internal mic boost range is too
+high, so Capture Volume sits at 63 and recordings are badly distorted.
+6.12 already has `alc269_fixup_limit_int_mic_boost()`; it just never
+binds it to `17aa:3862`. Adding that binding restores usable capture for
+that model without touching any other machine.
 
-Risk vs benefit: benefit is working audio on that LTS laptop; risk is a
-single unused-SSID match. File-split means the mainline diff needs a
-one-line rewrite, which is normal for Realtek quirks on 6.12.
+Risk vs benefit: one SSID-gated line vs a broken laptop microphone.
+Benefit dominates. Backport applies to `patch_realtek.c` between the
+existing `0x3855` and `0x3865` rows.
 
-Verification:
-- [Phase 1] Parsed tags on `140fe610af607`: SOB Blackmon, Link msgid,
-  SOB Iwai; no Fixes/stable/Reported-by
-- [Phase 2] Diff: +1 line `SND_PCI_QUIRK(0x1043, 0x1044, …
-  ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC)`
-- [Phase 3] `git describe HEAD` / `make kernelversion`:
-  `p-6.12-3-g710455e2077bb`, 6.12.111, branch `pending-6.12`
-- [Phase 3] `git merge-base --is-ancestor 140fe610af607 HEAD` → not in
-  tree
-- [Phase 3] `git merge-base --is-ancestor 0672b017324b1 HEAD` → yes
-  (GA403U fixup)
-- [Phase 3] `git merge-base --is-ancestor cbd46cbc5470f HEAD` → no
-  (GA403W 0x1024; not required)
-- [Phase 3] Confirmed fixup chain and `0x1b13` in
-  `sound/pci/hda/patch_realtek.c`; `0x1044` absent
-- [Phase 4] `b4 dig -c 140fe610af607` / `-a` / `-w` / `-m`: v1 only;
-  Iwai applied; To linux-sound + maintainers
-- [Phase 4] UNVERIFIED: lore.kernel.org WebFetch and stable@ search
-  (HTTP 403)
-- [Phase 5] `patch_alc269()` → `snd_hda_pick_fixup(...,
-  alc269_fixup_tbl, …)` at codec probe
-- [Phase 5] `alc285_fixup_speaker2_to_dac1` overrides NID 0x17 to DAC
-  0x02
-- [Phase 6] Insertion context `0x103f` then `0x1054` present at lines
-  11185–11186
-- [Phase 6] `cs35l56_hda_i2c.c` present
-- [Phase 8] Failure mode: partial speaker volume + unconfigured headset
-  mic on one laptop SSID
-- UNVERIFIED: whether this SSID was already requested on stable@
+------------------------------------------------
+Verification
+------------------------------------------------
+- [Phase 1] Parsed tags: `Closes: bugzilla 221891`, msgid link, SOB
+  Zhang Heng + Takashi Iwai; no Fixes/Cc-stable
+- [Phase 2] Diff: +1 `SND_PCI_QUIRK(0x17aa, 0x3862, ...,
+  ALC269_FIXUP_LIMIT_INT_MIC_BOOST)` in `alc269_fixup_tbl`
+- [Phase 2] Read `alc269_fixup_limit_int_mic_boost()` at
+  `patch_realtek.c:6661-6691` — probe-time amp-cap override for internal
+  mic pins
+- [Phase 2] Read `ALC269_FIXUP_LIMIT_INT_MIC_BOOST` at 8711-8716 —
+  chains to THINKPAD_ACPI
+- [Phase 2] Read `hda_fixup_thinkpad_acpi()` / `is_thinkpad()` in
+  `thinkpad_helper.c` — LED path skipped without ThinkPad ACPI IDs
+- [Phase 3] `git log -S ALC269_FIXUP_LIMIT_INT_MIC_BOOST --
+  sound/pci/hda/patch_realtek.c`: introduced `3e0d611b2045b` (2013)
+- [Phase 3] Similar quirks already in this tree: T480 `85981dfd6b0a0`,
+  N14AP7 `86a433862912f`, Positivo ARN50 `d44418f5024f6`
+- [Phase 3] `git log --grep='IdeaPad Slim 3 15ABR8' -- sound/pci/hda/`:
+  empty
+- [Phase 4] Openwall + IU LKML: v1 patch identical to commit; Takashi
+  “Applied now. Thanks.”
+- [Phase 4] lore.kernel.org and bugzilla HTML/REST: 403 Anubis — full
+  bugzilla body UNVERIFIED
+- [Phase 4] `b4 dig -c`: not run; commit SHA not in this checkout
+- [Phase 5] Caller: `snd_hda_pick_fixup(..., alc269_fixup_tbl, ...)` at
+  probe (`patch_realtek.c:12583`)
+- [Phase 6] `git describe HEAD` → `p-6.12-3-gc504cf0baa3d8`; `make
+  kernelversion` → 6.12.111
+- [Phase 6] `sound/hda/codecs/realtek` missing;
+  `sound/pci/hda/patch_realtek.c` present
+- [Phase 6] `git grep 0x3862 -- sound/pci/hda/`: no hits; hole between
+  0x3855 and 0x3865 at lines 11565-11566
+- [Phase 8] Failure mode: distorted/unusable internal mic, SSID-
+  specific; severity medium globally, high for that laptop
+- UNVERIFIED: full text of bugzilla 221891; whether any other product
+  silently uses SSID 17aa:3862
 
 **YES**
 
@@ -433,17 +472,17 @@ Verification:
  1 file changed, 1 insertion(+)
 
 diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 8fdfe1bbe7aff..05e7fcc2f67e6 100644
+index 8196235c31d2b..bc87062f86da7 100644
 --- a/sound/hda/codecs/realtek/alc269.c
 +++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7094,6 +7094,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1034, "ASUS GU605C", ALC285_FIXUP_ASUS_GU605_SPI_SPEAKER2_TO_DAC1),
- 	SND_PCI_QUIRK(0x1043, 0x103e, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x103f, "ASUS TX300", ALC282_FIXUP_ASUS_TX300),
-+	SND_PCI_QUIRK(0x1043, 0x1044, "ASUS GA403UM", ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x1054, "ASUS G614FH/FM/FP", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x106d, "Asus K53BE", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x1043, 0x106f, "ASUS VivoBook X515UA", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+@@ -7515,6 +7515,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3852, "Lenovo Yoga 7 14ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3853, "Lenovo Yoga 7 15ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3855, "Legion 7 16ITHG6", ALC287_FIXUP_LEGION_16ITHG6),
++	SND_PCI_QUIRK(0x17aa, 0x3862, "Lenovo IdeaPad Slim 3 15ABR8", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x17aa, 0x3865, "Lenovo 13X", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x17aa, 0x3866, "Lenovo 13X", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x17aa, 0x3869, "Lenovo Yoga7 14IAL7", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
 -- 
 2.53.0
 
