@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792431979;
-	b=bw5xgeIyLdfKfofyONRrDgQsHDkC+WLxmsJFSmPgjUelnADN6GhUW1N2Cxa/nDmrkygE
-	 ZOcL43egbZFDO0Si6G+hqmCzgPCDhxYBFSGAGM703dS3afIn0AD2makLNg59oxJ9MAU2I
-	 jdQz1yvIXdJJKZ009n5QOLOgQwUKWEAy1iaGX+ExGETABV8rlpFaGzb+KZQpdBOuBCvX6
-	 IgBD+PzlaRxhuPTGhekZ23wWxPlgg1T4lleL322nFkOaFTxOkGsk81IJtkm8SX30mV4eM
-	 o6IoYvPuLWCKLxl7EWX4YXwnCpIb9ez8z8uRa2kx5/XhMWyTMsoC8fGVhLo7MaLrVMQ==
+	t=1792431981;
+	b=PHlhXntWMCeNm45BD/nhmIDY3sfRAodA87+BxIfzmE/lO+ej7ml29LLgLsq97cUjotVH
+	 Rrr+/KyuUqfH+Yccz3s62hPbkIq6UQF+73lUxf8g9CczLebtQR4b50wS0e92l+B+U7urK
+	 rCBileOsB8BFffR2+q5Lf+IDkYIN2qweUs2VOysrDOaguWAKOV4DOLxqhpn8abP/5mirb
+	 sjtaLK1aJHaV0i4dA17v1r7XttYsKWNWoRx1U3FQN3hT9EDSlZ55JjZM+oQTjilBNPdv/
+	 7ZLICg/d9lvW9hgUTqMPAVbhOJUSN/T3UbGszGX/qIJU/Ws+vqoMWzLoDO69Fo7gfpw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792431979;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792431981;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=ZyzzjPnCfSTy9NfEOfW3QSpVqstDfZxiu//B8rjJ33k=;
-	b=1eykN6/4Gw1D/au7XMk5GopoP7mvWPeI74UwyWUiNfDp70zQ9PHAFCcMBZHHW/xdNP27
-	 5jt90H5bTn42kZoYuz39bmk8c+j4AyDnDL5iJOmVNyzL89+dJUvbf0c7YebLKGX/mZuRN
-	 EoOEKjWYb0DKVPHeOV3aDaeoOgLQr587TksHLgNGhA+QkQ0ZqPManN+sGM4bsnx2KTX0a
-	 edmIIxSAFxrZonEdOmYwMHMPsKGGKwOO3iwUoBpCPb9h0MiA6xsHHXJujy8dHoURmL4a7
-	 h4ghkvjrx+FFVY3rhtmZa24yPIjOXTVH8/mjiGrKnNq3dEeByqeTvvvD+xv9sJJBJCQ==
+	bh=b+7CnNyW1/5etXvogl4rTvYmOz9J8EtzTrb13SyIlpo=;
+	b=Jg91igvPubvPvgRklbbFYwvT7T8t16oHgZnAjlhEu0c6uj+bjvEpwVe7orjOpKsMp7tv
+	 QoJnMUICl/cS3l9kJiJ1n4b1AayYynj0QmHjdxu49fdjv6EttbOvYP0eWHDX9ENQXddBA
+	 EbKB0JgGx1x15qXHGjMeO7tP2InpGQXRVb/f9hWgM79ckMA43CX2Kk82Nbkj+xsbahmLT
+	 Sd9bmlYlXlS+KcoUPLfEVHgW1491U632c+QdHtyLX8XoUIMBS6Hh8s3O4WZAquPgo9rjf
+	 q3VbSWbNyms/QAQ1uZ6fJyhOzRqI8xIGg++32IpTln/QzlE+/qD7LV90614d+5Pj98A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="QT8H/033";
-	arc=none smtp.remote-ip=209.85.222.41
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=D6D3SCGu;
+	arc=none smtp.remote-ip=209.85.222.53
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E71C606A32D
-	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 17:46:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0E71C606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B303D606A33F
+	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 17:46:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B303D606A33F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=QT8H/033
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-9907a58f14dso435786241.2
-        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 10:46:17 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=D6D3SCGu
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-9908c849564so585501241.3
+        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 10:46:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792431977; x=1793036777; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792431980; x=1793036780; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ZyzzjPnCfSTy9NfEOfW3QSpVqstDfZxiu//B8rjJ33k=;
-        b=QT8H/033LSAUSAxibjqgFAusMg403IsvvlKUwAOyLQ2/0OP96jxYoSfwPTFmxSgEts
-         vZYNVJOp7MgA3hfB15WmD1t+dNUqmjXWeDMmzeelqbrU7yB3y3UWstCPf9xA70C7DbBc
-         VT1NMOT/Obk4lfSJs9AbZkRF2gtQIR2URxJdM/I3JFt9+Yen0tN8HKKpux9Gv6bwSaJv
-         D7qf5KYuYW8n2Z0xxAUxMPgkUdYT/vofanS1uVgUI3SHY0NLNsjVp/dNUpDr+e7plNwM
-         wxwxfulpz+0Fm4eSps0joPqnaGOUhz1M/eVncZ4Y17KPzOt+s2rA0v1n5AKh2G+p3aKu
-         0EAw==
+        bh=b+7CnNyW1/5etXvogl4rTvYmOz9J8EtzTrb13SyIlpo=;
+        b=D6D3SCGuD/UdgffuuOBmkqB2nKknEry5/A3czdXmX6mkFzbPzaYu1Elt0C3OusGlm3
+         uF4vmwQ8uPhHTJBYkpB4I5phq1eahWi8Q8zp22yuSjUQZ854fINm0SOg11NLdglNIZAI
+         iQbdd7Thl6Dzww2G/mZDXVXqVrSIuxO0xVe4WwtkO5oSHulvKHuLiZZIa6RlN58zvc14
+         f1Hdw9BTu2Uw9kCFhq5i6ygZggj/KNqVdicKr6BjaywhojvH8PlWrt3t/DiQF0sjex36
+         42D0aws+y6R7MmIYBkbznllR8/Fy/uJZy4Off6BZJWWnvbdaLAsEjQQ4Yi5t0Nu+VC1I
+         Ljow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792431977; x=1793036777;
+        d=1e100.net; s=20260707; t=1792431980; x=1793036780;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZyzzjPnCfSTy9NfEOfW3QSpVqstDfZxiu//B8rjJ33k=;
-        b=1HUGzujqP6LTksPF2ecTlx/YsxopaakG+ysxCpDdQxe4lv43eZ0hU2n1PvZXBUPDhP
-         3Ou2tEvFCC+x1fIC65TtK2NxxhSvcxhMQb5xYy0VaJ3Yp0IRqyqhwPAr1gxOgdjtqh82
-         InlHLtIg3D3Z5Yyi5AwlBe3/53gRgg5I+krveepJ8JBMzzE7j8SKxYDXbr+cGAHnEv/p
-         XZRbN5nmU2z5QYnZx0rk7GF68ThgpG4/ppa1H5p+S+m2NmjNLiKr7qSlRUoGbQF18B++
-         lACoONSCFw4y3Ulw9ouRg4k9833XPAAyWe24KQPao7TZNiJ8IwKQC51ShDXvgsYot5ZM
-         RtTg==
-X-Forwarded-Encrypted: i=1; AKwUvBx8+NBR83h4A0Xp5HOFZsMCSLFSJVFsyXHSpoGkoWvgwK5VVvE2rrUnFOkt+x+FAqsDz+NK9cJZQd9BlA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKItiX89VBlfGc/7bo6ewixgGBkOOo4SXr9T5Us6iTWDW0vya6+
-	LHULT90tRMVfVTTQ29Bk2lHPpAfEXGpmNxknFtX+wKgJp1qYBtkstwRx
-X-Gm-Gg: AYBFou1oD/e3FzGAmKQeI6EDW0rAoFcyM0uk6l1qxT50W+iK4Hxg9WS2ZaANex+VNO2
-	kDrdx3BoCH3oz7zrxuVsGBCbGMyytAAe/QCS8+UHoWQlManPpnuYZ2Nki0QTK7mhSgW2XnSYf/5
-	7XjzDq5WfQ0LMZtaXCk7iqFBy5Kj8d5XPVuprpeZwzvC04aMFbNrBko0AKgjRpZzl4+zI6MnBlb
-	JDx5pbFRJuzVR3D0pajzWmb8Ti5dWKnAd7CX4eOuu2+hsmL0+QHuZFRttze07b4tYHgfUgqtV2E
-	+kCTpjjIw7xjrCOP6jGfD78DLELgux61zOoR2x5wHXnpt8ce8ukFFnImkWrSDlo4X8RoqUjhQDm
-	EWRmUTg5m7HlXg0GpPUp8dfcDb0D+/lvbB0Ync8hazSqn7vr+meb0x85EZHXKQJozr2eIHb6oFv
-	v5i3XNd5WOzuy6AF8fHyT6+f6frSzk7/ibvQfMd6ypLfB7nOOEp+oYUuWF9JHof+e3XE9jLmK0Y
-	jY8WzXA83nubXjR7QZQtZ4z/pFU7iPecJo+CRss+rvNgZeq74eeCbfpBXZQ3vUfHdvdamApe+rS
-	B9snrqBELH01Te+Jh046bluoZSDz7+Y=
-X-Received: by 2002:a05:6102:80a5:b0:7c2:799c:9031 with SMTP id ada2fe7eead31-7cc36a743a4mr1957214137.30.1792431976701;
-        Mon, 19 Oct 2026 10:46:16 -0700 (PDT)
+        bh=b+7CnNyW1/5etXvogl4rTvYmOz9J8EtzTrb13SyIlpo=;
+        b=OK3vqW5wzocMLtqVPxVHNaMXm2DPHBjd0PecWHaIrHrvzrwpzSSr1G1qCejsG0Tciw
+         m5C0jgqjoq6ZhbyUGYpKJP7/8t1ViDvTO3GPehb/SHmj/0RyMxbBrAdBAyUJiJvX2y0O
+         m/DfHTji6VqqMf8hZkt7UxxOjAvAPAuMgd+Grw8y3kOcqWTIhWWMlZUK5d73ssk9uv2w
+         rPiN2R5k/sVSieQKq++1bFw5IahLveUuQc2hIc/PGsian/U5rYhrkHE5fih5tQQwOCcc
+         Tm+jlf6SwDI4TMal6vHivcr8VNn0TLw5O0xfkjZdQKWtSoTh01cn1QKQ7ecZXv4yFBuc
+         7yOA==
+X-Forwarded-Encrypted: i=1; AKwUvBzLf1noF4ZnySM6WEjkknET8sKl9D2aopnvFe5Adlx1yWQgHZgWacBGaAf8nUpWLh1+FT53aF5d7ZeqCw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJlGN7+HsHN7LU4VqAji4bRvafjwlTdF2ZGo0AO1UCLkGuODQmG
+	IX0ZLXQZ9XIwPZrvBTT/9W6P0RaBJ5agQ4fCVi16OBTE1CYIcZcev4jt
+X-Gm-Gg: AYBFou2v1u0E5dcEJmAaJA0kNqSh//XtgPhac20oFMcRttXDm+lbHXf79JzTCPmDMWK
+	JXevhdZK7r01EXpbZeKm4YrzTiNLvzmDWccLQwMBmptApB8obqF2uMvf2dcvWJFnNN0Zhj3/DcZ
+	ahwv6KevV26Idtu2N/pRa1u2EwIjWSwgQ9nMcBIifFEBoer5TQr+MXK+4XK4KVxzd5HKEutHImK
+	tL2XAJwtRyspGJ0/9LUdrx1gxczjFDu+oo2/L01RSAhLlHBQcjxlWB7Wqem5hTlAY7iSB8mYPQ5
+	BdWUgWfyXLgbbbZhS0fSnSRaZcJSKLrB/MhjdkEDtJ936gWPhgFJ4be8kl2KG2WPrST7AqZKtpB
+	zpA/EvOYSJY5iroQam2lG2RkOOjj0t2oU44mztWe6LrbLrj4L8MBIUxd32y2kF63T2izFzMymOB
+	hZO9evs4dPkeSTSvpiq7h7cISopA1F1XqvbkQt30kTSAPaPaqQaiwJOz8limppipjjqHJjITNt7
+	M65EWLNnFWK459h1AHD4QL32BNEOIq13GQhO+EoJsIkXAAuccPNoFhfGW16sNL/Epf6MFbcckfu
+	2uooPDeyQBpYhD03xu2eGywz7Akgh+c=
+X-Received: by 2002:a05:6102:2b97:b0:7cc:26e4:1947 with SMTP id ada2fe7eead31-7cc36a1fe11mr1737246137.20.1792431979622;
+        Mon, 19 Oct 2026 10:46:19 -0700 (PDT)
 Received: from alsa-dev.int.suenodeluz.com.do ([74.244.193.177])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-990bb3adfd0sm790707241.12.2026.10.19.10.46.15
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-990bb3adfd0sm790707241.12.2026.10.19.10.46.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 10:46:16 -0700 (PDT)
+        Mon, 19 Oct 2026 10:46:19 -0700 (PDT)
 From: Frank van de Pol <fvdpol@gmail.com>
 To: tiwai@suse.de,
 	perex@perex.cz
@@ -87,9 +87,9 @@ Cc: corbet@lwn.net,
 	fvdpol@gmail.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 03/13] ALSA: jockey3: Add PCM playback
-Date: Mon, 19 Oct 2026 13:44:35 -0400
-Message-ID: <20261019174445.1931263-4-fvdpol@gmail.com>
+Subject: [PATCH v5 04/13] ALSA: jockey3: Add PCM capture
+Date: Mon, 19 Oct 2026 13:44:36 -0400
+Message-ID: <20261019174445.1931263-5-fvdpol@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261019174445.1931263-1-fvdpol@gmail.com>
 References: <20261019174445.1931263-1-fvdpol@gmail.com>
@@ -104,226 +104,52 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a PCM device with a 4-channel, 24-bit playback stream at 44.1 kHz,
-and the encoder that turns S24_3LE frames into the Ploytec wire format.
+Add the 6-channel, 24-bit capture stream and the decoder for the
+Ploytec capture frame.
 
-The wire format is bit-plane interleaved rather than sample-interleaved:
-every byte on the wire holds one bit of each channel. The comment at the
-top of ploytec_codec.c explains where that layout comes from. This patch
-adds the portable implementation, which is written to be read as a
-definition of the format. Optimized variants follow once tests exist.
+The capture URBs have been running since the transport patch. Their
+completion handler now decodes each packet into the ALSA buffer while
+the stream is triggered, with the same locking and safe-zone rules as
+playback.
 
-The URBs keep running as before. The PCM callbacks only decide whether
-the playback completion handler fills a packet from the ALSA buffer or
-with silence:
-
- - .trigger and .pointer run with the stream lock held and must not
-   sleep, so they only take the stream's own spinlock.
- - The completion handler drops that spinlock before it calls
-   snd_pcm_period_elapsed(), which takes the stream lock.
- - .sync_stop waits for completion handlers that may still touch the
-   substream or its buffer before the core frees either.
-
-The channel map marks the master pair as FL/FR and leaves the headphone
-pair unpositioned, because it is a second stereo output and not a pair
-of rear speakers.
+The capture channels are two stereo line inputs and a microphone. None
+of them is a speaker position, so the channel map leaves all of them
+unpositioned.
 
 Assisted-by: LLM
 Signed-off-by: Frank van de Pol <fvdpol@gmail.com>
 ---
- sound/usb/jockey3/Kconfig         |   1 +
- sound/usb/jockey3/Makefile        |   2 +-
- sound/usb/jockey3/jockey3.c       | 455 +++++++++++++++++++++++++++++-
- sound/usb/jockey3/ploytec_codec.c | 101 +++++++
- sound/usb/jockey3/ploytec_codec.h |  26 ++
- 5 files changed, 571 insertions(+), 14 deletions(-)
- create mode 100644 sound/usb/jockey3/ploytec_codec.c
- create mode 100644 sound/usb/jockey3/ploytec_codec.h
+ sound/usb/jockey3/jockey3.c       | 143 ++++++++++++++++++++++++++++--
+ sound/usb/jockey3/ploytec_codec.c |  66 +++++++++++++-
+ sound/usb/jockey3/ploytec_codec.h |   9 +-
+ 3 files changed, 209 insertions(+), 9 deletions(-)
 
-diff --git a/sound/usb/jockey3/Kconfig b/sound/usb/jockey3/Kconfig
-index 5714f46c57de3..83135d65b3ffd 100644
---- a/sound/usb/jockey3/Kconfig
-+++ b/sound/usb/jockey3/Kconfig
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config SND_USB_JOCKEY3
- 	tristate "Reloop Jockey 3 support"
-+	select SND_PCM
- 	help
- 	  Say Y here to include support for the Reloop Jockey 3 DJ controllers.
- 	  These devices utilize a non-standard, proprietary Ploytec USB
-diff --git a/sound/usb/jockey3/Makefile b/sound/usb/jockey3/Makefile
-index 4a3d02b7176e0..0e81aea50f9ac 100644
---- a/sound/usb/jockey3/Makefile
-+++ b/sound/usb/jockey3/Makefile
-@@ -1,3 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_SND_USB_JOCKEY3) += snd-reloop-jockey3.o
--snd-reloop-jockey3-y := jockey3.o ploytec_proto.o
-+snd-reloop-jockey3-y := jockey3.o ploytec_proto.o ploytec_codec.o
 diff --git a/sound/usb/jockey3/jockey3.c b/sound/usb/jockey3/jockey3.c
-index 351612b1fbe33..3863ed12cf566 100644
+index 3863ed12cf566..a24674e078a6b 100644
 --- a/sound/usb/jockey3/jockey3.c
 +++ b/sound/usb/jockey3/jockey3.c
-@@ -11,12 +11,16 @@
- #include <linux/usb.h>
- #include <linux/slab.h>
- #include <linux/delay.h>
-+#include <linux/jiffies.h>
- #include <linux/bitops.h>
- #include <linux/mutex.h>
-+#include <linux/wait.h>
- #include <linux/cleanup.h>
- #include <sound/core.h>
- #include <sound/initval.h>
-+#include <sound/pcm.h>
- #include "ploytec_proto.h"
-+#include "ploytec_codec.h"
- 
- #define RELOOP_VENDOR_ID         0x200c
- #define RELOOP_JOCKEY3_ME_PID    0x1019
-@@ -72,9 +76,14 @@ MODULE_PARM_DESC(enable, "Enable " CARD_NAME " soundcard.");
-  * - EP 0x86 IN:  PCM capture
+@@ -77,7 +77,7 @@ MODULE_PARM_DESC(enable, "Enable " CARD_NAME " soundcard.");
   * - EP 0x83 IN:  MIDI input
   *
-+ * Audio is not sample-interleaved but bit-plane interleaved; see
-+ * ploytec_codec.c for the wire format and the encode implementation.
-+ *
+  * Audio is not sample-interleaved but bit-plane interleaved; see
+- * ploytec_codec.c for the wire format and the encode implementation.
++ * ploytec_codec.c for the wire format and the encode/decode implementations.
+  *
   * URBs run free for the lifetime of the device rather than being started and
   * stopped around PCM use: the playback stream must keep flowing because it
-- * carries MIDI OUT, and the device expects a continuous packet stream.
-+ * carries MIDI OUT, and the device expects a continuous packet stream. The PCM
-+ * callbacks therefore only toggle whether a URB's payload is filled from (or
-+ * copied to) an ALSA buffer.
-  */
- 
- /**
-@@ -85,9 +94,9 @@ MODULE_PARM_DESC(enable, "Enable " CARD_NAME " soundcard.");
-  * card would instead be freed from the devres unwind inside
-  * usb_unbind_interface(), where snd_card_free() blocks until userspace has
-  * closed every file descriptor on the card -- on an unplug that unwind runs on
-- * the USB hub work queue, so a single process holding the card open would
-- * stall hotplug for the whole hub. Every other USB sound driver in the tree
-- * avoids that the same way.
-+ * the USB hub work queue, so a single process sitting on a PCM fd would stall
-+ * hotplug for the whole hub. Every other USB sound driver in the tree avoids
-+ * that the same way.
-  *
-  * That splits teardown in two, and the split is the thing to keep straight:
-  *
-@@ -103,7 +112,9 @@ MODULE_PARM_DESC(enable, "Enable " CARD_NAME " soundcard.");
-  *   returns; see jockey3_free_resources().
-  *
-  * struct jockey3_chip lives in card->private_data, so it is freed with the
-- * card and outlives the USB binding.
-+ * card and outlives the USB binding -- which is what makes it safe for an ALSA
-+ * callback that is still in flight during an unplug to keep dereferencing it.
-+ * Such a callback finds JOCKEY3_FLAG_DISCONNECTED set and returns -ENODEV.
-  *
-  * probe's error path performs the disconnect half by hand and ends the same
-  * way, with snd_card_free_when_closed(): a failing snd_card_register() may
-@@ -117,6 +128,17 @@ MODULE_PARM_DESC(enable, "Enable " CARD_NAME " soundcard.");
-  * There are three locks, all IRQ-safe leaf spinlocks: playback.lock,
-  * capture.lock and midi_lock. They are never nested inside one another;
-  * anything that needs more than one takes them in sequence, not nested.
-+ *
-+ * Against the ALSA core the order is::
-+ *
-+ *     snd_pcm_stream_lock  ->  playback.lock / capture.lock
-+ *
-+ * which is why the URB completion handlers drop their stream spinlock before
-+ * calling snd_pcm_period_elapsed() or snd_pcm_stop_xrun(); both take the
-+ * stream lock, and taking it while holding ours would invert the order.
-+ *
-+ * .trigger and .pointer are called by the core with the stream lock held and
-+ * interrupts disabled, so neither may sleep.
-  */
- 
- #define JOCKEY3_N_URBS 8
-@@ -126,11 +148,21 @@ MODULE_PARM_DESC(enable, "Enable " CARD_NAME " soundcard.");
- 
- /**
-  * struct jockey3_pcm_urb_stream - per-direction PCM streaming state
-+ * @substream: the open ALSA substream, or NULL; @lock
-  * @anchor: anchor holding the submitted URBs, for stop/kill
-  * @urbs: the URB ring
-  * @bufs: transfer buffer for each URB
-  * @urbs_in_flight: number of submitted URBs; diagnostic, must reach 0 after a stop
-  * @lock: protects the fields marked "@lock" below; IRQ-safe leaf
-+ * @dma_off: byte offset into runtime->dma_area, i.e. the hardware pointer; @lock
-+ * @period_off: bytes accumulated towards the current period; @lock
-+ * @running: stream is triggered and its payload should be filled; @lock
-+ * @callbacks_active: number of URB completions currently inside the "safe zone"
-+ *	where they may still touch @substream or runtime->dma_area; @lock. The
-+ *	last one out wakes @drain_wait. A count rather than a flag because there
-+ *	are JOCKEY3_N_URBS URBs per direction and their completions can overlap
-+ *	on SMP.
-+ * @drain_wait: waited on by jockey3_pcm_sync_stop() until @callbacks_active is 0
-  * @stopping: set by jockey3_stop_urbs() before the anchor is killed, cleared by
-  *	jockey3_start_urbs(); @lock. Tested by the completion handler inside the
-  *	same critical section that anchors and resubmits, so a callback can never
-@@ -139,11 +171,17 @@ MODULE_PARM_DESC(enable, "Enable " CARD_NAME " soundcard.");
-  *	successful completion and by jockey3_start_urbs().
-  */
- struct jockey3_pcm_urb_stream {
-+	struct snd_pcm_substream *substream;
- 	struct usb_anchor anchor;
- 	struct urb *urbs[JOCKEY3_N_URBS];
- 	unsigned char *bufs[JOCKEY3_N_URBS];
- 	atomic_t urbs_in_flight;
- 	spinlock_t lock;	/* protects this stream's state; IRQ-safe leaf */
-+	unsigned int dma_off;
-+	unsigned int period_off;
-+	bool running;
-+	unsigned int callbacks_active;
-+	wait_queue_head_t drain_wait;
- 	bool stopping;
- 	unsigned int consec_errors;
- };
-@@ -153,10 +191,11 @@ struct jockey3_pcm_urb_stream {
-  * @card: the ALSA card; read-only after probe
-  * @dev: the USB device; read-only after probe. Referenced for the chip's
-  *	lifetime, as @intf0 and @intf1 are, because the card can outlive the
-- *	unbind and usb_disconnect() would otherwise free them before
-- *	jockey3_free_resources() runs, which releases them.
-+ *	unbind and usb_disconnect() would otherwise free them underneath an ALSA
-+ *	entry point. Released by jockey3_free_resources().
-  * @intf0: interface 0, which the driver is bound to; read-only after probe
-  * @intf1: interface 1, claimed explicitly because it owns EP 0x86
-+ * @pcm: the PCM device; read-only after probe
-  * @xfer_buf: bounce buffer for EP0 control transfers, USB_XFER_BUF_SIZE bytes.
-  * @flags: JOCKEY3_FLAG_* bits, atomic bitops
-  * @dev_idx: card slot held in jockey3_devices_used
-@@ -173,6 +212,7 @@ struct jockey3_chip {
- 	struct usb_device *dev;
- 	struct usb_interface *intf0;
- 	struct usb_interface *intf1;
-+	struct snd_pcm *pcm;
- 	unsigned char *xfer_buf;
- 	unsigned long flags;
- 	unsigned int dev_idx;
-@@ -239,6 +279,69 @@ static inline bool jockey3_is_disconnected(const struct jockey3_chip *chip)
- 	return test_bit(JOCKEY3_FLAG_DISCONNECTED, &chip->flags);
+@@ -342,6 +342,60 @@ static bool jockey3_process_out_packet(struct jockey3_chip *chip, u8 *urb_buf)
+ 	return false;
  }
  
-+static inline struct jockey3_pcm_urb_stream *jockey3_get_pcm_urb_stream(struct jockey3_chip *chip,
-+									const int direction)
++static bool jockey3_process_in_packet(struct jockey3_chip *chip, const u8 *urb_buf)
 +{
-+	if (direction == SNDRV_PCM_STREAM_PLAYBACK)
-+		return &chip->playback;
-+	else
-+		return &chip->capture;
-+}
-+
-+static bool jockey3_process_out_packet(struct jockey3_chip *chip, u8 *urb_buf)
-+{
-+	struct snd_pcm_substream *substream = chip->playback.substream;
-+	struct jockey3_pcm_urb_stream *urb_stream = &chip->playback;
++	struct snd_pcm_substream *substream = chip->capture.substream;
++	struct jockey3_pcm_urb_stream *urb_stream = &chip->capture;
 +	struct snd_pcm_runtime *runtime;
 +	unsigned int pcm_buffer_size;
 +	unsigned int alsa_frame_size;
 +	unsigned int frames_in_batch;
-+	unsigned int bytes_avail;
++	unsigned int bytes_left;
 +	int f = 0;
 +
 +	if (unlikely(!substream || !substream->runtime))
@@ -334,24 +160,24 @@ index 351612b1fbe33..3863ed12cf566 100644
 +		return false;
 +
 +	pcm_buffer_size = snd_pcm_lib_buffer_bytes(substream);
-+	alsa_frame_size = runtime->channels * 3;  // 4 * 3 = 12 bytes
++	alsa_frame_size = runtime->channels * 3; // 6 * 3 = 18 bytes
 +
-+	while (f < PLOYTEC_PLAYBACK_FRAMES) {
-+		/* calculate how many samples we can process in one batch */
-+		frames_in_batch = PLOYTEC_PLAYBACK_FRAMES - f;
-+		bytes_avail = pcm_buffer_size - urb_stream->dma_off;
++	while (f < PLOYTEC_CAPTURE_FRAMES) {
++		frames_in_batch = PLOYTEC_CAPTURE_FRAMES - f;
++		bytes_left = pcm_buffer_size - urb_stream->dma_off;
 +
 +		/* Respect circular buffer wrap-around */
-+		if (bytes_avail < frames_in_batch * alsa_frame_size)
-+			frames_in_batch = bytes_avail / alsa_frame_size;
++		if (bytes_left < frames_in_batch * alsa_frame_size)
++			frames_in_batch = bytes_left / alsa_frame_size;
 +
 +		if (frames_in_batch == 0)
 +			break;
 +
-+		ploytec_encode_batch(urb_buf + f * PLOYTEC_PLAYBACK_FRAME_SIZE,
-+				     runtime->dma_area + urb_stream->dma_off,
++		ploytec_decode_batch(runtime->dma_area + urb_stream->dma_off,
++				     urb_buf + f * PLOYTEC_CAPTURE_FRAME_SIZE,
 +				     frames_in_batch);
 +
++		/* Advance pointers */
 +		urb_stream->dma_off += frames_in_batch * alsa_frame_size;
 +		if (urb_stream->dma_off >= pcm_buffer_size)
 +			urb_stream->dma_off -= pcm_buffer_size;
@@ -372,118 +198,44 @@ index 351612b1fbe33..3863ed12cf566 100644
  enum jockey3_urb_state {
  	JOCKEY3_URB_OK,		/* completed normally */
  	JOCKEY3_URB_STOPPED,	/* teardown in progress; return without resubmitting */
-@@ -292,6 +395,43 @@ static void jockey3_warn_unexpected_stop(struct jockey3_chip *chip, bool stoppin
- 			     type, status);
- }
- 
-+/**
-+ * jockey3_report_xrun() - tell userspace this direction lost its data
-+ * @urb_stream: the affected direction
-+ *
-+ * Reports an xrun on the open substream, if there is one. Nothing else in the
-+ * driver can do this safely by hand: snd_pcm_stop_xrun() takes the stream lock,
-+ * and the documented order is snd_pcm_stream_lock -> urb_stream->lock, so the
-+ * call has to be made with our spinlock dropped. Between dropping it and taking
-+ * it again the substream could be freed underneath us, which is what the
-+ * callbacks_active "safe zone" prevents -- jockey3_pcm_sync_stop() waits for
-+ * that count to reach zero before the ALSA core releases the buffer.
-+ *
-+ * Callers must hold neither @urb_stream->lock nor any driver mutex.
-+ */
-+static void jockey3_report_xrun(struct jockey3_pcm_urb_stream *urb_stream)
-+{
-+	struct snd_pcm_substream *substream = NULL;
-+
-+	scoped_guard(spinlock_irqsave, &urb_stream->lock) {
-+		if (urb_stream->running && urb_stream->substream) {
-+			/* Join the safe zone so the substream cannot be freed below */
-+			urb_stream->callbacks_active++;
-+			substream = urb_stream->substream;
-+		}
-+	}
-+
-+	if (!substream)
-+		return;
-+
-+	snd_pcm_stop_xrun(substream);
-+
-+	scoped_guard(spinlock_irqsave, &urb_stream->lock) {
-+		if (!--urb_stream->callbacks_active)
-+			wake_up(&urb_stream->drain_wait);
-+	}
-+}
-+
- /**
-  * jockey3_err_device_gone() - did the device simply leave?
-  * @err: a transfer's return value
-@@ -375,6 +515,8 @@ static bool jockey3_urb_error_give_up(struct jockey3_chip *chip,
- 		"%s stopped after %u consecutive URB errors; deferring recovery\n",
- 		type, errors);
- 
-+	jockey3_report_xrun(urb_stream);
-+
- 	return true;
- }
- 
-@@ -432,6 +574,19 @@ static void jockey3_capture_callback(struct urb *urb)
- 		jockey3_resubmit_failed(chip, ret, "capture");
- }
- 
-+/*
-+ * Fill the sample area of a playback packet with silence, for when there is
-+ * no PCM data to send.
-+ *
-+ * Only the sample area is touched: everything from PLOYTEC_MIDI_OUT_OFFSET
-+ * onwards -- the MIDI slot, the sync byte and the trailing gap -- is rewritten
-+ * unconditionally by jockey3_playback_callback() immediately afterwards.
-+ */
-+static void jockey3_silence_out_packet(u8 *buf)
-+{
-+	memset(buf, 0, PLOYTEC_MIDI_OUT_OFFSET);
-+}
-+
- /*
-  * Prime a freshly allocated playback buffer so the first URB, which is
-  * submitted before any completion handler has run, carries a valid idle
-@@ -449,7 +604,10 @@ static void jockey3_playback_callback(struct urb *urb)
+@@ -524,7 +578,10 @@ static void jockey3_capture_callback(struct urb *urb)
+ {
  	struct jockey3_chip *chip = urb->context;
- 	struct jockey3_pcm_urb_stream *urb_stream = &chip->playback;
- 	unsigned char *buf = (unsigned char *)urb->transfer_buffer;
+ 	struct jockey3_pcm_urb_stream *urb_stream = &chip->capture;
 +	struct snd_pcm_substream *substream = NULL;
 +	bool period_elapsed = false;
  	bool data_valid = true;
 +	bool active = false;
  	bool stopping;
- 	int i, ret;
+ 	int ret;
  
-@@ -473,6 +631,23 @@ static void jockey3_playback_callback(struct urb *urb)
+@@ -549,11 +606,44 @@ static void jockey3_capture_callback(struct urb *urb)
  	if (unlikely(jockey3_is_disconnected(chip)))
  		return;
  
-+	/* Step 1: Safely fetch the pointer and join the safe zone */
-+	scoped_guard(spinlock_irqsave, &urb_stream->lock) {
-+		if (data_valid)
-+			urb_stream->consec_errors = 0;
+-	ret = 0;
++	if (data_valid && unlikely(urb->actual_length < PLOYTEC_PKT_SIZE)) {
++		dev_err_ratelimited(&chip->intf0->dev,
++				    "Capture URB too small: %d; required at least %d\n",
++				    urb->actual_length, PLOYTEC_PKT_SIZE);
++		data_valid = false;
++	}
 +
++	/* Step 1: Safely fetch the pointer and join the safe zone */
+ 	scoped_guard(spinlock_irqsave, &urb_stream->lock) {
+ 		if (data_valid)
+ 			urb_stream->consec_errors = 0;
+ 
 +		if (data_valid && !urb_stream->stopping &&
 +		    urb_stream->running && urb_stream->substream) {
 +			urb_stream->callbacks_active++;
 +			active = true;
 +			substream = urb_stream->substream;
 +
-+			period_elapsed = jockey3_process_out_packet(chip, buf);
-+		} else {
-+			jockey3_silence_out_packet(buf);
++			period_elapsed = jockey3_process_in_packet(chip, urb->transfer_buffer);
 +		}
 +	}
 +
- 	/*
- 	 * Every packet reserves one slot for a MIDI OUT byte. Nothing feeds it
- 	 * yet, so it carries the idle byte.
-@@ -484,10 +659,21 @@ static void jockey3_playback_callback(struct urb *urb)
- 	for (i = PLOYTEC_SYNC_BYTE_OFFSET + 1; i < PLOYTEC_PKT_SIZE; i++)
- 		buf[i] = 0x00;
- 
 +	/*
 +	 * Step 2: Safe Zone. ALSA core can't free 'substream' because
 +	 * jockey3_pcm_sync_stop() waits for 'callbacks_active' to drain before
@@ -494,473 +246,229 @@ index 351612b1fbe33..3863ed12cf566 100644
 +	if (period_elapsed && substream)
 +		snd_pcm_period_elapsed(substream);
 +
- 	ret = 0;
- 	scoped_guard(spinlock_irqsave, &urb_stream->lock) {
--		if (data_valid)
--			urb_stream->consec_errors = 0;
++	ret = 0;
++	scoped_guard(spinlock_irqsave, &urb_stream->lock) {
 +		/* Leave the safe zone; last one out wakes any waiter */
 +		if (active && !--urb_stream->callbacks_active)
 +			wake_up(&urb_stream->drain_wait);
- 
++
  		/*
  		 * Keep resubmitting the URB while the interface is alive. The
-@@ -591,7 +777,8 @@ static void jockey3_stop_urbs(struct jockey3_chip *chip)
- 	/*
- 	 * usb_kill_urb()/usb_kill_anchored_urbs() do not return until the
- 	 * completion handler of each URB has finished, so no callback can still
--	 * be running once these return.
-+	 * be in its safe zone once these return -- no separate drain is needed
-+	 * here (jockey3_pcm_sync_stop() covers the ALSA buffer-teardown path).
- 	 *
- 	 * Worth spelling out for the anchored form, which keeps getting read as
- 	 * a use-after-free: __usb_hcd_giveback_urb() does unanchor before
-@@ -797,6 +984,190 @@ static int jockey3_set_rate(struct jockey3_chip *chip, unsigned int rate, bool c
- 	return 0;
- }
+ 		 * 'stopping' test and the anchor+submit below must stay in this
+@@ -1018,6 +1108,26 @@ static const struct snd_pcm_hardware jockey3_pcm_hw_playback = {
+ 	.periods_max		= 1024,
+ };
  
-+/*
-+ * SNDRV_PCM_INFO_BATCH: the hardware pointer only advances once per completed
-+ * bulk URB (a whole Ploytec frame group), never per sample, so userspace must
-+ * not assume a sample-accurate position.
-+ */
-+#define JOCKEY3_PCM_INFO	(SNDRV_PCM_INFO_MMAP |		\
-+				 SNDRV_PCM_INFO_INTERLEAVED |	\
-+				 SNDRV_PCM_INFO_BLOCK_TRANSFER |\
-+				 SNDRV_PCM_INFO_BATCH |		\
-+				 SNDRV_PCM_INFO_MMAP_VALID)
-+
-+#define JOCKEY3_PCM_RATES	SNDRV_PCM_RATE_44100
-+
-+static const struct snd_pcm_hardware jockey3_pcm_hw_playback = {
++static const struct snd_pcm_hardware jockey3_pcm_hw_capture = {
 +	.info			= JOCKEY3_PCM_INFO,
 +	.formats		= SNDRV_PCM_FMTBIT_S24_3LE,
 +	.rates			= JOCKEY3_PCM_RATES,
 +	.rate_min		= 44100,
 +	.rate_max		= 44100,
-+	.channels_min		= 4,
-+	.channels_max		= 4,
++	.channels_min		= 6,
++	.channels_max		= 6,
 +	.buffer_bytes_max	= 1024 * 1024,
 +	/*
-+	 * One playback URB carries one packet of 10 frames * 4 channels * 3
-+	 * bytes = 120 bytes. A URB reports at most one elapsed period, so the
-+	 * minimum must cover at least one packet, or a period boundary inside a
-+	 * URB could be missed entirely.
++	 * One capture URB carries one packet of 8 frames * 6 channels * 3 bytes
++	 * = 144 bytes; see the playback .period_bytes_min comment above for why
++	 * the minimum must cover at least one packet.
 +	 */
-+	.period_bytes_min	= PLOYTEC_PLAYBACK_FRAMES * 4 * 3,
++	.period_bytes_min	= PLOYTEC_CAPTURE_FRAMES * 6 * 3,
 +	.period_bytes_max	= 512 * 1024,
 +	.periods_min		= 2,
 +	.periods_max		= 1024,
 +};
 +
-+static int jockey3_pcm_open(struct snd_pcm_substream *substream)
-+{
-+	struct jockey3_chip *chip = snd_pcm_substream_chip(substream);
-+	struct snd_pcm_runtime *runtime = substream->runtime;
-+	struct jockey3_pcm_urb_stream *urb_stream =
-+		jockey3_get_pcm_urb_stream(chip, substream->stream);
-+	int ret;
-+
-+	dev_dbg(&chip->intf0->dev, "PCM open stream %d\n", substream->stream);
-+
-+	if (jockey3_is_disconnected(chip))
-+		return -ENODEV;
-+
-+	runtime->hw = jockey3_pcm_hw_playback;
-+
-+	/* The period accounting assumes a whole number of periods per buffer */
-+	ret = snd_pcm_hw_constraint_integer(runtime, SNDRV_PCM_HW_PARAM_PERIODS);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Substream registration under spinlock to ensure memory consistency to the ISR*/
-+	scoped_guard(spinlock_irqsave, &urb_stream->lock) {
-+		urb_stream->substream = substream;
-+	}
-+
-+	return 0;
-+}
-+
-+static int jockey3_pcm_close(struct snd_pcm_substream *substream)
-+{
-+	struct jockey3_chip *chip = snd_pcm_substream_chip(substream);
-+	struct jockey3_pcm_urb_stream *urb_stream =
-+		jockey3_get_pcm_urb_stream(chip, substream->stream);
-+
-+	dev_dbg(&chip->intf0->dev, "PCM close stream %d\n", substream->stream);
-+
-+	/*
-+	 * No drain is needed here: the ALSA core has already run .sync_stop via
-+	 * snd_pcm_release_substream() -> snd_pcm_drop() -> do_hw_free(), which is
-+	 * also where runtime->dma_area is released.
-+	 */
-+	scoped_guard(spinlock_irqsave, &urb_stream->lock) {
-+		urb_stream->substream = NULL;
-+		urb_stream->running = false;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * jockey3_pcm_sync_stop() - wait for in-flight URB callbacks to drain
-+ * @substream: the substream being stopped
-+ *
-+ * Waits for every URB completion that could still touch this stream's substream
-+ * or runtime->dma_area to leave its safe zone.
-+ *
-+ * The ALSA core calls this from snd_pcm_do_prepare() and from do_hw_free()
-+ * *before* snd_pcm_lib_free_pages() releases the buffer, and only when the
-+ * stream actually ran (runtime->stop_operating). It runs in process context
-+ * with no stream lock held, so sleeping here is safe: a callback in its safe
-+ * zone has dropped urb_stream->lock and may freely take the stream lock, so the
-+ * stream lock -> urb_stream->lock order is never inverted.
-+ *
-+ * Return: 0 always; a timeout is logged but cannot usefully be reported.
-+ */
-+static int jockey3_pcm_sync_stop(struct snd_pcm_substream *substream)
-+{
-+	struct jockey3_chip *chip = snd_pcm_substream_chip(substream);
-+	struct jockey3_pcm_urb_stream *urb_stream =
-+		jockey3_get_pcm_urb_stream(chip, substream->stream);
-+	long remaining;
-+
-+	spin_lock_irq(&urb_stream->lock);
-+	remaining = wait_event_lock_irq_timeout(urb_stream->drain_wait,
-+						urb_stream->callbacks_active == 0,
-+						urb_stream->lock,
-+						msecs_to_jiffies(1000));
-+	spin_unlock_irq(&urb_stream->lock);
-+
-+	if (!remaining)
-+		dev_err(&chip->intf0->dev,
-+			"Timeout draining %s URB callbacks\n",
-+			substream->stream == SNDRV_PCM_STREAM_PLAYBACK ? "playback" : "capture");
-+
-+	return 0;
-+}
-+
-+static int jockey3_pcm_prepare(struct snd_pcm_substream *substream)
-+{
-+	struct jockey3_chip *chip = snd_pcm_substream_chip(substream);
-+	struct jockey3_pcm_urb_stream *urb_stream =
-+		jockey3_get_pcm_urb_stream(chip, substream->stream);
-+
-+	dev_dbg(&chip->intf0->dev, "PCM prepare stream %d\n", substream->stream);
-+	if (jockey3_is_disconnected(chip))
-+		return -ENODEV;
-+
-+	scoped_guard(spinlock_irqsave, &urb_stream->lock) {
-+		urb_stream->dma_off = 0;
-+		urb_stream->period_off = 0;
-+	}
-+	return 0;
-+}
-+
-+/*
-+ * Called by the ALSA core with the substream stream lock held and interrupts
-+ * disabled, so this callback must never sleep.
-+ *
-+ * Lock order here is snd_pcm_stream_lock -> urb_stream->lock, which is why the
-+ * URB callbacks drop urb_stream->lock before calling snd_pcm_period_elapsed().
-+ */
-+static int jockey3_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
-+{
-+	struct jockey3_chip *chip = snd_pcm_substream_chip(substream);
-+	struct jockey3_pcm_urb_stream *urb_stream =
-+		jockey3_get_pcm_urb_stream(chip, substream->stream);
-+
-+	dev_dbg(&chip->intf0->dev, "PCM trigger stream %d, cmd %d\n", substream->stream, cmd);
-+
-+	if (jockey3_is_disconnected(chip))
-+		return -ENODEV;
-+
-+	scoped_guard(spinlock_irqsave, &urb_stream->lock) {
-+		switch (cmd) {
-+		case SNDRV_PCM_TRIGGER_START:
-+			urb_stream->running = true;
-+			break;
-+		case SNDRV_PCM_TRIGGER_STOP:
-+			urb_stream->running = false;
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+	}
-+	return 0;
-+}
-+
-+static snd_pcm_uframes_t jockey3_pcm_pointer(struct snd_pcm_substream *substream)
-+{
-+	struct jockey3_chip *chip = snd_pcm_substream_chip(substream);
-+	struct jockey3_pcm_urb_stream *urb_stream =
-+		jockey3_get_pcm_urb_stream(chip, substream->stream);
-+	unsigned int dma_off;
-+
-+	scoped_guard(spinlock_irqsave, &urb_stream->lock) {
-+		dma_off = urb_stream->dma_off;
-+	}
-+	return bytes_to_frames(substream->runtime, dma_off);
-+}
-+
- static int jockey3_initialize_ploytec(struct jockey3_chip *chip, u32 *fw_version)
+ static int jockey3_pcm_open(struct snd_pcm_substream *substream)
  {
- 	int ret;
-@@ -820,6 +1191,15 @@ static int jockey3_initialize_ploytec(struct jockey3_chip *chip, u32 *fw_version
- 	return 0;
- }
+ 	struct jockey3_chip *chip = snd_pcm_substream_chip(substream);
+@@ -1031,7 +1141,8 @@ static int jockey3_pcm_open(struct snd_pcm_substream *substream)
+ 	if (jockey3_is_disconnected(chip))
+ 		return -ENODEV;
  
-+static const struct snd_pcm_ops jockey3_pcm_ops = {
-+	.open = jockey3_pcm_open,
-+	.close = jockey3_pcm_close,
-+	.prepare = jockey3_pcm_prepare,
-+	.trigger = jockey3_pcm_trigger,
-+	.sync_stop = jockey3_pcm_sync_stop,
-+	.pointer = jockey3_pcm_pointer,
-+};
-+
- static int jockey3_initialize(struct jockey3_chip *chip, int model)
- {
- 	int ret;
-@@ -1051,6 +1431,44 @@ static int jockey3_validate_endpoints(struct usb_interface *intf0, struct usb_in
- 	return 0;
- }
+-	runtime->hw = jockey3_pcm_hw_playback;
++	runtime->hw = substream->stream == SNDRV_PCM_STREAM_PLAYBACK ?
++		      jockey3_pcm_hw_playback : jockey3_pcm_hw_capture;
  
-+/*
-+ * Channel maps.
+ 	/* The period accounting assumes a whole number of periods per buffer */
+ 	ret = snd_pcm_hw_constraint_integer(runtime, SNDRV_PCM_HW_PARAM_PERIODS);
+@@ -1442,9 +1553,15 @@ static int jockey3_validate_endpoints(struct usb_interface *intf0, struct usb_in
+  *
+  * The one exception is the playback Master pair, which is marked FL/FR so that
+  * userspace (PipeWire and friends) can identify the device's primary output.
++ * There is no equivalent notion for the inputs, so capture is left entirely
++ * unpositioned.
+  *
+  * Physical layout:
+  *   Playback: 1-2 Master Out L/R, 3-4 Headphone L/R
++ *   Capture:  1-2 Input 1 L/R, 3-4 Input 2 L/R, 5-6 Microphone
 + *
-+ * This device exposes several independent stereo pairs, which is a different
-+ * thing from a multichannel speaker arrangement -- and speaker positions are
-+ * all the chmap enum can express. Claiming, say, RL/RR for the headphone pair
-+ * would invite an audio server to treat a cue output as rear speakers, so the
-+ * discrete pairs are reported as SNDRV_CHMAP_UNKNOWN.
-+ *
-+ * The one exception is the playback Master pair, which is marked FL/FR so that
-+ * userspace (PipeWire and friends) can identify the device's primary output.
-+ *
-+ * Physical layout:
-+ *   Playback: 1-2 Master Out L/R, 3-4 Headphone L/R
-+ */
-+static const struct snd_pcm_chmap_elem jockey3_playback_chmap[] = {
-+	{ .channels = 4,
-+	  .map = { SNDRV_CHMAP_FL, SNDRV_CHMAP_FR,
++ * The microphone is mono: the balanced input stage feeds the same analog
++ * signal to both converters, so channels 5 and 6 carry identical content.
+  */
+ static const struct snd_pcm_chmap_elem jockey3_playback_chmap[] = {
+ 	{ .channels = 4,
+@@ -1453,9 +1570,17 @@ static const struct snd_pcm_chmap_elem jockey3_playback_chmap[] = {
+ 	{ }
+ };
+ 
++static const struct snd_pcm_chmap_elem jockey3_capture_chmap[] = {
++	{ .channels = 6,
++	  .map = { SNDRV_CHMAP_UNKNOWN, SNDRV_CHMAP_UNKNOWN,
++		   SNDRV_CHMAP_UNKNOWN, SNDRV_CHMAP_UNKNOWN,
 +		   SNDRV_CHMAP_UNKNOWN, SNDRV_CHMAP_UNKNOWN } },
 +	{ }
 +};
 +
-+static int jockey3_init_pcm(struct jockey3_chip *chip)
-+{
-+	int ret = snd_pcm_new(chip->card, CARD_NAME " Audio", 0, 1, 0, &chip->pcm);
-+
+ static int jockey3_init_pcm(struct jockey3_chip *chip)
+ {
+-	int ret = snd_pcm_new(chip->card, CARD_NAME " Audio", 0, 1, 0, &chip->pcm);
++	int ret = snd_pcm_new(chip->card, CARD_NAME " Audio", 0, 1, 1, &chip->pcm);
+ 
+ 	if (ret < 0)
+ 		return ret;
+@@ -1463,10 +1588,16 @@ static int jockey3_init_pcm(struct jockey3_chip *chip)
+ 	strscpy(chip->pcm->name, CARD_NAME " Audio", sizeof(chip->pcm->name));
+ 	chip->pcm->private_data = chip;
+ 	snd_pcm_set_ops(chip->pcm, SNDRV_PCM_STREAM_PLAYBACK, &jockey3_pcm_ops);
++	snd_pcm_set_ops(chip->pcm, SNDRV_PCM_STREAM_CAPTURE, &jockey3_pcm_ops);
+ 	snd_pcm_set_managed_buffer_all(chip->pcm, SNDRV_DMA_TYPE_VMALLOC, NULL, 0, 0);
+ 
+-	return snd_pcm_add_chmap_ctls(chip->pcm, SNDRV_PCM_STREAM_PLAYBACK,
+-				      jockey3_playback_chmap, 4, 0, NULL);
++	ret = snd_pcm_add_chmap_ctls(chip->pcm, SNDRV_PCM_STREAM_PLAYBACK,
++				     jockey3_playback_chmap, 4, 0, NULL);
 +	if (ret < 0)
 +		return ret;
 +
-+	strscpy(chip->pcm->name, CARD_NAME " Audio", sizeof(chip->pcm->name));
-+	chip->pcm->private_data = chip;
-+	snd_pcm_set_ops(chip->pcm, SNDRV_PCM_STREAM_PLAYBACK, &jockey3_pcm_ops);
-+	snd_pcm_set_managed_buffer_all(chip->pcm, SNDRV_DMA_TYPE_VMALLOC, NULL, 0, 0);
-+
-+	return snd_pcm_add_chmap_ctls(chip->pcm, SNDRV_PCM_STREAM_PLAYBACK,
-+				      jockey3_playback_chmap, 4, 0, NULL);
-+}
-+
++	return snd_pcm_add_chmap_ctls(chip->pcm, SNDRV_PCM_STREAM_CAPTURE,
++				      jockey3_capture_chmap, 6, 0, NULL);
+ }
+ 
  static void jockey3_setup_card_names(struct jockey3_chip *chip, int driver_info)
- {
- 	/*
-@@ -1097,7 +1515,7 @@ static int jockey3_probe(struct usb_interface *intf, const struct usb_device_id
- 	 * devres unwind inside usb_unbind_interface(), where snd_card_free()
- 	 * blocks until userspace closes every file descriptor on the card. On an
- 	 * unplug that unwind runs on the USB hub work queue, so one process
--	 * holding the card open would stall hotplug for the whole hub. The card is
-+	 * sitting on a PCM fd would stall hotplug for the whole hub. The card is
- 	 * released from jockey3_disconnect() with snd_card_free_when_closed()
- 	 * instead, which is what every other USB sound driver does; the
- 	 * resources that outlive it go in card->private_free below.
-@@ -1132,6 +1550,8 @@ static int jockey3_probe(struct usb_interface *intf, const struct usb_device_id
- 
- 	init_usb_anchor(&chip->playback.anchor);
- 	init_usb_anchor(&chip->capture.anchor);
-+	init_waitqueue_head(&chip->playback.drain_wait);
-+	init_waitqueue_head(&chip->capture.drain_wait);
- 
- 	/*
- 	 * From here on every failure goes to err_free_card, and the card slot is
-@@ -1168,6 +1588,10 @@ static int jockey3_probe(struct usb_interface *intf, const struct usb_device_id
- 	if (ret < 0)
- 		goto err_free_card;
- 
-+	ret = jockey3_init_pcm(chip);
-+	if (ret < 0)
-+		goto err_free_card;
-+
- 	jockey3_setup_card_names(chip, usb_id->driver_info);
- 
- 	if (card->id[0] == '\0')
-@@ -1220,7 +1644,8 @@ static void jockey3_disconnect(struct usb_interface *intf)
- 	struct jockey3_chip *chip = usb_get_intfdata(intf);
- 
- 	/*
--	 * Latch DISCONNECTED first, and for EITHER interface.
-+	 * Latch DISCONNECTED first, and for EITHER interface. Every ALSA entry
-+	 * point tests it on the way in.
- 	 *
- 	 * Doing it for interface 1 as well is what covers the unbind order. The
- 	 * driver is bound to both interfaces and the USB core takes them down
-@@ -1260,7 +1685,10 @@ static void jockey3_disconnect(struct usb_interface *intf)
- 		 * snd_card_free_when_closed() disconnects the card now and frees
- 		 * it once userspace has closed it -- it never blocks, which is
- 		 * the whole point of not using a managed card (see the comment in
--		 * jockey3_probe()). @chip lives in card->private_data and may be gone
-+		 * jockey3_probe()). It runs snd_pcm_stop(DISCONNECTED) under the
-+		 * stream lock on the way, which drives our .trigger and clears
-+		 * 'running' with the proper locking, so there is nothing to clear
-+		 * here by hand. @chip lives in card->private_data and may be gone
- 		 * the moment this returns, so nothing below may touch it.
- 		 */
- 		snd_card_free_when_closed(chip->card);
-@@ -1302,3 +1730,4 @@ module_usb_driver(jockey3_driver);
- MODULE_AUTHOR("Frank van de Pol <fvdpol@gmail.com>");
- MODULE_DESCRIPTION(CARD_NAME " ALSA Driver");
- MODULE_LICENSE("GPL");
-+MODULE_SOFTDEP("pre: snd-pcm");
 diff --git a/sound/usb/jockey3/ploytec_codec.c b/sound/usb/jockey3/ploytec_codec.c
-new file mode 100644
-index 0000000000000..2c431853b8434
---- /dev/null
+index 2c431853b8434..6cbbc26ac5cac 100644
+--- a/sound/usb/jockey3/ploytec_codec.c
 +++ b/sound/usb/jockey3/ploytec_codec.c
-@@ -0,0 +1,101 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ *   ALSA driver for Reloop Jockey 3 devices
-+ *   Ploytec PCM encoding functions for the S24_3LE format (3 bytes per sample)
-+ *
-+ *   Copyright (c) 2026 by Frank van de Pol <fvdpol@gmail.com>
-+ */
-+
-+#include <linux/string.h>
-+#include "ploytec_codec.h"
-+
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
+ /*
+  *   ALSA driver for Reloop Jockey 3 devices
+- *   Ploytec PCM encoding functions for the S24_3LE format (3 bytes per sample)
++ *   Ploytec PCM encoding/decoding functions for the S24_3LE format (3 bytes per sample)
+  *
+  *   Copyright (c) 2026 by Frank van de Pol <fvdpol@gmail.com>
+  */
+@@ -85,6 +85,55 @@ static inline void ploytec_encode_s24_3le(u8 *dest, const u8 *src)
+ 	}
+ }
+ 
 +/**
-+ * DOC: Why the wire format looks like this
++ * ploytec_decode_s24_3le() - Decode 64-byte Ploytec frame to 6-channel S24_3LE
++ * @dest: 18-byte destination buffer (6 channels * 3 bytes)
++ * @src: 64-byte source buffer
 + *
-+ * The "bit-plane" layout implemented below is not an arbitrary scramble; it is
-+ * a direct image of how the hardware moves audio. On the Jockey 3 the USB
-+ * device controller (NXP ISP1583) runs in split-bus mode, and the serial
-+ * data lines of the capture ADCs are wired straight onto the low bits of its
-+ * 16-bit DMA bus - one converter per bus bit. The controller samples the whole
-+ * bus once per bit clock and streams the result to the host, so every byte on
-+ * the wire is a snapshot of all the channel data lines at one instant.
-+ *
-+ * Decoding a frame is therefore a transpose:
-+ *
-+ * - The byte index is one bit-clock tick, most significant bit first: wire
-+ *   byte 0 carries bit 23 of the current sample, wire byte 23 carries bit 0.
-+ * - The bit position within each byte is one physical converter line, that is
-+ *   one channel (bit 0, bit 1, bit 2, ... for successive converters).
-+ * - The frame is two 24-byte halves, the left and right sub-frames of the
-+ *   underlying I2S frame. On capture an 8-byte gap sits between and after the
-+ *   halves: it is the unused tail of each 32-bit I2S slot (64-byte frame).
-+ *   Playback is generated on the byte-wide microprocessor bus instead, so its
-+ *   slots are packed to 24 bits with no gap (48-byte frame).
-+ *
-+ * Because the geometry follows from the I2S timing and the DMA bus width, it
-+ * is fixed regardless of how many converters are populated. That is why the
-+ * codec always works in 8-channel-wide slices and simply ignores the bit
-+ * positions that carry no converter (the Jockey 3 populates three capture
-+ * lines and two playback lines).
-+ *
-+ * This is a model inferred from the board schematic and the observed stream
-+ * rather than from vendor documentation, but it accounts for every bit of the
-+ * format the functions below implement.
++ * Ploytec Bit-Plane Interleaving (Capture):
++ * Similar to encoding, the capture path interleaves 3 pairs of channels
++ * into bit-planes (bit 0, 1, and 2 of each byte).
++ * - Bytes 0x00-0x17: Pair 1 (bits 0,1,2)
++ * - Bytes 0x20-0x37: Pair 2 (bits 0,1,2)
 + */
-+
-+/*
-+ * This implementation of the Ploytec codec performs a bit gather/scatter
-+ * operation with minimal optimization. It mainly serves as a readable
-+ * definition of the wire format.
-+ */
-+
-+/**
-+ * ploytec_encode_s24_3le() - Encode 4-channel S24_3LE to 48-byte Ploytec frame
-+ * @dest: 48-byte destination buffer
-+ * @src: 12-byte source buffer (4 channels * 3 bytes)
-+ *
-+ * Ploytec Bit-Plane Interleaving (Playback):
-+ * The firmware uses a non-standard "bit-plane" format where bits from different
-+ * channels are interleaved into the same byte.
-+ * - Each 48-byte frame carries one PCM frame: a single sample for each of
-+ *   the 4 channels, spread one bit per wire byte.
-+ * - Bytes 0-23: ALSA Channels 1 & 3
-+ * - Bytes 24-47: ALSA Channels 2 & 4
-+ * - Within each 24-byte block, bits are grouped by significance:
-+ *   - [0-7]: Most significant bits
-+ *   - [8-15]: Middle bits
-+ *   - [16-23]: Least significant bits
-+ * - bit 0 of each byte corresponds to the first channel in the pair.
-+ * - bit 1 of each byte corresponds to the second channel in the pair.
-+ */
-+static inline void ploytec_encode_s24_3le(u8 *dest, const u8 *src)
++static inline void ploytec_decode_s24_3le(u8 *dest, const u8 *src)
 +{
 +	int i;
 +
++	memset(dest, 0, 18);
 +	for (i = 0; i < 8; i++) {
-+		/* First 24 bytes: odd channels (ALSA Ch 1 & 3) */
-+		dest[i]      = (((src[2] >> (7 - i)) & 1) << 0) | (((src[8] >> (7 - i)) & 1) << 1);
-+		dest[8 + i]  = (((src[1] >> (7 - i)) & 1) << 0) | (((src[7] >> (7 - i)) & 1) << 1);
-+		dest[16 + i] = (((src[0] >> (7 - i)) & 1) << 0) | (((src[6] >> (7 - i)) & 1) << 1);
++		/* Channel 1: odd channel 1 (bit 0 of bytes 0x00-0x17) */
++		dest[0x00] |= ((src[0x10 + i] & 0x01) << (7 - i));	// Ch1 LSB byte
++		dest[0x01] |= ((src[0x08 + i] & 0x01) << (7 - i));
++		dest[0x02] |= ((src[0x00 + i] & 0x01) << (7 - i));	// Ch1 MSB byte
 +
-+		/* Second 24 bytes: even channels (ALSA Ch 2 & 4) */
-+		dest[24 + i] = (((src[5] >> (7 - i)) & 1) << 0) | (((src[11] >> (7 - i)) & 1) << 1);
-+		dest[32 + i] = (((src[4] >> (7 - i)) & 1) << 0) | (((src[10] >> (7 - i)) & 1) << 1);
-+		dest[40 + i] = (((src[3] >> (7 - i)) & 1) << 0) | (((src[9]  >> (7 - i)) & 1) << 1);
++		/* Channel 2: even channel 2 (bit 0 of bytes 0x20-0x37) */
++		dest[0x03] |= ((src[0x30 + i] & 0x01) << (7 - i));
++		dest[0x04] |= ((src[0x28 + i] & 0x01) << (7 - i));
++		dest[0x05] |= ((src[0x20 + i] & 0x01) << (7 - i));
++
++		/* Channel 3: odd channel 3 (bit 1 of bytes 0x00-0x17) */
++		dest[0x06] |= (((src[0x10 + i] & 0x02) >> 1) << (7 - i));
++		dest[0x07] |= (((src[0x08 + i] & 0x02) >> 1) << (7 - i));
++		dest[0x08] |= (((src[0x00 + i] & 0x02) >> 1) << (7 - i));
++
++		/* Channel 4: even channel 4 (bit 1 of bytes 0x20-0x37) */
++		dest[0x09] |= (((src[0x30 + i] & 0x02) >> 1) << (7 - i));
++		dest[0x0A] |= (((src[0x28 + i] & 0x02) >> 1) << (7 - i));
++		dest[0x0B] |= (((src[0x20 + i] & 0x02) >> 1) << (7 - i));
++
++		/* Channel 5: odd channel 5 (bit 2 of bytes 0x00-0x17) */
++		dest[0x0C] |= (((src[0x10 + i] & 0x04) >> 2) << (7 - i));
++		dest[0x0D] |= (((src[0x08 + i] & 0x04) >> 2) << (7 - i));
++		dest[0x0E] |= (((src[0x00 + i] & 0x04) >> 2) << (7 - i));
++
++		/* Channel 6: even channel 6 (bit 2 of bytes 0x20-0x37) */
++		dest[0x0F] |= (((src[0x30 + i] & 0x04) >> 2) << (7 - i));
++		dest[0x10] |= (((src[0x28 + i] & 0x04) >> 2) << (7 - i));
++		dest[0x11] |= (((src[0x20 + i] & 0x04) >> 2) << (7 - i));
 +	}
 +}
 +
+ /**
+  * ploytec_encode_batch() - Encode a number of 4-channel S24_3LE to 48-byte Ploytec frames
+  * @dest: n_frames * 48-byte destination buffer (Ploytec playback frame)
+@@ -99,3 +148,18 @@ void ploytec_encode_batch(u8 *dest, const u8 *src, const int n_frames)
+ 		src += PLOYTEC_PLAYBACK_PCM_FRAME_SIZE;
+ 	}
+ }
++
 +/**
-+ * ploytec_encode_batch() - Encode a number of 4-channel S24_3LE to 48-byte Ploytec frames
-+ * @dest: n_frames * 48-byte destination buffer (Ploytec playback frame)
-+ * @src: n_frames * 12-byte source buffer (4 channels * 3 bytes)
++ * ploytec_decode_batch() - Decode a number of 64-byte Ploytec frames to 6-channel S24_3LE
++ * @dest: n_frames * 18-byte destination buffer (6 channels * 3 bytes)
++ * @src: n_frames * 64-byte source buffer
 + * @n_frames: number of frames to process in this batch
 + */
-+void ploytec_encode_batch(u8 *dest, const u8 *src, const int n_frames)
++void ploytec_decode_batch(u8 *dest, const u8 *src, const int n_frames)
 +{
 +	for (int f = 0; f < n_frames; f++) {
-+		ploytec_encode_s24_3le(dest, src);
-+		dest += PLOYTEC_PLAYBACK_FRAME_SIZE;
-+		src += PLOYTEC_PLAYBACK_PCM_FRAME_SIZE;
++		ploytec_decode_s24_3le(dest, src);
++		dest += PLOYTEC_CAPTURE_PCM_FRAME_SIZE;
++		src += PLOYTEC_CAPTURE_FRAME_SIZE;
 +	}
 +}
 diff --git a/sound/usb/jockey3/ploytec_codec.h b/sound/usb/jockey3/ploytec_codec.h
-new file mode 100644
-index 0000000000000..32660f1b4350a
---- /dev/null
+index 32660f1b4350a..0ee0d38099bf2 100644
+--- a/sound/usb/jockey3/ploytec_codec.h
 +++ b/sound/usb/jockey3/ploytec_codec.h
-@@ -0,0 +1,26 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ *   ALSA driver for Reloop Jockey 3 devices
-+ *   Ploytec PCM encoding functions for the S24_3LE format (3 bytes per sample)
-+ *
-+ *   Copyright (c) 2026 by Frank van de Pol <fvdpol@gmail.com>
-+ */
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0-or-later */
+ /*
+  *   ALSA driver for Reloop Jockey 3 devices
+- *   Ploytec PCM encoding functions for the S24_3LE format (3 bytes per sample)
++ *   Ploytec PCM encoding/decoding functions for the S24_3LE format (3 bytes per sample)
+  *
+  *   Copyright (c) 2026 by Frank van de Pol <fvdpol@gmail.com>
+  */
+@@ -12,7 +12,7 @@
+ #include <linux/types.h>
+ 
+ /*
+- * Playback: 4 channels of S24_3LE (3 bytes/sample).
++ * Playback: 4 channels, capture: 6 channels, both S24_3LE (3 bytes/sample).
+  * The *_FRAME_SIZE values are the Ploytec wire format; the *_PCM_FRAME_SIZE
+  * values are the corresponding ALSA-side frame.
+  */
+@@ -20,7 +20,12 @@
+ #define PLOYTEC_PLAYBACK_FRAME_SIZE	48
+ #define PLOYTEC_PLAYBACK_PCM_FRAME_SIZE	12	// 4 channels * 3 bytes
+ 
++#define PLOYTEC_CAPTURE_FRAMES		8	// number of samples per frame
++#define PLOYTEC_CAPTURE_FRAME_SIZE	64
++#define PLOYTEC_CAPTURE_PCM_FRAME_SIZE	18	// 6 channels * 3 bytes
 +
-+#ifndef __SOUND_USB_JOCKEY3_PLOYTEC_CODEC_H
-+#define __SOUND_USB_JOCKEY3_PLOYTEC_CODEC_H
-+
-+#include <linux/types.h>
-+
-+/*
-+ * Playback: 4 channels of S24_3LE (3 bytes/sample).
-+ * The *_FRAME_SIZE values are the Ploytec wire format; the *_PCM_FRAME_SIZE
-+ * values are the corresponding ALSA-side frame.
-+ */
-+#define PLOYTEC_PLAYBACK_FRAMES		10	// number of samples per frame
-+#define PLOYTEC_PLAYBACK_FRAME_SIZE	48
-+#define PLOYTEC_PLAYBACK_PCM_FRAME_SIZE	12	// 4 channels * 3 bytes
-+
-+/* batching of the sample processing */
-+void ploytec_encode_batch(u8 *dest, const u8 *src, const int n_frames);
-+
-+#endif /* __SOUND_USB_JOCKEY3_PLOYTEC_CODEC_H */
+ /* batching of the sample processing */
+ void ploytec_encode_batch(u8 *dest, const u8 *src, const int n_frames);
++void ploytec_decode_batch(u8 *dest, const u8 *src, const int n_frames);
+ 
+ #endif /* __SOUND_USB_JOCKEY3_PLOYTEC_CODEC_H */
 -- 
 2.47.3
 
