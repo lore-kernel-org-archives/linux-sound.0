@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BEC503BE9;
-	Mon, 19 Oct 2026 14:06:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F0764C40A;
+	Mon, 19 Oct 2026 14:06:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418809; cv=none; b=U1xzzXOlRJ0oYoQL2u6cq5AzythkH05kVYfZn17cVmNLEx7y3N+maZxlY91/fIFbBLGG8P3rzVu9Ij9kXrZr7Nxufb4khxJoRqzK5+iKjTWzJKqCadE6YG1Va6E+nQLfZgG6yr05GXjF/p2R8T7Q7cAy3O2pj+hhOeixri7zSpA=
+	t=1792418826; cv=none; b=uujvO9FRifzsit4gXvLUwIZSPyTG5REikOmVF6rOb3F4mMhh+hC/D1RCMxTU4uPRZIH2rg+YvYR2geaLasvrDGcA1q7R/dWYdfOsdqlYFgT/McVSK/yTO0AnAbcdLq2swMswGq0cAby4mydJTDtuufvek+iTdu1VxRM0itidFS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418809; c=relaxed/simple;
-	bh=8HTGKz/1NgVU+pDsV/Bim2NeNHfDYKv/D+EClCVs6Y8=;
+	s=arc-20240116; t=1792418826; c=relaxed/simple;
+	bh=sqcL0GY2ywTF8aRJH9sYcEsSs2ajLx9ikcBAEZe8QD4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Nke4RCeJyZ0++QaY+ju5P7zn6gcJpBGD9oJUGOsSlqh7GMPf5pLng4CxVeWWa+QngoRNE9WLM3AgvuyxPTaLvbNQLMknv9fGE56oxHC72vh4nAXnW+q0mFgBbTXfeLJaIxrUiUeuBVIEY9jhg4k240kC6e3SgSKMqU2dmBxHD3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YVS9jDb7; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=CDySn3Kqy2vhWrraP6b0jO1ZZFI3CenFEAzZgGaDGRT5pfs3UWKKf4qGUcIWe1HmXXSqCLIqdQaVNm0LdSTDBQJL2XU6G+Mayl0u+4EgcziGZF1lA40/sB0nV2ZYg64HsdV7z7KjAOqjamisJPWL0n2Qh7aTKx53I5mw48FrNTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=heA2iMeC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YVS9jDb7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36BC41F000C6;
-	Mon, 19 Oct 2026 14:06:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="heA2iMeC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF3531F000C4;
+	Mon, 19 Oct 2026 14:06:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418803;
-	bh=WI7wYpsNMkdXcklVicKth9S9t37805X7PofsGlT4fB0=;
+	s=k20260515; t=1792418814;
+	bh=4qTdWVxFt0wuCUbw/btJFkq2aKk1a3vWXLWgJiiJKhc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=YVS9jDb7x1yRx0hBUr2N6Ud9RJWEikoPVpNghCh2HJEnWCPi/d3jA42fzeiiuD9sK
-	 MlnX70NgtKFM+xmahYs0TjiUckNZdjEqfgYp3jvFMVx/eohlROLIeovC6v2aIc1Fen
-	 YyCgNEA/Rmxdq/6OwNe1OUi5Mkunww824JCWq4NOzW5oTvvhsfBPTUjKhRiWgCW6Q2
-	 HDxfd5wH1XIJ3JZnxdhzfLjkHUZRb3ki6kT2IV5gzfs/I1zAjDX3AvvAapNtTwdYUY
-	 tWreaMnzqxupa7oT9zqZwzlibbr8kg6pGI0cCtR9w1QFvVwK9YJr6o5t30uC302T1K
-	 VaUHGaGGe38Og==
+	b=heA2iMeC8fEX72nlmG7AgA9O/qM79S1zO0MeNZCfY6g90ay4agQrKfCPiHJO+nrVB
+	 jD6gI1OhNHIMCDQSm6faNpeavdwR/j5Zi0R4kn973m922KoXQ3PxDB0nGXP1AWAjNt
+	 oTdQZl1CCWCB8UoCDJwCUnC8B1MS88WmYt5x/EZ815abqy/YrKNEOeXneyRTshC8F0
+	 dUHNlpLGAcBo2fk1mC21TIQVRgMZpcYNihVR9G5FZpvmnDl4wXQc0+dxJNiPT+PBNR
+	 z3isPKbtiFF1T3up5OQp79jaeLE22IoYs3641vDqa3bXK6k/cquSMQ1ONYG1edArFg
+	 VA0b0xVX1bwnw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: wangdicheng <wangdicheng@kylinos.cn>,
+Cc: Zhang Heng <zhangheng@kylinos.cn>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] ALSA: hda/conexant: Add NULL check for dc_mode_path
-Date: Mon, 19 Oct 2026 09:53:18 -0400
-Message-ID: <20261019135441.1420968-507-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.1] ALSA: hda/realtek: Fix headset mic on ASUS Vivobook S14 S5406SA
+Date: Mon, 19 Oct 2026 09:53:27 -0400
+Message-ID: <20261019135441.1420968-516-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -54,514 +54,456 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: wangdicheng <wangdicheng@kylinos.cn>
+From: Zhang Heng <zhangheng@kylinos.cn>
 
-[ Upstream commit 273806f38ce95c95c288a03d3de1e423cd3e5543 ]
+[ Upstream commit f2d08f3651fb12634347fef2c41687a807a7dcba ]
 
-snd_hda_add_new_path() returns NULL when no path exists between the
-given NIDs, but olpc_xo_update_mic_pins() passes dc_mode_path
-straight to snd_hda_activate_path() which dereferences it without
-checking. Add the missing NULL guards, same as the local path
-variable already has in the same function.
+On the ASUS Vivobook S14 S5406SA (subsystem 0x104310c4, Lunar Lake
+platform) with an ALC294 codec, the headset microphone (3.5mm jack)
+fails to capture any audio. Adding the ALC2XX_FIXUP_HEADSET_MIC
+quirk resolves the issue and restores proper headset mic recording.
 
-Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
-Link: https://patch.msgid.link/20260729070935.548050-2-wangdich9700@163.com
+Link: https://github.com/thesofproject/linux/issues/5729
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Link: https://patch.msgid.link/20260807125857.678297-3-zhangheng@kylinos.cn
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Connection lost, reconnecting to https://agentn.us.api5.cursor.sh
-(attempt 1)...
-Retry attempt 1...
-# Stable backport analysis: `ALSA: hda/conexant: Add NULL check for
-dc_mode_path`
+I have enough to decide for this 6.12 tree: the quirk and insertion
+point exist, the 0x10c4 entry does not.
 
-Local tree: **7.3.0-rc4** (`v7.3-rc4-27-gf0100363d8c37`). Evaluation is
-for this checkout only. The conexant OLPC XO path exists here; the
-change is a two-site NULL guard in `olpc_xo_update_mic_pins()`.
-
----
-
-## PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
+PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-- Subsystem: `ALSA: hda/conexant`
-- Action verb: **Add** (NULL check)
-- Claimed intent: stop passing a possibly-NULL `dc_mode_path` into
-  `snd_hda_activate_path()`
 
-Record: `[ALSA/hda/conexant] [add] [NULL-check dc_mode_path before
-snd_hda_activate_path]`
+Record: **[ALSA/hda/realtek] [Fix] [headset microphone capture on ASUS
+Vivobook S14 S5406SA]**
+
+Subsystem prefix is `ALSA: hda/realtek`. Action verb is **Fix**. Claimed
+intent is restoring 3.5mm headset-mic capture on one ASUS laptop by
+adding a PCI subsystem quirk.
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-- `Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>` (author)
-- `Link:
-  https://patch.msgid.link/20260729070935.548050-2-wangdich9700@163.com`
-  (patch 2/2)
-- `Signed-off-by: Takashi Iwai <tiwai@suse.de>` (ALSA maintainer;
-  applied)
-- No `Fixes:`
-- No `Reported-by` / `Tested-by` / `Reviewed-by` / `Acked-by`
-- No `Cc: stable` (expected for this review pipeline)
-- Pipeline `Signed-off-by: Sasha Levin` is absent from the real commit
-  and is ignored anyway
-
-Record: Maintainer SOB only; no crash reporter, syzbot, or Fixes tag.
-Msgid `-2` shows this is **patch 2/2**.
-
-**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
-The body says `snd_hda_add_new_path()` can return NULL when no path
-exists between the given NIDs, and `olpc_xo_update_mic_pins()` passes
-`spec->dc_mode_path` to `snd_hda_activate_path()` with no check. The
-local `path` variable in the same function is already NULL-checked. No
-stack trace, reproducer, or version range.
 
 Record:
-- [Bug] Unchecked NULL from `snd_hda_add_new_path()` used later
-- [Symptom] NULL deref / oops in `snd_hda_activate_path()`
-  (`path->active = enable`)
-- [Version info] none in the message
-- [Root cause] missing NULL guards, unlike the sibling `path` checks
+- **Link:** https://github.com/thesofproject/linux/issues/5729 (user bug
+  report; later confirmed fixed by the model/quirk)
+- **Link:**
+  https://patch.msgid.link/20260807125857.678297-3-zhangheng@kylinos.cn
+  (alsa-devel submission; patch 3/4)
+- **Signed-off-by:** Zhang Heng \<zhangheng@kylinos.cn\> (author)
+- **Signed-off-by:** Takashi Iwai \<tiwai@suse.de\> (ALSA maintainer;
+  applied the series)
+- **Fixes:** none (expected)
+- **Cc: stable:** none (expected)
+- **Reported-by / Tested-by / Reviewed-by / Acked-by:** none in the
+  commit message
+
+Notable: msgid `-3` shows this was patch 3 of a 4-patch batch of
+independent hardware quirks, not a dependent refactor series.
+
+**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+
+Record:
+- **Bug:** On ASUS Vivobook S14 S5406SA, PCI subsystem `0x1043:0x10c4`,
+  Lunar Lake + ALC294, the 3.5mm headset microphone captures silence.
+  Headset speakers work; internal DMIC works.
+- **Symptom:** Userspace sees a “Headphones Stereo Microphone” source
+  that records silence; analog capture mixer controls are missing.
+- **Root cause (from message + issue):** BIOS leaves headset-mic pin
+  0x19 as `0x411111f0` (N/A). `ALC2XX_FIXUP_HEADSET_MIC` overrides that
+  pin and sets `HDA_PINCFG_HEADSET_MIC`.
+- **Version info in message:** Lunar Lake platform; GitHub reporter was
+  on 6.17, but that does not limit this tree.
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-Not disguised. It is an explicit NULL-deref guard. Not a feature or
-refactor.
 
-Record: `[Not a hidden fix; stated NULL deref guard]`
+Record: **Not a hidden fix.** It is an explicit hardware-quirk bug fix:
+one `SND_PCI_QUIRK` line. No cleanup/refactor disguise.
 
----
-
-## PHASE 2: DIFF ANALYSIS - LINE BY LINE
+===============================================================
+PHASE 2: DIFF ANALYSIS - LINE BY LINE
+===============================================================
 
 **Step 2.1: INVENTORY THE CHANGES**
-- File: `sound/hda/codecs/conexant.c` (+4 / -2)
-- Function: `olpc_xo_update_mic_pins()`
-- Classification: single-file surgical fix
 
-Record: `[conexant.c +4-2] [olpc_xo_update_mic_pins] [surgical]`
+Record:
+- **File in upstream commit:** `sound/hda/codecs/realtek/alc269.c` (+1 /
+  −0)
+- **File in this tree:** `sound/pci/hda/patch_realtek.c` (Realtek codec
+  not yet split)
+- **Function / table:** `alc269_fixup_tbl[]`
+- **Scope:** single-file, one-line surgical hardware quirk
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-Hunk 1 (`!spec->dc_enable`, default path): always called
-`snd_hda_activate_path(..., dc_mode_path, false, false)` to disable the
-DC path → now skipped if `dc_mode_path` is NULL.
 
-Hunk 2 (`spec->dc_enable`): always activated the DC path → now skipped
-if NULL.
-
-Both are the normal OLPC mic-pin update path (init, jack, capture,
-mixer), not a new error-handling framework.
-
-Record: `[unconditional activate_path → NULL-guarded activate_path on
-both branches]`
+Record:
+- **Before:** SSID `0x1043:0x10c4` has no PCI quirk. `patch_alc269()`
+  still calls `snd_hda_pick_fixup()` on `alc269_fixup_tbl`. Existing
+  ASUS ALC294 *pin* quirks do not match this machine’s pin 0x12
+  (`0x40000000` vs required `0x90a60130`), so no headset-mic fixup is
+  applied. Pin 0x19 stays N/A; analog headset mic is never parsed.
+- **After:** That SSID selects `ALC2XX_FIXUP_HEADSET_MIC` at PRE_PROBE.
+- **Path:** codec probe / jack autoconfig only; not a hot path, error
+  path, or API change.
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
-Category: **memory safety / NULL pointer dereference**.
 
-`cxt_fixup_olpc_xo()` does:
+Record: **[Hardware workaround / pin-config quirk]**
 
-```c
-spec->dc_mode_path = snd_hda_add_new_path(codec, 0x1e, 0x14, 0);
+In this tree `ALC2XX_FIXUP_HEADSET_MIC` is:
+
+```10552:10555:sound/pci/hda/patch_realtek.c
+        [ALC2XX_FIXUP_HEADSET_MIC] = {
+                .type = HDA_FIXUP_FUNC,
+                .v.func = alc_fixup_headset_mic,
+        },
 ```
 
-`snd_hda_add_new_path()` is documented to return NULL if no valid path
-is found, and also returns NULL if `is_reachable_path()` fails,
-`snd_array_new()` fails, or `snd_hda_parse_nid_path()` fails.
-`snd_hda_activate_path()` immediately does `path->active = enable` with
-no NULL check.
+`alc_fixup_headset_mic()` (same body as later
+`alc2xx_fixup_headset_mic`) does:
+1. Override pin 0x19 to `0x03a1103c` (headset mic)
+2. Update coef 0x45
+3. Set `spec->parse_flags |= HDA_PINCFG_HEADSET_MIC`
 
-Record: `[NULL deref] [add_new_path NULL stored, later deref in
-activate_path]`
+That matches the GitHub dump: pin 0x19 was `0x411111f0` with VREF_HIZ.
 
 **Step 2.4: ASSESS THE FIX QUALITY**
-Obviously correct and matches the existing `if (path)` pattern in the
-same function. Minimal. Skipping activate on NULL cannot activate a
-missing path anyway, so behavior is “don’t oops” rather than a new
-feature. Regression risk is very low: no locking, no API, no data-
-structure change.
 
-Record: `[obviously correct, 2 ifs] [regression risk: very low]`
+Record: **Obviously correct and minimal.** One PCI ID, existing fixup
+already used for Acer Nitro 5, ASUS Vivobook 15 X1504VAP, Gigabyte,
+Huawei, Clevo, TongFang, HONOR. Regression surface is only SSID
+`0x1043:0x10c4`. No locking, no API, no new code. **Regression risk:
+very low.**
 
----
-
-## PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
+PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
 
 **Step 3.1: BLAME THE CHANGED LINES**
-Unchecked `snd_hda_activate_path(codec, spec->dc_mode_path, ...)` and
-the assignment of `dc_mode_path` come from `3a00c6605b7709` (“ALSA:
-hda/conexant - Re-implement OLPC XO workarounds via fixup”), Takashi
-Iwai, 2014-01-27, first contained in **v3.15-rc1**. Present as an
-ancestor of this HEAD.
 
-Record: `[3a00c6605b7709, v3.15-rc1] [code present ~12 years]`
+Record: The new line is an addition. Neighboring entries exist in this
+tree at:
+
+```11192:11193:sound/pci/hda/patch_realtek.c
+        SND_PCI_QUIRK(0x1043, 0x10c0, "ASUS X540SA",
+ALC256_FIXUP_ASUS_MIC),
+        SND_PCI_QUIRK(0x1043, 0x10d0, "ASUS X540LA/X540LJ",
+ALC255_FIXUP_ASUS_MIC_NO_PRESENCE),
+```
+
+The *bug* is missing pin config from BIOS, not a regression in a
+specific old commit. The reusable fixup was added by `1c643c600407d`
+(“Add new alc2xx-fixup-headset-mic model”, 2024-12-07), which is **in
+this tree** (`git merge-base --is-ancestor 1c643c600407d HEAD`
+succeeded). That is the stable backport of upstream `50db91fccea0d`
+(first contained in v6.13-rc3; original SHA is **not** an ancestor of
+this 6.12 branch, but the equivalent change is present).
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-No `Fixes:` tag. Introducer verified by blame as above. `git merge-base
---is-ancestor 3a00c6605b7709 HEAD` succeeded.
 
-Record: `[no Fixes tag] [buggy code exists in this tree since v3.15]`
+Record: **No Fixes: tag.** Not applicable. The hardware never had a
+working pin default for this SSID in this tree.
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-Recent `conexant.c` work is headset/LED/pin quirks. Only related hit for
-`dc_mode_path` is this commit. Standalone relative to later conexant
-changes.
 
-Record: `[no prerequisites in recent file history] [standalone vs later
-work]`
+Record: `sound/pci/hda/patch_realtek.c` is actively receiving similar
+one-line quirks (mute LEDs, speakers, headset mics). Recent history is
+the same class of change. **No prerequisite series for this one line.**
+Similar in-tree uses of `ALC2XX_FIXUP_HEADSET_MIC` include Acer Nitro 5
+(`0x1025:0x1539/159c/1597`) and ASUS Vivobook 15 X1504VAP
+(`0x1043:0x1e1f`).
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-wangdicheng is a regular ALSA contributor, not the subsystem maintainer.
-Nearby work includes other defensive checks. Same-day series: this patch
-plus `[PATCH 1/2] ALSA: hda/conexant: Fix EAPD pin array overflow`.
 
-Record: `[regular contributor] [2/2 series; patch 1 was rejected]`
+Record: Zhang Heng has multiple Realtek quirk commits in this tree
+(Samsung, ASUS UM6702RC, Inspur, Conexant). Regular ALSA hda
+contributor; this patch was applied by maintainer Takashi Iwai. Related
+same-day patches are other independent quirks (Acer Nitro ANV16-42, Acer
+Gadget E10, Huawei Matebook Conexant), not dependencies.
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Needs `olpc_xo_update_mic_pins`, `dc_mode_path`, and
-`snd_hda_activate_path` — all present. Patch 1/2 is **not** a
-dependency; Takashi NAK’d it (“No, it checks right after the increment…
-overwrite won't happen”), and this tree still has the original EAPD
-write-then-check order. This NULL-check applies standalone.
 
-Record: `[no functional dependency on 1/2] [applies standalone]`
+Record: **Standalone.** Needs only `ALC2XX_FIXUP_HEADSET_MIC` /
+`alc_fixup_headset_mic()`, both present. Series 1/4, 2/4, and 4/4 touch
+different SSIDs/files. File path in the upstream diff (`alc269.c`) must
+be rewritten to `patch_realtek.c` here; the hunk context around
+`0x10c0`/`0x10d0` matches.
 
----
-
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
+PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
-`b4 dig -c 273806f38ce95` matched:
-https://patch.msgid.link/20260729070935.548050-2-wangdich9700@163.com
 
-`b4 dig -a`: **v1 only** (no v2/v3). Thread saved to mbox.
-
-Takashi on 2/2: “Applied to for-next branch now. Thanks.” No NAK, no
-stable nomination, no concern about this patch.
-
-Takashi on 1/2: explicit rejection — the claimed EAPD overflow does not
-happen.
-
-Record: `[lore msgid 20260729070935.548050-2] [v1 only] [2/2 applied;
-1/2 NAK’d] [no Cc: stable in review]`
+Record:
+- **Lore msgid:** `20260807125857.678297-3-zhangheng@kylinos.cn`
+- **b4 mbox:** 5 messages; series is four independent quirks
+  (2026-08-07)
+- **Revisions:** single submission (`[PATCH 3/4]`); no v2/v3 in the
+  thread
+- **Maintainer:** Takashi Iwai: “Applied all four patches now. Thanks.”
+  — no NAK, no requested changes, no stable-risk comments
+- Direct lore.kernel.org HTTP fetches returned 403; thread was recovered
+  via `b4 mbox`
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-`b4 dig -w` recipients: `tiwai@suse.com`, `broonie@kernel.org`, `linux-
-sound@`, `linux-kernel@`, author. Subsystem maintainer was To: and
-applied the patch.
 
-Record: `[Takashi Iwai applied; Mark Brown CC’d; linux-sound CC’d]`
+Record: **To:** tiwai@suse.com. **Cc:** linux-sound@vger.kernel.org,
+linux-kernel@vger.kernel.org. Subsystem maintainer received and applied
+it. `b4 dig -w` was not used (no upstream SHA in this checkout);
+recipients came from the mbox.
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-No `Reported-by`, no bugzilla, no syzbot. HTTP fetch of lore.kernel.org
-returned 403; discussion recovered via `b4 dig -m` instead. No evidence
-of a user-reported oops.
 
-Record: `[no user/syzbot report found] [static/code-review style
-finding]`
+Record: GitHub thesofproject/linux#5729 (closed):
+- Hardware: ASUS Vivobook S14 S5406SA, ALC294, SSID `0x104310c4`, Intel
+  Lunar Lake, driver `sof-audio-pci-intel-lnl`
+- Symptom: headset speakers OK, headset mic silent; pin 0x19 =
+  `0x411111f0`
+- Pierre-Louis Bossart: ALC294 config issue, not SOF
+- Zhang Heng / Kailang Yang: try model `alc2xx-fixup-headset-mic`
+- Reporter **confirmed** `hda_model=alc2xx-fixup-headset-mic` on the
+  same machine: dmesg `Headset Mic=0x19`, jack detect works, `pw-record`
+  captures real audio
+- Also referenced Arch forum thread for the same SSID
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-2/2 of “conexant defensive fixes”. Patch 1 was a false positive. Patch 2
-does not depend on patch 1.
 
-Record: `[series 2/2; sibling not needed and not in tree]`
+Record: Batch of four independent hardware quirks. This patch does not
+need the others. Other patches are not required for this SSID to work.
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-lore.kernel.org/stable HTTP search: **UNVERIFIED** (403). No
-`dc_mode_path` discussion in this tree’s git history besides this
-commit.
 
-Record: `[UNVERIFIED: stable list search via HTTP] [no in-tree stable
-discussion]`
+Record: lore.kernel.org/stable search returned HTTP 403. **UNVERIFIED**
+whether someone already asked stable@ for this specific commit. No in-
+tree evidence it was rejected.
 
----
+===============================================================
+PHASE 5: CODE SEMANTIC ANALYSIS
+===============================================================
 
-## PHASE 5: CODE SEMANTIC ANALYSIS
+**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
 
-**Step 5.1: IDENTIFY KEY FUNCTIONS**
-- Modified: `olpc_xo_update_mic_pins()`
-- Related: `cxt_fixup_olpc_xo()`, `olpc_xo_automic()`,
-  `olpc_xo_capture_hook()`, `olpc_xo_dc_mode_put()`,
-  `olpc_xo_dc_bias_enum_put()`, `snd_hda_add_new_path()`,
-  `snd_hda_activate_path()`
-
-Record: `[olpc_xo_update_mic_pins only in the diff]`
+Record: No function body changed. Touches `alc269_fixup_tbl[]`. Runtime
+effect is via `alc_fixup_headset_mic()` selected as
+`ALC2XX_FIXUP_HEADSET_MIC`.
 
 **Step 5.2: TRACE CALLERS**
-`olpc_xo_update_mic_pins()` is called from:
-1. `olpc_xo_automic` — `mic_autoswitch_hook`
-2. `olpc_xo_capture_hook` — PCM PREPARE/CLEANUP (capture start/stop)
-3. `olpc_xo_dc_mode_put` — “DC Mode Enable Switch” mixer
-4. `olpc_xo_dc_bias_enum_put` — if `dc_enable`
 
-`olpc_xo_automic` is invoked from `call_mic_autoswitch()` in generic
-HDA, including `update_automute_all()` from **codec init**
-(`snd_hda_gen_init` path at generic.c:6029). So a NULL `dc_mode_path`
-oopses on the **default** `!dc_enable` branch during init or jack
-handling, not only when DC mode is turned on.
-
-Record: `[init, jack, capture, mixer] [reachable without enabling DC
-mode]`
+Record:
+- `HDA_CODEC_ENTRY(0x10ec0294, "ALC294", patch_alc269)` at line 13992
+- `patch_alc269()` → `snd_hda_pick_fixup(..., alc269_fixup_tbl,
+  alc269_fixups)` at 12583–12584
+- Called at codec probe (HDA/SOF HDA generic), not IRQ/syscall hot path
+- Impact surface: **only** PCI subsystem `0x1043:0x10c4`
 
 **Step 5.3: TRACE CALLEES**
-`update_mic_pin` / `snd_hda_codec_write_cache`,
-`snd_hda_get_path_from_idx`, `snd_hda_activate_path`, pin-target
-helpers. The dangerous callee is `snd_hda_activate_path` → `path->active
-= enable`.
 
-Record: `[activate_path dereferences path unconditionally]`
+Record: `alc_fixup_headset_mic` → `snd_hda_apply_pincfgs`,
+`alc_update_coef_idx`, sets `HDA_PINCFG_HEADSET_MIC`. Same pattern
+already used on other laptops in this file.
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-Quirk `SND_PCI_QUIRK(0x152d, 0x0833, "OLPC XO-1.5", CXT_FIXUP_OLPC_XO)`
-plus model hint `olpc-xo`. Probe sets the hook and path; gen init calls
-automute; userspace capture/mixer also reach it. Unprivileged capture on
-that machine can hit it if the pointer is NULL.
 
-Record: `[userspace-reachable on OLPC XO-1.5 and model=olpc-xo] [init
-also hits it]`
+Record: Plug headset → HDA jack parse/probe → if quirk matches, pin 0x19
+becomes a headset mic. **Reachable from userspace** on that laptop
+(PipeWire/ALSA capture). Reporter confirmed it.
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Same function already NULL-checks `snd_hda_get_path_from_idx()` results.
-`snd_hda_activate_path()` itself does not check NULL (generic helper;
-callers must).
 
-Record: `[inconsistent NULL check vs local path; helper assumes non-
-NULL]`
+Record: Same `ALC2XX_FIXUP_HEADSET_MIC` already applied to multiple
+vendors in `alc269_fixup_tbl`. This is the standard pattern for “BIOS
+left headset mic pin as 0x411111f0”.
 
----
-
-## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
+PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Yes. `sound/hda/codecs/conexant.c`: `dc_mode_path` on the spec,
-assignment in `cxt_fixup_olpc_xo`, use in `olpc_xo_update_mic_pins`.
-Introduced v3.15, long before 7.3. (Current HEAD already contains
-273806f38ce95; that is the original upstream commit, not used as a
-“already selected for stable” argument.)
 
-Record: `[buggy pattern exists in this lineage; file present at
-sound/hda/codecs/conexant.c] [since v3.15]`
+Record: **Yes.** This tree is **6.12.111** (`pending-6.12`, `git
+describe HEAD` = `p-6.12-3-g710455e2077bb`). Makefile: VERSION=6
+PATCHLEVEL=12 SUBLEVEL=111.
+
+- Quirk `0x1043:0x10c4` / “S5406SA” is **absent** (`git grep` found no
+  matches).
+- Realtek driver, ALC294 `patch_alc269`, `ALC2XX_FIXUP_HEADSET_MIC`, and
+  Lunar Lake SOF (`sound/soc/sof/intel/pci-lnl.c`) **are present**.
+- The machine is a 2024/2025 Lunar Lake laptop; 6.12 is an LTS that runs
+  that hardware.
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-On **this** 7.3-rc4 tree the path and context match the candidate diff.
-Codec drivers were moved in `6014e9021b28e` (v6.17 era); that does not
-block this tree. No conflicting local edits.
 
-Record: `[clean apply on this tree]`
+Record: **Minor path remap, otherwise clean.** Upstream hunk is against
+`sound/hda/codecs/realtek/alc269.c`; here the table is
+`sound/pci/hda/patch_realtek.c`. Context lines `0x10c0` then `0x10d0`
+match exactly. Enum name is the same. **Expected difficulty: trivial
+backport** (standard for HD-audio quirks on 6.12).
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-No earlier alternate fix for `dc_mode_path`. Patch 1/2 is not in the
-tree (correctly, it was wrong).
 
-Record: `[no alternate fix] [EAPD sibling correctly absent]`
+Record: Subject grep for S5406SA / this title found nothing. Pin quirks
+for ASUS ALC294 do not match this pin dump (0x12 is `0x40000000`, not
+`0x90a60130`). **No existing fix for this SSID.**
 
----
-
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
+PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
 
 **Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-ALSA HD-audio, Conexant codec, **OLPC XO-1.5-only** fixup. Criticality:
-**PERIPHERAL** (one PCI quirk / one model hint), but still a real
-shipped platform.
 
-Record: `[ALSA HDA conexant / OLPC XO] [PERIPHERAL]`
+Record: **[sound/pci/hda Realtek codec] [IMPORTANT]** — common laptop
+audio, not mm/core, but HD-audio quirks are a large fraction of stable
+backports. Affects users of this ASUS model.
 
 **Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-conexant.c still gets headset/LED/pin quirks. The OLPC block itself has
-been stable since 2014.
 
-Record: `[driver active; OLPC XO block mature]`
+Record: **Active but mature quirk table.** Recent commits are almost all
+device-specific `SND_PCI_QUIRK` additions — the same class as this
+patch.
 
----
-
-## PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
+PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
 
 **Step 8.1: DETERMINE WHO IS AFFECTED**
-OLPC XO-1.5 (`0x152d:0x0833`) and anyone forcing `model=olpc-xo` on a
-Conexant codec. Not a generic conexant bug.
 
-Record: `[driver/platform-specific; tiny population]`
+Record: **Driver/hardware-specific** — only ASUS SSID `0x1043:0x10c4`
+(Vivobook S14 S5406SA, ALC294). Other machines unchanged.
 
 **Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-NULL only if `snd_hda_add_new_path(0x1e, 0x14)` fails: unreachable NIDs
-(wrong hardware + olpc-xo fixup) or `snd_array_new()` ENOMEM. On real
-XO-1.5 the path was designed to exist; **no oops reports in ~12 years**.
-If it is NULL, codec init or first jack/capture hits it on the default
-`!dc_enable` branch. Unprivileged capture can trigger it once the
-pointer is NULL.
 
-Record: `[rare: ENOMEM or wrong model] [init/jack/capture] [unprivileged
-if already NULL]`
+Record: **Every use of the 3.5mm headset mic** on that laptop. Not a
+race. Unprivileged user hits it by recording from the headset. Internal
+DMIC still works, so some users workaround; headset-mic users do not.
 
 **Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-NULL deref in `snd_hda_activate_path` → kernel oops. Not data corruption
-or a security hole by itself.
 
-Record: `[oops] [HIGH if triggered; LOW likelihood on intended
-hardware]`
+Record: **[Headset analog capture silently fails] [MEDIUM functional /
+HIGH for affected hardware]** — not a panic/UAF, but the combo-jack mic
+is unusable, which is exactly what hardware-quirk stable exceptions
+cover. Confirmed by a real user; second report on Arch for the same
+SSID.
 
 **Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-- Benefit: prevents oops on a real (if narrow) error path; same pattern
-  already used for `path`.
-- Risk: two extra NULL tests; no API/lock/behavior change when the
-  pointer is valid.
-- Ratio: **low benefit, very low risk**. The crash-prevention bias still
-  favors taking it.
 
-Record: `[benefit: modest] [risk: very low] [favorable for a 4-line oops
-guard]`
+Record:
+- **Benefit:** High for owners of this laptop on 6.12 LTS (headset mic
+  works without a modprobe model override).
+- **Risk:** Very low — one table entry, existing fixup, SSID-matched,
+  maintainer-applied, user-tested.
+- **Ratio:** Strongly favors backport.
 
----
-
-## PHASE 9: FINAL SYNTHESIS
+===============================================================
+PHASE 9: FINAL SYNTHESIS
+===============================================================
 
 **Step 9.1: COMPILE THE EVIDENCE**
 
-FOR:
-- Verified unconditional deref in `snd_hda_activate_path()`
-  (`path->active = enable`)
-- `snd_hda_add_new_path()` documented to return NULL; return is stored
-  unchecked
-- Default `!dc_enable` path also calls activate, including codec init
-  via `update_automute_all()`
-- 4-line, obviously correct, matches existing `if (path)` in the same
-  function
-- No new API/feature; no dependency on the NAK’d 1/2
-- Buggy code has been in this tree’s lineage since v3.15; file exists
-  here
-- ALSA maintainer applied it
-- Crash-class failure if the pointer is NULL
+**FOR:**
+- Real, user-confirmed hardware bug (GitHub #5729; model param proven on
+  the same machine)
+- Classic HD-audio PCI quirk — stable exception category
+- One line, existing `ALC2XX_FIXUP_HEADSET_MIC` already in 6.12
+- ALC294 and Lunar Lake SOF support exist here
+- Isolated to one SSID; no API/feature
+- Applied by Takashi Iwai; no NAKs
+- Insertion context `0x10c0`/`0x10d0` matches this file
 
-AGAINST:
-- No `Reported-by`, syzbot, or stack trace in 12 years
-- Only OLPC XO-1.5 / `model=olpc-xo`
-- Same series’ patch 1 was a false positive NAK’d by Takashi (static-
-  analysis/LLM-style noise)
-- On intended hardware the 0x1e→0x14 path is expected to exist
-- Not nominated for stable in review
+**AGAINST:**
+- Upstream path is `alc269.c`; this tree still uses `patch_realtek.c`
+  (trivial remap)
+- Not a crash/security issue (quirks are still accepted)
+- Original patch had no Cc: stable (not a negative per the rules)
 
-UNRESOLVED:
-- HTTP lore.kernel.org/stable search (403); thread itself was recovered
-  with `b4`
+**UNRESOLVED:**
+- lore.kernel.org HTTP 403; stable@ discussion not fetched (thread
+  recovered via b4)
+- No upstream SHA in this checkout for `b4 dig -c`
 
 **Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — correct by inspection;
-   maintainer applied (no extra Tested-by)
-2. Fixes a real bug that affects users? **PASS** — real NULL-deref
-   defect; user population is small
-3. Important issue (crash, security, corruption, deadlock)? **PASS** —
-   oops if triggered (HIGH, narrow)
-4. Small and contained? **PASS** — 2 if-statements, one function
-5. No new features or APIs? **PASS**
-6. Can apply to the local tree? **PASS** — matching file and function in
-   7.3-rc4
+
+1. Obviously correct and tested? **PASS** — same fixup already in tree;
+   reporter confirmed `alc2xx-fixup-headset-mic`; maintainer applied it
+2. Fixes a real bug that affects users? **PASS** — silent headset-mic
+   capture on a shipping Lunar Lake ASUS
+3. Important issue? **PASS** under the hardware-quirk exception (device
+   feature broken; not cosmetic)
+4. Small and contained? **PASS** — +1 line
+5. No new features or APIs? **PASS** — existing quirk ID only
+6. Can apply to the local tree? **PASS** — needs path change to
+   `sound/pci/hda/patch_realtek.c`; context matches
 
 **Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-None (not a device ID, quirk table add, DT, build, or docs fix).
-Qualifies as a normal crash-prevention bugfix.
+
+Record: **Hardware quirk/workaround** (and PCI-ID-style table addition
+to an existing driver). Automatic YES class per the stable quirk rules.
 
 **Step 9.4: MAKE YOUR DECISION**
-The hardware audience is tiny and there is no field report, but the
-defect is a real oops on a reachable init/capture path, the patch is two
-NULL tests with essentially no regression surface, and it does not need
-the rejected sibling. For this tree, that meets stable rules. Borderline
-impact is resolved in favor of including a crash fix.
 
----
+This belongs on 6.12. The bug is present, the fixup infrastructure is
+present, Lunar Lake audio is present, and the change is a one-line SSID
+quirk that only enables headset-mic pin parsing on that laptop.
 
-## What the commit solves and why it matters here
+Verification:
+- [Phase 1] Parsed subject/tags: Fix + GitHub issue + msgid 3/4; no
+  Fixes/Cc:stable (expected)
+- [Phase 1] Body: ALC294 SSID 0x104310c4 headset mic silent; quirk
+  ALC2XX_FIXUP_HEADSET_MIC
+- [Phase 2] Diff: +1 SND_PCI_QUIRK(0x1043, 0x10c4, ...) in
+  alc269_fixup_tbl
+- [Phase 2] This tree implements that ID via alc_fixup_headset_mic():
+  pin 0x19 → 0x03a1103c + HDA_PINCFG_HEADSET_MIC
+- [Phase 3] 1c643c600407d (alc2xx-fixup-headset-mic model) is in HEAD;
+  upstream 50db91fccea0d is not an ancestor (expected 6.12 vs 6.13)
+- [Phase 3] git log --grep=S5406SA -- sound/pci/hda/: no matches; quirk
+  not already applied
+- [Phase 3] Series 1/4–4/4 are independent quirks; 3/4 is standalone
+- [Phase 4] b4 mbox 20260807125857.678297-3: Takashi Iwai applied all
+  four; no NAK
+- [Phase 4] GitHub #5729: reporter confirmed hda_model=alc2xx-fixup-
+  headset-mic restores capture
+- [Phase 4] lore.kernel.org WebFetch: 403 — UNVERIFIED via HTTP;
+  recovered via b4
+- [Phase 5] ALC294 → patch_alc269 →
+  snd_hda_pick_fixup(alc269_fixup_tbl); caller is codec probe
+- [Phase 5] ASUS ALC294 pin quirks do not match this machine (0x12 is
+  0x40000000)
+- [Phase 6] git describe HEAD: p-6.12-3-g710455e2077bb; make
+  kernelversion 6.12.111
+- [Phase 6] File is sound/pci/hda/patch_realtek.c; 0x10c0/0x10d0
+  neighbors match; 0x10c4 absent
+- [Phase 6] sound/soc/sof/intel/pci-lnl.c present (Lunar Lake SOF)
+- [Phase 8] Failure mode: silent analog headset mic, SSID-scoped;
+  severity medium functionally, high for that hardware
+- UNVERIFIED: whether stable@ already discussed this commit (lore 403)
 
-`cxt_fixup_olpc_xo()` stores `snd_hda_add_new_path(codec, 0x1e, 0x14,
-0)` in `spec->dc_mode_path` and never checks it.
-`olpc_xo_update_mic_pins()` later passes that pointer into
-`snd_hda_activate_path()`, which writes `path->active` immediately. That
-runs on codec init, jack autoswitch, and capture — even with DC mode
-off. If the path is missing (ENOMEM or `model=olpc-xo` on a codec
-without 0x1e→0x14), the result is an oops, not a clean skip.
-
-Stable users of this 7.3 line who have that quirk get a 4-line guard
-already used for the other path in the same function. Risk is
-negligible; the only real caveat is limited hardware, which is not a
-reason to leave a verified NULL deref unfixed.
-
----
-
-## Verification
-
-- [Phase 1] Parsed tags: author SOB, maintainer SOB, msgid Link
-  `...548050-2`; no Fixes/Reported-by/Cc stable
-- [Phase 2] Diff: two `if (spec->dc_mode_path)` wrappers in
-  `olpc_xo_update_mic_pins()`; +4/-2
-- [Phase 2] Read `snd_hda_activate_path()`: first use is `path->active =
-  enable` with no NULL check
-- [Phase 2] Read `snd_hda_add_new_path()`: documented NULL; also NULL on
-  unreachable path, `snd_array_new` failure, parse failure
-- [Phase 3] `git blame`: introducer `3a00c6605b7709` (2014); `git
-  describe --contains` → v3.15-rc1
-- [Phase 3] `git merge-base --is-ancestor 3a00c6605b7709 HEAD`: yes
-- [Phase 3] `git show 273806f38ce95^:sound/hda/codecs/conexant.c`:
-  confirmed unguarded calls before the fix
-- [Phase 3] No `Fixes:` tag to follow
-- [Phase 3] Author log on `sound/`: regular ALSA contributor; 2/2 series
-- [Phase 4] `b4 dig -c 273806f38ce95`:
-  https://patch.msgid.link/20260729070935.548050-2-wangdich9700@163.com
-- [Phase 4] `b4 dig -a`: v1 only
-- [Phase 4] `b4 dig -w`: tiwai, broonie, linux-sound, linux-kernel
-- [Phase 4] `b4 dig -m`: Takashi applied 2/2; NAK’d 1/2 EAPD overflow as
-  incorrect
-- [Phase 4] WebFetch lore.kernel.org: 403 — discussion taken from mbox
-  instead
-- [Phase 5] Callers of `olpc_xo_update_mic_pins`: automic, capture hook,
-  two mixer puts
-- [Phase 5] `update_automute_all()` → `call_mic_autoswitch()` from gen
-  init (generic.c:6029)
-- [Phase 5] Quirk: `SND_PCI_QUIRK(0x152d, 0x0833, "OLPC XO-1.5",
-  CXT_FIXUP_OLPC_XO)`; model `olpc-xo`
-- [Phase 6] `git describe HEAD` / `make kernelversion`: v7.3-rc4 /
-  7.3.0-rc4
-- [Phase 6] File present at `sound/hda/codecs/conexant.c`; pre-fix code
-  in parent of 273806f38ce95
-- [Phase 6] `git merge-base --is-ancestor 273806f38ce95 HEAD`: original
-  commit is in this history
-- [Phase 8] Failure mode: NULL deref oops; severity HIGH if hit,
-  population OLPC XO-1.5 / model override
-- UNVERIFIED: lore.kernel.org/stable HTTP search (403)
-- UNVERIFIED: whether 0x1e→0x14 is reachable on every CX codec if
-  someone forces `model=olpc-xo` (not required for the decision; ENOMEM
-  and missing-path cases are already documented in
-  `snd_hda_add_new_path()`)
-
-The fix is small, surgical, and meets the stable criteria for this tree.
+The one-line quirk is the standard stable HD-audio backport: it restores
+headset-mic capture on one confirmed laptop with negligible risk.
 
 **YES**
 
- sound/hda/codecs/conexant.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
-index fe7445fabb887..56d6fbdd9b06d 100644
---- a/sound/hda/codecs/conexant.c
-+++ b/sound/hda/codecs/conexant.c
-@@ -457,7 +457,8 @@ static void olpc_xo_update_mic_pins(struct hda_codec *codec)
- 	if (!spec->dc_enable) {
- 		/* disable DC bias path and pin for port F */
- 		update_mic_pin(codec, 0x1e, 0);
--		snd_hda_activate_path(codec, spec->dc_mode_path, false, false);
-+		if (spec->dc_mode_path)
-+			snd_hda_activate_path(codec, spec->dc_mode_path, false, false);
- 
- 		/* update port B (ext mic) and C (int mic) */
- 		/* OLPC defers mic widget control until when capture is
-@@ -493,7 +494,8 @@ static void olpc_xo_update_mic_pins(struct hda_codec *codec)
- 		update_mic_pin(codec, 0x1b, 0);
- 		/* enable DC bias path and pin */
- 		update_mic_pin(codec, 0x1e, spec->recording ? PIN_IN : 0);
--		snd_hda_activate_path(codec, spec->dc_mode_path, true, false);
-+		if (spec->dc_mode_path)
-+			snd_hda_activate_path(codec, spec->dc_mode_path, true, false);
- 	}
- }
- 
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 97ab2269dc472..8fdfe1bbe7aff 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7101,6 +7101,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x10a1, "ASUS UX391UA", ALC294_FIXUP_ASUS_SPK),
+ 	SND_PCI_QUIRK(0x1043, 0x10a4, "ASUS TP3407SA", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x1043, 0x10c0, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
++	SND_PCI_QUIRK(0x1043, 0x10c4, "ASUS Vivobook S14 S5406SA", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x10d0, "ASUS X540LA/X540LJ", ALC255_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x10d3, "ASUS K6500ZC", ALC294_FIXUP_ASUS_SPK),
+ 	SND_PCI_QUIRK(0x1043, 0x1154, "ASUS TP3607SH", ALC287_FIXUP_TAS2781_I2C),
 -- 
 2.53.0
 
