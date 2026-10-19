@@ -1,44 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D9754FEB5;
-	Mon, 19 Oct 2026 13:56:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3199F5166EB;
+	Mon, 19 Oct 2026 13:57:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418221; cv=none; b=PvKT4t2x2N7RWZTCX0aLi32aQPZafuM9Om+CmMKeB/lb6/CoQl97EXYiP2LaWhGHf3ox6k7ztEeoAyVdlmCjKdCW/sAIQ459+xaTVsOg9Xq04+NhVYV6eaUs1Tfp8V+LiJ4WQheVl6z0fsD0hxYKQFnN3ZKA8R/d8oGAbkVK+eY=
+	t=1792418237; cv=none; b=YnIreQZ/1KI+KHPfxN/qkT5sGUluBq1ywBiLsPRLgRkuD+rP4Yq0d6xMCbomG2rW3NzEN6LMVYSO4NuhQ9KRnd7lfjL7MseCYzm/ZPIjZ3uvjXsik68acV4kGWnXq0vJy0mViKIIksuXO5MxV8tzAQcVvlOemuBXQfFCFkPvUDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418221; c=relaxed/simple;
-	bh=n9wHKD2O9IpNjCp2rrC4hUtFJkVuW27YbDBf7dw322s=;
+	s=arc-20240116; t=1792418237; c=relaxed/simple;
+	bh=RFs5uFlalXGqx9N88N58xsb+5vzkPj50bTMdwXiPIeg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iZHNvb/yrlm4YphT0fAydjqotWJO5pDT6dn1YQzRKZbkbEcmVZaIMDtvYHMCG/BcxyRVmsWpM8STd80e6kuQr5D5gi5hyxNEg2xMw3oNSFO60QNHMnZtlgA+x1D30whV2oLHSaAfTYO4AfrBzH/NWL837PVewootkZKP+A1+jhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bXfBdrsr; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=RGqa8Xh+gszWBQbpdN7ZdSF6IoCaHcY75+YEqzgoIq8XR8PJNFW9wPfdPZlW+L3v6e5sko644Vss2Y5cDv6CYxw93LJkz82n8abFsq+cCE/1lS5V3tMO1wjT4pkNc+s5OuRTeEneNb9eRImEXbUAL9mHS1HQLBh+sulUswS3g8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SCJxTYLS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bXfBdrsr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3706B1F000C4;
-	Mon, 19 Oct 2026 13:56:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SCJxTYLS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 020AF1F000C5;
+	Mon, 19 Oct 2026 13:57:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418218;
-	bh=aIN5BhUeoH5hONmFrj7uiLaPc6hxPRvbFMgdVeU9bDU=;
+	s=k20260515; t=1792418234;
+	bh=v4Mta69ia7glAl/5rdNScM6vXNkJjJ7JytjXsu0GMmo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=bXfBdrsrRGgWDFqvbAMpfruuTrpZtIN/aI/EDW0POm+A+HaJLtp7BfTcVcGudtlVg
-	 RoOxqJI2Nihylg2E9kBhJ5rDLBiRR1jhj/SYc6pd8hItlwUiUia9F6QL0Ol6qX+V0Z
-	 dVp9ucunW8iEyfIra6iCzA0O1taz2CFd9aVwUxQyxIt4kqwVRxJtTOXEUwNc0l2FU7
-	 HxMQCAIqIc2fayo+w+v3kM91eKm20hJe4bESTEzVgeaZiSQG5OZcQN8KK0BIUkOhGv
-	 O0CP4aQYFsskF0Pb8lAMwv77SeD8xv3fnQGIlPwEg9PLgi+bm6e473wfGFs/B5X1eB
-	 aq2ywfIyKsz8A==
+	b=SCJxTYLSixX7GjLCTCdpGz2IjY6Aeg9kPcW0tmbafH68tAouwB7ij0USJ1gsXTk3/
+	 Tiz1tzv4OVlJplK6nLNTO+0VCuGfnV8KsbVYJkbQuWYwGnfz/vmptlPHDMFjPR9pwA
+	 nSrTepX1GXaz7p59C72OlhXiS5TkhG/i/HOmCTcjsMsYB+lOsnX4pGQQrRDcivzm6T
+	 UL+QuynVEoK5W9rtvm7G6l000NqMAppf8Yfi+1Vw/fa65Hgsd7vE4SunEeR6FLHhQ/
+	 f5vH9wneTDwe1yoTujlLVqRvt7Z4Mv/XaQEtnz2kUnhw3j7X4Wq98F4Q/wZ+zSsq7Q
+	 VyXyKdR7ct3FQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Bob Song <songxiebing@kylinos.cn>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Jack Yu <jack.yu@realtek.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	oder_chiou@realtek.com,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.15] ALSA: hda/realtek: add missing error checks for COEF index reads in alc269
-Date: Mon, 19 Oct 2026 09:46:27 -0400
-Message-ID: <20261019135441.1420968-96-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.12] ASoC: rt712-sdca: Pull high JD2 to prevent from entering TV mode
+Date: Mon, 19 Oct 2026 09:46:38 -0400
+Message-ID: <20261019135441.1420968-107-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -54,404 +56,330 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Bob Song <songxiebing@kylinos.cn>
+From: Jack Yu <jack.yu@realtek.com>
 
-[ Upstream commit 5b106b40ed22098f2bc049efb645148d038444bd ]
+[ Upstream commit dfb8bc1d286fd97b7cf47e3af5df84cfb068d214 ]
 
-alc_read_coef_idx() and alc_read_coefex_idx() can return -1 on error
-via snd_hda_codec_read(). Several codec initialization and shutdown
-functions save these return values and later write them back to
-hardware registers without checking for errors, potentially corrupting
-COEF register state on a read failure.
+Add a patch setting to prevent ALC712 from entering TV mode which
+may cause unexpected issues.
 
-Add error checks in:
-- alc282_init() and alc282_shutup(): check coef78 before write-back
-- alc285_hp_init(): check coef38/coef0d/coef36 before update, check
-  val before write-back, and break polling loop on error
-- alc294_hp_init(): break polling loop on read error
-
-Signed-off-by: Bob Song <songxiebing@kylinos.cn>
-Link: https://patch.msgid.link/20260730015302.253008-1-songxiebing@kylinos.cn
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Jack Yu <jack.yu@realtek.com>
+Link: https://patch.msgid.link/20260820092415.2979641-1-jack.yu@realtek.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This tree is **6.1.188**. The unguarded COEF save/restore paths are
-present in `sound/pci/hda/patch_realtek.c`, and the same class of bug
-already went to stable in 2014 because writing a failed COEF read can
-stall the codec.
+Local tree is **6.12.111** (`p-6.12-3-gc504cf0baa3d8`). The candidate is
+mainline `dfb8bc1d286fd97b7cf47e3af5df84cfb068d214`. It is not in this
+checkout; the VB init path it patches is.
 
 ## Phase 1: Commit message forensics
 
 **Step 1.1 — Subject**
-Record: `[ALSA/hda/realtek] [add] missing error checks for COEF index
-reads in alc269`
+- Record: `[ASoC/rt712-sdca] [Pull high] Pull JD2 high so ALC712 does
+  not enter TV mode`
 
 **Step 1.2 — Tags**
-Record:
-- `Signed-off-by: Bob Song <songxiebing@kylinos.cn>` (author)
-- `Link: https://patch.msgid.link/20260730015302.253008-1-
-  songxiebing@kylinos.cn`
-- `Signed-off-by: Takashi Iwai <tiwai@suse.de>` (ALSA maintainer)
-- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Cc:
-  stable` (absence expected)
-- Ignore any pipeline `Signed-off-by: Sasha Levin` / `[Upstream commit
-  ...]` if present
+- Record:
+  - `Signed-off-by: Jack Yu <jack.yu@realtek.com>` (vendor author)
+  - `Link: https://patch.msgid.link/20260820092415.2979641-1-
+    jack.yu@realtek.com`
+  - `Signed-off-by: Mark Brown <broonie@kernel.org>` (ASoC maintainer)
+  - No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-
+    by:`, or `Cc: stable` (absence is expected for this review)
+  - Pipeline `Signed-off-by: Sasha Levin` / `[Upstream commit ...]`
+    ignored
 
 **Step 1.3 — Body**
-Record:
-- Bug: `alc_read_coef_idx()` / `alc_read_coefex_idx()` can return `-1`
-  via `snd_hda_codec_read()`. Init/shutdown save that value and write it
-  back.
-- Symptom: COEF register corruption on read failure (wrong headphone-amp
-  / depop state; historically this class of write can stall the codec).
-- Root cause: missing `!= -1` checks on save/restore and on depop
-  polling.
-- No version bounds in the message.
+- Record:
+  - Bug: ALC712 can enter **TV mode** if JD2 is not pulled high
+  - Symptom: “unexpected issues” only — no stack trace, no jack/audio
+    failure description, no machine name
+  - Root cause (author): missing vendor register write during VB I/O
+    init
+  - Version info: none in the message; change is only in
+    `rt712_sdca_vb_io_init()`, so version B only
 
 **Step 1.4 — Hidden bug fix?**
-Record: Yes. “Add missing error checks” is a real error-path fix, not
-style. Same pattern as `alc_update_coefex_idx()` and
-`alc269_fill_coef()` in this tree.
+- Record: Not disguised cleanup. It is a vendor hardware workaround
+  worded as “add a patch setting.” That matches HDA/ASoC codec init
+  quirks, not a refactor.
 
 ## Phase 2: Diff analysis
 
 **Step 2.1 — Inventory**
-Record:
-- File in the candidate: `sound/hda/codecs/realtek/alc269.c` (`+14/-8`)
-- Functions: `alc282_init`, `alc282_shutup`, `alc285_hp_init`,
-  `alc294_hp_init`
-- Scope: single-file surgical fix
+- Record:
+  - `sound/soc/codecs/rt712-sdca.c`: +1 (write in
+    `rt712_sdca_vb_io_init`)
+  - `sound/soc/codecs/rt712-sdca.h`: +1 (`#define RT712_JD_CTL3 0x0b`)
+  - Scope: single-driver, two-line surgical change
 
-**Step 2.2 — Flow change**
-Record:
-- `alc282_init` / `alc282_shutup`: save coef 0x78, temporarily write
-  `0x9004`, then restore. After: restore only if `coef78 != -1`.
-- `alc285_hp_init`: depop poll `val & 0x8000` for up to 20×50ms, then
-  write `val` and restore coef 0x38/0x0d/0x36. After: stop poll on `-1`;
-  skip those writes if the saved/read value is `-1`.
-- `alc294_hp_init`: same poll pattern on bit `0x0080`; after: break on
-  `-1`. No val write-back here.
+**Step 2.2 — Flow**
+- Record: Before, VB init never programmed JD_CTL3. After, every
+  `rt712_sdca_vb_io_init()` call writes NID `RT712_VENDOR_REG` (0x20),
+  index 0x0b, value `0x7778` via existing `rt712_sdca_index_write()`.
+  The write is unconditional (not gated on
+  `FUNCTION_NEEDS_INITIALIZATION`), so it runs on first attach and later
+  re-init. Normal init path, not an error path.
 
 **Step 2.3 — Bug mechanism**
-Record: Logic / hardware-state corruption on error.
-- `codec_read()` in this tree returns `-1` when `snd_hdac_exec_verb()`
-  fails (`sound/hda/hdac_device.c`).
-- COEF payload is 16-bit, so `-1` becomes `0xFFFF` on write.
-- `alc_update_coef_idx(..., mask, coefXX)` with `coefXX == -1` does
-  `(current & ~mask) | 0xFFFFFFFF` and sets every bit.
-- `val & 0x8000` is true for `-1`, so the depop loop always runs the
-  full ~1s then writes `0xFFFF`.
+- Record: **Hardware workaround / codec quirk.** Jack-detect pin JD2 is
+  pulled high so the analog frontend stays out of TV (CE) jack mode. The
+  driver already uses JD1 for HP detection (`rt712->jd_src = RT712_JD1`;
+  enum has no JD2). This is the same class of change as HDA Realtek
+  pin/coef quirks.
 
 **Step 2.4 — Fix quality**
-Record: Obviously correct and matches existing `if (val != -1)` guards.
-Success path unchanged. Regression risk is low: skipping a restore when
-there is no valid saved value is safer than writing `0xFFFF`.
+- Record: Minimal and matches surrounding vendor init writes. Regression
+  risk is low: one extra MBQ register write at SoundWire attach.
+  Theoretical risk is a board that needed JD2 floating/low; this driver
+  does not implement JD2 as a jack source, and Realtek submitted the
+  value for all VB parts. Magic `0x7778` is undocumented but typical for
+  this driver.
 
 ## Phase 3: Git history
 
-**Step 3.1 — Blame / introduction**
-Record:
-- ALC282 save/restore: `7b5c7a0240b11` (2014) “Fix the noise after
-  suspend and resume on ALC282 codec” — ancestor of this HEAD.
-- ALC285 HP init: `3c24e48330adf` (2021) — ancestor of this HEAD.
-- 2014 COEF-guard: `f3ee07d8b6e06` “Avoid setting wrong COEF on ALC269 &
-  co” — ancestor of this HEAD; `Cc: stable`; documented that writing
-  after a `-1` read can stall the codec and broke resume on Acer AO725.
+**Step 3.1 — Blame**
+- Record: Insertion point in this tree is after the `func_status` debug
+  print, blamed to `936abb09c1c7c` (“ASoC: rt712-sdca: add the function
+  for version B”, Shuming Fan, 2024-06-20). `RT712_JD_CTL1` came from
+  that same commit. Driver itself landed in `6c39710da75ca` (2023-02).
+  VB init has been in 6.12 since the branch.
 
 **Step 3.2 — Fixes: tag**
-Record: None. The incomplete coverage of `f3ee07d8b6e06` is the
-historical analogue.
+- Record: None. Missing init is the “bug”; there is no later bisect
+  commit that introduced TV mode.
 
-**Step 3.3 — Related file history**
-Record: Recent `patch_realtek.c` commits are quirks, not this fix. `git
-log --grep="missing error checks"` / `"COEF index reads"` on this file:
-no hit. Candidate `5b106b40ed220` is **not** an ancestor of HEAD.
+**Step 3.3 — File history**
+- Record: Recent in this tree: `8ad30bd5c1088` (reset at io_init for
+  silent headphone, already backported; that is VA calibration, not this
+  JD2 write). No other JD_CTL3 work. Standalone, not patch X/Y.
 
 **Step 3.4 — Author**
-Record: Bob Song (Kylinos), not the ALSA maintainer. Takashi Iwai
-applied it after a v1→v2 split.
+- Record: Jack Yu is a Realtek ASoC contributor (`jack.yu@realtek.com`).
+  Other codec work in this tree includes rt722/rt5682s/rt5645 fixes.
+  Recipients in the original mail include Shuming Fan and other Realtek
+  codec people.
 
 **Step 3.5 — Dependencies**
-Record: Standalone. Needs only `alc_read_coef*_idx()` returning `-1`,
-which this tree already has. No new helpers.
+- Record: Needs `rt712_sdca_index_write()`, `RT712_VENDOR_REG`, and
+  `rt712_sdca_vb_io_init()` — all present. No new helpers. Applies
+  standalone.
 
-## Phase 4: Mailing list
+## Phase 4: Mailing list / external
 
 **Step 4.1 — Original discussion**
-Record: `b4 dig -c 5b106b40ed220` →
-https://patch.msgid.link/20260730015302.253008-1-songxiebing@kylinos.cn
-- v1 combined this with a `codec->bus->pci` NULL check.
-- Takashi: “Could you split the NULL check to another patch? Basically
-  it's a completely different sort of fix from others.”
-- v2: this COEF patch only. Takashi: “Applied to for-next branch.
-  Thanks.”
-- No NAK, no stable nomination, no reviewer concern about the COEF
-  checks.
+- Record: `b4 dig -c dfb8bc1d286fd97b7cf47e3af5df84cfb068d214` →
+  https://patch.msgid.link/20260820092415.2979641-1-jack.yu@realtek.com
+- `b4 dig -a`: **v1 only**, no later revision
+- Thread (mbox): patch + Mark Brown “Applied to … for-7.3”. **No NAK, no
+  review comments, no Cc: stable in review**
+- Takashi Iwai then included it in **sound fixes for 7.3-rc1** (LKML
+  pull, listed under “Codec fixes for … rt712 …”)
 
 **Step 4.2 — Recipients (`b4 dig -w`)**
-Record: `tiwai@suse.com`, `perex@perex.cz`, `linux-sound@`, `linux-
-kernel@`. Maintainer was To: and applied it.
+- Record: `broonie@kernel.org`, `lgirdwood@gmail.com`, `alsa-devel@alsa-
+  project.org`, Realtek codec engineers (`shumingf`, `flove`,
+  `oder_chiou`, `derek.fang`), MediaTek `Trevor.Wu`. ASoC maintainers
+  were on To.
 
 **Step 4.3 — Bug report**
-Record: No syzbot/bugzilla for *these* sites. The stall/resume failure
-for the same `-1` write pattern is documented in `f3ee07d8b6e06` /
-bugzilla 52181.
+- Record: No bugzilla/syzbot/user report. Symptom stays vendor-stated
+  “unexpected issues.”
 
 **Step 4.4 — Series**
-Record: v2 series patch 1/2 is this fix; patch 2/2 is the PCI NULL check
-(separate). This patch is self-contained.
+- Record: Standalone 1/1. Later mainline `d56fe35` (“reconfigure PLL2 to
+  fix calibration time-out”) is a **different** Jack Yu fix, not a
+  prerequisite or revert of JD_CTL3.
 
 **Step 4.5 — Stable list**
-Record: lore.kernel.org WebFetch returned 403 (Anubis). UNVERIFIED
-whether stable@ already discussed this specific commit. Full linux-sound
-thread was recovered via `b4 dig -m`.
+- Record: lore.kernel.org HTTP is 403 from this environment. No stable-
+  thread evidence found via b4. UNVERIFIED: whether anyone already asked
+  stable@ for this SHA.
 
-## Phase 5: Code semantics (this tree)
+## Phase 5: Semantic / call chain
 
 **Step 5.1 — Functions**
-Record: `alc282_init`, `alc282_shutup`, `alc285_hp_init`,
-`alc294_hp_init` in `sound/pci/hda/patch_realtek.c`.
+- Record: `rt712_sdca_vb_io_init()` only (plus header define).
 
-**Step 5.2 — Callers (verified)**
-Record:
-- `alc282_init` / `alc282_shutup`: codec `0x10ec0282` (`spec->init_hook`
-  / `spec->shutup`).
-- `alc285_hp_init`: from `alc225_init` on boot and S3/S4 resume (skipped
-  only for ALC287/ALC245).
-- `alc225_init`: ALC215/245/285/289, ALC225/295/299, ALC287.
-- `alc294_hp_init`: from `alc294_init` on boot / S4 restore;
-  ALC234/274/294 and ALC700.
-- `alc_init()` runs `spec->init_hook`; `.init = alc_init`.
-- `alc_suspend()` → `alc_shutup()` → `spec->shutup`; `alc_resume()` →
-  `patch_ops.init`.
+**Step 5.2 — Callers**
+- Record: `rt712_sdca_io_init()` → if `version_id != RT712_VA` →
+  `rt712_sdca_vb_io_init()`. `rt712_sdca_io_init()` is called from
+  `rt712_sdca_update_status()` in `rt712-sdca-sdw.c` when the SoundWire
+  slave is `SDW_SLAVE_ATTACHED` and `hw_init` is false. That is
+  boot/resume enumeration, not a syscall hot path.
 
 **Step 5.3 — Callees**
-Record: `alc_read_coef*_idx`, `alc_write_coef*_idx`,
-`alc_update_coef*_idx`, `snd_hda_codec_write`, `msleep`.
+- Record: `rt712_sdca_index_write()` → `regmap_write()` on `mbq_regmap`.
+  Same helper used throughout this file.
 
 **Step 5.4 — Reachability**
-Record: Yes. Probe, suspend, and resume on common Realtek laptop codecs.
-Not an obscure config path.
+- Record: Yes, from userspace-visible audio: plugging/using headset on
+  Intel SoundWire laptops with RT712 VB (ACPI match tables exist for
+  MTL/TGL/LNL in this tree). Unprivileged users do not program the
+  register; they hit it by using audio after attach.
 
 **Step 5.5 — Similar patterns**
-Record: Already guarded in this file:
-- `__alc_update_coefex_idx()`: `if (val != -1)`
-- `alc269_fill_coef()`: `if (val != -1 && ...)` before write
-These four functions were the remaining save/restore holes.
+- Record: Many sibling vendor `rt712_sdca_index_write()` calls in the
+  same function. No other `TV mode` / `JD_CTL3` in this tree. `0x7778`
+  appears in HDA `ALC256_FIXUP_ASUS_HPE` as an unrelated EAPD coef —
+  same number, different codec, not this bug.
 
-## Phase 6: This checkout (6.1.188)
+## Phase 6: This tree (6.12.y)
 
-**Step 6.1 — Does the buggy code exist?**
-Record: Yes. Unguarded write-backs:
-
-```3429:3431:sound/pci/hda/patch_realtek.c
-        /* Headphone capless set to normal mode */
-        alc_write_coef_idx(codec, 0x78, coef78);
-}
-```
-
-```3465:3468:sound/pci/hda/patch_realtek.c
-        alc_auto_setup_eapd(codec, false);
-        alc_shutup_pins(codec);
-        alc_write_coef_idx(codec, 0x78, coef78);
-}
-```
-
-```3718:3727:sound/pci/hda/patch_realtek.c
-        val = alc_read_coefex_idx(codec, 0x58, 0x00);
-        for (i = 0; i < 20 && val & 0x8000; i++) {
-                msleep(50);
-                val = alc_read_coefex_idx(codec, 0x58, 0x00);
-        } /* Wait for depop procedure finish  */
-
-        alc_write_coefex_idx(codec, 0x58, 0x00, val); /* write back the
-result */
-        alc_update_coef_idx(codec, 0x38, 1<<4, coef38);
-```
-
-Same unguarded poll in `alc294_hp_init`. Introduced 2014/2021; both are
-in this tree.
+**Step 6.1 — Buggy code present?**
+- Record: Yes. `rt712_sdca_vb_io_init()` at
+  `sound/soc/codecs/rt712-sdca.c:1721` has the exact pre-patch context.
+  `RT712_JD_CTL3` is **not** defined. `git merge-base --is-ancestor
+  dfb8bc1d… HEAD` fails (commit not here). `936abb09c1c7c` **is** an
+  ancestor. Bug/missing workaround exists since VB support (v6.11-era,
+  in 6.12).
 
 **Step 6.2 — Backport difficulty**
-Record: Minor path rework. Candidate path
-`sound/hda/codecs/realtek/alc269.c` does not exist here; equivalent code
-is `sound/pci/hda/patch_realtek.c`. Function bodies match the pre-patch
-logic. Not a semantic conflict.
+- Record: **Clean apply with line offset.** Mainline hunk is ~1779; here
+  the same lines are ~1734. Context strings match; `RT712_JD_CTL3` is
+  free in the header.
 
-**Step 6.3 — Already fixed here?**
-Record: No. `git merge-base --is-ancestor 5b106b40ed220 HEAD` failed. No
-later substitute fix in this file.
+**Step 6.3 — Related fixes already here?**
+- Record: `8ad30bd5c1088` resets the codec for VA silent headphones. It
+  does not pull JD2 / program JD_CTL3. No substitute for this
+  workaround.
 
 ## Phase 7: Subsystem
 
 **Step 7.1**
-Record: ALSA HD-audio Realtek codec. **IMPORTANT** (default audio on a
-huge set of laptops).
+- Record: ASoC codec driver (`sound/soc/codecs/`). Criticality:
+  **IMPORTANT** for SoundWire Intel laptops with RT712; not core mm/fs.
+  Peripheral relative to the whole kernel, but a shipping laptop codec.
 
 **Step 7.2**
-Record: Mature driver; current 6.1.y activity is mostly quirks. These
-init/shutup paths have been stable for years, which is why leftover `-1`
-write-backs still matter.
+- Record: Driver is mature in 6.12 (added 2023, VB in 2024). This is a
+  late vendor init correction, not churn from a brand-new subsystem.
 
 ## Phase 8: Impact and risk
 
 **Step 8.1 — Who**
-Record: Users of ALC282, ALC215/225/285/289, ALC225/295/299,
-ALC234/274/294, ALC700 — typical `CONFIG_SND_HDA_CODEC_REALTEK` x86
-laptops.
+- Record: Config `SND_SOC_RT712_SDCA_SDW` + RT712/713/716/717 **version
+  B** on SoundWire (Intel MTL/TGL/LNL match files in-tree). Not
+  universal.
 
 **Step 8.2 — Trigger**
-Record: Codec COEF read returns `-1` (verb timeout, invalid COEF on a
-variant, flaky link during suspend/resume). Not an unprivileged syscall
-exploit; it is a common device PM path.
+- Record: Device attach / `io_init`. Common for those machines. Not a
+  race. Not unprivileged memory-safety.
 
 **Step 8.3 — Failure mode**
-Record: Wrong COEF restore / depop result. Severity **HIGH** for audio:
-headphone noise, failed depop, or codec stall (the failure
-`f3ee07d8b6e06` already shipped to stable). Not a kernel oops by itself.
+- Record: Author did not specify. For Realtek PC codecs, TV mode
+  typically means **wrong jack detect / headset routing / analog
+  misbehavior**, not an oops. Severity **MEDIUM** as described, **HIGH**
+  if it silences the jack on real VB laptops. Exact user symptom is
+  **not independently verified**.
 
-**Step 8.4 — Ratio**
-Record: Benefit medium-high (PM path on common hardware, same class as a
-prior stable fix). Risk very low (~14 lines of `!= -1` guards, success
-path identical).
+**Step 8.4 — Benefit vs risk**
+- Record: Benefit: hardware init correction from the vendor, 2 lines,
+  same class as HDA/USB quirks that stable takes. Risk: very low (one
+  init write, no locking/API change). Ratio favors backport.
 
 ## Phase 9: Synthesis
 
 **Evidence FOR**
-- Real write of error sentinel `-1`/`0xFFFF` into codec COEF state.
-- `alc_update_coef_idx(..., saved)` with `saved == -1` sets all bits on
-  a register that may still be readable.
-- Depop poll treats `-1` as “still busy” for a full second.
-- Same class as `f3ee07d8b6e06` (codec stall / resume failure, `Cc:
-  stable`).
-- Small, obviously correct, maintainer-applied.
-- Buggy functions exist in this 6.1.188 tree and are not fixed.
+- Two-line vendor codec workaround; hardware-quirk exception in the
+  stable rules
+- Target function and surrounding init sequence exist in 6.12
+- Applies with offset only
+- ASoC maintainer applied it; it went in **sound fixes for 7.3-rc1**
+- RT712 is used on current Intel SoundWire laptops; this tree already
+  took a related headphone-init fix
+- Driver defaults to JD1; pulling unused JD2 high is consistent with
+  PC/laptop use
 
 **Evidence AGAINST**
-- No user report for these four sites.
-- Exact patch needs a file-path backport (`alc269.c` →
-  `patch_realtek.c`).
-- Static-analysis style; trigger is an already-failing verb.
+- Commit text is vague (“may cause unexpected issues”); no reporter, no
+  machine, no crash
+- Not a UAF/deadlock/corruption class bug
+- Magic coef with no bit documentation
+- VB-only (VA machines, e.g. some Lunar Lake ThinkPads, are unaffected)
 
 **Unresolved**
-- lore.kernel.org HTTP 403 for stable@ search (thread itself was
-  retrieved with b4).
+- Exact user-visible TV-mode symptom (UNVERIFIED)
+- Whether stable@ already discussed this SHA (lore HTTP 403)
 
-**Stable rules**
-1. Obviously correct and tested? **PASS** (maintainer applied v2;
-   success path unchanged)
-2. Real user-visible bug? **PASS** (bad COEF restore on
-   init/suspend/resume)
-3. Important (stall / broken audio / register corruption)? **PASS**
-   (same class as the 2014 stable COEF-stall fix)
-4. Small and contained? **PASS** (`+14/-8`, four local checks)
-5. No new features/APIs? **PASS**
-6. Can apply here? **PASS** with a trivial path backport to
-   `patch_realtek.c`
+**Stable rules checklist**
+1. Obviously correct and tested? **PASS** — one existing helper write;
+   vendor + Mark Brown; no NAK
+2. Real bug affecting users? **PASS** — missing hardware init that lets
+   the codec enter the wrong analog mode (vendor statement; typical
+   jack/headset breakage, not proven with a public report)
+3. Important? **PASS** under the **audio codec quirk** exception
+   (headphone/JD misconfig), not as a panic/CVE
+4. Small and contained? **PASS** — +2 lines, one driver
+5. No new features/APIs? **PASS** — existing init path, existing write
+   helper
+6. Can apply to this tree? **PASS** — context matches; JD_CTL3 unused
 
-**Exception category:** none (not an ID/quirk/DT/build/docs exception).
-It is a normal small bugfix.
+**Exception category:** Hardware workaround / audio codec quirk (JD pin
+config), analogous to HDA Realtek coef/pin quirks.
 
-This should go into this 6.1.188 tree. The bug is in the local
-`alc282_*` / `alc285_hp_init` / `alc294_hp_init` paths; the fix is a few
-`!= -1` guards that this tree already uses elsewhere.
+This is a contained vendor register quirk for hardware that 6.12 already
+supports. Benefit is correct analog/jack behavior on RT712 VB; risk is a
+single init write. It should be backported to this tree.
 
 Verification:
-- [Phase 1] Parsed tags: author Bob Song; Link msgid; SOB Takashi Iwai;
-  no Fixes/Reported-by/Cc stable
-- [Phase 2] Diff: 14 insertions / 8 deletions; four functions; skip
-  write-back and stop poll on `-1`
-- [Phase 2] `codec_read()` in this tree returns `-1` on
-  `snd_hdac_exec_verb()` failure (`sound/hda/hdac_device.c:988-997`)
-- [Phase 3] `git merge-base --is-ancestor 7b5c7a0240b11 HEAD` — yes
-  (ALC282 write-back, 2014)
-- [Phase 3] `git merge-base --is-ancestor 3c24e48330adf HEAD` — yes
-  (alc285_hp_init, 2021)
-- [Phase 3] `git merge-base --is-ancestor f3ee07d8b6e06 HEAD` — yes
-  (2014 COEF-guard, Cc:stable, codec stall)
-- [Phase 3] `git merge-base --is-ancestor 5b106b40ed220 HEAD` — no (fix
-  not in this tree)
-- [Phase 4] `b4 dig -c 5b106b40ed220`: v1 split requested, v2 applied;
-  no NAK
-- [Phase 4] UNVERIFIED: lore.kernel.org/stable search (HTTP 403)
-- [Phase 5] Callers: `alc_init` → init_hook; `alc_suspend` → shutup;
-  `alc_resume` → init; vendor IDs 0x10ec0282 / 0215 / 0225 / 0234 / 0285
-  / 0294 / …
-- [Phase 6] `git describe HEAD`: `p-6.1-2-g8ee893656ef69`; `make
-  kernelversion`: **6.1.188**
-- [Phase 6] Buggy code present in `sound/pci/hda/patch_realtek.c` lines
-  3430, 3467, 3719-3727, 3992
-- [Phase 6] Target file `sound/hda/codecs/realtek/alc269.c` missing
-  here; equivalent functions exist
-- [Phase 8] Failure mode: COEF corruption / possible codec stall on
-  resume; severity HIGH for audio, not a kernel oops
+- [Phase 1] Parsed subject/tags/body from the provided message and
+  GitHub `dfb8bc1d286fd97b7cf47e3af5df84cfb068d214`
+- [Phase 2] Diff is +1 write in `rt712_sdca_vb_io_init` and +1 `#define
+  RT712_JD_CTL3 0x0b`
+- [Phase 3] `git blame` on this tree: insertion point from
+  `936abb09c1c7c` (2024-06-20); `git merge-base --is-ancestor
+  936abb09c1c7c HEAD` true
+- [Phase 3] `git merge-base --is-ancestor
+  dfb8bc1d286fd97b7cf47e3af5df84cfb068d214 HEAD` false (not in 6.12)
+- [Phase 3] `git log --oneline -20 -- sound/soc/codecs/rt712-sdca.c`:
+  related `8ad30bd5c1088` is a different VA reset fix
+- [Phase 4] `b4 dig -c dfb8bc1d…` / `-a` / `-w` / `-m`: v1, alsa-devel,
+  applied by Mark Brown to for-7.3; no NAK
+- [Phase 4] LKML: Takashi listed this under 7.3-rc1 sound fixes
+- [Phase 4] lore.kernel.org WebFetch/curl: 403
+- [Phase 5] Callers: `rt712_sdca_update_status` → `rt712_sdca_io_init` →
+  `rt712_sdca_vb_io_init`; intel ACPI match files reference rt712
+- [Phase 6] `git describe HEAD` / `make kernelversion`: 6.12.111; hunk
+  context present; `RT712_JD_CTL3` absent
+- [Phase 8] Failure mode: TV-mode analog/JD misbehavior (vendor); not a
+  kernel oops — UNVERIFIED exact symptom
+- UNVERIFIED: datasheet meaning of `0x7778`; whether every VB board
+  needs it; stable@ discussion
 
 **YES**
 
- sound/hda/codecs/realtek/alc269.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+ sound/soc/codecs/rt712-sdca.c | 1 +
+ sound/soc/codecs/rt712-sdca.h | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index d88627558150f..3364f6ad91fcb 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -296,7 +296,8 @@ static void alc282_init(struct hda_codec *codec)
- 		msleep(100);
+diff --git a/sound/soc/codecs/rt712-sdca.c b/sound/soc/codecs/rt712-sdca.c
+index d8b40663fa92f..a799b8aab73aa 100644
+--- a/sound/soc/codecs/rt712-sdca.c
++++ b/sound/soc/codecs/rt712-sdca.c
+@@ -1786,6 +1786,7 @@ static void rt712_sdca_vb_io_init(struct rt712_sdca_priv *rt712)
+ 	dev_dbg(dev, "%s jack/mic/amp func_status=0x%x, 0x%x, 0x%x\n",
+ 		__func__, jack_func_status, mic_func_status, amp_func_status);
  
- 	/* Headphone capless set to normal mode */
--	alc_write_coef_idx(codec, 0x78, coef78);
-+	if (coef78 != -1)
-+		alc_write_coef_idx(codec, 0x78, coef78);
- }
- 
- static void alc282_shutup(struct hda_codec *codec)
-@@ -333,7 +334,8 @@ static void alc282_shutup(struct hda_codec *codec)
- 
- 	alc_auto_setup_eapd(codec, false);
- 	alc_shutup_pins(codec);
--	alc_write_coef_idx(codec, 0x78, coef78);
-+	if (coef78 != -1)
-+		alc_write_coef_idx(codec, 0x78, coef78);
- }
- 
- static const struct coef_fw alc283_coefs[] = {
-@@ -585,15 +587,19 @@ static void alc285_hp_init(struct hda_codec *codec)
- 
- 	alc_write_coefex_idx(codec, 0x58, 0x00, 0xf888); /* HP depop procedure start */
- 	val = alc_read_coefex_idx(codec, 0x58, 0x00);
--	for (i = 0; i < 20 && val & 0x8000; i++) {
-+	for (i = 0; i < 20 && val != -1 && val & 0x8000; i++) {
- 		msleep(50);
- 		val = alc_read_coefex_idx(codec, 0x58, 0x00);
- 	} /* Wait for depop procedure finish  */
- 
--	alc_write_coefex_idx(codec, 0x58, 0x00, val); /* write back the result */
--	alc_update_coef_idx(codec, 0x38, 1<<4, coef38);
--	alc_update_coef_idx(codec, 0x0d, 0x110, coef0d);
--	alc_update_coef_idx(codec, 0x36, 3<<13, coef36);
-+	if (val != -1)
-+		alc_write_coefex_idx(codec, 0x58, 0x00, val); /* write back the result */
-+	if (coef38 != -1)
-+		alc_update_coef_idx(codec, 0x38, 1<<4, coef38);
-+	if (coef0d != -1)
-+		alc_update_coef_idx(codec, 0x0d, 0x110, coef0d);
-+	if (coef36 != -1)
-+		alc_update_coef_idx(codec, 0x36, 3<<13, coef36);
- 
- 	msleep(50);
- 	alc_update_coef_idx(codec, 0x4a, 1<<15, 0);
-@@ -858,7 +864,7 @@ static void alc294_hp_init(struct hda_codec *codec)
- 
- 	/* Wait for depop procedure finish  */
- 	val = alc_read_coefex_idx(codec, 0x58, 0x01);
--	for (i = 0; i < 20 && val & 0x0080; i++) {
-+	for (i = 0; i < 20 && val != -1 && val & 0x0080; i++) {
- 		msleep(50);
- 		val = alc_read_coefex_idx(codec, 0x58, 0x01);
- 	}
++	rt712_sdca_index_write(rt712, RT712_VENDOR_REG, RT712_JD_CTL3, 0x7778);
+ 	/* DMIC */
+ 	if ((mic_func_status & FUNCTION_NEEDS_INITIALIZATION) || (!rt712->first_hw_init)) {
+ 		rt712_sdca_index_write(rt712, RT712_VENDOR_HDA_CTL, RT712_DMIC2_FU_IT_FLOAT_CTL, 0x1526);
+diff --git a/sound/soc/codecs/rt712-sdca.h b/sound/soc/codecs/rt712-sdca.h
+index 7ab7d5feb50a2..46740281a5c17 100644
+--- a/sound/soc/codecs/rt712-sdca.h
++++ b/sound/soc/codecs/rt712-sdca.h
+@@ -74,6 +74,7 @@ struct rt712_dmic_kctrl_priv {
+ #define RT712_JD_PRODUCT_NUM			0x00
+ #define RT712_ANALOG_BIAS_CTL3			0x04
+ #define RT712_JD_CTL1				0x09
++#define RT712_JD_CTL3				0x0b
+ #define RT712_IO_CTL				0x0c
+ #define RT712_LDO2_3_CTL1			0x0e
+ #define RT712_PARA_VERB_CTL			0x1a
 -- 
 2.53.0
 
