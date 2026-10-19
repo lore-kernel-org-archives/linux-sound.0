@@ -1,77 +1,76 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768464DCB05;
-	Mon, 19 Oct 2026 14:24:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA5D4F183F;
+	Mon, 19 Oct 2026 14:27:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792419865; cv=none; b=bVunbbD83S5KtHYdFc4cIa6TxtBv4EtT9DAgBB6UN6Wh8k/Q/aC64sBlHVQR78i+JOoAQCsD8U7q1guQ3ZSXOldzqDcarx9AAIDI8Al8mpv3fUJVkrjR/0pBZg3ARadvvfwHeXfkxrm3JhezE+sK8ogG2s8gVo9FPkGORTDj684=
+	t=1792420035; cv=none; b=ANOcF9J6YkHqzMcNBBQyPp+2L3eT9IAF8J9WxHgKR4DJ1oohju4I8XPZKczu7udWcGCqjLbFC2GyppvSPv95Xozgin1L/BqGI4JIEnFjxsXxn+OgxNNnjrq4ywzGhD4oHplcATcJgP42vmJfFKwUUom6PBbqSOYl19jUg6udbQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792419865; c=relaxed/simple;
-	bh=3B7MdByhrk1EPptVvUzibw3UCMpOimig5+KAKzMrv7E=;
+	s=arc-20240116; t=1792420035; c=relaxed/simple;
+	bh=fE8YliARBcejpVDVSUFjtkET5cfYYsMdzGxAWb8nalE=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BnX7gDGP1OtQVXu9k1H+fOa2MtAXLYUODuTSWIqrleaxdlQfYytYExBkUGQF3MwgeBqO+eU77F/3nOS0Od3wNC4W4adZQXRgbohbRokdttu6VvFhh1YmNYfz1CQlVd7uL+z6vDPGPm2R2uKk27wO++mD67Btm5OMigPHj6ekSrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ue6iEI6Y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cjR2H2CO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ue6iEI6Y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cjR2H2CO; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=WMpyssHfe5zrGlrMTgkiNmr/tH+Pxuc5xywAnFAjFoz9X7abHutAfw5KURMTj7ydCDE19G/W3LX86FtPlaIvVHguiDUlmI+NuW8FtJ9oOnb7luudzPpD4RuZmwjDvjeds4bYqXSaQIk0DM8+4+Uat3CiQ8kgxAcRcsdA3gtKP54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QGBXnh1x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ExcsGnVW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QGBXnh1x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ExcsGnVW; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ue6iEI6Y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cjR2H2CO";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ue6iEI6Y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cjR2H2CO"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QGBXnh1x";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ExcsGnVW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QGBXnh1x";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ExcsGnVW"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 839121F444;
-	Mon, 19 Oct 2026 14:24:22 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9AEAF1F7A2;
+	Mon, 19 Oct 2026 14:27:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792419862; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792420032; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RQLVvVc/eHmNiNUzGm2R6MgNdvxEfxgILqRlIV9WxuU=;
-	b=ue6iEI6YZGF3kxLC1V0AkJbq/pKtcwFUPQIPj220eDldbwMnmrvT/8m0y8xnUdKKrWTMrX
-	VnT9DOb2YK/2lXIm3gP5Zoe2aq6WnZZIyOKsqn3l4/ctgJNMbnf9IgYiwCqN9DuI/1cI5z
-	cqXkPar4bNqXew4DU1Wk/d7MP+etdZs=
+	bh=Z3KIrH4FhdU9IDzA6AC2t/4xN4JectowNV3AfnWmucY=;
+	b=QGBXnh1xP2q0+bIcqpFHLUuLlIRBjGbsC9ECl+jXmw3K3USQG9p3YDY7zL4G7kSjTE5EUo
+	YXuQzAIHPiugS36ufpxSmrk5OIHYg1M8+t93C/DzxsVvIELQFeQLqsTbSpi56OaJlQvuTB
+	kWZ4Plk1OCzS8+LObhN9WyxnqJjE95g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792419862;
+	s=susede2_ed25519; t=1792420032;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RQLVvVc/eHmNiNUzGm2R6MgNdvxEfxgILqRlIV9WxuU=;
-	b=cjR2H2COztLY2Lan0A/gb6zABAFDt3n2qQ14ueSz/Ifit3SiJ+tv69giMxtjjXj6YDXmND
-	mCMOObc4X4OMWQCA==
+	bh=Z3KIrH4FhdU9IDzA6AC2t/4xN4JectowNV3AfnWmucY=;
+	b=ExcsGnVWZ18EvLdaP7rLqeQvSIPuZ6LTEqXYmzRddnXr877pEVvaJPabYfBdv5IGBSQMNU
+	YHLRKa/AMxw7bmDw==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ue6iEI6Y;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=cjR2H2CO
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792419862; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792420032; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RQLVvVc/eHmNiNUzGm2R6MgNdvxEfxgILqRlIV9WxuU=;
-	b=ue6iEI6YZGF3kxLC1V0AkJbq/pKtcwFUPQIPj220eDldbwMnmrvT/8m0y8xnUdKKrWTMrX
-	VnT9DOb2YK/2lXIm3gP5Zoe2aq6WnZZIyOKsqn3l4/ctgJNMbnf9IgYiwCqN9DuI/1cI5z
-	cqXkPar4bNqXew4DU1Wk/d7MP+etdZs=
+	bh=Z3KIrH4FhdU9IDzA6AC2t/4xN4JectowNV3AfnWmucY=;
+	b=QGBXnh1xP2q0+bIcqpFHLUuLlIRBjGbsC9ECl+jXmw3K3USQG9p3YDY7zL4G7kSjTE5EUo
+	YXuQzAIHPiugS36ufpxSmrk5OIHYg1M8+t93C/DzxsVvIELQFeQLqsTbSpi56OaJlQvuTB
+	kWZ4Plk1OCzS8+LObhN9WyxnqJjE95g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792419862;
+	s=susede2_ed25519; t=1792420032;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RQLVvVc/eHmNiNUzGm2R6MgNdvxEfxgILqRlIV9WxuU=;
-	b=cjR2H2COztLY2Lan0A/gb6zABAFDt3n2qQ14ueSz/Ifit3SiJ+tv69giMxtjjXj6YDXmND
-	mCMOObc4X4OMWQCA==
+	bh=Z3KIrH4FhdU9IDzA6AC2t/4xN4JectowNV3AfnWmucY=;
+	b=ExcsGnVWZ18EvLdaP7rLqeQvSIPuZ6LTEqXYmzRddnXr877pEVvaJPabYfBdv5IGBSQMNU
+	YHLRKa/AMxw7bmDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 311A6136CC;
-	Mon, 19 Oct 2026 14:24:22 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 487A4136CC;
+	Mon, 19 Oct 2026 14:27:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Jw0cAhYo1mqLZAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 19 Oct 2026 14:24:22 +0000
-Date: Mon, 19 Oct 2026 16:24:21 +0200
-Message-ID: <874iehahuy.wl-tiwai@suse.de>
+	id LSjkB8Ao1mqpZwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 19 Oct 2026 14:27:12 +0000
+Date: Mon, 19 Oct 2026 16:27:11 +0200
+Message-ID: <8733u1ahq8.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: Cen Zhang <zzzccc427@gmail.com>
 Cc: perex@perex.cz,
@@ -80,9 +79,9 @@ Cc: perex@perex.cz,
 	linux-kernel@vger.kernel.org,
 	baijiaju1990@gmail.com,
 	jjzuming@gmail.com
-Subject: Re: [PATCH] ALSA: pcm: Remove channel-map controls before freeing substreams
-In-Reply-To: <pm-pmb-4a207d9ef3a3597a74a4-v4-80b0113669b1a62fbbe9@gmail.com>
-References: <pm-pmb-4a207d9ef3a3597a74a4-v4-80b0113669b1a62fbbe9@gmail.com>
+Subject: Re: [PATCH] ALSA: jack: Pin the module while debugfs files are open
+In-Reply-To: <pm-pmb-431ddb947e1a13b95d3a-v3-02d37dd7b4eb4774e100@gmail.com>
+References: <pm-pmb-431ddb947e1a13b95d3a-v3-02d37dd7b4eb4774e100@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -91,89 +90,77 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.51 / 50.00];
+X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.980];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_SEVEN(0.00)[7];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,gmail.com];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.30
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 839121F444
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On Mon, 19 Oct 2026 12:01:46 +0200,
+On Mon, 19 Oct 2026 12:30:54 +0200,
 Cen Zhang wrote:
 > 
-> A late HDA codec bind on an already registered card builds new PCMs
-> before registering them. add_std_chmaps() publishes generic channel-map
-> controls during this BUILD stage. If an earlier chmap succeeds and a
-> later allocation fails, probe cleanup frees the BUILD PCM while the
-> card's control device remains accessible.
+> With CONFIG_SND=m and CONFIG_SND_JACK_INJECTION_DEBUG enabled, an in-tree
+> HDA jack creates these debugfs files through snd_jack_new() and
+> snd_jack_add_debugfs(). Their file_operations live in snd, but none sets
+> .owner. full_proxy_open_regular() therefore takes no snd module reference
+> when it calls fops_get(real_fops).
 > 
-> These generic controls are added directly by snd_pcm_add_chmap_ctls();
-> snd_hda_ctls_clear() only removes codec-tracked mixer controls. BUILD
-> devices also skip dev_disconnect. snd_pcm_free_stream() then frees the
-> substreams before free_chmap() withdraws their generic control:
+> A debugfs descriptor can outlive removal of its HDA card. Once the card
+> and dependent modules, including the OSS emulation modules, have been
+> removed, snd can be unloaded while that descriptor is still open:
 > 
->   Late HDA codec bind / rollback        Control GET on the live card
->   ------------------------------       ----------------------------
->   hda_codec_driver_probe()
->     snd_hda_codec_build_pcms()
->       PCM is BUILD
->     snd_hda_codec_build_controls()
->       add_std_chmaps()
->         publish an earlier chmap
->         later allocation: -ENOMEM
->     snd_hda_codec_cleanup_for_unbind()
->       snd_hda_ctls_clear()
->         generic chmap remains
->       codec_release_pcms()
->         snd_device_free()
->           BUILD: skip dev_disconnect
->           snd_pcm_free_stream()
->             kfree(substream)
->                                        snd_ctl_elem_read()
->                                          down_read(controls_rwsem)
->                                          pcm_chmap_ctl_get()
->                                            walk freed substream
->             free_chmap()
->               snd_ctl_remove()
->                 wait for GET
->                                          up_read(controls_rwsem)
+>   Descriptor holder                   Card/module teardown
+>   -----------------                   --------------------
+>   open jack debugfs file
+>     full_proxy_open_regular()
+>       fops_get(real_fops)
+>         owner == NULL: no snd pin
+>   keep descriptor open
+>                                       remove HDA card
+>                                         snd_card_disconnect()
+>                                           snd_jack_dev_disconnect()
+>                                           remove debugfs nodes
+>                                         snd_jack_dev_free()
+>                                       unload dependent modules
+>                                       rmmod snd
+>                                         alsa_sound_exit()
+>                                         free_module(): unmap snd
+>   close descriptor
+>     full_proxy_release()
+>       read real_fops->release
+>       fops_put(real_fops)
+>         read real_fops->owner
 > 
-> The control read lock cannot protect a substream already freed before
-> control removal starts. The failure above occurs before
-> snd_card_register(), so the PCM has not transitioned out of BUILD.
+> debugfs_remove() drains active operations, but does not wait for idle
+> open descriptors. Release deliberately bypasses removal protection and
+> reads the real table even when no release callback is installed. The
+> last close can therefore access unloaded snd storage.
 > 
-> Move free_chmap() before the substream free loop. Its snd_ctl_remove()
-> withdraws the control and drains readers under controls_rwsem before any
-> substream is released. Normal registered-device disconnect already
-> removes the control, so the later call remains harmless on that path.
+> Set .owner to THIS_MODULE in all six tables. The existing proxy
+> fops_get()/fops_put() pair then keeps snd loaded through the final table
+> access on close.
 > 
-> Fixes: 2d3391ec0ecc ("ALSA: PCM: channel mapping API implementation")
+> Fixes: 2d670ea2bd53 ("ALSA: jack: implement software jack injection via debugfs")
 > Assisted-by: LLM
 > Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 
