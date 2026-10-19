@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE3553875B;
-	Mon, 19 Oct 2026 14:04:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44700627654;
+	Mon, 19 Oct 2026 14:04:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418681; cv=none; b=M/O0ZSdK3K50IYKthoXdXUZbxEWcxPvwBN/xuPrvcdlLJIYv8sJQoVfXYDJuuRCtDKEC9P/c8ul9w+q9+wMatXOYYOomrMOBZ14KoOL+9oZU7MtcbwN6aXf3zYBDRLatr7OTR3FtcbI7qNShd/OMKNuTs3P3S9gClD40c447LSc=
+	t=1792418699; cv=none; b=kk271SLcNUj9ftGK20a1XaQEh44ymFrmv/7RUU/Ulmd3SO0INgDkd/DZFJMkxqSph33hTDPg6CYqusc5+gvoCq+rGdRU0Phoox15ym348nBCmBwJiJcTEC/r6EvGiHl6kh4Yl4YarmJ631Y6O/TYlOFuA7gAIBJQyCULbuThBQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418681; c=relaxed/simple;
-	bh=jrQMOA/SM4mc01xbFxhcMqq6uwiY2uRcd+zxTo7vtqc=;
+	s=arc-20240116; t=1792418699; c=relaxed/simple;
+	bh=fdclUztKHOxysPsqPkNKnP+Nnp3EMrRE7VdWbokhunU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mdydJ9MFpZ6Bw+hwXyXUQgwaLRB1VM7T/92dqgVYQSYCd2p6hU+10eU0QRtp8dyidQH0j+3EsX5lM5HS/GGTRUhqEEBnH28/DmqSTZ7nZHkQCZpCjPhLhRFpvD/dIDPnWJcGnUfzZDsWFHiIjkDpqb0/3FytJMkkSfAgq9r1r9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FYh1Z35Y; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=ErM0SU/E3oKcGYUf7SvgGOI9dXMOb/zBNKn4wWQ7DhRp2CA4ywcvnDw/WC2FQm0Kam8eBnEvGOO07jieC8wzqCYp07WBUp/ugwBOlOMjCg8cJBQPcxQU3AloG+y5323lVReoDICvDdvI9MQY/z1xnOGrtfdXBsoF957gs5f74mE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TWjF38Ox; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FYh1Z35Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B43161F000C4;
-	Mon, 19 Oct 2026 14:04:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TWjF38Ox"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED7AB1F000C4;
+	Mon, 19 Oct 2026 14:04:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418678;
-	bh=1GBZygteAOTn7BJ5HKhZvdqg98ATeVmYxOHQkitqReU=;
+	s=k20260515; t=1792418695;
+	bh=4AdxQeZ+LnvU8WG+89zA2z/g+W4O/ODmeHPECJ2OOj4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=FYh1Z35YrvPMr2AKY+hn/4u/rj/z6BSpBvwvu4oQ8uI4SWQjnUvKVmMfT3obnVV6K
-	 oHFlE+k63RpPibpVOpFkxfpSnSWOZT7FRgL7sfwqkRMoKAnNXLT7d9yFT4EshAEEt4
-	 7Nz160dkmxxIqUtm59AXwzGWiNoEJML6HEd2X45E1LVLRBe/ipCfWOEMd19rj0iXLk
-	 2qQNy7ksTh4/i8r1E2INXkSCLXQMl7Cg/rmnDLvwj2KK0+oJJvjryOf/YnShz/1I+7
-	 /wTMl68j5BxbnECrM/0j+seFpxwcqHaCZ3KLS26hAZuhaqqsKJDzfj0iGduq5lr4I4
-	 Kci6n3q9y9AGw==
+	b=TWjF38Oxj+ZWdJDkGG0+Rp75ZS7mzKC/RwUUJImuzmSRAea/usPmJT2cXgwtEZZrX
+	 f7OqZd0kdUYxd0NS72Uqi8IPVva8a5tYalCXHsoBWSupHL3mNWE+IK+QgrXHOP7mlj
+	 GDGlijnsNnJ/u0nuKufyasKNXbSHKs8nOwroE9J2w7i1lJEmyQPz8o6/SsVVUyIq7R
+	 ieaMwb0RxMELfwew6RIVNhby+bcLTsUDmNun6Oq1KGVw+F/5yVJWNwwTZUz/ksjrSy
+	 TrYwo7ZI7lE2Ro8zhVvcS+mtpcho4AhPHHwwc2WOCaD821J0gSW/yo5zKPXaQhLSdV
+	 v0ED0rKlqz2jA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Muhtasham Nawr al-Mahmud <muhtaseem2005@gmail.com>,
+Cc: KIM MinWoo <phrimm136@gmail.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.6] ALSA: hda/realtek: Fix speakers on ASUS PM3406CHA
-Date: Mon, 19 Oct 2026 09:51:50 -0400
-Message-ID: <20261019135441.1420968-419-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.12] ALSA: hda/realtek: Add quirk for Lenovo ThinkBook 16p Gen 3 ARH (21EK)
+Date: Mon, 19 Oct 2026 09:52:02 -0400
+Message-ID: <20261019135441.1420968-431-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -54,88 +54,74 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Muhtasham Nawr al-Mahmud <muhtaseem2005@gmail.com>
+From: KIM MinWoo <phrimm136@gmail.com>
 
-[ Upstream commit 0eee030c2c09c7a44be778de5f451d9e7a2f09c1 ]
+[ Upstream commit 3867e38b2d4b844d89076f988c7b9741c87a9858 ]
 
-The ASUS ExpertBook PM3406CHA uses an ALC256 codec with subsystem
-ID 1043:1664. On Linux boot, the internal speakers are silent even
-though playback is routed to the codec and the speaker pin is
-configured for output.
+The ThinkBook 16p Gen 3 ARH (SSID 17aa:3871) has a TI TAS2563
+amplifier device on I2C, exposed by ACPI as INT8866, the same
+arrangement as the Yoga 7 14ARB7 (SSID 17aa:3870). Without a quirk,
+the codec falls back to the vendor-wide Lenovo quirk
+(ALC269_FIXUP_LENOVO_XPAD_ACPI), the amplifier is never bound, and the
+internal speakers stay silent while the headphone output works.
 
-The codec starts with coefficient 0x10 set to 0x1d20. Writing 0x7f20
-to coefficient 0x10 immediately restores internal speaker output.
+Reuse the Yoga 7 14ARB7 fixup, which binds the INT8866 device as a side
+codec. ALC287_FIXUP_TAS2781_I2C does not work on this machine because it
+looks for a TIAS2781 device.
 
-This was reproduced on the affected hardware from a fresh boot using
-hda-verb. Reducing a larger initialization sequence showed that this
-coefficient write alone is sufficient; no GPIO, EAPD, pin-control, or
-other coefficient changes are required. After applying the coefficient
-in userspace, speaker output also remains functional across suspend
-and resume.
-
-Add a machine-specific HDA fixup that writes the required coefficient.
-
-The fixup has been compile-tested, but could not be boot-tested because
-the affected hardware is no longer available.
-
-Closes: https://bugs.launchpad.net/ubuntu/+source/alsa-driver/+bug/2162718
-Signed-off-by: Muhtasham Nawr al-Mahmud <muhtaseem2005@gmail.com>
-Link: https://patch.msgid.link/20260924144512.3989-1-muhtaseem2005@gmail.com
+Assisted-by: LLM
+Signed-off-by: KIM MinWoo <phrimm136@gmail.com>
+Link: https://patch.msgid.link/20260923013756.106033-1-phrimm136@gmail.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This is a machine-specific Realtek HDA quirk for silent speakers on one
-ASUS laptop. The local tree is **6.18.57**; the ALC256 driver and quirk
-tables are already here, and the SSID entry is not.
+This is a one-line Realtek HDA quirk for ThinkBook 16p Gen 3 ARH. The
+Yoga 7 INT8866 fixup already exists in this 6.18.57 tree; without the
+new SSID the machine falls through to the Lenovo vendor quirk and
+internal speakers stay silent.
 
 ===============================================================
 PHASE 1: COMMIT MESSAGE FORENSICS
 ===============================================================
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-Record: **[ALSA: hda/realtek]** **[Fix]** **[restore internal speakers
-on ASUS ExpertBook PM3406CHA]**
+Record: [ALSA hda/realtek] [Add] [PCI/codec SSID quirk for Lenovo
+ThinkBook 16p Gen 3 ARH (21EK), SSID 17aa:3871]
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
 Record:
-- `Closes: https://bugs.launchpad.net/ubuntu/+source/alsa-
-  driver/+bug/2162718` — Ubuntu bug with a real user report
-- `Link: https://patch.msgid.link/20260924144512.3989-1-
-  muhtaseem2005@gmail.com` — original submission
-- `Signed-off-by: Muhtasham Nawr al-Mahmud <muhtaseem2005@gmail.com>` —
-  author
-- `Signed-off-by: Takashi Iwai <tiwai@suse.de>` — ALSA maintainer
-  applied it
-- No `Fixes:` tag (expected: this is a missing hardware quirk, not a
-  regression)
-- No `Cc: stable@vger.kernel.org` (expected for this review queue)
-- No `Reported-by:` / `Tested-by:` in the git message; the Launchpad
-  thread supplies both in practice
-- Ignore pipeline `Signed-off-by: Sasha Levin` / `[Upstream commit ...]`
+- Assisted-by: LLM
+- Signed-off-by: KIM MinWoo <phrimm136@gmail.com> (author)
+- Link:
+  https://patch.msgid.link/20260923013756.106033-1-phrimm136@gmail.com
+- Signed-off-by: Takashi Iwai <tiwai@suse.de> (ALSA maintainer; applied
+  the patch)
+- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or Cc:
+  stable (absence expected)
+- Ignore: `[ Upstream commit 3867e38b2d4b844d89076f988c7b9741c87a9858 ]`
+  and `Signed-off-by: Sasha Levin` (pipeline markers)
+
+Notable: ALSA maintainer SOB; hardware-tested in the mailing-list cover
+(see Phase 4). LLM assistance is disclosed; maintainer still applied it.
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
 Record:
-- **Bug:** ASUS ExpertBook PM3406CHA (ALC256, SSID `1043:1664`) boots
-  with internal speakers silent even though ALSA routes playback to the
-  codec and the speaker pin is an output.
-- **Symptom:** no audible speaker output; HDMI/Bluetooth still work
-  (Launchpad).
-- **Root cause:** vendor coefficient `0x10` comes up as `0x1d20`.
-  Writing `0x7f20` restores output. Isolated with `hda-verb` from a
-  larger init sequence; GPIO/EAPD/pin-control/other coeffs were not
-  required. After the userspace write, audio still worked across
-  suspend/resume.
-- **Version info:** Launchpad reporter: Ubuntu 24.04.4, kernel
-  `7.0.0-28-generic`; author also tested on `7.2.6-arch2-1`.
-- **Caveat in the message:** author compile-tested the kernel patch but
-  no longer had the laptop for a kernel boot-test.
+- Bug: ThinkBook 16p Gen 3 ARH (SSID 17aa:3871) has a TI TAS2563 amp on
+  I2C, ACPI HID INT8866 — same as Yoga 7 14ARB7 (17aa:3870).
+- Symptom: internal speakers silent; headphone jack works.
+- Root cause: no machine-specific quirk, so the codec falls back to
+  vendor-wide `ALC269_FIXUP_LENOVO_XPAD_ACPI`; the amp is never bound.
+- Fix: reuse `ALC287_FIXUP_YOGA7_14ARB7_I2C` (binds INT8866 as a side
+  codec). `ALC287_FIXUP_TAS2781_I2C` is the wrong HID (TIAS2781).
+- Version info: none in the commit body; author tested on 7.2.6-arch2-1
+  (BIOS KCCN40WW) per mailing-list text.
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: Not a disguised cleanup. This is an explicit hardware-quirk bug
-fix.
+Record: Not hidden. Explicit hardware quirk for silent speakers. Classic
+stable exception (quirks/workarounds).
 
 ===============================================================
 PHASE 2: DIFF ANALYSIS - LINE BY LINE
@@ -143,80 +129,86 @@ PHASE 2: DIFF ANALYSIS - LINE BY LINE
 
 **Step 2.1: INVENTORY THE CHANGES**
 Record:
-- File: `sound/hda/codecs/realtek/alc269.c`  **+10 / -0**
-- Functions/tables: `enum { ... }` (add `ALC256_FIXUP_ASUS_PM3406CHA`),
-  `alc269_fixups[]`, `alc269_fixup_tbl[]`
-- Scope: **single-file surgical hardware quirk**
+- File: `sound/hda/codecs/realtek/alc269.c` (+1 / −0)
+- Function/table: `alc269_fixup_tbl[]`
+- One `SND_PCI_QUIRK(0x17aa, 0x3871, "Lenovo ThinkBook 16p Gen 3 ARH",
+  ALC287_FIXUP_YOGA7_14ARB7_I2C)` next to the existing 0x3870 Yoga 7
+  entry
+- Scope: single-file surgical quirk addition
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
 Record:
-1. Enum: add a new fixup ID used as an index into `alc269_fixups[]`.
-2. Fixup table: `HDA_FIXUP_VERBS` writing nid `0x20`
-   `AC_VERB_SET_COEF_INDEX 0x10` then `AC_VERB_SET_PROC_COEF 0x7f20`.
-3. Quirk table: `SND_PCI_QUIRK(0x1043, 0x1664, "ASUS ExpertBook
-   PM3406CHA", ALC256_FIXUP_ASUS_PM3406CHA)`.
-
-Before: `alc269_probe()` has no PCI-SSID match for `1043:1664`.
-Launchpad shows a pin-match fallback (`"ALC256: picked fixup (pin
-match)"` with empty name) that does not enable speakers.
-
-After: PCI SSID match wins (`snd_hda_pick_fixup` runs first;
-`snd_hda_pick_pin_fixup` returns immediately if `fixup_id` is already
-set). Verbs are queued at `HDA_FIXUP_ACT_PROBE` via
-`snd_hda_add_verbs()` and executed in `alc_init()` after Realtek init,
-including resume.
+- Before: 17aa:3871 is unmatched in `alc269_fixup_tbl`.
+  `snd_hda_pick_fixup()` then hits `alc269_fixup_vendor_tbl`
+  `SND_PCI_QUIRK_VENDOR(0x17aa, ..., ALC269_FIXUP_LENOVO_XPAD_ACPI)`.
+  That only runs `alc_fixup_ideapad_acpi` + ThinkPad ACPI; it does not
+  bind INT8866. Speakers stay silent.
+- After: 17aa:3871 selects `ALC287_FIXUP_YOGA7_14ARB7_I2C` →
+  `yoga7_14arb7_fixup_i2c()` → `comp_generic_fixup(..., "i2c",
+  "INT8866", ...)`. Chained to `ALC285_FIXUP_THINKPAD_HEADSET_JACK`.
+- Path: probe/init only, one SSID.
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
-Record: **[Hardware workaround / codec quirk]**
-Broken: ALC256 coef `0x10` left at `0x1d20` on this SKU, so the internal
-amp/output path stays muted.
-Fix: machine-specific init/resume verb write of `0x7f20`. Same pattern
-as `ALC269_FIXUP_DELL_M101Z` (speaker enable via coef verbs).
+Record: [Hardware workaround / missing quirk]
+Mechanism: companion TAS2563 never bound without a matching SSID. Fix
+reuses the existing INT8866 bind path. Confirmed:
+`ALC287_FIXUP_TAS2781_I2C` uses `tas2781_fixup_tias_i2c()` → HID
+`TIAS2781`; this machine is `INT8866`.
 
 **Step 2.4: ASSESS THE FIX QUALITY**
-Record: Obviously correct for this class of fix: one SSID, two verbs,
-existing `HDA_FIXUP_VERBS` machinery. Isolated to `1043:1664`. ALSA
-maintainer accepted it. Low regression risk for other machines. Residual
-risk is headphone routing on this one SKU if coef `0x10` is also a
-HP/speaker switch on ALC256 (GX502/GU502 comments use `0x10` that way
-with different values). That is unverified on this SKU; Takashi still
-applied the patch, and the Launchpad reporter confirmed speakers work.
+Record:
+- Obviously correct: one table entry, existing fixup, adjacent to
+  17aa:3870.
+- Minimal; no API/structure change.
+- Regression risk very low: only SSID 17aa:3871. No other `0x3871` quirk
+  in this file. Distinct from ThinkBook 16P 17aa:38a9/38ab (CS35L41).
+- Caveat (not a kernel regression): author notes `TAS2XXX3871.bin` is
+  not in linux-firmware; speakers worked after symlink to Yoga
+  `TAS2XXX3870.bin`. The quirk is still required for component bind;
+  firmware is a separate userspace/linux-firmware issue.
 
 ===============================================================
 PHASE 3: GIT HISTORY INVESTIGATION
 ===============================================================
 
 **Step 3.1: BLAME THE CHANGED LINES**
-Record: There is no “introduced-by” regression. The bug is a **missing
-quirk**. Surrounding table entries (`0x1043:0x1663` / `0x1683`,
-`ALC269_FIXUP_DELL_M101Z`) already exist at `v6.18.57`. ALC256
-(`0x10ec0256`) is a first-class ID in this file
-(`HDA_CODEC_ID(0x10ec0256, "ALC256")`).
+Record:
+- Neighbor 17aa:3870 Yoga 7 14ARB7: present since `b5cb53fd32779`
+  (“ALSA: hda/tas2781: add fixup for Lenovo 14ARB7”, 2024-01-02, in
+  v6.8-rc2 era).
+- Fixup `ALC287_FIXUP_YOGA7_14ARB7_I2C` / `yoga7_14arb7_fixup_i2c()`
+  present in this tree (moved into `alc269.c` by `aeeb85f26c3bb`,
+  2025-07).
+- 3871 line is the candidate itself. Bug is missing table entry, not bad
+  logic, and has existed since the Yoga 7 path landed.
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-Record: No `Fixes:` tag. Not applicable. This is new-hardware quirk
-coverage, not a revert of a bad change.
+Record: No Fixes: tag. Expected. Buggy “code” is the vendor fallback for
+unmatched Lenovo SSIDs, which is in this tree at
+`alc269_fixup_vendor_tbl`.
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
 Record:
-- Related: `0156c22fb0ca8` “Add support for ASUS Commercial laptops
-  using CS35L41 HDA” adds **PM3406CKA** (`0x1043:0x1454`) with
-  `ALC287_FIXUP_CS35L41_I2C_2`. That is a **different SKU** with Cirrus
-  companion amps. Copying it to CHA would be wrong.
-- Similar silent-speaker quirk already in this tree: `e561c2740b628`
-  Higole F9B.
-- Standalone 10-line patch, not `X/Y` of a series. No follow-up on this
-  SSID after the candidate.
+- Yoga 7 14ARB7 quirk is already here (`SND_PCI_QUIRK(0x17aa, 0x3870,
+  ...)`).
+- TAS2781 I2C side codec with INT8866 ACPI ID is already here
+  (`tas2781_hda_i2c.c`).
+- Standalone one-liner; not part of a numbered series.
+- Recent `alc269.c` history is other machine quirks; no prerequisite
+  refactor needed on this tree.
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: Only this commit by Muhtasham Nawr al-Mahmud under `sound/hda/`.
-Not the subsystem maintainer. Applied by Takashi Iwai (`MAINTAINERS`:
-sound maintainer).
+Record: Only this commit under `--author="KIM MinWoo"` in `sound/`. Not
+the subsystem maintainer. Applied by Takashi Iwai (ALSA maintainer).
+Recipients included TI TAS2781 contact Shenghao Ding.
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record: None. Uses `HDA_FIXUP_VERBS`, `SND_PCI_QUIRK`,
-`alc269_fixups[]`, `alc269_fixup_tbl[]` — all present at `v6.18.57`. Can
-apply standalone.
+Record:
+- Needs `ALC287_FIXUP_YOGA7_14ARB7_I2C`, `yoga7_14arb7_fixup_i2c()`,
+  `comp_generic_fixup()`, and INT8866 in `snd_hda_scodec_tas2781_i2c`.
+  All present in v6.18.57.
+- `git merge-base --is-ancestor b5cb53fd32779 v6.18.57` → yes.
+- Can apply standalone. No series dependency.
 
 ===============================================================
 PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
@@ -224,78 +216,74 @@ PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
 Record:
-- `b4 dig -c 0eee030c2c09…` matched msgid
-  `20260924144512.3989-1-muhtaseem2005@gmail.com`
-- Series: **v1 RFC only** (no v2/v3)
-- LKML: https://lkml.iu.edu/2609.3/01658.html (patch),
-  https://lkml.iu.edu/2609.3/11978.html (reply)
-- Takashi Iwai: “The code change looks OK, so I applied this now.” **No
-  NAK, no requested changes.**
-- lore.kernel.org fetches returned 403; discussion recovered via `b4
-  dig`, Patchew, and LKML IU.
+- `b4 dig -c 3867e38b2d4b844d89076f988c7b9741c87a9858` →
+  https://patch.msgid.link/20260923013756.106033-1-phrimm136@gmail.com
+- `b4 dig -a`: single v1 series; no later revision.
+- Thread (mbox): author tested on hardware. Without patch: `ALC287:
+  picked fixup for PCI SSID 17aa:0000`. With patch: `picked fixup for
+  codec SSID 17aa:3871` and `bound i2c-INT8866:00 (ops
+  tas2781_hda_comp_ops)`. Wrong TAS2781 fixup left component “not
+  bound”. Headphones, mics, mute/volume keys still worked.
+- Takashi Iwai 2026-09-28: “Applied now. Thanks.” No NAK, no stable
+  discussion.
+- Author cites Fang Junhua alsa-devel 2026-03-04:
+  “[ALSA][ALC287][TAS2781] Lenovo 21EK speakers silent on Linux,
+  headphones work”, codec dump SSID 17aa:3871. Original Fang mail not
+  independently fetched (lore HTTP 403).
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record (`b4 dig -w`): Muhtasham Nawr al-Mahmud; Jaroslav Kysela; Takashi
-Iwai; Kailang Yang (Realtek); `linux-sound@vger.kernel.org`; `linux-
-kernel@vger.kernel.org`. Subsystem maintainer reviewed and applied.
+Record (`b4 dig -w`): KIM MinWoo; linux-sound@vger.kernel.org;
+tiwai@suse.com; perex@perex.cz; shenghao-ding@ti.com. Right lists and
+maintainers. Applied by Takashi Iwai; no separate Reviewed-by.
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-Record (Launchpad #2162718):
-- Reporter: Nguyễn Trọng Tuyền, 2026-08-03, ASUS ExpertBook P3
-  PM3406CHA, Ryzen 7 8840HS, ALC256, SSID `1043:1664`.
-- Thought it was the same as PM3406CKA (#2133791, `1043:1454`); that SKU
-  needed CS35L41, this one does not.
-- Author isolated coef `0x10` on the hardware; reporter later: “It works
-  perfectly on my laptop (Ubuntu 24.04.4, kernel 7.0.0-28). My speakers
-  are finally working again!”
-- Independent user confirmation of the userspace workaround. Kernel-
-  patch `Tested-by` was offered but not in the commit.
+Record: Cover letter is the primary report (silent speakers, kernel
+logs, TAS2781-I2C mismatch). Second user (Fang Junhua, machine type
+21EK) cited; that lore fetch is UNVERIFIED beyond the cover letter.
+Symptom matches.
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: Standalone RFC. Not part of a multi-patch series. PM3406CKA
-CS35L41 quirk is a different machine and must not be reused.
+Record: Standalone v1. Reuses Yoga 7 14ARB7 fixup already in this tree.
+Not the Yoga Pro 9 16IMH9 TAS2781 PCI/codec collision (different SSID).
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: No stable-list hit for PM3406CHA (lore.kernel.org/stable 403;
-web search did not show a stable NAK or prior rejection). UNVERIFIED
-that it was ever discussed on stable@; absence is not a negative.
+Record: UNVERIFIED (lore.kernel.org/stable HTTP 403). Thread itself has
+no stable nomination or rejection.
 
 ===============================================================
 PHASE 5: CODE SEMANTIC ANALYSIS
 ===============================================================
 
-**Step 5.1: IDENTIFY KEY FUNCTIONS**
-Record: No function bodies changed. Data: `ALC256_FIXUP_ASUS_PM3406CHA`,
-`alc269_fixups[]`, `alc269_fixup_tbl[]`. Consumers: `alc269_probe()` →
-`snd_hda_pick_fixup()` → `snd_hda_apply_fixup()`; `alc_init()` →
-`snd_hda_apply_verbs()`.
+**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
+Record: No function body change. Adds a row in `alc269_fixup_tbl[]`.
+Runtime path: `snd_hda_pick_fixup()` → `ALC287_FIXUP_YOGA7_14ARB7_I2C` →
+`yoga7_14arb7_fixup_i2c()` → `comp_generic_fixup()` /
+`hda_component_manager_init()`.
 
 **Step 5.2: TRACE CALLERS**
 Record:
-- `alc269_probe()` calls `snd_hda_pick_fixup(..., alc269_fixup_tbl,
-  alc269_fixups)` then `snd_hda_apply_fixup(..., HDA_FIXUP_ACT_PROBE)`.
-- `alc_init()` (codec `.init`, including resume) calls
-  `snd_hda_apply_verbs()` then `HDA_FIXUP_ACT_INIT`.
-- `HDA_FIXUP_VERBS` are applied only at `HDA_FIXUP_ACT_PROBE` to
-  **register** the list; documented to run at init and resume
-  (`snd_hda_add_verbs` comment in `auto_parser.c`).
-- Path: HD-audio codec probe on this laptop, then PCM playback. Not IRQ-
-  hot.
+- `alc269_probe`-style init calls `snd_hda_pick_fixup(codec,
+  alc269_fixup_models, alc269_fixup_tbl, alc269_fixups)` then vendor
+  table if unmatched (`alc269.c` ~8557–8572).
+- Probe/enumeration, not IRQ/hot path.
+- Impact: only SSID 17aa:3871. `snd_hda_pick_fixup()` matches PCI SSID
+  first, then codec SSID (`auto_parser.c` 1066–1087). Author’s PCI SSID
+  17aa:0000 still matches via codec SSID 17aa:3871.
 
 **Step 5.3: TRACE CALLEES**
-Record: `snd_hda_sequence_write()` of two vendor verbs on nid `0x20`
-(Realtek vendor processing node). No alloc/lock/API change.
+Record: `yoga7_14arb7_fixup_i2c` → `comp_generic_fixup(..., "INT8866")`
+→ `hda_component_manager_init`. TAS2781 I2C driver matches ACPI
+`{"INT8866", 0}` and treats it as HDA_TAS2563.
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-Record: Unprivileged playback on this laptop triggers the silent path
-today. After the quirk, probe/init writes the coef. Userspace-reachable
-on the affected SKU.
+Record: User-reachable on this laptop at codec probe (boot / module
+load). Unprivileged users get silent speakers, not a crash. Headset path
+already works.
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: Same file already uses coef-`0x10` verbs
-(`ALC269_FIXUP_ASUS_N7601ZM`, `ALC274_FIXUP_ASUS_ZEN_AIO_27`) and
-speaker-enable verbs (`ALC269_FIXUP_DELL_M101Z`). This matches
-established Realtek practice.
+Record: Same table is full of Lenovo `SND_PCI_QUIRK` / `HDA_CODEC_QUIRK`
+amp-bind entries. 17aa:3870 is the sibling. TAS2781-I2C entries use
+TIAS2781; this machine must not use those.
 
 ===============================================================
 PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
@@ -303,67 +291,63 @@ PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
 Record:
-- `git describe HEAD` → `v6.18.57-155-gcdf239ca885b2`
-- `make kernelversion` / Makefile → **6.18.57**
-- `git merge-base --is-ancestor 97902f970e5cd v6.18.57` → **not an
-  ancestor** (the quirk is **not** in the 6.18.57 baseline)
-- At `v6.18.57`, `alc269_fixup_tbl` goes `0x1663` then `0x1683`; **no
-  `0x1664` / PM3406CHA**
-- File `sound/hda/codecs/realtek/alc269.c` exists (split in
-  `aeeb85f26c3bb`, long before 6.18)
-- ALC256 ID table present at v6.18.57
-- Bug is the missing SSID quirk; it exists on this 6.18.y tree
+- Local tree: VERSION 6.18.57, `git describe HEAD` =
+  `v6.18.57-155-gcdf239ca885b2`.
+- `make kernelversion` = 6.18.57.
+- In **v6.18.57** (without this candidate): 17aa:3870 Yoga 7 entry
+  exists; **17aa:3871 does not**. Vendor Lenovo XPAD fallback exists.
+  INT8866 TAS2563 side-codec exists.
+- `git merge-base --is-ancestor 2a2ad57597a9e v6.18.57` → not an
+  ancestor (candidate is not in the 6.18.57 baseline).
+- Bug exists here: unmatched 17aa:3871 → silent speakers.
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: **Clean apply expected.** Insertion points at v6.18.57:
-- enum: `ALC269_FIXUP_DELL_M101Z` then `ALC269_FIXUP_SKU_IGNORE`
-- `alc269_fixups[]`: same pair of entries
-- quirk table: `0x1663` then `0x1683`
-No struct/API mismatch.
+Record: Clean apply. File path `sound/hda/codecs/realtek/alc269.c`
+already used (HDA split `aeeb85f26c3bb` is in v6.18.57). Context around
+3870 matches. Expected difficulty: clean apply.
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: No other `PM3406CHA` / `0x1043:0x1664` fix. PM3406CKA CS35L41
-entry is a different SSID and amp topology.
+Record: Yoga 7 14ARB7 (3870) is here. No other 3871 quirk. ThinkBook 16P
+38a9/38ab is a different SSID/amp (CS35L41). No substitute fix for 21EK.
 
 ===============================================================
 PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 ===============================================================
 
 **Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: **ALSA HD-audio Realtek codec** (`sound/hda/codecs/realtek/`).
-**IMPORTANT** for laptop audio, not core mm/VFS. Quirk-table maintenance
-is routine in stable.
+Record: [sound/hda Realtek codec quirks] [IMPORTANT] — common laptop
+audio, machine-specific. Not core mm/fs, but silent internal speakers is
+a real user-facing bug.
 
 **Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: High churn of per-machine quirks (mute LEDs, SSIDs, silent
-speakers). Mature driver, new rows for new laptops. That is the intended
-stable pattern.
+Record: High activity; `alc269.c` regularly gets SSID quirks. Mature
+table, well-understood pattern. Takashi Iwai maintains ALSA.
 
 ===============================================================
 PHASE 8: IMPACT AND RISK ASSESSMENT
 ===============================================================
 
 **Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: **Driver-specific / SSID-specific.** Only ASUS ExpertBook
-PM3406CHA (`PCI SSID 1043:1664`, ALC256). No effect on other machines.
+Record: Driver/platform-specific: Lenovo ThinkBook 16p Gen 3 ARH (21EK),
+SSID 17aa:3871. CONFIG_SND_HDA_CODEC_REALTEK plus TAS2781 I2C side codec
+(already used for Yoga 7 14ARB7).
 
 **Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Record: Every boot / every speaker playback on that laptop. Not a race.
-Unprivileged user playing audio. Reported on Ubuntu 24.04.
+Record: Every boot on that machine. Not a race. Not unprivileged-
+exploit. Author plus cited 21EK report.
 
 **Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record: Internal speakers completely silent while the stack looks
-healthy. Not a panic/UAF. **MEDIUM–HIGH functional** for owners of that
-laptop (device unusable for built-in audio). HDMI/BT still work.
+Record: Internal speakers silent (headphones work). Severity MEDIUM–HIGH
+for those users (device unusable for speaker audio), not
+panic/corruption. Standard stable quirk class.
 
 **Step 8.4: CALCULATE RISK-BENEFIT RATIO**
 Record:
-- **Benefit:** High for that SKU (speakers work). Matches the stable
-  hardware-quirk exception. User-confirmed.
-- **Risk:** Very low: +10 lines, one SSID, existing verb mechanism,
-  maintainer-acked. Possible headphone interaction on this SKU only
-  (unverified).
-- **Ratio:** Strongly favors backport.
+- Benefit: high for 21EK owners on 6.18.y; existing fixup already
+  shipped for Yoga 7.
+- Risk: very low (1 line, SSID-scoped, maintainer-applied, hardware-
+  tested).
+- Ratio: strongly favors backport.
 
 ===============================================================
 PHASE 9: FINAL SYNTHESIS
@@ -372,131 +356,102 @@ PHASE 9: FINAL SYNTHESIS
 **Step 9.1: COMPILE THE EVIDENCE**
 
 FOR:
-- Real user-visible bug: silent internal speakers
-- Ubuntu Launchpad #2162718; original reporter confirmed the coef
-  workaround
-- Isolated, machine-specific `HDA_FIXUP_VERBS` + `SND_PCI_QUIRK`
-- +10 lines, one file, no new API
-- Driver, ALC256 support, and quirk tables already in 6.18.57
-- Same pattern as existing speaker/coef quirks
-- Takashi Iwai applied the RFC as-is
-- Explicit stable exception: hardware quirk / SSID enablement for an
-  existing driver
+- Real hardware bug: silent internal speakers on ThinkBook 16p Gen 3
+  ARH.
+- Hardware quirk exception in stable rules.
+- 1-line reuse of fixup already in v6.18.57.
+- Yoga 7 14ARB7 / INT8866 / TAS2563 path already present.
+- Author kernel logs; ALSA maintainer applied v1; TI TAS2781 list CC’d.
+- Applies cleanly; no new API/driver.
 
 AGAINST:
-- Not a crash, UAF, or security bug
-- Author could not boot-test the kernel patch after losing the laptop
-  (userspace path was tested; reporter confirmed it)
-- Unverified headphone behavior if coef `0x10` is a HP/speaker mux on
-  this SKU
+- Affects one laptop SSID, not all users.
+- `TAS2XXX3871.bin` may still be missing from linux-firmware (author
+  used 3870 symlink). Does not make the quirk wrong or unsafe.
+- Author is not the maintainer; LLM-assisted. Offset by hardware test
+  and maintainer apply.
 
 UNRESOLVED:
-- lore.kernel.org HTTP 403 (discussion recovered elsewhere)
-- No stable@ thread found
-- Headphone path on this SKU not documented
+- Fang Junhua lore thread not independently fetched (403).
+- No stable@ discussion found (lore 403).
 
 **Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — standard quirk; hda-verb
-   isolation; Launchpad confirmation; maintainer applied
-2. Fixes a real bug that affects users? **PASS** — silent speakers,
-   filed and confirmed
-3. Important issue? **PASS** for this class (hardware quirk / broken
-   audio on a shipping laptop), not CRITICAL crash
-4. Small and contained? **PASS** — 10 lines, one SSID
-5. No new features or APIs? **PASS** — quirk only
-6. Can apply to the local tree? **PASS** — 6.18.57 has the file and
-   insertion context; SSID not already present
+1. Obviously correct and tested? [PASS — 1-line table add; tested on
+   21EK; maintainer applied]
+2. Fixes a real bug that affects users? [PASS — silent speakers]
+3. Important issue? [PASS — hardware workaround / silent speakers;
+   stable quirk exception]
+4. Small and contained? [PASS — +1 line, one file]
+5. No new features or APIs? [PASS — existing fixup, new SSID only]
+6. Can apply to the local tree? [PASS — v6.18.57 has the file, fixup,
+   and INT8866 driver]
 
 **Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Record: **Hardware quirk / existing-driver SSID enablement.** Automatic
-YES category in the stable rules given in the prompt.
+Record: Hardware quirk/workaround (HDA `SND_PCI_QUIRK`). Qualifies
+automatically when the driver/fixup already exist.
 
 **Step 9.4: MAKE YOUR DECISION**
-
-This belongs on 6.18.y. The ALC256 Realtek driver already enumerates
-this laptop; without the SSID row, speakers stay silent. The change is a
-two-verb init/resume write gated to `1043:1664`, the same style as other
-Realtek speaker quirks already in this file. It applies cleanly to this
-tree and does not need the unrelated PM3406CKA CS35L41 patch.
+Backport. The v6.18.57 tree already has the Yoga 7 INT8866 fixup and
+TAS2563 side codec; it lacks only SSID 17aa:3871, so this machine hits
+the Lenovo vendor fallback and never binds the amp. One matching table
+line is the correct, low-risk stable fix.
 
 Verification:
-- [Phase 1] Parsed tags: `Closes:` Launchpad 2162718; `Link:` patch
-  msgid; SOB author + Takashi Iwai; no `Fixes:`/`Cc: stable`
-- [Phase 1] Body: silent speakers; coef `0x10` `0x1d20`→`0x7f20`; hda-
-  verb isolation
-- [Phase 2] Diff: +10 in `alc269.c`; enum + `HDA_FIXUP_VERBS` +
-  `SND_PCI_QUIRK(0x1043,0x1664)`
-- [Phase 2] `auto_parser.c`: `HDA_FIXUP_VERBS` registered at PROBE, run
-  from `alc_init()` after codec init and on resume
-- [Phase 3] No `Fixes:` tag; missing-quirk, not a regression
-- [Phase 3] Related `0156c22fb0ca8` is PM3406CKA CS35L41 (`0x1454`),
-  different hardware
-- [Phase 3] Author has only this hda commit; Takashi applied it
-- [Phase 4] `b4 dig -c 0eee030c2c09…`: RFC v1 only; recipients include
-  Iwai/Kysela/Realtek/linux-sound
-- [Phase 4] Takashi: “The code change looks OK, so I applied this now.”
-  No NAK
-- [Phase 4] Launchpad: reporter confirmed speakers work with the coef
-  write
-- [Phase 4] lore.kernel.org direct fetch: 403; used b4/Patchew/LKML IU
-  instead
-- [Phase 5] Call chain: `alc269_probe` → `snd_hda_pick_fixup` → verbs →
-  `alc_init`/`snd_hda_apply_verbs`
-- [Phase 5] Pin-match cannot override once PCI SSID is set
-  (`snd_hda_pick_pin_fixup` early return)
-- [Phase 6] `git describe HEAD` = `v6.18.57-155-gcdf239ca885b2`;
-  kernelversion 6.18.57
-- [Phase 6] `git merge-base --is-ancestor 97902f970e5cd v6.18.57` failed
-  → quirk **not** in 6.18.57 baseline
-- [Phase 6] `git show v6.18.57:…alc269.c` has `0x1663` then `0x1683`, no
-  `0x1664`; DELL_M101Z/SKU_IGNORE insertion points exist
-- [Phase 6] ALC256 `0x10ec0256` present at v6.18.57
-- [Phase 7] ALSA Realtek; Takashi Iwai in MAINTAINERS
-- [Phase 8] Failure mode: silent speakers on one laptop SSID; severity
-  MEDIUM–HIGH functional; risk very low
-- UNVERIFIED: headphone interaction of coef `0x10` on this SKU; no
-  stable@ discussion recovered
+- [Phase 1] Parsed tags: author SOB, Link to msgid, Takashi Iwai SOB; no
+  Fixes/Cc:stable (expected)
+- [Phase 2] Diff: +1 `SND_PCI_QUIRK(0x17aa, 0x3871, ...,
+  ALC287_FIXUP_YOGA7_14ARB7_I2C)` in `alc269_fixup_tbl`
+- [Phase 2] `ALC287_FIXUP_TAS2781_I2C` → `tas2781_fixup_tias_i2c()` HID
+  TIAS2781; Yoga fixup HID INT8866 — mismatch confirmed in code
+- [Phase 2] Vendor fallback `SND_PCI_QUIRK_VENDOR(0x17aa, ...,
+  ALC269_FIXUP_LENOVO_XPAD_ACPI)` confirmed at alc269.c:7739
+- [Phase 3] `git describe HEAD` / `make kernelversion`:
+  v6.18.57-155-gcdf239ca885b2 / 6.18.57
+- [Phase 3] `git merge-base --is-ancestor 2a2ad57597a9e v6.18.57`: not
+  in 6.18.57 baseline
+- [Phase 3] v6.18.57 has 17aa:3870 and `ALC287_FIXUP_YOGA7_14ARB7_I2C`;
+  does not have 17aa:3871
+- [Phase 3] Yoga 7 fixup from `b5cb53fd32779` (2024-01-02) is ancestor
+  of v6.18.57
+- [Phase 3] INT8866 in `tas2781_hda_i2c.c` present in v6.18.57 (ACPI
+  match + HDA_TAS2563)
+- [Phase 4] `b4 dig -c 3867e38b2d4b...`: lore msgid
+  20260923013756.106033-1-phrimm136@gmail.com
+- [Phase 4] `b4 dig -a`: v1 only; `b4 dig -w`: linux-sound, tiwai,
+  perex, shenghao-ding@ti.com
+- [Phase 4] mbox: hardware logs; Takashi “Applied now”; Fang Junhua 21EK
+  citation
+- [Phase 4] lore.kernel.org WebFetch 403 — stable@ search UNVERIFIED
+- [Phase 5] `snd_hda_pick_fixup()` PCI then codec SSID; 17aa:0000 PCI
+  still matches codec 17aa:3871
+- [Phase 6] Clean apply on this tree’s `alc269.c` path; no 3871
+  collision
+- [Phase 8] Failure: silent internal speakers on 21EK; not crash; quirk-
+  scoped
+- UNVERIFIED: Fang Junhua original mail body; linux-firmware
+  TAS2XXX3871.bin status; stable@ archive
+
+The patch is a one-line SSID quirk, reuses a fixup this tree already
+ships, and restores speaker amp bind on a real Lenovo model with
+maintainer ack.
 
 **YES**
 
- sound/hda/codecs/realtek/alc269.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index fa5bc54ff083d..a40b85fbaf393 100644
+index 10d930d8fed72..b1cb93922c3bc 100644
 --- a/sound/hda/codecs/realtek/alc269.c
 +++ b/sound/hda/codecs/realtek/alc269.c
-@@ -3678,6 +3678,7 @@ enum {
- 	ALC269_FIXUP_SONY_VAIO,
- 	ALC275_FIXUP_SONY_VAIO_GPIO2,
- 	ALC269_FIXUP_DELL_M101Z,
-+	ALC256_FIXUP_ASUS_PM3406CHA,
- 	ALC269_FIXUP_SKU_IGNORE,
- 	ALC269_FIXUP_ASUS_G73JW,
- 	ALC269_FIXUP_ASUS_N7601ZM_PINS,
-@@ -4089,6 +4090,14 @@ static const struct hda_fixup alc269_fixups[] = {
- 			{}
- 		}
- 	},
-+	[ALC256_FIXUP_ASUS_PM3406CHA] = {
-+		.type = HDA_FIXUP_VERBS,
-+		.v.verbs = (const struct hda_verb[]) {
-+			{ 0x20, AC_VERB_SET_COEF_INDEX, 0x10 },
-+			{ 0x20, AC_VERB_SET_PROC_COEF, 0x7f20 },
-+			{}
-+		}
-+	},
- 	[ALC269_FIXUP_SKU_IGNORE] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc_fixup_sku_ignore,
-@@ -7184,6 +7193,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1652, "ASUS ROG Zephyrus Do 15 SE", ALC289_FIXUP_ASUS_ZEPHYRUS_DUAL_SPK),
- 	SND_PCI_QUIRK(0x1043, 0x1662, "ASUS GV301QH", ALC294_FIXUP_ASUS_DUAL_SPK),
- 	SND_PCI_QUIRK(0x1043, 0x1663, "ASUS GU603ZI/ZJ/ZQ/ZU/ZV", ALC285_FIXUP_ASUS_HEADSET_MIC),
-+	SND_PCI_QUIRK(0x1043, 0x1664, "ASUS ExpertBook PM3406CHA", ALC256_FIXUP_ASUS_PM3406CHA),
- 	SND_PCI_QUIRK(0x1043, 0x1683, "ASUS UM3402YAR", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x16a3, "ASUS UX3402VA", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x16b2, "ASUS GU603", ALC289_FIXUP_ASUS_GA401),
+@@ -7527,6 +7527,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	HDA_CODEC_QUIRK(0x17aa, 0x38a7, "Legion Pro 7 16ARX8H", ALC287_FIXUP_TAS2781_I2C), /* this must match before PCI SSID 17aa:386f below */
+ 	SND_PCI_QUIRK(0x17aa, 0x386f, "Legion Pro 7i 16IAX7", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x17aa, 0x3870, "Lenovo Yoga 7 14ARB7", ALC287_FIXUP_YOGA7_14ARB7_I2C),
++	SND_PCI_QUIRK(0x17aa, 0x3871, "Lenovo ThinkBook 16p Gen 3 ARH", ALC287_FIXUP_YOGA7_14ARB7_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3874, "Legion 7i 16IAX7", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x17aa, 0x3877, "Lenovo Legion 7 Slim 16ARHA7", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x17aa, 0x3878, "Lenovo Legion 7 Slim 16ARHA7", ALC287_FIXUP_CS35L41_I2C_2),
 -- 
 2.53.0
 
