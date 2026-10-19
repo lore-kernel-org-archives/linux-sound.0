@@ -1,95 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792450949;
-	b=OGe5LLCZRyAlh+Js8/yGyFYGJrsIphiR78Wl2VX9GmrtYzxcH3YnDqmeP2CnOnvGUz5W
-	 tGsvXM4jMcoGsCKyGOmlsMzSjtwGBsGOxDlYBS2c0hHdd0JeTAmJ/QhgERjsH3ZT/zGt/
-	 lHX8uy6wzkawGvh/HV8HYv+bWeMultMuOGfkLTwvUEGKSCkIVG9sw/I4IPS2Cxs5D7MV7
-	 mmXBzQpJ7oKC+I1OGOpEJlZyL6S2exVwTbDTMlgNV8y8YE4y4b1LNcsqjss0Nr7zH4pwe
-	 yGHrlfpWDR6sCVyVmy6qcIcWZVDiIiMMYvZtmUfRwQHgtu1IJMS8f3cO7rsHV80z9TQ==
+	t=1792452263;
+	b=LiuZ9DeEiPOthvtyYgzTabIKgRFW2SL5zsYZ0DNl+S/fPxZJimC1ycVtqhHJLFiFhuLu
+	 K7TWc1CyuvFi1AHRowiYeTLG6WPkdz3fCCNNs1XkVDOqW7HSDsPIG/UgpY9b0RN0CXAuU
+	 /7kKfKx86r+u2/G5shlv+5mreSw/Y3YST67dZn9C9rPaQFUropawwKkWUiGCkQ7w9dSWn
+	 YpNY1VJaA6xJBhHJRypsjllkGe8KNREf3bIwdT7SJ74lbVlbNu9M5aIcm7LMzWANCqvJv
+	 iTW8nJFBwvgqJjbG8L7xYJok5j0pJVtQTWXQbv0vWWTm7hz6bqe5oBoezU11Ct2J26A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792450949;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792452263;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=SxXk8dddMwy/ogUv/hn3+CQ1fsGwLG6Bsf0XfAWIAd0=;
-	b=yG9omhYNtEALJC9bktigaTOgGGXYHYIlfTMsntH1LjpT3GOSzhc1c7+qDVvoWxzHyBVL
-	 s3QOV1pTUHkMZKm2lMs4LzIPfhgmQJLjhYnqJ+0hK5+bgCVL9+ONn3BWDlIjYTFyO5383
-	 mYF+aABG4V169skyMhnr+eKR0TqFutJqvD1BqCuEtGqC9tvpLTahp58pbpUFBIb9b10cE
-	 CTulYh3y5yamIbVmC8n8eGU069M8LNvPTZX75Tq1VMAX5To/RmqUQNkuGSe5WtZl4d8mw
-	 jXX+JZwMeD8Zq8AoO0gxXXRugIvij9Vrj5fagdSuel8EaQgJncC+aFxx/SzbPAb1B6A==
+	bh=uxoILjDAWb6D0M7GS0zesDvM6dHezWGmP4GBtdH0Uas=;
+	b=UixL1Mu+z8RvPwL0kIK8RgJfEWW2uykKJ0T52tE2hXYKjtPIPwy993+/AmVvjmIl/eom
+	 sMZkXqVPi9YG8gJGjRtT2Mlqt1Lt6ItCYmLt62stmugfwXtuh6CRQG+RD66P9AFrBggG7
+	 1lJv3vjjr11T0iUPdRf71OxvKyh9BFGh1ojZeDNQXs6OiWN/42QVVZCmYmVS2bNGVgj1f
+	 WqdDbg2f3NRIWUT5BSH8TrL3nwPUl0ZLFAFsm2Yro1pBd4DVygMLIF2DQlbSdJemO2KVW
+	 htafuzBo+mUdVn8yJYCGYngAAcIoHCGGenD0G1ULLe89e6xwJPL3/hFoL2ObRFvvsqQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=emiDRE4z;
-	arc=none smtp.remote-ip=209.85.160.44
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="AZ0qh/2X";
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69499606A319
-	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 23:02:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69499606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7DC5606A319
+	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 23:24:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7DC5606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=emiDRE4z
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-4a75a5fa32dso496552fac.1
-        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 16:02:29 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=AZ0qh/2X
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a018dc1f98so18666365e9.3
+        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 16:24:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792450948; x=1793055748; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SxXk8dddMwy/ogUv/hn3+CQ1fsGwLG6Bsf0XfAWIAd0=;
-        b=emiDRE4zcj2JsBGQh06HE7dGvppqe0sb9TFgS7L2xP6c33OipiChuVT/v0s1WkecoJ
-         oX1ZBGi3nfgLE+X1TeOxSy3meWqYJT8WfUH4zw4cvFYelVBDnnxMC1H3zLJ58wbaLMkL
-         G66zkr16V98kQoKy/DuXmZJIfFHYlwQCdHGX8C+i56gFZehACCPe4iHktSFCeM/CwUrl
-         mtFNC074cQc1aA9s9LpAQ8o1oymL/ntHSR+BFyLdJhk4+3bia0YCDcUQ4RSOEPl8v3tU
-         BAjnGiQHtwhu7BS6YvQwuZpkD1Kc9fUQt6LG5Wx8jsNhK3ASiox/q7JRTGndRigpc1SV
-         8VFw==
+        d=gmail.com; s=20251104; t=1792452261; x=1793057061; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=uxoILjDAWb6D0M7GS0zesDvM6dHezWGmP4GBtdH0Uas=;
+        b=AZ0qh/2XqoUGHLX3K8f0Q9BjFen2hJUa85lAbJGI9BCfnIlFwde+MKYuxxqHc0S2D4
+         DSy3xR6paSHfp4wgO9YqSuJvc6knkW2ZFRqb7a8TEJxSecJTpkKB7bUsfpmbd4kVHaOu
+         qMG9SVG1YDq1D6wOvazUjWUm/d/8AndSy20IMX4/dOfmxVsRgVqk7vtBqbBCS4Lny0QQ
+         R1nZRqRSkmL0Qeouq7kpxEzJP/4uBT1dPCAMW5RbGbalKo1GUcvGF06QhG7gc1cNPmpx
+         L7eIzhcdCrMKDH24Fspq6dxnBvoOxdxtuuI+sq/n2SldGr7BAe8hXGjlSXkyDOKAOIgl
+         RLGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792450948; x=1793055748;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SxXk8dddMwy/ogUv/hn3+CQ1fsGwLG6Bsf0XfAWIAd0=;
-        b=x2qRJA352w5FhV8RQ4twyHpJLvnAZLC50xfB18rbqxnCZolVikh63KFTXONqIqIiYX
-         nEsKNr8KAYBC/k3nIauWzOVf8rslBd6NzkoYGY4quAZm+HfyIhlM9TzpIeEAMpLXIT9g
-         vvMpEkjjqB3Ptj14f/JD+5UfwOGiyyQ3ZN8smXT2i2xq01nj72Va8IJzZWHM1VDtk+xk
-         3u1qdj/PvpFtWGuhfb5Nz+LnqTDiAKAe9kJmdUpNnInbFwQLFofMZGe8+jooF3P+CBKB
-         E8NBTo/ruHKI6+MtwkwxRiyorEWZpdumqjVh0UzxeRLXG28kuznnvwDg3IouI9QbShJB
-         oM6Q==
-X-Gm-Message-State: AFq9FYLCmrcWE7zjJW2oY6oKSrGasTh54YoU5m64pECh7GfkQEHKMK/0
-	a+7Lvnag8Csen0f+ABiNxDnpNttdnkTOZ92d0z7OtKJZs9oxHyTaRESf
-X-Gm-Gg: AYBFou0pLORi/PIlJQTR+6YjWiRK7JuDB7GUoGaeW+z1xSrjWzTdUebZ/TGwwDG9ctb
-	YlVwArVOh8Z8/m6JECqoFbybREAnE68/rinVMq+Gy9wa3uO8AgAtc9o14EvFYRzKLXXmuLWCV1s
-	uxSvtrYoh7JxREZJmjPn225ScJRfuqmcjKvWKqMf4cs93iv1jbFgbwOe05ejGQ1vJWLYfD+j9Uy
-	gAiygZVz9JAOTIEY5lMqNPNb461nb8hv73y9LSD8SSdcQb0r6mtcaoLRLp7gEvKV/B0tuSQSJ1C
-	vS7kjWbBfDCT5rZf7ZdHF3ZUWN9pZ4WZ3lM8/L0vBRJcPUhVigNKpm1B2FBvuvTQwuKfvTXHIxK
-	6CbarKhP/TCd+6tsLYqj9jfPN4k+dMERhU2Nm1laLoVVUwAz5VP7HlufbrR4bE6eUEKoOSpkGqh
-	7zOF46QZhFvNBRyDtj3iJdQ4q2D8sIWm+FSCdxVfJAfGZqRtT61P5usiDaZ9EHpeeYCyD0c/Boj
-	CzgUUGgqFv/mQ+ypmkanM5y/fU=
-X-Received: by 2002:a05:6870:8112:b0:4a2:4d67:5977 with SMTP id 586e51a60fabf-4a7578ad1a5mr7023842fac.18.1792450948070;
-        Mon, 19 Oct 2026 16:02:28 -0700 (PDT)
-Received: from localhost.localdomain ([2600:1702:4ff0:baa0:5054:ff:fe3d:4ddb])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a73b6d7e0csm9327797fac.12.2026.10.19.16.02.23
+        d=1e100.net; s=20260707; t=1792452261; x=1793057061;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=uxoILjDAWb6D0M7GS0zesDvM6dHezWGmP4GBtdH0Uas=;
+        b=zuvlO1f1qBCcPFXHLkpMU6icCr+Qs/8wXL6ZuUla+/l1UhhCN7hdBwywObKJucGp+1
+         mdGWmQ+g4bjjj4tGXNX6P2/eyLG7CisJj7MHEsAi/KdNd0Yj7yC9ZMV3dopvJjDsonWq
+         z0gv4MXPTfOvNhGIHBqg8ME6APllyZ/AG2kN7NXmv0TEzXhiDSYRT5fvjMxMyeE+rFuE
+         WJUNDAyDSPZp6O5pOdjDRMQwE/2CTkfLlZPPGbgEY+1qdyIud2IkiMQdaEVE0A/VV91H
+         ueUN5Fbu2/t7xceTZqe/egiGqTg5HygoYLiuaMPjNeWkI41XiiIt7pflOrrmy5PL2i0C
+         ellA==
+X-Forwarded-Encrypted: i=1; AKwUvByGyOZx1H/fbk2Wjhb6o1iW/XW4HltifPCCcuNcoRqEfILIgTA4QglGlhsvDCpUUD1LRiwyILeA5m6eUg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYI9aUftCP03nORLNhxEFb1n8xat+Imv5LSG8ROu0tS4b5zB4ajd
+	9DxbwodhK6BuVZ06OplaWqTNoFsRW3Nf8DY0Xh07y+s7oFz/Lnp/4stusBVsIw==
+X-Gm-Gg: AYBFou0Rsja5RMiwZTNivCl+NXmz6fbbz8iZI000KaVLiOhvQZQ1RXKK5r+mBZIb9s3
+	13dUOqbH7C8GAJ5DuozSHZurVE3sIoBmIb4ho8cfVL0UrmYkU7HPsPRHUcrs+fWvh1Cd7c8ZZVu
+	dCVMLOhfpJsDJhYAbH6DCOrOa3RSWrEx1us/VxhVCoYT2hifX4SfJjRaQwy2vqKBKe/aBtdqUa0
+	OZj0DqybywX22DzU/XxHtSpkgYBiwkJ1BoUUFMAQWQGJkMrRFMjfxaTvYfVI7gTWPNP2YjzHtHJ
+	eJUagQqFThc0OsgXcfsANEdnjeZEOw5h/NADQoKvFWL0D7CX0XFx7gADzn5Faq7u4qfobvHuylu
+	ZJfjbdY7GZ89O2Aiv5HFyX/iTEcHKTt6rQOWx1Rzv5zWcOujHP1fsmDMCtGFTxm9kyOx9sjv6x1
+	ENU5+4ezlJ1GocoLNN6l41FpGWYUkEsTSV8tKWjG6+GGKid3sLOnWvRNVZjHSN9Te4vykJP6oOm
+	7NfpZG3mkNznBlx2koV0JACR/p6iK0EfCJIci5oMDE7HflqNMU0sJ0wzzfRJtww8maahuLBz62q
+	klM=
+X-Received: by 2002:a05:600c:1c16:b0:4a1:f03f:f1f8 with SMTP id 5b1f17b1804b1-4a1f03ff47emr45105695e9.3.1792452261130;
+        Mon, 19 Oct 2026 16:24:21 -0700 (PDT)
+Received: from Ansuel-XPS24.localdomain (93-34-92-187.ip49.fastwebnet.it. [93.34.92.187])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4a1f2cd348asm26244055e9.11.2026.10.19.16.24.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 16:02:25 -0700 (PDT)
-From: Will Porter <mrwillporter@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Neil Andrews <neil@androos.io>,
-	Christian Ruppert <arc@gmx.li>,
-	Will Porter <mrwillporter@gmail.com>
-Subject: [PATCH 5/5] ALSA: usb-audio: Replace the Audient iD14 MkI FU 12 control
-Date: Mon, 19 Oct 2026 18:01:59 -0500
-Message-ID: <20261019230159.834954-6-mrwillporter@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261019230159.834954-1-mrwillporter@gmail.com>
-References: <20261019230159.834954-1-mrwillporter@gmail.com>
+        Mon, 19 Oct 2026 16:24:20 -0700 (PDT)
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Christian Marangi <ansuelsmth@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/2] ASoC: Add support for AN7581 PCM driver
+Date: Tue, 20 Oct 2026 01:24:09 +0200
+Message-ID: <20261019232412.516028-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,260 +105,61 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Feature unit 12 sets the level of the mixer outputs: channels 1-2 Main,
-3-4 Cue. Two firmware faults make the generic control wrong on the
-MkI:
+The Airoha AN7581 SoC provides a PCM interface for VoIP applications,
+supporting playback and capture at sample rates of 8 kHz and 16 kHz.
+The driver configures the PCM bit clock to 2.048 MHz and supports
+8-bit and 16-bit samples, with up to 32 channels.
 
-- GET CUR does not return the FU 12 value. It returns a reply buffer
-  that the device shares with FU 10, MU 60 and XU 51. The buffer holds
-  the data of the last GET or SET to any of them. So the generic
-  sticky-GET check passes, because GET echoes the SET just sent. The
-  check then writes the stale value that it read first to channel 1.
-- Main L ignores its level, but Main R applies it. So any Main value
-  other than 0 dB unbalances the main outputs. audient_id14_map already
-  records this asymmetry. A loopback cable measured it: Main R at
-  -20 dB, -40 dB and mute changes its output by -20.0, -40.9 and
-  -56.6 dB. Main L at the same values changes nothing. Cue L and Cue R
-  both work.
+Add YAML and driver. This has been verified with loopback
+and confirmed by Airoha with ZSI voice chip.
 
-Replace the generic control with one of the same name, count and range.
-It is "Monitor Mix Playback Volume", with four values from 0 to 127 in
-1 dB steps. 127 is 0 dB. Value 0 is mute (0x8000), the floor that
-Audient's iD application writes, and the TLV says so. The four values
-keep the Main L/R, Cue L/R layout of existing saved ALSA states, but
-Main is now held at 0 dB.
+Changes v5:
+- Use local reset variable
+- Fix validation for channel and bit mask
+- Drop use of threaded IRQ
+- Return if snd_pcm_hw_constraint_integer errors out
 
-The control holds Main at 0 dB, as the iD application does. (The
-application has no Main fader and writes 0 dB at launch.) A put always
-sends 0 dB to channels 1-2 and returns that value to the caller. Get
-reports it too. For Cue the control shows the last value the device
-accepted. At probe the driver writes the iD application's launch values
-once per channel: Main 0 dB, Cue muted. A channel whose probe write
-fails reads as mute until a put succeeds.
+Changes v4:
+- Add review by tag for DT patch
+- Address shashiko bot comments
+- Better protext tx pos
+- Set DMA mask for coherent DMA
+- Use more managed resource
+- Increase users in startup
 
-The iD14 MkI profile in alsa-ucm-conf writes 127,127,127,127 to this
-control at boot and when its HiFi verb starts. The new control accepts
-that write: Main stays at 0 dB and Cue goes to 0 dB, the same result as
-with the generic control.
+Changes v3:
+- Out of RFC
+- Add Documentation patch
+- Drop SLIC testing code
+- Add MAINTAINERS entry
+- Follow normal pattern for commit title
+- Improve commit description
 
-Differences from the generic control:
-- Value 0 is now mute. It was -127 dB.
-- The control holds Main at 0 dB. A Main R attenuation stored with the
-  generic control (for example 107, -20 dB) now restores as 0 dB, which
-  raises Main R by 20 dB. Main L never applied that attenuation, so
-  Main R comes up to the level that Main L already had. FU 12 comes
-  before the monitor controller (XU 54) and the headphone level
-  (FU 10), so the volume knob still sets the listening level.
-- Cue starts muted at every probe. An output routed to the Cue Mix
-  keeps that routing across a module reload or a rebind. On mains
-  power it also keeps it across a replug. That output is then silent
-  until alsactl restore runs. On bus power the MkI returns to DAW Thru
-  when it enumerates, so no output is on the Cue Mix at probe.
+Changes v2:
+- Rentirely rework IRQ handling
+- Fix problem for timeslow configuration
+- Better support duplex mode
+- Better handle descriptor tracking
+- Move to Soc directory
+- General code fixup and cleanup
 
-Test setup:
-- iD14 MkI, firmware 1.1.1
-- Bazzite 44, kernel 7.2.9-ogc3.1.fc44
-- snd-usb-audio built out of tree from the v7.2.9 sound/usb sources
-  and the complete driver (this commit and the later ones)
+Christian Marangi (2):
+  ASoC: dt-bindings: airoha: Add AN7581 PCM controller
+  ASoC: airoha: Add support for AN7581 PCM driver
 
-Results:
-- the loopback measurements above
-- the Cue master, by ear
-- a put of 107,107,90,90 reads back 127,127,90,90
-- alsactl restore of the Cue level across a replug
+ .../bindings/sound/airoha,an7581-pcm.yaml     |  52 +
+ MAINTAINERS                                   |   7 +
+ sound/soc/Kconfig                             |   1 +
+ sound/soc/Makefile                            |   1 +
+ sound/soc/airoha/Kconfig                      |  10 +
+ sound/soc/airoha/Makefile                     |   3 +
+ sound/soc/airoha/an7581-pcm.c                 | 906 ++++++++++++++++++
+ 7 files changed, 980 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/airoha,an7581-pcm.yaml
+ create mode 100644 sound/soc/airoha/Kconfig
+ create mode 100644 sound/soc/airoha/Makefile
+ create mode 100644 sound/soc/airoha/an7581-pcm.c
 
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: Will Porter <mrwillporter@gmail.com>
----
- sound/usb/mixer_audient_id.c | 147 +++++++++++++++++++++++++++++++++++
- sound/usb/mixer_maps.c       |   2 +-
- 2 files changed, 148 insertions(+), 1 deletion(-)
-
-diff --git a/sound/usb/mixer_audient_id.c b/sound/usb/mixer_audient_id.c
-index 47e16e572..b729ca0d7 100644
---- a/sound/usb/mixer_audient_id.c
-+++ b/sound/usb/mixer_audient_id.c
-@@ -45,6 +45,7 @@
- #define ID14_IT_DIGITAL		0x01	/* input terminal: optical and coaxial inputs */
- #define ID14_FU_OUT		0x0a	/* feature unit before the outputs */
- #define ID14_FU_IN		0x0b	/* feature unit on the inputs: CN 1-2 Mic, 3-10 Digi */
-+#define ID14_FU_MIX		0x0c	/* feature unit after the mixer: CN 1-2 Main, 3-4 Cue */
- #define ID14_ROUTE		0x33	/* routing XU: CN = destination */
- #define ID14_MON		0x36	/* monitor controller XU */
- #define ID14_MIXER		0x3c	/* mixer unit: 14 inputs x 4 outputs */
-@@ -506,6 +507,149 @@ static int id_add_ctl(struct usb_mixer_interface *mixer, const struct id_ctl *c)
- 	return snd_usb_mixer_add_list(&e->list, kctl, false, true);
- }
- 
-+/*
-+ * iD14 MkI FU 12, the mixer output level: CN 1-2 Main, 3-4 Cue. GET RANGE works
-+ * (-127 ... 0 dB, 1 dB steps), but GET CUR returns a reply buffer the
-+ * device shares with other units, not the FU 12 value. So the generic
-+ * control (hidden by the name map) shows stale data, and its sticky-GET
-+ * check passes and then writes that stale value to Main L.
-+ *
-+ * The firmware ignores Main L (CN 1) but applies Main R (CN 2), so any Main
-+ * level other than 0 dB unbalances the main outputs (measured with a
-+ * loopback; Cue L and Cue R both work). The iD application has no Main
-+ * fader and writes 0 dB to Main at launch. This control holds Main at 0 dB:
-+ * a put sends 0 dB to CN 1-2 whatever it asks for, and get reports it.
-+ *
-+ * It keeps the generic control's name and format: four values, 0 ... 127
-+ * in 1 dB steps, 127 = 0 dB. Value 0 is mute (0x8000), the floor the iD
-+ * application writes. It shows the last value the device accepted, and
-+ * every put sends all four channels.
-+ */
-+#define ID14_FU12_CHANNELS	4
-+#define ID14_FU12_MAIN_CHANNELS	2	/* CN 1-2, held at 0 dB */
-+#define ID14_FU12_MAX		127
-+#define ID14_FU12_MUTE		0
-+
-+static const DECLARE_TLV_DB_MINMAX_MUTE(id14_fu12_tlv, -12700, 0);
-+
-+struct id14_fu12 {
-+	struct usb_mixer_elem_list list;	/* first: snd_usb_mixer_elem_free */
-+	long val[ID14_FU12_CHANNELS];
-+	u8 valid;	/* bit per channel */
-+};
-+
-+static s16 id14_fu12_raw(long val)
-+{
-+	return val == ID14_FU12_MUTE ? ID_DB_MIN : ID_DB(val - ID14_FU12_MAX);
-+}
-+
-+static int id14_fu12_write(struct id14_fu12 *f, unsigned int ch, long val)
-+{
-+	u8 buf[2];
-+	int err;
-+
-+	put_unaligned_le16(id14_fu12_raw(val), buf);
-+	err = id_xfer(f->list.mixer, true, ID14_FU_MIX, UAC_FU_VOLUME, ch + 1, buf, sizeof(buf));
-+	if (err < 0)
-+		return err;
-+	f->val[ch] = val;
-+	f->valid |= BIT(ch);
-+	return 0;
-+}
-+
-+static int id14_fu12_info(struct snd_kcontrol *kctl, struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = ID14_FU12_CHANNELS;
-+	uinfo->value.integer.min = 0;
-+	uinfo->value.integer.max = ID14_FU12_MAX;
-+	return 0;
-+}
-+
-+static int id14_fu12_get(struct snd_kcontrol *kctl, struct snd_ctl_elem_value *v)
-+{
-+	struct id14_fu12 *f = snd_kcontrol_chip(kctl);
-+	unsigned int ch;
-+
-+	/* A channel that was never written reads as mute. */
-+	for (ch = 0; ch < ID14_FU12_CHANNELS; ch++)
-+		v->value.integer.value[ch] = f->valid & BIT(ch) ? f->val[ch] : ID14_FU12_MUTE;
-+	return 0;
-+}
-+
-+static int id14_fu12_put(struct snd_kcontrol *kctl, struct snd_ctl_elem_value *v)
-+{
-+	struct id14_fu12 *f = snd_kcontrol_chip(kctl);
-+	unsigned int ch;
-+	long val;
-+	int err, changed = 0;
-+
-+	for (ch = 0; ch < ID14_FU12_CHANNELS; ch++)
-+		if (v->value.integer.value[ch] < 0 || v->value.integer.value[ch] > ID14_FU12_MAX)
-+			return -EINVAL;
-+
-+	CLASS(snd_usb_lock, pm)(f->list.mixer->chip);
-+	if (pm.err < 0)
-+		return pm.err;
-+
-+	/* Main is held at 0 dB: report that back to the caller. */
-+	for (ch = 0; ch < ID14_FU12_MAIN_CHANNELS; ch++)
-+		v->value.integer.value[ch] = ID14_FU12_MAX;
-+
-+	for (ch = 0; ch < ID14_FU12_CHANNELS; ch++) {
-+		val = v->value.integer.value[ch];
-+		if (!(f->valid & BIT(ch)) || f->val[ch] != val)
-+			changed = 1;
-+		err = id14_fu12_write(f, ch, val);
-+		if (err < 0)
-+			return err;
-+	}
-+	return changed;
-+}
-+
-+/*
-+ * At probe, write the iD application's launch values: Main at 0 dB (the
-+ * iD application has no Main fader) and Cue muted.
-+ */
-+static int id14_fu12_create(struct usb_mixer_interface *mixer)
-+{
-+	struct snd_kcontrol_new knew = {
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Monitor Mix Playback Volume",
-+		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE | SNDRV_CTL_ELEM_ACCESS_TLV_READ,
-+		.info = id14_fu12_info,
-+		.get = id14_fu12_get,
-+		.put = id14_fu12_put,
-+		.tlv.p = id14_fu12_tlv,
-+	};
-+	struct snd_kcontrol *kctl;
-+	struct id14_fu12 *f;
-+	unsigned int ch;
-+	int err;
-+
-+	f = kzalloc_obj(*f);
-+	if (!f)
-+		return -ENOMEM;
-+	f->list.mixer = mixer;
-+	f->list.id = ID14_FU_MIX;
-+
-+	for (ch = 0; ch < ID14_FU12_CHANNELS; ch++) {
-+		err = id14_fu12_write(f, ch, ch < ID14_FU12_MAIN_CHANNELS ?
-+				      ID14_FU12_MAX : ID14_FU12_MUTE);
-+		if (err < 0)	/* the channel stays unknown and reads as mute */
-+			usb_audio_warn(mixer->chip, "iD14: cannot set FU 12 channel %u (%d)\n",
-+				       ch + 1, err);
-+	}
-+
-+	kctl = snd_ctl_new1(&knew, f);
-+	if (!kctl) {
-+		kfree(f);
-+		return -ENOMEM;
-+	}
-+	kctl->private_free = snd_usb_mixer_elem_free;
-+	return snd_usb_mixer_add_list(&f->list, kctl, false, true);
-+}
-+
- /*
-  * iD14 MkI mixer crosspoints: CS 1, CN = input * 4 + output, s16 in
-  * 1/256 dB. The control value is the raw s16, -128 dB (mute) ... +6 dB;
-@@ -632,6 +776,9 @@ int snd_audient_id14_mk1_controls_create(struct usb_mixer_interface *mixer)
- 		if (err < 0)
- 			return err;
- 	}
-+	err = id14_fu12_create(mixer);
-+	if (err < 0)
-+		return err;
- 	for (in = 0; in < ARRAY_SIZE(id14_mix_inputs); in++) {
- 		for (out = 0; out < ID14_MIX_OUTPUTS; out++) {
- 			err = id14_mix_add_ctl(mixer, in, out);
-diff --git a/sound/usb/mixer_maps.c b/sound/usb/mixer_maps.c
-index 63a77f3eb..2228fd34f 100644
---- a/sound/usb/mixer_maps.c
-+++ b/sound/usb/mixer_maps.c
-@@ -529,7 +529,7 @@ static const struct usbmix_name_map audient_id14_map[] = {
- /* Audient iD14 MkI: model-specific control map. */
- static const struct usbmix_name_map audient_id14_mk1_map[] = {
- 	{ 11, NULL },			/* FU, see mixer_audient_id.c */
--	{ 12, "Monitor Mix Playback" },	/* FU, partial coverage */
-+	{ 12, NULL },			/* FU, see mixer_audient_id.c */
- 	{ 60, NULL },			/* MU, see mixer_audient_id.c */
- 	{}
- };
 -- 
-2.47.3
+2.55.0
 
