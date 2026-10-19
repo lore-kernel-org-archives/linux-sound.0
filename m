@@ -1,46 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59AD35DB997;
-	Mon, 19 Oct 2026 14:02:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521325DD54F;
+	Mon, 19 Oct 2026 14:02:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418529; cv=none; b=qNdcIA5soiatCeerUHQ3JWDX98ca8cCfGYFlBRUkrzbcTaB1ZEkEHohjFSO122XVznvLfCEemz5fuO7OSQHXXDkrnFrtYfLy2BTAYn8HwnI6DPGTpZpHuUmUpF1KCnro4LUf4TZAFrBs1a5x9GCSWTeVItnVO/8f3xZX8tHY5aw=
+	t=1792418533; cv=none; b=Rl7qFAX2yJ3i9e6j0yaRNC/6vKfaVP+LFlMuElMgrZ4JUi46qBpYDdwjToBg7vaSdaI+LHPShf6lAzAOG1u+XswPSMnSw54xjcBuFWWsmIp0d/2T/083Q60Bq3jfGOpfD6mkQaBjoHY495kPALD/4J3IqC778ubMhRAosdcUD30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418529; c=relaxed/simple;
-	bh=qucnsg15qvbXGKCdAJ3NkLpeWzosADriYjgjdfeZ6eo=;
+	s=arc-20240116; t=1792418533; c=relaxed/simple;
+	bh=dxMTzlf/7ads2KRefFkWIrQo4r+OoK8UUzVnXWVncHk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dsaxjCAB6Vo1u0jY6W1oYBNBz6J/vSbfdKaowLJdlAdB+FySwj/zbP1Ep2fv/obhgK/S0bautO9OmQiujZUQTQFtY2MpVBImqArfhWW+ZUhWDfMbDzGVXZMqdT/fnzAoBdq08fYLAdBKcHkPZy+Q/FCaW8P2Nf8dvU7ejApjQCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NCXQSKrE; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=nbcgsBFKXUaI54I1C3kkpzmJd+4cUOWwzfP52K9br6teGNMN3milZ89dxSk3WXTRhS6qY4HqKKpKSoo/XIVcm++acUtuWPIAiPpscL5gyV2Ftx8UwnXw/rlkwW8Vd3Hu4nWVMDoglDUHtc1n4A3iiKjixdP010axR/zvyaHhF30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g3Hj8G6t; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NCXQSKrE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B06A1F000CB;
-	Mon, 19 Oct 2026 14:02:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g3Hj8G6t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D4DB1F000C8;
+	Mon, 19 Oct 2026 14:02:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418527;
-	bh=jPvwjKS5G//xPAfl0ZnkZI6UltJ9LKGAm9jgfnQVCe8=;
+	s=k20260515; t=1792418530;
+	bh=/YsfFDAkMlCm00h3PNsmQrtiYwc9YWb6hLAHoW/doR4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=NCXQSKrEvH2+cpjnWEQmA44Oz7uYhKUEfonlf07q1t3qbH1JnXTtxN14wxTPbVdjP
-	 ciJ+e799QQkTPPdyH6nbTR9ZyzjpjeK1BXO9IuYJaODcFMLBEeRCzLwRMFZ8nI6Vgg
-	 kzxMWtxwyKrNSI0x/NL/Cu8IOoAtYYdqRDex5aYdBe8/mUpVCzzOy3UnSH8Fr9svjc
-	 3PToelc8smAUmUaxc/5qxztTL/5IUdLy4vGmdLjjRNf1L9va6nMdvwbi1nnxMeuPky
-	 huy+jAcO/4x1zjlLnPOq2Qx5CzOSJde1Oxpdnj/81xV3/Qw/Esl17ILnlx16xZV/G3
-	 jFgoPzPq4afyQ==
+	b=g3Hj8G6t1zPawCFOrjuNiD9sxKGflkKH/8ex6sYyxqL1TtEkcJSYEXuwqzx/Xnn9u
+	 vFiIjntSFz+zoDPy+4y24MgiIbjYWh3trj0mBHjaKqRC31CSE75d1WhIzZU7Sm1/2L
+	 GK7zqIAMYwz5PNNGwKsiGiJjGa6TSAljy9XOeaxMmGBJPHggm/wNZutiPId8I48/PZ
+	 5LCAUOv+Km72xNv7iFYNGFAj3NkAYtOm+wdfKjg4yEQzTynaQR3rvsm1Oi+yxPJnSd
+	 h2/aV2aUlc9u09DKacPyjJpJd7lMMq+jmZsmsYryILvyf2HzW6vjVKCOVImmCP+CXb
+	 28K0SaGGHv3GA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Zhang Heng <zhangheng@kylinos.cn>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Hernan Ganzo <gp@sneemgp.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	Vijendar.Mukunda@amd.com,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.1] ASoC: amd: yc: Add DMI entry for Alienware m18 R1 AMD
-Date: Mon, 19 Oct 2026 09:50:02 -0400
-Message-ID: <20261019135441.1420968-311-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] ALSA: hda/realtek: Limit internal mic boost on HP Pavilion 15 (103c:2164)
+Date: Mon, 19 Oct 2026 09:50:04 -0400
+Message-ID: <20261019135441.1420968-313-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -56,477 +54,456 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Zhang Heng <zhangheng@kylinos.cn>
+From: Hernan Ganzo <gp@sneemgp.com>
 
-[ Upstream commit fd8ed52ecea6b93e23d52cb2758fb4fb4029067f ]
+[ Upstream commit 786fb6b3f513937f712db5a9ba6a12cbc6982ba9 ]
 
-Add DMI entry so the YC machine driver probes on this model and
-the internal DMIC works.
+The HP Pavilion 15 with the ALC3227 codec (SSID 103c:2164) exposes the full
+four-step internal mic boost on pin 0x12: nsteps=3 with stepsize=0x2f, that is
+0, 12, 24 and 36 dB. Combined with the ADC capture gain of +30 dB the analogue
+cascade reaches 66 dB, and the internal microphone clips on the ambient noise of
+a quiet room; the upper two steps are unusable at any useful input level. This
+is the defect class ALC269_FIXUP_LIMIT_INT_MIC_BOOST exists for.
 
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221485
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
-Link: https://patch.msgid.link/20260824130302.553419-1-zhangheng@kylinos.cn
-Signed-off-by: Mark Brown <broonie@kernel.org>
+The machine matches no SSID quirk and falls through to the pin table, which
+selects ALC269_FIXUP_HP_MUTE_LED_MIC1 through a pin signature shared with
+several other HP models. Add an SSID entry instead, using
+ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED: the existing fixup that applies
+alc269_fixup_limit_int_mic_boost() and chains to the same mute LED fixup, as
+already done for 103c:218b. The boost becomes 0 or 12 dB and the LED handling is
+unchanged.
+
+Tested on the affected machine by selecting the same fixup through the model
+string (snd-hda-intel.model), which bypasses the SSID and pin tables, with the
+driver confirming the selection:
+
+  snd_hda_codec_alc269 hdaudioC1D0: ALC3227: picked fixup limit-mic-boost (model specified)
+
+With that, Internal Mic Boost reports Limits 0 - 1 (0 or 12 dB) instead of 0 - 3
+(0 to 36 dB), so alc269_fixup_limit_int_mic_boost() clamps this codec's internal
+mic pin as intended. Note that /proc/asound/card1/codec#0 keeps printing the
+unclamped hardware caps (nsteps=0x03): that file reads codec parameters uncached
+by design, while the fixup overrides the driver's cached parameter that the
+control is built from.
+
+This does not by itself make the default capture volume sane -- the remaining
+12 dB on top of the +30 dB ADC gain is still hotter than this machine's usable
+operating point. It removes the two unusable steps from the hardware range, which
+is what a quirk of this class can do.
+
+Signed-off-by: Hernan Ganzo <gp@sneemgp.com>
+Link: https://patch.msgid.link/20260921205538.41192-1-gp@sneemgp.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This is a DMI quirk that enables the existing Yellow Carp DMIC driver on
-one Alienware laptop. The local tree is **6.12.111** (`pending-6.12`);
-the entry is not present here yet, and the surrounding driver/table are.
-
 ===============================================================
 PHASE 1: COMMIT MESSAGE FORENSICS
 ===============================================================
 
-**Step 1.1: PARSE THE SUBJECT LINE**
+Step 1.1: PARSE THE SUBJECT LINE
+Record: [ALSA: hda/realtek] [Limit] [Add an SSID quirk so the HP
+Pavilion 15 (103c:2164) uses the existing internal-mic boost limiter
+plus mute-LED chain]
 
-Record: **[ASoC/amd/yc] [Add] Add DMI entry for Alienware m18 R1 AMD**
-
-- Subsystem: `ASoC: amd: yc:` (ALSA SoC, AMD Yellow Carp ACP6x machine
-  driver)
-- Action verb: **Add** — here it is a DMI/quirk table addition, not a
-  new driver
-- Intent: make the YC machine driver probe on this model so the internal
-  digital mic works
-
-**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-
-Record (from `git show fd8ed52ecea6b93e23d52cb2758fb4fb4029067f` and the
-mailing-list mbox):
-
-- **Closes:** `https://bugzilla.kernel.org/show_bug.cgi?id=221485` —
-  user-filed kernel.org bug
-- **Link:** `https://patch.msgid.link/20260824130302.553419-1-
-  zhangheng@kylinos.cn`
-- **Signed-off-by:** Zhang Heng `<zhangheng@kylinos.cn>` (author)
-- **Signed-off-by:** Mark Brown `<broonie@kernel.org>` (ASoC maintainer;
-  applied to `sound.git for-7.3`)
-- **No Fixes:** tag (expected)
-- **No Cc: stable** (expected)
-- **No Reported-by / Tested-by / Reviewed-by / Acked-by**
-- Ignore pipeline SOB markers
-
-Notable: Closes a public bugzilla; ASoC maintainer applied it. No
-syzbot/KASAN.
-
-**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
-
+Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
 Record:
+- Link: https://patch.msgid.link/20260921205538.41192-1-gp@sneemgp.com
+- Signed-off-by: Hernan Ganzo <gp@sneemgp.com> (author)
+- Signed-off-by: Takashi Iwai <tiwai@suse.de> (ALSA maintainer)
+- Signed-off-by: Sasha Levin — ignored per instructions
+- `[ Upstream commit 786fb6b3f513937f712db5a9ba6a12cbc6982ba9 ]` —
+  ignored per instructions
+- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or Cc:
+  stable (absence expected)
 
-- **Bug:** BIOS on Alienware m18 R1 AMD does not cause the YC machine
-  driver to bind, so the internal DMIC is not registered.
-- **Symptom:** internal microphone does not work (no ACP DMIC capture
-  device).
-- **Root cause (author):** missing DMI match in `yc_acp_quirk_table[]`.
-- **Version info:** none in the message. Driver exists since 2021
-  (`fa991481b8b22`).
-- **Fix:** add `DMI_BOARD_VENDOR "Alienware"` + `DMI_PRODUCT_NAME
-  "Alienware m18 R1 AMD"`.
+Step 1.3: ANALYZE THE COMMIT BODY TEXT
+Record:
+- Bug: HP Pavilion 15 ALC3227 (SSID 103c:2164) exposes a four-step
+  internal mic boost (0/12/24/36 dB) on pin 0x12. With ADC capture gain
+  of +30 dB the analogue cascade is 66 dB; the mic clips on quiet-room
+  ambient noise. The top two steps are unusable.
+- Symptom: Distorted/clipped internal-mic capture; Internal Mic Boost
+  reports Limits 0–3.
+- Root cause: No SSID quirk, so the machine falls through to the pin
+  table and gets only `ALC269_FIXUP_HP_MUTE_LED_MIC1` (mute LED, no
+  boost clamp). This is the class `ALC269_FIXUP_LIMIT_INT_MIC_BOOST`
+  exists for.
+- Fix: Add SSID 103c:2164 using existing
+  `ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED` (same as 103c:218b): clamp
+  boost to 0 or 12 dB, keep mute LED.
+- Tested on the affected machine via `snd-hda-intel.model=limit-mic-
+  boost`; driver log confirmed the pick; mixer Limits became 0–1.
+- Author notes the remaining 12 dB + 30 dB ADC is still hotter than
+  ideal; the quirk only removes the two unusable steps.
+- No kernel-version range given.
 
-Same class as existing sibling entries already in this tree (m15 R7 AMD,
-m17 R5 AMD).
-
-**Step 1.4: DETECT HIDDEN BUG FIXES**
-
-Record: Not hidden. It is an explicit hardware-quirk / device-enablement
-fix. Stable exception category: DMI quirk for existing driver.
+Step 1.4: DETECT HIDDEN BUG FIXES
+Record: Not a disguised cleanup. It is an explicit hardware quirk: one
+`SND_PCI_QUIRK` for a known broken boost range.
 
 ===============================================================
 PHASE 2: DIFF ANALYSIS - LINE BY LINE
 ===============================================================
 
-**Step 2.1: INVENTORY THE CHANGES**
-
+Step 2.1: INVENTORY THE CHANGES
 Record:
+- File: `sound/hda/codecs/realtek/alc269.c` (+1 / −0)
+- Function/table: `alc269_fixup_tbl[]` only
+- Scope: single-file, one-line table insertion
 
-- File: `sound/soc/amd/yc/acp6x-mach.c` — **+7 / -0**
-- Function: none; one new initializer in `yc_acp_quirk_table[]`
-- Scope: **single-file surgical quirk addition**
-
-**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-
+Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
 Record:
+- Before: PCI SSID 103c:2164 is absent from `alc269_fixup_tbl`.
+  `snd_hda_pick_fixup()` does not match; `snd_hda_pick_pin_fixup()` then
+  selects `ALC269_FIXUP_HP_MUTE_LED_MIC1` for a shared HP pin signature.
+- After: SSID matches `ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED`. That
+  fixup runs `alc269_fixup_limit_int_mic_boost()` and chains to
+  `ALC269_FIXUP_HP_MUTE_LED_MIC1`.
+- Path: codec probe / fixup selection. Other SSIDs unchanged.
 
-- **Before:** `dmi_first_match(yc_acp_quirk_table)` in `acp6x_probe()`
-  does not match this product. If ACPI `_WOV` / `AcpDmicConnected` also
-  fail (typical on these Dell/Alienware BIOS images),
-  `platform_get_drvdata()` is NULL and probe returns `-ENODEV`. No
-  `acp6x` DMIC card.
-- **After:** DMI matches, `platform_set_drvdata(pdev, &acp6x_card)`,
-  card registers. Log: `Enabling ACP DMIC support via DMI`.
-- Path: probe/init only; no hot path, no locking, no API change.
+Step 2.3: IDENTIFY THE BUG MECHANISM
+Record:
+- Category: hardware workaround (quirk / device-ID table entry)
+- Mechanism: hardware advertises nsteps=3, stepsize=0x2f.
+  `alc269_fixup_limit_int_mic_boost()` calls
+  `snd_hda_override_amp_caps()` on internal-mic pins so NUM_STEPS
+  becomes 1 (0 or 12 dB). Without the SSID, that override never runs.
 
-Verified in this tree:
+Verified in this tree (`alc269.c`):
 
-```817:826:sound/soc/amd/yc/acp6x-mach.c
-check_dmi_entry:
-        /* check for any DMI overrides */
-        dmi_id = dmi_first_match(yc_acp_quirk_table);
-        if (dmi_id)
-                platform_set_drvdata(pdev, dmi_id->driver_data);
-
-        card = platform_get_drvdata(pdev);
-        if (!card)
-                return -ENODEV;
-        dev_info(&pdev->dev, "Enabling ACP DMIC support via %s", dmi_id
-? "DMI" : "ACPI");
+```2371:2391:sound/hda/codecs/realtek/alc269.c
+        /* The mic boosts on level 2 and 3 are too noisy
+           on the internal mic input.
+           Therefore limit the boost to 0 or 1. */
+        ...
+                snd_hda_override_amp_caps(codec, nid, HDA_INPUT,
+                                          (0x00 <<
+AC_AMPCAP_OFFSET_SHIFT) |
+                                          (0x01 <<
+AC_AMPCAP_NUM_STEPS_SHIFT) |
+                                          (0x2f <<
+AC_AMPCAP_STEP_SIZE_SHIFT) |
+                                          (0 << AC_AMPCAP_MUTE_SHIFT));
 ```
 
-**Step 2.3: IDENTIFY THE BUG MECHANISM**
+Chained fixup verified:
 
-Record: **(h) Hardware workaround / DMI quirk**
+```4511:4516:sound/hda/codecs/realtek/alc269.c
+        [ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED] = {
+                .type = HDA_FIXUP_FUNC,
+                .v.func = alc269_fixup_limit_int_mic_boost,
+                .chained = true,
+                .chain_id = ALC269_FIXUP_HP_MUTE_LED_MIC1,
+        },
+```
 
-BIOS does not advertise DMIC via ACPI; the machine must be listed.
-Without the entry, the existing ACP6x PDM path never registers.
-Mechanism is identical to m15 R7 / m17 R5 entries already here.
+SSID lookup runs first; pin match is skipped once `fixup_id` is set
+(`snd_hda_pick_pin_fixup()` returns immediately if `codec->fixup_id !=
+HDA_FIXUP_ID_NOT_SET`).
 
-**Step 2.4: ASSESS THE FIX QUALITY**
-
+Step 2.4: ASSESS THE FIX QUALITY
 Record:
-
-- Obviously correct: same struct shape as every other table entry;
-  `driver_data = &acp6x_card`.
-- Minimal: 7 lines, one model.
-- Regression risk: **very low**. Match is vendor+product-name specific.
-  Other machines are unaffected. If this SKU has no ACP6x PCI device,
-  `acp6x_probe()` never runs and the entry is inert.
-- No public API, no data-structure layout change, no new Kconfig.
+- Obviously correct: reuses a 2013 combined boost+LED fixup already used
+  for 103c:218b.
+- Minimal: one sorted table line; no API, no new fixup enum.
+- Regression risk: very low. Only SSID 103c:2164 is affected. Mute LED
+  is the same chain the pin table already applied. Boost clamp only
+  touches internal-mic amp caps at probe.
+- Caveat (verified): on-machine testing used model string `limit-mic-
+  boost` (`ALC269_FIXUP_LIMIT_INT_MIC_BOOST`, which chains ThinkPad
+  ACPI, not HP mute LED). That proves the clamp works on this codec;
+  SSID selection of the MUTE_LED variant is by construction (same boost
+  function + same LED chain as the pin table).
 
 ===============================================================
 PHASE 3: GIT HISTORY INVESTIGATION
 ===============================================================
 
-**Step 3.1: BLAME THE CHANGED LINES**
-
+Step 3.1: BLAME THE CHANGED LINES
 Record:
+- Insertion sits between 103c:18e6 (`ALC269_FIXUP_HP_GPIO_LED`) and
+  103c:218b (`ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED`).
+- Combined fixup and 103c:218b come from `8e35cd4ac9967` (“ALSA: HDA -
+  Limit mic boost and add mute LED for an HP machine”, 2013-11-06, David
+  Henningsson / Takashi Iwai). That commit exists in this tree (`git
+  merge-base --is-ancestor 8e35cd4ac9967 HEAD` → 0).
+- Boost-limit helper has been in the Realtek HDA driver since that era;
+  file later moved (`6014e9021b28e`) and split (`aeeb85f26c3bb`).
 
-- Insertion is after the m17 R5 AMD entry, blamed to `d40b6529c6269`
-  (Brent Mendelsohn, 2022-10-24): “This model requires an additional
-  detection quirk to enable the internal microphone - BIOS doesn't seem
-  to support AcpDmicConnected”.
-- m15 R7 AMD: `c70f006356fac` (already in this 6.12 tree).
-- Machine driver introduced: `fa991481b8b22` (2021-10-18, v5.16-era).
-  Present long before 6.12.
+Step 3.2: FOLLOW THE FIXES: TAG
+Record: No Fixes: tag. Not applicable. The “bug” is a missing per-board
+quirk, not a regression from a later commit.
 
-The “bug” is absence of this SKU from a table that has existed for
-years.
+Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
+Record: Recent `alc269.c` history is other per-machine quirks (HP mute
+LEDs, ASUS speakers, Star Labs mic boost). Same class of standalone
+entries. No prerequisite refactor needed for this one line.
 
-**Step 3.2: FOLLOW THE FIXES: TAG**
+Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
+Record: Only this Realtek HDA commit from Hernan Ganzo in this tree.
+Signed off by Takashi Iwai, who maintains ALSA HDA and routinely merges
+these quirk lines.
 
-Record: No Fixes: tag. N/A. Introduced-by is “never listed this DMI
-string,” not a later regression.
-
-**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-
-Record: This file on 6.12.y is a long series of standalone DMI additions
-(`git log --oneline --grep='Add DMI' -- sound/soc/amd/yc/acp6x-mach.c` →
-24 commits). Parent of the candidate is `e2aa5ad3be41a` (“Add DMI entry
-for MSI Thin A15 B7UC”), already in this tree as `aacaae0b94875`.
-**Standalone, not patch X/Y.**
-
-**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-
-Record: Zhang Heng is a regular DMI-quirk contributor in this same file
-on this tree (HP Victus 16-e1xxx, Thin A15 B7VF, ASUS EXPERTBOOK
-PM1503CDA, Acer TravelMate P216-41-TCO). Not the subsystem maintainer;
-Mark Brown applied the patch.
-
-**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-
-Record: None. Relies only on `yc_acp_quirk_table` and `acp6x_card`, both
-in this checkout. `git merge-base --is-ancestor fd8ed52ecea6 HEAD` is
-false (fix not yet here). No follow-up/revert grepping `Alienware m18`
-on this path.
+Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
+Record: Standalone. Depends only on
+`ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED`,
+`alc269_fixup_limit_int_mic_boost()`, and `alc269_fixup_tbl[]`, all
+present on v6.18.57. Neighboring 103c:18e6 / 103c:218b lines match the
+hunk context, so it applies cleanly to this series.
 
 ===============================================================
 PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 ===============================================================
 
-**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
-
+Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
 Record:
+- `b4 dig -c 786fb6b3f513937f712db5a9ba6a12cbc6982ba9` →
+  https://patch.msgid.link/20260921205538.41192-1-gp@sneemgp.com
+- `b4 dig -a`: single v1 series, 2026-09-21, Hernan Ganzo. No v2/v3.
+- Thread (via `b4 mbox`): author patch + Takashi Iwai reply 2026-09-28:
+  “Applied now. Thanks.” No NAK, no requested changes, no stable
+  discussion in-thread.
+- lore WebFetch returned 403; thread recovered with b4 instead.
 
-- `b4 dig -c fd8ed52ecea6` →
-  https://patch.msgid.link/20260824130302.553419-1-zhangheng@kylinos.cn
-- `b4 dig -a`: **v1 only** (no later revision)
-- Thread (2 messages, saved via `b4 mbox`):
-  1. Zhang Heng, 2026-08-24: the patch
-  2. Mark Brown: **Applied** to
-     `git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git
-     for-7.3` as `fd8ed52ecea6`
-- No NAK, no requested changes, no reviewer concern about the DMI
-  strings
-- Also listed in sound fixes for 7.3-rc1 (lkml.iu.edu sound-fix pull)
+Step 4.2: CHECK WHO REVIEWED THE PATCH
+Record (`b4 dig -w`): To/Cc linux-sound@vger.kernel.org, tiwai@suse.com,
+perex@perex.cz. Subsystem maintainer applied it. No other reviewers.
 
-**Step 4.2: CHECK WHO REVIEWED THE PATCH**
+Step 4.3: SEARCH FOR THE BUG REPORT
+Record: No bugzilla/syzbot/Launchpad link on this patch. Evidence is the
+author’s on-machine test (kmsg + mixer Limits). The 2013 sibling quirk
+103c:218b had Launchpad 1248476 (same defect class: noisy internal mic +
+mute LED).
 
-Record (`b4 dig -w`): To/Cc = Zhang Heng, `broonie@kernel.org`, `linux-
-sound@vger.kernel.org`, `linux-kernel@vger.kernel.org`. ASoC maintainer
-was the recipient and applied it. No extra reviewer Ack.
+Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
+Record: Standalone, not part of a multi-patch series. Same table already
+has many `ALC269_FIXUP_LIMIT_INT_MIC_BOOST*` entries (ThinkPad, ASUS,
+Positivo, VAIO, Star Labs). `56b321df2863d` “Limit Star Labs internal
+mic boost” is already in v6.18.57.
 
-**Step 4.3: SEARCH FOR THE BUG REPORT**
-
-Record:
-
-- Closes bugzilla.kernel.org 221485.
-- Direct fetch of bugzilla and lore HTML was blocked by Anubis (403 /
-  PoW). **Full bugzilla comments UNVERIFIED.**
-- Commit body + Closes: tag still document a real user-facing DMIC
-  failure on this model.
-- Unrelated Ubuntu bugs about Intel Alienware 18 Area-51 / SOF are a
-  different machine; not this ACP6x DMI.
-
-**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-
-Record: Standalone `[PATCH]`, not a series. Sibling Alienware YC entries
-already in this tree.
-
-**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-
-Record: Web search of lore.kernel.org/stable for this subject found
-**no** discussion. No record of a prior rejection. Absence is expected;
-this is why the commit is under review.
+Step 4.5: CHECK STABLE MAILING LIST HISTORY
+Record: UNVERIFIED. `https://lore.kernel.org/stable/?q=...` returned
+403. No evidence in the sound thread that stable was discussed or
+rejected.
 
 ===============================================================
 PHASE 5: CODE SEMANTIC ANALYSIS
 ===============================================================
 
-**Step 5.1: KEY FUNCTIONS**
+Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
+Record: No function body changed. Data only: `alc269_fixup_tbl[]`.
+Runtime path: `snd_hda_pick_fixup()` → `snd_hda_apply_fixup()` →
+`alc269_fixup_limit_int_mic_boost()` +
+`alc269_fixup_hp_mute_led_mic1()`.
 
-Record: Table data only. Consumer: `acp6x_probe()`.
-
-**Step 5.2: TRACE CALLERS**
-
+Step 5.2: TRACE CALLERS
 Record:
+- `alc269` probe (`alc269.c` ~8557) calls `snd_hda_pick_fixup(codec,
+  alc269_fixup_models, alc269_fixup_tbl, alc269_fixups)`.
+- Then pin-table pick, which is a no-op once SSID matched.
+- Probe/init path only, not IRQ or syscall hot path.
 
-- `acp6x_probe` is `.probe` of `platform_driver acp6x_mach_driver`
-  (`name = "acp_yc_mach"`).
-- Platform device created in `sound/soc/amd/yc/pci-acp6x.c` when ACP pin
-  config is PDM mode (`pdevinfo[2].name = "acp_yc_mach"`).
-- Context: boot / ACPI+PCI enumeration. Not IRQ, not a syscall hot path.
+Step 5.3: TRACE CALLEES
+Record: `alc269_fixup_limit_int_mic_boost()` uses
+`snd_hda_codec_get_pincfg()`, `snd_hda_get_input_pin_attr()`,
+`snd_hda_override_amp_caps()`. Mute LED helper registers LED cdev /
+power filter. All already used by other HP SSIDs.
 
-**Step 5.3: TRACE CALLEES**
+Step 5.4: FOLLOW THE CALL CHAIN
+Record: Reachable when this laptop enumerates HDA (boot / resume /
+module load). Not a userspace-exploit path; userspace mixer sees a
+smaller boost range. Unprivileged users benefit because capture is
+usable without a model= module option.
 
-Record: `dmi_first_match`, `platform_set_drvdata`,
-`devm_snd_soc_register_card`. No alloc/lock change in this commit.
-
-**Step 5.4: FOLLOW THE CALL CHAIN**
-
-Record: PCI ACP6x device → create `acp_yc_mach` → `acp6x_probe` → DMI
-table → ALSA card `acp6x` / “DMIC capture”. Reachable on this laptop at
-boot. Userspace then sees a capture device. Unprivileged apps can use
-the mic once the card exists; they cannot trigger a kernel crash with
-this patch.
-
-**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-
-Record: Entire `yc_acp_quirk_table[]` (~200 `DMI_MATCH` lines) is this
-pattern. Same Alienware vendor/product matching is already used for m15
-R7 and m17 R5.
+Step 5.5: SEARCH FOR SIMILAR PATTERNS
+Record: Same table already maps 103c:218b to this exact fixup. Many
+other boards use `ALC269_FIXUP_LIMIT_INT_MIC_BOOST`. Systematic, well-
+worn pattern.
 
 ===============================================================
 PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 ===============================================================
 
-**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-
+Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
 Record:
+- Local tree: `v6.18.57-155-gcdf239ca885b2`, `make kernelversion` =
+  6.18.57.
+- Baseline v6.18.57: `sound/hda/codecs/realtek/alc269.c` exists;
+  `ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED` exists; 103c:218b exists;
+  **103c:2164 does not**.
+- Without the line, this HP falls through to the pin table
+  (`ALC269_FIXUP_HP_MUTE_LED_MIC1` entries for codec 0x10ec0282 / vendor
+  0x103c are present). ALC3227 is the HP OEM name for 0x10ec0282
+  (`realtek.c`: `{ 0x10ec0282, 0x103c, 0, "ALC3227" }`).
+- Hardware defect is as old as the machine; software has never limited
+  this SSID.
 
-- Tree: `git describe HEAD` → `p-6.12-3-gc504cf0baa3d8`; `make
-  kernelversion` → **6.12.111**; branch `pending-6.12`.
-- File and table exist. m15 R7 and m17 R5 entries exist. **`Alienware
-  m18 R1 AMD` does not** (`grep` no matches).
-- ACPI fallback (`AcpDmicConnected` / `_WOV`) is the same as mainline;
-  this SKU still needs DMI.
-- Driver since 2021; 6.12 is affected.
+Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
+Record: Clean apply. v6.18.57 context is identical to the hunk (`0x18e6`
+then `0x218b`). File path is already `sound/hda/codecs/realtek/alc269.c`
+on 6.18.y (move/split already landed).
 
-**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-
-Record: **Clean apply / trivial offset.** Insertion is immediately after
-the m17 R5 AMD block, which is present at lines 503–509. The candidate’s
-3-line context matches this file. Preceding MSI “Raider A18 HX A9WJG”
-from a later mainline snapshot is **not** required.
-
-**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-
-Record: No m18 R1 entry. No alternate fix for this product string.
-m15/m17 quirks do not cover m18 (exact `DMI_PRODUCT_NAME` match).
+Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
+Record: No other 103c:2164 quirk. Sibling boost+LED fixup and Star Labs
+boost limit are already in v6.18.57. This SSID is the missing piece.
 
 ===============================================================
 PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 ===============================================================
 
-**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
+Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
+Record: ALSA HD-audio Realtek codec (`sound/hda/codecs/realtek/`).
+IMPORTANT for laptop audio, not core mm/fs. Still a long-lived
+production driver.
 
-Record: **ASoC AMD Yellow Carp (`sound/soc/amd/yc/`)** —
-**PERIPHERAL/driver-specific**, but the quirk table is the supported way
-to enable DMIC on YC laptops. Kconfig: `SND_SOC_AMD_YC_MACH` depends on
-`SND_SOC_AMD_ACP6x && ACPI`.
-
-**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-
-Record: Mature driver (2021), still actively receiving DMI quirks (many
-already on 6.12.y). This is the normal maintenance pattern, not a new
-subsystem.
+Step 7.2: ASSESS SUBSYSTEM ACTIVITY
+Record: High activity: frequent one-line `SND_PCI_QUIRK` additions,
+routinely taken by Iwai. Mature quirk table; this is not new-subsystem
+code.
 
 ===============================================================
 PHASE 8: IMPACT AND RISK ASSESSMENT
 ===============================================================
 
-**Step 8.1: DETERMINE WHO IS AFFECTED**
+Step 8.1: DETERMINE WHO IS AFFECTED
+Record: Driver-specific / SSID-specific. Only HP Pavilion 15 with PCI
+SSID 103c:2164 (ALC3227). Other machines unchanged.
 
-Record: **Driver-specific / DMI-specific.** Only systems whose DMI board
-vendor is `Alienware` and product name is `Alienware m18 R1 AMD`, and
-that actually instantiate `acp_yc_mach`. Everyone else: no code path
-change.
+Step 8.2: DETERMINE THE TRIGGER CONDITIONS
+Record: Always on that hardware: every probe, default mixer range
+includes 24/36 dB boost. No race. An unprivileged user using the
+internal mic hits it. Workaround today is `snd-hda-intel.model=limit-
+mic-boost`.
 
-**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
+Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
+Record: Internal microphone clips / is unusable at the two highest boost
+steps (and noisy even at ambient). Not oops/deadlock/corruption.
+Severity: MEDIUM for that machine, but it is a documented hardware quirk
+class that stable-kernel-rules explicitly include.
 
-Record: Every boot on that laptop if ACP6x PDM mode is active. Not a
-race. Not unprivileged-exploit. Common for owners of that model; zero
-for others.
-
-**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-
-Record: Internal microphone missing (ALSA card never registered).
-**MEDIUM** functionally (hardware does not work), not a panic/UAF. Still
-the exact class stable accepts as a quirk.
-
-**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-
+Step 8.4: CALCULATE RISK-BENEFIT RATIO
 Record:
-
-- **Benefit:** restores internal mic on a shipping AMD Alienware laptop
-  for 6.12.y users (enterprise/LTS kernels). Documented via bugzilla
-  Closes.
-- **Risk:** very low (7 lines, DMI-gated, existing table format,
-  maintainer-applied).
-- **Ratio:** strongly favors backport.
+- Benefit: high for owners of this SKU (usable capture range without a
+  module option); zero for everyone else.
+- Risk: very low (1 line, SSID-gated, existing fixup, maintainer-
+  applied, tested).
+- Ratio: strongly favorable.
 
 ===============================================================
 PHASE 9: FINAL SYNTHESIS
 ===============================================================
 
-**Step 9.1: COMPILE THE EVIDENCE**
-
+Step 9.1: COMPILE THE EVIDENCE
 FOR:
-
-- Real hardware bug: internal DMIC never enabled without DMI
-- Closes kernel.org bug 221485
-- Textbook stable exception: DMI quirk on an existing driver
-- 7-line, obviously correct, matches m15/m17 entries already in 6.12
-- File, probe path, and table exist here; patch applies
-- Applied by Mark Brown; landed in sound 7.3-rc1 fixes
-- Standalone; no prerequisites missing from this tree
-- This tree already carries dozens of the same DMI additions
+- One-line PCI/SSID quirk on an existing driver — stable-kernel-rules:
+  “fix a real bug that bothers people or just add a device ID”;
+  “hardware quirk” is listed as in-scope.
+- Real user-visible defect: 66 dB analogue cascade, clipping on quiet-
+  room noise; author tested on the machine.
+- Reuses `ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED` already in 6.18.y
+  (103c:218b since 2013).
+- Mute LED preserved via chain to the same pin-table fixup.
+- Applies cleanly to v6.18.57; no new APIs; ALSA maintainer applied v1
+  with no objections.
+- Same class as other boost-limit quirks already in this tree (e.g. Star
+  Labs).
 
 AGAINST:
-
-- Not a crash/security/corruption issue
-- No Tested-by/Reviewed-by besides maintainer apply
-- Full bugzilla thread could not be fetched (Anubis)
+- Not a crash/security/data-corruption fix; one laptop SKU.
+- Author says remaining 12 dB + 30 dB ADC is still hotter than ideal
+  (partial mitigation by design of this quirk class).
+- Model-string test used `limit-mic-boost`, not the MUTE_LED SSID id
+  (boost path still verified on hardware).
 
 UNRESOLVED:
+- Stable mailing-list search blocked (HTTP 403).
+- lore WebFetch 403; discussion recovered via b4 mbox.
 
-- Exact bugzilla comments / reporter DMI dump (UNVERIFIED)
-- Whether every m18 R1 AMD SKU is ACP6x vs a later ACP (if not, entry is
-  a harmless no-op)
+Step 9.2: APPLY THE STABLE RULES CHECKLIST
+1. Obviously correct and tested? PASS — one table line, existing fixup,
+   on-machine test, maintainer “Applied now.”
+2. Fixes a real bug that affects users? PASS — unusable internal-mic
+   boost steps on this HP.
+3. Important issue? PASS as hardware quirk (explicitly allowed); not
+   CRITICAL crash.
+4. Small and contained? PASS — +1 line, one file.
+5. No new features or APIs? PASS — existing fixup ID only.
+6. Can apply to the local tree? PASS — v6.18.57 has the file, fixup, and
+   identical hunk context; 103c:2164 is missing on the 6.18.57 baseline.
 
-**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
+Step 9.3: CHECK FOR EXCEPTION CATEGORIES
+Record: Hardware quirk / device-ID addition to an existing driver.
+Automatic stable-qualifier.
 
-1. Obviously correct and tested? **PASS** — identical to existing table
-   entries; maintainer applied v1
-2. Fixes a real bug that affects users? **PASS** — mic does not work;
-   bugzilla Closes
-3. Important issue? **PASS** as hardware-quirk exception (mic unusable
-   on that model; not a panic)
-4. Small and contained? **PASS** — +7 lines, one file
-5. No new features or APIs? **PASS** — DMI ID on existing driver
-6. Can apply to the local tree? **PASS** — YC driver + insertion point
-   present
+Step 9.4: MAKE YOUR DECISION
+This is a textbook stable HDA quirk: SSID-matched, one line, existing
+helper, real capture breakage on a shipping laptop, clean apply on
+6.18.y. Include it.
 
-**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
+What it solves for stable users: on HP Pavilion 15 103c:2164, Internal
+Mic Boost is clamped to 0/12 dB instead of 0–36 dB, so the mic no longer
+clips at the two hardware steps that this codec cannot use. Mute LED
+behavior stays the pin-table path.
 
-Record: **Hardware quirk / DMI table entry for an existing driver.**
-Explicitly allowed.
+Risk vs benefit: benefit is localized and real; risk is confined to that
+SSID and the helper has been in-tree for years.
 
-**Step 9.4: DECISION**
-
-Backport to this 6.12.y tree. It enables existing ACP6x DMIC support on
-one DMI-matched laptop, is tiny, and matches the quirk pattern already
-used here.
-
-------------------------------------------------
-What the commit solves for stable users
-------------------------------------------------
-
-On Alienware m18 R1 AMD, ACPI often does not flag the ACP DMIC. Without
-this DMI row, `acp6x_probe()` returns `-ENODEV` and there is no internal
-capture device. Adding the match makes the existing YC machine driver
-bind and register the DMIC card. 6.12 users of that laptop keep a broken
-mic until this lands.
-
-Risk vs benefit: benefit is real hardware enablement; risk is confined
-to that DMI pair. No locking, allocation, or ABI change.
-
-------------------------------------------------
-Verification
-------------------------------------------------
-
-- [Phase 1] Parsed subject/tags from `git show fd8ed52ecea6`: Closes
-  221485, Link msgid, SOB Zhang Heng + Mark Brown; no Fixes/Cc-stable
-- [Phase 2] Diff: +7 lines in `yc_acp_quirk_table[]` only
-- [Phase 2] Read `acp6x_probe()` in this tree: DMI match sets drvdata;
-  no match → `-ENODEV`
-- [Phase 3] Blame: m17 R5 entry `d40b6529c6269` (2022); driver
-  `fa991481b8b22` (2021); both ancestors of HEAD
-- [Phase 3] `git merge-base --is-ancestor fd8ed52ecea6 HEAD` → not
-  ancestor (not in this tree yet)
-- [Phase 3] `grep 'Alienware m18 R1 AMD'` → no matches in `acp6x-mach.c`
-- [Phase 3] Author history: several other YC DMI commits already on this
-  branch
-- [Phase 4] `b4 dig -c fd8ed52ecea6`: lore URL; v1 only; To/Cc include
-  broonie and linux-sound
-- [Phase 4] `b4 mbox`: Mark Brown applied to sound.git for-7.3; no NAK
-- [Phase 4] Bugzilla HTML UNVERIFIED (Anubis 403). Closes: tag verified
-  in commit and patch email
-- [Phase 4] Stable list search: no prior discussion found
-- [Phase 5] Callers: `pci-acp6x.c` creates `acp_yc_mach` in PDM mode;
-  probe at boot
-- [Phase 6] `git describe HEAD` / `make kernelversion`: **6.12.111**,
-  branch pending-6.12
-- [Phase 6] Insertion context after m17 R5 AMD present at lines 503–509;
-  expected clean apply
-- [Phase 8] Failure mode: missing internal mic, severity MEDIUM, quirk
-  exception
-- UNVERIFIED: full bugzilla comment text; whether every m18 R1 AMD SKU
-  is ACP6x (mismatch would be inert)
+Verification:
+- [Phase 1] Parsed tags: Link msgid, SOB Ganzo + Iwai; no
+  Fixes/Reported-by/Cc-stable
+- [Phase 1] Body: 66 dB cascade, pin-table fallback to HP_MUTE_LED_MIC1,
+  reuse of LIMIT_INT_MIC_BOOST_MUTE_LED
+- [Phase 2] Diff: +1 `SND_PCI_QUIRK(0x103c, 0x2164, ...
+  LIMIT_INT_MIC_BOOST_MUTE_LED)` in `alc269_fixup_tbl`
+- [Phase 2] Read `alc269_fixup_limit_int_mic_boost()` and chained fixup
+  in this tree
+- [Phase 2] Read `snd_hda_pick_fixup()` / `snd_hda_pick_pin_fixup()`:
+  SSID wins over pin table
+- [Phase 3] `git blame` around insertion; `git show 8e35cd4ac9967` (2013
+  218b/combined fixup); ancestor of HEAD
+- [Phase 3] `git log -S 'ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED'`
+  traces to 8e35cd4ac9967 via file moves
+- [Phase 3] Author history: only this Realtek commit in-tree
+- [Phase 4] `b4 dig -c 786fb6b3...`: lore URL; `-a` v1 only; `-w` linux-
+  sound/tiwai/perex
+- [Phase 4] `b4 mbox`: Iwai “Applied now. Thanks.”; no NAK
+- [Phase 4] UNVERIFIED: lore WebFetch 403; stable list 403
+- [Phase 5] Callers: alc269 probe → pick_fixup; clamp at
+  HDA_FIXUP_ACT_PROBE
+- [Phase 5] ALC3227 = 0x10ec0282 + HP 0x103c in `realtek.c`
+- [Phase 6] `git describe HEAD` = v6.18.57-155-gcdf239ca885b2; `make
+  kernelversion` = 6.18.57
+- [Phase 6] `git grep 0x2164 v6.18.57 -- alc269.c`: absent; fixup and
+  218b present
+- [Phase 6] Context at v6.18.57 matches the hunk (18e6 then 218b)
+- [Phase 6] Star Labs boost-limit `56b321df2863d` is ancestor of
+  v6.18.57
+- [Phase 7] ALSA HDA Realtek; quirk table still actively extended
+- [Phase 8] Failure mode: clipped/unusable internal mic on one SSID;
+  severity MEDIUM; hardware-quirk exception
+- [Phase 9] `Documentation/process/stable-kernel-rules.rst` lines 15–20:
+  device ID / hardware quirk allowed
 
 **YES**
 
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 666ac5b36e7d6..8e203c034851f 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -514,6 +514,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Alienware m17 R5 AMD"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "Alienware"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Alienware m18 R1 AMD"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index bc87062f86da7..10d930d8fed72 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6707,6 +6707,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1028, 0x164b, "Dell", ALC293_FIXUP_DELL1_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x103c, 0x1586, "HP", ALC269_FIXUP_HP_MUTE_LED_MIC2),
+ 	SND_PCI_QUIRK(0x103c, 0x18e6, "HP", ALC269_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x2164, "HP Pavilion 15 Notebook PC", ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x218b, "HP", ALC269_FIXUP_LIMIT_INT_MIC_BOOST_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x21f9, "HP", ALC269_FIXUP_HP_MUTE_LED_MIC1),
+ 	SND_PCI_QUIRK(0x103c, 0x2210, "HP", ALC269_FIXUP_HP_MUTE_LED_MIC1),
 -- 
 2.53.0
 
