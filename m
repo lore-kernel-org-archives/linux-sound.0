@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792431986;
-	b=ecAziHdSPTlnSM5qzmhw0//XiwW2ngB639EW/havanjKeBGRdveqD/5bMTS01P46hryJ
-	 LqZ6H8oOMPryEGELUdOY8sdLmcuOE06hZ0rY2xsUTo1jUCXCsE6o56hovdBWZd0MsGGmR
-	 bljHNvdIoNRlJrGyX+2AivUv5AzlL4z5mer8xuycwgx3iCUmTr0bqSJkOgIuC2ie6+OHW
-	 wTbukIOzV7rT8XI3HwMVOON0AzTLZGn8YvmVi+XktQI9D3r8HBiBOaG4GmZLfMkpn9rfL
-	 Kb+WQjYXTCk3H2BFqhGbYheeZh00X0IBMT6M7zn6PgQIwCd+KfY+as8JDUvygHNRZ9A==
+	t=1792431988;
+	b=3WHTMFNYpzBDpfiOegynrZJ5kEYPDIW1euUz4hnzJqP5YELmre7vxJsjuNaSoRawkC7G
+	 GlsM9cxxCJ16j148kCwGj0s+SIIETz+vN5P+enN2R1F3UAp3ddfWsOxXh7IIBk4at6F80
+	 2iT2z1u94pcNtKzRzBgbMFkalFBM85NyaMdTbLNlaCoXw4yi3P1HP4U8V55dFsuy8PhZ0
+	 FUrmw0rbw9daWOiM/+4uzgcn+upyGFJumwouLcSzqMWfe7FKOg8j5q+NthAcA4jKPYwGT
+	 tIei7M/y+i15R3dwjHFQwQ+nbeN13HPmosNfsc07OViI7Nr701B24kL/461RxH/rQ8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792431986;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792431988;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=rUn5zgLXzXgYU1XM2F2Di+NsA75AJE+txiiuJMlrB6o=;
-	b=Csc3BnGCG2LBTkjVTqmBX0bNU4fZeZXWMdrkmQleWixm17EvHivN0P+XsMbAqoukujf/
-	 dqBydvRJ9HPwKb/knfT7yrEhYyBks06DT6vc4yJsqjCO+mYh/PdY/3sYwGa1pQInrzSub
-	 0jLYA6oT4L3P/gMdsCu0586PjSRSTK1MBGjUxbNNEZOlJMW+8hcXswj/JgxO5IEkAESEl
-	 /VPNo2yws2i9IMv3MLFGZ9pfkczuDXWJJF3IpAqHoRSfIHenwLKU5/ky4R2+/muLAYGMO
-	 kknbFHQKugKgooXqftkoWbxFkenIe6b4tCAkgWzefSik6ZHNwoBOAsn6pwazTN2cvhg==
+	bh=Jkf2p3Yvk86JX0dg/KREj4i5SusGhhmuiwUVlhZfCCI=;
+	b=yzbp3if2FYpcELJ66HiR/NC31rpULzPkhiSa33kFPdW+yolhmCxZlC/FLBIxa9H5kRar
+	 UUITR+lysTFMlLYj+47JSmgUOWzitEMpYyb6AsSI8c8m20NR8eJ+uRLDNAZDiE5v6aUJ5
+	 z40M58Pz6tTpegCnSn7N423uNCHRydPqshNTdLXEkEpfGWoyPsiDJcgbwYU0kGIRWDRn5
+	 J60EW55rA3+uHuoAgNb9GF+nWefhd2W8HT+XQYgFdsZl7qPeIcDVAFfmYnB8/0JRiK5Cy
+	 ImowNl5da++phqYFaU5SVbVjOEvAjyD9d004EhOd7m6SbEZjgh1TFixFtQB7hsdqIQQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=K0fY0zjv;
-	arc=none smtp.remote-ip=209.85.217.46
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=X301t+EK;
+	arc=none smtp.remote-ip=209.85.221.170
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978CD606A32F
-	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 17:46:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 978CD606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC39D606A329
+	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 17:46:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC39D606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=K0fY0zjv
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-7c3b75caad1so1213127137.0
-        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 10:46:25 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=X301t+EK
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5e9528732b4so1967810e0c.0
+        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 10:46:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792431984; x=1793036784; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792431987; x=1793036787; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=rUn5zgLXzXgYU1XM2F2Di+NsA75AJE+txiiuJMlrB6o=;
-        b=K0fY0zjv75L6boTLJPgaLTaUAl9vhH6E3F/wvseIaw4gATYW3c+NPFhVhi0VVVRsig
-         gYV6bmxEKCMQMIQ++RCEoK9WQctqPw+d6Xkv8ViD4iS94D2ddVa8/E7E9+mKw97j6T0w
-         9hlOTm2TtHiuEDkz0CyOxhYrB79n+Kt9hpjMY2Px/Yq439PfNiqD1coLpzI6DD6nyOVG
-         1howVBB+pKrRlhPoxdGp85XsOFufY8YsiNqE6ie4NMlhfpdbm/B/cZBM3jwgrHrswd2V
-         yrA3XJAdcKjVRh6/PU+qFkDnJ4Bz1L4WT4CHca2RB6KKXsSf28ndcYPnp/AAV5HNN5YT
-         yyMg==
+        bh=Jkf2p3Yvk86JX0dg/KREj4i5SusGhhmuiwUVlhZfCCI=;
+        b=X301t+EKsyNqRx4opKqYt48MLDjEzst8liwu3GyXkUv4vK6e+cAL07Kwq6607YMb5e
+         cghucPC6sU/eO82WL3HnYZ1oZrtxVq/TV/xEnMBS6CXZx/nnSHMDoCPlR9dYylVLWZmp
+         UAat/dBembiBtyC2UrYeCbtu2XW83Txrz7SJn2WucJrfCFqH0IyNZf/6GNNJmQOzQT6x
+         RxUgq5nrLo5kT7SDsECTQ5zzJp0rZuS4Sc2XKh2ua2lf8MWrF42BgyHo+Jrapm12DMUj
+         7BTBnZRQS+DxHqmMTDXNy9qcjrD4KkNs/Id6o/4BH4QMGmjgaDMYZvyVm6yzFb4urfhr
+         KNjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792431984; x=1793036784;
+        d=1e100.net; s=20260707; t=1792431987; x=1793036787;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rUn5zgLXzXgYU1XM2F2Di+NsA75AJE+txiiuJMlrB6o=;
-        b=iozhq5T/2F7oooxryFb87slzlOUMKQON8he5MRimPX4a6t5vb/w1cGJTOnUvTBTCDV
-         +CP7C0Mggn+dIEyk5TTRkI06aPPVLP+PCJR4Iy6mX+HsuRqGkmXWnUFjfc6Opek0MUZq
-         l1vagj/VAMvNjySAZqGGH5l82XCOFro6cXgdJfYuiCBAKTStJFhTadxPxbt8x24lLk2v
-         NFdKRLGScvNpuG/9dcaqlppHLCTjnQQauKpYLf3rNIBGUAwe2FyHJtje3pUx3R2Encqm
-         JJLsrBDYdVrep869FA1gn5l6CCAO7XAyPRnTN4Y3Hr8K3+WWYrjBp98U/09sSqAGkV10
-         Z7Ww==
-X-Forwarded-Encrypted: i=1; AKwUvBxFvLbjl4bmJvlpCQfW/2GFOFEyQo/z/ZQV3gtTa2Tbhxm1Y+Buf5UJTWGgpToB2cPUz8hIl4vdf1ssQg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLDC+gvbm1f+OxqzdOMXPg9JUcWppcFSarNGSXnSQWV69VA6CaS
-	vFMGJPvLUlBzfj5UEOgLGxFny3cy389zg0uB7lgZ+oMFvirgBToNua3B
-X-Gm-Gg: AYBFou22mWoLaiLl2Tjy5WWKG1sbM9w3q7S4LrPcT1ix1grXIaXDo/zX5vCnOOFIEaH
-	79/PYK6lc2XGLItTAMWgyfpbdVlA4rmKljPpw/AY9UjKjjZ7wL0rF8pRJlAyJRNOZAw71QUyzs2
-	VzF1xcRtwz9tr+xeV2SLhXrV4UhJKHqfIxHsHjOm9ScYpiWDzwuJptkNV/qET5FZ+baYWH1Gndf
-	rO0ejeTc9RBrNk2gjFH+2kzHpsIJ1lt77DBnHx6o21QSrT/pefbflido8aaa2n5gWRqfQFDSOys
-	kOR7qarbxF0TEzcbdIJgq5A0FJpZOztV4aZ2XDNENqMGcWiqwVqN4r38/ZcbUoOd9u4ZnEsJjPf
-	V5wGVvI0pZDJ0NFKmg1mpJSjdn8D8vIMjwBsmTm7NEinmgvCjuxNf9afKwwaUffI6+pGcWnLD3U
-	TsvfFq59oDOqPIHOSOVbMt/YMcwsh5o/XbiV5rmSjGC6GkieQqZ7sar2HU0Y4RvNPhcn8TkmXZc
-	ccRc16+h92PtW32Pen8nma9iHgL3qhnfr1iMitMqoswncyc+txyMWSjvXDR7PlUE+bPkqmYbp2q
-	AdL8bft/pC0bTR8De/AAF9LsiZXXSu8=
-X-Received: by 2002:a05:6102:38ca:b0:7cc:3246:3095 with SMTP id ada2fe7eead31-7cc36b3d24emr2846661137.34.1792431984285;
-        Mon, 19 Oct 2026 10:46:24 -0700 (PDT)
+        bh=Jkf2p3Yvk86JX0dg/KREj4i5SusGhhmuiwUVlhZfCCI=;
+        b=PpN4Rx/f68sz5ZzRkS+gTRscusJlta9V7pvwzr2Y0q38HAaSrhSffMcTiAVHgyRCuF
+         3Z6pCijq/J37TTy72dXY0+Ldg1jLced1bkTrfCNkEwQxi8A0ZhKM6N/OPRUAo08BDa+O
+         9FhSxTFgRgDyToIBPCaUpgKvax9SYLUp6jESk0sa4oGNTF0Wd3OD1t9DM/er5QfHLQLB
+         f7FOEN98FLnfRO+YpyGX6m/2cUiXaP36oQq4FTLbt1U2YV4hhlxq5rv9yMFV7+/a4s8L
+         uQMsXmCFgr0BBw33xuTt57Rzk00uVlsFaYA65pVaEw9orZzdlIF6D6e171ekGqYvEUO5
+         F+Pg==
+X-Forwarded-Encrypted: i=1; AKwUvBzUhwQXLFY8keOeSS7rHM/E3qB5QDWX6UkN10ug2m93RWDl96ZR/ec8hiuYDRulwvLTd6gIJ7XY8ZYxeA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYI1J3mSv6IshtNjVweAcjJGdNfQ3Qgq2q3WdcIr6PU5aygyMN60
+	KZq1Ur2H7eISt7AlGVDP8kH4XjRT/jDnAhYM8RsCWzqKBQmCE7mOsQoY
+X-Gm-Gg: AYBFou3kKLksrb9+/N5L8urt0q2fa7YPiiZkqJkB+Rz/V5eAwooMJqVaMX4U5AGUcaF
+	gisDArm4diLpVNfkLTmPuTjoTrmrIdftaMfw+pHEIjHDDi7y69/iye/JaLoJbS1VJX5vyXYMms4
+	V0fb4qJ7sYaTnhX8aSQpee4eaqI9eT+DRrOqPm5fwJANTHQHessQ60iZx4KelzlZrBwVhf2sVeI
+	R3tjtWbMhXhWqY0sy18zoZeHX92KpooVHCHQ4LR1lCGEGnfoKstrI+dGtHKJY3o2spslBCgcdZY
+	A5OqKdf8dpsU4Cdzr6ixVWTGr6MQYLQCL7avU/qSVAkv/+K1SW8KslBOFG2EgTg+/VxXDokRtVL
+	hGUy7INLKaHQOhFDnkNaScCpJbEI9yqdQ9ImrznLA5iLk5A0GYwCvnbG8adK7VyY6tOFWvbZC7r
+	0JRnW5zYkm3yaBevAjvY0s548nyi+GYeGCW6jQOw0pnOWtU3fZzTFz6gRuW4/JJsz3SaL38423+
+	IgbpU/7M4U+9mYS0jYSHWyUiJW5QC4DzNoa+pbRkdUJGGCgmK0vfLWnlqKgbKzFg3BVH97Z0t6Z
+	11ViOz9DTVkSpgRF8XmMkCXH7heBoEs=
+X-Received: by 2002:a05:6102:f0e:b0:7cc:2086:34e0 with SMTP id ada2fe7eead31-7cc3672e0b9mr2437979137.4.1792431986523;
+        Mon, 19 Oct 2026 10:46:26 -0700 (PDT)
 Received: from alsa-dev.int.suenodeluz.com.do ([74.244.193.177])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-990bb3adfd0sm790707241.12.2026.10.19.10.46.23
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-990bb3adfd0sm790707241.12.2026.10.19.10.46.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 10:46:23 -0700 (PDT)
+        Mon, 19 Oct 2026 10:46:25 -0700 (PDT)
 From: Frank van de Pol <fvdpol@gmail.com>
 To: tiwai@suse.de,
 	perex@perex.cz
@@ -87,9 +87,9 @@ Cc: corbet@lwn.net,
 	fvdpol@gmail.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 06/13] ALSA: jockey3: Add optimized codec variants
-Date: Mon, 19 Oct 2026 13:44:38 -0400
-Message-ID: <20261019174445.1931263-7-fvdpol@gmail.com>
+Subject: [PATCH v5 07/13] ALSA: jockey3: Coalesce several packets into one URB
+Date: Mon, 19 Oct 2026 13:44:39 -0400
+Message-ID: <20261019174445.1931263-8-fvdpol@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261019174445.1931263-1-fvdpol@gmail.com>
 References: <20261019174445.1931263-1-fvdpol@gmail.com>
@@ -104,809 +104,488 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add 64-bit and 32-bit implementations of the Ploytec encoder and
-decoder, and make them the default.
+Let one bulk URB carry up to eight Ploytec packets, to cut the rate of
+completion interrupts.
 
-The portable implementation moves one bit at a time. The new variants
-spread and gather the bits a word at a time, with lookup tables for the
-encoder and multiplications for the decoder. The comment in
-ploytec_codec.c derives the constants. A build compiles exactly one
-implementation: the 64-bit or the 32-bit one by word size, or the
-portable one when SND_USB_JOCKEY3_REFERENCE_CODEC is set.
+A Ploytec packet is 512 bytes, which is the high-speed bulk maximum
+packet size. A transfer of N packets is therefore the same on the wire
+as N transfers of one packet, and the device cannot tell them apart.
 
-The lookup tables are built once at module load, so the driver gets an
-explicit module_init() in place of module_usb_driver().
-
-The KUnit suite from the previous patch validates whichever
-implementation the build selected. This patch adds one test to it, which
-checks that the preprocessor chain selected the implementation the
-configuration asks for.
+.hw_params picks N per direction as the largest power of two whose
+packets fit in one period, so a small period falls back to one packet
+per URB. The transfer buffers are allocated at the maximum. Changing N
+only changes the transfer length of each URB at its next resubmission;
+the ring is not torn down.
 
 Assisted-by: LLM
 Signed-off-by: Frank van de Pol <fvdpol@gmail.com>
 ---
- sound/usb/jockey3/Kconfig               |  23 +-
- sound/usb/jockey3/jockey3.c             |  32 +-
- sound/usb/jockey3/ploytec_codec.c       | 508 +++++++++++++++++++++++-
- sound/usb/jockey3/ploytec_codec.h       |  13 +
- sound/usb/jockey3/ploytec_codec_kunit.c |  64 ++-
- 5 files changed, 620 insertions(+), 20 deletions(-)
+ sound/usb/jockey3/jockey3.c | 249 +++++++++++++++++++++++++++++++-----
+ 1 file changed, 219 insertions(+), 30 deletions(-)
 
-diff --git a/sound/usb/jockey3/Kconfig b/sound/usb/jockey3/Kconfig
-index 09939ec9691e8..b61a11738e9bf 100644
---- a/sound/usb/jockey3/Kconfig
-+++ b/sound/usb/jockey3/Kconfig
-@@ -15,6 +15,23 @@ config SND_USB_JOCKEY3
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called snd-reloop-jockey3.
- 
-+config SND_USB_JOCKEY3_REFERENCE_CODEC
-+	bool "Use portable reference codec implementation"
-+	depends on SND_USB_JOCKEY3
-+	depends on EXPERT
-+	help
-+	  The Jockey 3 driver normally uses an architecture-optimized
-+	  bit-packing codec (separate 32-bit and 64-bit variants) to convert
-+	  between ALSA's S24_3LE sample format and the Ploytec wire format.
-+	  This is the default on all architectures.
-+
-+	  Say Y to build the driver with the portable reference
-+	  implementation instead. It is much slower, and is intended as a
-+	  readable definition of the wire format and as a fallback on
-+	  architectures where the optimized codec has not been exercised.
-+
-+	  If unsure, say N.
-+
- config SND_USB_JOCKEY3_CODEC_KUNIT_TEST
- 	bool "KUnit tests for the Ploytec codec" if !KUNIT_ALL_TESTS
- 	depends on SND_USB_JOCKEY3
-@@ -23,9 +40,9 @@ config SND_USB_JOCKEY3_CODEC_KUNIT_TEST
- 	default KUNIT_ALL_TESTS
- 	help
- 	  Enable KUnit tests for the Ploytec bit-plane encoder and decoder.
--	  The tests validate the codec against a declarative description
--	  of the wire format, and prove the mapping is a complete bit
--	  permutation.
-+	  The tests validate whichever codec variant the build selected
-+	  against a declarative description of the wire format, and prove
-+	  the mapping is a complete bit permutation.
- 
- 	  Because the codec functions are internal to the driver, the tests
- 	  are linked into the snd-reloop-jockey3 module itself rather than
 diff --git a/sound/usb/jockey3/jockey3.c b/sound/usb/jockey3/jockey3.c
-index a24674e078a6b..d2f4714dbd8b9 100644
+index d2f4714dbd8b9..74fe5676273d2 100644
 --- a/sound/usb/jockey3/jockey3.c
 +++ b/sound/usb/jockey3/jockey3.c
-@@ -5,6 +5,8 @@
-  *   Copyright (c) 2026 by Frank van de Pol <fvdpol@gmail.com>
-  */
- 
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
- #include <linux/types.h>
- #include <linux/atomic.h>
- #include <linux/module.h>
-@@ -1856,7 +1858,35 @@ static struct usb_driver jockey3_driver = {
- 	.id_table = jockey3_ids
- };
- 
--module_usb_driver(jockey3_driver);
-+/*
-+ * The codec's bit-spread lookup tables are module-global and unlocked, so they
-+ * are built once per module rather than per device.
-+ */
-+static int __init jockey3_module_init(void)
-+{
-+	enum ploytec_codec_variant codec_variant = ploytec_initialize_codec();
-+
-+	switch (codec_variant) {
-+	case PLOYTEC_CODEC_PORTABLE:
-+		pr_debug("using portable codec\n");
-+		break;
-+	case PLOYTEC_CODEC_OPTIMIZED_64BIT:
-+		pr_debug("using 64-bit optimized codec\n");
-+		break;
-+	case PLOYTEC_CODEC_OPTIMIZED_32BIT:
-+		pr_debug("using 32-bit optimized codec\n");
-+		break;
-+	}
-+
-+	return usb_register(&jockey3_driver);
-+}
-+module_init(jockey3_module_init);
-+
-+static void __exit jockey3_module_exit(void)
-+{
-+	usb_deregister(&jockey3_driver);
-+}
-+module_exit(jockey3_module_exit);
- 
- MODULE_AUTHOR("Frank van de Pol <fvdpol@gmail.com>");
- MODULE_DESCRIPTION(CARD_NAME " ALSA Driver");
-diff --git a/sound/usb/jockey3/ploytec_codec.c b/sound/usb/jockey3/ploytec_codec.c
-index 6cbbc26ac5cac..09e645a6c6d2b 100644
---- a/sound/usb/jockey3/ploytec_codec.c
-+++ b/sound/usb/jockey3/ploytec_codec.c
-@@ -6,6 +6,7 @@
-  *   Copyright (c) 2026 by Frank van de Pol <fvdpol@gmail.com>
-  */
- 
-+#include <linux/unaligned.h>
- #include <linux/string.h>
+@@ -15,12 +15,14 @@
+ #include <linux/delay.h>
+ #include <linux/jiffies.h>
+ #include <linux/bitops.h>
++#include <linux/log2.h>
+ #include <linux/mutex.h>
+ #include <linux/wait.h>
+ #include <linux/cleanup.h>
+ #include <sound/core.h>
+ #include <sound/initval.h>
+ #include <sound/pcm.h>
++#include <sound/pcm_params.h>
+ #include "ploytec_proto.h"
  #include "ploytec_codec.h"
  
-@@ -43,10 +44,15 @@
-  * format the functions below implement.
-  */
+@@ -145,6 +147,37 @@ MODULE_PARM_DESC(enable, "Enable " CARD_NAME " soundcard.");
  
-+#if IS_ENABLED(CONFIG_SND_USB_JOCKEY3_REFERENCE_CODEC)
-+
- /*
-- * This implementation of the Ploytec codec performs a bit gather/scatter
-- * operation with minimal optimization. It mainly serves as a readable
-- * definition of the wire format.
-+ * The reference implementation of the Ploytec codec performs a bit
-+ * gather/scatter operation with minimal optimization. It mainly serves as a
-+ * readable definition of the wire format, and as the oracle the optimized
-+ * variants below are validated against.
-+ *
-+ * Selected by CONFIG_SND_USB_JOCKEY3_REFERENCE_CODEC.
-  */
+ #define JOCKEY3_N_URBS 8
  
- /**
-@@ -133,6 +139,498 @@ static inline void ploytec_decode_s24_3le(u8 *dest, const u8 *src)
- 		dest[0x11] |= (((src[0x20 + i] & 0x04) >> 2) << (7 - i));
- 	}
- }
-+#elif defined(CONFIG_64BIT)
-+/**
-+ * DOC: Ploytec bit-plane interleaving optimization
-+ *
-+ * CORE PERFORMANCE PROBLEM:
-+ * The Ploytec firmware uses a non-standard "bit-plane" format where bits
-+ * from different channels are interleaved into the same byte. The naive
-+ * implementation processes data bit-by-bit using heavily nested loops,
-+ * causing massive CPU overhead due to serial bit-shifting operations,
-+ * branch mispredictions, and an inability to utilize hardware pipelines.
-+ *
-+ * THE SOLUTION: SWAR (SIMD Within A Register) & INT-MULTIPLIERS
-+ * Instead of bit-by-bit iteration, we treat entire 32-bit or 64-bit blocks
-+ * of memory as parallel vector lanes inside standard CPU registers. This
-+ * completely eliminates loops and branches, reducing operations to a small,
-+ * deterministic chain of native processor instructions.
-+ *
-+ * -------------------------------------------------------------------------
-+ * 1. ENCODING MATH: BIT-SPREAD LOOKUP TABLES (LUT)
-+ * -------------------------------------------------------------------------
-+ * To encode, we must take a single 8-bit channel byte (e.g., b7 b6 b5 ... b0)
-+ * and "spread" its bits across an 8-byte destination block so that each bit
-+ * lands on bit 0 of 8 separate bytes.
-+ *
-+ * 64-Bit Implementation:
-+ * We use a precomputed 256-entry 64-bit LUT (ploytec_bit_spread). For any
-+ * byte value, the table returns a u64 where the bits are perfectly spaced out:
-+ * Input Byte:  0b11000000
-+ * u64 Return:  0x0000000000000101 (Bit 7 and 6 mapped to byte 0 and 1)
-+ *
-+ * By loading the spread values of two channels simultaneously, we shift the
-+ * second channel by 1 (<< 1) to align its bits to bit position 1, and bitwise
-+ * OR them together. This encodes two full channels into an 8-byte frame using
-+ * just one lookup and a single 64-bit store.
-+ *
-+ * 32-Bit Implementation:
-+ * A 32-bit register cannot hold 8 spread bytes at once. Thus, the 32-bit
-+ * variant splits the input byte into two 4-bit nibbles using two distinct
-+ * 32-bit LUTs (high nibble and low nibble). Each lookup fills 4 bytes of
-+ * destination memory natively using 32-bit registers, maintaining low
-+ * register pressure and avoiding 64-bit arithmetic emulation penalties on
-+ * 32-bit architectures (like ARM32/armhf).
-+ *
-+ * -------------------------------------------------------------------------
-+ * 2. DECODING MATH: PARALLEL BIT GATHER VIA MAGIC MULTIPLIERS
-+ * -------------------------------------------------------------------------
-+ * To decode, we must perform the inverse: extract a specific bit position
-+ * from 8 consecutive bytes in memory and pack them back into a single byte.
-+ *
-+ * 64-Bit Implementation (`pack_bit_plane64`):
-+ * 1. Load 8 bytes into a u64 register.
-+ * 2. Shift right by the desired bit index and mask with 0x0101010101010101ULL.
-+ * This leaves the target bit isolated as bit 0 of every single byte.
-+ * 3. Multiply the masked u64 by the magic constant: 0x8040201008040201ULL.
-+ *
-+ * This multiplication acts as a parallel shift-and-add engine:
-+ * Byte 7 is multiplied by 0x01 (shifted << 0)
-+ * Byte 6 is multiplied by 0x02 (shifted << 1)
-+ * ...
-+ * Byte 0 is multiplied by 0x80 (shifted << 7)
-+ *
-+ * The mathematical properties of this multiplication collapse all 8 isolated
-+ * bits perfectly into the most significant byte (the highest 8 bits) of the
-+ * u64 register. A final logical shift right (>> 56) extracts the completed
-+ * audio byte in a single operation.
-+ *
-+ * 32-Bit Implementation (`pack_bit_plane32`):
-+ * To avoid emulating 64-bit multiplication on a 32-bit CPU, we read two
-+ * separate 4-byte halves into native u32 registers. We apply the 32-bit
-+ * magic multiplier (0x08040201U) to both halves independently. This collapses
-+ * each half into a 4-bit nibble at the top of each register. We then combine
-+ * the two resulting nibbles `(high << 4) | low` to form the final byte.
-+ *
-+ * -------------------------------------------------------------------------
-+ * 3. ENDIANNESS & ALIGNMENT MITIGATION
-+ * -------------------------------------------------------------------------
-+ * All bitwise shifting (`<<`, `>>`) and multiplier math inside CPU registers
-+ * is inherently endian-agnostic. However, reading and writing these multi-byte
-+ * integers (u32/u64) directly to physical RAM introduces two system hazards:
-+ * - Byte Inversion on Big Endian architectures (e.g., MIPS, PowerPC).
-+ * - Kernel Alignment Faults (SIGBUS) on alignment-strict processors.
-+ *
-+ * To ensure safe, architecture-independent execution, all memory interfaces
-+ * utilize the kernel's `get_unaligned_le32/64` and `put_unaligned_le32/64`
-+ * macros (or user-space memcpy/bswap equivalents).
-+ *
-+ * On little-endian architectures with unaligned support (x86_64, arm64, armhf),
-+ * the compiler optimizes these macros completely out, compiling down to standard,
-+ * zero-overhead native instruction loads and stores. On big-endian or strict-
-+ * alignment architectures, the macros safely handle arbitrary memory addresses
-+ * and emit hardware byte-swaps (`rev`) automatically.
-+ *
-+ * -------------------------------------------------------------------------
-+ * 4. EMPIRICAL PERFORMANCE TESTING
-+ * -------------------------------------------------------------------------
-+ * Compared to the reference implementation, testing of these optimized
-+ * versions showed a significant improvement, justifying the added complexity
-+ * from these optimizations. Table shows the relative speed-up and the time
-+ * for encoding (4ch) or decoding (6ch) a sample frame on the validation
-+ * hardware, measured through the batch API at the batch sizes the driver
-+ * actually uses (10 frames per encode call, 8 per decode):
-+ *
-+ * Architecture	Bit	Encode	Decode		Encode Time	Decode Time
-+ *   i386	32	 6.2x	 5.4x		  8.3 ns	 20.7 ns
-+ *   x86_64	64	11.0x	 7.8x		  3.7 ns	 11.9 ns
-+ *   armhf	32	 3.3x	 4.8x		358.2 ns	762.7 ns
-+ *   arm64	64	 6.9x	 6.1x		 13.6 ns	 35.5 ns
-+ *
-+ * i386 and x86_64 on a Core i5-6500, arm64 on a Raspberry Pi 4B, armhf on a
-+ * Raspberry Pi 1B+ (ARMv6). Speed-up is against this same build's portable
-+ * reference codec on the same machine, so it is comparable across rows; the
-+ * absolute times are not.
-+ *
-+ * The 64-bit variants gain more than the 32-bit ones because the transpose
-+ * works in register-width chunks: a 64-bit word carries twice the bit-plane
-+ * of a 32-bit one, so the same frame needs half the operations.
-+ */
-+
-+static u64 ploytec_bit_spread_64[256];
-+
-+/**
-+ * init_ploytec_bit_spread_lut64() - Build the 64-bit bit-spread lookup table
-+ *
-+ * Precomputes ploytec_bit_spread_64[], mapping each possible input byte to
-+ * the 8-byte bit-plane pattern used by ploytec_encode_s24_3le_lut64(). See
-+ * the optimization note above for details of the algorithm.
-+ */
-+static void init_ploytec_bit_spread_lut64(void)
-+{
-+	for (int b = 0; b < 256; b++) {
-+		u64 spread = 0;
-+
-+		// Extract bit (7 - i) and place it into bit 0 of byte i
-+		for (int i = 0; i < 8; i++)
-+			spread |= (u64)((b >> (7 - i)) & 1) << (i * 8);
-+
-+		ploytec_bit_spread_64[b] = spread;
-+	}
-+}
-+
-+/**
-+ * ploytec_encode_s24_3le_lut64() - Encode 4-channel S24_3LE using the 64-bit LUT bit-spread method
-+ * @dest: 48-byte destination buffer
-+ * @src: 12-byte source buffer (4 channels * 3 bytes)
-+ *
-+ * Optimized, CONFIG_64BIT equivalent of ploytec_encode_s24_3le(); produces
-+ * identical output. See the bit-plane layout on ploytec_encode_s24_3le()
-+ * and the optimization note above for the LUT technique used here.
-+ */
-+static inline void ploytec_encode_s24_3le_lut64(u8 *dest, const u8 *src)
-+{
-+	/*
-+	 * put_unaligned_le64 safely writes a 64-bit value in Little Endian
-+	 * order, even if the target CPU is Big Endian or alignment-strict.
-+	 */
-+
-+	// First 24 bytes: odd channels (ALSA Ch 1 & 3)
-+	put_unaligned_le64(ploytec_bit_spread_64[src[2]] |
-+			   (ploytec_bit_spread_64[src[8]] << 1), dest + 0);
-+	put_unaligned_le64(ploytec_bit_spread_64[src[1]] |
-+			   (ploytec_bit_spread_64[src[7]] << 1), dest + 8);
-+	put_unaligned_le64(ploytec_bit_spread_64[src[0]] |
-+			   (ploytec_bit_spread_64[src[6]] << 1), dest + 16);
-+
-+	// Second 24 bytes: even channels (ALSA Ch 2 & 4)
-+	put_unaligned_le64(ploytec_bit_spread_64[src[5]] |
-+			   (ploytec_bit_spread_64[src[11]] << 1), dest + 24);
-+	put_unaligned_le64(ploytec_bit_spread_64[src[4]] |
-+			   (ploytec_bit_spread_64[src[10]] << 1), dest + 32);
-+	put_unaligned_le64(ploytec_bit_spread_64[src[3]] |
-+			   (ploytec_bit_spread_64[src[9]] << 1), dest + 40);
-+}
-+
-+/**
-+ * pack_bit_plane64() - Gather bit @bit_index of 8 consecutive bytes into one byte
-+ * @val: 8 source bytes loaded as a little-endian u64
-+ * @bit_index: bit position (0-7) to extract from each source byte
-+ *
-+ * Return: the gathered byte, using the magic-multiplier technique described
-+ * in the optimization note above.
-+ */
-+static inline u8 pack_bit_plane64(u64 val, int bit_index)
-+{
-+	// Shift target bit to bit 0 of each byte, then mask it
-+	u64 masked = (val >> bit_index) & 0x0101010101010101ULL;
-+
-+	/*
-+	 * Multiplier acts as a parallel shift-and-add, collecting the bits
-+	 * into the highest byte of the u64.
-+	 */
-+	return (u8)((masked * 0x8040201008040201ULL) >> 56);
-+}
-+
-+/**
-+ * ploytec_decode_s24_3le_pack64() - Decode a Ploytec frame using the 64-bit magic-multiplier method
-+ * @dest: 18-byte destination buffer (6 channels * 3 bytes)
-+ * @src: 64-byte source buffer
-+ *
-+ * Optimized, CONFIG_64BIT equivalent of ploytec_decode_s24_3le(); produces
-+ * identical output. See the bit-plane layout on ploytec_decode_s24_3le()
-+ * and the optimization note above for the gather technique used here.
-+ */
-+static inline void ploytec_decode_s24_3le_pack64(u8 *dest, const u8 *src)
-+{
-+	u64 blocks_0_17_low  = get_unaligned_le64(src + 0x00);
-+	u64 blocks_0_17_mid  = get_unaligned_le64(src + 0x08);
-+	u64 blocks_0_17_high = get_unaligned_le64(src + 0x10);
-+
-+	u64 blocks_20_37_low  = get_unaligned_le64(src + 0x20);
-+	u64 blocks_20_37_mid  = get_unaligned_le64(src + 0x28);
-+	u64 blocks_20_37_high = get_unaligned_le64(src + 0x30);
-+
-+	// Channel 1 (Bit 0 of bytes 0x00-0x17)
-+	dest[0x00] = pack_bit_plane64(blocks_0_17_high, 0);
-+	dest[0x01] = pack_bit_plane64(blocks_0_17_mid,  0);
-+	dest[0x02] = pack_bit_plane64(blocks_0_17_low,  0);
-+
-+	// Channel 2 (Bit 0 of bytes 0x20-0x37)
-+	dest[0x03] = pack_bit_plane64(blocks_20_37_high, 0);
-+	dest[0x04] = pack_bit_plane64(blocks_20_37_mid,  0);
-+	dest[0x05] = pack_bit_plane64(blocks_20_37_low,  0);
-+
-+	// Channel 3 (Bit 1 of bytes 0x00-0x17)
-+	dest[0x06] = pack_bit_plane64(blocks_0_17_high, 1);
-+	dest[0x07] = pack_bit_plane64(blocks_0_17_mid,  1);
-+	dest[0x08] = pack_bit_plane64(blocks_0_17_low,  1);
-+
-+	// Channel 4 (Bit 1 of bytes 0x20-0x37)
-+	dest[0x09] = pack_bit_plane64(blocks_20_37_high, 1);
-+	dest[0x0A] = pack_bit_plane64(blocks_20_37_mid,  1);
-+	dest[0x0B] = pack_bit_plane64(blocks_20_37_low,  1);
-+
-+	// Channel 5 (Bit 2 of bytes 0x00-0x17)
-+	dest[0x0C] = pack_bit_plane64(blocks_0_17_high, 2);
-+	dest[0x0D] = pack_bit_plane64(blocks_0_17_mid,  2);
-+	dest[0x0E] = pack_bit_plane64(blocks_0_17_low,  2);
-+
-+	// Channel 6 (Bit 2 of bytes 0x20-0x37)
-+	dest[0x0F] = pack_bit_plane64(blocks_20_37_high, 2);
-+	dest[0x10] = pack_bit_plane64(blocks_20_37_mid,  2);
-+	dest[0x11] = pack_bit_plane64(blocks_20_37_low,  2);
-+}
-+
-+#else /* optimized codec, 32-bit build */
-+static u32 ploytec_bit_spread_32_high[256];
-+static u32 ploytec_bit_spread_32_low[256];
-+
-+/**
-+ * init_ploytec_bit_spread_lut32() - Build the 32-bit bit-spread lookup tables
-+ *
-+ * Precomputes ploytec_bit_spread_32_high[] and ploytec_bit_spread_32_low[],
-+ * the 32-bit nibble-split equivalent of init_ploytec_bit_spread_lut64() for
-+ * architectures without efficient native 64-bit arithmetic. See the
-+ * optimization note above for details.
-+ */
-+static void init_ploytec_bit_spread_lut32(void)
-+{
-+	for (int b = 0; b < 256; b++) {
-+		u32 high_spread = 0;
-+		u32 low_spread  = 0;
-+
-+		// Process high nibble (bits 7 down to 4) -> maps to bytes 0 to 3
-+		for (int i = 0; i < 4; i++)
-+			high_spread |= (u32)((b >> (7 - i)) & 1) << (i * 8);
-+
-+		// Process low nibble (bits 3 down to 0) -> maps to bytes 0 to 3
-+		for (int i = 0; i < 4; i++)
-+			low_spread  |= (u32)((b >> (3 - i)) & 1) << (i * 8);
-+
-+		ploytec_bit_spread_32_high[b] = high_spread;
-+		ploytec_bit_spread_32_low[b]  = low_spread;
-+	}
-+}
-+
-+/**
-+ * ploytec_encode_s24_3le_lut32() - Encode 4-channel S24_3LE using the 32-bit LUT bit-spread method
-+ * @dest: 48-byte destination buffer
-+ * @src: 12-byte source buffer (4 channels * 3 bytes)
-+ *
-+ * 32-bit equivalent of ploytec_encode_s24_3le_lut64() for architectures
-+ * without efficient native 64-bit arithmetic; produces identical output.
-+ */
-+static inline void ploytec_encode_s24_3le_lut32(u8 *dest, const u8 *src)
-+{
-+	/*
-+	 * put_unaligned_le32 safely writes a 32-bit value in Little Endian
-+	 * order, even if the target CPU is Big Endian or alignment-strict.
-+	 */
-+
-+	// First 24 bytes: Odd channels (ALSA Ch 1 [src 0,1,2] & Ch 3 [src 6,7,8])
-+	// Block 1: Most Significant Bytes
-+	put_unaligned_le32(ploytec_bit_spread_32_high[src[2]] |
-+			   (ploytec_bit_spread_32_high[src[8]] << 1), dest + 0);
-+	put_unaligned_le32(ploytec_bit_spread_32_low[src[2]]  |
-+			   (ploytec_bit_spread_32_low[src[8]]  << 1), dest + 4);
-+
-+	// Block 2: Middle Bytes
-+	put_unaligned_le32(ploytec_bit_spread_32_high[src[1]] |
-+			   (ploytec_bit_spread_32_high[src[7]] << 1), dest + 8);
-+	put_unaligned_le32(ploytec_bit_spread_32_low[src[1]]  |
-+			   (ploytec_bit_spread_32_low[src[7]]  << 1), dest + 12);
-+
-+	// Block 3: Least Significant Bytes
-+	put_unaligned_le32(ploytec_bit_spread_32_high[src[0]] |
-+			   (ploytec_bit_spread_32_high[src[6]] << 1), dest + 16);
-+	put_unaligned_le32(ploytec_bit_spread_32_low[src[0]]  |
-+			   (ploytec_bit_spread_32_low[src[6]]  << 1), dest + 20);
-+
-+	// Second 24 bytes: Even channels (ALSA Ch 2 [src 3,4,5] & Ch 4 [src 9,10,11])
-+	// Block 1: Most Significant Bytes
-+	put_unaligned_le32(ploytec_bit_spread_32_high[src[5]] |
-+			   (ploytec_bit_spread_32_high[src[11]] << 1), dest + 24);
-+	put_unaligned_le32(ploytec_bit_spread_32_low[src[5]]  |
-+			   (ploytec_bit_spread_32_low[src[11]]  << 1), dest + 28);
-+
-+	// Block 2: Middle Bytes
-+	put_unaligned_le32(ploytec_bit_spread_32_high[src[4]] |
-+			   (ploytec_bit_spread_32_high[src[10]] << 1), dest + 32);
-+	put_unaligned_le32(ploytec_bit_spread_32_low[src[4]]  |
-+			   (ploytec_bit_spread_32_low[src[10]]  << 1), dest + 36);
-+
-+	// Block 3: Least Significant Bytes
-+	put_unaligned_le32(ploytec_bit_spread_32_high[src[3]] |
-+			   (ploytec_bit_spread_32_high[src[9]] << 1), dest + 40);
-+	put_unaligned_le32(ploytec_bit_spread_32_low[src[3]]  |
-+			   (ploytec_bit_spread_32_low[src[9]]  << 1), dest + 44);
-+}
-+
-+/**
-+ * pack_bit_plane32() - Gather bit @bit_index of 8 consecutive bytes into one byte
-+ * @high_4_bytes: first 4 source bytes of the block, holding the high nibble (bits 7-4)
-+ * @low_4_bytes: last 4 source bytes of the block, holding the low nibble (bits 3-0)
-+ * @bit_index: bit position (0-7) to extract from each source byte
-+ *
-+ * Return: the gathered byte, using the magic-multiplier technique described
-+ * in the optimization note above.
-+ */
-+static inline u8 pack_bit_plane32(u32 high_4_bytes, u32 low_4_bytes, int bit_index)
-+{
-+	// Isolate the targeted bit index across all 4 bytes simultaneously
-+	u32 high_masked = (high_4_bytes >> bit_index) & 0x01010101U;
-+	u32 low_masked  = (low_4_bytes  >> bit_index) & 0x01010101U;
-+
-+	// Use 32-bit multiplier to gather bits 0,1,2,3 into the highest byte
-+	u8 high_bits = (u8)((high_masked * 0x08040201U) >> 24);
-+	u8 low_bits  = (u8)((low_masked  * 0x08040201U) >> 24);
-+
-+	// Combine the upper 4 bits and lower 4 bits into the single output audio byte
-+	return (high_bits << 4) | low_bits;
-+}
-+
-+/**
-+ * ploytec_decode_s24_3le_pack32() - Decode a Ploytec frame using the 32-bit magic-multiplier method
-+ * @dest: 18-byte destination buffer (6 channels * 3 bytes)
-+ * @src: 64-byte source buffer
-+ *
-+ * 32-bit equivalent of ploytec_decode_s24_3le_pack64() for architectures
-+ * without efficient native 64-bit arithmetic; produces identical output.
-+ */
-+static inline void ploytec_decode_s24_3le_pack32(u8 *dest, const u8 *src)
-+{
-+	// Pre-load all required 4-byte chunks into native 32-bit registers
-+	u32 src_00_high = get_unaligned_le32(src + 0x00);
-+	u32 src_04_low  = get_unaligned_le32(src + 0x04);
-+	u32 src_08_high = get_unaligned_le32(src + 0x08);
-+	u32 src_0C_low  = get_unaligned_le32(src + 0x0C);
-+	u32 src_10_high = get_unaligned_le32(src + 0x10);
-+	u32 src_14_low  = get_unaligned_le32(src + 0x14);
-+
-+	u32 src_20_high = get_unaligned_le32(src + 0x20);
-+	u32 src_24_low  = get_unaligned_le32(src + 0x24);
-+	u32 src_28_high = get_unaligned_le32(src + 0x28);
-+	u32 src_2C_low  = get_unaligned_le32(src + 0x2C);
-+	u32 src_30_high = get_unaligned_le32(src + 0x30);
-+	u32 src_34_low  = get_unaligned_le32(src + 0x34);
-+
-+	// --- Channel 1: Bit 0 of bytes 0x00-0x17 ---
-+	dest[0x00] = pack_bit_plane32(src_10_high, src_14_low, 0);
-+	dest[0x01] = pack_bit_plane32(src_08_high, src_0C_low, 0);
-+	dest[0x02] = pack_bit_plane32(src_00_high, src_04_low, 0);
-+
-+	// --- Channel 2: Bit 0 of bytes 0x20-0x37 ---
-+	dest[0x03] = pack_bit_plane32(src_30_high, src_34_low, 0);
-+	dest[0x04] = pack_bit_plane32(src_28_high, src_2C_low, 0);
-+	dest[0x05] = pack_bit_plane32(src_20_high, src_24_low, 0);
-+
-+	// --- Channel 3: Bit 1 of bytes 0x00-0x17 ---
-+	dest[0x06] = pack_bit_plane32(src_10_high, src_14_low, 1);
-+	dest[0x07] = pack_bit_plane32(src_08_high, src_0C_low, 1);
-+	dest[0x08] = pack_bit_plane32(src_00_high, src_04_low, 1);
-+
-+	// --- Channel 4: Bit 1 of bytes 0x20-0x37 ---
-+	dest[0x09] = pack_bit_plane32(src_30_high, src_34_low, 1);
-+	dest[0x0A] = pack_bit_plane32(src_28_high, src_2C_low, 1);
-+	dest[0x0B] = pack_bit_plane32(src_20_high, src_24_low, 1);
-+
-+	// --- Channel 5: Bit 2 of bytes 0x00-0x17 ---
-+	dest[0x0C] = pack_bit_plane32(src_10_high, src_14_low, 2);
-+	dest[0x0D] = pack_bit_plane32(src_08_high, src_0C_low, 2);
-+	dest[0x0E] = pack_bit_plane32(src_00_high, src_04_low, 2);
-+
-+	// --- Channel 6: Bit 2 of bytes 0x20-0x37 ---
-+	dest[0x0F] = pack_bit_plane32(src_30_high, src_34_low, 2);
-+	dest[0x10] = pack_bit_plane32(src_28_high, src_2C_low, 2);
-+	dest[0x11] = pack_bit_plane32(src_20_high, src_24_low, 2);
-+}
-+#endif
-+
 +/*
-+ * Bind the build's chosen implementation to a single pair of names, so that
-+ * everything below is free of conditional compilation.
-+ */
-+#if IS_ENABLED(CONFIG_SND_USB_JOCKEY3_REFERENCE_CODEC)
-+
-+static const enum ploytec_codec_variant ploytec_codec_selected =
-+	PLOYTEC_CODEC_PORTABLE;
-+
-+static void ploytec_codec_init_tables(void) { }
-+
-+static inline void ploytec_encode_frame(u8 *dest, const u8 *src)
-+{
-+	ploytec_encode_s24_3le(dest, src);
-+}
-+
-+static inline void ploytec_decode_frame(u8 *dest, const u8 *src)
-+{
-+	ploytec_decode_s24_3le(dest, src);
-+}
-+
-+#elif defined(CONFIG_64BIT)
-+
-+static const enum ploytec_codec_variant ploytec_codec_selected =
-+	PLOYTEC_CODEC_OPTIMIZED_64BIT;
-+
-+static void ploytec_codec_init_tables(void)
-+{
-+	init_ploytec_bit_spread_lut64();
-+}
-+
-+static inline void ploytec_encode_frame(u8 *dest, const u8 *src)
-+{
-+	ploytec_encode_s24_3le_lut64(dest, src);
-+}
-+
-+static inline void ploytec_decode_frame(u8 *dest, const u8 *src)
-+{
-+	ploytec_decode_s24_3le_pack64(dest, src);
-+}
-+
-+#else
-+
-+static const enum ploytec_codec_variant ploytec_codec_selected =
-+	PLOYTEC_CODEC_OPTIMIZED_32BIT;
-+
-+static void ploytec_codec_init_tables(void)
-+{
-+	init_ploytec_bit_spread_lut32();
-+}
-+
-+static inline void ploytec_encode_frame(u8 *dest, const u8 *src)
-+{
-+	ploytec_encode_s24_3le_lut32(dest, src);
-+}
-+
-+static inline void ploytec_decode_frame(u8 *dest, const u8 *src)
-+{
-+	ploytec_decode_s24_3le_pack32(dest, src);
-+}
-+
-+#endif
-+
-+/**
-+ * ploytec_initialize_codec() - Initialize the codec's pre-computed lookup tables
++ * Maximum Ploytec packets per URB ("N"), per direction. Several packets are
++ * coalesced into one USB bulk transfer to cut the completion-interrupt rate
++ * (rationale and measurements in re/streaming_overhead.md).
 + *
-+ * Builds the bit-spread lookup table(s) used by the optimized encoder/decoder.
-+ * Must be called before any call to ploytec_encode_batch() or
-+ * ploytec_decode_batch(). Only the first call builds them: a later one may run
-+ * while URB completions are reading the tables, as the KUnit suite linked into
-+ * the module does.
++ * The live N is not fixed: jockey3_pcm_hw_params() picks it per stream open,
++ * per direction, as the largest power of two that fits the requested period
++ * size, and stores it in struct jockey3_pcm_urb_stream's @n_shift/@n_pkts.
++ * These two values are only the *ceiling* on that choice, and the width the
++ * URB transfer buffers are allocated at (JOCKEY3_*_XFER_SIZE) -- which is why
++ * the ceiling has to be a compile-time constant. Two separate constants, not
++ * one, so the ceiling can be tuned per direction if the firmware ever turns
++ * out to accept coalescing on one direction but not the other.
 + *
-+ * Return: which codec variant this build selected, for the caller to log.
++ * Changing the live N never reallocates or tears down the URB ring: only
++ * urb->transfer_buffer_length varies. PLOYTEC_PKT_SIZE (512) is exactly the
++ * USB high-speed bulk max-packet size, so an N x 512 B transfer is
++ * indistinguishable on the wire from N separate 512 B ones; the firmware
++ * cannot tell the two apart. The buffers stay allocated JOCKEY3_*_XFER_SIZE
++ * wide regardless of the N in use.
++ *
++ * A live N of 1 in both directions must be byte-for-byte identical to a
++ * driver without coalescing: every packet loop below is keyed off the live
++ * @n_pkts and degenerates to the original single-packet code path at N=1.
 + */
-+enum ploytec_codec_variant ploytec_initialize_codec(void)
-+{
-+	static bool initialized;
++#define JOCKEY3_PLAYBACK_N	8
++#define JOCKEY3_CAPTURE_N	8
 +
-+	if (!initialized) {
-+		ploytec_codec_init_tables();
-+		initialized = true;
-+	}
-+	return ploytec_codec_selected;
-+}
- 
- /**
-  * ploytec_encode_batch() - Encode a number of 4-channel S24_3LE to 48-byte Ploytec frames
-@@ -143,7 +641,7 @@ static inline void ploytec_decode_s24_3le(u8 *dest, const u8 *src)
- void ploytec_encode_batch(u8 *dest, const u8 *src, const int n_frames)
- {
- 	for (int f = 0; f < n_frames; f++) {
--		ploytec_encode_s24_3le(dest, src);
-+		ploytec_encode_frame(dest, src);
- 		dest += PLOYTEC_PLAYBACK_FRAME_SIZE;
- 		src += PLOYTEC_PLAYBACK_PCM_FRAME_SIZE;
- 	}
-@@ -158,7 +656,7 @@ void ploytec_encode_batch(u8 *dest, const u8 *src, const int n_frames)
- void ploytec_decode_batch(u8 *dest, const u8 *src, const int n_frames)
- {
- 	for (int f = 0; f < n_frames; f++) {
--		ploytec_decode_s24_3le(dest, src);
-+		ploytec_decode_frame(dest, src);
- 		dest += PLOYTEC_CAPTURE_PCM_FRAME_SIZE;
- 		src += PLOYTEC_CAPTURE_FRAME_SIZE;
- 	}
-diff --git a/sound/usb/jockey3/ploytec_codec.h b/sound/usb/jockey3/ploytec_codec.h
-index 0ee0d38099bf2..40917f49eae75 100644
---- a/sound/usb/jockey3/ploytec_codec.h
-+++ b/sound/usb/jockey3/ploytec_codec.h
-@@ -24,7 +24,20 @@
- #define PLOYTEC_CAPTURE_FRAME_SIZE	64
- #define PLOYTEC_CAPTURE_PCM_FRAME_SIZE	18	// 6 channels * 3 bytes
- 
-+/**
-+ * enum ploytec_codec_variant - which encode/decode implementation got selected
-+ * @PLOYTEC_CODEC_PORTABLE: portable reference implementation
-+ * @PLOYTEC_CODEC_OPTIMIZED_64BIT: lookup-table/bit-packing codec, 64-bit build
-+ * @PLOYTEC_CODEC_OPTIMIZED_32BIT: lookup-table/bit-packing codec, 32-bit build
-+ */
-+enum ploytec_codec_variant {
-+	PLOYTEC_CODEC_PORTABLE,
-+	PLOYTEC_CODEC_OPTIMIZED_64BIT,
-+	PLOYTEC_CODEC_OPTIMIZED_32BIT,
-+};
++#define JOCKEY3_PLAYBACK_XFER_SIZE	(JOCKEY3_PLAYBACK_N * PLOYTEC_PKT_SIZE)
++#define JOCKEY3_CAPTURE_XFER_SIZE	(JOCKEY3_CAPTURE_N * PLOYTEC_PKT_SIZE)
 +
- /* batching of the sample processing */
-+enum ploytec_codec_variant ploytec_initialize_codec(void);
- void ploytec_encode_batch(u8 *dest, const u8 *src, const int n_frames);
- void ploytec_decode_batch(u8 *dest, const u8 *src, const int n_frames);
+ /* Consecutive URB transport errors tolerated before a direction is given up on */
+ #define JOCKEY3_MAX_URB_ERRORS 8
  
-diff --git a/sound/usb/jockey3/ploytec_codec_kunit.c b/sound/usb/jockey3/ploytec_codec_kunit.c
-index 2b7eeb3a1b11b..5ff5daaa3d553 100644
---- a/sound/usb/jockey3/ploytec_codec_kunit.c
-+++ b/sound/usb/jockey3/ploytec_codec_kunit.c
-@@ -9,13 +9,18 @@
- /**
-  * DOC: Proving the Ploytec codec correct
-  *
-- * ploytec_codec.c implements a bit-scatter/gather algorithm: the conversion
-- * between ALSA's S24_3LE frames and the Ploytec bit-plane wire format.
-+ * ploytec_codec.c carries three implementations of one bit-scatter/gather
-+ * algorithm - a portable reference plus 32-bit and 64-bit SWAR variants that
-+ * use magic-multiplier tricks and 256-entry lookup tables. Exactly one is
-+ * compiled into any given build, chosen by CONFIG_64BIT and
-+ * CONFIG_SND_USB_JOCKEY3_REFERENCE_CODEC. The optimized paths are 4-10x
-+ * faster and are what every user actually runs, but they are not obviously
-+ * correct by inspection.
-  *
-- * These tests validate it through the public ploytec_encode_batch() /
-- * ploytec_decode_batch() entry points. No symbols are exported and the codec
-- * is not modified to be testable; the test object is simply linked into the
-- * same module.
-+ * These tests validate whichever variant the build selected, through the
-+ * public ploytec_encode_batch() / ploytec_decode_batch() entry points. No
-+ * symbols are exported and the codec is not modified to be testable; the
-+ * test object is simply linked into the same module.
-  *
-  * The strategy is stronger than sampling random inputs:
-  *
-@@ -36,8 +41,8 @@
-  *    checks.
-  *
-  * 3. Golden vectors generated by an independent Python model of the format
-- *    (tests/codec/ploytec_model.py) guard against the codec and the oracle
-- *    drifting away from the wire format together.
-+ *    (tests/codec/ploytec_model.py) guard against the whole family drifting
-+ *    away from the wire format together.
-  *
-  * Randomized cases use a small seeded xorshift generator rather than the
-  * kernel RNG, so every architecture exercises identical data and any failure
-@@ -657,9 +662,10 @@ static void ploytec_test_decode_batch_no_overrun(struct kunit *test)
- /* --- Alignment ------------------------------------------------------------ */
- 
- /*
-- * In the driver the wire buffer happens to be 8-byte aligned, so a codec that
-- * assumed alignment would go unnoticed on x86 and only surface as a fault on
-- * a strict-alignment architecture. Run every byte offset explicitly.
-+ * The optimized codecs reach for 32- and 64-bit words through the unaligned
-+ * accessors. In the driver the wire buffer happens to be 8-byte aligned, so a
-+ * misuse of those accessors would go unnoticed on x86 and only surface as a
-+ * fault on a strict-alignment architecture. Run every byte offset explicitly.
+@@ -153,7 +186,8 @@ MODULE_PARM_DESC(enable, "Enable " CARD_NAME " soundcard.");
+  * @substream: the open ALSA substream, or NULL; @lock
+  * @anchor: anchor holding the submitted URBs, for stop/kill
+  * @urbs: the URB ring
+- * @bufs: transfer buffer for each URB
++ * @bufs: transfer buffer for each URB, allocated at the maximum N; @n_pkts,
++ *	not this width, governs how many bytes an URB actually transfers
+  * @urbs_in_flight: number of submitted URBs; diagnostic, must reach 0 after a stop
+  * @lock: protects the fields marked "@lock" below; IRQ-safe leaf
+  * @dma_off: byte offset into runtime->dma_area, i.e. the hardware pointer; @lock
+@@ -171,6 +205,13 @@ MODULE_PARM_DESC(enable, "Enable " CARD_NAME " soundcard.");
+  *	re-anchor a URB after the kill has drained the anchor.
+  * @consec_errors: consecutive URB transport errors; @lock. Reset on any
+  *	successful completion and by jockey3_start_urbs().
++ * @n_shift: log2 of the Ploytec packets per URB ("N") the next resubmission
++ *	will carry, in [0, 3]; @lock. Set by jockey3_pcm_hw_params() from the
++ *	period size and reset to the default by jockey3_pcm_close(), so an idle
++ *	direction never runs at a stale N. Changing it does not tear the ring
++ *	down -- the wire cannot tell one N x 512 B transfer from N separate ones
++ *	-- so each URB picks up the value at its next resubmission.
++ * @n_pkts: 1 << @n_shift, mirrored for loop bounds; @lock
   */
- static void ploytec_test_encode_unaligned_buffers(struct kunit *test)
- {
-@@ -819,8 +825,42 @@ static void ploytec_test_decode_ignores_unused_bits(struct kunit *test)
+ struct jockey3_pcm_urb_stream {
+ 	struct snd_pcm_substream *substream;
+@@ -186,6 +227,8 @@ struct jockey3_pcm_urb_stream {
+ 	wait_queue_head_t drain_wait;
+ 	bool stopping;
+ 	unsigned int consec_errors;
++	u8 n_shift;
++	u8 n_pkts;
+ };
+ 
+ /**
+@@ -581,11 +624,12 @@ static void jockey3_capture_callback(struct urb *urb)
+ 	struct jockey3_chip *chip = urb->context;
+ 	struct jockey3_pcm_urb_stream *urb_stream = &chip->capture;
+ 	struct snd_pcm_substream *substream = NULL;
++	int n_pkts = 0;
+ 	bool period_elapsed = false;
+ 	bool data_valid = true;
+ 	bool active = false;
+ 	bool stopping;
+-	int ret;
++	int sp, ret;
+ 
+ 	atomic_dec(&urb_stream->urbs_in_flight);
+ 
+@@ -608,11 +652,32 @@ static void jockey3_capture_callback(struct urb *urb)
+ 	if (unlikely(jockey3_is_disconnected(chip)))
+ 		return;
+ 
+-	if (data_valid && unlikely(urb->actual_length < PLOYTEC_PKT_SIZE)) {
+-		dev_err_ratelimited(&chip->intf0->dev,
+-				    "Capture URB too small: %d; required at least %d\n",
+-				    urb->actual_length, PLOYTEC_PKT_SIZE);
+-		data_valid = false;
++	/*
++	 * The firmware fills a multi-packet capture URB completely rather than
++	 * terminating at one 512 B packet, so the expected case is
++	 * actual_length == JOCKEY3_CAPTURE_XFER_SIZE. Derive the count from
++	 * what actually came back rather than assuming N, in case that
++	 * changes under load or on other firmware revisions.
++	 */
++	if (data_valid) {
++		n_pkts = urb->actual_length / PLOYTEC_PKT_SIZE;
++		if (unlikely(n_pkts == 0)) {
++			dev_err_ratelimited(&chip->intf0->dev,
++					    "Capture URB too small: %d; required at least %d\n",
++					    urb->actual_length, PLOYTEC_PKT_SIZE);
++			data_valid = false;
++		} else if (unlikely(urb->actual_length % PLOYTEC_PKT_SIZE)) {
++			/*
++			 * A short trailing partial packet: use the
++			 * complete ones and drop the rest, but this should
++			 * not happen on firmware behaving as described above
++			 * -- log it once so a change in device behavior is
++			 * visible instead of silently discarded audio.
++			 */
++			dev_warn_once(&chip->intf0->dev,
++				      "Capture URB length %d not a multiple of %d, using %d packet(s)\n",
++				      urb->actual_length, PLOYTEC_PKT_SIZE, n_pkts);
++		}
  	}
+ 
+ 	/* Step 1: Safely fetch the pointer and join the safe zone */
+@@ -626,7 +691,9 @@ static void jockey3_capture_callback(struct urb *urb)
+ 			active = true;
+ 			substream = urb_stream->substream;
+ 
+-			period_elapsed = jockey3_process_in_packet(chip, urb->transfer_buffer);
++			for (sp = 0; sp < n_pkts; sp++)
++				period_elapsed |= jockey3_process_in_packet(chip,
++					urb->transfer_buffer + sp * PLOYTEC_PKT_SIZE);
+ 		}
+ 	}
+ 
+@@ -653,6 +720,7 @@ static void jockey3_capture_callback(struct urb *urb)
+ 		 * to an anchor jockey3_stop_urbs() has already drained.
+ 		 */
+ 		if (!urb_stream->stopping && !jockey3_is_disconnected(chip)) {
++			urb->transfer_buffer_length = urb_stream->n_pkts * PLOYTEC_PKT_SIZE;
+ 			atomic_inc(&urb_stream->urbs_in_flight);
+ 			usb_anchor_urb(urb, &urb_stream->anchor);
+ 			ret = usb_submit_urb(urb, GFP_ATOMIC);
+@@ -687,8 +755,14 @@ static void jockey3_silence_out_packet(u8 *buf)
+  */
+ static void jockey3_init_out_packet(u8 *buf)
+ {
+-	buf[PLOYTEC_MIDI_OUT_OFFSET] = PLOYTEC_MIDI_IDLE_BYTE;
+-	buf[PLOYTEC_SYNC_BYTE_OFFSET] = PLOYTEC_SYNC_BYTE_VALUE;
++	int sp;
++
++	for (sp = 0; sp < JOCKEY3_PLAYBACK_N; sp++) {
++		u8 *sub = buf + sp * PLOYTEC_PKT_SIZE;
++
++		sub[PLOYTEC_MIDI_OUT_OFFSET] = PLOYTEC_MIDI_IDLE_BYTE;
++		sub[PLOYTEC_SYNC_BYTE_OFFSET] = PLOYTEC_SYNC_BYTE_VALUE;
++	}
  }
  
-+/* --- Build wiring --------------------------------------------------------- */
+ static void jockey3_playback_callback(struct urb *urb)
+@@ -697,11 +771,12 @@ static void jockey3_playback_callback(struct urb *urb)
+ 	struct jockey3_pcm_urb_stream *urb_stream = &chip->playback;
+ 	unsigned char *buf = (unsigned char *)urb->transfer_buffer;
+ 	struct snd_pcm_substream *substream = NULL;
++	unsigned int submit_pkts;
+ 	bool period_elapsed = false;
+ 	bool data_valid = true;
+ 	bool active = false;
+ 	bool stopping;
+-	int i, ret;
++	int i, sp, ret;
+ 
+ 	atomic_dec(&urb_stream->urbs_in_flight);
+ 
+@@ -723,8 +798,21 @@ static void jockey3_playback_callback(struct urb *urb)
+ 	if (unlikely(jockey3_is_disconnected(chip)))
+ 		return;
+ 
+-	/* Step 1: Safely fetch the pointer and join the safe zone */
++	/*
++	 * Step 1: Safely fetch the pointer and join the safe zone.
++	 *
++	 * @n_pkts is captured once here and reused below for the MIDI/sync
++	 * loop and the resubmit's transfer_buffer_length, rather than re-read
++	 * at each site: jockey3_pcm_hw_params() can change it concurrently
++	 * (under the same lock), and this URB's buffer must only ever claim
++	 * to carry as many freshly written packets as it actually filled
++	 * this callback. Reading a larger value at resubmit than was used to
++	 * fill would send stale packets left over from an earlier, larger N
++	 * instead of tearing the ring down.
++	 */
+ 	scoped_guard(spinlock_irqsave, &urb_stream->lock) {
++		submit_pkts = urb_stream->n_pkts;
 +
-+/*
-+ * The three implementations are chosen by a preprocessor chain, and getting
-+ * that chain wrong silently selects the wrong codec. That is not theoretical:
-+ * the out-of-tree user-space harness built the 32-bit variant on x86_64 for
-+ * months because CONFIG_64BIT was not defined in its build.
+ 		if (data_valid)
+ 			urb_stream->consec_errors = 0;
+ 
+@@ -734,9 +822,12 @@ static void jockey3_playback_callback(struct urb *urb)
+ 			active = true;
+ 			substream = urb_stream->substream;
+ 
+-			period_elapsed = jockey3_process_out_packet(chip, buf);
++			for (sp = 0; sp < submit_pkts; sp++)
++				period_elapsed |= jockey3_process_out_packet(chip,
++					buf + sp * PLOYTEC_PKT_SIZE);
+ 		} else {
+-			jockey3_silence_out_packet(buf);
++			for (sp = 0; sp < submit_pkts; sp++)
++				jockey3_silence_out_packet(buf + sp * PLOYTEC_PKT_SIZE);
+ 		}
+ 	}
+ 
+@@ -744,12 +835,16 @@ static void jockey3_playback_callback(struct urb *urb)
+ 	 * Every packet reserves one slot for a MIDI OUT byte. Nothing feeds it
+ 	 * yet, so it carries the idle byte.
+ 	 */
+-	buf[PLOYTEC_MIDI_OUT_OFFSET] = PLOYTEC_MIDI_IDLE_BYTE;
++	for (sp = 0; sp < submit_pkts; sp++) {
++		u8 *sub = buf + sp * PLOYTEC_PKT_SIZE;
+ 
+-	/* Ploytec Sync byte and gap padding */
+-	buf[PLOYTEC_SYNC_BYTE_OFFSET] = PLOYTEC_SYNC_BYTE_VALUE;
+-	for (i = PLOYTEC_SYNC_BYTE_OFFSET + 1; i < PLOYTEC_PKT_SIZE; i++)
+-		buf[i] = 0x00;
++		sub[PLOYTEC_MIDI_OUT_OFFSET] = PLOYTEC_MIDI_IDLE_BYTE;
++
++		/* Ploytec Sync byte and gap padding */
++		sub[PLOYTEC_SYNC_BYTE_OFFSET] = PLOYTEC_SYNC_BYTE_VALUE;
++		for (i = PLOYTEC_SYNC_BYTE_OFFSET + 1; i < PLOYTEC_PKT_SIZE; i++)
++			sub[i] = 0x00;
++	}
+ 
+ 	/*
+ 	 * Step 2: Safe Zone. ALSA core can't free 'substream' because
+@@ -774,6 +869,7 @@ static void jockey3_playback_callback(struct urb *urb)
+ 		 * to an anchor jockey3_stop_urbs() has already drained.
+ 		 */
+ 		if (!urb_stream->stopping && !jockey3_is_disconnected(chip)) {
++			urb->transfer_buffer_length = submit_pkts * PLOYTEC_PKT_SIZE;
+ 			atomic_inc(&urb_stream->urbs_in_flight);
+ 			usb_anchor_urb(urb, &urb_stream->anchor);
+ 			ret = usb_submit_urb(urb, GFP_ATOMIC);
+@@ -941,6 +1037,7 @@ static int jockey3_start_urbs(struct jockey3_chip *chip)
+ {
+ 	int i, ret, first_err = 0;
+ 	int n_playback = 0, n_capture = 0;
++	u8 playback_n_pkts, capture_n_pkts;
+ 
+ 	if (jockey3_is_disconnected(chip))
+ 		return -ENODEV;
+@@ -966,7 +1063,23 @@ static int jockey3_start_urbs(struct jockey3_chip *chip)
+ 		chip->midi_consec_errors = 0;
+ 	}
+ 
++	/*
++	 * Each direction's ring is armed at its own current N, which at probe is
++	 * the JOCKEY3_PLAYBACK_N/JOCKEY3_CAPTURE_N default.
++	 *
++	 * Both are read once here rather than per iteration: they are written
++	 * under the stream lock, which is not held here, so a re-load could
++	 * leave URBs in the same ring armed at different lengths.
++	 */
++	playback_n_pkts = READ_ONCE(chip->playback.n_pkts);
++	capture_n_pkts = READ_ONCE(chip->capture.n_pkts);
++
+ 	for (i = 0; i < JOCKEY3_N_URBS; i++) {
++		chip->playback.urbs[i]->transfer_buffer_length =
++			playback_n_pkts * PLOYTEC_PKT_SIZE;
++		chip->capture.urbs[i]->transfer_buffer_length =
++			capture_n_pkts * PLOYTEC_PKT_SIZE;
++
+ 		atomic_inc(&chip->playback.urbs_in_flight);
+ 		usb_anchor_urb(chip->playback.urbs[i], &chip->playback.anchor);
+ 		ret = usb_submit_urb(chip->playback.urbs[i], GFP_KERNEL);
+@@ -1099,10 +1212,12 @@ static const struct snd_pcm_hardware jockey3_pcm_hw_playback = {
+ 	.channels_max		= 4,
+ 	.buffer_bytes_max	= 1024 * 1024,
+ 	/*
+-	 * One playback URB carries one packet of 10 frames * 4 channels * 3
+-	 * bytes = 120 bytes. A URB reports at most one elapsed period, so the
+-	 * minimum must cover at least one packet, or a period boundary inside a
+-	 * URB could be missed entirely.
++	 * One playback URB carries a packet count chosen per open by
++	 * jockey3_pcm_hw_params(), of 10 frames * 4 channels * 3 bytes = 120
++	 * bytes each. period_elapsed is OR'd across the packet loop in
++	 * jockey3_playback_callback(), so the minimum must cover at least one
++	 * packet, the smallest a URB can ever carry (N=1), or a period boundary
++	 * inside a URB could be missed entirely.
+ 	 */
+ 	.period_bytes_min	= PLOYTEC_PLAYBACK_FRAMES * 4 * 3,
+ 	.period_bytes_max	= 512 * 1024,
+@@ -1120,9 +1235,10 @@ static const struct snd_pcm_hardware jockey3_pcm_hw_capture = {
+ 	.channels_max		= 6,
+ 	.buffer_bytes_max	= 1024 * 1024,
+ 	/*
+-	 * One capture URB carries one packet of 8 frames * 6 channels * 3 bytes
+-	 * = 144 bytes; see the playback .period_bytes_min comment above for why
+-	 * the minimum must cover at least one packet.
++	 * One capture URB carries a packet count chosen per open (see
++	 * jockey3_pcm_hw_params()) of up to 8 frames * 6 channels * 3 bytes =
++	 * 144 bytes each; see the playback .period_bytes_min comment above for
++	 * why the minimum must cover at least one packet.
+ 	 */
+ 	.period_bytes_min	= PLOYTEC_CAPTURE_FRAMES * 6 * 3,
+ 	.period_bytes_max	= 512 * 1024,
+@@ -1164,6 +1280,8 @@ static int jockey3_pcm_close(struct snd_pcm_substream *substream)
+ 	struct jockey3_chip *chip = snd_pcm_substream_chip(substream);
+ 	struct jockey3_pcm_urb_stream *urb_stream =
+ 		jockey3_get_pcm_urb_stream(chip, substream->stream);
++	unsigned int default_n = substream->stream == SNDRV_PCM_STREAM_PLAYBACK ?
++				 JOCKEY3_PLAYBACK_N : JOCKEY3_CAPTURE_N;
+ 
+ 	dev_dbg(&chip->intf0->dev, "PCM close stream %d\n", substream->stream);
+ 
+@@ -1175,6 +1293,16 @@ static int jockey3_pcm_close(struct snd_pcm_substream *substream)
+ 	scoped_guard(spinlock_irqsave, &urb_stream->lock) {
+ 		urb_stream->substream = NULL;
+ 		urb_stream->running = false;
++
++		/*
++		 * A closed direction is not covered by jockey3_pcm_hw_params()
++		 * any more, so its N would otherwise sit at whatever the last
++		 * open left it at -- possibly a small, period-tuned value that
++		 * has nothing to do with the next stream to open it. Reset to
++		 * the default here so an idle direction always runs at a safe N.
++		 */
++		WRITE_ONCE(urb_stream->n_shift, ilog2(default_n));
++		WRITE_ONCE(urb_stream->n_pkts, default_n);
+ 	}
+ 
+ 	return 0;
+@@ -1304,9 +1432,61 @@ static int jockey3_initialize_ploytec(struct jockey3_chip *chip, u32 *fw_version
+ 	return 0;
+ }
+ 
++/**
++ * jockey3_pcm_set_n() - choose and arm this direction's packets per URB
++ * @chip: driver state
++ * @substream: the substream hw_params was just called for
++ * @hw_params: the negotiated parameters
++ *
++ * Chooses how many Ploytec packets each USB bulk URB on this direction
++ * carries, called "N" below for brevity: the largest power of two with
++ * N * pkt_bytes <= period_bytes. A big period gets the full coalescing
++ * saving, a tiny one falls back to N=1 automatically via .period_bytes_min.
++ * Takes effect without tearing the URB ring down -- the firmware cannot tell
++ * an N x 512 B bulk transfer apart from N separate 512 B ones, so each URB on
++ * this direction simply picks up the new N at its own next resubmission; the
++ * ring turns over onto it within at most JOCKEY3_N_URBS completions. See
++ * re/streaming_overhead.md for the rationale and measurements.
 + */
-+static void ploytec_test_codec_variant_matches_build(struct kunit *test)
++static void jockey3_pcm_set_n(struct jockey3_chip *chip, struct snd_pcm_substream *substream,
++			      struct snd_pcm_hw_params *hw_params)
 +{
-+	enum ploytec_codec_variant variant = ploytec_initialize_codec();
++	struct jockey3_pcm_urb_stream *urb_stream =
++		jockey3_get_pcm_urb_stream(chip, substream->stream);
++	unsigned int period_bytes = params_period_bytes(hw_params);
++	bool is_playback = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
++	unsigned int pkt_bytes = is_playback ? PLOYTEC_PLAYBACK_FRAMES * 4 * 3 :
++						  PLOYTEC_CAPTURE_FRAMES * 6 * 3;
++	unsigned int max_n = is_playback ? JOCKEY3_PLAYBACK_N : JOCKEY3_CAPTURE_N;
++	unsigned int n = max(period_bytes / pkt_bytes, 1U);
++	u8 n_shift = clamp_t(u8, ilog2(n), 0, ilog2(max_n));
 +
-+	if (IS_ENABLED(CONFIG_SND_USB_JOCKEY3_REFERENCE_CODEC))
-+		KUNIT_EXPECT_EQ_MSG(test, variant, PLOYTEC_CODEC_PORTABLE,
-+				    "REFERENCE_CODEC is set but the portable codec was not selected");
-+	else if (IS_ENABLED(CONFIG_64BIT))
-+		KUNIT_EXPECT_EQ_MSG(test, variant, PLOYTEC_CODEC_OPTIMIZED_64BIT,
-+				    "64-bit build did not select the 64-bit codec");
-+	else
-+		KUNIT_EXPECT_EQ_MSG(test, variant, PLOYTEC_CODEC_OPTIMIZED_32BIT,
-+				    "32-bit build did not select the 32-bit codec");
++	scoped_guard(spinlock_irqsave, &urb_stream->lock) {
++		WRITE_ONCE(urb_stream->n_shift, n_shift);
++		WRITE_ONCE(urb_stream->n_pkts, 1 << n_shift);
++	}
++
++	dev_dbg(&chip->intf0->dev, "hw_params: %s using %u packet(s)/URB (period_bytes=%u)\n",
++		is_playback ? "playback" : "capture", 1U << n_shift, period_bytes);
 +}
 +
- /* --- Suite ---------------------------------------------------------------- */
- 
-+static int ploytec_codec_suite_init(struct kunit_suite *suite)
++static int jockey3_pcm_hw_params(struct snd_pcm_substream *substream,
++				 struct snd_pcm_hw_params *hw_params)
 +{
-+	/*
-+	 * The lookup tables the optimized codecs need. module_init() has
-+	 * normally built them already, and then this does nothing.
-+	 */
-+	ploytec_initialize_codec();
++	struct jockey3_chip *chip = snd_pcm_substream_chip(substream);
++
++	if (jockey3_is_disconnected(chip))
++		return -ENODEV;
++
++	jockey3_pcm_set_n(chip, substream, hw_params);
 +
 +	return 0;
 +}
 +
- static struct kunit_case ploytec_codec_test_cases[] = {
- 	KUNIT_CASE_PARAM(ploytec_test_encode_known_vectors,
- 			 ploytec_encode_vector_gen_params),
-@@ -844,11 +884,13 @@ static struct kunit_case ploytec_codec_test_cases[] = {
- 	KUNIT_CASE(ploytec_test_encode_reserved_bits_clear),
- 	KUNIT_CASE(ploytec_test_decode_ignores_unused_bytes),
- 	KUNIT_CASE(ploytec_test_decode_ignores_unused_bits),
-+	KUNIT_CASE(ploytec_test_codec_variant_matches_build),
- 	{},
- };
+ static const struct snd_pcm_ops jockey3_pcm_ops = {
+ 	.open = jockey3_pcm_open,
+ 	.close = jockey3_pcm_close,
++	.hw_params = jockey3_pcm_hw_params,
+ 	.prepare = jockey3_pcm_prepare,
+ 	.trigger = jockey3_pcm_trigger,
+ 	.sync_stop = jockey3_pcm_sync_stop,
+@@ -1454,7 +1634,7 @@ static int jockey3_init_playback_urbs(struct jockey3_chip *chip)
+ 	int i;
  
- static struct kunit_suite ploytec_codec_suite = {
- 	.name = "ploytec-codec",
-+	.suite_init = ploytec_codec_suite_init,
- 	.test_cases = ploytec_codec_test_cases,
- };
+ 	for (i = 0; i < JOCKEY3_N_URBS; i++) {
+-		chip->playback.bufs[i] = kzalloc(PLOYTEC_PKT_SIZE, GFP_KERNEL);
++		chip->playback.bufs[i] = kzalloc(JOCKEY3_PLAYBACK_XFER_SIZE, GFP_KERNEL);
+ 		if (!chip->playback.bufs[i])
+ 			return -ENOMEM;
  
+@@ -1466,7 +1646,7 @@ static int jockey3_init_playback_urbs(struct jockey3_chip *chip)
+ 
+ 		usb_fill_bulk_urb(chip->playback.urbs[i], dev,
+ 				  usb_sndbulkpipe(dev, PLOYTEC_EP_NUM_PCM_OUT),
+-				  chip->playback.bufs[i], PLOYTEC_PKT_SIZE,
++				  chip->playback.bufs[i], JOCKEY3_PLAYBACK_XFER_SIZE,
+ 				  jockey3_playback_callback, chip);
+ 	}
+ 
+@@ -1479,7 +1659,7 @@ static int jockey3_init_capture_urbs(struct jockey3_chip *chip)
+ 	int i;
+ 
+ 	for (i = 0; i < JOCKEY3_N_URBS; i++) {
+-		chip->capture.bufs[i] = kzalloc(PLOYTEC_PKT_SIZE, GFP_KERNEL);
++		chip->capture.bufs[i] = kzalloc(JOCKEY3_CAPTURE_XFER_SIZE, GFP_KERNEL);
+ 		if (!chip->capture.bufs[i])
+ 			return -ENOMEM;
+ 
+@@ -1489,7 +1669,7 @@ static int jockey3_init_capture_urbs(struct jockey3_chip *chip)
+ 
+ 		usb_fill_bulk_urb(chip->capture.urbs[i], dev,
+ 				  usb_rcvbulkpipe(dev, PLOYTEC_EP_NUM_PCM_IN),
+-				  chip->capture.bufs[i], PLOYTEC_PKT_SIZE,
++				  chip->capture.bufs[i], JOCKEY3_CAPTURE_XFER_SIZE,
+ 				  jockey3_capture_callback, chip);
+ 	}
+ 
+@@ -1697,6 +1877,15 @@ static int jockey3_probe(struct usb_interface *intf, const struct usb_device_id
+ 	 */
+ 	atomic_set(&chip->playback.urbs_in_flight, 0);
+ 	atomic_set(&chip->capture.urbs_in_flight, 0);
++	/*
++	 * Default N until the first hw_params() picks a period-tuned value
++	 * (jockey3_pcm_set_n()); matches the width the URB buffers below are
++	 * actually allocated at, and jockey3_init_out_packet() primes.
++	 */
++	chip->playback.n_shift = ilog2(JOCKEY3_PLAYBACK_N);
++	chip->playback.n_pkts = JOCKEY3_PLAYBACK_N;
++	chip->capture.n_shift = ilog2(JOCKEY3_CAPTURE_N);
++	chip->capture.n_pkts = JOCKEY3_CAPTURE_N;
+ 
+ 	chip->xfer_buf = kmalloc(USB_XFER_BUF_SIZE, GFP_KERNEL);
+ 	if (!chip->xfer_buf) {
 -- 
 2.47.3
 
