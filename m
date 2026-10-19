@@ -1,45 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B14F15458D2;
-	Mon, 19 Oct 2026 14:06:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BEC503BE9;
+	Mon, 19 Oct 2026 14:06:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418801; cv=none; b=BQNd4m8BkS7RygiRyDFYb5R+MHAIvd9mKPFbzbKD8XxVYM3fcirTMK7h19LyOhfQY9U5hUezssZDf8GMo+dnlQ9DtOhRnBgvdbZzA9IvJ2GqFN2KUXyttLVR0usnibgm5HkunxdGA9pwBpudCER5uzfw1xnSaSzqKkLo3uWTk3c=
+	t=1792418809; cv=none; b=U1xzzXOlRJ0oYoQL2u6cq5AzythkH05kVYfZn17cVmNLEx7y3N+maZxlY91/fIFbBLGG8P3rzVu9Ij9kXrZr7Nxufb4khxJoRqzK5+iKjTWzJKqCadE6YG1Va6E+nQLfZgG6yr05GXjF/p2R8T7Q7cAy3O2pj+hhOeixri7zSpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418801; c=relaxed/simple;
-	bh=95qOH47L2e8gemey/UZsgmcWb0tqdDJwAaVk7WWxsC4=;
+	s=arc-20240116; t=1792418809; c=relaxed/simple;
+	bh=8HTGKz/1NgVU+pDsV/Bim2NeNHfDYKv/D+EClCVs6Y8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BsAf/KQqv5GEvBOmhpVUh6pzA06eJCtC5bYsTID+mF4frFg3Fs9kgvqiHpA5ClyTZaIlKuhPUbLZJm0tQE9jrUjsqsVSDyt6EIEnte2lcMbzZSiJFrHxJQREvjXwXOlykNNZyrkXeHtr8RQ6PNHyAv85jIUD4+P7dZhUQSE8lvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dK8YCNLl; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=Nke4RCeJyZ0++QaY+ju5P7zn6gcJpBGD9oJUGOsSlqh7GMPf5pLng4CxVeWWa+QngoRNE9WLM3AgvuyxPTaLvbNQLMknv9fGE56oxHC72vh4nAXnW+q0mFgBbTXfeLJaIxrUiUeuBVIEY9jhg4k240kC6e3SgSKMqU2dmBxHD3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YVS9jDb7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dK8YCNLl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 846B61F000C8;
-	Mon, 19 Oct 2026 14:06:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YVS9jDb7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36BC41F000C6;
+	Mon, 19 Oct 2026 14:06:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418798;
-	bh=qt8rAXV5w9aLTSVZK04czmnAvYtGQvH2a2vUMCv+/Hs=;
+	s=k20260515; t=1792418803;
+	bh=WI7wYpsNMkdXcklVicKth9S9t37805X7PofsGlT4fB0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=dK8YCNLlgN+U2dOydTM0q5VqujOSLIiPPqjCRCoO5BpYmxwdWIZwL2TEnnyDSO0oY
-	 L2ihe3XKyVPN6Wn04ZsxlEqJWVGlT3lHQ3IIwOXQPZRMcD/Ikkt0wkiSfaEq3Z1T54
-	 rN16OT5Ky/5wi5pHR4CEO6ns69CwTlM52Fh2H9zarseAN01tCz2jbzkTOXX3I5El3Z
-	 Vl1wgI+mU+V8Qr1FegTOI+U4vPEznmgrzwG/y3jgYRzkUkATMVWPYkBkYf1Qyx+G0m
-	 nt00PPr9RropVWvJbIFXsZhChkEhEhGYiXHN+qkgCXOPjN3/PkjN3iEBQjTKSPLJOi
-	 0292q9rxQLnjg==
+	b=YVS9jDb7x1yRx0hBUr2N6Ud9RJWEikoPVpNghCh2HJEnWCPi/d3jA42fzeiiuD9sK
+	 MlnX70NgtKFM+xmahYs0TjiUckNZdjEqfgYp3jvFMVx/eohlROLIeovC6v2aIc1Fen
+	 YyCgNEA/Rmxdq/6OwNe1OUi5Mkunww824JCWq4NOzW5oTvvhsfBPTUjKhRiWgCW6Q2
+	 HDxfd5wH1XIJ3JZnxdhzfLjkHUZRb3ki6kT2IV5gzfs/I1zAjDX3AvvAapNtTwdYUY
+	 tWreaMnzqxupa7oT9zqZwzlibbr8kg6pGI0cCtR9w1QFvVwK9YJr6o5t30uC302T1K
+	 VaUHGaGGe38Og==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Haoxiang Li <haoxiang_li2024@163.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: wangdicheng <wangdicheng@kylinos.cn>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] ASoC: hdac_hdmi: Fix resource cleanup on probe failure
-Date: Mon, 19 Oct 2026 09:53:15 -0400
-Message-ID: <20261019135441.1420968-504-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] ALSA: hda/conexant: Add NULL check for dc_mode_path
+Date: Mon, 19 Oct 2026 09:53:18 -0400
+Message-ID: <20261019135441.1420968-507-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -55,401 +54,514 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Haoxiang Li <haoxiang_li2024@163.com>
+From: wangdicheng <wangdicheng@kylinos.cn>
 
-[ Upstream commit 785903b7770f19ea05b8a76081dff691c56fa771 ]
+[ Upstream commit 273806f38ce95c95c288a03d3de1e423cd3e5543 ]
 
-hdac_hdmi_dev_probe() gets the HDA link before allocating and
-initializing the HDMI codec private data. Several later error
-paths return directly without dropping the link reference,
-leaving the hlink refcount unbalanced.
+snd_hda_add_new_path() returns NULL when no path exists between the
+given NIDs, but olpc_xo_update_mic_pins() passes dc_mode_path
+straight to snd_hda_activate_path() which dereferences it without
+checking. Add the missing NULL guards, same as the local path
+variable already has in the same function.
 
-Release the link reference on probe failures. Also turn display
-power off if the failure happens after it has been enabled.
-
-This issue was dicussed in:
-https://lore.kernel.org/all/s5h1s0esk8o.wl-tiwai@suse.de/
-I think the paths fixed here are probe failure paths: the device
-has not been fully initialized or bound, and runtime PM suspend
-cannot be relied on to balance the reference taken during probe.
-
-Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
-Link: https://patch.msgid.link/20260622151127.1198196-1-haoxiang_li2024@163.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
+Link: https://patch.msgid.link/20260729070935.548050-2-wangdich9700@163.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This is a small probe-error-path leak fix in the Intel HDMI HDAC codec.
-The buggy code is present in this 6.18.53 tree, the change is surgical,
-and it should be backported.
+Connection lost, reconnecting to https://agentn.us.api5.cursor.sh
+(attempt 1)...
+Retry attempt 1...
+# Stable backport analysis: `ALSA: hda/conexant: Add NULL check for
+dc_mode_path`
 
-## Phase 1: Commit message forensics
-
-**Step 1.1 — Subject**
-Record: `[ASoC / hdac_hdmi] [Fix] resource cleanup on probe failure`
-
-**Step 1.2 — Tags**
-Record:
-- No `Fixes:` tag (expected for this review queue)
-- No `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-by:`, or `Cc:
-  stable`
-- `Link: https://patch.msgid.link/20260622151127.1198196-1-
-  haoxiang_li2024@163.com`
-- Body also cites `https://lore.kernel.org/all/s5h1s0esk8o.wl-
-  tiwai@suse.de/` (Takashi Iwai, 2019)
-- `Signed-off-by: Haoxiang Li` (author)
-- `Signed-off-by: Mark Brown <broonie@kernel.org>` (ASoC maintainer)
-- Ignore pipeline `Signed-off-by: Sasha Levin` and `[Upstream commit
-  785903b7770f...]`
-
-**Step 1.3 — Body**
-Record:
-- **Bug:** `hdac_hdmi_dev_probe()` takes an HDAC link ref
-  (`snd_hdac_ext_bus_link_get`) then returns on later errors without
-  `snd_hdac_ext_bus_link_put`. After `snd_hdac_display_power(...,
-  true)`, parse failure also leaves display power held.
-- **Symptom:** Unbalanced `hlink->ref_count` (link stays powered) and
-  possibly a stuck i915/display audio power well.
-- **Root cause (author):** Probe-failure paths never bind the driver, so
-  runtime PM suspend cannot drop the probe-time ref.
-- **Version info:** None in the message. History puts the leak in this
-  driver since link management was added (~v4.7).
-
-**Step 1.4 — Hidden bug fix?**
-Record: Not hidden. Explicit leak fix on error paths.
-
-## Phase 2: Diff analysis
-
-**Step 2.1 — Inventory**
-Record:
-- File: `sound/soc/codecs/hdac_hdmi.c` (+8 / −2)
-- Function: `hdac_hdmi_dev_probe()`
-- Scope: single-file surgical error-path fix
-
-**Step 2.2 — Flow change**
-Record (verified against v6.18.53 and the patch):
-1. After `snd_hdac_ext_bus_link_get()`:
-   - **ENOMEM** (`devm_kzalloc` fails): was `return -ENOMEM` → now
-     `link_put` then return
-   - **`!hdac_id`:** was `return -ENODEV` → now `link_put` then return
-   - **`hdac_hdmi_parse_and_map_nid()` fails:** was log + `return ret`
-     after `snd_hdac_display_power(..., true)` → now `link_put` +
-     `snd_hdac_display_power(..., false)` then return
-2. Success / `devm_snd_soc_register_component` path already did
-   `link_put`. Unchanged.
-
-**Step 2.3 — Bug mechanism**
-Record: **Error-path resource leak** (link refcount + display power
-ref). `snd_hdac_ext_bus_link_get()` increments `hlink->ref_count` and
-powers the link at 0→1. Matching `put` powers it down at 1→0. Probe
-failure skipped that put. `snd_hdac_display_power(..., true)` sets
-`display_power_status` and may call DRM `get_power`; without `false`,
-that well can stay on.
-
-**Step 2.4 — Fix quality**
-Record: Obviously correct: every new `put`/`display_power(false)` is on
-a path that already took the matching get/enable and does not reach the
-existing success-path `put`. No API/lock/structure changes. Remaining
-gap (not introduced here): if `devm_snd_soc_register_component()` fails,
-`link_put` already runs but display power is still left on. That does
-not make this patch wrong.
-
-## Phase 3: Git history
-
-**Step 3.1 — Blame**
-Record:
-- Link get in this probe: `b2047e996cd88` (“ASoC: hdac_hdmi: add link
-  management”), contained in **v4.7-rc1**. Error returns after get were
-  already unbalanced.
-- Display power enable: `4f799e734094f0` (Takashi Iwai), contained in
-  **v5.0-rc1**.
-- Buggy pattern has been in this file for many years, including this
-  6.18.y tree.
-
-**Step 3.2 — Fixes: tag**
-Record: None. Introducer is `b2047e996cd88` (link get without error-path
-put). That commit is an ancestor of this tree.
-
-**Step 3.3 — File history**
-Record: Recent `hdac_hdmi.c` work is lock `guard()` conversion, enum
-validation, logging. No prerequisite refactor for this fix. `git diff
-v6.18.53 0754884332e60^ -- sound/soc/codecs/hdac_hdmi.c` is empty: probe
-text at v6.18.53 matches the pre-patch parent.
-
-**Step 3.4 — Author**
-Record: Haoxiang Li has several ASoC probe-leak fixes here, including
-`e8ea01a045708` (“ASoC: hdac_hda: Fix hlink refcount leak on component
-registration failure”), which **did** carry `Fixes:` + `Cc: stable` and
-is already in this tree. Same bug class, sibling driver.
-
-**Step 3.5 — Dependencies**
-Record: None. Uses existing `snd_hdac_ext_bus_link_put` /
-`snd_hdac_display_power`. Standalone.
-
-## Phase 4: Mailing list / external
-
-**Step 4.1 — Original thread**
-Record:
-- `b4 dig -c 785903b7770f`: https://patch.msgid.link/20260622151127.1198
-  196-1-haoxiang_li2024@163.com
-- Single revision (v1 only, `-a`)
-- Thread: patch + Mark Brown apply to `for-7.3`. No NAK, no requested
-  respin.
-
-**Step 4.2 — Recipients (`b4 dig -w`)**
-Record: Liam Girdwood, Mark Brown, Jaroslav Kysela, Takashi Iwai,
-Cirrus, Kuninori Morimoto, `linux-sound`, `linux-kernel`. Right
-ASoC/ALSA maintainers.
-
-**Step 4.3 — Cited 2019 discussion**
-Record: MARC copy of `s5h1s0esk8o.wl-tiwai@suse.de` (2019-05-31).
-Ranjani Sridharan noted hdac_hdmi had a similar unbalanced link ref.
-Takashi said hdac_hdmi is different because it balances via runtime PM
-(put in suspend, get in resume), and he was unsure about removal vs
-suspend. He called the code “a bit too fragile.” This 2026 patch
-correctly treats **probe failure** as unbound, so runtime suspend cannot
-be assumed. That matches `hdmi_codec_probe()`, which documents relying
-on `pm_runtime_put` only after a successful component probe.
-
-**Step 4.4 — Series**
-Record: Standalone `[PATCH]`, not `n/m`. Sibling hdac_hda leak fix sent
-the same day.
-
-**Step 4.5 — stable@**
-Record: **UNVERIFIED** (lore.kernel.org returns 403 here). No stable
-nomination in the saved mbox.
-
-## Phase 5: Code semantics
-
-**Step 5.1 — Functions**
-Record: `hdac_hdmi_dev_probe()` only.
-
-**Step 5.2 — Callers**
-Record: `hdmi_driver.probe`, registered by `hdmi_init()` →
-`snd_hda_ext_driver_register()`. Runs on HDAC enumeration of Intel HDMI
-IDs 0x80862809–0x8086280d (Skylake / Broxton / Kaby Lake / Cannon Lake /
-Gemini Lake). Boot/device-probe path, not a syscall hot path.
-
-**Step 5.3 — Callees**
-Record: `snd_hdac_ext_bus_get_hlink_by_name`,
-`snd_hdac_ext_bus_link_get/put`, `snd_hdac_display_power`,
-`hdac_hdmi_parse_and_map_nid` (can return `-EINVAL`/`-EIO`/`-ENOMEM` on
-bad topology or alloc failure), `devm_snd_soc_register_component`.
-
-**Step 5.4 — Reachability**
-Record: Yes, if `CONFIG_SND_SOC_HDAC_HDMI` is built and the module
-binds. Parse failure is a real probe error (`HDMI: failed to get afg sub
-nodes`, `Bad pin/cvt setup`). Unprivileged users do not trigger it
-directly; boot/bind does.
-
-**Step 5.5 — Similar patterns**
-Record: Same leak class in `hdac_hda_dev_probe` (already fixed with Cc:
-stable). `hdmi_codec_probe()` still has its own error-path link_get
-without put if widget map / notifier registration fails; that is **not**
-this commit.
-
-## Phase 6: This tree (6.18.53)
-
-**Step 6.1 — Buggy code present?**
-Record: **Yes.** `git describe HEAD` → `v6.18.53-5049-g0f0bdc2b0dffb`;
-`Makefile` is 6.18.53. At `v6.18.53`, `hdac_hdmi_dev_probe()` gets the
-link then returns on ENOMEM / `!hdac_id` / parse failure with no put
-(and no display power off on parse failure). Bug introduced ~v4.7, not
-after 6.18 branched.
-
-**Step 6.2 — Backport difficulty**
-Record: **Clean apply.** `patch --dry-run` of this diff onto
-`v6.18.53:sound/soc/codecs/hdac_hdmi.c` succeeded. No intervening probe
-rewrite.
-
-**Step 6.3 — Related fixes already here?**
-Record: No other hdac_hdmi probe-leak fix. Sibling `hdac_hda` leak fix
-is already in this tree; it does not cover this file.
-
-## Phase 7: Subsystem context
-
-**Step 7.1**
-Record: ASoC codec driver (`sound/soc/codecs/hdac_hdmi.c`).
-**IMPORTANT** for Intel HDMI audio on SKL–GLK, not core mm/net.
-`SND_SOC_HDAC_HDMI` is a hidden `tristate` implied by
-`SND_SOC_ALL_CODECS`; this tree has no board `select SND_SOC_HDAC_HDMI`
-(SOF uses `SND_SOC_HDAC_HDA`). Distros that enable all codecs still ship
-the module, and it still matches those HDMI codec IDs.
-
-**Step 7.2**
-Record: File is mature (2015–); recent commits are small fixes, not a
-rewrite.
-
-## Phase 8: Impact and risk
-
-**Step 8.1 — Who**
-Record: Users of this HDMI HDAC codec (Intel SKL/BXT/KBL/CNL/GLK ASoC
-HDMI), and only when **probe fails**. Not universal.
-
-**Step 8.2 — Trigger**
-Record: Failed `hdac_hdmi_dev_probe` after `link_get`: ENOMEM, ID lookup
-miss, or `hdac_hdmi_parse_and_map_nid` failure. Once per failed bind,
-not a hot path. Not a userspace-triggered security issue.
-
-**Step 8.3 — Failure mode**
-Record: HDAC link ref never drops → link stays powered; display power
-bit/get_power may stay held → GPU/audio power well may not idle.
-**Severity: MEDIUM–HIGH** (power-management leak / stuck resource, not
-oops/corruption). HDMI audio already failed on that path; leftover refs
-can still affect the controller and display PM.
-
-**Step 8.4 — Risk vs benefit**
-Record:
-- Benefit: balances refs on real probe-error paths; prevents stuck
-  link/display power.
-- Risk: very low (error path only, matching put/power-off, no locking
-  change).
-- Ratio: favorable for stable.
-
-## Phase 9: Synthesis
-
-**Step 9.1 — Evidence**
-
-For:
-- Real unbalanced `hlink` refcount and display-power hold on probe
-  failure (verified in v6.18.53 source and `link_get`/`display_power`
-  implementations).
-- Probe failure cannot rely on runtime suspend (verified: PM
-  enable/`pm_runtime_put` is in `hdmi_codec_probe`, after successful
-  bind).
-- Tiny (+8/−2), obviously correct, applies cleanly here.
-- ASoC maintainer applied it; 2019 maintainer thread already flagged the
-  fragility.
-- Same-week sibling hdac_hda leak fix was treated as stable material.
-
-Against:
-- Probe-error path only; no crash/corruption/CVE.
-- No `Reported-by` of a field failure.
-- Display power still leaked if component registration fails (pre-
-  existing, incomplete).
-- Driver is less central in 6.18 than in Skylake-SST days (SOF uses
-  hdac_hda).
-
-Unresolved:
-- Could not search lore.kernel.org/stable (HTTP 403).
-- No direct evidence of how often parse-and-map fails on shipping
-  SKL–GLK machines.
-
-**Step 9.2 — Stable rules**
-1. Obviously correct and tested? **PASS** — mechanical matching
-   put/power-off; maintainer applied. No extra Tested-by.
-2. Real bug affecting users? **PASS** — leftover link/display power
-   after failed HDMI codec probe.
-3. Important (crash/security/corruption/deadlock)? **PASS** (lower end)
-   — not an oops, but a stuck PM ref that can keep an HDA link and
-   display audio power well on; same class as other probe-path leak
-   backports.
-4. Small and contained? **PASS** — one function, 10 lines.
-5. No new features/APIs? **PASS**
-6. Applies to this tree? **PASS** — buggy code in 6.18.53, clean apply.
-
-**Step 9.3 — Exception category**
-Record: None (not a device ID/quirk/DT/build/doc-only change). Ordinary
-error-path leak fix.
-
-**Step 9.4 — Decision**
-The leak is real in this checkout, the fix is minimal and correct, and
-regression risk is confined to paths that already failed probe. That is
-appropriate for 6.18.y.
-
-### What it solves for stable users
-On Intel HDMI HDAC probe failure, this tree currently leaves
-`snd_hdac_ext_bus_link_get()` unmatched and can leave
-`snd_hdac_display_power(..., true)` unmatched. That keeps the HDAC link
-(and possibly the i915 audio power well) up for the life of the boot.
-The patch drops those refs on the failing paths.
-
-### Risk vs benefit
-Benefit is restoring power/ref balance when HDMI codec init fails. Risk
-is very low: no success-path or locking change.
+Local tree: **7.3.0-rc4** (`v7.3-rc4-27-gf0100363d8c37`). Evaluation is
+for this checkout only. The conexant OLPC XO path exists here; the
+change is a two-site NULL guard in `olpc_xo_update_mic_pins()`.
 
 ---
 
-Verification:
-- [Phase 1] Parsed tags: no Fixes/Cc-stable/Reported-by; Link to msgid
-  20260622151127; Mark Brown SOB; body cites Takashi 2019 thread
-- [Phase 2] Diff: +8/−2 in `hdac_hdmi_dev_probe()`; puts on ENOMEM,
-  !hdac_id, parse failure; display_power(false) on parse failure
-- [Phase 2] Confirmed `snd_hdac_ext_bus_link_get/put` in
-  `sound/hda/core/ext/controller.c` power the link on 0↔1 refcount
-- [Phase 2] Confirmed `snd_hdac_display_power()` in
-  `sound/hda/core/component.c` holds DRM get_power while bits are set
-- [Phase 3] `git describe HEAD`: v6.18.53-5049-g0f0bdc2b0dffb; `make
-  kernelversion` / Makefile: 6.18.53
-- [Phase 3] Blame: link get from `b2047e996cd88` (v4.7); display power
-  from `4f799e734094f0` (v5.0)
-- [Phase 3] `git show v6.18.53:sound/soc/codecs/hdac_hdmi.c`: buggy
-  returns present; parent of candidate identical to v6.18.53 for this
-  file
-- [Phase 3] Sibling `e8ea01a045708` (hdac_hda leak) is an ancestor of
-  HEAD and had Cc: stable
-- [Phase 4] `b4 dig -c 785903b7770f`: v1 only; applied by Mark Brown to
-  for-7.3; no NAK in mbox
-- [Phase 4] MARC: Takashi 2019 mail `s5h1s0esk8o.wl-tiwai@suse.de` on
-  runtime-PM vs hdac_hdmi link refs
-- [Phase 5] `hdac_hdmi_dev_probe` is `hdmi_driver.probe`; IDs
-  0x80862809–0x8086280d
-- [Phase 5] `hdac_hdmi_parse_and_map_nid` can return -EINVAL/-EIO and
-  alloc errors
-- [Phase 6] `patch --dry-run` onto v6.18.53 file: success
-- [Phase 6] Upstream `785903b7770f` is not an ancestor of v6.18.53 (fix
-  not already in the stable base)
-- [Phase 8] Failure mode: stuck HDAC link / display power after failed
-  probe, not oops
-- UNVERIFIED: lore.kernel.org WebFetch/curl 403; no stable@ archive
-  search
-- UNVERIFIED: field frequency of `hdac_hdmi_parse_and_map_nid` failures
-  on 6.18 hardware
+## PHASE 1: COMMIT MESSAGE FORENSICS
+
+**Step 1.1: PARSE THE SUBJECT LINE**
+- Subsystem: `ALSA: hda/conexant`
+- Action verb: **Add** (NULL check)
+- Claimed intent: stop passing a possibly-NULL `dc_mode_path` into
+  `snd_hda_activate_path()`
+
+Record: `[ALSA/hda/conexant] [add] [NULL-check dc_mode_path before
+snd_hda_activate_path]`
+
+**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
+- `Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>` (author)
+- `Link:
+  https://patch.msgid.link/20260729070935.548050-2-wangdich9700@163.com`
+  (patch 2/2)
+- `Signed-off-by: Takashi Iwai <tiwai@suse.de>` (ALSA maintainer;
+  applied)
+- No `Fixes:`
+- No `Reported-by` / `Tested-by` / `Reviewed-by` / `Acked-by`
+- No `Cc: stable` (expected for this review pipeline)
+- Pipeline `Signed-off-by: Sasha Levin` is absent from the real commit
+  and is ignored anyway
+
+Record: Maintainer SOB only; no crash reporter, syzbot, or Fixes tag.
+Msgid `-2` shows this is **patch 2/2**.
+
+**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+The body says `snd_hda_add_new_path()` can return NULL when no path
+exists between the given NIDs, and `olpc_xo_update_mic_pins()` passes
+`spec->dc_mode_path` to `snd_hda_activate_path()` with no check. The
+local `path` variable in the same function is already NULL-checked. No
+stack trace, reproducer, or version range.
+
+Record:
+- [Bug] Unchecked NULL from `snd_hda_add_new_path()` used later
+- [Symptom] NULL deref / oops in `snd_hda_activate_path()`
+  (`path->active = enable`)
+- [Version info] none in the message
+- [Root cause] missing NULL guards, unlike the sibling `path` checks
+
+**Step 1.4: DETECT HIDDEN BUG FIXES**
+Not disguised. It is an explicit NULL-deref guard. Not a feature or
+refactor.
+
+Record: `[Not a hidden fix; stated NULL deref guard]`
+
+---
+
+## PHASE 2: DIFF ANALYSIS - LINE BY LINE
+
+**Step 2.1: INVENTORY THE CHANGES**
+- File: `sound/hda/codecs/conexant.c` (+4 / -2)
+- Function: `olpc_xo_update_mic_pins()`
+- Classification: single-file surgical fix
+
+Record: `[conexant.c +4-2] [olpc_xo_update_mic_pins] [surgical]`
+
+**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
+Hunk 1 (`!spec->dc_enable`, default path): always called
+`snd_hda_activate_path(..., dc_mode_path, false, false)` to disable the
+DC path → now skipped if `dc_mode_path` is NULL.
+
+Hunk 2 (`spec->dc_enable`): always activated the DC path → now skipped
+if NULL.
+
+Both are the normal OLPC mic-pin update path (init, jack, capture,
+mixer), not a new error-handling framework.
+
+Record: `[unconditional activate_path → NULL-guarded activate_path on
+both branches]`
+
+**Step 2.3: IDENTIFY THE BUG MECHANISM**
+Category: **memory safety / NULL pointer dereference**.
+
+`cxt_fixup_olpc_xo()` does:
+
+```c
+spec->dc_mode_path = snd_hda_add_new_path(codec, 0x1e, 0x14, 0);
+```
+
+`snd_hda_add_new_path()` is documented to return NULL if no valid path
+is found, and also returns NULL if `is_reachable_path()` fails,
+`snd_array_new()` fails, or `snd_hda_parse_nid_path()` fails.
+`snd_hda_activate_path()` immediately does `path->active = enable` with
+no NULL check.
+
+Record: `[NULL deref] [add_new_path NULL stored, later deref in
+activate_path]`
+
+**Step 2.4: ASSESS THE FIX QUALITY**
+Obviously correct and matches the existing `if (path)` pattern in the
+same function. Minimal. Skipping activate on NULL cannot activate a
+missing path anyway, so behavior is “don’t oops” rather than a new
+feature. Regression risk is very low: no locking, no API, no data-
+structure change.
+
+Record: `[obviously correct, 2 ifs] [regression risk: very low]`
+
+---
+
+## PHASE 3: GIT HISTORY INVESTIGATION
+
+**Step 3.1: BLAME THE CHANGED LINES**
+Unchecked `snd_hda_activate_path(codec, spec->dc_mode_path, ...)` and
+the assignment of `dc_mode_path` come from `3a00c6605b7709` (“ALSA:
+hda/conexant - Re-implement OLPC XO workarounds via fixup”), Takashi
+Iwai, 2014-01-27, first contained in **v3.15-rc1**. Present as an
+ancestor of this HEAD.
+
+Record: `[3a00c6605b7709, v3.15-rc1] [code present ~12 years]`
+
+**Step 3.2: FOLLOW THE FIXES: TAG**
+No `Fixes:` tag. Introducer verified by blame as above. `git merge-base
+--is-ancestor 3a00c6605b7709 HEAD` succeeded.
+
+Record: `[no Fixes tag] [buggy code exists in this tree since v3.15]`
+
+**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
+Recent `conexant.c` work is headset/LED/pin quirks. Only related hit for
+`dc_mode_path` is this commit. Standalone relative to later conexant
+changes.
+
+Record: `[no prerequisites in recent file history] [standalone vs later
+work]`
+
+**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
+wangdicheng is a regular ALSA contributor, not the subsystem maintainer.
+Nearby work includes other defensive checks. Same-day series: this patch
+plus `[PATCH 1/2] ALSA: hda/conexant: Fix EAPD pin array overflow`.
+
+Record: `[regular contributor] [2/2 series; patch 1 was rejected]`
+
+**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
+Needs `olpc_xo_update_mic_pins`, `dc_mode_path`, and
+`snd_hda_activate_path` — all present. Patch 1/2 is **not** a
+dependency; Takashi NAK’d it (“No, it checks right after the increment…
+overwrite won't happen”), and this tree still has the original EAPD
+write-then-check order. This NULL-check applies standalone.
+
+Record: `[no functional dependency on 1/2] [applies standalone]`
+
+---
+
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+
+**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
+`b4 dig -c 273806f38ce95` matched:
+https://patch.msgid.link/20260729070935.548050-2-wangdich9700@163.com
+
+`b4 dig -a`: **v1 only** (no v2/v3). Thread saved to mbox.
+
+Takashi on 2/2: “Applied to for-next branch now. Thanks.” No NAK, no
+stable nomination, no concern about this patch.
+
+Takashi on 1/2: explicit rejection — the claimed EAPD overflow does not
+happen.
+
+Record: `[lore msgid 20260729070935.548050-2] [v1 only] [2/2 applied;
+1/2 NAK’d] [no Cc: stable in review]`
+
+**Step 4.2: CHECK WHO REVIEWED THE PATCH**
+`b4 dig -w` recipients: `tiwai@suse.com`, `broonie@kernel.org`, `linux-
+sound@`, `linux-kernel@`, author. Subsystem maintainer was To: and
+applied the patch.
+
+Record: `[Takashi Iwai applied; Mark Brown CC’d; linux-sound CC’d]`
+
+**Step 4.3: SEARCH FOR THE BUG REPORT**
+No `Reported-by`, no bugzilla, no syzbot. HTTP fetch of lore.kernel.org
+returned 403; discussion recovered via `b4 dig -m` instead. No evidence
+of a user-reported oops.
+
+Record: `[no user/syzbot report found] [static/code-review style
+finding]`
+
+**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
+2/2 of “conexant defensive fixes”. Patch 1 was a false positive. Patch 2
+does not depend on patch 1.
+
+Record: `[series 2/2; sibling not needed and not in tree]`
+
+**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
+lore.kernel.org/stable HTTP search: **UNVERIFIED** (403). No
+`dc_mode_path` discussion in this tree’s git history besides this
+commit.
+
+Record: `[UNVERIFIED: stable list search via HTTP] [no in-tree stable
+discussion]`
+
+---
+
+## PHASE 5: CODE SEMANTIC ANALYSIS
+
+**Step 5.1: IDENTIFY KEY FUNCTIONS**
+- Modified: `olpc_xo_update_mic_pins()`
+- Related: `cxt_fixup_olpc_xo()`, `olpc_xo_automic()`,
+  `olpc_xo_capture_hook()`, `olpc_xo_dc_mode_put()`,
+  `olpc_xo_dc_bias_enum_put()`, `snd_hda_add_new_path()`,
+  `snd_hda_activate_path()`
+
+Record: `[olpc_xo_update_mic_pins only in the diff]`
+
+**Step 5.2: TRACE CALLERS**
+`olpc_xo_update_mic_pins()` is called from:
+1. `olpc_xo_automic` — `mic_autoswitch_hook`
+2. `olpc_xo_capture_hook` — PCM PREPARE/CLEANUP (capture start/stop)
+3. `olpc_xo_dc_mode_put` — “DC Mode Enable Switch” mixer
+4. `olpc_xo_dc_bias_enum_put` — if `dc_enable`
+
+`olpc_xo_automic` is invoked from `call_mic_autoswitch()` in generic
+HDA, including `update_automute_all()` from **codec init**
+(`snd_hda_gen_init` path at generic.c:6029). So a NULL `dc_mode_path`
+oopses on the **default** `!dc_enable` branch during init or jack
+handling, not only when DC mode is turned on.
+
+Record: `[init, jack, capture, mixer] [reachable without enabling DC
+mode]`
+
+**Step 5.3: TRACE CALLEES**
+`update_mic_pin` / `snd_hda_codec_write_cache`,
+`snd_hda_get_path_from_idx`, `snd_hda_activate_path`, pin-target
+helpers. The dangerous callee is `snd_hda_activate_path` → `path->active
+= enable`.
+
+Record: `[activate_path dereferences path unconditionally]`
+
+**Step 5.4: FOLLOW THE CALL CHAIN**
+Quirk `SND_PCI_QUIRK(0x152d, 0x0833, "OLPC XO-1.5", CXT_FIXUP_OLPC_XO)`
+plus model hint `olpc-xo`. Probe sets the hook and path; gen init calls
+automute; userspace capture/mixer also reach it. Unprivileged capture on
+that machine can hit it if the pointer is NULL.
+
+Record: `[userspace-reachable on OLPC XO-1.5 and model=olpc-xo] [init
+also hits it]`
+
+**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
+Same function already NULL-checks `snd_hda_get_path_from_idx()` results.
+`snd_hda_activate_path()` itself does not check NULL (generic helper;
+callers must).
+
+Record: `[inconsistent NULL check vs local path; helper assumes non-
+NULL]`
+
+---
+
+## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+
+**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
+Yes. `sound/hda/codecs/conexant.c`: `dc_mode_path` on the spec,
+assignment in `cxt_fixup_olpc_xo`, use in `olpc_xo_update_mic_pins`.
+Introduced v3.15, long before 7.3. (Current HEAD already contains
+273806f38ce95; that is the original upstream commit, not used as a
+“already selected for stable” argument.)
+
+Record: `[buggy pattern exists in this lineage; file present at
+sound/hda/codecs/conexant.c] [since v3.15]`
+
+**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
+On **this** 7.3-rc4 tree the path and context match the candidate diff.
+Codec drivers were moved in `6014e9021b28e` (v6.17 era); that does not
+block this tree. No conflicting local edits.
+
+Record: `[clean apply on this tree]`
+
+**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
+No earlier alternate fix for `dc_mode_path`. Patch 1/2 is not in the
+tree (correctly, it was wrong).
+
+Record: `[no alternate fix] [EAPD sibling correctly absent]`
+
+---
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+
+**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
+ALSA HD-audio, Conexant codec, **OLPC XO-1.5-only** fixup. Criticality:
+**PERIPHERAL** (one PCI quirk / one model hint), but still a real
+shipped platform.
+
+Record: `[ALSA HDA conexant / OLPC XO] [PERIPHERAL]`
+
+**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
+conexant.c still gets headset/LED/pin quirks. The OLPC block itself has
+been stable since 2014.
+
+Record: `[driver active; OLPC XO block mature]`
+
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+**Step 8.1: DETERMINE WHO IS AFFECTED**
+OLPC XO-1.5 (`0x152d:0x0833`) and anyone forcing `model=olpc-xo` on a
+Conexant codec. Not a generic conexant bug.
+
+Record: `[driver/platform-specific; tiny population]`
+
+**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
+NULL only if `snd_hda_add_new_path(0x1e, 0x14)` fails: unreachable NIDs
+(wrong hardware + olpc-xo fixup) or `snd_array_new()` ENOMEM. On real
+XO-1.5 the path was designed to exist; **no oops reports in ~12 years**.
+If it is NULL, codec init or first jack/capture hits it on the default
+`!dc_enable` branch. Unprivileged capture can trigger it once the
+pointer is NULL.
+
+Record: `[rare: ENOMEM or wrong model] [init/jack/capture] [unprivileged
+if already NULL]`
+
+**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
+NULL deref in `snd_hda_activate_path` → kernel oops. Not data corruption
+or a security hole by itself.
+
+Record: `[oops] [HIGH if triggered; LOW likelihood on intended
+hardware]`
+
+**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
+- Benefit: prevents oops on a real (if narrow) error path; same pattern
+  already used for `path`.
+- Risk: two extra NULL tests; no API/lock/behavior change when the
+  pointer is valid.
+- Ratio: **low benefit, very low risk**. The crash-prevention bias still
+  favors taking it.
+
+Record: `[benefit: modest] [risk: very low] [favorable for a 4-line oops
+guard]`
+
+---
+
+## PHASE 9: FINAL SYNTHESIS
+
+**Step 9.1: COMPILE THE EVIDENCE**
+
+FOR:
+- Verified unconditional deref in `snd_hda_activate_path()`
+  (`path->active = enable`)
+- `snd_hda_add_new_path()` documented to return NULL; return is stored
+  unchecked
+- Default `!dc_enable` path also calls activate, including codec init
+  via `update_automute_all()`
+- 4-line, obviously correct, matches existing `if (path)` in the same
+  function
+- No new API/feature; no dependency on the NAK’d 1/2
+- Buggy code has been in this tree’s lineage since v3.15; file exists
+  here
+- ALSA maintainer applied it
+- Crash-class failure if the pointer is NULL
+
+AGAINST:
+- No `Reported-by`, syzbot, or stack trace in 12 years
+- Only OLPC XO-1.5 / `model=olpc-xo`
+- Same series’ patch 1 was a false positive NAK’d by Takashi (static-
+  analysis/LLM-style noise)
+- On intended hardware the 0x1e→0x14 path is expected to exist
+- Not nominated for stable in review
+
+UNRESOLVED:
+- HTTP lore.kernel.org/stable search (403); thread itself was recovered
+  with `b4`
+
+**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
+1. Obviously correct and tested? **PASS** — correct by inspection;
+   maintainer applied (no extra Tested-by)
+2. Fixes a real bug that affects users? **PASS** — real NULL-deref
+   defect; user population is small
+3. Important issue (crash, security, corruption, deadlock)? **PASS** —
+   oops if triggered (HIGH, narrow)
+4. Small and contained? **PASS** — 2 if-statements, one function
+5. No new features or APIs? **PASS**
+6. Can apply to the local tree? **PASS** — matching file and function in
+   7.3-rc4
+
+**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
+None (not a device ID, quirk table add, DT, build, or docs fix).
+Qualifies as a normal crash-prevention bugfix.
+
+**Step 9.4: MAKE YOUR DECISION**
+The hardware audience is tiny and there is no field report, but the
+defect is a real oops on a reachable init/capture path, the patch is two
+NULL tests with essentially no regression surface, and it does not need
+the rejected sibling. For this tree, that meets stable rules. Borderline
+impact is resolved in favor of including a crash fix.
+
+---
+
+## What the commit solves and why it matters here
+
+`cxt_fixup_olpc_xo()` stores `snd_hda_add_new_path(codec, 0x1e, 0x14,
+0)` in `spec->dc_mode_path` and never checks it.
+`olpc_xo_update_mic_pins()` later passes that pointer into
+`snd_hda_activate_path()`, which writes `path->active` immediately. That
+runs on codec init, jack autoswitch, and capture — even with DC mode
+off. If the path is missing (ENOMEM or `model=olpc-xo` on a codec
+without 0x1e→0x14), the result is an oops, not a clean skip.
+
+Stable users of this 7.3 line who have that quirk get a 4-line guard
+already used for the other path in the same function. Risk is
+negligible; the only real caveat is limited hardware, which is not a
+reason to leave a verified NULL deref unfixed.
+
+---
+
+## Verification
+
+- [Phase 1] Parsed tags: author SOB, maintainer SOB, msgid Link
+  `...548050-2`; no Fixes/Reported-by/Cc stable
+- [Phase 2] Diff: two `if (spec->dc_mode_path)` wrappers in
+  `olpc_xo_update_mic_pins()`; +4/-2
+- [Phase 2] Read `snd_hda_activate_path()`: first use is `path->active =
+  enable` with no NULL check
+- [Phase 2] Read `snd_hda_add_new_path()`: documented NULL; also NULL on
+  unreachable path, `snd_array_new` failure, parse failure
+- [Phase 3] `git blame`: introducer `3a00c6605b7709` (2014); `git
+  describe --contains` → v3.15-rc1
+- [Phase 3] `git merge-base --is-ancestor 3a00c6605b7709 HEAD`: yes
+- [Phase 3] `git show 273806f38ce95^:sound/hda/codecs/conexant.c`:
+  confirmed unguarded calls before the fix
+- [Phase 3] No `Fixes:` tag to follow
+- [Phase 3] Author log on `sound/`: regular ALSA contributor; 2/2 series
+- [Phase 4] `b4 dig -c 273806f38ce95`:
+  https://patch.msgid.link/20260729070935.548050-2-wangdich9700@163.com
+- [Phase 4] `b4 dig -a`: v1 only
+- [Phase 4] `b4 dig -w`: tiwai, broonie, linux-sound, linux-kernel
+- [Phase 4] `b4 dig -m`: Takashi applied 2/2; NAK’d 1/2 EAPD overflow as
+  incorrect
+- [Phase 4] WebFetch lore.kernel.org: 403 — discussion taken from mbox
+  instead
+- [Phase 5] Callers of `olpc_xo_update_mic_pins`: automic, capture hook,
+  two mixer puts
+- [Phase 5] `update_automute_all()` → `call_mic_autoswitch()` from gen
+  init (generic.c:6029)
+- [Phase 5] Quirk: `SND_PCI_QUIRK(0x152d, 0x0833, "OLPC XO-1.5",
+  CXT_FIXUP_OLPC_XO)`; model `olpc-xo`
+- [Phase 6] `git describe HEAD` / `make kernelversion`: v7.3-rc4 /
+  7.3.0-rc4
+- [Phase 6] File present at `sound/hda/codecs/conexant.c`; pre-fix code
+  in parent of 273806f38ce95
+- [Phase 6] `git merge-base --is-ancestor 273806f38ce95 HEAD`: original
+  commit is in this history
+- [Phase 8] Failure mode: NULL deref oops; severity HIGH if hit,
+  population OLPC XO-1.5 / model override
+- UNVERIFIED: lore.kernel.org/stable HTTP search (403)
+- UNVERIFIED: whether 0x1e→0x14 is reachable on every CX codec if
+  someone forces `model=olpc-xo` (not required for the decision; ENOMEM
+  and missing-path cases are already documented in
+  `snd_hda_add_new_path()`)
+
+The fix is small, surgical, and meets the stable criteria for this tree.
 
 **YES**
 
- sound/soc/codecs/hdac_hdmi.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ sound/hda/codecs/conexant.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/hdac_hdmi.c b/sound/soc/codecs/hdac_hdmi.c
-index 2385e18127a33..1ca5e7aa42aca 100644
---- a/sound/soc/codecs/hdac_hdmi.c
-+++ b/sound/soc/codecs/hdac_hdmi.c
-@@ -1861,8 +1861,10 @@ static int hdac_hdmi_dev_probe(struct hdac_device *hdev)
- 	snd_hdac_ext_bus_link_get(hdev->bus, hlink);
+diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+index fe7445fabb887..56d6fbdd9b06d 100644
+--- a/sound/hda/codecs/conexant.c
++++ b/sound/hda/codecs/conexant.c
+@@ -457,7 +457,8 @@ static void olpc_xo_update_mic_pins(struct hda_codec *codec)
+ 	if (!spec->dc_enable) {
+ 		/* disable DC bias path and pin for port F */
+ 		update_mic_pin(codec, 0x1e, 0);
+-		snd_hda_activate_path(codec, spec->dc_mode_path, false, false);
++		if (spec->dc_mode_path)
++			snd_hda_activate_path(codec, spec->dc_mode_path, false, false);
  
- 	hdmi_priv = devm_kzalloc(&hdev->dev, sizeof(*hdmi_priv), GFP_KERNEL);
--	if (hdmi_priv == NULL)
-+	if (hdmi_priv == NULL) {
-+		snd_hdac_ext_bus_link_put(hdev->bus, hlink);
- 		return -ENOMEM;
-+	}
- 
- 	snd_hdac_register_chmap_ops(hdev, &hdmi_priv->chmap);
- 	hdmi_priv->chmap.ops.get_chmap = hdac_hdmi_get_chmap;
-@@ -1871,8 +1873,10 @@ static int hdac_hdmi_dev_probe(struct hdac_device *hdev)
- 	hdmi_priv->chmap.ops.get_spk_alloc = hdac_hdmi_get_spk_alloc;
- 	hdmi_priv->hdev = hdev;
- 
--	if (!hdac_id)
-+	if (!hdac_id) {
-+		snd_hdac_ext_bus_link_put(hdev->bus, hlink);
- 		return -ENODEV;
-+	}
- 
- 	if (hdac_id->driver_data)
- 		hdmi_priv->drv_data =
-@@ -1897,6 +1901,8 @@ static int hdac_hdmi_dev_probe(struct hdac_device *hdev)
- 	if (ret < 0) {
- 		dev_err(&hdev->dev,
- 			"Failed in parse and map nid with err: %d\n", ret);
-+		snd_hdac_ext_bus_link_put(hdev->bus, hlink);
-+		snd_hdac_display_power(hdev->bus, hdev->addr, false);
- 		return ret;
+ 		/* update port B (ext mic) and C (int mic) */
+ 		/* OLPC defers mic widget control until when capture is
+@@ -493,7 +494,8 @@ static void olpc_xo_update_mic_pins(struct hda_codec *codec)
+ 		update_mic_pin(codec, 0x1b, 0);
+ 		/* enable DC bias path and pin */
+ 		update_mic_pin(codec, 0x1e, spec->recording ? PIN_IN : 0);
+-		snd_hda_activate_path(codec, spec->dc_mode_path, true, false);
++		if (spec->dc_mode_path)
++			snd_hda_activate_path(codec, spec->dc_mode_path, true, false);
  	}
- 	snd_hdac_refresh_widgets(hdev);
+ }
+ 
 -- 
 2.53.0
 
