@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA2663DB34;
-	Mon, 19 Oct 2026 14:06:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B063641288;
+	Mon, 19 Oct 2026 14:06:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418769; cv=none; b=I3P09GLtobCg59A4tU/Ce5OIXsD88lw3XD6oHnI36ltyz7v1Fz79FyAq0U7xGhBhjZaPZKL1Q344PYZO8kFx5eF4Q2JwASqQZSqtE0+qCDqmoAk4PLSXiyC3ShFBPT0iACsq6EAbwUp8n0jIuqs/1JxElbvQjjZxtg06GQxzkDM=
+	t=1792418774; cv=none; b=tEEJf1Cg8YJfbYsrKHqLaHKpHZb1OV0BaePJI8r4kO//g1IXbyc0R5XWK/hFexSS9nI1b4ycL5f3bgCkGxXce7nZBuwJ+J550KVNwRsij9T5F0+u4xCOv+zoPd//2fGiCDDZXeGxMNX5wcYb1PV9jty6MKWPkgqqj1owlnCvePM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418769; c=relaxed/simple;
-	bh=JpIOdMdUqqqsLHeKs4c1NWOHSQJbekSIoZpUBHsn6mA=;
+	s=arc-20240116; t=1792418774; c=relaxed/simple;
+	bh=oe6hVInF5aLxtdWXAIN49eG/HWZpwC2kv6SsCUy4m0c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Lg0K81iM2W307Hlua3mBsmLjdlkTVTb8PJGfOgXIxCEt2tRYBBry8ZnEKHdx20uE0AAsNdOVQT+MA4KuoA/qQzfBr96lx+ncDe5OlpIifGwW0HcBB9m2Ss87tOxO4SL+DtlAIL+Wm569+Ngp26mhgG5fB+VSaRh9VSScwaF6gA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i1VZCZ6S; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=aFKkG+Paaq9SXHMTtPvoIJrO5PmXkzqYjS6jecn2DaxpQZhH9FmU8qYS9rB/ks0gnel97NIgz1sJ4QmKRACOA+uvjSS1eJFfd0KCyjwDRyozlxLACgi1zvneI0bIotIgpO3eN6iDY8JRP4HgTwRYfzfJflgSj/c/Hw1DLCLYsRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DF0XqVbh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i1VZCZ6S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CEE21F000C6;
-	Mon, 19 Oct 2026 14:06:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DF0XqVbh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 685AA1F000C8;
+	Mon, 19 Oct 2026 14:06:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418766;
-	bh=8Un+t9UHQoa2+aMNN+qjSUAj1SPh0+dl3IWX8+UPWnM=;
+	s=k20260515; t=1792418771;
+	bh=pHMYaTG+i0R8a6QfGfVBBIxsW7wzkijgDYrGOyUsDjg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=i1VZCZ6SFoEf5cLUGjof/Y++jzxeMPeNflQovH2/s+v2sjngLpDX7OoONQhnpmg0K
-	 yuyj00LqcRZa20DPXTV5k7xCUSvwrY6x51uSsVh+Xw1AXnqQhhLOquHp2RppVM8A+A
-	 HNpvvfASllkqI9z/prxThyEyDM4pQn2ayAfN0hAnJorI2zqm/EyB+ovtBziBs0MP2f
-	 dGEtR9g84RHJ5JrH9gAdhZvT+iuh4mE6ixk+X9L0QwVgYX0a7SUl4FLTc6HGJYUg5d
-	 trTckcTnK9DhPus1IQDNxrxQVCYfk2ylAn7j+Afz26GvsNaHwbSdVfeiVJIC/e1X5O
-	 /2w4rNoh57CXQ==
+	b=DF0XqVbhpPinEoWy1xidJzeGr4qff+ET//kGMIekGJfKjKR4Vb8KRAaPc6D27X53g
+	 sZ1I04RiAJJJw5wNXjRJDQ18y2MdCYKEuDPR+0tqykVgbig2AOfmV3aapqXqxSFpki
+	 JGOpL2yzh89YpRr3x/hU+fLyBO6RHi7K4pkFuf4STTjnog1y1NeWTomkMzlytv6OfV
+	 i181cvjEpcln7ihtzfF2wOsnAko8LnIK9YvT92kVjhCDKPHm/JIe5C7ATK4Et/+G3J
+	 nl+XvGAp0sBo9DlIyrtzCfxKkTWtkijE/1re62dlXOcmJ3jKQ3or/d5znTwj/HX2Ea
+	 fX7F5sc33gTPw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: renpanpan <renpanpan@kylinos.cn>,
+Cc: Mauricio Orozco <maudob@live.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.1] ALSA: hda/realtek: Add mute LED quirk for HP Pavilion 14-dv1001TU
-Date: Mon, 19 Oct 2026 09:52:51 -0400
-Message-ID: <20261019135441.1420968-480-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.1] ALSA: hda/realtek: Add quirk for ASUS VivoBook M515DA/X515DAP
+Date: Mon, 19 Oct 2026 09:52:55 -0400
+Message-ID: <20261019135441.1420968-484-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -54,73 +54,68 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: renpanpan <renpanpan@kylinos.cn>
+From: Mauricio Orozco <maudob@live.com>
 
-[ Upstream commit ece609abc95cc0f75e633d93f3d868b030d9a8fe ]
+[ Upstream commit a9fa2a016e805504223abf8c9b373ac9f7bfb9b3 ]
 
-The HP Pavilion 14-dv1001TU (subsystem ID 103c:8987) uses a Realtek
-ALC287 codec. The mute LED on this machine is controlled by GPIO bit
-0x10, which was verified via hda-verb, but the subsystem ID is missing
-from the quirk table. As a result, the ALC287_FIXUP_HP_GPIO_LED fixup
-that drives GPIO 0x10 is never applied and the mute LED stays off even
-though the associated LED class device toggles correctly.
+The ASUS VivoBook M515DA/X515DAP (subsystem ID 1043:1e3e)
+requires the ALC256_FIXUP_ASUS_MIC_NO_PRESENCE fixup to
+enable the internal microphone.
 
-Add the missing SND_PCI_QUIRK entry to map this subsystem ID to
-ALC287_FIXUP_HP_GPIO_LED so the mute LED works as expected.
+Without this quirk, the internal microphone captures only
+silence under Linux, while it works correctly under Windows.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=221810
-Signed-off-by: renpanpan <renpanpan@kylinos.cn>
-Link: https://patch.msgid.link/20260930065504.24151-1-rppxj178543@163.com
+The fix has been verified on real hardware.
+Tested on an ASUS VivoBook M515DA/X515DAP running Linux Mint
+22.3 with Ubuntu HWE kernel 7.0.0-28.
+
+Signed-off-by: Mauricio Orozco <maudob@live.com>
+Link: https://patch.msgid.link/20260730033506.8958-1-mauoro3@gmail.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This is a one-line HP ALC287 mute-LED quirk for this 6.18.y tree. The
-SSID is missing from `alc269_fixup_tbl`, GPIO 0x10 was verified on the
-machine, and the existing `ALC287_FIXUP_HP_GPIO_LED` fixup is already
-present.
+This is a one-line ALSA Realtek SSID quirk for a 2020 ASUS VivoBook. The
+local tree is **5.15.221** (`pending-5.15`). The Realtek table lives at
+`sound/pci/hda/patch_realtek.c` here, not the later `alc269.c` path, but
+the same fixup and quirk table already exist.
 
 ===============================================================
 PHASE 1: COMMIT MESSAGE FORENSICS
 ===============================================================
 
 Step 1.1: PARSE THE SUBJECT LINE
-Record: [ALSA/hda/realtek] [Add] [mute LED quirk for HP Pavilion
-14-dv1001TU]
-Subsystem prefix `ALSA: hda/realtek`. Action verb is “Add”, but the body
-is a missing-quirk hardware workaround, not a new feature.
+Record: [ALSA hda/realtek] [add] [SSID quirk so ASUS VivoBook
+M515DA/X515DAP internal mic works]
 
 Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
 Record:
-- Link: https://bugzilla.kernel.org/show_bug.cgi?id=221810 (user bug
-  report)
-- Signed-off-by: renpanpan &lt;renpanpan@kylinos.cn&gt; (author)
-- Link:
-  https://patch.msgid.link/20260930065504.24151-1-rppxj178543@163.com
-- Signed-off-by: Takashi Iwai &lt;tiwai@suse.de&gt; (ALSA/HDA
-  maintainer)
-- No Fixes: tag (expected for this review)
-- No Reported-by / Tested-by / Reviewed-by / Acked-by / Cc: stable
-- Ignore pipeline-added “[Upstream commit …]” and “Signed-off-by: Sasha
-  Levin”
+- Signed-off-by: Mauricio Orozco <maudob@live.com> (author)
+- Link: https://patch.msgid.link/20260730033506.8958-1-mauoro3@gmail.com
+- Signed-off-by: Takashi Iwai <tiwai@suse.de> (ALSA maintainer)
+- No Fixes: tag (expected)
+- No Cc: stable (expected)
+- No Reported-by / Tested-by / Reviewed-by / Acked-by
+- Ignore any pipeline "Upstream commit" / "Signed-off-by: Sasha Levin"
+  markers; they are not evidence of selection
 
 Step 1.3: ANALYZE THE COMMIT BODY TEXT
 Record:
-- Bug: HP Pavilion 14-dv1001TU (SSID 103c:8987, Realtek ALC287) never
-  matches a quirk, so `ALC287_FIXUP_HP_GPIO_LED` is not applied.
-- Symptom: speaker mute works; physical mute LED stays off. LED class
-  device `/sys/class/leds/hda::mute` still toggles.
-- Root cause: GPIO bit 0x10 drives the LED (verified with hda-verb);
-  that GPIO is what `alc287_fixup_hp_gpio_led()` programs, but 103c:8987
-  is absent from the table.
-- Version info in the message: none. Bugzilla reporter used kernel
-  7.1.5-arch1-2; the omission is in this 6.18 tree as well.
+- Bug: ASUS VivoBook M515DA/X515DAP, PCI/codec SSID **1043:1e3e**,
+  internal mic records silence on Linux; works on Windows.
+- Symptom: functional capture failure (silent input), not a crash.
+- Root cause implied: BIOS pin config does not describe the mic; needs
+  existing `ALC256_FIXUP_ASUS_MIC_NO_PRESENCE`.
+- Version info: tested on Linux Mint 22.3 with Ubuntu HWE kernel
+  7.0.0-28 on real hardware.
+- Author explains the needed fixup and the user-visible failure; does
+  not claim a new API.
 
 Step 1.4: DETECT HIDDEN BUG FIXES
-Record: Not a disguised cleanup. It is an explicit hardware quirk
-addition for a missing SSID.
+Record: Not a disguised cleanup. This is an explicit hardware quirk: add
+one `SND_PCI_QUIRK` so an existing pin fixup is applied.
 
 ===============================================================
 PHASE 2: DIFF ANALYSIS - LINE BY LINE
@@ -128,58 +123,84 @@ PHASE 2: DIFF ANALYSIS - LINE BY LINE
 
 Step 2.1: INVENTORY THE CHANGES
 Record:
-- File: `sound/hda/codecs/realtek/alc269.c` (+1 / −0)
+- File in the candidate: `sound/hda/codecs/realtek/alc269.c` (+1 line)
 - Function/table: `alc269_fixup_tbl[]`
-- Scope: single-file, one-line surgical quirk
+- Scope: single-file, one-line surgical table addition
+- This 5.15 tree: that path does **not** exist; equivalent is
+  `sound/pci/hda/patch_realtek.c`
 
 Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
-Record: Before, `snd_hda_pick_fixup()` in the ALC269 probe path did not
-match 103c:8987, so no GPIO mute-LED hook ran. After, that SSID maps to
-`ALC287_FIXUP_HP_GPIO_LED`, which calls `alc287_fixup_hp_gpio_led()` →
-`alc_fixup_hp_gpio_led(codec, action, 0x10, 0)` (mute mask 0x10, no
-micmute mask). Only this SSID is affected.
+Record:
+- Before: SSID 1043:1e3e is not in `alc269_fixup_tbl`, so
+  `snd_hda_pick_fixup()` does not apply this MIC_NO_PRESENCE pin
+  rewrite.
+- After: that SSID matches and applies
+  `ALC256_FIXUP_ASUS_MIC_NO_PRESENCE`.
+- Path: codec probe / initialization, not a hot path or error path.
+- In this tree, `alc269_probe()` calls `snd_hda_pick_fixup(...,
+  alc269_fixup_tbl, alc269_fixups)` then pin-fallback tables. A PCI-SSID
+  hit sets `codec->fixup_id`, so later `snd_hda_pick_pin_fixup()`
+  returns immediately.
 
 Step 2.3: IDENTIFY THE BUG MECHANISM
-Record: [Hardware workaround / codec quirk] Missing `SND_PCI_QUIRK`
-meant GPIO 0x10 was never configured as the mute LED. The fix adds that
-table entry. Not a UAF, leak, race, or crash.
+Record:
+- Category: **hardware workaround / audio codec quirk**
+- Mechanism: remap NID 0x19 to `0x04a11120` (headset mic, no jack
+  detect) and chain `ALC256_FIXUP_ASUS_HEADSET_MODE` →
+  `alc_fixup_headset_mode`. Without that, auto-parse leaves the internal
+  mic unusable (silence).
+- Same pattern already used in this tree for other ASUS machines
+  (X430UN, X509DAP, pin-quirk ASUS ALC256 entries).
 
 Step 2.4: ASSESS THE FIX QUALITY
-Record: Obviously correct and minimal. Neighboring HP Pavilion entries
-already use the same fixup (e.g. 0x898a “HP Pavilion 15-eg100”).
-Matching is by PCI subsystem ID only, so other machines are untouched.
-Regression risk is very low; wrong GPIO on this one SKU would at worst
-leave the LED still broken.
+Record:
+- Obviously correct: one table entry, existing fixup, SSID-gated.
+- Regression risk: confined to 1043:1e3e. Wrong-SSID collision would
+  only affect that ID; ASUS SSIDs are SKU-specific. No locking, alloc,
+  or API change.
+- Upstream insert is slightly unsorted (0x1e3e placed after 0x1e10,
+  before 0x1e11). Lookup is linear in `snd_pci_quirk_lookup_id()`, so
+  order is not a functional issue.
 
 ===============================================================
 PHASE 3: GIT HISTORY INVESTIGATION
 ===============================================================
 
 Step 3.1: BLAME THE CHANGED LINES
-Record: The bug is a missing row, not a bad existing line. Neighbors
-0x8981 and 0x898a come from `aeeb85f26c3bb` (“ALSA: hda: Split Realtek
-HD-audio codec driver”, 2025-07-11), which is an ancestor of this tree.
-`ALC287_FIXUP_HP_GPIO_LED` / `alc287_fixup_hp_gpio_led()` exist in that
-split and at the parent of this patch.
+Record:
+- `ALC256_FIXUP_ASUS_MIC_NO_PRESENCE` introduced in `e1037354a0a75a`
+  (Jian-Hong Pan, 2019-03-22), contained in **v5.1-rc3**, ancestor of
+  this HEAD.
+- Nearby 0x1e11 entry blamed to `4b43d05a1978a9` (2020-07-24).
+- Bug is missing table row, not a later regression. Hardware is ~2020
+  VivoBook 15 (Ryzen 3000).
 
 Step 3.2: FOLLOW THE FIXES: TAG
-Record: No Fixes: tag. Not applicable. The defect is an omitted SSID for
-a laptop that already uses the long-standing ALC287 GPIO-LED fixup.
+Record: No Fixes: tag. Not applicable. The "bug" is incomplete BIOS pin
+config, not a prior kernel commit.
 
 Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
-Record: Same file has many one-line mute-LED quirks (Pavilion 15-eg0xxx,
-15-eg3xxx, Victus, etc.). This is standalone, not patch X/Y. No extra
-refactor is required.
+Record:
+- This tree already backported the same class of fix: `82199bb33185f`
+  "ALSA: hda/realtek: Add quirk for ASUS VivoBook X509DAP" (also
+  `ALC256_FIXUP_ASUS_MIC_NO_PRESENCE`).
+- Many other "Add quirk" commits on `patch_realtek.c`.
+- Standalone; not patch X/Y.
 
 Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
-Record: `git log --author=renpanpan -- sound/hda/codecs/realtek/` shows
-only this commit in this tree. Author is not the ALSA maintainer;
-Takashi Iwai applied it the same day.
+Record:
+- Mauricio Orozco has no prior commits under `sound/pci/hda/` in this
+  tree.
+- Applied by Takashi Iwai (ALSA maintainer). Weight comes from
+  maintainer acceptance plus hardware test, not author history here.
 
 Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
-Record: Parent already has `alc287_fixup_hp_gpio_led()`, enum
-`ALC287_FIXUP_HP_GPIO_LED`, table entry for 0x898a, and
-`alc_fixup_hp_gpio_led()` in `realtek.c`. Applies standalone.
+Record:
+- Needs `ALC256_FIXUP_ASUS_MIC_NO_PRESENCE`, `alc269_fixup_tbl`,
+  `SND_PCI_QUIRK`, ALC256 in `alc269` probe. All present.
+- Does not need later-only IDs (`ALC245_FIXUP_CS35L41_SPI_2`,
+  `HDA_CODEC_QUIRK`, etc.).
+- Can apply standalone after rewriting the path/context.
 
 ===============================================================
 PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
@@ -187,204 +208,235 @@ PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
 Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
 Record:
-- `b4 dig -c 66ab53f7fac5a` →
-  https://patch.msgid.link/20260930065504.24151-1-rppxj178543@163.com
-- `b4 dig -a`: single v1 series, no later revision
-- Thread: Takashi Iwai replied “Applied now. Thanks.” No NAK, no
-  requested changes, no stable note
-- Lore WebFetch returned 403; the full thread was recovered via `b4 dig
-  -m`
+- b4 mbox msgid `20260730033506.8958-1-mauoro3@gmail.com`: 2 messages.
+- Submission: https://lists.openwall.net/linux-kernel/2026/07/30/304
+  (also lkml.iu.edu).
+- Single v1; no v2/v3.
+- Reply: Takashi Iwai 2026-08-03: "Applied to for-next branch now.
+  Thanks." No NAK, no requested changes.
+- lore.kernel.org WebFetch returned 403 (Anubis). Thread recovered via
+  b4 + openwall/lkml mirrors.
 
 Step 4.2: CHECK WHO REVIEWED THE PATCH
-Record: `b4 dig -w` recipients: tiwai@suse.de, perex@perex.cz, alsa-
-devel, linux-kernel, author. Subsystem maintainer was To: and merged it.
+Record:
+- To: tiwai@suse.com, perex@perex.cz
+- Cc: linux-sound, linux-kernel, maudob@live.com
+- Appropriate maintainers were on the original mail. Maintainer applied
+  it. No extra Reviewed-by.
 
 Step 4.3: SEARCH FOR THE BUG REPORT
-Record: Bugzilla 221810, title “ALC287: HP Pavilion 14-dv1001TU
-(103c:8987) missing mute LED quirk”. Reporter (Arch, kernel 7.1.5)
-documented Product ID 50N47PA#ACJ, SOF TGL driver, ALC287, and hda-verb
-GPIO 0x10 on/off. They could not rebuild the module on that machine.
-Patch author confirmed the analysis and posted the quirk. No Tested-by
-of the kernel patch itself; hardware GPIO behavior is verified.
+Record:
+- No bugzilla/syzbot link. Evidence is the author's hardware test
+  (silent mic vs Windows).
+- No additional independent public reports found beyond this patch
+  thread.
 
 Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
-Record: Standalone one-patch series. Same pattern as `8db3663d3c3e2`
-(Pavilion 15-eg0xxx, GPIO 0x10, `ALC287_FIXUP_HP_GPIO_LED`), which is
-already in this series (`v6.18.24~178`).
+Record: Standalone 1/1 patch. Closest sibling already in this tree:
+VivoBook X509DAP MIC_NO_PRESENCE quirk.
 
 Step 4.5: CHECK STABLE MAILING LIST HISTORY
-Record: lore.kernel.org/stable search returned 403. UNVERIFIED whether
-anyone discussed this hash on stable@. No evidence it was rejected.
+Record: No stable@ discussion found for M515DA/X515DAP. No recorded
+reason to exclude it. This tree's `stable-kernel-rules.rst` line 24:
+"New device IDs and quirks are also accepted."
 
 ===============================================================
 PHASE 5: CODE SEMANTIC ANALYSIS
 ===============================================================
 
 Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
-Record: No function body edited. Added one entry in
-`alc269_fixup_tbl[]`, consumed by `snd_hda_pick_fixup()`. Downstream:
-`alc287_fixup_hp_gpio_led` → `alc_fixup_hp_gpio_led`.
+Record: No function body change. Data: `alc269_fixup_tbl[]`. Consumers:
+`snd_hda_pick_fixup()` from `alc269_probe()`; applied fixup
+`ALC256_FIXUP_ASUS_MIC_NO_PRESENCE` → `alc_fixup_headset_mode`.
 
 Step 5.2: TRACE CALLERS
-Record: `alc269_fixup_tbl` is passed from ALC269-family probe
-(`alc269.c` around the `snd_hda_pick_fixup(codec, alc269_fixup_models,
-alc269_fixup_tbl, alc269_fixups)` call). Codec probe / device
-enumeration, not IRQ or a syscall hot path.
+Record:
+- `alc269_probe()` in `patch_realtek.c` (~10555) calls
+  `snd_hda_pick_fixup(..., alc269_fixup_tbl, ...)`.
+- ALC256 (`0x10ec0256`) is handled in that probe (`spec->codec_variant =
+  ALC269_TYPE_ALC256` at ~10475).
+- Trigger: HDA codec probe at boot / module load for that laptop. Not
+  IRQ/syscall hot path.
 
 Step 5.3: TRACE CALLEES
-Record: `alc_fixup_hp_gpio_led()` sets `gpio_mute_led_mask` and
-registers the mute LED cdev with `gpio_mute_led_set`. mute_mask=0x10
-matches the reporter’s SET_GPIO_MASK/DIR/DATA 0x10.
+Record: `snd_hda_pick_fixup` → `snd_pci_quirk_lookup` /
+`snd_pci_quirk_lookup_id` (linear SSID match in `sound/core/misc.c`).
+Then pin overwrite + `alc_fixup_headset_mode`.
 
 Step 5.4: FOLLOW THE CALL CHAIN
-Record: Userspace mute → HDA generic LED cdev → GPIO. Reachable on this
-laptop whenever the Realtek HDA codec probes. Unprivileged unmute/mute
-of speakers is enough once the quirk is applied; today the LED class
-device already toggles, but GPIO is never programmed.
+Record: Userspace capture (PulseAudio/PipeWire/arecord) uses the HDA PCM
+created at probe. Unprivileged users on this laptop hit the silent-mic
+bug. Reachable and user-visible.
 
 Step 5.5: SEARCH FOR SIMILAR PATTERNS
-Record: Multiple HP SSIDs already use `ALC287_FIXUP_HP_GPIO_LED`
-(0x87c8, 0x87cb, 0x87cc, 0x88d0, 0x8919, 0x898a, 0x8a0f, …). Same bug
-class: new HP SKU omitted from the table.
+Record: Multiple `ALC256_FIXUP_ASUS_MIC_NO_PRESENCE` entries already in
+this tree (X430UN 0x1271, X509DAP 0x197e, three ASUS pin quirks, Huawei
+WRT-WX9). Systematic ASUS ALC256 BIOS-pin problem; this is another SSID.
 
 ===============================================================
 PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 ===============================================================
 
 Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
-Record: Yes. Local tree is `v6.18.57` (Makefile 6.18.57). Parent of the
-candidate has 0x8981 then 0x898a with **no** 0x8987. File path
-`sound/hda/codecs/realtek/alc269.c` exists (post-split). Fixup enum and
-function exist. The laptop is a consumer HP Pavilion 14-dv1xxx; the
-omission is old, not introduced after 6.18.
+Record:
+- Local: **5.15.221**, branch `pending-5.15`, `git describe`
+  `p-5.15-2-g6703e5d2f3a29`.
+- Quirk table: `alc269_fixup_tbl` at
+  `sound/pci/hda/patch_realtek.c:9132`.
+- SSID **0x1e3e is absent** (`grep` over `sound/pci/hda` found no
+  match).
+- Fixup exists at enum line 7146 and table 8393–8401.
+- Insertion point: around the existing 0x1e11 Zephyrus G15 entry (line
+  9449). 0x1e10 X507UAR is not in 5.15.
+- Bug is missing hardware enablement, present since the driver shipped
+  without this SSID.
 
 Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
-Record: Clean apply. Context lines match. No conflicting 0x8987 entry.
-Expected difficulty: clean apply.
+Record: **Minor context/path rewrite, not a semantic rework.** Upstream
+file was split later to `sound/hda/codecs/realtek/alc269.c`. Same one-
+line add used for X509DAP (`82199bb33185f` → `patch_realtek.c`).
+Surrounding mainline-only quirks are not required.
 
 Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
-Record: No other 103c:8987 quirk. Similar GPIO-LED quirks for other HP
-models are present; they do not cover this SSID.
+Record: No M515DA/0x1e3e entry. Pin quirks for other ASUS ALC256 pin
+maps exist, but this machine still needs the SSID quirk (author: mic is
+silent without it). `snd_hda_pick_pin_fixup` only runs if no SSID fixup
+matched; it did not save this SKU.
 
 ===============================================================
 PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 ===============================================================
 
 Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
-Record: [sound/hda/realtek] [IMPORTANT] — common laptop audio, not core
-mm/fs. Impact is one HP SKU’s mute LED.
+Record: [sound/pci/hda Realtek codec] [IMPORTANT for laptop audio;
+PERIPHERAL as a single SKU]. Affects owners of this ASUS model only.
 
 Step 7.2: ASSESS SUBSYSTEM ACTIVITY
-Record: Very active quirk table; recent log is mostly per-model
-`SND_PCI_QUIRK` additions. Mature driver, ongoing hardware ID
-maintenance.
+Record: Mature, actively patched in 5.15-stable with many quirk
+backports. This is long-lived Realtek HDA code, not a post-5.15
+subsystem.
 
 ===============================================================
 PHASE 8: IMPACT AND RISK ASSESSMENT
 ===============================================================
 
 Step 8.1: DETERMINE WHO IS AFFECTED
-Record: Driver-specific / platform-specific: owners of HP Pavilion
-14-dv1001TU (PCI SSID 103c:8987, ALC287).
+Record: Driver-specific / platform-specific: ASUS VivoBook
+M515DA/X515DAP (SSID 1043:1e3e), ALC256. Ubuntu 22.04-class 5.15 users
+still run these 2020 machines.
 
 Step 8.2: DETERMINE THE TRIGGER CONDITIONS
-Record: Every boot/probe on that machine. Mute key / userspace mute. Not
-a race. No extra privilege needed. Audio mute itself already works.
+Record: Every boot / every capture on that laptop. Not a race.
+Unprivileged user can trigger (open the mic). Common for that hardware,
+zero impact elsewhere.
 
 Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
-Record: [Mute LED stays off] [MEDIUM/LOW as a crash class, but a real
-hardware bug]. Not panic, deadlock, or data corruption. User-visible
-broken LED on a shipping laptop.
+Record: Internal microphone captures silence. Not panic/corruption.
+Severity **MEDIUM** functionally, but it is a real hardware-broken-on-
+Linux bug. Audio codec quirks are an explicit stable exception.
 
 Step 8.4: CALCULATE RISK-BENEFIT RATIO
-Record: Benefit: restores mute LED on this SKU using the same fixup
-already used on sibling Pavilion models. Risk: one SSID-guarded line;
-very low. Ratio strongly favors backport.
+Record:
+- Benefit: restores internal mic on a real, still-deployed VivoBook;
+  same class as quirks already in 5.15.y.
+- Risk: very low (one SSID-matched line, existing fixup).
+- Ratio: high benefit for those users, negligible risk to everyone else.
 
 ===============================================================
 PHASE 9: FINAL SYNTHESIS
 ===============================================================
 
 Step 9.1: COMPILE THE EVIDENCE
-FOR:
-- Real, user-reported hardware bug (bugzilla 221810) with hda-verb proof
-  of GPIO 0x10
-- Existing, already-used fixup; only the SSID was missing
-- One-line `SND_PCI_QUIRK` — the documented audio-codec quirk exception
-- ALSA maintainer merged v1 the same day; no NAKs
-- Applies cleanly; fixup and table exist in 6.18.57
-- Same pattern as other HP mute-LED quirks already in this series (e.g.
-  15-eg0xxx in v6.18.24)
+
+FOR backporting:
+- Real user-visible bug: internal mic silent on Linux, works on Windows.
+- Verified on real hardware; ALSA maintainer applied v1 with no
+  objections.
+- One-line `SND_PCI_QUIRK` using a fixup present since v5.1.
+- Stable rules in this tree explicitly allow new device IDs and quirks.
+- Identical VivoBook ALC256 MIC_NO_PRESENCE quirk already backported
+  here (X509DAP).
+- Hardware (2020) is in the 5.15 user population.
+- No new APIs, no refactor, no series dependencies.
+
 AGAINST:
-- Not a crash, security hole, or data-corruption bug
-- No Tested-by of the built module (reporter used hda-verb only)
-- Affects one laptop SKU
+- Not a crash/security/corruption issue (quirk exception covers this).
+- Upstream path differs; needs a one-line backport to `patch_realtek.c`.
+- No extra independent reporters beyond the author.
+- Tested on kernel 7.0, not 5.15 — unverified on this exact series, but
+  the missing SSID and the fixup are the same.
+
 UNRESOLVED:
-- Stable@ discussion (lore/stable 403)
-- Original reporter never confirmed the kernel module on that machine
+- Could not fetch lore.kernel.org HTML (403). Thread contents confirmed
+  via b4 mbox and public mirrors.
+- Could not confirm codec pin dump for this SKU beyond the author's SSID
+  + chosen fixup.
+- No stable@ thread found.
 
 Step 9.2: APPLY THE STABLE RULES CHECKLIST
-1. Obviously correct and tested? [PASS] — GPIO verified on hardware;
-   maintainer applied; kernel-module Tested-by missing but the mapping
-   is the standard ALC287 GPIO-LED path
-2. Fixes a real bug that affects users? [PASS] — mute LED never lights
-   on this Pavilion
-3. Important issue? [PASS under hardware-quirk exception] — not
-   crash/corruption; codec quirk / broken LED on real hardware
-4. Small and contained? [PASS] — +1 line, one table
-5. No new features or APIs? [PASS] — no new API; enables existing fixup
-   for one SSID
-6. Can apply to the local tree? [PASS] — file, neighbors, and
-   `ALC287_FIXUP_HP_GPIO_LED` all present
+1. Obviously correct and tested? **PASS** — one SSID line; tested on
+   hardware; maintainer applied.
+2. Fixes a real bug that affects users? **PASS** — silent internal mic.
+3. Important issue? **PASS** under the quirk exception (and "oh, that's
+   not good" hardware breakage); not CRITICAL crash.
+4. Small and contained? **PASS** — +1 line.
+5. No new features or APIs? **PASS** — existing fixup, new ID only.
+6. Can apply to the local tree? **PASS** — table and fixup exist;
+   path/context rewrite only.
 
 Step 9.3: CHECK FOR EXCEPTION CATEGORIES
-Record: Audio codec quirk (`SND_PCI_QUIRK` for a specific laptop).
-Explicitly treated as stable material.
+Record: **Hardware quirk / audio codec quirk** (`SND_PCI_QUIRK` in
+Realtek HDA). Also treated like a device-ID addition to an existing
+driver.
 
 Step 9.4: MAKE YOUR DECISION
-This is a contained hardware quirk for a machine this tree already
-supports (ALC287 + `ALC287_FIXUP_HP_GPIO_LED`). The bug is real and
-user-visible; the change cannot affect other SSIDs. It should be
-backported to this 6.18.y tree.
+This should be backported to this 5.15 tree. It is the standard Realtek
+laptop microphone quirk: small, SSID-scoped, already-used fixup, real
+hardware confirmation, and this tree already takes the same kind of
+patch.
+
+What it solves for stable users: 5.15 LTS systems on ASUS VivoBook
+M515DA/X515DAP currently get a dead internal mic. The quirk applies
+`ALC256_FIXUP_ASUS_MIC_NO_PRESENCE` so capture works.
+
+Risk vs benefit: one table entry vs restoring mic on that SKU. Backport
+adjustment is the file path (`alc269.c` → `patch_realtek.c`) and
+inserting next to the existing 0x1e11 ASUS entry.
 
 Verification:
-- [Phase 1] Parsed tags: bugzilla 221810; msgid link; SOB renpanpan and
-  Takashi Iwai; no Fixes/Cc-stable/Tested-by
-- [Phase 1] `git describe HEAD` / `make kernelversion` / Makefile:
-  v6.18.57-155-gcdf239ca885b2, 6.18.57
-- [Phase 2] Diff: +1 line in `alc269_fixup_tbl[]` mapping 0x103c:0x8987
-  → `ALC287_FIXUP_HP_GPIO_LED`
-- [Phase 2] `alc287_fixup_hp_gpio_led()` at alc269.c:1386 uses mute_mask
-  0x10, matching the report
-- [Phase 2] `alc_fixup_hp_gpio_led()` in realtek.c:2223 sets
-  `gpio_mute_led_mask` and registers the mute LED cdev
-- [Phase 3] Parent `git grep 0x8987` empty; neighbors 0x8981/0x898a
-  present
-- [Phase 3] `git merge-base --is-ancestor aeeb85f26c3bb HEAD` succeeded
-  (codec split / file path in this tree)
-- [Phase 3] `alc287_fixup_hp_gpio_led` present at `66ab53f7fac5a^`
-- [Phase 3] Author has no other realtek commits in this tree
-- [Phase 4] `b4 dig -c 66ab53f7fac5a`: v1 only; lore
-  patch.msgid.link/20260930065504.24151-1-rppxj178543@163.com
-- [Phase 4] `b4 dig -w`: To tiwai, Cc perex/alsa-devel/lkml
-- [Phase 4] mbox: Iwai “Applied now. Thanks.” No NAK
-- [Phase 4] curl bugzilla 221810: GPIO 0x10 verified; reporter on 7.1.5;
-  could not test rebuilt module
-- [Phase 4] lore/stable search: 403, UNVERIFIED
-- [Phase 5] `snd_hda_pick_fixup(..., alc269_fixup_tbl, ...)` at
-  alc269.c:8557 during codec probe
-- [Phase 6] No duplicate 103c:8987; context applies cleanly
-- [Phase 6] Similar quirk `8db3663d3c3e2` is in this series
-  (`v6.18.24~178`) — same fixup, different SSID
-- [Phase 8] Failure mode: mute LED stuck off, audio mute still works;
-  SSID-scoped
-- UNVERIFIED: whether the compiled quirk was tested on 14-dv1001TU (hda-
-  verb only)
-- UNVERIFIED: stable@ thread contents (HTTP 403)
-
-The patch is a one-line SSID quirk onto an existing ALC287 GPIO mute-LED
-fixup. That is the standard audio-codec exception, it matches verified
-hardware, and it applies cleanly to this 6.18.57 tree.
+- [Phase 1] Parsed tags: author SOB, Link msgid, Takashi Iwai SOB; no
+  Fixes/Cc-stable/Reported-by
+- [Phase 2] Diff: +1 `SND_PCI_QUIRK(0x1043, 0x1e3e, ...,
+  ALC256_FIXUP_ASUS_MIC_NO_PRESENCE)` in `alc269_fixup_tbl`
+- [Phase 2] Read fixup at `patch_realtek.c:8393-8401`: pin 0x19 →
+  0x04a11120, chained to `ALC256_FIXUP_ASUS_HEADSET_MODE`
+- [Phase 2] Read `alc_fixup_headset_mode` chain at 8101–8104
+- [Phase 3] `git describe HEAD` / Makefile: 5.15.221, `pending-5.15`,
+  `p-5.15-2-g6703e5d2f3a29`
+- [Phase 3] `git blame` fixup: `e1037354a0a75a`, `git merge-base --is-
+  ancestor` of HEAD, `git describe --contains` → v5.1-rc3
+- [Phase 3] `git log --grep=M515DA` / `0x1e3e` on `patch_realtek.c`:
+  empty
+- [Phase 3] Precedent: `82199bb33185f` X509DAP same fixup already in
+  HEAD
+- [Phase 4] `b4 mbox` msgid: v1 patch + Takashi "Applied to for-next";
+  no NAK
+- [Phase 4] Openwall/LKML mirrors match that thread
+- [Phase 4] lore WebFetch: 403; contents taken from b4 mbox instead
+- [Phase 4] WebSearch stable@: no discussion of this SKU
+- [Phase 5] `alc269_probe` at 10555 uses `alc269_fixup_tbl`; ALC256 case
+  at 10475; pick_pin_fixup skips if SSID already matched (934–942)
+- [Phase 5] `snd_pci_quirk_lookup_id` linear match in
+  `sound/core/misc.c`
+- [Phase 6] File `sound/hda/codecs/realtek/alc269.c` missing;
+  `sound/pci/hda/patch_realtek.c` present;
+  `ALC256_FIXUP_ASUS_MIC_NO_PRESENCE` present; 0x1e3e absent
+- [Phase 6] `Documentation/process/stable-kernel-rules.rst` line 24:
+  quirks accepted
+- [Phase 8] Failure mode: silent internal mic, SSID-scoped, low
+  regression risk
+- UNVERIFIED: live pin dump for 1043:1e3e; lore HTML; runtime test on
+  5.15 itself
 
 **YES**
 
@@ -392,17 +444,17 @@ hardware, and it applies cleanly to this 6.18.57 tree.
  1 file changed, 1 insertion(+)
 
 diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index a40b85fbaf393..2a466ef894697 100644
+index 3364f6ad91fcb..4cadbad99537a 100644
 --- a/sound/hda/codecs/realtek/alc269.c
 +++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6902,6 +6902,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8975, "HP EliteBook x360 840 Aero G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x897d, "HP mt440 Mobile Thin Client U74", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8981, "HP Elite Dragonfly G3", ALC245_FIXUP_CS35L41_SPI_4),
-+	SND_PCI_QUIRK(0x103c, 0x8987, "HP Pavilion 14-dv1001TU", ALC287_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x898a, "HP Pavilion 15-eg100", ALC287_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x898e, "HP EliteBook 835 G9", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x898f, "HP EliteBook 835 G9", ALC287_FIXUP_CS35L41_I2C_2),
+@@ -7196,6 +7196,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1264, "ASUS UM5606KA", ALC294_FIXUP_BASS_SPEAKER_15),
+ 	SND_PCI_QUIRK(0x1043, 0x1e02, "ASUS UX3402ZA", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1e10, "ASUS VivoBook X507UAR", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
++	SND_PCI_QUIRK(0x1043, 0x1e3e, "ASUS VivoBook M515DA/X515DAP", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x1e11, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA502),
+ 	SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1e1f, "ASUS Vivobook 15 X1504VAP", ALC2XX_FIXUP_HEADSET_MIC),
 -- 
 2.53.0
 
