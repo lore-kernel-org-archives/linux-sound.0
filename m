@@ -1,235 +1,153 @@
-Received: from mail-gw01.astralinux.ru (mail-gw01.astralinux.ru [37.230.196.243])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E844A4B7A21;
-	Mon, 19 Oct 2026 09:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.230.196.243
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340414C33D3
+	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 10:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792403929; cv=none; b=oPd9t7/Ax/HHTMX90nVEMhV5RKYDd++xuKLbYZKRXoWV7OJ9tJ0LX+2xCyFBw+h2QPJyc1KMXwz8Iuln1388vrHomxJYuP+B3lh3RoPMu9203fjv7ElVWRM9CmRvI9LkIw4GT/nd1HIAR3o3nShIxUpA7eC+N8Nw6iRL8kzZ838=
+	t=1792404115; cv=none; b=FGFEPDZeST8VzvVGcbZFTFe0ViLovSKZugza30SnjkzT2T4yELaPdx8b3Q/oJ/WVx51kkrvx5Lk/FRe7jHUhUDjEB7ZSoj556r+iRg9hy0folNovT7A40pl1r9ESILNPw24JxhlgMMvc9/0EqDZ39tHO0B2OnWFaayxr451sfe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792403929; c=relaxed/simple;
-	bh=yJ9VzWJnjsUlDkFPUvQPh9MrxtG0IxT1EMet2uY3ExE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m88TaODPV6qPYSBuYR0m8k8jwuPN2YK6MojU/GvoxqWn31ucJOb7BUy0Le5OiZs5F00mQLXe/Kn8VjRbfxzUmDQsfAdcqjMHUjKReMLkz8uwiNcnvhB1jIxV2IY2JAInUMuCF/l6BceMolZwza0KL2ESxc8GnyiA5pGme+O4Bxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru; spf=pass smtp.mailfrom=astralinux.ru; dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b=hHF+5r7+; arc=none smtp.client-ip=37.230.196.243
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=astralinux.ru
+	s=arc-20240116; t=1792404115; c=relaxed/simple;
+	bh=PQN8fq7DDGv5/6wf3znNyQeVm8vhBsKez4YYRTcWMcA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=DBb/YYnMhhwImOszZyIeTawfYTfUBb4ua7110nxfy/JXabtJEb4t0sC/neeIlxMrYukodmKNj1/a/L+n/UjSC3A8OsWBr11jCuiWt/dqIVjV4W1mmjVcEXF4JtEKh6DegQpYpeZhcyp571ERxA1nBm3fhllcOZSfD3AcUR0X1TE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eQDpNDIb; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b="hHF+5r7+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=astralinux.ru;
-	s=mail; t=1792403914;
-	bh=yJ9VzWJnjsUlDkFPUvQPh9MrxtG0IxT1EMet2uY3ExE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hHF+5r7+w4YGYV4lUvq5aO6JxxF4g7nYspPiRaBPa2bqLL2ju4wMoKrE6qd9V7oTq
-	 FVP4RGst5YiMfQ1eHwwETmQYeyhIzsNiBNTj9KEXv+a52VamFS2EnwRsoJBAqhhn8V
-	 wrbHDBeGOCfh5+NltBGwGWenjmfogkek9KWkPTdD9ajmlFzp59IwvCLQBvn0ZD7V0g
-	 Uc1KmrbllGBAzyGmExGNwvESnN15/CAccXabM+6yDzP0ftA2fikwmV8McGj4ImXb6S
-	 RiL2ezkI1yQ1cNWu39uTtqvvx9hIho+SiP4Ou/RyyY39YoaciGZrNmoo/B/FH4Wl9t
-	 jIK7m5OAFQ49Q==
-Received: from gca-sc-a-srv-ksmg01.astralinux.ru (localhost [127.0.0.1])
-	by mail-gw01.astralinux.ru (Postfix) with ESMTP id 36FFE259D9;
-	Mon, 19 Oct 2026 12:58:34 +0300 (MSK)
-Received: from new-mail.astralinux.ru (unknown [10.205.207.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail-gw01.astralinux.ru (Postfix) with ESMTPS;
-	Mon, 19 Oct 2026 12:58:33 +0300 (MSK)
-Received: from DESKTOP-D46TNHI (unknown [10.198.51.9])
-	by new-mail.astralinux.ru (Postfix) with ESMTPA id 4j7VqS2cWnzDhp;
-	Mon, 19 Oct 2026 12:39:00 +0300 (MSK)
-From: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
-To: stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>,
-	Sasha Levin <sashal@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eQDpNDIb"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-398b3c37877so1078153a91.0
+        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 03:01:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792404112; x=1793008912; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=O/d0F+kS8lSmSGUKzwGZH1bspW/vpIAyRZ3tyTuBu4U=;
+        b=eQDpNDIblHFOFJMVFsSSvnMSZTB2PxgXqj/qF+ia7zgiDDJ2HgPqd7Heq8bgUmkCAk
+         +w1x1MNk4Ltvmaw+A7m29mKReOxyUwtNuNoZDsTSV5eU7U3FjN0jkVOjE7TPkv5lHRpJ
+         BH+rO/U6/KY4fmItCxR5MmIDsqlHK5bXLUbulF9SHNYakac/n/PWohFhguyy/SxtudCV
+         7iSodzLaYmYQ56g3TjB3AY5CbNaRo92SQyvppG23DrVC8t4aLI93E3DeQ846OjhYhBUc
+         q9q/KoCmp/zllbDzfLu3S8dT0qrURUulaK1P/nJwKf/ES6VimE1tx8wcpLOIEl3q14s1
+         YRgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792404112; x=1793008912;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=O/d0F+kS8lSmSGUKzwGZH1bspW/vpIAyRZ3tyTuBu4U=;
+        b=etGD4KDfB2WzgdtDz1M8ko6idCmMpmMAS8GvFAz+4c5TVsDtk8Zkvlm6CUqwQM7dap
+         c2zGGISYiLHPBaDQSnf+gzdZ61W80yFEtikDbSkggR4PcziPmYj2CkVJXBAh37AGG+m+
+         UMjajKWNvmDFG4IEDFLhFzGZjUv9eabVZBI+nIfUlKgD7ysnQFqEnxbMI/04hu9W2JU0
+         vjiFRKR3Q3E5dpHS2534f7iEH1jIIY2QH7vvXqcYGrUH2wLfetqMb5zzJ68K8M34SJGc
+         zp33G4gCGimc6iBmlI3ZuEEm2ZWvutO3ZX2qUMlN/5EX+GHRrsZnchN0YfohPbcxKUc+
+         YeOQ==
+X-Gm-Message-State: AFq9FYIyZFgx2H3dUc1G7cCWubwC1jJdMBGnABNhjQWCshsrzsL32uJP
+	Ord3Qi8hZs98YYBzPLnS5Lt0zjPtkVJe/DFP54qEjuBW1NMZusFNExr7
+X-Gm-Gg: AYBFou20TRWGwLvRkiUa8Eqqwblyr9Uk/5GbSBUTi9xKdd1edlARG8nb38BCuZshrGX
+	lnEDeztd9YkbKRPSzJwmdVdWfU0noSz0lxizDJyPqDkbAvCjZ8B2x6upvp3MDb4sCk/TUh7jNMr
+	eHPsoMV8zDWokrkiEwSoDKWAXm6R1gr/nGGIOO9+0NvlX2uJNoKX1xuVZRGyo8itRYpURsog4xD
+	NAHwRTxEAx0Q8Yoie2eA/GFu2kUdK+SDxQLjEoJCnxCg+1TAStJIQD6v4e6jh9qL3G0GlEGU4dL
+	z/fsY+xouoQXk4lYiCQam4cn217qpO7K6Mx3JfRJlpaS395rPQGfPLFXQAwnOUec4G1ar86rQFc
+	d7XdCaUUynmPB4aUzjAM5kTTP8tvVqQZi5ip6DAtKuSrajjlhvMGYYaSP6wyK6CRtnNyODKPm4e
+	EQWSat0RaqF44LWX/hidZhzKOAssQCYoUoGsapwWgI5WvqEek2k6EFCN38eXP3gBA2mA==
+X-Received: by 2002:a17:90b:4d0d:b0:3aa:fdad:7d6c with SMTP id 98e67ed59e1d1-3acef5b08bamr5967293a91.58.1792404112061;
+        Mon, 19 Oct 2026 03:01:52 -0700 (PDT)
+Received: from localhost ([111.228.63.84])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e87836bsm37464495ad.47.2026.10.19.03.01.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 03:01:51 -0700 (PDT)
+From: Cen Zhang <zzzccc427@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	Olivier Moysan <olivier.moysan@st.com>
-Subject: [PATCH 5.10] ASoC: stm32: sai: fix OF node leak on probe
-Date: Mon, 19 Oct 2026 12:38:27 +0300
-Message-ID: <20261019093829.1428-1-mdmitrichenko@astralinux.ru>
-X-Mailer: git-send-email 2.54.0.windows.1
+	baijiaju1990@gmail.com,
+	jjzuming@gmail.com,
+	zzzccc427@gmail.com
+Subject: [PATCH] ALSA: pcm: Remove channel-map controls before freeing substreams
+Date: Mon, 19 Oct 2026 18:01:46 +0800
+Message-Id: <pm-pmb-4a207d9ef3a3597a74a4-v4-80b0113669b1a62fbbe9@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-KSMG-AntiPhishing: NotDetected, bases: 2026/10/19 08:08:00
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Envelope-From: mdmitrichenko@astralinux.ru
-X-KSMG-AntiSpam-Info: LuaCore: 127 0.3.127 0884f7b061fa529b810563f359267cd65d2ec05c, {Tracking_one_susp_tld}, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, patch.msgid.link:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;new-mail.astralinux.ru:7.1.1;astralinux.ru:7.1.1;127.0.0.199:7.1.2, FromAlignment: s
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiSpam-Lua-Profiles: 206789 [Oct 19 2026]
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Version: 6.1.1.27
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854, bases: 2026/10/19 08:59:00 #28702808
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected, bases: 2026/10/19 08:08:00
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 1
 
-From: Johan Hovold <johan@kernel.org>
+A late HDA codec bind on an already registered card builds new PCMs
+before registering them. add_std_chmaps() publishes generic channel-map
+controls during this BUILD stage. If an earlier chmap succeeds and a
+later allocation fails, probe cleanup frees the BUILD PCM while the
+card's control device remains accessible.
 
-commit 23261f0de09427367e99f39f588e31e2856a690e upstream.
+These generic controls are added directly by snd_pcm_add_chmap_ctls();
+snd_hda_ctls_clear() only removes codec-tracked mixer controls. BUILD
+devices also skip dev_disconnect. snd_pcm_free_stream() then frees the
+substreams before free_chmap() withdraws their generic control:
 
-The reference taken to the sync provider OF node when probing the
-platform device is currently only dropped if the set_sync() callback
-fails during DAI probe.
+  Late HDA codec bind / rollback        Control GET on the live card
+  ------------------------------       ----------------------------
+  hda_codec_driver_probe()
+    snd_hda_codec_build_pcms()
+      PCM is BUILD
+    snd_hda_codec_build_controls()
+      add_std_chmaps()
+        publish an earlier chmap
+        later allocation: -ENOMEM
+    snd_hda_codec_cleanup_for_unbind()
+      snd_hda_ctls_clear()
+        generic chmap remains
+      codec_release_pcms()
+        snd_device_free()
+          BUILD: skip dev_disconnect
+          snd_pcm_free_stream()
+            kfree(substream)
+                                       snd_ctl_elem_read()
+                                         down_read(controls_rwsem)
+                                         pcm_chmap_ctl_get()
+                                           walk freed substream
+            free_chmap()
+              snd_ctl_remove()
+                wait for GET
+                                         up_read(controls_rwsem)
 
-Make sure to drop the reference on platform probe failures (e.g. probe
-deferral) and on driver unbind.
+The control read lock cannot protect a substream already freed before
+control removal starts. The failure above occurs before
+snd_card_register(), so the PCM has not transitioned out of BUILD.
 
-This also avoids a potential use-after-free in case the DAI is ever
-reprobed without first rebinding the platform driver.
+Move free_chmap() before the substream free loop. Its snd_ctl_remove()
+withdraws the control and drains readers under controls_rwsem before any
+substream is released. Normal registered-device disconnect already
+removes the control, so the later call remains harmless on that path.
 
-Fixes: 5914d285f6b7 ("ASoC: stm32: sai: Add synchronization support")
-Fixes: d4180b4c02e7 ("ASoC: stm32: sai: fix set_sync service")
-Cc: Olivier Moysan <olivier.moysan@st.com>
-Cc: stable@vger.kernel.org      # 4.16: d4180b4c02e7
-Signed-off-by: Johan Hovold <johan@kernel.org>
-Reviewed-by: olivier moysan <olivier.moysan@foss.st.com>
-Link: https://patch.msgid.link/20251124104908.15754-4-johan@kernel.org
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
+Fixes: 2d3391ec0ecc ("ALSA: PCM: channel mapping API implementation")
+Assisted-by: LLM
+Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+
 ---
-Backport fix for CVE-2025-71081
- sound/soc/stm/stm32_sai.c     | 12 +++---------
- sound/soc/stm/stm32_sai_sub.c | 23 ++++++++++++++++-------
- 2 files changed, 19 insertions(+), 16 deletions(-)
 
-diff --git a/sound/soc/stm/stm32_sai.c b/sound/soc/stm/stm32_sai.c
-index df167c389b98..026321620a20 100644
---- a/sound/soc/stm/stm32_sai.c
-+++ b/sound/soc/stm/stm32_sai.c
-@@ -122,7 +122,6 @@ static int stm32_sai_set_sync(struct stm32_sai_data *sai_client,
- 	if (!pdev) {
- 		dev_err(&sai_client->pdev->dev,
- 			"Device not found for node %pOFn\n", np_provider);
--		of_node_put(np_provider);
- 		return -ENODEV;
+diff --git a/sound/core/pcm.c b/sound/core/pcm.c
+index 41c2cab7a52c412b7c68374059cd305a6b3fe3d7..36c3b7cc742abeff889a96b452a88d267763caa4 100644
+--- a/sound/core/pcm.c
++++ b/sound/core/pcm.c
+@@ -819,6 +819,9 @@ static void snd_pcm_free_stream(struct snd_pcm_str * pstr)
+ 	/* free all proc files under the stream */
+ 	snd_pcm_stream_proc_done(pstr);
+ 
++	/* Drain channel-map callbacks before freeing the substreams. */
++	free_chmap(pstr);
++
+ 	substream = pstr->substream;
+ 	while (substream) {
+ 		substream_next = substream->next;
+@@ -833,7 +836,6 @@ static void snd_pcm_free_stream(struct snd_pcm_str * pstr)
+ 		kfree(setup);
  	}
- 
-@@ -131,21 +130,16 @@ static int stm32_sai_set_sync(struct stm32_sai_data *sai_client,
- 	if (!sai_provider) {
- 		dev_err(&sai_client->pdev->dev,
- 			"SAI sync provider data not found\n");
--		ret = -EINVAL;
--		goto error;
-+		return -EINVAL;
- 	}
- 
- 	/* Configure sync client */
- 	ret = stm32_sai_sync_conf_client(sai_client, synci);
- 	if (ret < 0)
--		goto error;
-+		return ret;
- 
- 	/* Configure sync provider */
--	ret = stm32_sai_sync_conf_provider(sai_provider, synco);
--
--error:
--	of_node_put(np_provider);
--	return ret;
-+	return stm32_sai_sync_conf_provider(sai_provider, synco);
+ #endif
+-	free_chmap(pstr);
+ 	if (pstr->substream_count)
+ 		put_device(pstr->dev);
  }
- 
- static int stm32_sai_probe(struct platform_device *pdev)
-diff --git a/sound/soc/stm/stm32_sai_sub.c b/sound/soc/stm/stm32_sai_sub.c
-index 962e5606c2c9..325089a20872 100644
---- a/sound/soc/stm/stm32_sai_sub.c
-+++ b/sound/soc/stm/stm32_sai_sub.c
-@@ -1440,7 +1440,8 @@ static int stm32_sai_sub_parse_of(struct platform_device *pdev,
- 				dev_err(&pdev->dev,
- 					"External synchro not supported\n");
- 				of_node_put(args.np);
--				return -EINVAL;
-+				ret = -EINVAL;
-+				goto err_put_sync_provider;
- 			}
- 			sai->sync = SAI_SYNC_EXTERNAL;
- 
-@@ -1449,7 +1450,8 @@ static int stm32_sai_sub_parse_of(struct platform_device *pdev,
- 			    (sai->synci > (SAI_GCR_SYNCIN_MAX + 1))) {
- 				dev_err(&pdev->dev, "Wrong SAI index\n");
- 				of_node_put(args.np);
--				return -EINVAL;
-+				ret = -EINVAL;
-+				goto err_put_sync_provider;
- 			}
- 
- 			if (of_property_match_string(args.np, "compatible",
-@@ -1463,7 +1465,8 @@ static int stm32_sai_sub_parse_of(struct platform_device *pdev,
- 			if (!sai->synco) {
- 				dev_err(&pdev->dev, "Unknown SAI sub-block\n");
- 				of_node_put(args.np);
--				return -EINVAL;
-+				ret = -EINVAL;
-+				goto err_put_sync_provider;
- 			}
- 		}
- 
-@@ -1473,13 +1476,15 @@ static int stm32_sai_sub_parse_of(struct platform_device *pdev,
- 
- 	of_node_put(args.np);
- 	sai->sai_ck = devm_clk_get(&pdev->dev, "sai_ck");
--	if (IS_ERR(sai->sai_ck))
--		return dev_err_probe(&pdev->dev, PTR_ERR(sai->sai_ck),
--				     "Missing kernel clock sai_ck\n");
-+	if (IS_ERR(sai->sai_ck)) {
-+		ret = dev_err_probe(&pdev->dev, PTR_ERR(sai->sai_ck),
-+				    "Missing kernel clock sai_ck\n");
-+		goto err_put_sync_provider;
-+	}
- 
- 	ret = clk_prepare(sai->pdata->pclk);
- 	if (ret < 0)
--		return ret;
-+		goto err_put_sync_provider;
- 
- 	if (STM_SAI_IS_F4(sai->pdata))
- 		return 0;
-@@ -1501,6 +1506,8 @@ static int stm32_sai_sub_parse_of(struct platform_device *pdev,
- 
- err_unprepare_pclk:
- 	clk_unprepare(sai->pdata->pclk);
-+err_put_sync_provider:
-+	of_node_put(sai->np_sync_provider);
- 
- 	return ret;
- }
-@@ -1571,6 +1578,7 @@ static int stm32_sai_sub_probe(struct platform_device *pdev)
- 
- err_unprepare_pclk:
- 	clk_unprepare(sai->pdata->pclk);
-+	of_node_put(sai->np_sync_provider);
- 
- 	return ret;
- }
-@@ -1583,6 +1591,7 @@ static int stm32_sai_sub_remove(struct platform_device *pdev)
- 	snd_dmaengine_pcm_unregister(&pdev->dev);
- 	snd_soc_unregister_component(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
-+	of_node_put(sai->np_sync_provider);
- 
- 	return 0;
- }
--- 
-2.43.0
-
