@@ -1,46 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9171062D2FF;
-	Mon, 19 Oct 2026 14:05:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD6253FA26;
+	Mon, 19 Oct 2026 14:05:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418720; cv=none; b=MxzK2l35TC8MScBB+ZKLsv77zVG86Cgv2ZKYRjHU8HfUbimS2GMiInJ+GE0z3asoGbAHd6YZXlDfI88DAxgtw5ndXu3MMlcrau8oCZAHOOiyl1W3YVPQJHFe9dfIGLSlw9QrN8IIByLqRxmjRA5mN7oJmyQoyEuSUnWx+iX8il8=
+	t=1792418738; cv=none; b=Nh/heiJSclZK0racGURBP9it+mCO9ceAsiRf/HgRjmP2BmrSB0yFxJaxc5OzOzOfK2zVG+RaTAj7FvB/LOReHk7nqa74XKTmbUn65BZVCnR+behmgN+4CIZfalUhftn64Z3mrIn/5lURuKO1F+GQ7AzsJvZRJ2aJ1VCinwp5I4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418720; c=relaxed/simple;
-	bh=HHXumO9yere8xenjgPU0DYVqiwNLD7RGMQ0V4N4u0EA=;
+	s=arc-20240116; t=1792418738; c=relaxed/simple;
+	bh=pOb0H8skd+AzcHB4DNgvfJakssKiJsR/9YQjTb3Lmf8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q7/cvyDHp4SjsjnLA47Q2hm3WD4KR30DkRgUHv1UGgvhj7C9Yi7s4WFwD+ahZu6rz0s2MgqLxTG4ChdKOWaZrlVgNHhN+rmaGf5BNNAztFExg5VIafvc3hDP5cChr+l+joJ7R4SqZ/J33lPq7ew3p9uu8Ufakjubv4fcAUqrnkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XSvF8u9w; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=s9iw7nXIAlMtRNB4XmBAmHwOeZZTtYvla7L/zBwEfA5OXMkMEtu4ctmcQI3rNNIuBi7te3OqU+UImLu3TJXkfRTcFKA7sNNSARb0CWszOZfqL2OUtltW3FZ9Qol6nx80kOhF87SGJ9/FIa1O/W+YJtGwr6r/9RwgrlnnGbkpsyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hFInfdJu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XSvF8u9w"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61BAF1F000C6;
-	Mon, 19 Oct 2026 14:05:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hFInfdJu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD1A41F000C7;
+	Mon, 19 Oct 2026 14:05:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418716;
-	bh=7WhbfMwH4dxw4f20PGQgV+68qXjbuOI35F5OglP1Mb4=;
+	s=k20260515; t=1792418735;
+	bh=x+wlokLDEGW8le5aJHkkAhHds91W1b7S+7cIxEqOJ3A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=XSvF8u9wVIHhhGrbixHy5POgfR47Y5C3F6epKX1OrYMgxj1qB/JgK6DY+5cVa4UI4
-	 EMtqn+K1F9jri8mZ9890p/GSrrcPioygeLH4CAn4IS/hfmrtcqtnXiyHg5EEPMx4vH
-	 ay6lY3QSPAEMpB2ifCQ+ltuJeHKGviNhLLEJ2newQfPdFlYtQdlZkRYWjlAPt2XRHO
-	 wp9gsp1L2vUR1xXucnLlBsXtILOQLxFlTCmVp14bNMlcMP5pkEN02Nz1kQRM3++kJn
-	 EvLhG7C7Bk6/FbzZzE1yaxQiGgXX/DH33dypCqaWcNEwc+L5gP4E3x8opE9M5C+ZRx
-	 GNDDgHeMKfKQg==
+	b=hFInfdJuBX0QPcDGBhefC2q7Wd8BU+WONJz9XCdbLygcutNbiIOdfaLIoK1vO1qq/
+	 whUSPSeEz1o3/xgal7RBXP/9IMjthKVn9xEi1h0mw1sWdjxnDpSBEBI5JLagXx+pCd
+	 EYvbuYBEro/izpaft0EdwRXug+rcUPWckTfiFEN/CNZwB82bRdXyLkDD1ulSpdnNZU
+	 xz2rV4RN8xCgLJ0bQS5VCOQhip+n3cYKJKy4RZiVxqlU/7LZKWHkELRXAYInmZm+10
+	 ijEuEAyugBqsC7EUL388HcNAlUIP93Zcy6W0Apn+zVsRiPD6m5+2xAX8DwC9ZR4qBp
+	 fJq06tTwswauw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
+Cc: Seiji Adachi <seiji_adachi@yahoo.co.jp>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	kiseok.jo@irondevice.com,
+	Vijendar.Mukunda@amd.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.6] ASoC: sma1303: remove fault-check sysfs group on remove
-Date: Mon, 19 Oct 2026 09:52:16 -0400
-Message-ID: <20261019135441.1420968-445-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.1] ASoC: amd: yc: Add Lenovo ThinkPad E16 Gen 2 (21JN) to quirks
+Date: Mon, 19 Oct 2026 09:52:30 -0400
+Message-ID: <20261019135441.1420968-459-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -56,342 +56,303 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+From: Seiji Adachi <seiji_adachi@yahoo.co.jp>
 
-[ Upstream commit ce3733792d38ade8df8ce288a96ff0c6ad858bf3 ]
+[ Upstream commit 4cae4ca34992d210d115e8e891f1e88c9df5f24c ]
 
-sma1303_i2c_probe() creates a sysfs group that exposes the fault-check
-controls. The check_fault_status store callback can queue
-check_fault_work.
-
-sma1303_i2c_remove() only cancels the delayed work. It does not remove
-the sysfs group, so the controls can remain published after remove while
-their callbacks still use the driver data and can queue the work again.
-
-Remove the sysfs group before cancelling the delayed work.
-
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Link: https://patch.msgid.link/20260615064456.28615-1-pengpeng@iscas.ac.cn
+Signed-off-by: Seiji Adachi <seiji_adachi@yahoo.co.jp>
+Link: https://patch.msgid.link/20260917131851.2122144-1-seiji_adachi@yahoo.co.jp
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This is a two-line unbind/UAF fix in the SMA1303 codec. The local tree
-is **6.18.53**; the driver and the unmatched `sysfs_create_group()` have
-been present here since v6.3.
+This is a DMI hardware quirk for the existing AMD Yellow Carp ASoC
+machine driver. The local tree is **6.18.57**
+(`v6.18.57-155-gcdf239ca885b2`). The driver, quirk table, and
+neighboring Lenovo E16 entries are all present here, so the patch is a
+straightforward YES for this tree.
 
 ===============================================================
 PHASE 1: COMMIT MESSAGE FORENSICS
 ===============================================================
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-- Subsystem: `ASoC: sma1303`
-- Action verb: **remove**
-- Claimed intent: tear down the fault-check sysfs group in the I2C
-  remove path
-
-Record: [ASoC/sma1303] [remove] [tear down fault-check sysfs group on
-driver remove]
+Record: **[ASoC/amd/yc] [Add] [Lenovo ThinkPad E16 Gen 2 DMI product
+21JN to the Yellow Carp quirk table]**
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-Present (ignoring pipeline `Upstream commit` / `Signed-off-by: Sasha
-Levin`):
-- `Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>` (author)
-- `Link:
-  https://patch.msgid.link/20260615064456.28615-1-pengpeng@iscas.ac.cn`
+Record:
+- No `Fixes:` tag (expected for this review class)
+- No `Reported-by:` / `Tested-by:` / `Reviewed-by:` / `Acked-by:` on the
+  committed message
+- `Link: https://patch.msgid.link/20260917131851.2122144-1-
+  seiji_adachi@yahoo.co.jp`
+- `Signed-off-by: Seiji Adachi <seiji_adachi@yahoo.co.jp>` (author)
 - `Signed-off-by: Mark Brown <broonie@kernel.org>` (ASoC maintainer)
+- Ignore pipeline markers (`[Upstream commit ...]`, `Signed-off-by:
+  Sasha Levin`)
 
-Absent (expected for this review): `Fixes:`, `Cc: stable`, `Reported-
-by`, `Tested-by`, `Reviewed-by`, `Acked-by`.
-
-Record: Author SOB + ASoC maintainer SOB + lore Link. No syzbot/user
-report tags.
+Notable: the committed message is thin, but the mailing-list thread
+(Phase 4) has the real bug report and `arecord -l` output. Absence of
+`Cc: stable` is expected and is not a negative signal. Sibling E16 Gen 2
+quirks for **21M5** and **21M6** in this same file *did* carry `Cc:
+stable@vger.kernel.org`.
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
-- Bug: `sma1303_i2c_probe()` creates a sysfs group;
-  `sma1303_i2c_remove()` only `cancel_delayed_work_sync()`s
-  `check_fault_work`.
-- Symptom: sysfs controls stay published after remove. Their store
-  callback uses driver private data and can queue `check_fault_work`
-  again.
-- Root cause: missing `sysfs_remove_group()` before work cancellation.
-- No stack trace, no version list, no “this is theoretical only”
-  language.
+The git object itself has almost no body. The original submission text
+(resend, same diff) is:
 
-Record: [sysfs left published after unbind] [UAF / re-queue of delayed
-work after remove] [no version info] [missing sysfs teardown]
+> Add ThinkPad E16 Gen 2 (21JN) to the DMI table in acp6x-mach.c to
+enable the internal digital microphone (DMIC).
+
+The earlier request in the same thread (17 Jul 2026) is more specific:
+on a ThinkPad E16 Gen 2 (AMD Ryzen 7 7735HS, machine type 21JN), the
+internal DMIC is not detected on Debian 13 **kernel 6.18**. The author
+later confirmed the same failure on 7.0.13 and 7.1.8, with `arecord -l`
+showing only analog HDA capture (`CX11880 Analog`), not the ACP DMIC
+card.
+
+Record:
+- Bug: this SKU’s ACPI `_WOV` / `AcpDmicConnected` path does not enable
+  ACP DMIC, so the machine driver bails out unless a DMI quirk matches
+- Symptom: internal digital microphone is missing; only analog HDA
+  capture appears
+- Versions: reporter hit it on **6.18**, which is this tree
+- Root cause: missing DMI product `21JN` in `yc_acp_quirk_table[]`
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-This is not disguised cleanup. The message describes a concrete lifetime
-bug.
-
-Record: [Not a hidden fix; explicit lifetime/UAF fix]
+Record: Not a disguised cleanup. It is an explicit hardware quirk: one
+DMI entry so an already-supported DMIC path probes on this Lenovo SKU.
 
 ===============================================================
 PHASE 2: DIFF ANALYSIS - LINE BY LINE
 ===============================================================
 
 **Step 2.1: INVENTORY THE CHANGES**
-- File: `sound/soc/codecs/sma1303.c` (+2 / -0)
-- Function: `sma1303_i2c_remove()`
-- Scope: single-file, two-line surgical fix
-
-Record: [sma1303.c +2] [sma1303_i2c_remove] [single-file surgical]
+Record:
+- File: `sound/soc/amd/yc/acp6x-mach.c` — **+7 / -0**
+- Function/object: `yc_acp_quirk_table[]` (data only; no control-flow
+  change)
+- Scope: single-file surgical table insertion between existing `21J6`
+  and `21M1` Lenovo entries
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-Before (verified from `git show
-02b2a3058912d^:sound/soc/codecs/sma1303.c`):
-```c
-cancel_delayed_work_sync(&sma1303->check_fault_work);
-```
-After:
-```c
-if (sma1303->attr_grp)
-    sysfs_remove_group(sma1303->kobj, sma1303->attr_grp);
-cancel_delayed_work_sync(&sma1303->check_fault_work);
-```
-Affected path: I2C driver unbind / module unload. The NULL check matches
-probe, which sets `attr_grp = NULL` if `sysfs_create_group()` failed.
+Record: Before, `dmi_first_match(yc_acp_quirk_table)` in `acp6x_probe()`
+does not match product `21JN`, so `platform_set_drvdata()` is not
+populated from the quirk and the probe returns `-ENODEV` if ACPI did not
+already enable DMIC. After, that SKU matches, `driver_data` is
+`&acp6x_card`, and the ACP DMIC card registers.
 
-Record: [remove: cancel work only -> unpublish sysfs first, then cancel
-work]
+Verified probe logic in this tree:
+
+```845:854:sound/soc/amd/yc/acp6x-mach.c
+check_dmi_entry:
+        /* check for any DMI overrides */
+        dmi_id = dmi_first_match(yc_acp_quirk_table);
+        if (dmi_id)
+                platform_set_drvdata(pdev, dmi_id->driver_data);
+
+        card = platform_get_drvdata(pdev);
+        if (!card)
+                return -ENODEV;
+```
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
-Category: **memory safety / UAF + resource lifetime**, with a **race**
-on re-queue.
-
-Verified facts in this tree:
-- Probe does `sysfs_create_group(sma1303->kobj, ...)` on
-  `&client->dev.kobj` (not `devm_device_add_group()`).
-- `check_fault_status_store()` does `dev_get_drvdata(dev)` and may
-  `queue_delayed_work()`.
-- `check_fault_period_{show,store}` also dereference `sma1303` with no
-  extra locking.
-- `sma1303` is `devm_kzalloc()`’d, so it is freed in
-  `device_unbind_cleanup()` after `.remove`.
-- The driver is `module_i2c_driver()` (`MODULE_LICENSE("GPL v2")`), so
-  unbind on `rmmod` is a real path.
-- `sysfs_remove_group()` → `kernfs_remove_by_name()` drains active sysfs
-  ops, so after it returns no store can still be running. Then
-  `cancel_delayed_work_sync()` waits for already-queued work. That order
-  is the correct one.
-
-Record: [UAF / dangling sysfs after unbind] [unpublish group, then
-cancel work so store cannot re-queue]
+Record: **Hardware workaround / DMI quirk.** Same pattern as
+USB/PCI/codec quirks: the generic ACPI path is wrong/incomplete for this
+laptop, so a DMI match enables the existing `acp6x_card` DMIC machine
+driver. Not a UAF, race, leak, or crash-path fix.
 
 **Step 2.4: ASSESS THE FIX QUALITY**
-Obviously correct, matches the probe/create pairing, two lines, no
-API/data-structure change. Regression risk is very low:
-`sysfs_remove_group()` on a group that was never created is avoided via
-`attr_grp`. `kobj` is the still-live i2c device kobject during
-`.remove`.
-
-Record: [minimal, correct] [very low regression risk]
+Record: Obviously correct. It copies the exact struct used by dozens of
+neighboring Lenovo entries (`DMI_BOARD_VENDOR "LENOVO"` +
+`DMI_PRODUCT_NAME "21JN"` + `.driver_data = &acp6x_card`). Regression
+risk is confined to that DMI string: a false match would only affect a
+different Lenovo product also named `21JN`, which is how this table is
+designed. No locking, no API, no data-structure change.
 
 ===============================================================
 PHASE 3: GIT HISTORY INVESTIGATION
 ===============================================================
 
 **Step 3.1: BLAME THE CHANGED LINES**
-`git blame` on probe/remove: sysfs create and the original remove body
-come from `68cd394efd0fd` (“ASoC: The Iron Device SMA1303 is a boosted
-Class-D audio amplifier.”, KiseokJo, 2023-01-26).
-`git describe --contains 68cd394efd0fd` → `v6.3-rc1~...`
-`git merge-base --is-ancestor 68cd394efd0fd HEAD` → yes.
+Record: The insertion sits between:
+- `21J5` / `21J6`: `c0fc96fed7ffa` (syed sabakareem, 2022-08-02)
+- `21J0`: `50ee641643dd0` (Johnny Hsieh, 2024-02-26)
+- `21M1`: `cbc86dd0a4fe9f` (Uwe Kleine-König, 2024-11-22)
 
-Record: [introduced in 68cd394efd0fd / v6.3] [present for the entire
-6.18 lifetime]
+The Yellow Carp machine driver itself landed in `fa991481b8b22` (“ASoC:
+amd: add YC machine driver using dmic”, 2021-10-18). The table has been
+the supported way to enable DMIC on laptops with broken ACPI for years.
+This is not new 7.x-only infrastructure.
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-No `Fixes:` tag. Expected. The introducing commit is the original driver
-add, and it **is** an ancestor of this tree.
-
-Record: [no Fixes tag] [buggy code is the original driver, in this tree]
+Record: No `Fixes:` tag. N/A. The “bug” is a missing SKU in a allow-
+list, not a regression from a specific earlier commit.
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-Recent `sma1303.c` history is unrelated (probe_new conversion, DT
-includes, `driver_data` init). No series (“patch X/Y”). Standalone.
+Record: Same file has a long series of identical DMI additions. Directly
+related E16 Gen 2 quirks already in this tree:
+- `1d9ce4440414c` — “Support mic on Lenovo Thinkpad E16 Gen 2” (product
+  **21M5**, `Cc: stable`)
+- `0704a15b930cf` — “Support mic on another Lenovo ThinkPad E16 Gen 2
+  model” (product **21M6**, `Cc: stable`)
 
-Record: [no related prerequisite series] [standalone]
+This commit is the same class of fix for SKU **21JN**. Standalone; not
+patch X/Y.
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Pengpeng Hou is not the SMA1303 maintainer (that is Kiseok Jo). Nearby
-author work is systematic driver correctness (MODULE_DEVICE_TABLE,
-bounds checks, error propagation). Mark Brown applied the patch.
-
-Record: [not the codec author; ASoC maintainer applied it]
+Record: `git log --author='Seiji Adachi' -- sound/soc/amd/` shows only
+this commit. Author is an end user with the hardware, not the subsystem
+maintainer. Maintainer Mark Brown applied it to `sound.git` `for-7.3`.
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-The fix uses existing `sysfs_remove_group()`, `attr_grp`, and `kobj` —
-all present since the driver was added. Applies standalone.
-
-Record: [no dependencies] [can apply standalone]
+Record: None. It only needs `yc_acp_quirk_table[]`, `acp6x_card`, and
+`acp6x_probe()`’s `dmi_first_match()` path, all present here. Confirmed
+`21M5`/`21M6` ancestor commits are in this tree. Parent context already
+has `21J6` then `21M1`, matching the hunk.
 
 ===============================================================
 PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 ===============================================================
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
-`b4 dig -c 02b2a3058912d` →
-https://patch.msgid.link/20260615064456.28615-1-pengpeng@iscas.ac.cn
-`b4 dig -a`: **v1 only**.
-`b4 dig -m`: thread is the patch plus Mark Brown’s apply mail to
-`for-7.3` (`ce3733792d38`). No NAK, no requested changes, no reviewer
-risk comments.
-
-lore.kernel.org WebFetch returned 403; discussion was recovered from the
-mbox instead.
-
-Record: [msgid link above] [v1 only] [applied by Mark Brown, no
-objections]
+Record:
+- `b4 dig -c 99dcbf96a43ed`:
+  https://patch.msgid.link/aqu4HOCmdCUs_unm@adriana (RESEND)
+- Applied version: https://patch.msgid.link/20260917131851.2122144-1-
+  seiji_adachi@yahoo.co.jp
+- `b4 dig -a`: one series revision after a formatting-rejected RESEND;
+  applied version is the git-formatted v1
+- Thread also includes the Jul/Aug user reports on 6.18 / 7.0.13 / 7.1.8
+- Mark Brown first asked for proper `submitting-patches.rst` formatting,
+  then applied the reformatted patch to `for-7.3` as `4cae4ca34992`
+- No NAK on the change itself; no reviewer concern about the DMI ID
+- No explicit `Cc: stable` in review (not a negative)
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-`b4 dig -w` original recipients: Kiseok Jo, Liam Girdwood, Mark Brown,
-Jaroslav Kysela, Takashi Iwai, linux-sound, linux-kernel. ASoC/sound
-maintainers were on To/Cc. Applied by Mark Brown.
-
-Record: [ASoC maintainer To/Cc and applied]
+Record (`b4 dig -w`): To/Cc included `Vijendar.Mukunda@amd.com` (AMD
+audio), `broonie@kernel.org` (ASoC maintainer), `alsa-devel@alsa-
+project.org`, `linux-sound@vger.kernel.org`. Mark Brown applied it. No
+separate Reviewed-by.
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-No `Reported-by` / bugzilla / syzbot. The bug is identified from code
-review of the probe/remove mismatch.
-
-Record: [no user/syzbot report; code-analysis bug]
+Record: The lore thread *is* the bug report. One user, ThinkPad E16 Gen
+2 21JN-003SCD, internal DMIC missing on 6.18 (this series), still
+missing after upgrading. `arecord -l` shows only HDA analog. Severity
+from the reporter: laptop microphone does not work.
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Standalone 1/1. Sibling `sma1307.c` has delayed-work cancel on remove
-but **no** sysfs group (different driver). `cs43130.c` already calls
-`sysfs_remove_groups()` on teardown; `fs210x.c` uses
-`devm_device_add_group()`.
-
-Record: [standalone; not part of a multi-patch series]
+Record: Standalone one-patch series. Related historical patches are the
+21M5/21M6 E16 Gen 2 quirks already in this file.
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-lore.kernel.org/stable WebFetch 403. `git log --grep` on `sound/` found
-only this commit for this subject.
-
-Record: [no stable-list discussion recovered]
+Record: Web search of `lore.kernel.org/stable` for this subject/SKU
+found no prior stable discussion and no recorded reason to keep it out
+of stable. (lore.kernel.org fetches returned 403; gnuweeb/patchew
+mirrors and `b4 dig` were used instead.)
 
 ===============================================================
 PHASE 5: CODE SEMANTIC ANALYSIS
 ===============================================================
 
-**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
-Record: [`sma1303_i2c_remove` only]
+**Step 5.1: IDENTIFY KEY FUNCTIONS**
+Record: No function body changed. Data consumed by `acp6x_probe()`.
+Table: `yc_acp_quirk_table[]`. Card: `acp6x_card`.
 
 **Step 5.2: TRACE CALLERS**
-`.remove = sma1303_i2c_remove` on `sma1303_i2c_driver`. Called by the
-I2C/driver core on unbind (`rmmod`, `echo ... > unbind`, device
-deletion). Not a hot path, but a standard teardown path.
-
-Record: [I2C driver remove / module unload / device unbind]
+Record: `acp6x_probe()` is `.probe` of `platform_driver
+acp6x_mach_driver` (`name = "acp_yc_mach"`). The PCI driver
+`sound/soc/amd/yc/pci-acp6x.c` registers that platform device as
+`pdevinfo[2].name = "acp_yc_mach"` during ACP PDM-mode probe. Call path:
+ACPI/PCI enumerate ACP → `pci-acp6x` probe → register `acp_yc_mach` →
+`acp6x_probe()`. This runs at boot on Yellow Carp laptops, not from a
+syscall, but it is the normal device-probe path users hit.
 
 **Step 5.3: TRACE CALLEES**
-`sysfs_remove_group()` then `cancel_delayed_work_sync()`. Worker
-`sma1303_check_fault_worker` does I2C/regmap reads and may re-queue
-itself if `check_fault_status` is set. `check_fault_status` defaults to
-`true` in probe.
-
-Record: [sysfs_remove_group, cancel_delayed_work_sync; worker talks to
-hardware]
+Record: `dmi_first_match()`, `platform_set_drvdata()` /
+`platform_get_drvdata()`, `devm_snd_soc_register_card()`. No
+allocation/locking change in this commit.
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-Userspace can trigger the bad path by unbinding the driver (or `rmmod
-snd-soc-sma1303`) and then reading/writing leftover `check_fault_status`
-/ `check_fault_period` attributes, or by a store racing remove. That is
-reachable without special hardware beyond having this codec bound. Work
-is also queued from `sma1303_startup()` when the amp starts, so cancel-
-then-requeue is not hypothetical if sysfs stays live.
-
-Record: [reachable from unbind/sysfs] [yes, from userspace on systems
-with this device]
+Record: Reachable on this hardware at boot if
+`CONFIG_SND_SOC_AMD_YC_MACH` is enabled (`depends on SND_SOC_AMD_ACP6x
+&& ACPI`, x86/PCI). That is the intended config for AMD Ryzen 7735HS
+ThinkPads. Userspace sees the result via ALSA PCM (`arecord -l`).
+Unprivileged users do not trigger a crash; they just have no internal
+DMIC.
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Same file already cancels work in `sma1303_remove()` (component remove)
-and `sma1303_shutdown()`, but those do not remove the I2C-device sysfs
-group. Only i2c_remove can.
-
-Record: [no second copy of this sysfs group; sibling sma1307 has no such
-group]
+Record: The same file is a catalog of this exact pattern (HP, Dell,
+Lenovo, ASUS, MSI, Acer, …). 21M5 and 21M6 are the same laptop family.
+This is a systematic, well-established quirk style, not a one-off
+experiment.
 
 ===============================================================
 PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 ===============================================================
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Yes. `git describe HEAD` = `v6.18.53-5049-g0f0bdc2b0dffb`; `make
-kernelversion` = `6.18.53`. File `sound/soc/codecs/sma1303.c` exists.
-Parent of this commit has `sma1303_i2c_remove()` with only
-`cancel_delayed_work_sync()`. Driver first appeared in v6.3, long before
-6.18.
-
-Record: [yes, sma1303_i2c_remove without sysfs_remove_group] [bug since
-v6.3]
+Record: Yes. This is **6.18.y**. `sound/soc/amd/yc/acp6x-mach.c`,
+`yc_acp_quirk_table[]`, and `acp6x_probe()`’s DMI override all exist.
+Without the 21JN entry, this SKU does not match. The reporter’s original
+failure was on Debian 13 kernel **6.18**, so the bug is native to this
+branch, not introduced after it.
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Parent hunk matches this tree exactly. Two insertions. Expected apply:
-**clean**.
-
-Record: [clean apply]
+Record: **Clean apply.** Context lines `21J6` then `21M1` are present.
+Insertion is 7 identical-style lines. No refactor of the probe path
+needed.
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-No earlier sma1303 sysfs-lifetime fix. This is the first teardown of
-that group.
-
-Record: [no prior equivalent fix]
+Record: 21M5 and 21M6 quirks are already in this tree; they do **not**
+cover product name `21JN`. No alternate 21JN fix exists besides this DMI
+row.
 
 ===============================================================
 PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 ===============================================================
 
 **Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-`sound/soc/codecs/` — ASoC codec driver for Iron Device SMA1303
-(`CONFIG_SND_SOC_SMA1303`, tristate, depends on I2C).
-
-Record: [ASoC codec] [PERIPHERAL — specific amplifier, but a real in-
-tree driver]
+Record: **ASoC / AMD Yellow Carp (`sound/soc/amd/yc/`)** —
+**PERIPHERAL** globally, **IMPORTANT** for users of this laptop. Config:
+`SND_SOC_AMD_YC_MACH`.
 
 **Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-`sound/soc/codecs/` is actively developed. `sma1303.c` itself has been
-mostly quiet since 2023 except mechanical ASoC conversions.
-
-Record: [codec tree active; this driver mature/stable]
+Record: Actively maintained via a stream of DMI quirk additions (V15 G6
+ARP, Acer Aspire Go 15, HP Victus, Alienware, MSI Thin A15, …). Mature
+driver (since 2021) with a stable quirk-table contract.
 
 ===============================================================
 PHASE 8: IMPACT AND RISK ASSESSMENT
 ===============================================================
 
 **Step 8.1: DETERMINE WHO IS AFFECTED**
-Users with an SMA1303 on I2C (`compatible = "irondevice,sma1303"`). No
-in-tree board DTS uses it (only the binding example); boards use out-of-
-tree / product DTs. Still a supported in-tree driver.
-
-Record: [driver-specific / config CONFIG_SND_SOC_SMA1303]
+Record: Driver-specific / DMI-specific: Lenovo ThinkPad E16 Gen 2
+product **21JN** (AMD Yellow Carp / Ryzen 7735HS). No effect on other
+machines.
 
 **Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-- Module unload or I2C unbind with the sysfs files still present.
-- Or a concurrent write to `check_fault_status` during remove, which re-
-  queues work after cancel.
-Not every boot. Unprivileged sysfs write depends on attribute mode
-(`DEVICE_ATTR_RW` → 0644, so typically root). Unbind is admin. Still a
-real oops/UAF on a supported teardown path.
-
-Record: [unbind + leftover/racy sysfs] [uncommon but real] [not an
-unprivileged remote exploit]
+Record: Every boot on that SKU. ACPI does not enable DMIC; without the
+quirk, `acp6x_probe()` returns `-ENODEV`. Not a race. Not triggerable as
+a privilege-escalation path.
 
 **Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Use-after-free of `sma1303_priv` and/or calls into an unloaded module
-via leftover sysfs attrs. That is oops / UAF, not a log-only issue.
-
-Record: [UAF / oops on unbind] [HIGH]
+Record: Internal digital microphone never appears. Not a
+panic/UAF/corruption bug. **MEDIUM** as a kernel-severity class,
+**HIGH** as a user-visible hardware defect on an otherwise-supported
+laptop. This is exactly the class the stable “hardware quirk” exception
+is for.
 
 **Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-Benefit: prevents UAF/oops on driver remove for this codec. Risk: two-
-line, obviously correct teardown. Ratio strongly in favor of backport.
-
-Record: [HIGH benefit for affected hardware] [VERY LOW risk]
+Record:
+- Benefit: **HIGH** for 21JN owners on 6.18.y (microphone works);
+  **zero** for everyone else
+- Risk: **VERY LOW** (7-line DMI row, existing table, existing
+  driver_data)
+- Ratio: strongly favors backporting
 
 ===============================================================
 PHASE 9: FINAL SYNTHESIS
@@ -400,112 +361,120 @@ PHASE 9: FINAL SYNTHESIS
 **Step 9.1: COMPILE THE EVIDENCE**
 
 FOR:
-- Real lifetime bug: `sysfs_create_group()` with no matching remove.
-- Failure is UAF/oops (store can also re-queue delayed work after
-  cancel).
-- Two lines, obviously correct, applied by ASoC maintainer Mark Brown.
-- Buggy code exists in this 6.18 tree (driver since v6.3).
-- Clean apply; no prerequisites.
-- `kernfs` drain on attribute removal makes the chosen order (sysfs
-  first, then cancel work) correct.
+- Real, user-reported hardware bug: internal DMIC missing on ThinkPad
+  E16 Gen 2 21JN
+- Reporter reproduced it on **kernel 6.18**, i.e. this tree
+- Canonical stable exception: DMI quirk in an existing driver
+- Sibling SKUs 21M5/21M6 already use the same quirk and were sent to
+  stable
+- 7 lines, identical to existing entries, applied by ASoC maintainer
+  Mark Brown
+- Driver and table exist here since 2021/2022; no missing prerequisites
+- Applies cleanly between `21J6` and `21M1`
 
 AGAINST:
-- Peripheral codec; no in-tree board DT, so user population is limited.
-- No `Reported-by` / syzbot crash.
-- Trigger is unbind/rmmod, not the audio hot path.
+- Not a crash, deadlock, or security bug
+- Commit message on the git object is sparse (bug detail lives on lore)
+- Single reporter, not a maintainer-authored patch
 
 UNRESOLVED:
-- lore.kernel.org HTTP 403 (thread recovered via `b4`).
-- No stable@ discussion recovered.
+- Could not fetch lore.kernel.org directly (403); thread recovered via
+  `b4 dig`, gnuweeb, and patchew
+- Could not independently dump DMI from the reporter’s machine beyond
+  the strings they posted
 
 **Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — pairing is standard; applied
-   by maintainer to for-7.3.
-2. Fixes a real bug that affects users? **PASS** — leftover sysfs after
-   unbind is a real UAF.
-3. Important issue? **PASS** — UAF/oops (HIGH), not a feature tweak.
-4. Small and contained? **PASS** — +2 lines, one function.
-5. No new features or APIs? **PASS**.
-6. Can apply to the local tree? **PASS** — code present, hunk matches.
+1. Obviously correct and tested? **PASS** — identical table pattern;
+   user tested on the affected laptop; maintainer applied it
+2. Fixes a real bug that affects users? **PASS** — internal mic not
+   enumerated
+3. Important issue? **PASS** under the hardware-quirk exception (broken
+   input device on a shipping laptop)
+4. Small and contained? **PASS** — +7 lines, one file, one DMI row
+5. No new features or APIs? **PASS** — no new driver, syscall, or module
+   param; enables existing DMIC card on one SKU
+6. Can apply to the local tree? **PASS** — 6.18.y has the file, table,
+   probe path, and hunk context
 
 **Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Not a device-ID/quirk/DT/build/docs exception. It qualifies as a normal
-small bugfix.
+Record: **Hardware quirk / workaround** (DMI match in
+`yc_acp_quirk_table[]`). Closely analogous to USB/PCI/codec ID
+additions.
 
 **Step 9.4: MAKE YOUR DECISION**
-The limited hardware audience does not outweigh a two-line UAF fix that
-applies cleanly to this 6.18 tree. Stable users who have this amp and
-unbind or unload the module can oops; the fix is the standard teardown
-the driver was missing from day one.
-
-### What the commit solves
-`sma1303_i2c_probe()` publishes `check_fault_period` /
-`check_fault_status` on the I2C device. Remove only cancelled delayed
-work, so those attributes stayed live, their callbacks still used
-`sma1303_priv`, and `check_fault_status_store()` could queue work again
-after cancel — UAF once `devm` frees the private data.
-
-### Stable rules
-Small, obviously correct, no new API, real UAF, present in this tree
-since v6.3.
-
-### Risk vs benefit
-Very low risk, meaningful crash/UAF prevention on unbind.
-
-### Concerns
-None that block backport. No series dependencies. Apply is clean.
+This belongs on 6.18.y. The machine driver is already here; only this
+Lenovo product ID is missing; the user-visible failure is a non-working
+internal microphone; the change is the same 7-line DMI addition already
+used for other E16 Gen 2 SKUs.
 
 Verification:
-- [Phase 1] Parsed subject/tags/body from `git log -1` on
-  `02b2a3058912d`; tags are author SOB, Mark Brown SOB, msgid Link; no
-  Fixes/Cc stable/Reported-by.
-- [Phase 2] `git show --numstat`: +2/0 in `sma1303_i2c_remove`; parent
-  file confirms cancel-only remove.
-- [Phase 2] Read `sma1303_i2c_probe`/`check_fault_status_store`/`sma1303
-  _check_fault_worker`; confirmed `devm_kzalloc`, `sysfs_create_group`
-  on `client->dev.kobj`, default `check_fault_status = true`.
-- [Phase 2] Read `fs/sysfs/group.c` `sysfs_remove_group`/`remove_files`
-  and `fs/kernfs/dir.c` drain path; removal waits for active sysfs ops.
-- [Phase 3] `git blame`: create/remove introduced in `68cd394efd0fd`;
-  `git describe --contains` → v6.3-rc1; `merge-base --is-ancestor` yes.
-- [Phase 3] `git log --oneline -- sound/soc/codecs/sma1303.c`: no
-  prerequisite series.
-- [Phase 4] `b4 dig -c/-a/-w/-m`: v1 only; maintainers CC’d; Mark Brown
-  applied to for-7.3; no NAK.
-- [Phase 4] WebFetch lore/stable: 403; UNVERIFIED via HTTP, recovered
-  via b4 mbox.
-- [Phase 5] Grep: `.remove = sma1303_i2c_remove`; `module_i2c_driver`;
-  work also queued from `sma1303_startup`.
-- [Phase 6] `git describe HEAD` = v6.18.53-5049-g0f0bdc2b0dffb; `make
-  kernelversion` = 6.18.53; buggy parent remove exists; no earlier
-  equivalent fix.
-- [Phase 7] `Kconfig` `SND_SOC_SMA1303`; DT binding
-  `irondevice,sma1303.yaml`; no in-tree `.dts` users.
-- [Phase 8] Failure mode UAF/oops on unbind; severity HIGH; patch size 2
-  lines.
-- UNVERIFIED: live user reports; stable@ mailing list (HTTP 403).
+- [Phase 1] `git describe HEAD` / `make kernelversion` / Makefile: local
+  tree is **v6.18.57** (6.18.y)
+- [Phase 1] Parsed tags: author SOB, Mark Brown SOB, msgid Link; no
+  Fixes/Reported-by/Cc:stable on the git object
+- [Phase 1/4] Original patch body and Jul 17 report: DMIC missing on
+  Debian 13 kernel 6.18; DMI vendor LENOVO, product 21JN
+- [Phase 2] Diff: +7 lines in `yc_acp_quirk_table[]` only;
+  `acp6x_probe()` uses `dmi_first_match()` then `-ENODEV` if no card
+- [Phase 3] `git blame -L 220,260 sound/soc/amd/yc/acp6x-mach.c`:
+  neighbors from 2022–2024; driver added in `fa991481b8b22` (2021)
+- [Phase 3] `git merge-base --is-ancestor 1d9ce4440414c HEAD` and
+  `0704a15b930cf`: 21M5/21M6 E16 quirks **are** in this tree; both had
+  `Cc: stable`
+- [Phase 3] No `Fixes:` tag to follow
+- [Phase 3] Author has no other `sound/soc/amd` commits here
+- [Phase 4] `b4 dig -c 99dcbf96a43ed`: lore RESEND at
+  patch.msgid.link/aqu4HOCmdCUs_unm@adriana; applied msgid
+  20260917131851.2122144-1; Mark Brown applied to for-7.3 as
+  4cae4ca34992
+- [Phase 4] `b4 dig -a`: RESEND then properly formatted PATCH; no v2
+  technical changes
+- [Phase 4] `b4 dig -w`: AMD audio + broonie + alsa-devel/linux-sound
+- [Phase 4] gnuweeb thread: no NAK of the quirk; only formatting
+  feedback
+- [Phase 4] lore.kernel.org WebFetch: 403; used b4/gnuweeb/patchew
+  instead
+- [Phase 4] stable list search: no hit for this SKU
+- [Phase 5] Callers: `pci-acp6x.c` registers `"acp_yc_mach"`; probe is
+  boot-time on ACP PDM platforms
+- [Phase 5] Kconfig: `SND_SOC_AMD_YC_MACH` depends on `SND_SOC_AMD_ACP6x
+  && ACPI`
+- [Phase 6] Pre-patch context in this tree has `21J6` then `21M1`;
+  `21JN` is the missing row; apply is clean
+- [Phase 6] `rg 21JN` confirms the entry is the standard Lenovo match
+- [Phase 8] Failure mode verified against probe: no card → `-ENODEV` →
+  no ACP DMIC PCM; matches `arecord -l` in the report
+- UNVERIFIED: live DMI dump from the reporter’s machine (only the
+  strings they mailed)
 
-The fix is small, surgical, and meets the stable criteria for this 6.18
-tree.
+The patch is a 7-line DMI quirk for existing AMD YC DMIC support. It
+fixes a real, 6.18-reproduced microphone failure on ThinkPad E16 Gen 2
+21JN, matches the established stable quirk exception, and applies
+cleanly here.
 
 **YES**
 
- sound/soc/codecs/sma1303.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/codecs/sma1303.c b/sound/soc/codecs/sma1303.c
-index 980c48cbc3482..e07ec1bbf2d50 100644
---- a/sound/soc/codecs/sma1303.c
-+++ b/sound/soc/codecs/sma1303.c
-@@ -1787,6 +1787,8 @@ static void sma1303_i2c_remove(struct i2c_client *client)
- 	struct sma1303_priv *sma1303 =
- 		(struct sma1303_priv *) i2c_get_clientdata(client);
- 
-+	if (sma1303->attr_grp)
-+		sysfs_remove_group(sma1303->kobj, sma1303->attr_grp);
- 	cancel_delayed_work_sync(&sma1303->check_fault_work);
- }
- 
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 8e203c034851f..507c07efc069b 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -234,6 +234,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "21J6"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "21JN"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
 -- 
 2.53.0
 
