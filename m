@@ -1,46 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3199F5166EB;
-	Mon, 19 Oct 2026 13:57:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D4755F624;
+	Mon, 19 Oct 2026 13:57:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418237; cv=none; b=YnIreQZ/1KI+KHPfxN/qkT5sGUluBq1ywBiLsPRLgRkuD+rP4Yq0d6xMCbomG2rW3NzEN6LMVYSO4NuhQ9KRnd7lfjL7MseCYzm/ZPIjZ3uvjXsik68acV4kGWnXq0vJy0mViKIIksuXO5MxV8tzAQcVvlOemuBXQfFCFkPvUDI=
+	t=1792418246; cv=none; b=CvXIpmtAvijRRvERsC+ufgiiOhvyOxnLelPLvLmJZgOx7j28EH93GACu58AcDCugQapp6dacvebrbQg+t2V4H5xtViRK/NmHmWBn10nPAQ7Zn39/seW4jdZNj3O6sfPaRsuDXsZU3/WXOHHI2QWIRhWo4Ek7ZKHFGpOkDKOPsJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418237; c=relaxed/simple;
-	bh=RFs5uFlalXGqx9N88N58xsb+5vzkPj50bTMdwXiPIeg=;
+	s=arc-20240116; t=1792418246; c=relaxed/simple;
+	bh=qtg5o7vgcWmexblo8MQT+J0ce2cEPo8iV+2RB85ju/o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RGqa8Xh+gszWBQbpdN7ZdSF6IoCaHcY75+YEqzgoIq8XR8PJNFW9wPfdPZlW+L3v6e5sko644Vss2Y5cDv6CYxw93LJkz82n8abFsq+cCE/1lS5V3tMO1wjT4pkNc+s5OuRTeEneNb9eRImEXbUAL9mHS1HQLBh+sulUswS3g8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SCJxTYLS; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=hDHNXqs/6FrE6uBm7cleY2q/3M2LEqignc5DG7kcU3vZMNsJez8CgM5QFK3G7r7nBWN+y5sSUKHu8drWbPWk5XzmWMONSsRKsevgHTE0wEpqZG8CK921wu+OUkXSfzX239twSS61XbzFai+z+M+SdltDgZGIla3B9lA6bnkEvNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AItLilEc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SCJxTYLS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 020AF1F000C5;
-	Mon, 19 Oct 2026 13:57:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AItLilEc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B8481F000C4;
+	Mon, 19 Oct 2026 13:57:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418234;
-	bh=v4Mta69ia7glAl/5rdNScM6vXNkJjJ7JytjXsu0GMmo=;
+	s=k20260515; t=1792418243;
+	bh=yI+FRH+GKlmCSgljWKtK+F9J/s6RC2srfk5ZlIgedqQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=SCJxTYLSixX7GjLCTCdpGz2IjY6Aeg9kPcW0tmbafH68tAouwB7ij0USJ1gsXTk3/
-	 Tiz1tzv4OVlJplK6nLNTO+0VCuGfnV8KsbVYJkbQuWYwGnfz/vmptlPHDMFjPR9pwA
-	 nSrTepX1GXaz7p59C72OlhXiS5TkhG/i/HOmCTcjsMsYB+lOsnX4pGQQrRDcivzm6T
-	 UL+QuynVEoK5W9rtvm7G6l000NqMAppf8Yfi+1Vw/fa65Hgsd7vE4SunEeR6FLHhQ/
-	 f5vH9wneTDwe1yoTujlLVqRvt7Z4Mv/XaQEtnz2kUnhw3j7X4Wq98F4Q/wZ+zSsq7Q
-	 VyXyKdR7ct3FQ==
+	b=AItLilEcGJ/ASp82dX0muBpn3FYL8lFmcKQS9TWM17pOFqUsHlBuYeqbAeChvNc7O
+	 Z5cJpZbzQoqVnXhwfAX5fJ3GDSUvVJtyz5oZ5/8LYNjlVLNzGRvfNgvNZX0/7oQuSa
+	 HzCQBHhqs/L06cegHIChUTZVnkHaPZ7jE0VmLcb4TZNTcQFC/WFbni3phI/i7HUXTq
+	 8edj4GaE6NmcFCBL6k6NcgSdSQZqcnm2xD4ekZOrA0SxqbX4BkHuRqqzuiXhgHM1Fi
+	 fJthc8dgHfgzFtAPOjPmQt49RZZpNdoKtKwL1wOBV5u0W3IWfH1nxFRLDY4f2UX7pn
+	 KPvAcynYZdjiQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Jack Yu <jack.yu@realtek.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Shang En Sim <sim@shangen.org>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	oder_chiou@realtek.com,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.12] ASoC: rt712-sdca: Pull high JD2 to prevent from entering TV mode
-Date: Mon, 19 Oct 2026 09:46:38 -0400
-Message-ID: <20261019135441.1420968-107-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.12] ALSA: hda/realtek: Enable mute LEDs on HP Spectre x360 16-aa0xxx
+Date: Mon, 19 Oct 2026 09:46:45 -0400
+Message-ID: <20261019135441.1420968-114-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -56,330 +54,357 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Jack Yu <jack.yu@realtek.com>
+From: Shang En Sim <sim@shangen.org>
 
-[ Upstream commit dfb8bc1d286fd97b7cf47e3af5df84cfb068d214 ]
+[ Upstream commit bfcdc1c0eaeae5525c726193568e8d638b2afdc0 ]
 
-Add a patch setting to prevent ALC712 from entering TV mode which
-may cause unexpected issues.
+The HP Spectre x360 2-in-1 Laptop 16-aa0xxx with PCI subsystem ID
+0x103c:0x8c17 only gets the CS35L41 amplifier setup from
+ALC287_FIXUP_CS35L41_I2C_2, so the speaker-mute and mic-mute keyboard
+LEDs do not work.
 
-Signed-off-by: Jack Yu <jack.yu@realtek.com>
-Link: https://patch.msgid.link/20260820092415.2979641-1-jack.yu@realtek.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Use ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX like subsystem ID 0x8c16 so
+the mute LEDs work.
+
+Tested on HP Spectre x360 2-in-1 Laptop 16-aa0xxx.
+
+Signed-off-by: Shang En Sim <sim@shangen.org>
+Link: https://patch.msgid.link/20260807055139.58707-1-sim@shangen.org
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Local tree is **6.12.111** (`p-6.12-3-gc504cf0baa3d8`). The candidate is
-mainline `dfb8bc1d286fd97b7cf47e3af5df84cfb068d214`. It is not in this
-checkout; the VB init path it patches is.
+The local tree is **6.18.53** (`pending-6.18`,
+`p-6.18-1-g03b85e06ca9bf`). The buggy `0x8c17` mapping is present here,
+and the target AA0XXX fixup already exists.
 
-## Phase 1: Commit message forensics
+===============================================================
+PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
 
-**Step 1.1 — Subject**
-- Record: `[ASoC/rt712-sdca] [Pull high] Pull JD2 high so ALC712 does
-  not enter TV mode`
+Step 1.1: PARSE THE SUBJECT LINE
+Record: [ALSA hda/realtek] [Enable] [map HP Spectre x360 16-aa0xxx SSID
+0x8c17 to the mute-LED fixup already used by 0x8c16]
 
-**Step 1.2 — Tags**
-- Record:
-  - `Signed-off-by: Jack Yu <jack.yu@realtek.com>` (vendor author)
-  - `Link: https://patch.msgid.link/20260820092415.2979641-1-
-    jack.yu@realtek.com`
-  - `Signed-off-by: Mark Brown <broonie@kernel.org>` (ASoC maintainer)
-  - No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-
-    by:`, or `Cc: stable` (absence is expected for this review)
-  - Pipeline `Signed-off-by: Sasha Levin` / `[Upstream commit ...]`
-    ignored
+Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
+Record:
+- Fixes: none (expected for this review)
+- Reported-by: none
+- Tested-by: none as a tag; body says the author tested on the 16-aa0xxx
+- Reviewed-by: none
+- Acked-by: none
+- Link: https://patch.msgid.link/20260807055139.58707-1-sim@shangen.org
+- Cc: stable: none (expected)
+- Signed-off-by: Shang En Sim <sim@shangen.org> (author)
+- Signed-off-by: Takashi Iwai <tiwai@suse.de> (ALSA maintainer; applied
+  the patch)
+- No syzbot / sanitizer tags
 
-**Step 1.3 — Body**
-- Record:
-  - Bug: ALC712 can enter **TV mode** if JD2 is not pulled high
-  - Symptom: “unexpected issues” only — no stack trace, no jack/audio
-    failure description, no machine name
-  - Root cause (author): missing vendor register write during VB I/O
-    init
-  - Version info: none in the message; change is only in
-    `rt712_sdca_vb_io_init()`, so version B only
+Step 1.3: ANALYZE THE COMMIT BODY TEXT
+Record:
+- Bug: SSID `0x103c:0x8c17` is wired only to
+  `ALC287_FIXUP_CS35L41_I2C_2`, so CS35L41 amps are set up but speaker-
+  mute and mic-mute keyboard LEDs do not work.
+- Symptom: mute/mic-mute LEDs stay dead on this 16-aa0xxx variant.
+- Root cause: sibling `0x8c16` already uses
+  `ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX`; `0x8c17` was left on the
+  amp-only quirk.
+- Version info: none in the message.
+- Author’s fix: use the same AA0XXX fixup as `0x8c16`. Tested on the
+  16-aa0xxx.
 
-**Step 1.4 — Hidden bug fix?**
-- Record: Not disguised cleanup. It is a vendor hardware workaround
-  worded as “add a patch setting.” That matches HDA/ASoC codec init
-  quirks, not a refactor.
+Step 1.4: DETECT HIDDEN BUG FIXES
+Record: Not hidden. This is an explicit hardware-quirk correction, not
+cleanup disguised as a fix.
 
-## Phase 2: Diff analysis
+===============================================================
+PHASE 2: DIFF ANALYSIS - LINE BY LINE
+===============================================================
 
-**Step 2.1 — Inventory**
-- Record:
-  - `sound/soc/codecs/rt712-sdca.c`: +1 (write in
-    `rt712_sdca_vb_io_init`)
-  - `sound/soc/codecs/rt712-sdca.h`: +1 (`#define RT712_JD_CTL3 0x0b`)
-  - Scope: single-driver, two-line surgical change
+Step 2.1: INVENTORY THE CHANGES
+Record:
+- File: `sound/hda/codecs/realtek/alc269.c` (1 hunk)
+- Scope: 1 line changed in `alc269_fixup_tbl[]` (SSID string + fixup id)
+- Classification: single-file surgical quirk-table update
 
-**Step 2.2 — Flow**
-- Record: Before, VB init never programmed JD_CTL3. After, every
-  `rt712_sdca_vb_io_init()` call writes NID `RT712_VENDOR_REG` (0x20),
-  index 0x0b, value `0x7778` via existing `rt712_sdca_index_write()`.
-  The write is unconditional (not gated on
-  `FUNCTION_NEEDS_INITIALIZATION`), so it runs on first attach and later
-  re-init. Normal init path, not an error path.
+Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
+Record: Before, `SND_PCI_QUIRK(0x103c, 0x8c17, ...)` selected
+`ALC287_FIXUP_CS35L41_I2C_2` (`cs35l41_fixup_i2c_two` only). After, the
+same SSID selects `ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX`. That fixup
+still calls `cs35l41_fixup_i2c_two`, and also applies speaker pin
+configs, GPIO amp enable, mute-LED coefbit, and GPIO LED setup. Path:
+codec probe via `snd_hda_pick_fixup()`.
 
-**Step 2.3 — Bug mechanism**
-- Record: **Hardware workaround / codec quirk.** Jack-detect pin JD2 is
-  pulled high so the analog frontend stays out of TV (CE) jack mode. The
-  driver already uses JD1 for HP detection (`rt712->jd_src = RT712_JD1`;
-  enum has no JD2). This is the same class of change as HDA Realtek
-  pin/coef quirks.
+Step 2.3: IDENTIFY THE BUG MECHANISM
+Record: [Hardware workaround / audio codec quirk] The wrong existing
+fixup left mute LEDs (and the extra speaker GPIO/pin work from the 2024
+Spectre fixup) unused. The new mapping reuses an already-present fixup.
 
-**Step 2.4 — Fix quality**
-- Record: Minimal and matches surrounding vendor init writes. Regression
-  risk is low: one extra MBQ register write at SoundWire attach.
-  Theoretical risk is a board that needed JD2 floating/low; this driver
-  does not implement JD2 as a jack source, and Realtek submitted the
-  value for all VB parts. Magic `0x7778` is undocumented but typical for
-  this driver.
+Step 2.4: ASSESS THE FIX QUALITY
+Record: Obviously correct: `0x8c16` and `0x8c17` were added together as
+“HP Spectre 16”; `0x8c16` already got the full AA0XXX fixup. One-line
+table change, no new API. Regression risk is low: the author tested
+0x8c17 hardware; the new fixup still runs the old CS35L41 I2C setup.
+Residual risk is that 0x8c17 could differ slightly from 0x8c16 in
+speaker pin/GPIO behavior; that is unverified beyond the author’s test.
 
-## Phase 3: Git history
+===============================================================
+PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
 
-**Step 3.1 — Blame**
-- Record: Insertion point in this tree is after the `func_status` debug
-  print, blamed to `936abb09c1c7c` (“ASoC: rt712-sdca: add the function
-  for version B”, Shuming Fan, 2024-06-20). `RT712_JD_CTL1` came from
-  that same commit. Driver itself landed in `6c39710da75ca` (2023-02).
-  VB init has been in 6.12 since the branch.
+Step 3.1: BLAME THE CHANGED LINES
+Record: In this tree the `0x8c17` line is attributed to `aeeb85f26c3bb`
+(“ALSA: hda: Split Realtek HD-audio codec driver”, 2025-07-09), which is
+a file move. The content originated in `aa8e3ef4fe533` (“ALSA:
+hda/realtek: Add quirks for various HP ENVY models”, 2024-01-26, first
+in v6.9). Both `aa8e3ef4fe533` and `557f6e4ab5ba6` are ancestors of this
+HEAD.
 
-**Step 3.2 — Fixes: tag**
-- Record: None. Missing init is the “bug”; there is no later bisect
-  commit that introduced TV mode.
+Step 3.2: FOLLOW THE FIXES: TAG
+Record: No Fixes: tag. The incomplete 0x8c17 mapping has been in the
+lineage since v6.9; the AA0XXX fixup landed in `557f6e4ab5ba6` (v6.12)
+for 0x8c16 only and left 0x8c17 on the amp-only quirk.
 
-**Step 3.3 — File history**
-- Record: Recent in this tree: `8ad30bd5c1088` (reset at io_init for
-  silent headphone, already backported; that is VA calibration, not this
-  JD2 write). No other JD_CTL3 work. Standalone, not patch X/Y.
+Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
+Record: Related: `557f6e4ab5ba6` added
+`alc245_fixup_hp_spectre_x360_16_aa0xxx` and switched 0x8c16. Recent
+`alc269.c` history is other HP mute-LED quirks. This commit is
+standalone, not patch X/Y.
 
-**Step 3.4 — Author**
-- Record: Jack Yu is a Realtek ASoC contributor (`jack.yu@realtek.com`).
-  Other codec work in this tree includes rt722/rt5682s/rt5645 fixes.
-  Recipients in the original mail include Shuming Fan and other Realtek
-  codec people.
+Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
+Record: Shang En Sim has no other Realtek commits in this history.
+Takashi Iwai applied it. This tree already contains many similar HP
+mute-LED `SND_PCI_QUIRK` backports.
 
-**Step 3.5 — Dependencies**
-- Record: Needs `rt712_sdca_index_write()`, `RT712_VENDOR_REG`, and
-  `rt712_sdca_vb_io_init()` — all present. No new helpers. Applies
-  standalone.
+Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
+Record: Needs `ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX` and the 0x8c17
+table row. Both exist here. `git apply --check` of `bfcdc1c0eaeae`
+succeeded (hunk at offset -491). Standalone.
 
-## Phase 4: Mailing list / external
+===============================================================
+PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
 
-**Step 4.1 — Original discussion**
-- Record: `b4 dig -c dfb8bc1d286fd97b7cf47e3af5df84cfb068d214` →
-  https://patch.msgid.link/20260820092415.2979641-1-jack.yu@realtek.com
-- `b4 dig -a`: **v1 only**, no later revision
-- Thread (mbox): patch + Mark Brown “Applied to … for-7.3”. **No NAK, no
-  review comments, no Cc: stable in review**
-- Takashi Iwai then included it in **sound fixes for 7.3-rc1** (LKML
-  pull, listed under “Codec fixes for … rt712 …”)
+Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
+Record:
+- `b4 dig -c bfcdc1c0eaeae`:
+  https://patch.msgid.link/20260807055139.58707-1-sim@shangen.org
+- `b4 dig -a`: v1 only (2026-08-06)
+- Thread (mbox): Takashi Iwai “Applied to for-next branch now. Thanks.”
+  No NAK, no stable request, no design concerns.
 
-**Step 4.2 — Recipients (`b4 dig -w`)**
-- Record: `broonie@kernel.org`, `lgirdwood@gmail.com`, `alsa-devel@alsa-
-  project.org`, Realtek codec engineers (`shumingf`, `flove`,
-  `oder_chiou`, `derek.fang`), MediaTek `Trevor.Wu`. ASoC maintainers
-  were on To.
+Step 4.2: CHECK WHO REVIEWED THE PATCH
+Record: `b4 dig -w`: To Jaroslav Kysela, Takashi Iwai; Cc linux-sound@.
+Maintainer applied it.
 
-**Step 4.3 — Bug report**
-- Record: No bugzilla/syzbot/user report. Symptom stays vendor-stated
-  “unexpected issues.”
+Step 4.3: SEARCH FOR THE BUG REPORT
+Record: No bugzilla/syzbot link. Evidence is the author’s hardware test
+in the commit body. WebFetch of lore/msgid.link returned 403; the thread
+was recovered via `b4 dig -m`.
 
-**Step 4.4 — Series**
-- Record: Standalone 1/1. Later mainline `d56fe35` (“reconfigure PLL2 to
-  fix calibration time-out”) is a **different** Jack Yu fix, not a
-  prerequisite or revert of JD_CTL3.
+Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
+Record: Standalone. Sibling work is `557f6e4ab5ba6` (already in this
+tree).
 
-**Step 4.5 — Stable list**
-- Record: lore.kernel.org HTTP is 403 from this environment. No stable-
-  thread evidence found via b4. UNVERIFIED: whether anyone already asked
-  stable@ for this SHA.
+Step 4.5: CHECK STABLE MAILING LIST HISTORY
+Record: No lore.kernel.org/stable discussion of this subject was found.
 
-## Phase 5: Semantic / call chain
+===============================================================
+PHASE 5: CODE SEMANTIC ANALYSIS
+===============================================================
 
-**Step 5.1 — Functions**
-- Record: `rt712_sdca_vb_io_init()` only (plus header define).
+Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
+Record: Table `alc269_fixup_tbl[]` only. No function body edited.
+Consumed fixup: `alc245_fixup_hp_spectre_x360_16_aa0xxx`.
 
-**Step 5.2 — Callers**
-- Record: `rt712_sdca_io_init()` → if `version_id != RT712_VA` →
-  `rt712_sdca_vb_io_init()`. `rt712_sdca_io_init()` is called from
-  `rt712_sdca_update_status()` in `rt712-sdca-sdw.c` when the SoundWire
-  slave is `SDW_SLAVE_ATTACHED` and `hw_init` is false. That is
-  boot/resume enumeration, not a syscall hot path.
+Step 5.2: TRACE CALLERS
+Record: `alc269_probe()` → `snd_hda_pick_fixup(..., alc269_fixup_tbl,
+alc269_fixups)` (around line 8517). That is HD-audio codec probe, not a
+hot path or IRQ path.
 
-**Step 5.3 — Callees**
-- Record: `rt712_sdca_index_write()` → `regmap_write()` on `mbq_regmap`.
-  Same helper used throughout this file.
+Step 5.3: TRACE CALLEES
+Record: New fixup calls `snd_hda_apply_pincfgs`,
+`snd_hda_override_conn_list`, `alc_update_gpio_data`,
+`cs35l41_fixup_i2c_two`, `alc245_fixup_hp_mute_led_coefbit`,
+`alc245_fixup_hp_gpio_led`. Old quirk only called
+`cs35l41_fixup_i2c_two`.
 
-**Step 5.4 — Reachability**
-- Record: Yes, from userspace-visible audio: plugging/using headset on
-  Intel SoundWire laptops with RT712 VB (ACPI match tables exist for
-  MTL/TGL/LNL in this tree). Unprivileged users do not program the
-  register; they hit it by using audio after attach.
+Step 5.4: FOLLOW THE CALL CHAIN
+Record: PCI/HDA enumeration at boot on this laptop. Userspace mute keys
+then drive the LED hooks. Reachable on that hardware without extra
+privileges.
 
-**Step 5.5 — Similar patterns**
-- Record: Many sibling vendor `rt712_sdca_index_write()` calls in the
-  same function. No other `TV mode` / `JD_CTL3` in this tree. `0x7778`
-  appears in HDA `ALC256_FIXUP_ASUS_HPE` as an unrelated EAPD coef —
-  same number, different codec, not this bug.
+Step 5.5: SEARCH FOR SIMILAR PATTERNS
+Record: Same file already maps 0x8c16 to AA0XXX. Many nearby HP
+`SND_PCI_QUIRK` mute-LED entries. This is the same pattern, for the
+missed sibling SSID.
 
-## Phase 6: This tree (6.12.y)
+===============================================================
+PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
 
-**Step 6.1 — Buggy code present?**
-- Record: Yes. `rt712_sdca_vb_io_init()` at
-  `sound/soc/codecs/rt712-sdca.c:1721` has the exact pre-patch context.
-  `RT712_JD_CTL3` is **not** defined. `git merge-base --is-ancestor
-  dfb8bc1d… HEAD` fails (commit not here). `936abb09c1c7c` **is** an
-  ancestor. Bug/missing workaround exists since VB support (v6.11-era,
-  in 6.12).
+Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
+Record: Yes. `sound/hda/codecs/realtek/alc269.c:6957`:
+`SND_PCI_QUIRK(0x103c, 0x8c17, "HP Spectre 16",
+ALC287_FIXUP_CS35L41_I2C_2)`
+Target enum, function, and `alc269_fixups[]` slot all exist. `git merge-
+base --is-ancestor bfcdc1c0eaeae HEAD` is false, so the fix is not in
+this tree yet. Incomplete 0x8c17 mapping dates to v6.9; 6.18 still has
+it.
 
-**Step 6.2 — Backport difficulty**
-- Record: **Clean apply with line offset.** Mainline hunk is ~1779; here
-  the same lines are ~1734. Context strings match; `RT712_JD_CTL3` is
-  free in the header.
+Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
+Record: Clean apply (`git apply --check` succeeded). File layout matches
+mainline (`sound/hda/codecs/realtek/alc269.c`). No rework needed.
 
-**Step 6.3 — Related fixes already here?**
-- Record: `8ad30bd5c1088` resets the codec for VA silent headphones. It
-  does not pull JD2 / program JD_CTL3. No substitute for this
-  workaround.
+Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
+Record: `557f6e4ab5ba6` is here (0x8c16 + AA0XXX function). 0x8c17 is
+still on the amp-only quirk. No substitute fix.
 
-## Phase 7: Subsystem
+===============================================================
+PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
 
-**Step 7.1**
-- Record: ASoC codec driver (`sound/soc/codecs/`). Criticality:
-  **IMPORTANT** for SoundWire Intel laptops with RT712; not core mm/fs.
-  Peripheral relative to the whole kernel, but a shipping laptop codec.
+Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
+Record: [ALSA HD-audio Realtek] [IMPORTANT] Common laptop codec path;
+this change is one HP SSID only.
 
-**Step 7.2**
-- Record: Driver is mature in 6.12 (added 2023, VB in 2024). This is a
-  late vendor init correction, not churn from a brand-new subsystem.
+Step 7.2: ASSESS SUBSYSTEM ACTIVITY
+Record: High. Recent `alc269.c` log is mostly HP/Lenovo/ASUS quirk
+additions, including mute LEDs. Mature quirk table, not experimental
+code.
 
-## Phase 8: Impact and risk
+===============================================================
+PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
 
-**Step 8.1 — Who**
-- Record: Config `SND_SOC_RT712_SDCA_SDW` + RT712/713/716/717 **version
-  B** on SoundWire (Intel MTL/TGL/LNL match files in-tree). Not
-  universal.
+Step 8.1: DETERMINE WHO IS AFFECTED
+Record: Driver-specific / platform-specific: HP Spectre x360 16-aa0xxx
+with PCI SSID 0x103c:0x8c17 only.
 
-**Step 8.2 — Trigger**
-- Record: Device attach / `io_init`. Common for those machines. Not a
-  race. Not unprivileged memory-safety.
+Step 8.2: DETERMINE THE TRIGGER CONDITIONS
+Record: Every probe of that codec (boot). Mute/mic-mute keys then fail
+to light LEDs. Unprivileged users hit it on that laptop. Not a race.
 
-**Step 8.3 — Failure mode**
-- Record: Author did not specify. For Realtek PC codecs, TV mode
-  typically means **wrong jack detect / headset routing / analog
-  misbehavior**, not an oops. Severity **MEDIUM** as described, **HIGH**
-  if it silences the jack on real VB laptops. Exact user symptom is
-  **not independently verified**.
+Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
+Record: Mute/mic-mute LEDs do not work. The unused AA0XXX path also has
+speaker pin/GPIO amp setup that 0x8c16 already gets. Not a panic,
+deadlock, or corruption. Severity MEDIUM for that hardware; this is the
+documented audio-codec quirk exception.
 
-**Step 8.4 — Benefit vs risk**
-- Record: Benefit: hardware init correction from the vendor, 2 lines,
-  same class as HDA/USB quirks that stable takes. Risk: very low (one
-  init write, no locking/API change). Ratio favors backport.
+Step 8.4: CALCULATE RISK-BENEFIT RATIO
+Record: Benefit high for those users (LEDs, and the same speaker fixup
+as 0x8c16). Risk very low: 1-line table change, same fixup already used
+by sibling SSID, maintainer-applied, author-tested. Ratio strongly
+favors backport.
 
-## Phase 9: Synthesis
+===============================================================
+PHASE 9: FINAL SYNTHESIS
+===============================================================
 
-**Evidence FOR**
-- Two-line vendor codec workaround; hardware-quirk exception in the
-  stable rules
-- Target function and surrounding init sequence exist in 6.12
-- Applies with offset only
-- ASoC maintainer applied it; it went in **sound fixes for 7.3-rc1**
-- RT712 is used on current Intel SoundWire laptops; this tree already
-  took a related headphone-init fix
-- Driver defaults to JD1; pulling unused JD2 high is consistent with
-  PC/laptop use
+Step 9.1: COMPILE THE EVIDENCE
+FOR:
+- Real hardware bug on a shipping HP Spectre x360 16-aa0xxx SSID
+- Classic `SND_PCI_QUIRK` audio-codec quirk correction (stable
+  exception)
+- Buggy row and target fixup both exist in 6.18.53
+- One-line, applies cleanly, no new API
+- Author tested; Takashi Iwai applied
+- Sibling 0x8c16 already uses this fixup here
+- This tree already takes similar HP mute-LED quirks
 
-**Evidence AGAINST**
-- Commit text is vague (“may cause unexpected issues”); no reporter, no
-  machine, no crash
-- Not a UAF/deadlock/corruption class bug
-- Magic coef with no bit documentation
-- VB-only (VA machines, e.g. some Lunar Lake ThinkPads, are unaffected)
+AGAINST:
+- No crash/security/corruption
+- No Fixes:/Cc: stable (not a negative by itself)
+- Author is not the subsystem maintainer (mitigated by Iwai applying it)
+- Theoretical 0x8c16 vs 0x8c17 hardware difference (mitigated by test on
+  0x8c17)
 
-**Unresolved**
-- Exact user-visible TV-mode symptom (UNVERIFIED)
-- Whether stable@ already discussed this SHA (lore HTTP 403)
+UNRESOLVED:
+- Could not HTTP-fetch lore (403); thread recovered via b4 mbox
+- No independent second-user report
 
-**Stable rules checklist**
-1. Obviously correct and tested? **PASS** — one existing helper write;
-   vendor + Mark Brown; no NAK
-2. Real bug affecting users? **PASS** — missing hardware init that lets
-   the codec enter the wrong analog mode (vendor statement; typical
-   jack/headset breakage, not proven with a public report)
-3. Important? **PASS** under the **audio codec quirk** exception
-   (headphone/JD misconfig), not as a panic/CVE
-4. Small and contained? **PASS** — +2 lines, one driver
-5. No new features/APIs? **PASS** — existing init path, existing write
-   helper
-6. Can apply to this tree? **PASS** — context matches; JD_CTL3 unused
+Step 9.2: APPLY THE STABLE RULES CHECKLIST
+1. Obviously correct and tested? PASS — one-line SSID remap; author
+   tested; maintainer applied
+2. Fixes a real bug that affects users? PASS — mute LEDs dead on this
+   SSID
+3. Important issue? PASS under the audio-codec quirk exception (MEDIUM,
+   not a panic)
+4. Small and contained? PASS — 1 line, one table
+5. No new features or APIs? PASS — reuses existing fixup
+6. Can apply to the local tree? PASS — `git apply --check` succeeded;
+   prerequisites present
 
-**Exception category:** Hardware workaround / audio codec quirk (JD pin
-config), analogous to HDA Realtek coef/pin quirks.
+Step 9.3: CHECK FOR EXCEPTION CATEGORIES
+Record: Hardware quirk / audio codec `SND_PCI_QUIRK` (HP mute LED +
+pin/GPIO). This class is treated as stable material.
 
-This is a contained vendor register quirk for hardware that 6.12 already
-supports. Benefit is correct analog/jack behavior on RT712 VB; risk is a
-single init write. It should be backported to this tree.
+Step 9.4: MAKE YOUR DECISION
+This tree already has the incomplete 0x8c17 mapping and the AA0XXX
+fixup. The commit only points this SSID at that fixup. That is a small,
+tested hardware quirk and should be backported.
+
+What the commit solves: 0x8c17 currently only programs CS35L41 amps, so
+mute LEDs do not work. After the change it matches 0x8c16.
+
+Risk vs benefit: very low risk, clear user-visible fix on that laptop.
+No missing prerequisites in 6.18.53.
 
 Verification:
-- [Phase 1] Parsed subject/tags/body from the provided message and
-  GitHub `dfb8bc1d286fd97b7cf47e3af5df84cfb068d214`
-- [Phase 2] Diff is +1 write in `rt712_sdca_vb_io_init` and +1 `#define
-  RT712_JD_CTL3 0x0b`
-- [Phase 3] `git blame` on this tree: insertion point from
-  `936abb09c1c7c` (2024-06-20); `git merge-base --is-ancestor
-  936abb09c1c7c HEAD` true
-- [Phase 3] `git merge-base --is-ancestor
-  dfb8bc1d286fd97b7cf47e3af5df84cfb068d214 HEAD` false (not in 6.12)
-- [Phase 3] `git log --oneline -20 -- sound/soc/codecs/rt712-sdca.c`:
-  related `8ad30bd5c1088` is a different VA reset fix
-- [Phase 4] `b4 dig -c dfb8bc1d…` / `-a` / `-w` / `-m`: v1, alsa-devel,
-  applied by Mark Brown to for-7.3; no NAK
-- [Phase 4] LKML: Takashi listed this under 7.3-rc1 sound fixes
-- [Phase 4] lore.kernel.org WebFetch/curl: 403
-- [Phase 5] Callers: `rt712_sdca_update_status` → `rt712_sdca_io_init` →
-  `rt712_sdca_vb_io_init`; intel ACPI match files reference rt712
-- [Phase 6] `git describe HEAD` / `make kernelversion`: 6.12.111; hunk
-  context present; `RT712_JD_CTL3` absent
-- [Phase 8] Failure mode: TV-mode analog/JD misbehavior (vendor); not a
-  kernel oops — UNVERIFIED exact symptom
-- UNVERIFIED: datasheet meaning of `0x7778`; whether every VB board
-  needs it; stable@ discussion
+- [Phase 1] Parsed tags: Link to msgid; SOBs Shang En Sim and Takashi
+  Iwai; no Fixes/Reported-by/Cc:stable
+- [Phase 2] Diff: 1 line in `alc269_fixup_tbl`; 0x8c17
+  `ALC287_FIXUP_CS35L41_I2C_2` →
+  `ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX`
+- [Phase 2] Confirmed AA0XXX still calls `cs35l41_fixup_i2c_two` plus
+  mute-LED/GPIO/pin setup (`alc269.c:3550-3590`)
+- [Phase 2] Confirmed old quirk is amp-only
+  (`[ALC287_FIXUP_CS35L41_I2C_2]` → `cs35l41_fixup_i2c_two`)
+- [Phase 3] `git blame -L 6954,6960`: 0x8c17 line from split commit
+  `aeeb85f26c3bb`; origin `aa8e3ef4fe533` (v6.9)
+- [Phase 3] `git merge-base --is-ancestor aa8e3ef4fe533 HEAD` true;
+  `557f6e4ab5ba6` true; `bfcdc1c0eaeae` false
+- [Phase 3] `git show 557f6e4ab5ba6`: added AA0XXX for 0x8c16, left
+  0x8c17 unchanged
+- [Phase 4] `b4 dig -c bfcdc1c0eaeae`:
+  patch.msgid.link/20260807055139.58707-1-sim@shangen.org
+- [Phase 4] `b4 dig -a`: v1 only
+- [Phase 4] `b4 dig -w`: Kysela, Iwai, linux-sound
+- [Phase 4] `b4 dig -m`: Iwai applied to for-next; no NAK
+- [Phase 4] WebFetch lore/msgid.link: 403; used mbox instead
+- [Phase 4] Stable lore search: no discussion of this patch
+- [Phase 5] `alc269_probe()` calls `snd_hda_pick_fixup(...,
+  alc269_fixup_tbl, ...)`
+- [Phase 6] `git describe HEAD`: p-6.18-1-g03b85e06ca9bf; `make
+  kernelversion`: 6.18.53; branch pending-6.18
+- [Phase 6] Buggy line at `alc269.c:6957`; 0x8c16 already AA0XXX at 6956
+- [Phase 6] `git show bfcdc1c0eaeae | git apply --check`: succeeded at
+  offset -491
+- [Phase 8] Failure mode: mute LEDs inoperative on SSID 0x8c17; severity
+  MEDIUM; quirk exception applies
+- UNVERIFIED: HTTP lore body (403); whether any 0x8c17 unit differs
+  electrically from 0x8c16 beyond the author’s test
 
 **YES**
 
- sound/soc/codecs/rt712-sdca.c | 1 +
- sound/soc/codecs/rt712-sdca.h | 1 +
- 2 files changed, 2 insertions(+)
+ sound/hda/codecs/realtek/alc269.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/rt712-sdca.c b/sound/soc/codecs/rt712-sdca.c
-index d8b40663fa92f..a799b8aab73aa 100644
---- a/sound/soc/codecs/rt712-sdca.c
-+++ b/sound/soc/codecs/rt712-sdca.c
-@@ -1786,6 +1786,7 @@ static void rt712_sdca_vb_io_init(struct rt712_sdca_priv *rt712)
- 	dev_dbg(dev, "%s jack/mic/amp func_status=0x%x, 0x%x, 0x%x\n",
- 		__func__, jack_func_status, mic_func_status, amp_func_status);
- 
-+	rt712_sdca_index_write(rt712, RT712_VENDOR_REG, RT712_JD_CTL3, 0x7778);
- 	/* DMIC */
- 	if ((mic_func_status & FUNCTION_NEEDS_INITIALIZATION) || (!rt712->first_hw_init)) {
- 		rt712_sdca_index_write(rt712, RT712_VENDOR_HDA_CTL, RT712_DMIC2_FU_IT_FLOAT_CTL, 0x1526);
-diff --git a/sound/soc/codecs/rt712-sdca.h b/sound/soc/codecs/rt712-sdca.h
-index 7ab7d5feb50a2..46740281a5c17 100644
---- a/sound/soc/codecs/rt712-sdca.h
-+++ b/sound/soc/codecs/rt712-sdca.h
-@@ -74,6 +74,7 @@ struct rt712_dmic_kctrl_priv {
- #define RT712_JD_PRODUCT_NUM			0x00
- #define RT712_ANALOG_BIAS_CTL3			0x04
- #define RT712_JD_CTL1				0x09
-+#define RT712_JD_CTL3				0x0b
- #define RT712_IO_CTL				0x0c
- #define RT712_LDO2_3_CTL1			0x0e
- #define RT712_PARA_VERB_CTL			0x1a
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 5098d3f375316..97ab2269dc472 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6969,7 +6969,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8bf0, "HP", ALC236_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8c15, "HP Spectre x360 2-in-1 Laptop 14-eu0xxx", ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX),
+ 	SND_PCI_QUIRK(0x103c, 0x8c16, "HP Spectre x360 2-in-1 Laptop 16-aa0xxx", ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX),
+-	SND_PCI_QUIRK(0x103c, 0x8c17, "HP Spectre 16", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x103c, 0x8c17, "HP Spectre x360 2-in-1 Laptop 16-aa0xxx", ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX),
+ 	SND_PCI_QUIRK(0x103c, 0x8c21, "HP Pavilion Plus Laptop 14-ey0XXX", ALC245_FIXUP_HP_X360_MUTE_LEDS),
+ 	SND_PCI_QUIRK(0x103c, 0x8c2d, "HP Victus 15-fa1xxx (MB 8C2D)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8c30, "HP Victus 15-fb1xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
 -- 
 2.53.0
 
