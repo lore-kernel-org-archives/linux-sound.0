@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792431984;
-	b=z/0Uk/GSqkA4B9lThlTbgwVwD+Z7DnYwfOm5RSO4McloOrHAIZpY6M0TDEHOjHKygheI
-	 j3UXSyw7HVFRaawssqS2/h8KQhQUhf3Hx5W8KKipGsf+IzJ7gZWNZ2t1tnV4jL7OunjSs
-	 wyv1wuvJz7jKfI3cCpX03xH1D8QjRAreRwIxBIosKlPGITqOvhT2R1hba8hRM0wj5+xEK
-	 UbyeMy3fyVgdWZdTUPRbciN/aWCAWtlnkDEhKejxqe/I7Qagdn9b8NdKKnjJgjdtcKvlX
-	 xbJ54MuIHHfynhFVcqEClYww4j3q6q6REupEorR+Ff8Nec2Dn+vvhzlWmkZY2MyOnNg==
+	t=1792431986;
+	b=ecAziHdSPTlnSM5qzmhw0//XiwW2ngB639EW/havanjKeBGRdveqD/5bMTS01P46hryJ
+	 LqZ6H8oOMPryEGELUdOY8sdLmcuOE06hZ0rY2xsUTo1jUCXCsE6o56hovdBWZd0MsGGmR
+	 bljHNvdIoNRlJrGyX+2AivUv5AzlL4z5mer8xuycwgx3iCUmTr0bqSJkOgIuC2ie6+OHW
+	 wTbukIOzV7rT8XI3HwMVOON0AzTLZGn8YvmVi+XktQI9D3r8HBiBOaG4GmZLfMkpn9rfL
+	 Kb+WQjYXTCk3H2BFqhGbYheeZh00X0IBMT6M7zn6PgQIwCd+KfY+as8JDUvygHNRZ9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792431984;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792431986;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=TJbxrlIxGFbTqxo7ja0zKyGEZWI2mxh8uSPXQLCwGk4=;
-	b=Ttk1YEB1cK/9O1fMADoMiUF7Du42U3LX0SAVOoaBGai+xVD1//fQgFeg1RTtw1Q+8g/v
-	 vLJ+iR18TXZo0kJSbOLaAOm/Ip3ChFA19ZG4u2jBMj4AFZeK/Q2ztwdzsCCJ65htOhyr+
-	 MhjYkVeTyt3qA3AD6pKQ3bwz+eFfIsE0zkqVwnQGUTTXShabuZWH0l5diDnsrcZ9LhTJm
-	 uQKW0Ah5CPp6wBDACuGGxLwQBz2f6QNGUSUmDLgvkJrQMIQYQ9svtgQ/v5q7xPIQa6yXS
-	 Eo6GY8o5Shjz+GzKoYHNP3XKGzpBinnzU9t2wmOwFGaPqhMcQ5JsVwot3PTDsB4YhoQ==
+	bh=rUn5zgLXzXgYU1XM2F2Di+NsA75AJE+txiiuJMlrB6o=;
+	b=Csc3BnGCG2LBTkjVTqmBX0bNU4fZeZXWMdrkmQleWixm17EvHivN0P+XsMbAqoukujf/
+	 dqBydvRJ9HPwKb/knfT7yrEhYyBks06DT6vc4yJsqjCO+mYh/PdY/3sYwGa1pQInrzSub
+	 0jLYA6oT4L3P/gMdsCu0586PjSRSTK1MBGjUxbNNEZOlJMW+8hcXswj/JgxO5IEkAESEl
+	 /VPNo2yws2i9IMv3MLFGZ9pfkczuDXWJJF3IpAqHoRSfIHenwLKU5/ky4R2+/muLAYGMO
+	 kknbFHQKugKgooXqftkoWbxFkenIe6b4tCAkgWzefSik6ZHNwoBOAsn6pwazTN2cvhg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KNXCiS4j;
-	arc=none smtp.remote-ip=209.85.222.53
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=K0fY0zjv;
+	arc=none smtp.remote-ip=209.85.217.46
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC83606A331
-	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 17:46:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AC83606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978CD606A32F
+	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 17:46:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 978CD606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KNXCiS4j
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-988bb309c2bso1256850241.1
-        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 10:46:23 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=K0fY0zjv
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-7c3b75caad1so1213127137.0
+        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 10:46:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792431982; x=1793036782; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792431984; x=1793036784; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=TJbxrlIxGFbTqxo7ja0zKyGEZWI2mxh8uSPXQLCwGk4=;
-        b=KNXCiS4jR7GFgrb6MqrW6jIWl2Y5R8o5EzVPkK6wKTTMMRDpTehrA/tR2drA6Buq8z
-         sPUjmNRV7naT7ZwJ+crbkgBn7wExzWwugLTNNp7ydoJKU00ClZB52X01y/V5uH2NAaZR
-         Uw/e2iteSiqu8sxXqcan0n7YpLT4XRfX+0NiskQLCB1MUY9cvYnCjVuZ5/ONnzcnIrHs
-         N/eXJ4lTRdS3BQCx+NS7wDx3XjWmwgO0hpz1K2piy/3iSKdOtPJl+AMdYRgO/AcyInGW
-         iY2+kND34rFDOaMCLsoavfyG11SF2DFz33sF3klnvXe0arTeAagOEdKX/0Pcm2h0VObi
-         DxSQ==
+        bh=rUn5zgLXzXgYU1XM2F2Di+NsA75AJE+txiiuJMlrB6o=;
+        b=K0fY0zjv75L6boTLJPgaLTaUAl9vhH6E3F/wvseIaw4gATYW3c+NPFhVhi0VVVRsig
+         gYV6bmxEKCMQMIQ++RCEoK9WQctqPw+d6Xkv8ViD4iS94D2ddVa8/E7E9+mKw97j6T0w
+         9hlOTm2TtHiuEDkz0CyOxhYrB79n+Kt9hpjMY2Px/Yq439PfNiqD1coLpzI6DD6nyOVG
+         1howVBB+pKrRlhPoxdGp85XsOFufY8YsiNqE6ie4NMlhfpdbm/B/cZBM3jwgrHrswd2V
+         yrA3XJAdcKjVRh6/PU+qFkDnJ4Bz1L4WT4CHca2RB6KKXsSf28ndcYPnp/AAV5HNN5YT
+         yyMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792431982; x=1793036782;
+        d=1e100.net; s=20260707; t=1792431984; x=1793036784;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TJbxrlIxGFbTqxo7ja0zKyGEZWI2mxh8uSPXQLCwGk4=;
-        b=KvUwQURcw0zn7UktlUc81WvLUMtfH2F7CbFxcAjAqSuiBEkfQTr9lpsDL0DukXG6Oz
-         HHoAvnOfwxcOrlWW1p83z+MGb0MtuAufZqN8e/CXM/zO3sDaW+23XDFg4G7kBICemENq
-         D8ExkvGwk+sF2uapYdBRAyjYdQM4R6R2AGo568REJ288GECGVj3vxxj3ax4rkN+Q41F5
-         nfE0G2+rzcQMjdLXQmJaUwcgSHQ/hDzhZAO3Is6aOYqr/hBTB6/0AAsckRDD9mg3xkhv
-         /oJQujD79+rEDS9mGlpjmzP7DptJ//gRlQO2n0jTL1CWArPsQTidbK3FLsvtk5Wd9Fjz
-         y8hQ==
-X-Forwarded-Encrypted: i=1; AKwUvBze+oIYa8+Z/pC8t/23EmpRGPXT8gkMBWhygQszxG53fWrtoc4G8C1vDnVu7MsSxjsSt/Wi6+dplAfdjQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYL4b3G3jS2BJYFv2a0KwQkH0BzJ4cWUsg7yPD8cdUJ4PCU2P9QQ
-	suiFBNToQfw4/B7xLzik7H2sQJpe+2MzdC81S4bWvx03zftzEegSpoT4
-X-Gm-Gg: AYBFou2BinkbgQ32u+PgKzzvOCGtz22D1TPsKRE7degh6LZmps7gGzVZQ6PRBOsRTYB
-	bcVREqeWUcdoWfrriQS/NmEvHmiiIu1tWDNzNKF/UuLXhNck0CKBy4tNRo+9PWySbmqpf2cjUIq
-	fG3K2kfJ9TcBPXkFNwxSGx67E57YqLItQlZ/3v5NC8fFvmq3TkiKwKRpDZZ3IXvPf6FOEFI9vLq
-	3nwEA8rHxiObMGMGrpQDlg/nJyTZ8AZbKMN+X9EjkRiMofSw04OuEJWr/7pynXjwPAJ8Nkf9zBi
-	6luCyxKvdmB9qvtBW/ZJyEV3X2kuezDGORO4FeU4a2wjF123v3xZs6Crbg0PGVd8YrMU+JZPQyg
-	GO0aAhOSZ6bez5GpvWIuAi2DBgNlde6OokqSBuuWDfUEOkJGwQCiuj6uyFX/V44bESyJLhyuuMF
-	F8XGezV5BPH+rpuD2SbElr5tuSx0CyOOj0X3sI8T1kfMst8ERHd11v/6Yu+JHvM3mp+SfoRScQH
-	W8t+6BarUnPJqKTgg2xySb5kJ2pAerG+0NwzRZLn7HUjGFL2tRjW/XW3y7A2Qfkyr4DyL+QSpGI
-	1M9quruVbewvjsjDtVXskciTiSgZlvOo
-X-Received: by 2002:a05:6102:5346:b0:7c2:7a0:ae28 with SMTP id ada2fe7eead31-7cc36ae3f00mr2580379137.30.1792431982096;
-        Mon, 19 Oct 2026 10:46:22 -0700 (PDT)
+        bh=rUn5zgLXzXgYU1XM2F2Di+NsA75AJE+txiiuJMlrB6o=;
+        b=iozhq5T/2F7oooxryFb87slzlOUMKQON8he5MRimPX4a6t5vb/w1cGJTOnUvTBTCDV
+         +CP7C0Mggn+dIEyk5TTRkI06aPPVLP+PCJR4Iy6mX+HsuRqGkmXWnUFjfc6Opek0MUZq
+         l1vagj/VAMvNjySAZqGGH5l82XCOFro6cXgdJfYuiCBAKTStJFhTadxPxbt8x24lLk2v
+         NFdKRLGScvNpuG/9dcaqlppHLCTjnQQauKpYLf3rNIBGUAwe2FyHJtje3pUx3R2Encqm
+         JJLsrBDYdVrep869FA1gn5l6CCAO7XAyPRnTN4Y3Hr8K3+WWYrjBp98U/09sSqAGkV10
+         Z7Ww==
+X-Forwarded-Encrypted: i=1; AKwUvBxFvLbjl4bmJvlpCQfW/2GFOFEyQo/z/ZQV3gtTa2Tbhxm1Y+Buf5UJTWGgpToB2cPUz8hIl4vdf1ssQg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLDC+gvbm1f+OxqzdOMXPg9JUcWppcFSarNGSXnSQWV69VA6CaS
+	vFMGJPvLUlBzfj5UEOgLGxFny3cy389zg0uB7lgZ+oMFvirgBToNua3B
+X-Gm-Gg: AYBFou22mWoLaiLl2Tjy5WWKG1sbM9w3q7S4LrPcT1ix1grXIaXDo/zX5vCnOOFIEaH
+	79/PYK6lc2XGLItTAMWgyfpbdVlA4rmKljPpw/AY9UjKjjZ7wL0rF8pRJlAyJRNOZAw71QUyzs2
+	VzF1xcRtwz9tr+xeV2SLhXrV4UhJKHqfIxHsHjOm9ScYpiWDzwuJptkNV/qET5FZ+baYWH1Gndf
+	rO0ejeTc9RBrNk2gjFH+2kzHpsIJ1lt77DBnHx6o21QSrT/pefbflido8aaa2n5gWRqfQFDSOys
+	kOR7qarbxF0TEzcbdIJgq5A0FJpZOztV4aZ2XDNENqMGcWiqwVqN4r38/ZcbUoOd9u4ZnEsJjPf
+	V5wGVvI0pZDJ0NFKmg1mpJSjdn8D8vIMjwBsmTm7NEinmgvCjuxNf9afKwwaUffI6+pGcWnLD3U
+	TsvfFq59oDOqPIHOSOVbMt/YMcwsh5o/XbiV5rmSjGC6GkieQqZ7sar2HU0Y4RvNPhcn8TkmXZc
+	ccRc16+h92PtW32Pen8nma9iHgL3qhnfr1iMitMqoswncyc+txyMWSjvXDR7PlUE+bPkqmYbp2q
+	AdL8bft/pC0bTR8De/AAF9LsiZXXSu8=
+X-Received: by 2002:a05:6102:38ca:b0:7cc:3246:3095 with SMTP id ada2fe7eead31-7cc36b3d24emr2846661137.34.1792431984285;
+        Mon, 19 Oct 2026 10:46:24 -0700 (PDT)
 Received: from alsa-dev.int.suenodeluz.com.do ([74.244.193.177])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-990bb3adfd0sm790707241.12.2026.10.19.10.46.20
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-990bb3adfd0sm790707241.12.2026.10.19.10.46.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 10:46:21 -0700 (PDT)
+        Mon, 19 Oct 2026 10:46:23 -0700 (PDT)
 From: Frank van de Pol <fvdpol@gmail.com>
 To: tiwai@suse.de,
 	perex@perex.cz
@@ -87,9 +87,9 @@ Cc: corbet@lwn.net,
 	fvdpol@gmail.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 05/13] ALSA: jockey3: Add KUnit tests for the Ploytec codec
-Date: Mon, 19 Oct 2026 13:44:37 -0400
-Message-ID: <20261019174445.1931263-6-fvdpol@gmail.com>
+Subject: [PATCH v5 06/13] ALSA: jockey3: Add optimized codec variants
+Date: Mon, 19 Oct 2026 13:44:38 -0400
+Message-ID: <20261019174445.1931263-7-fvdpol@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261019174445.1931263-1-fvdpol@gmail.com>
 References: <20261019174445.1931263-1-fvdpol@gmail.com>
@@ -104,1776 +104,809 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add KUnit tests to confirm that the bit-plane encoder and decoder are
-correct.
+Add 64-bit and 32-bit implementations of the Ploytec encoder and
+decoder, and make them the default.
 
-The codec is a bit permutation between ALSA's S24_3LE frames and the
-Ploytec wire format, and it has to give the same result on every
-architecture. That becomes especially important with the optimized
-implementations in the next patch. They work on whole words rather than
-single bits, so they are not obviously correct by reading, and their
-result must not depend on the byte order or the word size of the
-machine. The tests use fixed vectors and a seeded generator, so every
-architecture, big-endian or little-endian, runs identical data.
+The portable implementation moves one bit at a time. The new variants
+spread and gather the bits a word at a time, with lookup tables for the
+encoder and multiplications for the decoder. The comment in
+ploytec_codec.c derives the constants. A build compiles exactly one
+implementation: the 64-bit or the 32-bit one by word size, or the
+portable one when SND_USB_JOCKEY3_REFERENCE_CODEC is set.
 
-The tests land before the optimized implementations, so that those are
-added against a suite that already passes on the readable reference
-implementation.
+The lookup tables are built once at module load, so the driver gets an
+explicit module_init() in place of module_usb_driver().
 
-The tests check the codec against a declarative bit map of the wire
-format, not against a second copy of the conversion loops. A bit
-permutation is linear over GF(2). The tests establish that linearity
-holds and measure the result for every basis vector, which together
-determine the output for every possible input. Golden vectors from an
-independent Python model of the format guard against the codec and the
-bit map agreeing on a wrong layout.
-
-Further cases cover batching, buffer overruns, unaligned buffers and
-the wire bytes and bits the device does not use.
-
-The codec functions are not exported, so the test object is linked into
-the driver module. Nothing in the codec is changed to make it testable.
-
-ploytec_codec_test_vectors.h is generated; its header comment says how.
+The KUnit suite from the previous patch validates whichever
+implementation the build selected. This patch adds one test to it, which
+checks that the preprocessor chain selected the implementation the
+configuration asks for.
 
 Assisted-by: LLM
 Signed-off-by: Frank van de Pol <fvdpol@gmail.com>
 ---
- sound/usb/jockey3/.kunitconfig                |  12 +
- sound/usb/jockey3/Kconfig                     |  26 +
- sound/usb/jockey3/Makefile                    |   4 +
- sound/usb/jockey3/ploytec_codec_kunit.c       | 855 ++++++++++++++++++
- .../usb/jockey3/ploytec_codec_test_vectors.h  | 793 ++++++++++++++++
- 5 files changed, 1690 insertions(+)
- create mode 100644 sound/usb/jockey3/.kunitconfig
- create mode 100644 sound/usb/jockey3/ploytec_codec_kunit.c
- create mode 100644 sound/usb/jockey3/ploytec_codec_test_vectors.h
+ sound/usb/jockey3/Kconfig               |  23 +-
+ sound/usb/jockey3/jockey3.c             |  32 +-
+ sound/usb/jockey3/ploytec_codec.c       | 508 +++++++++++++++++++++++-
+ sound/usb/jockey3/ploytec_codec.h       |  13 +
+ sound/usb/jockey3/ploytec_codec_kunit.c |  64 ++-
+ 5 files changed, 620 insertions(+), 20 deletions(-)
 
-diff --git a/sound/usb/jockey3/.kunitconfig b/sound/usb/jockey3/.kunitconfig
-new file mode 100644
-index 0000000000000..a562106b37b8f
---- /dev/null
-+++ b/sound/usb/jockey3/.kunitconfig
-@@ -0,0 +1,12 @@
-+CONFIG_KUNIT=y
-+
-+CONFIG_SOUND=y
-+CONFIG_SND=y
-+CONFIG_SND_PCM=y
-+
-+CONFIG_USB_SUPPORT=y
-+CONFIG_USB=y
-+CONFIG_SND_USB=y
-+
-+CONFIG_SND_USB_JOCKEY3=y
-+CONFIG_SND_USB_JOCKEY3_CODEC_KUNIT_TEST=y
 diff --git a/sound/usb/jockey3/Kconfig b/sound/usb/jockey3/Kconfig
-index 83135d65b3ffd..09939ec9691e8 100644
+index 09939ec9691e8..b61a11738e9bf 100644
 --- a/sound/usb/jockey3/Kconfig
 +++ b/sound/usb/jockey3/Kconfig
-@@ -14,3 +14,29 @@ config SND_USB_JOCKEY3
- 
+@@ -15,6 +15,23 @@ config SND_USB_JOCKEY3
  	  To compile this driver as a module, choose M here: the module
  	  will be called snd-reloop-jockey3.
-+
-+config SND_USB_JOCKEY3_CODEC_KUNIT_TEST
-+	bool "KUnit tests for the Ploytec codec" if !KUNIT_ALL_TESTS
+ 
++config SND_USB_JOCKEY3_REFERENCE_CODEC
++	bool "Use portable reference codec implementation"
 +	depends on SND_USB_JOCKEY3
-+	depends on KUNIT
-+	depends on KUNIT=y || SND_USB_JOCKEY3=m
-+	default KUNIT_ALL_TESTS
++	depends on EXPERT
 +	help
-+	  Enable KUnit tests for the Ploytec bit-plane encoder and decoder.
-+	  The tests validate the codec against a declarative description
-+	  of the wire format, and prove the mapping is a complete bit
-+	  permutation.
++	  The Jockey 3 driver normally uses an architecture-optimized
++	  bit-packing codec (separate 32-bit and 64-bit variants) to convert
++	  between ALSA's S24_3LE sample format and the Ploytec wire format.
++	  This is the default on all architectures.
 +
-+	  Because the codec functions are internal to the driver, the tests
-+	  are linked into the snd-reloop-jockey3 module itself rather than
-+	  built separately.
-+
-+	  KUnit tests run during boot and output the results to the debug
-+	  log in TAP format (https://testanything.org/). Only useful for
-+	  kernel devs running KUnit test harness and are not for inclusion
-+	  into a production build.
-+
-+	  For more information on KUnit and unit tests in general, refer
-+	  to the KUnit documentation in Documentation/dev-tools/kunit/.
++	  Say Y to build the driver with the portable reference
++	  implementation instead. It is much slower, and is intended as a
++	  readable definition of the wire format and as a fallback on
++	  architectures where the optimized codec has not been exercised.
 +
 +	  If unsure, say N.
-diff --git a/sound/usb/jockey3/Makefile b/sound/usb/jockey3/Makefile
-index 0e81aea50f9ac..381f006134930 100644
---- a/sound/usb/jockey3/Makefile
-+++ b/sound/usb/jockey3/Makefile
-@@ -1,3 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_SND_USB_JOCKEY3) += snd-reloop-jockey3.o
- snd-reloop-jockey3-y := jockey3.o ploytec_proto.o ploytec_codec.o
 +
-+# The codec functions are not exported, so the KUnit tests are
-+# linked into the driver module rather than built as a separate test module.
-+snd-reloop-jockey3-$(CONFIG_SND_USB_JOCKEY3_CODEC_KUNIT_TEST) += ploytec_codec_kunit.o
-\ No newline at end of file
-diff --git a/sound/usb/jockey3/ploytec_codec_kunit.c b/sound/usb/jockey3/ploytec_codec_kunit.c
-new file mode 100644
-index 0000000000000..2b7eeb3a1b11b
---- /dev/null
-+++ b/sound/usb/jockey3/ploytec_codec_kunit.c
-@@ -0,0 +1,855 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
+ config SND_USB_JOCKEY3_CODEC_KUNIT_TEST
+ 	bool "KUnit tests for the Ploytec codec" if !KUNIT_ALL_TESTS
+ 	depends on SND_USB_JOCKEY3
+@@ -23,9 +40,9 @@ config SND_USB_JOCKEY3_CODEC_KUNIT_TEST
+ 	default KUNIT_ALL_TESTS
+ 	help
+ 	  Enable KUnit tests for the Ploytec bit-plane encoder and decoder.
+-	  The tests validate the codec against a declarative description
+-	  of the wire format, and prove the mapping is a complete bit
+-	  permutation.
++	  The tests validate whichever codec variant the build selected
++	  against a declarative description of the wire format, and prove
++	  the mapping is a complete bit permutation.
+ 
+ 	  Because the codec functions are internal to the driver, the tests
+ 	  are linked into the snd-reloop-jockey3 module itself rather than
+diff --git a/sound/usb/jockey3/jockey3.c b/sound/usb/jockey3/jockey3.c
+index a24674e078a6b..d2f4714dbd8b9 100644
+--- a/sound/usb/jockey3/jockey3.c
++++ b/sound/usb/jockey3/jockey3.c
+@@ -5,6 +5,8 @@
+  *   Copyright (c) 2026 by Frank van de Pol <fvdpol@gmail.com>
+  */
+ 
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
+ #include <linux/types.h>
+ #include <linux/atomic.h>
+ #include <linux/module.h>
+@@ -1856,7 +1858,35 @@ static struct usb_driver jockey3_driver = {
+ 	.id_table = jockey3_ids
+ };
+ 
+-module_usb_driver(jockey3_driver);
 +/*
-+ *   ALSA driver for Reloop Jockey 3 devices
-+ *   KUnit tests for the Ploytec bit-plane codec
-+ *
-+ *   Copyright (c) 2026 by Frank van de Pol <fvdpol@gmail.com>
++ * The codec's bit-spread lookup tables are module-global and unlocked, so they
++ * are built once per module rather than per device.
 + */
++static int __init jockey3_module_init(void)
++{
++	enum ploytec_codec_variant codec_variant = ploytec_initialize_codec();
++
++	switch (codec_variant) {
++	case PLOYTEC_CODEC_PORTABLE:
++		pr_debug("using portable codec\n");
++		break;
++	case PLOYTEC_CODEC_OPTIMIZED_64BIT:
++		pr_debug("using 64-bit optimized codec\n");
++		break;
++	case PLOYTEC_CODEC_OPTIMIZED_32BIT:
++		pr_debug("using 32-bit optimized codec\n");
++		break;
++	}
++
++	return usb_register(&jockey3_driver);
++}
++module_init(jockey3_module_init);
++
++static void __exit jockey3_module_exit(void)
++{
++	usb_deregister(&jockey3_driver);
++}
++module_exit(jockey3_module_exit);
+ 
+ MODULE_AUTHOR("Frank van de Pol <fvdpol@gmail.com>");
+ MODULE_DESCRIPTION(CARD_NAME " ALSA Driver");
+diff --git a/sound/usb/jockey3/ploytec_codec.c b/sound/usb/jockey3/ploytec_codec.c
+index 6cbbc26ac5cac..09e645a6c6d2b 100644
+--- a/sound/usb/jockey3/ploytec_codec.c
++++ b/sound/usb/jockey3/ploytec_codec.c
+@@ -6,6 +6,7 @@
+  *   Copyright (c) 2026 by Frank van de Pol <fvdpol@gmail.com>
+  */
+ 
++#include <linux/unaligned.h>
+ #include <linux/string.h>
+ #include "ploytec_codec.h"
+ 
+@@ -43,10 +44,15 @@
+  * format the functions below implement.
+  */
+ 
++#if IS_ENABLED(CONFIG_SND_USB_JOCKEY3_REFERENCE_CODEC)
++
+ /*
+- * This implementation of the Ploytec codec performs a bit gather/scatter
+- * operation with minimal optimization. It mainly serves as a readable
+- * definition of the wire format.
++ * The reference implementation of the Ploytec codec performs a bit
++ * gather/scatter operation with minimal optimization. It mainly serves as a
++ * readable definition of the wire format, and as the oracle the optimized
++ * variants below are validated against.
++ *
++ * Selected by CONFIG_SND_USB_JOCKEY3_REFERENCE_CODEC.
+  */
+ 
+ /**
+@@ -133,6 +139,498 @@ static inline void ploytec_decode_s24_3le(u8 *dest, const u8 *src)
+ 		dest[0x11] |= (((src[0x20 + i] & 0x04) >> 2) << (7 - i));
+ 	}
+ }
++#elif defined(CONFIG_64BIT)
++/**
++ * DOC: Ploytec bit-plane interleaving optimization
++ *
++ * CORE PERFORMANCE PROBLEM:
++ * The Ploytec firmware uses a non-standard "bit-plane" format where bits
++ * from different channels are interleaved into the same byte. The naive
++ * implementation processes data bit-by-bit using heavily nested loops,
++ * causing massive CPU overhead due to serial bit-shifting operations,
++ * branch mispredictions, and an inability to utilize hardware pipelines.
++ *
++ * THE SOLUTION: SWAR (SIMD Within A Register) & INT-MULTIPLIERS
++ * Instead of bit-by-bit iteration, we treat entire 32-bit or 64-bit blocks
++ * of memory as parallel vector lanes inside standard CPU registers. This
++ * completely eliminates loops and branches, reducing operations to a small,
++ * deterministic chain of native processor instructions.
++ *
++ * -------------------------------------------------------------------------
++ * 1. ENCODING MATH: BIT-SPREAD LOOKUP TABLES (LUT)
++ * -------------------------------------------------------------------------
++ * To encode, we must take a single 8-bit channel byte (e.g., b7 b6 b5 ... b0)
++ * and "spread" its bits across an 8-byte destination block so that each bit
++ * lands on bit 0 of 8 separate bytes.
++ *
++ * 64-Bit Implementation:
++ * We use a precomputed 256-entry 64-bit LUT (ploytec_bit_spread). For any
++ * byte value, the table returns a u64 where the bits are perfectly spaced out:
++ * Input Byte:  0b11000000
++ * u64 Return:  0x0000000000000101 (Bit 7 and 6 mapped to byte 0 and 1)
++ *
++ * By loading the spread values of two channels simultaneously, we shift the
++ * second channel by 1 (<< 1) to align its bits to bit position 1, and bitwise
++ * OR them together. This encodes two full channels into an 8-byte frame using
++ * just one lookup and a single 64-bit store.
++ *
++ * 32-Bit Implementation:
++ * A 32-bit register cannot hold 8 spread bytes at once. Thus, the 32-bit
++ * variant splits the input byte into two 4-bit nibbles using two distinct
++ * 32-bit LUTs (high nibble and low nibble). Each lookup fills 4 bytes of
++ * destination memory natively using 32-bit registers, maintaining low
++ * register pressure and avoiding 64-bit arithmetic emulation penalties on
++ * 32-bit architectures (like ARM32/armhf).
++ *
++ * -------------------------------------------------------------------------
++ * 2. DECODING MATH: PARALLEL BIT GATHER VIA MAGIC MULTIPLIERS
++ * -------------------------------------------------------------------------
++ * To decode, we must perform the inverse: extract a specific bit position
++ * from 8 consecutive bytes in memory and pack them back into a single byte.
++ *
++ * 64-Bit Implementation (`pack_bit_plane64`):
++ * 1. Load 8 bytes into a u64 register.
++ * 2. Shift right by the desired bit index and mask with 0x0101010101010101ULL.
++ * This leaves the target bit isolated as bit 0 of every single byte.
++ * 3. Multiply the masked u64 by the magic constant: 0x8040201008040201ULL.
++ *
++ * This multiplication acts as a parallel shift-and-add engine:
++ * Byte 7 is multiplied by 0x01 (shifted << 0)
++ * Byte 6 is multiplied by 0x02 (shifted << 1)
++ * ...
++ * Byte 0 is multiplied by 0x80 (shifted << 7)
++ *
++ * The mathematical properties of this multiplication collapse all 8 isolated
++ * bits perfectly into the most significant byte (the highest 8 bits) of the
++ * u64 register. A final logical shift right (>> 56) extracts the completed
++ * audio byte in a single operation.
++ *
++ * 32-Bit Implementation (`pack_bit_plane32`):
++ * To avoid emulating 64-bit multiplication on a 32-bit CPU, we read two
++ * separate 4-byte halves into native u32 registers. We apply the 32-bit
++ * magic multiplier (0x08040201U) to both halves independently. This collapses
++ * each half into a 4-bit nibble at the top of each register. We then combine
++ * the two resulting nibbles `(high << 4) | low` to form the final byte.
++ *
++ * -------------------------------------------------------------------------
++ * 3. ENDIANNESS & ALIGNMENT MITIGATION
++ * -------------------------------------------------------------------------
++ * All bitwise shifting (`<<`, `>>`) and multiplier math inside CPU registers
++ * is inherently endian-agnostic. However, reading and writing these multi-byte
++ * integers (u32/u64) directly to physical RAM introduces two system hazards:
++ * - Byte Inversion on Big Endian architectures (e.g., MIPS, PowerPC).
++ * - Kernel Alignment Faults (SIGBUS) on alignment-strict processors.
++ *
++ * To ensure safe, architecture-independent execution, all memory interfaces
++ * utilize the kernel's `get_unaligned_le32/64` and `put_unaligned_le32/64`
++ * macros (or user-space memcpy/bswap equivalents).
++ *
++ * On little-endian architectures with unaligned support (x86_64, arm64, armhf),
++ * the compiler optimizes these macros completely out, compiling down to standard,
++ * zero-overhead native instruction loads and stores. On big-endian or strict-
++ * alignment architectures, the macros safely handle arbitrary memory addresses
++ * and emit hardware byte-swaps (`rev`) automatically.
++ *
++ * -------------------------------------------------------------------------
++ * 4. EMPIRICAL PERFORMANCE TESTING
++ * -------------------------------------------------------------------------
++ * Compared to the reference implementation, testing of these optimized
++ * versions showed a significant improvement, justifying the added complexity
++ * from these optimizations. Table shows the relative speed-up and the time
++ * for encoding (4ch) or decoding (6ch) a sample frame on the validation
++ * hardware, measured through the batch API at the batch sizes the driver
++ * actually uses (10 frames per encode call, 8 per decode):
++ *
++ * Architecture	Bit	Encode	Decode		Encode Time	Decode Time
++ *   i386	32	 6.2x	 5.4x		  8.3 ns	 20.7 ns
++ *   x86_64	64	11.0x	 7.8x		  3.7 ns	 11.9 ns
++ *   armhf	32	 3.3x	 4.8x		358.2 ns	762.7 ns
++ *   arm64	64	 6.9x	 6.1x		 13.6 ns	 35.5 ns
++ *
++ * i386 and x86_64 on a Core i5-6500, arm64 on a Raspberry Pi 4B, armhf on a
++ * Raspberry Pi 1B+ (ARMv6). Speed-up is against this same build's portable
++ * reference codec on the same machine, so it is comparable across rows; the
++ * absolute times are not.
++ *
++ * The 64-bit variants gain more than the 32-bit ones because the transpose
++ * works in register-width chunks: a 64-bit word carries twice the bit-plane
++ * of a 32-bit one, so the same frame needs half the operations.
++ */
++
++static u64 ploytec_bit_spread_64[256];
 +
 +/**
-+ * DOC: Proving the Ploytec codec correct
++ * init_ploytec_bit_spread_lut64() - Build the 64-bit bit-spread lookup table
 + *
-+ * ploytec_codec.c implements a bit-scatter/gather algorithm: the conversion
-+ * between ALSA's S24_3LE frames and the Ploytec bit-plane wire format.
-+ *
-+ * These tests validate it through the public ploytec_encode_batch() /
-+ * ploytec_decode_batch() entry points. No symbols are exported and the codec
-+ * is not modified to be testable; the test object is simply linked into the
-+ * same module.
-+ *
-+ * The strategy is stronger than sampling random inputs:
-+ *
-+ * 1. The oracle is a *declarative bit map* (ploytec_encode_map[] and
-+ *    ploytec_decode_map[] below), not a second copy of the driver's loops.
-+ *    Because it states the format as data rather than as control flow, a
-+ *    transcription error cannot propagate symmetrically into both.
-+ *
-+ * 2. The codec is a pure bit permutation, so as a function over GF(2) it is
-+ *    linear. ploytec_test_*_is_linear() establishes that linearity holds, and
-+ *    ploytec_test_*_permutation_complete() measures the map's action on every
-+ *    single basis vector. A linear map is *fully determined* by its action on
-+ *    the basis, so together those two cases pin down the result for all 2^96
-+ *    (encode) and 2^512 (decode) possible inputs.
-+ *
-+ *    The residual risk is a non-linearity that the sampled pairs happen to
-+ *    miss; the tests are not a formal proof, but they are far more than spot
-+ *    checks.
-+ *
-+ * 3. Golden vectors generated by an independent Python model of the format
-+ *    (tests/codec/ploytec_model.py) guard against the codec and the oracle
-+ *    drifting away from the wire format together.
-+ *
-+ * Randomized cases use a small seeded xorshift generator rather than the
-+ * kernel RNG, so every architecture exercises identical data and any failure
-+ * reproduces exactly.
++ * Precomputes ploytec_bit_spread_64[], mapping each possible input byte to
++ * the 8-byte bit-plane pattern used by ploytec_encode_s24_3le_lut64(). See
++ * the optimization note above for details of the algorithm.
 + */
++static void init_ploytec_bit_spread_lut64(void)
++{
++	for (int b = 0; b < 256; b++) {
++		u64 spread = 0;
 +
-+#include <kunit/test.h>
-+#include <linux/string.h>
-+#include "ploytec_codec.h"
-+#include "ploytec_codec_test_vectors.h"
++		// Extract bit (7 - i) and place it into bit 0 of byte i
++		for (int i = 0; i < 8; i++)
++			spread |= (u64)((b >> (7 - i)) & 1) << (i * 8);
 +
-+/* Largest batch either direction is ever asked for, from jockey3.c */
-+#define PLOYTEC_TEST_MAX_ENCODE_FRAMES	PLOYTEC_PLAYBACK_FRAMES
-+#define PLOYTEC_TEST_MAX_DECODE_FRAMES	PLOYTEC_CAPTURE_FRAMES
-+
-+/* How many random frames the sampling-based cases run through */
-+#define PLOYTEC_TEST_RANDOM_FRAMES	4096
-+#define PLOYTEC_TEST_LINEARITY_PAIRS	2048
-+
-+/* Guard region used to catch writes outside the destination buffer */
-+#define PLOYTEC_TEST_GUARD		64
-+#define PLOYTEC_TEST_GUARD_BYTE		0xA5
-+
-+/* Wire bytes the capture decoder must never read */
-+#define PLOYTEC_TEST_UNUSED0_START	0x18
-+#define PLOYTEC_TEST_UNUSED0_END	0x20
-+#define PLOYTEC_TEST_UNUSED1_START	0x38
-+#define PLOYTEC_TEST_UNUSED1_END	0x40
-+
-+/*
-+ * The format, stated as data.
-+ *
-+ * Playback packs 4 channels into 48 wire bytes as two pairs: (ch0, ch2) in
-+ * bytes 0..23 and (ch1, ch3) in bytes 24..47. Each 24-byte block holds three
-+ * 8-byte planes ordered most-significant sample byte first. Within a plane,
-+ * wire byte i carries bit (7 - i) of the sample byte, and a channel's index
-+ * within its pair picks the bit of the wire byte it lands in.
-+ */
-+struct ploytec_encode_map_entry {
-+	u8 src_idx;	// byte of the 12-byte PCM frame
-+	u8 dst_base;	// first wire byte of the plane it scatters into
-+	u8 dst_bit;	// bit of each wire byte it occupies
-+};
-+
-+static const struct ploytec_encode_map_entry ploytec_encode_map[] = {
-+	{  2,  0, 0 }, {  8,  0, 1 },	/* ch0 / ch2, most significant byte */
-+	{  1,  8, 0 }, {  7,  8, 1 },	/* ch0 / ch2, middle byte */
-+	{  0, 16, 0 }, {  6, 16, 1 },	/* ch0 / ch2, least significant byte */
-+	{  5, 24, 0 }, { 11, 24, 1 },	/* ch1 / ch3, most significant byte */
-+	{  4, 32, 0 }, { 10, 32, 1 },	/* ch1 / ch3, middle byte */
-+	{  3, 40, 0 }, {  9, 40, 1 },	/* ch1 / ch3, least significant byte */
-+};
-+
-+/*
-+ * Capture unpacks 6 channels from 48 of the 64 wire bytes, as two groups of
-+ * three: group 0 at 0x00..0x17 holds ch0, ch2, ch4 and group 1 at
-+ * 0x20..0x37 holds ch1, ch3, ch5. Plane ordering matches playback, and a
-+ * channel's index within its group picks the bit of the wire byte it was
-+ * packed into. Wire bytes 0x18..0x1f and 0x38..0x3f carry nothing.
-+ */
-+struct ploytec_decode_map_entry {
-+	u8 dst_idx;	// byte of the 18-byte PCM frame
-+	u8 src_base;	// first wire byte of the plane it gathers from
-+	u8 src_bit;	// bit of each wire byte it was packed into
-+};
-+
-+static const struct ploytec_decode_map_entry ploytec_decode_map[] = {
-+	{ 0x00, 0x10, 0 }, { 0x01, 0x08, 0 }, { 0x02, 0x00, 0 },	/* ch0 */
-+	{ 0x03, 0x30, 0 }, { 0x04, 0x28, 0 }, { 0x05, 0x20, 0 },	/* ch1 */
-+	{ 0x06, 0x10, 1 }, { 0x07, 0x08, 1 }, { 0x08, 0x00, 1 },	/* ch2 */
-+	{ 0x09, 0x30, 1 }, { 0x0A, 0x28, 1 }, { 0x0B, 0x20, 1 },	/* ch3 */
-+	{ 0x0C, 0x10, 2 }, { 0x0D, 0x08, 2 }, { 0x0E, 0x00, 2 },	/* ch4 */
-+	{ 0x0F, 0x30, 2 }, { 0x10, 0x28, 2 }, { 0x11, 0x20, 2 },	/* ch5 */
-+};
++		ploytec_bit_spread_64[b] = spread;
++	}
++}
 +
 +/**
-+ * ploytec_oracle_encode() - Encode one frame straight from the bit map
++ * ploytec_encode_s24_3le_lut64() - Encode 4-channel S24_3LE using the 64-bit LUT bit-spread method
 + * @dest: 48-byte destination buffer
-+ * @src: 12-byte source buffer
++ * @src: 12-byte source buffer (4 channels * 3 bytes)
++ *
++ * Optimized, CONFIG_64BIT equivalent of ploytec_encode_s24_3le(); produces
++ * identical output. See the bit-plane layout on ploytec_encode_s24_3le()
++ * and the optimization note above for the LUT technique used here.
 + */
-+static void ploytec_oracle_encode(u8 *dest, const u8 *src)
++static inline void ploytec_encode_s24_3le_lut64(u8 *dest, const u8 *src)
 +{
-+	memset(dest, 0, PLOYTEC_PLAYBACK_FRAME_SIZE);
++	/*
++	 * put_unaligned_le64 safely writes a 64-bit value in Little Endian
++	 * order, even if the target CPU is Big Endian or alignment-strict.
++	 */
 +
-+	for (size_t e = 0; e < ARRAY_SIZE(ploytec_encode_map); e++) {
-+		const struct ploytec_encode_map_entry *m = &ploytec_encode_map[e];
++	// First 24 bytes: odd channels (ALSA Ch 1 & 3)
++	put_unaligned_le64(ploytec_bit_spread_64[src[2]] |
++			   (ploytec_bit_spread_64[src[8]] << 1), dest + 0);
++	put_unaligned_le64(ploytec_bit_spread_64[src[1]] |
++			   (ploytec_bit_spread_64[src[7]] << 1), dest + 8);
++	put_unaligned_le64(ploytec_bit_spread_64[src[0]] |
++			   (ploytec_bit_spread_64[src[6]] << 1), dest + 16);
 +
-+		for (int i = 0; i < 8; i++)
-+			dest[m->dst_base + i] |=
-+				((src[m->src_idx] >> (7 - i)) & 1) << m->dst_bit;
-+	}
++	// Second 24 bytes: even channels (ALSA Ch 2 & 4)
++	put_unaligned_le64(ploytec_bit_spread_64[src[5]] |
++			   (ploytec_bit_spread_64[src[11]] << 1), dest + 24);
++	put_unaligned_le64(ploytec_bit_spread_64[src[4]] |
++			   (ploytec_bit_spread_64[src[10]] << 1), dest + 32);
++	put_unaligned_le64(ploytec_bit_spread_64[src[3]] |
++			   (ploytec_bit_spread_64[src[9]] << 1), dest + 40);
 +}
 +
 +/**
-+ * ploytec_oracle_decode() - Decode one frame straight from the bit map
-+ * @dest: 18-byte destination buffer
-+ * @src: 64-byte source buffer
++ * pack_bit_plane64() - Gather bit @bit_index of 8 consecutive bytes into one byte
++ * @val: 8 source bytes loaded as a little-endian u64
++ * @bit_index: bit position (0-7) to extract from each source byte
++ *
++ * Return: the gathered byte, using the magic-multiplier technique described
++ * in the optimization note above.
 + */
-+static void ploytec_oracle_decode(u8 *dest, const u8 *src)
++static inline u8 pack_bit_plane64(u64 val, int bit_index)
 +{
-+	memset(dest, 0, PLOYTEC_CAPTURE_PCM_FRAME_SIZE);
-+
-+	for (size_t e = 0; e < ARRAY_SIZE(ploytec_decode_map); e++) {
-+		const struct ploytec_decode_map_entry *m = &ploytec_decode_map[e];
-+
-+		for (int i = 0; i < 8; i++)
-+			dest[m->dst_idx] |=
-+				((src[m->src_base + i] >> m->src_bit) & 1) << (7 - i);
-+	}
-+}
-+
-+/* xorshift64*, seeded per test; see the determinism note at the top of this file. */
-+struct ploytec_test_rng {
-+	u64 state;
-+};
-+
-+static void ploytec_rng_init(struct ploytec_test_rng *rng, u64 seed)
-+{
-+	rng->state = seed ? seed : 1;
-+}
-+
-+static u64 ploytec_rng_next(struct ploytec_test_rng *rng)
-+{
-+	u64 x = rng->state;
-+
-+	x ^= x >> 12;
-+	x ^= x << 25;
-+	x ^= x >> 27;
-+	rng->state = x;
-+
-+	return x * 0x2545F4914F6CDD1DULL;
-+}
-+
-+static void ploytec_rng_fill(struct ploytec_test_rng *rng, u8 *buf, size_t len)
-+{
-+	size_t off = 0;
-+
-+	while (off < len) {
-+		u64 v = ploytec_rng_next(rng);
-+
-+		for (int i = 0; i < 8 && off < len; i++, off++)
-+			buf[off] = (v >> (i * 8)) & 0xFF;
-+	}
-+}
-+
-+/* Is this wire byte one the capture decoder is allowed to read? */
-+static bool ploytec_capture_byte_used(int idx)
-+{
-+	if (idx >= PLOYTEC_TEST_UNUSED0_START && idx < PLOYTEC_TEST_UNUSED0_END)
-+		return false;
-+	if (idx >= PLOYTEC_TEST_UNUSED1_START && idx < PLOYTEC_TEST_UNUSED1_END)
-+		return false;
-+
-+	return true;
-+}
-+
-+/* Count set bits in a buffer, recording the position of the last one seen. */
-+static int ploytec_count_set_bits(const u8 *buf, size_t len, int *last_pos)
-+{
-+	int count = 0;
-+
-+	for (size_t i = 0; i < len; i++) {
-+		for (int b = 0; b < 8; b++) {
-+			if (buf[i] & (1 << b)) {
-+				count++;
-+				if (last_pos)
-+					*last_pos = i * 8 + b;
-+			}
-+		}
-+	}
-+
-+	return count;
-+}
-+
-+/* --- Golden vectors from the independent Python model --------------------- */
-+
-+static void ploytec_encode_vector_desc(const struct ploytec_encode_vector *v,
-+				       char *desc)
-+{
-+	strscpy(desc, v->name, KUNIT_PARAM_DESC_SIZE);
-+}
-+
-+KUNIT_ARRAY_PARAM(ploytec_encode_vector, ploytec_encode_vectors,
-+		  ploytec_encode_vector_desc);
-+
-+static void ploytec_decode_vector_desc(const struct ploytec_decode_vector *v,
-+				       char *desc)
-+{
-+	strscpy(desc, v->name, KUNIT_PARAM_DESC_SIZE);
-+}
-+
-+KUNIT_ARRAY_PARAM(ploytec_decode_vector, ploytec_decode_vectors,
-+		  ploytec_decode_vector_desc);
-+
-+static void ploytec_test_encode_known_vectors(struct kunit *test)
-+{
-+	const struct ploytec_encode_vector *v = test->param_value;
-+	u8 dest[PLOYTEC_PLAYBACK_FRAME_SIZE];
-+
-+	memset(dest, 0xFF, sizeof(dest));
-+	ploytec_encode_batch(dest, v->src, 1);
-+
-+	KUNIT_EXPECT_MEMEQ_MSG(test, dest, v->expect, sizeof(dest),
-+			       "encode of vector '%s' does not match the model",
-+			       v->name);
-+}
-+
-+static void ploytec_test_decode_known_vectors(struct kunit *test)
-+{
-+	const struct ploytec_decode_vector *v = test->param_value;
-+	u8 dest[PLOYTEC_CAPTURE_PCM_FRAME_SIZE];
-+
-+	memset(dest, 0xFF, sizeof(dest));
-+	ploytec_decode_batch(dest, v->src, 1);
-+
-+	KUNIT_EXPECT_MEMEQ_MSG(test, dest, v->expect, sizeof(dest),
-+			       "decode of vector '%s' does not match the model",
-+			       v->name);
-+}
-+
-+/* --- Agreement with the declarative bit map ------------------------------- */
-+
-+static void ploytec_test_encode_matches_oracle(struct kunit *test)
-+{
-+	u8 src[PLOYTEC_PLAYBACK_PCM_FRAME_SIZE];
-+	u8 got[PLOYTEC_PLAYBACK_FRAME_SIZE];
-+	u8 want[PLOYTEC_PLAYBACK_FRAME_SIZE];
-+	struct ploytec_test_rng rng;
-+
-+	ploytec_rng_init(&rng, 0x0123456789ABCDEFULL);
-+
-+	for (int t = 0; t < PLOYTEC_TEST_RANDOM_FRAMES; t++) {
-+		ploytec_rng_fill(&rng, src, sizeof(src));
-+
-+		/* Prefill with noise so a short write is visible. */
-+		memset(got, 0x5A, sizeof(got));
-+		ploytec_encode_batch(got, src, 1);
-+		ploytec_oracle_encode(want, src);
-+
-+		KUNIT_ASSERT_MEMEQ_MSG(test, got, want, sizeof(got),
-+				       "encode disagrees with the bit map at iteration %d",
-+				       t);
-+	}
-+}
-+
-+static void ploytec_test_decode_matches_oracle(struct kunit *test)
-+{
-+	u8 src[PLOYTEC_CAPTURE_FRAME_SIZE];
-+	u8 got[PLOYTEC_CAPTURE_PCM_FRAME_SIZE];
-+	u8 want[PLOYTEC_CAPTURE_PCM_FRAME_SIZE];
-+	struct ploytec_test_rng rng;
-+
-+	ploytec_rng_init(&rng, 0x0123456789ABCDEFULL);
-+
-+	for (int t = 0; t < PLOYTEC_TEST_RANDOM_FRAMES; t++) {
-+		ploytec_rng_fill(&rng, src, sizeof(src));
-+
-+		memset(got, 0x5A, sizeof(got));
-+		ploytec_decode_batch(got, src, 1);
-+		ploytec_oracle_decode(want, src);
-+
-+		KUNIT_ASSERT_MEMEQ_MSG(test, got, want, sizeof(got),
-+				       "decode disagrees with the bit map at iteration %d",
-+				       t);
-+	}
-+}
-+
-+/* --- The map is a complete, injective bit permutation --------------------- */
-+
-+/*
-+ * Encode: feed a one-hot input for each of the 96 input bits. Each must land
-+ * on exactly one output bit, at the position the map predicts, and no two
-+ * inputs may collide. That determines the map's action on every basis vector.
-+ */
-+static void ploytec_test_encode_permutation_complete(struct kunit *test)
-+{
-+	u8 src[PLOYTEC_PLAYBACK_PCM_FRAME_SIZE];
-+	u8 dest[PLOYTEC_PLAYBACK_FRAME_SIZE];
-+	DECLARE_BITMAP(seen, PLOYTEC_PLAYBACK_FRAME_SIZE * 8);
-+	int covered = 0;
-+
-+	bitmap_zero(seen, PLOYTEC_PLAYBACK_FRAME_SIZE * 8);
-+
-+	for (int byte = 0; byte < PLOYTEC_PLAYBACK_PCM_FRAME_SIZE; byte++) {
-+		for (int bit = 0; bit < 8; bit++) {
-+			int pos = -1, count, want_pos = -1;
-+
-+			memset(src, 0, sizeof(src));
-+			src[byte] = 1 << bit;
-+
-+			memset(dest, 0, sizeof(dest));
-+			ploytec_encode_batch(dest, src, 1);
-+
-+			count = ploytec_count_set_bits(dest, sizeof(dest), &pos);
-+			KUNIT_ASSERT_EQ_MSG(test, count, 1,
-+					    "src[%d] bit %d set %d output bits, expected 1",
-+					    byte, bit, count);
-+
-+			/* Where the bit map says it should have landed. */
-+			for (size_t e = 0; e < ARRAY_SIZE(ploytec_encode_map); e++) {
-+				const struct ploytec_encode_map_entry *m =
-+					&ploytec_encode_map[e];
-+
-+				if (m->src_idx == byte)
-+					want_pos = (m->dst_base + (7 - bit)) * 8 +
-+						   m->dst_bit;
-+			}
-+
-+			KUNIT_ASSERT_EQ_MSG(test, pos, want_pos,
-+					    "src[%d] bit %d landed at output bit %d, map says %d",
-+					    byte, bit, pos, want_pos);
-+			KUNIT_ASSERT_FALSE_MSG(test, test_bit(pos, seen),
-+					       "output bit %d is written by two different input bits",
-+					       pos);
-+			__set_bit(pos, seen);
-+			covered++;
-+		}
-+	}
-+
-+	KUNIT_EXPECT_EQ(test, covered, PLOYTEC_PLAYBACK_PCM_FRAME_SIZE * 8);
-+}
-+
-+/*
-+ * Decode: sweep all 512 input bits. The 144 meaningful ones must each land on
-+ * a distinct output bit; every other input bit must be ignored entirely, which
-+ * checks the unused byte ranges and unused bits in the same pass.
-+ */
-+static void ploytec_test_decode_permutation_complete(struct kunit *test)
-+{
-+	u8 src[PLOYTEC_CAPTURE_FRAME_SIZE];
-+	u8 dest[PLOYTEC_CAPTURE_PCM_FRAME_SIZE];
-+	DECLARE_BITMAP(seen, PLOYTEC_CAPTURE_PCM_FRAME_SIZE * 8);
-+	int covered = 0;
-+
-+	bitmap_zero(seen, PLOYTEC_CAPTURE_PCM_FRAME_SIZE * 8);
-+
-+	for (int byte = 0; byte < PLOYTEC_CAPTURE_FRAME_SIZE; byte++) {
-+		for (int bit = 0; bit < 8; bit++) {
-+			bool meaningful = ploytec_capture_byte_used(byte) && bit < 3;
-+			int pos = -1, count, want_pos = -1;
-+
-+			memset(src, 0, sizeof(src));
-+			src[byte] = 1 << bit;
-+
-+			memset(dest, 0, sizeof(dest));
-+			ploytec_decode_batch(dest, src, 1);
-+
-+			count = ploytec_count_set_bits(dest, sizeof(dest), &pos);
-+
-+			if (!meaningful) {
-+				KUNIT_ASSERT_EQ_MSG(test, count, 0,
-+						    "wire byte %#04x bit %d is unused but changed the output",
-+						    byte, bit);
-+				continue;
-+			}
-+
-+			KUNIT_ASSERT_EQ_MSG(test, count, 1,
-+					    "wire byte %#04x bit %d set %d output bits, expected 1",
-+					    byte, bit, count);
-+
-+			for (size_t e = 0; e < ARRAY_SIZE(ploytec_decode_map); e++) {
-+				const struct ploytec_decode_map_entry *m =
-+					&ploytec_decode_map[e];
-+
-+				if (m->src_bit == bit && byte >= m->src_base &&
-+				    byte < m->src_base + 8)
-+					want_pos = m->dst_idx * 8 +
-+						   (7 - (byte - m->src_base));
-+			}
-+
-+			KUNIT_ASSERT_EQ_MSG(test, pos, want_pos,
-+					    "wire byte %#04x bit %d landed at output bit %d, map says %d",
-+					    byte, bit, pos, want_pos);
-+			KUNIT_ASSERT_FALSE_MSG(test, test_bit(pos, seen),
-+					       "output bit %d is written by two different wire bits",
-+					       pos);
-+			__set_bit(pos, seen);
-+			covered++;
-+		}
-+	}
-+
-+	KUNIT_EXPECT_EQ(test, covered, PLOYTEC_CAPTURE_PCM_FRAME_SIZE * 8);
-+}
-+
-+/* --- Linearity over GF(2) ------------------------------------------------- */
-+
-+static void ploytec_test_encode_is_linear(struct kunit *test)
-+{
-+	u8 a[PLOYTEC_PLAYBACK_PCM_FRAME_SIZE], b[PLOYTEC_PLAYBACK_PCM_FRAME_SIZE];
-+	u8 ab[PLOYTEC_PLAYBACK_PCM_FRAME_SIZE];
-+	u8 ea[PLOYTEC_PLAYBACK_FRAME_SIZE], eb[PLOYTEC_PLAYBACK_FRAME_SIZE];
-+	u8 eab[PLOYTEC_PLAYBACK_FRAME_SIZE], want[PLOYTEC_PLAYBACK_FRAME_SIZE];
-+	struct ploytec_test_rng rng;
-+
-+	ploytec_rng_init(&rng, 0xFEEDFACECAFEBEEFULL);
-+
-+	for (int t = 0; t < PLOYTEC_TEST_LINEARITY_PAIRS; t++) {
-+		ploytec_rng_fill(&rng, a, sizeof(a));
-+		ploytec_rng_fill(&rng, b, sizeof(b));
-+
-+		for (size_t i = 0; i < sizeof(ab); i++)
-+			ab[i] = a[i] ^ b[i];
-+
-+		ploytec_encode_batch(ea, a, 1);
-+		ploytec_encode_batch(eb, b, 1);
-+		ploytec_encode_batch(eab, ab, 1);
-+
-+		for (size_t i = 0; i < sizeof(want); i++)
-+			want[i] = ea[i] ^ eb[i];
-+
-+		KUNIT_ASSERT_MEMEQ_MSG(test, eab, want, sizeof(want),
-+				       "encode(a^b) != encode(a)^encode(b) at iteration %d",
-+				       t);
-+	}
-+}
-+
-+static void ploytec_test_decode_is_linear(struct kunit *test)
-+{
-+	u8 a[PLOYTEC_CAPTURE_FRAME_SIZE], b[PLOYTEC_CAPTURE_FRAME_SIZE];
-+	u8 ab[PLOYTEC_CAPTURE_FRAME_SIZE];
-+	u8 da[PLOYTEC_CAPTURE_PCM_FRAME_SIZE], db[PLOYTEC_CAPTURE_PCM_FRAME_SIZE];
-+	u8 dab[PLOYTEC_CAPTURE_PCM_FRAME_SIZE], want[PLOYTEC_CAPTURE_PCM_FRAME_SIZE];
-+	struct ploytec_test_rng rng;
-+
-+	ploytec_rng_init(&rng, 0xFEEDFACECAFEBEEFULL);
-+
-+	for (int t = 0; t < PLOYTEC_TEST_LINEARITY_PAIRS; t++) {
-+		ploytec_rng_fill(&rng, a, sizeof(a));
-+		ploytec_rng_fill(&rng, b, sizeof(b));
-+
-+		for (size_t i = 0; i < sizeof(ab); i++)
-+			ab[i] = a[i] ^ b[i];
-+
-+		ploytec_decode_batch(da, a, 1);
-+		ploytec_decode_batch(db, b, 1);
-+		ploytec_decode_batch(dab, ab, 1);
-+
-+		for (size_t i = 0; i < sizeof(want); i++)
-+			want[i] = da[i] ^ db[i];
-+
-+		KUNIT_ASSERT_MEMEQ_MSG(test, dab, want, sizeof(want),
-+				       "decode(a^b) != decode(a)^decode(b) at iteration %d",
-+				       t);
-+	}
-+}
-+
-+/* --- Batching ------------------------------------------------------------- */
-+
-+static void ploytec_test_encode_batch_equals_single(struct kunit *test)
-+{
-+	const size_t src_len = PLOYTEC_TEST_MAX_ENCODE_FRAMES *
-+				PLOYTEC_PLAYBACK_PCM_FRAME_SIZE;
-+	const size_t out_len = PLOYTEC_TEST_MAX_ENCODE_FRAMES *
-+				PLOYTEC_PLAYBACK_FRAME_SIZE;
-+	struct ploytec_test_rng rng;
-+	u8 *src, *batched, *single;
++	// Shift target bit to bit 0 of each byte, then mask it
++	u64 masked = (val >> bit_index) & 0x0101010101010101ULL;
 +
 +	/*
-+	 * Heap-allocated: on the stack, src + batched + single alone exceed
-+	 * the 32-bit CONFIG_FRAME_WARN limit (reported by kernel test robot,
-+	 * see alsa-jockey3#53).
++	 * Multiplier acts as a parallel shift-and-add, collecting the bits
++	 * into the highest byte of the u64.
 +	 */
-+	src = kunit_kzalloc(test, src_len, GFP_KERNEL);
-+	batched = kunit_kzalloc(test, out_len, GFP_KERNEL);
-+	single = kunit_kzalloc(test, out_len, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, src);
-+	KUNIT_ASSERT_NOT_NULL(test, batched);
-+	KUNIT_ASSERT_NOT_NULL(test, single);
-+
-+	ploytec_rng_init(&rng, 0xD1CE0FF1CE0FF1CEULL);
-+	ploytec_rng_fill(&rng, src, src_len);
-+
-+	for (int n = 1; n <= PLOYTEC_TEST_MAX_ENCODE_FRAMES; n++) {
-+		memset(batched, 0, out_len);
-+		memset(single, 0, out_len);
-+
-+		ploytec_encode_batch(batched, src, n);
-+
-+		for (int f = 0; f < n; f++)
-+			ploytec_encode_batch(single + f * PLOYTEC_PLAYBACK_FRAME_SIZE,
-+					     src + f * PLOYTEC_PLAYBACK_PCM_FRAME_SIZE,
-+					     1);
-+
-+		KUNIT_EXPECT_MEMEQ_MSG(test, batched, single,
-+				       n * PLOYTEC_PLAYBACK_FRAME_SIZE,
-+				       "batch of %d differs from %d single-frame calls",
-+				       n, n);
-+	}
++	return (u8)((masked * 0x8040201008040201ULL) >> 56);
 +}
 +
-+static void ploytec_test_decode_batch_equals_single(struct kunit *test)
++/**
++ * ploytec_decode_s24_3le_pack64() - Decode a Ploytec frame using the 64-bit magic-multiplier method
++ * @dest: 18-byte destination buffer (6 channels * 3 bytes)
++ * @src: 64-byte source buffer
++ *
++ * Optimized, CONFIG_64BIT equivalent of ploytec_decode_s24_3le(); produces
++ * identical output. See the bit-plane layout on ploytec_decode_s24_3le()
++ * and the optimization note above for the gather technique used here.
++ */
++static inline void ploytec_decode_s24_3le_pack64(u8 *dest, const u8 *src)
 +{
-+	const size_t src_len = PLOYTEC_TEST_MAX_DECODE_FRAMES *
-+				PLOYTEC_CAPTURE_FRAME_SIZE;
-+	const size_t out_len = PLOYTEC_TEST_MAX_DECODE_FRAMES *
-+				PLOYTEC_CAPTURE_PCM_FRAME_SIZE;
-+	struct ploytec_test_rng rng;
-+	u8 *src, *batched, *single;
++	u64 blocks_0_17_low  = get_unaligned_le64(src + 0x00);
++	u64 blocks_0_17_mid  = get_unaligned_le64(src + 0x08);
++	u64 blocks_0_17_high = get_unaligned_le64(src + 0x10);
 +
-+	src = kunit_kzalloc(test, src_len, GFP_KERNEL);
-+	batched = kunit_kzalloc(test, out_len, GFP_KERNEL);
-+	single = kunit_kzalloc(test, out_len, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, src);
-+	KUNIT_ASSERT_NOT_NULL(test, batched);
-+	KUNIT_ASSERT_NOT_NULL(test, single);
++	u64 blocks_20_37_low  = get_unaligned_le64(src + 0x20);
++	u64 blocks_20_37_mid  = get_unaligned_le64(src + 0x28);
++	u64 blocks_20_37_high = get_unaligned_le64(src + 0x30);
 +
-+	ploytec_rng_init(&rng, 0xD1CE0FF1CE0FF1CEULL);
-+	ploytec_rng_fill(&rng, src, src_len);
++	// Channel 1 (Bit 0 of bytes 0x00-0x17)
++	dest[0x00] = pack_bit_plane64(blocks_0_17_high, 0);
++	dest[0x01] = pack_bit_plane64(blocks_0_17_mid,  0);
++	dest[0x02] = pack_bit_plane64(blocks_0_17_low,  0);
 +
-+	for (int n = 1; n <= PLOYTEC_TEST_MAX_DECODE_FRAMES; n++) {
-+		memset(batched, 0, out_len);
-+		memset(single, 0, out_len);
++	// Channel 2 (Bit 0 of bytes 0x20-0x37)
++	dest[0x03] = pack_bit_plane64(blocks_20_37_high, 0);
++	dest[0x04] = pack_bit_plane64(blocks_20_37_mid,  0);
++	dest[0x05] = pack_bit_plane64(blocks_20_37_low,  0);
 +
-+		ploytec_decode_batch(batched, src, n);
++	// Channel 3 (Bit 1 of bytes 0x00-0x17)
++	dest[0x06] = pack_bit_plane64(blocks_0_17_high, 1);
++	dest[0x07] = pack_bit_plane64(blocks_0_17_mid,  1);
++	dest[0x08] = pack_bit_plane64(blocks_0_17_low,  1);
 +
-+		for (int f = 0; f < n; f++)
-+			ploytec_decode_batch(single + f * PLOYTEC_CAPTURE_PCM_FRAME_SIZE,
-+					     src + f * PLOYTEC_CAPTURE_FRAME_SIZE,
-+					     1);
++	// Channel 4 (Bit 1 of bytes 0x20-0x37)
++	dest[0x09] = pack_bit_plane64(blocks_20_37_high, 1);
++	dest[0x0A] = pack_bit_plane64(blocks_20_37_mid,  1);
++	dest[0x0B] = pack_bit_plane64(blocks_20_37_low,  1);
 +
-+		KUNIT_EXPECT_MEMEQ_MSG(test, batched, single,
-+				       n * PLOYTEC_CAPTURE_PCM_FRAME_SIZE,
-+				       "batch of %d differs from %d single-frame calls",
-+				       n, n);
++	// Channel 5 (Bit 2 of bytes 0x00-0x17)
++	dest[0x0C] = pack_bit_plane64(blocks_0_17_high, 2);
++	dest[0x0D] = pack_bit_plane64(blocks_0_17_mid,  2);
++	dest[0x0E] = pack_bit_plane64(blocks_0_17_low,  2);
++
++	// Channel 6 (Bit 2 of bytes 0x20-0x37)
++	dest[0x0F] = pack_bit_plane64(blocks_20_37_high, 2);
++	dest[0x10] = pack_bit_plane64(blocks_20_37_mid,  2);
++	dest[0x11] = pack_bit_plane64(blocks_20_37_low,  2);
++}
++
++#else /* optimized codec, 32-bit build */
++static u32 ploytec_bit_spread_32_high[256];
++static u32 ploytec_bit_spread_32_low[256];
++
++/**
++ * init_ploytec_bit_spread_lut32() - Build the 32-bit bit-spread lookup tables
++ *
++ * Precomputes ploytec_bit_spread_32_high[] and ploytec_bit_spread_32_low[],
++ * the 32-bit nibble-split equivalent of init_ploytec_bit_spread_lut64() for
++ * architectures without efficient native 64-bit arithmetic. See the
++ * optimization note above for details.
++ */
++static void init_ploytec_bit_spread_lut32(void)
++{
++	for (int b = 0; b < 256; b++) {
++		u32 high_spread = 0;
++		u32 low_spread  = 0;
++
++		// Process high nibble (bits 7 down to 4) -> maps to bytes 0 to 3
++		for (int i = 0; i < 4; i++)
++			high_spread |= (u32)((b >> (7 - i)) & 1) << (i * 8);
++
++		// Process low nibble (bits 3 down to 0) -> maps to bytes 0 to 3
++		for (int i = 0; i < 4; i++)
++			low_spread  |= (u32)((b >> (3 - i)) & 1) << (i * 8);
++
++		ploytec_bit_spread_32_high[b] = high_spread;
++		ploytec_bit_spread_32_low[b]  = low_spread;
 +	}
 +}
++
++/**
++ * ploytec_encode_s24_3le_lut32() - Encode 4-channel S24_3LE using the 32-bit LUT bit-spread method
++ * @dest: 48-byte destination buffer
++ * @src: 12-byte source buffer (4 channels * 3 bytes)
++ *
++ * 32-bit equivalent of ploytec_encode_s24_3le_lut64() for architectures
++ * without efficient native 64-bit arithmetic; produces identical output.
++ */
++static inline void ploytec_encode_s24_3le_lut32(u8 *dest, const u8 *src)
++{
++	/*
++	 * put_unaligned_le32 safely writes a 32-bit value in Little Endian
++	 * order, even if the target CPU is Big Endian or alignment-strict.
++	 */
++
++	// First 24 bytes: Odd channels (ALSA Ch 1 [src 0,1,2] & Ch 3 [src 6,7,8])
++	// Block 1: Most Significant Bytes
++	put_unaligned_le32(ploytec_bit_spread_32_high[src[2]] |
++			   (ploytec_bit_spread_32_high[src[8]] << 1), dest + 0);
++	put_unaligned_le32(ploytec_bit_spread_32_low[src[2]]  |
++			   (ploytec_bit_spread_32_low[src[8]]  << 1), dest + 4);
++
++	// Block 2: Middle Bytes
++	put_unaligned_le32(ploytec_bit_spread_32_high[src[1]] |
++			   (ploytec_bit_spread_32_high[src[7]] << 1), dest + 8);
++	put_unaligned_le32(ploytec_bit_spread_32_low[src[1]]  |
++			   (ploytec_bit_spread_32_low[src[7]]  << 1), dest + 12);
++
++	// Block 3: Least Significant Bytes
++	put_unaligned_le32(ploytec_bit_spread_32_high[src[0]] |
++			   (ploytec_bit_spread_32_high[src[6]] << 1), dest + 16);
++	put_unaligned_le32(ploytec_bit_spread_32_low[src[0]]  |
++			   (ploytec_bit_spread_32_low[src[6]]  << 1), dest + 20);
++
++	// Second 24 bytes: Even channels (ALSA Ch 2 [src 3,4,5] & Ch 4 [src 9,10,11])
++	// Block 1: Most Significant Bytes
++	put_unaligned_le32(ploytec_bit_spread_32_high[src[5]] |
++			   (ploytec_bit_spread_32_high[src[11]] << 1), dest + 24);
++	put_unaligned_le32(ploytec_bit_spread_32_low[src[5]]  |
++			   (ploytec_bit_spread_32_low[src[11]]  << 1), dest + 28);
++
++	// Block 2: Middle Bytes
++	put_unaligned_le32(ploytec_bit_spread_32_high[src[4]] |
++			   (ploytec_bit_spread_32_high[src[10]] << 1), dest + 32);
++	put_unaligned_le32(ploytec_bit_spread_32_low[src[4]]  |
++			   (ploytec_bit_spread_32_low[src[10]]  << 1), dest + 36);
++
++	// Block 3: Least Significant Bytes
++	put_unaligned_le32(ploytec_bit_spread_32_high[src[3]] |
++			   (ploytec_bit_spread_32_high[src[9]] << 1), dest + 40);
++	put_unaligned_le32(ploytec_bit_spread_32_low[src[3]]  |
++			   (ploytec_bit_spread_32_low[src[9]]  << 1), dest + 44);
++}
++
++/**
++ * pack_bit_plane32() - Gather bit @bit_index of 8 consecutive bytes into one byte
++ * @high_4_bytes: first 4 source bytes of the block, holding the high nibble (bits 7-4)
++ * @low_4_bytes: last 4 source bytes of the block, holding the low nibble (bits 3-0)
++ * @bit_index: bit position (0-7) to extract from each source byte
++ *
++ * Return: the gathered byte, using the magic-multiplier technique described
++ * in the optimization note above.
++ */
++static inline u8 pack_bit_plane32(u32 high_4_bytes, u32 low_4_bytes, int bit_index)
++{
++	// Isolate the targeted bit index across all 4 bytes simultaneously
++	u32 high_masked = (high_4_bytes >> bit_index) & 0x01010101U;
++	u32 low_masked  = (low_4_bytes  >> bit_index) & 0x01010101U;
++
++	// Use 32-bit multiplier to gather bits 0,1,2,3 into the highest byte
++	u8 high_bits = (u8)((high_masked * 0x08040201U) >> 24);
++	u8 low_bits  = (u8)((low_masked  * 0x08040201U) >> 24);
++
++	// Combine the upper 4 bits and lower 4 bits into the single output audio byte
++	return (high_bits << 4) | low_bits;
++}
++
++/**
++ * ploytec_decode_s24_3le_pack32() - Decode a Ploytec frame using the 32-bit magic-multiplier method
++ * @dest: 18-byte destination buffer (6 channels * 3 bytes)
++ * @src: 64-byte source buffer
++ *
++ * 32-bit equivalent of ploytec_decode_s24_3le_pack64() for architectures
++ * without efficient native 64-bit arithmetic; produces identical output.
++ */
++static inline void ploytec_decode_s24_3le_pack32(u8 *dest, const u8 *src)
++{
++	// Pre-load all required 4-byte chunks into native 32-bit registers
++	u32 src_00_high = get_unaligned_le32(src + 0x00);
++	u32 src_04_low  = get_unaligned_le32(src + 0x04);
++	u32 src_08_high = get_unaligned_le32(src + 0x08);
++	u32 src_0C_low  = get_unaligned_le32(src + 0x0C);
++	u32 src_10_high = get_unaligned_le32(src + 0x10);
++	u32 src_14_low  = get_unaligned_le32(src + 0x14);
++
++	u32 src_20_high = get_unaligned_le32(src + 0x20);
++	u32 src_24_low  = get_unaligned_le32(src + 0x24);
++	u32 src_28_high = get_unaligned_le32(src + 0x28);
++	u32 src_2C_low  = get_unaligned_le32(src + 0x2C);
++	u32 src_30_high = get_unaligned_le32(src + 0x30);
++	u32 src_34_low  = get_unaligned_le32(src + 0x34);
++
++	// --- Channel 1: Bit 0 of bytes 0x00-0x17 ---
++	dest[0x00] = pack_bit_plane32(src_10_high, src_14_low, 0);
++	dest[0x01] = pack_bit_plane32(src_08_high, src_0C_low, 0);
++	dest[0x02] = pack_bit_plane32(src_00_high, src_04_low, 0);
++
++	// --- Channel 2: Bit 0 of bytes 0x20-0x37 ---
++	dest[0x03] = pack_bit_plane32(src_30_high, src_34_low, 0);
++	dest[0x04] = pack_bit_plane32(src_28_high, src_2C_low, 0);
++	dest[0x05] = pack_bit_plane32(src_20_high, src_24_low, 0);
++
++	// --- Channel 3: Bit 1 of bytes 0x00-0x17 ---
++	dest[0x06] = pack_bit_plane32(src_10_high, src_14_low, 1);
++	dest[0x07] = pack_bit_plane32(src_08_high, src_0C_low, 1);
++	dest[0x08] = pack_bit_plane32(src_00_high, src_04_low, 1);
++
++	// --- Channel 4: Bit 1 of bytes 0x20-0x37 ---
++	dest[0x09] = pack_bit_plane32(src_30_high, src_34_low, 1);
++	dest[0x0A] = pack_bit_plane32(src_28_high, src_2C_low, 1);
++	dest[0x0B] = pack_bit_plane32(src_20_high, src_24_low, 1);
++
++	// --- Channel 5: Bit 2 of bytes 0x00-0x17 ---
++	dest[0x0C] = pack_bit_plane32(src_10_high, src_14_low, 2);
++	dest[0x0D] = pack_bit_plane32(src_08_high, src_0C_low, 2);
++	dest[0x0E] = pack_bit_plane32(src_00_high, src_04_low, 2);
++
++	// --- Channel 6: Bit 2 of bytes 0x20-0x37 ---
++	dest[0x0F] = pack_bit_plane32(src_30_high, src_34_low, 2);
++	dest[0x10] = pack_bit_plane32(src_28_high, src_2C_low, 2);
++	dest[0x11] = pack_bit_plane32(src_20_high, src_24_low, 2);
++}
++#endif
 +
 +/*
-+ * jockey3.c computes the batch size from the ALSA ring-buffer wrap and can in
-+ * principle arrive at zero, so the codec must treat that as a no-op rather
-+ * than walking off the buffer.
++ * Bind the build's chosen implementation to a single pair of names, so that
++ * everything below is free of conditional compilation.
 + */
-+static void ploytec_test_encode_batch_zero_frames(struct kunit *test)
++#if IS_ENABLED(CONFIG_SND_USB_JOCKEY3_REFERENCE_CODEC)
++
++static const enum ploytec_codec_variant ploytec_codec_selected =
++	PLOYTEC_CODEC_PORTABLE;
++
++static void ploytec_codec_init_tables(void) { }
++
++static inline void ploytec_encode_frame(u8 *dest, const u8 *src)
 +{
-+	u8 src[PLOYTEC_PLAYBACK_PCM_FRAME_SIZE] = { 0 };
-+	u8 dest[PLOYTEC_PLAYBACK_FRAME_SIZE];
-+
-+	memset(dest, PLOYTEC_TEST_GUARD_BYTE, sizeof(dest));
-+	ploytec_encode_batch(dest, src, 0);
-+
-+	for (size_t i = 0; i < sizeof(dest); i++)
-+		KUNIT_EXPECT_EQ_MSG(test, dest[i], PLOYTEC_TEST_GUARD_BYTE,
-+				    "encode of 0 frames wrote to dest[%zu]", i);
++	ploytec_encode_s24_3le(dest, src);
 +}
 +
-+static void ploytec_test_decode_batch_zero_frames(struct kunit *test)
++static inline void ploytec_decode_frame(u8 *dest, const u8 *src)
 +{
-+	u8 src[PLOYTEC_CAPTURE_FRAME_SIZE] = { 0 };
-+	u8 dest[PLOYTEC_CAPTURE_PCM_FRAME_SIZE];
-+
-+	memset(dest, PLOYTEC_TEST_GUARD_BYTE, sizeof(dest));
-+	ploytec_decode_batch(dest, src, 0);
-+
-+	for (size_t i = 0; i < sizeof(dest); i++)
-+		KUNIT_EXPECT_EQ_MSG(test, dest[i], PLOYTEC_TEST_GUARD_BYTE,
-+				    "decode of 0 frames wrote to dest[%zu]", i);
++	ploytec_decode_s24_3le(dest, src);
 +}
 +
-+static void ploytec_test_encode_batch_no_overrun(struct kunit *test)
++#elif defined(CONFIG_64BIT)
++
++static const enum ploytec_codec_variant ploytec_codec_selected =
++	PLOYTEC_CODEC_OPTIMIZED_64BIT;
++
++static void ploytec_codec_init_tables(void)
 +{
-+	const size_t payload = PLOYTEC_TEST_MAX_ENCODE_FRAMES *
-+			       PLOYTEC_PLAYBACK_FRAME_SIZE;
-+	u8 src[PLOYTEC_TEST_MAX_ENCODE_FRAMES * PLOYTEC_PLAYBACK_PCM_FRAME_SIZE];
-+	struct ploytec_test_rng rng;
-+	u8 *buf;
++	init_ploytec_bit_spread_lut64();
++}
 +
-+	buf = kunit_kzalloc(test, payload + 2 * PLOYTEC_TEST_GUARD, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, buf);
++static inline void ploytec_encode_frame(u8 *dest, const u8 *src)
++{
++	ploytec_encode_s24_3le_lut64(dest, src);
++}
 +
-+	ploytec_rng_init(&rng, 0xBEEFCAFEBEEFCAFEULL);
-+	ploytec_rng_fill(&rng, src, sizeof(src));
++static inline void ploytec_decode_frame(u8 *dest, const u8 *src)
++{
++	ploytec_decode_s24_3le_pack64(dest, src);
++}
 +
-+	memset(buf, PLOYTEC_TEST_GUARD_BYTE, payload + 2 * PLOYTEC_TEST_GUARD);
-+	ploytec_encode_batch(buf + PLOYTEC_TEST_GUARD, src,
-+			     PLOYTEC_TEST_MAX_ENCODE_FRAMES);
++#else
 +
-+	for (int i = 0; i < PLOYTEC_TEST_GUARD; i++) {
-+		KUNIT_EXPECT_EQ_MSG(test, buf[i], PLOYTEC_TEST_GUARD_BYTE,
-+				    "encode wrote %d bytes before the destination",
-+				    PLOYTEC_TEST_GUARD - i);
-+		KUNIT_EXPECT_EQ_MSG(test, buf[PLOYTEC_TEST_GUARD + payload + i],
-+				    PLOYTEC_TEST_GUARD_BYTE,
-+				    "encode wrote %d bytes past the destination",
-+				    i + 1);
++static const enum ploytec_codec_variant ploytec_codec_selected =
++	PLOYTEC_CODEC_OPTIMIZED_32BIT;
++
++static void ploytec_codec_init_tables(void)
++{
++	init_ploytec_bit_spread_lut32();
++}
++
++static inline void ploytec_encode_frame(u8 *dest, const u8 *src)
++{
++	ploytec_encode_s24_3le_lut32(dest, src);
++}
++
++static inline void ploytec_decode_frame(u8 *dest, const u8 *src)
++{
++	ploytec_decode_s24_3le_pack32(dest, src);
++}
++
++#endif
++
++/**
++ * ploytec_initialize_codec() - Initialize the codec's pre-computed lookup tables
++ *
++ * Builds the bit-spread lookup table(s) used by the optimized encoder/decoder.
++ * Must be called before any call to ploytec_encode_batch() or
++ * ploytec_decode_batch(). Only the first call builds them: a later one may run
++ * while URB completions are reading the tables, as the KUnit suite linked into
++ * the module does.
++ *
++ * Return: which codec variant this build selected, for the caller to log.
++ */
++enum ploytec_codec_variant ploytec_initialize_codec(void)
++{
++	static bool initialized;
++
++	if (!initialized) {
++		ploytec_codec_init_tables();
++		initialized = true;
 +	}
++	return ploytec_codec_selected;
 +}
+ 
+ /**
+  * ploytec_encode_batch() - Encode a number of 4-channel S24_3LE to 48-byte Ploytec frames
+@@ -143,7 +641,7 @@ static inline void ploytec_decode_s24_3le(u8 *dest, const u8 *src)
+ void ploytec_encode_batch(u8 *dest, const u8 *src, const int n_frames)
+ {
+ 	for (int f = 0; f < n_frames; f++) {
+-		ploytec_encode_s24_3le(dest, src);
++		ploytec_encode_frame(dest, src);
+ 		dest += PLOYTEC_PLAYBACK_FRAME_SIZE;
+ 		src += PLOYTEC_PLAYBACK_PCM_FRAME_SIZE;
+ 	}
+@@ -158,7 +656,7 @@ void ploytec_encode_batch(u8 *dest, const u8 *src, const int n_frames)
+ void ploytec_decode_batch(u8 *dest, const u8 *src, const int n_frames)
+ {
+ 	for (int f = 0; f < n_frames; f++) {
+-		ploytec_decode_s24_3le(dest, src);
++		ploytec_decode_frame(dest, src);
+ 		dest += PLOYTEC_CAPTURE_PCM_FRAME_SIZE;
+ 		src += PLOYTEC_CAPTURE_FRAME_SIZE;
+ 	}
+diff --git a/sound/usb/jockey3/ploytec_codec.h b/sound/usb/jockey3/ploytec_codec.h
+index 0ee0d38099bf2..40917f49eae75 100644
+--- a/sound/usb/jockey3/ploytec_codec.h
++++ b/sound/usb/jockey3/ploytec_codec.h
+@@ -24,7 +24,20 @@
+ #define PLOYTEC_CAPTURE_FRAME_SIZE	64
+ #define PLOYTEC_CAPTURE_PCM_FRAME_SIZE	18	// 6 channels * 3 bytes
+ 
++/**
++ * enum ploytec_codec_variant - which encode/decode implementation got selected
++ * @PLOYTEC_CODEC_PORTABLE: portable reference implementation
++ * @PLOYTEC_CODEC_OPTIMIZED_64BIT: lookup-table/bit-packing codec, 64-bit build
++ * @PLOYTEC_CODEC_OPTIMIZED_32BIT: lookup-table/bit-packing codec, 32-bit build
++ */
++enum ploytec_codec_variant {
++	PLOYTEC_CODEC_PORTABLE,
++	PLOYTEC_CODEC_OPTIMIZED_64BIT,
++	PLOYTEC_CODEC_OPTIMIZED_32BIT,
++};
 +
-+static void ploytec_test_decode_batch_no_overrun(struct kunit *test)
-+{
-+	const size_t payload = PLOYTEC_TEST_MAX_DECODE_FRAMES *
-+			       PLOYTEC_CAPTURE_PCM_FRAME_SIZE;
-+	u8 src[PLOYTEC_TEST_MAX_DECODE_FRAMES * PLOYTEC_CAPTURE_FRAME_SIZE];
-+	struct ploytec_test_rng rng;
-+	u8 *buf;
-+
-+	buf = kunit_kzalloc(test, payload + 2 * PLOYTEC_TEST_GUARD, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, buf);
-+
-+	ploytec_rng_init(&rng, 0xBEEFCAFEBEEFCAFEULL);
-+	ploytec_rng_fill(&rng, src, sizeof(src));
-+
-+	memset(buf, PLOYTEC_TEST_GUARD_BYTE, payload + 2 * PLOYTEC_TEST_GUARD);
-+	ploytec_decode_batch(buf + PLOYTEC_TEST_GUARD, src,
-+			     PLOYTEC_TEST_MAX_DECODE_FRAMES);
-+
-+	for (int i = 0; i < PLOYTEC_TEST_GUARD; i++) {
-+		KUNIT_EXPECT_EQ_MSG(test, buf[i], PLOYTEC_TEST_GUARD_BYTE,
-+				    "decode wrote %d bytes before the destination",
-+				    PLOYTEC_TEST_GUARD - i);
-+		KUNIT_EXPECT_EQ_MSG(test, buf[PLOYTEC_TEST_GUARD + payload + i],
-+				    PLOYTEC_TEST_GUARD_BYTE,
-+				    "decode wrote %d bytes past the destination",
-+				    i + 1);
-+	}
-+}
-+
-+/* --- Alignment ------------------------------------------------------------ */
+ /* batching of the sample processing */
++enum ploytec_codec_variant ploytec_initialize_codec(void);
+ void ploytec_encode_batch(u8 *dest, const u8 *src, const int n_frames);
+ void ploytec_decode_batch(u8 *dest, const u8 *src, const int n_frames);
+ 
+diff --git a/sound/usb/jockey3/ploytec_codec_kunit.c b/sound/usb/jockey3/ploytec_codec_kunit.c
+index 2b7eeb3a1b11b..5ff5daaa3d553 100644
+--- a/sound/usb/jockey3/ploytec_codec_kunit.c
++++ b/sound/usb/jockey3/ploytec_codec_kunit.c
+@@ -9,13 +9,18 @@
+ /**
+  * DOC: Proving the Ploytec codec correct
+  *
+- * ploytec_codec.c implements a bit-scatter/gather algorithm: the conversion
+- * between ALSA's S24_3LE frames and the Ploytec bit-plane wire format.
++ * ploytec_codec.c carries three implementations of one bit-scatter/gather
++ * algorithm - a portable reference plus 32-bit and 64-bit SWAR variants that
++ * use magic-multiplier tricks and 256-entry lookup tables. Exactly one is
++ * compiled into any given build, chosen by CONFIG_64BIT and
++ * CONFIG_SND_USB_JOCKEY3_REFERENCE_CODEC. The optimized paths are 4-10x
++ * faster and are what every user actually runs, but they are not obviously
++ * correct by inspection.
+  *
+- * These tests validate it through the public ploytec_encode_batch() /
+- * ploytec_decode_batch() entry points. No symbols are exported and the codec
+- * is not modified to be testable; the test object is simply linked into the
+- * same module.
++ * These tests validate whichever variant the build selected, through the
++ * public ploytec_encode_batch() / ploytec_decode_batch() entry points. No
++ * symbols are exported and the codec is not modified to be testable; the
++ * test object is simply linked into the same module.
+  *
+  * The strategy is stronger than sampling random inputs:
+  *
+@@ -36,8 +41,8 @@
+  *    checks.
+  *
+  * 3. Golden vectors generated by an independent Python model of the format
+- *    (tests/codec/ploytec_model.py) guard against the codec and the oracle
+- *    drifting away from the wire format together.
++ *    (tests/codec/ploytec_model.py) guard against the whole family drifting
++ *    away from the wire format together.
+  *
+  * Randomized cases use a small seeded xorshift generator rather than the
+  * kernel RNG, so every architecture exercises identical data and any failure
+@@ -657,9 +662,10 @@ static void ploytec_test_decode_batch_no_overrun(struct kunit *test)
+ /* --- Alignment ------------------------------------------------------------ */
+ 
+ /*
+- * In the driver the wire buffer happens to be 8-byte aligned, so a codec that
+- * assumed alignment would go unnoticed on x86 and only surface as a fault on
+- * a strict-alignment architecture. Run every byte offset explicitly.
++ * The optimized codecs reach for 32- and 64-bit words through the unaligned
++ * accessors. In the driver the wire buffer happens to be 8-byte aligned, so a
++ * misuse of those accessors would go unnoticed on x86 and only surface as a
++ * fault on a strict-alignment architecture. Run every byte offset explicitly.
+  */
+ static void ploytec_test_encode_unaligned_buffers(struct kunit *test)
+ {
+@@ -819,8 +825,42 @@ static void ploytec_test_decode_ignores_unused_bits(struct kunit *test)
+ 	}
+ }
+ 
++/* --- Build wiring --------------------------------------------------------- */
 +
 +/*
-+ * In the driver the wire buffer happens to be 8-byte aligned, so a codec that
-+ * assumed alignment would go unnoticed on x86 and only surface as a fault on
-+ * a strict-alignment architecture. Run every byte offset explicitly.
++ * The three implementations are chosen by a preprocessor chain, and getting
++ * that chain wrong silently selects the wrong codec. That is not theoretical:
++ * the out-of-tree user-space harness built the 32-bit variant on x86_64 for
++ * months because CONFIG_64BIT was not defined in its build.
 + */
-+static void ploytec_test_encode_unaligned_buffers(struct kunit *test)
++static void ploytec_test_codec_variant_matches_build(struct kunit *test)
 +{
-+	u8 reference[PLOYTEC_PLAYBACK_FRAME_SIZE];
-+	u8 src[PLOYTEC_PLAYBACK_PCM_FRAME_SIZE];
-+	struct ploytec_test_rng rng;
-+	u8 *src_buf, *dst_buf;
++	enum ploytec_codec_variant variant = ploytec_initialize_codec();
 +
-+	src_buf = kunit_kzalloc(test, PLOYTEC_PLAYBACK_PCM_FRAME_SIZE + 8, GFP_KERNEL);
-+	dst_buf = kunit_kzalloc(test, PLOYTEC_PLAYBACK_FRAME_SIZE + 8, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, src_buf);
-+	KUNIT_ASSERT_NOT_NULL(test, dst_buf);
-+
-+	ploytec_rng_init(&rng, 0x1234ABCD5678EF90ULL);
-+	ploytec_rng_fill(&rng, src, sizeof(src));
-+	ploytec_oracle_encode(reference, src);
-+
-+	for (int src_off = 0; src_off < 8; src_off++) {
-+		for (int dst_off = 0; dst_off < 8; dst_off++) {
-+			memcpy(src_buf + src_off, src, sizeof(src));
-+			memset(dst_buf, 0, PLOYTEC_PLAYBACK_FRAME_SIZE + 8);
-+
-+			ploytec_encode_batch(dst_buf + dst_off, src_buf + src_off, 1);
-+
-+			KUNIT_ASSERT_MEMEQ_MSG(test, dst_buf + dst_off, reference,
-+					       PLOYTEC_PLAYBACK_FRAME_SIZE,
-+					       "encode differs at src offset %d, dst offset %d",
-+					       src_off, dst_off);
-+		}
-+	}
++	if (IS_ENABLED(CONFIG_SND_USB_JOCKEY3_REFERENCE_CODEC))
++		KUNIT_EXPECT_EQ_MSG(test, variant, PLOYTEC_CODEC_PORTABLE,
++				    "REFERENCE_CODEC is set but the portable codec was not selected");
++	else if (IS_ENABLED(CONFIG_64BIT))
++		KUNIT_EXPECT_EQ_MSG(test, variant, PLOYTEC_CODEC_OPTIMIZED_64BIT,
++				    "64-bit build did not select the 64-bit codec");
++	else
++		KUNIT_EXPECT_EQ_MSG(test, variant, PLOYTEC_CODEC_OPTIMIZED_32BIT,
++				    "32-bit build did not select the 32-bit codec");
 +}
 +
-+static void ploytec_test_decode_unaligned_buffers(struct kunit *test)
+ /* --- Suite ---------------------------------------------------------------- */
+ 
++static int ploytec_codec_suite_init(struct kunit_suite *suite)
 +{
-+	u8 reference[PLOYTEC_CAPTURE_PCM_FRAME_SIZE];
-+	u8 src[PLOYTEC_CAPTURE_FRAME_SIZE];
-+	struct ploytec_test_rng rng;
-+	u8 *src_buf, *dst_buf;
++	/*
++	 * The lookup tables the optimized codecs need. module_init() has
++	 * normally built them already, and then this does nothing.
++	 */
++	ploytec_initialize_codec();
 +
-+	src_buf = kunit_kzalloc(test, PLOYTEC_CAPTURE_FRAME_SIZE + 8, GFP_KERNEL);
-+	dst_buf = kunit_kzalloc(test, PLOYTEC_CAPTURE_PCM_FRAME_SIZE + 8, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, src_buf);
-+	KUNIT_ASSERT_NOT_NULL(test, dst_buf);
-+
-+	ploytec_rng_init(&rng, 0x1234ABCD5678EF90ULL);
-+	ploytec_rng_fill(&rng, src, sizeof(src));
-+	ploytec_oracle_decode(reference, src);
-+
-+	for (int src_off = 0; src_off < 8; src_off++) {
-+		for (int dst_off = 0; dst_off < 8; dst_off++) {
-+			memcpy(src_buf + src_off, src, sizeof(src));
-+			memset(dst_buf, 0, PLOYTEC_CAPTURE_PCM_FRAME_SIZE + 8);
-+
-+			ploytec_decode_batch(dst_buf + dst_off, src_buf + src_off, 1);
-+
-+			KUNIT_ASSERT_MEMEQ_MSG(test, dst_buf + dst_off, reference,
-+					       PLOYTEC_CAPTURE_PCM_FRAME_SIZE,
-+					       "decode differs at src offset %d, dst offset %d",
-+					       src_off, dst_off);
-+		}
-+	}
++	return 0;
 +}
 +
-+/* --- Format invariants ---------------------------------------------------- */
-+
-+static void ploytec_test_encode_zero_input(struct kunit *test)
-+{
-+	u8 src[PLOYTEC_PLAYBACK_PCM_FRAME_SIZE] = { 0 };
-+	u8 dest[PLOYTEC_PLAYBACK_FRAME_SIZE];
-+	u8 want[PLOYTEC_PLAYBACK_FRAME_SIZE] = { 0 };
-+
-+	memset(dest, 0xFF, sizeof(dest));
-+	ploytec_encode_batch(dest, src, 1);
-+
-+	KUNIT_EXPECT_MEMEQ_MSG(test, dest, want, sizeof(dest),
-+			       "silence did not encode to an all-zero wire frame");
-+}
-+
-+/*
-+ * Playback packs only two channels into each wire byte, so bits 2..7 carry
-+ * nothing. jockey3.c relies on this: it writes the MIDI and sync bytes into
-+ * the same 512-byte packet and would be corrupted by a codec that spilled
-+ * into the upper bits.
-+ */
-+static void ploytec_test_encode_reserved_bits_clear(struct kunit *test)
-+{
-+	u8 src[PLOYTEC_PLAYBACK_PCM_FRAME_SIZE];
-+	u8 dest[PLOYTEC_PLAYBACK_FRAME_SIZE];
-+	struct ploytec_test_rng rng;
-+
-+	ploytec_rng_init(&rng, 0x0F0F0F0FF0F0F0F0ULL);
-+
-+	/* All ones is the worst case, then sample the space. */
-+	memset(src, 0xFF, sizeof(src));
-+
-+	for (int t = 0; t < 256; t++) {
-+		memset(dest, 0, sizeof(dest));
-+		ploytec_encode_batch(dest, src, 1);
-+
-+		for (size_t i = 0; i < sizeof(dest); i++)
-+			KUNIT_ASSERT_EQ_MSG(test, dest[i] & 0xFC, 0,
-+					    "wire byte %zu has reserved bits set (%#04x)",
-+					    i, dest[i]);
-+
-+		ploytec_rng_fill(&rng, src, sizeof(src));
-+	}
-+}
-+
-+static void ploytec_test_decode_ignores_unused_bytes(struct kunit *test)
-+{
-+	u8 src[PLOYTEC_CAPTURE_FRAME_SIZE];
-+	u8 probe[PLOYTEC_CAPTURE_FRAME_SIZE];
-+	u8 want[PLOYTEC_CAPTURE_PCM_FRAME_SIZE];
-+	u8 got[PLOYTEC_CAPTURE_PCM_FRAME_SIZE];
-+	struct ploytec_test_rng rng;
-+
-+	ploytec_rng_init(&rng, 0xABCDEF0123456789ULL);
-+	ploytec_rng_fill(&rng, src, sizeof(src));
-+	ploytec_decode_batch(want, src, 1);
-+
-+	for (int t = 0; t < 256; t++) {
-+		memcpy(probe, src, sizeof(probe));
-+
-+		/* Scribble over everything the decoder should not be reading. */
-+		for (size_t i = 0; i < sizeof(probe); i++) {
-+			if (!ploytec_capture_byte_used(i))
-+				probe[i] = ploytec_rng_next(&rng) & 0xFF;
-+		}
-+
-+		ploytec_decode_batch(got, probe, 1);
-+		KUNIT_ASSERT_MEMEQ_MSG(test, got, want, sizeof(want),
-+				       "decode result changed when unused wire bytes changed");
-+	}
-+}
-+
-+static void ploytec_test_decode_ignores_unused_bits(struct kunit *test)
-+{
-+	u8 src[PLOYTEC_CAPTURE_FRAME_SIZE];
-+	u8 probe[PLOYTEC_CAPTURE_FRAME_SIZE];
-+	u8 want[PLOYTEC_CAPTURE_PCM_FRAME_SIZE];
-+	u8 got[PLOYTEC_CAPTURE_PCM_FRAME_SIZE];
-+	struct ploytec_test_rng rng;
-+
-+	ploytec_rng_init(&rng, 0x9988776655443322ULL);
-+	ploytec_rng_fill(&rng, src, sizeof(src));
-+	ploytec_decode_batch(want, src, 1);
-+
-+	for (int t = 0; t < 256; t++) {
-+		/* Only bits 0..2 of each wire byte carry channel data. */
-+		for (size_t i = 0; i < sizeof(probe); i++)
-+			probe[i] = (src[i] & 0x07) |
-+				   (ploytec_rng_next(&rng) & 0xF8);
-+
-+		ploytec_decode_batch(got, probe, 1);
-+		KUNIT_ASSERT_MEMEQ_MSG(test, got, want, sizeof(want),
-+				       "decode result changed when unused wire bits changed");
-+	}
-+}
-+
-+/* --- Suite ---------------------------------------------------------------- */
-+
-+static struct kunit_case ploytec_codec_test_cases[] = {
-+	KUNIT_CASE_PARAM(ploytec_test_encode_known_vectors,
-+			 ploytec_encode_vector_gen_params),
-+	KUNIT_CASE_PARAM(ploytec_test_decode_known_vectors,
-+			 ploytec_decode_vector_gen_params),
-+	KUNIT_CASE(ploytec_test_encode_matches_oracle),
-+	KUNIT_CASE(ploytec_test_decode_matches_oracle),
-+	KUNIT_CASE(ploytec_test_encode_permutation_complete),
-+	KUNIT_CASE(ploytec_test_decode_permutation_complete),
-+	KUNIT_CASE(ploytec_test_encode_is_linear),
-+	KUNIT_CASE(ploytec_test_decode_is_linear),
-+	KUNIT_CASE(ploytec_test_encode_batch_equals_single),
-+	KUNIT_CASE(ploytec_test_decode_batch_equals_single),
-+	KUNIT_CASE(ploytec_test_encode_batch_zero_frames),
-+	KUNIT_CASE(ploytec_test_decode_batch_zero_frames),
-+	KUNIT_CASE(ploytec_test_encode_batch_no_overrun),
-+	KUNIT_CASE(ploytec_test_decode_batch_no_overrun),
-+	KUNIT_CASE(ploytec_test_encode_unaligned_buffers),
-+	KUNIT_CASE(ploytec_test_decode_unaligned_buffers),
-+	KUNIT_CASE(ploytec_test_encode_zero_input),
-+	KUNIT_CASE(ploytec_test_encode_reserved_bits_clear),
-+	KUNIT_CASE(ploytec_test_decode_ignores_unused_bytes),
-+	KUNIT_CASE(ploytec_test_decode_ignores_unused_bits),
-+	{},
-+};
-+
-+static struct kunit_suite ploytec_codec_suite = {
-+	.name = "ploytec-codec",
-+	.test_cases = ploytec_codec_test_cases,
-+};
-+
-+kunit_test_suite(ploytec_codec_suite);
-diff --git a/sound/usb/jockey3/ploytec_codec_test_vectors.h b/sound/usb/jockey3/ploytec_codec_test_vectors.h
-new file mode 100644
-index 0000000000000..894d5f830d7f2
---- /dev/null
-+++ b/sound/usb/jockey3/ploytec_codec_test_vectors.h
-@@ -0,0 +1,793 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * Golden test vectors for the Ploytec bit-plane codec.
-+ *
-+ * GENERATED FILE - DO NOT EDIT.
-+ *
-+ * Produced by genvectors.py from ploytec_model.py, an independent model
-+ * that derives the wire format structurally rather than from this driver's
-+ * code, so the two cannot agree on a wrong answer. The same vectors drive a
-+ * user-space bench, which is why they live in a header of their own.
-+ *
-+ * Both generator and model belong to the driver's test tooling and are not
-+ * part of the kernel tree. They live under tests/codec at
-+ * https://github.com/fvdpol/alsa-jockey3, where ./genvectors.py regenerates
-+ * this file.
-+ *
-+ * ploytec_model.py sha256: 09fdf2831f9de572ee3a0e06b20807ee6235fc67ac79481469d616e965e8f0f3
-+ *
-+ * Copyright (c) 2026 by Frank van de Pol <fvdpol@gmail.com>
-+ */
-+
-+#ifndef PLOYTEC_CODEC_TEST_VECTORS_H
-+#define PLOYTEC_CODEC_TEST_VECTORS_H
-+
-+struct ploytec_encode_vector {
-+	const char *name;
-+	u8 src[12];
-+	u8 expect[48];
-+};
-+
-+struct ploytec_decode_vector {
-+	const char *name;
-+	u8 src[64];
-+	u8 expect[18];
-+};
-+
-+static const struct ploytec_encode_vector ploytec_encode_vectors[] = {
-+	{
-+		.name = "zeros",
-+		.src = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+		.expect = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+	},
-+	{
-+		.name = "ones",
-+		.src = {
-+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+		},
-+		.expect = {
-+			0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03,
-+			0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03,
-+			0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03,
-+			0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03,
-+		},
-+	},
-+	{
-+		.name = "alternating_55",
-+		.src = {
-+			0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55,
-+		},
-+		.expect = {
-+			0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03,
-+			0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03,
-+			0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03,
-+			0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03,
-+		},
-+	},
-+	{
-+		.name = "alternating_aa",
-+		.src = {
-+			0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
-+		},
-+		.expect = {
-+			0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00,
-+			0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00,
-+			0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00,
-+			0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00, 0x03, 0x00,
-+		},
-+	},
-+	{
-+		.name = "ramp",
-+		.src = {
-+			0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b,
-+		},
-+		.expect = {
-+			0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x02, 0x02, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x02, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x02, 0x01, 0x02, 0x03, 0x00, 0x00, 0x00, 0x00,
-+			0x02, 0x01, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x01, 0x03,
-+		},
-+	},
-+	{
-+		.name = "channel0_full",
-+		.src = {
-+			0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+		.expect = {
-+			0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-+			0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+	},
-+	{
-+		.name = "channel1_full",
-+		.src = {
-+			0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+		.expect = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-+			0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-+		},
-+	},
-+	{
-+		.name = "channel2_full",
-+		.src = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00,
-+		},
-+		.expect = {
-+			0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
-+			0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+	},
-+	{
-+		.name = "channel3_full",
-+		.src = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff,
-+		},
-+		.expect = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
-+			0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
-+		},
-+	},
-+	{
-+		.name = "channel0_sign",
-+		.src = {
-+			0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+		.expect = {
-+			0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+	},
-+	{
-+		.name = "channel1_sign",
-+		.src = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+		.expect = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+	},
-+	{
-+		.name = "channel2_sign",
-+		.src = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00,
-+		},
-+		.expect = {
-+			0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+	},
-+	{
-+		.name = "channel3_sign",
-+		.src = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80,
-+		},
-+		.expect = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+	},
-+	{
-+		.name = "distinct",
-+		.src = {
-+			0x56, 0x34, 0x12, 0xbc, 0x9a, 0x78, 0x12, 0xf0, 0xde, 0x78, 0x56, 0x34,
-+		},
-+		.expect = {
-+			0x02, 0x02, 0x00, 0x03, 0x02, 0x02, 0x03, 0x00, 0x02, 0x02, 0x03, 0x03,
-+			0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x03, 0x00, 0x01, 0x03, 0x00,
-+			0x00, 0x01, 0x03, 0x03, 0x01, 0x02, 0x00, 0x00, 0x01, 0x02, 0x00, 0x03,
-+			0x01, 0x02, 0x03, 0x00, 0x01, 0x02, 0x03, 0x03, 0x03, 0x01, 0x00, 0x00,
-+		},
-+	},
-+	{
-+		.name = "random00",
-+		.src = {
-+			0xc5, 0x21, 0x5c, 0x0d, 0x13, 0xea, 0x2d, 0xa6, 0x6b, 0x90, 0x77, 0x77,
-+		},
-+		.expect = {
-+			0x00, 0x03, 0x02, 0x01, 0x03, 0x01, 0x02, 0x02, 0x02, 0x00, 0x03, 0x00,
-+			0x00, 0x02, 0x02, 0x01, 0x01, 0x01, 0x02, 0x00, 0x02, 0x03, 0x00, 0x03,
-+			0x01, 0x03, 0x03, 0x02, 0x01, 0x02, 0x03, 0x02, 0x00, 0x02, 0x02, 0x03,
-+			0x00, 0x02, 0x03, 0x03, 0x02, 0x00, 0x00, 0x02, 0x01, 0x01, 0x00, 0x01,
-+		},
-+	},
-+	{
-+		.name = "random01",
-+		.src = {
-+			0xd2, 0x2b, 0xc8, 0xf8, 0x5d, 0x0f, 0xc4, 0x8b, 0xf0, 0x91, 0xa2, 0x96,
-+		},
-+		.expect = {
-+			0x03, 0x03, 0x02, 0x02, 0x01, 0x00, 0x00, 0x00, 0x02, 0x00, 0x01, 0x00,
-+			0x03, 0x00, 0x03, 0x03, 0x03, 0x03, 0x00, 0x01, 0x00, 0x02, 0x01, 0x00,
-+			0x02, 0x00, 0x00, 0x02, 0x01, 0x03, 0x03, 0x01, 0x02, 0x01, 0x02, 0x01,
-+			0x01, 0x01, 0x02, 0x01, 0x03, 0x01, 0x01, 0x03, 0x01, 0x00, 0x00, 0x02,
-+		},
-+	},
-+	{
-+		.name = "random02",
-+		.src = {
-+			0xc2, 0xc6, 0xd5, 0xf1, 0xf7, 0x91, 0xbb, 0xd9, 0xdb, 0x54, 0x93, 0x29,
-+		},
-+		.expect = {
-+			0x03, 0x03, 0x00, 0x03, 0x02, 0x01, 0x02, 0x03, 0x03, 0x03, 0x00, 0x02,
-+			0x02, 0x01, 0x01, 0x02, 0x03, 0x01, 0x02, 0x02, 0x02, 0x00, 0x03, 0x02,
-+			0x01, 0x00, 0x02, 0x01, 0x02, 0x00, 0x00, 0x03, 0x03, 0x01, 0x01, 0x03,
-+			0x00, 0x01, 0x03, 0x03, 0x01, 0x03, 0x01, 0x03, 0x00, 0x02, 0x00, 0x01,
-+		},
-+	},
-+	{
-+		.name = "random03",
-+		.src = {
-+			0x4f, 0xb4, 0xf2, 0x70, 0x17, 0x6f, 0xe3, 0x64, 0xc0, 0xcd, 0x51, 0xa4,
-+		},
-+		.expect = {
-+			0x03, 0x03, 0x01, 0x01, 0x00, 0x00, 0x01, 0x00, 0x01, 0x02, 0x03, 0x01,
-+			0x00, 0x03, 0x00, 0x00, 0x02, 0x03, 0x02, 0x00, 0x01, 0x01, 0x03, 0x03,
-+			0x02, 0x01, 0x03, 0x00, 0x01, 0x03, 0x01, 0x01, 0x00, 0x02, 0x00, 0x03,
-+			0x00, 0x01, 0x01, 0x03, 0x02, 0x03, 0x01, 0x01, 0x02, 0x02, 0x00, 0x02,
-+		},
-+	},
-+	{
-+		.name = "random04",
-+		.src = {
-+			0x5d, 0xf8, 0xb4, 0xe8, 0x5a, 0x5b, 0xe5, 0x10, 0x69, 0xd0, 0x02, 0xa9,
-+		},
-+		.expect = {
-+			0x01, 0x02, 0x03, 0x01, 0x02, 0x01, 0x00, 0x02, 0x01, 0x01, 0x01, 0x03,
-+			0x01, 0x00, 0x00, 0x00, 0x02, 0x03, 0x02, 0x01, 0x01, 0x03, 0x00, 0x03,
-+			0x02, 0x01, 0x02, 0x01, 0x03, 0x00, 0x01, 0x03, 0x00, 0x01, 0x00, 0x01,
-+			0x01, 0x00, 0x03, 0x00, 0x03, 0x03, 0x01, 0x02, 0x01, 0x00, 0x00, 0x00,
-+		},
-+	},
-+	{
-+		.name = "random05",
-+		.src = {
-+			0x67, 0x49, 0x0c, 0x85, 0xfd, 0x37, 0xc7, 0xf9, 0xd8, 0xcb, 0x7d, 0x90,
-+		},
-+		.expect = {
-+			0x02, 0x02, 0x00, 0x02, 0x03, 0x01, 0x00, 0x00, 0x02, 0x03, 0x02, 0x02,
-+			0x03, 0x00, 0x00, 0x03, 0x02, 0x03, 0x01, 0x00, 0x00, 0x03, 0x03, 0x03,
-+			0x02, 0x00, 0x01, 0x03, 0x00, 0x01, 0x01, 0x01, 0x01, 0x03, 0x03, 0x03,
-+			0x03, 0x03, 0x00, 0x03, 0x03, 0x02, 0x00, 0x00, 0x02, 0x01, 0x02, 0x03,
-+		},
-+	},
-+	{
-+		.name = "random06",
-+		.src = {
-+			0x49, 0x2c, 0x4f, 0x41, 0x86, 0x56, 0xf0, 0x2f, 0xa1, 0x33, 0x30, 0xb9,
-+		},
-+		.expect = {
-+			0x02, 0x01, 0x02, 0x00, 0x01, 0x01, 0x01, 0x03, 0x00, 0x00, 0x03, 0x00,
-+			0x03, 0x03, 0x02, 0x02, 0x02, 0x03, 0x02, 0x02, 0x01, 0x00, 0x00, 0x01,
-+			0x02, 0x01, 0x02, 0x03, 0x02, 0x01, 0x01, 0x02, 0x01, 0x00, 0x02, 0x02,
-+			0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x02, 0x02, 0x00, 0x00, 0x02, 0x03,
-+		},
-+	},
-+	{
-+		.name = "random07",
-+		.src = {
-+			0x4e, 0x19, 0xe5, 0x1a, 0xcd, 0x69, 0xf2, 0x66, 0x4c, 0xe6, 0x5c, 0x61,
-+		},
-+		.expect = {
-+			0x01, 0x03, 0x01, 0x00, 0x02, 0x03, 0x00, 0x01, 0x00, 0x02, 0x02, 0x01,
-+			0x01, 0x02, 0x02, 0x01, 0x02, 0x03, 0x02, 0x02, 0x01, 0x01, 0x03, 0x00,
-+			0x00, 0x03, 0x03, 0x00, 0x01, 0x00, 0x00, 0x03, 0x01, 0x03, 0x00, 0x02,
-+			0x03, 0x03, 0x00, 0x01, 0x02, 0x02, 0x02, 0x01, 0x01, 0x02, 0x03, 0x00,
-+		},
-+	},
-+	{
-+		.name = "random08",
-+		.src = {
-+			0x22, 0x2a, 0xe7, 0xf8, 0xfb, 0x9c, 0x1e, 0xb4, 0x2a, 0x71, 0xcd, 0x54,
-+		},
-+		.expect = {
-+			0x01, 0x01, 0x03, 0x00, 0x02, 0x01, 0x03, 0x01, 0x02, 0x00, 0x03, 0x02,
-+			0x01, 0x02, 0x01, 0x00, 0x00, 0x00, 0x01, 0x02, 0x02, 0x02, 0x03, 0x00,
-+			0x01, 0x02, 0x00, 0x03, 0x01, 0x03, 0x00, 0x00, 0x03, 0x03, 0x01, 0x01,
-+			0x03, 0x02, 0x01, 0x03, 0x01, 0x03, 0x03, 0x03, 0x01, 0x00, 0x00, 0x02,
-+		},
-+	},
-+	{
-+		.name = "random09",
-+		.src = {
-+			0x1d, 0xf3, 0x3e, 0x4c, 0x48, 0x1a, 0xc5, 0x59, 0x5a, 0xfc, 0xf5, 0x5a,
-+		},
-+		.expect = {
-+			0x00, 0x02, 0x01, 0x03, 0x03, 0x01, 0x03, 0x00, 0x01, 0x03, 0x01, 0x03,
-+			0x02, 0x00, 0x01, 0x03, 0x02, 0x02, 0x00, 0x01, 0x01, 0x03, 0x00, 0x03,
-+			0x00, 0x02, 0x00, 0x03, 0x03, 0x00, 0x03, 0x00, 0x02, 0x03, 0x02, 0x02,
-+			0x01, 0x02, 0x00, 0x02, 0x02, 0x03, 0x02, 0x02, 0x03, 0x03, 0x00, 0x00,
-+		},
-+	},
-+	{
-+		.name = "random10",
-+		.src = {
-+			0x92, 0x19, 0xf2, 0x2e, 0xb9, 0xb6, 0xf6, 0x71, 0xa3, 0x48, 0xd9, 0x10,
-+		},
-+		.expect = {
-+			0x03, 0x01, 0x03, 0x01, 0x00, 0x00, 0x03, 0x02, 0x00, 0x02, 0x02, 0x03,
-+			0x01, 0x00, 0x00, 0x03, 0x03, 0x02, 0x02, 0x03, 0x00, 0x02, 0x03, 0x00,
-+			0x01, 0x00, 0x01, 0x03, 0x00, 0x01, 0x01, 0x00, 0x03, 0x02, 0x01, 0x03,
-+			0x03, 0x00, 0x00, 0x03, 0x00, 0x02, 0x01, 0x00, 0x03, 0x01, 0x01, 0x00,
-+		},
-+	},
-+	{
-+		.name = "random11",
-+		.src = {
-+			0x84, 0xea, 0x64, 0x8c, 0xce, 0x29, 0xff, 0x18, 0xb5, 0xaa, 0xd9, 0xc2,
-+		},
-+		.expect = {
-+			0x02, 0x01, 0x03, 0x02, 0x00, 0x03, 0x00, 0x02, 0x01, 0x01, 0x01, 0x02,
-+			0x03, 0x00, 0x01, 0x00, 0x03, 0x02, 0x02, 0x02, 0x02, 0x03, 0x02, 0x02,
-+			0x02, 0x02, 0x01, 0x00, 0x01, 0x00, 0x02, 0x01, 0x03, 0x03, 0x00, 0x02,
-+			0x03, 0x01, 0x01, 0x02, 0x03, 0x00, 0x02, 0x00, 0x03, 0x01, 0x02, 0x00,
-+		},
-+	},
-+	{
-+		.name = "random12",
-+		.src = {
-+			0xcd, 0x3f, 0x4e, 0x27, 0xbb, 0x31, 0x06, 0x7a, 0xba, 0x97, 0xd3, 0xd4,
-+		},
-+		.expect = {
-+			0x02, 0x01, 0x02, 0x02, 0x03, 0x01, 0x03, 0x00, 0x00, 0x02, 0x03, 0x03,
-+			0x03, 0x01, 0x03, 0x01, 0x01, 0x01, 0x00, 0x00, 0x01, 0x03, 0x02, 0x01,
-+			0x02, 0x02, 0x01, 0x03, 0x00, 0x02, 0x00, 0x01, 0x03, 0x02, 0x01, 0x03,
-+			0x01, 0x00, 0x03, 0x03, 0x02, 0x00, 0x01, 0x02, 0x00, 0x03, 0x03, 0x03,
-+		},
-+	},
-+	{
-+		.name = "random13",
-+		.src = {
-+			0x3b, 0x64, 0x49, 0xd4, 0x40, 0x3f, 0xab, 0xf0, 0x0f, 0x87, 0x9a, 0xde,
-+		},
-+		.expect = {
-+			0x00, 0x01, 0x00, 0x00, 0x03, 0x02, 0x02, 0x03, 0x02, 0x03, 0x03, 0x02,
-+			0x00, 0x01, 0x00, 0x00, 0x02, 0x00, 0x03, 0x01, 0x03, 0x00, 0x03, 0x03,
-+			0x02, 0x02, 0x01, 0x03, 0x03, 0x03, 0x03, 0x01, 0x02, 0x01, 0x00, 0x02,
-+			0x02, 0x00, 0x02, 0x00, 0x03, 0x01, 0x00, 0x01, 0x00, 0x03, 0x02, 0x02,
-+		},
-+	},
-+	{
-+		.name = "random14",
-+		.src = {
-+			0x03, 0x13, 0x49, 0x5c, 0x3b, 0xc2, 0x1f, 0xb2, 0x71, 0x9a, 0x11, 0x17,
-+		},
-+		.expect = {
-+			0x00, 0x03, 0x02, 0x02, 0x01, 0x00, 0x00, 0x03, 0x02, 0x00, 0x02, 0x03,
-+			0x00, 0x00, 0x03, 0x01, 0x00, 0x00, 0x00, 0x02, 0x02, 0x02, 0x03, 0x03,
-+			0x01, 0x01, 0x00, 0x02, 0x00, 0x02, 0x03, 0x02, 0x00, 0x00, 0x01, 0x03,
-+			0x01, 0x00, 0x01, 0x03, 0x02, 0x01, 0x00, 0x03, 0x03, 0x01, 0x02, 0x00,
-+		},
-+	},
-+	{
-+		.name = "random15",
-+		.src = {
-+			0x53, 0x46, 0x16, 0xdb, 0xce, 0x68, 0x55, 0x35, 0x6d, 0x11, 0xe3, 0x4a,
-+		},
-+		.expect = {
-+			0x00, 0x02, 0x02, 0x01, 0x02, 0x03, 0x01, 0x02, 0x00, 0x01, 0x02, 0x02,
-+			0x00, 0x03, 0x01, 0x02, 0x00, 0x03, 0x00, 0x03, 0x00, 0x02, 0x01, 0x03,
-+			0x00, 0x03, 0x01, 0x00, 0x03, 0x00, 0x02, 0x00, 0x03, 0x03, 0x02, 0x00,
-+			0x01, 0x01, 0x03, 0x02, 0x01, 0x01, 0x00, 0x03, 0x01, 0x00, 0x01, 0x03,
-+		},
-+	},
-+};
-+
-+static const struct ploytec_decode_vector ploytec_decode_vectors[] = {
-+	{
-+		.name = "zeros",
-+		.src = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00,
-+		},
-+		.expect = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+	},
-+	{
-+		.name = "ones",
-+		.src = {
-+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+			0xff, 0xff, 0xff, 0xff,
-+		},
-+		.expect = {
-+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+		},
-+	},
-+	{
-+		.name = "ramp",
-+		.src = {
-+			0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b,
-+			0x0c, 0x0d, 0x0e, 0x0f, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
-+			0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23,
-+			0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f,
-+			0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3a, 0x3b,
-+			0x3c, 0x3d, 0x3e, 0x3f,
-+		},
-+		.expect = {
-+			0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x33, 0x33, 0x33, 0x33, 0x33, 0x33,
-+			0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f,
-+		},
-+	},
-+	{
-+		.name = "bitplane0_only",
-+		.src = {
-+			0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-+			0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-+			0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-+			0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-+			0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-+			0x01, 0x01, 0x01, 0x01,
-+		},
-+		.expect = {
-+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+	},
-+	{
-+		.name = "bitplane1_only",
-+		.src = {
-+			0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
-+			0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
-+			0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
-+			0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
-+			0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
-+			0x02, 0x02, 0x02, 0x02,
-+		},
-+		.expect = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+	},
-+	{
-+		.name = "bitplane2_only",
-+		.src = {
-+			0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04,
-+			0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04,
-+			0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04,
-+			0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04,
-+			0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04,
-+			0x04, 0x04, 0x04, 0x04,
-+		},
-+		.expect = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+		},
-+	},
-+	{
-+		.name = "group0_only",
-+		.src = {
-+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00,
-+		},
-+		.expect = {
-+			0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00,
-+			0xff, 0xff, 0xff, 0x00, 0x00, 0x00,
-+		},
-+	},
-+	{
-+		.name = "group1_only",
-+		.src = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff,
-+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00,
-+		},
-+		.expect = {
-+			0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff,
-+			0x00, 0x00, 0x00, 0xff, 0xff, 0xff,
-+		},
-+	},
-+	{
-+		.name = "unused_bytes_only",
-+		.src = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff,
-+			0xff, 0xff, 0xff, 0xff,
-+		},
-+		.expect = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+	},
-+	{
-+		.name = "unused_bits_only",
-+		.src = {
-+			0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8,
-+			0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8,
-+			0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8,
-+			0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8,
-+			0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8, 0xf8,
-+			0xf8, 0xf8, 0xf8, 0xf8,
-+		},
-+		.expect = {
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+			0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		},
-+	},
-+	{
-+		.name = "random00",
-+		.src = {
-+			0xc6, 0xd8, 0x5e, 0x8e, 0xac, 0x3a, 0xa9, 0x38, 0x25, 0x20, 0xcb, 0x47,
-+			0x26, 0xd0, 0x86, 0xb5, 0xf4, 0xfd, 0x71, 0x3c, 0xb2, 0xed, 0x50, 0x06,
-+			0xa5, 0x48, 0x62, 0xc1, 0xa5, 0x7f, 0xc7, 0xc5, 0xcd, 0x91, 0x98, 0xa8,
-+			0x8b, 0x35, 0x5a, 0x0c, 0x3e, 0xdc, 0x33, 0xf7, 0x3d, 0x8a, 0x15, 0xf6,
-+			0x5e, 0xac, 0x64, 0x96, 0x33, 0x8c, 0x4b, 0xf4, 0x83, 0xa5, 0x41, 0x86,
-+			0xfd, 0x51, 0xe5, 0x15,
-+		},
-+		.expect = {
-+			0x64, 0xb1, 0x02, 0x0a, 0x3a, 0xcc, 0x09, 0x3a, 0xb4, 0x9a, 0xb5, 0x0a,
-+			0xd5, 0x9b, 0xb8, 0xf5, 0xdb, 0x85,
-+		},
-+	},
-+	{
-+		.name = "random01",
-+		.src = {
-+			0xcd, 0xae, 0xb2, 0x51, 0xf0, 0x30, 0xf7, 0xf1, 0xda, 0x22, 0x94, 0x5d,
-+			0xd4, 0x48, 0x69, 0xa6, 0x37, 0x76, 0xd1, 0x4e, 0x58, 0xb0, 0xdf, 0x86,
-+			0x19, 0xa5, 0x1d, 0x27, 0x62, 0x3a, 0x41, 0x4a, 0x1d, 0xa6, 0xe1, 0x9a,
-+			0x44, 0xe0, 0x6a, 0x40, 0xf5, 0xc2, 0x2f, 0x9b, 0xf4, 0x8e, 0xcb, 0x7c,
-+			0x9c, 0xfd, 0x51, 0x89, 0x40, 0x75, 0x99, 0x2d, 0x4b, 0xda, 0x29, 0x14,
-+			0xfc, 0xd2, 0x9b, 0x13,
-+		},
-+		.expect = {
-+			0xa2, 0x12, 0x93, 0x77, 0xb2, 0xa0, 0xd3, 0xc1, 0x62, 0x00, 0x76, 0x52,
-+			0xd3, 0x39, 0xc2, 0xc5, 0xad, 0xc8,
-+		},
-+	},
-+	{
-+		.name = "random02",
-+		.src = {
-+			0x8e, 0xae, 0x5e, 0x59, 0x19, 0x93, 0xfd, 0x3b, 0x27, 0x0a, 0x8e, 0x06,
-+			0xfe, 0x31, 0xb2, 0xab, 0x7e, 0xc0, 0xaa, 0xe8, 0x13, 0x52, 0x24, 0x71,
-+			0x4b, 0x2f, 0x0d, 0x71, 0xf6, 0x9c, 0xc5, 0x3f, 0x12, 0x07, 0x45, 0xb1,
-+			0xff, 0x89, 0xe3, 0x86, 0x60, 0x41, 0xd4, 0x82, 0xc2, 0xbe, 0x01, 0x48,
-+			0x17, 0x7c, 0x8c, 0x42, 0x4f, 0xba, 0xc1, 0xed, 0xb9, 0xf3, 0xb4, 0xfc,
-+			0xa8, 0xb9, 0x1e, 0xc0,
-+		},
-+		.expect = {
-+			0x09, 0x85, 0x1f, 0x8b, 0x42, 0x7e, 0xac, 0xfb, 0xe5, 0x9c, 0x1c, 0xcb,
-+			0x82, 0xb8, 0xe2, 0xe9, 0x24, 0x69,
-+		},
-+	},
-+	{
-+		.name = "random03",
-+		.src = {
-+			0xb4, 0xbd, 0x6e, 0x34, 0xa0, 0x24, 0x1f, 0x6f, 0x5d, 0x79, 0x0e, 0xa6,
-+			0x86, 0x6e, 0xfd, 0x0d, 0x27, 0xa3, 0x08, 0x71, 0x06, 0xc2, 0xd9, 0x68,
-+			0xc4, 0xbc, 0x4e, 0xd6, 0x36, 0x0c, 0x5a, 0xaa, 0x7c, 0xf0, 0xbb, 0x88,
-+			0xc4, 0x96, 0xb2, 0x49, 0x76, 0x66, 0xee, 0xae, 0x3e, 0x2b, 0xaa, 0x14,
-+			0x6d, 0x6f, 0xcd, 0x58, 0x3e, 0x59, 0x50, 0x2b, 0xf7, 0x92, 0x3b, 0xf0,
-+			0x80, 0x8d, 0xd4, 0x16,
-+		},
-+		.expect = {
-+			0xd2, 0xc3, 0x43, 0xe5, 0x04, 0x21, 0xcc, 0x3c, 0x23, 0x49, 0xfe, 0x26,
-+			0x88, 0xbf, 0xf7, 0xe8, 0xf9, 0x8c,
-+		},
-+	},
-+	{
-+		.name = "random04",
-+		.src = {
-+			0xef, 0x44, 0xa5, 0x78, 0x0f, 0x7d, 0xfe, 0x17, 0xa4, 0xd2, 0x30, 0x98,
-+			0xbf, 0xc5, 0xb6, 0xda, 0x4f, 0x6b, 0xde, 0x5f, 0x1d, 0x3c, 0xe7, 0xe6,
-+			0x46, 0x7f, 0x70, 0x00, 0xa4, 0x5d, 0xa3, 0xef, 0x7b, 0x9f, 0x64, 0x0e,
-+			0xc4, 0x09, 0x25, 0xfa, 0x85, 0x83, 0x13, 0x18, 0x06, 0x26, 0x87, 0x6b,
-+			0x94, 0x56, 0x89, 0xc6, 0x12, 0x38, 0xd1, 0xd5, 0xd1, 0x76, 0xf4, 0x00,
-+			0x1d, 0xe9, 0xa4, 0xd8,
-+		},
-+		.expect = {
-+			0xda, 0x0c, 0xad, 0x23, 0xe3, 0xc6, 0xf3, 0x4b, 0x8b, 0x58, 0x6f, 0xd1,
-+			0xbf, 0x8e, 0xef, 0xd1, 0x8e, 0x7a,
-+		},
-+	},
-+	{
-+		.name = "random05",
-+		.src = {
-+			0x3d, 0x21, 0xf0, 0x7d, 0x1b, 0xd9, 0xf9, 0x41, 0xad, 0x31, 0xe2, 0xea,
-+			0x59, 0x26, 0x84, 0xbb, 0x9a, 0xf8, 0x6c, 0xaa, 0x7f, 0x9a, 0x5a, 0x9a,
-+			0xb7, 0x58, 0x2d, 0x47, 0xc8, 0xd9, 0x26, 0x94, 0x16, 0xac, 0xc8, 0x30,
-+			0x03, 0xd0, 0x65, 0x2b, 0x36, 0xba, 0x6f, 0xf8, 0xdb, 0x56, 0xbf, 0x58,
-+			0x2d, 0xb9, 0x98, 0x21, 0xe8, 0x60, 0x2f, 0xe8, 0x08, 0xad, 0xb8, 0x29,
-+			0xe0, 0xe1, 0x30, 0xb4,
-+		},
-+		.expect = {
-+			0x08, 0xc9, 0xdf, 0xd2, 0x2a, 0x0b, 0x9f, 0x35, 0x08, 0x02, 0xee, 0x89,
-+			0x28, 0x86, 0x90, 0x82, 0xa6, 0xc2,
-+		},
-+	},
-+	{
-+		.name = "random06",
-+		.src = {
-+			0xee, 0x50, 0x9e, 0xc6, 0x2f, 0x39, 0xbe, 0xdc, 0xdf, 0x36, 0x4a, 0xea,
-+			0x87, 0x86, 0x56, 0x36, 0xe2, 0xd8, 0x5e, 0x9c, 0x30, 0xb7, 0x21, 0x54,
-+			0x3d, 0x11, 0x84, 0x67, 0x00, 0xb9, 0x0c, 0x21, 0x7a, 0x27, 0x27, 0xd5,
-+			0x78, 0xc0, 0xf2, 0x12, 0xcb, 0x75, 0xb6, 0x4a, 0x6e, 0x0e, 0xc6, 0x4f,
-+			0x19, 0xe5, 0x27, 0xcb, 0xef, 0x20, 0xa9, 0x7e, 0x8f, 0x71, 0xcc, 0x67,
-+			0x01, 0x24, 0x65, 0x42,
-+		},
-+		.expect = {
-+			0x06, 0x88, 0x0c, 0xfa, 0xc1, 0x70, 0xa4, 0xff, 0xba, 0x39, 0xbf, 0xe3,
-+			0x35, 0xcf, 0xbb, 0x69, 0x6f, 0x70,
-+		},
-+	},
-+	{
-+		.name = "random07",
-+		.src = {
-+			0xe5, 0xe6, 0xd4, 0x3d, 0x9c, 0x02, 0xbe, 0xd4, 0x8e, 0x97, 0x53, 0x62,
-+			0x8c, 0xad, 0x44, 0x9f, 0x92, 0x01, 0xf2, 0x87, 0xcc, 0xd6, 0x89, 0xd6,
-+			0x2a, 0xa3, 0xe1, 0xa8, 0xc6, 0xde, 0x45, 0x14, 0x35, 0x48, 0xec, 0x8e,
-+			0xa3, 0x67, 0x56, 0x9b, 0x7e, 0x39, 0x88, 0xc5, 0x1a, 0x8e, 0xc9, 0x9f,
-+			0x15, 0xbe, 0x04, 0x2a, 0xb4, 0xaa, 0x51, 0xa4, 0xe4, 0x64, 0x9c, 0x0f,
-+			0x6d, 0xe9, 0x01, 0x87,
-+		},
-+		.expect = {
-+			0x52, 0x65, 0x90, 0x82, 0x53, 0x8d, 0xb5, 0xf1, 0x46, 0x54, 0x8d, 0x1f,
-+			0x1d, 0xcf, 0xfb, 0xe9, 0x95, 0xb6,
-+		},
-+	},
-+	{
-+		.name = "random08",
-+		.src = {
-+			0xe6, 0x2a, 0xbf, 0xe4, 0x65, 0x8e, 0xe8, 0x56, 0xcc, 0xf7, 0x9c, 0xce,
-+			0xcc, 0x26, 0xbf, 0x43, 0xde, 0xac, 0x2f, 0x15, 0x21, 0xd6, 0x96, 0x2a,
-+			0x41, 0xe3, 0x77, 0x00, 0x97, 0xe8, 0xde, 0x17, 0xcc, 0x3f, 0xe4, 0x68,
-+			0x81, 0x04, 0xae, 0x8e, 0x5c, 0xec, 0x4b, 0x75, 0x91, 0x3f, 0xe6, 0x4c,
-+			0xa4, 0xbb, 0xdd, 0xf0, 0x78, 0xee, 0xf1, 0x61, 0xee, 0x9b, 0xff, 0xed,
-+			0xd4, 0x1d, 0x08, 0x4d,
-+		},
-+		.expect = {
-+			0x38, 0x43, 0x28, 0x63, 0x3c, 0x48, 0xa7, 0x57, 0xe5, 0x44, 0x26, 0x43,
-+			0xf6, 0xfe, 0xbd, 0xa4, 0xd7, 0xe7,
-+		},
-+	},
-+	{
-+		.name = "random09",
-+		.src = {
-+			0x79, 0xce, 0xe6, 0x42, 0xf3, 0xe2, 0x01, 0xc7, 0x00, 0x7c, 0x86, 0xab,
-+			0x74, 0x1c, 0x27, 0x73, 0xe4, 0x11, 0x64, 0x17, 0xe3, 0x04, 0x8c, 0x6d,
-+			0xac, 0xc7, 0xb4, 0x76, 0x0f, 0xda, 0x0e, 0x8e, 0x56, 0x3d, 0x2d, 0x21,
-+			0x1b, 0xee, 0xf3, 0x57, 0x94, 0xf1, 0xed, 0x35, 0x3b, 0x68, 0x4d, 0x96,
-+			0x62, 0x84, 0xaa, 0xe3, 0xb1, 0x68, 0xdf, 0x21, 0x0b, 0xc5, 0xe2, 0x36,
-+			0x7d, 0x34, 0xb7, 0xab,
-+		},
-+		.expect = {
-+			0x59, 0x13, 0x8b, 0x1b, 0x7a, 0x7b, 0x18, 0x33, 0x7d, 0xb2, 0x09, 0x8f,
-+			0xb7, 0x6e, 0x61, 0x42, 0xb3, 0xe5,
-+		},
-+	},
-+	{
-+		.name = "random10",
-+		.src = {
-+			0x15, 0x04, 0xd5, 0x8f, 0x8a, 0xd6, 0x4a, 0x71, 0xed, 0x8e, 0xdc, 0xb1,
-+			0x95, 0x6a, 0xec, 0x57, 0xf2, 0x4e, 0x55, 0xbc, 0x7e, 0x1b, 0xb4, 0x21,
-+			0x7d, 0xbe, 0x5f, 0xf7, 0x04, 0x0f, 0x47, 0x7d, 0x02, 0xce, 0x92, 0x6c,
-+			0xce, 0xd7, 0x1d, 0x7d, 0x93, 0xb6, 0x79, 0x7a, 0x75, 0x10, 0xb9, 0x96,
-+			0x68, 0x14, 0xae, 0x41, 0xe1, 0x3b, 0x3a, 0x6e, 0xa3, 0x47, 0x26, 0x8f,
-+			0x26, 0xe7, 0x7c, 0x79,
-+		},
-+		.expect = {
-+			0x25, 0x99, 0xb1, 0x1c, 0xaa, 0x07, 0xcc, 0x45, 0x1e, 0x27, 0xd1, 0xec,
-+			0x7a, 0xeb, 0xf4, 0x61, 0x49, 0x5f,
-+		},
-+	},
-+	{
-+		.name = "random11",
-+		.src = {
-+			0x6c, 0x13, 0x40, 0xe8, 0x4e, 0x10, 0x1c, 0x98, 0xee, 0x6d, 0xa3, 0x78,
-+			0x32, 0x8b, 0x6a, 0x99, 0x70, 0x92, 0x40, 0xe3, 0x69, 0x54, 0x3b, 0x3b,
-+			0x4e, 0xc1, 0x42, 0xdf, 0xb3, 0xe5, 0x65, 0x1b, 0x54, 0x27, 0xf5, 0x3f,
-+			0xba, 0xb0, 0x6c, 0x27, 0x0a, 0x05, 0xde, 0x53, 0xb7, 0x7c, 0xf3, 0x50,
-+			0xc3, 0xa5, 0xdf, 0xef, 0x83, 0xbf, 0x4f, 0x10, 0xfd, 0xd9, 0x75, 0xea,
-+			0x57, 0x43, 0xf8, 0xf0,
-+		},
-+		.expect = {
-+			0x1b, 0x65, 0x40, 0xfe, 0x5a, 0x71, 0x53, 0xae, 0x48, 0xbe, 0xba, 0x59,
-+			0x04, 0xc0, 0x8a, 0x76, 0x6c, 0xf3,
-+		},
-+	},
-+	{
-+		.name = "random12",
-+		.src = {
-+			0xd8, 0x7b, 0xd5, 0x75, 0x28, 0xb5, 0x18, 0x63, 0x15, 0xbc, 0xf2, 0xac,
-+			0xcd, 0x26, 0x4f, 0xbe, 0xdf, 0x80, 0x99, 0xa0, 0x33, 0x2e, 0x99, 0xe7,
-+			0xd0, 0x8a, 0x60, 0x0b, 0x6a, 0xd6, 0x17, 0xed, 0x0e, 0xd3, 0x84, 0xa6,
-+			0x12, 0xe5, 0x88, 0xaa, 0x66, 0xac, 0x45, 0x64, 0x7e, 0x9d, 0xf3, 0x9c,
-+			0xae, 0xa3, 0x18, 0x10, 0x64, 0x0f, 0xdd, 0xd8, 0x8a, 0xaa, 0xd6, 0xde,
-+			0x63, 0x16, 0xc0, 0x12,
-+		},
-+		.expect = {
-+			0xab, 0x8a, 0x75, 0x46, 0x26, 0x44, 0x8d, 0x27, 0x41, 0xc4, 0x8a, 0xd9,
-+			0x85, 0xdf, 0x34, 0x8e, 0xfd, 0xb4,
-+		},
-+	},
-+	{
-+		.name = "random13",
-+		.src = {
-+			0x9a, 0x97, 0x1c, 0x40, 0x5b, 0xdf, 0x25, 0xd2, 0xc3, 0x5b, 0xa8, 0xfe,
-+			0xf0, 0x61, 0x70, 0x8a, 0xbe, 0x66, 0x51, 0x59, 0xc0, 0x69, 0x4c, 0xc3,
-+			0xf7, 0x2f, 0xb5, 0x48, 0xd2, 0x7a, 0xff, 0x5a, 0x15, 0xd2, 0xa6, 0x5e,
-+			0xa6, 0x0c, 0xad, 0xdf, 0xce, 0xf6, 0x19, 0x27, 0x28, 0x85, 0x13, 0xd5,
-+			0xbd, 0x68, 0xd5, 0x5f, 0x39, 0x8b, 0x34, 0xd0, 0x95, 0x9c, 0x48, 0x29,
-+			0xd7, 0x89, 0x14, 0xc0,
-+		},
-+		.expect = {
-+			0x35, 0xc4, 0x4e, 0xbc, 0x37, 0x83, 0xc1, 0xd1, 0xcd, 0x14, 0xd2, 0x79,
-+			0xc2, 0x10, 0x66, 0xb2, 0xd5, 0xbf,
-+		},
-+	},
-+	{
-+		.name = "random14",
-+		.src = {
-+			0xbf, 0x78, 0x65, 0x38, 0xf3, 0x58, 0x09, 0x9f, 0x34, 0x5c, 0x40, 0x2d,
-+			0xb6, 0xd3, 0x47, 0x04, 0xdb, 0x5f, 0x69, 0x4b, 0x4f, 0xc3, 0xbd, 0xd9,
-+			0x5f, 0xf5, 0xcd, 0x94, 0x3b, 0x0c, 0x59, 0xe3, 0x13, 0xc4, 0xd3, 0x34,
-+			0x07, 0x47, 0xa5, 0x1a, 0xc3, 0xb8, 0xe3, 0x45, 0xc8, 0x0b, 0x11, 0x9d,
-+			0xb3, 0x9a, 0x87, 0x4a, 0x61, 0xb2, 0x99, 0x65, 0xcb, 0xc8, 0x69, 0xb4,
-+			0xa3, 0x98, 0x72, 0xd4,
-+		},
-+		.expect = {
-+			0xff, 0x16, 0xab, 0xab, 0xb7, 0xae, 0xdc, 0x0e, 0x89, 0xf4, 0xa4, 0xad,
-+			0x4a, 0xdb, 0xa1, 0x21, 0x11, 0x5e,
-+		},
-+	},
-+	{
-+		.name = "random15",
-+		.src = {
-+			0x55, 0xab, 0x93, 0x08, 0xcd, 0x6a, 0x50, 0x3b, 0x0e, 0xc6, 0x2b, 0x52,
-+			0x3c, 0x10, 0xc8, 0x4f, 0x37, 0xfc, 0x1c, 0xde, 0x49, 0x6f, 0x08, 0x0a,
-+			0x4a, 0x39, 0xa9, 0x99, 0x14, 0xb6, 0x91, 0xf2, 0x4d, 0x09, 0x00, 0x3f,
-+			0xf2, 0x8c, 0x48, 0xdf, 0x3f, 0x05, 0xfb, 0xb1, 0xec, 0xb3, 0xee, 0x42,
-+			0xb7, 0x8d, 0xce, 0xc9, 0x3e, 0x81, 0xcc, 0x94, 0x0b, 0x63, 0x8d, 0xbf,
-+			0xa3, 0xc9, 0xa8, 0x24,
-+		},
-+		.expect = {
-+			0x8c, 0x21, 0xe9, 0xd4, 0xf4, 0xd1, 0x95, 0xf1, 0x65, 0xa8, 0xa7, 0x19,
-+			0xf4, 0xc9, 0x88, 0xeb, 0xca, 0x95,
-+		},
-+	},
-+};
-+
-+#endif /* PLOYTEC_CODEC_TEST_VECTORS_H */
+ static struct kunit_case ploytec_codec_test_cases[] = {
+ 	KUNIT_CASE_PARAM(ploytec_test_encode_known_vectors,
+ 			 ploytec_encode_vector_gen_params),
+@@ -844,11 +884,13 @@ static struct kunit_case ploytec_codec_test_cases[] = {
+ 	KUNIT_CASE(ploytec_test_encode_reserved_bits_clear),
+ 	KUNIT_CASE(ploytec_test_decode_ignores_unused_bytes),
+ 	KUNIT_CASE(ploytec_test_decode_ignores_unused_bits),
++	KUNIT_CASE(ploytec_test_codec_variant_matches_build),
+ 	{},
+ };
+ 
+ static struct kunit_suite ploytec_codec_suite = {
+ 	.name = "ploytec-codec",
++	.suite_init = ploytec_codec_suite_init,
+ 	.test_cases = ploytec_codec_test_cases,
+ };
+ 
 -- 
 2.47.3
 
