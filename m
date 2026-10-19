@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95749500AB2;
-	Mon, 19 Oct 2026 13:58:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583DD53C3B9;
+	Mon, 19 Oct 2026 13:58:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418313; cv=none; b=PLt/yXcKKyIpYvoeZqbEA/Mjax4GMwo0bWPfp3MZsBNhjir2RVBTa2j3Wk4XnZfpDn0BkKm1cHAnV4VimFLSrqMZDWIp0QPo0oeuuczOQ7xvTk7/xISewiTQDk4y0bYOrd/PeBaVfubvmEob/zAYUtQfyBjiFzpK8EpLQrSQ4x8=
+	t=1792418325; cv=none; b=Xx885+Rze6TTOF4NtporBcN4kY40tsja08rFXFeRHRCsp3CpDpwfn0Z1SOXLIbJI6qJg76fKMI/F+UtYeq6ayOmP302KoTcEpM7FPxWwezkPWfwzEYY4uEcSBtJiIZQGvnHi5yv8NwnRt5KGQIqt3ng2KtvGXUG5E7wYN61TCmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418313; c=relaxed/simple;
-	bh=NUI4HswhqgaO7W+RZ0/47l1u0VZpLSVFQrs0xmbHVec=;
+	s=arc-20240116; t=1792418325; c=relaxed/simple;
+	bh=/SYBgCJqBvBagZ+NioYtkI/kzqLy9m+SYGNnpRHumRA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QBGY2PMte16Yf7vfSwlmiDqoVlJoNrhFo3M1xcTZu8p87S792EH25Ih3l5jQra2K3OcS4GB9iFdIOvZi4jpMZw8tzraS+TS1fJUcPbmwXvxDEI7LrXfwo+g8b6f32oXY0MFRPViY/2owL3g8NnxFYAfZ8Ef+W3cUwjyFlDd2j+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HFiViMLB; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=cSWY8ci+V1432D7llHw2r0BEdj5IBHUaAP1ibJd4on3l3Wng7Ih85MuCFubBHftn400Ec6lKvjOWo65l5Sj1On2hVaLZ9ieWdBGboIxAq9b31BpgSr+lLJJcxdEwSl/+Eb/2bz78Pqg1GujlFFtLTl8U4Urk6PkrVQTNbYdlHIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JJnDGT4l; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HFiViMLB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAD931F000CC;
-	Mon, 19 Oct 2026 13:58:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JJnDGT4l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E898F1F000C9;
+	Mon, 19 Oct 2026 13:58:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418310;
-	bh=HmlvrLpapebHv/j4oGnVBBFuClaBCde5IZcYymyDERc=;
+	s=k20260515; t=1792418320;
+	bh=DgotUjiZOJ+1Cyu52JPUIPCK29CV+R0BoFWBs3zRcrg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=HFiViMLBb7NklaoIzYkIgghcmedPmyu6VG5Arq0D+BTG/DOxo3TshgK85RGF/YzpM
-	 ZTIXSAT1RzWczTn6ywsWfvsC+2iDU7VgIdgV/L83Nx1olM5fXeFuAlyNQ//Cmm/JMU
-	 1qZ9vY/8y+GAHhjqMk4pKelzPb8r9ybXchWehN2DrD4nfHfzyjxv6OEGsKwG4mQFHG
-	 mBKmxXsXRinNdbi9IlVOnumfG8qZLEUaL5KFHA+wSOcFIvnI9uciA9Bx3LddLidRoK
-	 /KP6oicL7p+ZnHfPqGwwhYYNlh/Qo0DI43KlVKSCGOZu0cPLzeHNeMeFgn2GXOSAvX
-	 AlAkThpJbXKeQ==
+	b=JJnDGT4lMLJWEhNTqlS24dsKZ8DJ0GLjEH/jmCWRFRxJFFlEVYP6/dlokQR/S8hiY
+	 vSRLmU6DmabJnxkYos7Mx3oCb7lK60gcc8vmUu+fR66MwHqCa0LUlFsV23AbmXm6zu
+	 GmLL/kv8c5iaXbJqlWnwFCifpxqKF3QIzTN3dfMnEfz6G43ihqVQex1BtA2cuV5icX
+	 zRdlz7NvKzOs8r8wa62XRfXcqwzJutOOmbNViejut9fCLY3LLuPCZN0D/GoiNBD/4f
+	 BMZmbfaTHFRs/UJNxSgiealyxSodyvFD0EZNDdiTkCmcJnNbatS28H/HnfyHxxOnix
+	 Vnb0fpRBtl87Q==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Vinod Koul <vkoul@kernel.org>,
+Cc: Bob Song <songxiebing@kylinos.cn>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
+	perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.1] soundwire: dmi-quirks: Disable ghost Realtek on Asus ROG Zephyrus Duo
-Date: Mon, 19 Oct 2026 09:47:28 -0400
-Message-ID: <20261019135441.1420968-157-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.15] ALSA: hda/conexant: Always enable the headset-mic pin on plugin
+Date: Mon, 19 Oct 2026 09:47:35 -0400
+Message-ID: <20261019135441.1420968-164-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -53,288 +54,272 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
+From: Bob Song <songxiebing@kylinos.cn>
 
-[ Upstream commit 5b08a3afd2995e5312c4c47ffea9d21b651e8e13 ]
+[ Upstream commit 9642a5e843758686e02a7f0d1df9eb0f7f96603c ]
 
-The Asus ROG Zephyrus Duo also has a Realtek device in the ACPI that
-doesn't exist in the physical hardware. This confuses the machine
-driver into attempting to create DAI links for the device. Add a
-quirk to remove this device.
+Rename the function to cx_process_headset_detect_plug_type() to reflect
+that it only reports the detected plug type, and move the pin control
+write into cx_update_headset_mic_vref() so that node 0x19 is always set
+to enable the headset mic with the 80% VREF whenever the mic is
+present, regardless of the type detection result.
 
-Suggested-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-Link: https://patch.msgid.link/20260807121425.1952003-1-ckeepax@opensource.cirrus.com
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Bob Song <songxiebing@kylinos.cn>
+Link: https://patch.msgid.link/20260826115344.2128835-1-songxiebing@kylinos.cn
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-I have enough to decide: this is a DMI-gated hardware quirk,
-`ghost_realtek` already exists in 6.12, and GX651AR is not listed yet.
+Local tree is **6.12.111** (`pending-6.12`). The Conexant headset-mic
+VREF logic is present here; the commit is a small hardware fix for
+silent 3-pole mics on CX11880/SN6140.
 
 ===============================================================
 PHASE 1: COMMIT MESSAGE FORENSICS
 ===============================================================
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-Record: [soundwire: dmi-quirks] [Disable] [DMI quirk to hide a phantom
-Realtek SoundWire device on Asus ROG Zephyrus Duo board GX651AR]
+Record: [ALSA: hda/conexant] [Always enable] [Always write
+PIN_WIDGET_CONTROL 0x24 on node 0x19 when a headset mic is present, not
+only when CTIA/OMTP type-detect succeeds]
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
 Record:
-- Suggested-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-- Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com> (author;
-  Cirrus codec maintainer)
-- Link: https://patch.msgid.link/20260807121425.1952003-1-
-  ckeepax@opensource.cirrus.com
-- Signed-off-by: Vinod Koul <vkoul@kernel.org> (SoundWire maintainer)
+- Link: https://patch.msgid.link/20260826115344.2128835-1-
+  songxiebing@kylinos.cn
+- Signed-off-by: Bob Song \<songxiebing@kylinos.cn\> (author)
+- Signed-off-by: Takashi Iwai \<tiwai@suse.de\> (ALSA maintainer)
 - No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or Cc:
-  stable (absence expected)
-- Ignored: any pipeline “Upstream commit” / “Signed-off-by: Sasha Levin”
-  markers
+  stable (absence is expected)
+- Ignore pipeline SOBs / Upstream markers
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
-Record:
-- Bug: Asus ROG Zephyrus Duo ACPI lists a Realtek SoundWire device that
-  is not on the board.
-- Symptom: the ASoC machine driver still builds DAI links for that ACPI
-  node.
-- Failure mode: wrong/extra DAI links; on the sibling GX651AX report,
-  sof_sdw probe fails with -12 (ENOMEM) after duplicate `SDW3-Playback-
-  SimpleJack` links.
-- Root cause: firmware exposes a ghost RT722 (`0x000330025d072201`) on
-  SoundWire link 3.
-- Version info: none in this commit. A later sibling patch (GX651AX)
-  used `Cc: stable # 7.2.x`; that does not describe this GX651AR change.
+The v3 body is thin: rename `cx_process_headset_plugin()` to
+`cx_process_headset_detect_plug_type()`, and move the pin-control write
+so node 0x19 is always set to 0x24 when a mic is present.
+
+The v1 body (same series) is the actual bug statement: *“For 3-pole
+headset microphones, the mic pin VREF must always be configured to 0x24
+regardless of the headset type, otherwise the mic will not be able to
+record audio.”*
+
+Record: [Bug: 3-pole mics that assert pin 0x19 presence but are not
+classified as CTIA/OMTP never get VREF 80%] [Symptom: headset mic cannot
+record] [Root cause: 0x24 write gated on type-detect bits] [No version
+info in the message]
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: Not disguised. It is an explicit hardware quirk: add one DMI
-match that reuses `ghost_realtek`.
+Record: [Yes — v3 is written as a rename/move, but it is a functional
+fix. Type detection becomes debug-only; the missing 0x24 write for the
+3-pole/fallback case is the real change.]
 
 ===============================================================
 PHASE 2: DIFF ANALYSIS - LINE BY LINE
 ===============================================================
 
 **Step 2.1: INVENTORY THE CHANGES**
-Record:
-- File: `drivers/soundwire/dmi-quirks.c` (+7 lines, 0 removed)
-- Data only: one `dmi_system_id` entry in `adr_remap_quirk_table[]`
-- No function body changes
-- Scope: single-file surgical quirk
+Record: [1 file: `sound/hda/codecs/conexant.c` on mainline (~+6/-4).
+Functions: `cx_process_headset_plugin` renamed;
+`cx_update_headset_mic_vref` changed. Surgical, single-file.]
+
+In **this** 6.12 tree the same code lives in
+`sound/pci/hda/patch_conexant.c` (file not yet moved).
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-Record:
-- Before: ASUS GX651AR does not match the remap table, so ACPI `_ADR`
-  `0x000330025d072201` is used as-is.
-- After: that board matches `ghost_realtek`, which remaps that `_ADR` to
-  `0`.
-- Path: SoundWire ACPI slave discovery (`sdw_dmi_override_adr` →
-  `find_slave()`). If `addr` is 0, `find_slave()` returns false and the
-  slave is not registered.
+Before (this tree, `cx_update_headset_mic_vref`):
+- Pin 0x19 presence clear → write 0x20 (IN_EN, VREF off)
+- Presence set → `cx_process_headset_plugin()`:
+  - CTIA (`val & 0x800`) or OMTP (`val & 0x400`) → write 0x24
+  - else log “headphone plugin” and **do not** write 0x24
+
+After:
+- Presence clear → write 0x20 (unchanged)
+- Presence set → still wait/log type, **then always write 0x24**
+
+Record: [Plugin path: VREF 80% only for CTIA/OMTP → VREF 80% whenever
+pin 0x19 reports presence]
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
-Record:
-- Category: hardware workaround (DMI quirk table)
-- Mechanism: same as the existing `ghost_realtek` entries.
-  `find_slave()`:
+`0x24` = `AC_PINCTL_IN_EN (0x20) | AC_PINCTL_VREF_80 (0x04)`
+(`include/sound/hda_verbs.h`). `0x20` is input enable without bias.
 
-```109:113:drivers/soundwire/slave.c
-        if (bus->ops->override_adr)
-                addr = bus->ops->override_adr(bus, addr);
+The jack callback only runs after pin 0x19 presence. 4-pole CTIA/OMTP
+already got bias. 3-pole mics (and any detect timeout/misclassify into
+the else branch) did not, so the mic had no bias.
 
-        if (!addr)
-                return false;
-```
+This is a **hardware workaround / logic correctness** fix, not
+UAF/leak/race.
 
-Skipping the slave means it is not in `ctx->ids`
-(`drivers/soundwire/intel_init.c`), so SOF machine matching does not
-treat a phantom RT722 as present.
+Record: [Category: hardware workaround + logic] [Broken: 3-pole mic
+recording] [Fix: always enable VREF 80% when mic present]
 
 **Step 2.4: ASSESS THE FIX QUALITY**
-Record:
-- Obviously correct: one DMI match, existing `ghost_realtek` table, same
-  pattern as UX5406AA / 83QK / 83SF already in this file.
-- Regression risk: very low; only ASUS board name `GX651AR`.
-- No API, locking, or allocator changes.
+Obviously correct: init already does the same in
+`cx_fixup_headset_recog()` (presence → 0x24, else 0x20). The plugin path
+is being made consistent with that.
+
+Regression risk is low: headphone-only plugs should not assert nid 0x19
+presence (node 19 is mic-only per comments; Takashi raised this, author
+confirmed presence is checked first). Inner 0x24 write in the renamed
+function remains in v3 (redundant with the caller write); harmless.
+
+Record: [Quality: small, correct, matches init path] [Risk: low;
+redundant inner write only]
 
 ===============================================================
 PHASE 3: GIT HISTORY INVESTIGATION
 ===============================================================
 
 **Step 3.1: BLAME THE CHANGED LINES**
-Record:
-- Local tree: `p-6.12-3-gc504cf0baa3d8`, Makefile `VERSION=6
-  PATCHLEVEL=12 SUBLEVEL=111`.
-- `ghost_realtek[]` and the first DMI users come from `30e7fb61a64ba`
-  (“soundwire: dmi-quirks: Disable ghost Realtek devices”, 2026-05-20).
-- `adr_remap_quirk_table` dates to 2021 (`f6594cdfec4cd`).
-- GX651AR is not in this checkout.
+Record: [Introduced by `7aeb2590864874` (“ALSA: hda/conexant: Fix
+headset auto detect fail in cx8070 and SN6140”), 2024-01-08. Jack
+callback wiring later adjusted by `e60dc981221105` (same author,
+2024-07-26). Present since ~v6.8, well before 6.12.]
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-Record: No Fixes: tag. Not applicable.
+Record: [No Fixes: tag. Introducing commit 7aeb259 is an ancestor of
+HEAD. Original intent of 7aeb259 was already “enable VREF when headset
+is present”; implementation gated it on CTIA/OMTP.]
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-Record:
-- Recent `dmi-quirks.c` history is other DMI remaps (HP Omen, NUC,
-  Avell) plus the ghost-Realtek table.
-- Not a numbered series (`patch X/Y`). Standalone DMI row.
-- Mainline context includes `B9406CAA` and `UX8407AA`; those IDs are not
-  in 6.12. They are independent rows, not code prerequisites.
+Record: [Related in this tree: e60dc981 (polling-mode detect),
+86c11d5091e11 (remove mic-bias threshold override, Cc:stable, Fixes:
+7aeb259), dd110cc00cf85 (jack-detect error check). Standalone fix; not
+patch X/Y.]
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record:
-- Charles Keepax maintains Cirrus codecs (CS42L43 lives on this class of
-  machines).
-- Same author added the original ghost-Realtek table in this tree
-  (`30e7fb61a64ba`).
-- Suggested-by Bard Liao, SoundWire co-maintainer.
+Record: [Bob Song/songxiebing already authored e60dc981 on this exact
+callback. Kylin/Senarytech people maintain this CX11880/SN6140 quirk.
+Not the ALSA maintainer; Takashi applied it.]
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record:
-- Needs `ghost_realtek[]` and `sdw_dmi_override_adr()` — both present
-  (`git merge-base --is-ancestor 30e7fb61a64ba HEAD` → yes).
-- Upstream SHA `5b08a3afd2995e5312c4c47ffea9d21b651e8e13` is not an
-  ancestor of HEAD (expected; this is the candidate).
-- Can stand alone once the DMI entry is inserted next to `UX5406AA`.
+Record: [No missing helpers. v2 also merged CTIA/OMTP into `val &
+0xc00`; that cleanup is **not** in 6.12 (`git log -S 'val & 0xc00' --
+sound/pci/hda/patch_conexant.c` empty). Not required: the caller-side
+always-write is the fix. Applies standalone with a path/context tweak.]
 
 ===============================================================
 PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 ===============================================================
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
-Record:
-- `b4 dig -c 5b08a3afd2995e5312c4c47ffea9d21b651e8e13` → https://patch.m
-  sgid.link/20260807121425.1952003-1-ckeepax@opensource.cirrus.com
-- `b4 dig -a`: v1 only, 2026-08-07.
-- Vinod Koul applied it (`commit:
-  5b08a3afd2995e5312c4c47ffea9d21b651e8e13`). No NAK, no revision churn.
-- lore.kernel.org search URLs returned 403; discussion recovered from
-  b4, patchew, LKML, and openwall.
+`b4 mbox` on msgid `20260826115344.2128835-1-songxiebing@kylinos.cn`:
+11-message thread.
+
+- v1: “Set mic pin VREF to 0x24 on headset mic plug” — 3-pole mics
+  cannot record
+- Takashi: fallback was meant to be headphone-only; don’t enable mic
+  there
+- Author: nid 0x19 is the mic pin; callback already requires presence;
+  4-pole = CTIA/OMTP; 3-pole mic was the unhandled case
+- Takashi: then type-detect is only debug; move the write to the caller
+  and rename
+- v2: that refactor + CTIA/OMTP merge; Takashi: doesn’t apply on latest
+  (cleanup already landed)
+- v3: rebase; Takashi: “Applied now. Thanks.”
+- Landed in sound fixes for 7.3-rc1 as “Conexant headset plugin fixes”
+
+Record: [Lore/msgid as above] [v1→v3] [No NAKs after explanation] [No
+Cc: stable from reviewers] [Applied by maintainer]
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record (`b4 dig -w`): To Vinod Koul; Cc Bard Liao, Pierre-Louis Bossart,
-linux-sound, linux-kernel, Cirrus patches. Right SoundWire people. No
-extra Reviewed-by on the committed message; maintainer applied it.
+Record: [To: tiwai@suse.com, perex@perex.cz; Cc: linux-sound, linux-
+kernel. Reviewed in-thread by Takashi Iwai.]
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-Record:
-- No bugzilla/syzbot link on this patch.
-- Sibling GX651AX (Ian Luites, 2026-08-31): ghost RT722 stays
-  unattached, CS42L43 + two CS35L56 attach, duplicate `SDW3-Playback-
-  SimpleJack`, sof_sdw probe `-12`. That is the same ACPI ghost class,
-  different SKU.
+Record: [No syzbot/bugzilla. Author (Kylin) described 3-pole mic
+recording failure. Not a fuzzer crash.]
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: Standalone. Later GX651AX is another DMI row, not a dependency.
+Record: [Single patch, three revisions. v2’s 0xc00 merge is independent
+cleanup already on later mainline; 6.12 does not need it.]
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: lore.kernel.org/stable returned 403. Web search found no stable-
-list discussion of GX651AR. UNVERIFIED: whether anyone asked for this on
-stable@ for 6.12.y.
+Record: [lore.kernel.org/stable fetch returned 403. No stable discussion
+in the sound thread. UNVERIFIED whether AUTOSEL already queued it.]
 
 ===============================================================
 PHASE 5: CODE SEMANTIC ANALYSIS
 ===============================================================
 
-**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
-Record: No function edited. Data consumed by `sdw_dmi_override_adr()`.
+**Step 5.1: IDENTIFY KEY FUNCTIONS**
+Record: [`cx_process_headset_plugin` / rename;
+`cx_update_headset_mic_vref`]
 
 **Step 5.2: TRACE CALLERS**
-Record:
-- `sdw_dmi_override_adr` ← `bus->ops->override_adr` in `find_slave()`
-  (`drivers/soundwire/slave.c`)
-- Intel sets `.override_adr = sdw_dmi_override_adr` in
-  `drivers/soundwire/intel_auxdevice.c`
-- `find_slave()` runs during ACPI SoundWire slave enumeration
-  (probe/boot)
+Record: [`cx_update_headset_mic_vref` registered only in
+`patch_conexant_auto()` for vendor IDs `0x14f11f86` (CX11880) and
+`0x14f11f87` (SN6140) via `snd_hda_jack_detect_enable_callback()`.
+Called from HDA jack unsol/poll (`hda_jack.c` `call_jack_callback`).]
 
 **Step 5.3: TRACE CALLEES**
-Record: `dmi_first_match()` then remap. Remap-to-0 is handled by `if
-(!addr) return false`.
+Record: [`snd_hda_codec_read`/`write`, `msleep` (up to 60 ms wait for
+type detect). Process context, already sleeping.]
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-Record:
-ACPI scan → Intel SDW link probe → `sdw_slave_add` / `find_slave` →
-`override_adr` → skipped slave not on `bus->slaves` → not copied into
-`ctx->ids` → `hda_sdw_machine_select()` /
-`snd_soc_acpi_sdw_link_slaves_found()` never sees the ghost RT722 →
-`sof_sdw` does not build DAI links for it.
-Reachable on any GX651AR that boots this kernel with Intel SoundWire +
-SOF. Not a syscall fuzzer path; firmware/hardware path.
+Record: [Reachable from userspace by plugging a headset on those codecs.
+Not a syscall crash path; common laptop jack path.]
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: Same `ghost_realtek` already used for ASUS UX5406AA, Lenovo
-83QK, Lenovo 83SF in this file. This is another ID in that set.
+Record: [`cx_fixup_headset_recog()` already writes 0x24/0x20 from
+presence alone at init. Plugin path was the inconsistent copy.]
 
 ===============================================================
 PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 ===============================================================
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Record: Yes. `ghost_realtek` remaps RT722 `0x000330025d072201` to 0. PTL
-tables include `ptl_rt722_l3` for that address. GX651AR is not listed,
-so this laptop still exposes the ghost device. Bug introduced with the
-ACPI firmware + the existing remap-to-0 design (table added 2026-05-20,
-already in this 6.12.y checkout).
+Record: [Yes. `sound/pci/hda/patch_conexant.c` lines 216–256.
+`7aeb2590864874` and `e60dc981221105` are ancestors of HEAD. Rename not
+present. Bug introduced 2024-01, in 6.12.]
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: Not a clean apply: mainline hunk context has B9406CAA before
-GX651AR; 6.12 goes from the “PTL devices” comment to UX5406AA. Backport
-is insert the same 7-line entry next to UX5406AA. Difficulty: minor
-context, no semantic rework.
+Record: [Minor: path `sound/pci/hda/patch_conexant.c` vs mainline
+`sound/hda/codecs/conexant.c`; 6.12 still has separate CTIA/OMTP
+branches instead of `val & 0xc00`. Semantic backport is a few lines in
+`cx_update_headset_mic_vref`. No API/struct dependency.]
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: The generic ghost-Realtek table is here. No
-GX651AR/GX651AX/B9406CAA/UX8407AA rows. No alternate fix for this board.
+Record: [86c11d5091e11 and dd110cc00cf85 are related but different bugs.
+This always-enable-0x24 change is not in the tree.]
 
 ===============================================================
 PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 ===============================================================
 
 **Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: [drivers/soundwire DMI quirks + Intel SOF/ASoC] [IMPORTANT —
-laptop audio on Intel SoundWire machines; not core mm/fs, but user-
-visible “no sound / probe fail”]
+Record: [ALSA HD-audio Conexant codec. IMPORTANT for users of those
+laptops; PERIPHERAL vs core mm/net. Config: `SND_HDA_CODEC_CONEXANT`.]
 
 **Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: Mature DMI table (since 2021) with ongoing per-board additions.
-This is the usual stable-friendly pattern, not a new subsystem.
+Record: [Active quirk stream on this file (Lenovo pin cfg, mic-bias
+override, jack-detect error check). Mature driver, recent hardware-
+specific fixes.]
 
 ===============================================================
 PHASE 8: IMPACT AND RISK ASSESSMENT
 ===============================================================
 
 **Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: Driver/platform-specific: ASUS board `GX651AR` (ROG Zephyrus
-Duo) with Intel SoundWire. Everyone else is unchanged.
+Record: [Driver-specific: CX11880/SN6140 (0x14f11f86/0x14f11f87),
+typically laptop combo jacks.]
 
 **Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Record: Every boot/probe on that laptop. Not a race. Unprivileged users
-do not trigger it; firmware does. Common for owners of that model.
+Record: [Plug a 3-pole mic / headset that is not classified as
+CTIA/OMTP, or type-detect timeout (3×20 ms). Unprivileged user, physical
+jack. Common for those machines.]
 
 **Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record:
-- Failure: extra/wrong DAI links; sibling SKU: sof_sdw probe -ENOMEM; on
-  this 6.12 tree, `ptl_rt722_l3` can match a laptop that only has a
-  ghost RT722 on link 3 and then load the wrong topology.
-- Severity: HIGH for those machines (audio probe failure / wrong
-  machine). Not a UAF/panic.
+Record: [Headset microphone does not record. Not
+oops/deadlock/corruption. Severity: MEDIUM, user-visible audio
+breakage.]
 
 **Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-Record:
-- Benefit: high for GX651AR (and zero elsewhere). Same class as
-  USB/PCI/DMI quirks that stable already takes; this tree already has
-  three `ghost_realtek` IDs.
-- Risk: very low (7 DMI lines, exact board match).
-- Ratio: strongly favors backport.
-
-Note: 6.12 PTL match tables have no CS42L43/CS35L56 entries, so this
-laptop may still lack a perfect SOF machine even after the quirk. The
-quirk still stops a false `ptl_rt722_l3` match and is the same
-enablement already used for UX5406AA. It does not make other hardware
-worse.
+Record: [Benefit: high for affected hardware (mic works). Risk: very low
+(few lines, same verb already used on the CTIA/OMTP path and at init).
+Ratio: favorable.]
 
 ===============================================================
 PHASE 9: FINAL SYNTHESIS
@@ -343,97 +328,120 @@ PHASE 9: FINAL SYNTHESIS
 **Step 9.1: COMPILE THE EVIDENCE**
 
 FOR:
-- Real hardware ACPI bug on a shipping Asus laptop
-- Classic DMI quirk exception in stable-kernel-rules
-- 7 lines, existing table, DMI-gated
-- Infrastructure (`ghost_realtek`, `override_adr` → skip `addr==0`) is
-  in this 6.12 tree
-- SoundWire maintainer applied; suggested by SoundWire co-maintainer
-- Sibling SKU documents sof_sdw probe failure from the same ghost RT722
+- Real bug: 3-pole headset mics get no VREF 80%, so recording fails
+- Same intent as 7aeb259, which is already in this tree and was
+  AUTOSEL’d historically
+- Matches `cx_fixup_headset_recog()` init behavior
+- Small, obviously correct; maintainer reviewed and applied
+- Hardware quirk class, routinely backported
+- Sibling conexant headset fixes already in 6.12 (including Cc:stable
+  mic-bias override)
 
 AGAINST:
-- Fuzzy apply (missing B9406CAA context) — trivial to re-context
-- No Fixes:/Cc: stable on this patch (not a negative under these rules)
-- PTL Cirrus machine tables are thinner in 6.12 than mainline — audio
-  may still be incomplete, but the quirk is still the correct filter
+- Not crash/security/corruption
+- Codec-specific
+- v3 message dropped the 3-pole explanation; includes a rename
+- v3 leaves a redundant inner 0x24 write
+- Needs a trivial path/context adjustment
 
 UNRESOLVED:
-- Could not read lore.kernel.org/stable (403)
-- No on-list Tested-by for GX651AR itself (author + Intel suggestion)
+- Whether stable@ already discussed it (lore/stable 403)
+- How many 6.12 systems ship CX11880/SN6140 (not quantified)
 
 **Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? [PASS — identical to existing entries;
-   maintainer applied]
-2. Fixes a real bug that affects users? [PASS — ghost ACPI device breaks
-   machine/DAI setup]
-3. Important issue? [PASS — audio probe failure / wrong topology on that
-   laptop; HIGH]
-4. Small and contained? [PASS — +7 lines, one file]
-5. No new features or APIs? [PASS — DMI ID on existing quirk]
-6. Can apply to the local tree? [PASS — needs trivial context
-   adjustment, not missing code]
+1. Obviously correct and tested? **PASS** — maintainer applied; logic
+   matches init path
+2. Fixes a real bug that affects users? **PASS** — 3-pole mic cannot
+   record
+3. Important issue? **PASS** — broken recording on combo jack (hardware
+   quirk; not a panic)
+4. Small and contained? **PASS** — ~one function, few lines
+5. No new features or APIs? **PASS** — pin-control write already used
+6. Can apply to the local tree? **PASS** — buggy code present; minor
+   path/context tweak
 
 **Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Record: Hardware quirk / DMI match on an existing driver. Automatic YES
-class.
+Record: [Hardware quirk/workaround for Conexant combo-jack VREF.
+Qualifies.]
 
 **Step 9.4: MAKE YOUR DECISION**
-This should be backported to this 6.12.y tree. It is a small, DMI-gated
-quirk using code already present here, and it prevents a phantom Realtek
-RT722 from participating in SoundWire/SOF setup on Asus GX651AR.
+This belongs in 6.12. The bug is in this tree, the fix is surgical, and
+stable users with CX11880/SN6140 otherwise keep a dead headset mic on
+3-pole plugs.
+
+What it solves: on plugin, pin 0x19 presence no longer depends on
+CTIA/OMTP bits to get VREF 80% (`0x24`). That is required for 3-pole
+mics to record.
+
+Risk vs benefit: benefit is working capture on those jacks; risk is a
+redundant codec verb write already used on the success path.
+
+Concerns: backport to `sound/pci/hda/patch_conexant.c` and leave the
+existing CTIA/OMTP inner writes (or drop them; either is equivalent once
+the caller always writes 0x24).
 
 Verification:
-- [Phase 1] Parsed tags: Suggested-by Bard Liao; SOBs Keepax + Vinod
-  Koul; Link msgid 20260807121425.1952003-1; no Fixes/Reported-by
-- [Phase 2] Diff: +7 lines in `adr_remap_quirk_table` for ASUS / GX651AR
-  → `ghost_realtek`
-- [Phase 2] Confirmed `find_slave()` drops `addr==0` after
-  `override_adr`
-- [Phase 3] `git describe HEAD` / Makefile: 6.12.111
-  (`p-6.12-3-gc504cf0baa3d8`)
-- [Phase 3] `git blame`: `ghost_realtek` from `30e7fb61a64ba`; GX651AR
-  absent
-- [Phase 3] `git merge-base --is-ancestor 30e7fb61a64ba HEAD`: present;
-  `5b08a3afd2995` not ancestor
-- [Phase 3] `git log --oneline -20 -- drivers/soundwire/dmi-quirks.c`:
-  prior DMI remaps only
-- [Phase 4] `b4 dig -c 5b08a3afd2995`: lore msgid above; v1 only; Vinod
-  applied
-- [Phase 4] `b4 dig -w`: To vkoul; Cc Liao, Bossart, linux-sound
-- [Phase 4] Sibling GX651AX: duplicate SimpleJack DAI links, sof_sdw -12
-- [Phase 4] UNVERIFIED: stable@ thread (HTTP 403)
-- [Phase 5] Callers: `intel_auxdevice.c` `.override_adr` → `find_slave`
-  → `intel_init.c` `ctx->ids` → `hda.c` machine select
-- [Phase 6] Local file has UX5406AA/83QK/83SF, not GX651AR; PTL
-  `rt722_3` ADR matches the quirk
-- [Phase 6] Apply: context conflict on B9406CAA, trivial insert beside
-  UX5406AA
-- [Phase 8] Failure: wrong/extra DAI links / failed sof_sdw probe; DMI-
-  limited; very low regression risk
+- [Phase 1] Parsed tags: Link msgid, SOB Bob Song + Takashi Iwai; no
+  Fixes/Reported-by/Cc:stable
+- [Phase 1] v1 on openwall/lkml: 3-pole mics cannot record without 0x24
+- [Phase 2] Diff: rename + always-write 0x24 in
+  `cx_update_headset_mic_vref`; inner CTIA/OMTP write kept in v3
+- [Phase 2] `0x24`/`0x20` verified as IN_EN|VREF_80 vs IN_EN in
+  `include/sound/hda_verbs.h`
+- [Phase 3] blame: 7aeb2590864874 (2024-01-08); e60dc981221105 later;
+  both ancestors of HEAD
+- [Phase 3] `git merge-base --is-ancestor 7aeb2590864874 HEAD` true;
+  same for e60dc981
+- [Phase 3] `git log -S 'val & 0xc00' -- sound/pci/hda/patch_conexant.c`
+  empty (no 0xc00 merge here)
+- [Phase 4] `b4 mbox` 11-message thread; Takashi applied v3; no NAK
+  after 3-pole explanation
+- [Phase 4] lore.kernel.org/stable: 403, UNVERIFIED
+- [Phase 5] only callers: `patch_conexant_auto` for
+  0x14f11f86/0x14f11f87 → jack callback
+- [Phase 5] `cx_fixup_headset_recog` already presence→0x24 at init
+  (lines 167–183)
+- [Phase 6] `git describe HEAD` → p-6.12-3-gc504cf0baa3d8; `make
+  kernelversion` → 6.12.111
+- [Phase 6] buggy functions still named `cx_process_headset_plugin` /
+  `cx_update_headset_mic_vref` in `sound/pci/hda/patch_conexant.c`
+- [Phase 8] Failure mode: silent headset mic, severity MEDIUM, hardware-
+  specific
 
 **YES**
 
- drivers/soundwire/dmi-quirks.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ sound/hda/codecs/conexant.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/soundwire/dmi-quirks.c b/drivers/soundwire/dmi-quirks.c
-index f738e547a1f30..768255dd12db6 100644
---- a/drivers/soundwire/dmi-quirks.c
-+++ b/drivers/soundwire/dmi-quirks.c
-@@ -193,6 +193,13 @@ static const struct dmi_system_id adr_remap_quirk_table[] = {
- 		},
- 		.driver_data = (void *)ghost_realtek,
- 	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ASUS"),
-+			DMI_MATCH(DMI_BOARD_NAME, "GX651AR"),
-+		},
-+		.driver_data = (void *)ghost_realtek,
-+	},
- 	{
- 		.matches = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "ASUS"),
+diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+index 862fcbe74e4f0..faaabc326f560 100644
+--- a/sound/hda/codecs/conexant.c
++++ b/sound/hda/codecs/conexant.c
+@@ -213,7 +213,7 @@ static void cx_remove(struct hda_codec *codec)
+ 	snd_hda_gen_remove(codec);
+ }
+ 
+-static void cx_process_headset_plugin(struct hda_codec *codec)
++static void cx_process_headset_detect_plug_type(struct hda_codec *codec)
+ {
+ 	unsigned int val;
+ 	unsigned int count = 0;
+@@ -249,10 +249,12 @@ static void cx_update_headset_mic_vref(struct hda_codec *codec, struct hda_jack_
+ 	 * Check hp&mic tag to process headset plugin & plugout.
+ 	 */
+ 	mic_present = snd_hda_codec_read(codec, 0x19, 0, AC_VERB_GET_PIN_SENSE, 0x0);
+-	if (!(mic_present & AC_PINSENSE_PRESENCE)) /* mic plugout */
++	if (!(mic_present & AC_PINSENSE_PRESENCE)) { /* mic plugout */
+ 		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x20);
+-	else
+-		cx_process_headset_plugin(codec);
++	} else {
++		cx_process_headset_detect_plug_type(codec);
++		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x24);
++	}
+ }
+ 
+ static int cx_suspend(struct hda_codec *codec)
 -- 
 2.53.0
 
