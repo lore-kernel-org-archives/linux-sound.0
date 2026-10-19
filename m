@@ -1,184 +1,235 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013005.outbound.protection.outlook.com [40.93.196.5])
+Received: from mail-gw01.astralinux.ru (mail-gw01.astralinux.ru [37.230.196.243])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FEE499F31
-	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 09:51:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792403499; cv=fail; b=rc5INIliKF5EyvOTV4rv5roGSJ6+Qwn08aSVgf8RYzt0527yCPdzheWNJC6Bh4K2SqaslSFhhZYjp9209efIQ2GtZv23PTCKdwiFtl8RisfXGBPl8M5CtwpQpyMauAKdazjhUwvIRCxumGNmqZ1XNSbGZL6n2y1Y5WlAbWenFOk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792403499; c=relaxed/simple;
-	bh=8NJThvfb0C2g18rA/Twwpp9ONKvPtLh1qAj0UQak+J4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=gyqRUlu7tybe85sOJJwfwgc7MhNvVuLIkDxFFihiDcbnPcUHi+zJz9T/McXTTJ2YHmB34PBADrcz0Jl/uFdsV5cs2gm1Yrt5wXjt7gtr0cXc5F+lbLmcTZ/trvqQPd1XLLokEamyIh3oJ26V9JLcxP+nH6ecbTMb1XC4AA24hBU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vr1F3s4o; arc=fail smtp.client-ip=40.93.196.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E844A4B7A21;
+	Mon, 19 Oct 2026 09:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.230.196.243
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792403929; cv=none; b=oPd9t7/Ax/HHTMX90nVEMhV5RKYDd++xuKLbYZKRXoWV7OJ9tJ0LX+2xCyFBw+h2QPJyc1KMXwz8Iuln1388vrHomxJYuP+B3lh3RoPMu9203fjv7ElVWRM9CmRvI9LkIw4GT/nd1HIAR3o3nShIxUpA7eC+N8Nw6iRL8kzZ838=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792403929; c=relaxed/simple;
+	bh=yJ9VzWJnjsUlDkFPUvQPh9MrxtG0IxT1EMet2uY3ExE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m88TaODPV6qPYSBuYR0m8k8jwuPN2YK6MojU/GvoxqWn31ucJOb7BUy0Le5OiZs5F00mQLXe/Kn8VjRbfxzUmDQsfAdcqjMHUjKReMLkz8uwiNcnvhB1jIxV2IY2JAInUMuCF/l6BceMolZwza0KL2ESxc8GnyiA5pGme+O4Bxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru; spf=pass smtp.mailfrom=astralinux.ru; dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b=hHF+5r7+; arc=none smtp.client-ip=37.230.196.243
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=astralinux.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vr1F3s4o"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EOrL51wFjtUWErQvKqrw6OuFW+ztM4CBYaHyHE6IzWxvzmhUPpQB1P0MrjkiidpHcHnZM8DxoaQoC7uW5ZZqqvsH1Bwzl5kPtTouOEhdmGFis0dn1eQIXI2NPVkU8ECJw0v2Hc747tgaqdS6uDfPO+FW6CjkRBIRmvpjNdt2ISHaYMHVMaSZHId/nuL4NRWjU14qZG2NN4psqJBnZLT5IhhTFgAIef0p7HHz1Gp1yZjnzEA08j8eO4I7DfNFUIgMKYiUPIMb2IC/8AzYhpnuniEMNsF6ranxm3VfWC8YUV/stLzxQC6JT8VOi9EV995oRPxnMe+t0dJHKVWVP7pgcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kVe5bLPbOcz6m/y7lAxkcwcbLb9ThPgRrL9V+GHvQCs=;
- b=VCrh+Bws8mzkP01lQkXKXKIq+bifUPEe2Ogx00rfZeUg3K9FYHSipmJAwQuYkKvp5uQCRsfUiRzGq8dRP+kFSK+r9+Alq3zSHDC8NKWYxvIuW0h1qEtZ5JAGKImavojnlSkABnqqjMLrhbdTXex1+ByWcylv/SpO7GyNZsIIYWQ5XMEBWK2alFwpQJp+fFCA8krw2SqU/6QDSUHFO2tR3exBWB1FznJqnRM2UKwtpqAw7R7QaoRWX4IehxthTTEmNT8E/kAoi4Yu3CGqgoAKsPlclJT4kLiBg7TwzGOF4usR1Jcc5PduX9oGIVQhRdDh9o/GMlHG9+2BbXgJ3PAH8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kVe5bLPbOcz6m/y7lAxkcwcbLb9ThPgRrL9V+GHvQCs=;
- b=vr1F3s4or5SEfxWzIegKyTDE3gvr9wrTTUgrRuUWsHucD9x9G1Bfv9ESP8gZmrKQYq5IXV7WXNmBqAu784Kr5wbJQZpr6FBwobj1YU8O+iT6q44qexvjtSLQKempxe50ggKOYHpT/8HMCyrPWHGTGVsx0aBalFdVUXtPJpG3sAE=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
- CY8PR12MB9035.namprd12.prod.outlook.com (2603:10b6:930:77::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.522.19; Mon, 19 Oct 2026 09:51:34 +0000
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5%4]) with mapi id 15.21.0522.017; Mon, 19 Oct 2026
- 09:51:34 +0000
-Message-ID: <1d7d094c-b2e6-4c1c-b1a8-933108870a96@amd.com>
-Date: Mon, 19 Oct 2026 15:23:31 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: ASoC: amd: yc: RPL (rev 0x62) DMIC registers but captures nothing
- on HP OMEN 16-ap0 (Fire Range)
-Content-Language: en-US
-To: Francisco Panis Kaseker <franciscopk.ilax@gmail.com>
-Cc: broonie@kernel.org, linux-sound@vger.kernel.org,
- Syed Saba Kareem <Syed.SabaKareem@amd.com>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <CA+f704fo0TuqyOnOXaLCpVNLgHSc88aK08RKcZji8MoiibjyVQ@mail.gmail.com>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <CA+f704fo0TuqyOnOXaLCpVNLgHSc88aK08RKcZji8MoiibjyVQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN4P287CA0108.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:276::11) To DS2PR12MB9567.namprd12.prod.outlook.com
- (2603:10b6:8:27c::8)
+	dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b="hHF+5r7+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=astralinux.ru;
+	s=mail; t=1792403914;
+	bh=yJ9VzWJnjsUlDkFPUvQPh9MrxtG0IxT1EMet2uY3ExE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=hHF+5r7+w4YGYV4lUvq5aO6JxxF4g7nYspPiRaBPa2bqLL2ju4wMoKrE6qd9V7oTq
+	 FVP4RGst5YiMfQ1eHwwETmQYeyhIzsNiBNTj9KEXv+a52VamFS2EnwRsoJBAqhhn8V
+	 wrbHDBeGOCfh5+NltBGwGWenjmfogkek9KWkPTdD9ajmlFzp59IwvCLQBvn0ZD7V0g
+	 Uc1KmrbllGBAzyGmExGNwvESnN15/CAccXabM+6yDzP0ftA2fikwmV8McGj4ImXb6S
+	 RiL2ezkI1yQ1cNWu39uTtqvvx9hIho+SiP4Ou/RyyY39YoaciGZrNmoo/B/FH4Wl9t
+	 jIK7m5OAFQ49Q==
+Received: from gca-sc-a-srv-ksmg01.astralinux.ru (localhost [127.0.0.1])
+	by mail-gw01.astralinux.ru (Postfix) with ESMTP id 36FFE259D9;
+	Mon, 19 Oct 2026 12:58:34 +0300 (MSK)
+Received: from new-mail.astralinux.ru (unknown [10.205.207.13])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail-gw01.astralinux.ru (Postfix) with ESMTPS;
+	Mon, 19 Oct 2026 12:58:33 +0300 (MSK)
+Received: from DESKTOP-D46TNHI (unknown [10.198.51.9])
+	by new-mail.astralinux.ru (Postfix) with ESMTPA id 4j7VqS2cWnzDhp;
+	Mon, 19 Oct 2026 12:39:00 +0300 (MSK)
+From: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
+To: stable@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>,
+	Sasha Levin <sashal@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org,
+	Olivier Moysan <olivier.moysan@st.com>
+Subject: [PATCH 5.10] ASoC: stm32: sai: fix OF node leak on probe
+Date: Mon, 19 Oct 2026 12:38:27 +0300
+Message-ID: <20261019093829.1428-1-mdmitrichenko@astralinux.ru>
+X-Mailer: git-send-email 2.54.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|CY8PR12MB9035:EE_
-X-MS-Office365-Filtering-Correlation-Id: c103a585-2f3d-460f-b4c3-08df2dc68f47
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|56012099006|11063799006|261009223027099003|10067099003|18002099003|22082099003|6133799003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	WHLlMjlQyR+CLNjYLWm8dIqsa6Wj929S/dWBgwTIV41TfTyW8uehY3QiwPQvMaJE4Ck8zxZdxLiViOr/ZRmeIP/9d00FCNwGVBWiAEgt6yFguLleKbn3eNID3wxJbNYyQ2wv/erTqTHd1qIL5zKXetohtyHszuKafaq1H4VW/mQTiiUV7+sRl1UAudyHwURZ0EssWRtlfFC7DHrLihIN+udvjr+V/FqaUvCqaDD5j3itpXHZMLRkiUKp9vaNkEi5Jm45sD4CTbqDYYhq//cuyvoDbUiCzW2HC/E9yvm+EyGspdZU4U4msxzNm6nWz5WgJNlLgDUpX10ANOI+9Y+EQeBjf0k5dKJ5mN3WvAe17eYv5Nejp7nNXBeEHTPWht3V6QZvmQRMJxcgiwsKx1vJEMB4oz3zQPSi7HAo5TbrjcOEBJqIvyhTttHkDB9F3aFeDk0Xq20r5/zwrPzVMeX48N/SReQ0BbhI/LbUkv7DczPmx3zOeApiixmU8JhmZOOT/iY7na09eThFexZc8wtngqc8XlrJ5nAL8mvJtGLEgWmbOIOf6teHcxrvTyz9adD+bGSWweyRbqECgAPYrtcPquknWSoUZtu7IrLETf7uRHCISaEmUWAE3NE5NeW2ee6Icvf+O45X/xqkhqP7VB+45UsIFbPKo8mo+rBnTtfkB/U=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(56012099006)(11063799006)(261009223027099003)(10067099003)(18002099003)(22082099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aFd5UjVPRGRVYTUvOVBlU3hLME9VK080dDNaRHptTWZBa1NrbUpIdjd1dmxI?=
- =?utf-8?B?Y0kxV3NDenVzMmlQTnJxY2pjNHBLblpnWTJLNW1xczdWNnFRTmFMbHhxTEx1?=
- =?utf-8?B?aFlJUkxWeUhjaEhGdkk2MFRrb2J0VU53emFFakNrbUFQQXNnazZkVm5weFNE?=
- =?utf-8?B?c3o5d1pkRkMxQ1RhUFNVSEdMaFRWV2Y1bTFlMnc0anhXUTdNZWdSVFlzekdn?=
- =?utf-8?B?WDVxcHJZVG9mT2Z1bzBEY1BKME4zY3c3UlZndmpTVGhOVElvRnFnNlNOYzRr?=
- =?utf-8?B?cDc5QVJBUnIxSnpvSDVyUjFINnB6Y3BwR24zdGNQNUcwSE1zeGdjR1dqVFlY?=
- =?utf-8?B?VnNkVjNuTmxzRk9nSXRCMGhBNmJ6Mk9VbEhFZkRiRDZzeWg3QmZXTXdlK3BI?=
- =?utf-8?B?UDd2NC9XZnh1SW81MU1SemVjaWpXbDRLK0pMSmNFVHhacm8ydmxkeC9mUEM3?=
- =?utf-8?B?aFJRZmZ3RWxDSVUzakhvdUFNNXk2VDhEbVZBcUpsWTdEMzYzYTBBczMzTVJw?=
- =?utf-8?B?dU5TNGN5TVBmRFh1ckxkRVQ4UE9OSzhYTnh1bEl2aHEwMTVkOEh6eUFBbVU3?=
- =?utf-8?B?QUUwL2twak14andQckJTQnFjZGY2UTFUM3k4SGNRRE1hWm8ybTJzMmIxRk90?=
- =?utf-8?B?bkticTY0emtjWjBLWnc1NFNHYUxmdmNFSHFuTWNzK2gwV0hSM1pZaXlpZlMw?=
- =?utf-8?B?WFh6UTI4NUJwSGQwV0gzOE9TMXEzUVpJWHd5b1Vza3g0dEVtYngwdVdqQXlz?=
- =?utf-8?B?dm9VaDdoSXg1R0FOUnoxTFV1bC9IbHlldllQbDdLK0ZnTDZXVEo3T012dTFp?=
- =?utf-8?B?OHM0UWJVRVhsR3RSbEFMMDExYjhUdnJHblZra09xYUpHVGVLbW9ZaGlDSHV0?=
- =?utf-8?B?bUtlcHlCZlBxZ0xnVE4xek1lL0llMWhJWk8wSXROS2I1TE1XZ0ZCTW1zT1ZK?=
- =?utf-8?B?bXdjdTUxQmRFYnY2YmpBZVFFWW5TSmk2RXJxTXpDbFlKRnNaZXY2K040SG93?=
- =?utf-8?B?elc4c2JJb1hiZFpvblN6cmVqMjhuZFZ0ZXVIeXRRL2dvVmg1UzRxeU9NY2I3?=
- =?utf-8?B?UWw5L3VLZUhYbFJqR000b1hEWkZKaGdOdFhCT3FSSkZhTWxrbXRDZVR2SlR5?=
- =?utf-8?B?Qy85M005a0hFeTJBVDRhQXdLc3NnODZVNDRlUkdxUnNkREtXRWVON1RZZnhz?=
- =?utf-8?B?TUZOVStweGFUSTE3Rk5YY3J5YXhLQUlYdlFZUTJQVGJUcTU5SFpwT1d4QnVJ?=
- =?utf-8?B?eERtMXFzVlpZYmlFaGVoQTJFazcxaTVROU9ncjJIbVFLTDgxVDdlTUwwTHRp?=
- =?utf-8?B?a21vRVJpRnNObnZXQUw2S05HTVArVEQ2aHZRL25FSDBLeHROS0JQNVk1YXN5?=
- =?utf-8?B?V3VPNHhtckZkNzhQUkVOSVZPTXIrYTBielcyQUprR3hyTy9aVi9KMGVvU3lR?=
- =?utf-8?B?TlhacC8ycXloVU1zUTBNT09wVnZ5S2JkOWs1ZXoxSkVKWkN6NlpHV2UxNWdj?=
- =?utf-8?B?WEw2SWZHZVNLL3lsV0hCcG1SN1dWRkJFTGlUZCtxRHJtQkJjNXBLUmtiYzlT?=
- =?utf-8?B?MjRpamYxck8vejZjTzZGSGY5ZCtPeTBhTGdDVWlzTlEvckpjTy82c1lrcE9z?=
- =?utf-8?B?aDBhSWN2SDdZOWFXc05QWlF2aGFoMzV5V3VFMnA5RVdvV0pJeVhnUFhVc3g2?=
- =?utf-8?B?ZjFHS2xJdkVabUtvS25uUnZIQVBCWkRSZmtOK1B6MU5rU2VjclVmbVNLR3hC?=
- =?utf-8?B?ak41Lzlob3pSQktib0paZUdpVGVIUEc5NGtFRVAxdzh4RDNuejZ3S1pqSkNa?=
- =?utf-8?B?VVo2Rll0dEEwRHFDSVpBN25hSk9JWldhK0hoUnoyUHUwTVYvYzRac2tGM1Ry?=
- =?utf-8?B?L1UzWlJLY3M4ckFnMW9wNGp5QXora1ppQTM0RWJZWDk2TDF4bnJZeEFrTllS?=
- =?utf-8?B?LzVleittcEIzSjIwMnlpWnprZ2dodkxjM0lZVk1VcGxVK3FNM3lTV3ZpR3U2?=
- =?utf-8?B?aXBiL09wRmZKeVFGTnJZaTJ0Z0gyclROcW9panJqYlVhQWFmT2pTVDdvbTkv?=
- =?utf-8?B?b05RM3EwSVNncEhFakJEdVVSc2JkdWMyUU9IOS95ZDZLTVFydVArKzVLeTlL?=
- =?utf-8?B?WGVMWHFwSnlsVlBGRUFrWWhCZTl0S29qOUh3SmtVV0ZjZXJXS0RlVFVJK3RO?=
- =?utf-8?B?OGRGRG5xbGNrTnhOQ043c05oL1E4SlFtcDN0MS9LeTFrd08zeSt0NjdmLy85?=
- =?utf-8?B?RFllbG5VemlwMkdHT2QraUxNNVhTN3RVTzRoUDQ0MDhhUEorZ2cweUNsMngx?=
- =?utf-8?B?SGFpLzFRZTZZMG94RVJ0WExRYXZCZ3FQbXE4ZHJ2SDI3bmZCdWJFdz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c103a585-2f3d-460f-b4c3-08df2dc68f47
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2026 09:51:34.4213
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZgG9g5HDyiF9x+OBlwESZMf7VH5Tb3HlCvLJiV87VL9fOaHT5089oaTED4cfdbZxWqDh6+rTJh3OYFkbvRgx+g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB9035
+Content-Transfer-Encoding: 8bit
+X-KSMG-AntiPhishing: NotDetected, bases: 2026/10/19 08:08:00
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Envelope-From: mdmitrichenko@astralinux.ru
+X-KSMG-AntiSpam-Info: LuaCore: 127 0.3.127 0884f7b061fa529b810563f359267cd65d2ec05c, {Tracking_one_susp_tld}, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, patch.msgid.link:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;new-mail.astralinux.ru:7.1.1;astralinux.ru:7.1.1;127.0.0.199:7.1.2, FromAlignment: s
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 206789 [Oct 19 2026]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.27
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854, bases: 2026/10/19 08:59:00 #28702808
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected, bases: 2026/10/19 08:08:00
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 1
 
-On 18/10/26 23:11, Francisco Panis Kaseker wrote:
-> Hi,
->
-> On the HP OMEN Gaming Laptop 16-ap0xxx (Ryzen 9 8940HX, Fire Range), the
-> internal digital mic shows up with the yc driver on ACP rev 0x62, but
-> capture fails: arecord returns -EIO and the ACP never raises an
-> interrupt. Windows lists this mic as "AMD Audio Device"; the speakers
-> are on the Realtek ALC245.
->
-> Hardware:
->   DMI: HP / OMEN Gaming Laptop 16-ap0xxx / board 8E35 / SKU D93TFEA#ABZ
->   BIOS: F.13
->   CPU: AMD Ryzen 9 8940HX with Radeon Graphics
->   07:00.5 Multimedia controller [0480]: AMD ACP/ACP3X/ACP6x Audio
->           Coprocessor [1022:15e2] (rev 62), subsystem HP
->   ALC245 (0x10ec0245, subsystem 0x103c8e35): only the headset jack mic
->           (pin 0x19); pin 0x12 is 0x411111f0
->   No _DSD "AcpDmicConnected" in the DSDT/SSDTs.
->
-> Kernel: Ubuntu 7.0.0-38-generic. Its acp6x-mach.c already has the 8E35
-> quirk. I added commit 70bbd833986a ("ASoC: Add DMIC support for the AMD
-> RPL platform") to pci-acp6x.c as an out-of-tree module (kernel tainted)
-> and kept snd_rpl_pci_acp6x from binding (the equivalent of d3fbf61317f6).
->
-> What happens, after a cold boot:
->   - snd_pci_acp6x binds to 0000:07:00.5
->   - "acp_yc_mach acp_yc_mach.0: Enabling ACP DMIC support via DMI"
->   - no "Audio Mode" or "RPL Audio Mode" line, so ACP_PIN_CONFIG is
->     4..8 or above 15
->   - card 3: acp6x [acp6x], device 0: DMIC capture dmic-hifi-0
->   - arecord -D plughw:CARD=acp6x,DEV=0 -f S32_LE -c 2 -r 48000:
->       arecord: pcm_read:2240: read error: Input/output error
->   - /proc/interrupts: ACP_PCI_IRQ (IR-IO-APIC 19-fasteoi) stays at 0 on
->     every CPU
->   - PipeWire picks the DMIC as the default input, so on these machines
->     apps record silence by default
->
-> I also tried yc with the RPL PGFSM_CONTROL/PGFSM_STATUS/CLKMUX_SEL
-> offsets from the removed rpl driver (0x124101C/0x1241020/0x1241024
-> instead of 0x1241024/0x1241028/0x124102C). The result was the same.
->
-> Is anything else needed for the PDM block on Fire Range parts? I can
-> test patches, mainline kernels and register dumps on this laptop.
-++ 
-Please log bugzilla ticket and attach dmesg logs and alsa info output.
+From: Johan Hovold <johan@kernel.org>
 
-Thanks,
-Vijendar
->
-> Thanks,
-> Francisco Panis Kaseker
-> ps: Wrote by AI
+commit 23261f0de09427367e99f39f588e31e2856a690e upstream.
+
+The reference taken to the sync provider OF node when probing the
+platform device is currently only dropped if the set_sync() callback
+fails during DAI probe.
+
+Make sure to drop the reference on platform probe failures (e.g. probe
+deferral) and on driver unbind.
+
+This also avoids a potential use-after-free in case the DAI is ever
+reprobed without first rebinding the platform driver.
+
+Fixes: 5914d285f6b7 ("ASoC: stm32: sai: Add synchronization support")
+Fixes: d4180b4c02e7 ("ASoC: stm32: sai: fix set_sync service")
+Cc: Olivier Moysan <olivier.moysan@st.com>
+Cc: stable@vger.kernel.org      # 4.16: d4180b4c02e7
+Signed-off-by: Johan Hovold <johan@kernel.org>
+Reviewed-by: olivier moysan <olivier.moysan@foss.st.com>
+Link: https://patch.msgid.link/20251124104908.15754-4-johan@kernel.org
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
+---
+Backport fix for CVE-2025-71081
+ sound/soc/stm/stm32_sai.c     | 12 +++---------
+ sound/soc/stm/stm32_sai_sub.c | 23 ++++++++++++++++-------
+ 2 files changed, 19 insertions(+), 16 deletions(-)
+
+diff --git a/sound/soc/stm/stm32_sai.c b/sound/soc/stm/stm32_sai.c
+index df167c389b98..026321620a20 100644
+--- a/sound/soc/stm/stm32_sai.c
++++ b/sound/soc/stm/stm32_sai.c
+@@ -122,7 +122,6 @@ static int stm32_sai_set_sync(struct stm32_sai_data *sai_client,
+ 	if (!pdev) {
+ 		dev_err(&sai_client->pdev->dev,
+ 			"Device not found for node %pOFn\n", np_provider);
+-		of_node_put(np_provider);
+ 		return -ENODEV;
+ 	}
+ 
+@@ -131,21 +130,16 @@ static int stm32_sai_set_sync(struct stm32_sai_data *sai_client,
+ 	if (!sai_provider) {
+ 		dev_err(&sai_client->pdev->dev,
+ 			"SAI sync provider data not found\n");
+-		ret = -EINVAL;
+-		goto error;
++		return -EINVAL;
+ 	}
+ 
+ 	/* Configure sync client */
+ 	ret = stm32_sai_sync_conf_client(sai_client, synci);
+ 	if (ret < 0)
+-		goto error;
++		return ret;
+ 
+ 	/* Configure sync provider */
+-	ret = stm32_sai_sync_conf_provider(sai_provider, synco);
+-
+-error:
+-	of_node_put(np_provider);
+-	return ret;
++	return stm32_sai_sync_conf_provider(sai_provider, synco);
+ }
+ 
+ static int stm32_sai_probe(struct platform_device *pdev)
+diff --git a/sound/soc/stm/stm32_sai_sub.c b/sound/soc/stm/stm32_sai_sub.c
+index 962e5606c2c9..325089a20872 100644
+--- a/sound/soc/stm/stm32_sai_sub.c
++++ b/sound/soc/stm/stm32_sai_sub.c
+@@ -1440,7 +1440,8 @@ static int stm32_sai_sub_parse_of(struct platform_device *pdev,
+ 				dev_err(&pdev->dev,
+ 					"External synchro not supported\n");
+ 				of_node_put(args.np);
+-				return -EINVAL;
++				ret = -EINVAL;
++				goto err_put_sync_provider;
+ 			}
+ 			sai->sync = SAI_SYNC_EXTERNAL;
+ 
+@@ -1449,7 +1450,8 @@ static int stm32_sai_sub_parse_of(struct platform_device *pdev,
+ 			    (sai->synci > (SAI_GCR_SYNCIN_MAX + 1))) {
+ 				dev_err(&pdev->dev, "Wrong SAI index\n");
+ 				of_node_put(args.np);
+-				return -EINVAL;
++				ret = -EINVAL;
++				goto err_put_sync_provider;
+ 			}
+ 
+ 			if (of_property_match_string(args.np, "compatible",
+@@ -1463,7 +1465,8 @@ static int stm32_sai_sub_parse_of(struct platform_device *pdev,
+ 			if (!sai->synco) {
+ 				dev_err(&pdev->dev, "Unknown SAI sub-block\n");
+ 				of_node_put(args.np);
+-				return -EINVAL;
++				ret = -EINVAL;
++				goto err_put_sync_provider;
+ 			}
+ 		}
+ 
+@@ -1473,13 +1476,15 @@ static int stm32_sai_sub_parse_of(struct platform_device *pdev,
+ 
+ 	of_node_put(args.np);
+ 	sai->sai_ck = devm_clk_get(&pdev->dev, "sai_ck");
+-	if (IS_ERR(sai->sai_ck))
+-		return dev_err_probe(&pdev->dev, PTR_ERR(sai->sai_ck),
+-				     "Missing kernel clock sai_ck\n");
++	if (IS_ERR(sai->sai_ck)) {
++		ret = dev_err_probe(&pdev->dev, PTR_ERR(sai->sai_ck),
++				    "Missing kernel clock sai_ck\n");
++		goto err_put_sync_provider;
++	}
+ 
+ 	ret = clk_prepare(sai->pdata->pclk);
+ 	if (ret < 0)
+-		return ret;
++		goto err_put_sync_provider;
+ 
+ 	if (STM_SAI_IS_F4(sai->pdata))
+ 		return 0;
+@@ -1501,6 +1506,8 @@ static int stm32_sai_sub_parse_of(struct platform_device *pdev,
+ 
+ err_unprepare_pclk:
+ 	clk_unprepare(sai->pdata->pclk);
++err_put_sync_provider:
++	of_node_put(sai->np_sync_provider);
+ 
+ 	return ret;
+ }
+@@ -1571,6 +1578,7 @@ static int stm32_sai_sub_probe(struct platform_device *pdev)
+ 
+ err_unprepare_pclk:
+ 	clk_unprepare(sai->pdata->pclk);
++	of_node_put(sai->np_sync_provider);
+ 
+ 	return ret;
+ }
+@@ -1583,6 +1591,7 @@ static int stm32_sai_sub_remove(struct platform_device *pdev)
+ 	snd_dmaengine_pcm_unregister(&pdev->dev);
+ 	snd_soc_unregister_component(&pdev->dev);
+ 	pm_runtime_disable(&pdev->dev);
++	of_node_put(sai->np_sync_provider);
+ 
+ 	return 0;
+ }
+-- 
+2.43.0
 
