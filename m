@@ -1,54 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.200
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792440273;
-	b=g7SxMyAfTFN8nNoGsTnCJd/dkg5BT1Nx1GyVkFFkewJEtuFut0t4Cxk8ASh8tcGuHXAS
-	 7YnjtHnMKRb0QpRbwCih1c9oqpzLJ3IBpnLpmvurWwvjsJEYWG1lvitOXnr5B10pgCe1m
-	 b80CYoS+SUU3sb7usF5w3d9oQfMvTBxOCHPcpQMbgEwZ1M3yHKokXYEgmRmwwElRequMp
-	 TOGeTbcETc6uSeztRCvKQEIXyFYvGYwaUVx/fe2IVviQsA8rgAFpRPzmSb3Dg/g4/uTQn
-	 hc8g7PmOYuuCjYisbnv6XBcI8eqOypOkTeWRU3jqS6+62YNgAml7e9RJmWuKyrKpzfg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792440273;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=oDfINcFbuQrHtezeW26KtgRUuzHaaOUFoMxP5VuL0xM=;
-	b=mJ40ezoS+7mTmpibcTQFlPNOtpLK5Todq1LywTtTB/LWPqyV+YeX292JI0TcXqL212OR
-	 Y8MDjWmbiMvndL/asrV3815Bb3uVzneUeR3qhvnKN4nFg5x32U/4hPrS4xwlvDyaDlNFl
-	 /Yf1LV/znrTKrPypUKaUCTcIAkjAHohOidOBWlxbdxMlRnIC2wyeinq4/AjaFpDTIzDpx
-	 nQW8tUKpaK+7jZlpMtFkuVSg3NQpHBTlvU+6eUpN8D4nEPMtky2M80A6/b+Hh6+xDysyi
-	 RNeXyZZAaQxQzvsMBQNXNmIC1UtqJVGtUuxhH13IIQZFEGCcolftAg+A/rHqUbcAPqw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.200
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=136.143.188.112
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792441137;
+	b=nzNICFxv20lyRbsS1VMIYnXlfDgrnK++71n/Ax4QvmFZklSOTLuptOMPxgKtLr7VeL2M
+	 GCcgPs4oNQbrxvQlHVrac2SdsMLDqfOZ/PsPK/S55ma0+sEbwtLMdxfnyIVuKKwbSnE+b
+	 kkbagH0S1imFOGIBd+QhWVbk6t4Pehb7x7MGq8JPLoToHQFtQDiL44QfbtEydZHuv/hRj
+	 DNvZp+ka6JQKOiv6jDOGLdzg5Di+3mhyyNJEaxnhvhHlW+LTe2Q1Pd4iMMQT4f4RzC3qv
+	 PsYjkdRgjA8qrCk4XxHvhIzjVwmnCPs7UfvLaU33sjakZJ5GOCfnAsbOUXOWCoPAlJQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792441137;
+	h=DMARC-Filter:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-ZohoMailClient;
+	bh=LzRKCjOsexYDsp+fOhPyrCDvEmMCsC42ZBzmehEXEQM=;
+	b=MLhC2JxaMKiPDYsq3q0YupyTCl1Lx7P9a147ldU+s2mO03jJhNe/dEuG6F1CHlfcNAr7
+	 Jy4Y1dNql7haT0LrsXrHB/uiAa50tN8b51WJaBCybYbCuwnqLN1lQKN3iyZNf05dkwKl5
+	 gHKEbZ0EP87Kb68CSfaxatFIXoBk7gO4iRhGigAbj3DO5tsfD20YivXsUii0kcrgU77rh
+	 +BXZO1oqeg/QONYp+3hkHaMjc7aqo5teXS2pmoS/QrqRjH2HdKs1ZB1EuBqI52+4txRFA
+	 yX2QEY+lnDEKDN6jD4ps7o+A3FqT6QtAdM3WUfvlvlTE11tskaXY4qijl+5/jAHkL6Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=rong.moe;
+	spf=pass smtp.mailfrom=rong.moe;
+	dkim=pass header.d=rong.moe header.i=i@rong.moe header.a=rsa-sha256 header.s=zmail2048 header.b=H8TWauOx;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=136.143.188.112
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38138606A323
-	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 20:04:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38138606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4b37620eb73so4979271b6e.1
-        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 13:04:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792440272; x=1793045072;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oDfINcFbuQrHtezeW26KtgRUuzHaaOUFoMxP5VuL0xM=;
-        b=G2qYJfl4BYhNpB5lxrJEG9e307V/4X6b05XAVuQQGUNKsT93GQtqtefuYOX7hXhvLd
-         z8McNhisU36Rb1wzKsSJMj1MhxbqwdKHVsgS2l8e8qzYS70j+oRJnkARfXLCJXtZEkXa
-         gkaVECBYh4sD8jMdQkzXv21dBKfJR6OjhGEEuo+2CuSLmili5YapW3Hq9zfgQxRPGlZR
-         uDR5rIP7hU07G3gLSG/l5vwvGOVFoub+exPmf7OayDCvo5PhQWOGqgBYck50Wfobsdd/
-         lPfeWoEIZ4cI6PF8yyrgnpA5mDEX+lXIL5BjeawhVR3X7HZ9ESGjWwj9E0EjO2NeDAvM
-         QNuA==
-X-Forwarded-Encrypted: i=1; AKwUvBwB+ME4WyGjjOp3a6SXfq0wWKRag8hV7KY7NhURHsv0gaLbLyCBJIqtUFcuhdKP+NklHmBGWN/3BXk/PQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYIOIO9ZDetPMANzej7Bip0FoR+rg/gkxSfkN+luSt26/YaWBbzS
-	7nPjp6iXD0S/wagRMQWqBIO3aazzsfcfC/Srtnm/Imx10FMHX1Cs4KmSmjOdMPFxmxlUvy4Dir6
-	e1ge1vRuWivKcwx5VBkb1MPscZEwQXcd5N8OzbZTIbKhp1lAWT2EB3ZhT7ag=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B093606A319;
+	Mon, 19 Oct 2026 20:18:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B093606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=rong.moe header.i=i@rong.moe header.a=rsa-sha256 header.s=zmail2048 header.b=H8TWauOx
+ARC-Seal: i=1; a=rsa-sha256; t=1792441121; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=bc8t96fsyJAUx4Lc9pz/QDLTRC2SP/S0trakckomNg46M1TImY2FNv65ZfN7Shh9f7MPT2B4ZidPKwrh8Ek2Hfw4HBgSSptrxMVixrw/ZoMod3tpKiuVDQNvoBqXYy9q50hBPHtNN+KDHlDS0p/aTC4drKmcfmCpGtAzgNm85Dw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1792441121; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=LzRKCjOsexYDsp+fOhPyrCDvEmMCsC42ZBzmehEXEQM=; 
+	b=HrA1wnp74oJ4OdQ+TZMwanyp9duKHXFUuZly0HvpEzuiP/ot8IQtg+pXy8V0072DIpmL6eN8vZ8b9HEAHnGJPvXV2lX5n7nuKMi61ZSueVRNRE6R5iY/fNguzrbxeJGh/b1JSuPmYm9diC4T0jLI4BaVQRUWuNT3g+9ui43dNWs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1792441121;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+	bh=LzRKCjOsexYDsp+fOhPyrCDvEmMCsC42ZBzmehEXEQM=;
+	b=H8TWauOxGOwOlVABio4pRZoiWmWV9BZi5syNCGiM8of8nGNnJTaj/bL6lHAKDr5u
+	jLmaVeUPwjEny6HP1GzLZUySy87gpMg8sW/tPgbCccTaDYRjtGXYiAqxNCSXOLDnYL+
+	8eeE/OYlu1XB8paTqCs6Y50qqpdox83WWhGe7FBHwk7zQm4HFv6U5o2pkRh2BTW0ivF
+	+YKotQpQhAIc+oErt8IxqMQpskpTgtdZcGIG573OeQcmONRfnxeEhci71TU5Jz9uR04
+	mg7GKv7UFSupKCLkmbBGr8//WkvoWWBr+SAs5e9LvplQIzKd0qmJT0b0LbCTBP6gTpc
+	xFhB7QfbAQ==
+Received: by smtp.zohomail.com with SMTPS id 1792441118149350.0196879165301;
+	Mon, 19 Oct 2026 13:18:38 -0700 (PDT)
+From: Rong Zhang <i@rong.moe>
+Subject: [PATCH 0/4] ALSA: usb-audio: Add dB scale quirks for AB13X and
+ Xiaomi Speaker Mini
+Date: Tue, 20 Oct 2026 04:18:21 +0800
+Message-Id: <20261020-b4-uac-ya-audio-v1-0-2d6e053b7f50@rong.moe>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,138 +70,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1645:b0:4d6:308d:4ca7 with SMTP id
- 5614622812f47-53cced20326mr7361172b6e.24.1792440272158; Mon, 19 Oct 2026
- 13:04:32 -0700 (PDT)
-Date: Mon, 19 Oct 2026 13:04:32 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ad677d0.a20cb897.960b0.0048.GAE@google.com>
-Subject: [syzbot] [sound?] [usb?] BUG: scheduling while atomic in wait_clear_urbs
-From: syzbot <syzbot+4b408ec271028c02705a@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org, perex@perex.cz, syzkaller-bugs@googlegroups.com, 
-	tiwai@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQ5EMBCA4VeROZuERmyzryIOYzrW7AFpVYh4d
+ 8XxO/z/AUG8SoBvdoCXVYNOY0KZZ8ADjT9BdclgP46sqR12FUZi3AkpOp1QLBeVKYkM95Cq2Uu
+ v23Ns2tchdn/h5d7AeV71MA7bcwAAAA==
+X-Change-ID: 87da826d-b4-uac-ya-audio-e8c0421aa2cf
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Takashi Iwai <tiwai@suse.de>, Rong Zhang <i@rong.moe>
+X-Mailer: b4 0.17-dev-6be7c
+X-ZohoMailClient: External
 
-Hello,
+I recently got two devices with insane volume control, so I tried to
+measure their volume mapping and add dB scale quirks for them.
 
-syzbot found the following issue on:
+PATCH 1 collects the code snippets for dB scale override into a helper
+function, with unified info and warning messages, and also deconflicts
+playback dB scale quirks of DragonFly.
 
-HEAD commit:    b810335a0699 Add linux-next specific files for 20261015
-git tree:       linux-next
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=167bffd1580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=1b8bbfb3c8b8bab9
-dashboard link: https://syzkaller.appspot.com/bug?extid=4b408ec271028c02705a
-compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=117bffd1580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=129b3e8e580000
+PATCH 2 applies the MV-SILICON linear volume quirk only to the affected
+mixers, instead of the whole device.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/d857324ce96e/disk-b810335a.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/c678b2144185/vmlinux-b810335a.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/a48079386c10/bzImage-b810335a.xz
+PATCH 3 adds dB scale quirk for an AB13X variant.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+4b408ec271028c02705a@syzkaller.appspotmail.com
+PATCH 4 adds dB scale quirk for the Xiaomi Speaker Mini.
 
-raw-gadget.0 gadget.0: fail, usb_ep_enable returned -22
-usb 1-1: BOGUS urb xfer, pipe 0 != type 3
-BUG: scheduling while atomic: syz-executor208/5624/0x00000002
-locks held by syz-executor208/5624: 2, on CPU#1:
- #0: ffff8880375782c8 (&pcm->open_mutex){+.+.}-{4:4}, at: snd_pcm_oss_release+0x110/0x250 sound/core/oss/pcm_oss.c:2589
- #1: ffff88807bbb7910 (&group->lock#2){..-.}-{3:3}, at: spin_lock_irq include/linux/spinlock.h:377 [inline]
- #1: ffff88807bbb7910 (&group->lock#2){..-.}-{3:3}, at: snd_pcm_group_lock_irq sound/core/pcm_native.c:103 [inline]
- #1: ffff88807bbb7910 (&group->lock#2){..-.}-{3:3}, at: snd_pcm_stream_lock_irq sound/core/pcm_native.c:142 [inline]
- #1: ffff88807bbb7910 (&group->lock#2){..-.}-{3:3}, at: class_pcm_stream_lock_irq_constructor include/sound/pcm.h:678 [inline]
- #1: ffff88807bbb7910 (&group->lock#2){..-.}-{3:3}, at: snd_pcm_drop+0xcc/0x780 sound/core/pcm_native.c:2323
-Modules linked in:
-irq event stamp: 62624
-hardirqs last  enabled at (62623): [<ffffffff8c0b3e43>] __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:219 [inline]
-hardirqs last  enabled at (62623): [<ffffffff8c0b3e43>] _raw_spin_unlock_irq+0x23/0x50 kernel/locking/spinlock.c:229
-hardirqs last disabled at (62624): [<ffffffff8c0b3b17>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:163 [inline]
-hardirqs last disabled at (62624): [<ffffffff8c0b3b17>] _raw_spin_lock_irq+0x17/0x50 kernel/locking/spinlock.c:189
-softirqs last  enabled at (62310): [<ffffffff81895e3b>] __do_softirq kernel/softirq.c:679 [inline]
-softirqs last  enabled at (62310): [<ffffffff81895e3b>] invoke_softirq kernel/softirq.c:519 [inline]
-softirqs last  enabled at (62310): [<ffffffff81895e3b>] __irq_exit_rcu+0xcb/0x220 kernel/softirq.c:758
-softirqs last disabled at (62299): [<ffffffff81895e3b>] __do_softirq kernel/softirq.c:679 [inline]
-softirqs last disabled at (62299): [<ffffffff81895e3b>] invoke_softirq kernel/softirq.c:519 [inline]
-softirqs last disabled at (62299): [<ffffffff81895e3b>] __irq_exit_rcu+0xcb/0x220 kernel/softirq.c:758
-Preemption disabled at:
-[<0000000000000000>] 0x0
-Kernel panic - not syncing: scheduling while atomic: panic_on_warn set ...
-CPU: 1 UID: 0 PID: 5624 Comm: syz-executor208 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Call Trace:
- <TASK>
- vpanic+0x26f/0x710 kernel/panic.c:661
- panic+0xc5/0xd0 kernel/panic.c:787
- check_panic_on_warn+0x89/0xb0 kernel/panic.c:533
- __schedule_bug+0xf1/0x150 kernel/sched/core.c:6143
- schedule_debug kernel/sched/core.c:6172 [inline]
- __schedule+0x18b7/0x5820 kernel/sched/core.c:7232
- __schedule_loop kernel/sched/core.c:7462 [inline]
- schedule+0x164/0x2b0 kernel/sched/core.c:7477
- schedule_timeout+0x152/0x2c0 kernel/time/sleep_timeout.c:99
- wait_clear_urbs+0x134/0x390 sound/usb/endpoint.c:1010
- sync_pending_stops sound/usb/pcm.c:317 [inline]
- snd_usb_pcm_sync_stop+0x9c/0xb0 sound/usb/pcm.c:325
- snd_pcm_sync_stop sound/core/pcm_native.c:648 [inline]
- snd_pcm_drop+0x57d/0x780 sound/core/pcm_native.c:2335
- snd_pcm_release_substream+0x75/0x4a0 sound/core/pcm_native.c:2836
- snd_pcm_oss_release_file sound/core/oss/pcm_oss.c:2413 [inline]
- snd_pcm_oss_release+0x144/0x250 sound/core/oss/pcm_oss.c:2590
- __fput+0x408/0xa40 fs/file_table.c:513
- fput_close_sync+0x11f/0x240 fs/file_table.c:619
- filp_close_sync+0x6e/0xa0 fs/open.c:1897
- close_files fs/file.c:572 [inline]
- put_files_struct+0x230/0x3c0 fs/file.c:584
- do_exit+0x6f0/0x2360 kernel/exit.c:977
- do_group_exit+0x22d/0x2f0 kernel/exit.c:1123
- get_signal+0x1216/0x12c0 kernel/signal.c:3112
- arch_do_signal_or_restart+0xbb/0x860 arch/x86/kernel/signal.c:337
- __exit_to_user_mode_loop kernel/entry/common.c:66 [inline]
- exit_to_user_mode_loop+0x10e/0x770 kernel/entry/common.c:101
- __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
- syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
- syscall_exit_to_user_mode include/linux/entry-common.h:343 [inline]
- do_syscall_64+0x328/0x520 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f41afbcdcc9
-Code: Unable to access opcode bytes at 0x7f41afbcdc9f.
-RSP: 002b:00007ffc3a104688 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: 00000000002828c9 RBX: 0000000000000000 RCX: 00007f41afbcdcc9
-RDX: 00000000fffffcd9 RSI: 0000200000002200 RDI: 0000000000000006
-RBP: 0000000000000001 R08: 0000000000000000 R09: 0000000000000006
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffc3a1047f8
-R13: 431bde82d7b634db R14: 00007f41afc60c40 R15: 0000000000000002
- </TASK>
-Shutting down cpus with NMI
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
-
-
+Signed-off-by: Rong Zhang <i@rong.moe>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Rong Zhang (4):
+      ALSA: usb-audio: Unify dB scale override
+      ALSA: usb-audio: Apply MV-SILICON linear volume quirk per mixer
+      ALSA: usb-audio: Add dB scale quirk for an AB13X variant
+      ALSA: usb-audio: Add dB scale quirk for Xiaomi Speaker Mini
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+ sound/usb/mixer_quirks.c | 285 ++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 245 insertions(+), 40 deletions(-)
+---
+base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+change-id: 87da826d-b4-uac-ya-audio-e8c0421aa2cf
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+Thanks,
+Rong
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
