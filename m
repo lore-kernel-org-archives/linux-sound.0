@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF1252F82F;
-	Mon, 19 Oct 2026 13:59:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D948B595CFC;
+	Mon, 19 Oct 2026 13:59:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418389; cv=none; b=tEryHEQskWwc6Gp52kbcF6xqHYG4jG7/FV0lGCXF4YH6JZ4ATERVV8rLG2zboQqxYyccxBMFIbkIc28XnMu28pH+g6cdRxbqzOxT6uydO+aHOkU9htWkl0J6ZWgslkfaAO92Ti8f4bZqSOx6x5abFCk9iuKw4nxou/OKfQzOYa0=
+	t=1792418395; cv=none; b=uHX9q6KYSvrWDSVCbzzPcEr3zq2fwTasH1kJi97XweKboM2TCwUg12M+GjuagPaJIoT7WCLMuLTUIJndQtBXAvNVnNIHsB3z1rnDLwpOB4xMRLBQ4yvp337oK38wYbXpapcj8Zkk7QgqtcflMebWNwdx0V3uZTxYsykmo4XQqz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418389; c=relaxed/simple;
-	bh=CXzADxk9wqX09v7ycqrdX6eAVir6soUV+PCXFq9YVhU=;
+	s=arc-20240116; t=1792418395; c=relaxed/simple;
+	bh=P66v0MFcjpFBBQ7Yu6q/NYGEp+iqSRlLoM1XYJ5hoQA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=N/EbjqCU3X7BMqf1MEScMyPc4UFYFykxup8Y0lO8jJAzYa7/KyVVqym5GBOy842bEEwMCfpU8wBB3dJNY6owBcqZLbffdvZeCylbZnYrOkzbzm+HpfrvyXfSc43Fe09zL7w035eiX0pLiSQLb64+mf9o3j69z0DhFzg0bkP9T0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TKQoQXyf; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=VZELo//yjeIlVwMiBYwn7ZW3xpygnxWLFvjNOkGYQOAMv0yhSBvej+sD6kry5kcTtWUt0teTY8JnwOioO2BnW1JpCJz84C6aE7wsc0O/zQsBLuAhJ88mKvZdYwNHFy+Ad4LCXoS8LTaul82EJQ+9b+RJmtBCFXbJz2MdlIrdOXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JA+VWVGq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TKQoQXyf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7EEE1F000C9;
-	Mon, 19 Oct 2026 13:59:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JA+VWVGq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFCF71F000CA;
+	Mon, 19 Oct 2026 13:59:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418384;
-	bh=8mQ3Y+7UHIH059+NAi9vk+LgHMB4/3HWDkvw9jCS914=;
+	s=k20260515; t=1792418392;
+	bh=0N0TwlDZhrT8hTl0UNPRaU0LL/t6pHOExRMNal93nAQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=TKQoQXyfw4atyFLeKELm/jUlqecQo+rgyrlTYIUx+2HIV2m5H+ceoUzXEMb0lgZNO
-	 u4peYGDHCVg0FGbCHnjtJ57Xv0UIkZGFXGVPrBoiB6n4YacCMeepEfUm8zlgUIDPv/
-	 rjsG1Zhy92+6V3LWVIhd0YDLqEkSf2K4dciowLCWaSGl/TOK7o5nlE9doQsgqxPK+d
-	 1vVHkZ27eF8y6y0aXhE1PHPjTMvUewtzJHE7grF4lUBhX4wtDhrUG+dmqm0hNaqrfU
-	 c4k9pIixM/G2lZrM8LcxQHN6PQAipYI0OUluciASVM7skjFLohpgxbGaQLFPcQEcNo
-	 yi2EH9E6eCoXg==
+	b=JA+VWVGqvWALDmn+cCRtTExaQ1D4Pdrj4WQevvLKODcARsUUP8SuZ2h+8v4ZTQsXW
+	 O0DbU6iZetkyYR3gA/SG2KRiv4dqOXTF4RcXZXD6QhTjr/xMf8jumwGEa0ebhPU+YU
+	 oHpMtTHoUqwNXq3tZNaKpsILtjSoinwbHNhK8n/zlvCI2KWSqrEYFYTF6WWh+OvR8p
+	 vQN7PostB4S7Lp63MZ320eqrmEFWpLA2FpjbkvJ0UdnrmCrELNNKv3t0YvQtX+qAlX
+	 jny54ZHTcS31G+ekQIIEYYA0+l1+p+kRHwaiQPkD8JY7uNbu6+1LA1+uVAk9mm9sid
+	 8UT5NSfzIHCWA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Michal Pecio <michal.pecio@gmail.com>,
+Cc: Carl Quist <equalizerjr@gmail.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] ALSA: usx2y: Stop clearing urb->hcpriv before submission
-Date: Mon, 19 Oct 2026 09:48:22 -0400
-Message-ID: <20261019135441.1420968-211-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] ALSA: hda/realtek: Enable mute LED on HP Laptop 15-dy0xxx
+Date: Mon, 19 Oct 2026 09:48:28 -0400
+Message-ID: <20261019135441.1420968-217-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -54,314 +54,295 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Michal Pecio <michal.pecio@gmail.com>
+From: Carl Quist <equalizerjr@gmail.com>
 
-[ Upstream commit fabae5548149ef5c8a056875d9ebdc38366db539 ]
+[ Upstream commit eb2b516900f2cff6c931a0d664a625ee93855779 ]
 
-This is managed by USB core and drivers aren't expected to touch it.
+The mute LED on the HP Laptop 15-dy0xxx (PCI SSID 103c:864f, Realtek
+ALC236) does not work, because the machine has no entry in the quirk
+table. No fixup is applied, so no mute LED classdev is registered and
+nothing ever drives the LED.
 
-It should only be not NULL on a submitted URB, in which case clearing
-defeats the "submitted while active" sanity check in usb_submit_urb()
-and may crash the HCD handling the URB and panic the kernel.
+The LED is controlled by COEF index 0x07, bit 0. This was verified on
+the hardware with hda-verb: setting the bit lights the mute LED and
+clearing it turns the LED off.
 
-Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
-Link: https://patch.msgid.link/20260810075728.483c827e.michal.pecio@gmail.com
+  hda-verb /dev/snd/hwC0D0 0x20 SET_COEF_INDEX 0x07
+  hda-verb /dev/snd/hwC0D0 0x20 SET_PROC_COEF 0x1     # LED on
+  hda-verb /dev/snd/hwC0D0 0x20 SET_PROC_COEF 0x200   # LED off
+
+That is exactly what ALC236_FIXUP_HP_MUTE_LED_COEFBIT2 configures, and
+the closely related HP Laptop 15-dw0xxx (103c:85f0) already uses it.
+Bit 9 (0x200) is set by default on this board and is preserved by the
+fixup's read-modify-write.
+
+Tested on an HP Laptop 15-dy0xxx (SKU 7FU54UA#ABA, board 864F,
+BIOS F.40).
+
+Signed-off-by: Carl Quist <equalizerjr@gmail.com>
+Link: https://lore.kernel.org/CAOtcGaxXndKxTK5MVSEcmF-LUy+V51K7fhE=qvLA+VvW5ZyCNA@mail.gmail.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-I have the local tree, the live `hcpriv` path, and the mailing-list
-record. The rest of this is the nine-phase write-up and the backport
-verdict for 6.12 only.
+This is a one-line Realtek HDA mute-LED quirk for PCI SSID `103c:864f`.
+The local tree is **6.12.111** (`pending-6.12`). The helper it uses
+already exists here; only the table entry is missing.
 
 ===============================================================
 PHASE 1: COMMIT MESSAGE FORENSICS
 ===============================================================
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-
-Record: **[ALSA/usx2y] [Stop]** Stop clearing `urb->hcpriv` before
-`usb_submit_urb()`. “Stop” here means “stop doing something unsafe,”
-i.e. a correctness fix, not a feature.
+Record: `[ALSA: hda/realtek] [Enable] Enable mute LED on HP Laptop
+15-dy0xxx`
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-
-Verified from `git show fabae5548149ef5c8a056875d9ebdc38366db539`:
-
-- `Signed-off-by: Michal Pecio <michal.pecio@gmail.com>` (author)
-- `Link: https://patch.msgid.link/20260810075728.483c827e.michal.pecio@g
-  mail.com`
+Record:
+- `Signed-off-by: Carl Quist <equalizerjr@gmail.com>` (author)
+- `Link: https://lore.kernel.org/CAOtcGaxXndKxTK5MVSEcmF-
+  LUy+V51K7fhE=qvLA+VvW5ZyCNA@mail.gmail.com`
 - `Signed-off-by: Takashi Iwai <tiwai@suse.de>` (ALSA maintainer)
-
-Absent (expected for this pipeline, not a negative signal): `Fixes:`,
-`Cc: stable`, `Reported-by`, `Tested-by`, `Reviewed-by`, `Acked-by`.
-
-No syzbot, no CVE, no multi-user report.
+- No `Fixes:` tag (expected)
+- No `Cc: stable` (expected)
+- No `Reported-by:` / `Tested-by:` / `Reviewed-by:` / `Acked-by:`
+- Hardware test is in the body (“Tested on an HP Laptop 15-dy0xxx…”)
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
-
 Record:
-- **Bug:** Client driver writes `urb->hcpriv = NULL` immediately before
-  `usb_submit_urb()`. `hcpriv` is USB-core/HCD private.
-- **Symptom/failure mode:** If the URB is still active (`hcpriv !=
-  NULL`), that store hides it from `usb_submit_urb()`’s “submitted while
-  active” check. The HCD then treats a live URB as a new submit and
-  **can crash / panic**.
-- **Version info in the message:** none. Git places the commit at
-  `v7.2-rc5-196-gfabae5548149e` (2026-08-10). The assignment itself
-  dates to `1da177e4c3f41` (Linux-2.6.12-rc2).
-- **Root cause (author):** drivers must not touch `hcpriv`; a non-NULL
-  value means “already submitted.”
+- **Bug:** HP Laptop 15-dy0xxx (PCI SSID `103c:864f`, ALC236) has no
+  quirk-table entry, so no mute-LED classdev is registered and the LED
+  never lights.
+- **Symptom:** mute LED does not track mute state.
+- **Root cause:** missing `SND_PCI_QUIRK` for this SSID. LED is COEF
+  index `0x07` bit 0, verified with `hda-verb` on real hardware.
+- **Fix:** reuse existing `ALC236_FIXUP_HP_MUTE_LED_COEFBIT2` (same as
+  HP Laptop 15-dw0xxx `103c:85f0`).
+- **Version info:** none beyond the model; hardware SKU `7FU54UA#ABA`,
+  BIOS F.40.
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-
-Record: Not a disguised cleanup. The message names the panic path. The
-diff is a one-line deletion of an illegal store.
+Record: Not a disguised cleanup. It is an explicit hardware-quirk
+addition for a non-working mute LED.
 
 ===============================================================
 PHASE 2: DIFF ANALYSIS - LINE BY LINE
 ===============================================================
 
 **Step 2.1: INVENTORY THE CHANGES**
-
 Record:
-- File: `sound/usb/usx2y/usbusx2yaudio.c` — 1 deletion, 0 additions
-- Function: `usx2y_urb_submit()`
-- Scope: single-file, surgical
+- File in mainline: `sound/hda/codecs/realtek/alc269.c` (+1 / -0)
+- Function/table: `alc269_fixup_tbl[]`
+- Scope: single-file, one-line surgical quirk
+- Local equivalent file: `sound/pci/hda/patch_realtek.c` (HDA codecs
+  were not yet split in 6.12)
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-
-Record: Before, `usx2y_urb_submit()` set `start_frame`, **zeroed
-`hcpriv`**, set `urb->dev`, then `usb_submit_urb(GFP_ATOMIC)`. After,
-the `hcpriv` store is gone. This is the **normal ISO resubmit path**
-(completion → `usx2y_usbframe_complete()` → `usx2y_urb_submit()`), not
-an error-only path.
+Record: Before, SSID `103c:864f` matches no entry, so
+`snd_hda_pick_fixup()` applies no ALC236 mute-LED fixup. After, that
+SSID maps to `ALC236_FIXUP_HP_MUTE_LED_COEFBIT2`, which at
+`HDA_FIXUP_ACT_PRE_PROBE` registers a mute-LED classdev. Probe-time
+only; no other SSIDs change.
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
+Record: **(h) Hardware workaround.** Missing `SND_PCI_QUIRK` for a
+laptop whose ALC236 mute LED is driven by COEF `0x07` bit 0.
 
-Record: **[Memory safety / HCD invariant]** `urb->hcpriv` is documented
-in `include/linux/usb.h` as HCD-private. `usb_submit_urb()` in this
-tree:
+Verified against this tree’s helper:
 
-```378:381:drivers/usb/core/urb.c
-        if (urb->hcpriv) {
-                WARN_ONCE(1, "URB %pK submitted while active\n", urb);
-                return -EBUSY;
+```4763:4776:sound/pci/hda/patch_realtek.c
+static void alc236_fixup_hp_mute_led_coefbit2(struct hda_codec *codec,
+                                          const struct hda_fixup *fix,
+int action)
+{
+        struct alc_spec *spec = codec->spec;
+
+        if (action == HDA_FIXUP_ACT_PRE_PROBE) {
+                spec->mute_led_polarity = 0;
+                spec->mute_led_coef.idx = 0x07;
+                spec->mute_led_coef.mask = 1;
+                spec->mute_led_coef.on = 1;
+                spec->mute_led_coef.off = 0;
+                snd_hda_gen_add_mute_led_cdev(codec, coef_mute_led_set);
         }
+}
 ```
 
-`__usb_hcd_giveback_urb()` already sets `urb->hcpriv = NULL` **before**
-the complete callback, so on a legal resubmit the driver’s store is a
-no-op. If the URB is still queued, the store defeats
-`-EBUSY`/`WARN_ONCE`. xHCI then does `urb->hcpriv = urb_priv` in
-`xhci_urb_enqueue()` over a live URB (new `urb_priv`, old still on the
-ring) → DMA/ring corruption and panic.
+`alc_update_coef_idx()` is RMW (`(val & ~mask) | bits_set`), so bit 9
+(`0x200`) is preserved as the commit claims.
 
 **Step 2.4: ASSESS THE FIX QUALITY**
-
-Record: Obviously correct: delete an illegal write. Minimal. Regression
-risk is very low: giveback already NULL’s `hcpriv` before complete;
-first-time submits from `usx2y_urbs_start()` go through
-`usb_submit_urb()` directly with a freshly allocated URB. On a true
-double-submit, users get `-EBUSY` and this driver’s existing `dev_err` +
-`usx2y_clients_stop()` instead of an HCD panic.
+Record: Obviously correct: one existing fixup, one SSID, gated by PCI
+subsystem ID. Regression risk is limited to this exact machine. No API,
+locking, or hot-path change.
 
 ===============================================================
 PHASE 3: GIT HISTORY INVESTIGATION
 ===============================================================
 
 **Step 3.1: BLAME THE CHANGED LINES**
-
-Record: `git blame` on line 170: `urb->hcpriv = NULL` introduced in
-**`1da177e4c3f41` (Linux-2.6.12-rc2, 2005)**. Present for the entire
-life of this driver. Surrounding function was only renamed/style-fixed
-(Takashi Iwai, 2021).
+Record: There is no “buggy line” — the bug is a **missing** table entry.
+The helper `alc236_fixup_hp_mute_led_coefbit2` was added in
+`0659400f18c0e` (2023-07-19, “Enable Mute LED on HP Laptop 15s-eq2xxx”)
+with `Cc: stable`. That helper is an ancestor of this HEAD.
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-
-Record: No `Fixes:` tag. The broken line is original driver code, not a
-later regression. The USB-core check was added in **`2f02bc8af3abb`
-(Alan Stern, 2012)** “USB: report submission of active URBs”
-(`WARN_ONCE` + `-EBUSY`). That commit exists in this tree. This driver
-has been defeating that check since the check existed.
+Record: No `Fixes:` tag. Not applicable. The missing-SSID pattern is the
+same as many later quirk adds.
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-
-Record: Recent local history on this file includes `86f82bf2b5f99`
-(validate `nrpacks`), print API, `__counted_by`, etc. None of those
-remove `hcpriv`. `git merge-base --is-ancestor fabae5548149e HEAD` →
-**not an ancestor** (exit 1). Standalone one-line patch, not `N/M`.
+Record: This tree already contains the same class of patches, e.g.:
+- `dda834cc2048d` — HP 14s-dr1xxx mute LED (`0x86c8`, COEFBIT2), landed
+  2026-09-21
+- `dc60a7d2dc78b` — HP 15s-eq1xxx mute LED (`0x8706`, COEFBIT2)
+- `b685eba97a5ae` — HP 14s-dr5xxx mute LED
+Standalone; not patch X/Y.
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-
-Record: Michal Pecio has no prior ALSA usx2y commits in this checkout.
-On `origin/master` the only nearby `hcpriv` work is `25e531b422dc2`
-(`usb: xhci: Make usb_host_endpoint.hcpriv survive endpoint_disable()`)
-— different field (`ep->hcpriv`), not a prerequisite. Author is a
-USB/xHCI contributor; ALSA maintainer applied this the same day.
+Record: `git log --author="Carl Quist" -- sound/pci/hda/` in this tree
+is empty. Author is an end-user reporter, not the subsystem maintainer.
+Takashi Iwai applied the patch the same day.
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-
-Record: None. The function, field, and `usb_submit_urb()` check all
-exist here. `git show fabae5548149e | git apply --check` succeeded.
-Standalone.
+Record: Only prerequisite is `ALC236_FIXUP_HP_MUTE_LED_COEFBIT2`,
+present here. The commit mentions 15-dw0xxx (`103c:85f0`,
+`b28d3d0841a60`, 2026-07-03) as a related user of the same fixup; that
+SSID is **not** in this tree and is **not** required. Can apply
+standalone.
 
 ===============================================================
 PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 ===============================================================
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
-
 Record:
-- `b4 dig -c fabae5548149e` → https://patch.msgid.link/20260810075728.48
-  3c827e.michal.pecio@gmail.com
-- `b4 dig -a`: **v1 only**, 2026-08-10
-- Thread (LKML/openwall): standalone `[PATCH]`, no v2. Takashi Iwai:
-  “Applied to for-next branch. Thanks.” No NAK, no stable discussion, no
-  reviewer risk flags.
+- `b4 dig -c eb2b516900f2c` →
+  https://patch.msgid.link/CAOtcGaxXndKxTK5MVSEcmF-
+  LUy+V51K7fhE=qvLA+VvW5ZyCNA@mail.gmail.com
+- `b4 dig -a`: single v1, 2026-08-05, Carl Quist. No later revision.
+- Thread: Takashi Iwai: “Applied now. But at the next time, please
+  submit to linux-sound@vger.kernel.org, instead.”
+- No NAK, no stable objection, no requested changes.
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-
-Record (`b4 dig -w`): To/Cc Jaroslav Kysela, Takashi Iwai, linux-sound,
-linux-kernel. **Not** linux-usb. Applied by the ALSA maintainer the same
-day; no separate Reviewed-by.
+Record: `b4 dig -w` recipients: Carl Quist, `alsa-devel@alsa-
+project.org`, `tiwai@suse.de`. Subsystem maintainer received and applied
+it.
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-
-Record: No `Reported-by`, no bugzilla/syzbot. Inspection-driven.
-Severity from the author is kernel panic; no public crash log was found.
+Record: The submission is the bug report. Hardware-verified with `hda-
+verb` and a named SKU. Lore fetch of the search URL returned 403; the
+thread was obtained via `b4 dig -m` instead.
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-
-Record: Not a series. `git log origin/master
-fabae5548149e..origin/master -- sound/usb/usx2y/usbusx2yaudio.c` is
-empty (no follow-up/revert).
+Record: Standalone. Sibling 15-dw0xxx (`b28d3d0841a60`) was AUTOSEL’d
+for 6.18 — same pattern, different SSID. Not a dependency.
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-
-Record: lore.kernel.org returned 403 via WebFetch. Web search of
-`site:lore.kernel.org/stable usx2y hcpriv` found **no** stable-list
-thread. UNVERIFIED beyond that search: no evidence it was rejected for
-stable.
+Record: Web search of lore.kernel.org/stable for this subject did not
+return a 15-dy0xxx discussion. No evidence it was rejected for stable.
+Closely analogous COEFBIT2 mute-LED quirks are already in this 6.12
+tree.
 
 ===============================================================
 PHASE 5: CODE SEMANTIC ANALYSIS
 ===============================================================
 
-semcode MCP is not available; callers/callees from grep + reads.
-
-**Step 5.1: IDENTIFY KEY FUNCTIONS**
-
-Record: `usx2y_urb_submit()` only.
+**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
+Record: Table `alc269_fixup_tbl[]` only. Runtime path uses existing
+`alc236_fixup_hp_mute_led_coefbit2()` →
+`snd_hda_gen_add_mute_led_cdev()` → `coef_mute_led_set()` →
+`alc_update_coef_led()`.
 
 **Step 5.2: TRACE CALLERS**
+Record: `alc269_fixup_tbl` is passed from the ALC269-family probe path:
 
-Record:
-- `usx2y_usbframe_complete()` in the same file: playback URB after
-  `usx2y_urb_play_prepare()`, capture `completed_urb` after retire.
-  Called from `i_usx2y_urb_complete()` (URB complete / giveback).
-- `usx2yhwdeppcm.c` includes `usbusx2yaudio.c` and calls
-  `usx2y_urb_submit()` for capture (and second capture) in the
-  hwdep/rawusb path.
+```12583:12584:sound/pci/hda/patch_realtek.c
+        snd_hda_pick_fixup(codec, alc269_fixup_models,
+                       alc269_fixup_tbl, alc269_fixups);
+```
 
-Hot path: **every ISO frame** while PCM is running. Userspace trigger:
-open/play/record on a Tascam US-122/224/428 (`CONFIG_SND_USB_USX2Y`).
+That is codec probe (device enumeration), not IRQ or a syscall hot path.
 
 **Step 5.3: TRACE CALLEES**
-
-Record: `usb_submit_urb(urb, GFP_ATOMIC)`, `dev_err` on failure. No
-alloc, no new locks.
+Record: `alc_update_coef_idx()` → `__alc_update_coefex_idx()` does RMW
+on NID `0x20`. Matches the `hda-verb` sequence in the commit
+(`SET_COEF_INDEX 0x07` on `0x20`).
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-
-Record: `usb_hcd_giveback_urb` → `__usb_hcd_giveback_urb` (`hcpriv =
-NULL`) → `i_usx2y_urb_complete` → `usx2y_usbframe_complete` →
-`usx2y_urb_submit` → `usb_submit_urb`. Reachable from normal PCM. On a
-clean complete, `hcpriv` is already NULL. Double-submit is the dangerous
-case (startup state machine `STATE_STARTING1/2` can pick
-`urb[0]`/`urb[1]` by index; two URBs per substream, `NRURBS == 2`).
+Record: Userspace mute → LED classdev brightness →
+`coef_mute_led_set()`. Reachable on this laptop whenever the user mutes.
+Not a crash path.
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-
-Record: `urb->hcpriv = NULL` in `sound/` exists **only** in this file.
-Other `hcpriv` writes are in HCDs (`xhci`, `ehci`, `ohci`, …), which is
-correct. This driver is the outlier among ALSA USB.
+Record: Many HP ALC236 laptops in this tree already use
+`ALC236_FIXUP_HP_MUTE_LED_COEFBIT2` (`0x84ae`, `0x86c1`, `0x86c8`,
+`0x8706`, `0x87b7`, `0x87d3`, …). This is the same established pattern.
 
 ===============================================================
 PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 ===============================================================
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-
-Record: **Yes.** Local tree: `pending-6.12`, `git describe`
-`p-6.12-3-gc504cf0baa3d8`, **`make kernelversion` = 6.12.111**. Line 170
-of `sound/usb/usx2y/usbusx2yaudio.c` is `urb->hcpriv = NULL;`.
-Introduced in 2.6.12-rc2; present for this entire 6.12 line.
+Record:
+- Tree: `p-6.12-2-gd38d58a4e0359`, `make kernelversion` = **6.12.111**,
+  branch `pending-6.12`
+- `git merge-base --is-ancestor eb2b516900f2c HEAD` → not an ancestor
+  (commit not in this tree)
+- `0x864f` is absent from `sound/pci/hda/patch_realtek.c`
+- Helper and enum `ALC236_FIXUP_HP_MUTE_LED_COEFBIT2` are present (since
+  v6.5-era `0659400f18c0e`)
+- Insertion neighbors exist: `0x861f` then `0x869d` at lines 10898–10899
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-
-Record: **Clean apply** (`git apply --check` exit 0). Hunk context
-matches. No refactor of this submit helper in 6.12 vs the mainline
-parent.
+Record: Path remap only (`alc269.c` → `patch_realtek.c`). Context around
+`0x861f`/`0x869d` matches. Expected: **clean apply with path
+adjustment**, same as `dda834cc2048d` already on this branch.
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-
-Record: No prior usx2y `hcpriv` fix (`git log --grep=hcpriv --
-sound/usb/usx2y/` empty). Nearby usx2y hardening in this tree (`nrpacks`
-validation, URB `actual_length` checks, etc.) does not replace this
-change.
+Record: No 15-dy0xxx / `0x864f` entry. Other COEFBIT2 HP mute-LED quirks
+are present; none covers this SSID.
 
 ===============================================================
 PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 ===============================================================
 
 **Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-
-Record: **ALSA USB** (`sound/usb/usx2y/`), driver-specific.
-**PERIPHERAL/IMPORTANT-for-those-devices**: Tascam US-122/224/428
-(`CONFIG_SND_USB_USX2Y`, x86/PPC/Alpha). Not core mm/net, but USB audio
-submit on a live HCD is a **system-wide panic** if it fires.
+Record: `sound/pci/hda` Realtek codec quirks. **IMPORTANT** for laptop
+audio (very common driver), but this one line is **platform/device-
+specific**.
 
 **Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-
-Record: Mature (2002–2005 origin), still receiving real fixes in 6.12
-(parameter validation, bounds). Low churn, not staging.
+Record: Active: recent mute-LED quirk backports on this same file
+(`faee5b4612c26`, `dda834cc2048d`, …). Mature quirk table; this is a
+routine SSID add, not new infrastructure.
 
 ===============================================================
 PHASE 8: IMPACT AND RISK ASSESSMENT
 ===============================================================
 
 **Step 8.1: DETERMINE WHO IS AFFECTED**
-
-Record: **Driver-specific / config-specific**: users with Tascam
-US-122/224/428 and `CONFIG_SND_USB_USX2Y`. Unprivileged PCM I/O can
-exercise the path.
+Record: **Driver-specific / platform-specific:** HP Laptop 15-dy0xxx
+with PCI SSID `103c:864f` and `CONFIG_SND_HDA_CODEC_REALTEK`. No other
+machines match this SSID.
 
 **Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-
-Record: Legal resubmit after giveback: `hcpriv` already NULL → **no
-behavior change**. Panic requires submitting a still-active URB (startup
-state machine, lost `completed_urb`, or overlapping complete/submit).
-Not shown with a public reproducer; ISO ping-pong with two URBs makes it
-**plausible**. Unprivileged users running audio can hit the submit path.
+Record: Every mute toggle on that laptop. Unprivileged users can trigger
+the LED path, but the current bug is “LED never works,” not a crash.
 
 **Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-
-Record: **HCD crash / kernel panic** if an active URB is submitted after
-`hcpriv` is cleared. **Severity: CRITICAL** when it fires; **likelihood:
-unproven / low** (no Reported-by). After the fix: `-EBUSY` + WARN +
-stream stop — **HIGH** improvement vs panic.
+Record: Mute LED stuck/off. **MEDIUM** for that hardware (broken
+indicator, not oops/corruption). Still the documented stable **hardware-
+quirk exception**.
 
 **Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-
 Record:
-- **Benefit:** Restores USB core’s active-URB guard on a path that
-  otherwise can panic the machine; correct path unchanged.
-- **Risk:** 1-line deletion, no API, no locking, no data-structure
-  change.
-- **Ratio:** Strongly favors backport.
+- **Benefit:** restores mute LED on a shipping HP 15-dy0xxx; same fix
+  already used on many ALC236 HP models in this tree.
+- **Risk:** very low — 1 line, SSID-gated, existing helper.
+- **Ratio:** strongly favorable.
 
 ===============================================================
 PHASE 9: FINAL SYNTHESIS
@@ -370,124 +351,103 @@ PHASE 9: FINAL SYNTHESIS
 **Step 9.1: COMPILE THE EVIDENCE**
 
 FOR:
-- Objectively illegal write to HCD-private `urb->hcpriv` (docs + USB
-  core).
-- Defeats `usb_submit_urb()`’s `WARN_ONCE`/`-EBUSY` (in this tree since
-  2012).
-- Failure mode is HCD crash/panic (xhci re-owns a live URB).
-- Buggy line present here since 2.6.12; commit is **not** in HEAD.
-- 1 deletion; `git apply --check` clean; no prerequisites.
-- USB-knowledgeable author; ALSA maintainer applied v1 same day; no NAK;
-  no later revert.
+- Hardware codec quirk (`SND_PCI_QUIRK`) — explicit stable exception
+- Real, hardware-tested bug (named SKU, `hda-verb` proof)
+- One line; existing `ALC236_FIXUP_HP_MUTE_LED_COEFBIT2` already in 6.12
+- ALSA maintainer applied v1 with no objections
+- Same class of quirks already backported to this tree (14s-dr1xxx two
+  days ago)
+- Sibling 15-dw0xxx quirk was AUTOSEL’d for 6.18
 
 AGAINST:
-- No `Reported-by` / syzbot / crash log.
-- Tascam-only driver.
-- On the spec-compliant complete path the store is already a no-op
-  (giveback NULL’s `hcpriv` first), so this is **latent** unless double-
-  submit happens.
+- Not a crash, security issue, or data-corruption fix (LED-only)
+- Mainline path differs (`alc269.c` vs `patch_realtek.c`) — trivial
+  remap
+- Author is not a regular ALSA contributor
 
 UNRESOLVED:
-- Could not fetch lore.kernel.org (403); discussion recovered via b4 +
-  LKML/openwall.
-- No stable-list hit found; not proven it was ever NAK’d for stable.
+- Direct lore.kernel.org HTTP fetch returned 403; thread recovered via
+  `b4 dig -m`
+- No dedicated stable-list thread found for this exact subject
 
 **Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-
-1. Obviously correct and tested? **PASS** — one illegal store removed;
-   maintainer applied; correct path unchanged.
-2. Fixes a real bug that affects users? **PASS** — drivers must not
-   clear `hcpriv`; this driver does; users of this hardware exist.
-3. Important issue (crash, security, corruption, deadlock)? **PASS** —
-   bypass can panic the HCD; severity is crash, even if unreported.
-4. Small and contained? **PASS** — 1 line, one function.
-5. No new features or APIs? **PASS**.
-6. Can apply to the local tree? **PASS** — clean apply; code present.
+1. Obviously correct and tested? **PASS** — 1-line SSID map; tested on
+   named hardware; maintainer applied
+2. Fixes a real bug that affects users? **PASS** — mute LED never driven
+   on this laptop
+3. Important issue? **PASS** under the hardware-quirk exception
+   (severity MEDIUM: LED, not crash)
+4. Small and contained? **PASS** — +1 line, one table
+5. No new features or APIs? **PASS** — wires an existing fixup
+6. Can apply to the local tree? **PASS** — helper present; insert
+   between `0x861f` and `0x869d` in `patch_realtek.c`
 
 **Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-
-Record: Not a device-ID/quirk/DT/build/docs exception. Ordinary small
-bugfix.
+Record: **Hardware quirk / audio codec quirk** (`SND_PCI_QUIRK` in
+Realtek HDA). Qualifies automatically.
 
 **Step 9.4: MAKE YOUR DECISION**
+The 6.12 tree already has the COEFBIT2 helper and many HP ALC236 mute-
+LED SSIDs. This commit only adds `103c:864f`. That is the standard, low-
+risk stable backport for Realtek laptop LED quirks.
 
-This belongs in **this** 6.12 tree. The hardware set is narrow, but the
-patch is the lowest-risk way to stop a driver from disabling USB core’s
-double-submit guard. A panic on ISO resubmit is exactly the class of bug
-stable is meant to take; waiting for a public oops is unnecessary when
-the mechanism is visible in this checkout.
-
-------------------------------------------------
-What the commit solves for 6.12 users
-------------------------------------------------
-`usx2y_urb_submit()` currently zeros `urb->hcpriv` before
-`usb_submit_urb()`. USB core uses that pointer as “this URB is in the
-HCD.” Clearing it lets a still-active URB through as if it were idle.
-That can crash the host controller. After the deletion, a double-submit
-returns `-EBUSY` and this driver already stops the streams.
-
-Meets stable rules: obviously correct, real invariant bug, crash
-severity, 1 line, no new API, applies here.
-
-Risk vs benefit: benefit is avoiding a panic; risk is effectively zero
-on the giveback path this driver uses every frame.
-
-Concerns: niche device, no reproducer. Neither blocks a one-line restore
-of an existing USB-core check.
+Detailed explanation:
+- **Problem:** Without a quirk, ALC236 on HP 15-dy0xxx never registers a
+  mute-LED classdev, so the LED stays dead.
+- **Why it matters here:** 6.12 users on that SKU still see a broken
+  LED; the driver and helper are already in this tree.
+- **Rules:** Matches the quirk exception; small, tested, no new API.
+- **Risk vs benefit:** Benefit is a working LED on one HP model; risk is
+  confined to that SSID.
+- **Backport note:** Change the path to `sound/pci/hda/patch_realtek.c`;
+  no other code changes needed.
 
 Verification:
-- [Phase 1] Tags: author SOB, Link msgid, Takashi Iwai SOB; no
-  Fixes/Reported-by/stable Cc
-- [Phase 1] Subject/body: stop illegal `hcpriv` clear; panic if URB
-  still active
-- [Phase 2] Diff: delete `urb->hcpriv = NULL` in `usx2y_urb_submit()`;
-  confirmed at line 170 in this tree
-- [Phase 2] `usb_submit_urb()` checks `urb->hcpriv` and returns `-EBUSY`
-  (`drivers/usb/core/urb.c:378-381`)
-- [Phase 2] `__usb_hcd_giveback_urb()` sets `urb->hcpriv = NULL` before
-  `urb->complete()` (`hcd.c:1627`)
-- [Phase 2] xHCI `xhci_urb_enqueue()` assigns `urb->hcpriv = urb_priv`
-  (`xhci.c:1552`)
-- [Phase 2] `include/linux/usb.h`: `hcpriv` is HCD-private;
-  Documentation `-EBUSY` = URB already active
-- [Phase 3] blame: `1da177e4c3f41` Linux-2.6.12-rc2 introduced the store
-- [Phase 3] sanity check added `2f02bc8af3abb` (2012), present here
-- [Phase 3] `git merge-base --is-ancestor fabae5548149e HEAD` → not in
+- [Phase 1] Parsed tags: author SOB Carl Quist; Link to lore Message-ID;
+  maintainer SOB Takashi Iwai; no Fixes/Cc:stable/Reported-by
+- [Phase 2] Diff: +1 `SND_PCI_QUIRK(0x103c, 0x864f, …,
+  ALC236_FIXUP_HP_MUTE_LED_COEFBIT2)` in `alc269_fixup_tbl`
+- [Phase 2] Helper in this tree at `alc236_fixup_hp_mute_led_coefbit2()`
+  uses COEF 0x07 mask/on=1; `__alc_update_coefex_idx` is RMW
+- [Phase 3] `git log -S alc236_fixup_hp_mute_led_coefbit2 --
+  sound/pci/hda/patch_realtek.c` → `0659400f18c0e` (2023-07-19,
+  Cc:stable); `git merge-base --is-ancestor 0659400f18c0e HEAD` →
+  present
+- [Phase 3] `git merge-base --is-ancestor eb2b516900f2c HEAD` → not in
   this tree
-- [Phase 3] no follow-up/revert on `origin/master` for this file after
-  the commit
-- [Phase 4] `b4 dig -c fabae5548149e`: lore msgid; v1 only; To/Cc ALSA
-  maintainers
-- [Phase 4] Takashi Iwai applied to for-next; no NAK
-- [Phase 4] lore.kernel.org WebFetch 403; LKML/openwall used instead
-- [Phase 5] callers: `usx2y_usbframe_complete`, hwdep path via `#include
-  "usbusx2yaudio.c"`
-- [Phase 5] only `sound/` instance of `urb->hcpriv = NULL`
-- [Phase 6] `git describe HEAD` = p-6.12-3-gc504cf0baa3d8; `make
-  kernelversion` = 6.12.111
-- [Phase 6] `git apply --check` of `fabae5548149e` succeeded
-- [Phase 7] `CONFIG_SND_USB_USX2Y` Tascam US-122/224/428
-- [Phase 8] Failure mode: HCD panic on active-URB submit; severity
-  CRITICAL if triggered
-- UNVERIFIED: no public reproducer; stable@ archive not readable (403)
+- [Phase 3] Related in-tree backports: `dda834cc2048d` (14s-dr1xxx),
+  `dc60a7d2dc78b` (15s-eq1xxx)
+- [Phase 4] `b4 dig -c eb2b516900f2c`: v1 only; Takashi “Applied now”;
+  CC’d alsa-devel + tiwai
+- [Phase 4] Sibling `b28d3d0841a60` (15-dw0xxx) AUTOSEL 6.18; not an
+  ancestor of this HEAD and not required
+- [Phase 5] Probe uses `snd_hda_pick_fixup(..., alc269_fixup_tbl, ...)`
+- [Phase 6] `git describe HEAD` = `p-6.12-2-gd38d58a4e0359`; `make
+  kernelversion` = 6.12.111; `0x864f` absent; insert point
+  `0x861f`/`0x869d` at lines 10898–10899
+- [Phase 8] Failure mode: mute LED not driven; severity MEDIUM; SSID-
+  gated
+- UNVERIFIED: lore.kernel.org HTTP 403 on search/direct Message-ID URLs
+  (thread obtained via b4 instead)
+- UNVERIFIED: no dedicated stable@ thread found for this exact commit
 
 **YES**
 
- sound/usb/usx2y/usbusx2yaudio.c | 1 -
- 1 file changed, 1 deletion(-)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/usb/usx2y/usbusx2yaudio.c b/sound/usb/usx2y/usbusx2yaudio.c
-index c7c7ec9c228b4..1ea181e9bb283 100644
---- a/sound/usb/usx2y/usbusx2yaudio.c
-+++ b/sound/usb/usx2y/usbusx2yaudio.c
-@@ -167,7 +167,6 @@ static int usx2y_urb_submit(struct snd_usx2y_substream *subs, struct urb *urb, i
- 	if (!urb)
- 		return -ENODEV;
- 	urb->start_frame = frame + NRURBS * nr_of_packs();  // let hcd do rollover sanity checks
--	urb->hcpriv = NULL;
- 	urb->dev = subs->usx2y->dev; /* we need to set this at each time */
- 	err = usb_submit_urb(urb, GFP_ATOMIC);
- 	if (err < 0) {
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 68d5e5aa7f62d..f2b0eb8501a78 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6772,6 +6772,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x860c, "HP ZBook 17 G6", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+ 	SND_PCI_QUIRK(0x103c, 0x860f, "HP ZBook 15 G6", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+ 	SND_PCI_QUIRK(0x103c, 0x861f, "HP Elite Dragonfly G1", ALC285_FIXUP_HP_GPIO_AMP_INIT),
++	SND_PCI_QUIRK(0x103c, 0x864f, "HP Laptop 15-dy0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x869d, "HP", ALC236_FIXUP_HP_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x86c1, "HP Laptop 15-da3001TU", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x86c7, "HP Envy AiO 32", ALC274_FIXUP_HP_ENVY_GPIO),
 -- 
 2.53.0
 
