@@ -1,111 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792478254;
-	b=ayC4ohwGQnUwvkiGTG1PEZyIZErO13HEWzHS6fweNWzxQjpSwW6yhPUTfQ9gk2vdHcLC
-	 Td6zOhtuU0RCD60Bqii458DiZCDP/TA4FuaZfJ0hkvF+6fvKN7KTIcNDR6sSBuoch1PFq
-	 ihnymX2uUwTDZp+JzT1hdJWgoCu2uX2H3CclgBcSJ1ycqbwGHwrEFH2g9AVbix5cSciyL
-	 PZgkfHHxIsKNKFhFMNNPPsLMP/NJMczqzDxqYtwapWQGmvRra7i0arqwUF9U58Y3QamHv
-	 SJMRwLCNZhsE2JJFFns2IFQ9NHTDP0zbJe3q6V1GLpMPc4H6hSd18VlfBkapbB4ud8Q==
+	t=1792479779;
+	b=2Ve5088sf4W3t0sxGKM/86UAloaft8XwsQD6KV37Q5ajrk5aGRnH15f/8PnGsyDcyD7P
+	 D1Bn/5hlNaGHqm7Qks5FQS1fL/Z3p0Xcwkc5RglskmaUSchMg2lo8+sXvo4p/TB4A1rlZ
+	 EI+FON1jGJmcFVv/8eVdpuf6U4kGwsAM0k+3oDiz7VETHuyAP29/X5kmghfyHgR6w/2Cj
+	 V8aFtZP2zhNLlBExKd8AQVqGVR5aIlw4IIFdbmBFfsZb/hnvu1bQA1qY0OAM4Q+50Ippu
+	 eEIcZWOIbYbAxqJviFgkzMuKS7spF/0MoSLTaU45uKhk2fN6LlZBb+tMSNbF3i+lsLg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792478254;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=dkeJ+qlF3OdyfA6H4VacvMWg7dys6I2xj2MZMgj3Yc8=;
-	b=zWJ3DKroQkXGWOHErBM1u7liKjZQL+JdjoIn5g+rip7URYUmQZjdN5mKbwzTDDgoj02R
-	 i/kUOlvIuZQVEhTD6AVTbhroNm3rYTyacfsJc++uhLR86BucZBK+lhKqtp5Ux4Qu1AOyI
-	 3FIaS/Bs71cKTeVEv40XPKy+GV73ZBHC98iUkkPXHzzx8F8qa6SJsYCi7Jm5X0jGrqsI9
-	 Jlf3SPM8/PB8y9eTp+N4ORucIVszFaTSsgjvJI8WXt0AzlNfBQShY0eF+L35gu0+ExgRV
-	 70CyHOAnU1oJOZbOhCtui7oIR3DrWw3byIzmnAbc/z6S/6IxpU0YTW153zwvhAOrrLQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792479779;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Score:X-Spamd-Bar:
+	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Action:X-Spamd-Result:
+	 X-Rspamd-Server;
+	bh=vj73g/3K0fJxcG8o6j5qyxa7lPBLaWB4mf/oxFya8To=;
+	b=hSpW5uwjVbn4KATi8dKSdjVo7LmdB5C8onwEupnrIDlwIO85exmbBs8BU2Wn5+s1HBnE
+	 OnH+/sdUqx4Bhz5qR4QZBbW3e43davJDqfVY0mCFEaUIbC9NHDbzj6z3wzg5196LxqAXf
+	 wsN7tVFFJJWi8yAnG0dfz3njCRqwrSiatUsbNL8rSv5OS9JLH08qY0w6hkOuAVZv0Y4/M
+	 0CBVZokqlNOqTyORQiZlX5TZSqYrWr64xNpN8KQKGbx4yHywC3YOIi1Eqf+5/cS5wlljb
+	 V6AqecAICmB/i9VYeXh4AUWhhr/e24Fd0K0sOlJznQ5ugYWvZ0YD/j17/m6mGZPq6gQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="Hc/kPQ22";
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=ISrY7ec8;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=1xSq58jL;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pWDpSCBT;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=zj2zgWx9;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=y4ygsr4+;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9C460A2602
-	for <linux-sound@vger.kernel.org>; Tue, 20 Oct 2026 06:37:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EB9C460A2602
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF26606A31B
+	for <linux-sound@vger.kernel.org>; Tue, 20 Oct 2026 07:02:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFF26606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Hc/kPQ22;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=ISrY7ec8
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69K0tBjL2877675
-	for <linux-sound@vger.kernel.org>; Tue, 20 Oct 2026 06:37:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	dkeJ+qlF3OdyfA6H4VacvMWg7dys6I2xj2MZMgj3Yc8=; b=Hc/kPQ22WkzNYqHX
-	LUSP2d3mZ2SIDMy+h1KWfkj6ZYX2dIo0iHTATXCu3cTut1qM7lyyzMjL1ArhMPkm
-	D1MVX+yObTqSzih8zfFqsEoNmwnm1GfWWe7yj5gHYHdKH2C6vmsNXLD3TdYF8LME
-	Yo0Rnwl0MmJGyuCcmTibxasGLKFVmcQrszrTeoLRMBiGRCh29wzf62WujLhVJmiE
-	IwzZHPEnn4eOMNp22CaFkf47tMtQr5wuisDykYXNE6S2TDU8E+FOby3txGI454pI
-	4A1t6I0u+qnxUiTcPo7brWpA90qxOAjbBr9b/LR+Z2SuF+/kaP6x5WJN7mkKsKH7
-	8MD2Qw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hdw5ps6p9-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 20 Oct 2026 06:37:28 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93f26dd2165so980914985a.3
-        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 23:37:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792478247; x=1793083047; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dkeJ+qlF3OdyfA6H4VacvMWg7dys6I2xj2MZMgj3Yc8=;
-        b=ISrY7ec8LxQiWuc2N9xovB5OGQG2N6beSz+y336Ff6ZG1Ld1iLM7oJxTJtonSii7j6
-         rGHb5+xZRlLCrx3OSCk6yZIgpoGn0twE4/WXn8eAFQqzZHpc5Mv1uKkEZKcGPsUo3gdS
-         vUZWtjgmB6tZlBOgMP66h09voRlqxZX+pNRF5qtNrkjMsJgtzWAgqYbGP2ywfRGsHsv3
-         I5B+FIXOAs+PwDeZxzpYTA201MwNn0QgxRMhGkdnhk+75IwaMh29wTNT9miI1d1CLqY4
-         KxAjSW0Fp0V7uamjsIuL2QeHMWaUxrSZ1yBuQjEdGVqLnzgRxeksVfuHEs4qIs1mpRni
-         4k6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792478247; x=1793083047;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dkeJ+qlF3OdyfA6H4VacvMWg7dys6I2xj2MZMgj3Yc8=;
-        b=qC6NLJegkCaQbP/Zc/2JUadHZ5AvtxGQ8183KaC3bjefVTo+dql3ngZnzUjjXzvtpv
-         BfD+jf8R6HPbIqd78rWU+8vO+5ZlA+swzaxvD3TthefpDnVO/d0CpjEsc3c34t9uauaY
-         juxZOMIVRLx9CZAA+psDG+ISbuV7OfhmZSTJukQRs8YLMjneisWxkueM3agf6wT+1kPE
-         gyF2uVdCFV+QhhusxLCJYIQu7JgkhKlIN1iQnK9lrh0v1xMswPJN3dyNRhKQ4ZD2nBWn
-         r2Bsq1kHLUtUL2LJ6zKz9e+13/fnyLGcLNxqJeovMrGlp5yfGAh+BBqwSmBCRYw+Gwfq
-         cgeQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwx9JH+geIhy65Aag1uS+Fe4Cym4T4S3Q3mANmzuUipWZIXsdrnJ0pmTcVvqvnCFcHOrngPV25sW8j9WA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYI7UAQstAfTc7eW3VdOUGqq5AsgRj0+lDc9WZLRiLskKR9hg59V
-	y4W6dYDkzgrUDbIf/7flq7+Iq5xMSLBgeIkYUxVMLxGM8jpyHyddeV6jYxt4ZnX8UoergJ2V/jo
-	Ldc3VGmlfZj/vkU3FRf+glLjCpzurt+/e0oVMyVcWn9JV73m8Wc4uXfG+jekwbhg1TQ==
-X-Gm-Gg: AYBFou0E9NLMi9gyA6eBIfcv/G5TOuVHdwyjI399F0HYD5+/YvSDj2XPa6Ryuzp6IFD
-	ArE42Ao20Bcz0D6xl32BH3ZNaYoJ37zs26A/k7hzUnFcNjwJfy7OnwAYbG9KKwg5eeG+5GwKKii
-	14L0xZ2ZwsZzYxocfF/mWpO0QIi/qwEgoaeLchjFlKJrB9EEGrhXy2MZF6nTRasgru2qG5PpLil
-	OuKrSlL1z6HGvakbuUWEoUVjiDOHqUKr/WRI4b1BTSuDlRnvJPyYiwgTppxkFEDvLVhG8T3+V34
-	JONFoYV/42sJ9WQv8x3CqO2WCdkN9XKYFO/1Ir/hlQLBEFhOMnNykCRTUtDiKNI0cerzFMF/eSk
-	c9eNsug8a/w9BsSEDePzVDbkl9w==
-X-Received: by 2002:a05:620a:1a0b:b0:93f:1af1:7951 with SMTP id af79cd13be357-93f29dad0efmr1717290285a.66.1792478247219;
-        Mon, 19 Oct 2026 23:37:27 -0700 (PDT)
-X-Received: by 2002:a05:620a:1a0b:b0:93f:1af1:7951 with SMTP id af79cd13be357-93f29dad0efmr1717288985a.66.1792478246827;
-        Mon, 19 Oct 2026 23:37:26 -0700 (PDT)
-Received: from [192.168.68.120] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-48e1d810043sm4079204f8f.16.2026.10.19.23.37.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2026 23:37:26 -0700 (PDT)
-Message-ID: <5ace1d37-f480-463e-8705-e52ad7f34b0e@oss.qualcomm.com>
-Date: Tue, 20 Oct 2026 07:37:25 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=1xSq58jL;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pWDpSCBT;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=zj2zgWx9;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=y4ygsr4+
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8D9071F44E;
+	Tue, 20 Oct 2026 07:02:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792479772; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vj73g/3K0fJxcG8o6j5qyxa7lPBLaWB4mf/oxFya8To=;
+	b=1xSq58jLeg3q5DyNhGeS1BINdSmGJnNS66C/2zOHSrfwe3fSx6Hf4a2Ti1H1Yro+fgu8wV
+	fS+k35oOJMxDkbxKef/hy+6CgOgWB90UtElAhzG7XN8DTNHO4ZlDbP9Xqz7awUauz1ZM8w
+	6s5TimYx11ks+AV/XZpXqqiJb2qwGmg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792479772;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vj73g/3K0fJxcG8o6j5qyxa7lPBLaWB4mf/oxFya8To=;
+	b=pWDpSCBTQx9np49rE9bl3GY43iNel7bUcqbDo3bcrc5nCq+hHp+c6jjcIQzt3VWDL9wEFO
+	6eMSX5PFUd3rSAAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zj2zgWx9;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=y4ygsr4+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792479767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vj73g/3K0fJxcG8o6j5qyxa7lPBLaWB4mf/oxFya8To=;
+	b=zj2zgWx95VCmyxnjB2c20mGGrPbbqy5DPVXNNbZ7T0k2yvfwyrryRPHYXJ+qWA2WuIw6OV
+	doPa9NtLFT3vCGYEL48JJRCNgeSVr289GM51uBX/rFSGM0K+htCNnj3LlnWiUMM/7evSgi
+	3JEffitXWHTVzV39qAvHDNA4AFim72M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792479767;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vj73g/3K0fJxcG8o6j5qyxa7lPBLaWB4mf/oxFya8To=;
+	b=y4ygsr4+8dQRqmtnvJGBkN3wMp7G7UN+1MtirJUNTKOqGHPgU/fCtAeisfeCanYSCAYVsi
+	Sv0CskFgzenFSYCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 41558136CC;
+	Tue, 20 Oct 2026 07:02:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jdvyBhcS12rMYgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 20 Oct 2026 07:02:47 +0000
+Date: Tue, 20 Oct 2026 09:02:46 +0200
+Message-ID: <87pkx4j1m1.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: kernel@florianmueller.de
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.de,
+	perex@perex.cz,
+	regressions@lists.linux.dev
+Subject: Re: [REGRESSION] ALSA: hda/intel: "no codecs initialized" (CORB reset timeout) on Acer Aspire 4820G since v6.16
+In-Reply-To: <184896de-1e21-4abb-a224-eda0b5bddfc6@florianmueller.de>
+References: <184896de-1e21-4abb-a224-eda0b5bddfc6@florianmueller.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -114,95 +117,857 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] ASoC: SDCA: enable pm_runtime before taking the
- initial reference
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Mark Brown <broonie@kernel.org>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Jaroslav Kysela
- <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
-        Maciej Strozek <mstrozek@opensource.cirrus.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-        Takashi Iwai <tiwai@suse.com>, patches@opensource.cirrus.com,
-        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-References: <20261018192359.287987-1-srinivas.kandagatla@oss.qualcomm.com>
- <20261018192359.287987-3-srinivas.kandagatla@oss.qualcomm.com>
- <atXXQv+d+AGd2VIO@opensource.cirrus.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <atXXQv+d+AGd2VIO@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=DrrDa2/+ c=1 sm=1 tr=0 ts=6ad70c28 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=cEVFgFB53M-sojWUyRkA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIwMDAyNiBTYWx0ZWRfX3qQStyJpMCvc
- 6efTKbqLOgSfZ7tzZiN3gx0/BWjdHQJ6wktlih54rcIVlzVtIeEnmHcTZyIJWQyQE0+q/DECCtx
- PklDK4cLDVfxocqUh4DerOOszI4cjJrxFTqLlDVNSy5pzVkI/QvH/vRSnYhrhV8eOXSTBkYcyEQ
- 5a+d4eNIGQOpPi1qUqmcX9K5E0wm3CKMJWPBSFIPPzoNGFjZergml+6U5Tq/ny26EhDr5ce9z58
- g/MGL8FGE+z4Hf0vF6nYk+oDt9D8U/+MPiGSpalx04PJAc4HZpgl+3xzcvJRpadv3+SdmnszuMy
- 9FEQwLwYru8NaWV5moFyKPDQcJYoX4zQcsPaSHt6g5+LM5ycfyeP+VpuEKswpDb7IyswqWj7v1L
- SSMQBgN8LtRmmcy1VpT8iG9zfVTCDDZEkJtJiYVLXGwoEjo+0Eo9ukD6i/Fac2C6oV8qYJ7RLIW
- 3j40MRhxqOuHjuStPQw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIwMDAyNiBTYWx0ZWRfX+AlU+Q3KtCxt
- +WcpS5e0icxUOWJBdDYznixiRhYOMHsartLSZHJ+EdHG4kNlm79q2A7G7zhqHhHt5KKTCv2jBJi
- tHHDU1ZRI5tHZHoznByms8DPZmjnhKY=
-X-Proofpoint-GUID: D8PfA3HaV3mqmt0fCQF6iA-qiFVtTJDI
-X-Proofpoint-ORIG-GUID: D8PfA3HaV3mqmt0fCQF6iA-qiFVtTJDI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-20_01,2026-10-19_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 phishscore=0 spamscore=0 adultscore=0
- suspectscore=0 bulkscore=0 malwarescore=0 impostorscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610200026
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: 0.29
+X-Spamd-Bar: /
+X-Rspamd-Queue-Id: 8D9071F44E
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [0.29 / 50.00];
+	SEM_URIBL(3.50)[ubuntu.com:url];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	BAD_REP_POLICIES(0.10)[];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	R_DKIM_ALLOW(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,launchpad.net:url,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On 10/19/26 9:39 AM, Charles Keepax wrote:
-> On Sun, Oct 18, 2026 at 08:23:57PM +0100, Srinivas Kandagatla wrote:
->> If devm_pm_runtime_enable() failed, the usage count taken earlier by
->> pm_runtime_get_noresume() was never dropped. Reorder so the get only
->> happens once enable has succeeded.
->>
->> Fixes: 2d877d0659cb ("ASoC: SDCA: Add basic SDCA class driver")
->> Cc: stable@vger.kernel.org
->> Assisted-by: LLM
->> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
->> ---
->>  sound/soc/sdca/sdca_class.c | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/sound/soc/sdca/sdca_class.c b/sound/soc/sdca/sdca_class.c
->> index bcc660aeb739..3361db188046 100644
->> --- a/sound/soc/sdca/sdca_class.c
->> +++ b/sound/soc/sdca/sdca_class.c
->> @@ -194,12 +194,13 @@ int sdca_class_probe(struct sdw_slave *sdw,
->>  	pm_runtime_set_autosuspend_delay(dev, 250);
->>  	pm_runtime_use_autosuspend(dev);
->>  	pm_runtime_set_active(dev);
->> -	pm_runtime_get_noresume(dev);
->>  
->>  	ret = devm_pm_runtime_enable(dev);
->>  	if (ret)
->>  		return ret;
->>  
->> +	pm_runtime_get_noresume(dev);
+On Mon, 19 Oct 2026 21:18:02 +0200,
+kernel@florianmueller.de wrote:
 > 
-> I think it would be better to drop the reference on the error
-> path. Doing it this way round there is a very small chance that
-> the device auto-suspends between the enable and get_noresume.
-> The intention was to keep everything powered on until bring up
-> was complete.
-Understood, will fix that in v2.
+> Hello,
+> 
+> the internal HDA codec (Realtek ALC269VB) of my Acer Aspire 4820G is no
+> longer detected since v6.16. Only the HDMI audio of the Radeon remains,
+> so the built-in speakers are silent. Everything up to v6.15.11 works
+> (actually between 6.9 and 6.15.11 - 6.8 also does not work).
 
---srini
+Since HDMI audio is tied to both HD-audio and graphics drivers, it's
+hard to tell, unfortunately.  Could you try git-bisect to find out the
+culprit commit?
+
+
+Takashi
+
+> 
+> Hardware
+>   - Acer Aspire 4820G (2010), BIOS V1.25
+>   - Intel PCH HDA controller 0000:00:1b.0, codec Realtek ALC269VB
+>   - Switchable graphics: Intel (i915) + ATI Radeon (radeon), vga_switcheroo
+>   - ATI HDMI audio at 0000:01:00.1
+> 
+> Setup
+>   Xubuntu 26.04.1; kernels are the Ubuntu mainline builds from
+>   kernel.ubuntu.com/mainline (6.16.0-061600-generic etc.), except
+>   6.8.0-147-generic (Ubuntu). Kernel command line: quiet splash.
+>   Every test was a full reboot, a subset of them cold boots (power off).
+>   The pattern is fully consistent and reproducible.
+> 
+> Results
+>   good: 6.9.12, 6.11.11, 6.12.113, 6.14.11, 6.15.11
+>   bad:  6.16.0, 6.16.12, 6.18.57, 7.0.0-38
+>   also bad: 6.8.0-147 (Ubuntu), but 6.9.12 is good, so that could be an
+>   older, separate or related problem that was fixed for 6.9.
+>   No 6.16-rc builds were available in the archive, so I could not narrow
+>   it down further than v6.15.11 (good) -> v6.16.0 (bad).
+> 
+> Log on bad kernels (6.16.0)
+>   snd_hda_intel 0000:00:1b.0: number of I/O streams is 30, forcing
+> separate stream tags
+>   snd_hda_intel 0000:00:1b.0: CORB reset timeout#2, CORBRP = 65535
+>   hdaudio hdaudioC1D0: no AFG or MFG node found
+>   (same for hdaudioC1D1, C1D2, C1D3)
+>   snd_hda_intel 0000:00:1b.0: no codecs initialized
+> 
+> Log on good kernels (6.15.11)
+>   The "number of I/O streams is 30" line is not printed, and
+>   snd_hda_codec_realtek binds:
+>   snd_hda_codec_realtek hdaudioC1D0: autoconfig for ALC269VB:
+> line_outs=1 ...
+> 
+> Observation
+>   "30 streams" is what one would get from a GCAP value of 0xFFFF
+>   (ISS = OSS = 15), and CORBRP = 65535 is also all ones. This looks like
+>   the controller is not accessible (or still in reset/low power) when the
+>   driver probes it on 6.16 and later. This is only my interpretation of
+>   the numbers - please ignore, if it does not make sense.
+> 
+> Attached: dmesg (hda|codec|CORB), uname -r and aplay -l for 6.8.0,
+> 6.9.12, 6.15.11,
+> 6.16.0, 6.18.57 and 7.0.0, plus alsa-info and lspci -nnk.
+> 
+> I am happy to test patches or answer questions.
+> 
+> One thing that we get to say to rarely:
+> Thank you very much to you and all the kernel developers for the great
+> work and great dedication to FOSS software!
 > 
 > Thanks,
-> Charles
-
+> Florian
+> ~$ uname -r
+> 6.8.0-147-generic
+> ~$ sudo dmesg | grep -i -E "hda|codec|CORB"
+> [sudo: authenticate] Passwort:        
+> [   18.091190] snd_hda_intel 0000:00:1b.0: enabling device (0000 -> 0002)
+> [   18.091570] snd_hda_intel 0000:00:1b.0: bound 0000:00:02.0 (ops i915_audio_component_bind_ops [i915])
+> [   18.092098] snd_hda_intel 0000:00:1b.0: number of I/O streams is 30, forcing separate stream tags
+> [   18.196646] snd_hda_intel 0000:00:1b.0: CORB reset timeout#2, CORBRP = 65535
+> [   18.208215] hdaudio hdaudioC0D0: no AFG or MFG node found
+> [   18.208240] hdaudio hdaudioC0D1: no AFG or MFG node found
+> [   18.208254] hdaudio hdaudioC0D2: no AFG or MFG node found
+> [   18.208266] hdaudio hdaudioC0D3: no AFG or MFG node found
+> [   18.208270] snd_hda_intel 0000:00:1b.0: no codecs initialized
+> [   19.914898] snd_hda_intel 0000:01:00.1: Handle vga_switcheroo audio client
+> [   19.985798] snd_hda_intel 0000:01:00.1: bound 0000:01:00.0 (ops radeon_audio_component_bind_ops [radeon])
+> [   20.018723] input: HDA ATI HDMI HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:01.0/0000:01:00.1/sound/card0/input16
+> ~$ aplay -l
+> **** Liste der Hardware-Geräte (PLAYBACK) ****
+> Karte 0: HDMI [HDA ATI HDMI], Gerät 3: HDMI 0 [HDMI 0]
+>   Sub-Geräte: 1/1
+>   Sub-Gerät #0: subdevice #0
+> ~$ uname -r
+> 6.9.12-060912-generic
+> ~$ sudo dmesg | grep -i -E "hda|codec|CORB"
+> [sudo: authenticate] Passwort:        
+> [    8.489918] snd_hda_intel 0000:00:1b.0: enabling device (0000 -> 0002)
+> [    8.509215] snd_hda_intel 0000:01:00.1: Handle vga_switcheroo audio client
+> [    8.532525] snd_hda_intel 0000:01:00.1: bound 0000:01:00.0 (ops radeon_audio_component_bind_ops [radeon])
+> [    8.533963] input: HDA ATI HDMI HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:01.0/0000:01:00.1/sound/card0/input14
+> [    8.700320] snd_hda_intel 0000:00:1b.0: bound 0000:00:02.0 (ops i915_audio_component_bind_ops [i915])
+> [    8.752819] snd_hda_codec_realtek hdaudioC1D0: autoconfig for ALC269VB: line_outs=1 (0x14/0x0/0x0/0x0/0x0) type:speaker
+> [    8.752834] snd_hda_codec_realtek hdaudioC1D0:    speaker_outs=0 (0x0/0x0/0x0/0x0/0x0)
+> [    8.752839] snd_hda_codec_realtek hdaudioC1D0:    hp_outs=1 (0x21/0x0/0x0/0x0/0x0)
+> [    8.752843] snd_hda_codec_realtek hdaudioC1D0:    mono: mono_out=0x0
+> [    8.752846] snd_hda_codec_realtek hdaudioC1D0:    dig-out=0x1e/0x0
+> [    8.752848] snd_hda_codec_realtek hdaudioC1D0:    inputs:
+> [    8.752852] snd_hda_codec_realtek hdaudioC1D0:      Mic=0x18
+> [    8.752855] snd_hda_codec_realtek hdaudioC1D0:      Internal Mic=0x12
+> [    8.776195] input: HDA Intel MID Mic as /devices/pci0000:00/0000:00:1b.0/sound/card1/input17
+> [    8.776827] input: HDA Intel MID Headphone as /devices/pci0000:00/0000:00:1b.0/sound/card1/input18
+> ~$ aplay -l
+> **** Liste der Hardware-Geräte (PLAYBACK) ****
+> Karte 0: HDMI [HDA ATI HDMI], Gerät 3: HDMI 0 [HDMI 0]
+>   Sub-Geräte: 1/1
+>   Sub-Gerät #0: subdevice #0
+> Karte 1: MID [HDA Intel MID], Gerät 0: ALC269VB Analog [ALC269VB Analog]
+>   Sub-Geräte: 1/1
+>   Sub-Gerät #0: subdevice #0
+> Karte 1: MID [HDA Intel MID], Gerät 1: ALC269VB Digital [ALC269VB Digital]
+>   Sub-Geräte: 1/1
+>   Sub-Gerät #0: subdevice #0
+> ~$ uname -r
+> 6.15.11-061511-generic
+> ~$ sudo dmesg | grep -i -E "hda|codec|CORB"
+> [sudo: authenticate] Passwort:        
+> [   10.356203] snd_hda_intel 0000:00:1b.0: enabling device (0000 -> 0002)
+> [   10.356988] snd_hda_intel 0000:01:00.1: Handle vga_switcheroo audio client
+> [   10.375145] snd_hda_intel 0000:01:00.1: bound 0000:01:00.0 (ops radeon_audio_component_bind_ops [radeon])
+> [   10.375865] snd_hda_intel 0000:00:1b.0: bound 0000:00:02.0 (ops intel_audio_component_bind_ops [i915])
+> [   10.376734] input: HDA ATI HDMI HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:01.0/0000:01:00.1/sound/card0/input16
+> [   10.539973] snd_hda_codec_realtek hdaudioC1D0: ALC269VB: picked fixup  for PCI SSID 1025:0000
+> [   10.541278] snd_hda_codec_realtek hdaudioC1D0: autoconfig for ALC269VB: line_outs=1 (0x14/0x0/0x0/0x0/0x0) type:speaker
+> [   10.541291] snd_hda_codec_realtek hdaudioC1D0:    speaker_outs=0 (0x0/0x0/0x0/0x0/0x0)
+> [   10.541296] snd_hda_codec_realtek hdaudioC1D0:    hp_outs=1 (0x21/0x0/0x0/0x0/0x0)
+> [   10.541300] snd_hda_codec_realtek hdaudioC1D0:    mono: mono_out=0x0
+> [   10.541303] snd_hda_codec_realtek hdaudioC1D0:    dig-out=0x1e/0x0
+> [   10.541306] snd_hda_codec_realtek hdaudioC1D0:    inputs:
+> [   10.541309] snd_hda_codec_realtek hdaudioC1D0:      Internal Mic=0x12
+> [   10.541313] snd_hda_codec_realtek hdaudioC1D0:      Mic=0x18
+> [   10.853762] input: HDA Intel MID Mic as /devices/pci0000:00/0000:00:1b.0/sound/card1/input17
+> [   10.853978] input: HDA Intel MID Headphone as /devices/pci0000:00/0000:00:1b.0/sound/card1/input18
+> ~$ aplay -l
+> **** Liste der Hardware-Geräte (PLAYBACK) ****
+> Karte 0: HDMI [HDA ATI HDMI], Gerät 3: HDMI 0 [HDMI 0]
+>   Sub-Geräte: 1/1
+>   Sub-Gerät #0: subdevice #0
+> Karte 1: MID [HDA Intel MID], Gerät 0: ALC269VB Analog [ALC269VB Analog]
+>   Sub-Geräte: 1/1
+>   Sub-Gerät #0: subdevice #0
+> Karte 1: MID [HDA Intel MID], Gerät 1: ALC269VB Digital [ALC269VB Digital]
+>   Sub-Geräte: 1/1
+>   Sub-Gerät #0: subdevice #0
+> ~$ uname -r
+> 6.16.0-061600-generic
+> ~$ sudo dmesg | grep -i -E "hda|codec|CORB"
+> [sudo: authenticate] Passwort:        
+> [    8.587748] snd_hda_intel 0000:00:1b.0: enabling device (0000 -> 0002)
+> [    8.590394] snd_hda_intel 0000:01:00.1: Handle vga_switcheroo audio client
+> [    8.614173] snd_hda_intel 0000:01:00.1: bound 0000:01:00.0 (ops radeon_audio_component_bind_ops [radeon])
+> [    8.615630] input: HDA ATI HDMI HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:01.0/0000:01:00.1/sound/card0/input14
+> [    9.641195] snd_hda_intel 0000:00:1b.0: bound 0000:00:02.0 (ops intel_audio_component_bind_ops [i915])
+> [    9.642145] snd_hda_intel 0000:00:1b.0: number of I/O streams is 30, forcing separate stream tags
+> [    9.746677] snd_hda_intel 0000:00:1b.0: CORB reset timeout#2, CORBRP = 65535
+> [    9.748114] hdaudio hdaudioC1D0: no AFG or MFG node found
+> [    9.748140] hdaudio hdaudioC1D1: no AFG or MFG node found
+> [    9.748154] hdaudio hdaudioC1D2: no AFG or MFG node found
+> [    9.748167] hdaudio hdaudioC1D3: no AFG or MFG node found
+> [    9.748172] snd_hda_intel 0000:00:1b.0: no codecs initialized
+> ~$ aplay -l
+> **** Liste der Hardware-Geräte (PLAYBACK) ****
+> Karte 0: HDMI [HDA ATI HDMI], Gerät 3: HDMI 0 [HDMI 0]
+>   Sub-Geräte: 1/1
+>   Sub-Gerät #0: subdevice #0
+> ~$ uname -r
+> 6.18.57-061857-generic
+> ~$ sudo dmesg | grep -i -E "hda|codec|CORB"
+> [sudo: authenticate] Passwort:        
+> [    9.361118] snd_hda_intel 0000:00:1b.0: enabling device (0000 -> 0002)
+> [    9.392794] snd_hda_intel 0000:00:1b.0: bound 0000:00:02.0 (ops intel_audio_component_bind_ops [i915])
+> [    9.393187] snd_hda_intel 0000:00:1b.0: number of I/O streams is 30, forcing separate stream tags
+> [    9.402281] snd_hda_intel 0000:01:00.1: Handle vga_switcheroo audio client
+> [    9.431922] snd_hda_intel 0000:01:00.1: bound 0000:01:00.0 (ops radeon_audio_component_bind_ops [radeon])
+> [    9.497770] snd_hda_intel 0000:00:1b.0: CORB reset timeout#2, CORBRP = 65535
+> [    9.502431] input: HDA ATI HDMI HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:01.0/0000:01:00.1/sound/card1/input15
+> [    9.502617] hdaudio hdaudioC0D0: no AFG or MFG node found
+> [    9.502636] hdaudio hdaudioC0D1: no AFG or MFG node found
+> [    9.502647] hdaudio hdaudioC0D2: no AFG or MFG node found
+> [    9.502657] hdaudio hdaudioC0D3: no AFG or MFG node found
+> [    9.502661] snd_hda_intel 0000:00:1b.0: no codecs initialized
+> ~$ aplay -l
+> **** Liste der Hardware-Geräte (PLAYBACK) ****
+> Karte 1: HDMI [HDA ATI HDMI], Gerät 3: HDMI 0 [HDMI 0]
+>   Sub-Geräte: 1/1
+>   Sub-Gerät #0: subdevice #0
+> ~$ uname -r
+> 7.0.0-38-generic
+> ~$ sudo dmesg | grep -i -E "hda|codec|CORB"
+> [sudo: authenticate] Passwort:        
+> [    8.881157] snd_hda_intel 0000:00:1b.0: enabling device (0000 -> 0002)
+> [    8.881582] snd_hda_intel 0000:00:1b.0: bound 0000:00:02.0 (ops intel_audio_component_bind_ops [i915])
+> [    8.884669] snd_hda_intel 0000:01:00.1: Handle vga_switcheroo audio client
+> [    8.886046] snd_hda_intel 0000:00:1b.0: number of I/O streams is 30, forcing separate stream tags
+> [    8.984401] snd_hda_intel 0000:01:00.1: bound 0000:01:00.0 (ops radeon_audio_component_bind_ops [radeon])
+> [    8.991482] snd_hda_intel 0000:00:1b.0: CORB reset timeout#2, CORBRP = 65535
+> [    8.995216] hdaudio hdaudioC0D0: no AFG or MFG node found
+> [    8.995246] hdaudio hdaudioC0D1: no AFG or MFG node found
+> [    8.995261] hdaudio hdaudioC0D2: no AFG or MFG node found
+> [    8.995273] hdaudio hdaudioC0D3: no AFG or MFG node found
+> [    8.995279] snd_hda_intel 0000:00:1b.0: no codecs initialized
+> [    9.036115] input: HDA ATI HDMI HDMI/DP,pcm=3 as /devices/pci0000:00/0000:00:01.0/0000:01:00.1/sound/card1/input16
+> ~$ aplay -l
+> **** Liste der Hardware-Geräte (PLAYBACK) ****
+> Karte 1: HDMI [HDA ATI HDMI], Gerät 3: HDMI 0 [HDMI 0]
+>   Sub-Geräte: 1/1
+>   Sub-Gerät #0: subdevice #0
+> ~$ lspci -nnk
+> 00:00.0 Host bridge [0600]: Intel Corporation Core Processor DRAM Controller [8086:0044] (rev 18)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 00:01.0 PCI bridge [0604]: Intel Corporation Core Processor PCI Express x16 Root Port [8086:0045] (rev 18)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 	Kernel driver in use: pcieport
+> 00:02.0 VGA compatible controller [0300]: Intel Corporation Core Processor Integrated Graphics Controller [8086:0046] (rev 18)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 	Kernel driver in use: i915
+> 	Kernel modules: i915
+> 00:16.0 Communication controller [0780]: Intel Corporation 5 Series/3400 Series Chipset HECI Controller [8086:3b64] (rev 06)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 	Kernel driver in use: mei_me
+> 	Kernel modules: mei_me
+> 00:1a.0 USB controller [0c03]: Intel Corporation 5 Series/3400 Series Chipset USB2 Enhanced Host Controller [8086:3b3c] (rev 05)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 	Kernel driver in use: ehci-pci
+> 00:1b.0 Audio device [0403]: Intel Corporation 5 Series/3400 Series Chipset High Definition Audio [8086:3b56] (rev 05)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 	Kernel driver in use: snd_hda_intel
+> 	Kernel modules: snd_hda_intel
+> 00:1c.0 PCI bridge [0604]: Intel Corporation 5 Series/3400 Series Chipset PCI Express Root Port 1 [8086:3b42] (rev 05)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 	Kernel driver in use: pcieport
+> 00:1c.5 PCI bridge [0604]: Intel Corporation 5 Series/3400 Series Chipset PCI Express Root Port 6 [8086:3b4c] (rev 05)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 	Kernel driver in use: pcieport
+> 00:1d.0 USB controller [0c03]: Intel Corporation 5 Series/3400 Series Chipset USB2 Enhanced Host Controller [8086:3b34] (rev 05)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 	Kernel driver in use: ehci-pci
+> 00:1e.0 PCI bridge [0604]: Intel Corporation 82801 Mobile PCI Bridge [8086:2448] (rev a5)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 00:1f.0 ISA bridge [0601]: Intel Corporation HM55 Chipset LPC Interface Controller [8086:3b09] (rev 05)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 	Kernel driver in use: lpc_ich
+> 	Kernel modules: lpc_ich
+> 00:1f.2 SATA controller [0106]: Intel Corporation 5 Series/3400 Series Chipset 4 port SATA AHCI Controller [8086:3b29] (rev 05)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 	Kernel driver in use: ahci
+> 	Kernel modules: ahci
+> 00:1f.3 SMBus [0c05]: Intel Corporation 5 Series/3400 Series Chipset SMBus Controller [8086:3b30] (rev 05)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 	Kernel driver in use: i801_smbus
+> 	Kernel modules: i2c_i801
+> 00:1f.6 Signal processing controller [1180]: Intel Corporation 5 Series/3400 Series Chipset Thermal Subsystem [8086:3b32] (rev 05)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 	Kernel driver in use: intel ips
+> 	Kernel modules: intel_ips
+> 01:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc. [AMD/ATI] Madison [Mobility Radeon HD 5650/5750 / 6530M/6550M] [1002:68c1]
+> 	Subsystem: Acer Incorporated [ALI] Mobility Radeon HD 5650 [1025:0359]
+> 	Kernel driver in use: radeon
+> 	Kernel modules: radeon, amdgpu
+> 01:00.1 Audio device [0403]: Advanced Micro Devices, Inc. [AMD/ATI] Redwood HDMI Audio [Radeon HD 5000 Series] [1002:aa60]
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 	Kernel driver in use: snd_hda_intel
+> 	Kernel modules: snd_hda_intel
+> 02:00.0 Ethernet controller [0200]: Qualcomm Atheros AR8151 v1.0 Gigabit Ethernet [1969:1073] (rev c0)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 	Kernel driver in use: atl1c
+> 	Kernel modules: atl1c
+> 03:00.0 Network controller [0280]: Intel Corporation Wireless 7260 [8086:08b1] (rev bb)
+> 	Subsystem: Intel Corporation Dual Band Wireless-AC 7260 [Wilkins Peak 2] [8086:4470]
+> 	Kernel driver in use: iwlwifi
+> 	Kernel modules: iwlwifi
+> 7f:00.0 Host bridge [0600]: Intel Corporation Core Processor QuickPath Architecture Generic Non-core Registers [8086:2c62] (rev 05)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 7f:00.1 Host bridge [0600]: Intel Corporation Core Processor QuickPath Architecture System Address Decoder [8086:2d01] (rev 05)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 7f:02.0 Host bridge [0600]: Intel Corporation Core Processor QPI Link 0 [8086:2d10] (rev 05)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 7f:02.1 Host bridge [0600]: Intel Corporation 1st Generation Core i3/5/7 Processor QPI Physical 0 [8086:2d11] (rev 05)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 7f:02.2 Host bridge [0600]: Intel Corporation 1st Generation Core i3/5/7 Processor Reserved [8086:2d12] (rev 05)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 7f:02.3 Host bridge [0600]: Intel Corporation 1st Generation Core i3/5/7 Processor Reserved [8086:2d13] (rev 05)
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> upload=true&script=true&cardinfo=
+> !!################################
+> !!ALSA Information Script v 0.5.3
+> !!################################
+> 
+> !!Script ran on: Mon Oct 19 19:03:24 UTC 2026
+> 
+> 
+> !!Linux Distribution
+> !!------------------
+> 
+> Ubuntu 26.04.1 LTS \n \l DISTRIB_ID=Ubuntu DISTRIB_DESCRIPTION="Ubuntu 26.04.1 LTS" PRETTY_NAME="Ubuntu 26.04.1 LTS" NAME="Ubuntu" ID=ubuntu ID_LIKE=debian HOME_URL="https://www.ubuntu.com/" SUPPORT_URL="https://help.ubuntu.com/" BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/" PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy" UBUNTU_CODENAME=resolute LOGO=ubuntu-logo
+> 
+> 
+> !!DMI Information
+> !!---------------
+> 
+> Manufacturer:      Acer
+> Product Name:      Aspire 4820G
+> Product Version:   V1.25
+> Firmware Version:  V1.25
+> System SKU:        Calpella_CRB
+> Board Vendor:      Acer
+> Board Name:        JM41_CP
+> 
+> 
+> !!ACPI Device Status Information
+> !!---------------
+> 
+> /sys/bus/acpi/devices/LNXVIDEO:02/status 	 15
+> /sys/bus/acpi/devices/PNP0103:00/status 	 15
+> /sys/bus/acpi/devices/PNP0C0A:00/status 	 31
+> /sys/bus/acpi/devices/PNP0C0F:00/status 	 9
+> /sys/bus/acpi/devices/PNP0C0F:01/status 	 9
+> /sys/bus/acpi/devices/PNP0C0F:02/status 	 9
+> /sys/bus/acpi/devices/PNP0C0F:03/status 	 9
+> /sys/bus/acpi/devices/PNP0C0F:04/status 	 9
+> /sys/bus/acpi/devices/PNP0C0F:05/status 	 9
+> /sys/bus/acpi/devices/PNP0C0F:06/status 	 9
+> /sys/bus/acpi/devices/PNP0C0F:07/status 	 9
+> 
+> 
+> !!ACPI SoundWire Device Status Information
+> !!---------------
+> 
+> 
+> 
+> !!Kernel Information
+> !!------------------
+> 
+> Kernel release:    #202507272138 SMP PREEMPT_DYNAMIC Sun Jul 27 22:00:36 UTC 2025
+> Operating System:  GNU/Linux
+> Architecture:      x86_64
+> Processor:         unknown
+> SMP Enabled:       Yes
+> 
+> 
+> !!ALSA Version
+> !!------------
+> 
+> Driver version:     k6.16.0-061600-generic
+> Library version:    
+> Utilities version:  1.2.15.2
+> 
+> 
+> !!Loaded ALSA modules
+> !!-------------------
+> 
+> snd_hda_intel (card 0)
+> 
+> 
+> !!Sound Servers on this system
+> !!----------------------------
+> 
+> PipeWire:
+>       Installed - Yes (/usr/bin/pipewire)
+>       Running - Yes
+> 
+> Pulseaudio:
+>       Installed - Yes (/usr/bin/pulseaudio)
+>       Running - No
+> 
+> 
+> !!Soundcards recognised by ALSA
+> !!-----------------------------
+> 
+>  0 [HDMI           ]: HDA-Intel - HDA ATI HDMI
+>                       HDA ATI HDMI at 0xdc420000 irq 29
+> 
+> 
+> !!PCI Soundcards installed in the system
+> !!--------------------------------------
+> 
+> 00:1b.0 Audio device [0403]: Intel Corporation 5 Series/3400 Series Chipset High Definition Audio [8086:3b56] (rev 05) (prog-if 00 [HDA compatible])
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 01:00.1 Audio device [0403]: Advanced Micro Devices, Inc. [AMD/ATI] Redwood HDMI Audio [Radeon HD 5000 Series] [1002:aa60] (prog-if 00 [HDA compatible])
+> 	Subsystem: Acer Incorporated [ALI] Device [1025:0359]
+> 
+> 
+> !!Modprobe options (Sound related)
+> !!--------------------------------
+> 
+> snd_pcsp: index=-2
+> snd_atiixp_modem: index=-2
+> snd_intel8x0m: index=-2
+> snd_via82xx_modem: index=-2
+> snd_atiixp_modem: index=-2
+> snd_intel8x0m: index=-2
+> snd_via82xx_modem: index=-2
+> snd_usb_audio: index=-2
+> snd_usb_caiaq: index=-2
+> snd_usb_ua101: index=-2
+> snd_usb_us122l: index=-2
+> snd_usb_usx2y: index=-2
+> snd_cmipci: mpu_port=0x330 fm_port=0x388
+> snd_pcsp: index=-2
+> snd_usb_audio: index=-2
+> 
+> 
+> !!Loaded sound module options
+> !!---------------------------
+> 
+> !!Module: snd_hda_intel
+> 	align_buffer_size : -1
+> 	bdl_pos_adj : -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+> 	beep_mode : N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N
+> 	ctl_dev_id : N
+> 	dmic_detect : Y
+> 	enable : Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y
+> 	enable_msi : -1
+> 	id : (null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null)
+> 	index : -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+> 	jackpoll_ms : 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+> 	model : (null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null)
+> 	patch : (null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null),(null)
+> 	pm_blacklist : -1
+> 	position_fix : -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+> 	power_save : 1
+> 	power_save_controller : Y
+> 	probe_mask : -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+> 	probe_only : 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+> 	single_cmd : -1
+> 	snoop : -1
+> 
+> 
+> !!Sysfs card info
+> !!---------------
+> 
+> !!Card: /sys/class/sound/card0
+> Driver: /sys/bus/pci/drivers/snd_hda_intel
+> Tree:
+> 	/sys/class/sound/card0
+> 	|-- controlC0
+> 	|   |-- dev
+> 	|   |-- device -> ../../card0
+> 	|   |-- power
+> 	|   |-- subsystem -> ../../../../../../../class/sound
+> 	|   `-- uevent
+> 	|-- device -> ../../../0000:01:00.1
+> 	|-- hwC0D0
+> 	|   |-- afg
+> 	|   |-- chip_name
+> 	|   |-- clear
+> 	|   |-- dev
+> 	|   |-- device -> ../../card0
+> 	|   |-- driver_pin_configs
+> 	|   |-- hints
+> 	|   |-- init_pin_configs
+> 	|   |-- init_verbs
+> 	|   |-- mfg
+> 	|   |-- modelname
+> 	|   |-- power
+> 	|   |-- power_off_acct
+> 	|   |-- power_on_acct
+> 	|   |-- reconfig
+> 	|   |-- revision_id
+> 	|   |-- subsystem -> ../../../../../../../class/sound
+> 	|   |-- subsystem_id
+> 	|   |-- uevent
+> 	|   |-- user_pin_configs
+> 	|   |-- vendor_id
+> 	|   `-- vendor_name
+> 	|-- id
+> 	|-- input14
+> 	|   |-- capabilities
+> 	|   |-- device -> ../../card0
+> 	|   |-- event7
+> 	|   |-- id
+> 	|   |-- inhibited
+> 	|   |-- modalias
+> 	|   |-- name
+> 	|   |-- phys
+> 	|   |-- power
+> 	|   |-- properties
+> 	|   |-- subsystem -> ../../../../../../../class/input
+> 	|   |-- uevent
+> 	|   `-- uniq
+> 	|-- number
+> 	|-- pcmC0D3p
+> 	|   |-- dev
+> 	|   |-- device -> ../../card0
+> 	|   |-- pcm_class
+> 	|   |-- power
+> 	|   |-- subsystem -> ../../../../../../../class/sound
+> 	|   `-- uevent
+> 	|-- power
+> 	|   |-- async
+> 	|   |-- autosuspend_delay_ms
+> 	|   |-- control
+> 	|   |-- runtime_active_kids
+> 	|   |-- runtime_active_time
+> 	|   |-- runtime_enabled
+> 	|   |-- runtime_status
+> 	|   |-- runtime_suspended_time
+> 	|   `-- runtime_usage
+> 	|-- subsystem -> ../../../../../../class/sound
+> 	`-- uevent
+> 
+> 
+> !!HDA-Intel Codec information
+> !!---------------------------
+> --startcollapse--
+> 
+> Codec: ATI R6xx HDMI
+> Address: 0
+> AFG Function Id: 0x1 (unsol 0)
+> Vendor Id: 0x1002aa01
+> Subsystem Id: 0x00aa0100
+> Revision Id: 0x100200
+> No Modem Function Group found
+> Default PCM:
+>     rates [0x70]: 32000 44100 48000
+>     bits [0x2]: 16
+>     formats [0x1]: PCM
+> Default Amp-In caps: N/A
+> Default Amp-Out caps: N/A
+> State of AFG node 0x01:
+>   Power states:  D0 D3
+>   Power: setting=D0, actual=D0
+> GPIO: io=0, o=0, i=0, unsolicited=0, wake=0
+> Node 0x02 [Audio Output] wcaps 0x201: Stereo Digital
+>   Converter: stream=0, channel=0
+>   Digital: Enabled GenLevel
+>   Digital category: 0x2
+>   IEC Coding Type: 0x0
+> Node 0x03 [Pin Complex] wcaps 0x400381: Stereo Digital
+>   Pincap 0x00000094: OUT Detect HDMI
+>   Pin Default 0x18560010: [Jack] Digital Out at Int HDMI
+>     Conn = Digital, Color = Unknown
+>     DefAssociation = 0x1, Sequence = 0x0
+>   Pin-ctls: 0x40: OUT
+>   Unsolicited: tag=00, enabled=0
+>   Connection: 1
+>      0x02
+> --endcollapse--
+> 
+> 
+> !!ALSA Device nodes
+> !!-----------------
+> 
+> crw-rw----+ 1 root audio 116,  4 Oct 19 20:23 /dev/snd/controlC0
+> crw-rw----+ 1 root audio 116,  3 Oct 19 20:23 /dev/snd/hwC0D0
+> crw-rw----+ 1 root audio 116,  2 Oct 19 20:23 /dev/snd/pcmC0D3p
+> crw-rw----+ 1 root audio 116,  1 Oct 19 20:23 /dev/snd/seq
+> crw-rw----+ 1 root audio 116, 33 Oct 19 20:23 /dev/snd/timer
+> 
+> /dev/snd/by-path:
+> total 0
+> drwxr-xr-x  2 root root  60 Oct 19 20:23 .
+> drwxr-xr-x  3 root root 160 Oct 19 20:23 ..
+> lrwxrwxrwx+ 1 root root  12 Oct 19 20:23 pci-0000:01:00.1 -> ../controlC0
+> 
+> 
+> !!Aplay/Arecord output
+> !!--------------------
+> 
+> APLAY
+> 
+> **** List of PLAYBACK Hardware Devices ****
+> card 0: HDMI [HDA ATI HDMI], device 3: HDMI 0 [HDMI 0]
+>   Subdevices: 1/1
+>   Subdevice #0: subdevice #0
+> 
+> ARECORD
+> 
+> **** List of CAPTURE Hardware Devices ****
+> 
+> !!Amixer output
+> !!-------------
+> 
+> !!-------Mixer controls for card HDMI
+> 
+> Card sysdefault:0 'HDMI'/'HDA ATI HDMI at 0xdc420000 irq 29'
+>   Mixer name	: 'ATI R6xx HDMI'
+>   Components	: 'HDA:1002aa01,00aa0100,00100200'
+>   Controls      : 7
+>   Simple ctrls  : 1
+> Simple mixer control 'IEC958',0
+>   Capabilities: pswitch pswitch-joined
+>   Playback channels: Mono
+>   Mono: Playback [on]
+> 
+> 
+> !!Alsactl output
+> !!--------------
+> 
+> --startcollapse--
+> state.HDMI {
+> 	control.1 {
+> 		iface CARD
+> 		name 'HDMI/DP,pcm=3 Jack'
+> 		value false
+> 		comment {
+> 			access read
+> 			type BOOLEAN
+> 			count 1
+> 		}
+> 	}
+> 	control.2 {
+> 		iface MIXER
+> 		name 'IEC958 Playback Con Mask'
+> 		value '0fff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
+> 		comment {
+> 			access read
+> 			type IEC958
+> 			count 1
+> 		}
+> 	}
+> 	control.3 {
+> 		iface MIXER
+> 		name 'IEC958 Playback Pro Mask'
+> 		value '0f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
+> 		comment {
+> 			access read
+> 			type IEC958
+> 			count 1
+> 		}
+> 	}
+> 	control.4 {
+> 		iface MIXER
+> 		name 'IEC958 Playback Default'
+> 		value '0482000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
+> 		comment {
+> 			access 'read write'
+> 			type IEC958
+> 			count 1
+> 		}
+> 	}
+> 	control.5 {
+> 		iface MIXER
+> 		name 'IEC958 Playback Switch'
+> 		value true
+> 		comment {
+> 			access 'read write'
+> 			type BOOLEAN
+> 			count 1
+> 		}
+> 	}
+> 	control.6 {
+> 		iface PCM
+> 		device 3
+> 		name ELD
+> 		value ''
+> 		comment {
+> 			access 'read volatile'
+> 			type BYTES
+> 			count 0
+> 		}
+> 	}
+> 	control.7 {
+> 		iface PCM
+> 		device 3
+> 		name 'Playback Channel Map'
+> 		value.0 0
+> 		value.1 0
+> 		value.2 0
+> 		value.3 0
+> 		value.4 0
+> 		value.5 0
+> 		value.6 0
+> 		value.7 0
+> 		comment {
+> 			access 'read write volatile'
+> 			type INTEGER
+> 			count 8
+> 			range '0 - 36'
+> 		}
+> 	}
+> }
+> --endcollapse--
+> 
+> 
+> !!All Loaded Modules
+> !!------------------
+> 
+> acer_wmi
+> ahci
+> amdgpu
+> amdxcp
+> at24
+> atl1c
+> autofs4
+> binfmt_misc
+> bluetooth
+> bnep
+> btbcm
+> btintel
+> btmtk
+> btrtl
+> btusb
+> ccm
+> cec
+> cfg80211
+> coretemp
+> dmi_sysfs
+> drm_buddy
+> drm_display_helper
+> drm_exec
+> drm_panel_backlight_quirks
+> drm_suballoc_helper
+> drm_ttm_helper
+> efi_pstore
+> gpu_sched
+> i2c_algo_bit
+> i2c_i801
+> i2c_mux
+> i2c_smbus
+> i915
+> input_leds
+> intel_cstate
+> intel_ips
+> intel_powerclamp
+> irqbypass
+> iwlmvm
+> iwlwifi
+> joydev
+> kvm
+> kvm_intel
+> libahci
+> libarc4
+> lp
+> lpc_ich
+> mac80211
+> mac_hid
+> mc
+> mei
+> mei_me
+> mei_pxp
+> msr
+> option
+> parport
+> platform_profile
+> ppdev
+> psmouse
+> qrtr
+> radeon
+> rc_core
+> rfcomm
+> sch_fq_codel
+> serio_raw
+> sha1_ssse3
+> snd
+> snd_hda_codec
+> snd_hda_codec_hdmi
+> snd_hda_core
+> snd_hda_intel
+> snd_hrtimer
+> snd_hwdep
+> snd_intel_dspcfg
+> snd_intel_sdw_acpi
+> snd_pcm
+> snd_rawmidi
+> snd_seq
+> snd_seq_device
+> snd_seq_dummy
+> snd_seq_midi
+> snd_seq_midi_event
+> snd_timer
+> soundcore
+> sparse_keymap
+> ttm
+> usb_storage
+> usb_wwan
+> usbserial
+> uvc
+> uvcvideo
+> video
+> videobuf2_common
+> videobuf2_memops
+> videobuf2_v4l2
+> videobuf2_vmalloc
+> videodev
+> wmi
+> wmi_bmof
+> 
+> 
+> !!Sysfs Files
+> !!-----------
+> 
+> /sys/class/sound/hwC0D0/init_pin_configs:
+> 0x03 0x18560010
+> 
+> /sys/class/sound/hwC0D0/driver_pin_configs:
+> 
+> /sys/class/sound/hwC0D0/user_pin_configs:
+> 
+> /sys/class/sound/hwC0D0/init_verbs:
+> 
+> /sys/class/sound/hwC0D0/hints:
+> 
+> 
+> !!ALSA/HDA dmesg
+> !!--------------
+> 
+> 
+> 
+> !!Packages installed
+> !!--------------------
+> 
+> ii  alsa-topology-conf                            1.2.5.1-3build1                              all          ALSA topology configuration files
+> ii  alsa-ucm-conf                                 1.2.15.3-1ubuntu1.7                          all          ALSA Use Case Manager configuration files
+> ii  alsa-utils                                    1.2.15.2-1ubuntu1                            amd64        Utilities for configuring and using ALSA
+> 
