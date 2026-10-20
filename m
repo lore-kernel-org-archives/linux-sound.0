@@ -1,100 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.17.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792495890;
-	b=MQYiLavnIdU2U+rHkwvE30vwkLAX7DDhbkfSK8kJ0eumWEc0wFihOLrNs9ql7IpRJnMl
-	 P3EVJC1N5mJttYgCgvsRKOz27BuxjAFVOs1ARNgdorwYgOo8qPjPvGT8cxkQ4XzjCKtfI
-	 wror3nD9lSUoAM9DbYc0p6Il0lj6GXu3wrL5m7Ddpt6Qc+ZVkRDHX5uDlid5nPNF+dMmE
-	 6A6JYDmgPCtXP/SaanIaJDAMuI+0zo24ID3Kn+Os+7Mb6kTAw01llNwtQhK+0PoK1xn0y
-	 wpwAMQ5nIMDek7JYyNT3v0jIvGxP80PIpWoH3BXcudLyZvs/bmY+/l2cG6E+Owf65Xg==
+	t=1792496117;
+	b=fbSxQGvpPD2buTveCyS+xgrLr3+FfGRFyk8AEZ9NGBQD5PurJmc9b2lyxVxwvtNj/eu7
+	 GhCnv6H2/SA5SAQI6iX//7E7RrG8h9lRceVJ8jzoA1zfYY+BoRmO2R3AYAV3Myhcy5WoN
+	 s2RlTP1zx8+rafpS/z115o8tzndYhwozIvQ+9n3C/Bl/zUvnU798IA8IcnhQGQh7wdn40
+	 RsLjIanXQf7kWPfyOGEknJqcEHqy0h8JGWqQRvDD0yBkqbKv5RqvCJK5SPqt26xOQNHrJ
+	 70f51LJKZ1B3Vxdzizogf9PmixuyBi9FxDKrfwu4q5qNy6StZdrdDHVakICttBmSjeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792495890;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding:X-Rspamd-Action:
-	 X-Spam-Score:X-Spam-Flag:X-Spamd-Result:X-Spam-Level:
-	 X-Rspamd-Queue-Id:X-Rspamd-Server;
-	bh=EqaVK7TQowR7SuOcnROOuYXPj1iBa1L0jyo5ArB+s0Y=;
-	b=s0F1RqIPHvqWtbwO2kAsWGlVwyJHzsd0FoJaw8rz4Vb9lSGWgWqQon7ZSzYXJlVksIeD
-	 Vuu7DN0hGORCO8uXtjE2hG+YCuCZb/66XN7oTFyRyNSgTRguwPRgQKUlbGf8IvQn0pVe2
-	 IvZEgl7WNemiT73C2vHPrADZ7SYV86t/Ee5USQMZis9vBe3ozWyIlmvJYjZBltCMibmyM
-	 nfVLh9bSkF2k0LF/1Wl+YxUMCA9ovCJCxyOn1z6WFczw/pOsbjGwckfKtauZz+NSFtyoA
-	 GgpKaYx2zcVfTZrhNB5QTdUZMi8xZh4AYOyFkD7jagfEa3v0LywY05itD3JvUPIeYyQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792496117;
+	h=DMARC-Filter:DKIM-Signature:X-UI-Sender-Class:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:To:Cc:References:Subject:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:UI-OutboundReport;
+	bh=xZA7Tr2LKk5B8OrbMjPyR4PMdE4D5tho/5FlOXNpgxg=;
+	b=tuIss6D3kCpPsEO2oBDkb8ajuH8b+y3/LhEWjkKK+zeiAWalLDeUv2ukwCR2hAsZUpxr
+	 tKcreQgyZIiNWa4RLX2wDAd9mQL18hPs4xMhMRUWra2dfko/R9O84h+5i8vxb+u48UuAy
+	 2Ri1imR0VJHFQ51Qu8InEaaVViuq/ztOaqVj6Gdn5HL3TICTIfkmVSj4xJxf8mG/vqapq
+	 gM16oM5P1xmdC59YWuYBGpm1AvlPsxJ1kUpqeETyGuQyuXawXKjTEMSfW3Z1yHzEga9ju
+	 zcB7di7sOyTNjcCOmF0SINhfMW/N8dgxaj1vVEwXaM7YKD9cremY4k5hbHq18UgbHxA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=lcI5wGG3;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="MK9/Bcnj";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=netVqxmx;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=9xGEv7sy;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dmarc=pass header.from=web.de;
+	spf=pass smtp.mailfrom=web.de;
+	dkim=pass header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b="qMp/GECv";
+	arc=none smtp.remote-ip=212.227.17.11
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2040606A319;
-	Tue, 20 Oct 2026 11:31:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2040606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30573606A326;
+	Tue, 20 Oct 2026 11:35:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30573606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=lcI5wGG3;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=MK9/Bcnj;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=netVqxmx;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=9xGEv7sy
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D10161F7B4;
-	Tue, 20 Oct 2026 11:31:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792495887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=EqaVK7TQowR7SuOcnROOuYXPj1iBa1L0jyo5ArB+s0Y=;
-	b=lcI5wGG33BiPJVhN3bCe3qDqdSe5gMUCHnOoL1XsEXS+tZiOEU+5UMhs+WMEu2rt00Sv6Q
-	yoGfUi2kdsJ7Z8RGonPJjgHq02Gqy2UUGkLGCiR+wClbooc1g0oten9hk5pHcpL57k8Ttb
-	mEoIAQgdsgTDuoFuklOu7/kD1OrVY60=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792495887;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=EqaVK7TQowR7SuOcnROOuYXPj1iBa1L0jyo5ArB+s0Y=;
-	b=MK9/BcnjyBCSqX1WI/X9sD79EYmvFy1MvCDfVeAaTJ7Zofvi7h0/mAnS8J7Yr7fNSBir9w
-	Lcn0m1mJTFR/WMDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=netVqxmx;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9xGEv7sy
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792495886; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=EqaVK7TQowR7SuOcnROOuYXPj1iBa1L0jyo5ArB+s0Y=;
-	b=netVqxmxtDeqliGkK5oBxuGxtV5//QeQaC5HOZv8MkMp2TCPnokhgJJcHpHedyWFjn+CQu
-	uQpASpLfcLIeVIGpDK2d0c9xfRxaNjL9BgJQLysSimZMZLlfuAW/TId2tx1XhhwTqT6lbl
-	Ui848IMrlVhCq1XCR2rs8ipQNPh09/4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792495886;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=EqaVK7TQowR7SuOcnROOuYXPj1iBa1L0jyo5ArB+s0Y=;
-	b=9xGEv7syFwfVQwnd7Km9Rw7IZ4fozApzUT/sJ/TrXeqkMuzGJUPLC3D31xpwTpnChLmFaf
-	ZUJwsER1jgWbIZDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9420F136C6;
-	Tue, 20 Oct 2026 11:31:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id f/wgGw5R12qxAgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 20 Oct 2026 11:31:26 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: line6: Handle period elapsed calls outside the locks
-Date: Tue, 20 Oct 2026 13:31:17 +0200
-Message-ID: <20261020113118.234689-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key, unprotected) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=qMp/GECv
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1792496108; x=1793100908; i=markus.elfring@web.de;
+	bh=xZA7Tr2LKk5B8OrbMjPyR4PMdE4D5tho/5FlOXNpgxg=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=qMp/GECvP11giPv/so2jT8KeWvi4+4/M4roLRZL8/5NjpjH6DWVCvcu2Udc5jti2
+	 VciVeZZ6la/6p7kwiZ2FHVTCHDvlFRoLRiL1RVMBRuT95fbkHxO2n1z3W6pWacAEv
+	 9OdFT4if8YHylTsjGdNbVGWq8UzbDmw+X8zgiO/7jsNu0leHkDk9MhHUOQgOt8pdA
+	 dib9VTaGAseZGFMvzAULr6FIPfyyThy2yiS42duPuv5XQBt+dV7aeaRY95AKXLRU9
+	 MT2n0F32OU0lmjLKlI8EqLsBZj8UgjRAlMu0oQQ4GecfEQgcTi5fUTEbIXjvE4b68
+	 w0kxFSeOfYmtfCYX1A==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from client.hidden.invalid by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MRk4e-1xBxME1i38-00TFsl; Tue, 20
+ Oct 2026 13:35:08 +0200
+Message-ID: <25bc6c8a-b47a-43bb-b035-5a755ac41531@web.de>
+Date: Tue, 20 Oct 2026 13:35:02 +0200
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,227 +62,132 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+User-Agent: Mozilla Thunderbird
+To: Val Packett <val@packett.cool>, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Srinivas Kandagatla <srini@kernel.org>, Takashi Iwai <tiwai@suse.com>
+Cc: stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>
+References: <20261020082631.1509275-5-val@packett.cool>
+Subject: Re: [PATCH v2 4/4] ASoC: codecs: wcd939x: fix ref leak and NULL deref
+ with USB-C audio
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20261020082631.1509275-5-val@packett.cool>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:pWBpvJymoNGFjPjkSw7/ZzQDmgOtzd3dWRUMH8S16EdEhrWlt60
+ OJmoeaoqaQKDsSnl0jWWpN5NU2Ky9H9Aijt2l9WFSKM3VSG+mhMjbFyXZgGrievC5wGMdO0
+ P0ZX7PVYAZ0v4xTS4AxRVIp0WNI320wE0MnvanTbDgLOaxTht/QeU3x5nWrNBIRrIxIpXT9
+ CdP7lK2DSvknk9gV5QLiA==
 X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,sashiko.dev:url];
-	RCPT_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Level: 
-X-Rspamd-Queue-Id: D10161F7B4
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+UI-OutboundReport: notjunk:1;M01:P0:0tMmUlccOj4=;xd/AhwK0fqEK2TrfK61eimkjUmY
+ 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
+ Fw/JrUDTs4+5eeyxheV+LUb4m2fvfEnLODcIx6luA5ZlkcyWoxL+GsIvtKbq0Vy+ocbDdF++s
+ NrspJ7CXqLUCopG6TFxlM1CgSxLn7vpJckvpOBQWl16ImXuTNGfMQ0ucYZg7+4q8cS8/cqAgy
+ Y/0HmX8EaRGp63siykMProgF5y2TsvrmUB6nc2/SSkmPCNgcC3Wj7Wwt39LpMiQzH7yM+hzmi
+ +VIR5KiVnPYKcG/W/yRDMmI4W+4FJ4/FnXzH2x1ixidc+N92spzhmwD08j1s3yJM2LznKwPgU
+ SdJmMUh/cDUPViNrzgkyuw6WxQDhATZD/wLAyZD7gWZfGZEkXCMCsbh1u15eXLpIybxF+ERIL
+ yBQWuPbdPXvwMysc2dF0YMZyPPDpDK7L9XdD5b8VnIi0HLFmodSd2etZuxh9QIFYFgyW6Wxgv
+ Hlf/YnvkivFI9PzRGiYN+2Vl6Cl34l1B8Q2JlNC/HCuyNh71nwp+EzI+Gy0AxKDeftetymyDt
+ +40eeOyiKdFiDWC+iCErL92Yjw8MOqV2g1RqV82NhzY302Jp4JveOGxjDLwUzVpoBjqWqxUpy
+ sXR/+N0zF5vuNkR34Ihgl10sWRuaJBQrVmwZ/6LtKtH6JcjjqghDRphJEvfLGUxKgZRkM6Cfq
+ UbeoBRADCNtesjhlAsY73ixAc4us+GyFjoMDT8RuJu1WTYvcU9czwDFRTZqzPyQJpYsqeaABs
+ xKCRWwpc5QxX//agCjTlD3e3ejUm0w1Cb7XF2+2OIo/atBOU+kmGkDVrFJ6EwlKz5HN0zsOA/
+ dVfYDOr/4UynOISXmxZhHrOVpzbxoFB07NzSiqRVE8tsuGYtulB2iSpHyt+lHab1f9l8yNhqz
+ +HUMJUx9jJUeFZnlxqFcUse0zLbZC8CU1WAb5DrJ+X5255BwwsIjNvqCm6OHsflapn7778uvj
+ 8aM1Wg93JQeamIY/M+8gAIBiAN0i9DyJHHwZF4XPenuIDHp0Aa6sE2Vo2mrgejNL5KzNVZbLv
+ aeJS4bQQCtELr738sxCDvw3bJ5yyUpOPup9PQm+Of1+QLloxgByabbWjz6DDZ4U1tS/tCA5Bc
+ ptzybkwZL3W51AGsmwbZ9fQQMqcR3TmgAdXPYEHhR30o9t6q1J+TFUPxq27JnhYHcfgWcDO+9
+ DPYWHecmPHSdzGIQAXom0ZY/5DV1NTAxNAOGLIhTXbYePOnAm3PRkGioYDG1Ax6p+a1G2gbdL
+ hScgv8bthcqtSe9mAKychdZgvttamTI+Nrx1xv9NspPY6lQ0ci1ztJqm0zMwkDaTuMLxNFIIV
+ wDmAq2rkYb+WloOKtoLQE43k6wNSc5QNZgW+Jec73oa+F0+wB4T0ueefT4f+kNPPGNtwkDJK1
+ 8QB0CUpfiYRgpZcvzI06Aftosiy6ucP9l6IkEAzcW3xEnwrMqQD9K9YLT1nXlcRc0mVMikBJX
+ E5b9qL/cRoszFw33aRRzQqA9Iv71GWpXJKxf+E3xGvJcQPi5dV2SS+YGaP9PknhkksfXh1YWR
+ M9oYaxyyTyVrFA6KDNj/jezwT4zAqoKKunqljp4klI3tx3SJvLGSXuuFI2215ywvupvoqQoku
+ WsruRz4BHkTVmuaGigMjZLrwPHswmQ5bxkLfXtjuidvyHm8tKzYmEaNlNX6TaWPKTyEKbq+kp
+ dasrCao/LwPW7GUcNfi9sbE52zpn8MNauU2jZqR3MB7yS4TbPjZ1UDSCDoHXgNYIRVlCq0RMi
+ /ELaBvtiBuoQm/SZCxJLxDUjz4F4KX7+b4b5t9fy3n+gkgdLoXKr4ghAGqkeJ2f1E/oWFDyFt
+ SvaxSt1W25zik8ofMZbPGZkLmRNderjshz/vHpn8yhkTs82+EAWMLb93P5obIJupbEyt/HjmO
+ 5fDldkbZHDnAu6U0fIsaGnuvxoX7CEMrJ6c+ZFj2aNNQkHp3/1pGlRzHj8LWlIhezQ19x3/jH
+ ix07ESDaTJEA5p8poRXSRbIAlikJQW1xkB7bZyn1Swc8xwuDcqTDkw8QSJRMD5tmpdig/bHDq
+ 1d/zOCpo6Mgvwbv2IGJU=
 
-LINE6 driver may call snd_pcm_period_elapsed() for both playback and
-capture substreams at processing the playback substream, and this may
-lead to a ABBA deadlock.
+> Some code issues were found during review of a port of typec code from
+> wcd939x to wcd937x, pointed out by sashiko-bot:
+=E2=80=A6
 
-Move the actual calls of snd_pcm_period_elapsed() outside the locks
-for avoiding it.  The capture period notification at submitting the
-initial playback URBs (only with the impulse mode) is simply skipped,
-as it's done in the lock context; it'll be caught up at the next
-period.
+Would there be a need to offer corresponding adjustments as separate patch=
+es?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv7.3#n81
 
-Fixes: f56742cc4189 ("ALSA: line6: Add LINE6_CAP_IN_NEEDS_OUT, a void playback stream during capture")
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://sashiko.dev/#/bug/linux-5a9de389-e6ea-410d-8322-e74e14152603
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/usb/line6/capture.c  | 25 ++++++++++++++++---------
- sound/usb/line6/capture.h  |  2 +-
- sound/usb/line6/playback.c | 31 +++++++++++++++++++++----------
- 3 files changed, 38 insertions(+), 20 deletions(-)
-
-diff --git a/sound/usb/line6/capture.c b/sound/usb/line6/capture.c
-index 3e1f40d6b481..17f49f567efb 100644
---- a/sound/usb/line6/capture.c
-+++ b/sound/usb/line6/capture.c
-@@ -126,24 +126,21 @@ void line6_capture_copy(struct snd_line6_pcm *line6pcm, char *fbuf, int fsize)
- 		line6pcm->in.pos_done -= runtime->buffer_size;
- }
- 
--void line6_capture_check_period(struct snd_line6_pcm *line6pcm, int length)
-+/* update the capture position and check whether we need period_elapsed call */
-+bool line6_capture_check_period(struct snd_line6_pcm *line6pcm, int length)
- {
--	struct snd_pcm_substream *substream =
--	    get_substream(line6pcm, SNDRV_PCM_STREAM_CAPTURE);
--
- 	line6pcm->in.bytes += length;
- 	if (line6pcm->in.bytes >= line6pcm->in.period) {
- 		line6pcm->in.bytes %= line6pcm->in.period;
--		spin_unlock(&line6pcm->in.lock);
--		snd_pcm_period_elapsed(substream);
--		spin_lock(&line6pcm->in.lock);
-+		return true;
- 	}
-+	return false;
- }
- 
- /*
-  * Callback for completed capture URB.
-  */
--static void audio_in_callback(struct urb *urb)
-+static bool handle_audio_in(struct urb *urb)
- {
- 	int i, index, length = 0, shutdown = 0;
- 	struct snd_line6_pcm *line6pcm = (struct snd_line6_pcm *)urb->context;
-@@ -208,8 +205,18 @@ static void audio_in_callback(struct urb *urb)
- 
- 		if (!test_bit(LINE6_STREAM_IMPULSE, &line6pcm->in.running) &&
- 		    test_bit(LINE6_STREAM_PCM, &line6pcm->in.running))
--			line6_capture_check_period(line6pcm, length);
-+			return line6_capture_check_period(line6pcm, length);
- 	}
-+
-+	return false;
-+}
-+
-+static void audio_in_callback(struct urb *urb)
-+{
-+	struct snd_line6_pcm *line6pcm = (struct snd_line6_pcm *)urb->context;
-+
-+	if (handle_audio_in(urb))
-+		snd_pcm_period_elapsed(get_substream(line6pcm, SNDRV_PCM_STREAM_CAPTURE));
- }
- 
- /* open capture callback */
-diff --git a/sound/usb/line6/capture.h b/sound/usb/line6/capture.h
-index 90572dae134e..628315389efc 100644
---- a/sound/usb/line6/capture.h
-+++ b/sound/usb/line6/capture.h
-@@ -17,7 +17,7 @@ extern const struct snd_pcm_ops snd_line6_capture_ops;
- 
- extern void line6_capture_copy(struct snd_line6_pcm *line6pcm, char *fbuf,
- 			       int fsize);
--extern void line6_capture_check_period(struct snd_line6_pcm *line6pcm,
-+extern bool line6_capture_check_period(struct snd_line6_pcm *line6pcm,
- 				       int length);
- extern int line6_create_audio_in_urbs(struct snd_line6_pcm *line6pcm);
- extern int line6_submit_audio_in_all_urbs(struct snd_line6_pcm *line6pcm);
-diff --git a/sound/usb/line6/playback.c b/sound/usb/line6/playback.c
-index aa6ddf8746a0..e93a16f6958e 100644
---- a/sound/usb/line6/playback.c
-+++ b/sound/usb/line6/playback.c
-@@ -136,6 +136,8 @@ static void add_monitor_signal(struct urb *urb_out, unsigned char *signal,
- /*
- 	Find a free URB, prepare audio data, and submit URB.
- 	must be called in line6pcm->out.lock context
-+	Returns 1 if snd_pcm_period_elapsed() needs to be called for the
-+	capture stream after releasing the lock, 0 if not, or a negative error
- */
- static int submit_audio_out_urb(struct snd_line6_pcm *line6pcm)
- {
-@@ -151,6 +153,7 @@ static int submit_audio_out_urb(struct snd_line6_pcm *line6pcm)
- 		line6pcm->properties->rates.rats[0].den *
- 		(line6pcm->line6->intervals_per_second / LINE6_ISO_INTERVAL);
- 	struct urb *urb_out;
-+	bool capture_period_elapsed = false;
- 
- 	index = find_first_zero_bit(&line6pcm->out.active_urbs,
- 				    line6pcm->line6->iso_buffers);
-@@ -260,8 +263,9 @@ static int submit_audio_out_urb(struct snd_line6_pcm *line6pcm)
- 						   urb_out->transfer_buffer,
- 						   urb_out->
- 						   transfer_buffer_length);
--				line6_capture_check_period(line6pcm,
--					urb_out->transfer_buffer_length);
-+				capture_period_elapsed =
-+					line6_capture_check_period(line6pcm,
-+								   urb_out->transfer_buffer_length);
- 			}
- 		} else {
- 			if (!(line6pcm->line6->properties->capabilities & LINE6_CAP_HWMON)
-@@ -283,24 +287,26 @@ static int submit_audio_out_urb(struct snd_line6_pcm *line6pcm)
- 		dev_err(line6pcm->line6->ifcdev,
- 			"URB out #%d submission failed (%d)\n", index, ret);
- 
--	return 0;
-+	return capture_period_elapsed;
- }
- 
- /*
- 	Submit all currently available playback URBs.
- 	must be called in line6pcm->out.lock context
-+	The capture period notification is skipped here since we can't call
-+	snd_pcm_period_elapsed() in the lock; it'll be caught up at the next one.
-  */
- int line6_submit_audio_out_all_urbs(struct snd_line6_pcm *line6pcm)
- {
--	int ret = 0, i;
-+	int ret, i;
- 
- 	for (i = 0; i < line6pcm->line6->iso_buffers; ++i) {
- 		ret = submit_audio_out_urb(line6pcm);
- 		if (ret < 0)
--			break;
-+			return ret;
- 	}
- 
--	return ret;
-+	return 0;
- }
- 
- /*
-@@ -316,6 +322,8 @@ static void audio_out_callback(struct urb *urb)
- 	const int bytes_per_frame =
- 		line6pcm->properties->bytes_per_channel *
- 		line6pcm->properties->playback_hw.channels_max;
-+	bool capture_period_elapsed = false;
-+	bool playback_period_elapsed = false;
- 
- #if USE_CLEAR_BUFFER_WORKAROUND
- 	memset(urb->transfer_buffer, 0, urb->transfer_buffer_length);
-@@ -358,19 +366,22 @@ static void audio_out_callback(struct urb *urb)
- 		shutdown = 1;
- 
- 	if (!shutdown) {
--		submit_audio_out_urb(line6pcm);
-+		capture_period_elapsed = submit_audio_out_urb(line6pcm) > 0;
- 
- 		if (test_bit(LINE6_STREAM_PCM, &line6pcm->out.running)) {
- 			line6pcm->out.bytes += length;
- 			if (line6pcm->out.bytes >= line6pcm->out.period) {
- 				line6pcm->out.bytes %= line6pcm->out.period;
--				spin_unlock(&line6pcm->out.lock);
--				snd_pcm_period_elapsed(substream);
--				spin_lock(&line6pcm->out.lock);
-+				playback_period_elapsed = true;
- 			}
- 		}
- 	}
- 	spin_unlock_irqrestore(&line6pcm->out.lock, flags);
-+
-+	if (capture_period_elapsed)
-+		snd_pcm_period_elapsed(get_substream(line6pcm, SNDRV_PCM_STREAM_CAPTURE));
-+	if (playback_period_elapsed)
-+		snd_pcm_period_elapsed(substream);
- }
- 
- /* open playback callback */
--- 
-2.55.0
-
+Regards,
+Markus
