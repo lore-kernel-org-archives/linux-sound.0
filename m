@@ -1,90 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792463373;
-	b=R2FbygW9xZwDLMtfDrm+THSwUbehw7k+eU5dHWbProeTLpwIRtPM9CgZ/MClIRjb85hp
-	 IDLw5Gsp+7Nc9IPgLk0DToAiK+k0XugeLZJ1ga3KCK6oK7v6xvsyqHT006n4T94Y1d6nB
-	 G1vTsGTYEQWg2DMxkC4Aq6S6ic/rqI/qKxtOloUpGS4j5lLBek9sQXtDughtC44d49+m7
-	 wGm94ROzN4zowX/7N2g8/vUJ/ax6FN8JqQ/8BycgqbYdN6MV1/khoFQzy6zEQDgmuoBG7
-	 2rMKlMq1DCwVR8l0f3JK8hHb7nKBfZsWk749aL07wFd2yG4LIGr175nwa7v9GSM2CKQ==
+	t=1792474083;
+	b=KGNIwUqiE0UBKiMtsuS8atgA4Iey0uAzYuWOZn1amO+8dC+56F6+Jzlmewy02zcPWuZ2
+	 NdVksJMjIM0oSoEpsIXTve7cUIiY+6N40sViON/vtu1aKTU7ruJ/3cvaf5W7jhyWnbbMA
+	 zd3K0wxtYKNeZ3NG3hDApn/YB6ZIJSOps+ap2Lawf/nvwuxUcWuXq/4wXt65NeZDcp/nc
+	 9QfTDyTWdPLI0KXnmNUinmYlZCetN/oJhDGazQAmbQwIAoul67U3svg6HqqAXK+H8y5yT
+	 Mz/EXtfhlbN6fPNDpeRLb6Kbt3HGWUh6cc08aTvVD5297jemE43r8X15IymoGL3mn4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792463373;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792474083;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=hxsyEcelzfwAgBR4zNN5oG01/wpUWW34zbIR80jT05k=;
-	b=MPMIuVYufNzV+tyTEsO0mb82SxgXVQABQxRsAIrONE1CC8w7SwBpCfvwkNAZ31gFhHao
-	 uya2tfja+0r39adxgQ9i2C5x201DQzC5O2AQd7UkQEAXfDhTuouH2eJuqb2WB6BuLeMYR
-	 oqP8/9QNLGqAD/icTZs9qcYb4DXM+tyX2F0uNKx1wN2IBWne6UM8wSnQ74LYXzdJ9dUr+
-	 Kk6U9UdvLDF2K9WgtL4WMphPby+S1aa9sAiMlP3F0AkCNtg8BUCzjXHCbmoMzO2CAgbZd
-	 eQqUh8ZKYYBp+H1R4ukIAcJwtNhzViMjMP1AIwIlTiJIvjPfJ0I0xACJTXQYnCPGfDA==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=5l6pqreEYh+0Dsa58mvKfgN8V+MvlUn6xbXr6Z0vjIA=;
+	b=LXAfkBpk/8ThOdaKetmhAcu7cIXJypNMj0QTXAS9+oiql+uSSwuHGARQFwIQPUpBs+Kd
+	 oU34F164F/l6V8GzUpXp5RhGOyoVWu2jlu7Q3QTk1timD7LV7aCSnjCGid1eNp8MOxJEJ
+	 30sqqbl6Ieh7uNSGnLtIcO6goA/G1IQ8jo7PBn2QJZI0KnU9lqcFK8MSOb/GBl97eav+1
+	 ihtIuwcnAmNbPenRXVV/B6V2/65W6DMR/I+2cqzTYHNYv76QK2EBeEl2bjePWsMZoFBwp
+	 JkBhBZGiARIhMBDQx3yo/AlOWMeP+eIoa2nVmxMNTcsvmAZBrCWsJWvRgssNTO6r5cg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=kncVHfTR;
-	arc=none smtp.remote-ip=209.85.216.47
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=JHwqfbax;
+	arc=none smtp.remote-ip=209.85.214.177
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974AB606A319
-	for <linux-sound@vger.kernel.org>; Tue, 20 Oct 2026 02:29:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 974AB606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E1D606A319
+	for <linux-sound@vger.kernel.org>; Tue, 20 Oct 2026 05:28:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4E1D606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=kncVHfTR
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3ac91ac8924so1604253a91.1
-        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 19:29:32 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=JHwqfbax
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2e946155442so22922135ad.3
+        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 22:28:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792463372; x=1793068172; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792474082; x=1793078882; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hxsyEcelzfwAgBR4zNN5oG01/wpUWW34zbIR80jT05k=;
-        b=kncVHfTRKCcj1KhIOQ8ENNpt4TZYhM2PX1iQq2AMonZkG8eiNDHgIq4Clu4Wt92HUi
-         zxIZIe3WafztLTtIxsRGDvynWF7M7uBl2+BBwgQXOaVQlxvVy1/qmPKHCH9ck1ob5Kow
-         Bp1HfBr62bmeTRuiibfA9eB8VXFBlvLuQ7AF2Y5VgCZ+zB+zmGhWFae2QBBlDUUnEXUw
-         FwSPL9F1tZVC/UggYKognImwM1j+wrPaoPMJ+mUCeGEnXfiw5tcvaVuJjZ60xyNW1tiL
-         NQF6ruKDkdkfAqZSLVcbec9Bt3gMDqE6LqG+1qI5alkn4abHFlp4S9/4dc5PpJQ7t+7Y
-         mN5A==
+        bh=5l6pqreEYh+0Dsa58mvKfgN8V+MvlUn6xbXr6Z0vjIA=;
+        b=JHwqfbaxu2ccEqPpT+7EvX9ZfM9XYPHx/j3hT+0CsFN9SLD30ImeTVGAwOMdeSysP0
+         16CI2twIxghmDqjFQgOIV1tK7BY4LnqfS56/jADr8IOredmKG88y/+BbJvBZQt816DLY
+         Rxx7MA/LQeFYK5zUheARkwiayA8YmOadXS3BgVl+MnDuNur8FNbABWCD9uABpVnwSyIx
+         8Leyb9sCIsY6FNZ380HzvhZ5xRY8z65ETCG1rRdZyZhKUspGxWMYsQjh5aFPmi4I1SFJ
+         b4tbNp2wGJZIpYpACPejUI70bvJux8hGFW9+HQWqUyyBCMs67c6PEL9QQyflTqWmuMA0
+         w00Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792463372; x=1793068172;
+        d=1e100.net; s=20260707; t=1792474082; x=1793078882;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=hxsyEcelzfwAgBR4zNN5oG01/wpUWW34zbIR80jT05k=;
-        b=fJCYb0cvYPIjDU6u2PET1AF36fIgwWLNZDk4PjGPfPl4KkxlJ7AhWvdsGn++O5rRlv
-         TEM1RKiF3I9Naq2nXZpaWyZjtO6+iHrtGgqpa8hWcl5zfxdjxKKF6u+OtW7FplTKpSy3
-         kwM/nmKUNrMJ7vg6wwJ9wWY0GE+73DsO4IegS6jyAa0Xbs715dKZWJ+pnjOKko747dXd
-         5lI+XtbJFqzhHa97g5j6qOcyMjVPfWZdhcTxg8q8qgp/WmhCSo8WUFWNExxygRqxwGtT
-         H4P1kUyUQZAYwiecAr4SRoB397fulKX6TLFMW9SiuDJW8GbgngYLhDFKnX+eH64E4/Nr
-         V2Pg==
-X-Gm-Message-State: AFq9FYLsOxyNcRNMFGHDnZaGIRZKJv3YFCr0HwX0ifTmeYLxeAVbmRco
-	0NGGWFLa/ajSdYeri/5jeTMB+BXvBFHvA7i++dn0yzDmHc6ZThPI6b4H
-X-Gm-Gg: AYBFou1sCdydJuwF+WDOD8oFehBJx5zscAtzdmzXmdAxl0gqckWd9AMmBeXNjwQzDZS
-	XHmUnsc1hVKEImNeJpiL859D3r9VmCr7wY3USQBkHi7jHcEpZ4AdOMAM94eBji2z34IT9E0MKrA
-	1eocLhI4VHFHv+F9/I7A7DOY0ytJOD5MdzhkZWCNmPVQ/9U5YnFbgusJJ1Ht5ixK3Szz4gGymES
-	XnFSA1jjzh39TvmoFhCboFtlP5SbCLt7AUtoD96Lf7CuvO/Uo3DyC47KhIhc18DWDjdT4hpRi5v
-	EgtWmZqXS5xFQVBnY9JvfUx/lmMearq4DpBdeS2ZorUx0nitvYJvmpK0NyT3z0uMOD/UivWW3Ni
-	BxaWpokQ0AtdXacvXXr5lM28EgsUZrCp3SoDC0IHCBJPbGPrkFYjq/Q1QREPnzV24xkLS3DyJQ/
-	uQoo5GBVIMrOHSa4QQ5hXeotfTruQw5hrFmgJk1x9xpdlWaECULc+Ob8/8M2/itL5dZA==
-X-Received: by 2002:a17:90b:2ec3:b0:3ab:e588:c295 with SMTP id 98e67ed59e1d1-3acef51e29dmr7744767a91.42.1792463371828;
-        Mon, 19 Oct 2026 19:29:31 -0700 (PDT)
-Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ad5c72df56sm1973136a91.0.2026.10.19.19.29.27
+        bh=5l6pqreEYh+0Dsa58mvKfgN8V+MvlUn6xbXr6Z0vjIA=;
+        b=SQOQZqsu8+KUWDWwYTkl8g0sRzdrQY4xKE5CRJ5OKRwlvnYZatK8d/dOmdfF8ljx0t
+         sUZDpbpHj04fX94udU9g0il/LFpIZhsLThRurRIjUUNdk+BcpuvxCHnoFe80uSZ402gL
+         PPqsTnzg2YV1hKGSu8b45oVd5Ixttbo+eEFkWCMqlQQgjUpW/L9dKdjd4KEHHwiRloz0
+         KBur5ZpRyRndYt8PocrGjq3SetngBpPwl7CApY8DtFiJmERjgHkmNc05GjwWPk6kDKEf
+         FbiS+9NLHrRq6byhmLsahFUSa8j7NJwwSJUp2UT9Zw5rOV/c3olwSzbvtg6Gfn+qWSSI
+         Rkgw==
+X-Forwarded-Encrypted: i=1; AKwUvBxjD5jMT60RKLx2sN6NbfIgkosWsyp2iXGnaH0zjSesLQPfrl51FsgJk1mXv6/KoOxzIZro6BVFN8M3hA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYITf5qdK3S5aIpUX/feqUSujQ1wqoJ9O4LqAF7eVxtQeqZLOASM
+	OuCCzXx0UNJZWXvttTtQuXewxonzWXLE+v4ZLWR2a5ZZt1GmKNtX60Ko
+X-Gm-Gg: AYBFou2d3Ai0uXx3ezC/E9TkReRhlBSOI15E4g0VhTjGeqGeJ8r6EiRpoPalOB44eK3
+	rjqJWrW+wkDXooogoH6l40xuWAkCHPRy8GLadDzbezYgXBkTqYeZ4KAZede0lIGY1jiT4LD8EjQ
+	RnhO65U8T5nMYtUCfRpycdiK1l38FaajAvnht+/pmnY7ZGaIFfCb4FJjF3e1V1i7mYZIA5wDgF9
+	mzOZ0LFU4wR3eS96H4QmhIzr3KgWPpNugOSHGxEG1rwTX9KIvPDpPJ/CXDCYa63BAMapN34tCLd
+	JZqj0opSTzcPW1Luu2rNsnf6XjdVACUMysITCjAWLE87ENE2TvEgOp1jlHsnMSu4epLb2fMT9FL
+	DmitBsF6tX8BlYKG8B7tb9pRKVtxF5F1blS6oaWbyvHtBan3gypx4ZVQ5v8BbbvHu2URqpRRCo/
+	gW1ecJj+BI8YnkhUHRwunewso+jpkxnds23gLl0CF4h6FFealu7Xh72gxn8wxFQL1/JBlIM6ywb
+	tBGMv2I+9WgRV4EvhsGh+xUbAEyA0WAUCXCVJBDuEBIGSA0IOUhR34HbdAhR6NKGLRIhgCNLiWT
+	CrbWmSP8UlBsHg==
+X-Received: by 2002:a17:903:fab:b0:2e9:5507:b532 with SMTP id d9443c01a7336-2e9a6f587c4mr80082375ad.43.1792474082176;
+        Mon, 19 Oct 2026 22:28:02 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ea1fd8a55asm3333995ad.29.2026.10.19.22.27.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 19:29:29 -0700 (PDT)
-From: Cen Zhang <zzzccc427@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
+        Mon, 19 Oct 2026 22:28:01 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	cassiogabrielcontato@gmail.com,
+	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Cyril Chao <Cyril.Chao@mediatek.com>,
+	Darren Ye <darren.ye@mediatek.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	jjzuming@gmail.com,
-	zzzccc427@gmail.com
-Subject: [PATCH] ALSA: pcm: Drain proc writers before freeing preallocated buffers
-Date: Tue, 20 Oct 2026 10:29:24 +0800
-Message-Id: <pm-pmb-2439c851f82c443c3600-v4-9e7df0ea42c36afe6171@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH] ASoC: mediatek: mt8196: Ensure the DAI is marked as started on success
+Date: Tue, 20 Oct 2026 12:27:47 +0700
+Message-ID: <20261020052747.568770-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -96,71 +109,56 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The prealloc proc write callback changes a substream's DMA buffer under
-pcm->open_mutex. Final PCM cleanup frees that buffer without the mutex,
-before removing the stream proc entries. A pending callback can therefore
-race the free or allocate a replacement after the final buffer cleanup.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-This is reachable through codec-only HDA sysfs unbind while the card
-remains registered. With CONFIG_SND_VERBOSE_PROCFS, HDA creates writable
-prealloc files with a nonzero maximum. Buffer a valid size different from
-the current preallocation and leave the file open, without a PCM runtime.
-Cleanup reaches snd_pcm_free() through hda_codec_driver_remove(),
-snd_hda_codec_cleanup_for_unbind(), codec_release_pcms() and
-snd_device_free(). The proc file pins the card module, not a codec PCM
-reference, so it does not prevent this component cleanup.
+snd_pcm_hw_constraint_integer() may return 1, which is then returned
+from mt8196_fe_startup(). ASoC only treats 0 as success when marking
+the DAI as started, so .shutdown() can be skipped on rollback.
 
-The text write is applied at file release, rather than by write(2).
-A close in the gap can leave a replacement buffer behind:
+Propagate constraint errors and return 0 explicitly on success.
 
-  PCM component cleanup           prealloc file close
-  ---------------------           -------------------
-  snd_pcm_free()
-    free preallocated buffers
-                                  snd_info_text_entry_release()
-                                    snd_pcm_lib_preallocate_proc_write()
-                                      allocate replacement buffer
-                                      replace dma_buffer
-    snd_pcm_free_stream()
-      remove and drain proc files
-      free substream
-
-The same late allocation can occur without a concurrent close: the later
-proc rundown itself invokes the buffered write callback. In either case,
-there is no final buffer free after the callback installs its replacement.
-
-Move each substream's preallocation free into snd_pcm_free_stream(),
-after snd_pcm_stream_proc_done() has removed the proc entries and drained
-their callbacks. Keep rundown outside open_mutex, which the callback needs
-to finish. Both stream directions and construction-error cleanup still
-free their preallocations before destroying the substreams.
-
-Assisted-by: LLM
-Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+Fixes: 57513aabfe5b ("ASoC: mediatek: mt8196: add platform driver")
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/core/pcm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/mediatek/mt8196/mt8196-afe-pcm.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/sound/core/pcm.c b/sound/core/pcm.c
-index 1e4e0ecb3dbd..ce577c303a1c 100644
---- a/sound/core/pcm.c
-+++ b/sound/core/pcm.c
-@@ -825,6 +825,7 @@ static void snd_pcm_free_stream(struct snd_pcm_str * pstr)
- 	substream = pstr->substream;
- 	while (substream) {
- 		substream_next = substream->next;
-+		snd_pcm_lib_preallocate_free(substream);
- 		snd_pcm_timer_done(substream);
- 		kfree(substream);
- 		substream = substream_next;
-@@ -861,7 +862,6 @@ static int snd_pcm_free(struct snd_pcm *pcm)
+diff --git a/sound/soc/mediatek/mt8196/mt8196-afe-pcm.c b/sound/soc/mediatek/mt8196/mt8196-afe-pcm.c
+index fbeba01b086c..f69ea22cfabb 100644
+--- a/sound/soc/mediatek/mt8196/mt8196-afe-pcm.c
++++ b/sound/soc/mediatek/mt8196/mt8196-afe-pcm.c
+@@ -161,8 +161,10 @@ static int mt8196_fe_startup(struct snd_pcm_substream *substream,
+ 
+ 	ret = snd_pcm_hw_constraint_integer(runtime,
+ 					    SNDRV_PCM_HW_PARAM_PERIODS);
+-	if (ret < 0)
+-		dev_warn(afe->dev, "snd_pcm_hw_constraint_integer failed\n");
++	if (ret < 0) {
++		dev_err(afe->dev, "snd_pcm_hw_constraint_integer failed\n");
++		return ret;
++	}
+ 
+ 	/* dynamic allocate irq to memif */
+ 	if (memif->irq_usage < 0) {
+@@ -173,10 +175,16 @@ static int mt8196_fe_startup(struct snd_pcm_substream *substream,
+ 			memif->irq_usage = irq_id;
+ 		} else {
+ 			dev_err(afe->dev, "no more asys irq\n");
+-			ret = -EBUSY;
++			return -EBUSY;
+ 		}
  	}
- 	if (pcm->private_free)
- 		pcm->private_free(pcm);
--	snd_pcm_lib_preallocate_free_for_all(pcm);
- 	snd_pcm_free_stream(&pcm->streams[SNDRV_PCM_STREAM_PLAYBACK]);
- 	snd_pcm_free_stream(&pcm->streams[SNDRV_PCM_STREAM_CAPTURE]);
- 	kfree(pcm);
+-	return ret;
++
++	/*
++	 * ASoC only marks the DAI as started when .startup() returns 0.
++	 * Since snd_pcm_hw_constraint_integer() may return 1, explicitly
++	 * return 0 to ensure .shutdown() is not skipped on rollback.
++	 */
++	return 0;
+ }
+ 
+ static void mt8196_fe_shutdown(struct snd_pcm_substream *substream,
 -- 
 2.43.0
 
