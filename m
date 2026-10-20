@@ -1,78 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.159
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792484855;
-	b=vaXrIN5/Pr32UcN+FSLdZoTzRpuYTkBgxCb4h2AiThe4ZgJfMjrnPImv3wj75nXKJW0N
-	 CeGLipi6kmrmlvqJE4B84zptBwlmv3RTjxwaxivthyG8huLmjfhHpiTnfbVecT+gUBICi
-	 QDMqwQ3BJ2z9nrkAedHsvDC6s99xUSjdmUvlkm64+L4VwOVBtJ2hxChsh+8eyvxQuCKz7
-	 0PiOXPUwdobn5hy9m97Ier0y+64pe65jahvWsvG4DSYG61EnJ0gdlw9mgYvxQmtU8IivY
-	 EpaNyW3eZsDgn2w6VsnRhAgC/7B8ZEYCaJ+Rl4ThHBeyMpJEz0vDN4LOweCVbv4kkEw==
+	t=1792485601;
+	b=d3rZ8PFjXhVYksG0jSaMuJ82BwVD82J2RBSPdssNx3tp2LREA2th+8uftJutBjE+yqW3
+	 Na2xn3OWh6dmc4mUVM4GLAqLGxDKraFxDerIMx6ysBIeacfnkyhbfe4QAFMDj3akWRAq2
+	 zTW1rhTJlyRJOBt1mI2CVQRkbjRUYcGYZD75taPj8bM/3OY9tMXM+/oLelLqB+ZckXgnr
+	 TlfZ6JLlmrYROLHXcTn+BjcHiaojjnv2kWuvT+lkWOg9S3qRS8IUBznJLofLACa3sGIdz
+	 MB02a087/zR8YyMJQoBfrObGoOWaS4g3h/+MwPXxeGIb2Ueq/GE6uauTKaVPtfZPCqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792484855;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=guE7ZJZ3qLp7RsghCUoXrScsS8RkMWxfffDe/dOb2Ac=;
-	b=oUbwX36TGYkAcywAQUpRip0xjL3/eFlxwCHqF6yB9td3nPktqxFAphV97hQzrvF/gkv5
-	 EWt7VeCuIJ0OM+PhsDhEq7+sqHxeY2hZZ3m7UMSNaBtDvmUGNFMVB21dg1mYpgkSuhciE
-	 JVUxXXFOfPhuM4AvilWGYkAiMvZJAOqoQSQhf2U+I6+EVGARTt6efKD5CBQYRltuDYUze
-	 OC2wgTEPeCl8DkNVZZ/tRH832rw5Gj6rj7+4wPRQIrpcpDMtvOurzh0lBqCK064+rjgmp
-	 3hr0lcFq28FUvsCOA6SxVgpTmqiwRCqu/4B1UWR7NhLbywb7QZ5U6LG9yuVvQ4rrGNA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792485601;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=TChGTrDHNB5QqhBMTsSAeSTKwZNndXnxQSxafmG9rWU=;
+	b=visNntHoTJx4vuhSEOS3hOVE4uG/UnIf9cYQNAkfa4BnxpoybIGHEjJei+MeZFbQSXch
+	 6yhiaGs84MTd+/dOK7KVJKmXN5cJ51iICWXe5cu/g+kuUnyUO36V7meHIpOSktWlyO7XX
+	 CNLwjrBn1xZUOlPx8YELDncU2cMAKjSYB0H6Ifl5CW5Ol3J5B6sWxnuyZuu43YWDCGGd7
+	 U/JvzjR2A+U0rxZSliAlEWJmaxWQ5+crTNOb9igOSKPcCPj+azKSJdiQL/SYNYRy0xWXF
+	 cR7mfI2kZY8ucB7PhFuzFXZ8jGSyBTpUhwVDsk+MiUHbMjol8UahNfvkfnohlsCLP3g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=packett.cool;
-	spf=pass smtp.mailfrom=packett.cool;
-	dkim=pass header.d=packett.cool header.i=@packett.cool header.a=rsa-sha256 header.s=key1 header.b=AGFUYe9G;
-	arc=none smtp.remote-ip=95.215.58.159
-Received: from mta1.migadu.com (out-159.mta1.migadu.com [95.215.58.159])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=P9W3X1Gf;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FoT1lzTT;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=P9W3X1Gf;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FoT1lzTT;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E867C60A2617
-	for <linux-sound@vger.kernel.org>; Tue, 20 Oct 2026 08:27:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E867C60A2617
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0451606A333;
+	Tue, 20 Oct 2026 08:40:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0451606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=packett.cool header.i=@packett.cool header.a=rsa-sha256 header.s=key1 header.b=AGFUYe9G
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=1VR5x+ugKPEt0b9SEHSYjBwUNYlANCVfeg67lrVVgdg=;
- c=simple/simple; d=packett.cool;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792484853; v=1; x=1793089653;
- b=AGFUYe9GpRlVhE9nlzvo13UF5KTU2V93loI0eYip8n/rMyuIbHaqkW3ByvxxiuVH/JVBq/5X
- FisurBgG15DkPS14VlE6r86cz+kSinJqGl9XwlOovTS//67zN5EtDnt/hGrwIXjaEGiubWJd/qy
- h5kNakn76vKOEpavUP115DMk1v2BNy7GV1LuxAHl1vrYdlhAJ8CAr5t3utJf41xmgGqeoSi5Am0
- kDvkI8kFktUCi5CMSYDJMX6ncmsIqbSNVxMEwv41AlOVIM8OvBqBgzD7NGYoriy/GbLQrIau8yr
- IPqpWsjBB9wsN4voyB260+AvYa89M499upDFKz5F2FNbg==
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id bf7a3a9bbbdbd63e;
-	Tue, 20 Oct 2026 08:27:32 +0000
-X-Mizu-Trace-ID: bf7a3a9bbbdbd63e
-X-Migadu-Flow: FLOW_OUT
-From: Val Packett <val@packett.cool>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Val Packett <val@packett.cool>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	~postmarketos/upstreaming@lists.sr.ht,
-	phone-devel@vger.kernel.org,
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=P9W3X1Gf;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FoT1lzTT;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=P9W3X1Gf;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FoT1lzTT
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 08A351F388;
+	Tue, 20 Oct 2026 08:39:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792485599; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TChGTrDHNB5QqhBMTsSAeSTKwZNndXnxQSxafmG9rWU=;
+	b=P9W3X1GfOjZxuA1WpZJM3o41Wnc0IqOwRQV5Zpih0QVUYBz9kUD3jTnbdeHf69zpOIYRN4
+	ahwWsALKFKL+N3p8viD8PSxyqALPgOqJtzxKHCYSlgJhzgq4XsUiooVZCHMaj3AhmslQ2/
+	xg/xw/gmneMWb7HRz8nOW75s89tfk1I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792485599;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TChGTrDHNB5QqhBMTsSAeSTKwZNndXnxQSxafmG9rWU=;
+	b=FoT1lzTTxgTIPbLDPG6wqLlPnbKHFoErBgBHCkxX48+fboJ7XuzAgQ65O7xCnvTM4n3Y5A
+	/8RVdCUxFCtRYjBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792485599; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TChGTrDHNB5QqhBMTsSAeSTKwZNndXnxQSxafmG9rWU=;
+	b=P9W3X1GfOjZxuA1WpZJM3o41Wnc0IqOwRQV5Zpih0QVUYBz9kUD3jTnbdeHf69zpOIYRN4
+	ahwWsALKFKL+N3p8viD8PSxyqALPgOqJtzxKHCYSlgJhzgq4XsUiooVZCHMaj3AhmslQ2/
+	xg/xw/gmneMWb7HRz8nOW75s89tfk1I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792485599;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TChGTrDHNB5QqhBMTsSAeSTKwZNndXnxQSxafmG9rWU=;
+	b=FoT1lzTTxgTIPbLDPG6wqLlPnbKHFoErBgBHCkxX48+fboJ7XuzAgQ65O7xCnvTM4n3Y5A
+	/8RVdCUxFCtRYjBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AD4DF136CC;
+	Tue, 20 Oct 2026 08:39:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lDBiIN4o12pISQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 20 Oct 2026 08:39:58 +0000
+Date: Tue, 20 Oct 2026 10:39:58 +0200
+Message-ID: <87h5igix41.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Cen Zhang <zzzccc427@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2 4/4] ASoC: codecs: wcd939x: fix ref leak and NULL deref with USB-C audio
-Date: Tue, 20 Oct 2026 05:26:26 -0300
-Message-ID: <20261020082631.1509275-5-val@packett.cool>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261020082631.1509275-1-val@packett.cool>
-References: <20261020082631.1509275-1-val@packett.cool>
+	baijiaju1990@gmail.com,
+	jjzuming@gmail.com
+Subject: Re: [PATCH] ALSA: pcm: Drain proc writers before freeing preallocated buffers
+In-Reply-To: <pm-pmb-2439c851f82c443c3600-v4-9e7df0ea42c36afe6171@gmail.com>
+References: <pm-pmb-2439c851f82c443c3600-v4-9e7df0ea42c36afe6171@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -81,84 +112,122 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-Some code issues were found during review of a port of typec code from
-wcd939x to wcd937x, pointed out by sashiko-bot:
+On Tue, 20 Oct 2026 04:29:24 +0200,
+Cen Zhang wrote:
+> 
+> The prealloc proc write callback changes a substream's DMA buffer under
+> pcm->open_mutex. Final PCM cleanup frees that buffer without the mutex,
+> before removing the stream proc entries. A pending callback can therefore
+> race the free or allocate a replacement after the final buffer cleanup.
+> 
+> This is reachable through codec-only HDA sysfs unbind while the card
+> remains registered. With CONFIG_SND_VERBOSE_PROCFS, HDA creates writable
+> prealloc files with a nonzero maximum. Buffer a valid size different from
+> the current preallocation and leave the file open, without a PCM runtime.
+> Cleanup reaches snd_pcm_free() through hda_codec_driver_remove(),
+> snd_hda_codec_cleanup_for_unbind(), codec_release_pcms() and
+> snd_device_free(). The proc file pins the card module, not a codec PCM
+> reference, so it does not prevent this component cleanup.
+> 
+> The text write is applied at file release, rather than by write(2).
+> A close in the gap can leave a replacement buffer behind:
+> 
+>   PCM component cleanup           prealloc file close
+>   ---------------------           -------------------
+>   snd_pcm_free()
+>     free preallocated buffers
+>                                   snd_info_text_entry_release()
+>                                     snd_pcm_lib_preallocate_proc_write()
+>                                       allocate replacement buffer
+>                                       replace dma_buffer
+>     snd_pcm_free_stream()
+>       remove and drain proc files
+>       free substream
+> 
+> The same late allocation can occur without a concurrent close: the later
+> proc rundown itself invokes the buffered write callback. In either case,
+> there is no final buffer free after the callback installs its replacement.
+> 
+> Move each substream's preallocation free into snd_pcm_free_stream(),
+> after snd_pcm_stream_proc_done() has removed the proc entries and drained
+> their callbacks. Keep rundown outside open_mutex, which the callback needs
+> to finish. Both stream directions and construction-error cleanup still
+> free their preallocations before destroying the substreams.
+> 
+> Assisted-by: LLM
+> Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+> ---
+>  sound/core/pcm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/core/pcm.c b/sound/core/pcm.c
+> index 1e4e0ecb3dbd..ce577c303a1c 100644
+> --- a/sound/core/pcm.c
+> +++ b/sound/core/pcm.c
+> @@ -825,6 +825,7 @@ static void snd_pcm_free_stream(struct snd_pcm_str * pstr)
+>  	substream = pstr->substream;
+>  	while (substream) {
+>  		substream_next = substream->next;
+> +		snd_pcm_lib_preallocate_free(substream);
+>  		snd_pcm_timer_done(substream);
+>  		kfree(substream);
+>  		substream = substream_next;
+> @@ -861,7 +862,6 @@ static int snd_pcm_free(struct snd_pcm *pcm)
+>  	}
+>  	if (pcm->private_free)
+>  		pcm->private_free(pcm);
+> -	snd_pcm_lib_preallocate_free_for_all(pcm);
+>  	snd_pcm_free_stream(&pcm->streams[SNDRV_PCM_STREAM_PLAYBACK]);
+>  	snd_pcm_free_stream(&pcm->streams[SNDRV_PCM_STREAM_CAPTURE]);
+>  	kfree(pcm);
 
-* wcd939x->wcd_mbhc may be accessed by the typec callbacks which are
-  independent of the ASoC codec lifecycle, don't leave it as NULL/PTR_ERR;
-* wcd939x->typec_switch reference was leaked on unbind, put it there;
-* the device_node reference returned by of_graph_get_remote_node() was
-  being leaked, add a __free annotation to the declaration.
+I believe a better fix is to handle the disconnection of procfs more
+properly.  The hda codec driver calls snd_device_disconnect() for each
+pcm, but in the PCM side, the procfs removal relies on the card level
+disconnection (snd_info_card_disconnect()).
 
-Fix them in wcd939x as well.
+That is, something like below works instead?
 
-Cc: stable@vger.kernel.org
-Fixes: 10f514bd172a ("ASoC: codecs: Add WCD939x Codec driver")
-Signed-off-by: Val Packett <val@packett.cool>
----
- sound/soc/codecs/wcd939x.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/codecs/wcd939x.c b/sound/soc/codecs/wcd939x.c
-index 26fe0b6313cd..56e041e70fd4 100644
---- a/sound/soc/codecs/wcd939x.c
-+++ b/sound/soc/codecs/wcd939x.c
-@@ -2466,6 +2466,7 @@ static int wcd939x_mbhc_init(struct snd_soc_component *component)
- {
- 	struct wcd939x_priv *wcd939x = snd_soc_component_get_drvdata(component);
- 	struct wcd_mbhc_intr *intr_ids = &wcd939x->intr_ids;
-+	struct wcd_mbhc *mbhc;
- 
- 	intr_ids->mbhc_sw_intr = regmap_irq_get_virq(wcd939x->irq_chip,
- 						     WCD939X_IRQ_MBHC_SW_DET);
-@@ -2482,9 +2483,12 @@ static int wcd939x_mbhc_init(struct snd_soc_component *component)
- 	intr_ids->hph_right_ocp = regmap_irq_get_virq(wcd939x->irq_chip,
- 						      WCD939X_IRQ_HPHR_OCP_INT);
- 
--	wcd939x->wcd_mbhc = wcd_mbhc_init(component, &mbhc_cb, intr_ids, wcd_mbhc_fields, true);
--	if (IS_ERR(wcd939x->wcd_mbhc))
--		return PTR_ERR(wcd939x->wcd_mbhc);
-+	mbhc = wcd_mbhc_init(component, &mbhc_cb, intr_ids, wcd_mbhc_fields, true);
-+	if (IS_ERR(mbhc))
-+		return PTR_ERR(mbhc);
-+
-+	/* May be accessed by platform dev typec callbacks, only set if valid */
-+	wcd939x->wcd_mbhc = mbhc;
- 
- 	snd_soc_add_component_controls(component, impedance_detect_controls,
- 				       ARRAY_SIZE(impedance_detect_controls));
-@@ -2499,6 +2503,8 @@ static void wcd939x_mbhc_deinit(struct snd_soc_component *component)
- 	struct wcd939x_priv *wcd939x = snd_soc_component_get_drvdata(component);
- 
- 	wcd_mbhc_deinit(wcd939x->wcd_mbhc);
-+	/* May be accessed by platform dev typec callbacks, clear */
-+	wcd939x->wcd_mbhc = NULL;
- }
- 
- /* END MBHC */
-@@ -3171,7 +3177,7 @@ static int wcd939x_populate_dt_data(struct wcd939x_priv *wcd939x, struct device
- {
- 	struct wcd_mbhc_config *cfg = &wcd939x->mbhc_cfg;
- #if IS_ENABLED(CONFIG_TYPEC)
--	struct device_node *np;
-+	struct device_node *np __free(device_node);
- #endif /* CONFIG_TYPEC */
- 	int ret;
- 
-@@ -3434,6 +3440,10 @@ static void wcd939x_unbind(struct device *dev)
- 	put_device(wcd939x->txdev);
- 	put_device(wcd939x->rxdev);
- 	component_unbind_all(dev, wcd939x);
-+#if IS_ENABLED(CONFIG_TYPEC)
-+	if (wcd939x->typec_analog_mux)
-+		typec_switch_put(wcd939x->typec_switch);
-+#endif /* CONFIG_TYPEC */
- }
- 
- static const struct component_master_ops wcd939x_comp_ops = {
--- 
-2.55.0
+thanks,
+
+Takashi
+
+--- a/sound/core/pcm.c
++++ b/sound/core/pcm.c
+@@ -1119,6 +1119,7 @@ static int snd_pcm_dev_disconnect(struct snd_device *device)
+ 	for (cidx = 0; cidx < 2; cidx++) {
+ 		if (pcm->streams[cidx].dev)
+ 			snd_unregister_device(pcm->streams[cidx].dev);
++		snd_pcm_stream_proc_done(&pcm->streams[cidx]);
+ 		free_chmap(&pcm->streams[cidx]);
+ 	}
+ 	return 0;
 
