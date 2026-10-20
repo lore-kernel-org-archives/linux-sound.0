@@ -1,58 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792503880;
-	b=r7mGWhNKc/V64r2PJDcFkDFgVAyyjqOcMBTZrby95fsQmGetGaLaqxavjZn/0uHTtfoZ
-	 /uZB5UrSrqUh8OOYzn6Ax8KUMl4Qk1z6hv5bjQnk+q06/0YowBPcgN0iNZCFBeO6sptLN
-	 yuQWqJLbBHtxaPReiqIrGHWBtzUuWv8BbPsbmNmBwaDztJWd78P5KcF2hzWNtdLGhuy9I
-	 M9p+wpXprkLtUXceoc3tgzn07oWTwOK7nW5R+fZLuaTD3i5tzNRNhnzEkyCjK7Gh5gNnD
-	 eJ56n6y5oVM4zxiwTIfIUF6mrOMWRiQtsmGEOJ/ZkFffU4vlcm/ru5qaR3BUeBOT3kQ==
+	t=1792504138;
+	b=wWv2ioEYwX7bn13KwiLIRh0fyhfBmfqU6wxX+1Z4PG8X3nnQEEqYHgT1/t4DP0p9GIlV
+	 K0LcO3BLxoAZgS6bnnfmPaJ54Z+4pHpGqnLVyoA3Qw4qvjJbcoXSJIL6GT840NFNjDucD
+	 p5vMADwli3UpR2JnILPFFnCqw0ZCHJkAOesnZh38ZLy0/vZi4UXhYAvE3mK6FDN6OG6Kh
+	 qx12Wglhyc1s4Wk2xAqalrPNtnvMBHpiA/wfQzgdoHXTLAh9nWGxb/iPSyE0RKD2174t+
+	 6enlAX7BiGIkB1OAyC2OZyk1Ftkh4Hd8nzJMf9gBJ3qmMI3/p5KEHTmMNQoLVuWtlAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792503880;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792504138;
 	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
 	 X-Cookie;
-	bh=Ja+gqSqJOdKCK/Bh+e4+IiJm3sk6MFvWKtgYDqRgAng=;
-	b=NRUx8o7fXphikNIxz91Twxpaq2xZMm7e58hpD8dRhvdFzkym5gBcX2DocmZihfGHI2zU
-	 XHLN3aiTvksgH7kuxfIFM8wrrFM6etQiKzpfcA/vcjs06Mel/5YJaM5xwCkt9dUZKYbvh
-	 4otZ3RZe/D5XJ4vA/31gywyOekENXrVVRdVwpUksJLPJaDuNoaUU2b4nffcrmfPDVt7jM
-	 8hiXpnC2aW4eblWVm0q3NiGW4aZbw0GKw5b8i/Tf04mbNiKSORz9vFdekAjFmFX3qjN4G
-	 tedwzSDcXszQHI7qgfYPJ4UavguDHiY41xJaFF8rcfcSmQPerStNpmmQUZLs/CyXRWA==
+	bh=zcrV5mG9wMNbuWGJGcpdlsFljn7zVfj+IAR+UtjH/uc=;
+	b=zCbyjnIjc3LuL1BPc3ARbBwIz0xY9UH0EYEIqkOKLjA7S/OI/t9FL47UF7Yn39RhEV7r
+	 xEtgF/pVz1HEdXOyPwBrxhiKrZP92DYrcdwdv2cYAQD3XstOoYCnudPX6I8B+GFqQWye8
+	 e1LvC8YwOKTAKpZKyI9kWqzBI3X1lU6JRas47qnIQwiLD/BNXJoLPTsqNWon/ijRw0o2o
+	 G1kqFSBoa4y1xNxBL8bXXLDAm8h3avYxl2ymXZiOucWXQeQGn+PH0GUM94AGBrM39g0BG
+	 +H+JkspUbClhLRfZmnoNfa6bnqs7OrZE36y06MWgPMV89JPbTzwFv9wCV5lRqY0yWOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VcoQO9nV;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ddSpBepS;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85A760A262D;
-	Tue, 20 Oct 2026 13:44:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55075606AB01;
+	Tue, 20 Oct 2026 13:48:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VcoQO9nV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A55E1F000C5;
-	Tue, 20 Oct 2026 13:44:39 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ddSpBepS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4AEB1F000C4;
+	Tue, 20 Oct 2026 13:48:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792503879;
-	bh=Ja+gqSqJOdKCK/Bh+e4+IiJm3sk6MFvWKtgYDqRgAng=;
+	s=k20260515; t=1792504137;
+	bh=zcrV5mG9wMNbuWGJGcpdlsFljn7zVfj+IAR+UtjH/uc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VcoQO9nV9srRY8du8dennLbTmgWVnN/UmJbz7V2gWdVcSeSnPg5i572vC1Agj4HVe
-	 Rdg3QqKb1bERmj6bpdnaUHSpbX8bnyHw67p0jaC02MXXYiEXr/LOeILX8iGqw8muz8
-	 TzVZBg0je3Q0UQW8sHZqy58dQ9A6nKilYzG1ayjaUIN5UeBdgW9o0MSvHw9jKYDGKs
-	 4MRqor+2jCqtVQkd5nlhVs47ju9dMuP/UF18zguqcHFJiq/++gNsG+k3Jgp/xGtAYs
-	 Ei/KlHVSXydU6ZcxIbR3ZGp5+AKjnaaKxdzkJOdnk9+4PSGsOdCR5fq71Q0VcDNdwZ
-	 3gsgVI8tUYBYQ==
+	b=ddSpBepStOwLMmX5+DRU/ATEWwOCt7lpjq3Z8DOEOkECcWP7Kqv0xqrgIjEJTVASl
+	 AiYeX2+9vO7HC0zrpzY5+DtakbjlRZr0TEdzFUC5Rpb6/1WnXbIqEHBETS1Y12soAl
+	 1gdDs+9TO95CyImxdC5h1A+eaH5YWvlKfGwQOFTEpjds1M4MLyaw02Demm9rINRTaH
+	 8V2VnVmVPyUjnALyxqcdiPITxq84YmxqglVl2iMmj6/OmMIEafL4KjVSGKv0at+ZMo
+	 gcCoOiUGWJJULiK/6zknsqDGswNPDG7guxmpGmUVdsyxiTsQpKjdt38l2kF5ABSvrG
+	 HRuI4ddk05OuQ==
 Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id D72261AC5994; Tue, 20 Oct 2026 14:44:36 +0100 (BST)
-Date: Tue, 20 Oct 2026 14:44:36 +0100
+	id 875501AC5994; Tue, 20 Oct 2026 14:48:55 +0100 (BST)
+Date: Tue, 20 Oct 2026 14:48:55 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH] ASoC: cs35l56: Wait for firmware timer expiry before
- system suspend
-Message-ID: <atdwRCswAUZ8f2M-@sirena.co.uk>
-References: <20260915102110.3276924-1-rf@opensource.cirrus.com>
- <178948311377.151760.13181956545960061223.b4-ty@b4>
- <f3af6d37-abb4-4641-99e5-b9554f0e64ad@opensource.cirrus.com>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Val Packett <val@packett.cool>, linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+	Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>, stable@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2 4/4] ASoC: codecs: wcd939x: fix ref leak and NULL
+ deref with USB-C audio
+Message-ID: <atdxR_3csYBDOc2k@sirena.co.uk>
+References: <20261020082631.1509275-5-val@packett.cool>
+ <25bc6c8a-b47a-43bb-b035-5a755ac41531@web.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,34 +72,40 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7nIQD3szGvtuMB+x"
+	protocol="application/pgp-signature"; boundary="G4TP9aRR0d3URbt3"
 Content-Disposition: inline
-In-Reply-To: <f3af6d37-abb4-4641-99e5-b9554f0e64ad@opensource.cirrus.com>
+In-Reply-To: <25bc6c8a-b47a-43bb-b035-5a755ac41531@web.de>
 X-Cookie: You buttered your bread, now lie in it.
 
 
---7nIQD3szGvtuMB+x
-Content-Type: text/plain; charset=us-ascii
+--G4TP9aRR0d3URbt3
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 20, 2026 at 02:21:37PM +0100, Richard Fitzgerald wrote:
+On Tue, Oct 20, 2026 at 01:35:02PM +0200, Markus Elfring wrote:
+> > Some code issues were found during review of a port of typec code from
+> > wcd939x to wcd937x, pointed out by sashiko-bot:
+> =E2=80=A6
+>=20
+> Would there be a need to offer corresponding adjustments as separate patc=
+hes?
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/D=
+ocumentation/process/submitting-patches.rst?h=3Dv7.3#n81
 
-> This commit seems to have got lost somehow. I can't see it in any of
-> your branches.
+Feel free to ignore Markus, he has a long history of sending
+unhelpful review comments and continues to ignore repeated requests
+to stop.
 
-> Does it need a resend?
-
-Yes, please.
-
---7nIQD3szGvtuMB+x
+--G4TP9aRR0d3URbt3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCatdwRAAKCRAv73Ows9A4
-iU4pAP0YKzy5e38DiyxokJQ9itBj1ePUKC27MUXdzzVBV1PingD/ZG76UjMGi63i
-B8p5bfJWf0JoXOJ/jPPiZuM4DkbIEQs=
-=fdES
+iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCatdxRwAKCRAv73Ows9A4
+ia8GAQDYFFbvBQ9+UGCIzLUaxMzznA8sOOzHrGDeBu+WDVeGiQEAuZ6N5YV89RLE
+lHXRJB/Dpm5HVWr9M9I5zMLleM3gNQo=
+=evPY
 -----END PGP SIGNATURE-----
 
---7nIQD3szGvtuMB+x--
+--G4TP9aRR0d3URbt3--
