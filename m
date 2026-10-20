@@ -1,102 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792452268;
-	b=cxo0sVHJOU9JsquzoRvXd7oG0ztwmnK26L/++d9APEWvKSgfrmG1JCLy7ij3ain1ihmU
-	 4oWnXxgypFAjETe3L9KOEiEMFH7ei0ZFcXi8G4CPXFJVsqzt3j+oN2mCcfA14lI6gzSWW
-	 jAFbIIElFdPO447OlZpyAxiFLCxqbfqebQYMZ3Tx+Lo2O249fnE3ISb+B90J3jEl19lO/
-	 bpraDyUm8T5QV0k1e181uUFriCrEcDzEcVrLrHlh7rVGFm/AUskNTobLtn26tvBcqHC8O
-	 c9qTscYMXJUrR9dV02WrgUlZxvIH+P0cIjAXheenBL42vn+JAag9+3KbqTsRVI0yHWQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792452268;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.180
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792462258;
+	b=mhKprwIXfOIkbwwIGq8kuwPcjQ7rN9D1t+D0/UK9RSIbkVnTZiKLrKfGxvqOSfWjeefx
+	 l47k599sdqfi7ZBao7+VYwh62B5z8Tfcr9FaI4rjaRY7TjyonaaF5kdypczmwUnOrRp21
+	 7uYj+6lp2qAeIjv3SGXqvUCy0k+GpQChMgBFZCkM7MoAUyheigYrvcykSZxwK52kidXVd
+	 HHYJ39L2Y4obBM4X/hh0K3BbalBEBND5KfUxZw9nIPzPH0rQP8YOCQXh88y1PFHwY7y6B
+	 sw2/NW/pQpNWZlmXHDppReajiRwDFqx5dt2ece64aAn+0/75c3ymwgHJlHxXsNlrsvg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792462258;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=nFCCXe8qSTNYP0SjyyOzjhIQpUL7PmcvU8rxvVNwNw0=;
-	b=pT0wQ4WYffFQvuWSycrM1pAXFfh691JAufVS6cME/EaMyq3f/9pYKw0fXDuIDr1H3a5g
-	 WGj4YAUwpMiRyXbDyrEE6Ge1tbOiYUGFcfassW+DN5Gf4BKyAzSy0O7Qi4xHcUWbknSt9
-	 0UAX8KHupa+gpvRHm4SIo6qx3y8uf6k14WkaFNt+91I9SpA/X1vGMgZ7zV9Y1j9uzXi5/
-	 U09c8Vvd0bk2u/Vv6oumuwk97rV1R5JmvMdT3DRknqQR6qtnJK5CqjMoonnIm6S4qQRSR
-	 mUC1Ux1pvKId+NYoukDhI6zknwd/0HDpVB71JnG5G0p1uhObvEh40Lq/puOlN1LNdIA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=J2awcyyaXtld8u9NUvdPyChgRrjEUxgKgS4S5LDKLZg=;
+	b=LFejIVJXKBqV217Ytg1SQpPRPpO6i7bFLffx1mTMXbp+vcWWL/ZLbMAa/iFTTXxgIPhz
+	 WlNoR2hoGk18V4tbFZo4y3vlTGqzat6R3UnVrWkoacCHOUPjPv4Ow9cU91UzRJBlHVj9G
+	 DYw1tGgea8TkhxNBrgpcDaVkNYHWQS/Xg+XyN6cIOZkkG4q/3tceysk04fMBtv12N9Q/D
+	 zgI7l/kCTTgOqCopo6TOMSdWp2O5Y3Bl7SuH0i+V4M1zLa+M3ugmpEVeteYXO4gHOLwEw
+	 VefCk/Owk9DAbwJTpruKDqVGroWqQ21SgDBundgrq7oIr1uNu38U6JO5SmAOF0G/aAw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=H+N3nXy5;
-	arc=none smtp.remote-ip=209.85.128.54
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="hb/UPhHW";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.180
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF85606A322
-	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 23:24:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DF85606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20EC3606A319
+	for <linux-sound@vger.kernel.org>; Tue, 20 Oct 2026 02:10:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20EC3606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=H+N3nXy5
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a1dede3c2cso29817345e9.2
-        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 16:24:27 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=hb/UPhHW
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2e987a2ba0cso22636805ad.3
+        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 19:10:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792462257; cv=none;
+        d=google.com; s=arc-20260327;
+        b=iQDzx94ZPx9b98wr90DV1Av6tRSR20FlfIX/b2pUGrLUbiFwnBT656kU7iFA1svAVg
+         DzLEGtcuYshIoUPEyUs7a6On5ARn4OJaqVnMA5R1YhQQ+JJRaOByrI0BtyuRpzbBmWp7
+         UsqgxLWgO+vERztpZiUyG7/XHhkuha1YEZCsFWc3d0hazs2SppPbTyWX3iUnS8U/O6fy
+         5mVdrtwyME0cJOUC73xTdexRq96QazwXKDCYSSkLjIRMavAZWX8rZ5uO2DYKMqqFV2D8
+         K/iubzN2joXeOF4IIhaXmeOBG9en3K3jkEpaIBrlAV0/zh6jmRBysSdgyq4UWzEWrdcS
+         2OVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=J2awcyyaXtld8u9NUvdPyChgRrjEUxgKgS4S5LDKLZg=;
+        fh=WE3mKtTBkmt6KtvYlNSNfXKbdfXrsWN/8ZNVp4uRIHs=;
+        b=nlGfUIuiGzS2mnhwz7BtKbO4SckeXDVhUOtmKtaqv1OxWJa/6WdC2+ZhLcjARM4OuP
+         606AQsG99U0jGQ0IglfH1IUC1rDlwT+0NsrmnjzcPtLZODo1Goan1QxFWSAK8oJ7fhfv
+         AQcZu9y5ZH827jBQ3ccY9j5BUFtLL6zcXURlMmu+OV4Sw0VU4FrOygK6YV2MQp6bzH5H
+         GWxZYjCeqN4W5klaHRmWF0vmX2GUVWCO0ifI2IwtP2/S30pKo0lVN7LVh+dRwGWa3Ww8
+         VU44rB48L6KzkLUJLi5DtYDspES8mpK057k2JBSr1l899+iuySC7OZpbp9lS54b/qTDa
+         v4Ag==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792452266; x=1793057066; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=nFCCXe8qSTNYP0SjyyOzjhIQpUL7PmcvU8rxvVNwNw0=;
-        b=H+N3nXy5cMdB+ToqF1Y+U8bsjaFCIfHic1uRjUXr3sxwDDoKtiHfvgCRciMEX9XDwa
-         tYthyVU57m3Izah/xUlX17cyIxFhEGDPNpMVOhsHD5VX2hq+khEW83r6x4CON2S9LuBP
-         0c08hVnT6z83tP7qwgjOS4+nXFsm7GTjZsEo69teexRNhECEeyDfuoQ6BXDBPqhRPSb6
-         lP2Q2ASUNYN2YyzGDwFawI95SiOvcAnfRMg1BviwpO/vw3+vuEiytn2ZCKWTdOeycs2S
-         1LTspGuCZsVT9V4xAqEKpjKM6mcbVbKtFTElvbCtRZnqYBHfN5kr5WoCrk6sDNldYn+r
-         WiTQ==
+        d=gmail.com; s=20251104; t=1792462257; x=1793067057; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=J2awcyyaXtld8u9NUvdPyChgRrjEUxgKgS4S5LDKLZg=;
+        b=hb/UPhHWEbBTw2Sv0j1Br3zlb1tF0v5WNhFa7htWdgnfMrEBEzsiE5hXvp3vrKt+TP
+         A1iM4KW0YJYwxzG35H7vcpjnRx2CJW00YJ1JPRskO4JBnOwdM8+j0JMiVuFyDKqXxQqy
+         IF8QO+DA9VVJVKNwvZA4wSa1LLQcm+FQ/mH3rTdFwZ2L0UY5SDtbjxoZ7bHzWztur0R+
+         tgiWKShd9eA8WOCLKzI5UqagnrkJpCgp6xz+od/Wjdw1NYd1wkGPa32hCxCPRPI9iuRq
+         vcv4YOonUtpCVRDWpIA6S8UcXFNuTSGHu3Bn+qGsMIkZDz0VzJrSfO3VjllcABlIUTXL
+         UR0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792452266; x=1793057066;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=nFCCXe8qSTNYP0SjyyOzjhIQpUL7PmcvU8rxvVNwNw0=;
-        b=y0o+MimSteqDjwwzy5B8Ahp3+CoFh0limVORy7Z5OfYCD/Qp89cEpiQ8lI+2Gl2nN/
-         7qOEpeK9/CqzD/kx9iAaVrXo2MxC4g3MYs/wSn/cijHivbaO1EkyFwGPX11XGyKhIHtB
-         jf+94z7MFo5lCcHzzTNzji/9BpxdoQeP1fEgEvmiX2FIDbl1c7kbGkywKs/7SYuJpjSy
-         O4qZpx6HDz9sKnaSra11QQ0a/3OS17SYlgl5opFoEnTUxkeRp32XIfUsX1e1YzudOoQn
-         tnqUFO914/ngT2zky58Qm/6Mf/vezsmH5Rz6Xrh7R2Wtrl8TzwcYXC+zQdAC04Pgnwt4
-         YyTA==
-X-Forwarded-Encrypted: i=1; AKwUvByVMn67GHHsZIarWMp3yMMHKLxrsoQmd4T83t2BSkRWu9rBhwM+G/Nw4KyaKcpqEKXxtvjfE+EqgNPJow==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKHCIcJougZes6oDHTsKGowjqwsUoylbLmBBNFCo7MoHMSYU9Y3
-	Bba78vVeUJLwhpNj2zmk5ci0Y/hh0Rq505mFd3z5sg8J1cMRYqWr63WC
-X-Gm-Gg: AYBFou2hH2ChbgQr9m9W3hGyMS3/8+YtsOZ6+eiHY2ezJ8wOmTHM3/cTKgdx9XqeMgR
-	yz8b7DLLixyCndqzRY5ZD6OV+ZucS9jZk3w9WLLADk3tCteWAqGz5Ngx3kxurCuQ5dwC9J2zqAf
-	B9HtwCvldVJGQcwQa6a0lWkZsJBdw8PGYPvivoATQJVdh5U8d9EO97SKpPMHd0crFwLU+lBxeHy
-	HIQWCp9zbCRH7+WOdsTsPEAZrS2+vjnHMJjQ3GQtzFdAg57PW3vgmdHy7/JqiVsBdFBJ9cvW0Bv
-	cfB44UohIlkTFmlsry/Rk62RkqtZrrMQMFauMLpDFhqyQ2JWARJR3mODDd/AUn1Dhr5BXD9k9x9
-	Vl4UgV+lJsnSlxnQc2hE1bIQaDGJDgVcxPIy+sbqLjiZVTMklfuywJHKKe6XyC9ByFQqsy2R4tJ
-	UGPaPICbhXTM689UZSPt8SevYCPtHFMnpjDfw0I6LWdV/kIFB0YFeJVfGnXxqIbQBGm9ac6g9lA
-	9XYQU1HlH/1TudLf1Zs+RVE6RQ0yzk11avF7rKKBO2FOMVmURxXYdMub6W9m2KCOodFf/858llT
-	f7A=
-X-Received: by 2002:a05:600c:4752:b0:4a1:d41a:afc2 with SMTP id 5b1f17b1804b1-4a1d75af1a5mr200879115e9.3.1792452265790;
-        Mon, 19 Oct 2026 16:24:25 -0700 (PDT)
-Received: from Ansuel-XPS24.localdomain (93-34-92-187.ip49.fastwebnet.it. [93.34.92.187])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4a1f2cd348asm26244055e9.11.2026.10.19.16.24.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 16:24:24 -0700 (PDT)
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Christian Marangi <ansuelsmth@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 2/2] ASoC: airoha: Add support for AN7581 PCM driver
-Date: Tue, 20 Oct 2026 01:24:11 +0200
-Message-ID: <20261019232412.516028-3-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261019232412.516028-1-ansuelsmth@gmail.com>
-References: <20261019232412.516028-1-ansuelsmth@gmail.com>
+        d=1e100.net; s=20260707; t=1792462257; x=1793067057;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=J2awcyyaXtld8u9NUvdPyChgRrjEUxgKgS4S5LDKLZg=;
+        b=f4Q16CJ12WmZFrlB8anS1X7M3BN7B9D9ehEWCxvoFy06W0TyjRSmlOutzttgQuHv6e
+         9Au8OmKXFkCok7DSf7qRXB1Ide25h+QBtvy+aLQ/YJfeICc51/mI5DZxtnqPfXQ32fd8
+         UEtdUqN1aRmG8ldeH+H/2rNDLSjYn9r8CtNgZJ8imeE3uA4ADGOSoNP6Ncjfb3PEIzo/
+         BJrN0Mq5WUbcXWu/d3UK0R4KaGNeb2UKY0H6VX8YUKVFY0V3wR2EoQ5hu0WkTrkRHkUp
+         hpJQRjXQZ/HyCDDsyHG2pbMOimfwZp87rcWDvN849XGJKR5/ZopSHOEkddoCboZvRnYX
+         Dsjg==
+X-Forwarded-Encrypted: i=1; AKwUvBwSmms9C9/Rx5DSuPD6+AYQfpJlMKykB8IPp69A0FpYpzkuJ5KhEUgUSRfQ/clQ7l60iemuefTOSgFAJQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKYnWXHt/3+T2W0GF8SZ7Y+Sr+8HIJK29Z0D+aTQNehCkCJ44om
+	M/ugDAhWQZo+T9+LQuHeDndP3HDjC641O5mkP8a9709Rg7uB8tVMyxvX80ZNr3xujWQx6JWLDMt
+	ASgO/lG9NqwqS8tp+LNsg4MAZMhi4QCE=
+X-Gm-Gg: AYBFou3zns3bgUNKV1XZHSoegiO+9y0WjSuLzaResNMvDBXMRCLHZtpTUDGlnvcGgwi
+	cA0BX/jlL5ryvSHUd1rHYCNtii1g6zzrLOwdWbprwsCsU9djPtqbZfGXlOozkbHYwXuUB4qVlZG
+	PiU1rrmQbbDBW+rwoaUE0lc7q4A2KPLA+7b6UFn2yOG/x8aqOeoK/cxnZd0K19QH99pcPYUYwVq
+	+gWe0/tT1TLRmiDZTw1eJ6HqnGVUD4eoCw/j3Sk33Hgz5B1M3DkSyzwZbiWjab+lnBoqJhmtgKM
+	8orfHUc3rCCw/DIl787dQKTo6qBamvILlqVErV+yK+Pj1EprGKOrFdLU9cGsKxf2lc52xE6Zti0
+	JF5Ne1DuVID33BiK7fT3YgVZmaLJO1e4eh8G5eO7nEXUOLY5BEY2xuVzTBiT9+eDP+jg=
+X-Received: by 2002:a17:902:e547:b0:2e8:93b5:c555 with SMTP id
+ d9443c01a7336-2e9a6e5296emr76192995ad.61.1792462257434; Mon, 19 Oct 2026
+ 19:10:57 -0700 (PDT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -106,1008 +103,68 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261016040946.521195-1-phucduc.bui@gmail.com>
+ <20261016040946.521195-11-phucduc.bui@gmail.com> <14f60932-9a85-45ee-ad87-593c20cc116b@tuxon.dev>
+In-Reply-To: <14f60932-9a85-45ee-ad87-593c20cc116b@tuxon.dev>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Tue, 20 Oct 2026 09:10:45 +0700
+X-Gm-Features: AclHuK-OxoOqEZe9QHO9PQT5BaN1GB4IUM0kwzQZDjYp5iThqBCJWYOaobvziFs
+Message-ID: <CAABR9nGOmx6zvost-Y9Zd2nzQa+ZMYxt2PtZ8xYPLZqZVGHegg@mail.gmail.com>
+Subject: Re: [PATCH 10/11] ASoC: renesas: rz-ssi: Remove redundant component
+ open callback
+To: claudiu beznea <claudiu.beznea@tuxon.dev>
+Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	povik+lin@cutebit.org, Andrei Simion <andrei.simion@microchip.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Shengjiu Wang <shengjiu.wang@gmail.com>, 
+	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
+	Nicolin Chen <nicoleotsuka@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Cezary Rojewski <cezary.rojewski@intel.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, 
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Kees Cook <kees@kernel.org>, Syed Saba Kareem <syed.sabakareem@amd.com>, 
+	wangdicheng <wangdicheng@kylinos.cn>, Chris Bainbridge <chris.bainbridge@gmail.com>, 
+	Linus Walleij <linusw@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Neo Chang <YLCHANG2@nuvoton.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, u.kleine-koenig@baylibre.com, 
+	Pengpeng Hou <pengpeng@iscas.ac.cn>, 
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Hemanth Selam <hemanth.selam@gmail.com>, 
+	Md Shofiqul Islam <shofiqtest@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Zain Aboobacker <zainaboobacker33@gmail.com>, Sang-Heon Jeon <ekffu200098@gmail.com>, 
+	Bo Shen <voice.shen@atmel.com>, Vinod Koul <vkoul@kernel.org>, linux-sound@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	patches@opensource.cirrus.com, linuxppc-dev@lists.ozlabs.org, 
+	imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The Airoha AN7581 SoC provides a PCM interface for VoIP applications,
-supporting playback and capture at sample rates of 8 kHz and 16 kHz.
-The driver configures the PCM bit clock to 2.048 MHz and supports
-8-bit and 16-bit samples, with up to 32 channels.
+Hi Claudiu,
 
-Add an ASoC platform driver for the AN7581 PCM controller configured for
-ZSI attached voice chip.
 
-Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
----
- MAINTAINERS                   |   7 +
- sound/soc/Kconfig             |   1 +
- sound/soc/Makefile            |   1 +
- sound/soc/airoha/Kconfig      |  10 +
- sound/soc/airoha/Makefile     |   3 +
- sound/soc/airoha/an7581-pcm.c | 906 ++++++++++++++++++++++++++++++++++
- 6 files changed, 928 insertions(+)
- create mode 100644 sound/soc/airoha/Kconfig
- create mode 100644 sound/soc/airoha/Makefile
- create mode 100644 sound/soc/airoha/an7581-pcm.c
+> > In DMA mode, the generic dmaengine PCM component already applies
+> > the integer PERIODS constraint in snd_dmaengine_pcm_open().
+> >
+> > Since rz_ssi_pcm_open_dma() only applies this constraint, remove
+> > the redundant component .open callback.
+> >
+> > Signed-off-by: bui duc phuc<phucduc.bui@gmail.com>
+>
+> FTR:
+>
+> Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> Tested-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ecd1461eb707..f1dd6fa2aec2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -775,6 +775,13 @@ F:	Documentation/devicetree/bindings/sound/airoha,an7581-afe.yaml
- F:	Documentation/devicetree/bindings/sound/airoha,an7581-wm8960.yaml
- F:	sound/soc/mediatek/an7581/*
- 
-+AIROHA PCM CONTROLLER DRIVER
-+M:	Christian Marangi <ansuelsmth@gmail.com>
-+L:	linux-sound@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/sound/airoha,an7581-pcm.yaml
-+F:	sound/soc/airoha/*
-+
- AIROHA SPI SNFI DRIVER
- M:	Lorenzo Bianconi <lorenzo@kernel.org>
- M:	Ray Liu <ray.liu@airoha.com>
-diff --git a/sound/soc/Kconfig b/sound/soc/Kconfig
-index edfdcbf734fe..27fc13e11b77 100644
---- a/sound/soc/Kconfig
-+++ b/sound/soc/Kconfig
-@@ -103,6 +103,7 @@ config SND_SOC_USB
- 
- # All the supported SoCs
- source "sound/soc/adi/Kconfig"
-+source "sound/soc/airoha/Kconfig"
- source "sound/soc/amd/Kconfig"
- source "sound/soc/apple/Kconfig"
- source "sound/soc/atmel/Kconfig"
-diff --git a/sound/soc/Makefile b/sound/soc/Makefile
-index 21d8406767fc..ea581930bb3d 100644
---- a/sound/soc/Makefile
-+++ b/sound/soc/Makefile
-@@ -46,6 +46,7 @@ obj-$(CONFIG_SND_SOC)	+= codecs/
- obj-$(CONFIG_SND_SOC)	+= generic/
- obj-$(CONFIG_SND_SOC)	+= apple/
- obj-$(CONFIG_SND_SOC)	+= adi/
-+obj-$(CONFIG_SND_SOC)	+= airoha/
- obj-$(CONFIG_SND_SOC)	+= amd/
- obj-$(CONFIG_SND_SOC)	+= atmel/
- obj-$(CONFIG_SND_SOC)	+= au1x/
-diff --git a/sound/soc/airoha/Kconfig b/sound/soc/airoha/Kconfig
-new file mode 100644
-index 000000000000..20c9211430c9
---- /dev/null
-+++ b/sound/soc/airoha/Kconfig
-@@ -0,0 +1,10 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+config SND_SOC_AN7581_PCM
-+	tristate "PCM support for Airoha AN7581 chip"
-+	depends on ARCH_AIROHA || COMPILE_TEST
-+	help
-+	  This adds PCM driver for Airoha AN7581 boards
-+	  that can be used with other codecs.
-+	  Select Y if you have such device.
-+	  If unsure select "N".
-diff --git a/sound/soc/airoha/Makefile b/sound/soc/airoha/Makefile
-new file mode 100644
-index 000000000000..2522fe705d9a
---- /dev/null
-+++ b/sound/soc/airoha/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+obj-$(CONFIG_SND_SOC_AN7581_PCM) += an7581-pcm.o
-diff --git a/sound/soc/airoha/an7581-pcm.c b/sound/soc/airoha/an7581-pcm.c
-new file mode 100644
-index 000000000000..803b1dda26a0
---- /dev/null
-+++ b/sound/soc/airoha/an7581-pcm.c
-@@ -0,0 +1,906 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Airoha ALSA SoC PCM platform driver for AN7581
-+ *
-+ * Copyright (C) 2026 Christian Marangi <ansuelsmth@gmail.com>
-+ */
-+
-+#include <linux/bitfield.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/module.h>
-+#include <linux/of_irq.h>
-+#include <linux/regmap.h>
-+#include <linux/reset.h>
-+#include <linux/spinlock.h>
-+#include <sound/pcm.h>
-+#include <sound/pcm_params.h>
-+#include <linux/pinctrl/consumer.h>
-+#include <sound/soc.h>
-+
-+#define AN7581_PCM_PICR				0x0
-+#define   AN7581_PCM_CFG_VALID			BIT(26)
-+#define   AN7581_PCM_LPBK_ENABLE		BIT(25)
-+#define   AN7581_PCM_SOFT_RESET			BIT(24)
-+#define   AN7581_PCM_FRAME_COUNT		GENMASK(22, 18)
-+#define   AN7581_PCM_BIT_ORDER			BIT(16)
-+#define   AN7581_PCM_ONE_BIT_DELAY		BIT(12)
-+#define   AN7581_PCM_FS_EDGE			BIT(10)
-+#define   AN7581_PCM_FS_LEN			GENMASK(9, 8)
-+#define     AN7581_PCM_FS_LEN_8			FIELD_PREP_CONST(AN7581_PCM_FS_LEN, 0x2)
-+#define     AN7581_PCM_FS_LEN_16		FIELD_PREP_CONST(AN7581_PCM_FS_LEN, 0x3)
-+#define   AN7581_PCM_SAMPLE_CLK			BIT(4)
-+#define     AN7581_PCM_SAMPLE_CLK_8KHZ		FIELD_PREP_CONST(AN7581_PCM_SAMPLE_CLK, 0x0)
-+#define     AN7581_PCM_SAMPLE_CLK_16KHZ		FIELD_PREP_CONST(AN7581_PCM_SAMPLE_CLK, 0x1)
-+#define   AN7581_PCM_BIT_CLK			GENMASK(3, 1)
-+#define     AN7581_PCM_BIT_CLK_256KHZ		FIELD_PREP_CONST(AN7581_PCM_BIT_CLK, 0x0)
-+#define     AN7581_PCM_BIT_CLK_512KHZ		FIELD_PREP_CONST(AN7581_PCM_BIT_CLK, 0x1)
-+#define     AN7581_PCM_BIT_CLK_1024KHZ		FIELD_PREP_CONST(AN7581_PCM_BIT_CLK, 0x2)
-+#define     AN7581_PCM_BIT_CLK_2048HZ		FIELD_PREP_CONST(AN7581_PCM_BIT_CLK, 0x3)
-+#define     AN7581_PCM_BIT_CLK_4096KHZ		FIELD_PREP_CONST(AN7581_PCM_BIT_CLK, 0x4)
-+#define     AN7581_PCM_BIT_CLK_8192KHZ		FIELD_PREP_CONST(AN7581_PCM_BIT_CLK, 0x5)
-+#define   AN7581_PCM_BIT_MSTSLV_MODE		BIT(0)
-+#define     AN7581_PCM_BIT_MSTSLV_MODE_MASTER	FIELD_PREP_CONST(AN7581_PCM_BIT_MSTSLV_MODE, 0x0)
-+#define     AN7581_PCM_BIT_MSTSLV_MODE_SLAVE	FIELD_PREP_CONST(AN7581_PCM_BIT_MSTSLV_MODE, 0x1)
-+/* Same bitmap for all TX timeslot reg */
-+#define AN7581_PCM_PTTSCR0			0x4
-+#define   AN7581_PCM_TXTS1_BW			BIT(28)
-+#define     AN7581_PCM_TXTS1_BW_8BIT		FIELD_PREP_CONST(AN7581_PCM_TXTS1_BW, 0x0)
-+#define     AN7581_PCM_TXTS1_BW_16BIT		FIELD_PREP_CONST(AN7581_PCM_TXTS1_BW, 0x1)
-+#define   AN7581_PCM_TXTS1_START		GENMASK(25, 16)
-+#define   AN7581_PCM_TXTS0_BW			BIT(12)
-+#define     AN7581_PCM_TXTS0_BW_8BIT		FIELD_PREP_CONST(AN7581_PCM_TXTS0_BW, 0x0)
-+#define     AN7581_PCM_TXTS0_BW_16BIT		FIELD_PREP_CONST(AN7581_PCM_TXTS0_BW, 0x1)
-+#define   AN7581_PCM_TXTS0_START		GENMASK(9, 0)
-+#define AN7581_PCM_PTTSCR1			0x8
-+#define AN7581_PCM_PTTSCR2			0xc
-+#define AN7581_PCM_PTTSCR3			0x10
-+/* Same bitmap for all RX timeslot reg */
-+#define AN7581_PCM_PRTSCR0			0x14
-+#define   AN7581_PCM_RXTS1_BW			BIT(28)
-+#define     AN7581_PCM_RXTS1_BW_8BIT		FIELD_PREP_CONST(AN7581_PCM_RXTS1_BW, 0x0)
-+#define     AN7581_PCM_RXTS1_BW_16BIT		FIELD_PREP_CONST(AN7581_PCM_RXTS1_BW, 0x1)
-+#define   AN7581_PCM_RXTS1_START		GENMASK(25, 16)
-+#define   AN7581_PCM_RXTS0_BW			BIT(12)
-+#define     AN7581_PCM_RXTS0_BW_8BIT		FIELD_PREP_CONST(AN7581_PCM_RXTS0_BW, 0x0)
-+#define     AN7581_PCM_RXTS0_BW_16BIT		FIELD_PREP_CONST(AN7581_PCM_RXTS0_BW, 0x1)
-+#define   AN7581_PCM_RXTS0_START		GENMASK(9, 0)
-+#define AN7581_PCM_PRTSCR1			0x18
-+#define AN7581_PCM_PRTSCR2			0x1c
-+#define AN7581_PCM_PRTSCR3			0x20
-+#define AN7581_PCM_ISR				0x24
-+#define AN7581_PCM_IMR				0x28
-+#define   AN7581_PCM_IMR_ISI2_INT		BIT(16)
-+#define   AN7581_PCM_IMR_ZSI2_INT		BIT(15)
-+#define   AN7581_PCM_IMR_SLIC_INT		BIT(14)
-+#define   AN7581_PCM_IMR_SFC_INT		BIT(13)
-+#define   AN7581_PCM_IMR_ISI1_INT		BIT(12)
-+#define   AN7581_PCM_IMR_ZSI1_INT		BIT(11)
-+#define   AN7581_PCM_IMR_HUNT_OVERTIME_INT	BIT(10)
-+#define   AN7581_PCM_IMR_HUNT_ERR_INT		BIT(9)
-+#define   AN7581_PCM_IMR_AHB_BUS_ERR_INT	BIT(8)
-+#define   AN7581_PCM_IMR_RBUF_OVERRUN_INT	BIT(7)
-+#define   AN7581_PCM_IMR_TBUF_UNDERRUN_INT	BIT(6)
-+#define   AN7581_PCM_IMR_RDESC_END_INT		BIT(5)
-+#define   AN7581_PCM_IMR_TDESC_END_INT		BIT(4)
-+#define   AN7581_PCM_IMR_RDESC_UPDATE_INT	BIT(3)
-+#define   AN7581_PCM_IMR_TDESC_UPDATE_INT	BIT(2)
-+#define   AN7581_PCM_IMR_TXRX_FB_INT		BIT(0)
-+#define AN7581_PCM_TPDR				0x2c
-+#define   AN7581_PCM_TX_POLLING			BIT(0)
-+#define AN7581_PCM_RPDR				0x30
-+#define   AN7581_PCM_RX_POLLING			BIT(0)
-+#define AN7581_PCM_TDRBAR			0x34
-+#define   AN7581_TDESC_BASE			GENMASK(31, 0)
-+#define AN7581_PCM_RDRBAR			0x38
-+#define   AN7581_RDESC_BASE			GENMASK(31, 0)
-+#define AN7581_PCM_TRDRSR			0x3c
-+#define   AN7581_DESC_OFFSET			GENMASK(7, 4)
-+#define   AN7581_DESC_SIZE			GENMASK(3, 0)
-+#define AN7581_PCM_TRDCR			0x40
-+#define   AN7581_PCM_DMA_POLICY			GENMASK(3, 2)
-+#define   AN7581_PCM_DMA_POLICY_RR		FIELD_PREP_CONST(AN7581_PCM_DMA_POLICY, 0x0)
-+#define   AN7581_PCM_DMA_POLICY_RSVD		FIELD_PREP_CONST(AN7581_PCM_DMA_POLICY, 0x1)
-+#define   AN7581_PCM_DMA_POLICY_TX_PRIORITY	FIELD_PREP_CONST(AN7581_PCM_DMA_POLICY, 0x2)
-+#define   AN7581_PCM_DMA_POLICY_RX_PRIORITY	FIELD_PREP_CONST(AN7581_PCM_DMA_POLICY, 0x3)
-+#define   AN7581_PCM_RXDMA_ENABLE		BIT(1)
-+#define   AN7581_PCM_TXDMA_ENABLE		BIT(0)
-+#define AN7581_PCM_PTTSCR4			0x48
-+#define AN7581_PCM_PTTSCR5			0x4c
-+#define AN7581_PCM_PTTSCR6			0x50
-+#define AN7581_PCM_PTTSCR7			0x54
-+#define AN7581_PCM_PTTSCR8			0x58
-+#define AN7581_PCM_PTTSCR9			0x5c
-+#define AN7581_PCM_PTTSCR10			0x60
-+#define AN7581_PCM_PTTSCR11			0x64
-+#define AN7581_PCM_PTTSCR12			0x68
-+#define AN7581_PCM_PTTSCR13			0x6c
-+#define AN7581_PCM_PTTSCR14			0x70
-+#define AN7581_PCM_PTTSCR15			0x74
-+#define AN7581_PCM_PTTSCR(chan)			((chan) < 8 ? \
-+						 (AN7581_PCM_PTTSCR0 + ((chan) / 2) * 4) : \
-+						 (AN7581_PCM_PTTSCR4 + (((chan) - 8) / 2) * 4))
-+#define   AN7581_PCM_TXTS_BW(chan)		((chan) % 2 ? AN7581_PCM_TXTS1_BW : AN7581_PCM_TXTS0_BW)
-+#define     AN7581_PCM_TXTS_BW_8BIT		0x0
-+#define     AN7581_PCM_TXTS_BW_16BIT(chan)	AN7581_PCM_TXTS_BW(chan)
-+#define   AN7581_PCM_TXTS_START(chan)		((chan) % 2 ? AN7581_PCM_TXTS1_START : AN7581_PCM_TXTS0_START)
-+#define AN7581_PCM_PRTSCR4			0x78
-+#define AN7581_PCM_PRTSCR5			0x7c
-+#define AN7581_PCM_PRTSCR6			0x80
-+#define AN7581_PCM_PRTSCR7			0x84
-+#define AN7581_PCM_PRTSCR8			0x88
-+#define AN7581_PCM_PRTSCR9			0x8c
-+#define AN7581_PCM_PRTSCR10			0x90
-+#define AN7581_PCM_PRTSCR11			0x94
-+#define AN7581_PCM_PRTSCR12			0x98
-+#define AN7581_PCM_PRTSCR13			0x9c
-+#define AN7581_PCM_PRTSCR14			0xa0
-+#define AN7581_PCM_PRTSCR15			0xa4
-+#define AN7581_PCM_PRTSCR(chan)			((chan) < 8 ? \
-+						 (AN7581_PCM_PRTSCR0 + ((chan) / 2) * 4) : \
-+						 (AN7581_PCM_PRTSCR4 + (((chan) - 8) / 2) * 4))
-+#define   AN7581_PCM_RXTS_BW(chan)		((chan) % 2 ? AN7581_PCM_RXTS1_BW : AN7581_PCM_RXTS0_BW)
-+#define     AN7581_PCM_RXTS_BW_8BIT		0x0
-+#define     AN7581_PCM_RXTS_BW_16BIT(chan)	AN7581_PCM_RXTS_BW(chan)
-+#define   AN7581_PCM_RXTS_START(chan)		((chan) % 2 ? AN7581_PCM_RXTS1_START : AN7581_PCM_RXTS0_START)
-+#define AN7581_PCM_CHBFOSR			0xa8
-+#define   AN7581_PCM_DESC_CHBF_OFFSET		GENMASK(15, 0)
-+#define AN7581_PCM_DCHENR			0xac
-+/* Each channel correspond to a bit.
-+ * Example:
-+ * BIT(0) -> chan 0
-+ * BIT(1) -> chan 1
-+ * ...
-+ *
-+ * Notice that it's expected the channel are sequential
-+ * aka it's not possible to have empty channel in between.
-+ * (example BIT(0) | BIT(2))
-+ */
-+#define   AN7581_PCM_CHAN_EN			GENMASK(31, 0)
-+
-+#define AN7581_PCM_MAX_CHANNELS			32
-+#define AN7581_PCM_TX_DESCRIPTORS		15
-+#define AN7581_PCM_RX_DESCRIPTORS		15
-+#define AN7581_PCM_DESCRIPTORS			(AN7581_PCM_TX_DESCRIPTORS + AN7581_PCM_RX_DESCRIPTORS)
-+#define AN7581_PCM_FRAMES_PER_DESC		80
-+#define AN7581_PCM_MAX_SAMPLE_BYTES		2
-+#define AN7581_PCM_MAX_PERIOD_BYTES		(AN7581_PCM_FRAMES_PER_DESC * \
-+						 AN7581_PCM_MAX_CHANNELS * \
-+						 AN7581_PCM_MAX_SAMPLE_BYTES)
-+#define AN7581_PCM_MAX_BUFFER_BYTES		(AN7581_PCM_MAX_PERIOD_BYTES * \
-+						 AN7581_PCM_TX_DESCRIPTORS)
-+
-+#define AN7581_PCM_DESC_STATUS_OWNERSHIP	BIT(31)
-+#define AN7581_PCM_DESC_STATUS_OWNERSHIP_CPU	FIELD_PREP_CONST(AN7581_PCM_DESC_STATUS_OWNERSHIP, 0x0)
-+#define AN7581_PCM_DESC_STATUS_OWNERSHIP_DMA	FIELD_PREP_CONST(AN7581_PCM_DESC_STATUS_OWNERSHIP, 0x1)
-+#define AN7581_PCM_DESC_STATUS_SAMPLE_SIZE	GENMASK(9, 0)
-+
-+struct an7581_pcm_desc {
-+	u32 status;
-+	u32 channel_mask;
-+	u32 dma_addr;
-+} __packed;
-+
-+struct an7581_pcm_priv {
-+	struct regmap *map;
-+
-+	/* Cached current stream for IRQ */
-+	struct snd_pcm_substream *stream[SNDRV_PCM_STREAM_LAST + 1];
-+
-+	/* Protect descriptor idx */
-+	spinlock_t desc_lock;
-+	/* Protect configuration shared by playback and capture. */
-+	struct mutex user_lock;
-+	unsigned int users;
-+	unsigned int current_rate;
-+	unsigned int current_channels;
-+
-+	struct an7581_pcm_desc *tx_descs;
-+	int tx_desc_idx;
-+	dma_addr_t tx_dma;
-+
-+	struct an7581_pcm_desc *rx_descs;
-+	int rx_desc_idx;
-+	dma_addr_t rx_dma;
-+
-+	unsigned int tx_pos;
-+	unsigned int rx_pos;
-+};
-+
-+static const struct snd_pcm_hardware an7581_pcm_hardware = {
-+	.info			= SNDRV_PCM_INFO_MMAP |
-+				  SNDRV_PCM_INFO_MMAP_VALID |
-+				  SNDRV_PCM_INFO_INTERLEAVED,
-+	.formats		= SNDRV_PCM_FMTBIT_U8 | SNDRV_PCM_FMTBIT_U16_LE,
-+
-+	.period_bytes_min = AN7581_PCM_FRAMES_PER_DESC,
-+	.period_bytes_max = AN7581_PCM_MAX_PERIOD_BYTES,
-+
-+	.buffer_bytes_max = AN7581_PCM_MAX_BUFFER_BYTES,
-+
-+	.periods_min = AN7581_PCM_TX_DESCRIPTORS,
-+	.periods_max = AN7581_PCM_TX_DESCRIPTORS,
-+};
-+
-+static int an7581_pcm_setup_time_slot(struct an7581_pcm_priv *priv,
-+				      int direction, int bit_width)
-+{
-+	int bit_counter = 0;
-+	int chan;
-+
-+	for (chan = 0; chan < AN7581_PCM_MAX_CHANNELS; chan++) {
-+		u32 mask, val;
-+		u32 reg;
-+
-+		if (direction == SNDRV_PCM_STREAM_PLAYBACK) {
-+			reg = AN7581_PCM_PTTSCR(chan);
-+			mask = AN7581_PCM_TXTS_BW(chan) |
-+			       AN7581_PCM_TXTS_START(chan);
-+
-+			if (bit_width == 8)
-+				val = AN7581_PCM_TXTS_BW_8BIT;
-+			else
-+				val = AN7581_PCM_TXTS_BW_16BIT(chan);
-+			val |= bit_counter << __bf_shf(AN7581_PCM_TXTS_START(chan));
-+		} else {
-+			reg = AN7581_PCM_PRTSCR(chan);
-+			mask = AN7581_PCM_RXTS_BW(chan) |
-+			       AN7581_PCM_RXTS_START(chan);
-+
-+			if (bit_width == 8)
-+				val = AN7581_PCM_RXTS_BW_8BIT;
-+			else
-+				val = AN7581_PCM_RXTS_BW_16BIT(chan);
-+			val |= bit_counter << __bf_shf(AN7581_PCM_RXTS_START(chan));
-+		}
-+
-+		regmap_update_bits(priv->map, reg, mask, val);
-+
-+		bit_counter += bit_width;
-+	}
-+
-+	return 0;
-+}
-+
-+static int an7581_pcm_fe_startup(struct snd_pcm_substream *substream,
-+				 struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-+	struct an7581_pcm_priv *priv = snd_soc_card_get_drvdata(rtd->card);
-+	struct snd_pcm_runtime *runtime = substream->runtime;
-+	int ret;
-+
-+	snd_soc_set_runtime_hwparams(substream, &an7581_pcm_hardware);
-+
-+	ret = snd_pcm_hw_constraint_minmax(runtime, SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
-+					   AN7581_PCM_FRAMES_PER_DESC,
-+					   AN7581_PCM_FRAMES_PER_DESC);
-+	if (ret < 0) {
-+		dev_err(rtd->card->dev, "failed to constrain period to 80 frames\n");
-+		return ret;
-+	}
-+
-+	ret = snd_pcm_hw_constraint_integer(runtime, SNDRV_PCM_HW_PARAM_PERIODS);
-+	if (ret < 0) {
-+		dev_err(rtd->card->dev, "snd_pcm_hw_constraint_integer failed\n");
-+		return ret;
-+	}
-+
-+	/* Cache stream substream for IRQ handling */
-+	priv->stream[substream->stream] = substream;
-+
-+	/* On open mask interrupt and disable DMA */
-+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+		regmap_clear_bits(priv->map, AN7581_PCM_IMR,
-+				  AN7581_PCM_IMR_TDESC_UPDATE_INT);
-+		regmap_clear_bits(priv->map, AN7581_PCM_TRDCR,
-+				  AN7581_PCM_TXDMA_ENABLE);
-+	} else {
-+		regmap_clear_bits(priv->map, AN7581_PCM_IMR,
-+				  AN7581_PCM_IMR_RDESC_UPDATE_INT);
-+		regmap_clear_bits(priv->map, AN7581_PCM_TRDCR,
-+				  AN7581_PCM_RXDMA_ENABLE);
-+	}
-+
-+	usleep_range(10000, 20000);
-+
-+	mutex_lock(&priv->user_lock);
-+
-+	if (!priv->users) {
-+		regmap_clear_bits(priv->map, AN7581_PCM_PICR,
-+				  AN7581_PCM_CFG_VALID);
-+
-+		usleep_range(5000, 10000);
-+	}
-+
-+	priv->users++;
-+
-+	mutex_unlock(&priv->user_lock);
-+
-+	return ret;
-+}
-+
-+static void an7581_pcm_fe_shutdown(struct snd_pcm_substream *substream,
-+				   struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-+	struct an7581_pcm_priv *priv = snd_soc_card_get_drvdata(rtd->card);
-+
-+	/* On close mask interrupt and disable DMA */
-+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+		regmap_clear_bits(priv->map, AN7581_PCM_IMR,
-+				  AN7581_PCM_IMR_TDESC_UPDATE_INT);
-+		regmap_clear_bits(priv->map, AN7581_PCM_TRDCR,
-+				  AN7581_PCM_TXDMA_ENABLE);
-+	} else {
-+		regmap_clear_bits(priv->map, AN7581_PCM_IMR,
-+				  AN7581_PCM_IMR_RDESC_UPDATE_INT);
-+		regmap_clear_bits(priv->map, AN7581_PCM_TRDCR,
-+				  AN7581_PCM_RXDMA_ENABLE);
-+	}
-+
-+	priv->stream[substream->stream] = NULL;
-+
-+	usleep_range(10000, 20000);
-+
-+	mutex_lock(&priv->user_lock);
-+
-+	if (priv->users)
-+		priv->users--;
-+
-+	if (!priv->users)
-+		regmap_clear_bits(priv->map, AN7581_PCM_PICR,
-+				  AN7581_PCM_CFG_VALID);
-+
-+	mutex_unlock(&priv->user_lock);
-+}
-+
-+static int an7581_pcm_fe_prepare(struct snd_pcm_substream *substream,
-+				 struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-+	struct an7581_pcm_priv *priv = snd_soc_card_get_drvdata(rtd->card);
-+	struct snd_pcm_runtime *runtime = substream->runtime;
-+	struct an7581_pcm_desc *desc;
-+	unsigned int period_bytes;
-+	unsigned long flags;
-+	int num_desc, i;
-+
-+	spin_lock_irqsave(&priv->desc_lock, flags);
-+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+		priv->tx_pos = 0;
-+		priv->tx_desc_idx = 0;
-+		desc = priv->tx_descs;
-+		num_desc = AN7581_PCM_TX_DESCRIPTORS;
-+	} else {
-+		priv->rx_pos = 0;
-+		priv->rx_desc_idx = 0;
-+		desc = priv->rx_descs;
-+		num_desc = AN7581_PCM_RX_DESCRIPTORS;
-+	}
-+	spin_unlock_irqrestore(&priv->desc_lock, flags);
-+
-+	period_bytes = frames_to_bytes(runtime, AN7581_PCM_FRAMES_PER_DESC);
-+	for (i = 0; i < num_desc; i++) {
-+		desc->status |= AN7581_PCM_DESC_STATUS_OWNERSHIP_DMA;
-+		desc->dma_addr = runtime->dma_addr + i * period_bytes;
-+		desc++;
-+	}
-+
-+	return 0;
-+}
-+
-+static int an7581_pcm_fe_hw_params(struct snd_pcm_substream *substream,
-+				   struct snd_pcm_hw_params *params,
-+				   struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-+	struct an7581_pcm_priv *priv = snd_soc_card_get_drvdata(rtd->card);
-+	unsigned int channels = params_channels(params);
-+	unsigned int rate = params_rate(params);
-+	int bit_width = params_width(params);
-+	struct an7581_pcm_desc *desc;
-+	int num_desc, i;
-+
-+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+		desc = priv->tx_descs;
-+		num_desc = AN7581_PCM_TX_DESCRIPTORS;
-+	} else {
-+		desc = priv->rx_descs;
-+		num_desc = AN7581_PCM_RX_DESCRIPTORS;
-+	}
-+
-+	mutex_lock(&priv->user_lock);
-+	if (priv->users > 1 &&
-+	    (priv->current_rate != rate ||
-+	     priv->current_channels != channels)) {
-+		dev_err(rtd->card->dev, "playback/capture rates/channels must match in full-duplex mode\n");
-+		mutex_unlock(&priv->user_lock);
-+		return -EBUSY;
-+	}
-+
-+	if (priv->users <= 1) {
-+		/* one bit delay for ZSI */
-+		regmap_set_bits(priv->map, AN7581_PCM_PICR, AN7581_PCM_ONE_BIT_DELAY);
-+
-+		regmap_update_bits(priv->map, AN7581_PCM_PICR,
-+				   AN7581_PCM_BIT_MSTSLV_MODE,
-+				   AN7581_PCM_BIT_MSTSLV_MODE_MASTER);
-+
-+		regmap_update_bits(priv->map, AN7581_PCM_PICR,
-+				   AN7581_PCM_BIT_CLK,
-+				   AN7581_PCM_BIT_CLK_2048HZ);
-+
-+		regmap_update_bits(priv->map, AN7581_PCM_PICR,
-+				   AN7581_PCM_SAMPLE_CLK,
-+				   (rate == 16000 ? AN7581_PCM_SAMPLE_CLK_16KHZ :
-+				   AN7581_PCM_SAMPLE_CLK_8KHZ));
-+
-+		regmap_update_bits(priv->map, AN7581_PCM_PICR,
-+				   AN7581_PCM_FS_LEN,
-+				   AN7581_PCM_FS_LEN_16);
-+
-+		regmap_set_bits(priv->map, AN7581_PCM_PICR, AN7581_PCM_BIT_ORDER);
-+
-+		regmap_clear_bits(priv->map, AN7581_PCM_PICR, AN7581_PCM_FS_EDGE);
-+	}
-+
-+	/* Setup timeslot */
-+	an7581_pcm_setup_time_slot(priv, substream->stream, bit_width);
-+
-+	if (priv->users <= 1) {
-+		/* Setup Descriptor size and number */
-+		regmap_update_bits(priv->map, AN7581_PCM_TRDRSR,
-+				   AN7581_DESC_OFFSET | AN7581_DESC_SIZE,
-+				   FIELD_PREP(AN7581_DESC_OFFSET, sizeof(*desc) / sizeof(u32)) |
-+				   FIELD_PREP(AN7581_DESC_SIZE, num_desc));
-+
-+		regmap_update_bits(priv->map, AN7581_PCM_CHBFOSR,
-+				   AN7581_PCM_DESC_CHBF_OFFSET,
-+				   FIELD_PREP(AN7581_PCM_DESC_CHBF_OFFSET,
-+					      AN7581_PCM_FRAMES_PER_DESC * bit_width / 8));
-+	}
-+
-+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
-+		regmap_write(priv->map, AN7581_PCM_TDRBAR, priv->tx_dma);
-+	else
-+		regmap_write(priv->map, AN7581_PCM_RDRBAR, priv->rx_dma);
-+
-+	/* Configure descriptors for DMA ownership and sample size */
-+	for (i = 0; i < num_desc; i++) {
-+		/* Assign to each descriptor the dma_addr + offset of period bytes */
-+		desc[i].status = FIELD_PREP(AN7581_PCM_DESC_STATUS_SAMPLE_SIZE,
-+					    AN7581_PCM_FRAMES_PER_DESC);
-+
-+		desc[i].channel_mask = GENMASK(channels - 1, 0);
-+	}
-+
-+	if (priv->users <= 1) {
-+		/* Enable channels */
-+		regmap_update_bits(priv->map, AN7581_PCM_DCHENR,
-+				   AN7581_PCM_CHAN_EN,
-+				   FIELD_PREP(AN7581_PCM_CHAN_EN, GENMASK(channels - 1, 0)));
-+
-+		/* Signal PCM configuration is now valid */
-+		regmap_set_bits(priv->map, AN7581_PCM_PICR,
-+				AN7581_PCM_CFG_VALID);
-+	}
-+
-+	priv->current_rate = rate;
-+	priv->current_channels = channels;
-+
-+	mutex_unlock(&priv->user_lock);
-+
-+	return 0;
-+}
-+
-+static int an7581_pcm_fe_trigger(struct snd_pcm_substream *substream, int cmd,
-+				 struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-+	struct an7581_pcm_priv *priv = snd_soc_card_get_drvdata(rtd->card);
-+
-+	switch (cmd) {
-+	case SNDRV_PCM_TRIGGER_START:
-+	case SNDRV_PCM_TRIGGER_RESUME:
-+		/* Trigger PCM to POLL new descriptor */
-+		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+			regmap_set_bits(priv->map, AN7581_PCM_TRDCR,
-+					AN7581_PCM_TXDMA_ENABLE);
-+
-+			regmap_set_bits(priv->map, AN7581_PCM_IMR,
-+					AN7581_PCM_IMR_TDESC_UPDATE_INT);
-+
-+			regmap_write(priv->map, AN7581_PCM_TPDR,
-+				     AN7581_PCM_TX_POLLING);
-+		} else {
-+			regmap_set_bits(priv->map, AN7581_PCM_TRDCR,
-+					AN7581_PCM_RXDMA_ENABLE);
-+
-+			regmap_set_bits(priv->map, AN7581_PCM_IMR,
-+					AN7581_PCM_IMR_RDESC_UPDATE_INT);
-+
-+			regmap_write(priv->map, AN7581_PCM_RPDR,
-+				     AN7581_PCM_RX_POLLING);
-+		}
-+
-+		break;
-+	case SNDRV_PCM_TRIGGER_STOP:
-+	case SNDRV_PCM_TRIGGER_SUSPEND:
-+		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+			regmap_clear_bits(priv->map, AN7581_PCM_IMR,
-+					  AN7581_PCM_IMR_TDESC_UPDATE_INT);
-+			regmap_clear_bits(priv->map, AN7581_PCM_TRDCR,
-+					  AN7581_PCM_TXDMA_ENABLE);
-+		} else {
-+			regmap_clear_bits(priv->map, AN7581_PCM_IMR,
-+					  AN7581_PCM_IMR_RDESC_UPDATE_INT);
-+			regmap_clear_bits(priv->map, AN7581_PCM_TRDCR,
-+					  AN7581_PCM_RXDMA_ENABLE);
-+		}
-+
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct snd_soc_dai_ops an7581_pcm_fe_ops = {
-+	.startup = an7581_pcm_fe_startup,
-+	.shutdown = an7581_pcm_fe_shutdown,
-+	.hw_params = an7581_pcm_fe_hw_params,
-+	.prepare = an7581_pcm_fe_prepare,
-+	.trigger = an7581_pcm_fe_trigger,
-+};
-+
-+static struct snd_soc_dai_driver an7581_pcm_dai_driver[] = {
-+	{
-+		.name = "DLPCM",
-+		.id = 0,
-+		.playback = {
-+			.stream_name = "DLPCM",
-+			.channels_min = 1,
-+			.channels_max = 32,
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000,
-+			.formats = SNDRV_PCM_FMTBIT_U8 | SNDRV_PCM_FMTBIT_U16_LE,
-+		},
-+		.ops = &an7581_pcm_fe_ops,
-+	},
-+	{
-+		.name = "ULPCM",
-+		.id = 1,
-+		.capture = {
-+			.stream_name = "ULPCM",
-+			.channels_min = 1,
-+			.channels_max = 32,
-+			.rates = SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000,
-+			.formats = SNDRV_PCM_FMTBIT_U8 | SNDRV_PCM_FMTBIT_U16_LE,
-+		},
-+		.ops = &an7581_pcm_fe_ops,
-+	},
-+};
-+
-+static const struct snd_soc_component_driver an7581_pcm_dai_component = {
-+	.name = "an7581-pcm-dai",
-+};
-+
-+static snd_pcm_uframes_t an7581_pcm_pointer(struct snd_soc_component *component,
-+					    struct snd_pcm_substream *substream)
-+{
-+	struct snd_soc_card *card = component->card;
-+	struct snd_pcm_runtime *runtime = substream->runtime;
-+	struct an7581_pcm_priv *priv;
-+	unsigned long flags;
-+	unsigned int pos;
-+
-+	priv = snd_soc_card_get_drvdata(card);
-+
-+	spin_lock_irqsave(&priv->desc_lock, flags);
-+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
-+		pos = bytes_to_frames(runtime, priv->tx_pos);
-+	else
-+		pos = bytes_to_frames(runtime, priv->rx_pos);
-+	spin_unlock_irqrestore(&priv->desc_lock, flags);
-+
-+	return pos % runtime->buffer_size;
-+}
-+
-+static int an7581_pcm_new(struct snd_soc_component *component,
-+			  struct snd_soc_pcm_runtime *rtd)
-+{
-+	struct snd_pcm *pcm = rtd->pcm;
-+
-+	snd_pcm_set_managed_buffer_all(pcm, SNDRV_DMA_TYPE_DEV, component->dev,
-+				       0,
-+				       AN7581_PCM_MAX_BUFFER_BYTES);
-+
-+	return 0;
-+}
-+
-+static const struct snd_soc_component_driver an7581_pcm_platform = {
-+	.name = "an7581-pcm-audio",
-+	.pointer = an7581_pcm_pointer,
-+	.pcm_new = an7581_pcm_new,
-+};
-+
-+SND_SOC_DAILINK_DEFS(playback,
-+		     DAILINK_COMP_ARRAY(COMP_CPU("DLPCM")),
-+		     DAILINK_COMP_ARRAY(COMP_DUMMY()),
-+		     DAILINK_COMP_ARRAY(COMP_EMPTY()));
-+
-+SND_SOC_DAILINK_DEFS(capture,
-+		     DAILINK_COMP_ARRAY(COMP_CPU("ULPCM")),
-+		     DAILINK_COMP_ARRAY(COMP_DUMMY()),
-+		     DAILINK_COMP_ARRAY(COMP_EMPTY()));
-+
-+static struct snd_soc_dai_link an7581_pcm_dai_links[] = {
-+	/* FE */
-+	{
-+		.name = "an7581-playback",
-+		.stream_name = "an7581-playback",
-+		.trigger = {SND_SOC_DPCM_TRIGGER_POST,
-+			    SND_SOC_DPCM_TRIGGER_POST},
-+		.playback_only = 1,
-+		SND_SOC_DAILINK_REG(playback),
-+	},
-+	{
-+		.name = "an7581-capture",
-+		.stream_name = "an7581-capture",
-+		.trigger = {SND_SOC_DPCM_TRIGGER_POST,
-+			    SND_SOC_DPCM_TRIGGER_POST},
-+		.capture_only = 1,
-+		SND_SOC_DAILINK_REG(capture),
-+	},
-+};
-+
-+static struct snd_soc_card an7581_pcm_card = {
-+	.name = "an7581-pcm",
-+	.owner = THIS_MODULE,
-+	.dai_link = an7581_pcm_dai_links,
-+	.num_links = ARRAY_SIZE(an7581_pcm_dai_links),
-+};
-+
-+static irqreturn_t an7581_pcm_irq_handler(int irq, void *data)
-+{
-+	struct snd_pcm_substream *substream;
-+	struct an7581_pcm_priv *priv = data;
-+	unsigned long flags;
-+	u32 status, isr = 0;
-+
-+	regmap_read(priv->map, AN7581_PCM_ISR, &isr);
-+
-+	/* Scan descriptor on receiving RX desc update interrupt */
-+	if (isr & AN7581_PCM_IMR_RDESC_UPDATE_INT) {
-+		struct snd_pcm_runtime *runtime;
-+		struct an7581_pcm_desc *desc;
-+		unsigned int sample_size;
-+		bool rx_poll = false;
-+		int i;
-+
-+		substream = priv->stream[SNDRV_PCM_STREAM_CAPTURE];
-+		if (!substream)
-+			goto handle_tx;
-+
-+		runtime = substream->runtime;
-+
-+		for (i = 0; i < AN7581_PCM_RX_DESCRIPTORS; i++) {
-+			spin_lock_irqsave(&priv->desc_lock, flags);
-+
-+			desc = &priv->rx_descs[priv->rx_desc_idx];
-+			status = desc->status;
-+			if ((status & AN7581_PCM_DESC_STATUS_OWNERSHIP) ==
-+			    AN7581_PCM_DESC_STATUS_OWNERSHIP_DMA) {
-+				spin_unlock_irqrestore(&priv->desc_lock,
-+						       flags);
-+				break;
-+			}
-+
-+			sample_size = FIELD_GET(AN7581_PCM_DESC_STATUS_SAMPLE_SIZE,
-+						status);
-+
-+			priv->rx_pos += frames_to_bytes(runtime, sample_size);
-+			priv->rx_desc_idx++;
-+			if (priv->rx_desc_idx == AN7581_PCM_RX_DESCRIPTORS)
-+				priv->rx_desc_idx = 0;
-+
-+			spin_unlock_irqrestore(&priv->desc_lock, flags);
-+
-+			snd_pcm_period_elapsed(substream);
-+
-+			desc->status |= AN7581_PCM_DESC_STATUS_OWNERSHIP_DMA;
-+
-+			if (snd_pcm_capture_hw_avail(runtime) < runtime->period_size)
-+				goto handle_tx;
-+
-+			rx_poll = true;
-+		}
-+
-+		if (rx_poll)
-+			regmap_write(priv->map, AN7581_PCM_RPDR, AN7581_PCM_RX_POLLING);
-+	}
-+
-+handle_tx:
-+	/* Scan descriptor on receiving TX desc update interrupt */
-+	if (isr & AN7581_PCM_IMR_TDESC_UPDATE_INT) {
-+		struct snd_pcm_runtime *runtime;
-+		struct an7581_pcm_desc *desc;
-+		unsigned int sample_size;
-+		bool tx_poll = false;
-+		int i;
-+
-+		substream = priv->stream[SNDRV_PCM_STREAM_PLAYBACK];
-+		if (!substream)
-+			return IRQ_HANDLED;
-+
-+		runtime = substream->runtime;
-+
-+		for (i = 0; i < AN7581_PCM_TX_DESCRIPTORS; i++) {
-+			spin_lock_irqsave(&priv->desc_lock, flags);
-+
-+			desc = &priv->tx_descs[priv->tx_desc_idx];
-+			status = desc->status;
-+			if ((status & AN7581_PCM_DESC_STATUS_OWNERSHIP) ==
-+			    AN7581_PCM_DESC_STATUS_OWNERSHIP_DMA) {
-+				spin_unlock_irqrestore(&priv->desc_lock,
-+						       flags);
-+				break;
-+			}
-+
-+			sample_size = FIELD_GET(AN7581_PCM_DESC_STATUS_SAMPLE_SIZE,
-+						status);
-+
-+			priv->tx_pos += frames_to_bytes(runtime, sample_size);
-+			priv->tx_desc_idx++;
-+			if (priv->tx_desc_idx == AN7581_PCM_TX_DESCRIPTORS)
-+				priv->tx_desc_idx = 0;
-+
-+			spin_unlock_irqrestore(&priv->desc_lock, flags);
-+
-+			snd_pcm_period_elapsed(substream);
-+
-+			desc->status |= AN7581_PCM_DESC_STATUS_OWNERSHIP_DMA;
-+
-+			if (snd_pcm_playback_hw_avail(runtime) < runtime->period_size)
-+				return IRQ_HANDLED;
-+
-+			tx_poll = true;
-+		}
-+
-+		if (tx_poll)
-+			regmap_write(priv->map, AN7581_PCM_TPDR,
-+				     AN7581_PCM_TX_POLLING);
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static const struct regmap_config an7581_pcm_regmap_config = {
-+	.reg_bits = 32,
-+	.val_bits = 32,
-+	.reg_stride = 4,
-+};
-+
-+static int an7581_pcm_probe(struct platform_device *pdev)
-+{
-+	struct snd_soc_card *card = &an7581_pcm_card;
-+	struct snd_soc_dai_link *dai_link;
-+	struct device *dev = &pdev->dev;
-+	struct an7581_pcm_priv *priv;
-+	struct reset_control *reset;
-+	void __iomem *base;
-+	int irq;
-+	int ret;
-+	int i;
-+
-+	card->dev = dev;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+	snd_soc_card_set_drvdata(card, priv);
-+
-+	base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(base))
-+		return PTR_ERR(base);
-+
-+	priv->map = devm_regmap_init_mmio(dev, base,
-+					  &an7581_pcm_regmap_config);
-+	if (IS_ERR(priv->map))
-+		return PTR_ERR(priv->map);
-+
-+	reset = devm_reset_control_get_exclusive(dev, "pcm1");
-+	if (IS_ERR(reset))
-+		return PTR_ERR(reset);
-+
-+	irq = of_irq_get(dev_of_node(dev), 0);
-+	if (irq < 0)
-+		return irq;
-+
-+	ret = devm_request_irq(dev, irq, an7581_pcm_irq_handler,
-+			       0, dev_name(dev), priv);
-+	if (ret)
-+		return ret;
-+
-+	spin_lock_init(&priv->desc_lock);
-+	mutex_init(&priv->user_lock);
-+
-+	/* Reset the PCM interface */
-+	reset_control_assert(reset);
-+	usleep_range(5000, 10000);
-+	reset_control_deassert(reset);
-+	usleep_range(5000, 10000);
-+
-+	ret = dma_set_coherent_mask(dev, DMA_BIT_MASK(32));
-+	if (ret)
-+		return ret;
-+
-+	priv->tx_descs = dmam_alloc_coherent(dev, sizeof(struct an7581_pcm_desc) *
-+					     AN7581_PCM_TX_DESCRIPTORS, &priv->tx_dma,
-+					     GFP_KERNEL);
-+	if (!priv->tx_descs)
-+		return -ENOMEM;
-+
-+	priv->rx_descs = dmam_alloc_coherent(dev, sizeof(struct an7581_pcm_desc) *
-+					     AN7581_PCM_RX_DESCRIPTORS, &priv->rx_dma,
-+					     GFP_KERNEL);
-+	if (!priv->rx_descs)
-+		return -ENOMEM;
-+
-+	for_each_card_prelinks(card, i, dai_link)
-+		dai_link->platforms->of_node = dev->of_node;
-+
-+	ret = devm_snd_soc_register_component(dev,
-+					      &an7581_pcm_platform,
-+					      NULL, 0);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Cannot register PCM component\n");
-+
-+	ret = devm_snd_soc_register_component(dev,
-+					      &an7581_pcm_dai_component,
-+					      an7581_pcm_dai_driver,
-+					      ARRAY_SIZE(an7581_pcm_dai_driver));
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Cannot register PCM DAI component\n");
-+
-+	ret = devm_snd_soc_register_card(dev, card);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "%s snd_soc_register_card fail\n", __func__);
-+
-+	return 0;
-+}
-+
-+static void an7581_pcm_remove(struct platform_device *pdev)
-+{
-+	struct snd_soc_card *card = &an7581_pcm_card;
-+	struct an7581_pcm_priv *priv;
-+
-+	priv = snd_soc_card_get_drvdata(card);
-+	regmap_clear_bits(priv->map, AN7581_PCM_IMR,
-+			  AN7581_PCM_IMR_TDESC_UPDATE_INT |
-+			  AN7581_PCM_IMR_RDESC_UPDATE_INT);
-+	regmap_clear_bits(priv->map, AN7581_PCM_TRDCR,
-+			  AN7581_PCM_TXDMA_ENABLE |
-+			  AN7581_PCM_RXDMA_ENABLE);
-+}
-+
-+static const struct of_device_id an7581_pcm_dt_match[] = {
-+	{ .compatible = "airoha,an7581-pcm" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, an7581_pcm_dt_match);
-+
-+static struct platform_driver an7581_pcm_driver = {
-+	.driver = {
-+		   .name = "an7581-pcm",
-+		   .of_match_table = an7581_pcm_dt_match,
-+	},
-+	.probe = an7581_pcm_probe,
-+	.remove = an7581_pcm_remove,
-+};
-+module_platform_driver(an7581_pcm_driver);
-+
-+MODULE_DESCRIPTION("Airoha SoC PCM platform driver for ALSA AN7581");
-+MODULE_AUTHOR("Christian Marangi <ansuelsmth@gmail.com>");
-+MODULE_LICENSE("GPL");
--- 
-2.55.0
+Thanks for reviewing and testing!
 
+Best regards,
+Phuc
