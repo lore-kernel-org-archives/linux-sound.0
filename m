@@ -1,59 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792594133;
-	b=I/Yh+KCv9V4PATCnX/xSvzLNXroWcJOD/dV3mvKSQTZi2Y8jGWS57f1I+E55oPrOw7YL
-	 kQS8VNzdtQETjmOrng4TYZd5bV1PDOZepYxQUZxeU/zLRTEHvgSDviHHQo7Cnr06Cm95h
-	 eDTpw1uYlthuUlkQHail2YGUsmcwg9z8td/z437yg+FID/5ngezpgDlJ4Ox+VvWQjrQev
-	 rz12WfFrXRfn9WvO3w9Z+rwhRLkKd40tyJ1MjirxHI1HbMsIVXHDfjvrY+uN7mCITCkmE
-	 WLZW2gSaOc6/G7KwCresSZdJIGoE2pGP9jDZZyVG1rjgU8wR/Na5gnAy1PSbyMyP7Ww==
+	t=1792594137;
+	b=lawCZCnOICxwlljx1rW1e68wuWEgAn2TZDeo0V/Djp27KB/q7rW8VizVx+zV6xkWEzNa
+	 KJkMIOmbI7UQIHiCr9vBNKa/TIhR3GZJUKnv5TrvKMDjcXy3PJl2hKRQ9GUAGuAjGOPdO
+	 GUJaMOKMQ8kBfLm/UHAquh7rPUrKapQ1hNeQm3M18XefoqQNL7XzkaNu9CYmANTaNVZ8a
+	 dAX/uFClgzJE+9WzKBZJNN70ieOwE1PiNKOZZyLQGNfoA6JH8fAZ27rlzBwjDHsuphzm8
+	 5Cn5N5VLY5UPj6RsQhxVxOWfMG5ImCXnxPV9XWe/mXv65RLaRhwAInfN26UY9TC6tAA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792594133;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792594137;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=lKeO5wBKz9Oqr83sxAb6n9SuxRRMqKVsRKb7CdgJ7nQ=;
-	b=Hlb0oF79bHGoskjM4Rq8/jtnBcBeZqk8wAouUv5cAYsLfsYZzNqoJZ3bQWeaNAJ+0HCj
-	 punLtllCvSr5b3ML3PdAmwcyhBNv9qyKzmgf+bAasT8H/JPrsmFmFMbUAKd9S/5wxPPo2
-	 L6N2sE/76J9Frm1GFZ8aiiUPuaAHsLC2NL/RI9vQn8kOPUGicQPbjn+mFMu78crV3SGAM
-	 s68JQphhe/v0k2xaAi16bLFXYfuQyhXpsOXUpp0r/BBfpzL8Ti9SywZof9f34TyFdPcSQ
-	 oP3ksbU6Y1OK8/JD71/B1brcdwKziNliJ9/ciYY6oa5XJG2CWIJfk/VJQOQ+GJvkYzA==
+	bh=N6/2Sb8S4wXn18oNbwyPRtqNqgXpmx0Kczxs042VHUc=;
+	b=VqiIAdC7QloNAi+zSDd8/KKE3d/WYoUiq/wmTla/4GSPeDaMBN3uaQLyAHtW/haYL3Pd
+	 tR4xSciY+eENPN/E4ubik5fIJlyGwY5mWe3Zgq+pNPuZqMu7sCJ/I57e0/6tKJKNfnEPA
+	 RnhvkabYIXgWcQQuKHIkTVsnJleDTqI6/iHpBv1BLpube5gI6i7gRxp18pvCEfoAia3zD
+	 eLensnAHsAjTd2sKeJMEqyolJrfqqbIOgE7XiAlhLnveU7pPcHbLl+hQZyVoXgNqpPRla
+	 yHKg6V8JrwRlvK7xd0OYBd5KCghBZzKjUG1oav58FBYv5jaIh2CMqjCC1bOlypxSr0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zk74AJ+O;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g4+QiyR0;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D68606A31A;
-	Wed, 21 Oct 2026 14:48:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAADF606A320;
+	Wed, 21 Oct 2026 14:48:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zk74AJ+O
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29EC61F000C2;
-	Wed, 21 Oct 2026 14:48:51 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g4+QiyR0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 906CE1F000C2;
+	Wed, 21 Oct 2026 14:48:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792594132;
-	bh=lKeO5wBKz9Oqr83sxAb6n9SuxRRMqKVsRKb7CdgJ7nQ=;
+	s=k20260515; t=1792594136;
+	bh=N6/2Sb8S4wXn18oNbwyPRtqNqgXpmx0Kczxs042VHUc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Zk74AJ+OjHl+Bnq44/bkIbu3qA/cwCxE33A6xXN/wRxYb78g9HhojEE6GilklPcFD
-	 cGeQOXfL2Eab6vAXndXgheKno2TYtUen+ByBfSeT/R/Ufcdlsvy8e7+bLJdb6i1dXI
-	 0M/lyCIjxUvgHKsZ5Yw6LCUgFMkoVls2cH3wHmSTJU+w6iHU2XxwJZiKXFPOOXVoy0
-	 +4Uj3nc4iSIQzmCrqxUCU3RV+MVE/EQUBOyn7LDIjU87KANJ6CpeFxTrThkh1V5LBU
-	 Y710+MaDq0jvjFwayB04ITq4pzDeBOkpkQgZISaRfFvHR5TMYfvZd1dI8mbEzxYP4R
-	 CYCXqyp5dsIZg==
+	b=g4+QiyR0zjjUH+qeMM1dC5eG6T5La7qKoXwMu5ka8yqlXIvOliDwEYBiGIhZzP4JQ
+	 LQ8DN6rmrpdD/yKCMtcb9hVtWqtCFgfWEbfMH+2Th6XTOl5en3K+pjHiWMTYAZ4Uix
+	 wJd8xw+WJ1YEWbWehulmOTcLyE30cRXGbqN3J6jbCjaNQ081+zmEAsLgmiwCNfOn8G
+	 Fna3vUifNsjfZyssERs42KYY4qRBGkb3XDfHR8o5SzIc/zXNaLiU6oydu3Hkay/cvy
+	 3yZEDJ67+73rpnNmCSiYoiEwhEtCp2rx8cCn386oubuyYx6f3gGsiaqJrd/YfA9mgL
+	 aZsIg6G6TtrNw==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- HyeongJun An <sammiee5311@gmail.com>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- patches@opensource.cirrus.com, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261019124022.3410793-1-sammiee5311@gmail.com>
-References: <20261019124022.3410793-1-sammiee5311@gmail.com>
-Subject: Re: [PATCH] ASoC: cs42l56: Remove the ADC Mute Switch control
-Message-Id: <179250415475.3599968.9193295333989268090.b4-ty@b4>
-Date: Tue, 20 Oct 2026 14:49:14 +0100
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20261020135706.3573260-1-rf@opensource.cirrus.com>
+References: <20261020135706.3573260-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH RESEND] ASoC: cs35l56: Wait for firmware timer expiry
+ before system suspend
+Message-Id: <179250807063.3599968.16781577865112278467.b4-ty@b4>
+Date: Tue, 20 Oct 2026 15:54:30 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -66,17 +62,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1116; i=broonie@kernel.org;
- h=from:subject:message-id; bh=2KSZBc3KmolXt+s/7SUZo1qWS4hPHfNLl2xxh//miig=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJuXDhr3Jj3SYHr9u7Piw4eFBPm3rH6gHBo6mPhfCF/t
- 4x89oveHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZjIQiNGhouhBaHtSx+Z8iUv
- blXZEafzc47B+vzbktMmfL1+Nn6VjC4jw/xNP9S/LeGZfKDrsYzmKqYzX1Y63+C/Np3P+fN15vw
- Fd/kB
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1158; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Q7FXU9bHeZrCKb5cCHOeYwF8mFup3fMwZpGJQ7M4eQw=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJuXLgq0NXakyOdmf7u3+Qji7UK7Xn9Z6pv9Lecc2Xax
+ a6/4uxvOkpZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRqCyGf0pHljJ7lcc5mIqZ
+ L3mq0Fig9PZPQpvkxh0zO49UpVg/2MLIcGhvYSbHf60Yh2NNlQ9aNK/sWOtXXzdfdPbNxufW0eJ
+ bWAE=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 19 Oct 2026 21:40:22 +0900, HyeongJun An wrote:
-> ASoC: cs42l56: Remove the ADC Mute Switch control
+On Tue, 20 Oct 2026 14:57:06 +0100, Richard Fitzgerald wrote:
+> ASoC: cs35l56: Wait for firmware timer expiry before system suspend
 
 Applied to
 
@@ -84,8 +80,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: cs42l56: Remove the ADC Mute Switch control
-      https://git.kernel.org/broonie/sound/c/ff404ef11b97
+[1/1] ASoC: cs35l56: Wait for firmware timer expiry before system suspend
+      https://git.kernel.org/broonie/sound/c/6cc7db9fdd06
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
