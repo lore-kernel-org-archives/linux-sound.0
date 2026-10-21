@@ -1,58 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.118.77.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792596143;
-	b=z3yXNhXNkOHZQN6W/gBUN75T/gDoZPzvv2iA0IlPsuYV70O6MfR6BE2KD9A6qevEv1VI
-	 g4RUDB3CAS5GyKl9jl+mPtcm+N64/JacTdKgmwHtP9fMVm7QxqoW3jrsEapfWzTqr0G6L
-	 BsgGmLUpe377SA2jLKI24HzTQkKRi+PAMWZFko7HFSWflgtxk977ifPXwO8ODmg4rVQUI
-	 Jcahg0D3mPsJGI8g4nVdZN8KHrZwkRhjhTlLU7AsjVBD/bB44a1pyUp78jddQGq1eiMfn
-	 wlHHzXtBNDtEiYaPiKQDvwH7MX83zxOEBYsBy38CFgiGQKfR6+zu5b4L6GJDcLFw+hQ==
+	t=1792596188;
+	b=ZQCq0R9SJnh/A4kGRnE2kk4t57zqxWHmUUFZ97K4lc5jKj/U+abVrVJRcfKD4lAgRPI9
+	 pH60tqvDo1wMBxo4IwV0Uje7RLgv0HkpdGinroYHtZ+uKnAVvj0/HwPk2j4oXSBy6Wtrl
+	 Jj3/l52PkaKy02lHd9DkDcoULxfN/ltKh5OkUJr/cNyOvyMD1P6rApmQj4fWKommvwMln
+	 LaFsJGrJzklsYngGCqUJiwevuTzQg0OvsIm/tOvgm1TH6wcOhOGw2NDRadjFYFFyw0mm0
+	 pS4TgzBR7Zr9LbHZfmaGYFun6VBPhjYZ6K7wsHNCvOYvEAkoqqwbzv6Kvr4qYFRoYmw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792596143;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792596188;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
 	 From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
 	 Content-Transfer-Encoding:X-Mailer:Thread-Index:Content-Language:
 	 X-CMS-MailID:X-Msg-Generator:Content-Type:X-RootMTR:X-EPHeader:
 	 X-CMS-RootMailID:References;
-	bh=CLS0Qs2ubIbRXjhR0X7BaSSYFVvieMwMEkgPkbahYNk=;
-	b=FJIIQpvVNM1zzmfK6w7D9jpUc0FhkuI7aIoXZxW1rQ206Yy768cMJc9CELvoF9c1eUqK
-	 RUUwWsWnJtQBP2o+TaPlDgp17K7aKYWNYu3AuZJrGR2udZJzORYUagHiOSH2YUEvr6iOD
-	 jcWiOz/FTP0kg+ohTljFfjQFwbyoVj2SM9PBp/jkc/XFwGlZgFcE1jrFvKhs3UVOHOK4R
-	 e+HscOFHLsIYP2Cx3p9/M0jGSGCrEsjDXNo5MAWGR+yvQKV9tkSrQmgUUFe4GC2ESqUrq
-	 8rPQbGeUR1TnKhNL9/fRwQtfjRxgocNNiXqmu3i5IHclOyN3Z03YdlPpiUWuEX+zlgw==
+	bh=UjOaL7ZUV0HHqJ9OrateXvUH7m04aV0nw86mEQ8nzrs=;
+	b=cPdRegq2Wyyw1zsQLLwPvZniIEjYSJmXCGr4zXwXrlWJMOlcZGuK/FNUrsdVXf1vMMg+
+	 N1Zvnh0bcNka5/fm6rhsYnB0qFXBaj9Ffahsowa6v+dez1CSA+tKIXIzbQxxlLLWY6FSL
+	 e05fD9OFaQEo7w1NrdCo2T1k4dgq6GsfaJSoiVZEChJ542CmCjyH/iXJpxn506lzBQf6O
+	 4deSTQGSlSoLkI5HApmgYUvLzCnqb5f/hhnmOLoyhvwevxHizR51CmG2EUhGhnx/9NpvB
+	 hlztK+y9fgEcNDGrqIRg52tgPTLVDrI62KQq/nVJQ3ZycmKnam8cQh1ADClFj7tGvUA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=samsung.com;
 	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=ByjUL6AQ;
-	arc=none smtp.remote-ip=210.118.77.11
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=d0z3Ij+t;
+	arc=none smtp.remote-ip=210.118.77.12
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8200A606A319
-	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 15:22:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8200A606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B077C606A319
+	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 15:23:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B077C606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=ByjUL6AQ
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20261021152221euoutp01870e2a2a969b1a864a5b55ea4d30e239~glLFYSKC12463724637euoutp01s
-	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 15:22:21 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20261021152221euoutp01870e2a2a969b1a864a5b55ea4d30e239~glLFYSKC12463724637euoutp01s
+	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=d0z3Ij+t
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20261021152304euoutp0254222f099012d9252749a27c95fd05da~glLuMo09X0981409814euoutp026
+	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 15:23:04 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20261021152304euoutp0254222f099012d9252749a27c95fd05da~glLuMo09X0981409814euoutp026
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1792596141;
-	bh=CLS0Qs2ubIbRXjhR0X7BaSSYFVvieMwMEkgPkbahYNk=;
+	s=mail20170921; t=1792596184;
+	bh=UjOaL7ZUV0HHqJ9OrateXvUH7m04aV0nw86mEQ8nzrs=;
 	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=ByjUL6AQV3xkJ+Cz9hGoqvstz8R8qIuTDnGHY2R1qXT6aJiQ0PvEf0VmeKx7Tzki5
-	 b/12JzgHThH09kmBDIQmoOUeRNQK8i4dwOSeyIq+3oGP8j7vXDoKoG/3NiEY8ywkFr
-	 NQVUFEJZE/A7OsHNfu8W+VGmQRz5Ux+9EiIIkutE=
+	b=d0z3Ij+t+CzOSlVuFBS4uGb9A3TwaS9jfjskhFJy13msWChgKlRGByvf17Cri8p8P
+	 Zq7Hrf3uGeUDK20Tw4SSXntvuCjTAwSvt9ZRXJtdxLYjsiXXkSxRj/NMt5CghBjBh9
+	 yUkwT2U1BpB9pZZqSxEkphuyW+t4KafKDED+huxI=
 Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20261021152220eucas1p2edd000dd4dfc1eced6604af872dbb7b7~glLFE25Ey3066530665eucas1p2O;
-	Wed, 21 Oct 2026 15:22:20 +0000 (GMT)
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20261021152304eucas1p130ff6759320c0957652e80f750050618~glLtuoCYi1670016700eucas1p1D;
+	Wed, 21 Oct 2026 15:23:04 +0000 (GMT)
 Received: from AMDN5751 (unknown [106.120.87.45]) by eusmtip1.samsung.com
 	(KnoxPortal) with ESMTPA id
-	20261021152220eusmtip113c6a29c39b6379eaf87859e1f59c3a9~glLEoKbHX0630006300eusmtip1G;
-	Wed, 21 Oct 2026 15:22:20 +0000 (GMT)
+	20261021152303eusmtip19e2cbbdcc84257d387797a76dd3c2810~glLtRqAkR0626306263eusmtip1Q;
+	Wed, 21 Oct 2026 15:23:03 +0000 (GMT)
 From: "Sylwester Nawrocki" <s.nawrocki@samsung.com>
 To: "'Marek Szyprowski'" <m.szyprowski@samsung.com>
 Cc: "'Liam Girdwood'" <lgirdwood@gmail.com>, "'Mark Brown'"
@@ -60,11 +60,11 @@ Cc: "'Liam Girdwood'" <lgirdwood@gmail.com>, "'Mark Brown'"
 	"'Krzysztof Kozlowski'" <krzk@kernel.org>, "'Simon Shields'"
 	<simon@lineageos.org>, "'Artur Weber'" <aweber.kernel@gmail.com>,
 	<patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>
-In-Reply-To: <20261021101750.3297770-3-m.szyprowski@samsung.com>
-Subject: RE: [PATCH 2/4] ASoC: wm8994: don't lose the AIF clock ratio when
- staying at 32kHz SYSCLK
-Date: Wed, 21 Oct 2026 17:22:19 +0200
-Message-ID: <000201dd616f$f7178200$e5468600$@samsung.com>
+In-Reply-To: <20261021101750.3297770-4-m.szyprowski@samsung.com>
+Subject: RE: [PATCH 3/4] ASoC: wm8994: fix MCLK index used for setting MCLK
+ rate
+Date: Wed, 21 Oct 2026 17:23:03 +0200
+Message-ID: <000301dd6170$111b82f0$335288d0$@samsung.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -76,17 +76,17 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQKrkeRVrtMc7xGFxDI3/ROeqrh4mgIRsRXtAyywVpO1QcQeYA==
+Thread-Index: AQKrkeRVrtMc7xGFxDI3/ROeqrh4mgLsxKfnAT6z3qO1SmB2cA==
 Content-Language: pl
-X-CMS-MailID: 20261021152220eucas1p2edd000dd4dfc1eced6604af872dbb7b7
+X-CMS-MailID: 20261021152304eucas1p130ff6759320c0957652e80f750050618
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20261021101816eucas1p11dafbfaefa1ca53c6518adcc14322931
+X-RootMTR: 20261021101817eucas1p12f52573c1b2b05e6e45e672eaab5ab48
 X-EPHeader: CA
-X-CMS-RootMailID: 20261021101816eucas1p11dafbfaefa1ca53c6518adcc14322931
+X-CMS-RootMailID: 20261021101817eucas1p12f52573c1b2b05e6e45e672eaab5ab48
 References: <20261021101750.3297770-1-m.szyprowski@samsung.com>
-	<CGME20261021101816eucas1p11dafbfaefa1ca53c6518adcc14322931@eucas1p1.samsung.com>
-	<20261021101750.3297770-3-m.szyprowski@samsung.com>
+	<CGME20261021101817eucas1p12f52573c1b2b05e6e45e672eaab5ab48@eucas1p1.samsung.com>
+	<20261021101750.3297770-4-m.szyprowski@samsung.com>
 
 > -----Original Message-----
 > From: Marek Szyprowski <m.szyprowski=40samsung.com>
@@ -98,29 +98,24 @@ ester=0D=0A>=20Nawrocki=20<s.nawrocki=40samsung.com>;=20Charles=20Keepax=0D=
 =40kernel.org>;=0D=0A>=20Simon=20Shields=20<simon=40lineageos.org>;=20Artur=
 =20Weber=0D=0A>=20<aweber.kernel=40gmail.com>;=20patches=40opensource.cirru=
 s.com;=20linux-=0D=0A>=20sound=40vger.kernel.org=0D=0A>=20Subject:=20=5BPAT=
-CH=202/4=5D=20ASoC:=20wm8994:=20don't=20lose=20the=20AIF=20clock=20ratio=20=
-when=0D=0A>=20staying=20at=2032kHz=20SYSCLK=0D=0A>=20=0D=0A>=20When=20SYSCL=
-K=20drops=20below=2050kHz,=20the=20AIFnCLK=20rate=20ratio=20is=20saved=20an=
-d=0D=0A>=20temporarily=20lowered=20to=20128fs=20for=20accessory=20detection=
-,=20then=20restored=0D=0A>=20once=20SYSCLK=20gets=20fast=20enough=20again.=
-=20The=20ratio=20is=20however=20saved=20again=0D=0A>=20on=20each=20clock=20=
-reconfiguration=20done=20while=20SYSCLK=20is=20still=20slow,=20which=0D=0A>=
-=20overwrites=20the=20original=20ratio=20with=20the=20128fs=20one.=0D=0A>=
-=20=0D=0A>=20This=20happens=20on=20the=20Exynos4412=20Trats2=20board,=20whi=
-ch=20set=20MCLK2=20as=20SYSCLK=0D=0A>=20twice=20during=20the=20card=20probe=
-=20and=20then=20configure=20FLL1=20while=20still=20running=0D=0A>=20from=20=
-MCLK2.=20Once=20SYSCLK=20is=20switched=20to=20FLL1,=20the=20128fs=20ratio=
-=20is=0D=0A>=20=22restored=22,=20so=20AIF1=20is=20left=20configured=20for=
-=2048kHz=20at=20128fs=20while=20being=0D=0A>=20clocked=20at=20256fs.=20If=
-=20any=20digital=20path=20is=20powered=20up=20before=20a=20stream=0D=0A>=20=
-reconfigures=20the=20AIF,=20the=20codec=20raises=20FIFO=20error=20interrupt=
-s=20every=0D=0A>=2010ms,=20flooding=20the=20kernel=20log:=0D=0A>=20=0D=0A>=
-=20=20wm8994-codec=20wm8994-codec:=20FIFO=20error=0D=0A>=20=0D=0A>=20Save=
-=20the=20original=20ratio=20only=20when=20entering=20the=20low=20SYSCLK=20m=
-ode.=20While=0D=0A>=20at=20it,=20move=20the=20code=20duplicated=20in=20_wm8=
-994_set_fll()=20and=0D=0A>=20wm8994_set_dai_sysclk()=20to=20a=20common=20he=
-lper.=0D=0A>=20=0D=0A>=20Fixes:=206730049a4763=20(=22ASoC:=20wm8994:=20Lowe=
-r=20AIFnCLK=20divisor=20when=0D=0A>=20dropping=20to=2032kHz=22)=0D=0A>=20Si=
-gned-off-by:=20Marek=20Szyprowski=20<m.szyprowski=40samsung.com>=0D=0A=0D=
-=0AReviewed-by:=20Sylwester=20Nawrocki=20<s.nawrocki=40samsung.com>=0D=0A=
-=0D=0A=0D=0A=0D=0A
+CH=203/4=5D=20ASoC:=20wm8994:=20fix=20MCLK=20index=20used=20for=20setting=
+=20MCLK=0D=0A>=20rate=0D=0A>=20=0D=0A>=20wm8994_set_dai_sysclk()=20passes=
+=20the=20AIF=20index=20(dai->id=20-=201)=20to=0D=0A>=20wm8994_set_mclk_rate=
+(),=20which=20uses=20it=20to=20index=20the=20MCLK=20clocks=20and=0D=0A>=20t=
+heir=20cached=20rates.=20As=20a=20result,=20selecting=20MCLK2=20as=20the=20=
+AIF1=20clock=0D=0A>=20source=20sets=20and=20reads=20back=20the=20rate=20of=
+=20MCLK1=20instead,=20and=20the=20rate=0D=0A>=20of=20MCLK1=20is=20then=20st=
+ored=20as=20the=20MCLK2=20rate.=0D=0A>=20=0D=0A>=20On=20the=20Exynos4412=20=
+Trats2=20board,=20where=20MCLK1=20is=20a=20fixed=2024MHz=20clock=20and=0D=
+=0A>=20MCLK2=20a=2032768Hz=20clock=20used=20when=20the=20codec=20is=20idle,=
+=20this=20gives:=0D=0A>=20=0D=0A>=20=20wm8994-codec=20wm8994-codec:=20AIF1=
+=20using=20MCLK2=20at=2024000000Hz=0D=0A>=20=0D=0A>=20so=20the=20driver=20a=
+ssumes=20a=2012MHz=20SYSCLK=20while=20it=20actually=20runs=20at=2032kHz.=0D=
+=0A>=20This=20skips=20the=20128fs=20AIF=20clock=20ratio=20setup=20for=20low=
+=20SYSCLK=20rates=20and=0D=0A>=20makes=20the=20mic=20detection=20rate=20con=
+figuration=20use=20the=20wrong=20clock=20rate.=0D=0A>=20=0D=0A>=20Pass=20th=
+e=20MCLK=20index=20matching=20the=20selected=20clock=20source=20instead.=0D=
+=0A>=20=0D=0A>=20Fixes:=20419e2f508336=20(=22ASoC:=20wm8994:=20Add=20suppor=
+t=20for=20setting=20MCLK=20clock=0D=0A>=20rate=22)=0D=0A>=20Signed-off-by:=
+=20Marek=20Szyprowski=20<m.szyprowski=40samsung.com>=0D=0A=0D=0AReviewed-by=
+:=20Sylwester=20Nawrocki=20<s.nawrocki=40samsung.com>=0D=0A=0D=0A
