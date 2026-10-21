@@ -1,62 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.112
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792615371;
-	b=ZKLLH6fFs8oC2e7RB2YzFmLQkOycwxB1Bx1M7y5GBM8w+u+I21VSoE2NYuUUJafRuFqW
-	 K+rXGmpP63ZDF/UxkJGM9UOZn1/3Dh6JIDOOVGoC+DJnBlPKhBQOwDGnK4V2J1/lfj2Se
-	 uUs4xwkRl4rzd7gsyOIUs0//gOSXuMQqwie/P2USTHxAUF4mEPKsfbYhlXZmtbYvX1OUB
-	 F0aB3mJin9Y/J2tyRb7aZb01M+XOsEnkQzJXRQsw5IruBF47qFkhRF0RFG5DMrX1w0xOm
-	 5weK/kVAeBd9KVrOgH+7bDEXyxBLx0eFWFgL5aoyv3xKZWKMJxNDiDDzP65aZJG4BIA==
+	t=1792618537;
+	b=ua2SS78tcuAMKIl5HGgIHFqA5zRwIJEtHLA0/Mn+0WczLUYdphaXnXDrmmQ/sfAFuDM0
+	 X15hKUTHGW1kSNQvqI5gGIRgxU8x1PcHJFxURxf27oFDJ5lX6hWf7fmmy+ajFUfA+N/Y6
+	 TElWo2i9gLTghvVIRZ6idlEXgwkyBhjnW13XG6lP6Gx5UFtcUNFM9n2ByYvw+MJkrK5m3
+	 +FL8O7/djU3W+FRzW7ZCt/iBMzJRppYDZfuW+nBl3or+16r93XxqA/k6/Zc7l9uc168I6
+	 D+1bWL2SOsgRpdvrVH4ci4MOeGdXb13zgwQMduDb51PK33ntO5YWJrjfztDu23LErTQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792615371;
-	h=DMARC-Filter:DKIM-Signature:X-Pm-Submission-Id:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=O5L1eGqPKsyqDaYtGLmBvYrSlwBdL6y7fRQobnmfAXg=;
-	b=cdcrrmTUOk3j9VujUunVd7NyRLaXwIJ1EnznS1AHpcIMrJY5dLPb0VSJl02S2I/e9Y/I
-	 N7GPJbzyjusRKNCduH5/ik7Juva8e19E7HPfnYp5qnkn2gAYKT1jSM+tGDvYVnawNmMSc
-	 rEMcnyNNLd6ve/5QwKvwz4HIEaFYumYxTZonYVdIk7Wdw7DROCOw5Ko7c91aSxiy7nDdg
-	 bPLeh6/oTS6wKitRVxTmX+cKKtBXZBhdbZIfUcIOsVzLbML8PM7f4YAmWy3yONh23bnwE
-	 Zr9dp6qQ5NEc8fUhOQL7Q82lU4SSYv2/E+B8mwh6NPEMwV3wc3rxdIX6JF9b8zJG1lg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792618537;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=yyzCYPa+BQPr6y1YEXJetzJwEFpfQFLDJOrTLkaINIM=;
+	b=j3oTpGQN2OLseNxHVmU/gozJ9VQsVWxj/VSWBveFm44l3z9vVtnfXCFjuiC/Pogn0q16
+	 F7oOYWkXNEIhXFqfNOGZy8Z3RqPejyi8wwBZ0V6a50QIVPlBOlUsu9SpdQpWL2MxBRuNY
+	 ivUDvJ/gxUer5sX6WOuHgtAjCKJipeG8hc5hv7T0sE6flfKhraxRyNmWWy6NPobTsCZ97
+	 56Ugt+USAF22rf08ahlgNQQQrpFc+oM7ZruB9NhtjY+uEHEtHoLY1Wel988VTpGIESBzR
+	 o17dp01lAv6l2btzatD76fGwDkDmp/wKPCOydQGint/85kqOuUrnW58s7Ij/MIpV/iw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=michaelmcallister.org;
-	spf=pass smtp.mailfrom=michaelmcallister.org;
-	dkim=pass header.d=michaelmcallister.org header.i=@michaelmcallister.org header.a=rsa-sha256 header.s=protonmail2 header.b=OZ+0Rh6D;
-	arc=none smtp.remote-ip=79.135.106.112
-Received: from mail-106112.protonmail.ch (mail-106112.protonmail.ch [79.135.106.112])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cDomCMxz;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E62606A330
-	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 20:42:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33E62606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=michaelmcallister.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=michaelmcallister.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E712C606A319
+	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 21:35:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=michaelmcallister.org header.i=@michaelmcallister.org header.a=rsa-sha256 header.s=protonmail2 header.b=OZ+0Rh6D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=michaelmcallister.org; s=protonmail2; t=1792615367; x=1792874567;
-	bh=O5L1eGqPKsyqDaYtGLmBvYrSlwBdL6y7fRQobnmfAXg=;
-	h=From:To:Cc:Subject:Date:Message-ID:From:To:Cc:Date:Subject:
-	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=OZ+0Rh6DWa2Qhg3c5QC44y9CNi1KtcMb2p539aGriw/KnMZheY1kgzjYQSQ5O/f31
-	 rLX54vj3gmsf2/TkzURBTF1Y7Tm+fXCF8hEk1/DehtzWYpaRS+BYw6/l1+aNb1MOvL
-	 RaKYMRakRsIPViFO4LXo0ar/XcqPwqoidY9zattiWqmcgyRlFHNBm5ojwT+Qtd6NgY
-	 lV0jeMzaQjDRaYt8XZD5ztLPfYc7FVkD/UCBE5OhOQ7InrexY6iD1dkK88uRYWXPox
-	 mSUKfWbZI2i6tmSlYWfeeTPDS3Kih4ULT7KoMeq2T4Nb/8Mek+PEBsBWh12K9pFxkq
-	 nc94ct8IsH8/A==
-X-Pm-Submission-Id: 4j91SP0GYPz2ScPf
-From: Michael McAllister <me@michaelmcallister.org>
-To: linux-sound@vger.kernel.org
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: qcom: q6asm: Reset PCM positions when preparing a stream
-Date: Wed, 21 Oct 2026 21:42:02 +0100
-Message-ID: <20261021204202.43738-1-me@michaelmcallister.org>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cDomCMxz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ABBF1F000C1;
+	Wed, 21 Oct 2026 21:35:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792618536;
+	bh=yyzCYPa+BQPr6y1YEXJetzJwEFpfQFLDJOrTLkaINIM=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=cDomCMxzyPlcFWr5F4CB3jvGHHYNyaboQpyeGrGB2VshHYLwVh19NmRKpz3YJsoZC
+	 t3/KLkx/zrxg9HgfZepnDC80WNfVAFI82+QFdKie/lCHmPFG6WodH7WcJ7Oa5Z91/h
+	 Spk6bWUbiEBH+MNXI3MtruLUD3x46BRcrsK5f+6ZBx1aApACCe/E3gaK3FAFiTk/IJ
+	 WwtbS/wtiF+Q++W0rkTPbyJuLv9Ej9jB3OLyljSrHg5GwbtLB+Sb4VPKZxXDC3/Qyl
+	 tHOIBKAPyHswisfdCJjiU7zXxXNdS7OHx7wT8r5RfdHYUnSX/0pt/lO6fH/LkDTtoV
+	 zfhRXd8QOGikQ==
+Message-ID: <sashiko-outbox-180709@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 3/3] ASoC: es9356-sdca: Modify the Initialization
+ Configuration
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Zhang Yi" <zhangyi@everest-semi.com>, linux-sound@vger.kernel.org
+In-Reply-To: <20261021075136.16155-4-zhangyi@everest-semi.com>
+References: <20261021075136.16155-1-zhangyi@everest-semi.com>
+ <20261021075136.16155-4-zhangyi@everest-semi.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 21 Oct 2026 21:35:35 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -65,73 +59,110 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Preparing an existing PCM stream closes the DSP stream and remaps its
-buffers, but leaves queue_ptr, dsp_buf and hw_ptr at their previous
-positions. ALSA resets appl_ptr during prepare, so q6asm_dai_ack() can
-subtract a stale queue_ptr from the new appl_ptr and queue an incorrect
-number of periods.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] ASoC: es9356: missing regcache_cache_only() restore in es9356_sd=
+ca_io_init()
+--
 
-On the Motorola Moto G10, playback works after opening the PCM device,
-but the first write after snd_pcm_drop() and snd_pcm_prepare() fails
-with -EBUSY and "Error queuing playback buffer -16".
+commit b446d528859126e747930f027bd832991ca056fd
+Author: Zhang Yi <zhangyi@everest-semi.com>
 
-Reset queue_ptr in prepare, and reset the DSP buffer index and hardware
-pointer when allocating the new buffer ring. This keeps the queued,
-submitted and completed positions aligned with the new PCM stream.
+ASoC: es9356-sdca: Modify the Initialization Configuration
 
-Fixes: e386c2cf3df2 ("ASoC: qcom: q6asm-dai: schedule all available frames to avoid dsp under-runs")
-Fixes: 44432315444c ("ASoC: qcom: q6asm-dai: use q6asm_get_hw_pointer")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Michael McAllister <me@michaelmcallister.org>
----
-Tested on a Motorola Moto G10 using a Linux 7.2.9-based port, with
-48 kHz S16_LE stereo playback, a 3840-frame buffer and 960-frame periods.
-After two seconds of playback, snd_pcm_drop() followed by
-snd_pcm_prepare() and snd_pcm_writei() on the same handle returned -EBUSY
-without this change. With the change, both playback cycles completed.
+This patch updates es9356_register_init() to read the chip version from
+ES9356_VERSION and apply version-specific register initialization settings,
+propagating read errors to es9356_sdca_io_init().
 
-Both affected objects also build with ARCH=arm64 W=1 against sound's
-for-next branch at bef34efba74d. This maintainer-tree build has not been
-booted on the device.
+> diff --git a/sound/soc/codecs/es9356.c b/sound/soc/codecs/es9356.c
+> index a22e92d1e5ccd..e0df501007ad8 100644
+> --- a/sound/soc/codecs/es9356.c
+> +++ b/sound/soc/codecs/es9356.c
+> @@ -749,58 +749,97 @@ static const struct regmap_config es9356_sdca_regma=
+p =3D {
+>  	.use_single_write =3D true,
+>  };
+> =20
+> -static void es9356_register_init(struct es9356_sdw_priv *es9356)
+> +static int es9356_register_init(struct es9356_sdw_priv *es9356)
+>  {
+> +	unsigned int version;
+> +	int ret;
+> +
+> +	ret =3D regmap_read(es9356->regmap, ES9356_VERSION, &version);
+> +	if (ret < 0) {
+> +		pr_err_ratelimited("IO error in %s, ret %d\n", __func__, ret);
+> +		return ret;
+> +	}
 
- sound/soc/qcom/qdsp6/q6asm-dai.c | 3 +++
- sound/soc/qcom/qdsp6/q6asm.c     | 2 ++
- 2 files changed, 5 insertions(+)
+[ ... ]
 
-diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6asm-dai.c
-index 4261c3048c..94416ddf7a 100644
---- a/sound/soc/qcom/qdsp6/q6asm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
-@@ -243,6 +243,9 @@ static int q6asm_dai_prepare(struct snd_soc_component *component,
- 		prtd->state = Q6ASM_STREAM_STOPPED;
- 	}
- 
-+	/* ALSA resets appl_ptr for every prepare, including xrun recovery. */
-+	prtd->queue_ptr = 0;
-+
- 	ret = q6asm_map_memory_regions(substream->stream, prtd->audio_client,
- 				       prtd->phys,
- 				       (prtd->pcm_size / prtd->periods),
-diff --git a/sound/soc/qcom/qdsp6/q6asm.c b/sound/soc/qcom/qdsp6/q6asm.c
-index de0bd8fd08..8dde9a3b9c 100644
---- a/sound/soc/qcom/qdsp6/q6asm.c
-+++ b/sound/soc/qcom/qdsp6/q6asm.c
-@@ -514,6 +514,8 @@ int q6asm_map_memory_regions(unsigned int dir, struct audio_client *ac,
- 
- 
- 	ac->port[dir].buf = buf;
-+	ac->port[dir].dsp_buf = 0;
-+	atomic_set(&ac->port[dir].hw_ptr, 0);
- 
- 	buf[0].phys = phys;
- 	buf[0].size = period_sz;
+> @@ -821,11 +860,14 @@ static void es9356_register_init(struct es9356_sdw_=
+priv *es9356)
+>  		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VO=
+LUME, CH_L), ES9356_DEFAULT_VOLUME);
+>  	regmap_write(es9356->regmap,
+>  		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VO=
+LUME, CH_R), ES9356_DEFAULT_VOLUME);
+> +
+> +	return 0;
+>  }
+> =20
+>  static int es9356_sdca_io_init(struct device *dev, struct sdw_slave *sla=
+ve)
+>  {
+>  	struct es9356_sdw_priv *es9356 =3D dev_get_drvdata(&slave->dev);
+> +	int ret;
+> =20
+>  	if (es9356->hw_init)
+>  		return 0;
+> @@ -840,7 +882,9 @@ static int es9356_sdca_io_init(struct device *dev, st=
+ruct sdw_slave *slave)
+>  		/* update count of parent 'active' children */
+>  		pm_runtime_set_active(&slave->dev);
+> =20
+> -		es9356_register_init(es9356);
+> +		ret =3D es9356_register_init(es9356);
+> +		if (ret < 0)
+> +			return -EINVAL;
+>  	}
+>  	pm_runtime_get_noresume(&slave->dev);
+> =20
 
-base-commit: bef34efba74d87d5c20e3bb93539fa45b3cb8a83
--- 
-2.50.1 (Apple Git-155)
+[Severity: Medium]
+In sound/soc/codecs/es9356.c, es9356_sdca_io_init() disables cache-only mode
+before calling es9356_register_init():
 
+sound/soc/codecs/es9356.c:es9356_sdca_io_init() {
+	...
+	regcache_cache_only(es9356->regmap, false);
 
+	if (es9356->first_hw_init) {
+		regcache_cache_bypass(es9356->regmap, true);
+	} else {
+		/* update count of parent 'active' children */
+		pm_runtime_set_active(&slave->dev);
+
+		ret =3D es9356_register_init(es9356);
+		if (ret < 0)
+			return -EINVAL;
+	}
+	...
+}
+
+If regmap_read(es9356->regmap, ES9356_VERSION, &version) fails in
+es9356_register_init() during es9356_sdw_update_status() ->
+es9356_sdca_io_init(), this early return leaves es9356->regmap with
+cache-only mode disabled while es9356->hw_init and es9356->first_hw_init
+remain false, allowing subsequent mixer control accesses to issue SoundWire
+bus transactions to an uninitialized device.
+
+Should this error path restore regcache_cache_only(es9356->regmap, true) and
+return ret instead of masking the error code with -EINVAL?
+
+[ ... ]
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261021075136.1615=
+5-1-zhangyi@everest-semi.com?part=3D3
