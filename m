@@ -1,97 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.13.24
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792571983;
-	b=uF5xyrgWiZtrQ3ICt/Fzh11G4aUgYhELLfUO8gK9YmGBmjYte/7u4kfGY+6FFI3Qg/j+
-	 u+JEgzsqDyBKC1cMYBdDjjVLUUv5d1HzHISIbPaupzLzfJBRgjsgGlE6KUoqmNfAw3QuT
-	 wfuL12lNQj+vIHo2ZI4ftcoMKFLgQbiNPfR2swvlAoBUgkmr6Ma/vu08BvIJhiJJlNe/j
-	 rP7eIe9XNc4JxVY1ReCdx+X+Q7Hvaw5UoGwqqZKFWmvPCmHiIyOUiyoJcIHEm219WBv5y
-	 scqBPUyJftcknOjWceB7W9+DGi2Dn0AWFkkOg0D7WH2z8opj9LUt+mu4UCngPl3Wn9w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792571983;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:
-	 X-Microsoft-Original-Message-ID:MIME-Version:
-	 X-MS-Exchange-MessageSentRepresentingType:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SLBlob-MailProps:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=bELvOtTp4xmQFIq0TRApEtcX34viuK3c9nNN0CyXZic=;
-	b=RaE58B0hWYVjfg1z4rtdlonEQvqv7V1wxFSWc2QdY1r16tLZ6M7QxwXz6Vpf1J5VGFbW
-	 RA/zK8ZNctn+YTmuhsOme/Czhz9rGmic7+jYnEHXsSLgMvNMlDZvdHUAi+BBWI2xgk9lY
-	 ld4W13WmphsWjv8WYMlfmry0n4fxfR4F4LAdq1loogDAvP0RuZ+EJ9fvAJ6t4v5jF1IsU
-	 JAyg0nfy5U51W/3egzy361yny78Vw1uJQvRoHuoQ14fSHd3Ic4b9gW5dM3LG888DC5MqY
-	 60WLnjOk7qObIiGF7Q08srxomUjqaXT8Mp7t9Uiy+zi3Df42GO3VffUK3EopkA2+aaw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=outlook.it;
-	spf=pass smtp.mailfrom=outlook.it;
-	dkim=pass header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.a=rsa-sha256 header.s=selector1 header.b=r7Tl7qhm;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.13.24
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazolkn19011024.outbound.protection.outlook.com [52.103.13.24])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=211.75.126.72
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792573817;
+	b=dgvYbWzQT4RAiFWPB/lSneYymH0nEosr5l5PO3961SZPZe/lDjaWG/HFvs2Iz4OturQB
+	 nvfiymAfxN52sQIw/xr1VuCnkzxoaVX25Oc54Lpq9OWXBDVPU3hK3zw9wDyQXsrEvy2D2
+	 OC3hoLqhgT0P1UbQRnOtRz9jRhxjZXDwBrVRk93udApRVh548HOigUyO/h/0Cp2novUO0
+	 7NCI4LvtW2LbyrjNQVbsgbkQELFtOdUiKCES8Xr5FaPT5VH7E8WYqxaJ6fKT4e63hPZNg
+	 KzpdWA54ZKO7as4mVq5x/hxSq17w/N6GGvg7cgeQrrHGCR4miZ0n2df6iWPUNpj9l+w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792573817;
+	h=DMARC-Filter:X-SpamFilter-By:DKIM-Signature:Received:Received:
+	 Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	bh=Y9qhf+qoji9l966nUReBeM4hWrjYPRBkiyA7cD2Bl5E=;
+	b=fO637P8eicedkrnV0gmPLtunu1xiEpSgYzxwiXSomx2JTNRhUMISqvpL6GOM5XV1bw0Y
+	 s9TOW351iIhwe6k9hQgbZQCoq+CbQzUkdHoHQOS4nZ6P54Kjo/SZRUMwjZ9A7nv2vO0+D
+	 om4a2pVAzgTUwSACh31LfnqIJzn2OGCZTHH8lqmxRoGd7JT+FvSI9oMAtZ/i+IobkbM+E
+	 PvTQaLdinb5PAj9VokZpIt9iqGkToARd092FQYaq3VUrvFSLG4/L5MivxSpAFx4hu+RPJ
+	 r9IAhageHGzP5pYkxGgKeB/onOh7jZUrIt8l6AMfIl2OaqFICDvmuPhKJiToAfAb6uQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=realtek.com;
+	spf=pass smtp.mailfrom=realtek.com;
+	dkim=pass header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=s29vIjLJ;
+	arc=none smtp.remote-ip=211.75.126.72
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2231D606A31F;
-	Wed, 21 Oct 2026 08:39:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2231D606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.it
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044CC606A330
+	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 09:10:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 044CC606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.a=rsa-sha256 header.s=selector1 header.b=r7Tl7qhm
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Hzt7YN/CxqBwMoKDxMxVeljlXC0LWlvzMGnMNC5U6sEBgys+gpIkhUfr3oxGC0nho4HaQrJi3+EaMz8Xk890QMdMjQ6i2APlWnEcGT9zDalmvSlL5V2PzJGyI8jr5fOyZ+cDdDTyOaS+BxH37VtXYBD7W2Zg6W4nV9V3cYkR/rwbcu/yc7y5k9Aizkx3XU/nYjeT90/jKFgJyfDoEicObWfViZG8/sA5nq6lUGKxdrLlIK1cf+YJyWonVTgxys8evQXf6t7ffaM/Ql7eEX+FKMhKMdlgt4DbAmiz50Vmr2hIpKUsyovx80wxhWqJdhJosoZnzG27X9cuQVvDc1zZ+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bELvOtTp4xmQFIq0TRApEtcX34viuK3c9nNN0CyXZic=;
- b=E/xSm7OILK65N/7lJYlsjnJkJ9QgowyFez+vgZVpM75+TqdjbZDrF32n01p9PzOWAWAnghkkiSZbRUmrjjJWDXyxYti/Cs4DzGZIx8PrujehG3oh8lC4Ch1z2AB8q55VJqdNQ3LmujKGpmDN/R3aR+Y06RYkp+yPvWSvQKIRRMQAwcHeqWAwb5RXv2AKMkicCZdYmg8Umz54SwkPxoZ5GaGkzhTlmej0m8KD4HCremC6ugjzLLaWBE0pGbV97wWi911qF/2JrAcB0e3F3gTAQM67KgUvxNdt3sPvK9xvZYzam38cQ+nklwCa8r9rac/MR9uKBV7/Ex4JLsDmvyZnww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.IT;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bELvOtTp4xmQFIq0TRApEtcX34viuK3c9nNN0CyXZic=;
- b=r7Tl7qhmm0tnF2ajbUP3qX6SJqYRO1MAiWe2jIOfWTYrhUrozkXbCq6uzr1GHFrklU/cd6y8YxqLjSJk/LzkFqCJbOhiwJT8/H9ex/Kim764kdafTYD//zb9s5xylUMT3iSfnc9cdhqDDrRYMyfxuVb4ljy++eGsnoo7LEZ+Uee7JfaVW41EjOuFrEe94h5sXhxPzp4XX0gpyRnsf1aH217WDpl9E/iLTfmDnJKMvmjenSBlxXBizNr2ZA6iRYpDdY+t/7AhdJcX/sxMRAAg2ZPopV3E/S3wrFqxDo9F2nntjilYDSd8RTYP8Dtf6I0Rz0J2vhPF057YJPETUb7gfw==
-Received: from SN6PR19MB2303.namprd19.prod.outlook.com (2603:10b6:805:56::19)
- by BL1PPF728805D7A.namprd19.prod.outlook.com (2603:10b6:20f:fc04::eb4) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Wed, 21 Oct
- 2026 08:38:41 +0000
-Received: from SN6PR19MB2303.namprd19.prod.outlook.com
- ([fe80::805c:7f80:c69f:876a]) by SN6PR19MB2303.namprd19.prod.outlook.com
- ([fe80::805c:7f80:c69f:876a%6]) with mapi id 15.21.0522.017; Wed, 21 Oct 2026
- 08:38:40 +0000
-From: Marco Giunta <marco_giunta@outlook.it>
-To: tiwai@suse.de
-Cc: broonie@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	marco_giunta@outlook.it,
-	perex@perex.cz,
-	tiwai@suse.com
-Subject: Re: [PATCH] ALSA: hda/realtek: enable AW88399 on Lenovo Legion R9000P AFR10
-Date: Wed, 21 Oct 2026 10:38:28 +0200
-Message-ID:
- <SN6PR19MB2303183ED736005C0A40CA8BFC662@SN6PR19MB2303.namprd19.prod.outlook.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <87qzhseiuc.wl-tiwai@suse.de>
-References: <87qzhseiuc.wl-tiwai@suse.de>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: VIUP296CA0111.AUTP296.PROD.OUTLOOK.COM
- (2603:10a6:800:351::16) To SN6PR19MB2303.namprd19.prod.outlook.com
- (2603:10b6:805:56::19)
-X-Microsoft-Original-Message-ID:
- <20261021083828.10511-1-marco_giunta@outlook.it>
+	dkim=pass (2048-bit key, unprotected) header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=s29vIjLJ
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 69L99fPsA3910609, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1792573781; bh=Y9qhf+qoji9l966nUReBeM4hWrjYPRBkiyA7cD2Bl5E=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=s29vIjLJMbtGcxIXsn6NvOEQMGKrdeDBBcCDTvZYTJYiuHCvNpIeOdgxlVCPkmzir
+	 9ZALv0iDKKMggNMZjcplLwoUQ/6kjxnZbofyLWcF4rFZyShd4ZSsC4+p6/VIBOLL7i
+	 S7m/EPHRqFV2IaU9bItFZkt3krBvpuBUtuRqpgYm5cHLyr4bbGZBKG23ngcQRMQXBu
+	 XNfVuvvikkx0tB8Yxcn+1F4eclGkVbdZGrGYoVz2y4r4okaxd/+uAtJjOFs4dLztP8
+	 p4n26EbmGfA8/t3xxFgTr3G1ppLAbVZ6q5tRS6OrjGhSvvS1OB16YPpnVd4i6ndW3Q
+	 DEeeayoIQqrmg==
+Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 69L99fPsA3910609
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 21 Oct 2026 17:09:41 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Wed, 21 Oct 2026 17:09:41 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server id
+ 15.2.2562.49 via Frontend Transport; Wed, 21 Oct 2026 17:09:41 +0800
+From: <shumingf@realtek.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
+	<oder_chiou@realtek.com>, <jack.yu@realtek.com>, <derek.fang@realtek.com>,
+	<Meenali.Gupta@dell.com>, <Deep.Harsora@Dell.com>, Shuming Fan
+	<shumingf@realtek.com>
+Subject: [PATCH] ASoC: rt722: enable mono speaker on Dell SKU 0EBA
+Date: Wed, 21 Oct 2026 17:09:29 +0800
+Message-ID: <20261021090929.2135891-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,72 +74,72 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR19MB2303:EE_|BL1PPF728805D7A:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3c2bed6e-6b03-4fc1-dc53-08df2f4eb485
-X-MS-Exchange-SLBlob-MailProps:
-	gMiuAN0LASL4Z831lB8tpzpdpKMUIXWlbLTU8W3zq45Vot/bm/RvddHgXLYKv/80Yk/o/c7Y1QL9vqhGwLCUiiebZi9ri5LW1VaWupF0+hARJBINJ9H+b6pEl3PEg4h1Jk5KZtqvExjk+1r5HT+BlEKZf+2eXobkZQHVlBXcYAza9Zwq3HQz2zVQY1uhoLDCpdPixg131L0P/ywtHi0+zai5rJqSW+CvfBo+LpE2fg6uvFVCyYeFy2hJ22cPtJSpZ/XoHLwIEfqvyC35YRlXn8kmp0ZWdIT0reaNKMwxG68AfUuylRO++vSRz/vRNH1G5aWykFHQyDP0Wa58Kq2RxQ3Zb8fPJJNh+azzIokFCoUzRMzOnMyOphnD0JChaIF4pKpZ8HFCAzsCraYXhxGi+9lYE4MI1ajmHi48XwmlHpGYC6KztnlM+6n5YGgTZZ1QwCx+1ibgKXautQEmQ8EuE6t5uuGVYgOK1/o1WNmyf3GZlZLAQ8Ld0LtMKGWZmiOYAuelzlloF6uQP6lREWjmd6nQWT2vplGl7FwkirRapwhZzZ9BYhbuH6/qdHsNvH/VQS/TiL2iT+0FTzC4pko6OQgJA2z40d5rMFf1DfoHo+vloirU/qktImsF+GKQJ4KvNNMHNbaPvL2FyLurpn1uzQIzGeqGqoP++c0PH92KbM9GjCsaW0dhKThJWlZLyGRy77PAysWVOdYBu5kqOGsaPA==
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|23021999003|15080799012|5072599009|51005399006|19110799012|8060799015|24021099003|260925184616899003|25010399006|3412199025|440099028|40105399003|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?F/q1W/csseNbR/fFnbC2NpVYyBWUmVbbb30PzKIhcEII3kVfrQb5ucxPfaS5?=
- =?us-ascii?Q?ohmEtoUAEfQzXEWaD+mFKd5I1WVc7mYZtO12T/V9ivJa+8fap2c/8vOOhz2i?=
- =?us-ascii?Q?gB3wJSmcM+6cr2iBrJcQVUlZ6TmF4ytMgR8mxRx2dkMLgvWco/N1PAZZHROu?=
- =?us-ascii?Q?i5D+H5bCoSa//fnoqEqPl0WIlI2dpVuj01XaDySl5NqWKYP5qTZuKODntb7P?=
- =?us-ascii?Q?hnBMmkqFdR+Gqc0ZQKu1CCI6mvottssQVct3KDdfzrz7UNKrkLQDb7dr6S1h?=
- =?us-ascii?Q?6dsfbwb4EUYJHELiVD5qKU4RSYhKSALjCZFOBQOwl/Z8DUjNXouFnq4fkb9J?=
- =?us-ascii?Q?MfleUhT25QwkXFPYRXuI1b33iJ4inFX5IILUNAB3NF3mEd3B1WHSk7ykO09D?=
- =?us-ascii?Q?hZVeZaQZ3tXCLRA7f5y6owRCKRpGTbtx14on65/QJhMMc/zieNjqIlM6kpjS?=
- =?us-ascii?Q?IE+zSwpt6lgAIOoBZnPyHmmpbsWX1eiadsMlooXHP/yTGtRd3vj9FfIaLmcS?=
- =?us-ascii?Q?bjrLZAig2tuc8xgpBiyQqRk9jexFdYNx0iyb7g07mM8DNHYYayVVP43tcO/4?=
- =?us-ascii?Q?nPAI+vsQ93/HxlJ7JqcrJq44TJx+ROVYiZllP2Nzkn4m27v0Dzjm5t1mpuBH?=
- =?us-ascii?Q?UFHKy1uNPdlNLklK0YNyxdDUteSLduoY2BQT4tAFZYn5Eej+ij7s+h5ngBei?=
- =?us-ascii?Q?BvL1JW6ZlquJLkzeUS0NsmlnT1IY9N/cI90feZkTsRdzGjUF1n6oYRUGll7i?=
- =?us-ascii?Q?nqBY770AwTcDjyrfw/ThEIIOlCIRLw19RJK+B2dwOQbSq+99OJUUCtDQRW+B?=
- =?us-ascii?Q?ZpW1dn3oVfg0twhgS1WPjD0d0VwZsz182hfa8LSzSF3OuKIK+/zflTjVMvU+?=
- =?us-ascii?Q?lA5hUqsrxbLLqdn6CN+wsoWEabQWMxlaGYaMLPPlyBMfnu9L/KLicjYZN8TD?=
- =?us-ascii?Q?RCGoODH4KNZYoRPKZgo/SQ=3D=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?VhD0bVhY+wkMTKFn0uMKq7hbbsVtaUlyA8u6MFQ8WnEf8t9OZ2c1nHHkga8n?=
- =?us-ascii?Q?NasKTdTVc6dflOOJ7OQWz/4Yyjd6dYdjJdJNdAkMWTu//jHvqq43jIhPxPUL?=
- =?us-ascii?Q?yI0og0ry1UgfyD1W+BK/jL2MpTbTB0BnuSP3lQd9covU72JXd0BftM4eCxYL?=
- =?us-ascii?Q?XJhfP8O3RQcIDCSgz3upCJO3RU96jckofBCxCCR0473v6XuEvPIgSQg/6cqa?=
- =?us-ascii?Q?NJRMfnkQKAFp1kd7DHglGskdUhiRywkPIuMEUkMyLmLhmsDU4zzzKV4xz6JL?=
- =?us-ascii?Q?DzgF1bGQf5RginLa7h65EMZGSQHa1hsVmXkzwwuY9AQ6MQTPL8a5xachPkOM?=
- =?us-ascii?Q?pBuWuVzyGNctBwbACN4+q/SoQyF2RWz9bzG9v9KS17pmX3rJu87v8+YrN9yN?=
- =?us-ascii?Q?CL5HNi+B9YWmO7ZTC7C8589AbaXrQyQo4/G06k9mq8otLYWKsc+FkIx6zuF0?=
- =?us-ascii?Q?/QVGPBpkelgQUB/JF3o8lAwOSffV0lmM/JShYYGBP4BoWnxEy3zIsJahOtag?=
- =?us-ascii?Q?x55Z/58djuehhlEj8QxmegJzrX4YVmrHqaz5u31ToBBG0vNXMe6/kD+njFQM?=
- =?us-ascii?Q?4K2gdltsVc8EDI1OUBB6T+AkqrSeLl5aIDBhUt23QfNKmwg2ED2pLN0hXOEB?=
- =?us-ascii?Q?s2liEzLexSgyFwol96aQfxNdC5LswALlDyzO+JbJ+TnncuAYTNLz3MIalYZI?=
- =?us-ascii?Q?HL/jsnwE9VpkPu8cpAtAWZbaDQy1VlxeIBi5ClG3s4oBtK/dlOGNXPXACRRM?=
- =?us-ascii?Q?DdQsM6Qx/W9rDzvcOvNlbLN5loNKzgc9fJMCVcIOUpWo9Yu03apiqjcR0/ep?=
- =?us-ascii?Q?Rix+j7a9axkFe+Xmvu56oox7quuv7EnFyRATqbTEIAKXhGo52I2mUrFhi5Ta?=
- =?us-ascii?Q?wlAuO1hsLaIMhjFOAZ6QT9IYG6+nCuhLNzl8QKSsA6UKuokxzzhOVHwIIBr6?=
- =?us-ascii?Q?vNOyWiV2s2BhMEGs9+2NW5lk79sfqyfCz5zZ14Yxgg7f9kpuyCo7FeGY9y+W?=
- =?us-ascii?Q?mRNsMsVDFivz533721daeozlA6RoQOM/rpP/hNQ8m55bGrqhteGBBuzEQTSC?=
- =?us-ascii?Q?GVEtJDTfaVcp6dKkkEOmWvtlKIAfYDQ1xAt5iWLiGLa8DL7Qmv4POf8hhqch?=
- =?us-ascii?Q?uSq81kgdFBOxDPLcqjBRE44YX6aMszXnZJ1YnDUAGOm9qB3a+uO+BDyNBxyZ?=
- =?us-ascii?Q?59vxCE+jpT4XijF8qga19vd1xQjpz7fo3/zvVg4eXrfvL8PURkL6vXDLXL7T?=
- =?us-ascii?Q?uBt5DR+SmLxHYKiHATe6vfzpN3D7G9HA1tJMQhXKWaaG+yKY7WNI9gYvcJiP?=
- =?us-ascii?Q?S+7QVrQqEqmRrjoF70lvrGgP51frl7bY8WOK0Pkd83Th4WWTf/VdniFl2bnh?=
- =?us-ascii?Q?IrCUKgypQ2sInkSwtZgfxlDl/ik3?=
-X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-990eb.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c2bed6e-6b03-4fc1-dc53-08df2f4eb485
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR19MB2303.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2026 08:38:40.6568
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PPF728805D7A
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Friendly ping on this patch. After the 7.4 ASoC PR, this should apply
-cleanly.
+From: Shuming Fan <shumingf@realtek.com>
 
-Best regards,
-Marco
+Dell SKU 0EBA uses only the left audio channel and a single speaker.
+Add the corresponding settings to support this configuration.
+
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
+---
+ sound/soc/codecs/rt722-sdca.c | 18 ++++++++++++++++++
+ sound/soc/codecs/rt722-sdca.h |  2 ++
+ 2 files changed, 20 insertions(+)
+
+diff --git a/sound/soc/codecs/rt722-sdca.c b/sound/soc/codecs/rt722-sdca.c
+index 149cb6617126..1dad8012d904 100644
+--- a/sound/soc/codecs/rt722-sdca.c
++++ b/sound/soc/codecs/rt722-sdca.c
+@@ -1652,6 +1652,17 @@ int rt722_sdca_init(struct device *dev, struct regmap *regmap, struct sdw_slave
+ 			&soc_sdca_dev_rt722, rt722_sdca_dai, ARRAY_SIZE(rt722_sdca_dai));
+ }
+ 
++static const struct dmi_system_id dmi_dell_mono_spk_quirk_table[] = {
++	{
++		.ident = "Dell Pro 5 Micro P5M1270",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0EBA"),
++		}
++	},
++	{}
++};
++
+ static void rt722_sdca_dmic_preset(struct rt722_sdca_priv *rt722)
+ {
+ 	unsigned int mic_func_status;
+@@ -1741,6 +1752,13 @@ static void rt722_sdca_amp_preset(struct rt722_sdca_priv *rt722)
+ 		if (rt722->hw_vid == RT722_VB)
+ 			regmap_write(rt722->regmap, 0x2f54, 0x00);
+ 
++		/* This Dell machine only uses the mono speaker */
++		if (dmi_check_system(dmi_dell_mono_spk_quirk_table)) {
++			rt722_sdca_index_write(rt722, RT722_VENDOR_REG, RT722_CLSD_CTRL2, 0x391a);
++			rt722_sdca_index_update_bits(rt722, RT722_VENDOR_REG,
++				RT722_MISC_CTRL2, 0x0010, 0x0010);
++		}
++
+ 		/* clear flag */
+ 		regmap_write(rt722->regmap,
+ 			SDW_SDCA_CTL(FUNC_NUM_AMP, RT722_SDCA_ENT0, RT722_SDCA_CTL_FUNC_STATUS, 0),
+diff --git a/sound/soc/codecs/rt722-sdca.h b/sound/soc/codecs/rt722-sdca.h
+index b654b14334d4..dd245ae9bd44 100644
+--- a/sound/soc/codecs/rt722-sdca.h
++++ b/sound/soc/codecs/rt722-sdca.h
+@@ -68,9 +68,11 @@ struct rt722_sdca_dmic_kctrl_priv {
+ #define RT722_ANALOG_BIAS_CTL3			0x04
+ #define RT722_MISC_CTRL1			0x07
+ #define RT722_JD_CTRL1				0x09
++#define RT722_MISC_CTRL2			0x0d
+ #define RT722_LDO2_3_CTL1			0x0e
+ #define RT722_LDO1_CTL				0x1a
+ #define RT722_HP_JD_CTRL			0x24
++#define RT722_CLSD_CTRL2			0x38
+ #define RT722_CLSD_CTRL6			0x3c
+ #define RT722_COMBO_JACK_AUTO_CTL1		0x45
+ #define RT722_COMBO_JACK_AUTO_CTL2		0x46
+-- 
+2.55.0
+
