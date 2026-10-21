@@ -1,111 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792575408;
-	b=xvcStH6nfCBoJmDTuXQKp2JStg5D8v/iKze6eTU4y/pAcXbjC+eHGPjuKASxXSHnxE9m
-	 I2bqj94pS2mnvpOAL9TlOwl/D9rOqznz/9fAkn7lN+qdmuHnhoQiBviRE6ZJo+utQFmYQ
-	 npzp/y33DgKY3kJF3nyABGqrASi8sZejDKlNPb/sev6ViVsdX8xzNWbxC0ZeybVNtxiVv
-	 Air6fk0ehvf36g8kBLzkdzBM6Zsrbvtvj5BFuasfB0zB341Picys5tPwgX3kdlaIHLz4D
-	 1p8SIAEJSXUKWgPrIkYEYLVRmSlgcKO9X40bP3Is1UhDi+IzWUmYj6JaE4Yqp/wL2Wg==
+	t=1792575620;
+	b=JyRANlY/2bL+yoi/2gkgUjSFSmJjuNuAcO3LE0YY0k0/XLEknu5i0H7FaWOL/OOEM+zS
+	 kc93zrfYUkM1QRQ/pFDaHpgJKzrBAvIKKhMYmwTmNXVuKLQ/JwDULYzDz7pyo4XXtVjvd
+	 F7N8E4GKUIl1ipIz0R5xQ2pS0LALLSmxQpseijCEz1xYIyfBYbKtZXt4/WKJCG3O7DQG8
+	 oK9+2uDQSQMCRHo0yYOGblooCIz1iS1ettic+qnZ3WvyGyQMvpXWUrMH5jn8vaGFynWQI
+	 LK+HZ5dnkBRWWiR7a1nrADTifbJJ4Q90PHiGf+n73iSiZXZemMV+X5bIqK2TI5At6DA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792575408;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=Qefb26IGP5AOdsfXsbEKDWsh35frzAzUc/TON+gbyqA=;
-	b=tHqbeCiYQ8uLTaG47V7E6Ty5ZiGpuAR+ujmGQrMOrPDnru/zKAfg+C7MS2DmXyOx5KIm
-	 xtxdkE8b5RHcdIFCX4/fCH76FI8KrGuWHThMsoRYKV0CUxaVygmxbXwHrdwR+DP8uMk6w
-	 KFLvuBeGjANaTgGcGRHtwJJwrljcqsuyhINvfXVocOUnBGESLcJGE/k6GMYhy7zGo1PM3
-	 Lgs77aLxnRs3OZ00iyNSwMCvnhLTLRiVYqKGtg8PyI6Us6/HcWiTtqdGQ6gzAGMFIIZ/t
-	 4d+AKAOzxtz8AOB2hOTkgt0Jloc1BL7FHnaQPocWQvgrX9DX7ihMR5pWwRPOsQieH6w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792575620;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:X-Developer-Signature:X-Developer-Key:
+	 Content-Transfer-Encoding;
+	bh=1PRsQpweqoI38/fF67s+Y9rXztf6TeEe9ZXZ//e/0Zc=;
+	b=e8TiBUXw6OvU2Imqnr35laDg6826PDwn877XhQPCH3kPqegCuWN/eJmZX/LoXi62Uq9y
+	 x+JEQM1xKB/eO3KpM/E8HxQqMYtV8VjyN6s0d+JXeQ2NyoMi/CMeunYuzxqO1HjsfxS45
+	 LwqYBEVWDrNI2siKXaPBB0e6W3xkn8J26r89RzOv9k//ptQoiZ3DkxtMbtkqHT9hBF1SP
+	 D9GdxtmTknm0QpahFsJVPynOTnghvUvfv3NF6iSkvY4UdRN/roXO03CThTM1lsIzwP7S2
+	 aVfjjSdmzyEEyVmxKbeqKsykaXmglWgu9E/uMdL0K91xV5+uPZN4+2ywEL9WiuWkMJA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=XbSgxa0b;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xJ6A5euU;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=XbSgxa0b;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xJ6A5euU;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j3+BxfqW;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE22606A325
-	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 09:36:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7BE22606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE601606A319;
+	Wed, 21 Oct 2026 09:40:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=XbSgxa0b;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xJ6A5euU;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=XbSgxa0b;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xJ6A5euU
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0A7891F798;
-	Wed, 21 Oct 2026 09:36:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792575398; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qefb26IGP5AOdsfXsbEKDWsh35frzAzUc/TON+gbyqA=;
-	b=XbSgxa0bOIBa5zoEh/9RWoxsPq4EKEehdNGHXAAU+XyEbOvoIW6Tdh0GvTQDfCbYQ53hz9
-	fRstEAtqgIk5LwW78KPY9P6/DN9lBTaTgMZMwuF5QDITN1BsdHFtsHMTZpNH9f52OQX1iH
-	kbT8EimMk29PAS9IB1Kyv2SeLOK2tNs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792575398;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qefb26IGP5AOdsfXsbEKDWsh35frzAzUc/TON+gbyqA=;
-	b=xJ6A5euUGwlnoHjWFJ/cg1xZNQ7rMZSiGeN6gbG4gvfMCkILcyz+8wQb7Xi6ry1yZZ7idi
-	TrQd6WjVl6UjMjCg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792575398; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qefb26IGP5AOdsfXsbEKDWsh35frzAzUc/TON+gbyqA=;
-	b=XbSgxa0bOIBa5zoEh/9RWoxsPq4EKEehdNGHXAAU+XyEbOvoIW6Tdh0GvTQDfCbYQ53hz9
-	fRstEAtqgIk5LwW78KPY9P6/DN9lBTaTgMZMwuF5QDITN1BsdHFtsHMTZpNH9f52OQX1iH
-	kbT8EimMk29PAS9IB1Kyv2SeLOK2tNs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792575398;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qefb26IGP5AOdsfXsbEKDWsh35frzAzUc/TON+gbyqA=;
-	b=xJ6A5euUGwlnoHjWFJ/cg1xZNQ7rMZSiGeN6gbG4gvfMCkILcyz+8wQb7Xi6ry1yZZ7idi
-	TrQd6WjVl6UjMjCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B023F13518;
-	Wed, 21 Oct 2026 09:36:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id s4MgIqWH2GqLHAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 21 Oct 2026 09:36:37 +0000
-Date: Wed, 21 Oct 2026 11:36:37 +0200
-Message-ID: <874ieffl96.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: HyeongJun An <sammiee5311@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Ivan Orlov <ivan.orlov0322@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Shuah Khan <shuah@kernel.org>,
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j3+BxfqW
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B0051F000C9;
+	Wed, 21 Oct 2026 09:40:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792575619;
+	bh=1PRsQpweqoI38/fF67s+Y9rXztf6TeEe9ZXZ//e/0Zc=;
+	h=From:To:Cc:Subject:Date;
+	b=j3+BxfqW08J4KaRbNdude1zO+7/YwLpbBZ5jQAHNc4GNW0hWVboc+mDt18JRxgBuL
+	 4YDN05h72J/oMJKHm1S3MNh/FWuQm0l15lyvpxoaHVJbWo8ZNow8EjVN+QZNVCspB2
+	 8lJ7Hr5/VKp9bl/DiZ312M1PWjIZjsJLHsaAhmEuvJ/mc1guaMDZdZ7LcSg3jwLTNM
+	 1jkwr5d/DEubOSgiAZa+CG27LKwy0OidLpRturQEQhmJIghgVbV+PGlKbqDruDoZPP
+	 HQ5WY5XHzi0EQkHNFt5Qv5w8+ZCSteJFaHouv+lTMIZlGBML/4cM5jRdMl03MZ18EV
+	 KfWBjsc1qDwCQ==
+From: Thorsten Blum <blum@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Thorsten Blum <blum@kernel.org>,
 	linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] selftests: ALSA: pcmtest: Fix two test bugs
-In-Reply-To: <cover.1792390197.git.sammiee5311@gmail.com>
-References: <cover.1792390197.git.sammiee5311@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+Subject: [PATCH] ALSA: hiface: Use scnprintf() in hiface_chip_create()
+Date: Wed, 21 Oct 2026 11:40:01 +0200
+Message-ID: <20261021094002.114508-2-blum@kernel.org>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -114,52 +58,51 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.com,gmail.com,kernel.org,perex.cz,vger.kernel.org];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -1.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1701; i=blum@kernel.org; h=from:subject; bh=zmAS+g5bfNQXAOcoeuT3g4BmPttUc9Fi7CxHYTMss0c=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDFk3Ooo+vXt7udh2d5zZ3dCIVu1V/08qFT7/PeVmrfEds /s896z2dZSyMIhxMciKKbI8mPVjhm9pTeUmk4idMHNYmUCGMHBxCsBEZHUZGa7sjbjwoczQtmih W5FWy99y91DW/8YVZj8mf/m16/bc104M/3RSdVY39t5OZH66oltgm3DR4b/PfA7UPtz3JvwO22I /Hm4A
+X-Developer-Key: i=blum@kernel.org; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
+Content-Transfer-Encoding: 8bit
 
-On Tue, 20 Oct 2026 12:18:35 +0200,
-HyeongJun An wrote:
-> 
-> Two fixes for the pcmtest selftest. The first makes the playback tests
-> fail when a transfer fails. The second sizes the pattern buffer to the
-> 4096 bytes the driver allows.
-> 
-> Tested on x86_64 with snd-pcmtest. All five tests pass as before. With
-> inject_trigger_err=1 the playback and ni_playback tests passed before
-> and now fail. With a 2000-byte pattern on channel 0 four tests failed
-> before and now pass.
-> 
-> HyeongJun An (2):
->   selftests: ALSA: pcmtest: Check the frame count of each transfer
->   selftests: ALSA: pcmtest: Make room for the longest fill pattern
+To prepare for removing strlcat() from the kernel [1], use scnprintf()
+instead. Since scnprintf() returns the number of characters actually
+written, drop the length check before usb_make_path().
 
-Applied both patches.  Thanks.
+Also drop the explicit size arguments from strscpy() since they can be
+inferred from the destination arrays.
 
+No functional change.
 
-Takashi
+Link: https://github.com/KSPP/linux/issues/370 [1]
+Signed-off-by: Thorsten Blum <blum@kernel.org>
+---
+ sound/usb/hiface/chip.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
+
+diff --git a/sound/usb/hiface/chip.c b/sound/usb/hiface/chip.c
+index bce28f683666..41a43bc59397 100644
+--- a/sound/usb/hiface/chip.c
++++ b/sound/usb/hiface/chip.c
+@@ -63,18 +63,15 @@ static int hiface_chip_create(struct usb_interface *intf,
+ 		return ret;
+ 	}
+ 
+-	strscpy(card->driver, DRIVER_NAME, sizeof(card->driver));
++	strscpy(card->driver, DRIVER_NAME);
+ 
+ 	if (quirk && quirk->device_name)
+-		strscpy(card->shortname, quirk->device_name, sizeof(card->shortname));
++		strscpy(card->shortname, quirk->device_name);
+ 	else
+-		strscpy(card->shortname, "M2Tech generic audio", sizeof(card->shortname));
++		strscpy(card->shortname, "M2Tech generic audio");
+ 
+-	strlcat(card->longname, card->shortname, sizeof(card->longname));
+-	len = strlcat(card->longname, " at ", sizeof(card->longname));
+-	if (len < sizeof(card->longname))
+-		usb_make_path(device, card->longname + len,
+-			      sizeof(card->longname) - len);
++	len = scnprintf(card->longname, sizeof(card->longname), "%s at ", card->shortname);
++	usb_make_path(device, card->longname + len, sizeof(card->longname) - len);
+ 
+ 	chip = card->private_data;
+ 	chip->dev = device;
