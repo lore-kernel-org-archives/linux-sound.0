@@ -1,55 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.118.77.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792575620;
-	b=JyRANlY/2bL+yoi/2gkgUjSFSmJjuNuAcO3LE0YY0k0/XLEknu5i0H7FaWOL/OOEM+zS
-	 kc93zrfYUkM1QRQ/pFDaHpgJKzrBAvIKKhMYmwTmNXVuKLQ/JwDULYzDz7pyo4XXtVjvd
-	 F7N8E4GKUIl1ipIz0R5xQ2pS0LALLSmxQpseijCEz1xYIyfBYbKtZXt4/WKJCG3O7DQG8
-	 oK9+2uDQSQMCRHo0yYOGblooCIz1iS1ettic+qnZ3WvyGyQMvpXWUrMH5jn8vaGFynWQI
-	 LK+HZ5dnkBRWWiR7a1nrADTifbJJ4Q90PHiGf+n73iSiZXZemMV+X5bIqK2TI5At6DA==
+	t=1792577904;
+	b=UREw5H+RsT+ZJSeWl3RBD2eXt+pHV/thWPVhfjUluJO2rxuj2qbO1MHFfL4gwlOKNArR
+	 yeWmhVQXOgzgg2jg8dq1mX/OByrlQQq//+L5Ai69rGuqBYIosqgVNwsYCsgVVm5jID/bz
+	 tP62CKNYQ9yeN8v5fAmEKaf2j//E7kkvnYL2VfUWlZFjIlFwxhjB2Prkb6GkehR/+BZEO
+	 h4BSbOI/lZ2g+0uV7QOsYZzLVhC8ZI/qH7vtkv5Lqin2IuYTH8cxbvRbS41qUxX58rsU9
+	 hlBvyDEZpEawI+z+643apdqugW+1pQsHkZWSvSKUGF8qHNPFixpsXZbRhAGxso6DQNg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792575620;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:X-Developer-Signature:X-Developer-Key:
-	 Content-Transfer-Encoding;
-	bh=1PRsQpweqoI38/fF67s+Y9rXztf6TeEe9ZXZ//e/0Zc=;
-	b=e8TiBUXw6OvU2Imqnr35laDg6826PDwn877XhQPCH3kPqegCuWN/eJmZX/LoXi62Uq9y
-	 x+JEQM1xKB/eO3KpM/E8HxQqMYtV8VjyN6s0d+JXeQ2NyoMi/CMeunYuzxqO1HjsfxS45
-	 LwqYBEVWDrNI2siKXaPBB0e6W3xkn8J26r89RzOv9k//ptQoiZ3DkxtMbtkqHT9hBF1SP
-	 D9GdxtmTknm0QpahFsJVPynOTnghvUvfv3NF6iSkvY4UdRN/roXO03CThTM1lsIzwP7S2
-	 aVfjjSdmzyEEyVmxKbeqKsykaXmglWgu9E/uMdL0K91xV5+uPZN4+2ywEL9WiuWkMJA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792577904;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-CMS-MailID:X-Msg-Generator:Content-Type:
+	 X-RootMTR:X-EPHeader:X-CMS-RootMailID:References;
+	bh=JtvTp7Odlr8V1Ob/0GaCt0VD7vHod0w8CxroTBrKriU=;
+	b=ZQc9QHGi43K0TPEGA+wOj8EKecYl/26AUXdfjP0tTJqui6yZxpeljndIAHNVIGDry+3m
+	 F72y0CW6XwSo5mgrzWnnzoCvO48z+ZN8gBGiUfHA99ehtTzUH9lx3fhgSxG2rxxVP5icH
+	 /Upa2yn16Yl7poXsukzghogSQEkSV2zsyI9L2NYglwU8QWRfdF32mcDe1lJsqlcUFMDT3
+	 X5VBzIcuPqC6AmbHfKBLcaGtlo5BnAmlyAgBpOrcC1Bce7eu607UGU9FdE1qVVXI0Yqtg
+	 ioeaDm7wDNCJDw/aryG2QhJiARna031bc8tf8hfdUk0Tivm6lfKF+kinoeAF2fDvg7g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j3+BxfqW;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=samsung.com;
+	spf=pass smtp.mailfrom=samsung.com;
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=rnM0jaRF;
+	arc=none smtp.remote-ip=210.118.77.11
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE601606A319;
-	Wed, 21 Oct 2026 09:40:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BD9606A319
+	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 10:18:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54BD9606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j3+BxfqW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B0051F000C9;
-	Wed, 21 Oct 2026 09:40:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792575619;
-	bh=1PRsQpweqoI38/fF67s+Y9rXztf6TeEe9ZXZ//e/0Zc=;
-	h=From:To:Cc:Subject:Date;
-	b=j3+BxfqW08J4KaRbNdude1zO+7/YwLpbBZ5jQAHNc4GNW0hWVboc+mDt18JRxgBuL
-	 4YDN05h72J/oMJKHm1S3MNh/FWuQm0l15lyvpxoaHVJbWo8ZNow8EjVN+QZNVCspB2
-	 8lJ7Hr5/VKp9bl/DiZ312M1PWjIZjsJLHsaAhmEuvJ/mc1guaMDZdZ7LcSg3jwLTNM
-	 1jkwr5d/DEubOSgiAZa+CG27LKwy0OidLpRturQEQhmJIghgVbV+PGlKbqDruDoZPP
-	 HQ5WY5XHzi0EQkHNFt5Qv5w8+ZCSteJFaHouv+lTMIZlGBML/4cM5jRdMl03MZ18EV
-	 KfWBjsc1qDwCQ==
-From: Thorsten Blum <blum@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Thorsten Blum <blum@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hiface: Use scnprintf() in hiface_chip_create()
-Date: Wed, 21 Oct 2026 11:40:01 +0200
-Message-ID: <20261021094002.114508-2-blum@kernel.org>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=rnM0jaRF
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20261021101816euoutp01c8ed848a6cfe41f59917b944058a9441~ghBlc5xMR0816808168euoutp01D
+	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 10:18:16 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20261021101816euoutp01c8ed848a6cfe41f59917b944058a9441~ghBlc5xMR0816808168euoutp01D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1792577896;
+	bh=JtvTp7Odlr8V1Ob/0GaCt0VD7vHod0w8CxroTBrKriU=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=rnM0jaRFEDpHA6Zv5nvHLLcnFklHcucL+4auYLCHHZOlaWU12B7P6tVssBNBVUxDK
+	 Ph5J2Qn2YFtV4bWfmWI/qdDVv6vut+H5xmen/uCLEkGFUvLWYOHmj+zK1DScethh+g
+	 2kYYXe4Ci7Qmh0VYxxisAaQzFYnnt1sElOT7CMS4=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20261021101815eucas1p2f6dd40fb230ab01b36c7d8f3eada0f45~ghBk7mNRb2888028880eucas1p2M;
+	Wed, 21 Oct 2026 10:18:15 +0000 (GMT)
+Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20261021101815eusmtip272499edd4b704b0ed1e020e608a6ff08~ghBkci1v50104301043eusmtip2i;
+	Wed, 21 Oct 2026 10:18:15 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: 
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Liam Girdwood
+	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Sylwester Nawrocki
+	<s.nawrocki@samsung.com>, Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>, Simon Shields <simon@lineageos.org>,
+	Artur Weber <aweber.kernel@gmail.com>, patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 0/4] ASoC: wm8994/midas_wm1811: fix codec clocking issues
+Date: Wed, 21 Oct 2026 12:17:41 +0200
+Message-ID: <20261021101750.3297770-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,50 +73,76 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1701; i=blum@kernel.org; h=from:subject; bh=zmAS+g5bfNQXAOcoeuT3g4BmPttUc9Fi7CxHYTMss0c=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDFk3Ooo+vXt7udh2d5zZ3dCIVu1V/08qFT7/PeVmrfEds /s896z2dZSyMIhxMciKKbI8mPVjhm9pTeUmk4idMHNYmUCGMHBxCsBEZHUZGa7sjbjwoczQtmih W5FWy99y91DW/8YVZj8mf/m16/bc104M/3RSdVY39t5OZH66oltgm3DR4b/PfA7UPtz3JvwO22I /Hm4A
-X-Developer-Key: i=blum@kernel.org; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
 Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20261021101815eucas1p2f6dd40fb230ab01b36c7d8f3eada0f45
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20261021101815eucas1p2f6dd40fb230ab01b36c7d8f3eada0f45
+X-EPHeader: CA
+X-CMS-RootMailID: 20261021101815eucas1p2f6dd40fb230ab01b36c7d8f3eada0f45
+References: <CGME20261021101815eucas1p2f6dd40fb230ab01b36c7d8f3eada0f45@eucas1p2.samsung.com>
 
-To prepare for removing strlcat() from the kernel [1], use scnprintf()
-instead. Since scnprintf() returns the number of characters actually
-written, drop the length check before usb_make_path().
+Hi All,
 
-Also drop the explicit size arguments from strscpy() since they can be
-inferred from the destination arrays.
+This patchset fixes a few issues in the WM8994/WM1811 codec clocking
+code, which show up on the Exynos4412 Trats2 board. On that board the
+codec AIF1 and SYSCLK run from MCLK2 (the 32768Hz clock provided by the
+PMIC) when idle, and from FLL1 (fed by MCLK1, a fixed 24MHz clock) when
+a stream is active.
 
-No functional change.
+The symptoms are the codec flooding the kernel log with FIFO error
+interrupts every 10ms once any digital path is powered up, for example
+by the mixer state restored by alsactl, and FLL1 failing to lock:
 
-Link: https://github.com/KSPP/linux/issues/370 [1]
-Signed-off-by: Thorsten Blum <blum@kernel.org>
----
- sound/usb/hiface/chip.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ wm8994-codec wm8994-codec: Timed out waiting for FLL lock
+ wm8994-codec wm8994-codec: FIFO error
+ wm8994-codec wm8994-codec: FIFO error
+ ...
 
-diff --git a/sound/usb/hiface/chip.c b/sound/usb/hiface/chip.c
-index bce28f683666..41a43bc59397 100644
---- a/sound/usb/hiface/chip.c
-+++ b/sound/usb/hiface/chip.c
-@@ -63,18 +63,15 @@ static int hiface_chip_create(struct usb_interface *intf,
- 		return ret;
- 	}
- 
--	strscpy(card->driver, DRIVER_NAME, sizeof(card->driver));
-+	strscpy(card->driver, DRIVER_NAME);
- 
- 	if (quirk && quirk->device_name)
--		strscpy(card->shortname, quirk->device_name, sizeof(card->shortname));
-+		strscpy(card->shortname, quirk->device_name);
- 	else
--		strscpy(card->shortname, "M2Tech generic audio", sizeof(card->shortname));
-+		strscpy(card->shortname, "M2Tech generic audio");
- 
--	strlcat(card->longname, card->shortname, sizeof(card->longname));
--	len = strlcat(card->longname, " at ", sizeof(card->longname));
--	if (len < sizeof(card->longname))
--		usb_make_path(device, card->longname + len,
--			      sizeof(card->longname) - len);
-+	len = scnprintf(card->longname, sizeof(card->longname), "%s at ", card->shortname);
-+	usb_make_path(device, card->longname + len, sizeof(card->longname) - len);
- 
- 	chip = card->private_data;
- 	chip->dev = device;
+Both issues disappear when booting with clk_ignore_unused, or after the
+WLAN/Bluetooth drivers enable the shared 32kHz clock. This went
+unnoticed during the initial Midas audio contribution probably because
+the WLAN/Bluetooth drivers kept their clocks enabled that time. Several
+bugs contribute to this:
+
+1. aif_mclk_set() never enables MCLK2 for an AIF clocked from it, due
+   to a missing shift of the AIFnCLK_SRC field value, so the codec runs
+   from a stopped clock until another user enables it.
+
+2. The AIFnCLK rate ratio saved when SYSCLK drops to 32kHz gets
+   overwritten on each subsequent clock reconfiguration done in the low
+   SYSCLK mode, so AIF1 ends up at 128fs instead of 256fs.
+
+3. wm8994_set_dai_sysclk() passes the AIF index instead of the MCLK
+   index to wm8994_set_mclk_rate(), so the rate of MCLK1 is reported for
+   MCLK2 and the low SYSCLK handling is skipped.
+
+4. The midas_wm1811 machine driver starts FLL1 at 11.2896MHz when no
+   stream is active, while AIF1 keeps the configuration of the last
+   stream (or the 48kHz reset default), which needs 12.288MHz.
+
+Patches have been developed with LLM assistance and have been tested on
+the real Trats2 board. The built-in speaker as well as headphones jack
+provide proper audio now.
+
+Best regards
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
+
+Marek Szyprowski (4):
+  ASoC: wm8994: fix MCLK gating for AIF clocks sourced from MCLK2
+  ASoC: wm8994: don't lose the AIF clock ratio when staying at 32kHz
+    SYSCLK
+  ASoC: wm8994: fix MCLK index used for setting MCLK rate
+  ASoC: samsung: midas_wm1811: run FLL1 at the AIF1 configured rate when
+    idle
+
+ sound/soc/codecs/wm8994.c        | 126 +++++++++++++++----------------
+ sound/soc/codecs/wm8994.h        |   1 +
+ sound/soc/samsung/midas_wm1811.c |  14 +++-
+ 3 files changed, 71 insertions(+), 70 deletions(-)
+
+-- 
+2.43.0
+
