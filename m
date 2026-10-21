@@ -1,109 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792594732;
-	b=kFzYYAYhV0zLEcCQP6nOwiFkQhUPYxqH3J8ax0x9TiKJhA8KwuScoOrztx6iXnkttb0c
-	 WDh+lmt4F1Jagq7uuHx24YiXjNGjSlvLmtRTS+ynvPF/bjoVzSnkORZaCdAxPQipFGY+b
-	 X6gPDbd/le3fiqNiG1wiQHb/CsvzyhfgmZ7qL5UZvm/oLXs4AMoCAh/UB0qGb+ZS/yD46
-	 7xaOY9jOAu7MGRw0vkoFZQqHQ8IKTI+iyfJU7lAFYzhSLKbqXfCn45TUhhBEmcC1bTqMh
-	 IIyG84STo505yf1A3BIxyYM2fWLXXmxl3XvwCRBv02VatGuLrQVtdBic6Ta2YZtzbdA==
+	t=1792595073;
+	b=241u2gN7EX3AaDHJjlmYFYWrYKEYonRVvnVMEcSyeNjrLgRlJlbqVlJwMnKxiMvrR+0Q
+	 mE8MQhEFyh1L18k7yM4hLJGOM4rikfRz8tp/0EeffaYBVaU0p5F0QW6h5IvoDDYsEJYqE
+	 gAMs8AaYwAQs+Ot3Y7rEBQ5I+95ppX1ytPNTksmxoM7K15Vg9cu4TBfNRxrx2QDSp3t2k
+	 IXYmQdcNmg8HvecofYQULQ31FUQ+6MvW7pKXuNg25KpaU5BxdOtaNDbRR6K3/voA+eQ3+
+	 mN6/fMUvZPsgLPo7LLJyL/iWCc3cfBEZ8RLpGZ+3d1c8EvhNRTxJjsSdPmgqB7DoPyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792594732;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=WRCoEq90OxUV9ZxcUAEaVJ83BjwryOyU5b8zNnCpwbU=;
-	b=k1N857hJd7E8WR/ruVZSooKtF6EkwMXH5FTFyhwIpeIZfFF7SbZ8a4IsqvFlEPHWzVPq
-	 PJqf/jexkcgol2hqSTtVGmQvQZ15G4HqO5do0I0f9c5BvO0L5rSE1PRx39BWjUv5/PY0W
-	 xnxr6J5bQf4lS1+RuuZbqwAFM8Um/9Qb5hrCh23n9KekFEzgFUwX4t/83hOOkZHGke9Cq
-	 ZmtRAiTXODeTyxKW6pGUrkaGEUwvS/q2ufEwGAgpSFZLeEInHkd4ynrpgMJAoMHxZvmUA
-	 NKNYrAYGV3uw4MF0sCeRBvJGL4ZrhWxdLwT/aN9iuSdvE3wQ2Mb3nhAMoUdbYe6gscA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792595073;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=XO5kU4TA2hsV8P7bI/3a0t4nzK1sUFsih2IqSO0IkMs=;
+	b=fqfuJVJLb/ZAKFyxuPQGK5JKbhELwyiZXViY8T0yNm07fWurVOzH2hF1ffBAKbm+dfcn
+	 7W6iMeyvq1dxiFKfw4lutQJjHihk+zEKqR+7QHMAiVAKlDA/CCMbRQiwvc6gceyEzKPJ3
+	 7jIAX2/1S1mdub5AFAnaeX8tra0J2KJa1t42qDDIYupXnZLP6m3RjLo3oDVuj3nfSdEP6
+	 T+bECh8BrVjWvkjZUZmw+1Qad5c4nkjlbea4Tmwypo+t16zaPJG9Av7GimqCrAZ0YctAy
+	 9+gSDV07NOsHctL6GWBH5HzxWMQqpexjzCF8fhxJbOr2Y0uCg8HktYk7J9i+qscFbAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FcbOwEqS;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mVn5Q2+f;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FcbOwEqS;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mVn5Q2+f;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mTS2ydON;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BCD606A31B;
-	Wed, 21 Oct 2026 14:58:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1BCD606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BE4606A319;
+	Wed, 21 Oct 2026 15:04:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FcbOwEqS;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mVn5Q2+f;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FcbOwEqS;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mVn5Q2+f
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1C7A421F67;
-	Wed, 21 Oct 2026 14:58:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792594730; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WRCoEq90OxUV9ZxcUAEaVJ83BjwryOyU5b8zNnCpwbU=;
-	b=FcbOwEqSG+jmsc0rII5sUvrBVfsAHJyh/v4pf1jRRzHQtU2NghfCubPpEAfDbA8M9PyIYT
-	KscNJzXuHNC3Ppb5/Za5AsKR2PTwjmKDsfR38z47IXFi1AlFnwiQ80yG8tZVOYjUHQSJIB
-	WwBvelIX6DHUAvUgLDhwThazoMOsLqo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792594730;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WRCoEq90OxUV9ZxcUAEaVJ83BjwryOyU5b8zNnCpwbU=;
-	b=mVn5Q2+fnqjxxr7iwCcUn9euoJqPNVFdQcn4bFFeZWEGPRuwcgGnRRqzbk4MluNDCPCNpx
-	Prt0W69eeDaSgSDg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=FcbOwEqS;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=mVn5Q2+f
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792594730; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WRCoEq90OxUV9ZxcUAEaVJ83BjwryOyU5b8zNnCpwbU=;
-	b=FcbOwEqSG+jmsc0rII5sUvrBVfsAHJyh/v4pf1jRRzHQtU2NghfCubPpEAfDbA8M9PyIYT
-	KscNJzXuHNC3Ppb5/Za5AsKR2PTwjmKDsfR38z47IXFi1AlFnwiQ80yG8tZVOYjUHQSJIB
-	WwBvelIX6DHUAvUgLDhwThazoMOsLqo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792594730;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WRCoEq90OxUV9ZxcUAEaVJ83BjwryOyU5b8zNnCpwbU=;
-	b=mVn5Q2+fnqjxxr7iwCcUn9euoJqPNVFdQcn4bFFeZWEGPRuwcgGnRRqzbk4MluNDCPCNpx
-	Prt0W69eeDaSgSDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0F58134A5;
-	Wed, 21 Oct 2026 14:58:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Oh8dMCnT2GrqcgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 21 Oct 2026 14:58:49 +0000
-Date: Wed, 21 Oct 2026 16:58:49 +0200
-Message-ID: <87fqxzdrrq.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ajanesh Lal <ajaneshlal3@gmail.com>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] ALSA: hda/realtek: Add mute and mic-mute LEDs for HP ENVY 16 (103c:8be5)
-In-Reply-To: <20261021142453.177174-1-ajaneshlal3@gmail.com>
-References: <20261021142453.177174-1-ajaneshlal3@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mTS2ydON
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22D031F000C1;
+	Wed, 21 Oct 2026 15:04:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792595073;
+	bh=XO5kU4TA2hsV8P7bI/3a0t4nzK1sUFsih2IqSO0IkMs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mTS2ydONSSO6OigfGcGip2G9X7UcUMUYTgHs9wwKKmV3PQWi5nxkNFMdkNfn5Xuic
+	 M+yDYURU1FgBRYcx2ZXhdzeBO6oUJ+Se/skX1ZdNUdVvzFg7L0zdZTheDuLdQAzhBY
+	 Baj74muZs4Xd6YJDv9Ckcvp8O8prgjV9Blw7KstpuQ0vynKFSEfNqYLgD9l8QtVAX+
+	 d1p7scuPa63YBmoVCFqBcEcacorrqwiD1y1VXldz6Zrt6doVfZllKu4QDli8HZAjWW
+	 YqTt0UgGAC/H86363Yt9y0lm3wLRVII09i8FWL9cEg4kxm2w0Iu1sMt/SpNSc8yZrz
+	 zGf/Ia5geAoOg==
+Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
+	id F3D971CCFA94; Wed, 21 Oct 2026 16:04:30 +0100 (BST)
+Date: Wed, 21 Oct 2026 16:04:30 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: Re: ASoC: Exploring Rust support for codec drivers
+Message-ID: <atjUfiQ2fDkNpLYz@sirena.org.uk>
+References: <CANBuOYrCHc=HSe2z45EKXjfHqPO2Dzh7L7Atwrzboz9d-H=Lmw@mail.gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -112,64 +58,47 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 1C7A421F67
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.51
-
-On Wed, 21 Oct 2026 16:24:53 +0200,
-Ajanesh Lal wrote:
-> 
-> The HP ENVY Laptop 16-h1xxx (PCI SSID 103c:8be5) uses an ALC245 codec
-> with CS35L41 I2C speaker amplifiers. No LED fixup is applied for this
-> subsystem ID, so the speaker mute LED and the microphone mute LED are
-> never driven and do not follow their keys.
-> 
-> Add a fixup that calls the existing ALC245 mute LED COEF helper and the
-> GPIO mic-mute LED helper directly, then chains to the CS35L41 I2C
-> amplifier setup so the speakers keep working. Use it for 103c:8be5.
-> 
-> Tested on an HP ENVY Laptop 16-h1xxx running kernel 7.2.11: the
-> hda::mute and hda::micmute LEDs appear and follow their keys, and the
-> speaker amplifiers still bind (CS35L41 Bound in dmesg). The mic LED
-> GPIO pin and polarity are not verified on other hardware.
-> 
-> Fixes: aa8e3ef4fe53 ("ALSA: hda/realtek: Add quirks for various HP ENVY models")
-> Assisted-by: Claude:claude-haiku-5-5
-> Signed-off-by: Ajanesh Lal <ajaneshlal3@gmail.com>
-
-Applied now.  Thanks.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="KGdcTBIzfaVoCt5A"
+Content-Disposition: inline
+In-Reply-To: <CANBuOYrCHc=HSe2z45EKXjfHqPO2Dzh7L7Atwrzboz9d-H=Lmw@mail.gmail.com>
+X-Cookie: Whoever dies with the most toys wins.
 
 
-Takashi
+--KGdcTBIzfaVoCt5A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Wed, Oct 21, 2026 at 11:31:48AM +0200, Jihed Chaibi wrote:
+
+> I haven't found any ongoing work on Rust abstractions for ASoC
+> component or DAI drivers, but I may have missed something.
+
+> My initial idea would be to investigate the minimal abstractions
+> needed for a Rust codec driver to integrate with the existing ASoC
+> core, starting with component/DAI registration and callbacks, and
+> expanding only where needed.
+
+> Would you be open to this kind of work in ASoC? And is there a
+> particular approach or existing effort you'd recommend looking at
+> before starting?
+
+I'm not aware of anyone else working in this area, I'm certainly open to
+it.  The main issues I see are that most meaningful CODEC drivers use
+lower level abstractions like regmap which don't yet have rust support,
+and the ongoing refactorings that Morimoto-san is doing.  I think the
+CODEC drivers should be fairly stable now, though.
+
+--KGdcTBIzfaVoCt5A
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCatjUfgAKCRAv73Ows9A4
+iVUOAQCM1zv3B+5o3wFbwScgAPLDSnMIoWOzTogE57JBHBStCAEAk7EOlbED6oRX
+LS2l0IqwUfXzzLdVq4LsGtByay+wjQE=
+=smTh
+-----END PGP SIGNATURE-----
+
+--KGdcTBIzfaVoCt5A--
