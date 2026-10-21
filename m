@@ -1,62 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.112
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792600832;
-	b=B3Z5SfRcHKWvYx+yPbCR/sDYEy0ODnGNukoCEjmOMAlyaype//tMcD/eH4sMNzZLLrj6
-	 5P+FiumkrPTHQVToaf3g+/wJPM8OMXoazztqhD1fOX2asA6LXhHsLcJpiiSCYBqxv7zgX
-	 CD1Q2GzG3sfnlchHrka6U9k3DOCIPba0Mzw6IUDYVzFkwhLtI2kSgJXzR5+VkOJV9fsj3
-	 EinzeF54BOnpQuS06Z9lDmSvjVx8pFg3wQHXA1McAoFR1StoLOVaIgnSOlc/QDH7Vt0HL
-	 oTatoPGEqUBtVeHYtq80iOU9kfp5MNDodFHBkE+eIj72+fszRZipYTUIePyzpXKv9Aw==
+	t=1792615371;
+	b=ZKLLH6fFs8oC2e7RB2YzFmLQkOycwxB1Bx1M7y5GBM8w+u+I21VSoE2NYuUUJafRuFqW
+	 K+rXGmpP63ZDF/UxkJGM9UOZn1/3Dh6JIDOOVGoC+DJnBlPKhBQOwDGnK4V2J1/lfj2Se
+	 uUs4xwkRl4rzd7gsyOIUs0//gOSXuMQqwie/P2USTHxAUF4mEPKsfbYhlXZmtbYvX1OUB
+	 F0aB3mJin9Y/J2tyRb7aZb01M+XOsEnkQzJXRQsw5IruBF47qFkhRF0RFG5DMrX1w0xOm
+	 5weK/kVAeBd9KVrOgH+7bDEXyxBLx0eFWFgL5aoyv3xKZWKMJxNDiDDzP65aZJG4BIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792600832;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=ev1ownRP4CVJIDcMp5EYAgateqOpAXygtidZFca6gS0=;
-	b=Y1pkoj5V1zg5t+i6zjqylg60uEWAniJUWCrLRjsneo8s6JZgogZsEH6cy71OpqTB2zk8
-	 t+lPDg5VyXpd0F15Sw61P2Vkw3q/TRpBmxbzWI3Dk+15lPxlzjjyjhBKPMoZaEJo3oypu
-	 4HZoL8/ybKsBnb/W3w4bKMJFm32nEfVK2C3KnYq8Nes3xlhwuBdZIDIxswoQStwzbcann
-	 GL1AuLfTtXI82YApaOmfKGXYx6DoujC0bT43fY18X2tRjxWbxrEr85Fg5wvsK+hzPXKcQ
-	 N0AeWx3oefd0PZgbOGZ4geY7QzcsMxs9A3/EPqEiFY95b/NGjJY1I6/ZqYNTejlx0/g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792615371;
+	h=DMARC-Filter:DKIM-Signature:X-Pm-Submission-Id:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=O5L1eGqPKsyqDaYtGLmBvYrSlwBdL6y7fRQobnmfAXg=;
+	b=cdcrrmTUOk3j9VujUunVd7NyRLaXwIJ1EnznS1AHpcIMrJY5dLPb0VSJl02S2I/e9Y/I
+	 N7GPJbzyjusRKNCduH5/ik7Juva8e19E7HPfnYp5qnkn2gAYKT1jSM+tGDvYVnawNmMSc
+	 rEMcnyNNLd6ve/5QwKvwz4HIEaFYumYxTZonYVdIk7Wdw7DROCOw5Ko7c91aSxiy7nDdg
+	 bPLeh6/oTS6wKitRVxTmX+cKKtBXZBhdbZIfUcIOsVzLbML8PM7f4YAmWy3yONh23bnwE
+	 Zr9dp6qQ5NEc8fUhOQL7Q82lU4SSYv2/E+B8mwh6NPEMwV3wc3rxdIX6JF9b8zJG1lg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lmj7u78h;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=michaelmcallister.org;
+	spf=pass smtp.mailfrom=michaelmcallister.org;
+	dkim=pass header.d=michaelmcallister.org header.i=@michaelmcallister.org header.a=rsa-sha256 header.s=protonmail2 header.b=OZ+0Rh6D;
+	arc=none smtp.remote-ip=79.135.106.112
+Received: from mail-106112.protonmail.ch (mail-106112.protonmail.ch [79.135.106.112])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69561606A319;
-	Wed, 21 Oct 2026 16:40:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E62606A330
+	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 20:42:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33E62606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=michaelmcallister.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=michaelmcallister.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lmj7u78h
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 277F91F000C1;
-	Wed, 21 Oct 2026 16:40:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792600832;
-	bh=ev1ownRP4CVJIDcMp5EYAgateqOpAXygtidZFca6gS0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Lmj7u78hzam2fkuJx1VdbxsbdOx9Td7YjsXdNLHIsSqONzmhLR0ApkZC/1NaTsVZg
-	 XJIuWKXR7UzdVlOEJz/rWdWv1zq+Cqu5ofnvqqvc0h6Tt/pgi9N/+TegFmpq9Pm4HY
-	 DSdeiDfCK/yatt+OFTuQVs8q6wncwZBYx1E/XXWr+8Lli8/ucIWUHXNyRyrvImhSm0
-	 Qs+7ch3/E0jnxEqHKWF9uZ8k3HchZtYVfI6DKdSgkFwjrImm4FHuEq2KTqmc96N27H
-	 PkP/kPQVWNYqidmdr2EftJzBZNgmDvewsUu76A2zJI69CfK8G9fcFwiXzombSBmWcm
-	 QiArtvTVbweaA==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261020084656.2725461-1-arnd@kernel.org>
-References: <20261020084656.2725461-1-arnd@kernel.org>
-Subject: Re: [PATCH] ASoC: SOF: amd: add ACPI dependency
-Message-Id: <179259346580.3850049.2591614034883345876.b4-ty@b4>
-Date: Wed, 21 Oct 2026 15:37:45 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=michaelmcallister.org header.i=@michaelmcallister.org header.a=rsa-sha256 header.s=protonmail2 header.b=OZ+0Rh6D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=michaelmcallister.org; s=protonmail2; t=1792615367; x=1792874567;
+	bh=O5L1eGqPKsyqDaYtGLmBvYrSlwBdL6y7fRQobnmfAXg=;
+	h=From:To:Cc:Subject:Date:Message-ID:From:To:Cc:Date:Subject:
+	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=OZ+0Rh6DWa2Qhg3c5QC44y9CNi1KtcMb2p539aGriw/KnMZheY1kgzjYQSQ5O/f31
+	 rLX54vj3gmsf2/TkzURBTF1Y7Tm+fXCF8hEk1/DehtzWYpaRS+BYw6/l1+aNb1MOvL
+	 RaKYMRakRsIPViFO4LXo0ar/XcqPwqoidY9zattiWqmcgyRlFHNBm5ojwT+Qtd6NgY
+	 lV0jeMzaQjDRaYt8XZD5ztLPfYc7FVkD/UCBE5OhOQ7InrexY6iD1dkK88uRYWXPox
+	 mSUKfWbZI2i6tmSlYWfeeTPDS3Kih4ULT7KoMeq2T4Nb/8Mek+PEBsBWh12K9pFxkq
+	 nc94ct8IsH8/A==
+X-Pm-Submission-Id: 4j91SP0GYPz2ScPf
+From: Michael McAllister <me@michaelmcallister.org>
+To: linux-sound@vger.kernel.org
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: qcom: q6asm: Reset PCM positions when preparing a stream
+Date: Wed, 21 Oct 2026 21:42:02 +0100
+Message-ID: <20261021204202.43738-1-me@michaelmcallister.org>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -66,46 +66,72 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1089; i=broonie@kernel.org;
- h=from:subject:message-id; bh=3mH2amkY7rjyqbuo5HkaA7E6Hyb4TLV6Xv1mXzjjIFs=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJuvPoRwyw/MfhJtabAzuU7uHuvfzfYe5Hped+EF32vD
- N8Hvlzv2lHKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJvFBiZJhktZHFksXSefcL
- wWf/r8gUKNpePL52/q071V9KtyS/ycpgZDhb11vbLJv8Mdfj/B0Jw03X/SZF/V67IG/i+l/rXLk
- Y+pkA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Tue, 20 Oct 2026 10:46:33 +0200, Arnd Bergmann wrote:
-> ASoC: SOF: amd: add ACPI dependency
+Preparing an existing PCM stream closes the DSP stream and remaps its
+buffers, but leaves queue_ptr, dsp_buf and hw_ptr at their previous
+positions. ALSA resets appl_ptr during prepare, so q6asm_dai_ack() can
+subtract a stale queue_ptr from the new appl_ptr and queue an incorrect
+number of periods.
 
-Applied to
+On the Motorola Moto G10, playback works after opening the PCM device,
+but the first write after snd_pcm_drop() and snd_pcm_prepare() fails
+with -EBUSY and "Error queuing playback buffer -16".
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+Reset queue_ptr in prepare, and reset the DSP buffer index and hardware
+pointer when allocating the new buffer ring. This keeps the queued,
+submitted and completed positions aligned with the new PCM stream.
 
-Thanks!
+Fixes: e386c2cf3df2 ("ASoC: qcom: q6asm-dai: schedule all available frames to avoid dsp under-runs")
+Fixes: 44432315444c ("ASoC: qcom: q6asm-dai: use q6asm_get_hw_pointer")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Michael McAllister <me@michaelmcallister.org>
+---
+Tested on a Motorola Moto G10 using a Linux 7.2.9-based port, with
+48 kHz S16_LE stereo playback, a 3840-frame buffer and 960-frame periods.
+After two seconds of playback, snd_pcm_drop() followed by
+snd_pcm_prepare() and snd_pcm_writei() on the same handle returned -EBUSY
+without this change. With the change, both playback cycles completed.
 
-[1/1] ASoC: SOF: amd: add ACPI dependency
-      https://git.kernel.org/broonie/sound/c/bef34efba74d
+Both affected objects also build with ARCH=arm64 W=1 against sound's
+for-next branch at bef34efba74d. This maintainer-tree build has not been
+booted on the device.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+ sound/soc/qcom/qdsp6/q6asm-dai.c | 3 +++
+ sound/soc/qcom/qdsp6/q6asm.c     | 2 ++
+ 2 files changed, 5 insertions(+)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6asm-dai.c
+index 4261c3048c..94416ddf7a 100644
+--- a/sound/soc/qcom/qdsp6/q6asm-dai.c
++++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
+@@ -243,6 +243,9 @@ static int q6asm_dai_prepare(struct snd_soc_component *component,
+ 		prtd->state = Q6ASM_STREAM_STOPPED;
+ 	}
+ 
++	/* ALSA resets appl_ptr for every prepare, including xrun recovery. */
++	prtd->queue_ptr = 0;
++
+ 	ret = q6asm_map_memory_regions(substream->stream, prtd->audio_client,
+ 				       prtd->phys,
+ 				       (prtd->pcm_size / prtd->periods),
+diff --git a/sound/soc/qcom/qdsp6/q6asm.c b/sound/soc/qcom/qdsp6/q6asm.c
+index de0bd8fd08..8dde9a3b9c 100644
+--- a/sound/soc/qcom/qdsp6/q6asm.c
++++ b/sound/soc/qcom/qdsp6/q6asm.c
+@@ -514,6 +514,8 @@ int q6asm_map_memory_regions(unsigned int dir, struct audio_client *ac,
+ 
+ 
+ 	ac->port[dir].buf = buf;
++	ac->port[dir].dsp_buf = 0;
++	atomic_set(&ac->port[dir].hw_ptr, 0);
+ 
+ 	buf[0].phys = phys;
+ 	buf[0].size = period_sz;
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+base-commit: bef34efba74d87d5c20e3bb93539fa45b3cb8a83
+-- 
+2.50.1 (Apple Git-155)
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
 
