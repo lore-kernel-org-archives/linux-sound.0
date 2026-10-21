@@ -1,70 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792596675;
-	b=GR5Fga+pqg7OfjkXKdYUMfh/rtV5papEfLfY1XMdy0sxV8RscGhmPJr2fAJRpuLUlQt7
-	 aFYtYRBjuuWXSuMSnXvPC0jBawjAH9Zzq9YNGw0IgFQ60OBfAJair21Z9v7hNqSh7y0SJ
-	 vR7KU+3u3axfczlZommtWoVfjFi/re+sLH8UKXEm1OlNJXM6xhlkZA/SNId9RgutVZzS9
-	 EDVf/fJQZf49ZOcEK2KmOdllmpTYMU3B2dbLIp+UZNEl4Q/Ij7gaHMEnVGrPAF/Mod2CZ
-	 TCV8KB2CMqyz4xKvlGt3Qo7+fYi5W3W7bUO8l1TurlmfxOL8jsUHGTChGwTEzoVz2sw==
+	t=1792600832;
+	b=B3Z5SfRcHKWvYx+yPbCR/sDYEy0ODnGNukoCEjmOMAlyaype//tMcD/eH4sMNzZLLrj6
+	 5P+FiumkrPTHQVToaf3g+/wJPM8OMXoazztqhD1fOX2asA6LXhHsLcJpiiSCYBqxv7zgX
+	 CD1Q2GzG3sfnlchHrka6U9k3DOCIPba0Mzw6IUDYVzFkwhLtI2kSgJXzR5+VkOJV9fsj3
+	 EinzeF54BOnpQuS06Z9lDmSvjVx8pFg3wQHXA1McAoFR1StoLOVaIgnSOlc/QDH7Vt0HL
+	 oTatoPGEqUBtVeHYtq80iOU9kfp5MNDodFHBkE+eIj72+fszRZipYTUIePyzpXKv9Aw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792596675;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
-	 From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:X-Mailer:Thread-Index:Content-Language:
-	 X-CMS-MailID:X-Msg-Generator:Content-Type:X-RootMTR:X-EPHeader:
-	 X-CMS-RootMailID:References;
-	bh=T/FNDiBCQLotUrV9/f/GH/Xcye3m989EX4Dxl8pPQSM=;
-	b=mUG0EfSc0gIRMsirGEmTDLcCS+YD2Tf/Do6aQepoNGe7AmjFvjLcAoWWc6K+QTyoHEY0
-	 wfoAf6h7jCURrw/VJsb+neF37bRvrjiqq1DA3mW4jf7rFkD3BwWLUanT85anwcefGMqMZ
-	 9F5vinIcQA3rpGj8yZbe7Hs3W2AUK1LTemlN5vvt+QTsIpSCUjem8MldzYIgMtRHKws+9
-	 sZNGqpH/izHcRPgZmU7dS+DnhL596dLlbVAbONB5gkm+TykXdONEalUGJpQR+YcXX1eOF
-	 A4G/NewPRgj3OvpimOuJQrPmMmYk86mMsme9jBh+/fpig7gaBQhK6nK5Hmu4/geZbwQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792600832;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=ev1ownRP4CVJIDcMp5EYAgateqOpAXygtidZFca6gS0=;
+	b=Y1pkoj5V1zg5t+i6zjqylg60uEWAniJUWCrLRjsneo8s6JZgogZsEH6cy71OpqTB2zk8
+	 t+lPDg5VyXpd0F15Sw61P2Vkw3q/TRpBmxbzWI3Dk+15lPxlzjjyjhBKPMoZaEJo3oypu
+	 4HZoL8/ybKsBnb/W3w4bKMJFm32nEfVK2C3KnYq8Nes3xlhwuBdZIDIxswoQStwzbcann
+	 GL1AuLfTtXI82YApaOmfKGXYx6DoujC0bT43fY18X2tRjxWbxrEr85Fg5wvsK+hzPXKcQ
+	 N0AeWx3oefd0PZgbOGZ4geY7QzcsMxs9A3/EPqEiFY95b/NGjJY1I6/ZqYNTejlx0/g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=samsung.com;
-	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=eTe2LDMA;
-	arc=none smtp.remote-ip=210.118.77.12
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lmj7u78h;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E71606A319
-	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 15:31:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48E71606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69561606A319;
+	Wed, 21 Oct 2026 16:40:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=eTe2LDMA
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20261021153112euoutp024e6a3c86dc66b464258dced588a3b2ed~glS0aJ_Q61524915249euoutp02j
-	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 15:31:12 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20261021153112euoutp024e6a3c86dc66b464258dced588a3b2ed~glS0aJ_Q61524915249euoutp02j
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1792596672;
-	bh=T/FNDiBCQLotUrV9/f/GH/Xcye3m989EX4Dxl8pPQSM=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=eTe2LDMAebnBssKx0JVLpRzjDFlk9IgkcO4DEjjKcBzyX1IerUUW6oYVMC8MjmzDa
-	 FEkiSZxBlhtAGkUkBi78a6hCYfg08Rk/tIb0vNVcBDRXdcfwQIQFihw8L4QMz+BuNK
-	 Pltb4jQvQyw6Ij9cUw6WZXHnko4ha3vaKwvPiv+I=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20261021153112eucas1p2aa80cab8bf82ccfe7f9794c29fcbd5d0~glS0C9EMz2816728167eucas1p2s;
-	Wed, 21 Oct 2026 15:31:12 +0000 (GMT)
-Received: from AMDN5751 (unknown [106.120.87.45]) by eusmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20261021153111eusmtip231f2258ce8cf5012a03608e3eee22463~glSznDDE20890708907eusmtip2i;
-	Wed, 21 Oct 2026 15:31:11 +0000 (GMT)
-From: "Sylwester Nawrocki" <s.nawrocki@samsung.com>
-To: "'Marek Szyprowski'" <m.szyprowski@samsung.com>
-Cc: "'Liam Girdwood'" <lgirdwood@gmail.com>, "'Mark Brown'"
-	<broonie@kernel.org>, "'Charles Keepax'" <ckeepax@opensource.cirrus.com>,
-	"'Krzysztof Kozlowski'" <krzk@kernel.org>, "'Simon Shields'"
-	<simon@lineageos.org>, "'Artur Weber'" <aweber.kernel@gmail.com>,
-	<patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>
-In-Reply-To: <20261021101750.3297770-5-m.szyprowski@samsung.com>
-Subject: RE: [PATCH 4/4] ASoC: samsung: midas_wm1811: run FLL1 at the AIF1
- configured rate when idle
-Date: Wed, 21 Oct 2026 17:31:11 +0200
-Message-ID: <000401dd6171$33dec8a0$9b9c59e0$@samsung.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lmj7u78h
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 277F91F000C1;
+	Wed, 21 Oct 2026 16:40:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792600832;
+	bh=ev1ownRP4CVJIDcMp5EYAgateqOpAXygtidZFca6gS0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Lmj7u78hzam2fkuJx1VdbxsbdOx9Td7YjsXdNLHIsSqONzmhLR0ApkZC/1NaTsVZg
+	 XJIuWKXR7UzdVlOEJz/rWdWv1zq+Cqu5ofnvqqvc0h6Tt/pgi9N/+TegFmpq9Pm4HY
+	 DSdeiDfCK/yatt+OFTuQVs8q6wncwZBYx1E/XXWr+8Lli8/ucIWUHXNyRyrvImhSm0
+	 Qs+7ch3/E0jnxEqHKWF9uZ8k3HchZtYVfI6DKdSgkFwjrImm4FHuEq2KTqmc96N27H
+	 PkP/kPQVWNYqidmdr2EftJzBZNgmDvewsUu76A2zJI69CfK8G9fcFwiXzombSBmWcm
+	 QiArtvTVbweaA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261020084656.2725461-1-arnd@kernel.org>
+References: <20261020084656.2725461-1-arnd@kernel.org>
+Subject: Re: [PATCH] ASoC: SOF: amd: add ACPI dependency
+Message-Id: <179259346580.3850049.2591614034883345876.b4-ty@b4>
+Date: Wed, 21 Oct 2026 15:37:45 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -74,43 +66,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQKrkeRVrtMc7xGFxDI3/ROeqrh4mgICYbRDAdrNTfe1TNPEAA==
-Content-Language: pl
-X-CMS-MailID: 20261021153112eucas1p2aa80cab8bf82ccfe7f9794c29fcbd5d0
-X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20261021101818eucas1p134e97fde95718540efe6e74639380fe9
-X-EPHeader: CA
-X-CMS-RootMailID: 20261021101818eucas1p134e97fde95718540efe6e74639380fe9
-References: <20261021101750.3297770-1-m.szyprowski@samsung.com>
-	<CGME20261021101818eucas1p134e97fde95718540efe6e74639380fe9@eucas1p1.samsung.com>
-	<20261021101750.3297770-5-m.szyprowski@samsung.com>
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1089; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=3mH2amkY7rjyqbuo5HkaA7E6Hyb4TLV6Xv1mXzjjIFs=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJuvPoRwyw/MfhJtabAzuU7uHuvfzfYe5Hped+EF32vD
+ N8Hvlzv2lHKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJvFBiZJhktZHFksXSefcL
+ wWf/r8gUKNpePL52/q071V9KtyS/ycpgZDhb11vbLJv8Mdfj/B0Jw03X/SZF/V67IG/i+l/rXLk
+ Y+pkA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-> -----Original Message-----
-> From: Marek Szyprowski <m.szyprowski@samsung.com>
-[...]
-> Subject: [PATCH 4/4] ASoC: samsung: midas_wm1811: run FLL1 at the AIF1
-> configured rate when idle
-> 
-> When the codec is brought up without an active stream, for example
-> because the mixer state restored by alsactl powers up a digital path,
-> midas_start_fll1() sets FLL1 to the default 11.2896MHz rate. The
-> codec's AIF1 however keeps the configuration of the last stream, or its
-> reset default of 48kHz at 256fs before the first stream, which needs
-> a 12.288MHz AIF1 clock. The digital paths then run with AIF1 clocked
-> at a rate not matching its configuration.
-> 
-> Remember the FLL1 rate requested by the last hw_params() call, which
-> matches the AIF1 configuration kept in the codec, and use it when no
-> specific rate is requested. Change the default rate used before the
-> first stream to 12.288MHz, matching the codec's default AIF1
-> configuration.
-> 
-> Fixes: fd0ea9cd9698 ("ASoC: samsung: Add sound support for Midas
-> boards")
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+On Tue, 20 Oct 2026 10:46:33 +0200, Arnd Bergmann wrote:
+> ASoC: SOF: amd: add ACPI dependency
 
-Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+
+Thanks!
+
+[1/1] ASoC: SOF: amd: add ACPI dependency
+      https://git.kernel.org/broonie/sound/c/bef34efba74d
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
