@@ -1,58 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792580375;
-	b=Qbn5kZpraRkTSagMnE1vL+SR0leO8k1QLugT5nN+32ZUmA6PapOfLyBiaZ7FDtzY1NVO
-	 UgD9a0ebr4hnFv/Jv3WJzyLoJQrhH5fTjBXn+SV3RGJQ5+tw1JuiThBh1ouHRpJpbLKDZ
-	 imot0NDulTd6KJ32TSdihyHfeSNGsCy8QbF35gdSYJJZM1h1FMOsBuLwef/us0b+CS7BO
-	 ynV/eVXY7eYVBGyE/orPRRXx+edl/d/OqAEUW/hrx4oDhixvuRau3qpjslgLH61U1OtX6
-	 AwLZBQ292n8Wl6eXyBL7yALlmDFbq2vmQ5t4qY3b45+FmEf3SDjdOFzBQVXei0dd42g==
+	t=1792581962;
+	b=ftaEEK6Hm4o3fe6vEUfWJRoFS2cf+Wv4OwlTxON7pXt0rAt81RCw2gAHSFilN19yN3jC
+	 Q6IFDesC7Eqyj7S8CuEIH9kfKJiII/6lVqdW4rQAxkAGy6tLzuohNjsA7rzrh6N8uc4Iz
+	 VWuYO75eeLyjexmZNwUeRBPnIfa4k56Kkw/zDfCuri/TxLWpn9Zj5hcm4fdGh/q0xdzql
+	 1ulAba1m6rxUPz5n9NvIzdlElvxChdcNFhP3URB2F1jlgjFxVXGMzoIx9nPmVwCwNexIm
+	 NdAbSARa4E97YSAv1TQXrnQIo0gPmxL92jJjdaxASp6iw/tgAQDPupffIUwgadn+efg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792580375;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:X-Developer-Signature:X-Developer-Key:
+	a=rsa-sha256; c=relaxed/relaxed; t=1792581962;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=71PhXNjOvmIAl1aRTI7zqhrskFBVVkC78m4SzV3kK8s=;
-	b=BZJywqptcVIXx1w7htLnd9Bojd3miFJA39+8kU1dJmMtR1viDi1OtHwkNfW/I3oYqepR
-	 S5yoTC/+jf8pkOiabeltTvryN0jwng2SIXLPTWXpnRAvkSUzSF8Gm0NVO1Z6JK74c4Fbv
-	 4Pebw1oLcKvdL9VPIzHplmcKD9z+AXvGoxt2qqwbK4BpVDYea/TFjcq1WagBlGD2gq7tt
-	 c7BRrLjQyiTGvS8JLDsq5R/C8wi+g7ZABWOX8aArnPVh8VlPvZCGa3zHJM9HHVnHya6Lp
-	 x9tqh9U3tklGYK03le51/8GelUPPqnWnHvuaamc1OaVle/LOwG7pKVxAyFAnm4T9mGA==
+	bh=uSgU66UvvSwylDygU94JyWQL1mKuGXT9QBuCeFw9T5Y=;
+	b=b9nut9KOaACcdOmm+9NvnFHZiggWrgWx+enbb9I2twcJbX27jYJrAca0Lu1gmQPH7HZ+
+	 1V/pXv5j+Zkf2OI5UTD1LkQz1JpL6p3rQCygSCIR2qPgMz6tTN4UUwR85veqrINAZZZJJ
+	 UEn33g8G5mH5eQriwjpGf9SOPzqAYJ53DBov4T8HxSmQscO+afgDWhnGSBkWMoAPNK4xN
+	 FAXq9gc3Dgge+2CRbMhfb2n1o6a/cf7VGW6ndvuopTfSbLHTSH0QSs++gu+m4fOu+EBdi
+	 MdRv7PGt5wL9NlrAsAKffx1YUElR0UZB0r1zbpETa43abuv0vbRg+TY/J0wx1snLw8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i1+MDMGt;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KkLC7HeY;
+	arc=none smtp.remote-ip=74.125.82.42
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091E0606A31B;
-	Wed, 21 Oct 2026 10:59:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A91606A324
+	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 11:26:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9A91606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i1+MDMGt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE1241F000C9;
-	Wed, 21 Oct 2026 10:59:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792580374;
-	bh=71PhXNjOvmIAl1aRTI7zqhrskFBVVkC78m4SzV3kK8s=;
-	h=From:To:Cc:Subject:Date;
-	b=i1+MDMGtleUeML8OwFtwmJQRuoyHcR+jJfoYStTvTgWsP24f/QUqHy1T3LEfDIVus
-	 7s05SEm17UKRkckZ5q1WypTzLMpqS+mYCa+S3iHU0OOoztNQzjtKyRRVOYK4d1a3I9
-	 i0/4U+oLbwpvTr92AmPGP7gDAFTBtTdLAh/PeRIi3sWngcFDfWPWJQ2EU+8yKUz2a7
-	 WWq7fcn+syQUjmmzKCvGqh543Gn4s31NSpjMhTHkDHQvI1ULFhkN3Z+CfMEjKNhshW
-	 SOE3TgvKi5FOF72Zd5zcDpOu9I/zMXTk1XUirFPknSb41ekQbefQwqyDT1H0KGtq9Z
-	 BTAce2BZpvqTg==
-From: Thorsten Blum <blum@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Rong Zhang <i@rong.moe>,
-	Arun Raghavan <arunr@valvesoftware.com>,
-	Thorsten Blum <blum@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KkLC7HeY
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-185fd3a4ca3so154150c88.0
+        for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 04:26:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792581961; x=1793186761; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=uSgU66UvvSwylDygU94JyWQL1mKuGXT9QBuCeFw9T5Y=;
+        b=KkLC7HeYFLkHWL6a/YJIjripfrp8Tlbapk9ls0aJmQSlRiHSs3GU0Xa2g9vkueejnn
+         WGepQ0sG8Mu4CLV8tsdpkkx5sVuMVlnWNE3BU7BnRQNGMqEdP+T9wl40+sYZIT9BZjA8
+         akn2KMFElAh6pXjn86N+wFie2wmntjE5RYBkBxqwaHx5kamu8DjWGrwqgPHrU1RMrSIb
+         kUeX40BH0ZXQ9y92VNIusYxBx+5sp60OUrmIX3dojenW2z0AyyH+N4nd8CpixI/EQqK3
+         ft3iATIbj+/QXBxEUpGMwDSOs9powJaopfl7VRpwByD1k6ZQZitxxiSW/J1EHUeC+TJc
+         C57g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792581961; x=1793186761;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=uSgU66UvvSwylDygU94JyWQL1mKuGXT9QBuCeFw9T5Y=;
+        b=TPNvK9ed+KQ8et+bvm6CWCGrpcRKdBz/Mk7qK88D4pF0bfTVlmAWl++k9+ZBXQ1uPL
+         13CZdmG9QpNASE2o6DvDJWLKkXwnlCEFDnaYBhBCghzHta/oxGtbFR2LJE3inyT17SLe
+         syfKnVDFYnmu7Q+gRDUFHvJn1t2BI/rIHZfClIu481USJOwgd9oXjlJOXoyTSCb1s1lL
+         j/luNnaEDf/Qf1A+gGM8fGFWuCTb/Vx1Bs9bSrW/mCrZ5DS2W80XW16mhc79zOhe5293
+         Fl+rsGT4/VL6sUY8MTUwBtLCT7RHMHltmDKGptHsm2SYXf3wT90Iy5TJXGA63uXgYn7c
+         kAqg==
+X-Forwarded-Encrypted: i=1; AKwUvBzV1oumiarPo+XCb/Tk5buB4ZG4c9lv4gJwxWSYdrcPxF9oygABhBflogolWkHl8I+NUGk76yR1Q/XxyA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLkzpacnC+VXY7dVAIwYF3B5R60RiL9bHG7P9vCw9NDJnRg/5iQ
+	xslp26VRHyUhxE0g2KJmpToDtrc/9M1YTt1grw5HijgsRaYP4LIfSiXr
+X-Gm-Gg: AYBFou3Jen8b5lEZ5mzCqWzbhJc83/0vvcTNqvFJFg5O+TsotJAg8cWBB5ZW2vQd9Bj
+	e0QnqMg5lPO6I4wrShK5Hg7v5Ga+PXD4/h32vqTcXNbWeV1rFmue2lup3BD7EzN0qucTcA8IwoS
+	1Jvzu2Zp4sQ29QH1kQfQYNpvO9UqeyTf1NI8YPtSD1ANG6Af8iyzEAg5pq1L2W9H9nflpnnvRJG
+	LOgiEjWVcs5RUxlM6OYGyEiG/N3tRh/snxfElDptOob8BniU6CCuOesgkjBGofCMRmKaj4c1cbb
+	7yvGK9LPcFcs5ODwWRKsqxbCtZHGeq/FArl185Cqpvf6OHJyDG53lCWs/bxqCqAFfvkknU/AhC/
+	mMncFIm7J++RIYBzqJaTvMHDThmHkUfQaafQAeB1Aji3xZKXeCBp6tQgP16yW+HXnIU4UqRmIWQ
+	vZpxjdFXZUrtJBZf0TQ084YV5K5ASeACak0ZObUtmEGd07bAs9p9Sa+6g8eAm3V8m921JPZvPUe
+	Rd9eJFgqHLGnbwTyvS9E13iBxMg1/I9fPvGjynSAsC5WOAovP1T8DIsX+RlahUgGdbXXHeh3SjH
+	dOkxmS1g6HJbrOJtsT3m8rAB1vjQcu2EBNFKWmDtF64AWkAF33KNEaTbC7KmMYX5Azw=
+X-Received: by 2002:a05:701b:2051:20b0:18a:d0b5:fa42 with SMTP id a92af1059eb24-190a604f7f6mr2326894c88.19.1792581960622;
+        Wed, 21 Oct 2026 04:26:00 -0700 (PDT)
+Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1903ca044d4sm5810344c88.17.2026.10.21.04.25.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2026 04:26:00 -0700 (PDT)
+From: HyeongJun An <sammiee5311@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Shuah Khan <shuah@kernel.org>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Use strscpy() in append_ctl_name()
-Date: Wed, 21 Oct 2026 12:58:26 +0200
-Message-ID: <20261021105826.147060-3-blum@kernel.org>
-X-Mailer: git-send-email 2.56.0
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	HyeongJun An <sammiee5311@gmail.com>
+Subject: [PATCH] selftests: ALSA: pcmtest: Compare all captured bytes in ni_capture
+Date: Wed, 21 Oct 2026 20:25:54 +0900
+Message-ID: <20261021112554.4037107-1-sammiee5311@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,48 +100,35 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1503; i=blum@kernel.org; h=from:subject; bh=iiUI6+gsmzqf5KZyem4oHEBxqYvGd+SjMlFNlVP6GDE=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDFk3Zl0yi68qmL9y1Rd/mabqQs6jD5Sf5heVya0r22Vdd jFceb5+RykLgxgXg6yYIsuDWT9m+JbWVG4yidgJM4eVCWQIAxenAEyE34aR4XH+rKC5EjWMW0tr r7Pv/XDvoegdi2+uEZeWtq8JfMvj4MXwv4jj2CP7yfX9yUyJj1yjeNbdKdvC5Pf9Qqp/xoSs15U crAA=
-X-Developer-Key: i=blum@kernel.org; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
 Content-Transfer-Encoding: 8bit
 
-To prepare for removing strlcat() from the kernel [1], use strscpy()
-instead with the current name length as the append offset. Change
-append_ctl_name() to return void since no caller uses its return value.
+The ni_capture test reads rate * time frames into each channel buffer
+and then compares rate * time bytes. A frame is sample_size bytes per
+channel, so with S16_LE only the first half of each channel is checked.
+If the second half is wrong the test still passes.
 
-Use append_ctl_name() to append " Jack" in build_connector_control().
+Compare rate * time * sample_size bytes per channel.
 
-No functional change.
-
-Link: https://github.com/KSPP/linux/issues/370 [1]
-Signed-off-by: Thorsten Blum <blum@kernel.org>
+Fixes: 10b98a4db11a ("selftests: ALSA: Add test for the 'pcmtest' driver")
+Assisted-by: Claude:claude-opus-5-5
+Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
 ---
- sound/usb/mixer.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ tools/testing/selftests/alsa/test-pcmtest-driver.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index ecaa8bc08d7c..0320a3e8af92 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -1720,9 +1720,11 @@ const struct snd_kcontrol_new *snd_usb_feature_unit_ctl = &usb_feature_unit_ctl;
- /*
-  * build a feature control
-  */
--static size_t append_ctl_name(struct snd_kcontrol *kctl, const char *str)
-+static void append_ctl_name(struct snd_kcontrol *kctl, const char *str)
- {
--	return strlcat(kctl->id.name, str, sizeof(kctl->id.name));
-+	size_t len = strlen(kctl->id.name);
-+
-+	strscpy(kctl->id.name + len, str, sizeof(kctl->id.name) - len);
- }
+diff --git a/tools/testing/selftests/alsa/test-pcmtest-driver.c b/tools/testing/selftests/alsa/test-pcmtest-driver.c
+index e025a7bac26b..18ee72d5d4c9 100644
+--- a/tools/testing/selftests/alsa/test-pcmtest-driver.c
++++ b/tools/testing/selftests/alsa/test-pcmtest-driver.c
+@@ -265,7 +265,7 @@ TEST_F(pcmtest, ni_capture) {
+ 	snd_pcm_close(handle);
  
- /*
-@@ -2090,7 +2092,7 @@ static void build_connector_control(struct usb_mixer_interface *mixer,
+ 	for (i = 0; i < CH_NUM; i++) {
+-		for (j = 0; j < params.rate * params.time; j++)
++		for (j = 0; j < params.rate * params.time * params.sample_size; j++)
+ 			ASSERT_EQ(chan_samples[i][j], patterns[i].buf[j % patterns[i].len]);
+ 		free(chan_samples[i]);
  	}
- 
- 	if (check_mapped_name(map, kctl->id.name, sizeof(kctl->id.name)))
--		strlcat(kctl->id.name, " Jack", sizeof(kctl->id.name));
-+		append_ctl_name(kctl, " Jack");
- 	else
- 		get_connector_control_name(mixer, term, is_input, kctl->id.name,
- 					   sizeof(kctl->id.name));
+-- 
+2.43.0
+
