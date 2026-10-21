@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792595305;
-	b=jh/qeLgWouVysC5R9Qs1pG931z1pPRdyZAT1uks6G4ZN7ZvVd+TlyIRW7yHwvK8mLFIj
-	 YYQhpD4825Ol0pCAeRfBSXla//zM26benvXtc2SPPzsA5yXx9VohbK8a51+lHhq3Dj+yG
-	 pXnfFRtQOfR7o4XC7dS1smTS20L2IzWK3+k9hKtkx2Ewz/O51ITCldcpPpEdpzX8CR5Lg
-	 D5gb6bbQ4iHZJhNxe7aA+go6BhjRnEtIeKdVqrK3ILJCq0ODpXECMc/LHPIHc5XR2y48N
-	 9J8S9XWit7r4EzR/0INerNuaesx5IxUxVz1G6GPXB7vXSrSiuZFVu0MzYnvxNfV0UjQ==
+	t=1792595306;
+	b=IAkP31HbSnU2dUhsdqqqvTYjAnuElepi9tsxZGPUxzDEgDHIuwQfrw8HluJim0tCGYZl
+	 uv/6m0pvlGFg78j4SlHqnrJFHgdsu2jUI7U+ZaYqN1NN8QHtAwgEpvcStsLWyA3Vj2kaP
+	 z3tHHTkS0f+rmj89gMJInKewK3tLUNktlOc7US4Ech3oVLyPJsAFMtFghjKjL8os9sJDg
+	 hMjLZ/CYHXtbL4F+9RD2r43QDqhKcbYt2T+1mQN+nead0zHKtONvlNGL0SL+bi/ZGxEZ6
+	 EWEylYZATTNuWy7YJss+nOmaHKloniL7vJf+TjWfpPN6RxNifgdUkA4RyDQUXMLouaw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792595305;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792595306;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
 	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key;
-	bh=m0Hjc8l32fjqZfSZIiJhNxKSLbC3uFZbj2Kv1jpon6Y=;
-	b=UhcgL3qOwG7O/J5gmfLfzeVXSlxj4/Kq043QIFZu6tptafIXI94ntb2f5VtNMkMOCZM4
-	 OJSZgh8sz+sdaS7kNofCJoTPVfdBMAIK5sOYzbUuhfhixuIe9irRjQl79ODESMt+0Pl8u
-	 EceTgVjEScHweyZKZmCJjQupNw1eCIdPKIt2hKp1LTcjWm3W/bPrLkKBFAVD5Ol3/7AD7
-	 S+bi/RqrkZ1rH51g9HyRC44CTxIdVxAh/0G/V4NgFVdI6SL0FawE6UQWJe+eCEJTQw/Bh
-	 KF4xUcGTTAm3AXLbn6XEvpUDyjqIGMdzN+iKLT3Smkyxn30F/JxmWhFwVh2iNo3lprA==
+	bh=8OE6HZ58afzSrCKfxYeVUqdKEpFKAmKlQXDzm52PrLw=;
+	b=gFWWU9jGUst6Ghs0L3gcM5O99bAAo2kjnC7N4aQSv5GYQHM7WJr6CKkQ7fEyn9nPQLC1
+	 +cB11EP8mBFmAqx8+Pp73QU5PTJV/e1maHtcfio+8Hc1lb9pgc7+NhYkYJWsgk/XFSCIM
+	 OYzL0PL8XHr7W6yf3ATsaBVef5IFAl/UqdH0XdOE/decYpLQVev4HD7vXyG9TxMHRK1Cb
+	 S702uCgpkU7xTLyeYXi7+LzObH4y4WbNfipJ43J7twxovaPX3M/p+kAnSbD1gPqi6whlQ
+	 D43g1ypabzHf2FdDii8MHkTHMoRzkVa4QW2AK2Zbo7nBLQ0oxRZToXDToBUhdFu8XEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=baylibre.com;
 	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=aEz4v8+K;
-	arc=none smtp.remote-ip=209.85.128.54
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=E4CktCv5;
+	arc=none smtp.remote-ip=209.85.221.42
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9899B60A260A
-	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 15:08:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9899B60A260A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48179606A327
+	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 15:08:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48179606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=aEz4v8+K
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a0e1b0681bso4754405e9.3
-        for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 08:08:19 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=E4CktCv5
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48afcd7ba9bso610271f8f.3
+        for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 08:08:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1792595298; x=1793200098; darn=vger.kernel.org;
+        d=baylibre.com; s=google; t=1792595304; x=1793200104; darn=vger.kernel.org;
         h=message-id:date:references:in-reply-to:cc:to:from:subject
          :content-transfer-encoding:content-type:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=m0Hjc8l32fjqZfSZIiJhNxKSLbC3uFZbj2Kv1jpon6Y=;
-        b=aEz4v8+KtCtKYXQtprtheQe+nu3i6WHB0t9CkNtxjc1EyOCQQO+xcgyXR4+XAfwuy1
-         Hc4qRI/tl6HJbHdmfD9xwo6IxJhj+KyZ454C9l7KO2pnL2AoOzapeohi0HD9sQOCv7zw
-         O/oEPOqGiZpwii+fQmir6NxjA66IBT+pQuZK5G0qZEPk042E6cEl1vGa4L8ze/oUowNz
-         Nd2N9vLMWb9kSxoycap1DHahTguVtugM/Vsl179fsEdGYoAKIRVM/ZzXmnCJiFkeL+Ez
-         WAP/De04r4zZMpo3pW3f8JGUcqJzr6PvioHyfq/k8UYGaJaPvnNc/lqLx8yNyuJjBmGG
-         x1ow==
+        bh=8OE6HZ58afzSrCKfxYeVUqdKEpFKAmKlQXDzm52PrLw=;
+        b=E4CktCv5h0hOVeKThNfg46aGgszaxRwECAc2I3tpILFrPSImd6lGT9a3P2moZLgdr7
+         0HwCFIoyG01DsFY3uPKjnlxB3nGwCyvqJq05+5eYshsQOvcNvjEOSWS1IVQLTOpCIPxB
+         fo1QbrAMTW+11fpucmzpkRDZVYVc/ZXZL236LLhg54V8VKGuZZacIbSFaC9/kuibrSyW
+         PJvwnsy2VBej/dT2v9maweVVgkK8eYZGpCngOaHvS1/ZvReZUwyN72N/9irPv5FJbCuR
+         Zbf+tOHaJDlgSyz9F0FUNojSu8RLGIktGCgAxhYyYmkUfL1773lELmkzen4rKW5mp1wK
+         +z8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792595298; x=1793200098;
+        d=1e100.net; s=20260707; t=1792595304; x=1793200104;
         h=message-id:date:references:in-reply-to:cc:to:from:subject
          :content-transfer-encoding:content-type:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=m0Hjc8l32fjqZfSZIiJhNxKSLbC3uFZbj2Kv1jpon6Y=;
-        b=K1phA8BeFG6Vy10sQM6AunJe2dDYWtyq2lsoUNveNhir6JdMjwifiwseDBEmsFl+ff
-         rugdcDAnuRIS6ND/zxSV9pbhfLFC+cWZflnoB4xqjfwoklJIwHdk9PdyTDaLGXCASvTT
-         FFKV7lqXyaT5Fj3HoU8xg8WppGPNh5yWS7wUoFuXLLXSWnJg3rR+TaFnvgXKlYaLzAme
-         HohHcRZRZg9By982Sw9Iv7q432DPbnlPmO4Esx1nNAUmfB4zKkDcm7C0syaJXiq3v7sL
-         sfBjyE6YgegiSoHxvwZniJd7Pkirqepl8d29PlhQLbS4ghDDhyUx9KZSwLa/QZKYaUXS
-         j+DQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz6aBs7FQruEBtvcmSSzMEbaCAKXYphl/adLfGnzJnxaMj0CaauYOryhGwwi2NcqJK9LCJzt10XSc6cAA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYIfjfLQEb+DA3QCPB15Y11zPtUwDr+WCV3nUt3lzZpLTfwh5iQ2
-	/XMyX5/AeTF+ufRxvE6tBRrweaxXBIXq7Gm0EDDUJWr1a8iVViEnBcKTFseRni/478A=
-X-Gm-Gg: AYBFou3hLK4fTAkSFlbFa8UoFMO3322ThggQEcd5QvWRoC3UxVBoeX/dHk2cwMzj19u
-	4YtmEPWFyq1Q/CPTGQ37E98YKf/bQ9HQi4/X5zZ2pDO7wUTZnwRcjbiN9ZB4UcV1JieKLOT8j+Y
-	ETLYK9YqIFiB5UGEfrNjDBopuvu8P5grbf9n8NpsPa9a0j7SaUUwbyr5Rk/B4OFezglfweoQI0t
-	jUfRTMlSO3JybL+ufsfi2wbBBDGl4Dgt882S94Pc562GYq9J9we/mUZ0UDUZ/zm+DofOn5WEqqL
-	SYcZ8BzMeVgh9CQH6DekuyvyEU7sqtQK36l49pdsrvANkKtFmzwFcqiPjg4F6Sxo1ttxbEd0yhn
-	WaVgrU8H797P9jtGbse46ZiCcAPxTNpQguGWv6TviMixmDWkhfiyeKUeXUHxz/1/u4e9mrJx9c5
-	Dj3Av8tHxLTNhsqBpWrWeilo1YtO8rcLSj+fwkL/6mL/cTQnq3QAzWLIDnrYSWBHDcbLethFQRY
-	RUApogXZE/rLtVR28molVxZcSeHBRuKgmV079x/a9GhQOrVwBxwmhEswSMU9GXolvFDbO4630U=
-X-Received: by 2002:a05:600c:6296:b0:4a1:df50:5758 with SMTP id 5b1f17b1804b1-4a1fd8cb920mr50004785e9.1.1792595297894;
-        Wed, 21 Oct 2026 08:08:17 -0700 (PDT)
+        bh=8OE6HZ58afzSrCKfxYeVUqdKEpFKAmKlQXDzm52PrLw=;
+        b=nWDu9h+3FZxMBXNK/3BKqC6kiavyRv+7g/MBgYA99/hpZ6oCG8+K49VfMQQ5UbAvQ1
+         FfPiwMme7iJuCESlw81atn+FCZ/EcaqAsIHzF/GL0PPwZEZE5ZWeHMbp/f93YsEbuL9q
+         kU740lSNkZznkr7mAyKYM38JDzWggHLJT5rSsJiDuq3cP94gm53YGNS3jys16fh5l8Ir
+         tOOwuSrt5zm0UFAVYGZ2oi4KOu7iG28inamJN90lyflPbiGjy3D6vw8v0aBhKAFCANeE
+         p6ryhGLiZR3B6/uwPci/uEONz3aNtuGgpjuZuh7IvZlOG4nq1h4RWHLgvaJ0VjCXBriH
+         Qwzw==
+X-Forwarded-Encrypted: i=1; AKwUvBxkTCZbvk48aJJFu0M22o0AnHXgsumiiuur9hcYkV1q9cYekkzvI6Tesr2CItVJjpDU8AD1IsgD9Ds0eA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYIhlnVgtQpFdBMyTVqw8+j6AZpTPZk2UaMNLe1S+cHO0vpbotXh
+	bxUbIpEEazGARUR/HDNIP7A+h+DEU8E+sRNH5SzQfWQB4cA6C3pYwZxiYThjn9gtT/g=
+X-Gm-Gg: AYBFou18csFrb29O27f6ZnFmhFZhTEhm/ARJHnScA4x8BV7h9aKBMNerByHLiKCmsQs
+	KfwzIdo523DPqkGtnXVHQpfKoeeKSmXXjbUOzE9aKhP3KCb5LPZUAtQzH1nDAWQDT8cSsFk9cxK
+	CHeJwKUY0bVIC6pAlvuAcxnk/3M9mYtLkXO5eVCp+PJJ0pSxNvMTmA0Q9zBRNbhYNBp+Dd68R37
+	zyPKptPcFvMnid8PP7XXqsz6IXNOzAX9tMt7gQiz4r9LA2LT/KY2QJ3B5V6NO75lN2pBP08n0D+
+	Pm7U6eEcjil0pA4buQAW7wl6xhkxHyUSO00hCucUvN0pg0wC0dwnlkV2DEHl1o1/BIV7SWAm53x
+	/AznpMoTeNv9wUzaJx/qKDDrBnq98WWE4jul1ggTSOUIhAro0RPn0VZp0vZ5NMSTihvwPwieR4Q
+	6TaTIEqMBUyTrICMOe6vK968UCcP7m2qzEsIRU5xYUfQ+1zRFJjkwqXRAmddqvRgAF6OOqq4Q5i
+	DEDAaif2F/fkN2aYYAilJW7w+BxCEyi+/YPhX3dXfDX56QSi1meyWuWVONio9wno+cIoMKmIxk=
+X-Received: by 2002:a05:6000:2301:b0:48d:e61d:68da with SMTP id ffacd0b85a97d-48e264ab2a1mr4944600f8f.20.1792595299491;
+        Wed, 21 Oct 2026 08:08:19 -0700 (PDT)
 Received: from localhost (82-67-6-57.subs.proxad.net. [82.67.6.57])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a20049941dsm36794605e9.11.2026.10.21.08.08.16
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e25835404sm6652761f8f.42.2026.10.21.08.08.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 08:08:17 -0700 (PDT)
+        Wed, 21 Oct 2026 08:08:18 -0700 (PDT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -90,8 +90,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v7 3/5] ASoC: meson: g12a-toacodec: Add S4 tocodec
- driver
+Subject: Re: [PATCH v7 4/5] clk: meson: axg_audio: add S4 support
 From: Jerome Brunet <jbrunet@baylibre.com>
 To: Jiebing Chen <jiebing.chen@amlogic.com>
 Cc: Jerome Brunet <jbrunet@baylibre.com>, 
@@ -107,82 +106,28 @@ Cc: Jerome Brunet <jbrunet@baylibre.com>,
  linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
  linux-clk@vger.kernel.org, jian.xu@amlogic.com, shuai.li@amlogic.com, 
  zhe.wang@amlogic.com
-In-Reply-To: <20261021-audio_drvier-v7-3-2b9aeae9cb8a@amlogic.com>
+In-Reply-To: <20261021-audio_drvier-v7-4-2b9aeae9cb8a@amlogic.com>
 References: <20261021-audio_drvier-v7-0-2b9aeae9cb8a@amlogic.com>
- <20261021-audio_drvier-v7-3-2b9aeae9cb8a@amlogic.com>
+ <20261021-audio_drvier-v7-4-2b9aeae9cb8a@amlogic.com>
 Date: Wed, 21 Oct 2026 17:08:09 +0200
-Message-Id: <179259528986.4070168.179126639869298765.b4-review@b4>
+Message-Id: <179259528986.4070168.1199000664504589178.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2307; i=jbrunet@baylibre.com;
- h=from:subject:message-id; bh=aT/Bvwr1IC3lec+0KVaFiCrr+0v7baOk1896xqidnfQ=;
- b=owGbwMvMwCW2VtK+WnvWU3HG02pJDFk3rsaXnu399Vj82hve2avywriU/6z0t5/K4BMyhdGpI
- sSP9cedjlIWBjEuBlkxRZYa7mrxd5JaX2ZN17kNM4eVCWQIAxenANzkp4wMLxVKdWfazw34tVSo
- LJAvcne0rSDrowsXO4PktqyfL6b0h+GvXKuDmBjT5pJZ+eztVi5G+Y/WXk2b/XTul0jV5CObErW
- ZAQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=437; i=jbrunet@baylibre.com;
+ h=from:subject:message-id; bh=YqvMrgag+SS1YYwbYaYO3LQNDj+WNIZgZH/cwchSYXY=;
+ b=owGbwMvMwCW2VtK+WnvWU3HG02pJDFk3rsar1wWxnVjfVDGxa747u6jg0rYvk7MLdt3qiLDcW
+ xS2IKGyo5SFQYyLQVZMkaWGu1r8naTWl1nTdW7DzGFlAhnCwMUpABOJUGX4H71gnX/nHxExLkv7
+ tJyUPv9053drfe9zHuE8eLKWy4RpN8P/osR9DJwFEsw8Ljx5/LkOB3vFmap3fj1ptnpub2r9YQM
+ GAA==
 X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
  fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 
-> The S4 requires additional clock control bits to be turn on while enabled.
-> The S4 has 8 TDM lanes, instead of 4 on previous SoC.
-> Update the widget accordingly.
-> 
-> Signed-off-by: Jiebing Chen <jiebing.chen@amlogic.com>
-> ---
->  sound/soc/meson/g12a-toacodec.c | 49 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 49 insertions(+)
->
-> diff --git a/sound/soc/meson/g12a-toacodec.c b/sound/soc/meson/g12a-toacodec.c
-> index 21941ee552c5..9cfed3702354 100644
-> --- a/sound/soc/meson/g12a-toacodec.c
-> +++ b/sound/soc/meson/g12a-toacodec.c
-> @@ -41,6 +41,9 @@
->  #define  CTRL0_BCLK_SEL_LSB		4
->  #define  CTRL0_MCLK_SEL			GENMASK(2, 0)
->  
-> +#define CTRL0_BCLK_ENABLE_SHIFT		30
-> +#define CTRL0_MCLK_ENABLE_SHIFT		29
+On Wed, 21 Oct 2026 15:08:31 +0800, Jiebing Chen <jiebing.chen@amlogic.com> wrote:
+> Add S4 support the axg audio clock controllers, Compared with the
+> previous version, the selection of the audio's clock and data pad
+> will be designed in the form of pinmux control. The purpose of doing
+> this is to distinguish between clock control and pin control selection.
 
-Please follow the indentation convention in place (2 spaces)
-
-> +
->  #define TOACODEC_OUT_CHMAX		2
->  
->  struct g12a_toacodec {
-> @@ -141,6 +144,16 @@ static const struct snd_soc_dapm_widget sm1_toacodec_widgets[] = {
->  			    &g12a_toacodec_out_enable),
->  };
->  
-> +static const struct snd_soc_dapm_widget s4_toacodec_widgets[] = {
-> +	SND_SOC_DAPM_MUX("SRC", SND_SOC_NOPM, 0, 0,
-> +			 &sm1_toacodec_mux),
-> +	SND_SOC_DAPM_SWITCH("OUT EN", SND_SOC_NOPM, 0, 0,
-> +			    &g12a_toacodec_out_enable),
-> +	SND_SOC_DAPM_SUPPLY("I2S BCLK Gate", TOACODEC_CTRL0, CTRL0_BCLK_ENABLE_SHIFT, 0, NULL, 0),
-> +	SND_SOC_DAPM_SUPPLY("I2S MCLK Gate", TOACODEC_CTRL0, CTRL0_MCLK_ENABLE_SHIFT, 0, NULL, 0),
-
-BCLK Gate => BCLK EN, same for MCLK
-
-> +
-> +};
-> +
->  static int g12a_toacodec_input_hw_params(struct snd_pcm_substream *substream,
->  					 struct snd_pcm_hw_params *params,
->  					 struct snd_soc_dai *dai)
-> @@ -226,6 +239,16 @@ static const struct snd_soc_dapm_route g12a_toacodec_routes[] = {
->  	{ "OUT Capture", NULL, "OUT EN" },
->  };
->  
-> +static const struct snd_soc_dapm_route s4_toacodec_routes[] = {
-> +	{ "SRC", "I2S A", "IN A Playback" },
-> +	{ "SRC", "I2S B", "IN B Playback" },
-> +	{ "SRC", "I2S C", "IN C Playback" },
-> +	{ "OUT EN", "Switch", "SRC" },
-> +	{ "OUT Capture", NULL, "OUT EN" },
-> +	{ "OUT EN", NULL, "I2S BCLK Gate" },
-> +	{ "I2S BCLK Gate", NULL, "I2S MCLK Gate" },
-
-Audio signal does not go through those Gate elements
-They should be supply path connected to OUT EN.
+Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
 
 -- 
 Jerome
