@@ -1,55 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792579191;
-	b=5Ugw0pi/5TfRp54WTwPI/ik6AcHAJfpIX5IrlVerUD2Fi8m8N7LB5bwV7QJf/UaJreQB
-	 cDZaYaPMpkGNOXfob/QjubBP0BUXUaVJw3Fcn1wMklKuTanNglkU9t4j35I+A2b4WJMWZ
-	 zI/1suEPYXqUYJKA4MiRFWnYkYsxtftflG3p+NWsrf8bhg2Sr+Ves3jK5EIAWXAhshfXQ
-	 CiF6Y0KFdJbqPKljcNrUnBAl6j3tpPsFDkEqvgrV8C+oDcS2ZqTDAkIg4NQp7+R+c1JcB
-	 D5yvTsx6iVSFxS54bjpPwRYQbnt5Zkm8Wy/xTfEyMIV0+BnsmQnWL+hqL8zWGt6QpiQ==
+	t=1792580375;
+	b=Qbn5kZpraRkTSagMnE1vL+SR0leO8k1QLugT5nN+32ZUmA6PapOfLyBiaZ7FDtzY1NVO
+	 UgD9a0ebr4hnFv/Jv3WJzyLoJQrhH5fTjBXn+SV3RGJQ5+tw1JuiThBh1ouHRpJpbLKDZ
+	 imot0NDulTd6KJ32TSdihyHfeSNGsCy8QbF35gdSYJJZM1h1FMOsBuLwef/us0b+CS7BO
+	 ynV/eVXY7eYVBGyE/orPRRXx+edl/d/OqAEUW/hrx4oDhixvuRau3qpjslgLH61U1OtX6
+	 AwLZBQ292n8Wl6eXyBL7yALlmDFbq2vmQ5t4qY3b45+FmEf3SDjdOFzBQVXei0dd42g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792579191;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792580375;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 MIME-Version:X-Developer-Signature:X-Developer-Key:
 	 Content-Transfer-Encoding;
-	bh=+bOtnolbvwVEQRpUVruT+es6N5ry2WqIDrMbY/v3IyM=;
-	b=J8nak9qR680VRZ4YGAi2K7Cegai3Cq5k12SPJlwr6BdxG+Hn+lxi6cqFFkc4tsTBHmIM
-	 P8Z4Fh3F5zdyX51HFWxqgMbk9PrB8EhGXjEkKJQR1xZWuVAz9IZk92OuxuQYUZliQxIwe
-	 BbIvsFVVbuT1NPyHARo75rCF08zkE52DW9+C+uhlM5koTVT3c+mxRrmKCkZ3IICrg10TD
-	 arjTP+FYB3ABiv+cvSmAYgCypnkwqyUSE4X9iczHUs+HQBimZn79QCVF2UwTVozjJguEy
-	 BqzfKuPgCaFQQgQfL+Q9q6Lr6xpVsKTqrbev7HjZvvPjpvSSdqGW3NafcV0LEQUNitQ==
+	bh=71PhXNjOvmIAl1aRTI7zqhrskFBVVkC78m4SzV3kK8s=;
+	b=BZJywqptcVIXx1w7htLnd9Bojd3miFJA39+8kU1dJmMtR1viDi1OtHwkNfW/I3oYqepR
+	 S5yoTC/+jf8pkOiabeltTvryN0jwng2SIXLPTWXpnRAvkSUzSF8Gm0NVO1Z6JK74c4Fbv
+	 4Pebw1oLcKvdL9VPIzHplmcKD9z+AXvGoxt2qqwbK4BpVDYea/TFjcq1WagBlGD2gq7tt
+	 c7BRrLjQyiTGvS8JLDsq5R/C8wi+g7ZABWOX8aArnPVh8VlPvZCGa3zHJM9HHVnHya6Lp
+	 x9tqh9U3tklGYK03le51/8GelUPPqnWnHvuaamc1OaVle/LOwG7pKVxAyFAnm4T9mGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fJQaTsSy;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i1+MDMGt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B5B606A31B;
-	Wed, 21 Oct 2026 10:39:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091E0606A31B;
+	Wed, 21 Oct 2026 10:59:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fJQaTsSy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C9C31F000CD;
-	Wed, 21 Oct 2026 10:39:49 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i1+MDMGt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE1241F000C9;
+	Wed, 21 Oct 2026 10:59:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792579191;
-	bh=+bOtnolbvwVEQRpUVruT+es6N5ry2WqIDrMbY/v3IyM=;
+	s=k20260515; t=1792580374;
+	bh=71PhXNjOvmIAl1aRTI7zqhrskFBVVkC78m4SzV3kK8s=;
 	h=From:To:Cc:Subject:Date;
-	b=fJQaTsSyt9df4Xgc8Pd0Yg8BDyYlDgqHHjcXJ3R/LC2QnijYgm9gk7iqOb3Qj2uVI
-	 Qa3L60+vS/uE385w5jwTA4UCvY8fqvIWAD5VBm6n7cK12BMT12JU0t7YXNgN0ZJW8w
-	 wa36Ta84FBczOqqvAgqZuYro83piAikdrvUYkLAWka6xJQQl6nYLnrobuJ3HfJKs3X
-	 guKilkLheLdScFv53PbdbZtd1tLCSO7WEdRfP5q8GL9zX52GowNdYjXUmz0U2K8yMN
-	 QA3zwD0W+G4rmh3719QULHfJx5Er0U6gg5suhbk26Q1YblT4zdRh0M0ZFoJkei2Z6e
-	 dCAMvfDuZILIg==
+	b=i1+MDMGtleUeML8OwFtwmJQRuoyHcR+jJfoYStTvTgWsP24f/QUqHy1T3LEfDIVus
+	 7s05SEm17UKRkckZ5q1WypTzLMpqS+mYCa+S3iHU0OOoztNQzjtKyRRVOYK4d1a3I9
+	 i0/4U+oLbwpvTr92AmPGP7gDAFTBtTdLAh/PeRIi3sWngcFDfWPWJQ2EU+8yKUz2a7
+	 WWq7fcn+syQUjmmzKCvGqh543Gn4s31NSpjMhTHkDHQvI1ULFhkN3Z+CfMEjKNhshW
+	 SOE3TgvKi5FOF72Zd5zcDpOu9I/zMXTk1XUirFPknSb41ekQbefQwqyDT1H0KGtq9Z
+	 BTAce2BZpvqTg==
 From: Thorsten Blum <blum@kernel.org>
-To: Daniel Mack <zonque@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Thorsten Blum <blum@kernel.org>,
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Rong Zhang <i@rong.moe>,
+	Arun Raghavan <arunr@valvesoftware.com>,
+	Thorsten Blum <blum@kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: caiaq: Use strscpy() in snd_usb_caiaq_input_init()
-Date: Wed, 21 Oct 2026 12:39:29 +0200
-Message-ID: <20261021103928.131918-2-blum@kernel.org>
+Subject: [PATCH] ALSA: usb-audio: Use strscpy() in append_ctl_name()
+Date: Wed, 21 Oct 2026 12:58:26 +0200
+Message-ID: <20261021105826.147060-3-blum@kernel.org>
 X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -60,41 +62,48 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1134; i=blum@kernel.org; h=from:subject; bh=jdhGb25BjbTTHlUy8yl/61MD6kBd49iazqi2HnxGTt0=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDFk3piWUqcdI96UfES04uTtJbKPy9OtCR3JTS/3lPNhsD 9TNmNLeUcrCIMbFICumyPJg1o8ZvqU1lZtMInbCzGFlAhnCwMUpABO5GMrIMN0vjnNGX/mclv65 7i7nVU3+hP43lqsWOVEy4/qVI1V9fgz/FJb5/Hmz29R5H+8zm9ZNPdaWyRvDdATuvN++/ejGl/s XswMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1503; i=blum@kernel.org; h=from:subject; bh=iiUI6+gsmzqf5KZyem4oHEBxqYvGd+SjMlFNlVP6GDE=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDFk3Zl0yi68qmL9y1Rd/mabqQs6jD5Sf5heVya0r22Vdd jFceb5+RykLgxgXg6yYIsuDWT9m+JbWVG4yidgJM4eVCWQIAxenAEyE34aR4XH+rKC5EjWMW0tr r7Pv/XDvoegdi2+uEZeWtq8JfMvj4MXwv4jj2CP7yfX9yUyJj1yjeNbdKdvC5Pf9Qqp/xoSs15U crAA=
 X-Developer-Key: i=blum@kernel.org; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
 Content-Transfer-Encoding: 8bit
 
 To prepare for removing strlcat() from the kernel [1], use strscpy()
-instead with the length returned by usb_make_path() as the append
-offset.
+instead with the current name length as the append offset. Change
+append_ctl_name() to return void since no caller uses its return value.
+
+Use append_ctl_name() to append " Jack" in build_connector_control().
 
 No functional change.
 
 Link: https://github.com/KSPP/linux/issues/370 [1]
 Signed-off-by: Thorsten Blum <blum@kernel.org>
 ---
- sound/usb/caiaq/input.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ sound/usb/mixer.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/sound/usb/caiaq/input.c b/sound/usb/caiaq/input.c
-index 8d924330c54c..e2aa09d3de61 100644
---- a/sound/usb/caiaq/input.c
-+++ b/sound/usb/caiaq/input.c
-@@ -605,13 +605,15 @@ int snd_usb_caiaq_input_init(struct snd_usb_caiaqdev *cdev)
- 	struct usb_device *usb_dev = cdev->chip.dev;
- 	struct input_dev *input;
- 	int i, ret = 0;
-+	int len;
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index ecaa8bc08d7c..0320a3e8af92 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -1720,9 +1720,11 @@ const struct snd_kcontrol_new *snd_usb_feature_unit_ctl = &usb_feature_unit_ctl;
+ /*
+  * build a feature control
+  */
+-static size_t append_ctl_name(struct snd_kcontrol *kctl, const char *str)
++static void append_ctl_name(struct snd_kcontrol *kctl, const char *str)
+ {
+-	return strlcat(kctl->id.name, str, sizeof(kctl->id.name));
++	size_t len = strlen(kctl->id.name);
++
++	strscpy(kctl->id.name + len, str, sizeof(kctl->id.name) - len);
+ }
  
- 	input = input_allocate_device();
- 	if (!input)
- 		return -ENOMEM;
+ /*
+@@ -2090,7 +2092,7 @@ static void build_connector_control(struct usb_mixer_interface *mixer,
+ 	}
  
--	usb_make_path(usb_dev, cdev->phys, sizeof(cdev->phys));
--	strlcat(cdev->phys, "/input0", sizeof(cdev->phys));
-+	len = usb_make_path(usb_dev, cdev->phys, sizeof(cdev->phys));
-+	if (len >= 0)
-+		strscpy(cdev->phys + len, "/input0", sizeof(cdev->phys) - len);
- 
- 	input->name = cdev->product_name;
- 	input->phys = cdev->phys;
+ 	if (check_mapped_name(map, kctl->id.name, sizeof(kctl->id.name)))
+-		strlcat(kctl->id.name, " Jack", sizeof(kctl->id.name));
++		append_ctl_name(kctl, " Jack");
+ 	else
+ 		get_connector_control_name(mixer, term, is_input, kctl->id.name,
+ 					   sizeof(kctl->id.name));
