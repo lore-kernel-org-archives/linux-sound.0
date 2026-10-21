@@ -1,54 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.42.1
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792579034;
-	b=vkFJRhy3J/yrNDjdyuVaYnMSt4qGxPJ4VtcNqMwE+Q8YPjmqGZy4LKxVjuJryQVJcnTs
-	 OhilxGqzxfuhZjX31kqKTYT+Ugk/cx8fhVW3K3UGOduw6y3FwrdZkTufCpXLCpBnHaKPl
-	 CaUEQtK/3yezhzX2KSlZeWh7Z0QsEPDaV9874Hqf/g2G4gBL2r3ID75egRFvT8XRofRpH
-	 pm2aL8AyhAA2nQZwvZGzqQtrsGEcOqiiHr45xSeA+GJ4pduJPCk8g+tYLo8GGRNFnTDaJ
-	 v4qhM+e3Iik2V01UxNx0a40JHdJyo9MnnsjH3NmfGCrmyvb/haimYPyFMsEvv03msow==
+	t=1792579191;
+	b=5Ugw0pi/5TfRp54WTwPI/ik6AcHAJfpIX5IrlVerUD2Fi8m8N7LB5bwV7QJf/UaJreQB
+	 cDZaYaPMpkGNOXfob/QjubBP0BUXUaVJw3Fcn1wMklKuTanNglkU9t4j35I+A2b4WJMWZ
+	 zI/1suEPYXqUYJKA4MiRFWnYkYsxtftflG3p+NWsrf8bhg2Sr+Ves3jK5EIAWXAhshfXQ
+	 CiF6Y0KFdJbqPKljcNrUnBAl6j3tpPsFDkEqvgrV8C+oDcS2ZqTDAkIg4NQp7+R+c1JcB
+	 D5yvTsx6iVSFxS54bjpPwRYQbnt5Zkm8Wy/xTfEyMIV0+BnsmQnWL+hqL8zWGt6QpiQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792579034;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
-	 User-Agent:Content-Language:To:Cc:From:Subject:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1792579191;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:X-Developer-Signature:X-Developer-Key:
 	 Content-Transfer-Encoding;
-	bh=NJSG4MH3JAsM/xTzeoS7yh0rO+miVkl0hZ7MB4tPMpc=;
-	b=Ud2rCbKz244an0Hyxay8/mzcxtvjcuYzD/N0mwfOaWAC4QA9QxclfFeGorMygCgUfZfw
-	 FtqxiI/SOacYSczZWyTXS8hIc4Qr4MTbaP+9KfeAHcFDy1X9V2BeTurW2T6Il5sMrCE+m
-	 kbfaE7V51xJuCwdOCU515EfAQ+ilkJDJJqaHkGfd0bMZtfgTn9gyhlE3pTi3E5uJxNUJ6
-	 AqS8x/mGmBdg8DjVA4cfFZ0GsQBYzRcDK6Wut/nzd+FWCyo1pTmRG+N73zS1fXufaWsTJ
-	 oZnYzUmZlhPOtPA3VXpmqwRsGDHbDn4Fk6VsL0yeCBwDDZTardyM0+JU2bZnPR5q7mQ==
+	bh=+bOtnolbvwVEQRpUVruT+es6N5ry2WqIDrMbY/v3IyM=;
+	b=J8nak9qR680VRZ4YGAi2K7Cegai3Cq5k12SPJlwr6BdxG+Hn+lxi6cqFFkc4tsTBHmIM
+	 P8Z4Fh3F5zdyX51HFWxqgMbk9PrB8EhGXjEkKJQR1xZWuVAz9IZk92OuxuQYUZliQxIwe
+	 BbIvsFVVbuT1NPyHARo75rCF08zkE52DW9+C+uhlM5koTVT3c+mxRrmKCkZ3IICrg10TD
+	 arjTP+FYB3ABiv+cvSmAYgCypnkwqyUSE4X9iczHUs+HQBimZn79QCVF2UwTVozjJguEy
+	 BqzfKuPgCaFQQgQfL+Q9q6Lr6xpVsKTqrbev7HjZvvPjpvSSdqGW3NafcV0LEQUNitQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=free.fr;
-	spf=pass smtp.mailfrom=free.fr;
-	dkim=pass header.d=free.fr header.i=@free.fr header.a=rsa-sha256 header.s=smtp-20201208 header.b=hS1VZipD;
-	arc=none smtp.remote-ip=212.27.42.1
-Received: from smtp1-g21.free.fr (smtp1-g21.free.fr [212.27.42.1])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fJQaTsSy;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CEBE606A319
-	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 10:37:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6CEBE606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=free.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B5B606A31B;
+	Wed, 21 Oct 2026 10:39:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=free.fr header.i=@free.fr header.a=rsa-sha256 header.s=smtp-20201208 header.b=hS1VZipD
-Received: from [IPV6:2001:861:61:4fb0:8b30:70ef:51a9:34a7] (unknown [IPv6:2001:861:61:4fb0:8b30:70ef:51a9:34a7])
-	(Authenticated sender: jjacinto@free.fr)
-	by smtp1-g21.free.fr (Postfix) with ESMTPSA id EA98FB0051B;
-	Wed, 21 Oct 2026 12:37:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-	s=smtp-20201208; t=1792579026;
-	bh=0852g0U5bhWwV4zq7ymGDkcOiqAeU3hZ5ddTVqtyRAM=;
-	h=Date:To:Cc:From:Subject:From;
-	b=hS1VZipDsMDHf8M0tdciNsZzKcXxP0nYAmp9RWuu+xFNeNJxm+wvk7MkJZPYdWQGm
-	 WXRm/XkLVCgeMRjF9niY192MNZ4Vsts5wyEprC/90gH+mykwyf9NstPn9JUkXqq/qb
-	 rMYNv0KNmk/sfXC/jJn32UPr75m7kCOYuuR0xfZ6sBYcRq29t+nzl01waWlMY2iFky
-	 XGJJhN8BE0IWXSQj1bgkmeqcmt1Vb3fzdJcHW+JN7UzuKROhvCjHpvO9aRlnSvn9uR
-	 RWjK/KOYV+su7HGFp32OaJRR80b/3Eu4Z5RftgeD4VHH8/t2AxceTBz/HmKH731dV2
-	 q/L8xAhwrsRtA==
-Message-ID: <6a0f41ea-6dc4-4d57-89a1-9110bd246f0e@free.fr>
-Date: Wed, 21 Oct 2026 12:37:04 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fJQaTsSy
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C9C31F000CD;
+	Wed, 21 Oct 2026 10:39:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792579191;
+	bh=+bOtnolbvwVEQRpUVruT+es6N5ry2WqIDrMbY/v3IyM=;
+	h=From:To:Cc:Subject:Date;
+	b=fJQaTsSyt9df4Xgc8Pd0Yg8BDyYlDgqHHjcXJ3R/LC2QnijYgm9gk7iqOb3Qj2uVI
+	 Qa3L60+vS/uE385w5jwTA4UCvY8fqvIWAD5VBm6n7cK12BMT12JU0t7YXNgN0ZJW8w
+	 wa36Ta84FBczOqqvAgqZuYro83piAikdrvUYkLAWka6xJQQl6nYLnrobuJ3HfJKs3X
+	 guKilkLheLdScFv53PbdbZtd1tLCSO7WEdRfP5q8GL9zX52GowNdYjXUmz0U2K8yMN
+	 QA3zwD0W+G4rmh3719QULHfJx5Er0U6gg5suhbk26Q1YblT4zdRh0M0ZFoJkei2Z6e
+	 dCAMvfDuZILIg==
+From: Thorsten Blum <blum@kernel.org>
+To: Daniel Mack <zonque@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Thorsten Blum <blum@kernel.org>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: caiaq: Use strscpy() in snd_usb_caiaq_input_init()
+Date: Wed, 21 Oct 2026 12:39:29 +0200
+Message-ID: <20261021103928.131918-2-blum@kernel.org>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,51 +60,41 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.com
-From: "J.M. Jacinto" <jjacinto@free.fr>
-Subject: usb-audio: Vestax VCI-380 (1aa1:0240) choppy capture until SET_CUR
- sample rate is sent
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1134; i=blum@kernel.org; h=from:subject; bh=jdhGb25BjbTTHlUy8yl/61MD6kBd49iazqi2HnxGTt0=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDFk3piWUqcdI96UfES04uTtJbKPy9OtCR3JTS/3lPNhsD 9TNmNLeUcrCIMbFICumyPJg1o8ZvqU1lZtMInbCzGFlAhnCwMUpABO5GMrIMN0vjnNGX/mclv65 7i7nVU3+hP43lqsWOVEy4/qVI1V9fgz/FJb5/Hmz29R5H+8zm9ZNPdaWyRvDdATuvN++/ejGl/s XswMA
+X-Developer-Key: i=blum@kernel.org; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
+Content-Transfer-Encoding: 8bit
 
-Hello,
+To prepare for removing strlcat() from the kernel [1], use strscpy()
+instead with the length returned by usb_make_path() as the append
+offset.
 
-Disclaimer: I used AI to analyze a bug I was having from a long time 
-with my sound card under linux.
-The inputs were stuttering on linux, but plugging the controller to a 
-Windows machine then back to linux solved the issue. Could it be 
-possible to enable QUIRK_FLAG_ALWAYS_SET_RATE for my hardware ?
+No functional change.
 
+Link: https://github.com/KSPP/linux/issues/370 [1]
+Signed-off-by: Thorsten Blum <blum@kernel.org>
+---
+ sound/usb/caiaq/input.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-The Vestax VCI-380 DJ controller (USB 1aa1:0240, UAC2, single internal
-clock, 48 kHz only) has a corrupted capture stream on Linux: a block of
-samples is dropped or repeated every ~90 frames (about 140
-discontinuities per second), heard as choppy sound on all 8 capture
-channels. Playback works fine.
-
-Cause, as far as I can tell: right after power on, the controller
-reports 48000 Hz on its clock source (ID 41), but only configures its
-clock when it receives a SET_CUR sampling frequency request. Since the
-reported rate already matches, snd-usb-audio never sends it. The
-Windows driver (Thesycon based) always sends it, which is why the
-inputs are clean after using the controller on Windows and plugging it
-back into Linux without switching it off.
-
-Sending a single SET_CUR of 48000 Hz to clock source 41 from user space
-(libusb, with the driver unbound, then re-enumerating the device) fixes
-the capture until the next power cycle: the recorded input goes from
-about 140 discontinuities per second to none.
-
-It looks like what QUIRK_FLAG_ALWAYS_SET_RATE was added for, so a
-quirk_flags_table entry for 1aa1:0240 would probably be enough. My
-kernel doesn't have that flag yet, so I couldn't test it.
-
-Kernel: 7.0.0-38-generic
-lsusb -v output and recordings are available if useful.
-
-Thanks,
-JM Jacinto
-
+diff --git a/sound/usb/caiaq/input.c b/sound/usb/caiaq/input.c
+index 8d924330c54c..e2aa09d3de61 100644
+--- a/sound/usb/caiaq/input.c
++++ b/sound/usb/caiaq/input.c
+@@ -605,13 +605,15 @@ int snd_usb_caiaq_input_init(struct snd_usb_caiaqdev *cdev)
+ 	struct usb_device *usb_dev = cdev->chip.dev;
+ 	struct input_dev *input;
+ 	int i, ret = 0;
++	int len;
+ 
+ 	input = input_allocate_device();
+ 	if (!input)
+ 		return -ENOMEM;
+ 
+-	usb_make_path(usb_dev, cdev->phys, sizeof(cdev->phys));
+-	strlcat(cdev->phys, "/input0", sizeof(cdev->phys));
++	len = usb_make_path(usb_dev, cdev->phys, sizeof(cdev->phys));
++	if (len >= 0)
++		strscpy(cdev->phys + len, "/input0", sizeof(cdev->phys) - len);
+ 
+ 	input->name = cdev->product_name;
+ 	input->phys = cdev->phys;
