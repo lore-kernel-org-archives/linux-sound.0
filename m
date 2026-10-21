@@ -1,55 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792594137;
-	b=lawCZCnOICxwlljx1rW1e68wuWEgAn2TZDeo0V/Djp27KB/q7rW8VizVx+zV6xkWEzNa
-	 KJkMIOmbI7UQIHiCr9vBNKa/TIhR3GZJUKnv5TrvKMDjcXy3PJl2hKRQ9GUAGuAjGOPdO
-	 GUJaMOKMQ8kBfLm/UHAquh7rPUrKapQ1hNeQm3M18XefoqQNL7XzkaNu9CYmANTaNVZ8a
-	 dAX/uFClgzJE+9WzKBZJNN70ieOwE1PiNKOZZyLQGNfoA6JH8fAZ27rlzBwjDHsuphzm8
-	 5Cn5N5VLY5UPj6RsQhxVxOWfMG5ImCXnxPV9XWe/mXv65RLaRhwAInfN26UY9TC6tAA==
+	t=1792594732;
+	b=kFzYYAYhV0zLEcCQP6nOwiFkQhUPYxqH3J8ax0x9TiKJhA8KwuScoOrztx6iXnkttb0c
+	 WDh+lmt4F1Jagq7uuHx24YiXjNGjSlvLmtRTS+ynvPF/bjoVzSnkORZaCdAxPQipFGY+b
+	 X6gPDbd/le3fiqNiG1wiQHb/CsvzyhfgmZ7qL5UZvm/oLXs4AMoCAh/UB0qGb+ZS/yD46
+	 7xaOY9jOAu7MGRw0vkoFZQqHQ8IKTI+iyfJU7lAFYzhSLKbqXfCn45TUhhBEmcC1bTqMh
+	 IIyG84STo505yf1A3BIxyYM2fWLXXmxl3XvwCRBv02VatGuLrQVtdBic6Ta2YZtzbdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792594137;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=N6/2Sb8S4wXn18oNbwyPRtqNqgXpmx0Kczxs042VHUc=;
-	b=VqiIAdC7QloNAi+zSDd8/KKE3d/WYoUiq/wmTla/4GSPeDaMBN3uaQLyAHtW/haYL3Pd
-	 tR4xSciY+eENPN/E4ubik5fIJlyGwY5mWe3Zgq+pNPuZqMu7sCJ/I57e0/6tKJKNfnEPA
-	 RnhvkabYIXgWcQQuKHIkTVsnJleDTqI6/iHpBv1BLpube5gI6i7gRxp18pvCEfoAia3zD
-	 eLensnAHsAjTd2sKeJMEqyolJrfqqbIOgE7XiAlhLnveU7pPcHbLl+hQZyVoXgNqpPRla
-	 yHKg6V8JrwRlvK7xd0OYBd5KCghBZzKjUG1oav58FBYv5jaIh2CMqjCC1bOlypxSr0g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792594732;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=WRCoEq90OxUV9ZxcUAEaVJ83BjwryOyU5b8zNnCpwbU=;
+	b=k1N857hJd7E8WR/ruVZSooKtF6EkwMXH5FTFyhwIpeIZfFF7SbZ8a4IsqvFlEPHWzVPq
+	 PJqf/jexkcgol2hqSTtVGmQvQZ15G4HqO5do0I0f9c5BvO0L5rSE1PRx39BWjUv5/PY0W
+	 xnxr6J5bQf4lS1+RuuZbqwAFM8Um/9Qb5hrCh23n9KekFEzgFUwX4t/83hOOkZHGke9Cq
+	 ZmtRAiTXODeTyxKW6pGUrkaGEUwvS/q2ufEwGAgpSFZLeEInHkd4ynrpgMJAoMHxZvmUA
+	 NKNYrAYGV3uw4MF0sCeRBvJGL4ZrhWxdLwT/aN9iuSdvE3wQ2Mb3nhAMoUdbYe6gscA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g4+QiyR0;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FcbOwEqS;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mVn5Q2+f;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FcbOwEqS;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mVn5Q2+f;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAADF606A320;
-	Wed, 21 Oct 2026 14:48:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BCD606A31B;
+	Wed, 21 Oct 2026 14:58:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1BCD606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g4+QiyR0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 906CE1F000C2;
-	Wed, 21 Oct 2026 14:48:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792594136;
-	bh=N6/2Sb8S4wXn18oNbwyPRtqNqgXpmx0Kczxs042VHUc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=g4+QiyR0zjjUH+qeMM1dC5eG6T5La7qKoXwMu5ka8yqlXIvOliDwEYBiGIhZzP4JQ
-	 LQ8DN6rmrpdD/yKCMtcb9hVtWqtCFgfWEbfMH+2Th6XTOl5en3K+pjHiWMTYAZ4Uix
-	 wJd8xw+WJ1YEWbWehulmOTcLyE30cRXGbqN3J6jbCjaNQ081+zmEAsLgmiwCNfOn8G
-	 Fna3vUifNsjfZyssERs42KYY4qRBGkb3XDfHR8o5SzIc/zXNaLiU6oydu3Hkay/cvy
-	 3yZEDJ67+73rpnNmCSiYoiEwhEtCp2rx8cCn386oubuyYx6f3gGsiaqJrd/YfA9mgL
-	 aZsIg6G6TtrNw==
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20261020135706.3573260-1-rf@opensource.cirrus.com>
-References: <20261020135706.3573260-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH RESEND] ASoC: cs35l56: Wait for firmware timer expiry
- before system suspend
-Message-Id: <179250807063.3599968.16781577865112278467.b4-ty@b4>
-Date: Tue, 20 Oct 2026 15:54:30 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FcbOwEqS;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mVn5Q2+f;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FcbOwEqS;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mVn5Q2+f
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1C7A421F67;
+	Wed, 21 Oct 2026 14:58:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792594730; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WRCoEq90OxUV9ZxcUAEaVJ83BjwryOyU5b8zNnCpwbU=;
+	b=FcbOwEqSG+jmsc0rII5sUvrBVfsAHJyh/v4pf1jRRzHQtU2NghfCubPpEAfDbA8M9PyIYT
+	KscNJzXuHNC3Ppb5/Za5AsKR2PTwjmKDsfR38z47IXFi1AlFnwiQ80yG8tZVOYjUHQSJIB
+	WwBvelIX6DHUAvUgLDhwThazoMOsLqo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792594730;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WRCoEq90OxUV9ZxcUAEaVJ83BjwryOyU5b8zNnCpwbU=;
+	b=mVn5Q2+fnqjxxr7iwCcUn9euoJqPNVFdQcn4bFFeZWEGPRuwcgGnRRqzbk4MluNDCPCNpx
+	Prt0W69eeDaSgSDg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=FcbOwEqS;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=mVn5Q2+f
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792594730; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WRCoEq90OxUV9ZxcUAEaVJ83BjwryOyU5b8zNnCpwbU=;
+	b=FcbOwEqSG+jmsc0rII5sUvrBVfsAHJyh/v4pf1jRRzHQtU2NghfCubPpEAfDbA8M9PyIYT
+	KscNJzXuHNC3Ppb5/Za5AsKR2PTwjmKDsfR38z47IXFi1AlFnwiQ80yG8tZVOYjUHQSJIB
+	WwBvelIX6DHUAvUgLDhwThazoMOsLqo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792594730;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WRCoEq90OxUV9ZxcUAEaVJ83BjwryOyU5b8zNnCpwbU=;
+	b=mVn5Q2+fnqjxxr7iwCcUn9euoJqPNVFdQcn4bFFeZWEGPRuwcgGnRRqzbk4MluNDCPCNpx
+	Prt0W69eeDaSgSDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0F58134A5;
+	Wed, 21 Oct 2026 14:58:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Oh8dMCnT2GrqcgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 21 Oct 2026 14:58:49 +0000
+Date: Wed, 21 Oct 2026 16:58:49 +0200
+Message-ID: <87fqxzdrrq.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Ajanesh Lal <ajaneshlal3@gmail.com>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] ALSA: hda/realtek: Add mute and mic-mute LEDs for HP ENVY 16 (103c:8be5)
+In-Reply-To: <20261021142453.177174-1-ajaneshlal3@gmail.com>
+References: <20261021142453.177174-1-ajaneshlal3@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,47 +112,64 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1158; i=broonie@kernel.org;
- h=from:subject:message-id; bh=Q7FXU9bHeZrCKb5cCHOeYwF8mFup3fMwZpGJQ7M4eQw=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJuXLgq0NXakyOdmf7u3+Qji7UK7Xn9Z6pv9Lecc2Xax
- a6/4uxvOkpZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRqCyGf0pHljJ7lcc5mIqZ
- L3mq0Fig9PZPQpvkxh0zO49UpVg/2MLIcGhvYSbHf60Yh2NNlQ9aNK/sWOtXXzdfdPbNxufW0eJ
- bWAE=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 1C7A421F67
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.51
 
-On Tue, 20 Oct 2026 14:57:06 +0100, Richard Fitzgerald wrote:
-> ASoC: cs35l56: Wait for firmware timer expiry before system suspend
+On Wed, 21 Oct 2026 16:24:53 +0200,
+Ajanesh Lal wrote:
+> 
+> The HP ENVY Laptop 16-h1xxx (PCI SSID 103c:8be5) uses an ALC245 codec
+> with CS35L41 I2C speaker amplifiers. No LED fixup is applied for this
+> subsystem ID, so the speaker mute LED and the microphone mute LED are
+> never driven and do not follow their keys.
+> 
+> Add a fixup that calls the existing ALC245 mute LED COEF helper and the
+> GPIO mic-mute LED helper directly, then chains to the CS35L41 I2C
+> amplifier setup so the speakers keep working. Use it for 103c:8be5.
+> 
+> Tested on an HP ENVY Laptop 16-h1xxx running kernel 7.2.11: the
+> hda::mute and hda::micmute LEDs appear and follow their keys, and the
+> speaker amplifiers still bind (CS35L41 Bound in dmesg). The mic LED
+> GPIO pin and polarity are not verified on other hardware.
+> 
+> Fixes: aa8e3ef4fe53 ("ALSA: hda/realtek: Add quirks for various HP ENVY models")
+> Assisted-by: Claude:claude-haiku-5-5
+> Signed-off-by: Ajanesh Lal <ajaneshlal3@gmail.com>
 
-Applied to
+Applied now.  Thanks.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-Thanks!
-
-[1/1] ASoC: cs35l56: Wait for firmware timer expiry before system suspend
-      https://git.kernel.org/broonie/sound/c/6cc7db9fdd06
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Takashi
