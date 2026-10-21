@@ -1,82 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792586783;
-	b=Ndd4ffuJ9L6xrz+cxKLfiGtS2nObEZw/9Lk+ty5slcMaoSXK/o4SVL1wBNxyEcwZqdX8
-	 wKc/FEyE1ZSYK3JOEK217wtT6/kwlXiiW0y37JhHPrjKZTU1pBrKc1YKrsqloMUV/qLyp
-	 5CHuCpPSEbA7jA1fk7dlAXxkWAY26Eb+MKk3AZfvAhJSWOZgszjqWiidzgc3IDa5g7Du9
-	 hZOq3Ulp2E5TI3B8hsflwPZ/oBx3dT7PwXlDNALuHMeoYJUtBb+UKLIKOfnww3hRlWDnF
-	 o35BdSoS51kqI98Bre2ylsJuqiw5N1Kxl/QLtizGtE/iIHmlzhkGqRllqh1SF3OB1GA==
+	t=1792586792;
+	b=NOSJ8kHKNhOY6axww3GIm8uEmybpKHTdlhCiTXRQRhWOk33Zre8wcbFwCrFVd452rt83
+	 rK3VksHKZHvVRE9Q+x5ejPlqeqN5UrobKoDKAAH8UAeWBY8wSDwH2+cW4z/GJASOmkYhZ
+	 RFNRQme9L8OLYVa7TaZFVAQMwKZqa9gWTEC9G4VQbzSSvIus9/x1ixVJ1M0IYjLIQMeKR
+	 3mrf9CnRYeeE3vFDw5QmvuJlfL1WjxjBxwMkYUhenft1v7U6uGgzhWJ4YyaOTURxrJC3K
+	 Xm2E4wVD7NiUN/LNacV1NPrre6n5yBAqdnjEapkAHI+41HHdPjkhSX6vy597poh5cfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792586783;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792586792;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=WwZtUrdYtW8MtDYG2yC3ydbDQlF/r6XHSO1vV5BkgeA=;
-	b=uUFyJyMBbgGyTTVaHKFO+9kAbF37mxLZBwbUVOeGm+z4PRU29OR3862hXWPc+tEoqlrE
-	 osjr+J/sJFouNqHzOimqyJKJXTB4q5DI97JmM6MhnYonL8HWAIWYNkO1Vd51nw4lxwIX0
-	 +wRSOcmTZxzYyugH8OvGHQQDIRdwsim13HH6A3zjRFgs917udjWYxBPaqWl40YL/soIiQ
-	 Of+EeENc96+yfLzzvmEkydCT+5lfkj+OmWNfpxM4jrL/KiN5ZYtHUTtc9EK3xqgvVWunW
-	 VtOl2IEXNAykjKgqNgTcX65gMjJRoAG65f+n5YpMWVldND+IChO+nCUcSr1zrwt2Dvg==
+	bh=MLVbGav53ft6kJ2foiznp8VtjYYpSuaeeOTUWC5c7TQ=;
+	b=nsyxZeL2B9oi0zI/6OAiSNRVSuA2zAYjkLe+5Is1PgfyjZBFcXu7jD2nO42W0bFO6JeI
+	 Joxhftdx1/iBAgTme3mJCQomqfonR7+L44x588m313NGxGEpoV/5RVChdbgjWA3xTQOUb
+	 Psab21RfUXCOIfx88RpIZPAElzkdjBMUHRvJzEdSpBVlyWlJ6q/ZO85P/layMqvcFjeuf
+	 oqh2rdHjEljNEQ5nhXrLmdQIjkHMR7ZjXLVDYtp7DO9koJDa0szn9luT4IG+wF09fC8Pc
+	 6fABAZ56zovjnHx0Z7ngiRMO2wBzS+fWumtk8xZPIWXveAnlD6TFEzNodVJkqwUIcTA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TFq6P6r4;
-	arc=none smtp.remote-ip=209.85.210.177
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=khWnXunu;
+	arc=none smtp.remote-ip=209.85.210.171
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0056C606A327
-	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 12:46:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0056C606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346DD606A332
+	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 12:46:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 346DD606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TFq6P6r4
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8a01cac8733so406598b3a.2
-        for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 05:46:22 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=khWnXunu
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8a06ca6e8f4so479082b3a.1
+        for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 05:46:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792586782; x=1793191582; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792586791; x=1793191591; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=WwZtUrdYtW8MtDYG2yC3ydbDQlF/r6XHSO1vV5BkgeA=;
-        b=TFq6P6r439sMoTmALZIeItkoFlfJeoKAlxxoA82luquzE5l+j6g3th/bVRROMHmjtm
-         881PAPylfPqjNr+I6KrFgKKDNbxNGmXAqWGhvMDNcVDPOJMur3DVR26mqVqdfYYFZ/Gi
-         KnOiGWIBK93oHGKOopJPlU2SUCuxspDu1ibqqMK/n3Rw9bJGaNWQY2Lpl1LYfHBfmFDN
-         E/5BE7aw9noyNxFU7kFOKcUDZAoJ+C1zG1ErrzhV/NIvgVFZHhvgK3odMUSdpSzyLUXN
-         1MRD13U2M94QtKe9pp/d+4sVEh471wHPXhdCV5SxGqoOiMstjaTzoMf1W7j09QeqU66l
-         y9YQ==
+        bh=MLVbGav53ft6kJ2foiznp8VtjYYpSuaeeOTUWC5c7TQ=;
+        b=khWnXunuCLVY6NoEw9DOJIPtkI7w9g73mrNDcuvKPBpoy6/wgW6OMTb2EksL/XA8e+
+         mM0OMG/H32yjU6L4d17rxOeeRZfBw4ZimamtgQR2G4poCNk+5kGL0qNQg4OSiNQh8cbm
+         X5HHTwL3FGuWCD+NSmZBskFztgYmfizuxwe+nK3YA3Ie5G01iczHNIL2DT9KEkB9tIaK
+         jeNVN+OGcvDY/74L8bp2MPHng1mgUxxoiF+GQ0O+9YpwBhvT+IUaytgTB7LxrKtDUOvw
+         o8MZej1iuJUxWpAL2Bpbh5I4DNY8L7Tnkd83wyLLxvHMMUes8wMjywUxng+UCDNn4lSP
+         cvKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792586782; x=1793191582;
+        d=1e100.net; s=20260707; t=1792586791; x=1793191591;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WwZtUrdYtW8MtDYG2yC3ydbDQlF/r6XHSO1vV5BkgeA=;
-        b=pQ+E0S5SLUlk0DXSyk0XfDKD6Zb6xCCloL/rP1Lv97yyxT2mqhMTNwhOi6yq1Njvm5
-         DNyob3urFG9A3cqGBGun9ujNj9iri1ORUU7HlGxFjOqpNlHeVPnDB4oTXpK/3YzroaCN
-         wCwRlPseztMb6PfDgoGA4H4Qnf1wdet8UlwvmjQkPJh42sFVDnmqYoVvo4cdz77GAfgE
-         qj+GpyCfpKPkA0d/kWQW22jVyu3PcWjKUGMF0Sa1smwnxiAuWLoo8npPoWH0W4BhsS+u
-         9gxMAYYX+6reAdzXAYN9LwB41bXuYB9wlDMuA0Q0wNBTKxzX+M//qnPs34OmOA0kF/xs
-         JokA==
-X-Gm-Message-State: AFq9FYKYwrdyeDi3EjYUwXXu2NLXaIsYP75a7qr32PpKq+KqczLfN2tS
-	YqNPfIMCeCIpV8EjWWsCFULkQO1NTyWeAVxrofvDLOlbXzaPIs+HviHj
-X-Gm-Gg: AYBFou3LZdF0TMMMFf4uZtIIxn7tVovO4ev6buftVjJYZsx3ph6QPkX+BLHbDqB8k8n
-	Yp8d+4jltyR3/jftSKkR/q2p6rZMf29/X3kVskgriYB+NluUutEcEHL6PZvoly41LEFNbyq78y8
-	wyyn1TuugPNAX5LJWzdnVpa/B66ELYA10No4MjUOClPPaasyPr7coAt7HNOFJVane1GGuraW5fl
-	TYWJ15AtV0uJOsPYEHsMEzJJy7r1eyF6jfhD1laTBw2xcdV2m+MiO+0hBMq5JV/KewOqz/H2+A6
-	EgD7e6rHNNLvPMRo5PkUKWod3I/E2r+S2AL1kiCrlY2IHJXXaEE/jAwoquNDHpWYWPz7DUqvTbX
-	ZW3gbTuVAjq/T4U0xFfB8qHXt/+/HrqqBDx1KW0Y95PJfsrIncPIrsEDT2AW9qyENNC8tOph6Ul
-	mGqxrkHC2QMRXY+3oUOHhUqp73ATdISi4m1vzh13oAVY9Ihjo/HQRDTEap4Eqi9PO+Q8G8bbyUZ
-	kcdh4jb/1/1cNCYjbOs+rHFsBoKEoPzdFbMpKbh1sP+gsIN10rWs0NTrOrihlgaK0ohlsU0F4NW
-	UZa08IYlai6QiOQ0
-X-Received: by 2002:a05:6a00:420a:b0:89e:f8e9:205f with SMTP id d2e1a72fcca58-8a089df2652mr1470227b3a.32.1792586782100;
-        Wed, 21 Oct 2026 05:46:22 -0700 (PDT)
+        bh=MLVbGav53ft6kJ2foiznp8VtjYYpSuaeeOTUWC5c7TQ=;
+        b=2VVee+AFEPPdf0oi/kDKOHj7imXWgaxrR3VNw4lz3DITVE9W1Kotl6+L5pTm0f4ik/
+         VTqxib8AGpIcRlAqjetHmJO5SCWpir0YLPUVEsKLgVzM1+E4riEc7Ho8Glbvd11xEtk9
+         82GPXg9gnvAcG1UOSxNHSCoLZaosIFIVvyZzVrldlLjTTBPtEgJiIWQCrwb7N99pWBWN
+         7s3ZXDSahlI7f4GKqa4Sz0IcJfMo9K3ZjqFX0i4okOklPLZpTyA00iO2khGKsdHXf3kf
+         n8IkUoT+ad4hIWj0GuS0iSxCPzeh0IuNB1edQ0++Pj+kl3riQzS0P6AhsBJSp9S6w2dJ
+         YYlQ==
+X-Gm-Message-State: AFq9FYLSYhftmeumzEnnLjYrkhaAHnn8vZDBZoOUYAwehWf+KDWOo44f
+	RnPZ8YeQAEvR14mz1BLUIdif9GIOZ63eJuCiJugjwvarRU+kYNiMVFvk
+X-Gm-Gg: AYBFou3jqxKJP30Nra9RHpGp3IQ5/KCU5qDLEdiXN+MZDUSVpqo5DgLXK1T/wzQ/jop
+	oxbQ9HULNnrqWrjBiU31tKEUuLPz8EZZ9bSJ+biL/yhIDfoBQYJEOEYONdo2QYRo9QYKdq3Vc+k
+	AKvu3ggjm8aIixwY7QrOHTPSXru/dFIKNzM2bUT6cr7MnttYpYwCNDr3ESud8yMr3K7yOEwu/oC
+	lXwbHmEpqCeo4jtKQZFtBD1Ej7v7ToQmVaxwbWkDpBKRSQoTLIhQIjGuV2DzB00mbw8/8m9G+4B
+	yazuopFYdIV7vUsfSWl+2XZAUhXfsgFJcGGFQT4t/nQtGfvw5vPLoc/CDn8mEUAJA2neGfDkh+m
+	oVMZLfusfQblsfHv8B/HgtH3Xzfu/eiDwReXap3eqpPvep8zBoALztkwgGNeOMq0ZiE1Tqy/Xsu
+	AMnA0d1Kk25xn1KhYulpCw8B1954D1giC+Ts/XUuKm7gTc2WqntyJLPQoy1cEHd+YROkrbBNJDp
+	zpd231EbFoiR20i9F4ofjUrtmyfrDolMyyTx2du4JkrNwhZmmtlhZMLnRraW0Rlek9LFIBneiru
+	3wIAflEqPfEZnts=
+X-Received: by 2002:a05:6a00:18a9:b0:8a0:6a3a:f853 with SMTP id d2e1a72fcca58-8a089d6be11mr1673366b3a.58.1792586791271;
+        Wed, 21 Oct 2026 05:46:31 -0700 (PDT)
 Received: from arch.localdomain (123202092053.ctinets.com. [123.202.92.53])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8a08960fa88sm832964b3a.53.2026.10.21.05.46.17
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8a08960fa88sm832964b3a.53.2026.10.21.05.46.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 05:46:21 -0700 (PDT)
+        Wed, 21 Oct 2026 05:46:30 -0700 (PDT)
 From: Jun Yan <jerrysteve1101@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -85,13 +85,16 @@ To: Liam Girdwood <lgirdwood@gmail.com>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Jun Yan <jerrysteve1101@gmail.com>
+	Heiko Stuebner <heiko@sntech.de>
 Cc: linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] dt-bindings: sound: add Everest ES7202
-Date: Wed, 21 Oct 2026 20:45:47 +0800
-Message-ID: <20261021124552.767218-2-jerrysteve1101@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Jun Yan <jerrysteve1101@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org
+Subject: [PATCH v2 2/2] ASoC: codecs: add support for Everest ES7202 PDM ADC
+Date: Wed, 21 Oct 2026 20:45:48 +0800
+Message-ID: <20261021124552.767218-3-jerrysteve1101@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261021124552.767218-1-jerrysteve1101@gmail.com>
 References: <20261021124552.767218-1-jerrysteve1101@gmail.com>
@@ -106,77 +109,579 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the device-tree bindings for the Everest ES7202, a 2-channel PDM
-analog-to-digital converter controlled over I2C.
+Add support for the Everest ES7202, a 2-channel PDM analog-to-digital
+converter controlled over I2C. The device outputs PDM data to the SoC
+PDM controller and is configured through registers for supply voltage,
+analog front-end and per-channel PGA gain.
 
+Based on the Rockchip BSP driver[1] by Binyuan Lan <lby@rock-chips.com>
+(committed by Tao Huang <huangtao@rock-chips.com>), originally written
+by David Yang <yangxiaohua@everest-semi.com>.
+
+[1] https://github.com/rockchip-linux/kernel/blob/develop-6.1/sound/soc/codecs/es7202.c
+
+Link: https://archive.org/details/es-7202-ds
 Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
 ---
- .../bindings/sound/everest,es7202.yaml        | 56 +++++++++++++++++++
- 1 file changed, 56 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/everest,es7202.yaml
+ sound/soc/codecs/Kconfig  |  10 ++
+ sound/soc/codecs/Makefile |   2 +
+ sound/soc/codecs/es7202.c | 367 ++++++++++++++++++++++++++++++++++++++
+ sound/soc/codecs/es7202.h | 131 ++++++++++++++
+ 4 files changed, 510 insertions(+)
+ create mode 100644 sound/soc/codecs/es7202.c
+ create mode 100644 sound/soc/codecs/es7202.h
 
-diff --git a/Documentation/devicetree/bindings/sound/everest,es7202.yaml b/Documentation/devicetree/bindings/sound/everest,es7202.yaml
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index ba59dabeeccd..c1eeebd12cf0 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -1274,6 +1274,16 @@ config SND_SOC_HDMI_CODEC
+ config SND_SOC_ES7134
+ 	tristate "Everest Semi ES7134 CODEC"
+ 
++config SND_SOC_ES7202
++	tristate "Everest Semi ES7202 CODEC"
++	depends on I2C
++	select REGMAP_I2C
++	help
++	  Enable support for the Everest Semiconductor ES7202, a 2-channel
++	  PDM analog-to-digital converter controlled over I2C. The device
++	  outputs PDM data to a SoC PDM controller and is configured through
++	  registers for supply voltage, analog front-end and PGA gain.
++
+ config SND_SOC_ES7241
+ 	tristate "Everest Semi ES7241 CODEC"
+ 
+diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+index 3826f9e4fce8..2a56fad9073a 100644
+--- a/sound/soc/codecs/Makefile
++++ b/sound/soc/codecs/Makefile
+@@ -129,6 +129,7 @@ snd-soc-da732x-y := da732x.o
+ snd-soc-da9055-y := da9055.o
+ snd-soc-dmic-y := dmic.o
+ snd-soc-es7134-y := es7134.o
++snd-soc-es7202-y := es7202.o
+ snd-soc-es7241-y := es7241.o
+ snd-soc-es83xx-dsm-common-y := es83xx-dsm-common.o
+ snd-soc-es8311-y := es8311.o
+@@ -577,6 +578,7 @@ obj-$(CONFIG_SND_SOC_DA732X)	+= snd-soc-da732x.o
+ obj-$(CONFIG_SND_SOC_DA9055)	+= snd-soc-da9055.o
+ obj-$(CONFIG_SND_SOC_DMIC)	+= snd-soc-dmic.o
+ obj-$(CONFIG_SND_SOC_ES7134)	+= snd-soc-es7134.o
++obj-$(CONFIG_SND_SOC_ES7202)	+= snd-soc-es7202.o
+ obj-$(CONFIG_SND_SOC_ES7241)	+= snd-soc-es7241.o
+ obj-$(CONFIG_SND_SOC_ES83XX_DSM_COMMON)    += snd-soc-es83xx-dsm-common.o
+ obj-$(CONFIG_SND_SOC_ES8311)    += snd-soc-es8311.o
+diff --git a/sound/soc/codecs/es7202.c b/sound/soc/codecs/es7202.c
 new file mode 100644
-index 000000000000..ce98d2d600d4
+index 000000000000..36fb9f687f24
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/everest,es7202.yaml
-@@ -0,0 +1,56 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/everest,es7202.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/sound/soc/codecs/es7202.c
+@@ -0,0 +1,367 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2020 Everest Semiconductor Co Ltd.,
++ * Copyright (C) 2026 Jun Yan <jerrysteve1101@gmail.com>
++ */
 +
-+title: Everest ES7202 2 channel PDM analog to digital converter
++#include <linux/bitfield.h>
++#include <linux/delay.h>
++#include <linux/device.h>
++#include <linux/gpio/consumer.h>
++#include <linux/i2c.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/regmap.h>
++#include <linux/regulator/consumer.h>
++#include <sound/pcm.h>
++#include <sound/pcm_params.h>
++#include <sound/soc.h>
++#include <sound/soc-dapm.h>
++#include <sound/tlv.h>
++#include "es7202.h"
 +
-+maintainers:
-+  - Jun Yan <jerrysteve1101@gmail.com>
++/*
++ * The main supply voltage selects the analog front-end configuration:
++ * below this threshold the device is configured for 1.8 V, otherwise 3.3 V.
++ */
++#define ES7202_SUPPLY_1V8_MAX_UV	1980000
++#define ES7202_SUPPLY_3V3_DEFAULT_UV	3300000
 +
-+properties:
-+  compatible:
-+    enum:
-+      - everest,es7202
++struct es7202_priv {
++	struct regmap *regmap;
++	struct regulator *supply;
++	struct gpio_desc *reset_gpio;
++	unsigned int supply_uv;
++};
 +
-+  reg:
-+    maxItems: 1
++static bool es7202_volatile_reg(struct device *dev, unsigned int reg)
++{
++	/* status and device-id registers are read-only, never cached */
++	return reg == ES7202_CHIP_STA ||
++	       reg == ES7202_DEV_ID1 ||
++	       reg == ES7202_DEV_ID0;
++}
 +
-+  reset-gpios:
-+    maxItems: 1
-+    description: GPIO connected to the reset pin (active low)
++static const struct reg_default es7202_reg_defaults[] = {
++	{ ES7202_RESET,		0x10 },
++	{ ES7202_SOFT_MODE,	0x00 },
++	{ ES7202_CLK_DIV,	0x04 },
++	{ ES7202_CLK_EN,	0x00 },
++	{ ES7202_T1_VMID,	0x01 },
++	{ ES7202_T2_VMID,	0x18 },
++	{ ES7202_PDM_INF_CTL,	0x30 },
++	{ ES7202_MISC_CTL,	0x02 },
++	{ ES7202_ANALOG_EN,	0xff },
++	{ ES7202_BIAS_VMID,	0x0c },
++	{ ES7202_PGA1_BIAS,	0x55 },
++	{ ES7202_PGA2_BIAS,	0x55 },
++	{ ES7202_MOD1_BIAS,	0x8c },
++	{ ES7202_MOD2_BIAS,	0x33 },
++	{ ES7202_VREFP_BIAS,	0x33 },
++	{ ES7202_VMMOD_BIAS,	0x33 },
++	{ ES7202_MODS_BIAS,	0x44 },
++	{ ES7202_ANALOG_LP1,	0x00 },
++	{ ES7202_ANALOG_LP2,	0x00 },
++	{ ES7202_ANALOG_MISC1,	0x00 },
++	{ ES7202_ANALOG_MISC2,	0xf8 },
++	{ ES7202_PGA1,		0x18 },
++	{ ES7202_PGA2,		0x18 },
++};
 +
-+  vdd-supply:
-+    description: Main power supply, 1.8 V or 3.3 V. Optional; defaults to 3.3 V
++static const struct regmap_config es7202_regmap = {
++	.reg_bits	= 8,
++	.val_bits	= 8,
++	.max_register	= ES7202_DEV_ID0,
++	.reg_defaults	= es7202_reg_defaults,
++	.num_reg_defaults = ARRAY_SIZE(es7202_reg_defaults),
++	.volatile_reg	= es7202_volatile_reg,
++	.cache_type	= REGCACHE_MAPLE,
++};
 +
-+  "#sound-dai-cells":
-+    const: 0
++/*
++ * PGA gain per the datasheet: code 0 is 0 dB, codes 1..10 step +3 dB from
++ * 2.25 dB, and codes 11 and 12 are 30.75 dB and 32.25 dB respectively.  As
++ * the steps are not uniform, a linear TLV (the vendor driver's
++ * DECLARE_TLV_DB_SCALE(mic_boost_tlv, 0, 300, 0)) would misreport the gain,
++ * so use a piecewise range matching the datasheet instead.
++ */
++static const DECLARE_TLV_DB_RANGE(mic_boost_tlv,
++	0, 0, TLV_DB_SCALE_ITEM(0, 0, 0),
++	1, 10, TLV_DB_SCALE_ITEM(225, 300, 0),
++	11, 11, TLV_DB_SCALE_ITEM(3075, 0, 0),
++	12, 12, TLV_DB_SCALE_ITEM(3225, 0, 0),
++);
 +
-+required:
-+  - compatible
-+  - reg
-+  - "#sound-dai-cells"
++static const struct snd_kcontrol_new es7202_controls[] = {
++	SOC_SINGLE_TLV("PGA1 Capture Volume", ES7202_PGA1, 0, 0x0c, 0,
++		       mic_boost_tlv),
++	SOC_SINGLE_TLV("PGA2 Capture Volume", ES7202_PGA2, 0, 0x0c, 0,
++		       mic_boost_tlv),
++};
 +
-+allOf:
-+  - $ref: dai-common.yaml#
++static const struct snd_soc_dapm_widget es7202_dapm_widgets[] = {
++	SND_SOC_DAPM_INPUT("MIC1"),
++	SND_SOC_DAPM_INPUT("MIC2"),
++	SND_SOC_DAPM_ADC("ADC", "Capture", SND_SOC_NOPM, 0, 0),
++};
 +
-+unevaluatedProperties: false
++static const struct snd_soc_dapm_route es7202_dapm_routes[] = {
++	{ "ADC", NULL, "MIC1" },
++	{ "ADC", NULL, "MIC2" },
++};
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
++static int es7202_mute_pdm(struct es7202_priv *es7202, bool mute)
++{
++	return regmap_update_bits(es7202->regmap, ES7202_PDM_INF_CTL,
++				  ES7202_PDM_INF_CTL_MUTE,
++				  mute ? ES7202_PDM_INF_CTL_MUTE : 0);
++}
 +
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++static int es7202_hw_init(struct es7202_priv *es7202)
++{
++	struct regmap *regmap = es7202->regmap;
++	bool is_1v8 = es7202->supply_uv > 0 &&
++		      es7202->supply_uv <= ES7202_SUPPLY_1V8_MAX_UV;
++	/*
++	 * Power-up sequence from the vendor driver.
++	 * The analog front-end is configured for the actual supply voltage
++	 * (1.8 V vs 3.3 V) and the analog blocks are ramped out of
++	 * power-down in stages.
++	 */
++	const struct reg_sequence init_seq[] = {
++		{ ES7202_SOFT_MODE,	ES7202_MODE_SOFT_MODE_SEL },
++		{ ES7202_ANALOG_MISC1,	ES7202_ANALOG_MISC1_OFFSETSEL1 |
++					(is_1v8 ? 0 : ES7202_ANALOG_MISC1_SUPPLYSEL) },
 +
-+        es7202: codec@30 {
-+            compatible = "everest,es7202";
-+            reg = <0x30>;
-+            #sound-dai-cells = <0>;
-+            reset-gpios = <&gpio0 0 GPIO_ACTIVE_LOW>;
-+            vdd-supply = <&vcc3v3_sys>;
-+        };
-+    };
-+...
++		/* analog on, rest powered down */
++		{ ES7202_ANALOG_EN,	ES7202_ANALOG_EN_PDN_ADCVREFGEN |
++					ES7202_ANALOG_EN_MODTOP1_RST |
++					ES7202_ANALOG_EN_MODTOP2_RST |
++					ES7202_ANALOG_EN_PDN_MOD1 |
++					ES7202_ANALOG_EN_PDN_MOD2 |
++					ES7202_ANALOG_EN_PDN_PGA1 |
++					ES7202_ANALOG_EN_PDN_PGA2 },
++
++		{ ES7202_BIAS_VMID,	FIELD_PREP(ES7202_BIAS_ADCBIAS_SWH1, 3) |
++					ES7202_BIAS_ENDITHER |
++					FIELD_PREP(ES7202_BIAS_VMIDSEL, 3) },
++
++		/* VREFGEN on; 3.3 V also drops MODTOP reset */
++		{ ES7202_ANALOG_EN,	is_1v8 ?
++					(ES7202_ANALOG_EN_MODTOP1_RST |
++					 ES7202_ANALOG_EN_MODTOP2_RST |
++					 ES7202_ANALOG_EN_PDN_MOD1 |
++					 ES7202_ANALOG_EN_PDN_MOD2 |
++					 ES7202_ANALOG_EN_PDN_PGA1 |
++					 ES7202_ANALOG_EN_PDN_PGA2) :
++					(ES7202_ANALOG_EN_PDN_MOD1 |
++					 ES7202_ANALOG_EN_PDN_MOD2 |
++					 ES7202_ANALOG_EN_PDN_PGA1 |
++					 ES7202_ANALOG_EN_PDN_PGA2) },
++
++		{ ES7202_ANALOG_EN,	0 },
++		{ ES7202_MOD1_BIAS,	FIELD_PREP(ES7202_MOD1_BIAS_SW0, 5) |
++					FIELD_PREP(ES7202_MOD1_BIAS_SW1, 8) },
++		{ ES7202_CLK_DIV,	FIELD_PREP(ES7202_CLK_DIV_MCLK_DIV, 1) },
++		{ ES7202_T2_VMID,	0x01 },
++		{ ES7202_MISC_CTL,	ES7202_MISC_DSM_DITHER_ON },
++		{ ES7202_RESET,		ES7202_RESET_CSM_ON },
++		{ ES7202_CLK_EN,	ES7202_CLK_ANA_CLK_ON | ES7202_CLK_MCLK_ON },
++		{ ES7202_BIAS_VMID,	FIELD_PREP(ES7202_BIAS_ADCBIAS_SWH1, 3) |
++					ES7202_BIAS_ENDITHER |
++					FIELD_PREP(ES7202_BIAS_VMIDSEL, 2) },
++
++		/* keep the PDM outputs muted until a capture stream starts */
++		{ ES7202_PDM_INF_CTL,	ES7202_PDM_NEG_DATA_VALID |
++					ES7202_PDM_POS_DATA_VALID |
++					ES7202_PDM_INF_CTL_MUTE },
++	};
++	return regmap_multi_reg_write(regmap, init_seq, ARRAY_SIZE(init_seq));
++}
++
++static int es7202_mute_stream(struct snd_soc_dai *dai, int mute, int stream)
++{
++	struct snd_soc_component *component = dai->component;
++	struct es7202_priv *es7202 = snd_soc_component_get_drvdata(component);
++
++	if (stream == SNDRV_PCM_STREAM_PLAYBACK)
++		return 0;
++
++	return es7202_mute_pdm(es7202, mute);
++}
++
++static const struct snd_soc_dai_ops es7202_dai_ops = {
++	.mute_stream = es7202_mute_stream,
++};
++
++static struct snd_soc_dai_driver es7202_dai = {
++	.name = "es7202-hifi",
++	.capture = {
++		.stream_name	= "Capture",
++		.channels_min	= 1,
++		.channels_max	= 2,
++		.rates		= SNDRV_PCM_RATE_8000_96000,
++		.formats	= SNDRV_PCM_FMTBIT_S16_LE,
++	},
++	.ops = &es7202_dai_ops,
++};
++
++static int es7202_suspend(struct snd_soc_component *component)
++{
++	struct es7202_priv *es7202 = snd_soc_component_get_drvdata(component);
++
++	return es7202_mute_pdm(es7202, true);
++}
++
++static int es7202_resume(struct snd_soc_component *component)
++{
++	struct es7202_priv *es7202 = snd_soc_component_get_drvdata(component);
++	int ret;
++
++	/* re-run the power-up sequence to bring the analog front-end back up */
++	ret = es7202_hw_init(es7202);
++	if (ret)
++		return ret;
++
++	regcache_mark_dirty(es7202->regmap);
++	return regcache_sync(es7202->regmap);
++}
++
++static const struct snd_soc_component_driver es7202_component_driver = {
++	.controls		= es7202_controls,
++	.num_controls		= ARRAY_SIZE(es7202_controls),
++	.dapm_widgets		= es7202_dapm_widgets,
++	.num_dapm_widgets	= ARRAY_SIZE(es7202_dapm_widgets),
++	.dapm_routes		= es7202_dapm_routes,
++	.num_dapm_routes	= ARRAY_SIZE(es7202_dapm_routes),
++	.suspend		= es7202_suspend,
++	.resume			= es7202_resume,
++	.idle_bias_on		= 1,
++	.endianness		= 1,
++};
++
++static void es7202_disable_supply(void *data)
++{
++	regulator_disable(data);
++}
++
++static int es7202_i2c_probe(struct i2c_client *i2c)
++{
++	struct device *dev = &i2c->dev;
++	struct es7202_priv *es7202;
++	unsigned int id1, id0, device_id;
++	int ret;
++	int voltage;
++
++	es7202 = devm_kzalloc(dev, sizeof(*es7202), GFP_KERNEL);
++	if (!es7202)
++		return -ENOMEM;
++
++	i2c_set_clientdata(i2c, es7202);
++
++	es7202->regmap = devm_regmap_init_i2c(i2c, &es7202_regmap);
++	if (IS_ERR(es7202->regmap))
++		return dev_err_probe(dev, PTR_ERR(es7202->regmap),
++				     "failed to init regmap\n");
++
++	es7202->reset_gpio = devm_gpiod_get_optional(dev, "reset",
++						     GPIOD_OUT_HIGH);
++	if (IS_ERR(es7202->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(es7202->reset_gpio),
++				     "failed to get reset gpio\n");
++
++	es7202->supply = devm_regulator_get_optional(dev, "vdd");
++	if (IS_ERR(es7202->supply)) {
++		if (PTR_ERR(es7202->supply) != -ENODEV)
++			return dev_err_probe(dev, PTR_ERR(es7202->supply),
++					     "failed to get supply\n");
++
++		es7202->supply = NULL;
++		es7202->supply_uv = ES7202_SUPPLY_3V3_DEFAULT_UV;
++	} else {
++		ret = regulator_enable(es7202->supply);
++		if (ret)
++			return dev_err_probe(dev, ret,
++					     "failed to enable supply\n");
++
++		ret = devm_add_action_or_reset(dev, es7202_disable_supply,
++					       es7202->supply);
++		if (ret)
++			return dev_err_probe(dev, ret,
++					     "failed to add supply disable action\n");
++
++		voltage = regulator_get_voltage(es7202->supply);
++		if (voltage < 0)
++			es7202->supply_uv = ES7202_SUPPLY_3V3_DEFAULT_UV;
++		else
++			es7202->supply_uv = voltage;
++	}
++
++	/* take the device out of reset */
++	gpiod_set_value_cansleep(es7202->reset_gpio, 0);
++	usleep_range(1000, 2000);
++
++	/* verify the chip is present by reading its device id */
++	ret = regmap_read(es7202->regmap, ES7202_DEV_ID1, &id1);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to read device id\n");
++	ret = regmap_read(es7202->regmap, ES7202_DEV_ID0, &id0);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to read device id\n");
++
++	device_id = (id1 << 8) | id0;
++	if (device_id != ES7202_DEVICE_ID)
++		return dev_err_probe(dev, -ENODEV,
++				     "unexpected device id 0x%04x, expected 0x%04x\n",
++				     device_id, ES7202_DEVICE_ID);
++
++	ret = es7202_hw_init(es7202);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to init device\n");
++
++	return devm_snd_soc_register_component(dev, &es7202_component_driver,
++					       &es7202_dai, 1);
++}
++
++static void es7202_i2c_remove(struct i2c_client *i2c)
++{
++	struct es7202_priv *es7202 = i2c_get_clientdata(i2c);
++
++	es7202_mute_pdm(es7202, true);
++}
++
++static void es7202_i2c_shutdown(struct i2c_client *i2c)
++{
++	struct es7202_priv *es7202 = i2c_get_clientdata(i2c);
++
++	es7202_mute_pdm(es7202, true);
++}
++
++static const struct of_device_id es7202_of_match[] = {
++	{ .compatible = "everest,es7202" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, es7202_of_match);
++
++static const struct i2c_device_id es7202_i2c_id[] = {
++	{ "es7202" },
++	{ }
++};
++MODULE_DEVICE_TABLE(i2c, es7202_i2c_id);
++
++static struct i2c_driver es7202_i2c_driver = {
++	.driver = {
++		.name		= "es7202",
++		.of_match_table	= es7202_of_match,
++	},
++	.probe		= es7202_i2c_probe,
++	.remove		= es7202_i2c_remove,
++	.shutdown	= es7202_i2c_shutdown,
++	.id_table	= es7202_i2c_id,
++};
++module_i2c_driver(es7202_i2c_driver);
++
++MODULE_DESCRIPTION("Everest Semi ES7202 PDM ADC ALSA SoC Codec Driver");
++MODULE_AUTHOR("David Yang <yangxiaohua@everest-semi.com>");
++MODULE_AUTHOR("Jun Yan <jerrysteve1101@gmail.com>");
++MODULE_LICENSE("GPL");
+diff --git a/sound/soc/codecs/es7202.h b/sound/soc/codecs/es7202.h
+new file mode 100644
+index 000000000000..f268722febcc
+--- /dev/null
++++ b/sound/soc/codecs/es7202.h
+@@ -0,0 +1,131 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2020 Everest Semiconductor Co Ltd.,
++ * Copyright (C) 2026 Jun Yan <jerrysteve1101@gmail.com>
++ */
++
++#ifndef _ES7202_H
++#define _ES7202_H
++
++#include <linux/bits.h>
++
++/* Register addresses */
++#define ES7202_RESET		0x00
++#define ES7202_SOFT_MODE	0x01
++#define ES7202_CLK_DIV		0x02
++#define ES7202_CLK_EN		0x03
++#define ES7202_T1_VMID		0x04
++#define ES7202_T2_VMID		0x05
++#define ES7202_CHIP_STA		0x06
++#define ES7202_PDM_INF_CTL	0x07
++#define ES7202_MISC_CTL		0x08
++#define ES7202_ANALOG_EN	0x10
++#define ES7202_BIAS_VMID	0x11
++#define ES7202_PGA1_BIAS	0x12
++#define ES7202_PGA2_BIAS	0x13
++#define ES7202_MOD1_BIAS	0x14
++#define ES7202_MOD2_BIAS	0x15
++#define ES7202_VREFP_BIAS	0x16
++#define ES7202_VMMOD_BIAS	0x17
++#define ES7202_MODS_BIAS	0x18
++#define ES7202_ANALOG_LP1	0x19
++#define ES7202_ANALOG_LP2	0x1a
++#define ES7202_ANALOG_MISC1	0x1b
++#define ES7202_ANALOG_MISC2	0x1c
++#define ES7202_PGA1		0x1d
++#define ES7202_PGA2		0x1e
++#define ES7202_DEV_ID1		0xfd
++#define ES7202_DEV_ID0		0xfe
++
++#define ES7202_DEVICE_ID		0x7201
++
++#define ES7202_RESET_RST_REGS		BIT(5)
++#define ES7202_RESET_RST_DIG		BIT(4)
++#define ES7202_RESET_SEQ_DIS		BIT(1)
++#define ES7202_RESET_CSM_ON		BIT(0)
++
++#define ES7202_MODE_SOFT_MODE_SEL	BIT(0)
++
++#define ES7202_CLK_DIV_MCLK_DIV		GENMASK(3, 0)	/* 0/1 = /16 ... 15 = /240 */
++
++#define ES7202_CLK_MCLK_INVERT		BIT(2)
++#define ES7202_CLK_ANA_CLK_ON		BIT(1)
++#define ES7202_CLK_MCLK_ON		BIT(0)
++
++#define ES7202_CHIP_STA_CSM_STATE	GENMASK(5, 4)
++#define ES7202_CHIP_STA_FORCE_CSM	GENMASK(2, 0)
++
++#define ES7202_PDM_NEG_DATA_VALID	BIT(5)
++#define ES7202_PDM_POS_DATA_VALID	BIT(4)
++#define ES7202_PDM_CHN_CROSS		BIT(3)
++#define ES7202_PDM_IF_DLY		BIT(2)
++#define ES7202_PDM_DATA2_MUTE		BIT(1)
++#define ES7202_PDM_DATA1_MUTE		BIT(0)
++#define ES7202_PDM_INF_CTL_MUTE		(ES7202_PDM_DATA2_MUTE | \
++					 ES7202_PDM_DATA1_MUTE)
++
++#define ES7202_MISC_CLKDET_RST_DIS	BIT(2)
++#define ES7202_MISC_DSM_DITHER_ON	BIT(1)
++#define ES7202_MISC_PDN_CLKDET		BIT(0)
++
++#define ES7202_ANALOG_EN_PDN_ANA	BIT(7)
++#define ES7202_ANALOG_EN_PDN_ADCVREFGEN	BIT(6)
++#define ES7202_ANALOG_EN_MODTOP1_RST	BIT(5)
++#define ES7202_ANALOG_EN_MODTOP2_RST	BIT(4)
++#define ES7202_ANALOG_EN_PDN_MOD1	BIT(3)
++#define ES7202_ANALOG_EN_PDN_MOD2	BIT(2)
++#define ES7202_ANALOG_EN_PDN_PGA1	BIT(1)
++#define ES7202_ANALOG_EN_PDN_PGA2	BIT(0)
++
++#define ES7202_BIAS_ADCBIAS_SWH0	GENMASK(7, 6)
++#define ES7202_BIAS_ENDITHER		BIT(5)
++#define ES7202_BIAS_ADCBIAS_SWH1	GENMASK(3, 2)
++#define ES7202_BIAS_VMIDSEL		GENMASK(1, 0)	/* 0 = off, 1 = 50k, 2 = 500k, 3 = 5k */
++
++/* bias levels 0x12-0x18 (SW0 for 1.8 V, SW1 for 3.3 V) */
++#define ES7202_PGA1_BIAS_SW0		GENMASK(7, 4)
++#define ES7202_PGA1_BIAS_SW1		GENMASK(3, 0)
++#define ES7202_PGA2_BIAS_SW0		GENMASK(7, 4)
++#define ES7202_PGA2_BIAS_SW1		GENMASK(3, 0)
++#define ES7202_MOD1_BIAS_SW0		GENMASK(7, 4)
++#define ES7202_MOD1_BIAS_SW1		GENMASK(3, 0)
++#define ES7202_MOD2_BIAS_SW0		GENMASK(7, 4)
++#define ES7202_MOD2_BIAS_SW1		GENMASK(3, 0)
++#define ES7202_VREFP_BIAS_SW0		GENMASK(7, 4)
++#define ES7202_VREFP_BIAS_SW1		GENMASK(3, 0)
++#define ES7202_VMMOD_BIAS_SW0		GENMASK(7, 4)
++#define ES7202_VMMOD_BIAS_SW1		GENMASK(3, 0)
++#define ES7202_MODS_BIAS_SW0		GENMASK(7, 4)
++#define ES7202_MODS_BIAS_SW1		GENMASK(3, 0)
++
++#define ES7202_LP1_LP_VRP		BIT(7)
++#define ES7202_LP1_LP_VRPOUT		BIT(6)
++#define ES7202_LP1_LP_VMMOD1		BIT(5)
++#define ES7202_LP1_LP_VMMOD2		BIT(4)
++#define ES7202_LP1_LP_MODS1		BIT(3)
++#define ES7202_LP1_LP_MODS2		BIT(2)
++#define ES7202_LP1_LP_MODI1		BIT(1)
++#define ES7202_LP1_LP_MODI2		BIT(0)
++
++#define ES7202_LP2_LP_PGA1		BIT(5)
++#define ES7202_LP2_LP_PGA2		BIT(4)
++#define ES7202_LP2_PDN_DETCT		BIT(3)
++
++#define ES7202_ANALOG_MISC1_OFFSETSEL1	BIT(6)
++#define ES7202_ANALOG_MISC1_OFFSETSEL0	BIT(5)
++#define ES7202_ANALOG_MISC1_SUPPLYSEL	BIT(4)	/* 0 = 1.8 V, 1 = 3.3 V */
++#define ES7202_ANALOG_MISC1_DITHERSEL	GENMASK(2, 0)
++
++#define ES7202_ANALOG_MISC2_VX2OFF_SW0	BIT(7)
++#define ES7202_ANALOG_MISC2_VX1SEL_SW0	BIT(6)
++#define ES7202_ANALOG_MISC2_VMIDLOW_SW0	GENMASK(5, 4)
++#define ES7202_ANALOG_MISC2_VX2OFF_SW1	BIT(3)
++#define ES7202_ANALOG_MISC2_VX1SEL_SW1	BIT(2)
++#define ES7202_ANALOG_MISC2_VMIDLOW_SW1	GENMASK(1, 0)
++
++#define ES7202_PGA_SELMIC1		BIT(4)
++#define ES7202_PGA_MIC1_GAIN		GENMASK(3, 0)
++#define ES7202_PGA_SELMIC2		BIT(4)
++#define ES7202_PGA_MIC2_GAIN		GENMASK(3, 0)
++
++#endif
 -- 
 2.56.0
 
