@@ -1,56 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792626163;
-	b=OnTyOlD/T2et8pO5/qkNo4K17OOZTZPojpnlQNp+snWccWaWeZMnPJk/GNJQ3btGo+Mr
-	 P/1omnmKxmfu5Dg+S87O5NhNBUYR9vsLpvS8Bs2mJDPwePdKnqOwSHGEcn6nsOzEqb+uy
-	 yI4KEWHoywsYA7qjkvr9xuEB3kmlpLHjaENm/ak0k7q0GqL62zwD9DdwVNxseO3qMC1qi
-	 IS6BWN64Rsjn/H+JqI7oxYmpvUDxYtV7+V8Ry3EC3heKxFmtUKhHQz+T3y95JbGSC93K2
-	 52ns0Ewi0lL9o3Kr7olnmFe/3y7l7cHdVtoj9vFqYXwV0LunXTQBDSm8CsjmF0wU8+g==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792626163;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=VYhF9BrjdX19MprUaM/ozuZwxyfWSVe3ky/qpLR84gg=;
-	b=FbT4DSfDZObNE/ng8Mf5de1qzFcJ7AQGn1Te5iSvknRpSZWiDisyVal5d2jPd85jxKD5
-	 PgmcH7eOLrMceZ2PihFbBh6wKyDmG1RO5PZ9AOHmyQEle1HobtcGLmDvyJqweBNDM1rJQ
-	 JCVfAez6KlZU7xQlLUJtElrHpn2M0km5hwoeYrZ1xgvsptKECaZsPSMejt+Z9dEQi4kJk
-	 1MCV08QMtrwnLzk2pkeTgz5foZUms6VIYAc2pV79EJCrFo1vjWEQse2eKQbtKagJLOupq
-	 K6n+N4d9NxZHrAWye8YSmSQuZJsEwJ+dVDl6j4jsocTmA1AqCzekH1cAxWFnSYTCl7Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rz1PGphh;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.44.96
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792635867;
+	b=KH5ssETsrqhuDq44Qgwuh3HkKbxYaHIroQyYL4B5zucK+WDAjtvV4H+IvNQnWRs9wGOY
+	 yOMolA7OvNF8A0MmdYJrW7gpsYKSsixRhKIJySzEh/b5wxr2CB4ONDK+abcBjxKsPH+O9
+	 Q3p+/Tmzer14WFfq7hjDZfYkL5DEi/RQPi7NXKPFaIAuzd+kKPwMbJNq9N6bSDY/V+cvQ
+	 D1+sF8TK6UA3Ezpl5AiHbiTKDsIieOHK7k7a4Rh2AP+Yvo7LBINVjltXGWZbTJLTN/NfH
+	 Y45/dUqiHsXaR+1FD/EpMkKlshhjWqjCzLj6oXbhggjDL++z8wHYHtYDbB1YHlOFNXQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792635867;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=QQ6TEXmRqjyEaZIEQysYmLI0+LE0QNEPyL7RQNv99xs=;
+	b=Xsr4+a296xHVRT75j+gy7VLNkNyshKSAXG6BvT+GY1PvQkaUjJPPl09SmIgwi2oyQW3N
+	 boZ2r626npcTqADUvMzDne/zUYMfi0klGCtoe38WuN+WTZBOB7tO5P7yZuy4PJg4cBKy3
+	 Mg8eQQyvk62YDmz4d7xN1d1EoimPkqTH6tRlzkqezw8gddWNqACLyYH47v7BvJ+WQ4Gmx
+	 ThlNlZThUoucPyMj/hNKkOrTmP15JU9+SqQNriiv7NxAUZJNcrUkAT0/wmKIlVnfoNQvo
+	 l2YoSBStkl8099KA3cjLj1SN6yT2SX/dBMWftVtf7bmn9P10qtb6QHBnL9AFvOtIjQg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amlogic.com;
+	spf=pass smtp.mailfrom=amlogic.com;
+	dkim=pass header.d=amlogic.com header.i=@amlogic.com header.a=rsa-sha256 header.s=selector1 header.b=jlX5ToI5;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.44.96
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023096.outbound.protection.outlook.com [40.107.44.96])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5EB606A31F
-	for <linux-sound@vger.kernel.org>; Wed, 21 Oct 2026 23:42:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53F7606A31B;
+	Thu, 22 Oct 2026 02:24:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E53F7606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amlogic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amlogic.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rz1PGphh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 717EC1F000C5;
-	Wed, 21 Oct 2026 23:42:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792626162;
-	bh=VYhF9BrjdX19MprUaM/ozuZwxyfWSVe3ky/qpLR84gg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Rz1PGphh0ZTn9pTJg674D5cCZKrqO53JrklVor0RktoeNlYKaVSHgygHm2x8qM0rW
-	 kfLeJ4ixeavM2oTZ9a+SHTSRhhVkIKLfCSve7HYIe7WsdYi3PZBqEzQlsnvU8ZZmXa
-	 zx7h1/YLydQScb04eMKUS07/iVQI1R7RnUzYHYFGUrxnYM4XjEP4kVVxFqWjdoMhMz
-	 lOG2e6LyhgCJOQEdoNnbY9+b1TIrXqjjNh6TzbVONUX3xAYBhMk3p1Cx/x3xFjto6y
-	 VLwp0auygC4is3FN7wgN2I/aLOJ2fb4bvzVl/5zfVG1f3zkQPEzEt6WD/Ynqo/OU75
-	 eWNnC/icpbgAA==
-Message-ID: <sashiko-outbox-180786@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Reset Blue Yeti firmware 0.20 after
- resume
-Reply-To: sashiko-reviews@lists.linux.dev
-To: jasmeet.bhatia.us@gmail.com
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261021231754.16928-1-jasmeet.bhatia.us@gmail.com>
-References: <20261021231754.16928-1-jasmeet.bhatia.us@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Oct 2026 23:42:41 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=amlogic.com header.i=@amlogic.com header.a=rsa-sha256 header.s=selector1 header.b=jlX5ToI5
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rt+XuSC9aUO+Z+b7UTo03/wjVGIZktrnXVvAlgtxVBUTOzHTWfzYXmF1Zz8Wm/GV35CUno68R3/henZotlmdd4vrH+RTLEoQzKEJf3AvzrtXHjA8TQvAOJVW7iq14XPHn/0/0nJyngb09WP0YPozb+I2ib8GoqH8EZcC0PgZIkrX+eC8ym9QqgbvVQdN4BA30x4IfEKFSlWCcigxIhdyglm/OSEYqNXS7wC9cjTsZSH39Zj/nUGZ9SG08Y9l0z0hLgkU4cFQIB0tRs4Kmv6o6Sp72YRg288iWYQXjtZJrNaF17DZB8FDqESiiTgEobvlDIIgmez5HT+hyFs081jDrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QQ6TEXmRqjyEaZIEQysYmLI0+LE0QNEPyL7RQNv99xs=;
+ b=wRD8k5wLcUrx3S487ZbQzJsHHLuiQ8FDmC0HZhlhfvnESzAVlD0TSLyqYxEDvUzz+x70nQAnUhlEjtM/T9PO6PdjgjM4njmn5besd0+qlf2JVRXjTQppPAlSA9SfjOvjMFbMxz+nL08SIo1EgWm5jzuqeS4gRxyOq8BHwbBkBVxVmAItj5kh8XZZUT6KqpoBJI2nfpEsf3S9XIzubgz/7GDACV3nnONryXxQEuJHZKNhofvWaucgNksqzl3xBowH4V5M+g6xM2cQnnErnHANbJiHBzBGFl7yJJafgJ+PCZbUSHp1pJbabjd0k1YLkAFXmfAdbVx+gMvPF3E2bvm1Dw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amlogic.com; dmarc=pass action=none header.from=amlogic.com;
+ dkim=pass header.d=amlogic.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amlogic.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QQ6TEXmRqjyEaZIEQysYmLI0+LE0QNEPyL7RQNv99xs=;
+ b=jlX5ToI5tY+zET6XDrCfhgEY0qQ9JzISvo03YqVHKExYSZz2h2zcjCrV//j/3vOT4a04JOX4WB1ieTp+3blELra46fDWp8v/XPw1YrdELa3KXh23bLF44+K4fechuzt6HorexZB07w/94PvaFqTyGbH3zI8PeifFN7KfWW3PKCAAV3LNZC28nXnkEomq4F4h+ZHdrWk5aUKdmwnZGncTYEoxE0Ph2mnPl4wpO246uk2JxM5ikWsGrcTahAD8B1Kg0wZr6FfZjhgNWuQjCssOb3xmKH1IKttziCHi8Aj71/qMFYb/dqv2Dynphoi4lZn79/VxuLEOCwVqYax2heWEdg==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amlogic.com;
+Received: from TYNPR03MB10226.apcprd03.prod.outlook.com
+ (2603:1096:405:3c1::21) by TYSPR03MB7572.apcprd03.prod.outlook.com
+ (2603:1096:400:432::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Thu, 22 Oct
+ 2026 02:24:23 +0000
+Received: from TYNPR03MB10226.apcprd03.prod.outlook.com
+ ([fe80::ff5:e524:cf10:5d7]) by TYNPR03MB10226.apcprd03.prod.outlook.com
+ ([fe80::ff5:e524:cf10:5d7%6]) with mapi id 15.21.0522.017; Thu, 22 Oct 2026
+ 02:24:23 +0000
+Message-ID: <83bb17dc-49e2-437f-a55f-3f8a5e77c5f4@amlogic.com>
+Date: Thu, 22 Oct 2026 10:24:19 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 3/5] ASoC: meson: g12a-toacodec: Add S4 tocodec driver
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
+ jian.xu@amlogic.com, shuai.li@amlogic.com, zhe.wang@amlogic.com
+References: <20261021-audio_drvier-v7-0-2b9aeae9cb8a@amlogic.com>
+ <20261021-audio_drvier-v7-3-2b9aeae9cb8a@amlogic.com>
+ <179259528986.4070168.179126639869298765.b4-review@b4>
+From: Jiebing Chen <jiebing.chen@amlogic.com>
+In-Reply-To: <179259528986.4070168.179126639869298765.b4-review@b4>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: TYCP286CA0249.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:456::7) To TYNPR03MB10226.apcprd03.prod.outlook.com
+ (2603:1096:405:3c1::21)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,264 +106,141 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYNPR03MB10226:EE_|TYSPR03MB7572:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3a5ce28e-0c75-4b11-559f-08df2fe39644
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|23010399003|18002099003|10067099003|22082099003|261021121427099003|4143699003|261009223027099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	miX2Jabfg5ba0UN/IHc/zDhqzbW8GTcR0yJ2XvAmkj1WcnbJiyp3kdFS07lc07Oi0FeF0HhLnbiplbL7Y7vEwzjXalEZiyNTUrPtwMe7oTtRljo18AKl5noAVK+zsvWRPr2MHbcfcD1KIrFHxYGGFBdxv6wb/d80c2f3kicyyKLLkRESc+WNckECi57ue6qoHbaJJ9uDlEo+z/UB86NVz6VN0+G8miY2PH46UxG4KvRI8tvqx7ZjmM2bSuf1OLjpeGxqom7ZIWAnpdzaNyV2yWhtCAwKvn9TXqPFIY6wBXE4zTvqN7WmKzHXU6msDt4uE03R7nN8G6eYTzy4vY6Sj1yMj5LysIv7ghTtTy1lHU+KKKH6euW2DwiqTuNEfFPMTfWPnA9A4LVVQVfD+jorTYMmLE1ZULfnXJv6uJ8BntfmjXCbDjJDNsqd1QODMxn8bOgwiefoxVkD6H5gCD4nqq06oGjqtdyKExUvQgjvCq2eeRdpOHncmQ8EjQeWD5ftWvp+4FMtkvyw3MuRqJG150E1oRt3VD+O7Xz61B21M0Reurex+EdtzbNy/ogzrjpuiVRBVvFgHDM1pmuQyGp9KCRMivBtgztVXJcxORQTMYbaF0iDsgZrTas7B4kutjRd+kUcSsXpP4iB+lRrYiLEaNXtKY35OQWdwZdWxUHLbkg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYNPR03MB10226.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(23010399003)(18002099003)(10067099003)(22082099003)(261021121427099003)(4143699003)(261009223027099003)(11063799006)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UFBhRDJBZHdpS2lXUFprU0NzbHdEbzJzNytDWmxXWitVQ25tdXR4REVqamRi?=
+ =?utf-8?B?Qzd5ZlZyVUdJWVZBRXR3bmd1ampPb21yOHphckVLcGlJOE0zS040UXlpeVhq?=
+ =?utf-8?B?bisyaHQzZkRDb2J5a25WbzJrTkp3UTZvWHdqOUdFQWxlME1CNTZzT1dPZklU?=
+ =?utf-8?B?bzEraXpnNGs5STNXTm53UTRtWEpSRE51bGxESTdnODlxZWRwTWRrMzZSQkdl?=
+ =?utf-8?B?Yk1OSGJ6Q01NUzBtdCtjeHNPaFE0a2hwSHorK0VlbCtkVkJzVExyZllROURj?=
+ =?utf-8?B?UXNpWmVNaStlK1BSMGNQQ0pXdzNmcmpDRnJzeWlCVml0S2NVQVhXUmY5U21u?=
+ =?utf-8?B?RWZBK3JQSitYYkJ1SkxoakM4cWR0S01EZjJEdGFwYW4zcVI2Q29sMXRONGZp?=
+ =?utf-8?B?dW9DQi82Z3NzMVdJYnNwNnZNZUtiS0ZaZ3E3RHBCcVkzMHRmZVBRelg1eUZS?=
+ =?utf-8?B?WU1rMUl1UzFrak1BZVhwcTRMTVF1RGxDOEcxVzdxQzVINzF2Q25IdDNFQlNN?=
+ =?utf-8?B?blpWUzNtUGsyZHlNQW05dVZWS1kwUVRhWmpaT01qL0lQMi9zWTI1RFNuWFNV?=
+ =?utf-8?B?dnhELzNRdmNsVkN2bVdSV2dMS3dnMllITEljekF2SzE0VHp6R011My93RVFP?=
+ =?utf-8?B?YzExMGQyWVg5OGdpTE8wYmJoOWhTNk9DWk1acFJuTHpFT1RQOS9ZRXpadnBZ?=
+ =?utf-8?B?QTAyclJicEJIU0E0d0Z5dFJKc2p5NDlRZVFaOHU1RHd6cUZjQ2VnS0doTW12?=
+ =?utf-8?B?bStUbnRoS0tyeG1vc1kvV2lrb1VwemVTMElIdUZibXBSVjFBRWdmWmtXOWo2?=
+ =?utf-8?B?NzNxeWNicllGOUpJU1FZbE4xYnVaRGs1MWcvK1dkTFlPMTAxVy9HejdGQ3A0?=
+ =?utf-8?B?QUFDVGY3SW5wcW9PeGUzUS90SDJqcEVZa01FUXovdExic1BaRGdkeUgwT3Nm?=
+ =?utf-8?B?SjVBelhCbnRlbjRjRWtUNUszNVo3WlhMWTN2NC9SN3llbU1pUU5WQm4vYmEv?=
+ =?utf-8?B?aDYyZFlYWmtVNUF5M2pkOFZUZzY0SHRKMDhOeVhyODNlVVBreXliK0daeXhp?=
+ =?utf-8?B?ZHMvelBaYklPMXZHNFlnbm5wUVE3Vm1YUzF1VVF4UDExYXAwa1V4WVFIQW05?=
+ =?utf-8?B?OFhrYUp3Z3JGRTl3M3Y5VXZaTllDZlc5c0d3S1RIaGNnOGRjYXB2cENSelB0?=
+ =?utf-8?B?MS9UeVpSSzU1RS9HQWtFcXBKWDQ1dFVRelBrNmtNVEkrYmdBUm5SUklXK2tG?=
+ =?utf-8?B?N2JucUkvWEE1VkxOVzJ2SEhVRGU4VmpmcXBrQnYzOWdGWlo3YkVZTEVWN1Jq?=
+ =?utf-8?B?bzNKNThGZ05LbFBtVUxaeUtmbUY1elNxRk5CRE4vSnR1bDZ4VG9ZazdCcmNu?=
+ =?utf-8?B?eDBkRW9RTzFVN1NSU0RCVzg4dFlpNXhWMktwb0xMN3JjN0d4dGdYcmF0VFY2?=
+ =?utf-8?B?OHg1dGFxOHZleUxxUktua0FjQlBNOTVZRGtXekl6WEdUa1dHZzhjaWlGSWcv?=
+ =?utf-8?B?T2FYVEh4aStlRlY4dE5KQldObFNOc3lHa01TdWlKajZsYnNSRTdNTEVIUndJ?=
+ =?utf-8?B?OHh4MVEwdlU3bzdqWVpqdzNkNFJ5WUYydkJMeThDNFpmK3hTakN4R3UyVjZk?=
+ =?utf-8?B?MDN0MjNXZUpvK0haWnNJdDc4VmZsMmh5MWVPU3NGWHpHTzZ4NllwSmgzUU81?=
+ =?utf-8?B?RUlpbnBOYlNpb241ZC9SQUluZGZUWWFHQVRmNTR0RWU1WUMxVzVJQ0p3THBH?=
+ =?utf-8?B?SC9TN2puRkhVTzdFRFZZMitKeEZWeTY2SlVlOFNaWDdWSFhYMUdxVlllTTgr?=
+ =?utf-8?B?Z0JWUWFNT3FibmtWRG9WWGJjbHB0S25uN1VFTllrR0hEQzFlV2NFY2JSdTRp?=
+ =?utf-8?B?b1NtVGwxWDdWM0l6OUw3L2RCQ2l5TEdVeHBqcFZTTEsxc250UFRvT3hKVzJR?=
+ =?utf-8?B?VnExQzZDd0hseXkyNWhHVEY1enR0NGpHNFlNR1FSbVVmU00rOFRUVkhFVEp5?=
+ =?utf-8?B?M0hEbGo5b0p0RTFBbDBqaVhFM2doNytZZ1dST3hxVWZlZDQwa1pka0lGVFdo?=
+ =?utf-8?B?bzdRdFZUOEVnZGoydnR0ZVFJdS84SjBUdUNnUTdjZjJ0bzFZc2Iya3pGVFFI?=
+ =?utf-8?B?OTAreHZsVlY5WGU5MW8zNmNybG9GSFhIK1JIYnB4Qlh2TmlYSUFJN3c5Y1pj?=
+ =?utf-8?B?OW5oRlFQVzNWMXNYUEdlNVgxRFlqa1VuRnhoRFV3c1VIcVBuajdBaVpSR1cy?=
+ =?utf-8?B?cWdWcVdwNDRrNFpnVURlZWdxRnZRallCR2g4UmtHYk5QMStKT3h4S0dWczZU?=
+ =?utf-8?B?Zk0xZ3FjZDZybmhISjBCYUNGdUg0dCs5d0ptVk9XS3U2cENGT3pWUT09?=
+X-OriginatorOrg: amlogic.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a5ce28e-0c75-4b11-559f-08df2fe39644
+X-MS-Exchange-CrossTenant-AuthSource: TYNPR03MB10226.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2026 02:24:23.5983
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0df2add9-25ca-4b3a-acb4-c99ddf0b1114
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1YK5k/NNcyvC0tEguZcpeMoN3wywSk/jaVUnewq1XrZi4wxgiHJslAW4b5j91FESFNsapALXPAiWB5Ufh8rG4tIAN+wC/lyJF6KFxoNJ1B0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR03MB7572
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] ALSA: usb-audio: module text UAF via module_put() in snd_usb_yeti_=
-reset_work()
-- [Medium] ALSA: usb-audio: Blue Yeti resume quirk skipped or fails under r=
-untime PM
-- [Medium] ALSA: usb-audio: untracked work in snd_usb_yeti_resume_quirk() c=
-auses duplicate resets and post-disconnect I/O
---
 
-commit 592f2406e0255360e88f55c391bf3d248002c71a
-Author: Jasmeet (Jazz) Bhatia <jasmeet.bhatia.us@gmail.com>
+在 2026/10/21 23:08, Jerome Brunet 写道:
+> [ EXTERNAL EMAIL ]
+>
+>> The S4 requires additional clock control bits to be turn on while enabled.
+>> The S4 has 8 TDM lanes, instead of 4 on previous SoC.
+>> Update the widget accordingly.
+>>
+>> Signed-off-by: Jiebing Chen <jiebing.chen@amlogic.com>
+>> ---
+>>   sound/soc/meson/g12a-toacodec.c | 49 +++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 49 insertions(+)
+>>
+>> diff --git a/sound/soc/meson/g12a-toacodec.c b/sound/soc/meson/g12a-toacodec.c
+>> index 21941ee552c5..9cfed3702354 100644
+>> --- a/sound/soc/meson/g12a-toacodec.c
+>> +++ b/sound/soc/meson/g12a-toacodec.c
+>> @@ -41,6 +41,9 @@
+>>   #define  CTRL0_BCLK_SEL_LSB          4
+>>   #define  CTRL0_MCLK_SEL                      GENMASK(2, 0)
+>>
+>> +#define CTRL0_BCLK_ENABLE_SHIFT              30
+>> +#define CTRL0_MCLK_ENABLE_SHIFT              29
+> Please follow the indentation convention in place (2 spaces)
+Noted with thanks
+>
+>> +
+>>   #define TOACODEC_OUT_CHMAX           2
+>>
+>>   struct g12a_toacodec {
+>> @@ -141,6 +144,16 @@ static const struct snd_soc_dapm_widget sm1_toacodec_widgets[] = {
+>>                            &g12a_toacodec_out_enable),
+>>   };
+>>
+>> +static const struct snd_soc_dapm_widget s4_toacodec_widgets[] = {
+>> +     SND_SOC_DAPM_MUX("SRC", SND_SOC_NOPM, 0, 0,
+>> +                      &sm1_toacodec_mux),
+>> +     SND_SOC_DAPM_SWITCH("OUT EN", SND_SOC_NOPM, 0, 0,
+>> +                         &g12a_toacodec_out_enable),
+>> +     SND_SOC_DAPM_SUPPLY("I2S BCLK Gate", TOACODEC_CTRL0, CTRL0_BCLK_ENABLE_SHIFT, 0, NULL, 0),
+>> +     SND_SOC_DAPM_SUPPLY("I2S MCLK Gate", TOACODEC_CTRL0, CTRL0_MCLK_ENABLE_SHIFT, 0, NULL, 0),
+> BCLK Gate => BCLK EN, same for MCLK
+Thanks for pointing this out. I’ll fix it.
+>
+>> +
+>> +};
+>> +
+>>   static int g12a_toacodec_input_hw_params(struct snd_pcm_substream *substream,
+>>                                         struct snd_pcm_hw_params *params,
+>>                                         struct snd_soc_dai *dai)
+>> @@ -226,6 +239,16 @@ static const struct snd_soc_dapm_route g12a_toacodec_routes[] = {
+>>        { "OUT Capture", NULL, "OUT EN" },
+>>   };
+>>
+>> +static const struct snd_soc_dapm_route s4_toacodec_routes[] = {
+>> +     { "SRC", "I2S A", "IN A Playback" },
+>> +     { "SRC", "I2S B", "IN B Playback" },
+>> +     { "SRC", "I2S C", "IN C Playback" },
+>> +     { "OUT EN", "Switch", "SRC" },
+>> +     { "OUT Capture", NULL, "OUT EN" },
+>> +     { "OUT EN", NULL, "I2S BCLK Gate" },
+>> +     { "I2S BCLK Gate", NULL, "I2S MCLK Gate" },
+> Audio signal does not go through those Gate elements
+> They should be supply path connected to OUT EN.
+Thanks for your guidance. Is it correct to use the method below?
 
-ALSA: usb-audio: Reset Blue Yeti firmware 0.20 after resume
+  {"OUT EN", NULL, "I2S BCLK EN" },
+  {"OUT EN", NULL, "I2S MCLK EN" },
 
-This commit adds a resume quirk for Blue Yeti Classic microphones with
-firmware 0.20 (USB ID 046d:0ab7, bcdDevice 0x0020) that schedules a deferred
-volatile ROM reset command on system_freezable_wq after system resume so the
-device re-enumerates and restores audio capture.
-
-> diff --git a/sound/usb/card.c b/sound/usb/card.c
-> index 9307da95efbef..ebacb98fc34e4 100644
-> --- a/sound/usb/card.c
-> +++ b/sound/usb/card.c
-> @@ -1280,6 +1280,9 @@ static int usb_audio_resume(struct usb_interface *i=
-ntf)
->  	if (chip->num_suspended_intf > 1)
->  		goto out;
-> =20
-> +	if (chip->system_suspend)
-> +		snd_usb_apply_resume_quirk(chip);
-
-[Severity: Medium]
-Can gating snd_usb_apply_resume_quirk() on chip->system_suspend in
-sound/usb/card.c:usb_audio_resume() cause the reset quirk to be skipped when
-the device is runtime-suspended prior to system suspend?
-
-Because usb_audio_driver enables .supports_autosuspend =3D 1 and 046d:0ab7 =
-does
-not set QUIRK_FLAG_DISABLE_AUTOSUSPEND, a runtime suspend before system sle=
-ep
-calls usb_audio_suspend(intf, PMSG_AUTO_SUSPEND), which leaves
-chip->system_suspend as 0:
-
-sound/usb/card.c:usb_audio_suspend() {
-    ...
-	if (!PMSG_IS_AUTO(message) && !chip->system_suspend) {
-		snd_power_change_state(chip->card, SNDRV_CTL_POWER_D3hot);
-		chip->system_suspend =3D chip->num_suspended_intf;
-	}
-    ...
-}
-
-When the system subsequently enters system suspend (PMSG_SUSPEND),
-drivers/usb/core/driver.c:usb_suspend_both() sees that udev->state is alrea=
-dy
-USB_STATE_SUSPENDED and skips calling usb_suspend_interface() ->
-usb_audio_suspend():
-
-drivers/usb/core/driver.c:usb_suspend_both() {
-	if (udev->state =3D=3D USB_STATE_NOTATTACHED ||
-			udev->state =3D=3D USB_STATE_SUSPENDED)
-		goto done;
-    ...
-}
-
-On system resume, usb_resume_both(udev, PMSG_RESUME) calls usb_audio_resume=
-()
-with chip->system_suspend still equal to 0, so snd_usb_apply_resume_quirk()
-will not run.
-
-Also, when snd_usb_yeti_resume_quirk() queues yeti->work onto
-system_freezable_wq, it only takes a kobject reference via usb_get_dev(dev)
-without holding a runtime PM reference (such as usb_autopm_get_interface() =
-or
-usb_autoresume_device()). Since system_freezable_wq remains frozen until
-thaw_workqueues() runs after dpm_resume_end(), could the device autosuspend
-before snd_usb_yeti_reset_work() executes, causing usb_control_msg_send() to
-fail with -EHOSTUNREACH?
-
-> +
->  	list_for_each_entry(as, &chip->pcm_list, list) {
->  		err =3D snd_usb_pcm_resume(as);
->  		if (err < 0) {
-> diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-> index a54fabce7920d..42d955c7b7a4d 100644
-> --- a/sound/usb/quirks.c
-> +++ b/sound/usb/quirks.c
-
-[ ... ]
-
-> @@ -1626,6 +1628,81 @@ int snd_usb_apply_interface_quirk(struct snd_usb_a=
-udio *chip,
->  	return 0;
->  }
-> =20
-> +/*
-> + * Blue Yeti Classic firmware 0.20 may stop delivering capture samples
-> + * after a system suspend/resume while otherwise remaining enumerated.
-> + *
-> + * Sending the device's volatile ROM reset command restarts its MCU and
-> + * USB logic, causing it to re-enumerate and restoring capture.
-> + *
-> + * Do not send the command directly from the USB resume callback because
-> + * it deliberately disconnects the device.  Queue it on the freezable
-> + * workqueue so it runs after device resume callbacks have completed.
-> + */
-> +struct snd_usb_yeti_reset {
-> +	struct work_struct work;
-> +	struct usb_device *dev;
-> +};
-> +
-> +static void snd_usb_yeti_reset_work(struct work_struct *work)
-> +{
-> +	struct snd_usb_yeti_reset *yeti =3D
-> +		container_of(work, struct snd_usb_yeti_reset, work);
-> +	struct usb_device *dev =3D yeti->dev;
-> +	static const u8 reset_cmd[8] =3D {
-> +		0x00, 0x09, 0x00, 0x00,
-> +		0x00, 0x00, 0x00, 0x00
-> +	};
-> +	int err;
-> +
-> +	err =3D usb_control_msg_send(dev, 0, UAC_SET_CUR,
-> +				   USB_DIR_OUT | USB_TYPE_CLASS |
-> +				   USB_RECIP_INTERFACE,
-> +				   0x0a00, 0x1900,
-> +				   reset_cmd, sizeof(reset_cmd),
-> +				   USB_CTRL_SET_TIMEOUT, GFP_KERNEL);
-> +
-> +	if (err && err !=3D -ENODEV)
-> +		dev_warn(&dev->dev,
-> +			 "Blue Yeti resume reset failed: %d\n", err);
-> +
-> +	usb_put_dev(dev);
-> +	kfree(yeti);
-> +	module_put(THIS_MODULE);
-> +}
-
-[Severity: High]
-Does calling module_put(THIS_MODULE) at the end of
-sound/usb/quirks.c:snd_usb_yeti_reset_work() leave a race window where the
-module text can be unmapped before the worker thread returns from the
-function?
-
-Because yeti->work is allocated as an untracked object and is not flushed v=
-ia
-cancel_work_sync() in usb_audio_disconnect() or on module exit,
-snd_usb_yeti_reset_work() relies on __module_get(THIS_MODULE) to keep
-snd-usb-audio loaded while the work runs.
-
-When the reset command disconnects the USB device (or if the device was
-already unbound), module_put(THIS_MODULE) can drop the last reference to the
-module while execution is still inside snd_usb_yeti_reset_work(). Once the
-refcount reaches zero, a concurrent delete_module() in
-kernel/module/main.c:delete_module() can proceed:
-
-kernel/module/main.c:delete_module() {
-	ret =3D try_stop_module(mod, flags, &forced);
-	if (ret !=3D 0)
-		goto out;
-
-	mutex_unlock(&module_mutex);
-	/* Final destruction now no one is using it. */
-	if (mod->exit !=3D NULL)
-		mod->exit();
-    ...
-	free_module(mod);
-}
-
-This can unmap the module's executable text before the worker thread finish=
-es
-returning from module_put() and executing the epilogue of
-snd_usb_yeti_reset_work().
-
-> +
-> +static void snd_usb_yeti_resume_quirk(struct snd_usb_audio *chip)
-> +{
-> +	struct usb_device *dev =3D chip->dev;
-> +	struct snd_usb_yeti_reset *yeti;
-> +
-> +	if (chip->usb_id !=3D USB_ID(0x046d, 0x0ab7) ||
-> +	    le16_to_cpu(dev->descriptor.bcdDevice) !=3D 0x0020)
-> +		return;
-> +
-> +	yeti =3D kmalloc_obj(*yeti);
-> +	if (!yeti) {
-> +		dev_warn(&dev->dev,
-> +			 "Blue Yeti resume reset allocation failed\n");
-> +		return;
-> +	}
-> +
-> +	INIT_WORK(&yeti->work, snd_usb_yeti_reset_work);
-> +	yeti->dev =3D usb_get_dev(dev);
-> +	__module_get(THIS_MODULE);
-> +
-> +	if (!queue_work(system_freezable_wq, &yeti->work)) {
-> +		module_put(THIS_MODULE);
-> +		usb_put_dev(yeti->dev);
-> +		kfree(yeti);
-> +	}
-> +}
-
-[Severity: Medium]
-What happens in sound/usb/quirks.c:snd_usb_yeti_resume_quirk() across
-hibernation freeze/thaw transitions or if the driver unbinds before
-system_freezable_wq runs?
-
-Allocating a new struct snd_usb_yeti_reset and calling INIT_WORK() on every
-invocation means WORK_STRUCT_PENDING_BIT is always clear when queue_work() =
-is
-called, which makes the !queue_work() cleanup path unreachable and prevents
-workqueue deduplication.
-
-During hibernation in kernel/power/hibernate.c:hibernation_snapshot(),
-freeze_kernel_threads() freezes system_freezable_wq before
-dpm_suspend(PMSG_FREEZE) calls usb_audio_suspend(intf, PMSG_FREEZE). Because
-!PMSG_IS_AUTO(PMSG_FREEZE) is true, chip->system_suspend is set even though
-usb_generic_driver_suspend() does not suspend USB2 ports on PM_EVENT_FREEZE.
-When dpm_resume(PMSG_THAW) then calls usb_audio_resume(), a reset work item
-is queued onto the still-frozen system_freezable_wq. In hybrid sleep
-(HIBERNATION_SUSPEND) or if hibernation_platform_enter() rolls back via
-dpm_resume_end(PMSG_RESTORE), usb_audio_suspend() and usb_audio_resume() run
-a second time before workqueues are thawed, queuing a second reset work item
-for the same usb_device.
-
-Furthermore, because yeti->work is not tracked in struct snd_usb_audio and
-canceled in sound/usb/card.c:__usb_audio_disconnect():
-
-sound/usb/card.c:__usb_audio_disconnect() {
-    ...
-	if (atomic_inc_return(&chip->shutdown) =3D=3D 1) {
-		/* wait until all pending tasks done;
-		 * they are protected by snd_usb_lock_shutdown()
-		 */
-		snd_refcount_sync(&chip->usage_count);
-		snd_card_disconnect(card);
-		usb_audio_disconnect_components(chip);
-	}
-    ...
-}
-
-unbinding snd-usb-audio before the deferred work executes leaves
-snd_usb_yeti_reset_work() active to send the interface-targeted UAC_SET_CUR
-control message after usb_audio_disconnect() has returned, whereas
-drivers/usb/core/message.c:usb_control_msg_send() requires:
-
- * If a thread in your driver uses this call,
- * make sure your disconnect() method can wait for it to complete. Since you
- * don't have a handle on the URB used, you can't cancel the request.
-
-Would embedding the work_struct in struct snd_usb_audio and canceling it via
-cancel_work_sync() on disconnect avoid both this issue and the module_put()
-race above?
-
-[ ... ]
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261021231754.1692=
-8-1-jasmeet.bhatia.us@gmail.com?part=3D1
+>
+> --
+> Jerome
+>
