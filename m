@@ -1,111 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.14
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792649515;
-	b=fAM8qzVsDLjGCg/n5mFv0/+hBWtCMwDZGc23yiZnfCnIm4jtxrU+/nj6dQYwuwEo0wr5
-	 /+C793PPpfv12mIYUNiWN+W50MFlLrvDY+anhydXIzdqJBGdG2xhfOIgqVqL4oknYu/CT
-	 Xc2DMXxayQ19SewZDQcDyDSiph50aLfOmGc8aK3TIMt4i4fMKhzwyUoHJK+4dWihtbq6w
-	 Z/zalsyojjiwowJL5a7POa31FSkL7x/zqR2tcB8TLalnEPAAkPcF/0Xe7rheU9B/Mdvaz
-	 F8naK0dmlJAb0Lk6O5EDe8ZNtgsmxggNASq91ZXCIbCMxVjxDi/nr7TVdM9tgdxiMOw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792649515;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
-	 Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:Content-Type:
-	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=B+Ge2gz/ZBN0D3k0WD7n+CAHlDgWiAT9XThasimNDG0=;
-	b=cl25OgQTMW4IRLUiXHu3JJcXzqOFDqUiSU1I7Lw30J7Nqq9K9GU/VrW1AIWt2+bXwaov
-	 D6YdwhXFnwJqklOuECG2FafzvXvv/1lZjhime6TAyUsFfDgtOKrQBpSb33kbm1aX9tEys
-	 dVIvyR9dFtBDZ3ZM3/P3ZmgxOE79gRP+Mora0XBJQRvOAILBbREPek1Toh1BI4KshTy7b
-	 rYcsQuoPQ8NL4CGtUlhglL5BHiS2xB4sKDSH3CA2EAbLqs3lAHuWNdtA65+/Qszf7Yc/D
-	 xygjFCNdhHABhmrOnj6i+HPGIZHyBNYA5KWaBV6kGQn78S7/DMs3QQzyAmQvsXP2pKg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=2SOirwOs;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.14
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010014.outbound.protection.outlook.com [52.101.193.14])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792649593;
+	b=sZvPjRHs/qBR5Q5h4fcrNrQx16LntUZ+Vr92hxG+RgYZBmX+AQEjTcnMZlbxVYelJKNz
+	 2eSvdWCgNz+hWKLAKW/FDbR/t2iQ/zfXhp04GymM7JJpCumfeU+VHiqZsQSaHbFlI9797
+	 xoTUVFqoTRy0WuZSnyB/EfYfactoN7VCwWBcCqQOvXymY6xottodAeDP1DGVELaTfRQDS
+	 pDyHSHbncfku/DBZ7K13N6CEQpu6rqQM38JIVTNHAZSgcGVImkpB8sBRdKNtT3ow2Xh7W
+	 tEFzkN69KDXX1hVOeZMaSK1N7vcpbYws5yvTcUA8QrMQCakCqmqfgV9QEGMsWn9SoEQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792649593;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=gzYjuKLtQxOd5KozGsdO5M3bVrLMq2eImqRMA1Csb4E=;
+	b=k2RMLpBs7Mh+cqUQP0S94RoosbsVnwn39b1PDI3JJEJcWvI0fllFBe5579E9gO5QYE5i
+	 QABEc/rgN9lAKhrEw7ZuXCoGCUO/a8/N/G9au+44emN98sZRs8wnlByZfaANYVljEE8MR
+	 dw2pW+NRpYfwxUDXhvpD1rg8jLjzG4EK0SUSMAZdmbJzStVBECwL1O7jb/xplo93V14ld
+	 4yDO08sDron7eOuAYUqM/FwxVM484EkDRGecKqS3JSiaa08d2QZLwBKQrlkObk7EoCxNU
+	 9Tl8hy9zDYesvfuk/whD4w5DLGxK2zyLXXnpsR3QdxElYdprxOQvhkmq91Sf5k7matA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=YTKLR0m+;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=F2laU8Ry;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=YTKLR0m+;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=F2laU8Ry;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6EB606A31F;
-	Thu, 22 Oct 2026 06:11:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BF6EB606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BB1606A31A;
+	Thu, 22 Oct 2026 06:13:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38BB1606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=2SOirwOs
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wSsxsNjC3yusRjdaLDpEodeBWRvOIywOaksk70ORh6C5AdshOgtZCn0WTXAy3UzvFSOPWVnHZgRgpJuHGWGEuL8TF7sLW1oddmi0K0o0XytoWjhGEGhzeSVGqw2Puiv7T90PQUVFv+ol8jIF23eogbQs7vjXRcGVospLIuoSnVQd3T9OvS/SHdes5zVX5+u8i1ETPmT6q/IHoV83O32xRO58VRG/R2EDmmq8i94Ue7yOWNGVLx9EYl+HVFb9z0vkgz4+/cS8vOHCPxlI0EVfZg3k9fOF2R3FC1flTiADEq4U0r5LJPdElM7bCTvY/nDY/oEoNHfTlS6hL8OJH3seWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B+Ge2gz/ZBN0D3k0WD7n+CAHlDgWiAT9XThasimNDG0=;
- b=sT/uuIo5YZWNFKDW8wvm2BPlAioCVNhqh3l3OvDc4Fby4hYkALdFj9CiLf+PGYswcPyzJc+0sU9YSwy7TiKsomaa5lW/UJaRwAEqFmxBSQMxqH0dEu+Yom//6MABmX1jXibfHgFHo5saipOddRmocEJeEolh7X/HO5MAr5mdIaQJwiCZPEgnShl0haZSp8VlfDPE0D26XXZGP2uJdNUZLchIaoA7l/6UCuPWkWV523a13wo4wdAGI+qIM16IVIpYPNPGoR1JGHrPzZ/G6Q/Bgviqh3HzC4BTn5u+4DTGkUddIp/qJ+yitdHlDVApMeH6yaDHMSz9UcIyHRZmHTA5yA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B+Ge2gz/ZBN0D3k0WD7n+CAHlDgWiAT9XThasimNDG0=;
- b=2SOirwOsP5r0wGLupLNp4doOKhOXu6XAJYR3fRddrCIcXABE6oSBr408LJ7Hu84P8jT2WHB/0+8lt6sTL0bJstcTc+qY7IWjOCR5IxzbGO++XHZiuBe+Rzcr0X/2NvU4kY5x2c3CQmsZfjhC4C1B1V26y0sQlNpHArtXQCtlzNs=
-Received: from BN9P221CA0025.NAMP221.PROD.OUTLOOK.COM (2603:10b6:408:10a::22)
- by DM4PR12MB8475.namprd12.prod.outlook.com (2603:10b6:8:190::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Thu, 22 Oct
- 2026 06:09:46 +0000
-Received: from MN7PEPF0000014C.namprd04.prod.outlook.com
- (2603:10b6:408:10a:cafe::60) by BN9P221CA0025.outlook.office365.com
- (2603:10b6:408:10a::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.546.16 via Frontend Transport; Thu,
- 22 Oct 2026 06:09:46 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- MN7PEPF0000014C.mail.protection.outlook.com (10.167.254.38) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.546.15 via Frontend Transport; Thu, 22 Oct 2026 06:09:46 +0000
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Thu, 22 Oct
- 2026 01:09:43 -0500
-Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.53
- via Frontend Transport; Thu, 22 Oct 2026 01:09:39 -0500
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <broonie@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
-	<tiwai@suse.com>, <pierre-louis.bossart@linux.dev>,
-	<yung-chuan.liao@linux.intel.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
-	<Syed.SabaKareem@amd.com>, <Mario.Limonciello@amd.com>,
-	<Richard.Gong@amd.com>, <Vijendar.Mukunda@amd.com>, <Poojitha.N@amd.com>,
-	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<sound-open-firmware@alsa-project.org>
-Subject: [PATCH V2 12/13] ASoC: amd: acp: add SoundWire machine table for ACP7.B platform
-Date: Thu, 22 Oct 2026 11:32:22 +0530
-Message-ID: <20261022060724.1814741-13-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20261022060724.1814741-1-Vijendar.Mukunda@amd.com>
-References: <20261022060724.1814741-1-Vijendar.Mukunda@amd.com>
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=YTKLR0m+;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=F2laU8Ry;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=YTKLR0m+;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=F2laU8Ry
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 26D2921EA2;
+	Thu, 22 Oct 2026 06:13:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792649591; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gzYjuKLtQxOd5KozGsdO5M3bVrLMq2eImqRMA1Csb4E=;
+	b=YTKLR0m+Fh8wnVFqXw33bGNiMcWHgU8I+tQGDAUnDBxI6ATpAXx34rQqOFO/tv6NZJezuw
+	H2kN/Lhq/UoASD+FyXfZxkvelSzEwi5JEnwtnguMS3hzPZiuFSZyzi1nXjNliS1zxSq9tm
+	/5yIEwKDO+I7U0X1WzH38QCGENlrlHc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792649591;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gzYjuKLtQxOd5KozGsdO5M3bVrLMq2eImqRMA1Csb4E=;
+	b=F2laU8Ry8UxLNin/BraQp26zrKPlWSfY78PgJyCLjTlWbSL5FTH7I8c13aNG9ZWWr6YGLz
+	jXI6JMOuUtb7iqCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=YTKLR0m+;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=F2laU8Ry
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792649591; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gzYjuKLtQxOd5KozGsdO5M3bVrLMq2eImqRMA1Csb4E=;
+	b=YTKLR0m+Fh8wnVFqXw33bGNiMcWHgU8I+tQGDAUnDBxI6ATpAXx34rQqOFO/tv6NZJezuw
+	H2kN/Lhq/UoASD+FyXfZxkvelSzEwi5JEnwtnguMS3hzPZiuFSZyzi1nXjNliS1zxSq9tm
+	/5yIEwKDO+I7U0X1WzH38QCGENlrlHc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792649591;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gzYjuKLtQxOd5KozGsdO5M3bVrLMq2eImqRMA1Csb4E=;
+	b=F2laU8Ry8UxLNin/BraQp26zrKPlWSfY78PgJyCLjTlWbSL5FTH7I8c13aNG9ZWWr6YGLz
+	jXI6JMOuUtb7iqCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CEB30134E6;
+	Thu, 22 Oct 2026 06:13:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 11hNKXap2WpUHQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 22 Oct 2026 06:13:10 +0000
+Date: Thu, 22 Oct 2026 08:13:10 +0200
+Message-ID: <875wyue009.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: songxiebing <songxiebing@kylinos.cn>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/generic: Use "Input Source" for the capture source selector
+In-Reply-To: <20261022025743.520258-1-songxiebing@kylinos.cn>
+References: <20261022025743.520258-1-songxiebing@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -114,81 +112,72 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN7PEPF0000014C:EE_|DM4PR12MB8475:EE_
-X-MS-Office365-Filtering-Correlation-Id: cdcb7864-57fc-49e1-b42d-08df300312c0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|23010399003|7416014|1800799024|376014|261009223027099003|10067099003|6133799003|22082099003|18002099003|56012099006|11063799006|261021121427099003;
-X-Microsoft-Antispam-Message-Info:
-	HOYEW744uIskhgyFurYqXpgMiIC82VTu7XjNOsaeYxf39Kcg/TimHPFXzA8gJkS245KTbmPbAFsEH3+jLP5TaKrTkTYr4lM33qW1jEEi20MpSnyKxDpkqmLwIdSrgzGhFy64tik8Bzpphh+NNDYijIOe2Z+qKqan+rEERLAW9gAGmMasFVZyG8J9C3XZ9Nre8kSHW2UhvrEYKc5za+PcWCHhK6+/izMLXRJT7C1PHEqV8HTorBG5QjIAbOZUGkXTAyRB3Cx+wZImZ6J8FrLaCQco/4ARcHiWtRCX18wFaWPJD68KH2eIJlz/lzsJRNBLZp5oBN6T6e/Yjp2JY7Gio/fNN08UvQVT3BDLpDHM8UZeDCHx5H6vhQe7baXqPHJss4YXaS/gFMjHDClehakbDH2xyKvCr/HQEVWADHODKBBHiOADHqBLSkWbcxnwPCW84brhbsxz0iIi4SBscNJMsHhg9pg4b1+w/yYWAz1KgI/4ZYeaaFnpAHGAeOK1mmw2mGY387U7cS6AIomYpy8UtqCDh7FDz3HRXbps8xyXw+KyMYiD4ycS9GDNKZub+Y8nzeEgIEaGEohuGB0kHiXcspn7CPo13jKsA5V/eiFd8mAaMz/iIYW1MHgJPbNEFHT3A5EA5G5oEq/CQwBuzk5h1iF4nUE7CXhwtIoiFX55e5IPRT2EHQQR9HS31SeIppw6ZZYLDLBIaee+SgLICNs/Bw==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(23010399003)(7416014)(1800799024)(376014)(261009223027099003)(10067099003)(6133799003)(22082099003)(18002099003)(56012099006)(11063799006)(261021121427099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	ixMEJZKYCaP/VQZzUiVbmX6DDv4yU6OG0M7Egjsw566opCImuTfhZ1CR86QUMqvLHjJ130ZfLRUKakmQFkq6FCPhCI9YM0N2Lbzs4+MU91Og+agSNX8JxyMuVrsxKtVIk/MnmfBV+RhnXy4DSbBECDxUMsksueuQgwIKlePrvEAF58AxYDPYx54McE7uXylnhAQrJgutYdw+B1nJcLvFdH3HWJb6U7YHGOPqL19WyESPEXqrSopmShtBzk6EtbVbbcOyRBLJOdKti5KOwrU+6Tr8T3qshC7U9j1476ui+gpArdFUfOzdGa6E/Hg40rvqZ8YYvppji65fn7IjgZAxg+aG67Dc3dZjkA3Y9+eyOg93AJPs4+NLqUusWLXCHOFjm2oertwVWSarM9GBxUGO9z1I4m5weH+Xce2wycRz2ug28zlpZ7ZrUPwZqEjyKClg
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2026 06:09:46.7115
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cdcb7864-57fc-49e1-b42d-08df300312c0
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MN7PEPF0000014C.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8475
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -12.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 26D2921EA2
 
-Add snd_soc_acpi_amd_acp7b_sof_sdw_machines with one entry for the
-RT721 (L0: jack + DMIC) + RT1320 (L3: speaker) SoundWire configuration
-on ACP7.B. Export the table for use by the SOF descriptor.
+On Thu, 22 Oct 2026 04:57:43 +0200,
+songxiebing wrote:
+> 
+> From: Bob Song <songxiebing@kylinos.cn>
+> 
+> The generic parser names the capture-source selector "Capture Source" when a
+> single ADC is used, and "Input Source" when multiple ADCs are handled
+> (including the dynamic ADC switching case).  Commit 624d914d091a
+> ("ALSA: hda - Use "Capture Source" for single sources") introduced this
+> split to keep the nicer name for the common single-ADC case, because
+> "Capture Source" doesn't work well with the alsa-lib simple-mixer
+> abstraction when multiple instances are present.
+> 
+> However, alsa-lib expands a control named "Capture Source" into one
+> simple-mixer element per enum item (an exclusive capture switch per input),
+> so there is no enumerated simple-mixer element named "Capture Source" for
+> userspace to look up.  PulseAudio's ALSA backend resolves its input-source
+> element by name via snd_mixer_find_selem() and therefore cannot find the
+> selector, leaving the capture source uncontrollable on such single-ADC
+> systems.
+> 
+> "Input Source" is mapped by alsa-lib to a single enumerated element and
+> works for both the single- and multi-ADC cases.  Use it unconditionally.
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
----
- sound/soc/amd/acp/amd-acp7x-acpi-match.c | 12 ++++++++++++
- sound/soc/amd/mach-config.h              |  1 +
- 2 files changed, 13 insertions(+)
+It must be rather a problem of PulseAudio, and it should be able to
+handle Capture Source, as it's been used for most of old AC97-based
+cards.
 
-diff --git a/sound/soc/amd/acp/amd-acp7x-acpi-match.c b/sound/soc/amd/acp/amd-acp7x-acpi-match.c
-index 2f5e060ec79b4..830c59966a356 100644
---- a/sound/soc/amd/acp/amd-acp7x-acpi-match.c
-+++ b/sound/soc/amd/acp/amd-acp7x-acpi-match.c
-@@ -148,6 +148,18 @@ static const struct snd_soc_acpi_link_adr acp7x_rt721_l0_rt1320_l3[] = {
- 	{}
- };
- 
-+struct snd_soc_acpi_mach snd_soc_acpi_amd_acp7b_sof_sdw_machines[] = {
-+	{
-+		.link_mask = BIT(0) | BIT(3),
-+		.links = acp7x_rt721_l0_rt1320_l3,
-+		.drv_name = "amd_sof_sdw",
-+		.sof_tplg_filename = "sof-acp7b-rt721-l0-rt1320-l3.tplg",
-+		.fw_filename = "sof-acp7b.ri",
-+	},
-+	{},
-+};
-+EXPORT_SYMBOL(snd_soc_acpi_amd_acp7b_sof_sdw_machines);
-+
- struct snd_soc_acpi_mach snd_soc_acpi_amd_acp7f_sof_sdw_machines[] = {
- 	{
- 		.link_mask = BIT(0) | BIT(3),
-diff --git a/sound/soc/amd/mach-config.h b/sound/soc/amd/mach-config.h
-index 321af4682fd30..09ea9f5259557 100644
---- a/sound/soc/amd/mach-config.h
-+++ b/sound/soc/amd/mach-config.h
-@@ -29,6 +29,7 @@ extern struct snd_soc_acpi_mach snd_soc_acpi_amd_acp70_sof_machines[];
- extern struct snd_soc_acpi_mach snd_soc_acpi_amd_acp70_sdw_machines[];
- extern struct snd_soc_acpi_mach snd_soc_acpi_amd_acp70_sof_sdw_machines[];
- extern struct snd_soc_acpi_mach snd_soc_acpi_amd_acp7b_sof_machines[];
-+extern struct snd_soc_acpi_mach snd_soc_acpi_amd_acp7b_sof_sdw_machines[];
- extern struct snd_soc_acpi_mach snd_soc_acpi_amd_acp7f_sof_machines[];
- extern struct snd_soc_acpi_mach snd_soc_acpi_amd_acp7f_sof_sdw_machines[];
- 
--- 
-2.48.1
+Reverting this old behavior change (since 14 years ago!) is just
+no-go.
 
+
+thanks,
+
+Takashi
