@@ -1,95 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792687517;
-	b=PdF6jL/dTFXLkIyZy6FZpzjUQ3D+2tv3pG0y8nssGsBFT2POAHolDHT9tzKjNjNTye4X
-	 XRN5gNhdcF2Ru4kEA7krcItiS09xrNeARDzg2Gpji5cOP6ALiNLXKBrjg7SNoELYiQ5FC
-	 CFsLUgaU+TfBDw9p+1eOVkEPtsQ9V+y9mY9Zk7X+AAP88/S3zfuB8vYVKgTlMn3ZvlqQq
-	 vV1vYu2KuSkgCWhMSAjxB14Y12JzBL6uML2YrN2wGN+exWtxt1ITrl1r3Z0YpC2Mh+FAm
-	 Nodlp1JnL6KX6/v/ZWjmarbO1CHuD8yiqZwPWWX4Y5PA6UH6TVwUDrqMIBFMK2Ux5jA==
+	t=1792687568;
+	b=vHfzY0CiON6gXrvScICqhbVnDEypgpqa4to0JP/V4b5nAgIYItBQHz4BrT1pqNTOYiAT
+	 O7hY/ffN2q70HtmcMjKLdCACx3vQh+StUrLH4+FJ/CQxSXrbnpMe5wvOMpNVtVEOgMvbg
+	 /LaVEFRDpEv6n73qv2ZD596tbMNqr9esP1Dk9aBIwgFyKXvc/3kdCpXEENlDp5YmegHsK
+	 P+3OgyIXexvDA1bqHEDhJJU3lHxjT43DGW2rSRc4wOaPQsi7/Bde4B7vvubY3wdQXw0M4
+	 N3oOUj3wuTkDMYQzXsQOFoya0NyfMYXOSFMn3VmUEk4EOw3eZD/5ZqECtQQJjNYRfFw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792687517;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792687568;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Sender:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=8m7/EiqjbX4B96wM7VN7+raoFsExq+tmX7IrIO9+WDY=;
-	b=u09Tfg1fV1R75Cv6wU2qb5SjPSpCi9uMzntKUgvvdwxzgZUQ9KWb5Dl9VeTxfWEv2OQw
-	 JUwgHa0nMqFht/l/4Pzhv36+pbqxxSQpOPInzZ6WCg1fUp6Qnlfe7xIWDZNFizbsfHGTh
-	 goYboBiP5LjfzbB+5IA0N7wQ3OUk7HOB8+xN+ZBDJPrPhZvKYJfR889igiHUob0FJQBIJ
-	 gSTp58v4S1brPuyChqKMazJgdCHYEqq+ligxVz4j7D9sjprLhbRsyjvhkDDUmszjfCTE+
-	 kQzM9JMsy8c+GqXbm7bpldntya2laBzM1+CLHOhFF248kGljIXWpcM3R77cJ/ZO+19Q==
+	bh=ulbhMpPNAEqRrIOhtV5MGUC4m/y05Tb2A9NkmVyj/X8=;
+	b=w/jFr1svPaFKnkq9cd7kbVymAWV4z836/f7Mqy+pH2AqAE5rizr1RHF0K1BNd9x0R258
+	 vR38ZvOAhd1EFDlD+5Hcszh4z2bZzhYHoe2ouJRaxYm8uleCXUFDRlduflLKxivJFMXJd
+	 Gv649dcuVvTHrYF6ijKVD772kWGXBbBVuz1UgtTjuffQyxNrqy0Gi3PM4NtUK4q2GNPDp
+	 Yk/uTXnUA/xUtI0XwgypJadLlnrUP88+vw5zBNm529fksObYoQITVHS0y3uR4Ggut7vrE
+	 ZRcJyZdiX7XFVbxF2nYm9z6P5e3efni4Tm29We35UU/cL0AIPwftpiWDiejRjKLU1Wg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DLm+UlQE;
-	arc=none smtp.remote-ip=209.85.160.170
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=V02IlN5i;
+	arc=none smtp.remote-ip=209.85.221.41
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3203606A31A
-	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 16:45:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B3203606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF80606A31A
+	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 16:46:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4EF80606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DLm+UlQE
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-530e75d1ba1so17781821cf.2
-        for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 09:45:16 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=V02IlN5i
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48c5358fc28so20216f8f.0
+        for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 09:46:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792687516; x=1793292316; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792687567; x=1793292367; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8m7/EiqjbX4B96wM7VN7+raoFsExq+tmX7IrIO9+WDY=;
-        b=DLm+UlQEt1Vi85lbYTRXgNMeVc68/189FbY4F56fg2DGjRaagIOfJcFxYGY4B9XUb1
-         XgqP3yQAx1m9EdVh6vcUGhHVzMLWY7ZVNW7b8hfWMu8eBLT7bXaeVizCYLyQdooWz6ta
-         H346SrNnvvrMTqA9Oe+Wjz6Kd/B6PWrrgvB4s+mqvqJ/W/gjrNnZZ0SKcvkaCkT63I7A
-         0njolmBNTPry+8uPEqljvfUnc0pHclg1WpTnIwDdOalFdXBsfGbHRAnQZFO4/H0+2LX6
-         vCOFQNEAU2E6QuVAS8CgsAjXnLuiDOIp+YJ/4YuhIN7USKFGhSxcWd30t9VzzoolZgPJ
-         m9tA==
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ulbhMpPNAEqRrIOhtV5MGUC4m/y05Tb2A9NkmVyj/X8=;
+        b=V02IlN5iKRq9f3UIaNYf4qBsqYnr4l/l1KhUDGmkCUKaiS/X9h8h9pTCOlP26lwQBC
+         6Ubo3bRbASFVUO4Y7aV5Y64cxTndUcxU/M6oXGrVQ3ELWe570k2A4i3i0PsUFmHqzp4P
+         0f3+1STiGrSkfsyvMu+W4LkrN0rmNffD7yVa1JgTHvgfENNl8fAjnlx5rvoEkjZ/vPzP
+         Y5dDTjkUxE/rt6PLd0grpYr1GCPmQyJ/xCiy30snNwiYKXfzuWV/+trMSrl2r+h+WmUO
+         FTUjZUb39eJzoOFjrJUCip+qBfMpKBe8IjpfrVVVgAt3UtV2J/0G93rbhBm76lZeGdkx
+         ZTbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792687516; x=1793292316;
+        d=1e100.net; s=20260707; t=1792687567; x=1793292367;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8m7/EiqjbX4B96wM7VN7+raoFsExq+tmX7IrIO9+WDY=;
-        b=QeVWQxiDrPwuFNo24DKTPKsm5vJxBVu6BP+0FYLrqb0I5Bo9kQjwOcMpltSvzVownA
-         4HMG/Miqzvt+YvjQQOJFX91oLnZ23jLyJm1Hhpg1pKNtd1mJ3ciyZ8obLd8iuTsQ3YTT
-         2TqFzZD8Qova5hBeWRJrSSD2w31O2ChZAb4brfRptcE4vWm43NS1eqqco9aUfACTpgAL
-         JKO9ibaZQfmmuwc7rcyhBXhsccBt/lQuv7D9lYDj+XXTP1f8giAPCHiW6FLfVESprdCM
-         VeF4gbvlz2pX32MARYle7nk9bn0AZ0c0KIGJ3LFjdf5rEIhIHZyZgge0in5kaO/DdjgI
-         lOKg==
-X-Forwarded-Encrypted: i=1; AKwUvBy1sA8M2ehU37EAFE2bfEKAUBXwfogIcSXrTV+YvJxLJGEgXNUb8hklTyD8q0yT2auphrNyyFUwYnD/PQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLElLdvXd9C+ly006MEkQKzH1iqKzQAcHPrdoVihWRNQSXyCuEi
-	Ed+ONaaN/YlyAZVb5v2VuFcSmr2VtSj3gRL9OudjdWMYsYdNHV3QWXs=
-X-Gm-Gg: AYBFou2m7kEql45DmJ4GMnEakWxDtZZMbFD/biWTCGeEj12F6ag+chgnTDAnSPj1KBW
-	4WMcl7YV6Cv+qQTqx1Emu/aTqsA6HhKfalW+fcHRSz7WUB6QIrssr0ybYnWEggjIuuR1Y2VSKIQ
-	1lwvovUnuLYztoOBh3Wd0xT6Nlx/vx2XfmsDxuSep9QDcLcl4QZWK68xpbnLRK97IWPoBJ8DR05
-	DTDWGVO+ukJNmGNAvDpVL5qH3c3Db150B5UI/vb8yCyIvxfV9BOLgnarjr95dmo0f9jNrK8FSAp
-	dIIX7Xmou67CKgu75aonVik03ltyTKyKXzaRILtjRxG+3BvZnHNlJAtVb7X4V4PB7kbUfMSFPq5
-	wOxndsbISEn0WL2gh8SmJA0fOdmPZjUSJzzN9tYXS2Y/akJVvKCcby1/G0n6MERCvPFrduUObNU
-	HoRh3LWiD4we42lvoXZ7sZzY11q/Te5rBJ18KxeuzTI2Rn4eVZiVpZRr4/asQ00xveDfqSUOxXi
-	gIhdG+uHav+1OQzOUgBJAwIWIkWJ0pzX+dD2gXR2luVM8/j3BrdIBELezF/gOyxsrpz8FBd8UwB
-	zuuf0Tbr2bKKzFs98utf5Vb58SyWNmTrJo/JAlOUwPOwAKmmQg==
-X-Received: by 2002:a05:622a:8881:b0:532:91f2:dd45 with SMTP id d75a77b69052e-5369b861f84mr90124081cf.44.1792687515699;
-        Thu, 22 Oct 2026 09:45:15 -0700 (PDT)
-Received: from raincloud ([2600:4040:7e20:9b00:7285:c2ff:fed1:7bde])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c36f0abedsm1768696d6.3.2026.10.22.09.45.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 09:45:15 -0700 (PDT)
-Sender: Shawn <rainey.shawn@gmail.com>
-From: rainey.shawn+kaudio@gmail.com
-To: Ajanesh Lal <ajaneshlal3@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Shawn Rainey <rainey.shawn+kaudio@gmail.com>
-Cc: Shawn Rainey <rainey.shawn@gmail.com>,
-	linux-sound@vger.kernel.org,
+        bh=ulbhMpPNAEqRrIOhtV5MGUC4m/y05Tb2A9NkmVyj/X8=;
+        b=ASN3VqMMILfBtGEGM98Uc/vBpOBj/Vq4/R11DVo9itf05sDbKZ5JYpNTZro7X2sfxv
+         gxtnc/lijxy2taErWwdAzRjVtMu+swtoAY1BHxd7MpWM9blwNzePkaVF7VqTewcUCIjW
+         +gHtuUR/hPqN/bdinJHKnIWIWX//U6t16f+4AF/yEGNyAHokCBP2JMKOxmhskXF5/1Nw
+         jhNISVnoQmJXKFty5Qv2TQijnos3Fpjmz7P9Q7NqYGBrtS3BThonq0lHlN65pnXPzPE6
+         CSdV2xabSBICcUxnGjr19oZxidCVpuKSoB8JdRiF8fljWerF18xJLwKHOgLutQPxqeb+
+         uLcA==
+X-Forwarded-Encrypted: i=1; AKwUvBwS0nrVRGVJ+eSN9emEGfyE4foK+eK+HdfTgyySNHlWqNeCL70kVyhHuttTcKhY8LpNoT0gwN2+2ya8FQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLn3Ts2GLO5NsP3y7QMFjy4kp6IUHLg98f2st51SYP70q35wS29
+	QHL7O6C8+FTITLdoVk7+eCkdMAjXsajBdwAWjnJbCx6LUhoT539ZTYo=
+X-Gm-Gg: AYBFou3sgBcSfeNiduHyBCM8BGQTgaMERNDuRisnE55NO2zbGqc81FWode5XRIvXbEG
+	WQYZNaFfR1aI1n6Y6NrhzrOG7JcESDxHBVI/bLixT5Q2IQ4t35cjQB6X7+S5vv633Q/cMw0HKmG
+	7NH3anad5d+u82+YxCGHAZ0+7awlq58G97atZuV2u6JOaIFAkzfCD5yWjr3b/IP1fdFD1k+o2g7
+	HC4sOT9Z2dZjauGHMFm/VkPX79j0LeXR6raqynEU/TwaHzuLD83GyEK7gSbXkidjFEPCcM9LxCZ
+	OJ2fQfWDKRjpjp1wSfMT0dNlw1t+Av23lGU9Et0DmRp3sI2yOKyHcrq4XWx9gR4v/gWrpbQrhSL
+	wsaWAEcXlQuUjamGsiJknpmsh94b8A38FIOl+zTrijwv/mwA4y3cLGOYZQDO9UsVrT3V3EHTdc1
+	ixryL0EkbgG/o9r25d4muzXnGuFPdJefIJg9wjzE60BP3otsG7RIeleMaGCP7aocoAV+zCjPZOf
+	/dMc8r4WyGX0rHdSvrfWz0xx7Yywhi2hyTeYBiRLLCagSyStjqq/ssVCNFHqBg+fk18oWIA3fRw
+	8j3CKBGIlZfADq7YC50Cvyep4IckpmIg+/IXRFuWQQO493x//ZTvXK/S4A==
+X-Received: by 2002:a5d:5f95:0:b0:48d:ffce:6cef with SMTP id ffacd0b85a97d-48e263ac3a5mr12539089f8f.0.1792687566645;
+        Thu, 22 Oct 2026 09:46:06 -0700 (PDT)
+Received: from localhost ([2a02:810d:4a94:b300:7204:b73f:b5ab:d041])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-48e25827087sm13154209f8f.21.2026.10.22.09.46.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Oct 2026 09:46:06 -0700 (PDT)
+From: Florian Fuchs <fuchsfl@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Cc: Kees Cook <kees@kernel.org>,
+	Markus Elfring <elfring@users.sourceforge.net>,
+	Adrian McMenamin <adrianmcmenamin@gmail.com>,
+	Florian Fuchs <fuchsfl@gmail.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: add quirk for Novation UltraNova (1235:0011)
-Date: Thu, 22 Oct 2026 12:43:39 -0400
-Message-ID: <20261022164340.78664-1-rainey.shawn+kaudio@gmail.com>
-X-Mailer: git-send-email 2.56.0
+Subject: [PATCH] ALSA: sh: aica: Fix spu_memset() stride
+Date: Thu, 22 Oct 2026 18:32:41 +0200
+Message-ID: <20261022163241.2504922-1-fuchsfl@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,102 +101,56 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Shawn Rainey <rainey.shawn+kaudio@gmail.com>
+spu_memset() writes one 32-bit word per iteration, but advances the
+destination offset by only one byte. spu_reset() calls it with
+0x200000 / 4 words to clear the 2 MiB of sound RAM, so:
 
-The device reports vendor-specific class on all interfaces, so the
-standard parser rejects it and no card is created.  Add a composite
-quirk with fixed audio and raw-MIDI layouts.  The id table entry
-matches interface 0 only so that the vendor control interfaces (2/3)
-are left unbound for userspace access, mirroring the RME Digiface
-entries.
+ - three out of four writel() calls target an unaligned address. The
+   SH4 can't do that. Each one traps and is emulated by the unaligned
+   access fixup. This call to spu_memset() causes 393216 unaligned
+   accesses, visible in /proc/cpu/alignment.
+ - the clear covered only about 512 KiB of sound RAM, not 2 MiB.
 
-Both isochronous endpoints are marked USB_ENDPOINT_SYNC_SYNC: the
-device implements no explicit or implicit feedback, and without the
-flag the generic sync-EP detection pairs the capture data endpoint
-(0x82) as a feedback endpoint for both directions, stalling capture.
+Advance the offset by the size of the written word, to clear the full
+sound RAM using aligned writes.
 
-Verified on hardware: audio duplex at both supported rates, raw MIDI
-in/out, and complete patch dumps as SysEx on the MIDI endpoints.
-
-Signed-off-by: Shawn Rainey <rainey.shawn@gmail.com>
+Fixes: 198de43d758c ("[ALSA] Add ALSA support for the SEGA Dreamcast PCM device")
+Signed-off-by: Florian Fuchs <fuchsfl@gmail.com>
 ---
- sound/usb/quirks-table.h | 63 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+The patch has been tested on the hardware and sound is also still
+working well, the boot is faster by about 4s due to less unaligned
+fixups.
 
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index 6343a50fb..0b8bea76e 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -2359,6 +2359,69 @@ YAMAHA_DEVICE(0x7010, "UB99"),
- 		}
+Previously: 7.9s to boot:
+[    2.900000] AICA AICA: ALSA Driver for Yamaha AICA Super Intelligent Sound Processor
+..
+[    7.872000] ALSA device list:
+[    7.876000]   #1: Yamaha AICA Super Intelligent Sound Processor for SEGA Dreamcast
+
+After: 3.8s to boot:
+[    2.892000] AICA AICA: ALSA Driver for Yamaha AICA Super Intelligent Sound Processor
+..
+[    3.796000] ALSA device list:
+[    3.800000]   #1: Yamaha AICA Super Intelligent Sound Processor for SEGA Dreamcast
+
+ sound/sh/aica.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/sh/aica.c b/sound/sh/aica.c
+index 078fc7fc08f9..04f80c8c89c0 100644
+--- a/sound/sh/aica.c
++++ b/sound/sh/aica.c
+@@ -94,7 +94,7 @@ static void spu_memset(u32 toi, u32 what, int length)
+ 		local_irq_save(flags);
+ 		writel(what, toi + SPU_MEMORY_BASE);
+ 		local_irq_restore(flags);
+-		toi++;
++		toi += sizeof(what);
  	}
- },
-+{
-+	/*
-+	 * Novation UltraNova: vendor-specific class descriptors, fixed
-+	 * audio and MIDI layouts.  Only the audio and MIDI interfaces
-+	 * (0 and 1) are grabbed; the vendor control interfaces (2/3)
-+	 * are left unbound for userspace access.
-+	 */
-+	USB_DEVICE_INTERFACE_NUMBER(0x1235, 0x0011, 0),
-+	QUIRK_DRIVER_INFO {
-+		.vendor_name = "Novation",
-+		.product_name = "UltraNova",
-+		QUIRK_DATA_COMPOSITE {
-+			{
-+				QUIRK_DATA_AUDIOFORMAT(0) {
-+					/* playback */
-+					.formats = SNDRV_PCM_FMTBIT_S16_LE,
-+					.channels = 4,
-+					.iface = 0,
-+					.altsetting = 1,
-+					.altset_idx = 1,
-+					.attributes = UAC_EP_CS_ATTR_SAMPLE_RATE,
-+					.endpoint = 0x01,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC |
-+						   USB_ENDPOINT_SYNC_SYNC,
-+					.maxpacksize = 392,
-+					.rates = SNDRV_PCM_RATE_44100 |
-+						 SNDRV_PCM_RATE_48000,
-+					.rate_min = 44100,
-+					.rate_max = 48000,
-+					.nr_rates = 2,
-+					.rate_table = (unsigned int[]) {
-+						44100, 48000
-+					}
-+				}
-+			},
-+			{
-+				QUIRK_DATA_AUDIOFORMAT(0) {
-+					/* capture */
-+					.formats = SNDRV_PCM_FMTBIT_S24_3LE,
-+					.channels = 2,
-+					.iface = 0,
-+					.altsetting = 1,
-+					.altset_idx = 1,
-+					.attributes = UAC_EP_CS_ATTR_SAMPLE_RATE,
-+					.endpoint = 0x82,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC |
-+						   USB_ENDPOINT_SYNC_SYNC,
-+					.maxpacksize = 294,
-+					.rates = SNDRV_PCM_RATE_44100 |
-+						 SNDRV_PCM_RATE_48000,
-+					.rate_min = 44100,
-+					.rate_max = 48000,
-+					.nr_rates = 2,
-+					.rate_table = (unsigned int[]) {
-+						44100, 48000
-+					}
-+				}
-+			},
-+			{ QUIRK_DATA_RAW_BYTES(1) },
-+			QUIRK_COMPOSITE_END
-+		}
-+	}
-+},
- {
- 	USB_DEVICE(0x1235, 0x001e),
- 	QUIRK_DRIVER_INFO {
+ }
+ 
+
+base-commit: c1b1c25de0d6008c3fcabc942fba635ea3693c3f
 -- 
-2.56.0
+2.43.0
 
