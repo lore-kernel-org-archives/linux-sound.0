@@ -1,99 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792667590;
-	b=GjUXozpk4FpUtaxeKxbZMrpMXRF30jZHXogBYDuUUc+gpu+gIP1jxsFub79//Iy7Tibu
-	 rsWYfc4MkNMh01Ed0mOsIN+BGt0wfM7uzgGeaHTJSCAnvaEaqFK3oULsX02qCki0zE6JY
-	 vaIb0IAnHMhfzTDMVhkugYAZkOpFNGizPHXpqY1Iq/+pRUO7ETLkg+hSNQtyFM2NG9RdD
-	 pGQaK5qji7YF9NvAGg7wKz3ZmmvrHFbJyDZ3NBLaDlCl7ddM9Tupfpnfti/UCvIxnqlUV
-	 8huiaPiUw2ZqAH9clSzDt42yHIM840D8WumjeAzYGb1JCIBhhHHRdfNTzdpSB+kDY7Q==
+	t=1792667854;
+	b=HQgzDWVE75ELvn1X4rAtKPcmihB/jqx/iKdcLfQuF4zu3jlmMuZh5/qNPVOxv34NRD/q
+	 j/ctsjfkopTtdz/9K9y223mavQ9IRfNn7AuhxvbLigy9Z3xkciRSl5EQ7hJoCClK7yl1E
+	 0z9v8XWyTK9Os2yXbdy4FPk/oaoEkm96xhQp8f9ZAXVzBzkgykUPt0k9pO8V745pN3KIo
+	 btFn9k0jJjPfQSLnM96hl/g5VY1qmlBrHM9La4VGqkK4ze0YL/AMP+FZiF+1MdZinWzg4
+	 y73P1LRcv2N+RwhS+yNFdGNsa0Ot1ugjYVSBIuhkl0hGdK2nXSOXo8Uj1F5yxqx9x/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792667590;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=O85oEWnqbB7A3aswtwEX6Ghna+/vXCw0tN0v3/yndfs=;
-	b=Yd8z/STLAeXuqDV8pPmDtNSYMn6ma8fOjbqzjCZ2C5TAw/b9a5NX8xCfm9196RcPzXRt
-	 rni+vHsPII4kIhwOxf3zkkQxCpDQFz8oIqVIuypGIcSTZdTYP1cxW9jsXFC5k9OIxo6mm
-	 Ev32RwQv8XggnxKoPeuW//xa/PAk80ixy52gO70Z9cBSpYRXEGibD08WuE0Nm1kzrxuAa
-	 mbf+1ChoWSj/37q98YFAN39e1kvjQZKq2jJ4Ezn10WjsDjSayyui40qpV+9+XszfgPDDX
-	 Xn3nryG1fOIc3WLBa82GrHQZqUGVES5Dri3++lpnTc9yvmq4TzLIlxZdv9GxYMDCwzA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792667854;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=tGJ/Mq4WH0KQ7DbbCNAVAi8cUs6xpJHwcPzoiEpeZmQ=;
+	b=u+8rffnYq/L1fqUVrBu/PaFYgh/edRp+VrOG7EQ3WgcT2XqgL0xPcX6YbO3syu5bNu8I
+	 e1JACv/5RZCmacrj+V157qvBhKKMqUmyI8mHNEkB+Yob5lSdOJ7613yKIAWBQ2lJ05TGr
+	 NotV6dTWey//lEYMpB/Jep1L4NqI4QMs0DHTc824EpOaPdSSBHxp2kM+qjVQxCAgifPem
+	 lu3DPugKFTTot9HOhtPC6Fl17xnHqYwv9Ov3Trogd3DU79GZVANxMKGaJOJgB8AFAes9V
+	 1IlzkQLKwkehOOnK5F4/Q382A5ZVc/VuIYYnReez4/qdn9RSBPopUyVI1aNXQWWTkNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="XU9/dvRS";
-	arc=none smtp.remote-ip=74.125.82.176
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IpvSGzyO;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91AF606A325
-	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 11:13:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A91AF606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F416606A319
+	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 11:17:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=XU9/dvRS
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-3645f0f3fcdso2926422eec.0
-        for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 04:13:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792667589; x=1793272389; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=O85oEWnqbB7A3aswtwEX6Ghna+/vXCw0tN0v3/yndfs=;
-        b=XU9/dvRSHYB+giTZMeAi9/POi2ADnlIdyVKYNXDcXxlyNMpfOuQihfv2TUQdzwrDfH
-         O9vcXGpPR7zy+HiiYg8K4+YLoaZl2gNa0NWbdRXwiBeNz3Kr0diyzhVhw0/q/lWIgOQJ
-         Yaz2A5k2RXxN7Xviy7NRWoF5hM0z0guCpp2LvrPABd1AP6p0iYVAhhRwtDCi4t9xhAF/
-         CwDEPiIMQk146avf+XPAnDcPOuSu0gs2gjEO463Hx/OR+48Ky68UxBgkMaw8PhPZ9zIG
-         t302diJwq3KupsyYif6yfvdRXbVnFeOiCM6H7P4VxvBmp0kdxLdHyRmynhlFnb4JoL+A
-         fYLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792667589; x=1793272389;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=O85oEWnqbB7A3aswtwEX6Ghna+/vXCw0tN0v3/yndfs=;
-        b=VpUBz/TeNnsm8V1w6ZW1q4JwOko2MDk1QzCKGQDd05N/RWFYbmmCvr5M+U0IRXj7WM
-         p9itywJPb6PdfwDluAmwpjrxAQ3GUPVNVOU2ZYDPsUwxV7/HVulGXS+x3wcZI0G7zjyb
-         caAU0mfL0g+Ld9onb1+UlMZT1C7+Hsjm9BpJsAo1tMWyDACukWL07fgd9tuixF6KPGxF
-         CsZRjtlUAUqbxcvejtX7LDBt9l1hJSK2kZwrANB3bIkt4D8L7uJdKHZq+N7542qTNLDs
-         NT4vroDHuzCz0d4WVoIKJqCcvZwenqcMoRYlTDETS/9wdXdTX4Uuos5CfIvQQdAR8Z8x
-         0ffw==
-X-Forwarded-Encrypted: i=1; AKwUvByvnATpb7YbdA8WYtl+rVGXK3575bmEt2Gz8I9SKZ5x8h4NE5DibQ1HetXIcUN5y/atHYeLsApJRb6yrA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLprvSa1bLnikCLAAHhTWdqp0CqS5OCH32rnzMs8TBAt4PpL9nC
-	Z91kbIwZZUa3j9PDACmCLva5sYnbcF4s7eif4U/Z6D+EUZgDHEsM4QON
-X-Gm-Gg: AYBFou1LzSqNvpGYSAMWBV7mQRYVrDhPx+54vUJSTfcHDgS6K9WojXbnuu3HlYBPfXi
-	JDajbfD3kIKzUFPXiSkY7TWra5CguYi7Hw0/4ZMTolDZ1X/g68w6uw/Y2c4hBia+bJZMgk5NKzL
-	4l7uB+YNopS0/B7UK9AhUOOS7YbMIwPyPr2d2yPVStWuUkwmRv2qnhduPJ82SXSRcamm+pNjt2Z
-	OLvdz3toNioI8veBBoTSsgNF5vxONsMgAAAaYsHSN+/yqh6wU/4WPXTInTMTZrUIXBD5xlvhR5B
-	J4RHZ8YJTU7kPiQLYphsNihe4ZhCBA7zWXm7mv7TGPO/f4rdq+wji46uI6yXzoeEA0qA9bwilQH
-	EdTIrXxB/h+5PKn3RVWv9v26FYyghpDYMaDcaGI0sGVRbLlz25AUnkKrsRBZpWaP6a7eOJg+ofY
-	WknSjvdTTmVvr0jdmn3e6xzFEd+da1BoLJ10DNOHsOKeHa6+wWpxBYyVFH51HlTaNRjSNiMgd2m
-	QT9M+QF/D6D7ilXA11EnAq42FblNXtLOJdh+w9zcFee6WY0Oj46joOkYGlsFg1/i90tHt6UfhzB
-	0DqZjekKUcHSxF3/tGwFAePJAVaBy6UyQaSsoKNltlvv9+goAViS5IpZuzCgc6pHTog=
-X-Received: by 2002:a05:693c:87d3:20b0:369:7c:bfce with SMTP id 5a478bee46e88-369008c220fmr1910947eec.14.1792667588795;
-        Thu, 22 Oct 2026 04:13:08 -0700 (PDT)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-368ca914bb8sm6369653eec.5.2026.10.22.04.13.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 04:13:07 -0700 (PDT)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>
-Subject: [PATCH 3/3] selftests: ALSA: pcmtest: Test pausing a capture stream
-Date: Thu, 22 Oct 2026 20:12:44 +0900
-Message-ID: <906d65ff1cf78f5e173a5476eadcbca285aa2b17.1792660433.git.sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1792660433.git.sammiee5311@gmail.com>
-References: <cover.1792660433.git.sammiee5311@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IpvSGzyO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8793F1F000C1;
+	Thu, 22 Oct 2026 11:17:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792667853;
+	bh=tGJ/Mq4WH0KQ7DbbCNAVAi8cUs6xpJHwcPzoiEpeZmQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=IpvSGzyOqKVVI1o5AriClJ/hYfHfD6Oitff/C8gc3mG0/oq2hDCwr6guvuq4vl6eD
+	 Mg8QYXh+3d+CcttmDYzHIfKQAQV1SZN+t/8m/MbGJldoY8oETCP1HQhNen9neIxbAM
+	 QQ31P6x8e3DsA4SA92kjlfAnTP0aoshdTMSnlV1DJTolLy2ZuG3pRAgvspFK+iMqFe
+	 gfhze28BQ2jcQISzoImOy+rH9tkgX9TtOMag37BoN6nvI8GlBaM3dea4dr7+annbd7
+	 9e6EOk5TZBc7JPNP0SePfWHnWQq72RsbWQ3YnEkL3LGrIPCRaKvAaeNwhOTcPlB22a
+	 hHenmLx+K2hew==
+Message-ID: <sashiko-outbox-181365@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3] ALSA: pcm: Drain proc callbacks at device disconnect
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Cen Zhang" <zzzccc427@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <pm-pmb-2439c851f82c443c3600-v7-2774a482b7f03e1fef60@gmail.com>
+References: <pm-pmb-2439c851f82c443c3600-v7-2774a482b7f03e1fef60@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 22 Oct 2026 11:17:33 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -102,90 +58,132 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The driver supports pause, but no test uses it.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] ALSA: info: snd_info_disconnect_entry() allows proc subtree republ=
+ishing
+--
 
-Add a capture test that pauses the stream halfway for half a second.
-The core does not read the hardware pointer while the stream is
-paused, so a driver that keeps running shows up only at the release,
-as a jump of the pointer. Check that the jump is under a tenth of a
-second, and that the data carries on from where it stopped.
+commit 734aaf0e640d58ff92175c5964010543a8f73ca6
+Author: Cen Zhang <zzzccc427@gmail.com>
 
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
----
- .../selftests/alsa/test-pcmtest-driver.c      | 49 +++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ALSA: pcm: Drain proc callbacks at device disconnect
 
-diff --git a/tools/testing/selftests/alsa/test-pcmtest-driver.c b/tools/testing/selftests/alsa/test-pcmtest-driver.c
-index 380364ee7924..b796a5613c6f 100644
---- a/tools/testing/selftests/alsa/test-pcmtest-driver.c
-+++ b/tools/testing/selftests/alsa/test-pcmtest-driver.c
-@@ -7,6 +7,7 @@
-  */
- #include <errno.h>
- #include <string.h>
-+#include <unistd.h>
- #include <alsa/asoundlib.h>
- #include "kselftest_harness.h"
- 
-@@ -362,6 +363,54 @@ TEST_F(pcmtest, reset_ioctl) {
- 	snd_pcm_close(handle);
- }
- 
-+/*
-+ * Here we pause a capture stream halfway. The core does not read the hardware pointer while
-+ * the stream is paused, so a driver that keeps running only shows up after the release, as a
-+ * jump of the pointer. The data must also continue where it stopped, so the whole buffer still
-+ * matches the patterns.
-+ */
-+TEST_F(pcmtest, capture_pause) {
-+	snd_pcm_t *handle;
-+	snd_pcm_sframes_t read_res, paused_avail, avail, frames, half;
-+	unsigned char *samples;
-+	struct pcmtest_test_params *params = &self->params;
-+
-+	samples = calloc(params->sec_buf_len * params->time, 1);
-+	ASSERT_NE(samples, NULL);
-+
-+	snd_pcm_sw_params_alloca(&self->swparams);
-+	snd_pcm_hw_params_alloca(&self->hwparams);
-+	ASSERT_EQ(setup_handle(&handle, self->swparams, self->hwparams, params,
-+			       self->card, SND_PCM_STREAM_CAPTURE), 0);
-+
-+	frames = params->rate * params->time;
-+	half = frames / 2;
-+	read_res = snd_pcm_readi(handle, samples, half);
-+	ASSERT_EQ(read_res, half);
-+
-+	ASSERT_EQ(snd_pcm_pause(handle, 1), 0);
-+	ASSERT_EQ(snd_pcm_state(handle), SND_PCM_STATE_PAUSED);
-+	paused_avail = snd_pcm_avail(handle);
-+	ASSERT_GE(paused_avail, 0);
-+	usleep(500000);
-+
-+	/*
-+	 * At 8000 Hz the pause is 4000 frames long. Allow a tenth of a second (800 frames) for
-+	 * the release.
-+	 */
-+	ASSERT_EQ(snd_pcm_pause(handle, 0), 0);
-+	avail = snd_pcm_avail(handle);
-+	ASSERT_GE(avail, 0);
-+	ASSERT_LT(avail - paused_avail, (snd_pcm_sframes_t)params->rate / 10);
-+	read_res = snd_pcm_readi(handle, samples + snd_pcm_frames_to_bytes(handle, half),
-+				 frames - half);
-+	ASSERT_EQ(read_res, frames - half);
-+	snd_pcm_close(handle);
-+
-+	ASSERT_EQ(find_capture_mismatch(samples, params), -1);
-+	free(samples);
-+}
-+
- /*
-  * Here we check that an error from each PCM callback reaches user space. The driver returns
-  * the error while the matching 'inject_*_err' parameter is set, and works again once it is
--- 
-2.43.0
+This commit introduces snd_info_disconnect_entry() to remove procfs nodes a=
+nd
+drain their callbacks without freeing the info entries, and calls it from
+snd_pcm_dev_disconnect() after dropping open_mutex so that buffered prealloc
+proc writes cannot run after PCM buffer teardown.
 
+> diff --git a/sound/core/info.c b/sound/core/info.c
+> index c4d57d0809adf..023b4736aa6de 100644
+> --- a/sound/core/info.c
+> +++ b/sound/core/info.c
+> @@ -737,6 +737,23 @@ static void snd_info_clear_entries(struct snd_info_e=
+ntry *entry)
+>  	entry->p =3D NULL;
+>  }
+> =20
+> +/**
+> + * snd_info_disconnect_entry - remove proc nodes and drain their callbac=
+ks
+> + * @entry: root of the info entry subtree
+> + *
+> + * Retains the info entries for snd_info_free_entry().  Callers must ser=
+ialize
+> + * registration and destruction, and must not hold locks needed by callb=
+acks.
+> + */
+> +void snd_info_disconnect_entry(struct snd_info_entry *entry)
+> +{
+> +	if (entry && entry->p) {
+> +		proc_remove(entry->p);
+> +		guard(mutex)(&info_mutex);
+> +		snd_info_clear_entries(entry);
+> +	}
+> +}
+> +EXPORT_SYMBOL(snd_info_disconnect_entry);
+
+[Severity: High]
+Can a disconnected PCM stream proc subtree be republished if
+snd_info_card_register() runs before snd_pcm_free_stream() frees the
+entries?
+
+In sound/core/pcm.c, snd_pcm_stream_proc_init() attaches pstr->proc_root to
+pcm->card->proc_root->children via snd_info_create_card_entry(). When
+snd_pcm_dev_disconnect() calls snd_pcm_stream_proc_disconnect() ->
+snd_info_disconnect_entry(pstr->proc_root), snd_info_clear_entries() clears
+entry->p to NULL across the subtree while leaving pstr->proc_root linked on
+card->proc_root->children:
+
+sound/core/info.c:snd_info_clear_entries() {
+	if (!entry->p)
+		return;
+	list_for_each_entry(p, &entry->children, list)
+		snd_info_clear_entries(p);
+	entry->p =3D NULL;
+}
+
+During HDA codec unbind in sound/hda/common/bind.c,
+hda_codec_driver_remove() disconnects the codec PCMs and then waits for
+active references before freeing the PCM devices:
+
+sound/hda/common/bind.c:hda_codec_driver_remove() {
+	...
+	snd_hda_codec_disconnect_pcms(codec);
+	snd_hda_jack_tbl_disconnect(codec);
+	snd_refcount_sync(&codec->pcm_ref);
+	snd_power_sync_ref(codec->bus->card);
+
+	if (driver->ops->remove)
+		driver->ops->remove(codec);
+	snd_hda_codec_cleanup_for_unbind(codec);
+}
+
+While hda_codec_driver_remove() is waiting in snd_refcount_sync() (for
+example, while userspace holds an open PCM file descriptor on that codec),
+binding or reconfiguring another codec on the same card calls
+hda_codec_driver_probe() (in sound/hda/common/bind.c) or reconfig_codec()
+(in sound/hda/common/sysfs.c) -> snd_card_register() ->
+snd_info_card_register() -> snd_info_register(card->proc_root):
+
+sound/core/info.c:snd_info_register() {
+	if (!entry->p) {
+		err =3D __snd_info_register(entry);
+		if (err < 0)
+			return err;
+	}
+
+	list_for_each_entry(p, &entry->children, list) {
+		err =3D snd_info_register(p);
+		if (err < 0)
+			return err;
+	}
+}
+
+Because the disconnected pstr->proc_root subtree is still on
+card->proc_root->children with entry->p =3D=3D NULL, snd_info_register() tr=
+eats
+it as unregistered and calls __snd_info_register() on the subtree,
+recreating the procfs nodes (including subN/prealloc).
+
+When the unbinding codec then reaches snd_hda_codec_cleanup_for_unbind() ->
+codec_release_pcms() -> snd_device_free(), __snd_device_disconnect() (in
+sound/core/device.c) is skipped because dev->state is already
+SNDRV_DEV_DISCONNECTED. snd_pcm_free() then calls
+snd_pcm_lib_preallocate_free_for_all() while the republished prealloc proc
+node is still active, reintroducing the race with
+snd_info_text_entry_release() -> snd_pcm_lib_preallocate_proc_write() and
+allowing concurrent list traversal on card->proc_root->children between
+snd_info_register() and snd_info_free_entry().
+
+Should snd_info_disconnect_entry() unlink the entry from
+entry->parent->children or otherwise prevent snd_info_register() from
+re-registering a disconnected subtree?
+
+[ ... ]
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/pm-pmb-2439c851f82c=
+443c3600-v7-2774a482b7f03e1fef60@gmail.com?part=3D1
