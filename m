@@ -1,119 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792667338;
-	b=EFacTAUbDAOHEo/Ug6V5kmn090Foa6uEEnGKFaoillMIvjhnvo8rfbzlCTooDdSMOufx
-	 YFlFEaPtbk2dhoR+s3VdvHH1XrDrbq3HruCpqoHBIOe0O3uc75HKskBWbQWzPkml98O2j
-	 t88H2K0dRIjT2zPBFf9S9DSHuCrdCu8YpN4r7fz7UeSC93FoHZ0MJGSLOznDA0iO2s1Ci
-	 hhA+xvs7VuaOV34zxwsZcKad7F54ATWSSvcfgzAtkRCJhLzCwSPJitRNnQL2mowv3CEsK
-	 hucoIcLYEVZJkkY866RdZZVt5jACW++h65mURq8Ho2mS77fwl5IbqBNdIluz0Jp2QEQ==
+	t=1792667574;
+	b=DwFVm0Yi3iuuVAx3SmYjoslLErPfKeVHsiADTtYFbZnKsU7cihMSbyIjWhkzR45mj/r6
+	 WHREe08w4fxMFqeQ/7/ENsypqCgC0mA+mkfGDpp4yB0yMXDiJ4HthffW/K//jVXfbkS0s
+	 rs9027+E+67NexPlDhyyZUKYqBi2GGwlmmGFhpr9YBtv6jVRazJksR1YoGFBRrqxesJ+L
+	 eQl8jxV8EzyeIWq1spwxt35BYMfvXd8d8bIuiRmZJLBaBQ+NrFkOJM5lwAK3QRW7g8xSb
+	 iNX/R/URX85lzlDEVCZZsqHlXrcepMDopq2I+UDTvsYwK9+doAZpn9ib2WY1OESUKyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792667338;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:
-	 X-Spam-Score;
-	bh=rBi4lWQrOHOZYA9k5q2BBaVXS5keKJnwsmafTMtCy34=;
-	b=ZafkbgtCKPlYiU1i5/qF8mARfpf2qcNP67GdmuZc4MAVDJGSVaGnDStesLTQhOJBSKNS
-	 8MK3YZ++GptQzD+2EOwF1Uz8yfDPJuZR17IA+k548n4NOeYHKtAtQTLGN9iqefHIDKvyV
-	 VSH3PUSdbdtU3BpHWkkErVGuWwVlK/nMiuCjXZFsvcCaJZ4vSHeR79GHy4ryGBsXww09J
-	 v75BjthNROWFXZmQuZ8EEa61fQ8zMKcD1SpzSuPzHLdY6gTL1HhRmF6FzfWR+iriGkSft
-	 hRUOmCXY/zsdx2j6X9oRVNhcARWAmns3XBITqIn3WKO8dRCvGutAuk5Q//2aLmnPcnw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792667574;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=GgDo4vP1xHG06cdv66t6KcA+DO/n1085uQpIt3C0Ugo=;
+	b=kdFSL7RPeESz+gTGaL3Nue0mtv3gqONym7g0XE5gOe4XxgJRplzqWHAoqs+XfwkVoPZM
+	 yRU2CCZlH6psVKPXOryQb5UzVHRvk9/ybaCHgxDHS7iC6qw1OrcrHbmv+vcb9yNdwxb4M
+	 IR4/ykd4N4qBq/wSmicehRPiKDZ66+wOzHXex+2JgXvDzoGNqE4XWSE7ZAMlVdRaWr2sN
+	 3/Mwd81HZjN9AjyKew+bAMqarAyJCH48KeSlEGUFj4UkPWC85zhyYlFPI8DzGYaj874sd
+	 htTNcyKIuXmlBHn7aLc409k0zZjQ8ogcwnJTuwacEwP2SqX4w4UQ5dpgE3Fj15OAr6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=JsKe62nf;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YI1YwiIm;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=JsKe62nf;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YI1YwiIm;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ZcTQ4KX2;
+	arc=none smtp.remote-ip=74.125.82.170
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B36606A31D;
-	Thu, 22 Oct 2026 11:08:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7B36606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73C7606A31D
+	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 11:12:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E73C7606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=JsKe62nf;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YI1YwiIm;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=JsKe62nf;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YI1YwiIm
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D98CA21FB7;
-	Thu, 22 Oct 2026 11:08:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792667335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rBi4lWQrOHOZYA9k5q2BBaVXS5keKJnwsmafTMtCy34=;
-	b=JsKe62nfZg9gvfHsOblaltxiXND6Odw2nJZe1XOD9fQ1MhfdZFW4b6M+wPxu4DzSJnbtVG
-	ER5V0WRL1v9vZcPvQibwyZztXbMowRkCLUnYxbPjfqIT39Dh1CegmU1P4ZNZkn3Ss11QXT
-	KIsZrsZUZFBAIfIIUKxCBISICZ/Nf4s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792667335;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rBi4lWQrOHOZYA9k5q2BBaVXS5keKJnwsmafTMtCy34=;
-	b=YI1YwiImUR5vQaI+hX/NT1HSlNSyW9F3I43RmfpJ3SGd98hitdEt4cojg/KsQMwuY413Yg
-	/MGJxVX69zIRP3DQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792667335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rBi4lWQrOHOZYA9k5q2BBaVXS5keKJnwsmafTMtCy34=;
-	b=JsKe62nfZg9gvfHsOblaltxiXND6Odw2nJZe1XOD9fQ1MhfdZFW4b6M+wPxu4DzSJnbtVG
-	ER5V0WRL1v9vZcPvQibwyZztXbMowRkCLUnYxbPjfqIT39Dh1CegmU1P4ZNZkn3Ss11QXT
-	KIsZrsZUZFBAIfIIUKxCBISICZ/Nf4s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792667335;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rBi4lWQrOHOZYA9k5q2BBaVXS5keKJnwsmafTMtCy34=;
-	b=YI1YwiImUR5vQaI+hX/NT1HSlNSyW9F3I43RmfpJ3SGd98hitdEt4cojg/KsQMwuY413Yg
-	/MGJxVX69zIRP3DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 899AA133F3;
-	Thu, 22 Oct 2026 11:08:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YOJfGMfu2WpiVQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 22 Oct 2026 11:08:55 +0000
-Date: Thu, 22 Oct 2026 13:08:55 +0200
-Message-ID: <87h5iec7qw.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cen Zhang <zzzccc427@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	perex@perex.cz,
-	tiwai@suse.com,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ZcTQ4KX2
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-35943f55c06so1030464eec.0
+        for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 04:12:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792667573; x=1793272373; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GgDo4vP1xHG06cdv66t6KcA+DO/n1085uQpIt3C0Ugo=;
+        b=ZcTQ4KX2ntDRRIv4SBZYFcVfL7jnVW4UQvhEXGWiWO2WaAXbf6L074aFxyEF5iD3VU
+         4TFuic1S+pCJGiSI35lB4I7yYkRHGoOHkXdWSQQR4U3pV/n4zJyPtm5tJ9to/ZtLygIL
+         le71bgQxKUPJ3MyAo6g+jM3qtoi2NVbf5Tu1U4XLU3wq22zUyKosor89B0sLXvg0yDIV
+         3DGnLQGNFIpxfp8p3/AE3QP52gMje/KQmxEVfnDkaKCDVcPIHw+3dGzlspUpR5Wj1XX5
+         GsY/RV6Ly2TXnB+77J5z05vj6zruUmcCqE0FNG9s5P/kBrLI+wnh5D1vQfOLRbScC5sV
+         x3gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792667573; x=1793272373;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GgDo4vP1xHG06cdv66t6KcA+DO/n1085uQpIt3C0Ugo=;
+        b=oYvPKpMoyzUZwKRu80JFX7qHeVg+IinMzTVqCdSsOAixWbTM2NOT4DtQDjSBSlF4Hg
+         073DxzmlocfeVttSebwFNR3va7Ow/srSQo4dvW9HckLb/SdCHPao9uRak5FX6QcFfw+M
+         w57XnF9Te0mQXGb8tosH2p/nWokIx4tROycjPZj0M8CW1cS8LzeltBe07XI0WAsPLAxi
+         SiyY4qQkrTnfFtLLj2eRmrgh1/F0V7hohmfwkGigxVdEHd9+EsYvCCpZFUsBNbWw+jZs
+         naK+efhyzKVpmrJR0GPgSGafM3wsWIzcTRr7KDcDr5Kq9wFWx9IjDwW0akiDISHYqi8E
+         vssw==
+X-Forwarded-Encrypted: i=1; AKwUvBxaG6nMWrDCQtGurBuPyFL1M0AOYuGr7mwLQi6k/FrrC9051ivBVrb0RR/1dSDeotbSyQWdfEqcHg8NWg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLqCIDCfI5MVULEopVZvdRiX4hlBOJLskhX5+rZ34NNybqneulo
+	pv5QyoxlKTJVLgGkkBWTdBPzsbjPu0jT7M4DxToJGxpn+Wu314oJWjJg
+X-Gm-Gg: AYBFou3sSwI6SVEhP4jgdPAwdmdL5rIsXPK0KrCkogxgnGJf2bJUAHInMaFqxS1oxjF
+	6SJ99luRWjrA4r3OvK0yhGPyHTAkKKDCZ9Og+7nFwbwtFjegyt0LdgaD0ZsEHDcQ1+085xerrXp
+	FNlIhB334FVYc2iV7Qx2K4zya6QHyN3WyomI1IjMCVSVK4xhN96UehFQrJgSi6zvQ7SoeglWAVC
+	JNGNybTncRBNGaLethtmItDDwdZHWB4rUYIxVGDbWhocrwebliEGzsQSbtryEZ7+oMwQ83V0kmN
+	eEN/KDLBnhHcMvtOp0oYexu0jfcMAh8Bd2OUZROpCO2gpisutDjsPZ4ilM5UceKe8ZGAZZhPMNJ
+	DrPA5t67YEevsp4hg8C33KuSpoDngKVyw34bKK5xtrYVpusMmMNLXVYTsqHwwHtF1Pv9YC1CS2+
+	d4ulw4mLPCwAF0Jf5MhWgBAyhKpqlFxLOJVPV8/U1Su7nHCSGvG+NE9k8tYOaBYAzyZU7g1AzpT
+	oWzFQPSQ+o1YJz00wnNqdggj538Yq6ycFzifhy2Y1e4cGpxV2ROYBrNoNwLk46E0dybyPqpRDNc
+	LNQRZHBE7e3zbpiP48iBGbJjnSetdawAzX40709bfDoqZJ81NW44UwgU6lv1Lpfwh1SGmjovECE
+	bFS3zIiGX1RT9
+X-Received: by 2002:a05:7301:4392:b0:35a:3b98:b428 with SMTP id 5a478bee46e88-368af6a28c6mr2581832eec.12.1792667572921;
+        Thu, 22 Oct 2026 04:12:52 -0700 (PDT)
+Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-368ca914bb8sm6369653eec.5.2026.10.22.04.12.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2026 04:12:52 -0700 (PDT)
+From: HyeongJun An <sammiee5311@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Shuah Khan <shuah@kernel.org>,
 	linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	jjzuming@gmail.com
-Subject: Re: [PATCH] ALSA: pcm: Drain proc writers before freeing preallocated buffers
-In-Reply-To: <CAFRLqsUjzhcMwCZb+LNCGFFbHv=GF+2+StrbHH0md4REgyADJw@mail.gmail.com>
-References: <pm-pmb-2439c851f82c443c3600-v4-9e7df0ea42c36afe6171@gmail.com>
-	<87h5igix41.wl-tiwai@suse.de>
-	<CAFRLqsVe0JjW9VTbjBG9w00LFuQBxyK3CCjTnqaCXzcUPDCE4w@mail.gmail.com>
-	<87v76uccta.wl-tiwai@suse.de>
-	<CAFRLqsUjzhcMwCZb+LNCGFFbHv=GF+2+StrbHH0md4REgyADJw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	HyeongJun An <sammiee5311@gmail.com>
+Subject: [PATCH 0/3] selftests: ALSA: pcmtest: Test error injection and pause
+Date: Thu, 22 Oct 2026 20:12:41 +0900
+Message-ID: <cover.1792660433.git.sammiee5311@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -122,183 +100,31 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=GB2312
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,perex.cz,suse.com,vger.kernel.org,gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
-X-Spam-Score: -12.30
 
-On Thu, 22 Oct 2026 12:56:37 +0200,
-Cen Zhang wrote:
-> 
-> Takashi Iwai <tiwai@suse.de> 于2026年10月22日周四 17:19写道：
-> >
-> > On Thu, 22 Oct 2026 10:58:02 +0200,
-> > Cen Zhang wrote:
-> > >
-> > > Hi Takashi,
-> > >
-> > > Takashi Iwai <tiwai@suse.de> 于2026年10月20日周二 16:40写道：
-> > > >
-> > > > I believe a better fix is to handle the disconnection of procfs more
-> > > > properly.  The hda codec driver calls snd_device_disconnect() for each
-> > > > pcm, but in the PCM side, the procfs removal relies on the card level
-> > > > disconnection (snd_info_card_disconnect()).
-> > > >
-> > > > That is, something like below works instead?
-> > > >
-> > > >
-> > > > thanks,
-> > > >
-> > > > Takashi
-> > > >
-> > > > --- a/sound/core/pcm.c
-> > > > +++ b/sound/core/pcm.c
-> > > > @@ -1119,6 +1119,7 @@ static int snd_pcm_dev_disconnect(struct snd_device *device)
-> > > >         for (cidx = 0; cidx < 2; cidx++) {
-> > > >                 if (pcm->streams[cidx].dev)
-> > > >                         snd_unregister_device(pcm->streams[cidx].dev);
-> > > > +               snd_pcm_stream_proc_done(&pcm->streams[cidx]);
-> > > >                 free_chmap(&pcm->streams[cidx]);
-> > > >         }
-> > > >         return 0;
-> > > >
-> > >
-> > > Sorry for the delayed reply — something came up to me over the past
-> > > few days.
-> > >
-> > > Thanks for the review. Handling the proc entries at PCM disconnect
-> > > looks like a better approach.But I noticed two possible issues with
-> > > adding the call here: proc removal can invoke a prealloc release
-> > > callback that takes open_mutex, which is already held; freeing the
-> > > subtree also leaves pstr->oss.proc_entry pointing to freed storage
-> > > until final unregister.
-> >
-> > Hm, basically we don't have to release the resources but just
-> > disconnect procfs (that guarantees that the pending callbacks are
-> > finished).  So how about something like below instead?
-> >
-> > > I'll follow your approach, but perform proc rundown outside open_mutex
-> > > and retain the entry objects until final cleanup. I'll also prevent subsequent
-> > > card registration from republishing the disconnected entries.
-> >
-> > But those are assumptions: the proc rundown must be after all pending
-> > stuff is gone and it shouldn't be called until the next registration.
-> > And, running re-registering before the complete release is already
-> > fundamentally broken, and that should be addressed instead.
-> >
-> >
-> > thanks,
-> >
-> > Takashi
-> >
-> > -- 8< --
-> > diff --git a/include/sound/info.h b/include/sound/info.h
-> > index adbc506860d6..4b08a32ff4fe 100644
-> > --- a/include/sound/info.h
-> > +++ b/include/sound/info.h
-> > @@ -117,6 +117,7 @@ struct snd_info_entry *snd_info_create_module_entry(struct module *module,
-> >  struct snd_info_entry *snd_info_create_card_entry(struct snd_card *card,
-> >                                              const char *name,
-> >                                              struct snd_info_entry *parent);
-> > +void snd_info_disconnect_entry(struct snd_info_entry *entry);
-> >  void snd_info_free_entry(struct snd_info_entry *entry);
-> >
-> >  int snd_info_card_create(struct snd_card *card);
-> > diff --git a/sound/core/info.c b/sound/core/info.c
-> > index c4d57d0809ad..bb9f564001ea 100644
-> > --- a/sound/core/info.c
-> > +++ b/sound/core/info.c
-> > @@ -737,6 +737,15 @@ static void snd_info_clear_entries(struct snd_info_entry *entry)
-> >         entry->p = NULL;
-> >  }
-> >
-> > +void snd_info_disconnect_entry(struct snd_info_entry *entry)
-> > +{
-> > +       if (entry && entry->p) {
-> > +               proc_remove(entry->p);
-> > +               guard(mutex)(&info_mutex);
-> > +               snd_info_clear_entries(entry);
-> > +       }
-> > +}
-> > +
-> >  /**
-> >   * snd_info_free_entry - release the info entry
-> >   * @entry: the info entry
-> > @@ -749,11 +758,7 @@ void snd_info_free_entry(struct snd_info_entry * entry)
-> >
-> >         if (!entry)
-> >                 return;
-> > -       if (entry->p) {
-> > -               proc_remove(entry->p);
-> > -               guard(mutex)(&info_mutex);
-> > -               snd_info_clear_entries(entry);
-> > -       }
-> > +       snd_info_disconnect_entry(entry);
-> >
-> >         /* free all children at first */
-> >         list_for_each_entry_safe(p, n, &entry->children, list)
-> > diff --git a/sound/core/pcm.c b/sound/core/pcm.c
-> > index 1e4e0ecb3dbd..58098ee894a1 100644
-> > --- a/sound/core/pcm.c
-> > +++ b/sound/core/pcm.c
-> > @@ -520,6 +520,11 @@ static int snd_pcm_stream_proc_init(struct snd_pcm_str *pstr)
-> >         return 0;
-> >  }
-> >
-> > +static void snd_pcm_stream_proc_disconnect(struct snd_pcm_str *pstr)
-> > +{
-> > +       snd_info_disconnect_entry(pstr->proc_root);
-> > +}
-> > +
-> >  static int snd_pcm_stream_proc_done(struct snd_pcm_str *pstr)
-> >  {
-> >         snd_info_free_entry(pstr->proc_root);
-> > @@ -580,6 +585,7 @@ static int snd_pcm_substream_proc_init(struct snd_pcm_substream *substream)
-> >
-> >  #else /* !CONFIG_SND_VERBOSE_PROCFS */
-> >  static inline int snd_pcm_stream_proc_init(struct snd_pcm_str *pstr) { return 0; }
-> > +static inline void snd_pcm_stream_proc_disconnect(struct snd_pcm_str *pstr) { return 0; }
-> >  static inline int snd_pcm_stream_proc_done(struct snd_pcm_str *pstr) { return 0; }
-> >  static inline int snd_pcm_substream_proc_init(struct snd_pcm_substream *substream) { return 0; }
-> >  #endif /* CONFIG_SND_VERBOSE_PROCFS */
-> > @@ -1119,6 +1125,7 @@ static int snd_pcm_dev_disconnect(struct snd_device *device)
-> >         for (cidx = 0; cidx < 2; cidx++) {
-> >                 if (pcm->streams[cidx].dev)
-> >                         snd_unregister_device(pcm->streams[cidx].dev);
-> > +               snd_pcm_stream_proc_disconnect(&pcm->streams[cidx]);
-> >                 free_chmap(&pcm->streams[cidx]);
-> >         }
-> >         return 0;
-> 
-> Agree that. But I moved proc rundown outside open_mutex because
-> proc_remove() can invoke the
-> prealloc release callback, which takes that mutex.
+The pcmtest driver can return errors from its PCM callbacks and
+supports pause, but the selftest covers neither. This series adds tests
+for both.
 
-OK, it makes sense.
+Patch 1 moves the capture data check into a helper, so patch 3 can
+reuse it. Patch 2 tests each inject_*_err parameter. Patch 3 tests
+pausing a capture stream.
 
+Tested on x86_64 with the sound/for-next driver, built for a 6.17 host.
+All 10 tests pass in three runs. To check that the pause test catches
+real bugs, I loaded two broken drivers. One keeps running on PAUSE_PUSH.
+The other restarts the data on PAUSE_RELEASE. Only capture_pause fails
+on each.
 
-Takashi
+HyeongJun An (3):
+  selftests: ALSA: pcmtest: Move the capture data check into a helper
+  selftests: ALSA: pcmtest: Test errors from the PCM callbacks
+  selftests: ALSA: pcmtest: Test pausing a capture stream
+
+ .../selftests/alsa/test-pcmtest-driver.c      | 167 +++++++++++++++++-
+ 1 file changed, 158 insertions(+), 9 deletions(-)
+
+-- 
+2.43.0
+
