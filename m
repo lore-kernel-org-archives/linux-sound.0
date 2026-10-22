@@ -1,79 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792680784;
-	b=yeO3i1fHgdD64ehtmkvNjnid1tpBI464GJ/Q1oktASBJL6POR4DiTm417VDWBxnNNx+J
-	 ecuv35+0Bfw/mYKIBkv1d9uz9ByvtPDF8IgGNcEz3JtsfvF8ciF0Bjby72+YB9KDU4ag9
-	 +zfBdwEMKx3FY6huVTch5FwQx8EvJgisdqoWs/GKPAlO+k/lCsRacFRARHwtBng3RlKv5
-	 LUcyM6aN0QKp71PeBwiBoOd3w2CzqdNsL86thKjSEWuydF200llPr3f2MH6oYySH6rObL
-	 xfEGipGtkfD5wtX1PpaMt0LMjVE/EUZ4WFB+NLLzUs9D5FPmgBVp6vzOASBvwm1R0Vg==
+	t=1792680788;
+	b=ClWBIaVYea3vGaikFsANor4NOGzYr2CNmbx2/Cx6nI9hb911MqdmtzjfJTrgiBdk4Im9
+	 eCnVbEjplfXCJtN5QdX9+I+doc7gfuOnC3/Zew5ZYIKWq+9R2+1BLKoMFVoGZtL6gEliK
+	 i/Q7v5RFsOqo2scG4g2bQs7+ZPIH85H858JxIpUp+4ZOExh4LbrPxhGexN+wz29uSNQ1X
+	 P8Rr9MSdbsy5HnBi1hCdapyzrCEVcNQ0Mxso1b8c3hC07xuBXFmxFgs+BA/qysVX/5JKW
+	 VyZIGY7fGiHrIwCeiAObAh1nYnNJZZu4MEF8ZYXR8i8JwkKJ6koiJsFah9gD6iwRdBw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792680784;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792680788;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=erW9orlZqBORYTjT+M88JXzd4Dxh2Crq+t6//rkNNRM=;
-	b=REOVVIcpIHII+B5Ltmn7xiYRUxx3CV89bTLeag19zzjYHC+0s8+0sm96+I/Be+LJ6y9o
-	 884txc3bh531qzMO9R9I/wIo+y+rZU9eHHvFFm6Vqeuva/rFB3hNPKIrLvpWnbrTybY5K
-	 nYJCHUAb6mr7aUTIm+E7ViCC14AEZ7CD8FJmPBCIMhYjN/8kjM+Wqp6qFseGjpsgXM5aE
-	 xexrERufOosrx0Y0clmQuMsekgQibxJThfdLycIrZH7gA3bM7fSZKEeit8yOg6vIZZxaQ
-	 cvh8yKPvudXHzfe7rquyMGd9XAAsUQGVpjyivzPpPb2mDTSOKd6fiv9aKiIsKWmDKMA==
+	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=0n6BoSwZW2ZOQKx79Pec/c6hMvcR0c9X8PkRx2zSQ/I=;
+	b=io9q1m9/WZ/vLxFwBghLG5/BDfclaBdpgiseA8rXxEu+a19M8Mq/rHcN0vYTk8chmGzu
+	 D4UZgZ9ITN61iaHGeUZ0Z7r+Cx+cKTVmJdgRKKjhP217Odc75ox+EzuNuJoXitwzlpWqx
+	 bJK8J3bDLoAFfuPdiTlZFQU4DRhj7HvH92zWwhu51zi+rnzY+uo1SOVEUdTHOUyragGMs
+	 /eGCCkIMioiN10+c0Rkysdo/uxiV0IfGiPxwhDO2YhlRyzgkiou0f/eFuusVbiIQuNuPC
+	 boUJy+9EFSUaljy2L7coWjQvhQm9EzRdnOsLg4PExQF7MVKN1n37RfD//DIHuRRN+kA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=fa0SUHcn;
-	arc=none smtp.remote-ip=209.85.216.54
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=MQAahmYx;
+	arc=none smtp.remote-ip=209.85.216.50
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB05606A319
-	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 14:53:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BB05606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63046606A31E
+	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 14:53:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 63046606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=fa0SUHcn
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3adac5b29ebso451980a91.2
-        for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 07:53:04 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=MQAahmYx
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3acb512a7a0so1122430a91.1
+        for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 07:53:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792680783; x=1793285583; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=erW9orlZqBORYTjT+M88JXzd4Dxh2Crq+t6//rkNNRM=;
-        b=fa0SUHcnoB2u5mbE2SSv8H/0b1nFQsuzZyLD3+TeW7sIATt8Dh0A7bYHTB1Ip9U8PK
-         HVarkGjVZpn/dFyTItarF/7d9ISBETsgXfuvVkT+O/kPiQtOkDqzVfgwaG1wJ75RCHko
-         Xdidld6eriO69rqTYxYrq5kDrNLtZvbRjz8mOZRLuz+8lDsv9Rb1YTJdOrVPppDxyiNA
-         uMMWL+KpXbj02/VCiuXIPxpuvFLSG7xW00mMibsnnJmKWH+hlayEp4wADXKW16bnL+i5
-         1lff51pKD4zBEW8+RGFJAcEe2VHsFL6mrA0ys7STq52qHImc9oaX96awcf61rcvFXbF4
-         7BNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792680783; x=1793285583;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1792680788; x=1793285588; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=erW9orlZqBORYTjT+M88JXzd4Dxh2Crq+t6//rkNNRM=;
-        b=xNAuoC0AEUjVpRh39qr4GShOUkfxzTBhnVXCOXhu46oL2Z7Rod60JUfokDKs4QhltC
-         kugu5BX49TuvM3Zqk1crFJqcw4Gwu2/1RH6UQekyEF/oHcvahZFYJIJR97uW+QEYkJww
-         GxmBNHzAOzULPTpIF4UpG9zi4020GtRRPs7pQAkaQH5k0xoQvPcooQrLm4cmRqneTnfd
-         GclaHFMFmijmY07IydLA6Shns/M24EtTtGbL28CgDhInec48vwCmnLWssZAltu7jH6NR
-         ZGrcsq7TaX0qkxNW2Y41gvMewcFF1oSHEJ/VJJPhKV3i9fBozqmmMmQz+hjqEVCstgEQ
-         E4PA==
-X-Gm-Message-State: AFq9FYKZNsGEl0Vy4Gjzww1q8pwXeEpkMOGMf8y2c/38TEjJ2plvS73O
-	K2obqT2n30YPnHipDnhWjePxNEflJpekU3mjHnUB3UPAW84j+UIAQhNj
-X-Gm-Gg: AYBFou3sJOqLia7UGHE4vL+2LoE2vd3TIgT8lxyb2xf+4EYTU3j+/WUP1K25QbGqhxr
-	m73ZkXblkacF2dOmZOK8gu1+x/XIwQK3JhvAmwJ9ElwYhqk2KAhAxjXM73TdgPguUur3p0RWqTL
-	ZKNka81uqjKw6lOFO9h4wL2s8mOvUgz8Wk9GpwLMwvypNPeN3PWAZDwaUf5NndPZzp7YfP8Wc9r
-	lWeWXSH/pcxi49AeqqfMzazX5DZBkVbLjpkfXThLcRiv+cK0xC9hvpxk55WGJmM1Qi7dh04hbpo
-	KLpEXK4P7FGA+k6nWpKzpNMoaWVU9SyH+dd6EAz97GNtoxvlyBZLoFgtBIjTAULPyz9m8Qh1uVC
-	0XNM4+3xmy+K0vQrPLDcM0J6tew+9JbNsRmYBuNProKft7pE0LrmGynNft/cA7bfpEQeMnlEO9e
-	VF7QLQm2Vi95dYRsFhJ4OVprb4iohtpY2IGHd+GNXg0a3/ILfoCLW/uGOH9sXyGA/tnNCydwOt/
-	sAyMxkdVxytmwDO5mXSPRJdlbgGuGs+sqNL9xfuLqRQMaij9Bnf
-X-Received: by 2002:a17:90b:55cc:b0:3a8:185:cf40 with SMTP id 98e67ed59e1d1-3ad86f1bd64mr4828172a91.10.1792680783448;
-        Thu, 22 Oct 2026 07:53:03 -0700 (PDT)
+        bh=0n6BoSwZW2ZOQKx79Pec/c6hMvcR0c9X8PkRx2zSQ/I=;
+        b=MQAahmYxNC3kLSCRoMpvINqt/HMuJwwmTVHWcqs6kj2EnPHZ/Wu9w4B8q+1DiweW2+
+         hFxe8sSGFEaUA9+hh8KTsQe7k4SVgCqcjQOCe8zw06mSekdcAaFde42tPodYoUNYxEVK
+         Vefy0wsp2us4+0ELy+ju51348LC7bl+Erv6AeyqzdJty8BG5Cb3KRtZFqSUSFPstgN8B
+         AjhzbY5M/DYRDkQT0yRedwF2x7NFJPepLrFnuCZyHVKjXte7Gg1a+XeAohMLbdcjI6Aq
+         PwG1TSi8Lyq36N7QG4VNsn5wzz9stXCAD03ImtTxByqsHDavVLulMaqKNw33NDspaZT0
+         hGwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792680788; x=1793285588;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=0n6BoSwZW2ZOQKx79Pec/c6hMvcR0c9X8PkRx2zSQ/I=;
+        b=cWiVG5IVIoRziZmi2QqMcdm3f284qQck6merJt704VhbZSFENdZYoAIa0J9sJfsPyi
+         MpODuHQDD0MIcHatnrjh53I5VRw2m4m2NNRKahROcuFrWAHMlfOhkvHZquRihJDMqN2c
+         lPrckQUElueDl0LRwhDabbibydLt5CF5NKY+4nBLHqaOPbuTRP9WIesmrudvr5qJEmiZ
+         lBhlXkByOR2HF0HGKEvrHwj8CTfEuWqQiJlqQE1wO10uRrUw/2TGIqMV14fq2E2FF5Dw
+         xr2YOrm+K3OAZ7mFWVD4Bt1aTyGReMzsvDvyLknGVgkY4Gri15EVKnFLynLgbW12+fV3
+         eDZQ==
+X-Gm-Message-State: AFq9FYKHkjq3ISsgmHszbhE4J4TAukWQe4FuXFZLBK9zIGfqQYQAsHCG
+	QiNgKBBTtWdsri5aH95zUHtOqM/x88gHpwDl1wbiEAVLdkKCDhkqIGFR
+X-Gm-Gg: AYBFou1ggl8ZTXULgbMQ3ooLcP7JV7FS5R0t4mn9lP4KeqHBEAaCYUQKiObjJguFkdr
+	Ihr8eco9ky//h+aEwc4qiJ0ULVffHxDEfkYlt5cq+Pf7CKyYTqEwf4gzLlwqWSiDBFgVR3QY0yM
+	LYsUFwy166sWaqk68g4sIXBDA+ia2ktR2/hQDpzXUzwQ/0+PWS6Lm0NvIQCgHJvNBkmrxd5L2Mz
+	AgOYPRpEqIdTkTaxJeJ3im9rs2mHCuREcHpiDKuU3i2tPuxw+ZlWZBvVyZV4KHoUp3lApC1AE1E
+	LfryrgDFM10xvSzfRfh1Dv68LoLmK3++SXv2qZvoUVR86mIr6Cj410cmEOLXHqWBDZsIp2pLDOX
+	Opw0LwLWwTPGEufTVUQzzpA8R+1oJGcAkjOZ/YAuHrBkkKUErR/3hT+pzM8RCByyRR9/6PtRfA/
+	ht7umuRoRuZSM3BFML2dxKDLGiiDuS1El4+7tv6aesRvujq5Y0X5ZMgGftH2N9/jJcMkca1enZY
+	N6Qwc26gGkfEehLSB1wmDfcwuGXPbmKyj/tDw18IlemmFA2f2U=
+X-Received: by 2002:a17:90b:5390:b0:3ac:9d83:8861 with SMTP id 98e67ed59e1d1-3ad86cdd7a6mr4244176a91.67.1792680787720;
+        Thu, 22 Oct 2026 07:53:07 -0700 (PDT)
 Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ada4887669sm4767829a91.2.2026.10.22.07.52.59
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ada4887669sm4767829a91.2.2026.10.22.07.53.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 07:53:03 -0700 (PDT)
+        Thu, 22 Oct 2026 07:53:07 -0700 (PDT)
 From: Cen Zhang <zzzccc427@gmail.com>
 To: perex@perex.cz,
 	tiwai@suse.com
@@ -83,10 +85,12 @@ Cc: linux-sound@vger.kernel.org,
 	baijiaju1990@gmail.com,
 	jjzuming@gmail.com,
 	zzzccc427@gmail.com
-Subject: [PATCH v2 0/3] ALSA: opl3: Fix sequencer timer and channel lifetimes
-Date: Thu, 22 Oct 2026 22:52:52 +0800
-Message-Id: <pm-pmb-4552c4e605507d8d9b16-v6-f3fa18aca2c7d18be670-0@gmail.com>
+Subject: [PATCH v2 1/3] ALSA: opl3: Initialize the timer before publishing a sequencer port
+Date: Thu, 22 Oct 2026 22:52:53 +0800
+Message-Id: <pm-pmb-4552c4e605507d8d9b16-v6-f3fa18aca2c7d18be670-1@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <pm-pmb-4552c4e605507d8d9b16-v6-f3fa18aca2c7d18be670-0@gmail.com>
+References: <pm-pmb-4552c4e605507d8d9b16-v6-f3fa18aca2c7d18be670-0@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -98,36 +102,67 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-OPL3 can receive a fixed-duration note before its timer is initialized,
-and the card-owned voice array can retain channel pointers after either
-sequencer port has freed its channel set. The delayed-note timer can also
-remain queued after the sequencer client has been deleted.
+snd_opl3_seq_probe() initializes the delayed-note timer and its lock
+after snd_opl3_synth_create_port() has made the native port reachable.
+A direct NOTEON does not require a subscription, and a fixed-duration
+instrument makes it enter snd_opl3_start_timer().
 
-Initialize the timer before publishing ports, clear voice aliases before
-each channel set is freed, and shut down the shared timer after client
-deletion has drained both event producers.
+On sequencer-driver rebind, the card-owned instrument bank remains
+available. An event delivered as soon as the port appears can race the
+late initialization:
 
-The first two patches address existing initialization and rebind issues
-identified by Sashiko. The third replaces the earlier native-port-only
-timer shutdown with shutdown after all sequencer ports have been drained.
+  Sequencer driver probe             Direct NOTEON
+  ----------------------             -------------
+  snd_opl3_synth_create_port()
+    snd_seq_event_port_attach()
+      publish port
+                                     snd_opl3_synth_event_input()
+                                       snd_opl3_note_on()
+                                         snd_opl3_start_timer()
+                                           use tlist and sys_timer_lock
+  timer_setup(tlist)
+  spin_lock_init(sys_timer_lock)
+  sys_timer_status = 0
 
+Initialize the timer, its lock and its status before creating the client
+and attaching either port. No event can then reach partially initialized
+timer state or have its newly armed timer reinitialized by the probe.
+
+Assisted-by: LLM
+Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 ---
-Cen Zhang (3):
-  ALSA: opl3: Initialize the timer before publishing a sequencer port
-  ALSA: opl3: Clear voice channels before freeing their sets
-  ALSA: opl3: Shut down the timer after draining sequencer ports
+ sound/drivers/opl3/opl3_seq.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
- sound/drivers/opl3/opl3_oss.c   |  1 +
- sound/drivers/opl3/opl3_seq.c   | 25 ++++++++++++++++++++-----
- sound/drivers/opl3/opl3_voice.h |  1 +
- 3 files changed, 22 insertions(+), 5 deletions(-)
+diff --git a/sound/drivers/opl3/opl3_seq.c b/sound/drivers/opl3/opl3_seq.c
+index b77d8e8f12fb..2bacefc3201d 100644
+--- a/sound/drivers/opl3/opl3_seq.c
++++ b/sound/drivers/opl3/opl3_seq.c
+@@ -214,6 +214,11 @@ static int snd_opl3_seq_probe(struct snd_seq_device *dev)
+ 
+ 	spin_lock_init(&opl3->voice_lock);
+ 
++	/* Initialize the timer before an attached port can receive events. */
++	timer_setup(&opl3->tlist, snd_opl3_timer_func, 0);
++	spin_lock_init(&opl3->sys_timer_lock);
++	opl3->sys_timer_status = 0;
++
+ 	opl3->seq_client = -1;
+ 
+ 	/* allocate new client */
+@@ -232,11 +237,6 @@ static int snd_opl3_seq_probe(struct snd_seq_device *dev)
+ 		return err;
+ 	}
+ 
+-	/* setup system timer */
+-	timer_setup(&opl3->tlist, snd_opl3_timer_func, 0);
+-	spin_lock_init(&opl3->sys_timer_lock);
+-	opl3->sys_timer_status = 0;
+-
+ #if IS_ENABLED(CONFIG_SND_SEQUENCER_OSS)
+ 	snd_opl3_init_seq_oss(opl3, name);
+ #endif
+-- 
+2.43.0
 
-Changes in v2:
-- Split the initialization-order and stale-channel issues into separate
-  patches preceding the timer lifetime fix.
-- Clear voice channel pointers, state and delayed-note flags under
-  voice_lock in both native and OSS port cleanup callbacks.
-- Shut down the shared timer after client deletion has drained every port,
-  replacing the native-port-only shutdown.
 
-Link to v1: https://lore.kernel.org/r/pm-pmb-4552c4e605507d8d9b16-v4-213af356c0046331c8ff@gmail.com
