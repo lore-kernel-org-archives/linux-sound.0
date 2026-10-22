@@ -1,100 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.177
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792660739;
-	b=HSsjvRN407UOcary2X2zfDAT98uQ/uY+4So7gEYJmAtbcKagMDjk2FZYF6yr+692bLhl
-	 cZjhAASsMphAMx6w6/61m0IhH9BDXLs9sowgJKNgJaGyIMKqvOxfSfGIVhpteY6f6xRy+
-	 KCDcmxGQL0TXu0M/5zmUd/wlwJ6hg8BsOdnSBV83SlKiMpq1Sx/auL8hDpXkOEwgfO6XI
-	 URvPOGYziJG90su3AfUal03wACGf4d8jXuBB8U4UAtzN7FpWHxzGKG+mDL9mo1y29o4qJ
-	 zj+QoAyFvBa6fRBkRPYlWgnLieLjMbW8+hxigJgZlRAit4G4YvrtETGWlhnQ87DnY4g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792660739;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=UpzYIyETtrp+kpnPDh/4yQ1NnnZqaA+hgyq5gKXO1cw=;
-	b=FnF46WIRNFf5EToAXZVNA6OBsYsIeJmDL7Rkv/76KTWgod7BAgg7gvfrAS3W8g4CHkTb
-	 JwiqZwaH4s3fweo9+muXIUPHmYw7EVNw3aGMlgNiFAVYfRMJ1ozzeSYAhdQckhb3dNNc4
-	 7qXyBBosX3fn341+kQdx+SL6RlvUMtV7fNeehvwHAAcS77wZLQqzjZQvDflazvSMkkEsQ
-	 IVNA9enwJKNPBrdBAufdgo7Xl5Yi7iMQxgjGDzcBEcrSAlDr1SbX7DwosJw6+Mjpm1FCT
-	 +fKHZqPrf1+y0irxNf4lr4xAcKrXVhUaxPKt6VCeUoYV/WQJTfDJhj6sdepI6DIQ8CQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IxwotdNC;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.177
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792660773;
+	b=sZ3WVdy6VqsiNMpRU9hNvd/HuNlXlvqOQ5i43bmSrAbV2v8hSnGMDrlGU6Ko0rnSCz+a
+	 0LN2J8IbXtOUWptPnbEEEhgop1d46tasLF/8Hsgp1AgrlctOz7xyEcaQKjiBgmwSU5iv1
+	 3mj+8rx/Q2P3Vn8HPIZob7agNekdQd1tesxCNaPyoAbcwVZHg3MzfCmkQvWCXhbmjr7G1
+	 z5BshoTM77kMnQMW9iW3V/iY9gg4LV3pRc55y239fsjr0CCKfhBBF3/tKhuu0UjK9V52q
+	 RMJM8WXRuNrYNnphM/jQFfSumMft6WOr5Gs4Y8LSEs4cRhyXmLheI7k++MNvSEW4vSg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792660773;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=XxPZypQu3cOj/HQc7QB52O3r1+r0rt6pzjYk1yydPZM=;
+	b=s1ks3+2fgSj6hsm4/pXLJ8I06PKCEtA+TzTvWNMIqRN2ma4tsixiae7Cw2LgNFNFCbhB
+	 aHi8I4O0yjXSX/0dbOtUCqJsOhYIedqYBWKAAYBolZupFvHPUiwB/N8oTlQUjcmWeBXhU
+	 NkOS7xIz+xIcaAxH/dPiPHQtYJSv1f784velbr1UQH/0JmFoiSCDUEjXgryu1jezBwDo7
+	 JVD20eXN1X59+lfrI0XImYXMLIuG/VxYSHaKzwiFJ3/o7mhuJLvx67LdkQvWs2RwXKxHb
+	 JK3uO7/cIJ7xkRGDnbZ4M1RbdqWRhNIYJbVDVyMVu/3uhBi8NOihdujEbyQ7pUcOMcg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="ZEGiKcd/";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=a0oy+wGg;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="ZEGiKcd/";
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=a0oy+wGg;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2212B606A31B
-	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 09:18:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2212B606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A74606A323;
+	Thu, 22 Oct 2026 09:19:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61A74606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IxwotdNC
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-8b056d58f2aso15012397b3.2
-        for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 02:18:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792660738; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gQI+HF3dgnB/MS8PbVdkvqgAZ3NrwDIzhBiBCGeGRWqZM6SSHsHun/Efp1iFL+ab6w
-         BsQ/w8L4tFcX+XPBwA8Iv/w4ZoNjI40Ym76+KLhx7KIxDOXz93W0YClkiQ6Pg8Bryi8D
-         JbBv+71qN2B1H3eR2XOM5BlsHng3sQDWw4yepJa9MqpTK6tRYgrZjhl5IdRCIzw8JdyY
-         /24M6aziPLX82PwHRw/KyVwAmMoFD/9WfB4KQXTsott7RtWiyCcoBTjb/cZX3px5N1yu
-         3qOtNJStyxFKBF9+qx5z9xqHEoo4xrJXsGXPklbNubz+Cj/m4S0UJifcV4/55i12Pbqg
-         z91w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=UpzYIyETtrp+kpnPDh/4yQ1NnnZqaA+hgyq5gKXO1cw=;
-        fh=qr+yBG8FosiIFGK43asskKFEpZuH0+yJlLAZrbBOsxk=;
-        b=AM7LDmr0qdpxiEn/4DGU+10lxfAOHO5zsWR9tNNAqUwamaEZpxvmB77+C3VjI1/HfT
-         f/U/P5/p0fJS6vSmXy4OCMgWML4pPrdhl59eyoxs1k2ubqmLxGQksKPwsp4hs5bGEZrh
-         7W3Q7SAyIllnFtyUz8zig4Q4uDJWQAHo3ykOdUsu5TQL5KkxFTLzXqhQkm8P0LJ5ucOj
-         XrkbO38e2sUH9SNV6lZXg2D7ZAxTL/+DNcQPra3sn36DeBOEdhTCNo9uGQlNHiv/7dX5
-         u9lFA7xw8VaCAOGeHkG426MDhlBZdaWQpFp7wvOBS3uRdRH69abhez7H+x99eathIHLP
-         Hacg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792660738; x=1793265538; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=UpzYIyETtrp+kpnPDh/4yQ1NnnZqaA+hgyq5gKXO1cw=;
-        b=IxwotdNCHuKfjhRbfIKE0Omlv20UdPKRKi+FOPhj9x8dNnWaI6GEjyqUGoNY2lNwG+
-         jui//yue9iv5dp1ZaHGgORXCS+bB0i85xKD4cZ1L6g/U2XtUnCrUf90CaH41BGNXapX6
-         m5N2UlElDhcd/8lVNgiJysLWsyX/ZW0eLgFw6mqP8WDqw3i/QsvOeWCRwyLnpLgr/eMA
-         1AFFzGSoA4K59sx5tWUpugRjvibzMaDOpoIpryUX7U3QQrv0vtXQfdrpqoacWjOpr9Yd
-         9FP+elsePreJn5Ka5mwRb22gyI3eYdROnSQwqQFrT+lVG2oH+jdmd/Mrb/vfO/9rgxVB
-         l2zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792660738; x=1793265538;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UpzYIyETtrp+kpnPDh/4yQ1NnnZqaA+hgyq5gKXO1cw=;
-        b=N3tguG0wymrMX1/fl4ijPVgRZNb7RgsMfpdga9BAG5kXsUEF6NcN0l9jZ0CWr63zlP
-         39TKvIy84/bIGSXPUgT27Q1QX6JguFuM5zXLSzqoi9rXMuOiDgVKaB2LJwUnt/lG5rBr
-         fMIb4C2wAVw0YkQ1ND0fJfAPCRMPB3kirhvcb3rPfiusgdLs41wb9sDLtSniEUVWsyzV
-         J2Iv3IiX/hQwESotgRJu85XKffTPPlSFFll7SzYSd0HQ4ho7gtpYNv+4dNSpo7kzx2ow
-         T1FDwjCvw324DeHCpkCihFCBKzHAjO3XzgPhFBwBoLOAbEw383xJ/QVE/C6Up7xlXCWA
-         pN0Q==
-X-Forwarded-Encrypted: i=1; AKwUvBx7WLwxeOsB/G4u5nv3cPL4ZTu4ZX2XUWx6tKhxh/iQrdRf/LUgQI0jsgQE3w1x2+aBlMLLgVrqzErEMg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYIcFvYLOYj94LhJ2V1HgqCn79iwzYUmPLy1RX6pP96BYOF6Srr0
-	EpCn+NvLD2dlTGGo8FocgfmyL1gnetkk0P5cKIiRHeX16eLmbqrLP1ZJ3uDhMrxVYJHDeLpgF6u
-	V+r4SNGoIAlhsKYDLj8x2koOFTz1HTiRU24hZDL4nTjkq
-X-Gm-Gg: AYBFou3XQDFfv9sj+gY7iV4du0AqcXxKdqoJRSU7HcBDV9VzoIRDTUhKlRgGmLwBdVb
-	40y6tBseyQS61tHVTkfvvvOBWNaD5dEEXNEuNE9x9qVqVMjHa/Hy99lrJ73FB133tXFlwmexnuu
-	Yi/2qtQ9tMXK7ubia2OatDTJylMqj+qPXMJV9J0FyUjkUsmsxVOH2EmYa6lZAPKcZcN5fZC2y2h
-	5pbGsXOokdiFmL0eU8xOcQsl0+GiioYg7XAe+xqNjBjFR6znLN1kBPRDO2JgHeiPi9lceDeQw26
-	CKa4uhwcvtDr+yKeUSUrWKEkyV8MbtmsGilPxM8LjXJB8OlYaFxwyfpth0gkUEoFywia60G9F05
-	rLM10PeI1cvxDFj1GMoF9ENXN7Dou/g6A1i7+efE=
-X-Received: by 2002:a05:690c:e920:b0:8b0:9f48:7527 with SMTP id
- 00721157ae682-8b1340d9917mr17873067b3.98.1792660738182; Thu, 22 Oct 2026
- 02:18:58 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=ZEGiKcd/;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=a0oy+wGg;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=ZEGiKcd/;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=a0oy+wGg
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8B1A922111;
+	Thu, 22 Oct 2026 09:19:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792660770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XxPZypQu3cOj/HQc7QB52O3r1+r0rt6pzjYk1yydPZM=;
+	b=ZEGiKcd/uM6SgkU63gvOh8ew7ovUjN6rG8yYzSeEW91DOfFTwj5c8p9OUFxrRdSfddUCjT
+	oEDVygYwpdC0IR8JOukMkeh2R+aKwac+ljvYTgGbjDaxh7xV24o8SPwC3/ohdT9vlgYGeo
+	EPbsucCPx+civosia93nglhbLE8bXL4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792660770;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XxPZypQu3cOj/HQc7QB52O3r1+r0rt6pzjYk1yydPZM=;
+	b=a0oy+wGgQ+9JKH6ZiNOQHSXnIFvY4dtvhp37Ebcu/QMVnltx+Xj2b71xS8jIgvZNlsJedL
+	3ux5DAZs7Yr8c7DA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792660770; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XxPZypQu3cOj/HQc7QB52O3r1+r0rt6pzjYk1yydPZM=;
+	b=ZEGiKcd/uM6SgkU63gvOh8ew7ovUjN6rG8yYzSeEW91DOfFTwj5c8p9OUFxrRdSfddUCjT
+	oEDVygYwpdC0IR8JOukMkeh2R+aKwac+ljvYTgGbjDaxh7xV24o8SPwC3/ohdT9vlgYGeo
+	EPbsucCPx+civosia93nglhbLE8bXL4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792660770;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XxPZypQu3cOj/HQc7QB52O3r1+r0rt6pzjYk1yydPZM=;
+	b=a0oy+wGgQ+9JKH6ZiNOQHSXnIFvY4dtvhp37Ebcu/QMVnltx+Xj2b71xS8jIgvZNlsJedL
+	3ux5DAZs7Yr8c7DA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3292A133F3;
+	Thu, 22 Oct 2026 09:19:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id sDBIAiLV2WqTXwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 22 Oct 2026 09:19:30 +0000
+Date: Thu, 22 Oct 2026 11:19:29 +0200
+Message-ID: <87v76uccta.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Cen Zhang <zzzccc427@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	jjzuming@gmail.com
+Subject: Re: [PATCH] ALSA: pcm: Drain proc writers before freeing preallocated buffers
+In-Reply-To: <CAFRLqsVe0JjW9VTbjBG9w00LFuQBxyK3CCjTnqaCXzcUPDCE4w@mail.gmail.com>
+References: <pm-pmb-2439c851f82c443c3600-v4-9e7df0ea42c36afe6171@gmail.com>
+	<87h5igix41.wl-tiwai@suse.de>
+	<CAFRLqsVe0JjW9VTbjBG9w00LFuQBxyK3CCjTnqaCXzcUPDCE4w@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -103,36 +115,168 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-References: <pm-pmb-4552c4e605507d8d9b16-v4-213af356c0046331c8ff@gmail.com> <874iegiru8.wl-tiwai@suse.de>
-In-Reply-To: <874iegiru8.wl-tiwai@suse.de>
-From: Cen Zhang <zzzccc427@gmail.com>
-Date: Thu, 22 Oct 2026 17:18:47 +0800
-X-Gm-Features: AclHuK9A7Bf99Ub6U9C075k5xOErMS_EvaFBGDDf-HrdtO4x3RNaLVCvCzQXATw
-Message-ID: <CAFRLqsW1Th+HRHgzwB49fQ7C3Ea79WHvgiG=EMGpb6kFRStmmg@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: opl3: Stop delayed note-offs before freeing the
- channel set
-To: Takashi Iwai <tiwai@suse.de>
-Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com, jjzuming@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-2022-JP
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,perex.cz,suse.com,vger.kernel.org,gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
+X-Spam-Score: -12.30
 
-Hi Takashi,
+On Thu, 22 Oct 2026 10:58:02 +0200,
+Cen Zhang wrote:
+> 
+> Hi Takashi,
+> 
+> Takashi Iwai <tiwai@suse.de> 于2026年10月20日周二 16:40写道：
+> >
+> > I believe a better fix is to handle the disconnection of procfs more
+> > properly.  The hda codec driver calls snd_device_disconnect() for each
+> > pcm, but in the PCM side, the procfs removal relies on the card level
+> > disconnection (snd_info_card_disconnect()).
+> >
+> > That is, something like below works instead?
+> >
+> >
+> > thanks,
+> >
+> > Takashi
+> >
+> > --- a/sound/core/pcm.c
+> > +++ b/sound/core/pcm.c
+> > @@ -1119,6 +1119,7 @@ static int snd_pcm_dev_disconnect(struct snd_device *device)
+> >         for (cidx = 0; cidx < 2; cidx++) {
+> >                 if (pcm->streams[cidx].dev)
+> >                         snd_unregister_device(pcm->streams[cidx].dev);
+> > +               snd_pcm_stream_proc_done(&pcm->streams[cidx]);
+> >                 free_chmap(&pcm->streams[cidx]);
+> >         }
+> >         return 0;
+> >
+> 
+> Sorry for the delayed reply ― something came up to me over the past
+> few days.
+> 
+> Thanks for the review. Handling the proc entries at PCM disconnect
+> looks like a better approach.But I noticed two possible issues with
+> adding the call here: proc removal can invoke a prealloc release
+> callback that takes open_mutex, which is already held; freeing the
+> subtree also leaves pstr->oss.proc_entry pointing to freed storage
+> until final unregister.
 
-Takashi Iwai <tiwai@suse.de> =E4=BA=8E2026=E5=B9=B410=E6=9C=8820=E6=97=A5=
-=E5=91=A8=E4=BA=8C 18:33=E5=86=99=E9=81=93=EF=BC=9A
->
-> Some issues have been reported by Sashiko.  Could you check them?
->   https://sashiko.dev/#/patchset/pm-pmb-4552c4e605507d8d9b16-v4-213af356c=
-0046331c8ff%40gmail.com
->
->
-> thanks,
->
-> Takashi
+Hm, basically we don't have to release the resources but just
+disconnect procfs (that guarantees that the pending callbacks are
+finished).  So how about something like below instead?
 
-Thanks. I'll check the Sashiko findings.
+> I'll follow your approach, but perform proc rundown outside open_mutex
+> and retain the entry objects until final cleanup. I'll also prevent subsequent
+> card registration from republishing the disconnected entries.
 
-Best regards,
-Cen Zhang
+But those are assumptions: the proc rundown must be after all pending
+stuff is gone and it shouldn't be called until the next registration.
+And, running re-registering before the complete release is already
+fundamentally broken, and that should be addressed instead.
+
+
+thanks,
+
+Takashi
+
+-- 8< --
+diff --git a/include/sound/info.h b/include/sound/info.h
+index adbc506860d6..4b08a32ff4fe 100644
+--- a/include/sound/info.h
++++ b/include/sound/info.h
+@@ -117,6 +117,7 @@ struct snd_info_entry *snd_info_create_module_entry(struct module *module,
+ struct snd_info_entry *snd_info_create_card_entry(struct snd_card *card,
+ 					     const char *name,
+ 					     struct snd_info_entry *parent);
++void snd_info_disconnect_entry(struct snd_info_entry *entry);
+ void snd_info_free_entry(struct snd_info_entry *entry);
+ 
+ int snd_info_card_create(struct snd_card *card);
+diff --git a/sound/core/info.c b/sound/core/info.c
+index c4d57d0809ad..bb9f564001ea 100644
+--- a/sound/core/info.c
++++ b/sound/core/info.c
+@@ -737,6 +737,15 @@ static void snd_info_clear_entries(struct snd_info_entry *entry)
+ 	entry->p = NULL;
+ }
+ 
++void snd_info_disconnect_entry(struct snd_info_entry *entry)
++{
++	if (entry && entry->p) {
++		proc_remove(entry->p);
++		guard(mutex)(&info_mutex);
++		snd_info_clear_entries(entry);
++	}
++}
++
+ /**
+  * snd_info_free_entry - release the info entry
+  * @entry: the info entry
+@@ -749,11 +758,7 @@ void snd_info_free_entry(struct snd_info_entry * entry)
+ 
+ 	if (!entry)
+ 		return;
+-	if (entry->p) {
+-		proc_remove(entry->p);
+-		guard(mutex)(&info_mutex);
+-		snd_info_clear_entries(entry);
+-	}
++	snd_info_disconnect_entry(entry);
+ 
+ 	/* free all children at first */
+ 	list_for_each_entry_safe(p, n, &entry->children, list)
+diff --git a/sound/core/pcm.c b/sound/core/pcm.c
+index 1e4e0ecb3dbd..58098ee894a1 100644
+--- a/sound/core/pcm.c
++++ b/sound/core/pcm.c
+@@ -520,6 +520,11 @@ static int snd_pcm_stream_proc_init(struct snd_pcm_str *pstr)
+ 	return 0;
+ }
+ 
++static void snd_pcm_stream_proc_disconnect(struct snd_pcm_str *pstr)
++{
++	snd_info_disconnect_entry(pstr->proc_root);
++}
++
+ static int snd_pcm_stream_proc_done(struct snd_pcm_str *pstr)
+ {
+ 	snd_info_free_entry(pstr->proc_root);
+@@ -580,6 +585,7 @@ static int snd_pcm_substream_proc_init(struct snd_pcm_substream *substream)
+ 
+ #else /* !CONFIG_SND_VERBOSE_PROCFS */
+ static inline int snd_pcm_stream_proc_init(struct snd_pcm_str *pstr) { return 0; }
++static inline void snd_pcm_stream_proc_disconnect(struct snd_pcm_str *pstr) { return 0; }
+ static inline int snd_pcm_stream_proc_done(struct snd_pcm_str *pstr) { return 0; }
+ static inline int snd_pcm_substream_proc_init(struct snd_pcm_substream *substream) { return 0; }
+ #endif /* CONFIG_SND_VERBOSE_PROCFS */
+@@ -1119,6 +1125,7 @@ static int snd_pcm_dev_disconnect(struct snd_device *device)
+ 	for (cidx = 0; cidx < 2; cidx++) {
+ 		if (pcm->streams[cidx].dev)
+ 			snd_unregister_device(pcm->streams[cidx].dev);
++		snd_pcm_stream_proc_disconnect(&pcm->streams[cidx]);
+ 		free_chmap(&pcm->streams[cidx]);
+ 	}
+ 	return 0;
