@@ -1,81 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792680796;
-	b=BWUdjZ/9SyN8Wt2o1oFEEkXkDlVLvFYB5zIr7Z/uHCInZY9ZAA1M4XoH1E/Gob+iw6x5
-	 k/FZYnUD6P5kW/rpFQBxtXXnJdb+8xXRWfpF0sM4kM+n/XOUT8mEq5+2xEYocdS+db1Fw
-	 GMg39yed0AwXE9diaoGL5dc3QnzAnlenzY3XyVzTMJCO1h8mlA9scoGyzlfH+i6uwZZbO
-	 y5ByM1+qy2FC7H1w4WDEiaVE5wBD9AWdhNSonpKvwyqjIYiGgyi/Yb7B6ztvS3QQ5lLAw
-	 K+58idgCQw2MNeILY9f5+ijtWrTptT+jjucFRUc6N2kTnDFvAkrRdbdTbcOWPDivgYw==
+	t=1792680793;
+	b=vuMJhC8zMes5VndO4Qza+lIUTY05jLPED0N6Em0qiZMwW2lRkDkp8zO9QDV4nQlHvDK+
+	 mnkZWVRVAXkthzRW4BqrZ2SXuI/qFj4oQ0Ug2s8yiM0G2IUYnwckenUfNOBKxADkmaLI/
+	 y81ok1XYQWqQpHFxck/EiyBf9vbHIEXp1CV2uDd2XJYbbynifEFBMx72onGk+6Rl0MSQD
+	 4c2CGcwJ9EZPP/MXEtdFqQcV3V67ic0Hj4VMJ6cmdUdTlNuYmiBPH77eO9VumotNTg/vl
+	 1r0XQpguK4TDylBQcV76HdlwCZOEHveGgV20xTv0JNzCeMutPutIY9PzsoZbJqTkDfA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792680796;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792680793;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=/yNVkqf3xuwySUyAz6gXRTIRjMa4L8eTvwqGMoDFidY=;
-	b=NlhOWUWElYrocfcSuYXIs8kXxcguFSghiu8D5cWIhQSKbtBm9q4LgETBvmCDdOSILZP7
-	 II6tKhNRf0lNE8jkZm0xQcd/BC880Qoj/b/heL3a8ZjaM4QFweaBW4CZw7Ppjtto6+Lcn
-	 SGWgYAgKZr0o6SYLzcvu0M5/QYKZ4KJ6eLR8qngCvDWrSSFdG/5q9v979pEFPMpDZRuAS
-	 kof76eqsjgzaYsFutnsvBuQH+9uU1A3G0CzlRSXJdeUHvnNSMCD78RWX+kAZyYWDNbu8I
-	 dvMGU48wwvR8RWM+KU7f/SGg2qsc3fXi+mkc+vJcMt4juTDkNnhBKuMiCl8DwJadUlw==
+	bh=H+sRkJkPW5hAtcM97zG9YoxAxPi8AjtEoexboPV7suE=;
+	b=T6vcXi+tG223TusIWfU2TMS07ruKWSLWxTZPebWl5ht/9vaWI6TKByoOBLuacHKcCexb
+	 VpxQX+utuGq6hGKuP6vmQ6AmQyzgfWw1JR2pqIX16PBn6KTSU+59eH8hhQxtit9rM3rfI
+	 RPYoEs4o29hx50C5grywdjqCwko1q33t3lV4HRRM/LPmT1QPhQXdsemwnQZpg5CNE/0LM
+	 B0r9Ex59MQ1IMZju8/Mn9qwIhoiVKVyXHd1WTAK+mewtw1Gv+++ZK79xVFlz0Cj5h8iby
+	 eYqzBrcND+q8KHcdOOyd6L8FSCD+wHYzqQ74clcx/9xqvk32uX5Ig0vrEhmxlxk6pCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=rUQH0zjC;
-	arc=none smtp.remote-ip=209.85.216.45
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TSWedaXK;
+	arc=none smtp.remote-ip=209.85.215.181
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37903606A321
-	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 14:53:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37903606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE29606A31A
+	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 14:53:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CE29606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=rUQH0zjC
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3ad41b47541so1594561a91.1
-        for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 07:53:16 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TSWedaXK
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-cd69954c755so1261490a12.3
+        for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 07:53:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792680795; x=1793285595; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792680792; x=1793285592; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=/yNVkqf3xuwySUyAz6gXRTIRjMa4L8eTvwqGMoDFidY=;
-        b=rUQH0zjCv4zb4xaQFQv7sWsT2TO25jiUvyQXd7+cAR/Hy+YLqB4+WWGyMilgU46fUC
-         WUi3GCJoLYqzs1ezDNAAZ50aFJ4dNMbUVPGLNNJZGB2fb2wERPe70uYbeTUbfMMs5Cun
-         ZG0n+/ytBiTe5T+86s/aqlQ2jLDHwnFCBSTAp2kEey/QsVWtLEwn6i6b8eKZ813GVjlh
-         Zk6A4C4cM6kBXzEyknywJx3eXDOP5CYKZh09ZnctJX1Qyjw/RpVWw0KBSuDlECxgAydn
-         jwuEPkpV3OXFyBl+JZR861h8umK9lD9Ps4rplzbS4s+F7H24VLqdqQ4q1/QQ2aLlE9ZH
-         B1lA==
+        bh=H+sRkJkPW5hAtcM97zG9YoxAxPi8AjtEoexboPV7suE=;
+        b=TSWedaXKutKkHOavcBM3WKuGdVEIpWzMWB5neUT0vVFR/Rdh3zw7enRL0r0YZyWMHj
+         ZUM9LEbGxyYvh+TKjv97CsChy9Y4PTi6lvUvGv1Dlf8zBAICKGSDheaDPsWABRya91c2
+         qXJMc0XgqS5DI59texTUsaUkSQ9Nbiqaid+OSmUZIOcEeEN5YF4iugDJx+RY5+kwmvsh
+         wV4odJbE8JseZX9emPbG+6eusNXXtVL/9GnjLvcx6BbpgI9DgJQdx+0OfGmakEx+AdZn
+         P+WMmwvhAF/82XtAc8e6sWG29d+QIt9YKmhHuI8hx0wYGSGEICD1MOkaWHU5cg+gMuHV
+         Mo+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792680795; x=1793285595;
+        d=1e100.net; s=20260707; t=1792680792; x=1793285592;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/yNVkqf3xuwySUyAz6gXRTIRjMa4L8eTvwqGMoDFidY=;
-        b=nBzWybd5CMM/HX44rOECo6/7uZn+NmRMq5EsKC1qs7QmYW2SmLUJtTI2gcGV1jIjdI
-         sdzluueEWusPUis5+abES5CFcnD/fPvs1CoDCJzjvq5bEFB6je+FSoY+Mgzfnwi4KGc0
-         EhKTd16FyqhCfmPoCYfvWRIZo9trhuBrkcb5BGtz0g+vrDksn4vL47oWa5mc7XqEW0AU
-         XPvKiQniko1H0TaF6ommtf+rKW7BadQnwm92sL9lVU7mYtMxpjCZOk+Xqd+0EFcJjpIw
-         jzGXHlBF0Nkcd7gfoW4ZKi9S8ScIngqpG2q+K26mTdkqA5tI2ZqRhYFadITEhMt09UfZ
-         Jh4g==
-X-Gm-Message-State: AFq9FYJD97sR2R8HqHsTrb7prR7AVP/8//De2KZu7m7Hfrlbs9zDfXFE
-	YIYnzjbxvA1w42EHCitxbrHOtrfGPUknKBY39SJaegovBcwK9rAPlajm
-X-Gm-Gg: AYBFou1RJMkZJPB5Qq7FGj6I+If1l/xuh7RvD0SgR/bQ/cM132okHqd5nw0Y/2xtb/a
-	COXezFnjD0H3huj9dkbZukNyy99VxTpOk0uFOVrOushkqCyhTJV8lp208XxMt1DD1k97B8Kkzqy
-	3hiOS6jgJvyJmFvAP63gsnWaBOSR80CNi3eiMdg4Rl2pqnxYk+foA8nLdmruhjiLxtfsh8fFC/t
-	OnP0APXKkAV89IaZW3ffX/QuQ66PvKwQHLsujCFl4QLsu7j/YVFVPYrf2eP1wVwr0sikp0RSCCi
-	FLJVNxxesPVHGE+S0OBZTNt/+/Y3VIdff3TAirjNnOKp4BEh+WuX4KgfA9vRqhxR1t3Uxh5Hqk0
-	gIWOkVLCwGI7j8XoVCAMRzcjHDTIGWYuCCZ0/gLjlCid1Rn4fWIL9lyIgmcyN7THaAfmD0lDCgt
-	56KHhGFcLXLz/djqIiNSc/J6YxYLiDCm5XsjujB4vxx5zHmTVCti22PQKt2MRN9lid5y83nROga
-	8SaBg3mfWCPTiI91pjU7cR9+PpujPL65yCUuwRD/G63EV+WXu4wUpHr13OLcayN1M0/G6qj
-X-Received: by 2002:a17:90b:2812:b0:3a8:59d3:5317 with SMTP id 98e67ed59e1d1-3ad86f5ee54mr4870361a91.32.1792680795485;
-        Thu, 22 Oct 2026 07:53:15 -0700 (PDT)
+        bh=H+sRkJkPW5hAtcM97zG9YoxAxPi8AjtEoexboPV7suE=;
+        b=aHZsSMM9AWh+sUEkLXOjUYQpswkoblQNPVDfB1Uh879vuSi8B8UauKizXCXHa0epIE
+         Zcs3SYX/QmKX9YHuGDZzICiWWwN2ioOqKzKrfwfBkdhbTFVjW6ky9OoD8s0R/WniG2oF
+         DfiwsUc/bvottQnYmrOxzvQ7t5fsq0lvdR0e4GpJG5m2gR9hL47T6zToraMkTkJRUhXa
+         5+yhReb0lyBB3Qz0MNZV2FM+r76Y8gRQNFsk5e2l1xSO4i7VmAGgKiREp7CuEBvfTZWK
+         D16m9PHuT2nObMzc6gsXBE/TUmRYzfZ/get+CrSBYArB13dyZY5a66JMSD8aebLEBMOK
+         yZeg==
+X-Gm-Message-State: AFq9FYKhwtCZdnkd+78B4XMhCyYjKxJ2xZPNu3XcfFBx/tq0e/aNPwp7
+	1UivMhNZUD9vsTbpCpMjMXl7JsfLRcgZARuxJu3S8/hntlUl1HioEi2G
+X-Gm-Gg: AYBFou3+3hU0zertD5f2njQ8rgKPCisa8Hic3CIWjg7N+uwr8ePlcwwvGg6Yv+bxSv4
+	eSBByrHoaF6PYKjVrnsY9Wln9u9OXe3zVMqknvgwS310UahIswoNaJztfAZH5x5iInxWB9UKoV+
+	Lx8DTvNcKt0/WvvxGVGCyq3XG50weY3/nnWRSsjtzxsxNwcF2HAilbUIPSN7OUWDjAO1bWE3uin
+	DC+gBytAHf1yWK1lg7eeALCfcfmRDv4lb+jc774AaRTLp5yjr5JaLMHcs3H9IyS4xu+5x2X4fho
+	kGUS3WpOrGS/ee4VOPvfzK8NbP0vORHuPdo0GDgFE3ybXAmiPAzTgODGLG2PSczMoIed1Wq0tPi
+	ghhfsdxPK/I9+HX2WjGnoXP/gbGbv9Js9P+//Ww/6o47tI682uDw6pLK/M2hkUzt3l75PMsXEsp
+	qWDqCNKFib3ZtOZSDq6BKGO20ogtjYsXjMuc6daDer/B+dK3+vTxPNt2CeaSbu1LsoHHKgRMWZk
+	R8Wm5u1bLWM1aYfjmSPsFfDE7KeR0dienHts5OFI4yWyxLsDj5v
+X-Received: by 2002:a17:90a:dfcb:b0:3ab:d45c:59da with SMTP id 98e67ed59e1d1-3ad86f717fcmr4333012a91.40.1792680791935;
+        Thu, 22 Oct 2026 07:53:11 -0700 (PDT)
 Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ada4887669sm4767829a91.2.2026.10.22.07.53.12
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ada4887669sm4767829a91.2.2026.10.22.07.53.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 07:53:15 -0700 (PDT)
+        Thu, 22 Oct 2026 07:53:11 -0700 (PDT)
 From: Cen Zhang <zzzccc427@gmail.com>
 To: perex@perex.cz,
 	tiwai@suse.com
@@ -85,9 +85,9 @@ Cc: linux-sound@vger.kernel.org,
 	baijiaju1990@gmail.com,
 	jjzuming@gmail.com,
 	zzzccc427@gmail.com
-Subject: [PATCH v2 3/3] ALSA: opl3: Shut down the timer after draining sequencer ports
-Date: Thu, 22 Oct 2026 22:52:55 +0800
-Message-Id: <pm-pmb-4552c4e605507d8d9b16-v6-f3fa18aca2c7d18be670-3@gmail.com>
+Subject: [PATCH v2 2/3] ALSA: opl3: Clear voice channels before freeing their sets
+Date: Thu, 22 Oct 2026 22:52:54 +0800
+Message-Id: <pm-pmb-4552c4e605507d8d9b16-v6-f3fa18aca2c7d18be670-2@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <pm-pmb-4552c4e605507d8d9b16-v6-f3fa18aca2c7d18be670-0@gmail.com>
 References: <pm-pmb-4552c4e605507d8d9b16-v6-f3fa18aca2c7d18be670-0@gmail.com>
@@ -102,54 +102,99 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The delayed-note timer is independent of the sequencer ports' use-locks
-and runs code in snd-opl3-synth. Deleting the client drains the event
-callbacks but does not cancel this timer. A direct fixed-duration NOTEON
-without a subscription can arm it without any unuse callback to stop it.
+The card-owned OPL3 voice array survives sequencer-driver unbind, but
+its chan pointers refer to the native or OSS port's channel set. Neither
+port's private_free callback clears those pointers before freeing its set.
 
-A shutdown in only the native port's private_free callback is too early
-to finish shared voice cleanup when the OSS port is enabled:
+A direct NOTEON in the initial SYNTH mode can leave a voice allocated
+without a subscription. Even with fix_dur zero and no timer, unbind and
+rebind followed by direct PITCHBEND can read the old channel:
 
-  Sequencer client deletion          In-flight OSS NOTEON
-  -------------------------          -------------------
-  drain native port
-    clear native voice aliases
-                                     snd_opl3_oss_event_input()
-                                       refill shared voice array
-  drain OSS port
-    clear voice aliases again
-    free OSS channel set
-  client deletion returns
+  Sequencer driver unbind/rebind      Direct PITCHBEND
+  -----------------------------      ----------------
+  snd_seq_delete_kernel_client()
+    port_free()
+      free channel set
+  snd_opl3_seq_probe()
+    allocate new channel set
+                                     snd_opl3_pitch_ctrl()
+                                       snd_opl3_update_pitch()
+                                         old voice->chan is non-NULL
+                                         snd_opl3_calc_pitch()
+                                           read freed channel
 
-The per-port voice cleanup prevents the timer from dereferencing a freed
-channel during that sequence, but a queued or running timer can still
-outlive client deletion and the sequencer driver itself.
+Clearing only note_off_check or the voice state does not protect this
+path: snd_opl3_update_pitch() tests the channel pointer itself.
 
-Shut the timer down synchronously after snd_seq_delete_kernel_client()
-has drained both ports. No event can then start it again, and shutdown
-waits for a callback already running and prevents callback self-rearming.
-Do this outside voice_lock and sys_timer_lock, which the callback takes.
-The probe initializes timer state before publishing ports on rebind.
+Clear channel pointers, delayed-note flags and voice state under
+voice_lock before each port frees its set. This also excludes a timer
+or pitch update already using a voice. Both private_free callbacks must
+do the cleanup because an in-flight OSS event can refill the shared
+voice array after the native port has been drained and freed. That event
+can only reference its own still-live set; the OSS callback's final
+cleanup retires that reference before freeing it as well.
 
 Assisted-by: LLM
 Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 ---
- sound/drivers/opl3/opl3_seq.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/drivers/opl3/opl3_oss.c   |  1 +
+ sound/drivers/opl3/opl3_seq.c   | 13 +++++++++++++
+ sound/drivers/opl3/opl3_voice.h |  1 +
+ 3 files changed, 15 insertions(+)
 
-diff --git a/sound/drivers/opl3/opl3_seq.c b/sound/drivers/opl3/opl3_seq.c
-index f711139c5067..6b343b73c66c 100644
---- a/sound/drivers/opl3/opl3_seq.c
-+++ b/sound/drivers/opl3/opl3_seq.c
-@@ -271,6 +271,8 @@ static void snd_opl3_seq_remove(struct snd_seq_device *dev)
- 		snd_seq_delete_kernel_client(opl3->seq_client);
- 		opl3->seq_client = -1;
- 	}
-+	/* Stop the shared timer after all event callbacks have been drained. */
-+	timer_shutdown_sync(&opl3->tlist);
+diff --git a/sound/drivers/opl3/opl3_oss.c b/sound/drivers/opl3/opl3_oss.c
+index 6d39b2b77b80..1f01d27955fe 100644
+--- a/sound/drivers/opl3/opl3_oss.c
++++ b/sound/drivers/opl3/opl3_oss.c
+@@ -41,6 +41,7 @@ static void snd_opl3_oss_free_port(void *private_data)
+ {
+ 	struct snd_opl3 *opl3 = private_data;
+ 
++	snd_opl3_clear_voices(opl3);
+ 	snd_midi_channel_free_set(opl3->oss_chset);
  }
  
- static struct snd_seq_driver opl3_seq_driver = {
+diff --git a/sound/drivers/opl3/opl3_seq.c b/sound/drivers/opl3/opl3_seq.c
+index 2bacefc3201d..f711139c5067 100644
+--- a/sound/drivers/opl3/opl3_seq.c
++++ b/sound/drivers/opl3/opl3_seq.c
+@@ -148,10 +148,23 @@ static int snd_opl3_synth_event_input(struct snd_seq_event * ev, int direct,
+ 
+ /* ------------------------------ */
+ 
++void snd_opl3_clear_voices(struct snd_opl3 *opl3)
++{
++	int i;
++
++	guard(spinlock_irqsave)(&opl3->voice_lock);
++	for (i = 0; i < MAX_OPL3_VOICES; i++) {
++		opl3->voices[i].chan = NULL;
++		opl3->voices[i].note_off_check = 0;
++		opl3->voices[i].state = SNDRV_OPL3_ST_OFF;
++	}
++}
++
+ static void snd_opl3_synth_free_port(void *private_data)
+ {
+ 	struct snd_opl3 *opl3 = private_data;
+ 
++	snd_opl3_clear_voices(opl3);
+ 	snd_midi_channel_free_set(opl3->chset);
+ }
+ 
+diff --git a/sound/drivers/opl3/opl3_voice.h b/sound/drivers/opl3/opl3_voice.h
+index be9ccca2d952..aa81512d23c9 100644
+--- a/sound/drivers/opl3/opl3_voice.h
++++ b/sound/drivers/opl3/opl3_voice.h
+@@ -13,6 +13,7 @@ int snd_opl3_synth_use_inc(struct snd_opl3 * opl3);
+ void snd_opl3_synth_use_dec(struct snd_opl3 * opl3);
+ int snd_opl3_synth_setup(struct snd_opl3 * opl3);
+ void snd_opl3_synth_cleanup(struct snd_opl3 * opl3);
++void snd_opl3_clear_voices(struct snd_opl3 *opl3);
+ 
+ /* Prototypes for opl3_midi.c */
+ void snd_opl3_note_on(void *p, int note, int vel, struct snd_midi_channel *chan);
 -- 
 2.43.0
+
 
