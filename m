@@ -1,86 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792701002;
-	b=TxUixZd9T2bZBw30HTdEeD5OQIZB1izSZz5ZdjSzB37yC68vqd5EjM3RR8W4SUKZokoQ
-	 Rw8/1epklD1APn7FtCEt1ejy/C6ovLObgRw/fEL3+2Z4U5CV5/zUdSkPlD6LrcK8hYzOI
-	 HiXGUWrEA6BeKAM0XfXqrExDam9XaS/Id31q8ZU2LKI48gsf7fOMo+mZZdnPdwV88nht2
-	 y6WpGJkXMBWrmGN2L1Y+NEB3ndlTyHSrdWEieQ2TKqdQjZfxvkKVcauxvhdMh2EF2rSZ8
-	 MT8HIsGfsp2dfan2oKvrgdm5yg6ey8C58b+i9F+7yJ9GHOVh0vg85Sd6UYYb6H8bpjg==
+	t=1792701003;
+	b=POE3LwuW0PQLXnnCEhmhXN47eO2fRC4COQQGFfHTB9tKJuIgqQ7MI+iAjsbm0G//gkwA
+	 91cyo9Kdtm5HUClbbH8MnUnHonQh27czrGpFERSDnNQzZn4w0RN/7U81q6ajTUqDN3oJC
+	 9C7KzIClkBGDKIxiS85wlArbbP2R+Bx7cL7YkmKqbZT3itJNVd+03zckSafvcqqSGuQ9L
+	 kgBpheKtX7PxfzIJGBtM9AglFeTv6fMb8U1fQeeb7wn01It2eofTXwpiSZCmJTGDlmayE
+	 5+2U8YjVegWNW5z/hRKhC28FyNlCm6wZ0f0MGqZlkyQE8BiQCwqGNjYWYoT/Uyj/GeA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792701002;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792701003;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer;
-	bh=9m6U6FCewpEgkrUQUvdl0y638q9yNRaNYDW2cwWh+ao=;
-	b=rAXhlHTEwwrSyPzl3zFZzj+VimaRmc1XiIvPpIf8EulqDIPy2Z/RMuTHJuxOb/1KKKJc
-	 WRoYfn14rU0dAvjmUcgJumHPDx+KO42k3/RVaHv2GukGf9u454XG9u/kkfzF8X5xIibsy
-	 WNdlHXhFQbzhGcIG9YwvXlKXdBN8m9rJ8Q8PUFGW69QnYphTQc0OrP/mUz++P+EqZ5kcb
-	 CR0n6mLj3oWaCe2VJPwxCtQlShp7ZBBDwFR022vYO/UQlOPov49ef2gaMwNOCllNKcLo4
-	 W2Z36o6bGydDRgVlgZSZhpi1QMl/OSv4JniGDvCWykyApkBQhsDNda3NWisiWFczGCA==
+	bh=RhZYwAvAgAkKH/b6lApqxbYEpk+yOAgCSo7pvbrCu30=;
+	b=Ak8FgbYP75uPBcuWT46UyjKOKN/IN1ZkWfe2TardwdXKkd/1FbgwJZheZsCQ1APzAm8u
+	 WcbjfwxDYXpS2c1GEQxCJIOFdMnWWG27S4C3Ss2jkHKoWFKFyEWcVHBm1G9lS/v8Z+S3H
+	 6DREWj85Kfx8v7hdVU7Qilu9f6AcXC9C9mi0ErwQP/iWGgb8F/dzqnL77rG14HbZ+J5zU
+	 jweJim0Hp6FLsW/RbSO1Xf0oS6Ew0ZFeJDjt1YJeePnoOAM1FD7l793vA6ZJ291d0Bq+c
+	 GrEEb95xetnsVBrjNdB7aMhUF3CNb2IK9dUDGC1CoMKzl4lKQwWY3wEPyWUzpGYVYiA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=l86GyNWW;
-	arc=none smtp.remote-ip=74.125.82.43
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=UpC6z3Yg;
+	arc=none smtp.remote-ip=74.125.82.176
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41F2606A327
-	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 20:30:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C41F2606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DDF360A2604
+	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 20:30:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2DDF360A2604
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=l86GyNWW
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-156cbe59622so170528c88.0
-        for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 13:30:01 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=UpC6z3Yg
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-3645f0f3fcdso385857eec.0
+        for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 13:30:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792701001; x=1793305801; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792701002; x=1793305802; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=9m6U6FCewpEgkrUQUvdl0y638q9yNRaNYDW2cwWh+ao=;
-        b=l86GyNWWvAb76G1KEwz7zh6uMiBzKJT8wVpGUcsqOsQV7DPQFjjA0gfit1z90ztBIP
-         tm/v5XCz7dpx+8AFwUJwdOmI6NSVLahYVihbgKcJwGK/OLKq+6uOVILOBW8Nyyv9EQJ/
-         IxqvBVIWCWh6fGZKQmAj7BQ8Uqk4HrNQPSz3z54Gjuh64dDVk4+vlrO0V9u6IkVf1i+x
-         Rbji7E/+0WKSqu+xhfPiGNjMxjI8uUq2fV3msU9eUlHiOVz4oD80DhCPm+vYRziGLgX5
-         37QmJmeAq/m/5wPqukx2R34Vpxr0cV5G7i39gD8KGnIU7FAJL4KfpuY/1IYlockp7rly
-         nPcg==
+        bh=RhZYwAvAgAkKH/b6lApqxbYEpk+yOAgCSo7pvbrCu30=;
+        b=UpC6z3YgoFOp+e9UwyTUdWVzTO3KVRF6+aoI5mDP5mAk8QvN0MDrCfReNgke8yzN1X
+         /ryB9pG9Ww14dsp5cXojQQnip+PAON29ABfumIkpQhQJEHEgnLoU1mQXhRsKoJ0NfOwv
+         H0gS+G9LCnCDh2v3CTv2etn0uCX7nGDtEysgJrkOli1iw10N4wNJ/7y0zaAhE0Z0YPW1
+         DbIpRe5CrGrIjz3kmH4sY8LMxQr/QVImqYc58JS62pu3rfAAZTKszIxJAt6Tz4Xc5qFt
+         vqyubXGNLBCtjwI6hesqjlFq+nZWfNi/cwZMn+CrlxAi9bYCAIAV6t/Msc3y30y5VUAl
+         jK9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792701001; x=1793305801;
+        d=1e100.net; s=20260707; t=1792701002; x=1793305802;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=9m6U6FCewpEgkrUQUvdl0y638q9yNRaNYDW2cwWh+ao=;
-        b=PAZcZXBwq+dMrc5w71gSkdpD4M4Y2BNLl0pCcYsz9hAByvs4jCTiuM1haGO9R4pVF/
-         yVbM7vHRNQ9KVFqqKX0I8MXEVlw3wdcObfNSlDJ1o47RaiVpLdF2C60+y+Z4aCiq0f4m
-         dycslkgtTnzkmmcu2X7W0+HwvYwC+84+LDjVZ+nU/dP9A7qJm3xY2W1yDHxYKDPdR/Ou
-         +exED5ycr1c4ohuGbUs8bpBwnQnD7o3QkUiaa2Thmj4JUdjCcSi/WqW43Xaf+2wQrtmq
-         t7/HRr4PFCOwY2+abdzGewYNFxR3enJx7GWO54UtRDr/rJxvpjjS+ytSu4oTNENd67gH
-         H+uA==
-X-Gm-Message-State: AFq9FYKyKa6MOU8+qnmB51DvQyFnge3uaFU2VjoxQZlKjwccJmWyAkPs
-	cR/tfhH64y9rq0mWw/pMIswNUM5Z/NxBFDdlD3jm6IFgC0I5HmAh0VHBuWpuhg==
-X-Gm-Gg: AYBFou3QbFwILZ/Vip90CfXyo4gvSa5JSM9/nR1yvYn4iCKXh8NumlIoqFyzCfeX+xj
-	eoM38ZxP+OIqyFMw+10+PbH5aj827rBTLD+ayKZ8GPa30kLIwothQfSG+dZUDl5P2piOH0vXOuH
-	EeWqA1PpiRc2IaLsHJyAP8wppYieVwZkl5iNrKfmSWTdx+En+/0TtJr9m8+k7cAOhFoJr+c1Lpp
-	hD08TjT0mlQXX4hg++2yPA/IBnHiN/PWnrwRyGrV/5q70mrrgerKJcuclJTii47riZhGzhjhlj+
-	DqSbjs3TsrKEY5BsanhuZUH1Pb08BU4Mbn39XBheQhgNpNp5stQ/vXQ1CrJLuQz5E78Ee19hlE3
-	sp/neJ1LsUolOsOSLgX+aj6+asnOWSw/NmBWOEc2XZ6BKJgLFLWM6G08QIEF+idxz3W0PJlwr20
-	8QN7XukG9uAUUkeAcxNevE2hBqB6d2N1WXYRC3XEsssJuPzYsjDqwyfvCtlXs+GtH6ReQIoLu6j
-	TeTYmql1+mlnM7YjgcfMIKSQHOg7kJLkKgyQ/QQOI/JOOAsvr33algnnUADuGLHvMusLXCF2ucS
-	kdUkIy6KsywdLslye5DVL0Dh9MCNsv0NHQ+7vzQITQJh
-X-Received: by 2002:a05:7022:f118:b0:15d:fb47:4268 with SMTP id a92af1059eb24-19598c74894mr521726c88.21.1792701000725;
-        Thu, 22 Oct 2026 13:30:00 -0700 (PDT)
+        bh=RhZYwAvAgAkKH/b6lApqxbYEpk+yOAgCSo7pvbrCu30=;
+        b=O/y+8Dwq47x9YZwMCLLqBYflVhlulj8pTgjuSfclSEwf7JvnKPAkCw3+spddUe7G0l
+         f6NB6FoyjUgobZlc5F84waljyAlhLUWugoHHNckU2Cp6IaIvnMWr+kifbn8Hy1GlXd0V
+         adYoNy+dJflDo7jC1W2KEJmWipaJmpAueoxPhcIlQLCSpmMOComhPwUL4X01M1sa4Xkd
+         D5wz3KV0UjFJLB7AnqItz2Oj57g2lbxWY1cbbQ5luVyqWirxu0V+mHKL4Plpd/QvX5ho
+         XgXXsOVyC7FB6p1RvEOMtSLsuRWkRZKoDDuiD9eVoiE8UKtHv666KTtOVw9dGf87ht86
+         LLoQ==
+X-Gm-Message-State: AFq9FYI+QfWcOTJHWRGthJsqjV4KtDuSPaVnOetCWxYH+3XFfGdoSvUM
+	c+7z54t3WlFNIjibT86nZtfDoLfBIMmaPU9+F2ZCwNG9U+8GdarpcpWp
+X-Gm-Gg: AYBFou0Xy35Rg1JsSk7Kk2pUPIrof+LUktOwmGWX8KP3nxTFuIfu5kbeLsGOTBzJbXG
+	OrVZXv0OPnuFoujdORdtmU2GfxkkgBAkgl+jWo0Wykgy8M2XE8tGU0ioycY/e9tUlmrRXClHFae
+	gd10l9QkJIVUxJylKN5tDP7FghJRIquNES018V9dqkluPJeX+e6htEZ2zgiu0FNoB/uvIBzlOFi
+	a2FIpST0EAKUpRJYm/RoNyUu4jPMD73TOWUyuogD0pyXBwwkvPvgKM4DcSbV8qok3X6xPQroHZf
+	Ot2haIClRGy1NI4johU7PGH7xfzvDOQYen3gIg3OqKRfq0yq4svRJOJMhL1nmy1Ftcutg6mrZKf
+	U9Lm2uaSoIOX0FkDYvI10NzdMDtRouBVt/8IO800KZZNKHlqzFSpcwyAccfag30Fj2E8fB5mauc
+	KonC7xWqfRoiT12VQtip+CPpan78tbJGK48e5GOhVfw7KecAeMD+KFT2ZEr90Sjm4qkIMnLHgLh
+	aLLQxsWQxKhFXieGrOIRqUbUeZ24+uQZ24DnkcMRf3W2MYCqVPUHajoEfSOC6lAlw87f8Ob3CWQ
+	TNYWuGvb2kJp3HIn3kEyHneFLSNZOf5/x5liuAnw6CBW
+X-Received: by 2002:a05:7301:700b:b0:368:40c6:3a01 with SMTP id 5a478bee46e88-369d90e363bmr310924eec.2.1792701002252;
+        Thu, 22 Oct 2026 13:30:02 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:f2d1:b7cb:a745:829f])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369d9db6865sm283894eec.17.2026.10.22.13.29.59
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369d9db6865sm283894eec.17.2026.10.22.13.30.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 13:30:00 -0700 (PDT)
+        Thu, 22 Oct 2026 13:30:01 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date: Thu, 22 Oct 2026 13:29:46 -0700
-Subject: [PATCH 1/2] ASoC: codecs: twl4030: fix external mute GPIO lookup
+Date: Thu, 22 Oct 2026 13:29:47 -0700
+Subject: [PATCH 2/2] dt-bindings: mfd: twl4030-audio: document preferred
+ name for external mute
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -92,7 +93,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261022-twl4030-extmute-v1-1-3d2dbe260df9@gmail.com>
+Message-Id: <20261022-twl4030-extmute-v1-2-3d2dbe260df9@gmail.com>
 References: <20261022-twl4030-extmute-v1-0-3d2dbe260df9@gmail.com>
 In-Reply-To: <20261022-twl4030-extmute-v1-0-3d2dbe260df9@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -105,179 +106,42 @@ Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org
 X-Mailer: b4 0.17-dev-e56a4
 
-The twl4030-codec platform device instantiated by the twl4030-audio MFD
-core does not have its own of_node or fwnode assigned; its device tree
-properties reside in the "codec" child node of the parent MFD device
-node.
+Proper names for GPIOs should use "-gpios" suffix. Now that the
+twl4030 codec driver has been converted to use GPIO descriptors in
+commit 178c169a30b0 ("ASoC: codec: twl4030: Convert to GPIO
+descriptors"), update the binding documentation to list
+"ti,hs_extmute-gpios" as the preferred property name and mark
+"ti,hs_extmute_gpio" as deprecated.
 
-Because of this, devm_gpiod_get_optional() called on the codec device
-never locates the external mute GPIO. Furthermore, previous board param
-handling only marked external mute active when the legacy
-"ti,hs_extmute_gpio" property was present, ignoring the standard
-"ti,hs_extmute-gpios" property when "ti,hs_extmute" was absent, and set
-hs_extmute even if GPIO acquisition subsequently failed.
-
-Switch to fwnode APIs to parse board properties directly inside
-twl4030_get_board_params(), fold the helper function into it, and
-acquire the GPIO descriptor directly from the "codec" child firmware
-node using devm_fwnode_gpiod_get_optional() with the "ti,hs_extmute"
-connection ID, removing the redundant legacy property check.
-
-Fixes: 178c169a30b0 ("ASoC: codec: twl4030: Convert to GPIO descriptors")
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- sound/soc/codecs/twl4030.c | 108 +++++++++++++++++++++++----------------------
- 1 file changed, 55 insertions(+), 53 deletions(-)
+ Documentation/devicetree/bindings/sound/ti,twl4030-audio.yaml | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/twl4030.c b/sound/soc/codecs/twl4030.c
-index 7117af5a1a56..9541c8a5a24e 100644
---- a/sound/soc/codecs/twl4030.c
-+++ b/sound/soc/codecs/twl4030.c
-@@ -6,6 +6,7 @@
-  */
+diff --git a/Documentation/devicetree/bindings/sound/ti,twl4030-audio.yaml b/Documentation/devicetree/bindings/sound/ti,twl4030-audio.yaml
+index c9c3f7513ad4..1d41f582261d 100644
+--- a/Documentation/devicetree/bindings/sound/ti,twl4030-audio.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,twl4030-audio.yaml
+@@ -39,12 +39,18 @@ properties:
+         description:
+           Enable the use of an external mute for headset pop reduction.
  
- #include <linux/delay.h>
-+#include <linux/err.h>
- #include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/init.h>
-@@ -13,9 +14,9 @@
- #include <linux/mfd/twl4030-audio.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
--#include <linux/of.h>
- #include <linux/pm.h>
- #include <linux/platform_device.h>
-+#include <linux/property.h>
- #include <linux/slab.h>
- #include <sound/core.h>
- #include <sound/initval.h>
-@@ -198,41 +199,53 @@ static void twl4030_codec_enable(struct snd_soc_component *component, int enable
- 	udelay(10);
- }
+-      ti,hs_extmute_gpio:
++      ti,hs_extmute-gpios:
+         $ref: /schemas/types.yaml#/definitions/phandle-array
+         description:
+           The GPIO specifier for the external mute control.
+         maxItems: 1
  
--static void
--twl4030_get_board_param_values(struct twl4030_board_params *board_params,
--			       struct device_node *node)
-+static struct twl4030_board_params *twl4030_get_board_params(struct device *dev)
- {
--	of_property_read_u32(node, "ti,digimic_delay", &board_params->digimic_delay);
--	of_property_read_u32(node, "ti,ramp_delay_value", &board_params->ramp_delay_value);
--	of_property_read_u32(node, "ti,offset_cncl_path", &board_params->offset_cncl_path);
--	board_params->hs_extmute = of_property_read_bool(node, "ti,hs_extmute");
-+	struct twl4030_board_params *params;
-+	int error;
- 
--	if (of_property_present(node, "ti,hs_extmute_gpio"))
--		board_params->hs_extmute = 1;
--}
-+	struct fwnode_handle *codec_node __free(fwnode_handle) =
-+		device_get_named_child_node(dev->parent, "codec");
-+	if (!codec_node)
-+		return NULL;
- 
--static struct twl4030_board_params*
--twl4030_get_board_params(struct device *dev)
--{
--	struct twl4030_board_params *board_params = NULL;
--	struct device_node *twl4030_codec_node = NULL;
--
--	twl4030_codec_node = of_get_child_by_name(dev->parent->of_node,
--						  "codec");
--
--	if (twl4030_codec_node) {
--		board_params = devm_kzalloc(dev,
--					    sizeof(struct twl4030_board_params),
--					    GFP_KERNEL);
--		if (!board_params) {
--			of_node_put(twl4030_codec_node);
--			return ERR_PTR(-ENOMEM);
--		}
--		twl4030_get_board_param_values(board_params, twl4030_codec_node);
--		of_node_put(twl4030_codec_node);
-+	params = devm_kzalloc(dev, sizeof(*params), GFP_KERNEL);
-+	if (!params)
-+		return ERR_PTR(-ENOMEM);
++      ti,hs_extmute_gpio:
++        $ref: /schemas/types.yaml#/definitions/phandle-array
++        description:
++          Deprecated legacy name for ti,hs_extmute-gpios.
++        maxItems: 1
 +
-+	fwnode_property_read_u32(codec_node, "ti,digimic_delay",
-+				 &params->digimic_delay);
-+	fwnode_property_read_u32(codec_node, "ti,ramp_delay_value",
-+				 &params->ramp_delay_value);
-+	fwnode_property_read_u32(codec_node, "ti,offset_cncl_path",
-+				 &params->offset_cncl_path);
-+
-+	/*
-+	 * Headset external mute can be controlled either via TWL4030's
-+	 * dedicated GPIO6/EXTMUTE pin (enabled by the boolean "ti,hs_extmute"
-+	 * property) or via a separate GPIO line ("ti,hs_extmute-gpios" or
-+	 * legacy "ti,hs_extmute_gpio"), which implies external mute is active.
-+	 */
-+	params->hs_extmute = fwnode_property_read_bool(codec_node, "ti,hs_extmute");
-+
-+	/*
-+	 * This will attempt to parse "ti,hs_extmute-gpios" or
-+	 * "ti,hs_extmute_gpio".
-+	 */
-+	params->hs_extmute_gpio = devm_fwnode_gpiod_get_optional(dev, codec_node,
-+								 "ti,hs_extmute",
-+								 GPIOD_OUT_LOW,
-+								 "hs_extmute");
-+	error = PTR_ERR_OR_ZERO(params->hs_extmute_gpio);
-+	if (error) {
-+		dev_err_probe(dev, error, "Failed to get hs_extmute GPIO\n");
-+		return ERR_PTR(error);
- 	}
- 
--	return board_params;
-+	if (params->hs_extmute_gpio)
-+		params->hs_extmute = 1;
-+
-+	return params;
- }
- 
- static int twl4030_get_hw_params(struct device *dev,
-@@ -244,30 +257,19 @@ static int twl4030_get_hw_params(struct device *dev,
- 	if (IS_ERR(board_params))
- 		return PTR_ERR(board_params);
- 
--	if (board_params && board_params->hs_extmute) {
--		board_params->hs_extmute_gpio = devm_gpiod_get_optional(dev,
--									"ti,hs_extmute",
--									GPIOD_OUT_LOW);
--		if (IS_ERR(board_params->hs_extmute_gpio))
--			return dev_err_probe(dev,
--					     PTR_ERR(board_params->hs_extmute_gpio),
--					     "Failed to get hs_extmute GPIO\n");
--
--		if (board_params->hs_extmute_gpio) {
--			gpiod_set_consumer_name(board_params->hs_extmute_gpio, "hs_extmute");
--		} else {
--			u8 pin_mux;
-+	if (board_params && board_params->hs_extmute &&
-+	    !board_params->hs_extmute_gpio) {
-+		u8 pin_mux;
- 
--			dev_info(dev, "use TWL4030 GPIO6\n");
-+		dev_info(dev, "use TWL4030 GPIO6\n");
- 
--			/* Set TWL4030 GPIO6 as EXTMUTE signal */
--			twl_i2c_read_u8(TWL4030_MODULE_INTBR, &pin_mux,
--					TWL4030_PMBR1_REG);
--			pin_mux &= ~TWL4030_GPIO6_PWM0_MUTE(0x03);
--			pin_mux |= TWL4030_GPIO6_PWM0_MUTE(0x02);
--			twl_i2c_write_u8(TWL4030_MODULE_INTBR, pin_mux,
--					 TWL4030_PMBR1_REG);
--		}
-+		/* Set TWL4030 GPIO6 as EXTMUTE signal */
-+		twl_i2c_read_u8(TWL4030_MODULE_INTBR, &pin_mux,
-+				TWL4030_PMBR1_REG);
-+		pin_mux &= ~TWL4030_GPIO6_PWM0_MUTE(0x03);
-+		pin_mux |= TWL4030_GPIO6_PWM0_MUTE(0x02);
-+		twl_i2c_write_u8(TWL4030_MODULE_INTBR, pin_mux,
-+				 TWL4030_PMBR1_REG);
- 	}
- 
- 	twl4030->board_params = board_params;
+       ti,offset_cncl_path:
+         $ref: /schemas/types.yaml#/definitions/uint32
+         description:
 
 -- 
 2.56.0.257.gf7497c7d27-goog
