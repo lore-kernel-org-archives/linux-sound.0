@@ -1,85 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792665482;
-	b=Vq61KUD2MIMn+P+MJvWNuRWLSRpFDwskwitbBxcYZcmIKdDvUrixqHxisa3OBCaNI1Bo
-	 vvMNcw74zqMRvCOEqhCdZVKfZlLjqIDqI68fh70MGWZyVkw9yySt2yuVvmBFN5dZQzVXx
-	 7uK7F2Y41MVvWW4jG/MAentaaaEzC6spFtFBh8ZEv+nELtZvr8XXb1yNAbJJVps4Fyu3D
-	 e7gdvDjC3JajxNzyGRm0fhL8/yHYxRZp/1EIX7jexHMbgc8m1tOq6oXnbjAIWMlU+nbRo
-	 qkn1l5/U6JTVEnI1U3zA6ZhZKACQE3TAhZwCuIzYaBa5OgMHV1CJSl5STRy3sz64DrA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792665482;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:
-	 X-Proofpoint-Reinject:X-QCInternal:X-QCInternal:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=QMYP8ijA1WpgdLtyfabSG4b/YDwMHHYnoLHhmHn5e5c=;
-	b=IwrShHCwjdBptShNs6N+Q5HcbnrBngLzs7juhmaBdqKBDtbBvxUFOXzpFXmFhhl56Cpb
-	 mYQ4/KVDPzXLa2OB0uppFnqcw8EL9G9+JNrp3Ldu6DmQIOeW58Anm5cp5L44MdI+1phtF
-	 oZNkmTSD5/lXcl6I2GmthVbfANUrrP2imTFIzdK7wf0odEP0XgV3MmcYmULG15J3fkUbC
-	 hT0ZBoi8p/u2yBo4TnNOKNcC+V+JqvM95a1ePEZRcn9/MqU1VaZcdj0a6AfUMzNcBCdtG
-	 epm/E9n218ECvP9EWG+qAh/O1YhRbFONEgS4sY/KUi0thWuiKiUSjF5K+t3Ikj2PD3A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=gVsmUhpH;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.175
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792666609;
+	b=WzQjzHwnMEEhor2yIissYzheoom4CRLXA/ooiITkRgEkIZnYKwNluC6YRG8zinFyaf49
+	 5Dw9etMTsR2LMdCs3gBk8BldIh25iDlTNkyfjhBgwPKXJJw2wIR9d3s7XMEI4y9MWyvrN
+	 J+gUHUA0hfmUU99SjsYhcb+IfztRQXyXsjBXGU+51Vr2fg6oM8bDnE+GuMkDZZ9r267yJ
+	 pi4/24xO/EbNDPgsOShQNGIkkeo1WRZQHicoZVux3PiKkPF7eMoYXpDUr1TKYC01U10fe
+	 UqVQT3WuoShCc5swkNihBVAEUBMMQqMR7+NksAZTcQGTSpByfMQuDvb2drLnew2mQJg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792666609;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=Z7CjQzBDnl04aWONNGlhTdVtRpqeXhaqo6cL0x3Dgio=;
+	b=Urm+xr8dNX58ZmMrqNrnRa/i2pvspu/3UhSkkQkHTvKlGTXmezeSWo4ZznwASlPZAma5
+	 Fo73gTGEvOmpbz/0gO5BWbNU+R4dgVHPn+LNTG7p8ns1HyUKPO4zsS8Ni+wMPdu1OV24g
+	 4TqF4GjTS837xsyQ7dDIAshDV74oeFgyEN8WSwf6nGswKkNpd+WTzWRe3PMd6mMhv2hzO
+	 8XbmkydvTo77MN9bl1nn36eAkcIaCDss4ELyE5rPaB2rqR3HS67Xk+ajbDmWoDpdTuIkQ
+	 vfDQrBpLpAdB21sDyD7oxee6ozdG6H8B9F2TaDZsXLq54YYEoNNtjitA6xJAaCYYweg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ADK6qMqY;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.175
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512E9606A319;
-	Thu, 22 Oct 2026 10:38:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 512E9606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A9C606A31B
+	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 10:56:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70A9C606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=gVsmUhpH
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69MA052w3427058;
-	Thu, 22 Oct 2026 10:37:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=QMYP8ijA1Wp
-	gdLtyfabSG4b/YDwMHHYnoLHhmHn5e5c=; b=gVsmUhpH7B2B/l4uXwDLZSWnA3n
-	Yr1lzR9Myitx5ULPo0nL6DmtFieEMO8Ka+p8HLE040lytlvO9nbNtCRN6Hx41ULn
-	SQgSKta1EhcGtyGGaSqJrSzdy68HOHGOmBnW4aTrnqeyr9GXcrc0+JYCtFRli7gZ
-	eTUxvRtO9nrsgQx0U0WapjqNCWLdjPIu7Vc2XlSLwOqUOH3Mx1H8lyM8rSPxaQDs
-	Y98soacGpD/UFj7Sz7W89zZa2DRS0FiMRKoXvTr9Qh29gt9AY3syY6dWpgfFgA3y
-	VTY9oJcUXXRA0wva1xHM2hgjH7w3FuiCAomAdPODGIqab1iZFzaYEg0dpZw==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hfewq0shy-8
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 22 Oct 2026 10:37:52 +0000 (GMT)
-Received: from pps.filterd (apblrppmta01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 69M7gOqq1894732;
-	Thu, 22 Oct 2026 07:42:26 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-ks5-hyd.qualcomm.com [10.147.255.18])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 69M7gQLv1894759
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 22 Oct 2026 07:42:26 +0000 (GMT)
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4763723)
-	id 9F5CF67F; Thu, 22 Oct 2026 13:12:25 +0530 (+0530)
-From: Karthik S <karthik.s@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Karthik S <karthik.s@oss.qualcomm.com>
-Subject: [PATCH v1 3/5] ASoC: qcom: q6apm-dai: Add 32-bit sample format support
-Date: Thu, 22 Oct 2026 13:12:18 +0530
-Message-Id: <20261022074220.989787-4-karthik.s@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261022074220.989787-1-karthik.s@oss.qualcomm.com>
-References: <20261022074220.989787-1-karthik.s@oss.qualcomm.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ADK6qMqY
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-8a83d2706fdso13991397b3.0
+        for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 03:56:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792666608; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Im8WQFXlsmevmuddog6ufZclsQqIDITJ65huz+9XWYDCWEcUx0ttdZDH/ppQ+Vvdmx
+         i8OGD59DonY4uEq4z2Eg6ZFwmwIwKMDK6bmyQm35YRM1ImrGsSyPi/rdD6lG4XPgTSEp
+         xLPXu3N9Z+a5nTdp/768PuvJgIx3hH8DDQWFGHIcPQ3uyta5wX6PsrSgArzMOer93aRw
+         I6OTjJNygFuBnX6hIiwRHfzp1fvXY4se9mFFFodmzOM+UAEboqnAZn5TdWK0L3QgaOQb
+         OjQcbui82t/SKUmj4uzFEQMIdEcyHZysk/Gm4nFvzaICccMgn2uVFAVd3yDarjjgz0Z2
+         2x9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Z7CjQzBDnl04aWONNGlhTdVtRpqeXhaqo6cL0x3Dgio=;
+        fh=OzNdfytIosmyyNaMyVucOioohbgWqn0vHPJFMHJymfM=;
+        b=Bqgxr78D/icyN/HIUKFDvjgt5AhtZyrC6S/WJRwxuA7Zrf06hDW5o/980jq5/ObNHh
+         ou54jqQnCAB7p/wBvChDJXNZh9D8e996DAZM/3flDTvqUCTcYVS//Md01cdBoKvQ3VqH
+         vhUDjhRc9y7FuRT4lukzybzxeHYst/Bs1xYySO41o63s3Xi+/roOYuOXyEmjNgSrxblo
+         krk8TY7pyfaWXSvCY4tA8elgHtYNsslBgEdYLZLfJ4NqZXldri8rnYjyEiHAK7KRWgKx
+         pXduEDiE6aJE06k65uY8Tk7u91vbff6QMXfp/4ku1t+I1b2vfy2WwjCX6UWlQkyfUkG0
+         g9dA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792666608; x=1793271408; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Z7CjQzBDnl04aWONNGlhTdVtRpqeXhaqo6cL0x3Dgio=;
+        b=ADK6qMqYfj++BYLCYDjZA0g4iUJRd635oOl+MQs616Hil5i2EvY0xspGPy+xBELhWL
+         c1IE2JqSa+Y0ujrhJsSskK7WukOvBCZZ0jDGv82wfGzKEydabW9NgmH9mjRF17VdY4es
+         +Jwdg9b3HhnWhxY5BVx65BvQ+9EKPlp27Q0rzmBCCTpe+L8a7eVBIrsHCZ8vLRtmvFmb
+         uTdHwV94NpWpDO0tCJLJTiOSjm+Gc2vzj0EmVQKGpQ3gFAbfF8BHymlMYT/b1F+VRA5L
+         nY7fJ6569zvJYVd7bEpvfaViRrOFFw/rxzk9VhGiy+I/mZOtPDNCFmWqyU/tmnxoi6yT
+         FWLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792666608; x=1793271408;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Z7CjQzBDnl04aWONNGlhTdVtRpqeXhaqo6cL0x3Dgio=;
+        b=FY9jfA3YJqDC09P2JbfVjMdT3A6MDMtJqmJv1jfnSB2LFr5zqBH8xmviDIcuCjknUH
+         pp2+mr+noJb/GUJPwMu7b1jdBehxuQIhLn96g1FfTlZ3YpGUlctW1/1YL9J/jNIWbJGj
+         WiFRCO5zeB5WuIQT/834hxFoMeA8/x39M8NsUMW+ASbENxe2SPQfcyiO2rcVp37TSo9D
+         K1nkxHzTVK4md2LPuPfu8lynVN/iBS8kvrD/p4XXQkPAArIVredrZ04AuY77JPiPsD4s
+         meeJ95OdLLyAskmO7Yc25r6T4cLK0YmvJOzeHv2iibLWunNjHt0QIRx15EYPHtkFTHxd
+         zp5Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwfTFJsmW2AHWQwrDIeo34PMJ7QY6DN3Gi5SH6VbvwnS9RrTiNYzpwTI3PE2pH0QL3zXG1MeF2RWaTu9A==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLD3DzQ+fAqSD3EL9P9QQqaelDWv75vuiXbEC98cmOT5cqHwtyU
+	vFF4DXSACx1FTp5skF55bqwd/J438jrKIa3mscBRlqKBZCp33yXTPznvHiCjfE1RItKJZwxpY97
+	SElK8QrVwxrBhDgnJTRN0rvdVOq2a/Dw=
+X-Gm-Gg: AYBFou0/lP1da4fZHbxxoKXITndDp6zVI7jS2WVISVXUzbqo7LcmrKVB3r1dZKDbO3B
+	NjlscuaRdclPqL2C8cy0niD4o3V2hIxGoz1L+dRc2VcSwI3jr2fpVJTHZnm3WriVWdWZnXj7g9g
+	Jzf+y/WApMES/Z99dTZzYWqu1bjpo5WzNZq4G9wVvsWWh8bbdnLRDaXE0foKGt4Mq92Lj/LJCqP
+	8pE0xjoAB5xybfzGUa7DaNM0GhIbn2cArxlCXg/sD7cfPprd/jc1ezrm1gKdw3IkET31wUrdEHg
+	NOJQ4fcIeA9UfTyCpKfJ7FzXG5gQwRLb90Zr1XDYD4n2zMkaeshoYJSVBJ4yacqKGVO61r1Q++k
+	E9i/uP8PipjAn5MnGGH+3HKEtkkjeYN+Re9IWi+k=
+X-Received: by 2002:a05:690c:e252:20b0:8b0:ac9e:14f7 with SMTP id
+ 00721157ae682-8b133fb3f9bmr19361017b3.28.1792666608356; Thu, 22 Oct 2026
+ 03:56:48 -0700 (PDT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -89,79 +104,182 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-GUID: KDRxDxeBacy-lNKRwNC2xqI6r534CZF8
-X-Proofpoint-ORIG-GUID: KDRxDxeBacy-lNKRwNC2xqI6r534CZF8
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIyMDA0MiBTYWx0ZWRfX4DeKHgvdqOaw
- RXBoCaDw10BEWWbCFQoUU4fBlkB7YRtkFOyM6AGHQm5VOWi0CEnQICrTV2i7vdwpRsrRPrFF+We
- hs/26xByzio95GcahkRXmfe3jQQCRqo=
-X-Authority-Analysis: v=2.4 cv=G4OJgNk5 c=1 sm=1 tr=0 ts=6ad9e780 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=rJkE3RaqiGZ5pbrm-msn:22 a=EUspDBNiAAAA:8 a=0GeEMZVGUYcv1euD6hYA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIyMDA0MiBTYWx0ZWRfX4vwPR9PzFB/4
- 8HF40z05b+NPd7X+Z1iRYj2XJL9mDVdB8owBTdHgcOxQeEdn3lWbvh9gHCTgUWWWJCWZz/lo6g4
- EG9YZXrSMtDEKdnl12PzIuB3M30+73pPR4Mqfcjtx4Z/KPpsN0d2fIiCPVp9VRdKyKgWIs+WI3j
- mRLbzE8G67LTgRlnuTFeAWClZkWY+EGVciiyvWrHuUjyc2wdWnAjcUMXHQBYeIkLI+vurjaGLUT
- My9IB46JDfKM0zUc0LWFBCBV2jF3sWEgAzsdc3dCyKA3Jm5H0wqpCMCO25d/GA5AiLuHK+JPW4B
- PrXFGX+5GH04dacxqn5QNy3UMY7KpDzNdVSDa+OqxPIM0skrT5RimZc8xqpnGa2e0uGuZKhyJ7b
- l+0FlqtYLQUGv8HljOyWDQbx85uB1347yxgt6+y/eAEO12Uqx/fcJrBljKIClErRhMYTxIacaiy
- E5+EG4OK3u/vCtZXI9g==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-22_04,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0 bulkscore=0
- impostorscore=0 adultscore=0 malwarescore=0 spamscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610220042
+References: <pm-pmb-2439c851f82c443c3600-v4-9e7df0ea42c36afe6171@gmail.com>
+ <87h5igix41.wl-tiwai@suse.de> <CAFRLqsVe0JjW9VTbjBG9w00LFuQBxyK3CCjTnqaCXzcUPDCE4w@mail.gmail.com>
+ <87v76uccta.wl-tiwai@suse.de>
+In-Reply-To: <87v76uccta.wl-tiwai@suse.de>
+From: Cen Zhang <zzzccc427@gmail.com>
+Date: Thu, 22 Oct 2026 18:56:37 +0800
+X-Gm-Features: AclHuK8C3qRffRiZ2Dmc9zttsL0U6qgzV__R004le6XLTPii7twzMle1FS1Gtf0
+Message-ID: <CAFRLqsUjzhcMwCZb+LNCGFFbHv=GF+2+StrbHH0md4REgyADJw@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: pcm: Drain proc writers before freeing preallocated buffers
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com, jjzuming@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add SNDRV_PCM_FMTBIT_S32_LE to the supported formats for both capture
-and playback hardware descriptors, and handle SNDRV_PCM_FORMAT_S32_LE
-in q6apm_dai_hw_params() to set bits_per_sample to 32.
+Takashi Iwai <tiwai@suse.de> =E4=BA=8E2026=E5=B9=B410=E6=9C=8822=E6=97=A5=
+=E5=91=A8=E5=9B=9B 17:19=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Thu, 22 Oct 2026 10:58:02 +0200,
+> Cen Zhang wrote:
+> >
+> > Hi Takashi,
+> >
+> > Takashi Iwai <tiwai@suse.de> =E4=BA=8E2026=E5=B9=B410=E6=9C=8820=E6=97=
+=A5=E5=91=A8=E4=BA=8C 16:40=E5=86=99=E9=81=93=EF=BC=9A
+> > >
+> > > I believe a better fix is to handle the disconnection of procfs more
+> > > properly.  The hda codec driver calls snd_device_disconnect() for eac=
+h
+> > > pcm, but in the PCM side, the procfs removal relies on the card level
+> > > disconnection (snd_info_card_disconnect()).
+> > >
+> > > That is, something like below works instead?
+> > >
+> > >
+> > > thanks,
+> > >
+> > > Takashi
+> > >
+> > > --- a/sound/core/pcm.c
+> > > +++ b/sound/core/pcm.c
+> > > @@ -1119,6 +1119,7 @@ static int snd_pcm_dev_disconnect(struct snd_de=
+vice *device)
+> > >         for (cidx =3D 0; cidx < 2; cidx++) {
+> > >                 if (pcm->streams[cidx].dev)
+> > >                         snd_unregister_device(pcm->streams[cidx].dev)=
+;
+> > > +               snd_pcm_stream_proc_done(&pcm->streams[cidx]);
+> > >                 free_chmap(&pcm->streams[cidx]);
+> > >         }
+> > >         return 0;
+> > >
+> >
+> > Sorry for the delayed reply =E2=80=95 something came up to me over the =
+past
+> > few days.
+> >
+> > Thanks for the review. Handling the proc entries at PCM disconnect
+> > looks like a better approach.But I noticed two possible issues with
+> > adding the call here: proc removal can invoke a prealloc release
+> > callback that takes open_mutex, which is already held; freeing the
+> > subtree also leaves pstr->oss.proc_entry pointing to freed storage
+> > until final unregister.
+>
+> Hm, basically we don't have to release the resources but just
+> disconnect procfs (that guarantees that the pending callbacks are
+> finished).  So how about something like below instead?
+>
+> > I'll follow your approach, but perform proc rundown outside open_mutex
+> > and retain the entry objects until final cleanup. I'll also prevent sub=
+sequent
+> > card registration from republishing the disconnected entries.
+>
+> But those are assumptions: the proc rundown must be after all pending
+> stuff is gone and it shouldn't be called until the next registration.
+> And, running re-registering before the complete release is already
+> fundamentally broken, and that should be addressed instead.
+>
+>
+> thanks,
+>
+> Takashi
+>
+> -- 8< --
+> diff --git a/include/sound/info.h b/include/sound/info.h
+> index adbc506860d6..4b08a32ff4fe 100644
+> --- a/include/sound/info.h
+> +++ b/include/sound/info.h
+> @@ -117,6 +117,7 @@ struct snd_info_entry *snd_info_create_module_entry(s=
+truct module *module,
+>  struct snd_info_entry *snd_info_create_card_entry(struct snd_card *card,
+>                                              const char *name,
+>                                              struct snd_info_entry *paren=
+t);
+> +void snd_info_disconnect_entry(struct snd_info_entry *entry);
+>  void snd_info_free_entry(struct snd_info_entry *entry);
+>
+>  int snd_info_card_create(struct snd_card *card);
+> diff --git a/sound/core/info.c b/sound/core/info.c
+> index c4d57d0809ad..bb9f564001ea 100644
+> --- a/sound/core/info.c
+> +++ b/sound/core/info.c
+> @@ -737,6 +737,15 @@ static void snd_info_clear_entries(struct snd_info_e=
+ntry *entry)
+>         entry->p =3D NULL;
+>  }
+>
+> +void snd_info_disconnect_entry(struct snd_info_entry *entry)
+> +{
+> +       if (entry && entry->p) {
+> +               proc_remove(entry->p);
+> +               guard(mutex)(&info_mutex);
+> +               snd_info_clear_entries(entry);
+> +       }
+> +}
+> +
+>  /**
+>   * snd_info_free_entry - release the info entry
+>   * @entry: the info entry
+> @@ -749,11 +758,7 @@ void snd_info_free_entry(struct snd_info_entry * ent=
+ry)
+>
+>         if (!entry)
+>                 return;
+> -       if (entry->p) {
+> -               proc_remove(entry->p);
+> -               guard(mutex)(&info_mutex);
+> -               snd_info_clear_entries(entry);
+> -       }
+> +       snd_info_disconnect_entry(entry);
+>
+>         /* free all children at first */
+>         list_for_each_entry_safe(p, n, &entry->children, list)
+> diff --git a/sound/core/pcm.c b/sound/core/pcm.c
+> index 1e4e0ecb3dbd..58098ee894a1 100644
+> --- a/sound/core/pcm.c
+> +++ b/sound/core/pcm.c
+> @@ -520,6 +520,11 @@ static int snd_pcm_stream_proc_init(struct snd_pcm_s=
+tr *pstr)
+>         return 0;
+>  }
+>
+> +static void snd_pcm_stream_proc_disconnect(struct snd_pcm_str *pstr)
+> +{
+> +       snd_info_disconnect_entry(pstr->proc_root);
+> +}
+> +
+>  static int snd_pcm_stream_proc_done(struct snd_pcm_str *pstr)
+>  {
+>         snd_info_free_entry(pstr->proc_root);
+> @@ -580,6 +585,7 @@ static int snd_pcm_substream_proc_init(struct snd_pcm=
+_substream *substream)
+>
+>  #else /* !CONFIG_SND_VERBOSE_PROCFS */
+>  static inline int snd_pcm_stream_proc_init(struct snd_pcm_str *pstr) { r=
+eturn 0; }
+> +static inline void snd_pcm_stream_proc_disconnect(struct snd_pcm_str *ps=
+tr) { return 0; }
+>  static inline int snd_pcm_stream_proc_done(struct snd_pcm_str *pstr) { r=
+eturn 0; }
+>  static inline int snd_pcm_substream_proc_init(struct snd_pcm_substream *=
+substream) { return 0; }
+>  #endif /* CONFIG_SND_VERBOSE_PROCFS */
+> @@ -1119,6 +1125,7 @@ static int snd_pcm_dev_disconnect(struct snd_device=
+ *device)
+>         for (cidx =3D 0; cidx < 2; cidx++) {
+>                 if (pcm->streams[cidx].dev)
+>                         snd_unregister_device(pcm->streams[cidx].dev);
+> +               snd_pcm_stream_proc_disconnect(&pcm->streams[cidx]);
+>                 free_chmap(&pcm->streams[cidx]);
+>         }
+>         return 0;
 
-Signed-off-by: Karthik S <karthik.s@oss.qualcomm.com>
----
- sound/soc/qcom/qdsp6/q6apm-dai.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+Agree that. But I moved proc rundown outside open_mutex because
+proc_remove() can invoke the
+prealloc release callback, which takes that mutex.
 
-diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
-index 033197bdd870..ec9ae2276361 100644
---- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-@@ -93,7 +93,8 @@ static const struct snd_pcm_hardware q6apm_dai_hardware_capture = {
- 				 SNDRV_PCM_INFO_PAUSE | SNDRV_PCM_INFO_RESUME |
- 				 SNDRV_PCM_INFO_NO_REWINDS | SNDRV_PCM_INFO_SYNC_APPLPTR |
- 				 SNDRV_PCM_INFO_BATCH),
--	.formats =              (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE),
-+	.formats =              (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE |
-+				 SNDRV_PCM_FMTBIT_S32_LE),
- 	.rates =                SNDRV_PCM_RATE_8000_48000,
- 	.rate_min =             8000,
- 	.rate_max =             48000,
-@@ -113,7 +114,8 @@ static const struct snd_pcm_hardware q6apm_dai_hardware_playback = {
- 				 SNDRV_PCM_INFO_PAUSE | SNDRV_PCM_INFO_RESUME |
- 				 SNDRV_PCM_INFO_NO_REWINDS | SNDRV_PCM_INFO_SYNC_APPLPTR |
- 				 SNDRV_PCM_INFO_BATCH),
--	.formats =              (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE),
-+	.formats =              (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE |
-+				 SNDRV_PCM_FMTBIT_S32_LE),
- 	.rates =                SNDRV_PCM_RATE_8000_192000,
- 	.rate_min =             8000,
- 	.rate_max =             192000,
-@@ -522,6 +524,9 @@ static int q6apm_dai_hw_params(struct snd_soc_component *component,
- 	case SNDRV_PCM_FORMAT_S24_LE:
- 		prtd->bits_per_sample = 24;
- 		break;
-+	case SNDRV_PCM_FORMAT_S32_LE:
-+		prtd->bits_per_sample = 32;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
--- 
-2.34.1
-
+Best regards,
+Cen Zhang
