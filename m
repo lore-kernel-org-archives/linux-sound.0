@@ -1,99 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792658474;
-	b=pE4IAPdvCwhrq/nVSUz4REaeAKkLeAHaLu+w4XNGY7tXh/12MBYAeBdCi6x4E7GL8oXh
-	 +E2M+Y3SGRR++3Oe/nZWmVyC0EKdPyQfJmED4xzf4zX3SgUP7vkpe6oC7rZQ4xdc+fE/r
-	 C40ONAU5VvLhsW6sZiBlZV1q/PrB13eaQWVF0guPzIlLCdoVWpGIXH5PggtL2x4ESg64q
-	 FFtZSbibu6w+KcZQvOetU2ruvkjzQG0gG5QANqHf0OuA62VFgxt+JPRFMxoXd7Kr0s5gC
-	 hGbCI5mLh4+NokgY92Z3eEr0Hjwu62SRtju6vBrArDBRqWQsCf2P1Ztnb7G1IBcsS4Q==
+	t=1792659105;
+	b=L2exHlWmPuHzYdkikKiK2DIyXDnAAhwJKeqizPLj9W/0DsyXgHUR7jtEUeq3Pxo+herk
+	 hBQ+dnRqJ+I1wJDQOvj8rqV46MIQMwHbfWK1DFQU3XNHll0hjsnZvpuHD3SGInitpsZzY
+	 I8FGrIgdHAR1Qjwexly1krD6lD94uXWx5JWcn4U+VQtmyGe3gopVPfFyZ0kncAUriH0I5
+	 iTEHnG0pzCwUh1TeZYDdky+2tqZDuo+Gui1MN+8zzFGFnIAK+sdVqvQUtAvROXgxlpOIr
+	 xdR0fkXPNSx1KnMH2X3I5VotAhpmBJYrM3ES3LG7KZaLlyD+6CwA6gDijh8/cZWbnSw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792658474;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=KTr8FXKlHcoYFqF0DOsIryqifBUb590r2UXrxxN/HB8=;
-	b=ynMg7m2zWiFuXfqPAPXTAMCykDQQ/Df5CEsl8bYV51Ja7gz6hLgggn9FzMWf08ELUJmA
-	 pWsZItTayXMDRaI6xhpIxabbFMAFpYUQ9DakP+bWmmPtY0OsUh7lOXfp68RL1p8MJAXRp
-	 hv33Hq98KiEX4N1x3CTJooyOmd7MHBc4MrhasMyJw9kVN1nxem7t2lk78KaNvAQvHcnYF
-	 WI2c7ktUsQkVB/XhixltWla9+JjPiFN2H+++uSzlZdODh7+PrbHYLQ86UwgP8fHX21rfk
-	 QA55K1qnkh8pqyVjAUcWXIA0E52m3nDBkYdyVo8vuzfnbOV+09hXmBtZbeDkOqslBKg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792659105;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=ksFrELXIiwrK5kKPEgz2g60q+qfEzwI4wfenf9ZhiO4=;
+	b=thRRpxHXB4XX/BSo/zO1cMR9Wc86N+3CsluIEY8b45sGkJ7Rlwp+caEIGLMHcMImLbrG
+	 OHXSC5A/BReHwYWoxd5HURiQC9Ww9SJcyQyo3HRcjo30VZNs5ld1b/9HKvcOn9Jv7eKxV
+	 9PGeME3dRRwyvCu9lIclxXVvT+WvKxGMfuPu1GZcSVMmJMVcp/ozBHiflXyTTynXGKd6d
+	 cElrjZRC6TmgJLmi6zcrXJ0O9KRy7UyoJBwIwtJQWpAEcgzuCGysf0IXaAlgcdsOfm3iq
+	 07fhzwIBKeldjezzAbbOliuSHeTOiWgGo8mElZt0LI6IW10Fs0OKL6WZXhLcEwXWhnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=N+6T5aX1;
-	arc=none smtp.remote-ip=209.85.215.179
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="A/r1WbMr";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FBC606A319
-	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 08:41:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40FBC606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA18606A319;
+	Thu, 22 Oct 2026 08:51:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=N+6T5aX1
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cc7d154ec4fso617636a12.0
-        for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 01:41:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792658474; x=1793263274; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=KTr8FXKlHcoYFqF0DOsIryqifBUb590r2UXrxxN/HB8=;
-        b=N+6T5aX1PZWcOEirFLBCnUdMk9n7dXk/tySBMjcZA+LdXebMm6TYHg83BlSiBmuOA7
-         hE1RQuBihUwi02JJ01p9pZK54s7BBo4HX1xfZ1ezM1VUczkk4MqYbdO4fnn+KFn002Sf
-         fAfObTp8CqkrV5+uk3s3W1wML0YyD1ZPuvulq+xtaR79m8V+kkALoW/22jzXkWeWrt47
-         vHckyDjpH+qmwBiLkz6ag+h+t7gp4Zvynp1n6IkjSdhrSIeNQhBoiZ/dxrW8mWzXkFPn
-         OxHzpRuf33prZVyBYevtKcWnzgm0ZxfH3XogRlynVvMJ5TJSsGdRucMS4dZ5CvpEOD/z
-         G0VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792658474; x=1793263274;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KTr8FXKlHcoYFqF0DOsIryqifBUb590r2UXrxxN/HB8=;
-        b=q/4wQNX7NRFVa9JfsIiuFyzs0BgjPvE9NZhQzwl4F5JJNDvww+HdQNbwC1CaLxoVSA
-         079JmZhhzRdCadWKj/8QLdZDTmZEmXVtYaa7INnkS6Mq3TmBpSuxSnVuhDOGv9iOiIwY
-         aC3Yk0B26PZZIu9LGlJz/rYQ+nlAhQSnX7PxLo911GOnrjzh1zIRNwcfZeK7vOQaIx/A
-         8xwCbi15sHYacft5D1GzFcpYDOsyhWbqBrgHPy03cgdrluvOPkDwY8SRsRrLO2ZdEu2Q
-         1g5f0jN8mbqyZXXGIYR4S6PWMghZCk/4mI9RBzZo8gWIElg2pC/8uFwYrXT73giODEZi
-         lkfg==
-X-Forwarded-Encrypted: i=1; AKwUvBzK6Engw+774Y+jmKoKOzzdH2tWBbytmrnzY9/HE35P4F4qrVL1V634VN3YS+Q51gSOnkSp1FdwDbHcVw==@vger.kernel.org
-X-Gm-Message-State: AFq9FYIWBG0YAr1HwUN5Hx2BXzsDvnUEqftDifyBrYqG29wNeLHHABl4
-	ZMcMTXwYPSNzU5A1xj2LX23x7ZSB8bKBOSci9qHYnbnF152trApysZrC
-X-Gm-Gg: AYBFou2UG+83Uiat0d2wiZOKnPJRmaMbznLebLJG1t9VaElMeArOkpkF/QSKvLwaTyU
-	wZ5ldpLI/OfOGj9cDXIH2Q33f2lDXMG7wQjpSkr8pvTfGoTqbo9NBOY+ZDu6KJ2kYCRXb2BJxdl
-	ROFmDS8xE8DtgBX656BNaqa6mAw8B7yOQrGbVP2lKSZ5AS9kQcLVle/Oxo51GYqLwjVKFC+KZjE
-	X/Ah96nOXwC0jSqe67SKf6Y+l3c/qkEwV98lK788j6jV7eIbjtnIGTnf4a18AAwL1Fmg1JllZz/
-	RjEFhV7VM3XW+/Rwvf1bp60toZyICbe4GXIZgwpf3JUJKeScHuypgWbhO5ypdvKoovCnQM3WWLc
-	II1trcPoCoTQGMFgn4xsWuGhTpgmfV0+cyFIh98YToGHtsR1lx/k0Rp3awGMIQem5WzTP3R/ok6
-	uH8/N5QfvTnqqqdwQ9HBd08jXL4N8MJh2PvD5ZAHvTmRornFKKCjy56wvOP4pycc8dKKZNHJ0ME
-	/hWsvSFpd0pvJDDOy1AbGTq23StDEfmRr/KnYqCVwTziXcFZopEa5+KrKbPzqgrfwHuLgQE6Kwo
-	YYRu5xABXk14Og+qvMA4KN/FsIfOLKG6u49sCRnlIVJl5TbOGzeJijjhkfCKGBZPsWeBbcs=
-X-Received: by 2002:a17:90b:50cb:b0:3ac:da41:ef7e with SMTP id 98e67ed59e1d1-3ad86f650acmr3855130a91.52.1792658473545;
-        Thu, 22 Oct 2026 01:41:13 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ada48a573fsm3340992a91.10.2026.10.22.01.41.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 01:41:12 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Binbin Zhou <zhoubinbin@loongson.cn>,
-	Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Yingkun Meng <mengyingkun@loongson.cn>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [RFC PATCH 2/2] ASoC: loongson: Handle clock enable errors in set_fmt
-Date: Thu, 22 Oct 2026 15:40:40 +0700
-Message-ID: <20261022084040.31181-3-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261022084040.31181-1-phucduc.bui@gmail.com>
-References: <20261022084040.31181-1-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A/r1WbMr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ADE41F000C1;
+	Thu, 22 Oct 2026 08:51:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792659104;
+	bh=ksFrELXIiwrK5kKPEgz2g60q+qfEzwI4wfenf9ZhiO4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=A/r1WbMrQMOzw2UAsI+AZy3mJQXpBxJ7RvdhwoBbX+lm4baduEpWzb25ef2+nQ5Mp
+	 W7YMdliLTA0NJeeB9UJOr/fVOAy1RLOomdEGM6KlgUh6jiO26ppCFnFMgnsHvXKW/Z
+	 HN7Qqttfe0TwaBM1PwqjmXjRuzdVTBvaOa1rCZgBm1ec/mU8AdQrz0/l/Z0CopXe4r
+	 kGvXSiSLI3yccQHfnVHorHgnCZklaG1r4z/ZJFokkozYkZhM/pHjCHK55Xmv4rx5Re
+	 C7r2JrXeKAza6ga4sXm0INjp29X8zCpr1rtGKgXZYOP6BhZotQY7jEYYtkqhRjfRAC
+	 eZt/WYVLq2hjw==
+Message-ID: <sashiko-outbox-181207@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v1 1/2] ASoC: dt-bindings: nuvoton,nau8310: Add NAU83G10
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Neo Chang" <YLCHANG2@nuvoton.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261022084037.259983-2-YLCHANG2@nuvoton.com>
+References: <20261022084037.259983-1-YLCHANG2@nuvoton.com>
+ <20261022084037.259983-2-YLCHANG2@nuvoton.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 22 Oct 2026 08:51:43 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -102,84 +59,241 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
+- [Medium] ASoC: dt-bindings: nuvoton,nau8310: inverted clock-det-disable d=
+escription
+- [Medium] ASoC: dt-bindings: nuvoton,nau8310: raw register values instead =
+of units
+- [Medium] ASoC: dt-bindings: nuvoton,nau8310: unconstrained nau8320 varian=
+t properties
+--
 
-loongson_i2s_set_fmt() treats all clock enable errors as timeouts,
-warns, and returns success. This hides errors other than -ETIMEDOUT.
+commit 01b8fdb80988a85278fec4d71b7b4a47411ed6ee
+Author: Neo Chang <YLCHANG2@nuvoton.com>
 
-Preserve the existing behaviour for -ETIMEDOUT, but propagate other
-errors. Also clear MASTER, MCLK_EN and MSB on the error path to
-clean up the controller state, including when the clock provider
-format is invalid.
+ASoC: dt-bindings: nuvoton,nau8310: Add NAU83G10
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/loongson/loongson_i2s.c | 26 +++++++++++++++++++++-----
- 1 file changed, 21 insertions(+), 5 deletions(-)
+This commit adds the device tree binding schema in
+Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml for the
+Nuvoton mono class-d audio amplifier family.
 
-diff --git a/sound/soc/loongson/loongson_i2s.c b/sound/soc/loongson/loongson_i2s.c
-index 109cb61c6ddf..4823b89cab8a 100644
---- a/sound/soc/loongson/loongson_i2s.c
-+++ b/sound/soc/loongson/loongson_i2s.c
-@@ -185,34 +185,50 @@ static int loongson_i2s_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 		regmap_update_bits(i2s->regmap, LS_I2S_CTRL, I2S_CTRL_MASTER,
- 				   I2S_CTRL_MASTER);
- 		ret = loongson_i2s_enable_bclk(i2s);
--		if (ret < 0)
-+		if (ret == -ETIMEDOUT)
- 			dev_warn(dai->dev, "wait BCLK ready timeout\n");
-+		else if (ret)
-+			goto err;
- 		break;
- 	case SND_SOC_DAIFMT_BC_FP:
- 		/* Enable MCLK */
- 		ret = loongson_i2s_enable_mclk(i2s);
--		if (ret < 0)
-+		if (ret == -ETIMEDOUT)
- 			dev_warn(dai->dev, "wait MCLK ready timeout\n");
-+		else if (ret)
-+			goto err;
- 		break;
- 	case SND_SOC_DAIFMT_BP_FP:
- 		/* Enable MCLK */
- 		ret = loongson_i2s_enable_mclk(i2s);
--		if (ret < 0)
-+		if (ret == -ETIMEDOUT)
- 			dev_warn(dai->dev, "wait MCLK ready timeout\n");
-+		else if (ret)
-+			goto err;
- 
- 		/* Enable master mode */
- 		regmap_update_bits(i2s->regmap, LS_I2S_CTRL, I2S_CTRL_MASTER,
- 				   I2S_CTRL_MASTER);
- 
- 		ret = loongson_i2s_enable_bclk(i2s);
--		if (ret < 0)
-+		if (ret == -ETIMEDOUT)
- 			dev_warn(dai->dev, "wait BCLK ready timeout\n");
-+		else if (ret)
-+			goto err;
- 		break;
- 	default:
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto err;
- 	}
- 
- 	return 0;
-+
-+err:
-+	regmap_update_bits(i2s->regmap, LS_I2S_CTRL, I2S_CTRL_MASTER, 0);
-+	regmap_update_bits(i2s->regmap, LS_I2S_CTRL, I2S_CTRL_MCLK_EN, 0);
-+	regmap_update_bits(i2s->regmap, LS_I2S_CTRL, I2S_CTRL_MSB, 0);
-+
-+	return ret;
- }
- 
- static int loongson_i2s_dai_probe(struct snd_soc_dai *cpu_dai)
--- 
-2.43.0
+> diff --git a/Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml=
+ b/Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml
+> new file mode 100644
+> index 0000000000000..5a5142a583ed1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml
+> @@ -0,0 +1,200 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/nuvoton,nau8310.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Nuvoton NAU83G10/20 Mono Class-D Amplifier with DSP
+> +
+> +description:
+> +  Mono Class-D Amplifier with DSP and I/V-sense.
+> +  This device supports I2C.
+> +
+> +maintainers:
+> +  - Neo Chang <YLCHANG2@nuvoton.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - nuvoton,nau8310
+> +      - nuvoton,nau8320
 
+[Severity: Medium]
+Should Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml restrict
+the boost converter properties when compatible is set to nuvoton,nau8320?
+
+In sound/soc/codecs/nau8310.c, nau8310_read_device_properties() only reads
+nuvoton,boost-delay, nuvoton,boost-convert-enable,
+nuvoton,boost-target-limit, and nuvoton,boost-target-margin for
+nuvoton,nau8310 and ignores them on nuvoton,nau8320:
+
+    if (nau8310->silicon_id =3D=3D NAU8310_REG_SI_REV_G10) {
+        ret =3D device_property_read_u32(dev, "nuvoton,boost-delay",
+            &nau8310->boost_delay);
+        ...
+    }
+
+Without an allOf if/then block setting those four properties to false for
+nuvoton,nau8320, devicetree nodes for nuvoton,nau8320 with boost converter
+properties will pass schema validation even though the driver ignores them.
+Should the commit message also mention nuvoton,nau8320 alongside
+nuvoton,nau8310?
+
+[ ... ]
+
+> +  nuvoton,vref-impedance:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      VREF Impedance Selection.
+> +    enum:
+> +      - 0 # Open
+> +      - 1 # 25 kOhm
+> +      - 2 # 125 kOhm
+> +      - 3 # 2.5 kOhm
+> +    default: 0
+> +
+> +  nuvoton,dac-vref:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      DAC Reference Voltage Setting.
+> +    enum:
+> +      - 0 # Voltage source directly from VDDA pin
+> +      - 1 # VDDA * 1.5/1.8V
+> +      - 2 # VDDA * 1.6/1.8V
+> +      - 3 # VDDA * 1.7/1.8V
+> +    default: 1
+> +
+> +  nuvoton,sar-voltage:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      SAR Gain Tracking Selection.
+> +    enum:
+> +      - 0 # VDDA
+> +      - 1 # VDDA * 1.0
+> +      - 2 # VDDA * 1.1
+> +      - 3 # VDDA * 1.2
+> +      - 4 # VDDA * 1.3
+> +      - 5 # VDDA * 1.4
+> +      - 6 # VDDA * 1.54
+> +      - 7 # VDDA * 3.12
+> +    default: 0
+> +
+> +  nuvoton,sar-compare-time:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      SAR compare time.
+> +    enum:
+> +      - 0 # 500 ns
+> +      - 1 # 1 us
+> +      - 2 # 2 us
+> +      - 3 # 4 us
+> +    default: 1
+> +
+> +  nuvoton,sar-sampling-time:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      SAR sampling time.
+> +    enum:
+> +      - 0 # 2 us
+> +      - 1 # 4 us
+> +      - 2 # 8 us
+> +      - 3 # 16 us
+> +    default: 1
+> +
+> +  nuvoton,clock-det-disable:
+> +    type: boolean
+> +    description:
+> +      Enable Clock Detection Module.
+
+[Severity: Medium]
+Is the description for nuvoton,clock-det-disable in
+Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml inverted
+relative to the property name and driver behavior?
+
+In sound/soc/codecs/nau8310.c, nau8310_read_device_properties() and
+nau8310_init_regs() disable clock detection when nuvoton,clock-det-disable
+is present in the devicetree node:
+
+    nau8310->clock_detection =3D
+        !device_property_read_bool(dev, "nuvoton,clock-det-disable");
+
+    if (!nau8310->clock_detection)
+        regmap_update_bits(nau8310->regmap, NAU8310_REG_CLK_DET,
+            NAU8310_CLKPWRUP_DIS, NAU8310_CLKPWRUP_DIS);
+
+Also, Documentation/devicetree/bindings/sound/nuvoton,nau8325.yaml already
+defines nuvoton,clock-detection-disable for this feature. Could this binding
+reuse nuvoton,clock-detection-disable and state that it disables the clock
+detection module?
+
+> +
+> +  nuvoton,clock-det-data:
+> +    type: boolean
+> +    description:
+> +      Clock detection non-zero samples configuration for power up signal.
+> +
+> +  nuvoton,boost-delay:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Boost Control Hold Timer in decrement (msec).
+> +    enum:
+> +      - 0 # 0 msec
+> +      - 1 # 1 msec
+> +      - 2 # 2 msec
+> +      - 3 # 4 msec
+> +      - 4 # 8 msec
+> +      - 5 # 16 msec
+> +      - 6 # 32 msec
+> +      - 7 # 64 msec
+> +      - 8 # 128 msec
+> +    default: 0
+> +
+> +  nuvoton,boost-convert-enable:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Boost Convert Enable.
+> +    enum:
+> +      - 0 # BOOST CONVERTER disabled
+> +      - 1 # BOOST CONVERTER enable gated by POWERUP signal
+> +      - 2 # BOOST CONVERTER disabled
+> +      - 3 # BOOST CONVERTER enabled
+> +    default: 0
+> +
+> +  nuvoton,boost-target-limit:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Boost Control Target Value Limit.
+> +      The value ranges from 0 to 63, representing 0V to 12V with a 0.19V=
+ step.
+> +    minimum: 0
+> +    maximum: 63
+> +    default: 63
+> +
+> +  nuvoton,boost-target-margin:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Boost Margin Value between Boost Target Voltage and peak output le=
+vel.
+> +      The value ranges from 0 to 63, representing 0V to 12V with a 0.19V=
+ step.
+> +    minimum: 0
+> +    maximum: 63
+> +    default: 0
+
+[Severity: Medium]
+Could these vendor properties in
+Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml use standard
+unit suffixes and physical values instead of raw register encodings?
+
+Specifically:
+- nuvoton,vref-impedance and nuvoton,dac-vref use raw register indices 0..3,
+  whereas Documentation/devicetree/bindings/sound/nuvoton,nau8325.yaml
+  already defines nuvoton,vref-impedance-ohms and nuvoton,dac-vref-microvol=
+t.
+- nuvoton,sar-compare-time, nuvoton,sar-sampling-time, nuvoton,boost-delay,
+  nuvoton,boost-target-limit, and nuvoton,boost-target-margin expose raw
+  register indices or step counts (0..3, 0..8, 0..63) rather than physical
+  values with -ns, -us, -ms, and -microvolt suffixes.
+- The schema default values for nuvoton,vref-impedance (0),
+  nuvoton,boost-delay (0), nuvoton,boost-target-limit (63), and
+  nuvoton,boost-target-margin (0) do not match the defaults applied in
+  nau8310_read_device_properties() (2, 0x8, 0x32, and 0x2).
+- nuvoton,boost-convert-enable has a boolean-style -enable suffix for a
+  uint32 register field where both 0 and 2 mean disabled, and
+  nuvoton,sar-voltage exposes duplicate register values 0 and 1 for the same
+  1.0 gain setting.
+
+[ ... ]
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261022084037.2599=
+83-1-YLCHANG2@nuvoton.com?part=3D1
