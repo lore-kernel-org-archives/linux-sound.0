@@ -1,67 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792656563;
-	b=kmNz9SjhrqJE1O+KgRBOy93dN+il4Rl0FdZbqCFKBH2TmEW6fVeVohf+HwhpYTr2x58h
-	 hyRX1it80tkHDWH3hd3GmYtc3TcpYICzZu+HFbigUEvCfzFkW+APUI8Nuh0MNO2GrJe9E
-	 zsNXBK1vI7CmK5SJUYU7gd7ynF9Na4qNnoyMCw42JcVeZcgHV+CShZePxeqzrN4hhT80t
-	 Kk3/pl6eQViaIVDSpDdAgqNDam9J07d8GyMf6WlvujEJyOE20JlqpQ6WuPrrAckoPqTjE
-	 RJWeoLbZpXe5THLjuZa6ENiL2kmeTJp8pLstHDb2wEU+7lkgXvBAbR6jfCVodkvPEJQ==
+	t=1792656897;
+	b=bRxuTp8mOK5dIUNwquOLmJJWEPjfeT3ehU9COoRS9PuI/h96TMQy2j3RDTQ1dF/ptnXJ
+	 9QSu1GnNOnMRtRxAGHqEBTcMkh+P6mIVl/zP7i02imOZ91nn6zsILbORdcJSGqWO29WIb
+	 3YkzIGjX9F914Uantr6gKFFlK4hGK7laYOHDEDn7x455AFVI1BATjHdOsvY3PLhrww1v8
+	 Drh7mDuXd/WgilonxZ9M9F04hF6IY04HUIBrned7KktWopDzov2rcsfT9ZP76XCwpQaG9
+	 HUg2/S6hPcxFUVSWm2WrSXqJ1SOfwjF4qS3RkC+4Gk/nZBa4h3LIm3434X9ijGFRJ5A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792656563;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
-	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1792656897;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:X-Developer-Signature:X-Developer-Key:
 	 Content-Transfer-Encoding;
-	bh=7IKrN4Mg0p1yUHL9E2wI4cdaqSrdLTDY+pZzs5j9FuY=;
-	b=a/jpQZdAdsHy2wMyMm41XTFSxTtlmmNQ2s5go1T++KVuA1OarYocFGpmETlDnd8kTNto
-	 GvKmEazay1CFmYc6un8DOW57VzTDWEUnFu4Fj8XcB0RrObR/SWoS0Mr2FUd7Ps4tMQxb1
-	 YbQLG3BfMdWMU9ANz+iPtwzw/ug5RYjyY8Z37BGbyP7bvKdD4f7BgRSzudZ0ZM8SpWtVD
-	 tD4u1RdSImywBRqiYgYksA45H/GPLkPw4jv/OTbkaJGLlB2OrqJ8gLoXq+3NRMAbvDc9E
-	 uiCXWCJM9c2nvHJad0A8AqvQaKyZS7gV+RYG5piSy7j3oay0nbjqhF4u0U24vXcqgYw==
+	bh=IYczWvl6oIr7RkPhLLIZzCriAlP0enKRmAOobHZGLwI=;
+	b=IwjvAeRrEUl2Lo2eVnRC4DwR3VpC9GonQFZzbRXXDCMXokHd4QhNI298r3ai0fUXTPA0
+	 hOPobP3ZpRlgLrn0zY9alVPGDP87lp68VheitCfl1+ilAX1foayYcOqc146fEPtGkgQvP
+	 eYnyL+dQqNS39R4RL9lQ01egrIybS8WoUn2FwESWP7jwbjeZBXo1vKPQR1GD1T0YRLXtr
+	 LC2XlUGYL2X3o1d7HfZ2e1RQKHbQw3NWJ77hwxTU1asUuF+TDRT8FUmgh46ltVnWrzPeS
+	 os/9BndhXkSwWWsptcVwJK8YqjSRuB8SyCArXTtSl3kMH3GdAIQhs1Jvm7qWts4TOIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="iMrntu/b";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E54C606A319;
-	Thu, 22 Oct 2026 08:09:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1E54C606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: dadd8e76cdef11f19a56ed5b684f684d-20261022
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:4dccc8a5-ff1d-4a93-b679-03fe595960c2,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:dbceba3df68f3206760bb73bf330df73,BulkI
-	D:nil,BulkQuantity:0,SF:80|81|82|83|102|817|850|865|898,TC:nil,Content:-10
-	|-8|-5|14|50|99,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:ni
-	l,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: dadd8e76cdef11f19a56ed5b684f684d-20261022
-X-User: songxiebing@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <songxiebing@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1876524480; Thu, 22 Oct 2026 16:09:07 +0800
-From: songxiebing <songxiebing@kylinos.cn>
-To: tiwai@suse.com,
-	perex@perex.cz
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	songxiebing@kylinos.cn
-Subject: Re: [PATCH] ALSA: hda/generic: Use "Input Source" for the capture source selector
-Date: Thu, 22 Oct 2026 16:09:04 +0800
-Message-Id: <20261022080904.1740256-1-songxiebing@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20261022025743.520258-1-songxiebing@kylinos.cn>
-References: <20261022025743.520258-1-songxiebing@kylinos.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B23606A31A;
+	Thu, 22 Oct 2026 08:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iMrntu/b
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEE0F1F000C2;
+	Thu, 22 Oct 2026 08:14:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792656896;
+	bh=IYczWvl6oIr7RkPhLLIZzCriAlP0enKRmAOobHZGLwI=;
+	h=From:To:Cc:Subject:Date;
+	b=iMrntu/b7Ek7iou2YWIQJd2eI7WGgCqbEjxXXzLZyGB+4PqeDnTUo15bOq0z56RK8
+	 gFn6sVKinVzq7O2JvN1GopBuYI7x+l9ko0vhpbmsbiiHSARoMmk5lWl2Xt8vWHOuoq
+	 e4Aig/fQ5aZiQeo+ACRSOTX6ATQh5Fp82aYJgG6E72dvXYKynJxgg8/NrP3O0fnJwq
+	 KsHaEFjF/Koc3TPIqtmeTi+lgvJ0Scu2q2all7mNijdD3p96WZ7RLGkzzjAU+6/xZp
+	 nzqz0lgBizKltnycfnaIzLFvERCnThB9yyEHe8nLlYHTKAK8QTcTwNA5Qvezuf4rip
+	 EMaRE8NLvGSRw==
+From: Thorsten Blum <blum@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Hemanth Selam <hemanth.selam@gmail.com>
+Cc: Thorsten Blum <blum@kernel.org>,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: ac97: Use snprintf() in snd_ac97_get_name()
+Date: Thu, 22 Oct 2026 10:14:36 +0200
+Message-ID: <20261022081437.1029-2-blum@kernel.org>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -71,28 +61,78 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2273; i=blum@kernel.org; h=from:subject; bh=2hi15XuMBzgMyq0G+d7wN1+oJfd7CxSvka8qaw0qm8U=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDFk3j76dpnhzx5r7j5If5FqK2izhbd/c8MZq8pZ5Wy//e blRpCbqa0cpC4MYF4OsmCLLg1k/ZviW1lRuMonYCTOHlQlkCAMXpwBMRDuN4X/26svtt2y0c07f fvn5FptDxYGqD2rmLgldL0oby9/4mR1nZPjgq746+VdKpa8Wb0Bc7Ib9c2RlP2h89D8+85x8nnp 6Gx8A
+X-Developer-Key: i=blum@kernel.org; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
 Content-Transfer-Encoding: 8bit
 
->It must be rather a problem of PulseAudio, and it should be able to
->handle Capture Source, as it's been used for most of old AC97-based
->cards.
->
->Reverting this old behavior change (since 14 years ago!) is just
->no-go.
->
->
->thanks,
->
->Takashi
+To prepare for removing strlcat() from the kernel [1], use snprintf() to
+append the codec name and the optional revision. Also use snprintf() for
+the unknown vendor fallback.
 
-Thank you for reply.  You are right -- changing the name
-unconditionally was not well thought out, and I agree that reverting the
-long-standing behavior is not acceptable.
+Fix some formatting while at it.
 
-Would it be acceptable if I add a flag to hda_gen_spec (e.g.
-use_input_source) that decides whether to use "Input Source" for the
-capture source selector?  A codec driver could set it when needed, while
-the default behavior stays unchanged.
+No functional change.
 
-Thanks,
-Bob
+Link: https://github.com/KSPP/linux/issues/370 [1]
+Signed-off-by: Thorsten Blum <blum@kernel.org>
+---
+ sound/pci/ac97/ac97_codec.c | 29 ++++++++++++++++-------------
+ 1 file changed, 16 insertions(+), 13 deletions(-)
+
+diff --git a/sound/pci/ac97/ac97_codec.c b/sound/pci/ac97/ac97_codec.c
+index 0bb65be021d9..73deee7061a1 100644
+--- a/sound/pci/ac97/ac97_codec.c
++++ b/sound/pci/ac97/ac97_codec.c
+@@ -1832,36 +1832,39 @@ void snd_ac97_get_name(struct snd_ac97 *ac97, unsigned int id, char *name,
+ 		       size_t maxlen, int modem)
+ {
+ 	const struct ac97_codec_id *pid;
++	size_t len;
+ 
+-	sprintf(name, "0x%x %c%c%c", id,
+-		printable(id >> 24),
+-		printable(id >> 16),
+-		printable(id >> 8));
+ 	pid = look_for_codec_id(snd_ac97_codec_id_vendors, id);
+-	if (! pid)
++	if (!pid) {
++		snprintf(name, maxlen, "0x%x %c%c%c", id,
++			 printable(id >> 24),
++			 printable(id >> 16),
++			 printable(id >> 8));
+ 		return;
++	}
+ 
+ 	strscpy(name, pid->name, maxlen);
+ 	if (ac97 && pid->patch) {
+ 		if ((modem && (pid->flags & AC97_MODEM_PATCH)) ||
+-		    (! modem && ! (pid->flags & AC97_MODEM_PATCH)))
++		    (!modem && !(pid->flags & AC97_MODEM_PATCH)))
+ 			pid->patch(ac97);
+-	} 
++	}
+ 
++	len = strnlen(name, maxlen);
+ 	pid = look_for_codec_id(snd_ac97_codec_ids, id);
+ 	if (pid) {
+-		strlcat(name, " ", maxlen);
+-		strlcat(name, pid->name, maxlen);
+ 		if (pid->mask != 0xffffffff)
+-			sprintf(name + strlen(name), " rev %u", id & ~pid->mask);
++			snprintf(name + len, maxlen - len, " %s rev %u",
++				 pid->name, id & ~pid->mask);
++		else
++			snprintf(name + len, maxlen - len, " %s", pid->name);
+ 		if (ac97 && pid->patch) {
+ 			if ((modem && (pid->flags & AC97_MODEM_PATCH)) ||
+-			    (! modem && ! (pid->flags & AC97_MODEM_PATCH)))
++			    (!modem && !(pid->flags & AC97_MODEM_PATCH)))
+ 				pid->patch(ac97);
+ 		}
+ 	} else {
+-		int l = strlen(name);
+-		snprintf(name + l, maxlen - l, " id %x", id & 0xff);
++		snprintf(name + len, maxlen - len, " id %x", id & 0xff);
+ 	}
+ }
+ 
