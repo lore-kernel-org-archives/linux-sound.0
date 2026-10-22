@@ -1,57 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.118.77.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792655276;
-	b=n04mWzPMJulXXmI8GC06qaa34Ky1bmkbRzJxe7NuprYYGDlUja+TFMrGQtSYiGEY+39K
-	 mWfs8JrTTgKLcYCq2u3wjjSmLdu/evP9FkBy3PeAQ+f02X7DW3EmRr7XIwooQX5xXcCEN
-	 oSrt6bIyxIJ4w34ipw1I9jO1HFgDz6gJa3PL/pwX86HRsu+uMb58D4tdhXG8XjH+oahsg
-	 HGYJnoGNfFfHjhdNEgYRJlrWalCC/JVmsdKqQFTSf8T8f45mg8kmPSWfKeEJNajYwp47j
-	 azKXU7NXAQzK2EAIW5F9OZ0BLUAIzoB7bfhOmxsj2wLmOOniWxhEqID3XogyGSz8MUA==
+	t=1792655277;
+	b=JbdSbr9HTTpljqmYUkMKFz6csMsLcGnXx8QQlyfUHHy6EqE+QqeEM9gXgxK4t0ajl8xM
+	 ZdkhrSYWYr3mk4iGv4dGpb0QHPWe6WazxZvaZ6bAN4S9zdfB0XadSJyGsjNxNwhkyMolU
+	 ET1KLxfmRLjf4lTG0Veye3h+Gb7LjYPOBtB1IBbkoIy0xSgu7faMeak3KRBu3ihQf/yCW
+	 lkHOSTLt8MCLMjtA9JfTmO+YpDQ7LuF1WELeGQBFECSK5pke1xUXbA3e0caGk2YUtPKmp
+	 rtSf2DAv9mlD0m1JedMxRZY/8wVcYMDz7i+LGzplZzczfBjq6RJegHK6SMkPivvFoCQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792655276;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792655277;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:MIME-Version:
 	 Content-Transfer-Encoding:X-CMS-MailID:X-Msg-Generator:Content-Type:
 	 X-RootMTR:X-EPHeader:X-CMS-RootMailID:References;
-	bh=nQSbSypt5xknqyzhuTgDiODUnVCXr57mHIvu/Q2ATx4=;
-	b=BrdQ1CpYViMr4fJn+HeRzXr7g5Httw33jZQQn3sTFoNX1DfIy1QZyJ9LJQZkV6PVYpFa
-	 MOwhpNoH51g6G/Xgh96dgraUyPltWOTgKGRkWn2LbMDNYaeatjIesufFhXtnGzFIx7ppf
-	 hsN+b0ygJ1Gb3i8HN00TId5sro98Euh0nrdQg9ukDqwCXs6eEvYXcxazInX85wrCyCgn1
-	 TDI8cCqUuVOHJ27oPv7ownKMBhjjIUev3FsGe2E7m4bxwYqTq20PxV7QkUUEDVv0c8GDm
-	 vfz9wmuv/brq9vRyswRoJ3q4ufYON+mMaaHh6ZmO98gGWzFPfXdHZ+FdGGPV9/RbkXg==
+	bh=VqywLVpdHjTrvx2+XNnWfsYamv0qjE56AE6iewW/pUc=;
+	b=PdTNByexJK7Miqu0+zpnGbmK/YqUIXO+pUXTlLoek8CEWmaXkoSwaHyoiMJBdqX49Dw2
+	 2eIaynObY2pDyDOhnUfzAbN8/kiwNYvMNcUX3Gp8ciqbSmUbO06N8oCpZDcobO+9IbLf/
+	 e6C78ilf7/FRg/dQ0vkzFQJ6N1XtDEIp3fEVXfnd5ziHT+wnUDFepWKwR3dcYf9f/b2hg
+	 uYzUdy9cYzDShUJXhXul1x6Cq2vfzGWBsKbpQQaVGF8/qgnvIXyGt666mvu9yWKnsDQ3b
+	 x2nTxDm+ZPI/t0VZmWCuDvLcXoWc7MvHU8KNn7nUmYy+IBXX+JAMUZFNSJvpHjyJFoA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=samsung.com;
 	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=V4eZzJrG;
-	arc=none smtp.remote-ip=210.118.77.12
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=YVEQ1r4b;
+	arc=none smtp.remote-ip=210.118.77.11
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46356606A31D
-	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 07:47:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46356606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8C7606A31F
+	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 07:47:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F8C7606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=V4eZzJrG
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20261022074753euoutp0209362aafba0b3f5a4199e71225af9f98~gynk3Z1K41298612986euoutp02y
-	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 07:47:53 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20261022074753euoutp0209362aafba0b3f5a4199e71225af9f98~gynk3Z1K41298612986euoutp02y
+	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=YVEQ1r4b
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20261022074754euoutp014a963aa090b6c8f57236f0498614e545~gynl6HWgn0064100641euoutp01W
+	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 07:47:54 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20261022074754euoutp014a963aa090b6c8f57236f0498614e545~gynl6HWgn0064100641euoutp01W
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1792655273;
-	bh=nQSbSypt5xknqyzhuTgDiODUnVCXr57mHIvu/Q2ATx4=;
+	s=mail20170921; t=1792655274;
+	bh=VqywLVpdHjTrvx2+XNnWfsYamv0qjE56AE6iewW/pUc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=V4eZzJrGEiZ3JFzPl7JaORopQvXxB895VX3l8Nwsmv7RLi5dvjyRhXm/YvVTwkHZp
-	 xkG/VVo6TZIW1t6CknPmGd5giNkraKE9hnPCTNWR5+ySida4UzaHdc/o2ibVmeeGta
-	 bFRz6zC8OWpwOQsUz6Ies0DfCUo6CjNx+nl7ci+w=
+	b=YVEQ1r4bOqRT+I8/86b3anWpvBR4nDdW2LIAB2WdUIqBwLoPoo41d+Qwy+FFwaceT
+	 OCFSvx1zTbn7kmxMYFtl4Ep0+qMfb4l6z6Z5dZizmkOT7zHdDPvhib1p6OP3+GpIDC
+	 /h/6BiTjhmErqyCoCYWV7nl0SJgLjlsw8Cz7cc2I=
 Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
 	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20261022074753eucas1p26ebe5f299d94a00260716a4f137f21b5~gynkju7-l0762707627eucas1p20;
-	Thu, 22 Oct 2026 07:47:53 +0000 (GMT)
+	20261022074754eucas1p2cface621d60c7e963c01e992f1421181~gynll8k9a2648026480eucas1p2S;
+	Thu, 22 Oct 2026 07:47:54 +0000 (GMT)
 Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
 	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20261022074752eusmtip2a6ed4cb1b696843a287c3c092b8193a4~gynkHptts1017810178eusmtip2P;
-	Thu, 22 Oct 2026 07:47:52 +0000 (GMT)
+	20261022074753eusmtip26f5e5635600181a0a1e3fda5885494a0~gynlKWbUG0844008440eusmtip20;
+	Thu, 22 Oct 2026 07:47:53 +0000 (GMT)
 From: Marek Szyprowski <m.szyprowski@samsung.com>
 To: 
 Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Liam Girdwood
@@ -60,10 +60,10 @@ Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Liam Girdwood
 	Krzysztof Kozlowski <krzk@kernel.org>, Artur Weber
 	<aweber.kernel@gmail.com>, patches@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH v2 1/4] ASoC: wm8994: fix MCLK gating for AIF clocks sourced
- from MCLK2
-Date: Thu, 22 Oct 2026 09:47:39 +0200
-Message-ID: <20261022074743.625223-2-m.szyprowski@samsung.com>
+Subject: [PATCH v2 3/4] ASoC: wm8994: fix MCLK index used for setting MCLK
+ rate
+Date: Thu, 22 Oct 2026 09:47:41 +0200
+Message-ID: <20261022074743.625223-4-m.szyprowski@samsung.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261022074743.625223-1-m.szyprowski@samsung.com>
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -76,189 +76,62 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20261022074753eucas1p26ebe5f299d94a00260716a4f137f21b5
+X-CMS-MailID: 20261022074754eucas1p2cface621d60c7e963c01e992f1421181
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20261022074753eucas1p26ebe5f299d94a00260716a4f137f21b5
+X-RootMTR: 20261022074754eucas1p2cface621d60c7e963c01e992f1421181
 X-EPHeader: CA
-X-CMS-RootMailID: 20261022074753eucas1p26ebe5f299d94a00260716a4f137f21b5
+X-CMS-RootMailID: 20261022074754eucas1p2cface621d60c7e963c01e992f1421181
 References: <20261022074743.625223-1-m.szyprowski@samsung.com>
-	<CGME20261022074753eucas1p26ebe5f299d94a00260716a4f137f21b5@eucas1p2.samsung.com>
+	<CGME20261022074754eucas1p2cface621d60c7e963c01e992f1421181@eucas1p2.samsung.com>
 
-aif_mclk_set() masks the AIFnCLK_SRC field of the AIFn clocking
-register, but compares the result with unshifted field values. The
-MCLK2 source (0x08) therefore never matches, so MCLK2 is never enabled
-for an AIF clocked from it, and the AIF relies on other users of that
-clock to keep it running.
+wm8994_set_dai_sysclk() passes the AIF index (dai->id - 1) to
+wm8994_set_mclk_rate(), which uses it to index the MCLK clocks and
+their cached rates. As a result, selecting MCLK2 as the AIF1 clock
+source sets and reads back the rate of MCLK1 instead, and the rate
+of MCLK1 is then stored as the MCLK2 rate.
 
-On the Exynos4412 Trats2 board, AIF1 and SYSCLK run from MCLK2, the
-32768Hz PMIC clock, while the codec is idle. That clock is shared with
-the WLAN and Bluetooth chips, which enable it only once their drivers
-are loaded. Until then the codec runs from a stopped clock: FLL1 fails
-to lock when configured from that state, and the codec floods the
-kernel log with FIFO error interrupts once a digital path is powered
-up:
+On the Exynos4412 Trats2 board, where MCLK1 is a fixed 24MHz clock and
+MCLK2 a 32768Hz clock used when the codec is idle, this gives:
 
- wm8994-codec wm8994-codec: Timed out waiting for FLL lock
- wm8994-codec wm8994-codec: FIFO error
+ wm8994-codec wm8994-codec: AIF1 using MCLK2 at 24000000Hz
 
-Booting with clk_ignore_unused, which keeps that clock running from
-the bootloader, makes both issues disappear.
+so the driver assumes a 12MHz SYSCLK while it actually runs at 32kHz.
+This skips the 128fs AIF clock ratio setup for low SYSCLK rates and
+makes the mic detection rate configuration use the wrong clock rate.
 
-Fixing just the comparison is not enough. The AIF clock source can
-be changed by configure_aif_clock() while the AIF clock is running,
-for example the Midas machine driver switches AIF1 between MCLK2 and
-FLL1 while AIF1CLK is kept enabled for jack detection. The MCLK
-selected this way is never enabled, and looking up the clock again on
-disable can release a different MCLK than the one enabled, leaking the
-enable count of one clock and underflowing the other.
+Pass the MCLK index matching the selected clock source instead.
 
-Shift the field value before decoding it, and remember which MCLK has
-been enabled for each AIF, so that the same clock is released on
-disable. When the AIF clock source is changed while the AIF clock is
-running, enable the new MCLK before switching to it and release the
-previous one afterwards. While at it, report the MCLK number 1-based
-in the error message.
-
-Fixes: 001b83d395ab ("ASoC: wm8994: Add support for MCLKn clock gating")
+Fixes: 419e2f508336 ("ASoC: wm8994: Add support for setting MCLK clock rate")
 Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
 ---
- sound/soc/codecs/wm8994.c | 55 ++++++++++++++++++++++++++++++++-------
- sound/soc/codecs/wm8994.h |  2 ++
- 2 files changed, 47 insertions(+), 10 deletions(-)
+ sound/soc/codecs/wm8994.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/codecs/wm8994.c b/sound/soc/codecs/wm8994.c
-index c65a7769a9d2..b5675eab2214 100644
+index 2cfc2f8a36b0..6b91e02f130b 100644
 --- a/sound/soc/codecs/wm8994.c
 +++ b/sound/soc/codecs/wm8994.c
-@@ -163,9 +163,12 @@ static void wm8958_micd_set_rate(struct snd_soc_component *component)
- static int configure_aif_clock(struct snd_soc_component *component, int aif)
- {
- 	struct wm8994_priv *wm8994 = snd_soc_component_get_drvdata(component);
-+	struct clk *mclk = NULL;
-+	bool switch_mclk;
- 	int rate;
- 	int reg1 = 0;
- 	int offset;
-+	int ret;
- 
- 	if (aif)
- 		offset = 4;
-@@ -174,11 +177,13 @@ static int configure_aif_clock(struct snd_soc_component *component, int aif)
- 
- 	switch (wm8994->sysclk[aif]) {
+@@ -2566,7 +2566,7 @@ static int wm8994_set_dai_sysclk(struct snd_soc_dai *dai,
  	case WM8994_SYSCLK_MCLK1:
-+		mclk = wm8994->mclk[WM8994_MCLK1].clk;
- 		rate = wm8994->mclk_rate[0];
- 		break;
+ 		wm8994->sysclk[dai->id - 1] = WM8994_SYSCLK_MCLK1;
  
- 	case WM8994_SYSCLK_MCLK2:
- 		reg1 |= 0x8;
-+		mclk = wm8994->mclk[WM8994_MCLK2].clk;
- 		rate = wm8994->mclk_rate[1];
- 		break;
+-		ret = wm8994_set_mclk_rate(wm8994, dai->id - 1, &freq);
++		ret = wm8994_set_mclk_rate(wm8994, WM8994_MCLK1, &freq);
+ 		if (ret < 0)
+ 			return ret;
  
-@@ -196,6 +201,20 @@ static int configure_aif_clock(struct snd_soc_component *component, int aif)
- 		return -EINVAL;
- 	}
+@@ -2579,7 +2579,7 @@ static int wm8994_set_dai_sysclk(struct snd_soc_dai *dai,
+ 		/* TODO: Set GPIO AF */
+ 		wm8994->sysclk[dai->id - 1] = WM8994_SYSCLK_MCLK2;
  
-+	/*
-+	 * If the AIF clock is running, enable the new MCLK before switching
-+	 * to it and release the previous one afterwards.
-+	 */
-+	switch_mclk = wm8994->aif_clk_on[aif] && mclk != wm8994->aif_mclk[aif];
-+	if (switch_mclk) {
-+		ret = clk_prepare_enable(mclk);
-+		if (ret < 0) {
-+			dev_err(component->dev,
-+				"Failed to enable MCLK for AIF%d\n", aif + 1);
-+			return ret;
-+		}
-+	}
-+
- 	if (rate >= 13500000) {
- 		rate /= 2;
- 		reg1 |= WM8994_AIF1CLK_DIV;
-@@ -210,6 +229,11 @@ static int configure_aif_clock(struct snd_soc_component *component, int aif)
- 			    WM8994_AIF1CLK_SRC_MASK | WM8994_AIF1CLK_DIV,
- 			    reg1);
+-		ret = wm8994_set_mclk_rate(wm8994, dai->id - 1, &freq);
++		ret = wm8994_set_mclk_rate(wm8994, WM8994_MCLK2, &freq);
+ 		if (ret < 0)
+ 			return ret;
  
-+	if (switch_mclk) {
-+		clk_disable_unprepare(wm8994->aif_mclk[aif]);
-+		wm8994->aif_mclk[aif] = mclk;
-+	}
-+
- 	return 0;
- }
- 
-@@ -1059,13 +1083,25 @@ static int aif_mclk_set(struct snd_soc_component *component, int aif, bool enabl
- 	unsigned int offset, val, clk_idx;
- 	int ret;
- 
-+	/*
-+	 * The AIF clock source may be changed while the AIF clock is
-+	 * running, so release the MCLK which has been enabled for it
-+	 * instead of the one currently selected.
-+	 */
-+	if (!enable) {
-+		clk_disable_unprepare(wm8994->aif_mclk[aif]);
-+		wm8994->aif_mclk[aif] = NULL;
-+		wm8994->aif_clk_on[aif] = false;
-+		return 0;
-+	}
-+
- 	if (aif)
- 		offset = 4;
- 	else
- 		offset = 0;
- 
- 	val = snd_soc_component_read(component, WM8994_AIF1_CLOCKING_1 + offset);
--	val &= WM8994_AIF1CLK_SRC_MASK;
-+	val = (val & WM8994_AIF1CLK_SRC_MASK) >> WM8994_AIF1CLK_SRC_SHIFT;
- 
- 	switch (val) {
- 	case 0:
-@@ -1075,19 +1111,18 @@ static int aif_mclk_set(struct snd_soc_component *component, int aif, bool enabl
- 		clk_idx = WM8994_MCLK2;
- 		break;
- 	default:
-+		wm8994->aif_clk_on[aif] = true;
- 		return 0;
- 	}
- 
--	if (enable) {
--		ret = clk_prepare_enable(wm8994->mclk[clk_idx].clk);
--		if (ret < 0) {
--			dev_err(component->dev,	"Failed to enable MCLK%d\n",
--				clk_idx);
--			return ret;
--		}
--	} else {
--		clk_disable_unprepare(wm8994->mclk[clk_idx].clk);
-+	ret = clk_prepare_enable(wm8994->mclk[clk_idx].clk);
-+	if (ret < 0) {
-+		dev_err(component->dev,	"Failed to enable MCLK%d\n",
-+			clk_idx + 1);
-+		return ret;
- 	}
-+	wm8994->aif_mclk[aif] = wm8994->mclk[clk_idx].clk;
-+	wm8994->aif_clk_on[aif] = true;
- 
- 	return 0;
- }
-diff --git a/sound/soc/codecs/wm8994.h b/sound/soc/codecs/wm8994.h
-index b28398aa9e48..e7df0a1a2314 100644
---- a/sound/soc/codecs/wm8994.h
-+++ b/sound/soc/codecs/wm8994.h
-@@ -81,6 +81,8 @@ struct wm8994_priv {
- 	struct wm_hubs_data hubs;
- 	struct wm8994 *wm8994;
- 	struct clk_bulk_data mclk[WM8994_NUM_MCLK];
-+	struct clk *aif_mclk[2];
-+	bool aif_clk_on[2];
- 	int sysclk[2];
- 	int sysclk_rate[2];
- 	int mclk_rate[2];
 -- 
 2.43.0
 
