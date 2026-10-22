@@ -1,95 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792687568;
-	b=vHfzY0CiON6gXrvScICqhbVnDEypgpqa4to0JP/V4b5nAgIYItBQHz4BrT1pqNTOYiAT
-	 O7hY/ffN2q70HtmcMjKLdCACx3vQh+StUrLH4+FJ/CQxSXrbnpMe5wvOMpNVtVEOgMvbg
-	 /LaVEFRDpEv6n73qv2ZD596tbMNqr9esP1Dk9aBIwgFyKXvc/3kdCpXEENlDp5YmegHsK
-	 P+3OgyIXexvDA1bqHEDhJJU3lHxjT43DGW2rSRc4wOaPQsi7/Bde4B7vvubY3wdQXw0M4
-	 N3oOUj3wuTkDMYQzXsQOFoya0NyfMYXOSFMn3VmUEk4EOw3eZD/5ZqECtQQJjNYRfFw==
+	t=1792688272;
+	b=vmWXF81h2tpJIKZiGLQv6NrjXS0nLr4YweN9f9hArObZxL9mG98rQIkAl7lpDlhqQQhb
+	 UN48vWTW6EfnAFoTsMTGT9dOOO0gbBjG8cyju2v4rc9FBzLZFiyM3D0S1+mRLUGfSPGZF
+	 25xuCn1NFxk2q4RMhai8PHRk8T+Ikd/XzQQBg16svuBAb1wzAvpX1945HR3ZV5XVqO9Ip
+	 y0CrLnQjTjXqC2JBGsAfQWZUeKkT7FSRstNcCQGkqZVeYNDiNMna0o1hIrK7zltZaFqSg
+	 x4zH3Bi9c4FfGRV779R53cxpede+dPzDd9l1A5knTmqjPu8uaFGbzQIFYZWuN4hod2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792687568;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ulbhMpPNAEqRrIOhtV5MGUC4m/y05Tb2A9NkmVyj/X8=;
-	b=w/jFr1svPaFKnkq9cd7kbVymAWV4z836/f7Mqy+pH2AqAE5rizr1RHF0K1BNd9x0R258
-	 vR38ZvOAhd1EFDlD+5Hcszh4z2bZzhYHoe2ouJRaxYm8uleCXUFDRlduflLKxivJFMXJd
-	 Gv649dcuVvTHrYF6ijKVD772kWGXBbBVuz1UgtTjuffQyxNrqy0Gi3PM4NtUK4q2GNPDp
-	 Yk/uTXnUA/xUtI0XwgypJadLlnrUP88+vw5zBNm529fksObYoQITVHS0y3uR4Ggut7vrE
-	 ZRcJyZdiX7XFVbxF2nYm9z6P5e3efni4Tm29We35UU/cL0AIPwftpiWDiejRjKLU1Wg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792688272;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=pMhE5rKqRoH+Hcng7+XzN03VFco2MPae6BrjIx8neUs=;
+	b=bLkNFGe+X0VNQTNJ1EDuk+7XkJUb1yQb+dvLvKy+AabkaH2cPGmK+qrnrMwWLQ64Lq83
+	 9N0a5avZ3bgMoTfTXMJ6nH4xaRGt0ZuKGTx6498XdGZTZiMZbVBSqpa4voXuj1lBDZrkv
+	 RfLrv5OBNkSTkjrt9mPAuTyObWdz8CtmW7mpmzz8plW6VONnxvU0BrIrY/uOfXauNWGXJ
+	 g3e7A720Pkd7kfVi7q5J5kehxEwRaIhVmdFUoVXWm6jUUeAk83WFoPkhyrzZmXvdB6UTl
+	 IAbP534qchHIgQJsY5r2Mr417VGxMljUxYDa32Jupx17AV+hEnhGtXFXRSFtXjmIxFw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=V02IlN5i;
-	arc=none smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DnTlrHnL;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF80606A31A
-	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 16:46:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4EF80606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF998606A319
+	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 16:57:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=V02IlN5i
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48c5358fc28so20216f8f.0
-        for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 09:46:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792687567; x=1793292367; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ulbhMpPNAEqRrIOhtV5MGUC4m/y05Tb2A9NkmVyj/X8=;
-        b=V02IlN5iKRq9f3UIaNYf4qBsqYnr4l/l1KhUDGmkCUKaiS/X9h8h9pTCOlP26lwQBC
-         6Ubo3bRbASFVUO4Y7aV5Y64cxTndUcxU/M6oXGrVQ3ELWe570k2A4i3i0PsUFmHqzp4P
-         0f3+1STiGrSkfsyvMu+W4LkrN0rmNffD7yVa1JgTHvgfENNl8fAjnlx5rvoEkjZ/vPzP
-         Y5dDTjkUxE/rt6PLd0grpYr1GCPmQyJ/xCiy30snNwiYKXfzuWV/+trMSrl2r+h+WmUO
-         FTUjZUb39eJzoOFjrJUCip+qBfMpKBe8IjpfrVVVgAt3UtV2J/0G93rbhBm76lZeGdkx
-         ZTbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792687567; x=1793292367;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ulbhMpPNAEqRrIOhtV5MGUC4m/y05Tb2A9NkmVyj/X8=;
-        b=ASN3VqMMILfBtGEGM98Uc/vBpOBj/Vq4/R11DVo9itf05sDbKZ5JYpNTZro7X2sfxv
-         gxtnc/lijxy2taErWwdAzRjVtMu+swtoAY1BHxd7MpWM9blwNzePkaVF7VqTewcUCIjW
-         +gHtuUR/hPqN/bdinJHKnIWIWX//U6t16f+4AF/yEGNyAHokCBP2JMKOxmhskXF5/1Nw
-         jhNISVnoQmJXKFty5Qv2TQijnos3Fpjmz7P9Q7NqYGBrtS3BThonq0lHlN65pnXPzPE6
-         CSdV2xabSBICcUxnGjr19oZxidCVpuKSoB8JdRiF8fljWerF18xJLwKHOgLutQPxqeb+
-         uLcA==
-X-Forwarded-Encrypted: i=1; AKwUvBwS0nrVRGVJ+eSN9emEGfyE4foK+eK+HdfTgyySNHlWqNeCL70kVyhHuttTcKhY8LpNoT0gwN2+2ya8FQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLn3Ts2GLO5NsP3y7QMFjy4kp6IUHLg98f2st51SYP70q35wS29
-	QHL7O6C8+FTITLdoVk7+eCkdMAjXsajBdwAWjnJbCx6LUhoT539ZTYo=
-X-Gm-Gg: AYBFou3sgBcSfeNiduHyBCM8BGQTgaMERNDuRisnE55NO2zbGqc81FWode5XRIvXbEG
-	WQYZNaFfR1aI1n6Y6NrhzrOG7JcESDxHBVI/bLixT5Q2IQ4t35cjQB6X7+S5vv633Q/cMw0HKmG
-	7NH3anad5d+u82+YxCGHAZ0+7awlq58G97atZuV2u6JOaIFAkzfCD5yWjr3b/IP1fdFD1k+o2g7
-	HC4sOT9Z2dZjauGHMFm/VkPX79j0LeXR6raqynEU/TwaHzuLD83GyEK7gSbXkidjFEPCcM9LxCZ
-	OJ2fQfWDKRjpjp1wSfMT0dNlw1t+Av23lGU9Et0DmRp3sI2yOKyHcrq4XWx9gR4v/gWrpbQrhSL
-	wsaWAEcXlQuUjamGsiJknpmsh94b8A38FIOl+zTrijwv/mwA4y3cLGOYZQDO9UsVrT3V3EHTdc1
-	ixryL0EkbgG/o9r25d4muzXnGuFPdJefIJg9wjzE60BP3otsG7RIeleMaGCP7aocoAV+zCjPZOf
-	/dMc8r4WyGX0rHdSvrfWz0xx7Yywhi2hyTeYBiRLLCagSyStjqq/ssVCNFHqBg+fk18oWIA3fRw
-	8j3CKBGIlZfADq7YC50Cvyep4IckpmIg+/IXRFuWQQO493x//ZTvXK/S4A==
-X-Received: by 2002:a5d:5f95:0:b0:48d:ffce:6cef with SMTP id ffacd0b85a97d-48e263ac3a5mr12539089f8f.0.1792687566645;
-        Thu, 22 Oct 2026 09:46:06 -0700 (PDT)
-Received: from localhost ([2a02:810d:4a94:b300:7204:b73f:b5ab:d041])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-48e25827087sm13154209f8f.21.2026.10.22.09.46.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Oct 2026 09:46:06 -0700 (PDT)
-From: Florian Fuchs <fuchsfl@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Cc: Kees Cook <kees@kernel.org>,
-	Markus Elfring <elfring@users.sourceforge.net>,
-	Adrian McMenamin <adrianmcmenamin@gmail.com>,
-	Florian Fuchs <fuchsfl@gmail.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: sh: aica: Fix spu_memset() stride
-Date: Thu, 22 Oct 2026 18:32:41 +0200
-Message-ID: <20261022163241.2504922-1-fuchsfl@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DnTlrHnL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CF411F01825;
+	Thu, 22 Oct 2026 16:57:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792688271;
+	bh=pMhE5rKqRoH+Hcng7+XzN03VFco2MPae6BrjIx8neUs=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=DnTlrHnLwlK2NmDTPiJ6rPrMEpkS8CYpr4ln4sdI69OIZOgCHRzxqy9GM1Q0Ghr/9
+	 Ie5FThJR1/SvSxTXoNNr/YF7NhTxt46Ykt+wR7rkL/rnq8D2fhTgxR6AwUmfMcfBtD
+	 n/jWlBw03GoLjKfSzJFSkAOyDfUBpvpkwYFhNkTrQXTqITCQTsh2DpOo2skHGi01MB
+	 5z2JGErYAHGTGTja2K6FeFBMArM4D07Jv5hoHDLMMdyQE7Tfka6+/oMZq9BJGbYQz2
+	 HGMpytwyRgUlHcWsrhz79l/KN4YP7z995BfWfX80ifpkPHLRHu5x0AKrhmvFzDYJZR
+	 b2tVmVzJBLxuQ==
+Message-ID: <sashiko-outbox-181835@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: add quirk for Novation UltraNova
+ (1235:0011)
+Reply-To: sashiko-reviews@lists.linux.dev
+To: rainey.shawn+kaudio@gmail.com
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261022164340.78664-1-rainey.shawn+kaudio@gmail.com>
+References: <20261022164340.78664-1-rainey.shawn+kaudio@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 22 Oct 2026 16:57:50 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -98,59 +59,135 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-spu_memset() writes one 32-bit word per iteration, but advances the
-destination offset by only one byte. spu_reset() calls it with
-0x200000 / 4 words to clear the 2 MiB of sound RAM, so:
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] ALSA: usb-audio: missing .ep_idx =3D 1 in UltraNova capture audi=
+oformat
+--
 
- - three out of four writel() calls target an unaligned address. The
-   SH4 can't do that. Each one traps and is emulated by the unaligned
-   access fixup. This call to spu_memset() causes 393216 unaligned
-   accesses, visible in /proc/cpu/alignment.
- - the clear covered only about 512 KiB of sound RAM, not 2 MiB.
+commit aa83c7ced6942ef370a66b06613c33f74107f796
+Author: Shawn Rainey <rainey.shawn+kaudio@gmail.com>
 
-Advance the offset by the size of the written word, to clear the full
-sound RAM using aligned writes.
+ALSA: usb-audio: add quirk for Novation UltraNova (1235:0011)
 
-Fixes: 198de43d758c ("[ALSA] Add ALSA support for the SEGA Dreamcast PCM device")
-Signed-off-by: Florian Fuchs <fuchsfl@gmail.com>
----
-The patch has been tested on the hardware and sound is also still
-working well, the boot is faster by about 4s due to less unaligned
-fixups.
+This commit adds a composite USB audio quirk for the Novation UltraNova
+(1235:0011) with fixed playback and capture audio formats on interface 0
+and a raw MIDI quirk on interface 1, while leaving the vendor control
+interfaces unbound.
 
-Previously: 7.9s to boot:
-[    2.900000] AICA AICA: ALSA Driver for Yamaha AICA Super Intelligent Sound Processor
-..
-[    7.872000] ALSA device list:
-[    7.876000]   #1: Yamaha AICA Super Intelligent Sound Processor for SEGA Dreamcast
+> diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
+> index 6343a50fb2732..0b8bea76eca5b 100644
+> --- a/sound/usb/quirks-table.h
+> +++ b/sound/usb/quirks-table.h
+> @@ -2359,6 +2359,69 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+>  		}
+>  	}
+>  },
+> +{
+> +	/*
+> +	 * Novation UltraNova: vendor-specific class descriptors, fixed
+> +	 * audio and MIDI layouts.  Only the audio and MIDI interfaces
+> +	 * (0 and 1) are grabbed; the vendor control interfaces (2/3)
+> +	 * are left unbound for userspace access.
+> +	 */
+> +	USB_DEVICE_INTERFACE_NUMBER(0x1235, 0x0011, 0),
+> +	QUIRK_DRIVER_INFO {
+> +		.vendor_name =3D "Novation",
+> +		.product_name =3D "UltraNova",
+> +		QUIRK_DATA_COMPOSITE {
+> +			{
+> +				QUIRK_DATA_AUDIOFORMAT(0) {
+> +					/* playback */
+> +					.formats =3D SNDRV_PCM_FMTBIT_S16_LE,
+> +					.channels =3D 4,
+> +					.iface =3D 0,
+> +					.altsetting =3D 1,
+> +					.altset_idx =3D 1,
+> +					.attributes =3D UAC_EP_CS_ATTR_SAMPLE_RATE,
+> +					.endpoint =3D 0x01,
+> +					.ep_attr =3D USB_ENDPOINT_XFER_ISOC |
+> +						   USB_ENDPOINT_SYNC_SYNC,
+> +					.maxpacksize =3D 392,
+> +					.rates =3D SNDRV_PCM_RATE_44100 |
+> +						 SNDRV_PCM_RATE_48000,
+> +					.rate_min =3D 44100,
+> +					.rate_max =3D 48000,
+> +					.nr_rates =3D 2,
+> +					.rate_table =3D (unsigned int[]) {
+> +						44100, 48000
+> +					}
+> +				}
+> +			},
+> +			{
+> +				QUIRK_DATA_AUDIOFORMAT(0) {
+> +					/* capture */
+> +					.formats =3D SNDRV_PCM_FMTBIT_S24_3LE,
+> +					.channels =3D 2,
+> +					.iface =3D 0,
+> +					.altsetting =3D 1,
+> +					.altset_idx =3D 1,
+> +					.attributes =3D UAC_EP_CS_ATTR_SAMPLE_RATE,
+> +					.endpoint =3D 0x82,
+> +					.ep_attr =3D USB_ENDPOINT_XFER_ISOC |
+> +						   USB_ENDPOINT_SYNC_SYNC,
 
-After: 3.8s to boot:
-[    2.892000] AICA AICA: ALSA Driver for Yamaha AICA Super Intelligent Sound Processor
-..
-[    3.796000] ALSA device list:
-[    3.800000]   #1: Yamaha AICA Super Intelligent Sound Processor for SEGA Dreamcast
+[Severity: Medium]
+Should the capture QUIRK_DATA_AUDIOFORMAT(0) entry in usb_audio_ids in
+sound/usb/quirks-table.h also set .ep_idx =3D 1?
 
- sound/sh/aica.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Since capture endpoint 0x82 shares interface 0 altsetting 1 with playback
+endpoint 0x01, endpoint 0x82 is the second endpoint descriptor on that
+altsetting. Leaving .ep_idx unset defaults fp->ep_idx to 0.
 
-diff --git a/sound/sh/aica.c b/sound/sh/aica.c
-index 078fc7fc08f9..04f80c8c89c0 100644
---- a/sound/sh/aica.c
-+++ b/sound/sh/aica.c
-@@ -94,7 +94,7 @@ static void spu_memset(u32 toi, u32 what, int length)
- 		local_irq_save(flags);
- 		writel(what, toi + SPU_MEMORY_BASE);
- 		local_irq_restore(flags);
--		toi++;
-+		toi += sizeof(what);
- 	}
- }
- 
+When usb_audio_probe() -> snd_usb_create_quirk() ->
+create_composite_quirk() -> create_fixed_stream_quirk() runs in
+sound/usb/quirks.c:
 
-base-commit: c1b1c25de0d6008c3fcabc942fba635ea3693c3f
--- 
-2.43.0
+	alts =3D &iface->altsetting[fp->altset_idx];
+	altsd =3D get_iface_desc(alts);
+	if (altsd->bNumEndpoints <=3D fp->ep_idx) {
+		err =3D -EINVAL;
+		goto error;
+	}
 
+having fp->ep_idx =3D=3D 0 only checks altsd->bNumEndpoints <=3D 0 and does=
+ not
+verify that a second endpoint descriptor exists on altsetting 1.
+
+Next, in create_fixed_stream_quirk() -> add_audio_stream_from_fixed_fmt() ->
+snd_usb_audioformat_set_sync_ep() in sound/usb/pcm.c:
+
+	if (fmt->ep_idx > 0 || altsd->bNumEndpoints < 2)
+		return 0;
+
+	is_playback =3D !(get_endpoint(alts, 0)->bEndpointAddress & USB_DIR_IN);
+	attr =3D fmt->ep_attr & USB_ENDPOINT_SYNCTYPE;
+	if ((is_playback && (attr =3D=3D USB_ENDPOINT_SYNC_SYNC ||
+			     attr =3D=3D USB_ENDPOINT_SYNC_ADAPTIVE)) ||
+	    (!is_playback && attr !=3D USB_ENDPOINT_SYNC_ADAPTIVE))
+		return 0;
+
+because fmt->ep_idx is 0 rather than 1, snd_usb_audioformat_set_sync_ep()
+does not return early at fmt->ep_idx > 0 and instead checks
+get_endpoint(alts, 0) (playback endpoint 0x01), treating the capture
+audioformat as is_playback =3D true. That also appears to be why omitting
+USB_ENDPOINT_SYNC_SYNC caused generic sync-EP detection to pair 0x82 as a
+sync endpoint for the capture direction as described in the commit message.
+
+Additionally, when opening the capture endpoint via snd_usb_hw_params() ->
+snd_usb_endpoint_open() in sound/usb/endpoint.c:
+
+		} else {
+			ep->iface =3D fp->iface;
+			ep->altsetting =3D fp->altsetting;
+			ep->ep_idx =3D fp->ep_idx;
+		}
+
+ep->ep_idx for endpoint 0x82 is recorded as 0 instead of 1.
+
+[ ... ]
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261022164340.7866=
+4-1-rainey.shawn+kaudio@gmail.com?part=3D1
