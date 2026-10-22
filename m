@@ -1,53 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=61.135.153.176
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792637603;
-	b=LBPrH9HBBltKh4FAEuil/HrD85BBl0Meq6U1H7U4LbO4G1hQTiUF0Dyc16lPBF1Dke32
-	 JoGJ2kU3V8RTGFrfJpbOpY8aRGGGL4BpytF2Lasl7ON7XrYRA7VuyFnA5L34iold0urv5
-	 r7qCmhCu6dE4fxaUGY99NiOsJtm+fP9rA9tSGFQDhDpGIHUN84a/+F21AQbjzcnrC7vIi
-	 ANitji+jPanuGHoR9kud8pCuEIcJn2YTHmt2yhi/J0mdtr3Y0xL1HAOSqPkMYigLWbKHD
-	 X/1CiZ5zCNYb3GK0kCuBwDN/tMUs7Fh6BMw/EoIMyCa3kVK6Ue7YfAN5rAPp7AY5bYg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792637603;
-	h=DMARC-Filter:Received:X-Sender:X-Auth-ID:X-SMAIL-MID:X-SMAIL-UIID:
-	 From:To:Cc:Subject:Date:Message-Id:X-Mailer;
-	bh=WRnDvcTqraFrYgJTTa58MIGkkaQrbvH6Pz6kO9gbr+g=;
-	b=DB4UINRsTbufTu+NNnQQqcdXRbSRduJSELoke/5e6r+FQEtvloci6/hDDf9runAtIxV3
-	 cO0XE9p2M28zFGsALDbvTMlyd0T3i/15egYPnoYytEjJaU9Qaw3xcE1dKLbQeemN87ya/
-	 cp7zTQeXkvV3CuICj5Uoykrs1kqlkYvU7SxJjJuZfmixUIjhuCjTGECLnlQlarW1pnS8k
-	 VcfNHt+Iu68NpS0kux2rQgutstuF7rF8/rU+6pnWtV6vnNyBVRNNYONluTpc1QH5TUigu
-	 /CWVIVa02X4AWrIWUxp0VeaTqLIsUZ7JxuKgnikLAQCPw4hqwwa92ZuLxzDL0Kowqig==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=everest-semi.com;
-	spf=pass smtp.mailfrom=everest-semi.com;
-	arc=none smtp.remote-ip=61.135.153.176
-Received: from smtp153-176.sina.com.cn (smtp153-176.sina.com.cn [61.135.153.176])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.44.87
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792637668;
+	b=ZLgWGcHv/QpraB0xV5HX6fHvuEfjPwCqBCSoRlHpoVyAEbtSiJDQHRrd+R7mchQgJRJH
+	 guNUvbAMguFar7PSFxI9uU2r1ZH7Y1U/ybmbTS/z5qgeEdDylUh6hxM1fcXB8O4BqAKBv
+	 2H1kdQB9pXfWUKkQXmKZz/rXnJewPl3Z3y8W0EUeeg/5/OUFWurWJLLjbllMOGltl3bSB
+	 cJj8xrZ0Ytqt5ouJCltXUPdbkdyFJAGvXpG+QU3d1k7hS4WPMQzJbrdwj5ZcDxAXMU5o6
+	 +vekFNeQjg2PVxMYqFt4kb3LbiBeFP4wewio94mllsp0UKNHpo79P0jezN8vPo52Smw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792637668;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=C9a2YD2gJZMUdlYvF8L+DdAjxH5Ls/5DksBvPjTJBcE=;
+	b=Xccc9GLB49a9VhI3CeLFmXtGIDq7xGI2nrJG6KHemgoW+DeIPuuIcj2gC68qXDAhkko/
+	 afNOZEsWAHhIJnA7xsHOccsw3AmoQHo06dHqvdz5qUKehvlp0FOI114soF2PeYc2y22Dq
+	 GVR2BYqXekLipOEc74hfrK8eiUkwHERzVhkQ9LU5gi+SZquXTd8SgtHrhrkGrI1exla8I
+	 pxHtHeEPaHVv1PzK7dvVmsgJsk9Vdt8Ve/sLwFuoR8NEfXkxiXBO0LoHZ2m/thOG2ZPQV
+	 yDW5tJo63CeQ2OvwqK3narsxxT8VDU8qpQMeMAK8Tj3jn/KEezzm2xBDm8fyDywcRLA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amlogic.com;
+	spf=pass smtp.mailfrom=amlogic.com;
+	dkim=pass header.d=amlogic.com header.i=@amlogic.com header.a=rsa-sha256 header.s=selector1 header.b=ObmqC7xh;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.44.87
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023087.outbound.protection.outlook.com [40.107.44.87])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95058606A319
-	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 02:53:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95058606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
-Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
-	by sina.net (10.54.253.38) with ESMTP
-	id 6AD97A9900007183; Thu, 22 Oct 2026 10:53:14 +0800 (CST)
-X-Sender: zhangyi@everest-semi.com
-X-Auth-ID: zhangyi@everest-semi.com
-Authentication-Results: sina.net;
-	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: CE0EC672669949A28CD538D6666C5785
-X-SMAIL-UIID: CE0EC672669949A28CD538D6666C5785-20261022-105314
-From: Zhang Yi <zhangyi@everest-semi.com>
-To: linux-sound@vger.kernel.org,
-	broonie@kernel.org
-Cc: tiwai@suse.com,
-	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH v2] ASoC: codecs: es8375: Modify Register Configuration
-Date: Thu, 22 Oct 2026 10:53:09 +0800
-Message-Id: <20261022025309.24028-1-zhangyi@everest-semi.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056E0606A319;
+	Thu, 22 Oct 2026 02:54:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 056E0606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amlogic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amlogic.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=amlogic.com header.i=@amlogic.com header.a=rsa-sha256 header.s=selector1 header.b=ObmqC7xh
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=n5ZGVBdboJmn3ZSJK7mOTpXz+vb6QQ+5Zcd+vd7Z/zY+s6AM6mL5Aps0B82RqfINdgN4k+Uw1mzxza3eVWJVjguy4eIgTbj+uASiERlE86GmriqEwkRpN+l13MWvTQUmHFkyo78Wv0BWEKLthqP1HX8zzQFn0VXhMhr07UP6zkuTDcRDvnwPnohOireBODn8dNlKbMCD/Wt1fYHV4nzlpUX3fDo79z7CbHtmb9+HJPZfXofDKE4rLt4cIgnk6acDX/poNxSpXupHiu5C+J4ZCJwSKqGfpyVzbYomLSSZeLnCu1u4/Ck+QP/a64CEvtBALTqjQvJSopUs5XjHZIos5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C9a2YD2gJZMUdlYvF8L+DdAjxH5Ls/5DksBvPjTJBcE=;
+ b=r9bYb0X1mfWj4AMXkU+y3C/uLCzJd+vlde/QdYJ3CBNTK4Eu+c1p3Js1Z6yrFWsqNeIG82xger8b/tQHaxFRYBNV3Aa0VArgzjWo6QiOb3lfxVEEPLq7wdhKZv8Tgo9xB9OelNWJNI6c8A/hsL1rABluOeUYDgtL0Wl56aS7Amm5Nv8AFR063RoiLay3b0Oagm/t2ZO2qU1+rM28A88vpOUsvd49o/DF8yLTDwyBHxwCj5EycuecglWO+UqlbC1OPfrj6CmxSx+kpWFYQ5wDbKaJr80qUTiYFQW9heU7G21sgxCKzy1tTqp0xD4Oq8vi91OMoxuAVAxM0/pMQgYk4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amlogic.com; dmarc=pass action=none header.from=amlogic.com;
+ dkim=pass header.d=amlogic.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amlogic.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C9a2YD2gJZMUdlYvF8L+DdAjxH5Ls/5DksBvPjTJBcE=;
+ b=ObmqC7xhlxEcw1h8EKJIK1yolsZ0RpUD7t39blE86inodChOhvrgkLjzfOXHzw4TDSn/YQi4VOLXCFR68iMq+mb+RiYfZURIfBQ3/5W6sXG3AiOjaIlWO4psQcPosV/yPbRsV+HKB2LuCmE3VwYz+RutWTZxrK3yVch2uInF2AIZ3G8vDqHKwYklFQmB/BNhK0/31BBLtzM6P0DJuEayvGthZSZJPbssR92LbTQmmry6tgG/VzOIskxlU8iBtgcxIhAAtgMPEMrPkRH9XFBiG+Yava36412uoDiGoidZK6rludA6xMOTE0KeC3MULLo4XrK7kKwsD8uuIwkk2U02oA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amlogic.com;
+Received: from TYNPR03MB10226.apcprd03.prod.outlook.com
+ (2603:1096:405:3c1::21) by TY1PPFC94CEC410.apcprd03.prod.outlook.com
+ (2603:1096:408::a6b) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Thu, 22 Oct
+ 2026 02:54:23 +0000
+Received: from TYNPR03MB10226.apcprd03.prod.outlook.com
+ ([fe80::ff5:e524:cf10:5d7]) by TYNPR03MB10226.apcprd03.prod.outlook.com
+ ([fe80::ff5:e524:cf10:5d7%6]) with mapi id 15.21.0522.017; Thu, 22 Oct 2026
+ 02:54:23 +0000
+Message-ID: <cecef927-49f8-4351-803c-28ba2a10fed1@amlogic.com>
+Date: Thu, 22 Oct 2026 10:54:18 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 5/5] arm64: dts: amlogic: Add Amlogic S4 Audio
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
+ jian.xu@amlogic.com, shuai.li@amlogic.com, zhe.wang@amlogic.com
+References: <20261021-audio_drvier-v7-0-2b9aeae9cb8a@amlogic.com>
+ <20261021-audio_drvier-v7-5-2b9aeae9cb8a@amlogic.com>
+ <179259528987.4070168.12089976339610295834.b4-review@b4>
+From: Jiebing Chen <jiebing.chen@amlogic.com>
+In-Reply-To: <179259528987.4070168.12089976339610295834.b4-review@b4>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SG2PR04CA0214.apcprd04.prod.outlook.com
+ (2603:1096:4:187::17) To TYNPR03MB10226.apcprd03.prod.outlook.com
+ (2603:1096:405:3c1::21)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -56,202 +106,437 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYNPR03MB10226:EE_|TY1PPFC94CEC410:EE_
+X-MS-Office365-Filtering-Correlation-Id: db391aa1-423c-4d34-c10c-08df2fe7c731
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|23010399003|376014|366016|1800799024|22082099003|10067099003|261021123027099003|3023799007|18002099003|4143699003|260925021311599003|5023799004|260925022911599003|11063799006|261009223027099003|260925021911599003|261021121427099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	ralrJPmNNKcAmIehgPhHwi1actcvZLG3Luz0WgP6+MNeWrmdUCQLlvsMN/Wss4SHuCaQ9ZVbSInbTBZHL3ZpVTtx7IrUq8Muv+o32mEPJ6zo6mZ5VBQsTlQyJijh91hZHfkeu0KiFPVkuE8696pdoW9GmHV6WPfaOsct4RquCX30LruYv/oGWmjUPIPC4KGHEC5t7Ri5Yij5AOzYoXhiA5wW6qucSyr2XRsjQ/ghe7Qbrl1aeAceOsueIFJTLcjq6HVVmno6HjBagpMu7gGNP34KcDK1mMLwAZp8kKBEAjKvkJ8u1Xgs9jbMZeIEKR6z3/fRObAVM9E5NJVH+G/aXjYvuuMeMd8R+OQp/T3h83ddO2tiJQghIzOvxsNGtDFpX2CVz38mzDkp2VkSGbZbze9xzR61ElQeL2ul9/UoAEBeEiAUcBrIe3oWcijWIbEi5RUzg0DcnL/XrUDtBItWjh/l6hl6ER6peeVqRDPyIAfkzPPtR4mOMuPLONNV8+oXPtwPtVbD5JizANTTwdYaoPyjjkwR8MGMrlFdAGt6r4d6Rw42ArWQlwLlVvXjWLRryeK4Wc2cUoEsZb0J/a2OOtQJLtPoSh1nJwjn3yPjpQJjMv5N7IX30C1sgrKwUzBJOz3uGTtREDuTcVsGtAWSLtxLPD0wfnq4zw8p2KO30Hw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYNPR03MB10226.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(366016)(1800799024)(22082099003)(10067099003)(261021123027099003)(3023799007)(18002099003)(4143699003)(260925021311599003)(5023799004)(260925022911599003)(11063799006)(261009223027099003)(260925021911599003)(261021121427099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UldoK245SjRnSHBjUVcwYlh3RnRHYXVIdlZGRTloY2l0MEgzQTNsWmpSUHRz?=
+ =?utf-8?B?UDFiZXBDMkNqOEtuV01kSGU2Tld2ajFneWQxRmxtK25xNGg1WVhSeUFLVmZt?=
+ =?utf-8?B?SDFnNnhQS1JHL0laRUg5UjB0anFMcHdLMjNBOFpTc2d3aENIek02SGwrRzZp?=
+ =?utf-8?B?clMvMlpoZVQ1QWhJNlVkdU1xWDJFRlIrYW1QT1BrQUt0bHBLZTdQSkZ0eDVD?=
+ =?utf-8?B?ZFN3V3Foa3ZMaUtldHl5NXpiYVRYZldkeCtFeDE2bkRTTFNtakRQSUtzWlF1?=
+ =?utf-8?B?RnphSU1GaXJzRDBuY0JVOWhiRlRvVzVaMDVqS1Z0SkIwSjFsc2JpSUpQTXhM?=
+ =?utf-8?B?R2RtVUxtK2hKamFNdy9aRitVWW52eTFtRE9VV0NkUlBmSGRMK0d0a1pWSVhU?=
+ =?utf-8?B?U29aZ1QzOWtYNDh3K1ZLWHZYOWFCK0d4aHBwTUU1bVV4ck5tK0ZwN0Vvck83?=
+ =?utf-8?B?TzNXdFlYR3pweWt6S3VyUURPT3VwUmxSMmhpa2x0b2xEQ24rN0FtUHl5a08z?=
+ =?utf-8?B?U3ZQT29GY3VVNzd6S09vdDh5eFhxWlhoM0pxdEYzUkRtdDRmOGdpN0NOVCtw?=
+ =?utf-8?B?bENCd0ZtMllsVWtkclo2Ujg1SEVDZGlkR05zM25mWklITnVyc1hTaTFNdlF5?=
+ =?utf-8?B?eUVXR1FTcDhlVEVZR2c0bDh4bEgxWHl3N0c3KzJEU3lJeEJWTU5lY3Z1VEhP?=
+ =?utf-8?B?WXJONVp4ZVFUTlZlYXZETG9WNXh3QXUva2FDeHhRRkd1UmQ1cm5zcnlXTjVJ?=
+ =?utf-8?B?ako2N2wvSTdhQVQ0WFpLMVhhL0p3aVkyQ3FZdTFBRDBNVytuc3ZnSWlSVFFL?=
+ =?utf-8?B?ejN5SVJib0NZdU8yZncrejU4VnpQYVJtR3VTOGxOTGI0RWpjdENRVERkR0ZD?=
+ =?utf-8?B?N0dUUThKbENLdmJhSzZuZ3pPclZidHMzZFlUcDM3czRBOVV0bUw4UUFpRnV6?=
+ =?utf-8?B?YUpxazdEbEZDbTFDTC9pSEx1TzByK2QydlNlM0JROTFHc1o5MzJ4RFJmWDAr?=
+ =?utf-8?B?ekM5eWNGS3BSa2JpYTVVZzdJMDZxQUZ4UVczYkd4d3VmUUhsMEJreGp6MXRM?=
+ =?utf-8?B?MUlDK0tpRmlNT0tLSUttMGRaSFhBSUdUU3NNTGVESUdSVzFweDJySG5RZ1hH?=
+ =?utf-8?B?dUJadTFJRlFZaWlIRVdYaE1XY3FudUJWdStTcERyREhXS3E1ZGZwT1YzelF3?=
+ =?utf-8?B?NG1scU4yQ0RpcHRsNEg1N3BiZ242WlgxQzBsYVNXakhyejdzMXpGbW50SHND?=
+ =?utf-8?B?ZjVCZ0hOVzBiYnpBVENBWUFGOUJDUG82K3ZqYk1uL2FkcUpxc0FWZnNPelRa?=
+ =?utf-8?B?c3hzelR5dDRQakdaUFhCYzNJMC9qblJYZkh2M0NYLzl5WWE3dFRrREJOMlZa?=
+ =?utf-8?B?Q09yK1Y2WTZHcUxja3FhZVBDanE5NWVlN0FJbkRNUFlpQ0d2QXh1OENERkcy?=
+ =?utf-8?B?TWpBRmFlOVRRV3pucmhBRE0xWU1PcFY3UG1DeUI2M0ZES2R5SFRBV0ZYaFVJ?=
+ =?utf-8?B?VklmTExTREZuMTBOSzB1dVlPUDBRQ0RNci8wZThLSk4rdHlEL3JzTkRzSS9q?=
+ =?utf-8?B?UFFIMFhtU2UwV2dZcUJqbXAyM256bzJWUjJtd1JRQVhPVzlnQ1AxVm8zUnN4?=
+ =?utf-8?B?MDRyRkQ0bDJIYlJOVmhLT0RpNndEVFNVdkJrcUZEMmNKbEx1bTR0UjNlc1BP?=
+ =?utf-8?B?Z3l3TnpHVDVDUnJZL2ZmSWZSZ0ZDMCt0MzlTcTZWOTJNZ3pUdk1sZ0dnUUp3?=
+ =?utf-8?B?K1hoa0Z0SlhiSlQ0a0MzSS9UREtSNjUxbW5raExmWEhRNTE5Z3VmSExncW02?=
+ =?utf-8?B?MlNrZVFIbW54TEZtN0lFcUtqR1RUVEFNUFVrcko4dEpEVFMxRFBYTmtWM2hY?=
+ =?utf-8?B?YlFIVUpkcGRLRkVGNEVoTWtpY293OEJjR2dsOW1PR2tpQk5lVCtrWmlwS1Fl?=
+ =?utf-8?B?Z1Izdi92VkFQbkNhSFVaWnppSHVETVdSNCsrTHV1R2JWZkxRUkY4UmRYejA1?=
+ =?utf-8?B?ekZiL3ExRUlFajVsMmhUb2k0VHFSNGxMOEU2Rk1yaGhLdVJkQ2xZbnFTMkI1?=
+ =?utf-8?B?RVNOZjlLakFNTG0vbDdPT1RZQ1FLak5ucm8vdDNPMkFPRGcya3BYajVLTVg4?=
+ =?utf-8?B?MmVBcHR5S1N5MXdWQVYwVzNnUC9TdEdHbDR4cnFiOE0zbmZxcDFUZUZXcmpj?=
+ =?utf-8?B?WUZlYlQva09GdFUvTnAzaUVtVVIwSGE0cFdTaVJ4M0Mwcmo4eldSaFJXRTdX?=
+ =?utf-8?B?NEMya0RDemJOTlZrQ0YxZnhZaDgwU2lFejFuNlRKckkzYWMyNElYTTZKRUJ6?=
+ =?utf-8?B?akRVNk1iWVVoR0tzMFdrcEJiQ0JGM21TbE12T2JmdjUvOElaeHpxZz09?=
+X-OriginatorOrg: amlogic.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db391aa1-423c-4d34-c10c-08df2fe7c731
+X-MS-Exchange-CrossTenant-AuthSource: TYNPR03MB10226.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2026 02:54:23.7415
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0df2add9-25ca-4b3a-acb4-c99ddf0b1114
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LSVoXzz6lYfUurXeO9UzZbd7+R0cE+rw+JDFne3Yr2LXN1EIpfE1hpwkB/0fED3YGM8HwDRLSQEYFBGIZyRywIjjnxU+z/aAW+wmTQcY/PQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PPFC94CEC410
 
-Modify the Initialization Configuration and Clock Table
 
-v2 -> v1:
-	-Resolving a compilation issue in v1 caused by
-	the omission of sound/soc/codecs/es8375.h
+在 2026/10/21 23:08, Jerome Brunet 写道:
+> [ EXTERNAL EMAIL ]
+>
+>> Add basic audio driver support for the Amlogic S4 based
+>> Amlogic AQ222 board.
+>>
+>> Signed-off-by: Jiebing Chen <jiebing.chen@amlogic.com>
+>> ---
+>>   .../boot/dts/amlogic/meson-s4-s805x2-aq222.dts     | 219 +++++++++++++
+>>   arch/arm64/boot/dts/amlogic/meson-s4.dtsi          | 360 +++++++++++++++++++++
+>>   2 files changed, 579 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts b/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
+>> index 0a3f81ea0fb0..d614dcd6933d 100644
+>> --- a/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
+>> +++ b/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
+>> @@ -75,6 +75,19 @@ vddio_ao1v8: regulator-vddio-ao1v8 {
+>>               regulator-always-on;
+>>        };
+>>
+>> +     vcc5v_reg: regulator-vcc-5v {
+>> +             compatible = "regulator-fixed";
+>> +             vin-supply = <&main_12v>;
+>> +             regulator-name = "VCC5V";
+>> +             regulator-min-microvolt = <5000000>;
+>> +             regulator-max-microvolt = <5000000>;
+>> +             gpio = <&gpio GPIOH_7 GPIO_ACTIVE_HIGH>;
+>> +             startup-delay-us = <7000>;
+>> +             enable-active-high;
+>> +             regulator-boot-on;
+>> +             regulator-always-on;
+> You are adding that for audio and it needs to be always on ?
 
-Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
----
- sound/soc/codecs/es8375.c | 136 +++++++++++++++++++-------------------
- sound/soc/codecs/es8375.h |   3 +
- 2 files changed, 72 insertions(+), 67 deletions(-)
+Thank you for the reminder. I have reviewed the U200 DTS and found that 
+it can be referenced within acodec.
 
-diff --git a/sound/soc/codecs/es8375.c b/sound/soc/codecs/es8375.c
-index bed872eaf..501a3eda5 100644
---- a/sound/soc/codecs/es8375.c
-+++ b/sound/soc/codecs/es8375.c
-@@ -199,68 +199,68 @@ struct _coeff_div {
- 
- static const struct _coeff_div coeff_div[] = {
- 	{32, 256000, 8000, 0x05, 0x34, 0xDD, 0x55, 0x1F, 0x00, 0x95, 0x00, 0x1F, 2, 2},
--	{32, 512000, 16000, 0x05, 0x34, 0xDD, 0x55, 0x1F, 0x00, 0x94, 0x00, 0x1F, 2, 2},
--	{32, 1536000, 48000, 0x05, 0x33, 0xD5, 0x55, 0x1F, 0x00, 0x93, 0x00, 0x1F, 2, 2},
-+	{32, 512000, 16000, 0x05, 0x34, 0xDD, 0x55, 0x1F, 0x00, 0x95, 0x00, 0x1F, 2, 2},
-+	{32, 1536000, 48000, 0x05, 0xB3, 0xD5, 0x55, 0x1F, 0x00, 0x95, 0x00, 0x1F, 2, 2},
- 	{36, 288000, 8000, 0x05, 0x34, 0xDD, 0x55, 0x23, 0x08, 0x95, 0x00, 0x1F, 2, 2},
--	{36, 576000, 16000, 0x05, 0x34, 0xDD, 0x55, 0x23, 0x08, 0x94, 0x00, 0x1F, 2, 2},
--	{36, 1728000, 48000, 0x05, 0x33, 0xD5, 0x55, 0x23, 0x08, 0x93, 0x00, 0x1F, 2, 2},
--	{48, 384000, 8000, 0x05, 0x14, 0x5D, 0x55, 0x17, 0x20, 0x94, 0x00, 0x28, 2, 2},
--	{48, 768000, 16000, 0x05, 0x14, 0x5D, 0x55, 0x17, 0x20, 0x94, 0x00, 0x28, 2, 2},
--	{48, 2304000, 48000, 0x05, 0x11, 0x53, 0x55, 0x17, 0x20, 0x92, 0x00, 0x28, 2, 2},
--	{50, 400000, 8000, 0x05, 0x14, 0x5D, 0x55, 0x18, 0x24, 0x94, 0x00, 0x27, 2, 2},
--	{50, 800000, 16000, 0x05, 0x14, 0x5D, 0x55, 0x18, 0x24, 0x94, 0x00, 0x27, 2, 2},
--	{50, 2400000, 48000, 0x05, 0x11, 0x53, 0x55, 0x18, 0x24, 0x92, 0x00, 0x27, 2, 2},
--	{64, 512000, 8000, 0x05, 0x14, 0x5D, 0x33, 0x1F, 0x00, 0x94, 0x00, 0x1F, 2, 2},
--	{64, 1024000, 16000, 0x05, 0x13, 0x55, 0x33, 0x1F, 0x00, 0x93, 0x00, 0x1F, 2, 2},
--	{64, 3072000, 48000, 0x05, 0x11, 0x53, 0x33, 0x1F, 0x00, 0x92, 0x00, 0x1F, 2, 2},
--	{72, 576000, 8000, 0x05, 0x14, 0x5D, 0x33, 0x23, 0x08, 0x94, 0x00, 0x1F, 2, 2},
--	{72, 1152000, 16000, 0x05, 0x13, 0x55, 0x33, 0x23, 0x08, 0x93, 0x00, 0x1F, 2, 2},
--	{72, 3456000, 48000, 0x05, 0x11, 0x53, 0x33, 0x23, 0x08, 0x92, 0x00, 0x1F, 2, 2},
--	{96, 768000, 8000, 0x15, 0x34, 0xDD, 0x55, 0x1F, 0x00, 0x94, 0x00, 0x1F, 2, 2},
--	{96, 1536000, 16000, 0x15, 0x34, 0xDD, 0x55, 0x1F, 0x00, 0x93, 0x00, 0x1F, 2, 2},
--	{96, 4608000, 48000, 0x15, 0x33, 0xD5, 0x55, 0x1F, 0x00, 0x92, 0x00, 0x1F, 2, 2},
--	{100, 800000, 8000, 0x05, 0x03, 0x35, 0x33, 0x18, 0x24, 0x94, 0x00, 0x27, 2, 2},
--	{100, 1600000, 16000, 0x05, 0x03, 0x35, 0x33, 0x18, 0x24, 0x93, 0x00, 0x27, 2, 2},
--	{100, 4800000, 48000, 0x03, 0x00, 0x31, 0x33, 0x18, 0x24, 0x92, 0x00, 0x27, 2, 2},
--	{128, 1024000, 8000, 0x05, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x93, 0x01, 0x1F, 2, 2},
--	{128, 2048000, 16000, 0x03, 0x01, 0x33, 0x11, 0x1F, 0x00, 0x92, 0x01, 0x1F, 2, 2},
--	{128, 6144000, 48000, 0x03, 0x00, 0x31, 0x11, 0x1F, 0x00, 0x92, 0x01, 0x1F, 2, 2},
--	{144, 1152000, 8000, 0x05, 0x03, 0x35, 0x11, 0x23, 0x08, 0x93, 0x01, 0x1F, 2, 2},
--	{144, 2304000, 16000, 0x03, 0x01, 0x33, 0x11, 0x23, 0x08, 0x92, 0x01, 0x1F, 2, 2},
--	{144, 6912000, 48000, 0x03, 0x00, 0x31, 0x11, 0x23, 0x08, 0x92, 0x01, 0x1F, 2, 2},
--	{192, 1536000, 8000, 0x15, 0x14, 0x5D, 0x33, 0x1F, 0x00, 0x93, 0x02, 0x1F, 2, 2},
--	{192, 3072000, 16000, 0x15, 0x13, 0x55, 0x33, 0x1F, 0x00, 0x92, 0x02, 0x1F, 2, 2},
--	{192, 9216000, 48000, 0x15, 0x11, 0x53, 0x33, 0x1F, 0x00, 0x92, 0x02, 0x1F, 2, 2},
--	{250, 12000000, 48000, 0x25, 0x11, 0x53, 0x55, 0x18, 0x24, 0x92, 0x04, 0x27, 2, 2},
--	{256, 2048000, 8000, 0x0D, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x92, 0x03, 0x1F, 2, 2},
--	{256, 4096000, 16000, 0x0B, 0x01, 0x33, 0x11, 0x1F, 0x00, 0x92, 0x03, 0x1F, 2, 2},
--	{256, 12288000, 48000, 0x0B, 0x00, 0x31, 0x11, 0x1F, 0x00, 0x92, 0x03, 0x1F, 2, 2},
--	{384, 3072000, 8000, 0x15, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x92, 0x05, 0x1F, 2, 2},
--	{384, 6144000, 16000, 0x13, 0x01, 0x33, 0x11, 0x1F, 0x00, 0x92, 0x05, 0x1F, 2, 2},
--	{384, 18432000, 48000, 0x13, 0x00, 0x31, 0x11, 0x1F, 0x00, 0x92, 0x05, 0x1F, 2, 2},
--	{400, 19200000, 48000, 0x1B, 0x00, 0x31, 0x33, 0x18, 0x24, 0x92, 0x04, 0x27, 2, 2},
--	{500, 24000000, 48000, 0x23, 0x00, 0x31, 0x33, 0x18, 0x24, 0x92, 0x04, 0x27, 2, 2},
--	{512, 4096000, 8000, 0x1D, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x92, 0x07, 0x1F, 2, 2},
--	{512, 8192000, 16000, 0x1B, 0x01, 0x33, 0x11, 0x1F, 0x00, 0x92, 0x07, 0x1F, 2, 2},
--	{512, 24576000, 48000, 0x1B, 0x00, 0x31, 0x11, 0x1F, 0x00, 0x92, 0x07, 0x1F, 2, 2},
--	{768, 6144000, 8000, 0x2D, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x92, 0x0B, 0x1F, 2, 2},
--	{768, 12288000, 16000, 0x2B, 0x01, 0x33, 0x11, 0x1F, 0x00, 0x92, 0x0B, 0x1F, 2, 2},
--	{1024, 8192000, 8000, 0x3D, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x92, 0x0F, 0x1F, 2, 2},
--	{1024, 16384000, 16000, 0x3B, 0x01, 0x33, 0x11, 0x1F, 0x00, 0x92, 0x0F, 0x1F, 2, 2},
--	{1152, 9216000, 8000, 0x45, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x92, 0x0F, 0x1F, 2, 2},
--	{1152, 18432000, 16000, 0x43, 0x01, 0x33, 0x11, 0x1F, 0x00, 0x92, 0x0F, 0x1F, 2, 2},
--	{1200, 9600000, 8000, 0x5D, 0x03, 0x35, 0x33, 0x18, 0x24, 0x92, 0x11, 0x27, 2, 2},
--	{1200, 19200000, 16000, 0x5D, 0x03, 0x35, 0x33, 0x18, 0x24, 0x92, 0x11, 0x27, 2, 2},
--	{1536, 12288000, 8000, 0x5D, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x92, 0x17, 0x1F, 2, 2},
--	{1536, 24576000, 16000, 0x5B, 0x01, 0x33, 0x11, 0x1F, 0x00, 0x92, 0x17, 0x1F, 2, 2},
--	{2048, 16384000, 8000, 0x7D, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x92, 0x1F, 0x1F, 2, 2},
--	{2304, 18432000, 8000, 0x8D, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x92, 0x23, 0x1F, 2, 2},
--	{2400, 19200000, 8000, 0xBD, 0x03, 0x35, 0x33, 0x18, 0x24, 0x92, 0x25, 0x27, 2, 2},
--	{3072, 24576000, 8000, 0xBD, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x92, 0x2F, 0x1F, 2, 2},
--	{32, 3072000, 96000, 0x05, 0x11, 0x53, 0x55, 0x0F, 0x00, 0x92, 0x00, 0x37, 2, 2},
--	{64, 6144000, 96000, 0x03, 0x00, 0x31, 0x33, 0x0F, 0x00, 0x92, 0x00, 0x37, 2, 2},
--	{96, 9216000, 96000, 0x15, 0x11, 0x53, 0x55, 0x0F, 0x00, 0x92, 0x00, 0x37, 2, 2},
--	{128, 12288000, 96000, 0x0B, 0x00, 0x31, 0x33, 0x0F, 0x00, 0x92, 0x01, 0x37, 2, 2},
-+	{36, 576000, 16000, 0x05, 0x34, 0xDD, 0x55, 0x23, 0x08, 0x95, 0x00, 0x1F, 2, 2},
-+	{36, 1728000, 48000, 0x05, 0xB3, 0xD5, 0x55, 0x23, 0x08, 0x95, 0x00, 0x1F, 2, 2},
-+	{48, 384000, 8000, 0x05, 0x14, 0x5D, 0x55, 0x17, 0x20, 0x95, 0x00, 0x28, 2, 2},
-+	{48, 768000, 16000, 0x05, 0x14, 0x5D, 0x55, 0x17, 0x20, 0x95, 0x00, 0x28, 2, 2},
-+	{48, 2304000, 48000, 0x05, 0x91, 0x53, 0x55, 0x17, 0x20, 0x95, 0x00, 0x28, 2, 2},
-+	{50, 400000, 8000, 0x05, 0x14, 0x5D, 0x55, 0x18, 0x24, 0x95, 0x00, 0x27, 2, 2},
-+	{50, 800000, 16000, 0x05, 0x14, 0x5D, 0x55, 0x18, 0x24, 0x95, 0x00, 0x27, 2, 2},
-+	{50, 2400000, 48000, 0x05, 0x91, 0x53, 0x55, 0x18, 0x24, 0x95, 0x00, 0x27, 2, 2},
-+	{64, 512000, 8000, 0x05, 0x14, 0x5D, 0x33, 0x1F, 0x00, 0x95, 0x00, 0x1F, 2, 2},
-+	{64, 1024000, 16000, 0x05, 0x13, 0x55, 0x33, 0x1F, 0x00, 0x95, 0x00, 0x1F, 2, 2},
-+	{64, 3072000, 48000, 0x05, 0x91, 0x53, 0x33, 0x1F, 0x00, 0x95, 0x00, 0x1F, 2, 2},
-+	{72, 576000, 8000, 0x05, 0x14, 0x5D, 0x33, 0x23, 0x08, 0x95, 0x00, 0x1F, 2, 2},
-+	{72, 1152000, 16000, 0x05, 0x13, 0x55, 0x33, 0x23, 0x08, 0x95, 0x00, 0x1F, 2, 2},
-+	{72, 3456000, 48000, 0x05, 0x91, 0x53, 0x33, 0x23, 0x08, 0x95, 0x00, 0x1F, 2, 2},
-+	{96, 768000, 8000, 0x15, 0x34, 0xDD, 0x55, 0x1F, 0x00, 0x95, 0x00, 0x1F, 2, 2},
-+	{96, 1536000, 16000, 0x15, 0x34, 0xDD, 0x55, 0x1F, 0x00, 0x95, 0x00, 0x1F, 2, 2},
-+	{96, 4608000, 48000, 0x15, 0xB3, 0xD5, 0x55, 0x1F, 0x00, 0x95, 0x00, 0x1F, 2, 2},
-+	{100, 800000, 8000, 0x05, 0x03, 0x35, 0x33, 0x18, 0x24, 0x95, 0x00, 0x27, 2, 2},
-+	{100, 1600000, 16000, 0x05, 0x03, 0x35, 0x33, 0x18, 0x24, 0x95, 0x00, 0x27, 2, 2},
-+	{100, 4800000, 48000, 0x03, 0x80, 0x31, 0x33, 0x18, 0x24, 0x95, 0x00, 0x27, 2, 2},
-+	{128, 1024000, 8000, 0x05, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x95, 0x01, 0x1F, 2, 2},
-+	{128, 2048000, 16000, 0x03, 0x01, 0x33, 0x11, 0x1F, 0x00, 0x95, 0x01, 0x1F, 2, 2},
-+	{128, 6144000, 48000, 0x03, 0x80, 0x31, 0x11, 0x1F, 0x00, 0x95, 0x01, 0x1F, 2, 2},
-+	{144, 1152000, 8000, 0x05, 0x03, 0x35, 0x11, 0x23, 0x08, 0x95, 0x01, 0x1F, 2, 2},
-+	{144, 2304000, 16000, 0x03, 0x01, 0x33, 0x11, 0x23, 0x08, 0x95, 0x01, 0x1F, 2, 2},
-+	{144, 6912000, 48000, 0x03, 0x80, 0x31, 0x11, 0x23, 0x08, 0x95, 0x01, 0x1F, 2, 2},
-+	{192, 1536000, 8000, 0x15, 0x14, 0x5D, 0x33, 0x1F, 0x00, 0x95, 0x02, 0x1F, 2, 2},
-+	{192, 3072000, 16000, 0x15, 0x13, 0x55, 0x33, 0x1F, 0x00, 0x95, 0x02, 0x1F, 2, 2},
-+	{192, 9216000, 48000, 0x15, 0x91, 0x53, 0x33, 0x1F, 0x00, 0x95, 0x02, 0x1F, 2, 2},
-+	{250, 12000000, 48000, 0x25, 0x91, 0x53, 0x55, 0x18, 0x24, 0x95, 0x04, 0x27, 2, 2},
-+	{256, 2048000, 8000, 0x0D, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x95, 0x03, 0x1F, 2, 2},
-+	{256, 4096000, 16000, 0x0B, 0x01, 0x33, 0x11, 0x1F, 0x00, 0x95, 0x03, 0x1F, 2, 2},
-+	{256, 12288000, 48000, 0x0B, 0x80, 0x31, 0x11, 0x1F, 0x00, 0x95, 0x03, 0x1F, 2, 2},
-+	{384, 3072000, 8000, 0x15, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x95, 0x05, 0x1F, 2, 2},
-+	{384, 6144000, 16000, 0x13, 0x01, 0x33, 0x11, 0x1F, 0x00, 0x95, 0x05, 0x1F, 2, 2},
-+	{384, 18432000, 48000, 0x13, 0x80, 0x31, 0x11, 0x1F, 0x00, 0x95, 0x05, 0x1F, 2, 2},
-+	{400, 19200000, 48000, 0x1B, 0x80, 0x31, 0x33, 0x18, 0x24, 0x95, 0x04, 0x27, 2, 2},
-+	{500, 24000000, 48000, 0x23, 0x80, 0x31, 0x33, 0x18, 0x24, 0x95, 0x04, 0x27, 2, 2},
-+	{512, 4096000, 8000, 0x1D, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x95, 0x07, 0x1F, 2, 2},
-+	{512, 8192000, 16000, 0x1B, 0x01, 0x33, 0x11, 0x1F, 0x00, 0x95, 0x07, 0x1F, 2, 2},
-+	{512, 24576000, 48000, 0x1B, 0x80, 0x31, 0x11, 0x1F, 0x00, 0x95, 0x07, 0x1F, 2, 2},
-+	{768, 6144000, 8000, 0x2D, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x95, 0x0B, 0x1F, 2, 2},
-+	{768, 12288000, 16000, 0x2B, 0x01, 0x33, 0x11, 0x1F, 0x00, 0x95, 0x0B, 0x1F, 2, 2},
-+	{1024, 8192000, 8000, 0x3D, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x95, 0x0F, 0x1F, 2, 2},
-+	{1024, 16384000, 16000, 0x3B, 0x01, 0x33, 0x11, 0x1F, 0x00, 0x95, 0x0F, 0x1F, 2, 2},
-+	{1152, 9216000, 8000, 0x45, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x95, 0x0F, 0x1F, 2, 2},
-+	{1152, 18432000, 16000, 0x43, 0x01, 0x33, 0x11, 0x1F, 0x00, 0x95, 0x0F, 0x1F, 2, 2},
-+	{1200, 9600000, 8000, 0x5D, 0x03, 0x35, 0x33, 0x18, 0x24, 0x95, 0x11, 0x27, 2, 2},
-+	{1200, 19200000, 16000, 0x5D, 0x03, 0x35, 0x33, 0x18, 0x24, 0x95, 0x11, 0x27, 2, 2},
-+	{1536, 12288000, 8000, 0x5D, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x95, 0x17, 0x1F, 2, 2},
-+	{1536, 24576000, 16000, 0x5B, 0x01, 0x33, 0x11, 0x1F, 0x00, 0x95, 0x17, 0x1F, 2, 2},
-+	{2048, 16384000, 8000, 0x7D, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x95, 0x1F, 0x1F, 2, 2},
-+	{2304, 18432000, 8000, 0x8D, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x95, 0x23, 0x1F, 2, 2},
-+	{2400, 19200000, 8000, 0xBD, 0x03, 0x35, 0x33, 0x18, 0x24, 0x95, 0x25, 0x27, 2, 2},
-+	{3072, 24576000, 8000, 0xBD, 0x03, 0x35, 0x11, 0x1F, 0x00, 0x95, 0x2F, 0x1F, 2, 2},
-+	{32, 3072000, 96000, 0x05, 0x91, 0x53, 0x55, 0x0F, 0x00, 0x95, 0x00, 0x37, 2, 2},
-+	{64, 6144000, 96000, 0x03, 0x80, 0x31, 0x33, 0x0F, 0x00, 0x95, 0x00, 0x37, 2, 2},
-+	{96, 9216000, 96000, 0x15, 0x91, 0x53, 0x55, 0x0F, 0x00, 0x95, 0x00, 0x37, 2, 2},
-+	{128, 12288000, 96000, 0x0B, 0x80, 0x31, 0x33, 0x0F, 0x00, 0x95, 0x01, 0x37, 2, 2},
- };
- 
- static inline int get_coeff(u8 vddd, u8 dmic, int mclk, int rate)
-@@ -543,18 +543,20 @@ static void es8375_init(struct snd_soc_component *component)
- 	regmap_write(es8375->regmap, ES8375_CLK_MGR4, 0x02);
- 	regmap_write(es8375->regmap, ES8375_CLK_MGR5, 0x05);
- 	regmap_write(es8375->regmap, ES8375_CSM1, 0x82);
--	regmap_write(es8375->regmap, ES8375_VMID_CHARGE2, 0x20);
--	regmap_write(es8375->regmap, ES8375_VMID_CHARGE3, 0x20);
--	regmap_write(es8375->regmap, ES8375_DAC_CAL, 0x28);
--	regmap_write(es8375->regmap, ES8375_ANALOG_SPK1, 0xFC);
-+	regmap_write(es8375->regmap, ES8375_VMID_CHARGE2, 0x10);
-+	regmap_write(es8375->regmap, ES8375_VMID_CHARGE3, 0x10);
-+	regmap_write(es8375->regmap, ES8375_DAC_CAL, 0x2F);
-+	regmap_write(es8375->regmap, ES8375_ANALOG_SPK1, 0xEC);
- 	regmap_write(es8375->regmap, ES8375_ANALOG_SPK2, 0xE0);
- 	regmap_write(es8375->regmap, ES8375_VMID_SEL, 0xFE);
- 	regmap_write(es8375->regmap, ES8375_ANALOG1, 0xB8);
-+	regmap_write(es8375->regmap, ES8375_VSEL2, 0x05);
-+	regmap_write(es8375->regmap, ES8375_LP_DAC, 0xCC);
- 	regmap_write(es8375->regmap, ES8375_SYS_CTRL2, 0x03);
- 	regmap_write(es8375->regmap, ES8375_CLK_MGR2, 0x16);
- 	regmap_write(es8375->regmap, ES8375_RESET1, 0x00);
- 	msleep(80);
--	regmap_write(es8375->regmap, ES8375_CLK_MGR3, 0x00);
-+	regmap_write(es8375->regmap, ES8375_CLK_MGR3, 0x08);
- 	regmap_write(es8375->regmap, ES8375_CSM1, 0x86);
- 	regmap_write(es8375->regmap, ES8375_CLK_MGR4, 0x0B);
- 	regmap_write(es8375->regmap, ES8375_CLK_MGR5, 0x00);
-@@ -566,7 +568,7 @@ static void es8375_init(struct snd_soc_component *component)
- 	regmap_write(es8375->regmap, ES8375_ADC2, 0x00);
- 	regmap_write(es8375->regmap, ES8375_DAC2, 0x00);
- 	regmap_write(es8375->regmap, ES8375_DAC_OTP, 0x88);
--	regmap_write(es8375->regmap, ES8375_ANALOG_SPK2, 0xE7);
-+	regmap_write(es8375->regmap, ES8375_ANALOG_SPK2, 0xE3);
- 	regmap_write(es8375->regmap, ES8375_ANALOG2, 0xF0);
- 	regmap_write(es8375->regmap, ES8375_ANALOG3, 0x40);
- 	regmap_write(es8375->regmap, ES8375_CLK_MGR2, 0xFE);
-diff --git a/sound/soc/codecs/es8375.h b/sound/soc/codecs/es8375.h
-index 11e3ceec9..b48d03b1f 100644
---- a/sound/soc/codecs/es8375.h
-+++ b/sound/soc/codecs/es8375.h
-@@ -49,6 +49,9 @@
- #define ES8375_ANALOG_SPK2         0x29
- #define ES8375_VMID_SEL            0x2D
- #define ES8375_ANALOG1             0x2E
-+#define ES8375_VSEL1               0x2F
-+#define ES8375_VSEL2               0x30
-+#define ES8375_LP_DAC              0x31
- #define ES8375_ANALOG2             0x32
- #define ES8375_ANALOG3             0x37
- #define ES8375_ADC2DAC_CLKTRI      0xF8
--- 
-2.17.1
+  Previously, we configured it as always on for testing.
 
+>
+>
+>> +     };
+>> +
+>>        /* SY8120B1ABC DC/DC Regulator. */
+>>        vddcpu: regulator-vddcpu {
+>>                compatible = "pwm-regulator";
+>> @@ -129,6 +142,212 @@ vddcpu: regulator-vddcpu {
+>>                                <699000 98>,
+>>                                <689000 100>;
+>>        };
+>> +
+>> +     dmics: audio-codec-1 {
+> Unused: nothing references dmics.
+Noted with thanks.
+>
+>> +             compatible = "dmic-codec";
+>> +             #sound-dai-cells = <0>;
+>> +             num-channels = <2>;
+>> +             wakeup-delay-ms = <50>;
+>> +             sound-name-prefix = "MIC";
+>> +     };
+>> +
+>> +     dioo2133: audio-amplifier-0 {
+>> +             compatible = "simple-audio-amplifier";
+>> +             enable-gpios = <&gpio GPIOH_8 GPIO_ACTIVE_HIGH>;
+>> +             VCC-supply = <&vcc5v_reg>;
+>> +             sound-name-prefix = "10U2";
+> Did you just copy over the u200 file or is it really the component name ?
+
+Indeed, it was copied from U200. I was not clear about the original 
+naming intention.
+
+Is it acceptable to name it based on the board name, such as aq222?
+
+>
+>> +     };
+>> +
+>> +     spdif_dir: audio-spdif-in {
+>> +             compatible = "linux,spdif-dir";
+>> +             #sound-dai-cells = <0>;
+>> +             sound-name-prefix = "DIR";
+>> +     };
+>> +
+>> +     spdif_dit: audio-spdif-out {
+>> +             compatible = "linux,spdif-dit";
+>> +             #sound-dai-cells = <0>;
+>> +             sound-name-prefix = "DIT";
+>> +     };
+>> +
+>> +     sound {
+>> +             compatible = "amlogic,axg-sound-card";
+>> +             model = "aq222";
+>> +             audio-widgets = "Line", "Lineout";
+>> +             audio-aux-devs = <&tdmout_a>, <&tdmout_b>, <&tdmout_c>,
+>> +                              <&tdmin_a>, <&tdmin_b>, <&tdmin_c>,
+>> +                              <&tdmin_lb>, <&dioo2133>;
+>> +             audio-routing = "TDMOUT_A IN 0", "FRDDR_A OUT 0",
+>> +                             "TDMOUT_A IN 1", "FRDDR_B OUT 0",
+>> +                             "TDMOUT_A IN 2", "FRDDR_C OUT 0",
+>> +                             "TDM_A Playback", "TDMOUT_A OUT",
+>> +                             "TDMOUT_B IN 0", "FRDDR_A OUT 1",
+>> +                             "TDMOUT_B IN 1", "FRDDR_B OUT 1",
+>> +                             "TDMOUT_B IN 2", "FRDDR_C OUT 1",
+>> +                             "TDM_B Playback", "TDMOUT_B OUT",
+>> +                             "TDMOUT_C IN 0", "FRDDR_A OUT 2",
+>> +                             "TDMOUT_C IN 1", "FRDDR_B OUT 2",
+>> +                             "TDMOUT_C IN 2", "FRDDR_C OUT 2",
+>> +                             "TDM_C Playback", "TDMOUT_C OUT",
+>> +                             "SPDIFOUT_A IN 0", "FRDDR_A OUT 3",
+>> +                             "SPDIFOUT_A IN 1", "FRDDR_B OUT 3",
+>> +                             "SPDIFOUT_A IN 2", "FRDDR_C OUT 3",
+>> +                             "SPDIFOUT_B IN 0", "FRDDR_A OUT 4",
+>> +                             "SPDIFOUT_B IN 1", "FRDDR_B OUT 4",
+>> +                             "SPDIFOUT_B IN 2", "FRDDR_C OUT 4",
+>> +                             "TDMIN_A IN 0", "TDM_A Capture",
+>> +                             "TDMIN_A IN 1", "TDM_B Capture",
+>> +                             "TDMIN_A IN 2", "TDM_C Capture",
+>> +                             "TDMIN_A IN 3", "TDM_A Loopback",
+>> +                             "TDMIN_A IN 4", "TDM_B Loopback",
+>> +                             "TDMIN_A IN 5", "TDM_C Loopback",
+>> +                             "TDMIN_B IN 0", "TDM_A Capture",
+>> +                             "TDMIN_B IN 1", "TDM_B Capture",
+>> +                             "TDMIN_B IN 2", "TDM_C Capture",
+>> +                             "TDMIN_B IN 3", "TDM_A Loopback",
+>> +                             "TDMIN_B IN 4", "TDM_B Loopback",
+>> +                             "TDMIN_B IN 5", "TDM_C Loopback",
+>> +                             "TDMIN_C IN 0", "TDM_A Capture",
+>> +                             "TDMIN_C IN 1", "TDM_B Capture",
+>> +                             "TDMIN_C IN 2", "TDM_C Capture",
+>> +                             "TDMIN_C IN 3", "TDM_A Loopback",
+>> +                             "TDMIN_C IN 4", "TDM_B Loopback",
+>> +                             "TDMIN_C IN 5", "TDM_C Loopback",
+>> +                             "TDMIN_LB IN 3", "TDM_A Capture",
+>> +                             "TDMIN_LB IN 4", "TDM_B Capture",
+>> +                             "TDMIN_LB IN 5", "TDM_C Capture",
+>> +                             "TDMIN_LB IN 0", "TDM_A Loopback",
+>> +                             "TDMIN_LB IN 1", "TDM_B Loopback",
+>> +                             "TDMIN_LB IN 2", "TDM_C Loopback",
+>> +                             "TODDR_A IN 0", "TDMIN_A OUT",
+>> +                             "TODDR_B IN 0", "TDMIN_A OUT",
+>> +                             "TODDR_C IN 0", "TDMIN_A OUT",
+>> +                             "TODDR_A IN 1", "TDMIN_B OUT",
+>> +                             "TODDR_B IN 1", "TDMIN_B OUT",
+>> +                             "TODDR_C IN 1", "TDMIN_B OUT",
+>> +                             "TODDR_A IN 2", "TDMIN_C OUT",
+>> +                             "TODDR_B IN 2", "TDMIN_C OUT",
+>> +                             "TODDR_C IN 2", "TDMIN_C OUT",
+>> +                             "TODDR_A IN 3", "SPDIFIN Capture",
+>> +                             "TODDR_B IN 3", "SPDIFIN Capture",
+>> +                             "TODDR_C IN 3", "SPDIFIN Capture",
+>> +                             "TODDR_A IN 6", "TDMIN_LB OUT",
+>> +                             "TODDR_B IN 6", "TDMIN_LB OUT",
+>> +                             "TODDR_C IN 6", "TDMIN_LB OUT",
+>> +                             "10U2 INL", "ACODEC LOLP",
+>> +                             "10U2 INR", "ACODEC LORP",
+>> +                             "Lineout", "10U2 OUTL",
+>> +                             "Lineout", "10U2 OUTR";
+>> +             clocks = <&clkc_pll CLKID_HIFI_PLL>,
+>> +                             <&clkc_pll CLKID_MPLL0>;
+>> +             assigned-clocks = <&clkc_pll CLKID_HIFI_PLL>,
+>> +                               <&clkc_pll CLKID_MPLL0>;
+>> +             assigned-clock-rates = <1179648000>,
+>> +                                    <270950400>;
+> 2 PLLs only ?
+> 1st appears to be for the 48k family, the 2nd for 44.1k
+>
+> No 64k support ?
+
+I have carefully reviewed our previous records. Only the 48k and 44.1k 
+clock families were taken into account, and 64k was overlooked.
+
+Upon checking the U200 DTS, I found that 393216000 is also included 
+there. I will add it in. thanks
+
+>
+>> +
+>> +             dai-link-0 {
+>> +                     sound-dai = <&frddr_a>;
+>> +             };
+>> +
+>> +             dai-link-1 {
+>> +                     sound-dai = <&frddr_b>;
+>> +             };
+>> +
+>> +             dai-link-2 {
+>> +                     sound-dai = <&frddr_c>;
+>> +             };
+>> +
+>> +             dai-link-3 {
+>> +                     sound-dai = <&toddr_a>;
+>> +             };
+>> +
+>> +             dai-link-4 {
+>> +                     sound-dai = <&toddr_b>;
+>> +             };
+>> +
+>> +             dai-link-5 {
+>> +                     sound-dai = <&toddr_c>;
+>> +             };
+>> +
+>> +             dai-link-6 {
+>> +                     sound-dai = <&tdmif_a>;
+>> +                     dai-format = "i2s";
+>> +                     dai-tdm-slot-tx-mask-0 = <1 1>;
+>> +                     mclk-fs = <256>;
+>> +                     codec-0 {
+>> +                             sound-dai = <&tohdmitx TOHDMITX_I2S_IN_A>;
+>> +                     };
+>> +                     codec-1 {
+>> +                             sound-dai = <&toacodec TOACODEC_IN_A>;
+>> +                     };
+>> +             };
+>> +
+>> +             dai-link-7 {
+>> +                     sound-dai = <&tdmif_b>;
+>> +                     dai-format = "i2s";
+>> +                     dai-tdm-slot-tx-mask-0 = <1 1>;
+>> +                     mclk-fs = <256>;
+>> +                     codec-0 {
+>> +                             sound-dai = <&toacodec TOACODEC_IN_B>;
+>> +                     };
+>> +                     codec-1 {
+>> +                             sound-dai = <&tohdmitx TOHDMITX_I2S_IN_B>;
+>> +                     };
+>> +             };
+>> +
+>> +             /* 8ch HDMI interface */
+>> +             dai-link-8 {
+>> +                     sound-dai = <&tdmif_c>;
+>> +                     dai-format = "i2s";
+>> +                     dai-tdm-slot-tx-mask-0 = <1 1>;
+>> +                     dai-tdm-slot-tx-mask-1 = <1 1>;
+>> +                     dai-tdm-slot-tx-mask-2 = <1 1>;
+>> +                     dai-tdm-slot-tx-mask-3 = <1 1>;
+>> +                     mclk-fs = <256>;
+>> +                     codec-0 {
+>> +                             sound-dai = <&tohdmitx TOHDMITX_I2S_IN_C>;
+>> +                     };
+>> +             };
+>> +
+>> +             /* spdif hdmi and coax output */
+> No pinctrl on spdifout_a, so the coax output cannot work as is.
+
+At the time of testing, we only covered SPDIF to HDMI TX.
+
+  I will configure the pinctrl settings to enable coax output.
+
+thanks.
+
+>
+>> +             dai-link-9 {
+>> +                     sound-dai = <&spdifout_a>;
+>> +
+>> +                     codec-0 {
+>> +                             sound-dai = <&spdif_dit>;
+>> +                     };
+>> +
+>> +                     codec-1 {
+>> +                             sound-dai = <&tohdmitx TOHDMITX_SPDIF_IN_A>;
+>> +                     };
+>> +             };
+>> +
+>> +             /* spdif hdmi interface */
+>> +             dai-link-10 {
+>> +                     sound-dai = <&spdifout_b>;
+>> +
+>> +                     codec {
+>> +                             sound-dai = <&tohdmitx TOHDMITX_SPDIF_IN_B>;
+>> +                     };
+>> +             };
+>> +
+>> +             /* spdif coax input */
+>> +             dai-link-11 {
+>> +                     sound-dai = <&spdifin>;
+>> +
+>> +                     codec {
+>> +                             sound-dai = <&spdif_dir>;
+>> +                     };
+>> +             };
+>> +
+>> +             dai-link-12 {
+>> +                     sound-dai = <&toacodec TOACODEC_OUT>;
+>> +
+>> +                     codec {
+>> +                             sound-dai = <&acodec>;
+>> +                     };
+>> +             };
+>> +     };
+>>   };
+>>
+>>   &pwm_ef {
+>> diff --git a/arch/arm64/boot/dts/amlogic/meson-s4.dtsi b/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
+>> index 2a6fbd530836..2cf9a8f3f396 100644
+>> --- a/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
+>> +++ b/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
+>> @@ -11,6 +11,11 @@
+>>   #include <dt-bindings/clock/amlogic,s4-peripherals-clkc.h>
+>>   #include <dt-bindings/power/meson-s4-power.h>
+>>   #include <dt-bindings/reset/amlogic,meson-s4-reset.h>
+>> +#include <dt-bindings/clock/axg-audio-clkc.h>
+>> +#include <dt-bindings/reset/amlogic,meson-axg-audio-arb.h>
+>> +#include <dt-bindings/reset/amlogic,meson-g12a-audio-reset.h>
+>> +#include <dt-bindings/sound/meson-g12a-toacodec.h>
+>> +#include <dt-bindings/sound/meson-g12a-tohdmitx.h>
+>>
+>>   / {
+>>        cpus {
+>> @@ -908,4 +913,359 @@ emmc: mmc@fe08c000 {
+>>                        assigned-clock-rates = <24000000>;
+>>                };
+>>        };
+>> +
+>> +     tdmif_a: audio-controller-0 {
+>> +             compatible = "amlogic,axg-tdm-iface";
+>> +             #sound-dai-cells = <0>;
+>> +             sound-name-prefix = "TDM_A";
+>> +             clocks = <&clkc_audio AUD_CLKID_MST_A_SCLK>,
+>> +                      <&clkc_audio AUD_CLKID_MST_A_LRCLK>,
+>> +                      <&clkc_audio AUD_CLKID_MST_A_MCLK>;
+>> +             clock-names = "sclk", "lrclk","mclk";
+> Should they all be disabled by default ?
+
+Previously, we assumed that audio was always present. I found that U200 
+also configures it as disabled by default.
+
+This approach is more prudent for SKUs without audio. Thank you for your 
+reminder.
+
+Thank you for all of your review feedback.
+
+>
+>> +     };
+>> +
+>> +     tdmif_b: audio-controller-1 {
+>> +             compatible = "amlogic,axg-tdm-iface";
+>> +             #sound-dai-cells = <0>;
+>> +             sound-name-prefix = "TDM_B";
+>> +             clocks = <&clkc_audio AUD_CLKID_MST_B_SCLK>,
+>> +                      <&clkc_audio AUD_CLKID_MST_B_LRCLK>,
+>> +                      <&clkc_audio AUD_CLKID_MST_B_MCLK>;
+>> +             clock-names = "sclk", "lrclk","mclk";
+>> +     };
+>> +
+>> +     tdmif_c: audio-controller-2 {
+>> +             compatible = "amlogic,axg-tdm-iface";
+>> +             #sound-dai-cells = <0>;
+>> +             sound-name-prefix = "TDM_C";
+>> +             clocks = <&clkc_audio AUD_CLKID_MST_C_SCLK>,
+>> +                      <&clkc_audio AUD_CLKID_MST_C_LRCLK>,
+>> +                      <&clkc_audio AUD_CLKID_MST_C_MCLK>;
+>> +             clock-names = "sclk", "lrclk","mclk";
+>> +     };
+>> +};
+>> +
+>> +&apb4 {
+>> +     acodec: audio-controller@1a000 {
+>> +             compatible = "amlogic,t9015";
+>> +             reg = <0x0 0x1a000 0x0 0x14>;
+>> +             #sound-dai-cells = <0>;
+>> +             sound-name-prefix = "ACODEC";
+>> +             clocks = <&clkc_periphs CLKID_ACODEC>;
+>> +             clock-names = "pclk";
+>> +             resets = <&reset RESET_ACODEC>;
+>> +             AVDD-supply = <&vddio_ao1v8>;
+> Board-level regulator referenced from the SoC dtsi.
+>
+> --
+> Jerome
+>
