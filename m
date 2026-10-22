@@ -1,83 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792681072;
-	b=mE2kAF0sA/gnqrG8v5QD3r/dsDtOFADl8UTPgZE2cu+biltFfjDQsfOzqyfr3tJ7mkEw
-	 gq99vZSuiFkQ5brEJ4+DzYXLUTE9LGObZh8TeI38VOPgUE3lH0WI18zbd3Kej9JvsfYJx
-	 OUJF/LMQf9EvFg4Iy+TQ7RpJ3WIDENw7Mwcj+Fbrq0nyXMVBcFMtja0NfIw7deY2Ts1Ah
-	 I8Qed7qMaq2mDHlU3C3tNFQ3/XTqhRYGCyz6ih7xvxSgpGGXT980UDsRKl/tXQp+APpEp
-	 sOrDfEgAK0DZ55ZZ6gSXpuXqpKcx1HhxYVrpc6NW0UZFkzlyEy650TY1Zibr+/Pee0Q==
+	t=1792681138;
+	b=GJLyUiD+fzqmmqifa2nKCs2vAMA6VpeZQ4iAx6qQRdnRjdW1WloabddF2ToEHKuiPqDf
+	 Hr5uSGlxcLYXwYcyUJwdaKUAJ/iDkpKfgAjG9TehmAWp/u7pqwZHQUVzrk8d+4FvxpyR8
+	 drm0kdJaEEfmiz/p2iWSN2yKUCYX+h34YHS93CUG1SmZ9MskkBBGrPKLkv6IZ5Yw1tHuU
+	 xlzs64MWjXoLQAOt2JyA2MghsMrONekkyQ1nXRPx6JqN6t5yEMLSYbJOO5XQ7CA2Zg6HE
+	 NzhxZpy6pLqzyfxIGMRWgJkqt7T5x2+vVEbpRMmJsa6me8vWoMfkKnKWg+WwRbZ5xVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792681072;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-Proofpoint-Reinject:X-QCInternal:
-	 X-QCInternal:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=IJs45fFUDJNNiewh1g9rjIHPssvqt7O5EgXXxQLLM8M=;
-	b=OZhK+jUsOVr3AVtd8cHieR5+NB3XnTmIA5kHxb8goagTmQx9iLF6hLle0o8IgdOO2/OB
-	 2fj7IpH+owSt0tnfTnpinEWC1OiB/U6bNa3yRWERXDBlqjX5b5ud2qFCvXtPiig+sfe9G
-	 H7MXxsT4EwdMa9TOXeYIZQL7jRNI2pa6d/OahazB8CI1eiJTQhJrkxLBJ67+tZt4dlSiM
-	 oZNHU+tJYcdTsslEsatzJWfNGc/d37AzFxYTwKn8DyRzcLa/VNFJwIEgY1bGCEZCnL+FG
-	 IpzamQnyzpDD5xydWZ4UNeWepp/cCK5OeURlUAGVQNh8CSzdCSqQlyTwFVFAqFd2qKg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792681138;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=8q3ym2FjEbcaF/NkA2AID4Efpmn3bECd2JooSGvuBmU=;
+	b=IAoEm5pcMDdwgs+PbG/34xSATlYhijU8Z8aoxgTKO4qh4sd5qif1Nv1vnaSy1ztV4Ke8
+	 rz9JZyyo/6JTg8RlG60tgNSdZZKZqkmIXc+bVYEZceKwiXlcFzC/0yoq8+igpLUqDCQvs
+	 wBCalR8FhgNYOU/uWrOKObI4zBk3WrwbTsmzKmiVG7rTGsaQBaC1fU5/aSqOxQhErYWoK
+	 aX0IbGL5zEw/8JMSDjWHOjRaaEM7Juq1izrifPUwf0MqO0z4rdkCr9++d76Wv47P6lwAB
+	 9pI9gHPFWzHbRuYDRc12QA/+9m2R5E4f98YyAJrVW8+EWMSIginEh7INtg4AN9x33xg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=HVWyfJNR;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZCW8gRFk;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF5B606A319;
-	Thu, 22 Oct 2026 14:57:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AFF5B606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03047606A31B
+	for <linux-sound@vger.kernel.org>; Thu, 22 Oct 2026 14:58:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=HVWyfJNR
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69MEFXQK4098577;
-	Thu, 22 Oct 2026 14:57:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=IJs45fFUDJNNiewh1g9rjIHPssvqt7O5EgX
-	XxQLLM8M=; b=HVWyfJNRENZ0zXBaKsk5f9NF/S9fUirVuhYn/AuzkQrtKR0NCmL
-	EtVKk8FnCQgNsV8HlSGiCB+mCwy4F8nrWuAZp8L7vPtXWFQPqIpqVjFWQ0o+lzgN
-	vVBXQAQOj89InxDZWwhtyQA/s2wWZV8mgFup6vIhgAN37CtybRlMD1k1W8hiV98i
-	AEE0c6SaSCEe5uR3Tzwy/u2UGDEL+nwi7XSTuhohbfHzY10i6o8jxaOwzzh5ZG6r
-	F4v0sVic/YiSeUOPGDyAO8irxTTz9o2lEYcZ820234Uljx9w/GLvd33XDnoixHhV
-	Hob+POz8sjnNgXp5IdqfWDvxD+qG8taRgdA==
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hfewq35dj-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 22 Oct 2026 14:57:43 +0000 (GMT)
-Received: from pps.filterd (apblrppmta02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 69MEfW421932679;
-	Thu, 22 Oct 2026 14:41:32 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-mohis-hyd.qualcomm.com [10.147.253.64])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 69MEfV601932659
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 22 Oct 2026 14:41:31 +0000 (GMT)
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4840500)
-	id D1E3A66C; Thu, 22 Oct 2026 20:11:30 +0530 (+0530)
-From: Mohit Sharma <mohit.sharma@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mark Brown <broonie@kernel.org>
-Cc: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mohit Sharma <mohit.sharma@oss.qualcomm.com>
-Subject: [PATCH 0/2] Fix GPR callback registration race during probe
-Date: Thu, 22 Oct 2026 20:11:28 +0530
-Message-Id: <20261022144130.2443667-1-mohit.sharma@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZCW8gRFk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65DF21F000C1;
+	Thu, 22 Oct 2026 14:58:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792681137;
+	bh=8q3ym2FjEbcaF/NkA2AID4Efpmn3bECd2JooSGvuBmU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=ZCW8gRFkMIZ7MjV243clFVrd4tIuagpJwh18OokpUZWDaYrmC2DlOVYtOh8HeTg3T
+	 aH+bXiy02FOgsW3w35gNBj2VHE9dLFuSYIgsHJdD22X7xn36FaZURZMIcp5Sj8wjeP
+	 DAHQAbCgBNFsB1tvCzOZiOCqG/v2jZoHKX/DxNKcxM3uprCSqH7LK4MKWXSYCicjcb
+	 SvaPzIXJQuFv1/AcLdDaPwmvNAL/jIYIC0NYQeF3mG87NTaqZAe19yGrOkT23barpB
+	 04JONe6pMmp5UvBfjYPJYEiqAP84BuQHdcbdeBpvHyAB3LV6VLKEzgf1Vi4B5hGz5A
+	 ECcFAsUi0wgfQ==
+Message-ID: <sashiko-outbox-181665@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 2/2] soc: qcom: apr: Publish GPR callback before client
+ probe
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mohit Sharma" <mohit.sharma@oss.qualcomm.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261022144130.2443667-3-mohit.sharma@oss.qualcomm.com>
+References: <20261022144130.2443667-1-mohit.sharma@oss.qualcomm.com>
+ <20261022144130.2443667-3-mohit.sharma@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 22 Oct 2026 14:58:56 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -86,64 +60,147 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-GUID: hlmCAZDTC2JUn2_LZQ8k27SXRjdGrUdr
-X-Proofpoint-ORIG-GUID: hlmCAZDTC2JUn2_LZQ8k27SXRjdGrUdr
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIyMDA1OSBTYWx0ZWRfX4u0f8ISkhA5d
- tisCRZmYem9ITX1SX3R+7k325PJHQ1on4RYR5kR7NZ0r1c2QRvygSKH2D8dWh/kwaDe9mFApBIl
- 0icnuG19n+WyckTMiHgEx6vA0F8By4k=
-X-Authority-Analysis: v=2.4 cv=G4OJgNk5 c=1 sm=1 tr=0 ts=6ada2467 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=rJkE3RaqiGZ5pbrm-msn:22 a=SdEKr03YgSq6kbhPS0kA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIyMDA1OSBTYWx0ZWRfX+q9j3IMNLh/U
- 3eOGRr+A6Ow7s2mBGtzs+pjR/jh6gLHHmzVpQ7OU0x8IspCcVjQ6rdpx8xXZvQseW1ruP6qvJ1q
- SGml5n8fYz0Uth8H0i7ntUN/pUN1lYmAnX58WVbfjlIVZbnGlw4U1W5mzN0Jk4u6HU5mUNBSBAq
- M4Fib1hFFc/GtUad5vE6cNoRIszILkPdEUTBoNKrKomE2fhbnsVbH8hUQGpPEUtpC1g44kD/kAk
- 3/6TYtbsnVhFeJcszxDnEY3gSMMUsy32wJOGT68CMCulzJSsIMb3NDnQcFVUpxr6XDO7HKR5n8g
- /UekM0ZRhUFus+PuLmdHxfo5E3te3WOgtiMiKw4B4RNI7ABEXOZNse16M71vNDJwFo3P99ngH65
- GhPbEZucuD5RNJqd0LnUI/w8HdjEsuXQPIh8xCR3BR4qqDmlx6bdW3kkMD46E4//QYNQCAOEEaq
- euKvEoTXzUcADthiW5A==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-22_05,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0 bulkscore=0
- impostorscore=0 adultscore=0 malwarescore=0 spamscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610220059
 
-GPR service drivers can issue synchronous commands directly from their
-probe callbacks or indirectly while populating child devices. The GPR
-bus currently publishes the service callback only after the client probe
-returns. Consequently, a DSP response received during probe cannot be
-dispatched and the command times out.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] soc: qcom: apr: race with gpr_do_rx_callback() on apr_device_probe=
+() failure
+--
 
-This was observed intermittently on Qualcomm Lemans and Monaco platforms
-while q6apm child probing issued an APM shared-memory map command. The DSP
-response reached the GPR receive path, but was discarded because the
-service callback had not yet been installed.
+commit b8085aea7f4dfac0f85898613864891fa165e4b0
+Author: Mohit Sharma <mohit.sharma@oss.qualcomm.com>
 
-The first patch prepares q6apm and q6prm for early callback publication by
-ensuring callback-visible state is initialized before driver data is
-published and safely ignoring packets received before that point. The
-second patch publishes GPR callbacks before invoking client probes and
-clears them again when probing fails. Existing APR callback ordering is
-left unchanged.
+soc: qcom: apr: Publish GPR callback before client probe
 
-Mohit Sharma (2):
-  ASoC: qcom: q6apm: Guard callbacks until probe data is ready
-  soc: qcom: apr: Publish GPR callback before client probe
+This commit installs the service callback in apr_device_probe() before call=
+ing
+the client driver's probe function when the packet router type is GPR, so t=
+hat
+responses to commands sent during probe can be dispatched. If the client pr=
+obe
+fails, it clears the callback before returning the error.
 
- drivers/soc/qcom/apr.c          | 15 +++++++++++++--
- sound/soc/qcom/qdsp6/q6apm.c   |  6 ++++--
- sound/soc/qcom/qdsp6/q6prm.c   |  3 +++
- 3 files changed, 20 insertions(+), 4 deletions(-)
+> diff --git a/drivers/soc/qcom/apr.c b/drivers/soc/qcom/apr.c
+> index ea7f83916d8d8..829e5c8fdf984 100644
+> --- a/drivers/soc/qcom/apr.c
+> +++ b/drivers/soc/qcom/apr.c
+> @@ -365,13 +365,24 @@ static int apr_device_probe(struct device *dev)
+>  {
+>  	struct apr_device *adev =3D to_apr_device(dev);
+>  	struct apr_driver *adrv =3D to_apr_driver(dev->driver);
+> +	struct packet_router *apr =3D dev_get_drvdata(dev->parent);
+>  	int ret;
+> =20
+> +	if (apr->type =3D=3D PR_TYPE_GPR)
+> +		adev->svc.callback =3D adrv->gpr_callback;
+> +
+>  	ret =3D adrv->probe(adev);
+> -	if (!ret)
+> +	if (ret) {
+> +		if (apr->type =3D=3D PR_TYPE_GPR)
+> +			adev->svc.callback =3D NULL;
+> +
+> +		return ret;
+> +	}
 
--- 
-2.34.1
+[Severity: High]
+Can clearing adev->svc.callback on probe failure without synchronizing with
+apr->rxwq race with an in-flight gpr_do_rx_callback() execution and cause a
+use-after-free on devm-allocated driver data?
 
+In drivers/soc/qcom/apr.c, apr_add_device() inserts &adev->svc into
+apr->svcs_idr before calling device_register(&adev->dev). Once
+apr_device_probe() sets adev->svc.callback =3D adrv->gpr_callback, incoming
+packets for that port on apr->rxwq can invoke svc->callback via
+gpr_do_rx_callback():
+
+drivers/soc/qcom/apr.c:gpr_do_rx_callback() {
+	spin_lock_irqsave(&gpr->svcs_lock, flags);
+	svc =3D idr_find(&gpr->svcs_idr, hdr->dest_port);
+	spin_unlock_irqrestore(&gpr->svcs_lock, flags);
+
+	if (!svc) {
+		dev_err(gpr->dev, "GPR: Port(%x) is not registered\n",
+			hdr->dest_port);
+		return -EINVAL;
+	}
+
+	if (svc->callback)
+		svc->callback(&resp, svc->priv, 0);
+}
+
+During adrv->probe(adev), client drivers such as apm_probe() in
+sound/soc/qcom/qdsp6/q6apm.c and prm_probe() in sound/soc/qcom/qdsp6/q6prm.c
+allocate their private state with devm_kzalloc(), publish it via
+dev_set_drvdata(), and can then fail or defer probe after sending commands =
+or
+while unsolicited packets arrive:
+
+sound/soc/qcom/qdsp6/q6apm.c:apm_probe() {
+	...
+	dev_set_drvdata(dev, apm);
+	g_apm =3D apm;
+
+	q6apm_get_apm_state(apm);
+
+	ret =3D snd_soc_register_component(dev, &q6apm_audio_component, NULL, 0);
+	if (ret < 0) {
+		dev_err(dev, "failed to register q6apm: %d\n", ret);
+		return ret;
+	}
+
+	ret =3D of_platform_populate(dev->of_node, NULL, NULL, dev);
+	if (ret)
+		snd_soc_unregister_component(dev);
+
+	return ret;
+}
+
+sound/soc/qcom/qdsp6/q6prm.c:prm_probe() {
+	...
+	dev_set_drvdata(dev, cc);
+
+	if (!q6apm_is_adsp_ready())
+		return -EPROBE_DEFER;
+
+	return devm_of_platform_populate(dev);
+}
+
+When adrv->probe(adev) returns an error, apr_device_probe() clears
+adev->svc.callback =3D NULL with a plain store and returns immediately to
+really_probe() -> device_unbind_cleanup(), which frees devres allocations
+before clearing drvdata:
+
+drivers/base/dd.c:device_unbind_cleanup() {
+	devres_release_all(dev);
+	arch_teardown_dma_ops(dev);
+	kfree(dev->dma_range_map);
+	dev->dma_range_map =3D NULL;
+	device_set_driver(dev, NULL);
+	dev_set_drvdata(dev, NULL);
+}
+
+If gpr_do_rx_callback() on apr->rxwq has already passed the svc->callback
+check, could apm_callback() or prm_callback() concurrently dereference and
+write to the freed struct q6apm or struct q6prm obtained from
+dev_get_drvdata(&gdev->dev) (or hit a NULL function pointer dereference if
+svc->callback is reloaded after the unlocked check in gpr_do_rx_callback())?
+
+Should adev->svc.callback be updated with READ_ONCE()/WRITE_ONCE() (or under
+lock) and apr->rxwq be flushed after clearing adev->svc.callback on the pro=
+be
+error path before returning?
+
+> +
+> +	if (apr->type !=3D PR_TYPE_GPR)
+>  		adev->svc.callback =3D adrv->gpr_callback;
+> =20
+> -	return ret;
+> +	return 0;
+>  }
+> =20
+>  static void apr_device_remove(struct device *dev)
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261022144130.2443=
+667-2-mohit.sharma@oss.qualcomm.com?part=3D2
