@@ -1,78 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792753137;
-	b=3jyb3zqtUnX4hPK+cPGGVlHtsNPbnTR1lIwU0kdHYX0gpPcPh29YW9Y/53NxiRluPxEJ
-	 B0vBaLxRrYoF6pvENwC+s+K/TtDrgNTZCZSg6DdvJfulPN0sDvOjzL4VqxrEduYocT1ky
-	 wJIbv6MKj7THYLaXBUMyj8JRdvh6hL2SCMWXgwjyyAbM4pXvakKaf8YjwzcZlu/FaQjiI
-	 n5S/LMM1A3yKIiGDGVZGbKLfvgbIoxi8VnQI/+/U/YhbMmMKNL/Y/e0HFOp1iPKEHOk7z
-	 scVcdtBwoc7wzzNYqGwWgUSzkuY8yBpztZyxBz18oIIN0gR8Ws3Cm+UW9O6EgEEjj4Q==
+	t=1792758428;
+	b=20+QDnw8LJC4d/IHyd79k8iBc0OitDS2rv38QyZyENp6pBwlsnE0eOKrK9Dtwo1yhSMf
+	 uW3j5o/Ur2JUHC6vwrdpRSo+beRKf22jqLSZT2ddysCJb0ZKD7J+SoFLe62rUXZaJGB3j
+	 0D25OSCk4eg1OQf3gcAfmBGATOsWkHhhDxfQKrwMBdMtFDbAdUtKH9dkuPi/zExJr9dlo
+	 c+LZv2BgiIYUJ+M4WHpL9L/0V4HmRHQwyqNYIXz7OK45XgjcV7rBaQAtsROI9+DvskmKL
+	 cq6CIqfoD5SCFxaG3CQNE5rCzVCya8JDS+FTTXTbkkXW4jEHpawJUViMAoSCPgKMVMw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792753137;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1792758428;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Sender:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=+sICo6EXhd+jRzAeUQACtC0lcv28nFCR/Ddwe8EaUWI=;
-	b=4R9Pn6rjU4mS+rlgFY781ZXU1QQwV+4EtbxQWoZroZQMtxSfC5TB/vbnTf4JySoRd+ji
-	 n4fvECIXzspKHRCCGiZ/zhIonC28lcSiawLJPl93lIQE1+Xh9//6VTSce8W2htVNwOd8O
-	 iTNzQKr6eG3c8/aPJ52w5zrg66KpVGVYNW1FVHgrMV3wX90ykg7CYWKJa+cUbpSQAuEba
-	 rShP4EjY9XheqSk6PBRRcYDEgKZ9wi6stFzbGvoSkyNT29g4fL6hWk7FTDeIxSpX8NHED
-	 kgzhAkNsgNWcOD01lzEa/5+gUVnHKlPnPT+h8rwjWoR5WzPCrm0lXq/EIbh0T6FjrfQ==
+	bh=5rFfxkItEyGktyLFjZAN1/ktJQTlo+F+VqHQTktoxH0=;
+	b=AeBKC/mFns+9lt5LnLKh4tI0WQ8RoSTmaoxcbYLvqapk8jzIfhkn9ADdmxXUR5aIguN3
+	 xmGP5YIeXCIvIOBXhVmGI6KBs/j0Y6rzyZCfQTroYs7X+QtotWsOM9nwy1St5HpKxloVi
+	 ILlsUBua2tb5L8GOdiNZATolT2YrTd7tk/AiY9rlixjUEz5s6dY9aOaeIZZ+eZJCg9pn5
+	 hKhBBtjEmsUoSEhYM8zNnWu+bY9d/9QhDntqCdsjqCUHLZgAgojOG3vvZvsZ82slASZ0p
+	 MfGMtmKwrA2CAnmqYw0UReLhl1KZiIdYZ0WeohSUX/e1fDb9Bptn4tF/hTZmbNQYA2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BWZbOxgL;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=RvNVmHq5;
+	arc=none smtp.remote-ip=209.85.160.176
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F6C606A31A
-	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 10:58:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 05F6C606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F53606A31E
+	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 12:27:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8F53606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BWZbOxgL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792753137; x=1824289137;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=T6kMX53SEFwbHuiVt4gWVhan17tdyivfd/WS44ld4II=;
-  b=BWZbOxgL+dvhVXBYhiXRqTnbZMsI+cnb2wf5I/yxRZTfhZwEXTaqgsbg
-   TQqDqUfcE22Nnf7o1PV70ROGZPPMuiY2zLcqY++1Wd1kl0aJgVV0/tAXv
-   TXXNCJJo+Z5cl/UGJhv7HhP6/1UdUA82BvcrBEyNw4C76AQ+JjJQEN0/5
-   qaXDsT6mRbw+w/kn50Ae7aG0XRpOqhPgRyqVhnJ65g7QPoYUDCcm1UbHF
-   Ext8T1e08PRnUETYXp49YUoSUY4E8J6L+rYR72TY7X+ioNouqGlZcN+mf
-   QfcswbXQPB1IHJ6VbJjvWDQVR3ke3AmP7Z4cwfmt+Qo6NOeKz8gE3Z6oq
-   Q==;
-X-CSE-ConnectionGUID: rCpioKjUQ8+HAI+AfiPJsA==
-X-CSE-MsgGUID: eTXyaiirQnyFn3qj1Y4ghQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1605844"
-X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
-   d="scan'208";a="1605844"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 03:58:57 -0700
-X-CSE-ConnectionGUID: hTNPxc1gQdaQ2yfYbGYsZg==
-X-CSE-MsgGUID: PAYeo7LuQH66Pl9dkQDnig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
-   d="scan'208";a="3681775"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 03:58:55 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=RvNVmHq5
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-533778ab0bdso8352791cf.3
+        for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 05:27:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792758427; x=1793363227; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5rFfxkItEyGktyLFjZAN1/ktJQTlo+F+VqHQTktoxH0=;
+        b=RvNVmHq5wFHtOgZS9OwyMsQUkU0YYOMsbBoe2cKeY50Va8EWhjPCs9+BPvzikCFsK0
+         VRANFqNZUh15pKtw4ivfalaG7MmMjveUmm+SsLvvSzS62hH8qnhjRZ0Gfl0ESSU22OCp
+         OnAurTmJnJtXw770KLUYjUK9h+qnw69GH+YOI+qas1Wsk9S54cT0yUzmiRoYXCiDYYe8
+         POBW2NRtDQx/wZfEkcG1xibVR1F6aWkv4UqEBGLOY2aqsvsfGOoeTxHmYaj7C7Q15kdm
+         jL2iGGAIlV2+P/NEeFi2W5kFz0EJFpIYp7OC7vU724FbHWEdGSf7q1j+1zGZbtK2HtVJ
+         Da0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792758427; x=1793363227;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5rFfxkItEyGktyLFjZAN1/ktJQTlo+F+VqHQTktoxH0=;
+        b=y+qs7u8BGinfKavgNRVJnz7ypYotb6ocmsl8B1q1TZZoHNmEzC3YlS25M+5CD9iPbG
+         6uCT7MjgY0GglOCEpd7GaULWKuxxJ73G1wxhp+qL4EmGd9LpjkYGMthqtU3FjCBxb+A2
+         SSkyF0invmEdrtItDxKOyRAXhVimYa/82p1FQ5lPV7NV56YWVKJMobDvCpCaE9EwkgCw
+         7avaX15Bg/TQM5nkzxi3TYUBdzJVpWYBuCunMV8Gzc3h8KCspHS0g5wDBN9NEBwkinfG
+         Ps9PYIuWRrvcNfZ/rA/Wal7X84MvKTDgEXTrjSAhTRIpx3KxjFlRP5LwMc5mvIHNc753
+         pw/w==
+X-Gm-Message-State: AFq9FYINBF87m7OyMmZAOX3bCkfAtXi0wbeoXMLul4yEc8ApYC9zbBQv
+	i3I/ef9OFlEw9G8OhwiEkfkmdohKN2DkyDsPWFYUWq5CG0vH1NZR+u4=
+X-Gm-Gg: AYBFou22hVbrNe28xPdif57H7bfDmivMS8HETCXNuGF4GU9u1JN/wgBt9bg3T+f4Dx3
+	G+HuurVNbx9LfdAJlOY8RxyEvUhVrtjm/hw047DJq3sOFolMZJAKhFJFhkCQFI1kYiPg3P/SqhZ
+	Ej73OaWQ8ua4scwcMCVDXG7Sco4GJ6hfH+4EiVLhCbaovKviWOaZMDxevUR2XhXN/1sLgsQpQmK
+	KZji+LYcZjTB4t51I+w+95d3rO3TS/R0cbm2h+f45MxJMbWAM6pT0sm1hSxlhoLZHe6U1VPPL+C
+	OCvUq21+LmN8pOXH7mjj1627Ywf/0ojbTTpgMLzAtupb76GeqXulcNz5+oshGdhd8V6XSp3J3oV
+	ZXWD2ik7EK9I4PBjovaX8I4R29D4OVceUMrIQaR/hu1tn9sVPkhEy5iW5n7jAh4soENLwglAjW+
+	i/Plb6+IM3y4x957VPmfp8h70+vqrVOTqO7XPCyDpPXu+kJXKHI2qJ6HJO476VQRvoyCDfkjsT3
+	k15xEfs+RdaCuItUMsv3I18pmZGQjtEr/SjnePNJZBWf8vAy8WhKGqojIbPTN9OMdGU2//pBXLE
+	rc5VwAbN16l/vp7NmTfSC9sm8wkpN1xOdMwrda2pYsxnFtvUHgk=
+X-Received: by 2002:a05:622a:230a:b0:536:3d54:a309 with SMTP id d75a77b69052e-536c2101b66mr28168281cf.11.1792758426626;
+        Fri, 23 Oct 2026 05:27:06 -0700 (PDT)
+Received: from raincloud ([2600:4040:7e20:9b00:7285:c2ff:fed1:7bde])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-536c18b0e2asm15041051cf.28.2026.10.23.05.27.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 05:27:06 -0700 (PDT)
+Sender: Shawn <rainey.shawn@gmail.com>
+From: rainey.shawn+kaudio@gmail.com
+To: Ajanesh Lal <ajaneshlal3@gmail.com>,
+	Shawn Rainey <rainey.shawn+kaudio@gmail.com>,
+	Takashi Iwai <tiwai@suse.de>
 Cc: linux-sound@vger.kernel.org,
-	bard.liao@intel.com,
-	peter.ujfalusi@linux.intel.com
-Subject: [PATCH RESEND 2/2] ASoC: Intel: soc-acpi-intel-arl-match: Add RT713 + dual RT1320 support
-Date: Fri, 23 Oct 2026 18:58:43 +0800
-Message-ID: <20261023105843.2257167-3-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261023105843.2257167-1-yung-chuan.liao@linux.intel.com>
-References: <20261023105843.2257167-1-yung-chuan.liao@linux.intel.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ALSA: usb-audio: add quirk for Novation UltraNova (1235:0011)
+Date: Fri, 23 Oct 2026 08:25:11 -0400
+Message-ID: <20261023122513.1025684-1-rainey.shawn+kaudio@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -84,133 +99,116 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: JJ Gault <jgault87@gmail.com>
+From: Shawn Rainey <rainey.shawn+kaudio@gmail.com>
 
-Add a SoundWire machine-driver match entry for boards with an RT713
-(SDCA "VB" jack/dmic variant) on link 0 and two RT1320 speaker amps
-sharing link 2 (distinguished by unique_id 0/1, left/right).
+The device reports vendor-specific class on all interfaces, so the
+standard parser rejects it and no card is created.  Add a composite
+quirk with fixed audio and raw-MIDI layouts.  The id table entry
+matches interface 0 only so that the vendor control interfaces (2/3)
+are left unbound for userspace access.
 
-This exact codec pairing is already supported on Panther Lake
-(ptl_sdw_rt713_vb_l2_rt1320_l13) and Lunar Lake
-(lnl_sdw_rt713_vb_l2_rt1320_l13); Arrow Lake was missing the
-corresponding entry, so affected boards fell back to the generic
-skl_hda_dsp_generic driver and only exposed HDMI outputs.
+The endpoints advertise no synchronization and the device provides no
+feedback; both streams are locked to the USB SOF.  The playback entry
+is marked USB_ENDPOINT_SYNC_SYNC so that generic sync-EP detection
+does not pair the capture data endpoint (0x82) as implicit feedback
+for the output stream; the capture entry needs no override, as its
+.ep_idx = 1 already keeps it out of sync-EP detection.
 
-Confirmed on an MSI Raider 16 Max HX B2WI (MS-2651): the kernel now
-correctly identifies the hardware and no longer falls back to the
-generic HDA driver.
+Verified on hardware: audio duplex at both supported rates, raw MIDI
+in/out, and complete patch dumps as SysEx on the MIDI endpoints.
 
-No dedicated topology has been built for this link0/link2 layout yet,
-so sof_tplg_filename is set to a placeholder ("sof-arl-dummy.tplg")
-rather than pointing at an existing but unrelated topology, per review
-feedback.
-
-Signed-off-by: JJ Gault <jgault87@gmail.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Signed-off-by: Shawn Rainey <rainey.shawn+kaudio@gmail.com>
 ---
- .../intel/common/soc-acpi-intel-arl-match.c   | 68 +++++++++++++++++++
- 1 file changed, 68 insertions(+)
+v2:
+  - set .ep_idx = 1 on the capture entry: endpoint 0x82 is the second
+    endpoint descriptor of altsetting 1, and leaving ep_idx at 0 made
+    snd_usb_audioformat_set_sync_ep() treat the capture format as
+    playback (is_playback is derived from get_endpoint(alts, 0)).
+  - drop USB_ENDPOINT_SYNC_SYNC from the capture entry: with ep_idx = 1
+    it is no longer needed, as the capture format exits sync-EP
+    detection before the synctype is examined.  The playback entry
+    keeps the flag, as without it the generic detection pairs capture
+    endpoint 0x82 as implicit feedback for the output stream.
+    (Both points from review feedback; re-verified duplex and MIDI
+    on hardware.)
+v1: https://lore.kernel.org/r/20261022164340.78664-1-rainey.shawn+kaudio@gmail.com
+ sound/usb/quirks-table.h | 63 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-index 09bb7302ed25..310c4b77c4b7 100644
---- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-@@ -70,6 +70,23 @@ static const struct snd_soc_acpi_endpoint jack_amp_g1_dmic_endpoints[] = {
- 	},
- };
- 
-+static const struct snd_soc_acpi_endpoint jack_dmic_endpoints[] = {
-+	/* Jack Endpoint */
-+	{
-+		.num = 0,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	/* DMIC Endpoint */
-+	{
-+		.num = 1,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+};
-+
- static const struct snd_soc_acpi_adr_device cs35l56_2_lr_adr[] = {
- 	{
- 		.adr = 0x00023001FA355601ull,
-@@ -301,6 +318,35 @@ static const struct snd_soc_acpi_adr_device rt1320_2_single_adr[] = {
+diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
+index 6343a50fb..2e4f21890 100644
+--- a/sound/usb/quirks-table.h
++++ b/sound/usb/quirks-table.h
+@@ -2359,6 +2359,69 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+ 		}
  	}
- };
- 
-+/*
-+ * MSI Raider 16 Max HX B2WI (MS-2651): RT713 (jack/dmic, "VB" SDCA variant)
-+ * on link 0, two RT1320 speaker amps sharing link 2 (unique_id 0 = left,
-+ * unique_id 1 = right).
-+ */
-+static const struct snd_soc_acpi_adr_device rt713_vb_0_adr[] = {
-+	{
-+		.adr = 0x000030025D071301ull,
-+		.num_endpoints = ARRAY_SIZE(jack_dmic_endpoints),
-+		.endpoints = jack_dmic_endpoints,
-+		.name_prefix = "rt713"
+ },
++{
++	/*
++	 * Novation UltraNova: vendor-specific class descriptors, fixed
++	 * audio and MIDI layouts.  Only the audio and MIDI interfaces
++	 * (0 and 1) are grabbed; the vendor control interfaces (2/3)
++	 * are left unbound for userspace access.
++	 */
++	USB_DEVICE_INTERFACE_NUMBER(0x1235, 0x0011, 0),
++	QUIRK_DRIVER_INFO {
++		.vendor_name = "Novation",
++		.product_name = "UltraNova",
++		QUIRK_DATA_COMPOSITE {
++			{
++				QUIRK_DATA_AUDIOFORMAT(0) {
++					/* playback */
++					.formats = SNDRV_PCM_FMTBIT_S16_LE,
++					.channels = 4,
++					.iface = 0,
++					.altsetting = 1,
++					.altset_idx = 1,
++					.attributes = UAC_EP_CS_ATTR_SAMPLE_RATE,
++					.endpoint = 0x01,
++					.ep_attr = USB_ENDPOINT_XFER_ISOC |
++						   USB_ENDPOINT_SYNC_SYNC,
++					.maxpacksize = 392,
++					.rates = SNDRV_PCM_RATE_44100 |
++						 SNDRV_PCM_RATE_48000,
++					.rate_min = 44100,
++					.rate_max = 48000,
++					.nr_rates = 2,
++					.rate_table = (unsigned int[]) {
++						44100, 48000
++					}
++				}
++			},
++			{
++				QUIRK_DATA_AUDIOFORMAT(0) {
++					/* capture */
++					.formats = SNDRV_PCM_FMTBIT_S24_3LE,
++					.channels = 2,
++					.iface = 0,
++					.altsetting = 1,
++					.altset_idx = 1,
++					.attributes = UAC_EP_CS_ATTR_SAMPLE_RATE,
++					.endpoint = 0x82,
++					.ep_idx = 1,
++					.ep_attr = USB_ENDPOINT_XFER_ISOC,
++					.maxpacksize = 294,
++					.rates = SNDRV_PCM_RATE_44100 |
++						 SNDRV_PCM_RATE_48000,
++					.rate_min = 44100,
++					.rate_max = 48000,
++					.nr_rates = 2,
++					.rate_table = (unsigned int[]) {
++						44100, 48000
++					}
++				}
++			},
++			{ QUIRK_DATA_RAW_BYTES(1) },
++			QUIRK_COMPOSITE_END
++		}
 +	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device rt1320_2_lr_adr[] = {
-+	{
-+		.adr = 0x000230025D132001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "rt1320-1"
-+	},
-+	{
-+		.adr = 0x000231025D132001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "rt1320-2"
-+	}
-+};
-+
- static const struct snd_soc_acpi_link_adr arl_n_mrd_es9356_link1[] = {
- 	{
- 		.mask = BIT(1),
-@@ -454,6 +500,20 @@ static const struct snd_soc_acpi_link_adr arl_rt711_l0_rt1316_l3[] = {
- 	{}
- };
- 
-+static const struct snd_soc_acpi_link_adr arl_rt713_vb_l0_rt1320_l2[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(rt713_vb_0_adr),
-+		.adr_d = rt713_vb_0_adr,
-+	},
-+	{
-+		.mask = BIT(2),
-+		.num_adr = ARRAY_SIZE(rt1320_2_lr_adr),
-+		.adr_d = rt1320_2_lr_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_link_adr arl_rt722_l0_rt1320_l2[] = {
- 	{
- 		.mask = BIT(0),
-@@ -626,6 +686,14 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
- 		.sof_tplg_filename = "sof-arl-cs42l43-l0-cs35l56-l2.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
-+	{
-+		.link_mask = BIT(0) | BIT(2),
-+		.links = arl_rt713_vb_l0_rt1320_l2,
-+		.drv_name = "sof_sdw",
-+		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
-+		.sof_tplg_filename = "sof-arl-dummy.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
-+	},
- 	{
- 		.link_mask = BIT(0) | BIT(2),
- 		.links = arl_rt722_l0_rt1320_l2,
++},
+ {
+ 	USB_DEVICE(0x1235, 0x001e),
+ 	QUIRK_DRIVER_INFO {
 -- 
-2.43.0
+2.56.0
 
