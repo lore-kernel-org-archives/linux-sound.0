@@ -1,76 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.250.56.165
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792761046;
-	b=ZVOuyAS8RPjG88tKyLXCImexro6+vAT3vs2TTfQFoOl8Q8P7yEhS/u3LZ27A75IjxuoZ
-	 WP3a5MbEvnnUUqfyaJyfrKxa+EeRI+QG7DOw4hUNSqEqZKb0+lzPBs/ILezkC/Dii8mHw
-	 FZOLME2FnqruGy1APCatHkaz5UNSBxQ/38KxxJ5Ehm0RBQqDsR5vC7R3Cy2v3UP+T6GeK
-	 eGvmC4Q60GofNMqEZ4cLFFzjOamUHQxHgVfyDBp0qjgKfnk3QZKgb+nMyMSLooNHA+/16
-	 WxQ1Dg4waM38AGOshv8NfjXWXUZL81qWdfZHvtHi9PqAKIhb7BZ44dI/9UwWzZPW9Wg==
+	t=1792762231;
+	b=vzpg0uUL6Fm0YYxuMo4iLc1BQv2vwOKCl1kbBSWdI0ElnNJ1Oz5muPgcHpG49L6mlM1n
+	 bnl19OXvNRG+61OPkW2UhaJUQQKTHW9W9Q8AUXq4OKDjuTxohp7/gM80u5iZxlfxGEESA
+	 V5dCUpYBCHBf2uxEG4CqIFUkUzDL6MjrcVxvxAVR/YKq3WhrYhVS/xoUMGBa162b5qLKn
+	 99Z1Es9NhRe0vougSP//ACuStaOD/8N1E8faPYnoKhYN/x6akv/p33Yy/pGYTpVJfWKrS
+	 Yi6ku72ME3wY+3MHr/thhUgZ5gqJngVBtlPq2gv1JAeoxUL6AdaHGiGrASVVfSUZBcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792761046;
-	h=DMARC-Filter:Received:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=59Qyk3aglIjIhg/npMzy4QhrcqLa7AMEvlddf8zJtOQ=;
-	b=lPpY3qXKY/AkG57tYoCa9d5CFKiGQALtGHOPVjZb+PvSblZ7hqBF87s0o7U6KG++eC6v
-	 xj0wS2xqh9vLjSBEWARtEcXjVvRvKJOyvqLualOLrMcwhlR0yqv2M3wS+FE3jHafWozlO
-	 4YcEARicI/lehLDYbnJtou3UmBDWfT3DqOB8CGf+ZlYKqykKlECt3MIbkxm71aJT6DO/k
-	 ftpT+X2zO2u7+s0OuZROgiqLrBbryZT4yqrYqxmmhqqRVDfmlHWWGLqtTXuzIzIMaSrEc
-	 kFRABvPCPwE0w6DSRMuta2bcJ38HmdXjaxBS/dIECoK4RqBBFGYRrCVPbzhTk3eitPw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792762231;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=H5C2YgX9zoAUN8RdPNBEehJ+u01y85A4y2Tev8DT1hg=;
+	b=xgjgE7N7gx28oIzcqKF/22kpo/lR0ZOo8fUeXi7fVzXTD3k/cOyreBb0p/gtW9FPWQ/J
+	 chNRU2WxVgH6hQjgAKA/qXHEjbcBriZwqtedjdAqyLWvnLJ2V5YUi08ht7vPngKiijtYv
+	 I2Q6Q5D8Wj03oPkNsHKE3/PWQ9+vJQZmxVE+HwtOeHa5k+IIwNj7lmDZE/5AR98cSMYBU
+	 bx5ONlZ9TtP9tHTUFI8kbc8WT2i1dJvkGdoybdlPIjJh2Fd4hZ0vWYlhs/QUrRw+rjBay
+	 O9YDAtFgO2DciGfR5s9s4SUw0QP5an48L+mNUAxGh4IuOxjyzzaMyBUQyhRl5IPoHsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ideco.ru;
-	spf=pass smtp.mailfrom=ideco.ru;
-	dkim=pass header.d=ideco.ru header.i=@ideco.ru header.a=rsa-sha256 header.s=ics header.b=TFqeyXW9;
-	arc=none smtp.remote-ip=51.250.56.165
-Received: from smtp.ideco.ru (smtp.ideco.ru [51.250.56.165])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DM2fPH07;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=C2qqh51M;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DM2fPH07;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=C2qqh51M;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99B5606A31A;
-	Fri, 23 Oct 2026 13:10:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A99B5606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideco.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideco.ru
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F7F606A31F;
+	Fri, 23 Oct 2026 13:30:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46F7F606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ideco.ru header.i=@ideco.ru header.a=rsa-sha256 header.s=ics header.b=TFqeyXW9
-Received: from [169.254.254.254] (localhost [127.0.0.1])
-	by smtp.ideco.ru (Postfix) with ESMTP id 4BE75231AA;
-	Fri, 23 Oct 2026 18:10:35 +0500 (+05)
-Received: from fedora (5cfcac1b.dynamic.mv.ru [92.252.172.27])
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DM2fPH07;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=C2qqh51M;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DM2fPH07;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=C2qqh51M
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.ideco.ru (Postfix) with ESMTPSA id E169B18A2E;
-	Fri, 23 Oct 2026 18:09:52 +0500 (+05)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp.ideco.ru E169B18A2E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ideco.ru; s=ics;
-	t=1792761031; bh=59Qyk3aglIjIhg/npMzy4QhrcqLa7AMEvlddf8zJtOQ=;
-	h=From:To:Cc:Subject:Date;
-	b=TFqeyXW9dHZ6eOKDKaD4Qj1nIiBzdz+sfOVgSyA+ANKcWOWCfF7obxsYLWhQEYXLl
-	 Q6YLaYL9NiV6VNUyyGlmHyEU4eM62iR5ieWIDCVutEE4VhJpST/sqUiCXXV1jowwfo
-	 WtaBPbclnURf46sMZ2f40beC75zuU2+cAyBRalbwL5WPlLx2QTRAQnl4EiRjEtqtfT
-	 BT3CH5BYI8SiTrPzz17dhIwM1glr7GNCZmUUIiHlx48m4+326Rg7YZnVAtoGToPwhp
-	 H9W0XgrY/1U0GpLG55z2P6K0BF4HSxD45HsaylLkWUyIBkpAsaWdROq6dghRct7LY4
-	 jJ6AWtF2i+JPQ==
-From: Alex Kazinsky <a.kazinsky@ideco.ru>
-To: Shenghao Ding <shenghao-ding@ti.com>
-Cc: Alex Kazinsky <a.kazinsky@ideco.ru>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Sen Wang <sen@ti.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 706C5220D3;
+	Fri, 23 Oct 2026 13:30:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792762229; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H5C2YgX9zoAUN8RdPNBEehJ+u01y85A4y2Tev8DT1hg=;
+	b=DM2fPH07E17ZTllrMqBRrD7OXjttjIWUEXjPuHEzvJUpNbQXN5qmQX5BKeCz7uARth7cFG
+	j2H5n9KXSd3FPBvFvWtuOM/bHW/K9BbLIrWGBAEec5ocN9CYFBpX6PD+8s70dyUcWwhRn7
+	gjREfMDayFpjOGuAUiu20/NDOkbWSKI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792762229;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H5C2YgX9zoAUN8RdPNBEehJ+u01y85A4y2Tev8DT1hg=;
+	b=C2qqh51MJIORQZbHuWwC4QjEFo8QJkfsrAgse2aSBwc/Y3PojDaCf1KInPaBjuBeY9iV3R
+	CaW8W3f6HwFeUfBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792762229; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H5C2YgX9zoAUN8RdPNBEehJ+u01y85A4y2Tev8DT1hg=;
+	b=DM2fPH07E17ZTllrMqBRrD7OXjttjIWUEXjPuHEzvJUpNbQXN5qmQX5BKeCz7uARth7cFG
+	j2H5n9KXSd3FPBvFvWtuOM/bHW/K9BbLIrWGBAEec5ocN9CYFBpX6PD+8s70dyUcWwhRn7
+	gjREfMDayFpjOGuAUiu20/NDOkbWSKI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792762229;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H5C2YgX9zoAUN8RdPNBEehJ+u01y85A4y2Tev8DT1hg=;
+	b=C2qqh51MJIORQZbHuWwC4QjEFo8QJkfsrAgse2aSBwc/Y3PojDaCf1KInPaBjuBeY9iV3R
+	CaW8W3f6HwFeUfBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 12033133F6;
+	Fri, 23 Oct 2026 13:30:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 342PNXRh22rrSgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 23 Oct 2026 13:30:29 +0000
+Date: Fri, 23 Oct 2026 15:30:28 +0200
+Message-ID: <87pkx0a6iz.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Annaliese McDermond <nh6z@nh6z.net>,
+	Kazuki Hanai <hnkz.64@gmail.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: tlv320aic32x4: Prevent division by zero in divider callbacks
-Date: Fri, 23 Oct 2026 17:08:52 +0400
-Message-ID: <20261023130854.93639-1-a.kazinsky@ideco.ru>
-X-Mailer: git-send-email 2.56.0
+	linux-mm@kvack.org,
+	David Carlier <devnexen@gmail.com>
+Subject: Re: [PATCH] ALSA: us122l: mark hwdep mappings VM_MIXEDMAP
+In-Reply-To: <20261023-fix-us122l-mixedmap-v1-1-e7bdd053850f@kernel.org>
+References: <20261023-fix-us122l-mixedmap-v1-1-e7bdd053850f@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -79,70 +115,76 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-10.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,perex.cz,suse.com,gmail.com,suse.de,vger.kernel.org,kvack.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.de:email,perex.cz:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.de:email]
+X-Spam-Score: -10.80
 
-A zero rate requested through clk_set_rate() or clk_round_rate() reaches
-clk_aic32x4_div_determine_rate() when the minimum rate is zero. Clamping
-the requested rate to the allowed range leaves it unchanged, causing
-division by zero when calculating the divisor.
+On Fri, 23 Oct 2026 12:21:31 +0200,
+Lorenzo Stoakes (ARM) wrote:
+> 
+> mm has recently moved to a strict model which requires any driver which
+> clears VMA_MAYWRITE_BIT to be mapping non-mm-managed memory
+> (VMA_PFNMAP_BIT or VMA_MIXEDMAP_BIT), failing any such mmap() with an
+> error and a kernel warning - see "mm/vma: only allow mmap to clear
+> VMA_MAYWRITE_BIT if not mm-managed".
+> 
+> However, simultaneous to this, commit 71c610aeb177 ("ALSA: us122l: Prevent
+> write upgrades for read mappings") updated us122l to clear
+> VMA_MAYWRITE_BIT without marking the region with either VMA_PFNMAP_BIT or
+> VMA_MIXEDMAP_BIT.
+> 
+> vm_insert_pages() and friends set this automatically, however this driver
+> maps its pre-allocated pages from a fault handler, so never calls these.
+> 
+> Simply set the flag in usb_stream_hwdep_mmap() to resolve the issue. This
+> correctly marks the mapping as one whose pages core mm does not manage,
+> which has no meaningful impact for this driver beyond preventing the mmap()
+> from failing.
+> 
+> Fixes: 71c610aeb177 ("ALSA: us122l: Prevent write upgrades for read mappings")
+> Reported-by: David Carlier <devnexen@gmail.com>
+> Closes: https://lore.kernel.org/20261018025905.201296-1-devnexen@gmail.com
+> Cc: Kazuki Hanai <hnkz.64@gmail.com>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+> Andrew - I think easiest for you to take this.
+> 
+> It should go in before my series ideally to avoid bisection hazard, I think
+> while it's a fix for the driver, that'll be the safest way.
 
-A zero parent rate can also cause division by zero in determine_rate().
-For example, if reading a parent divider's register fails,
-clk_aic32x4_div_recalc_rate() returns zero, which the clock framework
-caches as the parent's rate. A subsequent rate request for a child
-divider receives this value in best_parent_rate. With a nonzero requested
-rate, the calculated divisor is zero. It passes the existing upper-bound
-check and causes division by zero in the resulting rate calculation.
+Yes, feel free to take:
 
-The set_rate callback can receive a zero rate when an ancestor's rate
-changes. clk_calc_subtree() calculates descendant rates through
-recalc_rate() without calling their determine_rate callbacks. If reading
-a descendant divider's register fails, clk_aic32x4_div_recalc_rate()
-returns zero. This becomes the descendant's new_rate, which
-clk_change_rate() passes to clk_aic32x4_div_set_rate(), causing division
-by zero.
-
-Reject zero rates in both callbacks and reject a zero divisor in
-clk_aic32x4_div_determine_rate().
-
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
-
-Fixes: a51b50062091 ("ASoC: tlv320aic32x4: Model DAC/ADC dividers in CCF")
-Cc: stable@vger.kernel.org
-Signed-off-by: Alex Kazinsky <a.kazinsky@ideco.ru>
----
- sound/soc/codecs/tlv320aic32x4-clk.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/sound/soc/codecs/tlv320aic32x4-clk.c b/sound/soc/codecs/tlv320aic32x4-clk.c
-index deed61650e09..8fa8e69f1f72 100644
---- a/sound/soc/codecs/tlv320aic32x4-clk.c
-+++ b/sound/soc/codecs/tlv320aic32x4-clk.c
-@@ -318,6 +318,9 @@ static int clk_aic32x4_div_set_rate(struct clk_hw *hw, unsigned long rate,
- 	struct clk_aic32x4 *div = to_clk_aic32x4(hw);
- 	u8 divisor;
- 
-+	if (!rate)
-+		return -EINVAL;
-+
- 	divisor = DIV_ROUND_UP(parent_rate, rate);
- 	if (divisor > AIC32X4_DIV_MAX)
- 		return -EINVAL;
-@@ -331,8 +334,11 @@ static int clk_aic32x4_div_determine_rate(struct clk_hw *hw,
- {
- 	unsigned long divisor;
- 
-+	if (!req->rate)
-+		return -EINVAL;
-+
- 	divisor = DIV_ROUND_UP(req->best_parent_rate, req->rate);
--	if (divisor > AIC32X4_DIV_MAX)
-+	if (!divisor || divisor > AIC32X4_DIV_MAX)
- 		return -EINVAL;
- 
- 	req->rate = DIV_ROUND_UP(req->best_parent_rate, divisor);
--- 
-2.56.0
+Acked-by: Takashi Iwai <tiwai@suse.de>
 
 
+thanks,
+
+Takashi
