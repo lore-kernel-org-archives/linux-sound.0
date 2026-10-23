@@ -1,97 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792776739;
-	b=kfv5W3Wdi/1ReNg8zQpJeKwaLuBw6ajtJ52KeXp8dPrzrSwxmlNAiPhqrAoHPbhwtW4u
-	 Xkt2rbtnS5rWCBHQ1qiGxMRneEAg2IWSIc7z99TEjEJA9DK1aIJYr7SqdZvyOYdgMSmZA
-	 fWhixjf+edrzYUY8gFuSkcnWNV6cr1rywc1KsyuFm6oTEt27SBWLKrOTSa4yaeR8iWbPD
-	 1eYtqokfBkg41OoAp6js7LFqyWX3kBZ+YA+xnU0IzzFHuFk1WiPrmRT2zXR4HWtCIzQqL
-	 5dTqdDRTpwAQR5hDGrIlvLpawoPweU4u7+G+XdYrMinwfKDtTwfXhytQyWEUG6CpXHA==
+	t=1792776901;
+	b=2Z+nngU0ydmCgrz+v4BRVOfpQNPDpMARU1pmLx5URjAIykU5YHJcFFMPC80/NLAv19gM
+	 tfOJuM0G9+750exYipRBHk+hD5rDmWhoe9+yy0scUSmVwrLB6LVQt3rU14hj3Lb8j7o+1
+	 qQBM+x2/WtAKRoK3Q78ZQIHVv2X4HQdqgmPejOUzDWfOpxWRDbZMx2XNIko3TOqjou+VV
+	 NSyyXU/KZ17w7iip7TWTwUahqocmVxfOsCr1dcpRCXpGJCnSPiBTCsncwgkAgV9gMfRXo
+	 qEAWtfLK1+hnlkyV9dIYqReyl084WJvn8uLduT+Kq7aota1mRC1X9DTlV+VvHUrrYtA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792776739;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=HGSOaAz+44Wh/SqIDKWUDm4wYs2aLD85zRQZSl074kU=;
-	b=KeGw0XM7XUiC00tvDpcJBO3qEB3/WAtBvCuck1ok2og1BFqFX7l4VsDwliq6WQVBE3zC
-	 W3HYjbcrLmd1J++q+R9uznWJnhQATSq9mI1GrKzdw/rFt/80NN19ZdFoHOsbGmK4QZMgp
-	 G1poVrpKNbuFoWNOr+ru2nvkzEMlc6Vte1HLnC9xkMgX85JW1I3aNf2XliWV6dCtPx7yz
-	 HAGpJmGVzU+/pkw6bOOad6QHdZththadYsQeZVoR2Z2jxygAqPm6g2WTpRXB4DH8SJUFm
-	 xHAnOfInQS551v5dbC/hfPNdNHxortYfcsqZTSnr7n7/P8ABk5kvTgeU9jGJP8fHtzQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792776901;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=zzB0fVVNYPMqh3MFViFL/xYrH8N91pS0DgEUPc2ngUg=;
+	b=J9ics9k7THOwhtnsOgTTTV/MMu2EGhgXoZ2cBLqhbltG8t39xLchzY2spYKycMRt59aL
+	 xu8EKUs+I+4v8KX6DZq5t8mNHplPzj4/jTAkQsD1qHZflIO5v9xqAAOJ1q8tk55xa2505
+	 iuUUGd3qHm7btHZOy1v8Uk73hIRisRZbasHZzJe8LYud3EHUjbeSE35O3mWhLd6Z0j18M
+	 rJgfR8QSWWQftcgoMz7R+ywuekSYtFMzRiIcqm7yROJr4eAFpI+TjMqyvUKab4Mfy/9Qm
+	 jFG+OVmI50VXKIIjtldsiztT8Fj9TAR3nhRKvw+WKc4IWZ9mDp31qsIqXBDJXCvJDyA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=VuC2JSsD;
-	arc=none smtp.remote-ip=209.85.128.46
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hQA+uiiv;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F1A606A335
-	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 17:32:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27F1A606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A21606A31D
+	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 17:35:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=VuC2JSsD
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a2167bd087so6171075e9.3
-        for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 10:32:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792776737; x=1793381537; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HGSOaAz+44Wh/SqIDKWUDm4wYs2aLD85zRQZSl074kU=;
-        b=VuC2JSsD/jDmIHJ21T3hUcmM8cbSpaEBO3LxxuAnaET9z1oXlWFd52EyJy5rQv/KJb
-         IrnE5Wm+yWQljI1wDwO5q+8OpSsojUR+Be+YQMDcxrH/smQN/BGFnw3zz97glzCmo40P
-         arZsrvJUFHjSmOp25gU3U2XDU92kW0lHG2kM4454+tnXoKuM5m3AkSXDr5VesnopRf29
-         T/leHPFSI/H7dihSezImKHKMdDUVT4vIpjWL2zpIgrrojRFtqE3O2Tcz1fqdI8v2PfxQ
-         v9A8jPSFbnict0JEzBOSoUpX30xpn+6m0Jb7JHbRZwsOVNjqTpXtMwpOT3ZZVkrtgiQB
-         z57g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792776737; x=1793381537;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=HGSOaAz+44Wh/SqIDKWUDm4wYs2aLD85zRQZSl074kU=;
-        b=dU7bPO52FFtI4v7Vo3am/yOZRh6/HLZr/oCwxJ6dpGsI1SvMVqitDNJ6LOArIqtJzM
-         O3Q2dQVBPioCw83ktmlhOxiZEjoUc0nyq5PQonxa95tlg5rU1bDfMkJBEOv2OaOyYmXs
-         nT4rLBTN1c6UkR6imIHdxFn7qEwdSuaJ884DhjUjekw1/RG7S2pNIxrIxwQNgSAZIPDC
-         EKU3tLG9OXP95zLsGPh3S7HZWT7Rtgwq8wX0tMMOgdIxqFekJR4Rb1+S9JJ+8mjm8r06
-         AWiVLS6COc2wLSjJGklDMliGfSo9I9n0ssCPl3LIN2+vY5ZS+qTdwxtobwC72ozfPD/y
-         nfvQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxUUu3Lf7ITY/PR+brq9cuRVdYB9ZyRNa/eyN1YUFvTkikLzWOc5DiRequUlH2RNiESOMOr8P1EclF9Ng==@vger.kernel.org
-X-Gm-Message-State: AFq9FYIs5CxagZQE8Kxv5Uo1TjqatCeN5OOpBU5mk1RbpJMiSuVWfgzk
-	leiZAGtILwHRCFjEOVaqVXz9+OxHixBN8FLsC1/hc/JjAycSRCXZ6ONs
-X-Gm-Gg: AYBFou2PMt2Nn2F7R0J15OdEeCYaRhEiCyWx0dVqUAsnd7vi6vBXB3RqaAXTwTDEq1y
-	to1ZmAeke9YJ8pLQ9jS9Sbxjco1+OL8MatmK7UaBHEh2YlR7xvNQLYA+DoRZz9c5z44oF5hXqCQ
-	IJS2rE0NkKQ4/hFIGNPl+9yx8G2DMSP5NfKO6jyQxZA+WGQctPg1UpYvCqJR/QDkgecAm6rGfBN
-	UhnQ2qDUxwB/xSVjY37xaEsxJHq/kN1UpdJjYo6LL7Q0R14P8AT6m1xr/usu/VIuMNkHc6JYUS5
-	I/ASW/97O6aEuvW709WKyID48jU3eIEeOI9Zq6v7pX3B8a97CjmWS+lZTpWqtjFLo6UrxoOpMqw
-	1KWkvg9G6SO7xQQf35b+Q9JP42nMNQGBPwG6R7r8U2AfDVFTx3H5OIFtO0VkN8r4GKNmE3jTeoq
-	U26+G4sSjY0z2yNcjmdm3oN51VRO5vX8x6AVmpfNA95dmWdxeVh4GpfQSOVt+7IK+Bz6GBRiYWo
-	06BBE8qeoe1s3gykdUXHG6GuPXttd61HfubKuGPkl9oJ/KM+oleqVz88NtxOr6SezJ0P0p9lH9k
-	BuOXu0+e2QuEx2fQ7WMzJB7iGrZbahZ0kwzLrI/d37PFjG6v0o6XkqLrlmtYN0Ipzz7e
-X-Received: by 2002:a05:600c:1d1c:b0:4a2:191f:7ca6 with SMTP id 5b1f17b1804b1-4a2191f7d70mr26099425e9.16.1792776737380;
-        Fri, 23 Oct 2026 10:32:17 -0700 (PDT)
-Received: from hermes-agent.lan (228.red-80-29-82.staticip.rima-tde.net. [80.29.82.228])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a2b0637460sm18913995e9.8.2026.10.23.10.32.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 10:32:17 -0700 (PDT)
-From: =?UTF-8?q?Ram=C3=B3n=20Jes=C3=BAs=20Miranda?= <ramonjesusmiranda@gmail.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Ram=C3=B3n=20Jes=C3=BAs=20Miranda?= <ramonjesusmiranda@gmail.com>
-Subject: [PATCH] ASoC: codecs: lpass-macro: release macro and dcodec clocks in runtime suspend
-Date: Fri, 23 Oct 2026 17:32:16 +0000
-Message-ID: <20261023173216.6245-1-ramonjesusmiranda@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hQA+uiiv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66F361F01825;
+	Fri, 23 Oct 2026 17:35:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792776900;
+	bh=zzB0fVVNYPMqh3MFViFL/xYrH8N91pS0DgEUPc2ngUg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=hQA+uiivapSfbNJfr9PnpSvQJX3983OblkaiIxKYx8vym8stijirKIUJarDu82iOC
+	 L7AUe7nc45rwfiIP3Wovt0+AW1g3uk5TxWeubD/3cXf4VbTTIrqvVliv34E28DBCkR
+	 fEssvC79gAtvr7t4tStmea2Mn7lNcfdVs3B52RPiv9PnpXPoMho74MCgePKXtQb4N1
+	 vsZMTwk4ArzhMjFXyI+gBdWyALfzGcZGwRbvVeWMNYGQIK2GM0gYLkgoIaTW9aX4aA
+	 OgOcX0Ge5oR0g2XJev106rK4erX5tt6DP+x/1KDwKMZ624A3IyX3b4GEPXypr4+oVF
+	 4fKi1xo5wHjBQ==
+Message-ID: <sashiko-outbox-183004@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 1/7] ASoC: qcom: audioreach: fix module cfg blob size
+ handling
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261023171316.819857-2-srinivas.kandagatla@oss.qualcomm.com>
+References: <20261023171316.819857-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20261023171316.819857-2-srinivas.kandagatla@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 23 Oct 2026 17:34:59 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -100,306 +60,195 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-The LPASS rx, tx, wsa, and va macro codec drivers prepare and enable their
-"macro" and "dcodec" clocks (which correspond to q6prm LPASS_HW_MACRO and
-LPASS_HW_DCODEC clock votes to the ADSP) in probe() and only release them
-in remove(). Their runtime PM callbacks only toggle mclk, npl, and fsgen.
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
+- [High] ASoC: qcom: audioreach: module leak and UAF on priv data error
+- [High] ASoC: qcom: audioreach: OOB read from array_size truncation to nwo=
+rds
+- [High] ASoC: qcom: audioreach: unchecked mod_array header and size in loop
+--
 
-On Qualcomm X1E80100 systems where the ADSP is booted by Linux (such as
-running at EL2 on the Microsoft Surface Pro 11), keeping the LPASS_HW_MACRO
-and LPASS_HW_DCODEC votes active while audio is idle prevents the ADSP from
-entering low-power sleep during s2idle, which in turn blocks the SoC from
-reaching CX collapse (CXSD) and AOSS sleep (AOSD) (both counters remain at
-0). Also, calling clk_disable_unprepare() unconditionally in remove() on
-clocks already disabled by runtime_suspend() causes clock enable count
-underflows if the driver is unloaded while runtime-suspended.
+commit 1de183e156fe039ccb5c136361b5dc13fa6c2cdc
+Author: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
 
-Disable "dcodec" and "macro" in runtime_suspend(), re-enable them in
-runtime_resume(), and guard the clock teardown in remove() with
-!pm_runtime_status_suspended(). With this change, ADSP, CXSD, and AOSD
-reach >99.9% residency during s2idle (~0.20 W system sleep power on a
-Microsoft Surface Pro 11 OLED).
+ASoC: qcom: audioreach: fix module cfg blob size handling
 
-Assisted-by: Claude:claude-opus-5-5
-Assisted-by: Antigravity:gemini-2.5-pro
-Signed-off-by: Ramón Jesús Miranda <ramonjesusmiranda@gmail.com>
----
- sound/soc/codecs/lpass-rx-macro.c  | 28 +++++++++++++++++++-----
- sound/soc/codecs/lpass-tx-macro.c  | 28 +++++++++++++++++++-----
- sound/soc/codecs/lpass-va-macro.c  | 35 +++++++++++++++++++++++-------
- sound/soc/codecs/lpass-wsa-macro.c | 28 +++++++++++++++++++-----
- 4 files changed, 93 insertions(+), 26 deletions(-)
+This commit converts mod_array->size from a byte count to a word count when
+allocating and copying module private configuration data in
+audioreach_get_module_priv_data(). It also adds bounds and zero-size checks
+for the blob and checks for an error pointer before storing it in mod->data.
 
-diff --git a/sound/soc/codecs/lpass-rx-macro.c b/sound/soc/codecs/lpass-rx-macro.c
-index 6233aa9..9afebf6 100644
---- a/sound/soc/codecs/lpass-rx-macro.c
-+++ b/sound/soc/codecs/lpass-rx-macro.c
-@@ -3935,11 +3935,13 @@ static void rx_macro_remove(struct platform_device *pdev)
- {
- 	struct rx_macro *rx = dev_get_drvdata(&pdev->dev);
- 
--	clk_disable_unprepare(rx->mclk);
--	clk_disable_unprepare(rx->npl);
--	clk_disable_unprepare(rx->fsgen);
--	clk_disable_unprepare(rx->macro);
--	clk_disable_unprepare(rx->dcodec);
-+	if (!pm_runtime_status_suspended(&pdev->dev)) {
-+		clk_disable_unprepare(rx->mclk);
-+		clk_disable_unprepare(rx->npl);
-+		clk_disable_unprepare(rx->fsgen);
-+		clk_disable_unprepare(rx->macro);
-+		clk_disable_unprepare(rx->dcodec);
-+	}
- }
- 
- static const struct of_device_id rx_macro_dt_match[] = {
-@@ -3976,6 +3978,8 @@ static int rx_macro_runtime_suspend(struct device *dev)
- 	clk_disable_unprepare(rx->fsgen);
- 	clk_disable_unprepare(rx->npl);
- 	clk_disable_unprepare(rx->mclk);
-+	clk_disable_unprepare(rx->dcodec);
-+	clk_disable_unprepare(rx->macro);
- 
- 	return 0;
- }
-@@ -3985,10 +3989,18 @@ static int rx_macro_runtime_resume(struct device *dev)
- 	struct rx_macro *rx = dev_get_drvdata(dev);
- 	int ret;
- 
-+	ret = clk_prepare_enable(rx->macro);
-+	if (ret)
-+		return ret;
-+
-+	ret = clk_prepare_enable(rx->dcodec);
-+	if (ret)
-+		goto err_dcodec;
-+
- 	ret = clk_prepare_enable(rx->mclk);
- 	if (ret) {
- 		dev_err(dev, "unable to prepare mclk\n");
--		return ret;
-+		goto err_mclk;
- 	}
- 
- 	ret = clk_prepare_enable(rx->npl);
-@@ -4010,6 +4022,10 @@ err_fsgen:
- 	clk_disable_unprepare(rx->npl);
- err_npl:
- 	clk_disable_unprepare(rx->mclk);
-+err_mclk:
-+	clk_disable_unprepare(rx->dcodec);
-+err_dcodec:
-+	clk_disable_unprepare(rx->macro);
- 
- 	return ret;
- }
-diff --git a/sound/soc/codecs/lpass-tx-macro.c b/sound/soc/codecs/lpass-tx-macro.c
-index 0cbf506..fc4630c 100644
---- a/sound/soc/codecs/lpass-tx-macro.c
-+++ b/sound/soc/codecs/lpass-tx-macro.c
-@@ -2390,11 +2390,13 @@ static void tx_macro_remove(struct platform_device *pdev)
- {
- 	struct tx_macro *tx = dev_get_drvdata(&pdev->dev);
- 
--	clk_disable_unprepare(tx->macro);
--	clk_disable_unprepare(tx->dcodec);
--	clk_disable_unprepare(tx->mclk);
--	clk_disable_unprepare(tx->npl);
--	clk_disable_unprepare(tx->fsgen);
-+	if (!pm_runtime_status_suspended(&pdev->dev)) {
-+		clk_disable_unprepare(tx->macro);
-+		clk_disable_unprepare(tx->dcodec);
-+		clk_disable_unprepare(tx->mclk);
-+		clk_disable_unprepare(tx->npl);
-+		clk_disable_unprepare(tx->fsgen);
-+	}
- 
- 	lpass_macro_pds_exit(tx->pds);
- }
-@@ -2409,6 +2411,8 @@ static int tx_macro_runtime_suspend(struct device *dev)
- 	clk_disable_unprepare(tx->fsgen);
- 	clk_disable_unprepare(tx->npl);
- 	clk_disable_unprepare(tx->mclk);
-+	clk_disable_unprepare(tx->dcodec);
-+	clk_disable_unprepare(tx->macro);
- 
- 	return 0;
- }
-@@ -2418,10 +2422,18 @@ static int tx_macro_runtime_resume(struct device *dev)
- 	struct tx_macro *tx = dev_get_drvdata(dev);
- 	int ret;
- 
-+	ret = clk_prepare_enable(tx->macro);
-+	if (ret)
-+		return ret;
-+
-+	ret = clk_prepare_enable(tx->dcodec);
-+	if (ret)
-+		goto err_dcodec;
-+
- 	ret = clk_prepare_enable(tx->mclk);
- 	if (ret) {
- 		dev_err(dev, "unable to prepare mclk\n");
--		return ret;
-+		goto err_mclk;
- 	}
- 
- 	ret = clk_prepare_enable(tx->npl);
-@@ -2444,6 +2456,10 @@ err_fsgen:
- 	clk_disable_unprepare(tx->npl);
- err_npl:
- 	clk_disable_unprepare(tx->mclk);
-+err_mclk:
-+	clk_disable_unprepare(tx->dcodec);
-+err_dcodec:
-+	clk_disable_unprepare(tx->macro);
- 
- 	return ret;
- }
-diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-va-macro.c
-index 58a5798..16f0d44 100644
---- a/sound/soc/codecs/lpass-va-macro.c
-+++ b/sound/soc/codecs/lpass-va-macro.c
-@@ -1703,12 +1703,14 @@ static void va_macro_remove(struct platform_device *pdev)
- {
- 	struct va_macro *va = dev_get_drvdata(&pdev->dev);
- 
--	if (va->has_npl_clk)
--		clk_disable_unprepare(va->npl);
-+	if (!pm_runtime_status_suspended(&pdev->dev)) {
-+		if (va->has_npl_clk)
-+			clk_disable_unprepare(va->npl);
- 
--	clk_disable_unprepare(va->mclk);
--	clk_disable_unprepare(va->dcodec);
--	clk_disable_unprepare(va->macro);
-+		clk_disable_unprepare(va->mclk);
-+		clk_disable_unprepare(va->dcodec);
-+		clk_disable_unprepare(va->macro);
-+	}
- 
- 	lpass_macro_pds_exit(va->pds);
- }
-@@ -1725,6 +1727,8 @@ static int va_macro_runtime_suspend(struct device *dev)
- 
- 	clk_disable_unprepare(va->mclk);
- 
-+	clk_disable_unprepare(va->dcodec);
-+	clk_disable_unprepare(va->macro);
- 	return 0;
- }
- 
-@@ -1733,18 +1737,25 @@ static int va_macro_runtime_resume(struct device *dev)
- 	struct va_macro *va = dev_get_drvdata(dev);
- 	int ret;
- 
-+	ret = clk_prepare_enable(va->macro);
-+	if (ret)
-+		return ret;
-+
-+	ret = clk_prepare_enable(va->dcodec);
-+	if (ret)
-+		goto err_dcodec;
-+
- 	ret = clk_prepare_enable(va->mclk);
- 	if (ret) {
- 		dev_err(va->dev, "unable to prepare mclk\n");
--		return ret;
-+		goto err_mclk;
- 	}
- 
- 	if (va->has_npl_clk) {
- 		ret = clk_prepare_enable(va->npl);
- 		if (ret) {
--			clk_disable_unprepare(va->mclk);
- 			dev_err(va->dev, "unable to prepare npl\n");
--			return ret;
-+			goto err_npl;
- 		}
- 	}
- 
-@@ -1752,6 +1763,14 @@ static int va_macro_runtime_resume(struct device *dev)
- 	regcache_sync(va->regmap);
- 
- 	return 0;
-+err_npl:
-+	clk_disable_unprepare(va->mclk);
-+err_mclk:
-+	clk_disable_unprepare(va->dcodec);
-+err_dcodec:
-+	clk_disable_unprepare(va->macro);
-+
-+	return ret;
- }
- 
- 
-diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
-index af521e0..7579eab 100644
---- a/sound/soc/codecs/lpass-wsa-macro.c
-+++ b/sound/soc/codecs/lpass-wsa-macro.c
-@@ -2842,11 +2842,13 @@ static void wsa_macro_remove(struct platform_device *pdev)
- {
- 	struct wsa_macro *wsa = dev_get_drvdata(&pdev->dev);
- 
--	clk_disable_unprepare(wsa->macro);
--	clk_disable_unprepare(wsa->dcodec);
--	clk_disable_unprepare(wsa->mclk);
--	clk_disable_unprepare(wsa->npl);
--	clk_disable_unprepare(wsa->fsgen);
-+	if (!pm_runtime_status_suspended(&pdev->dev)) {
-+		clk_disable_unprepare(wsa->macro);
-+		clk_disable_unprepare(wsa->dcodec);
-+		clk_disable_unprepare(wsa->mclk);
-+		clk_disable_unprepare(wsa->npl);
-+		clk_disable_unprepare(wsa->fsgen);
-+	}
- }
- 
- static int wsa_macro_runtime_suspend(struct device *dev)
-@@ -2860,6 +2862,8 @@ static int wsa_macro_runtime_suspend(struct device *dev)
- 	clk_disable_unprepare(wsa->npl);
- 	clk_disable_unprepare(wsa->mclk);
- 
-+	clk_disable_unprepare(wsa->dcodec);
-+	clk_disable_unprepare(wsa->macro);
- 	return 0;
- }
- 
-@@ -2868,10 +2872,18 @@ static int wsa_macro_runtime_resume(struct device *dev)
- 	struct wsa_macro *wsa = dev_get_drvdata(dev);
- 	int ret;
- 
-+	ret = clk_prepare_enable(wsa->macro);
-+	if (ret)
-+		return ret;
-+
-+	ret = clk_prepare_enable(wsa->dcodec);
-+	if (ret)
-+		goto err_dcodec;
-+
- 	ret = clk_prepare_enable(wsa->mclk);
- 	if (ret) {
- 		dev_err(dev, "unable to prepare mclk\n");
--		return ret;
-+		goto err_mclk;
- 	}
- 
- 	ret = clk_prepare_enable(wsa->npl);
-@@ -2894,6 +2906,10 @@ err_fsgen:
- 	clk_disable_unprepare(wsa->npl);
- err_npl:
- 	clk_disable_unprepare(wsa->mclk);
-+err_mclk:
-+	clk_disable_unprepare(wsa->dcodec);
-+err_dcodec:
-+	clk_disable_unprepare(wsa->macro);
- 
- 	return ret;
- }
--- 
-2.56.0
+> diff --git a/sound/soc/qcom/qdsp6/topology.c b/sound/soc/qcom/qdsp6/topol=
+ogy.c
+> index faafbc5c0ad00..612d8f03e6e98 100644
+> --- a/sound/soc/qcom/qdsp6/topology.c
+> +++ b/sound/soc/qcom/qdsp6/topology.c
+> @@ -312,22 +312,37 @@ audioreach_get_module_priv_data(const struct snd_so=
+c_tplg_private *private)
+> =20
+>  	for (sz =3D 0; sz < le32_to_cpu(private->size); ) {
+>  		const struct snd_soc_tplg_vendor_array *mod_array;
+> +		u32 array_size;
+> =20
+>  		mod_array =3D (struct snd_soc_tplg_vendor_array *)((u8 *)private->arra=
+y + sz);
+> +		array_size =3D le32_to_cpu(mod_array->size);
+> +
+>  		if (le32_to_cpu(mod_array->type) =3D=3D SND_SOC_AR_TPLG_MODULE_CFG_TYP=
+E) {
+>  			struct audioreach_module_priv_data *pdata;
+> +			u32 nwords;
+> +
+> +			/* size is the byte count of the __le32 data[] */
+> +			nwords =3D array_size / sizeof(__le32);
+> +
+> +			/* the blob must lie within the private data */
+> +			if (sizeof(*pdata) + (u64)array_size >
+> +			    le32_to_cpu(private->size) - sz)
+> +				return ERR_PTR(-EINVAL);
+> =20
+> -			pdata =3D kzalloc_flex(*pdata, data,
+> -					     le32_to_cpu(mod_array->size));
+> +			pdata =3D kzalloc_flex(*pdata, data, nwords);
+>  			if (!pdata)
+>  				return ERR_PTR(-ENOMEM);
+> =20
+> -			memcpy(pdata, ((u8 *)private->data + sz), struct_size(pdata, data,
+> -						le32_to_cpu(mod_array->size)));
+> +			memcpy(pdata, ((u8 *)private->data + sz),
+> +			       struct_size(pdata, data, nwords));
+>  			return pdata;
+>  		}
 
+[Severity: High]
+What happens here if array_size is not a multiple of sizeof(__le32) (or is =
+0)?
+
+When array_size is not 4-byte aligned, integer division truncates nwords do=
+wn,
+so kzalloc_flex() allocates nwords * sizeof(__le32) bytes for pdata->data[],
+which is 1 to 3 bytes smaller than array_size. However, the subsequent
+memcpy() copies the struct audioreach_module_priv_data header directly from
+private->data + sz, leaving the untruncated array_size in pdata->size.
+
+When the graph is later opened, audioreach_set_module_config() in
+sound/soc/qcom/qdsp6/audioreach.c uses that untruncated pdata->size for
+memcpy():
+
+	int size =3D le32_to_cpu(module->data->size);
+	...
+	memcpy(p, module->data->data, size);
+
+Wouldn't that read up to 3 bytes past the end of the pdata->data[] slab
+allocation? Also, because this branch returns before the !array_size check
+below, a zero array_size for SND_SOC_AR_TPLG_MODULE_CFG_TYPE is not rejecte=
+d.
+
+> =20
+> -		sz =3D sz + le32_to_cpu(mod_array->size);
+> +		/* a zero size would never advance the walk */
+> +		if (!array_size)
+> +			return ERR_PTR(-EINVAL);
+> +
+> +		sz =3D sz + array_size;
+>  	}
+
+[Severity: High]
+Can a malformed vendor array header or size still read past private->array =
+or
+spin in this loop?
+
+At the start of the loop in audioreach_get_module_priv_data(), the condition
+sz < le32_to_cpu(private->size) only guarantees at least 1 byte remains, so
+reading mod_array->size and mod_array->type can read past the end of
+private->array if fewer than 8 bytes remain.
+
+In addition, when mod_array->type is not SND_SOC_AR_TPLG_MODULE_CFG_TYPE,
+array_size is only checked for zero and is not bounded against
+le32_to_cpu(private->size) - sz or sizeof(*mod_array). Because sz is a sign=
+ed
+int and array_size is u32, advancing sz with sz =3D sz + array_size at any
+sz > 0 (for example, on the second vendor array) with array_size =3D=3D (u3=
+2)-sz
+passes the !array_size check and wraps sz back to 0 in 32-bit arithmetic,
+causing an infinite loop or an out-of-bounds read.
+
+> =20
+>  	return NULL;
+> @@ -611,6 +626,12 @@ static int audioreach_widget_load_module_common(stru=
+ct snd_soc_component *compon
+>  		return mod ? PTR_ERR(mod) : -ENODEV;
+> =20
+>  	mod->data =3D audioreach_get_module_priv_data(&tplg_w->priv);
+> +	if (IS_ERR(mod->data)) {
+> +		int rc =3D PTR_ERR(mod->data);
+> +
+> +		mod->data =3D NULL;
+> +		return rc;
+> +	}
+
+[Severity: High]
+Does returning rc here before setting w->dobj.private =3D mod leak mod and =
+leave
+a dangling mod->widget pointer?
+
+Before audioreach_get_module_priv_data() is called in
+audioreach_widget_load_module_common(), audioreach_parse_common_tokens() ->
+audioreach_tplg_alloc_module() has already inserted mod into apm->modules_i=
+dr,
+linked mod->node into cont->modules_list, and set mod->widget =3D w:
+
+	ret =3D idr_alloc_u32(&apm->modules_idr, mod, &module_id,
+			    INT_MAX, GFP_KERNEL);
+	...
+	list_add_tail(&mod->node, &cont->modules_list);
+	mod->container =3D cont;
+	mod->widget =3D w;
+	cont->num_modules++;
+
+When audioreach_get_module_priv_data() returns an ERR_PTR(), returning rc
+before assigning dobj->private =3D mod causes two issues depending on the c=
+aller:
+
+1. For widget loaders whose error is propagated by audioreach_widget_ready()
+(such as audioreach_widget_load_pga()), soc_tplg_dapm_widget_create() in
+sound/soc/soc-topology.c runs its error path:
+
+ready_err:
+	soc_tplg_remove_widget(snd_soc_dapm_to_component(widget->dapm),
+			       &widget->dobj, SOC_TPLG_PASS_WIDGET);
+	snd_soc_dapm_free_widget(widget);
+
+Because dobj->private is still NULL, audioreach_widget_unload() returns ear=
+ly:
+
+	mod =3D dobj->private;
+	if (!mod)
+		return 0;
+
+As a result, mod is leaked in apm->modules_idr and cont->modules_list (which
+also prevents cont, sg, and info from being freed), and mod->widget becomes=
+ a
+dangling pointer to the freed snd_soc_dapm_widget. Subsequent calls to
+audioreach_find_module() iterate apm->modules_idr and dereference
+module->widget->name, causing a use-after-free:
+
+	idr_for_each_entry(&apm->modules_idr, module, id) {
+		if (!strcmp(name, module->widget->name))
+			return module;
+	}
+
+2. For widget loaders whose return value is ignored by
+audioreach_widget_ready() (such as audioreach_widget_load_buffer() and
+audioreach_widget_load_enc_dec_cnv()), topology loading succeeds with mod
+still linked in cont->modules_list, mod->data =3D=3D NULL, and
+w->dobj.private =3D=3D NULL. If a MODULE_ID_SMECNS_V2 module is opened with
+mod->data =3D=3D NULL, audioreach_set_media_format() ->
+audioreach_set_module_config() dereferences module->data->size without a NU=
+LL
+check.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023171316.8198=
+57-1-srinivas.kandagatla@oss.qualcomm.com?part=3D1
