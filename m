@@ -1,56 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792744462;
-	b=JD/HOBOiAOijrentaApXcssm0wwKLUjiYEli3pd+TLJ14an9DphyrliuUFJDpoRqkdCR
-	 gyUCuIhClJyqFNEVRavn5zAoMnldPqNDmnFj6QgcWBLnIe6HNtnK17Jfx6NjrNTEFzwbm
-	 7Kd+2p3EAssO9PEDMw8oCNIFi/LDjfrfo7RL1k6d/yBIytrdSe4UeokfXp37lijuEWs7Z
-	 xVCUdj/Qg0bvGz1qS5fJuFbFdPmJscMnfi8O9o050wPAnWnKeYssRXh7kfSfoqCUoCHQT
-	 XROLzho1ibiDOsvCaI5hxdTzxlx/7LKAFSeFp/tMyq4CWhY7Y4z3/A1KkcmUyM27mdQ==
+	t=1792746138;
+	b=sqN3/QYBZoxcrqQQvbglnPN/W1AKzK9sipll7v/Kxf7/WP+5atd/X52yfIFB7O3HTxKQ
+	 OLNWVKJaP5eAjL94Iaih6CK1cky6/GYcNfS+iLkw5TCbgdpBBbRG4GI24qkmknWxTsIG7
+	 Mu3XYfjpXiUF99TLwm3HqT873d/TA0SRSYLzSyYsN8hzQdZopGssJwba95XU98wD8m8jP
+	 e3W6ElQaGC22CfgLdnpiNC2DtLR0iEjatKcazojeRzPJcccrkHPJAMOQdu72nt3dA7li7
+	 TxkqtGTOfO90nAjhyRK8OgczDIcCJDlHeBIdWsNdx+Gyd0s8qE23iuDLDFObEeQRMrA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792744462;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=c46J/J0UiNYaVXVJ/u915hSQc4wdJKlNAKmd7JytSgM=;
-	b=MnWiZpOr0RH+frHc+ouOOZIuWKGuyEnd5X3RfVC6ggvZuN0az9GlmDK7bgtizLGDq1CB
-	 3PC9E8Ls3XaveJRVjmPSt2B3uINYZtTCdlUs1elZ3jHDDLjioLcyxVp36JiBbQ2ZIpeDx
-	 i4Fpj7liF77kTN1VJPpH7G6d6sE8RQy1++hKBowT+cwV8w2rSvHVUxOCR5PcTPHYE7YRY
-	 y3/2Tea30U9xqWm6VLLAsFbz+4KKteTfoS1ZG8vxraRtAHK7JnJTsM1rL2ahBf/FdbdFb
-	 27oD4q+bwQUtS3mDoDHNil7mT75PK+Akjf9Hj2xuUldOM7d4tYTrOKQTfMBxFGP50bA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792746138;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Zk8PqaPx3bu25dYVKV81cX4OkbcAyjNl6LlTA7RhVAI=;
+	b=lsOOWh/+X1Vma6D2FyJ39VD+2J8yvAmbjOQHTlTtZzcaAsjNL/rm8fMiqsIpWslg8uJx
+	 2jLm2cOK/JBwzAVow/SrYUcxT+OTATrHVjFtbceEjg+2OjGDSWoIZtBI16i17K2Fk1pnB
+	 Tus1oUVMbzZCRX7EhqMoVaCVOxxn7A8+L3BQe0vd71awrHm9qMqp+sQaixbGbHmF0Ryoq
+	 7aXz2U1Xc21xKRGMlvBgMxN3D79T+wQ3J8jlS9BgmeOo8owt7HtsNEHEgbvokOX00ELup
+	 kl9T+Fmj9KCwWjfGC9CyuSZNZxP8fMn6Ohue+74NUGQv9PtCBzylEkx4dbfhTJ0LrjQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IDjL0bDN;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=QEvT0wjL;
+	arc=none smtp.remote-ip=209.85.216.44
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDD3606A31B
-	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 08:34:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E011606A31D
+	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 09:02:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E011606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IDjL0bDN
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BD321F01825;
-	Fri, 23 Oct 2026 08:34:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792744461;
-	bh=c46J/J0UiNYaVXVJ/u915hSQc4wdJKlNAKmd7JytSgM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=IDjL0bDNwGUgBvTyVC/KTVTaCZg54TFzBuOmWrXgbrKNw3rwhy0x9htj+z9e+zpf6
-	 pVhG9aIfPoyNWbO0AAWwhLPqmg7zCNCId82yunL9XzTC5PesQZUBWS1NtpJdLhKGeN
-	 DTu3Xcuo+j5RhWcC1kBwPPQwnEs3EjhVQ/tRPk87ZIAaYjgpuhgthBltumYSi3RMB8
-	 bI3xfOB+EV7goR37z9IgbqPLuKMXrVZ7Y3Qtwx3s7ppNcSEqNMII98UKnvqJtda9xH
-	 DUxlYGV05N30smjBvHtHUdqhNoekaPJe8X8iQpsvxJEym9jiGB5Aea9PHh1pGCgtZQ
-	 2L9Dt6AoY1rRw==
-Message-ID: <sashiko-outbox-182523@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC] ASoC: cs43130: Take the frame layout from
- set_tdm_slot
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Olivier Louvignes" <olivier@mgcrea.io>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261023081457.44579-1-olivier@mgcrea.io>
-References: <20261023081457.44579-1-olivier@mgcrea.io>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Oct 2026 08:34:21 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=QEvT0wjL
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3adac5c10e3so386052a91.0
+        for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 02:02:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792746137; x=1793350937; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Zk8PqaPx3bu25dYVKV81cX4OkbcAyjNl6LlTA7RhVAI=;
+        b=QEvT0wjLE3Jnq0bzo5B4znv37EdSUY18YMu5mVtGQqK9pEjqoeeiV0AwIu/HUaLqo0
+         iqRi7/NfFU1zmg2Nyv5KABLgBlosTNydS9dCFXlsGyZ2+NtS5Z2g4Pz4cYfygLdJHqRX
+         OONvGu9Z/Rax08dPjj4cxAlLKmKQ3In33sUha9J4CyKw26iUzep8jWX3b6yzTrGEZg2l
+         YGrjMB/DguIK6/lAOeFv2e++1gkdo9oakRVKoHrcKik5L4m0UT44mAEW31X6rA6mjn9d
+         3LFns16u5TMI2kKw8EK1ElWOlRHpfHL/tvx4puStO7Vt2fvUGRLqWfU54YVydZaOeT6R
+         3BtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792746137; x=1793350937;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Zk8PqaPx3bu25dYVKV81cX4OkbcAyjNl6LlTA7RhVAI=;
+        b=2yKGuKZn3xtI5BpruzX9Z9DQ4tYCN1Pt+4uEOkhM+t1bMIKPmCmdj+K7MSTHXbbZym
+         xMAFw6nDH2gkYQnm+wfVB0DcvWNJfY7C1agoGpgx8WNyy1lHsF7kGqPH5goYFFj7UhE9
+         FMe54/l6lVmM9HCHf+9BjDCc1K3drHE4wBWnpLdaTJw19pnB+VPSdseLjSraZheoEXxj
+         CP3k3agpuQWWTWMW9nsxmEy5dOImy2WHL9jDX4aYuh3t3vMxszIPwXjT+uOfNjbp7qgP
+         vLcJoiXNjkmXw7ON4ReYPgzE1e4ef4K6ifY47X0yd1G/1iZP9EKSLYIrJwWrt8a8RVvm
+         8krQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzlTDjTNOSQulGpzxnyjaqGR+lxbwWtThEFsXwWEBVTmp3Q3jgBW7dAfRY+bcQ7PEIf7k/CfxouiJ9kLg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYL+wftnVl2TJWAEKoNF1g72fiE1DtHcVW9y6gP5MEGBvRtwX/Q+
+	E9gLhCOk0k9nE87+FiKJSI5eJ/NSTCBQJr1OOHyxSzCnTOVTf5YdsZGb
+X-Gm-Gg: AYBFou0h7IRuHkso1QibO2NlCk4zY88O3Z6YaYS6pC1Ljg9+FmnDkDLxf90ggIfqfDp
+	FJT4s/EmumK2D/AIWk0BLu9G9zIgBOnAqqGEnqs3APTdjN8IqEHbCI4McYaQagVbEEdNKk+l8os
+	peWVQv6zn5vLFgw/doFbOJ+H6SHGHXhqC22r+KK1mdv+7RV3Yjj9tmh/yFh2yrmga0gbz0ic3M7
+	FvnJQzH/Sj7j8SsCV4Ik3L6ZPb3biwK/QfiZ73IzX/Xq34f87zOwF7hiNkLqgI5NzUGkSt+O1XW
+	6UWgDULPme52h1VVI3RESOoe+iKiKJv8iy1BmcXxOPwpOJBMK7UF+mLEYZAGiJbyAgddAGSm0ur
+	pupsiBzFtzbToIp/N7sLthExs02YWd0h4lZPxbTC+M+pl8YOWgfwVJBvIBQUt9vkuho05GuokIt
+	hFWMw+jwLBHuXnpl+unFsJAUMSyH5S/yBNbLg7XemvrL7vcJBk5w/0ZscRvXF6H8mPQ4pUKgC+D
+	JmPNUjOHRcEb4rQP0ZeUGBqC4mo+Kwxy9jlL0uLgmvKYFmSpTFnLFHbjOuK/qdwgSFfDyT1PoNj
+	/8AQmGWP8D4/l/yH7lkyOQEtwbRRH7andsHomi9KqGNkhlzZ4WzF0OSD8A6Auf0kgojFvXk=
+X-Received: by 2002:a17:90b:384a:b0:3a7:b260:9ced with SMTP id 98e67ed59e1d1-3adce0df80cmr1423310a91.58.1792746137510;
+        Fri, 23 Oct 2026 02:02:17 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3adca62e477sm2718306a91.2.2026.10.23.02.02.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 02:02:16 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: David Rhodes <david.rhodes@cirrus.com>,
+	Mark Brown <broonie@kernel.org>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Stephan Gerhold <stephan@gerhold.net>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Wentao Liang <vulab@iscas.ac.cn>,
+	HyeongJun An <sammiee5311@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 0/4] ASoC: codecs: Fix hw_params return values
+Date: Fri, 23 Oct 2026 16:01:53 +0700
+Message-ID: <20261023090157.518032-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,110 +104,33 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] ASoC: cs43130: broken channel fixup and mask handling in cs43130=
-_set_tdm_slot()
---
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-commit 4794a3406868264ed704b7b8312f7714c82ad623
-Author: Olivier Louvignes <olivier@mgcrea.io>
+Hi all, 
 
-ASoC: cs43130: Take the frame layout from set_tdm_slot
+These patches ensure that the codec drivers return 0 on successful
+.hw_params() callbacks and propagate negative errors.
 
-This commit adds a set_tdm_slot() callback to the cs43130 codec driver so
-that generic sound cards can configure the frame layout directly as two slo=
-ts
-of 16 to 32 bits instead of deriving the slot width from set_sysclk().
+Compile-tested only.
 
-> diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
-> index 48d88dad4ceb0..8450794654c60 100644
-> --- a/sound/soc/codecs/cs43130.c
-> +++ b/sound/soc/codecs/cs43130.c
-[ ... ]
-> @@ -1609,12 +1615,36 @@ static int cs43130_set_sysclk(struct snd_soc_dai =
-*codec_dai,
->  	return 0;
->  }
-> =20
-> +/*
-> + * Sets the frame layout directly: two slots of slot_width bits, which t=
-hen
-> + * takes precedence over the layout derived from the set_sysclk() freque=
-ncy.
-> + * Generic sound cards pass MCLK to set_sysclk(), not SCLK. Zero slots go
-> + * back to the derived layout.
-> +*/
-> +static int cs43130_set_tdm_slot(struct snd_soc_dai *dai, unsigned int tx=
-_mask,
-> +				unsigned int rx_mask, int slots, int slot_width)
-> +{
-> +	struct snd_soc_component *component =3D dai->component;
-> +	struct cs43130_private *cs43130 =3D snd_soc_component_get_drvdata(compo=
-nent);
-> +
-> +	if (!slots) {
-> +		cs43130->dais[dai->id].slot_width =3D 0;
-> +		return 0;
-> +	}
-> +	if (slots !=3D 2 || slot_width < 16 || slot_width > 32)
-> +		return -EINVAL;
-> +
-> +	cs43130->dais[dai->id].slot_width =3D slot_width;
-> +	return 0;
-> +}
+Best regards, 
+Phuc
 
-[Severity: Medium]
-Does configuring the layout through snd_soc_dai_set_tdm_slot() break mono
-playback and allow invalid slot masks?
+bui duc phuc (4):
+  ASoC: codec: cs4341: Handle hw_params return value
+  ASoC: codecs: si476x: Handle hw_params return value
+  ASoC: codecs: tfa989x: Handle hw_params return value
+  ASoC: codecs: wm8994: Handle hw_params return value
 
-When simple-audio-card parses dai-tdm-slot-num =3D <2> and dai-tdm-slot-wid=
-th =3D
-<32> without dai-tdm-slot-tx-mask, simple_init_dai() calls
-snd_soc_dai_set_tdm_slot(dai, 0, 0, 2, 32). Because cs43130_pcm_ops does not
-implement xlate_tdm_slot_mask, snd_soc_xlate_tdm_slot_mask() sets tx_mask to
-0x3, and snd_soc_dai_set_tdm_slot() stores 0x3 in
-dai->stream[SNDRV_PCM_STREAM_PLAYBACK].tdm_mask.
+ sound/soc/codecs/cs4341.c  | 14 ++++++++++++--
+ sound/soc/codecs/si476x.c  |  6 ++++++
+ sound/soc/codecs/tfa989x.c | 17 +++++++++++++----
+ sound/soc/codecs/wm8994.c  | 12 +++++++++++-
+ 4 files changed, 42 insertions(+), 7 deletions(-)
 
-During __soc_pcm_hw_params(), a non-zero tdm_mask causes
-soc_pcm_codec_params_fixup() to overwrite params_channels() on the codec co=
-py
-of hw_params with hweight_long(tdm_mask) =3D 2 before invoking
-cs43130_hw_params()->cs43130_set_sp_fmt():
+-- 
+2.43.0
 
-sound/soc/codecs/cs43130.c:cs43130_set_sp_fmt() {
-	...
-	frm_size =3D bitwidth_sclk * params_channels(params);
-	loc_ch1 =3D 0;
-	loc_ch2 =3D bitwidth_sclk * (params_channels(params) - 1);
-	...
-}
-
-For a 1-channel stream (permitted by cs43130_dai[0].playback.channels_min =
-=3D
-1), the CPU DAI receives 1 channel while cs43130_set_sp_fmt() sees 2
-channels, setting loc_ch2 to bitwidth_sclk instead of 0 (where both channels
-previously sampled slot 0 in mono) and programming frm_size for 2 channels.
-
-Conversely, cs43130_set_tdm_slot() ignores tx_mask and rx_mask and accepts
-any slot_width in 16..32. If a caller passes slots =3D 2 with a 1-bit tx_ma=
-sk
-such as 0x1, soc_pcm_codec_params_fixup() forces params_channels(params) to
-1, so cs43130_set_sp_fmt() computes frm_size =3D bitwidth_sclk * 1 instead =
-of
-2 * slot_width. In I2S or LEFT_J mode with slot_width =3D 32, that programs
-LRCK_HI_TIME equal to LRCK_PERIOD (31), or with slot_width =3D 24 in DSP mo=
-de,
-causes switch (frm_size) in cs43130_set_sp_fmt() to fail with -EINVAL (whose
-return value is ignored by cs43130_hw_params()).
-
-Would set_bclk_ratio() avoid the TDM channel mask fixup in the ASoC core, or
-if set_tdm_slot() is kept, should cs43130_set_tdm_slot() validate tx_mask a=
-nd
-slot_width while cs43130_set_sp_fmt() decouples the 2-slot frame size from
-the active channel count?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023081457.4457=
-9-1-olivier@mgcrea.io?part=3D1
