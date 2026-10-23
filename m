@@ -1,57 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1792830175;
-	b=bCj8JZ8+n7oVMP6rUgfePRWeAXFE0B0SV+c6xlUUECSlSGmFyG3tpFhwGwO3XAQgXw1O
-	 zbelC5JYAiCi2C9sM6zuMyJnB4iu83wm9L5mytUlN1S1e1sJwsqPPCP5/HxGyfgzz7eGz
-	 lKurwGE2SD8r7/QKkfexzMZQNLkBYpI4/ONNG7yhg/PMDcw+m8ioIcWKEL9R8ORy06qmw
-	 7RV4uVSdJ5j2IbM7vilOSWyED7l4CJcher9tdttrIHd1oMLn3OVrwy3ykkQw6ae9MukTi
-	 k6pEm72L87KetYC7M4ddIIfzRRx0lxXfwbONXuXTPBTW1ApiTuPFzlKNeYsf5Bg4gxQ==
+	b=ykmzto+YUh6a0bSOVP0ACZKdJj3yU2J2ibdSkXzgH+8p44VCPqRaqliSGKEcsbMFBQb8
+	 S1D1UnV9UqGt5LZzYkM7IewfNG7ongaRXh8obsH9xKHSH97kNkMaWnjMop9sIrvt/Y39i
+	 r5ZBqV/7k6AEF21f4/L/Lpq/3LK7DjyQKd7wW6q4vys4PXcMR61wz/yIWx2nNZaCilRiG
+	 HsNWNRF5qTZihLrrnol3DAZ44KtEHuTnqQJWepmb5Cwo0fBlO5w7IT8EdmVbgcdVFu6cL
+	 /Fh27qLCGakmoPjAoarg3ENGhwmJk24iloVb6bbjCuySzbxvdRRMBqwBeyTu4d+cTzA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792830175;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=0+larXz66gZ3zQ0/y06nXt6mXmhYgMdCrNTB0Y+R9fc=;
-	b=AruThAd/aQiMoQyAYXOaX3+HaEqs//hj5+l85NDKIn7jaiajC39u3xKDRXMOE3Rgj3IB
-	 2gGEvqVphR8vceS+CBAnQK0uc1AKS+fJeffouPTb94CLqmcTHTgC90j9o1rN3JU5G3JjD
-	 9cP6K/mfH0g9/ABl1J7XPVY0k4isonUwCFdpu6edVmiI3nLxIat6PuKG3pBkJ38wUSWaK
-	 Ma4M0bib/g5SLas234seAvlEpPf77HRRNalBPFiZa450a6BTcoF74rKUailJkZ/Zgk2mG
-	 TQ8m3ehmJfWMcEkNdbQTdKPPE7CadNmJeP6bfi21EDDaxNRrEu5CVax+L9FuSjwOgXQ==
+	bh=M48bkuievRbShWd2BAyJmAXp9WBUt1n4E7I77CAu91c=;
+	b=JqXfYjlf7bUom12/rXLTeuEkqphio3aR0oK30zDmlayqvpXEc96dwPtr8ADbk5CNUPod
+	 GKExBe2YMFXhGy2LUbhglKIowFQC19JF3j53DxjSBYvi2bVeTjFUAlPAdD19lQqsEnkzz
+	 tVzAHJ5A6Qw5MHplzlGiZ3P6lQk9pwg2fvdWwQHEQN7H9QM53QzlRRNA4dnd6xyqpo6dj
+	 AUoqnW+v7vQqfE+BEnQP4O3FnUTHFuryPhqt1GjoGaCLqA8H6h4QH8fzVAIwssqQWJW0x
+	 LMGD6LRozfyDx6tutIO9nQNqHeYaDJprqdNcHOZ8QpZBgiSGt2FIxfjt++wcLM1wwdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WzpyKied;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fTEByLVv;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930D2606A323
-	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 08:22:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE07C606A31A;
+	Sat, 24 Oct 2026 08:22:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WzpyKied
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E4C51F01828;
-	Sat, 24 Oct 2026 08:22:55 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fTEByLVv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E8F41F01825;
+	Sat, 24 Oct 2026 08:22:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792830175;
-	bh=0+larXz66gZ3zQ0/y06nXt6mXmhYgMdCrNTB0Y+R9fc=;
+	s=k20260515; t=1792830174;
+	bh=M48bkuievRbShWd2BAyJmAXp9WBUt1n4E7I77CAu91c=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=WzpyKiedaKP17cl1lGO+Ha87Kc64H+Z89uE0onu9rGsLb249hzj+BtdNy8wdMevDO
-	 vWqqQba1WU15hc3LqFnLkghuNvTPEJaWaeYkI6T/cQZ6zAXxHln7jX/r0ZZGuOyW+c
-	 D7zIZ7lfVYcpFCsTF2GhMtGLtMjC5l9OUAdD3CbmpjSaa6SbHqz+cjWpatmtkJ7C+B
-	 e0T/k1nwXZuckU0M651Ag0xVEWs67w7MNe9gCL78CMZFRON4OR9KLSgz5aJqf+y7I7
-	 YyEI3s9IxXo6fuFI9GEYGtB+C0qGAT7XHH07kxS528eXfEzvCPxTNJriJVoz9xUUGH
-	 Xu9GmTrKo6axQ==
+	b=fTEByLVvx6n7eMZORb33AAicFyHGVvUoIi501J/nhbTOXhZxS7Glsl7XPB3bKSCXO
+	 jXzvUVqLFlUPCAWxf/pI8hAKsBjrfWYWT6BM3C+BPkdLDOc9D4Qu5Jbg0rfXnUM4I9
+	 8XU1CRQ2zjaNjbfH+T06xo7Rd9BJRr35rWR9hZ6D52ZuGR6/LQ+knUNL0LIYgsspzp
+	 ZdUUV2V00EOBXreshirUDazzOaweEA4Tm+7bhlhrDbk0L3tI4W0LNYoy/HXgeRJpXE
+	 OZGrJA48oTVTXWNTWret0mMVfNokcm4ZpoxFGpk7ZQTahYKd3mVpx4jv5v3oQ6y6xC
+	 ZXmmPsS2WW3Xw==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 4760B1E1FC5E;
-	Sat, 24 Oct 2026 09:22:52 +0100 (BST)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id D808F1E1FC3F;
+	Sat, 24 Oct 2026 09:22:50 +0100 (BST)
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Zhang Yi <zhangyi@everest-semi.com>
-Cc: tiwai@suse.com
-In-Reply-To: <20261022025309.24028-1-zhangyi@everest-semi.com>
-References: <20261022025309.24028-1-zhangyi@everest-semi.com>
-Subject: Re: [PATCH v2] ASoC: codecs: es8375: Modify Register Configuration
-Message-Id: <179277745982.3909521.16811581688086143227.b4-ty@b4>
-Date: Fri, 23 Oct 2026 18:44:19 +0100
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
+ phucduc.bui@gmail.com
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Kees Cook <kees@kernel.org>, 
+ Ravulapati Vishnu vardhan rao <Vishnuvardhanrao.Ravulapati@amd.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ sashiko-reviews <sashiko-bot@kernel.org>
+In-Reply-To: <20261016085047.535265-1-phucduc.bui@gmail.com>
+References: <20261016085047.535265-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH] ASoC: amd: raven: Fix memory leak in acp3x_dma_close()
+Message-Id: <179277627943.3909521.9593557243825637813.b4-ty@b4>
+Date: Fri, 23 Oct 2026 18:24:39 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,17 +72,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1116; i=broonie@kernel.org;
- h=from:subject:message-id; bh=gvwqdHLm5PMsLFyN5lx3TjhBHRsHPJ7AqgR803Vl17g=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLuZN2JEHJYeHMqa5CS/TFVqbU/pwhbsm1ijrVx4FnDM
- 9+79O/5jlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAEwkK5/hn0r8p+t9J4NzHqra
- WPw6F8GwL9qz98e6nsTcfy4XntpYr2Rk+Pt06ePkuvzQl6Xt/TbF890SO99Efa/wcc+UZlrE0mn
- AAQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1135; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=mswTYV0HfDjS+eLKkuNxXydo6UzWN6eOyUYFriDmVaI=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLuZF1LCy7RaXngy5pRr1IVpKKgbszrxmyY3PYz4c6LE
+ zKrtxV1lLIwiHExyIopssRlcb+sL3m9hu/gwjaYOaxMIEMYuDgFYCKujowMk4RfCCg5rApev+FS
+ u3PUdcXVT+VFIt9M7v/TLz+H696jBkaG4xsn73trmO62ReW04J8g3QenvYuEld8uFzhxJ+Zhfrc
+ xOwA=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 22 Oct 2026 10:53:09 +0800, Zhang Yi wrote:
-> ASoC: codecs: es8375: Modify Register Configuration
+On Fri, 16 Oct 2026 15:50:47 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: amd: raven: Fix memory leak in acp3x_dma_close()
 
 Applied to
 
@@ -82,8 +90,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codecs: es8375: Modify Register Configuration
-      https://git.kernel.org/broonie/sound/c/bcb2efda7abf
+[1/1] ASoC: amd: raven: Fix memory leak in acp3x_dma_close()
+      https://git.kernel.org/broonie/sound/c/e0b17f84f6e3
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
