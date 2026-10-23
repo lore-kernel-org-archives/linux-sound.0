@@ -1,75 +1,75 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792753136;
-	b=nVBQFkmehA4kSFcmBbRPT1SAfbZMBc0DOn+Bm7M9vMN/EIY7kUZVoYoEBsBTDrlOmFQU
-	 XNobZAt///nz7p5ZmiXuLWpx6EU0SKZLb6C7LRTU/6Hg1iEZlP5JX/3TIrwWtd+zZ+m6f
-	 SDiRjrmPasPWSRq3EVOltfKUAamnAy0zqielxRhreGTyNvRYwAsR9eS5lO4ibfEghIYxn
-	 Xa8/tE3AsuCLShq+oR1r1uKp9enQ75T1SE9SF8xsHkQcDJne10+L8H6IUcOzUew9N2+PO
-	 zWayJzPNkgCWcJKKsZsDoFCL9Ej23K1uFCXkKnTxtcqL8HwCSJ2R91ONyG0WIq7aYNQ==
+	t=1792753137;
+	b=3jyb3zqtUnX4hPK+cPGGVlHtsNPbnTR1lIwU0kdHYX0gpPcPh29YW9Y/53NxiRluPxEJ
+	 B0vBaLxRrYoF6pvENwC+s+K/TtDrgNTZCZSg6DdvJfulPN0sDvOjzL4VqxrEduYocT1ky
+	 wJIbv6MKj7THYLaXBUMyj8JRdvh6hL2SCMWXgwjyyAbM4pXvakKaf8YjwzcZlu/FaQjiI
+	 n5S/LMM1A3yKIiGDGVZGbKLfvgbIoxi8VnQI/+/U/YhbMmMKNL/Y/e0HFOp1iPKEHOk7z
+	 scVcdtBwoc7wzzNYqGwWgUSzkuY8yBpztZyxBz18oIIN0gR8Ws3Cm+UW9O6EgEEjj4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792753136;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792753137;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=kGYseArAuIqiaod/PdS9D8//l5pGHhvNfGgQW0KVItc=;
-	b=2WTGUIEPXGBpBUIkXSVmKARcmJNBrhXkA2Xwio/K4eYg/cmCwfWcEIN0Ba9vy4nSqek+
-	 LwLyB/qq1gg/yhX1gIxbcEYAO1jlOMzks1BsKnLrhRVXlbp4qwjRfTCIWFBqWzs60az7T
-	 BsADmu2QlfLzbSDdqcf/4zItjPrEQXtI0pEFOLtU+sde7nYNNJnyQMqEKTlSv5uFCxdTG
-	 eRPqo16On2A5nAC4hYDNmGYbpjSkNWWIWrvK3IA2pqmkNh1RPHIeSSHLfeZtlOhGfvzTA
-	 sU1SlnbU2mnB9ueKY1Fvn7P6aGm1hzykmACxNir2xXFCjOhumDatElg2YlrDQ5xGCIg==
+	 Content-Transfer-Encoding;
+	bh=+sICo6EXhd+jRzAeUQACtC0lcv28nFCR/Ddwe8EaUWI=;
+	b=4R9Pn6rjU4mS+rlgFY781ZXU1QQwV+4EtbxQWoZroZQMtxSfC5TB/vbnTf4JySoRd+ji
+	 n4fvECIXzspKHRCCGiZ/zhIonC28lcSiawLJPl93lIQE1+Xh9//6VTSce8W2htVNwOd8O
+	 iTNzQKr6eG3c8/aPJ52w5zrg66KpVGVYNW1FVHgrMV3wX90ykg7CYWKJa+cUbpSQAuEba
+	 rShP4EjY9XheqSk6PBRRcYDEgKZ9wi6stFzbGvoSkyNT29g4fL6hWk7FTDeIxSpX8NHED
+	 kgzhAkNsgNWcOD01lzEa/5+gUVnHKlPnPT+h8rwjWoR5WzPCrm0lXq/EIbh0T6FjrfQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZK+wog4O;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BWZbOxgL;
 	arc=none smtp.remote-ip=198.175.65.21
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F4D606A31D
-	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 10:58:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62F4D606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F6C606A31A
+	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 10:58:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 05F6C606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZK+wog4O
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BWZbOxgL
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792753135; x=1824289135;
+  t=1792753137; x=1824289137;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=KI5c6cL0kfc7TRzQOfmnvqt7e2ioOL1yJuoYgqxQt78=;
-  b=ZK+wog4O4AAvkPRAhQG7NesyqJ3d/4dOxWd2aQ8lt3WvhZI92N8Cgil/
-   an4pETmvDfOd92nyw1/5GFoWKsKJFmleDMY2hwJPTnPZin6BcgDbztgYA
-   lpDNuCyl8fKshQI34We/9Fw4t2pgPDFgd0lvB8mvLhRZ32FjODmktnMKe
-   eSrASkCn/LhSbjJ+XdvdeN+zY70l3LPhHC7XwT/jWcqPkmdzALGNjrIPN
-   97ZdMAZLQvWewpQSXr6MuMDPCUg6hIJUGlGa2net79g64nnKLnm3hL54J
-   fgOuxr7i5OT/25IHIvp5yCteibO+lBEeg41tjZp4H3afU6jfRCYJAdIgh
-   w==;
-X-CSE-ConnectionGUID: W2QFfzO9SZuWO0PyITHRAA==
-X-CSE-MsgGUID: i4G3ncJcTt+xOTlmTM6T/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1605838"
+  bh=T6kMX53SEFwbHuiVt4gWVhan17tdyivfd/WS44ld4II=;
+  b=BWZbOxgL+dvhVXBYhiXRqTnbZMsI+cnb2wf5I/yxRZTfhZwEXTaqgsbg
+   TQqDqUfcE22Nnf7o1PV70ROGZPPMuiY2zLcqY++1Wd1kl0aJgVV0/tAXv
+   TXXNCJJo+Z5cl/UGJhv7HhP6/1UdUA82BvcrBEyNw4C76AQ+JjJQEN0/5
+   qaXDsT6mRbw+w/kn50Ae7aG0XRpOqhPgRyqVhnJ65g7QPoYUDCcm1UbHF
+   Ext8T1e08PRnUETYXp49YUoSUY4E8J6L+rYR72TY7X+ioNouqGlZcN+mf
+   QfcswbXQPB1IHJ6VbJjvWDQVR3ke3AmP7Z4cwfmt+Qo6NOeKz8gE3Z6oq
+   Q==;
+X-CSE-ConnectionGUID: rCpioKjUQ8+HAI+AfiPJsA==
+X-CSE-MsgGUID: eTXyaiirQnyFn3qj1Y4ghQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1605844"
 X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
-   d="scan'208";a="1605838"
+   d="scan'208";a="1605844"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 03:58:55 -0700
-X-CSE-ConnectionGUID: 1LdiB2HMR7KwhHDz/eTTVQ==
-X-CSE-MsgGUID: 69IwVHsZTb2FUXz75A/3Eg==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 03:58:57 -0700
+X-CSE-ConnectionGUID: hTNPxc1gQdaQ2yfYbGYsZg==
+X-CSE-MsgGUID: PAYeo7LuQH66Pl9dkQDnig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
-   d="scan'208";a="3681770"
+   d="scan'208";a="3681775"
 Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 03:58:54 -0700
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 03:58:55 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
 Cc: linux-sound@vger.kernel.org,
 	bard.liao@intel.com,
 	peter.ujfalusi@linux.intel.com
-Subject: [PATCH RESEND 1/2] ASoC: soc-acpi-intel-arl-match: add rt712 on link 0 config
-Date: Fri, 23 Oct 2026 18:58:42 +0800
-Message-ID: <20261023105843.2257167-2-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH RESEND 2/2] ASoC: Intel: soc-acpi-intel-arl-match: Add RT713 + dual RT1320 support
+Date: Fri, 23 Oct 2026 18:58:43 +0800
+Message-ID: <20261023105843.2257167-3-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261023105843.2257167-1-yung-chuan.liao@linux.intel.com>
 References: <20261023105843.2257167-1-yung-chuan.liao@linux.intel.com>
@@ -82,54 +82,135 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add rt712 on link 0 configuration on ARL platform. Export all supported
-endpoints and the endpoint will be skipped if it is not listed in the
-SDCA DisCo table.
+From: JJ Gault <jgault87@gmail.com>
 
+Add a SoundWire machine-driver match entry for boards with an RT713
+(SDCA "VB" jack/dmic variant) on link 0 and two RT1320 speaker amps
+sharing link 2 (distinguished by unique_id 0/1, left/right).
+
+This exact codec pairing is already supported on Panther Lake
+(ptl_sdw_rt713_vb_l2_rt1320_l13) and Lunar Lake
+(lnl_sdw_rt713_vb_l2_rt1320_l13); Arrow Lake was missing the
+corresponding entry, so affected boards fell back to the generic
+skl_hda_dsp_generic driver and only exposed HDMI outputs.
+
+Confirmed on an MSI Raider 16 Max HX B2WI (MS-2651): the kernel now
+correctly identifies the hardware and no longer falls back to the
+generic HDA driver.
+
+No dedicated topology has been built for this link0/link2 layout yet,
+so sof_tplg_filename is set to a placeholder ("sof-arl-dummy.tplg")
+rather than pointing at an existing but unrelated topology, per review
+feedback.
+
+Signed-off-by: JJ Gault <jgault87@gmail.com>
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Tested-by: Patrick Daether <daether@pd-digital.de>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- .../soc/intel/common/soc-acpi-intel-arl-match.c  | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ .../intel/common/soc-acpi-intel-arl-match.c   | 68 +++++++++++++++++++
+ 1 file changed, 68 insertions(+)
 
 diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-index 575889a4c69b..09bb7302ed25 100644
+index 09bb7302ed25..310c4b77c4b7 100644
 --- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
 +++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-@@ -482,6 +482,15 @@ static const struct snd_soc_acpi_link_adr arl_rt712_l0_rt1320_l3[] = {
+@@ -70,6 +70,23 @@ static const struct snd_soc_acpi_endpoint jack_amp_g1_dmic_endpoints[] = {
+ 	},
+ };
+ 
++static const struct snd_soc_acpi_endpoint jack_dmic_endpoints[] = {
++	/* Jack Endpoint */
++	{
++		.num = 0,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	/* DMIC Endpoint */
++	{
++		.num = 1,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++};
++
+ static const struct snd_soc_acpi_adr_device cs35l56_2_lr_adr[] = {
+ 	{
+ 		.adr = 0x00023001FA355601ull,
+@@ -301,6 +318,35 @@ static const struct snd_soc_acpi_adr_device rt1320_2_single_adr[] = {
+ 	}
+ };
+ 
++/*
++ * MSI Raider 16 Max HX B2WI (MS-2651): RT713 (jack/dmic, "VB" SDCA variant)
++ * on link 0, two RT1320 speaker amps sharing link 2 (unique_id 0 = left,
++ * unique_id 1 = right).
++ */
++static const struct snd_soc_acpi_adr_device rt713_vb_0_adr[] = {
++	{
++		.adr = 0x000030025D071301ull,
++		.num_endpoints = ARRAY_SIZE(jack_dmic_endpoints),
++		.endpoints = jack_dmic_endpoints,
++		.name_prefix = "rt713"
++	}
++};
++
++static const struct snd_soc_acpi_adr_device rt1320_2_lr_adr[] = {
++	{
++		.adr = 0x000230025D132001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "rt1320-1"
++	},
++	{
++		.adr = 0x000231025D132001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "rt1320-2"
++	}
++};
++
+ static const struct snd_soc_acpi_link_adr arl_n_mrd_es9356_link1[] = {
+ 	{
+ 		.mask = BIT(1),
+@@ -454,6 +500,20 @@ static const struct snd_soc_acpi_link_adr arl_rt711_l0_rt1316_l3[] = {
  	{}
  };
  
-+static const struct snd_soc_acpi_link_adr arl_rt712_l0[] = {
++static const struct snd_soc_acpi_link_adr arl_rt713_vb_l0_rt1320_l2[] = {
 +	{
 +		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(rt712_0_agg_adr),
-+		.adr_d = rt712_0_agg_adr,
++		.num_adr = ARRAY_SIZE(rt713_vb_0_adr),
++		.adr_d = rt713_vb_0_adr,
++	},
++	{
++		.mask = BIT(2),
++		.num_adr = ARRAY_SIZE(rt1320_2_lr_adr),
++		.adr_d = rt1320_2_lr_adr,
 +	},
 +	{}
 +};
 +
- static const struct snd_soc_acpi_codecs arl_essx_83x6 = {
- 	.num_codecs = 3,
- 	.codecs = { "ESSX8316", "ESSX8326", "ESSX8336"},
-@@ -646,6 +655,13 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
- 		.sof_tplg_filename = "sof-arl-cs42l43-l2-cs35l56-l3.tplg",
+ static const struct snd_soc_acpi_link_adr arl_rt722_l0_rt1320_l2[] = {
+ 	{
+ 		.mask = BIT(0),
+@@ -626,6 +686,14 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
+ 		.sof_tplg_filename = "sof-arl-cs42l43-l0-cs35l56-l2.tplg",
  		.get_function_tplg_files = sof_sdw_get_tplg_files,
  	},
 +	{
-+		.link_mask = BIT(0),
-+		.links = arl_rt712_l0,
++		.link_mask = BIT(0) | BIT(2),
++		.links = arl_rt713_vb_l0_rt1320_l2,
 +		.drv_name = "sof_sdw",
++		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
 +		.sof_tplg_filename = "sof-arl-dummy.tplg",
 +		.get_function_tplg_files = sof_sdw_get_tplg_files,
 +	},
  	{
- 		.link_mask = BIT(0),
- 		.links = arl_cs42l43_l0,
+ 		.link_mask = BIT(0) | BIT(2),
+ 		.links = arl_rt722_l0_rt1320_l2,
 -- 
 2.43.0
 
