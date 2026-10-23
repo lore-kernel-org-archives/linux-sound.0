@@ -1,95 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792773129;
-	b=u7+frJpzJLM4Uu8pUlE7IOBzSXCp9H33NyuWZJkdSlKRPPvIxTbM4Wl8PD7CyiRLiNx2
-	 WIRLrgv5jKhEek/OCMK0IUN/itesdz9esRCzm6pRtj0Ggn78n7VPHJrgpBXRZbWcSfuxl
-	 LEfKWzbB8OAJqBggT0zO7Z1l0d28YaruHYzOvnVEaHIbdUC8GcO/54ybuzZAnX2vdkwRy
-	 d3t1OIOXBE34X5bCSbONcKIrWx/r/GAcOtO7W6L/xjWAHSJjLn6SqEK3HfGYduIm/Yw2S
-	 2L2CdXdTaisElMQOPS8Wpu6kKoPXPyzogXEit6JrW2F9c7pcuq+cw82eQxqB/jxOOYg==
+	t=1792775618;
+	b=28qgR75LBBQyx+SjpkPWz8BJNL9BSY37FGIR8/dJ0rfgKtohJ84QB+zkJqYr05TFrh1Q
+	 SaWmEjiO28jQYKBxtg9K/k4fPD4VHut6UT5Q8qWNsLLnLLuyphLSwWbc3GyBnjkWNBafs
+	 4PP3/DzMeyQxVHYbwsW6I00mtCnt7wn7xf7GrxEDZjsF17dhJqTDbiOkt9pW5QCd4om9D
+	 uopaumo5TO6YUYVM9xuYP6s0RX8KOBBUpbaZ0P9qNWUHJu1yYnas3KUnJI3is5JOES/4O
+	 hV+fZI69igZKawV9/MwtjprDODJthMuB8a7X1gBUsoSm0m2F5J9pfCpta/dRy/TatMg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792773129;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=7AVs1R5P/DaLmd/7NvIFvig9eNUIytz9Frg7gakJ6c0=;
-	b=c7XY58AqfeDwRGBUYNqhiVNWrWD/vqalEwvu5fecfClaAU3wa6R9rx6gYnECnWzkAoau
-	 obuZpY38nmGqU2v09TKmL1Si/UZaBwQ05jOC4DTCiR4Y+0iw2XiwtI1VDKjmSQzTm1hEc
-	 82L6QZcolVj0FdQ6KlD0UaftvYA8G62qQIIlNF0JOhXEBZALV/vD8IIPkxx9vrGdZifuE
-	 3yEHmNwvsYzdivx9FxzZJZf2xPr+hKc/CH3Whjefq6gaDCsmI3GA58mm34zDU3VwF2IVf
-	 M1nx9W+bVQlZBZ9mEDQleUfrPq8kMphsrNxkBXGzjIDYC3TiKY1JsSf4fjIcnK3ih2Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792775618;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-GUID:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=azg3XSvMykpTDhpzyYQMK0xeWLWeWs6SeZBLuvOTxGc=;
+	b=eLLswQZapPaOvDhQfmwqAAQGcxEgPJi3A2TOLvvnUm9rps1lpCOiP2+uRik80oE9PNUF
+	 AKi5l61oHB1I4IGcskiZIbELXNOB3QqDTus7LrNbk1NOMCybiUvl3Wu7Op4amhzR2bqTi
+	 7gKTOqUbeBo3/kXNO96wBiWsEvdES8qQLfbsOkVtJIPJwZ3pGget18gPpUR/7OcijiyrY
+	 kG5Jgatd5QTeME72pxVuN93bGOa2Ms/msYH3JwRZS4smhhPk66Yt80HDTO9dBMy3gtHga
+	 m78EYA6WdanBy5nk2WKU3fdyNAJb6f+2po9ENkJWEfCn4NuZc31XN3cNS1LQSMsG48Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=mgcrea.io;
-	spf=pass smtp.mailfrom=mg-crea.com;
-	dkim=pass header.d=mg-crea-com.20251104.gappssmtp.com header.i=@mg-crea-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=yIA15d31;
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=lh1J3H32;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=YVJhbyZX;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36581606A31D
-	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 16:32:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36581606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=mgcrea.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mg-crea.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DAA9606A320
+	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 17:13:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6DAA9606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mg-crea-com.20251104.gappssmtp.com header.i=@mg-crea-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=yIA15d31
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48c4be28b82so888798f8f.2
-        for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 09:32:08 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=lh1J3H32;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=YVJhbyZX
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69NG6CBo2215802
+	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 17:13:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=azg3XSvMykp
+	TDhpzyYQMK0xeWLWeWs6SeZBLuvOTxGc=; b=lh1J3H3233uDUfWpmdbmM52osDB
+	lgKjpeS2cteLoji4ZRksboUTQKKycMhktVCqRUkY74qQ8pVWeUrB7FVfKxLyvIUI
+	Hk2mt/QgnOj6wjliwkUi0mb8kNFHJd/EN85aYyFZLz0gQwOloJXdvS3xYX5vRSf1
+	pO+NTh78aNXjkjQ3oHILKZIb8uhvwLOqcH8hR1dtLM7zH5rG7tQG601QgwovAu0t
+	+AH6MlgjbmhsKvvbXr6UcOrRvKNrr/0vKUoxw9aql00U5T7h27i+7Jv7lQ8hxzIu
+	2Unk/a/bxaPflh7gBsBr+P4PRdPEOYxdf+u8tUBNpP/V1YrABBo7+54vkxg==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hgatc88j0-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 17:13:35 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93ecdc701a2so150887685a.3
+        for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 10:13:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mg-crea-com.20251104.gappssmtp.com; s=20251104; t=1792773127; x=1793377927; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7AVs1R5P/DaLmd/7NvIFvig9eNUIytz9Frg7gakJ6c0=;
-        b=yIA15d31PVmy35l8i/Scbft6iqRsUVYvY7FvHW3tRE8UuBM4zHPYNVcx3Wc07zJT8C
-         LyViMRX6eWpoFGLZgBmnw670zkUJycN0igeQnD6dIkQ0OrEkIsThhZe+9E7YcHtTuRdi
-         fqqGwdqNd9EDUjeHlSk9y8HW3mjXRS+2rMD4REjPuqbAvM91Mwn+I5wFTByNcgMNp+hE
-         zMz+lG+S4T+TTsTlYjIrMY0mk3UwhSzv1AM2ZtYXDUzi/VaMBPTqlGx87AF/C+K8IGyu
-         lZnA8KRG/BrLEqMvsSiIo1nem9tWLD5hA9YJ0kcGdbjjQZhMcFp4YlUkP6a2UBXG3IRi
-         6OIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792773127; x=1793377927;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=oss.qualcomm.com; s=google; t=1792775612; x=1793380412; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=7AVs1R5P/DaLmd/7NvIFvig9eNUIytz9Frg7gakJ6c0=;
-        b=eyTQmIIA1wH6ipeR+t1LP4P2AUls2aWuwvyXd2rbtfAqSmF2ClI27/OYOAJ0EwyNC5
-         NOr/7Oabwty40wx/oqWY6uK/1R2ANN5k9NOG2RO8X1v4WLYDD8MXZQ5Ue2OTaj5Xoqd6
-         23rjahyP3u72A14ADCsIhrAg8uM7Lkiiq5f8YcAE0iDim7UXkb7Ar4i8WG66AKILDUrV
-         4sydGS7XfKSDdbf3kCPmcun4CIydTDCyc7JhKs4fNLdGru7Xii4IvNEO8E0Ueu0pOzLL
-         waiQhUreqbwUazZBnaxRmnwywUuvBmv1hvd1PcaFsmzacd9d74Xqa4mTXfJgJkm/ovkb
-         Weww==
-X-Forwarded-Encrypted: i=1; AKwUvBy55hKWUN09fv5iTkqRKPh+DVdqMBtH3K7OcfyK5cPWRwQ/Op9URvmzeEYDezAVsWtapBbqrgFvYPagMA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYIoNPK7XfC4rg3Qwijb9BluJtTkC59iwfxSp+/TmR8/l3jH44pl
-	ONKWmCzlXxCvt3us6aVZkUtf6YRKc00w4GVU5Du/x1XBnXMp1IwATOnPFYVIpqvC4NE=
-X-Gm-Gg: AYBFou0+mIiwSmb4LyUXZWZRSVdyV+AVZaLmSxGE/G+4eo/y5TYw5IzvZ0aCLJx+NF4
-	uLKGRvMJDCHQa28UFwe4Tmbka7+Oqu3OXmmoFQ92gCqQFkcWLyz1anHUJ5V/K8SgKA85p80GIOx
-	qa00+i329fjTRgiOKMEQ11901wRP70KDe2EJijTujbEw/oMsNBykAKnvpu0s9HEcw+xqQ9banM9
-	CIHMbmdhbmREt7fUrkECEWOgoLtZnbWZ1U9Bu/pJsdCH1Dwh80/I0imgEPAZv7HlPQ/Rlb8ZO58
-	qtc9BhFimgKzWLQX91n43VIzOncEfHErF98XwS0/Kdm+LHBpAuAhOSkt+XoD/S0ShpyLfD8VtKg
-	7l8rGlXpQDtTBsqOeaW6NJ+oPjpZw7Gw29zagSNPmZ+ZffaFAB1an5IdOoR/PnKrikQgz6W1GNT
-	QHAGKpJlRMPKPszC90VobjNHGvJJq9IyOtcCDx803tzkWtLL+XJt80dWBaTleRXC9FGHVIjX/3A
-	kFOtJ28QJo0yEy6tv2vLrt8oTOo+P9jSX6Lwp37cdJQGET7lvJL+1Do+ru5hB0DRRqEW3TrkhrO
-	tOvh/dnKAPE=
-X-Received: by 2002:a05:600c:350e:b0:49f:e8bf:8f9b with SMTP id 5b1f17b1804b1-4a211c48ccbmr53213785e9.4.1792773127570;
-        Fri, 23 Oct 2026 09:32:07 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e0a:9c3:9990:89bb:701c:1852:56c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a29cdc74b7sm25720795e9.14.2026.10.23.09.32.06
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 23 Oct 2026 09:32:07 -0700 (PDT)
-From: Olivier Louvignes <olivier@mgcrea.io>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	Olivier Louvignes <olivier@mgcrea.io>
-Subject: [PATCH RFC v2] ASoC: cs43130: Take the frame layout from set_tdm_slot()
-Date: Fri, 23 Oct 2026 18:32:06 +0200
-Message-ID: <20261023163206.81891-1-olivier@mgcrea.io>
-X-Mailer: git-send-email 2.54.0
+        bh=azg3XSvMykpTDhpzyYQMK0xeWLWeWs6SeZBLuvOTxGc=;
+        b=YVJhbyZXoLA1coUNuoHKBti8dh3bsGg1rxa2kSnkljc6VWA9A1CiNLsnQZQ5mBZ6co
+         2hm0K0bQXkvWHtpj6O4l3IZVNuj4IzLYcpbbsHonajgh/fTUqs7JSCcNfcBcl+LQvgDq
+         tfw35qVZUgW/OKRcvKvteyJFkJPJDAX3AYowmTB1K0WvK7f1PVgKqTaVbqNsltJSvQ+I
+         lfPKyyCXKDRRUc5nSnyyZRNVFZ37CPjbX5uLntrFKYRKjkpr6YjEmr6i6u/r7EhPflTc
+         Yjv/pgxVaI2b1uzPZ9ts2LSDZxpAi5q3MCVN90SloIX8ShC0X3H+yVOOIu3I1qn+JnxE
+         FUGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792775612; x=1793380412;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=azg3XSvMykpTDhpzyYQMK0xeWLWeWs6SeZBLuvOTxGc=;
+        b=BfmFD7QX51xjc4c9tV8vJlnMtGso9R9apMNd/fWHvoAuUgZtLHLfeDNPBukY6LwbNJ
+         UHle5SOzHtkRV6uTGmL28R8HV2vAkfAk4U7c+dAIsvx4gI97aiymBJl1CVL1xP0iPta3
+         9NxDYjYmGofA2q/d9+92zsqazPqs2K6FRv70a/9iGnufvCycBwY2+rhgA6j3yyB1ZkBZ
+         25lGu6eGJk3ElcllXO4DH4i4xzh6FPQPd9dfAMHTpuwhxhq8uYHDMVbpPCF+gZe7i+vN
+         yZIR2TPLakbkVogizih6OIEWOMqqpHLSqaMoiA67w7oQ7+EL+xR6csYU2dMl20jQmzKf
+         vK3g==
+X-Forwarded-Encrypted: i=1; AKwUvBwBQSK7gekga19aHbtyC3b91NWrzabewowYruHRSq3fiQKg9L6TzRy5xat6wmDzq1EjWafgDqYqiWsykg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLo+MArZk1nFveVeRSLLeI6/UpauP5NkPCj/t9ZD1x3rY38sx5h
+	uCg69YUe86MEeyeLcugAkxap5a7b33DDGPY9cIoh4b8Zd2V/arCc2y5FS9+BZO8oGSyx/6QEdzQ
+	f+aPd1oNKlI5cvXYpA6u3ARNhpPb3PME4HMchRdt3vP2grNcW2Qj4c+OSee3R/rYAQw==
+X-Gm-Gg: AYBFou2RHKqD62mFQ/lhISl7Loy1yZGTAy283FiHXLDJ0L6MzPsBFCUQ14JNjvHfy5m
+	lt/i6vvxpk3BsWJBMGolCrRRizQrgeePCYiw8vEl5SlTTzWYqKcLp0Q/Ko8B2KpEb/NneoUcX5s
+	LhdAaFGCdOcVx2zkYtVKiFUxvpiNcoWXWY+ytkgFInMBER57+iQ9mQe/4cqk68iUZnKxvNas8GQ
+	ui8XzFhiKIs4O5u/zfis9gjwMvjR8FyoYakckjhZZSzujYPYphIc/chhMPMqBOVDbRikAd4b20w
+	lXuFUUHJDPjmL2S94ujFVJktsFln/AxyWOjKQB7H4WTTgoIk874KoXvW9lFcMevicJP68+wYqcx
+	sWEoGZ0/SLebV
+X-Received: by 2002:a05:620a:6011:b0:93f:3646:7a5e with SMTP id af79cd13be357-93f6f9e0c43mr534099085a.64.1792775612070;
+        Fri, 23 Oct 2026 10:13:32 -0700 (PDT)
+X-Received: by 2002:a05:620a:6011:b0:93f:3646:7a5e with SMTP id af79cd13be357-93f6f9e0c43mr534095485a.64.1792775611626;
+        Fri, 23 Oct 2026 10:13:31 -0700 (PDT)
+Received: from debian ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3d4104b5sm1043841f8f.36.2026.10.23.10.13.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 10:13:30 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Alexey Klimov <alexey.klimov@linaro.org>,
+        Ravi Hothi <ravi.hothi@oss.qualcomm.com>, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH 1/7] ASoC: qcom: audioreach: fix module cfg blob size handling
+Date: Fri, 23 Oct 2026 18:13:10 +0100
+Message-ID: <20261023171316.819857-2-srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261023171316.819857-1-srinivas.kandagatla@oss.qualcomm.com>
+References: <20261023171316.819857-1-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -100,177 +125,116 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIzMDA2NyBTYWx0ZWRfXzlJMqDIgD/uG
+ SUPCtPnSKt+0dbzypswSCAy1srtQYO+0UCnETCL+lOQYk+WnJw4wLQrnxr59WIP0jARfhmP3Z4b
+ xtwn7jDTxu+vuHGCDB8bQ1PbWEDyX3HE1+9NI3OGD6UHdQWSpTGI0lsPS/7yujBnqK+fp73vNnw
+ mmG1Vt6DYldXXUx0QNHMjiggNLpO5BO/j3cgS50h8fyE2ZXDKeJ7mE6IXanyLM2Z7PmoUhRFFuJ
+ FYNwGHgNNrmwmtOL0Vm9ze5q0EEa9vpI0i5nt/KbXunaC16tNdqoLyrS4EogEXuAHgb0y8rA65j
+ SFGFGlAdLh/TmXbvPpaODcGFxf2nCR2NuCxuV2G/r134epzEpqFkB52vH00nO/xXmk1lIhFsI0C
+ /yorVq9zluioWNrj5svV4mRrczcXNWTue0NoSUZYQ5EvU2MWAqdi1/ODNPRWDXQ+6eHTlwMuHBM
+ GEbBDMJQVhn6u/VOxGg==
+X-Proofpoint-GUID: n3cyoDixpGzSlzItGad8-Wsbb2jaedbn
+X-Authority-Analysis: v=2.4 cv=Scxi5fRu c=1 sm=1 tr=0 ts=6adb95c0 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=EUspDBNiAAAA:8
+ a=VwQbUJbxAAAA:8 a=Fq9-307z7DJWB1LruX0A:9 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-ORIG-GUID: n3cyoDixpGzSlzItGad8-Wsbb2jaedbn
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIzMDA2NyBTYWx0ZWRfX1NJjr9qele4E
+ 39RdkRxOoTyJKf0Md8+HC+nv02Lk+gBsUDqHaHKD5XNOmo+uoK5eATaPDcHXslO1qOTfbC+XfHT
+ TLmw7NMAu3OwNmlm9UJdOn4Ds/CmYhI=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-23_04,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 phishscore=0 priorityscore=1501
+ lowpriorityscore=0 impostorscore=0 malwarescore=0 bulkscore=0 spamscore=0
+ clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610230067
 
-hw_params() derives the slot width from the frequency given to the DAI's
-set_sysclk(), which it takes for SCLK. Generic cards pass MCLK there: the
-simple-audio-card of a HiBy R1 (Ingenic X1600 as I2S master, 64 bit
-clocks per frame, mclk-fs = 512) hands over 22.5792 MHz, so the driver
-sets up 256-bit slots for a 44.1 kHz stream and the CS43131 plays white
-noise. The card cannot simply leave mclk-fs out: simple-audio-card then
-sets no clock on the I2S controller either, and the codec, as clock
-slave, fails hw_params() with "SCLK freq is not set".
+From: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
 
-Add a set_tdm_slot() callback so the card can give the layout instead.
-The two channels go to the first and second slots set in tx_mask, within
-frames of 16 to 64 bits, the sizes the serial port clock tables cover.
-When set, the layout takes precedence over the one derived from
-set_sysclk(); zero slots go back to deriving it.
+audioreach_get_module_priv_data() passes mod_array->size, a byte count,
+as the element count of the __le32 data[] flex array. The allocation and
+the copy are four times too large, and the memcpy() can read past the end
+of the topology firmware buffer. The size is also never checked against
+the private data it must lie within, and a zero size makes the loop spin
+forever.
 
-Tested on a HiBy R1, on v7.3, with dai-tdm-slot-num = <2> and
-dai-tdm-slot-width = <32> on the codec node.
+Convert the size to a word count, bound the blob by the remaining private
+data and reject a zero size. Also check the returned pointer before
+storing it in mod->data, as an error pointer there is dereferenced when
+the graph is opened.
 
-Signed-off-by: Olivier Louvignes <olivier@mgcrea.io>
+Fixes: c7ed4c2debfd ("ASoC: qcom: audioreach: add support for static calibration")
+Cc: stable@vger.kernel.org
+Signed-off-by: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 ---
-Changes in v2, after Charles Keepax and the review bot:
- - Full TDM: the two channels go to the first and second slots set in
-   tx_mask, with the frame length from the slot count, instead of only
-   accepting two slots with mask 0x3. Limited to frames of 16 to 64 bits,
-   the sizes cs43130_set_sp_fmt() has clock tables for (beyond that it
-   returns -EINVAL after the frame registers are written, and hw_params()
-   ignores the error).
- - The callback stays: on the R1, without mclk-fs simple-audio-card sets
-   no clock on the I2S controller, and the codec as clock slave fails with
-   "SCLK freq is not set" (tried, see my reply to v1).
+ sound/soc/qcom/qdsp6/topology.c | 31 ++++++++++++++++++++++++++-----
+ 1 file changed, 26 insertions(+), 5 deletions(-)
 
-Still an RFC on the approach: set_tdm_slot() is what simple-audio-card can
-express from the device tree (dai-tdm-slot-num and dai-tdm-slot-width on
-the codec node).
-
-Tested on v7.3 on a HiBy R1 with two 32-bit slots and mask 0x3, the only
-layout this board can run: the DAC gets the same frame registers as with
-v1 (64-bit frame, channel 2 at bit 32) in stereo at 44.1 kHz and mono at
-48 kHz. Other layouts are build-tested only, with W=1 on 734bef548a96
-(v7.3-7363).
-
- sound/soc/codecs/cs43130.c | 76 +++++++++++++++++++++++++++++++-------
- sound/soc/codecs/cs43130.h |  3 ++
- 2 files changed, 66 insertions(+), 13 deletions(-)
-
-diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
-index 48d88dad4ceb..e3571ea08252 100644
---- a/sound/soc/codecs/cs43130.c
-+++ b/sound/soc/codecs/cs43130.c
-@@ -651,9 +651,16 @@ static int cs43130_set_sp_fmt(int dai_id, unsigned int bitwidth_sclk,
- 		return -EINVAL;
+diff --git a/sound/soc/qcom/qdsp6/topology.c b/sound/soc/qcom/qdsp6/topology.c
+index faafbc5c0ad0..612d8f03e6e9 100644
+--- a/sound/soc/qcom/qdsp6/topology.c
++++ b/sound/soc/qcom/qdsp6/topology.c
+@@ -312,22 +312,37 @@ audioreach_get_module_priv_data(const struct snd_soc_tplg_private *private)
+ 
+ 	for (sz = 0; sz < le32_to_cpu(private->size); ) {
+ 		const struct snd_soc_tplg_vendor_array *mod_array;
++		u32 array_size;
+ 
+ 		mod_array = (struct snd_soc_tplg_vendor_array *)((u8 *)private->array + sz);
++		array_size = le32_to_cpu(mod_array->size);
++
+ 		if (le32_to_cpu(mod_array->type) == SND_SOC_AR_TPLG_MODULE_CFG_TYPE) {
+ 			struct audioreach_module_priv_data *pdata;
++			u32 nwords;
++
++			/* size is the byte count of the __le32 data[] */
++			nwords = array_size / sizeof(__le32);
++
++			/* the blob must lie within the private data */
++			if (sizeof(*pdata) + (u64)array_size >
++			    le32_to_cpu(private->size) - sz)
++				return ERR_PTR(-EINVAL);
+ 
+-			pdata = kzalloc_flex(*pdata, data,
+-					     le32_to_cpu(mod_array->size));
++			pdata = kzalloc_flex(*pdata, data, nwords);
+ 			if (!pdata)
+ 				return ERR_PTR(-ENOMEM);
+ 
+-			memcpy(pdata, ((u8 *)private->data + sz), struct_size(pdata, data,
+-						le32_to_cpu(mod_array->size)));
++			memcpy(pdata, ((u8 *)private->data + sz),
++			       struct_size(pdata, data, nwords));
+ 			return pdata;
+ 		}
+ 
+-		sz = sz + le32_to_cpu(mod_array->size);
++		/* a zero size would never advance the walk */
++		if (!array_size)
++			return ERR_PTR(-EINVAL);
++
++		sz = sz + array_size;
  	}
  
--	frm_size = bitwidth_sclk * params_channels(params);
--	loc_ch1 = 0;
--	loc_ch2 = bitwidth_sclk * (params_channels(params) - 1);
-+	if (cs43130->dais[dai_id].slots) {
-+		/* The layout set with set_tdm_slot() */
-+		frm_size = bitwidth_sclk * cs43130->dais[dai_id].slots;
-+		loc_ch1 = cs43130->dais[dai_id].slot_loc[0];
-+		loc_ch2 = cs43130->dais[dai_id].slot_loc[1];
-+	} else {
-+		frm_size = bitwidth_sclk * params_channels(params);
-+		loc_ch1 = 0;
-+		loc_ch2 = bitwidth_sclk * (params_channels(params) - 1);
+ 	return NULL;
+@@ -611,6 +626,12 @@ static int audioreach_widget_load_module_common(struct snd_soc_component *compon
+ 		return mod ? PTR_ERR(mod) : -ENODEV;
+ 
+ 	mod->data = audioreach_get_module_priv_data(&tplg_w->priv);
++	if (IS_ERR(mod->data)) {
++		int rc = PTR_ERR(mod->data);
++
++		mod->data = NULL;
++		return rc;
 +	}
  
- 	frm_data = frm_delay & CS43130_SP_FSD_MASK;
- 	frm_data |= (frm_phase << CS43130_SP_STP_SHIFT) & CS43130_SP_STP_MASK;
-@@ -952,18 +959,24 @@ static int cs43130_hw_params(struct snd_pcm_substream *substream,
- 		break;
- 	}
- 
--	if (!sclk && cs43130->dais[dai->id].dai_mode == SND_SOC_DAIFMT_CBP_CFP)
--		/* Calculate SCLK in master mode if unassigned */
--		sclk = params_rate(params) * bitwidth_dai *
--		       params_channels(params);
-+	if (cs43130->dais[dai->id].slot_width) {
-+		/* The slot width set with set_tdm_slot() */
-+		bitwidth_sclk = cs43130->dais[dai->id].slot_width;
-+	} else {
-+		if (!sclk && cs43130->dais[dai->id].dai_mode == SND_SOC_DAIFMT_CBP_CFP)
-+			/* Calculate SCLK in master mode if unassigned */
-+			sclk = params_rate(params) * bitwidth_dai *
-+			       params_channels(params);
-+
-+		if (!sclk) {
-+			/* at this point, SCLK must be set */
-+			dev_err(cs43130->dev, "SCLK freq is not set\n");
-+			return -EINVAL;
-+		}
- 
--	if (!sclk) {
--		/* at this point, SCLK must be set */
--		dev_err(cs43130->dev, "SCLK freq is not set\n");
--		return -EINVAL;
-+		bitwidth_sclk = (sclk / params_rate(params)) /
-+				params_channels(params);
- 	}
--
--	bitwidth_sclk = (sclk / params_rate(params)) / params_channels(params);
- 	if (bitwidth_sclk < bitwidth_dai) {
- 		dev_err(cs43130->dev, "Format not supported: SCLK freq is too low\n");
- 		return -EINVAL;
-@@ -1609,12 +1622,49 @@ static int cs43130_set_sysclk(struct snd_soc_dai *codec_dai,
- 	return 0;
- }
- 
-+/*
-+ * Sets the frame layout directly, which then takes precedence over the one
-+ * derived from the set_sysclk() frequency: generic sound cards pass MCLK to
-+ * set_sysclk(), not SCLK. The two channels go to the first and second slots
-+ * set in tx_mask (both to the same slot for one), within frames of 16 to 64
-+ * bits, the sizes the serial port clock tables cover. The PCM DAI only
-+ * plays, so rx_mask is not used. Zero slots go back to the derived layout.
-+ */
-+static int cs43130_set_tdm_slot(struct snd_soc_dai *dai, unsigned int tx_mask,
-+				unsigned int rx_mask, int slots, int slot_width)
-+{
-+	struct snd_soc_component *component = dai->component;
-+	struct cs43130_private *cs43130 = snd_soc_component_get_drvdata(component);
-+	struct cs43130_dai *cs_dai = &cs43130->dais[dai->id];
-+	unsigned int frm_size = slots * slot_width;
-+
-+	if (!slots) {
-+		cs_dai->slots = 0;
-+		cs_dai->slot_width = 0;
-+		return 0;
-+	}
-+	if (slots < 0 || slot_width < 16 || slot_width > 32 ||
-+	    frm_size > 64 || frm_size % 16)
-+		return -EINVAL;
-+	if (!tx_mask || hweight32(tx_mask) > 2 || tx_mask >= BIT(slots))
-+		return -EINVAL;
-+
-+	cs_dai->slot_loc[0] = __ffs(tx_mask) * slot_width;
-+	tx_mask &= tx_mask - 1;
-+	cs_dai->slot_loc[1] = tx_mask ? __ffs(tx_mask) * slot_width :
-+					cs_dai->slot_loc[0];
-+	cs_dai->slots = slots;
-+	cs_dai->slot_width = slot_width;
-+	return 0;
-+}
-+
- static const struct snd_soc_dai_ops cs43130_pcm_ops = {
- 	.startup	= cs43130_pcm_startup,
- 	.hw_params	= cs43130_hw_params,
- 	.hw_free	= cs43130_hw_free,
- 	.set_sysclk	= cs43130_set_sysclk,
- 	.set_fmt	= cs43130_pcm_set_fmt,
-+	.set_tdm_slot	= cs43130_set_tdm_slot,
- };
- 
- static const struct snd_soc_dai_ops cs43130_dop_ops = {
-diff --git a/sound/soc/codecs/cs43130.h b/sound/soc/codecs/cs43130.h
-index dbdb5b262f1b..f0a28ab0a3f9 100644
---- a/sound/soc/codecs/cs43130.h
-+++ b/sound/soc/codecs/cs43130.h
-@@ -495,6 +495,9 @@ static const char *const cs43130_supply_names[CS43130_NUM_SUPPLIES] = {
- 
- struct cs43130_dai {
- 	unsigned int			sclk;
-+	unsigned int			slots;
-+	unsigned int			slot_width;
-+	u8				slot_loc[2];
- 	unsigned int			dai_format;
- 	unsigned int			dai_mode;
- 	unsigned int			dai_invert;
-
-base-commit: 734bef548a96e8774d6eef5dfa2026c6edc4e80b
+ 	dobj = &w->dobj;
+ 	dobj->private = mod;
 -- 
-2.39.5
+2.47.3
 
