@@ -1,111 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792762844;
-	b=ap4N7lw4iWne6W1jkMkctb3PBZjtLjqpQGipZiEJwCcy5Mnh8ojIlGQdcf9ksTWT4tmO
-	 O7e3N2iCe0/hc/OOLf5MFrVnGfZxRl3swuhCuQLBCTJtSPXA5H6glQ1FECk8rAUSgA1Pm
-	 bukcFFCUDImzTQ3RcY5IDZAhwRHiIHdP72SUmraIejdsTZxJ/s/3cYI6YKdjd1qL6pVVP
-	 UzP5lQ6XDykClTIuBkc7GG8qbm775Fm5A4nAWaQTIUioMw74QC0VHu+yW7hGgX+k1ZfCT
-	 5lfrbIMI4+VHqK46B2tYDp7lywAHJgKX8VtmFr3a2wWuHUPZF2Qt1A679j3xi7H6KTQ==
+	t=1792762892;
+	b=GxXm1PvyxS9YrygsvLF32Z45Eljj2rp4DOHnqvkbHUYEjJ7dT/wZNZg2Lmf9bRNDykXr
+	 q88x5oXbkWST6VtoW0d9uW/Ppnx1TovnT+Op+G9lArNOhjoFgk+Xaw+DPVJ+RR2chihd3
+	 WHbTXBmv4xG3jIWxoHwREyngJedN6raMQ0Yvr9zaPEdvS+2ulGibiGmu6/45pXgywbn7x
+	 ug0cEoM/zetYDwHTA6m8dpsvzsyGUZPYZI5Isr1A0cZXE4jHsvhusOogd6KXzAW38Ksmh
+	 xLpwE2PdFn9w7XNJ9qly3A4W3qW2AopDQe+LHXCxiFBEmg3a5I4oWj3Hi+iieFd3xDw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792762844;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792762892;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
 	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
 	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=SqPWe8jUwsEiysPMDY1oozYUTr1AP+MgkHGYsTgCMDU=;
-	b=mIWKxKJ7ohsrZHHI7YPtzMQVkUf7eCYJO3s5JDNUk+hLprgfBxrXJrnZym8duDjS812M
-	 UBt/U26WwdDncJ3cIlogIoSoJh8HjF50LaQtL9xBzwhB9R17QTEHhX3EY9ioOUlznzvJ3
-	 P9d7WxndOS0qZsuZIRQfkhd8UWtQF4i6O9VvGb66Y48Y1MOw97MciZW05y7rd2fDG9VMs
-	 fQSOOOAKbOMz+gGJ12jZvBN6WQvRLQmnWqP0+76bSS79CXp0+5CIFHHzDkfpLR5PAJnNX
-	 8tFyw8bQGshjlpNrJGy9qgSTEH+rS4zMd09wMOgvFJD+B104BGRw2dSpuEppCLlJIJQ==
+	bh=MJA56YWAjUxP+l9C9vTB0zTWAnmWvzavAz3c4E1WIOA=;
+	b=fjJWmgX33CplWoUUxxYcA7Noh8edX6hBkTFJZyPrlItDg3BGwHswMuIenWAD71BOH7qn
+	 ameohCeoR4hsHX4hdMUHp7IgcDtEdDB6doOCKap92h5akHpgxYyTXJ5wgbY3j04xhWEcO
+	 c1+G3DJq6EfBzeXuYrYOYOimMYza2O37dfeIYQFNVg3Df/3KuHGB9UI4eRoftZoaxAumQ
+	 5JNdhVwkFeJb1eaIP8ZclmkDdBmoxHF9hEg1eRTOOq7RGhMoICSnH4xZ8wxua4MbwlO4F
+	 NJlY3PmoOX/3Ibmc12k84ZiRvK3rYY/JN9/bcCJcVmZZ2rdl9602eaWDl0D+NKStr6A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=haCWz66g;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="WRVuO1//";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=haCWz66g;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="WRVuO1//";
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=IemoemOu;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=gQrI1FzN;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=N9O0Cbxo;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=oQNcKunP;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F8C8606A334;
-	Fri, 23 Oct 2026 13:40:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6F8C8606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71EAF60A3811;
+	Fri, 23 Oct 2026 13:41:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71EAF60A3811
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=haCWz66g;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WRVuO1//;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=haCWz66g;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WRVuO1//
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=IemoemOu;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=gQrI1FzN;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=N9O0Cbxo;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=oQNcKunP
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3399B220E2;
-	Fri, 23 Oct 2026 13:40:41 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6484F1F391;
+	Fri, 23 Oct 2026 13:41:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792762841; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792762889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SqPWe8jUwsEiysPMDY1oozYUTr1AP+MgkHGYsTgCMDU=;
-	b=haCWz66gbtUKdRJvqhr+3cmotdzCD+Q/7JicGhk+dawXYoe9eRLwajwOyeJ9VSr/c5M4on
-	56bp1cfY9mADYS8yXzImuy+RgZdDJN8Xjx9UibVfWaact1TH3qYjCnxsQVdDa8hDIb0EOC
-	G5fccWYqfltQcoZzwMaGoJBmb6ZOcvA=
+	bh=MJA56YWAjUxP+l9C9vTB0zTWAnmWvzavAz3c4E1WIOA=;
+	b=IemoemOusg4/u/JhA/eHLugJjZmnhxm+5ucAEXpu1484kNgyFiiR/RbnI2HvA3ZBzeLvnD
+	eLUdwGUzIhDgze8HQAejLAxzZRgkGGwE/9i8OTYOP5IP81DT+aff9YKxf/3q5J1RrknIW4
+	s92LxjBqLFE2TjYcXz6qkR7HhjZEwzQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792762841;
+	s=susede2_ed25519; t=1792762889;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SqPWe8jUwsEiysPMDY1oozYUTr1AP+MgkHGYsTgCMDU=;
-	b=WRVuO1//52ZyLU0AujOXd1hOT9v35WdQMU881BvFwevyIAMdzHGXGUnUwy1NGNSi7l/TNr
-	VAGJ69UiISqudkAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=haCWz66g;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="WRVuO1//"
+	bh=MJA56YWAjUxP+l9C9vTB0zTWAnmWvzavAz3c4E1WIOA=;
+	b=gQrI1FzNnwbLvNH5GgI3Uk0+W3Lu3df8sc/4+yIW31MpUOTgq6M4GP0GINDbz3UXATjah7
+	K+0vh8x6Qi1Bt1Aw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=N9O0Cbxo;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=oQNcKunP
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792762841; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792762888; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SqPWe8jUwsEiysPMDY1oozYUTr1AP+MgkHGYsTgCMDU=;
-	b=haCWz66gbtUKdRJvqhr+3cmotdzCD+Q/7JicGhk+dawXYoe9eRLwajwOyeJ9VSr/c5M4on
-	56bp1cfY9mADYS8yXzImuy+RgZdDJN8Xjx9UibVfWaact1TH3qYjCnxsQVdDa8hDIb0EOC
-	G5fccWYqfltQcoZzwMaGoJBmb6ZOcvA=
+	bh=MJA56YWAjUxP+l9C9vTB0zTWAnmWvzavAz3c4E1WIOA=;
+	b=N9O0Cbxo0ZxQyU7twBNYvY8istnGquDb0X0PXa5i3vOxtQbBPSB0JMFbzc5bNNERDVW+gD
+	ZlhBwz93C9UD/QUKKs4d7v0Mt7f8/4FW0cmy2QAl4dDy2336Tp9XM0PoTGXSvrwc4rWc4f
+	4VJekJpdhRsGtQxZhiEbCdnR56B/6p4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792762841;
+	s=susede2_ed25519; t=1792762888;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SqPWe8jUwsEiysPMDY1oozYUTr1AP+MgkHGYsTgCMDU=;
-	b=WRVuO1//52ZyLU0AujOXd1hOT9v35WdQMU881BvFwevyIAMdzHGXGUnUwy1NGNSi7l/TNr
-	VAGJ69UiISqudkAA==
+	bh=MJA56YWAjUxP+l9C9vTB0zTWAnmWvzavAz3c4E1WIOA=;
+	b=oQNcKunPtVmlX0jn3Y+FKRCUytzWEimz4l3OrmvU8sfRr0HXRD/ZXvwZC1knfXJza3b6ew
+	AqKlFQAAxctUcyCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CF7F3133F6;
-	Fri, 23 Oct 2026 13:40:40 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0923E133F6;
+	Fri, 23 Oct 2026 13:41:28 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PK1eK9hj22ohVgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 23 Oct 2026 13:40:40 +0000
-Date: Fri, 23 Oct 2026 15:40:40 +0200
-Message-ID: <87cxt0a61z.wl-tiwai@suse.de>
+	id Oh3VNAdk22rqVgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 23 Oct 2026 13:41:28 +0000
+Date: Fri, 23 Oct 2026 15:41:27 +0200
+Message-ID: <87bj8ka60o.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Cen Zhang <zzzccc427@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	tiwai@suse.de,
-	baijiaju1990@gmail.com,
-	jjzuming@gmail.com
-Subject: Re: [PATCH v3] ALSA: pcm: Drain proc callbacks at device disconnect
-In-Reply-To: <pm-pmb-2439c851f82c443c3600-v7-2774a482b7f03e1fef60@gmail.com>
-References: <pm-pmb-2439c851f82c443c3600-v7-2774a482b7f03e1fef60@gmail.com>
+To: Thorsten Blum <blum@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,
+	=?ISO-8859-1?Q?=22Uwe_Kleine-K=F6nig_=28The_Capable_Hub=29=22?=
+ <u.kleine-koenig@baylibre.com>,	Zhao Dongdong <zhaodongdong@kylinos.cn>,
+	Takashi Iwai <tiwai@suse.de>,	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: cmipci: Use strscpy() in snd_cmipci_create()
+In-Reply-To: <20261022164013.95811-2-blum@kernel.org>
+References: <20261022164013.95811-2-blum@kernel.org>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -120,91 +118,47 @@ Content-Type: text/plain; charset=US-ASCII
 X-Spamd-Result: default: False [-12.51 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,suse.de,gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim]
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 X-Spam-Flag: NO
 X-Spam-Score: -12.51
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 3399B220E2
+X-Rspamd-Queue-Id: 6484F1F391
 
-On Thu, 22 Oct 2026 12:58:20 +0200,
-Cen Zhang wrote:
+On Thu, 22 Oct 2026 18:40:11 +0200,
+Thorsten Blum wrote:
 > 
-> Disconnecting an individual PCM leaves its proc files accessible until
-> snd_pcm_free_stream(). HDA codec-only sysfs unbind can take this path
-> while the controller and card remain registered. An open proc file pins
-> the card module, but does not hold a codec PCM reference.
+> To prepare for removing strlcat() from the kernel [1], use strscpy()
+> instead with the current driver name length as the append offset. Also
+> use size_t in the multi-channel branch to match strlen()'s return type.
 > 
-> With CONFIG_SND_VERBOSE_PROCFS, a prealloc write is buffered until file
-> release. Without an attached PCM runtime, its release can replace the
-> DMA buffer after final PCM cleanup has already freed the preallocation:
+> No functional change.
 > 
->   HDA codec unbind                  prealloc file release
->   ----------------                  ---------------------
->   hda_codec_driver_remove()
->     snd_hda_codec_disconnect_pcms()
->       snd_device_disconnect()
->         snd_pcm_dev_disconnect()
->         /* proc nodes remain */
->     snd_hda_codec_cleanup_for_unbind()
->       codec_release_pcms()
->         snd_device_free()
->           snd_pcm_free()
->             free preallocated buffer
->                                     snd_info_text_entry_release()
->                                       snd_pcm_lib_preallocate_proc_write()
->                                         replace DMA buffer
->             remove stream proc nodes
->             free substream
-> 
-> The later proc rundown can itself invoke this buffered write and leave
-> the replacement allocation without a final free. A concurrent release
-> can also overlap the earlier buffer cleanup.
-> 
-> Extract snd_info_disconnect_entry() from snd_info_free_entry() to remove
-> proc nodes and drain callbacks without freeing the info entry objects.
-> Use it for both stream directions at PCM disconnect. Finish the existing
-> PCM state and device disconnection under open_mutex, then drop that lock
-> before proc rundown: even an otherwise idle proc file can run its
-> buffered release callback, which takes open_mutex, during proc_remove().
-> 
-> Keep entry ownership and final cleanup unchanged, including the saved
-> OSS child entries. As with existing info entry teardown, callers must
-> serialize registration with disconnection and release.
-> 
-> Suggested-by: Takashi Iwai <tiwai@suse.de>
-> Assisted-by: LLM
-> Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+> Link: https://github.com/KSPP/linux/issues/370 [1]
+> Signed-off-by: Thorsten Blum <blum@kernel.org>
 
-Applied now.  Although we still may have some issues about the
-concurrent codec release and probe, this should be treated better in
-the upper layer.
+Applied now.  Thanks.
 
-
-thanks,
 
 Takashi
