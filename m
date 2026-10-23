@@ -1,107 +1,105 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792762368;
-	b=gigAeNZqMdvqZpPFtloFEHq1/RfqyxYfXAluZWV6nZ1iWxg4xFeZfgXRONhpQ3PLScov
-	 W5x1/arBgQRN4sN2jXcUEpljAkP5pDroZNRYsh7qNBwfJk6d8bx3DJhr6shKp2hvhYDkQ
-	 WRjEXpVccibHBSoBOyGU6ngK5ibq7EiBpFqG3Qg7UWBCsB5aazbYI7wrsvtlldc+Gyg2o
-	 bd/W+j+QTAlRnuoV+Ua0QaYQmLgUPAWWE8tgalmh7AWmfbh5FH4OyXxcQB3oXna6aBmiq
-	 u+ta2cNF8dbd6msSFNnF8XTfWkJ2IOEctL221uVsdvPkbPJPNcYJ2SCNF/2mKSAP56g==
+	t=1792762384;
+	b=TFL93GNjbwsdvVhPesukX8sViVJhPELeDgRzoaL6IHeqvUwZgW6yKPucVBbxIgMrf6hi
+	 w+HjKWO8C9cmENL+aBee2ORAdxI/QvwjCWJjhEcwo2BMIpp6eYILYTVt74g0KcSMNcyiS
+	 EMd7ZBhN/LkKhBTE6Ukdser582hoyFiFi9P0haKpbWd6ECq0ddzAAZOLe4N0zWAuMZCPD
+	 fSTpRQsnKl80Zrcg+f4uHI2JZvEUagHSgz/aYW73cUFVs2GqAK63h90BOnGDOmyry8VpP
+	 FW0QplSjy7e4EA70k828OsfEn9y1Lzyi33/5glbBjQfFpzBnP03KykwqGJfXxA7YWJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792762368;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792762384;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=WnHTbZ1S+YTxiGlo8UNPcVwauiFXejU8S2lqWUn9X1I=;
-	b=p30VSBPN98RenHyuYdkmLBvjhAfzBRDzp3Ne4V4YXZyJJsdYhj38UVS80edglPaerlH3
-	 xvZvNI8VPGcckliH8lXakTHIaq9wq1XTLJvCKR9tG9okECT34zCTG3Lzju+UGSrKGHZ2e
-	 9CgwrE11ySRUs8Wjb/cLLlPgj5Q6TF0niuGwjn86nUp7B+yYEPHhtPCHQ5P27FHS5Bt+c
-	 xwPL+QM1MbbkCSB5bcuzLKB3CmpowBdearJJa2IEdB0x98yroIqby8XBTBwXSiap0ycw5
-	 5153s2r6WS+maZSgES4o3NfzgESRjLONC9WyPgHtazIM+w3zG0XVtwuAKyhLzQnaFOw==
+	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=YLiRLuXE9FqJjXWqvrv2UMlvykHVexznc/s2NHsVgeY=;
+	b=V1+Lt7rN/ObbDpD5ulbso3poUpaTlSx+ySwk1IWB0/S/QvQsy1+ut5F4FG0xpY5ihGGY
+	 9FLvNYdLUxTvaoEvN6kzTcmODDr4n6qDSgbz//lCD0nMmLQ80s8RR0LCFtkjhLW3I22zJ
+	 jiBQwtxbZhAiG70DJ6pPqac9zTSaART7T/C7CZzNEj3uzhBUiknrI4aUi8bWzENMxvRvo
+	 v+tXOnCbPsoRxwuE/pqdrtIknqPoVt2CIZNUCcSs0yt6cPJsLWROXj/DCG27pH7golbLQ
+	 CIedcvkhwYASXCWl/uVTYTJLUhCP3BIhFedfBZjUzIAND1vyQ4Sn/+wQEzgSw8ZMZjw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=LeSZkNaE;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WAICFAyz;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="ar/Qkd0Z";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pagLSGJ0;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=0OZwhTuR;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1Qwusqrw;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=qs1982QU;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=4FznDytJ;
 	arc=none smtp.remote-ip=195.135.223.130
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0745E606A31A
-	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 13:32:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0745E606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0EB606A321;
+	Fri, 23 Oct 2026 13:33:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D0EB606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=LeSZkNaE;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WAICFAyz;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=ar/Qkd0Z;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pagLSGJ0
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=0OZwhTuR;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1Qwusqrw;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=qs1982QU;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=4FznDytJ
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DDC88220CD;
-	Fri, 23 Oct 2026 13:32:45 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D8399220D4;
+	Fri, 23 Oct 2026 13:33:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792762366; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792762382; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=WnHTbZ1S+YTxiGlo8UNPcVwauiFXejU8S2lqWUn9X1I=;
-	b=LeSZkNaEc1fkieIeamzOFe0c6sUAxNYhuN395Xo5iHs5OdIhrgIZ69cB9Ncfgsvk+jsUvn
-	5Kjho9ecZnfyWEaiuzofHG7Vjg9rnNHMDvxXPhiDLtI2Q1tRO7wdbtUH/VfImesJaXGoQV
-	whMDsBZQbxYlqdxZpSw6ChoC2FWXNh0=
+	bh=YLiRLuXE9FqJjXWqvrv2UMlvykHVexznc/s2NHsVgeY=;
+	b=0OZwhTuRx92xJP9vnVh3LiCRVcp9PBjP4tNjZgAE2pzk3RvHBYOjjTYSpZP/e76D8xe+Vu
+	/I+KSz0ewEq3hXDvzkYRI5oAeEDr2Gdlm6L1CxWIZCZvmekFK3fHykeK/zDnwVgkRTRb8L
+	mmtXEYMX+2NoaBjU8Qcfq2r6CsTM7jo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792762366;
+	s=susede2_ed25519; t=1792762382;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=WnHTbZ1S+YTxiGlo8UNPcVwauiFXejU8S2lqWUn9X1I=;
-	b=WAICFAyzhlPqo0schtjOnawuovP1jeb9PNQkquHZx+cgt5bS/CMM9S9Udv3sQhCj3y9s/A
-	g9TUajYfE+VxkqAg==
+	bh=YLiRLuXE9FqJjXWqvrv2UMlvykHVexznc/s2NHsVgeY=;
+	b=1Qwusqrw/NlWpy1i/fA1QWzibX+db9NDPNvinNh8fDcavMkl1DSpJswLOqMqTHMvCe3/Kf
+	o19WWlCmIOW2BwBA==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="ar/Qkd0Z";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=pagLSGJ0
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792762365; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792762381; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=WnHTbZ1S+YTxiGlo8UNPcVwauiFXejU8S2lqWUn9X1I=;
-	b=ar/Qkd0Zro+DXNnainLCs2i3j8Xrga9tkTAuRDFw3fllRroZVNvT2ijeUmp6M8UAtHzLIW
-	gMhwGn/HI1TgukRwc7Xz8yPQ79E6snFYHkckBN8G9LhcSjrKF3iGvEb4rRaNwlqPS9QzVl
-	n+yBlkodWu9oJcs7CaQeZRvlo2JqOk0=
+	bh=YLiRLuXE9FqJjXWqvrv2UMlvykHVexznc/s2NHsVgeY=;
+	b=qs1982QUKjHQS3+KiSCjAUQy8z2vxI1g42bNFlZ/NCgTmlJm7PAevXLfgRoRiO5r393MtF
+	lTgWr7F0E+Ih0iiQMxa2JwqnMYOs/A0l3osnhACD8pAUQO86zU6QdhaqflFvhqdKOlWrUw
+	tL/3ErfSunglq4RkceAmz+PWcgoGw6c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792762365;
+	s=susede2_ed25519; t=1792762381;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=WnHTbZ1S+YTxiGlo8UNPcVwauiFXejU8S2lqWUn9X1I=;
-	b=pagLSGJ0/g71J6r98rb5qZcHNhsAiVVPt5stLPoitMuCZK75tAeKYwk5qiIRttmpmwrPET
-	/R95x/NLaijV/OCw==
+	bh=YLiRLuXE9FqJjXWqvrv2UMlvykHVexznc/s2NHsVgeY=;
+	b=4FznDytJfmfDifWLk8bIv8VkjHvFvD1Iw6ovV3zOxgS9wyeO/Sfb9Ji8RSx4APUEKhyJOK
+	AunO/bCDkoqzAvBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A2E22133F6;
-	Fri, 23 Oct 2026 13:32:45 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 98C35133F6;
+	Fri, 23 Oct 2026 13:33:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YxYhHv1h22rmTQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 23 Oct 2026 13:32:45 +0000
-Date: Fri, 23 Oct 2026 15:32:45 +0200
-Message-ID: <87o6cka6f6.wl-tiwai@suse.de>
+	id njZZHA1i22r+TQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 23 Oct 2026 13:33:01 +0000
+Date: Fri, 23 Oct 2026 15:33:01 +0200
+Message-ID: <87mrs4a6eq.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Volodymyr Lurin <volodymyr.iurin@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 1/1] ALSA: hda/realtek: Add mute LEDs quirk for HP Pavilion Plus 14-EW1XXX.
-In-Reply-To: <20261022023839.504841-1-volodymyr.iurin@gmail.com>
-References: <20261022023839.504841-1-volodymyr.iurin@gmail.com>
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ALSA: hda/realtek: Fix internal mic on ASUS VivoBook X509JB
+In-Reply-To: <20261022025950.150390-1-zhangheng@kylinos.cn>
+References: <20261022025950.150390-1-zhangheng@kylinos.cn>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -113,64 +111,46 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: DDC88220CD
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
 X-Spam-Flag: NO
-X-Spamd-Result: default: False [-11.01 / 50.00];
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.30 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -11.01
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.30
 
-On Thu, 22 Oct 2026 04:38:39 +0200,
-Volodymyr Lurin wrote:
+On Thu, 22 Oct 2026 04:59:49 +0200,
+Zhang Heng wrote:
 > 
-> The HP Pavilion Plus 14-ew1xxx with subsystem ID 103c:0x8c31 needs the
-> ALC245_FIXUP_HP_MUTE_LED_V2_COEFBIT bit LED quirk to control speaker
-> mute LED and ALC245_FIXUP_HP_GPIO_LED quirk to control mic mute LED.
+> On the ASUS VivoBook X509JB (SSID 1043:1ec1) with ALC256, the BIOS
+> marks pin 0x13 as not connected and pin 0x1b as the internal mic, but
+> the generic parser still defaults Capture Source to 0x13, which
+> records only white noise. Manually selecting 0x1b works, but
+> PipeWire/WirePlumber resets it on every stream open.
 > 
-> Define new ALC245_FIXUP_HP_PAVILION_14_EW1XXX_LEDS fixup that combine
-> existing COEF(ALC245_FIXUP_HP_MUTE_LED_V2_COEFBIT) and
-> GPIO (ALC245_FIXUP_HP_GPIO_LED) fixups. Add the missing quirk entry.
+> Reuse ALC2XX_FIXUP_HEADSET_MIC for this SSID. It limits capture
+> sources to 0x19 and 0x1b, removing the bogus 0x13 source so the
+> internal mic records normally without manual mixer changes.
 > 
-> Tested on the affected hardware: both the mute and mic-mute key
-> LEDs respond correctly to the keyboard hotkeys after this change.
-> 
-> Based on tests, to control mute LED, it is sufficient to
-> flip coef bit #3. While ALC245_FIXUP_HP_X360_MUTE_LEDS works too
-> (combines ALC245_FIXUP_HP_MUTE_LED_COEFBIT and ALC245_FIXUP_HP_GPIO_LED),
-> it also flip coef bit #2, and side effect of this "flip" is not clear.
-> So separate chained quirk introduced to be of safe side.
-> 
-> Signed-off-by: Volodymyr Lurin <volodymyr.iurin@gmail.com>
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=222152
+> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
 
-Applied now.  Thanks.
+Applied both patches now.  Thanks.
 
 
 Takashi
