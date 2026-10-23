@@ -1,82 +1,132 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792748163;
-	b=ZRZ6xUfMusDc47syFC7hrwVkN9o/A/xZkiTCZkXrnOAdFoxXMgzOu9va6bSd01AASFEu
-	 AxjplyKYMpQSEHmF6YaX8Qefbujp+Ur5na7YneAASkBAzxMorG2/L48YdkPm2I3pVbBVQ
-	 ClNwGo0f/qVHZy7C8/Z77ldoJVGtqu00JRKyi6ElwhDzxABVubU4FYztiFp0UVDR8sEpP
-	 Le/F3t5LLXzeLwQ6PUncsOSw0WdsWMyM2quAGoKMIQOW7fEkL5JE8g2lLNcoL2ciNdb0l
-	 0beQTwmr383Xop2q+1kQra1L5RRDqibQ9n0lY6Oh6LqavKSIvz9hs0XJ5ke8MWbpPsw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792748163;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=DRDvuDCECKOhdwv+mVGaOIRzQq9EqISIxTJtZlv4H3g=;
-	b=2msCLLb6jLIGUSgchmZuD14rbny3r5ZZ8qksHqqPQaY9t3NfLjr1CW0sHaeRiXhkq84M
-	 tB5izu1WCNHpw9Mh/tRTbP2njPzpe0gHOS6slLVsWgqU5FYvVTLee/BOPsEQHUjd8e5Ce
-	 y2HG7NhAKLaJS8s36UbNfwgTDilKSIC7XsgOsrXmgI1ejaUzmlRVQjieXMYpZJDbL9pxC
-	 aKf6rIrmy1mG3+jHy+f8h+YAczP3InBypbc0MVuqnrxlfP5kCmUJEjr6Wq0u+R67k3qcp
-	 vwVEuzP0CpxeqtLJvUR+LlyCCZnSkQeXfbcsVHxmj/eII7qE1EwYqCmg/RaJc4VQzyg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gaRrjkkR;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792748177;
+	b=QdyZUH6p48NyOI5BuwsWkXDMHv84nJVWXum3jMplYRr7L1EjIRumwphWZ1zquLZq6lwD
+	 TSGoihSXOGuKXfoA3PQJu1kfcmqE8lutHtFcdT7+r7jWtHd36Fk3CzfUiuxsnN3a+kpCa
+	 v8SQjMHMqFbVkwMVl53v5y9A/dv7FLBw5W89MFv5cDwpJC4Vx4kDoEqboxE4BYu5t9+MS
+	 onDLWftTdcp/WN8jmUJowW/Vi+BUdMtWDnJ3ytlC05lj0eT83cGEUggba8I7ekj1BxhQY
+	 8CGNaZH/ID2AaQR+cOoyZr+pHNUSsDYIr9KpqVEvcc/vjheIDZpI0hEUnxpBks+EMVA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792748177;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
+	 Received:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Reason;
+	bh=16/sxfQV4g4DXgCu2xdMRl7HJIRCJ36iDHUmgaFDYKw=;
+	b=GThl7nqDLaZytLChsiZB2S6sfx4zDikNRKQ+Ct4sNtAMXr2typamxQvZn+PNZVi9JfZa
+	 FT0ODyJkwqePPlfyb2s8y5SNcFW92S+aFAR4OXdbf/cHaOImB63zfvucEG9TEZNlwzM/A
+	 DwJw1CPPCNMGXV31hosF6vRqKO/7k3O3F5xS18PCIu9erv0RC/rUnu0HNeMsvQSr0AJBY
+	 StdTrP/NgITgHaJGDelHHHPya0TN4qVDNtO7qLGnJ7SRzQPuEHJW1cvf2CV/jxzYvjtb5
+	 1JsV7Zoim/6gy+ZU9F+Q1z+g89QiAnPUfUWWSo1yupTb4wx9M3CseTmdVJ+QxEccarw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=opensource.cirrus.com;
+	spf=pass smtp.mailfrom=opensource.cirrus.com;
+	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=nKohpAFY;
+	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=Vs+59DV6;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6964B606A323;
-	Fri, 23 Oct 2026 09:36:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6964B606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBBE606A31B;
+	Fri, 23 Oct 2026 09:36:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1FBBE606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gaRrjkkR
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792748162; x=1824284162;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kq7NkE2cr8Qo3l61xI3ohL2L4IDlTWv9dqF/h0S92jI=;
-  b=gaRrjkkRnnpjnFRbAGVq+vgMcdEgXIp3zXiqJ9oDwigcznygqaun8Wva
-   /x4P0+OcE1m7X+gc2+USoay7st9z0ARh1QHJj0nDnyWjg4yd6TEGquqgj
-   I/Ni9V5KGiGNmq9TINExaWyPaOCoVuL8fakZzWnF4kF0HF7/LIEPeVs9m
-   PelAeOoR882UVl1aLs7SnN3HHb39zpagb4QO21DeLAb0C2d3rCRG/7ZIV
-   UXKLLC/N+LAoosji8EeqL47uEbDxnp1HmpQNVZKqlGlhKPDL4nnPekfuJ
-   uJaSwFwuiS2jeBa7H9e3g/uxXXeNL33nsyB1KzUYJv9wsJWGySO1DUWWe
-   Q==;
-X-CSE-ConnectionGUID: 82RpbFAQRBeyf3y3M94CWg==
-X-CSE-MsgGUID: zJdhYL1DQ/2Vp5btuIcESQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1386858"
-X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
-   d="scan'208";a="1386858"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 02:36:01 -0700
-X-CSE-ConnectionGUID: MwmaD4hCQVO1BDIjcrs/jw==
-X-CSE-MsgGUID: m/wNhlphSg2/f6srMEu9Nw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
-   d="scan'208";a="3480953"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 23 Oct 2026 02:35:59 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xKBgq-00000000SUY-2RDC;
-	Fri, 23 Oct 2026 09:35:56 +0000
-Date: Fri, 23 Oct 2026 17:35:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Neo Chang <YLCHANG2@nuvoton.com>, broonie@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, lgirdwood@gmail.com, perex@perex.cz,
-	robh@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
-	neo.chang70@gmail.com, kchsu0@nuvoton.com, sjlin0@nuvoton.com,
-	Neo Chang <YLCHANG2@nuvoton.com>
-Subject: Re: [PATCH v1 2/2] ASoC: codecs: nau8310: Add support for NAU83G10
- amplifier
-Message-ID: <202610231724.YNiXxf9w-lkp@intel.com>
-References: <20261022084037.259983-3-YLCHANG2@nuvoton.com>
+	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=nKohpAFY;
+	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=Vs+59DV6
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69N8wQCf308929;
+	Fri, 23 Oct 2026 04:35:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=16/sxfQV4g4DXgCu2x
+	dMRl7HJIRCJ36iDHUmgaFDYKw=; b=nKohpAFY5WctnhvrPOd0+ZmcG+b3N2Jak6
+	luNfNPZ8/zn67i8rO7o8awp2PlHomvvaZzRQD3GdoR0zSVl/nwj3u7sKvzhJiFdL
+	C4UInB6eZBwH3ymnwtjYHWeu0qz96SQ1biOsUY3xLKxb5yhzbxrFzWyNJCxgoq6H
+	oboXjzUM03UG3evLJcGNcDM6XFhLZBPcLaMSs+zo1Bq3WoGCo9HvCxMyGqDSCmME
+	k2MwiZp4nINxp9Qbd8byOO6TtyvXbfkMpteL+ecu3PIXo1u6NGQtvkzYlrNzrGB5
+	HSNs3G8pErGCEMGqT4IWR7xKlI9ISIWa+gCKH2NwFQTdJoHv5rRg==
+Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11020085.outbound.protection.outlook.com [52.101.85.85])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4hf9809y9y-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 23 Oct 2026 04:35:39 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kbAwSCXczYUn+b6qHjrM378qKHz0txUN/dvTxcFvbzfKJq45fN0nd4zrn23grWJExyNsH9h3VrLU/LS+adWrOOk6jq6nJrlGyHIPB2ZnjqazpuI3PT06JqWdPNoLnbMbTQE89OWnJ/tnKKO5E5jVBK7tF4PdmnLsUv67JnK6upbOW9v0iqTXLM/wsti50ATi/o7S9HUA0YE+A6AeYNKkxR3qHLmJ6Pp8kTPkb02aicSyJbZfvVGT2AkUbVvVsneo2EMBH5/NI5Fxrz9q9/24Gj0JukYZ2KRTB6SVhbjIBuGhYB8Zso87jSCINHGWC39l94u3/wMzk0WdRAR3En/CAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=16/sxfQV4g4DXgCu2xdMRl7HJIRCJ36iDHUmgaFDYKw=;
+ b=DxdnTfpC/r9Y66TEHNLzbePNACrRQrq9DDGQXmzmkrmsDr8A7ieVHRQ9EAJaE4zg7LkZpiBC6QpqKL9SAFqtaNuIR3/UuhmR4QL6N+9RU/ew9DtYOcjskAoDL5bByOAPJ694mFqU8AXXuX1gpYmgy41MG4iP+mpiEw/OzmLNief+fyq0udOyLml5Q/6fM/3Kz6VXDsAbxs0ZXo+FbX5bqJhGoat48AmOmQv1LCZKTnF7k1ne9DHewnLwUkghY5EQuDtbNdvrM+33GawX1clZA6WNNSWOc/jhd2pC9OVk0vQ9DO8lK4HTdHleXZ6itX9rXpK99xVAnxUO09Ktb1fU5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=16/sxfQV4g4DXgCu2xdMRl7HJIRCJ36iDHUmgaFDYKw=;
+ b=Vs+59DV6zT9dMfQ5eH9klpfgoEOj5B5r1/x/3Yf3Tk4foADuXOsi6S5+9DMviRH3F63VvPEUNKEfmnCVrAPbhTtpQuPlV8uFcvj3ztq3PF5bR3/67u0Nm/gPxTeiVRbTk2Ds32yLsXb0hYFIyTkjSuHwpBafzoiCDaEZe+HC4Lc=
+Received: from SJ0PR05CA0194.namprd05.prod.outlook.com (2603:10b6:a03:330::19)
+ by BY5PR19MB4001.namprd19.prod.outlook.com (2603:10b6:a03:219::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Fri, 23 Oct
+ 2026 09:35:23 +0000
+Received: from SJ1PEPF000037A3.namprd04.prod.outlook.com
+ (2603:10b6:a03:330:cafe::a0) by SJ0PR05CA0194.outlook.office365.com
+ (2603:10b6:a03:330::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.19 via Frontend Transport; Fri,
+ 23 Oct 2026 09:35:23 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SJ1PEPF000037A3.mail.protection.outlook.com (10.167.244.135) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.569.4
+ via Frontend Transport; Fri, 23 Oct 2026 09:35:22 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 59401406540;
+	Fri, 23 Oct 2026 09:35:20 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 3E84E82024C;
+	Fri, 23 Oct 2026 09:35:20 +0000 (UTC)
+Date: Fri, 23 Oct 2026 10:35:19 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: phucduc.bui@gmail.com
+Cc: David Rhodes <david.rhodes@cirrus.com>, Mark Brown <broonie@kernel.org>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Wentao Liang <vulab@iscas.ac.cn>, HyeongJun An <sammiee5311@gmail.com>,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] ASoC: codecs: wm8994: Handle hw_params return value
+Message-ID: <atsqV+4xOa+Wy8RL@opensource.cirrus.com>
+References: <20261023090157.518032-1-phucduc.bui@gmail.com>
+ <20261023090157.518032-5-phucduc.bui@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -88,345 +138,68 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261022084037.259983-3-YLCHANG2@nuvoton.com>
+In-Reply-To: <20261023090157.518032-5-phucduc.bui@gmail.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000037A3:EE_|BY5PR19MB4001:EE_
+X-MS-Office365-Filtering-Correlation-Id: 01909c36-d9e8-4d7b-04f8-08df30e8f5e3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|7416014|376014|61400799027|36860700016|82310400026|56012099006|261022105027099003|261009223027099003|261022075727099003|11063799006|4143699003|10067099003|18002099003|16102099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	Gh+oyilpZvFW7F31bb+U93wOQIkNNNZzaJN1zeqXu7Xa06Km+IrdLGGKmSquo+U8iqWDrP+QitioqazpBMMVS9OJSzFPpfavK/sp2dGmHSaGbHb+Bh5JzY59iGexYPSqg97pNG1tnhCE6MW9V5cYtx+MHNMA5TIjyHTFc2FhmXQziqNDKoQDEZOVqMx30cHM/9gyE8AauZiDgok5DDlYS2s0FGTDXGTc/BdG7PAhM9KRab/rLet5nLSwXV3j/0QHFDPf+4rtKzgfnuTYTKB179LncPf62APNSNfh/aU92kcpqoygfELxRWd4tne+a4zowxW8bF/j0n4oXHsFmYI2qACv+IAI01HPT37K9Pgb7NuBnI/p9YBmNXNUt6vsU5aNX96//JOk0dKv2Tdo8Y/M5tr+0z+b0nXbTKtF3T10DVMGSqKqJp+9M5VSYahNZL+gG/qXQckr5pehSA0vArgt2gdPKGOKFAyyvYu/rx1LtaP+xL3CXFFSlFGofgu5Ek1DWVVA5RdCe/dOWCoHsXsZR6fJG2bhLwgWAtpMh3T5Osqh1FA3Qyc4t6+x2h8zgxGa36w+YPzeE7Pw0IA3tl7R9f6rF9QbqxbsG8XJ+OLAXvIYx8IfzejcAykEa1ENJ/xfjRy/UbzQE4JG7NMMLpVOdYp6JVizwg8jwY6lci8E0cwJkYgvSE97SWn+aSTxKsdloqZt22NaVIXxq8IgqcsD2Q==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(61400799027)(36860700016)(82310400026)(56012099006)(261022105027099003)(261009223027099003)(261022075727099003)(11063799006)(4143699003)(10067099003)(18002099003)(16102099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	17ZklsdUk7kVdHcNdXn9dDPTCZYeMeHR7MIrWPAnQ71gHcW4e1RnW+PityShv875keS++YxEd4y0phnF1vgUHjztd1OAOjMXJNeNH59U5WmNUrfU2IGHgk8RXZuuxXGBxJN/RqDfLMHVqO+mMb4YSXLPP5sSVKZOKE1mCsOHrcPyEgaZBJELbIJ2x54klUBVw4WHi3wsgvKr4YoOiX1E8dQ7pFAtCKlNN/IyJRB3oJXnmg5eSzaKHVhAtqleKQyu9BG2q2IGVHyPeHJgTMOvzH9yo0NE7NcOACVYbiuz9LPrqJMPDWVP4cbTxZgE8aak2Mq8yzBzPHG6/0eG94qMIQz+MJtO2QlYtGSG9x9IDhlLRRa+/xGadqkWnPdev0Eg0o8MgBB0a/KmTegwcnX0m4P0M7RshO0dYMeN/8Zc/WsL8/WWULskDhwH9+SY0xlW
+X-Exchange-RoutingPolicyChecked:
+	a2vqVC1MPiQyRqmy6mHJKxEvmoetsUHL96F42YwYil3MxrSdPTcPMUmSUH6/fRzjdOXerAVeJXSA9/suIZ1cHMEnE8+eUDyXxa/dE7jOGaTkfMCtsf55Hfw2UXRUjgRC3ErjTJD6jSwYcoZzaB1+UNlWUJ6AT0rtBp/hmp3Kgftjii2AYY9TdFyGnqPnBvCuJU7Y7gVghBkU8Yo4R/fR8Zyy5TuVAHoXYjzmIaxriL7zNulSOQCsl7EF5u7tIsgaPTkAf420hzKOqoJQ/WPAXeU9rkYp8rI7k6qXyU3QMqQjYkTzxmeMmcMB4oMO+7Pol331Lhq2UTnqvD35nOqgzA==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2026 09:35:22.2551
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01909c36-d9e8-4d7b-04f8-08df30e8f5e3
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ1PEPF000037A3.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR19MB4001
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIzMDAzNyBTYWx0ZWRfX023OGgJ+Pq5m
+ dxoCQbAxvRE0iE/xV7ULypPRIUrrquc05WOFBAFkqEQlXMY+rYnXH9CiynkJLQWYK/zikkTgthr
+ H3+FDDMOFVta5Otf3z+2Ub/KHg/ekGU=
+X-Authority-Analysis: v=2.4 cv=Er5HPicA c=1 sm=1 tr=0 ts=6adb2a6b cx=c_pps
+ a=WcQbdmje/HnKHP6F6rQghg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=pGLkceISAAAA:8 a=w1d2syhTAAAA:8 a=NC2tVYWS2lCoPYbCSPIA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: YLCNb4Ko9nCuuluvbr9NJuKPogkCp01z
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIzMDAzNyBTYWx0ZWRfX/SrgKW2pHCUE
+ 76x7stBNycOXwyRt274rLtUcBYdxvMPaZFWcwyLCHhRnyDXBCGTsFLVU3UOIj9A6OX2rHHzNT/e
+ a4qwlws24xQD3bI6vEeSxjRSzjc2MqIkCX+WigIPhANooigapRFuqPgUEW5JzDJYTD0kgPxkyCW
+ iALzmEvm5zWj0WaXZvb/30bSdvRkvHEr74fOSwkDlxuiYclns+CdQ9X7YkeXu7yfZcsIIWNKryW
+ gZeUycOrUjUvt5ncOjhnBxHRAGgcwhnI36Ew9NH6fdt+/SrBWnPVM5++iw8zONgnDYH/P0wQ/Xb
+ o2Cosm/RB9KyRnp3FPcWl62wuYpJHM4huSSu3qTvipE5dKM8ZtHDllMwUtzpygckBYRUWOohMWM
+ Tk6Yp9ox7sx2/RYpg8GY8fr1ODqbSWjJDE026WC5tlkBeunUVrwDTPtvu+LbbceQ4FNzy2dnyuP
+ 2j01A+53vz04gBJ1y6A==
+X-Proofpoint-GUID: YLCNb4Ko9nCuuluvbr9NJuKPogkCp01z
+X-Proofpoint-Spam-Reason: safe
 
-Hi Neo,
+On Fri, Oct 23, 2026 at 04:01:57PM +0700, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> snd_soc_component_update_bits() may return 1 when the register value
+> changes, but ASoC only marks the DAI hw_params as done when .hw_params()
+> returns 0.
+> 
+> Propagate negative errors and return 0 on success.
+> 
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+> ---
 
-kernel test robot noticed the following build warnings:
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on next-20261022]
-[cannot apply to linus/master v7.3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Neo-Chang/ASoC-dt-bindings-nuvoton-nau8310-Add-NAU83G10/20261022-164036
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20261022084037.259983-3-YLCHANG2%40nuvoton.com
-patch subject: [PATCH v1 2/2] ASoC: codecs: nau8310: Add support for NAU83G10 amplifier
-config: powerpc-randconfig-1000-20261023 (https://download.01.org/0day-ci/archive/20261023/202610231724.YNiXxf9w-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 15.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261023/202610231724.YNiXxf9w-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610231724.YNiXxf9w-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In function 'nau8310_send_dsp_command',
-       inlined from 'nau8310_dsp_set_kcs_setup' at sound/soc/codecs/nau8310-dsp.c:603:8:
->> sound/soc/codecs/nau8310-dsp.c:419:15: warning: 'kcs_setup_comp.set_kcs_offset' is used uninitialized [-Wuninitialized]
-     419 |         ret = nau8310_message_to_dsp(cp, cmd_info, frag_len,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     420 |                 kcs_setup->set_kcs_offset, kcs_setup->set_len,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     421 |                 kcs_setup->set_kcs_data);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/nau8310-dsp.c: In function 'nau8310_dsp_set_kcs_setup':
-   sound/soc/codecs/nau8310-dsp.c:592:34: note: 'kcs_setup_comp' declared here
-     592 |         struct nau8310_kcs_setup kcs_setup_comp, *kcs_setup = &kcs_setup_comp;
-         |                                  ^~~~~~~~~~~~~~
-   In function 'nau8310_send_dsp_command',
-       inlined from 'nau8310_dsp_set_kcs_setup' at sound/soc/codecs/nau8310-dsp.c:603:8:
->> sound/soc/codecs/nau8310-dsp.c:419:15: warning: 'kcs_setup_comp.set_kcs_data' is used uninitialized [-Wuninitialized]
-     419 |         ret = nau8310_message_to_dsp(cp, cmd_info, frag_len,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     420 |                 kcs_setup->set_kcs_offset, kcs_setup->set_len,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     421 |                 kcs_setup->set_kcs_data);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/nau8310-dsp.c: In function 'nau8310_dsp_set_kcs_setup':
-   sound/soc/codecs/nau8310-dsp.c:592:34: note: 'kcs_setup_comp' declared here
-     592 |         struct nau8310_kcs_setup kcs_setup_comp, *kcs_setup = &kcs_setup_comp;
-         |                                  ^~~~~~~~~~~~~~
-
-
-vim +419 sound/soc/codecs/nau8310-dsp.c
-
-   370	
-   371	/*
-   372	 * nau8310_send_dsp_command - Send command to DSP
-   373	 *
-   374	 * @cp:  component to register
-   375	 * @cmd_id:  DSP supported command ID
-   376	 * @kcs_setup: KCS setup structure
-   377	 *
-   378	 * The communication protocol is a Master-Slave type protocol
-   379	 * where the host processor is the master and DSP is the slave.
-   380	 * The Master initiates the communication and can either write or
-   381	 * read back from the slave.
-   382	 * Transactions from the Master are called "Messages",
-   383	 * and read-back data from the Slave is called a "Reply".
-   384	 *
-   385	 * The function sends command to DSP according to the command ID.
-   386	 * These commands include getting the information of DSP,
-   387	 * getting or setting KCS configuration, or making DSP control.
-   388	 */
-   389	static int nau8310_send_dsp_command(struct snd_soc_component *cp, int cmd_id,
-   390		struct nau8310_kcs_setup *kcs_setup)
-   391	{
-   392		const struct nau8310_cmd_info *cmd_info;
-   393		int ret = 0, frag_len = 0;
-   394	
-   395		cmd_info = &nau8310_dsp_cmd_table[cmd_id];
-   396		if ((cmd_info->msg_param && !kcs_setup->set_len) ||
-   397			(cmd_info->setup_data && !kcs_setup->set_kcs_data) ||
-   398			(cmd_info->reply_data && !kcs_setup->get_data))
-   399			return -EFAULT;
-   400	
-   401		/* Read up to 1kB data because the LEN field to request data is 10-bits
-   402		 * long; and not beyond 3kB offset.
-   403		 */
-   404		if (cmd_id == NAU8310_DSP_CMD_GET_KCS_SETUP &&
-   405			(kcs_setup->set_len > NAU8310_DSP_KCS_DAT_LEN_MAX ||
-   406			kcs_setup->set_kcs_offset > NAU8310_DSP_KCS_OFFSET_MAX))
-   407			return -ERANGE;
-   408	
-   409		/* one fragment for offset and size parameters
-   410		 * one fragment for a postamble fragment
-   411		 */
-   412		if (cmd_info->msg_param)
-   413			frag_len += 2;
-   414	
-   415		/* fragments for KCS setup writen */
-   416		if (cmd_info->setup_data)
-   417			frag_len += DIV_ROUND_UP(kcs_setup->set_len, NAU8310_DSP_DATA_BYTE);
-   418	
- > 419		ret = nau8310_message_to_dsp(cp, cmd_info, frag_len,
-   420			kcs_setup->set_kcs_offset, kcs_setup->set_len,
-   421			kcs_setup->set_kcs_data);
-   422		if (ret)
-   423			return ret;
-   424	
-   425		return nau8310_reply_from_dsp(cp, cmd_info, kcs_setup->get_len,
-   426			kcs_setup->get_data);
-   427	}
-   428	
-   429	static inline int nau8310_dsp_exec_command(struct snd_soc_component *cp, int cmd_id,
-   430		int offset, int set_len, void *set_data, int get_len, void *get_data)
-   431	{
-   432		struct nau8310_kcs_setup kcs_setup = {
-   433			.set_kcs_offset = offset,
-   434			.set_len = set_len,
-   435			.set_kcs_data = set_data,
-   436			.get_len = get_len,
-   437			.get_data = get_data,
-   438		};
-   439	
-   440		return nau8310_send_dsp_command(cp, cmd_id, &kcs_setup);
-   441	}
-   442	
-   443	/*
-   444	 * nau8310_dsp_kcs_setup - Send KCS setup command to DSP
-   445	 *
-   446	 * @cp:  component to register
-   447	 * @offset: address offset relative to KCS start
-   448	 * @size: size of data writen to KCS
-   449	 * @data: data writen to KCS setup
-   450	 *
-   451	 * The function sends KCS setup command to DSP for
-   452	 * setting KCS configuration. The maximum size that you can transfer into
-   453	 * the DSP is 96 bytes. Therefore, the driver has to split the data into
-   454	 * 96 bytes chucks, if the setup configuration over the threshold.
-   455	 */
-   456	static int nau8310_dsp_kcs_setup(struct snd_soc_component *cp, int offset, int size,
-   457		const void *data)
-   458	{
-   459		u8 *data_buf = (u8 *)data;
-   460		unsigned int kcs_rst;
-   461		int retries = 0, ret, data_len, data_rem, addr_offset;
-   462	
-   463		/* Limit full load of KCS_SETUP data and not beyond 3kB offset. */
-   464		if (!data || size > NAU8310_DSP_KCS_DAT_LEN_MAX ||
-   465			offset > NAU8310_DSP_KCS_OFFSET_MAX)
-   466			return -EINVAL;
-   467	
-   468		/* sending fragments for KCS setup */
-   469		addr_offset = offset;
-   470		data_rem = size;
-   471	
-   472		while (data_rem) {
-   473			data_len = min(data_rem, NAU8310_DSP_KCS_TX_MAX);
-   474	
-   475			ret = nau8310_dsp_exec_command(cp, NAU8310_DSP_CMD_SET_KCS_SETUP,
-   476				addr_offset, data_len, (void *)data_buf, 0, &kcs_rst);
-   477			if (ret) {
-   478				if (retries++ < NAU8310_DSP_RETRY_MAX)
-   479					continue;
-   480				return ret;
-   481			}
-   482	
-   483			data_buf += (u8)data_len;
-   484			addr_offset += data_len;
-   485			data_rem -= data_len;
-   486	
-   487			/* checking KCS result */
-   488			ret = nau8310_dsp_exec_command(cp, NAU8310_DSP_CMD_GET_KCS_RSLTS,
-   489				0, NAU8310_DSP_DATA_BYTE, NULL, NAU8310_DSP_DATA_BYTE, &kcs_rst);
-   490			if (ret)
-   491				return ret;
-   492			if (kcs_rst != NAU8310_DSP_KCS_RSLTS_SUCCESS)
-   493				return -EINVAL;
-   494		}
-   495	
-   496		return 0;
-   497	}
-   498	
-   499	static int nau8310_dsp_snd_soc_dapm_put(struct snd_kcontrol *kcontrol,
-   500		struct snd_ctl_elem_value *ucontrol)
-   501	{
-   502		struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_to_dapm(kcontrol);
-   503		struct snd_soc_component *component = snd_soc_dapm_to_component(dapm);
-   504		struct nau8310 *nau8310 = snd_soc_component_get_drvdata(component);
-   505		struct soc_mixer_control *mc =
-   506			(struct soc_mixer_control *)kcontrol->private_value;
-   507		unsigned int mask = (1 << fls(mc->max)) - 1;
-   508		unsigned int val;
-   509		int ret;
-   510	
-   511		if (snd_soc_dapm_get_bias_level(dapm) > SND_SOC_BIAS_STANDBY) {
-   512			dev_warn_ratelimited(nau8310->dev, "changing path is not allowed during playback");
-   513			return -EBUSY;
-   514		}
-   515	
-   516		val = (ucontrol->value.integer.value[0] & mask);
-   517	
-   518		mutex_lock(&nau8310->lock);
-   519		if (val == NAU8310_DAC_SRC_DSP && !nau8310->load_fw_done) {
-   520			dev_warn_ratelimited(nau8310->dev, "Cannot enable DSP: Firmware not ready or disabled");
-   521			mutex_unlock(&nau8310->lock);
-   522			return -EBUSY;
-   523		}
-   524	
-   525		ret = snd_soc_dapm_put_volsw(kcontrol, ucontrol);
-   526	
-   527		if (val == NAU8310_DAC_SRC_BYPASS) {
-   528			/* Switch the clock source of DSP to MCLK. */
-   529			regmap_update_bits(nau8310->regmap, NAU8310_R04_ENA_CTRL,
-   530				NAU8310_DSP_SEL_OSC, 0);
-   531		}
-   532		mutex_unlock(&nau8310->lock);
-   533	
-   534		return ret;
-   535	}
-   536	
-   537	#define NAU8310_DSP_SOC_DAPM_SINGLE(xname, reg, shift, mask, invert) \
-   538		SOC_SINGLE_EXT(xname, reg, shift, mask, invert, \
-   539			snd_soc_dapm_get_volsw, nau8310_dsp_snd_soc_dapm_put)
-   540	
-   541	static const struct snd_kcontrol_new nau8310_dacdat_select_dsp =
-   542		NAU8310_DSP_SOC_DAPM_SINGLE("Switch", NAU8310_R1A_DSP_CORE_CTRL2,
-   543			NAU8310_DAC_SEL_DSP_SFT, 1, 0);
-   544	
-   545	static int nau8310_dsp_clock_event(struct snd_soc_dapm_widget *w,
-   546		struct snd_kcontrol *kcontrol, int event)
-   547	{
-   548		struct snd_soc_component *cp = snd_soc_dapm_to_component(w->dapm);
-   549		struct nau8310 *nau8310 = snd_soc_component_get_drvdata(cp);
-   550		int ret = 0;
-   551	
-   552		if (SND_SOC_DAPM_EVENT_ON(event)) {
-   553			ret = nau8310_dsp_exec_command(cp, NAU8310_DSP_CMD_CLK_RESTART,
-   554				0, 0, NULL, 0, NULL);
-   555			if (ret)
-   556				dev_err(cp->dev, "Send DSP command %s fail (%d)",
-   557					dsp_cmd_table[NAU8310_DSP_CMD_CLK_RESTART], ret);
-   558	
-   559			/* Switch the clock source of DSP to MCLK. */
-   560			regmap_update_bits(nau8310->regmap, NAU8310_R04_ENA_CTRL,
-   561				NAU8310_DSP_SEL_OSC, 0);
-   562		} else if (SND_SOC_DAPM_EVENT_OFF(event)) {
-   563			ret = nau8310_dsp_exec_command(cp, NAU8310_DSP_CMD_CLK_STOP,
-   564				0, 0, NULL, 0, NULL);
-   565			if (ret)
-   566				dev_err(cp->dev, "Send DSP command %s fail (%d)",
-   567					dsp_cmd_table[NAU8310_DSP_CMD_CLK_STOP], ret);
-   568		}
-   569	
-   570		return ret;
-   571	}
-   572	
-   573	static const struct snd_soc_dapm_widget nau8310_dsp_dapm_widgets[] = {
-   574		SND_SOC_DAPM_PGA("DSP", SND_SOC_NOPM, 0, 0, NULL, 0),
-   575		SND_SOC_DAPM_SWITCH("DAC data from DSP", SND_SOC_NOPM,
-   576			0, 0, &nau8310_dacdat_select_dsp),
-   577		SND_SOC_DAPM_SUPPLY("DSP Clock", SND_SOC_NOPM, 0, 0,
-   578			nau8310_dsp_clock_event, SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
-   579	};
-   580	
-   581	static const struct snd_soc_dapm_route nau8310_dsp_dapm_routes[] = {
-   582		{ "DSP", NULL, "Capture Sense" },
-   583		{ "DAC data from DSP", "Switch", "DSP" },
-   584		{ "DAC", NULL, "DAC data from DSP" },
-   585		{ "DSP", NULL, "DSP Clock" },
-   586	};
-   587	
-   588	static int nau8310_dsp_set_kcs_setup(struct snd_soc_component *cp)
-   589	{
-   590		struct nau8310 *nau8310 = snd_soc_component_get_drvdata(cp);
-   591		struct regmap *regmap = nau8310->regmap;
- > 592		struct nau8310_kcs_setup kcs_setup_comp, *kcs_setup = &kcs_setup_comp;
-   593		struct device *dev = cp->dev;
-   594		const struct firmware *fw;
-   595		int ret, status = 0, buf_off, buf_len;
-   596	
-   597		dev_dbg(dev, "Send DSP command %s",
-   598			dsp_cmd_table[NAU8310_DSP_CMD_GET_FRAME_STATUS]);
-   599	
-   600		kcs_setup->get_len = kcs_setup->set_len = sizeof(status);
-   601		kcs_setup->get_data = (void *)&status;
-   602	
- > 603		ret = nau8310_send_dsp_command(cp, NAU8310_DSP_CMD_GET_FRAME_STATUS, kcs_setup);
-   604		if (ret) {
-   605			dev_err(dev, "Send DSP command %s fail (%d)",
-   606				dsp_cmd_table[NAU8310_DSP_CMD_GET_FRAME_STATUS], ret);
-   607			goto err;
-   608		}
-   609	
-   610		if (!(status & NAU8310_DSP_ALGO_OK)) {
-   611			dev_err(dev, "Algorithm of DSP is not ready, status %x", status);
-   612			ret = -EIO;
-   613			goto err;
-   614		}
-   615	
-   616		dev_info(dev, "Algorithm of DSP is ready, status %x", status);
-   617	
-   618		dev_dbg(dev, "Request firmware and wait until finish.");
-   619		ret = request_firmware(&fw, NAU8310_DSP_FIRMWARE, dev);
-   620		if (ret) {
-   621			dev_err(dev, "Failed to load firmware (%d)", ret);
-   622			goto err;
-   623		}
-   624	
-   625		buf_off = 0;
-   626		buf_len = nau8310->kcs_setup_size = fw->size;
-   627		dev_dbg(dev, "Send DSP command %s (OFF %d, LEN %d)",
-   628			dsp_cmd_table[NAU8310_DSP_CMD_SET_KCS_SETUP], buf_off, buf_len);
-   629		ret = nau8310_dsp_kcs_setup(cp, buf_off, buf_len, fw->data);
-   630		if (ret) {
-   631			dev_err(dev, "Send DSP command %s fail (%d)",
-   632				dsp_cmd_table[NAU8310_DSP_CMD_SET_KCS_SETUP], ret);
-   633			goto err_loaded;
-   634		}
-   635	
-   636		release_firmware(fw);
-   637		nau8310->load_fw_done = true;
-   638	
-   639		return 0;
-   640	
-   641	err_loaded:
-   642		regmap_update_bits(regmap, NAU8310_R13_MUTE_CTRL, NAU8310_SOFT_MUTE, 0);
-   643		if (fw)
-   644			release_firmware(fw);
-   645	err:
-   646		nau8310->load_fw_done = false;
-   647		return ret;
-   648	}
-   649	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Charles
