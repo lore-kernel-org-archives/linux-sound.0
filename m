@@ -1,91 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792828976;
-	b=sK5eldamrinNZlfSa28ZlNRfsxa6ELnGU7rgMnmO5SJ1oYsSWlJgPwFfhLAqxQ9elK1l
-	 Ie8ax4ocTvPjXif5qZWZmiYuv0xuxTmVt9HXKmpfd/+43HyS9oK93dBUdu55vXkK8gFyJ
-	 bbiXfQGVZSg0JbPnvQkdxskNVAn6MBXvnBG6nZcrf/XxK9rjogZ4qPM8YwAL6DRUJAUtN
-	 baDXhBNMYR4O5nGn7gDd+5oZkPpnQ5X8Sz1AuuKmLvJC3/PEPJJDg0Sy20EziMRmgXvjr
-	 uLHnc1+eHMPdh2BGraQvgCtFJJ1xH6MpsxOYYT4q0NBYLHqhfpE/TVpM9bEOuALWXEA==
+	t=1792830175;
+	b=lMdV1jDS1NtbSwnu3y6cfRQU8PpGUwgq4oFyOP6P+An8zCjXTqubTlhGU/LPFacyOArB
+	 jxgAnWr8LOQXMu9k2CX5Np9tqQiXWQ54EAEzVr9pxwTzJqMjiBnhEN4UIPuA11DBUDA5U
+	 mLnAesZ3PLyKanu/3+E+T3kDSK+h5yha95uWLSy9PmYY8hmg4ix4m6mWjpDXOc+rNfZNq
+	 YRJ8jvac1epoPN6LJH/5g16mRXS6LI53no/pIYX+3dYFhO1AilIc816zRLiIiba1KhN4p
+	 /JNxdsgv2ralCjgrzodDNcnf0dL1URKcvG/g4DuYV0IMZ3/aHG9gWKn6+wyKs1Nwdaw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792828976;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=iGPDflQ29hN9DpB+AG4dwXiSXq5WMrVXLrMlXqVt1zc=;
-	b=uogwADZUgLp4noPGJ1WNFOpDyPeC3LmQdZDBWdkQGXSJQHz2dj/uctJ9E+RPmTb9s8Mj
-	 BLQ+Df2wyc4m4ZUiaUleRBKJpPG+UV8DZMQW2fyNOGg01crzy5MDJx+mAlbcq8gtD/ftE
-	 +VZgD7+J6XibYFk+ho5oo8k2Nek5H4SktxyLu0BoqugVPWTZNWfKmz7NJhQzf5Pf9tqSU
-	 a1tt+uO/4llQdGNVzSlXeRueZ7IUYrxBZ78rGl33LSj7UPnLNaIMeR1VIplZ1W08cDcf1
-	 Y6dM2/kc5DZ2nEW6//vXFOja/1KcYGIRNjg18u4vjH4CrzQHMZdc1MOGp1Rv/i+hc7w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792830175;
+	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
+	 Subject:Message-Id:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=VRcxh6zSQH0G8X3P32/wW4FFBoi8iLMvBF6s5DU9eSs=;
+	b=SUsv0zcSs6gQMgH/+J35pc6JX5kpaH4yQQFXiDBGlPg0Ke4DfDAp+pzefWa0CznnuT4Z
+	 ugkBiRX4+C33LG2ndwC/SjZeu0uuM6h5QG0y/1Rg1iFOaKGQg8zRM7GhMzwHuX1bbJAYF
+	 fEPJOm81XCjnzvVpeGJC7xE4ZGf0MPluMfTXN16xB5xlJdRbKyOsbyMyzp5QtOj8+kjEp
+	 yZuYAOL2bx0U+J4aprUS112LC1Ik0zhFuWQ0X0Ot0ZiLFC7jtnwTZBOX2NKo4/jamhQ4P
+	 W1Z6wtcvivjKlUjwdg6GivYYGx8yhrTuJohu6vhulTWSZy6/U5x8nH8CCAxwj/mDg+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=WJcyHknf;
-	arc=none smtp.remote-ip=209.85.214.170
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YWYYvid9;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5FE0606A31B
-	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 08:02:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5FE0606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF020606A31B
+	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 08:22:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=WJcyHknf
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ea138a3497so9356515ad.2
-        for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 01:02:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792828975; x=1793433775; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=iGPDflQ29hN9DpB+AG4dwXiSXq5WMrVXLrMlXqVt1zc=;
-        b=WJcyHknfVxtwONWz0C2eZIcqfVroXMvC5ZmqUQ4wnUCtttz8GHXhbn16B+vMjIDnkR
-         0N2lUydC0u3M67u0awYw6MuUBDHgrr/t513A6e84/44JBog+KHJd1gwmmMY4UGIT26Ex
-         AYKGH7VBkjPA2sy4xrdnr7NFuBfZsSh124xGBsTP7lKsnfCT7uLmS9asoCZ6+AcnuOLv
-         MQBRAnmGWC2ZLpVIUrBWcv+mwg+IdqXr+4av8FRb8vV5zuoeV4qSjSyoK25y42IGLrvS
-         CnARgun4G8TTPude5TisYyv+3erRhi2xrAxC+6y/y+rilTqnEqUH2CTUN8kU9kc4DRu8
-         32ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792828975; x=1793433775;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=iGPDflQ29hN9DpB+AG4dwXiSXq5WMrVXLrMlXqVt1zc=;
-        b=qvHyHQ0M6QbTADtSr4E8fIZqdQGIFvLXuHewyfCnYFI3ERbuY1UfFd9raLTH/gqGoK
-         wilt2xzxpDZeBOLFrWBaUKWFh3hQJ3RcZRpuRkpry5Y1RcKDZdU/BfVvAxKIOxS5V+o4
-         9eD83WZ69kZ1BG6jB6oqRgf5K+zQbHRlwP837HMxUGP4pvYLJYbxL3J3QppXhj0N50Nv
-         6GDEoQXEmmTqF/wX1bzkAWNlhZrZnQtbIDL7FTm1byuuNUyeVjz6SVR4w8fQLp5NHnv4
-         jFHyvcrSiy3zL7PAhwCJW5LGMeamax+npHiYyFoNO/+LoE/NHfz4rihtJn0fZ/XTO217
-         LlAw==
-X-Gm-Message-State: AFq9FYLkYvH0ppprGPgQ6oljGo3sCSCQEVKBEGGHQfpYh/S8k6JcVYH1
-	5hsLucKRG6PiR0HJaQ0xqMv4x4xUqs5qaDG5D2QXgX6hjgsCA9jlg2rW
-X-Gm-Gg: AYBFou0vxYvCq5PBnxvOgRgetrfMdmSNfEo26SpaZ0vC3c/NT8v+YN5umP1vo66D9Sm
-	ll2gsQLZ9jwjRG4xheIrt9F+IqCfk7LAlsdVgrd2E3yaZS+w1Lt/oMlpOFP4+2Bn68gWCwkeX7J
-	DwIj41cMHmLXqQIDfRzXcmTnA+a7viU3WHuMt4nWdGg8+f4pY9Y3I9Jrpcsqfhi/vl5590gbueR
-	JR3IR92lrb0n5NAjZE0jiMvJOhJxAcH7Y2OsPdRy9/2/WCj2KRxIgOox2jNK+/R4WdqRfrDT1xm
-	f8NEazfBU+w5hU/5q4Bg95KDjUaVapMe0CMBvB2oYnJvfTe+TtMHwODO2U1DyiUUlsq5ZYN1j4o
-	oSTPj/EGCppa2jMKLPwHeH1e0ehSUrIHC4Hr3EfcXAkCeQY+nmhfDCRdqVP9Iaat2umKDIkKkdY
-	sw4Io+nldbF3UZq/203YORliPeXDWrUPRylON3ROwKUz/qd5SV/0PFN9KveJNiG0wS6Bywtsfrp
-	Xwqvmbf4RwgcZFhhcW964837zAWhnRv8sYdNFUTRRu5iibjql8DDADhPKZ5oGMhBxAA4rGN
-X-Received: by 2002:a17:903:1b2c:b0:2e9:3dd2:a904 with SMTP id d9443c01a7336-2ea9c6c8d4emr11590295ad.16.1792828975089;
-        Sat, 24 Oct 2026 01:02:55 -0700 (PDT)
-Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ea9b1a1c63sm3814815ad.47.2026.10.24.01.02.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Oct 2026 01:02:54 -0700 (PDT)
-From: Cen Zhang <zzzccc427@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	jjzuming@gmail.com,
-	zzzccc427@gmail.com
-Subject: [PATCH] ALSA: ump: Drain sequencer callbacks before freeing their client
-Date: Sat, 24 Oct 2026 16:02:47 +0800
-Message-Id: <pm-pmb-00625126b81966d1bf1d-v2-915f6bbabe1fd458c3ab@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YWYYvid9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 884361F031E0;
+	Sat, 24 Oct 2026 08:22:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792830174;
+	bh=VRcxh6zSQH0G8X3P32/wW4FFBoi8iLMvBF6s5DU9eSs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=YWYYvid9otLS3nhpiX9yUzbIQjn0W6BNfIppUJRRtPwoSQL76vy6gGG1N8GLmjpy7
+	 Dj3AZ+FZeq1EnTxJ7ULNnSThfLSeXh9lfiO8P6zAcshD5qIP+WYPVN7tWAtVmLTu8F
+	 lG73M3jdJm7xXvNYx2L3RKYyq9cMroppKjof6kM4eoH5yNJqM1XPJpqUI3S+nLoKdl
+	 EnsnfSBErZ6XDXuZ5YdNpxD3dljUS9KgO0jEJhHJq9zX7m6FwM0GlBu8Jm+Eo+PkgE
+	 G5jIte4F+oH1ckdz6TcZ7x2uLwSCBEp3k7xQvCoigT001YNG+Fm7AiLqzzT5abTCOv
+	 56BX8Zp1TM6wQ==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id C33421E1FC4F;
+	Sat, 24 Oct 2026 09:22:51 +0100 (BST)
+From: Mark Brown <broonie@kernel.org>
+To: Fabio Estevam <festevam@gmail.com>
+Cc: shengjiu.wang@gmail.com, linux-sound@vger.kernel.org
+In-Reply-To: <20261019224724.236388-1-festevam@gmail.com>
+References: <20261019224724.236388-1-festevam@gmail.com>
+Subject: Re: [PATCH] ASoC: fsl_utils: Tolerate fractional PLL rate residue
+Message-Id: <179277772835.3909521.13044193561532724761.b4-ty@b4>
+Date: Fri, 23 Oct 2026 18:48:48 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -95,203 +61,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1125; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Xqq5tF1CXWrVxms89O1moLhNxcT/Kb1Vs5Rax6mgbIo=;
+ b=kA0DAAoWL+9zsLPQOIkByyZiAGrcatuhEvHgi51OQCTqZJClSpOUPH1lnyFehP0oDjLYXpIuX
+ oh1BAAWCgAdFiEEXmoL6X9066wOwaGGL+9zsLPQOIkFAmrcatsACgkQL+9zsLPQOImbXQEA7JbU
+ nROp3DXXhvO0L9WcV3SstOHSGrKPNkNzDK2xhagA/R0l4rtWZaptcD+2S8WRL3RQUN6slBdF5NC
+ GwhuPA2oK
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-seq_ump_client_free() cancels group_notify_work while the endpoint still
-publishes seq_ops and seq_client. A received Function Block update can
-enter the sequencer callback after cancellation and queue the work again.
-Even disabling the work cannot protect a callback that already loaded
-seq_client and then resumes after the client has been freed.
+On Mon, 19 Oct 2026 19:47:24 -0300, Fabio Estevam wrote:
+> ASoC: fsl_utils: Tolerate fractional PLL rate residue
 
-A USB UMP endpoint can continue receiving while its sequencer binding
-is removed. The following order uses the same endpoint and client:
+Applied to
 
-  Sequencer binding removal             UMP input completion
-  -------------------------             --------------------
-  cancel_work_sync()
-                                        load seq_ops and seq_client
-  delete sequencer client
-  clear endpoint binding
-  kfree(client)
-                                        schedule group_notify_work
-                                        read client->seq_client
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-Cover all calls through seq_ops with SRCU in the UMP core. Withdraw the
-operations pointer and wait for those callbacks before canceling work
-and deleting the client. No producer can then queue work after the final
-cancellation, and both the client and callback code remain available
-until the last in-flight callback returns.
+Thanks!
 
-Publish seq_ops with release/acquire ordering so the separately stored
-seq_client is initialized before any callback uses it. Use SRCU because
-sequencer notification delivery can sleep; no callback needs to change
-its existing execution context or allocation behavior.
+[1/1] ASoC: fsl_utils: Tolerate fractional PLL rate residue
+      https://git.kernel.org/broonie/sound/c/cc3fc99f1bce
 
-Fixes: 4a16a3af0571 ("ALSA: seq: ump: Handle FB info update")
-Assisted-by: LLM
-Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
----
- include/sound/ump.h             |  5 +++
- sound/core/seq/seq_ump_client.c |  5 +--
- sound/core/ump.c                | 59 ++++++++++++++++++++++++++++-----
- 3 files changed, 59 insertions(+), 10 deletions(-)
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-diff --git a/include/sound/ump.h b/include/sound/ump.h
-index 73f97f88e2ed..387143783a9b 100644
---- a/include/sound/ump.h
-+++ b/include/sound/ump.h
-@@ -66,6 +66,7 @@ struct snd_ump_endpoint {
- 
- #if IS_ENABLED(CONFIG_SND_SEQUENCER)
- 	struct snd_seq_device *seq_dev;
-+	/* Published after seq_client; calls are covered by UMP core SRCU. */
- 	const struct snd_seq_ump_ops *seq_ops;
- 	void *seq_client;
- #endif
-@@ -126,6 +127,10 @@ int snd_ump_receive_ump_val(struct snd_ump_endpoint *ump, u32 val);
- int snd_ump_switch_protocol(struct snd_ump_endpoint *ump, unsigned int protocol);
- void snd_ump_update_group_attrs(struct snd_ump_endpoint *ump);
- 
-+#if IS_ENABLED(CONFIG_SND_SEQUENCER)
-+void snd_ump_detach_seq(struct snd_ump_endpoint *ump);
-+#endif
-+
- /*
-  * Some definitions for UMP
-  */
-diff --git a/sound/core/seq/seq_ump_client.c b/sound/core/seq/seq_ump_client.c
-index 4c1e81db376f..ca9dcec19883 100644
---- a/sound/core/seq/seq_ump_client.c
-+++ b/sound/core/seq/seq_ump_client.c
-@@ -353,12 +353,12 @@ static int create_ump_endpoint_port(struct seq_ump_client *client)
- /* release the client resources */
- static void seq_ump_client_free(struct seq_ump_client *client)
- {
-+	snd_ump_detach_seq(client->ump);
- 	cancel_work_sync(&client->group_notify_work);
- 
- 	if (client->seq_client >= 0)
- 		snd_seq_delete_kernel_client(client->seq_client);
- 
--	client->ump->seq_ops = NULL;
- 	client->ump->seq_client = NULL;
- 
- 	kfree(client);
-@@ -523,7 +523,8 @@ static int snd_seq_ump_probe(struct snd_seq_device *dev)
- 	snd_seq_kernel_client_put(cptr);
- 
- 	ump->seq_client = client;
--	ump->seq_ops = &seq_ump_ops;
-+	/* Publish the initialized client before callbacks can observe seq_ops. */
-+	smp_store_release(&ump->seq_ops, &seq_ump_ops);
- 	return 0;
- 
-  error:
-diff --git a/sound/core/ump.c b/sound/core/ump.c
-index f6482a9bfe61..20cae15e76fc 100644
---- a/sound/core/ump.c
-+++ b/sound/core/ump.c
-@@ -8,6 +8,7 @@
- #include <linux/module.h>
- #include <linux/export.h>
- #include <linux/mm.h>
-+#include <linux/srcu.h>
- #include <sound/core.h>
- #include <sound/rawmidi.h>
- #include <sound/ump.h>
-@@ -18,6 +19,31 @@
- #define ump_info(ump, fmt, args...)	dev_info((ump)->core.dev, fmt, ##args)
- #define ump_dbg(ump, fmt, args...)	dev_dbg((ump)->core.dev, fmt, ##args)
- 
-+#if IS_ENABLED(CONFIG_SND_SEQUENCER)
-+DEFINE_STATIC_SRCU(ump_seq_srcu);
-+
-+static const struct snd_seq_ump_ops *seq_ops_load(struct snd_ump_endpoint *ump)
-+{
-+	/* Pair with publication after seq_client has been initialized. */
-+	return smp_load_acquire(&ump->seq_ops);
-+}
-+
-+/**
-+ * snd_ump_detach_seq - stop callbacks to a sequencer binding
-+ * @ump: UMP endpoint
-+ *
-+ * Withdraw the binding and wait for all callbacks already in progress.
-+ * The caller can then drain binding work and free the sequencer client.
-+ * Must not be called from one of the binding callbacks.
-+ */
-+void snd_ump_detach_seq(struct snd_ump_endpoint *ump)
-+{
-+	WRITE_ONCE(ump->seq_ops, NULL);
-+	synchronize_srcu(&ump_seq_srcu);
-+}
-+EXPORT_SYMBOL_GPL(snd_ump_detach_seq);
-+#endif
-+
- static int snd_ump_dev_register(struct snd_rawmidi *rmidi);
- static int snd_ump_dev_unregister(struct snd_rawmidi *rmidi);
- static long snd_ump_ioctl(struct snd_rawmidi *rmidi, unsigned int cmd,
-@@ -348,8 +374,13 @@ int snd_ump_receive(struct snd_ump_endpoint *ump, const u32 *buffer, int count)
- 			continue;
- 		ump_handle_stream_msg(ump, ump->input_buf, n);
- #if IS_ENABLED(CONFIG_SND_SEQUENCER)
--		if (ump->seq_ops)
--			ump->seq_ops->input_receive(ump, ump->input_buf, n);
-+		scoped_guard(srcu, &ump_seq_srcu) {
-+			const struct snd_seq_ump_ops *ops;
-+
-+			ops = seq_ops_load(ump);
-+			if (ops)
-+				ops->input_receive(ump, ump->input_buf, n);
-+		}
- #endif
- 		process_legacy_input(ump, ump->input_buf, n);
- 	}
-@@ -699,8 +730,12 @@ static void choose_default_protocol(struct snd_ump_endpoint *ump)
- static void seq_notify_ep_change(struct snd_ump_endpoint *ump)
- {
- #if IS_ENABLED(CONFIG_SND_SEQUENCER)
--	if (ump->parsed && ump->seq_ops && ump->seq_ops->notify_ep_change)
--		ump->seq_ops->notify_ep_change(ump);
-+	const struct snd_seq_ump_ops *ops;
-+
-+	guard(srcu)(&ump_seq_srcu);
-+	ops = seq_ops_load(ump);
-+	if (ump->parsed && ops && ops->notify_ep_change)
-+		ops->notify_ep_change(ump);
- #endif
- }
- 
-@@ -797,8 +832,12 @@ static int ump_handle_product_id_msg(struct snd_ump_endpoint *ump,
- static void seq_notify_protocol(struct snd_ump_endpoint *ump)
- {
- #if IS_ENABLED(CONFIG_SND_SEQUENCER)
--	if (ump->seq_ops && ump->seq_ops->switch_protocol)
--		ump->seq_ops->switch_protocol(ump);
-+	const struct snd_seq_ump_ops *ops;
-+
-+	guard(srcu)(&ump_seq_srcu);
-+	ops = seq_ops_load(ump);
-+	if (ops && ops->switch_protocol)
-+		ops->switch_protocol(ump);
- #endif /* CONFIG_SND_SEQUENCER */
- }
- 
-@@ -893,8 +932,12 @@ static void seq_notify_fb_change(struct snd_ump_endpoint *ump,
- 				 struct snd_ump_block *fb)
- {
- #if IS_ENABLED(CONFIG_SND_SEQUENCER)
--	if (ump->seq_ops && ump->seq_ops->notify_fb_change)
--		ump->seq_ops->notify_fb_change(ump, fb);
-+	const struct snd_seq_ump_ops *ops;
-+
-+	guard(srcu)(&ump_seq_srcu);
-+	ops = seq_ops_load(ump);
-+	if (ops && ops->notify_fb_change)
-+		ops->notify_fb_change(ump, fb);
- #endif
- }
- 
--- 
-2.43.0
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
