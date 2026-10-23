@@ -1,98 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792769246;
-	b=s8i2zv7xZJ72CdF9iBJkXixUEK+jriCHYNwCaaxttbkJEETG72ScsKNRYfjbwSc6iWIu
-	 dKC/Bqq4RSxLxPKXb8jM+J6I2UI3SdMnJrmlyMwFZrWmRtUx5ln56U7CJ8xQbs5H/BbWq
-	 RL7QApcTWEg1+bAffpRUDwg/xywniBdprVw3p1ZbuA+/P1qKmxXhX+K3k20XH5M6lr3hq
-	 OL+q74cP/UjvWGRdqv0uv9YriL9VEdxOse9dMohzM57KlVhet4dvLif1yg8FNk5s99ELp
-	 9XqiZZPVweEjbdmXHT7V5O/pvdd1Myk/eFxFMn7jDdxg5yzo26XEUGNJ7t+Opi3CS+Q==
+	t=1792773128;
+	b=Uo9DvTq7ZgUQcjMNXeJuFdT15IWDaVplXQeBNkQ+VPu4JtMOMwXrxHUCbUctve+MNUez
+	 Eeahcym9Lotzc+U2NngGVP2fl6KtKTrKMbsCe1h7Oh96f0PFhbfOrOKnjBK6/yJt2p2Rv
+	 hZd9l2TcE/2ZPTs37MAK1y4DIfjelh7hJvnb3ofVTqR5YeBF45Qog25S7hGBLzRfwJl6G
+	 eAMFqUZ/k7R6Wf7LqIuWxIEeE2C0uLzj2OU2y814yxHULkoftufBn6by+G+LHLwWlix8v
+	 aS5nVJpwsp4PMHqvGQx9bhPq3n/UaCiC1BhqlNoBtPpND25JrxNxYitjb3OAtie+l8A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792769246;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792773128;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=YqiLlX+JxDcPlk5VtslQG4KZvY+b9l7cdczQp9cpdP4=;
-	b=ni6RzZ9e5NbQrw6G40rIGqnLzjYUnqGnux+AaeYmFPIEgm7sDSmm51YJ0z58A5k0w+eK
-	 gskkDY6nW9Dl0yjFkAsN8Ynp4jdLGxl4V9uUR+wczeoE3pb81a9WsxSNuh14l8ogFF5Bg
-	 JABdvg2Vt5WeYo/5K+pRDqw3N+5We4x6gJXq1HDp9QEGnKHDsMzhPSJvyQvFm1Gtt9F2L
-	 o/Z33Tuf3LmSkWuL3ibCg29tAuweaMx5stqRrd2lcXpNvKJj75LSN+91zGrrs5pp92/rF
-	 17rOYRO8Yzu8cyMg9Q2OSeVHZcLczkg6rVeATUMlOXAULS0AQaGuuQscyFYOYAXEnMw==
+	bh=BlM/Ba1fzxKYcNF8cK/r2Ab6HGfFRMtw1Lk4JcNZDX8=;
+	b=RkiZAZ+pe315D4+WTPYUHU2igmvSItalXXUBCwPgXVsy16/rEmsokfYMiPOiVIPh0mXs
+	 35NZdPKpaQvukuSqQT/S+FYhlTw/kpIyjQFHq2lZxxDqw6fkOg1ck+G9v11xrWvoRomJH
+	 QYdVvH43KWRUZygd/CDcEXQj5npiMhUbEtWTc4tauIu/qWG4Wl4Gwp5e3LMvIroVest2o
+	 GiPBMRCbiF+vmJZ48U1GZpdJgQQF/cEOyrFd/kxtyL53YrPeRxtS9zQnweQFQNZLZQfoo
+	 XFT2ad+rPR4p4EBbC2sDhHlEVyBA+r9lVILoUckYJh2BVG4OrV+lgHs/q4c/HEzhnNg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=fail header.from=mgcrea.io;
 	spf=pass smtp.mailfrom=mg-crea.com;
-	dkim=pass header.d=mg-crea-com.20251104.gappssmtp.com header.i=@mg-crea-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=0TiJFk7I;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	dkim=pass header.d=mg-crea-com.20251104.gappssmtp.com header.i=@mg-crea-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=N8HYWm24;
+	arc=none smtp.remote-ip=209.85.221.50
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9AB9606A31A
-	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 15:27:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9AB9606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FC2606A31D
+	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 16:32:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2FC2606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=mgcrea.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mg-crea.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mg-crea-com.20251104.gappssmtp.com header.i=@mg-crea-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=0TiJFk7I
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a1df4c0966so6051575e9.1
-        for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 08:27:25 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=mg-crea-com.20251104.gappssmtp.com header.i=@mg-crea-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=N8HYWm24
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48afbd2c386so633580f8f.3
+        for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 09:32:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mg-crea-com.20251104.gappssmtp.com; s=20251104; t=1792769244; x=1793374044; darn=vger.kernel.org;
+        d=mg-crea-com.20251104.gappssmtp.com; s=20251104; t=1792773126; x=1793377926; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=YqiLlX+JxDcPlk5VtslQG4KZvY+b9l7cdczQp9cpdP4=;
-        b=0TiJFk7IbN92tYLPaCmlhdXa2D0uBf9G/P9NL2nmna+l3uSPILxIohKt2D5m8lXFuu
-         0z22gc/RGo+iAeSysZbIjxRy1cAKlYbFzQYYOWunKqwss9xz3jPy0XwMMH4ug6s/wqLj
-         8mINh/IxeXLmGuvajASLTLZ65Kz3aldqNOkrdsbldeboZRZU5oe7XM0R4Ql6AuRpH0Iy
-         MiKvfYltPmg1H/7eMDY0LE2kWqA3A+0LT8UbcS48zasXk0fElzbi3ozYQ2oOVqnOyE2c
-         w79msBt5QCcjCDf5opCyTl3OxW+vuzfTq1jxtVWIuRJ++FSt3f9L7ah53HBlECgwiGH6
-         TArQ==
+        bh=BlM/Ba1fzxKYcNF8cK/r2Ab6HGfFRMtw1Lk4JcNZDX8=;
+        b=N8HYWm24bykd6jz2bbb6LHEVcgsEmTPTlEqjnl1cIBOphqVBbysAPJvVZ7bVZVtQXF
+         Z+CvMtGm1/Kd2OV1dFFN1QtYlW8yC3nhtMnD5vahGXY+A7fNw8L7PrJ4cbUSOB+TNznB
+         eVHbrSiwC5nYPUBoPnbzp5YjxlsbUcLmem0LZvX/QZCssKuee2aa3Kyf14Oylm+FwHGv
+         n25JwnMMRveXeJ1s9mA5C4pIWq6meb0KQs5Tl6Lc7v0AipmvfotgFA35Z8BxZo8qZmDL
+         taotxYNove6f6xZ8+Nkulm2PDSB2MmQeEbOLH6y+TiNb0JfoVdC7XevkhlUuQHbwwnyj
+         bbBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792769244; x=1793374044;
+        d=1e100.net; s=20260707; t=1792773126; x=1793377926;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YqiLlX+JxDcPlk5VtslQG4KZvY+b9l7cdczQp9cpdP4=;
-        b=dc1C/wu49YL0Ky6opf9GzckP4fFWMkQp+yGR4eKIjWJWLOzZV4wfY4Gz4/AGUWSJwV
-         i7bugkLNQrl36Wn5WxVCruQoqjKtlHwtLqwHlXCTPX/HdoKJQIT+H9xd5edUS0mxMOwi
-         00qbV1zlARtsNJQEt+Zu5WzGwan8f6Sk6Cono1PbSus1b6LmpZnDs5UY6CoA69uMvPlI
-         RXbfXXUqFKzLEFi+uQbc7Z3STubOOzIcOL7PpVYD8K/TRKF4GVwE9CYjN8ZFZ+2f4FXu
-         4eP47xrCE+I7x5qTtQfktIhmDVYj8Pn2hao10JDQxpygaI01EzhyyDeRh+0Ox5tnVdao
-         oW1Q==
-X-Forwarded-Encrypted: i=1; AKwUvBziOEMzg/LjjnePN7Fp82ay6nnP/mTsrEbwvHR33w8/gt06jO0L3kT6a/ScazNy1XO4DkhRjoljZm/aFg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYIjeC0d0CeYzBSUPq666ZxKpZNqagcy1YtoCq68zjHp+9/lBUt2
-	gufiY/JOF98nJ6j9itaVCz5f3T92n43UEf7/2it9USi18aReGJCyRM2PK2l5kp9Yat8=
-X-Gm-Gg: AYBFou0QawPL+vG+eWt/KPhqv2LiDyHLezyMd86Fq1El0HEYB8u5BbxarxOk3Lmx66I
-	JUoJm5ONnkqyWoyrzko5m4oI7Q7WGe8Zh8EhoDqiNx3Kqdxa3yCEVHdDqgKMUiJZ+inLeDAHLz2
-	D9/dzDF+MGB8JAtTQLD9XbcZjDhhW9pXENFW9cjNAFHiMQ4sWKG8qTMhMZ//stwSsOG2C4oHgN7
-	/3JdKO7Xw3Kn1/kx3LDYZyE3LEg1GbnwcS8yENrnchmSICOMVWLMu1hfrSK7oPu/IeC1kx/JRcI
-	0U8jFAoFagp2aBBR3AM5rZdXv+hzq9//L+SaH8Slf4MnjOEVC8wmpViaiEkP8QR7elDS/35xkY0
-	89PPMw5crftaD+EG7jptiAC5mUlamzMUMtennvzJyW4L5cmPo6NDywZ85Gk9v1wi8vcj3yuTTbq
-	6jgM/P8s/oF+BCjZgPMk0hNJP34BhLzPqJLTUrqv0YG9g+eBOOSGkgYIdaUiNMU/0QRP4N/9A2+
-	oMOYYGaD0HHLZJkNh7j+jIbhUqPLliSHbD9mKjmogXDXsCdDvCV0drYqXnebbhzhjjXTMEmIKeR
-	xtLawBI7zSI=
-X-Received: by 2002:a05:600d:8652:10b0:4a2:526b:d40f with SMTP id 5b1f17b1804b1-4a2526bd7e6mr11642285e9.0.1792769244157;
-        Fri, 23 Oct 2026 08:27:24 -0700 (PDT)
+        bh=BlM/Ba1fzxKYcNF8cK/r2Ab6HGfFRMtw1Lk4JcNZDX8=;
+        b=gQyorrKXAG85Hbfp/Fqlw9G2vx3uAxR/rv010n8ArE9dKdWI+kqjr64RUP/FX8Ee9Q
+         TPeN7sPSqDXRJX/LCvIk7jhWL/dVsXVlZxS/LaVuH17VNvf8A3K9FhymSxjraItM6XXc
+         gKUeXuFswomuxtmTx7p4iibfH5fHmM5vtegqNs/1Onwx1E5pg47o+2AXHllpQG6xgObM
+         7OaLWcCN8wcP2hYV6Y3h60LqFwm1P08cEBgaw8ewvdkmfHWgAH1fmkWBT+S6IFyZTvZV
+         wrSG5Gjasv/y2B3PJmwXYl1EuTZbqy6Rc3JsTD7WhcqCNE/yQTyHBGsPB00e/o3Vwtj5
+         nIkA==
+X-Forwarded-Encrypted: i=1; AKwUvBwbOnLoMgfW5dIFbBfhU/HuvqsOBN0nrjbQw8SINmoLORESZMg65IK8iHZwuWVgxIyUvym6BLPTRsRvXg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLLwPP169rgZcZzLIntQVooixAlWcCw0dGbOaykmohDyMHVaTmb
+	BhPlClHvQXhQmQEK55SSo5iNcsbtoBI6+igMiKdS/dhwkqvNOGAcbqec9pHIvNJtZJA=
+X-Gm-Gg: AYBFou3BoHgEo60G5bT/gztFdtyPzQE5ftLplvyVsId5Sq0BmPYMsIvIvku2sEgHIlH
+	ftHW1sLt0V+1kEp1stc2RhaPBblFrd4cfEooZ8YJJ5wd4vM/3U2Arvg5A1KgmApVCsxUsDQTeqF
+	9zsJmixwUpFpfawz0Qy5LoUG1lzeOt838gGtHoArZRNbK0Mo+m6uocLZ04nzXoZiY2FI5P1PF4Y
+	/bQyCxw85yUGzHTp70V0Eswgn5smp8tCFTTDkIM0QyUx8Hvzc37vu9HncUa0pb4M5LYnxbQ99aO
+	HIUUddYQRE6lrKqznPscrTl/rsBrpmpuM0N6vuS461dKiSoaH1udvCdo7eH22OzGLx3Nd9V38rA
+	d/xpVUCKZp5tpQXUVpZiNWGODqnFzabNKosWzVTRCV8AXDJvwMDUS8GABFY4ZUZNNC7NSnvIlHb
+	55Fzhn2Vv5xzojNlMLQcTDaQOf7hgynIHYX+Ohnpn2vdXzU4vHThVEgWES24+GTuizYVN7+UnWs
+	HkLdsywV3bUzPrth2dD0AeZ+Z35kHDbq0U1OCQ9wiw6wujsHzdoBVUJcNZ+QhFTTsoJetjXg82i
+	3Oi7kllovTmT
+X-Received: by 2002:a05:600c:5246:b0:4a1:985b:83a9 with SMTP id 5b1f17b1804b1-4a211c789eamr53091865e9.4.1792773126321;
+        Fri, 23 Oct 2026 09:32:06 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:e0a:9c3:9990:89bb:701c:1852:56c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a2a92a42adsm11731145e9.3.2026.10.23.08.27.23
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3d40459dsm838720f8f.28.2026.10.23.09.32.05
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 23 Oct 2026 08:27:23 -0700 (PDT)
+        Fri, 23 Oct 2026 09:32:05 -0700 (PDT)
 From: Olivier Louvignes <olivier@mgcrea.io>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
 	David Rhodes <david.rhodes@cirrus.com>,
 	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
 	linux-sound@vger.kernel.org,
 	patches@opensource.cirrus.com,
 	Olivier Louvignes <olivier@mgcrea.io>
-Subject: [PATCH 2/2] ASoC: cs43130: Mute the PCM path from hw_free() to prepare()
-Date: Fri, 23 Oct 2026 17:27:22 +0200
-Message-ID: <20261023152722.15912-2-olivier@mgcrea.io>
+Subject: Re: [PATCH RFC] ASoC: cs43130: Take the frame layout from set_tdm_slot
+Date: Fri, 23 Oct 2026 18:32:04 +0200
+Message-ID: <20261023163204.81746-1-olivier@mgcrea.io>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261023152722.15912-1-olivier@mgcrea.io>
-References: <20261023152722.15912-1-olivier@mgcrea.io>
+In-Reply-To: <atsvgeFtiSW709k9@opensource.cirrus.com>
+References: <20261023081457.44579-1-olivier@mgcrea.io> <atsvgeFtiSW709k9@opensource.cirrus.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,57 +104,35 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The PCM path is unmuted when DAPM powers it up and muted again only when
-DAPM powers it down, pmdown_time after the stream closes. Meanwhile the
-DAC plays whatever its serial port carries: on a HiBy R1 (CS43131 on an
-Ingenic X1600 I2S controller), loud white noise while a stream is open
-but stopped, as when paused, and until DAPM powers down after it closes.
+Hi Charles,
 
-Add a mute_stream() op, so that ASoC mutes the path at hw_free() and
-unmutes it at prepare(). The op is not run at trigger time, since the
-codec sits on I2C.
+On Fri, Oct 23, 2026 at 10:57:21AM +0100, Charles Keepax wrote:
+> From a quick poke around the generic machine driver stuff it
+> looks like it keys all the set_sysclk stuff off mclk-fs, is that
+> needed on the host side or could you just skip setting that and
+> avoid needing to do the tdm workaround?
 
-Signed-off-by: Olivier Louvignes <olivier@mgcrea.io>
----
-Tested on v7.3 on a HiBy R1 (CS43131), by ear: no hiss while paused or
-after the stream stops. Build-tested with W=1 on 734bef548a96.
+It is needed on the host side, I tried it on the R1 without mclk-fs:
 
- sound/soc/codecs/cs43130.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+- simple-audio-card then never sets the I2S clock, so it keeps whatever
+  the previous kernel left (22.5792 MHz on one boot, 12.288 MHz on the
+  next). At 12.288 MHz the X1600 I2S driver refuses 44.1 kHz and only
+  48 kHz plays.
 
-diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
-index 325f9f0fccaa..5fca2822dd3e 100644
---- a/sound/soc/codecs/cs43130.c
-+++ b/sound/soc/codecs/cs43130.c
-@@ -1624,12 +1624,28 @@ static int cs43130_set_sysclk(struct snd_soc_dai *codec_dai,
- 	return 0;
- }
- 
-+/*
-+ * Mutes the PCM path from hw_free() to the next prepare(). Otherwise it stays
-+ * unmuted until DAPM powers it down, pmdown_time after the stream closes, and
-+ * plays what the serial port carries meanwhile: white noise on the HiBy R1.
-+ */
-+static int cs43130_mute_stream(struct snd_soc_dai *dai, int mute, int stream)
-+{
-+	struct snd_soc_component *component = dai->component;
-+	struct cs43130_private *cs43130 = snd_soc_component_get_drvdata(component);
-+
-+	return regmap_update_bits(cs43130->regmap, CS43130_PCM_PATH_CTL_1,
-+				  CS43130_MUTE_MASK, mute ? CS43130_MUTE_EN : 0);
-+}
-+
- static const struct snd_soc_dai_ops cs43130_pcm_ops = {
- 	.startup	= cs43130_pcm_startup,
- 	.hw_params	= cs43130_hw_params,
- 	.hw_free	= cs43130_hw_free,
- 	.set_sysclk	= cs43130_set_sysclk,
- 	.set_fmt	= cs43130_pcm_set_fmt,
-+	.mute_stream	= cs43130_mute_stream,
-+	.no_capture_mute = 1,
- };
- 
- static const struct snd_soc_dai_ops cs43130_dop_ops = {
--- 
-2.39.5
+- with the tdm slots dropped as well, hw_params fails with "SCLK freq is
+  not set": the codec only derives SCLK itself when it is clock master,
+  and here the X1600 is.
 
+> If we are adding the set TDM callback we might as well add full
+> support looks like it should be pretty simple for cs43130. The
+> positions are set pretty intuitively in cs43130_set_sp_fmt(),
+> so just need to save the slot numbers and swap them in for the
+> params_channels() stuff. But at the very least if we are adding
+> partial support we should check the masks == 0x3 here as well.
+
+Makes sense, v2 follows with full TDM support (the slot numbers saved and
+used in cs43130_set_sp_fmt()), within the 16 to 64 bit frames the clock
+tables cover. I can only test two slots on this board though.
+
+Thanks,
+Olivier
