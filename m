@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1792830175;
-	b=lMdV1jDS1NtbSwnu3y6cfRQU8PpGUwgq4oFyOP6P+An8zCjXTqubTlhGU/LPFacyOArB
-	 jxgAnWr8LOQXMu9k2CX5Np9tqQiXWQ54EAEzVr9pxwTzJqMjiBnhEN4UIPuA11DBUDA5U
-	 mLnAesZ3PLyKanu/3+E+T3kDSK+h5yha95uWLSy9PmYY8hmg4ix4m6mWjpDXOc+rNfZNq
-	 YRJ8jvac1epoPN6LJH/5g16mRXS6LI53no/pIYX+3dYFhO1AilIc816zRLiIiba1KhN4p
-	 /JNxdsgv2ralCjgrzodDNcnf0dL1URKcvG/g4DuYV0IMZ3/aHG9gWKn6+wyKs1Nwdaw==
+	b=bCj8JZ8+n7oVMP6rUgfePRWeAXFE0B0SV+c6xlUUECSlSGmFyG3tpFhwGwO3XAQgXw1O
+	 zbelC5JYAiCi2C9sM6zuMyJnB4iu83wm9L5mytUlN1S1e1sJwsqPPCP5/HxGyfgzz7eGz
+	 lKurwGE2SD8r7/QKkfexzMZQNLkBYpI4/ONNG7yhg/PMDcw+m8ioIcWKEL9R8ORy06qmw
+	 7RV4uVSdJ5j2IbM7vilOSWyED7l4CJcher9tdttrIHd1oMLn3OVrwy3ykkQw6ae9MukTi
+	 k6pEm72L87KetYC7M4ddIIfzRRx0lxXfwbONXuXTPBTW1ApiTuPFzlKNeYsf5Bg4gxQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792830175;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=VRcxh6zSQH0G8X3P32/wW4FFBoi8iLMvBF6s5DU9eSs=;
-	b=SUsv0zcSs6gQMgH/+J35pc6JX5kpaH4yQQFXiDBGlPg0Ke4DfDAp+pzefWa0CznnuT4Z
-	 ugkBiRX4+C33LG2ndwC/SjZeu0uuM6h5QG0y/1Rg1iFOaKGQg8zRM7GhMzwHuX1bbJAYF
-	 fEPJOm81XCjnzvVpeGJC7xE4ZGf0MPluMfTXN16xB5xlJdRbKyOsbyMyzp5QtOj8+kjEp
-	 yZuYAOL2bx0U+J4aprUS112LC1Ik0zhFuWQ0X0Ot0ZiLFC7jtnwTZBOX2NKo4/jamhQ4P
-	 W1Z6wtcvivjKlUjwdg6GivYYGx8yhrTuJohu6vhulTWSZy6/U5x8nH8CCAxwj/mDg+w==
+	bh=0+larXz66gZ3zQ0/y06nXt6mXmhYgMdCrNTB0Y+R9fc=;
+	b=AruThAd/aQiMoQyAYXOaX3+HaEqs//hj5+l85NDKIn7jaiajC39u3xKDRXMOE3Rgj3IB
+	 2gGEvqVphR8vceS+CBAnQK0uc1AKS+fJeffouPTb94CLqmcTHTgC90j9o1rN3JU5G3JjD
+	 9cP6K/mfH0g9/ABl1J7XPVY0k4isonUwCFdpu6edVmiI3nLxIat6PuKG3pBkJ38wUSWaK
+	 Ma4M0bib/g5SLas234seAvlEpPf77HRRNalBPFiZa450a6BTcoF74rKUailJkZ/Zgk2mG
+	 TQ8m3ehmJfWMcEkNdbQTdKPPE7CadNmJeP6bfi21EDDaxNRrEu5CVax+L9FuSjwOgXQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YWYYvid9;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WzpyKied;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF020606A31B
-	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 08:22:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930D2606A323
+	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 08:22:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YWYYvid9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 884361F031E0;
-	Sat, 24 Oct 2026 08:22:54 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WzpyKied
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E4C51F01828;
+	Sat, 24 Oct 2026 08:22:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792830174;
-	bh=VRcxh6zSQH0G8X3P32/wW4FFBoi8iLMvBF6s5DU9eSs=;
+	s=k20260515; t=1792830175;
+	bh=0+larXz66gZ3zQ0/y06nXt6mXmhYgMdCrNTB0Y+R9fc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=YWYYvid9otLS3nhpiX9yUzbIQjn0W6BNfIppUJRRtPwoSQL76vy6gGG1N8GLmjpy7
-	 Dj3AZ+FZeq1EnTxJ7ULNnSThfLSeXh9lfiO8P6zAcshD5qIP+WYPVN7tWAtVmLTu8F
-	 lG73M3jdJm7xXvNYx2L3RKYyq9cMroppKjof6kM4eoH5yNJqM1XPJpqUI3S+nLoKdl
-	 EnsnfSBErZ6XDXuZ5YdNpxD3dljUS9KgO0jEJhHJq9zX7m6FwM0GlBu8Jm+Eo+PkgE
-	 G5jIte4F+oH1ckdz6TcZ7x2uLwSCBEp3k7xQvCoigT001YNG+Fm7AiLqzzT5abTCOv
-	 56BX8Zp1TM6wQ==
+	b=WzpyKiedaKP17cl1lGO+Ha87Kc64H+Z89uE0onu9rGsLb249hzj+BtdNy8wdMevDO
+	 vWqqQba1WU15hc3LqFnLkghuNvTPEJaWaeYkI6T/cQZ6zAXxHln7jX/r0ZZGuOyW+c
+	 D7zIZ7lfVYcpFCsTF2GhMtGLtMjC5l9OUAdD3CbmpjSaa6SbHqz+cjWpatmtkJ7C+B
+	 e0T/k1nwXZuckU0M651Ag0xVEWs67w7MNe9gCL78CMZFRON4OR9KLSgz5aJqf+y7I7
+	 YyEI3s9IxXo6fuFI9GEYGtB+C0qGAT7XHH07kxS528eXfEzvCPxTNJriJVoz9xUUGH
+	 Xu9GmTrKo6axQ==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id C33421E1FC4F;
-	Sat, 24 Oct 2026 09:22:51 +0100 (BST)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 4760B1E1FC5E;
+	Sat, 24 Oct 2026 09:22:52 +0100 (BST)
 From: Mark Brown <broonie@kernel.org>
-To: Fabio Estevam <festevam@gmail.com>
-Cc: shengjiu.wang@gmail.com, linux-sound@vger.kernel.org
-In-Reply-To: <20261019224724.236388-1-festevam@gmail.com>
-References: <20261019224724.236388-1-festevam@gmail.com>
-Subject: Re: [PATCH] ASoC: fsl_utils: Tolerate fractional PLL rate residue
-Message-Id: <179277772835.3909521.13044193561532724761.b4-ty@b4>
-Date: Fri, 23 Oct 2026 18:48:48 +0100
+To: linux-sound@vger.kernel.org, Zhang Yi <zhangyi@everest-semi.com>
+Cc: tiwai@suse.com
+In-Reply-To: <20261022025309.24028-1-zhangyi@everest-semi.com>
+References: <20261022025309.24028-1-zhangyi@everest-semi.com>
+Subject: Re: [PATCH v2] ASoC: codecs: es8375: Modify Register Configuration
+Message-Id: <179277745982.3909521.16811581688086143227.b4-ty@b4>
+Date: Fri, 23 Oct 2026 18:44:19 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,17 +64,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1125; i=broonie@kernel.org;
- h=from:subject:message-id; bh=Xqq5tF1CXWrVxms89O1moLhNxcT/Kb1Vs5Rax6mgbIo=;
- b=kA0DAAoWL+9zsLPQOIkByyZiAGrcatuhEvHgi51OQCTqZJClSpOUPH1lnyFehP0oDjLYXpIuX
- oh1BAAWCgAdFiEEXmoL6X9066wOwaGGL+9zsLPQOIkFAmrcatsACgkQL+9zsLPQOImbXQEA7JbU
- nROp3DXXhvO0L9WcV3SstOHSGrKPNkNzDK2xhagA/R0l4rtWZaptcD+2S8WRL3RQUN6slBdF5NC
- GwhuPA2oK
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1116; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=gvwqdHLm5PMsLFyN5lx3TjhBHRsHPJ7AqgR803Vl17g=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLuZN2JEHJYeHMqa5CS/TFVqbU/pwhbsm1ijrVx4FnDM
+ 9+79O/5jlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAEwkK5/hn0r8p+t9J4NzHqra
+ WPw6F8GwL9qz98e6nsTcfy4XntpYr2Rk+Pt06ePkuvzQl6Xt/TbF890SO99Efa/wcc+UZlrE0mn
+ AAQA=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 19 Oct 2026 19:47:24 -0300, Fabio Estevam wrote:
-> ASoC: fsl_utils: Tolerate fractional PLL rate residue
+On Thu, 22 Oct 2026 10:53:09 +0800, Zhang Yi wrote:
+> ASoC: codecs: es8375: Modify Register Configuration
 
 Applied to
 
@@ -82,8 +82,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: fsl_utils: Tolerate fractional PLL rate residue
-      https://git.kernel.org/broonie/sound/c/cc3fc99f1bce
+[1/1] ASoC: codecs: es8375: Modify Register Configuration
+      https://git.kernel.org/broonie/sound/c/bcb2efda7abf
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
