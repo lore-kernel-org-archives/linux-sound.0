@@ -1,109 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792762927;
-	b=g6/m9wKclC58uA2VZozPyKfAeXutPvRwzNQU+tdTFi8Y7H+gTCQzBd0FosNr4K/8MgoU
-	 hs4ByQIMpA2c39hLE/7fb6kW1AVzKlT8F/vCwDd0RDuR28txTtQQ+rqAIa9yK7JKSHXyM
-	 pDGnIRDXVn4fmphkkfdh+2vwRAfXPKlQPJ1IcRS8/uUhFKXeEqZO12CUuxky0jx0stQxb
-	 Z1seiZ5XsYQyT4PzB/nXXtQ7qRE9geTCQMcEMC5Yauv1KCHSnQyn0UVfeW7XLib7zKz7/
-	 MXCsI1ADie6egR4sJk2AQ7ad+rZ6iaaCMeL6CHNM73yxO9dx95XM+auJGiAagkXLV9Q==
+	t=1792768816;
+	b=SPZt8R9eXRxIy6BUrpZBztxC089gk24/krkICl0Bo/Kk5cx59pfMn1FslzXRIIGmc2wj
+	 8q041EelUVD44yeCiOABaEmlR6nRuklsd356RcWxvjHzK8X/TbTc9vmzdsuuhC8O6vlhX
+	 6WaDxGbGBPsKd7tRNV9zz4pNo/pbtmcVFY30UOC+Aec41zxIRB6r4CUw4TIYxMfjwV5e9
+	 3l97gXoZzByiCgak8dF/oCurimFu7U3vdnyz5uq1ZPujUubNzInpqLhirVWAThAJsHHkS
+	 AtyF1xOldsOvihjt/dxJ++JqCkDigpxa+tSyrHG3B0rcyyV5NQ1F5apTvjQkkEBwRwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792762927;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=T7GiE8r883A1bjSZPW19TkKHAWvS3v3qo99XrDSJMKI=;
-	b=sZWb78yTBAKINPHrqE656QcSgvVUDshHQE0ajW0/EWWZTKiWhcRv5Oh5drOK3CW3UfpZ
-	 AJnpZlxRGYoVJrMs/9Rh6E+hOG5Hekv4JVvzy1GUGT1rG2k/Pg+uCnv93b09ZazIu7VwP
-	 I9BkIOnBlkygOse9Ioa9MKqyXlL0CIpMLtuVxLD+uRwVBUonE+xwB70Qnl03jcUB3rJTT
-	 UhbNQqI5n0FA/lLKwT+umPuV5DcAOlS7PEQIC61JgObe+FxdC0Du8T2zXFXFPXVwxfdL4
-	 2P9jVWL8o218bR8cRzeC58jG0OmKxA8bevC6Gl5Ym/KCnoICu8O0q1LjXATCOGX63oA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792768816;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=MJuZYhGzc9bJ2iUoM+nb3+fAyF+q3KvA6Y/qH0NIzKI=;
+	b=3rs4ne6K0gM3x4NwLeiXUaCBAjACeHPatmCLcN+EuKNkso5S2OIE5gWklqSioLB553qx
+	 OMY7kiiX160ptTMph5RYjx8jJJZtSgxh3HSlnvzx1etppTu+f3IYJ5x5B4lNCTPREbX7H
+	 r9TS7yr4RQc4qWjszHSVbNkYYP+chHoQUPHSQdFV9HdYdb00Ff2aMO4nzTAMgWco3NP5A
+	 A3iJWyfSsaiJro/ugPlil88t3Pt9eT7DSLOTCVkP8XHhSdVY7l4PwkA9rvU3PAzXWaQOh
+	 SsKBuM0648uoEYbKX3fawo3MIAnSVYtMCGEHSiAIM4qvmDOQRsdfekLmyJrv8D6byIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="Y6C4E9O/";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=f0NZtx7u;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="Y6C4E9O/";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=f0NZtx7u;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=fail header.from=mgcrea.io;
+	spf=pass smtp.mailfrom=mg-crea.com;
+	dkim=pass header.d=mg-crea-com.20251104.gappssmtp.com header.i=@mg-crea-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=jdhlR+lA;
+	arc=none smtp.remote-ip=209.85.128.44
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9676606A320;
-	Fri, 23 Oct 2026 13:42:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9676606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B54606A31B
+	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 15:20:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0B54606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=mgcrea.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mg-crea.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Y6C4E9O/;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=f0NZtx7u;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Y6C4E9O/;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=f0NZtx7u
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0E9361F391;
-	Fri, 23 Oct 2026 13:42:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792762925; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T7GiE8r883A1bjSZPW19TkKHAWvS3v3qo99XrDSJMKI=;
-	b=Y6C4E9O/0uW2JHHejYeKRjKr1m5YSsebuXbtHXxKGvwSHw8OKnfkrNFCub5L81qmanSIbp
-	uiK2ERu/UxEbDJ/r+da/Ty+m2Srn5O2trxiz2wLJEus2/KiUlJFfKc310zTZjDh6tYCM6c
-	am3nZ1k17fPH3q141c7C7YoH4C7kBYc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792762925;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T7GiE8r883A1bjSZPW19TkKHAWvS3v3qo99XrDSJMKI=;
-	b=f0NZtx7u0dxj40kzX/gu4EG1H6eUfkhkjdMUIgVFbtddVn5OgVQiNH5btmyLNWC74D+2FF
-	n3CZM98N6ry5+PBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Y6C4E9O/";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=f0NZtx7u
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792762925; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T7GiE8r883A1bjSZPW19TkKHAWvS3v3qo99XrDSJMKI=;
-	b=Y6C4E9O/0uW2JHHejYeKRjKr1m5YSsebuXbtHXxKGvwSHw8OKnfkrNFCub5L81qmanSIbp
-	uiK2ERu/UxEbDJ/r+da/Ty+m2Srn5O2trxiz2wLJEus2/KiUlJFfKc310zTZjDh6tYCM6c
-	am3nZ1k17fPH3q141c7C7YoH4C7kBYc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792762925;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T7GiE8r883A1bjSZPW19TkKHAWvS3v3qo99XrDSJMKI=;
-	b=f0NZtx7u0dxj40kzX/gu4EG1H6eUfkhkjdMUIgVFbtddVn5OgVQiNH5btmyLNWC74D+2FF
-	n3CZM98N6ry5+PBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B887E133F6;
-	Fri, 23 Oct 2026 13:42:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ifrgIyxk22qlVwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 23 Oct 2026 13:42:04 +0000
-Date: Fri, 23 Oct 2026 15:42:04 +0200
-Message-ID: <878q3oa5zn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Andrey Zakharov <dedemorow@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
+	dkim=pass (2048-bit key, unprotected) header.d=mg-crea-com.20251104.gappssmtp.com header.i=@mg-crea-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=jdhlR+lA
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so5341395e9.3
+        for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 08:20:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mg-crea-com.20251104.gappssmtp.com; s=20251104; t=1792768813; x=1793373613; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MJuZYhGzc9bJ2iUoM+nb3+fAyF+q3KvA6Y/qH0NIzKI=;
+        b=jdhlR+lAO7IDozcJvsMqFxmnm5Kt2++1YaEJ8/YCU2ez/29XM72x5C+baH4L4ooaWc
+         g9In6dGBnUFVkSvPwnJMyPuzEL8ZtoF5x6Njczf+b/EUnrjpV1Q/140BEchX45FuK5ed
+         188b9CMM6T4Q3sv+XwUYm41vij4jDLKv8kqCqQTdQwvJ5EJvbpyrdXMp1g2DddzRpaB8
+         cjqqe6Shxaag/YOpkdekQ+QU+7yEKkbC+6qhoIhjMNOu26Yz0GVDxLqyOZZUnjZCpbJ+
+         NKJQUsPiMKBGtXD4CYveFWD88fiEKHzoqgMmqm6O/rkA1OU3QF1F4egrAPeXgHlcGBtn
+         MOPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792768813; x=1793373613;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MJuZYhGzc9bJ2iUoM+nb3+fAyF+q3KvA6Y/qH0NIzKI=;
+        b=rTtU6SquQ1FHwUQJGUPHDzScxVHtSLnpl7JotYvEzNBVJlNH26S2LYY/bQv4INwS4v
+         E8GQvvCHXOw763fnjRS1QC/CMoUuJXcCSnkn0/ew0iTRSdc4c7LTUD0JSQsVdFyy8VXF
+         gHo+6rGQfbs0z3+mBx/EYhjz2iy3Q5Jx3+hVjSMbPX42jispWW/O5R4to46Hwa08Ptt6
+         rpVfPEDmpr5F032G8MNeJjAeOe7B40SYrJ+7wOWkwhgtLZFMeFJYz8sbA0NvNLhDyCMx
+         IMfkEOKLvVxWFMw/+GeZj7LayVMap0cHl8wAsONJNq6IEEdZWd9oH4jslTuwzVt6ZLYt
+         BnbA==
+X-Forwarded-Encrypted: i=1; AKwUvByH4xjGI3lUkWPHjXVZ/AVABCz4QBXf6zaGRVYHxj6vUivMTz4yGpXA9OPZzIYXd/pTR+CjwU/HYvky3A==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJjptitLTkwiw8iUfmh27LiCwp3mRn5SWr06pt5aZzLHngpmF1P
+	/e/JehuggYrSM1/SRYXWEnavpFaFSyUw8/zHAdHKYpUQq3J6mLoZUXQZfqfeGhsbOTI=
+X-Gm-Gg: AYBFou0/5G9DGsdNaIwAfZcJ4kva30yYM6kRvj8igXXjL/b1CcayV0lNJCz4QBKyyKm
+	2B+JQgPuFFiXGMp7vFCMezSeNy739OP//Ybr3h+HHPpAX062NqPgBNT8QPpNAIEcq6dHZcdRCXq
+	uj9uLQRcG3W8Em+A33iZhOz+eXKH+GupHPRzVbvLdZqYXaqHRQxTADkz+tq30loxG5b9nLm1aSq
+	71IdWn5uKFHsg2QXDNzw2QmKGDtBSOwqCIIM9JZTQaKtjz6/WAEhzVqtJZ1bCLerJHlParEwgcs
+	x0MRrYRNESzLNwFOE4y0d8N7gJ+EYppjdJOZF6w13qzE50K07nEb+MS121XsMEHIFdpK3q22IXu
+	uDNz9N0GSmk/BZuyeMIptSIs2yiaQm2nKX/uSX5GZqaEbEWc8cebvfqimfDvTHsSSKJxWxLeABv
+	W46O6R1y4zDn0y+wBN7L3147qlLxzKNfcQ93Tcpg9NNiNbwQ8kqejIIyE+xGwEWYmESaCzUbg5v
+	4rsrhQC/ThodlPJnZD+9t1+pX1yXB3mc2ZaYxi8vuhO3g68xYxU3fnQ8snd9kmItbxQl58es43s
+	oqOQ5z1ND1Q=
+X-Received: by 2002:a05:600c:8b41:b0:4a1:e9c2:6c84 with SMTP id 5b1f17b1804b1-4a211efe1f2mr42623705e9.18.1792768813197;
+        Fri, 23 Oct 2026 08:20:13 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:9c3:9990:89bb:701c:1852:56c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a2a9062d50sm11683025e9.2.2026.10.23.08.20.12
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 23 Oct 2026 08:20:12 -0700 (PDT)
+From: Olivier Louvignes <olivier@mgcrea.io>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: emu10k1: Pass destination size to copy_string()
-In-Reply-To: <20261023105027.53135-1-dedemorow@gmail.com>
-References: <20261023105027.53135-1-dedemorow@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	devicetree@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	Olivier Louvignes <olivier@mgcrea.io>
+Subject: [PATCH v2 1/2] ASoC: dt-bindings: ingenic,aic: Add the X1600
+Date: Fri, 23 Oct 2026 17:20:10 +0200
+Message-ID: <20261023152011.85407-1-olivier@mgcrea.io>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -112,67 +100,34 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 0E9361F391
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.51
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 23 Oct 2026 12:50:27 +0200,
-Andrey Zakharov wrote:
-> 
-> copy_string() copies the bus and input/output names into fixed-size
-> arrays of struct snd_emu10k1_fx8010_info using strcpy() and sprintf(),
-> and it has no information about the size of the destination buffer.
-> 
-> All source strings are static and shorter than the 32-byte destination
-> arrays (the longest one is 20 characters), so this is safe today, but the
-> safety should not depend on the contents of the name tables. The earlier
-> strcpy() to strscpy() conversions skipped this function because dst is a
-> plain pointer.
-> 
-> Pass the destination size to copy_string() and use strscpy() and
-> snprintf() instead.
-> 
-> No functional changes intended.
-> 
-> Testing: compile-tested only with clang (W=1) and sparse (C=1). The
-> function is reached only through the SNDRV_EMU10K1_IOCTL_INFO ioctl of
-> the EMU10K1 hardware, which is not available under QEMU.
-> 
-> Link: https://github.com/KSPP/linux/issues/88
-> Signed-off-by: Andrey Zakharov <dedemorow@gmail.com>
+The X1600's AIC is the X1000's, but its bit clock divider register
+differs (see the next patch). Give it its own compatible, with no
+fallback.
 
-Applied now.  Thanks.
+Signed-off-by: Olivier Louvignes <olivier@mgcrea.io>
+---
+Changes in v2: none, resent with 2/2.
 
+ Documentation/devicetree/bindings/sound/ingenic,aic.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Takashi
+diff --git a/Documentation/devicetree/bindings/sound/ingenic,aic.yaml b/Documentation/devicetree/bindings/sound/ingenic,aic.yaml
+index d15c000f14e1..9ca75fb80f45 100644
+--- a/Documentation/devicetree/bindings/sound/ingenic,aic.yaml
++++ b/Documentation/devicetree/bindings/sound/ingenic,aic.yaml
+@@ -24,6 +24,7 @@ properties:
+           - ingenic,jz4770-i2s
+           - ingenic,jz4780-i2s
+           - ingenic,x1000-i2s
++          - ingenic,x1600-i2s
+       - items:
+           - const: ingenic,jz4725b-i2s
+           - const: ingenic,jz4740-i2s
+
+base-commit: 734bef548a96e8774d6eef5dfa2026c6edc4e80b
+-- 
+2.39.5
+
