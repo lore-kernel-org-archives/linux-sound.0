@@ -1,94 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792743300;
-	b=x5O+eGb6E2P1HOShQPEjXbYzvnB+ZnGIxnikkKK44CeNrCWAic6WOiJyJPtUg9C4BfNx
-	 34Y0rF6AEVZTRgHh+6O6QvyJFS4l85EzlpK2kJQEQ7PZmJHLTNQRe164qGJjSGgEYl6iA
-	 UeF2Cj6bnuFh5H0yQWu9DuWu+IInqP07d/D9u0Ugyk9b5H449yan9QsvoNUg9U0B9qUV8
-	 wQn0mcyd2M79b47kEB37ijMd35b1ujF7fmfSqR3Dgx/xqa0c5hljNxgsXg6KBgtrU/4J0
-	 EDbJtXHhVTXn0DQWtqwqnbdvvScEJ1ALcg8pVXBq3PDbzhnUwREU7p9k3hXUael2UMA==
+	t=1792744462;
+	b=JD/HOBOiAOijrentaApXcssm0wwKLUjiYEli3pd+TLJ14an9DphyrliuUFJDpoRqkdCR
+	 gyUCuIhClJyqFNEVRavn5zAoMnldPqNDmnFj6QgcWBLnIe6HNtnK17Jfx6NjrNTEFzwbm
+	 7Kd+2p3EAssO9PEDMw8oCNIFi/LDjfrfo7RL1k6d/yBIytrdSe4UeokfXp37lijuEWs7Z
+	 xVCUdj/Qg0bvGz1qS5fJuFbFdPmJscMnfi8O9o050wPAnWnKeYssRXh7kfSfoqCUoCHQT
+	 XROLzho1ibiDOsvCaI5hxdTzxlx/7LKAFSeFp/tMyq4CWhY7Y4z3/A1KkcmUyM27mdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792743300;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=P0AHCCvoov2mwLYCcDbXNIv3zKf0YewFWJ4SjQy4/S4=;
-	b=DayA7YA9FFfnNUkt2A3LT6dReADzcD72HRv8Iu7S0Hp3wG+Du9UpUpIaA6Sf7gxmX3pb
-	 ATuEEsEGzD0k8r9jsb3idAYWJUQ8bFImAF1o4BDv2vGMXBY0iokC5HVXm/XkEsjXjoM2h
-	 nr+sr+udFR9I8XwxzFfq4xebh0/Pr8bY7dHT/uIHMdZ6PfonNeN/gYu983qzsylb5wYUq
-	 s4/0Amid5pEoqRL+cFyqhm0GEEH/l2MB5qAz7W3o/qLabBQHMhNHcV3a+TPNj3lI6Y2Np
-	 k49GplSL/nyszgbdokNRcsGD5q00jzcPpluSWQ0Qs4kFbqsAMCSAqHqf+IljkUTXEeQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792744462;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=c46J/J0UiNYaVXVJ/u915hSQc4wdJKlNAKmd7JytSgM=;
+	b=MnWiZpOr0RH+frHc+ouOOZIuWKGuyEnd5X3RfVC6ggvZuN0az9GlmDK7bgtizLGDq1CB
+	 3PC9E8Ls3XaveJRVjmPSt2B3uINYZtTCdlUs1elZ3jHDDLjioLcyxVp36JiBbQ2ZIpeDx
+	 i4Fpj7liF77kTN1VJPpH7G6d6sE8RQy1++hKBowT+cwV8w2rSvHVUxOCR5PcTPHYE7YRY
+	 y3/2Tea30U9xqWm6VLLAsFbz+4KKteTfoS1ZG8vxraRtAHK7JnJTsM1rL2ahBf/FdbdFb
+	 27oD4q+bwQUtS3mDoDHNil7mT75PK+Akjf9Hj2xuUldOM7d4tYTrOKQTfMBxFGP50bA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=mgcrea.io;
-	spf=pass smtp.mailfrom=mg-crea.com;
-	dkim=pass header.d=mg-crea-com.20251104.gappssmtp.com header.i=@mg-crea-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=snA8PoGz;
-	arc=none smtp.remote-ip=209.85.128.43
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IDjL0bDN;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6E9606A32F
-	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 08:14:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB6E9606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=mgcrea.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mg-crea.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDD3606A31B
+	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 08:34:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mg-crea-com.20251104.gappssmtp.com header.i=@mg-crea-com.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=snA8PoGz
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a210470b49so4650375e9.2
-        for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 01:14:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mg-crea-com.20251104.gappssmtp.com; s=20251104; t=1792743298; x=1793348098; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=P0AHCCvoov2mwLYCcDbXNIv3zKf0YewFWJ4SjQy4/S4=;
-        b=snA8PoGzB4BK6TvU/pvF+LanpiD3k50TM+HBR8Tvai/MYVzCUPowfwGSjQdRTCT9CS
-         tyz1sXdC9b54O9O4cwh64l9y7WlFjIJyBz5KoVgr2GaN7R9kyeEk1Us8QHg/CYYvZxII
-         4Zv7lUmBwVEl54RSn6a8enajdQEyZCRd4lgG9Yb2FwTJy2ssTLVizfSHXiny0Xsn+DUa
-         ex25XpQrKqa8ptkDmF1RufeoYsG3vvrQZ9OdXz0hV3unDdoGQ4BGJzMwf1P5PREAph2y
-         4x9S9z3WC6tRQfUpCtqhuXO2i0HY4nvDXr7ws89Y0obK3YV3AjzLWKFz1peFT539Qmcn
-         AH3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792743298; x=1793348098;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=P0AHCCvoov2mwLYCcDbXNIv3zKf0YewFWJ4SjQy4/S4=;
-        b=oQhlxi7GLmOgaoqF7lUFhE4gzA0GLLRvlo0mp8KzfmguZEq4+EjXenm8PV+lKF07Qy
-         DKn5PunaA8EcH18Ozcl5uOJlemo6C5pFiVYRuj9HSLaMqDfauMz541s1Zm2jLhXcR8B2
-         HXKmATFX+UlKJcaNGIexm+ticnmwFA4rwcSjXY5e/eZt/cJFxs5C6qaMY7FGcjt5ELxP
-         3uLwJszys00ke29uXsNEuyCgmynSJnWc9xf+bMhRCuAdF+WI527guwMwGAGTZ9XyOGPP
-         2plQn3llw9qVJXzSYT+LAFzqjZ8CXQ4SFsT2q697wg4mQAu2+1Y41oe80ULduarg3nT5
-         z59w==
-X-Forwarded-Encrypted: i=1; AKwUvBz+qDMmi1MMxHPDlHni5cvYHek+YqkQvoWGOX1M7PE99IiEQWVPaOs57w3SxIeWOfisc5sY1yB2poHFIA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJHffRRPMV2LHGCQt7UBBVv+C2fTbyq5p/27EbLSFm9t3WxQoJo
-	Eq91lQ49AyLssJhq9DaKgWMslYyNcL5ytnWr3vj1mN6ebCEv6LjnbDxVNoFkFndTDos=
-X-Gm-Gg: AYBFou3Wf8IwwpKUnvrO66elR2yNaqZ2kAzu0v4ZDnObJCYDNAwX6wJTMq9TBvCpjlq
-	QdAThg7iR+7Hsx2povEjrIxVqElF3O5FdY1jBv8JFtzXGUq2tDFGem6g+TbDroi9sl5uhlluZpt
-	B2gyWNFF4xBjglPJ9Flfe7duMixPAe3j1sn0VIPmeSkKmpmP+rGjjJLuIwxgScZpDKqYt2WoXwa
-	KAhiYlXIxRx0WCPq65oI7WiWZBuUgD+layVpC0Qg6lnZsld8K2sqQLM2a+91GM3QwrNixILSgR+
-	ZPNVXa8HQHDz79zWiVrV51v0gh2npXVmR/V9DSc5NvzGO7O+6TUQanFR/xWpspR3NdlbGZ9Zbpq
-	LWAvKYBvEMvSsCMOBWwFJo57ygXqTAAIx2ya7USqRxQ/PZ9PVCBhe647T4voYagOCvTRTqPXhAR
-	C8hU2Jyq6KJHmWAJ1FPMy4kcqQsaKvi62pdF+CCc9hMPnJRqYS3WBtYSm/VjLf8daqQvDQut4g8
-	KAJ9Um4+76NctIMMyZh4atY2nmM/u1vkpOqEPahoy091u9gqZMFGKnd0cBbuOqKivKOrmDKCnKM
-	RIEcLJSbXBEg
-X-Received: by 2002:a05:600c:1c20:b0:4a2:b60:70b5 with SMTP id 5b1f17b1804b1-4a211f023fbmr24283645e9.13.1792743298222;
-        Fri, 23 Oct 2026 01:14:58 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e0a:9c3:9990:6877:44a0:5297:9502])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a21029c9b2sm58535495e9.2.2026.10.23.01.14.57
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 23 Oct 2026 01:14:57 -0700 (PDT)
-From: Olivier Louvignes <olivier@mgcrea.io>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	Olivier Louvignes <olivier@mgcrea.io>
-Subject: [PATCH RFC] ASoC: cs43130: Take the frame layout from set_tdm_slot
-Date: Fri, 23 Oct 2026 10:14:57 +0200
-Message-ID: <20261023081457.44579-1-olivier@mgcrea.io>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IDjL0bDN
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BD321F01825;
+	Fri, 23 Oct 2026 08:34:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792744461;
+	bh=c46J/J0UiNYaVXVJ/u915hSQc4wdJKlNAKmd7JytSgM=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=IDjL0bDNwGUgBvTyVC/KTVTaCZg54TFzBuOmWrXgbrKNw3rwhy0x9htj+z9e+zpf6
+	 pVhG9aIfPoyNWbO0AAWwhLPqmg7zCNCId82yunL9XzTC5PesQZUBWS1NtpJdLhKGeN
+	 DTu3Xcuo+j5RhWcC1kBwPPQwnEs3EjhVQ/tRPk87ZIAaYjgpuhgthBltumYSi3RMB8
+	 bI3xfOB+EV7goR37z9IgbqPLuKMXrVZ7Y3Qtwx3s7ppNcSEqNMII98UKnvqJtda9xH
+	 DUxlYGV05N30smjBvHtHUdqhNoekaPJe8X8iQpsvxJEym9jiGB5Aea9PHh1pGCgtZQ
+	 2L9Dt6AoY1rRw==
+Message-ID: <sashiko-outbox-182523@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RFC] ASoC: cs43130: Take the frame layout from
+ set_tdm_slot
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Olivier Louvignes" <olivier@mgcrea.io>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261023081457.44579-1-olivier@mgcrea.io>
+References: <20261023081457.44579-1-olivier@mgcrea.io>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 23 Oct 2026 08:34:21 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -97,129 +59,110 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-hw_params() derives the slot width from the frequency given to the DAI's
-set_sysclk(), which it takes for SCLK. Generic cards pass MCLK there: the
-simple-audio-card of a HiBy R1 (Ingenic X1600 as I2S master, 64 bit
-clocks per frame, mclk-fs = 512) hands over 22.5792 MHz, so the driver
-sets up 256-bit slots for a 44.1 kHz stream and the CS43131 plays white
-noise.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] ASoC: cs43130: broken channel fixup and mask handling in cs43130=
+_set_tdm_slot()
+--
 
-Add a set_tdm_slot() callback so the card can say the layout instead:
-two slots of 16 to 32 bits. When set, it takes precedence over the width
-derived from set_sysclk(); zero slots go back to deriving it.
+commit 4794a3406868264ed704b7b8312f7714c82ad623
+Author: Olivier Louvignes <olivier@mgcrea.io>
 
-Tested on a HiBy R1, on v7.3, with dai-tdm-slot-num = <2> and
-dai-tdm-slot-width = <32> on the codec node.
+ASoC: cs43130: Take the frame layout from set_tdm_slot
 
-Signed-off-by: Olivier Louvignes <olivier@mgcrea.io>
----
-RFC because the way to set the layout is a choice: set_tdm_slot() is what
-simple-audio-card can express from the device tree (dai-tdm-slot-num and
-dai-tdm-slot-width on the codec node), without a board-specific machine
-driver. I would also be fine with the codec deriving the layout from
-the sample width, or from a bclk ratio set with set_bclk_ratio(), if you
-prefer one of those.
+This commit adds a set_tdm_slot() callback to the cs43130 codec driver so
+that generic sound cards can configure the frame layout directly as two slo=
+ts
+of 16 to 32 bits instead of deriving the slot width from set_sysclk().
 
-Tested on v7.3 on a HiBy R1; build-tested on 734bef548a96 (v7.3-7363).
-Only the CS43131 is covered, as PCM at 44.1 and 48 kHz.
+> diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
+> index 48d88dad4ceb0..8450794654c60 100644
+> --- a/sound/soc/codecs/cs43130.c
+> +++ b/sound/soc/codecs/cs43130.c
+[ ... ]
+> @@ -1609,12 +1615,36 @@ static int cs43130_set_sysclk(struct snd_soc_dai =
+*codec_dai,
+>  	return 0;
+>  }
+> =20
+> +/*
+> + * Sets the frame layout directly: two slots of slot_width bits, which t=
+hen
+> + * takes precedence over the layout derived from the set_sysclk() freque=
+ncy.
+> + * Generic sound cards pass MCLK to set_sysclk(), not SCLK. Zero slots go
+> + * back to the derived layout.
+> +*/
+> +static int cs43130_set_tdm_slot(struct snd_soc_dai *dai, unsigned int tx=
+_mask,
+> +				unsigned int rx_mask, int slots, int slot_width)
+> +{
+> +	struct snd_soc_component *component =3D dai->component;
+> +	struct cs43130_private *cs43130 =3D snd_soc_component_get_drvdata(compo=
+nent);
+> +
+> +	if (!slots) {
+> +		cs43130->dais[dai->id].slot_width =3D 0;
+> +		return 0;
+> +	}
+> +	if (slots !=3D 2 || slot_width < 16 || slot_width > 32)
+> +		return -EINVAL;
+> +
+> +	cs43130->dais[dai->id].slot_width =3D slot_width;
+> +	return 0;
+> +}
 
- sound/soc/codecs/cs43130.c | 50 ++++++++++++++++++++++++++++++--------
- sound/soc/codecs/cs43130.h |  1 +
- 2 files changed, 41 insertions(+), 10 deletions(-)
+[Severity: Medium]
+Does configuring the layout through snd_soc_dai_set_tdm_slot() break mono
+playback and allow invalid slot masks?
 
-diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
-index 48d88dad4ceb..8450794654c6 100644
---- a/sound/soc/codecs/cs43130.c
-+++ b/sound/soc/codecs/cs43130.c
-@@ -952,18 +952,24 @@ static int cs43130_hw_params(struct snd_pcm_substream *substream,
- 		break;
- 	}
- 
--	if (!sclk && cs43130->dais[dai->id].dai_mode == SND_SOC_DAIFMT_CBP_CFP)
--		/* Calculate SCLK in master mode if unassigned */
--		sclk = params_rate(params) * bitwidth_dai *
--		       params_channels(params);
-+	if (cs43130->dais[dai->id].slot_width) {
-+		/* The slot width set with set_tdm_slot() */
-+		bitwidth_sclk = cs43130->dais[dai->id].slot_width;
-+	} else {
-+		if (!sclk && cs43130->dais[dai->id].dai_mode == SND_SOC_DAIFMT_CBP_CFP)
-+			/* Calculate SCLK in master mode if unassigned */
-+			sclk = params_rate(params) * bitwidth_dai *
-+			       params_channels(params);
-+
-+		if (!sclk) {
-+			/* at this point, SCLK must be set */
-+			dev_err(cs43130->dev, "SCLK freq is not set\n");
-+			return -EINVAL;
-+		}
- 
--	if (!sclk) {
--		/* at this point, SCLK must be set */
--		dev_err(cs43130->dev, "SCLK freq is not set\n");
--		return -EINVAL;
-+		bitwidth_sclk = (sclk / params_rate(params)) /
-+				params_channels(params);
- 	}
--
--	bitwidth_sclk = (sclk / params_rate(params)) / params_channels(params);
- 	if (bitwidth_sclk < bitwidth_dai) {
- 		dev_err(cs43130->dev, "Format not supported: SCLK freq is too low\n");
- 		return -EINVAL;
-@@ -1609,12 +1615,36 @@ static int cs43130_set_sysclk(struct snd_soc_dai *codec_dai,
- 	return 0;
- }
- 
-+/*
-+ * Sets the frame layout directly: two slots of slot_width bits, which then
-+ * takes precedence over the layout derived from the set_sysclk() frequency.
-+ * Generic sound cards pass MCLK to set_sysclk(), not SCLK. Zero slots go
-+ * back to the derived layout.
-+ */
-+static int cs43130_set_tdm_slot(struct snd_soc_dai *dai, unsigned int tx_mask,
-+				unsigned int rx_mask, int slots, int slot_width)
-+{
-+	struct snd_soc_component *component = dai->component;
-+	struct cs43130_private *cs43130 = snd_soc_component_get_drvdata(component);
-+
-+	if (!slots) {
-+		cs43130->dais[dai->id].slot_width = 0;
-+		return 0;
-+	}
-+	if (slots != 2 || slot_width < 16 || slot_width > 32)
-+		return -EINVAL;
-+
-+	cs43130->dais[dai->id].slot_width = slot_width;
-+	return 0;
-+}
-+
- static const struct snd_soc_dai_ops cs43130_pcm_ops = {
- 	.startup	= cs43130_pcm_startup,
- 	.hw_params	= cs43130_hw_params,
- 	.hw_free	= cs43130_hw_free,
- 	.set_sysclk	= cs43130_set_sysclk,
- 	.set_fmt	= cs43130_pcm_set_fmt,
-+	.set_tdm_slot	= cs43130_set_tdm_slot,
- };
- 
- static const struct snd_soc_dai_ops cs43130_dop_ops = {
-diff --git a/sound/soc/codecs/cs43130.h b/sound/soc/codecs/cs43130.h
-index dbdb5b262f1b..6026c14514c0 100644
---- a/sound/soc/codecs/cs43130.h
-+++ b/sound/soc/codecs/cs43130.h
-@@ -495,6 +495,7 @@ static const char *const cs43130_supply_names[CS43130_NUM_SUPPLIES] = {
- 
- struct cs43130_dai {
- 	unsigned int			sclk;
-+	unsigned int			slot_width;
- 	unsigned int			dai_format;
- 	unsigned int			dai_mode;
- 	unsigned int			dai_invert;
+When simple-audio-card parses dai-tdm-slot-num =3D <2> and dai-tdm-slot-wid=
+th =3D
+<32> without dai-tdm-slot-tx-mask, simple_init_dai() calls
+snd_soc_dai_set_tdm_slot(dai, 0, 0, 2, 32). Because cs43130_pcm_ops does not
+implement xlate_tdm_slot_mask, snd_soc_xlate_tdm_slot_mask() sets tx_mask to
+0x3, and snd_soc_dai_set_tdm_slot() stores 0x3 in
+dai->stream[SNDRV_PCM_STREAM_PLAYBACK].tdm_mask.
 
-base-commit: 734bef548a96e8774d6eef5dfa2026c6edc4e80b
--- 
-2.39.5
+During __soc_pcm_hw_params(), a non-zero tdm_mask causes
+soc_pcm_codec_params_fixup() to overwrite params_channels() on the codec co=
+py
+of hw_params with hweight_long(tdm_mask) =3D 2 before invoking
+cs43130_hw_params()->cs43130_set_sp_fmt():
 
+sound/soc/codecs/cs43130.c:cs43130_set_sp_fmt() {
+	...
+	frm_size =3D bitwidth_sclk * params_channels(params);
+	loc_ch1 =3D 0;
+	loc_ch2 =3D bitwidth_sclk * (params_channels(params) - 1);
+	...
+}
+
+For a 1-channel stream (permitted by cs43130_dai[0].playback.channels_min =
+=3D
+1), the CPU DAI receives 1 channel while cs43130_set_sp_fmt() sees 2
+channels, setting loc_ch2 to bitwidth_sclk instead of 0 (where both channels
+previously sampled slot 0 in mono) and programming frm_size for 2 channels.
+
+Conversely, cs43130_set_tdm_slot() ignores tx_mask and rx_mask and accepts
+any slot_width in 16..32. If a caller passes slots =3D 2 with a 1-bit tx_ma=
+sk
+such as 0x1, soc_pcm_codec_params_fixup() forces params_channels(params) to
+1, so cs43130_set_sp_fmt() computes frm_size =3D bitwidth_sclk * 1 instead =
+of
+2 * slot_width. In I2S or LEFT_J mode with slot_width =3D 32, that programs
+LRCK_HI_TIME equal to LRCK_PERIOD (31), or with slot_width =3D 24 in DSP mo=
+de,
+causes switch (frm_size) in cs43130_set_sp_fmt() to fail with -EINVAL (whose
+return value is ignored by cs43130_hw_params()).
+
+Would set_bclk_ratio() avoid the TDM channel mask fixup in the ASoC core, or
+if set_tdm_slot() is kept, should cs43130_set_tdm_slot() validate tx_mask a=
+nd
+slot_width while cs43130_set_sp_fmt() decouples the 2-slot frame size from
+the active channel count?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023081457.4457=
+9-1-olivier@mgcrea.io?part=3D1
