@@ -1,105 +1,105 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1792775887;
-	b=ZuR0rzq9//Y7I5rUcdzQLmT4IwCaN7p474zKm7A3kX0tFV6Lzd2MwjnA0e0ELbaUtYld
-	 2Cz2ox1sYVQMc//a10QVdZG37zhOlP4VHAbMm7MOktVN4HfBxtgOjb6bQrsl+dnEP7rLs
-	 ir8y5vvAGul3Gq57PDZII1lgwf/0JMy0x0lglgmg5E22FB6MUGqNKXbVZxJBrY3DyVwLO
-	 1Z2On6JcG+lkSiO9ezpSDyA/HkMJH99SNwFclXe38R2vnXJAO5xoNQWK296n5iXkMP6iO
-	 vBl0+gZHMbPbP4+rix5hRyvij62oNxx67dTkW5BFuwBGmGyl7ooB5obdDJFtA73pCtA==
+	b=gVGL0JhNrCQN82cmZKaXyJnRFgvvp3utuT/+vhcJxN59knApCiA8ozQj2U90rj/6qSAg
+	 JK0OxEmzR/K+E9Q6GVlSqlaQbliwNkes/z3aswMDo0mdjHzoDc/LovBDkDwc/K+IjKAzz
+	 3BRGEck7rAu5YyMFZt101QGzi8IdNvgb21n/18eycf2k4EzFxIO1TlFXtlxbeOlK453Ef
+	 fjq3Nu/AbpfMKhzjPXPrCekFU4eaXWPnbAD3vc4FjFDE+aECNOrNKcKBOWXnMrhi+riqP
+	 CXGmUc0pxwZ+oekFNpIYf+esTywggrHUm55MQ/yMQ3dwvaLovv1RxiJoMxoVzA2jOIg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792775887;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
+	 Content-Transfer-Encoding:X-Authority-Analysis:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
 	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
 	 X-Proofpoint-Spam-Details;
-	bh=q/+cvFopqQv28D3/PiFB85LG7/G2XyD0ZehhDNJMlX8=;
-	b=oaPIe+WnKRVLUKBAjMYtTYr17NZEpr5N4Z3Kh0CkwoN/Ibt5fRoKXnL6Zoxb1oD9X5KP
-	 GT7xXfEIaU67JSsoiigqH1h2FP0fyu9DUh2PKyMLlYtNqh602vfk5OX+HfXNXFo3s2aro
-	 3OjsUo+aYOJN5FQxAI3j/LuCSyRNXDwLzoqdDeN3ZpMMHa/ipczHHGnybiW9eZH4jHf78
-	 9pBKbBxaP5JHIDERww9FlhMlijuNxhAo1yQ0AcyrCi+KnokwkSLjpK8BcwU50lxAsjE9P
-	 SuEpKTJe+S6IR1WrDI+Nu9nuNeSxWTiwYuOWeBVFR/X5DtvItp5YQMNJU00wtPGYnrw==
+	bh=ZMEl1ZvfXo6Wbrob9hc0DbCtcYILed43sPXM8KrPWi8=;
+	b=CQkm7k5Q3nsVLRqz0YoVhT23fFzqAhPmfmdPUkWWH0V+sy82iki/C3l4iI0CQXjC66Ni
+	 pLruTUmO6XlCV/nA+LXz5cjzNA5C20mIv8csqT7XXiFy5KYiC1eYnPRadXiXm1eddFiRx
+	 o2d8qSTKE5uL6ikKbDp8i+/BXuwM6K58WRtugOkHoTutg8GnH0+wSYHKFjWFdz8T+ZPne
+	 RApdSgjjSyo7vy3TL/sNTidxUUnFnPH313RSQ5U9l4jb3CtRsIpdoelBQZoG2J6GbTN2V
+	 7VqpOR/F7RZWL4pd9D36m3rl4v6JVQPPxuIc4TjiM2iZinpJFJoD7075DZ3NLlEhuUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="Yvstzu/p";
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=SjqJq5lf;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=YGJfnuK8;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=NEjVAmYp;
 	arc=none smtp.remote-ip=205.220.168.131
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0EFB60A5BE3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76EA60A261B
 	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 17:18:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0EFB60A5BE3
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D76EA60A261B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Yvstzu/p;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=SjqJq5lf
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69NE5vLb4063351
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=YGJfnuK8;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=NEjVAmYp
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69NE6DEL2462574
 	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 17:18:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=q/+cvFopqQv
-	28D3/PiFB85LG7/G2XyD0ZehhDNJMlX8=; b=Yvstzu/pqS6uvyJ8PgFi+yd3AqI
-	oHEjJwvjti+d+C/OTu9fcHwsIOxBK0U2viS0KmJL0xaXFhovRwCU2w0mTi/J5dN1
-	O6sNIDsQAjB2ZX/FxqErUVFgBS2Kr/n7Y4mdzS50Gtk+4iC+hZ+DWXIjX0kGRMKk
-	QONX7Mw7yI1vOu7b/QyMRgk5EAnIGI6JPhaYSZJIBvBjLasmLa+XZFKz8j3q81b2
-	TgkSvgCwqL3wMT8oS5W2J36CDeYM34nTmPRKJebcdY+RZaMweLLQjhhNfuBVsBFl
-	17HxkNFF/+e1qn+rnHu29CUdP1aCX9nsK5uG1h8BMT/dCFD4F/MifQsiKQQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hfqmrcrb0-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=ZMEl1ZvfXo6
+	Wbrob9hc0DbCtcYILed43sPXM8KrPWi8=; b=YGJfnuK8lbXkG3AECT9VuaOHy4j
+	vRZPDzh4J/M0b3ToazSyEwNOhZnUwz6BGEhBLPr3UpBVtXsz8mIDg74NZbnVLo2K
+	gXuoNsANsSWfyJ1uuqsW4k7km950MyxrBXg9yNI/N4jPbdv2jD+lL5pVrxDazkuE
+	OqjSaHp5v5OLsm532Nzid0hDHb7BACq+inG7OL2lQozhdBATd9MLEwOUDZSg0gcp
+	QkpPI0bzyP9EY7l97TljeB4PfmVPiUDjdeIvmU+cVO+0/++Gj+lX4e7Cw8mhuxjZ
+	paoMyWpgmtqzFZOvjFrRh17u6sqJEQAeiqt0SsjjcUgl2K1QpQUWcHhc0bA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hfqmtvsj5-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
 	for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 17:18:06 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93f20addba1so213658485a.1
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-934963b2bc0so215345385a.3
         for <linux-sound@vger.kernel.org>; Fri, 23 Oct 2026 10:18:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792775883; x=1793380683; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1792775880; x=1793380680; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=q/+cvFopqQv28D3/PiFB85LG7/G2XyD0ZehhDNJMlX8=;
-        b=SjqJq5lfTS/Srt505f3ZfyPSqDR7WSW77k2dFjdOup4Vv2ghDfXcSK6eEUjelIEXVL
-         urEVd86oJGxqj8TG0fBiAPr4C4JturZ/+wxoul8YEVR5f5VWswFTfLRIELYGVfoGapHs
-         FYOesTEprzyl+SVcO1DAnOfpIhrCx4xWjCujfAZPRI+2U+PzHpXKFEV2uQPUIO1+bTkX
-         k2izfHjBM8W4lpGxhDfQrhN/Z+FSHz4GjBy/fh3EM7k5r4E++jCR1Qtq3/kg2M1ZzU4O
-         GuXObV/L/N4tVsGvtCX42LZRFWMA+CBLmva4cmahJCh86WUhDGb0JoHH1is8XwiPUyXk
-         oyUw==
+        bh=ZMEl1ZvfXo6Wbrob9hc0DbCtcYILed43sPXM8KrPWi8=;
+        b=NEjVAmYp5V/b7BZ1Dww5W5mkeUrMFUOMjaSRtP15YDcyq/gvmc4TUQVPLotYyLAqn6
+         0F0zmiieLPXvHwKY89OwPL81nMy3S9mBGwu0+vk0b6GTWB8TS/iI2P1cbJBf6J08h0do
+         1Wpy+Yt7J0stCCRKztYCy6Nc5xUqvak6qLPDpgujcL59x48wuZ1OC359w4tU2fe+YRRy
+         DIQ/rZAndEmxECOJT1C4aYya0P7uCxxQciOZ/S8mdqZ26H9T0JpjZS3y182AH42c0+bJ
+         yUW9bWM6a2WW0t75tby9fS6MNbE/R4PG5WpDWjx8Yczt0Le90+ANty0+JuSxUEF3iZIZ
+         T4wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792775883; x=1793380683;
+        d=1e100.net; s=20260707; t=1792775880; x=1793380680;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=q/+cvFopqQv28D3/PiFB85LG7/G2XyD0ZehhDNJMlX8=;
-        b=BgdvM27OXB6HRzoPOF5CZDAJYt16nJQt3UenS/q5otauZNWzlmZPZuewmyxPoIR+2j
-         aCCCnJxmrSlc4Vk6urzMep8mVyO0tAB7jS0+59CSImElkSBz7A1Vg4ktLQLv5vtCA3ht
-         s1fCSjL8M3ILZ+Iatf0Lo/oNgHd9kKQs3KYwmtCtb3amXUMyYbkmX9zfd56dIISGQRYC
-         46qF5jAWXa6OHMfC2AJwxnT7qvTDSHoY87epnCK3GZCCMxZyt81G9rN4aClM22zrTeF3
-         nYN5Upfso2BhRttyJWDBLSYfxxqrJx6hndKNVMwVS9iYkfi4c7MV8/CsR3BbeDP3/Sif
-         sZLg==
-X-Forwarded-Encrypted: i=1; AKwUvByugec8RRlZe0uKyWYdbZPQUVYNx74Umug36uwdnlDrQuHwEWgN8QWqx1iCwWV98G686UbhKfC3iR5ibw==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJxs+eeQ2QvJbz3ZFjEzl2APWwgRuA99HEoZ04cPUvpwFhvjxiW
-	sYTQZa8on8cC8dAQzsK688ed+LzGUH3RkXzAADNgDEi330ogiIeT+nyc4zweN3piMofiLYesN1f
-	vpiq8oot2z4/8FnIxepOGcJdeJIRbc34a/yVDXV3SvxVlU1TA0kIE0cEIsfosIYBm9A==
-X-Gm-Gg: AYBFou1rkd4vBb2IZo0QT7BiZl+cgj3dpnycbyfXetRH3J/yvn0IqWlzI0fUdqNhS3B
-	7rPzzTmyw0uSPSfBRZR9cgNTgSoe7jNA//fhYtbQvpSmFxhWBTxdXZaLmsPCOZJ+wt4pO2AZjPt
-	tQbuKWl7P8E18lZZcYKCl5tFZ1ICCnt+JYvQHiAyxjFP4fppj69ouHh888XPX4/cOuYGT1WYVfE
-	3vu/rvYIZIUlMN/f0s4c/vzxJQi/odxtdbeUSIkv5Sa/VGOTQr4j3EdNDdgTrrZE/jWKVGs+/pO
-	aXzttvqKzqIf29OG26UQtojKX38RlnvbvRmy1dcmEQlLXB73zDWm5PyDsRedAlgSFBKvXImXjb1
-	Qn/PqTYdioxCN
-X-Received: by 2002:a05:620a:4725:b0:93c:c1e8:6504 with SMTP id af79cd13be357-93f6f7dc78emr554391285a.23.1792775883218;
-        Fri, 23 Oct 2026 10:18:03 -0700 (PDT)
-X-Received: by 2002:a05:620a:4725:b0:93c:c1e8:6504 with SMTP id af79cd13be357-93f6f7dc78emr554386285a.23.1792775882595;
-        Fri, 23 Oct 2026 10:18:02 -0700 (PDT)
+        bh=ZMEl1ZvfXo6Wbrob9hc0DbCtcYILed43sPXM8KrPWi8=;
+        b=zJ3B21MFRw+7udhTbriyoWbMHF1jFFTRGxHxOj16F21dQfRnAh4UN8dcaNzbCGoYZP
+         qxjWWOVuyelVETKx4H5tV2xYIF6Zqie2Fv9q102yOYYBC68jEb4c918FIWzjePfRhoKh
+         Lc2ubwDH5XmK54+xY9sT1Pe4AsY8Y6+IYF1YF3X4HKxIRj981mC5a5kB66Awghq+wiBw
+         7XZ0ENtlu0agrntoflUnZO0OFGZ2Sg/Bby1VRFpuFcFHbpkc0pYK4nkQeal2RuNOnupW
+         V8o9l7Pqhy4aml23zaF1W4gFaWlgQJvndKPrEqHxOv3gPPApsM1np5rM1XNF3bz9Wfei
+         NGFA==
+X-Forwarded-Encrypted: i=1; AKwUvBx6eblsNabPQ6ZIH6R0O3zzbp6ks579E7wfVs7D1DikiOy3vdEg/3n6TmXwHbJs2uhUV+MexxHQc3JlvA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYIBAzFj9fi949VxQP/TqI0AbQ9AFYb9cXFh+sH6tQlwE2uMN2kR
+	Z7Wy/oZ6BLShI2PVL5ZdUpJK4YobPcqIzOLOb/LD1IIfyRjcvxCXABBAEEN4wJ0q3HK9r+NAeyS
+	vS7gO7nTnQ+FtfgC0+athATx+CyYa1C24VMbF7AoOQg6X/h2UaXqRnAXn+cTJIlsyLQ==
+X-Gm-Gg: AYBFou1HhA7WkBKuL+61XJewRUPj7B21f4qzeAesnG0pwUc3bRftwQTAzK8JUg31urT
+	b7MjqmsrDA308R9eA4aI4OCLa0D+7x4l8Sq0n4luGFZ3mRIzDY/us0WvJDa+s47XNWsWp72CiMn
+	J1EzSKw6b55VxtEvQfj0k84/TMhlIqZelpwlBZpb8PsP3eQWxPUpuQWgcF5J3fvspbxOQQsRl98
+	FVfWRCJD4Oq1HORZ3Xj4VB05lr5yFCdakt9sJEz1BQsHqeI2z2NlJ3k6gvmK+hiDu5eb14MvxRb
+	K9wUTf3VJ5Jh5JGrn0hQO8qngOGGDMv/gfW6wrEQ9XXcmq4EuIrm3pUN8HsGLHcXMssVoN6HDn9
+	XZ0zBTVeaH3cL
+X-Received: by 2002:a05:620a:690e:b0:93e:c12c:43f7 with SMTP id af79cd13be357-93f6f86e1c5mr485459485a.68.1792775880077;
+        Fri, 23 Oct 2026 10:18:00 -0700 (PDT)
+X-Received: by 2002:a05:620a:690e:b0:93e:c12c:43f7 with SMTP id af79cd13be357-93f6f86e1c5mr485452785a.68.1792775879329;
+        Fri, 23 Oct 2026 10:17:59 -0700 (PDT)
 Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3d41e0fesm937475f8f.46.2026.10.23.10.18.01
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3d41e0fesm937475f8f.46.2026.10.23.10.17.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 10:18:01 -0700 (PDT)
+        Fri, 23 Oct 2026 10:17:58 -0700 (PDT)
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
 Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
@@ -114,9 +114,9 @@ Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [RFC PATCH 09/23] ASoC: qcom: q6apm-dai: add S32_LE format support
-Date: Fri, 23 Oct 2026 18:14:19 +0100
-Message-ID: <20261023171433.820092-10-srinivas.kandagatla@oss.qualcomm.com>
+Subject: [RFC PATCH 07/23] ASoC: qcom: audioreach: add control link support to graphs
+Date: Fri, 23 Oct 2026 18:14:17 +0100
+Message-ID: <20261023171433.820092-8-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
 References: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
@@ -130,78 +130,497 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: uYDE_G7VkMsKG-m-Qxy2hUPnfG1OsxQn
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIzMDA2NyBTYWx0ZWRfXwTTOhzY8MR8w
- EpCf8H2NgyyM0VzVfc2e1EzYlDQFCnQAZ2PSxHqSzn+J6XS1dvkURQoUlV4ExyBWT/91DS/D31T
- +LmuCfyr1suNVTWzbwq0Uha0PAvmzmU=
-X-Authority-Analysis: v=2.4 cv=VNZIDNPX c=1 sm=1 tr=0 ts=6adb96ce cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+X-Authority-Analysis: v=2.4 cv=Gt3XaU1C c=1 sm=1 tr=0 ts=6adb96ce cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
  a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8
- a=0GeEMZVGUYcv1euD6hYA:9 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIzMDA2NyBTYWx0ZWRfX7WCaBEFt8fx2
- T9dQn3DMAmXmfErMo6X0hd7uaWT4a9QP+g3kcGXdXzBdZ59wySm4elG3WW4fTIW9tfdnMXVPV9z
- zCiRTSaSsx7G5Fq15/CY+g0lqmFKQ2c6DNqxhLtzO29tdIE+O5pFLVsKqOrLOksa+gorzN0/eBf
- 38C+WdVuk+3VZ4isEMO6+QGDfY5iMYMpYHL8ruurvi7qY1OTGODYQWT05Qw+guwwMinwPoskLAS
- JN4m7Yj24AsNu8kf5/mrP873YYN/pwPDVQYUHvv6MIqyq00tzURjU359yPK9oB8k5JYrQhPLHVM
- jysb4Ty1Qy+ysggo0iT41kfaQn4jjGlOAFD9Ztffbxg8ZnS0HDsXrV1K0Iw1qRJDO/v9+bWwMOi
- ea7h1KbhFVuth2O0j2YU5CTAzEsRdvEi2/xbeMKJh0tIw29HIfkycucBTlaulFKeljjQTjeYwKm
- N2YnRdUYOgrDp93k88A==
-X-Proofpoint-ORIG-GUID: uYDE_G7VkMsKG-m-Qxy2hUPnfG1OsxQn
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=EUspDBNiAAAA:8
+ a=8-O9kgZlvKaYWh8tphcA:9 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-GUID: CKBzsAdnMxD5ekBg59opw8C2KhccBwnb
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIzMDA2NyBTYWx0ZWRfX6Xwt3DSm/JTr
+ fOm16AwXLTwhtLkyRm67ORBeaNnB6vpvwhA5sNSlNgjtgRRxfqp6OWJw5H/OWiWvV7VjVcMLqQ9
+ FChgSA8w0eCwBGKLLL3iecL6cQvzcaM7d9hXC05bPf+fVtlGsiOPfqOfaA5zxu+J3EneD6lC7TH
+ f9+/m5BIxZdTcLLJ/EOVaBe1WKD80zrEkDclMUb28bphWcGofLa5MTJ0VyfTkAfHTwEGYvV0fTo
+ xbpCzlCYsmuX9dKoPx2t7IymYBPR4Cv98TePOb/a9NgKFAhm3+YlAXH5lF05DlWCxAneyGuxFdr
+ nvRR3PWjjyYR2HlHJCF8IhkB3aXFCk5khNg3JmnVUNH792iRwhtmKqvxX3M/jRjApvk+Vfe66st
+ SjZmUcBqKYPyUpEtIkJY/mteaACHnB+6jLazAbZHmUjYKKDLYL9ZPfATFn3bPZ0QrrmKpIKzKmF
+ 2/VtRb0GniBYI2BXG9A==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIzMDA2NyBTYWx0ZWRfXxzPSxS4y5Q+V
+ Mx3KOxB6+rGRwB2EGO5/plMfo3b4h8gF7qpHfSKd2g+fetpL/On5oBRHOi743Dy3m3XiG5uo3KH
+ GUCy/dEdh25swtrh1j2eKc/VnGkanNs=
+X-Proofpoint-ORIG-GUID: CKBzsAdnMxD5ekBg59opw8C2KhccBwnb
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-23_04,2026-10-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 bulkscore=0 adultscore=0 phishscore=0
- impostorscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610230067
+ bulkscore=0 spamscore=0 suspectscore=0 malwarescore=0 adultscore=0
+ clxscore=1015 priorityscore=1501 impostorscore=0 phishscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610230067
 
-From: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
+The speaker protection modules exchange calibration state over a
+control link, which the topology describes but the driver never sends
+to the DSP.
 
-The speaker protection VI capture carries one 32-bit V/I word per
-speaker. Add S32_LE to the q6apm-dai formats so it is not converted.
+Parse the control link tokens into a per-subgraph list and add them to
+GRAPH_OPEN. Both subgraphs of a link usually declare it and the DSP
+rejects a duplicate, so send each pair once.
 
-Signed-off-by: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 ---
- sound/soc/qcom/qdsp6/q6apm-dai.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ include/uapi/sound/snd_ar_tokens.h |  11 +++
+ sound/soc/qcom/qdsp6/audioreach.c  |  90 +++++++++++++++++--
+ sound/soc/qcom/qdsp6/audioreach.h  |  18 ++++
+ sound/soc/qcom/qdsp6/q6apm.c       |   1 +
+ sound/soc/qcom/qdsp6/q6apm.h       |   1 +
+ sound/soc/qcom/qdsp6/topology.c    | 134 +++++++++++++++++++++++++++++
+ 6 files changed, 250 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
-index 58beaf906b9f..9002acf0e0cd 100644
---- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-@@ -202,7 +202,8 @@ static const struct snd_pcm_hardware q6apm_dai_hardware_capture = {
- 				 SNDRV_PCM_INFO_PAUSE | SNDRV_PCM_INFO_RESUME |
- 				 SNDRV_PCM_INFO_NO_REWINDS | SNDRV_PCM_INFO_SYNC_APPLPTR |
- 				 SNDRV_PCM_INFO_BATCH),
--	.formats =              (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE),
-+	.formats =              (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE |
-+				 SNDRV_PCM_FMTBIT_S32_LE),
- 	.rates =                SNDRV_PCM_RATE_8000_48000,
- 	.rate_min =             8000,
- 	.rate_max =             48000,
-@@ -222,7 +223,8 @@ static const struct snd_pcm_hardware q6apm_dai_hardware_playback = {
- 				 SNDRV_PCM_INFO_PAUSE | SNDRV_PCM_INFO_RESUME |
- 				 SNDRV_PCM_INFO_NO_REWINDS | SNDRV_PCM_INFO_SYNC_APPLPTR |
- 				 SNDRV_PCM_INFO_BATCH),
--	.formats =              (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE),
-+	.formats =              (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE |
-+				 SNDRV_PCM_FMTBIT_S32_LE),
- 	.rates =                SNDRV_PCM_RATE_8000_192000,
- 	.rate_min =             8000,
- 	.rate_max =             192000,
-@@ -641,6 +643,9 @@ static int q6apm_dai_hw_params(struct snd_soc_component *component,
- 	case SNDRV_PCM_FORMAT_S24_LE:
- 		prtd->bits_per_sample = 24;
- 		break;
-+	case SNDRV_PCM_FORMAT_S32_LE:
-+		prtd->bits_per_sample = 32;
-+		break;
- 	default:
- 		return -EINVAL;
+diff --git a/include/uapi/sound/snd_ar_tokens.h b/include/uapi/sound/snd_ar_tokens.h
+index cf8ab6b85e34..7ab8e11ca5c2 100644
+--- a/include/uapi/sound/snd_ar_tokens.h
++++ b/include/uapi/sound/snd_ar_tokens.h
+@@ -234,6 +234,17 @@ enum ar_event_types {
+ #define AR_TKN_U32_SUB_GRAPH_DIRECTION		4
+ #define AR_TKN_U32_SUB_GRAPH_SCENARIO_ID	5
+ 
++/* Control Link Tokens */
++#define AR_TKN_U32_CONTROL_LINK_IID		50
++#define AR_TKN_U32_CONTROL_LINK_PEER1_MOD_IID	51
++#define AR_TKN_U32_CONTROL_LINK_PEER1_MOD_PORT_ID	52
++#define AR_TKN_U32_CONTROL_LINK_PEER2_MOD_IID	53
++#define AR_TKN_U32_CONTROL_LINK_PEER2_MOD_PORT_ID	54
++#define AR_TKN_U32_CONTROL_LINK_INTENT0		55
++#define AR_TKN_U32_CONTROL_LINK_INTENT1		56
++#define AR_TKN_U32_CONTROL_LINK_INTENT2		57
++#define AR_TKN_U32_CONTROL_LINK_INTENT3		58
++
+ /* Container Tokens */
+ #define AR_TKN_U32_CONTAINER_INSTANCE_ID	100
+ #define AR_TKN_U32_CONTAINER_CAPABILITY_ID	101
+diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
+index d2dc5d37bccf..9e45634cafbc 100644
+--- a/sound/soc/qcom/qdsp6/audioreach.c
++++ b/sound/soc/qcom/qdsp6/audioreach.c
+@@ -109,6 +109,26 @@ struct apm_mod_conn_list_params {
+ 
+ #define APM_MOD_CONN_PSIZE(p, n) ALIGN(struct_size(p, conn_obj, n), 8)
+ 
++/* Control Links */
++struct apm_control_link_obj {
++	u32 peer1_mod_inst_id;
++	u32 peer1_mod_port_id;
++	u32 peer2_mod_inst_id;
++	u32 peer2_mod_port_id;
++	u32 num_props;
++	struct apm_prop_data intent_data;
++	u32 num_intents;
++	u32 intent_id_list[MAX_INTENTS];
++} __packed;
++
++struct apm_mod_control_links_params {
++	struct apm_module_param_data param_data;
++	u32 num_ctrl_link_cfg;
++	struct apm_control_link_obj link_obj[];
++} __packed;
++
++#define APM_MOD_CTRL_LINK_PSIZE(p, n) ALIGN(struct_size(p, link_obj, n), 8)
++
+ struct apm_graph_open_params {
+ 	struct apm_cmd_header *cmd_header;
+ 	struct apm_sub_graph_params *sg_data;
+@@ -116,6 +136,7 @@ struct apm_graph_open_params {
+ 	struct apm_module_list_params *mod_list_data;
+ 	struct apm_prop_list_params *mod_prop_data;
+ 	struct apm_mod_conn_list_params *mod_conn_list_data;
++	struct apm_mod_control_links_params *mod_control_links_data;
+ } __packed;
+ 
+ struct apm_pcm_module_media_fmt_cmd {
+@@ -410,24 +431,26 @@ static void audioreach_populate_graph(struct q6apm *apm,
+ 				      const struct list_head *sg_list,
+ 				      int num_sub_graphs)
+ {
++	struct apm_mod_control_links_params *cl_data = open->mod_control_links_data;
+ 	struct apm_mod_conn_list_params *mc_data = open->mod_conn_list_data;
+ 	struct apm_module_list_params *ml_data = open->mod_list_data;
+ 	struct apm_prop_list_params *mp_data = open->mod_prop_data;
+ 	struct apm_container_params *c_data = open->cont_data;
+ 	struct apm_sub_graph_params *sg_data = open->sg_data;
+-	int ncontainer = 0, nmodule = 0, nconn = 0;
++	int ncontainer = 0, nmodule = 0, nconn = 0, nlink = 0;
+ 	struct apm_mod_prop_obj *module_prop_obj;
+ 	struct audioreach_container *container;
++	struct audioreach_control_link *clink;
++	struct apm_control_link_obj *clink_obj;
+ 	struct apm_module_conn_obj *conn_obj;
+ 	struct audioreach_module *module;
+ 	struct audioreach_sub_graph *sg;
+ 	struct apm_container_obj *cobj;
+ 	struct apm_mod_list_obj *mlobj;
+-	int i = 0;
++	int i = 0, j;
+ 
+ 	mlobj = &ml_data->mod_list_obj[0];
+ 
+-
+ 	if (info->dst_mod_inst_id && info->src_mod_inst_id) {
+ 		conn_obj = &mc_data->conn_obj[nconn];
+ 		conn_obj->src_mod_inst_id = info->src_mod_inst_id;
+@@ -442,6 +465,47 @@ static void audioreach_populate_graph(struct q6apm *apm,
+ 
+ 		apm_populate_sub_graph_config(sg_cfg, sg);
+ 
++		list_for_each_entry(clink, &sg->control_link_list, node) {
++			bool dup = false;
++			int k;
++
++			/* Both subgraphs usually declare the link, send it once */
++			for (k = 0; k < nlink; k++) {
++				struct apm_control_link_obj *o = &cl_data->link_obj[k];
++
++				if ((o->peer1_mod_inst_id == clink->peer1_mod_inst_id &&
++				     o->peer2_mod_inst_id == clink->peer2_mod_inst_id) ||
++				    (o->peer1_mod_inst_id == clink->peer2_mod_inst_id &&
++				     o->peer2_mod_inst_id == clink->peer1_mod_inst_id)) {
++					dup = true;
++					break;
++				}
++			}
++			if (dup)
++				continue;
++
++			clink_obj = &cl_data->link_obj[nlink++];
++			clink_obj->peer1_mod_inst_id = clink->peer1_mod_inst_id;
++			clink_obj->peer1_mod_port_id = clink->peer1_mod_port_id;
++			clink_obj->peer2_mod_inst_id = clink->peer2_mod_inst_id;
++			clink_obj->peer2_mod_port_id = clink->peer2_mod_port_id;
++			clink_obj->intent_data.prop_id = APM_MODULE_PROP_ID_CTRL_LINK_INTENT_LIST;
++			clink_obj->num_props = 1;
++			clink_obj->num_intents = 0;
++
++			/* Pack the intents that are set into a dense list */
++			for (j = 0; j < MAX_INTENTS; j++) {
++				if (clink->intent[j])
++					clink_obj->intent_id_list[clink_obj->num_intents++] =
++						clink->intent[j];
++			}
++
++			/* The list length itself is part of the property payload */
++			clink_obj->intent_data.prop_size =
++				sizeof(clink_obj->num_intents) +
++				clink_obj->num_intents * sizeof(clink_obj->intent_id_list[0]);
++		}
++
+ 		list_for_each_entry(container, &sg->container_list, node) {
+ 			cobj = &c_data->cont_obj[ncontainer];
+ 
+@@ -477,12 +541,16 @@ static void audioreach_populate_graph(struct q6apm *apm,
+ 			ncontainer++;
+ 		}
  	}
++
++	/* The dedupe above may have packed fewer links */
++	cl_data->num_ctrl_link_cfg = nlink;
+ }
+ 
+ void *audioreach_alloc_graph_pkt(struct q6apm *apm,
+ 				 const struct audioreach_graph_info *info)
+ {
+-	int payload_size, sg_sz, cont_sz, ml_sz, mp_sz, mc_sz;
++	int payload_size, sg_sz, cl_sz, cont_sz, ml_sz, mp_sz, mc_sz;
++	struct apm_mod_control_links_params *clink_params;
+ 	struct apm_module_param_data  *param_data;
+ 	struct apm_container_params *cont_params;
+ 	struct audioreach_container *container;
+@@ -494,6 +562,7 @@ void *audioreach_alloc_graph_pkt(struct q6apm *apm,
+ 	struct audioreach_sub_graph *sgs;
+ 	struct apm_mod_list_obj *mlobj;
+ 	const struct list_head *sg_list;
++	int num_control_links = 0;
+ 	int num_connections = 0;
+ 	int num_containers = 0;
+ 	int num_sub_graphs = 0;
+@@ -511,6 +580,7 @@ void *audioreach_alloc_graph_pkt(struct q6apm *apm,
+ 
+ 	list_for_each_entry(sgs, sg_list, node) {
+ 		num_sub_graphs++;
++		num_control_links += sgs->num_control_links;
+ 		list_for_each_entry(container, &sgs->container_list, node) {
+ 			num_containers++;
+ 			num_modules += container->num_modules;
+@@ -526,13 +596,14 @@ void *audioreach_alloc_graph_pkt(struct q6apm *apm,
+ 	num_modules_list = num_containers;
+ 	sg_sz = APM_SUB_GRAPH_PSIZE(sg_params, num_sub_graphs);
+ 	cont_sz = APM_CONTAINER_PSIZE(cont_params, num_containers);
++	cl_sz = APM_MOD_CTRL_LINK_PSIZE(clink_params, num_control_links);
+ 
+ 	ml_sz = ALIGN(ml_sz, 8);
+ 
+ 	mp_sz = APM_MOD_PROP_PSIZE(mprop, num_modules);
+ 	mc_sz =	APM_MOD_CONN_PSIZE(mcon, num_connections);
+ 
+-	payload_size = sg_sz + cont_sz + ml_sz + mp_sz + mc_sz;
++	payload_size = sg_sz + cl_sz + cont_sz + ml_sz + mp_sz + mc_sz;
+ 	pkt = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_GRAPH_OPEN, 0);
+ 	if (IS_ERR(pkt))
+ 		return pkt;
+@@ -584,6 +655,15 @@ void *audioreach_alloc_graph_pkt(struct q6apm *apm,
+ 	params.mod_conn_list_data->num_connections = num_connections;
+ 	p += mc_sz;
+ 
++	/* Control Links */
++	params.mod_control_links_data = p;
++	param_data = &params.mod_control_links_data->param_data;
++	param_data->module_instance_id = APM_MODULE_INSTANCE_ID;
++	param_data->param_id = APM_PARAM_ID_MODULE_CTRL_LINK_CFG;
++	param_data->param_size = cl_sz - APM_MODULE_PARAM_DATA_SIZE;
++	params.mod_control_links_data->num_ctrl_link_cfg = num_control_links;
++	p += cl_sz;
++
+ 	audioreach_populate_graph(apm, info, &params, sg_list, num_sub_graphs);
+ 
+ 	return pkt;
+diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
+index 587f14ce71d2..38b71aefd845 100644
+--- a/sound/soc/qcom/qdsp6/audioreach.h
++++ b/sound/soc/qcom/qdsp6/audioreach.h
+@@ -171,6 +171,9 @@ struct apm_module_conn_obj {
+ 	uint32_t dst_mod_ip_port_id;
+ } __packed;
+ 
++#define APM_PARAM_ID_MODULE_CTRL_LINK_CFG	0x08001061
++#define APM_MODULE_PROP_ID_CTRL_LINK_INTENT_LIST	0x08001062
++
+ #define APM_PARAM_ID_GAIN			0x08001006
+ 
+ struct param_id_gain_cfg {
+@@ -893,6 +896,19 @@ struct audioreach_graph_info {
+ 	uint32_t dst_mod_ip_port_id;
+ };
+ 
++#define MAX_INTENTS 4
++
++struct audioreach_control_link {
++	uint32_t id;
++	uint32_t peer1_mod_inst_id;
++	uint32_t peer1_mod_port_id;
++	uint32_t peer2_mod_inst_id;
++	uint32_t peer2_mod_port_id;
++	uint32_t intent[MAX_INTENTS];
++	struct list_head node;
++	struct audioreach_sub_graph *sub_graph;
++};
++
+ struct audioreach_sub_graph {
+ 	uint32_t sub_graph_id;
+ 	uint32_t perf_mode;
+@@ -903,6 +919,8 @@ struct audioreach_sub_graph {
+ 	struct audioreach_graph_info *info;
+ 	uint32_t num_containers;
+ 	struct list_head container_list;
++	uint32_t num_control_links;
++	struct list_head control_link_list;
+ };
+ 
+ struct audioreach_container {
+diff --git a/sound/soc/qcom/qdsp6/q6apm.c b/sound/soc/qcom/qdsp6/q6apm.c
+index b6b1ef6833b3..bb2f18a64644 100644
+--- a/sound/soc/qcom/qdsp6/q6apm.c
++++ b/sound/soc/qcom/qdsp6/q6apm.c
+@@ -885,6 +885,7 @@ static int apm_probe(gpr_device_t *gdev)
+ 	idr_init(&apm->graph_info_idr);
+ 	idr_init(&apm->sub_graphs_idr);
+ 	idr_init(&apm->containers_idr);
++	idr_init(&apm->control_links_idr);
+ 
+ 	idr_init(&apm->modules_idr);
+ 
+diff --git a/sound/soc/qcom/qdsp6/q6apm.h b/sound/soc/qcom/qdsp6/q6apm.h
+index 9092359ccf90..96409075b294 100644
+--- a/sound/soc/qcom/qdsp6/q6apm.h
++++ b/sound/soc/qcom/qdsp6/q6apm.h
+@@ -67,6 +67,7 @@ struct q6apm {
+ 	struct idr graph_info_idr;
+ 	struct idr sub_graphs_idr;
+ 	struct idr containers_idr;
++	struct idr control_links_idr;
+ 	struct idr modules_idr;
+ };
+ 
+diff --git a/sound/soc/qcom/qdsp6/topology.c b/sound/soc/qcom/qdsp6/topology.c
+index 612d8f03e6e9..5de7e821e5f4 100644
+--- a/sound/soc/qcom/qdsp6/topology.c
++++ b/sound/soc/qcom/qdsp6/topology.c
+@@ -97,6 +97,7 @@ static struct audioreach_sub_graph *audioreach_tplg_alloc_sub_graph(struct q6apm
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	INIT_LIST_HEAD(&sg->container_list);
++	INIT_LIST_HEAD(&sg->control_link_list);
+ 
+ 	mutex_lock(&apm->lock);
+ 	ret = idr_alloc_u32(&apm->sub_graphs_idr, sg, &sub_graph_id, sub_graph_id, GFP_KERNEL);
+@@ -113,6 +114,51 @@ static struct audioreach_sub_graph *audioreach_tplg_alloc_sub_graph(struct q6apm
+ 	return sg;
+ }
+ 
++static struct audioreach_control_link *audioreach_tplg_alloc_control_link(struct q6apm *apm,
++							    struct audioreach_sub_graph *sg,
++							    uint32_t control_link_id,
++							    bool *found)
++{
++	struct audioreach_control_link *link;
++	int ret;
++
++	if (!control_link_id)
++		return ERR_PTR(-EINVAL);
++
++	mutex_lock(&apm->lock);
++	link = idr_find(&apm->control_links_idr, control_link_id);
++	mutex_unlock(&apm->lock);
++
++	if (link) {
++		*found = true;
++		return link;
++	}
++	*found = false;
++
++	link = kzalloc_obj(*link);
++	if (!link)
++		return ERR_PTR(-ENOMEM);
++
++	mutex_lock(&apm->lock);
++	ret = idr_alloc_u32(&apm->control_links_idr, link, &control_link_id, control_link_id,
++			    GFP_KERNEL);
++	mutex_unlock(&apm->lock);
++
++	if (ret < 0) {
++		dev_err(apm->dev, "Failed to allocate Control Link ID (%x)\n", control_link_id);
++		kfree(link);
++		return ERR_PTR(ret);
++	}
++
++	link->id = control_link_id;
++	link->sub_graph = sg;
++	/* add to control link list */
++	list_add_tail(&link->node, &sg->control_link_list);
++	sg->num_control_links++;
++
++	return link;
++}
++
+ static struct audioreach_container *audioreach_tplg_alloc_container(struct q6apm *apm,
+ 							    struct audioreach_sub_graph *sg,
+ 							    uint32_t container_id,
+@@ -348,6 +394,85 @@ audioreach_get_module_priv_data(const struct snd_soc_tplg_private *private)
+ 	return NULL;
+ }
+ 
++static void audioreach_parse_control_link_tokens(struct q6apm *apm,
++						 struct audioreach_control_link *link,
++						 const struct snd_soc_tplg_vendor_array *cl_array)
++{
++	const struct snd_soc_tplg_vendor_value_elem *cl_elem = cl_array->value;
++	int tkn_count = 0;
++
++	while (tkn_count <= (le32_to_cpu(cl_array->num_elems) - 1)) {
++		switch (le32_to_cpu(cl_elem->token)) {
++		case AR_TKN_U32_CONTROL_LINK_IID:
++			link->id = le32_to_cpu(cl_elem->value);
++			break;
++		case AR_TKN_U32_CONTROL_LINK_PEER1_MOD_IID:
++			link->peer1_mod_inst_id = le32_to_cpu(cl_elem->value);
++			break;
++		case AR_TKN_U32_CONTROL_LINK_PEER1_MOD_PORT_ID:
++			link->peer1_mod_port_id = le32_to_cpu(cl_elem->value);
++			break;
++		case AR_TKN_U32_CONTROL_LINK_PEER2_MOD_IID:
++			link->peer2_mod_inst_id = le32_to_cpu(cl_elem->value);
++			break;
++		case AR_TKN_U32_CONTROL_LINK_PEER2_MOD_PORT_ID:
++			link->peer2_mod_port_id = le32_to_cpu(cl_elem->value);
++			break;
++		case AR_TKN_U32_CONTROL_LINK_INTENT0:
++			link->intent[0] = le32_to_cpu(cl_elem->value);
++			break;
++		case AR_TKN_U32_CONTROL_LINK_INTENT1:
++			link->intent[1] = le32_to_cpu(cl_elem->value);
++			break;
++		case AR_TKN_U32_CONTROL_LINK_INTENT2:
++			link->intent[2] = le32_to_cpu(cl_elem->value);
++			break;
++		case AR_TKN_U32_CONTROL_LINK_INTENT3:
++			link->intent[3] = le32_to_cpu(cl_elem->value);
++			break;
++		default:
++			dev_err(apm->dev, "Not a valid token %d for control link graph\n",
++				le32_to_cpu(cl_elem->token));
++			break;
++		}
++		tkn_count++;
++		cl_elem++;
++	}
++}
++
++static void audioreach_parse_cl_tokens(struct q6apm *apm, struct audioreach_sub_graph *sg,
++				       const struct snd_soc_tplg_private *private)
++{
++	const struct snd_soc_tplg_vendor_value_elem *cl_elem;
++	const struct snd_soc_tplg_vendor_array *cl_array;
++	struct audioreach_control_link *link;
++	int link_id, tkn_count, sz;
++	bool found = false;
++
++	for (sz = 0; sz < le32_to_cpu(private->size);) {
++		cl_array = (struct snd_soc_tplg_vendor_array *)((u8 *)private->array + sz);
++		cl_elem = cl_array->value;
++		sz = sz + le32_to_cpu(cl_array->size);
++		tkn_count = 0;
++
++		/* Module config blobs are not token tuples, stop here */
++		if (le32_to_cpu(cl_array->type) == SND_SOC_AR_TPLG_MODULE_CFG_TYPE)
++			break;
++
++		while (tkn_count <= (le32_to_cpu(cl_array->num_elems) - 1)) {
++			if (le32_to_cpu(cl_elem->token) == AR_TKN_U32_CONTROL_LINK_IID) {
++				link_id = le32_to_cpu(cl_elem->value);
++				link = audioreach_tplg_alloc_control_link(apm, sg, link_id, &found);
++				/* Skip on error or already parsed control link data */
++				if (!IS_ERR(link) && !found)
++					audioreach_parse_control_link_tokens(apm, link, cl_array);
++			}
++			tkn_count++;
++			cl_elem++;
++		}
++	}
++}
++
+ static struct audioreach_sub_graph *audioreach_parse_sg_tokens(struct q6apm *apm,
+ 							       const struct snd_soc_tplg_private *private)
+ {
+@@ -617,6 +742,8 @@ static int audioreach_widget_load_module_common(struct snd_soc_component *compon
+ 	if (IS_ERR(sg))
+ 		return PTR_ERR(sg);
+ 
++	audioreach_parse_cl_tokens(apm, sg, &tplg_w->priv);
++
+ 	cont = audioreach_parse_cont_tokens(apm, sg, &tplg_w->priv);
+ 	if (IS_ERR(cont))
+ 		return PTR_ERR(cont);
+@@ -1108,6 +1235,13 @@ static int audioreach_widget_unload(struct snd_soc_component *scomp,
+ 		/* check if there are no more containers in the sub graph and remove it */
+ 		if (list_empty(&sg->container_list)) {
+ 			struct audioreach_graph_info *info = sg->info;
++			struct audioreach_control_link *link, *tmp;
++
++			list_for_each_entry_safe(link, tmp, &sg->control_link_list, node) {
++				idr_remove(&apm->control_links_idr, link->id);
++				list_del(&link->node);
++				kfree(link);
++			}
+ 
+ 			idr_remove(&apm->sub_graphs_idr, sg->sub_graph_id);
+ 			list_del(&sg->node);
 -- 
 2.47.3
 
