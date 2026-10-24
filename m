@@ -1,111 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.144
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792837618;
-	b=VNtLc45kucrdwb6e/l+Q4kuzK7k4EUXzZSExLvoOv6Mp3bnNCuo62g7ZbqKaG+m4ErfU
-	 OTUKGDpCMivYUmQPGQp/u4VcqJQ1PXcc5dJEkvP6JMiNNFy83i8l8UWcereblHGV/MBUE
-	 KVm0toP+IwumopkYhbb4InQG6LM5v6yB3Wq754ERxJPPgM0X3nLHkxP4xXk2ayY+F5mr9
-	 DD1FCFA9JbWU36VzvgsMCSI8+IHcUcPtYxSAlkNDGNEkud4LWSFF5vNJvHJ+TOSO0CvIE
-	 WEjZ36dEOc14GSSOAY+4BPj0PVpj4FZSiNqhk6MvyU2xcb5a7hoGz8DYaIHo0DtQmWw==
+	t=1792838948;
+	b=QqRGOXVKE0kpgPQLbPq9PfkNlHnbse+yaLHf5bzNag0+TXrlI6dt1t44/iBLr93L6g4x
+	 ZqDR2pfqGD/HwZTqhCAnreAo6VXhn6B/Pc/aMH5sETPQ16vf5Mzp9jTI5g5jcSeeh2gcf
+	 tuoCl/pJWwezR+xpZT4T7YDEId7CG7MlGVC1V0toBWAOt5/kIvYsc+xbluzVT44HoiY8W
+	 Uqen3N1KZMNMGXAr+23msvjZ/oZFXsl7J6fCKHETJBOgQmTb7NyH/j24Rywl6xll+4qSD
+	 V5h2VM7VFzAicqwvYYNfqMQq6yaQAzKBGegIYdjqN5GolaslQMWLML+37r+DpuG0KAA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792837618;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=F4GF/YHFpQCaR6gBCt0pMceA0m8Tmzj0vyf3rVcVrvU=;
-	b=lT0sC6h+/FAO4woGzvr0jlyEmAGr+I3xPHeSFkSpBK8P6np0FOaTYIgYAMd/sp53mYvx
-	 sIJ1gt9p0QbABDB3QJEmeEXESOIQH/Xmo85K6qu+tGqqJphaxeSTREC5ei8JhzlhnfYRF
-	 /pdPAPdAnYUfRagbZginCtc+V9vJty3iG8dglEUSesK/eHwOQb2OyiXRC33v4fvL6N8b+
-	 86sdHJ8c+ZJ51DhL/qlUeHUkmrpb09mcxxIYHmnOwIbd71rOKA6ZB64hmpgMh9NxjhoLf
-	 YywFquK/qweM75seGuAn6wYiy6BeZp8YfKO/CVKNDKmsJF8L+ZROCcgmXcK2IL8fs3g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792838948;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=ADMYCk3rFaWn5Xa2fjtzLl1HSNYpH0Tk9E9gqQzGpDw=;
+	b=tHyhPqNyEDqmbenbq/wtOPUO+MklJUp+fK1sKOcz8WWgmcGHwI65RXyToywXC6mHmj2D
+	 rH35hQHlgqmxK2Yerw440jZHBx9Pg8YysplaKxcG6BEXABhnnxOk8jTaTXTfSaBlTF7iJ
+	 mJhKfzpHOL05ObiXrOI56kX/pwMHadc4rJKdbrrSYhA7JwX5eCwBAyHuIfC56lAhJKP9a
+	 yNFwV7JVIGK7avcKg2eiwbUUTK3rwDiI/Db5P71dilbPyzihO4WRvSzlOuJVOdIsqOtdR
+	 xdRvJzDNDepGxjBhduhvvo7PyBm00YAc0vzLvHsrXZjxO3aj7tHJHJCX3AxTrv7JaTA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=willbush.dev;
-	spf=pass smtp.mailfrom=willbush.dev;
-	dkim=pass header.d=willbush.dev header.i=@willbush.dev header.a=rsa-sha256 header.s=fm1 header.b=b5pkVAGW;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=nglupo5P;
-	arc=none smtp.remote-ip=202.12.124.144
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=q+XnDi+N;
+	arc=none smtp.remote-ip=74.125.82.181
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3FF0606A31A
-	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 10:26:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3FF0606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=willbush.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=willbush.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7441B606A31A
+	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 10:49:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7441B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=willbush.dev header.i=@willbush.dev header.a=rsa-sha256 header.s=fm1 header.b=b5pkVAGW;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=nglupo5P
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.stl.internal (Postfix) with ESMTP id A26531D00133
-	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 06:26:56 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-01.internal (MEProxy); Sat, 24 Oct 2026 06:26:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=willbush.dev; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1792837616;
-	 x=1792924016; bh=F4GF/YHFpQCaR6gBCt0pMceA0m8Tmzj0vyf3rVcVrvU=; b=
-	b5pkVAGWlFJ7xh3wOa/ewnYXAQAlRZ7i3KtoFg5qzXT2/HIIxJFJ+c0WT3X/W2bB
-	Y1Vp9ApinjAXMdQ5q7/o0PORiQ7NPTShDi1pZx1sKLd/CZd8aqQsCpomYL0lzBsz
-	PmM8bSyaa/TRdPAZNRKrXn3c2DNOtlRDCD8bW32chmO55W6tbQc9ui1Af3Mvxxde
-	L7HgJ2umkbA5NkwwQINYzuTmnM4cMcKNBIBH2m6A2aY5YCWQ5SC5vv0Z4XZ41pdJ
-	6u7SX4I1FX45+7zdHkeL7rokpqSY34nQDy8qDhgXktz8Vm7py0PBmz0mZJeCGCnU
-	hOaOuWhdHr27MtvKscRyFA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792837616; x=
-	1792924016; bh=F4GF/YHFpQCaR6gBCt0pMceA0m8Tmzj0vyf3rVcVrvU=; b=n
-	glupo5P+bo33CKeY1AMr/42EjmaZ/N3388qyahmNvE1zu0mGjq14XdWoy7DwGugU
-	hj9PrzkzbAkaTa2dZOMEP7ECdulEf/TdO7rzcoHX/EWzC3BOlmdMoCMYmWTZW2Qq
-	bx1yQTcocnD28meHspPawzNbUpeqr7T574fcaB4e/5uJwhWZ6mRPVADpHAPcSHQQ
-	pRNOrWaLh6TTHl9f/ouMR3h06ic5Q80VydHmCUdBWop0AJg4iO46QXB3gLcAXvj9
-	7mNR/RGCfUCDFNyVwTpq2p+HVrFRKERtQt1aabcfaa+PVzzjZRntTkZbTcc3WIET
-	JdVIcDbkGKQQyONnxEHmQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=willbush.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1792837616; d=willbush.dev;
-	mf=PHdpbGxAd2lsbGJ1c2guZGV2Pg==;
-	rt=PGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZz4=;
-	s=fm1:rsa-sha256:QMc+V3AR+yIU420223Xhg+eI3HPgU1iRN72vjJXvXsVfzLe
-	dIITo62rx/FPd6EaZFl/SF9gi5q2oVEBZWqHMUxVOkQu/h9pUWlPdfCCLfZlvHTj
-	Roav39zUM6H7zCmZedpPcuz1t1UFxpkc9NPv82SMAyWAKyOiyWk5AFE4IknQcSb1
-	7ddfW+cA9JH8jUaOGAfJ08FGq9yaI7RVeJPzIvPcw+x82G+iCZea+OoIQ71sk9ak
-	VqjDYBeUiCjp2teoIrh40w+mUrUJwf0XaWjb4nQugyEyZT98Of4GxjGQ8wNOhf8s
-	lkNxmKJMq6LpkXaRcas/ionFG1c58CuuEZ6xKZg==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:GFvj5PUssEElx8MeEIj2yuT1jZs9cUZ52cQsqxlYcdc=:F4GF/YHFpQCaR6gBCt0pMceA0m8Tmzj0vyf3rVcVrvU=;
-X-ME-Sender: <xms:8IfcatJNoymSmjqc1E4U9G0x3DBzJRd_1OR5DkMJBfJFN3AP7EYC_Q>
-    <xme:8Ifcaj-imScx-4lrjEmt_WvXxrVfE2ni3AUDGARWGJaKeGlr2bCwlMZ_SZHv71w8h
-    xbsW5qxE3jjI6VVW2gnGOgVLeNOWm04P60mkzTnfsjl9Hsc6P_tK3E>
-X-ME-Proxy-Cause: dmFkZTEMyYLQu2mHG1fCWK9eqXPlE4pPq3ymMC0teF//+ku6VD6HBSjnVZI9IW+TMNv5aO
-    wly7ZHwPPncPFggUlxGxdXRP6AMAiAvYCN/t0I9x637eT362fSsm5wM1FrsKSF26u4krK3
-    7J8vAppAE3msrpsoBC2bbMkNQ7p1xG8IZVLOqZvC1RYU04tjtvZdUXg3guhBTEU5KizTqn
-    Ml9bfEn4rL3c3NXUKdYfiowvDMUX0SdLDLJ5tNx2/+w28m1fk7NC2BcE4jm+g92kRp4fEf
-    TS0cGhtvfs1FzPzRgZFSJj5RrwnGgUCwg/C+vTvpDTlIzhAiJksIxb5K8fYSwehErQl6L9
-    uHRBesGSx1ssXWB72WVwXfbfxt/+z+TBg8138k5XpJO6RqcTMw4UFczdB07WhApfb+tQG1
-    RYrQSw5jmBFdS40ztEz7dEHwzZfCzdJg7S4kYMKXVjfusHoE7Xw1/31db9o0b546a8nu2p
-    3kIUrS8kK4yzNYGOmu0X1kush6OGN0pm/ZqUDOaN+4JG39aZOUSZFosmtBLB/6QGCP6xv6
-    Fz79xzU0QPR+B6EIGRgpt00rwA7+booviFoAj03LtzvKMAkSzd5rTkqpu+5BwBwAVxCqrv
-    uhiNxZJll+i7k5G/U1cBz7AEj+mOKo+j0Iz4b5Bg7EuxLC+SQ6ibuoxW+PrQ
-X-ME-Proxy: <xmx:8Ifcaqs9FWJEH4We7IHm1AA8vnp5qyx-IfWhcKH2EjSSVty4BPGAqA>
-    <xmx:8IfcavlkqAZ7rIv8tEN0LVNoRVPAzp6as-AG8arnp_l7gP-4-SugdQ>
-    <xmx:8Ifcatu9yZEhNfDWSOTePeDsRBPz-0X-ywyLW9csRRSHe_OmWID_5w>
-    <xmx:8IfcatdYi6Zb8e-Of1FZ9WCYgW_FO2rr4IusriEiIlmRuz5Zhy7Lbw>
-    <xmx:8IfcapK86z0yCQl4O3YkGeComZjPp2AfvCVoKUejvNv04ayzh8DrwpIZ>
-Feedback-ID: i0f194965:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 03AF7700069; Sat, 24 Oct 2026 06:26:56 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=q+XnDi+N
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-35c76e9614aso2534477eec.0
+        for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 03:49:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792838947; x=1793443747; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ADMYCk3rFaWn5Xa2fjtzLl1HSNYpH0Tk9E9gqQzGpDw=;
+        b=q+XnDi+NvR/kNZjBZtW2eNBZZOVJXQAHqCSHzBBPzu4TbeOt4VRHCudrncYL8EDF/5
+         ZKm5JTsnc0Zy1IuB7WroqH6PMD6P1RgWZDEshwnLNk8cutI42vfipkm9gimGYKHbS2t1
+         ImQLd477LTn5VlmUU9CzX2e6w5JWl9eDgsKxSJf3TdSWxRp5jkBC2mMccnqk3OzoHRf4
+         tOOpaR55kY8u9Joc0OIR7DJ1t02e7g1Z+Lj1/26w8b5rDU9PBEVcpZyV0Xo6skqw4WO/
+         BRxo0d3cTYPNCl3Q5sR4LVfuUCWoJ/mvHgxWdB2xKNQoNERUCplMMbgsEJVWq+uRDOKX
+         55Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792838947; x=1793443747;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ADMYCk3rFaWn5Xa2fjtzLl1HSNYpH0Tk9E9gqQzGpDw=;
+        b=tQPdKFiaqiOq1z8OT8FKtMHrMusgiKikzWdkImSlNSBJUG9pMo8ZNmUaztX17fTnT2
+         eew36Yvg2351weCkkiEwzBjlQywrYPpxN2aNOqPXCIMqVuBpHh421GRPDjq3WrxGBEf9
+         wev2DsfsX0mMh/UqjrIBLnam9d8NovFworqMqp5rGo6l0IhLpyy2jgp0LHShelrrcx2e
+         cqe1Hps4Mp+IvQSaHzWJHn8D7UvcEF5Gq9gh/iMOV3INq4nC4mDo9fNc1yQDrDr5pMps
+         Mtpcb38l+CqSmr/9hXml+WW8fptQOcRxz1Lm8PVYukMu1JpxVawa42KovChtQ4fTCUUl
+         UduQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzq/n+zgsnY40WLzf0FV9Y4MMnxQwg+MfmI6X/OiLjE4MeTHGZII+hLEn58fMTtvGlKHlqgWRORkk9tSw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJPxCfd094AlYW0AqyOQsG179v7Wwr7/48yolF4GamYhyK1Sghi
+	3ipWv2m5j0G7nzi3vXbmhCrc6LrJQ1m2prJ+VJXGxhJVcRLYUwvcascN
+X-Gm-Gg: AYBFou23ocfjqwyKF74cXZLW6q67CrBONtfuZFyoZsvKKKVBHM/LckBZb20YhUS8e3X
+	Me1udKAErcIXdV+tUR9qJARa1A2oDQ9SoTs2B86i/Vuv/pxr8MOL2tDm8JNHkxW0KmEl4aFyiIg
+	u+N8oVb8TdC0e+15+meitB05/BCzzwdvXk3tISByuPDuPt11XBZFckwgv92G6m0HhnyBPMbzVUK
+	jI+aV11qAxv3k95cbKLqhCI3zLV6WPOOEisbXKOvJa1FLT5HQbdaYUbQ6MG5L5B26XvZCv0k51T
+	EHzUeRt+zPPiLPQPQ8PE6MDrc51iXj5o5qKubdHwjPya/ao19DHV9V7cz1SXK5fAS1KCqCJUC+H
+	5uwD/v803qHLa2sEr4h4VYen6iP7dRQ8uoRYCklDBvmz8t1uf6Em+R1PMJzJCBS6b6HkH5l7PQr
+	IH0mcPewM40z/+8GHH3RSoecnPhuonqB0tHc1UbvOhgnUb1rbdinmszso/ki6KAe1yA2abGQUk1
+	q7S+3NqkTl+I9IEvEn604mTvOFNuPNDfxq4qtaoXpLPh2/6p/Fu3xtRcJ8W9C/LtK+C+Y8MSASG
+	qx1y0gH/8FunjmCBkh8T
+X-Received: by 2002:a05:7300:8816:b0:369:e930:6bc4 with SMTP id 5a478bee46e88-369e9306c7emr1874724eec.30.1792838947444;
+        Sat, 24 Oct 2026 03:49:07 -0700 (PDT)
+Received: from flipper.lan (2403-580b-35b2-8--9d8.ip6.aussiebb.net. [2403:580b:35b2:8::9d8])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e8ee72c0sm9300668eec.29.2026.10.24.03.49.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Oct 2026 03:49:06 -0700 (PDT)
+From: Kel Modderman <kelvmod@gmail.com>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Sen Wang <sen@ti.com>,
+	linux-sound@vger.kernel.org
+Subject: tas2783-sdw: firmware names and I/V-sense capture on HP 8EA1
+Date: Sat, 24 Oct 2026 20:49:01 +1000
+Message-ID: <20261024104901.9731-1-kelvmod@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -115,24 +96,32 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-ThreadId: AyAsXzFXx5f3
-Date: Sat, 24 Oct 2026 05:26:34 -0500
-From: "Will Bush" <will@willbush.dev>
-To: "Takashi Iwai" <tiwai@suse.de>, linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Message-Id: <c87b68d6-8e4d-4d4b-b5a9-5918af9f2217@app.fastmail.com>
-In-Reply-To: <20261019102347.2425406-1-tiwai@suse.de>
-References: <20261019102347.2425406-1-tiwai@suse.de>
-Subject: Re: [PATCH] ALSA: usb-audio: Avoid applying boot quirk for Behringer UMC204HD
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 19, 2026, at 5:23 AM, Takashi Iwai wrote:
-> As a quick workaround, skip the quirk for those UMC204HD models.
+Hi Baojun,
 
-I tested your patch on 7.2.10 with my UMC204HD (1397:0508) and it works. Thanks!
+Thanks for the TAS2783 firmware and the UCM profile. With kernel 7.3 the
+speakers on my HP OmniBook X Flip 14 (board 8EA1, two TAS2783 on link 0,
+uids 9 and C) now work in stereo.
 
-Tested-by: Will Bush <will@willbush.dev>
+Two small things:
 
-Best,
-Will
+1. linux-firmware commit 43cc9de7 ships 8EA1 (and 8EA2, 8EA4-8EA8, 9013,
+   9014, 9015, 9026) only with four-field names, for example
+   ti/audio/tas2783/8EA1-0-0-0x9.bin. tas2783-sdw.c in 7.3 and master
+   still requests "%04X-%1X-%s%1X.bin", for example 8EA1-0-0x9.bin, so
+   the firmware is not found without local symlinks. What does the third
+   field mean? Should the driver build it, or should linux-firmware add
+   three-field links?
+
+2. The I/V-sense capture SDW0-PIN4-CAPTURE-SmartAmp cannot be opened:
+
+     slave-tas2783 sdw:0:0:0102:0000:01:c: port 2 not supported for TX
+
+   PipeWire probes every PCM at session start, so this logs about 120
+   errors per boot. Is this capture expected to work on this board?
+
+I am happy to test patches.
+
+Thanks,
+Kel
