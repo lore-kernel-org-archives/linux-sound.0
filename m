@@ -1,54 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792836255;
-	b=OxDX4YFupm+wk6fS+17soq0HurmoEcVbdu035/8JOZR3OvJZ37tGIaN5xts4GNhRMeNE
-	 Xhg3i3KTCTsj7Sfh+XdSBfl7SbgDBVbMWFgUwmXLjkUUh0IJ70GPadCvL5krffg1miikT
-	 l3VOVHAmu7+Gb6oPGdGqq3vtIAArAlHoW6Q7/EWcuqJo9KJrsySy684v2oZk2UHQZ1oYx
-	 2agifxlQFkRpCLNBQxfTEFBcyFBLnbENxANDXolLCeSwBzLYBcsPSAC4/PCnd7EoHS/Lu
-	 lZfEcqI1u18Pp1uCpBHunRhDqJtVGWOvrlUbK5NUw8rUAf89UBgcrfK6ECxQF6eAZQA==
+	t=1792837321;
+	b=wAzSz/klhg8PwaBW/KQHWNKpzYgPkKcwlalgsTMMtAw75K8EAHohX/Utem8lCMTvOUDy
+	 eO4IYqRzutMthWoFsXYsTcDusF9xVp6z2OM674QhvLFXkPeqPQnpM7adjDnJjhxdeGqZ2
+	 IIKWqQoqoh8ItarN8cXYEIwmDPYcYBnTxgov9jXXYd51/1YWYOfsTyc3Dxzj42pIO0RAx
+	 4gz6myqRAvWZAs2+YqFHEj480ds9PCiKioCaeJ0aI20i0GgbowgguPSVzvG++372Zdosi
+	 d4C/kA0nKPGX3i0kDvLj4qCSeaXEILMiO3QRKoDdp9KLyWsCDIJkvefCaD4Iciup5KA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792836255;
-	h=DMARC-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=ZLX2FJ8teYpCnQ3RfDTqC7zap37D6OQ9RPoG9fqqkT8=;
-	b=kSlrWrXNjte9wPRZo6HucXeso7uyJYJ8FajStUNkKkYB66oVUnXy25VC+ZXNO2ohtPjH
-	 quEVb1WUELFJtgN4xS0rKOWx6HJ68icYe1cPKH4uCKtgbcaCSbDMOc/ItzJDRaY/+xFto
-	 /O4rleDilDzvU2CgQPqovmmfEGRFHJq6U0YZncljpzA6S2MGTb8rES1b98FPT6C+vYqiF
-	 G63vpNpBoDbvrrv0/YapX3tpY2bkrX7mbJX3MAafysvWyksviyXoJ3XiRBn5YgAhL+F4j
-	 mHw09B5Z14j6EoK5ttFV/lAM6AZUyVengs21gQiJgCAqvredKuvPBiasbQMV2Ny25Ww==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792837321;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=eYXM4y7vVcl00H+9DObDCdderh0QDVdn3eYPAzsxly4=;
+	b=lgV1nNWi4Iii7s1jbiNiDHGK85Kdx4jsOqZp8TJYOEAaHFd9Bc1hYsCM1a/P7nG+HMMW
+	 9kb9vl8vI+R+vtzpQnfyyK/9VCSlWYREmWiagiZQxiVB/rdgVuExGZiyVsKLvcerucPha
+	 5znZ2axfpMng3gjyn1OHSQOdBSYkn/jS5uuDQVQNSyyB92S07E1enja61JHXQ2pZIkS3V
+	 N8GJevzzv6kj/W3hmkJQZIKzIn2FpUFVajdzQcYpgGvpq19PiUl2Mw4SO8nUdpoZPzjnP
+	 3qr2h5fk6bx3sPh02tdhhRgkqvFcgel4vv+6srfFp6ethiXszJjqlRztWpvJ4wIMJLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=VyeUJLWI;
-	arc=none smtp.remote-ip=117.135.210.4
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OOZxQpcM;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42989606A31B
-	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 10:04:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42989606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5B7606A31B
+	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 10:22:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=VyeUJLWI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version:
-	Content-Type; bh=ZLX2FJ8teYpCnQ3RfDTqC7zap37D6OQ9RPoG9fqqkT8=;
-	b=VyeUJLWIZowmFIkrb87raiEk3FSlhuXigOFqwV4Fnr5R/lZ1N3+fkv31bYpJZi
-	gYeXbeW432NBpa2aGQYiyqqhblmuoKbZev/kWPhUH1EAFqBy6kCK+mGjtM61A/xc
-	YQ/iRDOmx0C11OvBZ0643KzOr/pI8AoUIy/IFFeXBtfvY=
-From: Bob Hui <bg9oxa@163.com>
-To: linux-sound@vger.kernel.org
-Cc: sashiko-reviews@lists.linux.dev, bg9oxa@163.com
-Subject: Re: [PATCH 1/2] ASoC: es8328: describe the power-on register values
- in the regmap
-Date: Sat, 24 Oct 2026 18:03:57 +0800
-Message-ID: <179283623767.21314.9471498417293367893@163.com>
-In-Reply-To: <sashiko-outbox-183604@kernel.org>
-References: <sashiko-outbox-183604@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OOZxQpcM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3982F1F01825;
+	Sat, 24 Oct 2026 10:21:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792837320;
+	bh=eYXM4y7vVcl00H+9DObDCdderh0QDVdn3eYPAzsxly4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=OOZxQpcMc8VvkkOt82eS9CKR1G/9ZWClkZJCGAzGW5CmyyFBgN0kuiE+QE8QWRd/G
+	 4VUJHDQuoPtZZIKtZS9Lzxjnsa4uVENe3m/uMUnPnNvZf+o/VeAcsVFcwclYDokfNz
+	 Hjl9Q7OO4/TOdsucXOTtFwrAeC7r+AKsPxKB8aLoUntOzuuXzcdYfJHRhit0mDpHTK
+	 /rtpVCs7+BnzhmSqigkVjElzJuKJmZKnkVpQ9TuLvAB4//+Gwb7Ar+rN/w51v6FiR6
+	 IghfpV6CIfh4opwvPcQ8nDMWmGtS71jfqAwMcullCTaSRjggiZJ4bPAH2fg5h8JEIX
+	 4eVHhNJmE/XDg==
+Message-ID: <sashiko-outbox-183642@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ALSA: us122l: mark hwdep mappings VM_MIXEDMAP
+Reply-To: sashiko-reviews@lists.linux.dev
+To: =?utf-8?b?TG9yZW56byBTdG9ha2VzIChBUk0p?= <ljs@kernel.org>, "Andrew
+ Morton" <akpm@linux-foundation.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>, "Kazuki Hanai" <hnkz.64@gmail.com>
+Cc: "Takashi Iwai" <tiwai@suse.de>, linux-sound@vger.kernel.org, linux-mm@kvack.org, "David
+ Carlier" <devnexen@gmail.com>
+In-Reply-To: <20261023-fix-us122l-mixedmap-v1-1-e7bdd053850f@kernel.org>
+References: <20261023-fix-us122l-mixedmap-v1-1-e7bdd053850f@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 24 Oct 2026 10:21:59 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -57,41 +61,89 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDXn8CNgtxqNz1_CA--.42446S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tw45XF4UCr4fAF4rXr47urg_yoW8XrW5pF
-	ZxK343Kr4kur4Ikrn7Zr4jvFyruayfta45Cry8Jw47Za15A342yrZ3tF4YyF10krZ5Ka4a
-	qrs8X34xCayDZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JUN_-9UUUUU=
-X-CM-SenderInfo: lejz05rd6rljoofrz/xtbC3g6VA2rcgo7yVQAA3b
 
-Yes, that can happen, and it is a deliberate trade-off rather than
-something this patch alone can rule out.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] ALSA: us122l: VM_MIXEDMAP in usb_stream_hwdep_mmap() breaks mremap=
+()
+--
 
-The values are the reset values from the ES8328 datasheet (Revision 1.0,
-sections 6.1.1 to 6.3.30).  They are correct whenever the codec has been
-through a power cycle, which is the normal case: probe enables the
-supplies and the codec comes up in its reset state.
+commit c40f3445d293957b8d56aca33b8d5ed4071fcf4b
+Author: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Where the codec is not power cycled - a warm reboot, kexec, or a driver
-rebind on a board whose supplies are always on - the cache can describe a
-state the hardware is not in.  The driver does not reset the codec at
-probe time and so cannot guarantee otherwise.  In those cases the mixer
-state that userspace installs (alsactl or UCM) is what brings the codec
-back to a usable state.  Without the register cache the same board still
-comes up in whatever state it was left in, the only difference is that
-the driver reads that state back instead of assuming the reset values.
+ALSA: us122l: mark hwdep mappings VM_MIXEDMAP
 
-The suspend/resume path already forces the two back together:
-es8328_resume() calls regcache_mark_dirty() and regcache_sync(), so after
-the first suspend/resume cycle the hardware matches the cache again.
+This commit sets VM_MIXEDMAP in usb_stream_hwdep_mmap() so that clearing
+VM_MAYWRITE on read mappings satisfies the core mm requirement that
+mappings clearing VMA_MAYWRITE_BIT must not be mm-managed.
 
-One thing worth stating explicitly: the driver also binds
-"everest,es8388", and the ES8388 comes up with different reset values in
-a handful of registers, so on those parts the cached values do not
-describe the hardware.  I can split the table per chip if that is
-preferred; it needs the device type plumbed through the i2c/spi match
-data.
+> diff --git a/sound/usb/usx2y/us122l.c b/sound/usb/usx2y/us122l.c
+> index a5db0d044ef96..2986a90ea3351 100644
+> --- a/sound/usb/usx2y/us122l.c
+> +++ b/sound/usb/usx2y/us122l.c
+> @@ -193,7 +193,7 @@ static int usb_stream_hwdep_mmap(struct snd_hwdep *hw,
+>  	}
+> =20
+>  	area->vm_ops =3D &usb_stream_hwdep_vm_ops;
+> -	vm_flags_set(area, VM_DONTDUMP);
+> +	vm_flags_set(area, VM_MIXEDMAP | VM_DONTDUMP);
+>  	if (!read)
+>  		vm_flags_set(area, VM_DONTEXPAND);
 
+[Severity: High]
+Does setting VM_MIXEDMAP here cause a regression when userspace expands
+the read mapping with mremap()?
+
+In sound/usb/usx2y/us122l.c:usb_stream_hwdep_mmap(), VM_DONTEXPAND is
+intentionally omitted when read is true so that userspace (such as the
+alsa-plugins pcm_usb_stream plugin) can initially mmap() the first page to
+read s->read_size and then expand the read VMA to s->read_size via
+mremap().
+
+When userspace calls mremap() to expand this VMA and the virtual address
+range following the VMA is unmapped, do_mremap() -> mremap_at() ->
+expand_vma() takes the in-place expansion path in mm/mremap.c:
+
+mm/mremap.c:expand_vma() {
+	if (vrm_can_expand_in_place(vrm)) {
+		err =3D expand_vma_in_place(vrm);
+		if (err)
+			return err;
+
+		/* OK we're done! */
+		return vrm->addr;
+	}
+}
+
+expand_vma_in_place() then calls vma_merge_extend():
+
+mm/mremap.c:expand_vma_in_place() {
+	vma =3D vma_merge_extend(&vmi, vma, vrm->delta);
+	if (!vma) {
+		vrm_uncharge(vrm);
+		return -ENOMEM;
+	}
+}
+
+However, vma_merge_extend() -> vma_merge_new_range() in mm/vma.c checks
+whether the VMA flags allow merging:
+
+mm/vma.c:vma_merge_new_range() {
+	if (!vma_flags_can_merge(&vmg->vma_flags))
+		return NULL;
+}
+
+And vma_flags_can_merge() -> vma_flags_is_mm_backed() ->
+vma_flags_is_mm_managed() in include/linux/mm.h rejects VMAs with
+VMA_MIXEDMAP_BIT set:
+
+include/linux/mm.h:vma_flags_is_mm_managed() {
+	return !vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT);
+}
+
+With VM_MIXEDMAP set on the read VMA, won't vma_merge_extend() return NULL
+and cause expand_vma_in_place() to fail the mremap() call with -ENOMEM?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023-fix-us122l=
+-mixedmap-v1-1-e7bdd053850f@kernel.org?part=3D1
