@@ -1,92 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792838948;
-	b=QqRGOXVKE0kpgPQLbPq9PfkNlHnbse+yaLHf5bzNag0+TXrlI6dt1t44/iBLr93L6g4x
-	 ZqDR2pfqGD/HwZTqhCAnreAo6VXhn6B/Pc/aMH5sETPQ16vf5Mzp9jTI5g5jcSeeh2gcf
-	 tuoCl/pJWwezR+xpZT4T7YDEId7CG7MlGVC1V0toBWAOt5/kIvYsc+xbluzVT44HoiY8W
-	 Uqen3N1KZMNMGXAr+23msvjZ/oZFXsl7J6fCKHETJBOgQmTb7NyH/j24Rywl6xll+4qSD
-	 V5h2VM7VFzAicqwvYYNfqMQq6yaQAzKBGegIYdjqN5GolaslQMWLML+37r+DpuG0KAA==
+	t=1792839509;
+	b=L/UBlcaI/B6E6WqGy8fnF+P4DphrM06+wx5QfPoJ2GswFwM3d3gBx6MT9Prsg3e5X3m5
+	 Hb5MgIvhaslAfEWsBOVGRc4G+UbN2twyMktQho+7/WV8C/6DEnBouepP1P/QriEX09AOe
+	 BTepKHvvQiNbGScH02WZSMVFacV60Q8wvUH79pdG3uwhqhQIbO+QMk+cjl4haVNosX/P9
+	 YfEfwR+jpFugru52otcg4COZsEip864cbQ/lllfOGmfZ4/iYuUVSgoNHzV1hxlhC+/mG7
+	 FsdYAgRphJ6Mv0HJU9GLeoe7cqgoYb8ybw4eM3Pfo6Z0WB0XoipPdZ7lGWMvxTxl63w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792838948;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792839509;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ADMYCk3rFaWn5Xa2fjtzLl1HSNYpH0Tk9E9gqQzGpDw=;
-	b=tHyhPqNyEDqmbenbq/wtOPUO+MklJUp+fK1sKOcz8WWgmcGHwI65RXyToywXC6mHmj2D
-	 rH35hQHlgqmxK2Yerw440jZHBx9Pg8YysplaKxcG6BEXABhnnxOk8jTaTXTfSaBlTF7iJ
-	 mJhKfzpHOL05ObiXrOI56kX/pwMHadc4rJKdbrrSYhA7JwX5eCwBAyHuIfC56lAhJKP9a
-	 yNFwV7JVIGK7avcKg2eiwbUUTK3rwDiI/Db5P71dilbPyzihO4WRvSzlOuJVOdIsqOtdR
-	 xdRvJzDNDepGxjBhduhvvo7PyBm00YAc0vzLvHsrXZjxO3aj7tHJHJCX3AxTrv7JaTA==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=qeLr98hwx2Npmt/8cCki7syhUFRf60PkxR+oBPVC0E4=;
+	b=i8WpQRC95+nUHh1O2RX2wcooxjY1BwMTqcgZdtOFma18IAr4ILXbuZvOscSa9WwLhELz
+	 /QlXf+UhFbM3aYjnpWX9/xbE62PlmvwCo9OZupH+T8gMFwLECL+AM+jQVQ3Ir9CAYxhlb
+	 DOoKZdDTCueJ9FA3rQ0BfXqedirsXCiALAC5G1YvrNTgRNofn5egipEzgziOPzF9dk6wE
+	 C6ff1RE/W2cyopWhaAwI3k+XpiV8jMEr0+CmHN0onjHL6t+I7SX3eRt0ggJWPr5DLjk63
+	 HyvYRBtVsnkbh/CF2Ei9xsNcUn45h1YKrKrUXdXenLsxQv7EyRpfctr8rCps4IBkcow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=q+XnDi+N;
-	arc=none smtp.remote-ip=74.125.82.181
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ARIax1PH;
+	arc=none smtp.remote-ip=74.125.82.176
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7441B606A31A
-	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 10:49:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7441B606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C35606A31A
+	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 10:58:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53C35606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=q+XnDi+N
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-35c76e9614aso2534477eec.0
-        for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 03:49:08 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ARIax1PH
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-3535bf8b3e0so2662723eec.0
+        for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 03:58:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792838947; x=1793443747; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ADMYCk3rFaWn5Xa2fjtzLl1HSNYpH0Tk9E9gqQzGpDw=;
-        b=q+XnDi+NvR/kNZjBZtW2eNBZZOVJXQAHqCSHzBBPzu4TbeOt4VRHCudrncYL8EDF/5
-         ZKm5JTsnc0Zy1IuB7WroqH6PMD6P1RgWZDEshwnLNk8cutI42vfipkm9gimGYKHbS2t1
-         ImQLd477LTn5VlmUU9CzX2e6w5JWl9eDgsKxSJf3TdSWxRp5jkBC2mMccnqk3OzoHRf4
-         tOOpaR55kY8u9Joc0OIR7DJ1t02e7g1Z+Lj1/26w8b5rDU9PBEVcpZyV0Xo6skqw4WO/
-         BRxo0d3cTYPNCl3Q5sR4LVfuUCWoJ/mvHgxWdB2xKNQoNERUCplMMbgsEJVWq+uRDOKX
-         55Jw==
+        d=gmail.com; s=20251104; t=1792839508; x=1793444308; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=qeLr98hwx2Npmt/8cCki7syhUFRf60PkxR+oBPVC0E4=;
+        b=ARIax1PHiwoCIAfJPY0brvUQYCM9K9tmvsOS6Lpx64OXKhsMhMEoZ2dKjKdzTqrzDQ
+         ta3hp0vWxBdqRvknAidj1QtzKMOa3ujr4lyVbyXgc0+qfRFwTUo3/gYOqaiv7boqrU8b
+         mdCxemuOCF/jIi8jB15H5KKMXsgMRhbomM6enOm41NmezAno+Y1l4swXjMZu4WSuj+fi
+         5d/lOqnFXdjHLB6PN0mvFgrfJBxK1c7znQemDtfCGwCMW6/fmVwYyp+qyiGBD6GyAFr8
+         xQgvU+6Y6Xz1tP7fG2q9iqV/PJyiUGXb5LcoxHuDDC2uo6HL863ewMkbrE5jGiMlRlgD
+         erwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792838947; x=1793443747;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ADMYCk3rFaWn5Xa2fjtzLl1HSNYpH0Tk9E9gqQzGpDw=;
-        b=tQPdKFiaqiOq1z8OT8FKtMHrMusgiKikzWdkImSlNSBJUG9pMo8ZNmUaztX17fTnT2
-         eew36Yvg2351weCkkiEwzBjlQywrYPpxN2aNOqPXCIMqVuBpHh421GRPDjq3WrxGBEf9
-         wev2DsfsX0mMh/UqjrIBLnam9d8NovFworqMqp5rGo6l0IhLpyy2jgp0LHShelrrcx2e
-         cqe1Hps4Mp+IvQSaHzWJHn8D7UvcEF5Gq9gh/iMOV3INq4nC4mDo9fNc1yQDrDr5pMps
-         Mtpcb38l+CqSmr/9hXml+WW8fptQOcRxz1Lm8PVYukMu1JpxVawa42KovChtQ4fTCUUl
-         UduQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzq/n+zgsnY40WLzf0FV9Y4MMnxQwg+MfmI6X/OiLjE4MeTHGZII+hLEn58fMTtvGlKHlqgWRORkk9tSw==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJPxCfd094AlYW0AqyOQsG179v7Wwr7/48yolF4GamYhyK1Sghi
-	3ipWv2m5j0G7nzi3vXbmhCrc6LrJQ1m2prJ+VJXGxhJVcRLYUwvcascN
-X-Gm-Gg: AYBFou23ocfjqwyKF74cXZLW6q67CrBONtfuZFyoZsvKKKVBHM/LckBZb20YhUS8e3X
-	Me1udKAErcIXdV+tUR9qJARa1A2oDQ9SoTs2B86i/Vuv/pxr8MOL2tDm8JNHkxW0KmEl4aFyiIg
-	u+N8oVb8TdC0e+15+meitB05/BCzzwdvXk3tISByuPDuPt11XBZFckwgv92G6m0HhnyBPMbzVUK
-	jI+aV11qAxv3k95cbKLqhCI3zLV6WPOOEisbXKOvJa1FLT5HQbdaYUbQ6MG5L5B26XvZCv0k51T
-	EHzUeRt+zPPiLPQPQ8PE6MDrc51iXj5o5qKubdHwjPya/ao19DHV9V7cz1SXK5fAS1KCqCJUC+H
-	5uwD/v803qHLa2sEr4h4VYen6iP7dRQ8uoRYCklDBvmz8t1uf6Em+R1PMJzJCBS6b6HkH5l7PQr
-	IH0mcPewM40z/+8GHH3RSoecnPhuonqB0tHc1UbvOhgnUb1rbdinmszso/ki6KAe1yA2abGQUk1
-	q7S+3NqkTl+I9IEvEn604mTvOFNuPNDfxq4qtaoXpLPh2/6p/Fu3xtRcJ8W9C/LtK+C+Y8MSASG
-	qx1y0gH/8FunjmCBkh8T
-X-Received: by 2002:a05:7300:8816:b0:369:e930:6bc4 with SMTP id 5a478bee46e88-369e9306c7emr1874724eec.30.1792838947444;
-        Sat, 24 Oct 2026 03:49:07 -0700 (PDT)
-Received: from flipper.lan (2403-580b-35b2-8--9d8.ip6.aussiebb.net. [2403:580b:35b2:8::9d8])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e8ee72c0sm9300668eec.29.2026.10.24.03.49.05
+        d=1e100.net; s=20260707; t=1792839508; x=1793444308;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=qeLr98hwx2Npmt/8cCki7syhUFRf60PkxR+oBPVC0E4=;
+        b=wf0NUXqTPbPQxlM/c15u5z3khFPe3DzoAxxxbtXSebSew96P5IOAqLga82jOtebKRT
+         V84tRbpbVk2URhDdCi/t9Ph2PzGCNlVFDl1Eowa2KYmGGkGCabtOYH1zIeGjfsU6YF9d
+         otVbViEl89GN2DY0vAAo4VLAUChmVYnXWJqZchLHh8WzoPPt3z/2ehlpxlVRLnVi0gVx
+         6PuN5HZkavQjN1I0z2fnSZ7g6c8z7dujCexRqaQoOvkdpg+Ghb1SCFF6BHGOWuBieFzU
+         JLynD6LL8AeSq7evIn9XihjS+unuIm8sCz7rSdQdDV+wKLwtxF3hwvOhA1yCBiVhM8Pf
+         nt4g==
+X-Gm-Message-State: AFq9FYJUsMiqQElQqE3G8jwIknp+63G6Z9Df1wy914FVxG4ZyeJ8RaRl
+	WCI/YUr332GyDuhUliSOsK5SvSrzzGfSyuf7eUq8kuza8nIMsGM846Jr
+X-Gm-Gg: AYBFou2/4uJ9cEYl8nr2aAEN4/WnBNSc88QCFbGzYawKn2S2AnilZ3sbOAtq2pCNu2b
+	tv1vX+JKaxscs66is/8B1Ffv9hFDXHox/OzjFUHz2hDjvZMatLvpLrxn8SZxR8B8qBiX+YYMoLZ
+	3YdCTYRetMb97FG8/GOMx2h2M/dBUekvYwHLWUTXAoGLQyqx0hJmHCfHIQQyjOjdb1G6BU7ya85
+	4Y0+wVtkhWzPteWXc+uDNodLHCNc61TCzVTc/6V4Y7MG1qAl9kQ3PLO+OJjXId0g8UNzTMryjGT
+	YYALJP2/QJBAQrV80dN/uYZXHvAyi8QVjdrQcgAF/Sh35YkQUKYfMNb9GcPFkSNob8pEHJWC+EM
+	0yKepSV9/pSVgxo/Ybn+ZkiKU4XsUFMGNwxG2gXM/5WCeJ/3uQLj7zS23MLXiA4sm19Tcbv9pRq
+	c4xEYIn4DxVEk8TUYVbi2NoFbs4g1OkMxIhrI9EO/K5m2HSSCJcuzQD4paqZiQQYTmCalEEMG3K
+	yVqbDVSxJ9QuLqGmP9rPPDi+AhAliPAoBPeEiqiXtbYO9T36JSgFC4bMMcVqms0Sc5OGuxn9xlc
+	ZiF/rVSLodK4+Rd8xl9dcU6rUEgMv6MBviqbwkA1FZB5zzuRimyWcv1hCa0jJbe1RozXooTdfXK
+	yCoab0dt2P5jHZjRqi8svOHvxgJch
+X-Received: by 2002:a05:7022:2229:b0:149:1feb:6dae with SMTP id a92af1059eb24-19937abcc34mr3812247c88.39.1792839508391;
+        Sat, 24 Oct 2026 03:58:28 -0700 (PDT)
+Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1989ff2ea25sm5947281c88.5.2026.10.24.03.58.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Oct 2026 03:49:06 -0700 (PDT)
-From: Kel Modderman <kelvmod@gmail.com>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Sen Wang <sen@ti.com>,
-	linux-sound@vger.kernel.org
-Subject: tas2783-sdw: firmware names and I/V-sense capture on HP 8EA1
-Date: Sat, 24 Oct 2026 20:49:01 +1000
-Message-ID: <20261024104901.9731-1-kelvmod@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        Sat, 24 Oct 2026 03:58:28 -0700 (PDT)
+From: James Calligeros <jcalligeros99@gmail.com>
+Date: Sat, 24 Oct 2026 20:58:15 +1000
+Subject: [PATCH] ASoC: tas2770: Only treat negative return codes as errors
+ set_tdm_idle
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -96,32 +92,105 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261024-tas2770-idle-fix-v1-1-07b02d46ec2e@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMQQqDMBAAvyJ7NrAJxli/Ih6M3dYtxUpWRRD/3
+ lWPMzCzg1BiEqizHRKtLPwbFWyeQT9045sMP5XBoSstusLMnbgQUPWXzIs3E9FiQf5hfahAsym
+ R6mvZtDfLEj/Uz+cHjuMPgM70X3QAAAA=
+X-Change-ID: 20261024-tas2770-idle-fix-b0104e591578
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, James Calligeros <jcalligeros99@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2472;
+ i=jcalligeros99@gmail.com; h=from:subject:message-id;
+ bh=e/a/ezVcu2OnK+OjA/cnrkqCbVak9sPahUCnQku5REo=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFl3+gNU41WnyMX9Wz+5bEIs08Su98KnkjcpyJj8Sb1eW
+ KTm3FbTMZGFQYyLwVJMkWVDk5DHbCO2m/0ilXth5rAygQyRFmlgAAIWBr7cxLxSIx0jPVNtQz1D
+ Ix1jHSMGLk4BmOr/nowMB/dGLKmZ6O6s//Hhfi2xCpU75Ws/sR05Fql4gv36+7N2dxj+Z6i2TBG
+ Zc27Phzf7HomUPWbo5K3qmznL/WTrAb5HM8JOMAAA
+X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
+ fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Hi Baojun,
+snd_soc_component_update_bits returns 1 on a successful update, and
+we were returning from tas2770_set_dai_tdm_idle early on any nonzero
+return code. Change this so that only negative return codes are
+treated as errors.
 
-Thanks for the TAS2783 firmware and the UCM profile. With kernel 7.3 the
-speakers on my HP OmniBook X Flip 14 (board 8EA1, two TAS2783 on link 0,
-uids 9 and C) now work in stereo.
+Fixes: af176d0787d2 ("ASoC: tas2770: expose SDOUT bus keeper via set_tdm_idle")
+Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+---
+ sound/soc/codecs/tas2770.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Two small things:
+diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
+index 882e19857697..6b9ec8f630fe 100644
+--- a/sound/soc/codecs/tas2770.c
++++ b/sound/soc/codecs/tas2770.c
+@@ -513,7 +513,7 @@ static int tas2770_set_dai_tdm_idle(struct snd_soc_dai *dai,
+ 		ret = snd_soc_component_update_bits(component, TAS2770_DIN_PD,
+ 						    TAS2770_DIN_PD_SDOUT,
+ 						    TAS2770_DIN_PD_SDOUT);
+-		if (ret)
++		if (ret < 0)
+ 			return ret;
+ 
+ 		break;
+@@ -521,12 +521,12 @@ static int tas2770_set_dai_tdm_idle(struct snd_soc_dai *dai,
+ 		ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
+ 						    TAS2770_TDM_CFG_REG4_TX_KEEPER,
+ 						    TAS2770_TDM_CFG_REG4_TX_KEEPER);
+-		if (ret)
++		if (ret < 0)
+ 			return ret;
+ 
+ 		ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
+ 						    TAS2770_TDM_CFG_REG4_TX_FILL, 0);
+-		if (ret)
++		if (ret < 0)
+ 			return ret;
+ 
+ 		break;
+@@ -534,25 +534,25 @@ static int tas2770_set_dai_tdm_idle(struct snd_soc_dai *dai,
+ 		ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
+ 						    TAS2770_TDM_CFG_REG4_TX_KEEPER,
+ 						    TAS2770_TDM_CFG_REG4_TX_KEEPER);
+-		if (ret)
++		if (ret < 0)
+ 			return ret;
+ 
+ 		ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
+ 						    TAS2770_TDM_CFG_REG4_TX_FILL,
+ 						    TAS2770_TDM_CFG_REG4_TX_FILL);
+-		if (ret)
++		if (ret < 0)
+ 			return ret;
+ 
+ 		break;
+ 	case SND_SOC_DAI_TDM_IDLE_OFF:
+ 		ret = snd_soc_component_update_bits(component, TAS2770_DIN_PD,
+ 						    TAS2770_DIN_PD_SDOUT, 0);
+-		if (ret)
++		if (ret < 0)
+ 			return ret;
+ 
+ 		ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
+ 						    TAS2770_TDM_CFG_REG4_TX_KEEPER, 0);
+-		if (ret)
++		if (ret < 0)
+ 			return ret;
+ 
+ 		break;
 
-1. linux-firmware commit 43cc9de7 ships 8EA1 (and 8EA2, 8EA4-8EA8, 9013,
-   9014, 9015, 9026) only with four-field names, for example
-   ti/audio/tas2783/8EA1-0-0-0x9.bin. tas2783-sdw.c in 7.3 and master
-   still requests "%04X-%1X-%s%1X.bin", for example 8EA1-0-0x9.bin, so
-   the firmware is not found without local symlinks. What does the third
-   field mean? Should the driver build it, or should linux-firmware add
-   three-field links?
+---
+base-commit: cc3fc99f1bce93c3ae3771ef98cb91a566da857e
+change-id: 20261024-tas2770-idle-fix-b0104e591578
 
-2. The I/V-sense capture SDW0-PIN4-CAPTURE-SmartAmp cannot be opened:
+Best regards,
+--  
+James Calligeros <jcalligeros99@gmail.com>
 
-     slave-tas2783 sdw:0:0:0102:0000:01:c: port 2 not supported for TX
-
-   PipeWire probes every PCM at session start, so this logs about 120
-   errors per boot. Is this capture expected to work on this board?
-
-I am happy to test patches.
-
-Thanks,
-Kel
