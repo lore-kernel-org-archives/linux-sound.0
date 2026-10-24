@@ -1,72 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.12.242.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792834345;
-	b=NdZBeAjq0aLcCVPzhA60KFQTh4b5YSVvXhOEXFHgR2L3umaKkaD6WJWzb7rDg1PzCy11
-	 MeBOCYOdAGagyOllVfYPf8vw680BiAD4EPhyHZf8w8KBoFmRqYE6vfS4/IxVgZWJOKCas
-	 QNrCHIWtD0XjNiC8cDIgtHMK5nptXbUn0hFLvgj7CklqMo54/ay0nQRaug020C8zb9Bfo
-	 mhjbodVRgo/vkT0stV08bY4+NpFCH/pA4+PZL7zMnOmw1qYA1MN2/ZnGhHToVC8Js3veh
-	 zT2jwfONpWuo/BemoJkMtuiyw+grp/SdY1t6FrJgnj90cG3nmbRQHHHp2gn5jeMpm/g==
+	t=1792836255;
+	b=OxDX4YFupm+wk6fS+17soq0HurmoEcVbdu035/8JOZR3OvJZ37tGIaN5xts4GNhRMeNE
+	 Xhg3i3KTCTsj7Sfh+XdSBfl7SbgDBVbMWFgUwmXLjkUUh0IJ70GPadCvL5krffg1miikT
+	 l3VOVHAmu7+Gb6oPGdGqq3vtIAArAlHoW6Q7/EWcuqJo9KJrsySy684v2oZk2UHQZ1oYx
+	 2agifxlQFkRpCLNBQxfTEFBcyFBLnbENxANDXolLCeSwBzLYBcsPSAC4/PCnd7EoHS/Lu
+	 lZfEcqI1u18Pp1uCpBHunRhDqJtVGWOvrlUbK5NUw8rUAf89UBgcrfK6ECxQF6eAZQA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792834345;
-	h=DMARC-Filter:Received:DKIM-Signature:X-ME-Helo:X-ME-Auth:X-ME-Date:
-	 X-ME-IP:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=RR3yjdaJgIdd4CGVtBbCqKG6w24xVr9FXnig/GJExvw=;
-	b=J8B5Liuve/5BZWafj+GS1HIQNTjwfGvkqz1gBhfszH0lK75E0mrgbNBgn+4tMS0ugwZh
-	 StqciZU2CRd9Ld4OBzn5vEOtozbxjGB3eJlVxdQTm3ckCPDgoiF7gLz7eqrclwtIfUr2p
-	 FsTZCW1RMDciAJimItvI46Yl1a0ZIf1UtU7W3J2uPn+rw9+6EPrJbwBtwbfUCGY6sT4j1
-	 fiY4WizywIEa0fkstlSjKFqfAd0t/91dDKyJ7nvUq/9UbjDbMNKDd0G/hRobYx3PkF31L
-	 UCp9ThBT1Y6VpuinOOLDIt05zlkxeYaXyTWmQJ8oaUUFgBFTyv+0k0KH5oTGr+0frjg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792836255;
+	h=DMARC-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=ZLX2FJ8teYpCnQ3RfDTqC7zap37D6OQ9RPoG9fqqkT8=;
+	b=kSlrWrXNjte9wPRZo6HucXeso7uyJYJ8FajStUNkKkYB66oVUnXy25VC+ZXNO2ohtPjH
+	 quEVb1WUELFJtgN4xS0rKOWx6HJ68icYe1cPKH4uCKtgbcaCSbDMOc/ItzJDRaY/+xFto
+	 /O4rleDilDzvU2CgQPqovmmfEGRFHJq6U0YZncljpzA6S2MGTb8rES1b98FPT6C+vYqiF
+	 G63vpNpBoDbvrrv0/YapX3tpY2bkrX7mbJX3MAafysvWyksviyXoJ3XiRBn5YgAhL+F4j
+	 mHw09B5Z14j6EoK5ttFV/lAM6AZUyVengs21gQiJgCAqvredKuvPBiasbQMV2Ny25Ww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wanadoo.fr;
-	spf=pass smtp.mailfrom=wanadoo.fr;
-	dkim=pass header.d=wanadoo.fr header.i=@wanadoo.fr header.a=rsa-sha256 header.s=t20230301 header.b=q7v5iJLj;
-	arc=none smtp.remote-ip=80.12.242.19
-Received: from smtp.smtpout.orange.fr (smtp-19.smtpout.orange.fr [80.12.242.19])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=VyeUJLWI;
+	arc=none smtp.remote-ip=117.135.210.4
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA43606A31B;
-	Sat, 24 Oct 2026 09:32:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9EA43606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42989606A31B
+	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 10:04:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42989606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.a=rsa-sha256 header.s=t20230301 header.b=q7v5iJLj
-Received: from fedora.home ([IPv6:2a01:cb10:785:b00:26fb:aefb:6cd2:db0e])
-	by smtp.orange.fr with ESMTPSA
-	id KY6oxMvXfVN4wKY6oxnW7u; Sat, 24 Oct 2026 11:32:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1792834336;
-	bh=RR3yjdaJgIdd4CGVtBbCqKG6w24xVr9FXnig/GJExvw=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=q7v5iJLjDkIWa/05wPUav1ROWVXZjhkg2Z8feFI5F9xZKbTH407mu8tMIGVK+OLC8
-	 jNSvWwTcq/ZI77LubVkYPDs8seAhtfbvOI+Lq3BHGsMTu5Mm5U/0Yk8R5Gn/22mmVj
-	 AYGj2VXPQ4eA5N8QtWZ/oaiE5DIDCpP5f1nXcRfcu2i2Kc0VX+BmkDG/hJvTA3O1Ow
-	 ESLVxLzD29CexgTIYlzKzxh2okuuXZQvfrlr069nipOqtnukwIxRrnFRadnvp6Kr0I
-	 qTNPj13Bwk0qmvE+DRKPWCGSTfelyaPHpA5QMGRN9fEJlGA+thQCPrnDanDPzKJwNB
-	 DYKpMMIx+oLFA==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 24 Oct 2026 11:32:16 +0200
-X-ME-IP: 2a01:cb10:785:b00:26fb:aefb:6cd2:db0e
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH v3] ASoC: qcom: qdsp6: Add an error handling path in q6usb_component_probe()
-Date: Sat, 24 Oct 2026 11:32:09 +0200
-Message-ID: <68e28df174c8524bef54cb437e568afcb8a82e1e.1792834312.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=VyeUJLWI
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version:
+	Content-Type; bh=ZLX2FJ8teYpCnQ3RfDTqC7zap37D6OQ9RPoG9fqqkT8=;
+	b=VyeUJLWIZowmFIkrb87raiEk3FSlhuXigOFqwV4Fnr5R/lZ1N3+fkv31bYpJZi
+	gYeXbeW432NBpa2aGQYiyqqhblmuoKbZev/kWPhUH1EAFqBy6kCK+mGjtM61A/xc
+	YQ/iRDOmx0C11OvBZ0643KzOr/pI8AoUIy/IFFeXBtfvY=
+From: Bob Hui <bg9oxa@163.com>
+To: linux-sound@vger.kernel.org
+Cc: sashiko-reviews@lists.linux.dev, bg9oxa@163.com
+Subject: Re: [PATCH 1/2] ASoC: es8328: describe the power-on register values
+ in the regmap
+Date: Sat, 24 Oct 2026 18:03:57 +0800
+Message-ID: <179283623767.21314.9471498417293367893@163.com>
+In-Reply-To: <sashiko-outbox-183604@kernel.org>
+References: <sashiko-outbox-183604@kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -76,68 +58,40 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDXn8CNgtxqNz1_CA--.42446S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tw45XF4UCr4fAF4rXr47urg_yoW8XrW5pF
+	ZxK343Kr4kur4Ikrn7Zr4jvFyruayfta45Cry8Jw47Za15A342yrZ3tF4YyF10krZ5Ka4a
+	qrs8X34xCayDZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JUN_-9UUUUU=
+X-CM-SenderInfo: lejz05rd6rljoofrz/xtbC3g6VA2rcgo7yVQAA3b
 
-If an error occurs after a successful q6usb_dai_add_aux_device() call,
-some resources should be released as already done in the remove function.
+Yes, that can happen, and it is a deliberate trade-off rather than
+something this patch alone can rule out.
 
-Re-order the code to avoid unnecessarily destruction of devices in the
-probe path and add an error handling path with the missing clean-up.
+The values are the reset values from the ES8328 datasheet (Revision 1.0,
+sections 6.1.1 to 6.3.30).  They are correct whenever the codec has been
+through a power cycle, which is the normal case: probe enables the
+supplies and the codec comes up in its reset state.
 
-Fixes: 72b0b8b29980 ("ASoC: qcom: qdsp6: Add USB backend ASoC driver for Q6")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Changes in v3:
-  - Reorder code to avoid unnecessarily destroy devices in the probe path
-    [Dmitry Baryshkov]
+Where the codec is not power cycled - a warm reboot, kexec, or a driver
+rebind on a board whose supplies are always on - the cache can describe a
+state the hardware is not in.  The driver does not reset the codec at
+probe time and so cannot guarantee otherwise.  In those cases the mixer
+state that userspace installs (alsactl or UCM) is what brings the codec
+back to a usable state.  Without the register cache the same board still
+comes up in whatever state it was left in, the only difference is that
+the driver reads that state back instead of assuming the reset values.
 
-Changes in v2:
-  - Propagate the error code returned by snd_soc_usb_allocate_port()
-    instead of an explicit -ENOMEM.   [Dan Carpenter]
+The suspend/resume path already forces the two back together:
+es8328_resume() calls regcache_mark_dirty() and regcache_sync(), so after
+the first suspend/resume cycle the hardware matches the cache again.
 
-v2: https://lore.kernel.org/lkml/1a3bf0ee02f880919190944e581bef2b428ca864.1751703113.git.christophe.jaillet@wanadoo.fr/
-v1: https://lore.kernel.org/lkml/7338875b20cb41693f803c6b9673cf7f3e5f089a.1746781775.git.christophe.jaillet@wanadoo.fr/
----
- sound/soc/qcom/qdsp6/q6usb.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
-
-diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
-index 6381b289c55c..e226dd126364 100644
---- a/sound/soc/qcom/qdsp6/q6usb.c
-+++ b/sound/soc/qcom/qdsp6/q6usb.c
-@@ -322,22 +322,26 @@ static int q6usb_component_probe(struct snd_soc_component *component)
- 	struct snd_soc_usb *usb;
- 	int ret;
- 
--	/* Add the QC USB SND aux device */
--	ret = q6usb_dai_add_aux_device(data, &data->uauxdev);
--	if (ret < 0)
--		return ret;
--
- 	usb = snd_soc_usb_allocate_port(component, &data->priv);
- 	if (IS_ERR(usb))
--		return -ENOMEM;
-+		return PTR_ERR(usb);
- 
- 	usb->connection_status_cb = q6usb_alsa_connection_cb;
- 	usb->update_offload_route_info = q6usb_update_offload_route;
- 
-+	/* Add the QC USB SND aux device */
-+	ret = q6usb_dai_add_aux_device(data, &data->uauxdev);
-+	if (ret < 0)
-+		goto free_usb_port;
-+
- 	snd_soc_usb_add_port(usb);
- 	data->usb = usb;
- 
- 	return 0;
-+
-+free_usb_port:
-+	snd_soc_usb_free_port(usb);
-+	return ret;
- }
- 
- static void q6usb_component_remove(struct snd_soc_component *component)
--- 
-2.56.0
+One thing worth stating explicitly: the driver also binds
+"everest,es8388", and the ES8388 comes up with different reset values in
+a handful of registers, so on those parts the cached values do not
+describe the hardware.  I can split the table per chip if that is
+preferred; it needs the device type plumbed through the i2c/spi match
+data.
 
