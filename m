@@ -1,91 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792858618;
-	b=fqh1mByIxnn6gWRkNq67bqMcgQzt1vxvpnZuNTWXxkVzO7/C5v6SIFoZ0ROs2DtX91Zn
-	 5kJci5coFSLyEDzAZ2djeREKj5rxDEPfkJQdwY1TCZgZ1KEOHF1J/NRbopQAiupiz4Et8
-	 8ORqlbsSS+zV4TzB1d9XRBI8lco2xNc6uQ+LU/ZwdGlZU9Gyi6u2S65CFIE9WcfpCnCoy
-	 sBOiRpvys+VfAgFWwFmHysndSXEqN2825qFAJoGQTtjN2TCnsI4wnOyHqy5R4hFtM04LI
-	 KfZNHi/Uu+pPUSlzMNk4t2fyawfQ5v2mzSgZfT+u+5vHquKYU+32o518fn2L5vw73QQ==
+	t=1792860599;
+	b=A2baUBXAoJlaNPA1ARkAS1reNUXJQZa/OSPktGR0CceU9ym1gD974fe9W7hok/SXF9gQ
+	 BEYwgN8zKFVYknNg8gTle6Oi3pbTaxhSVUGXKWuD100RibJmAS4rttzYF+7/aslhSa5Gk
+	 /RyYdSGJvGVSt2Qif8xLhId6G8AH2Qro0hfzlE2UL5Y+fOeZ0KWi2mzoMtd6YKTGm1qiI
+	 7aPNv0oxve5CSktNhxIt0RMn8VKLJcWvQEjaYnF/gXhcWiFn9Xl5DCLFVor8VApKgD4T3
+	 YNW+RiedjHf3kY2SAu3Il9UD68zg+aE5yMlBSvYGGr41kFJf5R+g1QuZ2lC6ioNo8eg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792858618;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792860599;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=AOGWZcrBZoO7CPXaiikuuyaqjGZKSk1gc081ebM1RZM=;
-	b=PpHwKOLQCZp3onhyyPyWTTWzSZ4V+S0ppmnqdlZSllteX5XTD8RrMz1hxndyb6nnDB2E
-	 ny6+x7EnT6JAYznkgpn/q2vsZvjkALt25s6PB+6bqrEdm3d2C8lnQw3UEGKTMCs/ZorV7
-	 0+T2r92L9REaqF3aBzStmb7QLt6sh57tdDOlH59r/QHCIk/Ex5afNP9JsORua7N1QaZN8
-	 0r+uzmgAy/Irw0BrQyzRvBf3IYdYJmIopqyERsRUFBjN8vUZP79pU6ahmcB+vrcU87cxh
-	 0ZIehRGsrnf63vSkTYQOlVE+iyRJuuqKfDCDob/A+85mh9Rincgq9efoMod8720d8Eg==
+	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=U2EAEd0xDowYBfsMG0PSIzCfbB2zi7AiM6l3QORkrxw=;
+	b=2KD42SLbo9/pixrC/dFNN711p1kPCziUueyj1TBV4B0ob3DG4jOv1b1oWJg3q9uzCZU2
+	 FlCg66MkCf/MiX/o+X1esOzqZW/0fgqxuJRo/pIs5hyizKmA04XuvC+aOKutrwBpVDb1Z
+	 WsN+fbMQy4qn0wY9XTZgESK2RXMQ2c1G81P4xVNEAD5PryyxkQLr+1j57cjctkNe+Ggcc
+	 6wdgDfZZrolmanxzTKfKNIkU7O9PCB8D7L8XsDcn5zZ5nzZ9zAMFk2vLDheNRuQGPqZf/
+	 vKS9zAypvqI6n2zEj8Hl9pXw429vTDtJ24LZCD8Uv7YNN2kaX6KlujcBR/eI/DkUB+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=asseily.com;
-	spf=pass smtp.mailfrom=asseily.com;
-	dkim=pass header.d=asseily.com header.i=@asseily.com header.a=rsa-sha256 header.s=google header.b=RAaYSvon;
-	arc=none smtp.remote-ip=209.85.128.45
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=FtdDmhsl;
+	arc=none smtp.remote-ip=209.85.216.41
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C048606A31B
-	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 16:16:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C048606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=asseily.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asseily.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DD1606A31B
+	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 16:49:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38DD1606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=asseily.com header.i=@asseily.com header.a=rsa-sha256 header.s=google header.b=RAaYSvon
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a208d93758so19186685e9.3
-        for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 09:16:57 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=FtdDmhsl
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3ae0852df46so18601a91.0
+        for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 09:49:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=asseily.com; s=google; t=1792858616; x=1793463416; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792860598; x=1793465398; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=AOGWZcrBZoO7CPXaiikuuyaqjGZKSk1gc081ebM1RZM=;
-        b=RAaYSvonR4qouJog0CyJbGB6T9+L01g1zbd3cM6gD7yyOlhk1jwBHBZdcBxdGiV5a2
-         +Hn6UnzguUG8Dy99BTUnBcOa5rC3EU7VuULinOizOgqi9vHwRLP6f/RBxmc2Wm3gru8z
-         hE3PFyKIElmCEdx5WIpTfkBupROGoujMgEgiDPSdNQ7gbwB3jQwTevLS57vhf+UW4ipJ
-         BKOY449szzRt0o39Z+wP8M2ueSrkWrP2C2hmWGdLYaoKBJPInR1ba4SPneW6w3jwqPJK
-         zHEQAhtuWRToLILi5qKy6qdER5gBCvAW7NnVq1ZhKtAbAgBcZn2qkZh5T0YTAZH0FaI+
-         pjtg==
+        bh=U2EAEd0xDowYBfsMG0PSIzCfbB2zi7AiM6l3QORkrxw=;
+        b=FtdDmhslOYMNt98YhhVrVws1C9k6r+uXUQQlXAyYt3Rj34WmK1xUzy1nE+1bCXbNq/
+         7g6jjt26TLklFmxdlapjbcgydhv8BV31zD7X+xQ5+Q7Sin2z58W+zn2iWIOOTQDpgjCl
+         cqaXL8BxRh5l6stkUGpJDPON52YpbtMdsaEI8rJRf2KeAEYg2w29FXYmQ1iEL2r/UGub
+         J+wGgmZCQ/Ygq2bQamkszY7rK0Vmc4rju2GyNwLkgmmoyk+7ftV2y6pYc+wIP1k5JrW3
+         3fp0ta4BAUiIb0lhL8Z5Nvk3Ju/9QLm/q963IyNESXBcvCsEgj15JGh1bcJffgOi1FAX
+         qn3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792858616; x=1793463416;
+        d=1e100.net; s=20260707; t=1792860598; x=1793465398;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=AOGWZcrBZoO7CPXaiikuuyaqjGZKSk1gc081ebM1RZM=;
-        b=0ECHgythZ5sNdscKXuZ5nI2wWORz66hXPWBqdE/9nHuV+l/Yar7UEisOcncq3PWjlf
-         ZyJZNCbJ4RCuQCNHK/3CkK3Z2FkbeoNxSP6P5BLDfVs2kSvrZUpZu74Uq/njPq6hGfAq
-         1uAA6mg21dZ9NHKQZl24dxtZYxnXOKR2tFNTh4R+AzIOo/IYmIu0/S60hxqciMFuKVzP
-         oENMJhAh0oGfHoR/ymQGKMnkW3fDlsKLkouJt/YNptQHBsOoWUszMwCcRC9qRZ1kLq8H
-         VG6bcpkTLTo1dDJiDhkfbcv3dk746s5k2GbXcXmFUZoJ9fj9e/Xln6/LIkY8Qq0Cq7Wq
-         t6vQ==
-X-Gm-Message-State: AFq9FYJsbvUdBFNECqfyoKz4cqU1BhQz8XL1LhgHpGtM4dYRDkRyi4KP
-	zbtrNsfXBlDuna4ilaV2ztSX5pmX5TksdS4DP2ew8MUiW3oOfd1WIbVNJW3txbU6f/0=
-X-Gm-Gg: AYBFou3uwaL/RYJDVzTlPKLp2nlIcFSeIfCiaOAKJ/kTmSpLY66V2j5dTwPuAn5Jrib
-	XgKO+mGC+BPhnUhmiYoozqRMiPbApQkevROQ17w/dVsamOlNY0n1+PA6GGA3K6aZzBS4LAnhLFb
-	NPZssqIY7w01SVMF4NT5e9TW1F474DIhKFo5fw09f+czD3+OkSgmx74YSw2M6iRC6TqmSuXjw2m
-	uvNw1cFxWDrXkuj7eoOdqB1bXhVZdKZoC+3lgxIOHbdrio7OqGGbTgfmz44m+I8Ro3YVwGZ4Qw8
-	ZoShz7Wse8s6ktRobM5zRIF67G5vQowejiftEbG+H2I3sGu5l6zBPuq7PQQ4Kc26FeXjfoeihE6
-	PaR6kuFmIM5AhPXPgqq/8mOwOYN+Kru3uHLniqzj87sDZmqOF01m6ax6vBkvk1tjZek40jLqq2K
-	0VjPZrx/J0gOzt/b6eBC51ikrEbcRjq69LPT1OICXM0q0Cqp/uScQxCVvn7GExrcY01PNxpoTOU
-	IvZeCHDDXcWFLDOVxBfGPgdHd5EQBJ3ge4K7y3jT/8mAnB0no7sCjyjyxABL6VjIXWo6w==
-X-Received: by 2002:a05:600c:4688:b0:4a1:e69d:90e8 with SMTP id 5b1f17b1804b1-4a35aca5a1amr34062485e9.22.1792858615676;
-        Sat, 24 Oct 2026 09:16:55 -0700 (PDT)
-Received: from localhost.localdomain ([178.135.21.173])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a30e11bsm78516845e9.1.2026.10.24.09.16.54
+        bh=U2EAEd0xDowYBfsMG0PSIzCfbB2zi7AiM6l3QORkrxw=;
+        b=A+jZgoHlXFsqY+KCbS0lGvs9vGbNFph0bqIhv8hhn9ECpucEWRUYLKwySQWyOPBp+m
+         LvwpM9B7yTEFCxx9lu8y17bU/r+xFND6XNuN+qQyDa+TycjsnWVdNAT6H61Ep+pPowy3
+         ily39XNbkQH1rOmxnpKqjGFRB01yy5yquZQ/QPFpeq/Dau0HDcKofBVn1Lh/6KOsqJDl
+         369UXr/vnbUn70FOs+xd3SU9SIFzh9R/J7t3vkjGdU2u9uUvrJX5sP5s6Dj9P138Lklk
+         rx0beZ8C2F3daFU6VnwbEQJ1pN8CC7Z2hK8f0gS53tzDcZFyk4X9vuvdDm+46nA5dPhF
+         lL6Q==
+X-Gm-Message-State: AFq9FYKkaB994axfmNeAqnwy8tEbkuzx/nxc1HN0+jK1JMkKsByZ42f4
+	RNUlzhIAmWdkAdiu0v1fJNs9qVdn0qnj0EZrWvUKZK2LdWSSZVWP/DMyBI1MvCwv
+X-Gm-Gg: AYBFou0YESCWPKfrqfu2S/kmckJBNPGRFzYyOK8HFOwEpKQ7HpnUWCVsudmSMdevQuz
+	Vnh79naygU6anaqM4RYGarVf1pE3WeZhiqCaRNsp0iCc4o5b393RwEWDmc2sxlkuyhsEgIvVApg
+	xnDCkbdSlK5zIcv+gVtHbW1t1bpTmJmrKdM+6AUAJRp1Geh3vQlHaZd6JWMG2ZIHK1PIKNRc83E
+	JT2mGb6lCTBCC16iDhF4FLhf3hZgj+u4Zy4lSk/jEDsnwfZJqiPu1cwD4FWJqvD8PIrhGkZS2hd
+	1GPiTgUh2g9dHuu7Hwr5r4cnhc3JoDZ1QmoH03qA9hwN9mkLO2+y+bmMZVsDiIYWe3/CODPnzzR
+	CR0SzIwipMGN3/TtK0MLOb6Wzi+6xJWBxwoeLwwd3Wc8anln0tYAMGE9p4ttFuGY7rszHcYYzTL
+	mEjgw2QFlB/jTWNq1ufata/A39TnysENfQlOPwPQWTrndjwX0xQPP+5bWJ59cVUz1qGZA9gzqQe
+	BEeO7mNqmSdzws00Oy8FXNCHUw+5x/K4zZvEsnkHxhbwkE/n7Q=
+X-Received: by 2002:a17:90b:1c12:b0:3a6:d2ac:74ce with SMTP id 98e67ed59e1d1-3adeb5a56cfmr1402058a91.19.1792860598526;
+        Sat, 24 Oct 2026 09:49:58 -0700 (PDT)
+Received: from localhost ([111.228.63.84])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3adebfa4102sm3406683a91.12.2026.10.24.09.49.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Oct 2026 09:16:55 -0700 (PDT)
-From: Karl Asseily <karl@asseily.com>
-To: broonie@kernel.org,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
+        Sat, 24 Oct 2026 09:49:58 -0700 (PDT)
+From: Cen Zhang <zzzccc427@gmail.com>
+To: perex@perex.cz,
 	tiwai@suse.com
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Karl Asseily <karl@asseily.com>
-Subject: [PATCH] ASoC: es9039q2m: Document the FIR coefficient payload format
-Date: Sat, 24 Oct 2026 19:16:34 +0300
-Message-ID: <20261024161635.12956-1-karl@asseily.com>
-X-Mailer: git-send-email 2.47.3
+	tiwai@suse.de,
+	baijiaju1990@gmail.com,
+	jjzuming@gmail.com,
+	zzzccc427@gmail.com
+Subject: [PATCH v4 0/3] ALSA: opl3: Fix sequencer timer and channel lifetimes
+Date: Sun, 25 Oct 2026 00:49:48 +0800
+Message-Id: <pm-pmb-4552c4e605507d8d9b16-v9-70247b8436e10e26d324-0@gmail.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -97,51 +98,39 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The programmable FIR controls are TLV byte controls whose payload is the
-raw coefficient data, with no type/length header. Nothing in the driver
-says so, and the in-tree precedents differ - wm_adsp takes raw data, SOF
-expects a header of its own - so user space is left to guess.
+OPL3 can receive a fixed-duration note before its timer is initialized,
+and the card-owned voice array can retain channel pointers after either
+sequencer port has freed its channel set. The delayed-note timer can also
+remain queued after the sequencer client has been deleted.
 
-The driver cannot catch a wrong guess either.
-snd_soc_bytes_tlv_callback() clamps the byte count to .max before
-calling .put, and .max is exactly the size es9039_fir_put() checks for,
-so an over-long write with a header in front is cut to a valid length
-and loads the header as the first taps.
+Initialize the timer before publishing ports, key off active voices and
+clear their aliases before freeing each channel set, and shut down the
+shared timer after client deletion has drained both event producers.
+Retire higher-numbered partners before their 4-op primaries so no active
+hardware KEYON is skipped when the primary changes its partner's state.
 
-Document the format at the control definition. No functional change.
+This series applies to tiwai/sound.git for-next at d74eb09af56b.
 
-Link: https://lore.kernel.org/all/CA+gvwbqrav5C9e=9Jx1i31nrEZGDko73tAAhGzzexeRa1f72LQ@mail.gmail.com/
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: Karl Asseily <karl@asseily.com>
 ---
- sound/soc/codecs/es9039q2m.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Cen Zhang (3):
+  ALSA: opl3: Initialize the timer before publishing a sequencer port
+  ALSA: opl3: Clear voice channels before freeing their sets
+  ALSA: opl3: Shut down the timer after draining sequencer ports
 
-diff --git a/sound/soc/codecs/es9039q2m.c b/sound/soc/codecs/es9039q2m.c
-index 4e9f86cb7..bf206bf95 100644
---- a/sound/soc/codecs/es9039q2m.c
-+++ b/sound/soc/codecs/es9039q2m.c
-@@ -632,6 +632,20 @@ static struct es9039_fir_ctl es9039_fir4x = {
- 	.stage_4x = true,
- };
- 
-+/*
-+ * The FIR coefficient controls take raw coefficients and nothing else:
-+ * tlv[] carries taps * ES9039_COEFF_BYTES bytes with no type/length header.
-+ * snd_soc_bytes_tlv_callback() passes the user pointer to .put unchanged,
-+ * so a header would be loaded as coefficients. wm_adsp uses the same
-+ * convention and SOF embeds a header of its own, so the choice is stated
-+ * here rather than left to be inferred.
-+ *
-+ * The driver cannot enforce it. The callback clamps the count it passes on
-+ * to .max, which is exactly taps * ES9039_COEFF_BYTES, so the size check in
-+ * es9039_fir_put() can only reject a short write. An over-long one - a
-+ * header followed by a full coefficient set - arrives truncated to .max,
-+ * passes the check, and loads the header words as the first taps.
-+ */
- #define ES9039_FIR(xname, xctl)						\
- {									\
- 	.iface	= SNDRV_CTL_ELEM_IFACE_MIXER,				\
--- 
-2.47.3
+ sound/drivers/opl3/opl3_midi.c  | 15 +++++++++++++++
+ sound/drivers/opl3/opl3_oss.c   |  1 +
+ sound/drivers/opl3/opl3_seq.c   | 13 ++++++++-----
+ sound/drivers/opl3/opl3_voice.h |  1 +
+ 4 files changed, 25 insertions(+), 5 deletions(-)
 
+Changes in v4:
+- Retire higher-numbered paired voices before 4-op primaries in patch 2 so
+  primary cleanup cannot hide an independently active partner from hardware
+  key-off.
+- Explain the initial SYNTH-mode direct NOTEON/program-change sequence which
+  can activate both members of a pair.
+- Keep the code in patches 1 and 3 unchanged.
+
+Link to v1: https://lore.kernel.org/r/pm-pmb-4552c4e605507d8d9b16-v4-213af356c0046331c8ff@gmail.com
+Link to v2: https://lore.kernel.org/r/pm-pmb-4552c4e605507d8d9b16-v6-f3fa18aca2c7d18be670-0@gmail.com
+Link to v3: https://lore.kernel.org/r/pm-pmb-4552c4e605507d8d9b16-v8-8b61497d9bd754defcda-0@gmail.com
