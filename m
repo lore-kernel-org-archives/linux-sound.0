@@ -1,91 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.17.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792841243;
-	b=mZH+noED7I+OsrCsAAB4P341NaLPeKYApzaSichcPyCE1ZFSFFJTbuMVWWw6xx9wJHQS
-	 OCQ/GEA46zXbBdZHAesmGBcJDZ4RXzwvgecm3nww0Xr1lqxxps6RyGveOn7zwZyWhGvRr
-	 VyTEsH8yOMi2jSjzHTD0RAUjAubxkRAZwLr5w/ffjZmDlUkOdQMUc4RhheDZYE5du3eXs
-	 v7nPK4YpWa62Y1IlrVVyN6gQPPFGQheTUCCzxoI4H80Ra1JuxlzsRHpwhj8KyFE5cgrJq
-	 MeG0yZCZX/SUCusHpj4LSXgqK0gI/E295zlo0lQuaTrbHPhkw5lCZyZ0AVh2U7TnGSg==
+	t=1792841453;
+	b=gtDQdZWmnNjKkdkYvmTFTHCBNfdKV5mNvClNCYXdqoXB8ozROXXsqm1xmdGi+udQYTty
+	 EdrYBDb9v0/Tei66caF7xiCyLy3ZjcuiZ6XKu39/lkswj3AHTvgaqoj4EUfr5qcNktmT8
+	 CaW4LZnMj9p8JpTtO9vUqpX89vIqNJI0uDT6dm9/TbzmRxsRyTG5DAp8rCWfjLHeRSXd2
+	 AWKwzpk6fzoVHPM1FDjd9R+aVTzUX29LnuCBOhpA4xasM6hkqXphW2v4I0J4UF21RAp91
+	 05eOTe4uPNlQpCu4fCgGpP29rIFYbew0Qtm2aTkU0Omw1kAJHwc5PYRJQB5qi9jfXZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792841243;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:
-	 X-Google-Original-From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=g9tCc/iO9dTl6JCd5kGyheiA4QwfLFPh1raL4bj3E9k=;
-	b=MroC9MtiPnn5iHhzQd23B1vZQr5xe99C5vZ50Yt6jZx8/wpcO6Qm8spd3kl1E0YmI563
-	 7xfFIkx1CylNadTPYpsyuxXxuE+7XIZrpKcKO7TdgPP5+UOceSwi3jWRKIghmQn/6IFcl
-	 kRE+ymdPzJQXicR6bPSr4vUiP0Q4OOhVW6XF1sI/obg/D0Qdal8bg1h1UZmUsaq9mcQES
-	 +oBTqWtfyVE3Wpnd20JbG4BdlkhQ62Bo2n1QkjtRfwXuVlwAYY1CCfILpxIP3zpF0P30i
-	 orUD0EY46LzHNmoG+qr4KOWSMxcf19MpuQP1zOo8lSchAQKK9yUxi2VxbEYSDLYnPMQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792841453;
+	h=DMARC-Filter:DKIM-Signature:X-UI-Sender-Class:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:To:Cc:References:Subject:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:UI-OutboundReport;
+	bh=Stw5+ypxiuuDcFjRfO42e75cnyWQUntYeYbJhTdoraw=;
+	b=lk4my5l8s0KiLhYau+Ygq+L4QK16o75Bwv5p0LEhfIVHZZ4W+tdaVu5Ef1KDnfHGIj+n
+	 hCDOkftZieZXtC3e+Si0MGn5R/JnIFwYUD+gUEJBz5llS5EuWvZ1fEYmTk6H8W0bwyzp0
+	 XGWgjJ22iMXEXY8I6DjgofC6BVI/3kCVeDdllT+2H+uIVis/YHk7u4PeCpxdoPEQOY0Zy
+	 Q7ltD+KduxbeTEK6Uf1pbLSN/JS3m+6g5dqtNXnW730JuSpute6wgVqJNUZQgviSw+yhu
+	 9qwIO5XVusChrg8CA9bg1mU85tkc01R3CE3+andiHjmx1OEWRVm+SNyqpabMtiWokPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=QDZMLSNw;
-	arc=none smtp.remote-ip=209.85.221.43
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=web.de;
+	spf=pass smtp.mailfrom=web.de;
+	dkim=pass header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=ODvfllpv;
+	arc=none smtp.remote-ip=212.227.17.11
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7623606A31A
-	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 11:27:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7623606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC878606A31B;
+	Sat, 24 Oct 2026 11:30:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EC878606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=QDZMLSNw
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48c4be28b82so1332294f8f.2
-        for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 04:27:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792841241; x=1793446041; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=g9tCc/iO9dTl6JCd5kGyheiA4QwfLFPh1raL4bj3E9k=;
-        b=QDZMLSNwo3FQr2tZZUn9Qldppli4OEYyWq+efwI9fJRNaoM9WeMccd4VZc7XbR3iv9
-         ualzqcv11mL3de0Mdu9zxJZv7F8sC9yO5XnbQv/SGnbQsaZNRpK0j+OcpQuACW5ns6ZK
-         zq5Xn5KgMVQNrGwB6EevGHKklL5AOqjbvgNq2BCyzryOjO0R5R5h2p+Au5JfP0edbaE9
-         s8C8W+zd+t5AKtMZKZU64drhWbC/aZazbV01B3mbfjz6XMQgsHQQ9PZOjpblgvaTDatt
-         oOP36djT+DpQCjW+u3w+wN+KyPiahVWv1NDlHwYzmOgMjbE+iutJ1gv1KCHXd2w+QLG0
-         O9wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792841241; x=1793446041;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=g9tCc/iO9dTl6JCd5kGyheiA4QwfLFPh1raL4bj3E9k=;
-        b=bQhu2TrFcVlw5oFvZt6C41qyWM/ccb62LO0qiX2ijPntq5MmwSuk6jnmBE5vodLLeN
-         hQDfIVVPsqWUHsm7xGCUXpY3Bi+K1bD+r9RwtFJTJ/iObQGEWkYgWefWieF74V5jDQfJ
-         unH0D5snLHlLTz8Jzuq0p0YiFT6LuTOR06M5KazzPKpSDeTTQ88JZGzUd/FqndMbzg5T
-         DS8qkRMzY5LwQNQfz4P0/uXgxqUNXZMgvJy/+y0edN8NoIpiD2V3dkvIukeBcutw1GKN
-         UPNVe7xCVkxCJ8RP/2AyWqO8pwSFoP6yjAfZdmigXoeGKkLApkmZNU+pm/38RV827FQO
-         GL1g==
-X-Gm-Message-State: AFq9FYLGRP1HXpYYJ7Z9KHA/1pt2eTOCWU3qeEbOcfqyhAdn9IOs6fwc
-	1l30TMjO5HZ+J0Vld3Zlz+piw2vSydAWh8IC9A2uZSeiRzp7rVO5JK3SspEIwoGHNmw=
-X-Gm-Gg: AYBFou1A9EZWDpaIk9C4MifJB9wdj1iOPfM3uK4+fSGslyqz9rxuwxmugdvlZHlCYg/
-	P1Dd1p8Cz9ukNGA/7Z3XYx4NR3F8QlvxVb7DmPchd0KRzaX7A4opqu8s7q7/MJ/w+jckD87rzuT
-	N1Cy9zRMHaz5cdnTWnFJXNk09jkNbjJalf/e3Eu6HbTKzxZV3i5SvlCG3vlTJdIb967UQrXi7iI
-	s3niZ5vCuhRAQMkp9nDwROgqHDAGUl1CiSRw2j69Qs4fowlJ3huZvQhWYM2uSVTvtD2Xk0tc1Pm
-	ubkb/yvEBAJDvBdl44I+Mr4YuA4Wa5Wi0wSC/yEhK5VUBNcY6PhrWFyOcJvbj+6U6cxh3tLRNlj
-	Qj5QzUlw1vDeh5sDJn4GmH6/eaBrkqpt6dgG6qtSd1GpRkKTAEa+1qqG6IFv1SZsqU24qF7SJTo
-	Zkylt+rEHJYzacCP3gjo5ZdZMIQbrgB0EiZkEyEMwPmES4f20XtS77s+Pcje929dA3eYRiOwO0A
-	zd99Gwa/X4Wj05oKzabs4uTo38U9l2JDT8xsrFNtfas+bWV2ltqBRido7jpKKWXrqR9+kr22NuD
-	YxLeUrnkopY4ysmdJu0tGllLs4ZrJEk=
-X-Received: by 2002:a5d:548c:0:b0:48d:efe2:6f17 with SMTP id ffacd0b85a97d-48e3ebb14c6mr1791910f8f.42.1792841240971;
-        Sat, 24 Oct 2026 04:27:20 -0700 (PDT)
-Received: from gmail.com (dynamic-adsl-84-221-247-128.clienti.tiscali.it. [84.221.247.128])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e4115f496sm3326178f8f.5.2026.10.24.04.27.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Oct 2026 04:27:20 -0700 (PDT)
-From: root <davide.gironi@gmail.com>
-X-Google-Original-From: root <root@debian.lab.local>
-To: linux-sound@vger.kernel.org
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	Davide Gironi <davide.gironi@gmail.com>
-Subject: [PATCH] ASoC: ice1712: add TerraTec PHASE 88 support
-Date: Sat, 24 Oct 2026 13:27:00 +0200
-Message-ID: <20261024112700.3634-1-root@debian.lab.local>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key, unprotected) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=ODvfllpv
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1792841426; x=1793446226; i=markus.elfring@web.de;
+	bh=Stw5+ypxiuuDcFjRfO42e75cnyWQUntYeYbJhTdoraw=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=ODvfllpvW0xXoR5C2EMRHOZlr3kwVv1YnlPcQ3iE2rhkfprzRhO+8lSzIrMKJaUb
+	 Enc3qQShfgNA7C5ipKWlSulrTEVZrtLyR8LtCAwJm7k4/QkAQ1O/Fh3vv3doxu174
+	 K1iBFJGf3DCIlbE1kr7o01YuFI2vJBtxsDYcqOUtuGI5pOZAjvf9ExA96k0C9eFrj
+	 0anQqevA4KOmvoOgxZxikaZYVaqmClcDqcPQeYN+uImKmSf5+UL2s/6EgqYNrLsZt
+	 J5yZ9OIhn1tydW6i6mUnY9K4sGRaZcGS0Z0pPh8Bov+dmWpX3fXvVsJbRLTrra+Rn
+	 ncVEpIymIB6cHVRf9Q==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from client.hidden.invalid by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MIya8-1x1PB53b7S-00KRgp; Sat, 24
+ Oct 2026 13:30:25 +0200
+Message-ID: <33b90e9d-096f-4a85-8d17-2e43b0609140@web.de>
+Date: Sat, 24 Oct 2026 13:30:12 +0200
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -95,329 +62,137 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: James Calligeros <jcalligeros99@gmail.com>, linux-sound@vger.kernel.org,
+ Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
+ Kevin Lu <kevin-lu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Sen Wang <sen@ti.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, Takashi Iwai <tiwai@suse.com>
+Cc: asahi@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
+References: <20261024-tas2770-idle-fix-v1-1-07b02d46ec2e@gmail.com>
+Subject: Re: [PATCH] ASoC: tas2770: Only treat negative return codes as errors
+ set_tdm_idle
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20261024-tas2770-idle-fix-v1-1-07b02d46ec2e@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ZMtmRPM8eOYd14ieby48mK40EuD8Rjppy4Vq7gK8+welKyac+fP
+ IkSmXRCmXFnnCm8doRDzbBN10P9BcjHTLMTTWVM0ODRmheB5s7ufd/wapcTva6PrhovRkh9
+ 4jxSkNnwTsMCtvNYwEQtr9gRNYt5+61cUAIHq6K21j1R8NAYIOCCF8MLw6F0pzkBoHDYJO4
+ kF4kj72oZRrlc+3uXrCWA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:7LfoKvzZb5M=;V3fz7jbezOlcsmF4JFJrxZb9hVX
+ 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
 
-From: Davide Gironi <davide.gironi@gmail.com>
+> snd_soc_component_update_bits returns 1 on a successful update, and
+> we were returning from tas2770_set_dai_tdm_idle early on any nonzero
+> return code. Change this so that only negative return codes are
+> treated as errors.
 
-Add board-specific handling for the TerraTec PHASE 88, which shares an
-EWS88MT device ID but uses different external hardware.
+https://elixir.bootlin.com/linux/v7.3/source/sound/soc/codecs/tas2770.c#L4=
+95-L567
 
-Use the write-only expander at 0x42 for AK4524 chip selection, initialize
-its second register, and add the measured Line/Mic 7/8 control. Correct the
-EEPROM-reported AC'97 codec and MIDI UART configuration, and guard consumer
-capture open when AC'97 initialization failed.
+* How do you think about to refine the summary phrase another bit
+  like =E2=80=9CFix error detection in tas2770_set_dai_tdm_idle()=E2=80=9D=
+?
 
-Tested on two PHASE 88 racks with kernel 6.18.55; built against Debian
-6.12.111. The patch applies to 6.18.58.
+* See also:
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
+Documentation/process/stable-kernel-rules.rst?h=3Dv7.3#n34
 
-Assisted-by: Pi:gpt-6-luna
-Signed-off-by: Davide Gironi <davide.gironi@gmail.com>
----
- sound/pci/ice1712/ews.c     | 163 +++++++++++++++++++++++++++++++++++-
- sound/pci/ice1712/ews.h     |  26 ++++++
- sound/pci/ice1712/ice1712.c |  38 ++++++++-
- 3 files changed, 224 insertions(+), 3 deletions(-)
 
-diff --git a/sound/pci/ice1712/ews.c b/sound/pci/ice1712/ews.c
-index 1dffcb0..ac36370 100644
---- a/sound/pci/ice1712/ews.c
-+++ b/sound/pci/ice1712/ews.c
-@@ -32,6 +32,8 @@ enum {
- /* additional i2c devices for EWS boards */
- struct ews_spec {
- 	struct snd_i2c_device *i2cdevs[3];
-+	unsigned char pcf8575_data;	/* PHASE 88: shadow of the chip select byte */
-+	unsigned char pcf8575_input;	/* PHASE 88: shadow of the input select byte */
- };
- 
- /*
-@@ -128,12 +130,130 @@ static struct snd_i2c_bit_ops snd_ice1712_ewx_cs8427_bit_ops = {
-  * AK4524 access
-  */
- 
-+/*
-+ * PHASE 88 AK4524 chip select
-+ *
-+ * Contrary to the EWS88MT the chip select byte of the PHASE 88 cannot be
-+ * read back: the expander is only ever written by the original Windows
-+ * driver, which composes the byte from its own state.  Therefore keep a
-+ * shadow copy of the flag bits and always write the complete value.
-+ */
-+/*
-+ * Write one register of the PHASE 88 expander.
-+ *
-+ * The bit-banged bus of the EWS boards takes the GPIO lock on its own, so
-+ * the caller must not hold ice->gpio_mutex - it is not a recursive mutex
-+ * and the writer would deadlock itself inside ewx_i2c_start().
-+ */
-+static int snd_ice1712_phase88_write(struct snd_ice1712 *ice,
-+				     unsigned char page, unsigned char value)
-+{
-+	struct ews_spec *spec = ice->spec;
-+	unsigned char bytes[2];
-+	int err;
-+
-+	bytes[0] = page;
-+	bytes[1] = value;
-+	snd_i2c_lock(ice->i2c);
-+	err = snd_i2c_sendbytes(spec->i2cdevs[EWS_I2C_PCF2], bytes, 2);
-+	snd_i2c_unlock(ice->i2c);
-+	if (err != 2) {
-+		dev_err(ice->card->dev,
-+			"PHASE 88 expander write failed (page 0x%02x, addr 0x%02x, err %d)\n",
-+			page, spec->i2cdevs[EWS_I2C_PCF2]->addr, err);
-+		return -EIO;
-+	}
-+	return 0;
-+}
-+
-+static int snd_ice1712_phase88_chip_select(struct snd_ice1712 *ice, int chip_mask)
-+{
-+	struct ews_spec *spec = ice->spec;
-+	int err;
-+
-+	if (snd_BUG_ON(chip_mask < 0 || chip_mask > 0x0f))
-+		return -EINVAL;
-+	spec->pcf8575_data = (spec->pcf8575_data & 0xf0) | chip_mask;
-+	err = snd_ice1712_phase88_write(ice, ICE1712_PHASE88_OUTPUT_PAGE,
-+					spec->pcf8575_data);
-+	if (err < 0)
-+		spec->pcf8575_data ^= chip_mask;
-+	return err;
-+}
-+
-+/*
-+ * PHASE 88: Line/Mic select of the four analog input pairs
-+ *
-+ * The Terratec mixers of the original operating systems offer a "Line/Mic
-+ * 1/2 ... 7/8" switch for every pair of the AK4524 codecs; the setting is
-+ * kept in the second register of the chip select expander.
-+ *
-+ * With a microphone on input 7 the level of that pair rises by roughly
-+ * 30 dB when bit 4 (0x10) of this register is set, while bits 5 ... 7 do
-+ * not change anything that could be measured on the other pairs - only the
-+ * pair with the microphone attached could be verified.  The register is
-+ * write-only, so the bits are assumed to be ordered from the last pair to
-+ * the first one: 0x10 selects the microphone of pair 7/8, 0x80 the one of
-+ * pair 1/2.
-+ */
-+static int snd_ice1712_phase88_linemic_info(struct snd_kcontrol *kcontrol,
-+					    struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
-+	uinfo->count = 1;
-+	uinfo->value.integer.min = 0;
-+	uinfo->value.integer.max = 1;
-+	return 0;
-+}
-+
-+static int snd_ice1712_phase88_linemic_get(struct snd_kcontrol *kcontrol,
-+					   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
-+	struct ews_spec *spec = ice->spec;
-+
-+	ucontrol->value.integer.value[0] =
-+		!!(spec->pcf8575_input & (0x80 >> kcontrol->private_value));
-+	return 0;
-+}
-+
-+static int snd_ice1712_phase88_linemic_put(struct snd_kcontrol *kcontrol,
-+					   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
-+	struct ews_spec *spec = ice->spec;
-+	unsigned char bit = 0x80 >> kcontrol->private_value;
-+	unsigned char val = ucontrol->value.integer.value[0] ?
-+		spec->pcf8575_input | bit : spec->pcf8575_input & ~bit;
-+	int err;
-+
-+	if (val == spec->pcf8575_input)
-+		return 0;
-+	err = snd_ice1712_phase88_write(ice, ICE1712_PHASE88_INPUT_PAGE, val);
-+	if (err < 0)
-+		return err;
-+	spec->pcf8575_input = val;
-+	return 1;
-+}
-+
-+static const struct snd_kcontrol_new snd_ice1712_phase88_linemic_ctl = {
-+	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+	.name = "Line/Mic 7/8 Switch",
-+	.info = snd_ice1712_phase88_linemic_info,
-+	.get = snd_ice1712_phase88_linemic_get,
-+	.put = snd_ice1712_phase88_linemic_put,
-+	.private_value = 3,		/* bit 0x10: the pair nothing else drives */
-+};
-+
- /* AK4524 chip select; address 0x48 bit 0-3 */
- static int snd_ice1712_ews88mt_chip_select(struct snd_ice1712 *ice, int chip_mask)
- {
- 	struct ews_spec *spec = ice->spec;
- 	unsigned char data, ndata;
- 
-+	if (ice->eeprom.subvendor == ICE1712_SUBDEVICE_PHASE88)
-+		return snd_ice1712_phase88_chip_select(ice, chip_mask);
-+
- 	if (snd_BUG_ON(chip_mask < 0 || chip_mask > 0x0f))
- 		return -EINVAL;
- 	snd_i2c_lock(ice->i2c);
-@@ -458,9 +578,37 @@ static int snd_ice1712_ews_init(struct snd_ice1712 *ice)
- 		}
- 		snd_ice1712_6fire_write_pca(ice, PCF9554_REG_CONFIG, 0x80);
- 		break;
-+	case ICE1712_SUBDEVICE_PHASE88:
-+		err = snd_i2c_device_create(ice->i2c, "CS8404",
-+					    ICE1712_EWS88MT_CS8404_ADDR,
-+					    &spec->i2cdevs[EWS_I2C_CS8404]);
-+		if (err < 0)
-+			return err;
-+		err = snd_i2c_device_create(ice->i2c, "Output expander",
-+					    ICE1712_PHASE88_OUTPUT_ADDR,
-+					    &spec->i2cdevs[EWS_I2C_PCF2]);
-+		if (err < 0)
-+			return err;
-+	spec->pcf8575_data = ICE1712_PHASE88_OUTPUT_INIT;
-+		/* Check if the chip select expander is present */
-+		err = snd_ice1712_ews88mt_chip_select(ice, 0x0f);
-+		if (err < 0)
-+			return err;
-+		/*
-+		 * The latch of the second expander register is undefined
-+		 * after power on; the Terratec driver clears it while it
-+		 * initialises a "type 8" board, before the codecs are set up.
-+		 * With the latch in an unknown state all four AK4524 keep
-+		 * their transmit drivers disabled and nothing is captured.
-+		 */
-+		spec->pcf8575_input = ICE1712_PHASE88_INPUT_INIT;
-+		err = snd_ice1712_phase88_write(ice, ICE1712_PHASE88_INPUT_PAGE,
-+						spec->pcf8575_input);
-+		if (err < 0)
-+			return err;
-+		break;
- 	case ICE1712_SUBDEVICE_EWS88MT:
- 	case ICE1712_SUBDEVICE_EWS88MT_NEW:
--	case ICE1712_SUBDEVICE_PHASE88:
- 	case ICE1712_SUBDEVICE_TS88:
- 
- 		err = snd_i2c_device_create(ice->i2c, "CS8404",
-@@ -982,9 +1130,20 @@ static int snd_ice1712_ews_add_controls(struct snd_ice1712 *ice)
- 				return err;
- 		}
- 		break;
-+	case ICE1712_SUBDEVICE_PHASE88:
-+		/*
-+		 * The PHASE 88 has neither the input sensitivity expander on
-+		 * 0x23 nor the output expander on 0x24 of the EWS88MT, so the
-+		 * corresponding switches must not be created here; instead
-+		 * the Line/Mic select of the codec pairs is offered.
-+		 */
-+		err = snd_ctl_add(ice->card,
-+				  snd_ctl_new1(&snd_ice1712_phase88_linemic_ctl, ice));
-+		if (err < 0)
-+			return err;
-+		break;
- 	case ICE1712_SUBDEVICE_EWS88MT:
- 	case ICE1712_SUBDEVICE_EWS88MT_NEW:
--	case ICE1712_SUBDEVICE_PHASE88:
- 	case ICE1712_SUBDEVICE_TS88:
- 		err = snd_ctl_add(ice->card, snd_ctl_new1(&snd_ice1712_ews88mt_input_sense, ice));
- 		if (err < 0)
-diff --git a/sound/pci/ice1712/ews.h b/sound/pci/ice1712/ews.h
-index aec8dc6..08f9238 100644
---- a/sound/pci/ice1712/ews.h
-+++ b/sound/pci/ice1712/ews.h
-@@ -58,6 +58,32 @@ extern struct snd_ice1712_card_info snd_ice1712_ews_cards[];
- #define ICE1712_EWS88MT_OUTPUT_SENSE	0x40	/* mask */
- #define ICE1712_EWS88D_PCF_ADDR		(0x40>>1)
- 
-+/*
-+ * TerraTec PHASE 88 configuration definitions
-+ *
-+ * The PHASE 88 is derived from the EWS88MT but it does not carry the two
-+ * PCF8574 expanders at 0x23/0x24.  The AK4524 chip selects are driven by a
-+ * 16-bit output expander answering at the 8-bit address 0x42, programmed
-+ * with a two byte transfer: an address/page byte followed by the data byte
-+ * holding the chip select bits (0-3, active low) and the board flags.
-+ * This matches the "type 8" code path of the Terratec Windows driver for
-+ * subsystem 0x1151 (PHASE 88) and 0xf151 (PHASE 88 master).
-+ */
-+#define ICE1712_PHASE88_OUTPUT_ADDR	(0x42 >> 1)
-+#define ICE1712_PHASE88_OUTPUT_PAGE	0x01	/* first byte of the transfer */
-+#define ICE1712_PHASE88_OUTPUT_INIT	0x20	/* flags kept asserted (bits 4-7) */
-+
-+/*
-+ * The same expander has a second register that the Terratec drivers clear
-+ * once while they initialise a "type 8" board ({0x03, 0x00} written to
-+ * 8-bit 0x42).  The latch of the expander is undefined after power on and
-+ * the AK4524 codecs stay silent when it is left alone, so it has to be
-+ * written before the codecs are set up.  Its four upper bits select either
-+ * the line input or the microphone input of the four codec pairs.
-+ */
-+#define ICE1712_PHASE88_INPUT_PAGE	0x03
-+#define ICE1712_PHASE88_INPUT_INIT	0x00
-+
- /* TerraTec DMX 6Fire configuration definitions */
- #define ICE1712_6FIRE_AK4524_CS_MASK	0x07	/* AK4524 chip select #1-#3 */
- #define ICE1712_6FIRE_RW		0x08	/* read/write switch for i2c; high = write  */
-diff --git a/sound/pci/ice1712/ice1712.c b/sound/pci/ice1712/ice1712.c
-index 376df1a..86ecf7b 100644
---- a/sound/pci/ice1712/ice1712.c
-+++ b/sound/pci/ice1712/ice1712.c
-@@ -768,6 +768,9 @@ static int snd_ice1712_capture_open(struct snd_pcm_substream *substream)
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	struct snd_ice1712 *ice = snd_pcm_substream_chip(substream);
- 
-+	if (!ice->ac97)
-+		return -ENODEV;
-+
- 	ice->capture_con_substream = substream;
- 	runtime->hw = snd_ice1712_capture;
- 	runtime->hw.rates = ice->ac97->rates[AC97_RATES_ADC];
-@@ -2290,12 +2293,45 @@ static int snd_ice1712_chip_init(struct snd_ice1712 *ice)
- 	outb(ICE1712_NATIVE, ICEREG(ice, CONTROL));
- 	udelay(200);
- 	if (ice->eeprom.subvendor == ICE1712_SUBDEVICE_DMX6FIRE &&
--	    !ice->dxr_enable)
-+	    !ice->dxr_enable) {
- 		/*  Set eeprom value to limit active ADCs and DACs to 6;
- 		 *  Also disable AC97 as no hardware in standard 6fire card/box
- 		 *  Note: DXR extensions are not currently supported
- 		 */
- 		ice->eeprom.data[ICE_EEP1_CODEC] = 0x3a;
-+	} else if (ice->eeprom.subvendor == ICE1712_SUBDEVICE_PHASE88) {
-+		/*
-+		 * The EEPROM of the PHASE 88 advertises a consumer AC'97
-+		 * codec, but the board does not carry one - the AC'97 link
-+		 * does not answer even after a cold reset (every register
-+		 * reads back as 0xffff).  All converters of this card are the
-+		 * AKM codecs on the multitrack I2S interface, and the original
-+		 * Terratec driver does not touch the AC'97 link either.
-+		 * Without this quirk the probe wastes two seconds in the
-+		 * AC'97 reset and creates consumer PCM devices that have no
-+		 * codec behind them.
-+		 */
-+		ice->eeprom.data[ICE_EEP1_CODEC] |= ICE1712_CFG_NO_CON_AC97;
-+		/*
-+		 * The rack has two MIDI interfaces - one on the front panel, one
-+		 * on the rear - but the EEPROM advertises only one UART, so
-+		 * without this the rear connector stays dead.  Terratec's own
-+		 * driver exposes both: "[PHASE88.Interface.Midi1]" and
-+		 * "[PHASE88.Interface.Midi2]" in ews88wdm.inf, "PHASE88 MIDI Port
-+		 * 1/2", the changelog naming the second one "Mic28 Extensions
-+		 * (Midi 2)".  Both UARTs are inside the Envy24, so claiming the
-+		 * second one is only a matter of setting the bit the EEPROM
-+		 * should have carried.
-+		 *
-+		 * Verified on a PHASE 88 rack: with a loopback cable in the rear
-+		 * connector, a SysEx frame written to the second UART came back
-+		 * on it byte-exactly, and the first UART (front connector) kept
-+		 * working as before.  With the second UART enabled and both ports
-+		 * idle the card raised no interrupt on its IRQ line for 10 s,
-+		 * so an unconnected input does not generate traffic.
-+		 */
-+		ice->eeprom.data[ICE_EEP1_CODEC] |= ICE1712_CFG_2xMPU401;
-+	}
- 	pci_write_config_byte(ice->pci, 0x60, ice->eeprom.data[ICE_EEP1_CODEC]);
- 	pci_write_config_byte(ice->pci, 0x61, ice->eeprom.data[ICE_EEP1_ACLINK]);
- 	pci_write_config_byte(ice->pci, 0x62, ice->eeprom.data[ICE_EEP1_I2SID]);
+Regards,
+Markus
