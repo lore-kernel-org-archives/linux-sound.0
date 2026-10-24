@@ -1,52 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792831719;
-	b=EhmnHy3GOP+0xQQBPERSwwy+DXN5/OGhQ3WQTI0Se8CBHS5QBp5BE7kQEg4yEhynyaKj
-	 AV3019fL6kOvhPClAfXUwD+ad0zxdL4kDKF8/WpTS1La7Un7ytL1fKGLtCCYe/Cu+N5P3
-	 NOFfWmGYWIzDsoVsJhek4M1PDqLgpgpoor5g+ipPVIUhItv3v4dasGUe9fMWnzBqCFcez
-	 zFtGuhVCaoSNa2miDN3/4F/mQlStTcIwPCHCVdQKebitNDshtrNqaAyg/ERujM4/0CFHu
-	 YkiKWKpkYTsArfxXmh9u/OLDhI7pWRJLxAWFR8lgmKFMVzmBNVHWqlmHCEAewrNDGcA==
+	t=1792832012;
+	b=YPtem6Ec4OASI7b4z5gkXbcht1L3TH34zxmi0lZM4IulVSROCmbC5tcvSctMV0Cgs7rC
+	 07SUp/B0Vw0zBvpNZ11m3IQtSc14JHt7a+5U5uGI6iDez0CPYN6MSvaQX3c1GAR/1kSPE
+	 hejPYZdw9SXk+JVLPZppbmc7yt5vq87iDOZbp1tM9QeOoM/lsBKZrFaRoCv7spIlL1SZn
+	 VAWouhBoRV15NsqPp5TroZEXZ1O31R2dlfnLTwMeXCEH1wultfrdOufXnceB2LR+LXiH/
+	 y2GBtBmagMa/8sAtIoCeM0wXkvIBP4s18OQBjW//5L4XwuSSmD2686xDhHT8IFFUfuA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792831719;
-	h=DMARC-Filter:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=9AgtTST0Z1+lZzItDh6NHPXLbM/PZEmotJfB+llmyrU=;
-	b=zuAf5Qag8vp7OmT3QDJr0yGOw9Olln42FbDCzVF3YYMeE17/pc8g8p0Ta0/dn2WVn1Yp
-	 bFqSu/DIIpDAcot6dzV5528urrq23x+hFD7OE3zsEZ114I0Ym/IfVtU/LzwDC0Bezv2cA
-	 ymgZdTx3FT1Pd20ZZTxZEvNSuOYPet32L0/IAxCglJGj7/nuknX2j19pYj6cFeSy9+e5v
-	 Y4f+0gGgINOBcG/bqblp0uGcSisFAU32s2dIMqHMyTgRZ9u8l+ISRHPn1q6jZ29ElGM25
-	 x0q2oASAZP1BxvXD49sRwryEqBwvK8X6sCiF1CDFrFnzO+XscP+UUUGhW1WQXuuf7lw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792832012;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=/160rODM6gMD+E9E2LegL4NM//Fg9SQ7q0LaErlO+nA=;
+	b=3+D30KG56panoPgNhrWqRylDzKOvACFFczfty34Cq2Z/8LkBFGRfOkKNoxuI/qjY7g1w
+	 AkTpbzvKX/XOhaE+75fLJlHrlZDsW56BvQH/B6s8px2Tlmmq0UFKJteNN044d8DYxfREw
+	 LRugR6QZDl+SrrjU2ag2cbs+3XeQLvz29Q2mfJzU8lryJ1VVTYRdcgoCjqVuo58rxRKm0
+	 UEje9+z8H7OR0nnFT2XBMUfUkE2qbFtGy/sKqA761IHGszNLcjZ6NfGzQO+94NAbVVYGx
+	 d1CEZ9qx1RbQnbgF1AtYXkXUuAkfOPph7Wd7I+SjMrvYYiTaEevuAedtVwA5j8s70kw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=TaHMi9pO;
-	arc=none smtp.remote-ip=220.197.31.4
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l6RhKEvU;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B61E606A31A;
-	Sat, 24 Oct 2026 08:48:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0B61E606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36998606A31A;
+	Sat, 24 Oct 2026 08:53:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=TaHMi9pO
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Date:Subject:MIME-Version:Content-Type:
-	Message-Id:To; bh=9AgtTST0Z1+lZzItDh6NHPXLbM/PZEmotJfB+llmyrU=;
-	b=TaHMi9pO37EKQ+3z2f+xaCd6Np7e2YIPiaPETy17/9ELx/P7Km0nKgC+O+H5J2
-	eEEdjxEZAy3JrYdwCFAeADiPkuyUYQQnIboPYAm1xjd0PYwEh8WgAHI6wnKW+c3U
-	Riav4wJ/uFu9Wo69uN2TnhItT/R0W3jKrE/UX5sdHeHz4=
-Received: from 4F-GAME.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wD31_XDcNxqoEbyCA--.11666S3;
-	Sat, 24 Oct 2026 16:48:04 +0800 (CST)
-From: Bob Hui <bg9oxa@163.com>
-Date: Sat, 24 Oct 2026 16:47:23 +0800
-Subject: [PATCH 1/2] ASoC: es8328: describe the power-on register values in
- the regmap
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l6RhKEvU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 753131F01825;
+	Sat, 24 Oct 2026 08:53:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792832011;
+	bh=/160rODM6gMD+E9E2LegL4NM//Fg9SQ7q0LaErlO+nA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=l6RhKEvUDnm/3uSnAcCI4C0BlXgRqXwLwgZG0/GQNKrMgWypOf3dMdai3tkFWD/OU
+	 P15+LPmorXdMw68PI53DD7HMiyaZbG9JbQwCO4MzaWBQpjzXiCdfPWtLiu/fi8cMQu
+	 WOT6fdhHM3gxswRXn7aV8SDx9X1ikGssFB8L3C4N8aH7SMMj3gOJnFwrMMy3bfpZtx
+	 m62UIWBdoyW2yF/nuaj9bP3HjD/5FRHqSHlJugJqYbQ7e4hfvmW7qagmR1Lr+0O5qg
+	 3r6n9N98fwKBh+rp1qBZCgMCBBZO4jLXDPQrZdZ7pq3w3J6hzIRh88vFD/x76XTAQg
+	 YARladb80k1xw==
+Message-ID: <sashiko-outbox-183601@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v1 RFC] ASoC: dt-bindings: Define '#sound-dai-cells'
+ only in the dai-common schema
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Svyatoslav Ryhel" <clamor95@gmail.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261024084307.116715-1-clamor95@gmail.com>
+References: <20261024084307.116715-1-clamor95@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 24 Oct 2026 08:53:30 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -55,116 +59,135 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261024-es8328-vol-init-v1-1-efbd24de9639@163.com>
-References: <20261024-es8328-vol-init-v1-0-efbd24de9639@163.com>
-In-Reply-To: <20261024-es8328-vol-init-v1-0-efbd24de9639@163.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Bob Hui <bg9oxa@163.com>
-X-Mailer: b4 0.15.2
-X-CM-TRANSID:_____wD31_XDcNxqoEbyCA--.11666S3
-X-Coremail-Antispam: 1Uf129KBjvJXoWxCr18GF4rGrW3CrWUWry8Krg_yoW5ZFyUpr
-	n0qFySkF1rtw47Zr93GFyrAF1rArWaqFyDCa1xKr13tayUZrykKws0kryqqrySqwnxWr43
-	tw15Aa17WF48ZFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zKQ6JbUUUUU=
-X-CM-SenderInfo: lejz05rd6rljoofrz/xtbC+gUfjGrccMU5vAAA3q
 
-The driver uses REGCACHE_MAPLE but does not provide reg_defaults, so the
-cache starts out empty: a register that has not been written yet is read
-back from the hardware and cached at that point. The two then drift
-apart whenever something else, such as the bootloader or a previous
-kernel, has left the codec in a non-default state, and the control
-values reported to userspace no longer describe the chip.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [Medium] ASoC: dt-bindings: dai-common.yaml enum [0, 1] breaks 2-cell DAI=
+ schemas
+- [Medium] ASoC: dt-bindings: dropping const #sound-dai-cells weakens DT va=
+lidation
+--
 
-Fill in the reset values from the ES8328 datasheet (Revision 1.0, the
-per-register sections 6.1.1 to 6.3.30) so the cache matches what the
-codec comes up with on power-up.
+commit 26a69ea0b2bf774fcda9427ca7712dbec4492c12
+Author: Svyatoslav Ryhel <clamor95@gmail.com>
 
-Assisted-by: Hermes:deepseek-v4-flash
-Signed-off-by: Bob Hui <bg9oxa@163.com>
----
- sound/soc/codecs/es8328.c | 58 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
+ASoC: dt-bindings: Define '#sound-dai-cells' only in the dai-common schema
 
-diff --git a/sound/soc/codecs/es8328.c b/sound/soc/codecs/es8328.c
-index aaa6646ad4c5e..d7f93de82f69a 100644
---- a/sound/soc/codecs/es8328.c
-+++ b/sound/soc/codecs/es8328.c
-@@ -856,11 +856,69 @@ static void es8328_remove(struct snd_soc_component *component)
- 			       es8328->supplies);
- }
- 
-+static const struct reg_default es8328_reg_defaults[] = {
-+	{ ES8328_CONTROL1,	0x06 },
-+	{ ES8328_CONTROL2,	0x1c },
-+	{ ES8328_CHIPPOWER,	0xc3 },
-+	{ ES8328_ADCPOWER,	0xfc },
-+	{ ES8328_DACPOWER,	0xc0 },
-+	{ ES8328_CHIPLOPOW1,	0x00 },
-+	{ ES8328_CHIPLOPOW2,	0x00 },
-+	{ ES8328_ANAVOLMANAG,	0x7c },
-+	{ ES8328_MASTERMODE,	0x80 },
-+	{ ES8328_ADCCONTROL1,	0x00 },
-+	{ ES8328_ADCCONTROL2,	0x00 },
-+	{ ES8328_ADCCONTROL3,	0x06 },
-+	{ ES8328_ADCCONTROL4,	0x00 },
-+	{ ES8328_ADCCONTROL5,	0x06 },
-+	{ ES8328_ADCCONTROL6,	0x30 },
-+	{ ES8328_ADCCONTROL7,	0x30 },
-+	{ ES8328_ADCCONTROL8,	0xc0 },
-+	{ ES8328_ADCCONTROL9,	0xc0 },
-+	{ ES8328_ADCCONTROL10,	0x38 },
-+	{ ES8328_ADCCONTROL11,	0xb0 },
-+	{ ES8328_ADCCONTROL12,	0x32 },
-+	{ ES8328_ADCCONTROL13,	0x06 },
-+	{ ES8328_ADCCONTROL14,	0x00 },
-+	{ ES8328_DACCONTROL1,	0x00 },
-+	{ ES8328_DACCONTROL2,	0x06 },
-+	{ ES8328_DACCONTROL3,	0x32 },
-+	{ ES8328_DACCONTROL4,	0xc0 },
-+	{ ES8328_DACCONTROL5,	0xc0 },
-+	{ ES8328_DACCONTROL6,	0x08 },
-+	{ ES8328_DACCONTROL7,	0x06 },
-+	{ ES8328_DACCONTROL8,	0x1f },
-+	{ ES8328_DACCONTROL9,	0xf7 },
-+	{ ES8328_DACCONTROL10,	0xfd },
-+	{ ES8328_DACCONTROL11,	0xff },
-+	{ ES8328_DACCONTROL12,	0x1f },
-+	{ ES8328_DACCONTROL13,	0xf7 },
-+	{ ES8328_DACCONTROL14,	0xfd },
-+	{ ES8328_DACCONTROL15,	0xff },
-+	{ ES8328_DACCONTROL16,	0x00 },
-+	{ ES8328_DACCONTROL17,	0x38 },
-+	{ ES8328_DACCONTROL18,	0x38 },
-+	{ ES8328_DACCONTROL19,	0x38 },
-+	{ ES8328_DACCONTROL20,	0x38 },
-+	{ ES8328_DACCONTROL21,	0x38 },
-+	{ ES8328_DACCONTROL22,	0x38 },
-+	{ ES8328_DACCONTROL23,	0x00 },
-+	{ ES8328_LOUT1VOL,	0x00 },
-+	{ ES8328_ROUT1VOL,	0x00 },
-+	{ ES8328_LOUT2VOL,	0x00 },
-+	{ ES8328_ROUT2VOL,	0x00 },
-+	{ ES8328_MONOOUTVOL,	0x00 },
-+	{ ES8328_DACCONTROL29,	0x00 },
-+	{ ES8328_DACCONTROL30,	0x00 },
-+};
-+
- const struct regmap_config es8328_regmap_config = {
- 	.reg_bits	= 8,
- 	.val_bits	= 8,
- 	.max_register	= ES8328_REG_MAX,
- 	.cache_type	= REGCACHE_MAPLE,
-+	.reg_defaults		= es8328_reg_defaults,
-+	.num_reg_defaults	= ARRAY_SIZE(es8328_reg_defaults),
- 	.use_single_read = true,
- 	.use_single_write = true,
- };
+This commit constrains #sound-dai-cells in dai-common.yaml to an enum of
+[0, 1] and drops the explicit #sound-dai-cells property definitions from
+linux,bt-sco.yaml and linux,spdif.yaml in favor of referencing
+dai-common.yaml.
 
--- 
-2.34.1
+> diff --git a/Documentation/devicetree/bindings/sound/dai-common.yaml b/Do=
+cumentation/devicetree/bindings/sound/dai-common.yaml
+> index 1aed2f0f17756..152f319d8f382 100644
+> --- a/Documentation/devicetree/bindings/sound/dai-common.yaml
+> +++ b/Documentation/devicetree/bindings/sound/dai-common.yaml
+> @@ -13,6 +13,10 @@ allOf:
+>    - $ref: component-common.yaml#
+> =20
+>  properties:
+> -  '#sound-dai-cells': true
+> +  '#sound-dai-cells':
+> +    description:
+> +      Use 0 if only a single DAI cell is available, or 1 if there are mu=
+ltiple
+> +      DAI cells. For special cases, check the device schema.
+> +    enum: [0, 1]
 
+[Severity: Medium]
+Can device schemas that require more than one cell actually override
+enum: [0, 1] when referencing dai-common.yaml?
+
+In devicetree schemas, device bindings include dai-common.yaml via allOf,
+which requires every subschema to be satisfied simultaneously. A referencing
+schema can narrow the allowed values in dai-common.yaml, but it cannot widen
+enum: [0, 1] to allow 2.
+
+For example, Documentation/devicetree/bindings/sound/amlogic,aiu.yaml
+includes dai-common.yaml and requires 2 cells:
+
+    allOf:
+      - $ref: dai-common.yaml#
+
+    properties:
+      $nodename:
+        pattern: "^audio-controller@.*"
+
+      "#sound-dai-cells":
+        const: 2
+
+This matches sound/soc/meson/aiu.c:aiu_of_xlate_dai_name():
+
+    if (args->args_count !=3D 2)
+            return -EINVAL;
+
+With enum: [0, 1] in dai-common.yaml, the intersection of enum: [0, 1] and
+const: 2 is empty, causing dt_binding_check on amlogic,aiu.yaml (and
+dtbs_check on arch/arm/boot/dts/amlogic/meson.dtsi and
+arch/arm64/boot/dts/amlogic/meson-gx.dtsi) to fail with a validation
+regression because 2 is not one of [0, 1].
+
+Commit 3fda85324b8d ("ASoC: dt-bindings: Extend name-prefix.yaml into common
+DAI properties") originally left '#sound-dai-cells': true in dai-common.yaml
+for this reason. Should dai-common.yaml keep '#sound-dai-cells': true (or
+include 2 in the allowed range) so bindings with 2 cells remain valid?
+
+[ ... ]
+
+> diff --git a/Documentation/devicetree/bindings/sound/linux,spdif.yaml b/D=
+ocumentation/devicetree/bindings/sound/linux,spdif.yaml
+> index aea6230db54c8..62c035b739d38 100644
+> --- a/Documentation/devicetree/bindings/sound/linux,spdif.yaml
+> +++ b/Documentation/devicetree/bindings/sound/linux,spdif.yaml
+> @@ -18,9 +18,6 @@ properties:
+>        - linux,spdif-dit
+>        - linux,spdif-dir
+> =20
+> -  "#sound-dai-cells":
+> -    const: 0
+> -
+
+[Severity: Medium]
+Does dropping const: 0 here weaken schema validation for fixed single-dai
+and multi-dai devices?
+
+Both linux,spdif-dit and linux,spdif-dir only ever register a single stub
+dai in sound/soc/codecs/spdif_transmitter.c:spdif_dit_probe():
+
+    static int spdif_dit_probe(struct platform_device *pdev)
+    {
+            return devm_snd_soc_register_component(&pdev->dev,
+                            &soc_codec_spdif_dit,
+                            &dit_stub_dai, 1);
+    }
+
+and sound/soc/codecs/spdif_receiver.c:spdif_dir_probe():
+
+    static int spdif_dir_probe(struct platform_device *pdev)
+    {
+            return devm_snd_soc_register_component(&pdev->dev,
+                            &soc_codec_spdif_dir,
+                            &dir_stub_dai, 1);
+    }
+
+Per the description in dai-common.yaml, #sound-dai-cells must be 0 when only
+a single dai is available. Replacing const: 0 in linux,spdif.yaml with the
+common enum: [0, 1] allows a devicetree node with #sound-dai-cells =3D <1> =
+to
+pass dtbs_check silently.
+
+Similarly, if bindings for multi-dai codecs drop const: 1 in favor of
+dai-common.yaml, nodes erroneously setting #sound-dai-cells =3D <0> will pa=
+ss
+schema validation and then fail at runtime during phandle translation in
+functions such as snd_soc_of_xlate_dai_name(), qmc_audio_of_xlate_dai_name(=
+),
+or q6dsp_audio_ports_of_xlate_dai_name().
+
+Should bindings for devices with a fixed number of dais keep their explicit
+const: 0 or const: 1 constraint in the device schema?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261024084307.1167=
+15-1-clamor95@gmail.com?part=3D1
