@@ -1,57 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792824464;
-	b=M6foh+Z6EkQGuOmgayA0TkMGZjnZn5zNVkeAcQkUGNGBmnxpMr9TNLqVkN8mBZZ0frDq
-	 99ccDjh2WKfiBXWfOEDJG+NOUQOfBaHjjo+R9psaMbCkpBfKzA7KVQXI6CtpvBe/OGhtO
-	 2+OJ6qrkEyMDDyCKoUacNbzVCGgNpQV4NTw87dNVP1PYd7w3THlRiFCHOZNqhGTv8ePw4
-	 QUnjBNJq5XlfkW1vMSm1ITok6avNKNJjnSjRHU3XeoRCkFbC2YkKy6akJxU2K3aqoG0v/
-	 L01sXWv1NRVE8JchtUBqU9Lzqr1A/m6Di4EWtcL2gqIhynVFmrXEVU2LbPEVb4emAZA==
+	t=1792828788;
+	b=zDsPX/l644oPvMcKs4Ioh9WAgdBfLH7ZdkZkGhpfcsl3wq2W2VBHeQpvUpw122g/VF/2
+	 eMWVMDE++kl62Vxhniez/PdVB7PU8T9XQxNt4a7tZbCGEQIjpntmcp8OrHbSowUfI+Hkr
+	 asAVHKOHzk8gD8ns320gt779XUQNcMu+zNtc9ae1+Te4M4FA+zfXIn5vqclhnQ8Vpv/qn
+	 3DL5kww6wC6DSIhtW6Cx68YRffSQhMUO2kZPCdbT46kXwAmgC1mL1xzU9SDTu80mT68Bo
+	 B5DU1Ef+jbdumhdyXVLs5H84FU/gM+MPuL64aZ+hhup+o2jxMsG/cxIsylzU1Pv3utw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792824464;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=FaSfZyQqxK7FJJQSGCohkubtHgn/xvDgE1p+Nb+eDM8=;
-	b=ZA0gb1wVJHG8qu6oZs483H9KjPjkJ5xhFTk2ZVpZ/0ePsgIss3SR33yBqiQyzaziGHXV
-	 V/w2lN81xBmhxiHg9l0052dIuUifzjW7GM8p417fmibjuTkbz3pn8UkTArlyyN3g7m0Qy
-	 F7W1OfWaVlhHL2cpDOXHwcRHYrLFNxrCsrGhQ6Rv5ry52jc27U/4RoTpkdAJTE5xS9hMW
-	 JGEr460V4wrbBDzJRMvQn724nIYLkxIZ/D7HW8slrMZZBKPdfCV2TNG089O9zzycsUu3a
-	 pa0jAPxNSQ+gUGoX2K+Qnt5OEdeWR8J/Pz51nGvj7rQgne357c5o9V57oMxUhqJ/RnA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792828788;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=hz8Ys8AWEAetFk1DxacoAKyJ8vI/KH9iUNxe4Sm8xio=;
+	b=pBtov+qsQOHXCR10RdLJllYgmENqgu4OmqmQLyumK4wC7Z3K4m60huo0WGZhd+r3BS/Q
+	 a4MnoqCOM9mYBkyiTW31uhX3q68sVGKpP/Eb20v7tZwTiwCZjExFL8rXboLxbb3+d/bwG
+	 mTxddtC+ehklxXPFniihITkMivI7Bg8nx4x4ZEiVCT+6q/Max+7ZHAF//G6j8YGNUwo4s
+	 c3Aggtzhf3sE8hw7sAND2fUJuoDsACGN0SuSg0O8kisctRvYkswrbY46t7IzxL9BDLTVc
+	 WEjOudWNHL/IJFt+yQp9zsqqC1fd2shlTq0zfZp4g1wDIPj1jwBIOsIB6nyeAmSA+dw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="mViwB9W/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=v706K8Q+;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3p9NEqFq;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=v706K8Q+;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3p9NEqFq;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854D3606A31A
-	for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 06:47:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A0B606A31A;
+	Sat, 24 Oct 2026 07:59:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A4A0B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mViwB9W/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2D6D1F01825;
-	Sat, 24 Oct 2026 06:47:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792824464;
-	bh=FaSfZyQqxK7FJJQSGCohkubtHgn/xvDgE1p+Nb+eDM8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mViwB9W/UU6Bf3qFlUHBiOSpbsJXqcqySGO2Qdz31rHEP+SvOW+S0RH7+6aXeLYGd
-	 BqHr8MhzqO5SGbCh0s8NkSWzdqkHLKDrCbzEhslPoXF84BUIcbnqEiXYQRDxHZ2KEE
-	 6zuSfnzD57WOaHQe41zKz1KFDq6eXxzsBxt41AdU4ejYiqdGTMW4pS9Fe/a/8X/OJx
-	 wXnIxfUtF9EEQuhVtHN2ntM9mmpw70y1PJoqpyqLkesM5KMNt0ITMulgVeFYWuz6p2
-	 vJG4f1KhpeYnEDtowznnWwZwgZTWiQVEmUYKxtcUuOP2FHVs304AyFWEfT1qRPzTfL
-	 ixyIc5RZH0wuA==
-Message-ID: <sashiko-outbox-183573@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 2/3] ALSA: opl3: Clear voice channels before freeing
- their sets
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Cen Zhang" <zzzccc427@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <pm-pmb-4552c4e605507d8d9b16-v8-8b61497d9bd754defcda-2@gmail.com>
-References: <pm-pmb-4552c4e605507d8d9b16-v8-8b61497d9bd754defcda-0@gmail.com>
- <pm-pmb-4552c4e605507d8d9b16-v8-8b61497d9bd754defcda-2@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 24 Oct 2026 06:47:43 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=v706K8Q+;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3p9NEqFq;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=v706K8Q+;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3p9NEqFq
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A90621F44E;
+	Sat, 24 Oct 2026 07:59:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792828785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hz8Ys8AWEAetFk1DxacoAKyJ8vI/KH9iUNxe4Sm8xio=;
+	b=v706K8Q+2UZeiXKIgWp8fdAYk25Ybx7Mkm+S6/JuVA3AOcRwEC9TqdvVXUsMR6woZV5jN7
+	Gg//HAXKWhfCRSOUZIY9uKyopU9r5W232a+sG44I+n3GfajiqKH/6JBCNUJ6imCG6NQZCw
+	0aluVc+kSSOEqRIrAU4DcWCYyQyfesY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792828785;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hz8Ys8AWEAetFk1DxacoAKyJ8vI/KH9iUNxe4Sm8xio=;
+	b=3p9NEqFqXAe3cagAGXPlB2PiV06MP8a7HjbQHy7jHVe54iDr2cFiAEWGrcxOaCX0OraW/q
+	gwdw7c9AlVCIUHBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792828785; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hz8Ys8AWEAetFk1DxacoAKyJ8vI/KH9iUNxe4Sm8xio=;
+	b=v706K8Q+2UZeiXKIgWp8fdAYk25Ybx7Mkm+S6/JuVA3AOcRwEC9TqdvVXUsMR6woZV5jN7
+	Gg//HAXKWhfCRSOUZIY9uKyopU9r5W232a+sG44I+n3GfajiqKH/6JBCNUJ6imCG6NQZCw
+	0aluVc+kSSOEqRIrAU4DcWCYyQyfesY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792828785;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hz8Ys8AWEAetFk1DxacoAKyJ8vI/KH9iUNxe4Sm8xio=;
+	b=3p9NEqFqXAe3cagAGXPlB2PiV06MP8a7HjbQHy7jHVe54iDr2cFiAEWGrcxOaCX0OraW/q
+	gwdw7c9AlVCIUHBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3A1EF134EA;
+	Sat, 24 Oct 2026 07:59:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id kwuvA3Fl3GqfQAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 24 Oct 2026 07:59:45 +0000
+Date: Sat, 24 Oct 2026 09:59:44 +0200
+Message-ID: <87ld7n8r67.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Gergo Koteles <soyer@irl.hu>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Will Bush <will@willbush.dev>
+Subject: Re: [PATCH] ALSA: usb-audio: Avoid applying boot quirk for Behringer UMC204HD
+In-Reply-To: <8075e4d5ed4b5523a088840c5574d4c0e49307ff.camel@irl.hu>
+References: <20261019102347.2425406-1-tiwai@suse.de>
+	<8075e4d5ed4b5523a088840c5574d4c0e49307ff.camel@irl.hu>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,88 +111,77 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:email]
+X-Spam-Score: -12.30
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] ALSA: opl3: snd_opl3_clear_voices() skips keying off active pair=
-ed voice
---
+On Fri, 23 Oct 2026 22:04:02 +0200,
+Gergo Koteles wrote:
+> 
+> Hi Takashi,
+> 
+> On Mon, 2026-10-19 at 12:23 +0200, Takashi Iwai wrote:
+> > There have been reports about a regression with the recent boot quirk
+> > for Behringer devices; it broke UMC204HD models(1397:0508 and
+> > 1397:0509).  The quirk was to just run usb_get_descriptor(), so I
+> > expected it rather harmful, but in this case, it doesn't look so,
+> > resulting in an error like 'failed to read device descriptor: -110'
+> > that leads to a fatal probe error.
+> > 
+> > As a quick workaround, skip the quirk for those UMC204HD models.
+> > 
+> > Fixes: b5c4823cf3e4 ("ALSA: usb-audio: Apply boot quirk for Behringer models generically")
+> > Reported-by: Will Bush <will@willbush.dev>
+> > Closes: https://lore.kernel.org/45162613-2802-401c-84c9-742f9c8c68e6@app.fastmail.com
+> > Closes: https://bugzilla.suse.com/show_bug.cgi?id=1285896
+> > Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> > ---
+> >  sound/usb/quirks.c | 9 ++++++++-
+> >  1 file changed, 8 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+> > index 4fadb1fdcdea..4ac4aef47dd7 100644
+> > --- a/sound/usb/quirks.c
+> > +++ b/sound/usb/quirks.c
+> > @@ -1790,8 +1790,15 @@ int snd_usb_apply_boot_quirk_once(struct usb_device *dev,
+> >  	}
+> >  
+> >  	/* Behringer devices may need explicit device descriptor read at boot */
+> > -	if (USB_ID_VENDOR(id) == 0x1397)
+> > +	if (USB_ID_VENDOR(id) == 0x1397) {
+> > +		/* the quirk seems breaking on some Behringer devices */
+> > +		switch (id) {
+> > +		case USB_ID(0x1397, 0x0508): /* UMC204HD */
+> > +		case USB_ID(0x1397, 0x0509): /* UMC204HD */
+> 
+> 0x0509 is the UMC404HD
+> 
+> https://linux-hardware.org/?id=usb:1397-0509
 
-commit 01c630bf3a01da16872929739a7ef4ffc65b5a71
-Author: Cen Zhang <zzzccc427@gmail.com>
+You're right.  I'll correct it.
 
-ALSA: opl3: Clear voice channels before freeing their sets
 
-This commit adds snd_opl3_clear_voices() and calls it from both the native
-and OSS sequencer port teardown callbacks to key off active voices and clear
-their channel pointers before freeing the MIDI channel sets.
+thanks,
 
-> diff --git a/sound/drivers/opl3/opl3_midi.c b/sound/drivers/opl3/opl3_mid=
-i.c
-> index 6d3c5b5a35ffc..ba807be2cf1de 100644
-> --- a/sound/drivers/opl3/opl3_midi.c
-> +++ b/sound/drivers/opl3/opl3_midi.c
-> @@ -632,6 +632,20 @@ static void snd_opl3_kill_voice(struct snd_opl3 *opl=
-3, int voice)
-> =20
->  }
-> =20
-> +void snd_opl3_clear_voices(struct snd_opl3 *opl3)
-> +{
-> +	int i;
-> +
-> +	guard(spinlock_irqsave)(&opl3->voice_lock);
-> +	for (i =3D 0; i < MAX_OPL3_VOICES; i++) {
-> +		if (opl3->voices[i].state > 0)
-> +			snd_opl3_kill_voice(opl3, i);
-> +		opl3->voices[i].chan =3D NULL;
-> +		opl3->voices[i].note_off_check =3D 0;
-> +		opl3->voices[i].state =3D SNDRV_OPL3_ST_OFF;
-> +	}
-> +}
-
-[Severity: Medium]
-Can snd_opl3_clear_voices() skip keying off voice i + 3 in hardware when
-voice i is in SNDRV_OPL3_ST_ON_4OP and voice i + 3 has been keyed on in
-SNDRV_OPL3_MODE_SYNTH?
-
-In sound/drivers/opl3/opl3_midi.c:snd_opl3_note_on(), when opl3->synth_mode
-is SNDRV_OPL3_MODE_SYNTH, channels are mapped directly via snd_opl3_oss_map
-without calling opl3_get_voice():
-
-	if (opl3->synth_mode =3D=3D SNDRV_OPL3_MODE_SEQ) {
-		voice =3D opl3_get_voice(opl3, instr_4op, chan);
-	} else {
-		/* remap OSS voice */
-		voice =3D snd_opl3_oss_map[chan->number];	=09
-	}
-
-If a 4-operator instrument is keyed on for channel 0..2 (or 3..5 on
-oss_chset), primary voice i (0..2 or 9..11) is set to SNDRV_OPL3_ST_ON_4OP
-and secondary voice i + 3 is set to SNDRV_OPL3_ST_NOT_AVAIL. If a
-2-operator instrument is then keyed on for channel 12..14 (or 15..17 on
-oss_chset), snd_opl3_oss_map maps directly to voice i + 3 (3..5 or 12..14),
-writing OPL3_KEYON_BIT to OPL3_REG_KEYON_BLOCK for voice i + 3 and setting
-opl3->voices[i + 3].state =3D SNDRV_OPL3_ST_ON_2OP while opl3->voices[i].st=
-ate
-remains SNDRV_OPL3_ST_ON_4OP.
-
-When snd_opl3_clear_voices() iterates from 0 to MAX_OPL3_VOICES - 1, it
-processes voice i first and calls snd_opl3_kill_voice(opl3, i):
-
-	if (vp->state =3D=3D SNDRV_OPL3_ST_ON_4OP) {
-		vp2 =3D &opl3->voices[voice + 3];
-
-		vp2->time =3D opl3->use_time++;
-		vp2->state =3D SNDRV_OPL3_ST_OFF;
-	}
-
-This clears OPL3_KEYON_BIT only on voice i, while resetting
-opl3->voices[i + 3].state to SNDRV_OPL3_ST_OFF. When the loop later reaches
-i + 3, opl3->voices[i + 3].state > 0 is false, so snd_opl3_kill_voice() is
-not called for i + 3, leaving OPL3_KEYON_BIT set in hardware while its state
-is SNDRV_OPL3_ST_OFF.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/pm-pmb-4552c4e60550=
-7d8d9b16-v8-8b61497d9bd754defcda-0@gmail.com?part=3D2
+Takashi
