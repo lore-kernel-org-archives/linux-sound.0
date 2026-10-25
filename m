@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=138.232.1.140
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792956270;
-	b=yHnVWqUA3k0crlLphd4nG1Ovw0HDvRb+NnsXXJLcfL2nY0qu5evz6FuztqPnUp23SXCn
-	 gQrTqAwPCGYsuvgMfqEVXQbVV9mZ6xFVaQ/bXK0eGzdZOA9QUGI2RA0KoagfQcC/PfvvM
-	 fS6axBaH9hecXcQBiY6ShYyGlsSqEBTOQOH/XHvbdSy1vgcVvnMy/Turv8OwXvHie8hJe
-	 Yw9BCHCRpaUVhY126H9dFUsuBl5gaRAQMSxzqrdgTuvujREUYMW8Cous1rvTuGIeAcLSA
-	 N/C/rPCDypnl4/kKsLAc0Kvle82jj0rQ6EpvFR5z5Z0CFg46LEINb6lZ/JKJTXAQt3w==
+	t=1792956273;
+	b=thYWK6ynN/UjhyWlAy+mAtmeSHWVmXhOA58KD517uC1OlTWC7t0rsJVCiojoiTb4/L73
+	 Oe4EQhjVNPryJrarILRDJs2iXpOWpN1hLyC/dUZneR5vr25/3IM40/TanaX+S98qK3/rZ
+	 zO91F6ztdl/1wYQMl0Pxx2gL7QClg0oaqrebWficCpNMcmGuInVe8oTm4YxoH0mfsRKcj
+	 bsTnA2JMb2CE9xdQM1li77uVzV91nLJK+3SKthWXPSLqExLwcNV62s4hkkpjSGSzjrWhm
+	 sHML8TMvfnsmUOpHfncGIAZ5CgpXBr0vcZnyCRwfwD7MnvSNWTj6kk4Uy5t47hdDYrg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792956270;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792956273;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Spam-Score:X-Scanned-By;
-	bh=NIeDseMKJyVvL1fXcLlTOdRUV/IjUHUNJ1TexeATk08=;
-	b=p7xWFsKxG44FBrq1slLEKNGPbCqEjI4cHO24LnShtHk36Fu8vGXaGrZeYYm6O0WPS5Vn
-	 DqIb2XC4ysbRPIn6Kpq2nYb/slQ79MTVoW3dzF8CG4QqEEfWYRa2R/uUEQxQ6IRiuRdd0
-	 uKe79fLMnBXG56A8jswfOEAQQsQzyCsrtj+VDlsAOKAQW6gyijGpDRSMZfvbl61LyBUzm
-	 qtWtGRJfYMp8fTgiRPo7idLxzrJtTl9rsumRVOCfHWs304CykJBbwXPiVH1bOrznDwgEH
-	 J1vig889+sD2QMSWcV9o6QJsbdQEEW+RCAeWN4DZyTe+uyShoN9ErcmXWZ55lokAHKQ==
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-Spam-Score:X-Scanned-By;
+	bh=NJPxs/DZ0HjQlCbUBgtmSDlVuqx+ElkjMOR/IqIVZf8=;
+	b=IUH273HygJ1gkb8vrkXJ0BfS/uabPQKnJhW89gKSa85l+4ioE6yGVWu900Xp1zqMf5ri
+	 dV+F9PmxCcNrR0ccBxQ/FTOyU+SVn0MAlYQEVFz/tKsIMF2ZBscSIRiegoh6fNCbZFqWw
+	 g4tilJzMOxnP8d2knFJNbM1iEP2M1goZsL7VQ9OwD927NpJMvIVj+cF4bZe5tfnyQEPLv
+	 hb9NQSqgV30VeSnpHWTEwG6DASo5Jv6SHVbhKEiPyfj6UdX1ItDZi5pRYMSOQte8QJtkn
+	 pF3rMPYtwLFAI667AR9WKXGICeoCaz10sjM87ava1qyHOLiK9RIDBofjK2AD5vNzeYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=student.uibk.ac.at;
 	spf=pass smtp.mailfrom=student.uibk.ac.at;
-	dkim=pass header.d=student.uibk.ac.at header.i=@student.uibk.ac.at header.a=rsa-sha256 header.s=prod24a header.b=Cz0g25L3;
+	dkim=pass header.d=student.uibk.ac.at header.i=@student.uibk.ac.at header.a=rsa-sha256 header.s=prod24a header.b=FjwiwajX;
 	arc=none smtp.remote-ip=138.232.1.140
 Received: from smtp.uibk.ac.at (smtp.uibk.ac.at [138.232.1.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DD6606A33D;
-	Sun, 25 Oct 2026 19:24:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12DD6606A33D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E95E60A2615;
+	Sun, 25 Oct 2026 19:24:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E95E60A2615
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=student.uibk.ac.at
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=student.uibk.ac.at
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=student.uibk.ac.at header.i=@student.uibk.ac.at header.a=rsa-sha256 header.s=prod24a header.b=Cz0g25L3
+	dkim=pass (1024-bit key, unprotected) header.d=student.uibk.ac.at header.i=@student.uibk.ac.at header.a=rsa-sha256 header.s=prod24a header.b=FjwiwajX
 Received: from surface-pro-5 (178.115.151.51.wireless.dyn.drei.com [178.115.151.51])
 	(authenticated bits=0)
-	by smtp.uibk.ac.at (8.15.2/8.15.2/F1) with ESMTPSA id 69PJO5IZ518377
+	by smtp.uibk.ac.at (8.15.2/8.15.2/F1) with ESMTPSA id 69PJO5Ib518377
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Sun, 25 Oct 2026 20:24:08 +0100
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp.uibk.ac.at 69PJO5IZ518377
+	Sun, 25 Oct 2026 20:24:12 +0100
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp.uibk.ac.at 69PJO5Ib518377
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=student.uibk.ac.at;
-	s=prod24a; t=1792956249;
-	bh=NIeDseMKJyVvL1fXcLlTOdRUV/IjUHUNJ1TexeATk08=;
-	h=From:To:Cc:Subject:Date;
-	b=Cz0g25L3Bzc7vojTcEyY2ynxGoIbDGhVVyEJwDU00nuhDHd2a0lm5kRQ8zeWqcj1/
-	 9HB5zzC0Aa1QGvcPELskx3gsDN+qRhe0pfARUdwClVWyD/av5sfZ+PQc6GdIGWjfTL
-	 99keGbUuvEZO4m5SS3UX1OjabmrDHUgMBwbJVKDI=
+	s=prod24a; t=1792956253;
+	bh=NJPxs/DZ0HjQlCbUBgtmSDlVuqx+ElkjMOR/IqIVZf8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=FjwiwajXkgQagVzbN+XIIegq9IWfswZwGq9FRqHTBx9x7Q9G6Ki5wDmeIaJK3OxoJ
+	 RNGyel9n+nlf2dicGavNJqDCCbmnGERaNCHYOZZr8meXyuY9zlVFTxeGJ6wLGNok96
+	 Lk/xzOLN+l8Cm9brfiJx2MOZSbfU+TKUzsu9Bt2w=
 From: christian.koever-draxl@student.uibk.ac.at
 To: neil.armstrong@linaro.org, jbrunet@baylibre.com, sboyd@kernel.org,
         bmasney+clk@redhat.com, robh@kernel.org, krzk+dt@kernel.org,
@@ -55,11 +55,14 @@ To: neil.armstrong@linaro.org, jbrunet@baylibre.com, sboyd@kernel.org,
 Cc: linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Jiebing Chen <jiebing.chen@amlogic.com>,
         =?UTF-8?q?Christian=20Stefan=20K=C3=B6v=C3=A9r-Draxl?= <ckoever@outlook.de>
-Subject: [PATCH v7 0/7] Add support for S4 audio
-Date: Sun, 25 Oct 2026 20:23:57 +0100
-Message-ID: <20261025192404.209695-1-christian.koever-draxl@student.uibk.ac.at>
+Subject: [PATCH v7 2/7] dt-bindings: Asoc: axg-audio: Add S4 audio tocodec
+Date: Sun, 25 Oct 2026 20:23:59 +0100
+Message-ID: <20261025192404.209695-3-christian.koever-draxl@student.uibk.ac.at>
 X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261025192404.209695-1-christian.koever-draxl@student.uibk.ac.at>
+References: <20261025192404.209695-1-christian.koever-draxl@student.uibk.ac.at>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -74,57 +77,28 @@ Content-Transfer-Encoding: 8bit
 X-Spam-Score: () -13.0 ALL_TRUSTED,RCV_SMTP_AUTH,RCV_SMTP_UIBK,U_H_APTO_LONG,U_RCPTS_11_PLUS
 X-Scanned-By: MIMEDefang_3.2_at_uibk.ac.at
 
-From: Christian Stefan Kövér-Draxl <ckoever@outlook.de>
+From: Jiebing Chen <jiebing.chen@amlogic.com>
 
-This picks up Jiebing Chen's "[PATCH v6 0/4] Add support for S4 audio"
-(and the tohdmitx S4 patch) unchanged apart from rebasing, with
-Jiebing's authorship kept, and adds one fix on top:
+Add S4 SoC tocodec compatibility support.
 
- 6: g12a-toacodec: fix the S4 source mux read-back. The S4 DAT_SEL
-    field moved, so the mux always read back as input A and DAPM never
-    powered the selected path.
+Signed-off-by: Jiebing Chen <jiebing.chen@amlogic.com>
+Signed-off-by: Christian Stefan Kövér-Draxl <ckoever@outlook.de>
+---
+ .../devicetree/bindings/sound/amlogic,g12a-toacodec.yaml         | 1 +
+ 1 file changed, 1 insertion(+)
 
-[ckoever: Jiebing, if you have a newer version or prefer to post this
-yourself, I am happy to rebase the fix onto that instead.]
-
-Tested: HDMI audio up to 192 kHz; the TDM-C to internal codec path
-plays without errors at 44.1 to 192 kHz (not listened to).
-
-Tool use (Documentation/process/generated-content.rst):
-This work was done with the help of an AI coding assistant, Claude
-(Anthropic), used through Claude Code over many sessions. It did a large
-part of the hands-on work: it read the vendor kernel and the firmware
-interfaces, probed registers on the board, drafted the code and the
-changelogs, and ran the builds, checkpatch, dt_binding_check and the
-tests on the hardware. I directed the work, reviewed every change and
-the final patches, and take responsibility for them. There is no single
-prompt to quote; the sessions were of the form "find out why X fails on
-this board, fix it, test it on the box".
-
-Tested on an Amediatech X98Q TV box (Amlogic S905W2, S4 family, 2 GiB),
-vendor U-Boot and BL31/OP-TEE, Linux 7.3 plus this work.
-
-Christian Stefan Kövér-Draxl (1):
-  ASoC: meson: g12a-toacodec: fix the S4 source mux read-back
-
-Jiebing Chen (6):
-  dt-bindings: clock: meson: Add audio power domain for S4 soc
-  dt-bindings: Asoc: axg-audio: Add S4 audio tocodec
-  ASoC: meson: g12a-toacodec: Add S4 tocodec driver
-  clk: meson: axg_audio: add S4 support
-  ASoC: dt-bindings: amlogic,g12a-tohdmitx: add S4 compatible
-  ASoC: meson: g12a-tohdmitx: add S4 support
-
- .../clock/amlogic,axg-audio-clkc.yaml         |  18 +-
- .../bindings/sound/amlogic,g12a-toacodec.yaml |   1 +
- .../bindings/sound/amlogic,g12a-tohdmitx.yaml |   1 +
- drivers/clk/meson/axg-audio.c                 | 165 ++++++++++++++++++
- sound/soc/meson/g12a-toacodec.c               |  51 ++++++
- sound/soc/meson/g12a-tohdmitx.c               |  80 ++++++++-
- 6 files changed, 312 insertions(+), 4 deletions(-)
-
-
-base-commit: 7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614
+diff --git a/Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml b/Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml
+index 23f82bb89750..7e053aaa0f59 100644
+--- a/Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml
++++ b/Documentation/devicetree/bindings/sound/amlogic,g12a-toacodec.yaml
+@@ -25,6 +25,7 @@ properties:
+           - const: amlogic,g12a-toacodec
+       - items:
+           - enum:
++              - amlogic,s4-toacodec
+               - amlogic,sm1-toacodec
+           - const: amlogic,g12a-toacodec
+ 
 -- 
 2.56.0
 
