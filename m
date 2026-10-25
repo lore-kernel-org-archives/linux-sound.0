@@ -1,55 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792907880;
-	b=avTw02rPPuBlWiyVHGYQ9JIovF2cyz86drxqvAUZnu/apwMEcpOQwvZn6F9tX5aQuvgg
-	 WKmeMTlMz0pDptqKyqU6EIpESmZu8QhYEGTUgVZUixuZxcqExXujTZmsnY+IYLAltRo98
-	 QIyzZMO1I4EXQ6uyPYDGwAEKzUeDBSh2tpg3JDREb9H+KlTfUI/dbte4SW1FwanFl1Wsf
-	 9bwT2LZZ8zDjQSHIb95ICV6P0CSSHegn+Cur8O2cHHBkQ5of2p6dKrY462pT9aWKO/R1z
-	 q4tSM8yZ9P2lZ+v0gSANjrOxGucuOIRc9XlnxNV7Nz16OdtJk/ZBkxVfgPCgfgWm5wQ==
+	t=1792909476;
+	b=L9+oQohHKp3kwh8UErJyupPzXvALsDsMwNQJd1US/xne/XaGbfureXV/eWEzIm53KHqD
+	 lTYnbq6qYcedMlpFP1fZ3bUbQv12AJXJVbd8hPXDqxxeFZQ/FZrf65OWCREZjg8JtWbmZ
+	 lTvgy3+6jSja1agqFtAdL4qpQ0QkOj0lv1RMF5X64I7tGllXxs9vcVW8W1g8b9XaCjw81
+	 3Z/gzz4m9klFdNbj7NSUnsLWWrbVBOb0SLVbRevS5kRx8zkvhe73SfdTx7eS3wGKCIRe6
+	 XSv1g6kAhNL4bWhmYwSWbFt+F+h+D1HCXU1LGJnc3KynJTOFjZxOWUxRpXa0g+K31gQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792907880;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	a=rsa-sha256; c=relaxed/relaxed; t=1792909476;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=USah7/F0Ym2js9ZakFnJtS9TnqpAg75hz1Bypo5yBjM=;
-	b=yINCN4ebZO6mSqoR450tme0SOCW+H87Zgj53PhaSgZLcCpvuyvCmEwirMVn0ZvbVguGo
-	 CLkIGvdGJaGhbEcNPNtvgYUIgkH38ELEuBHMQkGt7qk9GArWNXZTzdlwAh6m5KVG84nxg
-	 R4exd1SWdZNoZZ5HbbeBlKBL1OrKN5V8Nn0svICiOmrSNHUv41k+xAUY2wTeeuVqYVm0W
-	 LFYaPjDSRD8U4xPfIGyXUKGXkxGcYIeipfuN+XpxCxIFvwzNyHT5OeLgYRG7in4QPPqIB
-	 +N9sAvgEYeBHcnjaFtyWCCrhf6Efj/RHEhS+dC+QAQQiaA0dI7l6hRg8dQpK5dWl0sg==
+	bh=uNOWxIeZhKbX6LHAaBJWt2AHKbdLthP5EO4Y47msDYY=;
+	b=ZQe4jkvtfsfilSrQdvIEnXKLWXn8kNLO7amfPZNlXdDSacSwUQyJYDq/cLivgKOh6yrf
+	 lqR0ZA0+FZYQ2Ue97V75yVd5x/+vEPDtoafOeg4XvVSo3v5DSOpCAiZ2YbShGM/OdFokn
+	 jityY6XcmXYy8nfpUizAvlLqrtAPzP2o8w1n2yQNlD9GxppHjU66d+yYR6VBbaQfA9Xsw
+	 H6mWt8WzKqWQmCUe9KQalcv6e4m6nPyWI44H6hGnlzcSaX24Wbkj61qYzRSZJCbOooP9Y
+	 hVbil1oC6QluZtS6lwrfXGSiL5GOHT1qw27BvB4atKaPiNWZnDEWC3awioe1DN+/mOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aiwc0rO8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PAeBNeTx;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34249606A31A
-	for <linux-sound@vger.kernel.org>; Sun, 25 Oct 2026 05:58:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47854606A31A;
+	Sun, 25 Oct 2026 06:24:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aiwc0rO8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E204C1F01825;
-	Sun, 25 Oct 2026 05:57:59 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PAeBNeTx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 881571F01825;
+	Sun, 25 Oct 2026 06:24:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792907880;
-	bh=USah7/F0Ym2js9ZakFnJtS9TnqpAg75hz1Bypo5yBjM=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=aiwc0rO8+2T4PC7QDPMitGHODfWzxoRoa9gSADvBVOapz5iVPHoXA/EhF+eCqT2SQ
-	 zPrc8bxfuB7gChIcLsQq0D+4cExvxvBALQklg/XMjI9VmVZJlkVTHTW1BzJ+wS4kHc
-	 gJXxw+/fqBMJkaQzc4/6aC5QUWtJfsV58mtIQ/dCZkBPAqu8sp2d4xjN8zVvcHI8J7
-	 uJiTx5gMbxelAtIxXoCiyOqeEQrKZYsYiCrM+nbh/mmYWUquu23vsXU6qZ+lxtGRnV
-	 8Rt5h9wpB3zkiAJ8FOuE9Isx0wHEI/bLzflMLjuWLtJQZ68WlfR63GDHW8huRM8TAi
-	 UH/yjBfmHJylg==
-Message-ID: <sashiko-outbox-184090@kernel.org>
+	s=k20260515; t=1792909475;
+	bh=uNOWxIeZhKbX6LHAaBJWt2AHKbdLthP5EO4Y47msDYY=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=PAeBNeTxZ5pmimhlPzHR+S6SqHFU4kVY0h0dnUZdoa7Xwn8xBfQGCIICbrk4S9plI
+	 Cfw7C4jpsCLXNtLju7bGCf6qsG/PFn2D4oJf0WfgDD2WZLLUiGN1eUTqCMgNsQ86uf
+	 HZ1SHofto2+r0Lyeye8WH5t1fkhtcQ5mP4PsgykXFcOupqsA4yCSA/gW6UOuM+TDdd
+	 Vmwpgk/bkFcIDjIPGPXxp7B2HIs4X7udsbYYUYCOvO0f/MVt+RJcIbYf74wKfHdXf+
+	 p/3LD0PISG6IvxLRSL67XvjUWKHkKcRYHLeOg+j0n+7cII6r3RyiPIdsGEaYHb0Cqh
+	 N2yMIDGdP2KMA==
+Message-ID: <sashiko-outbox-184095@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] ALSA: hda/conexant: Fix swapped speaker/headphone
- outputs on Huawei MateBook 16s
+Subject: Re: [PATCH v3 2/2] ALSA: virtio-snd: fix dsnoop capture with staged
+ buffers
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Xie Youtian" <xiedada@xiedada.net>, linux-sound@vger.kernel.org
-In-Reply-To: <20261025054111.31392-1-xiedada@xiedada.net>
-References: <20261025054111.31392-1-xiedada@xiedada.net>
+To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
+Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
+ Perez" <eperezma@redhat.com>
+In-Reply-To: <20261025055702.69259-3-mynameisjune111@gmail.com>
+References: <20261025055702.69259-1-mynameisjune111@gmail.com>
+ <20261025055702.69259-3-mynameisjune111@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 25 Oct 2026 05:57:59 +0000
+Date: Sun, 25 Oct 2026 06:24:34 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,340 +62,148 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Critical] ALSA: hda/conexant: teardown and suspend race in MateBook RPL =
-jack callbacks
-- [High] ALSA: hda/conexant: uninitialized work cancel in cx_suspend() and =
-cx_remove()
-- [High] ALSA: hda/conexant: deadlock in cx_suspend() cancelling rpl_rechec=
-k_work
-- [Medium] ALSA: hda/conexant: stale jack state in cxt_matebook_raptor_lake=
-_recheck()
+- [High] ALSA: virtio-snd: missing stop_operating when paused capture hits =
+XRUN
 --
 
-commit 50725697e44e0b95fb93bf300a4dfcc83b2c212c
-Author: Xie Youtian <xiedada@xiedada.net>
+commit 6569a6d061b2d8bd7d031671c88c23ff7eb99711
+Author: Joonho Lee <mynameisjune111@gmail.com>
 
-ALSA: hda/conexant: Fix swapped speaker/headphone outputs on Huawei MateBoo=
-k 16s
+ALSA: virtio-snd: fix dsnoop capture with staged buffers
 
-This commit adds a fixup for Huawei MateBook 16s (Raptor Lake) models with a
-Conexant SN6140 codec to route the shared pin 0x16 output line to the active
-DAC, enable the headphone jack tap via GPIO1, and gate the speaker amplifier
-via pin 0x17 EAPD using a debounced jack callback and a 600 ms delayed
-recheck work item.
+This commit updates virtio-snd staged capture to detect free-running mode
+when stop_threshold equals boundary, allowing dsnoop clients to consume
+the capture ring without advancing appl_ptr. It also validates unread
+ring occupancy when transitioning back to bounded capture and triggers an
+XRUN if outstanding data fills the ring.
 
-Link: https://github.com/geniusinsanity/huawei-matebook16s-speaker-fix
-
-> diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
-> index 9bfdbf5c90325..7926fdd711310 100644
-> --- a/sound/hda/codecs/conexant.c
-> +++ b/sound/hda/codecs/conexant.c
-> @@ -43,6 +43,10 @@ struct conexant_spec {
->  	unsigned int gpio_mute_led_mask;
->  	unsigned int gpio_mic_led_mask;
->  	bool is_cx11880_sn6140;
-> +
-> +	/* quirk for Huawei MateBooks with Raptor Lake */
-> +	struct hda_codec *rpl_recheck_codec;
-> +	struct delayed_work rpl_recheck_work;
->  };
-> =20
-> =20
-> @@ -203,6 +207,11 @@ static void cx_auto_shutdown(struct hda_codec *codec)
-> =20
->  static void cx_remove(struct hda_codec *codec)
->  {
-> +	struct conexant_spec *spec =3D codec->spec;
-> +
-> +	/* stop the quirk recheck before the spec is freed below */
-> +	spec->rpl_recheck_codec =3D NULL;
-> +	cancel_delayed_work_sync(&spec->rpl_recheck_work);
->  	cx_auto_shutdown(codec);
->  	snd_hda_gen_remove(codec);
->  }
-
-[Severity: High]
-Will calling cancel_delayed_work_sync(&spec->rpl_recheck_work) unconditiona=
-lly
-in cx_remove() and cx_suspend() trigger a warning on all other Conexant
-codecs?
-
-In cx_probe(), struct conexant_spec is allocated with kzalloc_obj(*spec),
-leaving spec->rpl_recheck_work zero-initialized. INIT_DELAYED_WORK() is only
-called inside cxt_fixup_matebook_raptor_lake() under HDA_FIXUP_ACT_PRE_PROB=
-E:
-
-sound/hda/codecs/conexant.c:cxt_fixup_matebook_raptor_lake() {
-	switch (action) {
-	case HDA_FIXUP_ACT_PRE_PROBE:
-		spec->gen.automute_hook =3D cxt_matebook_raptor_lake_update_outputs;
-		INIT_DELAYED_WORK(&spec->rpl_recheck_work,
-				  cxt_matebook_raptor_lake_recheck);
-		spec->rpl_recheck_codec =3D codec;
-		break;
-
-When any Conexant device not matching CXT_FIXUP_HUAWEI_MATEBOOK_RPL suspends
-via cx_suspend() or unbinds via cx_remove() (or if cx_probe() fails before
-HDA_FIXUP_ACT_PRE_PROBE and jumps to error: -> cx_remove()),
-cancel_delayed_work_sync(&spec->rpl_recheck_work) is called on a zeroed
-delayed_work, hitting WARN_ON(!work->func) in __flush_work() and timer
-debug-object warnings in __timer_delete().
-
-> @@ -270,6 +279,9 @@ static void cx_set_power_state(struct hda_codec *code=
-c, hda_nid_t fg,
-> =20
->  static int cx_suspend(struct hda_codec *codec)
->  {
-> +	struct conexant_spec *spec =3D codec->spec;
-> +
-> +	cancel_delayed_work_sync(&spec->rpl_recheck_work);
->  	cx_auto_shutdown(codec);
->  	return 0;
->  }
-
-[Severity: High]
-Can cancelling spec->rpl_recheck_work synchronously inside cx_suspend()
-deadlock against cxt_matebook_raptor_lake_recheck()?
-
-When the codec enters runtime suspend, rpm_suspend() sets
-dev->power.runtime_status =3D RPM_SUSPENDING and calls
-hda_codec_runtime_suspend() -> hda_call_codec_suspend():
-
-sound/hda/common/codec.c:hda_call_codec_suspend() {
-	...
-	snd_hdac_enter_pm(&codec->core);
-	if (driver->ops->suspend)
-		driver->ops->suspend(codec);
-
-If cxt_matebook_raptor_lake_recheck() starts running on system_percpu_wq and
-executes an HDA verb via cxt_matebook_raptor_lake_sense() ->
-snd_hda_codec_read() -> snd_hdac_power_up_pm(&codec->core) before
-snd_hdac_enter_pm() increments codec->core.in_pm, atomic_inc_not_zero()
-returns false and snd_hdac_power_up_pm() calls snd_hdac_power_up() ->
-pm_runtime_get_sync() -> rpm_resume().
-
-In rpm_resume(), because dev->power.runtime_status is RPM_SUSPENDING, the
-workqueue thread sleeps uninterruptibly on dev->power.wait_queue waiting for
-rpm_suspend() to finish, while the suspending thread blocks in cx_suspend()=
- ->
-cancel_delayed_work_sync(&spec->rpl_recheck_work) waiting for
-cxt_matebook_raptor_lake_recheck() to finish.
-
-In addition, because cx_probe() sets codec->bus->allow_bus_reset =3D 1, a v=
-erb
-timeout inside cxt_matebook_raptor_lake_recheck() can trigger
-codec_exec_verb() -> snd_hda_bus_reset() -> snd_hda_bus_reset_codecs() ->
-hda_call_codec_suspend() -> cx_suspend() ->
-cancel_delayed_work_sync(&spec->rpl_recheck_work) from within the work
-callback itself.
-
+> diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
+> index d50924b792f65..622a5d7706b44 100644
+> --- a/sound/virtio/virtio_pcm_ops.c
+> +++ b/sound/virtio/virtio_pcm_ops.c
 [ ... ]
-
-> @@ -863,6 +876,159 @@ static const struct hda_pintbl cxt_pincfg_sws_js201=
-d[] =3D {
->  	{}
->  };
+> @@ -893,6 +905,13 @@ static int virtsnd_pcm_trigger(struct snd_pcm_substr=
+eam *substream, int command)
+>  			if (rc) {
+>  				vss->stopped =3D true;
+>  				substream->runtime->stop_operating =3D true;
+> +				if (vss->capture_staging &&
+> +				    vss->direction =3D=3D SNDRV_PCM_STREAM_CAPTURE &&
+> +				    command =3D=3D SNDRV_PCM_TRIGGER_PAUSE_RELEASE) {
+> +					/* Pause undo leaves ALSA paused; wake its readers. */
+> +					vss->xfer_xrun =3D true;
+> +					virtsnd_pcm_schedule_period_elapsed(vss);
+> +				}
+>  				return rc;
+>  			}
+>  			vss->xfer_enabled =3D true;
+[ ... ]
+> @@ -1244,14 +1269,18 @@ static int virtsnd_pcm_capture_staged_ack(struct =
+virtio_pcm_substream *vss,
+>  		snd_pcm_uframes_t appl_ptr;
+>  		snd_pcm_sframes_t diff;
+>  		size_t bytes;
+> +		u64 outstanding;
+>  		u64 next_acked_total;
+> +		bool free_running;
 > =20
-> +/*
-> + * Huawei MateBooks with Raptor Lake and SN6140 (e.g. the MateBook 16s
-> + * 2023): the speaker amp and the headphone jack are both fed from the
-> + * pin 0x16 line.  The speaker amp is gated by the EAPD of pin 0x17, the
-> + * jack tap by GPIO1 - none of which matches the BIOS pin config.  Point
-> + * pin 0x16 at the DAC the parser leaves unmuted for the current jack
-> + * state, keep the tap open, and gate the speaker amp via EAPD.
-> + */
-> +static void cxt_matebook_raptor_lake_coerce(struct hda_codec *codec, boo=
-l hp)
-> +{
-> +	snd_hda_codec_write_cache(codec, 0x16, 0,
-> +				  AC_VERB_SET_CONNECT_SEL, hp ? 0x0 : 0x1);
-> +	/* the tap path needs pin 0x17 selected and driving, whatever the
-> +	 * parser does to what it thinks is a speaker pin
-> +	 */
-> +	snd_hda_codec_write_cache(codec, 0x17, 0,
-> +				  AC_VERB_SET_CONNECT_SEL, 0x0);
-> +	snd_hda_codec_write_cache(codec, 0x17, 0,
-> +				  AC_VERB_SET_PIN_WIDGET_CONTROL, 0x40);
-> +	snd_hda_codec_write_cache(codec, 0x17, 0,
-> +				  AC_VERB_SET_EAPD_BTLENABLE, hp ? 0x0 : 0x2);
-> +	/* keep the jack tap on the shared line open; with the speaker amp
-> +	 * gated separately this is correct in both jack states
-> +	 */
-> +	snd_hda_codec_write_cache(codec, 0x01, 0,
-> +				  AC_VERB_SET_GPIO_MASK, 0x02);
-> +	snd_hda_codec_write_cache(codec, 0x01, 0,
-> +				  AC_VERB_SET_GPIO_DIRECTION, 0x02);
-> +	snd_hda_codec_write_cache(codec, 0x01, 0,
-> +				  AC_VERB_SET_GPIO_DATA, 0x00);
-> +}
-> +
-> +/* read the pin sense directly: snd_hda_jack_detect() returns the
-> + * cached state, which is exactly what a bounce-healing re-read must
-> + * not trust
-> + */
-> +static bool cxt_matebook_raptor_lake_sense(struct hda_codec *codec)
-> +{
-> +	return !!(snd_hda_codec_read(codec, 0x16, 0,
-> +				     AC_VERB_GET_PIN_SENSE, 0) &
-> +		  AC_PINSENSE_PRESENCE);
-> +}
-> +
-> +/* jack presence right at a plug event bounces for a few milliseconds;
-> + * sample it once, debounced, and use that one value everywhere below
-> + */
-> +static bool cxt_matebook_raptor_lake_jack_present(struct hda_codec *code=
-c)
-> +{
-> +	bool a =3D cxt_matebook_raptor_lake_sense(codec);
-> +
-> +	if (cxt_matebook_raptor_lake_sense(codec) !=3D a) {
-> +		msleep(100);
-> +		return cxt_matebook_raptor_lake_sense(codec);
-> +	}
-> +	return a;
-> +}
-> +
-> +static void cxt_matebook_raptor_lake_apply(struct hda_codec *codec, bool=
- hp)
-> +{
-> +	struct conexant_spec *spec =3D codec->spec;
-> +
-> +	spec->gen.hp_jack_present =3D hp;
-> +	snd_hda_gen_update_outputs(codec);
-> +	cxt_matebook_raptor_lake_coerce(codec, hp);
-> +}
-> +
-> +/*
-> + * Right after the codec powers back up every reader of the pin sense -
-> + * ours and the parser's alike - can see garbage.  Re-apply everything
-> + * from a settled read a bit later, which heals any misguess made at
-> + * init or during a jack event.
-> + */
-> +static void cxt_matebook_raptor_lake_recheck(struct work_struct *work)
-> +{
-> +	struct conexant_spec *spec =3D container_of(work, struct conexant_spec,
-> +						  rpl_recheck_work.work);
-> +	struct hda_codec *codec =3D spec->rpl_recheck_codec;
-> +
-> +	if (codec) {
-> +		bool hp =3D cxt_matebook_raptor_lake_sense(codec);
-> +
-> +		codec_dbg(codec, "matebook-rpl: recheck hp=3D%d\n", hp);
-> +		cxt_matebook_raptor_lake_apply(codec, hp);
-> +	}
-> +}
+>  		if (!vss->runtime_active || !runtime || !runtime->control ||
+>  		    !runtime->dma_area)
+>  			return -EBADFD;
+>  		if (vss->xfer_xrun)
+>  			return -EPIPE;
+> -		if (!virtsnd_pcm_capture_counters_valid(vss)) {
+> +		rc =3D virtsnd_pcm_capture_refresh_mode_locked(vss,
+> +							     &free_running);
+> +		if (rc || !virtsnd_pcm_capture_counters_valid(vss)) {
+>  			vss->xfer_xrun =3D true;
+>  			virtsnd_pcm_schedule_period_elapsed(vss);
+>  			return -EPIPE;
 
-[Severity: Medium]
-When cxt_matebook_raptor_lake_recheck() heals a stale initial pin-sense read
-after 600 ms, does codec->jacktbl and the userspace jack state remain stuck=
- at
-the old value?
+[Severity: High]
+What happens if virtsnd_pcm_capture_staged_ack() in
+sound/virtio/virtio_pcm_ops.c detects an overflow or validation failure whi=
+le
+the substream is in SNDRV_PCM_STATE_PAUSED?
 
-During codec resume in hda_call_codec_resume() or an unsolicited event in
-snd_hda_jack_unsol_event(), snd_hda_jack_report_sync(codec) runs immediatel=
-y,
-caching the initial (potentially stale or bouncing) pin 0x16 sense in
-jack->pin_sense, clearing jack->jack_dirty, and reporting that state to
-userspace.
+Suppose a staged capture stream runs in free-running mode until
+outstanding >=3D vss->buffer_bytes, and userspace pauses the stream via
+SNDRV_PCM_IOCTL_PAUSE. While paused, userspace lowers stop_threshold via
+SNDRV_PCM_IOCTL_SW_PARAMS (which does not call snd_pcm_update_state() becau=
+se
+snd_pcm_running() is false) and advances appl_ptr via read(),
+snd_pcm_forward(), or snd_pcm_sync_ptr().
 
-When cxt_matebook_raptor_lake_recheck() runs 600 ms later, it reads the
-settled state via cxt_matebook_raptor_lake_sense() and updates hardware
-routing via cxt_matebook_raptor_lake_apply(codec, hp), but never marks the
-jacktbl entry dirty or calls snd_hda_jack_report_sync(codec). If the initial
-read was wrong, won't userspace audio servers (such as PipeWire or PulseAud=
-io)
-still see the stale Headphone Jack control state and keep the active DAC pa=
-th
-muted?
+This invokes pcm_lib_apply_appl_ptr() -> virtsnd_pcm_cp_ack() ->
+virtsnd_pcm_capture_staged_ack(), where virtsnd_pcm_capture_refresh_mode_lo=
+cked()
+sees outstanding >=3D vss->buffer_bytes and returns -EPIPE. Unlike the
+SNDRV_PCM_TRIGGER_PAUSE_RELEASE error path in virtsnd_pcm_trigger(),
+virtsnd_pcm_capture_staged_ack() sets vss->xfer_xrun =3D true and schedules
+vss->elapsed_period without setting vss->stopped =3D true or
+substream->runtime->stop_operating =3D true:
 
-> +
-> +/* the parser reprograms pin 0x17 and the DAC amps on jack events; the
-> + * recheck heals a stale presence sample taken while the contact still
-> + * bounces
-> + */
-> +static void cxt_matebook_raptor_lake_update_outputs(struct hda_codec *co=
-dec)
-> +{
-> +	struct conexant_spec *spec =3D codec->spec;
-> +	bool hp;
-> +
-> +	if (!spec->rpl_recheck_codec)
-> +		return;
-> +	hp =3D cxt_matebook_raptor_lake_jack_present(codec);
-> +	codec_dbg(codec, "matebook-rpl: hook hp=3D%d\n", hp);
-> +	cxt_matebook_raptor_lake_apply(codec, hp);
-> +	mod_delayed_work(system_percpu_wq, &spec->rpl_recheck_work,
-> +			  msecs_to_jiffies(600));
-> +}
-> +
-> +/* our own jack callback: the unsol -> automute_hook chain is
-> + * unreliable on this machine (stays silent while a stream keeps the
-> + * codec awake); apply immediately and keep the delayed recheck as the
-> + * safety net for anything the debounced sample got wrong
-> + */
-> +static void cxt_matebook_raptor_lake_jack_event(struct hda_codec *codec,
-> +					       struct hda_jack_callback *jack)
-> +{
-> +	struct conexant_spec *spec =3D codec->spec;
-> +	bool hp;
-> +
-> +	if (!spec->rpl_recheck_codec)
-> +		return;
-> +	hp =3D cxt_matebook_raptor_lake_jack_present(codec);
-> +	codec_dbg(codec, "matebook-rpl: jack event\n");
-> +	cxt_matebook_raptor_lake_apply(codec, hp);
-> +	mod_delayed_work(system_percpu_wq, &spec->rpl_recheck_work,
-> +			  msecs_to_jiffies(600));
-> +}
+sound/virtio/virtio_pcm_ops.c:virtsnd_pcm_capture_staged_ack() {
+	...
+	rc =3D virtsnd_pcm_capture_refresh_mode_locked(vss,
+						     &free_running);
+	if (rc || !virtsnd_pcm_capture_counters_valid(vss)) {
+		vss->xfer_xrun =3D true;
+		virtsnd_pcm_schedule_period_elapsed(vss);
+		return -EPIPE;
+	}
+	...
+}
 
-[Severity: Critical]
-What prevents cxt_matebook_raptor_lake_update_outputs() or
-cxt_matebook_raptor_lake_jack_event() from racing with cx_remove() or
-cx_suspend() while sleeping in cxt_matebook_raptor_lake_jack_present()?
+When pcm_lib_apply_appl_ptr() receives -EPIPE, it calls __snd_pcm_xrun() ->
+snd_pcm_stop(substream, SNDRV_PCM_STATE_XRUN) (which is also what
+virtsnd_pcm_period_elapsed() in sound/virtio/virtio_pcm.c calls on its
+paused_xrun path). Because snd_pcm_running(substream) is false when
+runtime->state is SNDRV_PCM_STATE_PAUSED, snd_pcm_stop() transitions
+runtime->state to SNDRV_PCM_STATE_XRUN without calling
+ops->trigger(SNDRV_PCM_TRIGGER_STOP) or setting runtime->stop_operating =3D=
+ true.
 
-Both callbacks check spec->rpl_recheck_codec without holding a lock and then
-call cxt_matebook_raptor_lake_jack_present(codec), which performs HDA bus
-reads and calls msleep(100) when the pin sense bounces.
+When userspace then calls snd_pcm_prepare() to recover from XRUN, ALSA skips
+both the SNDRV_PCM_STATE_PAUSED cleanup block and virtsnd_pcm_sync_stop():
 
-In hda_codec_driver_remove(), driver->ops->remove(codec) (cx_remove()) is
-called before snd_hda_codec_cleanup_for_unbind() removes ALSA controls,
-cancels codec->jackpoll_work, or frees jack callbacks, and bus->unsol_work =
-is
-not flushed before cx_remove() runs:
+sound/virtio/virtio_pcm_ops.c:virtsnd_pcm_prepare() {
+	...
+	scoped_guard(spinlock_irqsave, &vss->lock)
+		stopped =3D vss->stopped;
+	if (stopped) {
+		dev_err(&vdev->dev, "SID %u: stream release failed\n",
+			vss->sid);
+		substream->runtime->stop_operating =3D true;
+		return -EBADFD;
+	}
 
-CPU0                                    CPU1
-cxt_matebook_raptor_lake_jack_event()
-  if (!spec->rpl_recheck_codec)
-  cxt_matebook_raptor_lake_jack_present()
-    msleep(100);
-                                        cx_remove()
-                                          spec->rpl_recheck_codec =3D NULL;
-                                          cancel_delayed_work_sync(&spec->r=
-pl_recheck_work);
-                                          cx_auto_shutdown(codec);
-                                          snd_hda_gen_remove(codec)
-                                            kfree(codec->spec);
-                                            codec->spec =3D NULL;
-  cxt_matebook_raptor_lake_apply(codec, hp)
-    spec =3D codec->spec; /* NULL */
-    spec->gen.hp_jack_present =3D hp;
-  mod_delayed_work(..., &spec->rpl_recheck_work, ...); /* UAF on freed spec=
- */
+	if (!vss->suspended) {
+		if (virtsnd_pcm_msg_pending_num(vss)) {
+			dev_err(&vdev->dev, "SID %u: invalid I/O queue state\n",
+				vss->sid);
+			return -EBADFD;
+		}
+	...
+}
 
-Furthermore, if either callback is invoked after snd_hda_gen_remove() sets
-codec->spec =3D NULL and before snd_hda_codec_cleanup_for_unbind() complete=
-s,
-dereferencing spec->rpl_recheck_codec at the start of the callback will
-immediately dereference a NULL spec pointer.
+In default native pause mode, virtsnd_pcm_msg_pending_num(vss) is still
+non-zero, so virtsnd_pcm_prepare() fails with -EBADFD without setting
+runtime->stop_operating, leaving RX buffers queued in the virtqueue across
+subsequent prepare(), hw_params(), hw_free(), and close() calls. In
+capture_pause_restart mode, vss->stopped is true, so the first
+virtsnd_pcm_prepare() call also fails with -EBADFD.
 
-Similarly, in cx_suspend(), spec->rpl_recheck_codec is not cleared and
-in-flight callbacks are not synchronized, so a callback sleeping in
-msleep(100) can finish after cx_suspend(), re-enabling pin 0x17 EAPD after
-cx_auto_shutdown() and re-arming spec->rpl_recheck_work after
-cancel_delayed_work_sync().
+Should virtsnd_pcm_capture_staged_ack() (or virtsnd_pcm_period_elapsed() wh=
+en
+handling paused_xrun) also mark vss->stopped =3D true and
+runtime->stop_operating =3D true when transitioning a paused stream to XRUN=
+, or
+should virtsnd_pcm_prepare() arm runtime->stop_operating when
+virtsnd_pcm_msg_pending_num(vss) is non-zero?
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261025054111.3139=
-2-1-xiedada@xiedada.net?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261025055702.6925=
+9-1-mynameisjune111@gmail.com?part=3D2
