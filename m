@@ -1,62 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792968799;
-	b=HxLCS2drzShxx+Br0cRRv66P6RiIP+s/K+caeyPjPA7v8+QiMlAoYYWafu+x18rKM0hZ
-	 u15JTi6uZaI1FaHibWhQaKCWJjx1rUjH+sIaRb67lUu1yaiJdwdk+VIQDecXAqp/rHK7Q
-	 9I+LblApXwB4+VMkDKmDd3txnxcUkmSdVyDWbBAOzI3a/ZinzBpXsnJfnQak0k+tw5jtJ
-	 ujWwlAEvpnQRmVDsK67q7M5zTja5TbVurwfXjpwZfWAIJ4ysTZijSoNCOhW0EKOTDe9FC
-	 qiA/2f11KMs3XOhHNWuB623GBQ4mMa8NltRBTgwiP6LrUCt7G3W83R+0S8Lj4lkoH4A==
+	t=1792970371;
+	b=DHXu2Jsn6wKdX2lS8a2CPaFJiq4O8DY/l4USKSVaz57+WRQr2eyGyXnSm1Y2rUvIkj1B
+	 LrBK3oRWiQEnM+BHqvWxY8JxhQ4x65FBUfkxoycT6jHl71eHXXiDURQqrcBGC6rlaqAuM
+	 ahjAfT+6XGDavOvaJ6EM0NF0XzpJnzfJCJFdiMUb6VhLqVPZGkwCmAm4aEoVrDPCDaJRc
+	 0DhePQH/0J4fyolF8R2IZ/q/xv15QQ43Lr/UhJm6jN+4A0OLJs24dFWE5wYVriPiktzM1
+	 kO4i3HVwYTt0OF1LPHnEDRPhqP9gqoY2YHBQZ1MSacBqD/SLAIwDgLQPFarOS0PeOzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792968799;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=GVMGWBA+doRG5gBfYl36HB4dJIKG+rbnEDlBd4twPQo=;
-	b=jHLVN6GYkRPywjhWesX7NNfJDWjjxbcefdABLeiSeUeWOCPZRlhFO3gvnpHBiX1tipQk
-	 wkwG9G0rvpstdQJq4oIl3wvxShaK0xGNDjBltOmHxqUEAAInZPQ171Z1JTNoTNUJVhnrs
-	 7BVEtqm2nT+GXi2cjskpYvNiSUOyYwbqmOi/XVZNpp6KPgbPnMBrXg59y3lUr7CR0CyRX
-	 MimogTr3fL23BlPA92rsSHeGEDHkIlYddioe8fzTVHPpx46wPfWGDE19M7qFAAWYsUj6v
-	 bNK5ZD9yS7w8s4Cz4vwQhDY/+I2ZpAxJ4GxwpW5tg4eM4J1TfIMGEXvlS3bvdkezDug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792970371;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=98JX+qzH39LcxZEAoy/41LxAE7H0jhKnaaOevXX8J/0=;
+	b=nxwZvjClMVvMkBnDx9fOgViZxv8hJDS1My5uZ2lTkMvUjadZFMNE3aqP1me2u8VxQyyk
+	 XVqZUvqx0WyP7b87DKhjYcVqYKv3FHylyfidieUmBae4cw2/V/QQEnDEBLo6YMRar8hjA
+	 W+mqyYV1AQY9cttUwV7l+lDq9zGGBlezmLcDxmcFuPEB1uJwugR0MVorFoeY6mJBRQ+yh
+	 xyLsPysgmvmG/O8a43hv+FOl7RO4Z1mCoxmgqQ7HwwJeFKu7v9tiLqcCHXGca4HtWR6Nv
+	 3lNIUERowmW+7WFOmeNYEOYFPwButXXbm3n3mo6dNd+01hQ6C0h+h0FgHj2ppSyhyow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aDBIPq80;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IRzWjBZ5;
+	arc=none smtp.remote-ip=209.85.208.50
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F41A606A31A;
-	Sun, 25 Oct 2026 22:53:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9EC606A31A
+	for <linux-sound@vger.kernel.org>; Sun, 25 Oct 2026 23:19:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D9EC606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aDBIPq80
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 072181F01825;
-	Sun, 25 Oct 2026 22:53:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792968799;
-	bh=GVMGWBA+doRG5gBfYl36HB4dJIKG+rbnEDlBd4twPQo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aDBIPq8082STVAbpK/dhoqKQX0p90ygwzGL96Yrk64xLM6B8ewnaPBUPrTAGyz0Y9
-	 1kN0u7UokMJVTrRAawHlio0VP5Bg+xY21Y6Tt60J9BdxkDQeGrhNoqB7DPpGTMhyap
-	 9jtPwE+fma1vWMO4od2a8h0K4AratjSZ/bGB1A4oV41Tyc417SyEdVj0iCrgzqywh2
-	 Ru+U6+Lj3/btC4qBsm/NY8JaRhsgNDarlfVT3yph2P2tU92K8vAUTAI56yXlNl/F/0
-	 IJx/2VFvBF5rR2opam8LJGTTFxEv0efGnI6PmSOMnc9WsDZCwtiPOiJkAGDSAL+bAI
-	 Lr++F/m02IbLw==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 63FCC1AC5994; Sun, 25 Oct 2026 22:53:16 +0000 (GMT)
-Date: Sun, 25 Oct 2026 22:53:16 +0000
-From: Mark Brown <broonie@kernel.org>
-To: christian.koever-draxl@student.uibk.ac.at
-Cc: neil.armstrong@linaro.org, jbrunet@baylibre.com, sboyd@kernel.org,
-	bmasney+clk@redhat.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, lgirdwood@gmail.com, khilman@baylibre.com,
-	martin.blumenstingl@googlemail.com, perex@perex.cz, tiwai@suse.com,
-	linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Christian Stefan =?iso-8859-1?Q?K=F6v=E9r-Draxl?= <ckoever@outlook.de>,
-	jiebing chen <jiebing.chen@amlogic.com>
-Subject: Re: [PATCH v7 0/7] Add support for S4 audio
-Message-ID: <at6IXIyAkf90DU1W@sirena.co.uk>
-References: <20261025192404.209695-1-christian.koever-draxl@student.uibk.ac.at>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IRzWjBZ5
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6b40fc523faso2608061a12.3
+        for <linux-sound@vger.kernel.org>; Sun, 25 Oct 2026 16:19:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792970370; x=1793575170; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=98JX+qzH39LcxZEAoy/41LxAE7H0jhKnaaOevXX8J/0=;
+        b=IRzWjBZ5kqOobrRYzabxpQCI/V/Ct+3DVmtvvjw2X3HjyY0s+ED2mlOkDUd2vzMHPg
+         7Nff35K58HafSFcFWtUAATLBbZ1NqhPyIb6AXlOjRZMaiadYo1c659eZ4bDUlOoppgs7
+         n3njsvu8bBLXJxkSN+9QV0sxVLyp8vh+dwHtHI7AJFPklMBjWjOHn222QdC4f0fiqMm6
+         Gj5hU++G6pRR+tQQOVE+xdiC2bq+l7Gu4K8VdFTWpOxCGqZZrpE4jQYs03iW8hB5MccZ
+         UiDUJkDYbP7N+g/3UiInbCtwwrD3AQrzNZ76Z7+urzzpo6Ctv4MrlRMbTpIwVDLmyggU
+         c/Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792970370; x=1793575170;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=98JX+qzH39LcxZEAoy/41LxAE7H0jhKnaaOevXX8J/0=;
+        b=pM9I4akA+JOcbApOR7xkmbuBB5o1yNsfI6y/AjrGKOJgnCiwhcrXn52T/aDIkmNpF3
+         k1hLDr9STH2Pl1ig3i+yolgL6+6ye5GmApkRjLctIFGvNkNAIFoN90lIwaJOZTTCDsPN
+         neUr1hHO0rz8Ur+hnI9JQmRYVaOW/J+36NcJmTa60s5XFoKuxvILsZ5uZHZdSrMcAr+5
+         yLf1XjZq0j2QiO0No4YJDv8X0OoPRwNuPCOBfSsHOhD7hb1fqyZ4rc/ybt2Pj+SGUIH0
+         H9g8HqMBBQRbifJHqHINx4bNM8M1MPmRDvBh2XRbdc9qPN3BRRX+DOkoRtK379e5J3Fi
+         EfDQ==
+X-Gm-Message-State: AFq9FYLGDqQT6OFdDcH+qj3VxnJkWOPIbWnTJm35R/SwgKO+vu1FVkUZ
+	hLz7p4U/0ojfUB9QY04LtJMfbOoVTee2qky9kZ6PXvQQnHklNkCH0l54
+X-Gm-Gg: AYBFou3ptGv23SfnicQvoZOY8Yqwin40x0LYF6tJurgmv5lYJA8vJG7aGQ7IWC+6R1f
+	ulwRj8bUW+bW3zFtYhd4XZX2qX+/7utDKpKztlVnj6GJ0mYfF/ozJJar8Fs07LZD+sWrMduNEku
+	pt1P5ck/fRJOizUi+Zw+uqDyxRF0MojEJ0592jI580H9xFUm4w+gg/BUnUKy+jQGIBEh3CACXCD
+	ylBkvI8r/aJIp2hXaxzTxL5kFFiHY/148H9KPlqxatb5UJKigW5f2C9aENzA0EAgA4Dz718lBCF
+	2/CVZZn3rtxdRe1Q7IFRSDPXOjQmQnx7GrQ+1H+kwpKwL+rk0ioc/rJ9tT1k+pwvsVjuSRXV0Ud
+	bq5rnWM8twxFO9Xq8cDoqL5TG0Pw1c282JQlw9XYgOV6xQLm8aCUaTtEO+5tXx8+myYbmqBTyxh
+	91FoDJKXJQPYt8skWc/T6OdFRooBFz/iXVqj3J1N9SgozSzsmWwNYzNkijQMm3wlT1Ql3r8RMli
+	SoxOC1RSymZgDu6Uzwg9r49OpiNZ3spNZo5lMlVPpEtRPsP1MfF7Vug
+X-Received: by 2002:a05:6402:4405:b0:6b4:1629:b1aa with SMTP id 4fb4d7f45d1cf-6b442a87d34mr7302224a12.2.1792970369657;
+        Sun, 25 Oct 2026 16:19:29 -0700 (PDT)
+Received: from arch-pc.lan ([185.141.180.16])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b44598480dsm2776514a12.24.2026.10.25.16.19.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Oct 2026 16:19:29 -0700 (PDT)
+From: Denis Kulikov <dar1knessx@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Denis Kulikov <dar1knessx@gmail.com>
+Subject: [PATCH] ALSA: usb-audio: Rate-limit URB submission error at stream start
+Date: Mon, 26 Oct 2026 02:18:49 +0300
+Message-ID: <20261025231849.148149-1-dar1knessx@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -66,42 +93,49 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vAQcFAodtabSXAEP"
-Content-Disposition: inline
-In-Reply-To: <20261025192404.209695-1-christian.koever-draxl@student.uibk.ac.at>
-X-Cookie: Victory or defeat!
+Content-Transfer-Encoding: 8bit
 
+When two USB audio devices share a USB 2.0 hub (here a headset and a
+microphone), there may not be enough isochronous bandwidth to start the
+second stream, and usb_submit_urb() fails with -ENOSPC. PipeWire keeps
+retrying to start the stream every ~20 ms, and every attempt logs
 
---vAQcFAodtabSXAEP
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  usb 2-1.1: cannot submit urb 0, error -28: not enough bandwidth
 
-On Sun, Oct 25, 2026 at 08:23:57PM +0100, christian.koever-draxl@student.ui=
-bk.ac.at wrote:
-> From: Christian Stefan K=F6v=E9r-Draxl <ckoever@outlook.de>
->=20
-> This picks up Jiebing Chen's "[PATCH v6 0/4] Add support for S4 audio"
-> (and the tohdmitx S4 patch) unchanged apart from rebasing, with
-> Jiebing's authorship kept, and adds one fix on top:
+On my desktop this was printed up to 94 times per second and flooded
+the kernel log.
 
-Jiebing (who I notice that you have not CCed...) also sent a v7:
+Use usb_audio_err_ratelimited() for this message, as commit
+2db2be5607c4 ("ALSA: usb-audio: Rate limit usb_set_interface error
+reporting") already did for a neighbouring message in the same file.
 
-   https://lore.kernel.org/all/20261021-audio_drvier-v7-0-2b9aeae9cb8a@amlo=
-gic.com/
+Tested on that desktop (X79, Linux 7.3) with the headset and the
+microphone on one hub, starting playback and capture on both for 20
+seconds: the stock snd-usb-audio module printed the message 580 times,
+the patched one printed it 50 times and suppressed the rest.
 
-Please coordinate with each other.
+Signed-off-by: Denis Kulikov <dar1knessx@gmail.com>
+---
+ sound/usb/endpoint.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
---vAQcFAodtabSXAEP
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
+index 9c844c55a..8dd0b3525 100644
+--- a/sound/usb/endpoint.c
++++ b/sound/usb/endpoint.c
+@@ -1642,9 +1642,9 @@ int snd_usb_endpoint_start(struct snd_usb_endpoint *ep)
+ 			err = -ENODEV;
+ 		if (err < 0) {
+ 			if (!atomic_read(&ep->chip->shutdown))
+-				usb_audio_err(ep->chip,
+-					      "cannot submit urb %d, error %d: %s\n",
+-					      i, err, usb_error_string(err));
++				usb_audio_err_ratelimited(ep->chip,
++							  "cannot submit urb %d, error %d: %s\n",
++							  i, err, usb_error_string(err));
+ 			goto __error;
+ 		}
+ 		set_bit(i, &ep->active_mask);
+-- 
+2.56.0
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCat6IXAAKCRAv73Ows9A4
-iUkDAQCQveKgx4r2d/eG20lgPhus7tKTm51YTADZ/MON+PoyegEAs8Sr/ir19Hyl
-KSZbcPte+19qqTv9mWpsTI64D0/Qsg0=
-=I+6b
------END PGP SIGNATURE-----
-
---vAQcFAodtabSXAEP--
