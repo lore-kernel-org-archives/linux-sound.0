@@ -1,61 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.237
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792960821;
-	b=IRLrB1pxq+YEzKExRx117lb8vR42rbpabj0mDRGxS+if5S+1S2uxUy+e/1nJ1QbD8Okr
-	 PgFPwY5rDmBcH7/F55oo24MPvfoKPv7+r8vRISuWoR+3AoKkvE2e73VfoCh7SuKnxIOVj
-	 mvMuySGbyLNsZPsE4Xlv4e20ofhLJX1IEscvt/8lFPBt+LdeikJm8Lg25ng06wtuoGtFL
-	 m51dRwY0Abn0CX4If/qZSGlSxv1mCH/lZowd4PTeXu08CWuokgCC3XKI+Z9tk/57SDYu/
-	 NMwA2b7gk8temgexi5N/wW9PcxvZswBjDX7Rzv0V6YDKyFklLIyLngTVONoRiwdNoVQ==
+	t=1792961675;
+	b=FE6aAkBhBcn7aaC1hxWCEpHel93PKKI6P9OfeWJd1kggVVA2NJ7mAApc8j46TDcfEUHY
+	 4zBk/i2QtfOnbMZ+jULYt/noDjHGza8WAsWS6vHoMeR9mANmnvWq1JydoWZcMmGHQLpqr
+	 XMZRQNwRj3185vEzNzU/xWSUCniaD38uLTVdxsirzGzoR+y8MUUc6VA/yesJv4hVqAZP5
+	 fH37d+w5MzQPTJ7qPFinMdP5OoceatVBoN6+u51TLCeQE5lLpsHakJWX4DeeUx5oB3hwL
+	 /JohL182j+c02AW1JaQLOalKDxd0QWpvBEfGx6HEnvz4kdmd9zKElfNumvqOF/DJs1Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792960821;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=i42WgfRl7LGQCQH1OXiWlBOPWoM/ly087TnvtfgsA0s=;
-	b=oXTxHSEGAyuEOPiXuFsUq1lGXtZhNkmcjyY/fuFG+pZBqTmvovc78grJ0T5JU0DLhKtW
-	 nktSFalsQ4/cJTpjLmFnLFzarONOJriXviVG+Mta9IePY61jeguK//LoPSQML8cmQTK7d
-	 LoBjPaZtHDAIf5YUlLFiRHyawY11JSAvbrUSzDE/X4c4zFwUMfFXfznOis88/LbMkU+Cv
-	 QLy3n6/PFRAa7OJutBjzHFWCDKMG/7RFF4jqJI11avqp2lnoT372nD6B1abjMZ6eBy6bD
-	 Y4kJG6Jz+WRFVsCCb6OdSYXLEMi4BO1zFvRESJ2ywtPkJrPOaPbYmG447BOtshRxO8A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792961675;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=aL/00IWBXdCdXkEF6EEPuYr8zZrJ9vyz7bkpiMRmEdM=;
+	b=Gsaz3tYRQ8E7BrsuJD6fXjXCgEMOWSZ9SjvfRFhaOB5/mTxDL9pgIC9isLgJt0hEzWbi
+	 ddasKEyNcd9yF69DGRL+C2Rr23yDlC2n/FoCCQYAYBCpYv0gVgFWB9BKZBcHnAN2wrkA+
+	 ikL9cE8JuU8HOGioo0WUVzTedp1jp5nSj0hdVX6mgzZTdZlQrReGFdlC2pf+IH+TzndZH
+	 XQwD25KZfiowa/uY4BGYg8lWjessGTz3KmYsFIDuxZI1Y0fl8ONGrfPIUBtmkZEqVA02t
+	 oDAG8/dZLsM7SANoYRGsOYnHHgjKAgp3JAeoPBl2+MHjZKRVnsw0x6UxIccgHkCCbkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SW30ylxa;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=GU2R7FrF;
+	arc=none smtp.remote-ip=95.215.58.237
+Received: from mta1.migadu.com (out-237.mta1.migadu.com [95.215.58.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8C2606A31A;
-	Sun, 25 Oct 2026 20:40:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DF5606A31B
+	for <linux-sound@vger.kernel.org>; Sun, 25 Oct 2026 20:54:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44DF5606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SW30ylxa
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96B8C1F01825;
-	Sun, 25 Oct 2026 20:40:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792960820;
-	bh=i42WgfRl7LGQCQH1OXiWlBOPWoM/ly087TnvtfgsA0s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SW30ylxaETwB0mx3jeEqzZFR1gehcgpJtBPhXEPjHkk4ktBSQa4xzy1a5wjaUQZrt
-	 w0JOzi0/mBDR/FFbMliLtVbbbCI8b+eabQaBFKDF1DiP22abJaxRwXihJLCpzdp00T
-	 eDN7dWvQ4F9S9cPGnW6blvURlWhGMps9KugvAyU7TaaIsPWSf/z4DOkbSvVqKMRVLK
-	 RMGwG4Ch5QW9bmuQp9qm/baEPiVZs0qa7MaFFwmax1/E8MNXM/ZupXYRpyxgZFwtUv
-	 +2MGx2gD8zTuX/Mczd4WtUwvPGkzxu3ucvHvog5bp6SoGwp92B3WVknGNaY2msPahX
-	 9INkDongzNbJA==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id A127B1AC5994; Sun, 25 Oct 2026 20:40:16 +0000 (GMT)
-Date: Sun, 25 Oct 2026 20:40:16 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: James Calligeros <jcalligeros99@gmail.com>, linux-sound@vger.kernel.org,
-	Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
-	Kevin Lu <kevin-lu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Sen Wang <sen@ti.com>, Shenghao Ding <shenghao-ding@ti.com>,
-	Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ASoC: tas2770: Only treat negative return codes as
- errors set_tdm_idle
-Message-ID: <at5pMAavzOl3loyg@sirena.co.uk>
-References: <20261024-tas2770-idle-fix-v1-1-07b02d46ec2e@gmail.com>
- <33b90e9d-096f-4a85-8d17-2e43b0609140@web.de>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=GU2R7FrF
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=Ankf4XxHDxRfhnLCIDBCrrc3RBZoBSY/RGT1YJVkWcI=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792961671; v=1; x=1793566471;
+ b=GU2R7FrFsdvUWGbn54CwHj7gxRkCgBWEUHdIpNGlMitBKsrAx8f+s5EdCmQpdRv+AAeNZXSW
+ mws1N5WvjwFiktH8bCyWMhB9ToQZNFBl46NWckyBLsc7aBAw36j8oU8w7O10M95LwB5rShkQBAY
+ 4oUY0LBWrXkfxkjWgYvAHpfY=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 764fd78aebea3921;
+	Sun, 25 Oct 2026 20:54:30 +0000
+X-Mizu-Trace-ID: 764fd78aebea3921
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <c04f287c-f4d9-4633-925c-1010e0b91b17@linux.dev>
+Date: Sun, 25 Oct 2026 21:54:29 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -65,44 +58,112 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="IspwzvCNS3Gtk0AB"
-Content-Disposition: inline
-In-Reply-To: <33b90e9d-096f-4a85-8d17-2e43b0609140@web.de>
-X-Cookie: FEELINGS are cascading over me!!!
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] ASoC: tas2783-sdw: keep the volume settings across
+ resets
+To: Matthew Schwartz <matthew.schwartz@linux.dev>, broonie@kernel.org,
+ Niranjan H Y <niranjan.hy@ti.com>, Baojun Xu <baojun.xu@ti.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, Sen Wang <sen@ti.com>,
+ Kevin Lu <kevin-lu@ti.com>
+Cc: Lee Mann <leepaulmann@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Andrey Golovko <andrey.golovko@gmail.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261018200009.1493438-1-matthew.schwartz@linux.dev>
+ <20261018200009.1493438-2-matthew.schwartz@linux.dev>
+ <bdc967fd-c056-492d-b970-db5630f21b95@linux.dev>
+ <4c1a8b04-d873-4395-badb-2762e6c40f59@linux.dev>
+ <caf02dc9-cd1a-4acb-b7eb-b65d46b89f9d@linux.dev>
+ <eef7a85e-4cde-4941-817a-cca48b230db0@linux.dev>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <eef7a85e-4cde-4941-817a-cca48b230db0@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 10/21/26 02:04, Matthew Schwartz wrote:
+> On 10/20/26 1:41 PM, Pierre-Louis Bossart wrote:
+>> On 10/19/26 19:53, Matthew Schwartz wrote:
+>>> On 10/19/26 8:56 AM, Pierre-Louis Bossart wrote:
+>>>> On 10/18/26 22:00, Matthew Schwartz wrote:
+>>>>> The register cache is dropped when the amp attaches uninitialized and
+>>>>> again after the firmware download, so the Amp Volume and Speaker Volume
+>>>>> registers are not cached while the amp is runtime suspended, and every
+>>>>> read or write of those controls fails with -EBUSY. On a platform that
+>>>>> powers the SoundWire link off when idle, such as the ASUS ROG Xbox Ally
+>>>>> X20, the amp is also reset and initialized again on every wake, so a
+>>>>> volume set while it was awake is lost the next time the link idles.
+>>>>>
+>>>>> Keep both settings in the driver, as the cache has to be dropped
+>>>>> whenever the reset and the firmware download change registers behind
+>>>>> it. Reads return the kept value, a write reaches the device only while
+>>>>> it is runtime active and initialized, and the settings are programmed
+>>>>> again after every init and resume. Until userspace sets a control, the
+>>>>> value the firmware leaves after each init is adopted instead, so its
+>>>>> tuning stays in effect. Waking the amp for a control access would
+>>>>> instead cost a full init of both X20 amps, about 0.2 s each.
+>>>>>
+>>>>> Fixes: b627da430357 ("ASoC: tas2783-sdw: drop stale regcache on uninitialized re-attach")
+>>>>
+>>>> Erm, not sure what to think about this fix of a fix.
+>>>>
+>>>> This commit b627da430357 introduced the regcache_drop_region() for all
+>>>> kinds of reasons, and now this new patch introduces a manual management
+>>>> of the volume registers - but why limit this management to volume
+>>>> settings only? Shouldn't other features such as e.g. bass boost or EQ
+>>>> also be restored?
+>>>>
+>>>> It really feels like the problem is that the regmap is not properly
+>>>> restored...at the end of the day, this driver is missing a
+>>>> regcache_sync(), no?
+>>>
+>>> The driver only has the two volume controls, there's no bass boost or
+>>> EQ control. The rest of the tuning comes from the firmware, which
+>>> tas_io_init() writes again on every init, apart from a retained PRAM.
+>>>
+>>> A regcache_sync() can't restore these two because the firmware
+>>> download writes registers with sdw_nwrite_no_pm(), behind the cache,
+>>> and that includes AMP_LEVEL. Of the 72 TAS2783 files in linux-firmware,
+>>> 44 set it to something other than the 0x28 in tas2783_reg_default[],
+>>> mostly levels 9 to 16, and two set DVC to 0x04 instead of 0x00.
+>>> Syncing the default values would replace that per-platform tuning with
+>>> full gain. So the driver has to know whether userspace set a value,
+>>> which needs restoring, or left it alone, in which case the firmware's
+>>> value should stay, and regmap doesn't track that per register.
+>>>
+>>> The volume was also lost before b627da430357, since the sync ran
+>>> before the reset wiped it. The Fixes tag is for the -EBUSY that commit
+>>> added when reading an uncached volume register while the amp is
+>>> runtime suspended.
+>>>
+>>> Certainly open to suggestions for improvement here if there's a simpler
+>>> way to fix this.
+>> I am afraid I don't fully grasp the intended design, with a regmap
+>> default, a firmware download that modifies volume settings but doesn't
+>> update the regmap value, and last a userspace-defined volume that can
+>> override a platform-specific tuned value. It's a recipe for inconsistent
+>> register settings...
+> 
+> Yeah, I certainly can't argue with you there... I think we need vendor input
+> to get a better understanding of how these are meant to work together.
+> 
+> This was broken on real hardware, so my patches were pretty focused on trying
+> to unbreak that specific device. Speaking candidly, I'm not sure I'm in a
+> position to take on all of the tech debt that's been surfacing here.
 
---IspwzvCNS3Gtk0AB
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+let's move all the TI folks in the To: list to ask for feedback...
 
-On Sat, Oct 24, 2026 at 01:30:12PM +0200, Markus Elfring wrote:
-> > snd_soc_component_update_bits returns 1 on a successful update, and
-> > we were returning from tas2770_set_dai_tdm_idle early on any nonzero
-> > return code. Change this so that only negative return codes are
-> > treated as errors.
->=20
-> https://elixir.bootlin.com/linux/v7.3/source/sound/soc/codecs/tas2770.c#L=
-495-L567
->=20
-> * How do you think about to refine the summary phrase another bit
->   like =E2=80=9CFix error detection in tas2770_set_dai_tdm_idle()=E2=80=
-=9D?
+My guess is that this inconsistency comes from the commit a3b0cd6 "ASoC:
+tas2783A: use custom firmware", which suggests the use of the same
+firmware as Windows - but guess what there's no regmap in Windows, is
+there? By allowing firmware to set volume levels by bypassing regmap,
+there's now an inconsistent state with what regmap and userspace think
+is the valid volume.
 
-Feel free to ignore Markus, he has a long history of sending
-unhelpful review comments and continues to ignore repeated requests
-to stop.
+Possible fixes:
+- make all registers touched by firmware volatile.
+- use regmap_write instead of sdw_nwrite_no_pm for configuration
+registers managed by regmap.
+- add checks to make sure sdw_write_no_pm is only used for e.g. memories
+supposed to contain DSP firmware.
 
---IspwzvCNS3Gtk0AB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCat5pKQAKCRAv73Ows9A4
-iSolAPsFI7cWLYgYUBUGYztbhbx/sXlcY8czW0t+b+QxPQb2SgD/f/DIFlcuRHXH
-vjroocCyY0pnFdP0QehZHeM8YG3yEQY=
-=QPV8
------END PGP SIGNATURE-----
-
---IspwzvCNS3Gtk0AB--
