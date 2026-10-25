@@ -1,54 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.103
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792962867;
-	b=goMFkU0QhAwPHbX6yyAwKdHB0V6bBquha+DRFtv4KYjPOuWlCrKPjmk0TdxdnQuHOh3Q
-	 lBgLVOGceVabnOTxP9igfQuJrqfmc+wXQUFX6QiZAm8iz4+i36BhLmR/0IblypeTF4S1R
-	 9Aj6BWTM/xBupQwB0lyhH/B27gjOa+Kd4uRaj3CjNAuXncRb+v7JshtjvfL/rvh/nZeNe
-	 mQmLUGnwpn4wapbKAK1ysNghqeO5mPIXutp+EXNzX5oc0DzycGzwtj5en+RiYvGrki4jk
-	 yxmiuuD8MbRJU4WgvcVp+tIvl+CLkXyT5NmO38q/V8oopfMQ5s4rPplmWu+19pV60Xg==
+	t=1792968799;
+	b=HxLCS2drzShxx+Br0cRRv66P6RiIP+s/K+caeyPjPA7v8+QiMlAoYYWafu+x18rKM0hZ
+	 u15JTi6uZaI1FaHibWhQaKCWJjx1rUjH+sIaRb67lUu1yaiJdwdk+VIQDecXAqp/rHK7Q
+	 9I+LblApXwB4+VMkDKmDd3txnxcUkmSdVyDWbBAOzI3a/ZinzBpXsnJfnQak0k+tw5jtJ
+	 ujWwlAEvpnQRmVDsK67q7M5zTja5TbVurwfXjpwZfWAIJ4ysTZijSoNCOhW0EKOTDe9FC
+	 qiA/2f11KMs3XOhHNWuB623GBQ4mMa8NltRBTgwiP6LrUCt7G3W83R+0S8Lj4lkoH4A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792962867;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=0fDnmTgyC1Lfjzd5lNHuAW8LBK7VsCVWFrjnswBrxqA=;
-	b=y0zS5IQUCadxl1YoF8Ir5O1/M7I7Wwp+immwds6yoPuu1Z4RuOPkLsDLGmlxjvF1tsmx
-	 502qi1QT0BJSZ2JpiQEiD8fYm86Z54752KJZ4Q6pQXWgZ7NwqeMtMfbG5Lf9CULdxldPS
-	 UEhzKJk5DnZBeQZ4knC7D+VczloP/Ohu7zxVMQ5WSxA0/EolNPiIpfnNecEkv/iwrCDsr
-	 Dm8/JpbARjcMHexIlJhRI8DTA+qm2qVX4ZdSNm1ofTSfYpkEePyy0XeLHaH90l5NcHgoc
-	 bMVjfh/exIkXAj/NyxJjsuPUIk9xPRFWV4YXAvkFR1ezeGu5az7HyzcTu06cqvG0irA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792968799;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=GVMGWBA+doRG5gBfYl36HB4dJIKG+rbnEDlBd4twPQo=;
+	b=jHLVN6GYkRPywjhWesX7NNfJDWjjxbcefdABLeiSeUeWOCPZRlhFO3gvnpHBiX1tipQk
+	 wkwG9G0rvpstdQJq4oIl3wvxShaK0xGNDjBltOmHxqUEAAInZPQ171Z1JTNoTNUJVhnrs
+	 7BVEtqm2nT+GXi2cjskpYvNiSUOyYwbqmOi/XVZNpp6KPgbPnMBrXg59y3lUr7CR0CyRX
+	 MimogTr3fL23BlPA92rsSHeGEDHkIlYddioe8fzTVHPpx46wPfWGDE19M7qFAAWYsUj6v
+	 bNK5ZD9yS7w8s4Cz4vwQhDY/+I2ZpAxJ4GxwpW5tg4eM4J1TfIMGEXvlS3bvdkezDug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ESmTEjgU;
-	arc=none smtp.remote-ip=95.215.58.103
-Received: from mta1.migadu.com (out-103.mta1.migadu.com [95.215.58.103])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aDBIPq80;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A32606A31D
-	for <linux-sound@vger.kernel.org>; Sun, 25 Oct 2026 21:14:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91A32606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F41A606A31A;
+	Sun, 25 Oct 2026 22:53:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ESmTEjgU
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=gh1lvrCZ4Dnvyo1jnNWX0NLz7DAdsWWssUDqVY6DOzg=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792962864; v=1; x=1793567664;
- b=ESmTEjgUJRI9q15hoEu9jRfamXMzWd1TaLDgiWpbhZ0Xq/KgCJ3TOG2mjH//AMiPmMA7xkhZ
- xLxvSRS1q2IHnKpGmfPz6JUBtOz7WVlXQP5fnbbryNfFlvveEMNqmZfrARuEeZ+8wsUZKnd5Pb5
- JGXpcsevPdnJYeN73xnifgNg=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id ffd748f1b1ce3b29;
-	Sun, 25 Oct 2026 21:14:24 +0000
-X-Mizu-Trace-ID: ffd748f1b1ce3b29
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <f4a337e6-9ba4-4f52-be99-95d0d5ba11ff@linux.dev>
-Date: Sun, 25 Oct 2026 22:11:11 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aDBIPq80
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 072181F01825;
+	Sun, 25 Oct 2026 22:53:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792968799;
+	bh=GVMGWBA+doRG5gBfYl36HB4dJIKG+rbnEDlBd4twPQo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=aDBIPq8082STVAbpK/dhoqKQX0p90ygwzGL96Yrk64xLM6B8ewnaPBUPrTAGyz0Y9
+	 1kN0u7UokMJVTrRAawHlio0VP5Bg+xY21Y6Tt60J9BdxkDQeGrhNoqB7DPpGTMhyap
+	 9jtPwE+fma1vWMO4od2a8h0K4AratjSZ/bGB1A4oV41Tyc417SyEdVj0iCrgzqywh2
+	 Ru+U6+Lj3/btC4qBsm/NY8JaRhsgNDarlfVT3yph2P2tU92K8vAUTAI56yXlNl/F/0
+	 IJx/2VFvBF5rR2opam8LJGTTFxEv0efGnI6PmSOMnc9WsDZCwtiPOiJkAGDSAL+bAI
+	 Lr++F/m02IbLw==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 63FCC1AC5994; Sun, 25 Oct 2026 22:53:16 +0000 (GMT)
+Date: Sun, 25 Oct 2026 22:53:16 +0000
+From: Mark Brown <broonie@kernel.org>
+To: christian.koever-draxl@student.uibk.ac.at
+Cc: neil.armstrong@linaro.org, jbrunet@baylibre.com, sboyd@kernel.org,
+	bmasney+clk@redhat.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, lgirdwood@gmail.com, khilman@baylibre.com,
+	martin.blumenstingl@googlemail.com, perex@perex.cz, tiwai@suse.com,
+	linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Christian Stefan =?iso-8859-1?Q?K=F6v=E9r-Draxl?= <ckoever@outlook.de>,
+	jiebing chen <jiebing.chen@amlogic.com>
+Subject: Re: [PATCH v7 0/7] Add support for S4 audio
+Message-ID: <at6IXIyAkf90DU1W@sirena.co.uk>
+References: <20261025192404.209695-1-christian.koever-draxl@student.uibk.ac.at>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,85 +66,42 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/13] ASoC: amd: acp: add ACP7.B/7.F SoundWire DAI
- link support
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, broonie@kernel.org
-Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, yung-chuan.liao@linux.intel.com,
- Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
- venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com,
- Mario.Limonciello@amd.com, Richard.Gong@amd.com, Poojitha.N@amd.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- sound-open-firmware@alsa-project.org
-References: <20261023065216.3473883-1-Vijendar.Mukunda@amd.com>
- <20261023065216.3473883-3-Vijendar.Mukunda@amd.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20261023065216.3473883-3-Vijendar.Mukunda@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vAQcFAodtabSXAEP"
+Content-Disposition: inline
+In-Reply-To: <20261025192404.209695-1-christian.koever-draxl@student.uibk.ac.at>
+X-Cookie: Victory or defeat!
 
-It'd be useful to comment/explain why this routine only relies on a
-subset of IDS...
 
-> +int get_acp7x_cpu_pin_id(u32 sdw_link_id, int be_id, int *cpu_pin_id, struct device *dev)
-> +{
-> +	switch (sdw_link_id) {
-> +	case AMD_SDW0:
-> +	case AMD_SDW1:
-> +	case AMD_SDW2:
-> +	case AMD_SDW3:
-> +		switch (be_id) {
-> +		case SOC_SDW_JACK_OUT_DAI_ID:
-> +			*cpu_pin_id = ACP7X_SW_AUDIO0_TX;
-> +			break;
-> +		case SOC_SDW_JACK_IN_DAI_ID:
-> +			*cpu_pin_id = ACP7X_SW_AUDIO0_RX;
-> +			break;
-> +		case SOC_SDW_AMP_OUT_DAI_ID:
-> +			*cpu_pin_id = ACP7X_SW_AUDIO4_TX;
-> +			break;
-> +		case SOC_SDW_AMP_IN_DAI_ID:
-> +			*cpu_pin_id = ACP7X_SW_AUDIO4_RX;
-> +			break;
-> +		case SOC_SDW_DMIC_DAI_ID:
-> +			*cpu_pin_id = ACP7X_SW_AUDIO5_RX;
-> +			break;
-> +		default:
-> +			dev_err(dev, "Invalid be id:%d\n", be_id);
-> +			return -EINVAL;
-> +		}
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +	dev_dbg(dev, "sdw_link_id:%d, be_id:%d, cpu_pin_id:%d\n", sdw_link_id, be_id, *cpu_pin_id);
-> +	return 0;
-> +}
+--vAQcFAodtabSXAEP
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-... defined here - I marked the NOT USED ones.
+On Sun, Oct 25, 2026 at 08:23:57PM +0100, christian.koever-draxl@student.ui=
+bk.ac.at wrote:
+> From: Christian Stefan K=F6v=E9r-Draxl <ckoever@outlook.de>
+>=20
+> This picks up Jiebing Chen's "[PATCH v6 0/4] Add support for S4 audio"
+> (and the tohdmitx S4 patch) unchanged apart from rebasing, with
+> Jiebing's authorship kept, and adds one fix on top:
 
-> +/* ACP7.B/7.F SoundWire CPU pin IDs */
-> +#define ACP7X_SW_AUDIO0_TX	0
-> +#define ACP7X_SW_AUDIO1_TX	1 << NOT USED
-> +#define ACP7X_SW_AUDIO2_TX	2 << NOT USED
-> +#define ACP7X_SW_AUDIO3_TX	3 << NOT USED
-> +#define ACP7X_SW_AUDIO4_TX	4 
-> +#define ACP7X_SW_AUDIO5_TX	5 << NOT USED
-> +#define ACP7X_SW_AUDIO6_TX	6 << NOT USED
-> +#define ACP7X_SW_AUDIO7_TX	7 << NOT USED
-> +#define ACP7X_SW_AUDIO8_TX	8 << NOT USED
-> +#define ACP7X_SW_AUDIO9_TX	9 << NOT USED
-> +#define ACP7X_SW_AUDIO10_TX	10 << NOT USED
-> +
-> +#define ACP7X_SW_AUDIO0_RX	11
-> +#define ACP7X_SW_AUDIO1_RX	12 << NOT USED
-> +#define ACP7X_SW_AUDIO2_RX	13 << NOT USED
-> +#define ACP7X_SW_AUDIO3_RX	14 << NOT USED
-> +#define ACP7X_SW_AUDIO4_RX	15
-> +#define ACP7X_SW_AUDIO5_RX	16
-> +#define ACP7X_SW_AUDIO6_RX	17 << NOT USED
-> +#define ACP7X_SW_AUDIO7_RX	18 << NOT USED
-> +#define ACP7X_SW_AUDIO8_RX	19 << NOT USED
-The IDs are different from what was used for ACP70
+Jiebing (who I notice that you have not CCed...) also sent a v7:
+
+   https://lore.kernel.org/all/20261021-audio_drvier-v7-0-2b9aeae9cb8a@amlo=
+gic.com/
+
+Please coordinate with each other.
+
+--vAQcFAodtabSXAEP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCat6IXAAKCRAv73Ows9A4
+iUkDAQCQveKgx4r2d/eG20lgPhus7tKTm51YTADZ/MON+PoyegEAs8Sr/ir19Hyl
+KSZbcPte+19qqTv9mWpsTI64D0/Qsg0=
+=I+6b
+-----END PGP SIGNATURE-----
+
+--vAQcFAodtabSXAEP--
