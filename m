@@ -1,81 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1792940038;
-	b=yuMl41x4GkiAqwE4e1Kl71BAEUCoFJssXxzdVAtjAm/tT1udyC1T+ehTY92M9hwL1CUI
-	 F/ulJ9SeqblVzqtakOY5iZ3gRNTEOhzYkHTVLnj1QIAxEB7Kn+2oSkk1HMGEflndjFV2t
-	 ZtoB+gxLtFNRyyxqhZUPjr4DE/xqWjKfG9sqyM34pXj06icPzRmNsJNgr1xHRXI8+qoGl
-	 tCUMrdfaOYd2pfrpn9VRS96V3k8oLo9sLalAWp29JK8uI1SJWTJaSPDtRhsvzFg5xJs+r
-	 XmmxIEjMUfyy5I0ldMnJtrrcWo8spIvGCE6iLi/dfa2sgpG1IhfO8hPTlijtjlTiz3A==
+	b=Suj4nBhDvPDpxpgzmMhhN/qCr+BjlKVQ/z5YGx20wBqNqUWtA1xnvzC2DJj1AIVF6mCU
+	 n0rNVzO4NzSnX6UgZg8qP/2dIVVTD3bpUJP1UHLo03SypfVyj4nvFC1FJPG/H8qlWKoTD
+	 9wIa+lKkNIAXXhgT6byPzxFyXRzmYw+jC6O0eazBQP0uYppRaiAdGcJbNlwYtllplFCNn
+	 1oW6v6fTwSyixgqEJrhLhli1M9934qtpxEKHWi0xaQ/vbwtbsu3eca0VHMGhBfTVJk1KS
+	 DGuXIkcupYCUk2dC/ZhhiDkv5h7EWrLl6mJ+/CwmxPEoq/pMjl9qf9Z3x/erILAnsRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792940038;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=oXFztGQN0f+1MY9Wri1v1FfmKUwWYfKAL0FN/sMrW0Q=;
-	b=OcXsisAzU7ChRXvYOsJ7t+6BJFTK2scD//cr+sgDtij7cscknGPAyWRMacZi1YXqkr4j
-	 v8txSN0IZUM9I/+WPOIanG687u82VJ3zG/7mpTL8elB9Vz2s/buNM5DGCJu8vooamXDqZ
-	 8LqpngEGACsyFZ0sQhf/1f/UtdGF/wjNg7vb+5jONHAjXtP84467p6n/2qoI2K6925HTG
-	 4ayTnomQNcYZjv3gKLyYdA9w1BEtya2tLTiXUOr6PXzRM6d09SaDnbgXzx/+jRXiCB4bM
-	 /i7wX554oMeOwNpy+H2nTaD7tYuJGNuWb2YwdRqr4TqWeS9qE25UzLW6HT8UMCz/buQ==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=m4kAH8DCfpe22OkmCb4iXEvhigID4lmHLEwsjbr3sm0=;
+	b=LNhTRFEYYe+vF8q2kJDRKZbpDnQbU8nvCdib7HHmsm8vX7QbJ8LiDWoedlPXMCaUBE5h
+	 pflVbDGBizJ9Rh/8Djn6bkbmCBHBlbgdbCMLU2T32reG56Is2N/dauYt5jtS7oja3IC1X
+	 H99ZzeNqWGnJIHD5H6JO/yjz6bvQemEii58JuD/n/mNLnWEvEWgBucCLQDaH4oewE5hoy
+	 XGaxF3QJp3PEVC+8v54LmyEKK9ZmETDCb31JHNTvZsi9kaggf/e3kGfs/jjM576vkCmWk
+	 sgE7WsHmCKGZ+jJIMM8k4PuSreELqixF7IOwS2+CZ8URVaiLFXrPnUuV2G7F0Lp1u1w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=abCqUT2q;
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=WIHJ5XAH;
+	arc=none smtp.remote-ip=209.85.221.50
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0461606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370A9606A31D
 	for <linux-sound@vger.kernel.org>; Sun, 25 Oct 2026 14:53:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0461606A321
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 370A9606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=abCqUT2q
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48441a2ba1bso1331381f8f.1
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=WIHJ5XAH
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48bbb06e746so1104980f8f.3
         for <linux-sound@vger.kernel.org>; Sun, 25 Oct 2026 07:53:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20251104; t=1792940036; x=1793544836; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=oXFztGQN0f+1MY9Wri1v1FfmKUwWYfKAL0FN/sMrW0Q=;
-        b=abCqUT2qPhh0VNCVDM4lRtN/Avcf8m2uOEUxnQbNwh46fgt8mndJ8E9RVdpNvxBHGE
-         PKzyAeub3ezAtRI6CBQ+jE7mqJwu5G5xFPbQqs7ZiCHgYtmU7JifZdVjkgbt8vHoVrgK
-         mCO2txsgZqB3YNpWFdS/t58f9+6DRNa5ddy0zHkQP12q/jvEg/dETYCZPSY+6WNJjUKj
-         PRtYLuAVgAWlhkLndT2owcdropdC9Hwqa/VMBW+QNay99FIkILlBphNTd9UP80sYkWM/
-         k5wLMVp/8AnO3SBcJvRJWaezPIeZp2aB6CHpzHVX+JIAdJvzXry2CzM8NPVagZ0UktCo
-         8s7A==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=m4kAH8DCfpe22OkmCb4iXEvhigID4lmHLEwsjbr3sm0=;
+        b=WIHJ5XAH8wgyHoq1C/naLVLPt+y80xFDDGNa+UkjOww70HePVeg3yChQ7FXqcZSOvI
+         MUa8cdxJtMxKYuOkdaJGnVl0ec4XE70euxMXCkjxAECFZOlUt3r/r/yOOb7vMk4aWiFx
+         Qbv/7+aZkOPppaH8z0TlLvnVk1FrXWDt57Kn2WEmxgB485igiHHwkdVmO9eM8vXa3jzH
+         e0Zug3sVA7L5miKMQubaV9fO3o+FzxWNlypujkbEf0DE5rHP9j0BXOKSYghd5TF4+rVn
+         rgwugEYuZbsuGnS7BSWxA1Vvtoze1MzwlOIUYmelqoG2M5EnB3A1tqKUwCe1cRSInDMM
+         G3Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1792940036; x=1793544836;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oXFztGQN0f+1MY9Wri1v1FfmKUwWYfKAL0FN/sMrW0Q=;
-        b=b9uq+hDBgGltItALJGBeVoiJMZyIkIaSxiF8C080ksg+3xTwrPCNCd0i1Kox+ti5wC
-         r/CjfEKebQp5TSVZOxdWz380mKvjYIetx2/O9yMrDlT0qPpm/f73AM5mWVysGX/l91qQ
-         7Vn/brhSGLD44bftQUvik3fthS90NfvOD2NBq1hTHCg/4/zdq07RdR2oqs1OdURG+Kvl
-         9fjMdzFcpqQS2iuMsrZukr264SHhNnXjWofMXFZHBYWpomrqUWTwiMM45vyphP2PvX8a
-         Zr4HZ1WY4G0g3KrFJlk4jZoWa5wuzMocbrgiuZi+dezxvEkiH6fjjtJbmxpw+UfGVvLW
-         pWfQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwIEIB/xZKI34+GNfXKjZed5BxxOB3CW8nBoUn9QZzHh2Mh30IhDRfm8jKPfEFIZYQlspB6THfuNSG28Q==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJzjhuiZp2ZjyfqkUSPe7fPTEs4fskHnInDi+u+9xrUfst+ES83
-	ZPGbqNNZzfAzpx+o3tn8Ge1AFnH5dlx6MpH6d+mbEwXiYt+hdXIo8KPDp/5iIDWf
-X-Gm-Gg: AYBFou3DCrTsZ5Xv7cfelPARKKNmLCnZcHbk2tut+XCICzninIw17KGLSGGtcK6TTHn
-	GS32N7S7on9tobZKZwS7ZQyExI+bJ/45pfMXkIt7NagxI6Cw4Az3UJ4JXQaAJPy8lQjF8A8Jk4u
-	pORS6wjimVi3IgbzDToBHBApWtWAjXI5IFiYoTuMSpbHAoQp5capOFGMvWCrUJghSVB+qQA+RPh
-	bP18Q/DV/xxJU5PMUhFY9eqI3urnEmahJ/GdRb+PZ+noHU2OQQBFLEsrSY8GzG5WTlazqi4Sedt
-	Q4YQYF/MOtNQSyhXjnmxl2TKKktU8KtWSFkmmAhOhKzB/rVutUNNaSQbEkEJcK3QZfc5P7yVVxo
-	fvzQB92JaTR+bY04xmxCnab1uMjz+aZap7qHsTEqgVLztXi0luUMvdrFrRAQp8R2oMHjsYOCDe4
-	zNBDlaaabab6RG1KpxIquPDAg7S6wc0HSkuf0EhrU32KYWd6QKWlwCNk9mdTxcuYyAVIGrq0ZrD
-	YD3RocPAR7Zx8vu0G+cPgb+RpZaM/GQWTSXQj0VkxsbL41jb6aHyZk1P4rB6LtAnUaHDGSnipQQ
-	RKkGNh54o6H+UgFhKSaoLVNYNBL0FMDGUgOy46Sd+ZOgA0+7lGbDzJDCVX8FQHF9JdQeUMM=
-X-Received: by 2002:a05:6000:607:b0:48d:ff81:5201 with SMTP id ffacd0b85a97d-48e3eb9930fmr9037851f8f.41.1792940035985;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=m4kAH8DCfpe22OkmCb4iXEvhigID4lmHLEwsjbr3sm0=;
+        b=ePXas+7kEuTFE6F11aHVCrpGaloSQ2+Ua0dXbOLpJKEkRPoo11njulZDwzgeL3dT14
+         nXZRsYNyU1L8ccJgtuvNO6EigQhX+QcVuqjvutJyi6lS1HQeGIqDQIn+LbIwVtj6rhKD
+         DeFJK4uY8og1kc3SXAaKtJYkL+jkWkP3Q++FUvAbHQNpuiERHVO+1nkjkblTf6jz/X9p
+         3syBU5SLPYNtdRxAE1Dm0MprIFgsS92wyMNAmiJeFoWF5UxrH5fR7dDWiMYMS1YXZiM2
+         GnjUSJgnwRpLdRtZLrk6PaIy14FymrMKoj5JUYEyDRwDLWfHnlDEnJq1aVi8E/Wf3pAN
+         LbSA==
+X-Forwarded-Encrypted: i=1; AKwUvBzmwug2+s6F+VeD9bLa8/JBmBR+2ztTY5wnmAX0S9zagQl0wMDkCWYtRkA2mckb67m9Pj22jmkywWfyIQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYI216m3KtXHSz/TxNcc7SoCxLRtV2uYO3FDX602MPEJ+6smVFu9
+	ocx6UAqclJXuxZbBqbYZHrBO5dRCm0DOgJZgSXSeYQpsxXPeTCBL+5Kj
+X-Gm-Gg: AYBFou2HcEcTAxJFdmNXupOnGfyvxqb/SDFisc1fHEqHuPZTNb2SlpYsqT7b569M/io
+	XWDYQD4UsYCPuwENCsKIZw49cUTkPdhuTioOItXdyyBE9GznR8IYgPoH3ESUEKewgRc4llOIfi2
+	BqSneFQAtgbvB5DkVVTlntBPG9bNMMcrieBC0hCGzj7adpE0uH+mYss5s0yued0aQMIA6+NJs9o
+	52tSfgfD7dXqQs9nLRgjeQlojFpo0xKUC1EHyRizb0Y5h5T6gReeTMynXqX4DdgdLuOpH383l+Q
+	ITK6orIeZADwN34XBoTRK57EQT3tOjxeyQLkNDkji8vU5gGzxLdJsy67p+HcWX7smCdw1Dm3n70
+	37KHQ43/FOz68EhP1ARmPkzMIFoMlob1NKDGADGEfStQe9K/DLdVzPq9pJD0ImgVzIwqlRGsxv4
+	tI+U27UpWBdxS5Uml0rVW7Gh1izrJHDYxi/mhoW4+QRwnYxeuZpPDjKuSrt26ciwvHOcMV36l5l
+	quiZx5bh3EtuV1vgDs5d43tou3pCxDyPGpsRS2z3UaxFa+8cN6QHv7BeTKrNXmEhDipNjhAP40t
+	ViSIv4rPjJXjvluK0pAdZbAPI9oSQaS9Eq/H8fngRDwnh8sQ1Oq+PIjk6EiCicVMk/qgRACRel3
+	cQKCBqagvZ/Ixb4al
+X-Received: by 2002:a05:6000:260c:b0:48b:116d:56fb with SMTP id ffacd0b85a97d-48e3eb2b643mr8140142f8f.1.1792940035370;
         Sun, 25 Oct 2026 07:53:55 -0700 (PDT)
 Received: from romain-ThinkPad-P14s-Gen-5-AMD.tail433d9c.ts.net ([2001:861:39c2:e340:4c3:3a00:d533:9d50])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebcb9cesm10986471f8f.27.2026.10.25.07.53.55
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebcb9cesm10986471f8f.27.2026.10.25.07.53.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 25 Oct 2026 07:53:55 -0700 (PDT)
 From: Romain TISSERAND <romain.tisserand@gmail.com>
@@ -91,12 +91,10 @@ Cc: Oder Chiou <oder_chiou@realtek.com>,
 	linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] ASoC: dt-bindings: realtek,rt5631: Add the optional MCLK
-Date: Sun, 25 Oct 2026 15:53:53 +0100
-Message-ID: <20261025145354.3476371-2-romain.tisserand@gmail.com>
+Subject: [PATCH 0/2] ASoC: rt5631: Support an MCLK clock from the SoC
+Date: Sun, 25 Oct 2026 15:53:52 +0100
+Message-ID: <20261025145354.3476371-1-romain.tisserand@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261025145354.3476371-1-romain.tisserand@gmail.com>
-References: <20261025145354.3476371-1-romain.tisserand@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -108,36 +106,46 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The RT5631 runs from a master clock on its MCLK pin. On boards where that
-clock comes from a SoC clock output, the codec node needs to name it so
-the driver can keep it running while the codec is in use.
+The RT5631 driver doesn't take a master clock, so when MCLK comes from a
+SoC clock output, that clock is turned off at boot as unused. This
+series adds an optional "mclk" clock to the binding and enables it in
+the driver while the codec is active, as rt5616 does.
 
-Document an optional "mclk" clock, as the realtek,rt5616 binding does.
+The board that needs it is the GPD XD (RK3288), whose device tree is not
+upstream yet. Its MCLK is i2s0_clkout: handed to simple-audio-card, the
+mux picked the 12 MHz oscillator for 12.288 MHz (wrong pitch); held by
+the codec, it follows the I2S clock, as on the RK3288 boards with ES8388
+and MAX98090 codecs.
 
-Signed-off-by: Romain TISSERAND <romain.tisserand@gmail.com>
----
- .../devicetree/bindings/sound/realtek,rt5631.yaml         | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Testing: dt_binding_check for realtek,rt5631.yaml; W=1 builds for arm
+(multi_v7) and arm64 (defconfig) with SND_SOC_RT5631=y and =m, no
+warnings. Tested live on the GPD XD (RT5631 on simple-audio-card, mclk-fs
+256) on 6.18.54 with this change backported (the bias level read uses
+snd_soc_component_get_bias_level() there): i2s0_clkout stays on the I2S
+clock at 11.2896 MHz for 44.1 kHz and 12.288 MHz for 48 kHz, and both
+play at the right pitch. Boards without an "mclk" clock are not affected
+(clk_prepare_enable() on a NULL clock does nothing); not tested on other
+boards.
 
-diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5631.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5631.yaml
-index 747a731c44..03ee25e1eb 100644
---- a/Documentation/devicetree/bindings/sound/realtek,rt5631.yaml
-+++ b/Documentation/devicetree/bindings/sound/realtek,rt5631.yaml
-@@ -45,6 +45,14 @@ properties:
-   reg:
-     maxItems: 1
- 
-+  clocks:
-+    items:
-+      - description: Master clock to the CODEC
-+
-+  clock-names:
-+    items:
-+      - const: mclk
-+
-   port:
-     $ref: audio-graph-port.yaml#
-     unevaluatedProperties: false
+Tool disclosure: this series was prepared with Claude Opus 5.5
+(Anthropic) as a coding assistant, in an interactive session where I
+asked it to fix the pitch problem without the RK3288 clock change that
+was refused in 2014. It traced the clock ordering in simple-audio-card,
+proposed taking the clock in the codec driver following rt5616, and
+drafted the patches and the messages. I reviewed and understand them,
+and tested them on the GPD XD as described above.
+
+
+Romain TISSERAND (2):
+  ASoC: dt-bindings: realtek,rt5631: Add the optional MCLK
+  ASoC: codecs: rt5631: Enable the optional MCLK
+
+ .../bindings/sound/realtek,rt5631.yaml          |  8 ++++++++
+ sound/soc/codecs/rt5631.c                       | 17 ++++++++++++++++-
+ 2 files changed, 24 insertions(+), 1 deletion(-)
+
+
+base-commit: cc3fc99f1bce93c3ae3771ef98cb91a566da857e
 -- 
 2.43.0
 
