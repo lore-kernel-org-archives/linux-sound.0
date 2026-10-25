@@ -1,64 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792907405;
-	b=XFA3LG/0rEMA61dOy0K5S320EeqaskvfkRvMm+KozVWR5zl4aL7ndK7rYL+vqMUmP5Iw
-	 b2NXTO+5RKsFlqqFv9uD+YMoCQSS1L3N08lZzaB+H0V2aKWGn5t+EpOPKLWaafiXmX5A3
-	 ax1VfMpNw/QqPnGZJxEayy7lD6xSouWdRYNUNU6OO6M+X/CSqNRP64Gc3eMxRZdQaBkXf
-	 I3q6gXdSafB2j6DySN020ck086m7/2blGyrZlnpBERsSpCMGepngW1SEDNWXrhjFwYo1n
-	 Y5RP3JQt/G1tMBJs8YctusQfiUy9q04ez+gWGNyGNYfNGlUemit+sNFr6GXHUIuiEIg==
+	t=1792907832;
+	b=b9C1gJJmhcHN4ym3dS3oPjClS8yODrt//e4qe7t2Ke16ndSvRW1ZpjgZpvaOlkC5G/rM
+	 IMhuUb6/Y4b3L3Ww4WpoFzt/SHbitkmext/YB97Ac5bguDLQGEqGRb4jjvoucrY1EfUKM
+	 EfgyfBJwg0QQgdBRfDKAKkLbgthfkjY/LrVL7Pjq3zyy3lMAgnt67ry3/AgcMCDQMiqt8
+	 +6GOtQsKPAydFkmD4euFY3inGJrgkJtuPRJuR4W0xuZCvShyPzlF1qfPQuP4FmEzx6UUE
+	 zOzAYgQJgpfwzzhodW6saZ0MkxxhZxKJGPesXt7ypsc7IDGZsIRFMGBGlw1F9QYKeEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792907405;
-	h=Received:DKIM-Signature:Received:Subject:From:In-Reply-To:References:
-	 X-PR-Tracked-List-Id:X-PR-Tracked-Message-Id:X-PR-Tracked-Remote:
-	 X-PR-Tracked-Commit-Id:X-PR-Merge-Tree:X-PR-Merge-Refname:
-	 X-PR-Merge-Commit-Id:Message-Id:Date:To:Cc;
-	bh=av5z+ZLNlwResEVXMS9SAle9QPiFYI93UwdQml9h5cg=;
-	b=YzRqCs6H0ig5dTjSMSYlYD4NvMez0L7UroT+H1UAk7m2s0A2n7Nmj0kstG27ToLVRzWj
-	 +xlLULk+4L+NKd4rLViM4au8ytoJmtT646iEE5/J+TEzqz4MMDtW5XBKm7bv83HgWWF1f
-	 wYVsyiW0epOirkfGLOvk+TJsxnL8MJq7JJaBcXDk3IRxgqvXyeig25Mt3Qy+7OgdlReo6
-	 9DCffH6SMlnSqQTgb1Li71y6aPP02xOXvf4qe09iIBJEWIC80w/vMAhY+Gr82Kzwsc7dY
-	 HybKB7BvYRNXy3YXmc6WzB9fiLC0/Bp9wkXws8vyJyPtGQV1vqeuwnDrENZgITdpd8w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792907832;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=CeA2XEPxOKnOzt895+30F+e+QxZmzFzIqeYcgTjPdbI=;
+	b=4MjAMRB2GYl02KooPtZVhRvQpMKOGx63jq2arK91BvW/Xj3YpAEr4cmiqDQGzmRfH/Fp
+	 DtZEPd7o4knLe36NTcThTnBWhKlgh1v95CnmFL362kCrLfh6gIKY8TXMj7okLilEkGPjx
+	 AXvOXMu4js/FvD1NZinX/TbboH6Zuv+wuxZa+Hqmg+vFeMIDumNbhBKV2evXwrvXhMupe
+	 ZddIRQlzwiB6q3EElf2VUd+w/otupoGrSUxiLEZ2etC+p0yXzNRe4hDaalEP6Zxin5cmL
+	 MzPhoNkZsLyv0BLm/+gr0G0Q2gEKbJL/cfKZ6VI71oWDD7icvIxzlMSsRmpZVAKGs7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L9k9g+9z;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=BIxbGW9p;
+	arc=none smtp.remote-ip=74.125.82.169
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28EF606A329;
-	Sun, 25 Oct 2026 05:50:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB374606A325
+	for <linux-sound@vger.kernel.org>; Sun, 25 Oct 2026 05:57:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB374606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L9k9g+9z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98D5A1F01829;
-	Sun, 25 Oct 2026 05:50:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792907404;
-	bh=av5z+ZLNlwResEVXMS9SAle9QPiFYI93UwdQml9h5cg=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=L9k9g+9zUtqBev769z4UUq0EzANK6ILtGBRs+PbnCH6BY0LEBV9AV9w1uF9l5v3id
-	 lb+SGmGNOl/n5vY6roLJABAJ2Jeh3b/SXiIa7hyUB52FKrHFHXRZitLJmVBK9P6w9H
-	 ex2L5TJYskYpipZEOUsxMkr3Nz9FMicrEzPCnzfsP82SyRk6Ch7s99aQWv70usOFQt
-	 rQl6UL4qjSCy/3W2wNFuOkozFsiBARh2lrnLzKkmXCpu8uL0/rorSy+S5Vd2+Ow3xc
-	 87aYdfzbEp/nagaC9boDsR2W0jiYSAQAV1jyGj/RcfjfwIsU0aDK0Cx8tH+1R2aRE0
-	 usr9SNcqjemTA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 87624392ED67;
-	Sun, 25 Oct 2026 05:50:04 +0000 (UTC)
-Subject: Re: [GIT PULL] sound updates for 7.4-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87ecdgc246.wl-tiwai@suse.de>
-References: <87ecdgc246.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87ecdgc246.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.4-rc1
-X-PR-Tracked-Commit-Id: ed7995e4ec3789a90e37eb826bfccf43cc85d2fd
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 75c1cb8178fe84403fd95236ddf21754f0a4156c
-Message-Id: <179290740342.1990210.7532002874604900562.pr-tracker-bot@kernel.org>
-Date: Sun, 25 Oct 2026 05:50:03 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=BIxbGW9p
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-35d0be18c71so3565080eec.1
+        for <linux-sound@vger.kernel.org>; Sat, 24 Oct 2026 22:57:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792907831; x=1793512631; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CeA2XEPxOKnOzt895+30F+e+QxZmzFzIqeYcgTjPdbI=;
+        b=BIxbGW9pO97vdtgMgDXF4UHmyz99zPRNUX61xF/4qtJC1BtDSmx9jQ0a3n5UyibYQA
+         PXQ/PMJwURRdAvIexALEJ+eoXmCdaolC/iTx747Qaiswm934Lf0KJSIrn8rm8PcwuHEt
+         dbnFoTNKDaeYQSpJLWQJKeSIZLKA3C0IeKnbaoGn5JBOyxWwdPxt6UccyIdnPgqIS3ri
+         qvkPHk5i6sZmi3V00S6lmQSVlXwSHKCGY0W9TtKcXvxujJL0vYvhZlgaYBnVzWezUnCX
+         39ARkmUG3ov1/qBMQHzHsGHgZMBrnLonviEF+kUjK+GgwP39jRItcQcaHGhVVNi4sFwm
+         amdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792907831; x=1793512631;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CeA2XEPxOKnOzt895+30F+e+QxZmzFzIqeYcgTjPdbI=;
+        b=n8LPfodGfmmTviD1TqocvXAJz2LPvsXEKa2lbfnJuOKkoNp5A5J3NA+W7p3RLjYhNy
+         j9PlwzDh4rtDtQqeaQNg+bAfek8Pf8emRibIDvWyFOeQ1CDfOr+OPDyt+mVKeu5LN6sX
+         8uJB864GQtKG9lfIGibkA8bZHpDyG2NABmVLOZvsqbd3b/tkom4TXKZO9yBTXfw0k0Ax
+         82SwybSpEfqQrXg/IDXjTOQQemm8nRFg8R3hvkO9R2jaibyfARP+pkiGmnmBRGBTUp+q
+         PLVfJsDkKY0e/pSa3MP0q8Bx+OTLIuErtwyP7e5YH96lOJfDwMrJuueR0VqJoYjhSUVW
+         fX0w==
+X-Gm-Message-State: AFq9FYKOoe/t+G6xYQMQoaP++sMRIkJJCVdBTcOf702bD2X6X3wOxsk5
+	mEYMfeMQVAo7rzvw6EP83iQrz29lKzwx5QNlj3mlUSGfqYlbEgrpi6/BFlD6+Sop
+X-Gm-Gg: AYBFou25enKYPGw3nhHRpUsOlr4keHTQKg2zIAvUEtK0wr33/iWjM1v0F4URssaWsft
+	H2L6jOoVQGlpk8UXqPNR8rOjTJtjsx1wY7t2fIPJywMZkTiQnup50+qJTfWv3q57gstfReh4JdS
+	4hZ9GNcuc4KH3dHl31J+XGLLyfVQNem+Z2LALG7p5tfa9kmise0aheQZ9NyeHY59g3Jag9Dfpru
+	HHiYAtL+P+YLCZ9XLZT28crGXr4V539yuZL1sla9wrB/yCBEr82bxx/v2bEPjZ5QMevndtDBHy1
+	CpYrtAOatELmigP76W6fwtVwY3juei0YHcHUGS2FiFul0rFDleEPA8PCVzUREOZDhwcfKr/UQ/w
+	V5JKcNm2VrvQazXWyfRrJSeBePcGV1/bjwVa2WcsWJH+1BjMEDodzahUsBC4DB5LRHFwdJvF7Q8
+	yBVSvJLLxuNDBSsKAA2DDshObs3vb9yUW6k/6IuwgOpZNtKHp58pf0jpK8jK+45CqwHMihBNL4q
+	UsrEDqmSXUO+ZLAdvf5gEolfdvdgItkPsIkth9zQhylpl8rH3nVlWpXN+0kHxHZ39OaKW+zdOyk
+	/8V1CRauXBXjz2j2fXj3XFLiaP7Bbu1qQlpmUumRKEPtbGfygPhjgS8XIneV/yRM4E2TCA+TxGs
+	SXsaLx6RH8cr/+VvjlMY=
+X-Received: by 2002:a05:7022:5f0c:b0:181:6b8:31f1 with SMTP id a92af1059eb24-1993505e277mr4456002c88.10.1792907830883;
+        Sat, 24 Oct 2026 22:57:10 -0700 (PDT)
+Received: from localhost.localdomain ([180.182.24.11])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e8d9307bsm16046244eec.14.2026.10.24.22.57.08
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 24 Oct 2026 22:57:10 -0700 (PDT)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Joonho Lee <mynameisjune111@gmail.com>
+Subject: [PATCH v3 1/2] ALSA: pcm: mark stop-threshold accesses for capture policy sampling
+Date: Sun, 25 Oct 2026 14:57:01 +0900
+Message-ID: <20261025055702.69259-2-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261025055702.69259-1-mynameisjune111@gmail.com>
+References: <20261025055702.69259-1-mynameisjune111@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -67,16 +101,69 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Fri, 23 Oct 2026 09:22:49 +0200:
+The staged virtio-snd capture path needs to sample stop_threshold from
+completion context to distinguish free-running capture from bounded
+capture. Software parameters can update this field while capture runs.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.4-rc1
+Mark the runtime stop-threshold assignments with WRITE_ONCE and the proc
+status read with READ_ONCE. This pairs the assignments with the driver's
+READ_ONCE policy sampling in the following patch.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/75c1cb8178fe84403fd95236ddf21754f0a4156c
+These annotations do not provide a transaction for the entire sw_params
+update. The driver serializes its cached policy and accounting with its
+own substream lock.
 
-Thank you!
+Assisted-by: LLM
+Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+---
+diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
+--- a/sound/core/oss/pcm_oss.c
++++ b/sound/core/oss/pcm_oss.c
+@@ -2958,7 +2958,7 @@
+ 	       runtime->oss.mmap_bytes);
+ #endif
+ 	/* In mmap mode we never stop */
+-	runtime->stop_threshold = runtime->boundary;
++	WRITE_ONCE(runtime->stop_threshold, runtime->boundary);
+ 
+ 	return 0;
+ }
+diff --git a/sound/core/pcm.c b/sound/core/pcm.c
+--- a/sound/core/pcm.c
++++ b/sound/core/pcm.c
+@@ -422,7 +422,8 @@
+ 	snd_iprintf(buffer, "period_step: %u\n", runtime->period_step);
+ 	snd_iprintf(buffer, "avail_min: %lu\n", runtime->control->avail_min);
+ 	snd_iprintf(buffer, "start_threshold: %lu\n", runtime->start_threshold);
+-	snd_iprintf(buffer, "stop_threshold: %lu\n", runtime->stop_threshold);
++	snd_iprintf(buffer, "stop_threshold: %lu\n",
++		    READ_ONCE(runtime->stop_threshold));
+ 	snd_iprintf(buffer, "silence_threshold: %lu\n", runtime->silence_threshold);
+ 	snd_iprintf(buffer, "silence_size: %lu\n", runtime->silence_size);
+ 	snd_iprintf(buffer, "boundary: %lu\n", runtime->boundary);
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -871,7 +871,7 @@
+ 	runtime->period_step = 1;
+ 	runtime->control->avail_min = runtime->period_size;
+ 	runtime->start_threshold = 1;
+-	runtime->stop_threshold = runtime->buffer_size;
++	WRITE_ONCE(runtime->stop_threshold, runtime->buffer_size);
+ 	runtime->silence_threshold = 0;
+ 	runtime->silence_size = 0;
+ 	runtime->boundary = runtime->buffer_size;
+@@ -1062,7 +1062,8 @@
+ 		runtime->period_step = params->period_step;
+ 		runtime->control->avail_min = params->avail_min;
+ 		runtime->start_threshold = params->start_threshold;
+-		runtime->stop_threshold = params->stop_threshold;
++		/* Drivers may sample the stop policy from completion context. */
++		WRITE_ONCE(runtime->stop_threshold, params->stop_threshold);
+ 		runtime->silence_threshold = params->silence_threshold;
+ 		runtime->silence_size = params->silence_size;
+ 		params->boundary = runtime->boundary;
