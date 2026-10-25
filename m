@@ -1,102 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792941873;
-	b=qXfQjQX1ZSFTtVuTLju/gN51M4u+7aowOLI6JRklFcpI1ZI4bw0qRoeHM/govxPSe9Kt
-	 75hCZMDBZqySytHWFztg7vjzX0XJfOUGlQeKhWzSCHWcbgTEkOhI2G9sVbivb35A4U9L0
-	 0OD5962HnRrDbM7H7xtuUm4ZhL3vZOfk64H7uTCiHM7QdZh10GkzUOlLYXs1nIf9rcWz2
-	 wVFdAdOubXK96LHAlNKO6ncgQxMYGMxwn65NCZ5lRHZMkNeRqK0sck4RCA3mEaojRQde5
-	 DRO8yXD2+XXY13X4OPOlLMQXDmtJiOOFCIWBZYfT0h2o/hHjKHEFJ5P4JYW089OG1qQ==
+	t=1792955028;
+	b=NEutWfLuiDydRrNVS9JFMW/4s+5MTEJD9BNMDNawQCSz8GaD7Q+vArksmVQ1hpgUA4AC
+	 eg90bdEHH+1rB+RBq++7vRFdQlMKx5GJBNWOyhFoqFxmtoD4MLKqh3goRvzKrJuobiFna
+	 DwAuYsOORDB1+VXSXfRK8TnwmK1Tdx2dazRYbaUHEnyJSYqXilVGnjwNLpPyGQ1ugjKcj
+	 x2UNgOmuCrRfaEqjJpGxlBq+UF1SmaPrZAc+Qa1E6hq6eWSQxUXL/VjOr7BW8COR9DRT1
+	 IFP8rjli4ge6tHjqopjBt1Tb2lekTb0tcNcXJeXtEj56pfbPhnqsFGNXX5oyzv5++bw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792941873;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792955028;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=IPyxHxI8QCk7tgMR65iE29Aq0L2SmeJ7DzhvVjt4aIA=;
-	b=nh48ktdFuBzJHgOpavtDZoUxrymiR4PBKwV/QmUtw9fxJe8m/qR8Fzp32IOER+n/6PBj
-	 TNS6hWj1YHuJwLOe2wEhqHhBI7hiIksJuqhWbY5DcLR7cUtRV+QM/kwUr0Tr26omYAeFF
-	 EpcCuLgBwJnoFWip7cLuK9o06NZKkV0dyD3urXSDcWFFO5jK7WYdyhiagrUsFI7sVBc0s
-	 gx23lO/pAQFI1WoT33BkYo/6KXE7hvyz8faeusWnmcajdSLEPnxphy9FlwdeLM8RQgwWP
-	 DXIvFfUojoaCXKzbjtlfaulop4khXdNab5gNQp9qWx8YcS8Cx62M7YVJM4mJAreRx6Q==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=R9qaCbPxl/UFmTQFVY4bs9QcJuc49zcAUsVA+5r/co0=;
+	b=MsDK5bql/kpHgWk9TOO/A6UsAIlft1JUqELiIFpZaxJC4mWlW/D9bsmZph5XGThzcflO
+	 MMdItIrBZAmtmPeO24Qe2jOOJk1R8Vj4Tp7aa0R3crZ0jEhPqn+a9KYoavN9O+Ty/H9tU
+	 J4Bn4gS4Cp61IiuMc+s5wHbm7ZBvKATMe7UqZZwnQJb3NRINu6fyPOxPNlqrrXMSmKazb
+	 gUIHmmQUYQAtdzscD7FIZaF3HBb04MopDS5b2OQ5ftUua7wIWPXqib0bMl1v5nrbBygNk
+	 81j9yrJYAwSNOXFd8RhMv3KuENPe1mIC1bGCy98SKBnvAMCPzdIDNwFd8UQMrgGXpMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=gMlUYdFd;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=WJgPkCja;
+	arc=none smtp.remote-ip=209.85.208.52
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2DC606A325
-	for <linux-sound@vger.kernel.org>; Sun, 25 Oct 2026 15:24:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB2DC606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B80B606A31D
+	for <linux-sound@vger.kernel.org>; Sun, 25 Oct 2026 19:03:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B80B606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=gMlUYdFd
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a1b07c3c5fso21055035e9.1
-        for <linux-sound@vger.kernel.org>; Sun, 25 Oct 2026 08:24:32 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=WJgPkCja
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6a642495d81so3347902a12.2
+        for <linux-sound@vger.kernel.org>; Sun, 25 Oct 2026 12:03:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792941871; x=1793546671; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=IPyxHxI8QCk7tgMR65iE29Aq0L2SmeJ7DzhvVjt4aIA=;
-        b=gMlUYdFdvAQETuA6YIj5DvJs0A0nnjA5nYRIngOybGCA28mWCGlOgRHYWq/eHR6/jL
-         /BX0jAZW8kKRXsVlSCPoKzQI5HJt/+J5Y4/PB4qPVxPUbKjwXe6y5ULZish6et3YJreS
-         nWMllquRXTaLm5UYgmioTZRM3JANKyWQ2DIkNCndkZDU3p0kGz0ZqVM2fslDVE5ORPUX
-         H8DHzt4j4t9QNMRQTqJlPNwRLMSwGvEJZbDQDhcHbrWQ+h8CJzIlbfUTvsw7paI8ucvn
-         SiV5e5bo/kImdaoFmZg2omjIeG7q9pudAUZvKxU0TvOx1Oamj0LgGwsM5ahUjas9x0RP
-         Z+CA==
+        d=gmail.com; s=20251104; t=1792955026; x=1793559826; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=R9qaCbPxl/UFmTQFVY4bs9QcJuc49zcAUsVA+5r/co0=;
+        b=WJgPkCjaveAzr0VVPWHkhIvN7ysCwpJVuRE6e0O1PUkWj2RZQRy9RbHz4DSd6ofLfd
+         dR8XaKKd04Z7EwzgWXEboXeb3KWNIT9nu70gwD/k5OOqHIrSPbjeu3IxtvTlNakw9P1a
+         gaXTmTn9osslPJ5wEp8/b152E8Efd+zeKEquTmYS9Bt//LOcxMK/AJm1VPg6jzET4TiM
+         4baEZ2MW2hoTTtl5wNf5BDFNzhGLKKr0MegT8bUPLuD1BxouI8nSA8k1fThqSb5txHbZ
+         LrGoHKKhrgcABWd3tNgE2I/hyTcOGHBynq+9Q7QQnKK3LKjaZHI9CLITI3rxzLCBmDRR
+         slLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792941871; x=1793546671;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=IPyxHxI8QCk7tgMR65iE29Aq0L2SmeJ7DzhvVjt4aIA=;
-        b=nl2kxNVxj3SNxUwbBg6YDTBKh5U5mYm6cr9obHmxr6YQjOQpGOQ2ee250narCmAId4
-         b2m1on+oi1SeKdzpNF1nedwUaAUTXwY6d/GI+BRoaz4wtuGEBykz2n76wJiS1CrfLVsZ
-         1fRSbl3VfN9SyJIgjXjzzNkebi2L1b3ygxQBaHH7ziXyVXrtFFTFtOR7HyCGcBWjZURL
-         AwPcgpmkHC+452hUazoixCqraOlRmQEump/R3HFb1sif1RAnRJpaQ2W7Y78gyJthiTps
-         6tBUjsIUHpXXNLnQDX0cushktOKUE6GH0FFQTFkk0vLZe2kq0Mv2bW0lYO3k4N/GKlbp
-         tQfA==
-X-Forwarded-Encrypted: i=1; AKwUvBwv1T+fbj/sLk5iqLNa516LYscZzQB4QnK/fAuvXb7T8VdPAwGjstVezs4Hrj+OOguZklsd7hZ6Cj7+rg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ+Gm4qJvtgbpXu5jICHc71k57fPxfBa1x8rpk80FNg7x4eQdVQ
-	nDKHcVLOW67VcpKQUDOlKeQn/vJx5yGIgiMwr6XxhDQCx+BaASU/1KMN
-X-Gm-Gg: AYBFou0TjEM/htbVT0VnCHNBO+wWpsFumoYCR+XxQ4aEFy5HBHx2TyyFwAmDjPS6bq3
-	ld+rdVCdGY7nCnasp7KOG2/cjhrz/D1KUo4kK1K2nwq/1PqvsLFX8yar4+oZYD5JB/XK6Xgz4aI
-	Ujx5+K9AzXwQpB8gvzPN99kptj5ob3RauJ0OZURl/khmzQZrbpufxVfploP7n7DcqcNmUifCW4c
-	2sQcxe20If/uk9qztlxJLh32E35jR1q/N6hwJJwWwRmpS+OvJZ2HlMHALd2RTN9d/ZeyGOQokET
-	Z9XqU6L0vO5drv1vAQnzoh8gXrg01z5aMLki8+rUGqQi3vLZkD3d5fUYPoa4mRcEnPWt6bDPUDX
-	jkiF8Yhg2aJcPvH+HJ071YEfWnUWvAO9arkUEzgu7KdP7YcF0H8Ff002h+aTwrz+sHuZIjKkeFc
-	88NwDabpvldA9+4MrAM+wDqDDO1gYNmV8x+pSHDPJKu6wHpEcTjmVHpv6VEeQpD5dy9MfsWWEK+
-	ohgAhRGE4WLS/FtlMwYmMrlkGzTe2Ln4VRRpwy+ev2GJHSFHDiT1OzV6Sc2lB0+soqf9fZL4zpb
-	CpewtFbW9p+by+yy9UfWflaSXLaoqruS6egAM7LTN55I
-X-Received: by 2002:a05:600c:5248:b0:4a1:83f0:7c8a with SMTP id 5b1f17b1804b1-4a35ac3cb66mr82142695e9.1.1792941871149;
-        Sun, 25 Oct 2026 08:24:31 -0700 (PDT)
-Received: from [127.0.1.1] ([2001:861:39c2:e340:4c3:3a00:d533:9d50])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a04ae28sm132982575e9.2.2026.10.25.08.24.30
+        d=1e100.net; s=20260707; t=1792955026; x=1793559826;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=R9qaCbPxl/UFmTQFVY4bs9QcJuc49zcAUsVA+5r/co0=;
+        b=tYm1n5b6PauwuoAQaG8CiB/DU8xv+KFNgB+cdnK2s9Kv7vPlpSXyUjHq06e4Z3knnh
+         m+aEHtHOeW4Li/GpqZERNSuvviPARqN9NjApU5XlLOqHL1RdSlMOU6aVsoptjzwuP93n
+         0EtzyV6+uz6TML6+jdjyAdgW0ehtvaWD1wUOTtJEMNq8FWkxZztSSFSzOEvp97p+xlcj
+         Yxr1gNKFKQbiBmOhAUf2HxSRfS6uPnsEOMi01PEF1VRdsaUfiqDMCkCGQxyfPckjsBNF
+         9rqtS2vQCtegW16xA2QDL60CN1f09UiONsIEY7a/8Padpd9S1SCJVduDKlNboi9Hdw4M
+         h5aw==
+X-Forwarded-Encrypted: i=1; AKwUvBwgHpw3hLp6zoY/uVKi37gcX6hYsTbQ+HP+tD62mFz1fBKoWom9IZoivJK1C721/rl0k68M+TRv2PrZ1Q==@vger.kernel.org
+X-Gm-Message-State: AFq9FYI68BFVtvcCvYB5dN6eba7ABj8l5mXmOlnEdCAUHBW+J4tHIsqS
+	lgwNFq9nIXgYRTAx/S2gQwKS3ZKG4BdOUTbsPMGNoAAWch4Ie+9hFFtF
+X-Gm-Gg: AYBFou3UNRoXilCDatL4gT/5r9Sa2NyhMUEM7a6p0lWGND10RuQmujH740RRFrEMpSI
+	SSQ8Ws+rNFakMIo4f++dC7g5StXOxdpbT2v8xrQetV8xdWWqkGH0L3frurQtwLPFZmhpJhEjdBg
+	UievaKZd4l4FEO/DqXnRo/HYw1Fy4mFQ+woiMfFBE7rLDbyKbHbc9KZGF6UlQHLlDThN5fMQBnO
+	94EdkOTvea8z/YPT2CzM4W0MGiImpAC2JiBLOowpAjZhB4cr++1HQ3oAoauq8bERe0HLYy9kgJk
+	1/24SMLKVl2AJKhoUuXZQV9Bl7Uvjvn7Uaav6zt/bmaLvPMH2JEBBD7S9NjhbWH5OaS4F0dNNO8
+	8J5Ej7QlWEGKsru4PzTj94pnGGXE7/emufUY0QqrA/Kis9ZIXW3VGGm4+gpEZRvVWqwrIddQ83z
+	w6mUIMW7LgJlXdyCCuQBcYcARKPx1/0Fa9w9AAvDTshJ7yCSGlJsUFaKydfmdKt3+eMkH898cHC
+	nQenSPMz04z3sFp0s09fVppFUz6qogwX89xS7L4+0SqjDT2dxgJwZgu2bNuHed7KQ62mdhkXfmD
+	sZs5gqvkXBGhIOX+PErj4NCojrfZjc6QfXeXa6jCSWCHneFprjRLWMLgG+c5Iw0XuvqmsOugX9V
+	agC4XGi8e/1P2PA1/M2Ul/AHX9j8UUHP+0b063w3p1tje
+X-Received: by 2002:a05:6402:5024:b0:6b3:e575:f4da with SMTP id 4fb4d7f45d1cf-6b442a81523mr6769954a12.4.1792955025764;
+        Sun, 25 Oct 2026 12:03:45 -0700 (PDT)
+Received: from localhost ([2605:59c1:3500:c210:a19e:c679:44e8:e9a])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b45e167f4esm1231230a12.2.2026.10.25.12.03.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2026 08:24:30 -0700 (PDT)
-From: Romain TISSERAND <romain.tisserand@gmail.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Oder Chiou <oder_chiou@realtek.com>,
- Animesh Agarwal <animeshagarwal28@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ASoC: codecs: rt5631: Enable the optional MCLK
-Date: Sun, 25 Oct 2026 16:24:30 +0100
-Message-ID: <179294187050.4141843.1375662350308483762@gmail.com>
-In-Reply-To: <sashiko-outbox-184258@kernel.org>
-References: <20261025145354.3476371-1-romain.tisserand@gmail.com>
- <20261025145354.3476371-3-romain.tisserand@gmail.com>
- <sashiko-outbox-184258@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+        Sun, 25 Oct 2026 12:03:45 -0700 (PDT)
+From: Selby Mashiki <mashikiselby@gmail.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Selby Mashiki <mashikiselby@gmail.com>
+Subject: [PATCH] ASoC: qcom: qdsp6: fix device_node leak when parsing "iommus" phandle
+Date: Sun, 25 Oct 2026 21:03:40 +0200
+Message-ID: <20261025190340.449613-1-mashikiselby@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -106,18 +101,80 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sun, 25 Oct 2026 15:12:00 +0000, sashiko-bot@kernel.org wrote:
-> Should devm_clk_get_optional() be called in rt5631_i2c_probe() in
-> sound/soc/codecs/rt5631.c instead of the ASoC component probe callback
-> rt5631_probe() (similar to how rt5616_i2c_probe() in
-> sound/soc/codecs/rt5616.c acquires its mclk)?
+q6asm_dai_probe(), q6apm_dai_probe(), and q6usb_component_probe() call
+of_parse_phandle_with_fixed_args() to parse the "iommus" property and
+extract the stream ID from args.args[0], but never release the reference
+acquired on args.np.
 
-Right: in the component probe a deferral is lost and a rebind leaks the
-clock reference. rt5616 moved it to the I2C probe in commit b5c9df40ca56
-("ASoC: codecs: rt5616: Move mclk acquisition to the i2c probe"); v2 will
-do the same in rt5631_i2c_probe(). Please don't apply v1.
+Call of_node_put(args.np) after reading args.args[0] in all three probe
+functions.
 
-I'll send v2 in about a week.
+Fixes: 2a9e92d371db ("ASoC: qdsp6: q6asm: Add q6asm dai driver")
+Fixes: 9b4fe0f1cd79 ("ASoC: qdsp6: audioreach: add q6apm-dai support")
+Fixes: 72b0b8b29980 ("ASoC: qcom: qdsp6: Add USB backend ASoC driver for Q6")
+Signed-off-by: Selby Mashiki <mashikiselby@gmail.com>
+---
+ sound/soc/qcom/qdsp6/q6apm-dai.c | 6 ++++--
+ sound/soc/qcom/qdsp6/q6asm-dai.c | 6 ++++--
+ sound/soc/qcom/qdsp6/q6usb.c     | 4 +++-
+ 3 files changed, 11 insertions(+), 5 deletions(-)
 
-Romain
+diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
+index bf1f872a0..49bd0582d 100644
+--- a/sound/soc/qcom/qdsp6/q6apm-dai.c
++++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
+@@ -1030,10 +1030,12 @@ static int q6apm_dai_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	rc = of_parse_phandle_with_fixed_args(node, "iommus", 1, 0, &args);
+-	if (rc < 0)
++	if (rc < 0) {
+ 		pdata->sid = -1;
+-	else
++	} else {
+ 		pdata->sid = args.args[0] & SID_MASK_DEFAULT;
++		of_node_put(args.np);
++	}
+ 
+ 	dev_set_drvdata(dev, pdata);
+ 
+diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6asm-dai.c
+index 4f09fdd40..f09856ee4 100644
+--- a/sound/soc/qcom/qdsp6/q6asm-dai.c
++++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
+@@ -1309,10 +1309,12 @@ static int q6asm_dai_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	rc = of_parse_phandle_with_fixed_args(node, "iommus", 1, 0, &args);
+-	if (rc < 0)
++	if (rc < 0) {
+ 		pdata->sid = -1;
+-	else
++	} else {
+ 		pdata->sid = args.args[0] & SID_MASK_DEFAULT;
++		of_node_put(args.np);
++	}
+ 
+ 	dev_set_drvdata(dev, pdata);
+ 
+diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
+index 6381b289c..5888bc41a 100644
+--- a/sound/soc/qcom/qdsp6/q6usb.c
++++ b/sound/soc/qcom/qdsp6/q6usb.c
+@@ -382,8 +382,10 @@ static int q6usb_dai_dev_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	ret = of_parse_phandle_with_fixed_args(node, "iommus", 1, 0, &args);
+-	if (!ret)
++	if (!ret) {
+ 		data->priv.sid = args.args[0] & Q6_USB_SID_MASK;
++		of_node_put(args.np);
++	}
+ 
+ 	ret = devm_mutex_init(dev, &data->mutex);
+ 	if (ret < 0)
+-- 
+2.56.0
+
