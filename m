@@ -1,109 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=101.71.155.69
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792914968;
-	b=t/wqllYQ6Kaa7p5cnjymL/mMKTFOzJb66fui5KMgoxJFGXvYoPryKPaLU6ATeKRxheBU
-	 1ozVHUWec0r41FRI5t4UGvX0rupNCfSk1NVlrQmm7XQzmMG9vAsp6pMqxGnWF9Shcv+n6
-	 Gksd0pB98HNn+iL2niQwqGjsrrREbjd/diynGCtVpGg2yjYnXmxCNCvoezURJEBbX+Qj+
-	 gob7IIfnMe5s9jfd5yxv+LYxg+5CHX3XFP1PxBPyvMN+Noh5rAJETJOUjoBGfLpCLpW0N
-	 yDjoXxKLvTwMzQW2nAt1dUy8YYTUevUCASnqLhi07fymO5+e7YdbRV2eXQVuerisvPA==
+	t=1792915255;
+	b=UTsdfJEWFYl+/L6828R9bl6R7JaL1qWzAj+iKLXNX4Ldk0AIMKnIdpNGx7pcJqyEBhtV
+	 lD6hxAcGL2+rbyW7yZVfACWisigq8PkcEhe4BXcgTT3l9uMYDxiY6iwXjKXYjei+GoLyF
+	 0oeRCCvUknlp8vYLul4f+sxeC0gMAYCMr3kZWA0aQpFbKh0sHjLclvY285y/M1O9Yy+0O
+	 /2n/ogJ66FIZ6XxUTmcRyFM0TOOr9UOjz7QX7HvdEB1/DHRFXFpSKkswqCnvKzitQU//H
+	 tF/i1CiEOhl6LAP/o1okO3BW5sLpcrDWljaf7IliW1h9kc8j2PXx8cM8dWOILXlbl8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792914968;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=8vuioqtyAPdFatOqsn8H/YkmLHVaseFEIZlaklLFbf4=;
-	b=VRbbHMJ7uZIq0waNq8MZpSc+egzDsegGh15Nv30QagOOBBryKq1cOE5G60xJW/cUBH8p
-	 wZrFhk5ZvDHEsPXuIMWIqHkLrF0x//cVs8VDM3bi5rncOQTu+ZcAhSsbiw2Zy5kpj9po5
-	 a8/YqDPimyCq9E7JGl13v8WZZ4aLdoG01kpc9i3JH94otREo2IrqiCFPPu59WWEHRcONN
-	 uvMSS8RxpzOnIS1aheVxQrF0DQ27X8zjqeFaKo31XUQVGMO7Tvtv9wuYv9dRUP1oPjVZ6
-	 RaWy2x2CpCz8UXw3FNwkNgtibvEstkbDP3eVTDejuVKiuS91r8OmYOdNRw8PpDyVlUA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792915255;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:X-HM-Tid:X-HM-MType:
+	 X-HM-Spam-Status:DKIM-Signature;
+	bh=nv0OsdQSO0zLK4KSlatP4KUUhZb0kdp8XZ/BdGcs4Dg=;
+	b=dyIZTG4bXzOwNk0ZFmaEKdq5fZ7UF8ZplLN5aZBfuIXRAdsNHbJgkh8iFeZ85aSNfXyu
+	 YEcgFKabxOo+ihJ/GnkswFdjWpum3fjK7UCY6PpzHtppP5ndT2OJfn0hgBtp5m2dMWLEI
+	 6KdlnVbAaIKVUZgEogK2ko6eod35wYcN8gs1WQqNFRctXlCp9AnaSa9WK/TJdBRqSF295
+	 1qcyQXhqEvLeGRRn4cv8twvrKw4xggGrXXRMyJagJHxhawGBtS78Sv6m2e1Wqh/Qt4Ysx
+	 qdEZyo3MJFjyLz9DpE3swt1WqjFtt5xZBDohg8OHpkpncEPXiNhu+koy5Ashn5L1k5g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=L2PlHMml;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=VbQdv9PP;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=L2PlHMml;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=VbQdv9PP;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dmarc=pass header.from=xiedada.net;
+	spf=pass smtp.mailfrom=xiedada.net;
+	dkim=pass header.d=xiedada.net header.i=@xiedada.net header.a=rsa-sha256 header.s=default header.b=edGS3bSi;
+	arc=none smtp.remote-ip=101.71.155.69
+Received: from mail-m15569.qiye.163.com (mail-m15569.qiye.163.com [101.71.155.69])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FBA606A321;
-	Sun, 25 Oct 2026 07:56:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68FBA606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B662606A31A;
+	Sun, 25 Oct 2026 08:00:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8B662606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=xiedada.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiedada.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=L2PlHMml;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=VbQdv9PP;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=L2PlHMml;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=VbQdv9PP
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7DF5A2240C;
-	Sun, 25 Oct 2026 07:56:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792914965; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8vuioqtyAPdFatOqsn8H/YkmLHVaseFEIZlaklLFbf4=;
-	b=L2PlHMmlAbl+dAZ6/Ka8mcXxXFO0ITM2UZH+b20yVAwwd82rTUVk502XA3AM1BwUIeBxQY
-	SYRx1tYbNgh62g2rONcffo5t+QhbqC7zFrMmmMMoYssBZMBetqymCn5h9OxzMALcsz8Dos
-	wepcQ9RSIMC9ps3UHc+BZ7qvtZ9xmFs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792914965;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8vuioqtyAPdFatOqsn8H/YkmLHVaseFEIZlaklLFbf4=;
-	b=VbQdv9PP2KfUMavCP+5tYSfDuhg75MohPAAPsn7RF7/XBGkn/KR0ak4FIcADC1q70l6VCk
-	IgCLh1W5pVv9GkDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792914965; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8vuioqtyAPdFatOqsn8H/YkmLHVaseFEIZlaklLFbf4=;
-	b=L2PlHMmlAbl+dAZ6/Ka8mcXxXFO0ITM2UZH+b20yVAwwd82rTUVk502XA3AM1BwUIeBxQY
-	SYRx1tYbNgh62g2rONcffo5t+QhbqC7zFrMmmMMoYssBZMBetqymCn5h9OxzMALcsz8Dos
-	wepcQ9RSIMC9ps3UHc+BZ7qvtZ9xmFs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792914965;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8vuioqtyAPdFatOqsn8H/YkmLHVaseFEIZlaklLFbf4=;
-	b=VbQdv9PP2KfUMavCP+5tYSfDuhg75MohPAAPsn7RF7/XBGkn/KR0ak4FIcADC1q70l6VCk
-	IgCLh1W5pVv9GkDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 01B1E133A7;
-	Sun, 25 Oct 2026 07:56:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1Fb/MRS23Wp+bwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 25 Oct 2026 07:56:04 +0000
-Date: Sun, 25 Oct 2026 08:56:04 +0100
-Message-ID: <87o6ci6wob.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cen Zhang <zzzccc427@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
+	dkim=pass (1024-bit key, unprotected) header.d=xiedada.net header.i=@xiedada.net header.a=rsa-sha256 header.s=default header.b=edGS3bSi
+Received: from matebook (unknown [219.131.208.111])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 523ec1f52;
+	Sun, 25 Oct 2026 16:00:44 +0800 (GMT+08:00)
+From: Xie Youtian <xiedada@xiedada.net>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
 	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	jjzuming@gmail.com
-Subject: Re: [PATCH] ALSA: ump: Drain sequencer callbacks before freeing their client
-In-Reply-To: <pm-pmb-00625126b81966d1bf1d-v2-915f6bbabe1fd458c3ab@gmail.com>
-References: <pm-pmb-00625126b81966d1bf1d-v2-915f6bbabe1fd458c3ab@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	xiedada@xiedada.net
+Subject: [PATCH v4] ALSA: hda/conexant: Fix swapped speaker/headphone outputs on Huawei MateBook 16s
+Date: Sun, 25 Oct 2026 16:00:44 +0800
+Message-ID: <20261025080044.85736-1-xiedada@xiedada.net>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -112,72 +54,383 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.30
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa1721383bb0a37kunm99f0b0a590763
+X-HM-MType: 4
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOSEhLS043V1kYFggdWUFKV1ktWUFJV1kPCRoVCBIfWUFZGR0aTlZOTE1JSxkYSh
+	oaHklWHQkeHlUCFhMWGhIXJBQOD1lXWRgSC1lBWUlKQlVKSEpVSUtDVUpKSllXWRYaDxIVHRRZQV
+	lLVUtVS1VLWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=edGS3bSiUtcTmY7bE9+D2D9kapP7EjMSiXmFs1hDDKAkro/AccQ4DXeOlCCF1p4fGMrrZVZpCHztiUQH1sOvvFj8ZK6tnTLvMLBT6Zz1Hfwm38993riWc+fuz+9elVqAtdri36E5xT1L5+MMvzMTmZmXTzDQsqTKmlvY8+pq7eg=; c=relaxed/relaxed; s=default; d=xiedada.net; v=1;
+	bh=nv0OsdQSO0zLK4KSlatP4KUUhZb0kdp8XZ/BdGcs4Dg=;
+	h=date:mime-version:subject:message-id:from;
 
-On Sat, 24 Oct 2026 10:02:47 +0200,
-Cen Zhang wrote:
-> 
-> seq_ump_client_free() cancels group_notify_work while the endpoint still
-> publishes seq_ops and seq_client. A received Function Block update can
-> enter the sequencer callback after cancellation and queue the work again.
-> Even disabling the work cannot protect a callback that already loaded
-> seq_client and then resumes after the client has been freed.
-> 
-> A USB UMP endpoint can continue receiving while its sequencer binding
-> is removed. The following order uses the same endpoint and client:
-> 
->   Sequencer binding removal             UMP input completion
->   -------------------------             --------------------
->   cancel_work_sync()
->                                         load seq_ops and seq_client
->   delete sequencer client
->   clear endpoint binding
->   kfree(client)
->                                         schedule group_notify_work
->                                         read client->seq_client
-> 
-> Cover all calls through seq_ops with SRCU in the UMP core. Withdraw the
-> operations pointer and wait for those callbacks before canceling work
-> and deleting the client. No producer can then queue work after the final
-> cancellation, and both the client and callback code remain available
-> until the last in-flight callback returns.
-> 
-> Publish seq_ops with release/acquire ordering so the separately stored
-> seq_client is initialized before any callback uses it. Use SRCU because
-> sequencer notification delivery can sleep; no callback needs to change
-> its existing execution context or allocation behavior.
-> 
-> Fixes: 4a16a3af0571 ("ALSA: seq: ump: Handle FB info update")
-> Assisted-by: LLM
-> Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+On the Huawei MateBook 16s (2023) with a Conexant SN6140 codec (codec
+SSID 0x19e5:0x3291), the speaker amplifier and the headphone jack are
+both fed from the analog output line of pin 0x16: the jack through a
+tap that needs GPIO1 enabled and driven low, and the speaker amp
+switched by the EAPD of pin 0x17 - none of which matches the BIOS pin
+config.  The generic parser therefore routes audio to the wrong
+physical output and never powers the jack:
 
-Applied now.  Thanks.
+ * headphones plugged: the headphone path (DAC 0x10 -> pin 0x16)
+   drives the speakers while the jack stays silent
+ * headphones unplugged: the speaker path (DAC 0x11 -> pin 0x17) feeds
+   no transducer at all and the machine stays silent
 
+Route the shared line to the DAC of whichever output path is currently
+active, so a manual route selection keeps working on the shared line,
+open or close the jack tap accordingly, and gate the speaker amp
+through EAPD.  The verbs are applied from a private jack callback (the
+generic unsol->automute path never fires on this machine while a stream
+keeps the codec awake), and a delayed recheck re-applies everything
+from a settled sample - only while the codec is already powered - and
+resyncs the jack state cached for userspace, since any reader of the
+pin sense can see stale data for a short while after a codec power
+transition.  The 600 ms recheck delay matches the factory Windows
+driver's plug-detection restart window.
 
-Takashi
+The factory Windows driver groups codec SSIDs 0x19e5:0x3291 through
+0x3294 into a single audio configuration, so the siblings very likely
+share this wiring; only 0x3291 could be tested.
+
+Tested on the machine: headphone/speaker switching in both directions,
+during playback, over the bare PCM path and through PipeWire, and
+across suspend/resume.
+
+Problem detection and the verb-level hardware experiments were
+performed with the help of an AI coding assistant, with all audible
+verification done by ear on the actual hardware by the submitter; the
+fix was drafted by the assistant and then reviewed, understood,
+adjusted and tested by the submitter.
+
+Link: https://github.com/geniusinsanity/huawei-matebook16s-speaker-fix
+Signed-off-by: Xie Youtian <xiedada@xiedada.net>
+
+---
+Changes in v4 (addressing review comments):
+
+ - The recheck now runs in up to three waves (600 ms apart) instead of
+   a single shot, and when the codec is not active it consumes a wave
+   and retries instead of dropping the fixup: the audio server
+   reconfigures its route in several steps spread over more than one
+   delay, and a runtime suspend in between must not lose the tail.
+ - Wrap the Headphone/Speaker playback switch controls so manual route
+   changes through alsamixer (no session manager) also trigger the
+   recheck.
+---
+ sound/hda/codecs/conexant.c | 261 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 261 insertions(+)
+
+diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+index 9bfdbf5c9032..d171bce34d84 100644
+--- a/sound/hda/codecs/conexant.c
++++ b/sound/hda/codecs/conexant.c
+@@ -43,6 +43,12 @@ struct conexant_spec {
+ 	unsigned int gpio_mute_led_mask;
+ 	unsigned int gpio_mic_led_mask;
+ 	bool is_cx11880_sn6140;
++
++	/* quirk for Huawei MateBooks with Raptor Lake */
++	struct hda_codec *rpl_recheck_codec;
++	struct delayed_work rpl_recheck_work;
++	snd_kcontrol_put_t *rpl_orig_switch_put;
++	int rpl_recheck_arms;
+ };
+ 
+ 
+@@ -203,6 +209,15 @@ static void cx_auto_shutdown(struct hda_codec *codec)
+ 
+ static void cx_remove(struct hda_codec *codec)
+ {
++	struct conexant_spec *spec = codec->spec;
++
++	/* stop the quirk recheck before the spec is freed below; only the
++	 * quirk ever initializes the work item
++	 */
++	if (spec->rpl_recheck_codec) {
++		spec->rpl_recheck_codec = NULL;
++		cancel_delayed_work_sync(&spec->rpl_recheck_work);
++	}
+ 	cx_auto_shutdown(codec);
+ 	snd_hda_gen_remove(codec);
+ }
+@@ -312,6 +327,7 @@ enum {
+ 	CXT_FIXUP_HP_A_U,
+ 	CXT_FIXUP_ACER_SWIFT_HP,
+ 	CXT_FIXUP_HUAWEI_MATEBOOK_HP,
++	CXT_FIXUP_HUAWEI_MATEBOOK_RPL,
+ };
+ 
+ /* for hda_fixup_thinkpad_acpi() */
+@@ -863,6 +879,243 @@ static const struct hda_pintbl cxt_pincfg_sws_js201d[] = {
+ 	{}
+ };
+ 
++/*
++ * Huawei MateBooks with Raptor Lake and SN6140 (e.g. the MateBook 16s
++ * 2023): the speaker amp and the headphone jack are both fed from the
++ * pin 0x16 line.  The speaker amp is gated by the EAPD of pin 0x17, the
++ * jack tap by GPIO1 - none of which matches the BIOS pin config.  Point
++ * pin 0x16 at the DAC of whichever output path is currently active,
++ * gate the speaker amp via EAPD, and open or close the jack tap
++ * accordingly, so the shared line drives exactly one transducer.
++ */
++static bool cxt_matebook_raptor_lake_dac_active(struct hda_codec *codec,
++						hda_nid_t dac);
++static bool cxt_matebook_raptor_lake_sense(struct hda_codec *codec);
++
++static bool cxt_matebook_raptor_lake_dac_active(struct hda_codec *codec,
++						hda_nid_t dac)
++{
++	return !(snd_hda_codec_amp_read(codec, dac, 0, HDA_OUTPUT, 0) &
++		 AC_AMP_MUTE);
++}
++
++static void cxt_matebook_raptor_lake_coerce(struct hda_codec *codec)
++{
++	bool hp_dac = cxt_matebook_raptor_lake_dac_active(codec, 0x10);
++	bool spk_dac = cxt_matebook_raptor_lake_dac_active(codec, 0x11);
++	bool hp;
++
++	/* which path carries signal decides; if both or neither DAC is
++	 * active (paused, master-muted, mid-transition) fall back to the
++	 * jack state
++	 */
++	if (hp_dac == spk_dac)
++		hp = cxt_matebook_raptor_lake_sense(codec);
++	else
++		hp = hp_dac;
++
++	snd_hda_codec_write_cache(codec, 0x16, 0,
++				  AC_VERB_SET_CONNECT_SEL, hp ? 0x0 : 0x1);
++	/* the tap path needs pin 0x17 selected and driving, whatever the
++	 * parser does to what it thinks is a speaker pin
++	 */
++	snd_hda_codec_write_cache(codec, 0x17, 0,
++				  AC_VERB_SET_CONNECT_SEL, 0x0);
++	snd_hda_codec_write_cache(codec, 0x17, 0,
++				  AC_VERB_SET_PIN_WIDGET_CONTROL, 0x40);
++	snd_hda_codec_write_cache(codec, 0x17, 0,
++				  AC_VERB_SET_EAPD_BTLENABLE, hp ? 0x0 : 0x2);
++	/* the tap follows the opposite way: closed while the speaker path
++	 * is active so the shared line drives exactly one transducer
++	 */
++	snd_hda_codec_write_cache(codec, 0x01, 0,
++				  AC_VERB_SET_GPIO_MASK, 0x02);
++	snd_hda_codec_write_cache(codec, 0x01, 0,
++				  AC_VERB_SET_GPIO_DIRECTION, 0x02);
++	snd_hda_codec_write_cache(codec, 0x01, 0,
++				  AC_VERB_SET_GPIO_DATA, hp ? 0x00 : 0x02);
++}
++
++/* read the pin sense directly: snd_hda_jack_detect() returns the
++ * cached state, which is exactly what a bounce-healing re-read must
++ * not trust
++ */
++static bool cxt_matebook_raptor_lake_sense(struct hda_codec *codec)
++{
++	return !!(snd_hda_codec_read(codec, 0x16, 0,
++				     AC_VERB_GET_PIN_SENSE, 0) &
++		  AC_PINSENSE_PRESENCE);
++}
++
++static void cxt_matebook_raptor_lake_apply(struct hda_codec *codec, bool hp)
++{
++	struct conexant_spec *spec = codec->spec;
++
++	spec->gen.hp_jack_present = hp;
++	snd_hda_gen_update_outputs(codec);
++	cxt_matebook_raptor_lake_coerce(codec);
++}
++
++/* at init or from the delayed recheck: behave like a fresh jack event
++ * unless the mixer switches disagree with the jack state - a manual
++ * route selection - in which case only the routing verbs follow them
++ */
++static void cxt_matebook_raptor_lake_reconcile(struct hda_codec *codec)
++{
++	bool hp = cxt_matebook_raptor_lake_sense(codec);
++	bool hp_dac = cxt_matebook_raptor_lake_dac_active(codec, 0x10);
++	bool spk_dac = cxt_matebook_raptor_lake_dac_active(codec, 0x11);
++
++	/* when the settled sample disagrees with the cached one, the cache
++	 * and the userspace jack state must follow, or the audio server
++	 * keeps routing for the stale view
++	 */
++	if (snd_hda_jack_detect(codec, 0x16) != hp) {
++		snd_hda_jack_set_dirty_all(codec);
++		snd_hda_jack_report_sync(codec);
++	}
++	if (hp_dac == spk_dac || hp_dac == hp)
++		cxt_matebook_raptor_lake_apply(codec, hp);
++	else
++		cxt_matebook_raptor_lake_coerce(codec);
++}
++
++/*
++ * Right after the codec powers back up every reader of the pin sense -
++ * ours and the parser's alike - can see garbage.  Re-apply everything
++ * from a settled read a bit later, which heals any misguess made at
++ * init or during a jack event.
++ */
++static void cxt_matebook_raptor_lake_recheck(struct work_struct *work)
++{
++	struct conexant_spec *spec = container_of(work, struct conexant_spec,
++						  rpl_recheck_work.work);
++	struct hda_codec *codec = spec->rpl_recheck_codec;
++	bool active;
++
++	if (!codec)
++		return;
++	/* never force a resume and never wait for an ongoing suspend:
++	 * only run while the codec is already active; if it is not, try
++	 * again while there are arms left instead of dropping the fixup
++	 */
++	active = pm_runtime_get_if_active(&codec->core.dev) > 0;
++	if (active) {
++		codec_dbg(codec, "matebook-rpl: recheck\n");
++		cxt_matebook_raptor_lake_reconcile(codec);
++		pm_runtime_put_autosuspend(&codec->core.dev);
++	}
++	/* the audio server reconfigures its route in several steps spread
++	 * over more than a single delay; keep re-reading until the state
++	 * settles
++	 */
++	if (spec->rpl_recheck_arms-- > 0)
++		mod_delayed_work(system_percpu_wq, &spec->rpl_recheck_work,
++				  msecs_to_jiffies(600));
++}
++
++/* shared event body: apply at once from the raw sample - sleeping here
++ * is not allowed (callbacks race teardown) - and let the delayed
++ * recheck heal whatever a bouncing contact made it misread
++ */
++static void cxt_matebook_raptor_lake_event(struct hda_codec *codec)
++{
++	struct conexant_spec *spec = codec->spec;
++
++	if (!spec->rpl_recheck_codec)
++		return;
++	codec_dbg(codec, "matebook-rpl: event\n");
++	cxt_matebook_raptor_lake_apply(codec,
++				       cxt_matebook_raptor_lake_sense(codec));
++	spec->rpl_recheck_arms = 2;
++	mod_delayed_work(system_percpu_wq, &spec->rpl_recheck_work,
++			  msecs_to_jiffies(600));
++}
++
++/* the parser reprograms pin 0x17 and the DAC amps on output updates */
++static void cxt_matebook_raptor_lake_update_outputs(struct hda_codec *codec)
++{
++	cxt_matebook_raptor_lake_event(codec);
++}
++
++/* our own jack callback: the generic unsol -> automute chain stays
++ * silent on this machine while a stream keeps the codec awake
++ */
++static void cxt_matebook_raptor_lake_jack_event(struct hda_codec *codec,
++					       struct hda_jack_callback *jack)
++{
++	cxt_matebook_raptor_lake_event(codec);
++}
++
++/* a manual route selection in the audio server rewrites the DAC amp
++ * switches directly through the mixer; that emits no kernel event, so
++ * wrap the switch controls and re-run the reconcile from the delayed
++ * work once the new state has settled
++ */
++static int cxt_matebook_raptor_lake_switch_put(struct snd_kcontrol *kcontrol,
++					       struct snd_ctl_elem_value *ucontrol)
++{
++	struct hda_codec *codec = snd_kcontrol_chip(kcontrol);
++	struct conexant_spec *spec = codec->spec;
++	int ret = spec->rpl_orig_switch_put(kcontrol, ucontrol);
++
++	if (ret > 0 && spec->rpl_recheck_codec) {
++		spec->rpl_recheck_arms = 2;
++		mod_delayed_work(system_percpu_wq, &spec->rpl_recheck_work,
++				 msecs_to_jiffies(600));
++	}
++	return ret;
++}
++
++static void cxt_matebook_raptor_lake_wrap_switch(struct hda_codec *codec,
++						 const char *name)
++{
++	struct conexant_spec *spec = codec->spec;
++	struct snd_kcontrol *kctl;
++
++	kctl = snd_ctl_find_id_mixer(codec->card, name);
++	if (!kctl || kctl->put == cxt_matebook_raptor_lake_switch_put)
++		return;
++	spec->rpl_orig_switch_put = kctl->put;
++	kctl->put = cxt_matebook_raptor_lake_switch_put;
++}
++
++static void cxt_fixup_matebook_raptor_lake(struct hda_codec *codec,
++				  const struct hda_fixup *fix, int action)
++{
++	struct conexant_spec *spec = codec->spec;
++
++	switch (action) {
++	case HDA_FIXUP_ACT_PRE_PROBE:
++		spec->gen.automute_hook = cxt_matebook_raptor_lake_update_outputs;
++		INIT_DELAYED_WORK(&spec->rpl_recheck_work,
++				  cxt_matebook_raptor_lake_recheck);
++		spec->rpl_recheck_codec = codec;
++		break;
++	case HDA_FIXUP_ACT_PROBE:
++		cxt_matebook_raptor_lake_wrap_switch(codec,
++						     "Headphone Playback Switch");
++		cxt_matebook_raptor_lake_wrap_switch(codec,
++						     "Speaker Playback Switch");
++		break;
++	case HDA_FIXUP_ACT_INIT:
++		/* the parser's own view is the best guess at init; the
++		 * delayed recheck above heals whatever it gets wrong
++		 */
++		snd_hda_jack_detect_enable_callback(codec, 0x16,
++						    cxt_matebook_raptor_lake_jack_event);
++		cxt_matebook_raptor_lake_reconcile(codec);
++		spec->rpl_recheck_arms = 2;
++		mod_delayed_work(system_percpu_wq, &spec->rpl_recheck_work,
++				 msecs_to_jiffies(600));
++		break;
++	case HDA_FIXUP_ACT_FREE:
++		cancel_delayed_work_sync(&spec->rpl_recheck_work);
++		spec->rpl_recheck_codec = NULL;
++		break;
++	}
++}
++
+ static const struct hda_fixup cxt_fixups[] = {
+ 	[CXT_PINCFG_LENOVO_X200] = {
+ 		.type = HDA_FIXUP_PINS,
+@@ -1062,6 +1315,10 @@ static const struct hda_fixup cxt_fixups[] = {
+ 			{ }
+ 		},
+ 	},
++	[CXT_FIXUP_HUAWEI_MATEBOOK_RPL] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = cxt_fixup_matebook_raptor_lake,
++	},
+ };
+ 
+ static const struct hda_quirk cxt5045_fixups[] = {
+@@ -1164,6 +1421,10 @@ static const struct hda_quirk cxt5066_fixups[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x397b, "Lenovo S205", CXT_FIXUP_STEREO_DMIC),
+ 	SND_PCI_QUIRK_VENDOR(0x17aa, "Thinkpad/Ideapad", CXT_FIXUP_LENOVO_XPAD_ACPI),
+ 	SND_PCI_QUIRK(0x19e5, 0x3289, "Huawei Matebook", CXT_FIXUP_HUAWEI_MATEBOOK_HP),
++	SND_PCI_QUIRK(0x19e5, 0x3291, "Huawei MateBook 16s (RPL)", CXT_FIXUP_HUAWEI_MATEBOOK_RPL),
++	SND_PCI_QUIRK(0x19e5, 0x3292, "Huawei MateBook 16s (RPL)", CXT_FIXUP_HUAWEI_MATEBOOK_RPL),
++	SND_PCI_QUIRK(0x19e5, 0x3293, "Huawei MateBook 16s (RPL)", CXT_FIXUP_HUAWEI_MATEBOOK_RPL),
++	SND_PCI_QUIRK(0x19e5, 0x3294, "Huawei MateBook 16s (RPL)", CXT_FIXUP_HUAWEI_MATEBOOK_RPL),
+ 	SND_PCI_QUIRK(0x1c06, 0x2011, "Lemote A1004", CXT_PINCFG_LEMOTE_A1004),
+ 	SND_PCI_QUIRK(0x1c06, 0x2012, "Lemote A1205", CXT_PINCFG_LEMOTE_A1205),
+ 	SND_PCI_QUIRK(0x1d05, 0x3012, "MECHREVO Wujie 15X Pro", CXT_FIXUP_HEADSET_MIC),
+-- 
+2.56.0
+
