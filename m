@@ -1,106 +1,123 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793001552;
-	b=ahGB5DxLgk+r2uKL6YQCBRCuGJu2G3aQmzwVEMNY75f3lLUoSZ0G8g+SNHm7fgPKToDS
-	 sooJoy1hIJ6JtW0uOH+HRuMFmIogY0qqghoyXU+toL7kHVUAH37G8KQeva/zl2eJnMNCH
-	 pm8RhQ2FyRX4qOYYQigU3JuXHgoe4XWc05l+LFf+CzIFG3qLkeqYgDqiMTRhleG0xiD94
-	 GLgA+X8SJ+pR2JBvi7T7ncZgFF10YzHHMPcCCdFAnDbjqiKpIPKGysnQnXG6Obm/ahXbZ
-	 coJPcVP3ZZzo5DXLfiyMJftgn25DRsuJMMwE82qqLzEP5QBBJzBzovzMsUWp9e7KI9A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793001552;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=AXZdh7Ax0/H01mBJZCzn/iPzbLM18Y56a056zyYuzgQ=;
-	b=hLI50zEMP18IkerW7912hSyZSKCkKunvSbkO0WnJzzQL0Y9uBHFSU9FkIODTWQGuw0s8
-	 ixYBntBi+g4C5RaljsU3VaSls/cGNytRaw/lC9b9KX6IEi2bLWqsM/yTBhCxJ+SeA3y7i
-	 FSF6QkjZ/fv3WR6d8eUW3EEGDvlM7UedH5nBHtND6H/9ZnXav30Hvd4gUSW6txGcWLSCh
-	 sZiEcxo6TWWNQTwkvzZ5ZhiDBTecXUzLF67MI9slZM0tDfeErPeVObiVb7fLB5+btS4+G
-	 Iyih0aq8qCA0PYpJQU5RwQL1ZANyyDYFt5CCaf9fRWd+P90cwfps9whe/jygtTSyFyw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=bm5nS1JY;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lW8cmBEn;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=bm5nS1JY;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lW8cmBEn;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.180.131
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793001611;
+	b=nqIjk5sQQtjig2tQFSyl+nlInGVYj2XM6PPhvqTVc3OP3Q4M8zUr2Ge2nTOIgOZdIatm
+	 y1yD7jEE0+c47X2KGXhMbB17MFnmt9jP3RmmNjhYqvcZo6KRaDlylhPytEr5eCIGHTzxf
+	 l/3ncGlZVk1NEk8/Xs2Cc9aC78wu5TkH8yaVKMnQwTonErZteC3f1hNDi8jBWSj4jszlg
+	 UO55USlXjjGV3ZC6nLMd4xcA7f04aBpsjwY1gYm7dH4lE8ZfYiudIjPm2L754KPbDyFR+
+	 MAtIopJeDfDfa/j/dBxYLYMEAzasTfjMKM00iVyN/ZSi8l6xPNIrDi5/Avk4/r29tFA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793001611;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:MIME-Version:
+	 References:In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:
+	 Cc:Content-Type:Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=au0nJJfTAenaS/cmlQ5XpkmAU0bmNiL8uh1/Qn6Cv6A=;
+	b=Mx+7TeP7SuG2G26cdmqGKgqjnL6boZ+sHPy3H6c3y+n8U0p/yrkwKygRrBSgaz3eyNkQ
+	 18t7vfxZhrEgKCmmG5Hjy1lZqdZjeFZZ2GeoAV3HCyoMYrxABUwegUxfdSAQ3QEOIuSL2
+	 ay5hLmSGwRfq8MsEL4o773kqyftHUIhqm5qX732u018UbJH/GCRbfW9wvF3JucvaNMXpM
+	 JsnvjVJ+rmYHNgmX7YyHJNLHrlkCiju06RSI3wkj5P2PvCduzwWaFKlqEDnl6hKi/eGqu
+	 c9U1Mb4rMaQi810dCMeMuHHFhYwt/0OnIT7/R3W9Me6AayvV77IQTMtWsb5gPf3cJSA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=FZNNPCyc;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=VUgYoZLj;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F2B606A31A
-	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 07:59:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71F2B606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6469606A31E
+	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 08:00:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6469606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=bm5nS1JY;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lW8cmBEn;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=bm5nS1JY;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lW8cmBEn
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4C7E122317;
-	Mon, 26 Oct 2026 07:59:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793001549; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AXZdh7Ax0/H01mBJZCzn/iPzbLM18Y56a056zyYuzgQ=;
-	b=bm5nS1JYc3+II53X9UDRicJtctt1ngLj1F1JjDXWgzxwjQNC4MySxAShS6hF8Mewd1AY0t
-	DzCNAtKTGCQMUbe8AOItnbqp5g0XbKE0LvJ0U7XDyyLJMVE6nl+/0yrM9i81iQZ4VXAvXu
-	3oBo3b02++Qephe6NcYwMO9WtN8o8hg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793001549;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AXZdh7Ax0/H01mBJZCzn/iPzbLM18Y56a056zyYuzgQ=;
-	b=lW8cmBEnap8Xv0q6sy0ZnaTfcwDx289Ye96iF3Bh1zheuRWEdxA7jMYj3xviCDisr2CugW
-	y2CoMkhgnbDxreCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793001549; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AXZdh7Ax0/H01mBJZCzn/iPzbLM18Y56a056zyYuzgQ=;
-	b=bm5nS1JYc3+II53X9UDRicJtctt1ngLj1F1JjDXWgzxwjQNC4MySxAShS6hF8Mewd1AY0t
-	DzCNAtKTGCQMUbe8AOItnbqp5g0XbKE0LvJ0U7XDyyLJMVE6nl+/0yrM9i81iQZ4VXAvXu
-	3oBo3b02++Qephe6NcYwMO9WtN8o8hg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793001549;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AXZdh7Ax0/H01mBJZCzn/iPzbLM18Y56a056zyYuzgQ=;
-	b=lW8cmBEnap8Xv0q6sy0ZnaTfcwDx289Ye96iF3Bh1zheuRWEdxA7jMYj3xviCDisr2CugW
-	y2CoMkhgnbDxreCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0B10313319;
-	Mon, 26 Oct 2026 07:59:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id p0HvNEwI32rOGAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 26 Oct 2026 07:59:09 +0000
-Date: Mon, 26 Oct 2026 08:59:08 +0100
-Message-ID: <87y0bk6gfn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: root <davide.gironi@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Subject: Re: [PATCH] ASoC: ice1712: add TerraTec PHASE 88 support
-In-Reply-To: <20261024112700.3634-1-root@debian.lab.local>
-References: <20261024112700.3634-1-root@debian.lab.local>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=FZNNPCyc;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=VUgYoZLj
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69Q4b7X31907968
+	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 08:00:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	au0nJJfTAenaS/cmlQ5XpkmAU0bmNiL8uh1/Qn6Cv6A=; b=FZNNPCyc84uvbmU2
+	vLsuCZW7hbFubv78YAxU64lJocnrpHdoL9Uwlk3a5sKT+x2V0MpzVOlBQlz1wV8m
+	AmyXiOR2d21OeNNBzEHBFcNQuoBn3mYmDbEZ3AOSXcn5H3M8l7ToB1fax0nKrg/l
+	8PyyJUYNXqoOGUcqSNuEse0Af3VTl0moMF+I0LyCczV1KwhnsdrGXcuYEmAMCCNS
+	IKe7Iw+AzMDdHKE45s+g5FVoKDCUQtNOq7dQXxVdZQ1IxMg/x9852a+L2bmEQWNg
+	S/QCAURezUc8uz3Xc5s0x5qXQ+5CFkxwqEpipt3YJLUWpP6avPzy3cfDYlEuiL40
+	Ye0FVw==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hgm0gnerr-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 08:00:09 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3adeba76cadso1269302a91.1
+        for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 01:00:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793001609; cv=none;
+        d=google.com; s=arc-20260327;
+        b=BySD32w59PQC7YkqFL88SvMORdGSPTnt+XRz7XIYAt+yg47zpBTRDQC87Zl1Z2byYF
+         zofjYujBba7zHAM64SETXobtxJucdK8SEyDLLxcGNBBY4hTukA01rt7BaEhFAQfby//F
+         DDKn/ufe24FUbqQFRla4YaA5s22LBdZ9JWCaj6+LdEVPB83d0UPPtdkI39xLmGaOkbFS
+         3t3xsyFuA/z2uL6O25YGJG9EEydicw4mmWt7FLAHuhgFf7LgNPcQTAN0QmdyYmz7Kx79
+         KHiIz97Og4yU683MUi8U74VI4hT3rA94vgYHfUByLZJFk+mRexZUo0GJKkxJ5UXv3MNg
+         +aHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=au0nJJfTAenaS/cmlQ5XpkmAU0bmNiL8uh1/Qn6Cv6A=;
+        fh=8Fos5nmUKUsHghIwT1JvkkH7OI9r/Gh2G+DH/KiSj08=;
+        b=tB+avVmDj5UrCx3kZj1Ikm75xNiP8PQishg3uEEKTB1+QyT4NJNNmETxOl+xklpAxP
+         5PfkMIhUl0T3XSysx6gPLXAjeq20X8PSw3oyKBGalhlj53rJUVNl4q8Uj+46MQlE5fG5
+         9zTs/jVZIm0wHZNgEuxYk8SR94tI/OCE+y8LAemmIKAZVI43jPQ8h3C0MG00uoIw0xNF
+         BoaifQYGFah9+x4LMEwz0DlvDoR6kdQvvha1RsBALGPMf6J+QgqKJJiJVMkpyhJbDgXd
+         V0Aret9TKSjyMubNrPEc6XLwo0aLXhBhc1UWSA3hmdhv3dz/K0IPaDC+uzyl0WvuNJ4+
+         gEzA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793001609; x=1793606409; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=au0nJJfTAenaS/cmlQ5XpkmAU0bmNiL8uh1/Qn6Cv6A=;
+        b=VUgYoZLj2Ul3mH9AcX6oFoU764ymNdteIlZhSQ5OZP8YdLtxN5AzMI7hT3xvDZ7UVq
+         K4DGYKT+dMR15vrtDJ5Q+euaWHV9wChoPhWJqgV3WDkjEqSURiYyrWy/ogu5GGgj2mKq
+         h+V9oQm22fUZWc2jdugm2IurYsI7pa9WGZpxdsYIO6alpvK7s40ysH4rcvD9SJ1sPLZc
+         LltzTdb1uWUUZErSxdmXsP591D0IpHxvqTirlwMVWTMXtLl4TJplD/oYvyX1rt6S6jSS
+         JPush5E6rY2TPM2+iQ3sMxmmR83YWSgGlLq9XlSbhIrDnGOJzB52qSunL8f3u/vqOHdZ
+         9q5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793001609; x=1793606409;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=au0nJJfTAenaS/cmlQ5XpkmAU0bmNiL8uh1/Qn6Cv6A=;
+        b=tNzLPguPFOyZi5dAEUvARyQM21O1C2scu0J/KyNS8ZhS/4dzMMYt2xOkDP+x0oip1j
+         yxGgkm1p3Wm6pS384icF7BgggtaDqDXOzYdEn0LnMcRCjthyMwUlwZyW6zReRgbXUufx
+         8CNsgGSDgwDkPrrpGoFNdGPdgSlYtrGB1N2lFPVcdY8HYcKiS8MJgWwOOCxYMwPePhUm
+         wLldJL9ezsawy8I9KspklHoCF0fvJ5DsirrgsVG5pM6wSm5nz7rEgbLtlHhbPu0WH8MP
+         UpytmFQ2KSbI75SqA/Arvt1TZcLnhW24ROKVmEvFXT868qcSVsJz/gXmcZ1xfD2YGqu7
+         JQMg==
+X-Forwarded-Encrypted: i=1; AKwUvBzgej8run7Ffevb1GXrZSA5xnXgImql/xhWcckt+RET2ONMC9xtutulfjyLfZFoGB0JZD4FXb29S+wDqg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYII18qjVCgX2dUBx/pS2KdeGb3ExdTtPYvLQsNN2ZuTkRi69QvT
+	uKSZG0/ea/IquhRBLCZLoYQMEW+dUBMAxkP5e/oFMKWwmeJvPyZ4uJTIy4dt5p5/TAv4xyM8v3g
+	GHwArtnRM547MHjIbgtna+xaqQ9IZt3k0bFMAdXQ/lnVRbkhLSK6ERqXPyD5azVu3T4hs3L9tvV
+	O/a9o0Bz+1smWBiQ1W9OST6bh6UrW44w7Q6MAGHXMb
+X-Gm-Gg: AYBFou2Igqv5VwfpmKwhx2lEGp8M9AZz/Iws7ZyNsr4bMf4wGe9D5P6BXdzke49/ETx
+	UnXIKn8Us36CLVaIJv5zrqxJaWgHAmm6xOeIJvPX2wKCsNhaiUqlsFLd8EiXQdnVRpCu5oHoKMi
+	dnGrulc5GaxhYg/HYW95VTwbu+m239jTMcglK4RSsIm7hOSTXlSYlIfUzWGg==
+X-Received: by 2002:a17:90b:3dcb:b0:3a8:9db2:a4f with SMTP id 98e67ed59e1d1-3adeaff8065mr5626659a91.51.1793001608541;
+        Mon, 26 Oct 2026 01:00:08 -0700 (PDT)
+X-Received: by 2002:a17:90b:3dcb:b0:3a8:9db2:a4f with SMTP id
+ 98e67ed59e1d1-3adeaff8065mr5626619a91.51.1793001607894; Mon, 26 Oct 2026
+ 01:00:07 -0700 (PDT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -109,177 +126,137 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-10.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -10.80
+MIME-Version: 1.0
+References: <20261021102549.411456-1-zhangfei.gao@oss.qualcomm.com> <cfad7934-2311-4f90-84f6-1f4f0fe585ac@oss.qualcomm.com>
+In-Reply-To: <cfad7934-2311-4f90-84f6-1f4f0fe585ac@oss.qualcomm.com>
+From: Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
+Date: Mon, 26 Oct 2026 15:59:56 +0800
+X-Gm-Features: AclHuK93uyU_SxCgBpB4-_dBDgLh4eV2_m8sdQ9jjZ4Hh87n-yd-DVVLCW3wDMQ
+Message-ID: <CAFkd8hs4K+P=6oOjUc83hVKx-AWNn+kGbB3pWuXOTwgES+yRnQ@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: qcom: audioreach: support multichannel PCM formats
+To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Cc: Mark Brown <broonie@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        shengchao.guo@oss.qualcomm.com, mohammad.rafi.shaik@oss.qualcomm.com,
+        bartosz.golaszewski@oss.qualcomm.com, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-ORIG-GUID: 7LVhuaZQaezfrfGeWd88aCxT76HTXEvN
+X-Authority-Analysis: v=2.4 cv=UfTE26SN c=1 sm=1 tr=0 ts=6adf0889 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8 a=ftKU7t2rRAnlxZ0-E5sA:9
+ a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-GUID: 7LVhuaZQaezfrfGeWd88aCxT76HTXEvN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI2MDAzMSBTYWx0ZWRfXzZRXTxORmNqp
+ Rm+hDAbNs6o8D/OuVR3r1fF+IcjCm+s5dnsCvVqNJrUFdBPL+sQqoBavGh/gZxatoP3odlhTEVK
+ /CztZpMh0ihDXxGTZwTDSYsFZrhEd6zDvkVbaZq79xW0bsyEAl76IfpuMpdDQ5q1Eec50l9zCwL
+ xwTaYZQmdH5XmgajZ/2QCGNhMuf/U1XW5xs8UfYN4Aeg9mK09HuNxtqVqcNvG8dvLwq22hhqRfX
+ iSw778Dr5Vhi00KP0KNYoA9ZUJf0JvmrhjzIyKUhMZIkiy1oU1mqsbwU1iBPPMXA3zLMquYHmB0
+ Mgk0NvrvT4E3mPp3iSqi3v/28xlDWlFOARcfuGDqS6/s49ZQ4q/uksIUtUhRlWppeKkLDbX3958
+ CLyBrPawwBtUxUwaSxA7JR7XEsuyZScfaFb87BmQQeIqDUkV0gpso76BiOFUuItobXcXtC0kUEG
+ zmMkcglW8MggFP7pefw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI2MDAzMSBTYWx0ZWRfX/Rw8ZXDlVwpw
+ zfe2xQHvXVX6Ock9xZGF/2+ipfhOmz3174Xv9aY8OkC27ToZa5DgmnfAT9PaouvnE7SMaCa/tjC
+ FvWPqy/YhqFQq0yFAUG6s/YKhxs3cD0=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-26_01,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 spamscore=0 bulkscore=0
+ suspectscore=0 impostorscore=0 phishscore=0 adultscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610260031
 
-On Sat, 24 Oct 2026 13:27:00 +0200,
-root wrote:
-> 
-> From: Davide Gironi <davide.gironi@gmail.com>
-> 
-> Add board-specific handling for the TerraTec PHASE 88, which shares an
-> EWS88MT device ID but uses different external hardware.
-> 
-> Use the write-only expander at 0x42 for AK4524 chip selection, initialize
-> its second register, and add the measured Line/Mic 7/8 control. Correct the
-> EEPROM-reported AC'97 codec and MIDI UART configuration, and guard consumer
-> capture open when AC'97 initialization failed.
-> 
-> Tested on two PHASE 88 racks with kernel 6.18.55; built against Debian
-> 6.12.111. The patch applies to 6.18.58.
-> 
-> Assisted-by: Pi:gpt-6-luna
-> Signed-off-by: Davide Gironi <davide.gironi@gmail.com>
+On Mon, Oct 26, 2026 at 2:19=E2=80=AFPM Prasad Kumpatla
+<prasad.kumpatla@oss.qualcomm.com> wrote:
+>
+> >   void audioreach_set_default_channel_mapping(u8 *ch_map, int num_chann=
+els)
+> >   {
+> > -     if (num_channels =3D=3D 1) {
+> > -             ch_map[0] =3D  PCM_CHANNEL_FL;
+> > -     } else if (num_channels =3D=3D 2) {
+> > -             ch_map[0] =3D  PCM_CHANNEL_FL;
+> > -             ch_map[1] =3D  PCM_CHANNEL_FR;
+> > -     } else if (num_channels =3D=3D 4) {
+> > -             ch_map[0] =3D  PCM_CHANNEL_FL;
+> > -             ch_map[1] =3D  PCM_CHANNEL_FR;
+> > -             ch_map[2] =3D  PCM_CHANNEL_LS;
+> > -             ch_map[3] =3D  PCM_CHANNEL_RS;
+> > +     memset(ch_map, 0, AR_PCM_MAX_NUM_CHANNEL);
+> > +
+> > +     switch (num_channels) {
+> > +     case 1:
+> > +             ch_map[0] =3D PCM_CHANNEL_FL;
+> > +             break;
+> > +     case 2:
+> > +             ch_map[0] =3D PCM_CHANNEL_FL;
+> > +             ch_map[1] =3D PCM_CHANNEL_FR;
+> > +             break;
+> > +     case 3:
+> > +             ch_map[0] =3D PCM_CHANNEL_FL;
+> > +             ch_map[1] =3D PCM_CHANNEL_FR;
+> > +             ch_map[2] =3D PCM_CHANNEL_FC;
+> > +             break;
+> > +     case 4:
+> > +             ch_map[0] =3D PCM_CHANNEL_FL;
+> > +             ch_map[1] =3D PCM_CHANNEL_FR;
+> > +             ch_map[2] =3D PCM_CHANNEL_LS;
+> > +             ch_map[3] =3D PCM_CHANNEL_RS;
+> > +             break;
+> > +     case 5:
+> > +             ch_map[0] =3D PCM_CHANNEL_FL;
+> > +             ch_map[1] =3D PCM_CHANNEL_FR;
+> > +             ch_map[2] =3D PCM_CHANNEL_FC;
+> > +             ch_map[3] =3D PCM_CHANNEL_LS;
+> > +             ch_map[4] =3D PCM_CHANNEL_RS;
+> > +             break;
+> > +     case 6:
+> > +             ch_map[0] =3D PCM_CHANNEL_FL;
+> > +             ch_map[1] =3D PCM_CHANNEL_FR;
+> > +             ch_map[2] =3D PCM_CHANNEL_LFE;
+> > +             ch_map[3] =3D PCM_CHANNEL_FC;
+> > +             ch_map[4] =3D PCM_CHANNEL_LS;
+> > +             ch_map[5] =3D PCM_CHANNEL_RS;
+> > +             break;
+> > +     case 7:
+> > +             ch_map[0] =3D PCM_CHANNEL_FL;
+> > +             ch_map[1] =3D PCM_CHANNEL_FR;
+> > +             ch_map[2] =3D PCM_CHANNEL_LFE;
+> > +             ch_map[3] =3D PCM_CHANNEL_FC;
+> > +             ch_map[4] =3D PCM_CHANNEL_LS;
+> > +             ch_map[5] =3D PCM_CHANNEL_RS;
+> > +             ch_map[6] =3D PCM_CHANNEL_CS;
+> > +             break;
+> > +     case 8:
+> > +             ch_map[0] =3D PCM_CHANNEL_FL;
+> > +             ch_map[1] =3D PCM_CHANNEL_FR;
+> > +             ch_map[2] =3D PCM_CHANNEL_LFE;
+> > +             ch_map[3] =3D PCM_CHANNEL_FC;
+> > +             ch_map[4] =3D PCM_CHANNEL_LS;
+> > +             ch_map[5] =3D PCM_CHANNEL_RS;
+> > +             ch_map[6] =3D PCM_CHANNEL_LB;
+> > +             ch_map[7] =3D PCM_CHANNEL_RB;
+> > +             break;
+> >       }
+> >   }
+> >   EXPORT_SYMBOL_GPL(audioreach_set_default_channel_mapping);
+>
+> audioreach_set_default_channel_mapping() silently leaves an all-zero chan=
+nel map for unsupported channel counts.
+> Since this helper is exported and callers such as q6apm_dai_prepare/q6dma=
+_hw_params/q6hdmi_hw_params() don't validate the range.
+>
+> would it make sense to return -EINVAL for unsupported values and have cal=
+lers propagate the error?
 
-The Subject prefix should be "ALSA:" instead of "ASoC:" :)
-About the code changes: mostly it looks OK, just some nitpicking.
+Thanks Prasad,
 
-> +/*
-> + * PHASE 88: Line/Mic select of the four analog input pairs
-> + *
-> + * The Terratec mixers of the original operating systems offer a "Line/Mic
-> + * 1/2 ... 7/8" switch for every pair of the AK4524 codecs; the setting is
-> + * kept in the second register of the chip select expander.
-> + *
-> + * With a microphone on input 7 the level of that pair rises by roughly
-> + * 30 dB when bit 4 (0x10) of this register is set, while bits 5 ... 7 do
-> + * not change anything that could be measured on the other pairs - only the
-> + * pair with the microphone attached could be verified.  The register is
-> + * write-only, so the bits are assumed to be ordered from the last pair to
-> + * the first one: 0x10 selects the microphone of pair 7/8, 0x80 the one of
-> + * pair 1/2.
-> + */
-> +static int snd_ice1712_phase88_linemic_info(struct snd_kcontrol *kcontrol,
-> +					    struct snd_ctl_elem_info *uinfo)
-> +{
-> +	uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
-> +	uinfo->count = 1;
-> +	uinfo->value.integer.min = 0;
-> +	uinfo->value.integer.max = 1;
-> +	return 0;
-> +}
+Then we can directly reuse q6dsp_map_channels to make it simpler.
+Will update.
 
-This can be replaced with snd_ctl_boolean_mono_info; i.e. pass
-snd_ctl_boolean_mono_info to ".info = ..." below.
-
-
-> @@ -458,9 +578,37 @@ static int snd_ice1712_ews_init(struct snd_ice1712 *ice)
->  		}
->  		snd_ice1712_6fire_write_pca(ice, PCF9554_REG_CONFIG, 0x80);
->  		break;
-> +	case ICE1712_SUBDEVICE_PHASE88:
-> +		err = snd_i2c_device_create(ice->i2c, "CS8404",
-> +					    ICE1712_EWS88MT_CS8404_ADDR,
-> +					    &spec->i2cdevs[EWS_I2C_CS8404]);
-> +		if (err < 0)
-> +			return err;
-> +		err = snd_i2c_device_create(ice->i2c, "Output expander",
-> +					    ICE1712_PHASE88_OUTPUT_ADDR,
-> +					    &spec->i2cdevs[EWS_I2C_PCF2]);
-> +		if (err < 0)
-> +			return err;
-> +	spec->pcf8575_data = ICE1712_PHASE88_OUTPUT_INIT;
-
-The wrong indent level?
-
-> diff --git a/sound/pci/ice1712/ice1712.c b/sound/pci/ice1712/ice1712.c
-> index 376df1a..86ecf7b 100644
-> --- a/sound/pci/ice1712/ice1712.c
-> +++ b/sound/pci/ice1712/ice1712.c
-> @@ -768,6 +768,9 @@ static int snd_ice1712_capture_open(struct snd_pcm_substream *substream)
->  	struct snd_pcm_runtime *runtime = substream->runtime;
->  	struct snd_ice1712 *ice = snd_pcm_substream_chip(substream);
->  
-> +	if (!ice->ac97)
-> +		return -ENODEV;
-
-It's suboptimal to do it.
-The problem is likely because your model doesn't override the EEPROM
-content before creating the PCM streams where the consumer PCM streams
-are skipped when AC97 is not present via ice_has_con_ac7() check.
-
-That is...
-
->  	ice->capture_con_substream = substream;
->  	runtime->hw = snd_ice1712_capture;
->  	runtime->hw.rates = ice->ac97->rates[AC97_RATES_ADC];
-> @@ -2290,12 +2293,45 @@ static int snd_ice1712_chip_init(struct snd_ice1712 *ice)
->  	outb(ICE1712_NATIVE, ICEREG(ice, CONTROL));
->  	udelay(200);
->  	if (ice->eeprom.subvendor == ICE1712_SUBDEVICE_DMX6FIRE &&
-> -	    !ice->dxr_enable)
-> +	    !ice->dxr_enable) {
->  		/*  Set eeprom value to limit active ADCs and DACs to 6;
->  		 *  Also disable AC97 as no hardware in standard 6fire card/box
->  		 *  Note: DXR extensions are not currently supported
->  		 */
->  		ice->eeprom.data[ICE_EEP1_CODEC] = 0x3a;
-> +	} else if (ice->eeprom.subvendor == ICE1712_SUBDEVICE_PHASE88) {
-> +		/*
-> +		 * The EEPROM of the PHASE 88 advertises a consumer AC'97
-> +		 * codec, but the board does not carry one - the AC'97 link
-> +		 * does not answer even after a cold reset (every register
-> +		 * reads back as 0xffff).  All converters of this card are the
-> +		 * AKM codecs on the multitrack I2S interface, and the original
-> +		 * Terratec driver does not touch the AC'97 link either.
-> +		 * Without this quirk the probe wastes two seconds in the
-> +		 * AC'97 reset and creates consumer PCM devices that have no
-> +		 * codec behind them.
-> +		 */
-> +		ice->eeprom.data[ICE_EEP1_CODEC] |= ICE1712_CFG_NO_CON_AC97;
-> +		/*
-> +		 * The rack has two MIDI interfaces - one on the front panel, one
-> +		 * on the rear - but the EEPROM advertises only one UART, so
-> +		 * without this the rear connector stays dead.  Terratec's own
-> +		 * driver exposes both: "[PHASE88.Interface.Midi1]" and
-> +		 * "[PHASE88.Interface.Midi2]" in ews88wdm.inf, "PHASE88 MIDI Port
-> +		 * 1/2", the changelog naming the second one "Mic28 Extensions
-> +		 * (Midi 2)".  Both UARTs are inside the Envy24, so claiming the
-> +		 * second one is only a matter of setting the bit the EEPROM
-> +		 * should have carried.
-> +		 *
-> +		 * Verified on a PHASE 88 rack: with a loopback cable in the rear
-> +		 * connector, a SysEx frame written to the second UART came back
-> +		 * on it byte-exactly, and the first UART (front connector) kept
-> +		 * working as before.  With the second UART enabled and both ports
-> +		 * idle the card raised no interrupt on its IRQ line for 10 s,
-> +		 * so an unconnected input does not generate traffic.
-> +		 */
-> +		ice->eeprom.data[ICE_EEP1_CODEC] |= ICE1712_CFG_2xMPU401;
-> +	}
-
-... we should add eeprom_init() to snd_ice1712_card_info() and move
-the model-specific code to each file, instead, then EEPROM setup could
-be done initially at snd_ice1712_create().  This move should be done
-as a preliminary patch, though.
-
-
-thanks,
-
-Takashi
+Thanks
