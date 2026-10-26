@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793012335;
-	b=B8F96xSSdBynh8JAUohBzhgluXWaRZ8D+qDv/l3dqsB5pGnFj4bxUSH9HR5GXSa5QAjC
-	 winXXST7M0LpwV2sYO6e0sC5SNUL94QFUhsc7lhf/w5ytbQY/pWQrOt2HRXjra7rCdDba
-	 IbEZMz41iVuzx2c8wari7FxetehcOmPYa6yd6iW1JMiEpUqn/cvaOmmqIysjUGbr4L2lT
-	 O472u133wr+qbqn0y1maFsFl3EEDfBNC1K+S3HZGEoCKrukhAon8VNRgbNgNnUKA521G6
-	 achExzfPJpuZfH25jpnYen2cBR8R+ttOo5drsmOQFscee0ULsF19WVz9KWsfMR4sGQg==
+	t=1793012341;
+	b=vMvUiUeHz2jd1rCniaiUzP9qYHbUZktwW7Jck9ATTTtFyDJViHEXxsnz0KV3vDDaGfi1
+	 tAqifEesgXebOFiNnWX9VKDZnegGUQE00fI4gqju7oeAF6jhAY/D05WQDqcRGrGBOdUB+
+	 hXQpxGG7im/0eIHlv1+mtzWGcoJGk7cFzHyCo0VgS6xzCD54LLZSttT5GqeIy/536Ntur
+	 aaAlYEW5Sj1pC2WMTv6VTT1y/a2aK9hRETr/cUpPPldhE4xOGjThAf8XMFx+uDDFMyO8s
+	 NXIUtnHN3ZGrNTmiQ+KMOpRJ4JnFSY6YWw47WdFGzt32ih06TBAsv7Ps+Sc1QsEx+ug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793012335;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793012341;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=vezHkgKxa5aSAGJP+0pUQzA7f5XIE1RfIdhUHTPJYR8=;
-	b=YJlqNNc5G4x4PgoapnehpL3jqXriOSSXpy2qaJCbedJfU3lytWZVBE8NCNQele8V1w9i
-	 PxVeqvIK49F07ktwHHZg1uZV/J5eIrsKEd+70f8RwtEjAednmMetbMR3DfrgqD7FM5yKh
-	 IsO8rzKaXZBuODRSpV6TkGLoWQUlAb4CJTL0Woj7bt561fFTMqO4dBQ986qeBE3jNXhwY
-	 JU+IDVxiPHKhYGPCLPmiPKfgi1mOgDkmKPB91+HwZBDdy5SLOfp78HvHdRRC6Gtjs98ce
-	 D4hzxks+6LzukHXFb8gabQKXEAdGxpdA2hDiReeZzxIUjBTDP7QTU0XHnQ10Q7+5qzA==
+	bh=RRSR6UZrJp4tph+fHDjWo4hO/H1Uq5cP28g57V4V9yw=;
+	b=VAU/1SAZ0yKgyvJIWZh3Ig7yWrtTVyNCOIxmmMzWnwhgIIvcrdr4F0r6zwOKHLJL21Bp
+	 /lR1H6epU97K9F1f5blsCUXZY1eyC2UdgihhQIxHFOGDUWHFEuktqO41652+X/n0Pj2hj
+	 +/CW7/F6TH0dr32moLtUgdNDdMn4d+/1/C8xOTtO1t+kxTJSgPsdNTd/ORehAunuz924y
+	 jO9eSOxHLWQP187H2afFg9iytHhga89tznlzi/5WKbxwHwkOR+ZKCr7UcOoTuPV4egQkj
+	 k29JewX7dF9xKhd6NTPxVRqqAHgBTV6x0vQC0A/nbFtTh+6wid0KzvevEc3E25zyvzA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=fo1s26nv;
-	arc=none smtp.remote-ip=209.85.216.41
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=E4AMdxsa;
+	arc=none smtp.remote-ip=209.85.216.45
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F41606A323
-	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 10:58:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43F41606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D279606A31E
+	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 10:59:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1D279606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=fo1s26nv
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3ab98332238so1496764a91.3
-        for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 03:58:55 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=E4AMdxsa
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3ac451e128cso2045975a91.1
+        for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 03:59:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793012334; x=1793617134; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1793012340; x=1793617140; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=vezHkgKxa5aSAGJP+0pUQzA7f5XIE1RfIdhUHTPJYR8=;
-        b=fo1s26nvP/PmGVTkn/+XmokW4HyUmCiUUXRkdboa1TqMP9nXOZmAxK/FguNmh8HOZB
-         mOXELec9yx7HirZ1kRZEiKELzbh/y1HAJHnEPXwc5xqHiyA9zgso4jS9JcLwokPar+Q0
-         o+r139YHMXTI5GqcXBGVDUQF9vqj0XR22MspbhiZMfC/B/Ig78Rn2G380oYC+RE6wP/Z
-         XA1+UWBezbYLxX14mkU4YjwwOYY8WzEwf+dNYrniOJfwwxt6i7Uhej9zi4+81IwqQGhk
-         M3EvP9UHE0jlcIbnFHdcKb1hKwQHVBk30UYk2+dHsvIKwe3wGux/3K0uXVrVcoFbuPeI
-         zPiw==
+        bh=RRSR6UZrJp4tph+fHDjWo4hO/H1Uq5cP28g57V4V9yw=;
+        b=E4AMdxsa3wzyzbX705calueicxP4utUf2k4Jx4lntZl0oYXfaSAYVmoKKOo4RhYAz6
+         nMTBrYDvmQTmRtrPkt6RA9Mi88xlq4olfDNuIDXH9fMO0VkpauLMdceQ9WNK5aRO0TkK
+         +aVTk+uyCgo1WG9pHItVGB32xvbo2eetEyRZmaHlB9dSPVLW3TycFbd9n83fz6ctFlNZ
+         cHAymeKsY1GW0nHcq3xCrBOT6j0HLjsKSuntrPXmN0hX4RU9FpwEg4cemgMc3Pb97wDl
+         flbWwSLDDL/ijEZFVYR7C/KjGT7+TFFMY9R1mUyEXTcy8ub/FRId8UgcYZgpXfVvTwzU
+         a+eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793012334; x=1793617134;
+        d=1e100.net; s=20260707; t=1793012340; x=1793617140;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vezHkgKxa5aSAGJP+0pUQzA7f5XIE1RfIdhUHTPJYR8=;
-        b=apuT5htkubVrXES9V5pJ3rmWcY6nA3YFwleB1Oq27YJaT64L0ZhBdT/VJg/8gT87G0
-         z7AaTHyibicEFpAO37AHyTzDH6YUv7iazbvbTO1NzrHqvReSLCs9wC9st7k4ApmO0WGz
-         oSKzl6cpbJEyWRJGRcTrEpDk8JLv4J2iQQ/nAhDlUxEGfDWKJFxf7SkmPusdgN2I808J
-         iSJEKQnd2OgnaSb/UZwD+qH0Iy80y6P35F7aRBxj0SCWcxJfTz062jGyTI/7kgUqmX0m
-         Iqe1YRpxFpexmKi9h79KH5nFSOaiYYy27bYELlXR3nZ8GBue66LVu8dI1PUsR/r2Mcu7
-         dtaQ==
-X-Forwarded-Encrypted: i=1; AKwUvByAMBfobASFvYa75Be0Y6l0fFa+puO0NQoEgbRJXXXGfWM0/dMdj2PIF/5+LiFhukyptIPFzj+wg8iYGg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJPAyu0R1VeCE+S08YHZyTo4CBbGmfEiMSCpto7Apesas+rgY5D
-	3fMZXL3TwjDstZrLKWDLGOwpyoPjN33PSgM3lN5bTlh6u6dbTE0LXQN3
-X-Gm-Gg: AYBFou1hQsTi/0uJXXmEzi445KqWkGAvz83QZIj4J2IT23jB8OLqfyg7pqI01eIELd1
-	kvkldwsi68Are43S1mBnutXkMVnaOczCtwStpuGM7Rt+Yqkn/na9vWAkhlf6JyN4PvvBhDp+2Qd
-	AqiKQrOEY7kmtOwYHeb9ZoXI4I2dmlqY+y34LEqnRPQ3KT7atGQ5QetS0S8ChLvPnKQ1AiVWR4X
-	0qRXmRhMq70RegeaZ4KJu3kmB6qr1U9900zqoIX2HI7tgpD3THyx9iICBG+3FKdSjJpFP6y7ISZ
-	0cpot4dVUQ55wABKv9YOPIagwtJv14/fqv/4ob5Q62TCwYVHFQTnv+mrnYAqs/sazNMUfQ/VSF2
-	cYYTLtu1+JUoV+qW0XLwtrWO0ziHsfv9c9UXTeb7b8C4f0/8XDCVtihc9URMsNqjUHlzbAkG4DJ
-	TCdSPFdKkX9ZGZFjzFsz7hxgcFSXdL8LR2lV3/Anl49P00Y9ZNpiF4Yi+vMXum58flOSe9E10E6
-	k0NIClvZb/ikjUwP76TkSZ8vKVUCGznJm4xWJIfq15+N/xw9M6/In+atHuyD7b9d54wd5xjDXvB
-	nbnQkln+EJ++uINBxtiR6QrlpompMS+P6tMErPF0PtoC5xnvnpWBRA06ejJ8CpgKTf0LhV8=
-X-Received: by 2002:a17:90b:5105:b0:3aa:f875:3385 with SMTP id 98e67ed59e1d1-3adeae71da8mr5438840a91.26.1793012334567;
-        Mon, 26 Oct 2026 03:58:54 -0700 (PDT)
+        bh=RRSR6UZrJp4tph+fHDjWo4hO/H1Uq5cP28g57V4V9yw=;
+        b=NM8b7UWiBwuVQKtdpWZvmOOKDT3UsRsYvyA2v3QPzc+swuloausiltdiTnRnug+Dcv
+         PAc552Ui8clyZi3+lAIx+lFpzV6KjDmiQnhLkKWNp6ceb2yG1C/kZrRNxzgxoE45ydsO
+         X3saEvrPVnKOmWL561kar+JcFCDdRfa2asGx7aSz5JCbeumuFlkzf6+2cDutgVL05Heu
+         TSw1nADLjpIpK1uJleYeOy9iXdBv3ko/M4XOIlY6uSr3fC1wxhSwN4EgBhUzYRyq1XLW
+         VN6e8A0iq5G83K/nyFiJPIKRARocJ+wQKOMVxVgRX6Vqp9/D4VSRC1anaWUoPCfsX4RB
+         dOlw==
+X-Forwarded-Encrypted: i=1; AKwUvBxT0Lkx/o8l5ie2HDTxGHQ6LsQjPdqjLx3E9Z1dRNbUB6GB09PiYnqvMbWAofeAhlvIbOBFQ2FXstMNYQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKRCqR5fRhR/VXHlZQgbOsM0FcRUZAlOsiOX10otD1zpmWLSucV
+	L+7+63P2rhqVKE1KZSG/QBfOxRFz/LFE3ZEc55gYIrc1wDDdBxyboaws
+X-Gm-Gg: AYBFou1HoOfFYLJfn/+XlnvFizX5HVR5G76FueoKlHB6LRrfs+rrqQgWs3gqgKWytiG
+	VYFzt9GXQANyHdml81ktp32Sr+7TIukv7x85bdgdDdE8hFOyekedU9ogi1vGgXtBe3G0MG2uoPq
+	5aML0AVMN7n08f74GOyMidhUskA4ooRtr57x1qbL37E2mu6zkDYJ9DeXOqYzvb+8yjcOh1ezQMR
+	s2nxRd7J6iOgbyV8Sb5KnPhap7KwfdaWLbXamToL/uW5V1iKBe6QJmdzVtAnvR9bfhhBhx5PoKb
+	39yHagQZiTzMy6C0FT7vpPYTS2BoPDS9IL6MXou4XoKficWEAQ1OFcNfrb7tlMe2bzECvYIxHpm
+	gv/AoOxl6w38F94FmrTLVR9xyuswiN2RXVE25Iq/CegHjfTV/Go/45iKEFDyDvTYd+LF8deqNaC
+	E9CBjP5dHyPn/3bTjlSh11CE+7kyIwr6xcTv9a55o9VvXyaHnRGZ2JHT4LUaRaSoNH+DEAYB3Ph
+	+yk9YjhDrtSKbKwhDTZF6DhzcfmRSdL4wk8FO5Od3pJBfZt9herblFQ4/UGqPNhOWcNHt4lv+HS
+	HcbYJOz23dlBfdLXEy9WXQmHoNbB0e5ppD/nOvm/mjDW0oyDyaJrFkdHlNQKa0Gox+3ZI8Q=
+X-Received: by 2002:a17:90a:dfcc:b0:3ac:403d:6239 with SMTP id 98e67ed59e1d1-3adeb0fb5d3mr5038011a91.43.1793012339349;
+        Mon, 26 Oct 2026 03:58:59 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3adebadfa82sm7980768a91.8.2026.10.26.03.58.51
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3adebadfa82sm7980768a91.8.2026.10.26.03.58.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 03:58:54 -0700 (PDT)
+        Mon, 26 Oct 2026 03:58:59 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -88,9 +88,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	Russell King <rmk+kernel@armlinux.org.uk>,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 1/5] ASoC: kirkwood: kirkwood-i2s: Fix error handling for resource mapping
-Date: Mon, 26 Oct 2026 17:58:31 +0700
-Message-ID: <20261026105835.19052-2-phucduc.bui@gmail.com>
+Subject: [PATCH 2/5] ASoC: kirkwood: kirkwood-i2s: Improve error handling in probe
+Date: Mon, 26 Oct 2026 17:58:32 +0700
+Message-ID: <20261026105835.19052-3-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261026105835.19052-1-phucduc.bui@gmail.com>
 References: <20261026105835.19052-1-phucduc.bui@gmail.com>
@@ -107,35 +107,47 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Return the actual error code from devm_platform_ioremap_resource_byname()
-instead of always returning -ENOMEM when resource mapping fails.
+Use dev_err_probe() to report clock acquisition errors.
 
-This preserves the original error code, allowing callers to identify
-the actual cause of the failure.
+Remove the redundant error message when snd_soc_register_component()
+fails. The errors handled here are already reported deeper in the
+call chain, so the additional dev_err() call is unnecessary.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/kirkwood/kirkwood-i2s.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/kirkwood/kirkwood-i2s.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
 diff --git a/sound/soc/kirkwood/kirkwood-i2s.c b/sound/soc/kirkwood/kirkwood-i2s.c
-index 739a819d8494..cf4327101b96 100644
+index cf4327101b96..29641bd4cc60 100644
 --- a/sound/soc/kirkwood/kirkwood-i2s.c
 +++ b/sound/soc/kirkwood/kirkwood-i2s.c
-@@ -59,11 +59,11 @@ static int armada_38x_i2s_init_quirk(struct platform_device *pdev,
+@@ -687,10 +687,9 @@ static int kirkwood_i2s_dev_probe(struct platform_device *pdev)
+ 	}
  
- 	priv->pll_config = devm_platform_ioremap_resource_byname(pdev, "pll_regs");
- 	if (IS_ERR(priv->pll_config))
--		return -ENOMEM;
-+		return PTR_ERR(priv->pll_config);
+ 	priv->clk = devm_clk_get(&pdev->dev, np ? "internal" : NULL);
+-	if (IS_ERR(priv->clk)) {
+-		dev_err(&pdev->dev, "no clock\n");
+-		return PTR_ERR(priv->clk);
+-	}
++	if (IS_ERR(priv->clk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(priv->clk),
++				     "no clock\n");
  
- 	priv->soc_control = devm_platform_ioremap_resource_byname(pdev, "soc_ctrl");
- 	if (IS_ERR(priv->soc_control))
--		return -ENOMEM;
-+		return PTR_ERR(priv->soc_control);
+ 	priv->extclk = devm_clk_get(&pdev->dev, "extclk");
+ 	if (IS_ERR(priv->extclk)) {
+@@ -726,10 +725,8 @@ static int kirkwood_i2s_dev_probe(struct platform_device *pdev)
  
- 	/* Select one of exceptive modes: I2S or S/PDIF */
- 	reg_val = readl(priv->soc_control);
+ 	err = snd_soc_register_component(&pdev->dev, &kirkwood_soc_component,
+ 					 soc_dai, 2);
+-	if (err) {
+-		dev_err(&pdev->dev, "snd_soc_register_component failed\n");
++	if (err)
+ 		goto err_component;
+-	}
+ 
+ 	kirkwood_i2s_init(priv);
+ 
 -- 
 2.43.0
 
