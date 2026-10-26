@@ -1,56 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793013651;
-	b=jwE0s89ZAgIM0mlKjkj7kCmqYdhbjOQXW+dKoGYoaDIBmKsP3kbwlRS6Fwp7EzXOhuVF
-	 SvR9FEqfwq3ZlKlT3H5T4n2AXae/kS8NL5nLSmXwf2huNUt34XGNyHe9KWDaY2uyEfKVy
-	 Ejuj4nrSzPAylTp0002ezdIbElagvzxOVWsepo8FBnl7o6coyx7tIUz/dRqh/kxw6X7yC
-	 Noelz8dVhDQJpBVq59eJdjhO8vJZE+6RCeNOpIm3SI+1uH0nhn8uYk3juQbOovkG+26DA
-	 nIF3tU5tDVWt6jecfhMxVD4HNJFfKY+uEPmMy4h40UwI9BSgqXTQbxmq1Nde6RbWiYA==
+	t=1793013710;
+	b=fXP2kX8gTr3YxCygx1/Y3NNhm72npkACX5H8vypuRdwl8vNbcbflDPDzxUAgUFAbILSB
+	 aiIoU3eIISTsWOXYJ3XozpNr/I1eEkJrwuBFVSCRswCY6gfxMx5TGzPZF4a0pGlk/83x4
+	 2BBiywY9KY4T5RnAlbeF8JzaLu8vcmf0x3QY908cXGpOscpFhZUcHpt70gIXXaeBf6szD
+	 pK287dfeEmzfl03PI+BUkWsuBWOaNPGavCfnL+c/+xsKob0RmggNDCygslCH8JUYL+Dp4
+	 eEPWWWPRgQZsxJA8YoXuF3FUPpvj67BrGOan7EkR4owgPAl03KGHbGs3uXckCuTEUAA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793013651;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type;
-	bh=RVMrEyTfPd6L3DrmXBQ+EA71uekThvDl0bNGFGHSH8Y=;
-	b=H9xiGQ4Nk2A3EsaSbt/Mh9seI0arMnQdf76eOKQf5Q64TxxXaH+f2EQ9dkETlsakvwKW
-	 HlVFE55MDRChbQLRfVhgPP+ztcSAcRdsONxwun779YzYq0CTpESnqXWsQVcSsv+jgB/SZ
-	 wb/82jHfbhkjYjlVMjGPlZZNdHk1/fY8SRgs2OgJXlcEksiCy8oZkW9JFapt2NIZzWy8v
-	 PQuV8jQKNYZjWNR4J+EoSXU+3neT/C+YJ2cIp+Mbf+Qm8HZBSU6KSUwXZnM9IvrQeBJPT
-	 PBpuSaIxhACbp1juLXU0C9/HxuDqtAX5mPPOk2FwD3rCG0jImvEXax4ZUCt0fFArXpA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793013710;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
+	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
+	 Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=mV7/MeB1Aho580PREtL9g5FwnCExmyIgXEya6KMhy1c=;
+	b=nS5sjoSKa8b7DrfybyIMEWqS1mffdq4L1uk56Rw3lNk8Ww0dQpyqyFusSp7yVkhhAzHh
+	 ma0JmGtG0M3JpNWbQNQ9RBxCtD80c48KlLdMtgY589VUdhqJ7+Y1hJo3BumJuL7WSe51r
+	 LSOwDRAG7IfebvgcBBI0o8UCTaJiU0vEz69Jpit7o7qEX1WITEF7hv/O9coi9LldSE2zu
+	 aHCATCugHFfrcwBY9eRR7mCGGIG8BJC8Np9etH+Ox7E0hhJ0HEBx6DorEWw6udiOJmZD+
+	 soQLID4kzGh10L/oFZlzc/zvGaxb/UOYO0OFgTaBWCtuvryatB9LXnWY1qjJU/5JsWQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=pm.me;
-	spf=pass smtp.mailfrom=pm.me;
-	dkim=pass header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=LwL5VSvs;
-	arc=none smtp.remote-ip=79.135.106.118
-Received: from mail-106118.protonmail.ch (mail-106118.protonmail.ch [79.135.106.118])
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34ED6606A31D
-	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 11:20:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34ED6606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=LwL5VSvs
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1793013646; x=1793272846;
-	bh=RVMrEyTfPd6L3DrmXBQ+EA71uekThvDl0bNGFGHSH8Y=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=LwL5VSvsK1xDlecepNPv/axsoHB6q8JkvAstkUXb39MjaRkd2kyPAThlNPT0wuMQv
-	 Xbs4d2TH5GsojsmzWtiIcvmJbDjmt1WLqgnSGuzkNJTVDMmVJx+9Q7f8hw8LEW4Rml
-	 A/hkigCz0ajJ1yyewvSH3vJVm9SRieZX/n5/J/+EFgvJPU5Q3TmAUOYcbP3kX2aNtp
-	 a0MbVV4dDyowSs6kKo4joCT7VxY97sf/q/7Fxk9dLyVvNXZHpOANt+7WU53ePtg7Ug
-	 cJqbZrVxkDramzCw+IpNjl2/ZO+BqKgdeG9Xo/B9HAxuZRqXAP10xKKmJf3C23iWDd
-	 IoAsSQb98AHZQ==
-Date: Mon, 26 Oct 2026 11:20:40 +0000
-To: Egor Poderiagin <egor@crazyrussian.pro>
-From: Robin Everaars <robineveraars@pm.me>
-Cc: Oder Chiou <oder_chiou@realtek.com>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Matthew Schwartz <matthew.schwartz@linux.dev>, Pengpeng Hou <pengpeng@iscas.ac.cn>, bui duc phuc <phucduc.bui@gmail.com>, linux-sound@vger.kernel.org, regressions@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [REGRESSION] ASoC: rt721-sdca: runtime resume fails with -ENODATA since v7.3, jack PCMs cannot be opened
-Message-ID: <179301363708.752130.11323881261715222213@pm.me>
-Feedback-ID: 201127006:user:proton
-X-Pm-Message-ID: bff56b458c010fbe6cc66c08f6bf8b0a34853281
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00ED5606A31B;
+	Mon, 26 Oct 2026 11:21:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00ED5606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 6ae72ae4d12f11f19a56ed5b684f684d-20261026
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:22396f8f-2b6f-4574-bdb8-41287a0ff13c,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:7db8b62,CLOUDID:aa414c3e58dfe0158390e013fd2bdc29,BulkI
+	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50|99,EDM:5,IP
+	:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
+	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 6ae72ae4d12f11f19a56ed5b684f684d-20261026
+X-User: zhangheng@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 743732191; Mon, 26 Oct 2026 19:21:41 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>,
+	Juan Benedict Tanoto <juan.tanoto12345@gmail.com>
+Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for HP Laptop 14-em0xxx
+Date: Mon, 26 Oct 2026 19:21:37 +0800
+Message-Id: <20261026112137.257723-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,105 +69,36 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------65f99b9543396eee2734472a3f36df622da95d9e568eb34c82109226620c8deb"; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------65f99b9543396eee2734472a3f36df622da95d9e568eb34c82109226620c8deb
-Content-Type: multipart/mixed;
- boundary=eb85fcef38c74adcd6507b38bec70231e0c3f098e0341a2c2f9807fa32c7
-From: Robin Everaars <robineveraars@pm.me>
-To: Egor Poderiagin <egor@crazyrussian.pro>
-Cc: Oder Chiou <oder_chiou@realtek.com>, Mark Brown <broonie@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Matthew Schwartz <matthew.schwartz@linux.dev>,
- Pengpeng Hou <pengpeng@iscas.ac.cn>, bui duc phuc <phucduc.bui@gmail.com>,
- linux-sound@vger.kernel.org, regressions@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [REGRESSION] ASoC: rt721-sdca: runtime resume fails with -ENODATA
- since v7.3, jack PCMs cannot be opened
-In-Reply-To: <8a12a2d9-1b56-4e00-8ccc-cf31325f8366@crazyrussian.pro>
-References: <8a12a2d9-1b56-4e00-8ccc-cf31325f8366@crazyrussian.pro>
-Date: Mon, 26 Oct 2026 12:20:37 +0100
-Message-ID: <179301363708.752130.11323881261715222213@pm.me>
-MIME-Version: 1.0
+Add a DMI quirk for the HP Laptop 14-em0xxx fixing the issue where
+the internal microphone was not detected.
 
---eb85fcef38c74adcd6507b38bec70231e0c3f098e0341a2c2f9807fa32c7
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Tested-by: Juan Benedict Tanoto <juan.tanoto12345@gmail.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=222184
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Hi Egor,
-
-I can confirm this on a second ProArt PX13 HN7306EAC (BIOS
-HN7306EAC.310, same components string), running v7.3 on NixOS.
-
-Here it happens at boot without any manual steps. The first open of the
-jack PCMs, when WirePlumber probes the card about 14 to 20 s after
-boot, fails with -61 on SDW1-PIN0-PLAYBACK-SimpleJack and
-SDW1-PIN3-CAPTURE-SimpleJack, and the card is left with only the off
-and pro-audio profiles. A boot with the stock in-tree rt721-sdca behaves
-the same. v7.2.9 was fine on this machine.
-
-A regmap trace of one jack open, with only regmap_reg_write and
-regcache_sync enabled, matches yours: 12 regmap_reg_write lines from
-202d to 40981300, then regcache_sync status=stop, and the open fails
-with -61.
-
-Your change to rt721-sdca-sdw.h fixes it here on top of v7.3. The card
-is back on the HiFi profile with the speakers and the ACP DMIC, and both
-jack PCMs open again. The module I tested also carries one unrelated
-local rt721 change (a .remove callback
- that drops hs_jack). With it,
-four s2idle cycles in a row resumed without any rt721 errors in dmesg.
-After the first two I also checked that the card was still on HiFi and
-that both jack PCMs opened. I have not tried headphones yet.
-
-Tested-by: Robin Everaars <robineveraars@pm.me>
-
-Thanks for the thorough analysis.
-
-Robin
-
---eb85fcef38c74adcd6507b38bec70231e0c3f098e0341a2c2f9807fa32c7
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="publickey - robineveraars@pm.me -
- 0x8B6BA132.asc"; name="publickey - robineveraars@pm.me - 0x8B6BA132.asc"
-Content-Type: application/pgp-keys; filename="publickey -
- robineveraars@pm.me - 0x8B6BA132.asc"; name="publickey -
- robineveraars@pm.me - 0x8B6BA132.asc"
-
-LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCkNvbW1lbnQ6IGh0dHBzOi8vZ29w
-ZW5wZ3Aub3JnClZlcnNpb246IEdvcGVuUEdQIDIuMTAuMAoKeGpNRWFoOGxaUllKS3dZQkJBSGFS
-dzhCQVFkQWFSa3p2ZTQ5ckJFSk1LSkg3NDZSWEhZKzJmVDc3b3hST2k1ZAo4SnBMKzY3TktYSnZZ
-bWx1WlhabGNtRmhjbk5BY0cwdWJXVWdQSEp2WW1sdVpYWmxjbUZoY25OQWNHMHViV1UrCndzQVJC
-Qk1XQ2dDREJZSnFIeVZsQXdzSkJ3a1FIY1YvYThzR0dvcEZGQUFBQUFBQUhBQWdjMkZzZEVCdWIz
-UmgKZEdsdmJuTXViM0JsYm5CbmNHcHpMbTl5Wng2VjVxUzg5dzdDRFlTSXNjNU54dVBKSTFyZ29F
-eVkvdjhkYlAzSApxa29OQXhVS0NBUVdBQUlCQWhrQkFwc0RBaDRCRmlFRWkydWhNcmIyWHVqRm5G
-akxIY1YvYThzR0dvb0FBQVpzCkFQOXpJS1d3dWJDbEZFczBKNmpwUUhUS1hGVHErOTlNUmtmREtx
-SVRidW1RelFEL1IyT2F6VHA0b0NKTzJiT0QKTkZsaVZBbTh5WFA2QSs1ODZ6UjJZS3QwUkFiT09B
-UnFIeVZsRWdvckJnRUVBWmRWQVFVQkFRZEEzcDVGN2I1TwpGc1dLclNXRW1FSGlhL29lN25vLyta
-MVcwT1BmZllyRFB5OERBUWdId3I0RUdCWUtBSEFGZ21vZkpXVUpFQjNGCmYydkxCaHFLUlJRQUFB
-QUFBQndBSUhOaGJIUkFibTkwWVhScGIyNXpMbTl3Wlc1d1ozQnFjeTV2Y21ldlVkUisKViszVWd2
-SVZqcURMRk9XeXlHcDVoNEpYQVBmWVpzRC8vUkhndlFLYkRCWWhCSXRyb1RLMjlsN294WnhZeXgz
-RgpmMnZMQmhxS0FBQm9GZ0VBOGU0ZVNMU2FMbXY4L2UyVzFMOS9WS0FiajJaN0pFUzZLQXBpOUJa
-Nm5RZ0JBTmhaCkZoTUZ6c3l6dTJZWXRhQjhTWXRWdGhKSjYvZUlRVFQ2VWRRRUlZc0YKPVlLaE0K
-LS0tLS1FTkQgUEdQIFBVQkxJQyBLRVkgQkxPQ0stLS0tLQ==
---eb85fcef38c74adcd6507b38bec70231e0c3f098e0341a2c2f9807fa32c7--
-
---------65f99b9543396eee2734472a3f36df622da95d9e568eb34c82109226620c8deb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wqsEARYIAF0FgmrfN4cJEB3Ff2vLBhqKNRQAAAAAABwAEHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmcZyz09Yry8k5txF9AgY7fhFiEEi2uhMrb2XujF
-nFjLHcV/a8sGGooAAKntAQCE12WuMgR/UbHEYxzx4DH5v+0Ysh2a8e4abKyR
-8duUPwD7B+YdmAr+EzePS0M9Vsxwba28VqgrPqaFy660JjmUWwI=
-=cD6M
------END PGP SIGNATURE-----
-
-
---------65f99b9543396eee2734472a3f36df622da95d9e568eb34c82109226620c8deb--
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 41f8c0885865..ae26524453e8 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -759,6 +759,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "8BD6"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "8DC2"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+-- 
+2.25.1
 
