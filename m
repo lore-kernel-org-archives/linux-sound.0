@@ -1,55 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793046900;
-	b=tECQL/E2r8F43dj5Hm1xqs4YGD6kHzHKcl89ZBmOttRG17b0KN3pprcWTaKi11copAIS
-	 +UK+jbzIqJWum8rBQGlcXyrTW2v7ouOWxiaC9PLNpqsPhcBFu8V/QP+VM8Pq3I+Xo7SlS
-	 kzna3bg0p++0YR84/VuBrIfh8AzdhZnnh/95t9aMYd5zYN27GSZndM/AGZZP+xIoUUm1y
-	 8LVbGDuq6DoabqAx8e3p1RIQGkosQIM9xO3Qx8xwWP2Hi7ZvC3WNJUeM3uk+NMRvbT308
-	 hppeGd+4gFRwmWwmj3fwgMX6ROfkuRP8ajKCCgsSTdETMsttZOGKMQtVMVtvoK/Z47g==
+	t=1793046948;
+	b=GRB+kNgl5Nx+QcMjRTcmd1SBJYUKjHdjmxEHzpJ0biUeZ74FMtZ70U8ZcPP/bsshYF+0
+	 6GWqvV82jwFz3IIC3cYjpOGxKjNyr0/vSKWV7Oar+PH5KNIe6izccJS65iAScI2nJO4/u
+	 li3EleueG796HrqYKnEPEGmJbEmigEpXtKA03aqdEi2YMfsb/dWrvHye6FnOtdik7mIhf
+	 kPM7QQ3naFHTxzwp2b6jz3o9ntaKXfL+7vw9/Y0341Jz9AJyhh9ZngHiGWFSC6W5+R/Vv
+	 Qw75cWVBO7zFQrxkjVVWjXMm8QHtiTSD6Y3CkmYyXlO+dDNqAIrX9/DaPLvol0Lxv7Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793046900;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=2vGcnCc2s6uKC2STHY56BY1aoxZaeW0IyFOwQidWTKc=;
-	b=wW2hSIT8Ljs7rb2gFNg+9LU+YeBAkFB2NM+ytkJx7/XM7o+knSUYges8JUmDgR7E0mor
-	 tY68RLrjqaJw0RYfF0VOISVxEyADbg9kJmfZ4Iopro74RFMtyRBqLTYKfpe1WRgxhF1VV
-	 AZVVxvheUyvybw9uf4SHv7xUCWE8r/vI+1+05CBh1C/ZqEDDBFW11a1m//pw7uePeFvM/
-	 ysQ0V+7yimuzoAx2CNtM3oNxQeA9NR6Hvi078AeYtZLy2qjATWQQFwZ0RjOfhNe3aJK3J
-	 RJMGuHzCehU0QZ2L8OwCBjc8eqtiKaS7scHZTDbAxG6aF2KxuN8EYqbpPvdY3RTTLZA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793046948;
+	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=2hPAQhe4MvqztirCgp00Mx77xY1LFDG4m3TpyBKCQEA=;
+	b=EMjXDOdWg+Z1Pspx725WQYwqiT5JLQQsTkj318m/3DgdHFQJx+SsiAv62z+0P70sXd3p
+	 7wMLDjsrGmGl+p/fCwTENiUJ9SarDn1wsZQlwJprTG/oqoQt7q7ttsnZ8Q2W30UeSgeb3
+	 lgWZFYVBGdXXwDyKLX4/nH8fZZQR/F8XdjRsu+K6EEccZNROUMq2CPWuHTiu5plQzXzr5
+	 F3AeAaB6cymVHBSXt+EwsfQcvoxPTGmQb3ki+4TUZXaQ1wDHjOcvJLkE1IjJmIKp7RjuY
+	 xokrt9RMlFx7Auhb3mganvKzQB/bOoxYD9K+mbxm8BuFAWeMJWAmEdPjVn/ZshStAYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtWbUgsK;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jw1JLrwt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD263606A31D
-	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 20:34:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2903606A31A;
+	Mon, 26 Oct 2026 20:35:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gtWbUgsK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8328F1F031E1;
-	Mon, 26 Oct 2026 20:34:59 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jw1JLrwt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 363FF1F01825;
+	Mon, 26 Oct 2026 20:35:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793046899;
-	bh=2vGcnCc2s6uKC2STHY56BY1aoxZaeW0IyFOwQidWTKc=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=gtWbUgsKTPVJiqfPYi9s0+d5KeTQC4aSJG9qesSXg+xhi5qSD51xOGNWysbADXCf0
-	 Gzd7JokHE1m+i7ZLkxOq9OMP7DOGPGKqaBG6gRCwE/JOh9Pn/i2t5eoKx1ilKtEzD7
-	 a7NihONmkL3UCCXaqysMI/Q8XH/lC54RRXPX5vO7+OaDqJkAI0vXCcUqAFADSdWu0O
-	 h2kt4VDtaUROD6P0kHTRGaHTcUkghJYK5d68KADlnbEMlk5C9zU3TG5rjQYXHVBhtW
-	 bGLsTwlxZvXizd+fUhRuFSB+ur59D6/PFPMzPQVFNfnkRbLWdPn7OGjHShPs3JRL61
-	 WuG27vMpDXQpg==
-Message-ID: <sashiko-outbox-185729@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 03/12] ASoC: codecs: wm8994: Implement set_jack callback
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?QW1hZGV1c3ogU8WCYXdpxYRza2k=?= <amade@asmblr.net>, linux-sound@vger.kernel.org
-In-Reply-To: <20261026201915.57184-4-amade@asmblr.net>
-References: <20261026201915.57184-1-amade@asmblr.net>
- <20261026201915.57184-4-amade@asmblr.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Oct 2026 20:34:59 +0000
+	s=k20260515; t=1793046947;
+	bh=2hPAQhe4MvqztirCgp00Mx77xY1LFDG4m3TpyBKCQEA=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=jw1JLrwttBsE7o7h8TEbCS/rz2cDvnG5I8sk/V1nPI0yBKLS15ZUYmQljIjMBFer1
+	 5/MfBNTEXJhzTIb/znm2jH4CJoqur80nlBfnreC0YA0EsbQkf385RIEgdXCfj/3KD7
+	 u9D6Eo662G8qel7zlRmFhzTcJqiguklClOmSxdpDFjDfleJhs1ZxDK7r2uiv5ziIbk
+	 XKD+u9W1aABenw7mUcSBhx78CGuPMyySIt8pYWExIj7R9CWsjs8i7C35aEKZ4bv5N0
+	 w09Mwu4iRxgJkTTAKL3VzL34MiuIRF/2acZnCMsgLY752YbDwbPXhT17Os/oIpQZUS
+	 eq1B66rax+UcQ==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 2BBF51F2857B;
+	Mon, 26 Oct 2026 20:35:34 +0000 (GMT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,86 +51,111 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v1 2/2] ASoC: codecs: nau8310: Add support for NAU83G10
+ amplifier
+From: Mark Brown <broonie@kernel.org>
+To: Neo Chang <YLCHANG2@nuvoton.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, 
+ robh@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, alsa-devel@alsa-project.org, 
+ neo.chang70@gmail.com, kchsu0@nuvoton.com, sjlin0@nuvoton.com
+In-Reply-To: <20261022084037.259983-3-YLCHANG2@nuvoton.com>
+References: <20261022084037.259983-1-YLCHANG2@nuvoton.com>
+ <20261022084037.259983-3-YLCHANG2@nuvoton.com>
+Date: Mon, 26 Oct 2026 20:35:33 +0000
+Message-Id: <179304693306.199157.5210648249546181520.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2845; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=oeSuQFkadcgGkEWdZIUiMxB0zeLYf4fgpoShtipJD9k=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLu75xaEei6/Ij9islBYltc2mWZio2Ul7LflfoZVVSuN
+ vmzEm98RykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACZSc53hn9aMUKFVkzvM716f
+ fe5Zir5R0tdZLWcdLfvu/7zHuPdS1DqG/zH+H3Qf6yz3+JP+IXueLdej9BTPFX9lVgmmPtLanrJ
+ qGQMA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] ASoC: wm8994: stale jack pointer and active work in wm8958_mic_det=
-ect()
---
+> Add support for the Nuvoton NAU83G10 audio amplifier.
+> The NAU83G10 is a mono boost Class-D audio amplifier with
+> integrated DSP and I/V-sense support.
 
-commit 0dc23f1f04114660da148a373855c1151a4983df
-Author: Amadeusz S=C5=82awi=C5=84ski <amade@asmblr.net>
+>  	imply SND_SOC_MT6660
+>  	imply SND_SOC_NAU8315
+>  	imply SND_SOC_NAU8325
+> +	imply SND_SOC_NAU8310
 
-ASoC: codecs: wm8994: Implement set_jack callback
+Please keep these sorted, same in other places like Makefile.
 
-This commit implements the set_jack callback for the wm8994 component drive=
-r,
-delegating to wm8994_mic_detect() for WM8994 and wm8958_mic_detect() for
-WM1811 and WM8958 so machine drivers can use snd_soc_component_set_jack().
-
-> diff --git a/sound/soc/codecs/wm8994.c b/sound/soc/codecs/wm8994.c
-> index 6b91e02f130b3..69afba1764eb7 100644
-> --- a/sound/soc/codecs/wm8994.c
-> +++ b/sound/soc/codecs/wm8994.c
-> @@ -4642,12 +4642,30 @@ static void wm8994_component_remove(struct snd_so=
-c_component *component)
->  	kfree(wm8994->retune_mobile_texts);
->  }
-> =20
-> +static int wm8994_set_jack(struct snd_soc_component *component,
-> +			   struct snd_soc_jack *jack, void *data)
+> +static void nau8310_send_data_payload(struct snd_soc_component *cp,
+> +	unsigned short dsp_addr, const void *param_data, int param_size,
+> +	int *frag_cnt, int *padding)
 > +{
-> +	struct wm8994_priv *wm8994 =3D snd_soc_component_get_drvdata(component);
-> +	struct wm8994 *control =3D wm8994->wm8994;
+> +	const u8 *data = (const u8 *)param_data;
+> +	u32 payload = 0;
+> +	int i, data_size = 0;
 > +
-> +	switch (control->type) {
-> +	case WM8994:
-> +		return wm8994_mic_detect(component, jack, data ? *(int *)data : 1);
-> +	case WM1811:
-> +	case WM8958:
-> +		return wm8958_mic_detect(component, jack, NULL, NULL, NULL, NULL);
+> +	for (i = 0; i < param_size; i++) {
+> +		payload |= data[i] << (data_size * 8);
 
-[Severity: High]
-When snd_soc_component_set_jack(component, NULL, NULL) is called during jack
-teardown or card unbind on WM1811 or WM8958, wm8994_set_jack() passes a NULL
-jack pointer to wm8958_mic_detect().
+data[i] will be promoted to int which won't DTRT for values with the top
+bit set, cast to u32 before shifting.
 
-In sound/soc/codecs/wm8994.c, the NULL jack branch of wm8958_mic_detect()
-does not clear wm8994->micdet[0].jack or cancel pending delayed work:
+> +	struct snd_soc_component *cp = snd_soc_dapm_to_component(w->dapm);
+> +	struct nau8310 *nau8310 = snd_soc_component_get_drvdata(cp);
+> +	int ret = 0;
+> +
+> +	if (SND_SOC_DAPM_EVENT_ON(event)) {
+> +		ret = nau8310_dsp_exec_command(cp, NAU8310_DSP_CMD_CLK_RESTART,
 
-	} else {
-		snd_soc_component_update_bits(component, WM8958_MIC_DETECT_1,
-				    WM8958_MICD_ENA, 0);
-		wm1811_jackdet_set_mode(component, WM1811_JACKDET_MODE_NONE);
-		snd_soc_dapm_disable_pin(dapm, "CLK_SYS");
-		snd_soc_dapm_sync(dapm);
-	}
+This needs to take nau8310->lock to avoid races with firmware load.
 
-Because wm8994->micdet[0].jack remains non-NULL, wm1811_jackdet_set_mode()
-still treats jack detection as active:
+> +	dev_info(dev, "Algorithm of DSP is ready, status %x", status);
 
-	if (!wm8994->jackdet || !wm8994->micdet[0].jack)
-		return;
+dev_dbg(), this will get run a lot.
 
-	if (wm8994->active_refcount)
-		mode =3D WM1811_JACKDET_MODE_AUDIO;
+> +	dev_dbg(dev, "Request firmware and wait until finish.");
+> +	ret = request_firmware(&fw, NAU8310_DSP_FIRMWARE, dev);
 
-If wm8994->active_refcount is non-zero during teardown,
-wm1811_jackdet_set_mode() overrides WM1811_JACKDET_MODE_NONE with
-WM1811_JACKDET_MODE_AUDIO, and subsequent active_dereference() calls re-arm
-hardware jack or microphone detection.
+We have a firmware-name in the binding, shouldn't we use it?
 
-In addition, pending delayed work items such as wm8958_open_circuit_work,
-wm1811_jackdet_bootstrap, wm1811_mic_work, and wm8958_mic_work are not
-canceled and can still dereference the stale wm8994->micdet[0].jack pointer:
+> +err_loaded:
+> +	regmap_update_bits(regmap, NAU8310_R13_MUTE_CTRL, NAU8310_SOFT_MUTE, 0);
 
-	snd_soc_jack_report(wm8994->micdet[0].jack, 0,
-			    wm8994->btn_mask |
-			    SND_JACK_HEADSET);
+Shouldn't we leave things muted?
 
-Can this leave a dangling jack pointer and cause a use-after-free in
-snd_soc_jack_report() after the jack is freed?
+> +static int nau8310_clkdet_put(struct snd_kcontrol *kcontrol,
+> +	struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct soc_mixer_control *mc =
+> +		(struct soc_mixer_control *)kcontrol->private_value;
+> +	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_to_dapm(kcontrol);
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261026201915.5718=
-4-1-amade@asmblr.net?part=3D3
+This isn't a DAPM control, we can't use this lookup.
+
+> +static int nau8310_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+> +{
+> +	struct snd_soc_component *component = dai->component;
+> +	struct nau8310 *nau8310 = snd_soc_component_get_drvdata(component);
+> +	struct regmap *regmap = nau8310->regmap;
+> +	unsigned int ctrl1_val = 0, ctrl2_val = 0;
+> +
+> +	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
+
+SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK.
+
+> +static int nau8310_switch_internal_osc(struct snd_soc_component *cp)
+> +{
+> +	struct nau8310 *nau8310 = snd_soc_component_get_drvdata(cp);
+> +	int ret;
+> +
+> +	/* For internal Ring OSC, the default fs apply to 48kHz */
+> +	nau8310->fs = NAU8310_DEFAULT_SAMPLE_RATE;
+
+This will overwrite anything set_sysclk() set, since we call this from
+_shutdown() and _resume() we're relying on the machine driver
+reconfiguring the clocks when starting streams.
+
+-- 
+Mark Brown <broonie@kernel.org>
