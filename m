@@ -1,48 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=85.128.243.59
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793045681;
-	b=0UV9rUv354rrtT47hgOwEX5cXbgCR/5kY8J5eNqytQC0/B+Axnq4Od9FvfvtvIwjxzAa
-	 3yR3OD8AFeJPVh+AKONs/s6yO3dWZiwb6pHaSkaeUEbK0MUVBvUEI1UhRaupgh268hQDr
-	 fosd0iEMCpFqPT6CtSPume4Rxupe0FAXdCy9FbiEgnTsZ2TV08tVeDVqkg4MEzIjV3n0g
-	 vdoCecHZgqznmL1GJjw4zgqqrsl00bPMSOT1CmgM4Cd7lhOS+Ivama2franxfl39DOSWG
-	 FyCvQn2yi69b06Z/mnbqcl1+J+Hh7y7iyCNYT2kHjsRZxts+s8gh/jYMqSjeB28MYlw==
+	t=1793045972;
+	b=EWDoDXkJ3DIcTlQIU+CI8bQbMo0ibrXnibpEUqAd0dnXO4aCnvBD4/hA/DzJoMxE6i++
+	 AfJ0wf4rCti524AkrdL9YZIOZ6D5PIt1EFHosBFIWxFfaFXF9N2Dfa+KiBFkhvKpsU4gS
+	 xzKUUz/fhsYwJiPZyNQ/UwLxHTJdVNk4Psync1wM9/m+IZkzD+t1yRUcjtR6Lql/UCsJl
+	 gRc8p005SWeDh3fBfyqHtezWDAbGF7slEN3+SN1wQ4B5UeeSSDmNMTNAeeRc65AkWOYC/
+	 t4BFeMRsibC/ATNW8rwvOiudC/2vjsFa7Rh9C7XO/r23OiH3pJYnLK7fCiwILydQbgw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793045681;
-	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=LeOLAG5NOHl+ZQ8R8LORc0MyjQm0Hxg75hKx7RVPk/Y=;
-	b=MZO8Nsp+fARMvt1O84wbLCDd6d3BiCAUG4T3U3+yg6WoFltlmAiHPniEXt0KcLwJ9D5v
-	 1Ld+A3N1TWXAjtomT/4Erex8RXaibbL5ZQR7ZG9fcPkE8VV8kvdw2AYqyFOL/MEEYTbR5
-	 4lG30l8F0xAu1f3tL0YKnpc6Vu3X91ZGNIA6CPqJpZvu1chV1xj7RCnLeh4DRAh1EOLul
-	 5wFFLZWoc2IateBX0y4Dd/2Qs4DccbrG7wx6SUaVNHJ79lHNzd25v17IxkuRMXSvvQ77d
-	 Fpuv4QHzZacOqrDTlPhYRHPDFBkk8g592KS8t7ODGAlbITW2Vb2qhWuwKc3vpe8fzVw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793045972;
+	h=DMARC-Filter:X-Virus-Scanned:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
+	 X-Spam-Status:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=PIDy0lUPypJcsVGwwSX0/t4dFazyyI1jm04tJ/ots9U=;
+	b=sY+/RgBUGCWnqlcp/e/GYM3rVocv32n3hf3OPR9jEaby/idn15viHpfL8aJRzA7kfnTM
+	 sGdIfZWpoZXMx3TKnQW51B3C+a9zL8pTxdSsV0+pCYvQ160khe/Nf5HVuPX/Bi8AyPA5L
+	 ID0anKSzuXtUuz1StWpRxKAFrrkecFoCTq0ZIpfnqLvdR0ZfGHmQ7DMhAdq3pqQzGvpib
+	 I3Gvw5L4gNe0b0HLYUaGrjyMhCIAJft4fSoSDrqUPz7Zk53j8KwpqLcwItdD9LpnB+4pg
+	 /d4CShGS50fsOJvtCcB5YX2MOyymvz95kUtoCYtc/fdcHb6d7eFsG2KBnwwStY5blxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xs1Jg6qe;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=asmblr.net;
+	spf=pass smtp.mailfrom=asmblr.net;
+	dkim=pass header.d=asmblr.net header.i=@asmblr.net header.a=rsa-sha256 header.s=1706450368.internal header.b=xqt7ftly;
+	arc=none smtp.remote-ip=85.128.243.59
+Received: from shared-aoh59.rev.nazwa.pl (shared-aoh59.rev.nazwa.pl [85.128.243.59])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03BB606A31F;
-	Mon, 26 Oct 2026 20:14:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3A0606A31D;
+	Mon, 26 Oct 2026 20:19:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC3A0606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asmblr.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asmblr.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xs1Jg6qe
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EA201F01828;
-	Mon, 26 Oct 2026 20:14:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793045680;
-	bh=LeOLAG5NOHl+ZQ8R8LORc0MyjQm0Hxg75hKx7RVPk/Y=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=Xs1Jg6qeY7610nOhA+Uu04Div3Lju7oTOFQGdimETN+LJC2tWXKk2YsaWAilhAHOe
-	 1tyY/ZP/1P2J8Wi9Dgx6yQl94DBpesgj14Qv7osTwtZfMg1vHz0L1ZrVlxEXkXrqj0
-	 xyIvpE5JFnhSY25SOX4NTS6XTrPY32g/QTX95d34+dGrqXn6CDellE2yUgNwvfh0se
-	 xEsO+dELSdttvhyFhZrbUijIFWKimwDjMuSmkR0WxCpqsMxWLNDL6/lJJCgO0SgWNu
-	 wlnbYZovvCBNP6yjfbd+EzrL+YL9vIS2+LyZMvxSfKxsRpLAk1uiK8wBHq7/3iwMjY
-	 6Mn9DUok3TUVw==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 142721EDD13F;
-	Mon, 26 Oct 2026 20:14:27 +0000 (GMT)
+	dkim=pass (2048-bit key, unprotected) header.d=asmblr.net header.i=@asmblr.net header.a=rsa-sha256 header.s=1706450368.internal header.b=xqt7ftly
+X-Virus-Scanned: by amavisd-new using ClamAV (18)
+X-Spam-Flag: NO
+X-Spam-Score: -0.625
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asmblr.net;
+	s=1706450368.internal; t=1793045964;
+	bh=PIDy0lUPypJcsVGwwSX0/t4dFazyyI1jm04tJ/ots9U=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=xqt7ftlyK0jJcxtKWUGYadXWTvE9HrVBieYRhIOULu+iPrtNmRAHfP4CClt9A12jK
+	 g+dJ5VDpfoi49otImfTccELYfJHW0d42dwtVFtn0uCZw2UZSo43WIG/GuutTIU/WW/
+	 Gxr8JCjvc6OD/acvdPCCty7inijMT7c0TctiFHKz1zDO84yX71h1PqJQbOHBFcn64d
+	 9pTQ+f67wohSJ4LxmgCfSn8t2Jh8CDoFVfIDd31VapufdUcWBRT1eevzX+QG6wgq8Q
+	 eQEFu7SiwJeNYQK1wGx4Ym3h37aeJmD1bWnFmlwT3jn6IdJk7gHN5kP+FGx2b1pQ0s
+	 g9NThffkuw46g==
+Received: from milkyway (91-150-221-36.dynamic.play.pl [91.150.221.36])
+	by server753313.nazwa.pl (Postfix) with ESMTP id 1DE831BE018;
+	Mon, 26 Oct 2026 21:19:24 +0100 (CET)
+From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amade@asmblr.net>
+To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-tegra@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amade@asmblr.net>
+Subject: [PATCH 02/12] ASoC: codecs: wm8962: Implement set_jack callback
+Date: Mon, 26 Oct 2026 21:19:05 +0100
+Message-ID: <20261026201915.57184-3-amade@asmblr.net>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261026201915.57184-1-amade@asmblr.net>
+References: <20261026201915.57184-1-amade@asmblr.net>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -52,61 +79,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 2/2] ASoC: es8328: set SLRCK for the ES8388
-From: Mark Brown <broonie@kernel.org>
-To: Bob Hui <bg9oxa@163.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261024-es8328-vol-init-v1-2-efbd24de9639@163.com>
-References: <20261024-es8328-vol-init-v1-0-efbd24de9639@163.com>
- <20261024-es8328-vol-init-v1-2-efbd24de9639@163.com>
-Date: Mon, 26 Oct 2026 20:14:26 +0000
-Message-Id: <179304566603.199157.13719785959966378464.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1260; i=broonie@kernel.org;
- h=from:subject:message-id; bh=84b5N5Rm3tU7QK1zIji77/4mAR4ulxL7aQScdiy2r/w=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLub1n0yuTN74W3N1wQfz5zuWjuttUSvNLtTyXXX/7ks
- rNx/cYfaR2lLAxiXAyyYooscVncL+tLXq/hO7iwDWYOKxPIEAYuTgGYiGUkI8Oz/SfrF/28+N2I
- 6axrXMnhm/fy97M9LQljZuFq+XRpnvxjRoY7kdE7Pr1bvPxGerDFdO+1cZs75m9Ur7H/NumDSHJ
- qgw4zAA==
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> The ES8388 has a single LRCK pin, so the DAC and the ADC have to take
-> their frame clock from that one pin.  With SLRCK clear, which is the
-> power-on default, the capture path never gets a frame clock and records
-> digital silence while playback keeps working, so boards appear to have a
-> dead microphone.
+Add set_jack callback to the component driver so machine drivers
+can use the standard snd_soc_component_set_jack() API instead of
+the driver-specific wm8962_mic_detect() helper.
 
-> @@ -13,6 +13,7 @@
->  #include <linux/pm.h>
->  #include <linux/regmap.h>
->  #include <linux/slab.h>
-> +#include <linux/of.h>
+Signed-off-by: Amadeusz Sławiński <amade@asmblr.net>
+---
+ sound/soc/codecs/wm8962.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Please keep the includes sorted.
-
->  
-> +	/*
-> +	 * The ES8388 has a single LRCK pin, so the DAC and the ADC must
-> +	 * share it: without SLRCK the capture path never gets a frame
-> +	 * clock and records digital silence while playback still works.
-> +	 * Bit 7 of DAC Control 21 is SLRCK on the ES8388 and LD2MO (left
-> +	 * DAC to the mono mixer) on the ES8328, so write it only here.
-> +	 */
-> +	if (of_device_is_compatible(component->dev->of_node,
-
-It'd be better to put an ID in the match tables and then use
-i2c_get_match_data() to look up the variant, that way the driver will
-work on ACPI systems as well.
-
-> +		ret = snd_soc_component_write(component, ES8328_DACCONTROL21,
-> +					      0x80);
-
-It'd be better to add a define for the bit.
-
+diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
+index db8b86d522ff..b36e73fabbdd 100644
+--- a/sound/soc/codecs/wm8962.c
++++ b/sound/soc/codecs/wm8962.c
+@@ -3601,9 +3601,16 @@ static void wm8962_remove(struct snd_soc_component *component)
+ 	wm8962_free_beep(component);
+ }
+ 
++static int wm8962_set_jack(struct snd_soc_component *component,
++			   struct snd_soc_jack *jack, void *data)
++{
++	return wm8962_mic_detect(component, jack);
++}
++
+ static const struct snd_soc_component_driver soc_component_dev_wm8962 = {
+ 	.probe			= wm8962_probe,
+ 	.remove			= wm8962_remove,
++	.set_jack		= wm8962_set_jack,
+ 	.set_bias_level		= wm8962_set_bias_level,
+ 	.set_pll		= wm8962_set_fll,
+ 	.use_pmdown_time	= 1,
 -- 
-Mark Brown <broonie@kernel.org>
+2.56.0
+
