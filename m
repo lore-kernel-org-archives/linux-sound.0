@@ -1,111 +1,108 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793001685;
-	b=Cjyy3k/AgnLc4+opqRgQtJOQuWYhJ0anmd5mtzkiKFLmEIn40Thz8QpJCp1tM1BCeEgT
-	 IXs+ipgpjMg68ey3ByhVoIBkKUk1Y6insO/y0go9lLjsTH3O9wSMRIiKoFJcd/hBPnCEu
-	 YT0WSkuc+J+mEWZIGCy/uc0izZC0VHUsHZ/hgxkEcwsYdlql/lEf4hfdaTvchdArbT/ow
-	 VmHE6qjhTQsjs5gkbaF1mQLhf3Xi9rxs1Zqw3vxMxwWe+7s57pISMIFmWkTDu2eRXVvTR
-	 7pk3Bnn9kElVooGUgCuRIua2BDg8bthGiPrGrqenDtO4ACfTMsXR3NjSvhYk4Qo6xKA==
+	t=1793001801;
+	b=G8z5X6WkPYON5HTDP990wPyuziTB9GoP02Fpba2krSUW2SejJsQfH/RrwQ0NfQojY4lq
+	 SDLYZJNh2QKunIMMLsGGMDbMtATQmajDisnx7p0JIFbPIvCiUHPO5vcj4Bq6sAb8fBL3t
+	 gwc4k4tWgfH99Katds68QcKxZh2nC3M2/C/xuj1xRgtmcNrIGCm5oxyFa+fnqWhANIJEU
+	 8b3xKGRR9lRJvoeW8qMcDzImARbxvXLdSq6uVspQzXjR1ro6ZrrHRhlydq/30w8Dyg9Mi
+	 so5oIxmXlpeqpFB+nyaANgn45KUVPKgyLEcmyVxGfYaEDvKoCJJuaioLVAi5dW7DdWw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793001685;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793001801;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
 	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
 	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=Ctyq+gG5jXVz/TU156m5hBEkcXWdW8CVnveOiNrOFVE=;
-	b=ecL9Af4QhsFocE07HVj7L3a2wPoNeARD4b4RrHIcuVmal2SAVS9EL9YqTsDWCFz+PNC8
-	 wZDHVoiOVzJvcJProDylv18y8D/Ln6QCnu+YzEYHGHakCCxsg34evJsY0ga5+elD/m5JQ
-	 ZBUedRhXLXdkA3ILK74aCMAxbsZOBtgQ9uytCrd9s9GIxA1/IpuqmKEUtsRWAfy0EbLud
-	 ae8LYzF+ZOPknfdtOzsbbkxcGPJgdVOOlP18t+cFOfJNwnUYjP+3o8LW2qn21V2Zixo2t
-	 CYaTB/JwtIlNoUr5+mHPyUKQslVzN560Oxv840QBTqs5JCW5Nlhfwprhh7C4IqjDhkQ==
+	bh=08GxTs6QJ75ucw6ZNr+van8GqoMG6P/Nicxjpuzuefc=;
+	b=K6B1s8orCCRSClYrtkiXloGumqjh8e1gsfskIMJnlT1otU6SMYVLj2oH013VCRU5mv4d
+	 HTxMSdL4isJK+3N5uqeEyKL0JSgfY3LpW9KJf6hBcDBq+yxtf75do+fGCqN8+PPtfRUqk
+	 +hY74r1GO2Qwh5AskXZaiapN3f0ZA9vyNOe+4CrjAarhBXxBtGQ/cK/ptkd31WcmSU0nW
+	 2lhOKIW1R13PTAJH3fzqebd+kw4igP0zFrcKxn44BZIqR+1AxeO0B08MU8ezOv0VH6fUi
+	 5wdeVLeawXBwuapBxo4S7W/GjsdXHjJ1E04KCfN3eP+e9VEDfbuz8tO5ZniBtk2CSBw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=lhMbNPJL;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IQ0LwCfJ;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=lhMbNPJL;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IQ0LwCfJ;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Rmzsycey;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xq749YGm;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Rmzsycey;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xq749YGm;
 	arc=none smtp.remote-ip=195.135.223.131
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5301F606A31A;
-	Mon, 26 Oct 2026 08:01:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5301F606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A310D606A320;
+	Mon, 26 Oct 2026 08:03:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A310D606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=lhMbNPJL;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IQ0LwCfJ;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=lhMbNPJL;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IQ0LwCfJ
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Rmzsycey;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xq749YGm;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Rmzsycey;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xq749YGm
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4831C1F7B7;
-	Mon, 26 Oct 2026 08:01:23 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C53FF1F7B8;
+	Mon, 26 Oct 2026 08:03:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793001683; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793001798; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ctyq+gG5jXVz/TU156m5hBEkcXWdW8CVnveOiNrOFVE=;
-	b=lhMbNPJLXR1S0MM93RDkY9cFgZGkiBPVFjJN9IDhQk9ByNH3dqlrPbp7ZMxpnEY0TRw2QY
-	ICTJPklOi7c76juQ58oeS9GoHhMutdnusVN3EYBLVj5mo8K6LVWVZmDVKbzY2DYzV0+tGA
-	dvcLydwKLn0pVyal27FSiFAB5gOFR6c=
+	bh=08GxTs6QJ75ucw6ZNr+van8GqoMG6P/Nicxjpuzuefc=;
+	b=RmzsyceyA0W8AZHBLQYawxaKBwLtjtTh05/Y1VTi2J0YNVzm1mtx+0/pBVcqw0Z7m6bdU7
+	z/TVLf24F+q5AnX/CoroBfrL//fcvJqS5tGEkzppaDJvarXn92aXxUzjuwPwY1UTpB3+e3
+	K2qFV2m/a2r7wYyOgchzoUI9LMcgOkg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793001683;
+	s=susede2_ed25519; t=1793001798;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ctyq+gG5jXVz/TU156m5hBEkcXWdW8CVnveOiNrOFVE=;
-	b=IQ0LwCfJaydBa/wioP5v+qdB1QM/dA5/06BW+JrKiScMp3RYysSoWMkxa6b3160jgEHGZS
-	YICA8dFAZ5NExFAA==
+	bh=08GxTs6QJ75ucw6ZNr+van8GqoMG6P/Nicxjpuzuefc=;
+	b=xq749YGmHSFXtREm8qNSHEVMul5DfEFZ5bVjIJ9uD5d22L3/S751F1ta8TV2a9c0jPOiIb
+	tq7vmTmvlQigWQDg==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lhMbNPJL;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=IQ0LwCfJ
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Rmzsycey;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xq749YGm
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793001683; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793001798; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ctyq+gG5jXVz/TU156m5hBEkcXWdW8CVnveOiNrOFVE=;
-	b=lhMbNPJLXR1S0MM93RDkY9cFgZGkiBPVFjJN9IDhQk9ByNH3dqlrPbp7ZMxpnEY0TRw2QY
-	ICTJPklOi7c76juQ58oeS9GoHhMutdnusVN3EYBLVj5mo8K6LVWVZmDVKbzY2DYzV0+tGA
-	dvcLydwKLn0pVyal27FSiFAB5gOFR6c=
+	bh=08GxTs6QJ75ucw6ZNr+van8GqoMG6P/Nicxjpuzuefc=;
+	b=RmzsyceyA0W8AZHBLQYawxaKBwLtjtTh05/Y1VTi2J0YNVzm1mtx+0/pBVcqw0Z7m6bdU7
+	z/TVLf24F+q5AnX/CoroBfrL//fcvJqS5tGEkzppaDJvarXn92aXxUzjuwPwY1UTpB3+e3
+	K2qFV2m/a2r7wYyOgchzoUI9LMcgOkg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793001683;
+	s=susede2_ed25519; t=1793001798;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ctyq+gG5jXVz/TU156m5hBEkcXWdW8CVnveOiNrOFVE=;
-	b=IQ0LwCfJaydBa/wioP5v+qdB1QM/dA5/06BW+JrKiScMp3RYysSoWMkxa6b3160jgEHGZS
-	YICA8dFAZ5NExFAA==
+	bh=08GxTs6QJ75ucw6ZNr+van8GqoMG6P/Nicxjpuzuefc=;
+	b=xq749YGmHSFXtREm8qNSHEVMul5DfEFZ5bVjIJ9uD5d22L3/S751F1ta8TV2a9c0jPOiIb
+	tq7vmTmvlQigWQDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E827513319;
-	Mon, 26 Oct 2026 08:01:22 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D80313319;
+	Mon, 26 Oct 2026 08:03:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OvKWMdII32pRGwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 26 Oct 2026 08:01:22 +0000
-Date: Mon, 26 Oct 2026 09:01:22 +0100
-Message-ID: <87wlr46gbx.wl-tiwai@suse.de>
+	id UFdGFEYJ32odHQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 26 Oct 2026 08:03:18 +0000
+Date: Mon, 26 Oct 2026 09:03:18 +0100
+Message-ID: <87v76o6g8p.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Cen Zhang <zzzccc427@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
+To: Denis Kulikov <dar1knessx@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	tiwai@suse.de,
-	baijiaju1990@gmail.com,
-	jjzuming@gmail.com
-Subject: Re: [PATCH v4 0/3] ALSA: opl3: Fix sequencer timer and channel lifetimes
-In-Reply-To: <pm-pmb-4552c4e605507d8d9b16-v9-70247b8436e10e26d324-0@gmail.com>
-References: <pm-pmb-4552c4e605507d8d9b16-v9-70247b8436e10e26d324-0@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Rate-limit URB submission error at stream start
+In-Reply-To: <20261025231849.148149-1-dar1knessx@gmail.com>
+References: <20261025231849.148149-1-dar1knessx@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -120,61 +117,62 @@ Content-Type: text/plain; charset=US-ASCII
 X-Spamd-Result: default: False [-12.51 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,suse.de,gmail.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DKIM_TRACE(0.00)[suse.de:+];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 X-Spam-Flag: NO
 X-Spam-Score: -12.51
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 4831C1F7B7
+X-Rspamd-Queue-Id: C53FF1F7B8
 
-On Sat, 24 Oct 2026 18:49:48 +0200,
-Cen Zhang wrote:
+On Mon, 26 Oct 2026 00:18:49 +0100,
+Denis Kulikov wrote:
 > 
-> OPL3 can receive a fixed-duration note before its timer is initialized,
-> and the card-owned voice array can retain channel pointers after either
-> sequencer port has freed its channel set. The delayed-note timer can also
-> remain queued after the sequencer client has been deleted.
+> When two USB audio devices share a USB 2.0 hub (here a headset and a
+> microphone), there may not be enough isochronous bandwidth to start the
+> second stream, and usb_submit_urb() fails with -ENOSPC. PipeWire keeps
+> retrying to start the stream every ~20 ms, and every attempt logs
 > 
-> Initialize the timer before publishing ports, key off active voices and
-> clear their aliases before freeing each channel set, and shut down the
-> shared timer after client deletion has drained both event producers.
-> Retire higher-numbered partners before their 4-op primaries so no active
-> hardware KEYON is skipped when the primary changes its partner's state.
+>   usb 2-1.1: cannot submit urb 0, error -28: not enough bandwidth
 > 
-> This series applies to tiwai/sound.git for-next at d74eb09af56b.
+> On my desktop this was printed up to 94 times per second and flooded
+> the kernel log.
 > 
-> ---
-> Cen Zhang (3):
->   ALSA: opl3: Initialize the timer before publishing a sequencer port
->   ALSA: opl3: Clear voice channels before freeing their sets
->   ALSA: opl3: Shut down the timer after draining sequencer ports
+> Use usb_audio_err_ratelimited() for this message, as commit
+> 2db2be5607c4 ("ALSA: usb-audio: Rate limit usb_set_interface error
+> reporting") already did for a neighbouring message in the same file.
+> 
+> Tested on that desktop (X79, Linux 7.3) with the headset and the
+> microphone on one hub, starting playback and capture on both for 20
+> seconds: the stock snd-usb-audio module printed the message 580 times,
+> the patched one printed it 50 times and suppressed the rest.
+> 
+> Signed-off-by: Denis Kulikov <dar1knessx@gmail.com>
 
-Applied all three patches now.  Thanks.
+Applied now.  Thanks.
 
 
 Takashi
