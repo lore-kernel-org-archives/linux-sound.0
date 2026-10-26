@@ -1,52 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.108.3.82
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=61.135.153.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792996987;
-	b=Pryws+iWaFZflUhRlFNj7aFyhnE6REOqqPFx10rtwG4FpDmW7EeCoI21a5X//w1czD5N
-	 aFLF6GwbEZpBTLHSoBbjvX2S7KoRspR3pMYSBdq8hES31it2maA99LB0F/yN2PIK0pQd9
-	 5CUbNxYkZ5vWqdR1wNdPuIMAZ7ATse4MO9+S6SEzknJWxF16qwlOx78+OM3po0dbSbBis
-	 ElDuLZDsvCmS1YFnxxewJJZE/zuHSlnxEO2TGyO20cCzLMHsN5bnf0ZgpaXqvYeMVvBhD
-	 TTcDHp3BGuIS99CQNgdULp9fexif7l105NPUDYYIbzDg/lKkjAg05jDLiC6dKkLPDIw==
+	t=1792996989;
+	b=oDnDyBCpAMbyIifkEzumlP5A/F1ZwS88+k53+fzEfTsV1nh8LyOh4x8j1T+3GpqvekJZ
+	 byMsz3A2n/KoaFcjJ3YM8rIzvuN6LXFWL5iAYTycVs4h7oRo5VOPuly+C6sGvMmRzucuy
+	 x5rI+j8kIwL3YGsr+MLd7MNqrgtLMPC7FFj1L6QWbbAFdcfMhsnVtiOf16GVaxwzHR010
+	 u+yOlzX/97mSnY8ZYqsTObafoN+Vz5dXcqdc4uALem5bAWAemmHEvuVn2So3UQ+2IXQ/J
+	 OgE0MOOM65vwDGSImB1W958QkI9zZk/YB8fOhpu264hCpsJXt0nAwagW02q/ZkkMBcg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792996987;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792996989;
 	h=DMARC-Filter:Received:X-Sender:X-Auth-ID:X-SMAIL-MID:X-SMAIL-UIID:
 	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References;
-	bh=B2FkXWGrXs4t1AZ4YqQrFj2tdqC4ijuZXr9WGqPvBs8=;
-	b=k9/H1vlQrDXtOJRAdmEnPrp65gO54QDRk+Xj54GJFrCnYn6CsUNoghFofiZgNAtungJ+
-	 yII2C3zcRtBd0RvNWwpl3QDqVPEFY8mfADW8+sYPeFmC8+a9xwwOm0Lyc2mxhqh8C9DJk
-	 IkOv4xWcKeM7obiFmjPmT/unixKK+Neu3I7MegwFFblArWbTzxxQT0Ck9gzNydsyiQDP+
-	 84ORrS9uca/GR/5oPKzoj4c4Ym/tBdtuqHQyf+KYTkkgQfocGnQJ9k5yJ/veVrLdd8MLu
-	 Hlfgh7kXw+A2Ri39j36Mcq49pc5wyEYOkLiwaBbayjYf8INQhIwrzO0jTCUePup+GLA==
+	bh=CxcN5NpT+VRhUV13dgZ5/IbMQ9bDavIaqy2PI8u6rUU=;
+	b=en6iw0piTYs4rcvFKPNiSrDLax3GOifGkub6K9YcLJ5JDto0ESJK4Y01KA27gKKgr1yV
+	 n6IUQeLRcFw0eyCZzskAEeHhGAdYAOD3oVLeJgflcgdwzik8okXgDtt3wU62IwRVVlz/m
+	 zxe45UNFBwKc1fsQ/ngufajBxz4SO+YPUT4WredaNgagSgMMCHwauHVaWpxaYgmYJgugE
+	 Q5zpKAYn/jsAfRc2g1qHo6ftlsSOf/L2gyzmIne/0a/XwSsG9joKgzmxnMetaPk0f//Cl
+	 Eq1t8LEY5vtvZXpa0D+9tiaV5qsCP+vMu+bfldL7hUtSNdBiA+F3IyeDVXpIGTMA1Vw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=everest-semi.com;
 	spf=pass smtp.mailfrom=everest-semi.com;
-	arc=none smtp.remote-ip=202.108.3.82
-Received: from r3-82.sinamail.sina.com.cn (r3-82.sinamail.sina.com.cn [202.108.3.82])
+	arc=none smtp.remote-ip=61.135.153.175
+Received: from smtp153-175.sina.com.cn (smtp153-175.sina.com.cn [61.135.153.175])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67FD8606A31E
-	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 06:43:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67FD8606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F054606A31B
+	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 06:43:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F054606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
 Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
 	by sina.net (10.54.253.37) with ESMTP
-	id 6ADEF66D00002520; Mon, 26 Oct 2026 14:42:57 +0800 (CST)
+	id 6ADEF66D00002520; Mon, 26 Oct 2026 14:42:56 +0800 (CST)
 X-Sender: zhangyi@everest-semi.com
 X-Auth-ID: zhangyi@everest-semi.com
 Authentication-Results: sina.net;
 	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
 	 dkim=none header.i=none;
 	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: E5524FDB7BA846509727577830D11350
-X-SMAIL-UIID: E5524FDB7BA846509727577830D11350-20261026-144257
+X-SMAIL-MID: D8D8745DD2424DEBA457F5318D6F0227
+X-SMAIL-UIID: D8D8745DD2424DEBA457F5318D6F0227-20261026-144256
 From: Zhang Yi <zhangyi@everest-semi.com>
 To: linux-sound@vger.kernel.org,
 	broonie@kernel.org
 Cc: tiwai@suse.com,
 	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH v2 3/3] ASoC: es9356-sdca: Modify the Initialization Configuration
-Date: Mon, 26 Oct 2026 14:42:51 +0800
-Message-Id: <20261026064251.15017-4-zhangyi@everest-semi.com>
+Subject: [PATCH v2 2/3] ASoC: es9356-sdca: Add writeable_reg
+Date: Mon, 26 Oct 2026 14:42:50 +0800
+Message-Id: <20261026064251.15017-3-zhangyi@everest-semi.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20261026064251.15017-1-zhangyi@everest-semi.com>
 References: <20261026064251.15017-1-zhangyi@everest-semi.com>
@@ -59,194 +59,56 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Read the chip version number and modify the initialization configuration
+Set ES9356_VERSION and the HID-related registers to read-only.
 
 Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
 ---
- sound/soc/codecs/es9356.c | 81 +++++++++++++++++++++++++++++++--------
- sound/soc/codecs/es9356.h |  4 ++
- 2 files changed, 68 insertions(+), 17 deletions(-)
+ sound/soc/codecs/es9356.c | 15 +++++++++++++++
+ sound/soc/codecs/es9356.h |  1 +
+ 2 files changed, 16 insertions(+)
 
 diff --git a/sound/soc/codecs/es9356.c b/sound/soc/codecs/es9356.c
-index a22e92d1e..9c70ccd5b 100644
+index 4bb51dd8d..a22e92d1e 100644
 --- a/sound/soc/codecs/es9356.c
 +++ b/sound/soc/codecs/es9356.c
-@@ -749,58 +749,97 @@ static const struct regmap_config es9356_sdca_regmap = {
- 	.use_single_write = true,
- };
- 
--static void es9356_register_init(struct es9356_sdw_priv *es9356)
-+static int es9356_register_init(struct es9356_sdw_priv *es9356)
- {
-+	unsigned int version;
-+	int ret;
-+
-+	ret = regmap_read(es9356->regmap, ES9356_VERSION, &version);
-+	if (ret < 0) {
-+		pr_err_ratelimited("IO error in %s, ret %d\n", __func__, ret);
-+		return ret;
-+	}
-+
-+	regmap_write(es9356->regmap, ES9356_SPKLDO_CTL, 0x2c);
-+	if (!(version >> 1))
-+		regmap_write(es9356->regmap, ES9356_HP_VOLUME, 0x11);
-+	else
-+		regmap_write(es9356->regmap, ES9356_HP_VOLUME, 0x00);
-+
-+	regmap_write(es9356->regmap, ES9356_SPKCLK_CTL, 0xc3);
- 	regmap_write(es9356->regmap, ES9356_STATE, 0x02);
- 	regmap_write(es9356->regmap, ES9356_ENDPOINT_MODE, 0x24);
- 	regmap_write(es9356->regmap, ES9356_PRE_DIV_CTL, 0x00);
- 	regmap_write(es9356->regmap, ES9356_ADC_OSR, 0x18);
--	regmap_write(es9356->regmap, ES9356_ADC_OSRGAIN, 0x13);
-+	regmap_write(es9356->regmap, ES9356_ADC_OSRGAIN, 0x11);
- 	regmap_write(es9356->regmap, ES9356_DAC_OSR, 0x16);
- 	regmap_write(es9356->regmap, ES9356_CLK_CTL, 0x0f);
--	regmap_write(es9356->regmap, ES9356_CSM_RESET, 0x01);
--	regmap_write(es9356->regmap, ES9356_CLK_SEL, 0x30);
- 
-+	if (!(version >> 1))
-+		regmap_write(es9356->regmap, ES9356_CLK_SEL, 0x30);
-+	else
-+		regmap_write(es9356->regmap, ES9356_CLK_SEL, 0x10);
-+
-+	regmap_write(es9356->regmap, ES9356_CSM_RESET, 0x01);
- 	regmap_write(es9356->regmap, ES9356_DETCLK_CTL, 0x51);
--	regmap_write(es9356->regmap, ES9356_HP_TYPE, 0x10);
-+	regmap_write(es9356->regmap, ES9356_HP_TYPE, 0x00);
- 	regmap_write(es9356->regmap, ES9356_MICBIAS_CTL, 0x10);
- 	regmap_write(es9356->regmap, ES9356_HPDETECT_CTL, 0x07);
- 	regmap_write(es9356->regmap, ES9356_ADC_ANA, 0x30);
--	regmap_write(es9356->regmap, ES9356_PGA_CTL, 0xa8);
-+	regmap_write(es9356->regmap, ES9356_PGA_CTL, 0xaa);
- 	regmap_write(es9356->regmap, ES9356_ADC_INT, 0xaa);
- 	regmap_write(es9356->regmap, ES9356_ADC_LP, 0x19);
- 	regmap_write(es9356->regmap, ES9356_VMID1SEL, 0xbc);
- 	regmap_write(es9356->regmap, ES9356_VMID_TIME, 0x0b);
- 	regmap_write(es9356->regmap, ES9356_STATE_TIME, 0xbb);
--	regmap_write(es9356->regmap, ES9356_HP_SPK_TIME, 0x77);
-+	regmap_write(es9356->regmap, ES9356_HP_SPK_TIME, 0x7a);
- 	regmap_write(es9356->regmap, ES9356_HP_DETECTTIME, 0xa4);
--	regmap_write(es9356->regmap, ES9356_MICBIAS_SEL, 0x15);
-+
-+	if ((version & GENMASK(1, 0)) == 0x03)
-+		regmap_write(es9356->regmap, ES9356_MICBIAS_SEL, 0x15);
-+	else
-+		regmap_write(es9356->regmap, ES9356_MICBIAS_SEL, 0x25);
-+
-+	regmap_write(es9356->regmap, ES9356_SPARE_REGISTER3, 0x00);
- 	regmap_write(es9356->regmap, ES9356_KEY_PRESS_TIME, 0xff);
- 	regmap_write(es9356->regmap, ES9356_KEY_RELEASE_TIME, 0xff);
- 	regmap_write(es9356->regmap, ES9356_KEY_HOLD_TIME, 0x0f);
--	regmap_write(es9356->regmap, ES9356_BTSEL_REF, 0x00);
-+
-+	if ((version & GENMASK(1, 0)) == 0x03)
-+		regmap_write(es9356->regmap, ES9356_BTSEL_REF, 0x04);
-+	else
-+		regmap_write(es9356->regmap, ES9356_BTSEL_REF, 0x00);
-+
- 	regmap_write(es9356->regmap, ES9356_KEYD_DETECT, 0x18);
- 	regmap_write(es9356->regmap, ES9356_MICBIAS_RES, 0x03);
--	regmap_write(es9356->regmap, ES9356_BUTTON_CHARGE, 0x00);
--	regmap_write(es9356->regmap, ES9356_CALIBRATION_TIME, 0x13);
--	regmap_write(es9356->regmap, ES9356_CALIBRATION_SETTING, 0xf4);
-+	regmap_write(es9356->regmap, ES9356_CALIBRATION_TIME, 0x1a);
-+
-+	if (!(version >> 1)) {
-+		regmap_write(es9356->regmap, ES9356_CALIBRATION_SETTING, 0xc3);
-+	} else {
-+		regmap_write(es9356->regmap, ES9356_CALIBRATION_SETTING, 0xf4);
-+		regmap_write(es9356->regmap, ES9356_SPK_SCP, 0x55);
-+	}
- 
- 	regmap_write(es9356->regmap, ES9356_SPK_VOLUME, 0x33);
- 	regmap_write(es9356->regmap, ES9356_DAC_VROI, 0x01);
- 	regmap_write(es9356->regmap, ES9356_DAC_LP, 0x00);
- 	regmap_write(es9356->regmap, ES9356_HP_IBIAS, 0x04);
- 	regmap_write(es9356->regmap, ES9356_HP_LP, 0x03);
--	regmap_write(es9356->regmap, ES9356_SPKLDO_CTL, 0x65);
-+	regmap_write(es9356->regmap, ES9356_SPKLDO_CTL, 0x6c);
- 	regmap_write(es9356->regmap, ES9356_SPKBIAS_COMP, 0x09);
--	regmap_write(es9356->regmap, ES9356_VMID1STL, 0x00);
-+	regmap_write(es9356->regmap, ES9356_VMID1STL, 0x01);
- 	regmap_write(es9356->regmap, ES9356_VMID2STL, 0x00);
- 	regmap_write(es9356->regmap, ES9356_VSEL, 0xfc);
- 
- 	regmap_write(es9356->regmap, ES9356_IBIASGEN, 0x10);
--	regmap_write(es9356->regmap, ES9356_ADC_AMIC_CTL, 0x0d);
-+	regmap_write(es9356->regmap, ES9356_ADC_AMIC_CTL, 0x05);
- 	regmap_write(es9356->regmap, ES9356_STATE, 0x0e);
- 	regmap_write(es9356->regmap, ES9356_CSM_RESET, 0x00);
- 	regmap_write(es9356->regmap, ES9356_HP_TYPE, 0x08);
-+	regmap_write(es9356->regmap, ES9356_DAC_AUTOMUTE, 0x31);
-+	regmap_write(es9356->regmap, ES9356_DAC_AUTOMUTE_WINSIZE, 0x3D);
-+	regmap_write(es9356->regmap, ES9356_DAC_AUTOMUTE_RESULT1, 0x80);
- 
- 	regmap_write(es9356->regmap,
- 		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_L), ES9356_DEFAULT_VOLUME);
-@@ -821,11 +860,14 @@ static void es9356_register_init(struct es9356_sdw_priv *es9356)
- 		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_L), ES9356_DEFAULT_VOLUME);
- 	regmap_write(es9356->regmap,
- 		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_R), ES9356_DEFAULT_VOLUME);
-+
-+	return 0;
- }
- 
- static int es9356_sdca_io_init(struct device *dev, struct sdw_slave *slave)
- {
- 	struct es9356_sdw_priv *es9356 = dev_get_drvdata(&slave->dev);
-+	int ret = 0;
- 
- 	if (es9356->hw_init)
- 		return 0;
-@@ -840,7 +882,11 @@ static int es9356_sdca_io_init(struct device *dev, struct sdw_slave *slave)
- 		/* update count of parent 'active' children */
- 		pm_runtime_set_active(&slave->dev);
- 
--		es9356_register_init(es9356);
-+		ret = es9356_register_init(es9356);
-+		if (ret < 0) {
-+			regcache_cache_only(es9356->regmap, true);
-+			goto err_out;
-+		}
+@@ -724,10 +724,25 @@ static bool es9356_sdca_volatile_register(struct device *dev, unsigned int reg)
  	}
- 	pm_runtime_get_noresume(&slave->dev);
- 
-@@ -867,10 +913,11 @@ static int es9356_sdca_io_init(struct device *dev, struct sdw_slave *slave)
- 
- 	es9356->hw_init = true;
- 
-+err_out:
- 	pm_runtime_mark_last_busy(&slave->dev);
- 	pm_runtime_put_autosuspend(&slave->dev);
- 
--	return 0;
-+	return ret;
  }
  
- static int es9356_sdw_update_status(struct sdw_slave *slave,
++static bool es9356_writeable_register(struct device *dev, unsigned int reg)
++{
++	switch (reg) {
++	case ES9356_VERSION:
++	case ES9356_BUF_ADDR_HID:
++	case ES9356_HID_BYTE2:
++	case ES9356_HID_BYTE3:
++	case ES9356_HID_BYTE4:
++		return false;
++	default:
++		return true;
++	}
++}
++
+ static const struct regmap_config es9356_sdca_regmap = {
+ 	.reg_bits = 32,
+ 	.val_bits = 16,
+ 	.volatile_reg = es9356_sdca_volatile_register,
++	.writeable_reg = es9356_writeable_register,
+ 	.max_register = 0x45ffffff,
+ 	.cache_type = REGCACHE_MAPLE,
+ 	.use_single_read = true,
 diff --git a/sound/soc/codecs/es9356.h b/sound/soc/codecs/es9356.h
-index ceb571903..c147ecdd8 100644
+index 2a676f365..ceb571903 100644
 --- a/sound/soc/codecs/es9356.h
 +++ b/sound/soc/codecs/es9356.h
-@@ -38,6 +38,7 @@
- #define ES9356_MICBIAS_CTL                      0x2047
- #define ES9356_HPDETECT_CTL                     0x2048
- #define ES9356_MICBIAS_RES                      0x2049
-+#define ES9356_SPARE_REGISTER3                  0x204a
+@@ -4,6 +4,7 @@
+ #define __ES9356_H__
  
- /*CLK*/
- #define ES9356_CLK_SEL                          0x2050
-@@ -82,6 +83,9 @@
- #define ES9356_DAC_RAMP                         0x2093
- #define ES9356_DAC_VPPSCALE                     0x2094
- #define ES9356_DAC_SWAP                         0x2097
-+#define ES9356_DAC_AUTOMUTE                     0x2098
-+#define ES9356_DAC_AUTOMUTE_WINSIZE             0x2099
-+#define ES9356_DAC_AUTOMUTE_RESULT1             0x209B
- #define ES9356_SPKCMP_VPPSC                     0x20A0
- #define ES9356_CALIBRATION_TIME                 0x20A1
- #define ES9356_CALIBRATION_SETTING              0x20A2
+ /*ES9356 Implementation-define*/
++#define ES9356_VERSION                          0x2000
+ #define ES9356_FLAGS_HP                         0x2003
+ #define ES9356_CSM_RESET                        0x2020
+ #define ES9356_FUC_RESET                        0x2021
 -- 
 2.17.1
 
