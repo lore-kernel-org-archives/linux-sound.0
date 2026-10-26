@@ -1,65 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793047455;
-	b=O3pWW65KqdIM5ZXP+pr1vb7rfQ92QPg/3yuY9w5BK4sdBHA/6NFmDXQlvIBLlqC/6WuJ
-	 E4vuSWZMQlNlLAZotVS/RzPT2dXnBZx39jOJ3S4g6otklPnvK11Kf0UHg5oe1izs1tBcX
-	 nMwEbJ+b/i/q1B8qHLSPMyhJXncxL/vuEitbiXzk4ktaTvOX6SCPFBjX8TrHlNIwLtc/Y
-	 b3K0hreS1RIu1NnfbT2XC/IbLP2yMmNSSBOfseM5ppt9t74IpCeudUg9DUoABpamj4p54
-	 u+c2QEA39w5J81VrFgPSJ3AhWsRMbbNt7tPbfurJE9wEsiFRG3Hfg7qAsUShj9Ft6SA==
+	t=1793048561;
+	b=43KT8jJZFpblDXBYdRlRD6A9lnkn3i5otsvJPGTTo6OgOD1fiYlpaOQjedUtMcQFx8+3
+	 2ohqN8SNmfVV75PHzrJMiZh5wNI2xJ6Q1VVVhi1+WI14yU7Kne59f4aMgPVZS0R3SH8Zj
+	 hF7gKOECkuLGwtwrVJADNpLC5Wsnj0LwxY2wng/NN5aeMo/CdIpIOmaAkCWmz9s4GCByP
+	 9C8mYYe+sI1h0dr9469GsBZ3SiiAK3TazvWMWCNypY/RC4pX8nsWdGIWxqUQ5e6HRcc0e
+	 1a2p/V38sYb3x+7EVCUrA0l4t63FhNVCnZtNr5WVgIs9g/X4AE3GZThKtME4MC6DaOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793047455;
-	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
-	 Subject:Message-Id:Date:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key;
-	bh=/kBWIySqVK+PWmxdvx34TJ2UPR1qXh1MS37/nhOACws=;
-	b=s7aa4AF/43kSOTudtYbksgJBp8mUlJ+i6IVTG5uLpEbWrMNzXf1D5Un6HZyqrNJ+PhGB
-	 jp/AAujOMtmK7icnxCftLdvQr96BEd2V0XFfwuQiNxLsI4xMnIQGsxf6nJsF8aN4cTln2
-	 lkaDv6z7igAwzpgWoNCd/MGGE8q0Rs9kn9IEDJLzbeUWV0KDGO8LhOT0XAIKQw1RpOT6d
-	 jXeI+/WQ3PXpcPGESYooDiPpP+PUFBn0+S/jmlFPV/zKRG+OjM8ZvjjYFqD4VrcQxZTL6
-	 oO3+zrF+yPfuyMxCEsbZ68EKHw9LnAuxWpGREwW4HqU0jjux4vf2v/J+7kaM/fHCT3w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793048561;
+	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=v358HEhOlmBDuVPDB7wDI9WRAFH4nBpagPV3eCkU2/U=;
+	b=h1ZUm5ztXsSOF7/xZpJo4qQ6nafUxE6n7fqTKYxa0dREZSMeK9kKt97U7z+i05be+oEY
+	 VuAiOZFeJAAK9z2LU8Hix0hRAkFDxDcJvBb3dCY+a/t0lTqY0pTiOMEeCwL5iN6QnxsBX
+	 ndPyBOBFyOM4aj7vtX139GIGI9z54uQ8oI8WxkijFrBN+kN41YKftdWulr1C8FC7uiYuq
+	 cRFuXZGfDDnFvY855UI3stFFg3n6+CDpyRWXhUCOszzjqZWQRUFWGa6F6ORZfMI5e+o9k
+	 JhGJz5EplpSSLqctNJLys3pIFHi2t+hTKE1hDHaKG9b39Nf4aZlqOZ/SzlpfPoxKupQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UMlzYbub;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XUw4tJON;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C548606A31A;
-	Mon, 26 Oct 2026 20:44:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D996606A31A;
+	Mon, 26 Oct 2026 21:02:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UMlzYbub
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DAA71F01825;
-	Mon, 26 Oct 2026 20:44:14 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XUw4tJON
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A6791F01825;
+	Mon, 26 Oct 2026 21:02:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793047455;
-	bh=/kBWIySqVK+PWmxdvx34TJ2UPR1qXh1MS37/nhOACws=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=UMlzYbubU9+UHKB74PSevBibC29LZQLOORvzLEcWSxfcArzmmh3NgD/uVj44cM2WW
-	 9VCLMVrSJh78gj6pVk5clxxljY9tiAWSdlsTPYU7Qki4EoOR3vsC6dus0vKWleF1cx
-	 cagwvcosF+9v8uDCZPytC80sU3U0lxkNHfjbYurN3yGJs0VyKRBsMLTtT+kHncw/lv
-	 mrqtPxLlbeknaIk5vtddCHOQaRj6WLSP2osBA2W/qMN76koNzWeBldiHg1DrbH+ggF
-	 FLwqKJdoCx6oehOe9eOaJiYelTuLxIzLucY3Ue++aavZF2wOBYww3I1rnEki0ziQDH
-	 jBzMsRlV2FoEQ==
+	s=k20260515; t=1793048560;
+	bh=v358HEhOlmBDuVPDB7wDI9WRAFH4nBpagPV3eCkU2/U=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=XUw4tJONe4g8PLwoFuRLxJoUZxFxGq6F2n/k53iHgcdPwP5Z+JgqVNJb+6EqhZngi
+	 EiBaSMmzjYf5ndm8Nj8sIZzjNHqiPFI35g2RTZVerwjo4lb+SzY1fs0rZOOD3ortey
+	 ctdtcaK6FTozfHodP4mje2y9Juj87pDeC2a2wZZCTeG0Be+1g/jKG4BgyarHi1aAln
+	 y9ECIly7XIyzOMeqfShcMAy/QF82oADXSJ4wVufvqJDnzzojBpqTrFLbaNb9awHiur
+	 hZukemHAVM21Z7Zszt+kadQcDVhuPTvxK8bXfBy3KumFcl6QjBz8mTaZggVUCW/Xb+
+	 jB3snI5IW5gyw==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 4281B1F286F3;
-	Mon, 26 Oct 2026 20:44:00 +0000 (GMT)
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Val Packett <val@packett.cool>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
- Bhushan Shah <bhushan.shah@machinesoul.in>, 
- Luca Weiss <luca.weiss@fairphone.com>, Antoine Bernard <zalnir@proton.me>, 
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-In-Reply-To: <20261016063536.598610-1-val@packett.cool>
-References: <20261016063536.598610-1-val@packett.cool>
-Subject: Re: [PATCH RESEND v2] ASoC: qcom: qdsp6: q6afe: fix clk vote
- response type mismatch
-Message-Id: <179303940192.199157.18424504890882837346.b4-ty@b4>
-Date: Mon, 26 Oct 2026 18:30:01 +0000
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 9AE551F289D4;
+	Mon, 26 Oct 2026 21:02:27 +0000 (GMT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -71,44 +54,54 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v7 3/5] ASoC: meson: g12a-toacodec: Add S4 tocodec
+ driver
+From: Mark Brown <broonie@kernel.org>
+To: Jiebing Chen <jiebing.chen@amlogic.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-clk@vger.kernel.org, jian.xu@amlogic.com, shuai.li@amlogic.com, 
+ zhe.wang@amlogic.com
+In-Reply-To: <20261021-audio_drvier-v7-3-2b9aeae9cb8a@amlogic.com>
+References: <20261021-audio_drvier-v7-0-2b9aeae9cb8a@amlogic.com>
+ <20261021-audio_drvier-v7-3-2b9aeae9cb8a@amlogic.com>
+Date: Mon, 26 Oct 2026 21:02:26 +0000
+Message-Id: <179304854619.199157.2693374514232344592.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1139; i=broonie@kernel.org;
- h=from:subject:message-id; bh=+8moeMoR9LiSrGcSUzfh7gF90tvP7B2NY9IC3v4N87o=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLu755wZMNxw9+3xCYanV8QWp//8NC64wbTY0Qnxp3fu
- mi+8u7cWx2lLAxiXAyyYooscVncL+tLXq/hO7iwDWYOKxPIEAYuTgGYSKQ1I8Oxi/s/FLtJSZVd
- uWD/7RgHU++k282cM2Tv3r26Ilqk/HoqI8MDl8S8FdV/KysazorOXOabwLD6g7Gp6qno6uPPP1U
- 5HWIBAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=591; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=cqCG7i2KkY1qhKb0vz9axhgwtlpKCIFLBV1xu14ZY0E=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLu73/cV3RV+ql6TtKlM74fWNw4a7yu3fp9YULKho+Sx
+ 4MWPvsm3FHKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJZOUx/M+M3cEpf3dK1fOf
+ pQanquU+LKr+62m4denzvSpFjw51JX9k+O8ucfR+blMf79cnVwuidzXvteqaHP6rRjMvYdN2P9k
+ p8cwA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 16 Oct 2026 03:29:17 -0300, Val Packett wrote:
-> ASoC: qcom: qdsp6: q6afe: fix clk vote response type mismatch
+> The S4 requires additional clock control bits to be turn on while enabled.
+> The S4 has 8 TDM lanes, instead of 4 on previous SoC.
+> Update the widget accordingly.
 
-Applied to
+> +#define CTRL0_BCLK_ENABLE_SHIFT		30
+> +#define CTRL0_MCLK_ENABLE_SHIFT		29
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+Should these have a _S4 suffix?
 
-Thanks!
+>  
+> +static const struct snd_soc_dapm_widget s4_toacodec_widgets[] = {
+> +	SND_SOC_DAPM_MUX("SRC", SND_SOC_NOPM, 0, 0,
+> +			 &sm1_toacodec_mux),
 
-[1/1] ASoC: qcom: qdsp6: q6afe: fix clk vote response type mismatch
-      https://git.kernel.org/broonie/sound/c/f3c7bee984aa
+Should this have a custom mux for S4, it looks like the register bits
+are different, a shift of 19 for S4.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Mark Brown <broonie@kernel.org>
