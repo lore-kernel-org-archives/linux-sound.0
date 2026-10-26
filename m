@@ -1,48 +1,63 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793048561;
-	b=43KT8jJZFpblDXBYdRlRD6A9lnkn3i5otsvJPGTTo6OgOD1fiYlpaOQjedUtMcQFx8+3
-	 2ohqN8SNmfVV75PHzrJMiZh5wNI2xJ6Q1VVVhi1+WI14yU7Kne59f4aMgPVZS0R3SH8Zj
-	 hF7gKOECkuLGwtwrVJADNpLC5Wsnj0LwxY2wng/NN5aeMo/CdIpIOmaAkCWmz9s4GCByP
-	 9C8mYYe+sI1h0dr9469GsBZ3SiiAK3TazvWMWCNypY/RC4pX8nsWdGIWxqUQ5e6HRcc0e
-	 1a2p/V38sYb3x+7EVCUrA0l4t63FhNVCnZtNr5WVgIs9g/X4AE3GZThKtME4MC6DaOQ==
+	t=1793050372;
+	b=0cfU6ztLw3Wt6Ik+7jzCx+Dj4yTYB7rwggE54ON85pXI1mIiR2J3dHmXQ6Nwdzu/3mKR
+	 /ADzwWDFfRYptgxG1nVgMeruplEeRaaFe1Gm+lDRHeBuvcam5DfqH5emwNP+KHV4B3Xjf
+	 RviV5tU661Zm1HuWJtSPfbmItCYab2iL9otR9wDB8MH0mOAHZlDX+4IJKXC1aE1Yz+1+N
+	 Oi1QjiQxe8MpRGAkAH82zSamqNiW1nuGpGFuIPzC8WGzz4x8Cfsgidd6UGDmd5GeGJ7Mo
+	 OokQokQ1FLgopeNbayG+GID9wkL49VZPPEQssZvCRdhauzR8NUakbNm5vi5C1I1lDAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793048561;
-	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=v358HEhOlmBDuVPDB7wDI9WRAFH4nBpagPV3eCkU2/U=;
-	b=h1ZUm5ztXsSOF7/xZpJo4qQ6nafUxE6n7fqTKYxa0dREZSMeK9kKt97U7z+i05be+oEY
-	 VuAiOZFeJAAK9z2LU8Hix0hRAkFDxDcJvBb3dCY+a/t0lTqY0pTiOMEeCwL5iN6QnxsBX
-	 ndPyBOBFyOM4aj7vtX139GIGI9z54uQ8oI8WxkijFrBN+kN41YKftdWulr1C8FC7uiYuq
-	 cRFuXZGfDDnFvY855UI3stFFg3n6+CDpyRWXhUCOszzjqZWQRUFWGa6F6ORZfMI5e+o9k
-	 JhGJz5EplpSSLqctNJLys3pIFHi2t+hTKE1hDHaKG9b39Nf4aZlqOZ/SzlpfPoxKupQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793050372;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=6UXRkofqIopc1VIlz2O51kfJ8AOtnEZxYiLwN12udko=;
+	b=a+y79iVBdRx0UfLVRYL0jWvI8f1fuM7XusTVjcGjJu5RmdUTsvgQHOtvr2fF63Iu1aQh
+	 L0XVeTDDsWdSA9+6qO+pnBohuzLyMfjWqcrNKKU8Gl+y65UrN0GDRh64ejK4cHKj/6+z2
+	 hID+1aHZjTVYayeOyLZYLIWHwFgCJR+3k2YrvQy8X33RjSdGRExPje/eEV5B6dZoqNo6r
+	 2PoDuBdmxulA1wnkU+55iiq7d810eA1DSh7VdgzgG5pTXz1b0az5bysGKR8KTMf7JIOi4
+	 5NLyx0y4QXajBZ2bkNj28+OfGZwsdWk7Tec14FGpiYNyh4yMFykoQeUhWHt62nZY9hw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XUw4tJON;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aD+zDZ5M;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D996606A31A;
-	Mon, 26 Oct 2026 21:02:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705BB606A31A;
+	Mon, 26 Oct 2026 21:32:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XUw4tJON
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A6791F01825;
-	Mon, 26 Oct 2026 21:02:40 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aD+zDZ5M
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D627B1F01825;
+	Mon, 26 Oct 2026 21:32:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793048560;
-	bh=v358HEhOlmBDuVPDB7wDI9WRAFH4nBpagPV3eCkU2/U=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=XUw4tJONe4g8PLwoFuRLxJoUZxFxGq6F2n/k53iHgcdPwP5Z+JgqVNJb+6EqhZngi
-	 EiBaSMmzjYf5ndm8Nj8sIZzjNHqiPFI35g2RTZVerwjo4lb+SzY1fs0rZOOD3ortey
-	 ctdtcaK6FTozfHodP4mje2y9Juj87pDeC2a2wZZCTeG0Be+1g/jKG4BgyarHi1aAln
-	 y9ECIly7XIyzOMeqfShcMAy/QF82oADXSJ4wVufvqJDnzzojBpqTrFLbaNb9awHiur
-	 hZukemHAVM21Z7Zszt+kadQcDVhuPTvxK8bXfBy3KumFcl6QjBz8mTaZggVUCW/Xb+
-	 jB3snI5IW5gyw==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 9AE551F289D4;
-	Mon, 26 Oct 2026 21:02:27 +0000 (GMT)
+	s=k20260515; t=1793050372;
+	bh=6UXRkofqIopc1VIlz2O51kfJ8AOtnEZxYiLwN12udko=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=aD+zDZ5MKeko/KtyWmyU0tJWGzehxKk8dqVx5bNemApyR0czWhDVPAZn70FNVhnbA
+	 crFhrdWAJNrwd4kUi73t4guNK5Y4I6AOIh5T5/PFPtpXiXQWh6uTMDR3IeqVStcGyz
+	 MkNOULRqjcrkeLR8/Y5UNQDFLKtlR1ohf27mFslfYJKfFumaXy0NTyCJgAMDWttmQU
+	 VkVsExzqu9kHsE/9OkzzIpQqh2Rk6KXmXSZrHaQ2PsMeZsVveWc1BWCqjcdHByyNAZ
+	 ZWa1X478duR3KSR7jr9ARz/G8esOFk43bqLgOJO4DCTwYg32U5EMAk6vNHMMs4Bwln
+	 BO9mTs4QFC8Qg==
+Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
+	id 387F81F4211F; Mon, 26 Oct 2026 21:32:39 +0000 (GMT)
+Date: Mon, 26 Oct 2026 21:32:39 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Karthik S <karthik.s@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 0/5] ASoC: qcom: Add Shikra IQS LT9611UXD EVK audio
+ support
+Message-ID: <at_G9w-g-f_x-49c@sirena.org.uk>
+References: <20261022094313.1074873-1-karthik.s@oss.qualcomm.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -52,56 +67,33 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v7 3/5] ASoC: meson: g12a-toacodec: Add S4 tocodec
- driver
-From: Mark Brown <broonie@kernel.org>
-To: Jiebing Chen <jiebing.chen@amlogic.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-clk@vger.kernel.org, jian.xu@amlogic.com, shuai.li@amlogic.com, 
- zhe.wang@amlogic.com
-In-Reply-To: <20261021-audio_drvier-v7-3-2b9aeae9cb8a@amlogic.com>
-References: <20261021-audio_drvier-v7-0-2b9aeae9cb8a@amlogic.com>
- <20261021-audio_drvier-v7-3-2b9aeae9cb8a@amlogic.com>
-Date: Mon, 26 Oct 2026 21:02:26 +0000
-Message-Id: <179304854619.199157.2693374514232344592.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=591; i=broonie@kernel.org;
- h=from:subject:message-id; bh=cqCG7i2KkY1qhKb0vz9axhgwtlpKCIFLBV1xu14ZY0E=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLu73/cV3RV+ql6TtKlM74fWNw4a7yu3fp9YULKho+Sx
- 4MWPvsm3FHKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJZOUx/M+M3cEpf3dK1fOf
- pQanquU+LKr+62m4denzvSpFjw51JX9k+O8ucfR+blMf79cnVwuidzXvteqaHP6rRjMvYdN2P9k
- p8cwA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sLF79ND+0+YdUvNI"
+Content-Disposition: inline
+In-Reply-To: <20261022094313.1074873-1-karthik.s@oss.qualcomm.com>
+X-Cookie: Whoever dies with the most toys wins.
 
-> The S4 requires additional clock control bits to be turn on while enabled.
-> The S4 has 8 TDM lanes, instead of 4 on previous SoC.
-> Update the widget accordingly.
 
-> +#define CTRL0_BCLK_ENABLE_SHIFT		30
-> +#define CTRL0_MCLK_ENABLE_SHIFT		29
+--sLF79ND+0+YdUvNI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Should these have a _S4 suffix?
+On Thu, Oct 22, 2026 at 03:13:08PM +0530, Karthik S wrote:
+> This series adds audio support for the Shikra IQS EVK board variant
+> that uses the LT9611UXD HDMI bridge as an I2S audio codec instead of
+> the MAX98091 codec used on the base Shikra IQS EVK.
 
->  
-> +static const struct snd_soc_dapm_widget s4_toacodec_widgets[] = {
-> +	SND_SOC_DAPM_MUX("SRC", SND_SOC_NOPM, 0, 0,
-> +			 &sm1_toacodec_mux),
+This doesn't apply against current code, please check and resend.
 
-Should this have a custom mux for S4, it looks like the register bits
-are different, a shift of 19 for S4.
+--sLF79ND+0+YdUvNI
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Mark Brown <broonie@kernel.org>
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCat/G9gAKCRAv73Ows9A4
+iS/pAP9L8xikTlyFwI312pIvQdu7ppiUpfFKf9aD9gkuha7PXQD9ETqUINmBzQCe
+NSSNDrMJJfSxpRnUpMP56Q46aULBEA4=
+=grle
+-----END PGP SIGNATURE-----
+
+--sLF79ND+0+YdUvNI--
