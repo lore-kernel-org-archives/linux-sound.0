@@ -1,58 +1,63 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793100312;
-	b=NTgjQR30ay0NNXCSzpBHGfiPqde1AoV3+2vg+AWRoyldfczhxvXdjwztn5Yxrttrgj73
-	 MXmKpp7VmJbs1bFjoPO0zISwYi7L3RriiEORJOermRQZnaHHvXdrAKKAGstrXB/ho7j/M
-	 xjcz15em4Uf3/7EJh1rGbmLczK7ItL3f9jJY02WxafXhLt9WNTp7wzPc9tH8g/DPb+L2Q
-	 bDOLzycxkrp24ptRfJAUUqnHWVI61y2y1EIygiWuY1TJYH7hNOOeCTG2QF9JZsoF80AoO
-	 gT3QpQM2Qe/MMHEWJrwGuMSvT23oExqz8GNEEfteEoonyTDCA/EGKAM/Ivi6oTeFI8w==
+	t=1793100311;
+	b=QahCL11OBwERsV2RRfhC9oF0riY24dVrExWcoHpWbfgWaXHPd1UK3wpH63WsnXjT1/vV
+	 ZTK3JSmYD1mlkjGcfUUW+sNDLPGsJRO82fdRAT4YpFfbOXhCoTp4FhgKZlYWdx67oZ37r
+	 nNrjEum5idsmuiw+/bSQW+h/7GRB7RvSwdblAPQUbGq6KE7TXsyUhvr44QVEa3mSLErlx
+	 1VfFSOFnSEJHN3BUnra1HuSVUM0wFFJ2KbUHE1/FJy31lxoDyabd5AWigfhJmKJN2EEu8
+	 vtvJFmIUzjPWHrq0su+xzaH+xRioQTmdWOEq188WqF6pS9zlyfcW9LEjM6RWZBht21g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793100312;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793100311;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=eovlKjwBwrH5H1voap99JWfPsj/COeYozSnUeVtJ7kc=;
-	b=jbI7HFMXLcls54ObHlP7n58cB9kxZ4zKfRBLBLPHT34koHYJpTYLMAR5Yc95ww/aLPVq
-	 kb/ICH7OYK9/1k9w8CeK/nwh4nGS0XJK28j6KDouUwoKKF7XJ/J7D49qazUx+o86fxWkE
-	 0cdck9FkMN0JYGlAhZ3BnRHe/nkWapUKEIw9ZbBjfn8ae1dVSqCvN4reh6eT5ZSgkyLmD
-	 aMZcKpvomFxFVakrECsJjvbWy/H+A46wfL93RY+Y+G+7YrIi5ZDMgQxhqZ7/2OkVNrdQg
-	 TUXMiLBo4m4sTWNXbsKFZLv1T21mQi148fRodowwPG1oGKv0yw2W/HH6im1ZnDblEjw==
+	bh=xYYlRG+Aqav7Ix3eWG2OIY7D2oidT9HV64II8I4yDdQ=;
+	b=tm4DKNyzn2yhsU4xpm0sBrbNxKG9NzS+kPh6bOFTtV+cE/xw8Psior1tyEFKdfKFocM0
+	 akg+dIvkh6AAKGec1BzXEr3W8TCrltnaprCUzr1TUvXUDBNIrIzF6xhZox0MaFZH7KEdO
+	 LslJ4jawiIoDA2vHzmoZS/p9Bhw+J6L1SOtdwHWMxNtrbDwMZUs6hn6CbQCrkJ/z7InIk
+	 7Ey3WlE+bgxhY1CvtTADAyAzVc/Zma4HZ8TV7D/7DlfXeQo4te5SzwPL3RwPjpx1XyWBW
+	 DWmftxcQTKuFt2SauIvBIksrtjddsJjZ/jgJ+Y/5CsqSDHOkBKrf0v3g161VwYG/UVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M84NNiZi;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Btl+CgWb;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B535606A31F
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 11:25:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82829606A31D;
+	Tue, 27 Oct 2026 11:25:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M84NNiZi
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7D111F01825;
-	Tue, 27 Oct 2026 11:25:11 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Btl+CgWb
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A4391F01825;
+	Tue, 27 Oct 2026 11:25:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793100311;
-	bh=eovlKjwBwrH5H1voap99JWfPsj/COeYozSnUeVtJ7kc=;
+	s=k20260515; t=1793100309;
+	bh=xYYlRG+Aqav7Ix3eWG2OIY7D2oidT9HV64II8I4yDdQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=M84NNiZiKKTBWtt9+fK82oUDiRYQJhOv2zh/wFbPrVSKoZ4/8FY7Qe4rCj0/t3S1B
-	 9OabL1opQEBoUu7/tSYuTMuIWg9bD8A52v5ydELs2QjiPzA5GhkttvWFMAsQR+68fI
-	 EcDuJ9ZsbBruaPueikMDsNwtsxvOHZUDPSDW+9cjzQ4kGb4mSFmeX6LBW0Xqy0celt
-	 ZUQZs4Jxl4LDWllUo+bkZmXtuY5NCxHRdcLFa74Cs4ddPeoDodrpoTZruaEcOxCA4r
-	 QsZRAqc6v4vA0wG6lPFI63IBvGhAzTv04h+vfOAJFf+OY1FKH07CO+EZMlNMrCapay
-	 AQPeDAn1DP7XQ==
+	b=Btl+CgWbEBErdL987G1y9dJZtVoRdY6PefBFmlebtHpskQ/PiNWUjLQpG6renpwr0
+	 PzzyZ7fxLpG3vB33tbte+wjqStYMlPSKic0xnyyuLRKHFtExXCo2xmR+bXRpGvAmp5
+	 rvVbX2VDC6qfMFORm/jTVww6oCeDrMla+U3SR0ONmzaAoqTgpx2RNpv0JUxmHs4OaR
+	 3clEf2EzfIaUL33piie1N7jDaGz3/XrA1R7zvSMWtzAb32nVgUUzM3IfFJgomtUu1Q
+	 3vh2XuK/M5WbQqT/9PTtFpuZxOvV+Phqo+tTYErOMz9laXBK3ZcnWVNVQZM9VKLb67
+	 BLeJc5z65anVg==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 032591F4ABB4;
-	Tue, 27 Oct 2026 11:25:09 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id A70801F4AB8D;
+	Tue, 27 Oct 2026 11:25:06 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Zhang Yi <zhangyi@everest-semi.com>
-Cc: tiwai@suse.com, sammiee5311@gmail.com
-In-Reply-To: <20261026054837.13618-1-zhangyi@everest-semi.com>
-References: <20261026054837.13618-1-zhangyi@everest-semi.com>
-Subject: Re: [PATCH v2 0/2] ASoC: codecs: es*: controls that write each
- other's bits
-Message-Id: <179304597887.199157.15716429453952742651.b4-ty@b4>
-Date: Mon, 26 Oct 2026 20:19:38 +0000
+To: Shawn Guo <shengchao.guo@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+ Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261021041044.2080369-1-shengchao.guo@oss.qualcomm.com>
+References: <20261021041044.2080369-1-shengchao.guo@oss.qualcomm.com>
+Subject: Re: [PATCH v2 0/3] ASoC: qcom: q6apm: Fix shared memory unmap
+Message-Id: <179304267334.199157.17916625046505762697.b4-ty@b4>
+Date: Mon, 26 Oct 2026 19:24:33 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -65,23 +70,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1473; i=broonie@kernel.org;
- h=from:subject:message-id; bh=i4ogxkUqeD4GJzJkY1RHHmbw7sNnsKkkb51vv3urm4k=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIedIkIfVji+/K2fVZpab7iv4TrW82vL/gqmvim6uPsj
- /rv/0273FHKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJ6E5kZDgi/WKyo8j7gx6f
- /HiuMD2rq010zlgtGBOXZmj1gcf+gxLDP4ttr0zPcq6LYGr12T3H/1PN9R9STrs+PinMvGfUo3V
- 9LycA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1668; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=4LZ8LCAQGN7PKhHh/UfRLiGxZZWSjOBObJTMou1SwpM=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIedHG/bCnpmqR/eX76Mhbes50BPkEur1dxF7ZkSeUlR
+ PxcsHZhRykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACZy+zUjw0PjQPvlxaZ3py34
+ sW35+hVS77tdToS91F05q6Qi4ESj4w+G/45PosoWKJ9edWnp1nQbpsLrGyw0J4UuS5yZtWX5X55
+ l6twA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 26 Oct 2026 13:48:35 +0800, Zhang Yi wrote:
-> ASoC: codecs: es*: controls that write each other's bits
+On Wed, 21 Oct 2026 12:10:41 +0800, Shawn Guo wrote:
+> ASoC: qcom: q6apm: Fix shared memory unmap
 > 
-> Both the Kcontrols for the ES8326 and ES8375 have an issue where they write to other bits.
-> This patch will fix that issue.
-> 
-> v2 -> v1:
-> 	-Add Fixes and Reviewed-by tags. No code changes.
+> Since the early buffer mapping, q6apm maps a front-end's DSP buffers
+> once in pcm_new() and unmaps them in pcm_free(). The unmap side has a
+> few problems, which show up when the sound card is unbound and bound
+> again, e.g. by unbinding and binding any codec on the card:
 > 
 > [...]
 
@@ -91,10 +95,12 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: codecs: es*: Modify the registers related to ALC RECOVERY
-      https://git.kernel.org/broonie/sound/c/dd64271fe1b9
-[2/2] ASoC: codecs: es*: Modify the maximum value of DMIC_GAIN
-      https://git.kernel.org/broonie/sound/c/29b867d8351d
+[1/3] ASoC: qcom: q6apm: Fix unmap regions response handling
+      https://git.kernel.org/broonie/sound/c/4b832a2af523
+[2/3] ASoC: qcom: q6apm: Clear the right handle on pos buffer unmap
+      https://git.kernel.org/broonie/sound/c/43c69604271d
+[3/3] ASoC: qcom: q6apm: Unmap DSP buffers before removing the topology
+      https://git.kernel.org/broonie/sound/c/a51c5dd7f7fc
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
