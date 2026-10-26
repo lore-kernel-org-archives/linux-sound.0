@@ -1,100 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793013740;
-	b=tw9ceKaNpiguPQP8HEeWQEDBXuHKJGyTVH6vXkOArJGi2nSvFnvw7vecV+vr7zKJcugl
-	 2vAq33wefOxfccX4W+DBlM90jzHWc/IcEtuO4O14XvBb5Gxb211YKnw23/YclPfk19PV2
-	 26h3Ci6Z9Y/AW1Y3PU/0RohqV8o7GZ9wo5nZnMyf9jcHuB7g5V1zC71maqaL0YeEqiUOZ
-	 O50PuHgxNr8lLvJ6eo/+l1UeSBydSDxgXX12rtiNtLebxibf+Gv0/3N5F96dUExvzKF3s
-	 r9YLml2E28UHPXTyHBhWr+eKheGAkgI5kuKZpAT5S/oim1P0cSJsg0qJuCq/72UgfAg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793013740;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=CshcBQHuBaiwBblArFZhJHX0pEvJjKnI4lGTEeUq7uE=;
-	b=mXdusRBAAvJiywaqQKlKhPlL6nQhL3lQOle1o3dFfuj/F3T8YJtdaeqAqMVulRLxkN1B
-	 4l5va38LIO2f2p1BU9RO5dfo7/aV5iEiF82HMN3FW6vZnQxKB8hE2zMQFkiVTAqeHYTQW
-	 joP76D4fDmRN4dLSBFUCkTqFuwDRQzjM8t32O3TT+DBuhQrKWvKUtPeC0t9m5nbR4vo37
-	 oSLIL2OsmAu9EPpBUf72KW9bEgaxXsba2NbAn2FeKhwzTsiujjNC5Ph1d3inDD12ZppZB
-	 fQDTS7UoBq96d+wyEWAk2UPAiizFCic+A6TiTpHOhLfgMQ215PINpYSr4ThjKFoDhXA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TFdenwJg;
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.48
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793016875;
+	b=5H4s/Q4HuIcjHVDlPwpMMu0Rgje10EhM/11HreDux8M1Aa3c5HHgVi+2SzHXvZchGekB
+	 BSTKfhL0sH5Y0ZJfplkhsyiiPT089D7VxRLcSJwH8frEyIDrgl09EAMNhGhBm73yNFOJd
+	 BEVGuOutpfotZcXUm2eVIdVzKAJW362GFHZ7zt4u1yPxHR8441tP0q0vfnVq4zyNOie12
+	 eA9XY88cKexqrosYP7V+PGZp0IGclBbHtc8j5y5XTGwd1SXKLJ23jiJV2gdbHS8+rezMV
+	 Ju9ljuJXrP4qjBDh9H9KAltPiqPH8yf8XO0tb12pJEBEOwCu26j9szIzPZbpuD3Ek1A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793016875;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=9wHcZu62I0kkrj2e8iItaHyttpo7ij9vwzgF+LvPwW0=;
+	b=d0+L3PBS5cWZYlhse245UpxXKjnrxlO0wKuEAQYT8don20YnMfUWqRsZHxIRvC1EmZn4
+	 PEiuoKTlR3y9C9h90GtqVpFJfUiSgI4zPgUuOfWYI6Ih9cIcS5rjbbUMPwjXyo3XCxVSS
+	 DtkDHKO6jWWMyZTWbZLQkpc/Xz7IIl0PUcyUOoJQ2rq328SXmuxSDSiOtO4xmEv3LqbND
+	 rUibHCpyicGOrB0rSZMKxrUaDD6e97UMEzdDelTDyEvmY2RLZvR5DCm03YFRTKw5KdtUz
+	 eETryoQD85suOQ2PqM9NUrOQ71098JGEdIyFPcoO/wBtRERlHPjRJX40CmNomP6i7Yw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=NYmOstZD;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.48
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011048.outbound.protection.outlook.com [52.101.52.48])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57ACF60A3827
-	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 11:22:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57ACF60A3827
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1122B606A31E
+	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 12:14:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1122B606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TFdenwJg
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a35db1f202so12418645e9.3
-        for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 04:22:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793013739; x=1793618539; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=CshcBQHuBaiwBblArFZhJHX0pEvJjKnI4lGTEeUq7uE=;
-        b=TFdenwJglwNv78LJK9io46mIH7dcJiPtAvl2c5mS+6t5BMhQWD+/S3rvX+JHd65u9U
-         vvJjqUasRgLO1SpwM6/z6hp+r1JEwribYZ3Qp0tubHcS90ocoANwbjuynh0W+H5ph9uF
-         cXVX7DPYaA0VmMkZHwiDqudBVhDOSRxbb5QH2VYsGD4WHCXuYkL3gPxO4VGpJtK0YMsZ
-         XQmlXzoQBwTCGi47a0VdF4bFHmUFmyeri82JyCdSx8ts7TeDK85BEBSyjPlLXa25AG8Z
-         G59qbHMMWgPMG9n0bzJSkC1kUgQDuMnPbnPRAADAlAPUOi4YzhCIiYZKBmzuLtrnqBIm
-         ftkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793013739; x=1793618539;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CshcBQHuBaiwBblArFZhJHX0pEvJjKnI4lGTEeUq7uE=;
-        b=uw+j8j4jBcPuDCk8QmbOhG4QHcZCZvLXA/hYGZWjwEdZmbB86d5EkzEShECMfhftpE
-         /IlOHMnrTauz9T2ElzTOn4dSQdm/VIkXxQtobIkLzTwSdYWDckTTHHeT7XjZ6YCeXY9j
-         4Mp8MwcYOCpMFhKXLywYYg/iG8gTzFuzmsNrPFLSRU8GC1gYu7s0AyTQZeJjAstKdgzg
-         F95SfTF295pd8uY9el/wkyE+TMwqM7vtuYpiiHWQCzCnT5Xp/bVMNlpJTsNm44GWiVmF
-         euvQpLw2Fc9KNJn7RfHYd/tikeLxkaC0vTvXV+IwJ2Lr/GUhxUvhDg/VAwscKRvaXPQ7
-         0zZQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwwA5FtQQCWEcrlcrQ0EKMsEAzMKnHISY6tVqIqAw9u04RuDYPjsYdjVrwNJdtS3JSEQIaMGhZABJ5i0w==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLnbJkQnIvF12cm8sPSLJFn2HMI383S0eXomIB5rbSahcvTcVFy
-	EWgLjbIT94ZW2IMKKAe85d5yWBlBEq90jqwMcm3TXzAm0iOZLo1IINmpwIkPcn8=
-X-Gm-Gg: AYBFou0xFpTB/5TAxB5pcpbZIISDISHd6vVcOavtBN7P8qOUhkCicUMaXMJk4bp+7xH
-	ttSrAaC7+7qZdk0aohg7oNQV3vHhluLsElqXXeJnpPK9Gtlx1+gCgmL0ZPZhoRAS0SG0l8+0CmC
-	yTHhSWkZrTOFDGARliJMUswgbjV4Ew0Jw/6y9reAi33Ex7p5ga8sH49eAlHUxqzeMaQ48o/t+vu
-	Ys/D9Wsf9fxs2j4p8pLhbKEeLYB4dqzg+mfdviPDPn0zMR1aMqfwBqBlMgQNBwy1cEvdZK/WqO5
-	M20lfHnNGxQPzOvMe0TabdcxeLm1aCxqmPwsuFBL6f8aBh8/G1CfPIdkDuxk9LsbhS9ob4ZhfKo
-	1oK1yO1i4GdYOPCOQQ2TM6Yf0DN8X2QMVsDVd7nEeA4DJ+sUoaI4KMazBtbLsiYUG0wcuoy69hA
-	d43tw1SCyQLBBcguhNvE01y9odOnP2CY9ILTGfS0rgvSSNS/2zMgb/rjXWv4oFaK4UFf43Wm1sT
-	IQCZiRsjxvd52IcrCi/MNOv
-X-Received: by 2002:a05:600c:1c06:b0:4a1:e7ce:107b with SMTP id 5b1f17b1804b1-4a35ac407fdmr160741305e9.2.1793013738712;
-        Mon, 26 Oct 2026 04:22:18 -0700 (PDT)
-Received: from debian.. ([2001:41d0:303:db6b::])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a359f59750sm129141265e9.0.2026.10.26.04.22.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 04:22:18 -0700 (PDT)
-From: Tristan Madani <tristmd@gmail.com>
-To: Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Oder Chiou <oder_chiou@realtek.com>,
-	Bard Liao <bardliao@realtek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Jorge Eduardo Candelaria <jorge.candelaria@ti.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Tristan Madani <tristan@talencesecurity.com>
-Subject: [PATCH 4/4] ASoC: wm8994: drain all delayed works on component remove
-Date: Mon, 26 Oct 2026 11:22:12 +0000
-Message-ID: <20261026112212.2519775-5-tristmd@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261026112212.2519775-1-tristmd@gmail.com>
-References: <20261026112212.2519775-1-tristmd@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=NYmOstZD
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Yh9bjQAqEMVWCyyum444pkQWHJmpbFJFZNpAlQA5yj2Mdz4D1SkKuapeUXHAYJ/g5GjtlKMdY1Vi8WZ1b85fyE6L+KXLxgbGa1GHudffJdgfCHDqJyEruEeoT3fo9uo8TYot8QJQWQhJ2Xb9qtJDpvVVb6eTkKNZ3p7r5tj1smx6dv6c8YhwQrjHHVAq2/VRrX7wc+wK2ktVNt6+yc9qjVN2Wk4dCk4MC5PfPjl1wD/xbIWEvi3Z8KcWvQEaQW7veVkWtRi+n108N0Cpcw5OqtpnfvEHecrgVgRp5BuHIKTUMz7RyDHdZ/zm32tvWirIIQftsdjiuPNsMGWdiRuOPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9wHcZu62I0kkrj2e8iItaHyttpo7ij9vwzgF+LvPwW0=;
+ b=RwQgjY4eGgGPHOqQ8bR/XrIIHNtsGcCYacVWcA9X4yohuZy0JeNeNt0ha2vcWiRQrgvnXIKJ3e7+obHSy6mQM4aXJaUG/LzIb66GipBiXT59JnAz5SrdGlnMhB7SHy4dkFRwH7Ts/ZzzpKgI4cxmTezAY5LiBYfyctP+3y6DfXGLzh1hbWXd09PmT+hJGILX6xONEj8Ei7T1kSm8pRnUDNdnNiNuXT7R837A6Q/NWHiQbmpF1LkbUK6PO/4XUefqKbrWxqQ7H25t5x8wktpvQdpE/etMiOdmGjDZ0yORcT+59h56pyBCxmne6vOjBBEMEZeSPvhfVafEzv0kZG6XIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9wHcZu62I0kkrj2e8iItaHyttpo7ij9vwzgF+LvPwW0=;
+ b=NYmOstZDhUbt7QGCVgEEVRDSBhZ8eP74Tbp6LJOG1ehqjdnZXhYQPIDqUBKp9F64l9ncw738VXp1i9godX33m/ozHePOBhCMf8w2jGV7PTeMD5JB4+3XC9/ZHEiS1/CHFQ8ZBKS6K7FCg20oipehZlRG4NAbSrRbq20fu5wRS+4=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
+ by EAYPR12MB999133.namprd12.prod.outlook.com (2603:10b6:303:2c1::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Mon, 26 Oct
+ 2026 12:14:32 +0000
+Received: from CY5PR12MB6252.namprd12.prod.outlook.com
+ ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
+ ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0546.021; Mon, 26 Oct 2026
+ 12:14:32 +0000
+Message-ID: <b9a63395-16f0-46ee-9208-19b3b28d876c@amd.com>
+Date: Mon, 26 Oct 2026 17:43:31 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 02/13] soundwire: amd: return response on IMM status
+ cleanup timeout
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-sound@vger.kernel.org, Syed Saba Kareem <syed.sabakareem@amd.com>,
+ "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
+ "Prasad, Prasad" <venkataprasad.potturu@amd.com>,
+ "N, Poojitha" <Poojitha.N@amd.com>,
+ Mario Limonciello <Mario.Limonciello@amd.com>
+References: <20261026044507.2310694-1-Vijendar.Mukunda@amd.com>
+ <20261026044507.2310694-3-Vijendar.Mukunda@amd.com>
+ <sashiko-outbox-184738@kernel.org>
+Content-Language: en-US
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <sashiko-outbox-184738@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PNYPR01CA0065.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:2b7::8) To CY5PR12MB6252.namprd12.prod.outlook.com
+ (2603:10b6:930:20::17)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,43 +102,166 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|EAYPR12MB999133:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4543de07-068f-4fa0-1bd7-08df335ab0fe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|18002099003|22082099003|3023799007|56012099006|11063799006|4143699003|261021121427099003|10067099003|261009223027099003|261022105027099003|261021123027099003|261022075727099003;
+X-Microsoft-Antispam-Message-Info:
+	v+Hm2lJ3LK0OLa0d0D4alvLOefBh7uEHbDqeM97fZXVGyWD2kVmFsHfTu4onytjW2a4ihE/XnDbHhm3nc+cRgADt/p49NFEKQVyKI+eOkIITlq1wR0YlFutfOMdnDwHbqeTYwXDWlFftKp8y54rbmv3XpGD7UuDJc9S0LNQQ2bsZLS0EjdAI4JsS+qSUDtOvlJ/oIYbxO/bwHuFqJsN03nxxux+LaEiRx+BCUZedlQYDLqG4CuPzw13Iibi4sjPA2FxwGQ7fL0Q3JUtfggnxJg5Rpapyp93CqHwM0AUY920V4GfLY7gBvAn8EQsvcjCdGYDA6JIbt7mQ6kPd3dWsam1fZ/sKdzlYvCMqYrGKp2gcJXWBSlqyhV+ueQ3HF9WPoG7rO48HS83iJjbwy2+F3Y/3Dq7JiHxHsHJ2lE0Nu2VppIHM13YMYvurh4nUmDFfgmtp2WdYm2EPT+Hk7k5Y+7HlI2kTlACzU0AyTZwyYne5vYbDCqpjKA/Ok69w5qQEtho+HdcZR+v5O6M+qw8x4Ng13xq6/BCmLk6G3bzZZgskZCuGvkqdgmYVQYEl0sXs6u9boqq82csXJVooPXbOZlxCHQCjqtXCAz5XMxjSqTQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(18002099003)(22082099003)(3023799007)(56012099006)(11063799006)(4143699003)(261021121427099003)(10067099003)(261009223027099003)(261022105027099003)(261021123027099003)(261022075727099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ckNDWGNTMUsvRSt4Uy9wZXRLTjA1TFR2Wmw0eDVKT3ZSV1A2cVp1T2ZNZzJB?=
+ =?utf-8?B?bExTbGJmZVZGdHBlR1hlNGdDaW90ZVRJOFNFZXhJUjk1S0dQWHVTQitaODJz?=
+ =?utf-8?B?b1lEeDhPY201ZkorTEo2ekpnSWpZdlZxMEhKMU80eHgvQ1lGMlRoRFdPcVk5?=
+ =?utf-8?B?bG9uN1RVUW9FZUhFdWg5R3ZDT0JtR1VnbkZnNzJzZHZnekRZTUVOSU9va1R3?=
+ =?utf-8?B?MlVRV3Z2M1l3cFJXOHMvbllZNU8vR1BNZ2thVXM3VDdXaFBFWWxmUWdNVkl2?=
+ =?utf-8?B?SkV5amJuazl0ZnkxZUxoeklCYjhRaEM1QkNlTFYxWS81NithUzdvUzNnVXRB?=
+ =?utf-8?B?UjBEWWp4dWwwbHVscTRTSXBydmMya1lETzVXSG9vSExJajlJR0gyT25PY3d2?=
+ =?utf-8?B?ZFlKOGRjRGdsL1hHeERKejF1VFhWSUQvV0FJRm1ialZPZ2JrRzlob2NxTjhr?=
+ =?utf-8?B?WU5WNVV4WFplRE44cjh5ZzlGK2hURWgySFBBalFHY2pUVXhQU01nRGxJdE80?=
+ =?utf-8?B?YjVac0tQRkRYajVySnZ1NlA3YS9OcVJRYzRFN0E0WWlOZ09tUmNLQzVPdE9E?=
+ =?utf-8?B?R3k4bEpPVmxFUm5OUkRKMVJhK0NBU2FYUFVaOElnSi9TR1M3Z1FtVVNDQVdm?=
+ =?utf-8?B?TkhuKzFwOGhvc0Y5cWRPVGt5NGdtV1JuTmhtSExFckZuL1Y2YWRYZzRIdlZ6?=
+ =?utf-8?B?ZllTR1hHTXZ3MTZxdnh2OW5sWHNZRTRiNFZhaFE5em8wYVNUdU5RY1lhcVc0?=
+ =?utf-8?B?SnpwWHJNaXB2VXI0UmlNUkV4QWQyNGd0SjIyb0hLYy9uYmhEMlNoK251b1M5?=
+ =?utf-8?B?VUhlUWNpWXl5MnhYUTBIVDlaUmhScXBkaHlUK2xxbkF0QjMwb0kvUERCQUti?=
+ =?utf-8?B?R0Q2MTJYZFJsVklBTkZ6ckRGMmZyRWlsSlh1YkhSeFpLMVVPeVcvd0k0RlJk?=
+ =?utf-8?B?Mm02a1d3MmdxcjNrOFNVb0p1NElCRlZrYXdEb0tCNXFaQVZvRHBqei9SOE4r?=
+ =?utf-8?B?cTk3Z0E2SHFobWg2TGN3dk93aHUzcnVRdzRmemcrT01VT0J0c3VTZEZvSE03?=
+ =?utf-8?B?TElscUtrSHA4cTV3RDVOckJXUXZod2VpUEdObUdTWlZKTklqZ2JVM2lBaTVy?=
+ =?utf-8?B?d2YzeGNtVTU0QWUvU2t5SXJPWnB4ZytZZXJGdUh2VTFsWDMvdGhQaWRUd1ZR?=
+ =?utf-8?B?MXFRTkRlMDdtRHplUTRQM0FEUXpHejZsMUtjL3J2aFd3ZmduV2gvVElyNjEx?=
+ =?utf-8?B?bm5CbnhLQWx1Rms4YmJvL296ZnZBK3UxWTVvK3VvRytuUlR4UHhJcFBjczZk?=
+ =?utf-8?B?OVd4QXFnRmNja085Rmc3a3p6Q3hjaFE5SjlELzF4OXg1bVEyZHJIYWpMUzly?=
+ =?utf-8?B?dm9TeE9EaWpSVndLWE5pUDRudGhJWkxRbFhzbk1GMTZRd2Y1UHV6VXlrL2JQ?=
+ =?utf-8?B?djE3c3FVQi9kYmJhdGgrNzR4azg0dFRrbzd5elhNTFdkNmtKVnJveFlUUTRS?=
+ =?utf-8?B?VTF6MkxJTjZKbUtzc1AzamQyUkR6WllMcjRIN1ROMGt1ZWlZTGV0QmxWUEd1?=
+ =?utf-8?B?NXpBYW9qUVlkZmdLcjBiZTFVS1JGb3oyU001d1lxbEpxcnpJL2RhS21sWCtX?=
+ =?utf-8?B?SGQzaU1pdXpMTE5uT2JCcjB3d3lYa256ZUhwcmx0UjN2eVdTbkNrdTNKcStF?=
+ =?utf-8?B?WXkyell5MWo2Z3A4N1dKQjVMeG16RHVnNEs4WW5BdzZ3UEp1Mm15ekJCK2Ny?=
+ =?utf-8?B?czZFK1JvVXJYdWx2UGN3S05sZWN3UFpzQWhaVHBjNEx2aktBSUNPRkhXQjJX?=
+ =?utf-8?B?WFVpcTRuR1VaOVRmbWx5SE9ZVTFBMnFLOGRQN0hsOHJyMkFoRkd2Yms0UXJC?=
+ =?utf-8?B?UnY3SWt1bUdpd3JZa2FkbUd4a2pXQU5VbHdNRHJRcWVYSXR5UXpIUEE5aEx2?=
+ =?utf-8?B?M0NJUVU4bUN1eWxKYjkzbEJoRHRXWnJtM3FjL2xLWjNoc2c4dDVoWFFrbUwx?=
+ =?utf-8?B?MURUdVFkaDhpU0cyMmo4ek5wSEZrdGxJeDNxK25QdGxPcXF2Y2VtZUpnL0RD?=
+ =?utf-8?B?cXVjQnNJSUFYd3ZBdmxUeEdEWEdZZytFUmU3eHpCVHY3UWU3QTFWdzFTaWts?=
+ =?utf-8?B?Z2syRnpwU1hoSlE0Q0toNGJZUi8xcEJBb3JST0NJdnNYMUhDamlOZWhRa0VB?=
+ =?utf-8?B?SmRnKzdIZmhaaUpLSGxwZmI2TCtGcTgrbEtOZ0xkQjdjNGZRLzE1MW5PRUd3?=
+ =?utf-8?B?ejVGS1lvOGZ2VXpxTDZXenNIQTZ4eTgyZkk2TEVCTGFvTE1sc01uUis4UWtM?=
+ =?utf-8?B?VEtLQ3VkS2xLQXp1UHVuSnR5YXA5OC9tN1VVZWxobUhMbWhGMUMwQT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4543de07-068f-4fa0-1bd7-08df335ab0fe
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2026 12:14:32.3230
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ki2d7xM/e/VXEHZbJbNptcUl/iphP/kBF+q/VlJ7tvM6z9LL9yX/+Foy1xDtFqDOwzTXgxNjMs+hO1OpS0gZxw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: EAYPR12MB999133
 
-From: Tristan Madani <tristan@talencesecurity.com>
 
-wm8994_component_remove() frees IRQs and firmware but does not cancel
-any of the delayed works that IRQ handlers and DAPM events schedule.
-jackdet_bootstrap can spawn mic_work (via wm1811_jackdet_irq), and
-wm8958_mic_irq can queue mic_complete_work, whose callback may in turn
-queue open_circuit_work.  If any of these works are pending when the
-component is unbound, they fire after DAPM widgets are freed.
 
-After freeing all IRQ producers and before releasing firmware, drain
-the full work graph in producer-to-child order: jackdet_bootstrap,
-mic_complete_work, mic_work, then open_circuit_work.
+On 10/26/26 14:38, sashiko-bot@kernel.org wrote:
+> [You don't often get email from sashiko-bot@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [High] soundwire: amd: unpolled IMM_RES_VALID clear in amd_sdw_send_cmd_get_resp()
+> --
+>
+> commit 3a55a761f23cc08cf1a64f142c04e1aa78cc244d
+> Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+>
+> soundwire: amd: return response on IMM status cleanup timeout
+>
+> This commit changes amd_sdw_send_cmd_get_resp() to log an error, store the
+> read response, and return 0 when polling for AMD_SDW_IMM_RES_VALID to clear
+> times out. It relies on the bad-state check at the start of the next
+> invocation to clear the remaining AMD_SDW_IMM_RES_VALID bit.
+>
+>> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+>> index 307cbfdb94422..0b83126b5ce6c 100644
+>> --- a/drivers/soundwire/amd_manager.c
+>> +++ b/drivers/soundwire/amd_manager.c
+>> @@ -285,11 +285,9 @@ static int amd_sdw_send_cmd_get_resp(struct amd_sdw_manager *amd_manager, u32 lo
+>>        writel(AMD_SDW_IMM_RES_VALID, amd_manager->mmio + ACP_SW_IMM_CMD_STS);
+>>        ret = readl_poll_timeout(amd_manager->mmio + ACP_SW_IMM_CMD_STS, sts,
+>>                                 !(sts & AMD_SDW_IMM_RES_VALID), ACP_DELAY_US, AMD_SDW_TIMEOUT);
+>> -     if (ret) {
+>> +     if (ret)
+>>                dev_err(amd_manager->dev, "SDW%x cmd status retry failed\n",
+>>                        amd_manager->instance);
+>> -             return ret;
+>> -     }
+>>        *response = ((u64)upper_resp << 32) | lower_resp;
+>>        return 0;
+>>   }
+> [Severity: High]
+> When this cleanup poll for !(sts & AMD_SDW_IMM_RES_VALID) times out and
+> amd_sdw_send_cmd_get_resp() in drivers/soundwire/amd_manager.c returns 0,
+> can back-to-back commands read stale response data from
+> ACP_SW_IMM_RESP_UPPER_WORD and ACP_SW_IMM_RESP_LOWER_QWORD?
+No. The response for the current command has already been latched and read
+before the cleanup poll is performed.
 
-Fixes: 99af79dff5a6 ("ASoC: wm8994: Ensure we get a notification on startup for jackdet")
-Cc: stable@vger.kernel.org
-Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
----
- sound/soc/codecs/wm8994.c | 4 ++++
- 1 file changed, 4 insertions(+)
+The first poll waits for AMD_SDW_IMM_RES_VALID to be set, indicating that
+the response is available. A timeout there is still returned as an error
+and this behavior is unchanged.
 
-diff --git a/sound/soc/codecs/wm8994.c b/sound/soc/codecs/wm8994.c
-index 8bf58a6a8af7c..32c1786bd48ef 100644
---- a/sound/soc/codecs/wm8994.c
-+++ b/sound/soc/codecs/wm8994.c
-@@ -4592,6 +4592,10 @@ static void wm8994_component_remove(struct snd_soc_component *component)
- 			free_irq(wm8994->micdet_irq, wm8994);
- 		break;
- 	}
-+	cancel_delayed_work_sync(&wm8994->jackdet_bootstrap);
-+	cancel_delayed_work_sync(&wm8994->mic_complete_work);
-+	cancel_delayed_work_sync(&wm8994->mic_work);
-+	cancel_delayed_work_sync(&wm8994->open_circuit_work);
- 	release_firmware(wm8994->mbc);
- 	release_firmware(wm8994->mbc_vss);
- 	release_firmware(wm8994->enh_eq);
--- 
-2.47.3
+The trailing poll only waits for AMD_SDW_IMM_RES_VALID to be cleared after
+the response has been read. Therefore, a timeout during this cleanup does
+not invalidate the response that was already obtained.
+>
+> Callers such as amd_program_scp_addr() and amd_sdw_xfer_msg() issue multiple
+> commands in sequence:
+>
+> sdw_transfer()
+>    do_transfer()
+>      amd_sdw_xfer_msg()
+>        amd_prep_msg()
+>          amd_program_scp_addr()
+>            amd_sdw_send_cmd_get_resp()
+>        _amd_sdw_xfer_msg()
+>          amd_sdw_send_cmd_get_resp()
+>
+> On the immediate next call to amd_sdw_send_cmd_get_resp(), the bad-state
+> guard writes AMD_SDW_IMM_RES_VALID to ACP_SW_IMM_CMD_STS without polling for
+> !(sts & AMD_SDW_IMM_RES_VALID) before issuing the next command and polling
+> for (sts & AMD_SDW_IMM_RES_VALID):
+>
+>          if (sts & AMD_SDW_IMM_RES_VALID) {
+>                  dev_err(amd_manager->dev, "SDW%x manager is in bad state\n", amd_manager->instance);
+>                  writel(AMD_SDW_IMM_RES_VALID, amd_manager->mmio + ACP_SW_IMM_CMD_STS);
+>          }
+>          writel(upper_data, amd_manager->mmio + ACP_SW_IMM_CMD_UPPER_WORD);
+>          writel(lower_data, amd_manager->mmio + ACP_SW_IMM_CMD_LOWER_QWORD);
+>
+>          ret = readl_poll_timeout(amd_manager->mmio + ACP_SW_IMM_CMD_STS, sts,
+>                                   (sts & AMD_SDW_IMM_RES_VALID), ACP_DELAY_US, AMD_SDW_TIMEOUT);
+>
+> Because clearing AMD_SDW_IMM_RES_VALID requires an asynchronous hardware
+> handshake that already failed to complete within AMD_SDW_TIMEOUT on the
+> previous command, won't AMD_SDW_IMM_RES_VALID still be set when
+> readl_poll_timeout() immediately checks (sts & AMD_SDW_IMM_RES_VALID),
+> causing it to succeed on the stale bit and read the previous command's
+> response registers? Should the bad-state guard also poll until
+> !(sts & AMD_SDW_IMM_RES_VALID) before writing the new command words?
+No. If AMD_SDW_IMM_RES_VALID is still set on the next invocation, the
+bad-state path clears it by writing AMD_SDW_IMM_RES_VALID to
+ACP_SW_IMM_CMD_STS before programming the next command.
+
+This behavior is also consistent with the hardware reference
+implementation, where the bad-state path uses the same write-1-to-clear
+sequence without polling again for the status bit to clear.
+Therefore, no additional change is required for this scenario.
+
+>
+> --
+> Sashiko AI review · https://sashiko.dev/#/patchset/20261026044507.2310694-1-Vijendar.Mukunda@amd.com?part=2
 
