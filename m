@@ -1,65 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793013710;
-	b=fXP2kX8gTr3YxCygx1/Y3NNhm72npkACX5H8vypuRdwl8vNbcbflDPDzxUAgUFAbILSB
-	 aiIoU3eIISTsWOXYJ3XozpNr/I1eEkJrwuBFVSCRswCY6gfxMx5TGzPZF4a0pGlk/83x4
-	 2BBiywY9KY4T5RnAlbeF8JzaLu8vcmf0x3QY908cXGpOscpFhZUcHpt70gIXXaeBf6szD
-	 pK287dfeEmzfl03PI+BUkWsuBWOaNPGavCfnL+c/+xsKob0RmggNDCygslCH8JUYL+Dp4
-	 eEPWWWPRgQZsxJA8YoXuF3FUPpvj67BrGOan7EkR4owgPAl03KGHbGs3uXckCuTEUAA==
+	t=1793013736;
+	b=nbJaodIffQTGFMfTMjUjWVwXUcqSRHHgoA5oRMZkNcsv3JdPEk5XMRyqgP7wMhmV2efd
+	 8gOFCLiuLckSpG1qkaHuN9zfEeNifSasn1jX/nRWwYmIx+2OKeba7IOngDitg8wRDotdc
+	 NFIUgxn4kKSkWvZFF7Yukfojeohm4VFgef0CkUXG5j26O1MFpSAxZWGbB+Lwl+/HvD17Q
+	 Z+N4TjpqZiiMsxxGaQrAIhNdSYsU4wUB5URuHlEhRWeR2fnLH5v0Hn6Ao50Uxv3td33ep
+	 hn09wno7Pvt9JrNQdVIJKSUN606FbexIq9UGfOmunSq2oEyhI3g2VVhhV7dygEi8yyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793013710;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
-	 Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793013736;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=mV7/MeB1Aho580PREtL9g5FwnCExmyIgXEya6KMhy1c=;
-	b=nS5sjoSKa8b7DrfybyIMEWqS1mffdq4L1uk56Rw3lNk8Ww0dQpyqyFusSp7yVkhhAzHh
-	 ma0JmGtG0M3JpNWbQNQ9RBxCtD80c48KlLdMtgY589VUdhqJ7+Y1hJo3BumJuL7WSe51r
-	 LSOwDRAG7IfebvgcBBI0o8UCTaJiU0vEz69Jpit7o7qEX1WITEF7hv/O9coi9LldSE2zu
-	 aHCATCugHFfrcwBY9eRR7mCGGIG8BJC8Np9etH+Ox7E0hhJ0HEBx6DorEWw6udiOJmZD+
-	 soQLID4kzGh10L/oFZlzc/zvGaxb/UOYO0OFgTaBWCtuvryatB9LXnWY1qjJU/5JsWQ==
+	bh=CwUajG6zOxtmKYKaBabWQ/RQ7YEOVECEPn4qU0GhKJI=;
+	b=jEZOxC4yO/0C4UJiB4NGDRsU+wnizD35uNeeuXd2AVSWA24BrO8ojrX9ZvqeE93jabpW
+	 IrShSGleikRqCl7IgZWHs/4ZaRcr0oBEqNQJGlpevBcVo3PBn4D5fHaAx1DaXWBka9pDT
+	 nNqlvw5VUyipFT/udY+um8OV6XeUbTCCnLJKGT0kDamk0Hh8kK87Xrf4UaimX7L3LXKFJ
+	 Bq7Hv0azapXCAinE6S0m8/ceuM4Q5UmwNVs5oxvrXunp95WRb27XNN+I0g4D0tQINiB0A
+	 0LfntqBM8O5IxR53YJE89naSuUZL0xQsVsArj9bglvgR3ptXphYFxvpNzj/cV85WYYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="A/GaxXPF";
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00ED5606A31B;
-	Mon, 26 Oct 2026 11:21:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00ED5606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 6ae72ae4d12f11f19a56ed5b684f684d-20261026
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:22396f8f-2b6f-4574-bdb8-41287a0ff13c,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:7db8b62,CLOUDID:aa414c3e58dfe0158390e013fd2bdc29,BulkI
-	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50|99,EDM:5,IP
-	:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 6ae72ae4d12f11f19a56ed5b684f684d-20261026
-X-User: zhangheng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 743732191; Mon, 26 Oct 2026 19:21:41 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D86E60A260D
+	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 11:22:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D86E60A260D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=A/GaxXPF
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a215e64962so20553175e9.1
+        for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 04:22:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1793013734; x=1793618534; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CwUajG6zOxtmKYKaBabWQ/RQ7YEOVECEPn4qU0GhKJI=;
+        b=A/GaxXPFgozeZ7aLS9ssmDZFGeG8eQ01zyFtmvsEFEjHgN0ZpShGubPQPT4c6ak1P4
+         dwJQljiF8o8ydDBGa6DWNlST6KmndsguhxZoSXBAF3cFAr2VLIcvGww58U1l7TFXyNr8
+         u0Q4hMX8JyTzhJVfOXgZ3SVw+3ig1+XWrfnCsemzqNe0ZHHPfQhwrnXOFn88YwOD0KHK
+         fFH17KsZHJiZ5b4vfG3iNjUBmmh1/cUqLR1CARwXyQ0+Nz1Wocn3dwCeQvYHYg1Hx4mt
+         FGAGya+o5DgR2lQ5bxC6kUC9MmXpRGjhBQCx9E6zappKoh4FpNHs2/Ap46JX+RZIs0UM
+         e+8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793013734; x=1793618534;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CwUajG6zOxtmKYKaBabWQ/RQ7YEOVECEPn4qU0GhKJI=;
+        b=20iIU8QpQJzOrdTLz11vin8SYFSXbG1xSR6NnCasHpgijDb3OJs/lr0hz/b7RafIwq
+         UeeTYFQVowaqZy2U51Hlr5e9lY0shuNxiv2cNFYnUFkitpakXH0sulm9d7a5osiQpdJ5
+         64L5a3XaVnSUD/qiC0wjWDuHPFGIy0itjwpCzXVIOu6EduhgiMRJmgygjPu51Lze3CnY
+         UKxr+m+IR3zuhGgkMsrwEdkx6WpWyx0HpJN4K3hpHUt4ebrFP8UsdOuqI5cdTxYjvGfr
+         yHZqF9U4cp+LGyFjXDBfAgPQB+WUznpNg2XbVYLu2rJMYVEfYcJO267tMGP2lSWJgOmj
+         pa6Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwltqHUYYB/RCZaQa6cdKPodLFosSBCYr9ZKgCvuRSazXya3G0Llf0+NbhN8J2jW9xAjNOWzcTRjAaQEg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJXLhd3olVgkVe+MhnyDWpeCMxCAPoUtiFaUtt3vhQF9atiR5L4
+	bBI+fxefV/Qumm0EpQ7MWqAdVQqF1umLhM/x/xBDIMZy4ZvB91Wcvk8=
+X-Gm-Gg: AYBFou2wbAGfCflsmj4HH/KXz5k7JbiTQ7s7mjYXLgQ/Z3qZ8F7cTbqC7hAvkiXiovu
+	p/TyTz1AjBR+TUh7fPtyLNEhkCuG2Jt7uuSNcca686fFyaDC3chXZVyBaono9QBWi/NAjx6vHqo
+	sCJTJK3UTzxhZb705Xo2sWHElGdmqrVo38WWc6c4GqRM2vrJoFl1W2FLSAR+efno62bY8BpIwvT
+	GBItnGMuErBNiClALLIHIebzyopYTOKH9dHV6YxAj8m0A9lLYQkZprNVNrV3dY8iRQpp7H2sWXp
+	Q5lqPCI/wSeZcImuyXbIa41FVPr63Wa6PcqgQEGdKRECRaqcc+taiV4+pN3jW2WL4Xlr8mRxpJO
+	Ukeqp0uk1Q0c+y7Lv7NV7/lGgAsx+No4+ZtYBjUT4OJmSLRW1HK3iJd8IyUBy0r0tNSgNMJwBY2
+	oM7Ar2sw/+MbdYEgAAkCkOL3D/jVFyQoW9slZ5ANiaYaBtYjQW2EUXJ6WRmwkTzcVN4+WGjfDpd
+	RnGaaC8IjOdiAyVd8BOyIVT2g==
+X-Received: by 2002:a05:600c:3ba9:b0:4a2:d7e:5ccb with SMTP id 5b1f17b1804b1-4a35ac99bbemr117137165e9.15.1793013734410;
+        Mon, 26 Oct 2026 04:22:14 -0700 (PDT)
+Received: from debian.. ([2001:41d0:303:db6b::])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a359f59750sm129141265e9.0.2026.10.26.04.22.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2026 04:22:13 -0700 (PDT)
+From: Tristan Madani <tristmd@gmail.com>
+To: Mark Brown <broonie@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Oder Chiou <oder_chiou@realtek.com>,
+	Bard Liao <bardliao@realtek.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jorge Eduardo Candelaria <jorge.candelaria@ti.com>,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>,
-	Juan Benedict Tanoto <juan.tanoto12345@gmail.com>
-Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for HP Laptop 14-em0xxx
-Date: Mon, 26 Oct 2026 19:21:37 +0800
-Message-Id: <20261026112137.257723-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	stable@vger.kernel.org,
+	Tristan Madani <tristan@talencesecurity.com>
+Subject: [PATCH 0/4] ASoC: cancel pending delayed works on component remove
+Date: Mon, 26 Oct 2026 11:22:08 +0000
+Message-ID: <20261026112212.2519775-1-tristmd@gmail.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -71,34 +103,36 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a DMI quirk for the HP Laptop 14-em0xxx fixing the issue where
-the internal microphone was not detected.
+From: Tristan Madani <tristan@talencesecurity.com>
 
-Tested-by: Juan Benedict Tanoto <juan.tanoto12345@gmail.com>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=222184
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Four ASoC codec drivers initialise delayed works that are not
+cancelled during component removal.  If the card is unbound while
+these works are pending, callbacks fire after DAPM widgets are freed.
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 41f8c0885865..ae26524453e8 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -759,6 +759,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_BOARD_NAME, "8BD6"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-+			DMI_MATCH(DMI_BOARD_NAME, "8DC2"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+rt5668 and rt5659 share the same pattern: the IRQ handler reschedules
+work after the codec is reset.  Track IRQ acquisition so that
+disable_irq() only quiesces a line the driver owns, then drain all
+delayed works before resetting the hardware.
+
+twl6040 frees the plug-detect IRQ but does not drain the work that the
+handler schedules.
+
+wm8994 frees IRQs and firmware but does not cancel any of the four
+delayed works that IRQ handlers and DAPM events schedule.
+
+Tristan Madani (4):
+  ASoC: rt5668: cancel pending delayed works on component remove
+  ASoC: rt5659: cancel jack_detect_work on component remove
+  ASoC: twl6040: cancel headset jack work on component remove
+  ASoC: wm8994: drain all delayed works on component remove
+
+ sound/soc/codecs/rt5659.c  | 17 ++++++++++++++++-
+ sound/soc/codecs/rt5659.h  |  2 ++
+ sound/soc/codecs/rt5668.c  | 20 +++++++++++++++++++-
+ sound/soc/codecs/twl6040.c |  1 +
+ sound/soc/codecs/wm8994.c  |  4 ++++
+ 5 files changed, 42 insertions(+), 2 deletions(-)
+
 -- 
-2.25.1
+2.47.3
 
