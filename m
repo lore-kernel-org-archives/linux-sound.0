@@ -1,99 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.118
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793012352;
-	b=YfTLhnWYXCWA8p1+rhyproLw+eQIVbrTzUDl0f9AQS2gB8aDIQrsKJTRokkIbIhMVklB
-	 WW1EiF/liLo+A633ZLSMJ0zFY4FvWqChe74vupG9zWatCdaHdC8Un4PBO/ShscK7ni1oU
-	 zYRKWnEzB2Nftu37tbP7FiMhT/riwcoErnPF7D4MfoJTGNL7gfmC/wZMX5edUueefKNUp
-	 uKKFsz93A5zeACpJZm7FVpIeI6jW5xpamkuZMcbXVc8FAN6ASEk8/uTlTcmEq1zmpgFuX
-	 bfjtutX2zxZumRmg+DE8f/DfvZaPD+2m0I+yY2ykDz72OVwBfFsNGcrGRndSSjfVTog==
+	t=1793013651;
+	b=jwE0s89ZAgIM0mlKjkj7kCmqYdhbjOQXW+dKoGYoaDIBmKsP3kbwlRS6Fwp7EzXOhuVF
+	 SvR9FEqfwq3ZlKlT3H5T4n2AXae/kS8NL5nLSmXwf2huNUt34XGNyHe9KWDaY2uyEfKVy
+	 Ejuj4nrSzPAylTp0002ezdIbElagvzxOVWsepo8FBnl7o6coyx7tIUz/dRqh/kxw6X7yC
+	 Noelz8dVhDQJpBVq59eJdjhO8vJZE+6RCeNOpIm3SI+1uH0nhn8uYk3juQbOovkG+26DA
+	 nIF3tU5tDVWt6jecfhMxVD4HNJFfKY+uEPmMy4h40UwI9BSgqXTQbxmq1Nde6RbWiYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793012352;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=Xo82AcSZWrE/b9eOjrvffmbQXg8vjut2UMUh3oGb+l0=;
-	b=1UgyZMIq/I5VQ1enJVZeQclKboUrOJqY5xPbdHFky/r68fwnF6ZdQb97TSKNFPaEPo9l
-	 k29z78+JgExdV2w4E7b0UlaQVbqDY/hl0mZSryWjfvNHFOJiHJD0610shomRi35bLjbwi
-	 zMlzBtGZImOQbYKraOGveQ28s7kxPUF7yzuxChqIv0QdLFoeu2Ej0HfHpHIQwBCGyQZr+
-	 8H02NS8Ewc8kx84e2hsoLLHPcehX99IkT8jZ6cm7j94zIrJ0CdFoK0wOJudp1pQclO002
-	 oQEvow4ToSv712DTNwBvxhTVUwxaFVvICtchsSU63+SRLZKHdxgQ/PKOKHNc1KoTkNg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793013651;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type;
+	bh=RVMrEyTfPd6L3DrmXBQ+EA71uekThvDl0bNGFGHSH8Y=;
+	b=H9xiGQ4Nk2A3EsaSbt/Mh9seI0arMnQdf76eOKQf5Q64TxxXaH+f2EQ9dkETlsakvwKW
+	 HlVFE55MDRChbQLRfVhgPP+ztcSAcRdsONxwun779YzYq0CTpESnqXWsQVcSsv+jgB/SZ
+	 wb/82jHfbhkjYjlVMjGPlZZNdHk1/fY8SRgs2OgJXlcEksiCy8oZkW9JFapt2NIZzWy8v
+	 PQuV8jQKNYZjWNR4J+EoSXU+3neT/C+YJ2cIp+Mbf+Qm8HZBSU6KSUwXZnM9IvrQeBJPT
+	 PBpuSaIxhACbp1juLXU0C9/HxuDqtAX5mPPOk2FwD3rCG0jImvEXax4ZUCt0fFArXpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Zvsnjup0;
-	arc=none smtp.remote-ip=209.85.215.171
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=pm.me;
+	spf=pass smtp.mailfrom=pm.me;
+	dkim=pass header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=LwL5VSvs;
+	arc=none smtp.remote-ip=79.135.106.118
+Received: from mail-106118.protonmail.ch (mail-106118.protonmail.ch [79.135.106.118])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 071D9606A32D
-	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 10:59:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 071D9606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34ED6606A31D
+	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 11:20:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34ED6606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Zvsnjup0
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cd5c9e52398so904215a12.1
-        for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 03:59:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793012351; x=1793617151; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Xo82AcSZWrE/b9eOjrvffmbQXg8vjut2UMUh3oGb+l0=;
-        b=Zvsnjup0mAmdkOLj6ijUoPAiRH4ZKyYWiZF0XYD0dcF4A98Td7TZ7P+cSMTjsD3Odg
-         3u2rrhvCedJoD7iexWugaZb6Im8TRLbEod3/OO0jXJ7qebYqI4eOytfyYh0OPyYWdiCU
-         spmnCzO37Erfw2XunlUFg8cQ5pE79cwTK5svkXWwyYvLFDjWX4vz6C6Y5/H0Ml6Uu7a+
-         XKmX8U/jTcSg85aoFqElkxWjc0eOBGOJlwZLKIMh+BfWRjdAVdcOeu8oMHDNxqswg5hi
-         VbwryJUjOqBxsiQo2Wr5ExeZnF+8PZb33rmsSNEF0nBg3IOgh17U2lOZtyDj8DtObk/P
-         KDVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793012351; x=1793617151;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Xo82AcSZWrE/b9eOjrvffmbQXg8vjut2UMUh3oGb+l0=;
-        b=zla/Vn/z2mOGcz+md+1U4Vqx7sS7RU6z2JXt/IL3B315ay0n0hihlNWEfnQ0vRLunh
-         926VDh2AWnLgq6seAUTN4S8eoEKXH4CcttkbsqLTYyESaQE8NgG2VgpPRrBEs6CpNk4f
-         SLNtxNE1nRvT5nb9H0At9CHiJFTmaNCikz5NJ5456QEKMNHimTxmn3SlhwfzNpYl+XjM
-         j7P9/S7PdtayxaSCdtZ91nICZ2ZiNGl0jQucyTjaOQhA0RQ9qrclLkVG5gjV+LMkyh5Q
-         1qrPrZL15iStjODHdnskKxGsnL8gazeKLbXud5pNHsa1egujJ8gEbTnL56gCVe4da3na
-         G1KQ==
-X-Forwarded-Encrypted: i=1; AKwUvByBhhJxt/Dx4WQULly5dKxk/Z+Tu6OT0HEJeK1xwU+u2O+5RzPzwidTVc0XQ0N1fPzos1yKO5bkvKrHfQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYL03rxMjMLrYSrByCbMI8rqqgypIOHtAnL+BICwJ5hT2/GIi4Vz
-	ylzNxotXBBTXjN0jePFYfxv8VRg+gUOD38ui3poY3D6NuX/1vYAwe3ni
-X-Gm-Gg: AYBFou3Q6Ed2HF+tctIH+ihMK86h6rBS9yrXtUVsoN3/nh5oSWtLHqRqBDZdMCMqU9D
-	cC8fduazA0w9fMGn1pxqAA3hE9T7iJGzLRh65peWGWHIWJfZQQ+zHHzIOd5VKLx32iyKiOzCTUg
-	o35Op7cHffQEQwre8hEGC6heM0Pj5OdXIL4eiT4UsvpugTbfqxpR/UJob8AkKop7sy92g6AL8zG
-	l88NZAXNCpcVKfW1ot+ukk5JmpvQ5GxL+BEQJLyGX4PrcPp7c/d1jJGxW2rltelZbXwJ+9RLGd/
-	3zT8LqK/DiJDyKaekM/JyXuLDWDjvTwfSnzdm14ulgH/aafwG/oeobjLOhV4/iuOVkADnMHI3qa
-	zNfZ0jVjgl4H/7IiRbkz/1DC4FWIKMf2MYEpyvoIF47hC19YPeSVlFH1md4Ssc2kgayVYvSvCkg
-	aBjABPcZfkzN3F0RSM+80Fx8+q2oJUSCxgmUbfChExGp2uS4dNXQoRSpRDi7q3a2DfnLE4AVPUb
-	ezVuPAJolQ/TNQVVRKsQJJDDDHNCCIahAyvileh6QtAFVy1RPj9rXxtMUGMer0D6T+sWgxCu5KA
-	sNkW3iCUTVi04hmtaidydjYjn2KKbrv05EQbpNKm8N/WKBD06zZc2QpB0Xq0heiD+7yZvOI=
-X-Received: by 2002:a17:90b:2552:b0:3ab:e588:c278 with SMTP id 98e67ed59e1d1-3adea9dab45mr5437389a91.17.1793012351413;
-        Mon, 26 Oct 2026 03:59:11 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3adebadfa82sm7980768a91.8.2026.10.26.03.59.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 03:59:11 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org,
-	Russell King <rmk+kernel@armlinux.org.uk>,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 5/5] ASoC: kirkwood: kirkwood-i2s: Disable clocks in reverse order in remove()
-Date: Mon, 26 Oct 2026 17:58:35 +0700
-Message-ID: <20261026105835.19052-6-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261026105835.19052-1-phucduc.bui@gmail.com>
-References: <20261026105835.19052-1-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=LwL5VSvs
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1793013646; x=1793272846;
+	bh=RVMrEyTfPd6L3DrmXBQ+EA71uekThvDl0bNGFGHSH8Y=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=LwL5VSvsK1xDlecepNPv/axsoHB6q8JkvAstkUXb39MjaRkd2kyPAThlNPT0wuMQv
+	 Xbs4d2TH5GsojsmzWtiIcvmJbDjmt1WLqgnSGuzkNJTVDMmVJx+9Q7f8hw8LEW4Rml
+	 A/hkigCz0ajJ1yyewvSH3vJVm9SRieZX/n5/J/+EFgvJPU5Q3TmAUOYcbP3kX2aNtp
+	 a0MbVV4dDyowSs6kKo4joCT7VxY97sf/q/7Fxk9dLyVvNXZHpOANt+7WU53ePtg7Ug
+	 cJqbZrVxkDramzCw+IpNjl2/ZO+BqKgdeG9Xo/B9HAxuZRqXAP10xKKmJf3C23iWDd
+	 IoAsSQb98AHZQ==
+Date: Mon, 26 Oct 2026 11:20:40 +0000
+To: Egor Poderiagin <egor@crazyrussian.pro>
+From: Robin Everaars <robineveraars@pm.me>
+Cc: Oder Chiou <oder_chiou@realtek.com>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Matthew Schwartz <matthew.schwartz@linux.dev>, Pengpeng Hou <pengpeng@iscas.ac.cn>, bui duc phuc <phucduc.bui@gmail.com>, linux-sound@vger.kernel.org, regressions@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [REGRESSION] ASoC: rt721-sdca: runtime resume fails with -ENODATA since v7.3, jack PCMs cannot be opened
+Message-ID: <179301363708.752130.11323881261715222213@pm.me>
+Feedback-ID: 201127006:user:proton
+X-Pm-Message-ID: bff56b458c010fbe6cc66c08f6bf8b0a34853281
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -103,36 +60,105 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------65f99b9543396eee2734472a3f36df622da95d9e568eb34c82109226620c8deb"; charset=utf-8
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------65f99b9543396eee2734472a3f36df622da95d9e568eb34c82109226620c8deb
+Content-Type: multipart/mixed;
+ boundary=eb85fcef38c74adcd6507b38bec70231e0c3f098e0341a2c2f9807fa32c7
+From: Robin Everaars <robineveraars@pm.me>
+To: Egor Poderiagin <egor@crazyrussian.pro>
+Cc: Oder Chiou <oder_chiou@realtek.com>, Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Matthew Schwartz <matthew.schwartz@linux.dev>,
+ Pengpeng Hou <pengpeng@iscas.ac.cn>, bui duc phuc <phucduc.bui@gmail.com>,
+ linux-sound@vger.kernel.org, regressions@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [REGRESSION] ASoC: rt721-sdca: runtime resume fails with -ENODATA
+ since v7.3, jack PCMs cannot be opened
+In-Reply-To: <8a12a2d9-1b56-4e00-8ccc-cf31325f8366@crazyrussian.pro>
+References: <8a12a2d9-1b56-4e00-8ccc-cf31325f8366@crazyrussian.pro>
+Date: Mon, 26 Oct 2026 12:20:37 +0100
+Message-ID: <179301363708.752130.11323881261715222213@pm.me>
+MIME-Version: 1.0
 
-Disable the internal clock before the external one in
-kirkwood_i2s_dev_remove(), matching the reverse order of enabling and
-the error path in kirkwood_i2s_dev_probe().
+--eb85fcef38c74adcd6507b38bec70231e0c3f098e0341a2c2f9807fa32c7
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-No functional change intended.
+Hi Egor,
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/kirkwood/kirkwood-i2s.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I can confirm this on a second ProArt PX13 HN7306EAC (BIOS
+HN7306EAC.310, same components string), running v7.3 on NixOS.
 
-diff --git a/sound/soc/kirkwood/kirkwood-i2s.c b/sound/soc/kirkwood/kirkwood-i2s.c
-index cf6b96054b82..c26326b82c19 100644
---- a/sound/soc/kirkwood/kirkwood-i2s.c
-+++ b/sound/soc/kirkwood/kirkwood-i2s.c
-@@ -748,9 +748,9 @@ static void kirkwood_i2s_dev_remove(struct platform_device *pdev)
- 	struct kirkwood_dma_data *priv = dev_get_drvdata(&pdev->dev);
- 
- 	snd_soc_unregister_component(&pdev->dev);
-+	clk_disable_unprepare(priv->clk);
- 	if (!IS_ERR(priv->extclk))
- 		clk_disable_unprepare(priv->extclk);
--	clk_disable_unprepare(priv->clk);
- }
- 
- #ifdef CONFIG_OF
--- 
-2.43.0
+Here it happens at boot without any manual steps. The first open of the
+jack PCMs, when WirePlumber probes the card about 14 to 20 s after
+boot, fails with -61 on SDW1-PIN0-PLAYBACK-SimpleJack and
+SDW1-PIN3-CAPTURE-SimpleJack, and the card is left with only the off
+and pro-audio profiles. A boot with the stock in-tree rt721-sdca behaves
+the same. v7.2.9 was fine on this machine.
+
+A regmap trace of one jack open, with only regmap_reg_write and
+regcache_sync enabled, matches yours: 12 regmap_reg_write lines from
+202d to 40981300, then regcache_sync status=stop, and the open fails
+with -61.
+
+Your change to rt721-sdca-sdw.h fixes it here on top of v7.3. The card
+is back on the HiFi profile with the speakers and the ACP DMIC, and both
+jack PCMs open again. The module I tested also carries one unrelated
+local rt721 change (a .remove callback
+ that drops hs_jack). With it,
+four s2idle cycles in a row resumed without any rt721 errors in dmesg.
+After the first two I also checked that the card was still on HiFi and
+that both jack PCMs opened. I have not tried headphones yet.
+
+Tested-by: Robin Everaars <robineveraars@pm.me>
+
+Thanks for the thorough analysis.
+
+Robin
+
+--eb85fcef38c74adcd6507b38bec70231e0c3f098e0341a2c2f9807fa32c7
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="publickey - robineveraars@pm.me -
+ 0x8B6BA132.asc"; name="publickey - robineveraars@pm.me - 0x8B6BA132.asc"
+Content-Type: application/pgp-keys; filename="publickey -
+ robineveraars@pm.me - 0x8B6BA132.asc"; name="publickey -
+ robineveraars@pm.me - 0x8B6BA132.asc"
+
+LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCkNvbW1lbnQ6IGh0dHBzOi8vZ29w
+ZW5wZ3Aub3JnClZlcnNpb246IEdvcGVuUEdQIDIuMTAuMAoKeGpNRWFoOGxaUllKS3dZQkJBSGFS
+dzhCQVFkQWFSa3p2ZTQ5ckJFSk1LSkg3NDZSWEhZKzJmVDc3b3hST2k1ZAo4SnBMKzY3TktYSnZZ
+bWx1WlhabGNtRmhjbk5BY0cwdWJXVWdQSEp2WW1sdVpYWmxjbUZoY25OQWNHMHViV1UrCndzQVJC
+Qk1XQ2dDREJZSnFIeVZsQXdzSkJ3a1FIY1YvYThzR0dvcEZGQUFBQUFBQUhBQWdjMkZzZEVCdWIz
+UmgKZEdsdmJuTXViM0JsYm5CbmNHcHpMbTl5Wng2VjVxUzg5dzdDRFlTSXNjNU54dVBKSTFyZ29F
+eVkvdjhkYlAzSApxa29OQXhVS0NBUVdBQUlCQWhrQkFwc0RBaDRCRmlFRWkydWhNcmIyWHVqRm5G
+akxIY1YvYThzR0dvb0FBQVpzCkFQOXpJS1d3dWJDbEZFczBKNmpwUUhUS1hGVHErOTlNUmtmREtx
+SVRidW1RelFEL1IyT2F6VHA0b0NKTzJiT0QKTkZsaVZBbTh5WFA2QSs1ODZ6UjJZS3QwUkFiT09B
+UnFIeVZsRWdvckJnRUVBWmRWQVFVQkFRZEEzcDVGN2I1TwpGc1dLclNXRW1FSGlhL29lN25vLyta
+MVcwT1BmZllyRFB5OERBUWdId3I0RUdCWUtBSEFGZ21vZkpXVUpFQjNGCmYydkxCaHFLUlJRQUFB
+QUFBQndBSUhOaGJIUkFibTkwWVhScGIyNXpMbTl3Wlc1d1ozQnFjeTV2Y21ldlVkUisKViszVWd2
+SVZqcURMRk9XeXlHcDVoNEpYQVBmWVpzRC8vUkhndlFLYkRCWWhCSXRyb1RLMjlsN294WnhZeXgz
+RgpmMnZMQmhxS0FBQm9GZ0VBOGU0ZVNMU2FMbXY4L2UyVzFMOS9WS0FiajJaN0pFUzZLQXBpOUJa
+Nm5RZ0JBTmhaCkZoTUZ6c3l6dTJZWXRhQjhTWXRWdGhKSjYvZUlRVFQ2VWRRRUlZc0YKPVlLaE0K
+LS0tLS1FTkQgUEdQIFBVQkxJQyBLRVkgQkxPQ0stLS0tLQ==
+--eb85fcef38c74adcd6507b38bec70231e0c3f098e0341a2c2f9807fa32c7--
+
+--------65f99b9543396eee2734472a3f36df622da95d9e568eb34c82109226620c8deb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: ProtonMail
+
+wqsEARYIAF0FgmrfN4cJEB3Ff2vLBhqKNRQAAAAAABwAEHNhbHRAbm90YXRp
+b25zLm9wZW5wZ3Bqcy5vcmcZyz09Yry8k5txF9AgY7fhFiEEi2uhMrb2XujF
+nFjLHcV/a8sGGooAAKntAQCE12WuMgR/UbHEYxzx4DH5v+0Ysh2a8e4abKyR
+8duUPwD7B+YdmAr+EzePS0M9Vsxwba28VqgrPqaFy660JjmUWwI=
+=cD6M
+-----END PGP SIGNATURE-----
+
+
+--------65f99b9543396eee2734472a3f36df622da95d9e568eb34c82109226620c8deb--
 
