@@ -1,60 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.122
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792973459;
-	b=qwzcDL8NOBdku/KGqTWVdjvEHNeSZdOtG9EgLmShk8I67AhvyKLC7B+BmHOzpvA3DSZq
-	 rg/1GmyOyYVQlmz/JMqxJNsyUPGtccdtXdf/tBQ5Klqk4RMCsm3YsC8Z7f1oV/wX1QmFG
-	 CjRbDhr248mCQj+STzyFOp/XN1XOD+3+L2ZMlYSHrWI8gjDBO4Wztr58EvEJREcTGXIez
-	 xm6FD4pDxn+lj4fTRK6iI+dbq1J7OaUJWNQJmMN2UhkbbTjJUvgcksb8CZA4XQ5JipuY3
-	 Au/hVdOhivF+SCf216n/JntG72PAifMlTbBNOw0Z85Nq8RBRl0b/lTk2v1kfXBQme4w==
+	t=1792978717;
+	b=IlD5vDzFhYWIvVkFORKFLyqcvyg3Zldmn2rZR2fM3AIdEun6WTtUMakmAf+EgbzH86nX
+	 aFvMsX2gOEQ3UbzlbFFkBAS4j8V7XsnjQQwQDcj6mInb+2TS3oGUCCB0Liknxm2cahKol
+	 3oRlxkELOeA8wYTP0BRCpphAmYWLZ1iXfFlqCEIuuSIuD0dPkj23NNgwx/pNIaZ0d9seM
+	 ZH/00r+rY7FLUOS6gFQwM7i+zbwe3mcf1+1DYxvKSuC0UDnsyyRSRVhL7fd4/aVQhTORJ
+	 tCubOgdBD7cLtNyyPcBt6XdZlFIIPAcTzIFLZLDreNGExyiPcVUwMkxtkIIFq4bYn0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792973459;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=ZcjPezzps46dzV2jP1tt2AUCN0jXr3QNikTRiI36eR4=;
-	b=RDNmUHPrJcoIwTIIgXMCYt/11kAyDE+Ba/zLG5xrNITJvc8js1Uu+wS4LhesImJATjvh
-	 yNVgjSqEGpLiuute8xFA5ouHPtHV/JbBAjVNVXWRmAQdoGXOUiPsbpxyD+FsefFkFNBv2
-	 skT5SEXInPYW86+voTuKSUZWBvR7zG1In7i8ibnfEVnYDR7PzfmPOl63+MeNoOe4BgYjb
-	 AN4JsdS7MKRoxl3g8L4Mw1TS8ytsNjtS+ZEjbk5aI6i0BVvuFDoKStPDrb5T2WB6hrOdR
-	 W8pZG5urfqFPFKhyILKuDPfYV+IeRmytbSmY70dv8SKKCCLrumUKcla+JEXamPlo7KQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792978717;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=x2qb8Gv3TaN+iK7uUG15B8LwsjSdliOtFfwZ6kHYAiw=;
+	b=yoGXYJYZV2N8MtCHYsvfzjhTh0Ukjg91SQFMbqVJYBQzQ/cgVqy2GTGNdDHZpB9bsUgl
+	 P14lmlfjqjbzGFSRy+G1MCqLVn53AQXLLbCkBdYbrS0gc2qy8CZqshOuaxs5NQnqP3eX0
+	 HJ2QID6tfNi5QY+M//FPsTQiDKb+c8Wkifm5Tovhlh9EaNi80buWOTX/Cq/8IRUxOH+iF
+	 G3yu0lx1RH0mUNJAxpC/o+TSh0tYA3ZMOwvPasKyvhEs9BXTpRiJMhfRch+/8+YPOODC2
+	 8IdSweMgxWHQnoT4eXP+NFj7+royynYeVHVXxUV8nwFqNXp55/5Xjc7zc/cXT8ApBsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=pm.me;
-	spf=pass smtp.mailfrom=pm.me;
-	dkim=pass header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=TMumDwx2;
-	arc=none smtp.remote-ip=109.224.244.122
-Received: from mail-244122.protonmail.ch (mail-244122.protonmail.ch [109.224.244.122])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=pkWh3yVl;
+	arc=none smtp.remote-ip=209.85.214.170
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72539606A31B
-	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 00:10:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72539606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F35606A31B
+	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 01:38:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70F35606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=TMumDwx2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1792973456; x=1793232656;
-	bh=ZcjPezzps46dzV2jP1tt2AUCN0jXr3QNikTRiI36eR4=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=TMumDwx2rdDouyoR9MQNtsIVkFWXLwdyM09q1A6+kP9yo8S5oJ77eQoBSP49LAuba
-	 +Wz5YnZlqOycvqpKczezK8uRm0xA4vi6sBD/HoZXsGIyKbs/tIoESjxaLZaMJmZc5U
-	 3iUQCWoAdnTydSnhWkKklTZlmijOOfCLSq6ImI3J0pL/ocmQ7gg9pNZPnoFwD4vj9K
-	 3HXeSWkJUk+E6n4ETphxo/PJkiCgnqF5obfNQMnzOVmdKDJPczC7XFSW51FMy5KnIQ
-	 ule2AziI1cNgCyTWa2jzRcBoCG/9TjHCeWelPsdTh1JaOtDTVhwr/1bVC3Z0BWs3HG
-	 449s8mfj3aXNQ==
-Date: Mon, 26 Oct 2026 00:10:50 +0000
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Clemens Ladisch <clemens@ladisch.de>
-From: x8svc <enscrpt@pm.me>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH 2/2] ALSA: ua101: Bound packet copies by the PCM buffer size
-Message-ID: <20261026001003.1067-3-enscrpt@pm.me>
-In-Reply-To: <20261026001003.1067-1-enscrpt@pm.me>
-References: <20261026001003.1067-1-enscrpt@pm.me>
-Feedback-ID: 48393780:user:proton
-X-Pm-Message-ID: 68af065fdc058ba39aaff5c85c7feb9bb533798d
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=pkWh3yVl
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2e946155442so21015315ad.3
+        for <linux-sound@vger.kernel.org>; Sun, 25 Oct 2026 18:38:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792978717; x=1793583517; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=x2qb8Gv3TaN+iK7uUG15B8LwsjSdliOtFfwZ6kHYAiw=;
+        b=pkWh3yVlSIg8kBOCK8qMWpKxm5KaW6c3xbpuw5l6ILeZZbVRq9JNMdQ9H6vp81/69L
+         4Q0wztD5iYf9XoMsJ+8PF00untJcyqkx2HqCGpjxTR7baF5ke9qKUwf2jDaq9QBsb3zz
+         rYsH6gbDc8MjLfFFfwo+RDEf1YZ+RF8XAKMi3kYrw1S5qv5UFUfGmJDmw9Jj5zWAGG3G
+         bauIH0yhPcp00L8zT5l6VaEEA8QHXie23/RaKJpDEjt2oZJHKdPj2yREejMhowQypiSk
+         4B0OGvBOje6jr3liQxry6vJPJb7xzFq8/THVMI0by2GFAinPQnO0bmS0izOTpP+CRnqn
+         PvTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792978717; x=1793583517;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=x2qb8Gv3TaN+iK7uUG15B8LwsjSdliOtFfwZ6kHYAiw=;
+        b=C5E1faURWSKu+Fe0n6rsR9jKPxsjQVRb3vJH3NfHgASwRmepdl/2ugWEzSgcqZmfMk
+         K5YuupeOWEWCciMakkpTSisAkqGsMCo4fEZqVCq4tyeamMtO5xWDbQ3+OjKhWhlrjsH9
+         X6D1u4aFzChUg8SvzEyR7JOZDYQLa6uve5APZo5wA+C7UU2PD7hn43P2oPJRk2J7+nJI
+         n4eSLxDm9/4cITrqsHwq4C41TkoGZnjLzSOEmbZ+ob/mBnp4Pptf4CRr+Qqy8vlh4Xn2
+         MuZ86REabj8LL6m5ISad7xbdux5jmq4Dc6yhj4jBU1vbetps37wrsTqLxUz5v5ptv7kK
+         PkNQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzYBZhGhtkDKLKgnFco8MXbPnLGhfNsVnI4fdSkTXCgUKdCLHi3dMRMKw/J4GTauoq4JyeCMx4TKABUYg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYIlYJ2xBiJv4yKdZDVztG4qxG8za7bfVdo/8BVZzsmEIxpuCGQs
+	eo+ZhxVVqGVFmoSTFwqy1BDqksLfXnigmk8aoZBV+VK3WTgvD8Qw+i14
+X-Gm-Gg: AYBFou16cO/Fr7gKQGj3sX3QDAUaNW3z0/Y32trnQ7zo1XTGzdXZceDq+KJHQzL2xrB
+	Vic+t6VxgRD7rwUNwtUn6O3AMlz6BmjRjwbTnf4P5AO7EeRB/QpAikd9K7f6FwJ/IQ1r3/LtATy
+	uPtIG92u5UeWfkr7yiiuQTlEWC8vkCQ5v+e34+70eBHD3DPZQhwYi9ZsEkd/83/r2HPGThhgBOm
+	2ZTl4xxuhWO8Toa0qrLfx0zTLjMCRA/NkFGLucwcdO+EH5i8VtbqPYDqXyDoRiYs5upZ9oVBZ3Z
+	GYZvzobxZ8UG5Y0AfOA38Oc/PMrISMCPGtjIch1rNM+4LoroyUK4u8ZYlVWNOsxyk9Avb3fIHKV
+	nVhsqbYLT4fYTjIYCtXjJ5tyJUd9W1cZ7RJLE3iRm+g3E3sz5V6QZOtSvvknz9BEkzhji3jR2ry
+	bwzWqRKnTHJ30PPzkZD7HytXIxwD4U4F6mv+4P0M9TpBi9QIDaLfccqVrvLMc/wdWfPf4izTF/V
+	z4C/0HlujZs2RbipFV/CXLjMytxOdO6nd4dJHBmLiAZgHAa4Gi5a+WUsq3XkJleg9tT89hNThQX
+	QoBdSVE=
+X-Received: by 2002:a17:902:ffcf:b0:2dd:ad73:c93a with SMTP id d9443c01a7336-2ea9c68a7f2mr42720475ad.27.1792978716682;
+        Sun, 25 Oct 2026 18:38:36 -0700 (PDT)
+Received: from yogi.shaguar.org ([2601:600:8282:f152:c1c3:8958:100:6fc1])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ea9b1a1c56sm10567635ad.44.2026.10.25.18.38.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Oct 2026 18:38:36 -0700 (PDT)
+From: Michael <jagerkin@gmail.com>
+To: arunr@valvesoftware.com
+Cc: tiwai@suse.de,
+	tiwai@suse.com,
+	perex@perex.cz,
+	alexander.deucher@amd.com,
+	arun@arunraghavan.net,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/core: Log stream DMA errors on interrupt
+Date: Sun, 25 Oct 2026 18:38:35 -0700
+Message-ID: <20261026013835.98210-1-jagerkin@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <DKT5BQW7XPHP.2KNASR1XE11UD@valvesoftware.com>
+References: <DKT5BQW7XPHP.2KNASR1XE11UD@valvesoftware.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,103 +102,42 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-copy_capture_data() and copy_playback_data() wrap the ring buffer
-position once and split the memcpy() in two at the buffer end, which is
-only correct when one packet holds at most buffer_size frames. The
-capture packet size is the device's (actual_length up to wMaxPacketSize,
-divided by 3 * bNrChannels from its own descriptor), the playback packet
-size is taken from the capture packets, and set_stream_hw() lets the
-PCM client pick period_bytes_min 1, periods_min 2 and a period time of
-1.5 packet intervals: 9 frames at 44.1 kHz high speed, an 18-frame
-buffer. A device sending 672-byte mono 24-bit packets delivers 224
-frames per packet.
+On Wed Aug 19, 2026 at 11:53 AM PDT, Arun Raghavan wrote:
+> On Wed Aug 5, 2026 at 11:30 PM PDT, Takashi Iwai wrote:
+>> So what's the best option for users if this happens?
+>> That is, what happens if we don't restart the stream?  Is it a
+>> temporary fail-out and the hardware recovers / resync by itself while
+>> streaming further?  If so and it's short, it might be better to leave
+>> it as is.
+>
+> Unfortunately, there doesn't appear to be much users can do in this
+> state. The warnings we have introduced should at least point to a cause,
+> but the issues seem to be around GPU clocks and power management
 
-After the first packet buffer_pos is 206 and stays beyond buffer_size.
-On the next packet frames1 =3D buffer_size - buffer_pos wraps and memcpy()
-runs away:
+A data point from Intel hardware, where there are no obvious issues
+with playback quality.
 
-  snd-ua101 2-1:1.0: invalid position: , pos =3D 206, buffer size =3D 18,
-period size =3D 9
-  BUG: KASAN: slab-out-of-bounds in capture_urb_complete+0x9eb/0xcb0
-  Read of size 4294966732 at addr ffff88800d73e7e0 by task vhci_rx/81
+7.3.0 logs this continuously as soon as PipeWire opens the analog
+playback stream:
 
-and for playback:
+  snd_hda_intel 0000:00:1f.3: stream 7 dma error: 0x28
 
-  BUG: KASAN: vmalloc-out-of-bounds in playback_work+0x789/0xac0
-  Read of size 4294966732 at addr ffffc9000002626a by task kworker/0:1H/80
+Per include/sound/hda_register.h, 0x28 is FIFO_READY | FIFO_ERR, the
+same bits you reported.
 
-Clamp the capture copy to buffer_size. On playback, copy at most one
-buffer and fill the rest of the packet with silence, so the URB length,
-the delay accounting and the data sent stay consistent. With that bound
-the single wrap and both memcpy() halves stay inside the buffer. A
-device whose packets do not fit the buffer never played correctly
-anyway.
+The only open PCM is pcm0p (2ch, 48 kHz, period 1024, buffer 32768
+frames), so I'm assuming that's stream 7.
 
-Reproduced on 7.3-rc7 with a USB/IP device presenting the UA-101
-interface layout and a 672-byte isochronous endpoint.
+Counting the callbacks suppressed, it's something like 7-8/second.
 
-Fixes: 63978ab3e3e9 ("sound: add Edirol UA-101 support")
-Cc: stable@vger.kernel.org
-Signed-off-by: x8svc <enscrpt@pm.me>
----
- sound/usb/misc/ua101.c | 29 ++++++++++++++++++++++++++---
- 1 file changed, 26 insertions(+), 3 deletions(-)
+ThinkPad X1 Yoga 3rd gen:
+* i7-8650U, Sunrise Point-LP HDA 8086:9d71 subsystem 17aa:2259
+* Realtek ALC285
+* snd_hda_intel
+* no dGPU
 
-diff --git a/sound/usb/misc/ua101.c b/sound/usb/misc/ua101.c
-index 58d8a3cdc8b9..bd8e0ed0ba5d 100644
---- a/sound/usb/misc/ua101.c
-+++ b/sound/usb/misc/ua101.c
-@@ -285,13 +285,29 @@ static void playback_work(struct work_struct *work)
- =09=09=09/* fill packet with data or silence */
- =09=09=09urb->iso_frame_desc[0].length =3D
- =09=09=09=09frames * ua->playback.frame_bytes;
--=09=09=09if (test_bit(ALSA_PLAYBACK_RUNNING, &ua->states))
-+=09=09=09if (test_bit(ALSA_PLAYBACK_RUNNING, &ua->states)) {
-+=09=09=09=09/*
-+=09=09=09=09 * The packet size comes from the capture stream,
-+=09=09=09=09 * i.e. from the device, while the ring buffer can
-+=09=09=09=09 * be as small as two tiny periods. The single wrap
-+=09=09=09=09 * in copy_playback_data() is only valid for
-+=09=09=09=09 * frames <=3D buffer_size, so copy at most one
-+=09=09=09=09 * buffer and send silence for the rest.
-+=09=09=09=09 */
-+=09=09=09=09unsigned int copy_frames =3D min(frames,
-+=09=09=09=09=09ua->playback.substream->runtime->buffer_size);
-+
- =09=09=09=09do_period_elapsed |=3D copy_playback_data(&ua->playback,
- =09=09=09=09=09=09=09=09=09urb,
--=09=09=09=09=09=09=09=09=09frames);
--=09=09=09else
-+=09=09=09=09=09=09=09=09=09copy_frames);
-+=09=09=09=09memset(urb->transfer_buffer +
-+=09=09=09=09       copy_frames * ua->playback.frame_bytes, 0,
-+=09=09=09=09       (frames - copy_frames) *
-+=09=09=09=09       ua->playback.frame_bytes);
-+=09=09=09} else {
- =09=09=09=09memset(urb->transfer_buffer, 0,
- =09=09=09=09       urb->iso_frame_desc[0].length);
-+=09=09=09}
-=20
- =09=09=09/* and off you go ... */
- =09=09=09err =3D usb_submit_urb(urb, GFP_ATOMIC);
-@@ -320,6 +336,13 @@ static bool copy_capture_data(struct ua101_stream *str=
-eam, struct urb *urb,
-=20
- =09runtime =3D stream->substream->runtime;
- =09frame_bytes =3D stream->frame_bytes;
-+=09/*
-+=09 * A packet can carry up to max_packet_bytes, the device's
-+=09 * wMaxPacketSize, which may exceed the whole ring buffer; keep what
-+=09 * fits so the single wrap below stays valid.
-+=09 */
-+=09if (unlikely(frames > runtime->buffer_size))
-+=09=09frames =3D runtime->buffer_size;
- =09dest =3D runtime->dma_area + stream->buffer_pos * frame_bytes;
- =09if (stream->buffer_pos + frames <=3D runtime->buffer_size) {
- =09=09memcpy(dest, urb->transfer_buffer, frames * frame_bytes);
---=20
-2.56.0
+If there's some data I can collect let me know.
 
+-- Mike
