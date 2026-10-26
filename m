@@ -1,101 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793022427;
-	b=iVPshnSbrIiTfbgtq5qSvCCroNjKyv7YL/X5uPCJwxlFxKQO8/oQlYkP+rN5qlXdcin8
-	 3LAuruiqX/kYLimjBaRyoO9oRt+owxvH94eSIUQYbQNuAwBrSBk9GCTqH1d9Fj6sd5Dsh
-	 Lq/fmt9tBGaB92Grul0kTwBkRJCIXFjYInimyX+PsLdqJZCf+6tOaY98JA/fyRKD4mbb/
-	 zhismsvSheep+B5h4qXLGfB7buNBaGUNQphU4XjZ8GPATrPgfhJKwej3ZcDiPKjnr//r7
-	 +A8152h+hLrf55iHnDO6vNoDoTY9nnhalDTb4PlQalSMJC0ZGoxRoRAMsG1wCPSCkkA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793022427;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:From:To:Cc:References:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=xZw7U6r5jlg4pUGlWC1zQV7xRrgBaR+VnkioQamESDk=;
-	b=lDZZ41kAD3EYrsNTy3DmZZE+1iAH2OWlzWkmRhb7Ymoe5mvi0yvsSIvbGuas0JEBilAc
-	 vp0FlQcX0G8RYLBQ5kHdLvFoueInF5r9h//p678WtKztZgtWulPlUpmLCw0ztrjBj0ZcM
-	 jeeFPt2VZMnCSMJDHNEZl2QtsORNye2UFG1G5ldBZ/gPVg9fkRxtNpofbzST5YgWfmmml
-	 nzOxvFxCedxdclorHzEzIjbErgCCB7b/9R2Ct1jteCMJM/X3x43FMVt/i6cEEtwcHyfPl
-	 TZkJF1cHD9mxreV1NpHf3Kn5dhV5YXKhmy3LuRbIqvptV0gkcLx60EIFur4J0eP0P9w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=adqQFqOS;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.44
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010044.outbound.protection.outlook.com [40.93.198.44])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793022621;
+	b=cmGxy/BOQLgkzmziF20SLcMXPZEezRYim8E1f0wrCeh+b4SjBqb9kdSMZnQE1kn2SjwB
+	 U107ul0v6xWRT56lyQDoPwggITxSIc0Bzaa9YtZKILKjp0tgVDXwc9/o5rYK7vYsuwl6E
+	 /vPETn+HiBCzNEdpv1H/4eGTKwLale+gsKtX1brxBHS5iTc8L+epH4YQuZbr7INKAer0m
+	 cNGFRqUsIHAlDOyXgnIAfrVpMNC2yyqCKi7T4NJhKr5AMXxtWLt4qCzfFqnE4WEuO2f88
+	 LtjbxblnDGS2a4PBq+g0F19Bshp8NO7BITM8PH42XubxT0hTRIWeo8QhsLdjABaIGiw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793022621;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=g1ntINgkK0BZaoUb1eM+xlMxiJUur65wLDmZRRQ1xjA=;
+	b=Kakp7ks8FwlhJ28QrJ17FhyUhy42uJCXUm8VMeDins+q7f7/Lw9V6k9P6dWaweUDVKIm
+	 Tl9Hj+B5B0voIiVhKKE419QWQj79RNUmEfJVFN3x+w5sXjVI0REja2sX6JSlUxGTi0kfZ
+	 yXcT+ni7cnCOL25ZCVSd0eMx6lNzXo2kpqu6qilcji1I+9BgwcrF99Mf8p2D1298EbHug
+	 uPEtHyxIJ9s1VUQIWFU8JEOVLZlPnhKYU9XK/XDC75g1DQpPCsF7mJAtoSPktLaUIPOlD
+	 k7C9JDsoHfkPcDdzlwg+wqlBHmrhgSWqDC6LgyWxqpFgTEUOeS8UFEAZZeA0O8g3+wQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PyFPWlXq;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5A760A2603
-	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 13:47:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A5A760A2603
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331C1606A31A
+	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 13:50:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=adqQFqOS
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YliZYl7mdIvkmcmNZlcUqiqA1IxgQ07fFBkOH4S5nJqnEuU6jLze3AY1/d9oerDzp7TtRXoYnVOplaqUe+051BzOcCkmdstfGeDYJdQqXOl4dgF4PrhIr7t/fd8pmolWCeHI2yOGG5E0YwuY7Xis7E8Phjl+rMEa5pTmtxNEn/l+/0einJh7Ko3K3c5KlF+5DJbO+gi192lMKGqFeM/H9jcbDVR5TjAmWu7MxuHsQsXTRQzPccL/6VYIm6inGG07W2UK7wfuCRdGTQaSgqQevZVfjtnJqCCG4V6Xv6as9YFkuzqNoZwfJpke9lQjqaImOkSE1V/keDkepKUohWQE2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xZw7U6r5jlg4pUGlWC1zQV7xRrgBaR+VnkioQamESDk=;
- b=cfU9r4Igzk941dkP6HZv5pMUK1P+uTG/ylz2XBRZcx6J4lFDxj8Gxj10ylGEJw5I4OjAwgLfH/FTAwiNla0mIpwxnAS35sV8XZj9SY7aHd4E8ssjMwmWb9rI8fL1Znsq6mxguS6y4a6O2CeF4CYxbb/nAWOMA3mBdahZFjLIL17xKEshTTt0BS3ynOCp56v5XyG/1fVCEVz46U4tbSbIfe3UAN767SCTbbDwigukg9j5/ezgPvOoc59jPhdwdephv5iLMyHa8HAHGIZf0tGvZqEINdWx92EWelW5QYfvmfrDz5HROPK6mICwXg6/Tbg24N1sn+sZ4QYEjKbclkKONA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xZw7U6r5jlg4pUGlWC1zQV7xRrgBaR+VnkioQamESDk=;
- b=adqQFqOSWbUncQZCUaGcow7uPq8CvLN4/aK0CxII1fjtpwHtaHaif1LRzOGuMHDwxcA9MIMrcrt65S+d086GJKwmPgOv/UBdt6HtzSX+/tIfsoaqbaszEX0kqA5PVuUiYJ3NkM47wzH4TVS7T/yhAtqMZv33pzB27/3nC8AYnxs=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
- by MW5PR12MB5683.namprd12.prod.outlook.com (2603:10b6:303:1a0::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Mon, 26 Oct
- 2026 13:47:01 +0000
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0546.021; Mon, 26 Oct 2026
- 13:47:01 +0000
-Message-ID: <e2d6b65a-9125-4938-a2b4-5ba032f1ec88@amd.com>
-Date: Mon, 26 Oct 2026 19:15:57 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/13] soundwire: amd: return response on IMM status
- cleanup timeout
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sound@vger.kernel.org, Syed Saba Kareem <syed.sabakareem@amd.com>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
- "Prasad, Prasad" <venkataprasad.potturu@amd.com>,
- "N, Poojitha" <Poojitha.N@amd.com>,
- Mario Limonciello <Mario.Limonciello@amd.com>, Vinod Koul
- <vkoul@kernel.org>, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Bard Liao <yung-chuan.liao@linux.intel.com>
-References: <20261026044507.2310694-1-Vijendar.Mukunda@amd.com>
- <20261026044507.2310694-3-Vijendar.Mukunda@amd.com>
- <sashiko-outbox-184738@kernel.org>
- <b9a63395-16f0-46ee-9208-19b3b28d876c@amd.com>
-Content-Language: en-US
-In-Reply-To: <b9a63395-16f0-46ee-9208-19b3b28d876c@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN5P287CA0038.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:25f::10) To CY5PR12MB6252.namprd12.prod.outlook.com
- (2603:10b6:930:20::17)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PyFPWlXq
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E546D1F01829;
+	Mon, 26 Oct 2026 13:50:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793022621;
+	bh=g1ntINgkK0BZaoUb1eM+xlMxiJUur65wLDmZRRQ1xjA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=PyFPWlXqGjSRirFfXoXt3UJmG5TGN5n8ke9MWgCZM/cPototbtPfhvSSsZdFMlUtP
+	 bqPEkRq2POnOHelEFOaiDhyp981lrOSZfoC25TN5pR1J82EtWQSYxVrWPGtP33S5Gy
+	 I7Sb14XUgdsJE4pYpyxAEn2xhbfm6IGi3MrhGjGj8WG8FABNO27TI2kEjFWHYsUDqI
+	 XvnjfFaOUMUnqfFyZKe4KdRTQvi4LyPAcfXpzR42e0VO7hibvuv1kG+yV85ZDQars5
+	 twLGzELnheFrygINGHO8OH62W7mogZyubRoIrQDwpsbr2+atYs7N1ebJzoNol621Vd
+	 q4uFDmrGw+pRQ==
+Message-ID: <sashiko-outbox-185346@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ALSA: Add driver for SGI RAD1 audio
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Imre Kaloz" <kaloz@kernel.org>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261026132305.16375-1-kaloz@kernel.org>
+References: <20261026132305.16375-1-kaloz@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 26 Oct 2026 13:50:20 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,196 +58,257 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|MW5PR12MB5683:EE_
-X-MS-Office365-Filtering-Correlation-Id: 70444dbd-4327-4df1-0c61-08df33679c2f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|261021123027099003|11063799006|4143699003|56012099006|261009223027099003|261022075727099003|261022105027099003|261021121427099003|18002099003|22082099003|10067099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	kTvc+1yYj4WgloLk2pRNPf7N6Ae26S+he5OO1QcBxv2h6dChShuwJWOyDnevK9+oisgCazHdlAb15sbJZUnMA5x8sF5uJvtrlAm93MMK4szt+/LjA7vlKL+tHKAedpq04NOvsts3dX6xkZKstJQEtKLUywbvI0pGwGgiJxL3GsaD41DCYW0sT8yrUnh//k0VTYX8BaPOn4A5H0ekpcXP6pTEJAlZlUsQ2GQfIoAIuqFTJ3S9cCjsfc1U+bMFkMjUN7BRHiscuIzDZurhl1KWVk4uML06aLy4u5xQYqSTxYm3AmwtTrF8wwdNuJ8OGnbjNP+sJxnv8v1uL3HKnUDMRPlv54K9apBa0KnkcMPDTS+Lyxg/fL+RpCqwQlvei8C3ehA6sYXvTDZdo19nRk2s1qRJUX7upevAGrLG5XFTcrk01y59KGOPfuCFFl7IfFGCV2M8889mbaZh6+ZAJNLbPq5U/rCKCHfi93QXTk3jFHY9IgMNDgLxET1oREmfjDUWBKlN+ND+uEEXjlmZdUFi1kjgJMUs7n9uYWb2GebQs4lY/MyScEZ6rGrBypJZFy2cws2UXRE8CUbyP9PaPG9l4/mAg0KPs/IYC3YnVOxhtlg=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(261021123027099003)(11063799006)(4143699003)(56012099006)(261009223027099003)(261022075727099003)(261022105027099003)(261021121427099003)(18002099003)(22082099003)(10067099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cmZXNzdTWitRdmJNa29STjFtWDV1anE0aDNnZERtQmNmWDBHaDRDTWhlNFh1?=
- =?utf-8?B?RlRXWk93Q242Q25ZR2wwRTBDb3VVMjJYSkxsZU1oejRPWXg0S1pmQkVrWlI3?=
- =?utf-8?B?YlZZdDVxWmVNMjlBRVJhMzgrRWpJeDZtZGc3a01qdjlESmtKUXF4VmJTUnA3?=
- =?utf-8?B?Z1pHQkRNbkNsV3czSVBpbVFNWDNlVmtXb0N6Skgrd0FnZ21tUXBNa09aV1Z1?=
- =?utf-8?B?WlhCRXdydTNBdFhjclNjU21VWEp1cFFoL0VHUCtWdEQ1MURBeWt1ZHhDcEJ0?=
- =?utf-8?B?VDNCMW1ySjlWVkRNdVAyS1hmTSsvRmlXNVJoNWZqQVVuNGdGa0Nia2wxNU1E?=
- =?utf-8?B?VTVJTm9yZmt4WnRWUSsrOTJYLzBIYlptTThlays5enBJaWlkL25UWlFkZzFL?=
- =?utf-8?B?Z2tJaWZ6NDVJck45T3AxUTlqbGFLamhiQk1BU2l0dlAzUzIwbDJOT0ZWeFgv?=
- =?utf-8?B?SU0vSTh1SkZJb0RCUEh6QUd2TGsrZWxaeWFMckE2SHI0bEg2Y2gralh2T1c3?=
- =?utf-8?B?ZHFTOUpLSGl2Y2w3TVdpQjRLRXV3cyswSktNSkZDa2xKSE1nc1NFZHM5WE9X?=
- =?utf-8?B?OUlsRVgwR0EvTTRhRkVBV1NyTC9CWTN3aHNvUzl0MTkrdUpad2dEWWo1L2wr?=
- =?utf-8?B?SU5mdWgwZHR1MnpKU3NwWmxIKzN6d2R1VHJrb3dncEtkY29aTHR5VTFvRmRu?=
- =?utf-8?B?N0xYclc3QlAxNlg0SlMwLytrczNxQ0lCWFF3ZjNLbytEWkVqdjZYcVZSdFV4?=
- =?utf-8?B?OVFOQXA1YlhLZkdNY0dPakhnL3pKNFI3TkVRdTN1K2ttQ3g2QXpReVJxUHJi?=
- =?utf-8?B?OHZyMmxNQlQ0bWxJQVpYZk1wUWhEM0swQkFXSDRxMVFuUDErZFdlYlRFS3M3?=
- =?utf-8?B?L090YlFrTjMyYXdmcTNkY1R4RVRjS29ERCtyZmREN0Y2YnRiaFRCMm45TDdZ?=
- =?utf-8?B?MDlhU0JqamdnckNMWjlQeUNqeXIvNmtUMlViT0lEOVIxbTl1Uml5d0NoNnJ0?=
- =?utf-8?B?N3BNMWNWbG9NMnZWZWZPMUowdGpQb0VFNkZObklBczRYSHBQbzk4WEFSTy9O?=
- =?utf-8?B?RWZuN2p6cFBMa3puSkM2cUhiVUhVRW9ZUmFkY1Noakd1YW54d0x0bkhOem1u?=
- =?utf-8?B?WTkwVGtib04zOCtkYTJRcnhTOUJUeGNqVlY4YkduREkrOGVRWWN4UG0xc3Uy?=
- =?utf-8?B?NTFyQzhIWS83b1VLcWhpckJCSHh4ZzJnOUtsZ2lsYStldWRVZkd2N0JQc0NT?=
- =?utf-8?B?WHhGSlBFSFBhOWFRVGlhV2dKdlNERWNrTmZSd0t2MVI0VXY4eTgyeXlCL3Vx?=
- =?utf-8?B?QUcvUTNyM1NWazdRTndnNnJOL254NlRBZUtjR283YmdhT2ZQYkRkOE1ITURD?=
- =?utf-8?B?RHpJL3NVUHl6TEZNNEdON3dLQXd5aC90a2JJRGFnSFRaTDM3UlJyNTR5bEQ5?=
- =?utf-8?B?MFlSUk5uM3I2WGFsTTdkL21uVzd2UlJEakxwd2hCSFlJamxCKytxbmdHeUxF?=
- =?utf-8?B?cTNGektyT1lyQVo3bXR2OFpaRkJZS1Q0SXgvejNjQ3JmWlY0QkNzR25uSlAw?=
- =?utf-8?B?UjVVY1c2L0FlQjhHKzNkRzhOUUN0ckZiMEV3cDNoeVZqOWs0eXhRVWdUUVVT?=
- =?utf-8?B?d2kvOG9kcUdUZVloZW1DMHFmaWNGUXBEcWw5VjBsdnQvYlJzTUNUdVlFSkJW?=
- =?utf-8?B?bjdoOGUxU0dNVUhPK253NGZvYVUxbUxET3k0MU43RGMwR2IySzY1YjdpOFQw?=
- =?utf-8?B?Qk9EZmpVbndhazhSMGZjODB0SjQ0WXNLWW9vRkVrUVZqZmJ1ZjIxNFlCWnp0?=
- =?utf-8?B?bHVtMVJsb2VkSDh3d056OWtnZnpYSFQvUldXY1dQWjU2ZkVBYUJUb3hMSGFO?=
- =?utf-8?B?VjFEbFlIeUhJV2x2bW05NUZYeHFmTTlVWldWSGdwd2F5cUdZVzZ3ZWI0ZWxo?=
- =?utf-8?B?UGYxdk16NE1OL3UwcThWUmZyMlQrRGF5L082Wk1OVWt6eUJLenJPTWE1TmtF?=
- =?utf-8?B?bStIcWFmWTNJdWQ3YWlYV0dtRUpGTkZ1c25tQ1hWbE0xSEE1N0NWd0Z0VG91?=
- =?utf-8?B?VUJNMEszNHFyakFnNHk4dUxhaWtsMDhXbkM3dlpFUldha1FXSmRLWXRsaHlC?=
- =?utf-8?B?aDNEbHY4VHRwSzd0MGxYWEI5cnB0Ky9mOWd1SWVMUENBd0pRMEdhajJDNG10?=
- =?utf-8?B?V2gzRkd0VVhpQ2hHU2lJckJEMllEUXU3OU9Id241K08rNXltOTlBeGNkOStL?=
- =?utf-8?B?cXB3VmNkZTJrSTJVTlBzVGVQcG5DWlRTUzAyRUZFeGl6K0svSENaL1BocWFQ?=
- =?utf-8?B?RlJwbkptZUsxNEtkdzU2U3Fkd1V3Y0JCc2ZocWxvUDNPVGhSQ0xLQT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70444dbd-4327-4df1-0c61-08df33679c2f
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2026 13:47:00.9325
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gnQOIsRZtH8loCLaXMiHcf3nTgouSbUA2neLf09plG88/YTSh5NLSTuxdeQgOWkp5kJ4WLSTT53FXwoo09aVWg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5683
 
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] ALSA: rad1: missing buffer and period constraints in snd_rad1_pcm_=
+open()
+- [Medium] ALSA: rad1: stale audio left in DMA ring by snd_rad1_pcm_resync()
+--
 
+commit eacc721af59b303627daf14970de1c98326696c7
+Author: Imre Kaloz <kaloz@kernel.org>
 
-On 10/26/26 17:43, Mukunda,Vijendar wrote:
->
->
-> On 10/26/26 14:38, sashiko-bot@kernel.org wrote:
->> [You don't often get email from sashiko-bot@kernel.org. Learn why 
->> this is important at https://aka.ms/LearnAboutSenderIdentification ]
->>
->> Thank you for your contribution! Sashiko AI review found 1 potential 
->> issue(s) to consider:
->> - [High] soundwire: amd: unpolled IMM_RES_VALID clear in 
->> amd_sdw_send_cmd_get_resp()
->> -- 
->>
->> commit 3a55a761f23cc08cf1a64f142c04e1aa78cc244d
->> Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
->>
->> soundwire: amd: return response on IMM status cleanup timeout
->>
->> This commit changes amd_sdw_send_cmd_get_resp() to log an error, 
->> store the
->> read response, and return 0 when polling for AMD_SDW_IMM_RES_VALID to 
->> clear
->> times out. It relies on the bad-state check at the start of the next
->> invocation to clear the remaining AMD_SDW_IMM_RES_VALID bit.
->>
->>> diff --git a/drivers/soundwire/amd_manager.c 
->>> b/drivers/soundwire/amd_manager.c
->>> index 307cbfdb94422..0b83126b5ce6c 100644
->>> --- a/drivers/soundwire/amd_manager.c
->>> +++ b/drivers/soundwire/amd_manager.c
->>> @@ -285,11 +285,9 @@ static int amd_sdw_send_cmd_get_resp(struct 
->>> amd_sdw_manager *amd_manager, u32 lo
->>>        writel(AMD_SDW_IMM_RES_VALID, amd_manager->mmio + 
->>> ACP_SW_IMM_CMD_STS);
->>>        ret = readl_poll_timeout(amd_manager->mmio + 
->>> ACP_SW_IMM_CMD_STS, sts,
->>>                                 !(sts & AMD_SDW_IMM_RES_VALID), 
->>> ACP_DELAY_US, AMD_SDW_TIMEOUT);
->>> -     if (ret) {
->>> +     if (ret)
->>>                dev_err(amd_manager->dev, "SDW%x cmd status retry 
->>> failed\n",
->>>                        amd_manager->instance);
->>> -             return ret;
->>> -     }
->>>        *response = ((u64)upper_resp << 32) | lower_resp;
->>>        return 0;
->>>   }
->> [Severity: High]
->> When this cleanup poll for !(sts & AMD_SDW_IMM_RES_VALID) times out and
->> amd_sdw_send_cmd_get_resp() in drivers/soundwire/amd_manager.c 
->> returns 0,
->> can back-to-back commands read stale response data from
->> ACP_SW_IMM_RESP_UPPER_WORD and ACP_SW_IMM_RESP_LOWER_QWORD?
-++
-> No. The response for the current command has already been latched and 
-> read
-> before the cleanup poll is performed.
->
-> The first poll waits for AMD_SDW_IMM_RES_VALID to be set, indicating that
-> the response is available. A timeout there is still returned as an error
-> and this behavior is unchanged.
->
-> The trailing poll only waits for AMD_SDW_IMM_RES_VALID to be cleared 
-> after
-> the response has been read. Therefore, a timeout during this cleanup does
-> not invalidate the response that was already obtained.
->>
->> Callers such as amd_program_scp_addr() and amd_sdw_xfer_msg() issue 
->> multiple
->> commands in sequence:
->>
->> sdw_transfer()
->>    do_transfer()
->>      amd_sdw_xfer_msg()
->>        amd_prep_msg()
->>          amd_program_scp_addr()
->>            amd_sdw_send_cmd_get_resp()
->>        _amd_sdw_xfer_msg()
->>          amd_sdw_send_cmd_get_resp()
->>
->> On the immediate next call to amd_sdw_send_cmd_get_resp(), the bad-state
->> guard writes AMD_SDW_IMM_RES_VALID to ACP_SW_IMM_CMD_STS without 
->> polling for
->> !(sts & AMD_SDW_IMM_RES_VALID) before issuing the next command and 
->> polling
->> for (sts & AMD_SDW_IMM_RES_VALID):
->>
->>          if (sts & AMD_SDW_IMM_RES_VALID) {
->>                  dev_err(amd_manager->dev, "SDW%x manager is in bad 
->> state\n", amd_manager->instance);
->>                  writel(AMD_SDW_IMM_RES_VALID, amd_manager->mmio + 
->> ACP_SW_IMM_CMD_STS);
->>          }
->>          writel(upper_data, amd_manager->mmio + 
->> ACP_SW_IMM_CMD_UPPER_WORD);
->>          writel(lower_data, amd_manager->mmio + 
->> ACP_SW_IMM_CMD_LOWER_QWORD);
->>
->>          ret = readl_poll_timeout(amd_manager->mmio + 
->> ACP_SW_IMM_CMD_STS, sts,
->>                                   (sts & AMD_SDW_IMM_RES_VALID), 
->> ACP_DELAY_US, AMD_SDW_TIMEOUT);
->>
->> Because clearing AMD_SDW_IMM_RES_VALID requires an asynchronous hardware
->> handshake that already failed to complete within AMD_SDW_TIMEOUT on the
->> previous command, won't AMD_SDW_IMM_RES_VALID still be set when
->> readl_poll_timeout() immediately checks (sts & AMD_SDW_IMM_RES_VALID),
->> causing it to succeed on the stale bit and read the previous command's
->> response registers? Should the bad-state guard also poll until
->> !(sts & AMD_SDW_IMM_RES_VALID) before writing the new command words?
-> No. If AMD_SDW_IMM_RES_VALID is still set on the next invocation, the
-> bad-state path clears it by writing AMD_SDW_IMM_RES_VALID to
-> ACP_SW_IMM_CMD_STS before programming the next command.
->
-> This behavior is also consistent with the hardware reference
-> implementation, where the bad-state path uses the same write-1-to-clear
-> sequence without polling again for the status bit to clear.
-> Therefore, no additional change is required for this scenario.
->
->>
->> -- 
->> Sashiko AI review · 
->> https://sashiko.dev/#/patchset/20261026044507.2310694-1-Vijendar.Mukunda@amd.com?part=2
->
+ALSA: Add driver for SGI RAD1 audio
 
+This commit adds an ALSA PCI driver for the SGI RAD1 audio controller found=
+ in
+SGI Octane workstations, supporting analog and AES3 audio I/O.
+
+> diff --git a/sound/pci/rad1.c b/sound/pci/rad1.c
+> new file mode 100644
+> index 0000000000000..0419b95cd03f1
+> --- /dev/null
+> +++ b/sound/pci/rad1.c
+
+[ ... ]
+
+> +/* The running count is the negated number of bytes left in the ring. */
+> +static unsigned int snd_rad1_hw_pos(struct snd_rad1_pipe *pipe)
+> +{
+> +	u32 count =3D snd_rad1_read(pipe->chip, RAD1_RUN_CTL(pipe->desc->dma));
+> +
+> +	return (pipe->buffer_bytes + (count & ~(RAD1_DMA_ALIGN - 1))) %
+> +	       pipe->buffer_bytes;
+> +}
+> +
+> +/*
+> + * A DMA that has not moved by a poll, the first one half a period after
+> + * the start, is enabled again, up to RAD1_DMA_START_TRIES times.
+> + */
+> +static void snd_rad1_check_start(struct snd_rad1_pipe *pipe, unsigned in=
+t pos)
+> +{
+> +	struct snd_rad1 *chip =3D pipe->chip;
+> +
+> +	if (pos || pipe->start_tries =3D=3D RAD1_DMA_START_TRIES) {
+> +		pipe->starting =3D false;
+> +		if (!pos)
+> +			dev_warn(pipe->substream->pcm->card->dev,
+> +				 "%s: DMA did not start\n", pipe->desc->name);
+> +		return;
+> +	}
+> +
+> +	pipe->start_tries++;
+> +	guard(spinlock_irqsave)(&chip->lock);
+> +	if (pipe->running) {
+> +		snd_rad1_write(chip, pipe->desc->ctl_reg, pipe->ctl);
+> +		snd_rad1_write_ctl(chip, pipe);
+> +	}
+> +}
+> +
+> +/* The RAD1 raises no interrupt for DMA progress; poll the position. */
+> +static enum hrtimer_restart snd_rad1_poll(struct hrtimer *timer)
+> +{
+> +	struct snd_rad1_pipe *pipe =3D container_of(timer, struct snd_rad1_pipe,
+> +						  timer);
+> +	unsigned int pos, period;
+> +
+> +	if (!READ_ONCE(pipe->running))
+> +		return HRTIMER_NORESTART;
+> +
+> +	pos =3D snd_rad1_hw_pos(pipe);
+> +	if (pipe->starting)
+> +		snd_rad1_check_start(pipe, pos);
+> +
+> +	period =3D pos / pipe->period_bytes;
+> +	if (period !=3D pipe->period) {
+> +		pipe->period =3D period;
+> +		snd_pcm_period_elapsed(pipe->substream);
+> +	}
+> +
+> +	hrtimer_forward_now(timer, pipe->poll_time);
+> +	return HRTIMER_RESTART;
+> +}
+
+[ ... ]
+
+> +static int snd_rad1_pcm_open(struct snd_pcm_substream *substream)
+> +{
+
+[ ... ]
+
+> +	/* samples reach the DMA ring only through snd_rad1_pcm_ack() */
+> +	if (substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK)
+> +		runtime->hw.info |=3D SNDRV_PCM_INFO_SYNC_APPLPTR;
+> +
+> +	pipe->substream =3D substream;
+> +
+> +	return snd_pcm_hw_constraint_step(runtime, 0,
+> +					  SNDRV_PCM_HW_PARAM_PERIOD_BYTES,
+> +					  RAD1_DMA_ALIGN);
+> +}
+
+[ ... ]
+
+> +static int snd_rad1_pcm_prepare(struct snd_pcm_substream *substream)
+> +{
+> +	struct snd_rad1_pipe *pipe =3D snd_pcm_substream_chip(substream);
+> +	struct snd_rad1 *chip =3D pipe->chip;
+> +	struct snd_pcm_runtime *runtime =3D substream->runtime;
+> +	const struct snd_rad1_pcm_desc *desc =3D pipe->desc;
+> +	dma_addr_t addr =3D runtime->dma_addr;
+> +	u32 ctl;
+> +
+> +	pipe->buffer_bytes =3D snd_pcm_lib_buffer_bytes(substream);
+> +	pipe->period_bytes =3D snd_pcm_lib_period_bytes(substream);
+> +	pipe->period =3D 0;
+> +	if (substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK) {
+> +		addr =3D pipe->ring.addr;
+> +		memset(pipe->ring.area, 0, pipe->buffer_bytes);
+> +		memset(&pipe->rec, 0, sizeof(pipe->rec));
+> +		pipe->rec.hw_buffer_size =3D pipe->buffer_bytes;
+> +		pipe->rec.sw_buffer_size =3D pipe->buffer_bytes;
+> +	}
+> +	/* poll twice per period */
+> +	pipe->poll_time =3D ns_to_ktime(div_u64((u64)runtime->period_size *
+> +					      NSEC_PER_SEC, runtime->rate * 2));
+> +	ctl =3D (-pipe->buffer_bytes & ~(RAD1_DMA_ALIGN - 1)) | desc->dma << 3;
+
+[Severity: High]
+In sound/pci/rad1.c, snd_rad1_pcm_open() constrains
+SNDRV_PCM_HW_PARAM_PERIOD_BYTES to a multiple of RAD1_DMA_ALIGN (128), but =
+does
+not constrain SNDRV_PCM_HW_PARAM_BUFFER_BYTES to RAD1_DMA_ALIGN or constrain
+SNDRV_PCM_HW_PARAM_PERIODS to an integer.
+
+Because the ALSA PCM core allows non-integer period counts by default,
+userspace can configure SNDRV_PCM_IOCTL_HW_PARAMS with a period_bytes multi=
+ple
+of 128 and a buffer_bytes that is only a multiple of the 8-byte stereo S24
+frame size (for example, period_bytes =3D 1024 and buffer_bytes =3D 2056).
+
+When pipe->buffer_bytes is not a multiple of 128, masking the two's-complem=
+ent
+negation in snd_rad1_pcm_prepare():
+
+	ctl =3D (-pipe->buffer_bytes & ~(RAD1_DMA_ALIGN - 1)) | desc->dma << 3;
+
+rounds the negated byte count down to the next 128-byte boundary (e.g., -20=
+56 &
+~127 becomes -2176). Does this program the DMA engine to transfer up to 120
+bytes past pipe->buffer_bytes in runtime->dma_area on capture or past the
+cleared region of pipe->ring.area on playback?
+
+In addition, when -(count & ~(RAD1_DMA_ALIGN - 1)) starts at 2176 while
+pipe->buffer_bytes is 2056, the unsigned addition in snd_rad1_hw_pos():
+
+	return (pipe->buffer_bytes + (count & ~(RAD1_DMA_ALIGN - 1))) %
+	       pipe->buffer_bytes;
+
+underflows 32-bit arithmetic (2056 + (-2176) =3D 0xffffff88U) and returns a
+non-zero offset before DMA has moved, and then jumps backwards once the fir=
+st
+128-byte block finishes, causing snd_rad1_pcm_pointer() to take the pos < s=
+tart
+wrap branch and zero out unplayed samples in pipe->ring.area.
+
+Furthermore, in snd_rad1_poll():
+
+	period =3D pos / pipe->period_bytes;
+
+doesn't this period boundary check require buffer_bytes to be an integer
+multiple of period_bytes so that wrap-around does not happen mid-period? Sh=
+ould
+snd_rad1_pcm_open() also apply snd_pcm_hw_constraint_integer(runtime,
+SNDRV_PCM_HW_PARAM_PERIODS) (or constrain SNDRV_PCM_HW_PARAM_BUFFER_BYTES to
+RAD1_DMA_ALIGN)?
+
+[ ... ]
+
+> +/* Copy again from the DMA position, which hw_ptr is at. */
+> +static void snd_rad1_pcm_resync(struct snd_rad1_pipe *pipe,
+> +				snd_pcm_uframes_t hw_ptr)
+> +{
+> +	pipe->rec.appl_ptr =3D hw_ptr;
+> +	pipe->rec.hw_data =3D pipe->rec.hw_io;
+> +	pipe->rec.sw_data =3D pipe->rec.sw_io;
+> +	pipe->rec.hw_ready =3D 0;
+> +}
+> +
+> +static int snd_rad1_pcm_ack(struct snd_pcm_substream *substream)
+> +{
+> +	struct snd_rad1_pipe *pipe =3D snd_pcm_substream_chip(substream);
+> +	struct snd_pcm_runtime *runtime =3D substream->runtime;
+> +	struct snd_pcm_indirect *rec =3D &pipe->rec;
+> +	snd_pcm_uframes_t appl_ptr =3D runtime->control->appl_ptr;
+> +	snd_pcm_uframes_t frames;
+> +
+> +	if (substream->stream =3D=3D SNDRV_PCM_STREAM_CAPTURE)
+> +		return 0;
+> +
+> +	/* a rewind moves appl_ptr back over samples already in the ring */
+> +	frames =3D appl_ptr - rec->appl_ptr;
+> +	if (appl_ptr < rec->appl_ptr)
+> +		frames +=3D runtime->boundary;
+> +	if (frames > runtime->buffer_size)
+> +		snd_rad1_pcm_resync(pipe, runtime->status->hw_ptr);
+> +
+> +	return snd_pcm_indirect_playback_transfer(substream, rec,
+> +						  snd_rad1_pcm_copy);
+> +}
+> +
+> +/* A reset moves appl_ptr to hw_ptr without calling .ack. */
+> +static int snd_rad1_pcm_ioctl(struct snd_pcm_substream *substream,
+> +			      unsigned int cmd, void *arg)
+> +{
+> +	struct snd_rad1_pipe *pipe =3D snd_pcm_substream_chip(substream);
+> +	int err =3D snd_pcm_lib_ioctl(substream, cmd, arg);
+> +
+> +	if (err || cmd !=3D SNDRV_PCM_IOCTL1_RESET ||
+> +	    substream->stream =3D=3D SNDRV_PCM_STREAM_CAPTURE)
+> +		return err;
+> +
+> +	guard(pcm_stream_lock_irqsave)(substream);
+> +	snd_rad1_pcm_resync(pipe, substream->runtime->status->hw_ptr);
+> +
+> +	return 0;
+> +}
+
+[Severity: Medium]
+When a playback substream is reset via SNDRV_PCM_IOCTL1_RESET in
+snd_rad1_pcm_ioctl() or rewound via snd_rad1_pcm_ack(), snd_rad1_pcm_resync=
+()
+resets pipe->rec.hw_data to pipe->rec.hw_io and sets pipe->rec.hw_ready =3D=
+ 0.
+
+However, the samples that were previously copied into pipe->ring.area ahead=
+ of
+hw_io are left in the DMA ring buffer, and pipe->rec.sw_ready is not cleare=
+d. On
+a rewind, snd_pcm_indirect_playback_transfer() only overwrites pipe->ring.a=
+rea
+up to the new rewound appl_ptr, leaving the rewound tail in pipe->ring.area=
+; on
+a reset, none of the unplayed region in pipe->ring.area is cleared.
+
+Since snd_rad1_pcm_pointer() only zeroes regions of pipe->ring.area after t=
+he
+hardware DMA pointer advances past them, could the DMA engine play those st=
+ale,
+discarded samples from pipe->ring.area instead of silence if the stream
+underruns, drains, or continues running after a reset or rewind?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261026132305.1637=
+5-1-kaloz@kernel.org?part=3D1
