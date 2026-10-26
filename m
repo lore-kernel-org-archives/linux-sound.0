@@ -1,63 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793050372;
-	b=0cfU6ztLw3Wt6Ik+7jzCx+Dj4yTYB7rwggE54ON85pXI1mIiR2J3dHmXQ6Nwdzu/3mKR
-	 /ADzwWDFfRYptgxG1nVgMeruplEeRaaFe1Gm+lDRHeBuvcam5DfqH5emwNP+KHV4B3Xjf
-	 RviV5tU661Zm1HuWJtSPfbmItCYab2iL9otR9wDB8MH0mOAHZlDX+4IJKXC1aE1Yz+1+N
-	 Oi1QjiQxe8MpRGAkAH82zSamqNiW1nuGpGFuIPzC8WGzz4x8Cfsgidd6UGDmd5GeGJ7Mo
-	 OokQokQ1FLgopeNbayG+GID9wkL49VZPPEQssZvCRdhauzR8NUakbNm5vi5C1I1lDAg==
+	t=1793050486;
+	b=hAGqUV22++0AEoHXPExOCk6KoJpmGDXFWuCtppdw8lLNjt3WtD7H8ddron95VmHSeelj
+	 xru2yrnlkHFVuN2IG3NSCpgLfJhl2AuDLjKehI07U58oC/cRjMLMvMbHDiHLIes9kX5mD
+	 JonU8OTOgSwmB6/1P8AVFJGmj6Vmn14AMTRitlrtg7r/ltwYabG7si43yF6U/FnSAX94H
+	 u7jWsIQZ8p+HKKrWDD+i3U8gQnzjBXuCpI67aeUsow3eHC6Mx5M1HCOqyvjz0TAYT8lVL
+	 z2eGn+6690NC4YdnpkXCg+t3cvedUy/eVwMFv0WMwNdZVZn4rGzYU/TvC5EtShPPsTw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793050372;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=6UXRkofqIopc1VIlz2O51kfJ8AOtnEZxYiLwN12udko=;
-	b=a+y79iVBdRx0UfLVRYL0jWvI8f1fuM7XusTVjcGjJu5RmdUTsvgQHOtvr2fF63Iu1aQh
-	 L0XVeTDDsWdSA9+6qO+pnBohuzLyMfjWqcrNKKU8Gl+y65UrN0GDRh64ejK4cHKj/6+z2
-	 hID+1aHZjTVYayeOyLZYLIWHwFgCJR+3k2YrvQy8X33RjSdGRExPje/eEV5B6dZoqNo6r
-	 2PoDuBdmxulA1wnkU+55iiq7d810eA1DSh7VdgzgG5pTXz1b0az5bysGKR8KTMf7JIOi4
-	 5NLyx0y4QXajBZ2bkNj28+OfGZwsdWk7Tec14FGpiYNyh4yMFykoQeUhWHt62nZY9hw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793050486;
+	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
+	 Subject:Message-Id:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=2+q1YYA4vO4SsJIvsabeKvjeoQQ177/52wq8uLUFStw=;
+	b=zV0nzUJ83tX40uDJLXCVqEFzRZ+SgmwfGvc7NeCFuPo+aNWIcdqmi8ao6NLTFVJEStPE
+	 Vp1rml/wKntN0Z78xMvDESeCs6OBICwQVAoxrVdIoH8tkMQgWAK8DaVm7yBM8e8BCaqxr
+	 t4dXOR+skCCmr4BdcE/xHl34CT7rPIZa5dfy+FztSZh7Eutgopn3MG370D7UAEsq2Lu6P
+	 uXItpqHHlKJgj9X7PbMCDfKx6gf0hKxlsv72d11L7LVN+MZew85Q0NXzERbtpNFaGUHwr
+	 CiEtxL9NRDjrnJ5ciXQOu3q1V1i1MIvuJZkEu5dl9+yvz/aFvRTimCRnCs+TTV1hDWA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aD+zDZ5M;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KuF9vh4f;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705BB606A31A;
-	Mon, 26 Oct 2026 21:32:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD8D606A31A;
+	Mon, 26 Oct 2026 21:34:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aD+zDZ5M
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D627B1F01825;
-	Mon, 26 Oct 2026 21:32:51 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KuF9vh4f
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEAA31F01825;
+	Mon, 26 Oct 2026 21:34:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793050372;
-	bh=6UXRkofqIopc1VIlz2O51kfJ8AOtnEZxYiLwN12udko=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aD+zDZ5MKeko/KtyWmyU0tJWGzehxKk8dqVx5bNemApyR0czWhDVPAZn70FNVhnbA
-	 crFhrdWAJNrwd4kUi73t4guNK5Y4I6AOIh5T5/PFPtpXiXQWh6uTMDR3IeqVStcGyz
-	 MkNOULRqjcrkeLR8/Y5UNQDFLKtlR1ohf27mFslfYJKfFumaXy0NTyCJgAMDWttmQU
-	 VkVsExzqu9kHsE/9OkzzIpQqh2Rk6KXmXSZrHaQ2PsMeZsVveWc1BWCqjcdHByyNAZ
-	 ZWa1X478duR3KSR7jr9ARz/G8esOFk43bqLgOJO4DCTwYg32U5EMAk6vNHMMs4Bwln
-	 BO9mTs4QFC8Qg==
-Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
-	id 387F81F4211F; Mon, 26 Oct 2026 21:32:39 +0000 (GMT)
-Date: Mon, 26 Oct 2026 21:32:39 +0000
+	s=k20260515; t=1793050485;
+	bh=2+q1YYA4vO4SsJIvsabeKvjeoQQ177/52wq8uLUFStw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=KuF9vh4fl33t7X0z5U07koeYQW0U9pYmcfU7B8oU9Cd4/4bUmZeNFt2KmOe7ESLrB
+	 imCnhJ3gD97SR0IZ/1KscjmdiZ5MmCgFPLg8U26IXCYQ4f542hgABmMLVnBWxvTHp6
+	 zOrsvRIJPVE7Z5Y3tPmp2bZFcIsisvfXOaUut+P1e1bVzNEOLnc57WRbSjUA9SIOG3
+	 FOlq1rJ3pd643lzNuKHY3iZaqPzLe6gq3fquTOx9IdSs7Ggqqp7Vw57OdAgKMX16i6
+	 hLXW7ARfmCIMl8LKdrHmp9MLaf0J5+mogQEeIkVxqEtV0GpgTaSe/N1vIf6Eg0A06y
+	 S55mqUl876T5w==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id F0F151F421C2;
+	Mon, 26 Oct 2026 21:34:28 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: Karthik S <karthik.s@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 0/5] ASoC: qcom: Add Shikra IQS LT9611UXD EVK audio
- support
-Message-ID: <at_G9w-g-f_x-49c@sirena.org.uk>
-References: <20261022094313.1074873-1-karthik.s@oss.qualcomm.com>
+To: rf@opensource.cirrus.com, david.rhodes@cirrus.com, 
+ =?utf-8?q?J=C3=A9r=C3=A9mie_Rodon?= <jeremie.rodon@gmail.com>
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-spi@vger.kernel.org
+In-Reply-To: <20261025095037.18891-1-jeremie.rodon@gmail.com>
+References: <20261025095037.18891-1-jeremie.rodon@gmail.com>
+Subject: Re: [PATCH] spi: cs42l43: Add speaker ID quirk for Dell XPS 13
+ DX13260 SKU 0E54
+Message-Id: <179303922317.199157.1921734785998960263.b4-ty@b4>
+Date: Mon, 26 Oct 2026 18:27:03 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -67,33 +64,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sLF79ND+0+YdUvNI"
-Content-Disposition: inline
-In-Reply-To: <20261022094313.1074873-1-karthik.s@oss.qualcomm.com>
-X-Cookie: Whoever dies with the most toys wins.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1151; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=4Fd4Of6OcGnjJNJCeSIO1thbVPW9iR4juv012a4Q/uA=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLuH0/pc9Rfce8RN/eTlYnmZ19a3S81SzPflOveLbvGd
+ c3C85YdHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZiIUwDD/9gLX+zm/tbi/O15
+ prGg5syJBVezElfEKIsmMDOU2t1S1GRkOP+X6VXikfL2pj83dVsaOlp67857JzbBbv6B5JbD8Q/
+ Y2QA=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Sun, 25 Oct 2026 10:50:37 +0100, Jérémie Rodon wrote:
+> spi: cs42l43: Add speaker ID quirk for Dell XPS 13 DX13260 SKU 0E54
 
---sLF79ND+0+YdUvNI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Thu, Oct 22, 2026 at 03:13:08PM +0530, Karthik S wrote:
-> This series adds audio support for the Shikra IQS EVK board variant
-> that uses the LT9611UXD HDMI bridge as an I2S audio codec instead of
-> the MAX98091 codec used on the base Shikra IQS EVK.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-7.4
 
-This doesn't apply against current code, please check and resend.
+Thanks!
 
---sLF79ND+0+YdUvNI
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/1] spi: cs42l43: Add speaker ID quirk for Dell XPS 13 DX13260 SKU 0E54
+      https://git.kernel.org/broonie/spi/c/7da2aca12375
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCat/G9gAKCRAv73Ows9A4
-iS/pAP9L8xikTlyFwI312pIvQdu7ppiUpfFKf9aD9gkuha7PXQD9ETqUINmBzQCe
-NSSNDrMJJfSxpRnUpMP56Q46aULBEA4=
-=grle
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---sLF79ND+0+YdUvNI--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
