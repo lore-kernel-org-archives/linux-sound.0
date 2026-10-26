@@ -1,98 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793097881;
-	b=INNGIhgMVK/ODqCa3GhqdrucZYfkPsiN6a0gZ5Nw+7UBpQb9N5lwh9OjDvXqPhXz16cK
-	 gIQ25SsFmICTUH9W5/7S3Jqk7BVZUe0GHIVOibXmYUrFRcymhlThH6lGCXj1AyFyEEqFQ
-	 pkaTE4hNxqMuXjv+ZyD6mt4G0830UUUniBOjtWLROrfbmnWHVYwM/wLXN1GoyEKbgz+qQ
-	 riCe4QwDTIEjeXxBlshPjwpzH33A8IjBo4W0k9CHL0pWQy3093211y7G/88F2vxHrpEqs
-	 GWeGrNj1HaBCP4yKpjOolSqfjQFvSHMyrBpuDG2DpJlwkmm0KPdCv3gMiXZsIAD/Wpw==
+	t=1793100310;
+	b=P/LRHE7ELlFyc3KkvYzXlLIOBnBiBfV8Av2b0jPXtYsvvwk/tkPeqDiL/w7ttotwjbeP
+	 ppXSUeFASdh62sbFJUV/0F8C6UqH/TT7JokJlq2mp8+FAcgzNueVQaQaCW5A/zAj6ye+/
+	 hvRP74ZnYLiRaxImeNRUL34lJjGHZAi4+HgvYZAl5LExsbDmmsh0eol2xsRK0ooaoupIa
+	 jZANMNvX1ANvarS1EXsB2oUUp0FX9NvIwGBxaUZ9YUrz6lZ+uudnX53iwjehxhAw5FYuy
+	 iNWKPMsvbj745hmHCx/Q6Fr+dqZ0jORM4x+ayHaWcONCIVqm6A+45hJiAwrWoBy+o8Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793097881;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=JYHZC9YZVYbyd0GpVUY032a9HNdLCs8lkGIdhjOteQM=;
-	b=3+WiYtmeAisNpLUQBe4gtwln54dVPeYzuWEBFAACNCNV5GoVQvFyrUgB8+Q9siBm2O0G
-	 7ppaGyt34LhW8ZC4yOBVbiUNORsR0Qf8yTiA7THDiJn8EzBFtV22eKudLB/dtLMTAfQqs
-	 f4AODYjb/NVJHi0fbZ2WvFnG1RIiJN2b4eDiWUf+ZEtXUrBxTW+mqCKUEUs0cgMo1ROfz
-	 AHnMH3vU3CvujZB4HmuZ7mn4pd8YVVkTXh3LFyomSG0MNvldYHF2ZamVYjR/Wv4qxdveU
-	 pUW6dK/sX6GAcipGsZHaFye/N8xtOX04K030v4OQS53medJkR5aOai3tDljbAMDB74Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793100310;
+	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
+	 Subject:Message-Id:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=9keTrtKyF5RR4M38htqgVqFwFmjs0uSmEyS7wkdi9J4=;
+	b=VJ6d5alzAuYsekny+Hg8YmRhvh4YkHXDgZwTasZiujFKXH88q79rEY2a8y+LUdqATYQD
+	 emXGOqlc8sr7hhSVcdWM32D+7Jnq3gG02aEF3F44LcfOtAwW22nVEloOeULZjfSqbK7pn
+	 KxMKiy2f+VjpYIOOTX9mUM2YEHz9PpyCRJwGFaOws/jXXO6eKLMngwpMAzxdmrNmAP9N2
+	 uzwugX/kKw2qy6cTVgm60CAYx00l1lOun8MO2rURGdLwAwYr5uClEm4lKWQcDF5MhK0uE
+	 mf4kTvLkD5H4aNNXhhFXWUlw8rZTCrD+AyVX2PDnynz1eWvEjRCO0jskj1eNjJkEQuA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=It63ys77;
-	arc=none smtp.remote-ip=209.85.214.180
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b8bGNgsc;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF1D606A330
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 10:44:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8AF1D606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82745606A31B;
+	Tue, 27 Oct 2026 11:25:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=It63ys77
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2e99b1e5b4cso22671635ad.0
-        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 03:44:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793097881; x=1793702681; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JYHZC9YZVYbyd0GpVUY032a9HNdLCs8lkGIdhjOteQM=;
-        b=It63ys77sAnM6efQWVHuna1Of5OoB0aw9oMmpYvbun+3XsW4BjAazCVz6XuGYxdthQ
-         R34fsxVHzXQmUXvNxJh/pv66C0c0GCtvKTmfTCNetR6VQb2/cEpQmvKZGIPUmUM2ODti
-         TBlH4kB7A+OJX1GckjfiFP+/jJjJChXbhlh95RzZ5f/4IuYelGAPoDO0XVf3AYNK/FxC
-         /RhEwqS6eY5EkPNJpcJXFZPD792hw7y2gluxarNGavJ4iWvgU0k4hNXZfi7CwywrcV22
-         VbYmFOaOexnQhOEH8O+GE7OMzQVEvUInS2o8tR4YGhFpoUyNudfls0Bw0ROydO+9vVEm
-         zV8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793097881; x=1793702681;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JYHZC9YZVYbyd0GpVUY032a9HNdLCs8lkGIdhjOteQM=;
-        b=UIPvbPi6GSrhp9feuFHPedNRlDQcS3edcl6i3JS2OLy8gVj4GuaV+WPgr7bQrzWnqD
-         WMI+FYu/nqSsvokU9O8NAhTdr4z530CVMuJJdjKc5BWx4bA14GTf14W7YQpJZC9AuzO5
-         tvvAgTQwPPfBIPJwXn0iPne/2AA1gmdX4UNjy41Bdt1Us/KuPrlXRbJXKW/uJkm0GCuR
-         nT3h9rkL/TVySp4pNP0ldutxfseDnNEnbIW/sJ19mKhkELBoDZ9ihodvsXJRInstEBG3
-         d9fNJbL9YDjZIpl1nvG9PDixCZBZLiNdusXN2o8O/izFYoUepEpvdlk8fs3tMuE1TXz8
-         ANQg==
-X-Forwarded-Encrypted: i=1; AKwUvByXuA4UFTbCmVgrokwczA13cwL3LOFPIMl+l6hC/6NPAkt2/i7K/VwkA/aGWUmYn6MG5qUHqyb3B48vfA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYK+9Waq7ipgC4a0fc6X9OlUdO5JKIUzIEPvMCux3a/N3CS4nbc7
-	rjRAJ+umnWN51qwU6HOT4Smrbl25h1TWKqtGER0w2yslMgZxzvjVDXEA
-X-Gm-Gg: AYBFou1hw14SGzEwTKPP/kiY6lCaKdAYxIwtoCaFb9grGPgaR4qGQXtbaui4MA913+5
-	yjPKOhzeKZLTPhZlmRVwcORgOOoe7yeRTe63IK32xj/IqbA+R1ZXs3FAdC4RBr0c+qLN4yIdpkK
-	G/tbF0rQE1Xov84i7KqN/fm4IMV/UhEPYqC2MF7x1EDu5vD55dznJ7+vF5FWPdAOv6H6fHSH/fc
-	ZQ69J1YtVr0KyuBitIMPsUoV9TedskkDII2+ZuI3kus9ubm7rk0JjJIMSOkGFd/wrwpzvmeDy9Q
-	DltGLnGsxZ3piZ8qwq/lYnKFXUevMnGV8e7KGZsCn7O0rWIV2exOM6Tmjs0TyzQkCH5zsVn5l+p
-	1VR2ON1SoVKjuMYhAcJhOFOj4opGL+4+Ycfn/dTnbnbG4FFeGyIw3epMupoc3WELV4g0a9peTku
-	mDpIRokcEVqRnWPaCoxmxrCR4KvR6mvwMO0Du5LWBUYgaQUrsLB7IkUpuYezFvBSntEIrOkxoEX
-	+rZCRXiqJB4aJgcYXNUX4Cn4Mi3lfuPeQFyT1OHkkbCBgsR5s8uahk6HGMU6BCXptEgcMNEw7KS
-	oeAV7U25gD0rFhKI6y+kOP01qi50SuiM6IXYbynLqDpgz+8erok/8wT3vO5dxod8eJEY2xA=
-X-Received: by 2002:a17:902:eccf:b0:2e2:be61:a882 with SMTP id d9443c01a7336-2ea9c6c8bc8mr82214925ad.11.1793097880831;
-        Tue, 27 Oct 2026 03:44:40 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eae6ca1bb2sm7187525ad.68.2026.10.27.03.44.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 03:44:40 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 2/2] ASoC: img: img-spdif-out: Fix double clock disable on probe failure
-Date: Tue, 27 Oct 2026 17:44:17 +0700
-Message-ID: <20261027104417.7150-3-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261027104417.7150-1-phucduc.bui@gmail.com>
-References: <20261027104417.7150-1-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b8bGNgsc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E45A91F01829;
+	Tue, 27 Oct 2026 11:25:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793100310;
+	bh=9keTrtKyF5RR4M38htqgVqFwFmjs0uSmEyS7wkdi9J4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=b8bGNgscueWF8BRR5NgXaZukANOyHN0qFUaoUgNDuv4avvDPYERd6g59QzxDvB7c8
+	 8my+fiAzWlF70D+Src1HXWbW+chC4N//G5vqGmtez+dhoJ4pZCCL0Ys2cAZ6cYxVW5
+	 01BFhEtvDXLCHLxYXEUt0qaiZ+YhXWnP/cMcNl30Ypr8vJeXBeQiWPIo1TJHEUe7FU
+	 gk378VuIMHXoio92dfHmEGI0Zt1ibKjn0Hj1pTqKzOe6hYypZrt+L90izeorjFg4Fw
+	 vHBaby7ELvD2fmYFBzjbtB9CvZuvkCgBxdf6MFALvLEe1rmXqZSvdDIf56OzfBeGb4
+	 9xM3zk3cCcqkg==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 664961F4AB98;
+	Tue, 27 Oct 2026 11:25:07 +0000 (GMT)
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Vinod Koul <vkoul@kernel.org>, 
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Maciej Strozek <mstrozek@opensource.cirrus.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Sanyog Kale <sanyog.r.kale@intel.com>, Takashi Iwai <tiwai@suse.com>, 
+ patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
+ alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261020073856.1177749-1-srinivas.kandagatla@oss.qualcomm.com>
+References: <20261020073856.1177749-1-srinivas.kandagatla@oss.qualcomm.com>
+Subject: Re: (subset) [PATCH v2 0/6] ASoC: SDCA: class-driver fixes and PDM
+ data-port support
+Message-Id: <179304904651.199157.13348743822206053413.b4-ty@b4>
+Date: Mon, 26 Oct 2026 21:10:46 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -102,44 +70,58 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1769; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Tp8VxEs4UPOsUWZihV9k1VVSCYfyQT9/1G8V4gRGud0=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIedAl7WjT9qrhUwcrD8WCGnea67axXdJXZV5j6zWN8V
+ 3r3tixTRykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACbCvYnhr1h53qW9Tz6/ERBb
+ uES9UWSpq8rCxClzK+fpSdsqnW3r62P4n3/O7sva3kl5Dx2KC04k7xcUnPHqZoeTwcMzGZOE5La
+ qcgIA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On Tue, 20 Oct 2026 08:38:50 +0100, Srinivas Kandagatla wrote:
+> ASoC: SDCA: class-driver fixes and PDM data-port support
+> 
+> Three small fixes in the SDCA class driver (propagating a read_prop
+> failure, dropping an extra pm_runtime reference on probe failure, and
+> re-enabling the IRQ on a failed system suspend), plus three patches
+> that teach the SDCA class_function path to tag PDM data-port terminals
+> and the SoundWire core to treat PDM streams correctly.
+> 
+> [...]
 
-If registering the component or the PCM fails, the error path of
-img_spdif_out_probe checks the runtime PM status and suspends the device
-by hand before calling pm_runtime_disable(). By then, the asynchronous
-suspend request queued by pm_runtime_put() may still be pending or
-running, so the suspend callback can run twice and disable the ref and
-sys clocks twice.
+Applied to
 
-Disable runtime PM first, as img_spdif_out_dev_remove does. This cancels
-the suspend request queued by pm_runtime_put() if it is still pending,
-or waits for it to finish if it is already running, so the status is
-stable when checked and the suspend callback runs only once.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/img/img-spdif-out.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Thanks!
 
-diff --git a/sound/soc/img/img-spdif-out.c b/sound/soc/img/img-spdif-out.c
-index 39a37e4830d8..d93b3a135d79 100644
---- a/sound/soc/img/img-spdif-out.c
-+++ b/sound/soc/img/img-spdif-out.c
-@@ -386,8 +386,12 @@ static int img_spdif_out_probe(struct platform_device *pdev)
- 	return 0;
- 
- err_suspend:
-+	pm_runtime_disable(&pdev->dev);
- 	if (!pm_runtime_status_suspended(&pdev->dev))
- 		img_spdif_out_runtime_suspend(&pdev->dev);
-+
-+	return ret;
-+
- err_pm_disable:
- 	pm_runtime_disable(&pdev->dev);
- 
--- 
-2.43.0
+[1/6] ASoC: SDCA: propagate sdw_slave_read_prop() failure in class_read_prop
+      https://git.kernel.org/broonie/sound/c/79cfb5aebbf0
+[2/6] ASoC: SDCA: drop pm_runtime reference on probe failure path
+      https://git.kernel.org/broonie/sound/c/86331b76b32d
+[3/6] ASoC: SDCA: re-enable IRQ on pm_runtime_force_suspend failure
+      https://git.kernel.org/broonie/sound/c/d34a818a331f
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
