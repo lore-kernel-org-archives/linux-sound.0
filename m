@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793042216;
-	b=UjdMf26w0E7iiTtviIRaLZ5qLy1UMj2XmcntjXazbn1RGLpAFknMCqjyH9VlT90MP6zB
-	 6toLXCU4Vl8Y3RUqdjfigcv1atvi6PeQAzDJM8gFsLytdJXWTrwxQ7cWzgRYZ+OWUfHGH
-	 Ge+er+k9mIlPAK2qeFZdFUpsBjV8/gwSi70JZyLep/pbaxyMB+dvGdjROX7rsJMrDDs4y
-	 Rc9WTSdQiT56saJI/VoTsFa2tZgN8cFnhPDmF2MUdiW5Dp4gGwLu3qU6qzcCZXWzAoBuf
-	 6M2PLz1oN7nJOJkbWRSG7ck88UsTIQuTrPQvj9ayvSWi6Vplz+0/+9nqyySrHcHQB5A==
+	t=1793042513;
+	b=oHFqIppPDbhsfrG7D4CEDzycudLNKE4mvq9PW1odgcGQ2K8nVtgNpE2WgnTRB95FlPIk
+	 kv4vqwZmXEqbMEg2yAvS9vLG/+QMpVAUTzLSe1YW9tqIN4toKzs7Jad6rZ5KqI7WRjhdr
+	 Z9AHOUTWY/4SZcsDTGswlbtTMsJxcXGqJiGkz5EDcuwNFP/TgD+blH0SgdpLCwHbatLcN
+	 +DI7VgjG/m1OZWqdTL94sIGepLJVb7+MjUGZDI7P2aE6wEqhqHmXIfIxdSFmWBxZi1bmw
+	 9w7WlQDRQ0juZJcfyz4SJ1ThU1eyh6bqdlCXEsgCoOL96wJhEshhJ0C6yTLHx/xwMWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793042216;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793042513;
 	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
 	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=RnxgXT6Poel9Dt5EQBRodal3GDy2sNUU3sHe83tKdzw=;
-	b=dodQpLFovNaCE6S2y0af8gES3lhD+IXha5WlBdjs1PrZxOzM7dRIZ1TiPT6snGJ9lyCU
-	 R1tFfBsYHltst4WS1+psH4pcQ5Rjenjr1MVyxy5bHiafqoEaNWhDJqddVok7frDc16BYH
-	 kjti9yqBRwTFF8K7LZxkgMbfFog6cIZGHPmi1ShjYUHy5lzQRVpJUAPnIZ7c9Uin5VqXU
-	 s2cmfbPAzVJ4XrfR1ijXHv9XvIsceMuP/IEoS4k4Y8XrMelZes+Qz+H8KGKhDCXqjTMHu
-	 F+cRftppw+ECQKkNC59Jhw9MCz/6aW9LoK3Jxrw9yMu0HO4yyOLhlvQEBzlEmcZzWpg==
+	bh=WmoeuFsXA31M2EznPFG8U9N8nAidKihMFBHKRe4hX7I=;
+	b=sSypOvDjgZKPXtGTLkrOXpFSCNd7NvWPuWqZouS869mggiy5O7IxAwz1TE+Bzq4ZdfHm
+	 ucU0xuGGiHTWhkhTUK7ofLcwCHDnmqqNPYGO9eHj/cNZDwEQubtdai6/kmcVAycCJO5KU
+	 QvhNFLAatvHZDka847YbFV+XeKjWkPtrShvwYH7x4fmU8IDS1bzwIa+ueiWx9vRWBqkHU
+	 exRjwNT0z8M959f7HPEFyt2orKwbAUXuF2L/fHvaTe9slrSyHRrVZg57mc361hLE2zXAv
+	 0ReLd45esBUgPlb/b05temF35s8XCxKAHCM25i7zVYlMrXiyk/lT8tmS/xKpFq/a7rQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eH6IR1ai;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S1yaiL34;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E1A606A31A;
-	Mon, 26 Oct 2026 19:16:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA1C4606A31A;
+	Mon, 26 Oct 2026 19:21:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eH6IR1ai
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 271761F031E0;
-	Mon, 26 Oct 2026 19:16:56 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S1yaiL34
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 226491F01825;
+	Mon, 26 Oct 2026 19:21:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793042216;
-	bh=RnxgXT6Poel9Dt5EQBRodal3GDy2sNUU3sHe83tKdzw=;
+	s=k20260515; t=1793042512;
+	bh=WmoeuFsXA31M2EznPFG8U9N8nAidKihMFBHKRe4hX7I=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=eH6IR1aiA3w4X5afl94dkMVtQ2nRNEU3AxBruZlX8vl86wwugxpnWqRIZJON0OOUk
-	 ZLNnXu3gaaL4usfF+aqqmj2tAE+sivfz7E068UFFD1NEClZepPzFaad0uQuqWFZNPc
-	 prfBcE6WhCy6TAXhtNmW5cpbUs+xxiXR0aLaoD+ZMeSGLpyhMLehiJ2nHq/VTIr+vj
-	 8R9Tqyj8rYzFXIdQvonak1JqEhWh/c3jpFUyMBb0V1AymCxQQXQBgZKqrM3jC0PDKz
-	 /4qN0O0LvNZOtK0F39YnCNfxob7tiwDsjSEZnoRJ1pggyzvpOkuXvMz2qJOLGGVp8x
-	 1UiuLC2aNJgjw==
+	b=S1yaiL34A9dkXcqw366OFdsrlW954k35TohnMw1DYGx07CxZGjlErf7gfkmxdMKz5
+	 gQkcyQJUE7xxNl+FgJDmWp5SfnWQoa9Guc6ldPk3iYtYvs4A9Co3rGSgv48hbEHLSr
+	 9CNLQnzvhpLkn338FYeRmWt+O8pyxtqtwov/scjsMzk6OCTPWh76+nIezRzX+wGIfy
+	 fzZmMR6jw1hJHVQi9FqqICgzI7MW6XoX+i9neTK1KXYTkxRak1FveOwKN9y2G9FvOC
+	 SQ0VBxqAUWnTg4ZL9Dny2RJctLRHaTwyTOJJE/IaY0WT/y52kLq/haNuVnfnTPnlvh
+	 TMzO1fEBpmvbA==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 106311E90F08;
-	Mon, 26 Oct 2026 19:16:40 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id E51361E90F86;
+	Mon, 26 Oct 2026 19:21:38 +0000 (GMT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -54,54 +54,57 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 2/4] ASoC: rt5659: cancel jack_detect_work on component
+Subject: Re: [PATCH v4] ASoC: wm8962: Stop IRQ from requeuing mic_work on
  remove
 From: Mark Brown <broonie@kernel.org>
-To: Tristan Madani <tristmd@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
- Oder Chiou <oder_chiou@realtek.com>, Bard Liao <bardliao@realtek.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Jorge Eduardo Candelaria <jorge.candelaria@ti.com>, 
+To: Myeonghun Pak <mhun512@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, patches@opensource.cirrus.com, 
  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Tristan Madani <tristan@talencesecurity.com>
-In-Reply-To: <20261026112212.2519775-3-tristmd@gmail.com>
-References: <20261026112212.2519775-1-tristmd@gmail.com>
- <20261026112212.2519775-3-tristmd@gmail.com>
-Date: Mon, 26 Oct 2026 19:16:35 +0000
-Message-Id: <179304219594.199157.13097381941103109173.b4-review@b4>
+ linux-tegra@vger.kernel.org, stable@vger.kernel.org, 
+ Ijae Kim <ae878000@gmail.com>
+In-Reply-To: <20261018021817.3859256-1-mhun512@gmail.com>
+References: <20261018021817.3859256-1-mhun512@gmail.com>
+Date: Mon, 26 Oct 2026 19:21:37 +0000
+Message-Id: <179304249765.199157.777814695167017971.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1131; i=broonie@kernel.org;
- h=from:subject:message-id; bh=8hI3Cn/uEFiGNUcolcJAWodGnQ2bg4SCU/Lm/ZgtQ+A=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLuLxcXt9VMXWzfPWXWhi97Jvq8/Pf7ayqTxLp2iwZj3
- WfOk3s9OkpZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRBZ8Z/gp911wj1v2xvC1m
- Y9DNgwpNb34ee3d8wap1bGl9J+f7pexhZFiwX3Pd3NO3uMK3ZhQs/Co/48zj1vU7H6sz+cqeVmt
- ++YsFAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1144; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=5pKCCttCUtEYyeoktnWE3/k4cIw7ak0FrJlN4YB/jH0=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLur3D6+ez/i6DsIxGLNx63z1LRenE5dN0VyWfyrKf7n
+ musniXC21HKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJfK1m+Kd8sok/sc1urfdi
+ 4/XJEV9vrl4V8uzEVq63u5669bSv8d3I8E+7e1dV8c1/CvYHrNsdmDwFfv7aLOTzX9Fkx2e21NS
+ v3VwA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-> Track successful IRQ acquisition with a flag so that disable_irq()
-> only quiesces a line this driver actually owns.  On component remove,
-> disable the IRQ to synchronize with any running handler and prevent
-> new enqueues, then drain the residual jack_detect_work synchronously
-> before resetting the hardware.  On the next component probe (card
-> rebind), re-enable the IRQ to restore jack detection.
+> The WM8962 IRQ remains registered to the I2C device when an ASoC card is
+> unbound. wm8962_remove() cancels mic_work, but a MICD or MICSCD interrupt
+> can queue it again before the component is destroyed. The work then
+> accesses the component and reports to the old jack.
 
-> @@ -3684,7 +3690,14 @@ static int rt5659_probe(struct snd_soc_component *component)
->  static void rt5659_remove(struct snd_soc_component *component)
+> @@ -3230,22 +3230,30 @@ int wm8962_mic_detect(struct snd_soc_component *component, struct snd_soc_jack *
 >  {
->  	struct rt5659_priv *rt5659 = snd_soc_component_get_drvdata(component);
-> +	struct i2c_client *i2c = to_i2c_client(component->dev);
-> +
-> +	if (rt5659->irq_acquired) {
-> +		disable_irq(i2c->irq);
-> +		rt5659->irq_disabled = true;
-> +	}
->  
-> +	cancel_delayed_work_sync(&rt5659->jack_detect_work);
 
-This work isn't unconditionally initialised, cancelling something that
-wasn't initialised is an error and will trigger warnings.  Either this
-needs to be conditional or we should just always initialise.
+> +	snd_soc_component_update_bits(component, WM8962_ADDITIONAL_CONTROL_4,
+> +				      WM8962_MICDET_ENA, 0);
+
+This register is (sadly) volatile so we can't write to it while the
+CODEC is runtime suspended.
+
+>  static void wm8962_remove(struct snd_soc_component *component)
+>  {
+> -	struct wm8962_priv *wm8962 = snd_soc_component_get_drvdata(component);
+> -
+> -	cancel_delayed_work_sync(&wm8962->mic_work);
+> +	wm8962_mic_detect(component, NULL);
+
+This means that if we didn't enable mic detection and the CODEC has
+runtime suspended on remove this will now fail to write to the device
+and generate warnings.  Making the cleanup conditional on having
+enabed mic detection would avoid that.
 
 -- 
 Mark Brown <broonie@kernel.org>
