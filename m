@@ -1,81 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793105664;
-	b=FP/STPu26ELr/Sk6sDagVGlNbPLIqMwA/frT0zwJ1PQBPmWa7tx4mGylmoHR/YWqCgIp
-	 fdWBkDcanctBf/Eq46joMluCUSa4TLClM9AM3qCVy33QXiB+ESpNF4ySq/aMiOMKWKG3V
-	 9dir7ToNTBo7exkFmyoJ0a+/Lrxy8dCU10gBFM7PzObOFfC8IxMQEYqgasdofPXKzVesg
-	 4NsxbMYZ/id693sTbzLfaBUgnbuKAXfLHXJZOzx5BteZqRSWcj/CczeEb7dfTzb7laiut
-	 u/LExtXJ769csxzGBaZX5i02Amep3jeX1H54EOD+UGg7pKbu1GT5gRPGwHYS082Sajg==
+	t=1793105990;
+	b=QjBPoCXhb1+0PAJ2MqDQusIq7eHxYrRrbMRSHmanoX4Jh6s3h2cYG70rGWkgoXP2VUqC
+	 M9SeMLd/OZNzqqOb2adarFC3Zeps1O2IKPEeMqDAZ6p5AwT70wn66Ng21ZU5USc0xk1x/
+	 izVefG2l62++a8ii+cyIhXlPilCSUMLC6TDuqR02WWeZMcHiYuCZcK3bkE8PhrPPGcU8m
+	 sTJqrqRAceQDMXSSE9V/GRBZkTRE+2e1qqwZWndda8JvTww6rE/LMxZTAPxxi2dSgBIPe
+	 3FA/j0PrFmMUfc6l4vACNAGZpm3X3KHmHDrftCM4bgRziHMwZEUpFnTzXDx1/Oc9vVA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793105664;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=jZTxu8qUT3nFZmTHkuhIQHPZ7BGHiDBpLhkFu0ULAqM=;
-	b=iUMbk/sPK/LmQSk47yHtznKgso5IkhEik7ukXy3CUvwdNAb0rCaMIG1J89DcAwLeA1bl
-	 3Igw5zn0kXbDl793yx6GWdOqSTrZANoShO0Fbz4eqa8wzvMvHWLT9kI2pjufLZzDR99qe
-	 6ieWWelk6jBa5K1wNOGrPFj0XHPUE+f+MeqTbYcliRUGJZPamMqshGFlPxjfNWuHTfmbU
-	 QgUzCZGrxPo9htc5Tw45GdATQTe62yQQFxMibo87yi9kDrDL2IHeQFyg4sx4ItsBfue1y
-	 1prYw8dl1SIwTcU8NAItZdLwt0XlB0SWHfUodliQdZgtLF5CAc8PVtNHtx83ruzDXrQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793105990;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
+	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Authority-Analysis:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=qNVNz3OBbK+duGqriAAIawFlLoB+G+Oeet6IJhveSPE=;
+	b=G6iQiWJxYPKYLZu1CmSBRz+SPEwc4hcwR/v61VBbVgK0/pxMAvYsjWtBxuiUMlsULeRF
+	 4npfWqvveQYVoOPkmZGySI8Lr8Or14WIkV8HBuWxTfAXAbsaZSzmATsrx3B2MnC6za4fD
+	 qd+fUQ23l7H/nvYfdHtzD1AlRD+whyYuPt+URTDHwIiopjwm91c1DlhLNmxlJUZkM9r91
+	 oeCPAzNYJX6a3HFSi5hhKRIsB3x3pIOw/Z4WcLhsTuxyS3aAmSzWtdSobf6Mi1rvS1lt7
+	 Vf/fbawBWVrQwWQ/c2KGc9Co7tOQT3NzclxErYYZElcAoqWTvlOiVv+O4hu1anAHopw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DeH+4ah3;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Ui885gUj;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=KA02GGmJ;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51BDE606A31D;
-	Tue, 27 Oct 2026 12:54:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51BDE606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84ACE606A326
+	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 12:59:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 84ACE606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DeH+4ah3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793105663; x=1824641663;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=M0vW7tj6rTYhwP/CVcwl8dAaWP3LiMQ/AkJZpYCDUIk=;
-  b=DeH+4ah3OfyVnczn8fG0Meb04khBhXuQX8XkRWist5jP2Tp6HlXZLJss
-   7eORYWgo75G+bsliSyjjWGmn6gPH6EF+2yKtFUO0VzaymYWOB9FGLwL+B
-   fs2ND4kZ/hwU3zbbf+T2ppq675UXFRJ21FVlNANQT3VG3nxUUiUZjlk0h
-   P+GTN1sWVPMbmxX6iva2zfGsBrpsSViv71xF1+dL0q3L2S9geUjvg2pLE
-   HLOj6jujw+PXber9RCO3wm+heIGmHGIXJpaChxMMoIy7xuToJdRIHC83H
-   wUVCdOyPXotbXea8pQZHS53Ozbm5KFlAqaolLVsiSU55wZVIr4nECHQOI
-   Q==;
-X-CSE-ConnectionGUID: /GpXL5wBRb+UREsRnpKAzA==
-X-CSE-MsgGUID: YdElB0WWTBmJvsfar5eN8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1684677"
-X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
-   d="scan'208";a="1684677"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 05:54:23 -0700
-X-CSE-ConnectionGUID: XTvx6Ps9TQOPeQjd1VFE4g==
-X-CSE-MsgGUID: +bcdhmBwSL+XMBadGFOX3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
-   d="scan'208";a="6294872"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.199])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 05:54:22 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	stable@vger.kernel.org,
-	tiwai@suse.com,
-	perex@perex.cz
-Subject: [PATCH v2 3/3] ASoC: hdac_hda: Fix codec runtime PM across remove and probe
-Date: Tue, 27 Oct 2026 14:54:48 +0200
-Message-ID: <20261027125448.11018-4-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261027125448.11018-1-peter.ujfalusi@linux.intel.com>
-References: <20261027125448.11018-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Ui885gUj;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=KA02GGmJ
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69RAdw4O1061087
+	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 12:59:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	qNVNz3OBbK+duGqriAAIawFlLoB+G+Oeet6IJhveSPE=; b=Ui885gUj+bWI4Obz
+	FzAbcwkFkUI6t9drRFkPFpZhgb3h2gcH5tCHP5wAncNb/E55O1IIueNEfnU+RqY5
+	K/czRHq3hsydzTPh8LI6KCwWPNYhQAwOWjWOFue3hltVc8UN6110CMEcfAsm1vxJ
+	hY8LF/kMUp+2V8MY3yXEJNidNEAsO683FzEg2G2hrYNVsen/xMUDD6SDNI11Keaa
+	63IAqGQ67MvOmi3fllOI6fmkR5OsLGPnOygZIVkQxerI+k34gyS7Qau1FwSbvPPf
+	+CTXjErNZ3fUWI9fUEh7IFMdeh+yMT3UcVqdFVVDbEGkXPDKEAqp/TNmjotZWhpV
+	eagBrw==
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hjp2t9kts-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 12:59:49 +0000 (GMT)
+Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-82169fb66c3so11017842a34.2
+        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 05:59:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793105989; x=1793710789; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qNVNz3OBbK+duGqriAAIawFlLoB+G+Oeet6IJhveSPE=;
+        b=KA02GGmJFiToXYtilHil9yyy9MCX6g3bEB8kUhtF98SJ+41Z9kwJFdFSmrRbB7cn5c
+         0I2O2mFu8Aat7iTiGa05Xke/iVzyVXEr8yCzyWNM9oJZeKf/gSiNGYcc+N67UIT7p1mh
+         kmfeHf/KqCtJO9rup2jktjra5JHjJac4AGbVCpTQ4AcfTeAreL3KOJ8xZCLFa5S7y+Qv
+         +p59c/bppCV+p2vt95Vb9uAAfGnCppJWzoDUwyRpsiMCyd2q/ImLOOjrDqSeuKKpCieK
+         ZHX1MH9pSXkNX8/RdaNLvIoBB74Kmhf+7RIPjtAOqFaw1tw1UpqPx8S7zTPOLaaHQg2W
+         ZQcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793105989; x=1793710789;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qNVNz3OBbK+duGqriAAIawFlLoB+G+Oeet6IJhveSPE=;
+        b=JSkEl0t/G88ILlNfpO3vBRqxaae6YKaaZwrY2YYC4jYhhun0N5s3tnDopDcPLmL2ou
+         vcwyg9xN1WWfhqOXCuoGSVLPqnrMgKFKaGzAMh2lpmsObukDY7jdNO112m2ejc+jjJCz
+         b9ElOt3V9PjKvVZ2BpP3BDrD/c22ayplDTNMZvyq+Frz+Tvz4ekGtQrxLgshCeYNj+4Y
+         7NPGA+J9/wyodG17sqNiQ22PxSBXcPSL79JeNhYj3BbWLo+ppKJul7ux4Yrna6NqA47C
+         7yjPIZyZmxuxSlgJzEH5IOSsuZQdgULW3PMn5vNfBskcxdPEYU96R1p+9dk+VgEwM8e2
+         IidQ==
+X-Gm-Message-State: AFq9FYJoOeAf6eHB8GuxWxWbaTjoGpbNCMJGu2J5WRg26NHHwWl4T3i8
+	gMcI+A2Wqgtk5d7aGP7tXIJG2upxMeiBYbhZ0h9E+74eH8ZCBUNWKjPsf5KPu96/hKgEY4UPhtk
+	BYALW7O8J2rOJo5J1/kACUGMed9i3H4t3N0n3cFGKVSXxkxGI7YJgcJ0Hfitdi+ensAev/B6mMg
+	==
+X-Gm-Gg: AYBFou0h31Z2ZhPdrSZ9r/dCeTdCxabVbwUosw3/B/SI93tyK11nr2Uk/2aoP7g1goZ
+	7x/We4bKCBAz+dO+K7VGWxJvxW9lU8iaFLl/ffKer0PJrjYWJl3fdRrF2sqGRePzTIFMq9sjviX
+	xbOIr/IzEnxA3xzayX5ott+eLGXqorUourfTkafIViOkCwz4uM6r/29zjhE6YWSEOlu6ytPTsor
+	aRlFn28sMTJgCVmyA9lLpbgVyze/xk+QCow9cCv4XAZsOKMxWfE8P6Z8P+TJf6Xto+z7ek7dE0A
+	xsgMKb98lOHhsqbVxnMr+KbEDTm/k88u8fbUVd4BUXuUdgrBOAKgSzZFxzzcxYEG+a1lbg7+2EC
+	+IPAt33oH5nygK4Js+skEgQ==
+X-Received: by 2002:a05:6830:2b23:b0:844:5d0e:5152 with SMTP id 46e09a7af769-850feeb8707mr8480127a34.18.1793105989184;
+        Tue, 27 Oct 2026 05:59:49 -0700 (PDT)
+X-Received: by 2002:a05:6830:2b23:b0:844:5d0e:5152 with SMTP id 46e09a7af769-850feeb8707mr8480109a34.18.1793105988781;
+        Tue, 27 Oct 2026 05:59:48 -0700 (PDT)
+Received: from [10.219.3.4] ([202.46.23.19])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-850fc005bd7sm11174684a34.24.2026.10.27.05.59.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Oct 2026 05:59:48 -0700 (PDT)
+Message-ID: <7d9112d2-c588-4c37-b6f8-dfa1afa21ed6@oss.qualcomm.com>
+Date: Tue, 27 Oct 2026 18:29:41 +0530
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -85,73 +114,65 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 4/5] ASoC: qcom: sc8280xp: Conditionally set S16_LE
+ format in hw_params fixup
+To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261022094313.1074873-1-karthik.s@oss.qualcomm.com>
+ <20261022094313.1074873-5-karthik.s@oss.qualcomm.com>
+ <7dc5131f-4cc5-4c97-8da4-28910a312239@oss.qualcomm.com>
+Content-Language: en-US
+From: Karthik S <karthik.s@oss.qualcomm.com>
+In-Reply-To: <7dc5131f-4cc5-4c97-8da4-28910a312239@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=AJjzCM5L c=1 sm=1 tr=0 ts=6ae0a045 cx=c_pps
+ a=+3WqYijBVYhDct2f5Fivkw==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=EIM5vv4Rke_6-YXqskwA:9 a=lqcHg5cX4UMA:10
+ a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10 a=z2U-W3hJrleVIN9YIjzO:22
+ a=eYe2g0i6gJ5uXG_o6N4q:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: MDjSd8qfg7GcqthKOmOIL-YY5lSYncm2
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI3MDA1MSBTYWx0ZWRfXxWDCcycLOHjk
+ XCnCqjH5SFPAeuonjnRye7D6+BhqCYHSOHq71mMUeKGxBkJ4gUe97pQMqpBpT1xl1YXAKwvrhlH
+ FoPFJ5zO1w5cRu/CStMC7KuQ1lG2dso=
+X-Proofpoint-ORIG-GUID: MDjSd8qfg7GcqthKOmOIL-YY5lSYncm2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI3MDA1MSBTYWx0ZWRfX9KHP6kOPbnHV
+ RTypXBcPS+NWUaFTf5qpnYmQkDCmStvJIoHl9weKlkGYfReZw3HQdeLcP67SMg49f2LMKzAIcTE
+ oWX/ZEhb7tTu7SwyEVZKcQF7aAF8/LPYI6Vz6cXuRd6FtIENK/t2dlcR21QfKNJ4DSv6B4evd4C
+ jXvdO1k9SlrfmnDDm5tbsfJFg1h4I3rhrYLJun2fg/UBlu5sNiLrr09szm17Hc79HXQVFEaf6bQ
+ ADLgDtN7SHSt512SsMm6EEVdiO4XS7XwoVT6r9Fx5Y7ubgT2SX8HOiMiUZ8+Bj+KI/gUKojf5lh
+ wGJ7ecSUqNJV3+GZ/HFsAf0lEAj5mKxrLrZ5zMr9Bz/g1CIEu4nG3Mc7Erxrkc/ToKpSfdSVOZo
+ 49X5dGmDehld/R8GOgvfTsDihX5JeUl+qfCXqitaECeuExWBV3gFYkwK5gnZelEhi1e8zzRdiAB
+ Zchvv2zYw2kAzqLPtZw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-27_02,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 bulkscore=0 malwarescore=0 spamscore=0
+ clxscore=1015 priorityscore=1501 adultscore=0 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610270051
 
-hdac_hda_codec_remove() disables runtime PM of the codec device before
-releasing the HDA link and calling the codec driver's remove callback,
-so that no runtime resume can race with the teardown and access the
-link or the already freed codec driver data.
-snd_hda_codec_cleanup_for_unbind() then disables runtime PM again.
 
-On the next probe snd_hda_codec_register() enables runtime PM only once,
-leaving it disabled after the ASoC card or the codec driver has been
-unbound and bound again: the codec stays powered and runtime_status
-reads 'unsupported'.
 
-Re-enable runtime PM at the end of hdac_hda_codec_remove() to balance
-its own disable. The codec remains disabled until it is registered again.
+On 10/27/2026 1:59 PM, Prasad Kumpatla wrote:
+> S16_LE was originally added here for compressed playback ( https:// 
+> lore.kernel.org/r/20250911154340.2798304-1-alexey.klimov@linaro.org ).
+> Could you confirm that compressed playback is unaffected by skipping 
+> this constraint for the MI2S and DisplayPort backends ?
 
-With runtime PM enabled again the codec still does not suspend: the
-runtime status is RPM_SUSPENDED after the remove, while
-snd_hda_codec_device_new() powers the codec to D0 on probe. The
-pm_runtime_put()/snd_hda_power_down() calls see an already suspended
-device and the codec, its HDA link and the display power reference
-stay powered, preventing the controller from runtime suspending.
-Mark the device active after the codec has been powered up.
-
-Fixes: c3ec8ac82105 ("ASoC: hdac_hda: fix memleak on module unload")
-Cc: stable@vger.kernel.org
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- sound/soc/codecs/hdac_hda.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/sound/soc/codecs/hdac_hda.c b/sound/soc/codecs/hdac_hda.c
-index cae5711e979c..fe5796cad1ff 100644
---- a/sound/soc/codecs/hdac_hda.c
-+++ b/sound/soc/codecs/hdac_hda.c
-@@ -435,6 +435,13 @@ static int hdac_hda_codec_probe(struct snd_soc_component *component)
- 		goto error_no_pm;
- 	}
- 
-+	/* The codec is in D0, the status is RPM_SUSPENDED after a previous unbind */
-+	ret = pm_runtime_set_active(&hdev->dev);
-+	if (ret < 0) {
-+		dev_err(&hdev->dev, "%s: failed to set runtime PM active %d\n", __func__, ret);
-+		goto error_no_pm;
-+	}
-+
- #ifdef CONFIG_SND_HDA_PATCH_LOADER
- 	if (loadable_patch[hda_pvt->dev_index] && *loadable_patch[hda_pvt->dev_index]) {
- 		const struct firmware *fw __free(firmware) = NULL;
-@@ -554,6 +561,7 @@ static void hdac_hda_codec_remove(struct snd_soc_component *component)
- 		return;
- 	}
- 
-+	/* prevent runtime PM callbacks while the link and the codec are torn down */
- 	pm_runtime_disable(&hdev->dev);
- 	snd_hdac_ext_bus_link_put(hdev->bus, hlink);
- 
-@@ -561,6 +569,9 @@ static void hdac_hda_codec_remove(struct snd_soc_component *component)
- 		driver->ops->remove(codec);
- 
- 	snd_hda_codec_cleanup_for_unbind(codec);
-+
-+	/* Balances the disable above, cleanup_for_unbind keeps runtime PM disabled */
-+	pm_runtime_enable(&hdev->dev);
- }
- 
- static const struct snd_soc_dapm_route hdac_hda_dapm_routes[] = {
--- 
-2.56.0
-
+yes, this change is made after suggestion and discussion with 
+srini@kernel.org
