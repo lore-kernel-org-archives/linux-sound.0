@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793122929;
-	b=s7S0ExAAaYq+2QAiv6rj0JJXX0WpdTqAHFT7Uc0F5AkuWelw8KIKCCoYpWhoy+fxTfXc
-	 7n5PkndAZvnZWuKPmQj4tR81vogqUum0S6EsTmHhZIUeJENsSWTRLbH0lcYTCr1C4QD1V
-	 SZ0HU9NAQGMPIGziuHx2chrFZDVvXEiBvMg1Arp5aKU05w4AgKFutw/DnZzV7yOCmHScy
-	 KRDRZy6VTNsBrt5Zu3TlLj0qjEWPOn2C2BVtH2VBhkcs2s8wia4QBw2GgsuRZwWuvi58b
-	 Gyvi1FVZIxaxYWjJxxQAFvUlOuynEpk/sMTAHM0KvwEkOUy6dwUEeMyu9ak/SP4nv0g==
+	t=1793124344;
+	b=S416UMlg/L6XUMqbPJTgLTanxWFTFkfM8mOe2X/gTxJvM+tJIrFXXNkx2xfV83GJmbgV
+	 tEL0OEzBfQJzwd5zKLjiB+iGYmgYQtEzLcoHWuYFvB+bPHR6xEWXqpyFO29lAwFzonbg7
+	 NUhaSxueGRPXjHbAM95UJgoC6u/U7VzU/+T/PukjsNcY2EOQPNNSha/81AIIR72OMkLII
+	 Fo8hhRsNlVtjzJo6SENlM7b526CgC9Z7ZKUapCX6P/Fdnd+Qt49+AxYc3QmJlhYmv/47c
+	 1t2yg6d9sA/3xQt9GYnI8Z1ljec5l1tlDUJKS+ZeHiplD+CfSK0XgdiwOs+Ngrtn+Xw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793122929;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793124344;
 	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
 	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=eqh6+RcHaqPW6YfQQNCdiEgM/JzpeEECUX3TznGuWSE=;
-	b=y8ArVvaGhPV0VS0KcMJ+Cdvhz+nhcnWJC+xvYVvhez5MN0kfZXS5PKetT2pPjU0FzlGK
-	 Jyp+fILI4HzhgCbUXFyIdkgD2/dC2dWOn3IYqM00TTYJBYMmlFVBJ2ayMeZ0m0wGy8U2r
-	 gFeP7qle6HcGgD4elDUFIUcMRwATSbA3lmObN/frOwHXJ8Fa2YzlgDvdH+wploEB/H6/n
-	 Y8mkrIF/BSzRVB5PgM2QjDTe2pMzIXHvIuYWS1lpl+vst1M7Idh+WlPr12mZRQJB35cJw
-	 iE3eQgxObaSZcKHu8MM7s/9rCYCQLS7SHRNpcMvP43TyeOj5BJb4PI8Zeg+a6SOVXPg==
+	bh=cR4mhPcTCbIo0PvJ8zhoiiElFTkUZR7jbcuH0AIhq6U=;
+	b=0CV8QYdYJxwQJ1PcfKMX1uJK4c0xPqq0DDssxiwf5rTklkaHjFG6Ec2T3SqIG0LKmG/M
+	 wUe7MddSKZRNwB2XVsEd6lURKe39s8t90bNUn2pt0fv7xHlbkGyHbei2YAOFOA/7ADKMl
+	 WPT4rX5JCcR5SIGUQ1EENSeJy/dH5MH0j8UI0v+WVihxzYWlNyBVwFqAv5b3UvUpF5OKP
+	 p5rJwbNK/Lu8ZVCNMpltNHRcWOQjikeq9umhXeIVsTDA/yYcrEv01N13s8+p6AB+91t14
+	 bvzWv90jdRYSxFZZiTVqv3BjCO5rtcc4JHE3Zwl/mLkotelrHshFjJ4IQf5XWLsx/Yw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DmbiPOFy;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WTPwukDR;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C546D606A31D;
-	Tue, 27 Oct 2026 17:42:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC4B606A31D;
+	Tue, 27 Oct 2026 18:05:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DmbiPOFy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD9981F01825;
-	Tue, 27 Oct 2026 17:42:07 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WTPwukDR
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 593C11F01828;
+	Tue, 27 Oct 2026 18:05:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793122928;
-	bh=eqh6+RcHaqPW6YfQQNCdiEgM/JzpeEECUX3TznGuWSE=;
+	s=k20260515; t=1793124343;
+	bh=cR4mhPcTCbIo0PvJ8zhoiiElFTkUZR7jbcuH0AIhq6U=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=DmbiPOFy5hmBacNu5EIiK7Cf6J7QL+MDJ2KsZmwLwe0lnYlfOlR5F7w3X01dq9JPM
-	 bNkKbvCszpF6vPujAInkOU47v9WuroQ8sryCasqMPeIg2ox0qo5oKL66w+Nzp4fkr9
-	 VH8mYecGMhQzSjrl0Q1HYrGAu52V7PnSHBEIozgdblIs3tKSV4yCXR3ZoM9dxnffNU
-	 C/WW21I6/Bs0KKUP+1zHoYqLMFZgYndnYdP2X6qNk6jOvMXvPLZORlxFdmpU+1VrCv
-	 uagKXb4e+d4wn+7m41buUM/B7QpDXjbGdz3ohQEg9z2ElXSkE8Qk4ofMudstkoC0/y
-	 DWKsL1faHBCtA==
+	b=WTPwukDRCqH/STPdEMf1OlV2ebnsZLB3xNDj4r9Qrcl9s0MLFnJ6FXZqOe6NLvS8t
+	 DQuBfg7dnI9ulNLmC8y4ErBtLlcgATNv9rtU+X6sANMT8w2v4795B9oAY1keCKFpxi
+	 K1Q5KLMyKpVYM1sXGyjeZhnzBWvTAGrt3mokcfdqtzEK37VcZ7pDUsBD27c4jmfo1j
+	 sgL2PnLefZwelFgL2S1+DfBhZvt82ahMr7CiZuwlerb0n01PbwEyaCz1zvcXV8vzE0
+	 1mwQr/s5RYZCNKH3Crki6rdbJer1+cAhWiq7mKbYS/FE60Tiqq78AJHDeL/wbIH7t6
+	 TBe8a5pDQ9cXA==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 95D631FB1A3C;
-	Tue, 27 Oct 2026 17:42:03 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 7B79A1FB1FC0;
+	Tue, 27 Oct 2026 18:05:40 +0000 (GMT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -54,59 +54,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH] ASoC: hdac_hda: Keep runtime PM state in sync across
- codec remove/probe
+Subject: Re: [PATCH v1 1/7] ASoC: dt-bindings: maxim,max98088: Document
+ #sound-dai-cells property
 From: Mark Brown <broonie@kernel.org>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, linux-sound@vger.kernel.org, 
- kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- stable@vger.kernel.org, tiwai@suse.com, perex@perex.cz
-In-Reply-To: <20261027144655.31988-1-peter.ujfalusi@linux.intel.com>
-References: <20261027144655.31988-1-peter.ujfalusi@linux.intel.com>
-Date: Tue, 27 Oct 2026 17:41:56 +0000
-Message-Id: <179312291692.199157.15417382173460679457.b4-review@b4>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>, 
+ Leon Romanovsky <leon@kernel.org>, 
+ Animesh Agarwal <animeshagarwal28@gmail.com>, patches@opensource.cirrus.com, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
+In-Reply-To: <20261027120019.93611-2-clamor95@gmail.com>
+References: <20261027120019.93611-1-clamor95@gmail.com>
+ <20261027120019.93611-2-clamor95@gmail.com>
+Date: Tue, 27 Oct 2026 18:05:39 +0000
+Message-Id: <179312433904.199157.11834547028241710753.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1481; i=broonie@kernel.org;
- h=from:subject:message-id; bh=I1x1Mh3B0SBW2rPMkjvahD03kiCMwDc5iSrOkaNJ87I=;
- b=kA0DAAoWL+9zsLPQOIkByyZiAGrg4mbIYgydtmlV9rVxDjM45N1bGAhExjamm+Tc3Rz/uvSGa
- 4h1BAAWCgAdFiEEXmoL6X9066wOwaGGL+9zsLPQOIkFAmrg4mYACgkQL+9zsLPQOIlK6gEA7vI6
- SlYLtC704OrGlSQQyKidIcp5NPF88dw6Bi7HX4cA/2jRWcQdSaNjE+O2Z3SPYdVbxpTd2Kdn1qS
- sIRaYS04L
+X-Developer-Signature: v=1; a=openpgp-sha256; l=216; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=cgf6gWhMNRLy/LqNI7zRf1pToXBmhlC0fhgtvjnMKwM=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIePP+yn6PNeE/cqunCtvtubF1/aaP346rHaVsT7jXta
+ rXKFRTa2FHKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJTF7I8D81R7JYUexAtl3O
+ DSYd5Z577VL2q9XP5Ni9ObIwWOrD7a8M/4wUK0QZThlOrk54F/rvltkd9o2ian4GCVK9oXO9m2+
+ t4wIA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-> After the codec has been removed, its runtime PM status is
-> RPM_SUSPENDED while hdac_hda_codec_probe() powers the codec up via
-> snd_hda_codec_device_new(). The pm_runtime_put()/snd_hda_power_down()
-> calls on probe and registration then see an already suspended device,
-> the codec suspend callback is not called and the codec, its HDA link and
-> the codec_powered bit stay set, preventing the controller from runtime
-> suspending.
+> The Maxim MAX98088 codec provides a single DAI cell.
 
-> @@ -554,6 +557,12 @@ static void hdac_hda_codec_remove(struct snd_soc_component *component)
->  		return;
->  	}
->  
-> +	/*
-> +	 * Resume the codec to have its link reference (dropped below) and
-> +	 * codec_powered bit in the same state as after the probe.
-> +	 */
-> +	pm_runtime_get_sync(&hdev->dev);
+The device has HiFi and Aux DAIs...
 
-What drops the reference that this takes?  The probe shouldn't have
-exited with a runtime reference, AFAICT it doesn't.  There's separate
-runtime PM managment for the CODEC in the HDA code...
+> +  '#sound-dai-cells':
+> +    const: 1
 
-> @@ -565,6 +574,9 @@ static void hdac_hda_codec_remove(struct snd_soc_component *component)
->  
->  	/* Balances the disable above, cleanup_for_unbind keeps runtime PM disabled */
->  	pm_runtime_enable(&hdev->dev);
-> +	pm_runtime_put_noidle(&hdev->dev);
-> +	/* The codec is cleaned up, system suspend must skip it from now on */
-> +	pm_runtime_set_suspended(&hdev->dev);
-
-This updates the runtime PM reference tracking but doesn't affect the
-hardware.  Is that what we want?
+This makes sense for the device.
 
 -- 
 Mark Brown <broonie@kernel.org>
