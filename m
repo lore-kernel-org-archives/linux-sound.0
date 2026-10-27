@@ -1,110 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793132347;
-	b=0u6P1sEPGzB9mkShuduc35xAVSeYQsmLN9lvmMzEkZBa7CrD92nmSndJJU7dk+L31jcB
-	 GK6EMvNfqCF7WtQKyE8dtoPN3tAGR4uwSKxW+Er8XCbGuNK2WSPJIhWubnq3OCqE9xVtx
-	 wfv+V4JVPFTMXOBcjnM/H9+0pjYI6cegB7IseZ6Bwnv6J0pumogMG02bOVzHfuKwvFtLD
-	 IrBsLeHg/Ai8xUr2gsNQIsePemv/RhuDqNFrAVC6UKYyqhQtiWJsg/GLVyn2+d3RZZczX
-	 lZch+Ta31GUpBJNLnvkVigtYLGH0o01xk8wPhflGgVYsNm7cIitTF2qNY2XrqqRDEiA==
+	t=1793136733;
+	b=GqfdMYqeVuUFpYmpna3Qg0aAi2DeLAxNX6XpR+MbBap0W8dAQ+Y/UEUieATUS8DEUupN
+	 g0qD8JDU4EQVg3r3bSuZ2w1NGvSm96Cmm7X4TscgrOLdnHDF0vRyvP/Wr7+fUHkfCAmdh
+	 v5r39NJycPjf+/W+JEE4trAPYud9aWoYf0E1qx4z/wnuWNFiLBlY2L4YQ4uFOB1+io1CC
+	 S2Pnw5jtMBo3KKk4MjZOYkdGuzxmiKyPejOmeTP6Utc6kiwhL1tlXTMyYfD/kZogb41x/
+	 u4VgjvCOilDOHqdgO8b5UZdZp7IEg38ETtJLTPfH1Z1VvmLzMt2WYh/hpdePEplHCAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793132347;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:From:To:Cc:References:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=gstXcJFyhcfBVxDsWA9SzQ4fPhsbE40nz4bvlR8BgIY=;
-	b=eJSd8o4rVxjJxDFsY0BC/2LLAQFvalX6F9MIWoAUAMCVFZEInU+ZtXkE+RcsxF7CVn3m
-	 XmlX+mWqUqDKlP/I2o1sJRGdVG0O2iIUXtxpMH+w0V8wNSprBAMIK7vsTMj58zik4Vzjf
-	 j3ZO7kYnrSBETUWsUBtNofX4tGIHJDMdBMMXf0ThcNev5bWI/yxf5SkY2vduB/w8le4i6
-	 06WWxExqLUZoXpYvR0Qip0uu5OZ6uKVJNah6EcKic+zVPiN9LDy8nGt+3O14DS9vS5bq5
-	 T5uvQ6wDsT38m/RRAGbpDTsPhA7R0Ltw3Wu3O87qh/5XwNVDWQPU21FTiu1c1I/xtWA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793136733;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Subject:Date:
+	 Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=DJ2w2d78rWYDNrNgxDsC5/JY1fsAdELb1GQ5pSRrXZs=;
+	b=QXdTpme8DaKnKUwiub7obna6BE4tYJaqzf9vQu44snDg7I6j2HJA46pSQEDjKdqTJBvG
+	 7DAlOD3yM4kq4xhvQe65bq7rIEk0MbzePynbw7PPnNErS+mgiS5lhMBFkted9RrD0Y+HS
+	 2DIoLrpZ6tYGVX1FZPBTSTOk41rH1MKy1oSL/f43eiY+ZPAPhKwUr0AYgTUKozL6JblG3
+	 U6zJBSLyFMskUuRduvXjBZBfOobBHesHGdMRq4JprDI6AmNTdWbQsHQkcD8C5eF4I7ID0
+	 F2S+zBDIesz/xoxb1EbmOTZRrT38ugx8joCZOqYxyFtpPtE5Dz77ZkujxZgUIj2rQMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=KEXcYDZA;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=V+6A4oBB;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=p0IBx9JU;
+	arc=none smtp.remote-ip=74.125.82.175
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE56B606A31D
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 20:19:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE56B606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10395606A334
+	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 21:32:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10395606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=KEXcYDZA;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=V+6A4oBB
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69RIHFmh4050573
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 20:19:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	gstXcJFyhcfBVxDsWA9SzQ4fPhsbE40nz4bvlR8BgIY=; b=KEXcYDZAEWzfnG7U
-	QZFrOGkok7PHvc1t0irivsbOEZozq9T5AwN5CMGnqUvRkOprSnBjZXPZveMQHy1C
-	CVxXM8wwU7vt7I9WbZ9IhWEJucP6vwFu6eiv593YA6ptn3OXbFD8YoTnnujkPB05
-	qoX8O/MNt8GSXTVy/SLwemcbfszIq42FRgc1VMJtQxkqy7OS/Sb+5+77MZPIggYg
-	9nFgKuwtDxOvzUzK8yGwsHd04fs1wVRuZTek9NmwY8YhWCNGXh4W6jSVhaRPeE24
-	2veHCo3aWLR/Rlcnmq6kQ7RBJ+m/+hsM3HN/TJVM34D+m/iLHsChzRZ+DjcKrxYq
-	0uDe+Q==
-Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hk12pre5u-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 20:19:05 +0000 (GMT)
-Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-19dbbe4b1d8so183958c88.1
-        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 13:19:05 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=p0IBx9JU
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-369f3e9e431so233630eec.1
+        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 14:32:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793132345; x=1793737145; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gstXcJFyhcfBVxDsWA9SzQ4fPhsbE40nz4bvlR8BgIY=;
-        b=V+6A4oBB8ZgDXGJHAeQSgSjTy4fIgis7+kK00d73yX/A78S4bexKbl05KUoznfW5dU
-         GMSCZypeFkQTXPSDWul5yp0X8OYp7wCHKXTQfs/YQq+qvoUi/ly3qZa1x+hrU5J9SRrU
-         QyEEviwpNH/WuEtj8U8HNdDqKAkhl7Po97RlDa4kPk+fgTLVL+bGbSgDB/vAGVD/om2c
-         3KI+6E0x73CDcxQXuWcNZq2sV2eR1qM/i9C/osYectl4yiRSe5a3GXcQBaPDz2YyDfWH
-         2E9/VjA67v371tiLcBIqm/ySUnr0Z3jCeHyT6IQ7qTy0WSoHn1ubvFUQGt35Ixrt4EMs
-         F8Lg==
+        d=gmail.com; s=20260707; t=1793136732; x=1793741532; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=DJ2w2d78rWYDNrNgxDsC5/JY1fsAdELb1GQ5pSRrXZs=;
+        b=p0IBx9JUeqLNQKKLgrDYtI9hCHfsipOF+VRGSGZFhrAy0spjEU4EHRrZKKovrYz4Rc
+         RcDEV8+9d3MQoV0Gf2/oUpywHi8OO+b/NjKIxbq902elA4BvzwXjzgU/Wrj4nuqhsiis
+         9BfxNsq9c28+btj3j4fxeUQqeVFhTXffpY1WwwcIF8Uk2LXvmlyiOPqongxcvaUpgzoq
+         CQ644GdTW2dZJOGWO53sPVN2LDYXpLogY59psQlgdpI86Eh5QFy7CR5bKwHshjLUCriO
+         nGsnvHCjpJm3Fey03vtRohjfOrZqz36nI3fa5Lg/cQ5LqEAdMWdYiM6RgP42Fw3ZyyP+
+         9coQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793132345; x=1793737145;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gstXcJFyhcfBVxDsWA9SzQ4fPhsbE40nz4bvlR8BgIY=;
-        b=HIHgCTdypB3wOtq8bxWdHl/zicnUp3JcIOP8aZ9cV0IkP5+75/cMdiljAgEUHBoks/
-         gqVOfcN7mEZtDl+FQPwrRfdmLP37qTcjm42yOz1GeAjU+SgGbotZf+xpcrVQlip+xqnv
-         N4gur+WA4URAKJS8/I8c9hUx2NZJhlkfo+p9H12AERpo3GTR08hY11QA1dzzAdnoeXuq
-         gARaF2g3lSlXcJuY0RAkdRdS5HFavd/Po6iVR4eDc6p/mFnj2EHa72LL/fXpXnbiPGXV
-         IuVXT9CUzR6I8mye78yPmE5v2PgFlPbe+G/SF1eR0H2cd2aK4KSJKFFkyJDv/Ax4wuUD
-         +y3Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxa2bo/bHCi1jiLbWUX0oyoIOAZdx1ZYEStUapFLyDpZB8Kceb9v5LOZwIwLlVAlB35Iz5oxNEvzZ9SCQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKjmcszdDJkwnpgd3cL+t5j+mvXlF5EP2B/ifKxC/I87jPQcaXc
-	WneoJYpmCJlTmo560QrJIXDqqVkVt5Ws5THmjTotF7MsXLSK0JXW5/4dwcDQzJXUdToL6he/Cc2
-	AkY8RAdGWE7mbTipdddocZcASzoiTYnzH6OPGCOAYP3xNS9QKaLdgimk6lEaUaU2d3Q==
-X-Gm-Gg: AYBFou1uyuE25a5DUZKm1Oxcj2MicPtB+ETbyuX+b4wIiYBtz3uM+UMKvMD/D+UlPIZ
-	805mOONZHZxSZWXUEySqBe3nI5tnHw2xpvPDrcn4EpDsjYO+tM82UzC6Xs1k9LtP+5sqge1qVUp
-	hp6ZCo4AqBhVD9ntTyO4AokZPW/XkghJuA6I4xG9htckbcM3OzyZNXW4YqhiAg8k/KUa5MYs21b
-	uOmWu1BFgb4U/G0HmRGDC3FOB/Be2tiIvdeCUvCH6NGBj0msIUHsZFXc3PNtNueoZt0Z5KCB+Sp
-	hQ6kxkfcnE/aYzQYZreReK4AsBO2IsYEduHlo7TykT3dsi4Uh38fvVvFDjVHX9fdIx+PUj2H0UZ
-	2awzQZCIG/UD0Bk7eG92my1ExGl+ttkpFGNWdi5AbYUDxQg==
-X-Received: by 2002:a05:701b:4641:b0:144:fd7c:84fe with SMTP id a92af1059eb24-1a6cf72ac18mr314153c88.35.1793132344853;
-        Tue, 27 Oct 2026 13:19:04 -0700 (PDT)
-X-Received: by 2002:a05:701b:4641:b0:144:fd7c:84fe with SMTP id a92af1059eb24-1a6cf72ac18mr314124c88.35.1793132343969;
-        Tue, 27 Oct 2026 13:19:03 -0700 (PDT)
-Received: from [10.73.199.44] (pat_11.qualcomm.com. [192.35.156.11])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1a6da6355a6sm520361c88.19.2026.10.27.13.19.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Oct 2026 13:19:03 -0700 (PDT)
-Message-ID: <24d045db-b8ab-44db-83c1-9832d22dc9d8@oss.qualcomm.com>
-Date: Tue, 27 Oct 2026 13:19:02 -0700
+        d=1e100.net; s=20260707; t=1793136732; x=1793741532;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=DJ2w2d78rWYDNrNgxDsC5/JY1fsAdELb1GQ5pSRrXZs=;
+        b=SfXnJb/lJrZ6ZzpK55dKzbH0ZQduSAVX2tx6HsKdeHZSi+qgMMkDV0P1+XbmsDWCAx
+         x6OmKe5HjFlNA8mihm3FKA44n7oaaQg1s7N7ITjyStY+IHw3Pn1Q46q9KikxUEvW36Ir
+         yoS5jXjdoLisnymbXrH8tXcmOC0qNVqPLYMg8QAy0680PWJubvmuKS3EP/x9qva1zejX
+         lWUhI0o0qbqwufAHL4924ts/LZQ8FM7cL8eTEJD9ksoT+6IrHmWiwlCDjY7O6aaB2p5l
+         W9fSE1Xw5q/ZmyzjXgoXXaYvNhY7BnCpxWvtqR99B4jDahTFlWb2oAyXpbA2PueK5tdI
+         z+eA==
+X-Gm-Message-State: AFq9FYINQ1nCajDQ4JHkXWrDtwGINMxFTkymfkNnCRz1PHA0r0Zal0sx
+	x1Uf8wW4r+n95sOHywILX9zjTDgJF6WLBnxKEDmsDzvkQOcq97ZdLVlg
+X-Gm-Gg: AYBFou1L3xOq6e0hpqKOoD+1qKZ1yUtNwqK79XlXFdeGiK3D156iW05A8l/gN6g9GKN
+	/88UM4v3WFtSq04is0+e05gbF6iUIqWc6j7s+CVIy6EXd97ArsWTwV1/oeyeWLDkv/1Lk/P3TSU
+	/LCPI1UcCVh8tJeoM870Lj8zIOAGINgJ63astvd6vJcg8tcMiBSDcwj6qfjmiX7i94NR+vnaR5i
+	amBdlt9p9ZG/wR+nRvbZALY12pHf3yqhwyTFUHZGocAOx0nhL3YNMdSKu6Dvh6Fd4r6F5wd8FLa
+	FyCUHFVdg0vwlOAmHGbGQ8BBul09AuHCi33pgSQgTeKV8LAzFz1rOauHHiiTANb3ZCvjmyZNN/K
+	+qXes2E9y5vVcw5x1wKvnQ413LO4QzHORxqGyGpyzPdoPej+8sSKbpi6b3egfeUVVroQ0B5x8Ay
+	U3b1qMfAHOB/WGGMaF6rUV2aZ+RDzvaQm6+n+ZfCBG2esDOo4bDpWTqIifUWvTLjTK5A8fFqV7O
+	axH/efFScwE6/xmvRyekEJA2ea+iQBCQ1NGVUvFZjteUK8s7jpYQCztBbYEQ8eB9VuNAN8ex5m8
+	2Kjc995HakbkG1GTBTJbEqyPJRcB0brbCW91axk5tSP2
+X-Received: by 2002:a05:7301:578c:b0:369:f644:fac0 with SMTP id 5a478bee46e88-36a2253a951mr181484eec.8.1793136731987;
+        Tue, 27 Oct 2026 14:32:11 -0700 (PDT)
+Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:9958:9525:7799:82b5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e8ec9276sm61693125eec.25.2026.10.27.14.32.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Oct 2026 14:32:11 -0700 (PDT)
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: [PATCH v2 0/2] ASoC: codecs: twl4030: external mute GPIO lookup
+ fix and binding update
+Date: Tue, 27 Oct 2026 14:32:07 -0700
+Message-Id: <20261027-twl4030-extmute-v2-0-c7e0c90509a1@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -114,148 +91,63 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/5] usb: xhci: sideband: allocate sideband ring
- segments from a dedicated pool
-From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Michal Pecio <michal.pecio@gmail.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-sound@vger.kernel.org
-References: <20260909-16k_offload_v1_b4-v4-0-f24a86617597@oss.qualcomm.com>
- <20260909-16k_offload_v1_b4-v4-3-f24a86617597@oss.qualcomm.com>
- <68b34f04-f7e2-4468-8a18-ac97decb987d@linux.intel.com>
- <82e0b9c7-3b3f-4dce-a72e-64989b08ef98@oss.qualcomm.com>
- <20261013111110.423dd0ff.michal.pecio@gmail.com>
- <73096f91-146a-4754-a685-f3b22f1ac3d5@linux.intel.com>
- <5a60513e-9d39-4cbe-9f2b-dde8ca71a8a3@oss.qualcomm.com>
- <090277e2-e36c-437a-8c2c-f6f3b63abc89@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <090277e2-e36c-437a-8c2c-f6f3b63abc89@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: dfnzdXiTm4LeFigscVn0o9Y7mAth3qon
-X-Authority-Analysis: v=2.4 cv=DtDDa2/+ c=1 sm=1 tr=0 ts=6ae10739 cx=c_pps
- a=bS7HVuBVfinNPG3f6cIo3Q==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=x95Msn0_mbxkGruDv4oA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=vBUdepa8ALXHeOFLBtFW:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI3MDA4MSBTYWx0ZWRfXw54MSqZHwNdZ
- Qx/RQape8sGHWcZvVFYO+WUTS8ZYTY0ibpj17/0EFlUQjnwksoVUA6u0eONSaEmM9iOyz+P5Y5W
- fL4zgkfggVdruvjJIxrQNcDQ1f0dnQELnMNqqh2QvCupRx+ATLrBfEbf13cWDWCn4Nc/qGwA2hm
- gh9+XgiZoJFZakJ2EQHKMCAf+J7dA+bAqdtQ9zIEKSFiQMOxs7IG5CT+ppOIqRWNEUOQFuVPKlz
- qS6cnNz0y2HPJOl/SCuREwXztnWl7B6mnyOmo98jdtSj9RbPs1KVXoJZuJN4ud5aCmjo59i4N9Q
- oKpy1GRT8dZzpNm3LNRjKpcTOufUolB3Oos3lp6dPK3JzAGSzPAE9Lo6XiwZzgsN4NQo+aYEFNF
- eOtgWqNSsJuUz2UV5ScjGCSJrUGdu7j4JatKn8XR7jYnMKuLGzNX+30NioLlkuZvM2P5NGZpZbw
- MlZ0XNHPsrWdYgd/cxg==
-X-Proofpoint-GUID: dfnzdXiTm4LeFigscVn0o9Y7mAth3qon
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI3MDA4MSBTYWx0ZWRfX3s9rsNitJC3O
- TQ2HmWoxQ/6J2uedBMmvEy9D4fEWTtyOhiVd16f8zuRmpDByEDK5btS4woFlsr5JN4Qii+HYWGk
- jvCZZLhdppOuffEzK2PgiqKMfwZhfN0=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-27_05,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 adultscore=0 phishscore=0 malwarescore=0
- suspectscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610270081
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFcY4WoC/3WNyw6CMBBFf4XM2prpIE1w5X8YFkAHGMMrbUEM4
+ d8FXLs8ybnnruDZCXu4Rys4nsXL0O9AlwjKJu9rVmJ3BkIyGolUeLc3jFHxEropsEpSTrSpkDE
+ xsK9Gx5UsZ/GZ/dhPxYvLcGQOoxEfBvc5L2d9eP/rs1aoYku2YDJoq/RRd7m013LoINu27QvXg
+ 8U+wAAAAA==
+X-Change-ID: 20261022-twl4030-extmute-59e516f0e056
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Peng Fan <peng.fan@nxp.com>, Linus Walleij <linusw@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Peter Ujfalusi <peter.ujfalusi@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org
+X-Mailer: b4 0.17-dev-e56a4
 
+This series fixes external mute GPIO lookup for the TWL4030 codec driver
+and updates the corresponding device tree binding.
 
+The twl4030-codec platform device created by the twl4030-audio MFD does
+not have its own of_node or fwnode assigned, as its DT properties reside
+in the "codec" child node of the parent MFD device. Consequently,
+standard devm_gpiod_get_optional() calls on the codec device never
+succeed. Fix this by looking up the GPIO descriptor directly from the
+codec child firmware node. Also update the device tree binding to
+document the standard "ti,hs_extmute-gpios" property name.
 
-On 10/20/2026 4:13 PM, Wesley Cheng wrote:
-> 
-> 
-> On 10/14/2026 5:44 PM, Wesley Cheng wrote:
->>
->>
->> On 10/14/2026 7:26 AM, Mathias Nyman wrote:
->>> On 10/13/26 12:11, Michal Pecio wrote:
->>>> On Mon, 12 Oct 2026 18:01:50 -0700, Wesley Cheng wrote:
->>>>> On 10/5/2026 4:03 AM, Mathias Nyman wrote:
->>>>>> xhci is the one allocating the ring when adding an endpoint, and
->>>>>> telling xHC hardware to write to that ring. It seems more
->>>>>> approriate that xhci should be the one freeing the ring after it
->>>>>> told xHC hardware to drop the endpoint, and there no longer is a
->>>>>> risk on hardware accessing it.
->>>>>
->>>>> Hi Mathias,
->>>>>
->>>>> Sorry for the late response.  Was out last week.
->>>>>
->>>>> Specifically in the disconnect path (while audio offload is active),
->>>>> when we utilize the usb_set_interface() path, it'll return early due
->>>>> to the iface->unregistering check.  This would lead to the
->>>>> drop_endpoint not to be called, and rely on the xhci_free_dev() to
->>>>> handle the transfer ring cleanup.  This wouldn't work in the offload
->>>>> situation, because qc_audio_offload is the only entity managing the
->>>>> DMA pool, and that would be freed during the .disconnect callback,
->>>>> which happens BEFORE xhci_free_dev().
->>>
->>> You are right, audio class driver .disconnect is called, driver unbound
->>> and interface device gone before xhci_free_dev() is called.
->>>
->>> If sideband is unregistered as part of .disconnect callback it also means
->>> ring/pool would be destroyed before xHC has dropped the endpoint/disabled
->>> the slot. Would be better to free the ring after we know xHC controller
->>> won't access it.
->>>
->>>>>
->>>>> Would you be more inclined to prefer a solution where we can defer
->>>>> the DMA pool free'ing to the xHCI core during xhci_free_dev, or maybe
->>>>> adding another sideband notifier (sb->notify_client) enum to tell the
->>>>> client driver that it can release the pool?
->>>
->>> sb->notify_client callback has the risk that this sideband entity is
->>> unregistered and gone by the time we want to call it
->>>
->>> Deferring freeing the DMA poolby some kind of reference counting again adds
->>> complexity, and maybe not a suitable solution for this issue.
->>> (taking a reference at sideband register and every dma_pool_zalloc(), 
->>> putting
->>> when freeing or sideband unregister, finally freeing pool when reaching 
->>> zero.)
->>>
->>> I'm trying to figure out a simpler solution.
->>>
->>> How about skipping dma pools completely for endpoints in these cases?
->>> (page size over 4k with offloaded endpoints)
->>>
->>> Instead of sideband client creating a custom dma pool it could just set a
->>> 'no dma pool' flag for the endpoint. xhci driver would allocate the
->>> ring segments using dma_alloc_coherent() instead of dma_pool_zalloc() for
->>> these, possibly even allocate a full page for each segment?
->>> Freeing would be done similarly.
->>>
->>> Would this be a viable simple solution?
->>>
-> 
-> Hi Mathias,
-> 
-> There is one difficulty I ran into, and that's w/ dma_free_coherent() not 
-> being able to be done in the current xhci_ring_free() context, as it is 
-> under atomic context.  I could move the dma memory ownership from xhci core 
-> to xhci sideband, which could probably get around this.
-> 
-> xHCI sideband will allocate the DMA backed memory then populate the 
-> new_ring reference.  Then when xhci_add_endpoint() --> xhci_endpoint_init() 
-> is run it'll check if new_ring is present, if not, follow the non offload 
-> path and allocate from xHCI segment pool.  Then on the sideband unregister 
-> path, we can handle the freeing of this DMA memory as well.  This kind of 
-> moves the memory operations from xHCI to xHCI sideband.  We would need to 
-> have a set of sideband specific ring alloc/free though.
-> 
-Hi Mathias,
+Note that to fully restore external mute GPIO lookup on existing device
+trees that still use the legacy "ti,hs_extmute_gpio" property name (with
+an underscore), the companion gpiolib OF quirk [1] is also needed at
+runtime. There is no build-time dependency between the two changes, so
+they can be merged independently via the ASoC and GPIO trees.
 
-I'm going to go ahead and start working on this approach.  Feel free to 
-comment on if you have any major concerns from your end.  From what I've 
-looked at so far, I think it is a feasible solution, and the only major 
-shift is that xHCI sideband will own some of the memory allocations that 
-will populate xHCI core references.
+[1] https://lore.kernel.org/r/20261022-gpiolib-of-v3-3-42c3b6439fba@gmail.com
 
-Thanks
-Wesley Cheng
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+Changes in v2:
+- Drop redundant $ref on ti,hs_extmute-gpios and add deprecated: true
+  to ti,hs_extmute_gpio in DT binding schema.
+- Link to v1: https://patch.msgid.link/20261022-twl4030-extmute-v1-0-3d2dbe260df9@gmail.com
+
+---
+Dmitry Torokhov (2):
+      ASoC: codecs: twl4030: fix external mute GPIO lookup
+      dt-bindings: mfd: twl4030-audio: document preferred name for external mute
+
+ .../bindings/sound/ti,twl4030-audio.yaml           |   8 +-
+ sound/soc/codecs/twl4030.c                         | 108 +++++++++++----------
+ 2 files changed, 62 insertions(+), 54 deletions(-)
+---
+base-commit: f1ac44c32cba88ad65dcecd4a279661d14e93651
+change-id: 20261022-twl4030-extmute-59e516f0e056
+
+Thanks.
+
+-- 
+Dmitry
+
