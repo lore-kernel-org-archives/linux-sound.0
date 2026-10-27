@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793107406;
-	b=OCC4TopNUG7a3elUZ/R8Hlr1J7T09JjQjrF2LHdyiRrZFvUOAF4LtbcAtV9s4ZULolXz
-	 S/gZU1SgV2QuH6UHPDIIhlPxYenQ/7zSKHsg+3F/rHFqPYRQVTFK/Ui511dNdayWo7FQx
-	 4zFF0BqQSv4rogP4h0LbcgSZCSt/4qfk5FVbRwlNg/kRuCsT958KIMA8MzEsjzDl6Jdbg
-	 q2wlgB5sZt/sMO9qNd/M3hWHCK0cwtSdAMYIqnmxBKvcPFXoU1xmmBuVXQCj9tWYDp5Ik
-	 kum9CIBUmYJtHG6Ztfb9qOUW50EM03kTVafQsrwq7LyyHkwfhglmGHERb0JfvlrBPwA==
+	t=1793108083;
+	b=cIRU1W3pSeVHaz4OGIDhq6ZFs2X3QA+s2Mi26kGVZ3ZWxzbpTCOiGQkdOaSNiISiQaY4
+	 Ejg+t5ugSDgnXRexeeik3/rcRFKEEq+8V38zxeb4yuhLLUuEBq9iY1yCgB4QaMFFpJdU0
+	 Z13H+OLZzWjfpSuWHkfSLSMj2gXpkgHhhWlMG8UnH3acAvzI/rp8WJw6oLeOg9kFc9zth
+	 y0yHmGICDAFjItjZ4n7ABXfQ8iNRP/TiV4SUjpilzDT+nBnWlpN+fAEi9dpLu2ZOMenWZ
+	 6f3E08p8WASNENeaeW8ziMg4sX7wJPosfNGW9fkyqMeraA/piRy4T87AnTUYhgPy83Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793107406;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=UK0g5ntVgLraW0OSdj4e/Ih4xUxVJgxJZ7Yhpi0jPKU=;
-	b=Ar2SVoJsqjoQKdGnY53tEzdUwNZR/se7wfXKcYSnehiMroMZTBEVGgFPbDXAoKpN5cLT
-	 e7OLoNBtuDcLD+BnPBiyOmiewKeRbLWwl4GmoVIN5k51kGjJRn0Mkn7IkTU+juYYvgy9Z
-	 POCacRkAhq10qiDrOkFzZHzv50wJDd3Dv09CssZmSF8iUEoEcKVeuF03zR6ZguR1jF/oa
-	 0huVaaH3A4CB7kjo0vkdt6Dy/+TUP8sdGtNjFDuc6kyXXLpS7KoYKA+ATqsm4AuRGLWjE
-	 NbYbcANE+Xk0E2C2YHhX8hcI/xdfBPWbRhrwTZ3U8tlvtCTPdh84Awi1gqSc9gRf6sg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793108083;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=OlMl+wjrZZZe96SmC0aYCjHZm3JeltwEjAI+utZTIlA=;
+	b=0aPPtM3nQZ1rROZWuuK3zGwJOPVMmnrWLrjWKF6RiDUGRzwMhT64Y8wRhV86vjXkLO87
+	 1YuNWi/bO5rgqDxpIXTqf6yO7TV5oMNGnEcdAtqatr1CBMBoDuUXehNLIoTTaCiBritis
+	 3m3Yin4vo3i1nopb3ANZ00SnpbyF4ntXlxOdLCTeYitwAj2rIrjSp0mDkhwo+++f5Ceos
+	 xcfBKWVgh76zgkaKslUw2cul/S3rrBvlF1p5/kExD/yVZY+vEBwfP7gIE7KmvfZ8vJc2V
+	 8mCNWIN/aXhyhNSpyRCMl5dTBjvFp3w760IN278HxW/2aw8DCChrvsulqloMZ+UpERA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=keX1MRVU;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R0KY2I5X;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A269606A31D
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 13:23:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F743606A31B;
+	Tue, 27 Oct 2026 13:34:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=keX1MRVU
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC34E1F01825;
-	Tue, 27 Oct 2026 13:23:25 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R0KY2I5X
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 688541F01825;
+	Tue, 27 Oct 2026 13:34:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793107406;
-	bh=UK0g5ntVgLraW0OSdj4e/Ih4xUxVJgxJZ7Yhpi0jPKU=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=keX1MRVUAt+fLUkGPOcCBq2uw7NQoN6mtbt3KW68pb8yG/PLeUI1dOnDjOpEGtCV+
-	 /MaDo9Nl1qKfqVVKJqKU+k14NayraYXB5NO+VUeHwE3w3FSO/LvWkLci6d7/SKlmpt
-	 CgsEsk01xgsVeTS/iPoQMf5rtWkFLNFC3hlKwxWkXout6JZi4KYq8N7ykM3LR1Q2lW
-	 DyX5/cz5ZCcNsKT8mbR5sogTHXU8Jg9PpFoOjW1hc0RO5w5S9EEwHSIxl37BLsjMR1
-	 fGJMLvRhWxNDOU5ZtFFGVjXtYEQIAEhQF0q2oDfPEtGGnquYXTBamO+JG4wPvhLKAr
-	 6KS/PA0zroYkw==
-Message-ID: <sashiko-outbox-186617@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ALSA: pcm: update state after xrun
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mikael Magnusson" <mikachu@gmail.com>, linux-sound@vger.kernel.org
-In-Reply-To: <20261027131233.17692-1-mikachu@gmail.com>
-References: <20261027131233.17692-1-mikachu@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Oct 2026 13:23:25 +0000
+	s=k20260515; t=1793108083;
+	bh=OlMl+wjrZZZe96SmC0aYCjHZm3JeltwEjAI+utZTIlA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=R0KY2I5XrxNyaKV1l51DNWm4tjcYFdQmpfn3t4yj1rMyGK5bgVebhmHiF4rpeWFXE
+	 obLaupP2IGbLpSFQ0hVtBJb5RRWLCMEua3qWo3N05WpyBkE5MIw8tPxMNatzurID4Q
+	 u6lOJBiYnSEuLlQpxs2n5CNnc1FtdaPgfLEu3LilvlSgn0maGMQzfqB8nAsm36hd8l
+	 gB0TOVGIU4Or5b4sHW3LpZQo8Uz6nc45EsBFHm8cScNHnvh3k8Mehv04fqXvQJc+MH
+	 wFQB1VjypIjGeLThbmgchRzqKe+6uLHMewfxT/tpGxtnJAbJZyOfCELA1wpANXdCxD
+	 VZY4DM3jPfsqA==
+Date: Tue, 27 Oct 2026 13:34:38 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com,
+	stable@vger.kernel.org, tiwai@suse.com, perex@perex.cz
+Subject: Re: [PATCH v2 0/3] ASoC: hdac_hda: Fix module unbind/bind via sysfs
+Message-ID: <5b1ffe72-2e96-41f9-8c9d-1cefdac89ba9@sirena.org.uk>
+References: <20261027125448.11018-1-peter.ujfalusi@linux.intel.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -57,66 +57,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="LovERpk7e3YMRTux"
+Content-Disposition: inline
+In-Reply-To: <20261027125448.11018-1-peter.ujfalusi@linux.intel.com>
+X-Cookie: You will be surrounded by luxury.
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] ALSA: pcm: stale trigger_tstamp in snd_pcm_status64() after xrun
---
 
-commit 0ae9f8a317c199a098237f1b0f0b5ebbc84be3f4
-Author: Mikael Magnusson <mikachu@gmail.com>
+--LovERpk7e3YMRTux
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-ALSA: pcm: update state after xrun
+On Tue, Oct 27, 2026 at 02:54:45PM +0200, Peter Ujfalusi wrote:
+> Hi,
+>=20
+> Changes since v1:
+> - Add pm_runtime_set_active() after snd_hda_codec_device_new() in
+>   hdac_hda_codec_probe() function as reported and suggested by
+>   Sashiko Bot.
 
-This commit updates status->state and status->suspended_state in
-snd_pcm_status64() after calling snd_pcm_update_hw_ptr(), so userspace
-receives the updated state if snd_pcm_update_hw_ptr() triggers an xrun.
+Please send an incremental change, I already put this into CI.
 
-> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-> index 35152fae74ca2..62a2bea043e38 100644
-> --- a/sound/core/pcm_native.c
-> +++ b/sound/core/pcm_native.c
-> @@ -1132,6 +1132,9 @@ int snd_pcm_status64(struct snd_pcm_substream *subs=
-tream,
->  	status->trigger_tstamp_nsec =3D runtime->trigger_tstamp.tv_nsec;
->  	if (snd_pcm_running(substream)) {
->  		snd_pcm_update_hw_ptr(substream);
-> +		/* update_hw_ptr may have put us in xrun state, update state */
-> +		status->state =3D runtime->state;
-> +		status->suspended_state =3D runtime->suspended_state;
+--LovERpk7e3YMRTux
+Content-Type: application/pgp-signature; name="signature.asc"
 
-[Severity: Medium]
-Should status->trigger_tstamp_sec and status->trigger_tstamp_nsec also be
-updated after snd_pcm_update_hw_ptr()?
+-----BEGIN PGP SIGNATURE-----
 
-In sound/core/pcm_native.c, snd_pcm_status64() copies runtime->trigger_tsta=
-mp
-into status->trigger_tstamp_sec and status->trigger_tstamp_nsec before call=
-ing
-snd_pcm_update_hw_ptr(substream):
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrgqG0ACgkQJNaLcl1U
+h9CLCQf/e9aNaRSD9Q7fb0eEF+mVDu8+RVSsn/jqIHNfSl6t0oS/5jxfg1oH/PLT
+b7D1tVXaXeihxSZ6BzO/ETj56ZUp/gnE80IsasOlNh2/CZbLbG6SEdX0DjWYzITH
+V9ILnSUZo6pVkeKV9SZWixQ6ZVsh2kWkSLPQ5Ub5my8RnuhuIlzlpKhIHZFwcyw4
+Am3z6T6aKoP4qwEKCTlMBQolANqbZSUXZH2IgKePQVTPMADcDHbE9MjX278XSorB
++ZxypYq9CbjKC+PyOxpwIuyA5JM5/tx3NhNCk5tcYlyLwYymf0SvQfVNPc8ZQebx
+Eqbn76FGyR+ggOgaEvJHzRrrsB48ug==
+=go3+
+-----END PGP SIGNATURE-----
 
-sound/core/pcm_native.c:snd_pcm_status64()
-	status->trigger_tstamp_sec =3D runtime->trigger_tstamp.tv_sec;
-	status->trigger_tstamp_nsec =3D runtime->trigger_tstamp.tv_nsec;
-	if (snd_pcm_running(substream)) {
-		snd_pcm_update_hw_ptr(substream);
-
-When snd_pcm_update_hw_ptr() stops a running stream due to an xrun via
-__snd_pcm_xrun() -> snd_pcm_stop() or drain completion via
-snd_pcm_drain_done(), snd_pcm_post_stop() updates runtime->trigger_tstamp to
-the stop timestamp alongside runtime->state:
-
-sound/core/pcm_native.c:snd_pcm_post_stop()
-	if (runtime->state !=3D state) {
-		snd_pcm_trigger_tstamp(substream);
-		__snd_pcm_set_state(runtime, state);
-		snd_pcm_timer_notify(substream, SNDRV_TIMER_EVENT_MSTOP);
-	}
-
-Refreshing only status->state and status->suspended_state leaves
-status->trigger_tstamp_sec and status->trigger_tstamp_nsec holding the old
-start timestamp while reporting the new stopped or xrun state to userspace.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027131233.1769=
-2-1-mikachu@gmail.com?part=3D1
+--LovERpk7e3YMRTux--
