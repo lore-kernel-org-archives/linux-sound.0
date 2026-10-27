@@ -1,101 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.56.58
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793076471;
-	b=d+iftmL/9vqxcdjNqir7M/D01UQ6+EMQlFK7Fl89P0fNQN8FB66/MaylXXSg9kIrX9ej
-	 TMu5gA4IUKtY6onewk6OWwyZM7Zy+C+j7AyI2n9Q4caHZ1vwxqK2Tb29EbPLCaCffFE16
-	 Z5xP1a6wZ7oyhW7XxsszYYGGHw2R/XG9b1UPAAk/M6Wv5EykRhO6d4DJntrq7fu1dzFVN
-	 pIVN2HdlW4WFBfyxrTIrNreRacJAiIXgmBqMFDnBx1RfzXeqCm8ysVgK0WHg1az8uEiOs
-	 FXazIBe3gw5cmO16b6l9j21hOY+7gwuOv5p8jJhwQc/dDPk+YzePkWUQsAc6JatE5Yw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793076471;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=yzuVcSfROtOwYbS0WYhoBxBO5fPLgfIjwbFSoMYBSug=;
-	b=GfnAt/SU8CWW48TXhoM4o1X3K6/kHAmmP6/sjizW5iuEtqvGNIVRAT59ctcb+H75mm4B
-	 etuPI0O9HLmkFlJEl0NLJqN0C/v8fOGmHDAMSy9jO4SdyL1ObFxCGzvcFWupl+NX2EOUu
-	 vjtPtQITT1QOo6kaYlrVwiez3mIPvNcw7Ms0PeQ5Lk3brWc3IOKgI3vBG8bgvLfbfBodE
-	 4+OX/zLhiYbw6c23cbKXW7TJB5rYZFhpDtObCOfR68OwUu1yO3on/9CaOomrRw9hm7FtQ
-	 /i9lCcT97itsGq1hCdN6UdayA2EYEffuHxMBANHoMgmh01QrBG7CvJk6v4m7ClFSIKg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=X98fPH9J;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.56.58
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010058.outbound.protection.outlook.com [52.101.56.58])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=211.75.126.72
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793081067;
+	b=5pfKrNO+otkws1VX0i0RjUR/g7tHW15E9PjDdaggc/wNEMH/qf1ATksYhX6pB6m9mT5f
+	 i2WjEVYF2Mh4BNRaEcBZvW0UhMNWwK2owfW0iKSci4wCMQXw44DDSUIiiUKiVpsy8I0bA
+	 C9yWPjDnZD6tfz5rB90nBavYllzHqoeSGF0qxeGhrwtIR/Fkgd3wgjtMqD1oeOzfd9FXC
+	 O+ngJHVLIjPy/3E+Ha677XXwqMvli+8Yowejv7Grll88hT9In71wvsX9/u/B/cSnTTAQX
+	 FtEy/RnYl2yegzh33NDeR0n2ziJeMWkeEe8m41zIdZuTUiiI8Ee/KmCo4A9GBVBqaDQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793081067;
+	h=DMARC-Filter:X-SpamFilter-By:DKIM-Signature:Received:Received:
+	 Received:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-ID:X-B4-Tracking:X-Change-ID:To:CC:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=lzN5XJ860NKTs7Y9KOhshhR1v5kpoeRKW05jjjJkiZ8=;
+	b=NyYX9QYgQALZf777AHgji3NwXjdFEb7BtJeSFJFETCIA2pdZ9UMAhlcYXN353kCEbGhl
+	 GBcbi5s+9NOTgtczt3inNUii4GdRZS60sXOozrn7rvkyC2j3D4Sibu73h693GZJhCIJJr
+	 QHgab/tDvxtLnGw/1p3oUTfRZyCDuvIPHR5RadmYujngjhXAvghZKbyEg5krNY+4eMvef
+	 n6Af8EqIRD7b29dq+6l+HvwYhKtr/W78s4bh1tThgWc9B6yEIeFZ7I2p38EY1ffXK3lXV
+	 UwTlyfJBiEWKeqRCzu4BXCH+aian5jRNfy6c1/Xlvz5CQeMQfjXLeu1cuXRxcBBJXYQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=realtek.com;
+	spf=pass smtp.mailfrom=realtek.com;
+	dkim=pass header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=JUaSaZBy;
+	arc=none smtp.remote-ip=211.75.126.72
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDBD606A31A
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 04:47:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BCDBD606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B25606A31A;
+	Tue, 27 Oct 2026 06:04:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7B25606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=X98fPH9J
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qHfWZ2qSm8LYyA9TwrYvIyQydm+fhON+aJeibl3CNXIQ7sUlcwvaXlUDoyWSlQeqQ908cagDd7f/MNa5lCI9oIeznoTtzt74UIAY4QMvysWwkIJeqfjijHQt40+kndnGSgBVIiXgefl/SD2kYkH+OAOS3dnexYTjZBVP4wnAoMDGwFgdeYijaSzAf7jugJd0n+iRpo4gNQu5Y93E3O8EYzk3zQPjS33E0paMeSlBrzLK+GCYszCfD0kLv39c6c+r/2+YuE2ahB1XV1IxnOx9+ZQF8cii/RpuSYxlRWGQQ4KllW4a/WAPa4Y0vmnwwJ65IpQ3jyswZ5KZHOIe1/fDYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yzuVcSfROtOwYbS0WYhoBxBO5fPLgfIjwbFSoMYBSug=;
- b=OXqSYT6wrqJpUTLk3gEInZPSZxSS51xoouILn2IzSruHcWUAFtj/aSDrfj1pNb2CQeJKfhXiMGoD/XofStFrVuMn1tEBM9RJgzBT3lPqLayD3LbDiZAECyk1CopGJH6EYUuUYBnLfiAzx0ZqlS4AKP0d849KXNIKGiFV41H/SsUx7wocLiJPrksoS2gh7Cmj8OSyyzImwjFbzC7rdEuztIkL5f8vaakHJ2zcpUtq3acCeyXOuhdXH9lBff7HGBxwhAqrPmiEi53MktyGgQgIhcuGHv4Ye/QR/ib1I0c7xhc7/4/Pjsm6N+hWKH/CeQP1tUlO2LdMxrZFnBCseDnugA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yzuVcSfROtOwYbS0WYhoBxBO5fPLgfIjwbFSoMYBSug=;
- b=X98fPH9JzDSjvJ1L22W4lIw+dZe4oWFzni4ADzMkilpj0XxtkCY1/SNkxXfj2Fb09opaO5Z//UWlqrEGdSRRkiwcbdyhZVV9L9xRmE2EnnFSOpCvFteAUP3d8BzlFsgMk06pLx98XfNpkczZpcN+YTSHZCu8HPA2oqnBFTFx5pc=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
- by CH8PR12MB9839.namprd12.prod.outlook.com (2603:10b6:610:274::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Tue, 27 Oct
- 2026 04:47:45 +0000
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0546.021; Tue, 27 Oct 2026
- 04:47:45 +0000
-Message-ID: <0dd9ead5-5ed3-4b47-a343-c3a94eb9ad28@amd.com>
-Date: Tue, 27 Oct 2026 10:16:44 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/13] soundwire: amd: fix ctx leak when
- sdw_amd_startup() fails
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sound@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
- Mario Limonciello <Mario.Limonciello@amd.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
- Syed Saba Kareem <syed.sabakareem@amd.com>,
- "Prasad, Prasad" <venkataprasad.potturu@amd.com>,
- "N, Poojitha" <Poojitha.N@amd.com>
-References: <20261026044507.2310694-1-Vijendar.Mukunda@amd.com>
- <20261026044507.2310694-8-Vijendar.Mukunda@amd.com>
- <sashiko-outbox-184836@kernel.org>
-Content-Language: en-US
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <sashiko-outbox-184836@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN3PR01CA0076.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:9a::11) To CY5PR12MB6252.namprd12.prod.outlook.com
- (2603:10b6:930:20::17)
+	dkim=pass (2048-bit key, unprotected) header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=JUaSaZBy
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 69R63dzO6708309, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1793081019; bh=lzN5XJ860NKTs7Y9KOhshhR1v5kpoeRKW05jjjJkiZ8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-ID:To:CC;
+	b=JUaSaZByKGVKnr3dEEZqOic6HPNw3OlOqKG+lwbypCsolUn955CWSBuZBFFqGyUbn
+	 wS+Q18coBALqcNwfQFIAdyOHaEHWaHWMYOI5NyEgT0K+yz84cyOshPqBD+k5SfzRya
+	 vA0XulLfoZm0lsaioXJP5O0np08jvF2HaYUvQgf3seYxWv6SOcUYT3i+Gh0zUyWLw3
+	 UxmgX8OTp5Tp8PQaKvLG+w1Z4X6/O0BPfa9InPMBACmwvpznBCG25BTJIuyfuiqvaf
+	 LvlQWQ4yortJZXoOqg1glJueaskkt2tm3wKoKMESpEX99NVdVH6gtNVey6n0pe1/C2
+	 Q6VHIy6zoGClA==
+Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 69R63dzO6708309
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 27 Oct 2026 14:03:39 +0800
+Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
+ RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Tue, 27 Oct 2026 14:03:39 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Tue, 27 Oct 2026 14:03:33 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server id
+ 15.2.2562.49 via Frontend Transport; Tue, 27 Oct 2026 14:03:33 +0800
+From: Oder Chiou <oder_chiou@realtek.com>
+Date: Tue, 27 Oct 2026 14:02:47 +0800
+Subject: [PATCH] ASoC: rt721: Remove invalid register defaults
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -105,250 +72,103 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|CH8PR12MB9839:EE_
-X-MS-Office365-Filtering-Correlation-Id: 451cf756-f602-4e1d-c810-08df33e5713d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|6133799003|18002099003|261026121527099003|22082099003|261009223027099003|56012099006|4143699003|11063799006|261021123027099003|261022105027099003|10067099003|261021121427099003|261022075727099003|261026140227099003;
-X-Microsoft-Antispam-Message-Info:
-	8fYhL5tsNRlp6EUJnI3Zi4NfscL6asMmWT6Nk49BvhnSv3bagUcZ2pRsOtHEOUMIcHSBp12SfkZH1xB+e38zTh+pzGtu7fR1iHmoXq9Tme3tZMatDd21GGpKnDaw8QwIomwj/onD8s+fVfS/Evai/WqJs0I4vwOsLk2KoiS201Vnym0PSSs0Y1n5Iuq7zVkwoBmfbjdfLpUaUqTtMUzsU2MagGVwkNefydgnAKcvPTElSMm+nPV20epyBH0qFiUN9odOSqWGGH6qIlNSPKcsxAe1foku6Q09Wlbe2Rzff0ACbzYhonNDhl+Dylsn0XjSUNM+q7+2q1Z69nOg5pzvEK6mniKHTPccM26wVsussd7SQNZLTLlD0VXsFi1txqHgeVIdKm5YrDpZfRJiDLOM/tLwNhueN2UC74eSJdVgkOMLc2aRXRAe0AEdFlwrxmZ8YDjln2v721u+vQ5qjt6q4zxzF8yIZwetrrSlPXAmeZF1mp1aV2bhMNJtc15bWIMtlcB7vyK+znUN5Hxohk0aFY/2Rf16OT18BBNM+YLONt9aV9U/QnPcfyElSM4qEbu9JP348H0BTfamVb+kDwfLrvGh0C137Zjx2FqArjFxc6Y=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(6133799003)(18002099003)(261026121527099003)(22082099003)(261009223027099003)(56012099006)(4143699003)(11063799006)(261021123027099003)(261022105027099003)(10067099003)(261021121427099003)(261022075727099003)(261026140227099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NmlNWDNSNENPV2k5bmthRjQ1QzF1T3Badmh1dm41MXQ5cS9ZaDFkT0wra3BN?=
- =?utf-8?B?TlRLNVI5WitMQ2NPK0VNd0dURzcxQmE4M2FLcDlGSkVKdzlQb2NmbEtycExI?=
- =?utf-8?B?UjNpSDJnL2xIZlRFYWlZbit6S2ZhWGNLU3dwVVplTUJvcUlDWnQzQW84YWdY?=
- =?utf-8?B?WTJNUEUrbEJ3MEdDbTQyMUZDeVFFVTQrWjMzbE5BVHZlUXd4UUVMY2tpL2RH?=
- =?utf-8?B?ZTZ1bVJrT3JFaDhGN0k2K2grcGs5Nlc3eXo2RHVGMS8vMkdqNk95SnVydTNw?=
- =?utf-8?B?TGlVUWtyVWozalY3VVA5NmVRT3Y4Q2p6OE55R0w2WnJJeXp5VFg5c1pBSXpi?=
- =?utf-8?B?dmorZ3lmWEtWUmpPV1h4VDBhdlFQSnd0QVRLMG95REZqSDRpa0cwcFBTcmxH?=
- =?utf-8?B?QzExMjBpZ0phMUIyaWlwa1RTS0kxclpQQzVjZUdWYkZiZ3hORmxEWnVleVdi?=
- =?utf-8?B?V1VWaGg2YnF5V3pKNjVEajVNZEFDYml3NlZyRGpoSy9VYWRSV0lxa2dzRnNV?=
- =?utf-8?B?eEt4cDQrbndZV3hzRkJRL3VMckNvVm9aWnRvYWJoN1BwS25ucU9ReC9FS2FL?=
- =?utf-8?B?VnVxN2ZCM3lXaXFIMEw0eDhZSlhMMFJGRXdUR1VKU1RBeTBMZVJSY3BtaUY5?=
- =?utf-8?B?ejdYV2N1dDF1YU5GTUlQaTM3azlScUJkaHNkdURZZG03Mll5b1RCcUVoYTA4?=
- =?utf-8?B?SVZHSVp6ZHlNL0g2MW1IbjVWMDVBZU5QR2lCZk1qVjNUS2Jkc2RlRlBDd2tO?=
- =?utf-8?B?WDV2czh1V3Mzc1NUSk13amk4Z1RRRnVscEZadEJYWVlibk8xMjRmYkUrQjJl?=
- =?utf-8?B?cVdnT0QrZm5DWlJGWDJ5UlZ3Nm9ITnhqdXBIbyttTXNTOE5kUmFvNUlWaVFC?=
- =?utf-8?B?VHZjS2hmKzRXUXh5SVVRbzBnTVp1a0RTRERzMGd2blRFTytzQWxZbkZrTDFo?=
- =?utf-8?B?SkJ3U0hmT0c0c3NqRHZKYUNHaTJXcEFzVGNGVVRuSHp6R3ludEhPdUJNT0dr?=
- =?utf-8?B?NGN5SkdvM2s2UC9IT1Qya25IckFuU2YyQjQxdHVuUXJ3eGNsZXdlTEpBL3lz?=
- =?utf-8?B?Q3RpeTRZSzczdWdhNXFmWVk2YjF2ZG5DclZ2QS9kN2hZQVBKRm5XL0FvOEor?=
- =?utf-8?B?OU1NVWJuVGlUdVFqZDR1MS9XWWpjekRCTldsVVhPTVMrQmlKYTU1eHdOeUNq?=
- =?utf-8?B?eW9USU05ZWFkR0syaXVOQ1h3ZW11YlZWdnhVNWJENDlVZjMvS3lQb3Njbm1h?=
- =?utf-8?B?VEdVRmtNTlJmOXVlM1RWU20ycFJCUkJJQXpBaXp5OWMvbnYxMTMwSnVJd3Zv?=
- =?utf-8?B?bWJsdFU1cU8rc29zSk4zSXEreFdTVXgrd3BEb003dUpQMUo2N3hhaW9sQ0pB?=
- =?utf-8?B?YkZtRjZMSm5EWjRYOHlvVHBQREFBVE1RTFdzOHNmTWJpakJ1djkwUVdyTmd1?=
- =?utf-8?B?b2Z4MDgweWUvclNNN0JlTDhKSFZiTEtUdkdLcm1uMzd1Q29MK0w4UWFYVzhp?=
- =?utf-8?B?Qk8rK1FTZVpOVkd3UmgrZFJrZUVtaUZyUmdCVFlQQ3NldlA1RWhPUXZvNGJC?=
- =?utf-8?B?SE1kUlFXTUM0SitIek9Ob0FhZnZWaGZVRXArRnhjaG4vZlBKTHVlUVdOdFZu?=
- =?utf-8?B?Mloxek1mdXQ3Y1BXR2FtMnhqenZWZU5kR0NYakM2WmhOcG1tT3JWQ2hPVy83?=
- =?utf-8?B?MnhhYVVoeGJuUXJzSUNWZXRMTU9PV2NMMzFkeHhoN2EyeExFQkFtNCtrZGR3?=
- =?utf-8?B?VUxXMk9nL0JJVW9rSUxDUlFaV3ZQVFc0YUJBQ1dtV1czTk1IbjhSRUhOWTE2?=
- =?utf-8?B?blc0bW9FdzdaVjBqdXJNYzZPRkpIbjV5UEN0MXljL2dQVlV2L3VWTWo0cXp4?=
- =?utf-8?B?VFZuWVo2M3paSXhWcWxORWxwaVlrcWRraVkwREV6NGI0ZlJwdGIyRFhNamY5?=
- =?utf-8?B?UkhTYytnek1LeHhzc1Uzb3cyOUFKMExQcDBFdXdBdjIvZmt2QjIxWGxERWhK?=
- =?utf-8?B?NVhaZHIwREd2L1MwU01NTGc1dFUxQVlGTXV5anVjamlIRjlpZm9jTFdzVXJE?=
- =?utf-8?B?N0VtV0hPR1F0RFZsSm42c2dxSGNYaHRlRzQ5SUYyWGZYWmV3dEhIS3lRcGlX?=
- =?utf-8?B?OUZPa3JGc1A4bGYrQ255am95Y2dRT0wrVTBmWkk3WDJCZ1h0RDBJYzBnU1Ft?=
- =?utf-8?B?UGRxZHl5NnpnbjVhdFlySGU3VzZjRit4N05SdzU1Z3NFcnR1cXlIanZhNlRr?=
- =?utf-8?B?cTFjNEF1SXdocVVtMGUzNFpSYzFkeVBlY2NRd3dVT01icFlmZFdZOFdBMk1U?=
- =?utf-8?B?VkJnaTd3bVRjYmpJNVhVTEFhSDl2b0p4V3ZBTUtJcDNKc0tYenF3dz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 451cf756-f602-4e1d-c810-08df33e5713d
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2026 04:47:45.3798
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y9YuoCgaZImk4Z1ARDQsZv7asjf6olb1gv261rdDg4QgIFKp2M3X3Qq+B5smKO1HcuVUouNUKzU06rKuiwTGvA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH8PR12MB9839
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20261027-rt721fix-v1-1-42cd4b1711d2@realtek.com>
+X-B4-Tracking: v=1; b=H4sIAIY+4GoC/yXMwQqAIBAE0F+JPSfkHjT6leiQttV2sFCLQPz3r
+ I5vmJkEgTxTgK5K4OniwLsrkHUFdh3dQoKnYsAGlWxQCx81yplvMSO2ymjTTmih1A9PJf6u+uF
+ 3OM1GNr57yPkBzu0EQ2wAAAA=
+X-Change-ID: 20261027-rt721fix-f2286b7b8d2c
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<flove@realtek.com>, <shumingf@realtek.com>, <derek.fang@realtek.com>,
+	<egor@crazyrussian.pro>, <jack.yu@realtek.com>, Oder Chiou
+	<oder_chiou@realtek.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793081013; l=2776;
+ i=oder_chiou@realtek.com; s=20260924; h=from:subject:message-id;
+ bh=z120Az4uzqTBtJeVj2+FuENE9VvGaJgqUlUfuB+E30Y=;
+ b=3V6LEP2ESLaseaiCTtg70cDKGFAcHqC+1uwrbgljr5OZJZklqP+GVK256kDLKII3NW3XruNx5
+ vJFV/pRx+b5CZLEldhn0plR8q+8Ndn7oo2+uq8IzKps+s3dGPLzI2r2
+X-Developer-Key: i=oder_chiou@realtek.com; a=ed25519;
+ pk=kxHXyDR720aeJLqtY0EdHompRip+/kDrmfMzKLqz+7k=
 
+Egor Poderiagin reported runtime resume failures caused by rejected
+writes during regcache_sync().
 
+Remove the PDE23 REQ_POWER_STATE default and the defaults for the
+volatile MBQ registers 0x2000046 and 0x6100006. Also remove 0x2000046
+from the MBQ readable and volatile register lists.
 
-On 10/26/26 15:18, sashiko-bot@kernel.org wrote:
-> [You don't often get email from sashiko-bot@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] soundwire: amd: race and UAF in sdw_amd_probe() error cleanup with active IRQ
-> --
->
-> commit 60bd17e72e211d96b5525ff2d9fb05330bb627b0
-> Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
->
-> soundwire: amd: fix ctx leak when sdw_amd_startup() fails
->
-> This commit cleans up the SoundWire context and registered platform devices via
-> sdw_amd_exit() and clears *sdw_ctx if sdw_amd_startup() fails during
-> sdw_amd_probe().
->
->> diff --git a/drivers/soundwire/amd_init.c b/drivers/soundwire/amd_init.c
->> index 8e419ddfa5161..88004d59322ee 100644
->> --- a/drivers/soundwire/amd_init.c
->> +++ b/drivers/soundwire/amd_init.c
->> @@ -166,11 +166,18 @@ static int sdw_amd_startup(struct sdw_amd_ctx *ctx)
->>
->>   int sdw_amd_probe(struct sdw_amd_res *res, struct sdw_amd_ctx **sdw_ctx)
->>   {
->> +     int ret;
->> +
->>        *sdw_ctx = sdw_amd_probe_controller(res);
->>        if (!*sdw_ctx)
->>                return -ENODEV;
->>
->> -     return sdw_amd_startup(*sdw_ctx);
->> +     ret = sdw_amd_startup(*sdw_ctx);
->> +     if (ret) {
->> +             sdw_amd_exit(*sdw_ctx);
->> +             *sdw_ctx = NULL;
->> +     }
-> [Severity: High]
-> Could calling sdw_amd_exit(*sdw_ctx) before clearing *sdw_ctx race with the
-> parent ACP interrupt handler and trigger a use-after-free?
-++
+This allows cache sync to complete without suppressing sync errors.
 
-SoundWire IRQs are only enabled inside amd_sdw_manager_start()
-during sdw_amd_startup() via amd_enable_sdw_interrupts(). The
-platform device probe (amd_sdw_manager_probe()) does not enable
-any SoundWire interrupts — it only initializes data structures
-and work items. So the ACP_SDW0_STAT / ACP_SDW1_STAT bits in
-ACP_EXTERNAL_INTR_STAT cannot be set before sdw_amd_startup()
-runs, and the IRQ handler will not reach the adata->sdw
-dereference during sdw_amd_probe_controller().
+Thanks to Egor Poderiagin for the detailed report and testing of the
+default removals.
 
-On the failure path, sdw_amd_exit() -> sdw_amd_cleanup() ->
-platform_device_unregister() triggers amd_sdw_manager_remove(),
-which calls amd_disable_sdw_interrupts() followed by
-cancel_work_sync() before freeing amd_manager. So any interrupt
-enabled for a partially-started manager is masked before the
-manager is freed.
+Closes:
+https://lore.kernel.org/linux-sound/8a12a2d9-1b56-4e00-8ccc-cf31325f8366@crazyrussian.pro/
 
-That said, as a defensive improvement, NULL guards on adata->sdw
-will be added to acp63_irq_handler() and acp_irq_handler()
-before dereferencing adata->sdw->pdev[i].
->
-> The callers of sdw_amd_probe() (snd_acp63_probe() ->
-> create_acp63_platform_devs() -> amd_sdw_probe() in sound/soc/amd/ps/pci-ps.c,
-> and amd_sof_acp_probe() / amd_sof_acp7x_probe() -> amd_sof_sdw_probe() in
-> sound/soc/sof/amd/acp.c) enable ACP external interrupts and register their
-> shared hard IRQ handlers (acp63_irq_handler(), acp_irq_handler(), and
-> acp7x_irq_handler()) before passing &adata->sdw as sdw_ctx to sdw_amd_probe().
-The ACP external IRQ handler (acp63_irq_handler) is registered
-before sdw_amd_probe() is called. However, SoundWire-specific
-status bits (ACP_SDW0_STAT, ACP_SDW1_STAT) in
-ACP_EXTERNAL_INTR_STAT are only set when the SoundWire manager
-is active on the bus. These bits cannot be asserted before
-amd_enable_sdw_interrupts() runs inside amd_sdw_manager_start()
-during sdw_amd_startup(). So the adata->sdw->pdev[i] dereference
-path in the IRQ handler is not reachable before that point,
-regardless of whether adata->sdw is NULL or non-NULL.
->
-> In sdw_amd_probe(), *sdw_ctx (adata->sdw) is assigned immediately before
-> sdw_amd_startup() runs. Inside sdw_amd_startup() -> amd_sdw_manager_start() in
-> drivers/soundwire/amd_manager.c, interrupts are unmasked before the fallible
-> manager enable step and before subsequent manager instances in the loop are
-> started:
->
-> drivers/soundwire/amd_manager.c:amd_sdw_manager_start() {
->      ...
->                  amd_enable_sdw_interrupts(amd_manager);
->                  ret = amd_enable_sdw_manager(amd_manager);
->                  if (ret)
->                          return ret;
->      ...
-> }
->
-> If amd_enable_sdw_manager() fails, or if manager 0 starts and manager 1 fails
-> in amd_sdw_manager_start(), sdw_amd_probe() calls sdw_amd_exit(*sdw_ctx) while
-> the parent PCI IRQ is active and *sdw_ctx (adata->sdw) is still non-NULL:
->
-> drivers/soundwire/amd_init.c:sdw_amd_exit() {
->          sdw_amd_cleanup(ctx);
->          kfree(ctx->peripherals);
->          kfree(ctx);
-> }
-Since SoundWire IRQs are not enabled until amd_sdw_manager_start()
-runs inside sdw_amd_startup(), the window between *sdw_ctx being
-set and startup beginning is safe — the IRQ handler cannot reach
-the SDW processing path before that point.
+Fixes: 7a0886826308 ("ASoC: codecs: rt721-sdca-sdw: Propagate regcache_sync() errors")
+Signed-off-by: Oder Chiou <oder_chiou@realtek.com>
+---
+ sound/soc/codecs/rt721-sdca-sdw.c | 2 --
+ sound/soc/codecs/rt721-sdca-sdw.h | 4 ----
+ 2 files changed, 6 deletions(-)
 
-If amd_enable_sdw_manager() fails after amd_enable_sdw_interrupts(),
-the failure path calls sdw_amd_exit() -> sdw_amd_cleanup() ->
-platform_device_unregister(), which triggers
-amd_sdw_manager_remove(). That function calls
-amd_disable_sdw_interrupts() before cancel_work_sync() and before
-freeing amd_manager. So the interrupt is masked and all work
-drained before teardown — no use-after-free can occur on this
-path.
+diff --git a/sound/soc/codecs/rt721-sdca-sdw.c b/sound/soc/codecs/rt721-sdca-sdw.c
+index fc34a0537d5f..0c78799793bd 100644
+--- a/sound/soc/codecs/rt721-sdca-sdw.c
++++ b/sound/soc/codecs/rt721-sdca-sdw.c
+@@ -92,7 +92,6 @@ static bool rt721_sdca_mbq_readable_register(struct device *dev, unsigned int re
+ 	case 0x2000026:
+ 	case 0x200002c:
+ 	case 0x200003c:
+-	case 0x2000046:
+ 	case 0x5810000:
+ 	case 0x5810033:
+ 	case 0x5810036:
+@@ -174,7 +173,6 @@ static bool rt721_sdca_mbq_volatile_register(struct device *dev, unsigned int re
+ 	case 0x2000026:
+ 	case 0x200002c:
+ 	case 0x2000030:
+-	case 0x2000046:
+ 	case 0x2000067:
+ 	case 0x2000084:
+ 	case 0x2000086:
+diff --git a/sound/soc/codecs/rt721-sdca-sdw.h b/sound/soc/codecs/rt721-sdca-sdw.h
+index fe04a3726334..eb093992759c 100644
+--- a/sound/soc/codecs/rt721-sdca-sdw.h
++++ b/sound/soc/codecs/rt721-sdca-sdw.h
+@@ -63,8 +63,6 @@ static const struct reg_default rt721_sdca_reg_defaults[] = {
+ 		RT721_SDCA_CTL_FU_MUTE, CH_L), 0x01 },
+ 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_USER_FU06,
+ 		RT721_SDCA_CTL_FU_MUTE, CH_R), 0x01 },
+-	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_PDE23,
+-		RT721_SDCA_CTL_REQ_POWER_STATE, 0), 0x03 },
+ 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_PDE23,
+ 		RT721_SDCA_CTL_FU_MUTE, CH_01), 0x01 },
+ 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_PDE23,
+@@ -91,13 +89,11 @@ static const struct reg_default rt721_sdca_mbq_defaults[] = {
+ 	{ 0x2000003, 0x0000 },
+ 	{ 0x2000013, 0x8001 },
+ 	{ 0x200003c, 0x0000 },
+-	{ 0x2000046, 0x3400 },
+ 	{ 0x5b10017, 0x1b07 },
+ 	{ 0x5f00044, 0x6040 },
+ 	{ 0x5f00045, 0x3333 },
+ 	{ 0x5f00048, 0x0000 },
+ 	{ 0x6100005, 0x0005 },
+-	{ 0x6100006, 0x0000 },
+ 	{ 0x6100007, 0x0007 },
+ 	{ 0x610000d, 0x0051 },
+ 	{ 0x6100010, 0x0180 },
 
-As a defensive improvement, a separate follow-up fix will update
-sdw_amd_probe() to hold ctx in a local variable and only publish
-*sdw_ctx after sdw_amd_startup() succeeds, making the lifetime
-contract explicit and removing any ambiguity about pointer
-visibility during the startup failure window.
->
-> Because sdw_amd_cleanup() unregisters and frees ctx->pdev[i] (and its devres
-> amd_manager) and kfree(ctx) frees the context before *sdw_ctx is set to NULL, a
-> concurrent hard IRQ handler on another CPU can observe the non-NULL adata->sdw
-> pointer and dereference freed ctx or ctx->pdev[i]->dev, or schedule
-> amd_sdw_irq_thread after amd_sdw_manager_remove() has already canceled the work
-> and freed amd_manager:
->
-> sound/soc/sof/amd/acp.c:acp7x_irq_handler() {
->      ...
->          if (adata->sdw) {
->                  for (instance = 0; instance < ACP7X_SDW_MAX_MANAGER_COUNT; instance++) {
->                          if (ext_intr_stat & acp7x_sof_sdw_ext_stat[instance]) {
->                                  sof_acp7x_handle_sdw_manager_irq(sdev, adata, desc, instance,
->                                                                   acp7x_sof_sdw_ext_stat[instance]);
->                                  irq_flag = 1;
->                          }
->                  }
->          }
->      ...
-> }
->
-> sound/soc/amd/ps/pci-ps.c:acp63_irq_handler() {
->      ...
->          if (ext_intr_stat & ACP_SDW0_STAT) {
->                  writel(ACP_SDW0_STAT, adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
->                  amd_manager = dev_get_drvdata(&adata->sdw->pdev[0]->dev);
->                  if (amd_manager)
->                          schedule_work(&amd_manager->amd_sdw_irq_thread);
->                  irq_flag = 1;
->          }
->      ...
-> }
-Will address this missing NULL guard check for adata->sdw  as a follow 
-up fix.
->
-> Unlike the normal remove paths (which call free_irq() before sdw_amd_exit()),
-> the IRQ remains active here. Should sdw_amd_probe() hold ctx in a local
-> variable and only publish *sdw_ctx after sdw_amd_startup() succeeds, while also
-> ensuring any interrupts enabled during a partial sdw_amd_startup() are masked
-> and synchronized before sdw_amd_exit() frees the devices and context?
-As mentioned above, Both points will be addressed:
+---
+base-commit: f77c0553a0d526c733e61dfd916c300b6bb032fb
+change-id: 20261027-rt721fix-f2286b7b8d2c
 
-1. sdw_amd_probe() will be updated to delay *sdw_ctx publication
-    until after sdw_amd_startup() succeeds, as a defensive
-    improvement making the lifetime contract explicit.
-
-2. Interrupt masking before teardown is already handled by
-    amd_sdw_manager_remove() (called via platform_device_unregister
-    inside sdw_amd_cleanup()), which masks SoundWire interrupts
-    via amd_disable_sdw_interrupts() and drains work via
-    cancel_work_sync() before freeing amd_manager. No additional
-    masking step is needed in sdw_amd_probe()'s error path.
-
-3. NULL guards on adata->sdw will be added to
-    acp63_irq_handler() and acp_irq_handler() for both SDW0 and
-    SDW1 dereference sites as a defensive fix.
->
-> --
-> Sashiko AI review · https://sashiko.dev/#/patchset/20261026044507.2310694-1-Vijendar.Mukunda@amd.com?part=7
+Best regards,
+--  
+Oder Chiou <oder_chiou@realtek.com>
 
