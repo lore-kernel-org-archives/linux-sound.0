@@ -1,108 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793112260;
-	b=1Sv67yeXsZICkXbzFvMExcezUPGmutZDYtxqVA+uIhNsSr3wDjqVNomW4qNFrVckBsk/
-	 NcwNcJRec42T21joK2vO2eS6DPUctkNKc48gHs73s6dFjmDI5Fe7IBWw/HCfeI2XkcLfr
-	 XJBXPrNbF1WLsY2lklI/zx5cf0nHfqhCud3noj0ulxmWorKzPB6HO5aDaOflWPD/P4JBC
-	 6q7E89PiSQZzXJTWDeSzpFHMk/hC/abTFZ/FGYuc3E5fQLkvHLysGgreRs+CxeE/iC2Uv
-	 P8IMeQeDOS9ZYY8upmDHPXQXVFkzb8CUhzQIcue03pHHxshkMUhazpyuZJ5/b5hzPEw==
+	t=1793112385;
+	b=EyUpMESW6xUHBXWlt1elUltPbMIoG8FJnCsYjQ4MG4BwyvzHLyRUHwP+D8AOCYWedEag
+	 8CWLUnLyIP+mQpzCLixCqjbZ3mhcIvnGwbyDkpIJITFTXUtuyyvmiZdl3qpYzXBbGHXaE
+	 NxDjd+Vbgq2+xpZtnDWjCgmvfZFltsZTP9+kEV4XVSjvPq7tXfnOU/3kqsNqGR1K/PU3T
+	 NQt9ZDjQAucJJCJgtc0eOncbOMewlDOU42YhH7sXt1HVcF6sm7OCcdRQrI+6do0hQnGuA
+	 mqlR3JIjBQAwZ1SumIFxFLdoGl8XMPF0j2gN+NRpxdwF2ri3rnwq3cA0TlIMh7E7b8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793112260;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Authority-Analysis:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=HAA7AZo00Ddvj2qqPV4fEpM3+Jj4PA1j/BqBRb4SlQU=;
-	b=OKAAuama+zhII3bhCoyY/A6MYyavJxRB+FwwiZA7bg2GNigCYCRhp36MV2VzwybvpDla
-	 F9wLHtpMuSz7sdmgk7i092Af4QrkJTROx7ZMbxBli74XQSEBJWOhiJzeVxUpqVfcCRyzi
-	 kxdJ/GkVYQyy0Oc6qeUEBYD3jHfMRdyls5zLSCEttdY/QdGYYX8498KWoXQ95Wjd/e6P0
-	 htdxqTDbGQ3L/VHadPe+B9MdU/WOkICI477gVHep3G17VAdCsR+FMV+WzEMNfVe290XJ1
-	 1uPeyCwI/q3m3/LvWWf591wMLnhYf6oKmIXqm9m/kT5tNWQEJTFAFH0Xz+iDn5QoP8w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793112385;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=IRYscKx8sG7oBga7um/aSNX4ppGTBUA5j7SQ3A1vxDM=;
+	b=NgV9ADsfWVLObArXVvowzHnkR3GsaEwXUY2XZFyLEqDfQ+7tYyU39rISTerM2+J6ISbf
+	 3A7BSXQpgGEYtcNq3kPRkaHGr5NdzBM5oMjTGJUusr3IBxHnrkC93IiI3Z9P3uuJ/aLP4
+	 cPjDwACbpcT4IihAV16vzzZBFfeuGc/SZFNojFTvrccr/y44seFLQlIP70R+oOVToHaDM
+	 H610OdXDPk1keA/NG2cJbsB7Rz+nt9BtS5XTjlvw4B9mCNhyMFm2gymueKs0ZlsBKSVSD
+	 lF7vJGTOw+zJK2CwXFiFimdnwhYtOB1vm7hYK8zCcZjv7H0DTu5kfsUDPMIViqAohig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=OyTYxZdG;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Kkdu4xpS;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CGwLvwcP;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED522606A31B
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 14:44:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED522606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4EC606A31B;
+	Tue, 27 Oct 2026 14:46:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A4EC606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=OyTYxZdG;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Kkdu4xpS
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69RDoPvr2397395
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 14:44:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	HAA7AZo00Ddvj2qqPV4fEpM3+Jj4PA1j/BqBRb4SlQU=; b=OyTYxZdG5+M2clOm
-	mpj2PFqC20PW5yT2WKOHbRjUQd4kjm1lHHI6h7rvY7k08UybYm5zCJcslMNG8Wdd
-	6dSg3QSVjxaV5v67NV7UJlPFHifZsFihgctUVQ8TOibpdjPE8ex6jgcPiY999ZZF
-	QLRo1Nt+B6xgDoJj9OGyEHhqTE2SLxQ2DhYJn0yHhKKkunbxCxJKKbRXTXILjfPO
-	YiD8za+0ifXd+ziLHf5VtO/xKankz40QRfDl0FP0Vf1bRbVOR+qzzbWA3LYjv6bE
-	aJYmbkhzGCRhyEB3sjS95d7yDnMnM3J/UFyBwtEHHmbC0loqY/DT984+SufrEM6h
-	8H7Uvg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hjst1h462-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 14:44:19 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93f62934ef6so681431185a.3
-        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 07:44:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793112258; x=1793717058; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HAA7AZo00Ddvj2qqPV4fEpM3+Jj4PA1j/BqBRb4SlQU=;
-        b=Kkdu4xpSycubvYo2VxZEIvDxRi8LwhL9BdwTQxbJICH3Gna7MCt4YhYIVVN5XKW1vq
-         MydGVrA+aI5kfZxCErCCablQfK8klS9a4bp1BEF1FyVoX0++q7NRlY8mkD05m/YHvLJ1
-         rgxPsXeqzQ8DJuqPxs0d3tqwxoe9tCBGvKtcimMSLYrVpBTPHnZMVGA+n3h0bX55pB/6
-         /s7fLJEpPBgwkXp+yhcTf1+cSzUACbRC/PDzYoej2R2kwcCTCqDvnLCMwY2XINLYYqgz
-         oyCXKxS5gTxSVsYrAHfSscex7Ja0uCorYn/Du8kPS6kYUIlJpKvs4/mAoZC8tCImxzmC
-         v2AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793112258; x=1793717058;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HAA7AZo00Ddvj2qqPV4fEpM3+Jj4PA1j/BqBRb4SlQU=;
-        b=GdPXM9tObOG+cMxbC3ESkUMC0xV8OZrgi8YZrR81bQeraW/dIkEZu8Opct0oTouCRF
-         ISaNIbuKy/+g3wsKW4r8mdJM/ANUhaBsO6ytX6LTBDtAV8aOTgZkwCUA2hbMRr9cTHBZ
-         Or0ph6e+HKzarc6x3mShLT7oP1ejeJA4k/twiwZvcbExmgpw4HhGzLbzjKFTtiCCLt1F
-         vfD8zfTZ0kjfnGGH9wEIiOUfRTUNJO4R0V8TJZdkmfkvWLNasyteeHXmgPvyBQzlwo1D
-         hhfeZ9T/CGHZFKTV7dPTB5BK5Ko/DmenhmIR9PECBxtDY3jGW7Tv1NH3T4QtyG6Xvp+n
-         TTpQ==
-X-Gm-Message-State: AFq9FYI5bgLtyu70ztpKbJVT6kNR1v1TEE/F3Dfs08t0hFP4ycESmNZD
-	THgT/c2XEyrA1JEPBksl55XiqtHx3s6zhdjtZljbGrY9v/lNIJYM5k4a6pdcXrKgM3wK4SO92+Z
-	xdmZ4V/Gd/yt1FsAIZoqKbiKgACi0cdwDnDgZ/fnC/utA5mPz0G+rmetXQq+C/pX8dQ==
-X-Gm-Gg: AYBFou3GfKD0cPlGhRSlAsr948bLwrlBN8uBC6Q0NsjP+cqWelMtjFAIY2mrP+uizit
-	mZFCVKA57OgxJojAfrt7ZZtYlOJPMSQVQsom3EeonUwgaaiuxMaMajtEgyYSZa2Vpww9dQ5eipm
-	erTU2usWKiXle6yf+nU0nQyEHobfTPDUcYIHaQdCX91GaJK7dagnm8R4rvH4P/hl9Z+A+f5v9mR
-	upeevTUxdOLJ72WRC3Lqiczq5O2qSE/WUhC1ayRmpFtfjYwN2IZ+JyYJU+0HJGXDlEEK2ICxGCi
-	GskJatJhNTh7CpMM9o25FxTcb8+IozQE9BIuklQS9a2Q2IJnkzd/iOr+gayc6lHb9fGCW1bw3M9
-	I/ocKfs6uFGDxWJZt33NaFChnHA==
-X-Received: by 2002:a05:620a:4042:b0:93e:6325:ae6d with SMTP id af79cd13be357-940ef8db90amr1645247785a.40.1793112258138;
-        Tue, 27 Oct 2026 07:44:18 -0700 (PDT)
-X-Received: by 2002:a05:620a:4042:b0:93e:6325:ae6d with SMTP id af79cd13be357-940ef8db90amr1645242885a.40.1793112257631;
-        Tue, 27 Oct 2026 07:44:17 -0700 (PDT)
-Received: from [192.168.68.120] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4a359ff2189sm319234895e9.1.2026.10.27.07.44.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Oct 2026 07:44:16 -0700 (PDT)
-Message-ID: <6078ca7f-a511-48d9-b5fb-a7b3339c8569@oss.qualcomm.com>
-Date: Tue, 27 Oct 2026 14:44:15 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CGwLvwcP
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793112385; x=1824648385;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=gMQLtPPJ2JHiqxtyX+cp5DoM6/NIF/m1eiqWp4AjPs8=;
+  b=CGwLvwcPz6RI3pyk+Mj21aFENE7JyDEqgPF5/6jyMyJgfWcbzfjVl2JB
+   RztYv8WBV0kh0kdCEz3av1Vk6nqFe/BEXnfF58wLy2qvFcA+YifWJWq4b
+   WBfdv1L9aQx8UC/VGmvbf5rN43R1AusdHWvh9Ae8vp/V/tA1ibVfhBY/E
+   mBWl/1G+DQIHTWb632JCQShIspq/rjyh2ZnhtnNF7Hg5jJDlskhLNoYOo
+   CTKnVebK8IKpndBSi+UARIyGdfHHa49RIPFerl7egAPz/qICbdKJuSaCN
+   S6yB3PdyuW12m0v0A1tGJ4mV3Gk+RDOGc/qx2mw/OHzQTJYZV1rgqGjEa
+   A==;
+X-CSE-ConnectionGUID: +DdlmM44QfiPecPLXMuThw==
+X-CSE-MsgGUID: Tms5wl0mTDCPpWd2lDPmzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1700278"
+X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
+   d="scan'208";a="1700278"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 07:46:23 -0700
+X-CSE-ConnectionGUID: cZDerJIdRniypspQP79I/g==
+X-CSE-MsgGUID: DYQzslGQRaaARrm1oqqX7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
+   d="scan'208";a="4960476"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.199])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 07:46:22 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	stable@vger.kernel.org,
+	tiwai@suse.com,
+	perex@perex.cz
+Subject: [PATCH] ASoC: hdac_hda: Keep runtime PM state in sync across codec remove/probe
+Date: Tue, 27 Oct 2026 16:46:55 +0200
+Message-ID: <20261027144655.31988-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -112,121 +82,94 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: qdsp6: q6routing: Fix memory leak on probe failure
-To: Tang Bin <tangbin@cmss.chinamobile.com>, srini@kernel.org,
-        lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
-        tiwai@suse.com
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20261025080242.2572-1-tangbin@cmss.chinamobile.com>
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <20261025080242.2572-1-tangbin@cmss.chinamobile.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=HJ1WhYtv c=1 sm=1 tr=0 ts=6ae0b8c3 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=R5C9hjxsAAAA:8 a=1_uBrm5jZOM9LsB7CMgA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: 0ffiNN8f9tJoO9WaVxYE2jv5fmg8u5Tm
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI3MDA1OCBTYWx0ZWRfX3tt8+s7selUY
- LidvA5Q+gwwT3XuLg6aMpxZ7H1asn5tS27QyoGBKoqabbVfcXYT63ipYEaQxFw8xuDFlHaJBR//
- fRVyM1bCqt3K2oOCbyLPkvJCDL61gTk=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI3MDA1OCBTYWx0ZWRfXwc0skHhSOX7U
- m0I1QCaZf3idFivd5vVlTAffvZlFp4UzeS8xvOHKblTInPrS1MLx/YoEm+BcvTZTDei7LoMwV79
- P0M2VmgZFPRWyLfjiC/jr3Z9cfu8xrhPnalEGzELoUwAauwHzp1+m/+zSK8qO8yUV9emlNdT1zm
- if2lB+FmJV+VDZ+zb+OF9V8k9lCSGUbM6IPSKFHiu+UPkCD5hJtVAcekbwEht7KbBpzlRLxG/B3
- MCTmb8Bz5VJpwoZyudhbXYyiG/WSC5RJ9rh4MwV82Sb7yErSXwdEpRrhQM1JafAPMJpyPAGTU6x
- amGfU6XyzIN18j6WC+Igq//Qn4xfbnLJM/TzVYrIsVMl5CtonxEqp09bgcseu50x94kQVpiT2FZ
- aixHaLCrM0YY++V+h4Pv8O2z6teGKleYMa3SlwqtqA+zT1Oegu5dR4RK0dj2m2V2ebjMGpSXlN2
- vrngJRQNYZagOxeyjsg==
-X-Proofpoint-GUID: 0ffiNN8f9tJoO9WaVxYE2jv5fmg8u5Tm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-27_03,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
- impostorscore=0 adultscore=0 spamscore=0 phishscore=0 clxscore=1015
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610270058
+Content-Transfer-Encoding: 8bit
 
-On 10/25/26 8:02 AM, Tang Bin wrote:
-> routing_data is allocated with kzalloc() (not devm_kzalloc) and stored
-> in a global static pointer. If devm_snd_soc_register_component() fails,
-> the probe function returns the error directly without freeing
-> routing_data. Since the remove callback is not invoked on probe failure,
-> the allocated memory is leaked.
-> 
-> On a probe retry, a new routing_data would be allocated, overwriting
-> the global pointer and losing the reference to the previous allocation.
-> 
-> Fix this by checking the return value of
-> devm_snd_soc_register_component() and freeing routing_data on failure.
-> 
-> Fixes: e3a33673e845 ("ASoC: qdsp6: q6routing: Add q6routing driver")
-> Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
-> ---
->  sound/soc/qcom/qdsp6/q6routing.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/qcom/qdsp6/q6routing.c b/sound/soc/qcom/qdsp6/q6routing.c
-> index d076c99f1..fb633efd8 100644
-> --- a/sound/soc/qcom/qdsp6/q6routing.c
-> +++ b/sound/soc/qcom/qdsp6/q6routing.c
-> @@ -1208,6 +1208,7 @@ static const struct snd_soc_component_driver msm_soc_routing_component = {
->  static int q6pcm_routing_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
-> +	int ret;
->  
->  	routing_data = kzalloc_obj(*routing_data);
->  	if (!routing_data)
-> @@ -1218,8 +1219,13 @@ static int q6pcm_routing_probe(struct platform_device *pdev)
->  	mutex_init(&routing_data->lock);
->  	dev_set_drvdata(dev, routing_data);
->  
-> -	return devm_snd_soc_register_component(dev, &msm_soc_routing_component,
-> +	ret = devm_snd_soc_register_component(dev, &msm_soc_routing_component,
->  					  NULL, 0);
-> +	if (ret) {
+After the codec has been removed, its runtime PM status is
+RPM_SUSPENDED while hdac_hda_codec_probe() powers the codec up via
+snd_hda_codec_device_new(). The pm_runtime_put()/snd_hda_power_down()
+calls on probe and registration then see an already suspended device,
+the codec suspend callback is not called and the codec, its HDA link and
+the codec_powered bit stay set, preventing the controller from runtime
+suspending.
 
-how about something like this:
+The remove has a similar problem with the codec link accounting:
+hdac_hda_codec_remove() drops the link reference taken in probe without
+looking at the runtime PM state of the codec. If the codec was already
+runtime suspended, the link reference has been dropped by the codec
+suspend callback and the remove drops it a second time.
 
-diff --git a/sound/soc/qcom/qdsp6/q6routing.c
-b/sound/soc/qcom/qdsp6/q6routing.c
-index d076c99f197f..4816d4b9a48c 100644
---- a/sound/soc/qcom/qdsp6/q6routing.c
-+++ b/sound/soc/qcom/qdsp6/q6routing.c
-@@ -1209,7 +1209,7 @@ static int q6pcm_routing_probe(struct
-platform_device *pdev)
- {
-        struct device *dev = &pdev->dev;
+Resume the codec in hdac_hda_codec_remove() before disabling runtime PM
+so that the link reference and the codec_powered bit are always in the
+same state as after the probe, and mark the device active on probe once
+the codec has been powered up.
 
--       routing_data = kzalloc_obj(*routing_data);
-+       routing_data = devm_kzalloc_obj(dev, *routing_data);
-        if (!routing_data)
-                return -ENOMEM;
+Finally mark the codec device suspended at the end of the remove. Its
+runtime PM is disabled at this point and if only the ASoC card is
+unbound (e.g. by unbinding the machine driver), a following system
+suspend would otherwise call the runtime suspend callback on the already
+cleaned up codec via pm_runtime_force_suspend().
 
-@@ -1224,7 +1224,6 @@ static int q6pcm_routing_probe(struct
-platform_device *pdev)
+This is a followup patch to address Sashiko reports.
 
- static void q6pcm_routing_remove(struct platform_device *pdev)
- {
--       kfree(routing_data);
-        routing_data = NULL;
+Link: https://lore.kernel.org/linux-sound/20261027083840.28813-4-peter.ujfalusi@linux.intel.com/
+Fixes: c3ec8ac82105 ("ASoC: hdac_hda: fix memleak on module unload")
+Cc: stable@vger.kernel.org
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+---
+Hi,
+
+this is an incremental update for
+https://lore.kernel.org/linux-sound/20261027083840.28813-4-peter.ujfalusi@linux.intel.com/
+
+to address Sashiko concerns and validated again on hardware.
+
+I think this is the first time the unbind/bind was used for the HDA codec
+with SOF stack, so the real world impact is low, but never the less, it has
+been broken eversince hdac_hda is used.
+
+Regards,
+Peter 
+
+ sound/soc/codecs/hdac_hda.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/sound/soc/codecs/hdac_hda.c b/sound/soc/codecs/hdac_hda.c
+index bd4b113401a8..48eb95973b7a 100644
+--- a/sound/soc/codecs/hdac_hda.c
++++ b/sound/soc/codecs/hdac_hda.c
+@@ -514,6 +514,9 @@ static int hdac_hda_codec_probe(struct snd_soc_component *component)
+ 		snd_hdac_display_power(hdev->bus,
+ 				       HDA_CODEC_IDX_CONTROLLER, false);
+ 
++	/* The codec is in D0, the status is RPM_SUSPENDED after a previous unbind */
++	pm_runtime_set_active(&hdev->dev);
++
+ 	/* match for forbid call in snd_hda_codec_device_new() */
+ 	pm_runtime_allow(&hdev->dev);
+ 
+@@ -554,6 +557,12 @@ static void hdac_hda_codec_remove(struct snd_soc_component *component)
+ 		return;
+ 	}
+ 
++	/*
++	 * Resume the codec to have its link reference (dropped below) and
++	 * codec_powered bit in the same state as after the probe.
++	 */
++	pm_runtime_get_sync(&hdev->dev);
++
+ 	/* prevent runtime PM callbacks while the link and the codec are torn down */
+ 	pm_runtime_disable(&hdev->dev);
+ 	snd_hdac_ext_bus_link_put(hdev->bus, hlink);
+@@ -565,6 +574,9 @@ static void hdac_hda_codec_remove(struct snd_soc_component *component)
+ 
+ 	/* Balances the disable above, cleanup_for_unbind keeps runtime PM disabled */
+ 	pm_runtime_enable(&hdev->dev);
++	pm_runtime_put_noidle(&hdev->dev);
++	/* The codec is cleaned up, system suspend must skip it from now on */
++	pm_runtime_set_suspended(&hdev->dev);
  }
-
-
-
-> +		kfree(routing_data);
-> +		routing_data = NULL;
-> +	}
-> +	return ret;
->  }
->  
->  static void q6pcm_routing_remove(struct platform_device *pdev)
+ 
+ static const struct snd_soc_dapm_route hdac_hda_dapm_routes[] = {
+-- 
+2.56.0
 
