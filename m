@@ -1,78 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793112385;
-	b=EyUpMESW6xUHBXWlt1elUltPbMIoG8FJnCsYjQ4MG4BwyvzHLyRUHwP+D8AOCYWedEag
-	 8CWLUnLyIP+mQpzCLixCqjbZ3mhcIvnGwbyDkpIJITFTXUtuyyvmiZdl3qpYzXBbGHXaE
-	 NxDjd+Vbgq2+xpZtnDWjCgmvfZFltsZTP9+kEV4XVSjvPq7tXfnOU/3kqsNqGR1K/PU3T
-	 NQt9ZDjQAucJJCJgtc0eOncbOMewlDOU42YhH7sXt1HVcF6sm7OCcdRQrI+6do0hQnGuA
-	 mqlR3JIjBQAwZ1SumIFxFLdoGl8XMPF0j2gN+NRpxdwF2ri3rnwq3cA0TlIMh7E7b8w==
+	t=1793112638;
+	b=rCP6EEU8wJZWzNm5mXwTyRjKO762n/2zwDNSqt674LeanpwE1l/s6eU6eI/JrUjsr5xQ
+	 JSaHiw1Xd840Z9EOnK8+5DWXclhSq3QF5+TPqykjLv3CltZUdddK6chKn1HqEM4HOcZP6
+	 1Uh4ETLXYYel1NCU8VOQjkvCXkH0j6qgSlbZkrAJMmgSF6OPc2ZtVElBKSQ3WulOGwqip
+	 /zt5Vq69r3eAP12mm3vUKAKW6uc9BLjfshpq1182PHlWr1KGHsQWxM3wmVCcVw/wHAF/a
+	 MxXcveun3dL1Qwdm7b5XPCiIZJZPTc8JiHINye7qMMy6zo7u4b+DaiP9GqV2Lqq+xJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793112385;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=IRYscKx8sG7oBga7um/aSNX4ppGTBUA5j7SQ3A1vxDM=;
-	b=NgV9ADsfWVLObArXVvowzHnkR3GsaEwXUY2XZFyLEqDfQ+7tYyU39rISTerM2+J6ISbf
-	 3A7BSXQpgGEYtcNq3kPRkaHGr5NdzBM5oMjTGJUusr3IBxHnrkC93IiI3Z9P3uuJ/aLP4
-	 cPjDwACbpcT4IihAV16vzzZBFfeuGc/SZFNojFTvrccr/y44seFLQlIP70R+oOVToHaDM
-	 H610OdXDPk1keA/NG2cJbsB7Rz+nt9BtS5XTjlvw4B9mCNhyMFm2gymueKs0ZlsBKSVSD
-	 lF7vJGTOw+zJK2CwXFiFimdnwhYtOB1vm7hYK8zCcZjv7H0DTu5kfsUDPMIViqAohig==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793112638;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=qcc4gZh4ddKDhIA04TtugUGyXpDCqRrij91vMBCINhk=;
+	b=qgodEohbKx65CU24sB4+f4GrBf97uExIMlTg6XAfGiUCP5RHaQ2tqaJpik3sw2mhS6LG
+	 JTegTdVBIvTmtD+TLmJjQMdhPsEhtkDXSsPJgSvrZ0KnfR5TkhxRF8RG4TOa7EOYwsd4p
+	 V6v/1WAneJ7AXyiX7djV2gWzy7weJISihKYkhfs6wz9ENEW94hPeLxKIFvkiOzQ9IgOcA
+	 HSabQLzFcUs8sEcL0/N7mUEZz+25JX8YQozOQLi3sFBpsOnXZpoVU591lENkHisrm9mx0
+	 Y+GtAZFiTKATTrg5bld49mctOA/efdY6nP8CUyglUzFYwnK306J/BePLd0SJSKN5B2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CGwLvwcP;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=wT1vZSMx;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=zcCdiY4J;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=wT1vZSMx;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=zcCdiY4J;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4EC606A31B;
-	Tue, 27 Oct 2026 14:46:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A4EC606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7738606A31A
+	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 14:50:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7738606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CGwLvwcP
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793112385; x=1824648385;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=gMQLtPPJ2JHiqxtyX+cp5DoM6/NIF/m1eiqWp4AjPs8=;
-  b=CGwLvwcPz6RI3pyk+Mj21aFENE7JyDEqgPF5/6jyMyJgfWcbzfjVl2JB
-   RztYv8WBV0kh0kdCEz3av1Vk6nqFe/BEXnfF58wLy2qvFcA+YifWJWq4b
-   WBfdv1L9aQx8UC/VGmvbf5rN43R1AusdHWvh9Ae8vp/V/tA1ibVfhBY/E
-   mBWl/1G+DQIHTWb632JCQShIspq/rjyh2ZnhtnNF7Hg5jJDlskhLNoYOo
-   CTKnVebK8IKpndBSi+UARIyGdfHHa49RIPFerl7egAPz/qICbdKJuSaCN
-   S6yB3PdyuW12m0v0A1tGJ4mV3Gk+RDOGc/qx2mw/OHzQTJYZV1rgqGjEa
-   A==;
-X-CSE-ConnectionGUID: +DdlmM44QfiPecPLXMuThw==
-X-CSE-MsgGUID: Tms5wl0mTDCPpWd2lDPmzg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1700278"
-X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
-   d="scan'208";a="1700278"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 07:46:23 -0700
-X-CSE-ConnectionGUID: cZDerJIdRniypspQP79I/g==
-X-CSE-MsgGUID: DYQzslGQRaaARrm1oqqX7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
-   d="scan'208";a="4960476"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.199])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 07:46:22 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=wT1vZSMx;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=zcCdiY4J;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=wT1vZSMx;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=zcCdiY4J
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1499321F0F;
+	Tue, 27 Oct 2026 14:50:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793112636; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qcc4gZh4ddKDhIA04TtugUGyXpDCqRrij91vMBCINhk=;
+	b=wT1vZSMxj5aWf+yCBvSE2xZigGX0Aaj5ddfT1121nLXrE6jtgLHY4/auAJ5SbpG3SmQ84g
+	x75Qd5TJMBuOkngexGoERSUkdGNquZtHvY/v/XHz3LodWdkZmNcVLTXu7TDo9bZbTRhv23
+	0j1yAlb2RYd8mGvOf7FGk+DNC/osJuU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793112636;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qcc4gZh4ddKDhIA04TtugUGyXpDCqRrij91vMBCINhk=;
+	b=zcCdiY4JesD5AOgxTgPVc0sR7igWNJfP95h7lYZsh78WUxUIj0kyd1XbS+fW2ChjiADcn1
+	dlflzuv+7RPTSpDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wT1vZSMx;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zcCdiY4J
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793112636; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qcc4gZh4ddKDhIA04TtugUGyXpDCqRrij91vMBCINhk=;
+	b=wT1vZSMxj5aWf+yCBvSE2xZigGX0Aaj5ddfT1121nLXrE6jtgLHY4/auAJ5SbpG3SmQ84g
+	x75Qd5TJMBuOkngexGoERSUkdGNquZtHvY/v/XHz3LodWdkZmNcVLTXu7TDo9bZbTRhv23
+	0j1yAlb2RYd8mGvOf7FGk+DNC/osJuU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793112636;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qcc4gZh4ddKDhIA04TtugUGyXpDCqRrij91vMBCINhk=;
+	b=zcCdiY4JesD5AOgxTgPVc0sR7igWNJfP95h7lYZsh78WUxUIj0kyd1XbS+fW2ChjiADcn1
+	dlflzuv+7RPTSpDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D3E5F1321C;
+	Tue, 27 Oct 2026 14:50:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id S9LwKzu64GpCIQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 27 Oct 2026 14:50:35 +0000
+Date: Tue, 27 Oct 2026 15:50:35 +0100
+Message-ID: <87ld7j19l0.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mikael Magnusson <mikachu@gmail.com>
 Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	stable@vger.kernel.org,
-	tiwai@suse.com,
-	perex@perex.cz
-Subject: [PATCH] ASoC: hdac_hda: Keep runtime PM state in sync across codec remove/probe
-Date: Tue, 27 Oct 2026 16:46:55 +0200
-Message-ID: <20261027144655.31988-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.56.0
+	Takashi Iwai <tiwai@suse.de>
+Subject: Re: [PATCH] ALSA: pcm: update state after xrun
+In-Reply-To: <20261027131233.17692-1-mikachu@gmail.com>
+References: <20261027131233.17692-1-mikachu@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -81,95 +110,105 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -12.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 1499321F0F
 
-After the codec has been removed, its runtime PM status is
-RPM_SUSPENDED while hdac_hda_codec_probe() powers the codec up via
-snd_hda_codec_device_new(). The pm_runtime_put()/snd_hda_power_down()
-calls on probe and registration then see an already suspended device,
-the codec suspend callback is not called and the codec, its HDA link and
-the codec_powered bit stay set, preventing the controller from runtime
-suspending.
+On Tue, 27 Oct 2026 14:12:33 +0100,
+Mikael Magnusson wrote:
+> 
+> If the snd_pcm_update_hw_ptr call from snd_pcm_status is what triggers
+> the xrun state (eg, as opposed to an IRQ), the returned status->state
+> was stale and told userspace the device was still playing, so they could
+> get confused about device state and hang indefinitely.
+> 
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=222201
+> Signed-off-by: Mikael Magnusson <mikachu@gmail.com>
+> ---
+>  sound/core/pcm_native.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+> index 35152fae74..62a2bea043 100644
+> --- a/sound/core/pcm_native.c
+> +++ b/sound/core/pcm_native.c
+> @@ -1132,6 +1132,9 @@ int snd_pcm_status64(struct snd_pcm_substream *substream,
+>  	status->trigger_tstamp_nsec = runtime->trigger_tstamp.tv_nsec;
+>  	if (snd_pcm_running(substream)) {
+>  		snd_pcm_update_hw_ptr(substream);
+> +		/* update_hw_ptr may have put us in xrun state, update state */
+> +		status->state = runtime->state;
+> +		status->suspended_state = runtime->suspended_state;
+>  		if (runtime->tstamp_mode == SNDRV_PCM_TSTAMP_ENABLE) {
+>  			status->tstamp_sec = runtime->status->tstamp.tv_sec;
+>  			status->tstamp_nsec =
+> 
 
-The remove has a similar problem with the codec link accounting:
-hdac_hda_codec_remove() drops the link reference taken in probe without
-looking at the runtime PM state of the codec. If the codec was already
-runtime suspended, the link reference has been dropped by the codec
-suspend callback and the remove drops it a second time.
+Thanks for the patch.  I can take this as-is, but what Sashiko
+suggested in the review is also valid -- we may copy trigge_tstamp_*,
+too.
 
-Resume the codec in hdac_hda_codec_remove() before disabling runtime PM
-so that the link reference and the codec_powered bit are always in the
-same state as after the probe, and mark the device active on probe once
-the codec has been powered up.
+Also, we don't have to always overwrite the values.  As a further
+optimization, check the return value from snd_pcm_update_hw_ptr(), and
+update only if it returns a negative (-EPIPE).
 
-Finally mark the codec device suspended at the end of the remove. Its
-runtime PM is disabled at this point and if only the ASoC card is
-unbound (e.g. by unbinding the machine driver), a following system
-suspend would otherwise call the runtime suspend callback on the already
-cleaned up codec via pm_runtime_force_suspend().
+So, in the end, it'll be something like below.
+Could you check whether this works for you?
 
-This is a followup patch to address Sashiko reports.
 
-Link: https://lore.kernel.org/linux-sound/20261027083840.28813-4-peter.ujfalusi@linux.intel.com/
-Fixes: c3ec8ac82105 ("ASoC: hdac_hda: fix memleak on module unload")
-Cc: stable@vger.kernel.org
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
-Hi,
+thanks,
 
-this is an incremental update for
-https://lore.kernel.org/linux-sound/20261027083840.28813-4-peter.ujfalusi@linux.intel.com/
+Takashi
 
-to address Sashiko concerns and validated again on hardware.
-
-I think this is the first time the unbind/bind was used for the HDA codec
-with SOF stack, so the real world impact is low, but never the less, it has
-been broken eversince hdac_hda is used.
-
-Regards,
-Peter 
-
- sound/soc/codecs/hdac_hda.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/sound/soc/codecs/hdac_hda.c b/sound/soc/codecs/hdac_hda.c
-index bd4b113401a8..48eb95973b7a 100644
---- a/sound/soc/codecs/hdac_hda.c
-+++ b/sound/soc/codecs/hdac_hda.c
-@@ -514,6 +514,9 @@ static int hdac_hda_codec_probe(struct snd_soc_component *component)
- 		snd_hdac_display_power(hdev->bus,
- 				       HDA_CODEC_IDX_CONTROLLER, false);
- 
-+	/* The codec is in D0, the status is RPM_SUSPENDED after a previous unbind */
-+	pm_runtime_set_active(&hdev->dev);
-+
- 	/* match for forbid call in snd_hda_codec_device_new() */
- 	pm_runtime_allow(&hdev->dev);
- 
-@@ -554,6 +557,12 @@ static void hdac_hda_codec_remove(struct snd_soc_component *component)
- 		return;
- 	}
- 
-+	/*
-+	 * Resume the codec to have its link reference (dropped below) and
-+	 * codec_powered bit in the same state as after the probe.
-+	 */
-+	pm_runtime_get_sync(&hdev->dev);
-+
- 	/* prevent runtime PM callbacks while the link and the codec are torn down */
- 	pm_runtime_disable(&hdev->dev);
- 	snd_hdac_ext_bus_link_put(hdev->bus, hlink);
-@@ -565,6 +574,9 @@ static void hdac_hda_codec_remove(struct snd_soc_component *component)
- 
- 	/* Balances the disable above, cleanup_for_unbind keeps runtime PM disabled */
- 	pm_runtime_enable(&hdev->dev);
-+	pm_runtime_put_noidle(&hdev->dev);
-+	/* The codec is cleaned up, system suspend must skip it from now on */
-+	pm_runtime_set_suspended(&hdev->dev);
- }
- 
- static const struct snd_soc_dapm_route hdac_hda_dapm_routes[] = {
--- 
-2.56.0
+-- 8< --
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -1131,7 +1131,13 @@ int snd_pcm_status64(struct snd_pcm_substream *substream,
+ 	status->trigger_tstamp_sec = runtime->trigger_tstamp.tv_sec;
+ 	status->trigger_tstamp_nsec = runtime->trigger_tstamp.tv_nsec;
+ 	if (snd_pcm_running(substream)) {
+-		snd_pcm_update_hw_ptr(substream);
++		if (snd_pcm_update_hw_ptr(substream) < 0) {
++			/* update_hw_ptr may have put us in xrun state, update state */
++			status->state = runtime->state;
++			status->suspended_state = runtime->suspended_state;
++			status->trigger_tstamp_sec = runtime->trigger_tstamp.tv_sec;
++			status->trigger_tstamp_nsec = runtime->trigger_tstamp.tv_nsec;
++		}
+ 		if (runtime->tstamp_mode == SNDRV_PCM_TSTAMP_ENABLE) {
+ 			status->tstamp_sec = runtime->status->tstamp.tv_sec;
+ 			status->tstamp_nsec =
 
