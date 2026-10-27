@@ -1,60 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.101
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793054459;
-	b=Yd8UyQmqGXYpT0BcmrCQR592tytPhiPJEz4SE9vToaLZ83qtruBzXjXHvJ3SniYOb1av
-	 lvyLAtXnJRqMhqAe9PPCi2mUVIpq8PZcT7qcq88SfLSzR9Qz0L2FTmpM/G5AGeaK9+AU8
-	 po3gusX7GgToS34kqAfWqVOafswWXG9XCIGBkfvUzH9IXlCxe+ZmRxeGsG6hAw9U3Fb9J
-	 dS8vNuvIjfixXiUnTjsWI+jNZuXR8uc0mSaRnvQxGKL0CYdoOf5f1qDeWBchOr3kzqBin
-	 CU65LeK7Zs0J7hQMTdEC18INzETlPBFQInaWmRoOrjmgwYGGHWfSDljElkIi8GnLaQw==
+	t=1793064155;
+	b=IW6Iksq51NA9u+0ygR+d/98FFNTSCH42h3OJRYq0qP3yHxbbR0G/e9lOAdKLqCcDvrgc
+	 qREy1qqDqR8aMJf3g4kc2TfjvNMbpDUTXZ2qmySLyMf9UqSVhL8GQhPf+10rRD086v/Vf
+	 2KdngK5p/DEPkVQJyMgyhmXncJ8TK1wGdZMICOzE8+/OP0Pg7zX50tJyb3Wx4qooi8gWc
+	 w4bdaVIzODkCG1vD8gLTtR4MbwXdhbUQOQg6ogOGXNHirZu1Fj/clbISZHCJxV/fcvvew
+	 LKPT1jR7nbb7oOssxwDRubpWpcpuoMqgnjTpN5OaLg6hSn1UGJzQZOmQpg9YyjZs6Gw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793054459;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=r+mb1Rc2WcEfAKXk63Gi4U4GW9zoasUMxFtV8WLn0RE=;
-	b=t9IAwDPoAeU7K2uweeXFhbbOxRPpdOaRAVp5PY0dkVufxdXjaGx/NcQcz7+f5DPSLoKp
-	 V3auca+g/Hy6ADCFpgeGJ4AvJ6cgfoENR8LuOSaBQzcJQt8o4eR9QtLMMvg4bA1R+mRu4
-	 j0i0CZHF7MxmiGmv7am7qoSGVzEkk3ez8b8FDV1untQD1e7dFXgxCex0iOHvu/6l3/DPo
-	 7FsnvUzmGu7aV0+cPDLFR9WBtbxFHoMmcoF3pZ4lQyaqTioIpE0CFeTpFMN5XwxV1jvH3
-	 CaenrOv4lP9q6nk2chXUpSM5BRVZHJsAF3nyDZcqjiokGWR/wT1UulRHLZ5fiItXffg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793064155;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=3v062WaNqqHrG8TV7QOmtJEfeFfDWBddTs8mnJTpAC0=;
+	b=usjbhmstsfIoNpLU5vGI/h3YMcl2RvAiCIKNQCcnG1gBH0B8LMJ4Az2g438FKYWehTW+
+	 ImIcpTMsQFpKENvidOfbxt+Snvh3y/slsTGoVMXNnZ9+TirkKQdyccr7uJ1yWUnvGDyGG
+	 ccyQVzvZcPzWmv48eMOjj5Ed9OkpGUCSfbhm7fwB71bq/QxX/BwaZYepZZFExwWCJ7yIu
+	 q/d2KP61YuEwaEiTuVu32jSYVVg5fJ1mKcQTCvoIMX9CMuJnrF6WXmVq64dWylsq0QS+Y
+	 yIFP4lt0NcDiVE6t7eiU+8H1YD3M2062nK3DlVz3XHxyR/Jd5ABk06BikKDS2tNoz8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=pm.me;
-	spf=pass smtp.mailfrom=pm.me;
-	dkim=pass header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=WkiHRsyH;
-	arc=none smtp.remote-ip=185.70.43.101
-Received: from mail-43101.protonmail.ch (mail-43101.protonmail.ch [185.70.43.101])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=dKrI6TWf;
+	arc=none smtp.remote-ip=74.125.82.170
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C8E606A31A
-	for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 22:40:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52C8E606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217C2606A31A
+	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 01:22:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 217C2606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=WkiHRsyH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1793054456; x=1793313656;
-	bh=r+mb1Rc2WcEfAKXk63Gi4U4GW9zoasUMxFtV8WLn0RE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=WkiHRsyHHgW9lgbeYQ6Nx0zzQ/j3nyJdAduwycOaoa6UhCaWqm0riJdqJv/Jvv7S4
-	 9pTHkTaTJGmDU2rjPGky73P90hdxvadko7/ESUa7SeI1AXln4TkzmE5k7MCrzm4/hC
-	 UFsc8o5GT6guhWpvhjIW2a8ialSPR0+jTH233/bWH2nsY/oSLbjNUdNaDnOMs15o8K
-	 2Y0P41BjUJZR3n5hNoCGB00hXdA4BorjePacbrN5Fw5dpWuOwZyarefEZA3c+OLc/L
-	 PoNmWbxmQ8ANrXmS9d9iRWK/TtB+vZi8HsEnp9XPfXDhbss0GK4SROAzJWU9yH27ol
-	 HvLE18V9jyBDA==
-Date: Mon, 26 Oct 2026 22:40:54 +0000
-To: Takashi Iwai <tiwai@suse.com>
-From: Sinan Turunc <enscrpt@pm.me>
-Cc: Jaroslav Kysela <perex@perex.cz>, Clemens Ladisch <clemens@ladisch.de>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] ALSA: usb-audio, ua101: oversized packet copies overrun PCM ring buffers
-Message-ID: <20261026224036.657-1-enscrpt@pm.me>
-In-Reply-To: <875wyo60q0.wl-tiwai@suse.de>
-References: <20261026001003.1067-1-enscrpt@pm.me> <87tsm86fzy.wl-tiwai@suse.de> <20261026122855.283-1-enscrpt@pm.me> <875wyo60q0.wl-tiwai@suse.de>
-Feedback-ID: 48393780:user:proton
-X-Pm-Message-ID: c177420349a6941e19584f2ce4767d44ffff6fde
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=dKrI6TWf
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-35f1f76ea84so6030049eec.1
+        for <linux-sound@vger.kernel.org>; Mon, 26 Oct 2026 18:22:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1793064154; x=1793668954; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3v062WaNqqHrG8TV7QOmtJEfeFfDWBddTs8mnJTpAC0=;
+        b=dKrI6TWfjMwv27rDwdAKpACbXRnFm0cV//UKLzx3lLzKIo7YDfu1+47HlAnzL/q8aV
+         c9fFcytFEgOunSwctjlgJY5sulwhTzbcLus6gq22/GKxdUG/hDtsJn6piRTQcgOFtkr2
+         58cvf/jb/x9Ni9aTcHbLP8tROFeaCToLyLmoE0CSA9BJQZF0HNt4l2xWbu3jTmW/SnY6
+         IPn97ReWrF7Up4tKDnZ42SR5Ek9nO/oKwQL0lw8itf/niAmaJozo6pWeHDO4FpBmKHr1
+         Dp3PIZ36D+NuF5st18YVa76RItL/3RXWWMMGLkIWbuW36NUooTETWY4/ZZcM+Y9tQnlB
+         cY6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793064154; x=1793668954;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3v062WaNqqHrG8TV7QOmtJEfeFfDWBddTs8mnJTpAC0=;
+        b=ylS+UBA5EEnu7HXgGY3BwIV4xROUCvZfTPYyNC15zAMS7ggWbLmGpHQwXNHsEUkodt
+         AMJk43gLYb8G35TBewaOLOAGmZLufDG/IztqkhvyK4NoyzjHnR8nJOQNRN6UUHVN+NMG
+         CeHu0hNxUJgqtV3sLPxkm7SvjHEj3gdvTUPAqQrGOdEKhVhNEd6YxQ0mbtuHVP88qvA7
+         jbYMF9gSJmWM43+Y5IB5tFgrLONaVWsyt/CmxTJTazAv+s7VKle/AmIeWm9665CI7UMr
+         AJ6rGtnKQwMBOpmR49gfHBJAcZddoimN/vVWHepm3vi4UiI3voYO+rYiB6mAMlqbfRrK
+         wmLg==
+X-Forwarded-Encrypted: i=1; AKwUvBwg95rgGbB4H53Zulld/UuVtoPvttPrrDqDTm7UtORofMcbSFerTolsjOvwjW6oAfR+nPV7EyP4YQQkUQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKxFDV9aiFMWE0Bq18VjfQ96/e+QwIo1z11H51LhYm7+5UJQh3S
+	hMld6sIET6hxI+fmRWKvP2vIW70q/FVsNNOhTKYajV9HjuMm3/MkDpWT
+X-Gm-Gg: AYBFou0M5NvZ28cizRnjZZogwRSrcRuvrKbvcdXdhBBo1URpk4BwtDQRQATRHWa5jsX
+	3cRMmJE32JQtPgbEKikz3rLOaitc9c91WLhFoXy2n56eIecUxCSwqSJRhHOmcG6v9RXDRAZE2Uq
+	NAARvUPpu5Sn8H6eJYQM65dBwQECNSxwPuuq1c3ZoDBOXiB92h9gjykaqJDXQYhAMyZtyi6nWxS
+	4Qqf94ISVCYSJKMu+k3hvJdYLJ9T/9F+5llfMKWCsje88kz50+hWRFnTPurJk0zLqDSk200B3Kp
+	zh3djF5VPxFoRzLQWlhCwPKT0MaLiFckq8xtnbIC70/Jv+qq7HZODBcEeeI9leI84Y1P4zynWtX
+	8MulHCrmo9XC3IEimrI77yNRvvlkKvT0TeZ5Z4klF9bVyzFmPRfZdF+6xpiXnupXEzT9pUrkyPg
+	ShBkpT3IznvZRSbGB5LZK881z7TWgTM9+XfE3EMCBxPXOUVp3eYpH4lJb6KOk8E0WceMBfoFpBK
+	IZw0pQmg6GfjKLHxD3SI/l/2DxT348J2CKmqEpXMTBh2///yAU216y5jJWLfNtHp1r0YzJNePm8
+	cn8QIztGKIcw7HeTtqtYOFy6Caw5G8uDQNzNf5xkJYA43MDQyqmiasyaoyU8T12tLai2Kg==
+X-Received: by 2002:a05:693c:20ca:10b0:35e:ebb1:8e5a with SMTP id 5a478bee46e88-369e86165bdmr12131853eec.26.1793064153891;
+        Mon, 26 Oct 2026 18:22:33 -0700 (PDT)
+Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e8ec864fsm34844823eec.24.2026.10.26.18.22.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2026 18:22:33 -0700 (PDT)
+From: HyeongJun An <sammiee5311@gmail.com>
+To: tiwai@suse.com
+Cc: ivan.orlov0322@gmail.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	HyeongJun An <sammiee5311@gmail.com>
+Subject: [PATCH] ALSA: pcmtest: Honor the enable parameter
+Date: Tue, 27 Oct 2026 10:22:27 +0900
+Message-ID: <20261027012228.3797565-1-sammiee5311@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,16 +97,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Takashi,
+The enable module parameter is declared and documented as "Enable
+pcmtest soundcard.", but nothing reads it. Loading the module with
+enable=0 still creates the card.
 
-Understood, thanks. I have resent the series as v2 with my real name,
-Sinan Turunc, in From and Signed-off-by. There is no code change.
+Return -ENODEV from mod_init() when enable is false, as the pcsp driver
+does.
 
-v2: https://lore.kernel.org/all/20261026223543.620-1-enscrpt@pm.me/
+Fixes: 315a3d57c64c ("ALSA: Implement the new Virtual PCM Test Driver")
+Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
+---
+Prepared with Claude Code (Claude Opus 5.5). Tested on x86_64: enable=0
+now fails with -ENODEV and creates no card, and the pcmtest selftest
+still passes.
 
-Thanks,
-Sinan Turunc
+ sound/drivers/pcmtest.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/sound/drivers/pcmtest.c b/sound/drivers/pcmtest.c
+index 422fdb10f237..66bee8a2ce34 100644
+--- a/sound/drivers/pcmtest.c
++++ b/sound/drivers/pcmtest.c
+@@ -712,6 +712,9 @@ static int __init mod_init(void)
+ {
+ 	int err = 0;
+ 
++	if (!enable)
++		return -ENODEV;
++
+ 	buf_allocated = setup_patt_bufs();
+ 	if (!buf_allocated)
+ 		return -ENOMEM;
+-- 
+2.43.0
 
