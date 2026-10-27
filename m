@@ -1,112 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793092510;
-	b=4hikfKkVu4KrMIbhF0OMj/DxwCRgcVdu7IUb4rIzaVL5t8oe+smZMw2Ur7n90vcwEPFG
-	 C5NLyLfoP8CfVSfMjKNMKl7BTO+W3Pwqf/UNj7ap1PjGjVchZOvevCqG3rmRMvvozcdNk
-	 /XygfSat2PUWlgFdyd04dsPNqjSnAET4hhVEjTCyXinHtKwKg5mmwCcPBZwJhIUP5b1jD
-	 LntPlSoTd64ZbIl833uQvjsrKAZTT3lNr37NG5BAv2Trc8uCFjKe45zR6beSr2t1m60dq
-	 /kPPXmLuR1sRIphOwY+jUHjYqgnWZ34YEpjZ1F+zB6dpUo81cUfSfXelH4P3P4/XCIg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793092510;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=Ujm34fnOIGPSTccM2EPBmX3ApSn6Ieb0vSFOU048XLI=;
-	b=nrp3zob7pW+JhK8J0Uw6xsDaf9FQMJMnqeLwXJ9CwliZ/3GkrcQxM82h9qdv+VrbpEla
-	 il9P9WifecC7zWlaaybXl6nZhpkWayugW1prBmjdHPYh9ztc4/5fGC8zwtDFJ8d3cpRkW
-	 nlS/EJ6wIe38iKQoI0ajhYtCom+0BGrQcjLcGgmxKPKXCO5P2Kt7kb5UqhAYCGrdg4lOx
-	 +UfsmYE/vzTY38FxI7LM5ignr0MJHxtTJ/g9Sz8BtqWiywbj+lQFQb23nK1E2SHn+QCw9
-	 mZX3wqcz6G4OIrIXK1WUiZwBs/FouIzL8jj/9FdOd6JTgCxgq++tMNNijPlHX68pmMg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=GXXCk0b5;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=da3zDgLo;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=GXXCk0b5;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=da3zDgLo;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.42.78
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793093596;
+	b=o8rU/ZIVs2KPwyDqDo7nI1YYgquhUtMsa50Vkdt0hITCW8vd2phZZYcQ1Rd8Jp6AutFI
+	 jYr0re50AuJp5Duh/OUMoei39wdx4MD8ORHXxvIh739RzsPa/CXMKS9McjzjZrwV3nTZ+
+	 wd1H0B3ZTJi/b5UEMcU8PsRfMn8Oy0zwJGPVMOWJTD15V7UvH81+W0lsniwu3y8fkvIqd
+	 XSVJvFrDzK927zAafOMCNeaSaSOGhtLqA+6zbX71Y4ZMe02FAOqkRH6uaRzQvPfVNUhxL
+	 5yyvX3IA1pB3mDQiYR5GcjdrTi9JbwlARKp2QRg0xeTMGUl7neTSI9U9T/fhNQDEYXA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793093596;
+	h=DMARC-Filter:Received:Received:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:
+	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=+ltp2DtZCc1WpfgzM1zSpuV86GQT8mO00eUZyWIvKhk=;
+	b=3LSkMgeZCue9+XmLuG9kuohX264SbN/SyGnUwi088HnIqERDavZGB1yRD71w8u+4sVx7
+	 b0TTZxZl5ISim6V3dMxRucPL4eTnna+EK6c/T7N47IXbWxN355yIS5eAiE/Reeg9z7aLf
+	 jfEorFWDML3WTuI5UZyvq4ZEvRWnzEfwAolhZnwFxkUjT9PFm5xFDVmXzOrIF6KHfmuHu
+	 qMqDl+zHOK2AAoRKzH5qoFbddEak+I7zPunfdp5PxwMD1JbP4CD0eViRa9tXZSvqEIbH+
+	 e7II4TEzdlncVGdwYXI/JS22iySWknGNUFWJwNv95YQc5bqbESgdHnP/JBz0XZjYLBg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=irondevice.com;
+	spf=pass smtp.mailfrom=irondevice.com;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.42.78
+Received: from SE2P216CU007.outbound.protection.outlook.com (mail-koreacentralazon11021078.outbound.protection.outlook.com [40.107.42.78])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D15E606A322;
-	Tue, 27 Oct 2026 09:15:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D15E606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=GXXCk0b5;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=da3zDgLo;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=GXXCk0b5;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=da3zDgLo
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4951D21DE7;
-	Tue, 27 Oct 2026 09:15:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793092502; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ujm34fnOIGPSTccM2EPBmX3ApSn6Ieb0vSFOU048XLI=;
-	b=GXXCk0b5hYzjSh4mTjEBZNeZsajzCA9yrz/7ZowmqfMNVjLNG6xAqr/3cf45gTMaRcGjUp
-	QdjYFCxBEWn77RgRw549Bsf06QhsIvsiiv3ggThg/yalj7fIGYW3Go44aQKv7OxARuhBR+
-	Tk/lDXsqNXKzsaOZcHoqhHUVRpm/53s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793092502;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ujm34fnOIGPSTccM2EPBmX3ApSn6Ieb0vSFOU048XLI=;
-	b=da3zDgLo0D0AGuVFuLX1e9yj5oiI/1n59qyY6Glz48xgSVSXppnei+NUgHXc4U+7gd6+XH
-	33fVXUPPTs9uE9Aw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GXXCk0b5;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=da3zDgLo
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793092502; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ujm34fnOIGPSTccM2EPBmX3ApSn6Ieb0vSFOU048XLI=;
-	b=GXXCk0b5hYzjSh4mTjEBZNeZsajzCA9yrz/7ZowmqfMNVjLNG6xAqr/3cf45gTMaRcGjUp
-	QdjYFCxBEWn77RgRw549Bsf06QhsIvsiiv3ggThg/yalj7fIGYW3Go44aQKv7OxARuhBR+
-	Tk/lDXsqNXKzsaOZcHoqhHUVRpm/53s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793092502;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ujm34fnOIGPSTccM2EPBmX3ApSn6Ieb0vSFOU048XLI=;
-	b=da3zDgLo0D0AGuVFuLX1e9yj5oiI/1n59qyY6Glz48xgSVSXppnei+NUgHXc4U+7gd6+XH
-	33fVXUPPTs9uE9Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E868613319;
-	Tue, 27 Oct 2026 09:15:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id c4eSLpVr4GpLQgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 27 Oct 2026 09:15:01 +0000
-Date: Tue, 27 Oct 2026 10:15:01 +0100
-Message-ID: <87cxsv33oq.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Joonho Lee <mynameisjune111@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	anton.yakovlev@opensynergy.com,
-	mst@redhat.com,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/2] ALSA: virtio-snd: fix dsnoop capture with staged buffers
-In-Reply-To: <20261025064038.81674-1-mynameisjune111@gmail.com>
-References: <20261025064038.81674-1-mynameisjune111@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C085606A31B;
+	Tue, 27 Oct 2026 09:33:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C085606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=irondevice.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irondevice.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WuS/iQqoYvPliNxhb9Y513Y0WedxzYNiemqInnoJZ8ZwctzBPGltEm4mGAcfef1OfEsugn1Ls/rUYYG13xj5qFH4uqjDjwAu3pkp2iB9tZhHP7gQ7Dh5HuG+Td7STfgMgzMiSewow7xacjgYYaaAH9YfMbcIe5Kk+bOscH2KRk1IXGuwGdfemFdBoj0VXjEpKzLgASk8LUlyZiRGsLKajZFCOWHjE35+tJauyv5nHxAHtafqeLNLMCLE6Px+U50agNgHiM7f4Vodrl6Qv3OXAfbKF0gdJaEtODNA/5s96C9B2FfBmNfxn5nHaYMn8TuGC01kaD3W3ko/5RAoMxTY5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+ltp2DtZCc1WpfgzM1zSpuV86GQT8mO00eUZyWIvKhk=;
+ b=agYWpZp/0ypNa2b17yZews3OxK5rPeujMeVNtagSsSTtRqVbke2RQGxnCKZzC/NQ0A5igRPNdBxCTZIny3xiRqE72LuewtP34VSb21FEn3bzpDknR0LSHSAcwVN9WiXsVZFqWDoRYzdSycwod5YHak3GUN02EKiMrEkBRo56ydMIYQX3Fmm/HOXF/FvRxyDYBFluPFqI84oXdn8qYRchHxhMVu1nReUhGwIbE0wpZ6LALcLxTR8qUthpqxqBYzidX3/G1Fbcoi0lh8qh+8sYd+4Lg0Zciv7RtzPIFSRE7NNrycZ08/pAGLDfIht06zEIjeJRfWa+G/CVgtdb9h+1Jw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=irondevice.com; dmarc=pass action=none
+ header.from=irondevice.com; dkim=pass header.d=irondevice.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=irondevice.com;
+Received: from PU4P216MB2349.KORP216.PROD.OUTLOOK.COM (2603:1096:301:12e::12)
+ by SL2P216MB1531.KORP216.PROD.OUTLOOK.COM (2603:1096:101:32::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Tue, 27 Oct
+ 2026 09:33:12 +0000
+Received: from PU4P216MB2349.KORP216.PROD.OUTLOOK.COM
+ ([fe80::544f:7b73:fe81:9c85]) by PU4P216MB2349.KORP216.PROD.OUTLOOK.COM
+ ([fe80::544f:7b73:fe81:9c85%5]) with mapi id 15.21.0546.021; Tue, 27 Oct 2026
+ 09:33:11 +0000
+From: Hyunuk Son <hyunuk.son@irondevice.com>
+To: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Cc: Kiseok Jo <kiseok.jo@irondevice.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hyunuk Son <hyunuk.son@irondevice.com>
+Subject: [PATCH v2 0/2] ASoC: Add Iron Device MA5311 support
+Date: Tue, 27 Oct 2026 18:32:30 +0900
+Message-ID: <20261027093232.859755-1-hyunuk.son@irondevice.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SE2P216CA0198.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2c3::7) To PU4P216MB2349.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:301:12e::12)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -115,175 +93,100 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -12.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 4951D21DE7
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PU4P216MB2349:EE_|SL2P216MB1531:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8da1e847-93b1-4064-c12c-08df340d5185
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|23010399003|376014|7416014|1800799024|366016|18002099003|6133799003|261026121527099003|56012099006|10067099003|261009223027099003|261022105027099003|261022075727099003|38350700014|261026140227099003|261021121427099003;
+X-Microsoft-Antispam-Message-Info:
+	YvP2b3z4Tut468CYewq/rpTwUfB4ftliMtocrmF+Ai20wpVyHacO+Rh7bzWWbaR+2h5cvLjqbRuXxGh9drHncD6PDbWZhXkVfMZyegGU13NROWn6kIvesAumTSLyKSw9L3GSc2U22NgApVs3K4sAuqd2NPPzl50gademzCqigt6F0dHsKro+YzPjjQJ0uwCPvmNdGy5Y+zE+mCiMpGkAFJL60B3sUf+N/UU3CzixOZg0asnzXRC9jOh5hsXTRISjSefyiUswcYRTK4sumRfIj8jpEE/fAv1ZHvGdL7TbNoyczlrORKaJeXXpYfEmCrcWOjn6c6xK1stdgm9UoBILLjxsAP+Uo5CXcPf7tfw4pCFJf+eIYEP2GdQsb4YJfptV31hGbOGKenijTf2o6iKDpk15XLkqr0iKKXspIPX/CrmbypVqbyIJDJqe7Tj11Q6HTUSD58/B1eHe99VbsFiL9lR+b3U9otaUthKR/rf0suUDRpCs9lNY7lEz+Fs0by4o/2uCJmHiPcA9i4gP6+pr2KQHR0ZU7s9EhMuEhS3kt2pk0ucPlL/iIscrat9inhCxg42N45QrpPLKw+bjxlbpBLSV4YOGt7knJBhi69ascIRCdpjA2pABqj4H1aet/Qz4oqXOM5b9G9OiNoZ9YAX+JWstd2qfs5thLsEmM8XTa2M7ZBf2+ZhQjoyIXNCkZM6uzmRcTAPjlVthEQoT4eC6HA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PU4P216MB2349.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(52116014)(23010399003)(376014)(7416014)(1800799024)(366016)(18002099003)(6133799003)(261026121527099003)(56012099006)(10067099003)(261009223027099003)(261022105027099003)(261022075727099003)(38350700014)(261026140227099003)(261021121427099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?7Y5RbcP/GqnKs/j8kNC4OKrA1QibgJloUKYqk/8r85hr1FKRt0+Mf7lRYttf?=
+ =?us-ascii?Q?1kkjhqT0eEr77fbQrb3fvwj9zVO6DgcpQiZ2/JfZQDNHC9brLYgEHifn14er?=
+ =?us-ascii?Q?1Ag9U7pHPzjWFc9u6NZ+9b8baU5GKc6c5/jWlkSusGJTxiNNfJuPO+RXo3nj?=
+ =?us-ascii?Q?4tR66cf5EWtZZdxCZpGhusGLWcMLoYCCySZHfD97QDeU7ku07UNCW9Q+gC52?=
+ =?us-ascii?Q?F+8pypKTTUPboEjQzo3sPQgNsOeUCoEWNO+i80w3YacIbNX17AUhfaW+D2fx?=
+ =?us-ascii?Q?Gep/VW9qZMbw5FxVmkvy/2/oque97S9QWVnuplFBYVlAXl5IWH9msN+aJov8?=
+ =?us-ascii?Q?BslZHSEoXj05AB/uO45cwRWglNYP1T6VciiVzRHE8a8dFOjTTspSdZue4TDR?=
+ =?us-ascii?Q?rkNQa6Db9+5KLe1yB00AMW6+TNidm9SUbqV6mXN7VvfJtYkqZnB+haeswXuv?=
+ =?us-ascii?Q?CwoiFqiSRzMUI5fpt1v+HfO0V9SyH2PzCAVP83dVcQXjxT+/pdY9wJyNiuPx?=
+ =?us-ascii?Q?NzMDqzBGHE0rV5LZjyhiZ60dlTDen0tet5utfN+xbrq0rvQ0DzSr06cey1q3?=
+ =?us-ascii?Q?p2Lyu3wUd4hZvLG/KktVwWhHYv3xZPp92AhPRUEuhp3s0PqvANdN7JAIeygS?=
+ =?us-ascii?Q?nl17Lzo6HOf+WInr9+HM+NJUYWFaMfhX5jmwUzG6KYALiqKLb1Rkio1atQ2u?=
+ =?us-ascii?Q?sOfWiDpHB6GfvtJS0kDKqoez1cEp7MsL538hOiWBexzp5+Krsn+k4PRvjYdi?=
+ =?us-ascii?Q?OzHykChDUqCGOU8mEvfqWKtbbK4WsS+6oNm2HfTPgME148NZ/vdOzPebpiSk?=
+ =?us-ascii?Q?YIQIxQFVEBIkqa/UAqVVwdK+Yj0o3zGscFnM6v31PGQk+rzLrazgs8F9RVOO?=
+ =?us-ascii?Q?2ItIPMrRmDNlXHlk5mjAiBhO5mMbqeYOoIuGkm4XCk4TTI75w+3Dxi42qBmI?=
+ =?us-ascii?Q?FgAD0CySBKLnNJf4VQV5PbDyqjdLCO15QZ2agD6N1kfeP0FH+H94HM2Tvu2r?=
+ =?us-ascii?Q?IXX7ys5rNMDru/lptSx14HPvBSYL78ygKYasbBzmGwA2cIM4bwRNjX5jY/gl?=
+ =?us-ascii?Q?ZGdG1KtEhLXE1zilYWZnhyU58aor8QvPrcTSBpdtdL93DOAKoIc3XsqvI66m?=
+ =?us-ascii?Q?iODbAeJ8tcrwnN0q3hJ5Ke+QfOnwzLA+qVIkjVohoOVq6BgJOMzz+ncqxnvG?=
+ =?us-ascii?Q?GHTseuxHQzgRhYwGQYki27nNvgpMqMXh5bkESanWzAx+UYwhTrnd+vo0RnbE?=
+ =?us-ascii?Q?zaJmMZZ/87nH0AJOvkpghyYbqgkwR9d59dXiML1/yLq3tI/hDmR1Zt48SCNj?=
+ =?us-ascii?Q?n+n6eHs7Fw0ECB+GuZiAYq8GaKClf7dRKOYztL1V64A0mwhIdw5QAjXuNQvI?=
+ =?us-ascii?Q?/sAXK7LTZWLmbj4FqhGkeuTXXIxB02ZTesQE8ull6RjQ8pW3wYZslFd0SL3o?=
+ =?us-ascii?Q?qNzG1zLboMLd2xVktkFZHjkxT/SdRotx+ZIoOSxTpcLOMuWhCPx8mx/fsgb0?=
+ =?us-ascii?Q?WeYw6sbeyW+SVuAnhGienQ28FG1VpU6lRrak5Nl72zvh1JhkvfJ4VRv8WSAi?=
+ =?us-ascii?Q?A+C5YowWHLA+nL4acFvTgpbVyiyx15UiPkM2cAR+nM9xffPuZ8jnl+547fwT?=
+ =?us-ascii?Q?EEHCvkHJplHUNi7COFnAZyYBs8d4Z6RCNSEtAVlfqK0/Bklb+IH65KyUlfjy?=
+ =?us-ascii?Q?FVHXnpHznWj1Cf3HIZpJdFqfhziM/njT/azmVLnO6L1PgVLgIa3LuuKjx7YT?=
+ =?us-ascii?Q?bzR9V0EB8VBRXRAc0omS9kJpEQb5PuM=3D?=
+X-OriginatorOrg: irondevice.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8da1e847-93b1-4064-c12c-08df340d5185
+X-MS-Exchange-CrossTenant-AuthSource: PU4P216MB2349.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2026 09:33:11.8000
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b4849faa-3337-494e-a76a-cb25a3b3d7d1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZcVnkxXv3xFudLvxhNKHCHrMNWNFFvkA9Tgp07ahQTRxZ6dQecyyMbHK8hxZX9E1js0y+h+4R0E5C0Rzbj0dEuW1DMJbIPtF9+31bqk0b0Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SL2P216MB1531
 
-On Sun, 25 Oct 2026 07:40:36 +0100,
-Joonho Lee wrote:
-> 
-> Hi,
-> 
-> Changes in v4:
-> * Arm synchronous stop before paused capture enters XRUN through ACK or
->   period work, so recovery releases pending RX requests before prepare.
-> * Add read/forward ACK regressions for first-prepare recovery and direct
->   close/reopen, with native pause and pause-restart on one and two vCPUs.
-> * Keep patch 1 and the prerequisite metadata unchanged.
-> 
-> Sashiko identified a missing cleanup path in v3 patch 2:
-> https://sashiko.dev/#/patchset/20261025055702.69259-1-mynameisjune111%40gmail.com?part=2
-> 
-> Previous version:
-> https://lore.kernel.org/all/20261025055702.69259-1-mynameisjune111@gmail.com/
-> 
-> This series fixes dsnoop capture on top of the staged-capture virtio-snd
-> changes. dsnoop configures its slave with stop_threshold == boundary and
-> can keep capture running without advancing the slave application pointer as
-> an ordinary reader would. The staged-capture accounting currently exhausts
-> its bounded unread capacity in this configuration.
-> 
-> The first patch marks stop_threshold accesses used by the driver's policy
-> sampling. READ_ONCE/WRITE_ONCE provide single-access annotations; the
-> virtio-snd state transitions remain protected by the substream lock.
-> 
-> The second patch caches the prepared boundary and samples the stop policy
-> under that lock. A completion uses one sampled policy for validation,
-> copying and queue refill. Free-running capture keeps requests queued and
-> retains the existing frame, payload and pointer-window checks. Returning to
-> bounded capture restores unread accounting from the monotonic counters. If
-> the outstanding data already fills the ring, the policy helper returns
-> -EPIPE without changing the cached mode or counters. The detecting RX,
-> pointer or ACK path then reports XRUN through its existing error path.
-> Native pause-release refill failures schedule the period worker to move a
-> paused stream to XRUN and wake capture waiters.
-> This does not guarantee a synchronous error from the sw_params ioctl.
-> 
-> The ACK accounting and subsequent queue refill each sample the policy under
-> the appropriate locks. Prepare and teardown reset the cached state. The
-> existing ACK-race and priority changes are prerequisites to this series and
-> are excluded from these two diffs.
-> 
-> New testing for v4:
-> 
-> * v3 reproduced -EPIPE from paused read/forward ACK, followed by -EBADFD
->   on the first prepare in both native pause and pause-restart modes.
-> * The corrected module passed 16 combinations of ACK operation, recovery
->   route, pause mode and vCPU count under ARM64 QEMU with KASAN/lockdep.
->   Prepare recovery uses the first prepare without an intervening drop.
->   Recovery and reopening each capture 48,000 frames.
-> * The native-pause regression and 13-case mode suite also passed.
->   No KASAN or lockdep diagnostics were recorded in the six final VM runs.
-> * Direct close/reopen succeeded even on v3 in this fixture; these results
->   establish the prepare regression, without establishing a persistent
->   buffer leak across close. Forced RX/pause interleaving, new physical
->   microphone tests and KCSAN reruns were not performed for v4.
-> 
-> Earlier testing for v3:
-> 
-> * ARM64 QEMU with KASAN and lockdep, native pause: v2 returned -EPIPE
->   but stayed PAUSED, and a waiting poll timed out. The corrected module
->   reached XRUN, woke poll with POLLERR and returned -EPIPE from read.
->   Prepare recovery and reopening each captured 48,000 frames. The
->   corrected case passed with both one and two vCPUs.
-> * The 13-case mode suite passed with the corrected module, including
->   direct and mmap capture, policy transitions, delayed-reader recovery,
->   reopening, mixed-rate dsnoop readers and client departure. KASAN and
->   lockdep reported no diagnostics in these runs.
-> 
-> The following testing was performed on v2 before this focused change:
-> 
-> * ARM64 QEMU synthetic dsnoop capture: 12 files and 2,160,000 frames
->   matched the reference sequence from each client's observed starting
->   position. All 48 corruption, loss, duplication and reordering controls
->   were detected.
-> * Default KCSAN: 13/13 cases and 619 policy transitions passed without
->   race or lockdep reports. Forced RX/ACK policy changes and four isolated
->   policy-helper branches passed under KASAN and KCSAN.
-> * macOS VZ with MOTU UltraLite-mk5 at 48 kHz: comparisons used one or two
->   vCPUs and idle or CPU-saturated guests. The baseline failed all 32
->   shared-client captures. The candidate passed 48 captures and eight
->   recovery diagnostics, including mixed-rate sharing, client departure,
->   reopening and recovery after an intentionally delayed reader.
->   Loaded shared captures ran for 70 seconds. All eight accepted VM runs
->   shut down on the first request.
-> 
-> The physical tests checked frame counts and nonzero input. Exact sample
-> continuity was checked with the QEMU synthetic source. VZ exposed mono;
-> these tests do not establish physical input-channel routing or multichannel
-> support. Aggressive KCSAN still produced dsnoop client-threshold XRUNs with
-> a 160 ms buffer. Further isolation supports a deadline sensitivity, but
-> does not exclude every kernel timing contribution. Separate generic KCSAN
-> reports remain recorded in the test evidence.
-> 
-> This series depends on the staged-capture prerequisite stack below. The
-> tested local base is 8d0d4c1a6c4bcb81ae9f52d1c0d979fafb2e22f2, consisting
-> of nine prerequisite patches above sound.git commit
-> 5618f6837ef3314e2c581d4c05ec13b7ed975cb4.
-> 
-> Prerequisites, in application order:
-> 
-> 1-5. Lifetime and error recovery v3:
-> https://lore.kernel.org/all/cover.1791881787.git.mynameisjune111@gmail.com/
-> 6. Generic teardown/control wait v2:
-> https://lore.kernel.org/all/rfc-v2-generic-control-wait-0.2eddd58a796e497f@gmail.com/
-> 7. VZ staged capture v2:
-> https://lore.kernel.org/all/rfc-v2-vz-capture-compat-1.b9ab4c1540dc4691@gmail.com/
-> 8-9. ACK accounting and high-priority period work:
-> https://lore.kernel.org/all/rfc-virtio-snd-capture-followups-1.f2737c95c12e45b4@gmail.com/
-> https://lore.kernel.org/all/rfc-virtio-snd-capture-followups-2.f2737c95c12e45b4@gmail.com/
-> 
-> This fixes the staged-capture accounting introduced by that prerequisite
-> stack. The reproductions do not establish the same failure in an unmodified
-> upstream kernel.
-> 
-> The policy uses the existing stop_threshold == boundary convention.
-> Sampling it under the driver lock avoids introducing a PCM stream lock into
-> RX completion. A completion overlapping a policy update may finish with the
-> previous policy; its accounting and refill use that same sample. Rejecting
-> a transition whose bounded accounting cannot be restored preserves
-> explicit overflow detection and lets the caller recover the stream.
-> 
-> Patches:
->   ALSA: pcm: mark stop-threshold accesses for capture policy sampling
->   ALSA: virtio-snd: fix dsnoop capture with staged buffers
+This patch series adds ASoC support for the Iron Device MA5311
+audio codec.
 
-The patch2 doesn't seem cleanly applicable to the latest sound git
-tree.  Could you verify and rebase/submit?  I think it'll be a
-material for 7.5, as it's no regression fix, though.
+The MA5311 integrates digital speaker amplification,
+analog-to-digital conversion, and audio DSP functionality.
+
+The series includes a Device Tree binding and an ASoC codec driver
+supporting I2S and TDM playback and capture.
+
+Changes in v2:
+
+- Expand the hardware description in the Device Tree binding.
+- Clarify the use of two I2C slave addresses.
+- Complete the Device Tree example.
+- Replace additionalProperties with unevaluatedProperties.
+- Improve ALSA mixer control error handling.
+- Add synchronization for shared audio resources.
+- Prevent hardware reset during active streams.
+- Simplify IRQ fault logging and apply rate limiting.
+- Address Linux kernel coding style review comments.
+
+Hyunuk Son (2):
+  ASoC: dt-bindings: Add Iron Device MA5311
+  ASoC: codecs: Add driver for Iron Device MA5311
+
+ .../bindings/sound/irondevice,ma5311.yaml     |   83 +
+ MAINTAINERS                                   |    2 +
+ sound/soc/codecs/Kconfig                      |    9 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/ma5311.c                     | 2159 +++++++++++++++++
+ sound/soc/codecs/ma5311.h                     |  520 ++++
+ 6 files changed, 2775 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/irondevice,ma5311.yaml
+ create mode 100644 sound/soc/codecs/ma5311.c
+ create mode 100644 sound/soc/codecs/ma5311.h
 
 
-thanks,
+base-commit: f3c7bee984aa0ba2b48a44e16a6f3ec2c27f851e
+-- 
+2.43.0
 
-Takashi
