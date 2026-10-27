@@ -1,111 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793101554;
-	b=xYVsLs5zdOWdLJ/gYW3BXEaq+KrLweYlJVh9mSZWZp6A0sqCg9umB/IE0X1D8ROissV9
-	 1yquPCElOPp9TDu+l0zEmFoiU4HOUkzu6six/wlMI34BEBISGEv3Q+lMBzRYSGxiRlsKU
-	 PepSts1UUgqFjjrm2i9wCeFVentJ3mSuCfPCdca/a4wptjkdmI5mKDcRMfMKIW5VyRxVF
-	 6d+ncqdY6+X6j9F0Xi7DQjraLp7WMXg/B0US6maIgBWnQWfVY7M1esiSEdMfZounyXBjn
-	 Tbz3VhZMKsrcNKXXemc/r5mwt5Tl2HMH7CEjKw3TThiC82G11zYeMHrQOtwDwCz3cDw==
+	t=1793101597;
+	b=tlY0gxNBeVmPwb38FYxORrFShtU04fRV5a3C2VtgsNnYhXqj9pXz3H8nqynUYRPeA0NO
+	 dykgqzO7y3HbyHEnT9+gB/AAB21GGrUmHwNDON9kL5jasKmT6pWWz0euiqsZMBKreTD6S
+	 D9Gq7ivDhipkKAXS1qsDzlUB3T+o5En+CP1Ekp2Wpc58mSyXrH49SaEmDy32EkcW3qnAN
+	 s22HBaWPVv+0lpL1UqqXSIiPBV8PWt2iZhU11b41ZDoNFfKPO4/ro0jjBZeKwj+6zgWRK
+	 ++rA7BUWMlEJAE5Lsrn8cR89NNnp7nr57uM0dQHWMldsvR3g8jJEBK0QCIKWsGJaBrg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793101554;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=FHZ3L3w/nQsHnq4C5s6ko+sKq7e5bzoOBk35gbUopEU=;
-	b=4FVTO4N/YYTjRQeK9sC1iE2yaW93ZyCmLKXW7aVWwLkv0CuSLf8QqSXyknKOhzKSeJpr
-	 538BGkamTA7nBhaBbgvML10zderhgjHF18aBVNWsw/CNitEHlxDICzsRhVFyTh00+mhEB
-	 0lLCuYds1foYjeHQCvA4OKN2gWYpQCuJ1SvtACzlGPK6lhY3X4a16rs8I8Py8ezSxpfGw
-	 TorToPfAVcAEcg7mA0xRASc10GOyXNHRtThhdAU4kc/CLQRId6ucQtb34laGNWcjGHlJ4
-	 siNuRhaRw9mrYmGstxCqw74SzkTFxoH0VT9LOq7PAgWXAhhjIAucT226RfuF3D0P2Uw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793101597;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=VRMWiQ2UKso7oYTy9HT64TmBXeavVV8LNtdRV2H7WnI=;
+	b=pI+w30aOwl5lq4YUlz7XKAPfc/hc6tcu8TbwleKFpGn63XKV1+wS+EaJVRUEqVQp+Zl0
+	 ONu2Lklff753g1wGTGmPEpwlXkhVTIdXxJX7Yy1ViMVMqT159g3xgAVGr0/ZqH1gGToAL
+	 LZs4+aDhty+zYGkfpS06iLgVGUGI08elaTsw1dvtOYYyPtYvoSm+Pv2x2y+RTKaQt3kCH
+	 1adNixG89AC+jdHiBj+jFMbovohxW/Tg1TsrNmrElm6/RXpSVCwKlNYjkoEmYF4BrWVS/
+	 fEXWXSd1sSF6kk9S7tJEYgvo0myvzGt05yaHNehqYewEwbuT2mWQGe1A9R8y+86fV3g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=kdxITGZq;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Ac0lPHeF;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KTGG9NX0;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72EC8606A845
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 11:45:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72EC8606A845
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632EE606A7F5;
+	Tue, 27 Oct 2026 11:46:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=kdxITGZq;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Ac0lPHeF
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69RAeDKs1936095
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 11:45:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	FHZ3L3w/nQsHnq4C5s6ko+sKq7e5bzoOBk35gbUopEU=; b=kdxITGZqAL5vXUBU
-	csjRLcMTe26/jnRHPSiovzugjcmSTCmLpiBkIE6EWQmx1kCdRFcmN8Cqa0yIlqxv
-	KxusEm6LOiQgcyD4HMG+4eXfLtVUUw2sRnX4adJJs1xKgJsAzT3EKAccDGYrr5D2
-	/byIDegbV9tRVE3AmWZsfEsL4Gvfq9ENXwIt+g4k3aewCrw/4dZJH6VE6F/4poT6
-	PnvZkla5s879VbKvOtJx1RQRyNywABxZphy40rorH3IxBpdK3R7HvIqUziJCYebJ
-	QwxQlpSYEDVSAJhzSLUnr1w+ZTYqePEzEc8yx0/EpsEHEj5ZyPwC95oH7lccm4SS
-	6UXKoA==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hjfavtn23-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 11:45:52 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3ac8f449d1bso3756353a91.3
-        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 04:45:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793101551; x=1793706351; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FHZ3L3w/nQsHnq4C5s6ko+sKq7e5bzoOBk35gbUopEU=;
-        b=Ac0lPHeF7rTBy8he9qrcXStmMTDkSKWia6VilJK47R9BgQ4ThoKVbdVbUiitxTejr7
-         aUa1nGP3IN90VJ+wT4c6vv3hV25dZsuGviA2HvKY+YAefOWiFMdcaJ3j2fGhk9f1e/xm
-         /BStuKJpt1XjvYeIWF9ZxsQeAm1fi/VajiUAbEqAvjBy5GlIlUditGhJSU4zFrxiLuSo
-         rPhRi7CfjZdQtXjSsHWV9HX6ZDPrB9BHkbAq3n8GLghWBaEkSJ3ifaw+gcYi8onpaEOr
-         K+mNFaLj6Vtt/Z77v9bVJxxO/EywxA5/r2XgFDUBuBTQ/b2GBkQuokd1fFeu1/2f9w4S
-         cI+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793101551; x=1793706351;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FHZ3L3w/nQsHnq4C5s6ko+sKq7e5bzoOBk35gbUopEU=;
-        b=yKyyE4NcXLhvLOlb7M91fQJzb2UUZjZ/OCs6HRfdy65jP5j7qXbHu//uGsYIzQB81Q
-         EBaWD7Ew3i/BjggGiZZcZbrEs0bFSpGtRKxMwSYzI+03hdevMCPl5vnqxNVbAqkcmKd6
-         P9P8A5Ku0iR0y2zProjeGvsX9DTWH05QMateUu6EVVsdxHQMKBeT9f1JB3vxFLGruUXK
-         Qz4AckgPek1m8+bAdfJ9T5nTyMqeh+X/LRnxjnZP1D5DsGGwJ0rXVqCK3LnH/woLPaiV
-         K8ye6W934WAIVTVRNvI9lLryIj/ferk3ghAigyw3o9Xu98CQ9nsz45r3Qzm/XYh19IAC
-         8kEg==
-X-Forwarded-Encrypted: i=1; AKwUvByF2GZ6a1JrLW78xKc0IPhhCHq4ufQ/rxyuiLDr5XsqCt140EgEP4Oxx24h1ZygwIYQj/6hYRDO5hXE9g==@vger.kernel.org
-X-Gm-Message-State: AFq9FYK3JIl1O8wNrURPlAnTmAs4O6G4rDjU/Wm8wvDXigHw6pZYTr81
-	y5Gb7JtfnJlWNY0zwz7AgW0euwDlMt86HJNLHFrdIkNXO5s4GF/zNSQAKvEKiEkpvP7Xn9BeFno
-	XOuGKvUYiVMLl4OjrikVbmS6gQzLhrJzsGsiVgdFieNVmmSvJLW+Sr+xuK9HTdgYGTQ==
-X-Gm-Gg: AYBFou3wSmmEX+AQUbRpbaJM69mF5Mua9gIUDAtCkIaOkChgn/Ye+Xhv0pW9dZ1rnhz
-	cJ3HR4lhW6+rSLYOntg0GLITuANKG8+Ba/aCey5xT62fJ+lEz1OIvzYX10531ReVhIabR1cUcVW
-	LDCetMx8eXi9jJ3XAbOocvq9KKEq1kHZOsO2GfWd4MPOIgD7xdqLztzLr+w+uRk8mxQ2BCRQzQc
-	1KcVTO7+3fk8i59mtuLsNctXVN3+URC+BmG99x+n0LqqR/GpdlmAEDUL7KeFWOW/KBcfoWjY3uT
-	hJW1YO8ywgAcQSJe6Rj8zQvnviBfbBwe3xHih/ZSVr5PoG2oWUW/Kfi+uncMrXKRn20DS4EAMA5
-	V7aKDor6zyLsnVJq4D9C8mMpEEKYrtKJRMSQ=
-X-Received: by 2002:a17:90b:4cd1:b0:3a8:1943:cb7a with SMTP id 98e67ed59e1d1-3adead44808mr7362644a91.18.1793101551272;
-        Tue, 27 Oct 2026 04:45:51 -0700 (PDT)
-X-Received: by 2002:a17:90b:4cd1:b0:3a8:1943:cb7a with SMTP id 98e67ed59e1d1-3adead44808mr7362618a91.18.1793101550775;
-        Tue, 27 Oct 2026 04:45:50 -0700 (PDT)
-Received: from [192.168.0.104] ([124.123.196.29])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae40651560sm3607876a91.13.2026.10.27.04.45.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Oct 2026 04:45:50 -0700 (PDT)
-Message-ID: <3f03403f-732f-4f11-ab82-5f701ee8969f@oss.qualcomm.com>
-Date: Tue, 27 Oct 2026 17:15:44 +0530
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KTGG9NX0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91BF21F01183;
+	Tue, 27 Oct 2026 11:46:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793101596;
+	bh=VRMWiQ2UKso7oYTy9HT64TmBXeavVV8LNtdRV2H7WnI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=KTGG9NX0icTALhA5HmNBQiQOgrQ0l7hJmlz6yJiq48DskCdyjrJK5it4To+wJoGrh
+	 LEU/DmDOxWwgU/utNRGiQoRxgp1qGk7bPeyaulb3PvYh2Rolh+5KZBmI+kuBMwejdP
+	 YE0tEEAM8H4u8CHn25u+YiHPjOXT5yRp9y3IDAeMBsP4jMJySAuu/hPDV93wOb471l
+	 ODsywg6FmA2vnquFF5c2kdevOY7BzYblgIlhrzQuFqREMm3XE8IZPR84KQbKnExrMa
+	 75NkeKvAn4E5cmLksJr4kpTKaknV7z5Z8pQ3+logqq97caYMPsMsIh4MHLd1M1W9qv
+	 35ck1sWiBlumA==
+Message-ID: <sashiko-outbox-186472@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v7 7/8] ALSA: usb: babyfacepro: add the hardware DSP EQ
+Reply-To: sashiko-reviews@lists.linux.dev
+To: =?utf-8?b?SXNtYcOvbCBCYWhsb3Vs?= <i.bahloul01@gmail.com>, linux-sound@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261027113140.134257-8-i.bahloul01@gmail.com>
+References: <20261027113140.134257-1-i.bahloul01@gmail.com>
+ <20261027113140.134257-8-i.bahloul01@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 27 Oct 2026 11:46:36 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -114,113 +59,299 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: qcom: audioreach: support multichannel PCM
- formats
-To: Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
-Cc: Mark Brown <broonie@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        shengchao.guo@oss.qualcomm.com, mohammad.rafi.shaik@oss.qualcomm.com,
-        bartosz.golaszewski@oss.qualcomm.com, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261026082534.986449-1-zhangfei.gao@oss.qualcomm.com>
- <2936b4ec-3203-4137-9d29-7f95f22186d8@oss.qualcomm.com>
- <CAFkd8hsoWa9t6ySWM4o-xgm=mO=_RFuWJDVrCb1u+Zg-eymTJQ@mail.gmail.com>
-Content-Language: en-US
-From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-In-Reply-To: <CAFkd8hsoWa9t6ySWM4o-xgm=mO=_RFuWJDVrCb1u+Zg-eymTJQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 3wk4aRYnR137pB2uBUUyCS1mNIoMZNjn
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI3MDA0NiBTYWx0ZWRfXygxt2CBnj10j
- z4lSP/kVCL4yvvRo8l4ewCyl5nbf2FrOUQpWxpeobQt2QtWTvHZNVjIavizVNjgokA1J47vUaai
- vKhZXZZQTXb2LP9J9+NKJdottCxbH1U=
-X-Authority-Analysis: v=2.4 cv=EIeTQFZC c=1 sm=1 tr=0 ts=6ae08ef0 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=AmwRsAfReRvrMMgzn5YP8g==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=KEe7bkdQAAAA:20 a=EUspDBNiAAAA:8 a=UJ03Ntq0HI0srxpZ4TQA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22 a=bA3UWDv6hWIuX7UZL3qL:22
-X-Proofpoint-ORIG-GUID: 3wk4aRYnR137pB2uBUUyCS1mNIoMZNjn
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI3MDA0NiBTYWx0ZWRfX+hrF+JMldRfy
- OliYnNCWqSnLaWNs22E1H5LN+J2d0HLW7u+9BSZaCodtei5hBt+rGj6cPNBmbsGVAHbQ8CWCMU0
- G0F+aTZqrgaM5xC9U2Y7j8IOUOXV6G+9ldR03dzHya0R9RXnETrmvYxKqG87vdTOT+l4GD7vXFL
- KC/bgWtdo7c0jzCz1NZP8eKSZLUDLdBxz9cXd0xellfRVHHjYFCarvgu5ngsSP2Ess5xpKKgYI1
- M8aSGN+pMyJHdxUGc2SO8B2VYp5KXrucEVz6dAMdOOJAwApVpAhnRMrQXoIkpiEFNQSx5064GPn
- dNj9UslJH5Tj2eT4c0XjwjbEwiFPNnr5YBLaVs1Ky3RTK61ipk0XJ4MHD6M1dMgYvxB8pmzhl+W
- ZDtXrVxFErtHSbAGk2oKTvUIAXwHZKlP3rS2ke6AI9oh9UdB8tHOdDVYpxYKKXWaKyntNRxB+jC
- xK610unUSWKbrxKkV/w==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-27_02,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0 suspectscore=0 spamscore=0 phishscore=0
- bulkscore=0 malwarescore=0 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610270046
 
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
+s) to consider:
+- [Medium] ALSA: usb: babyfacepro: 64-bit signed division in bf_eq_lc_freq_=
+raw()
+- [Medium] ALSA: usb: babyfacepro: bf_eq_band_words() treats Off band type =
+as High Shelf
+- [Medium] ALSA: usb: babyfacepro: bf_eq_defaults() leaves slope_db uniniti=
+alized at 0
+- [Medium] ALSA: usb: babyfacepro: bf_eq_update_strip() ignores bf_eq_write=
+_strip() error
+--
 
-On 10/27/2026 3:25 PM, Zhangfei Gao wrote:
-> On Tue, Oct 27, 2026 at 4:46 PM Prasad Kumpatla
-> <prasad.kumpatla@oss.qualcomm.com> wrote:
->>>    #define DRV_NAME "q6apm-dai"
->>>    #define POS_BUFFER_BYTES    4096
->>> @@ -344,7 +345,10 @@ static int q6apm_dai_prepare(struct snd_soc_component *component,
->>>        cfg.num_channels = runtime->channels;
->>>        cfg.bit_width = prtd->bits_per_sample;
->>>        cfg.fmt = SND_AUDIOCODEC_PCM;
->>> -     audioreach_set_default_channel_mapping(cfg.channel_map, runtime->channels);
->>> +     ret = q6dsp_map_channels(cfg.channel_map, runtime->channels);
->>> +     if (ret)
->>> +             return ret;
->>> +
->>>        if (prtd->state) {
->>>                /* clear the previous setup if any  */
->>>                q6apm_graph_stop(prtd->graph);
->>> @@ -1007,8 +1011,10 @@ static int q6apm_dai_compr_set_params(struct snd_soc_component *component,
->>>                cfg.num_channels = 2;
->>>                cfg.bit_width = prtd->bits_per_sample;
->>>                cfg.fmt = codec->id;
->>> -             audioreach_set_default_channel_mapping(cfg.channel_map,
->>> -                                                    cfg.num_channels);
->>> +             ret = q6dsp_map_channels(cfg.channel_map, cfg.num_channels);
->> |
->> |
->> |q6dsp_map_channels()| changes the mono mapping from |PCM_CHANNEL_FL| to
->> |PCM_CHANNEL_FC| and does not handle 7 channels. Have these cases been
->> checked and confirmed to be supported as expected for AudioReach ?
-> Yes, have checked with Rafi, should be PCM_CHANNEL_FC.
+commit 0dcbeee55d8e88a09f8b929a55a7b8a07d5a308a
+Author: Isma=C3=AFl Bahloul <i.bahloul01@gmail.com>
 
-Thanks for confirmation.
+ALSA: usb: babyfacepro: add the hardware DSP EQ
 
-Reviewed-by: Prasad Kumpatla<prasad.kumpatla@oss.qualcomm.com>
+This commit adds hardware DSP parametric EQ support (3 bands plus low-cut
+ across 4 analog input strips) for the RME Babyface Pro. It implements fixe=
+d-
+point Q27 CORDIC biquad coefficient calculation, bulk endpoint 0x0A block
+uploads, and 15 ALSA mixer controls per strip.
 
-Thanks,
-Prasad
+> diff --git a/sound/usb/babyfacepro/babyfacepro-ctl.c b/sound/usb/babyface=
+pro/babyfacepro-ctl.c
+> index cf41093dcbcaf..0606bcc609a47 100644
+> --- a/sound/usb/babyfacepro/babyfacepro-ctl.c
+> +++ b/sound/usb/babyfacepro/babyfacepro-ctl.c
+[ ... ]
+> +void bf_eq_band_words(s32 *w, int type, s32 freq_hz, s32 q100,
+> +		      s32 gain_x10, s32 fs)
+> +{
+> +	s64 f =3D freq_hz;
+> +	s64 w0, c, s, u, su, cu, alpha, A, sq;
+> +	s64 b0, b1, b2, a0, a1, a2;
+> +	s64 pi =3D 0x1921FB54;	/* pi, Q27 */
+> +	s64 hpi =3D 0xC90FDAA;	/* pi/2, Q27 */
+> +	s64 t;
+> +	int both =3D 0, cflip =3D 0;
+> +
+> +	if (gain_x10 =3D=3D 0 || q100 <=3D 0) {
+> +		/* Inactive band: identity words (also guards the alpha
+> +		 * division below against the default Q=3D0 the controls start
+> +		 * with - a user setting gain before Q used to hit a kernel
+> +		 * divide-by-zero oops).
+> +		 */
+> +		w[0] =3D 0;
+> +		w[1] =3D 0;
+> +		w[2] =3D 0;
+> +		w[3] =3D 0;
+> +		/* w[4] is the shared scale bf_eq_update_strip() reads when the
+> +		 * band has a type and a gain but no Q yet (Q defaults to 0).
+> +		 * Leaving it unwritten uploaded a garbage shared scale.
+> +		 */
+> +		w[4] =3D BF_EQ_Q27;
+> +		return;
+> +	}
+[ ... ]
+> +	if (type =3D=3D 1) {
+> +		s64 ta =3D (alpha * A + (1 << 26)) >> 27;
+> +
+> +		b0 =3D BF_EQ_Q27 + ta;
+> +		b1 =3D -2 * c;
+> +		b2 =3D BF_EQ_Q27 - ta;
+> +		a0 =3D BF_EQ_Q27 + div64_s64(alpha * BF_EQ_Q27 + A / 2, A);
+> +		a1 =3D -2 * c;
+> +		a2 =3D BF_EQ_Q27 - div64_s64(alpha * BF_EQ_Q27 + A / 2, A);
+> +	} else {
+> +		s64 ap1 =3D A + BF_EQ_Q27;
+> +		s64 am1 =3D A - BF_EQ_Q27;
+> +		s64 cp0 =3D (am1 * c + (1 << 26)) >> 27;	/* (A-1).c */
+> +		s64 cp1 =3D (ap1 * c + (1 << 26)) >> 27;	/* (A+1).c */
+> +		s64 ab =3D (2 * sq * alpha + (1 << 26)) >> 27;
+> +
+> +		if (type =3D=3D 2) {	/* low shelf */
+> +			b0 =3D (A * (ap1 - cp0 + ab) + (1 << 26)) >> 27;
+> +			b1 =3D (2 * A * (am1 - cp1) + (1 << 26)) >> 27;
+> +			b2 =3D (A * (ap1 - cp0 - ab) + (1 << 26)) >> 27;
+> +			a0 =3D ap1 + cp0 + ab;
+> +			a1 =3D -2 * (am1 + cp1);
+> +			a2 =3D ap1 + cp0 - ab;
+> +		} else {		/* high shelf */
+> +			b0 =3D (A * (ap1 + cp0 + ab) + (1 << 26)) >> 27;
+> +			b1 =3D (-2 * A * (am1 + cp1) + (1 << 26)) >> 27;
+> +			b2 =3D (A * (ap1 + cp0 - ab) + (1 << 26)) >> 27;
+> +			a0 =3D ap1 - cp0 + ab;
+> +			a1 =3D -2 * (am1 - cp1);
+> +			a2 =3D ap1 - cp0 - ab;
+> +		}
+> +	}
 
->
-> Also confirmed from audioreach-engine
-> https://github.com/AudioReach/audioreach-engine/blob/master/modules/processing/bassboost/capi/src/capi_bassboost_utils.cpp
->    case 1:
->           if (PCM_CHANNEL_C != format_ptr->format.channel_type[0])
->
-> https://github.com/AudioReach/audioreach-engine/blob/master/modules/processing/Virtualizer/api/Virtualizer_api.h
->    uint16_t channel_map[0];
->    /**< @h2xmle_description  { Payload consisting of channel mapping
-> information for all the channels. \n
->                                The channel mapping is specific for
-> specific number of channels \n
->                                for 1 : [PCM_CHANNEL_C] \n
->                                for 2 : [PCM_CHANNEL_L, PCM_CHANNEL_R] \n }
->
-> About 7 channel.
-> If hw requirement is there then we can add right.
-> Currently no qcom upstream device is testing 7 channels,
->
-> For example, RRD 4 chanels and Ride 6 channels.
->
-> Thanks
+[Severity: Medium]
+What happens in bf_eq_band_words() when a band has its type set to 0 ("Off")
+while gain_x10 is non-zero?
+
+In bf_eq_defaults(), band_q[] is initialized to 100 while band_type[] starts
+at 0 ("Off"). In bf_eq_update_strip(), bf_eq_band_words() is called for all
+three bands and w[0..3] are unconditionally copied into e->words[band][0..3=
+]:
+
+	for (band =3D 0; band < 3; band++) {
+		s32 w[5];
+
+		bf_eq_band_words(w, e->band_type[band], e->band_freq[band],
+				 e->band_q[band], e->band_gain[band], fs);
+		for (i =3D 0; i < 4; i++)
+			e->words[band][i] =3D w[i];
+		if (e->band_type[band] && e->band_gain[band])
+			last_c4 =3D w[4];	/* shared scale: the last band */
+	}
+
+Because the early return in bf_eq_band_words() only checks
+(gain_x10 =3D=3D 0 || q100 <=3D 0) and does not check (type <=3D 0), settin=
+g a
+non-zero gain on a band whose type is "Off" (or switching an active band's
+type back to "Off" without zeroing its gain) falls through to the else bran=
+ch
+for type =3D=3D 3 and computes high-shelf coefficients. Those coefficients =
+are
+then stored in e->words[band][0..3] without updating last_c4, uploading an
+unscaled high-shelf biquad to the hardware DSP instead of the identity
+filter.
+
+Should the inactive-band check in bf_eq_band_words() also guard against
+type <=3D 0?
+
+[ ... ]
+> +/* The 0x38 low-cut frequency word: round(K.f'.(11656)/(11656+f')) with
+> + * K =3D 11508, f' =3D f x slope-compensation factor (cap_eq9 fit, 0.003=
+%;
+> + * the slope factor keeps the composite -3 dB point constant).
+> + */
+> +static u32 bf_eq_lc_freq_raw(s32 freq_hz, s32 slope_db)
+> +{
+> +	s64 f, word;
+> +
+> +	if (freq_hz <=3D 0)
+> +		return BF_EQ_LC_OFF;
+> +	f =3D freq_hz;
+> +	switch (slope_db) {
+> +	case 6:
+> +		f =3D f * 15267 / 10000;
+> +		break;
+> +
+> +	case 18:
+> +		f =3D f * 8061 / 10000;
+> +		break;
+> +
+> +	case 24:
+> +		f =3D f * 6977 / 10000;
+> +		break;
+> +	}
+> +	word =3D (11508 * f * 11656 + (11656 + f) / 2) / (11656 + f);
+> +	return (u32)word;
+> +}
+
+[Severity: Medium]
+Will the plain "/" divisions on s64 variables in bf_eq_lc_freq_raw() cause a
+link failure (__divdi3 undefined) on 32-bit architectures?
+
+SND_USB_BABYFACE_PRO has no 64BIT dependency in sound/usb/Kconfig. Here, f
+and word are s64, and both the constant divisions by 10000 and the division
+by the runtime s64 expression (11656 + f) use the "/" operator directly
+rather than div_s64() or div64_s64().
+
+[ ... ]
+> +static void bf_eq_update_strip(struct snd_usb_babyface *chip, int strip)
+> +{
+> +	struct bf_eq_channel *e =3D &chip->eq[strip];
+> +	s32 fs =3D chip->rate ? chip->rate : 48000;
+> +	s32 last_c4 =3D BF_EQ_Q27;
+> +	int band, i;
+> +
+> +	lockdep_assert_held(&chip->mutex);
+> +
+> +	for (band =3D 0; band < 3; band++) {
+> +		s32 w[5];
+> +
+> +		bf_eq_band_words(w, e->band_type[band], e->band_freq[band],
+> +				 e->band_q[band], e->band_gain[band], fs);
+> +		for (i =3D 0; i < 4; i++)
+> +			e->words[band][i] =3D w[i];
+> +		if (e->band_type[band] && e->band_gain[band])
+> +			last_c4 =3D w[4];	/* shared scale: the last band */
+> +	}
+> +	e->shared =3D last_c4;
+> +	e->lc_raw =3D bf_eq_lc_freq_raw(e->lc_hz, e->slope_db);
+> +	e->slope =3D bf_eq_lc_slope_byte(e->slope_db);
+> +	bf_eq_write_strip(chip, strip);
+> +}
+> +
+> +/* Recompute + re-upload all four strips (rate change). Caller must
+> + * hold chip->mutex - bf_eq_update_strip()/bf_eq_write_strip() are
+> + * lock-free by convention (see bf_eq_put()) and the only caller,
+> + * babyface_pcm_hw_params(), already holds the lock across the rate
+> + * change; locking here too self-deadlocked it (hung-task: "blocked
+> + * on a mutex likely owned by" itself, hit via regress.sh's rate
+> + * sweep).
+> + */
+> +void bf_eq_reupload(struct snd_usb_babyface *chip)
+> +{
+> +	int strip;
+> +
+> +	for (strip =3D 0; strip < 4; strip++)
+> +		bf_eq_update_strip(chip, strip);
+> +}
+[ ... ]
+> +static int bf_eq_put(struct snd_kcontrol *kctl,
+> +		     struct snd_ctl_elem_value *ucontrol)
+> +{
+[ ... ]
+> +	mutex_lock(&chip->mutex);
+> +	if (param =3D=3D 0) {
+> +		if (e->on !=3D !!nv) {
+> +			e->on =3D !!nv;
+> +			bf_eq_update_strip(chip, strip);
+> +			ret =3D 1;
+> +		}
+> +	} else if (v && *v !=3D nv) {
+> +		*v =3D nv;
+> +		bf_eq_update_strip(chip, strip);
+> +		ret =3D 1;
+> +	}
+> +	mutex_unlock(&chip->mutex);
+> +	return ret;
+> +}
+
+[Severity: Medium]
+Should bf_eq_update_strip() and bf_eq_reupload() propagate the error return=
+ed
+by bf_eq_write_strip()?
+
+When kmemdup() or usb_bulk_msg() fails in bf_eq_upload(), bf_eq_write_strip=
+()
+returns a negative errno, but bf_eq_update_strip() discards it. In
+bf_eq_put(), e->on or *v is updated before calling bf_eq_update_strip() and
+ret =3D 1 is returned unconditionally. If the bulk transfer fails, the cach=
+ed
+state in chip->eq[strip] becomes out of sync with the hardware, and retrying
+the same control write from userspace will see *v =3D=3D nv and do nothing.
+Likewise, babyface_resume() calls bf_eq_reupload() without checking if
+restoring the DSP state succeeded.
+
+> +
+> +/* The Q controls declare 5..1000 (Q x 100) and bf_eq_put() rejects
+> + * anything below 5, so a zeroed band_q would read back out of range -
+> + * alsactl then fails to restore it (EINVAL) - and could reach the
+> + * coefficient math.  Seed the neutral Q 1.0 on every strip at probe,
+> + * before any saved state is applied so a restore still overrides it.
+> + */
+> +void bf_eq_defaults(struct snd_usb_babyface *chip)
+> +{
+> +	int strip, band;
+> +
+> +	for (strip =3D 0; strip < 4; strip++)
+> +		for (band =3D 0; band < 3; band++)
+> +			chip->eq[strip].band_q[band] =3D 100;
+> +}
+
+[Severity: Medium]
+Does bf_eq_defaults() also need to initialize chip->eq[strip].slope_db to 6?
+
+At probe, chip->eq[strip].slope_db is 0. In bf_eq_get() for param 14 ("EQ L=
+ow
+Cut Slope"):
+
+	case 14:
+		v =3D &e->slope_db;
+		break;
+	...
+	} else if (param =3D=3D 14) {
+		s32 slope =3D v ? *v : 6;
+
+		ucontrol->value.enumerated.item[0] =3D
+			slope >=3D 24 ? 3 : slope >=3D 18 ? 2 : slope >=3D 12 ? 1 : 0;
+
+Because v is non-NULL, slope evaluates to *v (0), which bf_eq_get() reports=
+ to
+userspace as enum item 0 ("6 dB/oct").
+
+However, if the user enables EQ and sets "EQ Low Cut Freq" > 0 without
+changing "EQ Low Cut Slope" from its reported "6 dB/oct" setting,
+bf_eq_update_strip() passes e->slope_db =3D=3D 0 to bf_eq_lc_slope_byte(0),=
+ which
+returns 0 (low-cut disabled) instead of 0x01, and to
+bf_eq_lc_freq_raw(e->lc_hz, 0), which skips the case 6 frequency compensati=
+on
+factor. In addition, writing enum item 0 via bf_eq_put() maps 0 to 6, sees
+*v (0) !=3D nv (6), and triggers a bulk upload and a control change notific=
+ation
+even though the control was already reporting item 0.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027113140.1342=
+57-1-i.bahloul01@gmail.com?part=3D7
