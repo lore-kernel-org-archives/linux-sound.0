@@ -1,57 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=57.103.75.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793137201;
-	b=GPa+2Rc1JZpsyM3VHrFNp8edoD5iarCjd94yr5xkGZAntCNKQasPTwi335Sx8BvkcFCt
-	 NKcaEVTQg0eIJiO5XsqOcFe3jTo/t/zmn+zf+kKi2fq0QEF07dSdXdwWJ3zGPnJknHWSu
-	 Wtrj72uhTrtH3tQVxn8hVcaSlcZe4sxwExpQKSlJV7jKlwPZNnkKv/qv2S7mzbbmsXZ0d
-	 8C4xW9lcAJsjI7KhSmnFonX8L5QmOWCeH/q1GcTT/JeEkoLovn0RuKTLag0yNubWbuZSO
-	 rzZn0fJSDbKdEG2PblotzaIn2aSaylg1IuGTzI1MOCDGccDf9F61V1P2yVw6MfSOtjw==
+	t=1793139530;
+	b=qDIDwbVuRmw7cJWrlVyQsgUTIVJCR7kCMhjkKDCvMs2rceNleADkjeS9oTuEwI1Fp+GO
+	 xYb5qGwvyHaJFyyKV8vRVUTSQUiJbTz2OCGlEUyK1qAgh41nf0jwqomRkFxArUZzl9S/H
+	 B4J4kNdCerpbsxvS2A58SrZq8R1q1YZ0RJLK1wBjitmGT5thxFzZxUcgI7Q6xc/38VxNf
+	 TuKIY6il/CM/kUPc6j8o0UfMn4V/uf7/4OZStT0G8FhqE8HcQXLn0V6+riyYlra9tYFEr
+	 WI2fuM9ceC29d9TO2ZaUij/PJU18OG0H/KAlrPF2BceAdS2jRKUgBGocp54XmEk1aXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793137201;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=0O5/u60kefKEgQWoB5mMsVGarzwnUh/zwcowX1YUevY=;
-	b=Bb+0Y49oWgQQHVHW0ZblEvuiP5F7BP5C0qNfJmkVwViLv+ociwkFmr4Lv1TlY2HFohD3
-	 E2RkX7zoXsjRek6MKCTWwm7BJYSupfxf/S+PI2veTSarDb35/+zMzKMKbIOfdOXzkayUp
-	 lrMWWQf+q71w4WJO3g3b6JxNVnBL+edk4k+5AqzeS8KnsRDnTJtdcjGQsCQakE0EWkGua
-	 57IE+OzgSgrhnubdwo6AviScnNhvoUlf0hSSHSS6wk3qQ24Jqhtl3qolTQivrNUW/IhZz
-	 klkUtmALuu+nM2hQtYqTch/L+QecuMfNpH7clSv0aKYiXdZWDpctYYg47fcwkkFPSYw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793139530;
+	h=DMARC-Filter:Received:X-ICL-RepId:X-ICL-Out-Info:Dkim-Signature:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Content-Language:To:
+	 Cc:From:Subject:Content-Type:Content-Transfer-Encoding:
+	 X-Authority-Info-Out:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:X-JNJ;
+	bh=9HJ62GiGTy/gw8NufnOvKlJLBVkRKKV7d6QpXBkvd7E=;
+	b=uAhay772Tk+92u/p1soR1ofeZpL5EbyRv9xHFzfvi1pFdz6cscdFtMcFVIWGH+60aba9
+	 eUo/Fao8Sv1OJq2ZP8UjGhz+wBvWa4J+noHxRu8IgYP0DVPHJh1Zo2/PntfgBdhnYhJoI
+	 HTzVxhdbxZh97XNjgTIcMbzu+8licFTcNi+RU+PTzfaWYEJLiRF2RwZQXTY4vecgmviqN
+	 P4Hm14YUGW4qBJM0uHK7gj53tmK0DPbv76qGp3q6z+3Ox4iBFdvHI/zpHz89v9OIdjCYH
+	 FvcnnmQWmRobdLwLOuP1VbXL8EAxYswvmfoihjcBQ9lqMLKYP04jeun9w9M3LYYOLxQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MqpWOD3Y;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=icloud.com;
+	spf=pass smtp.mailfrom=icloud.com;
+	dkim=pass header.d=icloud.com header.i=@icloud.com header.a=rsa-sha256 header.s=1a1hai header.b=VznvtUGi;
+	arc=none smtp.remote-ip=57.103.75.28
+Received: from outbound.ms.icloud.com (ms-2006k-snip4-5.eps.apple.com [57.103.75.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF00606A31D;
-	Tue, 27 Oct 2026 21:40:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F9F606A31D
+	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 22:18:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7F9F606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MqpWOD3Y
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFB451F01828;
-	Tue, 27 Oct 2026 21:40:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793137201;
-	bh=0O5/u60kefKEgQWoB5mMsVGarzwnUh/zwcowX1YUevY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=MqpWOD3Y41qUZzR6Aw0rJeKr6ItsyWP4OsFrqJdnm958bMR1EuraDwwJW8q5UCeKv
-	 mIzfEZQ/9qrf6vcTqobNa9ofr1e+9pqvxgRgoGmrR0OyuntZdspvoUbPVtedxG8831
-	 ezkj0Tg0xKbZo+kSgMgf9YfVMWhmoBIbHIMQlul36A5VMIYpyqohqX+t0JDV/a/FEB
-	 6kES4EIhwrO1xe6bqhdqefnqEyDdxdWIGRzXcKv71n13K48s2c4I8O1k/H1bUpGFYr
-	 2E2HDjK588GObtbgxRjCw3jSWqsXA85q6IBam+rkD5Hoy+qKVQuqgYDm1OaKISAPvO
-	 gP2LTHstJPv5Q==
-Message-ID: <sashiko-outbox-187135@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 1/2] ASoC: codecs: twl4030: fix external mute GPIO
- lookup
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261027-twl4030-extmute-v2-1-c7e0c90509a1@gmail.com>
-References: <20261027-twl4030-extmute-v2-0-c7e0c90509a1@gmail.com>
- <20261027-twl4030-extmute-v2-1-c7e0c90509a1@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Oct 2026 21:40:00 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=icloud.com header.i=@icloud.com header.a=rsa-sha256 header.s=1a1hai header.b=VznvtUGi
+Received: from outbound.ms.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-west-3a-10-percent-1 (Postfix) with ESMTPS id C86AA180013F;
+	Tue, 27 Oct 2026 22:18:48 +0000 (UTC)
+X-ICL-RepId: 01a17f71-d450-7886-b377-c4fd3ec315ea
+X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQhNC0MDXBxCC0AdXwddEhVdRVAfXhhGGVgWHQ5WGEYVVRRSA1grWxNVF0YJGQhdHRkeV1BeCF4fTBwdDlgGEgJaRQZNXw5eHwQXRhlVBEceXVZeHhkCURxWDVdDVARfUEkMQVBsWgBHF0gdXRlZb1BdHA4EVAddBV1WUAJaS18ZXUUPCVUOAxJdS1dAAlkGRhRMVwkHRgsSCU0eWAUOCxNYT1ddBlsBMFAbXwJCDxwTVhUNTUMSQhUEEVABWB5W
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1793139529; x=1824675529; bh=9HJ62GiGTy/gw8NufnOvKlJLBVkRKKV7d6QpXBkvd7E=; h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type:x-icloud-hme; b=VznvtUGiztfKk9qdLxrbMq+A955Zdmkiz1SkFCw6M1g+MCIbV1ARysdv1nl74NKU7294FXmt34BTGAAEBUFnMk/uWNxQRxlnVzwx7co0FS4ZYT7hxx3tkLeMFiY2NBG3jJPsHHsAHtEljnI0k8FekmSifsGztRAJQqJvn3eslK4IUVlzqZHXiQ+zem1RJcq+/8MMvStWqBfoiK6kVpl/8vNmqUpbI5RaTDDGTbor03h6ylKuqtrDEoEdDX+5eqli97x5NWyYnSPCqm8WHhhXn/VjgZ3n3O8R6ajDwUQzFTk1NXoVI28sLiS3Ez42fVsSJub22YTrgtNELcr5bPeFKw==
+Received: from [192.168.1.50] (unknown [17.156.208.39])
+	by p00-icloudmta-asmtp-us-west-3a-10-percent-1 (Postfix) with ESMTPSA id 69B3018000E6;
+	Tue, 27 Oct 2026 22:18:47 +0000 (UTC)
+Message-ID: <dbe1bd3d-5246-4dd0-9b05-52e9ca7d0103@icloud.com>
+Date: Tue, 27 Oct 2026 23:18:44 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,105 +54,115 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: med.jebabli@gmail.com, tiwai@suse.de
+Cc: linux-sound@vger.kernel.org, regressions@list.linux.dev,
+ stable@vger.kernel.org
+From: Cristian Castellano <cristian.castellano@icloud.com>
+Subject: [REGRESSION] ALSA: hda/tas2781: divide error on playback open after
+ accepting V1 calibration data without CRC (Lenovo Yoga Pro 9 16IRP8)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Authority-Info-Out: v=2.4 cv=J/ynLQnS c=1 sm=1 tr=0 ts=6ae12348
+ cx=c_apl:c_pps:t_out a=kRaGL2Q7qLiahLf3O6OaIA==:117
+ a=kRaGL2Q7qLiahLf3O6OaIA==:17 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
+ a=x7bEGLp0ZPQA:10 a=eD1N5GnKAbQA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VfikHhr-D2iK5rlxiJcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: _kV_DvKpXF5sDviRAW_RzDQte_XOXlJK
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI3MDA4OSBTYWx0ZWRfX8mIicfo56THN
+ TC1fWLFCUxt9ArAhnqdPBaTVT1kHyUayulxehkkotPho5UDnT7PQtJISoNAUOPzhCvpir625mg6
+ HXlHgO+Jcs7uJh3As43oT7Z5ZFGTTQqP1qttJCqmtb4WFhKcFahOqOy8FUsL8FXS1zIQXkTGqE3
+ e22hhIEy+9As8YvEn6140jRKV6OqhElkdXNPITGCRxOP/hWzSlPnnNi8yiERQjoi5MtCQfr1uC7
+ BENSp5uEZ/VIbEm0lIgrfuFUVEjSvysl41WnRAEv0OkNqoGzoNmV0U6YZzR8WhcDlaoumHUjD7H
+ Zg5L6hIAgRTmCeK/IdB3PvmDozwWzVCmYb1tX4scgtuifM/y1aKNef5lrC6mWg=
+X-Proofpoint-GUID: _kV_DvKpXF5sDviRAW_RzDQte_XOXlJK
+X-JNJ: AAAAAAABZWL2jN0TDSiIGK7aFBiAikdNRgN1lXTJ2r5yP2oXeuPM6WqupHe7BoFKANULQb
+ m9De+7DYXC1s6fzWKFC44zcYUL1lskJaC6QRPW4ayI2OoJ04KDyBB1Z0Xs1WGKzWP5L8V3
+ eEdLYmbqd1VWFPzXFGITgc1xyeLSrC9CN3fdaFg2GG0MGFvqXAfBy1OL/xE2GQG3cNi5s4
+ s16YLb9FYnqoWwmo3hDsogGGF1kkLwE4r3IClzZqIsPLZnhmcZ87fFl+UfMw9JbUWQHPl4
+ 3EwXwC0NKIH7yvz2iimfwdpSRAJMbBnkIngDVyyRBweD3+H9+bpHLo8ykaN8AOtED4NJDB
+ 3H4RJaCW8j9Df5fgHK27ORC8TwwhNftXt+D6fROuB0VYNIE/O8oXGBMBXFhuBfnT52Qs0v
+ ErjzXW7uOUUGtH4kb3JwDXRbn23EFvtvJGCujKrWH25HV8h1w6XPz1MjYjTS4jnLVDlzYV
+ lEPN9jTkVAdNvj5DCDGwqJG6nNsL6izBuJKb30UUtyPw4upQitMrN/kHZQtiKombzgtDHb
+ plYZ+Awjm9oOiCjRcUCo3Ddm1X+yrOQG7ScCWg4aPPJMKXv+8vZhLP62EqBH3dotB7aG8n
+ axVRb1zUfqP5BPAlKgmpgdWvhxdgFmxg7WJF41vLlFygcPy9Pcw9p97rcPbliRY7FjKILb
+ sCpYKwlXxw/UtM+9Mb1+VXKA5B/L9+IWSq56PPOTh08tqT2/gtn/T6DoYxX34Ab+oZYVq3
+ zMRxhuxfJmW4F6U3t5Ka1LwiU2o7Qad9FIHUSF0/ygxA7W0Nac57+Mun8qTxUTRSfX4ezk
+ 61N3gJT3TFGo50owjndVt0BulBx/itbVCcV44rlZLu2fhHv7NOzlBxZUxSIlKUxpBD8n91
+ lyPhvCrGCrfJpnzwpMtVXeA/mMy8tXO2cPKZTOAznn/GAJ45KFfJpFV8PIm0JnmPXTaZNH
+ 2n16+oDFLp4ZM/EpLYIMcVP9RBM19te+5DhQM9aXShIU8iMEoBxG5KBeXtU9hGiqmsnBzy
+ SUXr/XHHJXnyUje5QZi70WTGrCP0LplDM7n7QpfNQMldqSmWHkPbg9s66Z3Nc+c/fIb+Jg
+ lzc/QEHHNRVGmdA0PPVaOEgoyM0tqkioq3n2YkrDECWjJZ8mVY1fjM2e3S/LxjWUmrqOPu
+ dMl6w5zDumYBnWAZhrVUYyBbTtUXQ7F5WxWB9Sul6mdwjc2c0Za4/z507HjXjRcHAgj0LU
+ dfxWn7BMSp5jg0ia54VaKLnT6tajrQfQ96SSDmhmFh5iCdXmB2hswcBSc0qDPRxgDPehNL
+ SS7CEG/pzPydtoxhZYHtdJ+KYZZaZSyA8gDxAfJ5KCfEHWnH2ALQCPvg==
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] ASoC: twl4030: broken ti,hs_extmute_gpio lookup in twl4030_get_boa=
-rd_params()
---
+Hello, since I updated to 7.2.11 (and then to 7.3), opening a playback stream on my Lenovo Yoga Pro 9
+16IRP8 (83BY, subsystem 17aa:3835, BIOS KVCN44WW) triggers a divide error in snd_soc_tas2781_fmwlib and audio stops working. 7.2.9 just works.
 
-commit 4ac8bbc6b258588c0a2286c88c8f200492ec2c36
-Author: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+The only tas2781 change between the two I found is:
+c1b708f712f5 ("ALSA: hda/tas2781: Accept V1 calibration data without CRC") (upstream 408249089c48).
 
-ASoC: codecs: twl4030: fix external mute GPIO lookup
+At boot the driver now logs:
 
-This commit switches twl4030_get_board_params() to fwnode APIs and acquires
-the external mute GPIO descriptor directly from the "codec" child firmware
-node using devm_fwnode_gpiod_get_optional().
+  tas2781-hda i2c-TIAS2781:00: tas2781_apply_calib: V1 data without CRC, accepting
 
-> diff --git a/sound/soc/codecs/twl4030.c b/sound/soc/codecs/twl4030.c
-> index 7117af5a1a569..9541c8a5a24e8 100644
-> --- a/sound/soc/codecs/twl4030.c
-> +++ b/sound/soc/codecs/twl4030.c
+Before that commit the data was rejected and the amplifiers worked with
+default parameters. On this machine the CALI_DATA EFI variable
+(CALI_DATA-1f52d2a1-bb3a-457d-bc09-43a3f4310a92) contains two non-zero
+device entries followed by zeros, with TimeStamp and CRC zeroed:
 
-[ ... ]
+  0000000 07 00 00 00 5c c8 20 1d 28 b5 27 23 2a 79 42 16
+  0000016 f2 07 c5 00 00 00 e0 2e 01 f7 2a 1d 72 6f 1b 23
+  0000032 2a 41 4a 16 c4 0a c3 00 00 00 e0 2e 00 00 00 00
+  0000048 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  *
+  0000128 00 00 00 00
 
-> @@ -198,41 +199,53 @@ static void twl4030_codec_enable(struct snd_soc_com=
-ponent *component, int enable
->  	udelay(10);
->  }
-> =20
-> -static void
-> -twl4030_get_board_param_values(struct twl4030_board_params *board_params,
-> -			       struct device_node *node)
-> +static struct twl4030_board_params *twl4030_get_board_params(struct devi=
-ce *dev)
->  {
-> -	of_property_read_u32(node, "ti,digimic_delay", &board_params->digimic_d=
-elay);
-> -	of_property_read_u32(node, "ti,ramp_delay_value", &board_params->ramp_d=
-elay_value);
-> -	of_property_read_u32(node, "ti,offset_cncl_path", &board_params->offset=
-_cncl_path);
-> -	board_params->hs_extmute =3D of_property_read_bool(node, "ti,hs_extmute=
-");
-> +	struct twl4030_board_params *params;
-> +	int error;
-> =20
-> -	if (of_property_present(node, "ti,hs_extmute_gpio"))
-> -		board_params->hs_extmute =3D 1;
-> -}
+(the first 4 bytes are the EFI attributes)
 
-[ ... ]
+Oops:
 
-> +	/*
-> +	 * This will attempt to parse "ti,hs_extmute-gpios" or
-> +	 * "ti,hs_extmute_gpio".
-> +	 */
-> +	params->hs_extmute_gpio =3D devm_fwnode_gpiod_get_optional(dev, codec_n=
-ode,
-> +								 "ti,hs_extmute",
-> +								 GPIOD_OUT_LOW,
-> +								 "hs_extmute");
+  Oops: divide error: 0000 [#1] SMP NOPTI
+  CPU: 10 UID: 1000 PID: 1533 Comm: wireplumber Tainted: G        W  O        7.3.0-4-cachyos #1 PREEMPT(full)
+  Hardware name: LENOVO 83BY/LNVNB161216, BIOS KVCN44WW 03/05/2025
+  RIP: 0010:tasdevice_select_tuningprm_cfg+0x8c2/0xa90 [snd_soc_tas2781_fmwlib]
+  Code: 4c 89 f7 41 b8 04 00 00 00 2e 2e 2e 41 ff d3 85 c0 0f 88 97 01 00 00 48 8b 4c 24 10 66 0f 38 f0 01 0f b7 c0 0f af 44 24 18 99 <f7> 7c 24 24 88 21 88 41 01 c6 41 08 01 48 8b 4c 24 08 48 8b 44 24
+  RAX: 0000000000000000 RBX: 000000000000002a RCX: ffff8d36ca8af218
+  RDX: 0000000000000000 RSI: 0000000000000db8 RDI: ffff8d36ca8af21b
+  RBP: 0000000000000000 R08: 0000000000000004 R09: 000000000000000a
+  R10: 0000000000000100 R11: ffffffff87559290 R12: ffff8d3684e350df
+  R13: ffff8d36a861d9b8 R14: ffff8d3684e35038 R15: 0000000000000002
+  Call Trace:
+   <TASK>
+   tasdevice_tuning_switch+0x71/0x80 [snd_soc_tas2781_fmwlib]
+   tas2781_hda_playback_hook+0x4c/0x110 [snd_hda_scodec_tas2781_i2c]
+   hda_component_manager_playback_hook+0xb5/0x370 [snd_hda_scodec_component]
+   playback_pcm_open+0x79/0xa0 [snd_hda_codec_generic]
+   hdac_hda_dai_open+0x5c/0x90 [snd_soc_hdac_hda]
+   snd_soc_dai_startup+0x52/0x90 [snd_soc_core]
+   __soc_pcm_open+0x108/0x6c0 [snd_soc_core]
+   dpcm_be_dai_startup+0x153/0x3c0 [snd_soc_core]
+   dpcm_fe_dai_open+0x109/0xc00 [snd_soc_core]
+   snd_pcm_open_substream+0x604/0x920 [snd_pcm]
+   snd_pcm_open+0xeb/0x220 [snd_pcm]
+   snd_pcm_playback_open+0x39/0x60 [snd_pcm]
+   chrdev_open+0xbf/0x230
+   vfs_open+0x3f8/0x520
+   path_openat+0x4f4/0xc50
+   do_file_open+0xd7/0x150
+   do_syscall_64+0x8f/0x380
+   entry_SYSCALL_64_after_hwframe+0x76/0x7e
+   </TASK>
 
-[Severity: High]
-Will devm_fwnode_gpiod_get_optional() with con_id "ti,hs_extmute" actually
-find the legacy "ti,hs_extmute_gpio" property (with an underscore)?
+The kernel is  linux-cachyos 7.3 (taint O is from the NVIDIA module);
+CachyOS does not patch the tas2781 driver, and its LTS, 6.18.55  works. If it is needed, I can test patches.
 
-In drivers/gpio/gpiolib.h, for_each_gpio_property_name() constructs candida=
-te
-property names using a hyphen separator:
+#regzbot introduced: 408249089c48
 
-	if (con_id)
-		snprintf(propname, sizeof(propname), "%s-%s", con_id, __gs);
+Thank you,
+Cristian Castellano
 
-With gpio_suffixes[] containing "gpios" and "gpio", passing "ti,hs_extmute"
-makes of_find_gpio() in drivers/gpio/gpiolib-of.c look up
-"ti,hs_extmute-gpios" and "ti,hs_extmute-gpio", and there is no entry in
-of_find_gpio_rename() mapping "ti,hs_extmute" to "ti,hs_extmute_gpio".
 
-However, both Documentation/devicetree/bindings/sound/ti,twl4030-audio.yaml
-and arch/arm/boot/dts/ti/omap/logicpd-som-lv.dtsi spell the legacy property
-with an underscore:
-
-	twl_audio: audio {
-		compatible =3D "ti,twl4030-audio";
-		codec {
-			ti,hs_extmute_gpio =3D <&gpio2 25 GPIO_ACTIVE_HIGH>;
-		};
-	};
-
-On boards using "ti,hs_extmute_gpio", devm_fwnode_gpiod_get_optional() will
-return NULL. When "ti,hs_extmute" is absent (as in logicpd-som-lv.dtsi), bo=
-th
-params->hs_extmute_gpio and params->hs_extmute remain unset, leaving extern=
-al
-mute disabled. When "ti,hs_extmute" is present alongside
-"ti,hs_extmute_gpio", twl4030_get_hw_params() sees params->hs_extmute =3D=
-=3D 1 and
-!params->hs_extmute_gpio, causing it to mux TWL4030's internal GPIO6 as
-EXTMUTE instead of driving the external GPIO.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027-twl4030-ex=
-tmute-v2-0-c7e0c90509a1@gmail.com?part=3D1
