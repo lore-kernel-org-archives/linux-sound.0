@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793100768;
-	b=F8AWBMprkMPFbh1Mz2H9Z6fMtmk0gCLiATVB0cHFpNcIvNPK/wJBqL4t61JEBhCAS5e5
-	 Ug27lEQdHq/f7WHaGzoadUtqwTatzGdnvFzq1ZWmGsscYgRRJ0FOokZkDW9S0wMKzC1Pm
-	 BpHqQv7aDsGbNGXu/IEZ/TNS+3Zuj+x3hOGOPcl9giIFFOIXEQD1PRi63Pqb15B+21z+b
-	 mOSiRYg+NoerCtxOKGr22Kg2nnxikD8gaeXpmIBF0JfeqtMebQhW5BVrjFoXfhpTeQfCQ
-	 UFLo7pEo+u9O8BUoBGuUBukp+bTe3KE0AyF7wABAlUwbTOGOLbz4sbQk8gxt+vw1HZw==
+	t=1793100774;
+	b=wMOBUHtsDRqtu9nHS/xm1UE8WN0paQIy9HWU4FJ90MnOhygnzBHhG4V9Ny6c6wQXiFmv
+	 T2aKPtva0N83erBTbAVQEAorqrZ8DxJHFmHew5BYCGiJWYo6LJvC5o5SV9pcBanVgj0Hw
+	 VkchS0yBFX03WFGwZA9iNHX3xp/pHxSuq0lQnuZszkPFH61k+WsxksEDYbyrsEnMTZYSX
+	 7/pcvop3WqrpfhxcoGEVRdu2AX9/2LIZNmoguHzhmPUSv8WzAqRiQfIzP2eemWiqkjfgK
+	 eIh05tCAcLDt9pFcGYbzbMkmjqXb78lh2sw8eCCY5BbKRP+lgiKvVpqkHiQvcCPQtXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793100768;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793100774;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=fRS8sBm2/mhn7vWsOdEr2rMCfKWoC1iS7YzRgbr/MKw=;
-	b=WDfJWGshl08YRbR4I8sdnhujz8TkB38E1r5DXR07jQCXsUz7hHzRcLNrDt9u6FoLUp8E
-	 36PMjB1SB80QNVHkp9tRySffBCiwqWjXXPcTz4HIl/NnnxRUaGf4A75kK5b9ImyBUfrYb
-	 FjCtn+BqIAtDT/eNHIfkDN+GPcXDpZidu+JeNpWpW+byvYRbII0Y467q9CuthCTIznJvO
-	 Kfysz2mgzTyF90HwmtS/bypnICk47zan4eGvrX3ZEt3DVJoxRakPn+giK/D3oUhhs9wlx
-	 atgsh2wgtefNqAHoYoZ/N0kXiE8Elzfk5gT8wk3erFQEWy8rSpSdsn9v0kF4LOhcg7w==
+	bh=ukZT9Uvz42hF9tsePWJbj6YiDkTGliqE0DSkLIzVtQw=;
+	b=mtDpRjmG/SG0D+6HXDsvEu3jqX549Jv3mblpe0aaHbvfEg9TKGrGwIH0vKdKjYKX28he
+	 no4ubvgiUe0zSuOoYnuT9g62OpGfRqkEYeOsd/aIVKWoRHU/IPwaOmEFmpwGdwm4EP2VB
+	 1kGClss72vDZYaUS2Jh3N0KCaKAnytjqPhTDoma8NyXsM5vrNLXSekFBX118d4GWleUct
+	 ZADURZ1+yor//8suBqKy3yXFRRUlJAQ9M3TUCl/M2CUmSjTHeV6x9TFRgFxUfP6SbzPB+
+	 el1lAJeVbVWvKJrjOgtEobNi87BGMXAtDWuBSmw4kNW6CidvUSZpA83dmc5spawNgOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="k4VOa/W8";
-	arc=none smtp.remote-ip=209.85.216.42
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=fPUa7RFq;
+	arc=none smtp.remote-ip=209.85.216.44
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4266F606A328
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 11:32:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4266F606A328
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11EB3606A33E
+	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 11:32:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11EB3606A33E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=k4VOa/W8
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3ae25008e2aso898653a91.2
-        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 04:32:47 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=fPUa7RFq
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3adac5b29ebso2294921a91.2
+        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 04:32:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793100766; x=1793705566; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1793100773; x=1793705573; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=fRS8sBm2/mhn7vWsOdEr2rMCfKWoC1iS7YzRgbr/MKw=;
-        b=k4VOa/W8aUmOvRg3Jl8iFTiliK99FYuOCxH4sGI0vD9Ib0UtaKyCGVuOi0jw+LWvkE
-         4bBrC27A40u1j23z8Wgd4KWqyfajXnw1RygtjoRlx9/pgbQVIgU4cNQd+gZojFaPIRkH
-         AqUvdlqDzCwo+GhZe25P/WCC8+af0KIf9bF4wmsUXvwz0QigVtNn+ZFk5BX/i1gzFK/0
-         THh/f2kzKIPK4z4GGTDjAJo8OTvoDJ/2jyBtGeCYe0mX6+yzu4JW+XaDJ0vF+JejhTo0
-         i4XIipdv09SQB3CpWLM9vFRh1QJY1ty+M+SWrVdK2LPXRiULTYRqbvRASK3ehBL/7doX
-         W/mQ==
+        bh=ukZT9Uvz42hF9tsePWJbj6YiDkTGliqE0DSkLIzVtQw=;
+        b=fPUa7RFq9I+H/ioRBw28/y977MYFqIGAOVwu9HVfrEwa3IG0XBidsj5djWMsF7O37Y
+         obfa3n5yZc8rjj5HNqCNNH5CqwJCAXlG125YZ4a2nrUpcmFl8vQe9kKqo0Fen7VXnoQj
+         6WwXBnmbymp4Zmiitu1nkgH3qTGvf/hf6kK0W9hzt45I8uR2oZ3W49lebKx+G6lhRb4s
+         rUnmZl7XxZCpuQXEHEq6nyLDVhDNOxrZ44FL96OwGAHNgUjqgCq4mJ4uCwJX8kwgzk2b
+         pOMnbarZTSzoUI6ydVFKlPU8AbiuuHwl1rbjiLD0kx1upLf6MUpGh6N3S24IRVXW6oEc
+         IZrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793100766; x=1793705566;
+        d=1e100.net; s=20260707; t=1793100773; x=1793705573;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=fRS8sBm2/mhn7vWsOdEr2rMCfKWoC1iS7YzRgbr/MKw=;
-        b=oD2QZ2oLQpKrNNm60liMelDSvvlD/kv75JC7v7xxSZLTNmInX3EKJLcRGGB1sG/Cf8
-         EPnJaTQ2mbEcHNxKzLlpk4q4fvOF6Pw3SVQwcMZX0PKS5+x8o8uhFYWrUgUvqiv8A7S1
-         SsJDZ2iJr9rmTwhMsaOgk0UdfvBxB8w2toWLnKQ1cTmqDDKTIjZu/iadoEOp/dRifIe5
-         T8lyG0Nwf/10HAw0d1IZAvu/Hg/Zvni61QxFg0C4S3uh12FzfgvzaFUsGubpKk5jaPtx
-         T05TZ/pqPdF3iwwwqmphKv1a6h/pWFtpllulMnIzngMyXARLrdcQ5pS9rYaCSsD9gTZE
-         JH9A==
-X-Gm-Message-State: AFq9FYIBpozrqrbuP88YJR7SrxEtDBa4Fkyxj5IaEXurZl72OQTQBITM
-	BV4DS8se2Ggoj0q2PnaIQkRvBoQJ1gjDs1gNtF3zwZ3pAEY0BHz217TTAiCbox6W2Xk=
-X-Gm-Gg: AYBFou1eR455mH9TLGtBU5pxZ5kSOw8PeGLKgvky8Os/C3SpRAlbo1haLyEUkx4C2DC
-	D3QnUx9VEC1qo0bnJ8z4kYCRdbzmONO8GeHIzwgmAfq1qVfw5VOh+IwKLPT7zzOqp+qcsccGdKk
-	GlU7jlUAIzKvG2URq6tqameU+GcinHNJFnI2QDYbLbKU5uIFNqJN9ObMyR7wDg7nxI4ysOsaK5N
-	qsReULJfPQFjkcy3+nAcUAC3p6xkJKdqjN2kyC86HIIsae2X3A6/Y9329cchJKlxSn0k2CpzSFV
-	oPRnDs2rPKKt+lXP9X/cApUbv/eGObgzMdWA5SPx4unD8s+fjWLNIcQl/rDwjF6kMjgPJH/HjZa
-	Pj9XBYgGQ2MrjSJJysW7TemQP4X620DHOjRunhiL/SL3/GPIcKxaxvtQewMJsRdXiTaeDZZtfp/
-	GKBGmq0iPQdeJS+isKg8rduFGNXgWuGUER1TeFAxru0SN/oAEWkT8zUbFEGpIbfrp1fvlMw4/XL
-	vEHbj+zIkaWuASUcPsRkY4YHP7AdYSMWOY4gmZDuG01aBP6Tfj89HTEV3Z80HmnAJx/eqgGUT2M
-	4l0jiWb0XZby4jjRd6i5irrvIJIxeywasUgFkG4yrVrJt2km3kX8+Ep7f0G8G315vg2p1lOFKzQ
+        bh=ukZT9Uvz42hF9tsePWJbj6YiDkTGliqE0DSkLIzVtQw=;
+        b=TYcFvpeZ6rc0sFo+6ruI5k+3sAW+Vshwu9vlUYH7II6R91GVhFoqVXasim5rqwH4lB
+         dgXVNU7cIyc2aFWTOm/6TtQo3nLgOOWO3huQr23UT/tP774+ZEuQiy1q6UUJLwtem1NX
+         xk9wdA9zn4LamHJ9DbIzVNVz5O1z7t/BHvaRVXvZOZi+lL5LvImQdYFmkVW+Lauquat5
+         ebmc+0ZT6Wv+Mo6ey2l4x9DI/r/A4EXkiIz6F21WgLFxJ+ygtQ67SVQRInRpxixUN4oY
+         3xtJ4LxFXRC8VmuUT8sCy7TY/FnpjwtNUtyDcHubhdadAqmIAFlABuAqqGHq9IV8QyKo
+         MDlA==
+X-Gm-Message-State: AFq9FYJPSE8+uSgGkkx+lIhSJFU7oZVOgZiCFRZoogjO4XxVq6qEViTK
+	AEyhSFmihvyun2hprbS8gLK/rjwCVbJV8Vm6PYAP2cEvrv99C6+AvhOTj/sXrr+5
+X-Gm-Gg: AYBFou32YYKchmiGBvfloAPKMldhAjGPw6dn0yGqyLV2aAXZDiBs+Gr35u/gJ76FkJW
+	V1dAQWVpVxyYProX8jP3PUMaDhlZKg1mF4tpBS0zFYa5ZWoQe58ivLfz66uSjb8BKRSMigsPJWY
+	1WRoureiK1a1tNeoD0mqjeDURa5KQZIGa/4VrrO3LncB75//tTFDVnvMYwX6/fj1rCq15YkKXub
+	qTRzIM9UGrm9GG30zorZ4sWC+C9N2g5iL6xti+IB40lpMsq601uN0VkXkGEc7fQ3Sbal/LUtUUC
+	tnwlEmYv3Y/UdK8BO/MgndmBOsnmFQjU881jtQ555034j+Nj1Qa3YI8GFI8+2ARMDfniZTuM29e
+	qV0yH0u+tzOX8G/rl/CmGQIg4gvPk5BsbXPDzZRSo88GcBi6O5k6m4VlE/WtSh0oVb7dOgnydpv
+	EtlBw/pCrIrU0p7Hb05g19ffaernSzcaYWKx4v0jmxc4Vk1wMzp59VKumhqvNCEuTz3HAOp73YA
+	EesLKsJbfBnYe7WzUMyerN02kweNP/06vkG+VPZsj4QETI15Ducgg6cjP42CLgYTRgAmLkKRwJw
+	zNR78YINZJBcUhFYT/vKr/USqcnO8NIxBYZDx1dBob1lWUuaevtuT5gXPKsSGctbPTO7ZRnI8sc
 	=
-X-Received: by 2002:a17:90b:1c02:b0:3ab:9c73:147 with SMTP id 98e67ed59e1d1-3adea9dad5amr8018560a91.14.1793100766053;
-        Tue, 27 Oct 2026 04:32:46 -0700 (PDT)
+X-Received: by 2002:a17:90a:e18f:b0:3ab:2737:3395 with SMTP id 98e67ed59e1d1-3adeafd1e96mr8128640a91.42.1793100773401;
+        Tue, 27 Oct 2026 04:32:53 -0700 (PDT)
 Received: from cachyos (2a01cb0c82caf900a186612f304bfea5.ipv6.abo.wanadoo.fr. [2a01:cb0c:82ca:f900:a186:612f:304b:fea5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae4041fafcsm4523962a91.0.2026.10.27.04.32.39
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae4041fafcsm4523962a91.0.2026.10.27.04.32.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 04:32:45 -0700 (PDT)
+        Tue, 27 Oct 2026 04:32:52 -0700 (PDT)
 From: =?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: tiwai@suse.com,
@@ -90,10 +90,11 @@ Cc: tiwai@suse.com,
 	skhan@linuxfoundation.org,
 	rdunlap@infradead.org,
 	linux-doc@vger.kernel.org,
-	=?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
-Subject: [PATCH v7 4/8] ALSA: usb: babyfacepro: add routing flags and varispeed pitch
-Date: Tue, 27 Oct 2026 12:31:35 +0100
-Message-ID: <20261027113140.134257-5-i.bahloul01@gmail.com>
+	=?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>,
+	David Fredman <davfre@gmail.com>
+Subject: [PATCH v7 5/8] ALSA: usb: babyfacepro: add S3 suspend/resume
+Date: Tue, 27 Oct 2026 12:31:36 +0100
+Message-ID: <20261027113140.134257-6-i.bahloul01@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261027113140.134257-1-i.bahloul01@gmail.com>
 References: <20261027113140.134257-1-i.bahloul01@gmail.com>
@@ -109,1034 +110,203 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add loopback, AN 1>2, the sample clock source, the AN1/2 input link,
-the MS processor, DIM, width, FX send and the varispeed pitch.  The
-clock source is not a register write: it is a bit of the host settings
-word sent with the keepalive, so bf_settings_write() now composes that
-word from the tracked state.  The optical output's format is a second
-bit of that word: "Optical Out Format" switches the port between ADAT
-(the default) and S/PDIF, and the bit follows every settings write.
+The device loses its registers across a system suspend.  On suspend,
+let the PCM core suspend the substreams (applications get -ESTRPIPE and
+restart), then kill the session's URBs before cancelling the stream
+work their handlers queue.  On resume, re-run the cold init and replay
+the cached mixer state and flags.  A resume that follows a device reset
+goes through reset_resume instead of a re-probe, so the cached state is
+replayed in place.
 
-bf_state_apply_flags() re-applies this state too, and probe also runs
-it after writing the power-on default, since the cold init cleared the
-flag registers.  A Phones master change made while DIM is engaged
-moves the level DIM releases back to.
+USB autosuspend stays disabled: nothing in the driver holds a PM
+reference while streaming.
 
+Co-developed-by: David Fredman <davfre@gmail.com>
+Signed-off-by: David Fredman <davfre@gmail.com>
 Signed-off-by: Ismaïl Bahloul <i.bahloul01@gmail.com>
 ---
- sound/usb/babyfacepro/babyfacepro-ctl.c | 707 +++++++++++++++++++++++-
- sound/usb/babyfacepro/babyfacepro.c     | 152 ++++-
- sound/usb/babyfacepro/babyfacepro.h     |  32 +-
- 3 files changed, 877 insertions(+), 14 deletions(-)
+ sound/usb/babyfacepro/babyfacepro.c | 96 +++++++++++++++++++++++++----
+ sound/usb/babyfacepro/babyfacepro.h |  4 +-
+ 2 files changed, 85 insertions(+), 15 deletions(-)
 
-diff --git a/sound/usb/babyfacepro/babyfacepro-ctl.c b/sound/usb/babyfacepro/babyfacepro-ctl.c
-index 60604242b..39584ec71 100644
---- a/sound/usb/babyfacepro/babyfacepro-ctl.c
-+++ b/sound/usb/babyfacepro/babyfacepro-ctl.c
-@@ -10,8 +10,10 @@
-  * state persistence, card lifecycle).
-  */
- #include <linux/log2.h>
-+#include <linux/math64.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-+#include <linux/string.h>
- #include <linux/unaligned.h>
- #include <linux/usb.h>
- #include <linux/workqueue.h>
-@@ -252,7 +254,9 @@ int babyface_write_default_mixer(struct snd_usb_babyface *chip)
- 			chip->xpoint[out][src][1] = level;
- 		}
- 
--	/* Host settings word (clock source Internal). */
-+	/* Host settings word - composed from tracked state (clock defaults
-+	 * to Internal, chip->clock_optical is zero-initialized).
-+	 */
- 	return bf_settings_write(chip);
- }
- 
-@@ -377,6 +381,11 @@ static int bf_master_put(struct snd_kcontrol *kctl,
- 
- 	chip->master[out][0] = l;
- 	chip->master[out][1] = r;
-+	/* A Phones change while DIM is engaged re-bases the restore point. */
-+	if (chip->dim && out == 1) {
-+		chip->dim_saved[0] = l;
-+		chip->dim_saved[1] = r;
-+	}
- 	ret = 1;
- out:
- 	mutex_unlock(&chip->mutex);
-@@ -1280,3 +1289,699 @@ int babyface_create_preamp(struct snd_usb_babyface *chip)
- 	}
- 	return 0;
- }
-+
-+static int bf_switch_info(struct snd_kcontrol *kctl,
-+			  struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
-+	uinfo->count = 1;
-+	uinfo->value.integer.min = 0;
-+	uinfo->value.integer.max = 1;
-+	return 0;
-+}
-+
-+static int bf_pitch_info(struct snd_kcontrol *kctl,
-+			 struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 1;
-+	uinfo->value.integer.min = -50;		/* -5.0 % */
-+	uinfo->value.integer.max = 50;		/* +5.0 % */
-+	uinfo->value.integer.step = 1;		/* 0.1 % */
-+	return 0;
-+}
-+
-+static int bf_pitch_get(struct snd_kcontrol *kctl,
-+			struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.integer.value[0] = chip->pitch;
-+	return 0;
-+}
-+
-+static int bf_pitch_put(struct snd_kcontrol *kctl,
-+			struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int p = ucontrol->value.integer.value[0];
-+	int ret = 0;
-+
-+	if (p < -50 || p > 50)
-+		return -EINVAL;
-+
-+	mutex_lock(&chip->mutex);
-+	if (p == chip->pitch)
-+		goto out;
-+
-+	/* The DDS quad is a ratio on top of the family rate, the same at
-+	 * every sample rate; bf_pitch_write() sends it with the settings
-+	 * keepalive that commits it.
-+	 */
-+	ret = bf_pitch_write(chip, p);
-+	if (ret < 0)
-+		goto out;
-+	chip->pitch = p;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+static int bf_loopback_get(struct snd_kcontrol *kctl,
-+			   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int out = kctl->private_value;
-+
-+	ucontrol->value.integer.value[0] = chip->loopback[out];
-+	ucontrol->value.integer.value[1] = chip->loopback[out];
-+	return 0;
-+}
-+
-+/* Write the full 30-channel loopback map: pair (2*out, 2*out+1) at
-+ * `on` (0x0001/0x0000), all other channels cleared - exactly what
-+ * TotalMix sends on every loopback toggle (cap_loopback2.pcap).  The
-+ * full-map write is also the reliable OFF (the old per-pair write
-+ * sometimes failed to disengage on the hardware).
-+ */
-+int bf_loopback_write_map(struct snd_usb_babyface *chip, int out,
-+			  bool on)
-+{
-+	int ch, ret;
-+
-+	for (ch = 0; ch < BF_LOOPBACK_CHANNELS; ch++) {
-+		u16 val = (on && (ch == out * 2 || ch == out * 2 + 1))
-+			  ? 0x0001 : 0x0000;
-+
-+		ret = bf_vendor_write(chip, BF_REQ_LOOPBACK, val, ch);
-+		if (ret < 0)
-+			return ret;
-+	}
-+	return 0;
-+}
-+
-+static int bf_loopback_put(struct snd_kcontrol *kctl,
-+			   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int out = kctl->private_value;
-+	bool on = ucontrol->value.integer.value[0];
-+	int ret = 0;
-+
-+	mutex_lock(&chip->mutex);
-+	if (on == chip->loopback[out])
-+		goto out;
-+	ret = bf_loopback_write_map(chip, out, on);
-+	if (ret < 0)
-+		goto out;
-+	/* Single-active model (TotalMix writes one pair at 0x0001, the
-+	 * rest 0x0000): toggling one output clears the others.
-+	 */
-+	memset(chip->loopback, 0, sizeof(chip->loopback));
-+	chip->loopback[out] = on;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+static int bf_an12_get(struct snd_kcontrol *kctl,
-+		       struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.integer.value[0] = chip->an12;
-+	return 0;
-+}
-+
-+static int bf_an12_put(struct snd_kcontrol *kctl,
-+		       struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	bool an12 = ucontrol->value.integer.value[0];
-+	u16 v;
-+	int ret = 0;
-+
-+	mutex_lock(&chip->mutex);
-+	if (an12 == chip->an12)
-+		goto out;
-+	v = (chip->linked ? 0x0400 : 0x0000) | (an12 ? 0x1000 : 0x0000);
-+	ret = bf_vendor_write(chip, BF_REQ_PREAMP, v, 0x1000);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_PREAMP_COMMIT, 0x0000, 0x0000);
-+	if (ret < 0)
-+		goto out;
-+	chip->an12 = an12;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+/* Clock source (PROTOCOL.md "Clock source / no-lock state",
-+ * hardware-verified 2026-08-22, clktest.c): NOT a register write at
-+ * all - only the BF_REG_KEEPALIVE_SETTINGS word changes (bit 2 =
-+ * Optical). Matches the naming TuxMix's ALSA backend already looks
-+ * for ("Sample Clock Source", the same name found on the stock
-+ * snd-usb-audio Class-Compliant driver) so it picks this control up
-+ * with zero changes on that side.
-+ */
-+static const char *const bf_clock_texts[] = {
-+	"Internal", "Optical In", NULL
-+};
-+
-+static int bf_clock_info(struct snd_kcontrol *kctl,
-+			 struct snd_ctl_elem_info *uinfo)
-+{
-+	return snd_ctl_enum_info(uinfo, 1, 2, bf_clock_texts);
-+}
-+
-+static int bf_clock_get(struct snd_kcontrol *kctl,
-+			struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.enumerated.item[0] = chip->clock_optical ? 1 : 0;
-+	return 0;
-+}
-+
-+static int bf_clock_put(struct snd_kcontrol *kctl,
-+			struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	bool optical = ucontrol->value.enumerated.item[0] != 0;
-+	int ret = 0;
-+
-+	mutex_lock(&chip->mutex);
-+	if (optical == chip->clock_optical)
-+		goto out;
-+	chip->clock_optical = optical;
-+	ret = bf_settings_write(chip);
-+	if (ret < 0) {
-+		chip->clock_optical = !optical;
-+		goto out;
-+	}
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+/* Optical Out format: bit 10 of the same BF_REG_KEEPALIVE_SETTINGS
-+ * word (PROTOCOL.md, LINUX-VALIDATION.md section 7).  The single optical
-+ * port carries ADAT by default; S/PDIF mode uses only AS1/2.  Like the
-+ * clock source, this is not a register write of its own.
-+ */
-+static const char *const bf_optical_texts[] = {
-+	"ADAT", "S/PDIF", NULL
-+};
-+
-+static int bf_optical_info(struct snd_kcontrol *kctl,
-+			   struct snd_ctl_elem_info *uinfo)
-+{
-+	return snd_ctl_enum_info(uinfo, 1, 2, bf_optical_texts);
-+}
-+
-+static int bf_optical_get(struct snd_kcontrol *kctl,
-+			  struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.enumerated.item[0] = chip->optical_spdif ? 1 : 0;
-+	return 0;
-+}
-+
-+static int bf_optical_put(struct snd_kcontrol *kctl,
-+			  struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	bool spdif = ucontrol->value.enumerated.item[0] != 0;
-+	int ret = 0;
-+
-+	mutex_lock(&chip->mutex);
-+	if (spdif == chip->optical_spdif)
-+		goto out;
-+	chip->optical_spdif = spdif;
-+	ret = bf_settings_write(chip);
-+	if (ret < 0) {
-+		chip->optical_spdif = !spdif;
-+		goto out;
-+	}
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+static int bf_link_get(struct snd_kcontrol *kctl,
-+		       struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.integer.value[0] = chip->linked;
-+	return 0;
-+}
-+
-+static int bf_link_put(struct snd_kcontrol *kctl,
-+		       struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	bool linked = ucontrol->value.integer.value[0];
-+	u16 v;
-+	int ret = 0;
-+
-+	mutex_lock(&chip->mutex);
-+	if (linked == chip->linked)
-+		goto out;
-+	v = (linked ? 0x0400 : 0x0000) | (chip->an12 ? 0x1000 : 0x0000);
-+	ret = bf_vendor_write(chip, BF_REQ_PREAMP, v, 0x1000);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_PREAMP_COMMIT, 0x0000, 0x0000);
-+	if (ret < 0)
-+		goto out;
-+	chip->linked = linked;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+static int bf_ms_get(struct snd_kcontrol *kctl,
-+		     struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.integer.value[0] = chip->ms_proc;
-+	return 0;
-+}
-+
-+/* MS-proc: engage per the cap_ms2.pcap ON pattern - write 0x0000 to
-+ * ALL FOUR AN2 (side) crosspoints: standard map 0x0035/0x004F (L/R)
-+ * + low map 0x0001/0x001B (L/R) - the side path is muted (ear-
-+ * verified 2026-08-26 with the mic on AN2: MS ON = silence); release
-+ * restores the cached fader values (host-side, like TotalMix).
-+ * (The 0x1000/0x0004 writes are the DISENGAGE restore values seen in
-+ * cap_ms2 - the driver had them inverted on the engage path.)
-+ */
-+static int bf_ms_put(struct snd_kcontrol *kctl,
-+		     struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	bool on = ucontrol->value.integer.value[0];
-+	int ret = 0;
-+
-+	mutex_lock(&chip->mutex);
-+	if (on == chip->ms_proc)
-+		goto out;
-+	if (on) {
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000, 0x0035);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000, 0x004f);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000, 0x0001);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000, 0x001b);
-+		if (ret < 0)
-+			goto out;
-+	} else {
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
-+				      chip->xpoint[1][1][0], 0x0001);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
-+				      chip->xpoint[1][1][0], 0x0035);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
-+				      chip->xpoint[1][1][1], 0x001b);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
-+				      chip->xpoint[1][1][1], 0x004f);
-+		if (ret < 0)
-+			goto out;
-+	}
-+	chip->ms_proc = on;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+/* DIM - cap_dim2.pcap: an absolute -20 dB on the Phones master
-+ * (out 1: 8-bit 0xCB / 16-bit 0x0333) regardless of the current level,
-+ * plus the 0x17 wVal=0x2000 wIdx=0x2000 flag; release restores the
-+ * pre-DIM master host-side.  The master cache keeps the real volume.
-+ */
-+static int bf_dim_get(struct snd_kcontrol *kctl,
-+		      struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.integer.value[0] = chip->dim;
-+	return 0;
-+}
-+
-+/* Apply DIM on the wire.  chip->mutex must be held by the caller, the
-+ * "Dim Switch" put.
-+ */
-+static int bf_dim_apply(struct snd_usb_babyface *chip, bool on)
-+{
-+	u16 flag;
-+	int ret;
-+
-+	lockdep_assert_held(&chip->mutex);
-+	if (on) {
-+		chip->dim_saved[0] = chip->master[1][0];
-+		chip->dim_saved[1] = chip->master[1][1];
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN, BF_MASTER_MINUS20_8,
-+				      BF_REG_MASTER_8 + 2 * 1);
-+		if (ret < 0)
-+			return ret;
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN, BF_MASTER_MINUS20_8,
-+				      BF_REG_MASTER_8 + 2 * 1 + 1);
-+		if (ret < 0)
-+			return ret;
-+		flag = bf_flag_cycle[chip->flag_cnt];
-+		chip->flag_cnt = (chip->flag_cnt + 1) & 3;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
-+				      BF_MASTER_MINUS20_16,
-+				      (BF_REG_MASTER_16 + 2 * 1) | flag);
-+		if (ret < 0)
-+			return ret;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
-+				      BF_MASTER_MINUS20_16,
-+				      (BF_REG_MASTER_16 + 2 * 1 + 1) | flag);
-+		if (ret < 0)
-+			return ret;
-+		ret = bf_vendor_write(chip, BF_REQ_PREAMP, 0x2000, 0x2000);
-+		if (ret < 0)
-+			return ret;
-+	} else {
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN,
-+				      bf_master_reg8(chip->dim_saved[0]),
-+				      BF_REG_MASTER_8 + 2 * 1);
-+		if (ret < 0)
-+			return ret;
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN,
-+				      bf_master_reg8(chip->dim_saved[1]),
-+				      BF_REG_MASTER_8 + 2 * 1 + 1);
-+		if (ret < 0)
-+			return ret;
-+		flag = bf_flag_cycle[chip->flag_cnt];
-+		chip->flag_cnt = (chip->flag_cnt + 1) & 3;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
-+				      bf_master_reg16(chip->dim_saved[0]),
-+				      (BF_REG_MASTER_16 + 2 * 1) | flag);
-+		if (ret < 0)
-+			return ret;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
-+				      bf_master_reg16(chip->dim_saved[1]),
-+				      (BF_REG_MASTER_16 + 2 * 1 + 1) | flag);
-+		if (ret < 0)
-+			return ret;
-+		ret = bf_vendor_write(chip, BF_REQ_PREAMP, 0x0000, 0x2000);
-+		if (ret < 0)
-+			return ret;
-+	}
-+	chip->dim = on;
-+	return 0;
-+}
-+
-+static int bf_dim_put(struct snd_kcontrol *kctl,
-+		      struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	bool on = ucontrol->value.integer.value[0];
-+	int ret = 0;
-+
-+	mutex_lock(&chip->mutex);
-+	if (on == chip->dim)
-+		goto out;
-+	ret = bf_dim_apply(chip, on);
-+	if (ret == 0)
-+		ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+static int bf_width_info(struct snd_kcontrol *kctl,
-+			 struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 1;
-+	uinfo->value.integer.min = -100;
-+	uinfo->value.integer.max = 100;
-+	uinfo->value.integer.step = 1;
-+	return 0;
-+}
-+
-+static int bf_width_get(struct snd_kcontrol *kctl,
-+			struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.integer.value[0] = chip->width;
-+	return 0;
-+}
-+
-+static int bf_width_put(struct snd_kcontrol *kctl,
-+			struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int w = ucontrol->value.integer.value[0];
-+	u16 l, r;
-+	int ret = 0;
-+
-+	if (w < -100 || w > 100)
-+		return -EINVAL;
-+
-+	mutex_lock(&chip->mutex);
-+	if (w == chip->width)
-+		goto out;
-+	/* Width spread: L = 0x1000*(1+w), R = 0x1000*(1-w), L+R = 0x2000.
-+	 * TotalMix writes the strip's src pair on BOTH maps (cap_width3-7,
-+	 * PROTOCOL.md "Width strip mapping"): the low map (0x0000+src L /
-+	 * 0x001A+src R) and the std block-0 map (0x0034+src L /
-+	 * 0x004E+src R) - the stereo pair spreads L/R in opposition, the
-+	 * mirror src (AN2) gets the swapped values.
-+	 */
-+	l = (u16)(((0x2000 * (100 + w) / 2) + 50) / 100);
-+	r = 0x2000 - l;
-+	/* Low map: AN1 L=0x0000, R=0x001A; AN2 L=0x0001, R=0x001B. */
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, l, 0x0000);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, r, 0x001a);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, r, 0x0001);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, l, 0x001b);
-+	if (ret < 0)
-+		goto out;
-+	/* Std block-0 map (item 0b, the missing half): AN1 L=0x0034,
-+	 * R=0x004E; AN2 L=0x0035, R=0x004F.  (The playback strips PB2-6
-+	 * target block n-2 - 0x00AE family - reserved for the per-strip
-+	 * controls.)
-+	 */
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, l, 0x0034);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, r, 0x004e);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, r, 0x0035);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, l, 0x004f);
-+	if (ret < 0)
-+		goto out;
-+	chip->width = w;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+static int bf_fx_send_info(struct snd_kcontrol *kctl,
-+			   struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 1;
-+	uinfo->value.integer.min = 0;
-+	uinfo->value.integer.max = 0x1000;
-+	uinfo->value.integer.step = 1;
-+	return 0;
-+}
-+
-+static int bf_fx_send_get(struct snd_kcontrol *kctl,
-+			  struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.integer.value[0] = chip->fx_send;
-+	return 0;
-+}
-+
-+static int bf_fx_send_put(struct snd_kcontrol *kctl,
-+			  struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	long nv = ucontrol->value.integer.value[0];
-+	u16 v;
-+	int ret = 0;
-+
-+	/* Check before narrowing (a value >= 0x10000 would wrap to a
-+	 * passing u16); see bf_master_put().
-+	 */
-+	if (nv < 0 || nv > 0x1000)
-+		return -EINVAL;
-+	v = nv;
-+
-+	mutex_lock(&chip->mutex);
-+	if (v == chip->fx_send)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, v, 0x0138);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, v, 0x0153);
-+	if (ret < 0)
-+		goto out;
-+	chip->fx_send = v;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+int babyface_create_flags(struct snd_usb_babyface *chip)
-+{
-+	struct snd_kcontrol *kctl;
-+	int i, err;
-+
-+	kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Varispeed Pitch",
-+		.info = bf_pitch_info,
-+		.get = bf_pitch_get,
-+		.put = bf_pitch_put,
-+	}, chip);
-+	err = snd_ctl_add(chip->card, kctl);
-+	if (err < 0)
-+		return err;
-+
-+	for (i = 0; i < 6; i++) {
-+		kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+			.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+			.name = "Loopback Switch",
-+			.index = i,
-+			.info = bf_mute_info,
-+			.get = bf_loopback_get,
-+			.put = bf_loopback_put,
-+			.private_value = i,
-+		}, chip);
-+		err = snd_ctl_add(chip->card, kctl);
-+		if (err < 0)
-+			return err;
-+	}
-+
-+	kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "AN 1>2 Switch",
-+		.info = bf_switch_info,
-+		.get = bf_an12_get,
-+		.put = bf_an12_put,
-+	}, chip);
-+	err = snd_ctl_add(chip->card, kctl);
-+	if (err < 0)
-+		return err;
-+
-+	kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Sample Clock Source",
-+		.info = bf_clock_info,
-+		.get = bf_clock_get,
-+		.put = bf_clock_put,
-+	}, chip);
-+	err = snd_ctl_add(chip->card, kctl);
-+	if (err < 0)
-+		return err;
-+
-+	kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Optical Out Format",
-+		.info = bf_optical_info,
-+		.get = bf_optical_get,
-+		.put = bf_optical_put,
-+	}, chip);
-+	err = snd_ctl_add(chip->card, kctl);
-+	if (err < 0)
-+		return err;
-+
-+	kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "AN1/2 Link Switch",
-+		.info = bf_switch_info,
-+		.get = bf_link_get,
-+		.put = bf_link_put,
-+	}, chip);
-+	err = snd_ctl_add(chip->card, kctl);
-+	if (err < 0)
-+		return err;
-+
-+	kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "MS Processor Switch",
-+		.info = bf_switch_info,
-+		.get = bf_ms_get,
-+		.put = bf_ms_put,
-+	}, chip);
-+	err = snd_ctl_add(chip->card, kctl);
-+	if (err < 0)
-+		return err;
-+
-+	kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Dim Switch",
-+		.info = bf_switch_info,
-+		.get = bf_dim_get,
-+		.put = bf_dim_put,
-+	}, chip);
-+	chip->dim_kctl = kctl;
-+	err = snd_ctl_add(chip->card, kctl);
-+	if (err < 0)
-+		return err;
-+
-+	kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Width",
-+		.info = bf_width_info,
-+		.get = bf_width_get,
-+		.put = bf_width_put,
-+	}, chip);
-+	err = snd_ctl_add(chip->card, kctl);
-+	if (err < 0)
-+		return err;
-+
-+	kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "FX Send Volume",
-+		.info = bf_fx_send_info,
-+		.get = bf_fx_send_get,
-+		.put = bf_fx_send_put,
-+	}, chip);
-+	err = snd_ctl_add(chip->card, kctl);
-+	if (err < 0)
-+		return err;
-+
-+	return 0;
-+}
 diff --git a/sound/usb/babyfacepro/babyfacepro.c b/sound/usb/babyfacepro/babyfacepro.c
-index c2835e2d6..ed4555c71 100644
+index ed4555c71..e0eb0ce9b 100644
 --- a/sound/usb/babyfacepro/babyfacepro.c
 +++ b/sound/usb/babyfacepro/babyfacepro.c
-@@ -100,14 +100,26 @@ int bf_vendor_read(struct snd_usb_babyface *chip, u8 req, u16 idx, u8 *buf)
- 				    0, idx, buf, 4, BF_CTL_TIMEOUT, GFP_KERNEL);
+@@ -3,7 +3,8 @@
+  * RME Babyface Pro / Pro FS - proprietary-mode USB audio driver
+  *
+  * Core driver: USB vendor requests + cold init, interrupt-URB PCM
+- * streaming, and the card lifecycle (probe/disconnect/module entry).
++ * streaming, the mixer-state replay after a resume, and
++ * the card lifecycle (probe/disconnect/PM/module entry).
+  *
+  * See babyfacepro.h for the shared device state and register map,
+  * and babyfacepro-ctl.c for the ALSA control surface.
+@@ -198,9 +199,9 @@ int bf_pitch_write(struct snd_usb_babyface *chip, int pitch)
  }
  
--/* Sends the BF_REG_KEEPALIVE_SETTINGS word (PROTOCOL.md: "keepalive
-- * 0x10 0x05CF wVal = host settings-state register" - a single shared
-- * word, not independent per-setting writes).  The clock source is
-- * Internal.
-+/* Composes and sends the BF_REG_KEEPALIVE_SETTINGS word from every
-+ * currently-tracked flag together (PROTOCOL.md: "keepalive 0x10 0x05CF
-+ * wVal = host settings-state register" - a single shared word, not
-+ * independent per-setting writes).  Clock source and Optical Out format
-+ * are tracked today; the single call site this replaces (which used to
-+ * hardcode 0x0001, i.e. "always Internal") is why this exists as its own
-+ * function rather than an inline write at each call site - the next
-+ * flag added to this word (EQ for Record, this driver's own upstream
-+ * follow-up list) just OR's in here too, instead of every caller needing
-+ * to remember every other bit.
+ /* The cold-start init (cap_coldplug.pcap), verbatim from the user-space
+- * reference (protocol::streaming_init).  Run at probe, where the
+- * device state is unknown; a session start does not need it (see
+- * babyface_stream_start()).
++ * reference (protocol::streaming_init).  Run at probe and after resume,
++ * where the device state is unknown; a session start does not need it
++ * (see babyface_stream_start()).
   */
- int bf_settings_write(struct snd_usb_babyface *chip)
- {
--	return bf_vendor_write(chip, BF_REQ_KEEPALIVE, BF_SETTINGS_CLOCK_INTERNAL,
-+	u16 w = chip->clock_optical ? BF_SETTINGS_CLOCK_OPTICAL :
-+				       BF_SETTINGS_CLOCK_INTERNAL;
-+
-+	if (chip->optical_spdif)
-+		w |= BF_SETTINGS_OPTICAL_SPDIF;
-+
-+	return bf_vendor_write(chip, BF_REQ_KEEPALIVE, w,
- 			       BF_REG_KEEPALIVE_SETTINGS);
- }
- 
-@@ -193,6 +205,7 @@ int bf_pitch_write(struct snd_usb_babyface *chip, int pitch)
  int bf_cold_init(struct snd_usb_babyface *chip)
  {
- 	const struct bf_rate *r;
-+	u16 w;
- 	int ret, i;
- 
- 	for (i = 0; i <= 0x3d; i++) {
-@@ -225,8 +238,12 @@ int bf_cold_init(struct snd_usb_babyface *chip)
- 	r = bf_rate_lookup(chip->rate);
- 	if (!r)
- 		return -EINVAL;
--	ret = bf_vendor_write(chip, BF_REQ_KEEPALIVE,
--			      (bf_rate_family(r) << 4) | BF_SETTINGS_CLOCK_INTERNAL,
-+	w = (bf_rate_family(r) << 4) |
-+	    (chip->clock_optical ? BF_SETTINGS_CLOCK_OPTICAL :
-+				   BF_SETTINGS_CLOCK_INTERNAL);
-+	if (chip->optical_spdif)
-+		w |= BF_SETTINGS_OPTICAL_SPDIF;
-+	ret = bf_vendor_write(chip, BF_REQ_KEEPALIVE, w,
- 			      BF_REG_KEEPALIVE_INIT);
- 	if (ret < 0)
- 		return ret;
-@@ -300,14 +317,111 @@ int babyface_restore_state(struct snd_usb_babyface *chip)
- 	return bf_pitch_write(chip, chip->pitch);
+@@ -267,8 +268,17 @@ int bf_cold_init(struct snd_usb_babyface *chip)
+ 	return 0;
  }
  
--/* Re-apply the per-input state that sits on top of the crosspoints
-- * (phase invert, stereo split, trim) after a state restore.  The write
-- * patterns mirror the corresponding _put() handlers.  Caller holds
-- * chip->mutex.
-+/* Re-apply the state that sits on top of the masters and crosspoints
-+ * (the routing flags, DIM, phase invert, stereo split, trim) after a
-+ * state restore.  The write patterns mirror the corresponding _put()
-+ * handlers.  Caller holds chip->mutex.
-  */
- int bf_state_apply_flags(struct snd_usb_babyface *chip)
- {
--	int ret;
-+	int out, ret, on_out = -1;
-+	u16 l, r;
-+
-+	/* Loopback: the full 30-channel map from the cached state (the
-+	 * single-active invariant keeps at most one pair at 0x0001).
-+	 */
-+	for (out = 0; out < 6; out++) {
-+		if (chip->loopback[out]) {
-+			on_out = out;
-+			break;
-+		}
-+	}
-+	ret = bf_loopback_write_map(chip, on_out, on_out >= 0);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = bf_vendor_write(chip, BF_REQ_PREAMP,
-+			      (chip->linked ? 0x0400 : 0x0000) |
-+			      (chip->an12 ? 0x1000 : 0x0000), 0x1000);
-+	if (ret < 0)
-+		return ret;
-+	ret = bf_vendor_write(chip, BF_REQ_PREAMP_COMMIT, 0x0000, 0x0000);
-+	if (ret < 0)
-+		return ret;
-+
-+	l = (u16)(((0x2000 * (100 + chip->width) / 2) + 50) / 100);
-+	r = 0x2000 - l;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, l, 0x0000);
-+	if (ret < 0)
-+		return ret;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, r, 0x001a);
-+	if (ret < 0)
-+		return ret;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, r, 0x0001);
-+	if (ret < 0)
-+		return ret;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, l, 0x001b);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, chip->fx_send, 0x0138);
-+	if (ret < 0)
-+		return ret;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, chip->fx_send, 0x0153);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (chip->ms_proc) {
-+		/* Same ON pattern as bf_ms_put (cap_ms2.pcap): mute the AN2
-+		 * (side) crosspoints, both maps.
-+		 */
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000, 0x0035);
-+		if (ret < 0)
-+			return ret;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000, 0x004f);
-+		if (ret < 0)
-+			return ret;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000, 0x0001);
-+		if (ret < 0)
-+			return ret;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000, 0x001b);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	/* Re-apply an engaged DIM (the fixed -20 dB Phones pair + flag).  The
-+	 * level DIM releases back to is not persisted: it always tracks the
-+	 * Phones master while DIM is engaged, so rebuild it here - otherwise a
-+	 * DIM released after a re-probe would drive Phones to
-+	 * silence (dim_saved still zero on the fresh chip).
-+	 */
-+	if (chip->dim) {
-+		chip->dim_saved[0] = chip->master[1][0];
-+		chip->dim_saved[1] = chip->master[1][1];
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN, 0xcb,
-+				      BF_REG_MASTER_8 + 2 * 1);
-+		if (ret < 0)
-+			return ret;
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN, 0xcb,
-+				      BF_REG_MASTER_8 + 2 * 1 + 1);
-+		if (ret < 0)
-+			return ret;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0333,
-+				      (BF_REG_MASTER_16 + 2 * 1) |
-+				      bf_flag_cycle[chip->flag_cnt]);
-+		if (ret < 0)
-+			return ret;
-+		chip->flag_cnt = (chip->flag_cnt + 1) & 3;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0333,
-+				      (BF_REG_MASTER_16 + 2 * 1 + 1) |
-+				      bf_flag_cycle[chip->flag_cnt]);
-+		if (ret < 0)
-+			return ret;
-+		chip->flag_cnt = (chip->flag_cnt + 1) & 3;
-+		ret = bf_vendor_write(chip, BF_REQ_PREAMP, 0x2000, 0x2000);
-+		if (ret < 0)
-+			return ret;
-+	}
- 
- 	/* Re-apply any engaged Phase invert - the crosspoint restore loop
- 	 * above already re-wrote xpoint[][] as PLAIN values, so a phase
-@@ -1525,6 +1639,14 @@ static int babyface_probe(struct usb_interface *intf,
- 		dev_err(&intf->dev, "default mixer restore failed: %d\n", err);
- 		goto error;
- 	}
-+	/* The cold init cleared the flag registers as well. */
-+	mutex_lock(&chip->mutex);
-+	err = bf_state_apply_flags(chip);
-+	mutex_unlock(&chip->mutex);
-+	if (err < 0) {
-+		dev_err(&intf->dev, "flag restore failed: %d\n", err);
-+		goto error;
-+	}
- 	/* Keep the allocation size independent of the active USB mode. */
- 	urbsize = BF_WORDS_PER_FRAME * sizeof(u32) * chip->frames_per_urb;
- 	chip->urbs_in = kcalloc(chip->nurbs, sizeof(*chip->urbs_in), GFP_KERNEL);
-@@ -1593,6 +1715,12 @@ static int babyface_probe(struct usb_interface *intf,
- 		goto error;
- 	}
- 
-+	err = babyface_create_flags(chip);
-+	if (err < 0) {
-+		dev_err(&intf->dev, "flag control creation failed: %d\n", err);
-+		goto error;
-+	}
-+
- 	err = snd_card_register(chip->card);
- 	if (err < 0) {
- 		dev_err(&intf->dev, "snd_card_register failed: %d\n", err);
-diff --git a/sound/usb/babyfacepro/babyfacepro.h b/sound/usb/babyfacepro/babyfacepro.h
-index 156a8c7dd..a6e231f5f 100644
---- a/sound/usb/babyfacepro/babyfacepro.h
-+++ b/sound/usb/babyfacepro/babyfacepro.h
-@@ -115,9 +115,17 @@
- 
- /* Host settings-state word carried by the BF_REG_KEEPALIVE_SETTINGS
-  * keepalive (PROTOCOL.md "keepalive 0x10 0x05CF wVal = host settings-
-- * state register", hardware-verified 2026-08-22/23).
-+ * state register", hardware-verified 2026-08-22/23): clock source is
-+ * NOT a register write at all, only this flag word changes.  Bit 2 =
-+ * clock Optical (bit clear = Internal, the default); bit 10 = Optical-Out
-+ * S/PDIF (bit clear = ADAT, the default).  Bit 6 (EQ for Record) is next
-+ * in the driver's own upstream follow-up list, not wired to a control
-+ * yet - the composer below OR's in every tracked bit, structured so that
-+ * one can be added the same way without another flag-stomping rewrite.
-  */
- #define BF_SETTINGS_CLOCK_INTERNAL	0x0001
-+#define BF_SETTINGS_CLOCK_OPTICAL	0x0004
-+#define BF_SETTINGS_OPTICAL_SPDIF	0x0400
- 
- /* Preamp state byte (0x17, wIdx 0x003F - full state, verified).
-  * NOTE 2026-08-26 (cap_reflevel3.pcap): the 0x0C "base" is NOT a
-@@ -182,6 +190,15 @@
- #define BF_REG_LOWMAP_BASE_L		BF_REG_XPOINT_BASE_L
- #define BF_REG_LOWMAP_BASE_R		BF_REG_XPOINT_BASE_R
- 
-+#define BF_REQ_LOOPBACK			0x15	/* per-output-channel flag */
-+
-+/* Loopback map width (captured 2026-08-25, cap_loopback2.pcap):
-+ * TotalMix writes the FULL 30-channel 0x15 map on every toggle (ON =
-+ * the pair at 0x0001 + the other 28 at 0x0000; OFF = all 0x0000).
-+ * wIdx = 2xout_index: AN1/2 = 0/1, PH3/4 = 2/3, AS1/2 = 4/5, ...
+-/* Re-apply the whole cached mixer state to the device, whose registers
+- * the cold init cleared.  Caller holds chip->mutex.
++/* Units probed since the module was loaded.
++ * The SELECT selection is not in the readback, and the values alsactl
++ * restores right after a probe are the ones of the last alsactl store.
++ * After a boot that is the last shutdown, the newest there is.  A later
++ * probe of the same unit (a usbfs claim released, an unbind, a replug)
++ * may follow SELECT presses made since, so bf_panel_select_put() needs
++ * to tell the two apart.
 + */
-+#define BF_LOOPBACK_CHANNELS		30
++/* Re-apply the whole cached mixer state after a resume (the device
++ * lost its registers across a system suspend - TotalMix does the same
++ * re-apply).  Caller holds chip->mutex.
+  */
+ int babyface_restore_state(struct snd_usb_babyface *chip)
+ {
+@@ -390,10 +400,8 @@ int bf_state_apply_flags(struct snd_usb_babyface *chip)
+ 	}
+ 
+ 	/* Re-apply an engaged DIM (the fixed -20 dB Phones pair + flag).  The
+-	 * level DIM releases back to is not persisted: it always tracks the
+-	 * Phones master while DIM is engaged, so rebuild it here - otherwise a
+-	 * DIM released after a re-probe would drive Phones to
+-	 * silence (dim_saved still zero on the fresh chip).
++	 * level DIM releases back to tracks the Phones master while DIM is
++	 * engaged.
+ 	 */
+ 	if (chip->dim) {
+ 		chip->dim_saved[0] = chip->master[1][0];
+@@ -838,8 +846,9 @@ static int babyface_stream_start(struct snd_usb_babyface *chip)
+ 	/* A session start is what the RME Windows driver sends
+ 	 * (cap_audio): the trigger pair, the URBs, the arm.  The device
+ 	 * keeps its mixer state between sessions, so nothing is cleared
+-	 * or re-applied here; the cold init runs at probe only.  The rate
+-	 * is written first: hw_params only re-points the speed multiplier.
++	 * or re-applied here; the cold init runs at probe and resume
++	 * only.  The rate is written first: hw_params only re-points the
++	 * speed multiplier.
+ 	 */
+ 	ret = bf_clock_write(chip);
+ 	if (ret < 0)
+@@ -1546,7 +1555,8 @@ static int babyface_probe(struct usb_interface *intf,
+ 	chip->card = card;
+ 
+ 	chip->dev = usb_get_dev(dev);
+-	/* USB autosuspend is untested: nothing in this driver holds a PM
++	/* USB autosuspend is untested: babyface_suspend()/_resume() don't
++	 * check PMSG_IS_AUTO, and nothing in this driver holds a PM
+ 	 * reference while streaming, so an autosuspend request could race
+ 	 * a live stream.  Disable it explicitly rather than ship an
+ 	 * untested code path - full autosuspend support (correct
+@@ -1788,6 +1798,63 @@ static void babyface_disconnect(struct usb_interface *intf)
+ 	snd_card_free_when_closed(chip->card);
+ }
+ 
++static int babyface_suspend(struct usb_interface *intf, pm_message_t message)
++{
++	struct snd_usb_babyface *chip = usb_get_intfdata(intf);
 +
- /* The "cross" register block within each output: the L-registers sit at
-  * odd offsets 5..23 and the R-registers at even offsets 4..22 (the stereo
-  * source pairs that can be cross-linked).  bf_crosspoint_clear_cross()
-@@ -332,6 +349,17 @@ struct snd_usb_babyface {
- 					 * (0 = +4dBu, the default)
- 					 */
- 	struct snd_kcontrol *trim_kctl[4]; /* for snd_ctl_notify */
-+	bool loopback[6];
-+	bool an12;			/* AN 1>2 copy */
-+	bool linked;			/* AN1/2 input link */
-+	bool ms_proc;			/* MS processor engaged */
-+	bool clock_optical;		/* clock source: false = Internal (default) */
-+	bool optical_spdif;		/* Optical Out: false = ADAT (default) */
-+	int width;			/* width knob -100..+100 */
-+	u16 fx_send;			/* FX send level 0..0x1000 */
-+	u16 dim_saved[2];		/* pre-DIM Phones master (out 1 L/R) */
-+	bool dim;			/* DIM engaged (fixed -20 dB on Phones) */
-+	struct snd_kcontrol *dim_kctl;      /* for snd_ctl_notify */
++	struct snd_device *sdev;
++
++	if (!chip)
++		return 0;
++	list_for_each_entry(sdev, &chip->card->devices, list) {
++		if (sdev->type == SNDRV_DEV_PCM)
++			snd_pcm_suspend_all(sdev->device_data);
++	}
++	/* The URB handlers queue the work: kill them first. */
++	mutex_lock(&chip->mutex);
++	if (chip->streaming)
++		babyface_stream_kill(chip);
++	mutex_unlock(&chip->mutex);
++	cancel_work_sync(&chip->stream_work);
++	return 0;
++}
++
++static int babyface_resume(struct usb_interface *intf)
++{
++	struct snd_usb_babyface *chip = usb_get_intfdata(intf);
++	int err;
++
++	if (!chip)
++		return 0;
++
++	/* The device lost its state across the suspend; re-run the cold
++	 * init and re-apply the cached mixer state.  Suspended PCM
++	 * substreams are woken by the core - apps get -ESTRPIPE and
++	 * restart (prepare starts a new session).
++	 *
++	 * This is also the reset_resume handler.  Some hosts reset the
++	 * device on resume; that needs nothing more than the cold init
++	 * already does here, and without the handler the USB core unbinds
++	 * and re-probes the driver instead: the card goes away, open PCMs
++	 * fail, and udev's alsactl restore then loads the mixer state
++	 * stored at the last shutdown over the current one.
++	 */
++	mutex_lock(&chip->mutex);
++	err = usb_set_interface(chip->dev, BF_IFACE, chip->alt);
++	if (err < 0)
++		goto out;
++	err = bf_cold_init(chip);
++	if (err < 0)
++		goto out;
++	err = babyface_restore_state(chip);
++	if (err < 0)
++		goto out;
++	err = bf_state_apply_flags(chip);
++out:
++	mutex_unlock(&chip->mutex);
++	return err;
++}
++
+ static const struct usb_device_id babyface_ids[] = {
+ 	{ USB_DEVICE(USB_VENDOR_RME, USB_PRODUCT_BABYFACE_PRO_FS) },
+ 	{ }
+@@ -1798,6 +1865,9 @@ static struct usb_driver babyface_driver = {
+ 	.name = "snd-usb-babyface-pro",
+ 	.probe = babyface_probe,
+ 	.disconnect = babyface_disconnect,
++	.suspend = babyface_suspend,
++	.resume = babyface_resume,
++	.reset_resume = babyface_resume,
+ 	.id_table = babyface_ids,
  };
  
- struct bf_rate {
-@@ -382,6 +410,8 @@ int bf_trim_apply(struct snd_usb_babyface *chip, int mic, int trim_db2);
- int bf_gain_max_db(int mic);
- int bf_gain_db(int mic, u8 raw);
- u8 bf_gain_raw(int mic, int db);
-+int bf_loopback_write_map(struct snd_usb_babyface *chip, int out, bool on);
-+int babyface_create_flags(struct snd_usb_babyface *chip);
+diff --git a/sound/usb/babyfacepro/babyfacepro.h b/sound/usb/babyfacepro/babyfacepro.h
+index a6e231f5f..259f7d3a0 100644
+--- a/sound/usb/babyfacepro/babyfacepro.h
++++ b/sound/usb/babyfacepro/babyfacepro.h
+@@ -12,7 +12,7 @@
+  * snd-usb-audio quirk.
+  *
+  * babyfacepro.c holds the card lifecycle, the PCM stream and the
+- * mixer-state persistence across re-probes;
++ * mixer-state persistence across re-probes and resume;
+  * babyfacepro-ctl.c holds the ALSA control surface - the hardware
+  * mixer.
+  *
+@@ -386,7 +386,7 @@ void babyface_pcm_stop_both(struct snd_usb_babyface *chip, snd_pcm_state_t state
+ void babyface_stream_work(struct work_struct *work);
+ extern const struct snd_pcm_hw_constraint_list bf_rates_constraint;
  
- /* Master gain-law helpers (babyfacepro-ctl.c). */
- int bf_master_16bit(int half_db);	/* dBx2 -> 16-bit master */
+-/* Mixer-state persistence across interface re-probes. */
++/* Mixer-state persistence across interface re-probes/resume. */
+ int babyface_restore_state(struct snd_usb_babyface *chip);
+ int bf_state_apply_flags(struct snd_usb_babyface *chip);
+ 
 -- 
 2.56.0
 
