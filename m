@@ -1,92 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793114443;
-	b=AqWDEFMA9QT70/k1m08xn2qM2jM/xIxY6ajtnHN8Jow9oWf47BkvrLoP5xWOq8hDaBiP
-	 aj2o1pwGt1mtQAZbg3gLeoClXqegCLyfdfinzwh6eoMoLvQt7BU6WlDOqUywKTtWKFMQb
-	 6KD58nBzBtmuWo2cv8WRiPymW2KZ3T51yaLtAf3btTdFtfJTW+jv5F9cry4UC/4Npuaw5
-	 Hadok+B4XlXLMKa2n6VTWzJssHEzwldn4TldR4ZiEo6WMW6CPlNRICsWzAbr01oegpvg+
-	 PX6x8igLDdoGheoSMjLg7Lzm6/rgmh2QknG+oSxI2oTZ3lBqoXAex8LrJhfsezhpmeQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793114443;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.46
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793121503;
+	b=pST99Q5x9ADtoFh9m7SeWfDoH4DMAUPJVHEeQ40+ZJE1ExtzpgI9itQoZZd+bnZSek7Q
+	 YjYkXl1+QVbnGJ1IzQQX4mZxwIJBd6LIo9/u65FWbGWM68Ka9+N6ZTLHIT8HLhQ+96r/6
+	 FsW4t5R+uZDDiUKQV/G7HcfMeHOS398uwc3QeQ2QVDvwlHxooE+nkWrFK/0bZAiuOwpbl
+	 2G0pRra7tFfqGbrDt2BgXCD3C3V+oLwWZ5i10M5wIV/LGcE1QcGgUOREs9ayUuSpdtwgV
+	 s1N3VEE2j1uSpdoKPc+9724EpV1NRVjcDpkgp/AsnhX2/t2QjRhQbkcPqpzcrq4HNNA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793121503;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=IUODWlkVmJj+vXJKTqvEsunNB2Kl3gE7BePTN1LJNVg=;
-	b=t7nQoFuUHyUKHhTINrJ/GQn3dPeXQW3k3ZmKF7Wp6dMDDR+Dxadr8PxCrYW+QKxQ47m7
-	 WQe1AxaRxEHb72JNFOCWL4qkrWhAGUd08+Hy09ZvRRinoUHhY2Hgz1R6TzqHYF4/qyyTn
-	 Y84BGukfqy+ezSspKqt+AvWoa5smwTbn03fIf8bV1TDOGN4Adi9sg36A5edcdd6vaU5Ls
-	 lPW9/oHRXsTzanDZRE89MC/k2C4ZoeFo6jlqUBNmRMdD4BaRhTxayP2IpbOqqeUlB3u3K
-	 mbVwufwBm+BkI4Lx8tB5fwoBqfTnBJEHd8GT6NPpEGODFE8lGXXiNwpbRYSUtxulDqg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=PmgfchcoCK9IQsA5yVNcgReDzkrnB4LL8E3TuvSoWU8=;
+	b=O4LXVb2DOMBULi3zlf49UJ8Z+zA8oP9joScIWE8o8IyPgHufQq8AJoW9fNmtF4ZDlGZJ
+	 fRW86qVN07kBGwPzGm/vCd+D+hJ8LKRg29D4lwpzpTX5dV7aTFGqCBlO0zPd5X9keW/ir
+	 HLZJ/5oBVNVgD0IKLuue+Jo1D6SizF5TICZdZ7SlvJILkiiHUuW+crH74Bd8PAHz9abxv
+	 PN32XW1QM5IHvJ9/Y5KlBTKjfXL/0MFh5fJ35Rq4dT4BUkK3CM5ujVSbfwyOw6Xbfd+hf
+	 wDjvFA78Qjx5BHSyYB/JQ7RMkxcwv+8RmFEcj6zjsUUElmS5bxqiBBqs/V3FzG7ZmXw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HJ02HWUC;
-	arc=none smtp.remote-ip=209.85.221.50
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KViQ7A7q;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.46
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC458606A31B
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 15:20:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC458606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F4E606A31E
+	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 17:18:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39F4E606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HJ02HWUC
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48df54150dfso2286645f8f.0
-        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 08:20:42 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KViQ7A7q
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c450ab1483cso7080766b.3
+        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 10:18:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793121501; cv=none;
+        d=google.com; s=arc-20260327;
+        b=knDkdzAB76P97y5wCEg8Z7pdDUIRxdtHlQ3DeXzn8suAJ3ySXimIw2LA/1wvqexOZg
+         hwEv8JjlKqZld19rhuxm34NTMk5CYhCJ5Jwx371aCv29190bNncl1d8yNrNjECKI+cj5
+         HDt4uaYzNCGUaHOar+5HAa9Z0Br8wJQZc01EMR7fJ23VPXvJq1MkhhSL6oSx9m80W9BT
+         OZOxZJHjmfMPjC13pdFNcA7yKku6Vq/N40+4vSQIUTfehrhHRLxuZKnuQir88cs4eDpG
+         4uiWqrVjNy8YU2MiXVmUzN/lwv/EX8a0ivpPykQ8XGuSjQeczdD0qyQq68b+ez/67vAx
+         oV1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=PmgfchcoCK9IQsA5yVNcgReDzkrnB4LL8E3TuvSoWU8=;
+        fh=V8W0TViz8XU8Pp8/scINkR8Za+A0ROkPCVAQr2owVZg=;
+        b=eCUWAWg1m2TofVz4rW1t2UP0ejEiiQtgWGw6mDp6WZswJcovN4JFhBc1MGpiaxEnFL
+         qw84DtMU+1TN4N8fd8BriSzW2abwCCcluB92lZi4x9I0B0MytHL/PNQM6V3uG+T8Uz+I
+         bOC8VBS6nwDwIayUgnmyTunrqYwJpY3bgDU8+4iKDZ+lmrVcfAkkRfw7JiBqQ3fUvLrc
+         gjnnUTQcdQylhJFfWbbxyYUqrAvWA53vZlcSQsc5lhsVnBDBD7Z9+PkaqTc9/pkBtOwF
+         iBOdivodEl5XZs6c+SBqQ3zz7L5tK6f9tzrdHZSCtJwJ+yql3iERt9F/bH1vYt5hQG04
+         oy2g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793114441; x=1793719241; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IUODWlkVmJj+vXJKTqvEsunNB2Kl3gE7BePTN1LJNVg=;
-        b=HJ02HWUCljsvvTDuU4SIGGVJepVyhAW2zmPlkDQM3DbJj7sQwqBgnKrcmvZmrWnVRj
-         QxnyExlKG1VUJgHn+yUVboCeQxn+UBSkMaLdbBHMg/X0vIw5LCkejab6/r4D2okdIa9O
-         bLc43zyqETBP8iVxkrlyAZvf1Qe2UjUByoAjTzwpNbeXupqM+GWbU//+MisPqamo/ma5
-         N/5/MlQLeQt4rWGd2/CXi+YxztOHaxiRBP3vPXiAgrPGrenFbcETbGAAAWFwwaESOnqK
-         PJWStVdsFLFVO0x/Kl2EuvshewWeTRkrsFrufY/MBPSXbF2YTGwPYZlgHzE5E3kGjA/0
-         9bfw==
+        d=gmail.com; s=20260707; t=1793121501; x=1793726301; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=PmgfchcoCK9IQsA5yVNcgReDzkrnB4LL8E3TuvSoWU8=;
+        b=KViQ7A7qI2wIR5FzZ+Rwhzfr2AHHKx1LCr4xuE5BWP3dpbmvx/wNN1Pswz+4SQWnVa
+         ifLOapGUno/nhCmIemXkGid8le76IxvBwKm5i0KzQ+hJ2zX2dU+6sS/SNgT1cB+K1dH7
+         raUagi/bXpo6iNY6BCdDnZN3iT12hayaiwkp/JKXoAgWADzJf4zbKBPue0I2Y39HchkO
+         AqYItqSe9qyyoYYk1KgQWpzI5H6pm+nK4UpuIRuqp4ZnDleZKL+QB725y9N0up1ApS3c
+         pA6sG8rSwDIc4CNcEEzFDX1sudRKMW/0PrysVLxLM6t4VuUY7LK/yX1GI6uj5TmgsVHw
+         nUAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793114441; x=1793719241;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=IUODWlkVmJj+vXJKTqvEsunNB2Kl3gE7BePTN1LJNVg=;
-        b=DWOqK2NNqtRq2hr6/wcRBVUuxSRlNBgJO800cDseW0/q3qwc/stMw8gfS4bwSbJd3+
-         kMpkfQYyNQsr0YpHy7aUht2fVbT25wZfpYQ9z54QS6BkDA4QMIALVYIESdMNgl2Ko4BU
-         nE/KnAimC5MaXDTIL1XcfpWI0HVe489Xtkq3dK2KMg+zg8dh0NyyK0KJXwpGX/XX5aeq
-         rKF73KSbru7qFN6ZTOMIKbUEx2Z8B6YKykeB0eEISoqaYHTM2QoAIpZvObol4LNEOuvj
-         uNGCbMjQYQG5NV73jNtSRQ7TQh1VMpTg6OegO1s42Ni0Etjsigw2rePDqVBKerT2OWOc
-         EePw==
-X-Forwarded-Encrypted: i=1; AKwUvByo4qzafH4KjW7sidroS2mTEEqwFd+hXd9sALFql+E9dbd2W20JLgt7GbrHOE1KDxnjtf0kiByTU3HD7w==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJpl0KZacj7WhWjA2NZ01cLZGNdweNIahQkxAEaVLBUkhE7iRUR
-	8T1RrwBUpSLTBBUHVS2hdc4qSnPdS4xDHjYYrJOBI6ZJOuWVeyJEQ9lW
-X-Gm-Gg: AYBFou0JtneKMvhOvQA8fvHKPwZXkqCQLwhGnvrzp2IbXuvl+BwbOBgox8obPx7Pr8v
-	bs18Ivy0F4JRovJ+dNW/UUATl7BemjSNkg+AlecmZ6EwkPif0O8SALBh79woJ6p/gbiTq2zKet7
-	ahZNGJv/q0t4lgNklYKcM2UNNIW42NIHnvh+8MNySlP2TeH+nyRrLtTH0ROQiIHTYcz90YHvtMw
-	VPeRgDyuaIs/vVuIhO2214HDYG/66Y/Axq9tY6+PiykeLFxHdI+wI462cZL8s8WBuHH2u1hwu7w
-	DiZOOefZiqbeeCpBnX9tTTpKYuq4D1+axDjs9qnU67sDw5klgXaghpe2uSNGTDyXFPq/gHFdrR7
-	w5DpTHFGf0nHKf3meqBrdrw1slCjyx5cSHaEryExH2IIiNz5+mWbFhjo/QNZ05qc5SHzNJfv1op
-	VImez4b8YPWqHTA6pXGqOO+JObg49ZQB4bTsLV45cATi0WqTRKR+8unlJ7YziFrWwzo9n9nGr97
-	Uzhs/61/k1taAcFRbXRJFDmB8yw9kAN4xlrgA1MWt5SqIFLGMTiRfoyJXHpOwbnkdC3QtRMncgu
-	/w==
-X-Received: by 2002:a05:6000:2dc8:b0:48a:f073:336b with SMTP id ffacd0b85a97d-48e3eb88c9fmr18966253f8f.23.1793114440713;
-        Tue, 27 Oct 2026 08:20:40 -0700 (PDT)
-Received: from stjepan-Aspire-F5-573G ([2a00:1bb8:118:d39e:4868:f22e:b51d:7cb])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebcb902sm24533156f8f.24.2026.10.27.08.20.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 08:20:39 -0700 (PDT)
-From: Stjepan Poljak <stjepan.poljak@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: Clemens Ladisch <clemens@ladisch.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ALSA: usb-audio: reset a MIDI device whose input is stuck
-Date: Tue, 27 Oct 2026 16:20:34 +0100
-Message-ID: <20261027152034.1871962-1-stjepan.poljak@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20260707; t=1793121501; x=1793726301;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PmgfchcoCK9IQsA5yVNcgReDzkrnB4LL8E3TuvSoWU8=;
+        b=L8xnf3QgFBwXvQVEVYuKfhE2L+civ9IoBvq/keLE1f86mGthdnjVufZBYF48STr1Jm
+         TuJ7wkX5HHngz9PGxJQfEbv0oCGBLLhqK3U2OQtP2s6hFq3pHbJMRJQjAgWy6VYmIXft
+         YuwqFTK2BZozWRu0NimXvT7fcZ3Ac+gNbN5+fKXEIQi6apsQ4ZcuXCBw4S/3liKYnSyH
+         WNH1RlMxqXzI8Vm6pe5yXhT7lh0gSkKY+0xyg2jgpLKFUJ6c4OLZoTOWCU5jeVrIGjts
+         ZD9LBAGSnAL/c0CrD2oNhAC6H6SkS4k631jlLnQaNfspZIOfyIFq6kS2SIcPQKmAxcW9
+         9RBw==
+X-Gm-Message-State: AFq9FYIf9+W7pLksDPTeYm/UPOHsYUBV6B0oigx+euKXbXTH93AcZpkl
+	uAftMLipou86x1loVU1cMC1cQzSo2B8XRT1zdPDYypRbq6RlSwdU4PMB7VZoJtM1+VSl78JqKAU
+	exWX3tJdKiU7glp4wsI1C24Q3g5/Lvu4=
+X-Gm-Gg: AYBFou0SQ7c2FoUQBXu292VscP3LCEeQrf9Yx9sD6vrlQdmRG+UfmRnpYBanLjNj6p+
+	sbwsPrm2Ix+pMaRLAO5H+a8DhH2bwEHVAu9a/oH3f5bNIlOvqaKDZGlIOUl31qZd7uNfmXwKtow
+	qKXWe+Nj+7KwxosXFEdEkpcmUeHEg4A9mrUt+OuzY0REsvDqpXK/TCGdpU6NLXfqyPd4VxkbUDD
+	qcG46wDVt1FbxzVF7LRqGm8JhrNcZGee3PKBjLHUY5mqpMsVUWrdLONwMfDPA/AMlnk8CgPbxDC
+	a/6/Nh/jMNvLWDkgzql/ied4XtiwCwl+RFYwv6mAdcXg615H+/fDmiIPD8yvvgEpQWQ5YBjDTi7
+	NNHFnjFEnvhUFqvR/ek4QcuLdWXgYgj20Bek=
+X-Received: by 2002:a17:907:6ea8:b0:c2e:2252:6ddb with SMTP id
+ a640c23a62f3a-c46bdc2ab32mr1112853966b.10.1793121501209; Tue, 27 Oct 2026
+ 10:18:21 -0700 (PDT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -96,188 +103,101 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261027131233.17692-1-mikachu@gmail.com> <87ld7j19l0.wl-tiwai@suse.de>
+In-Reply-To: <87ld7j19l0.wl-tiwai@suse.de>
+From: Mikael Magnusson <mikachu@gmail.com>
+Date: Tue, 27 Oct 2026 18:18:09 +0100
+X-Gm-Features: AclHuK8xDa6othyb1RfV4Qf3CkPN91KdVOkQT_Ec4faksuli_RWM_zyEFu-1w7M
+Message-ID: <CAHYJk3S-KYODgHtASimLO_9Pc3dZGeFKT2_XrdthXoQGj8c_hw@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: pcm: update state after xrun
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Switching a bus-powered USB keyboard off and on can be too quick for the
-hub to report a disconnect. The device comes back unconfigured at the old
-address, and its input endpoint then fails forever:
+On Tue, Oct 27, 2026 at 3:50=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wrote:
+>
+> On Tue, 27 Oct 2026 14:12:33 +0100,
+> Mikael Magnusson wrote:
+> >
+> > If the snd_pcm_update_hw_ptr call from snd_pcm_status is what triggers
+> > the xrun state (eg, as opposed to an IRQ), the returned status->state
+> > was stale and told userspace the device was still playing, so they coul=
+d
+> > get confused about device state and hang indefinitely.
+> >
+> > Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D222201
+> > Signed-off-by: Mikael Magnusson <mikachu@gmail.com>
+> > ---
+> >  sound/core/pcm_native.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+> > index 35152fae74..62a2bea043 100644
+> > --- a/sound/core/pcm_native.c
+> > +++ b/sound/core/pcm_native.c
+> > @@ -1132,6 +1132,9 @@ int snd_pcm_status64(struct snd_pcm_substream *su=
+bstream,
+> >       status->trigger_tstamp_nsec =3D runtime->trigger_tstamp.tv_nsec;
+> >       if (snd_pcm_running(substream)) {
+> >               snd_pcm_update_hw_ptr(substream);
+> > +             /* update_hw_ptr may have put us in xrun state, update st=
+ate */
+> > +             status->state =3D runtime->state;
+> > +             status->suspended_state =3D runtime->suspended_state;
+> >               if (runtime->tstamp_mode =3D=3D SNDRV_PCM_TSTAMP_ENABLE) =
+{
+> >                       status->tstamp_sec =3D runtime->status->tstamp.tv=
+_sec;
+> >                       status->tstamp_nsec =3D
+> >
+>
+> Thanks for the patch.  I can take this as-is, but what Sashiko
+> suggested in the review is also valid -- we may copy trigger_tstamp_*,
+> too.
+>
+> Also, we don't have to always overwrite the values.  As a further
+> optimization, check the return value from snd_pcm_update_hw_ptr(), and
+> update only if it returns a negative (-EPIPE).
+>
+> So, in the end, it'll be something like below.
+> Could you check whether this works for you?
 
-  - with -EPIPE, which snd_usbmidi_urb_error() logs and treats as
-    "continue", so the URBs are resubmitted at once and the log fills
-    with "urb status -32" every few milliseconds;
-  - or with -EPROTO/-ETIME/-EILSEQ, retried silently every 100 ms.
+Hi, this should be fine as well, from what I can see you are correct
+that it always returns -EPIPE when an xrun happens. I'm not sure if
+this actually ends up being an optimization (branch vs unconditional
+write), but it probably also doesn't really matter on this path. You
+can do whichever looks clearer, either is fine with me.
 
-Either way the rawmidi device stays, reads never fail and no data ever
-arrives, so the instrument goes silent until the cable is replugged.
+Thanks!
 
-Retry a stalled input endpoint through the error timer like the other
-errors, and when input stalls, or keeps failing for 2 s, queue a USB
-reset. Failing means that every retry fails: a successful URB, or a
-quiet spell of over 500 ms between errors, ends the streak, so isolated
-errors on an idle device never add up to a reset. snd-usb-audio has no
-pre_reset or post_reset, so the reset unbinds and re-probes the card,
-and userspace sees an ordinary unplug and replug. A real unplug normally
-reaches disconnect() long before 2 s. If the host misses that as well,
-as dwc_otg does behind a hub, the input stalls and the reset finds no
-device, which ends in the same disconnect.
+> -- 8< --
+> --- a/sound/core/pcm_native.c
+> +++ b/sound/core/pcm_native.c
+> @@ -1131,7 +1131,13 @@ int snd_pcm_status64(struct snd_pcm_substream *sub=
+stream,
+>         status->trigger_tstamp_sec =3D runtime->trigger_tstamp.tv_sec;
+>         status->trigger_tstamp_nsec =3D runtime->trigger_tstamp.tv_nsec;
+>         if (snd_pcm_running(substream)) {
+> -               snd_pcm_update_hw_ptr(substream);
+> +               if (snd_pcm_update_hw_ptr(substream) < 0) {
+> +                       /* update_hw_ptr may have put us in xrun state, u=
+pdate state */
+> +                       status->state =3D runtime->state;
+> +                       status->suspended_state =3D runtime->suspended_st=
+ate;
+> +                       status->trigger_tstamp_sec =3D runtime->trigger_t=
+stamp.tv_sec;
+> +                       status->trigger_tstamp_nsec =3D runtime->trigger_=
+tstamp.tv_nsec;
+> +               }
+>                 if (runtime->tstamp_mode =3D=3D SNDRV_PCM_TSTAMP_ENABLE) =
+{
+>                         status->tstamp_sec =3D runtime->status->tstamp.tv=
+_sec;
+>                         status->tstamp_nsec =3D
+>
 
-The queued reset is dropped without a word if usb_lock_device_for_reset()
-fails (e.g. -EBUSY when the device lock is held for over a second), so
-while input keeps failing, queue another one every 2 s. Keep that limit
-per device rather than per endpoint, as several input endpoints may fail
-at once, and a second reset queued while the first one runs would reset
-the re-probed device again.
 
-Output endpoints are left as they are.
-
-Tested on a Raspberry Pi 3B+ (dwc_otg, Raspberry Pi 6.12.61 kernel) with
-a Nektar Impact LX49+ (2467:2015) behind the on-board hub. Without this
-patch, switching the keyboard off and on left it silent, with "urb
-status -32" logged every few milliseconds. With it, each off/on cycle
-logged a single "MIDI input not recovering (urb status -32), resetting
-device", and the keyboard was disconnected, re-enumerated as soon as it
-was back on and playing again, including two cycles 9 s apart and one
-where it stayed off for 3 minutes. Unplugging the cable went the same
-way: the input stalled, the reset found no device and disconnected it,
-and plugging it back in enumerated it normally. No warnings while
-playing normally over about three hours.
-
-Also tested on x86_64 (xHCI, 7.0 kernel): there the host sees both the
-off/on cycle and an unplug as ordinary disconnects, so no reset is
-queued and input resumes after re-enumeration as before.
-
-On both, three fake -EPROTO completions 10 s apart on the idle keyboard
-(a pending input URB unlinked by test code, not part of this patch) were
-retried and caused no reset.
-
-Assisted-by: LLM
-Signed-off-by: Stjepan Poljak <stjepan.poljak@gmail.com>
----
-v2:
-- A quiet spell of over 500 ms between input errors now starts a new
-  failing streak. In v1 only a successful URB ended one, and an idle
-  device completes none, so two isolated errors far apart counted as
-  failing for the whole time in between and reset the device. Reproduced
-  on x86_64 by faking -EPROTO completions 10 s apart on an idle
-  Impact LX49+: v1 reset the device on the second one ("streak" of
-  10240 ms), v2 retried all three without a reset. (Sashiko review)
-- The 2 s reset limit is now per device rather than per input endpoint,
-  so a second failing endpoint can't queue another reset while the first
-  one runs. (Sashiko review) Not tested: this keyboard has a single
-  input endpoint.
-- Retested with v2 on the Pi: four off/on cycles, each reset and
-  recovered, and the fake errors above. The unplug, 3-minute-off and
-  x86_64 off/on and unplug results are from v1; those paths only see
-  errors 100 ms apart or a stall, which v2 handles the same way.
-
-v1: https://lore.kernel.org/linux-sound/20261026125751.1700779-1-stjepan.poljak@gmail.com/
-
- sound/usb/midi.c | 56 +++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 55 insertions(+), 1 deletion(-)
-
-diff --git a/sound/usb/midi.c b/sound/usb/midi.c
-index e3d157554061..488dede19e45 100644
---- a/sound/usb/midi.c
-+++ b/sound/usb/midi.c
-@@ -70,6 +70,18 @@
-  */
- #define ERROR_DELAY_JIFFIES (HZ / 10)
- 
-+/*
-+ * how long input may keep failing before we reset the device (a real unplug
-+ * reaches disconnect() well before this), and the least time between resets
-+ */
-+#define RESET_DELAY_JIFFIES (2 * HZ)
-+
-+/*
-+ * a stuck endpoint fails again on every retry; an error after a longer
-+ * quiet spell starts a new streak
-+ */
-+#define ERROR_GAP_JIFFIES (HZ / 2)
-+
- #define OUTPUT_URBS 7
- #define INPUT_URBS 7
- 
-@@ -99,6 +111,8 @@ struct snd_usb_midi {
- 	const struct usb_protocol_ops *usb_protocol_ops;
- 	struct list_head list;
- 	struct timer_list error_timer;
-+	unsigned long reset_at;		/* when we last queued a reset */
-+	u8 reset_queued;
- 	spinlock_t disc_lock;
- 	struct rw_semaphore disc_rwsem;
- 	struct mutex mutex;
-@@ -162,6 +176,9 @@ struct snd_usb_midi_in_endpoint {
- 	bool in_sysex;
- 	u8 last_cin;
- 	u8 error_resubmit;
-+	u8 failing;		/* no successful URB since the last error */
-+	unsigned long failing_since;
-+	unsigned long last_error;
- 	int current_port;
- };
- 
-@@ -234,6 +251,40 @@ static void dump_urb(const char *type, const u8 *data, int length)
- #define dump_urb(type, data, length) /* nothing */
- #endif
- 
-+/*
-+ * A device that was power cycled without the hub noticing (e.g. a bus
-+ * powered keyboard switched off and on again) has lost its configuration:
-+ * it stalls the input endpoint or stops answering, and resubmitting the
-+ * URBs never recovers it. Reset it instead; snd-usb-audio has no
-+ * pre_reset/post_reset, so this unbinds and re-probes the card.
-+ * A queued reset is skipped if usb_lock_device_for_reset() fails, so if
-+ * we're still here a while later, ask again.
-+ */
-+static void snd_usbmidi_in_error(struct snd_usb_midi_in_endpoint *ep,
-+				 int status)
-+{
-+	struct snd_usb_midi *umidi = ep->umidi;
-+
-+	if (!ep->failing ||
-+	    time_after(jiffies, ep->last_error + ERROR_GAP_JIFFIES))
-+		ep->failing_since = jiffies;
-+	ep->failing = 1;
-+	ep->last_error = jiffies;
-+	/* per device, as several endpoints may fail at once */
-+	if (umidi->reset_queued &&
-+	    time_before(jiffies, umidi->reset_at + RESET_DELAY_JIFFIES))
-+		return;
-+	if (status != -EPIPE &&
-+	    time_before(jiffies, ep->failing_since + RESET_DELAY_JIFFIES))
-+		return;
-+	umidi->reset_queued = 1;
-+	umidi->reset_at = jiffies;
-+	dev_warn(&umidi->dev->dev,
-+		 "MIDI input not recovering (urb status %d), resetting device\n",
-+		 status);
-+	usb_queue_reset_device(umidi->iface);
-+}
-+
- /*
-  * Processes the data read from the device.
-  */
-@@ -242,13 +293,16 @@ static void snd_usbmidi_in_urb_complete(struct urb *urb)
- 	struct snd_usb_midi_in_endpoint *ep = urb->context;
- 
- 	if (urb->status == 0) {
-+		ep->failing = 0;
- 		dump_urb("received", urb->transfer_buffer, urb->actual_length);
- 		ep->umidi->usb_protocol_ops->input(ep, urb->transfer_buffer,
- 						   urb->actual_length);
- 	} else {
--		int err = snd_usbmidi_urb_error(urb);
-+		/* a stalled endpoint stays stalled: don't resubmit at once */
-+		int err = urb->status == -EPIPE ? -EPIPE : snd_usbmidi_urb_error(urb);
- 		if (err < 0) {
- 			if (err != -ENODEV) {
-+				snd_usbmidi_in_error(ep, urb->status);
- 				ep->error_resubmit = 1;
- 				mod_timer(&ep->umidi->error_timer,
- 					  jiffies + ERROR_DELAY_JIFFIES);
-
-base-commit: a4311e9447bbb219044db38897f95be112f46a8a
--- 
-2.53.0
-
+--=20
+Mikael Magnusson
