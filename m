@@ -1,51 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=57.103.74.251
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.17.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793139724;
-	b=NL5bRS2nKSgIab1W+jSkKnUli0hnVqmxHZDV6CT4jtmM30aBOZ/1WKYu7SMdJKtkxug5
-	 cWOY/9DN21p8XNLId7R6KhjBaQ5LhboNVAw/rwH1A2CGcuYwq5FSUQ9/0yH0KWldJkWi/
-	 nibcZiRQ5Kh7xqCjokHitEgjtX2AWKN9mxfPIT5ylOhv+vtPO43jW3Ju4NusXgc04TtPp
-	 JxKj43bK3BDbT4x9Xnz1aGahmcPlcCGTA6T5ABxCXIzOmKVePTiezyVYFUZ2WUtAG+hIz
-	 lk53BarPVrYEiMSNdzWByXvy7IOhudtRPTBi9p/18nQl5nRlT643bxtIvA5m2fHGFHQ==
+	t=1793143326;
+	b=TLGeEByKtiM1RtmWtFMPQZigXXnOJ1nCFvkZ2lreYIt7Lvhr7GkVNF54gNvoZZQU04Oq
+	 v4Tj2qaKZwxfrA49CbMDlIad2eh4JhQKcAGjntFOxNVHUEpJOI+bDl+MvxC5Ma9wk0GzV
+	 8XIPXmwkWJcXNJbTMniPx32UkKs+WQiN1inKyDPWeFpMCWAmOplqpfTvahCZrslyU4KtT
+	 haNjPm9EQF5F0/cUUmaaxJG6JwnfDUqxyjUGtPQLlmii+V5xDDp6TFRPq8V6ABz2Rl3hf
+	 GlMfOJlvQAzZTcq7vbA9McpuoyTeE252lyudiKY+HiR/QolUHGTGZn6fM7HuzP0KoeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793139724;
-	h=DMARC-Filter:Received:X-ICL-RepId:X-ICL-Out-Info:Dkim-Signature:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Content-Language:To:
-	 Cc:From:Subject:Content-Type:Content-Transfer-Encoding:
-	 X-Authority-Info-Out:X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-JNJ;
-	bh=9HJ62GiGTy/gw8NufnOvKlJLBVkRKKV7d6QpXBkvd7E=;
-	b=xk2eGBX9GgrBFLQr9Lrv2OhFzukM5ZhMYC9izmCSRZVGDr3Zx9d1xICzJrhD9BdxmWC/
-	 xLxCiM/lOUvfYvVO9XycQnPC5g3Yk+LNyonXgqHFJCZ5mXvijmJ5Ydxexu1rAXpy/hgPu
-	 dpJ7R1ZNcSJ4V1bLvN0SQqb/WFJqYp6BKvvVfPAyO5LCjrxy0ABh7BlhSafJyQiWAP2DL
-	 Y+aKqoIRbsmGOChVJ6bbmgWIsE5QC65jGux6Y1lbkUPr7UfZGzrYb2gmFAS7muZrPGOf5
-	 DZjWdSGageTxrzgcjsguiSuzLjAe9d9TaTmIkJVwZwQ1GqHfGtvuf7L+zmyNeHLgxaQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793143326;
+	h=DMARC-Filter:DKIM-Signature:X-UI-Sender-Class:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Provags-ID:X-Spam-Flag:
+	 UI-OutboundReport:Content-Transfer-Encoding;
+	bh=P0LSFg1o1ZmVNtAhrNTjE10Rjgh6BV2vtrm+JZgwf0g=;
+	b=PIUk0ydzQ2KxMwVqBHWGnMfrdumQFmI8kQHwBGwkPO5h/TS1HJvxiqWoBzc/FeQle3mZ
+	 V+IqndXvs0sD75evYWq+1Fm6uSEHKRfxJB9AcS5TsuAfT3zr2VFwwOJJP/Zy9ajXi5rbZ
+	 +C7YSmC8nbYT5arHsrXBva9sx9ZVHfJj1Lgu+rJ6VlGAUMUN01ROwETUrF/ILpzgrP4Q3
+	 /FxPIIEfMFHJS0PPtItXp+Oau1XTSaClD9kabx1X2+idnUob3oK9BGjfkKvnB9ZxQjdwn
+	 cX/IUHEsWtSmV+ovOkfesmBmHZlERkijDfoYMq4Od8kqhgbrS/pe5A2BIwZ8f++BfBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=icloud.com;
-	spf=pass smtp.mailfrom=icloud.com;
-	dkim=pass header.d=icloud.com header.i=@icloud.com header.a=rsa-sha256 header.s=1a1hai header.b=GYg0Zs0o;
-	arc=none smtp.remote-ip=57.103.74.251
-Received: from outbound.ms.icloud.com (ms-2004j-snip4-11.eps.apple.com [57.103.74.251])
+	dmarc=pass header.from=gmx.li;
+	spf=pass smtp.mailfrom=gmx.li;
+	dkim=pass header.d=gmx.li header.i=arc@gmx.li header.a=rsa-sha256 header.s=s31663417 header.b=Az+7ru1C;
+	arc=none smtp.remote-ip=212.227.17.21
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E01C606A31E
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 22:22:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E01C606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F18A606A31A;
+	Tue, 27 Oct 2026 23:22:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F18A606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.li
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=icloud.com header.i=@icloud.com header.a=rsa-sha256 header.s=1a1hai header.b=GYg0Zs0o
-Received: from outbound.ms.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-west-3a-100-percent-7 (Postfix) with ESMTPS id 6262F18000A6;
-	Tue, 27 Oct 2026 22:22:01 +0000 (UTC)
-X-ICL-RepId: 01a17f74-c466-7522-87aa-3ffceb447af1
-X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQhNC0MDXBxCC0AdXwddEhVdRVAfXhhGGVgWHQ5WGEYVVRRSA1grWxNVF0YJGQhdHRkeV1BeCF4fTBwdDlgGEgJaRQZNXw5eHwQXRhlVBEceXVZeHhkCURxWDVdDVARfUEkMQVBsWgBHF0gdXRlZb1BdHA4EVAddBV1WUAJaS18ZXUUPDA9fVBUOGgZAVQoLQBRMVlgGRlMWWhseWANTVEhbSwNcD1tQMFAbXwJCDxwTVhUNTUMSQhUEEVABWB5W
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1793139722; x=1824675722; bh=9HJ62GiGTy/gw8NufnOvKlJLBVkRKKV7d6QpXBkvd7E=; h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type:x-icloud-hme; b=GYg0Zs0oxKfswLL50Dy9wQUyFJ9eaTegkAUgGtb6IAO5Z/9RKwUp/1aIXAMdJ5Nn67V1xzqJt9yumqI/vPn9XZqipoeFJRTHA+nb/F8hgi+LbW6+qRNRD8KNAvoTfo7NCZm7P7PWkAECUJHVzpe2qioByy6wt5gl9qpsf/kFiE0SweW8987dxXuLnoM0KskCNcozCeFJbyZfREP7W8HgMReAbdY7sewRUupDrL4daZcct8zVR2bNzPtm6PfIV1RdhF5cnaCdBFjC0ZAZbFYRvWGh/op4XUjeOXKXRpPvkn407L6t6KJjCku577QXuODnERi0X29nESGQnpLH9kg2EA==
-Received: from [192.168.1.50] (unknown [17.156.208.39])
-	by p00-icloudmta-asmtp-us-west-3a-100-percent-7 (Postfix) with ESMTPSA id 5196F180013C;
-	Tue, 27 Oct 2026 22:21:59 +0000 (UTC)
-Message-ID: <a84fe7b5-ba90-4e51-afcc-548f8b30180b@icloud.com>
-Date: Tue, 27 Oct 2026 23:21:57 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=gmx.li header.i=arc@gmx.li header.a=rsa-sha256 header.s=s31663417 header.b=Az+7ru1C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.li;
+	s=s31663417; t=1793143310; x=1793748110; i=arc@gmx.li;
+	bh=P0LSFg1o1ZmVNtAhrNTjE10Rjgh6BV2vtrm+JZgwf0g=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=Az+7ru1CKexfoqQZhwKJM4iwY7mtXjtNXtvrl0qeXGYLgNziGQKm77FcUQz1ttP1
+	 6T1qEjzTaA5DnInHGva+lfkYwXARoo0nPobCkcDoHDdho1dfSNO75LT+ABwkLXv6I
+	 2SBARK974I24ClEHShGCKTucTxvMz8NB+YinNodpCOtZFyTlxEvUQ3Kk0C9dEy5jm
+	 GtsljjqQDdVYpYhbnPfNzvP8oNUTdnwDvnjWFOQR4wTSNyEKIDz6Ty54l0uwFeInU
+	 i0MJMVyNo87DteGr/tBbSlaiXxVjgOt2LBXPOEFZ/gn6YNjF7ZhFUIo9DIfOArOge
+	 VaGOban3WcTHVwisDg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MNKhm-1xBSFA2UnK-00J1sC; Wed, 28
+ Oct 2026 00:21:50 +0100
+Date: Wed, 28 Oct 2026 00:21:51 +0100
+From: Christian Ruppert <arc@gmx.li>
+To: Will Porter <mrwillporter@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Neil Andrews <neil@androos.io>
+Subject: Re: [PATCH 0/5] ALSA: usb-audio: Audient iD14 MkI vendor controls
+Message-ID: <auEyD23PT_kpJsrJ@khmer.arcnet>
+References: <20261019230159.834954-1-mrwillporter@gmail.com>
+ <at-dpPOGs2zD2fuL@khmer.arcnet>
+ <CAMZ8TExJThTMZVvbDMVdtXSB-edGAsAnmKYtAtM1CCw0pDvNGw@mail.gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -55,114 +71,296 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: med.jebabli@gmail.com, tiwai@suse.de
-Cc: linux-sound@vger.kernel.org, regressions@lists.linux.dev,
- stable@vger.kernel.org
-From: Cristian Castellano <cristian.castellano@icloud.com>
-Subject: [REGRESSION] ALSA: hda/tas2781: divide error on playback open after
- accepting V1 calibration data without CRC (Lenovo Yoga Pro 9 16IRP8)
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Authority-Info-Out: v=2.4 cv=SrOdKfO0 c=1 sm=1 tr=0 ts=6ae12409
- cx=c_apl:c_pps:t_out a=kRaGL2Q7qLiahLf3O6OaIA==:117
- a=kRaGL2Q7qLiahLf3O6OaIA==:17 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
- a=x7bEGLp0ZPQA:10 a=eD1N5GnKAbQA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VfikHhr-D2iK5rlxiJcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI3MDA5MCBTYWx0ZWRfX8X/qb+UQpwhq
- 48wYsNv7WhrmnpP01REaPS4kYjvVJoAg6ZMb/XBsYpk30YpfGNnDTHHJfh6MyAB6u6UFmse6VPN
- 2OXNDPrYyHzt4Hk6wq8bdgWYuTD+BV9Xy75509siASZKscLGGut+iCoRLVz6gI3IWXtCRNo7y4H
- TsKcqE2cKSSmllR/oHsVzkMZpq9dc+9YQ9FpbtjPRc66nKwtvHSaWcJwoXjPIIs7pcIJ0aJDVSv
- PN+/FX9xgdYkatuBB36psEpy6Nb3+/uGufyKiVerzBUzWXCEo0J31z05Mfq243YNvrJ5WiACazx
- dtla8lbPm645QlxXlVCELwEdNKRDa55t6+j3s820XrVVrw00ts8rjk2eJ5U+AU=
-X-Proofpoint-GUID: zvmonwOqKB_Wd4m3Y7uZFogIyICaqb9Y
-X-Proofpoint-ORIG-GUID: zvmonwOqKB_Wd4m3Y7uZFogIyICaqb9Y
-X-JNJ: AAAAAAABqFK7fFSoe7rCT4ANnaHlhYTdBA0lRwtOCMx6VOTy/8iaEGvF/169W9N5AXD0na
- OXopY8FIA9LzETibOKNkitaouP8Qo2tEx4sXgXLlTPk8TUicADGZtWlhkGIHOWgIDSaLiD
- K11PIc1ZjvlxSSWVH7s9yImvCFx5sX3oTpiR9Vnh3g4sJaEC0C1nPRgOzBiw3imwEPxZu1
- 3SQVh4QkxYgqpl29Qf4h/zXsIoYrlxQzc2t+MA5y6OAHusAXghJBTJRvCB4gMhC9Nd1mpB
- 3FqdgnsneUXplnMoAHRAWqrZ1Nv1u5H9iYAmeKtqVUsoneudzbXqTZ6sbpXlGQE+cJmLQd
- QOGuWMVo7Dh0xfL6yu/bPlFXWeLdAHhSWdld7PBAXiyhrzrsrKxgV5u/VScKEFBNv59jPC
- 08uWUUD1xF4nmM2Y56YdzBT0VtPpGjqL6yFmG95thmnqpe/sJQpTmKjOldS98f7fCpSYnu
- sI7hv79YtVB/grpTZ6gfNDwZ9K7iWFNt8giDQ+zxSuVW44E/lHormsDhK2eEOZZyGTSPVt
- mVNUqaBWfvWRjVgyfOHw3sIcP5OELRLO3p80iegRYJla9JLfahRPGFlumIiLmXp910mDCi
- EbqnV0zELe//qWqQ0TOHq/oSkGNWLSzNYFnbiF5L1RNEqmULwkaVfLWfsERKHw+Y7Y8DE5
- JouC5lLQ9PnmZyi3YFGd1Dy/i7c+Xw9EjKpzmzozjDh824A0MTNYuv0AAiDgBRhghx6XQc
- /NPhwoC6nIU/jYPypy0eZfFv0eee5GVPeJx1teleTPf5g5i0nur4zmV54OrPGkBt//Qa7F
- AW8VuveUdp3YgNDc/6V4L2JpR0Kq3mK1RXAuCS5ByjLJUMjnwIhND72UATEG5swgZ+e5YD
- idAD1PFBvSJXb94E2xtvIzsn9QtFpvBTIh0SWhV1KzjNRSUPW45WQfSwh99uc0myxtUC4i
- itwWweSBsFU5LwcIFZVMTa7JzQWfjWTNa0FWVnLopCRtTSclVRUfGPbyLy7tRWNtb8Yd+R
- 6873Y59NjaPg2b3QNr6gHkXTNMdOjGabGxHAPkfH061OUJZ21oYXokTh+x7zb3cBdjhv9U
- r35EHens5QGW2f9UzU9M8NYWXG5k7ym9BHGcSMZ1NQIFn0j8zNn3ViYzBxN8L9VX13+yAw
- PS+E3s75syQMHGlM1TNXsJeGCmrgLY+YRocc3+wzRv2FUg+IgHRxXCd2kDBr1Ew5qqgDwP
- oS3FpyrB9q6AO/7Y1mwUHlqud+Z24WkdlyoPmbnM7Ny38+dT4ZU5ilYDR58Ta1JQ46A8A0
- v4Wqlkt1cTGwmmQ0xr9pc60EJpGgna3MUxKzky1ebI49xd9AEy0DETrAiUZw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMZ8TExJThTMZVvbDMVdtXSB-edGAsAnmKYtAtM1CCw0pDvNGw@mail.gmail.com>
+X-Provags-ID: V03:K1:Fhd5zmDykTh5YrMAC3TRgKptQuW2NvqEWjorhg7lvOQcsox/oAe
+ MKNa7rZNzDGjP2x8cG2RIGd9ydDNAd1BIiW8E+wP3dz3nlM0VFZ9NRcXchceRvP5GUnqFRC
+ W5MCg80k+wG7bEnRAmDF9wb7AM9GKT7J052eYxSHjJdoDyEAieBnLY9jZu2yh9HrQRLbCb5
+ UpyPw/txw4meOSBodlgNQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:F0zUQvMNhpc=;SixDtEN7gdUZbOwbA/J5npe7zm9
+ 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
+Content-Transfer-Encoding: quoted-printable
 
-Hello, since I updated to 7.2.11 (and then to 7.3), opening a playback stream on my Lenovo Yoga Pro 9
-16IRP8 (83BY, subsystem 17aa:3835, BIOS KVCN44WW) triggers a divide error in snd_soc_tas2781_fmwlib and audio stops working. 7.2.9 just works.
+Hi Will,
 
-The only tas2781 change between the two I found is:
-c1b708f712f5 ("ALSA: hda/tas2781: Accept V1 calibration data without CRC") (upstream 408249089c48).
+On Mon, Oct 26, 2026 at 04:44:50PM -0500, Will Porter wrote:
+> On Mon, Oct 26, 2026 at 07:36:24PM +0100, Christian Ruppert wrote:
+> > I took a look at this question and it seems like we can share the majo=
+rity
+> > of code in the EVO driver by complementing it with the following featu=
+res:
+> > - variable width read/write
+> > - caching of write-only values
+> > - enum data type
+>=20
+> Thanks for looking into this so closely, and for the fixes. I like
+> the idea of one driver, and I'd like to find out whether the iD line fit=
+s.
+>=20
+> Your TLV in patch 4/4 is the same one I use for the iD14 matrix: same
+> unit 0x3C, s16 in 1/256 dB, -128 to +6 dB. That made me wonder whether
+> the iD14 matrix could use your MIXER type almost as it is.
 
-At boot the driver now logs:
+Agreed. If my understanding is correct, this type could be reused without
+any modifications. The others would have to be newly defined due to
+different unit IDs/control selectors. BTW: the mixer matrix seems to be
+identical also for the EVO8 so chances are it's the same for most audient
+devices and we could simply use a width and height parameter to generate
+it in a loop.
 
-  tas2781-hda i2c-TIAS2781:00: tas2781_apply_calib: V1 data without CRC, accepting
+> Its channel
+> number is input * 4 + output, so Main L/R and Cue L/R of each input
+> are adjacent, like your stereo pairs. Could we expose it as 28
+> controls with two values each, rather than my 56 single-value ones?
+> An input's level and pan in a mix set its L and R values together,
+> so a pair seems a natural fit. Does that look right to you?
 
-Before that commit the data was rejected and the amplifiers worked with
-default parameters. On this machine the CALI_DATA EFI variable
-(CALI_DATA-1f52d2a1-bb3a-457d-bc09-43a3f4310a92) contains two non-zero
-device entries followed by zeros, with TimeStamp and CRC zeroed:
+This is exactly what the stereo pairs do for the EVO. For example, mic 1
+shows up as one stereo pair which can be either recorded on both channels
+(paned between L and R) or exclusively on the left one if it's connected
+to a stereo mic. Same for mic 2 (which can be used as the right channel
+of a stereo mic or an independently paned mic). The same principle applies
+for the L and R outputs of the monitor and USB main out where it seems a
+bit more quirky but is coherent with the Mics. That said, the existing
+table system would also allow for individual channels or grouping them in
+"mini-matrices of four" but neither seemed right when looking at them in
+alsamixer and so I stuck with one stereo mixer for each (mono) input
+channel, similar to most mixing consoles.
 
-  0000000 07 00 00 00 5c c8 20 1d 28 b5 27 23 2a 79 42 16
-  0000016 f2 07 c5 00 00 00 e0 2e 01 f7 2a 1d 72 6f 1b 23
-  0000032 2a 41 4a 16 c4 0a c3 00 00 00 e0 2e 00 00 00 00
-  0000048 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  *
-  0000128 00 00 00 00
+> > The only part which seems more problematic is probably FU12 which look=
+s
+> > like it requires some custom logic and would still need actual code.
+>=20
+> Agreed. I'd keep FU 12 as its own code.
+>=20
+> A few questions about the rest:
+>=20
+> 1. Read before write. As I understand it, the put handlers in
+>    mixer_evo.c read the value first to see if it changed. On the iD14,
+>    GET stalls for mic boost, input polarity, optical mode and the iD
+>    key function, so a put that reads first would fail there. Talkback
+>    source always reads 0, so a read would hide real changes. Could
+>    these write-only controls skip GET in both get and put, with get
+>    returning the cached value? And could every put still send the
+>    value, even when it matches the cache, so that "alsactl restore"
+>    reaches a device that was reset?
 
-(the first 4 bytes are the EFI attributes)
+My view of the WO implementation would be to add three flags: cache, init
+and force_write:
+- If cache is set, the values will be cached and the channel not marked as
+  volatile. No need to read back actual values from USB before a write in
+  this case. This could also be used in the EVO for the mixer matrix which
+  doesn't have physical controls that can change values while the driver
+  doesn't look. Didn't implement it to not complicate the driver with
+  unnecessary caching but if we need caching anyway we should use it.
+- If init is set, the driver will initialize the control at probe. The EVO
+  mixer matrix' initial read returns a wrong value so initialization would
+  be great. Also not implemented today because there's no need to complica=
+te
+  the driver for a control which must be fiddled with anyway before it is
+  useful but if we have the feature we should use it.
+- If force_write is set, the driver will always write the value, no matter
+  if a cached (or previously read) value is identical. IMHO this is mainly
+  required for broken or quirky controls but I'm a bit undecided if it
+  would really hurt to simply make this behaviour the default for
+  everything.
 
-Oops:
+> 2. The cache. My driver writes a known value at probe (off or none,
+>    and for optical mode its measured power-on mode, S/PDIF) and
+>    updates the cache only after a full-length write. If the probe
+>    write fails, an enum reads "Unknown" and a switch reads off. Would
+>    that approach work for you?
 
-  Oops: divide error: 0000 [#1] SMP NOPTI
-  CPU: 10 UID: 1000 PID: 1533 Comm: wireplumber Tainted: G        W  O        7.3.0-4-cachyos #1 PREEMPT(full)
-  Hardware name: LENOVO 83BY/LNVNB161216, BIOS KVCN44WW 03/05/2025
-  RIP: 0010:tasdevice_select_tuningprm_cfg+0x8c2/0xa90 [snd_soc_tas2781_fmwlib]
-  Code: 4c 89 f7 41 b8 04 00 00 00 2e 2e 2e 41 ff d3 85 c0 0f 88 97 01 00 00 48 8b 4c 24 10 66 0f 38 f0 01 0f b7 c0 0f af 44 24 18 99 <f7> 7c 24 24 88 21 88 41 01 c6 41 08 01 48 8b 4c 24 08 48 8b 44 24
-  RAX: 0000000000000000 RBX: 000000000000002a RCX: ffff8d36ca8af218
-  RDX: 0000000000000000 RSI: 0000000000000db8 RDI: ffff8d36ca8af21b
-  RBP: 0000000000000000 R08: 0000000000000004 R09: 000000000000000a
-  R10: 0000000000000100 R11: ffffffff87559290 R12: ffff8d3684e350df
-  R13: ffff8d36a861d9b8 R14: ffff8d3684e35038 R15: 0000000000000002
-  Call Trace:
-   <TASK>
-   tasdevice_tuning_switch+0x71/0x80 [snd_soc_tas2781_fmwlib]
-   tas2781_hda_playback_hook+0x4c/0x110 [snd_hda_scodec_tas2781_i2c]
-   hda_component_manager_playback_hook+0xb5/0x370 [snd_hda_scodec_component]
-   playback_pcm_open+0x79/0xa0 [snd_hda_codec_generic]
-   hdac_hda_dai_open+0x5c/0x90 [snd_soc_hdac_hda]
-   snd_soc_dai_startup+0x52/0x90 [snd_soc_core]
-   __soc_pcm_open+0x108/0x6c0 [snd_soc_core]
-   dpcm_be_dai_startup+0x153/0x3c0 [snd_soc_core]
-   dpcm_fe_dai_open+0x109/0xc00 [snd_soc_core]
-   snd_pcm_open_substream+0x604/0x920 [snd_pcm]
-   snd_pcm_open+0xeb/0x220 [snd_pcm]
-   snd_pcm_playback_open+0x39/0x60 [snd_pcm]
-   chrdev_open+0xbf/0x230
-   vfs_open+0x3f8/0x520
-   path_openat+0x4f4/0xc50
-   do_file_open+0xd7/0x150
-   do_syscall_64+0x8f/0x380
-   entry_SYSCALL_64_after_hwframe+0x76/0x7e
-   </TASK>
+This is very much in line with what I was thinking, see above.
 
-The kernel is  linux-cachyos 7.3 (taint O is from the NVIDIA module);
-CachyOS does not patch the tas2781 driver, and its LTS, 6.18.55  works. If it is needed, I can test patches.
+> 3. Control entries. The iD14 table uses 16 unit/selector pairs and
+>    explicit control names, such as "Main Out L Source Playback Enum".
+>    It also needs volumes in 1 dB steps (0..128, stored as s16
+>    1/256 dB), a boost switch that writes 0x0a00 for on, and enums
+>    that map items to device values, plus an "Other" item that only
+>    get reports, for values outside the list. Would it make sense to
+>    move the unit, selector and an optional full name into each control
+>    entry, and add the new value formats (1 dB volumes, boost, enum)
+>    as ctypes? Or would you structure it differently?
 
-#regzbot introduced: 408249089c48
+This is several questions in one, let me try not to forget an answer ;)
+- The intent of the control types was to associate unit/selector pairs
+  with data types. I would add a new ctype for each unit/selector pair
+  but am open to move unit/selector to the controls and only leave the
+  data type definition in ctype (which will then become rather a dtype)
+  if it significantly reduces repetition. I'm afraid it might just shift
+  repetition to the controls table, though. Btw: I like the unit/selector
+  macros, will introduce this also for the EVO.
+- I don't have a preference between explicit control names and the
+  basename/suffix system the EVO driver currently uses. If you prefer we
+  can simply replace the basename with a full name and remove the flags
+  field in the controls.
+- The boost switch writing 0x0 for 0dB gain and 0x0a00 for 10dB gain looks
+  suspiciously like a volume control between 0dB and 10dB * 256steps/dB.
+  Does this control only accept these two values or can we simply
+  implement it as a standard volume type controlling a mic pre-amp? If
+  it's only 0xa00 or 0x0 I would suggest to slightly redefine the boolean
+  type to use the max value for true and the min value for false which
+  would also be an elegant way to remove the inversion flag.
+- We definitely need a new snd_evo_type entry and get/set functions for
+  enums, up to you to define those in the most suitable manner for the
+  id14.
 
-Thank you,
-Cristian Castellano
+> 4. Checks. My helper returns -EIO on a short read or write, before
+>    it decodes a value or updates the cache. My matrix put also rejects
+>    values outside -128..+6 dB, and get clamps what it reads back.
+>    Could the shared code keep these checks?
 
+Sure, error management is always good to have. I never encountered any
+short reads/writes or out of range reads with the EVO so I didn't add any
+logic for this until now. Also, for the controls I checked, the EVO
+cleanly rejects out-of-range writes but if the id14 doesn't we should add
+those checks as well.
 
+> I don't have a firm view yet on which way is better. If the iD14
+> fits the table without many special cases, one driver seems clearly
+> worth it. If it needs a lot of per-device branches, two smaller files
+> might be easier to read and review. What do you think, now that you
+> have seen what the iD14 needs?
+
+I think we can put everything except for FU12 into the tables and the EVO
+driver would even benefit from the added features (see above).
+
+> If we do combine them, the order I imagined is: your four fixes first,
+> then the rename to Audient, then the generic changes, then the iD14
+> tables on top as v2 of my series.
+
+Agreed. Renaming the file first might turn out to be annoying because it's
+the one thing which might create rebase conflicts we'll have to deal with
+while we work on this but it's probably preferable to keep as much of the
+commit history as possible after the rename.
+
+> In that case, would you prefer to do the rename and the generic part
+> yourself?
+
+I suppose we can cut one testing loop if I do the part of the generic part
+that touches the EVO myself so I can do that, no problem.
+
+> The rename would also touch MAINTAINERS; how would you like
+> to handle review of the iD14 parts?
+
+I would definitely prefer to list both of us as maintainers. Practically
+all code will be shared and I can't speak for the id14 in any way.
+
+> I can write the iD14 parts and
+> test them on my MkI. I don't have an EVO 4, so would you be able to
+> test that side? And which base should I work against, sound for-next
+> once your fixes are in?
+
+It shouldn't make a huge difference because we're rather independent on
+this file. I'll probably prepare everything on 7.3 and then rebase it onto
+sound/master to test it there and submit (that's what I did until now, but
+for-next is also fine). I suggest I submit an RFC with the generic part
+that you can apply locally to work against (and potentially adjust) before
+you submit everything in a final series which, if everything goes well, I
+only need to retest and tag.
+
+> I'm also not sure how a combined change
+> should reach Takashi: as one series, or as two with a stated
+> dependency.
