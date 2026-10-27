@@ -1,82 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793102471;
-	b=I+av2sWsmN4NWk19Mxdfwaj1KU095NKr4qrHYIL6OIDJ9ZZDuITRriMVm9eYf7MolfLJ
-	 mCy8H8C+7XwxKePPw/xs1/jGRE+wi+OxU8Wwse6QQSZptdN/nwtYzG4S5ysvgR1KZiPQQ
-	 GhrHVJaZmbKHDXevcxUmiB9cAbFNgx+EOGjCLras9SBUYEouTRr3VQwAxRffz1fz6cdC2
-	 9Z/68sVsEm4yi96grufVOEs01XBYlVo5QaMSahBsYGfSBR1aXZZhC/D2JXXZPPPT++0AI
-	 J2aHcDFe/VnnvV7ZQbyQxNNmQwMWqUnyD5mZqIS/LY2n3CCuCIf6zViG86mM44vZndg==
+	t=1793102469;
+	b=2Tqp1OJwGw7H9jtwFaYClOjB3hMPh25J/lTJDi0iQNL0/MnaPpNssRezL85F3usFZ4df
+	 MQOIT1zVaQdinmj58mMpDELWOkXtlmvkXplaVMk/M9g45y9a2jhERe/GzQR3wZGWeiYmo
+	 qBg/ffxpXysuQCz/Z3rLW61JYWXL3WZy7fW781eywXqUPVDZCJJzFMPEnhSG9gue/6k20
+	 KYNXXyoyAKOWlI0gCOaVavDU7NFRpTXD9yff9SyQ11HGky9O2ZIrqDdSqS5mohzVamZ1C
+	 O5U8yZoZcKHk40u8xde4IVz0hY+SS4Px1cYMnbd5SZcAOo8VqIBX8kwMBVG4trLHsfQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793102471;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793102469;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=RX5JkljdDqaMIqrBDcx4CTusbOfYgX4R/O3KQl4nKGc=;
-	b=zMCGEv4Klg9ER4cXQsKgBkKR/Gbco4B9sOKiuRqf2dFXXZ9A5tKC/BklXawM8zCmMasU
-	 af1W8vJgyaNht5yo2knALQDKBvu3z06DMR5dTtTlvoL2s4/pwHVzQgfNpjbNHzPQAvxYe
-	 BOzRRy7clCXIUQsm7PPPDy6LJEL6cypabxM089kJVilYlXEKVrM2X9qZT3FBqXAlfXFza
-	 iC0YnuEKjj9Y9EoKXThNcTBhglSmMezYHgBfzwnxrcnwHWvY80aCua8UDinsIKjJynEfn
-	 UL56v+7hH6M9bZRjbQmN757eOW81ZzrArn72SahA1N8XS5ubUZ4Ubqrqy7UzHJb7N7w==
+	bh=RdjRDHrcIiXMUN/fjmZNsI8ZO/4b+azgH+uf19hYTKE=;
+	b=2vds3/XHOFLZzX6E67Kgad8Q4ru7Mk4CsE+tnn/nJeHy1WyL9Ubdth9PLq4TEFcpDBRr
+	 hOtrFi+Qk0v8Xae7C34p+OYYwZSsc6qqCnapgPjEJOhQk0TY2KkjK6wlRPEC06gBrOHqM
+	 pcGb/UjwIpKSQ8j8vjyucZZ80D3vzpvmQchwYo2Xddn3Su2jImi8i0fw+NV7VpwiC9Ynh
+	 +P51gWRfHvZuKcZMMJqcXNva4kJwk9gBhzCWyJ3nmVXdLIVl+pu+1rqRlnNoo4jzewWnZ
+	 WA3m8Dy1SwCMDOWOdmNGygtZH2+zk/5m4apW2zH7eknaDCZUKRvpS8HBrT1YpVAFKDA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="g/6FlN/b";
-	arc=none smtp.remote-ip=209.85.208.54
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="f/lWBDEk";
+	arc=none smtp.remote-ip=209.85.208.46
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257F7606A31F
-	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 12:01:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 257F7606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B592960A381F
+	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 12:01:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B592960A381F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=g/6FlN/b
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6aa8d04fcddso489155a12.0
-        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 05:01:10 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=f/lWBDEk
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6b1a86c0316so6323607a12.0
+        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 05:01:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793102469; x=1793707269; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1793102467; x=1793707267; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=RX5JkljdDqaMIqrBDcx4CTusbOfYgX4R/O3KQl4nKGc=;
-        b=g/6FlN/bPV4hFFTmIx4Y5oOLqpKprBGYUkmf+he1xFuS7KA0wJMMfPaz4sOVUK5jKZ
-         nIZbxMKpQqUu2ly57cYlBOkYsm3dny6NNVkYvTrsQcLgezlvBhYhj6+kwGdFp7WDAjw0
-         4mI/+e6bm3YP6tshi1ALeurgkbYdS5JSX4+52nIg8W03QwXQkN+RT24470Le5bXRkKas
-         Uszu+TlDmyHCtMIhxZmeDFzsfx0brUI9vz2tuGobcd2YwWDEyHbdjyvpORHKo4VWEFSf
-         e3WTCRiqT9iBxSu4Ky9s2dj97OiQ9k04TkeHLaEq2+v40Uu4TVvvkFnQqpoPhqYpER0c
-         37ag==
+        bh=RdjRDHrcIiXMUN/fjmZNsI8ZO/4b+azgH+uf19hYTKE=;
+        b=f/lWBDEkfIPYFql3vPWiiT0rc3kWE1tCkHjWfg1CKxziyIZSDJ3v+JAjoHedbkvtho
+         8Cm/kuiTJKwJvHx6CCRVdEGS1z9ABZ9tUjnKP67gzJA31Rd7eGJaCVkvqC5m4OM5Fy6t
+         NYXMRa8we68AinGC9pbbxsO5Z+xeo/AYq/QoqXNtOCPutbu5qnFeAflJi0Eo4Ptc2gub
+         qZUcENewFIXSny4FMvENO4D/KDg4YI77snagNteSZRUsl5PyWekoAEt7l1kL5qNtx/wy
+         MmRTbLXTQWua3o+U1KtLi99yEXXzgPTjtO74lpJyjKd/DJ6OcI5LnyCuTst+PYNCy4uW
+         tfAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793102469; x=1793707269;
+        d=1e100.net; s=20260707; t=1793102467; x=1793707267;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=RX5JkljdDqaMIqrBDcx4CTusbOfYgX4R/O3KQl4nKGc=;
-        b=xig9HNm0b7lAb3TxuA9P3+VBBGFGH7TpvSsiAFHtwAGecLLvBNKAH2bF834qt2j+Dr
-         Z+LL5iRLBYKg+yJdgczxvrblqwtXMsE+AmASCF3NdBqYQS9KIR0nlPgvLTv5zo7P4kuo
-         tCuA2yIMGUX/RMK1beR46gERenSo9O3pf4Zw6/WM0lVtjeIGHxKGr+d0jayb4GyW3FCH
-         3/vquK5nZrdz+Q7tc0fx/YTUeTP2bDkCO2W+/R/f7Zi334jvAi8f7iMyWAzz+WpeWTxH
-         7on///HfqtfL3v+Mp/SppHOVw/gmQxMC1gs3scLJyQEbuF4maNzIIJgtBbwXe/LhbHGm
-         CxpQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxS86T05qAFkBJT60rPfQIbqt4ApDHVjDjPbhiu8YqXCLPppn93rtcvLpf/j3e2OYjDFWusbOVK85oXpg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYIFr6UAYEEr6IwVQy71aI9VPYotmot9PBIAY5rJKdHG2NXAx1sH
-	lbNvGnsX+J8t9eldmSELUoBl9GuSJpLZHwcNML5AaDlCB7avCSf8AIKe
-X-Gm-Gg: AYBFou3st4NizKI+kWBtypgANWA29OGi4c8FsCUXqWkzH+uDkSGMp7wjdTmgV0TtyTP
-	OBuyiJbBYyL1tUD+qrtJhjsSOLDqfTeJUdGORPPwohnszEAbuSeCAZtcTvaw7WAHarT8v1ZcQm9
-	Wpm+Hq2uJb29aZL5v85qoy8tJcHCjC22SPwhaZ/FDw4R6eUW0ETEzUHMoRwHndjPLeT57CVJ0bV
-	yf0INr2oFgzTIYhwyL6LyyzVgyOJuo4Btb3czsJLgqWVFFygx8FD842i1nDrXALahvaA/e9uoDn
-	EN1YYsmpN5LCWHFrxKa+g862dg+IGLBW+3oVQ4lUdkwgOQZvP8nIcVMS2on2ZqS6IFHykjMZDpJ
-	LYmR17lYS/UYdhnIsGkE093ALoCAbI2LOeYFJhmYDZ4MeNjS9oiAj3Exzx3yOydWST67+eQiy7/
-	QX3bytJPfaqAyR58S1pQPC/TT7f72ukNISr/H5j4cRPCcMomz8E3a8DhAnqi9/ldTtvdH0KSLlI
-	UKyFTQ1/V2/+LAEvV/Xpl0yRPgNkLV/iwLMieohFfJs7dmHwFS2TpdJjjCcKQ==
-X-Received: by 2002:a05:6402:a582:10b0:6b1:b9e9:6cfe with SMTP id 4fb4d7f45d1cf-6b47bcc0a05mr1504025a12.14.1793102469281;
-        Tue, 27 Oct 2026 05:01:09 -0700 (PDT)
+        bh=RdjRDHrcIiXMUN/fjmZNsI8ZO/4b+azgH+uf19hYTKE=;
+        b=tbi7k4JDYMMW9471PiQz/609W6nEUdlvucydIA8xI5dN0jM9kP2oFtywXZCU98xjFl
+         9jdgBwAgYhpjp/xFjNYjKiPwGMqZ/0gh4QmHz147/ONXZ8+kj44cH6Ufw1Jmcib2b25Y
+         XCy5AmaoxaGMyQyCluW86778aU3XkbBFuMj6/veJay0lIAvMec1SgHg3eh3xX0+JIEV9
+         aD3ri2qcTfEzaMUGKFrVzjP3bBWaXmDWLexvHAztTYsyAEb8eLyPaRJ7bZLXpOJRzCjq
+         YPtH8Du44O+dKCQN4vJJQ/iww4ia1M/Jl1lpeJFQ8tNLXFrjhDUKcz80Xh0j8hPVEtIM
+         z1IQ==
+X-Forwarded-Encrypted: i=1; AKwUvByKfZoFcZlbDSK4X5FJKIkAG970kkHFv0xX5wjCBP7OGN4vXhlL4sPr1bcxtfkhx1ZHpU8X8B8pXlGpvw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJLi/gabC5pL/krW3iWwqm6cHlya3VMwnaAtWpKQbV+ZTPEmPTt
+	oYimsD+3c/24Dd+INhxvjB0yfBj54ChR558gJ7FhLeXpTHMyvwegFpzz
+X-Gm-Gg: AYBFou0ydpF4Sv4cthrbnh2RBHZ/OsbDhfvjpgEQMLJ73U/nKU/Niby4DHwkPq4JQoD
+	K/b49HMsI9YGedgVg7CNIg8ldSi98t4q/MzIeHoPbwBOFAtskrEVb0hCKJ2yyMyZDOO+KNn3Y1C
+	/2qZQeyqd4jx64RuDwpuO1NF+9q2tRBBO2L7WiMS/jJE0+udK3b1fBZDqinQi1Poity4A3q5hCT
+	4bF0DUCls9E3t5sWUOE4GgU8rhh8cGNflNDcTvNGrOvCD0RVAffJAFXCI0NDr0FnhmaOWOq7dIu
+	dTDoz22Vv0cNZPQH8gqnnaeYWcGau7ip6B8SnNWKCvGShsMqER2e4/29bhS2zaUys1vgLPVhIjk
+	mYzNhPCk970vBHrARM7qz8kWi2Xz2xuWdx6vrr1q3UFp/ut1CAbA4UqhRKs04VEOvLn+VKAdvNN
+	1lHI9elQGqXvmwzyepZvmj0yGnbLPkuKG4l6cJNZEHCRIuQ08yBCLoHV5pKQT1wTimOfBK+BPPe
+	47f6hxSJme3InOETK7NLvYvWhAvmST2z0keHbUc62axZqo6BNXQgBeeft/k54Wxf9dePGmdzgDC
+X-Received: by 2002:a05:6402:a6c3:10b0:6af:5b14:78e7 with SMTP id 4fb4d7f45d1cf-6b44324f449mr6887681a12.34.1793102466212;
+        Tue, 27 Oct 2026 05:01:06 -0700 (PDT)
 Received: from xeon ([188.163.112.62])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b44598480dsm4717844a12.24.2026.10.27.05.01.06
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b44598480dsm4717844a12.24.2026.10.27.05.01.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 05:01:08 -0700 (PDT)
+        Tue, 27 Oct 2026 05:01:03 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -95,9 +95,9 @@ Cc: patches@opensource.cirrus.com,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-tegra@vger.kernel.org
-Subject: [PATCH v1 7/7] ARM: tegra: Add '#sound-dai-cells' property for audio-related nodes
-Date: Tue, 27 Oct 2026 14:00:19 +0200
-Message-ID: <20261027120019.93611-8-clamor95@gmail.com>
+Subject: [PATCH v1 6/7] ASoC: dt-bindings: nvidia,tegra20/tegra30: Document #sound-dai-cells property
+Date: Tue, 27 Oct 2026 14:00:18 +0200
+Message-ID: <20261027120019.93611-7-clamor95@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261027120019.93611-1-clamor95@gmail.com>
 References: <20261027120019.93611-1-clamor95@gmail.com>
@@ -112,203 +112,115 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the '#sound-dai-cells' property to audio-related nodes to support more
-advanced audio routing configurations.
+The Tegra20 AC97, Tegra20 I2S, and Tegra30 I2S controllers each provide a
+single DAI cell.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- arch/arm/boot/dts/nvidia/tegra114.dtsi | 10 ++++++++++
- arch/arm/boot/dts/nvidia/tegra124.dtsi | 10 ++++++++++
- arch/arm/boot/dts/nvidia/tegra20.dtsi  |  7 +++++++
- arch/arm/boot/dts/nvidia/tegra30.dtsi  | 10 ++++++++++
- 4 files changed, 37 insertions(+)
+ .../devicetree/bindings/sound/nvidia,tegra20-ac97.yaml    | 8 +++++++-
+ .../devicetree/bindings/sound/nvidia,tegra20-i2s.yaml     | 8 +++++++-
+ .../devicetree/bindings/sound/nvidia,tegra30-i2s.yaml     | 8 +++++++-
+ 3 files changed, 21 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm/boot/dts/nvidia/tegra114.dtsi b/arch/arm/boot/dts/nvidia/tegra114.dtsi
-index a5958f3a965b2..f2766c11ee6c3 100644
---- a/arch/arm/boot/dts/nvidia/tegra114.dtsi
-+++ b/arch/arm/boot/dts/nvidia/tegra114.dtsi
-@@ -881,6 +881,8 @@ tegra_i2s0: i2s@70080300 {
- 			clocks = <&tegra_car TEGRA114_CLK_I2S0>;
- 			resets = <&tegra_car 30>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.yaml
+index 4ea0a303d995d..19e242f6cf028 100644
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.yaml
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra20-ac97.yaml
+@@ -10,6 +10,9 @@ maintainers:
+   - Thierry Reding <treding@nvidia.com>
+   - Jon Hunter <jonathanh@nvidia.com>
  
-@@ -891,6 +893,8 @@ tegra_i2s1: i2s@70080400 {
- 			clocks = <&tegra_car TEGRA114_CLK_I2S1>;
- 			resets = <&tegra_car 11>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
++allOf:
++  - $ref: dai-common.yaml#
 +
- 			status = "disabled";
- 		};
+ properties:
+   compatible:
+     const: nvidia,tegra20-ac97
+@@ -45,6 +48,9 @@ properties:
+     description: AC97 DAP _FS line
+     maxItems: 1
  
-@@ -901,6 +905,8 @@ tegra_i2s2: i2s@70080500 {
- 			clocks = <&tegra_car TEGRA114_CLK_I2S2>;
- 			resets = <&tegra_car 18>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
++  '#sound-dai-cells':
++    const: 0
 +
- 			status = "disabled";
- 		};
+ required:
+   - compatible
+   - reg
+@@ -57,7 +63,7 @@ required:
+   - nvidia,codec-reset-gpios
+   - nvidia,codec-sync-gpios
  
-@@ -911,6 +917,8 @@ tegra_i2s3: i2s@70080600 {
- 			clocks = <&tegra_car TEGRA114_CLK_I2S3>;
- 			resets = <&tegra_car 101>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
+-additionalProperties: false
++unevaluatedProperties: false
  
-@@ -921,6 +929,8 @@ tegra_i2s4: i2s@70080700 {
- 			clocks = <&tegra_car TEGRA114_CLK_I2S4>;
- 			resets = <&tegra_car 102>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 	};
-diff --git a/arch/arm/boot/dts/nvidia/tegra124.dtsi b/arch/arm/boot/dts/nvidia/tegra124.dtsi
-index 86956b94ca0b0..920b1329a4dcb 100644
---- a/arch/arm/boot/dts/nvidia/tegra124.dtsi
-+++ b/arch/arm/boot/dts/nvidia/tegra124.dtsi
-@@ -1125,6 +1125,8 @@ tegra_i2s0: i2s@70301000 {
- 			clocks = <&tegra_car TEGRA124_CLK_I2S0>;
- 			resets = <&tegra_car 30>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
+ examples:
+   - |
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra20-i2s.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra20-i2s.yaml
+index 68ae124eaf804..9a17866da7731 100644
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra20-i2s.yaml
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra20-i2s.yaml
+@@ -15,6 +15,9 @@ maintainers:
+   - Thierry Reding <treding@nvidia.com>
+   - Jon Hunter <jonathanh@nvidia.com>
  
-@@ -1135,6 +1137,8 @@ tegra_i2s1: i2s@70301100 {
- 			clocks = <&tegra_car TEGRA124_CLK_I2S1>;
- 			resets = <&tegra_car 11>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
++allOf:
++  - $ref: dai-common.yaml#
 +
- 			status = "disabled";
- 		};
+ properties:
+   compatible:
+     const: nvidia,tegra20-i2s
+@@ -49,6 +52,9 @@ properties:
+       limiting number of supportable audio rates.
+     type: boolean
  
-@@ -1145,6 +1149,8 @@ tegra_i2s2: i2s@70301200 {
- 			clocks = <&tegra_car TEGRA124_CLK_I2S2>;
- 			resets = <&tegra_car 18>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
++  '#sound-dai-cells':
++    const: 0
 +
- 			status = "disabled";
- 		};
+ required:
+   - compatible
+   - reg
+@@ -59,7 +65,7 @@ required:
+   - dmas
+   - dma-names
  
-@@ -1155,6 +1161,8 @@ tegra_i2s3: i2s@70301300 {
- 			clocks = <&tegra_car TEGRA124_CLK_I2S3>;
- 			resets = <&tegra_car 101>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
+-additionalProperties: false
++unevaluatedProperties: false
  
-@@ -1165,6 +1173,8 @@ tegra_i2s4: i2s@70301400 {
- 			clocks = <&tegra_car TEGRA124_CLK_I2S4>;
- 			resets = <&tegra_car 102>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 	};
-diff --git a/arch/arm/boot/dts/nvidia/tegra20.dtsi b/arch/arm/boot/dts/nvidia/tegra20.dtsi
-index e4be3b62a51fe..b7102e6317ab1 100644
---- a/arch/arm/boot/dts/nvidia/tegra20.dtsi
-+++ b/arch/arm/boot/dts/nvidia/tegra20.dtsi
-@@ -405,6 +405,8 @@ tegra_ac97: ac97@70002000 {
- 		reset-names = "ac97";
- 		dmas = <&apbdma 12>, <&apbdma 12>;
- 		dma-names = "rx", "tx";
-+		#sound-dai-cells = <0>;
-+
- 		status = "disabled";
- 	};
+ examples:
+   - |
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
+index 89c3c6414ab13..fbe4cd4619683 100644
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra30-i2s.yaml
+@@ -10,6 +10,9 @@ maintainers:
+   - Thierry Reding <treding@nvidia.com>
+   - Jon Hunter <jonathanh@nvidia.com>
  
-@@ -419,6 +421,7 @@ tegra_spdif: spdif@70002400 {
- 		dmas = <&apbdma 3>, <&apbdma 3>;
- 		dma-names = "rx", "tx";
- 		#sound-dai-cells = <0>;
++allOf:
++  - $ref: dai-common.yaml#
 +
- 		status = "disabled";
+ properties:
+   compatible:
+     oneOf:
+@@ -42,6 +45,9 @@ properties:
+       - description: rx (playback)
+       - description: tx (capture)
  
- 		assigned-clocks = <&tegra_car TEGRA20_CLK_SPDIF_OUT>;
-@@ -434,6 +437,8 @@ tegra_i2s1: i2s@70002800 {
- 		reset-names = "i2s";
- 		dmas = <&apbdma 2>, <&apbdma 2>;
- 		dma-names = "rx", "tx";
-+		#sound-dai-cells = <0>;
++  '#sound-dai-cells':
++    const: 0
 +
- 		status = "disabled";
- 	};
+ required:
+   - compatible
+   - reg
+@@ -50,7 +56,7 @@ required:
+   - reset-names
+   - nvidia,ahub-cif-ids
  
-@@ -446,6 +451,8 @@ tegra_i2s2: i2s@70002a00 {
- 		reset-names = "i2s";
- 		dmas = <&apbdma 1>, <&apbdma 1>;
- 		dma-names = "rx", "tx";
-+		#sound-dai-cells = <0>;
-+
- 		status = "disabled";
- 	};
+-additionalProperties: false
++unevaluatedProperties: false
  
-diff --git a/arch/arm/boot/dts/nvidia/tegra30.dtsi b/arch/arm/boot/dts/nvidia/tegra30.dtsi
-index ed1bbf86434ce..1e51da329f310 100644
---- a/arch/arm/boot/dts/nvidia/tegra30.dtsi
-+++ b/arch/arm/boot/dts/nvidia/tegra30.dtsi
-@@ -1043,6 +1043,8 @@ tegra_i2s0: i2s@70080300 {
- 			clocks = <&tegra_car TEGRA30_CLK_I2S0>;
- 			resets = <&tegra_car 30>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 
-@@ -1053,6 +1055,8 @@ tegra_i2s1: i2s@70080400 {
- 			clocks = <&tegra_car TEGRA30_CLK_I2S1>;
- 			resets = <&tegra_car 11>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 
-@@ -1063,6 +1067,8 @@ tegra_i2s2: i2s@70080500 {
- 			clocks = <&tegra_car TEGRA30_CLK_I2S2>;
- 			resets = <&tegra_car 18>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 
-@@ -1073,6 +1079,8 @@ tegra_i2s3: i2s@70080600 {
- 			clocks = <&tegra_car TEGRA30_CLK_I2S3>;
- 			resets = <&tegra_car 101>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 
-@@ -1083,6 +1091,8 @@ tegra_i2s4: i2s@70080700 {
- 			clocks = <&tegra_car TEGRA30_CLK_I2S4>;
- 			resets = <&tegra_car 102>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 	};
+ examples:
+   - |
 -- 
 2.53.0
 
