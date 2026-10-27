@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793101726;
-	b=s8LXSt3gW2XFJMoaGyRjXPDkpSG7sI1u/LIAOn9Elxq07QoyIgt1SQ6JkEIUU+G5pHEW
-	 Urxc1dGfQHpceXQCcsuTFYsL5TArPOCHIp8PLrLxHKLfBX8DQ15i8228970FwfDOdiRea
-	 Qg+he+3iR1+SsCTgLypsP2bex3jXSk0ZmyBpFuwGR+Jt4zgfdGZq5ACoDvmKN17XvEoBO
-	 hR0suGRVPsPpQ9Wv0GE/UlrJRNPugef+5lw4FDYHWDucKI8yUc29+aH+hUFNCAZVjM96B
-	 XNAJFdXIRowh9MdfegWeZakg2FKEFqQf3zH1oJFKjX5gt9qHjYivw2PTkPPiv2kHuBw==
+	t=1793102004;
+	b=sYN8L+izPVC+LowqM19hpUxE5SMCr+W4t87x2SIcfJlqsZTn2dVPnmCA3ZXvqFYRHX8F
+	 NXshssWhHqrHSy0Rb4KxzdLzmD+gNUIOiVHcwGcMuR0onwz44dL9RXaKQcCkeQhB2W9MU
+	 1RsmxK9MGipnughYsqg0WwnIoCojJC+njDW7bMDqgrhCbWj4+zFhPtjTB5o/wSbT7J1t5
+	 E9xROX9/ke9Cb/qQm16QQY7ECW93qOOPQYrHjoyrSVG+zxyZgVzSoFS8Bj5PHl5ZiteZN
+	 allyWnaQIHTOs+ODDCYD6EYjXCWnOQGYrIZMm3346ogGhllMF6pQxLrxWkITw3BCSLw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793101726;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793102004;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=K2ldZRBGHSwKO9q4Kf3qPY21qozQRRtzIm/S6l7jVWI=;
-	b=zvWHxMJFuO9z7/gYcr/obvjio2E98Q5vAaJeiSIRaHhhIILTR4oXpnyRZjwaCboxdNVW
-	 au4wqJDI/QLip8VuzTAQC+gJfrFks8R1bfqLyAO1pe4K2M2PSaao/ziXHs2AYXFbXlZVa
-	 Micn5ig1T+tBdw3tlWv/bxrvSSbmITnwC7YhDbqZ/xkptYOESv9ibwLmGI88C4Ip+wzMk
-	 S9Si1KtACjeR5liE5IsZqCj+DAN5eyD49f8qaEE5aSlzuUWHN1js511Vl1Klquk1egCeb
-	 QrZdLYJwV7bX9P9Vq9qUYojz9ejcTCSDPBRQvbYRhTnU9BxFlS5J4FZD9p4Ww1oG0Cg==
+	bh=sWN1PpSYOz5KEHq+XMlHpxa9XGMfitXYGS0npUSymIw=;
+	b=iHhshS3weuU91zlp6PQ0pdwzkYZ+1QN05MIBCu5ErobEV1K9Bbq5VqXfpYjC6RGNlr33
+	 YbFiIM9ZCr/MA1VN2va6eejAIVDXskCHqQsSeWpwI7rG5kueUPMUq/qx8Tt5VnnZOqSmv
+	 rFUyG7uJqabcG4ZckY75JY2L2pqKpy9mEMY+aaDbptjXVvYh0WxmOP6rrzk1rhun9iiCc
+	 JXw+LW0sI2QJYVsnrZQ1JN3cVtSufZAnvsYWexrjTaHaYDC1o18rNPYsiIrVPKsAt3Mn8
+	 auKbQli/utRW3+H0oa6JuvCnQ5BrqpJjtut0nG9w/o81+sirfMdqDNDPiPx5Ybbw9kQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LA7OrOCo;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LCLTQqKh;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26F6606A32A;
-	Tue, 27 Oct 2026 11:48:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07388606A31B;
+	Tue, 27 Oct 2026 11:53:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LA7OrOCo
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 730971F031E0;
-	Tue, 27 Oct 2026 11:48:45 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LCLTQqKh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EAAA1F01828;
+	Tue, 27 Oct 2026 11:53:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793101725;
-	bh=K2ldZRBGHSwKO9q4Kf3qPY21qozQRRtzIm/S6l7jVWI=;
+	s=k20260515; t=1793102003;
+	bh=sWN1PpSYOz5KEHq+XMlHpxa9XGMfitXYGS0npUSymIw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=LA7OrOCoIk5GyTIHx9Dp2I3I2q4TBqxoiatzHLMS/UKRhdsiL2pFA+xYRHJ0jFkYH
-	 SUyq0ZtNa3NKjwzKax7ZFmKbjqWjFNA9SoXJuZ1UZRAysbxVYaoYbzzjDEtIp3fKDQ
-	 yRfUIHjZtfpv3pjJicu3FGgFLQLCjEft4Pk5d3qWIqiuzkuHmch87y7Pjk9n2KZ337
-	 /ncAlQXMrH8vqBEjo8yDTwZtdY1X5Nov2X8DKVU/qvcyO7S9GD2KEOl+dTYdZ864OE
-	 laqLQwkyCwH8Ysv0zZbudL8PwL4hr6fwMJPasbYqRveZbcEB4y6YLeYayZHZlpKDIR
-	 0kjfbmyijuSjg==
-Message-ID: <sashiko-outbox-186478@kernel.org>
+	b=LCLTQqKhaRbOV6iITpgxtMkAc7q3cxd7S9GsIK4mEFU9EAk0NSiKlI3ebcxdKh1L4
+	 5gryC3tQ33bV+ZPZFBAZ25cnqJggh+KXc2TDcOeSylFQZLivjKnKJZUnrZh96MKQ7A
+	 m1UA/bycwSbMjvTU+scRDGsGM2SD9QP09gdL7jD+k9NVouZWBHFLkIORobSRI8v84F
+	 YBw0LwCj0FvDIosre/bu92nYK5D9bgyaJxD11QaxxH3UCWCvMnh4Z5pH4vQVD+699q
+	 FbNhp+5zPKGcflFuofmftzXUKK4g9IPqqlmL2EY7H8Mhai7gbXyOtgn788l9fV5EoJ
+	 p7dxmM65pU2ow==
+Message-ID: <sashiko-outbox-186482@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 2/8] ALSA: usb: babyfacepro: add output masters and
- crosspoint routing
+Subject: Re: [PATCH v7 5/8] ALSA: usb: babyfacepro: add S3 suspend/resume
 Reply-To: sashiko-reviews@lists.linux.dev
 To: =?utf-8?b?SXNtYcOvbCBCYWhsb3Vs?= <i.bahloul01@gmail.com>, linux-sound@vger.kernel.org
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261027113140.134257-3-i.bahloul01@gmail.com>
+In-Reply-To: <20261027113140.134257-6-i.bahloul01@gmail.com>
 References: <20261027113140.134257-1-i.bahloul01@gmail.com>
- <20261027113140.134257-3-i.bahloul01@gmail.com>
+ <20261027113140.134257-6-i.bahloul01@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Oct 2026 11:48:45 +0000
+Date: Tue, 27 Oct 2026 11:53:23 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,307 +60,227 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
-- [High] ALSA: usb: babyfacepro: NULL dereference on snd_ctl_new1() failure
-- [High] ALSA: usb: babyfacepro: bf_mute_put() ignores second channel of st=
-ereo switch
-- [Medium] ALSA: usb: babyfacepro: missing shutdown check in mixer put call=
-backs
-- [Low] ALSA: babyfacepro: orphaned comment on babyface_capture_copy() and =
-stale log
+- [High] ALSA: usb: babyfacepro: bf_state_apply_flags() clobbers AN1/2 cros=
+spoints on resume
+- [Medium] ALSA: usb: babyfacepro: bf_state_apply_flags() unmutes Phones on=
+ resume
+- [Medium] ALSA: usb: babyfacepro: bf_state_apply_flags() resets Boost ref =
+level on resume
 --
 
-commit 1ac638b28a6154bd1d16f2527a4340828fe7ffbf
+commit 310405e76a62da749e95a774e21001c8c29e80f6
 Author: Isma=C3=AFl Bahloul <i.bahloul01@gmail.com>
 
-ALSA: usb: babyfacepro: add output masters and crosspoint routing
+ALSA: usb: babyfacepro: add S3 suspend/resume
 
-This commit adds ALSA mixer controls for the six output masters (volume and
-mute) and the 6x14 crosspoint routing matrix on RME Babyface Pro devices. It
-also initializes default mixer levels during probe and provides a helper to
-restore cached mixer state.
-
->     ALSA: usb: babyfacepro: add output masters and crosspoint routing
->    =20
->     Add the first mixer controls: the six output masters (volume + mute)
->     and the 6x14 crosspoint matrix.  The device has no readback for any of
->     them, so the driver keeps the state host-side and the controls read
->     that cache.
->    =20
->     The probe's cold init clears the mixer registers, so probe writes a
->     power-on default: every playback channel into every output at 0 dB,
->     the hardware inputs off until a mixer raises them, and the two analog
->     outputs (AN1/2, PH3/4) at -20 dB, the level the hardware DIM button
->     uses.  The AN1/2 output sums from its own "low map" registers, so its
->     crosspoints are written to both maps.  A volume change leaves a muted
->     output muted.
->    =20
->     The masters count the 8-bit register's 0.5 dB steps over the front
->     panel's range: 0 is mute, 1 is -90 dB and BF_MASTER_STEP_MAX is +6 dB.
->     The control value is that step, so no log table converts it, and the
->     16-bit companion register is derived from the same step.
->    =20
->     A userspace usbfs claim (PipeWire, a libusb mixer daemon) detaches and
->     re-probes the interface, and the cold init of the re-probe clears the
->     mixer registers; alsactl restores the user's settings once the card is
->     registered again.
->    =20
->     Co-developed-by: David Fredman <davfre@gmail.com>
->     Signed-off-by: David Fredman <davfre@gmail.com>
->     Signed-off-by: Isma=C3=AFl Bahloul <i.bahloul01@gmail.com>
-
-[Severity: Low]
-The commit message states:
-
-  The AN1/2 output sums from its own "low map" registers, so its
-  crosspoints are written to both maps.
-
-However, the comments in babyfacepro.h and above bf_xpoint_write() explain
-that AN1/2 is block 0 (0x0000) of a single crosspoint map rather than a
-separate layer alongside a standard map, and bf_xpoint_write() only writes a
-single block per output pair. Is this sentence in the commit description le=
-ft
-over from an earlier version of the patch?
-
-> diff --git a/sound/usb/babyfacepro/babyfacepro-ctl.c b/sound/usb/babyface=
-pro/babyfacepro-ctl.c
-> new file mode 100644
-> index 0000000000000..9b41dcde5308a
-> --- /dev/null
-> +++ b/sound/usb/babyfacepro/babyfacepro-ctl.c
-[ ... ]
-> +static int bf_master_put(struct snd_kcontrol *kctl,
-> +			 struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	struct snd_usb_babyface *chip =3D snd_kcontrol_chip(kctl);
-> +	int out =3D bf_master_out[kctl->private_value];
-> +	long nl =3D ucontrol->value.integer.value[0];
-> +	long nr =3D ucontrol->value.integer.value[1];
-> +	u16 l, r, wire_l, wire_r, flag;
-> +	int ret =3D 0;
-> +
-> +	/* Reject anything outside the declared range, so the registers and
-> +	 * the cache stay in spec (the ALSA core only enforces this with
-> +	 * CONFIG_SND_CTL_INPUT_VALIDATION).  Check before narrowing:
-> +	 * .value.integer.value[] is a long.
-> +	 */
-> +	if (nl < 0 || nl > BF_MASTER_STEP_MAX ||
-> +	    nr < 0 || nr > BF_MASTER_STEP_MAX)
-> +		return -EINVAL;
-> +	l =3D nl;
-> +	r =3D nr;
-> +
-> +	mutex_lock(&chip->mutex);
-> +	if (l =3D=3D chip->master[out][0] && r =3D=3D chip->master[out][1])
-> +		goto out;
-> +
-> +	wire_l =3D chip->muted[out] ? 0 : l;
-> +	wire_r =3D chip->muted[out] ? 0 : r;
-> +	flag =3D bf_flag_cycle[chip->flag_cnt];
-> +	chip->flag_cnt =3D (chip->flag_cnt + 1) & 3;
-> +
-> +	/* Both registers, as TotalMix writes them: the 8-bit is the analog
-> +	 * level, the 16-bit the digital one.
-> +	 */
-> +	ret =3D bf_vendor_write(chip, BF_REQ_GAIN, bf_master_reg8(wire_l),
-> +			      BF_REG_MASTER_8 + 2 * out);
-
-[Severity: Medium]
-Should bf_master_put(), bf_mute_put(), and bf_xpoint_put() check
-chip->shutdown after acquiring chip->mutex and return -ENODEV if set?
-
-In babyface_disconnect(), chip->shutdown is set and chip->mutex is acquired
-and released before usb_enable_autosuspend(chip->dev) and
-snd_card_disconnect(chip->card) are called:
-
-sound/usb/babyfacepro/babyfacepro.c:babyface_disconnect() {
-	...
-	chip->shutdown =3D true;
-	mutex_lock(&chip->mutex);
-	if (chip->streaming)
-		babyface_stream_kill(chip);
-	mutex_unlock(&chip->mutex);
-	cancel_work_sync(&chip->stream_work);
-	usb_enable_autosuspend(chip->dev);
-	...
-	snd_card_disconnect(chip->card);
-}
-
-Unlike babyface_pcm_hw_params(), babyface_pcm_prepare(), and
-babyface_stream_work(), which check chip->shutdown under chip->mutex, a
-concurrent control write in bf_master_put(), bf_mute_put(), or bf_xpoint_pu=
-t()
-can acquire chip->mutex after babyface_disconnect() unlocks it and issue
-synchronous bf_vendor_write() USB control transfers after autosuspend has b=
-een
-re-enabled (or after disconnect completes when CONFIG_PM is disabled).
-
-[ ... ]
-> +static int bf_mute_info(struct snd_kcontrol *kctl,
-> +			struct snd_ctl_elem_info *uinfo)
-> +{
-> +	uinfo->type =3D SNDRV_CTL_ELEM_TYPE_BOOLEAN;
-> +	uinfo->count =3D 2;
-> +	uinfo->value.integer.min =3D 0;
-> +	uinfo->value.integer.max =3D 1;
-> +	return 0;
-> +}
-> +
-> +static int bf_mute_get(struct snd_kcontrol *kctl,
-> +		       struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	struct snd_usb_babyface *chip =3D snd_kcontrol_chip(kctl);
-> +	int out =3D bf_master_out[kctl->private_value];
-> +
-> +	/* ALSA convention: 1 =3D enabled (sound on) =3D not muted. */
-> +	ucontrol->value.integer.value[0] =3D !chip->muted[out];
-> +	ucontrol->value.integer.value[1] =3D !chip->muted[out];
-> +	return 0;
-> +}
-> +
-> +static int bf_mute_put(struct snd_kcontrol *kctl,
-> +		       struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	struct snd_usb_babyface *chip =3D snd_kcontrol_chip(kctl);
-> +	int out =3D bf_master_out[kctl->private_value];
-> +	bool muted =3D !ucontrol->value.integer.value[0];
-> +	u16 flag;
-> +	int ret =3D 0;
-> +
-> +	mutex_lock(&chip->mutex);
-> +	if (muted =3D=3D chip->muted[out])
-> +		goto out;
-
-[Severity: High]
-bf_mute_info() declares uinfo->count =3D 2 for the Playback Switch controls,
-advertising two independent boolean channels. However, chip->muted[6] only
-stores a single boolean per stereo pair, and bf_mute_put() only reads
-ucontrol->value.integer.value[0] while ignoring
-ucontrol->value.integer.value[1].
-
-If userspace changes only the second channel (for example, writing [1, 0] w=
-hen
-the switch is [1, 1]), muted =3D=3D chip->muted[out] evaluates to true, so
-bf_mute_put() returns 0 without updating the hardware or state, and subsequ=
-ent
-reads via bf_mute_get() still report [1, 1]. Conversely, writing [0, 1] mut=
-es
-both hardware channels and reads back as [0, 0].
-
-Should uinfo->count in bf_mute_info() be 1 for a ganged stereo switch, or
-should chip->muted track both channels independently?
-
-[ ... ]
-> +int babyface_create_xpoints(struct snd_usb_babyface *chip)
-> +{
-> +	struct snd_kcontrol *kctl;
-> +	int out, src, err;
-> +
-> +	for (out =3D 0; out < 6; out++) {
-> +		for (src =3D 0; src < 14; src++) {
-> +			kctl =3D snd_ctl_new1(&(struct snd_kcontrol_new){
-> +				.iface =3D SNDRV_CTL_ELEM_IFACE_MIXER,
-> +				.name =3D "Playback Volume",
-> +				.index =3D out * 14 + src,
-> +				.access =3D SNDRV_CTL_ELEM_ACCESS_READWRITE |
-> +					  SNDRV_CTL_ELEM_ACCESS_TLV_READ,
-> +				.info =3D bf_xpoint_info,
-> +				.get =3D bf_xpoint_get,
-> +				.put =3D bf_xpoint_put,
-> +				.tlv.p =3D bf_xpoint_tlv,
-> +				.private_value =3D (out << 8) | src,
-> +			}, chip);
-> +			/* Name the control by its source: "AN1 Playback Volume",
-> +			 * "PB1 Playback Volume"... with a unique index.
-> +			 */
-> +			strscpy(kctl->id.name, bf_sources[src].name,
-> +				sizeof(kctl->id.name));
-> +			strlcat(kctl->id.name, " Playback Volume",
-> +				sizeof(kctl->id.name));
-> +			err =3D snd_ctl_add(chip->card, kctl);
-> +			if (err < 0)
-> +				return err;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +int babyface_create_masters(struct snd_usb_babyface *chip)
-> +{
-> +	static const char * const out_names[6] =3D {
-> +		"AN1/2", "PH3/4", "AS1/2", "ADAT3/4", "ADAT5/6", "ADAT7/8"
-> +	};
-> +	struct snd_kcontrol *kctl;
-> +	int i, err;
-> +
-> +	for (i =3D 0; i < 6; i++) {
-> +		kctl =3D snd_ctl_new1(&(struct snd_kcontrol_new){
-> +			.iface =3D SNDRV_CTL_ELEM_IFACE_MIXER,
-> +			.name =3D out_names[i],
-> +			.index =3D i,
-> +			.access =3D SNDRV_CTL_ELEM_ACCESS_READWRITE |
-> +				  SNDRV_CTL_ELEM_ACCESS_TLV_READ,
-> +			.info =3D bf_master_info,
-> +			.get =3D bf_master_get,
-> +			.put =3D bf_master_put,
-> +			.tlv.p =3D bf_master_tlv,
-> +			.private_value =3D i,
-> +		}, chip);
-> +		strlcat(kctl->id.name, " Playback Volume", sizeof(kctl->id.name));
-> +		err =3D snd_ctl_add(chip->card, kctl);
-> +		if (err < 0)
-> +			return err;
-> +		chip->master_kctl[i] =3D kctl;
-> +
-> +		kctl =3D snd_ctl_new1(&(struct snd_kcontrol_new){
-> +			.iface =3D SNDRV_CTL_ELEM_IFACE_MIXER,
-> +			.name =3D out_names[i],
-> +			.index =3D i,
-> +			.info =3D bf_mute_info,
-> +			.get =3D bf_mute_get,
-> +			.put =3D bf_mute_put,
-> +			.private_value =3D i,
-> +		}, chip);
-> +		strlcat(kctl->id.name, " Playback Switch", sizeof(kctl->id.name));
-> +		err =3D snd_ctl_add(chip->card, kctl);
-
-[Severity: High]
-Can kctl be dereferenced when NULL here and in babyface_create_xpoints()?
-
-When snd_ctl_new1() fails to allocate memory, it returns NULL. Normally
-snd_ctl_add() handles a NULL kctl and returns -EINVAL, but both
-babyface_create_xpoints() and the two control creation blocks in
-babyface_create_masters() write to kctl->id.name via strscpy() or strlcat()
-before passing kctl to snd_ctl_add().
+This commit adds S3 suspend, resume, and reset_resume callbacks for the RME
+Babyface Pro USB audio driver. On suspend, it suspends active PCM substream=
+s,
+kills running URBs, and cancels pending stream work; on resume, it re-runs
+cold initialization and replays the cached mixer state and hardware flags.
 
 > diff --git a/sound/usb/babyfacepro/babyfacepro.c b/sound/usb/babyfacepro/=
 babyfacepro.c
-> index 81a3714623e5a..de1659307fbc0 100644
+> index ed4555c711064..e0eb0ce9b92f3 100644
 > --- a/sound/usb/babyfacepro/babyfacepro.c
 > +++ b/sound/usb/babyfacepro/babyfacepro.c
-[ ... ]
-> @@ -249,6 +250,46 @@ int bf_cold_init(struct snd_usb_babyface *chip)
-[ ... ]
-> +	ret =3D bf_clock_write(chip);
-> +	if (ret < 0)
-> +		return ret;
-> +	return bf_pitch_write(chip, chip->pitch);
-> +}
-> +
-> +/* Copy a saved state (if any) into a freshly probed chip and push it
-> + * to the device.  Returns 1 when restored, -ENOENT when there is none,
-> + * or a negative error from the vendor writes.
-> + */
->  static bool babyface_capture_copy(struct snd_usb_babyface *chip,
->  				  struct snd_pcm_substream *subs,
->  				  const u8 *data, unsigned int frames)
 
-[Severity: Low]
-This isn't a bug, but is this comment above babyface_capture_copy() an
-orphaned comment from a removed state-restore helper?
+[ ... ]
+
+> @@ -390,10 +400,8 @@ int bf_state_apply_flags(struct snd_usb_babyface *ch=
+ip)
+>  	}
+> =20
+>  	/* Re-apply an engaged DIM (the fixed -20 dB Phones pair + flag).  The
+> -	 * level DIM releases back to is not persisted: it always tracks the
+> -	 * Phones master while DIM is engaged, so rebuild it here - otherwise a
+> -	 * DIM released after a re-probe would drive Phones to
+> -	 * silence (dim_saved still zero on the fresh chip).
+> +	 * level DIM releases back to tracks the Phones master while DIM is
+> +	 * engaged.
+>  	 */
+>  	if (chip->dim) {
+>  		chip->dim_saved[0] =3D chip->master[1][0];
+
+[Severity: Medium]
+What happens on resume when both chip->dim and chip->muted[1] are active?
+
+In babyface_resume(), babyface_restore_state() calls bf_apply_masters(),
+which checks chip->muted[out] and writes the muted level (BF_MASTER_MUTE /
+0x0000) to the hardware master registers:
+
+sound/usb/babyfacepro/babyfacepro-ctl.c:bf_apply_masters() {
+	for (out =3D 0; out < 6; out++) {
+		u16 l =3D chip->muted[out] ? 0 : chip->master[out][0];
+		u16 r =3D chip->muted[out] ? 0 : chip->master[out][1];
+		...
+}
+
+Immediately afterwards, babyface_resume() calls bf_state_apply_flags(), whe=
+re
+the chip->dim block unconditionally writes 0xcb (-20 dB) to
+BF_REG_MASTER_8 + 2 * 1 (and + 1) and 0x0333 to BF_REG_MASTER_16 + 2 * 1
+(and + 1) without checking chip->muted[1]:
+
+sound/usb/babyfacepro/babyfacepro.c:bf_state_apply_flags() {
+	if (chip->dim) {
+		chip->dim_saved[0] =3D chip->master[1][0];
+		chip->dim_saved[1] =3D chip->master[1][1];
+		ret =3D bf_vendor_write(chip, BF_REQ_GAIN, 0xcb,
+				      BF_REG_MASTER_8 + 2 * 1);
+		...
+		ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0333,
+				      (BF_REG_MASTER_16 + 2 * 1) |
+				      bf_flag_cycle[chip->flag_cnt]);
+		...
+}
+
+Won't this overwrite the muted state on the hardware headphone output (PH3/=
+4)
+with -20 dB across a suspend/resume cycle while chip->muted[1] remains true?
+
+[ ... ]
+
+> @@ -1788,6 +1798,63 @@ static void babyface_disconnect(struct usb_interfa=
+ce *intf)
+>  	snd_card_free_when_closed(chip->card);
+>  }
+> =20
+> +static int babyface_suspend(struct usb_interface *intf, pm_message_t mes=
+sage)
+> +{
+
+[ ... ]
+
+> +static int babyface_resume(struct usb_interface *intf)
+> +{
+> +	struct snd_usb_babyface *chip =3D usb_get_intfdata(intf);
+> +	int err;
+> +
+> +	if (!chip)
+> +		return 0;
+> +
+> +	/* The device lost its state across the suspend; re-run the cold
+> +	 * init and re-apply the cached mixer state.  Suspended PCM
+> +	 * substreams are woken by the core - apps get -ESTRPIPE and
+> +	 * restart (prepare starts a new session).
+> +	 *
+> +	 * This is also the reset_resume handler.  Some hosts reset the
+> +	 * device on resume; that needs nothing more than the cold init
+> +	 * already does here, and without the handler the USB core unbinds
+> +	 * and re-probes the driver instead: the card goes away, open PCMs
+> +	 * fail, and udev's alsactl restore then loads the mixer state
+> +	 * stored at the last shutdown over the current one.
+> +	 */
+> +	mutex_lock(&chip->mutex);
+> +	err =3D usb_set_interface(chip->dev, BF_IFACE, chip->alt);
+> +	if (err < 0)
+> +		goto out;
+> +	err =3D bf_cold_init(chip);
+> +	if (err < 0)
+> +		goto out;
+> +	err =3D babyface_restore_state(chip);
+> +	if (err < 0)
+> +		goto out;
+> +	err =3D bf_state_apply_flags(chip);
+
+[Severity: High]
+Does calling bf_state_apply_flags() right after babyface_restore_state() in
+babyface_resume() clobber the restored AN1 -> AN1/2 and AN2 -> AN1/2
+crosspoint faders?
+
+During babyface_restore_state(), the crosspoint loop writes all cached
+chip->xpoint[out][src] values to the hardware, including out =3D 0 (AN1/2) =
+and
+src =3D 0..1 (AN1 and AN2 at registers 0x0000, 0x001a, 0x0001, and 0x001b):
+
+sound/usb/babyfacepro/babyfacepro.c:babyface_restore_state() {
+	for (out =3D 0; out < 6; out++) {
+		for (src =3D 0; src < 14; src++) {
+			ret =3D bf_xpoint_write(chip, out, src,
+					      chip->xpoint[out][src][0],
+					      chip->xpoint[out][src][1]);
+			...
+}
+
+Then bf_state_apply_flags() runs. Unlike ms_proc, phase, split, and trim
+(which only touch the shared crosspoint registers when their respective sta=
+te
+is non-zero), the chip->width calculation in bf_state_apply_flags() executes
+unconditionally:
+
+sound/usb/babyfacepro/babyfacepro.c:bf_state_apply_flags() {
+	l =3D (u16)(((0x2000 * (100 + chip->width) / 2) + 50) / 100);
+	r =3D 0x2000 - l;
+	ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, l, 0x0000);
+	if (ret < 0)
+		return ret;
+	ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, r, 0x001a);
+	if (ret < 0)
+		return ret;
+	ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, r, 0x0001);
+	if (ret < 0)
+		return ret;
+	ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, l, 0x001b);
+	if (ret < 0)
+		return ret;
+}
+
+When chip->width is 0 (the default), this writes 0x1000 to registers 0x0000,
+0x001a, 0x0001, and 0x001b, overwriting whatever chip->xpoint[0][0] and
+chip->xpoint[0][1] values babyface_restore_state() just restored and routing
+live microphone inputs AN1 and AN2 into the main AN1/2 output even when they
+were muted in chip->xpoint[0][0..1]. Because chip->xpoint[0][0..1] in the
+host cache still holds the old values (such as 0), subsequent bf_xpoint_put=
+()
+calls with the same value will also see no change against the cache and ret=
+urn
+early without updating the hardware. (Also, when chip->width is non-zero,
+bf_width_put() writes both 0x0000/0x001a/0x0001/0x001b and
+0x0034/0x004e/0x0035/0x004f, whereas bf_state_apply_flags() only writes the
+first four.)
+
+[Severity: Medium]
+Could bf_state_apply_flags() also reset the Instrument Ref Level from Boost
+back to -10dBV during babyface_resume()?
+
+In babyface_restore_state(), bf_preamp_state_write() restores the preamp
+state and commits BF_REQ_PREAMP_COMMIT with 0x0003 when chip->ref_level is
+BF_REF_LEVEL_BOOST:
+
+sound/usb/babyfacepro/babyfacepro-ctl.c:bf_preamp_state_write() {
+	ret =3D bf_vendor_write(chip, BF_REQ_PREAMP, chip->preamp, BF_REG_PREAMP);
+	if (ret < 0)
+		return ret;
+	return bf_vendor_write(chip, BF_REQ_PREAMP_COMMIT,
+			       chip->ref_level =3D=3D BF_REF_LEVEL_BOOST ?
+			       0x0003 : 0x0000, 0x0000);
+}
+
+However, bf_state_apply_flags() then writes the linked/an12 flags and follo=
+ws
+up with a hardcoded 0x0000 commit to BF_REQ_PREAMP_COMMIT:
+
+sound/usb/babyfacepro/babyfacepro.c:bf_state_apply_flags() {
+	ret =3D bf_vendor_write(chip, BF_REQ_PREAMP,
+			      (chip->linked ? 0x0400 : 0x0000) |
+			      (chip->an12 ? 0x1000 : 0x0000), 0x1000);
+	if (ret < 0)
+		return ret;
+	ret =3D bf_vendor_write(chip, BF_REQ_PREAMP_COMMIT, 0x0000, 0x0000);
+	if (ret < 0)
+		return ret;
+}
+
+As noted in bf_preamp_state_write(), sending 0x0000 in BF_REQ_PREAMP_COMMIT
+causes Boost to degrade to -10dBV while chip->ref_level still reports
+BF_REF_LEVEL_BOOST. Should bf_state_apply_flags() pass
+chip->ref_level =3D=3D BF_REF_LEVEL_BOOST ? 0x0003 : 0x0000 in that commit =
+write
+as well?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027113140.1342=
-57-1-i.bahloul01@gmail.com?part=3D2
+57-1-i.bahloul01@gmail.com?part=3D5
