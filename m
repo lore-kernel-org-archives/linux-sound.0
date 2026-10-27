@@ -1,107 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.200.178.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793086867;
-	b=M76C/jfpt4bpQlp7tqR6TFQgHX74zq3jnS7lqlKRiQOIxCAQ2AIG61H0S2khr7vxplmR
-	 ywkCd3oClwNAAFBfdLjwidB5gEJOqpEDV0qiAzxh0hi/yzxuQ46P5kb99WRQCYlt+38AM
-	 lbxVgprRfFVBrTZzGDMnmanHFHvGozKnuC3QUb7HxoBrb5mMQAC+4i31GjKghh3UK0my4
-	 flaRphFbTMhFvEfuBGcF6AwVIgRforgcXCZJZ6jwinMaON/k6c/VoHMBnczJm/mlXhCWP
-	 XzGruP5i2PArfVA8KaLQtxIuL9jOQ2vxfFGgCR+25gsXbU9eK/JaTQ9n2oyisBo9u4g==
+	t=1793088524;
+	b=4uQHjrG3rfPFwqY51HOBH3cGcTcQMjOR7iAAN5nOaPhau/vIaq4HCu1Q4mzBm7QV47xy
+	 FDQoCL2GyzbbC3nBCx77auFuE2HrsSurN5oJL2+r1FhcZiFNk+ohk6aQtuAlfq8JHRm1Z
+	 739yp/cylGvRgckt3HX5hKBCVvKrG7iPwFr5jS2Dm7vXtObBM3Wx0As40DWmVYGcSWYiv
+	 /B0R95ggVPnAWWZ7GUz4R1kykIdY2SZ17evtvbToCoHTjwC8REYcvBzTZ4gyqVYrqoiHN
+	 j4Ha7JJdcPiH7GGMW6kzuX3/2dY/SHcmen2fGIuJIg/BLL2MnyYeUwG9RIwN5nfbA0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793086867;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=h1Mcwu9X+0wgJ2oZ5KiL3Zl0mgtIz+tRWQ8Zij/aVfY=;
-	b=4lwPUSvcKiVtXWC69trSlJXmIHPOqBhgnAE145eUkDJJBdEy3F/XjgkL/KoBIiLbZiVo
-	 U9uKX5aq9NjNwpYsS+ZKl4wXpMX90YsDNLxcPSCg5lq5I24oAZj86HUjqRcSuXl1mc4Cm
-	 D6JyTKlUfl6IULcY5riOf5KqaS66ZBkRsz2bFUy8ecem7TcnXmMbKEPYurf+NTfPJvL07
-	 lPbEATdK6aIu93VVPIBKkkV0T5prQAetSCH3OeR86ghKW3w1KdgMh/vcQuBr4KPf+bijb
-	 wigLz1VHczn+xeBX6RlccFOhPercNIX7d/Bs/4o5mhvXCjMMMX3FTSgBX8BrBFMy5bA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793088524;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 User-Agent:MIME-Version:Sender;
+	bh=+puhOe4ZiA6N5UTEpi85xZ5HZ1/FgBewFrPJB4jYC3A=;
+	b=2z6iogX0nPVta+IjkbnZ4HPBXL+LKGh3lm2M9GjHcCqAM9qZqMWX0OdhTgteV3qB8W7G
+	 awnfbQwhvQUQFMkMFTnbMe5ymoUmfHZU/sW8k+q4cYjEbn+hIo8PPO8d3u7a8UDIDQmhM
+	 7eBiWqfpKm1tMEsXHaU6sZXTFKywy4L/52G0rT0XxbwcovFgkgx9e4J3okrcbHCMS8CQn
+	 NO9TSS3S7bIEOr/vU10ysRNo7/1USXtYQqTZCMe1YNb0UleSeWkwo4JAoAuuhGn/CJex3
+	 i8ppO8QZAG9hvMQcnkw9qSK6vsfIYnzXWtIrJtqGMiR1/XS7in8aTElOOPpYJhgPhHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=c6TdVi8H;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Ppszos5y;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=c6TdVi8H;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Ppszos5y;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dmarc=pass header.from=tsoy.me;
+	spf=pass smtp.mailfrom=puleglot.ru;
+	dkim=pass header.d=tsoy.me header.i=@tsoy.me header.a=rsa-sha256 header.s=mymail header.b="VC4hWIB/";
+	arc=none smtp.remote-ip=185.200.178.21
+Received: from puleglot.ru (puleglot.ru [185.200.178.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD412606A320;
-	Tue, 27 Oct 2026 07:41:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD412606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF269606A31B
+	for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 08:08:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF269606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tsoy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=puleglot.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=c6TdVi8H;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Ppszos5y;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=c6TdVi8H;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Ppszos5y
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 01FBB1F445;
-	Tue, 27 Oct 2026 07:41:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793086865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h1Mcwu9X+0wgJ2oZ5KiL3Zl0mgtIz+tRWQ8Zij/aVfY=;
-	b=c6TdVi8HsR4ym5VTPlubWWTGMU6TLiWmjdXMfGxRlqfCaHzIVhZKm8JK3sch+xz51A7L/Q
-	jGmqjxsQdgGKiufnAeN0P0yvCdwJOPr0zufhaR+6RqPBydCCo63RXtGOF0ZXDC2eq/rUKc
-	gISCRQ7GX0N9JV23G1B/T26yam0dKOU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793086865;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h1Mcwu9X+0wgJ2oZ5KiL3Zl0mgtIz+tRWQ8Zij/aVfY=;
-	b=Ppszos5yLv+VclA6S1ln4PTHZEyjcGUWRfIjnuHnq4tiqv9fDuJe6kqVzY6+yrXp+NUQB3
-	ckgo5++HkWduHVAA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793086865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h1Mcwu9X+0wgJ2oZ5KiL3Zl0mgtIz+tRWQ8Zij/aVfY=;
-	b=c6TdVi8HsR4ym5VTPlubWWTGMU6TLiWmjdXMfGxRlqfCaHzIVhZKm8JK3sch+xz51A7L/Q
-	jGmqjxsQdgGKiufnAeN0P0yvCdwJOPr0zufhaR+6RqPBydCCo63RXtGOF0ZXDC2eq/rUKc
-	gISCRQ7GX0N9JV23G1B/T26yam0dKOU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793086865;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h1Mcwu9X+0wgJ2oZ5KiL3Zl0mgtIz+tRWQ8Zij/aVfY=;
-	b=Ppszos5yLv+VclA6S1ln4PTHZEyjcGUWRfIjnuHnq4tiqv9fDuJe6kqVzY6+yrXp+NUQB3
-	ckgo5++HkWduHVAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AB5F913319;
-	Tue, 27 Oct 2026 07:41:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yprZIJBV4GokYAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 27 Oct 2026 07:41:04 +0000
-Date: Tue, 27 Oct 2026 08:41:04 +0100
-Message-ID: <87mrrz381b.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: rainey.shawn+kaudio@gmail.com
-Cc: Ajanesh Lal <ajaneshlal3@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: usb-audio: add quirk for Novation UltraNova (1235:0011)
-In-Reply-To: <20261023122513.1025684-1-rainey.shawn+kaudio@gmail.com>
-References: <20261023122513.1025684-1-rainey.shawn+kaudio@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (1024-bit key, unprotected) header.d=tsoy.me header.i=@tsoy.me header.a=rsa-sha256 header.s=mymail header.b=VC4hWIB/
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
+	s=mymail; h=Sender:MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Reply-To:Content-ID
+	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+	Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
+	:List-Post:List-Owner:List-Archive;
+	bh=+puhOe4ZiA6N5UTEpi85xZ5HZ1/FgBewFrPJB4jYC3A=; b=VC4hWIB/kQXwsYk3GCeMyBaGxa
+	5Lkh7LKLJmrjG/mlvf27PTpHH34i4vqd6OAhJQpunAdLxISJyGzocs17PusTudo1LussbJ3ZGwvKg
+	oQ+o5PNGb2YyV1HnsIueIbvzZvNQEZb6UVzpqSecBE9rgeQ0FLBs19n6Sr/tQEyBKyC0=;
+Received: from [2a0c:db40:0:8104:10::5]
+	by puleglot.ru with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.5)
+	(envelope-from <puleglot@puleglot.ru>)
+	id 1xLcEU-00000002XvM-0YWs;
+	Tue, 27 Oct 2026 11:08:34 +0300
+Message-ID: <e3654ac68b87030805b5ab46fc6b20b119a204ba.camel@tsoy.me>
+Subject: Re: [PATCH] ALSA: usb-audio: MOTU MicroBook II playback fix
+From: Alexander Tsoy <alexander@tsoy.me>
+To: Takashi Iwai <tiwai@suse.de>, Sally Marcher <marcher@student.tugraz.at>
+Cc: linux-sound@vger.kernel.org, tiwai@suse.com, perex@perex.cz
+Date: Tue, 27 Oct 2026 11:08:32 +0300
+In-Reply-To: <87qzhb38er.wl-tiwai@suse.de>
+References: <6690AE3A-5D2A-488D-BB09-1588948491D9@student.tugraz.at>
+		<abf3bf13-4f91-4026-89ea-74b5f42ea935@student.tugraz.at>
+		<fc46e94ecb01b6f09ad3548e1654d128d74dea03.camel@tsoy.me>
+		<1ceb66f2-d5c2-4419-b75f-33afb2f52fbd@student.tugraz.at>
+		<e79d259f7a3892aba307b3674b235c53b68e1ed3.camel@tsoy.me>
+		<d5dfd044-69f6-4fc3-9884-6599d88afb55@student.tugraz.at>
+	 <87qzhb38er.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -110,59 +73,26 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[kaudio];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,suse.de,vger.kernel.org];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Sender: puleglot@puleglot.ru
 
-On Fri, 23 Oct 2026 14:25:11 +0200,
-rainey.shawn+kaudio@gmail.com wrote:
-> 
-> From: Shawn Rainey <rainey.shawn+kaudio@gmail.com>
-> 
-> The device reports vendor-specific class on all interfaces, so the
-> standard parser rejects it and no card is created.  Add a composite
-> quirk with fixed audio and raw-MIDI layouts.  The id table entry
-> matches interface 0 only so that the vendor control interfaces (2/3)
-> are left unbound for userspace access.
-> 
-> The endpoints advertise no synchronization and the device provides no
-> feedback; both streams are locked to the USB SOF.  The playback entry
-> is marked USB_ENDPOINT_SYNC_SYNC so that generic sync-EP detection
-> does not pair the capture data endpoint (0x82) as implicit feedback
-> for the output stream; the capture entry needs no override, as its
-> .ep_idx = 1 already keeps it out of sync-EP detection.
-> 
-> Verified on hardware: audio duplex at both supported rates, raw MIDI
-> in/out, and complete patch dumps as SysEx on the MIDI endpoints.
-> 
-> Signed-off-by: Shawn Rainey <rainey.shawn+kaudio@gmail.com>
+=D0=92 =D0=92=D1=82, 27/10/2026 =D0=B2 08:33 +0100, Takashi Iwai =D0=BF=D0=
+=B8=D1=88=D0=B5=D1=82:
+> On Mon, 26 Oct 2026 17:01:32 +0100,
+> Sally Marcher wrote:
+> >=20
+> > Hi,
+> > patch is attached to this email.
+>=20
+> OK, I applied manually now.
 
-Applied now.  Thanks.
+Thanks!
 
+I just want to add some context here for the history. I replied to
+original thread on alsa-devel ML, but it seems MTA on alsa-project.org
+is currently down.
 
-Takashi
+This device is not class compliant and all endpoints are contained in a
+single interface. snd_usb_parse_datainterval() probably returns=20
+bInterval of the first endpoint which is an Interrupt endpoint with=20
+bInterval=3D4. That's why datainterval needs to be set explicitly.
