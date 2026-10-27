@@ -1,59 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793186891;
-	b=kcs+mB2G/Pg9oUeDeSehXnwrRTT+1ZzpAHiQd2yQrr7+Y8YRmxJd3sVgxtO05pjzhDA2
-	 VSMhpSoQrPLXypCn8Ry2bYitT4uALELdqV88C1FbV9KhHwFAIQLhct4GNxMn8+jAy7a9/
-	 d+vFhIELqNVEm5OPpCEjZ+s3PmCpSYs5xIIMAwXBLYkl+ZRupep6BomfGXWcBRiomZgIa
-	 B7fYvBaPP7TB87Dy872QJlAWbKXznN6oL4tERHsPGP3eBvQeiI68T0E9j8H/t1+XzYqi3
-	 heQWxnMmKf7Rxk7C55NSyrBk8VQue3qf+NDafCsbVM90nC/ckZkbcoW97HuBSSx37cg==
+	t=1793186893;
+	b=dSuTQAy22/7KUqQc9y8iVWEHTnS+5pfg3aN+5rr6sgESUTtXpJrVcsGb8g8Vi+nyzY5F
+	 Kqq42TscwPw8JjSa2E6utqKS5noRCyxuSHf+9KEtIsH653Fhp5/7ZwInTjjGDbhzidxlk
+	 AmrqzmHGimteaF9TU/hd+k/2TKvcV97BBstvQ3Vk65tMq4zInRE43AErN9AmMBVob0Czf
+	 iifZmDhNteOtVRJ21+o+HF1+fQRFn8tSNjLV0+UhNggQdV1ft6dWVwPGQ84onDWY3ZVFz
+	 rBpaiaaxkPnuGM6JnzZI2+7ebjzPj0QGexGwso7pAvR4Gj7tT/8vkBSKiowGLzz9Xfg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793186891;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793186893;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=vIWVBmt+g+4k3XTPpYXALk3GxorAmmwSHt+9R0Q0bWc=;
-	b=LzswfdqhQBvavvYZvU7N9iq4OfDLCJzeKJYY1InKc+bye6Do9m7iVPSluk+6IQjvDNAI
-	 0BYAvFYXH0/b/Fg9/w6SS5DysuGKGVURzAE11QpSEywXvTXWCbD1nYcob8lCxm/73xFlQ
-	 boW63mMoZ8xCGyu5tkAvAkZuM4zyLkT0+YStL7L0679EZRssq7TvDQcgjM5bO02QhuOXo
-	 mUYDHSjElCBRoStKgHKIfZ+zzef/L1o65UFyow+qK1hCRqj6ahQftxQgGucbssXYnavQf
-	 yZcVXQ9Qd1vCMuC0lKOFXTJaXwofnOHBaHJQDfw9YdSKpESr0AKjUyRn3MUt7luj0GA==
+	bh=chaccbuoNIVj/yj4cT6pJMwWzV9YsiHfMf7FzYe722w=;
+	b=nU+O/j4AaPqj2KhiYw4R0JfjM9BOMtUkd/7jP4Kvv3JEJjgmLO4zYTvgBzps2BkQHqzR
+	 U2Hr233tvQ4j2y51CZlKflrpsROFuR6OKlFtY3QgCtEEvdaGpK8kHu2ltph0HSe+4P8Oe
+	 agneN8rR6xTB4Rj+W9c3nmsfJnINYrz6MmeVOuRjlDbIdTWsThUXShI/tOwgr/dIFHBOW
+	 mtQ7q11u70o73oDhs2S602WOAz77/+qOI5SIFNb/wvw47Wfrq1wWl0yKqLQNxffCUmRzn
+	 Uv7fEnpIipq8/1TpzeAA72kbSqzakf8b8S5RTAqv7GI5U/wB4z2+DMVGi2tvZeKrAdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kyxoPVXr;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lp895fO9;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90603606A33A;
-	Wed, 28 Oct 2026 11:28:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AE8606A33A;
+	Wed, 28 Oct 2026 11:28:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kyxoPVXr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2869C1F01825;
-	Wed, 28 Oct 2026 11:28:11 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lp895fO9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A3661F031E3;
+	Wed, 28 Oct 2026 11:28:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793186891;
-	bh=vIWVBmt+g+4k3XTPpYXALk3GxorAmmwSHt+9R0Q0bWc=;
+	s=k20260515; t=1793186892;
+	bh=chaccbuoNIVj/yj4cT6pJMwWzV9YsiHfMf7FzYe722w=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=kyxoPVXrHal6AJLrnmAS8yQ5rW8KFQqwsHHOqjCYJOTabiTlR8XkUvUwL3cXALd2A
-	 XO6sVZ1UGG9/8zO6FYcpt3cJoiyvmL2UN2At5lXqTgBDcg6cw+MXxUKy16G9Dde/DE
-	 c2wS1XAiNoYJVYlqtHOkMNqjn2iMJ156ls9UJfV2uIxmiFjDxOE7PSWxM6eUxSGJJh
-	 3pBwGRXEBuqj5VDXtlJ4GgcFS2h0iOIPPJdqmU6tCjsr/PVDpUxAJADtoq7HsrT6HO
-	 BbwqJMrdDubx1aXJjKG97Z+73Jtlq0qh2EM+ZNS32wZU50j9t5yEt3Ln6GtJFCGaSx
-	 nCbxJ2zbKwHkA==
+	b=Lp895fO9jfP9/+6XbIeFPKG+H1eewRwYRcTPF9JWYWo9MT1BAQbFrX96MgciAwbjD
+	 xiaFEcBnyATiBBAyv3wth7zZpRwczffAPixUDi9lju7rDCd9OsvUeMRKQkFrtlzw6m
+	 IHwkkxA7KKWEpNolstUfFkqTuMCpot+3WwfVKjAKfwvT+8CZV0c/LRNl3VBb263gCN
+	 C1dTXJNHRacQ6JSmt/j4gVG46O9T6BvVfauBmMK+33gEdp26Z4PDfH8tsXMb78KY+3
+	 Hf6+gIBUH3n9wbxTwDzYX94EPtWfL6IIdQ52TdBvIu1BI2Vm0xSTW+1r1dWUapYJfG
+	 pFDWDtzYP/u6w==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 6CE9E1FF23E8;
-	Wed, 28 Oct 2026 11:28:09 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 6AA8E1FF23EE;
+	Wed, 28 Oct 2026 11:28:10 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, stable@vger.kernel.org, tiwai@suse.com, 
- perex@perex.cz
-In-Reply-To: <20261027083840.28813-1-peter.ujfalusi@linux.intel.com>
-References: <20261027083840.28813-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH 0/3] ASoC: hdac_hda: Fix module unbind/bind via sysfs
-Message-Id: <179310201620.199157.14946158307073154268.b4-ty@b4>
-Date: Tue, 27 Oct 2026 11:53:36 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Oder Chiou <oder_chiou@realtek.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ flove@realtek.com, shumingf@realtek.com, derek.fang@realtek.com, 
+ egor@crazyrussian.pro, jack.yu@realtek.com
+In-Reply-To: <20261027-rt721fix-v1-1-42cd4b1711d2@realtek.com>
+References: <20261027-rt721fix-v1-1-42cd4b1711d2@realtek.com>
+Subject: Re: [PATCH] ASoC: rt721: Remove invalid register defaults
+Message-Id: <179310496701.199157.11894614484998989723.b4-ty@b4>
+Date: Tue, 27 Oct 2026 12:42:47 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -66,26 +67,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1617; i=broonie@kernel.org;
- h=from:subject:message-id; bh=0gWxUMOc8U+aGgj/FaBpD6Hf/YtiHi0nKmV867VQMfI=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIe3vH8sG6eBtMl2bhiCZVDgs6/+q1Opu/Ybr5z7+Nzd
- 6Pf5fpO7ChlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBEOs8y/BXuWS/L5bXt2rqJ
- rc1t+gsfeNhYH5D5y9W93eQp97n7014wMvw12d9dFe0xs0RCmv/4N+PKjgPfN5QK6gv+U51z5pF
- oPDcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1106; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=/VtwXRKFDc1Z8vDuTuoXQPg5LVtRr6pQqthFwTvQSUk=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIe3vHSu/84807BrrXngKT67KcLQsvzL9UGRGRWmTp57
+ 7nb+LejlIVBjItBVkyRJS6L+2V9yes1fAcXtsHMYWUCGcLAxSkAExESZvgf5NFVcX7uzeNKCtt5
+ 697bvPhUvpnJckfK26+dD3ziUu9/YmSYpXjY59C2fTzWvyX3fTjX8JyDV5rjWe6hYNH3b0q1NCR
+ 5AA==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 27 Oct 2026 10:38:37 +0200, Peter Ujfalusi wrote:
-> ASoC: hdac_hda: Fix module unbind/bind via sysfs
-> 
-> Hi,
-> 
-> While looking at the reconfig lockup reported in
-> https://bugzilla.kernel.org/show_bug.cgi?id=222182
-> I checked whether the same can be done by unbinding and binding the HDA
-> codec driver via sysfs:
-> 
-> [...]
+On Tue, 27 Oct 2026 14:02:47 +0800, Oder Chiou wrote:
+> ASoC: rt721: Remove invalid register defaults
 
 Applied to
 
@@ -93,12 +85,8 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: hdac_hda: Allocate the private data at codec driver bind
-      https://git.kernel.org/broonie/sound/c/7d357eae973a
-[2/3] ASoC: hdac_hda: Restore the codec device type on unbind
-      https://git.kernel.org/broonie/sound/c/08a44bde821d
-[3/3] ASoC: hdac_hda: Balance the runtime PM disable in codec remove
-      https://git.kernel.org/broonie/sound/c/f26c0d5f91d9
+[1/1] ASoC: rt721: Remove invalid register defaults
+      https://git.kernel.org/broonie/sound/c/e32773a86100
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
