@@ -1,60 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793186893;
-	b=xFunJSQ7a8vaCM9LTaYpXVPPQa9HPdG89wH2EfV5aDkZbieYwuid5Ksoc+BjOyCpjDYp
-	 a1BkqMpc33gFXw0KLgCg4/d1Adux7MI58aWZL1wjcvZoWvTi+Qe8TzlQZMArFqMQmJnGm
-	 iilOr9PFIFUKUI1469DcEFqEuhsdA//x9LNvgvCxjQFIh+56Rpsgj6tPND4aESkszpnUR
-	 EdlXW/zw4mSNkuqV3HkeCzW1AXHSV4CaHiZg9dwewCAPrklVEuY5Qs+kqR256jwbiMDfh
-	 wQRQ3hHRrAUeWaSnmNtnxu8Ay3RHFyikAgGMCLUfdziKhVl2QgulhD90x3uWpUPzA4Q==
+	t=1793186998;
+	b=FwxxV+0EQMHYA+LbDRfzuRV7VzB+VzfT86uczbnmtR7Npha4XABJKKGB2rUGdix1M79v
+	 qBOq39qZ9QhXBZscgsjD0qH/9Hh9zFhJTVl0efExqZM1MceCYF/tFjQYfSdEUtGWlSbbx
+	 7A5j2VnKuakkdH4oK8MLJn6nf+9EsQDFKuId88ixMWd0f9Hhe6ibt8vUqIn41T7bAfZFE
+	 +PsMxp8cSXhOMBmevt0UTlEgU8lWYoTmxL7/k7nlang/CcQUH6aa24iCgC7CmLns1rzep
+	 tMp9p2YoLKyufgWi20VfhLPn1yoqudqLdTx3H3GJ4XyRLszCpvAh32Ef4QW7Uy/aGIg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793186893;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793186998;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=DwZ3RVMiQTAuP+GZ8Hc0hnOIdJwPtlJFIaiRjOM9wYE=;
-	b=sW7OJH9wYhwL7ZfHtzVCzUOgbFt5/gnP2MOoMj6nFYqysanUvJgdfvGoGVtICzPaSnmi
-	 iRpqeioU3v/uY8mInCDYk7tE+zkRDjIpP7ZgKnJD9n3BenUPQoxHiO51UDY5F73MqVRg6
-	 L9int3HqYWxPBYHv316b9XOqyfA58R+fwh19hA8PZ+qZg+VAL23POd1/jLwtEtMwznSb5
-	 GzKQk/7L3CzkphXOfZndb6I0fqqyvE7H8Fv+PWV/LmkO2WI6LcvuHopXOxpaQjE9n5rRz
-	 7hc6hsy3jFye9Xh4leV8IcVC65f6O4qhvryA99DSzIDaZ96GLTLLOPrCwGT2t1sFazw==
+	bh=1JNEW8HYvKizQjvMBvCBCVcaKnMKRs6NVB4+hVWjxFU=;
+	b=F28KnsMer2Ci4GXjDLYfVrojFyH2bkd5RisnhzWG2EJYBCEqSNq8CzWEUVMwCYtchDdC
+	 rRr1Mugmk+Bjx3EjfzI92nHj+QQP79h2wFOLbX0bbvYM+Fbv7EnlVlXb49w35EywDRPgn
+	 xAQnRMABipk6nFw+dTlqNxT2f5RSBSIj/V7XHD+Q972mp3SCtmhS+7Uk1wghw0g5cTyIf
+	 X12d2CzW8Gik7QccwHGIlEsPqGQCvoAdWrgfxdviJ03cd+fsfSMBtKRhZiBrm4zHA8HlX
+	 7rBopePutSEoNILMFgQMMs8b5Gxg2R+trTwZtH/7Fp0NPprCJ1+DYUPlOJQ5lSTrTsA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gOmBGoBt;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="faqz6oT/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6FF606A31A;
-	Wed, 28 Oct 2026 11:28:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B163606A31D;
+	Wed, 28 Oct 2026 11:29:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gOmBGoBt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF3081F031E1;
-	Wed, 28 Oct 2026 11:28:12 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=faqz6oT/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C51221F01825;
+	Wed, 28 Oct 2026 11:29:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793186893;
-	bh=DwZ3RVMiQTAuP+GZ8Hc0hnOIdJwPtlJFIaiRjOM9wYE=;
+	s=k20260515; t=1793186997;
+	bh=1JNEW8HYvKizQjvMBvCBCVcaKnMKRs6NVB4+hVWjxFU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=gOmBGoBt893TaQzCu8MV5OPli7hFcrYAjOw+80Naqs/mSitJDCDKGIBwNum6R/rXf
-	 IjhYEupgcXAJBR7s17W7xZKhKPZypp7nZAc1osVtxxtIGDSyjKvOx3GJ7EzZkOWcUV
-	 +q93Wx3hUVPDhxIscukdYL8yG4uQp1VRE8iBQKa6hstMXqm2pE26sOvYlpKL2oWgNY
-	 VmbomhwNXXhnM3v0Lk2JT6B5cmJvPS9qYsc1bypTMqbiDvKi2Q7YsHb4HverIcW1yI
-	 3CsK1S3kqiaO/+LC8F2EH7PbHgx98QbetGqhdP6GxvSV4KrtitWKCvTstqZ75oaO+X
-	 qMRYOiCWxfi4w==
+	b=faqz6oT/ri0wt8eoSK6ioOgDFgh9ZvAJAa1CKbOnfrClm+6aij041uZW3YtcJbNnF
+	 W/AgVn1gBM35OxuIe8YWZJP3W3vhhdVYZJVoTv7CTyY2spKNND1OVEG00KThWZeLZG
+	 kzRv08m+QeFeMAEjxbWCRCFA21xbdokB0ioPC1uMeqxDJb6wnzdVU3hpI+DhujgDHe
+	 +h2kub+2REIjiwAx95+YKz7HvFbaEkv17AzSpxrdKDYaZGcjJkGPchSV0/kzjNbBy4
+	 mikAWPfvGxYImEiMhW+5n6ObFWWo6T6KRi0mMAF+YIu5gwAxT8p8TC++oTiumqrzoV
+	 7cSLznagM2CqQ==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 2E0F31FF23F9;
-	Wed, 28 Oct 2026 11:28:11 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 06D4A1FF2804;
+	Wed, 28 Oct 2026 11:29:56 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Filippo Falezza <effeffe99@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261027-sm8250-rx-gain-v1-1-386ee6d971db@gmail.com>
-References: <20261027-sm8250-rx-gain-v1-1-386ee6d971db@gmail.com>
-Subject: Re: [PATCH] ASoC: qcom: sm8250: Limit RX digital gain to 0 dB
-Message-Id: <179310138476.199157.12004558971024027004.b4-ty@b4>
-Date: Tue, 27 Oct 2026 11:43:04 +0000
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com, stable@vger.kernel.org, tiwai@suse.com, 
+ perex@perex.cz
+In-Reply-To: <20261027144655.31988-1-peter.ujfalusi@linux.intel.com>
+References: <20261027144655.31988-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: hdac_hda: Keep runtime PM state in sync across
+ codec remove/probe
+Message-Id: <179317803129.199157.18051933667376321116.b4-ty@b4>
+Date: Wed, 28 Oct 2026 09:00:31 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -67,17 +67,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1119; i=broonie@kernel.org;
- h=from:subject:message-id; bh=dTlSEsmiJQPp2W18QXY40obJ0H6L3X/HPCQDrxajihs=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIe3vG+sOp/kuERvsv89VFG+wX//tdWuLWFSXV/9EP5v
- o8fzD6v6yhlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBE0h4y/FN3PXFtxcvb094b
- BSc82si8oEDxneDVBUoBy57t1dx1Y81nhv91LEw2N8qsRLZrue9r27SBee2OB42Ftrbze/9/72G
- 3M2ECAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1162; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=I1zDWshIiKrvzWcZvIZe162fxBcerYrg3VGUYq0/AUM=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIe3tlssynr0+UVxVG8CYtVf979HRdp6/qspOAR266vt
+ 5XS3kjO6ChlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBErpcx/NOy3/XfQWcpk2HO
+ cuNuWf0nXio3d23M9mk7f2h/KbPXv3yGP5wP30x+bV29XkfeT/X3Up6sOMfXvplXlVg09uSuE6p
+ NZAQA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 27 Oct 2026 01:33:56 +0000, Filippo Falezza wrote:
-> ASoC: qcom: sm8250: Limit RX digital gain to 0 dB
+On Tue, 27 Oct 2026 16:46:55 +0200, Peter Ujfalusi wrote:
+> ASoC: hdac_hda: Keep runtime PM state in sync across codec remove/probe
 
 Applied to
 
@@ -85,8 +85,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: qcom: sm8250: Limit RX digital gain to 0 dB
-      https://git.kernel.org/broonie/sound/c/55df18877471
+[1/1] ASoC: hdac_hda: Keep runtime PM state in sync across codec remove/probe
+      https://git.kernel.org/broonie/sound/c/99203e8d8968
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
