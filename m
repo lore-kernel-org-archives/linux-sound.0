@@ -1,96 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.169
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793195336;
-	b=SNIORLbM3Z3w5BnYTlLMCOJNXdeDPszLy2n4woJENAys0niulgmYEr7hITZChQtfZcuN
-	 oVipzHiYlkitYlbC4I+5da805YMzA2g3OdIkFtvs9DcXsWbg9MvoCuroGz+wXInX4S/Y5
-	 R4ZONPyS53BHhhhxWogi3eqvLUi8RKGNTFvIPVlIWZr3gPxZ6Ue0c9SgCw4M/CvVOnSTR
-	 Exkutt/Vs08ehAJf6bn4W+NwLnJamcayXjqRxiz4aq0lhRRWWA+q7oDOinbmypu3ebdYX
-	 jQHeaLf07vIu0OylCX2NRmSPapcwGe+LH24A3oVqLFHjEh5Hv+PXYwITYd65SG3R4Nw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793195336;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
-	bh=H2ElNqX5XTUjjb8trwJBpunSbb5A2QKbsK5rk+KfOBw=;
-	b=JLGaTYg1Dih9Ratq4/7T6uySt2Wu14B7iH0OkTUCRDnpsG7NHt8REkdaRv7IXJiVOqHu
-	 /PCCiZIRn4mBJWSZ6foR2gxd4dI/V8F3Qx45tXyknf50VrsirlGi4dtNuAmkntJqt/MdP
-	 rTH8ehUk/ROGppAst0ACQkMMJ7/K2Npi3Rnry2lA7/YhPf3wuEeNQfRdSKVDPdtqPbco7
-	 CDnEblQGtYUPoIVP/UFUnas5wEx9uPFjhPt6FN4ByrUfsRQcJwgVwiWofANC0RG8rvayj
-	 FEgB7Q9iHFnb/bT47RZjYGTOWJIBfGU2jYvsf5Qbx0cK9qzVO1GgItY+yTH0+IQtKrQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yS7dk85O;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.169
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793198684;
+	b=zS/IGmIrZhqgxv5uVhYjPbfn2HEGUOsd4oUglFuuNg2I8Gt1KAs8iFr3W+SZXkTdViP2
+	 j7UXE8OATVOw8bH3oTa/7sgC/A2QD1UgXKOb/4yoO/OEIrW/so7KpMRk/78trzlF1YyAi
+	 pbcWC65hKQzltC9OFT+nQHjMPoWSd39q7c1ZBpX9NSdm2srYzj4GTJIxLv/EwtDZ7MYVW
+	 uWD4mgg5wOc3XyNOpJ6xC19O5OSb/lwdDbGQhu5SbIesZ/o7blSpAox5AgyyveO/W2viU
+	 n5oLsJynDp9hapE0YQV4SU9YbEG1u6EcVN9MrEHPtq0UqQFVvOZQBaWKyuIf7FkJx9Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793198684;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=h+uN2iMlfIP4A44HxsOdce9du2IgXx8U4PWi0rxqv/4=;
+	b=2BHI1FZ1oVCKdl1sRXAJfHBPOIbWpev1HmGe2dvaiusCE5f60GLelF3XVJctO/XZDZCe
+	 zBCwKzG93XClIn9b8WuR+EOwk2dxSm7KiGR6cdNEb01fc6GKIpmTIoaQla0KgKIqrblHO
+	 IvbEDUexcv33CgNCx00oHp9qwkE5BgGUZzqaXjwtAEicXJgtBBvgfV/ETJQ4jJoLybyeE
+	 uXyvTwTtCO6pCQ5EQnxj1ET87GtieUy/ppqBhSUoIS/nC38dt7T0TNH6emFwvUaWfyC6/
+	 m4onfVK+unW704GFay0H/ew4y0DY/sBqakpcPEDK8PUCXpJUgIVNUGHvIr9o+ecxW2w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mDQWQ1OX;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC43C606A31A
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 13:48:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC43C606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E52606A31E;
+	Wed, 28 Oct 2026 14:44:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yS7dk85O
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-93e63ee7b4cso114522085a.2
-        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 06:48:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793195334; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RzJRWwVxC9RJ+idr0LTVBhzZNhLdpGU1WfFOv6O5UXB/uPf7JOBKlnT6CIgjyzhx7V
-         VUUC59WM7RZ8Yj6jt4WXsbB3rdtHmhdykjzodtyU3ZqzFtsToGDZDHK15/1oO+u7HKwl
-         xtTqXVs2aqwg/eaKDiQXG+nxcPUjYC+jWhkx4gyyhYjNFQqkNvd/JtdD4hGGZ2MmkolN
-         wh91sI+/I7HPFf9N8caesWwwQivnJ96oYPLcWycUkw5oprWabzqgY5gXqwqVi+53vpCH
-         PpY1fnyflJWvX5koC+8xVehcW7T/Nxs7fG6hQMN3QrYqFHj2tamj/Y5tvufAq0rGJ5rU
-         FCNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=H2ElNqX5XTUjjb8trwJBpunSbb5A2QKbsK5rk+KfOBw=;
-        fh=V8W0TViz8XU8Pp8/scINkR8Za+A0ROkPCVAQr2owVZg=;
-        b=pygQgPa8srCXEjyC9B9XKQxG+Gl711guY71EkAaC+4JdlOufJF47HENBhou0aRqgQu
-         JjX8c9BOhQwKi8TvpkZ4HxAzACn1QYIHyIDuy6ZyjxWwg0OexRZGrcg8uJXDfVOm4/yI
-         g7A6hc2BxmLabLnW+13Oasj1A6CsL91s7dU6f7zpRPg89o/RmcloVj+wz84qGU4NsJq+
-         o8eDXStq6TB/etwzVOpc1auFHm+RZdhYpYRWzkLrg82eo+4xYnT7iXqUM79Nd3LwacYo
-         rO1T2sYCwrs+FaktMkFIv+kukzSqh5GFJjXjbefuYhCTNzDsOxvdUygUyvmvldMUOEkD
-         URCg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793195334; x=1793800134; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=H2ElNqX5XTUjjb8trwJBpunSbb5A2QKbsK5rk+KfOBw=;
-        b=yS7dk85Oo8CZOkPnVbz42RT5ZeXkqeHk1ZhRP50JzOgz5Rs/MSbE+484g4aS6neRaM
-         z6M1WyalrstL59XxuvGKNBiABHfYdp+NkFqidjuHExpNzea6yzFBZKnKD9D4HnKr81vx
-         1e81Yi3I5PYh8Rk1/CFaNsPqXEBfC/9mHJOg3HcrPL5YNzLz9SgEpNmIIzGA9yYZsKOg
-         mvCLR3sccbwq1AeyNMnsEHII1DTGPFyLAGG09MrSmAzqWAPmxoskLgwFxr5GLAg09Dc9
-         itYYvLBYEazL8+asEpWrffprFP9VgjYzkeA0eHeTF9ydjKDjFt1RTCA72+3czlPTk9Hw
-         8eoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793195334; x=1793800134;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=H2ElNqX5XTUjjb8trwJBpunSbb5A2QKbsK5rk+KfOBw=;
-        b=0wnZWNaIeEWXi6cZh9PyQVDvDzg5tikfCjpf6FEMIu635JLfar9ftSxplwVmGddl17
-         AjLZWnR2acTdqMZjKUFD7U/U0eOHOSDxd9LBArkMVJgkGRoJxhHysRomUR2BtT8c5q+2
-         uWHXPyXCdncsFLPLMReGS7NDujLn2t8UqNPsgmK9lTrG0jdSC+oCgtV56CbLPhMrcL5a
-         nPgv+2/X0kOsSYGegGWWyCuKKzWNKYZBPaZBNf8+Qtbxs+fAQThHKey7MQ9F/CF/1Zqn
-         pivz+dNsjDmtvFGWq5pFjqO5QS9MxjEzQByI8EC5XshK0jgLMFGUE/w7o1zfI1aDbMK6
-         EbAw==
-X-Gm-Message-State: AFq9FYIhfydeJuosNqI6WHnrv0+mhlRoYxBkZbH2nob8YDHqKPKlQ28M
-	7Tb8jZ8rYjTMrjkfiu4yurjig+Wvj6mk4Rr9nkzYk+lBKpXxs0fjBe7cQkbU2Oza+cvWR4XxbNR
-	Ypxr0LAol52YzVeySTIK2RonWkYORsDI=
-X-Gm-Gg: AYBFou0Wrxdq5Q1SFg6Eqe5WkGcReT9+OqHEAWWUat/Vr254RepzmfOf5s8Ci4K2EBq
-	jTraznYAW7NR3ao32kGTzkFTbJs5CAolfIAfg/OO5sMOV90DPcoOV2gob4vLCLFMFwZbo8AgFZe
-	BThmLJHGvTgGlYI6nSk3E3KtaNRKUw0CY2W2KRNIOzWpm2WE8hbski2rwEJUfYzMWj21wQvrWLm
-	vJDOXO0pAHcjNi5lNqHI8ZFVcJcLe2pkkHDad8h6lSAD0Y2qmg40vRYQXl5ZJrtD09BZE9TEMd5
-	rg9Y1bHlbPkmmsDpLdxfYf8M6mF9mhMZ373oqlK1lAJtO/ObpHTyJ49zOa4Y77VD8rBKzbJnVLO
-	Ufz+ot+RsYoS1iYuZTDEOG4RreBGowHsGHbKMxB8OHjAkDdMRjXtyoHjBHTbfvh9x4KPDpb5OBn
-	IKQvNx0N6g9mbY2wg=
-X-Received: by 2002:a05:620a:2556:b0:93f:568d:ebbf with SMTP id
- af79cd13be357-94408de7920mr322434185a.75.1793195334520; Wed, 28 Oct 2026
- 06:48:54 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mDQWQ1OX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCC6F1F01825;
+	Wed, 28 Oct 2026 14:44:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793198683;
+	bh=h+uN2iMlfIP4A44HxsOdce9du2IgXx8U4PWi0rxqv/4=;
+	h=From:To:Cc:Subject:Date;
+	b=mDQWQ1OXGUkp0/xWXG/EFoYxTKfQt83aMIvFN00bD5/uY/T3tTSVJizdIaA8zsqLg
+	 qXuLFIgtHWj+Z427LAlFU71uteHmjFtXoujAEypeBWL1nb/Gh6UfMUf8vx0MbevirF
+	 NZQXm1Y1lyoNQz7xRATYo6KCkxwy6A5omO8Z07p2UM08a8P3HVP1RnjusYSPy+QpjL
+	 foA9hGtWJ73A86X8Fl9Ol8dGwhi0jk2l5vCCqxuMoyp3t+Dn0iEFgohhzI03qCENTW
+	 /UIVdRnAHeXvR8pO1cioNyBJlp6zAqF63f/M6jaDeIsRuVd1GKAZVVu20tmnk76J/R
+	 oaJUo+1ivKMsw==
+From: Sasha Levin <sashal@kernel.org>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: memalloc: Free the new pages when WC DMA mapping fails
+Date: Wed, 28 Oct 2026 10:44:41 -0400
+Message-ID: <20261028144441.992127-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -100,44 +58,51 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: =?UTF-8?B?6rmA7IS47ZiE?= <shsehyun@gmail.com>
-Date: Wed, 28 Oct 2026 22:48:42 +0900
-X-Gm-Features: AclHuK-i24qIjSvagYDECyYSX8U8mBwtr29Y0YuufAyT0sbUcuoqJedP584OELk
-Message-ID: <CACH5Ta1O7g5DHXztxg+XUOYadpUxkUbFoNcs=-E1uS7L+KByDg@mail.gmail.com>
-Subject: [BUG] ALSA: hda/realtek: LG Gram Style 16 (SSID 1854:0492) needs ALC298_FIXUP_LG_GRAM_STYLE_14
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
+snd_dma_wc_alloc() keeps the newly allocated pages in a local variable,
+and snd_dma_alloc_dir_pages() stores them in dmab->area only after
+->alloc() returns.  If dma_map_single() fails, the error path passes
+dmab->area to do_free_pages() instead, and that is still NULL at this
+point for the usual callers.
 
-The internal speakers on my LG Gram Style 16 (16Z90RS) are silent on
-Linux. Routing and volume controls look normal and headphones work,
-but no sound comes out of the speakers.
+The pages are then leaked with their write-combining attribute still
+set, set_memory_wb() warns about the zero address, and for buffers
+larger than a page free_pages_exact() goes on to free the struct pages
+of the bogus addresses 4096, 8192 and so on.  With CONFIG_DEBUG_VM that
+hits the VM_BUG_ON() in free_pages():
 
-Hardware:
-- Model: LG Gram Style 16Z90RS
-- Codec: Realtek ALC298
-- Codec/PCI SSID: 1854:0492
-- Controller: Intel Raptor Lake-P/U/H cAVS (SOF, sof-audio-pci-intel-tgl)
-- Kernel: 7.2.11 (Debian 7.2.11+deb13-amd64)
+  kernel BUG at mm/page_alloc.c:5600!
+  RIP: 0010:free_pages_exact+0xcb/0xd0
+  Call Trace:
+   snd_dma_wc_alloc+0x14f/0x160 [snd_pcm]
+   snd_dma_alloc_dir_pages+0x4f/0x80 [snd_pcm]
 
-Forcing the existing LG Gram Style 14 fixup (SSID 1854:0490) with
+This was reproduced on an x86 guest without swiotlb by allocating
+SNDRV_DMA_TYPE_DEV_WC buffers for a device with a 24-bit streaming DMA
+mask, so that dma_map_single() fails.
 
-  options snd_sof_intel_hda_generic hda_model=1854:0490
+Free the pages that were just allocated.
 
-makes the speakers work. Both channels play correctly, and audio keeps
-working after suspend/resume.
+Fixes: c880a5146642 ("ALSA: memalloc: Use proper DMA mapping API for x86 WC buffer allocations")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/core/memalloc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-So this model seems to need only a quirk entry:
+diff --git a/sound/core/memalloc.c b/sound/core/memalloc.c
+index 5bc7e586b430f..3118bb14231ce 100644
+--- a/sound/core/memalloc.c
++++ b/sound/core/memalloc.c
+@@ -506,7 +506,7 @@ static void *snd_dma_wc_alloc(struct snd_dma_buffer *dmab, size_t size)
+ 		return NULL;
+ 	dmab->addr = dma_map_single(dmab->dev.dev, p, size, DMA_BIDIRECTIONAL);
+ 	if (dma_mapping_error(dmab->dev.dev, dmab->addr)) {
+-		do_free_pages(dmab->area, size, true);
++		do_free_pages(p, size, true);
+ 		return NULL;
+ 	}
+ 	return p;
+-- 
+2.53.0
 
-  SND_PCI_QUIRK(0x1854, 0x0492, "LG Gram Style 16 (16Z90RS)",
-ALC298_FIXUP_LG_GRAM_STYLE_14),
-
-alsa-info output:
-https://alsa-project.org/db/?f=dd24308a19252d37bda7b5553e72de074a2ff86d
-
-I'm happy to test a patch.
-
-Thanks,
-Sehyun Kim
