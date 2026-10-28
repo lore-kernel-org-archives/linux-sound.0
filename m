@@ -1,91 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793153192;
-	b=M5nNmzcYMh7ulfx1OnfXKKC9rMVY1Ibdt/+CpbbTSR88G12cft6V7NqxqYvcvz4DSwH6
-	 eOholiFBCXX5HxkR1v31p77i39e8YIyLQZWfVueD4u+WnkhqKl/wE7tPt6OdSS5pYvnT/
-	 GFT5K9mroRXUwylwU38zquDhwjDPIOjwDrwC+3Qo8TrE4uQRy28OZ8LuH3lT8EAembbw9
-	 /b8kgoawlUQ//C8q8SGiGG4wuXDIBs7brfaO1DrtgRitUpMRCj1eE4AyLXXi440Oe2e6Y
-	 bXhURUOv2kUSHto7BdYIGGTtcLHGI8LTeRxLCstxdfE56CmDrZPbWqWo/K5I0mBAjRg==
+	t=1793153194;
+	b=jPju0XJKSz7V5IRkZRm1uBLdA234o+NFrWJ73WAtKUHifQMO0aOzxROKhS/+REjhXjXQ
+	 vhLDwInRuyTbqQYLiSjbm0MUp/S8ivYcVGLYcllneStgunaYo7mNy2c3EW/LroD9lYxrV
+	 OFxnD73A+W9aQaOE3fcMDPoBcTnU4rIBERQfoWfEvSfX4tThC261+8x7Y6uwVTxBXfZh7
+	 ticNZ0FvkWbFvrfac5Bd7RzVaPkdoT8u5xYAFqGfN5CaWrhq4faW6bsHCvwl0/m+MKBxG
+	 4ehayy6Q2eeM1j+nyMpkAIHyG8Dfh16M68bdCVeQRqHSNde9lwN3qSG7Ch3+M6XmGIg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793153192;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793153194;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=nsGaQIi9dxeQZkRVX41AhkGLuwe1TLVgSWjf4Yus4kA=;
-	b=bGcdmENdFfLIZjiVxhaAT9V37QJvykK9EvrwsgRS1sbSc64flPQxrPFH3a+3Pqlh5oVX
-	 jowbSVQMlIVXBh6Ctfkvotr5tF0vgXm8p3Y6Ga9iH+TEeUdDAPt8Dfkp+Khw6mfiuxMsN
-	 sYfk3Eg9BqOVbZ3wYHh4p0LKiYBRULbOBDyP1x6zEH0sJY0dcDX/UiGdvCSxJkYAv70gW
-	 lXd/oL/YPJs+oj26oQ7ydGPr+0Hs2GeiHCjo9yH82oggREtrFnAy3d8pjb/kmEQaZW6cH
-	 2Wxo9sGRFkncWukQiiSERDjsP8rD+UMSwV8U7b3cA3um/sL/YdT6oHkW2ZdqnqjP57A==
+	bh=cYWV7ECkHQYswdgEZXeMyVwwzpRqyeBelZqFEBmxMJ8=;
+	b=O5k/shTq2zH10bX8rpp5Y2GkWo2jezLnZ/JXoNfHbaq8XwPV1vMcqB4RngKIitw6g6PW
+	 5p2AHmv/dkpzex5XK1LQ5l8AG8vsLreKDDmVgja3/v8axoI5IFS72/Ln5MseDvWeUl6Ck
+	 zXjARg7FbhQPueLoVnKGF+VniBO5sO+CqAwDbzLHwWSqgfY0R597arAZCYt5koL8cA0Gg
+	 zus9b69zrNPpUv1dI4Rts3kVQEl4s1rKH4LtOlvhJSCaj2SlgaShrZaE86oxtrRXwxHaI
+	 5VDO/OH2oLNXw5X6jCCmzLRervqyoCLKAulPWa4GjGeq7fgTd6btIrXaz+H3QktSKew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="zBJY5/Ql";
-	arc=none smtp.remote-ip=209.85.210.43
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=W+WP09I9;
+	arc=none smtp.remote-ip=209.85.167.180
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB21E606A31D
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 02:06:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB21E606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE90C606A31D
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 02:06:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE90C606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zBJY5/Ql
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-84e513877a3so443594a34.0
-        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 19:06:31 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=W+WP09I9
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-53ec9237600so321392b6e.3
+        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 19:06:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793153190; x=1793757990; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793153193; x=1793757993; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=nsGaQIi9dxeQZkRVX41AhkGLuwe1TLVgSWjf4Yus4kA=;
-        b=zBJY5/QlcEzZMIRgtMRJV41Qyg6UnUhDLPyhYengpjulq9PFJ6vaM9SS7sZVOIFcqB
-         Q9roPZv765EfqJoBQUuUJR6OOaDe58GB5Qeq3qTzNwU8QB65Q2BHEBpgVSHf5oEH6sFc
-         MxYTkOyWUozPz1fSnyhTgSRhnuJ9cQoMvtqoLhbuuXFsN5GBsUTUi4yGc5cns+G7MaVm
-         tjnnK7E/gxawiBhU0TOI9H9JrJmN1FMl1YRyXnWAagcA2bLdym7SEeRFCjkfzc6A1XhQ
-         htTE8Kh7/5+ZopI01wwRsbMgsPtolGVTw00B5M8nCJZ8ON2HyN6Sti3Zw9Z8LgqdvsEh
-         OndA==
+        bh=cYWV7ECkHQYswdgEZXeMyVwwzpRqyeBelZqFEBmxMJ8=;
+        b=W+WP09I9Ah6Qx9vsN+CkCrJqqCFRksH8p7pqovEFXOhlhvHB7oBNh2d5grNfIZw9Oq
+         uj3jWEqUlyM2u2R0nXz9LxNaupnmu11qIn7LjlN9nTaCv3Yhy7/FpMJReDz0XlOdR/uU
+         +v6Gsdcm/moytFmJk4Laey6GgK5F0qEami1Phw5L9fcwd1qO3MdDhsP1uqFGvyOp66kY
+         AYrNoWHZwr0DoaFwysB3au1efltfHiG3aOJrJAu/Jtk9ScVEstboouvl+eN9tsRetVj/
+         3e3o56xMimscQNxJa0f/RJ5eSRSz6C2vaZDH5IP193wEneWwLTZg3ZyFERqbdzez+vdD
+         rZ8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793153190; x=1793757990;
+        d=1e100.net; s=20260707; t=1793153193; x=1793757993;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=nsGaQIi9dxeQZkRVX41AhkGLuwe1TLVgSWjf4Yus4kA=;
-        b=NXP3p6WgHOmStu2iMkF/imkOhNyWw2R7vYskphz9K62Bh4YBWHmob1ck1fcmzxwD7n
-         NfsfpwNlA0GDYHKCG2mIwzO/RQdCQtzfTNfnHw8alaFQG1U8hne6bYy1y/fCkUQvx3Wy
-         VlqtGWPgR9QQ6a51S1Af7m7F1fCs87zItnXW9gGRqJbY3ZK+Qzc3ntRSfQ8PrbRcNEmk
-         5/hmtU6N8ZryZq5dmvhxWejjNIiQAxAYZS8IxYw6RHBsxCM7i/1rkT/8icAJmQFOhzYj
-         UaRUwkgljvmRQ+OKjVfdDf+uA62oFv/fWVNJB72+1vQnrcC82Oo66JiHJbB15ntNj6jN
-         VqHQ==
-X-Gm-Message-State: AFq9FYL2g03uwdCw3X9jAchhybx9gggVxZnkUY2GO/lp0eWjF5yBQTG+
-	v3sE2EAeeio7hOXO4fTfHi6OTchmywydPWik1iRBoEZ7XaKGyd+QhXcs
-X-Gm-Gg: AYBFou0mGNS/t49OUDz+5WYkkJLbVtvR75N0xRM/AuxnJQLJo1c1f5JaORUkUPSQ2cb
-	J2mbzNHgnZEuT/99HTiulQgs5keiC8BtUkPiLt4xjJHt6aBQqmXCYMbxlYbcdyyvgTLuuh/8Icp
-	g/11JTeQWCKFL/FRUFwPkeVKH6FrbD3bbAxwWrCcxHIkP6T2AREtYj8mZNFaRizR8SBWm1V7cbx
-	lwf6cywW1HJ+AJ4nVNk9j2vB5eYcvgzj0v7hhAZ7hHfxN5d1tTbIe71DlqnzDHd5QwF8vDXkSf+
-	i+I3XobUJYm0gLdAPkNw1JcuT42NNAPjrncScQ6IXwAXy4YI2YQC5tmjr745YviKzIqW51LRahw
-	6Edl1pxdIhvYcm/BmxvNgTAWo8owio4XCC51nlknOgTdyW0nqZYQ0YqNTaVPTvmY6oHbZWkowQY
-	2yVVN98GCfEG+jpaZK0+Tv7fUild44OCSmVFwiFDMduTaxzSjuS6HK7MfZywKsx5qkoqrFhCizi
-	J90m1ZW7JFNkxe5lHR6loRj3ZN3jbGFfjjjsYVXYz3DnZTOt5JHTLKdhHwgcwnRz/T7cCmdZAsv
-	5f6BAXLWBXidAELv5BIMWFG9hsMzhPpWAwzEsIG4S7SpuUWL0AkDWxCghYmXaxTWEMT/PpOQTs8
-	jjD38ZyvzaNUWDiYcbAtfdzpKh62SN9IgGPN8jCyGdkg=
-X-Received: by 2002:a05:6830:3108:b0:846:6f06:33d9 with SMTP id 46e09a7af769-85943164c66mr3055497a34.31.1793153190613;
-        Tue, 27 Oct 2026 19:06:30 -0700 (PDT)
+        bh=cYWV7ECkHQYswdgEZXeMyVwwzpRqyeBelZqFEBmxMJ8=;
+        b=znV9/WnksYiJ1SBZwomDzP2k+vWuqussVHKVs+T0GEXVogLp29Eyz2yPxKuI0tV2rB
+         ZmZ5BTdq3cTetZt8+Gs6WM+6hyYTpNaYIQTZ+zZEzCHgmoVMEei3uUZ0WnRL1qwp7hhR
+         QJT7EvQrRA3VimrmTXEe3MX4rWIvB3/BK1ZY0sOUmSS7CxPPOpvNI62K4expmhUqS14m
+         fqyYcgKcJIkJ9O5iRqrM138Z2h7TphHz1DZqxPeCOkayXYa9upNwhkbpY43lfjbAIxcz
+         G6FyEyAwswiePlunOycKRIB8Xxo3sEGnQT9LPu+dGXuQzLB9YujnRB/gaN/UxMEgQoJG
+         7upg==
+X-Gm-Message-State: AFq9FYI4LPn7JukjAKV/B4xPehc9IAu/BnEiaH22VgZsIdRYOB2yh331
+	aW77rPx7nRY7wFoh/TAZMFMGvrH+JccwvT69JKk78g96FO8gvF49/7Fz
+X-Gm-Gg: AYBFou1eM+ksMRCcQYF1HlL/jCDPitXmJ7nSzYfFBR3ub8nsCYjCnCXjWyuKJUF/Z8T
+	Lz8VzYOkEup9GqExvqeI1qwYwNLjYOCXCTfAbLhas58w8HEJWC/IhxEGTUhcZK3YnIqVUjB3+/C
+	g/PlHz9Z5AFHFr7rdEAlUh3LCZJiV5NHNReuDYhJ0pOUyk3Eymn5ZK2OGS/FfdIxIuXYxSJs4Bi
+	bneh8AQDiWHd8/gOMYwTXVSs9TryPsne9PdmQRHQy6tti6FAqrF3xLaNmm5sAEM82ykzqVHiDoU
+	6CPgzp+M2mQy65P6psw4DADDht0Ae2RdwT0scz1i62hEOiUU27aykSX7nOwqZTJWXxMd5YY6963
+	fkKrR1vRrthpzJB/wZo/thnGgBbf45724roBHwLAL6+uP3IeueP9+L7vZW3XlUOprZCiPBc+b/S
+	CP1Vw7jrmVenNz7RbxBQTfRFJimOoL6ARLxODqBjbVv7Cq1gbGfVWhMUIIaa6h2TGMa7fAub9Vi
+	XhzTq/OM1d3bicZpQjniD2axLFSVdysDcSVi5DW0ukedbMzjr3PoEJw950tIN+78hbpwCu13ZhE
+	2M+QgEbYvZdZN2rkVQuoMk2QI1dYDOQiRtr7SB8YfhwkelAv5wVj9S3mijTmDvvV2Zq0Ahmac+Q
+	DC+Kcr3mJEYzSMaq4zBie9Q==
+X-Received: by 2002:a05:6808:179e:b0:4f5:6fff:3ac4 with SMTP id 5614622812f47-563a2b48631mr429927b6e.41.1793153192787;
+        Tue, 27 Oct 2026 19:06:32 -0700 (PDT)
 Received: from localhost.localdomain (162-233-222-157.lightspeed.livnmi.sbcglobal.net. [162.233.222.157])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85b1d363390sm355217a34.1.2026.10.27.19.06.28
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85b1d363390sm355217a34.1.2026.10.27.19.06.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 19:06:30 -0700 (PDT)
+        Tue, 27 Oct 2026 19:06:32 -0700 (PDT)
 From: Corey Smith <corsmith@gmail.com>
 To: corsmith@gmail.com,
 	Vijendar.Mukunda@amd.com,
 	venkataprasad.potturu@amd.com
 Cc: linux-sound@vger.kernel.org
-Subject: [PATCH 8/11] ASoC: amd: acp: add ACP6x SoundWire quirks and machine support
-Date: Tue, 27 Oct 2026 22:05:49 -0400
-Message-ID: <20261028020552.35278-9-corsmith@gmail.com>
+Subject: [PATCH 9/11] soundwire: amd: accept the legacy mipi-sdw-master-list property
+Date: Tue, 27 Oct 2026 22:05:50 -0400
+Message-ID: <20261028020552.35278-10-corsmith@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261028020552.35278-1-corsmith@gmail.com>
 References: <20261028020552.35278-1-corsmith@gmail.com>
@@ -100,80 +100,40 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Teach the generic AMD SoundWire machine driver to handle ACP6x: reuse
-the ACP6.3 CPU pin mapping and the amd_ps_sdw_dma/acp_ps_pdm_dma
-platform components, and add a DMI quirk for the HP Dragonfly Pro ONE
-(board 8A7F) enabling the RT1316 speaker amplifiers and the ACP DMIC.
+Rembrandt (ACP6x) firmware describes the controller links with the
+legacy MIPI property name "mipi-sdw-master-list" instead of the current
+"mipi-sdw-manager-list".  Fall back to the legacy name when the modern
+one is not present.
 
 Assisted-by: LLM
 Signed-off-by: Corey Smith <corsmith@gmail.com>
 ---
- sound/soc/amd/acp/acp-sdw-legacy-mach.c | 20 ++++++++++++++++++++
- sound/soc/amd/acp/soc_amd_sdw_common.h  |  2 ++
- 2 files changed, 22 insertions(+)
+ sound/soc/amd/acp/amd-sdw-acpi.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/amd/acp/acp-sdw-legacy-mach.c b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-index 1a05d42..97bc5cd 100644
---- a/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-+++ b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-@@ -135,6 +135,20 @@ static const struct dmi_system_id soc_sdw_quirk_table[] = {
- 		},
- 		.driver_data = (void *)(ASOC_SDW_ACP_DMIC),
- 	},
-+	{
+diff --git a/sound/soc/amd/acp/amd-sdw-acpi.c b/sound/soc/amd/acp/amd-sdw-acpi.c
+index 0160b0d..85dc1ba 100644
+--- a/sound/soc/amd/acp/amd-sdw-acpi.c
++++ b/sound/soc/amd/acp/amd-sdw-acpi.c
+@@ -36,9 +36,18 @@ int amd_sdw_scan_controller(struct sdw_amd_acpi_info *info)
+ 	ret = fwnode_property_read_u32_array(acpi_fwnode_handle(adev),
+ 					     "mipi-sdw-manager-list", &sdw_bitmap, 1);
+ 	if (ret) {
+-		dev_err(&adev->dev,
+-			"Failed to read mipi-sdw-manager-list: %d\n", ret);
+-		return -EINVAL;
 +		/*
-+		 * HP Dragonfly Pro ONE (board 8A7F, AMD Rembrandt / ACP6x):
-+		 * two RT1316 SDCA speaker amplifiers exposed as an aggregated
-+		 * "Speaker" endpoint on SoundWire link 0, together with the ACP
-+		 * PDM DMIC.
++		 * Rembrandt (ACP6x) firmware uses the legacy MIPI property
++		 * name "mipi-sdw-master-list".
 +		 */
-+		.callback = soc_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-+			DMI_MATCH(DMI_BOARD_NAME, "8A7F"),
-+		},
-+		.driver_data = (void *)((ASOC_SDW_CODEC_SPKR) | (ASOC_SDW_ACP_DMIC)),
-+	},
- 	{}
- };
- 
-@@ -216,6 +230,8 @@ static int create_sdw_dailink(struct snd_soc_card *card,
- 		}
- 
- 		switch (amd_ctx->acp_rev) {
-+		case ACP6X_PCI_REV:
-+		case ACP6XR_PCI_REV:
- 		case ACP63_PCI_REV:
- 			ret = get_acp63_cpu_pin_id(ffs(soc_end->link_mask) - 1,
- 						   *be_id, &cpu_pin_id, dev);
-@@ -329,6 +345,8 @@ static int create_sdw_dailinks(struct snd_soc_card *card,
- 		return -ENOMEM;
- 
- 	switch (amd_ctx->acp_rev) {
-+	case ACP6X_PCI_REV:
-+	case ACP6XR_PCI_REV:
- 	case ACP63_PCI_REV:
- 	case ACP70_PCI_REV:
- 	case ACP71_PCI_REV:
-@@ -377,6 +395,8 @@ static int create_dmic_dailinks(struct snd_soc_card *card,
- 		return -ENOMEM;
- 
- 	switch (amd_ctx->acp_rev) {
-+	case ACP6X_PCI_REV:
-+	case ACP6XR_PCI_REV:
- 	case ACP63_PCI_REV:
- 	case ACP70_PCI_REV:
- 	case ACP71_PCI_REV:
-diff --git a/sound/soc/amd/acp/soc_amd_sdw_common.h b/sound/soc/amd/acp/soc_amd_sdw_common.h
-index 3930cc4..1f9bddd 100644
---- a/sound/soc/amd/acp/soc_amd_sdw_common.h
-+++ b/sound/soc/amd/acp/soc_amd_sdw_common.h
-@@ -18,6 +18,8 @@
- #define ACP63_SDW_MAX_LINKS		2
- 
- #define AMD_SDW_MAX_GROUPS		9
-+#define ACP6X_PCI_REV			0x60
-+#define ACP6XR_PCI_REV			0x6f
- #define ACP63_PCI_REV			0x63
- #define ACP70_PCI_REV			0x70
- #define ACP71_PCI_REV			0x71
++		ret = fwnode_property_read_u32_array(acpi_fwnode_handle(adev),
++						     "mipi-sdw-master-list",
++						     &sdw_bitmap, 1);
++		if (ret) {
++			dev_err(&adev->dev,
++				"Failed to read SoundWire manager list: %d\n", ret);
++			return -EINVAL;
++		}
+ 	}
+ 	count = hweight32(sdw_bitmap);
+ 	/* Check count is within bounds */
