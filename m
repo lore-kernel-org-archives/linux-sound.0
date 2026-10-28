@@ -1,60 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793186998;
-	b=FwxxV+0EQMHYA+LbDRfzuRV7VzB+VzfT86uczbnmtR7Npha4XABJKKGB2rUGdix1M79v
-	 qBOq39qZ9QhXBZscgsjD0qH/9Hh9zFhJTVl0efExqZM1MceCYF/tFjQYfSdEUtGWlSbbx
-	 7A5j2VnKuakkdH4oK8MLJn6nf+9EsQDFKuId88ixMWd0f9Hhe6ibt8vUqIn41T7bAfZFE
-	 +PsMxp8cSXhOMBmevt0UTlEgU8lWYoTmxL7/k7nlang/CcQUH6aa24iCgC7CmLns1rzep
-	 tMp9p2YoLKyufgWi20VfhLPn1yoqudqLdTx3H3GJ4XyRLszCpvAh32Ef4QW7Uy/aGIg==
+	t=1793187907;
+	b=f+y5Ny5kcKdsuzwW3r32roZN4IaGYKleojVWtYpff+nn0CNI1WG5v10wnnXGpuvkd644
+	 Syu7anUUvVrbytDdYRMo26+kWLUF9L3UItpJni4++N/bosmxBFSzw9Idi2SaZj+0JBvJt
+	 PwP9dQMxvn/mDg1W/f5AbZmIrUB0UMIAaOXFA9Et66AmexnD3X2Ww3t4KKsXDXnYJonQ9
+	 yRcrj3bldbg4unPnTY6dmlsDLvAyca1dKTg1IOONYSoWcVOw+LcXinRI5c0M0ZuWtUEQn
+	 4+n7H4PoamCUu3fQAqe740rJx3L+SOINWlb5GiiEBDmU80CWkjds4eGqOk2HZBAtH8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793186998;
-	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
-	 Subject:Message-Id:Date:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key;
-	bh=1JNEW8HYvKizQjvMBvCBCVcaKnMKRs6NVB4+hVWjxFU=;
-	b=F28KnsMer2Ci4GXjDLYfVrojFyH2bkd5RisnhzWG2EJYBCEqSNq8CzWEUVMwCYtchDdC
-	 rRr1Mugmk+Bjx3EjfzI92nHj+QQP79h2wFOLbX0bbvYM+Fbv7EnlVlXb49w35EywDRPgn
-	 xAQnRMABipk6nFw+dTlqNxT2f5RSBSIj/V7XHD+Q972mp3SCtmhS+7Uk1wghw0g5cTyIf
-	 X12d2CzW8Gik7QccwHGIlEsPqGQCvoAdWrgfxdviJ03cd+fsfSMBtKRhZiBrm4zHA8HlX
-	 7rBopePutSEoNILMFgQMMs8b5Gxg2R+trTwZtH/7Fp0NPprCJ1+DYUPlOJQ5lSTrTsA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793187907;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=QzHKW9rtLc5pIwwuROz+fvid8PAGUaQuBRU6aD/H4fQ=;
+	b=vUKSGv/fK3KIVyZm1iq5FEBriFY6vihvVOq8BMnHJ+D5Aou3p/M/W+C8lQJK1CVzTx8k
+	 APIMFbuNQLkBhwWFUm4km3OgW3IUQ9v+aCQSuoPf02ilI4+YokL2FzgHn9tkHh7JGlBEP
+	 g/pl3/F8k+ieMxp3uKO+Q4N7o+QdSplm04HUL0j30exwI+WjCp19PisfrdCORRBrwSLxY
+	 Xpdyit4GtWTpejr7hPfB5gWZlJ1yDoO3/EOPy2qBTy3cla0tRhVSkvtQBSso0qXZ++qlR
+	 +R4p74R5kX0Odr3iANr1tzBH/wvliXS3UW1Q+OwA2n9fVZWJb+JQ0cUkvo/tx38nvwg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="faqz6oT/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B163606A31D;
-	Wed, 28 Oct 2026 11:29:58 +0000 (UTC)
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=bchd9uPa;
+	arc=none smtp.remote-ip=111.22.67.151
+Received: from cmccmta8.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11E1A606A32C;
+	Wed, 28 Oct 2026 11:45:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11E1A606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=faqz6oT/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C51221F01825;
-	Wed, 28 Oct 2026 11:29:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793186997;
-	bh=1JNEW8HYvKizQjvMBvCBCVcaKnMKRs6NVB4+hVWjxFU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=faqz6oT/ri0wt8eoSK6ioOgDFgh9ZvAJAa1CKbOnfrClm+6aij041uZW3YtcJbNnF
-	 W/AgVn1gBM35OxuIe8YWZJP3W3vhhdVYZJVoTv7CTyY2spKNND1OVEG00KThWZeLZG
-	 kzRv08m+QeFeMAEjxbWCRCFA21xbdokB0ioPC1uMeqxDJb6wnzdVU3hpI+DhujgDHe
-	 +h2kub+2REIjiwAx95+YKz7HvFbaEkv17AzSpxrdKDYaZGcjJkGPchSV0/kzjNbBy4
-	 mikAWPfvGxYImEiMhW+5n6ObFWWo6T6KRi0mMAF+YIu5gwAxT8p8TC++oTiumqrzoV
-	 7cSLznagM2CqQ==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 06D4A1FF2804;
-	Wed, 28 Oct 2026 11:29:56 +0000 (GMT)
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, stable@vger.kernel.org, tiwai@suse.com, 
- perex@perex.cz
-In-Reply-To: <20261027144655.31988-1-peter.ujfalusi@linux.intel.com>
-References: <20261027144655.31988-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: hdac_hda: Keep runtime PM state in sync across
- codec remove/probe
-Message-Id: <179317803129.199157.18051933667376321116.b4-ty@b4>
-Date: Wed, 28 Oct 2026 09:00:31 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=bchd9uPa
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=bchd9uPaxgu4WoejKkBT0DJtjE6+3sYpwtRJ24fInJ13Y53eJYG3OyHd+NwtnypcZ5zNKfRVQmV7a
+	 qz8GvVOFNfrhdailOsftmPKSwfZzeDSFgWTDxVW1Hso2l75LKpzSFDi3b1uuzOFdM/penVlDD3pvTe
+	 /R3TtA8aGhrxTdIk=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee66ae1e03ee2d-2e102;
+	Wed, 28 Oct 2026 19:45:03 +0800 (CST)
+X-RM-TRANSID:2ee66ae1e03ee2d-2e102
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from FHA-W6400298 (unknown[10.55.1.71])
+	by rmsmtp-syy-appsvr07-12007 (RichMail) with SMTP id 2ee76ae1e03d4e9-0609f;
+	Wed, 28 Oct 2026 19:45:03 +0800 (CST)
+X-RM-TRANSID:2ee76ae1e03d4e9-0609f
+From: Tang Bin <tangbin@cmss.chinamobile.com>
+To: srini@kernel.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	tangbin@cmss.chinamobile.com
+Subject: [PATCH] ASoC: codecs: lpass-rx-macro: fix PM ref leak in swclk_gate_enable
+Date: Wed, 28 Oct 2026 19:45:00 +0800
+Message-ID: <20261028114501.2192-1-tangbin@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.52.0.windows.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,46 +73,37 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1162; i=broonie@kernel.org;
- h=from:subject:message-id; bh=I1zDWshIiKrvzWcZvIZe162fxBcerYrg3VGUYq0/AUM=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIe3tlssynr0+UVxVG8CYtVf979HRdp6/qspOAR266vt
- 5XS3kjO6ChlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBErpcx/NOy3/XfQWcpk2HO
- cuNuWf0nXio3d23M9mk7f2h/KbPXv3yGP5wP30x+bV29XkfeT/X3Up6sOMfXvplXlVg09uSuE6p
- NZAQA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Tue, 27 Oct 2026 16:46:55 +0200, Peter Ujfalusi wrote:
-> ASoC: hdac_hda: Keep runtime PM state in sync across codec remove/probe
+swclk_gate_enable() calls pm_runtime_resume_and_get() (incrementing the PM
+usage counter and, via of_pm_clk_add_clks, enabling mclk) before
+rx_macro_mclk_enable(). On rx_macro_mclk_enable() failure it called
+clk_disable_unprepare(rx->mclk) and returned, leaking the PM usage counter
+and potentially unbalancing the clock that the PM clock domain also
+manages. The sibling tx-macro/va-macro drivers call
+pm_runtime_put_autosuspend() here; do the same.
 
-Applied to
+Fixes: e38cbb75248a ("ASoC: codecs: lpass-rx-macro: Propagate regcache_sync() errors")
+Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+---
+ sound/soc/codecs/lpass-rx-macro.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+diff --git a/sound/soc/codecs/lpass-rx-macro.c b/sound/soc/codecs/lpass-rx-macro.c
+index 282a6aaa9..1737d525c 100644
+--- a/sound/soc/codecs/lpass-rx-macro.c
++++ b/sound/soc/codecs/lpass-rx-macro.c
+@@ -3681,7 +3681,7 @@ static int swclk_gate_enable(struct clk_hw *hw)
+ 
+ 	ret = rx_macro_mclk_enable(rx, true);
+ 	if (ret) {
+-		clk_disable_unprepare(rx->mclk);
++		pm_runtime_put_autosuspend(rx->dev);
+ 		return ret;
+ 	}
+ 
+-- 
+2.52.0.windows.1
 
-Thanks!
 
-[1/1] ASoC: hdac_hda: Keep runtime PM state in sync across codec remove/probe
-      https://git.kernel.org/broonie/sound/c/99203e8d8968
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
 
