@@ -1,58 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793182494;
-	b=44ik8OhvUQLJgr0guT19dj2wE93N0+sqoOtMzDaaz3T1O/Lcb3vL5y7CxS9k7jcsrCGl
-	 WEddU9C/SZN6dCQyu9D0dIMve0MkwpLuC2j6KF7hRnB+UwaZnCGdgv8THkbRwscCNtehC
-	 4O2e9m4MA233Ok+VVJOiuvH32pt66NmyMfv7UfBhzaQGWPcsuZI+uRZP473dlMMNkilNE
-	 OHV/83p6iwBb6d/rpXaXsx5x90F4PyPmEm4eIj5kBhHsE7oTbC8FwwPsAUwrkSIpC/tqk
-	 /6z8k8sN8EQ8eSfPdgqUUP6l5+TC6rK/ccIaayyd433yyIaB+dJp0EWzKibAVmJquAQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793182494;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=m2ezrgnx3qlnWl7x3+zBbtpqohTAdPRWFCLkVX4gCyY=;
-	b=Hp+t6J4od+/7H13obAIaUnnYW7ijM0e1W5vNk0iB7I0B4I9m+M/jn7LP3KeSJScayvle
-	 cWfvvuVkMSyP9HjEUrgdB7PjUT67jUE2S/lvjVhAwxGDKgphYa2IzItVP8j9UiPS80fNo
-	 FMBKGH6vCUYJavT8cg/BPKkidx3AWANrv/coD6TmFvh+oiMDYUwZkd8Hiw/iLIBTcf4b7
-	 NRobMsVmAh1Y4ULPRVJKy3VT1ffziiMw8B732sNg4O1wlVonZ1LPTthprYj7ew7J2gDo0
-	 tdd1XRan6gVDYZPH1GF1tvONw+37y0Ikdgy65v0NNPAeBk8/V9oKhUnlD2ELcQiZ93Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oUaQ3dko;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.210.171
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793182515;
+	b=37bMgMxQNwsKK8NT4x/LW88wfjw3qESgsCmDFbG0nlAftjK74yIt+elM3u+ZJaZzABsH
+	 yzhFN/wlWVs/w9KwRmRf+Eukw/Ms5qVD25I1AzdpQQEuAX+6+/+vI/MDGj0Y0y30UOvku
+	 jnjhZ4PR244lLlB1nNGXGm7XFOWp3JQUW2Fuhc5WRMfL6Emo+c4XcJEKqSMDA0A+ASfTi
+	 ESf6+aATjFXKBgSU58THyrQb/mqJymVJ+c8G/S+8R7zshLcGobQxdaePuuVyw5XrGx8RU
+	 BG7mT4v7PtEzWvB+I2gh3FQAqlcL4SnA+Y+Dy4ULJahmulQeaqzzye2agvv6DIUIwdA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793182515;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=xASf3H34vKfEdpWHAlxf1Qg2aZTjpgUXhsOYbYP9MTQ=;
+	b=qS04OHif3HXpofY+9SU52AzODcTajQEvm9gqf/IyuzbxypNaOgW7n+A6HrkjNPFTRRtR
+	 fu91wJO2CtS3oLWiE7F2LPj3JIgOiuVP6qxp4iAL+6pMusJiLsTa41WcpkVeD096TISO1
+	 ib7pZKEA405J1yJIFV+D+c/gzjKR7dA1u/oUDQw1kqnOgVlbnTYOaLRgIVWRMuAU5I4HF
+	 AyUNh/5glWnic+RsUbhKnN6s8hvdPOOPvNrrIqVtwEmVj147rDdv8mcvsQ/5UOZlrFpGg
+	 La6vCNacAsAbLU7pgsA0Oh1myttqTG7YrntbpT9FV46R+H0Oi8qo0Vae35HzzYbjrmw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nz3SFcA4;
+	arc=fail smtp.remote-ip=209.85.210.171
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBF8606A31C;
-	Wed, 28 Oct 2026 10:14:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA58606A31C
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 10:15:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4BA58606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oUaQ3dko
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3002D1F01825;
-	Wed, 28 Oct 2026 10:14:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793182494;
-	bh=m2ezrgnx3qlnWl7x3+zBbtpqohTAdPRWFCLkVX4gCyY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=oUaQ3dko9rhf9ElABlLkBINpr9IDl63eNK7Q1hKPIC02UPQDeb/7wJxPx9dqQB7zn
-	 PqtXGLlK2AnnV7Ceo14mfRptXjx0YqvfcBETDOw3a384wlAtnrO0HjA9dMU4dQbVtg
-	 WlzNiD4h4K38+ovADA6VCtHQW8wDekjMx3+/1lxtXckKigE1E9ZhWOBFDv7fSlxize
-	 VIPnqWCK2JQqKX875KHeuh9RUW0dHWLTaF7Fkr4/0Oso1U2y6NjCC9HZXFzm6U1hk8
-	 9uQOOwUbb61p21chDzi3Iqy1ENsoLEUCPKzOyEL55CxMv9TlX46U26h+DjqMbX5X6n
-	 TTy4IbvUA6PCw==
-Message-ID: <sashiko-outbox-187737@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 07/16] ALSA: virtio: stage VZ capture and restart
- paused streams
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
-Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
- Perez" <eperezma@redhat.com>
-In-Reply-To: <20261028094132.20364-8-mynameisjune111@gmail.com>
-References: <20261028094132.20364-1-mynameisjune111@gmail.com>
- <20261028094132.20364-8-mynameisjune111@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 28 Oct 2026 10:14:53 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nz3SFcA4
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8a07078200fso390475b3a.2
+        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 03:15:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793182514; cv=none;
+        d=google.com; s=arc-20260327;
+        b=s8e33U+VXjvH6SsjZ2vfFpwQg5tUpqUJUVRxs7SyEpW8B6nFs9yctvWAJ6TLtidlsb
+         XCOgCvyi2/lvnbg/QAgRbGoaGKJVK/I0WeHa8QKhlRk4y0Qm2sBKRFPjVowrSItDYm49
+         vPDO2HCuzq/PFonySB+P/3XldVnSm8+RMsNopJeww0DnkhI0zSxVcZPXocS3FOa8xe1B
+         1BKFxSDdzz0Pu1SUtjs1PKXeAy0z6p4+/D6e4bXVJ2uDe2P3388UtvgSzU6/3+PYZyTa
+         y2F/lQXMOcQhXz+mVIf0naFpgz/Cqq9xbxJRnSVatT5TVFErN58wFaTt7uy6brd32hjH
+         Zhcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=xASf3H34vKfEdpWHAlxf1Qg2aZTjpgUXhsOYbYP9MTQ=;
+        fh=R8GnkHx+PbVuwmPSQdVYKS5I7/gt+mWqFbmltVwCTwE=;
+        b=garxTdYJDqwiiJxBBVhPtqp9VpJAXi8rUTDEHWP1KIVRG7E2BGe4teKHmBitLc044m
+         GwSvkqf0veTZ7OSuekUucjOueI4QlhFNihHQtX2fEFzA5n5HrAvCMbe+vlUBDiSX63XD
+         4J4fbD9QkWyvRC08YG0kHLdoGikVA64suSSEDqSFbS2kvX5C11SPqY4g+dS9y/9WwZHk
+         5BGL1+RjJP9cyurExcYonqfTEXcQOIcLVMyu5Sq/QjAozepiDNAy6JGlwGOUxOPgDrQl
+         tV4hc7rr0SBQI2S5tmmcZE0ileQP2hL8XJxPQay+CzHOsOTPepDWq+wUVsuYGJWljQ0g
+         2ywA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793182514; x=1793787314; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xASf3H34vKfEdpWHAlxf1Qg2aZTjpgUXhsOYbYP9MTQ=;
+        b=nz3SFcA4MmVd99ZXvkipFGVwU6TdNvdytyOiM1yxBoDxp65tUVl23fs6lhGrvTkDkH
+         SrgxhF/ZmBkpIWlZgXEggbeKEoBu+YR0+BEAK34LUZSFGWkiWd6BxSJxP6h6PIg7C4Nt
+         SC2wLmR24TO4SX29RYWvxWumHng4gmQx9a+qWbgDUiKXk7jSY9drCX/pgjAzXomrfEQx
+         97UcETJ4hLF99asBgtmCYoLh3Wzw6S92GaiFKZVJ6z0dRF69CzfUUFeLZUtTObgevuSV
+         pxvrp6QScx8DP1uOnoNbXX5kOqAqpOTJ/WXSxVCVfZNoICwBMlrhxcYML9fA18m5rtaN
+         ymSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793182514; x=1793787314;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=xASf3H34vKfEdpWHAlxf1Qg2aZTjpgUXhsOYbYP9MTQ=;
+        b=O2HLDwm68YYajaHhEwew1MkRnKWxIOObnBnwpzKygrAD4bLb33AU+eqqynSdFMRHFG
+         IYu2liTHwrusc/RJyl5JpjmJitWw1v1Wn74VuHvsJISuxfQfkVVIsuYRuAunBLzlRTY3
+         1IpzXRRNCq2Bq3mKcBjWwyLN/WCKEpVBiXZj2MCvuX24e/el0LJI35GldQiPJRZ+CJuQ
+         4KUx7UIl0KIou2IMd9/K3rwLOaOMLcTrSFPZpASV1XAMSDzjxTcKKG7Hn8iu9UhX2RqQ
+         txh/VnK4rTENKfkn3YxlIRt1a2LuT424m27ENAjJb0TitI+RcZWtRl15N8F1o1vUwXbs
+         dtbA==
+X-Forwarded-Encrypted: i=1; AKwUvBxBbYx/uDnhwTKm53QRisY0zDuCIzf+OFqv0f2nk8hqPsznn4edQQy7Yz90IEsMylb+ssdstHDjuTBWRA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKhtHlGwKpAKW6OI1Q6OgmOtjJS4n7e0GOgFXvGk+mSh4BI+kP6
+	qhH4CtdRyfdoKAZDhd78inxXS+B8O3eo5Z8KjfRwkT+YELcJlQdR4Trhl0WroxGtCBNUEezcEfO
+	Y3EckGke3Bdft66XRObqAXpMUFg7ELu0=
+X-Gm-Gg: AYBFou3haSgs2FSaCgYNE6rD9syeLAW8pVhkxSOzF4jVDAOpnJ60JZyIpY3hS0oJp1X
+	ogQneDzHxU6Y71dZHL8YM3mCR1sEpzHx+szzEFdguXjs64qZ1MsKKnIAlXMJsvHwcDiI6UhwCf8
+	qqJ3xQgCtQ/EjjblrJbKq3NBTYgIarkA6WQPRHy4HiG4BtcXmg3csgz/JdJw2gnwmweEq91BgCk
+	h8PsmgRveqGa1CMtRNfTgeZqBwjpDv55+UxYk+GHJQSK5CpZh6kaPp+e5izq5A2LMyRiHSEx6SS
+	uTij6/jN5Jh2n+QYbhnk4Su347ot1s8hz7GaZyzlQM5QVtx56QRPIjUN11Sdc2SbI6hgC4h8OAV
+	ZZIRyj6v6ARMX25GPgBXobPxvuJrttS3eBcFyA7CbtBoSjm0ObjmpnGWy9Qmm6RgqZpWSICC9Pf
+	aLzuwEnfEwyuupvcEcfIZIjbhwh4fr+Hf1NhLP1tT0vagyOFDU/A==
+X-Received: by 2002:a05:6a21:6f17:b0:3da:15a9:a18e with SMTP id
+ adf61e73a8af0-3e902291f4fmr1507666637.23.1793182514538; Wed, 28 Oct 2026
+ 03:15:14 -0700 (PDT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,182 +103,60 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+References: <20261022084040.31181-1-phucduc.bui@gmail.com> <20261022084040.31181-2-phucduc.bui@gmail.com>
+ <CAMpQs4LpM1C6diap6JKYgLTYLoaC=W5wEsp=Y9DAj0Mwg-q7BQ@mail.gmail.com>
+In-Reply-To: <CAMpQs4LpM1C6diap6JKYgLTYLoaC=W5wEsp=Y9DAj0Mwg-q7BQ@mail.gmail.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Wed, 28 Oct 2026 17:15:02 +0700
+X-Gm-Features: AclHuK98SBr74OryFpSWxRN0Z3YHcvuo8TePrT044k44OXomYiT9ECiHc01N7CA
+Message-ID: <CAABR9nEhqWP9rbT5o0sa=KUoRgbRGynratygQRaOoq600FdvGg@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] ASoC: loongson: Fix IISConfig0 update in
+ hw_params for rev 1
+To: Binbin Zhou <zhoubb.aaron@gmail.com>
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Mark Brown <broonie@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Yingkun Meng <mengyingkun@loongson.cn>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Medium] ALSA: virtio: DMA cacheline sharing in virtsnd_pcm_capture_send()
-- [Low] ALSA: virtio: 64-bit division and modulo on u64 capture counters br=
-eak 32-bit builds
---
+Hi  Binbin,
 
-commit b45632282ebc50eaee6059eb5173344a95c32ede
-Author: Joonho Lee <mynameisjune111@gmail.com>
+> > On revision 1 controllers, loongson_i2s_hw_params() reads LS_I2S_CFG
+> > and ORs the new LR_LEN, BCLK_RATIO and RES_DEPTH values into it
+> > without clearing the old ones.
+> >
+> > The first stream after boot is configured correctly, but any later
+> > stream with a different rate or sample width ends up with a mix of
+> > old and new bits, so it may run with the wrong rate or sample width.
+>
+> I tested this patch on a Loongson-2K0300 and Loongson-2K2000 board
+> (LoongsonASoC sound card).
+>
+> I ran consecutive playback and capture tests alternating between
+> S16_LE/44100 Hz and S24_LE/48000 Hz, both in stereo. After applying
+> this patch, switching between different sample formats and rates, works
+> correctly.
+>
 
-ALSA: virtio: stage VZ capture and restart paused streams
+Thanks for testing this on both boards!
 
-This patch adds opt-in capture staging using request-owned buffers with
-response validation and ring accounting. It also introduces a pause
-release and reprepare state machine for staged capture streams.
+>
+> One minor suggestion: would it be possible to define these bit fields via
+> macros, or use FIELD_PREP()/FIELD_GET() with GENMASK(), instead of
+> open-coded shifts and masks? For example:
+>
+> #define LS_I2S_CFG_LR_LEN_MASK          GENMASK(31, 24)
+> #define LS_I2S_CFG_TX_RES_DEPTH_MASK    GENMASK(23, 16)
+> #define LS_I2S_CFG_BCLK_RATIO_MASK      GENMASK(15, 8)
+> #define LS_I2S_CFG_RX_RES_DEPTH_MASK    GENMASK(7, 0)
+>
 
-> diff --git a/sound/virtio/virtio_pcm.c b/sound/virtio/virtio_pcm.c
-> index be3893de40a55..a3478fc8848db 100644
-> --- a/sound/virtio/virtio_pcm.c
-> +++ b/sound/virtio/virtio_pcm.c
-> @@ -310,8 +310,94 @@ static void virtsnd_pcm_period_elapsed(struct work_s=
-truct *work)
->  {
+I'll update the bit-field definitions as suggested and also apply the
+same approach
+to CFG1 and rev 0 to keep the code consistent in hw_params().
 
-[ ... ]
+I'll send v2 soon.
 
-> +		period_bytes =3D snd_pcm_lib_period_bytes(substream);
-> +		if (vss->xfer_xrun) {
-> +			notify =3D true;
-> +		} else if (!period_bytes || period_bytes >=3D vss->buffer_bytes ||
-> +			   !virtsnd_pcm_capture_counters_valid(vss) ||
-> +			   vss->capture_notified_periods >
-> +				vss->capture_copied_total / period_bytes) {
-> +			vss->xfer_xrun =3D true;
-> +			notify =3D true;
-> +		} else {
-> +			period_floor =3D vss->capture_copied_total / period_bytes;
-> +			if (period_floor > vss->capture_notified_periods) {
-> +				/* Reserve crossed boundaries before the callback. */
-> +				vss->capture_notified_periods =3D period_floor;
-> +				notify =3D true;
-> +			}
-> +		}
-
-[ ... ]
-
-> diff --git a/sound/virtio/virtio_pcm.h b/sound/virtio/virtio_pcm.h
-> index 61faf7b13cbc1..e143a15592f05 100644
-> --- a/sound/virtio/virtio_pcm.h
-> +++ b/sound/virtio/virtio_pcm.h
-
-[ ... ]
-
-> +static inline bool
-> +virtsnd_pcm_capture_counters_valid(const struct virtio_pcm_substream *vs=
-s)
-> +{
-> +	return vss->buffer_bytes &&
-> +	       vss->capture_copied_total >=3D vss->capture_acked_total &&
-> +	       vss->capture_copied_total - vss->capture_acked_total =3D=3D
-> +			(u64)vss->capture_ready &&
-> +	       vss->capture_ready < vss->buffer_bytes &&
-> +	       vss->capture_pointer_seen_total <=3D vss->capture_copied_total &&
-> +	       vss->hw_ptr =3D=3D vss->capture_copied_total % vss->buffer_bytes=
- &&
-> +	       (!vss->capture_callback_snapshot_active ||
-> +		(vss->capture_callback_snapshot >=3D
-> +			vss->capture_pointer_seen_total &&
-> +		 vss->capture_callback_snapshot <=3D
-> +			vss->capture_copied_total));
-> +}
-
-[Severity: Low]
-Will these raw 64-bit divisions and modulo operations break 32-bit builds
-with undefined references to __udivdi3 and __umoddi3?
-
-Here in virtsnd_pcm_capture_counters_valid() (sound/virtio/virtio_pcm.h)
-and virtsnd_pcm_period_elapsed() (sound/virtio/virtio_pcm.c), as well as in
-virtsnd_pcm_capture_complete() (sound/virtio/virtio_pcm_msg.c):
-
-	else if (vss->hw_ptr !=3D
-		 vss->capture_copied_total % vss->buffer_bytes)
-	...
-	size_t ring_ptr =3D vss->capture_copied_total %
-			  vss->buffer_bytes;
-	...
-	vss->hw_ptr =3D next_copied_total % vss->buffer_bytes;
-
-and in virtsnd_pcm_cp_pointer() (sound/virtio/virtio_pcm_ops.c):
-
-	hw_ptr =3D total % vss->buffer_bytes;
-
-the u64 counters (capture_copied_total, next_copied_total, and total) are
-divided by or taken modulo a size_t value (vss->buffer_bytes or
-period_bytes).
-
-On 32-bit architectures, usual arithmetic conversions promote the size_t
-operand to u64, causing the compiler to emit __udivdi3 and __umoddi3 calls.
-Should these use helpers from linux/math64.h such as div64_ul() or
-div_u64_rem() instead?
-
-> diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
-> index b54642a9521db..795e52e09564b 100644
-> --- a/sound/virtio/virtio_pcm_msg.c
-> +++ b/sound/virtio/virtio_pcm_msg.c
-> @@ -16,6 +17,7 @@
->   * @xfer: Request header payload.
->   * @status: Response header payload.
->   * @length: Data length in bytes.
-> + * @data: Request-owned payload for staged capture.
->   * @data_offset: Offset in the driver-owned PCM buffer on NOMMU systems.
->   * @sgs: Payload scatter-gather table.
->   */
-> @@ -24,6 +26,7 @@ struct virtio_pcm_msg {
->  	struct virtio_snd_pcm_xfer xfer;
->  	struct virtio_snd_pcm_status status;
->  	size_t length;
-> +	u8 *data;
->  #ifndef CONFIG_MMU
->  	size_t data_offset;
->  #endif
-
-[ ... ]
-
-> +	for (i =3D 0; i < vss->nmsgs && vss->msg_count < request_limit; ++i) {
-> +		struct virtio_pcm_msg *msg =3D vss->msgs[i];
-> +		struct scatterlist *sgs[] =3D {
-> +			&msg->sgs[PCM_MSG_SG_XFER],
-> +			&msg->sgs[PCM_MSG_SG_DATA],
-> +			&msg->sgs[PCM_MSG_SG_STATUS]
-> +		};
-> +		int rc;
-> +
-> +		if (msg->length)
-> +			continue;
-> +
-> +		msg->xfer.stream_id =3D cpu_to_le32(vss->sid);
-> +		/* Do not let an absent packed trailer reuse old PCM bytes. */
-> +		memset(msg->data, 0, period_bytes);
-> +		memset(&msg->status, 0, sizeof(msg->status));
-> +		msg->status.status =3D cpu_to_le32(VIRTIO_SND_S_BAD_MSG);
-> +		rc =3D virtqueue_add_sgs(vqueue, sgs, 1, 2, msg, GFP_ATOMIC);
-> +		if (rc) {
-> +			if (added && !(vss->features &
-> +				       (1U << VIRTIO_SND_PCM_F_MSG_POLLING)) &&
-> +			    virtqueue_kick_prepare(vqueue))
-> +				virtqueue_notify(vqueue);
-> +			return rc;
-> +		}
-> +
-> +		msg->length =3D period_bytes;
-> +		vss->msg_count++;
-> +		added =3D true;
-> +	}
-
-[Severity: Medium]
-Can touching msg->length after virtqueue_add_sgs() in
-virtsnd_pcm_capture_send() corrupt DMA transfers on non-coherent platforms?
-
-In struct virtio_pcm_msg, status, length, and data are adjacent fields in
-the same slab allocation and share a CPU cacheline.
-
-When virtsnd_pcm_capture_send() calls virtqueue_add_sgs(), msg->status is
-mapped for device-to-driver DMA. Immediately after virtqueue_add_sgs()
-returns, virtsnd_pcm_capture_send() writes msg->length =3D period_bytes, and
-subsequent calls to virtsnd_pcm_capture_send() read msg->length while the
-descriptor is still queued.
-
-On non-coherent DMA systems where virtio uses the DMA API, dirtying the
-cacheline containing msg->length after msg->status is mapped can cause a
-later cacheline writeback to overwrite the device's DMA write to
-msg->status, or cache invalidation during DMA unmap in virtqueue_get_buf()
-can discard the write to msg->length so virtsnd_pcm_capture_complete() sees
-msg->length =3D=3D 0 and triggers a false xfer_xrun.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028094132.2036=
-4-1-mynameisjune111@gmail.com?part=3D7
+Best regards,
+Phuc
