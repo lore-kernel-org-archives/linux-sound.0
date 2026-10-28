@@ -1,54 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793198686;
-	b=TzG7qKqpoSqVet8/yjV+iWvm9yXNQf5hduvQEfrPJt7wRRYCX2qkC5f4FZPjvlGUrp2U
-	 +xnDO9DRAXFmSd1EO0UdyC+o/2rR8rm8Qai0uYqvsvwzHIFVh/2KwzRKWb9jRnNQiMFIi
-	 E/BncVYeb8KYFffgIDUrXFd8y6iZgWKFaNuW9Pa916LQ7n/LVGXJxUUI+WAQGKhoenacz
-	 cmhm4Mpf5euqaJ/0C+wlLExGkbN1jat6/XXVEFZq5tbyNJJWizr0iZHKVfWWpijXpiSEQ
-	 7v/ysw6sA6LHrDKbsCXIBX/2s1UZqqFQaFow+YrLt2PfB437XhNi2mjC3zJWao5vbeQ==
+	t=1793198689;
+	b=PilmWikPOYALSb2XSoz7Ov/lDiU+rkiThQvh8jkss7JrEfHbeq0FckPltoVMKXH+K7OS
+	 Tp4M8slv2NS/RofHdVD7YAWjgB5cfs0BqRStEtA3odSo7ZcWPOkfnmBJZ33EQQfp1/KFw
+	 +TKk9u2R7WVRjPYcq7UyNUrT4QY1DcXzmOv6TuXvqWRR3w83Rp0zaL3MRoTKOk+G1g5fW
+	 caL4G6g3OiGjNTRTrr5qk3TfMthnGoMwPBdYqnUue7MQMVEUDYlFj3ykYE1FKYqdjtd29
+	 7K084OU8aUKqW334etwiGBKnNN1kryj/jZJVQZJZhTe7msgnnMJ8569bUUoXy+1XcjQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793198686;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793198689;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=0S9uO1EDL+1m4XC+8t2Qhfvz+5zf/rBg8A+iaUjDgts=;
-	b=x3T2TkHI55lVxmqsQE9w6IfC0shiaUnmzTLEHZI3Zy74XrrteAY8Gm/XtVyvVOJmRloQ
-	 uSfVPZwhGl82rm7i9KWsYZ83P2ZGe4k1IFE34arsptrmoNh7JJDCY+4FJjvkknfazY513
-	 3HBRQGeyiibXuAmbx69emLKHKeGCfqAaNoWr/edVAh6Yc03QUNKaRG3zAvv02Auo/NrUa
-	 WHiQ3vCTc9M2OtPUCoUAoT/8cGIJNgtoymsJdzraePO8lgu0XgkRTEkaqGXl5An05VhFr
-	 GVkws8jH+gifYvWnc3j72VMgH0ldvpl8wYfVulfFwYTgLTGyYVFPH2qTC2Z8Mu/RtOw==
+	bh=TudRf/V3duNZFIAgqodC/6LxtiItIrFpsiEDGzncGww=;
+	b=IciRwzeDXdPT3QOWnkLm7KaEaid5+4AvNUBFk3hup4s2lH1eokWBgD0rOfIO/TFRSCEQ
+	 ZS+ttmkZwIrxWI8k4mcPGA/i4HvOfwZW75yI0k/pdcW9B3tZ3J6tR5QgQ8qceQwT65iwz
+	 BgTTYL4wG2/6WqWHcqzU7vb8fleWl/EbKlHvxiwUG615kC3+QgeDfU45u6KtUy4Mwdof0
+	 S3+duV9PqJqk2jXSWFcWYcoTvXkq/hZ+vEF3rsSVrruuM5PN1nhHtWGm834XbE+UgPuH8
+	 hPGPew4UP58asrrWUHtXWUGWqnZ818JBxkrc6x9nOVXDDct9aPwstrQSW88RE17IXqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g4pzrkMF;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QdGMqqE2;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E25B606A32D;
-	Wed, 28 Oct 2026 14:44:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3DB606A324;
+	Wed, 28 Oct 2026 14:44:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g4pzrkMF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0580C1F031E0;
-	Wed, 28 Oct 2026 14:44:44 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QdGMqqE2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40C8E1F031E4;
+	Wed, 28 Oct 2026 14:44:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793198685;
-	bh=0S9uO1EDL+1m4XC+8t2Qhfvz+5zf/rBg8A+iaUjDgts=;
+	s=k20260515; t=1793198688;
+	bh=TudRf/V3duNZFIAgqodC/6LxtiItIrFpsiEDGzncGww=;
 	h=From:To:Cc:Subject:Date;
-	b=g4pzrkMFzP5sck29nfMOGo+qtuWUjQ0eHYI52RabvqWMKIOAuo/fMqYLF/zO02MrW
-	 QpGbydLPvGQAn8K1GqPgchbmrGkpWH38m3bPViogmvwAcGYYjFLAeUCWHXbq5f9iZg
-	 eA6KBdMPP+gPbb/JBMHMLcSw2BkdWD96Py3y6FrHS2JVQYAigYVtd3TXTHIVK6x8CJ
-	 ryDHePdQTBuRdzPV5D+zks+ZjEyo8s/l9auSTgs5iAE+Yo1bkxki85To3+rXcxgNYI
-	 WA4YoAixc2hryc0NEUnxATeCW80w7w7J80fCkZsC74QsA3GK69wdq8FYFtuXC1iffO
-	 Dbd1wsdTXQE8A==
+	b=QdGMqqE2ozRHX5Mr9JzH4fySf8G7Sexsv0wYISkrxhr+2wR+0eqsNQTlZmSWlrn10
+	 erEFo2owQIirRb7wDhYdaC0NnqwEIYaduAEPgO7FFvWOCli0ShGgFPH499lpIhwUqD
+	 KtxbChJFkBaBRVT2pVo2cvN20ul3m3RfvMvL6S/kZeY3pRpPA5UBIuCC/AZheaq0dI
+	 UAE/ukU+D2hFfnjnT+gY0TienbsiU/FfcYn58N/TcRg37XbDkF9Kp2rtDRfZogRDne
+	 UoPg3oMBNcFBqYTk9AalpVGtQrHfB8bputCMYbgC3P2fHVWByiDng7hTxzpkgcnhUf
+	 3HmgNwNIJDcGA==
 From: Sasha Levin <sashal@kernel.org>
-To: Takashi Iwai <tiwai@suse.com>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
 Cc: Sasha Levin <sashal@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Zhao Dongdong <zhaodongdong@kylinos.cn>,
+	sound-open-firmware@alsa-project.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hda/core: Fix double free on stream page allocation failure
-Date: Wed, 28 Oct 2026 10:44:43 -0400
-Message-ID: <20261028144443.992569-1-sashal@kernel.org>
+Subject: [PATCH] ASoC: SOF: Intel: hda: Stop the controller before freeing its DMA buffers
+Date: Wed, 28 Oct 2026 10:44:46 -0400
+Message-ID: <20261028144446.992948-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,55 +68,77 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since commit f16eaa38ea64 ("ALSA: hda/core: add cleanup in
-snd_hdac_bus_alloc_stream_pages()"), snd_hdac_bus_alloc_stream_pages()
-frees the BDL and position buffers it has already allocated when a
-later allocation fails.  snd_dma_free_pages() doesn't clear dmab->area,
-so the freed buffers still look allocated to
-snd_hdac_bus_free_stream_pages(), which the HDA controller drivers call
-from their destructors, and they are freed a second time when the
-device is removed.
+hda_dsp_probe() starts the CORB/RIRB DMA engines through
+hda_dsp_ctrl_init_chip(), but neither hda_dsp_remove() nor the error
+path of hda_dsp_probe() stops them before hda_dsp_stream_free() frees
+the CORB/RIRB ring buffer and the position buffer.  Unsolicited
+responses also stay enabled, so the controller can keep writing RIRB
+entries into the freed page.
 
-With fault injection failing the CORB/RIRB buffer allocation of
-snd-hda-intel on a QEMU ich9-intel-hda, unbinding the device then
-crashes:
+Until commit 9e6966f70404 ("ASoC: SOF: Intel: hda: Keep non-alt mlinks
+powered at probe on ACE2+"), hda_init_caps() dropped the initial
+references to the non-alternate links, and dropping the last one
+stopped the command DMA, so a probe that failed later, e.g. because
+the firmware is missing, did not leave it running.  Now it does, and
+as the probe runs from a work item, the device stays bound after the
+failure, with bus mastering enabled and the DMA engines pointed at
+freed memory.
 
-  page dumped because: VM_BUG_ON_PAGE(page_ref_count(page) == 0)
-  kernel BUG at include/linux/mm.h:1986!
-  Call Trace:
-   ___free_pages+0x9b/0xa0
-   free_pages_exact+0xa5/0xd0
-   snd_hdac_bus_free_stream_pages+0x43/0xb0 [snd_hda_core]
-   azx_free+0xb3/0x1b0 [snd_hda_intel]
-   azx_dev_free+0xd/0x20 [snd_hda_intel]
+Normal removal resumes the device first, which restarts the command
+DMA, so there the ring buffer is freed while the DMA is running until
+pci_disable_device() clears bus mastering.
 
-Clear the buffer pointers after freeing them in the error path.
+Stop the controller with hda_dsp_ctrl_stop_chip() before freeing the
+buffers, as is done on suspend, and export it for use from hda.c.
 
-Fixes: f16eaa38ea64 ("ALSA: hda/core: add cleanup in snd_hdac_bus_alloc_stream_pages()")
+This was reproduced by binding SOF in DSPless mode to a QEMU
+ich9-intel-hda: after the probe fails with "SOF firmware and/or
+topology file not found", CORB and RIRB DMA are still running with
+unsolicited responses and bus mastering enabled, and the page they use
+is soon reused as a page table.
+
+Fixes: dd96daca6c83 ("ASoC: SOF: Intel: Add APL/CNL HW DSP support")
+Fixes: 9e6966f70404 ("ASoC: SOF: Intel: hda: Keep non-alt mlinks powered at probe on ACE2+")
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/hda/core/controller.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ sound/soc/sof/intel/hda-ctrl.c | 1 +
+ sound/soc/sof/intel/hda.c      | 4 ++++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/sound/hda/core/controller.c b/sound/hda/core/controller.c
-index a7acd3418ae8a..32574dc899fad 100644
---- a/sound/hda/core/controller.c
-+++ b/sound/hda/core/controller.c
-@@ -764,10 +764,13 @@ int snd_hdac_bus_alloc_stream_pages(struct hdac_bus *bus)
+diff --git a/sound/soc/sof/intel/hda-ctrl.c b/sound/soc/sof/intel/hda-ctrl.c
+index aeb34310eebd6..333f6bbea7539 100644
+--- a/sound/soc/sof/intel/hda-ctrl.c
++++ b/sound/soc/sof/intel/hda-ctrl.c
+@@ -349,6 +349,7 @@ void hda_dsp_ctrl_stop_chip(struct snd_sof_dev *sdev)
  
- error_posbuf:
- 	snd_dma_free_pages(&bus->posbuf);
-+	bus->posbuf.area = NULL;
- error_bdl:
- 	list_for_each_entry(s, &bus->stream_list, list) {
--		if (s->bdl.area)
-+		if (s->bdl.area) {
- 			snd_dma_free_pages(&s->bdl);
-+			s->bdl.area = NULL;
-+		}
- 	}
- 	return -ENOMEM;
+ 	bus->chip_init = false;
  }
++EXPORT_SYMBOL_NS(hda_dsp_ctrl_stop_chip, "SND_SOC_SOF_INTEL_HDA_COMMON");
+ 
+ MODULE_LICENSE("Dual BSD/GPL");
+ MODULE_DESCRIPTION("SOF helpers for HDaudio platforms");
+diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
+index 4dbba9186b29d..2a40cb9bf24d9 100644
+--- a/sound/soc/sof/intel/hda.c
++++ b/sound/soc/sof/intel/hda.c
+@@ -939,6 +939,7 @@ int hda_dsp_probe(struct snd_sof_dev *sdev)
+ 		hda_dsp_ctrl_ppcap_enable(sdev, false);
+ 	}
+ free_ipc_irq:
++	hda_dsp_ctrl_stop_chip(sdev);
+ 	free_irq(sdev->ipc_irq, sdev);
+ free_irq_vector:
+ 	if (sdev->msi_enabled)
+@@ -1006,6 +1007,9 @@ void hda_dsp_remove(struct snd_sof_dev *sdev)
+ 		snd_dma_free_pages(&hda->iccmax_dmab);
+ 
+ skip_disable_dsp:
++	/* stop CORB/RIRB and position buffer DMA before the buffers are freed */
++	hda_dsp_ctrl_stop_chip(sdev);
++
+ 	free_irq(sdev->ipc_irq, sdev);
+ 	if (sdev->msi_enabled)
+ 		pci_free_irq_vectors(pci);
 -- 
 2.53.0
 
