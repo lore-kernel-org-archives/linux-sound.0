@@ -1,100 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.51
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793183898;
-	b=CeYf3SO0CpOk1NuQ/6KTYDPk5PZZBlf6p9g1+Bfu1TNtHGYJgGjerGi19kz5EhoLo241
-	 BdWPQ5BrpX4W8mnMq54pnJYm3Q4C8FzT2Zqx11aqWlo9s8jWOIk8PBOD1zcEE5qJhegL1
-	 JLRo/F9djpyyQ1DHhYIwP2LmmdRgzhXhbv0QamyPO79xgrErRiHExvdKMMyyg5rnJA/df
-	 nz0zxUl+efHC9ZSKEENqQ491F/THJ9dZPBckIUBDXV+jw2pi3EqNuERns+08Q/Hn+eoZU
-	 IH1xdQrjkt1PWwk+7jtVpA12On8dr9Ab/r5a/0hsK6VlDY+8Ldw6/Jut2OxrCoamjUA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793183898;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793184118;
+	b=nEGWE2aKRU1QRDTWLGh9cXIxwLtaXrVbeyiDSimKNEbH5uyy0NZRzhr9mGTp0loQ3Z7Z
+	 dTtR9lLdhrWaruRE3kegXUbDZ3PlDp0rY35uh5oebv5UtHdVgLRRAEVmdhJ0Ly3mCXL2Z
+	 hAmi83mHa4uuMBT36y0K/RV6nEB/Efa1LWRsa8A4id9O/VZJebD8tL5HDB46mURJWFxlO
+	 y/BJkrEJ9ns+3+j6JgdMBolM1rrgCrb3tOuSZXySbO7IXu7MJ740EHD3xUJIDET12T9pd
+	 3w+d3BqS/id9y45ShwjjFXPH6QR5udbmSfmEBVNX8BHOyRLHqRF7sMwBZuk75lQ/Xvg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793184118;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=CGvNJU0xYjBPfEidzCdNCr0rCPA+a8oBaQszJZJKH+M=;
-	b=hM4HvFkI5I3+zey0HKw8AN0EUN0oOSE2KQvf1DsU31dbTGs+oSvQcdCt5NugeSF5tZ1H
-	 p/7ekqNSIuYNhGzq9xnGWjJalLyRDDLnZ00gkrQozLh5mD4HSkPDSkQOxtojaT1a40LfC
-	 L9TPyWDcOJwUgp9O8/T1gJW2C1i88j1Cr97mvqIOit+oDkqFuj9Qg9t0UkCZTmiDBAnTI
-	 ONgt61KHMVA2PBafwlbYGhyRl8c2e64BfLv6HcDvsho4KiXboCxcnK3W2tfiJbM9PAs0q
-	 aa9f+BlzC4QkxGOxBsUhMPvRNtMfcac5HhKKmikv7pJ/ZOMDbXlTdIQJPJgKEBq9yeA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=VN5fEzxH2kFG0nlBiZiP3afHlKGS+YaXg+8uMnSRxhg=;
+	b=jCazdR8rlalpSGP/hRah18hZaCmt2PwMAELcSERUIRSBXEnjcurmno/9F9T185i8BRzF
+	 WUsO+92A6LYAuXsNVFmhJnxDaKq6GOTx/YdzHh/YMT7soudUsrHpmESDTZnaEoBmpjQda
+	 zwZo1R1nRX5Rjjxd+t6mVTJ7a5lAd0EaQHgXnNPm0Z3BRibnrgJFfDv2V2ecnlrmuB284
+	 Fpp8eKF9VPdbK2MTA782+WrcctAbPCFJhCP5Wu8UEihGNkd5mNAmx8F97XqnZHgpSxKwC
+	 kkvRfZYUSv68LkqpbFh6nwGXOOcl4sB8+iBGH4w67k5wsp9P3V0S6nyTzpUXHmR8vng==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CGbSsJuD;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.51
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=01eM8GzE;
+	arc=none smtp.remote-ip=74.125.82.179
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E73606A321
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 10:38:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00E73606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3496A606A31A
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 10:41:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3496A606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CGbSsJuD
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c4550d8ab15so100034266b.2
-        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 03:38:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793183896; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kQYTfhfPRMCJKm2KIJxpPK8JTPGJImHtDLaj8zTqlgpEH1RTJ3jUOVkWI0n/OHxlu/
-         37x4pLqeoZR63GuDSOvq6iOVJUkgot3F90T+ozc9lNkWUrJty/h9qEMaHQoxhIzKL1H3
-         e3MLbJGY2TJQzbEC9j/dF+60kk4t8MsY24LZIvg6Ucmyp8r6aUYbI23AmQNKbPOcRA52
-         7aS+JuxzZvUS7S3HkvmAFSOvJ6wuzHMVPs1+vkvOretuFWkL5p5p+smnZ5yoYZy15vGR
-         Ivefkd+i6MyCeffQ6nH0AcpHZHlINF6jRD+bx/PTzrix1sTdJJtnwtd1s3m0X162o/dz
-         QSVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=CGvNJU0xYjBPfEidzCdNCr0rCPA+a8oBaQszJZJKH+M=;
-        fh=YolIBYFno7CFBBAyaqMu/LEXiccVu+MBbBZi7oiHQ/Y=;
-        b=VmhvvAIO9dWz1trzp73iA12lZ26IkYNZ1nLOTwOVMI0qD7sluTGykab+H8EMxKRdC+
-         LEoQ1pWk53M7qTIzleogRDTZYxo1r5HT4/p1cAWoVf3iwreKyeYEegC1RaghtQKqOCej
-         7UGeZxb8Ak3PGWmOgbhb0jsIE9+iDmK0o1ocWMlUhN5rPaJJRk3PSJqlOV63zt+dAmic
-         5JwkX8XVe9vsQq8b+Ti4HQc3ZO+EwUH1yxUFL1NDqLS2dwzJHHfVoXu1hxgQuwPINQmg
-         OrhW90rVLIxpYPaPQquR7PXy7fd32DsJBKb4Pk414M3qxrYqOkt8BQJD273AvsNb2bI6
-         109g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=01eM8GzE
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-36a0f27c9f4so1274229eec.1
+        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 03:41:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793183896; x=1793788696; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=CGvNJU0xYjBPfEidzCdNCr0rCPA+a8oBaQszJZJKH+M=;
-        b=CGbSsJuDFpm9cR/AinbpH4d6OnVs5671xl8yLP9EAX2fch6hUrzB32MgfiVv2Lq75z
-         Cqzt2QW0zRHlpT/2hxtKY/nyELVgsw2awEpz6oZkUVpnn8RJAuznWgworfKq8bXVyxMt
-         hKvl/y6GTfrXDJpIijuKrwl/CzAj1cnMj232QEj1CVfmYSrlxHOjI+snCe1JZd0orsuC
-         dy2tuIbWA2suu2/kNYNcF27rKdalm9neTWF/t90O2Jos+ed14MXtgX4jKBnmgNCo4w5p
-         lxzINgDIF4x+NI+1bsFWJYSp6CreQY6q3iKSGvGkT4DB25OiV+dYveecdPnX2yPSQ6/n
-         itWw==
+        d=gmail.com; s=20260707; t=1793184117; x=1793788917; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VN5fEzxH2kFG0nlBiZiP3afHlKGS+YaXg+8uMnSRxhg=;
+        b=01eM8GzEbTOGlS/4wzn+IH9eCHPQ4B9A99Ciin3/ICzHqi/hQwxUEeauTHqf98cx9j
+         pyvF1GFCeT/E2CHC55nmWP04gSNOISX7d0cUAuH7a7nqUAInAthT2sEkwxiqVvFJtM1D
+         wSjZHFqatQMVVQd4Am/7etu2gEG1/ENqIwUYGtzojHtWMy2TesJv6R7qMMOS4vOdOmsP
+         8egVD3fcEDY5BmGqK6a7XSe64w7HekLGFtDhxlnjDvImNSMNDtNHIUMJc77P/2YsP659
+         hSyOSzUs4nOuGaoSWPYbuyCnp05JA3f9xJMAvhdEV2SQ49WzAWE/DYvIuXzPmrkvHIRV
+         CRVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793183896; x=1793788696;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CGvNJU0xYjBPfEidzCdNCr0rCPA+a8oBaQszJZJKH+M=;
-        b=uJ6kpNcRyjFqEYUEkgoRLZ8mKPXWOPyCRaZzUFVxEyuxp6xbJ6wmy3mXBZAQCel524
-         +gQYsKlm6bTKMQ34sFD74yilwsZ6O2ixGKCI7P0vjp7aSQywPJhpCfjwo3W79FhPMR/x
-         FZ5svuWWBX3jz7w/tN8sb4KMXhExfWvulj/W6fqsxkQr0zVr/Jtvy0UWJ1vc84c+Pedh
-         oghGXlnvplX0CbNkfI9xK3MRbSwZDnB4hcmiCWYc/RwYblD73H2conMu2Bx3ceW53wBy
-         mt2ne+XfRjYZaMidGmjFAOrwfhq/ihsF/ng1H7RkQ+O2GwcSb5M2C+8w0QoPDCf5sjmm
-         /NDQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzb6wRKfc5ah7IrdPUZ+l4+kPxxch5KxbNyK7nbtYbYWrBDFCeycW5B/XK51MwrGo47ihfIhABb+pIynw==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLc8EXP80TgIeW/S0pE8TUI+sRX6TOlUvqBVLbvC+G/4b3xU8My
-	UV9mPVAnBKCh4ov1iXLAxFQ9EcCEa6NrvS20HJUqsXolWXrXj2Vx+ljy2nxUBwgHAgkH2hTgO9t
-	J+jANSi0wXPsMx47o85LqJgjvQ7KhS+GbR5rgG747DA==
-X-Gm-Gg: AYBFou2W2IOev5uAwsiIyBK35EYanaRAM/X3rghBDE31doHMXgFaD2f8tNEHxIZzGYL
-	vMNHt9lKbv08b23vQ6AbDpC5VSDPogd3hchI8loRfJ4u2N0aKG3+TDsCxhUUYDdaoIExXfcWb2p
-	zPDCj1zbb8Bg4RXRPCdk7xvF8lTWTyJXDBKImOQbFZXvc5Pkj9LCIrINSPfX7cwrMBfh2QOkbLO
-	T+jUxYk2fwdYi47VdjpWEBAdU6q09pifYGTAbZIsDlvDixUkrROHUORIjLmnM7mNIgcR13tYKkM
-	rf3EH6cAamMHnYEQ0x96enW2jTzOdwoJ5dSuWKSWjQtoIQX6WhNwe0wf0RvXkzD92xIqnnbIT2s
-	XHeUL7/oy7gzVbE8iKGysX4IpCv6FdvKrDp6dYFEY1HCV6x1GqtmardzqAWvL8j2qE0S6
-X-Received: by 2002:a17:907:1b15:b0:c37:c0dd:6642 with SMTP id
- a640c23a62f3a-c49bdf39b8emr148047866b.37.1793183896319; Wed, 28 Oct 2026
- 03:38:16 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793184117; x=1793788917;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VN5fEzxH2kFG0nlBiZiP3afHlKGS+YaXg+8uMnSRxhg=;
+        b=GHs4S4X7+sx6mu8tWesDjZUtJb6TiUcls/ddX+QGvSCgN//W6sOKfhpADnNblrJ4GA
+         OiAMWhkLc6qglhzlEbGzbjrDva000ODkA9GaaCkK4JFtMG7+2amRSp4CnbGzieK9Zl9L
+         gc8qqVaf+0C9HnV3btVV0MxpS4uvwnYHX8nRnDVb4mEb3cf35V+KExt0jFEDukarBTmM
+         nwF0arlW0BDhzFnS9iIYzR9MsPlwmt8mvwOESkPGbcZ+ywD0X7U9TshLtfyjPFPUC0H8
+         lLbe9nQRFOKOHun9LC6e/2ixNb9sD8JkOut8/HI9OhwnQoRSIjvH4Z/3IEnXbHzf2R3V
+         bvbg==
+X-Forwarded-Encrypted: i=1; AKwUvBw95cZdXHi8Q0/cGuTzTu8e6Ek//7+VCn9074YbLJ0D+DoP3qP2RNr6EXSaDsDc+hLZ8fw6dy9P+G/dSw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJa393kptom3WBtuyj2JJsxrHSnv3+8iDYxB2CWY9riR81mzYlJ
+	Ti0yaE2rOP1Rh/THZKRHVK5k8V7P2vFjxcV/SRniIOqBVQgxjT7md3W6
+X-Gm-Gg: AYBFou04CA9BerqaPkfpmRBxDAjD6MjZrNNdQUbz0KALjVnhWofYNzr6wLneYZ21s3c
+	aZppGq4mmtFGrPediozuN6UTycLykuaNF/1cLUwZVDPHhenryswV+RNjPHK1kOEmm2ccIoPKdct
+	SHa75Ami4sCvP4wqAi5t8XREvzsuBy8mcTgwb9PKL5BTQLNIZ52Zgg5vZZvbMunYM5nBeD6we4p
+	ArbTZ1b3cbq2kVVC/00GWFYMHRnc45tjMEMmdK+7Gn+bIOlN2Ipyba1aFHn/+qSFw8H6ly4WGO6
+	LhYoOOTEdVd5dz3+wR8oqMhEvpGVjZ3W71kTTw7R8prgVIDICnHC1UDPTW8psfvVZuXQMOfrHtp
+	P8VSmWZo46f0mQ+0TB4ZTW0eDxziBo6fKrYdeFWPOk/pP9nCaPu6UmOjhsz99QpDJp28yjIdxUf
+	U4kxYKyklS3BA3nMHWoI/HX/G0hdWH6dgc7E2bJXO8EDeVRsFaroogIu63lHp8LjsyzgqC7GLJF
+	ljGre96obQ5c059pwDmqDmV7fqxF6BoA+/0HVWcYCrCfpqWdG1CeK1F7MrfFAL/QskILJeGeIPR
+	Otrdrc/SNwxS2jZ/u7HbAvJXah2t4yftnaKcwDr2/M5VQ76uhNiSiETJhlJupoemQGyrGtO/rKl
+	nOZoucGVDKyWQxoAiqDFWjADcMoehe+FpNY86xvVcyWTH
+X-Received: by 2002:a05:693c:880b:20b0:36a:16b1:3f25 with SMTP id 5a478bee46e88-36a2027d423mr3426321eec.5.1793184117071;
+        Wed, 28 Oct 2026 03:41:57 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a238da3e1sm7521881eec.8.2026.10.28.03.41.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2026 03:41:56 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Binbin Zhou <zhoubinbin@loongson.cn>,
+	Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Yingkun Meng <mengyingkun@loongson.cn>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v2 0/3] ASoC: loongson: Fix configuration and clock error handling
+Date: Wed, 28 Oct 2026 17:41:35 +0700
+Message-ID: <20261028104138.26973-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,37 +102,36 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261026125751.1700779-1-stjepan.poljak@gmail.com> <87pkwv385p.wl-tiwai@suse.de>
-In-Reply-To: <87pkwv385p.wl-tiwai@suse.de>
-From: Stjepan Poljak <stjepan.poljak@gmail.com>
-Date: Wed, 28 Oct 2026 11:38:04 +0100
-X-Gm-Features: AclHuK_PuamjIiFfAzndUS8tRuWw0N7bi55u4XT3JCo3FvrjTK2Q_qFdFwSq2b0
-Message-ID: <CAKVkeTxg4LWANUmqa4rzC-w8Ai62vcxeSU1FCAWSyA76iyK8yg@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: usb-audio: reset a MIDI device whose input is stuck
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, Clemens Ladisch <clemens@ladisch.de>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 27, 2026 at 8:38=E2=80=AFAM Takashi Iwai <tiwai@suse.de> wrote:
->
-> This doesn't look like a problem to be worked around in the USB audio
-> driver side, but better to be addressed in the USB core, IMO.
->
-> Please try that, or ask USB guys.  If they find this should be rather
-> fixed in that way, I can reconsider and review again.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hi Takashi,
+Hi all,
 
-Thanks for your time, and agreed. The host should have seen the
-disconnect and on xHCI it does. The Pi uses the downstream dwc_otg
-host driver, so I'll first check whether mainline dwc2 has the same
-problem and take it to the Raspberry Pi kernel or to linux-usb
-depending on that.
+This series fixes I2S configuration updates and improves clock error 
+handling in the Loongson ASoC driver.
 
-Sorry for the noise: I sent a v2 yesterday, fixing the review bot's
-findings, before I had seen your reply. Please disregard it.
+Link v1: 
+https://lore.kernel.org/linux-sound/20261022084040.31181-1-phucduc.bui@gmail.com/
 
-Regards,
-Stjepan
+Changes in v2:
+ - Use FIELD_PREP() for register fields as suggested by Binbin.
+ - Apply the same approach to the other registers in hw_params().
+
+Compile-tested only.
+
+Best regards,
+Phuc
+
+bui duc phuc (3):
+  ASoC: loongson: Fix IISConfig0 update in hw_params for rev 1
+  ASoC: loongson: Use FIELD_PREP() for register fields
+  ASoC: loongson: Handle clock enable errors in set_fmt
+
+ sound/soc/loongson/loongson_i2s.c | 58 +++++++++++++++++++++----------
+ sound/soc/loongson/loongson_i2s.h | 11 ++++++
+ 2 files changed, 51 insertions(+), 18 deletions(-)
+
+-- 
+2.43.0
+
