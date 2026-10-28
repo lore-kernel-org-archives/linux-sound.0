@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793153414;
-	b=NLTuoB9LfBoq51lXCXs2dJ9FCaC02ZnwfPvMQvQ7dA5KOrRjV3GjPsEEPcKwk5KSOJvY
-	 Cvxr7wtlSVIlxTiHWMBPJJVDF1IOYDQvyIBqMa5nStVDTcpZrkgt3ao4hjqNI5+cpJktu
-	 n9TmANDUeIOcOE5gafXZWZsPWFKpZvmvibaWmw8Brynbz6bw0IwrjaE9Yh5GJ9uTiT6zc
-	 +wTEUviYmaNFJ1xBoQEc6pc4o3E5hazmZQhQtxdD4MVCVySLxA5X4PyORZod76/XYPcgb
-	 a+DUBBfHel420M8LEqV/JGNecRiFisjboIPwO4Nrayl+Kb9SzdoQaJJzhBYJ+EtJrRw==
+	t=1793153713;
+	b=QNQ4Pk6s2Z5M10kCCB7gxU6mlH2zzkXwEkKjLzaXWfyFvZJklvfSpSGMvitTqS2iYYTw
+	 NK0AGEyXBfpzRwN5tz9UhnEnOZRCXbdjII6Z1tAk8dhta5aSP9BJZywZyeyoOPUYUdI6e
+	 dWXTjnwlnUy5uvEjNurDXaL91XI6hM9Z+3lr9fNSysmaHxvrFRNVRZcsIBcBucKg0tUA8
+	 npV1Wcb9RUQOW4wxIn3bkvKgzX4nKZ8Wiuf/sKOLSMkd5+PyGQ6woJn7GEWLS5w4KMKBX
+	 pYDv5Le+qyHl8hTru2pp/SvIIkgbulEju2ylF1pCTLQ+sbMALoa5VdBb80H0IhT+MBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793153414;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793153713;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=2kVR0iXYwksgklT+jPJl/+o2aZSAIdgcpyydY2KWQgc=;
-	b=hgoR34XkJz/SLUk5A4ECWwmC/UC6Sk12HEcHMZfBq/lBso5lPb9DDlj4Ctl7Gbj2brSM
-	 A9JJdH7O2e0HX6aCODz1UcznxMh4DwdRDCC724hZEtK8tZFkiaHAmShZr+atmOGYQnFVY
-	 1CBJqDQlksUfFOEJ0Cjl8gGd0+5D2lIkGJwElhe5JkKkkFF+e356QH8Vpvc7SiB6lrvcY
-	 QXYSsOJP/rAmZsukOddANrceua6grJQqz2d+5p/MMxV++vJq+6w1xb5Eb5x+ayAO0AaEG
-	 qH22rFGJav8djklHUP5xXKrH0XOiCg3G9Ea5H2GmzJJ6IwlbVxr2MXQI0m6EbO05n4w==
+	bh=R4b/BpLwvmnDJlyr1MMxDdla/MCG0SHqr5vTRbszHzY=;
+	b=Qk4apxgs0VzcHlnkUsy0kXZvL9E/BNSX8DSNExL3e63aPasGO+2TFP/7oAT+TbWPU3EP
+	 qbopiFUX3rmLudsEcdWx8VchR7qrvasCh8iJHV/oFGbk0stHTZMq5WYkEp8q03wIZc2YK
+	 1GEJc7thpiyXvf+WxtCNOHXt0LG5pVhIPI8dIgtryDBGS54Ug5V5/YhFrlg7+v0lFA8dD
+	 dKTWTS1FnCf6GAXcGXGIito1iLapXQ9/9IsBChnIoxgYXKpKzxpS8oiCRcBOa5A8I2vid
+	 hnVcyB4FdlTDW4DLk02FVPgwA9+1GMdwSN1PdDt0LMHsL96LIusWlWS3H0r2XBFr2ig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GVnxTysG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="nxw1/t+i";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BED0606A31A
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 02:10:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1795E606A321
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 02:15:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GVnxTysG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A16381F01828;
-	Wed, 28 Oct 2026 02:10:13 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nxw1/t+i
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 932351F01825;
+	Wed, 28 Oct 2026 02:15:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793153413;
-	bh=2kVR0iXYwksgklT+jPJl/+o2aZSAIdgcpyydY2KWQgc=;
+	s=k20260515; t=1793153712;
+	bh=R4b/BpLwvmnDJlyr1MMxDdla/MCG0SHqr5vTRbszHzY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=GVnxTysGGzUxLwnHwROjcm9LAr0JFZsbrgX3MyxawTcfglTBJyIo0lzuoVMZPXH6c
-	 kd+hfc3Pi9gTAxaQ1OaOxHFtuyDvbMs7ivy5uebTV0ryjqWJRAiFGuz3Ke/TON6UdN
-	 qvaYaxLibmJIokPUDZ45u4rPg5QXXPldlcaET5/PK5muviKWsjV6eACg/SapP23M/q
-	 qCcrqPS4hMB0GWJjijb439LTRQn0Etmo4u8zHRhsHKyjrzk3fEhefxAb+DqvsZa/Jp
-	 Xfo2DmlJfbArfEsXVSg1ewYI+KeH89rjpC8HycYS+Ab2otkOa9r/7ADwguNqjcWVKT
-	 +WclkhczU3aFg==
-Message-ID: <sashiko-outbox-187325@kernel.org>
+	b=nxw1/t+iOzx/IHpiewypqQrLTFjSly5pkxhx/pD6H+1DC1Il5JiDV5QxHw6emkkXh
+	 ylpKVyOlRafcWD4YkVAqUWrtiu2KO4Lo0vJ3IgdnoLJGBHDAbwYXkHwQpyeEcTDd+N
+	 CW61JQDGv2wiN/OH+7hiMsPk2eGv2C/xvJsIMkKg/PxiSwnxwRsygSvdciW/rRa+Vl
+	 g/UTIC1pPbrNe3zHSyMtcKNBpUkrNXSzvc38g2SXKdvjlTCIMQnheDtBBJBeaClEjA
+	 tOTyrvwpc1+gfOrUFuWIs0BGBj+cZhvJ5JBozUvAx3h8ea6kD+6wqoJ5i2ETEVUQ81
+	 t2Ney4ib8QniA==
+Message-ID: <sashiko-outbox-187336@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] ASoC: qdsp6: q6routing: Fix memory leak on probe
- failure
+Subject: Re: [PATCH 3/11] ASoC: amd: ps: add ACP6x PCI revision ids
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Tang Bin" <tangbin@cmss.chinamobile.com>
+To: "Corey Smith" <corsmith@gmail.com>
 Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261028015732.1985-1-tangbin@cmss.chinamobile.com>
-References: <6078ca7f-a511-48d9-b5fb-a7b3339c8569@oss.qualcomm.com>
- <20261028015732.1985-1-tangbin@cmss.chinamobile.com>
+In-Reply-To: <20261028020552.35278-4-corsmith@gmail.com>
+References: <20261028020552.35278-1-corsmith@gmail.com>
+ <20261028020552.35278-4-corsmith@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 28 Oct 2026 02:10:13 +0000
+Date: Wed, 28 Oct 2026 02:15:12 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,106 +60,74 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Critical] ASoC: qdsp6: q6routing: dangling routing_data on q6pcm_routing=
-_probe() failure
-- [Low] ASoC: qdsp6: call to undeclared devm_kzalloc_obj() in q6pcm_routing=
-_probe()
+- [Medium] ASoC: amd: ps: ACP6X_REG_END truncates SoundWire DMA scratch PTE=
+ range
 --
 
-commit 83d5a1cc3383fe8d00d38b5b09449db5bf27546d
-Author: Tang Bin <tangbin@cmss.chinamobile.com>
+commit ad82886a02e0737dcd97ae5c1b3d4d8287cac193
+Author: Corey Smith <corsmith@gmail.com>
 
-ASoC: qdsp6: q6routing: Fix memory leak on probe failure
+ASoC: amd: ps: add ACP6x PCI revision ids
 
-This commit replaces kzalloc_obj() in q6pcm_routing_probe() with
-devm_kzalloc_obj() and removes the manual kfree() in q6pcm_routing_remove()
-to prevent leaking routing_data when devm_snd_soc_register_component() fail=
-s.
+This commit adds ACP6x (Rembrandt) PCI revision IDs, the ACP6x register
+range, and the SoundWire controller ACPI address to the Pink Sardine
+header so the driver can bind to ACP6x devices.
 
-> diff --git a/sound/soc/qcom/qdsp6/q6routing.c b/sound/soc/qcom/qdsp6/q6ro=
-uting.c
-> index ea511200c8d72..0a55d1f384d4d 100644
-> --- a/sound/soc/qcom/qdsp6/q6routing.c
-> +++ b/sound/soc/qcom/qdsp6/q6routing.c
-> @@ -1220,7 +1220,7 @@ static int q6pcm_routing_probe(struct platform_devi=
-ce *pdev)
->  {
->  	struct device *dev =3D &pdev->dev;
+> diff --git a/sound/soc/amd/ps/acp63.h b/sound/soc/amd/ps/acp63.h
+> index d0cfbd4dafc17..b7d2666b27fc7 100644
+> --- a/sound/soc/amd/ps/acp63.h
+> +++ b/sound/soc/amd/ps/acp63.h
+> @@ -9,8 +9,12 @@
+>  #include <sound/acp63_chip_offset_byte.h>
 > =20
-> -	routing_data =3D kzalloc_obj(*routing_data);
-> +	routing_data =3D devm_kzalloc_obj(dev, *routing_data);
+>  #define ACP_DEVICE_ID 0x15E2
+> +#define ACP6X_REG_START		0x1240000
+> +#define ACP6X_REG_END		0x1250200
 
-[Severity: Low]
-Does sound/soc/qcom/qdsp6/q6routing.c build with CONFIG_SND_SOC_QDSP6_ROUTI=
-NG
-enabled?
+[Severity: Medium]
+Should ACP6X_REG_END be 0x125C000 instead of 0x1250200?
 
-While include/linux/slab.h defines kzalloc_obj(), neither that header nor
-include/linux/device/devres.h defines devm_kzalloc_obj(), causing an
-undeclared identifier error at compile time (and evaluating *routing_data as
-a NULL pointer dereference rather than passing it to typeof()). Should this
-use devm_kzalloc(dev, sizeof(*routing_data), GFP_KERNEL) instead?
+Defining ACP6X_REG_END as 0x1250200 (matching the PDM-only Yellow Carp
+header in sound/soc/amd/yc/acp6x.h) sizes the ACP6x register range to
+0x10200 bytes. When snd_acp63_probe() sets adata->reg_range to
+ACP6X_REG_END - ACP6X_REG_START, create_acp63_platform_devs() creates the
+IORESOURCE_MEM resource for amd_ps_sdw_dma with a size of 0x10201 bytes,
+which acp63_sdw_platform_probe() maps via devm_ioremap().
 
->  	if (!routing_data)
->  		return -ENOMEM;
-> =20
-> @@ -1235,7 +1235,6 @@ static int q6pcm_routing_probe(struct platform_devi=
-ce *pdev)
-> =20
->  static void q6pcm_routing_remove(struct platform_device *pdev)
->  {
-> -	kfree(routing_data);
->  	routing_data =3D NULL;
->  }
+However, SoundWire DMA page table entries in ACP scratch memory start past
+0x10200:
 
-[Severity: Critical]
-Can switching routing_data to a device-managed allocation leave the global
-static routing_data pointer dangling if devm_snd_soc_register_component()
-fails in q6pcm_routing_probe()?
+sound/soc/amd/ps/acp63.h:
+    #define SDW0_PTE_OFFSET		0x400
+    ...
+    #define ACP_SDW_PTE_OFFSET		0x100
+    #define SDW_PTE_OFFSET(i)		(SDW0_PTE_OFFSET + ((i) * 0x600))
 
-In sound/soc/qcom/qdsp6/q6routing.c:q6pcm_routing_probe():
+When acp63_config_dma() in sound/soc/amd/ps/ps-sdw-dma.c programs the
+SoundWire DMA PTEs during PCM hw_params or resume, it writes to offsets
+0x10400 through 0x10B80 past acp_base (since ACP_SCRATCH_REG_0 is 0x10000):
 
-	routing_data =3D devm_kzalloc_obj(dev, *routing_data);
-	if (!routing_data)
-		return -ENOMEM;
-	...
-	return devm_snd_soc_register_component(dev, &msm_soc_routing_component,
-					  NULL, 0);
-
-When devm_snd_soc_register_component() returns an error, the driver core
-runs really_probe() -> device_unbind_cleanup() -> devres_release_all()
-without invoking q6pcm_routing_remove(). That frees the devres-managed
-buffer while leaving the file-scope static pointer routing_data non-NULL.
-
-Exported callers such as q6routing_stream_open() and q6routing_stream_close=
-()
-check whether the driver is ready by testing if (!routing_data):
-
-sound/soc/qcom/qdsp6/q6routing.c:q6routing_stream_open() {
-	if (!routing_data) {
-		pr_err("Routing driver not yet ready\n");
-		return -EINVAL;
-	}
-
-	session =3D &routing_data->sessions[stream_id - 1];
-	...
-	pdata =3D &routing_data->port_data[session->port_id];
-
-	mutex_lock(&routing_data->lock);
+sound/soc/amd/ps/ps-sdw-dma.c:acp63_config_dma() {
+    ...
+    sdw_dma_pte_offset =3D SDW_PTE_OFFSET(stream->instance);
+    val =3D sdw_dma_pte_offset + (stream_id * ACP_SDW_PTE_OFFSET);
+    ...
+    for (page_idx =3D 0; page_idx < stream->num_pages; page_idx++) {
+        ...
+        writel(low, acp_base + ACP_SCRATCH_REG_0 + val);
+        high |=3D BIT(31);
+        writel(high, acp_base + ACP_SCRATCH_REG_0 + val + 4);
+    ...
 }
 
-With routing_data still non-NULL after a failed probe, subsequent calls to
-q6routing_stream_open() or q6routing_stream_close() bypass the NULL check
-and dereference freed slab memory, including calling mutex_lock() on
-routing_data->lock.
-
-Should q6pcm_routing_probe() only publish routing_data after
-devm_snd_soc_register_component() succeeds (or clear routing_data =3D NULL =
-on
-failure)?
+This accesses MMIO offsets beyond the declared resource and devm_ioremap()
+size. Note that commit 253ce07d2a09 ("ASoC: amd: ps: modify ACP register
+end address macro") previously updated ACP63_REG_END from 0x1250200 to
+0x125C000 for this reason, and sound/soc/sof/amd/pci-rmb.c also defines
+ACP6x_REG_END as 0x125C000.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028015732.1985=
--1-tangbin@cmss.chinamobile.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028020552.3527=
+8-1-corsmith@gmail.com?part=3D3
