@@ -1,57 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793182898;
-	b=YhY8smeGwGUKKLEex2+mukQZ/8e/w+i5ZZQiQv1yugKhZ59OLPqX9dwkI9ukiEBHWre0
-	 otXqrvCycMMvBqez4zhCq59uxoGO/WNCH5dMkHm9LKlhI9hAVa3WWfJ//fQfKbMMDRo0L
-	 XrwrmZlIQu56p0nTB40d8me8H1scxrJ6tS8lGjHW4PMlsnIlTW9pVQ8BpVTTfmE/KIZlo
-	 ZuTO057gXuYOdBn29n4K2/1qfmsr/foLXNr47Lzqtpy/ye6MWELIctZVwPBcHX4z5I5PG
-	 iDE+OQWTlGHmGUx41IYHKchiGTYwWTtCYbGyN75Xo3DGMFJH2X0M/6PUqQsWJqlaM4A==
+	t=1793182923;
+	b=QlhIYssohEuEJKXW5ZEpCr4Qn1MCXUR4fKFkl6Yq9fuu8vFfd1lG+2KKKOIu5XX99lNi
+	 3CglSUbfsWCH+BQ0UejXa7fhKDihGPNSV8DbTBKIq7K+VG3vg9fLZ3HknHotCxPlMngKs
+	 LX4OGvooc33sYYQFhJWHp4YRZg88Y1897aq3/Yj7ZndvcUX5Cgku7dpeghl0nG3jPsRxJ
+	 0bSWV/Npe02yX+ofeMg5IhBpNQGIxMCtvVSD+Hin3xGmu1KYO4qLUk8UIAWtwi0HlM/5I
+	 M4FC9/Xhz0zoNea7CWMwjU5ugyl1cO2YgMMznM19PYuP8Qjvu2clVkOOZZcfX6kwQMA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793182898;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=eMYY0/lTp2QfLKaXNI6GjMDFV0yPr4bSE4JUzow55gQ=;
-	b=aowu3M3tMV68h7zH0azE3/ToWx2OT9/Sn8dxXS0ea7FCjB/kko+U8enyQd/TfMU1eXCV
-	 vzguhrND9Nhal8C0EYmKvwytMNYgO9eYXgKe4gJ9kuBkYifmeZM2YuI68FWHFr/dMqTpV
-	 oMKzKQ+VfFvtV7xN4w+L9wtaPMq6UZwt3nkTORKFdVz6etBXD+tWkXJJ+h2aEjacFGK/e
-	 1r43+/Jmkn/JEKUBE3u6MrS/50LXQ1fx0+GmK92Vydx+fl909d85iIGq3ENu5cEqPKpC+
-	 +bsAhknDW0vYbHU5c98ztXdEVqrDnlJ5x9KW1uWh1UYrHRUhGKdWarFdI9E93GawXaQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793182923;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=fB+844XfQIYl5+SEECufGoMX1n1a++vVUgwHs31aKaU=;
+	b=UEazNx/Nvwa8vkoGtf2BrS6JPkiuY3klM7Y/Cdg8eXTAwKrXWNgbTRxk55u/ILhKne+p
+	 NtiUjTrTT8PFnfQXVEVoKgrnBRE9GMKmfyUqCI0b843M81E7STEJtoGXH+ZYeMYYI4+xH
+	 v+ivdvD2XyhT0VUFCAp/PcMd2atXXYfmP8iE4JoZtWmMdHfm4s1PoA5061ArkllMRh8D1
+	 104uOZpXdGSoOoHJTLStvRydD8f/e0rYB7GL3R+OVxuNPHsORjPwWvsJDVlQWam9wcpR7
+	 8JwG/bORVbThXxtZLKn/RYChfo1hWCs465eDCC6iLC4HilZq1K2lZTpzYHqoVZzq/Lw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UujCdSin;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=fGZdpLIa;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="hDY/B/fk";
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C37606A31A;
-	Wed, 28 Oct 2026 10:21:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5320E606A31E
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 10:22:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5320E606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UujCdSin
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 622AD1F01825;
-	Wed, 28 Oct 2026 10:21:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793182897;
-	bh=eMYY0/lTp2QfLKaXNI6GjMDFV0yPr4bSE4JUzow55gQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UujCdSinUS8wmWLGTfRwnBhOSMK71PVxhc9uZbw09xapvYSn/7Ya40vEzQ38NGDEe
-	 gzZAouFJJ5RYrvtVETlYQaJuEd8T5yO3U3eMMSjlkRyXm9EoI0Gwt1yKvQxAZG3PJl
-	 nCtwAkmQ0ffDzbtJqcDC4jZQDLWkwxokYtryNArEmspgMY7Jyi4vLdATG7bDWBKKqP
-	 b4FYc2PliDSN06Juj/fz7O0qKkrBlR5yCGS1dyT74BFHNxfsAwH8T3MRL5V5t0JfiZ
-	 xX0iZi5Qk/OLXOYfJTwyFxNljvlq17cJHODOD1jUm74HgQTmAA9xhgj/6rzb4tGR25
-	 +N5zElwJd64aA==
-Message-ID: <sashiko-outbox-187743@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 15/16] ALSA: pcm: synchronize stopped paused streams
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
-Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
- Perez" <eperezma@redhat.com>
-In-Reply-To: <20261028094132.20364-16-mynameisjune111@gmail.com>
-References: <20261028094132.20364-1-mynameisjune111@gmail.com>
- <20261028094132.20364-16-mynameisjune111@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 28 Oct 2026 10:21:37 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=fGZdpLIa;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=hDY/B/fk
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69S8KuHF1101840
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 10:22:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	fB+844XfQIYl5+SEECufGoMX1n1a++vVUgwHs31aKaU=; b=fGZdpLIa/VlrNvbN
+	7Rq32kkNW66ldkQAejOdCs7iuZ+OG8+j/hjP0NPWQ735Cyv/yueTy/s2X3IjflPX
+	Je3R1070kGTwyX8ZdpPKOPhDLW81gEUc7o6tyIgc68P6kU0MsvgdQXmPjLfuEqSs
+	7Qj2+DUr5GQ2lv0CYaACSa3jvlQIY5DVIeXAjpTcUBf7w5on4IrxX3gyflpCuUom
+	IXDsHCUSx7W/FeNayyoIKQfXrr2ywe+xy88p4mYgJs3hvuCLmIxmMUgpJJSzbKpm
+	nGERntRCVWuCrl3ZEFS37H8z4/fqJ5guGi4eRkG73CKW5EKqpE9Jyd1qaRVssgDU
+	x251jA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hkdf7recv-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 10:22:01 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93909014c85so149281385a.0
+        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 03:22:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793182921; x=1793787721; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fB+844XfQIYl5+SEECufGoMX1n1a++vVUgwHs31aKaU=;
+        b=hDY/B/fk188q3nZQoM+wn86ThzOTmQeVESqlksbK85DFh0woSEzN2MjvQx5kEFST5W
+         JuYxLtEuEkrjgJxVKqu264Vm+haXYox75FSysl/VHSUKNitt/8X8LuK9S86szqcTajHM
+         ksw2GOoeWHOpstMJcpf/pyrQZInolUeZNaL6BmZe3KZx39HywWUhj/mxKu/J4UsdUxk3
+         4MPYCEcg4YaipQKbv++jONUuAWONAkd2hnVHhG/3crfcS819z08B3GFgpF0+DWik0PIi
+         AP2GZz/rC0ntU5DcO46gSNiYn7K0FVNHGsY9BEvFCGlQk6wd9C6UXkysiZFU4MG2NIse
+         9VYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793182921; x=1793787721;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fB+844XfQIYl5+SEECufGoMX1n1a++vVUgwHs31aKaU=;
+        b=rQbs2hzKFC1sdVPWluiyMUVfFzdcwbKZJoSEKfG2jESFF4GueUBOM6Dm0gKqoLanqp
+         MHDcTeL4EI+NPl3jTzw8dC6oUag60Cni4qO8cmqtsG63V76q/u0zIX3BWPlGZxSdKPbr
+         oMGhROtOqjbeJDQioYlRbM7wHJ4zhjZTzIK7guwo57SVPlaGMveUJmVof1MNA8n5FOeb
+         6vk3/mij3VuFSreP8vtMzj8WnFqGIjwKs0N/r0O8KArw4K8SuDczWGtJO12faDrD3vym
+         QMBW41Bv3ZDorgUheY+yrrRISZZDjteSj5oRgrgviLtnnu1qZhmRlwDzb0/KSr94mCkh
+         i4Kw==
+X-Forwarded-Encrypted: i=1; AKwUvBxAik1JD9UdJkx3A4BtNqBtMvg9vZx1dLz9xq8xnSYXSwtubHnkAggkTDj5M8A0Qpjndtd3pq0UWrD1Bg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJhofZPUv/vtGTv5j8T/1uxRVNTnA5qLbu6WTTFfLZHCF+HYK3+
+	e/+LZEtfjyDsrsZLb1dMS6zFiwo61rU4PwxQ9bZ17l0cSj9jbDLU3+onsUSd3AkvCzAAeawPGi5
+	gRsQIVT3KK2V3PrEoYocC/v7GykrcXgqV2/xmhhi8nFBflZwLwBjeG8OlpfrKJHckZQ==
+X-Gm-Gg: AYBFou3frtCLbJJseP0fMunPXpMKhkLGq+75auAaDT5Fc7oCiR1KKWMjhgknE1VFF8j
+	6F1bNoqtnjGYRnWQLmUxvr45yTRnXiasJM2BQPnXL/IgYvbXRqqI5YCUsUBMADYb33aKay+SrWH
+	yoUEMzLOu7exP+jVguboZQY9vpnuSsx2ihXx9rbBWYH9bZiB7b3Bpfh6dESE6N3RUr/jwCor7kQ
+	7Ax95i+Zras7rcj0vqX/TfDUVdgy98mkCqQciF/LRfdzLytfBRJRwaXkV+AdgOSdyno1dBNYY6v
+	tE+rQ4spXKHCkKbK157+VlCknmfUYd9GXn/aF5HsnwrS/7kk/9sxC4/zZjAxuzHXxKZhyXSRxf3
+	8/7H6pICJIAeGwvU6Qkr5ztQQ+prlfUiFGgtAaE5oEwY3gbQOyDHkR7GyGrJVyI54J8XXarSoO1
+	s=
+X-Received: by 2002:a05:620a:63c6:b0:93c:8544:6adb with SMTP id af79cd13be357-94408a5f81dmr245901485a.22.1793182921162;
+        Wed, 28 Oct 2026 03:22:01 -0700 (PDT)
+X-Received: by 2002:a05:620a:63c6:b0:93c:8544:6adb with SMTP id af79cd13be357-94408a5f81dmr245899185a.22.1793182920585;
+        Wed, 28 Oct 2026 03:22:00 -0700 (PDT)
+Received: from [192.168.68.120] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4a9797e98a7sm32949905e9.15.2026.10.28.03.21.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Oct 2026 03:21:59 -0700 (PDT)
+Message-ID: <6c423837-b665-4635-9984-a3efc28a7922@oss.qualcomm.com>
+Date: Wed, 28 Oct 2026 10:21:58 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,147 +113,143 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: qcom: qdsp6: clear stale channel_map entries
+To: Fabian Renn-Giles <fabian@fielding.dev>, srini@kernel.org,
+        broonie@kernel.org
+Cc: lgirdwood@gmail.com, neil.armstrong@linaro.org,
+        krzysztof.kozlowski@oss.qualcomm.com, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261028100708.6808-1-fabian@fielding.dev>
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <20261028100708.6808-1-fabian@fielding.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=M4bYuCws c=1 sm=1 tr=0 ts=6ae1ccc9 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=gWL0RvtfYAzCyNj8DMQA:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-GUID: TpGr6Ld5fSZU27JOQ5MM276RAZRIOtN-
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDA0MSBTYWx0ZWRfXzzxbtDnPdP4I
+ Cv2zmoeY4tFaQD9PwHyn7OpnU9KvnfNKrCwSmIfMg+TTETZUW4C0y4wWgY6G51LUc10IMwCG4eC
+ NeYTXtf0B5PEMIpd7G5WSBVd7SQE830=
+X-Proofpoint-ORIG-GUID: TpGr6Ld5fSZU27JOQ5MM276RAZRIOtN-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDA0MSBTYWx0ZWRfX7CtduQviHpMm
+ KSRpPO4L1KYCyfW60uSdHH9Qyk0jpCYUdj1lL4tFnjjXp0DVm9e9HqZeoATcW5Tk4FjmneB+SYV
+ 9Ab+Qgs40lTPMM9z+3sjqbho8p8ZYhe4NFv0h3lKR1dh+9qfOVkPY0eBSHvkwX/z37LNFHkUclG
+ Ri5r/hKDkkm5z1Kj2c8oGNXHraeeNh8KpkRkpNbxoG0e2AIDAFyy9VZSqOCszcdfFc/JGH27ytv
+ W1/1wD/yMNOl55sFwRnn6qvQcuospj8Vrp8/O/l0OX6R2aI681riAuiG+JAooI6sQyZG6ZDkSk6
+ z8LDqlqVcyHYVU2T0G2NlcHLEZfJXfk+DZvq8BVs2J4kIouOZ+Tox6lTyuCA79Yl9+V8LTaNzrQ
+ TkSaqVoECidk0zqsqa5JfJe5EfOCk+SomMpxUvaPJekXokwTlRSF+jJUaNutnn8zPaqykrvmTBh
+ aZZUaLP/oAjmnPRpydg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-28_03,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 clxscore=1015 impostorscore=0 malwarescore=0
+ bulkscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610280041
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] ALSA: pcm: snd_pcm_do_stop() arms sync_stop on paused streams with=
-out STOP trigger
---
 
-commit 9cef4af5ba9c6105fe851ee2ad98ad262f35643e
-Author: Joonho Lee <mynameisjune111@gmail.com>
 
-ALSA: pcm: synchronize stopped paused streams
+On 10/28/26 10:07 AM, Fabian Renn-Giles wrote:
+> Since commit c663014e452d ("ASoC: qcom: audioreach: compute active
+> channel maps from channel_map"), the codec DMA active_channels_mask is
+> built from the non-zero entries of the channel_map instead of from
+> num_channels.
+> 
+> audioreach_set_default_channel_mapping() only writes the first
+> num_channels entries, and q6dma_set_channel_map() only the first
+> tx_num/rx_num entries. The per-DAI module_config in q6apm-lpass-dais is
+> persistent, so entries written by an earlier, wider configuration
+> survive a later narrower one. E.g. after a 4 channel setup, a 2 channel
+> capture on VA_CODEC_DMA_TX_0 keeps the map 01 02 04 05 and sends
+> active_channels_mask = 0xf with num_channels = 2. The DSP rejects the
+> graph start:
+> 
+>   qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
+>   q6apm-lpass-dais ...: Failed to start APM port 110
+>   MultiMedia4 Capture: ASoC error (-22): at dpcm_be_dai_trigger()
+> 
+> which breaks the built-in DMIC capture on the Lenovo Yoga Slim 7x
+> (X1E80100).
+> 
+> Clear the whole channel_map before filling it in both places.
+> 
+> Note: this is my very first contribution to the linux kernel so I
+> may be new to some of the processes. I apologize in advance.
 
-This commit marks runtime->stop_operating =3D true in snd_pcm_do_stop() when
-a PCM substream is in SNDRV_PCM_STATE_PAUSED so that subsequent prepare or
-drop operations invoke sync_stop to drain outstanding DMA requests.
+Thanks for sending the patch and Welcome.
+You can move this comment after --- as it does not make sense to be in
+the commit log.
 
-> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-> index a2ea44c3c1d29..ac2e5c2ee5065 100644
-> --- a/sound/core/pcm_native.c
-> +++ b/sound/core/pcm_native.c
-> @@ -1611,6 +1611,9 @@ static int snd_pcm_do_stop(struct snd_pcm_substream=
- *substream,
->  		substream->ops->trigger(substream, SNDRV_PCM_TRIGGER_STOP);
->  		substream->runtime->stop_operating =3D true;
->  	}
-> +	/* Paused DMA can still own requests which sync_stop must drain. */
-> +	if (substream->runtime->state =3D=3D SNDRV_PCM_STATE_PAUSED)
-> +		substream->runtime->stop_operating =3D true;
+> 
+> Fixes: c663014e452d ("ASoC: qcom: audioreach: compute active channel maps from channel_map")
+> Signed-off-by: Fabian Renn-Giles <fabian@fielding.dev>
+> Assisted-by: Claude:claude-sonnet-5-5
+> ---
+> Tested on a Lenovo Yoga Slim 7x (X1E80100): built-in DMIC capture on
+> VA_CODEC_DMA_TX_0 (MultiMedia4 Capture) failed with the DSP error above;
+> with this patch repeated arecord runs work. Based on broonie/sound.git
+> for-next (d34a818a331f).
+> 
+>  sound/soc/qcom/qdsp6/audioreach.c       | 6 ++++++
+>  sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 2 ++
+>  2 files changed, 8 insertions(+)
+> 
+> diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
+> index d2dc5d37bccf..4ac65d9b5543 100644
+> --- a/sound/soc/qcom/qdsp6/audioreach.c
+> +++ b/sound/soc/qcom/qdsp6/audioreach.c
+> @@ -308,6 +308,12 @@ EXPORT_SYMBOL_GPL(audioreach_alloc_apm_cmd_pkt);
+>  
+>  void audioreach_set_default_channel_mapping(u8 *ch_map, int num_channels)
 
-[Severity: High]
-Does setting substream->runtime->stop_operating =3D true here without issui=
-ng
-SNDRV_PCM_TRIGGER_STOP leave drivers in a paused state when transitioning to
-SNDRV_PCM_STATE_XRUN or SNDRV_PCM_STATE_SETUP?
+there is patch on the list to remove this function, could you please
+take a look at
+https://lore.kernel.org/all/20261028024720.981971-1-zhangfei.gao@oss.qualcomm.com/
 
-Normally, when stopping a paused stream via snd_pcm_prepare() or
-snd_pcm_drop(), ALSA unpauses the stream first before calling snd_pcm_stop(=
-):
 
-sound/core/pcm_native.c:snd_pcm_prepare() {
-	scoped_guard(pcm_stream_lock_irq, substream) {
-		switch (substream->runtime->state) {
-		case SNDRV_PCM_STATE_PAUSED:
-			snd_pcm_pause(substream, false);
-			fallthrough;
-		case SNDRV_PCM_STATE_SUSPENDED:
-			snd_pcm_stop(substream, SNDRV_PCM_STATE_SETUP);
-			break;
-		}
-	}
-}
+q6dsp_map_channels() already does the memset,  pl recheck with that patch.
 
-Because snd_pcm_pause(substream, false) sets runtime->state to
-SNDRV_PCM_STATE_RUNNING, snd_pcm_do_stop() sees snd_pcm_running(substream) =
-=3D=3D
-true and invokes substream->ops->trigger(substream, SNDRV_PCM_TRIGGER_STOP).
+If your patch might be still relevant, please send patch against it.
 
-However, when snd_pcm_stop() -> snd_pcm_do_stop() is called directly on a
-stream in SNDRV_PCM_STATE_PAUSED (for example, when __snd_pcm_lib_xfer() ->
-snd_pcm_update_state() -> __snd_pcm_xrun() triggers an XRUN after a partial
-read/write while paused leaves avail >=3D runtime->stop_threshold, when
-pcm_lib_apply_appl_ptr() -> ops->ack() returns -EPIPE, or if
-snd_pcm_pause(substream, false) fails), snd_pcm_running(substream) is false.
+--srini
+>  {
+> +	/*
+> +	 * The active channel mask is derived from the non-zero entries, so
+> +	 * stale entries from a previous, wider configuration must not survive.
+> +	 */
+> +	memset(ch_map, 0, AR_PCM_MAX_NUM_CHANNEL);
+> +
+>  	if (num_channels == 1) {
+>  		ch_map[0] =  PCM_CHANNEL_FL;
+>  	} else if (num_channels == 2) {
+> diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+> index 83f2711bceea..12f139af8ca0 100644
+> --- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+> +++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+> @@ -99,6 +99,7 @@ static int q6dma_set_channel_map(struct snd_soc_dai *dai,
+>  				tx_num);
+>  			return -EINVAL;
+>  		}
+> +		memset(cfg->channel_map, 0, sizeof(cfg->channel_map));
+>  		for (i = 0; i < tx_num; i++)
+>  			cfg->channel_map[i] = tx_ch_mask[i];
+>  
+> @@ -123,6 +124,7 @@ static int q6dma_set_channel_map(struct snd_soc_dai *dai,
+>  				rx_num);
+>  			return -EINVAL;
+>  		}
+> +		memset(cfg->channel_map, 0, sizeof(cfg->channel_map));
+>  		for (i = 0; i < rx_num; i++)
+>  			cfg->channel_map[i] = rx_ch_mask[i];
+>  
+> 
+> base-commit: d34a818a331f7e270fa9dc3db3d96f6a0d4fa7ab
 
-With this change, snd_pcm_do_stop() sets runtime->stop_operating =3D true
-without calling ops->trigger(SNDRV_PCM_TRIGGER_STOP), and snd_pcm_post_stop=
-()
-then overwrites runtime->state to SNDRV_PCM_STATE_XRUN (or
-SNDRV_PCM_STATE_SETUP). A subsequent snd_pcm_prepare() or snd_pcm_drop() no
-longer sees SNDRV_PCM_STATE_PAUSED, skips snd_pcm_pause() and snd_pcm_stop(=
-),
-and calls snd_pcm_sync_stop() -> ops->sync_stop() on a stream that only ever
-received SNDRV_PCM_TRIGGER_PAUSE_PUSH and never received
-SNDRV_PCM_TRIGGER_STOP:
-
-1. In sound/virtio/virtio_pcm_ops.c, virtsnd_pcm_trigger() does not set
-vss->stopped =3D true on SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-
-	case SNDRV_PCM_TRIGGER_STOP:
-	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-		scoped_guard(spinlock_irqsave, &vss->lock) {
-			if (command !=3D SNDRV_PCM_TRIGGER_PAUSE_PUSH)
-				vss->stopped =3D true;
-			vss->xfer_enabled =3D false;
-		}
-
-At this commit, virtsnd_pcm_sync_stop() checks:
-
-	scoped_guard(spinlock_irqsave, &vss->lock) {
-		vss->xfer_enabled =3D false;
-		need_release =3D vss->stopped || vss->msg_count;
-		if (need_release)
-			vss->stopped =3D true;
-	}
-	cancel_work_sync(&vss->elapsed_period);
-	if (!need_release)
-		return 0;
-
-If vss->msg_count is 0 when the paused stream enters XRUN, vss->stopped is
-false and virtsnd_pcm_sync_stop() skips sending VIRTIO_SND_R_PCM_RELEASE.
-Furthermore, once the follow-up commit ("ALSA: virtio: serialize capture
-lifecycle and reset state") removes the paused-ACK stop_threshold check from
-virtsnd_pcm_cp_ack(), a paused partial read/write that triggers XRUN in
-snd_pcm_update_state() leaves both vss->stopped and vss->xfer_xrun false wh=
-ile
-runtime->state is SNDRV_PCM_STATE_XRUN. A subsequent SNDRV_PCM_IOCTL_SYNC_P=
-TR
-ioctl (via snd_pcm_sync_ptr() -> pcm_lib_apply_appl_ptr()) can then invoke
-virtsnd_pcm_pb_ack() or virtsnd_pcm_cp_ack(), bypass the vss->stopped and
-vss->xfer_xrun guards, and queue new virtqueue DMA requests or advance stag=
-ed
-capture counters while in XRUN.
-
-2. In sound/core/pcm_dmaengine.c, SNDRV_PCM_TRIGGER_PAUSE_PUSH calls
-dmaengine_pause() while dmaengine_terminate_async() is only called on
-SNDRV_PCM_TRIGGER_STOP. In snd_dmaengine_pcm_sync_stop():
-
-	status =3D dmaengine_tx_status(prtd->dma_chan, prtd->cookie, &state);
-	if (status !=3D DMA_PAUSED)
-		dmaengine_synchronize(prtd->dma_chan);
-
-Because the channel remains in DMA_PAUSED and was never terminated,
-snd_dmaengine_pcm_sync_stop() skips synchronization and leaves the paused
-DMA transfer active across prepare.
-
-3. In sound/usb/pcm.c and sound/usb/endpoint.c, SNDRV_PCM_TRIGGER_PAUSE_PUSH
-only clears the URB data callback whereas stop_endpoints() is only called on
-SNDRV_PCM_TRIGGER_STOP. When snd_usb_pcm_sync_stop() calls wait_clear_urbs(=
-):
-
-	if (atomic_read(&ep->state) !=3D EP_STATE_STOPPING)
-		return 0;
-
-It returns immediately without stopping or draining the USB endpoints.
-
-Should snd_pcm_do_stop() also ensure the stream is triggered to stop (or
-Only treat SNDRV_PCM_STATE_PAUSED as running for the stop trigger when
-substream->runtime->trigger_master =3D=3D substream) rather than only setti=
-ng
-stop_operating =3D true?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028094132.2036=
-4-1-mynameisjune111@gmail.com?part=3D15
