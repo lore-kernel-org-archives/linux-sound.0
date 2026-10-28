@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793184124;
-	b=Pfz/ygu6dP4yK68bjP8zW5BrEZU8uVG4fTfG4Ltii9DtGYHaN9DnnHUlyfX2mF6wErgG
-	 ZMLaVzeIzfwO+VnRRzibnQq6JsS/S1Ixxw3W7v62XoImY7SpLol/8jY87DU01ejMcFziG
-	 aMvzj+qFGTyWQjYLIr0/FnHceToeceJlQR/J3Tcd8b7BvlqcSxxZyBfDWgFU0rNv01ZcJ
-	 orZuDC3AUfduEA9hMgT1z/1zCPuCrMLjlc7wU2ohn2/UhKbDGBaPMQRkF/9yYggWiZMJM
-	 qjgvEDUbFlEdaembwtJU8q1YxZkiSxwYylB+EiEMwJdjbPB7yJUWDZl5VHs90oRhgHA==
+	t=1793184127;
+	b=Pon/L0GmIl4122uTWwk/YNWLfH9hFic05msehmaAwHUroHnBgVsiB/zo2PmQLFFrNkWT
+	 srqcGjWEFB6MCrHcmfTvY6Mp5XOJ/0njnT/mCmce/m9rK0gipQMMWPyWFHsAu0EwgDoMB
+	 qR+JocLK38UZIPEP+vTJJVKOB9irUgTLGC58+VD+X4c/AIqqaS2mjtXunWSK9rCYyxUCR
+	 G4UP8WFhGdXm1GhqgWwQIKdlGmj3CFFXYSRrE+gWgZNf/KcqqpZCoe39U4XLizQzbVYU2
+	 4gPgvufJ+ITSYVd6O3Yzmc6TGmAYHwgvJJlwOE5rOhOBv0PywXou8m1x3LQD+YHRs5g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793184124;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793184127;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=6ZIFLiITPDppon9XwsaZlsXJycxKJwC52zQPjn+czIM=;
-	b=I5RaIgzXtsBylVlKg4+ppkwamf7Im1ltjfB7TTpHD0JJiGXuJ0aLHyC4JOEP3mANehc+
-	 uGgmT9hh6ufIi9FiR0N7NoL8ehAtt9KbIPew3AUdxB9A/QskPkb0AhzfhCnqpgvn3dxAy
-	 0P+KwogUDCBDNqwa9NsWG+ndDSoi8/3tfCSUvULFP0Dv5sdGaFKuSiWYqPyo94iT+w4qa
-	 Us5wrbOOtLr+r+819ym2/q9FHEf7sM5ULLzj3tYYxs09Gx9rEiLR0OLwWAxzAyRLEz7Yv
-	 UsSYrNTh+KUHWU6NWGc8AK5PgwEtB+wFbRNl3i6JRQ5DDIlL2sIoj0sbGgSNWjyQGsQ==
+	bh=oBHGymr+ku8G9nuyW2BClMpb72u6ZaeN0XLosSPL7pM=;
+	b=ocqe8WlR8U2sb+fL9lt5zyXPCg9ZFP660wSM1h9OZ+GJ93gL5IGJpID64huRwwVxPAUF
+	 0YyTpNbOXAxGwWyTslJrTxXsVkt/bJiuFg35HI47Trv7TwsAcjlhKfGy1B5adOF51sekV
+	 3mtOoyCdoc/3y4l0PfcntF6OvizMOwG8vG1t8tfrs5FRcV+jz6YzdoC/4AeFSypV6w/Wk
+	 QeX877aW8HvUNhdwufB+hg6mxYM5krGYWG508qbSH+bF2Jeg2/STMJCOlRkNX7vVOheHl
+	 WqVCfkcsN6AOV/hT9aPVl8kH8w/jjEDmf4QVITVxABWl1hpgKnvvU86wO28E62TXizw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bctOg8JQ;
-	arc=none smtp.remote-ip=74.125.82.182
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=y2xd5GBG;
+	arc=none smtp.remote-ip=74.125.82.173
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81870606A31C
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 10:42:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81870606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B52606A320
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 10:42:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11B52606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bctOg8JQ
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-353804b591eso1303217eec.0
-        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 03:42:03 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=y2xd5GBG
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-36a18fc7a38so1738068eec.1
+        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 03:42:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793184123; x=1793788923; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793184126; x=1793788926; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=6ZIFLiITPDppon9XwsaZlsXJycxKJwC52zQPjn+czIM=;
-        b=bctOg8JQJ2EV9/qrwFFuWtUMkZ6/IbSObGUxpLM90xJJmKy1FLqaziZWAIu07+Wh0v
-         SWESaEAmAilz9hbkUIaiCRltJNJ9g4002bKPD8O52heKcQM0ry3cuJOIkMK+J2YQJwzK
-         fLKfR6ybNhuWZHTQNg3LetJPChv5jgRZMkF6rbke0cZizY2Sa/TCnBapxub/i1UK4Lh/
-         DgiW2wXR24WBmLiHbg4A5P1fhqjoyHKaba7lsCSZ601vj6iLsdgtBr/Jw6zV9HP7mtBd
-         qa2g0izXdz8N2imUHw7NHKRlv8VCdsou4+21ll7PRBTo2sq33aetvpQd6nf7C2T547TU
-         cCDQ==
+        bh=oBHGymr+ku8G9nuyW2BClMpb72u6ZaeN0XLosSPL7pM=;
+        b=y2xd5GBGaAQZOvj58nlFiV+YrY95CvXgRL7TUKj38+mL01NoZyrawWQbxHdl+YAbEZ
+         wTePaGxVqSqSGq621OCuWiNlaeUyHkPDVQk/L7VY1b+CnFrPCGYoZjwhkraYpm33wf+F
+         YIqZZtHAC0GKcYdiTfQyfPdfeCYqX/VLYjF7wdI3u99g+3tbkVkQuS99WWmLV/yBFTn4
+         7f3X7FUfLBmorzjdtLl7mp/9RrXcnOjLVJemj5zl6y/snTlWF2MY1y7UYFX2eNHybVwy
+         Fi+jHHqEuSwDIdwKRGSTKObT8OEAIHu9svHZEEh3nPiXmqXaSdCX1b/Xl2tqY67cC1Pw
+         VuLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793184123; x=1793788923;
+        d=1e100.net; s=20260707; t=1793184126; x=1793788926;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6ZIFLiITPDppon9XwsaZlsXJycxKJwC52zQPjn+czIM=;
-        b=uLflUctZYTt85MtiQWWZkBPAhw4hsSTis0WJxAADfKHBfSEondhcqowJHVKDBhlK6J
-         TiPb1OV4OzhmyJwTagxv2ghWuR55BieyX5hYSbLiLMS+h4OZiVAtsPcy370tad5XHbJD
-         aOWQsUowNyRUWvA43MOkFnvRgNpI0s30QrbXZFPrf8QFQ05+J9yda2zeoA08pXNk2A/B
-         oA30jT4LcN95gHUNKc2D1HCqHsY5X+28/AxycWHogSx4h7TnR2y0OVHTwCAGUpyjUVr0
-         QUS+c1A1O8H14PLxxRnLq2w4ksbzp0HQ/saig+2APvSVFgu6aCHoSZ8UWlcBtOEU1h1R
-         F0lQ==
-X-Forwarded-Encrypted: i=1; AKwUvBws8Tlkc1xPpgxtFEqoU4J0jQZt8flf161BjPisNNGLeWvwraTn62u4g9OYSpmubegsdQl2RwB9W7AqMA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLLcRmunvcm1E++gV0vw+aAveRFDVEeWtqcNGOsJaJkqDID5C0Q
-	48XuC5RyjA/lEIue6LldzcvQVON75ri4fhom0kUO0NaUbeRqlj6MRfOI
-X-Gm-Gg: AYBFou0pkbnjMHa+5gFE/IeP9kvlRCu5f/VxtOl9zTPYHx6I/fL07rKwui+lPXLQWQy
-	hB8sUDHSLkvAh73M7nUJIBvAeQvBgp20N6Q0BlVJ2EAjtWudxXSUtkDPzgJBXTrPRBDefA9zFHq
-	jC3gIAH2Xk9GJdDC0pVnjsYDE1o3NWV26tE6dOAA1Pz3df6lYbf5yCGRLruJ7Hl8EIldPl+aBul
-	6nBn/MwWh2zf2Gcl6ip/epAgozQb22oFmLUmwcov5vPnAUdHEwyzY69Qz+bfbQQSE3C9Ytd++Kk
-	gto0YG1Vo2CY6bWb+qMAvQ5rkqgcJJX9OCRRHK5ZYkcEWgSvVUUttfgNkEK9pStXNifHQBPEpQ8
-	blXzRtUH6owLXEfEdtBQINAcQod/IBmQ66ch3Mc6oBRdH6gv4B5R3Xricctrd+B5lWazLPtDx2p
-	XSnr6ISiXsNNweo5GdLJvfSPQqw3QHVGI5Tvhl20nWt3JAG03ogcMgJsAHrw02V59lF4RWESFpH
-	7zANyeawXGjXJhozC1FUukg2OeColFePXGH/va7Rer216Yrn2YaF1hZCGxdjB2VIpxDQ+tycyaE
-	Ui5Tbh+es17fiL1Mq5mJku+CFqKrMxw5PF/BILO/bNkMZDI6NBGkQi81m27LNn4/nprmq4ZAdWv
-	zIF0/vnzOZQOc+BjwLEbeGOqJ0k9TraXJBvQCCzDdTPp4eo+XiQgMwqj541OcU3xl/Q==
-X-Received: by 2002:a05:693c:20c8:10b0:36a:1e0a:accb with SMTP id 5a478bee46e88-36a203e2f43mr3129824eec.35.1793184122327;
-        Wed, 28 Oct 2026 03:42:02 -0700 (PDT)
+        bh=oBHGymr+ku8G9nuyW2BClMpb72u6ZaeN0XLosSPL7pM=;
+        b=Kc7zXe3w72qCKRKCpHfNQo9kBYY0P5MsX6RjR5VGPIlKxkk7yI0GdKhBchl837Lvsg
+         OHsevwlqY2ffmMNdkClA41W36+tMmPZHI3i/6Lr4W5pQHAFzV3YGhKspUzpy1ycgPXRi
+         D9Qqrocu0rUb+9ruKp+0V/Odgd7FqPkBL89nTs1LI/e+AWjIN5dpQV8WeDpJW62o2z+i
+         h29u8xeaG/DKSY6sjW22G0/Y5R6JftXh2ItfW5CvDAP7aVisw9U2CMJJ9AWmtA0sItnj
+         kqC5NHnS2A+DkP6423aHBoOQIey2lOkSaVXVKrZDtDeo4rFlIpFKFuR8JO3NV2CBBeU3
+         YvDw==
+X-Forwarded-Encrypted: i=1; AKwUvBzoHwrSmnrrEHlK+mk4jBedwqGqjLBDZCTrILnTbZ+biRVz/dHyx1oAUb/LgpJ1Hfneeevp8ySlayrlkQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLvWDniVida7GQMfmxF6G3ap8ePTMsUz0gmb//VjWq+D+kNkhq3
+	0KgPL5Qs+yPgPKIZ2gitpjS1xC4u59p8KVpMNJke0h8cwnzoBKljicnf
+X-Gm-Gg: AYBFou3AMfAf8Qut1/H8rBmW7UktD6l5D3CL3vvCfUGY3i0mzpvE6vy4eglZWFyPJh5
+	A/eNbj70ImXjjTf6PvQYLPAEb1Vx41GRG7T7Z4uAPBd83RjOszsMbdy5waT+Y0iWoO9yaHP3irZ
+	z8GOR62fJ9YBHpLMIe2P958mOAVs3Y8zj/Tk0Igw2h+b2vKWiPGozKsxkv7FhwAdh5gsnsqMdGk
+	zTjyWKxkoEigxTGxIVpYVhkat8DFYYpokW6lv/WaZE+OwIRj7BPgpwyLg9SjhFuhKb277bK2HxQ
+	2fDxJUAE7j5EP9N6a3Zo3M8Sd0BUkIuYT59RqfxYDOlXMB48CuszBP9pfnWmJPGJV7SOjMbWk2p
+	Kkkse9zuy6AJxWjvBTBf/66ghL1wHMhhPW6fRe7m3GHVC+T39gcxUna08+mjm/UosCjgG4RaMIQ
+	QNvsgPKQUbj8M0sdNWfTEopuhlLD2OsQrlt/jv6J5sz578WDHi4sT4o1GjEj+FpqiGTgOkgh/ui
+	Z/ROTF795ubF1MFTpgmFGXE+t3RVFlHOAVMy/TyuIJBny05KuCi68po5UbG3JCCyCzMU65ETRdl
+	evbDRHTBsX2kRwARgkHRK8UPi/13Pe2P3qymPkutp6iBWcstx3gtGl0USkHSYFirNtYomjvD9z4
+	lStKQLIahMQUYWLQ1qMc+9Ij8guMP1DJySKYCyDGG6Dedunm+ubx97c/1wiSBXfoywg==
+X-Received: by 2002:a05:7300:fe42:b0:369:fb01:2eb7 with SMTP id 5a478bee46e88-36a20407151mr2435793eec.13.1793184126011;
+        Wed, 28 Oct 2026 03:42:06 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a238da3e1sm7521881eec.8.2026.10.28.03.41.59
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a238da3e1sm7521881eec.8.2026.10.28.03.42.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 03:42:01 -0700 (PDT)
+        Wed, 28 Oct 2026 03:42:05 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Binbin Zhou <zhoubinbin@loongson.cn>,
 	Binbin Zhou <zhoubb.aaron@gmail.com>,
@@ -90,9 +90,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 1/3] ASoC: loongson: Fix IISConfig0 update in hw_params for rev 1
-Date: Wed, 28 Oct 2026 17:41:36 +0700
-Message-ID: <20261028104138.26973-2-phucduc.bui@gmail.com>
+Subject: [PATCH v2 2/3] ASoC: loongson: Use FIELD_PREP() for register fields
+Date: Wed, 28 Oct 2026 17:41:37 +0700
+Message-ID: <20261028104138.26973-3-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261028104138.26973-1-phucduc.bui@gmail.com>
 References: <20261028104138.26973-1-phucduc.bui@gmail.com>
@@ -109,92 +109,63 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-On revision 1 controllers, loongson_i2s_hw_params() reads LS_I2S_CFG
-and ORs the new LR_LEN, BCLK_RATIO and RES_DEPTH values into it
-without clearing the old ones.
+Use FIELD_PREP() to set the bit fields in the I2S configuration
+registers instead of open-coded shifts.
 
-The first stream after boot is configured correctly, but any later
-stream with a different rate or sample width ends up with a mix of
-old and new bits, so it may run with the wrong rate or sample width.
+This makes the register field assignments clearer and consistent
+between revision 0 and revision 1.
 
-Use regmap_update_bits() to replace LR_LEN, BCLK_RATIO and the
-RES_DEPTH field for the current direction while preserving the
-other direction's RES_DEPTH field.
-
-Fixes: d84881e06836 ("ASoC: Add support for Loongson I2S controller")
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
-
-Changes in v2:
- - Use FIELD_PREP() for register fields as suggested by Binbin.
-
- sound/soc/loongson/loongson_i2s.c | 21 +++++++++++++--------
- sound/soc/loongson/loongson_i2s.h |  6 ++++++
- 2 files changed, 19 insertions(+), 8 deletions(-)
+ sound/soc/loongson/loongson_i2s.c | 11 ++++++-----
+ sound/soc/loongson/loongson_i2s.h |  5 +++++
+ 2 files changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/sound/soc/loongson/loongson_i2s.c b/sound/soc/loongson/loongson_i2s.c
-index da0d029c028a..aebea177e7e0 100644
+index aebea177e7e0..0d5278203024 100644
 --- a/sound/soc/loongson/loongson_i2s.c
 +++ b/sound/soc/loongson/loongson_i2s.c
-@@ -6,6 +6,7 @@
- // Author: Yingkun Meng <mengyingkun@loongson.cn>
- //
+@@ -80,10 +80,10 @@ static int loongson_i2s_hw_params(struct snd_pcm_substream *substream,
+ 		mclk_ratio = DIV_ROUND_CLOSEST(clk_rate, (sysclk * 2)) - 1;
  
-+#include <linux/bitfield.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/delay.h>
-@@ -69,6 +70,7 @@ static int loongson_i2s_hw_params(struct snd_pcm_substream *substream,
- 	u32 fs = params_rate(params);
- 	u32 bclk_ratio, mclk_ratio;
- 	u32 mclk_ratio_frac;
-+	u32 mask;
- 	u32 val = 0;
- 
- 	switch (i2s->rev_id) {
-@@ -92,14 +94,17 @@ static int loongson_i2s_hw_params(struct snd_pcm_substream *substream,
- 		mclk_ratio_frac = DIV_ROUND_CLOSEST_ULL(((u64)clk_rate << 16),
- 						    sysclk) - (mclk_ratio << 16);
- 
--		regmap_read(i2s->regmap, LS_I2S_CFG, &val);
+ 		/* According to 2k1000LA user manual, set bits == depth */
 -		val |= (bits << 24);
+-		val |= (bits << 16);
 -		val |= (bclk_ratio << 8);
--		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
--			val |= (bits << 16);
--		else
--			val |= bits;
--		regmap_write(i2s->regmap, LS_I2S_CFG, val);
-+		mask = LS_I2S_CFG_LR_LEN_MASK | LS_I2S_CFG_BCLK_RATIO_MASK;
+-		val |= mclk_ratio;
 +		val = FIELD_PREP(LS_I2S_CFG_LR_LEN_MASK, bits) |
-+		      FIELD_PREP(LS_I2S_CFG_BCLK_RATIO_MASK, bclk_ratio);
-+		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+			mask |= LS_I2S_CFG_TX_RES_DEPTH_MASK;
-+			val |= FIELD_PREP(LS_I2S_CFG_TX_RES_DEPTH_MASK, bits);
-+		} else {
-+			mask |= LS_I2S_CFG_RX_RES_DEPTH_MASK;
-+			val |= FIELD_PREP(LS_I2S_CFG_RX_RES_DEPTH_MASK, bits);
-+		}
-+		regmap_update_bits(i2s->regmap, LS_I2S_CFG, mask, val);
++		      FIELD_PREP(LS_I2S_CFG_TX_RES_DEPTH_MASK, bits) |
++		      FIELD_PREP(LS_I2S_CFG_BCLK_RATIO_MASK, bclk_ratio) |
++		      FIELD_PREP(LS_I2S_CFG_MCLK_RATIO_MASK, mclk_ratio);
+ 		regmap_write(i2s->regmap, LS_I2S_CFG, val);
  
- 		val = (mclk_ratio_frac << 16) | mclk_ratio;
+ 		break;
+@@ -106,7 +106,8 @@ static int loongson_i2s_hw_params(struct snd_pcm_substream *substream,
+ 		}
+ 		regmap_update_bits(i2s->regmap, LS_I2S_CFG, mask, val);
+ 
+-		val = (mclk_ratio_frac << 16) | mclk_ratio;
++		val = FIELD_PREP(LS_I2S_CFG1_MCLK_RATIO_FRAC_MASK, mclk_ratio_frac) |
++		      FIELD_PREP(LS_I2S_CFG1_MCLK_RATIO_MASK, mclk_ratio);
  		regmap_write(i2s->regmap, LS_I2S_CFG1, val);
+ 
+ 		break;
 diff --git a/sound/soc/loongson/loongson_i2s.h b/sound/soc/loongson/loongson_i2s.h
-index 8b4603c876c5..457d90e3d5b6 100644
+index 457d90e3d5b6..0c280e9b7505 100644
 --- a/sound/soc/loongson/loongson_i2s.h
 +++ b/sound/soc/loongson/loongson_i2s.h
-@@ -40,6 +40,12 @@
- #define I2S_CTRL_RX_INT_EN	BIT(1)  /* RX interrupt enable */
- #define I2S_CTRL_TX_INT_EN	BIT(0)  /* TX interrupt enable */
- 
-+/* Loongson I2S Config Register */
-+#define LS_I2S_CFG_LR_LEN_MASK		GENMASK(31, 24)
-+#define LS_I2S_CFG_TX_RES_DEPTH_MASK	GENMASK(23, 16)
-+#define LS_I2S_CFG_BCLK_RATIO_MASK	GENMASK(15, 8)
-+#define LS_I2S_CFG_RX_RES_DEPTH_MASK	GENMASK(7, 0)		/* rev 1 */
+@@ -45,6 +45,11 @@
+ #define LS_I2S_CFG_TX_RES_DEPTH_MASK	GENMASK(23, 16)
+ #define LS_I2S_CFG_BCLK_RATIO_MASK	GENMASK(15, 8)
+ #define LS_I2S_CFG_RX_RES_DEPTH_MASK	GENMASK(7, 0)		/* rev 1 */
++#define LS_I2S_CFG_MCLK_RATIO_MASK	GENMASK(7, 0)		/* rev 0 */
 +
++/* Loongson I2S Config 1 Register (rev 1) */
++#define LS_I2S_CFG1_MCLK_RATIO_FRAC_MASK	GENMASK(31, 16)
++#define LS_I2S_CFG1_MCLK_RATIO_MASK		GENMASK(15, 0)
+ 
  #define LS_I2S_DRVNAME		"loongson-i2s"
  
- struct loongson_idma_data {
 -- 
 2.43.0
 
