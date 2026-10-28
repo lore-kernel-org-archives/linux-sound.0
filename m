@@ -1,94 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793153197;
-	b=E8nbVFswBuMWntq0E1V/bqOjmRcM5//fzATyEZAEac+PjL/ha9S50qmEhcaX2U6FNihG
-	 d1rvCsHccGgMR3tcIVmyOwfcrbSp5nUsoIYdV+TBKd5S7OuZI5FNf7DvMhRiD/qStsjG+
-	 HqiqjXDZ4HKiAskN5MLZtOuKASWObQ6nroKcK1z16eQcddr4dBC8t86JNBUkHdjgN8prH
-	 L2ySICnMlFMl/5NEllfy9TfeHWG+WH8/0sWCcmfRUmKZFp21lldh08CgOt456M5ZcmjYE
-	 /XwfdY3NQOY22ApmS+vBOXylFL5cERCoVWVG5ZosS/Rfg/+VZcmsC1e7EqwZR2pTEVw==
+	t=1793153414;
+	b=NLTuoB9LfBoq51lXCXs2dJ9FCaC02ZnwfPvMQvQ7dA5KOrRjV3GjPsEEPcKwk5KSOJvY
+	 Cvxr7wtlSVIlxTiHWMBPJJVDF1IOYDQvyIBqMa5nStVDTcpZrkgt3ao4hjqNI5+cpJktu
+	 n9TmANDUeIOcOE5gafXZWZsPWFKpZvmvibaWmw8Brynbz6bw0IwrjaE9Yh5GJ9uTiT6zc
+	 +wTEUviYmaNFJ1xBoQEc6pc4o3E5hazmZQhQtxdD4MVCVySLxA5X4PyORZod76/XYPcgb
+	 a+DUBBfHel420M8LEqV/JGNecRiFisjboIPwO4Nrayl+Kb9SzdoQaJJzhBYJ+EtJrRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793153197;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=E0eV56cTNymI3e3+gujW/3RFeyU52ZaDbouK7jcTvy0=;
-	b=r/skbMcFO1HPaQlS/PUkOwyKGfpnfWw5HO7CUqxPSCXkpKUYIeB0wGnePc6VJnMZ0cZ4
-	 VFsC9paLVHCV585hRQ1wZgMLmkRN8icCThOSB5KBeomHwmIDVwiqA9nKldo/WqdSnb1zG
-	 m/HUhDhzKBT3jZURVAcnOix759Q43y56xMK8Rg7Ex5inczFymKvn4HjSINh1zL3dbecJh
-	 n7C21hSSULg/x4e+rfbYfht9RBz2RtWn1PGpCFavYI2jV20qvPuPwsUhHuPxmVQD3uHtt
-	 bziCp6QAvEwvyPiYDoKgSOEgkVcI5R4PmiL3LhEdwxn4E0I1pRShUE4BjtB8meoUH+g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793153414;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=2kVR0iXYwksgklT+jPJl/+o2aZSAIdgcpyydY2KWQgc=;
+	b=hgoR34XkJz/SLUk5A4ECWwmC/UC6Sk12HEcHMZfBq/lBso5lPb9DDlj4Ctl7Gbj2brSM
+	 A9JJdH7O2e0HX6aCODz1UcznxMh4DwdRDCC724hZEtK8tZFkiaHAmShZr+atmOGYQnFVY
+	 1CBJqDQlksUfFOEJ0Cjl8gGd0+5D2lIkGJwElhe5JkKkkFF+e356QH8Vpvc7SiB6lrvcY
+	 QXYSsOJP/rAmZsukOddANrceua6grJQqz2d+5p/MMxV++vJq+6w1xb5Eb5x+ayAO0AaEG
+	 qH22rFGJav8djklHUP5xXKrH0XOiCg3G9Ea5H2GmzJJ6IwlbVxr2MXQI0m6EbO05n4w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Zssoj7NS;
-	arc=none smtp.remote-ip=209.85.210.49
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GVnxTysG;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F97D606A31A
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 02:06:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F97D606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BED0606A31A
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 02:10:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Zssoj7NS
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-8451a619da7so369088a34.1
-        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 19:06:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793153196; x=1793757996; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=E0eV56cTNymI3e3+gujW/3RFeyU52ZaDbouK7jcTvy0=;
-        b=Zssoj7NSlPLO7bH7c4LSZvHqF6jNxmaux9wQ8vSWMsIAYjyOsWm7MJxZ3Y8Ja0vPJS
-         S2vceaSRypar2g9n1GQ9UN/xHwPA9lB0VmcDs7MAvL2fSIC/TQcOQnAmlWJFS0Q4c+R9
-         mCc3pADhivRXuYgieUYywdb6hKNJu7xv7US5DHHtGGWBMlf7n9krp0kJBDtgEd9kpXKU
-         2iaH4jKGfAYa6mQ181cGjwXdiJ/buAKK5Jfj84L9bZF65wmh/YM739ta3+RzzzTFoN2+
-         fywWA2K66qIgQLSoeOFIFFY+9ckQIAtz8gHDxgZGcpsCTmZaC5mTnOb2/ia08oFZa9/3
-         n7Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793153196; x=1793757996;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=E0eV56cTNymI3e3+gujW/3RFeyU52ZaDbouK7jcTvy0=;
-        b=C2T77oKHp0qF8krCulHN08lGGsRWeS5ZwOl3CJsKQEGiMYEsHU3nflTTEoooe+fRgt
-         ILVvbMIgngVrldkhIdrmDIBQHaP3+nlRGAu2nebtpYVzrZo0dYyZOxJAUHEPSxmquQX0
-         bm5NrvAJCED6K7mHpn0nMOZIgeRlMQTWMPxhjygjdESNjKsk0zh8IVLYYicF5Ohcb6+E
-         RwYyiNxRgrNkl2nog+xEiw7xkMVu8Qti9uI6DF0CJeaKSPYo+gtThpOTTY7Gz/MkCbMh
-         gd0eVqo+zJgVDG6BN+ilSVqOljDFeR8/CwbXhtsplG+9CuzgBoCSoktgSBcZU2cpLa1H
-         BgRw==
-X-Gm-Message-State: AFq9FYKN0+1oUFNWD3kuGYoDzecj+7GEG92WLGdRM+xgOSyV7hUroLYT
-	B+Kok11fIQaNa8MTpK9YBiWqnx3AOaH08c6l6DB/J4blEf4+PNn/3vFKT8uE1ZAa7Ow=
-X-Gm-Gg: AYBFou36KyZoAD53nC54/Saqg3hMZ5cEFpXkoyW1rqMI3BYK57FldtrtJa1k0Ec6mgR
-	YFdDB4C17lUukdWkD3vvsHwZiTsGuZ4LmbB6weBGlKpyblZ5aok7m4RsZgGKbYjV9feWsGMMdwT
-	iNaNr7iZDIE2af+KjSpOro7c6HJmP8mowHY6nj0J565CUHPob6cmcwvjsBCR4oFN/F03kNNEGD2
-	f2D5TQJrlblahvRXIXGWFF1H8qlZVNcEYzD8jKU7FEST6+ZRIGvWOh8Wioy7i9Cx4/jr7EJwIax
-	Db+7+guzB5Ql9XQZxmo7D8Aq0Zc7oYSz5oU/9zxXyDBAechhvXrbCoTTmcksqZPTtkiO6dcRWtF
-	lhfjudRT3eZcQG/j12oWyQvZS/Jqwylw16uGgkbbnqJEbJpd0kmMDXCx6FXE8Rr/TFH8X/duNiq
-	Bhq8ljkdK0xr5UEIgZ/iN5q0kdQxuYsDvuEhtQ1u6KflSz33QIC7saWgk1WE1CehSUHJdD7MS0o
-	53wnNKGLJbbf1QlI8T7jJn8UwzEiyTS7Pk1Phn7ELFvcqHfeGsgZZopcyrest4GvKp93jJPI69F
-	M2l2FwIgHQvJT+tKdvC++U/EfeeBwhgEjEJ4fDtzE2+vUYSD11aqfLKAnmGKrASqsBn+MCd/j/1
-	MhcZbafCv56bQ/ardUdb5Hna/8s6pTciHJl4cEBrkfF4=
-X-Received: by 2002:a05:6830:4ac5:b0:824:e29:e00e with SMTP id 46e09a7af769-85ab929b937mr1271215a34.20.1793153196465;
-        Tue, 27 Oct 2026 19:06:36 -0700 (PDT)
-Received: from localhost.localdomain (162-233-222-157.lightspeed.livnmi.sbcglobal.net. [162.233.222.157])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85b1d363390sm355217a34.1.2026.10.27.19.06.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 19:06:35 -0700 (PDT)
-From: Corey Smith <corsmith@gmail.com>
-To: corsmith@gmail.com,
-	Vijendar.Mukunda@amd.com,
-	venkataprasad.potturu@amd.com
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GVnxTysG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A16381F01828;
+	Wed, 28 Oct 2026 02:10:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793153413;
+	bh=2kVR0iXYwksgklT+jPJl/+o2aZSAIdgcpyydY2KWQgc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=GVnxTysGGzUxLwnHwROjcm9LAr0JFZsbrgX3MyxawTcfglTBJyIo0lzuoVMZPXH6c
+	 kd+hfc3Pi9gTAxaQ1OaOxHFtuyDvbMs7ivy5uebTV0ryjqWJRAiFGuz3Ke/TON6UdN
+	 qvaYaxLibmJIokPUDZ45u4rPg5QXXPldlcaET5/PK5muviKWsjV6eACg/SapP23M/q
+	 qCcrqPS4hMB0GWJjijb439LTRQn0Etmo4u8zHRhsHKyjrzk3fEhefxAb+DqvsZa/Jp
+	 Xfo2DmlJfbArfEsXVSg1ewYI+KeH89rjpC8HycYS+Ab2otkOa9r/7ADwguNqjcWVKT
+	 +WclkhczU3aFg==
+Message-ID: <sashiko-outbox-187325@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] ASoC: qdsp6: q6routing: Fix memory leak on probe
+ failure
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Tang Bin" <tangbin@cmss.chinamobile.com>
 Cc: linux-sound@vger.kernel.org
-Subject: [PATCH 11/11] soundwire: amd: provide defaults for the bus clock properties
-Date: Tue, 27 Oct 2026 22:05:52 -0400
-Message-ID: <20261028020552.35278-12-corsmith@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261028020552.35278-1-corsmith@gmail.com>
-References: <20261028020552.35278-1-corsmith@gmail.com>
+In-Reply-To: <20261028015732.1985-1-tangbin@cmss.chinamobile.com>
+References: <6078ca7f-a511-48d9-b5fb-a7b3339c8569@oss.qualcomm.com>
+ <20261028015732.1985-1-tangbin@cmss.chinamobile.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 28 Oct 2026 02:10:13 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -97,70 +60,107 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The manager clock configuration was moved from hard-coded values to the
-MIPI DisCo properties (max clock frequency, default frame rate and
-default row size).  Rembrandt (ACP6x) firmware does not describe those
-properties on the SoundWire link nodes, so sdw_master_read_prop()
-leaves them zeroed and amd_sdw_clk_init_ctrl() aborts the manager
-start-up with -EINVAL.  On the HP Dragonfly Pro ONE this makes the
-whole snd-pci-ps probe fail with error -22 and no SoundWire device is
-created.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [Critical] ASoC: qdsp6: q6routing: dangling routing_data on q6pcm_routing=
+_probe() failure
+- [Low] ASoC: qdsp6: call to undeclared devm_kzalloc_obj() in q6pcm_routing=
+_probe()
+--
 
-Restore the legacy defaults when the firmware does not provide them:
-a 12 MHz bus clock, a 48 kHz frame rate and the 50 x 10 frame shape.
-Platforms whose firmware does describe the properties are unaffected.
+commit 83d5a1cc3383fe8d00d38b5b09449db5bf27546d
+Author: Tang Bin <tangbin@cmss.chinamobile.com>
 
-Assisted-by: LLM
-Signed-off-by: Corey Smith <corsmith@gmail.com>
----
- drivers/soundwire/amd_manager.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ASoC: qdsp6: q6routing: Fix memory leak on probe failure
 
-diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
-index 697ec93..d451428 100644
---- a/drivers/soundwire/amd_manager.c
-+++ b/drivers/soundwire/amd_manager.c
-@@ -25,6 +25,12 @@
- 
- #define DRV_NAME "amd_sdw_manager"
- 
-+/*
-+ * Frame rate used when firmware does not describe the MIPI DisCo clock
-+ * properties on the SoundWire link nodes.
-+ */
-+#define AMD_SDW_DEFAULT_FRAME_RATE	48000
-+
- #define to_amd_sdw(b)	container_of(b, struct amd_sdw_manager, bus)
- 
- static int amd_sdw_clk_init_ctrl(struct amd_sdw_manager *amd_manager)
-@@ -752,8 +758,27 @@ static int sdw_master_read_amd_prop(struct sdw_bus *bus)
- 
- static int amd_prop_read(struct sdw_bus *bus)
- {
-+	struct sdw_master_prop *prop = &bus->prop;
-+
- 	sdw_master_read_prop(bus);
- 	sdw_master_read_amd_prop(bus);
-+
-+	/*
-+	 * Some platforms, Rembrandt (ACP6x) in particular, do not describe
-+	 * the MIPI DisCo clock properties on the SoundWire link nodes.  The
-+	 * values read by sdw_master_read_prop() then stay zeroed and
-+	 * amd_sdw_clk_init_ctrl() fails with -EINVAL.  Restore the defaults
-+	 * the driver used before the clock configuration was moved to
-+	 * firmware: a 12 MHz bus clock, a 48 kHz frame rate and the 50 x 10
-+	 * frame shape.
-+	 */
-+	if (!prop->max_clk_freq)
-+		prop->max_clk_freq = AMD_SDW_DEFAULT_CLK_FREQ;
-+	if (!prop->default_frame_rate)
-+		prop->default_frame_rate = AMD_SDW_DEFAULT_FRAME_RATE;
-+	if (!prop->default_row)
-+		prop->default_row = AMD_SDW_DEFAULT_ROWS;
-+
- 	return 0;
- }
- 
+This commit replaces kzalloc_obj() in q6pcm_routing_probe() with
+devm_kzalloc_obj() and removes the manual kfree() in q6pcm_routing_remove()
+to prevent leaking routing_data when devm_snd_soc_register_component() fail=
+s.
+
+> diff --git a/sound/soc/qcom/qdsp6/q6routing.c b/sound/soc/qcom/qdsp6/q6ro=
+uting.c
+> index ea511200c8d72..0a55d1f384d4d 100644
+> --- a/sound/soc/qcom/qdsp6/q6routing.c
+> +++ b/sound/soc/qcom/qdsp6/q6routing.c
+> @@ -1220,7 +1220,7 @@ static int q6pcm_routing_probe(struct platform_devi=
+ce *pdev)
+>  {
+>  	struct device *dev =3D &pdev->dev;
+> =20
+> -	routing_data =3D kzalloc_obj(*routing_data);
+> +	routing_data =3D devm_kzalloc_obj(dev, *routing_data);
+
+[Severity: Low]
+Does sound/soc/qcom/qdsp6/q6routing.c build with CONFIG_SND_SOC_QDSP6_ROUTI=
+NG
+enabled?
+
+While include/linux/slab.h defines kzalloc_obj(), neither that header nor
+include/linux/device/devres.h defines devm_kzalloc_obj(), causing an
+undeclared identifier error at compile time (and evaluating *routing_data as
+a NULL pointer dereference rather than passing it to typeof()). Should this
+use devm_kzalloc(dev, sizeof(*routing_data), GFP_KERNEL) instead?
+
+>  	if (!routing_data)
+>  		return -ENOMEM;
+> =20
+> @@ -1235,7 +1235,6 @@ static int q6pcm_routing_probe(struct platform_devi=
+ce *pdev)
+> =20
+>  static void q6pcm_routing_remove(struct platform_device *pdev)
+>  {
+> -	kfree(routing_data);
+>  	routing_data =3D NULL;
+>  }
+
+[Severity: Critical]
+Can switching routing_data to a device-managed allocation leave the global
+static routing_data pointer dangling if devm_snd_soc_register_component()
+fails in q6pcm_routing_probe()?
+
+In sound/soc/qcom/qdsp6/q6routing.c:q6pcm_routing_probe():
+
+	routing_data =3D devm_kzalloc_obj(dev, *routing_data);
+	if (!routing_data)
+		return -ENOMEM;
+	...
+	return devm_snd_soc_register_component(dev, &msm_soc_routing_component,
+					  NULL, 0);
+
+When devm_snd_soc_register_component() returns an error, the driver core
+runs really_probe() -> device_unbind_cleanup() -> devres_release_all()
+without invoking q6pcm_routing_remove(). That frees the devres-managed
+buffer while leaving the file-scope static pointer routing_data non-NULL.
+
+Exported callers such as q6routing_stream_open() and q6routing_stream_close=
+()
+check whether the driver is ready by testing if (!routing_data):
+
+sound/soc/qcom/qdsp6/q6routing.c:q6routing_stream_open() {
+	if (!routing_data) {
+		pr_err("Routing driver not yet ready\n");
+		return -EINVAL;
+	}
+
+	session =3D &routing_data->sessions[stream_id - 1];
+	...
+	pdata =3D &routing_data->port_data[session->port_id];
+
+	mutex_lock(&routing_data->lock);
+}
+
+With routing_data still non-NULL after a failed probe, subsequent calls to
+q6routing_stream_open() or q6routing_stream_close() bypass the NULL check
+and dereference freed slab memory, including calling mutex_lock() on
+routing_data->lock.
+
+Should q6pcm_routing_probe() only publish routing_data after
+devm_snd_soc_register_component() succeeds (or clear routing_data =3D NULL =
+on
+failure)?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028015732.1985=
+-1-tangbin@cmss.chinamobile.com?part=3D1
