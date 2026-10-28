@@ -1,86 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793155677;
-	b=B78lsA18+6T9DE0v/YoGtp3nWL/cHEYMxfdOls/3VwyTjwfbYJrn0NrhRxdXXeCaV8Xk
-	 n/tnyRu7MlssMOMFkotzJHl20m4+thftLG635NQCVsTA5cK7BokKZ632zENkNa7Kf4VZF
-	 Gbqb78FUb2FLtbE+og2VuoXm1Y4Y6+0Vp76vNcIcFMaI+c2dlpCn/wUwRlf6joSdf1x6T
-	 TGNwpplK6kHRWjE8lqB5gmHAp7Nxr+3xcMG6Q7t2fqIspvIfbcYi6ZM9L0xvyeSUY1/ES
-	 536VnirMcGYHDy0yyZ2UxsG7b8ouVTg0CfG8yX2iwaFT3Zof+o8TGsg6SFCZyfPjg4g==
+	t=1793156009;
+	b=vBVREFZ9pW9VrA0IutWXy2kAE3IK6qc0LNXLawcQ0SruMbelm3ndSKKHq6yxs42M0PEm
+	 eAklJzeP/gl3VpJTxjpmlsRAg2gllEUKNrR/N5v3XCkouqygrPV1VhSD541D1qFSCanrP
+	 7BJKv5SWfvYwARVP6pmBFkWAwQe7rfDiUTWt7ARO8IGAWwFMDJUS7k60DHNm31b2S0j2o
+	 GqWvXNvZuLz1Or02NY/DRcOE8xUyTIOr+s2CtS9ruzvFTLRCmQfV4LHs52ci7VkkuFlwq
+	 aK6E6UHMC5cf0LJBljY8yS4i7Eit7WgWcIPXfyXGRce8X8ZuUm6O5ixwBZgSFt9tfBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793155677;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:
-	 X-Proofpoint-Reinject:X-QCInternal:X-QCInternal:X-Authority-Analysis:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=aLDoyBImqnKYh8grtafx499cDn4CNnRfNPQG4lCfyOc=;
-	b=eOb3Utmrx05egJju39753kazAhDtH/rh8pO6uhOm5+lFeIUftutrRN6rasdtOiiPug9f
-	 pwqmn6zGrW0HD4AIvzOZnkww69t4cgO/01gdmh8joILzNIQcACjK0xLigNcA6/MIv8xlH
-	 8Fbm6b/uHqxV/XvnMC/JWjoS1M7QpT6zaqA/xYT3pjwHezCQeHaoBP5ZclL4wVM2ZeUlR
-	 hizDIRwWkDV8psMKOaAmEaD9mBuBx9+UaGdR0nNq0mCcomQeCem8jTMBVxwpI53ebEsqb
-	 X9Cq84HIVKPo4Qq4C7xwtQpFuC/8EIskrZ55ZStJAyyJ/M7eBhWJW7sQXwCT0Mg5I4w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793156009;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=cwJJNaSJlKm/koK5kjoFQnQ8cfxssNfTJLq5LnG8GkA=;
+	b=HBkSg3Tqa11wAoajTo6zkPUIexE+V1WE73xn2zqSCNcgkVOvFODH8O21HK4jQlhF56af
+	 EIgUfaGTEX/e+HZ94l2gSyjEEDdJQpcwO9ef2GsG9pIYt0IOpa+R5glP2YGtokN9er/MD
+	 gQ1noPZzmMhM/wtaan9bZBsjrYxvC7PZ4sbBQ4u0Xk4mvw8751ROScGyyUgOhMLQpsma9
+	 N7wNkg3id3W9BH9Yf/wR+vmM749BFHx2fIw+ivpQBicvKunOyTVWUk/LyYJIHhXfuTTbT
+	 ihplVQkfus70BrVrRkIt+xdOTZBB+XbrSQr87Bhgz5mSeEum5sehxALH4O49+Ll1vig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=FAefAoag;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kM9tKH2g;
+	arc=none smtp.remote-ip=74.125.82.178
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40CE6606A31A;
-	Wed, 28 Oct 2026 02:47:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40CE6606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D112606A333
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 02:53:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D112606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=FAefAoag
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69S0itrn3816350;
-	Wed, 28 Oct 2026 02:47:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=aLDoyBImqnK
-	Yh8grtafx499cDn4CNnRfNPQG4lCfyOc=; b=FAefAoagdNUDI42shPlt8S+vFu6
-	STYy9yf3dV9RdZYqe5T2hMpuMHV6G3QPwL6UwXQIUcPb5CrkIXaLC04kNCoRwGFe
-	ibguR281Q4zLfCbpI7dEu3VTBnX56omsMD9E0/5P2nWEuj5h4ybKZeZ7MDIl/X1j
-	ZJr3w1e+XDSkPouekpv73RZUDLS1WhMFvpayeVo3UQ/JBJ1iHX6lGtV3viCrUOFY
-	PlPa6XrIBYGqGNmlS3s2/556N4SB0KkAVmj1+Qu+rmS9mR9lbCTrxfc4wunD6FVM
-	6PRj+TEjYPT6/37x0DG4pIRPFJF3YpboDTh7NEm7kP5vW38OGjX29Q4Y3xw==
-Received: from aptaippmta01.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hjst1knq9-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 28 Oct 2026 02:47:44 +0000 (GMT)
-Received: from pps.filterd (aptaippmta01.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 69S2lgwQ2632315;
-	Wed, 28 Oct 2026 02:47:42 GMT
-Received: from ap-kernel-sh03-lnx.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
-	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTPS id 69S2lfPB2632306
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 28 Oct 2026 02:47:42 +0000 (GMT)
-Received: from ap-kernel-sh03-lnx.qualcomm.com (localhost [127.0.0.1])
-	by ap-kernel-sh03-lnx.qualcomm.com (Postfix) with ESMTP id CC7784055E;
-	Wed, 28 Oct 2026 10:47:40 +0800 (CST)
-From: Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
-To: Mark Brown <broonie@kernel.org>, Srinivas Kandagatla <srini@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        shengchao.guo@oss.qualcomm.com, mohammad.rafi.shaik@oss.qualcomm.com,
-        bartosz.golaszewski@oss.qualcomm.com,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
-Subject: [PATCH v3] ASoC: qcom: audioreach: support multichannel PCM formats
-Date: Wed, 28 Oct 2026 10:47:20 +0800
-Message-ID: <20261028024720.981971-1-zhangfei.gao@oss.qualcomm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261026082534.986449-1-zhangfei.gao@oss.qualcomm.com>
-References: <20261026082534.986449-1-zhangfei.gao@oss.qualcomm.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kM9tKH2g
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-369f33df08eso974948eec.0
+        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 19:53:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793156009; x=1793760809; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cwJJNaSJlKm/koK5kjoFQnQ8cfxssNfTJLq5LnG8GkA=;
+        b=kM9tKH2gWPbRWI8+dj5Utovl7LVp/4WfhOJ1s0H0KUThXffOKaQsudyJ0d5TuYX+XK
+         GkTBq2khJGl2jDOFMfYs5kNp9ZpsDejg1V3KcpOXFHGrbUkx138H58SfNcwtMEF1KZWy
+         zWRDZeuIyX4VIXp1W3OnJN1BtyNAF4mpvhQVx3ZGYA6Mcxb7K0pBZhQ9GzA2YVGEv8Hy
+         hpPQOssqXb+1Wss+MwES6fzrqB+/WoAmjv2oqcJffNQfrqXRhxKLgnXt+0lprDk5MGmp
+         hiEPpv6oaCmGtGqLM5awhYf7sGV5gQ0iCvGjfro+4VRDHUyp/+vAYBDJoqCu/jeI9UD1
+         +k4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793156009; x=1793760809;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cwJJNaSJlKm/koK5kjoFQnQ8cfxssNfTJLq5LnG8GkA=;
+        b=hurryU2HJOD9De9eK1mL3s17fnGD6TcRCShHq3Nwl11c4M4Xd8yS5jzeqx93B1yMod
+         yxJ+CJxbjcRKAc+lQimNVy7AZNp8Kw/ejVvNa+Wy75r+LTalsJ4KXGGmb9f/Izm0EjlA
+         8Cs9jjjCvcO3PC+2E/SIP7tde12e4V1Hq9FXbn5DHVtXcH02WU1VGNPfDO+hKAngHRm9
+         ViqdVlzUrqjwD7u1KpZ3A8rgcFKXZWaH9oSOTImJB3oLrfHsQt6Q7w1xKNf/II0Kwxtu
+         6ZZKpYbnz5CJLEKsNMG/d0HB5aQ0PtyaAKhBE6cIkjSPxewVj8jgIbiP+iG89dw8+sgo
+         M7hw==
+X-Gm-Message-State: AFq9FYIzPGNqc/8ejehS1pYwWCGXjh6Cg8MrLgmQDrW1fN6nade2A/5x
+	EWYh/9gc+vhBzDyz8jy5bAE9UFJT42vZ0eCL0nb3/t1pt8ya8rb25YB4EVtdCw==
+X-Gm-Gg: AYBFou0eC0QDa0DPWqEZfgqzHIyabZ9TIMkFQnrHNVIhMRfwhpybQIjYX7gWH44oG0Q
+	wxPSkQaA8LRMLifmc/0oGaM3kTykHu88gLgnhlHe+2Et7grmHuftBDmnV2mkSxAhl9pu9tvH1w+
+	0tvCZVmHLOA8fnBHNOGGFYElCVIbqnagiE/jt4fa1xtXt7tS87WM/PRn7NclQmbFDFmO8YLGPYc
+	s1HM80A2hmbKOuV4jj/Xx6NwIzF8RUpEQmRoubX1grHtXjivFvJgH8g5Ky7eY9TaXjrxuvBLo25
+	nlq09QWBhRWbdqvldQVIZ6k7Y2WjX+hNbr/VzYTYsM8cpdiloYf2tDRx6zdJ535RUYVRQbjeKYu
+	WApVpVQin7EZrbqdEkRSlAm3/t9kmebiOc/jVWfgEMdJVnGwLAk/NZFQKuPX6FYpBfWk2ivLcnu
+	bdZADh4XU5yQ5LXF/JM/jIDiLEUsos97vv7vHROvuFEl/niFsUKTBFK+7TWJ42m5Dj45RCTMxCc
+	4O0TibYVzwxrdWL/OxTuGuT3JhqX8y9TMjXm62W4aZdPrHzpLa0mnLIfuq3atlNQkLNeJy1CHvl
+	24j8ZezkCDdi51GEHwTCA0j7kb+Q66R0vKzq6NhCrHXknSFH0I2ihRIJET9npIQZKsZTbUV7Qbl
+	kf/7yYKh895L/hZ7cex/ewF+XotTKVdH7gx7wOB4i1FAKgWg=
+X-Received: by 2002:a05:693c:408d:b0:351:4d2d:af26 with SMTP id 5a478bee46e88-36a1ff8477fmr2101995eec.2.1793156008535;
+        Tue, 27 Oct 2026 19:53:28 -0700 (PDT)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a239644efsm1711914eec.23.2026.10.27.19.53.25
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 27 Oct 2026 19:53:28 -0700 (PDT)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.de,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	Joonho Lee <mynameisjune111@gmail.com>
+Subject: [PATCH v6 02/14] ALSA: virtio: Recover PCM state after a failed start
+Date: Wed, 28 Oct 2026 11:53:05 +0900
+Message-ID: <20261028025317.92450-3-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261028025317.92450-1-mynameisjune111@gmail.com>
+References: <20261028025317.92450-1-mynameisjune111@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -91,269 +107,229 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Authority-Analysis: v=2.4 cv=HJ1WhYtv c=1 sm=1 tr=0 ts=6ae16250 cx=c_pps
- a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8 a=Sw036wB_Sbj6ZPNlFA4A:9
-X-Proofpoint-ORIG-GUID: eoAwt-FAT8ojgDC7re-7NPcKMN5mq4Z0
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDAxMCBTYWx0ZWRfX6xy1zjJzDvQp
- Z7L0XY7/4wbOmWmwi1Ir1MIopNwLHBIM0bTZ0HpBvUh46mAT6fwjLuQ3uQhnXeuHvMJ08usXjoF
- wrlZIvP9NZ8AMzQTrvRWVoJfmsIYnyE=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDAxMCBTYWx0ZWRfX+o2O92Js1/TV
- T01k5NScTr5t6b6pWoirjVg7jN62mtrNSEdiDIgLRC3oA1VPSReUmcQVEhrMda3FloUH4SIlsb6
- 69knpg1GLxq0E7sW/ktzdGR8k2+VtcMtyFSiG+0erp1hCcYU0wxqAUI3SdtqvoM1BkUSazwHxb3
- ZFy9I40LF1hwKYYYENxEb2dciZGKqboRxDxFc3awp9pcW6Fkzkxr11x5qWvFSReEKotkhwUGlF9
- 1fCGn+hWA0KNlR621FLaoOJYwSdN9vCI78QgDcyfpzeO5lknaRcIu+IZRsavwXCerDvQ7lxL+xl
- kCgH2zNmfsrdYioFA0z0i4Td+i+NTyUqGwA+a8wH78gVrMpMxjMHdY2kw1FR62UH+XT5YUDd5AM
- T+5fy16rguSOrgiRr+AZfM+/fxANleKqyq56tvGvcUNZO9nV6dMx3J4BhGwdDTu7JXh1/zdkxVJ
- jk4QnONOwGh5l4YPk2g==
-X-Proofpoint-GUID: eoAwt-FAT8ojgDC7re-7NPcKMN5mq4Z0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-28_01,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
- impostorscore=0 adultscore=0 spamscore=0 phishscore=0 clxscore=1015
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610280010
 
-AudioReach currently rejects PCM streams with more than four channels in
-the PCM and shared-memory media format paths.
+Capture trigger queues I/O messages before PCM_START. If the START
+message cannot be allocated or sent, transfers may remain queued, and
+ALSA does not invoke the action undo callback for the failed trigger.
 
-This prevents TDM links that expose more channels, such as the 6-channel
-playback path used on SA8797P Ride, from being configured.
+Mark the stream stopped and disable transfers for every failed START
+path. Arm runtime->stop_operating so sync_stop releases pending I/O and
+prevents prepare, hw_params, or START retries until release succeeds.
 
-Reuse q6dsp_map_channels() to support multichannel PCM formats and use
-the common PCM channel limit definition.
+The stopped flag is shared with ACK callbacks that can run without the
+ALSA stream lock. Protect every stopped access with vss->lock. Read the
+pending message count under the same lock in open and hw_params. In
+sync_stop, decide whether RELEASE is needed and mark the stream stopped
+in one locked transition; leave it stopped when release or draining fails.
 
-Signed-off-by: Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
-Reviewed-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Always cancel elapsed-period work in sync_stop, even when no RELEASE
+is needed.
+
+Fixes: da76e9f3e43a ("ALSA: virtio: PCM substream operators")
+Assisted-by: LLM
+Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 ---
+Changes in v3:
+- Protect all stopped accesses with vss->lock. Keep the RELEASE
+  decision and stopped transition in the same critical section.
 
-v3: reuse PCM_MAX_NUM_CHANNEL to replace AR_PCM_MAX_NUM_CHANNEL (Srinivas)
-v2: reuse q6dsp_map_channels
+ sound/virtio/virtio_pcm.h     |  4 +-
+ sound/virtio/virtio_pcm_ops.c | 81 +++++++++++++++++++++++++++++------
+ 2 files changed, 69 insertions(+), 16 deletions(-)
 
- sound/soc/qcom/qdsp6/audioreach.c       | 36 ++++---------------------
- sound/soc/qcom/qdsp6/audioreach.h       |  5 ++--
- sound/soc/qcom/qdsp6/q6apm-dai.c        | 12 ++++++---
- sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 11 +++++---
- 4 files changed, 24 insertions(+), 40 deletions(-)
-
-diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
-index d2dc5d37bccf..e6f077a5b750 100644
---- a/sound/soc/qcom/qdsp6/audioreach.c
-+++ b/sound/soc/qcom/qdsp6/audioreach.c
-@@ -306,22 +306,6 @@ void *audioreach_alloc_apm_cmd_pkt(int pkt_size, uint32_t opcode, uint32_t token
- }
- EXPORT_SYMBOL_GPL(audioreach_alloc_apm_cmd_pkt);
+diff --git a/sound/virtio/virtio_pcm.h b/sound/virtio/virtio_pcm.h
+index 8837dfc12828..8048b14e6c80 100644
+--- a/sound/virtio/virtio_pcm.h
++++ b/sound/virtio/virtio_pcm.h
+@@ -26,13 +26,13 @@ struct virtio_pcm_msg;
+  * @hw: Kernel ALSA substream hardware descriptor.
+  * @elapsed_period: Kernel work to handle the elapsed period state.
+  * @lock: Spinlock that protects fields shared by interrupt handlers and
+- *        substream operators.
++ *        substream operators, including @stopped.
+  * @buffer_bytes: Current buffer size in bytes.
+  * @hw_ptr: Substream hardware pointer value in bytes [0 ... buffer_bytes).
+  * @xfer_enabled: Data transfer state (0 - off, 1 - on).
+  * @xfer_xrun: Data underflow/overflow state (0 - no xrun, 1 - xrun).
+  * @stopped: True if the substream is stopped and must be released on the device
+- *           side.
++ *           side; protected by @lock.
+  * @suspended: True if the substream is suspended and must be reconfigured on
+  *             the device side at resume.
+  * @msgs: Allocated I/O messages.
+diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
+index a40ea394bf17..970499fe419b 100644
+--- a/sound/virtio/virtio_pcm_ops.c
++++ b/sound/virtio/virtio_pcm_ops.c
+@@ -96,6 +96,15 @@ static const struct virtsnd_a2v_rate g_a2v_rate_map[] = {
  
--void audioreach_set_default_channel_mapping(u8 *ch_map, int num_channels)
--{
--	if (num_channels == 1) {
--		ch_map[0] =  PCM_CHANNEL_FL;
--	} else if (num_channels == 2) {
--		ch_map[0] =  PCM_CHANNEL_FL;
--		ch_map[1] =  PCM_CHANNEL_FR;
--	} else if (num_channels == 4) {
--		ch_map[0] =  PCM_CHANNEL_FL;
--		ch_map[1] =  PCM_CHANNEL_FR;
--		ch_map[2] =  PCM_CHANNEL_LS;
--		ch_map[3] =  PCM_CHANNEL_RS;
--	}
--}
--EXPORT_SYMBOL_GPL(audioreach_set_default_channel_mapping);
--
- static void apm_populate_container_config(struct apm_container_obj *cfg,
- 					  const struct audioreach_container *cont)
+ static int virtsnd_pcm_sync_stop(struct snd_pcm_substream *substream);
+ 
++static void virtsnd_pcm_start_failed(struct virtio_pcm_substream *vss)
++{
++	scoped_guard(spinlock_irqsave, &vss->lock) {
++		vss->xfer_enabled = false;
++		vss->stopped = true;
++	}
++	vss->substream->runtime->stop_operating = true;
++}
++
+ /**
+  * virtsnd_pcm_open() - Open the PCM substream.
+  * @substream: Kernel ALSA substream.
+@@ -115,7 +124,8 @@ static int virtsnd_pcm_open(struct snd_pcm_substream *substream)
+ 	snd_pcm_hw_constraint_integer(substream->runtime,
+ 				      SNDRV_PCM_HW_PARAM_PERIODS);
+ 
+-	vss->stopped = !!virtsnd_pcm_msg_pending_num(vss);
++	scoped_guard(spinlock_irqsave, &vss->lock)
++		vss->stopped |= !!vss->msg_count;
+ 	vss->suspended = false;
+ 
+ 	/*
+@@ -217,13 +227,25 @@ static int virtsnd_pcm_hw_params(struct snd_pcm_substream *substream,
  {
-@@ -760,7 +744,7 @@ static int audioreach_codec_dma_set_media_format(struct q6apm_graph *graph,
- 	intf_cfg->cfg.intf_index = module->hw_interface_idx;
- 	intf_cfg->cfg.active_channels_mask = 0;
- 	/* Convert the physical channel mapping into a bit field */
--	for (i = 0; i < AR_PCM_MAX_NUM_CHANNEL; i++)
-+	for (i = 0; i < PCM_MAX_NUM_CHANNEL; i++)
- 		if (cfg->channel_map[i])
- 			intf_cfg->cfg.active_channels_mask |= BIT(i);
+ 	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
+ 	struct virtio_device *vdev = vss->snd->vdev;
++	unsigned int msg_count;
++	bool stopped;
+ 	int rc;
  
-@@ -883,7 +867,7 @@ static int audioreach_mfc_set_media_format(struct q6apm_graph *graph,
- 	media_format->bit_width = cfg->bit_width;
- 	media_format->num_channels = cfg->num_channels;
- 	/* Convert the physical mapping to a logical mapping of the channels */
--	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
-+	for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
- 		if (!cfg->channel_map[i])
- 			continue;
- 		media_format->channel_mapping[j++] = cfg->channel_map[i];
-@@ -1185,11 +1169,6 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
- 	int payload_size;
- 	int i, j;
+-	if (virtsnd_pcm_msg_pending_num(vss)) {
++	scoped_guard(spinlock_irqsave, &vss->lock) {
++		msg_count = vss->msg_count;
++		stopped = vss->stopped;
++	}
++	if (msg_count) {
+ 		dev_err(&vdev->dev, "SID %u: invalid I/O queue state\n",
+ 			vss->sid);
+ 		return -EBADFD;
+ 	}
++	if (stopped) {
++		dev_err(&vdev->dev, "SID %u: stream release failed\n",
++			vss->sid);
++		substream->runtime->stop_operating = true;
++		return -EBADFD;
++	}
  
--	if (num_channels > 4) {
--		dev_err(graph->dev, "Error: Invalid channels (%d)!\n", num_channels);
--		return -EINVAL;
--	}
--
- 	payload_size = APM_PCM_MODULE_FMT_CMD_PSIZE(num_channels);
- 
- 	struct gpr_pkt *pkt __free(kfree) =
-@@ -1218,7 +1197,7 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
- 	media_cfg->q_factor = mcfg->bit_width - 1;
- 	media_cfg->bits_per_sample = mcfg->bit_width;
- 	/* Convert the physical mapping to a logical mapping of the channels */
--	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < mcfg->num_channels; i++) {
-+	for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < mcfg->num_channels; i++) {
- 		if (!mcfg->channel_map[i])
- 			continue;
- 		media_cfg->channel_mapping[j++] = mcfg->channel_map[i];
-@@ -1275,11 +1254,6 @@ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
- 	int i, j;
- 	void *p;
- 
--	if (num_channels > 4) {
--		dev_err(graph->dev, "Error: Invalid channels (%d)!\n", num_channels);
--		return -EINVAL;
--	}
--
- 	payload_size = APM_SHMEM_FMT_CFG_PSIZE(num_channels) + APM_MODULE_PARAM_DATA_SIZE;
- 
- 	struct gpr_pkt *pkt __free(kfree) =
-@@ -1313,7 +1287,7 @@ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
- 		cfg->endianness = PCM_LITTLE_ENDIAN;
- 		cfg->num_channels = mcfg->num_channels;
- 		/* Convert the physical mapping to a logical mapping of the channels */
--		for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
-+		for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
- 			if (!mcfg->channel_map[i])
- 				continue;
- 			cfg->channel_mapping[j++] = mcfg->channel_map[i];
-@@ -1436,7 +1410,7 @@ static int audioreach_speaker_protection_vi(struct q6apm_graph *graph,
- 
- 	cm_cfg->cfg.num_channels = num_channels * 2;
- 	/* Convert the physical mapping to a logical mapping of the channels */
--	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < num_channels; i++) {
-+	for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < num_channels; i++) {
- 		if (!mcfg->channel_map[i])
- 			continue;
- 		/*
-diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
-index 587f14ce71d2..9f4166ebdc10 100644
---- a/sound/soc/qcom/qdsp6/audioreach.h
-+++ b/sound/soc/qcom/qdsp6/audioreach.h
-@@ -6,6 +6,7 @@
- #include <linux/soc/qcom/apr.h>
- #include <uapi/sound/snd_ar_tokens.h>
- #include <sound/soc.h>
-+#include "q6dsp-common.h"
- struct q6apm;
- struct q6apm_graph;
- 
-@@ -805,7 +806,6 @@ struct param_id_hw_ep_power_mode_cfg {
- #define PARAM_ID_HW_EP_DMA_DATA_ALIGN	0x08001233
- #define AR_HW_EP_DMA_DATA_ALIGN_MSB	0
- #define AR_HW_EP_DMA_DATA_ALIGN_LSB	1
--#define AR_PCM_MAX_NUM_CHANNEL		8
- 
- struct param_id_hw_ep_dma_data_align {
- 	uint32_t dma_data_align;
-@@ -998,7 +998,7 @@ struct audioreach_module_config {
- 	u16	nslots_per_frame;
- 	u16	slot_width;
- 	struct snd_codec codec;
--	u8 channel_map[AR_PCM_MAX_NUM_CHANNEL];
-+	u8 channel_map[PCM_MAX_NUM_CHANNEL];
- };
- 
- /* Packet Allocation routines */
-@@ -1009,7 +1009,6 @@ static inline u16 audioreach_gpr_dest_domain(gpr_device_t *gdev)
- 
- void *audioreach_alloc_apm_cmd_pkt(int pkt_size, uint32_t opcode,
- 				   uint32_t token);
--void audioreach_set_default_channel_mapping(u8 *ch_map, int num_channels);
- void *audioreach_alloc_cmd_pkt(int payload_size, uint32_t opcode,
- 			       uint32_t token, uint32_t src_port,
- 			       uint32_t dest_port);
-diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
-index 58beaf906b9f..83594b693569 100644
---- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-@@ -21,6 +21,7 @@
- #include <asm/div64.h>
- #include <asm/dma.h>
- #include "q6apm.h"
-+#include "q6dsp-common.h"
- 
- #define DRV_NAME "q6apm-dai"
- #define POS_BUFFER_BYTES	4096
-@@ -344,7 +345,10 @@ static int q6apm_dai_prepare(struct snd_soc_component *component,
- 	cfg.num_channels = runtime->channels;
- 	cfg.bit_width = prtd->bits_per_sample;
- 	cfg.fmt = SND_AUDIOCODEC_PCM;
--	audioreach_set_default_channel_mapping(cfg.channel_map, runtime->channels);
-+	ret = q6dsp_map_channels(cfg.channel_map, runtime->channels);
-+	if (ret)
-+		return ret;
+ 	rc = virtsnd_pcm_dev_set_params(vss, params_buffer_bytes(hw_params),
+ 					params_period_bytes(hw_params),
+@@ -273,6 +295,16 @@ static int virtsnd_pcm_prepare(struct snd_pcm_substream *substream)
+ 	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
+ 	struct virtio_device *vdev = vss->snd->vdev;
+ 	struct virtio_snd_msg *msg;
++	bool stopped;
 +
- 	if (prtd->state) {
- 		/* clear the previous setup if any  */
- 		q6apm_graph_stop(prtd->graph);
-@@ -1007,8 +1011,10 @@ static int q6apm_dai_compr_set_params(struct snd_soc_component *component,
- 		cfg.num_channels = 2;
- 		cfg.bit_width = prtd->bits_per_sample;
- 		cfg.fmt = codec->id;
--		audioreach_set_default_channel_mapping(cfg.channel_map,
--						       cfg.num_channels);
-+		ret = q6dsp_map_channels(cfg.channel_map, cfg.num_channels);
-+		if (ret)
-+			return ret;
-+
- 		memcpy(&cfg.codec, codec, sizeof(*codec));
++	scoped_guard(spinlock_irqsave, &vss->lock)
++		stopped = vss->stopped;
++	if (stopped) {
++		dev_err(&vdev->dev, "SID %u: stream release failed\n",
++			vss->sid);
++		substream->runtime->stop_operating = true;
++		return -EBADFD;
++	}
  
- 		ret = q6apm_graph_media_format_shmem(prtd->graph, &cfg);
-diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-index 83f2711bceea..9a3994a4f475 100644
---- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-@@ -94,7 +94,7 @@ static int q6dma_set_channel_map(struct snd_soc_dai *dai,
- 			return -EINVAL;
+ 	if (!vss->suspended) {
+ 		if (virtsnd_pcm_msg_pending_num(vss)) {
+@@ -338,31 +370,40 @@ static int virtsnd_pcm_trigger(struct snd_pcm_substream *substream, int command)
+ 
+ 		scoped_guard(spinlock_irqsave, &queue->lock) {
+ 			guard(spinlock)(&vss->lock);
++			if (vss->stopped) {
++				substream->runtime->stop_operating = true;
++				return -EBADFD;
++			}
+ 			if (vss->direction == SNDRV_PCM_STREAM_CAPTURE)
+ 				rc = virtsnd_pcm_msg_send(vss, 0, vss->buffer_bytes);
+-			if (rc)
++			if (rc) {
++				vss->stopped = true;
++				substream->runtime->stop_operating = true;
+ 				return rc;
++			}
+ 			vss->xfer_enabled = true;
  		}
  
--		if (tx_num > AR_PCM_MAX_NUM_CHANNEL) {
-+		if (tx_num > PCM_MAX_NUM_CHANNEL) {
- 			dev_err(dai->dev, "invalid tx num %d\n",
- 				tx_num);
- 			return -EINVAL;
-@@ -147,7 +147,9 @@ static int q6hdmi_hw_params(struct snd_pcm_substream *substream,
- 	cfg->bit_width = params_width(params);
- 	cfg->sample_rate = params_rate(params);
- 	cfg->num_channels = channels;
--	audioreach_set_default_channel_mapping(cfg->channel_map, channels);
-+	ret = q6dsp_map_channels(cfg->channel_map, channels);
-+	if (ret)
-+		return ret;
+ 		msg = virtsnd_pcm_ctl_msg_alloc(vss, VIRTIO_SND_R_PCM_START,
+ 						GFP_KERNEL);
+ 		if (!msg) {
+-			guard(spinlock_irqsave)(&vss->lock);
+-			vss->xfer_enabled = false;
+-
++			virtsnd_pcm_start_failed(vss);
+ 			return -ENOMEM;
+ 		}
  
- 	switch (dai->id) {
- 	case DISPLAY_PORT_RX_0:
-@@ -173,11 +175,14 @@ static int q6dma_hw_params(struct snd_pcm_substream *substream,
- 	struct q6apm_lpass_dai_data *dai_data = dev_get_drvdata(dai->dev);
- 	struct audioreach_module_config *cfg = &dai_data->module_config[dai->id];
- 	int channels = hw_param_interval_c(params, SNDRV_PCM_HW_PARAM_CHANNELS)->max;
-+	int ret;
+-		return virtsnd_ctl_msg_send_sync(snd, msg);
++		rc = virtsnd_ctl_msg_send_sync(snd, msg);
++		if (rc)
++			virtsnd_pcm_start_failed(vss);
++
++		return rc;
+ 	case SNDRV_PCM_TRIGGER_SUSPEND:
+ 		vss->suspended = true;
+ 		fallthrough;
+ 	case SNDRV_PCM_TRIGGER_STOP:
+-		vss->stopped = true;
+-		fallthrough;
+ 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+ 		scoped_guard(spinlock_irqsave, &vss->lock) {
++			if (command != SNDRV_PCM_TRIGGER_PAUSE_PUSH)
++				vss->stopped = true;
+ 			vss->xfer_enabled = false;
+ 		}
  
- 	cfg->bit_width = params_width(params);
- 	cfg->sample_rate = params_rate(params);
- 	cfg->num_channels = channels;
--	audioreach_set_default_channel_mapping(cfg->channel_map, channels);
-+	ret = q6dsp_map_channels(cfg->channel_map, channels);
-+	if (ret)
-+		return ret;
+@@ -393,21 +434,31 @@ static int virtsnd_pcm_sync_stop(struct snd_pcm_substream *substream)
+ 	struct virtio_snd *snd = vss->snd;
+ 	struct virtio_snd_msg *msg;
+ 	unsigned int js = msecs_to_jiffies(virtsnd_msg_timeout_ms);
++	bool need_release;
+ 	int rc;
+ 
++	scoped_guard(spinlock_irqsave, &vss->lock) {
++		vss->xfer_enabled = false;
++		need_release = vss->stopped || vss->msg_count;
++		if (need_release)
++			vss->stopped = true;
++	}
+ 	cancel_work_sync(&vss->elapsed_period);
+-
+-	if (!vss->stopped)
++	if (!need_release)
+ 		return 0;
+ 
+ 	msg = virtsnd_pcm_ctl_msg_alloc(vss, VIRTIO_SND_R_PCM_RELEASE,
+ 					GFP_KERNEL);
+-	if (!msg)
++	if (!msg) {
++		substream->runtime->stop_operating = true;
+ 		return -ENOMEM;
++	}
+ 
+ 	rc = virtsnd_ctl_msg_send_sync(snd, msg);
+-	if (rc)
++	if (rc) {
++		substream->runtime->stop_operating = true;
+ 		return rc;
++	}
+ 
+ 	/*
+ 	 * The spec states that upon receipt of the RELEASE command "the device
+@@ -421,11 +472,13 @@ static int virtsnd_pcm_sync_stop(struct snd_pcm_substream *substream)
+ 	if (rc <= 0) {
+ 		dev_warn(&snd->vdev->dev, "SID %u: failed to flush I/O queue\n",
+ 			 vss->sid);
++		substream->runtime->stop_operating = true;
+ 
+ 		return !rc ? -ETIMEDOUT : rc;
+ 	}
+ 
+-	vss->stopped = false;
++	scoped_guard(spinlock_irqsave, &vss->lock)
++		vss->stopped = false;
  
  	return 0;
  }
 -- 
-2.43.0
+2.54.0 (Apple Git-157)
 
