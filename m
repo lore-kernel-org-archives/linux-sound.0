@@ -1,95 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793212426;
-	b=JSyzQDjG2rUR2aQKauyokSEF+OKWz/PzQi8T9BDLPycw7S0eyxrw2h5VKrfYIAQwGClC
-	 KUiA6D0GOMsIYsVa7GHRzWhZSk60dY9pX+rL3PxUXZJyzA9m66TWbHOMARQ5+KhTAkeKO
-	 EF7NEoN9WYqnDCYlruytav82sH7BTnuXPnUSMcoYDTb4GG1STzOPqc79IKEHw5Jt5FR23
-	 Wp4VYp1mBCt44Ly3gXYaecsUF2CN4EpdpikeioMspYzEgLKdVEho34CNIACoc4V9sUs7V
-	 GYV7dR1NLylvfxw1NE2lLFHB0JSfAhMnsW9UJ33Y7FsEOPo/eEpZxLj4rNF3c8wSXpw==
+	t=1793224569;
+	b=powMMRfWHLXyQtNgHanx8oYYGcv34XeMReODZLhSazCHJfHj2Vzj6cXdSdKgUT40yG+n
+	 d8+01uxHnlVbYbW700qpNx9jSTcCC9K5UsXFra49l4v5jiK/u/SDBM+EGXbOwTD/Pk9gj
+	 hk8pmkNOV6t09FHdwj29HX4ekMyB4+jTB0TOIQs2UyfxQwB0Akh9YXKFoOW+Bk0EUe4sE
+	 daXtQ8A7iUq5mC5g50rStclWi6XxoIHdwNWmYRPP6DiJVfC+PnARspDQSKXYTHT/LVVg8
+	 kbI1ddRztsXxXnauitxchO5Bboesl6cHK715guF8kGDvrRBKigKMi11aKhJUogxvFtw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793212426;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ngyWFIp9b2RI1L29HXSmCYoH/auDdUsZs2KU+zvgTBU=;
-	b=F6if4Ci4ApTnQtMO2YI18+y0rxftVUGmHaH2AveQ39v6g4nKxJk1FjEmdl24c91fA3rL
-	 ziVho4maxn96lxjttEbfqZDIen/KrhY8BsJ9VYxHHSPIQSakcNFI2ZZB3Wst/DRDuWZCk
-	 73kEBImccbMIsZQcR5quyxCDC6OSgN+B1hWNdRRinOFsyHNwlVPkXa0ikOeciA8wPdYXL
-	 E0xxbJI32k0C1v752SNf25roT7rp9R3Ikq6KIVWclFGH0mvDbJUdE9t8LrbBdFvJ56rYs
-	 l+D9y4Q5kUWZ5w8W+MMTzMm+S/fCmr0jRqTCTzpgwoBk+1IItnJQPj32t7syaeA+WXA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793224569;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=vlZeBbTn4X9bi4Ynurx+tgcFaDtcBUgNgkgkjVTl578=;
+	b=QJSRTs7IVB4f+rSHtFVu5/KHdjyrVCZgJSDcd5cw+9zho99zr3NDoqtbS0YmqbrL1rj6
+	 eIsKOyoSgxNHLtzWOEuWjQZQy1GVYLmobsMvZ6H6JZ2CTEVik6qvjK6rQTfEW6eFfflSy
+	 0ppqJ9Lq343FyzKSvK6/lGk8DJTeMqp8qQSHxo7gDFqXCL7IbPjxqP768k1VoiLP1XhqN
+	 VNHRm9nJ7vMnl/c8ptAvtB8s8m4zFaV9Pz692E+aNKkeUF/TaPLzPBEzpv3BiQPpzPzdM
+	 dKCSjszO7PQ3gGEldbPzapRi7r8/TRsaSkA9NBZjszZ6Z6dguqoWW/qHf3XSdYEOiSA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=E6KTi3Hb;
-	arc=none smtp.remote-ip=209.85.128.46
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=I6+V08SU;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="Kb/ZgqIM";
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E48606A31E
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 18:33:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57E48606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F423606A31A
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 21:56:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F423606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=E6KTi3Hb
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a210470b49so10684075e9.2
-        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 11:33:46 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=I6+V08SU;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Kb/ZgqIM
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69SIkErf2546832
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 21:56:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	vlZeBbTn4X9bi4Ynurx+tgcFaDtcBUgNgkgkjVTl578=; b=I6+V08SUWFn8OrJj
+	/oc980yhRpnBQ54mN3PIWbEuO1FUMEMdNjS6wI+GTpHqI+3erfHUvhl4JPKS6Kyh
+	XhsHfvUi5kNq0lg81sAV56Z83lgeiT6GEiSbLDaybfRwh2ryNGLSRimZuF6aWlY2
+	A8iBxYUtmYNACwXeCfNOvdcfUEbrXlzoMkHPcPfWRF7RSGM/Pw12Y1dKtxkzhtSf
+	6uzsI+/W2xjo7qSi0D6IrzX4P5rMmEcCnlFmWAJ9BbPMRp/bNoUwMiCPC7vBnuzC
+	Nyks3CrstZZZvoWl9+kootfOwOkFWsXcXPAgWGuU41nAKgyxrbu2S62G6VbDT98N
+	NquHDw==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hkpmc0muj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 21:56:08 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93cb71b1443so303781985a.2
+        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 14:56:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793212425; x=1793817225; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ngyWFIp9b2RI1L29HXSmCYoH/auDdUsZs2KU+zvgTBU=;
-        b=E6KTi3HbAS98a5UwjkBuOqLX7zCM/TgIGqtqSquFml1qyig12JfceHJCdtlNQtwwUS
-         OP/VpDAtSnFj8o8Z6xkbI8JIoujqalxj1geeeEGtzN+bndprnr0evBkoJh1jFaDtxAGa
-         cnlWVeW3KPn2gPL+jkBiNWaU2B6DN7znpm3F0i42L48DtCW3B/LDggf8iHziPsThPaXE
-         T/T1p7IfrYDMJGNy7yeen0Mufd3xfQ6GcNbBDbdkYO5KJYq3s2lKOQuSoou9SsfsIwsJ
-         i6lBxFktXuXd4OScLkbp+7b85u+1Hy6kfEk0q7GdRl7Ue4QLuzX35kaTrZ/XBjxF3YSL
-         ZUmg==
+        d=oss.qualcomm.com; s=google; t=1793224567; x=1793829367; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vlZeBbTn4X9bi4Ynurx+tgcFaDtcBUgNgkgkjVTl578=;
+        b=Kb/ZgqIMOFbmJghMIz5wr8TduAUH94lPMO3jGQ4yYylSWZL8hAUUtRhUtyBAuUGAUr
+         BlhK/fzmMHeTt84cIDpNadXx3BXzNZ2vguZhyjJ5eQqVAMJf25ZFm/0JHhKfESsnbwQu
+         HZ5RO6bzBck9XbD2G3gbfMlIzeWPKkp/hVf8o95i1djCkge/Xn/EdPJRx9N8UAtHu05G
+         r9MYyWJKENOjVvGrVm6QiPxiq0yKkJhZ8izo0zqia1d1nNcesbw3kbnOo3sq7KFGAe3O
+         2iBAv9UZsnki9296U93dO167MA3OkrV8VZhzCOPZdZfspRNKssTrLYa+ar9UuJZQ8mlq
+         lGsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793212425; x=1793817225;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ngyWFIp9b2RI1L29HXSmCYoH/auDdUsZs2KU+zvgTBU=;
-        b=dWE4WGCm1xRXI+GyectwN9wzuaHzTziKoraZwT7edhhmfHB0d+PKzGCg7HlO/NKfli
-         U+2ssLsY8/trsFUHosRyzwuQQZ0RteldDTLH7tQZF44GcldY8KfHB17/AZcHWMfwi0bs
-         KmC3oRx9/NGwHOAz+UKtyrj/XCi/hvFTLvc4tLV7V7Tioui7cmbk6tkJmkKCQIjdizZd
-         PKbDCQKcuFvlqX4jSk1rjeSXI1EdyLK8r+dUSmOUIz8w0eJNbf8KTAScJFR3xeFGvZiK
-         8Lk+tPkUtutmQXPjhphqzufdj/FBts1b0y3km0aqSnG6zyv3R4PD01VOqFNn1MR8A3hp
-         sPvw==
-X-Gm-Message-State: AFq9FYJiux2/cvWuK7dF+Ov0M7UwScFZSfDSroDSSyLjkxykP6gmjwaV
-	0/bk2c3q1wytZagmZf3pJNsdCVGSRYRx6o+H1aZt0lK8bs6aPtYObmFg+czabHIeC3M=
-X-Gm-Gg: AYBFou2Hj5XrvEOPe10d5Bg1CqxpH0oZNRByIHzsPamv5xa1tyRpjUWS4aE8s6fgnNB
-	yTFza8AzRRPZs9kGsRy7MkzxUzJW0ydLbA9FmKSGx7AtXU1AKzAPon2iGTLqDxqO0al4Uj67H1u
-	DBOr65B1RiZRmgCocXO5d5Am4VRekezfIGtbm6bmpSRtJEweX40jtxgIzuVnCAh4xx2rgxKiH/s
-	jOngTOSGhJD9WDI2laNNNDbabpVMDRGO33/9Lyab66prPqQQjHGehcVuifIk4VKZ6JY1sxxzjfh
-	OMk/FXOLVIJAxk1gWYNfs8e391o7ZPkbioJOT2FyNp7due+xtLk66Z+5RA7Tx4n2CmRi3P6W6Fa
-	jVZmRvBRMvp9YlGfU7UAynZUk0q5qEUEZg+vgz6bU2Y4DckpOYgKKPDWdo8Zd0BQ/F//qCFSm2Y
-	7q8HopkZ6J8pPYFN3U6lFRlWr4y749cZFd9pDaQzX1QwbLW1N5vgjXp42vEdFxLXywCvMB95BEb
-	IJWpe3MabSRdjx5i6+JzNaLzP5qZinoDaybEROZmLdmvBMctMO/MbowuBcSBVdvH767xm/4otJL
-	Gb6GC3C2HyI21Yzx8eveyrINx4CJnOP+8Ee4mSDCL1D7rMiEXPpK64iN++kN6zZ2pC/4XtR/n5k
-	pb0eqkT4=
-X-Received: by 2002:a05:600c:154a:b0:4a1:cef3:fb3a with SMTP id 5b1f17b1804b1-4a9660b5e35mr74056685e9.9.1793212424592;
-        Wed, 28 Oct 2026 11:33:44 -0700 (PDT)
-Received: from gmail.com (dynamic-adsl-84-221-247-128.clienti.tiscali.it. [84.221.247.128])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa7f7f52e2sm11723035e9.9.2026.10.28.11.33.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 11:33:44 -0700 (PDT)
-From: Davide Gironi <davide.gironi@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	Davide Gironi <davide.gironi@gmail.com>
-Subject: [PATCH v2 2/2] ALSA: ice1712: add TerraTec PHASE 88 support
-Date: Wed, 28 Oct 2026 19:24:10 +0100
-Message-ID: <20261028183155.787599-3-davide.gironi@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261028183155.787599-1-davide.gironi@gmail.com>
-References: <87y0bk6gfn.wl-tiwai@suse.de>
- <20261028183155.787599-1-davide.gironi@gmail.com>
+        d=1e100.net; s=20260707; t=1793224567; x=1793829367;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vlZeBbTn4X9bi4Ynurx+tgcFaDtcBUgNgkgkjVTl578=;
+        b=I9lXpkAakPejVQlM8aFSUqwbDtoj0ofziOOi54tHSjJE8o9htQzqMiqL0+EruUAsLS
+         pdG+lms1Q8TMqjb33qjlJjuTWnqKg0MX3o0ZztQqmJsVkKO7CRl6HnmRXEDG7w8myGmz
+         G1Qoas72xWwH7RBJvFoLyuHg/l8Z1eiv2R05T1pWjMs5vlNZpTjblYz1e6JkTruFRZQ2
+         vsVsJ+/9Zdp+OVNTWL897ECuahX1sNBciyRdZquDHL+j67eB4q/fqV0CS/KvLWQywrpR
+         +kkKJbt3nxi3Dq5qPGZnBAlVrrUkE1tDGBVU58ltK9+IBzvj6nmwOg5ispnjc7cOl8a2
+         AZvQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzM4FtnC63K1khyHkGtmV76pTpscK6mLbANaa/8kz2+T6tBte0DqaMi7Yh0U1ssy1aOpBzjZWP/v761SA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYIUGCc+dhMv5mo4QEc+39lUEl1wi2lsutjqR8ordP35rMja5xbZ
+	pzVCFDdOerjZgd1T/bEMTzbts1FjWZHZmfsOVIsNd+YNDmNCbKHKUxAnFVrHcBAuoUhiFVEC3/+
+	vg0RdV+/UyqQjtK+yJpA46t5rbYY9GiTrMfdUESZ/+ad4IaW7fei3R9npd6K07ioW8g==
+X-Gm-Gg: AYBFou2FNOd2djktjEJRoGghcTjyGebWmryV8UOJMJGK/klu+jJ/uL/uiFGAivbZ6TK
+	pdiRGTukvR88OAt8U9+KrGboLtZglWMS6nKJnd1ssQzlyKfAWqPA87vVfZVDXDVUV7UFK/wg8zx
+	EiXigySGD/+8cC/wSJZViy8zYzbfj3xGobSWDcHelJSi56Yf+unRCc1yM3LvzZpgPSdSsiI7Fu5
+	G/Ox/upmf/CnEI/YUt8RqGHI8zoHpOulnU4HZfoJrP6A1OW9HcyNrFsNcLOKKBc3UI58qbIa6z9
+	/KzYm0qxOt3UfWGEbiMoGbTMkEK73RphgZLT1XX/gicbez8nujiw+2SfLMXfY04PYrswv/uqDt9
+	10z7Ex8htbiUI7ZcfO8yid3M6rgG7fWLZMWzlVgjhuq2q1uHaqFW40T8gyYl8o5aMQOZNtBcCpy
+	w=
+X-Received: by 2002:a05:620a:6f03:b0:93c:29b3:3525 with SMTP id af79cd13be357-94408a94fe3mr548789385a.36.1793224567342;
+        Wed, 28 Oct 2026 14:56:07 -0700 (PDT)
+X-Received: by 2002:a05:620a:6f03:b0:93c:29b3:3525 with SMTP id af79cd13be357-94408a94fe3mr548785385a.36.1793224566702;
+        Wed, 28 Oct 2026 14:56:06 -0700 (PDT)
+Received: from [192.168.68.120] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-48e64ccc693sm1283103f8f.5.2026.10.28.14.56.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Oct 2026 14:56:05 -0700 (PDT)
+Message-ID: <110e1d54-347f-4186-bbe1-6aa03aa8ff3f@oss.qualcomm.com>
+Date: Wed, 28 Oct 2026 21:56:04 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,237 +114,144 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 00/23] ASoC: qcom: AudioReach Active speaker
+ protection for WSA884x
+To: Fabian Renn-Giles <fabian@fielding.dev>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexey Klimov <alexey.klimov@linaro.org>,
+        Ravi Hothi <ravi.hothi@oss.qualcomm.com>, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20261028163152.26892-1-fabian@fielding.dev>
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <20261028163152.26892-1-fabian@fielding.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=X4nHu2Te c=1 sm=1 tr=0 ts=6ae26f78 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=mQyjg09NGKRehI6BM-EA:9 a=QEXdDO2ut3YA:10
+ a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-GUID: jNVL2CsfXhQEPEEgQuM6G3eJp6iICvwR
+X-Proofpoint-ORIG-GUID: jNVL2CsfXhQEPEEgQuM6G3eJp6iICvwR
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDA4NyBTYWx0ZWRfX8FeVqHwFaS/3
+ moGLGtzaIMMnfSMCHOcCuuEeBjheo8y1vzl8eIVPe7Eb2ah6R1JN5lo/pYrYFf8p/O+Kdd5YQ4g
+ m9u7RlyolNbmRCWpQ/HlpffiEUP6ql4HtkMUtdai+/3WaJ62Sxc+pjDiHGHqQZp6xhL50wbv1/V
+ Dd65ek5zI8dheMkNPdYxeTDMZT/UBRXrDYJSgQjIaVA2QEofuHc/xZIgF+I3M/B2WztOkc6smwk
+ yQCfVq34JQ70ALS+uBJM7ZsOw9C7hj4k71Z09BN1nXqBx0a08Xolw1IUhylfRa9qn8CHUR63dd8
+ epymsHg7A6VvXmKcfrFqEW9OInGCwro3UwUqGGrpMB+zH1T6yMpGpCcTL3/xf8w0dXs09xhwAri
+ U5K8JujMrjzsnRyVN/jm/705qBqbhxJE3P3UO9a4VqWAernrqPgH79Rj5aWd1GSEl6H5gEQiskL
+ JehtpO1ezOBy7rmHn+A==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDA4NyBTYWx0ZWRfX40AOg9uP+/ng
+ 5eixsmQMj8GY8ekp3Qs/0w/9jMncxQVgb2QI86YHYika6//M5y1rrw87WqLgiJvGCLqxVG9Fd9j
+ hoPk8zoI5NV9oxc0+Db7KsSSu2pqpXE=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-28_06,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0 clxscore=1015
+ adultscore=0 suspectscore=0 phishscore=0 malwarescore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610280087
 
-Handle PHASE 88-specific expander, EEPROM, control, and MIDI behavior
-in the EWS driver. Use a distinct TS88 model name and preserve the
-expander state when a write fails.
+Hi Fabian,
+Thanks for trying this out,
 
-Assisted-by: Pi:gpt-6-luna
-Signed-off-by: Davide Gironi <davide.gironi@gmail.com>
----
- sound/pci/ice1712/ews.c | 141 +++++++++++++++++++++++++++++++++++++---
- sound/pci/ice1712/ews.h |   7 ++
- 2 files changed, 138 insertions(+), 10 deletions(-)
 
-diff --git a/sound/pci/ice1712/ews.c b/sound/pci/ice1712/ews.c
-index 62574c3..5a44bfa 100644
---- a/sound/pci/ice1712/ews.c
-+++ b/sound/pci/ice1712/ews.c
-@@ -32,6 +32,8 @@ enum {
- /* additional i2c devices for EWS boards */
- struct ews_spec {
- 	struct snd_i2c_device *i2cdevs[3];
-+	unsigned char pcf8575_data;	/* PHASE 88: shadow of the chip select byte */
-+	unsigned char pcf8575_input;	/* PHASE 88: shadow of the input select byte */
- };
- 
- /*
-@@ -128,12 +130,94 @@ static struct snd_i2c_bit_ops snd_ice1712_ewx_cs8427_bit_ops = {
-  * AK4524 access
-  */
- 
-+/* The PHASE 88 chip-select expander is write-only; keep a shadow value. */
-+/* The bit-banged bus takes gpio_mutex internally; don't hold it here. */
-+static int snd_ice1712_phase88_write(struct snd_ice1712 *ice,
-+				     unsigned char page, unsigned char value)
-+{
-+	struct ews_spec *spec = ice->spec;
-+	unsigned char bytes[2];
-+	int err;
-+
-+	bytes[0] = page;
-+	bytes[1] = value;
-+	snd_i2c_lock(ice->i2c);
-+	err = snd_i2c_sendbytes(spec->i2cdevs[EWS_I2C_PCF2], bytes, 2);
-+	snd_i2c_unlock(ice->i2c);
-+	if (err != 2) {
-+		dev_err(ice->card->dev,
-+			"PHASE 88 expander write failed (page 0x%02x, addr 0x%02x, err %d)\n",
-+			page, spec->i2cdevs[EWS_I2C_PCF2]->addr, err);
-+		return -EIO;
-+	}
-+	return 0;
-+}
-+
-+static int snd_ice1712_phase88_chip_select(struct snd_ice1712 *ice, int chip_mask)
-+{
-+	struct ews_spec *spec = ice->spec;
-+	unsigned char data;
-+	int err;
-+
-+	if (snd_BUG_ON(chip_mask < 0 || chip_mask > 0x0f))
-+		return -EINVAL;
-+	data = (spec->pcf8575_data & 0xf0) | chip_mask;
-+	err = snd_ice1712_phase88_write(ice, ICE1712_PHASE88_OUTPUT_PAGE,
-+					data);
-+	if (err >= 0)
-+		spec->pcf8575_data = data;
-+	return err;
-+}
-+
-+/* PHASE 88 Line/Mic bits are ordered 7/8 to 1/2 (0x10 to 0x80). */
-+static int snd_ice1712_phase88_linemic_get(struct snd_kcontrol *kcontrol,
-+					   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
-+	struct ews_spec *spec = ice->spec;
-+
-+	ucontrol->value.integer.value[0] =
-+		!!(spec->pcf8575_input & (0x80 >> kcontrol->private_value));
-+	return 0;
-+}
-+
-+static int snd_ice1712_phase88_linemic_put(struct snd_kcontrol *kcontrol,
-+					   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
-+	struct ews_spec *spec = ice->spec;
-+	unsigned char bit = 0x80 >> kcontrol->private_value;
-+	unsigned char val = ucontrol->value.integer.value[0] ?
-+		spec->pcf8575_input | bit : spec->pcf8575_input & ~bit;
-+	int err;
-+
-+	if (val == spec->pcf8575_input)
-+		return 0;
-+	err = snd_ice1712_phase88_write(ice, ICE1712_PHASE88_INPUT_PAGE, val);
-+	if (err < 0)
-+		return err;
-+	spec->pcf8575_input = val;
-+	return 1;
-+}
-+
-+static const struct snd_kcontrol_new snd_ice1712_phase88_linemic_ctl = {
-+	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+	.name = "Line/Mic 7/8 Switch",
-+	.info = snd_ctl_boolean_mono_info,
-+	.get = snd_ice1712_phase88_linemic_get,
-+	.put = snd_ice1712_phase88_linemic_put,
-+	.private_value = 3,		/* bit 0x10: the pair nothing else drives */
-+};
-+
- /* AK4524 chip select; address 0x48 bit 0-3 */
- static int snd_ice1712_ews88mt_chip_select(struct snd_ice1712 *ice, int chip_mask)
- {
- 	struct ews_spec *spec = ice->spec;
- 	unsigned char data, ndata;
- 
-+	if (ice->eeprom.subvendor == ICE1712_SUBDEVICE_PHASE88)
-+		return snd_ice1712_phase88_chip_select(ice, chip_mask);
-+
- 	if (snd_BUG_ON(chip_mask < 0 || chip_mask > 0x0f))
- 		return -EINVAL;
- 	snd_i2c_lock(ice->i2c);
-@@ -458,9 +542,31 @@ static int snd_ice1712_ews_init(struct snd_ice1712 *ice)
- 		}
- 		snd_ice1712_6fire_write_pca(ice, PCF9554_REG_CONFIG, 0x80);
- 		break;
-+	case ICE1712_SUBDEVICE_PHASE88:
-+		err = snd_i2c_device_create(ice->i2c, "CS8404",
-+					    ICE1712_EWS88MT_CS8404_ADDR,
-+					    &spec->i2cdevs[EWS_I2C_CS8404]);
-+		if (err < 0)
-+			return err;
-+		err = snd_i2c_device_create(ice->i2c, "Output expander",
-+					    ICE1712_PHASE88_OUTPUT_ADDR,
-+					    &spec->i2cdevs[EWS_I2C_PCF2]);
-+		if (err < 0)
-+			return err;
-+		spec->pcf8575_data = ICE1712_PHASE88_OUTPUT_INIT;
-+		/* Check if the chip select expander is present */
-+		err = snd_ice1712_ews88mt_chip_select(ice, 0x0f);
-+		if (err < 0)
-+			return err;
-+		/* Clear the input register before codec setup. */
-+		spec->pcf8575_input = ICE1712_PHASE88_INPUT_INIT;
-+		err = snd_ice1712_phase88_write(ice, ICE1712_PHASE88_INPUT_PAGE,
-+						spec->pcf8575_input);
-+		if (err < 0)
-+			return err;
-+		break;
- 	case ICE1712_SUBDEVICE_EWS88MT:
- 	case ICE1712_SUBDEVICE_EWS88MT_NEW:
--	case ICE1712_SUBDEVICE_PHASE88:
- 	case ICE1712_SUBDEVICE_TS88:
- 
- 		err = snd_i2c_device_create(ice->i2c, "CS8404",
-@@ -982,9 +1088,15 @@ static int snd_ice1712_ews_add_controls(struct snd_ice1712 *ice)
- 				return err;
- 		}
- 		break;
-+	case ICE1712_SUBDEVICE_PHASE88:
-+		/* The PHASE 88 has no EWS88MT sensitivity controls. */
-+		err = snd_ctl_add(ice->card,
-+				  snd_ctl_new1(&snd_ice1712_phase88_linemic_ctl, ice));
-+		if (err < 0)
-+			return err;
-+		break;
- 	case ICE1712_SUBDEVICE_EWS88MT:
- 	case ICE1712_SUBDEVICE_EWS88MT_NEW:
--	case ICE1712_SUBDEVICE_PHASE88:
- 	case ICE1712_SUBDEVICE_TS88:
- 		err = snd_ctl_add(ice->card, snd_ctl_new1(&snd_ice1712_ews88mt_input_sense, ice));
- 		if (err < 0)
-@@ -1014,13 +1126,21 @@ static int snd_ice1712_ews_add_controls(struct snd_ice1712 *ice)
- 
- static int snd_ice1712_ews_eeprom_init(struct snd_ice1712 *ice)
- {
--	if (ice->eeprom.subvendor == ICE1712_SUBDEVICE_DMX6FIRE &&
--	    !ice->dxr_enable) {
--		/* Set EEPROM value to limit active ADCs and DACs to 6;
--		 * also disable AC'97 as no hardware in standard 6fire card/box.
--		 * DXR extensions are not currently supported.
--		 */
--		ice->eeprom.data[ICE_EEP1_CODEC] = 0x3a;
-+	switch (ice->eeprom.subvendor) {
-+	case ICE1712_SUBDEVICE_DMX6FIRE:
-+		if (!ice->dxr_enable) {
-+			/* Limit active ADCs and DACs to 6, and disable AC'97
-+			 * as the standard 6fire card/box has no hardware for it.
-+			 */
-+			ice->eeprom.data[ICE_EEP1_CODEC] = 0x3a;
-+		}
-+		break;
-+	case ICE1712_SUBDEVICE_PHASE88:
-+		/* No consumer AC'97 codec on PHASE 88. */
-+		ice->eeprom.data[ICE_EEP1_CODEC] |= ICE1712_CFG_NO_CON_AC97;
-+		/* Enable the rear MIDI UART. */
-+		ice->eeprom.data[ICE_EEP1_CODEC] |= ICE1712_CFG_2xMPU401;
-+		break;
- 	}
- 	return 0;
- }
-@@ -1052,13 +1172,14 @@ struct snd_ice1712_card_info snd_ice1712_ews_cards[] = {
- 		.subvendor = ICE1712_SUBDEVICE_PHASE88,
- 		.name = "TerraTec Phase88",
- 		.model = "phase88",
-+		.eeprom_init = snd_ice1712_ews_eeprom_init,
- 		.chip_init = snd_ice1712_ews_init,
- 		.build_controls = snd_ice1712_ews_add_controls,
- 	},
- 	{
- 		.subvendor = ICE1712_SUBDEVICE_TS88,
- 		.name = "terrasoniq TS88",
--		.model = "phase88",
-+		.model = "ts88",
- 		.chip_init = snd_ice1712_ews_init,
- 		.build_controls = snd_ice1712_ews_add_controls,
- 	},
-diff --git a/sound/pci/ice1712/ews.h b/sound/pci/ice1712/ews.h
-index aec8dc6..064675a 100644
---- a/sound/pci/ice1712/ews.h
-+++ b/sound/pci/ice1712/ews.h
-@@ -58,6 +58,13 @@ extern struct snd_ice1712_card_info snd_ice1712_ews_cards[];
- #define ICE1712_EWS88MT_OUTPUT_SENSE	0x40	/* mask */
- #define ICE1712_EWS88D_PCF_ADDR		(0x40>>1)
- 
-+/* TerraTec PHASE 88 configuration definitions */
-+#define ICE1712_PHASE88_OUTPUT_ADDR	(0x42>>1)
-+#define ICE1712_PHASE88_OUTPUT_PAGE	0x01	/* output register */
-+#define ICE1712_PHASE88_OUTPUT_INIT	0x20	/* initial output state */
-+#define ICE1712_PHASE88_INPUT_PAGE	0x03	/* input register */
-+#define ICE1712_PHASE88_INPUT_INIT	0x00	/* line inputs */
-+
- /* TerraTec DMX 6Fire configuration definitions */
- #define ICE1712_6FIRE_AK4524_CS_MASK	0x07	/* AK4524 chip select #1-#3 */
- #define ICE1712_6FIRE_RW		0x08	/* read/write switch for i2c; high = write  */
+On 10/28/26 4:31 PM, Fabian Renn-Giles wrote:
+> Hi Srinivas,
+> 
+> I tried this series on a Lenovo Yoga Slim 7x (X1E80100/Hamoa, 4x
+> WSA8845, Linux 7.3.0 based tree). I found one bug and have one open
+> problem.
+> 
+> 1. Over-read in audioreach_get_module_priv_data() (oops on topology load)
+> 
+Have you looked at
+https://lore.kernel.org/all/20261023171316.819857-1-srinivas.kandagatla@oss.qualcomm.com/
+
+this has fix for the exact issue, along with the VI fixes in codec,
+please pick them up.
+
+My Next target is X1 T14s Gen6 platform, I have not tried it yet, but am
+hoping that it should work.
+
+I will keep you posted.
+
+> The function allocates
+> struct_size(pdata, data, le32_to_cpu(mod_array->size)) and then
+> memcpy()s from the topology blob. It crashed on the first load of a
+> topology containing the speaker protection module config blob. The
+> cause is in the size computation. data[] is __le32, so struct_size()
+> counts elements while mod_array->size is in bytes. The allocation is
+> 4x too large and the memcpy runs past the topology data. This is what
+> I used instead:
+> 
+> 	size_t len = sizeof(*pdata) + le32_to_cpu(mod_array->size);
+> 
+> 	pdata = kzalloc(len, GFP_KERNEL);
+> 	if (!pdata)
+> 		return ERR_PTR(-ENOMEM);
+> 
+> 	memcpy(pdata, ((u8 *)private->data + sz), len);
+> 	return pdata;
+> 
+> 2. Slim 7x bring-up: V/I feedback never reaches the DSP
+> 
+> DT changes for the Slim 7x:
+> - The WSA codec list is extended with the VISENSE ports
+>   <&swr0 10>, <&swr0 11> on the left pair and the mirrored ports on
+>   swr3. The speaker nodes get #sound-dai-cells = <1>.
+> - The static port-mapping is <1 2 3 7 10 13> / <4 5 6 7 11 13>. On
+>   Hamoa the din ports are 10 and 11, versus 12 and 13 on Glymur.
+> - I cloned the CRD topology and UCM, using 4 speakers, with the
+>   WSA_CODEC_DMA_TX_0 VI capture at S32_LE/8 kHz.
+> 
+Speaker tuning data might be different, but overall it should work.
+
+I will have to recheck on the port-mapping.
+
+> What works:
+> - The card probes and the SP/VI controls appear.
+> - Normal playback through the SP graph runs without errors.
+> 
+> What doesn't:
+> - Calibration (Operation Mode set to Calibration, then silence
+>   played) times out waiting for V/I. R0/T0 stay 0.
+> - I read back the SoundWire master and slave port registers, the WSA
+>   macro SPKR_PROT TX path enables, and the DSP module config. They
+>   all looked as intended.
+> - With the SP graph active, the amp stays gated and playback is
+>   silent. This matches the calibration never completing.
+> 
+> Question: is there anything Hamoa-specific on the VISENSE path (din
+> port numbers or channel masks, the macro TX decimator routing,
+> multi_direction_codecs handling) that I should check? I can run any
+> debug patches you want on this machine.
+> 
+> Unrelated noise: SoundWire parity errors/clash messages appear in the
+> logs, but they also show up without the series applied, so I don't
+> think they relate to it.
+
+I did hit some soundwire issue related to runtime pm, which was
+triggering the timeout too, Can you try to disable runtime pm and give
+it a spin.
+
+
+--srini
+
+> 
+> Regards,
+> Fabian
+
