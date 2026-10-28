@@ -1,122 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.168.131
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793157954;
-	b=GGxrPqbpIPIxM5geQFFgBT25olisXqE0mcytCGOYprV4B+VwofT7K+O5UsgMAWQn8X37
-	 +Sr1laT4G6OtQclq+A2IvuIF9xCv0mRtmN88ToJwo1YUrfDuxkMm5M4Cxh98dSfUUO6AX
-	 jETktz3Ys/hw0YO+WWEKTAWOMGz2B/6CFtFFImNgilsj4p6aksd1dWosNy5TamUnIgp2R
-	 e4sZ4Ne2E3zh6phuIKKSMm1kTYymvOihwj5CDGotKlTia52HTTCv/3fYuRDMEIWZTGF2m
-	 IV1H2EMLXzBjt5TWzR0VtNSGQXQDbwq/WirV3ntRTOooVXztOEVHFxQ2PrSppyraWCg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793157954;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:MIME-Version:References:In-Reply-To:From:Date:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=Ik1wtcr+NKJTmFtuJsEiILJ0oVc4nKpEh2rBWEmU/Fw=;
-	b=Vr9YzyBIrkPnkDkJWizedg6X/PWwOuqVEp8kdmaLmSolMMdgdM8W8hij6iTctazEr0MO
-	 4Ez9opX4Q0m+XvLBLC+2Z7oFGzLLiFJa8y+ltJzXVM7QVsuq4Jc+FdZXKiqTwrlZSjwop
-	 DZlj1C40FX7skhZv5mpOSA6WpDmSbDhUnGeOI2yT1V9V7CjwYmYBT7XCkrylQhMJb047D
-	 7Smd+xgQNgyI07j09YxRFwl0wRpMNsc+XzmHxGDw8OuepoP8jvC0+0bCNAkKBYVfkwUsl
-	 myzmnCCq3O/IHOZLqdnX0+vi1LfD5BoTtvXkA7lLw2pvMV3T9T43P9WmhT9D8RbRY5g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=CRMyVG8n;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=NG0OiBFS;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793158035;
+	b=qaI1AL00jgKny4OCYiIytR3ierXnOeBH2nfueZaPf8/4v32wk+aTpC9JG8Vn822XXaTQ
+	 DD+amLcztXMo5KOj6R+w/Xp6M8zO8Dta8M9TSMsHSNK2QxFzdsT94i+i6Fund/j6eUxje
+	 2oGweg0/PgqBLUkO/TcLeYYa6u2LbBGw1hnD1lOvN2tzIprt1idhlG5h6c5NYHHVjmgkC
+	 CwMmB4wF4YlSKhLw8fDaBf3PLruovhW9w4ttJMokmEoryMX19PzYqoOKVXrqXp3cN3iIa
+	 7jSH10kZw9aBg6b25CX6iaFURPJ46Mncv2DTmr4EiRT3xbMnwkPrGODsDsNz4en54Fw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793158035;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=FiAyuvfDt7Lo7U7ff8w+xX2Qwp10ccWP1jO0lNR4T2k=;
+	b=mgXwHelBcLEUNpbu2MA0gtP0UFcVucP+Jj+KGB6347xwDIWkpEMjdPwg1CnaJ2SjXT0c
+	 nzhuy4YGRW+Y34KASEvz271tlQVRl1Uto5s7bVmlmJatcYQO19p1WyXovYgxB5GgiTNwD
+	 uG2Xzlj1kl6R9pnL+3Qw/NU2cihK+oHwSlu7hp1oZIPaPmKnSnlLw/kzC9/txWQ5Whp4q
+	 Wpa2NQvtTZ7zsMrqAjPRtBCVXToPa4pg/B8ypuChPxa2FCFZ8H6EDJgV1lc81zz8ZPdBW
+	 mxxrWNg0MkXboi4NbcSLnm6S06CwzMjKbgG9DEm5fGX0tqL5iNS2tkB1/oOnB2BPg5w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ozvMFb8U;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5EE6606A31A
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 03:25:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5EE6606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30541606A31A;
+	Wed, 28 Oct 2026 03:27:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=CRMyVG8n;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=NG0OiBFS
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69S0is3X3274124
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 03:25:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Ik1wtcr+NKJTmFtuJsEiILJ0oVc4nKpEh2rBWEmU/Fw=; b=CRMyVG8nypcOcvFB
-	Ub5r8YSDqCYRKSiPMdEbe/vgfSqdADOpyJINnjrJ57SIZf27qGMrm6UqaCM2JVRe
-	QwiJ7UQAYA/CrYSAc6A+ol1JbxUU2q4om2aCa6temfKnz9uJj2u/Ix/8nTU8TgDO
-	wfPzM69mgb1mLmPZu4m2lgpprc5T5nEbmAeAgqmz1GkVDlEgfE2QHjEDz02aNlU4
-	dwokAFZnqUtjlAGNLrba2HSW2hQYsxuHbeUr+tWD4Ay5YHXxRDrAquSjQ5rPEsvx
-	wm66AtoAQG09bTSljoOMdscwc4k9zdkwwiHiAsOHImAR1pV8PPetQDVV5I+YXeEU
-	eCZr6A==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hjy6g28dr-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 03:25:52 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3ada8bc8575so976398a91.3
-        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 20:25:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793157952; cv=none;
-        d=google.com; s=arc-20260327;
-        b=FffB1Ia70vdySuhPLj/sFKfnFCOebsnVBp1vXSY5aJUq+A6CNNr6WM13270ChWAGPh
-         MNONGFsrz8HYamsyiMzRiOkbN7Sgx3hRsNkjiCqiuYQ93Mh7W0ccAi4eYytzqe/M5Gt5
-         m8GTwaE/eQbO9bsq7l8Ghw+32De+gZ9hOrJJAKEpEsYtx4/mRLMvwfPmHinndIejE3gm
-         swiJdKQhatVBis5rL3o5v1S68T+l8XYZ4T95HYjcK5eqqWoynOB/EHpjzl6B+bcy4+DI
-         T4JUh216P6grzwKmyDFP+WivYy/0uMFq9dD0jdLaZbo1NFSTLn43Yg9CUD/95pon10rH
-         9BMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Ik1wtcr+NKJTmFtuJsEiILJ0oVc4nKpEh2rBWEmU/Fw=;
-        fh=j7qE0RlvzNR5Qm6xA4ehUDBqPqcz09gsE3Wa6zaxdUU=;
-        b=O3EM7ZeSGXTOXGmYtouwPu+2HzK/7e2ORRs65A9k+oygIejNuqgnEONnVjJLp2yu1/
-         kyh53y9yVT+/vvIVgg1VhOkIAe1JMRvVJZz05qrhfjzUA5r4ZDjozpwmk/39Yp10UG5C
-         OCGbW3zF7EOZL83xMpUwz1iZFuwztnCcwSJeYbtBri80G9DZ6g/VW+YkpybQIaBmefBb
-         Exl5qaTnodi1R8KHoL4eO4h7G3ANlerx3k60WGgknYOc3iOcplAPDSKltfo/GEHDfakk
-         u3l+GkvjbwCr026IRSwEkmEw/RbFJhwUbITy8VMuKn1udj+gUedg7PEWTaTyi1nITisO
-         xB1g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793157952; x=1793762752; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Ik1wtcr+NKJTmFtuJsEiILJ0oVc4nKpEh2rBWEmU/Fw=;
-        b=NG0OiBFSk5oRv/0vsesW/22IqDvhXNq9QYS5jSP3NfmBJuXqxgc4cpaipbNkgn+JkA
-         IQndXvNQikzt8jXEecwgxS+2ST++hiWqPjob8/SfxmjdnmpXlljopf78e7SeB5ppSLKo
-         YNbU4zr6jx8osdF//rhdP90jg5xIPUhhJHywjFbpoFOYsbyW126GiOAFdLgyO/Ui/gBJ
-         7sjAgDPiGNIiDtKfOrm5yq+qL7CWpOe0yLaPxW7UC2pdl13hthL44zjpu/bXHJ4luLLU
-         8cPs893AjCwEtyuyE9k87nOWB0vW4OVYvHIv5SdZndXhFk56kmWf5YPCym+qPfqbIvNg
-         E9eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793157952; x=1793762752;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Ik1wtcr+NKJTmFtuJsEiILJ0oVc4nKpEh2rBWEmU/Fw=;
-        b=FCr7utRSQ0EBnFft69Ijq6h2vjAQh+piwPb11t5UHQU3ResODkuvFmgEjzFxv1a1dX
-         OUt4xsyJ8Aoo4yk1rd75XNGtrmdFUZ51IW3Y5fd83yVcQ8BPGLsqSgDos45cO+Qvusl2
-         dSGJVjS5G0qfiiwdBIR5RwXiWL36U0+zl2FJNGiqi10KNzqYmqPfmeAKs4jAJLv70CwJ
-         le1YEPP3tZEho88h4y7zQ/FtNHnvC2n1Wfbz8gS0mWL22Xc5kXE31CbiTTPYlk9lihCy
-         Wlto5SQginI8c5Bl9+1Rh4r9lzdCBBdQyrdMLiGn28BV3MRmpyyrWy1cBBnnPOFP/MPC
-         zx7A==
-X-Gm-Message-State: AFq9FYKT9k+c/+sAwVbT0Q0EOfq3Nw9O7cfjPwY5dkh38t+3Nn8RL2mR
-	XJwiWeCNmaBC3Qmy+ijOODozOm8ihXCToNV8aOAUTQXQtf/gdE6vQqd+PP/n+cg6qH18qm+ufLf
-	3DhXP1dPaEz8+PT5lvzpDZ1nQchlXdWL/IOdMOJpr5A69EBjVwlr2AxWbqrLuMM/W0jOZoif9DP
-	cGcKAhOqWqd5Y6JKfWbt7h7qJZR/b71MxksXwjuy67jDfL8p/SNYE=
-X-Gm-Gg: AYBFou3cric5klG0lMA1O2QBjyEt5+/58yfXlOEEpEhA/sHulHPLNsosmz8Q6qtTivm
-	PhoasQCfdULb3bDBAbd2mQAp8yCLhkihdUiJz3DOdr/z2ZtYUGHs+Bq+IstDc16JvfxwDU7Dk8X
-	N56aeFxC9qjvtikUmHSMWqJaYSJcbu/LnZb2BAMfdmwgfvVIlRhK6PB3B9sw==
-X-Received: by 2002:a17:90b:4f49:b0:39e:6d82:dca with SMTP id 98e67ed59e1d1-3ae580a0249mr776241a91.30.1793157951963;
-        Tue, 27 Oct 2026 20:25:51 -0700 (PDT)
-X-Received: by 2002:a17:90b:4f49:b0:39e:6d82:dca with SMTP id
- 98e67ed59e1d1-3ae580a0249mr776231a91.30.1793157951452; Tue, 27 Oct 2026
- 20:25:51 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ozvMFb8U
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7AE61F01825;
+	Wed, 28 Oct 2026 03:27:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793158035;
+	bh=FiAyuvfDt7Lo7U7ff8w+xX2Qwp10ccWP1jO0lNR4T2k=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=ozvMFb8U7Z4Vy3jT520zS0mvDJWSOR6NH1g8yQfFAru0qeSIUHpAbEeTXK/sG7QGu
+	 byhZCA1tJcWh3ynuEWiSrgqzB4SSlAgtYHy2ZGtL+ohQegagd3xaap4xtzaop15ElX
+	 iNlEWTPyRdPE02ijazmL4tbDVgskZvUBnxsxaNrwOEfrWOSfslyefdpEcjESD6J2KV
+	 ntPxeKaVNKok2EpQlyBKdlvO1hWZSD0shJTMFT6cIQttjNMnuCvOiuPAE6unLIcFuR
+	 TEQ1wJyc3qBdEN1HjJSohmSWFdMPlq622Ad12GE4z9vpL9N3+bL/G4yoVJm3VQySb2
+	 2f2LxPlMKp0Ow==
+Message-ID: <sashiko-outbox-187420@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 07/14] ALSA: virtio: stage VZ capture and restart
+ paused streams
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
+Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
+ Perez" <eperezma@redhat.com>
+In-Reply-To: <20261028025317.92450-8-mynameisjune111@gmail.com>
+References: <20261028025317.92450-1-mynameisjune111@gmail.com>
+ <20261028025317.92450-8-mynameisjune111@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 28 Oct 2026 03:27:14 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -125,170 +61,290 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-References: <20261026082534.986449-1-zhangfei.gao@oss.qualcomm.com>
- <20261028024720.981971-1-zhangfei.gao@oss.qualcomm.com> <sashiko-outbox-187372@kernel.org>
-In-Reply-To: <sashiko-outbox-187372@kernel.org>
-From: Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
-Date: Wed, 28 Oct 2026 11:25:40 +0800
-X-Gm-Features: AclHuK-X1worEDE-LrizB5KJOhDEFNbcQ4ChFZVOZ7LKlvmZyY-ar17uwMFvve0
-Message-ID: <CAFkd8htETPX10Ohkff_e245jzd-JizQMc6nZTpxPwPO51stsbg@mail.gmail.com>
-Subject: Re: [PATCH v3] ASoC: qcom: audioreach: support multichannel PCM formats
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDAxMyBTYWx0ZWRfXwwGj/db2R2k1
- uXG4+CP3symn8XLApAyaTfGLA1fRd+hlZBYacSiOto1c+CKcPZO2IOYAK4/XYnW4n+A0XgdiPOe
- V7JQcqwrbUDNWchTtbsHDaDHSRXWC1OdW7hAxZktb5UnEirJuGOjnJGlpbSkfRsWf4TlrJYnWqj
- Dwj+TZ7UYWE9J/lI9oueqKHnahB0OewjvELnah7vOXybFqzZ+M2IXcB/lM8mVghvlFaYC6LmBk9
- v5TB9SsOjIvIDaxhb/jow7F2yK8/RSHeZGib1161r9quvbMZEw0Ghe9rpd+15SNuFUYs3Q9MdbT
- 5DIcKcopt/Xj5X4fUDtaYLn9nQmsshdrjKKDcIazXF9TLP4gIXaR6VE91Glx5WIimeojsfuAPe+
- 3QPg0uZk7EmxXc63Vfxu15kH4DrjjCqYrk8lGM3hXiUxB5BG4JB79W2VRrc+PgnYLEpH8pkp025
- eqqoH0HF0PTh8HXq+hw==
-X-Proofpoint-GUID: E8qQPSLqkDZItzyzr3hjpMhCKIwmHFhk
-X-Proofpoint-ORIG-GUID: E8qQPSLqkDZItzyzr3hjpMhCKIwmHFhk
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDAxMyBTYWx0ZWRfX7ezCS9QktcqQ
- +TMgjDUm4Sn9hbGDQfn/IfPuFgTVcFGZzGY8qsu9JwyW3SxbzExjezbWl2a8YSxXBnlh4bsJqQE
- QLATBcUGDhwWPGQVljFNGqIq/2HTOto=
-X-Authority-Analysis: v=2.4 cv=dKgzC+Zb c=1 sm=1 tr=0 ts=6ae16b40 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=_K5XuSEh1TEqbUxoQ0s3:22 a=KEe7bkdQAAAA:20 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=W4RJyTomHAAiTDpn_5IA:9 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
- a=bA3UWDv6hWIuX7UZL3qL:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-28_01,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 lowpriorityscore=0 bulkscore=0 adultscore=0 spamscore=0
- suspectscore=0 priorityscore=1501 clxscore=1015 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610280013
 
-On Wed, Oct 28, 2026 at 11:05=E2=80=AFAM <sashiko-bot@kernel.org> wrote:
->
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [Medium] ASoC: qcom: audioreach: 1-channel mapping changed from FL to F=
-C by q6dsp_map_channels()
-> --
->
-> commit ec2c026fe429a34883e53d19ea1d90d34c838cea
-> Author: Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
->
-> ASoC: qcom: audioreach: support multichannel PCM formats
->
-> This commit removes the 4-channel limit in the AudioReach PCM and shared
-> memory media format paths and replaces audioreach_set_default_channel_map=
-ping()
-> with q6dsp_map_channels() and PCM_MAX_NUM_CHANNEL.
->
-> > diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/a=
-udioreach.c
-> > index d2dc5d37bccf8..e6f077a5b750f 100644
-> > --- a/sound/soc/qcom/qdsp6/audioreach.c
-> > +++ b/sound/soc/qcom/qdsp6/audioreach.c
-> > @@ -306,22 +306,6 @@ void *audioreach_alloc_apm_cmd_pkt(int pkt_size, u=
-int32_t opcode, uint32_t token
-> >  }
-> >  EXPORT_SYMBOL_GPL(audioreach_alloc_apm_cmd_pkt);
-> >
-> > -void audioreach_set_default_channel_mapping(u8 *ch_map, int num_channe=
-ls)
-> > -{
-> > -     if (num_channels =3D=3D 1) {
-> > -             ch_map[0] =3D  PCM_CHANNEL_FL;
-> > -     } else if (num_channels =3D=3D 2) {
-> > -             ch_map[0] =3D  PCM_CHANNEL_FL;
-> > -             ch_map[1] =3D  PCM_CHANNEL_FR;
-> > -     } else if (num_channels =3D=3D 4) {
-> > -             ch_map[0] =3D  PCM_CHANNEL_FL;
-> > -             ch_map[1] =3D  PCM_CHANNEL_FR;
-> > -             ch_map[2] =3D  PCM_CHANNEL_LS;
-> > -             ch_map[3] =3D  PCM_CHANNEL_RS;
-> > -     }
-> > -}
-> > -EXPORT_SYMBOL_GPL(audioreach_set_default_channel_mapping);
-> > -
->
-> [ ... ]
->
-> > @@ -1436,7 +1410,7 @@ static int audioreach_speaker_protection_vi(struc=
-t q6apm_graph *graph,
-> >
-> >       cm_cfg->cfg.num_channels =3D num_channels * 2;
-> >       /* Convert the physical mapping to a logical mapping of the chann=
-els */
-> > -     for (i =3D 0, j =3D 0; i < AR_PCM_MAX_NUM_CHANNEL && j < num_chan=
-nels; i++) {
-> > +     for (i =3D 0, j =3D 0; i < PCM_MAX_NUM_CHANNEL && j < num_channel=
-s; i++) {
-> >               if (!mcfg->channel_map[i])
-> >                       continue;
-> >               /*
->
-> [Severity: Medium]
-> Does replacing audioreach_set_default_channel_mapping() with
-> q6dsp_map_channels() cause a regression for 1-channel streams?
->
-> Previously, audioreach_set_default_channel_mapping() mapped num_channels =
-=3D=3D 1
-> to PCM_CHANNEL_FL (1). In sound/soc/qcom/qdsp6/q6dsp-common.c,
-> q6dsp_map_channels() instead maps 1 channel to PCM_CHANNEL_FC (3):
->
->         switch (ch) {
->         case 1:
->                 ch_map[0] =3D PCM_CHANNEL_FC;
->                 break;
->
-> When a 1-channel stream is configured through q6dma_hw_params() in
-> sound/soc/qcom/qdsp6/q6apm-lpass-dais.c or q6apm_dai_prepare() in
-> sound/soc/qcom/qdsp6/q6apm-dai.c, cfg->channel_map[0] is now set to
-> PCM_CHANNEL_FC (3) instead of PCM_CHANNEL_FL (1) for
-> audioreach_mfc_set_media_format(), audioreach_pcm_set_media_format(), and
-> audioreach_shmem_set_media_format().
->
-> In addition, audioreach_speaker_protection_vi() in
-> sound/soc/qcom/qdsp6/audioreach.c computes the Vsense and Isense channel
-> mapping as:
->
->                 /*
->                  * Map speakers into Vsense and then Isense of each chann=
-el.
->                  * E.g. for PCM_CHANNEL_FL and PCM_CHANNEL_FR to:
->                  * [1, 2, 3, 4]
->                  */
->                 cm_cfg->cfg.channel_mapping[2 * j] =3D (mcfg->channel_map=
-[i] - 1) * 2 + 1;
->                 cm_cfg->cfg.channel_mapping[2 * j + 1] =3D (mcfg->channel=
-_map[i] - 1) * 2 + 2;
->
-> With mcfg->channel_map[0] set to PCM_CHANNEL_FC (3) on a 1-channel stream=
-,
-> this produces [5, 6] instead of [1, 2]. Is PCM_CHANNEL_FC intentional for
-> mono AudioReach streams and speaker protection VI?
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
+- [Medium] ALSA: virtio: unnotified capture periods across pause cause lost=
+ wakeup or XRUN
+- [Medium] ALSA: virtio: staged capture counters not updated on SNDRV_PCM_I=
+OCTL_RESET
+- [Medium] ALSA: virtio: race between virtsnd_pcm_pause_restart_sync_stop()=
+ and prepare
+--
 
-Yes, PCM_CHANNEL_FC is expected and audioreach_speaker_protection_vi()
-should not be an issue here. It derives the VI channel mapping from
-the PCM channel id.
+commit 769b2eda886498f63ca7e4ba1a0aa3578ffd2f05
+Author: Joonho Lee <mynameisjune111@gmail.com>
 
-Have checked with Rafi, mono should use PCM_CHANNEL_FC.
+ALSA: virtio: stage VZ capture and restart paused streams
 
-Also confirmed from audioreach-engine
-https://github.com/AudioReach/audioreach-engine/blob/master/modules/process=
-ing/bassboost/capi/src/capi_bassboost_utils.cpp
-  case 1:
-         if (PCM_CHANNEL_C !=3D format_ptr->format.channel_type[0])
+This commit adds opt-in capture staging using request-owned buffers with
+response validation and ring accounting, along with a pause release and
+reprepare state machine for staged capture streams.
 
-https://github.com/AudioReach/audioreach-engine/blob/master/modules/process=
-ing/Virtualizer/api/Virtualizer_api.h
-  uint16_t channel_map[0];
-  /**< @h2xmle_description  { Payload consisting of channel mapping
-information for all the channels. \n
-                              The channel mapping is specific for
-specific number of channels \n
-                              for 1 : [PCM_CHANNEL_C] \n
-                              for 2 : [PCM_CHANNEL_L, PCM_CHANNEL_R] \n }
+> diff --git a/sound/virtio/virtio_pcm.c b/sound/virtio/virtio_pcm.c
+> index be3893de40a55..a3478fc8848db 100644
+> --- a/sound/virtio/virtio_pcm.c
+> +++ b/sound/virtio/virtio_pcm.c
+> @@ -310,8 +310,94 @@ static void virtsnd_pcm_period_elapsed(struct work_s=
+truct *work)
+>  {
+>  	struct virtio_pcm_substream *vss =3D
+>  		container_of(work, struct virtio_pcm_substream, elapsed_period);
+> +	struct snd_pcm_substream *substream =3D vss->substream;
+> +	struct snd_pcm_runtime *runtime;
+> +	size_t period_bytes;
+> +	u64 period_floor;
+> +	u64 snapshot;
+> +	bool staged_capture;
+> +	bool paused_xrun =3D false;
+> +	bool notify =3D false;
+> +	bool requeue =3D false;
+> +
+> +	scoped_guard(spinlock_irqsave, &vss->lock) {
+> +		staged_capture =3D vss->direction =3D=3D SNDRV_PCM_STREAM_CAPTURE &&
+> +				 vss->capture_staging;
+> +	}
+> +
+> +	if (!staged_capture) {
+> +		snd_pcm_period_elapsed(substream);
+> +		return;
+> +	}
+> +
+> +	/* Serialize the pointer snapshot with ALSA's pointer and ACK callbacks=
+. */
+> +	guard(pcm_stream_lock_irqsave)(substream);
+> +	if (!snd_pcm_running(substream)) {
+> +		scoped_guard(spinlock_irqsave, &vss->lock) {
+> +			runtime =3D substream->runtime;
+> +			paused_xrun =3D runtime &&
+> +				      runtime->state =3D=3D SNDRV_PCM_STATE_PAUSED &&
+> +				      vss->runtime_active && vss->xfer_xrun;
+> +		}
+> +		if (paused_xrun) {
+> +			/* Wake readers without sending STOP for a paused stream. */
+> +			snd_pcm_stop(substream, SNDRV_PCM_STATE_XRUN);
+> +		}
+> +		return;
+> +	}
 
-Thanks
+[Severity: Medium]
+What happens if a staged capture completion crosses a period boundary right
+before SNDRV_PCM_TRIGGER_PAUSE_PUSH?
+
+When virtsnd_pcm_capture_complete() copies data crossing a period boundary
+and schedules vss->elapsed_period right as snd_pcm_pause() runs,
+snd_pcm_pause() holds pcm_stream_lock across virtsnd_pcm_trigger() and
+snd_pcm_post_pause(), which sets runtime->state to SNDRV_PCM_STATE_PAUSED.
+
+When virtsnd_pcm_period_elapsed() in sound/virtio/virtio_pcm.c subsequently
+acquires pcm_stream_lock, !snd_pcm_running(substream) is true, so it returns
+early without advancing vss->capture_notified_periods or calling
+snd_pcm_period_elapsed_under_stream_lock() to update runtime->status->hw_pt=
+r.
+
+Later, when the stream is resumed via SNDRV_PCM_TRIGGER_PAUSE_RELEASE in
+virtsnd_pcm_pause_restart_start() or virtsnd_pcm_trigger() in
+sound/virtio/virtio_pcm_ops.c:
+
+sound/virtio/virtio_pcm_ops.c:virtsnd_pcm_pause_restart_start() {
+	...
+	scoped_guard(spinlock_irqsave, &queue->lock) {
+		guard(spinlock)(&vss->lock);
+		if (vss->pause_restart_state !=3D
+			    VIRTSND_PCM_PAUSE_RESTART_PREPARED ||
+		    vss->msg_count || !vss->runtime_active || vss->xfer_xrun) {
+			rc =3D -EBADFD;
+		} else {
+			rc =3D virtsnd_pcm_capture_send(vss);
+			if (!rc)
+				vss->xfer_enabled =3D true;
+		}
+	}
+}
+
+vss->elapsed_period is not rescheduled even though
+vss->capture_copied_total / period_bytes > vss->capture_notified_periods, a=
+nd
+snd_pcm_post_pause() does not call snd_pcm_update_hw_ptr().
+
+Could this leave readers in poll() or wait_for_avail() sleeping with
+avail =3D=3D 0, and on a 2-period buffer cause the next completed period to=
+ hit
+audio_bytes >=3D vss->buffer_bytes - vss->capture_ready in
+virtsnd_pcm_capture_complete() and force a premature XRUN?
+
+[ ... ]
+
+> diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
+> index f74bf365065b6..003832d112551 100644
+> --- a/sound/virtio/virtio_pcm_ops.c
+> +++ b/sound/virtio/virtio_pcm_ops.c
+
+[ ... ]
+
+> @@ -420,6 +932,106 @@ static int virtsnd_pcm_trigger(struct snd_pcm_subst=
+ream *substream, int command)
+>  	}
+>  }
+> =20
+> +static int
+> +virtsnd_pcm_pause_restart_sync_stop(struct snd_pcm_substream *substream)
+> +{
+> +	struct virtio_pcm_substream *vss =3D snd_pcm_substream_chip(substream);
+> +	unsigned int js =3D msecs_to_jiffies(virtsnd_msg_timeout_ms);
+> +	enum virtio_pcm_pause_restart_state state;
+> +	struct virtio_snd_msg *msg;
+> +	long waited;
+> +	int rc;
+> +
+> +	scoped_guard(spinlock_irqsave, &vss->lock) {
+> +		vss->xfer_enabled =3D false;
+> +		vss->stopped =3D true;
+> +		state =3D vss->pause_restart_state;
+> +	}
+> +	cancel_work_sync(&vss->elapsed_period);
+> +
+> +	if (state =3D=3D VIRTSND_PCM_PAUSE_RESTART_RESET_REQUIRED ||
+> +	    virtsnd_pcm_pause_restart_transitioning(state)) {
+> +		virtsnd_pcm_pause_restart_fail(vss, true);
+> +		dev_err(&vss->snd->vdev->dev,
+> +			"SID %u: PCM state is unknown; device reprobe required\n",
+> +			vss->sid);
+> +		return -EIO;
+> +	}
+
+[Severity: Medium]
+Can a concurrent SNDRV_PCM_IOCTL_DROP and SNDRV_PCM_IOCTL_PREPARE race while
+virtsnd_pcm_pause_restart_sync_stop() is sleeping and permanently wedge the
+substream in VIRTSND_PCM_PAUSE_RESTART_RESET_REQUIRED?
+
+In sound/core/pcm_native.c, snd_pcm_drop() transitions runtime->state to
+SNDRV_PCM_STATE_SETUP and sets runtime->stop_operating =3D true under
+pcm_stream_lock_irq(), then drops the stream lock and calls
+snd_pcm_sync_stop(substream, true) without holding runtime->buffer_mutex:
+
+snd_pcm_drop()
+  snd_pcm_stop(substream, SNDRV_PCM_STATE_SETUP)
+    runtime->stop_operating =3D true;
+  snd_pcm_stream_unlock_irq(substream)
+  snd_pcm_sync_stop(substream, true)
+    substream->runtime->stop_operating =3D false;
+    substream->ops->sync_stop(substream)
+      virtsnd_pcm_pause_restart_sync_stop()
+
+Because snd_pcm_sync_stop() clears runtime->stop_operating before calling
+virtsnd_pcm_pause_restart_sync_stop(), a second thread invoking
+SNDRV_PCM_IOCTL_PREPARE while virtsnd_pcm_pause_restart_sync_stop() is
+sleeping in virtsnd_pcm_pause_restart_send() or wait_event_timeout() will s=
+ee
+runtime->state =3D=3D SNDRV_PCM_STATE_SETUP and runtime->stop_operating =3D=
+=3D false.
+
+Its own call to snd_pcm_sync_stop() in snd_pcm_do_prepare() will then return
+immediately without waiting for the first thread's sync_stop to finish, and
+virtsnd_pcm_prepare() (or virtsnd_pcm_pause_restart_send()) in
+sound/virtio/virtio_pcm_ops.c will observe the in-flight *_SUBMITTED state:
+
+sound/virtio/virtio_pcm_ops.c:virtsnd_pcm_prepare() {
+	if (pause_restart) {
+		enum virtio_pcm_pause_restart_state state;
+
+		scoped_guard(spinlock_irqsave, &vss->lock)
+			state =3D vss->pause_restart_state;
+		if (state =3D=3D VIRTSND_PCM_PAUSE_RESTART_RESET_REQUIRED ||
+		    virtsnd_pcm_pause_restart_transitioning(state)) {
+			virtsnd_pcm_pause_restart_fail(vss, true);
+			return -EIO;
+		}
+	}
+}
+
+Wouldn't this transition vss->pause_restart_state to
+VIRTSND_PCM_PAUSE_RESTART_RESET_REQUIRED and leave the substream unusable
+until device reprobe?
+
+[ ... ]
+
+> @@ -586,11 +1233,66 @@ static int virtsnd_pcm_cp_ack(struct snd_pcm_subst=
+ream *substream)
+>  {
+>  	struct virtio_pcm_substream *vss =3D snd_pcm_substream_chip(substream);
+>  	struct virtio_snd_queue *queue =3D virtsnd_pcm_queue(vss);
+> +	struct snd_pcm_runtime *runtime =3D substream->runtime;
+>  	struct virtsnd_pcm_transfer transfer =3D {};
+>  	int rc;
+> =20
+>  	scoped_guard(spinlock_irqsave, &queue->lock) {
+>  		guard(spinlock)(&vss->lock);
+> +		if (vss->capture_staging) {
+> +			snd_pcm_uframes_t appl_ptr;
+> +			snd_pcm_sframes_t diff;
+> +			size_t bytes;
+> +			u64 next_acked_total;
+> +
+> +			if (!vss->runtime_active || !runtime || !runtime->control ||
+> +			    !runtime->dma_area)
+> +				return -EBADFD;
+> +			if (vss->xfer_xrun)
+> +				return -EPIPE;
+> +			if (!virtsnd_pcm_capture_counters_valid(vss)) {
+> +				vss->xfer_xrun =3D true;
+> +				schedule_work(&vss->elapsed_period);
+> +				return -EPIPE;
+> +			}
+> +			appl_ptr =3D runtime->control->appl_ptr;
+> +			diff =3D appl_ptr - vss->pcm_indirect.appl_ptr;
+> +
+> +			if (diff < -(snd_pcm_sframes_t)(runtime->boundary / 2))
+> +				diff +=3D runtime->boundary;
+> +			if (diff < 0 ||
+> +			    (snd_pcm_uframes_t)diff > runtime->buffer_size) {
+> +				vss->xfer_xrun =3D true;
+> +				schedule_work(&vss->elapsed_period);
+> +				return -EPIPE;
+> +			}
+> +
+> +			/* ACK includes any subperiod tail already copied to the ring. */
+> +			bytes =3D frames_to_bytes(runtime, diff);
+> +			if (bytes > vss->capture_ready ||
+> +			    check_add_overflow(vss->capture_acked_total, (u64)bytes,
+> +					       &next_acked_total) ||
+> +			    next_acked_total > vss->capture_copied_total) {
+> +				vss->xfer_xrun =3D true;
+> +				schedule_work(&vss->elapsed_period);
+> +				return -EPIPE;
+> +			}
+
+[Severity: Medium]
+How does the staged capture accounting handle SNDRV_PCM_IOCTL_RESET when a
+stream is running or paused?
+
+virtsnd_pcm_ops uses snd_pcm_lib_ioctl, which handles SNDRV_PCM_IOCTL1_RESET
+via snd_pcm_lib_ioctl_reset(). When the stream is running or paused,
+snd_pcm_lib_ioctl_reset() updates runtime->status->hw_ptr (wrapping it modu=
+lo
+runtime->buffer_size or zeroing it if paused), zeroes runtime->hw_ptr_base,
+and sets runtime->control->appl_ptr =3D runtime->status->hw_ptr in
+snd_pcm_post_reset() without calling substream->ops->ack().
+
+Because vss->capture_ready, vss->capture_acked_total, and
+vss->pcm_indirect.appl_ptr are not synchronized with that reset, any unread
+bytes discarded by advancing appl_ptr to hw_ptr remain counted in
+vss->capture_ready, which can cause virtsnd_pcm_capture_complete() to reject
+subsequent completions with a ring_capacity or ring_full XRUN before the AL=
+SA
+ring is actually full.
+
+Furthermore, once runtime->hw_ptr_base is non-zero (after a buffer wrap) or
+when resetting while paused, resetting runtime->control->appl_ptr without
+updating vss->pcm_indirect.appl_ptr causes the next call to
+virtsnd_pcm_cp_ack() in sound/virtio/virtio_pcm_ops.c to compute a negative
+diff =3D appl_ptr - vss->pcm_indirect.appl_ptr and fail with -EPIPE.
+
+Should SNDRV_PCM_IOCTL1_RESET be intercepted in the ioctl callback to
+reconcile vss->pcm_indirect.appl_ptr, vss->capture_acked_total, and
+vss->capture_ready when vss->capture_staging is enabled?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028025317.9245=
+0-1-mynameisjune111@gmail.com?part=3D7
