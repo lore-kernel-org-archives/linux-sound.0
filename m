@@ -1,91 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793153196;
-	b=nCOwF2N0wi216EnfrZeSwYKLrLgGLfoYtHIWT5ISwPjmNSwoa6uCIL0ZW63Q3ZO6yOiU
-	 sXmaVW/v5t9sIHktZ1HI7lW6+8fcPgp7ZjNQuF/zpa6OZkcIsRHwII3nhUWddhfigh3Oc
-	 hvgbj7AvJ9GaJdA6fgj4nWBo6Bt3pmwP0ziZoCX+tOpK2tzVKYAi745Ey7i47qaAXkyZH
-	 y0FwFVzoobinxIPkYAIQ/y7Cdz/ugWs0NmvqQEHwtqm6nJuXtRBtyJn+doUaeeI1bAzEG
-	 5QsdTZPRpA2CA8Pcprk2aD567HQBGDrmM9QV65QgpvX5bN3EmthlQknpUWkbyleKN+w==
+	t=1793153197;
+	b=E8nbVFswBuMWntq0E1V/bqOjmRcM5//fzATyEZAEac+PjL/ha9S50qmEhcaX2U6FNihG
+	 d1rvCsHccGgMR3tcIVmyOwfcrbSp5nUsoIYdV+TBKd5S7OuZI5FNf7DvMhRiD/qStsjG+
+	 HqiqjXDZ4HKiAskN5MLZtOuKASWObQ6nroKcK1z16eQcddr4dBC8t86JNBUkHdjgN8prH
+	 L2ySICnMlFMl/5NEllfy9TfeHWG+WH8/0sWCcmfRUmKZFp21lldh08CgOt456M5ZcmjYE
+	 /XwfdY3NQOY22ApmS+vBOXylFL5cERCoVWVG5ZosS/Rfg/+VZcmsC1e7EqwZR2pTEVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793153196;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793153197;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=GC6lbURWrV0PPIXFUIsyNS3MQsIzOZGBfVC0cBwffgo=;
-	b=m7QJ7I4nLAekCl+DfAeI+2rqoiAp/Ur0w74qOQp1tEc+lJUj3rY+YEGoWPU/JwDQrNbk
-	 f5/XhtJAkl2y1iaHcPt5nYKmNmEp1k7cAqogcZ4RP9cXz7awEvoPpW3zGVv/yy8PV3HDM
-	 LPaT1t9gH4zm44i7u0sA3hED+q85iC3J8KwPwzgg2nzdcyWGO+Al6D4Jiv2W2ctAQD3EJ
-	 3ytTVVc9Cm5DosnFcpTmSDtx4Fomw3nlOUbCuim4DIdTmwQuUh9BH6hLi6oFIe9ga+49O
-	 iFPFZ/o60geEWKw8aMaJc3fktSdEWjgF1dzl17imeWTpiNDtMNpa8FTHCEJeMsYYQnQ==
+	bh=E0eV56cTNymI3e3+gujW/3RFeyU52ZaDbouK7jcTvy0=;
+	b=r/skbMcFO1HPaQlS/PUkOwyKGfpnfWw5HO7CUqxPSCXkpKUYIeB0wGnePc6VJnMZ0cZ4
+	 VFsC9paLVHCV585hRQ1wZgMLmkRN8icCThOSB5KBeomHwmIDVwiqA9nKldo/WqdSnb1zG
+	 m/HUhDhzKBT3jZURVAcnOix759Q43y56xMK8Rg7Ex5inczFymKvn4HjSINh1zL3dbecJh
+	 n7C21hSSULg/x4e+rfbYfht9RBz2RtWn1PGpCFavYI2jV20qvPuPwsUhHuPxmVQD3uHtt
+	 bziCp6QAvEwvyPiYDoKgSOEgkVcI5R4PmiL3LhEdwxn4E0I1pRShUE4BjtB8meoUH+g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0k9Aghok;
-	arc=none smtp.remote-ip=209.85.210.46
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Zssoj7NS;
+	arc=none smtp.remote-ip=209.85.210.49
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC01D606A31F
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 02:06:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC01D606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F97D606A31A
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 02:06:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F97D606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0k9Aghok
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-84621d8c7aaso243545a34.2
-        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 19:06:35 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Zssoj7NS
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-8451a619da7so369088a34.1
+        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 19:06:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793153195; x=1793757995; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793153196; x=1793757996; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=GC6lbURWrV0PPIXFUIsyNS3MQsIzOZGBfVC0cBwffgo=;
-        b=0k9AghokUG0gZgSW03YSDaJGq6Zy8wlnHPDgB36KlKsXDvy9VGYMECfn35LidHtVP2
-         h0V+7DX6/t/9vhFRCrYkJcZYhsDDQkDH83cBoIFBP+RBcNgAbmDekdQIABn1Qh3PVN1P
-         mxnLnIw2jYcrpE4ggnxJyA54ajays2Vhum/iWJgNbPMAbndjvUcKAyl9QUoFRdB3uOfJ
-         wplxpdE2n5DKz2ruSDN0v8EwWsz4Yjd+ddVqiKYx37LZE5MvkeyzhPNZug3hzXFOK/ul
-         p0I09omEXXFjNsGYlUyGQHZOnqclbKZUAaOZfKCZ/kc7nfORyifqwJKkilqKj7JDYnr4
-         J66Q==
+        bh=E0eV56cTNymI3e3+gujW/3RFeyU52ZaDbouK7jcTvy0=;
+        b=Zssoj7NSlPLO7bH7c4LSZvHqF6jNxmaux9wQ8vSWMsIAYjyOsWm7MJxZ3Y8Ja0vPJS
+         S2vceaSRypar2g9n1GQ9UN/xHwPA9lB0VmcDs7MAvL2fSIC/TQcOQnAmlWJFS0Q4c+R9
+         mCc3pADhivRXuYgieUYywdb6hKNJu7xv7US5DHHtGGWBMlf7n9krp0kJBDtgEd9kpXKU
+         2iaH4jKGfAYa6mQ181cGjwXdiJ/buAKK5Jfj84L9bZF65wmh/YM739ta3+RzzzTFoN2+
+         fywWA2K66qIgQLSoeOFIFFY+9ckQIAtz8gHDxgZGcpsCTmZaC5mTnOb2/ia08oFZa9/3
+         n7Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793153195; x=1793757995;
+        d=1e100.net; s=20260707; t=1793153196; x=1793757996;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GC6lbURWrV0PPIXFUIsyNS3MQsIzOZGBfVC0cBwffgo=;
-        b=zt7p4+F9LqdFc7vFsD3EQwPLbASahHn2+7+BVL/4T0w3AQXc6byGl20szIpiWD1muY
-         q2KOFP+dlxkEELw2aBRe9ONLzMn2GeEyLA+7H+qq0qdTMCuCUyGwYK58blXma6wCkinG
-         /E61kX/h2+eQWMPhEKT4Rh1gbSLjWi2jxrgmxRC+jxyi9stproFUM8B3FcXR8r7AETDr
-         brI6i19Eu8phOlL3T91lnfJiEf+ZRMIIEtjvkUgudlMPKTsLOXIuM+CoNOm5nDaWvRIM
-         WaMxvBYXGdY9GnIwRZJlHHUT3xHUsWaXWcFogS+/FzcvnmroVJ9jLfjwYxLulZ6ADiNa
-         7Evw==
-X-Gm-Message-State: AFq9FYKxq2AXUuhzfIvi5Uh/26lpkreoTlMGLAYOuGvmcewU/WI0CYEk
-	vqJsmj252ROzwBxMMrFjpBowoCQtUpSNbj3tv/s7QZcYSs0h6F9CSafG
-X-Gm-Gg: AYBFou1vj1NqSm08eKMhUNHxfWW15uJmXlSGtFUxBO9wLyZQX1dNuxydcokAKdyEStk
-	5lk7qK1L6ORo3csTxNLUPjEdXhdldNg+oawNap3EW0fUDbSBiJ47P4UcbmjLfyKKWjxr3F6Dlye
-	m5U/iIMuF2g5iErZmWr8aWOT0ocdbdi6cxUG3C53xE+qyHOJO1pIN+NvSdhMm2KCkqME5S8xi9M
-	8AW2bfJeWr8maL8l2UvJh6JGmIKUcEruJrCqqMKUgefXT2I6VGjt4+ImnW4CV81ltQSZKXQIpgM
-	02edkUDv4bQmjuTmU9kTdVS3y6yTZ9Ws2CFNAxQVAl+KdQ4EESpyij9DAer5deHI82MFCwdCjQI
-	L27Cc1ibTJwkL0yedtuuQ00Ld3MsvvLbzo9TOXOhUAey2JJNRGouIW+5X6M2QDwFm+igAbcyBh7
-	dNJCDHkJQL0yaSsJzqG5/VAfuFa6VU4BSDfK1Yb6rmRJI0hpBE0Zs/Ji76MB0d1vBqcx9uoAki+
-	bcEWWAliV/sSUg1bG3AJf8i+3g5kfq0JoztbJ2iBL4/6Y1IpexMdrztZTs5Pf4i6cu8JYipWsjO
-	5dvMBPoA4aenQsEO7K0o3peuyMjdFvCo0X2NBYAwVneIsZyGhDLrHPC17s+CD0W72usFWe7gghl
-	TxBbh5Aain95OQPbP5oPFGg==
-X-Received: by 2002:a05:6830:7199:b0:81d:6a2a:7db0 with SMTP id 46e09a7af769-85ac0bed1a5mr968895a34.23.1793153194657;
-        Tue, 27 Oct 2026 19:06:34 -0700 (PDT)
+        bh=E0eV56cTNymI3e3+gujW/3RFeyU52ZaDbouK7jcTvy0=;
+        b=C2T77oKHp0qF8krCulHN08lGGsRWeS5ZwOl3CJsKQEGiMYEsHU3nflTTEoooe+fRgt
+         ILVvbMIgngVrldkhIdrmDIBQHaP3+nlRGAu2nebtpYVzrZo0dYyZOxJAUHEPSxmquQX0
+         bm5NrvAJCED6K7mHpn0nMOZIgeRlMQTWMPxhjygjdESNjKsk0zh8IVLYYicF5Ohcb6+E
+         RwYyiNxRgrNkl2nog+xEiw7xkMVu8Qti9uI6DF0CJeaKSPYo+gtThpOTTY7Gz/MkCbMh
+         gd0eVqo+zJgVDG6BN+ilSVqOljDFeR8/CwbXhtsplG+9CuzgBoCSoktgSBcZU2cpLa1H
+         BgRw==
+X-Gm-Message-State: AFq9FYKN0+1oUFNWD3kuGYoDzecj+7GEG92WLGdRM+xgOSyV7hUroLYT
+	B+Kok11fIQaNa8MTpK9YBiWqnx3AOaH08c6l6DB/J4blEf4+PNn/3vFKT8uE1ZAa7Ow=
+X-Gm-Gg: AYBFou36KyZoAD53nC54/Saqg3hMZ5cEFpXkoyW1rqMI3BYK57FldtrtJa1k0Ec6mgR
+	YFdDB4C17lUukdWkD3vvsHwZiTsGuZ4LmbB6weBGlKpyblZ5aok7m4RsZgGKbYjV9feWsGMMdwT
+	iNaNr7iZDIE2af+KjSpOro7c6HJmP8mowHY6nj0J565CUHPob6cmcwvjsBCR4oFN/F03kNNEGD2
+	f2D5TQJrlblahvRXIXGWFF1H8qlZVNcEYzD8jKU7FEST6+ZRIGvWOh8Wioy7i9Cx4/jr7EJwIax
+	Db+7+guzB5Ql9XQZxmo7D8Aq0Zc7oYSz5oU/9zxXyDBAechhvXrbCoTTmcksqZPTtkiO6dcRWtF
+	lhfjudRT3eZcQG/j12oWyQvZS/Jqwylw16uGgkbbnqJEbJpd0kmMDXCx6FXE8Rr/TFH8X/duNiq
+	Bhq8ljkdK0xr5UEIgZ/iN5q0kdQxuYsDvuEhtQ1u6KflSz33QIC7saWgk1WE1CehSUHJdD7MS0o
+	53wnNKGLJbbf1QlI8T7jJn8UwzEiyTS7Pk1Phn7ELFvcqHfeGsgZZopcyrest4GvKp93jJPI69F
+	M2l2FwIgHQvJT+tKdvC++U/EfeeBwhgEjEJ4fDtzE2+vUYSD11aqfLKAnmGKrASqsBn+MCd/j/1
+	MhcZbafCv56bQ/ardUdb5Hna/8s6pTciHJl4cEBrkfF4=
+X-Received: by 2002:a05:6830:4ac5:b0:824:e29:e00e with SMTP id 46e09a7af769-85ab929b937mr1271215a34.20.1793153196465;
+        Tue, 27 Oct 2026 19:06:36 -0700 (PDT)
 Received: from localhost.localdomain (162-233-222-157.lightspeed.livnmi.sbcglobal.net. [162.233.222.157])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85b1d363390sm355217a34.1.2026.10.27.19.06.32
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85b1d363390sm355217a34.1.2026.10.27.19.06.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 19:06:33 -0700 (PDT)
+        Tue, 27 Oct 2026 19:06:35 -0700 (PDT)
 From: Corey Smith <corsmith@gmail.com>
 To: corsmith@gmail.com,
 	Vijendar.Mukunda@amd.com,
 	venkataprasad.potturu@amd.com
 Cc: linux-sound@vger.kernel.org
-Subject: [PATCH 10/11] ASoC: amd: ps: harden the ACP interrupt path for ACP6x
-Date: Tue, 27 Oct 2026 22:05:51 -0400
-Message-ID: <20261028020552.35278-11-corsmith@gmail.com>
+Subject: [PATCH 11/11] soundwire: amd: provide defaults for the bus clock properties
+Date: Tue, 27 Oct 2026 22:05:52 -0400
+Message-ID: <20261028020552.35278-12-corsmith@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261028020552.35278-1-corsmith@gmail.com>
 References: <20261028020552.35278-1-corsmith@gmail.com>
@@ -100,116 +100,67 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The ACP PCI interrupt is requested before create_acp63_platform_devs()
-populates adata->sdw, adata->pdm_dev and adata->sdw_dma_dev, while
-acp63_irq_handler() unconditionally dereferences those pointers as soon
-as the corresponding bit is set in ACP_EXTERNAL_INTR_STAT/_STAT1.
+The manager clock configuration was moved from hard-coded values to the
+MIPI DisCo properties (max clock frequency, default frame rate and
+default row size).  Rembrandt (ACP6x) firmware does not describe those
+properties on the SoundWire link nodes, so sdw_master_read_prop()
+leaves them zeroed and amd_sdw_clk_init_ctrl() aborts the manager
+start-up with -EINVAL.  On the HP Dragonfly Pro ONE this makes the
+whole snd-pci-ps probe fail with error -22 and no SoundWire device is
+created.
 
-This was harmless on the ACP6.3 boards the driver was written for, but
-on ACP6x the interrupt status/control register layout differs, so a
-pending interrupt can be served while the device pointers are still
-NULL. Because it happens in interrupt context that is a fatal exception
-and panics the kernel on boot.
-
- - only walk adata->sdw when it is non-NULL;
- - only use adata->pdm_dev when it is non-NULL;
- - only dispatch the SoundWire DMA handler once adata->sdw_dma_dev
-   exists;
- - treat ACP6x like ACP6.3 in check_and_handle_sdw_dma_irq() so the DMA
-   interrupt status is recorded for the Rembrandt link as well.
+Restore the legacy defaults when the firmware does not provide them:
+a 12 MHz bus clock, a 48 kHz frame rate and the 50 x 10 frame shape.
+Platforms whose firmware does describe the properties are unaffected.
 
 Assisted-by: LLM
 Signed-off-by: Corey Smith <corsmith@gmail.com>
 ---
- sound/soc/amd/ps/pci-ps.c | 44 ++++++++++++++++++++++++++++-----------
- 1 file changed, 32 insertions(+), 12 deletions(-)
+ drivers/soundwire/amd_manager.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/sound/soc/amd/ps/pci-ps.c b/sound/soc/amd/ps/pci-ps.c
-index a8032b5..569af08 100644
---- a/sound/soc/amd/ps/pci-ps.c
-+++ b/sound/soc/amd/ps/pci-ps.c
-@@ -112,6 +112,8 @@ static short int check_and_handle_sdw_dma_irq(struct acp63_dev_data *adata, u32
- 					break;
- 				}
- 				switch (adata->acp_rev) {
-+				case ACP6X_PCI_REV:
-+				case ACP6XR_PCI_REV:
- 				case ACP63_PCI_REV:
- 					adata->acp63_sdw0_dma_intr_stat[stream_id] = 1;
- 					break;
-@@ -126,6 +128,8 @@ static short int check_and_handle_sdw_dma_irq(struct acp63_dev_data *adata, u32
- 		}
- 	}
- 	switch (adata->acp_rev) {
-+	case ACP6X_PCI_REV:
-+	case ACP6XR_PCI_REV:
- 	case ACP63_PCI_REV:
- 		if (ext_intr_stat1 & ACP63_P1_AUDIO1_RX_THRESHOLD) {
- 			writel(ACP63_P1_AUDIO1_RX_THRESHOLD,
-@@ -209,18 +213,28 @@ static irqreturn_t acp63_irq_handler(int irq, void *dev_id)
- 	ext_intr_stat = readl(adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
- 	if (ext_intr_stat & ACP_SDW0_STAT) {
- 		writel(ACP_SDW0_STAT, adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
--		amd_manager = dev_get_drvdata(&adata->sdw->pdev[0]->dev);
--		if (amd_manager)
--			schedule_work(&amd_manager->amd_sdw_irq_thread);
-+		/*
-+		 * The handler may run before the SoundWire manager devices
-+		 * have been created (shared IRQ lines can fire as soon as
-+		 * they are registered, and the ACP interrupts are enabled by
-+		 * acp_hw_init() before create_acp63_platform_devs() runs).
-+		 */
-+		if (adata->sdw) {
-+			amd_manager = dev_get_drvdata(&adata->sdw->pdev[0]->dev);
-+			if (amd_manager)
-+				schedule_work(&amd_manager->amd_sdw_irq_thread);
-+		}
- 		irq_flag = 1;
- 	}
+diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+index 697ec93..d451428 100644
+--- a/drivers/soundwire/amd_manager.c
++++ b/drivers/soundwire/amd_manager.c
+@@ -25,6 +25,12 @@
  
- 	ext_intr_stat1 = readl(adata->acp63_base + ACP_EXTERNAL_INTR_STAT1);
- 	if (ext_intr_stat1 & ACP_SDW1_STAT) {
- 		writel(ACP_SDW1_STAT, adata->acp63_base + ACP_EXTERNAL_INTR_STAT1);
--		amd_manager = dev_get_drvdata(&adata->sdw->pdev[1]->dev);
--		if (amd_manager)
--			schedule_work(&amd_manager->amd_sdw_irq_thread);
-+		if (adata->sdw) {
-+			amd_manager = dev_get_drvdata(&adata->sdw->pdev[1]->dev);
-+			if (amd_manager)
-+				schedule_work(&amd_manager->amd_sdw_irq_thread);
-+		}
- 		irq_flag = 1;
- 	}
+ #define DRV_NAME "amd_sdw_manager"
  
-@@ -237,16 +251,22 @@ static irqreturn_t acp63_irq_handler(int irq, void *dev_id)
- 		wake_irq_flag = check_and_handle_acp70_sdw_wake_irq(adata);
++/*
++ * Frame rate used when firmware does not describe the MIPI DisCo clock
++ * properties on the SoundWire link nodes.
++ */
++#define AMD_SDW_DEFAULT_FRAME_RATE	48000
++
+ #define to_amd_sdw(b)	container_of(b, struct amd_sdw_manager, bus)
  
- 	if (ext_intr_stat & BIT(PDM_DMA_STAT)) {
--		ps_pdm_data = dev_get_drvdata(&adata->pdm_dev->dev);
- 		writel(BIT(PDM_DMA_STAT), adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
--		if (ps_pdm_data->capture_stream)
--			snd_pcm_period_elapsed(ps_pdm_data->capture_stream);
-+		if (adata->pdm_dev) {
-+			ps_pdm_data = dev_get_drvdata(&adata->pdm_dev->dev);
-+			if (ps_pdm_data && ps_pdm_data->capture_stream)
-+				snd_pcm_period_elapsed(ps_pdm_data->capture_stream);
-+		}
- 		irq_flag = 1;
- 	}
+ static int amd_sdw_clk_init_ctrl(struct amd_sdw_manager *amd_manager)
+@@ -752,8 +758,27 @@ static int sdw_master_read_amd_prop(struct sdw_bus *bus)
  
--	sdw_dma_irq_flag = check_and_handle_sdw_dma_irq(adata, ext_intr_stat, ext_intr_stat1);
--	if (sdw_dma_irq_flag)
--		return IRQ_WAKE_THREAD;
-+	/* The SoundWire DMA device may not exist yet during probe */
-+	if (adata->sdw_dma_dev) {
-+		sdw_dma_irq_flag = check_and_handle_sdw_dma_irq(adata, ext_intr_stat,
-+								ext_intr_stat1);
-+		if (sdw_dma_irq_flag)
-+			return IRQ_WAKE_THREAD;
-+	}
+ static int amd_prop_read(struct sdw_bus *bus)
+ {
++	struct sdw_master_prop *prop = &bus->prop;
++
+ 	sdw_master_read_prop(bus);
+ 	sdw_master_read_amd_prop(bus);
++
++	/*
++	 * Some platforms, Rembrandt (ACP6x) in particular, do not describe
++	 * the MIPI DisCo clock properties on the SoundWire link nodes.  The
++	 * values read by sdw_master_read_prop() then stay zeroed and
++	 * amd_sdw_clk_init_ctrl() fails with -EINVAL.  Restore the defaults
++	 * the driver used before the clock configuration was moved to
++	 * firmware: a 12 MHz bus clock, a 48 kHz frame rate and the 50 x 10
++	 * frame shape.
++	 */
++	if (!prop->max_clk_freq)
++		prop->max_clk_freq = AMD_SDW_DEFAULT_CLK_FREQ;
++	if (!prop->default_frame_rate)
++		prop->default_frame_rate = AMD_SDW_DEFAULT_FRAME_RATE;
++	if (!prop->default_row)
++		prop->default_row = AMD_SDW_DEFAULT_ROWS;
++
+ 	return 0;
+ }
  
- 	if (irq_flag || wake_irq_flag)
- 		return IRQ_HANDLED;
--- 
-2.56.0
-
