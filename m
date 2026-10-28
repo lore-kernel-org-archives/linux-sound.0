@@ -1,56 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793190373;
-	b=GXaMQE8a9/+hLqrWZrKWCb4+TEkGLkI9K7kn/kWu7cEyXNlnmDsor5nS6K+rmlNQDaBU
-	 OLaY7+q3Bew/3HN9/czPpJDkmvV6ZgPn3oapGwVd32j222fsvOhSeOxePKdZ1DG1vyz4h
-	 Sf9J2Vl92xoSGnE18iCwU1sniKy0tU2ELFLkphX1a2CAEDBptrP+n9C6bUxv5Im+mpm9R
-	 sCdGxcnt9aQBeegs5Op5wujSnYZp9bcVXmF/WUck6lIrm6SHVWaauXzNSA0ohkaocQ0fF
-	 D+xdrjknjoN/Lmvj9NWXt4mD97OSqN9yrXEYVShhRhYLA++JYS5q0vPgBv0IVDYnrjw==
+	t=1793190969;
+	b=E0abG3dZ61flpFpLEPdOGeW1KYIz26yxQrTAbg8n9dkaXnpCwddPh+wygsWZda4Zq+h4
+	 kTyfOEU54rRI7b4dTvli1aR412Cz5XA12Nj+2xpla0LnfyKqeGzgRQiUxzRB+tGoVK5HK
+	 sLcKpFqX38VS+IfweU/pMIdTK43FddR6mtNWu7Pf+0WQFqttnoaJSX2wD4CnjqkmIdhlX
+	 t11QJGat4fLj3C2HQzWSaLeXRETziBswJmzIFhlPGnQf11NsPBOaC5Xpvjdkfz5m77QOb
+	 jTMnNNzRtpiL9bK4Xj7Wfb8zr/oe6fQCSDxeKfe7eDnyzSWA6lYa7ftl22jiMQNR6Vg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793190373;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793190969;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=y1Fmkd9835TLSblYAe+n5sapTQ3vTxm4rzuLDs9ya2M=;
-	b=TzfUt2L1yA0/FvhYM9Fcr5rNp0WDQv3P/veDkowh0KvhDY0u3lzqdKxbapQvgl1Ltp+h
-	 cal7zOF2b/T9Ndj1sx2FPXBRZRT0w63SY21XCd9nCPDCRCIBPXDTcuZsirT6dMDF/YPkI
-	 mGUJ9l0y5m6sgfj2pzJXQtZGXXtkWZj7Ler0KNHlt4WS49BHdUZ0IC3Quo5NZnWN/At46
-	 0iYvlPcs7P3s6iE+k5KNyJeNy3wKTNFpq49nr5EjdWu+AfrxqV6dSUJjAwspPZtoGkrab
-	 Y9nNxaRy/yweJaNLTimC/XfKSWIuttx2F+Ckm68D31BiMVo5P5/4tmYJ9D3rogq1hGQ==
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=RN66CKdSFH5BokxN8gXeYXM9ec3pclcfHKHj0hdU+y0=;
+	b=e7QDrZ3VHpfc4bwavxge5fIEmL2Eiy7r3ghJhADyMmYs5qCoAlXeBXlxcwT1rPlyFJzt
+	 Gq9w/AdOhii4hr8NVfyYI/WEpnE774/XU5+t1USpgF1xRmW38AVdImpAIiuNT7jYUPcll
+	 OeKeTyMu/50q6+Vm5nZlkG+n0I+T/3tgmHxalEMPsJCoxn41q/Agm3pehGoDLA4XI4u6Y
+	 PFGQPL1pKRrWj4a422/sYcMtvBYBlg1AXFAWA4O9xCC5dtDqUE+oMmq17XxkmeYfzRO/c
+	 qslRv7ULB+M1lpiUo+fbyg27cxc04ynjH1ip27xLZ09gap5SCwZ/i2B/eFEjkBv56Hw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ABQ7kFfF;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IkgVIPPI;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6972606A31A;
-	Wed, 28 Oct 2026 12:26:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE083606A31A;
+	Wed, 28 Oct 2026 12:36:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ABQ7kFfF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68BF01F01825;
-	Wed, 28 Oct 2026 12:26:11 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IkgVIPPI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD3021F01825;
+	Wed, 28 Oct 2026 12:36:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793190372;
-	bh=y1Fmkd9835TLSblYAe+n5sapTQ3vTxm4rzuLDs9ya2M=;
+	s=k20260515; t=1793190968;
+	bh=RN66CKdSFH5BokxN8gXeYXM9ec3pclcfHKHj0hdU+y0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ABQ7kFfF1h6pobuFoubwuWAWHJwHoc/JOpSnKfTnle37ApjBbZNK79j9H/XnrKFZE
-	 NP2TnphwLUL2urzVDDkVHuziObcLs30E10p+KQowOCoMo7k7dygRsvJe/wTrTFfs+h
-	 wp46P6o9+2SBe5O0VtjMhgwCtkXu4FV+yEds4dKWIamkgYO0VgDxyO73xkZKZix1UK
-	 TdS0Aqvt+cPdeVT4lL+Dc08tWwJCh7Lu/MvZBG3pQ+iW//lA+7nEUhq9q3CDmV6Qxe
-	 2Wer11Rby1Wgeh/WTf4yypkJ9cZyCPOenfEBcrBwbcAhFLZvGlnc9YXrR/XUdVHCkJ
-	 5896xi6s0jOOw==
-Date: Wed, 28 Oct 2026 13:26:08 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Hyunuk Son <hyunuk.son@irondevice.com>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Kiseok Jo <kiseok.jo@irondevice.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: Add Iron Device MA5311
-Message-ID: <20261028-prudent-godlike-ringtail-249ed3@quoll>
-References: <20261027093232.859755-1-hyunuk.son@irondevice.com>
- <20261027093232.859755-2-hyunuk.son@irondevice.com>
+	b=IkgVIPPIqTICtUeItkxA6P4kKztnYtrCCrmcCp4fEOjTuAyrrVfcAMNC+ew4l1wnh
+	 nQanSAshIhnQaG+Ac/EVzx87EvjI1VbMaILCRwRbnz6KibJeqcKVcP+vfPt/CQrZJz
+	 4EDPudw1BaAh8uMmIABVfRHG6ja+v7eSDaLTQ52FZr3mKLRUzAx6eHBJzW7z4fwARG
+	 dtU7ksepKRECIZEr/vLNDkyF6EOu1SCxZu3HlBxsZGonLyPD8WzUkhuhjhMDZuZ8uN
+	 7Xa/0+zsuTo6fj+QzyaYH8080hwxOUxWJNyVInwqRidowNlrwUwvHxUB8yIPh2Khfe
+	 AxsGOANE3YreA==
+Date: Wed, 28 Oct 2026 12:36:04 +0000
+From: Mark Brown <broonie@kernel.org>
+To: =?iso-8859-1?Q?Ram=F3n_Jes=FAs?= Miranda <ramonjesusmiranda@gmail.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: codecs: lpass-macro: release macro and dcodec
+ clocks in runtime suspend
+Message-ID: <706ee7bf-4f61-4f0d-adb0-a7b0476c671c@sirena.org.uk>
+References: <20261023173216.6245-1-ramonjesusmiranda@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,28 +61,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="LsvMrbdD0nz4dxp3"
 Content-Disposition: inline
-In-Reply-To: <20261027093232.859755-2-hyunuk.son@irondevice.com>
+In-Reply-To: <20261023173216.6245-1-ramonjesusmiranda@gmail.com>
+X-Cookie: Pushing 30 is exercise enough.
 
-On Tue, Oct 27, 2026 at 06:32:31PM +0900, Hyunuk Son wrote:
-> The Iron Device MA5311 is an audio codec integrating digital speaker
-> amplification, analog-to-digital conversion, and audio DSP functionality.
-> 
-> The device uses two I2C slave addresses for separate control and ADC
-> register banks. It also provides an active-low reset input and an
-> interrupt output for fault and thermal warning notification.
-> 
-> Add the Device Tree binding to describe these hardware interfaces.
-> 
-> Signed-off-by: Hyunuk Son <hyunuk.son@irondevice.com>
-> ---
->  .../bindings/sound/irondevice,ma5311.yaml     | 83 +++++++++++++++++++
->  1 file changed, 83 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/irondevice,ma5311.yaml
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+--LsvMrbdD0nz4dxp3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-Krzysztof
+On Fri, Oct 23, 2026 at 05:32:16PM +0000, Ram=F3n Jes=FAs Miranda wrote:
+> The LPASS rx, tx, wsa, and va macro codec drivers prepare and enable their
+> "macro" and "dcodec" clocks (which correspond to q6prm LPASS_HW_MACRO and
+> LPASS_HW_DCODEC clock votes to the ADSP) in probe() and only release them
+> in remove(). Their runtime PM callbacks only toggle mclk, npl, and fsgen.
 
+This doesn't apply against current code, please check and resend.
+
+--LsvMrbdD0nz4dxp3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrh7DMACgkQJNaLcl1U
+h9DtMQf+OinpQt+Pqh4v46Satg70DJeawqG5u6goCnkANGda/vECBmWijbd5ykVF
+wpX68CFXd6lBOWuPIAl3oJon4otePmTyG/9RApHgU59Kbc2/29u6HwgaRDGa7OcM
+bmPBrcZWj4jqitkEreBaTXyVo9rrtmmqhm2Fl3M2Ozwit0SOfMskIqPkV0YvG6T0
+HfX7eqLa4fKcYVPJHIGSptDJYcck1upd1dxE+j7472Mj+xOqYdtuRkKHAzXi8zG8
+nWlwPX+JQe7fGWeiKpmUJ3hl9MkP6ZnQZrHlpuPzWKjdr3gMpD6+Ep6OSTVAFgiE
+K2I24vmeHJoZR0RPsnMFIDmEYW2ufw==
+=4IJn
+-----END PGP SIGNATURE-----
+
+--LsvMrbdD0nz4dxp3--
