@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.229.56
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.229.13
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793156630;
-	b=GNQ2qcG0Z7mMyaWyHTaR8YEDtVhhuLD1YWncl2S2sDjklO7FXUNE5acLFOfM9VU0/m9h
-	 FCl5otSEtpOT8sRUDfpozSDo6t0Xztvn6OQXjWpnctc79k9nYVH4IvAIc4lsQnabOT7Ry
-	 qFbWn/Empeayz9LdtjjoDhzRIJNl6gy+5eXzDxC9kfV5ZxsEiYKjHOvMEuIuHCV1v9fsJ
-	 geHkQVCWub2VpPBxik3rtn5jH834TO8FRoC2GZSBi5ywEhphP8SzMajuGF8nxY2tgUIPp
-	 +tJx6ZNIf3pkIEO5YodxOW4PJ5cKaFjbjvN7u2cSC632jTZFUYxn86e9QT5zpJY1U+g==
+	t=1793156633;
+	b=EkOApa91ERYg3EJAdPVNpcsSxBORam09gBftrSpTjBLGcy7EF/09RrHElrJmiG1vaUgt
+	 APVGhSXJHasqQF6B79rk4jOFdzXW3gCVqR3qOib7Usn1NkPVVxp+T6Oqkkky0SBKyVEf6
+	 niOTLfuAFaFIQPOYvkrZkBF+4a8LdCQUKy3owYjQLXZOFJDtSV2YPmFdk94dddj8CI+tx
+	 trza0ImG1o70WJGEGKh1ClWFqldlwB2CRtyUglldipmikvAxV+lBOr9FHnKH6F0CXtwtO
+	 C9brBS7VQ45dTCRjN9UJASVG6xxPTVT8Y+Jn2lbpkSCjEbkJqA6YyoLI9MgSlz5OVnA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793156630;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793156633;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:From:
 	 Subject:User-Agent:To:Cc:In-Reply-To:References:Content-Type:Date:
 	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
@@ -24,66 +24,66 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=s5xPozoNzxLznHC0K1N/1nXFTr3/BDdD5bbNYZ2VVbo=;
-	b=q3z5YNleI1T/F03Bsp6nsfficMgUHTeNh/DljTIfDtsSJt03SHKdEKFaiDlZ6lzSB6la
-	 HIM6xOjGJ8msdNJ/gFzZhKefM1NJRGmgQJnoNPrmBADKyg+5S688WuH3UeUeLkv9K9P/Q
-	 TysBpnbGzdJKUjT0SQuxVB5/eRgzxyOrzWFEWhW23ek3m1kufU/oyuwRkSFLIvhEsPtS+
-	 ouoN9r02X+QJ2ksqv/EN7S0zfav8bq6WIVFnpklCfjik6Fo7vbEcK10tglH7cxq0LejdU
-	 hzWiLmlSqT4twSX69E/MSlhAKqi8bEyQLOTQOlbKxw1fUcUqAcCwp1MakPnR2dJj0Bg==
+	bh=jLSp9zQtGcYRMMTyTTgpkcvfITofg9S0w51G9uN49TE=;
+	b=T0VGGjcHi9DItfIFmM18fWbhl+6hplIwbioU9jktTsh+w+9IMCOsRwGj9CZ7rezcndh9
+	 2bnjKH+zSAf/nkNve9KUg3dhc76aWUxUETE7UIKgymEE3mWAsP+PElpu9Qhqk3OR0mzCp
+	 RVvQ0C8lRCVd4mCNM7lr4zJawGqoocQbwCwuyhWOOXVTA1LhZHxlRvjtVTWzEjNYyJ+vT
+	 sJT3h68aXeIM9J5uwA9nwZdbDZVEKBmcjCEqzUeQ3zuQE1UIsa3oO4XV4GR82KS3APSc+
+	 zEJHcf0F2gW2I/yigRVXJWdf5bFbC/ZXOF+huxcSF1ApidWucCiIynRMwdmi+Ed30hQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=renesas.com;
 	spf=pass smtp.mailfrom=renesas.com;
-	dkim=pass header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=KUTZMpMW;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.229.56
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010056.outbound.protection.outlook.com [52.101.229.56])
+	dkim=pass header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=iUZK3CUC;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.229.13
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010013.outbound.protection.outlook.com [52.101.229.13])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A931D606A31A
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 03:03:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A931D606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F19606A31D
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 03:03:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5F19606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=KUTZMpMW
+	dkim=pass (1024-bit key, unprotected) header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=iUZK3CUC
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZqfTYxJrs3s4rGTyhVcuTJ4cEhkCzaekGSomiVMat4ONaHiarIqPPaz8DsyVvJb4j2nrmxG2Xpdz0D5QJ7B5iDObyAC2swEwBu/PrmJMX/GuQtaT9cVU7K130JTcHlpxyudX8U6GeWEaZ+FtqnyKIYZKg2Q643AcEX4/i+0hQWJk1pY3YjPXt3JiI3vz5RDlrnPPfy0fXutIWkER53Cd9u6/MPL14K3XZkiJf1ZFOyNyAUGVZ9Xrzphf/3xKOgRBYSOQqa5/GT/rZ+yJ88OBjx/dzdRYlUXu/b0GTY4IZu8iNDET/V6PeX6CEG0bsN07xUcigkFFZrdtSFoq2dzH5w==
+ b=gPsaQKFGU+l8ZSPAi0AapX8GYjZjiL/2rhUKtBHlI152al17JFtI/6jZFtAbQy3aqK6534YjXsHPYgWSmBkZQB41Wcvbxtph+4Lyv45lX09CmUIRATgK60sRDTzNqLVD/KKKUsWzR+7aPWnnJolGgfY9+2ZQcatRX2lDs07lNasMokVYz1W/IwjfEVMvY24DxaeseknpJ6i9r4+wupm//Dh5aTkWgEPjfmksoeoHIgDDMERx73IdL8MfZoiXIb0siHrIEQ4w1iNiLuYXMqKqDP+H3BR50V3icH/SPYtUrHG+p/+4XT5IguamNIwt98Dm00unaBT4kGS0yMQayXlfzA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s5xPozoNzxLznHC0K1N/1nXFTr3/BDdD5bbNYZ2VVbo=;
- b=itkZ42al8Q4Ph3nyMDUiSVOYovbNqWMUgdDW4Y1eK1/kubEAq43xQomj5SRZu6LIj4X8tPGRbA+A7f4pj3mr5Qm4a0LfcI3S3Zj+Y/rToxoOPmtIOdD86W7DVNBsT3N9Drakqtgc6tFQKQqkpnrBttDhuoeyZF0M/jgFSZ1ULjNcaHKFizFGvasKNQo4IlSz50ErtCr63cIGfrZxeTJrHc5hhU40587GdSxUJafJWfWGfU3cA39JvJJp9nkyPTkZo+DdLxV9qgDDSxtu7oDj4SS/boFrZEOmjWmeBYrepjeoiMaLqI3kekcZ79H891LEKXiNYvN/Xy5iSrZ75n8CSg==
+ bh=jLSp9zQtGcYRMMTyTTgpkcvfITofg9S0w51G9uN49TE=;
+ b=s8i74IUiFQdnZ0H0KD9k2/LTofIsm98/I+IqAcRaIGwt61yc5irm9FXTRUR0cdnA6l+b53RVgnPjb4q68B5ptN3lTbwa5QH4XlFsXPlEpfThBKOolGxk9SirXLnINgPhWklaAU6Po8XYl/4j9GfrvabUY1Col4xdvPYzj+Yn8O+Vl5mAZD+in3xV5aNqbfGyM1UvdsBXNcJHgh40mxuShPHk+j/ZwM9U5jqPMwaNp64IsGZiXLTBA5RldkYmTSFawlG5VgX9wQRL6lr6/p5khgJ5z6wqPdz2TUVL1GudLCgmoMQ7hhd024tEVz125ZC25jzBFT/r20h2S2Do+T79qw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s5xPozoNzxLznHC0K1N/1nXFTr3/BDdD5bbNYZ2VVbo=;
- b=KUTZMpMWEtuTQW/zqidj7n/IA6DaJR7vl0yYyEWQmCycqvkS3YHdKRgte/o5yBbG9Wj93YFZBn2eDMl/j9c5BUG99k+o4QDxyYzhZA4AM2dlguMerp1+bAf4+6GhuzddD5qAJSLe3ug8CvYzjYVwt1Vj2yFd+sMjwHIBEmY9DjQ=
+ bh=jLSp9zQtGcYRMMTyTTgpkcvfITofg9S0w51G9uN49TE=;
+ b=iUZK3CUCBx/cNhXAl92Jf9/adjLxgEv+SO+UtXZLOfdH4lEUhIl4WA7ZF7iERJYB4T6b1aT7+NHGGuLek1OGNjLkrNQpcgArfSCNTnBN9QdYuXxrJRuSWEBhVs0IByBbzTydq3n92UafKLG0RVZwB6dsjcfl8cW9xORWcP2D9wI=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYYPR01MB15175.jpnprd01.prod.outlook.com (2603:1096:405:27d::8)
  by TYYPR01MB6650.jpnprd01.prod.outlook.com (2603:1096:400:e3::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Wed, 28 Oct
- 2026 03:03:47 +0000
+ 2026 03:03:50 +0000
 Received: from TYYPR01MB15175.jpnprd01.prod.outlook.com
  ([fe80::9bfd:a110:68f1:134d]) by TYYPR01MB15175.jpnprd01.prod.outlook.com
  ([fe80::9bfd:a110:68f1:134d%3]) with mapi id 15.21.0546.021; Wed, 28 Oct 2026
- 03:03:47 +0000
-Message-ID: <87v76msezx.wl-kuninori.morimoto.gx@renesas.com>
+ 03:03:50 +0000
+Message-ID: <87tsm6sezt.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 11/15] ASoC: soc-card: move snd_soc_card_set_dmi_name()
+Subject: [PATCH 12/15] ASoC: soc-card: move snd_soc_card_bind_call()
 User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org
 In-Reply-To: <87bj8etuj5.wl-kuninori.morimoto.gx@renesas.com>
 References: <87bj8etuj5.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 28 Oct 2026 03:03:47 +0000
-X-ClientProxiedBy: TYCP301CA0061.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:7d::6) To TYYPR01MB15175.jpnprd01.prod.outlook.com
+Date: Wed, 28 Oct 2026 03:03:50 +0000
+X-ClientProxiedBy: TYCP301CA0088.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:7b::16) To TYYPR01MB15175.jpnprd01.prod.outlook.com
  (2603:1096:405:27d::8)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -96,57 +96,57 @@ Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYYPR01MB15175:EE_|TYYPR01MB6650:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2766eccf-48af-48ae-43ab-08df34a01596
+X-MS-Office365-Filtering-Correlation-Id: 359d9f98-2dce-4f16-7d58-08df34a0178e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|1800799024|52116014|376014|261009223027099003|261021121427099003|261021123027099003|261022105027099003|261022075727099003|56012099006|10067099003|261026140227099003|6133799003|18002099003|22082099003|38350700014|261026121527099003|11063799006;
+	BCL:0;ARA:13230040|366016|23010399003|1800799024|52116014|376014|261009223027099003|261021121427099003|261021123027099003|261022105027099003|261022075727099003|56012099006|10067099003|261026140227099003|6133799003|3023799007|18002099003|22082099003|38350700014|261026121527099003|11063799006;
 X-Microsoft-Antispam-Message-Info:
-	tZO1mhjgg01AD7k7EsgJrGVn1ONXlhgDxrbLC0k8uUn7sT5Nw8O3jyOr1y1+JtRWGswDHMak1TqZwHIlwITCPi/q954i0Uh90ywpqm83ZwcS+ky6cU++9YU5a6ocXadt0XqSobqzRU36R2Z/PwoUd3W9qbUUnm8+ezawP4xdxU4Am+37sD712eQGSFhwPU+brbNb256tXl1wVwvj/VDP++Vb6MVnWDZANTd848mq8uNINFR2oKo3D0OTxnpFg+rlX2FxMNBNP0/RGohtAafvBYlEdo+0u/olVmLyu7P2zlfIf7nvxlXDzh8gJkSXq5U7/yyOVSVHgZ8hkpa6lWgd3TDEgRb+cZNUWiBIxTGG54AdolKqMMP/A5JhX255d1+Xr8+z7R73W17S+6gQVuTfQpSboSerox4HgJCLT6QM41z2b7g0lEMDXvs3U6tONykaW59pjV2QOIpKLp7FVrFLlqhti0d/Ql4IloVBG8fvOMBxbmXnOXCYqQixup3ZstqW9AN++EoJEFgGj14SwfSgL3nL4zVG75OdywH/o2o42fL5dx7en8/HiQzJ5/yOQK/ZvutbxRyy0uyZZCYHO6JVHgpL1PHZyMsaJ/Tbiu0owSQV0UyF/uo1grkQJ0LUjibkGOyS2gz9kG28fy3a6wZSUTalBAVTIq0DShKAjDgUWEPPgJmbMq5ZwegIXbvu53Urf9FNcIMh6r7EDgGtsmjqetw2YrORXCtRR7yRHGM45H0=
+	q6ajoKqNbVoW95S9mFBxxRxD84M18F4BUDcvv7NtjwsAvAp0oYDJUuzDEdCrBbqxo0KZVVQzImPGvh3y7jj+oQIb4fynwnb81PH7e5n33QaxdKmkl0hK69AxF1PWO5b73jLtuZcf9ejNo2YKHXzI0RvJYFxGKVY0cd93ytD9iQrCfFN3DCN4luxsKvcndywM9QvrCzwRguaPMpDUzrPUTs6mQ8yzPy7aDq7N9YzC/ntdgAdBOEJxVdzVLp0mvv/StTmBRduHW3JLhr3scr3ytt/ZUvKbgG9l5WcKkYC9HnFdiUujjNjQlRjbxR8h1AwbS8qXHmd2QOxHXN9j+vAaZWZuYGZhL1l5YAOSF2Iu6GDYS+kkBBZ89MKy0jjixtutS0opPffbEkjkP5jAaay1BZVe0rKouie8GeOfej2E5RR7KJJmIRA+2bAd15mo29m8QeAioEER2mWGlotsOuU8pxpGpensGavUSbNuWN7OZnCIoRo4mx+v1EJ1XWA/dLXl+z5dFQRpVcFVaxzydyG/9L8l5UdEhUZ+WyPzKBYKMCiJP0zI/X3bqOGK+kDHP83SyRYiRH+rSXKj6NJIgoukYKZxfP1xJ7hDNATQjYyoO8YxTQTVokXmJq5f7P8ri0OfID6r0abHUjmKZ5AeUPO42PEU/SC5BuRCT+b0XbC1kimeHkUsQxKVGWTB2PMMlBgRZfcP6D9ZLJZV77+OLxyVPeGHhZ+RkPECPSfgroH8o/U=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB15175.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(52116014)(376014)(261009223027099003)(261021121427099003)(261021123027099003)(261022105027099003)(261022075727099003)(56012099006)(10067099003)(261026140227099003)(6133799003)(18002099003)(22082099003)(38350700014)(261026121527099003)(11063799006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB15175.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(52116014)(376014)(261009223027099003)(261021121427099003)(261021123027099003)(261022105027099003)(261022075727099003)(56012099006)(10067099003)(261026140227099003)(6133799003)(3023799007)(18002099003)(22082099003)(38350700014)(261026121527099003)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?TP7XDCkuNXgOK7iWSojDuTihhncxlmiC0j8roONEFM9lMlcLGoCZx1IISTNb?=
- =?us-ascii?Q?j+4DtbCWaJdiq3aWpc4J9v7dcb7FyW4MibjT0NDhbPIqUPxMDGs1qRcitQGe?=
- =?us-ascii?Q?2tbhIS+hWz3vTUWiqYiAO8Xao54Y9/1Lxpr6eb+EtP/IroN2k2QEEHTO3Vr8?=
- =?us-ascii?Q?95xUlj2bjFD7WJaLefqwVSIwVlPHTt0mvOnZ2fF6n2zNBZnZA17VI53v4Z4F?=
- =?us-ascii?Q?w0N80rJy6RChVtg0c4oWtEKTPIvc/mzvZieasM3Qq+EZzp8G9sCt42QBKw0v?=
- =?us-ascii?Q?fIz+7B/K75OI5zumOyaV0bc2/1MhFNqARelthahKLVomCnSu3hC4kG8g3/06?=
- =?us-ascii?Q?9vOFif8vkvivoCoRJNgUbuDNlQsYDC83dcFyZf3CPXv6zwpkZ0/c+uEwuH9s?=
- =?us-ascii?Q?+Z5rSYyMfUW7SV5osLK0xXxf5FO40lHz9ZfzyBpnH+tL0DGn6sIsbeMGTYn/?=
- =?us-ascii?Q?h/ddkhEwehFKOcafbS6KccAp86dYSZIBNEDVIHRTDxnMyRm+ztb8YGNWTNk1?=
- =?us-ascii?Q?gXYFpb3+oWF7g6ZwFSGZgICbF6Bji5FCYEMWbv1JBpNRJ8EN7IQDLMvmLkqa?=
- =?us-ascii?Q?27cTNcZs42S1hE5hN5k0H1ACrjsXK/MU80d7lkhWy8wmXd1ohBaUzW1QW+eF?=
- =?us-ascii?Q?ypyA3xl5089loyDGtzAakUbttN29PUDad2mNwyyjkdjBFuuruRnM6euiaTc0?=
- =?us-ascii?Q?ZBGYCYdz4yRn7NWZxwluL7wHCkWJ71NUe4zha29hevuJ8F1LjjkY2TVniEog?=
- =?us-ascii?Q?S5XFybtJFHxhrq+Kh1HW9m6kuniTuDegyQQS7Sk7w5S4KmkYpw7ii9KDP+Qr?=
- =?us-ascii?Q?RqPscapptBdvMrMwvNN5cBu73EU7FeewMpOQVfn53UE6wvmRWT0Jjrgwe9qb?=
- =?us-ascii?Q?NaPhB8Slp/e5AIgaJ1b5OcXKIFVhHdfD3e7cK8HpmtkzTWMJJXYMuapCRb1n?=
- =?us-ascii?Q?6JzO+ixUbLKFBgQ/r/Dqs+L18NIBVernNcuCm//kFPaAhPl8E8ks2GWr+iB7?=
- =?us-ascii?Q?RCzMLXSk0OagOFG348eI/JTSmKw+gvvwxIQ5jaGhnnDRroy+SP+FIw4FkMKC?=
- =?us-ascii?Q?9IqSiPSw78uIiNXbhnRWyban1EhNxTflZAYRPgSJmP+YO2srd2L7/K/SNYNS?=
- =?us-ascii?Q?oIs02DFKBJc3BFgzQ5Qgy4Gi6CV/xi+EQNe6OXAfQN4cwHqPO6loMTGBrwnA?=
- =?us-ascii?Q?B6AL8kmeEt0BORDrF31kMMDN77L9UcgEp8UM5DNReScCTHyix9T6y9D4vwob?=
- =?us-ascii?Q?rRGD2BT0vojToFn0jqJXSVqkMlnmji0e/lJs3Y1aE9nuxX+ux7g6B3/+fX8b?=
- =?us-ascii?Q?93HSEInSiMrvDk+YwfROZL/Xs/QOxziUPU5dZwjIFEesyQ/X9CogfJ9kXaCd?=
- =?us-ascii?Q?yKR6DvKTr7sB69FWdjThHDHlpXRa+/yxwFMppwEv6RFjnApo7sfXM+uYHiMB?=
- =?us-ascii?Q?jFjiWiKs6Q52MNv4pxJUn0B48M2O/ctFtqQw5qE0pv/c7IyHS6hhemUPrUHs?=
- =?us-ascii?Q?iY+091qnBKnMrd/mM16CESvD4o7xf7SjgCUnnFY6j4tIOK/0alCjBrLhLs4r?=
- =?us-ascii?Q?WpOw4QXVRdczk4ud0NfnVy1w9oKZFKTFx/DEzt4T0vtVC3NSF0rXW+Y1QkEM?=
- =?us-ascii?Q?tHk3P1JllNJdv4XaCMMt1I+LL7wbX2YPVkQ0RefPS4Yj+BjHmTWqqQ5O9ERT?=
- =?us-ascii?Q?/tu4KyxfChiEnbgf0yRs2fUgH1YdhcdyoETDCuQ83za6qlLo35czxwaBOZHd?=
- =?us-ascii?Q?OYlvka0VDAJWgvg86I9+BnRJ1HCq+LudI7yYplF8ak97T7c7QaBx?=
+	=?us-ascii?Q?kKzZPq6VA+AzIj6Ux2E/1ZwlFlxCD7QigEt++cM2fVZRjFjyQE+Z0kausvKV?=
+ =?us-ascii?Q?7Riri/ZkmE3ZKKXpx80/0aeQc1EC9ES5twItWDJOtJELfgfWIu7woga3MfT3?=
+ =?us-ascii?Q?6Uu241CFRCfDrEX01lMO60EMBKUdkcyyuU3YpQ3qVKNQK+rDmqxEsln3PLdJ?=
+ =?us-ascii?Q?1edh23fBFM6Jkx9ZvKU5jSe4I8O0vH43jsnGcTWh4m/7Ufzi/O+9gM2yTx26?=
+ =?us-ascii?Q?OLeLOAIC4tSIipr2fNG+T0f3UhW2/8I/3Yw2wzdvSSKj/SzxARYkDEb62TM9?=
+ =?us-ascii?Q?5qRP4uBMKWYiiVZPi4QrqfZ1igVuJeaJcxnWn1pzdxioiXoVrXvfGu66yqt/?=
+ =?us-ascii?Q?gwRoLyCGK+mYp2FjXOR/kt2XnQ5V3NRmKLn440Ozr5/9PcafLA2FB+4Yp/il?=
+ =?us-ascii?Q?ioQlU6f92c25rL+TE92VP1RWKBoekh3IHUckfHVOsFlxYN23C5vTuV48Fk5x?=
+ =?us-ascii?Q?IEKykP5H9ZVPrJjsKgA3P6QIsj5rYiqXQFLsO7Kr1WCIrz4VnsoWEelcODs1?=
+ =?us-ascii?Q?DOFA6bBFrL4mgie3ff2wvEfZSWl26CUckfy/Q8b25SUDum5uXsy63ObZ5FYw?=
+ =?us-ascii?Q?jRlo89khEjaFfwWSJEUGKRRQqwzQ57C59t28k41xevLDqh1+17s4xEckaDib?=
+ =?us-ascii?Q?3W0afbXzxDJ9L1X7+ndk/GWiP4EqrTmQnayrQm8LKxF4WTKYkFEsZTYbp+IG?=
+ =?us-ascii?Q?s/VHR9AI8GxOV8LTwbFy/TeDbJta8ULWh47aC59PYKgmtWo/EqZdEYsE7xjK?=
+ =?us-ascii?Q?zvnxx++w0IjJAWyPD/158sMrXs6fRJ+q4N/P3rbGpl3p1OIvws/jUqdte9gk?=
+ =?us-ascii?Q?nDN8CtW9pO/KDoBPsrf5Pzsh5dZlHyK3/ucy6oKwo4qunvGEpYFSZPSh8DWG?=
+ =?us-ascii?Q?Tvap7/wgmIQ8nNLBJQ2bGclCk/IEoA7HbkZNKTMOMeC60ljWigVa205L96xi?=
+ =?us-ascii?Q?TR1YPj5nDkf9dHjpn8i3WMd6S286PdpjT4b7BOuT1w6ZPMyYrsYRy23OOLzU?=
+ =?us-ascii?Q?YFO7q9SWytVKFbau3bK2H6jhpIPuLg259+CPNI0mDaW/yJrx2W5WUrHRUwoK?=
+ =?us-ascii?Q?d2K8GyS+f4CwKOIXWfIKI3Z9vjpTDppmKbj6qNpWflfCQY+0OmFTtLaIAZ9H?=
+ =?us-ascii?Q?jcCVdKJzJjFHZQpBzj6ToPHo/+MznyUt4NFnaGv79jLcC9QEJYCS7poqwTEc?=
+ =?us-ascii?Q?mIvXE67f/VqQ2wHv25PCfjLPg1yy9enc+ZGG+xe3hFvoIKyTVNhRCLggHa+5?=
+ =?us-ascii?Q?F39Ha580/TCXBqyRVgoDdBYGZr8sPMuCAc2yKksdNxe3g1SiRJwlao+sfZtq?=
+ =?us-ascii?Q?HeYLa6gCJB9edXHWnyIW0ll3ssXayCZjlkxPNPuo7QRD9SPgPAeYKj7h8x3o?=
+ =?us-ascii?Q?5Wy56hlmuxrYKfIZRfQiPKxyE5AYE79J6RKOVeoTlCC+MKiwllnODZ8zo/98?=
+ =?us-ascii?Q?+Q7CDZ2bXSvb+HAwjecICFuGeJ6drKP2+inFW/zJ5SPtr1lDJChvcLrNj9Sf?=
+ =?us-ascii?Q?h75GcXReBoH4OjBa7e5Gq8zOqTq/ClyQhTld0oVFDx6IY75l8rngwwvzu/L/?=
+ =?us-ascii?Q?gr7OLyjrufNluihT+Mg2ReHfWuK3UgFBA9h1ZJiA97SG0inUoPY/nZz+FPsr?=
+ =?us-ascii?Q?x8XBbDQ7nysPZ99rG7cu5V5fkQfK+syrP96jhEXJUY9Fi34ITeO0gZeE7uOQ?=
+ =?us-ascii?Q?bpA7CIffK2lMCMmnWrWjbhnpVEP6UMzecpvkNlQqElx/hlJ4lHWP75IYNlL/?=
+ =?us-ascii?Q?9uC3aIwQZi1oyqgz8UcWQG/88bXMqE6KG4WF/Od3OhIc9yQ1/hbi?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2766eccf-48af-48ae-43ab-08df34a01596
+X-MS-Exchange-CrossTenant-Network-Message-Id: 359d9f98-2dce-4f16-7d58-08df34a0178e
 X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB15175.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2026 03:03:47.3316
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2026 03:03:50.6815
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x/TwyKrDt1A760TE8oClwF8QJEkh/xqhgrcCVnbikDGJ9NpnnER1oD1/x3cijUvwd8wo1RFnCfCgjUAUMJV1fJBY9qlYDtELvDneKVIbUd4amJKUFSZAEjNOffEQabXP
+X-MS-Exchange-CrossTenant-UserPrincipalName: Bw9qr0sUQLNqWycCJaO3jy3HEqTwrUVo8NXwsCflEEGdefTTHzrP6w6ZLc0FtLHe0x9llNM0rZ6NL0kUsJ+SgHHlLCq45jImDU9ae6TyJAOvu1dcwg5fl71CRcE1IjMp
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB6650
 
 struct snd_soc_card will be capsuled soon, its member will not be
@@ -157,403 +157,986 @@ This patch uses temporary funciton define at soc-internal.h. It will be
 removed all funciton were moved.
 
 It renames function name
--	snd_soc_set_dmi_name()
-+	snd_soc_card_set_dmi_name()
+-	call_soc_bind_card()
+-	snd_soc_bind_card()
+-	snd_soc_unbind_card()
++	snd_soc_card_bind_call()
++	snd_soc_card_bind()
++	snd_soc_card_unbind()
+
+Below function is used on above functions. Add them at soc-internal.h
++	snd_soc_flush_all_delayed_work()
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- sound/soc/soc-card.c     | 165 ++++++++++++++++++++++++++++++++++++++
- sound/soc/soc-core.c     | 167 +--------------------------------------
- sound/soc/soc-internal.h |   1 +
- 3 files changed, 167 insertions(+), 166 deletions(-)
+ sound/soc/soc-card.c     | 411 +++++++++++++++++++++++++++++++++++++-
+ sound/soc/soc-core.c     | 419 +--------------------------------------
+ sound/soc/soc-internal.h |   8 +
+ 3 files changed, 422 insertions(+), 416 deletions(-)
 
 diff --git a/sound/soc/soc-card.c b/sound/soc/soc-card.c
-index 432882471537c..c64c9d425bcf9 100644
+index c64c9d425bcf9..72b40f842bd43 100644
 --- a/sound/soc/soc-card.c
 +++ b/sound/soc/soc-card.c
-@@ -7,6 +7,7 @@
- //
- 
+@@ -9,12 +9,16 @@
  #include <linux/debugfs.h>
-+#include <linux/dmi.h>
+ #include <linux/dmi.h>
  #include <linux/lockdep.h>
++#include <linux/pinctrl/consumer.h>
  #include <linux/rwsem.h>
++#include <sound/initval.h>
  #include <sound/soc.h>
-@@ -300,6 +301,170 @@ void snd_soc_card_aux_remove(struct snd_soc_card *card)
- 	}
- }
+ #include <sound/soc-link.h>
+ #include <sound/jack.h>
+ #include "soc-internal.h"
  
-+#ifdef CONFIG_DMI
-+/*
-+ * If a DMI filed contain strings in this blacklist (e.g.
-+ * "Type2 - Board Manufacturer" or "Type1 - TBD by OEM"), it will be taken
-+ * as invalid and dropped when setting the card long name from DMI info.
-+ */
-+static const char * const dmi_blacklist[] = {
-+	"To be filled by OEM",
-+	"TBD by OEM",
-+	"Default String",
-+	"Board Manufacturer",
-+	"Board Vendor Name",
-+	"Board Product Name",
-+	NULL,	/* terminator */
-+};
++LIST_HEAD(unbind_card_list);
 +
-+/*
-+ * Trim special characters, and replace '-' with '_' since '-' is used to
-+ * separate different DMI fields in the card long name. Only number and
-+ * alphabet characters and a few separator characters are kept.
-+ */
-+static void cleanup_dmi_name(char *name)
+ #define soc_card_ret(dai, ret) _soc_card_ret(dai, __func__, ret)
+ static inline int _soc_card_ret(struct snd_soc_card *card,
+ 				const char *func, int ret)
+@@ -465,6 +469,157 @@ int snd_soc_card_set_dmi_name(struct snd_soc_card *card)
+ }
+ #endif /* CONFIG_DMI */
+ 
++static void soc_card_check_tplg_fes(struct snd_soc_card *card)
 +{
-+	int i, j = 0;
++	struct snd_soc_component *component;
++	struct snd_soc_dai_link *dai_link;
++	int i;
 +
-+	for (i = 0; name[i]; i++) {
-+		if (isalnum(name[i]) || (name[i] == '.')
-+		    || (name[i] == '_'))
-+			name[j++] = name[i];
-+		else if (name[i] == '-')
-+			name[j++] = '_';
++	for_each_component(component) {
++
++		/* does this component override BEs ? */
++		if (!component->driver->ignore_machine)
++			continue;
++
++		/* for this machine ? */
++		if (!strcmp(component->driver->ignore_machine,
++			    card->dev->driver->name))
++			goto match;
++		if (strcmp(component->driver->ignore_machine,
++			   dev_name(card->dev)))
++			continue;
++match:
++		/* machine matches, so override the rtd data */
++		for_each_card_prelinks(card, i, dai_link) {
++
++			/* ignore this FE */
++			if (dai_link->dynamic) {
++				dai_link->ignore = true;
++				continue;
++			}
++
++			dev_dbg(card->dev, "info: override BE DAI link %s\n",
++				dai_link->name);
++
++			/* override platform component */
++			if (!dai_link->platforms) {
++				dev_err(card->dev, "init platform error");
++				continue;
++			}
++
++			if (component->dev->of_node)
++				dai_link->platforms->of_node = component->dev->of_node;
++			else
++				dai_link->platforms->name = component->name;
++
++			/* convert non BE into BE */
++			dai_link->no_pcm = 1;
++
++			/*
++			 * override any BE fixups
++			 * see
++			 *	snd_soc_link_be_hw_params_fixup()
++			 */
++			dai_link->be_hw_params_fixup =
++				component->driver->be_hw_params_fixup;
++
++			/*
++			 * most BE links don't set stream name, so set it to
++			 * dai link name if it's NULL to help bind widgets.
++			 */
++			if (!dai_link->stream_name)
++				dai_link->stream_name = dai_link->name;
++		}
++
++		/* Inform userspace we are using alternate topology */
++		snd_soc_card_set_topology_name(card, component->driver->topology_name_prefix);
 +	}
-+
-+	name[j] = '\0';
 +}
 +
-+/*
-+ * Check if a DMI field is valid, i.e. not containing any string
-+ * in the black list and not the empty string.
-+ */
-+static int is_dmi_valid(const char *field)
++#define soc_card_setup_name(card, name, name1, name2)			\
++	__soc_card_setup_name(card, name, sizeof(name), name1, name2)
++static void __soc_card_setup_name(struct snd_soc_card *card,
++				  char *name, int len,
++				  const char *name1, const char *name2)
 +{
-+	int i = 0;
++	const char *src = name1 ? name1 : name2;
++	int i;
 +
-+	if (!field[0])
-+		return 0;
++	snprintf(name, len, "%s", src);
 +
-+	while (dmi_blacklist[i]) {
-+		if (strstr(field, dmi_blacklist[i]))
-+			return 0;
-+		i++;
++	if (name != card->snd_card->driver)
++		return;
++
++	/*
++	 * Name normalization (driver field)
++	 *
++	 * The driver name is somewhat special, as it's used as a key for
++	 * searches in the user-space.
++	 *
++	 * ex)
++	 *	"abcd??efg" -> "abcd__efg"
++	 */
++	for (i = 0; i < len; i++) {
++		switch (name[i]) {
++		case '_':
++		case '-':
++		case '\0':
++			break;
++		default:
++			if (!isalnum(name[i]))
++				name[i] = '_';
++			break;
++		}
 +	}
 +
-+	return 1;
++	/*
++	 * The driver field should contain a valid string from the user view.
++	 * The wrapping usually does not work so well here. Set a smaller string
++	 * in the specific ASoC driver.
++	 */
++	if (strlen(src) > len - 1)
++		dev_err(card->dev, "ASoC: driver name too long '%s' -> '%s'\n", src, name);
 +}
 +
-+/*
-+ * Append a string to dmi_longname with character cleanups.
-+ */
-+#define DMI_LONGNAME_LEN	80
-+static void append_dmi_string(char *dst, const char *str)
++static void snd_soc_card_cleanup_resources(struct snd_soc_card *card)
 +{
-+	size_t dst_len = DMI_LONGNAME_LEN;
-+	size_t len;
++	struct snd_soc_pcm_runtime *rtd, *n;
 +
-+	len = strlen(dst);
-+	snprintf(dst + len, dst_len - len, "-%s", str);
++	if (card->snd_card)
++		snd_card_disconnect_sync(card->snd_card);
 +
-+	len++;	/* skip the separator "-" */
-+	if (len < dst_len)
-+		cleanup_dmi_name(dst + len);
-+}
++	snd_soc_dapm_shutdown(card);
 +
-+/**
-+ * snd_soc_card_set_dmi_name() - Register DMI names to card
-+ * @card: The card to register DMI names
-+ *
-+ * An Intel machine driver may be used by many different devices but are
-+ * difficult for userspace to differentiate, since machine drivers usually
-+ * use their own name as the card short name and leave the card long name
-+ * blank. To differentiate such devices and fix bugs due to lack of
-+ * device-specific configurations, this function allows DMI info to be used
-+ * as the sound card long name, in the format of
-+ * "vendor-product-version-board"
-+ * (Character '-' is used to separate different DMI fields here).
-+ * This will help the user space to load the device-specific Use Case Manager
-+ * (UCM) configurations for the card.
-+ *
-+ * Possible card long names may be:
-+ * DellInc.-XPS139343-01-0310JH
-+ * ASUSTeKCOMPUTERINC.-T100TA-1.0-T100TA
-+ * Circuitco-MinnowboardMaxD0PLATFORM-D0-MinnowBoardMAX
-+ *
-+ * This function also supports flavoring the card longname to provide
-+ * the extra differentiation, like "vendor-product-version-board-flavor".
-+ *
-+ * We only keep number and alphabet characters and a few separator characters
-+ * in the card long name since UCM in the user space uses the card long names
-+ * as card configuration directory names and AudoConf cannot support special
-+ * characters like SPACE.
-+ *
-+ * Returns 0 on success, otherwise a negative error code.
-+ */
-+int snd_soc_card_set_dmi_name(struct snd_soc_card *card)
-+{
-+	const char *vendor, *product, *board;
-+	char *dmi_longname;
++	/* release machine specific resources */
++	for_each_card_rtds(card, rtd)
++		if (rtd->initialized)
++			snd_soc_link_exit(rtd);
++	/* flush delayed work before removing DAIs and DAPM widgets */
++	snd_soc_flush_all_delayed_work(card);
 +
-+	if (card->long_name)
-+		return 0; /* long name already set by driver or from DMI */
++	/* remove and free each DAI */
++	snd_soc_card_link_dais_remove(card);
++	snd_soc_card_link_components_remove(card);
 +
-+	if (!dmi_available)
-+		return 0;
++	for_each_card_rtds_safe(card, rtd, n)
++		snd_soc_remove_pcm_runtime(card, rtd);
 +
-+	/* make up dmi long name as: vendor-product-version-board */
-+	vendor = dmi_get_system_info(DMI_BOARD_VENDOR);
-+	if (!vendor || !is_dmi_valid(vendor)) {
-+		dev_warn(card->dev, "ASoC: no DMI vendor name!\n");
-+		return 0;
++	/* remove auxiliary devices */
++	snd_soc_card_aux_remove(card);
++	snd_soc_card_aux_unbind(card);
++
++	snd_soc_dapm_free(snd_soc_card_to_dapm(card));
++	snd_soc_card_debugfs_cleanup(card);
++
++	/* remove the card */
++	snd_soc_card_remove(card);
++
++	if (card->snd_card) {
++		snd_card_free(card->snd_card);
++		card->snd_card = NULL;
 +	}
-+
-+	dmi_longname = devm_kzalloc(card->dev, DMI_LONGNAME_LEN, GFP_KERNEL);
-+	if (!dmi_longname)
-+		return -ENOMEM;
-+
-+	snprintf(dmi_longname, DMI_LONGNAME_LEN, "%s", vendor);
-+	cleanup_dmi_name(dmi_longname);
-+
-+	product = dmi_get_system_info(DMI_PRODUCT_NAME);
-+	if (product && is_dmi_valid(product)) {
-+		const char *product_version = dmi_get_system_info(DMI_PRODUCT_VERSION);
-+
-+		append_dmi_string(dmi_longname, product);
-+
-+		/*
-+		 * some vendors like Lenovo may only put a self-explanatory
-+		 * name in the product version field
-+		 */
-+		if (product_version && is_dmi_valid(product_version))
-+			append_dmi_string(dmi_longname, product_version);
-+	}
-+
-+	board = dmi_get_system_info(DMI_BOARD_NAME);
-+	if (board && is_dmi_valid(board)) {
-+		if (!product || strcasecmp(board, product))
-+			append_dmi_string(dmi_longname, board);
-+	} else if (!product) {
-+		/* fall back to using legacy name */
-+		dev_warn(card->dev, "ASoC: no DMI board/product name!\n");
-+		return 0;
-+	}
-+
-+	/* set the card long name */
-+	card->long_name = dmi_longname;
-+
-+	return 0;
 +}
-+#else
-+int snd_soc_card_set_dmi_name(struct snd_soc_card *card)
-+{
-+	return 0;
-+}
-+#endif /* CONFIG_DMI */
 +
  struct snd_kcontrol *snd_soc_card_get_kcontrol(struct snd_soc_card *soc_card,
  					       const char *name)
  {
+@@ -597,7 +752,7 @@ int snd_soc_card_probe(struct snd_soc_card *card)
+ 		 * about "late_probe".
+ 		 *
+ 		 * see
+-		 *	snd_soc_bind_card()
++		 *	snd_soc_card_bind()
+ 		 *	snd_soc_card_late_probe()
+ 		 */
+ 		card->probed = 1;
+@@ -622,7 +777,7 @@ int snd_soc_card_late_probe(struct snd_soc_card *card)
+ 	 * for all cases.
+ 	 *
+ 	 * see
+-	 *	snd_soc_bind_card()
++	 *	snd_soc_card_bind()
+ 	 *	snd_soc_card_probe()
+ 	 */
+ 	card->probed = 1;
+@@ -724,3 +879,255 @@ int snd_soc_card_add_controls(struct snd_soc_card *soc_card,
+ 	return snd_soc_add_controls(card, soc_card->dev, controls, num_controls, NULL, soc_card);
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_card_add_controls);
++
++static void snd_soc_remove_device_links(struct snd_soc_card *card)
++{
++	struct snd_soc_component *component;
++
++	for_each_card_components(card, component) {
++		if (component->card_device_link) {
++			device_link_del(component->card_device_link);
++			component->card_device_link = NULL;
++		}
++	}
++}
++
++void snd_soc_card_unbind(struct snd_soc_card *card)
++{
++	if (snd_soc_card_is_instantiated(card)) {
++		card->instantiated = false;
++
++		snd_soc_remove_device_links(card);
++
++		snd_soc_card_cleanup_resources(card);
++	}
++}
++
++static int snd_soc_card_bind(struct snd_soc_card *card)
++{
++	struct snd_soc_pcm_runtime *rtd;
++	struct snd_soc_component *component;
++	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
++	int ret;
++
++	snd_soc_card_mutex_lock_root(card);
++	snd_soc_card_fill_dummy_dai(card);
++
++	snd_soc_dapm_init(dapm, card, NULL);
++	list_del_init(&card->list);
++
++	/* check whether any platform is ignore machine FE and using topology */
++	soc_card_check_tplg_fes(card);
++
++	/* bind aux_devs too */
++	ret = snd_soc_card_aux_bind(card);
++	if (ret < 0)
++		goto probe_end;
++
++	/* add predefined DAI links to the list */
++	card->num_rtd = 0;
++	ret = snd_soc_add_pcm_runtimes(card, card->dai_link, card->num_links);
++	if (ret < 0)
++		goto probe_end;
++
++	/* card bind complete so register a sound card */
++	ret = snd_card_new(card->dev, SNDRV_DEFAULT_IDX1, SNDRV_DEFAULT_STR1,
++			   card->owner, 0, &card->snd_card);
++	if (ret < 0) {
++		dev_err(card->dev,
++			"ASoC: can't create sound card for card %s: %d\n",
++			card->name, ret);
++		goto probe_end;
++	}
++
++	snd_soc_card_debugfs_init(card);
++
++	snd_soc_card_resume_init(card);
++
++	ret = snd_soc_dapm_new_controls(dapm, card->dapm_widgets,
++					card->num_dapm_widgets);
++	if (ret < 0)
++		goto probe_end;
++
++	ret = snd_soc_dapm_new_controls(dapm, card->of_dapm_widgets,
++					card->num_of_dapm_widgets);
++	if (ret < 0)
++		goto probe_end;
++
++	/* initialise the sound card only once */
++	ret = snd_soc_card_probe(card);
++	if (ret < 0)
++		goto probe_end;
++
++	/* probe all components used by DAI links on this card */
++	ret = snd_soc_card_link_components_probe(card);
++	if (ret < 0) {
++		if (ret != -EPROBE_DEFER) {
++			dev_err(card->dev,
++				"ASoC: failed to instantiate card %d\n", ret);
++		}
++		goto probe_end;
++	}
++
++	/* probe auxiliary components */
++	ret = snd_soc_card_aux_probe(card);
++	if (ret < 0) {
++		dev_err(card->dev,
++			"ASoC: failed to probe aux component %d\n", ret);
++		goto probe_end;
++	}
++
++	/* probe all DAI links on this card */
++	ret = snd_soc_card_link_dais_probe(card);
++	if (ret < 0) {
++		dev_err(card->dev,
++			"ASoC: failed to instantiate card %d\n", ret);
++		goto probe_end;
++	}
++
++	for_each_card_rtds(card, rtd) {
++		ret = snd_soc_card_init_pcm_runtime(card, rtd);
++		if (ret < 0)
++			goto probe_end;
++	}
++
++	snd_soc_dapm_link_dai_widgets(card);
++	snd_soc_dapm_connect_dai_link_widgets(card);
++
++	ret = snd_soc_add_card_controls(card, card->controls,
++					card->num_controls);
++	if (ret < 0)
++		goto probe_end;
++
++	ret = snd_soc_dapm_add_routes(dapm, card->dapm_routes,
++				      card->num_dapm_routes);
++	if (ret < 0)
++		goto probe_end;
++
++	ret = snd_soc_dapm_add_routes(dapm, card->of_dapm_routes,
++				      card->num_of_dapm_routes);
++	if (ret < 0)
++		goto probe_end;
++
++	/* try to set some sane longname if DMI is available */
++	snd_soc_card_set_dmi_name(card);
++
++	soc_card_setup_name(card, card->snd_card->shortname,	card->name,		NULL);
++	soc_card_setup_name(card, card->snd_card->longname,	card->long_name,	card->name);
++	soc_card_setup_name(card, card->snd_card->driver,	card->driver_name,	card->name);
++
++	if (card->components) {
++		/* the current implementation of snd_component_add() accepts */
++		/* multiple components in the string separated by space, */
++		/* but the string collision (identical string) check might */
++		/* not work correctly */
++		ret = snd_component_add(card->snd_card, card->components);
++		if (ret < 0) {
++			dev_err(card->dev, "ASoC: %s snd_component_add() failed: %d\n",
++				card->name, ret);
++			goto probe_end;
++		}
++	}
++
++	/*
++	 * Add device_link from card to component so that system_suspend
++	 * will be done in the correct order. The card must suspend first
++	 * to stop audio activity before the components suspend.
++	 *
++	 * If a driver pair already have a link in the opposite direction
++	 * they must manage their own suspend order.
++	 */
++	for_each_card_components(card, component) {
++		if (card->dev == component->dev)
++			continue;
++
++		component->card_device_link = device_link_add(card->dev,
++							      component->dev,
++							      DL_FLAG_STATELESS);
++		if (!component->card_device_link) {
++			dev_warn(card->dev, "Could not create device link to %s\n",
++				 dev_name(component->dev));
++		}
++	}
++
++	ret = snd_soc_card_late_probe(card);
++	if (ret < 0)
++		goto probe_end;
++
++	ret = snd_soc_dapm_ignore_suspend_widgets(card);
++	if (ret < 0)
++		goto probe_end;
++
++	snd_soc_dapm_new_widgets(card);
++	for_each_card_components(card, component) {
++		ret = snd_soc_component_fixup_controls(component);
++		if (ret < 0)
++			goto probe_end;
++	}
++	snd_soc_card_fixup_controls(card);
++
++	ret = snd_card_register(card->snd_card);
++	if (ret < 0) {
++		dev_err(card->dev, "ASoC: failed to register soundcard %d\n",
++			ret);
++		goto probe_end;
++	}
++
++	card->instantiated = 1;
++	snd_soc_dapm_mark_endpoints_dirty(card);
++	snd_soc_dapm_sync(dapm);
++
++	/* deactivate pins to sleep state */
++	for_each_card_components(card, component)
++		if (!snd_soc_component_active(component))
++			pinctrl_pm_select_sleep_state(component->dev);
++
++probe_end:
++	if (ret < 0) {
++		snd_soc_remove_device_links(card);
++		snd_soc_card_cleanup_resources(card);
++	}
++
++	if (ret == -EPROBE_DEFER) {
++		list_add(&card->list, &unbind_card_list);
++		ret = 0;
++	}
++	snd_soc_card_mutex_unlock(card);
++
++	return ret;
++}
++
++static void devm_snd_soc_card_bind_release(struct device *dev, void *res)
++{
++	snd_soc_unregister_card(*(struct snd_soc_card **)res);
++}
++
++static int devm_snd_soc_card_bind(struct device *dev, struct snd_soc_card *card)
++{
++	struct snd_soc_card **ptr;
++	int ret;
++
++	/* The procedure may be called many times during the lifetime of the card. */
++	devres_destroy(dev, devm_snd_soc_card_bind_release, NULL, NULL);
++
++	ptr = devres_alloc(devm_snd_soc_card_bind_release, sizeof(*ptr), GFP_KERNEL);
++	if (!ptr)
++		return -ENOMEM;
++
++	ret = snd_soc_card_bind(card);
++	if (ret == 0) {
++		*ptr = card;
++		devres_add(dev, ptr);
++	} else {
++		devres_free(ptr);
++	}
++
++	return ret;
++}
++
++int snd_soc_card_bind_call(struct snd_soc_card *card)
++{
++	if (card->devres_dev)
++		return devm_snd_soc_card_bind(card->devres_dev, card);
++	return snd_soc_card_bind(card);
++}
 diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 2b47186640a1b..12b8bcb93ceeb 100644
+index 12b8bcb93ceeb..301089259a8d4 100644
 --- a/sound/soc/soc-core.c
 +++ b/sound/soc/soc-core.c
-@@ -30,7 +30,6 @@
- #include <linux/slab.h>
- #include <linux/of.h>
- #include <linux/of_graph.h>
--#include <linux/dmi.h>
- #include <linux/acpi.h>
- #include <linux/string_choices.h>
- #include <sound/core.h>
-@@ -1075,170 +1074,6 @@ int snd_soc_runtime_set_dai_fmt(struct snd_soc_pcm_runtime *rtd,
+@@ -38,15 +38,12 @@
+ #include <sound/soc.h>
+ #include <sound/soc-dpcm.h>
+ #include <sound/soc-topology.h>
+-#include <sound/soc-link.h>
+-#include <sound/initval.h>
+ #include "soc-internal.h"
+ 
+ #define CREATE_TRACE_POINTS
+ #include <trace/events/asoc.h>
+ 
+ DEFINE_MUTEX(client_mutex);
+-static LIST_HEAD(unbind_card_list);
+ 
+ /*
+  * This is used if driver don't need to have CPU/Codec/Platform
+@@ -425,7 +422,7 @@ static struct snd_soc_pcm_runtime *soc_new_pcm_runtime(
+ 	return NULL;
+ }
+ 
+-static void snd_soc_flush_all_delayed_work(struct snd_soc_card *card)
++void snd_soc_flush_all_delayed_work(struct snd_soc_card *card)
+ {
+ 	struct snd_soc_pcm_runtime *rtd;
+ 
+@@ -1074,412 +1071,6 @@ int snd_soc_runtime_set_dai_fmt(struct snd_soc_pcm_runtime *rtd,
  }
  EXPORT_SYMBOL_GPL(snd_soc_runtime_set_dai_fmt);
  
--#ifdef CONFIG_DMI
--/*
-- * If a DMI filed contain strings in this blacklist (e.g.
-- * "Type2 - Board Manufacturer" or "Type1 - TBD by OEM"), it will be taken
-- * as invalid and dropped when setting the card long name from DMI info.
-- */
--static const char * const dmi_blacklist[] = {
--	"To be filled by OEM",
--	"TBD by OEM",
--	"Default String",
--	"Board Manufacturer",
--	"Board Vendor Name",
--	"Board Product Name",
--	NULL,	/* terminator */
--};
--
--/*
-- * Trim special characters, and replace '-' with '_' since '-' is used to
-- * separate different DMI fields in the card long name. Only number and
-- * alphabet characters and a few separator characters are kept.
-- */
--static void cleanup_dmi_name(char *name)
+-static void soc_check_tplg_fes(struct snd_soc_card *card)
 -{
--	int i, j = 0;
+-	struct snd_soc_component *component;
+-	struct snd_soc_dai_link *dai_link;
+-	int i;
 -
--	for (i = 0; name[i]; i++) {
--		if (isalnum(name[i]) || (name[i] == '.')
--		    || (name[i] == '_'))
--			name[j++] = name[i];
--		else if (name[i] == '-')
--			name[j++] = '_';
+-	for_each_component(component) {
+-
+-		/* does this component override BEs ? */
+-		if (!component->driver->ignore_machine)
+-			continue;
+-
+-		/* for this machine ? */
+-		if (!strcmp(component->driver->ignore_machine,
+-			    card->dev->driver->name))
+-			goto match;
+-		if (strcmp(component->driver->ignore_machine,
+-			   dev_name(card->dev)))
+-			continue;
+-match:
+-		/* machine matches, so override the rtd data */
+-		for_each_card_prelinks(card, i, dai_link) {
+-
+-			/* ignore this FE */
+-			if (dai_link->dynamic) {
+-				dai_link->ignore = true;
+-				continue;
+-			}
+-
+-			dev_dbg(card->dev, "info: override BE DAI link %s\n",
+-				dai_link->name);
+-
+-			/* override platform component */
+-			if (!dai_link->platforms) {
+-				dev_err(card->dev, "init platform error");
+-				continue;
+-			}
+-
+-			if (component->dev->of_node)
+-				dai_link->platforms->of_node = component->dev->of_node;
+-			else
+-				dai_link->platforms->name = component->name;
+-
+-			/* convert non BE into BE */
+-			dai_link->no_pcm = 1;
+-
+-			/*
+-			 * override any BE fixups
+-			 * see
+-			 *	snd_soc_link_be_hw_params_fixup()
+-			 */
+-			dai_link->be_hw_params_fixup =
+-				component->driver->be_hw_params_fixup;
+-
+-			/*
+-			 * most BE links don't set stream name, so set it to
+-			 * dai link name if it's NULL to help bind widgets.
+-			 */
+-			if (!dai_link->stream_name)
+-				dai_link->stream_name = dai_link->name;
+-		}
+-
+-		/* Inform userspace we are using alternate topology */
+-		snd_soc_card_set_topology_name(card, component->driver->topology_name_prefix);
 -	}
--
--	name[j] = '\0';
 -}
 -
--/*
-- * Check if a DMI field is valid, i.e. not containing any string
-- * in the black list and not the empty string.
-- */
--static int is_dmi_valid(const char *field)
+-#define soc_setup_card_name(card, name, name1, name2) \
+-	__soc_setup_card_name(card, name, sizeof(name), name1, name2)
+-static void __soc_setup_card_name(struct snd_soc_card *card,
+-				  char *name, int len,
+-				  const char *name1, const char *name2)
 -{
--	int i = 0;
+-	const char *src = name1 ? name1 : name2;
+-	int i;
 -
--	if (!field[0])
--		return 0;
+-	snprintf(name, len, "%s", src);
 -
--	while (dmi_blacklist[i]) {
--		if (strstr(field, dmi_blacklist[i]))
--			return 0;
--		i++;
+-	if (name != card->snd_card->driver)
+-		return;
+-
+-	/*
+-	 * Name normalization (driver field)
+-	 *
+-	 * The driver name is somewhat special, as it's used as a key for
+-	 * searches in the user-space.
+-	 *
+-	 * ex)
+-	 *	"abcd??efg" -> "abcd__efg"
+-	 */
+-	for (i = 0; i < len; i++) {
+-		switch (name[i]) {
+-		case '_':
+-		case '-':
+-		case '\0':
+-			break;
+-		default:
+-			if (!isalnum(name[i]))
+-				name[i] = '_';
+-			break;
+-		}
 -	}
 -
--	return 1;
+-	/*
+-	 * The driver field should contain a valid string from the user view.
+-	 * The wrapping usually does not work so well here. Set a smaller string
+-	 * in the specific ASoC driver.
+-	 */
+-	if (strlen(src) > len - 1)
+-		dev_err(card->dev, "ASoC: driver name too long '%s' -> '%s'\n", src, name);
 -}
 -
--/*
-- * Append a string to dmi_longname with character cleanups.
-- */
--#define DMI_LONGNAME_LEN	80
--static void append_dmi_string(char *dst, const char *str)
+-static void soc_cleanup_card_resources(struct snd_soc_card *card)
 -{
--	size_t dst_len = DMI_LONGNAME_LEN;
--	size_t len;
+-	struct snd_soc_pcm_runtime *rtd, *n;
 -
--	len = strlen(dst);
--	snprintf(dst + len, dst_len - len, "-%s", str);
+-	if (card->snd_card)
+-		snd_card_disconnect_sync(card->snd_card);
 -
--	len++;	/* skip the separator "-" */
--	if (len < dst_len)
--		cleanup_dmi_name(dst + len);
+-	snd_soc_dapm_shutdown(card);
+-
+-	/* release machine specific resources */
+-	for_each_card_rtds(card, rtd)
+-		if (rtd->initialized)
+-			snd_soc_link_exit(rtd);
+-	/* flush delayed work before removing DAIs and DAPM widgets */
+-	snd_soc_flush_all_delayed_work(card);
+-
+-	/* remove and free each DAI */
+-	snd_soc_card_link_dais_remove(card);
+-	snd_soc_card_link_components_remove(card);
+-
+-	for_each_card_rtds_safe(card, rtd, n)
+-		snd_soc_remove_pcm_runtime(card, rtd);
+-
+-	/* remove auxiliary devices */
+-	snd_soc_card_aux_remove(card);
+-	snd_soc_card_aux_unbind(card);
+-
+-	snd_soc_dapm_free(snd_soc_card_to_dapm(card));
+-	snd_soc_card_debugfs_cleanup(card);
+-
+-	/* remove the card */
+-	snd_soc_card_remove(card);
+-
+-	if (card->snd_card) {
+-		snd_card_free(card->snd_card);
+-		card->snd_card = NULL;
+-	}
 -}
 -
--/**
-- * snd_soc_set_dmi_name() - Register DMI names to card
-- * @card: The card to register DMI names
-- *
-- * An Intel machine driver may be used by many different devices but are
-- * difficult for userspace to differentiate, since machine drivers usually
-- * use their own name as the card short name and leave the card long name
-- * blank. To differentiate such devices and fix bugs due to lack of
-- * device-specific configurations, this function allows DMI info to be used
-- * as the sound card long name, in the format of
-- * "vendor-product-version-board"
-- * (Character '-' is used to separate different DMI fields here).
-- * This will help the user space to load the device-specific Use Case Manager
-- * (UCM) configurations for the card.
-- *
-- * Possible card long names may be:
-- * DellInc.-XPS139343-01-0310JH
-- * ASUSTeKCOMPUTERINC.-T100TA-1.0-T100TA
-- * Circuitco-MinnowboardMaxD0PLATFORM-D0-MinnowBoardMAX
-- *
-- * This function also supports flavoring the card longname to provide
-- * the extra differentiation, like "vendor-product-version-board-flavor".
-- *
-- * We only keep number and alphabet characters and a few separator characters
-- * in the card long name since UCM in the user space uses the card long names
-- * as card configuration directory names and AudoConf cannot support special
-- * characters like SPACE.
-- *
-- * Returns 0 on success, otherwise a negative error code.
-- */
--static int snd_soc_set_dmi_name(struct snd_soc_card *card)
+-static void snd_soc_remove_device_links(struct snd_soc_card *card)
 -{
--	const char *vendor, *product, *board;
--	char *dmi_longname;
+-	struct snd_soc_component *component;
 -
--	if (card->long_name)
--		return 0; /* long name already set by driver or from DMI */
+-	for_each_card_components(card, component) {
+-		if (component->card_device_link) {
+-			device_link_del(component->card_device_link);
+-			component->card_device_link = NULL;
+-		}
+-	}
+-}
 -
--	if (!dmi_available)
--		return 0;
+-static void snd_soc_unbind_card(struct snd_soc_card *card)
+-{
+-	if (snd_soc_card_is_instantiated(card)) {
+-		card->instantiated = false;
 -
--	/* make up dmi long name as: vendor-product-version-board */
--	vendor = dmi_get_system_info(DMI_BOARD_VENDOR);
--	if (!vendor || !is_dmi_valid(vendor)) {
--		dev_warn(card->dev, "ASoC: no DMI vendor name!\n");
--		return 0;
+-		snd_soc_remove_device_links(card);
+-
+-		soc_cleanup_card_resources(card);
+-	}
+-}
+-
+-static int snd_soc_bind_card(struct snd_soc_card *card)
+-{
+-	struct snd_soc_pcm_runtime *rtd;
+-	struct snd_soc_component *component;
+-	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
+-	int ret;
+-
+-	snd_soc_card_mutex_lock_root(card);
+-	snd_soc_card_fill_dummy_dai(card);
+-
+-	snd_soc_dapm_init(dapm, card, NULL);
+-	list_del_init(&card->list);
+-
+-	/* check whether any platform is ignore machine FE and using topology */
+-	soc_check_tplg_fes(card);
+-
+-	/* bind aux_devs too */
+-	ret = snd_soc_card_aux_bind(card);
+-	if (ret < 0)
+-		goto probe_end;
+-
+-	/* add predefined DAI links to the list */
+-	card->num_rtd = 0;
+-	ret = snd_soc_add_pcm_runtimes(card, card->dai_link, card->num_links);
+-	if (ret < 0)
+-		goto probe_end;
+-
+-	/* card bind complete so register a sound card */
+-	ret = snd_card_new(card->dev, SNDRV_DEFAULT_IDX1, SNDRV_DEFAULT_STR1,
+-			card->owner, 0, &card->snd_card);
+-	if (ret < 0) {
+-		dev_err(card->dev,
+-			"ASoC: can't create sound card for card %s: %d\n",
+-			card->name, ret);
+-		goto probe_end;
 -	}
 -
--	dmi_longname = devm_kzalloc(card->dev, DMI_LONGNAME_LEN, GFP_KERNEL);
--	if (!dmi_longname)
+-	snd_soc_card_debugfs_init(card);
+-
+-	snd_soc_card_resume_init(card);
+-
+-	ret = snd_soc_dapm_new_controls(dapm, card->dapm_widgets,
+-					card->num_dapm_widgets);
+-	if (ret < 0)
+-		goto probe_end;
+-
+-	ret = snd_soc_dapm_new_controls(dapm, card->of_dapm_widgets,
+-					card->num_of_dapm_widgets);
+-	if (ret < 0)
+-		goto probe_end;
+-
+-	/* initialise the sound card only once */
+-	ret = snd_soc_card_probe(card);
+-	if (ret < 0)
+-		goto probe_end;
+-
+-	/* probe all components used by DAI links on this card */
+-	ret = snd_soc_card_link_components_probe(card);
+-	if (ret < 0) {
+-		if (ret != -EPROBE_DEFER) {
+-			dev_err(card->dev,
+-				"ASoC: failed to instantiate card %d\n", ret);
+-		}
+-		goto probe_end;
+-	}
+-
+-	/* probe auxiliary components */
+-	ret = snd_soc_card_aux_probe(card);
+-	if (ret < 0) {
+-		dev_err(card->dev,
+-			"ASoC: failed to probe aux component %d\n", ret);
+-		goto probe_end;
+-	}
+-
+-	/* probe all DAI links on this card */
+-	ret = snd_soc_card_link_dais_probe(card);
+-	if (ret < 0) {
+-		dev_err(card->dev,
+-			"ASoC: failed to instantiate card %d\n", ret);
+-		goto probe_end;
+-	}
+-
+-	for_each_card_rtds(card, rtd) {
+-		ret = snd_soc_card_init_pcm_runtime(card, rtd);
+-		if (ret < 0)
+-			goto probe_end;
+-	}
+-
+-	snd_soc_dapm_link_dai_widgets(card);
+-	snd_soc_dapm_connect_dai_link_widgets(card);
+-
+-	ret = snd_soc_add_card_controls(card, card->controls,
+-					card->num_controls);
+-	if (ret < 0)
+-		goto probe_end;
+-
+-	ret = snd_soc_dapm_add_routes(dapm, card->dapm_routes,
+-				      card->num_dapm_routes);
+-	if (ret < 0)
+-		goto probe_end;
+-
+-	ret = snd_soc_dapm_add_routes(dapm, card->of_dapm_routes,
+-				      card->num_of_dapm_routes);
+-	if (ret < 0)
+-		goto probe_end;
+-
+-	/* try to set some sane longname if DMI is available */
+-	snd_soc_card_set_dmi_name(card);
+-
+-	soc_setup_card_name(card, card->snd_card->shortname,
+-			    card->name, NULL);
+-	soc_setup_card_name(card, card->snd_card->longname,
+-			    card->long_name, card->name);
+-	soc_setup_card_name(card, card->snd_card->driver,
+-			    card->driver_name, card->name);
+-
+-	if (card->components) {
+-		/* the current implementation of snd_component_add() accepts */
+-		/* multiple components in the string separated by space, */
+-		/* but the string collision (identical string) check might */
+-		/* not work correctly */
+-		ret = snd_component_add(card->snd_card, card->components);
+-		if (ret < 0) {
+-			dev_err(card->dev, "ASoC: %s snd_component_add() failed: %d\n",
+-				card->name, ret);
+-			goto probe_end;
+-		}
+-	}
+-
+-	/*
+-	 * Add device_link from card to component so that system_suspend
+-	 * will be done in the correct order. The card must suspend first
+-	 * to stop audio activity before the components suspend.
+-	 *
+-	 * If a driver pair already have a link in the opposite direction
+-	 * they must manage their own suspend order.
+-	 */
+-	for_each_card_components(card, component) {
+-		if (card->dev == component->dev)
+-			continue;
+-
+-		component->card_device_link = device_link_add(card->dev,
+-							      component->dev,
+-							      DL_FLAG_STATELESS);
+-		if (!component->card_device_link) {
+-			dev_warn(card->dev, "Could not create device link to %s\n",
+-				 dev_name(component->dev));
+-		}
+-	}
+-
+-	ret = snd_soc_card_late_probe(card);
+-	if (ret < 0)
+-		goto probe_end;
+-
+-	ret = snd_soc_dapm_ignore_suspend_widgets(card);
+-	if (ret < 0)
+-		goto probe_end;
+-
+-	snd_soc_dapm_new_widgets(card);
+-	for_each_card_components(card, component) {
+-		ret = snd_soc_component_fixup_controls(component);
+-		if (ret < 0)
+-			goto probe_end;
+-	}
+-	snd_soc_card_fixup_controls(card);
+-
+-	ret = snd_card_register(card->snd_card);
+-	if (ret < 0) {
+-		dev_err(card->dev, "ASoC: failed to register soundcard %d\n",
+-				ret);
+-		goto probe_end;
+-	}
+-
+-	card->instantiated = 1;
+-	snd_soc_dapm_mark_endpoints_dirty(card);
+-	snd_soc_dapm_sync(dapm);
+-
+-	/* deactivate pins to sleep state */
+-	for_each_card_components(card, component)
+-		if (!snd_soc_component_active(component))
+-			pinctrl_pm_select_sleep_state(component->dev);
+-
+-probe_end:
+-	if (ret < 0) {
+-		snd_soc_remove_device_links(card);
+-		soc_cleanup_card_resources(card);
+-	}
+-
+-	if (ret == -EPROBE_DEFER) {
+-		list_add(&card->list, &unbind_card_list);
+-		ret = 0;
+-	}
+-	snd_soc_card_mutex_unlock(card);
+-
+-	return ret;
+-}
+-
+-static void devm_card_bind_release(struct device *dev, void *res)
+-{
+-	snd_soc_unregister_card(*(struct snd_soc_card **)res);
+-}
+-
+-static int devm_snd_soc_bind_card(struct device *dev, struct snd_soc_card *card)
+-{
+-	struct snd_soc_card **ptr;
+-	int ret;
+-
+-	/* The procedure may be called many times during the lifetime of the card. */
+-	devres_destroy(dev, devm_card_bind_release, NULL, NULL);
+-
+-	ptr = devres_alloc(devm_card_bind_release, sizeof(*ptr), GFP_KERNEL);
+-	if (!ptr)
 -		return -ENOMEM;
 -
--	snprintf(dmi_longname, DMI_LONGNAME_LEN, "%s", vendor);
--	cleanup_dmi_name(dmi_longname);
--
--	product = dmi_get_system_info(DMI_PRODUCT_NAME);
--	if (product && is_dmi_valid(product)) {
--		const char *product_version = dmi_get_system_info(DMI_PRODUCT_VERSION);
--
--		append_dmi_string(dmi_longname, product);
--
--		/*
--		 * some vendors like Lenovo may only put a self-explanatory
--		 * name in the product version field
--		 */
--		if (product_version && is_dmi_valid(product_version))
--			append_dmi_string(dmi_longname, product_version);
+-	ret = snd_soc_bind_card(card);
+-	if (ret == 0) {
+-		*ptr = card;
+-		devres_add(dev, ptr);
+-	} else {
+-		devres_free(ptr);
 -	}
 -
--	board = dmi_get_system_info(DMI_BOARD_NAME);
--	if (board && is_dmi_valid(board)) {
--		if (!product || strcasecmp(board, product))
--			append_dmi_string(dmi_longname, board);
--	} else if (!product) {
--		/* fall back to using legacy name */
--		dev_warn(card->dev, "ASoC: no DMI board/product name!\n");
--		return 0;
--	}
--
--	/* set the card long name */
--	card->long_name = dmi_longname;
--
--	return 0;
+-	return ret;
 -}
--#else
--static inline int snd_soc_set_dmi_name(struct snd_soc_card *card)
+-
+-static int call_soc_bind_card(struct snd_soc_card *card)
 -{
--	return 0;
+-	if (card->devres_dev)
+-		return devm_snd_soc_bind_card(card->devres_dev, card);
+-	return snd_soc_bind_card(card);
 -}
--#endif /* CONFIG_DMI */
 -
- static void soc_check_tplg_fes(struct snd_soc_card *card)
+ /* probes a new socdev */
+ static int soc_probe(struct platform_device *pdev)
  {
- 	struct snd_soc_component *component;
-@@ -1520,7 +1355,7 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
- 		goto probe_end;
+@@ -1641,7 +1232,7 @@ int snd_soc_register_card(struct snd_soc_card *card)
  
- 	/* try to set some sane longname if DMI is available */
--	snd_soc_set_dmi_name(card);
-+	snd_soc_card_set_dmi_name(card);
+ 	guard(mutex)(&client_mutex);
  
- 	soc_setup_card_name(card, card->snd_card->shortname,
- 			    card->name, NULL);
+-	return call_soc_bind_card(card);
++	return snd_soc_card_bind_call(card);
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_register_card);
+ 
+@@ -1655,7 +1246,7 @@ void snd_soc_unregister_card(struct snd_soc_card *card)
+ {
+ 	guard(mutex)(&client_mutex);
+ 
+-	snd_soc_unbind_card(card);
++	snd_soc_card_unbind(card);
+ 	list_del(&card->list);
+ 
+ 	dev_dbg(card->dev, "ASoC: Unregistered card '%s'\n", card->name);
+@@ -1816,7 +1407,7 @@ static void snd_soc_del_component_unlocked(struct snd_soc_component *component)
+ 
+ 	if (card) {
+ 		instantiated = card->instantiated;
+-		snd_soc_unbind_card(card);
++		snd_soc_card_unbind(card);
+ 		if (instantiated)
+ 			list_add(&card->list, &unbind_card_list);
+ 	}
+@@ -1893,7 +1484,7 @@ int snd_soc_component_register(struct snd_soc_component *component,
+ 	list_add(&component->list, snd_soc_component_get_list_head());
+ 
+ 	list_for_each_entry_safe(card, c, &unbind_card_list, list)
+-		call_soc_bind_card(card);
++		snd_soc_card_bind_call(card);
+ 
+ err_cleanup:
+ 	if (ret < 0)
 diff --git a/sound/soc/soc-internal.h b/sound/soc/soc-internal.h
-index ffe055e1b2de2..e1f456e222b63 100644
+index e1f456e222b63..97891bf68b882 100644
 --- a/sound/soc/soc-internal.h
 +++ b/sound/soc/soc-internal.h
-@@ -31,6 +31,7 @@ void snd_soc_card_aux_unbind(struct snd_soc_card *card);
- int snd_soc_card_aux_bind(struct snd_soc_card *card);
- int snd_soc_card_aux_probe(struct snd_soc_card *card);
- void snd_soc_card_aux_remove(struct snd_soc_card *card);
-+int snd_soc_card_set_dmi_name(struct snd_soc_card *card);
+@@ -17,6 +17,7 @@
+  * REMOVE ME
+  * Temporary definition
+  */
++extern struct list_head unbind_card_list;
+ void snd_soc_card_debugfs_init(struct snd_soc_card *card);
+ void snd_soc_card_debugfs_cleanup(struct snd_soc_card *card);
+ void snd_soc_card_resume_init(struct snd_soc_card *card);
+@@ -43,12 +44,19 @@ char *snd_soc_fmt_multiple_name(struct device *dev, struct snd_soc_dai_driver *d
+ int snd_soc_add_controls(struct snd_card *card, struct device *dev,
+ 			 const struct snd_kcontrol_new *controls, int num_controls,
+ 			 const char *prefix, void *data);
++void snd_soc_flush_all_delayed_work(struct snd_soc_card *card);
+ struct snd_soc_component *snd_soc_find_component(const struct snd_soc_dai_link_component *dlc);
+ #ifdef CONFIG_PM_SLEEP
+ void snd_soc_playback_digital_mute(struct snd_soc_card *card, int mute);
+ void snd_soc_dapm_suspend_resume(struct snd_soc_card *card, int event);
+ #endif
  
++/*
++ * In soc-card
++ */
++void snd_soc_card_unbind(struct snd_soc_card *card);
++int snd_soc_card_bind_call(struct snd_soc_card *card);
++
  /*
-  * In soc-core
+  * In soc-dai
+  */
 -- 
 2.53.0
 
