@@ -1,90 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.228.69
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.47
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1793156610;
-	b=aCNjCGnmDgtKsgGyyO72/Ibc/Kchfm5qLBfOXjTvSsckcu/McJ4khcYs+4HqgN0BkS8b
-	 q7Bq4Fe+g4+JD4ezRKvSsvzdhiImskJCCE5JivCE8HJMQg4apXNRy3v8mCEPZcROlljg8
-	 6CECyWZqCyFuE8/8IHgEwzvuGeBhRnvCrdvFGJS6VtvwoBpynTwQ3GdHMbb2EI23koFUp
-	 S+w4QZbYjY+CQUAGejBH4m7eELKt3GTfZe5g72SlralNSkipsVt3QObwDUn1mpihEa5Ww
-	 WB/1bLk2mBl3GWx9lRVW8jRqtAMXx2dx57OVplpjJ2F3ArIDKJ/NadSro6x+fzUanTg==
+	b=0EUnijOBwsbOo0/1PP7n0IPTlFlLccnv8NRgd5FzpRUBEoCF1wzb6MLjrNAEOVO55grW
+	 8VUNwWiiHMEzNwwCDbmJXxzXKIkhXAqdr8NB1ksdC00Zhd66T4tpRTg1B0aLPvuIWGMva
+	 S6+GP0hPO0DwG6mLAbu1NGZjaslkYmzJLcNLI3eeN9PCwbeUzCWvfmkm9oy4TXpgcFTUA
+	 OBnFCnygNkUXRjoG+L3WCvflo8+THTCAABxBOCx9nOOFuIrK/GvbdbhSXutp+L0zaEjYw
+	 A7OMuKvr6T+hlaLybDzrGrxhBF3OUacjGnjA8QpWkbtB80iie7UvftA0TkvtF0O9mKg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793156610;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:From:
-	 Subject:User-Agent:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=VJ/mSUcHFyEI/xIW8O+I8xASwekiihFzv/xLzV/YFLA=;
-	b=Wu2gz/GDk+s7A5RjqKifi2TZQ96wpPSqrIZjo8HwcH+4umgIWHhb2mMj9S+1ekX973mm
-	 A18PFKmddHh0dvoWAGwfyFtB3hxeWxhSunGUfCmtI6vjQUrrh6esp4dKLSyZhzdMDU9uI
-	 kT+5kqP4mcRH9S8YRfrjiLWtoJiZF+866e3ughyh6BZxh0158D2lC1JSEcRkYHijl0DrI
-	 1AiCzQYcbdIz6XENn9K4lIdX7KGFlMLXQByN18VMj/vcEh13sR1WBJJGFVIXDoyvdlUFF
-	 LZ8DSwSwiUPvhA0+639vrcHcYzWhDJeWcTLyPu5EJtA+8YrzBHxP12B/+zFOyszYS+g==
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=aaEqPOtzFlYjy8gKp4FKOSLSSYaCTpKCbbzsP/dMKDE=;
+	b=E4pKyz7spZXm7lFWgB2WESRLARcWr8GsBky2ETmeOl+lE/NKroRcU0p55Fx5KULUVw56
+	 tuhj2nkUe3ZiqxveR8d/tCSnOe92CjDfwCzJfugdPHDktso7BC7CekC43fSTvFHdGmIEX
+	 s/ImHswimCwn8CNKRsSZ1ra38mcHnvhQ073w/KFc/f2q/G92KYKDEY5zY7qPCFvByh05v
+	 q+at8XiqgJLUBhxRWbI2eTqm0WA1j6RSC8Fh2sMI0VCHSNXraVKlHNSK/kXlaTTt9VF5E
+	 B7B1JdWkSmouSgu8kLU1snd5lHLdwAYU3FH9lYuh6DWGhfl9dZaETkxCSnoseucMl9A==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=renesas.com;
-	spf=pass smtp.mailfrom=renesas.com;
-	dkim=pass header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=Ykg2dD2N;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.228.69
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010069.outbound.protection.outlook.com [52.101.228.69])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fJlr3kzr;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.47
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4701606A31A
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 03:03:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4701606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6AB606A31E
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 03:03:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5C6AB606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=Ykg2dD2N
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lthuSBifqJ4vcdiGl8gTbEWdy+AJaD/1EOBa3MpRop3nhFQvbdsuObtVDiiiNha9TyAFQRv5Luf5l0XVGJSdrAq6uvnDdc07xtEc85uT79Hn5+pXlSMZkHOI/b4LvaYbq/1XDtl/AAGyaSNZOUlXjbblU6yYPETP4fs8X3uFBbDyjlyT91HJ3j1Mlix+CnsZHJ98s14KU3NTh7ir8mK3ge6YtVDI1S0YXCOCCmjCvWeN8M+RicaShuEBPS8Y2TiqDhxLIKvcEK51PxxZLkJP2CY4xEZg4v23/+00R+HBJrOqC7w559okRY3vLW13xwgOCLFKCNdj3aotYw9H+gQOVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VJ/mSUcHFyEI/xIW8O+I8xASwekiihFzv/xLzV/YFLA=;
- b=f1zuA4Ytd8ds4tkblxU5UmEBQKqLrinbbZjH3cYwYM04fRqzl/cUG2T/XAUkA4LOc5j0CNRwRLELNKZZqpOCqVq0HV1nF5H1Mo8alD0HzyX6Hn6vBfhPWP528mqEwpC0N+nkdrFwMPwPJG7qjZ6Wto1fKW8WXxLDd4Ac3v0dd69XXVZGTMnDJKu8qbc1w3VhCDk/NdVI0g24HePU3amj2mppt1o4D19qA2hT8MsoGUrxZsi0eEPrsRp2CMCTFI2QM4Q1kEgYrv5nL/WXmfskTQz4nNbNlcytBDJCNxTSy2ZKmhDn8SQ6HHR9QKQsViZcfmp2GUUwmuEUpDYdrs+Kgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VJ/mSUcHFyEI/xIW8O+I8xASwekiihFzv/xLzV/YFLA=;
- b=Ykg2dD2NTFjNd0HnpbjzRQigfGqFrbl+A590zHa4YEKi3iJ8vjnOopZlh8+kAXD1u11jIfECaFdQ+ycsozrylrVTgMKSICrvLdgoFIuRO2sVIZ+coPx2F796PeG5EHaDT0SH7z4JDXP7tc95PnEp/dUFNckQ+kVtDerSA7/KQko=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYYPR01MB15175.jpnprd01.prod.outlook.com (2603:1096:405:27d::8)
- by TYYPR01MB6650.jpnprd01.prod.outlook.com (2603:1096:400:e3::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Wed, 28 Oct
- 2026 03:03:27 +0000
-Received: from TYYPR01MB15175.jpnprd01.prod.outlook.com
- ([fe80::9bfd:a110:68f1:134d]) by TYYPR01MB15175.jpnprd01.prod.outlook.com
- ([fe80::9bfd:a110:68f1:134d%3]) with mapi id 15.21.0546.021; Wed, 28 Oct 2026
- 03:03:27 +0000
-Message-ID: <874ie6ttkw.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 05/15] ASoC: soc-card: move snd_soc_card_fill_dummy_dai()
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87bj8etuj5.wl-kuninori.morimoto.gx@renesas.com>
-References: <87bj8etuj5.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 28 Oct 2026 03:03:27 +0000
-X-ClientProxiedBy: TY4P286CA0041.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:2b2::18) To TYYPR01MB15175.jpnprd01.prod.outlook.com
- (2603:1096:405:27d::8)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fJlr3kzr
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c468bd799ecso57798366b.1
+        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 20:03:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793156609; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bwsYhiGyBpSfB/Y/U4jWIPuNIRiWA7ONQOJuD6KQ4/RDu0s9BDCEl8BUnbb57tiOc4
+         JKIxpL7VjPSEPW08Sb4aHjUFTifAiSWaN9USLhuWnsrmWbj0TVl15xTtTSerL4Fp+fh4
+         h9gDE1DTLATecnT5HtyGeUUujvCNhiNFPF7EMH8LKR6BdbH6LKBsejmX6EMZulFVJl3s
+         tSej648/lwOWuILZ/vJ5yXY9fpisD36tSTAUgeAD5y6SZvvRracPswxpS9klp0rB+NY1
+         ATQLYwYSwiWYLTzpwXqqLnxGzlyhfTk8w4JmGZ0/OWB3aF54Os3N3IQrKWLRDvhJ0pkf
+         YTjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=aaEqPOtzFlYjy8gKp4FKOSLSSYaCTpKCbbzsP/dMKDE=;
+        fh=2Whz5ATE8F31yM34+0TlxO5XAnaQMXp4KcgJ9CPTTZ4=;
+        b=iLQrc4PqrgrH/dQQqVWSgNoLS/6kh9459H9IbKUF1cTXhEnQkEXrJ1NVomnDLeg1cT
+         dlcg9m3QioxVk34lu0jJiCnE1Yya/0l7d9LTEZKlnOmtSaMoehduR8n/hJvPIpas2Sch
+         082rQu8Ajr6TM+zUc7xa4jtwsDm5VGntcEpwTRdDmH/ykdRw9iXtIqLwM7HxKc3Z0Oa4
+         GYSbs3l6fRnIGZ3foLLnsNhFrFxn16TFWXOLv+PHeJWdx7TrdffC9brfqg/MGyU+pz+O
+         SNSOPCerulczJmsoGpo6EcWd6jvYDWI/W+30NA5YBDnluDFZPmPSQNvTExCmo0kaVesP
+         eBJQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793156609; x=1793761409; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=aaEqPOtzFlYjy8gKp4FKOSLSSYaCTpKCbbzsP/dMKDE=;
+        b=fJlr3kzr9n1JZwZfBRF/WNMuIoTECpYRxlSRtiRZDvh2vnQxFkVKujt6hYhELyUMau
+         qclOZDsIrlYWUhxiqrDl/YQqIF92a9MFeInSKz3wGO9s0k9gRT1vtg9KTRvEsSnXNGz4
+         avn7Hczjkg0HQ9KWop8AmySku0iWsYXyeV03g0mPNb6YED4z9zVDKAyp8rcj12A20Kx6
+         fxtels3SbDc9Zx/leb2n1ieK2POOfKHhm2rUpp/pW+t0pEZ4jGmDQBZTrAKKdmUm92YP
+         9X0e7W3LASnIPLzEUFSJrDhKwYkwW6mDntm2IRHxh05FZZdQw3GP/22l8uQs8ObkOzfX
+         0w2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793156609; x=1793761409;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aaEqPOtzFlYjy8gKp4FKOSLSSYaCTpKCbbzsP/dMKDE=;
+        b=Gtd/O9BcuYeLS6ebqueejSSDWrYcSX1K2fjU/mijJoP94iOy14eYr41iMJscPkedzC
+         V8i97C1W5LfyLpxU0Pe/SFPwgoHVbdmilAWQJo0rwdBu8CH6iGyYnnzCoUsbhmOfmEU7
+         Y/Hum8j3r4Gf+cqcDJ8t6LBwR10XlWCfia1yrKQ0HISrc0TRir33mIi5Kknm8G4Na7ug
+         +BGH08KcTTMQEkwoB/F/fiDfi/F3PyODSYM4mBSHeMEvqrwO6bCZFXdK+O8HJ+5SrJTN
+         VTgAxkItlNj+2ipWGnaxa4DJnLGnnipwxJx6Qg23YJRsjLJKJEBsnW40WMbl0otet+te
+         buBQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzzzT6XKda2Otc6G5Cyi4CZeOEJq0RJQzahjNdb/2Qp78CLyWf4SoqGHvCnlkE7ktht3wgjT7uqKC8l9g==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJGoIWIA8L48ylLqw/h10271LLuf9JLSkwE8aFfRYopZ6iT4lKO
+	3CIycNjn/Jjh+vd17K4hEGwHRHvrT+2h9bS2KSI1W+lHltFvOHz8GK7t1vznTqyPm6KDOByjIxj
+	lUXp6UyUHTQcthv9SSLWGAhov3wfHVhY=
+X-Gm-Gg: AYBFou0gxtJX+WqGi6nstG6nnt3eVjQwsZ8T9tKasW7COXYfr6MGiuFcCOisSIBp/OE
+	o5M62SvCGeMwMkvkszJV6SOQIMO//uW4hcPVNc/AP7/P1R/z+ZNiT5Ft8vtbSIYuIO14k49+Uc4
+	qj9XXellWRfSJwDOuGyFBtNj+WqKa3FpBzwhI/8e6BkFr9jc/DxvDDtY4nRDhlCy2DRe2LGBb4y
+	K5mWrKWaTy3/049GSFFA8iqm7DQ/Hwnpw7h3nBVCTRILnSvIAIOZGlcCXz6u3IwHa2buwR8Cn3S
+	v3kbh6O8Et/RoVr/5zJx1p16AIQ57OL2ZB5dnJ9SPawX7KJYYDEzdYfkDrebX7VQoeucJa5Kn/G
+	QmanYXDrLvjxwn2DW1eRW/7IBQ4bRk45AHGsl
+X-Received: by 2002:a17:907:940d:b0:c2e:378c:8ceb with SMTP id
+ a640c23a62f3a-c49be04547amr78000866b.36.1793156608518; Tue, 27 Oct 2026
+ 20:03:28 -0700 (PDT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -94,166 +104,136 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYYPR01MB15175:EE_|TYYPR01MB6650:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce8e19a4-b818-4563-47a1-08df34a009db
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|1800799024|52116014|376014|261009223027099003|261021121427099003|261021123027099003|261022105027099003|261022075727099003|56012099006|10067099003|261026140227099003|18002099003|22082099003|38350700014|261026121527099003|11063799006|5023799004;
-X-Microsoft-Antispam-Message-Info:
-	iciAmRyo7trQ8pDkILgiBD6dN3mTg85T4055XrCSEPO692X+Pz8V+r6b1y65nhMF1PCFo/BFBj1FeGSdvA5unc1PNZBcrmF+NifwqiAVk79b8fkwQ0k8UJmbXXuB3tpQkXEsejpXZB9WLiRwDUxadaSuLEySEi1TGycpOuJFc29cD2Go+6djmM6MkVpdSVMzOj+sD/ZxZqYqordIdiwEIPSyVDsicg5usbpqEf/Zn29j9i7D2gAUagsizT6OnHq/C1/I/3g7KKoIRRJrjSVRN9tOjeUFP7FMjwRM33nBojivDUf9x7Tjjin95cL4jxCewsY2Wd70ILPWc/cxsWFfssPlM6SkvJkOKwEI6l5nI1ZbBshJ0/OXKG/LYckp55I29wvtm3SkSBU51HmYe0b3zv7LtAERQHumyVefnOgEGYKMxNUYNZzxbJhpG3l2lYPr40g6zFDayhutZ65ikkfeZChQjG+8F+LOP/ELlrJqFQaWE9R8Nw9UiGxVnf2jeHlMRd/j6eFTIU+IPwAvADu4oohp9n+NOaGlQR8qDxdSAwC2Qu7jFlhAnjLRpLiG4WJhi5p+qJ3W9FC/owgu7bUFWeqBR/uLMmXyscbiOevKFJ1G176/8KeGgaLsIQcCxjo4q9bhd2i5JACZ3579vgjUWfMTYh/6dznNqTsfAp4/9sMupaIv5knh2KjBHpY//QzyWDGUt/WCCNHJx/JLQIZjZulyfei5JS+bSuMVmxqzp3U=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB15175.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(52116014)(376014)(261009223027099003)(261021121427099003)(261021123027099003)(261022105027099003)(261022075727099003)(56012099006)(10067099003)(261026140227099003)(18002099003)(22082099003)(38350700014)(261026121527099003)(11063799006)(5023799004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?U6lTED5EI254woHKDv1epxkhqKCmJGG+BCw4IKS1hwVeEa4+0Lz8BdKSE7yP?=
- =?us-ascii?Q?4CtEhLJIT9YH29vkKubeo4Qx/M4QsZmPTPMmGM05PiKgS7eqlLeWZAKNXnpc?=
- =?us-ascii?Q?XYpQ4jIX1MHiI6diHFG8zLlOjURugABNgRDLrsOVPs8lTIrgvnZP1551iC5c?=
- =?us-ascii?Q?sf78eWIyPnf8i5V8VZimOXOeD1lmxCBH3b3gvXYKwOjlmxfiZZguX4a9YNs2?=
- =?us-ascii?Q?WBKkReM3Px9Dq55URAjz+ufP/9O0A+esWjqhmYKeBUCRBiSxPmMSOtfnw5l+?=
- =?us-ascii?Q?ZcggGuKcZ9D6umGIbfI12Z+kVvIIxUvBYtxwpfIbfQsJmZIkSfy7vL0cyYEK?=
- =?us-ascii?Q?O0ARmJHH6Csipz5dQNoUOIKoLlT9Rl5HlwPhgeZBgnmipmIrVkIQ1bWQ20tv?=
- =?us-ascii?Q?makFQYCaKo1m/ecmiOBKSUDHSQGDwcqFCBg57oOiiwixuCTwJJEzqq7+4CkX?=
- =?us-ascii?Q?uaNG7oaQU9ksf8vfPo5x6mOd1mrPtmlcx5RgOEW/Rzr/7X/etYFMm57FSZWJ?=
- =?us-ascii?Q?p7Te0O0tlRKyoxkX1MLZXAWTspDOvfdnkFtU6rTrGpAe7ClTGVJn8pRfwwKq?=
- =?us-ascii?Q?NQjYfniPNP+vyQbEgfgdlHdzB6WWaqCyAjgOa+PJYGCw4MVkOy4qge14uHMh?=
- =?us-ascii?Q?zwO9xKmMLCo6Fb1JHcEa/NF+TwKB96wUpfaabxXaIhgMYtoN7qzkKec0xa6x?=
- =?us-ascii?Q?8n9IQQi7H+Efq0HM77L/ZikXbJ5c0rlRom9JalrAChJG1ofCGx62ZLta3LmQ?=
- =?us-ascii?Q?iz6EV594egESOvAp/hai5ddFld7VT08551w7OMhUhaP6CJSTfGjFN0x/PRnM?=
- =?us-ascii?Q?o9kizowPfbfWFXvaKMCc8SkmMCRqJvECsHnejVcxKliXjRxeDrJHPOrC2PhO?=
- =?us-ascii?Q?nox1MCo2f/O8TVxVtl9M1RgP2ianxB0IQVK28rNRw5Nc06NbYHXV4cj1R1QV?=
- =?us-ascii?Q?VYObR5YIzVsQcJAkW1wOBnw5YMzwaHefpVEXEY/wH8TmyzH/UVvD+z59cQnM?=
- =?us-ascii?Q?BPv1pwihZT4eCeabUJPXUvKUaNXdj65cuaJP6KPLvR0e9ismq6lTv5SSme7k?=
- =?us-ascii?Q?Wt1VEHPGd02Be9/WmkGMeqvlvMwTAQ8LomkMTKIpdmutBwFqfJGezX1J5rqQ?=
- =?us-ascii?Q?2ByUo2qCcwcNLavSDy6fiyEPpxxpcmEaAki6m2AqE+dXiYE2ZOZblQMqNVjZ?=
- =?us-ascii?Q?7ty3whCTR9uUpFQFCCw4oi7fFg8fnbkP8vjTmo1z1OLfU5eSG8lzgBVYxW9W?=
- =?us-ascii?Q?WL2jfQz0mmGsQY4+PZN61qfCTQXnMpglS9z5v6ZjfGLDUSUQb0/yrQ+EFklx?=
- =?us-ascii?Q?ufCLMehyikMtYCEGjzMvJpgA4uYEKMPvDnLVqruMXAYXnrZGjI1XAngTyZMO?=
- =?us-ascii?Q?L41vDQTKMlrfOnt6T1/URnAJf9u+8QUagyAYuTnqQQyeSUoyOF170nR1nZsP?=
- =?us-ascii?Q?4DWYoCr2LrnBg4OlRudHOEuxy2LXQ9b1nhyT41Drrzb02jpSJjj0EhZAkjwD?=
- =?us-ascii?Q?ZVZ0nQsZl11db6RnjolPuqe7OD/x4K8aLksnIkYcNXMls+qcLlmQj0GlMwkX?=
- =?us-ascii?Q?jHb9F6/aswn7xKedm9t/p/kl+o7bKFAVG2UoAdxnzHoYtne3V0Twt3qJoGAU?=
- =?us-ascii?Q?iKAlwU1JMxNrl6qGU6VOc6v6nb2l0ZoQ0XrfPIq4VY6GTnE2+R1JwSfUNMzO?=
- =?us-ascii?Q?HhbfqkTaMY5fX1r5D1CIffgfYieYGzkmcpouEtShuaNuyNdx4K/SoRasyoQy?=
- =?us-ascii?Q?AYFKTsHZ55eTO4tOVzIf6Y/gDb2kW/g=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce8e19a4-b818-4563-47a1-08df34a009db
-X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB15175.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2026 03:03:27.6096
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2608ycYigYUwb4H8k6813XIh6IYW8+u9HvIpFm2EQbaHxag+86JDd2q3G6uxSj7WwlT9C54Rtx6qi7GqGeEOiAMPLqkA81t2P8Z3KlRotN4yz6GsuGRc63QcbWPBkA9t
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB6650
+References: <20261022084040.31181-1-phucduc.bui@gmail.com> <20261022084040.31181-2-phucduc.bui@gmail.com>
+In-Reply-To: <20261022084040.31181-2-phucduc.bui@gmail.com>
+From: Binbin Zhou <zhoubb.aaron@gmail.com>
+Date: Wed, 28 Oct 2026 11:03:15 +0800
+X-Gm-Features: AclHuK9_JRik7hNrw0otOvyuxwVOGZJTnCyRDn51Ysq1x8h9U1nnfyQP3CQor0c
+Message-ID: <CAMpQs4LpM1C6diap6JKYgLTYLoaC=W5wEsp=Y9DAj0Mwg-q7BQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] ASoC: loongson: Fix IISConfig0 update in
+ hw_params for rev 1
+To: phucduc.bui@gmail.com
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Mark Brown <broonie@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Yingkun Meng <mengyingkun@loongson.cn>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-struct snd_soc_card will be capsuled soon, its member will not be
-able to access from non soc-card.c.
+Hi phucduc:
 
-It has too many local function dependencies.
-This patch uses temporary funciton define at soc-internal.h. It will be
-removed all funciton were moved.
+Thanks for your patch.
 
-It renames function name
--	snd_soc_fill_dummy_dai()
-+	snd_soc_card_fill_dummy_dai()
+On Thu, Oct 22, 2026 at 4:46=E2=80=AFPM <phucduc.bui@gmail.com> wrote:
+>
+> From: bui duc phuc <phucduc.bui@gmail.com>
+>
+> On revision 1 controllers, loongson_i2s_hw_params() reads LS_I2S_CFG
+> and ORs the new LR_LEN, BCLK_RATIO and RES_DEPTH values into it
+> without clearing the old ones.
+>
+> The first stream after boot is configured correctly, but any later
+> stream with a different rate or sample width ends up with a mix of
+> old and new bits, so it may run with the wrong rate or sample width.
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
- sound/soc/soc-card.c     | 22 ++++++++++++++++++++++
- sound/soc/soc-core.c     | 24 +-----------------------
- sound/soc/soc-internal.h |  1 +
- 3 files changed, 24 insertions(+), 23 deletions(-)
+I tested this patch on a Loongson-2K0300 and Loongson-2K2000 board
+(LoongsonASoC sound card).
 
-diff --git a/sound/soc/soc-card.c b/sound/soc/soc-card.c
-index bccd47cc136e6..6e2b8a86f4587 100644
---- a/sound/soc/soc-card.c
-+++ b/sound/soc/soc-card.c
-@@ -95,6 +95,28 @@ void snd_soc_card_resume_init(struct snd_soc_card *card)
- void snd_soc_card_resume_init(struct snd_soc_card *card) { }
- #endif /* CONFIG_PM_SLEEP */
- 
-+void snd_soc_card_fill_dummy_dai(struct snd_soc_card *card)
-+{
-+	struct snd_soc_dai_link *dai_link;
-+	int i;
-+
-+	/*
-+	 * COMP_DUMMY() creates size 0 array on dai_link.
-+	 * Fill it as dummy DAI in case of CPU/Codec here.
-+	 * Do nothing for Platform.
-+	 */
-+	for_each_card_prelinks(card, i, dai_link) {
-+		if (dai_link->num_cpus == 0 && dai_link->cpus) {
-+			dai_link->num_cpus	= 1;
-+			dai_link->cpus		= &snd_soc_dummy_dlc;
-+		}
-+		if (dai_link->num_codecs == 0 && dai_link->codecs) {
-+			dai_link->num_codecs	= 1;
-+			dai_link->codecs	= &snd_soc_dummy_dlc;
-+		}
-+	}
-+}
-+
- struct snd_kcontrol *snd_soc_card_get_kcontrol(struct snd_soc_card *soc_card,
- 					       const char *name)
- {
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 901fddbbe25e8..9a0e058f34271 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -426,28 +426,6 @@ static struct snd_soc_pcm_runtime *soc_new_pcm_runtime(
- 	return NULL;
- }
- 
--static void snd_soc_fill_dummy_dai(struct snd_soc_card *card)
--{
--	struct snd_soc_dai_link *dai_link;
--	int i;
--
--	/*
--	 * COMP_DUMMY() creates size 0 array on dai_link.
--	 * Fill it as dummy DAI in case of CPU/Codec here.
--	 * Do nothing for Platform.
--	 */
--	for_each_card_prelinks(card, i, dai_link) {
--		if (dai_link->num_cpus == 0 && dai_link->cpus) {
--			dai_link->num_cpus	= 1;
--			dai_link->cpus		= &snd_soc_dummy_dlc;
--		}
--		if (dai_link->num_codecs == 0 && dai_link->codecs) {
--			dai_link->num_codecs	= 1;
--			dai_link->codecs	= &snd_soc_dummy_dlc;
--		}
--	}
--}
--
- static void snd_soc_flush_all_delayed_work(struct snd_soc_card *card)
- {
- 	struct snd_soc_pcm_runtime *rtd;
-@@ -1626,7 +1604,7 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
- 	int ret;
- 
- 	snd_soc_card_mutex_lock_root(card);
--	snd_soc_fill_dummy_dai(card);
-+	snd_soc_card_fill_dummy_dai(card);
- 
- 	snd_soc_dapm_init(dapm, card, NULL);
- 	list_del_init(&card->list);
-diff --git a/sound/soc/soc-internal.h b/sound/soc/soc-internal.h
-index 3d3703e58711d..1ec7aec68cb9c 100644
---- a/sound/soc/soc-internal.h
-+++ b/sound/soc/soc-internal.h
-@@ -20,6 +20,7 @@
- void snd_soc_card_debugfs_init(struct snd_soc_card *card);
- void snd_soc_card_debugfs_cleanup(struct snd_soc_card *card);
- void snd_soc_card_resume_init(struct snd_soc_card *card);
-+void snd_soc_card_fill_dummy_dai(struct snd_soc_card *card);
- 
- /*
-  * In soc-core
--- 
-2.53.0
+I ran consecutive playback and capture tests alternating between
+S16_LE/44100 Hz and S24_LE/48000 Hz, both in stereo. After applying
+this patch, switching between different sample formats and rates, works
+correctly.
 
+>
+> Use regmap_update_bits() to replace LR_LEN, BCLK_RATIO and the
+> RES_DEPTH field for the current direction while preserving the
+> other direction's RES_DEPTH field.
+>
+> Fixes: d84881e06836 ("ASoC: Add support for Loongson I2S controller")
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+> ---
+>
+> Compile-tested only, I don't have the hardware.
+> A Tested-by from someone with a 2K0300, 2K2000 board would be appreciated=
+.
+>
+> The field layout follows the Loongson-2K0300 user manual (IISConfig0) [1]=
+.
+>
+> Not sure whether concurrent playback and capture is supported on this con=
+troller.
+> If it is, note that LR_LEN and BCLK_RATIO are shared, so the stream start=
+ed later
+> would overwrite them when the sample width or channel count differs.
+> I can follow up with symmetric_channels and symmetric_sample_bits if that=
+ is
+> the right fix.
+>
+> [1] https://github.com/loongson-community/docs/blob/master/2K0300/2025060=
+909243029508.%E9%BE%99%E8%8A%AF2K0300%E5%A4%84%E7%90%86%E5%99%A8%E7%94%A8%E=
+6%88%B7%E6%89%8B%E5%86%8C_V1.01.pdf
+>
+>  sound/soc/loongson/loongson_i2s.c | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
+>
+> diff --git a/sound/soc/loongson/loongson_i2s.c b/sound/soc/loongson/loong=
+son_i2s.c
+> index da0d029c028a..109cb61c6ddf 100644
+> --- a/sound/soc/loongson/loongson_i2s.c
+> +++ b/sound/soc/loongson/loongson_i2s.c
+> @@ -69,6 +69,7 @@ static int loongson_i2s_hw_params(struct snd_pcm_substr=
+eam *substream,
+>         u32 fs =3D params_rate(params);
+>         u32 bclk_ratio, mclk_ratio;
+>         u32 mclk_ratio_frac;
+> +       u32 mask;
+>         u32 val =3D 0;
+>
+>         switch (i2s->rev_id) {
+> @@ -92,14 +93,19 @@ static int loongson_i2s_hw_params(struct snd_pcm_subs=
+tream *substream,
+>                 mclk_ratio_frac =3D DIV_ROUND_CLOSEST_ULL(((u64)clk_rate =
+<< 16),
+>                                                     sysclk) - (mclk_ratio=
+ << 16);
+>
+> -               regmap_read(i2s->regmap, LS_I2S_CFG, &val);
+> -               val |=3D (bits << 24);
+> -               val |=3D (bclk_ratio << 8);
+> -               if (substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK)
+> +               /* Shared fields: LR_LEN [31:24], BCLK_RATIO [15:8] */
+> +               mask =3D GENMASK(31, 24) | GENMASK(15, 8);
+> +               val =3D (bits << 24) | (bclk_ratio << 8);
+> +               if (substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK) {
+> +                       /* TX_RES_DEPTH */
+> +                       mask |=3D GENMASK(23, 16);
+>                         val |=3D (bits << 16);
+> -               else
+> +               } else {
+> +                       /* RX_RES_DEPTH */
+> +                       mask |=3D GENMASK(7, 0);
+
+One minor suggestion: would it be possible to define these bit fields via
+macros, or use FIELD_PREP()/FIELD_GET() with GENMASK(), instead of
+open-coded shifts and masks? For example:
+
+#define LS_I2S_CFG_LR_LEN_MASK          GENMASK(31, 24)
+#define LS_I2S_CFG_TX_RES_DEPTH_MASK    GENMASK(23, 16)
+#define LS_I2S_CFG_BCLK_RATIO_MASK      GENMASK(15, 8)
+#define LS_I2S_CFG_RX_RES_DEPTH_MASK    GENMASK(7, 0)
+
+>                         val |=3D bits;
+> -               regmap_write(i2s->regmap, LS_I2S_CFG, val);
+> +               }
+> +               regmap_update_bits(i2s->regmap, LS_I2S_CFG, mask, val);
+>
+>                 val =3D (mclk_ratio_frac << 16) | mclk_ratio;
+>                 regmap_write(i2s->regmap, LS_I2S_CFG1, val);
+> --
+> 2.43.0
+>
+>
+
+--=20
+Thanks.
+Binbin
