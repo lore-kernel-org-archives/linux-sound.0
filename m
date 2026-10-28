@@ -1,92 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793199320;
-	b=0Szw3mcCa2b04KA4tdgQ/b+YpE2gbo9xJTiDpWLwIyuehCjweYhyimvxU7ebMa+hT/CE
-	 nBMUbOuqiwL4S2TRXNh7hmW8EBznKM8PlZUpBOPAtPmAB4iYKArY+3t3vW0QdeNvAOtCV
-	 Ip3ez8Sq1qr+qwF/LFJxMXOZ5fTy4uI9FauR7zpfkjSMmAb6ya5xExp1qoj2j09DIZeT6
-	 Hwalnfekm5yLRz9d+JFhdUTS32RrzU5BAcxvXNzNn+85j3k67WVGsGhIKiNfpYRNnd/e8
-	 I/8m8AVSudlajeznm+muoXaSVHh8ptSJ0TL9nx2EqvlQRGCRzEcrM7GtY7lVZx5d58g==
+	t=1793200010;
+	b=FgW19r9aBi50uCjs2rmYcSx7j6yla5j3Ze60AS0Z9eeNom4b+Gw0zSSA4AHFHSXrds8p
+	 Ti/QC4u0QftKuzHwnGRPP8ztudqNSWp/usiq1M9C/+C82DaNHdds6sYEYo415qHdMfsxZ
+	 OGT/gS9DXfyxL4Q2pbRTwNoU60/h+oafiF3Jy5z4L59vKVNlWxmXfFbgKbgPM7AvMsgoO
+	 a6RLng22yEF8Ij1+0KEYreXfClL02oDY1Lo7OjEfTn07YmRmFbC8r4iyWY/Z6SyrNnrdN
+	 mn0W910rJsLGGisEknrdWvrilMVKVQ0Ixxsf2/JYkjNPJPSUIpq3GPmVd2b3WRVeuVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793199320;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=meU1m866/ygpxNHbfayzs25nVPOgWuaJgkSGzs4sStg=;
-	b=cpHwN7XopohqZnF1EmKSefkdpub+GIHvcelSViPMjMJVX19ldx7jkppxMX5uyQMNjo0T
-	 Jued3ftI6Uw9f4qRiKniMMKqzburGKF8PXkHlV2FOf6BkkbawFOE9EWwK7JsirwmZYjSu
-	 59V8gM8D/YmK7BgJti4kGq2KDOn9+pRFbqix3OPqAF9tZCt2HdlwSXKR4sOeoibGeIUrV
-	 iVHgfM0IVA/KHIkv2qFgbFz/PVEJQj46M8LwiwzdxLxJl/mtKRFueEEYAOlrhWac1RyM6
-	 Rj7CIY2os3mpgYwfDBtI7zF/ii+btzpYSuwOLINs+cyKnBu6Lk6lOA9xN9DsexxLPHQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793200010;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=BymGdWuHLNd6aHnCxIXwnolcF+RB6pAzqWUTnpfRbzM=;
+	b=utNdl1unPbXQdn6hl5+xyz8o+GWt32LL8hQKA+Xtc5Yy4sZjMNHhD691TxrSt2m1ODab
+	 p6qujUFkvfI25QOts4bWf7e/TTf5HqK/n2OkWW47HUPz5/++xjVBfTdUsNwEz33xVH2Fq
+	 H1Jub9NeLvXj3GCmiBliFoaRMoRUFehi3COpWDxZZ6tEaX8XCKCljFHO/slaREgzyeBtK
+	 84GZpAD1vdG8l2AwuwgBBVvws2lhet3ep1CfiM6zrVGeMrBOrlfgvD54eS8Zl1cjg/Z4M
+	 Kmx3W/8KN9XcOl4s/f7DuP6Hrd8owl9+sRjKBLtcj7TCeGbnckOy2bUK5Sw9+Pe+qSQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ll3SC1US;
-	arc=none smtp.remote-ip=209.85.221.45
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aYP6Ys9F;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A146606A31A
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 14:55:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A146606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75DD360A2603
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 15:06:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ll3SC1US
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48e10a70540so699012f8f.1
-        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 07:55:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793199318; x=1793804118; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=meU1m866/ygpxNHbfayzs25nVPOgWuaJgkSGzs4sStg=;
-        b=Ll3SC1USAj+MFGElknEKyTZs3ptniL2lDh8IEIUgbP9oTcGk8nEXveAsuwV+ZIBuRB
-         Hf1pkqzw+gbcl6jRLVtfj/RdAIAjCwEXFxHH643Lz7716ngw7zmrDfmcXO+D1wu1Bpr8
-         ZjNF+darVQSlT5ZACsMCcXIwYz42k4HYZ/zOgbTuSpSV26gIX+Wtmf84iRxPjkHC9zWZ
-         RKB4PgTGhOchFEdhEJnTW/DU2SEcNR1y3xuyFXGa5pOqnxTgQz7zQta/M2j/rOdzpe/z
-         7Qfr+U7y3qldR2qRm2JByNVJm1zslMLzeSNlLFQ18Lfndc2w2HIz5c+GdxDMaoOvhk2d
-         qt4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793199318; x=1793804118;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=meU1m866/ygpxNHbfayzs25nVPOgWuaJgkSGzs4sStg=;
-        b=KAJ/R8Hzn8qN1mP2HUcIyY3ngDkx97tWAUlkXIk+iHz33/TTM+SZXnBiyniO4hbHKE
-         pJJkaVz+l4Z/k2CSW5f8hfAx4xvYhYJrAZT7YHQRnOpK2ZnOYCQ2AUBcThE1e74D1rBk
-         GOKnKNSiPMhD0lTSedW/x2GptK329d+ICZIg6RONDtC3YWDNty6nV0UZTAJhZUUde7Kg
-         x7b9kfSScDVhR4ygwF3Hu6V5CC6T6jQqghdWMqfyZdYeDbGj2OJ9WYMtulVeYWHOVRs2
-         KfRPEjeo3Ccgqa+JOHUOBEb8HGn6lTXspffutyXyrcGU/ZPhPltx5aaADH3ofic1xj4R
-         h/IA==
-X-Forwarded-Encrypted: i=1; AKwUvBwdYKOzlP5arKn4HGe5Jno/uouSC5I63acyO+nSE/lZM3QXBL54TROFyNO0U6qoE2wRwvSO3fxsDKCeGg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLGKsk+Wh60lK+3K8HN84TYnzPnA4NMwe85cdfmr57O6uL8Hdem
-	U9/teA/I0c8GeB5CpLhuffLJu2u+fAc2bMHD6NPyKaYydwPqO/HcoXj/
-X-Gm-Gg: AYBFou3nn8zR1awc5J4sPc8H5M7/gag3xLGRfubhp/9QQZlV24b2kGTm7nKQjI5dd4T
-	rzvIy/onJKyZso4zBRCgqrVoTt4Maej/l+SoasW0081FwsyL2KVqsANe0Vtu8djF8oyJCDUnnoK
-	yTIHs0zcZU/egpP0J3U9/srMPnP8G2kye/tmEXlidg+HTy8RkBegv8VNsQ89vzAro0m6Chk9fnv
-	Ibxdl48BShVJo4qmqtEz5LRHsoCGUe5O8mGhov5hkXKBBlfPuhFR5ZLx6EgIdrZxnm79CrluOul
-	V6958zufibXh1jFhlpzuDuR4E4Jbf0q5Sl3uiELyO8aYzvTkjitrq7odKdXwTW/hRUk5od7anrR
-	arU74V4O9PCUxzOTFmuBXkXBXHM2VDHpBhl7wFI/xTdKXHFCAbEygmIwOp9LTCOZeLY7shmEKfg
-	qH2AcunOkrqCxQmPbjhmzzPGgksJTt+0qe5ZkEODSYD2PqqGB9g3ISMBe5WZPIUl41a/NULZNhn
-	LlgnHx9+WMyS5j6pCyggG1IwxKW0Zbuc2aftJqFdP5ubWr+gKqKgEHAa3UkkYwabpmHeD+kevwd
-	MZCTLztnM7xEqZIbIfgcqUEFbr0nBuv9L3RC4NtVdUoV
-X-Received: by 2002:a05:6000:1049:b0:48e:4e00:b72d with SMTP id ffacd0b85a97d-48e5d5d0a6dmr4813779f8f.38.1793199317639;
-        Wed, 28 Oct 2026 07:55:17 -0700 (PDT)
-Received: from localhost.localdomain ([2a06:c701:4778:c500:47f1:8a3:6e76:cd9e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecd37f4sm34432577f8f.44.2026.10.28.07.55.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 07:55:17 -0700 (PDT)
-From: Avi Weiss <thnkslprpt@gmail.com>
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Avi Weiss <thnkslprpt@gmail.com>
-Subject: [PATCH] slimbus: preserve ports after failed disconnect
-Date: Wed, 28 Oct 2026 16:55:08 +0200
-Message-ID: <20261028145508.1111792-2-thnkslprpt@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aYP6Ys9F
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 212821F01828;
+	Wed, 28 Oct 2026 15:06:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793200010;
+	bh=BymGdWuHLNd6aHnCxIXwnolcF+RB6pAzqWUTnpfRbzM=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=aYP6Ys9FIavsyOYZr+XeoXsZsWFqGlhTcAW7G7n3Sgn2wzam6IXWSbnr1H+0+UGI8
+	 /gXN3bakpy47bkG3P4d5QFda9b+ED0BGoDyIQq+btkKoCSZrIpwn+O5A7OiNVhZeP5
+	 ymRr4GGaCvQleyNSBzovcNG2XTux++KquKL5YLaM8OIR4bSmKR23JB23PEAcrWYFXm
+	 z7hyRWKb1tavD31wsJAMa9wHvDLEykNBkPbLeoqnmlaOW8cL4FC4akxvY5X+Qs8bjq
+	 P+pXQNIJMTHr/sKMQK6hbt8jyyFF2aYzlnpQ+S/F0Lla3QTl+QuKVWsa6adfABXpEb
+	 kkJJ80uouCVrg==
+Message-ID: <sashiko-outbox-188035@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] slimbus: preserve ports after failed disconnect
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Avi Weiss" <thnkslprpt@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261028145508.1111792-2-thnkslprpt@gmail.com>
+References: <20261028145508.1111792-2-thnkslprpt@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 28 Oct 2026 15:06:49 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -95,84 +58,111 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-slim_stream_unprepare() ignores errors from slim_disconnect_port() and
-frees the port array even when a disconnect transfer fails. The helper
-also marks the port disconnected before issuing the transfer, losing
-track of which ports still need disconnecting.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] slimbus: retaining ports in slim_stream_unprepare() breaks strea=
+m re-prepare
+--
 
-Update port state only after a successful transfer. Attempt every
-disconnect, return the first error, and retain the port array on
-failure so completed ports can be skipped on retry. Free any retained
-port array in slim_stream_free().
+commit a86f555a1b6f385fbf7a79c9ae53a6b9032ee169
+Author: Avi Weiss <thnkslprpt@gmail.com>
 
-Fixes: abb9c9b8b51b ("slimbus: stream: add stream support")
-Signed-off-by: Avi Weiss <thnkslprpt@gmail.com>
----
- drivers/slimbus/stream.c | 23 +++++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+slimbus: preserve ports after failed disconnect
 
-diff --git a/drivers/slimbus/stream.c b/drivers/slimbus/stream.c
-index b4e70a7edd1cc..ab26b243802df 100644
---- a/drivers/slimbus/stream.c
-+++ b/drivers/slimbus/stream.c
-@@ -150,12 +150,17 @@ static int slim_disconnect_port(struct slim_stream_runtime *stream,
- 	struct slim_val_inf msg = {0, 1, NULL, wbuf, NULL};
- 	u8 mc = SLIM_MSG_MC_DISCONNECT_PORT;
- 	DEFINE_SLIM_LDEST_TXN(txn, mc, 5, stream->dev->laddr, &msg);
-+	int ret;
- 
- 	wbuf[0] = port->id;
-+	ret = slim_do_transfer(sdev->ctrl, &txn);
-+	if (ret)
-+		return ret;
-+
- 	port->ch.state = SLIM_CH_STATE_DISCONNECTED;
- 	port->state = SLIM_PORT_DISCONNECTED;
- 
--	return slim_do_transfer(sdev->ctrl, &txn);
-+	return 0;
- }
- 
- static int slim_deactivate_remove_channel(struct slim_stream_runtime *stream,
-@@ -448,13 +453,22 @@ EXPORT_SYMBOL_GPL(slim_stream_disable);
-  */
- int slim_stream_unprepare(struct slim_stream_runtime *stream)
- {
--	int i;
-+	int ret = 0, err, i;
- 
- 	if (!stream->ports || !stream->num_ports)
- 		return -EINVAL;
- 
--	for (i = 0; i < stream->num_ports; i++)
--		slim_disconnect_port(stream, &stream->ports[i]);
-+	for (i = 0; i < stream->num_ports; i++) {
-+		if (stream->ports[i].state == SLIM_PORT_DISCONNECTED)
-+			continue;
-+
-+		err = slim_disconnect_port(stream, &stream->ports[i]);
-+		if (err && !ret)
-+			ret = err;
-+	}
-+
-+	if (ret)
-+		return ret;
- 
- 	kfree(stream->ports);
- 	stream->ports = NULL;
-@@ -484,6 +498,7 @@ int slim_stream_free(struct slim_stream_runtime *stream)
- 	list_del(&stream->node);
- 	spin_unlock(&sdev->stream_list_lock);
- 
-+	kfree(stream->ports);
- 	kfree(stream->name);
- 	kfree(stream);
- 
+This commit updates slim_disconnect_port() to set port disconnection state
+only after a successful transfer, and modifies slim_stream_unprepare() to
+propagate errors while retaining the port array on failure so it can be
+retried or freed in slim_stream_free().
 
-base-commit: 65ba8f34ec886ec72b2c07ddc8cf3d815c32869d
--- 
-2.43.0
+> diff --git a/drivers/slimbus/stream.c b/drivers/slimbus/stream.c
+> index b4e70a7edd1cc..ab26b243802df 100644
+> --- a/drivers/slimbus/stream.c
+> +++ b/drivers/slimbus/stream.c
 
+[ ... ]
+
+> @@ -448,13 +453,22 @@ EXPORT_SYMBOL_GPL(slim_stream_disable);
+>   */
+>  int slim_stream_unprepare(struct slim_stream_runtime *stream)
+>  {
+> -	int i;
+> +	int ret =3D 0, err, i;
+> =20
+>  	if (!stream->ports || !stream->num_ports)
+>  		return -EINVAL;
+> =20
+> -	for (i =3D 0; i < stream->num_ports; i++)
+> -		slim_disconnect_port(stream, &stream->ports[i]);
+> +	for (i =3D 0; i < stream->num_ports; i++) {
+> +		if (stream->ports[i].state =3D=3D SLIM_PORT_DISCONNECTED)
+> +			continue;
+> +
+> +		err =3D slim_disconnect_port(stream, &stream->ports[i]);
+> +		if (err && !ret)
+> +			ret =3D err;
+> +	}
+> +
+> +	if (ret)
+> +		return ret;
+
+[Severity: Medium]
+Can returning early here while retaining stream->ports prevent the stream
+from recovering on subsequent trigger cycles and leak stream->ports?
+
+When a SLIM_MSG_MC_DISCONNECT_PORT transaction fails in slim_do_transfer()
+(for example with -ETIMEDOUT), slim_stream_unprepare() returns early with
+stream->ports still allocated, while any ports processed before the failure
+have already been disconnected in hardware and marked SLIM_PORT_DISCONNECTE=
+D.
+
+The callers of this API in sound/soc/codecs/wcd9335.c (wcd9335_trigger())
+and sound/soc/codecs/wcd934x.c (wcd934x_trigger()) do not retry
+slim_stream_unprepare() on failure, and slim_stream_free() has no callers
+in the tree:
+
+sound/soc/codecs/wcd9335.c:wcd9335_trigger()
+	case SNDRV_PCM_TRIGGER_START:
+	case SNDRV_PCM_TRIGGER_RESUME:
+	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+		...
+		slim_stream_prepare(dai_data->sruntime, cfg);
+		slim_stream_enable(dai_data->sruntime);
+		break;
+	case SNDRV_PCM_TRIGGER_STOP:
+	case SNDRV_PCM_TRIGGER_SUSPEND:
+	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+		slim_stream_disable(dai_data->sruntime);
+		slim_stream_unprepare(dai_data->sruntime);
+		break;
+
+When the stream is subsequently restarted or resumed, slim_stream_prepare()
+sees the retained rt->ports pointer and rejects the call with -EINVAL:
+
+drivers/slimbus/stream.c:slim_stream_prepare()
+	if (rt->ports) {
+		dev_err(&rt->dev->dev, "Stream already Prepared\n");
+		return -EINVAL;
+	}
+
+As a result, slim_connect_port_channel() is skipped and the ports that were
+disconnected during the partial unprepare are never reconnected. Immediately
+after that, slim_stream_enable() runs and overwrites port->state on those
+disconnected ports:
+
+drivers/slimbus/stream.c:slim_stream_enable()
+	for (i =3D 0; i < stream->num_ports; i++) {
+		struct slim_port *port =3D &stream->ports[i];
+
+		slim_activate_channel(stream, port);
+		port->state =3D SLIM_PORT_CONFIGURED;
+	}
+
+Furthermore, when wcd9335_slim_set_hw_params() or
+wcd934x_slim_set_hw_params() is later called, dai_data->sruntime is
+overwritten by a new slim_stream_allocate() call without calling
+slim_stream_free(), leaking the retained stream->ports array.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028145508.1111=
+792-2-thnkslprpt@gmail.com?part=3D1
