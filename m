@@ -1,56 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793184265;
-	b=je7WFg4QaO++x0fYIfbepOXFatiHJcuBcaI3DDqvl2fXE99gX+xydnd9OCSM4Xgk2lD6
-	 m8QrY4g8toqcmYn/hC2EA8WK0KL7BxsozpAEBve5lpxlANwKiYOA0hsYfGpIYGt/mSzXE
-	 5ENV/cuHy6hR/RPiAmmoX2GRGMg7F0nZ+Sd9aTDEQoX8LK7fA62gAVE32Q2f0Qf9a2KIN
-	 TNtupMxIA0JxoPv+6JXgL+JbhxgunWDzAoKQr8STKIUFbVV9XkKM5didERixI5zydVOX6
-	 iGJSPVbhPZ2m3BQjqcyohMth9bmLlrc4o/FCZsNIuem4rzG558xJZvIU+0g4Yq/+omg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793184265;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=pUd4tUObuBqapRDQCPlcng7hCi7T166IM1bWGq0N2/g=;
-	b=vecwDb6XphJJtA5vwxKqsc2wQRUcdRrTUCqulkzIz0HvxynJcaZYEBq+uiY0zmEvLfmk
-	 eOGGe+5nstPXV4Wbz89bBWOA7pHTdgJb0f0rdQPe2lqf2ChRpoqSGx2AIJ0BNsHNsYj+2
-	 +9xcY2jm4chNWckqLpSMvfiduLk7j7xg78RqzyWdnOoz1Z97MFLuoLFue36uh0bw1K1qv
-	 a44HPJEEXAdzW2hb6yZUh1zV1m01aLFyTaO8bQIm+brmTRhki7IYIzWSiGqCsaDd1P1Ws
-	 jvvq+ZH5tiwC5AmqQvuKwELuil7J3s4chPq3PZZMpRHnY78bvmMBwnANbqIC3FNB5DA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="V/0oNVuu";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.170
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793184267;
+	b=GCw6aTQXaIwnF8uucYh8GmuPw0r7e2jUEf5MMgKnD08uPvhnVYiaNZZB6pJ/oe11lb+m
+	 dw0FUEmrvtoZ/1AMk+Fw4dCr1F2/XsjPbAfCtMGGZ5Vbp9fXBdXMi2dEBvJTaKCNxxNgN
+	 ofw5DcTWtctoaVWedtSizFAr3tw7j+WxeigI3EysxrEMb7hd9EDOnAiyALhqJBdiNKz0Y
+	 vDGwowexB4nC69EOKObuWELvkRA0W3bD22pOdBI1UQA46LbLQg4O1KR0jGAQGX7Bk3E+Z
+	 2aheTDQASFc3X94h5vf9LCf7aTXHG7BMa1ZKAdasqqHLeSXdtlWyP2Lk2thCtFehYJQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793184267;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=l6LDirZd+A77bKsj1zHIaaLsIvX+GdJ08ZjKCtIylZI=;
+	b=hc0qw85nWhK58QJqilBVa30Frz/b5kG/j7GdEa8OBNAJJRaaLZsPnzw+OSESHl2VcIcx
+	 4Bz8FPFxEo+c3Q2imA6zeeqJeeWYn+3NY0VDmv8S/EmIcARIWIurieAeMK739/me0QmXj
+	 JhpNBawM+WQ+BEaIfd17RcmPz54/9h5fSheA/fUQZbna3hLiH0vSHoSqn92uFRtnDfJdQ
+	 GpjMi+zSIlCTeeQyZqc59ZQ676tjeNKZzZmXYUaev2CQVI4U25Mgg+5WVw33fSnbg16ED
+	 +TXCPpAFtqXa6NZWETtzA8eFmkW+GWjpCSgE56bQyvmUViDoaRfBj2sOidMVEqxAzlQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=A8CylCRB;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.170
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02463606A31A
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 10:44:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663D3606A31A
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 10:44:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 663D3606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V/0oNVuu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7969E1F01825;
-	Wed, 28 Oct 2026 10:44:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793184264;
-	bh=pUd4tUObuBqapRDQCPlcng7hCi7T166IM1bWGq0N2/g=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=V/0oNVuuS1DKfHnOU5cRQsoL50aqsB498WD0yIg7ozFQo1mJ57iXvpXdn1805QNnA
-	 w0igiXmO+PT3gPmwgoIXOYdvFzUvwjBolpM3E6pJoB/MoNHmg6tXPNoniX6OxZVU40
-	 fBsGsQPwzDFQXUh66k/IyQ9A7URdbZRpff/xDbpXIE9XvrHHfRzWfb8Y4IaOOQ+AAt
-	 o7XDajvFmOTBbCNLpcuwEpk2ViVgJ5ftgjBxfQSzIN7xHs/mgwR39Cb7JhpSdMPEMm
-	 di49EMNKPcLXo3c3RitpgSIDlwb/p+13VETUqTLNJbhAqo2S0Af1TQfhnT9Z4LRZqL
-	 F62fEMYbEMKUg==
-Message-ID: <sashiko-outbox-187764@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ALSA: usx2y: Initialize idle URBs before submitting
- streams
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "YuanZhe Liu" <25031212351@stu.xidian.edu.cn>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261028103158.22996-1-25031212351@stu.xidian.edu.cn>
-References: <20261028103158.22996-1-25031212351@stu.xidian.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 28 Oct 2026 10:44:24 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=A8CylCRB
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2e5fb79ce82so5100125ad.0
+        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 03:44:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793184267; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Du58IkWIAq00XLyGi5Pbs2hK9pGG7NnEIrbeOr609ncpujUwYegf/Ku7I3wdFeAink
+         TcRHX7nha1ULcYZYt820tU95VSEIKXm8TJzUpQyOT1gHNZYk5fenJPEsEAy6+UhfcdB6
+         QCpTDQKZJ22dg5PMqRYaXNNRD1aWNewdGk2qeyG6s1/g4aSXxQJKelUqBbvRLEQ4Xcvq
+         TASjXDpHOFNO6j64jCHLo/LCZWIB2FIYFGR5KPhAON7QzmpWzBnIOyMxgp8K0Fmjl39r
+         KxXUicw8gidyiFJXcg4U3hIP1fLF9y5B2MTvMmLe+TjBr0Qfmfl/rsfR6+gDFoLnvkNi
+         kw8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=l6LDirZd+A77bKsj1zHIaaLsIvX+GdJ08ZjKCtIylZI=;
+        fh=2V57y0hA/plhMQ8eKnN5d1YVb2EcD/y0QBHtWYPy9bM=;
+        b=oa7MgaD1aym1nhalLMI27sQ3K3ErhSqWMLsveKtjUkgyiPRCOFov18RX79H0aTI+/K
+         u0yCwOel3xmQdbFTm+epV3G1IKqjvx5XfdIB36RGFxPGIdomoiIy2P15K/PnGW0k3GPI
+         xzM+7pcv7BgP8bh0zTYyTPckPFwCKxDM82qbJ36E1N4jnrvmKqHNc2nNQEd88MV5HuHR
+         lESxaeds4atCGcjNTiGuHFofZYZg+Ntn7vDY1SwEphCkIePFaIjZwqhPNAuHZAj4kkW9
+         sczFjeE+PxN7TF30EPBMBlZetshZWDSsWdUXiDAhaqQtqdMOxyL+bG3GThYqhaAjB+Hn
+         gfYw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793184267; x=1793789067; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=l6LDirZd+A77bKsj1zHIaaLsIvX+GdJ08ZjKCtIylZI=;
+        b=A8CylCRBWERk0XBVId5jt/uthzbZWRrSVvi2OVVVqVKWi5Uuj1XCy9EvM4bZAVSLt/
+         VK7Jlp9XVCt7AcYKAYRxs17Gi4jHsWMhkoMORklHjaT2/UAdor5OBMHwy9wNFBnMzWpb
+         +6JaRH9e4tnZuKWRmAf5gv1HwzY+5f/y5RKMrVJa5H7ZFsv+ZRgFA2pfAqBCtE1ixrtn
+         bUBjzq7pQZq+439VWPc17uH9cnnxVD0CfnzPhVvmfSn/iGwKkJATAJ6YCLlIVIrXNPUP
+         84jUzkSNpU1tMIxn3v1Y45Mc2KWvakcxuA9kvHkDOWB//LlwIDy6N0ZxjVZbDD3WVoD4
+         od7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793184267; x=1793789067;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=l6LDirZd+A77bKsj1zHIaaLsIvX+GdJ08ZjKCtIylZI=;
+        b=mfVmNQ8WSroLJyB/f+Run38jpvK3Hj8pIupKWh8cCbdR0jCY3bBO4W0leuTT/qHjaI
+         lMpppN9XvL0QMYLvRekakug++8Qpb2D2EAqmMtzOnmeOoDQT1NZHt18gjbiMFFjhSEn+
+         sHZGGhUv52TrCxUTZQYE8CmhXuH29aD2LYGR0YVBnu6X99h+HXyRaNbB2aowkOJig6Fi
+         UL6N8FjKftN31dfPCuCJFV22eECP6Tb11sI3E58oa5Re7etYQZUxh0HlBQv8An0wgTUe
+         FuqiCAHcKYFtjDRHFuhpWb0eJ0TcM1Ie+g1HN9rzjZeCHND64XOWdU1EQSutmHqirnsf
+         JwDA==
+X-Forwarded-Encrypted: i=1; AKwUvBx2vrV2X3AMTDeDIsDwc11MPGKji8Qa4MOvL4HWuEKq7aVtNoDmx395Vkx3XmLex1Zb/llCQPuLXDcaGw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJeoP9XU6rboY84NdrIo6XpklMu5zHwN6PGNBSfblJ5nSFYhYGX
+	TmqGnYPKFBhiFKijZfvvWJ27bc3KgisUR+utUoID9pRMaxbBJfu8H20PAgrKUHvtlX2gy12wf9B
+	iwvBil95Y4rcoHURybSiRm42SX+GCC1E=
+X-Gm-Gg: AYBFou2yTCwV/Pus7a0wqrK/RZdaLChMBXfC2MOQ90V9Y1EjTwxEawcJ9Xr+zjpwdY3
+	KSlOwe3OCgNQY2kE+g/Vwe94nCBotAzyZs7FH7bvFXjlYS4ikXh1Xor32M/Sfzqifng/Bo4ncjl
+	FOnuqDffJBgBqu9mq0OmN8cin/e0eThoXvHGXvCzREKb+/CT2aMqQDAlRsxm3f+G9RPTLPw0/Zt
+	9IwuRGu13leEGqInwpwJFKHVlFpVyNTH1AbwrDPqtFDE/OVm22ze6K3J+3Zg+jLDw4BoDgWN4hA
+	crjZkhRcU211rHW3o/+awN9yU6ecmYpCbg9CJxg74OU0GlXxgsFK3YJLCRXK4c4DPDKgAjxoGpK
+	K2x32Am8uFCB0MkySN7trb+tIMfxEZ8WrM9yLybVcqKb5G+OxFtnjBgvWibVvESRoAJl65463A5
+	fEluVUt36CisnSAfFaRvQgdvr1/whLIzyX5xzbT5YShZxDsJyW
+X-Received: by 2002:a17:903:1b05:b0:2e8:3e5d:b2b7 with SMTP id
+ d9443c01a7336-2eb003e9deemr18278615ad.40.1793184266731; Wed, 28 Oct 2026
+ 03:44:26 -0700 (PDT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,103 +103,30 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+References: <20261023102818.523331-1-phucduc.bui@gmail.com> <57b8aa49-2b7b-4b2c-833d-893eff95134a@amd.com>
+In-Reply-To: <57b8aa49-2b7b-4b2c-833d-893eff95134a@amd.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Wed, 28 Oct 2026 17:44:14 +0700
+X-Gm-Features: AclHuK_exAGUSFD09jwFsm5vTmTuUEGazo2C26fC_zaBNTIkZVwUtRamyW3Gft0
+Message-ID: <CAABR9nHDSHmDwGSS8gdBp5mAwuVJnCLjK=_+9VrHjH4zqj7p8A@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: xilinx: formatter_pcm: Fix read-modify-write of
+ AUD_CTRL in hw_params
+To: "Gaddipati, Naveen Kumar" <naveenga@amd.com>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>, Mark Brown <broonie@kernel.org>, 
+	Michal Simek <michal.simek@amd.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] ALSA: usx2y: race in usb_stream_start() when URB 0 completes bef=
-ore URB 1
---
+Hi Naveen,
 
-commit 136073d2c8fceba09fe79c9e8359e6b5813457a2
-Author: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+>
+> Reviewed-by: Gaddipati, Naveen <naveen.gaddipati@amd.com>
+>
 
-ALSA: usx2y: Initialize idle URBs before submitting streams
+Thanks for reviewing!
 
-This commit moves the initialization of sk->idle_inurb, sk->idle_outurb,
-sk->completed_inurb, and sk->completed_outurb before the URB submission loop
-in usb_stream_start() so that early URB completion callbacks do not
-dereference NULL pointers.
-
-> diff --git a/sound/usb/usx2y/usb_stream.c b/sound/usb/usx2y/usb_stream.c
-> index 3122cf653273d..7d621280fba33 100644
-> --- a/sound/usb/usx2y/usb_stream.c
-> +++ b/sound/usb/usx2y/usb_stream.c
-> @@ -682,6 +682,10 @@ int usb_stream_start(struct usb_stream_kernel *sk)
->  	s->sync_packet =3D -1;
->  	s->inpacket_head =3D -1;
->  	sk->iso_frame_balance =3D 0;
-> +	sk->idle_inurb =3D sk->inurb[USB_STREAM_NURBS - 2];
-> +	sk->idle_outurb =3D sk->outurb[USB_STREAM_NURBS - 2];
-> +	sk->completed_inurb =3D sk->inurb[USB_STREAM_NURBS - 1];
-> +	sk->completed_outurb =3D sk->outurb[USB_STREAM_NURBS - 1];
->  	++try;
->  	for (u =3D 0; u < 2; u++) {
->  		struct urb *inurb =3D sk->inurb[u];
-
-[Severity: Medium]
-If both sk->inurb[0] and sk->outurb[0] complete in softirq context after
-iteration u =3D 0 submits them, but before iteration u =3D 1 finishes in pr=
-ocess
-context, can stream_start() race with usb_stream_start() and submit URB 2
-ahead of URB 1?
-
-In sound/usb/usx2y/usb_stream.c, iteration u =3D 0 prepares sk->outurb[0] a=
-nd
-sk->inurb[0] with equal number_of_packets and submits both via
-usb_submit_urb(). When both complete in softirq context via
-i_capture_start() and i_playback_start(), balance_capture() and
-balance_playback() bring sk->iso_frame_balance back to 0 and call
-stream_start():
-
-sound/usb/usx2y/usb_stream.c:stream_start() {
-	...
-	} else
-		playback_prep_freqn(sk, sk->idle_outurb);
-
-	if (submit_urbs(sk, inurb, outurb) < 0)
-		return;
-	...
-}
-
-While s->state is below usb_stream_sync1, stream_start() calls
-playback_prep_freqn(sk, sk->idle_outurb) on sk->outurb[2] in softirq context
-at the same time usb_stream_start() is running playback_prep_freqn(sk,
-sk->outurb[1]) for u =3D 1 in process context:
-
-sound/usb/usx2y/usb_stream.c:playback_prep_freqn() {
-	struct usb_stream *s =3D sk->s;
-	int pack, lb =3D 0;
-
-	for (pack =3D 0; pack < sk->n_o_ps; pack++) {
-		int l =3D usb_stream_next_packet_size(sk);
-
-		if (s->idle_outsize + lb + l > s->period_size)
-			goto check;
-
-		sk->out_phase =3D sk->out_phase_peeked;
-		urb->iso_frame_desc[pack].offset =3D lb;
-		urb->iso_frame_desc[pack].length =3D l;
-		lb +=3D l;
-	}
-
-check:
-	urb->number_of_packets =3D pack;
-	urb->transfer_buffer_length =3D lb;
-	s->idle_outsize +=3D lb - s->period_size;
-}
-
-Because there is no synchronization between process context and the softirq
-completion handler, both calls concurrently read and update sk->out_phase,
-sk->out_phase_peeked, and s->idle_outsize. Immediately afterwards,
-stream_start() calls submit_urbs(), which submits sk->inurb[2] and
-sk->outurb[2] and rotates the idle/completed URB pointers before iteration
-u =3D 1 has submitted sk->inurb[1] and sk->outurb[1].
-
-Should both sk->outurb[0] and sk->outurb[1] be prepared before submitting t=
-he
-initial URBs, or should softirqs be disabled around the initial preparation
-and submission loop in usb_stream_start()?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028103158.2299=
-6-1-25031212351@stu.xidian.edu.cn?part=3D1
+Best regards,
+Phuc
