@@ -1,53 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793161534;
-	b=AFsQBailSMnkrzk0hQgveSuV7/8PUBGqNy3jht9n3PNipH+9cRl8B5z0wFt+MxYbX2LQ
-	 MIbhUutJbKgnaNt5vw4hk0blyXuRVdG1fRVcprVPzbglEWgivQXvPpBoLw16F+01AJDQz
-	 exEY70b7CT8fkx0ErZ7OKzqztks57hgUleU6rZM98Rkce5PhuUs4lEqYn2X+w4PUGoGrh
-	 RjJHeHs7ltj9RbWTDFlyOUMir0t9F3wTWE5SLOVDir/Ar0RMlQjAX7Yim97ydXk104sRb
-	 nLe9rMWRuudaFCj4OEyedDVPgmpflYxKaXImhP85YTCTtLBTQy/WyaLLs31eCEAgUDQ==
+	t=1793164075;
+	b=K/hHFVZrGRVTNKEvQbkXW+2P8inGJdYCTtWDkHNplLlnWHAVS1IC6V8WTG9ewCcqa/yi
+	 1qJM2zpK88qIPF9b/ROANxmsMAh4WxgJPycCN6p93XHOVBg5fTbykXX9n0AthF1/8fE4i
+	 lwk7xUAh1LSISK4XTHo0m9POOydnymetG3pH+OrQFVB3oGA34qWCllgdiVuDC17QfNJUH
+	 tLeShtNtPjpPDsIVk//j1s6X4lQX4+r+wwgUsjLAGTJttMB2P8CcPz0R/n3x30qO7Q7aM
+	 fNoj9l+/DdaAbBS412k7t08zRqjm3ANOdmsBYxK58zk+EWnq9IMLg9V0auYyKEpnYtg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793161534;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793164075;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
 	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=EHNhuc96HLFzFHehXSSUJIzpWm6INtH/7YymMk0hd+I=;
-	b=y3we6craIUHuGIxTNaiU2uDdc3zl+eYASfNKTPJ8KlQGLp5mZWEPYgZenEzk5TBbpDyV
-	 p+fJtkRodcuDvhULIIYoegQxGCXamRbHhvsqtTJ3EoYmNLIvIpqG2LR/myIsiQYw4nMj+
-	 aKtaP67S7JteD8s6t/H1rltnZglHl/aa5fYOLdAnVydIda/ovtX8g2KGUiszM0VAiOdeo
-	 fKXj4koQzp34xV7GSWWx9GS/Cg2cRz2SNvPqmVz35uAKZa8s7Sa61Wc+byCWM+8NxQ2F4
-	 WL5MF/rhFyycNlsma2C+jtFW6uByhnFtjkWCKBBL4LrnVXWd3VKuIWFZYXxFNnG7zrg==
+	bh=bUXd6wCGkdy3sUL1jP3fBL2bNrVaPeuZ1kav6MQ03xQ=;
+	b=G8O/asYTlvffd89jN9khDY4VMeh16mOcL7Ncbg2H/ek1WK22rI7+lpNL92k/PDJE+9/w
+	 /oM71PGFI4T/nLCTVJU+PXYYGAFNjtWdZDinjko4+LyY57kCsA6J1MCaX8lEWHZcItvl+
+	 MRhvZuJfPNb/5AiBegJpAlwwRnPZq7/qVeeWUYXVfru7AST1mC0/wwsCbvFgQPSlKJpa+
+	 iPpAI60SQC1vu/5rf2a5b0MYcPGU4WUmdKluRrEt0QG4xEPmv4FiZdczUWj3UfyXG7AMp
+	 SOc+29FRc9jfJrkQRHWKh5Uj0H8GQ8roN3sDAy+HJHWDGJGqyiX479l1xXpYiHy6lPg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=stu.xidian.edu.cn;
-	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A05A8606A31A;
-	Wed, 28 Oct 2026 04:25:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A05A8606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=EHNhuc96HL
-	FzFHehXSSUJIzpWm6INtH/7YymMk0hd+I=; b=bjZSIIDoafc8oRpjJmIw3uwyPy
-	YRI11LDTbP1YZJqFFc2YVdNvuX7eV1W4MhH4CM8rntWqdtQJUisu2WwilJIJ/W3L
-	d1gGJq7o4XABcsU4ZvmfE2ZstVprW61MRhrqQ/2dmsKjRNJADTE/GDrtaRxPJHlM
-	NBwAI+BhSZGgchn1A=
-Received: from user-virtual-machine.localdomain (unknown [113.200.174.115])
-	by hzbj-edu-front-4.icoremail.net (Coremail) with UTF8SMTPA id BrQMCkD2GgE1eeFqquXyAA--.58159S2;
-	Wed, 28 Oct 2026 12:25:26 +0800 (CST)
-From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Bin Yu <byu@xidian.edu.cn>,
-	Cheng Wen <wencheng@xidian.edu.cn>
-Subject: [PATCH] ALSA: us122l: Add missing NULL check in usb_stream_hwdep_mmap()
-Date: Wed, 28 Oct 2026 12:25:25 +0800
-Message-Id: <20261028042525.8737-1-25031212351@stu.xidian.edu.cn>
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=nOzYcQ4q;
+	arc=none smtp.remote-ip=220.197.31.4
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09993606A32A;
+	Wed, 28 Oct 2026 05:07:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 09993606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=nOzYcQ4q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=bU
+	Xd6wCGkdy3sUL1jP3fBL2bNrVaPeuZ1kav6MQ03xQ=; b=nOzYcQ4qMVtVeZi2Pt
+	cReMe+ncj9l3Cnb8pfwXcxRBscn3+ASfglv3RjT9Y4wDGCp80brrZn44/1DTuEdn
+	VPxlee0+VnZ0DFi1S3L3RLUaX8mVRav2mfcgDWGdsP8OozxxHdVtMh2PfuP4UZKN
+	Sc05LEkm2MJ9x/MoM5J9xCdq8=
+Received: from pc.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wDnt9XTguFq0hNpDQ--.19760S2;
+	Wed, 28 Oct 2026 13:06:28 +0800 (CST)
+From: Jiale Yao <yaojiale02@163.com>
+To: Ban Tao <fengzheng923@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Joao Schim <joao@schimsalabim.eu>,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org
+Subject: [PATCH] ASoC: sunxi: sun50i-dmic: resume device for control access
+Date: Wed, 28 Oct 2026 13:06:26 +0800
+Message-Id: <20261028050626.133421-1-yaojiale02@163.com>
 X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,66 +71,101 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BrQMCkD2GgE1eeFqquXyAA--.58159S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZrWkKw17Cw15Ary3tF13urg_yoW8CFWkpr
-	s3urWfKFW3Jr4v9r13Wa13tw40yw4qyFy5Cryqvw15Zry5ZF4fJ34rCryYgryfWrW8CrW5
-	Krn8XasI9w1UA3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9qb7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
-	C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq
-	07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r
-	18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vI
-	r41lc7CjxVAaw2AFwI0_JF0_Jw1lc2xSY4AK67AK6r45MxAIw28IcxkI7VAKI48JMxC20s
-	026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
-	JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
-	v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xva
-	j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJV
-	W8JbIYCTnIWIevJa73UjIFyTuYvjxUxl1vUUUUU
-X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAQUAD2rgvlNkOwAAsz
+X-CM-TRANSID:_____wDnt9XTguFq0hNpDQ--.19760S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZF43ur13Kr1DWF4DGF18AFb_yoWrGF45pF
+	1fJF43tFs5Jw4F93ZFyr48Xr13CrZ3KF4kA3yIy3y7Cr1xGw1IgF9Fv34rCFZ0krZ0kFsr
+	Ar1jv34Sg3Zaka7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j8AwsUUUUU=
+X-CM-SenderInfo: x1dryxhdohiji6rwjhhfrp/xtbC7xToI2rhgtTr5QAA3j
 
-usb_stream_hwdep_mmap() reads us122l->sk.s and dereferences it without
-checking for NULL.  The stream object is released by usb_stream_free(),
-which is reached through us122l_stop() both when the device is
-disconnected and when us122l_start() fails, and it leaves us122l->sk.s
-set to NULL.  The hwdep file stays usable after that, so a later mmap()
+The capture volume controls use regmap directly while runtime PM may
+have suspended the DMIC and disabled its clocks. Since the regmap has no
+cache, reading or writing a control while suspended accesses unpowered
+hardware.
 
-	KASAN: null-ptr-deref in range [0x0000000000000010-0x0000000000000017]
-	RIP: 0010:usb_stream_hwdep_mmap+0x107/0x890 sound/usb/usx2y/us122l.c:182
+Use control callbacks which resume the device around the regmap access
+and release the runtime PM reference afterwards.
 
-crashes while reading s->read_size, which sits at offset 0x10.
-
-That NULL is an expected state for this field: usb_stream_hwdep_vm_fault(),
-usb_stream_hwdep_poll(), usb_stream_hwdep_ioctl(), usb_stream_stop() and
-usb_stream_free() all test it before use.  Only the mmap callback misses
-the check, so let it return -ENODEV, matching what the other hwdep mapping
-in usx2yhwdeppcm.c does when its shared buffer has not been allocated.
-
-Fixes: 030a07e441296c372f946cd4065b5d831d8dc40c ("ALSA: Add USB US122L driver")
+Fixes: 9a8cadddd930 ("ASoC: sunxi: DMIC: Add controls for adjusting the mic gains")
 Cc: stable@vger.kernel.org
-Co-developed-by: Bin Yu <byu@xidian.edu.cn>
-Signed-off-by: Bin Yu <byu@xidian.edu.cn>
-Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+Signed-off-by: Jiale Yao <yaojiale02@163.com>
 ---
- sound/usb/usx2y/us122l.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/soc/sunxi/sun50i-dmic.c | 59 +++++++++++++++++++++++++++--------
+ 1 file changed, 46 insertions(+), 13 deletions(-)
 
-diff --git a/sound/usb/usx2y/us122l.c b/sound/usb/usx2y/us122l.c
-index a5db0d044ef9..27b6b0bd5768 100644
---- a/sound/usb/usx2y/us122l.c
-+++ b/sound/usb/usx2y/us122l.c
-@@ -179,6 +179,8 @@ static int usb_stream_hwdep_mmap(struct snd_hwdep *hw,
- 	offset = area->vm_pgoff << PAGE_SHIFT;
- 	guard(mutex)(&us122l->mutex);
- 	s = us122l->sk.s;
-+	if (!s)
-+		return -ENODEV;
- 	read = offset < s->read_size;
- 	if (read) {
- 		if (area->vm_flags & VM_WRITE)
+diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
+index 5c784b1f6846..a5f70db856b9 100644
+--- a/sound/soc/sunxi/sun50i-dmic.c
++++ b/sound/soc/sunxi/sun50i-dmic.c
+@@ -286,22 +286,55 @@ MODULE_DEVICE_TABLE(of, sun50i_dmic_of_match);
+ 
+ static const SNDRV_CTL_TLVD_DECLARE_DB_SCALE(sun50i_dmic_vol_scale, -12000, 75, 1);
+ 
+-static const struct snd_kcontrol_new sun50i_dmic_controls[] = {
++static int sun50i_dmic_get_volsw(struct snd_kcontrol *kcontrol,
++				 struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	int ret;
+ 
+-        SOC_DOUBLE_TLV("DMIC Channel 0 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
+-                       SUN50I_DMIC_D0D1_VOL_CTR_0L, SUN50I_DMIC_D0D1_VOL_CTR_0R,
+-                       0xFF, 0, sun50i_dmic_vol_scale),
+-        SOC_DOUBLE_TLV("DMIC Channel 1 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
+-                       SUN50I_DMIC_D0D1_VOL_CTR_1L, SUN50I_DMIC_D0D1_VOL_CTR_1R,
+-                       0xFF, 0, sun50i_dmic_vol_scale),
+-        SOC_DOUBLE_TLV("DMIC Channel 2 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
+-                       SUN50I_DMIC_D2D3_VOL_CTR_2L, SUN50I_DMIC_D2D3_VOL_CTR_2R,
+-                       0xFF, 0, sun50i_dmic_vol_scale),
+-        SOC_DOUBLE_TLV("DMIC Channel 3 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
+-                       SUN50I_DMIC_D2D3_VOL_CTR_3L, SUN50I_DMIC_D2D3_VOL_CTR_3R,
+-                       0xFF, 0, sun50i_dmic_vol_scale),
++	ret = pm_runtime_resume_and_get(component->dev);
++	if (ret < 0)
++		return ret;
+ 
++	ret = snd_soc_get_volsw(kcontrol, ucontrol);
++	pm_runtime_put(component->dev);
+ 
++	return ret;
++}
++
++static int sun50i_dmic_put_volsw(struct snd_kcontrol *kcontrol,
++				 struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	int ret;
++
++	ret = pm_runtime_resume_and_get(component->dev);
++	if (ret < 0)
++		return ret;
++
++	ret = snd_soc_put_volsw(kcontrol, ucontrol);
++	pm_runtime_put(component->dev);
++
++	return ret;
++}
++
++static const struct snd_kcontrol_new sun50i_dmic_controls[] = {
++	SOC_DOUBLE_EXT_TLV("DMIC Channel 0 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
++			   SUN50I_DMIC_D0D1_VOL_CTR_0L, SUN50I_DMIC_D0D1_VOL_CTR_0R,
++			   0xFF, 0, sun50i_dmic_get_volsw, sun50i_dmic_put_volsw,
++			   sun50i_dmic_vol_scale),
++	SOC_DOUBLE_EXT_TLV("DMIC Channel 1 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
++			   SUN50I_DMIC_D0D1_VOL_CTR_1L, SUN50I_DMIC_D0D1_VOL_CTR_1R,
++			   0xFF, 0, sun50i_dmic_get_volsw, sun50i_dmic_put_volsw,
++			   sun50i_dmic_vol_scale),
++	SOC_DOUBLE_EXT_TLV("DMIC Channel 2 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
++			   SUN50I_DMIC_D2D3_VOL_CTR_2L, SUN50I_DMIC_D2D3_VOL_CTR_2R,
++			   0xFF, 0, sun50i_dmic_get_volsw, sun50i_dmic_put_volsw,
++			   sun50i_dmic_vol_scale),
++	SOC_DOUBLE_EXT_TLV("DMIC Channel 3 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
++			   SUN50I_DMIC_D2D3_VOL_CTR_3L, SUN50I_DMIC_D2D3_VOL_CTR_3R,
++			   0xFF, 0, sun50i_dmic_get_volsw, sun50i_dmic_put_volsw,
++			   sun50i_dmic_vol_scale),
+ };
+ 
+ static const struct snd_soc_component_driver sun50i_dmic_component = {
 -- 
 2.34.1
 
