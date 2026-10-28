@@ -1,91 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793153189;
-	b=ukPt3wvsptEknp0CXeJ1n3Zq/RBa1Yq2dqkKHyOkhgb5FiO64xSZTXTtV/3LykTlNOJA
-	 VyqwwMj9MbOMzJJru4dG2GPzAR5L8pvtcWp8QFdrRTcFutb5QNWFlbICfFi0J8VWE7iRN
-	 j6guaTSG9eaoIqYVlEgyPOH3jQgHnGex/dyKARdjyJGrXmrWSC0+SYD5PV1zoBqefouaD
-	 hbGYfhlQV6Jmng8bTId+iLvkXoI+LqWuftnPPtW9sxT3ctA6O9ndRDgp5Gs9e0KVKjCgV
-	 TmBGv6qGG01/ZiGr5ZlFTJRPDbYc0v/EEbccIys0LfYhSzhV6tY59UcfXy9Qf7h2iFw==
+	t=1793153192;
+	b=M5nNmzcYMh7ulfx1OnfXKKC9rMVY1Ibdt/+CpbbTSR88G12cft6V7NqxqYvcvz4DSwH6
+	 eOholiFBCXX5HxkR1v31p77i39e8YIyLQZWfVueD4u+WnkhqKl/wE7tPt6OdSS5pYvnT/
+	 GFT5K9mroRXUwylwU38zquDhwjDPIOjwDrwC+3Qo8TrE4uQRy28OZ8LuH3lT8EAembbw9
+	 /b8kgoawlUQ//C8q8SGiGG4wuXDIBs7brfaO1DrtgRitUpMRCj1eE4AyLXXi440Oe2e6Y
+	 bXhURUOv2kUSHto7BdYIGGTtcLHGI8LTeRxLCstxdfE56CmDrZPbWqWo/K5I0mBAjRg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793153189;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793153192;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=Y3QUlAXMrpLyU+X/bo6T8uFjQZ64sjzHwbuQZSxHHds=;
-	b=f4HUDV6uNhsxzD7xOnZnhfuqs8pajSQVmSEyJs8p7LJZ+5bb1plORiXx+V4u24LQg1HY
-	 bw7qU9yyrvkjV9bWabDlQYP46lSicDYAUA7jJSvKVcEIkSsPnnwVwfCL5ZMOSc/qKobZM
-	 FpHYBFc5UU2u19Nz5tdNE4bf0D9fEf6bkXJVgyDdv7bG6j753maVj0nnYm9X2eEGqrK31
-	 Z9dXuFjI4S42YGU5IaxwnMnTQAXFQZD8MvZi7mHcqTKzhIBtDzA6Slqh96sCGZ98iY8kb
-	 IXx7eHqDhxK9gjWN4vi6vSdGWJvMYKv8nYcKS38DDgYuMRz+5gihDIaFxuonV46QxHg==
+	bh=nsGaQIi9dxeQZkRVX41AhkGLuwe1TLVgSWjf4Yus4kA=;
+	b=bGcdmENdFfLIZjiVxhaAT9V37QJvykK9EvrwsgRS1sbSc64flPQxrPFH3a+3Pqlh5oVX
+	 jowbSVQMlIVXBh6Ctfkvotr5tF0vgXm8p3Y6Ga9iH+TEeUdDAPt8Dfkp+Khw6mfiuxMsN
+	 sYfk3Eg9BqOVbZ3wYHh4p0LKiYBRULbOBDyP1x6zEH0sJY0dcDX/UiGdvCSxJkYAv70gW
+	 lXd/oL/YPJs+oj26oQ7ydGPr+0Hs2GeiHCjo9yH82oggREtrFnAy3d8pjb/kmEQaZW6cH
+	 2Wxo9sGRFkncWukQiiSERDjsP8rD+UMSwV8U7b3cA3um/sL/YdT6oHkW2ZdqnqjP57A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nSg9pXQs;
-	arc=none smtp.remote-ip=209.85.210.46
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="zBJY5/Ql";
+	arc=none smtp.remote-ip=209.85.210.43
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5E5606A31E
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 02:06:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D5E5606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB21E606A31D
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 02:06:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB21E606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nSg9pXQs
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-845788309b4so242266a34.1
-        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 19:06:29 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zBJY5/Ql
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-84e513877a3so443594a34.0
+        for <linux-sound@vger.kernel.org>; Tue, 27 Oct 2026 19:06:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793153188; x=1793757988; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793153190; x=1793757990; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Y3QUlAXMrpLyU+X/bo6T8uFjQZ64sjzHwbuQZSxHHds=;
-        b=nSg9pXQspuc25Che1EaHvXvoHMI2IEnbQhjCVNzibQZspVd/POK8rcQVnS1r46C/IR
-         egE3MyWFJDpvWHBfiGpB7mScbK7d0DsTVccIDWJKxe24hVygW9J6nbg9zg21a6uz+vMM
-         FO7kb5Hmt/59evIxuJyepDT/TKuCDwV8LC6Yl5jz0zhXZTr3wCZlkPtFONhnFBCJ41w1
-         Wo6+EWx2Vq7q1NVnruLvaAYBN/kPcKESSSD4C2lJVrp1HCOVrp+tBw9i9kReE+MNylP8
-         883qcJFjwUXCV4IlkFkRGhZoMExTtLRmz1Mp6Yssb5R0xs1tQJFyogfZxIRYUjc+wcMO
-         L6Mw==
+        bh=nsGaQIi9dxeQZkRVX41AhkGLuwe1TLVgSWjf4Yus4kA=;
+        b=zBJY5/QlcEzZMIRgtMRJV41Qyg6UnUhDLPyhYengpjulq9PFJ6vaM9SS7sZVOIFcqB
+         Q9roPZv765EfqJoBQUuUJR6OOaDe58GB5Qeq3qTzNwU8QB65Q2BHEBpgVSHf5oEH6sFc
+         MxYTkOyWUozPz1fSnyhTgSRhnuJ9cQoMvtqoLhbuuXFsN5GBsUTUi4yGc5cns+G7MaVm
+         tjnnK7E/gxawiBhU0TOI9H9JrJmN1FMl1YRyXnWAagcA2bLdym7SEeRFCjkfzc6A1XhQ
+         htTE8Kh7/5+ZopI01wwRsbMgsPtolGVTw00B5M8nCJZ8ON2HyN6Sti3Zw9Z8LgqdvsEh
+         OndA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793153188; x=1793757988;
+        d=1e100.net; s=20260707; t=1793153190; x=1793757990;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Y3QUlAXMrpLyU+X/bo6T8uFjQZ64sjzHwbuQZSxHHds=;
-        b=klp7iPnOORMu/Qmcu6WB9Me+Aho7ncSkyZ8ZPGGg+Qi/UL+mqmwUie2fibfkclbHaP
-         tcfJyv4V003KeGSMOyM83MGZMcXr+jgYYG8eYzWLDFEhUqHAQ4w8f3kH/islUntNhrQO
-         vu4oow94WA9FZ2iibTBN/G51zZj4u5JUT+iWgyKgKHAO8wDbOdhBlLtI/d2ZU8sJL5PZ
-         m/BsI7ygp2Tusz/2vYcUCqQ5d5v7Q7kX4W5HKlL2Esu6Jd1iEeXvB9EmiaXSBu69e94J
-         aUsrWR7PH8JAClcaqqo19dC7LP/2A48wcbR+CVeE1AWOmAb9piCLlpUCOGGOtnC4C5Du
-         myGg==
-X-Gm-Message-State: AFq9FYK8a3c4Zz3mEKMwl/D4We9GE/s1qF7JpYhRHivXDOz5a4Ir0/aY
-	oO1AOzzdzB3vh2sw8yErMziIh9c53aDuIupEf3tkrCH5EHvjPCbTx/RM
-X-Gm-Gg: AYBFou3mKRTEsUaSoGFIHbojF2GWT7W4QCSM06/dC/0+HABY2tx5e86qbyaxI8d22Pe
-	Z3nh3pwz/WNISNxq0whaKGwWqJMwlblNal3mVlBCUjWmHqHFeJv/KRoFBksw1Z2VOZM5Wvy28R9
-	3P3uq7wnpdUQ4OO3wMEEioYLUFJXI8NJz5lI7RxPhTxbVzsWV2mMC61p1WpB2l4uFZ5mFbzZocE
-	a7YFjAqTm3+MWPl/EMPn06e77ncxYOOiGNZmC1Ql0HfND8g1Xn9418f0XvgJWehAMgIBQ0tV7vi
-	UjXITph3Jvd9sEuo955Kg2kT1rg21w6Bf5ChEXtRHcVzXFx6kv5PdVmaY5OvyaxlaoLdZgOxPXo
-	Edg9KvkwVqnRFTRVDxbBAX7EBYizh4YMEVkmIw3KmGiRXJEa5YEMb1RUmtv7RS3XH3M+cNFg1Dl
-	ulmahAu8Q/1mKWPQljvWbX73FhY+dekoTOGRS/IgeH3Lq1U7XXbhAQQ1d/6d4Y6yiGaZ1oTR2tx
-	l6rxoncXKgd7hNLo0CC/MGX7AJmE3g/HgGvMIgxV+0bQybSJSYw+MQ8il6SZjndLdKWOoYh4lZR
-	/aeG0tnhbsRqZBieRBCuLDwB7aLOWmV6j4BuD3i72RBsuhowo0Zs0D5rSa9ajAVoYhnhL1lS51P
-	192c+M+NHZ7Gpy27JpmRhphPrqpamLUttVG232EOVfkA=
-X-Received: by 2002:a05:6830:411a:b0:843:d5ee:5785 with SMTP id 46e09a7af769-85ac0038ca3mr1300771a34.12.1793153188474;
-        Tue, 27 Oct 2026 19:06:28 -0700 (PDT)
+        bh=nsGaQIi9dxeQZkRVX41AhkGLuwe1TLVgSWjf4Yus4kA=;
+        b=NXP3p6WgHOmStu2iMkF/imkOhNyWw2R7vYskphz9K62Bh4YBWHmob1ck1fcmzxwD7n
+         NfsfpwNlA0GDYHKCG2mIwzO/RQdCQtzfTNfnHw8alaFQG1U8hne6bYy1y/fCkUQvx3Wy
+         VlqtGWPgR9QQ6a51S1Af7m7F1fCs87zItnXW9gGRqJbY3ZK+Qzc3ntRSfQ8PrbRcNEmk
+         5/hmtU6N8ZryZq5dmvhxWejjNIiQAxAYZS8IxYw6RHBsxCM7i/1rkT/8icAJmQFOhzYj
+         UaRUwkgljvmRQ+OKjVfdDf+uA62oFv/fWVNJB72+1vQnrcC82Oo66JiHJbB15ntNj6jN
+         VqHQ==
+X-Gm-Message-State: AFq9FYL2g03uwdCw3X9jAchhybx9gggVxZnkUY2GO/lp0eWjF5yBQTG+
+	v3sE2EAeeio7hOXO4fTfHi6OTchmywydPWik1iRBoEZ7XaKGyd+QhXcs
+X-Gm-Gg: AYBFou0mGNS/t49OUDz+5WYkkJLbVtvR75N0xRM/AuxnJQLJo1c1f5JaORUkUPSQ2cb
+	J2mbzNHgnZEuT/99HTiulQgs5keiC8BtUkPiLt4xjJHt6aBQqmXCYMbxlYbcdyyvgTLuuh/8Icp
+	g/11JTeQWCKFL/FRUFwPkeVKH6FrbD3bbAxwWrCcxHIkP6T2AREtYj8mZNFaRizR8SBWm1V7cbx
+	lwf6cywW1HJ+AJ4nVNk9j2vB5eYcvgzj0v7hhAZ7hHfxN5d1tTbIe71DlqnzDHd5QwF8vDXkSf+
+	i+I3XobUJYm0gLdAPkNw1JcuT42NNAPjrncScQ6IXwAXy4YI2YQC5tmjr745YviKzIqW51LRahw
+	6Edl1pxdIhvYcm/BmxvNgTAWo8owio4XCC51nlknOgTdyW0nqZYQ0YqNTaVPTvmY6oHbZWkowQY
+	2yVVN98GCfEG+jpaZK0+Tv7fUild44OCSmVFwiFDMduTaxzSjuS6HK7MfZywKsx5qkoqrFhCizi
+	J90m1ZW7JFNkxe5lHR6loRj3ZN3jbGFfjjjsYVXYz3DnZTOt5JHTLKdhHwgcwnRz/T7cCmdZAsv
+	5f6BAXLWBXidAELv5BIMWFG9hsMzhPpWAwzEsIG4S7SpuUWL0AkDWxCghYmXaxTWEMT/PpOQTs8
+	jjD38ZyvzaNUWDiYcbAtfdzpKh62SN9IgGPN8jCyGdkg=
+X-Received: by 2002:a05:6830:3108:b0:846:6f06:33d9 with SMTP id 46e09a7af769-85943164c66mr3055497a34.31.1793153190613;
+        Tue, 27 Oct 2026 19:06:30 -0700 (PDT)
 Received: from localhost.localdomain (162-233-222-157.lightspeed.livnmi.sbcglobal.net. [162.233.222.157])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85b1d363390sm355217a34.1.2026.10.27.19.06.27
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85b1d363390sm355217a34.1.2026.10.27.19.06.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 19:06:27 -0700 (PDT)
+        Tue, 27 Oct 2026 19:06:30 -0700 (PDT)
 From: Corey Smith <corsmith@gmail.com>
 To: corsmith@gmail.com,
 	Vijendar.Mukunda@amd.com,
 	venkataprasad.potturu@amd.com
 Cc: linux-sound@vger.kernel.org
-Subject: [PATCH 7/11] ASoC: amd: ps: probe the ACP6x SoundWire stack
-Date: Tue, 27 Oct 2026 22:05:48 -0400
-Message-ID: <20261028020552.35278-8-corsmith@gmail.com>
+Subject: [PATCH 8/11] ASoC: amd: acp: add ACP6x SoundWire quirks and machine support
+Date: Tue, 27 Oct 2026 22:05:49 -0400
+Message-ID: <20261028020552.35278-9-corsmith@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261028020552.35278-1-corsmith@gmail.com>
 References: <20261028020552.35278-1-corsmith@gmail.com>
@@ -100,171 +100,80 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Accept the ACP6x PCI revisions in the Pink Sardine PCI driver when the
-FLAG_AMD_LEGACY_SDW quirk selected it and wire up the ACP6x specific
-pieces:
-
- - reuse the ACP6.3 hardware ops (power/reset, DMA IRQ);
- - use the ACP6x register range for the platform resources;
- - select snd_soc_acpi_amd_rmb_sdw_machines as the machine table;
- - probe the SoundWire controller at ACP6X_SDW_ADDR (_ADR 0x02).
-
-Rembrandt firmware does not advertise the integrated PDM (DMIC)
-controller through "acp-audio-device-type", so enable the PDM path
-unconditionally for ACP6x, matching the legacy snd_pci_acp6x driver.
+Teach the generic AMD SoundWire machine driver to handle ACP6x: reuse
+the ACP6.3 CPU pin mapping and the amd_ps_sdw_dma/acp_ps_pdm_dma
+platform components, and add a DMI quirk for the HP Dragonfly Pro ONE
+(board 8A7F) enabling the RT1316 speaker amplifiers and the ACP DMIC.
 
 Assisted-by: LLM
 Signed-off-by: Corey Smith <corsmith@gmail.com>
 ---
- sound/soc/amd/ps/pci-ps.c | 85 ++++++++++++++++++++++++++++++---------
- 1 file changed, 66 insertions(+), 19 deletions(-)
+ sound/soc/amd/acp/acp-sdw-legacy-mach.c | 20 ++++++++++++++++++++
+ sound/soc/amd/acp/soc_amd_sdw_common.h  |  2 ++
+ 2 files changed, 22 insertions(+)
 
-diff --git a/sound/soc/amd/ps/pci-ps.c b/sound/soc/amd/ps/pci-ps.c
-index 729f9aa..a8032b5 100644
---- a/sound/soc/amd/ps/pci-ps.c
-+++ b/sound/soc/amd/ps/pci-ps.c
-@@ -418,27 +418,54 @@ static int get_acp63_device_config(struct pci_dev *pci, struct acp63_dev_data *a
- 
- 	acp_hw_get_config(pci, acp_data);
- 
-+	if (acp_data->acp_rev == ACP6X_PCI_REV || acp_data->acp_rev == ACP6XR_PCI_REV) {
+diff --git a/sound/soc/amd/acp/acp-sdw-legacy-mach.c b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
+index 1a05d42..97bc5cd 100644
+--- a/sound/soc/amd/acp/acp-sdw-legacy-mach.c
++++ b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
+@@ -135,6 +135,20 @@ static const struct dmi_system_id soc_sdw_quirk_table[] = {
+ 		},
+ 		.driver_data = (void *)(ASOC_SDW_ACP_DMIC),
+ 	},
++	{
 +		/*
-+		 * Rembrandt firmware does not describe the integrated PDM
-+		 * (DMIC) controller through "acp-audio-device-type" and uses
-+		 * the legacy "mipi-sdw-master-list" property name.  Boards
-+		 * reaching this driver were routed here because they expose
-+		 * the ACP SoundWire controller, and the PDM controller is
-+		 * always present, so enable both.
++		 * HP Dragonfly Pro ONE (board 8A7F, AMD Rembrandt / ACP6x):
++		 * two RT1316 SDCA speaker amplifiers exposed as an aggregated
++		 * "Speaker" endpoint on SoundWire link 0, together with the ACP
++		 * PDM DMIC.
 +		 */
-+		acp_data->is_pdm_config = true;
-+		acp_data->is_sdw_config = true;
-+	}
-+
- 	if (acp_data->is_pdm_config) {
--		pdm_dev = acpi_find_child_device(ACPI_COMPANION(&pci->dev), ACP63_DMIC_ADDR, 0);
--		if (pdm_dev) {
--			/* is_dmic_dev flag will be set when ACP PDM controller device exists */
--			if (!acpi_dev_get_property(pdm_dev, "acp-audio-device-type",
--						   ACPI_TYPE_INTEGER, &obj) &&
--						   obj->integer.value == ACP_DMIC_DEV)
--				dmic_en = true;
--		}
-+		if (acp_data->acp_rev == ACP6X_PCI_REV ||
-+		    acp_data->acp_rev == ACP6XR_PCI_REV) {
-+			/*
-+			 * ACP6x always integrates the PDM controller and its
-+			 * firmware does not gate it behind _WOV.
-+			 */
-+			dmic_en = true;
-+		} else {
-+			pdm_dev = acpi_find_child_device(ACPI_COMPANION(&pci->dev),
-+							 ACP63_DMIC_ADDR, 0);
-+			if (pdm_dev) {
-+				/* is_dmic_dev flag will be set when ACP PDM controller device exists */
-+				if (!acpi_dev_get_property(pdm_dev, "acp-audio-device-type",
-+							   ACPI_TYPE_INTEGER, &obj) &&
-+							   obj->integer.value == ACP_DMIC_DEV)
-+					dmic_en = true;
-+			}
++		.callback = soc_sdw_quirk_cb,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "8A7F"),
++		},
++		.driver_data = (void *)((ASOC_SDW_CODEC_SPKR) | (ASOC_SDW_ACP_DMIC)),
++	},
+ 	{}
+ };
  
--		handle = ACPI_HANDLE(&pci->dev);
--		ret = acpi_evaluate_integer(handle, "_WOV", NULL, &dmic_status);
--		if (!ACPI_FAILURE(ret))
--			wov_en = dmic_status;
-+			handle = ACPI_HANDLE(&pci->dev);
-+			ret = acpi_evaluate_integer(handle, "_WOV", NULL, &dmic_status);
-+			if (!ACPI_FAILURE(ret))
-+				wov_en = dmic_status;
-+		}
- 	}
- 
- 	if (dmic_en && wov_en)
- 		is_dmic_dev = true;
- 
- 	if (acp_data->is_sdw_config) {
--		ret = acp_scan_sdw_devices(&pci->dev, ACP63_SDW_ADDR);
-+		if (acp_data->acp_rev == ACP6X_PCI_REV ||
-+		    acp_data->acp_rev == ACP6XR_PCI_REV)
-+			ret = acp_scan_sdw_devices(&pci->dev, ACP6X_SDW_ADDR);
-+		else
-+			ret = acp_scan_sdw_devices(&pci->dev, ACP63_SDW_ADDR);
- 		if (!ret && acp_data->info.link_mask)
- 			is_sdw_dev = true;
- 	}
-@@ -487,7 +514,7 @@ static int create_acp63_platform_devs(struct pci_dev *pci, struct acp63_dev_data
+@@ -216,6 +230,8 @@ static int create_sdw_dailink(struct snd_soc_card *card,
  		}
- 		adata->res->flags = IORESOURCE_MEM;
- 		adata->res->start = addr;
--		adata->res->end = addr + (ACP63_REG_END - ACP63_REG_START);
-+		adata->res->end = addr + adata->reg_range;
- 		memset(&pdevinfo, 0, sizeof(pdevinfo));
- 	}
  
-@@ -556,6 +583,8 @@ static int acp_hw_init_ops(struct acp63_dev_data *adata, struct pci_dev *pci)
+ 		switch (amd_ctx->acp_rev) {
++		case ACP6X_PCI_REV:
++		case ACP6XR_PCI_REV:
+ 		case ACP63_PCI_REV:
+ 			ret = get_acp63_cpu_pin_id(ffs(soc_end->link_mask) - 1,
+ 						   *be_id, &cpu_pin_id, dev);
+@@ -329,6 +345,8 @@ static int create_sdw_dailinks(struct snd_soc_card *card,
  		return -ENOMEM;
  
- 	switch (adata->acp_rev) {
+ 	switch (amd_ctx->acp_rev) {
 +	case ACP6X_PCI_REV:
 +	case ACP6XR_PCI_REV:
- 	case ACP63_PCI_REV:
- 		acp63_hw_init_ops(adata->hw_ops);
- 		break;
-@@ -581,20 +610,33 @@ static int snd_acp63_probe(struct pci_dev *pci,
- 
- 	irqflags = IRQF_SHARED;
- 
--	/* Return if acp config flag is defined */
-+	/*
-+	 * Return if an acp config flag is defined, except for
-+	 * FLAG_AMD_LEGACY_SDW which explicitly selects this driver's
-+	 * SoundWire stack over the DMIC-only snd_pci_acp6x driver.
-+	 */
- 	flag = snd_amd_acp_find_config(pci);
--	if (flag)
-+	if (flag && flag != FLAG_AMD_LEGACY_SDW)
- 		return -ENODEV;
- 
--	/* ACP PCI revision id check for ACP6.3, ACP7.0 & ACP7.1 platforms */
-+	/* ACP PCI revision id check for ACP6.x, ACP6.3, ACP7.0 & ACP7.1 platforms */
- 	switch (pci->revision) {
-+	case ACP6X_PCI_REV:
-+	case ACP6XR_PCI_REV:
-+		/*
-+		 * ACP6x (Rembrandt) is handled here only when the DMI quirk
-+		 * routed the platform away from the DMIC-only driver.
-+		 */
-+		if (flag != FLAG_AMD_LEGACY_SDW)
-+			return -ENODEV;
-+		break;
  	case ACP63_PCI_REV:
  	case ACP70_PCI_REV:
  	case ACP71_PCI_REV:
- 	case ACP72_PCI_REV:
- 		break;
- 	default:
--		dev_dbg(&pci->dev, "acp63/acp70/acp71 pci device not found\n");
-+		dev_dbg(&pci->dev, "acp6x/acp63/acp70/acp71 pci device not found\n");
- 		return -ENODEV;
- 	}
- 	if (pci_enable_device(pci)) {
-@@ -622,7 +664,10 @@ static int snd_acp63_probe(struct pci_dev *pci,
- 		goto release_regions;
- 	}
- 	adata->addr = addr;
--	adata->reg_range = ACP63_REG_END - ACP63_REG_START;
-+	if (pci->revision == ACP6X_PCI_REV || pci->revision == ACP6XR_PCI_REV)
-+		adata->reg_range = ACP6X_REG_END - ACP6X_REG_START;
-+	else
-+		adata->reg_range = ACP63_REG_END - ACP63_REG_START;
- 	adata->acp_rev = pci->revision;
- 	adata->subsystem_vendor = pci->subsystem_vendor;
- 	adata->subsystem_device = pci->subsystem_device;
-@@ -657,6 +702,8 @@ static int snd_acp63_probe(struct pci_dev *pci,
- 	}
- 	if (adata->acp_rev >= ACP70_PCI_REV)
- 		adata->machines = snd_soc_acpi_amd_acp70_sdw_machines;
-+	else if (adata->acp_rev == ACP6X_PCI_REV || adata->acp_rev == ACP6XR_PCI_REV)
-+		adata->machines = snd_soc_acpi_amd_rmb_sdw_machines;
- 	else
- 		adata->machines = snd_soc_acpi_amd_acp63_sdw_machines;
+@@ -377,6 +395,8 @@ static int create_dmic_dailinks(struct snd_soc_card *card,
+ 		return -ENOMEM;
  
+ 	switch (amd_ctx->acp_rev) {
++	case ACP6X_PCI_REV:
++	case ACP6XR_PCI_REV:
+ 	case ACP63_PCI_REV:
+ 	case ACP70_PCI_REV:
+ 	case ACP71_PCI_REV:
+diff --git a/sound/soc/amd/acp/soc_amd_sdw_common.h b/sound/soc/amd/acp/soc_amd_sdw_common.h
+index 3930cc4..1f9bddd 100644
+--- a/sound/soc/amd/acp/soc_amd_sdw_common.h
++++ b/sound/soc/amd/acp/soc_amd_sdw_common.h
+@@ -18,6 +18,8 @@
+ #define ACP63_SDW_MAX_LINKS		2
+ 
+ #define AMD_SDW_MAX_GROUPS		9
++#define ACP6X_PCI_REV			0x60
++#define ACP6XR_PCI_REV			0x6f
+ #define ACP63_PCI_REV			0x63
+ #define ACP70_PCI_REV			0x70
+ #define ACP71_PCI_REV			0x71
