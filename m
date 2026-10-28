@@ -1,101 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793184132;
-	b=cY2JZW3zsXRG4LrRTuFiyGBknFkMvotBGD538R9xYYLftdE7PfAdgoVPwyD1qcWROs2X
-	 QW6t5w9t/IvHT2dvkyqf1HulfrUwWINfqnodz+M6W/sH+wbbR5WoPGUD6TJLbaPmAB+ik
-	 Rvn0WE4XrYYnkGxArK7/AuGBNidUDAqhrgLdXl9g0/eHZvjwaqUgAHniKr9TWPAfdF8js
-	 ItaTPWoGH0C3TjCwKaEJpw45taHkpD8KnTG3PxWDJnUc7h+uyizliCcNMeQFlWcLj7AER
-	 Lnzv4z+0vSZnPj02ZeEnovBnK3L36uBYkVTzj4O59wY41bVrxNiVushs+6idC/KDt5w==
+	t=1793184159;
+	b=Izcwlze2W0OpUF+1dtKsgkhCIkdbxaeSimeru6lKQ/8wlU72yeuFYTcNf7mQziBeUxhZ
+	 3TSATGy5SRmOjQl9v5uvr/d1NOEJi8xO6HKi1eHm/FnncTD/E9yu2GC+ZeWgTNN4oRvX+
+	 j7Pfk2qFficzEZytccAAefqzw330wdtrwLAKqfQ5wjR8khIjAnrpJv1AAwvDOn0NOohss
+	 XlMMJ0zScGddZ+41RGabgna6B87cg4F0vF1+1WH/hheJxrRBVOt/2JKWABKndz15Itetr
+	 2E6S/bGdvRLi00heZJoV/em+iCNI2DvoPeeoT+Iu9IQtTzNi457VNjkSliUWLj6Ai9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793184132;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793184159;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=cjsCnXQG//ZZRkvM1fxbdTU4TNbSSVMoiWVOYZPqnMA=;
-	b=39JDOXpNf5RQwf4u9OAEg8sBAaG4Kfzt1op/P3FWZwUCafeYjc1NigdojDSkH+LF4CUh
-	 mxU+xXXHPSyMxgfvt0vLcrt8fss+FIzcAMnnAOCXP+k1IsgkYSdrBSAYaA30JxzA8m6vF
-	 SvVcX0b1qGplOjgzS6PUCzxHe3ojAZDxl2axKKzHHBrpNtueH82duf4Jj0CyHpIxQ67rk
-	 ljARZZoHRFok0Jl2QNV1TsF68ryQDI8dhoSx39B27VQZ7s/DpfS70AWjCTF0IAprqvrgn
-	 YwMG8DcyA9yTnfASWLeL6epv2sJBX+P7A2HOpgZOPYXP8eA9LGylZ7sAZEfBWLeA+uw==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=j5WXt17uDzq1S69vehK8pYv6NBrvwjOvlY+NLcQB8So=;
+	b=bUEsQ47LB6ONQu7CUUcElQAleu/AxiGGvmCmqDJ78PTYUVyangOVcrd393yLqXLgE6Ho
+	 qcsMuWBdnKkVZ6uqCpwo4twEGHqMEQ+YFyZ9D5Me24FaQm+5FMRuSbkp7oNiJKkbrgcmQ
+	 XbXMTphILZXpV4rFqKp86gNffETQm6S1cIO2GJ1oU1rbp5p5zaE4o3rUXFVVjtR6rN7RJ
+	 z5k1tUY4i2Q7RtEpe6w2TCQ+3RuVjeFXVIWsWZAM1c11VNSvo8gUjZWiuzn1kPoMzyKKF
+	 9WovqJuZQB6Rn4O5cJcwQ5etyXfAS85gWhS3nUaCNpFxj1PqclnRIWH7Wn22rSR7JHw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Eo7o4w8Q;
-	arc=none smtp.remote-ip=74.125.82.172
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jtWBCp0B;
+	arc=none smtp.remote-ip=74.125.82.181
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0095D606A31A
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 10:42:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0095D606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01603606A31E
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 10:42:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01603606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Eo7o4w8Q
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-3645f0f3fcdso1421833eec.0
-        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 03:42:10 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jtWBCp0B
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-36661f953e4so1306970eec.1
+        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 03:42:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793184130; x=1793788930; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cjsCnXQG//ZZRkvM1fxbdTU4TNbSSVMoiWVOYZPqnMA=;
-        b=Eo7o4w8QpzUWMiuEDfFJXwZNoS5fj2JVLvIFGD0d3ckpdymIPIQQiXCNfuAIa2lKhs
-         qblYC/UEviTgrFzfDiqraLmxvjr0GiTu5qUPXt9mrbeEsOeuTarNl3zg7AsHsxX6g+VW
-         ycH5tk8RiTt3aFtqSoloVYXphT/8RK9X8NJ8qCJ0h8tUMO5kwZtZ92qLJ5uqr8P5LQRJ
-         r84z8b+gCmPGLX2Nl17pVznluQJRTxSa6dxpkk8LQ9fIdViIHUIlfxEZJO9w7yEhZgf9
-         CVZZpTL8RL8XUVgsgOXlU83e/ul1TMtb6epnDSJn/h1g5XuqYGDTQ344Gui8AnHmdyqh
-         J2rA==
+        d=gmail.com; s=20260707; t=1793184158; x=1793788958; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=j5WXt17uDzq1S69vehK8pYv6NBrvwjOvlY+NLcQB8So=;
+        b=jtWBCp0BJ76y8q1zrvKeCRWUioNxaauBwIE2cYcR2PiPZdq1IysgYV2kTZAT6eoVe0
+         YjZAIFYpHUd/hgQN8MpALrsqTogiOqgAvBi2fAhQmOgpr69J1maFZBDWJhcxeul2zJ9f
+         jJeGg9KsoMzwX1HkiOtmuv0elG+rWYyPdpFjfXEBhq7Sik6/d11nvOcUifQSbuRnS/Hq
+         6nHorml8BEk/iZL6Y3+pbuO/c3dcFhrEy5DSGVNP19gizA/lqs54QNSm5nmKm2FiaxFz
+         p0DM1eMZf9FbJmKs2Zy8pGvQUftNw85tuKikUJY5h/YnH+ibxHgfaJUiEPF+Udfj/RNj
+         nCMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793184130; x=1793788930;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cjsCnXQG//ZZRkvM1fxbdTU4TNbSSVMoiWVOYZPqnMA=;
-        b=PNTF+E51mUz+uU8PIyy4JSX3gYtOkTTl5oMYl+dabAiYnhBWcLrGZR9HKDYKTVafnK
-         6EOr4IUsJQm77YHRnm0iIFzIOQiMfL6CUD7fX64ZZAf3PrsuNIBHrEHRG89mKZZcj4aQ
-         Mt0huM7vf2pPQM31ZKU1NkDqEUd6E+Kowy0dAecAs14ZhIDkQC+KhnbsPu5f/cmxVG22
-         khC2e1T68NINAaQ2+eBXdX2d4w/XQC4VSo2rNuQpao2qgkBefm6KZlmpHcFp/ctFanrt
-         gUR2xo8UC/v+tMHhjdiwEUuw9maANRzKNRrwPz/AwaucNnFPBgyONOdbnbvp1g7cWefd
-         UwfA==
-X-Forwarded-Encrypted: i=1; AKwUvBxOcUA0O5e2GdF9ynTI4/GWrSzqvVfNQewNwUjafh0mFB/3/by1075+S8CQTpKOwQDmSvHFL2oFa75iUg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKymhdJucxjQdQOoba+5hWtwq6X7lNvKbbxZJ/NlU15XTBImSM9
-	mxpXUclYTgzzxPTVunSTik9tZvyJHSqyHUz1OFuCwrUOvhbTlHAUNDFE
-X-Gm-Gg: AYBFou3IEaxywtRNGkEEECJU0Fhp2VvSPxLPCefsKigrqIdtp99a8C9KWOc4XmYDI6O
-	T4Cf+BxREVU540BsUkvw5F1KQlPCxsRe4Kqe0VLMC9X4sSmJNlQ3ChfGjgbDFZtyIdV15p29RBr
-	dkETXWn6KY2k65DuGyThfgRvCtSaCoOEv+Ckf3mWi6CUxvAoPlf3SrDxrzdWSeVR/LFKyLP9v76
-	B40revu3BLwsszQZhfp2YzBXLUZcV25r7KxQezRaucXkg+NyRu9h21jmOjBw+hQa/KjHg/oYj9t
-	8OvF6WtBSh9grnapby6xEYZj8Re6kN3FeaTpxj80npRAquKGafp/uxooASo9luXJggANKg2QP5p
-	D/XTFn0FZSuSpNNPY6Y27Xi8hJR/Car36SHUiTYtgaP7FA34AeldhwHvbOxUB6W+DcMedZ+IyIK
-	TASasXijYIJQ2+z2kx4BU39mxphSxILcZPGyyYDzyCp5bZ0LwMqga1GvEZTMRyTvQ5Dt43RYyIh
-	NRm1F9qKAFlhxDTdNl3oTlwWyBuBaQOj41/eEy+CXwncMOtPpMd1ROonAbHalUbTgWnkj4WW+pN
-	D7jb34mbeMLNz0A5FwNAz8JnNhbghpHd0c55tRjVRqMIKnLEvTXdHlt8jsQnb6/MWYgRPd7WYkT
-	fDJFmECVEQca/mGIH/9kyAIH+L6WTztwh7N8SJdp1YajD
-X-Received: by 2002:a05:693c:894b:10b0:36a:1b23:a1cd with SMTP id 5a478bee46e88-36a20112454mr2703372eec.9.1793184129977;
-        Wed, 28 Oct 2026 03:42:09 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793184158; x=1793788958;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=j5WXt17uDzq1S69vehK8pYv6NBrvwjOvlY+NLcQB8So=;
+        b=1oPuJF4PBje4wFD7FmDlDuj1BikHycZRPh8dz4HEnt0P+BhaeHKv7AdOHyZbsV33OL
+         R1ZHm+UvXmVChmbzRTpSxfIRsvxdzeeN6Cb3dffIgYhk842LariPbUBQ6zV0uXXUwOxl
+         jH6mUx1At0n8tEPJxezmbAXPY7z/eJM+uRON6JXkixe55eawDCAVcPLxRiJj2N/vTEkH
+         cNqMtXj0NgvSBVzmKmAbSZ6B7oS/Zm/rE2R1XllUuOdgE6pT31+9+0tw9I/lpo8bVV9e
+         Hh7OVsM6uzAymhOmvYptPjosfzEoVWlog8/GeRXTTD3Yf8vrQ/CjhRBO17r9UeYc9BdK
+         XXsw==
+X-Forwarded-Encrypted: i=1; AKwUvBzBoeaBYgWYgV2AlRKMTT3kiN3tym3eLeADL4ov1eseezfoA9PnXEa/kvM5BgfFnnDykmldtKahE0tU5w==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKpf6QLYEz39OtaM2N0xXsFj9+0XXT+uWa/FEsRp12fTEubp4h0
+	ch4aFZ6bQsfcFW4RZ/iCZZF2mvEijExYNvNUMbicdBTTeL+2HxjM0lvy
+X-Gm-Gg: AYBFou3w1pQALn5bm8KGkxlygSNQDNlwNfeU35Qx8aWHsjFDavxrL6xxdGQLIaZ4k0j
+	+0VA3fBsD35Vi2UJnLXwxUsR3tp+mjHpifw5I88hrTcDEwBrvmCVmeX9OklJ3v3G4ZDxU5/oXx+
+	HTugz1cKdilxljfIUuJHKWFhBmT1FTBTeJoHjVwmrX+LqiHUeDlouXSoZEY4mEz4SEidAH5T0I4
+	qvYnOP/59Dgsz/b38nPB3Nw12h1U/kxp/587DRigami2sRNZbfMMj2zomkoCL5rUeFTtIKMD7yn
+	Q2uDWlRM8ufBCtNU6lOwoZgZJTXBd3ttMPuIUn9XZd0F9qRNayeK4MzVTNMZ5jBxUylXkc46Ggw
+	Xv6rgCM77xbLB4QpYnaWUedw58u5LE6EC0Gwi5yv9qoIM4580MFkA81VUaSU7oos8eOYg4WizOo
+	I8pQHTh/OzKJdHzOFq7XOSckPInOeL/dJManDECo/Y9d6iZx1tix7Gsjsrx5o+wCm1HpD+TVnUX
+	t1ijc50zaDKtTcdY9rdpnZp4ueDcmHWS4lGVA4ApqBbAJPCwFEkIabneivwRIf8lkeo+1abG7z7
+	kLlUOFSzPfT0uVZzngYplv+6PEwyqZBabItqOPZ2izuSfxEOvYZbECi38oreSEomBdT5WW4JEY6
+	EYNekdRDrHf4S9NJn6MSUFDMEZ2wUILqYqexP+gdjVpCc6r+jGEuzPqtVpqbiRztIYw==
+X-Received: by 2002:a05:7301:6189:20b0:354:1db3:674e with SMTP id 5a478bee46e88-36a203cac0amr2845604eec.6.1793184157981;
+        Wed, 28 Oct 2026 03:42:37 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a238da3e1sm7521881eec.8.2026.10.28.03.42.07
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a238da3e1sm7531469eec.8.2026.10.28.03.42.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 03:42:09 -0700 (PDT)
+        Wed, 28 Oct 2026 03:42:37 -0700 (PDT)
 From: phucduc.bui@gmail.com
-To: Binbin Zhou <zhoubinbin@loongson.cn>,
-	Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Mark Brown <broonie@kernel.org>
+To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Yingkun Meng <mengyingkun@loongson.cn>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 3/3] ASoC: loongson: Handle clock enable errors in set_fmt
-Date: Wed, 28 Oct 2026 17:41:38 +0700
-Message-ID: <20261028104138.26973-4-phucduc.bui@gmail.com>
+Subject: [PATCH 0/2] ASoC: img: Fix clock leaks on probe failure
+Date: Wed, 28 Oct 2026 17:42:21 +0700
+Message-ID: <20261028104223.27007-1-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261028104138.26973-1-phucduc.bui@gmail.com>
-References: <20261028104138.26973-1-phucduc.bui@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -109,79 +104,24 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-loongson_i2s_set_fmt() treats all clock enable errors as timeouts,
-warns, and returns success. This hides errors other than -ETIMEDOUT.
+Hi all,
 
-Preserve the existing behaviour for -ETIMEDOUT, but propagate other
-errors. Also clear MASTER, MCLK_EN and MSB on the error path to
-clean up the controller state, including when the clock provider
-format is invalid.
+These patches fix clock leaks in the IMG I2S input and 
+SPDIF input drivers when probe fails.
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/loongson/loongson_i2s.c | 26 +++++++++++++++++++++-----
- 1 file changed, 21 insertions(+), 5 deletions(-)
+Compile-tested only.
 
-diff --git a/sound/soc/loongson/loongson_i2s.c b/sound/soc/loongson/loongson_i2s.c
-index 0d5278203024..438bbae0888f 100644
---- a/sound/soc/loongson/loongson_i2s.c
-+++ b/sound/soc/loongson/loongson_i2s.c
-@@ -185,34 +185,50 @@ static int loongson_i2s_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 		regmap_update_bits(i2s->regmap, LS_I2S_CTRL, I2S_CTRL_MASTER,
- 				   I2S_CTRL_MASTER);
- 		ret = loongson_i2s_enable_bclk(i2s);
--		if (ret < 0)
-+		if (ret == -ETIMEDOUT)
- 			dev_warn(dai->dev, "wait BCLK ready timeout\n");
-+		else if (ret)
-+			goto err;
- 		break;
- 	case SND_SOC_DAIFMT_BC_FP:
- 		/* Enable MCLK */
- 		ret = loongson_i2s_enable_mclk(i2s);
--		if (ret < 0)
-+		if (ret == -ETIMEDOUT)
- 			dev_warn(dai->dev, "wait MCLK ready timeout\n");
-+		else if (ret)
-+			goto err;
- 		break;
- 	case SND_SOC_DAIFMT_BP_FP:
- 		/* Enable MCLK */
- 		ret = loongson_i2s_enable_mclk(i2s);
--		if (ret < 0)
-+		if (ret == -ETIMEDOUT)
- 			dev_warn(dai->dev, "wait MCLK ready timeout\n");
-+		else if (ret)
-+			goto err;
- 
- 		/* Enable master mode */
- 		regmap_update_bits(i2s->regmap, LS_I2S_CTRL, I2S_CTRL_MASTER,
- 				   I2S_CTRL_MASTER);
- 
- 		ret = loongson_i2s_enable_bclk(i2s);
--		if (ret < 0)
-+		if (ret == -ETIMEDOUT)
- 			dev_warn(dai->dev, "wait BCLK ready timeout\n");
-+		else if (ret)
-+			goto err;
- 		break;
- 	default:
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto err;
- 	}
- 
- 	return 0;
-+
-+err:
-+	regmap_update_bits(i2s->regmap, LS_I2S_CTRL, I2S_CTRL_MASTER, 0);
-+	regmap_update_bits(i2s->regmap, LS_I2S_CTRL, I2S_CTRL_MCLK_EN, 0);
-+	regmap_update_bits(i2s->regmap, LS_I2S_CTRL, I2S_CTRL_MSB, 0);
-+
-+	return ret;
- }
- 
- static int loongson_i2s_dai_probe(struct snd_soc_dai *cpu_dai)
+Best regards,
+Phuc
+
+bui duc phuc (2):
+  ASoC: img: img-i2s-in: Fix clock leak on probe failure
+  ASoC: img: img-spdif-in: Fix clock leak on probe failure
+
+ sound/soc/img/img-i2s-in.c   |  8 ++++++--
+ sound/soc/img/img-spdif-in.c | 11 +++++++----
+ 2 files changed, 13 insertions(+), 6 deletions(-)
+
 -- 
 2.43.0
 
