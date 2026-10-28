@@ -1,112 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793192245;
-	b=G8WXNJH+TAyc9zvxCwQocHoqpeLOMB7q0cT274COi3GED8h76V4J6RwVAjUmLCc/PVDx
-	 t+WGClKfASzHHhTAFhhc+uusXTdFej4qDhjrjHl1zSC6HCu+0Xd03/VhD3BQGw96pLi6H
-	 qx1DB8KGgCiKFwS3EAbpZlG408sn2xjd5iWl+9Q60+oI353weesAJ4L2G7h4vIroelpXh
-	 VpjlvvY1a7XyIVUPS3CNaemnM5Unc270ss1NFpI3ESXgJPbuO2MYy+IeyVTp/siCV86gk
-	 K9wDh8TYn/ZKJkVmg54kkoJ1EEjDVqAGlIBHRsvP8G96Vi9cC0RJf4PYchdsiBDWcqQ==
+	t=1793194213;
+	b=k9rWym9xr7dVudT59HU0o0hW3cqN7oJGDvWnTR3k4K+UJtY925DJNgCoQAa/KEtu75t/
+	 TpNiRSTVBCfewr/Fvu243/5DFEDzKFvsh8bFHOLFSSDKRtLIQRBFYKfaQlX0V2KA36xdf
+	 hFRYZMdBDghH+UiVQbLTgQ1BeiEZZt56sXrydUxiWSorZwHfGcyAVY3GCqk2C64WnyoZb
+	 Cpp8RB+nKv0HnQoWsFnvEkbYkVxvmVfs5G6Rs/TYxtpAHvOvH6FwwlAxatyIUjL4Mmup7
+	 OGUKt9fICRRvYTAXNJmiYgIUXBvYAsO+tX+/qcWrLL0KJN0dppGxMSL9T/Ibyrn7xAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793192245;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=NgkQsGJ7F0ZEbrdBMJdtiIj1xr4L3acMDrweUpa/DcA=;
-	b=nOzNMyflqpeDWhv1fXvYhUfbkg+U90bKZiwkFjBNamNaNLMrGBDVryR5yvTRUgftZYhV
-	 HgmVYEwerIjTg7jqkcV1sBn5C19woIBFkPMuwkRuT0hlNPzRLrst00jZ5QJIXaOf3954e
-	 pG+rD2KdlaoGzMcV6nDyfm3hguq8jk7AAS4JRbJ+lAJ4ZKcU1Ks2aOxwtThnly47jyxmi
-	 ymhw4zGCZCMwdO8nOSVSJiVOb89evBBJS6LTkzc8y/T4mcVg4YC+5yU7YIH3NBGkYoH3b
-	 j1UJ2K8Ttfg/7EkB0TJAc4Tfz9iFDeB1KyVlL1BVkUgKF23MURRJ4Y8zyyTNj7oNNNw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793194213;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=6f4Woc3XyMt/SHCxQyb8Mu+ku7o75W8y7G3fAoa1yCU=;
+	b=2d+sYzAy6iTiWZcxhnJ9i7pX9Tv/UNFaxHSkkde+oA24uVG9LgBaBviHTPs6CqHEwmwk
+	 TbLEWU4JpCYliA59Qeq58+qT0BSHpqeSBQxIMA1hj0N/a4xLj+YiPww4nnD3TOGwlZPIz
+	 QEuApWRUmTvpA6s1wQyRuSyiuiZ6+J9us/j2rVFcN3GSsbr6uFdWptnuEskWCkYbckurC
+	 D0lBLb9J20YHc6vyDQqhOmNH8o83KhJlpFz3vn2m2FTxXtKqvTMVi48jHo78LBjm7eWw+
+	 EjX0dtx7q5SbcZBGWCmaEJWAvMFRdArA/cMT4x7I+8Uq2Qo8td3uuZ+pnTS/pRzKWRg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ErqdaxSX;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=G4Jnug7Q;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WvxrqJ99;
+	arc=none smtp.remote-ip=209.85.208.180
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33FF606A31D
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 12:57:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E33FF606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9CE7606A32D
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 13:30:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9CE7606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ErqdaxSX;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=G4Jnug7Q
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69SBe5hr1053347
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 12:57:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	NgkQsGJ7F0ZEbrdBMJdtiIj1xr4L3acMDrweUpa/DcA=; b=ErqdaxSXIYUEb5j3
-	LNq2HhQf4/3lRGxpLyRRTCBCzJNmltvBveEPBMKLuqEOtoShGjjDE94UCNMRpIhb
-	HPnFmuocikNEpyrINUfycILX5SuO5W7PUEl3pm+exYGLZ/7opCOPdehDf26OYBh5
-	/ncX14bV6YEVsToe/dqaAR462SqsJRp123nFCZYWXv3Mo3hDNXyY7/N8dcxEow87
-	bk/57PvSI7xF2QGzUK96vGJyU5frbvGLBSw+K56/eiKZaYd0637CJfV4aqFUDHwd
-	Mqe6n2Q+K6DwMYNQ6E7XRFoZMy2bgNDSi5DPevoxGgeDEEsLvvo7cqc52lKl7JxV
-	Mcg4fw==
-Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hkbhw9fes-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 12:57:24 +0000 (GMT)
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-36a190c53a3so1099769eec.0
-        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 05:57:24 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WvxrqJ99
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3ac8c03cea4so6825011fa.2
+        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 06:30:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793192244; x=1793797044; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NgkQsGJ7F0ZEbrdBMJdtiIj1xr4L3acMDrweUpa/DcA=;
-        b=G4Jnug7QkxdTnIAqONxnqkbCBus/Ux+tZgayoou5AQWJCbe6EDEUw80BfHCJzS8VR1
-         Mi+xJNzdLCTzFvZmQIy0yPV6TvSd1uPg9XU918SoD0iu8Y45/2ZHwKeAbX5bZrnF0Guw
-         hrZhwn6VUpXtyLlgu+UVY61rGOPy2mXUxYoQ7nyO12HNs3J39j1QNaqWSkJ88LgrfTMs
-         42HToJ95/ZngnSY7eRXt5DgSritQeCmtLnDnLlGUaqWdkr8pNy4zPi6gRSiIPx3utiIM
-         cPMPwf+DLNfDffTPWvR1EOciezJD8jgoDSu6VbEZnQd0ZgsIhVVaY7q+gXcdc2MHpcx8
-         1l/w==
+        d=gmail.com; s=20260707; t=1793194211; x=1793799011; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6f4Woc3XyMt/SHCxQyb8Mu+ku7o75W8y7G3fAoa1yCU=;
+        b=WvxrqJ99zwvaqod4/2gjx2Pk9XxspHhavfGzN8VQcoRla9pZs5tMSXCjSlZ6s8jC+q
+         d2UnkRjcL6/i+8RTPyWem1p+4mYqEnsKBxJ/ZfFwKvlJ8UQCnuZhUDeXgZEQnKumnp1G
+         oiktPJuJpT6+lEfXOf27+phCY9pPBVCyq5FS2iueRe4UqWZzw/VyxRdzWfrAENWV3ElT
+         3rMJ/Cw6BE9hZYu0e7d9pR+1tSl7TyOYnwRMV99Q+2fk4dMq3ueQtw+boVBefFxw97Ic
+         u0kDd2pCu6OV41B9kQoLOC8YPO38kpBtCqSmeLES99dAGrl6aW1gruhdaruqRBQSWA+M
+         FK4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793192244; x=1793797044;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1793194211; x=1793799011;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=NgkQsGJ7F0ZEbrdBMJdtiIj1xr4L3acMDrweUpa/DcA=;
-        b=Ql3Y8rKc+ew2scnfWOfKieK3RcMR2eH/Za6L/O6PDfDOMhTzfai9HXNZDsChZKl68S
-         2cILZuDsGUOwRRclmSVWKbVWnNlNJ8MMzmPSL0xhnU5rNLYqpCa/lHgmzGptsPTvIkIP
-         kMNkS0CsTKZKsKkhFPhMNTy1AUxRCHddZOS4YkgULLnSQpplkVaqIj+9hVzq8tMMt6pX
-         Xptjw1kgK1mhvlR7ubH2RQj7cKIlthWcKUO12UeXu+425yqKfiM1OYEJa0qKaN8zFJOh
-         xtWJQHNVw3Wk22ywy0OyYX8Qls8uYbkvvyV4OjSWymVS78EdiQh1b9K+GibtezHLgE5F
-         H4nQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwT1XczWtuBkIZ9dpYMgW1zqCyKDKsV6Kh09ghdRiO7r4iICDlOzFyglZRmq+u0MuDOQjo5DFmlkfAW/w==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLpy8CfcD+INCmJ+ZOWTmg43yVlG5Ndd7oEx+9wBQGc8T/qoNFC
-	pwexYiKjpHSPEyeB9DmiVEvludX1s1n0f1s9V1jFRVs7enc/cOgdLwbL5ajkaIOjyJhVRgz34Gh
-	WwLdxikzj6f3Di2LVCVuHrtwNXZy3RCeTNf7mUDgBMrg5xJ54ruqqb/vKEAxkS9V7cA==
-X-Gm-Gg: AYBFou2cCqkywHFYGZjam+7HIhtKnkJVOjLrmjpveSI0xME4zxVQ8LQmt5+dFThfDco
-	BXMSJKeFwOL6GTL8XQUAmjJRrevYX5t3khfA1aK0mGDs+TNDIs2MYlOKsyhBiX+tLYILSWKd1Kg
-	5rq3BiB+nTTZ3732fc3UYNnS9/p1zaStgG4hgYkVLHfn+v04eEm1jO567aAhJZSWQ5X9dJE+IOR
-	odKDbBPmctk3fYX8F4ylhM+K42Xy5PbTypbMksllrbatteRIZoSe714giJgpZ7Dyw2JV6afxklS
-	Qf56iJNA3nQ8o/spEUU53VxhJ6N06II/KZhoLrt03pv4x9IYzlBHdAVqnncUHJfoqYYF13VYhQW
-	QBE70+w+RkTbZdY0AnsvQ6OqLKEmOo7FoZVopUvSFc2Gzh/rLEKeeL0FvnCL9gZCxoN8NvL+JYG
-	LP9BzQIcYB
-X-Received: by 2002:a05:693c:6382:10b0:361:2a55:b94e with SMTP id 5a478bee46e88-36a24ef79d3mr1805701eec.15.1793192243425;
-        Wed, 28 Oct 2026 05:57:23 -0700 (PDT)
-X-Received: by 2002:a05:693c:6382:10b0:361:2a55:b94e with SMTP id 5a478bee46e88-36a24ef79d3mr1805670eec.15.1793192242839;
-        Wed, 28 Oct 2026 05:57:22 -0700 (PDT)
-Received: from [192.168.0.104] ([124.123.197.72])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a23908449sm6625610eec.11.2026.10.28.05.57.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Oct 2026 05:57:22 -0700 (PDT)
-Message-ID: <aab38b8f-9e13-4c77-91b5-d3e12c0c5ce8@oss.qualcomm.com>
-Date: Wed, 28 Oct 2026 18:27:15 +0530
+        bh=6f4Woc3XyMt/SHCxQyb8Mu+ku7o75W8y7G3fAoa1yCU=;
+        b=Bc5Md90p97HWYyQoWsb72BxJbrZwnt+mP7VKEfkMNAvZ9ZqOFviAyruAnz4TmeiNmV
+         Os8i7PtPdHCQjMPCFgcsB/1bLOy3j4yhft1/KpCPZg4WYVlFLmQ++RjhC7TbiAgoWyWx
+         dcLSTQQNYos8pn/YUaECCZKGJ5Nvutmiv9pc6wTQ7VNw8MFm80kTclKWJfEr8TEziMV/
+         XPQU+FREtCQ9x+7PSxw5zRvqfRpdKdpHChylWfhWU2KOYe1AZRtO9pnILA7CbCCqk4Ye
+         Mxrdj59aUnqWCbUX4cL8J9BLVtD7LYWVuFUm6w30TQBlPghvbLBkPI7uMZ6swaOc/Fh4
+         vTyg==
+X-Forwarded-Encrypted: i=1; AKwUvBzyyX4Le716z/lAeShJrzUPOs7Qy58UUhEJWh8y24MH5hzCh9oEYlWxI1MvuGpgDKzK4bpwExGiJj/McQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYK6YK145qNchSEmHHc1Gaioa5+587wNxZ4+xmmnXCyBisJ/g1xn
+	d99ryYi8ojYJKzf7dcFahmZKgptjfXLWqEPq+le03X49RBjxUhF6Soup
+X-Gm-Gg: AYBFou18DVnr5vQE+ZHEaPY4rMJpR+HmZNcB4m1T9Lzt2Jp7qAihHi5qQfD9+wEFay3
+	+CJbM7zRc1XG9AzCyPzhQEfeNRYw5wa8pBtc9vUSoF52u8T6GjiTgWivxNMHiZNUGsUNiIWIv9C
+	FZ6tGnvNyfWO6m3r79Pg+CneVS2bU6NSBS1Vq9dVZD57iDR2WVanOdMGmYkZJsGlG5qYJiislJY
+	EqUzv8Iqbi6NsxYxa1a9KgCanY8W2YhCiCYj+mEHXzrLtCY0C63bRsNvISX8UXsHGoLSQoUhW5Z
+	GnSKIonoeOL+5XnF4KKwvVJ2SlJBAlsAtjyQMYuvPfgL9/DOpsTg5HhVkAY62VOylmUjmJAxmMW
+	aPQ3J08+9w8Q0DshYK84DGI8RDHEHLjd6MaSpKw5pfRIvWTxbg7vxsTywdOAdsq7dJKDTq8PVJ7
+	flWNQXr2qMo+lmie0SWdoSe02QfNds/ZeKyFg+Jk7t+CV2Y5kxnNgXTllFH31f1CV5uERrow5OF
+	z9zmGl2dThaeWhEtztD8FJPJSTAt3cKpytWuFdaF1OGQ/qioMR6dD3YEeuWVmfDIREmO5TtnsAY
+	hPtMICwd+cjKvkIcPtKI73r7E4W7Ysz//48N4xXVgr13GVoB+ir0uloG8ah0lzasw+qDty5c
+X-Received: by 2002:a05:651c:54b:b0:3ab:483c:9149 with SMTP id 38308e7fff4ca-3ac9cf56f02mr4952551fa.17.1793194210831;
+        Wed, 28 Oct 2026 06:30:10 -0700 (PDT)
+Received: from NOT-THE-FBI.miamioh.edu ([134.53.242.65])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3ac70993a57sm30955841fa.12.2026.10.28.06.30.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2026 06:30:10 -0700 (PDT)
+From: Benjamin Pryor <programmer2514@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: Andrew Udvare <audvare@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Benjamin Pryor <programmer2514@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Extend ALC1316 fixup to MSI GE76 Raider
+Date: Wed, 28 Oct 2026 09:29:51 -0400
+Message-ID: <20261028132951.1253841-1-programmer2514@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -116,74 +97,38 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/5] ASoC: qcom: sc8280xp: Add shikra-cqs-evk
- compatible support
-To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-References: <20260910-shikra-machine-v2-v2-0-9bf6bad589d8@oss.qualcomm.com>
- <20260910-shikra-machine-v2-v2-4-9bf6bad589d8@oss.qualcomm.com>
-Content-Language: en-US
-From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-In-Reply-To: <20260910-shikra-machine-v2-v2-4-9bf6bad589d8@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: wqK01Z_116TM8YmtfO7rVgQy87gVAd9J
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDA1MSBTYWx0ZWRfX//o03L5rG4zb
- xgPJ+84xAPnZTIujlSjYcvqBpXsbeteC8c+WV9OD3QxeBEaXZIgDj1cQaC9ul17HBpKAwGEj2VA
- QsGLxbb3jPrmkg6cnSJLuHjcP7CPqqQ=
-X-Authority-Analysis: v=2.4 cv=V+joQuni c=1 sm=1 tr=0 ts=6ae1f134 cx=c_pps
- a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=ud/Gc3SFmwde3Mv7YyqU3w==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=EUspDBNiAAAA:8 a=ct-79n1Jcior63b1T_kA:9 a=QEXdDO2ut3YA:10
- a=6Ab_bkdmUrQuMsNx7PHu:22
-X-Proofpoint-ORIG-GUID: wqK01Z_116TM8YmtfO7rVgQy87gVAd9J
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDA1MSBTYWx0ZWRfXxaxO05bEUOOY
- m11OhRCS1ytf0+dNRNO+Em5Azwogq2eAz6342IIB9zNdtmabTwZiY/1aQNB7YmChFF2MLAdSTas
- 7KS5yiFpHQ8kHaJSbLxWZzd0zohjvU9CGZzzH//BjTSiIc+sQNBM0Y8s9KWx85CIGw72xjjgWvB
- Ylx1miKM+gTPL0Hbu0ell0NTo+t9YuukM6D47de9fPI6RVmi8EliUiKxunIz2382ykqAsX+5E3J
- q5JNH6KonWdsdujphvNsWyV/WqJMDDWGYZrfk8TiQaZswR31jUjmzZNzqqJ9bE6qch4p0To2nmE
- VN/UJsfHK3EiHiN0yFGS1mqqSXLcFZSxTxRa54uYoi3iyKzI/LLL7pK0OGR8bg+YZn58r58AWa9
- qIFRQ9iu064JuOXjK1JXjwLcCVOgeYNWzaJe0FkgvElj6saBN23kk/+AXRGP0QlL1+M2huCthSa
- 9KRpJkYTfpNlj2ptWrQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-28_04,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 malwarescore=0 suspectscore=0 clxscore=1015 bulkscore=0
- phishscore=0 impostorscore=0 priorityscore=1501 spamscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610280051
+Content-Transfer-Encoding: 8bit
 
+The MSI GE76 Raider drives its speakers using the exact same ALC1316 smart
+amplifier as the GE66 Raider, but under a different hardware ID. Thus, the
+same speaker dropout fixup should apply to both devices.
 
-On 9/10/2026 8:32 PM, Ajay Kumar Nandam wrote:
-> Add machine driver support for the Qualcomm Shikra CQS EVK board.
-> The Shikra CQS platform uses an I2S-based audio path with WSA885x
-> amplifiers and PM4125/Rouleur codec components with modem-DSP based
-> audio processing.
->
-> Co-developed-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-> Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-> ---
->   sound/soc/qcom/sc8280xp.c | 9 +++++++++
->   1 file changed, 9 insertions(+)
->
-LGTM.
+This patch extends the fixup that configures this amplifier's silence
+detection to apply to the hardware ID of the GE76 as well.
 
-Reviewed-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Link: https://github.com/thesofproject/sof/issues/10475
+Link: https://lore.kernel.org/all/20260909193104.26508-1-audvare@gmail.com
 
-Thanks,
-Prasad
+Signed-off-by: Benjamin J Pryor <programmer2514@gmail.com>
 
+---
+ sound/hda/codecs/realtek/alc269.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 23aa175faedd..1d3f60ea9adf 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -8330,8 +8330,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x144d, 0xc1cc, "Samsung Galaxy Book3 Ultra (NT960XFH)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
+ 	SND_PCI_QUIRK(0x1458, 0x900e, "Gigabyte G5 KF5 (2023)", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1458, 0xfa53, "Gigabyte BXBT-2807", ALC283_FIXUP_HEADSET_MIC),
+-	SND_PCI_QUIRK(0x1462, 0x12fb, "MSI GE66 Raider 11UE",
+-		      ALC298_FIXUP_MSI_GE66_ALC1316_AMP),
++	SND_PCI_QUIRK(0x1462, 0x12fb, "MSI GE66 Raider 11UE", ALC298_FIXUP_MSI_GE66_ALC1316_AMP),
++	SND_PCI_QUIRK(0x1462, 0x1305, "MSI GE76 Raider 11UG", ALC298_FIXUP_MSI_GE66_ALC1316_AMP),
+ 	SND_PCI_QUIRK(0x1462, 0xb120, "MSI Cubi MS-B120", ALC283_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1462, 0xb171, "Cubi N 8GL (MS-B171)", ALC283_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x152d, 0x1082, "Quanta NL3", ALC269_FIXUP_LIFEBOOK),
+--
+2.43.0
