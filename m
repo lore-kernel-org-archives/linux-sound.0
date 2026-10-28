@@ -1,93 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793212412;
-	b=mPUdnmLgmJwgkrbnVQDLb88mn58cRzdTDFlbih7BbtYCwG6csZujPGKuEq9yxRUATJiB
-	 O7SGg2sOqdu/zGdGD7yfd/hkKfMN9dM/O2Tfnx4CkQgfzYU8nnQM39JR5bBnWUQS3aMOd
-	 ra8dhVrDSp3jim4koaUjIgFo7tbq1E8wEHSPwjfW4WGecJm9+tUIUZOwF+FDdt+/9mjOP
-	 +z1RKgMb61/WF7jmIngy01SLqhKm+QrsZALI0rxngzzkiF9fceXinOH6c6ZWHYVENbyLE
-	 P3bpQF+2AXS5VLGvdFYztCUyUORuoMXP23k2WOWF37KS9dWskpyDxlb9+arzOUtqfTw==
+	t=1793212420;
+	b=k286bX9qGJkxDt4ggrUl8teDTpIWJiED45On5E5om3wkjtz+UW3B+3RnkP3pyKiWcU7O
+	 pov+JmY/Pj4vBViVd97KFWM2JUqqlghWqMwTcGqBtsQRIx2UJvulpmmzGnni4ypBUnzJz
+	 u2RxGNDdGQjVDsN8vKRwwvW1OGYUHKbC4NbWy8pbTNmcD95f3MXODBxlUGKBtsEzxBZ6A
+	 I4qeXOT9eeuKg+YnmytFo+DMtlFAqk36rolLZROZ/gMPGHKz80JMugSm0lSy1bzJqSkos
+	 1ugXREgPRtDELY7b4dKAV6WVza1J6hdyxznZNlY/aXvZ5rZFozB+E83mJLFM6d3uMnw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793212412;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793212420;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=PkNOoHsVmr5rmkX8hMk8d4+1ZyQ8Wa7zC/MOiR79B1M=;
-	b=Ildn6TKEHCmufy1Vqbg08OAdYLNmniB2TAVClrfeYqsy3AIeNshgN5JIdGgsM4x1bo7k
-	 6U91vw2APaRMxXAbFMW1DVZM5/87gDoFIQP9xxHJFwtIPlATBkmajZj3qrxS9pCsQz9/X
-	 7wbnSEPonEFRu7l6EtxCCdkEf+p2OemKW/aYg/YNFH341Z0lxNVoCHIatpjg5PwLM+yPb
-	 ogifqaYH+NXUjri650Y4dGQaQd6F5A3+Y8JSJRkZ3jouq3AkpA6RTpmgSvX7O9Sh8Fsqf
-	 G/wBUAdRkNzZNiR8XY0AHoYAMLGmNs+zRBYR5iN2+MxM/hjuHgk2spI6Epk6JP59azA==
+	bh=TiC3PbdwJQfPnMIMNVlA843dptQ240ok8uM534aU+Jc=;
+	b=qbMyqwYZcqWbcU/wzOq5ozZxOG++QBz/8KyfEojH8NDWvEy8oSFAcBDb6QuoHTAiuqaF
+	 ADci5sVQy9F5+pAyzwlmmZDeiskg8u2sL5tMruRSNDvUrA+X5OEH94xjjTcfCwTcq+AmK
+	 CoKpaJPqXWQTbII9hcWbmjjzkWf81jrzUhCxg7ghYmI/rrRQ3Qj21x/N6x4g/9BRUIhyb
+	 7XHRqeYyEQsPtfG4tmk6vsDsspC0bLFB+WuGz/fhc2tdkbb0VL7bfRGsQIFCpZnp4EriV
+	 ZU2BGrLqfyPg1qm4OVLYhrsWiSs/vkNtOGa5hofGtVas2Zre9p14p1sfPcBF1ZrcHtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=b5U5BraY;
-	arc=none smtp.remote-ip=209.85.221.45
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n9PE3Rwx;
+	arc=none smtp.remote-ip=209.85.128.52
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A7C606A31E
-	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 18:33:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29A7C606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76EDB606A320
+	for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 18:33:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76EDB606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=b5U5BraY
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48afbd2c386so828709f8f.3
-        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 11:33:31 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n9PE3Rwx
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a20bdaf39cso14359485e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 11:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793212410; x=1793817210; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793212419; x=1793817219; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=PkNOoHsVmr5rmkX8hMk8d4+1ZyQ8Wa7zC/MOiR79B1M=;
-        b=b5U5BraYnllroAUU40DZT7fh/RgWujIzZBzbF94YLGqtgH+dnwrjHMGhgRril9m8QI
-         NROrUApUXI2WHIXM2ZDC8LekmECCtH+2Jp/IYFKAHIrM/Qz0Q4lrFOGRtaY8VGeSQDtv
-         zpBOTxZWwgE3dkQUXMeC8Q9V//T7TsWYrdu5b/p5emqJtbrp3t1LqtIxerbDHWZUQfej
-         Qhg5c40q7N/CJ7lp0dlMTgiXsM9UkG0n2tPuVpq3J9gCHk5FEFa1NeleQGyaxoOsd5R8
-         DyYHt7NQqzd5rqOUcCXdfkyvRyuYBo17s1qVME6pq2MQnY7w45TPnTOJEbJbeDuKo/Cy
-         EvYw==
+        bh=TiC3PbdwJQfPnMIMNVlA843dptQ240ok8uM534aU+Jc=;
+        b=n9PE3Rwxlh1FLLfomiBMOyWbWXaief7O46raWKJb68gWrP3GzDXfGLQ+0Itp4GKV+G
+         0JOo6COAIKcV2PDHGIOfoWTCsA8Zmty/SqA/xH1qKkXrEYXPWKSZmN9fW7n0GlOiC0KR
+         CF9MKZb1SgWGTDFOHW+Np5TkdYzCE4HnPuMWpa27ZxLKYtaQ3g+MaIGWPo4pj2+lkAvo
+         Skmpr0boGSxGoz9wLxOGunhFU/18si48KvehgTcfsWqHl6oc132I7NeXkfkpTsIvSRDO
+         HiHl3zMhKbevjvXptTremiLhaaoNerZDIXgk2GJ2UdbeMHCnU6Bkxc0uil61X6GljwkP
+         RK6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793212410; x=1793817210;
+        d=1e100.net; s=20260707; t=1793212419; x=1793817219;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=PkNOoHsVmr5rmkX8hMk8d4+1ZyQ8Wa7zC/MOiR79B1M=;
-        b=SIUJ8lWElbNMuZ07C2nQDoQYhmAsngthFaoXotqso0lckok87R0PEWIxZAcbdaUvuX
-         bTzNeFbO3G8Wdyez1U7EJbqxw9BITN1ANR/ilblqXfksxnRp99W4TYr3JTWyqsOo5dIg
-         IWIr62j0Fixp9XwnwjrqL5pQ6k5UTFAMTlz3J1e6KdGnoVIQbg0M9n7eUH+I4BxDvyAk
-         IIaj+oBu8c8IEQYyjE3tYQk7wZ/bS21XCz8SdPB1CjIJLXNOYLP7JEvuBnz2mnsTaE/J
-         NAdHEVwXEfTLQPktmjLELKGwwR4o7MbkOnj0hinK5Ys+EbwEsRvv276fuqhDzYgNmxJ1
-         wMBQ==
-X-Gm-Message-State: AFq9FYIRU/oQvN4SEbHbyq3YgfI8LGfSmRsS+v+NigSymXg0r6cwhjo+
-	dpz2NresurKtPccd2I3LWIXb4kOby05EM6eDGEd2Rhc7zUwgZKy0qfHuxOI+SeRu
-X-Gm-Gg: AYBFou16y09yW50qKS+yp4xP/v8uI7/vWeLmJmCcMquCP/JVPlpaqgLvKLEHGfG6lzf
-	pFoVmvfx3nBCKdJXVGxJSVN8ElvoAf3+qPDN+qXAXnbDotnMCleYptBTJWVIUatKm7Hni6+jy0d
-	joZor+1n/nWI3Nc3Fqw7n1TeJ+YCcjD111BHz9JjFyf12xqRP2uMmcZYenFiXvDtwck/xoUpEx7
-	QAY0Uwh5HJy/RFhvZixqDxizb9lFIPWGNrBaQNMD3OML0ugxFHOBfbRkCV/KORpRyRR9ZPRhScp
-	xFWXK1NUDGpnnfIDx6A9XkqAUNvzWXyh3NcQRjVjRapw54mlAqk0z110Rsn7CTQBuOmX1ox2b3Y
-	NI/ClYe1Yr4LYLV6pdzT8Gie+6om+ZrobZ+MhQpke7zB4h+u16QhvRKLWpIW9z02aI0Gxjqlfdh
-	tylDdr2pd3WBwaDDXCi7aCVLVrX1aNsfbXNnj6TMF+FAfbz0nL/6wQR9pifq08RyQcddfWKrVbp
-	yasdC9NTLLzP8qVsVZj/q1HTDu9POCSjCruHVJrHW4oeqWMnEPhdl0jfg/MMJ0rEuGa+F8XoNwH
-	MebaOmNNw95fyzgIB06M8RA87JyZ+7bjzs4zs4Ow8kWCQSuNoZ8D1X5ZVLUAi77qgjTCa8i+n3E
-	bJcL7Ekk=
-X-Received: by 2002:a05:600c:524c:b0:4a2:a9:ed56 with SMTP id 5b1f17b1804b1-4a9661ab67fmr75144785e9.8.1793212410246;
-        Wed, 28 Oct 2026 11:33:30 -0700 (PDT)
+        bh=TiC3PbdwJQfPnMIMNVlA843dptQ240ok8uM534aU+Jc=;
+        b=v/gkoRYoHedlyusgaBIuxe8TjV6LvnA/XExrQHq2+28PLgs/mav+1XsehE1F810F13
+         jfxGsfOFSYZYyudQFPE2+T37ukwBskiZdkQsullzsWNpHCPz5ezgFWSWo8v8G1qnthXh
+         agZgrC6Md5P0f2KEu4VHaUvncVsnviX6vuis8HB5zHNmg7+umK++L5+y3771bb6iV4z6
+         NBtrwaLQFzhYwp/wEP4K95KxbAZUKJ64PaNMR22sYgxWDL8jU1TlKWrfOlcxA2xE34k7
+         1GZADCe1SQcxoEywFLu6LFJ3xdfCx8VGoRqgNoNVfCeiOQn5ovi88jq8kw4yML3L2MTN
+         9JFQ==
+X-Gm-Message-State: AFq9FYKPq66/zRRgp1g00uai3uaH3D6zhYtpXBA2mkb+VHnS1UiTsVFF
+	5cwcpLwPhjwsVB1T30laqYDxzRm7L30UpdMCmV3wReRRSvOs4wNGRQ7TuCNlQoLMwXg=
+X-Gm-Gg: AYBFou15vNGh90j3AGxOz99RDo1LxXRWJoRwEid/DRVYuUXk4GICPoNJwgbgdz+mZEM
+	YIrTOzmE67hn4IqLbUMbhCfZDUOQCVwJ5AT3LrZuzccguhHxSdhZ2Y0zALTzzyKWnDepcUHB1ZH
+	upVONX/N+s/4/wkeGT1bgGTV6QBa1oTqa/P/GQwkV9OboZ3EGMwIWxCp4UvNOjY4fI/jE75zcZV
+	vvsrYfIa/c9KfgonsccfTc6cBeWr4CUSLuzZqT1yhEopDoQgkwnhKs1OCeb9IM/rsbqP6sWPPFR
+	PdUyEnhLfWfbceL0NxLBJoPBlgKlJPThAVk1+xxF/IgAGkaRAGaWqV/bOIksB5PGRPdsiLanJnd
+	xwssu5MRYNzbg0EBS3xzvd3D2XPBlZqZmE7cl/i2oUD7JKCmK8a/DzqtqhE96PlH2yf2yM96h4f
+	mDe01lYmaAo/PHhWeNOu7mKcvlKxbK2o3A2xUln4FX4OMs9P3TlOsZrJvHigbTVThFx/hk3BVz7
+	M0JgRVGB5ibW+LJA+SPKbCv7DL8lWeK5lP7vvaoAoGYl+RcTRgPNL4KUEiQtzttSgW+fdj5Zno1
+	C46CmL3de5OH/MMqE/rMJoYFrA91XIZzAQAuuIucY0z80D6hn8cUKVbQ//qj17FJmq+WjWfBAQj
+	v7yvjt5c=
+X-Received: by 2002:a05:600c:3c98:b0:4a3:7344:13b5 with SMTP id 5b1f17b1804b1-4a96695f0e5mr70871295e9.16.1793212418555;
+        Wed, 28 Oct 2026 11:33:38 -0700 (PDT)
 Received: from gmail.com (dynamic-adsl-84-221-247-128.clienti.tiscali.it. [84.221.247.128])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa7f7f52e2sm11723035e9.9.2026.10.28.11.33.29
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa7f7f52e2sm11723035e9.9.2026.10.28.11.33.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 11:33:29 -0700 (PDT)
+        Wed, 28 Oct 2026 11:33:37 -0700 (PDT)
 From: Davide Gironi <davide.gironi@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: perex@perex.cz,
-	tiwai@suse.com
-Subject: [PATCH v2 0/2] ALSA: ice1712: support the TerraTec PHASE 88
-Date: Wed, 28 Oct 2026 19:24:08 +0100
-Message-ID: <20261028183155.787599-1-davide.gironi@gmail.com>
+	tiwai@suse.com,
+	Davide Gironi <davide.gironi@gmail.com>
+Subject: [PATCH v2 1/2] ALSA: ice1712: add a board-specific EEPROM initialization hook
+Date: Wed, 28 Oct 2026 19:24:09 +0100
+Message-ID: <20261028183155.787599-2-davide.gironi@gmail.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <87y0bk6gfn.wl-tiwai@suse.de>
+In-Reply-To: <20261028183155.787599-1-davide.gironi@gmail.com>
 References: <87y0bk6gfn.wl-tiwai@suse.de>
+ <20261028183155.787599-1-davide.gironi@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,35 +101,114 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The TerraTec PHASE 88 uses different front-module hardware from the
-EWS88MT even though the ICE1712 driver identifies it as an EWS88MT variant.
-The PHASE 88's write-only expander does not respond at the EWS88MT
-addresses, and its EEPROM advertises a consumer AC'97 codec and one MIDI
-UART that are not representative of the board.
+Add an eeprom_init callback to card info and call it after reading the
+EEPROM but before generic chip setup. Move the existing DMX6Fire fixup
+into the EWS driver.
 
-Changes since v1, following Takashi Iwai's review:
+Assisted-by: Pi:gpt-6-luna
+Signed-off-by: Davide Gironi <davide.gironi@gmail.com>
+---
+ sound/pci/ice1712/ews.c     | 14 ++++++++++++++
+ sound/pci/ice1712/ice1712.c | 31 ++++++++++++++++++++++---------
+ sound/pci/ice1712/ice1712.h |  1 +
+ 3 files changed, 37 insertions(+), 9 deletions(-)
 
-  - Add an early, card-specific EEPROM initialization callback and move the
-    existing DMX6Fire fixup out of generic chip initialization.
-  - Move the PHASE 88 AC'97 and second-MIDI UART EEPROM fixups into the EWS
-    driver callback, which runs before generic hardware setup.
-  - Drop the consumer-capture NULL guard: the early EEPROM fixup prevents the
-    nonexistent consumer PCM from being created in the first place.
-  - Use snd_ctl_boolean_mono_info for the Line/Mic boolean control and fix
-    the PHASE 88 initialization indentation.
-  - Give TS88 its own model string, and update the PHASE 88 expander shadow
-    only after a successful write so an I2C error cannot corrupt it.
-  - Updated comments style to fit better the other on the module.
-
-The series has two patches: the callback/refactoring patch first, then the
-PHASE 88-specific changes.
-
-Testing on the machine with two PHASE 88 racks.
-
-The patch series applies
-to the Linux 6.18.58 source. It was built and hardware-tested against the
-running Debian 6.12.113 kernel.
-
-Thanks,
-Davide Gironi
-
+diff --git a/sound/pci/ice1712/ews.c b/sound/pci/ice1712/ews.c
+index 1dffcb0..62574c3 100644
+--- a/sound/pci/ice1712/ews.c
++++ b/sound/pci/ice1712/ews.c
+@@ -1012,6 +1012,19 @@ static int snd_ice1712_ews_add_controls(struct snd_ice1712 *ice)
+ }
+ 
+ 
++static int snd_ice1712_ews_eeprom_init(struct snd_ice1712 *ice)
++{
++	if (ice->eeprom.subvendor == ICE1712_SUBDEVICE_DMX6FIRE &&
++	    !ice->dxr_enable) {
++		/* Set EEPROM value to limit active ADCs and DACs to 6;
++		 * also disable AC'97 as no hardware in standard 6fire card/box.
++		 * DXR extensions are not currently supported.
++		 */
++		ice->eeprom.data[ICE_EEP1_CODEC] = 0x3a;
++	}
++	return 0;
++}
++
+ /* entry point */
+ struct snd_ice1712_card_info snd_ice1712_ews_cards[] = {
+ 	{
+@@ -1060,6 +1073,7 @@ struct snd_ice1712_card_info snd_ice1712_ews_cards[] = {
+ 		.subvendor = ICE1712_SUBDEVICE_DMX6FIRE,
+ 		.name = "TerraTec DMX6Fire",
+ 		.model = "dmx6fire",
++		.eeprom_init = snd_ice1712_ews_eeprom_init,
+ 		.chip_init = snd_ice1712_ews_init,
+ 		.build_controls = snd_ice1712_ews_add_controls,
+ 		.mpu401_1_name = "MIDI-Front DMX6fire",
+diff --git a/sound/pci/ice1712/ice1712.c b/sound/pci/ice1712/ice1712.c
+index 376df1a..6cc38ee 100644
+--- a/sound/pci/ice1712/ice1712.c
++++ b/sound/pci/ice1712/ice1712.c
+@@ -2283,19 +2283,28 @@ static int snd_ice1712_read_eeprom(struct snd_ice1712 *ice,
+ 
+ 
+ 
++static int snd_ice1712_init_eeprom(struct snd_ice1712 *ice)
++{
++	const struct snd_ice1712_card_info * const *tbl, *c;
++
++	for (tbl = card_tables; *tbl; tbl++) {
++		for (c = *tbl; c->subvendor; c++) {
++			if (c->subvendor != ice->eeprom.subvendor)
++				continue;
++			if (c->eeprom_init)
++				return c->eeprom_init(ice);
++			return 0;
++		}
++	}
++	return 0;
++}
++
+ static int snd_ice1712_chip_init(struct snd_ice1712 *ice)
+ {
+ 	outb(ICE1712_RESET | ICE1712_NATIVE, ICEREG(ice, CONTROL));
+ 	udelay(200);
+ 	outb(ICE1712_NATIVE, ICEREG(ice, CONTROL));
+ 	udelay(200);
+-	if (ice->eeprom.subvendor == ICE1712_SUBDEVICE_DMX6FIRE &&
+-	    !ice->dxr_enable)
+-		/*  Set eeprom value to limit active ADCs and DACs to 6;
+-		 *  Also disable AC97 as no hardware in standard 6fire card/box
+-		 *  Note: DXR extensions are not currently supported
+-		 */
+-		ice->eeprom.data[ICE_EEP1_CODEC] = 0x3a;
+ 	pci_write_config_byte(ice->pci, 0x60, ice->eeprom.data[ICE_EEP1_CODEC]);
+ 	pci_write_config_byte(ice->pci, 0x61, ice->eeprom.data[ICE_EEP1_ACLINK]);
+ 	pci_write_config_byte(ice->pci, 0x62, ice->eeprom.data[ICE_EEP1_I2SID]);
+@@ -2502,8 +2511,12 @@ static int snd_ice1712_create(struct snd_card *card,
+ 	card->sync_irq = ice->irq;
+ 	card->private_free = snd_ice1712_free;
+ 
+-	if (snd_ice1712_read_eeprom(ice, modelname) < 0)
+-		return -EIO;
++	err = snd_ice1712_read_eeprom(ice, modelname);
++	if (err < 0)
++		return err;
++	err = snd_ice1712_init_eeprom(ice);
++	if (err < 0)
++		return err;
+ 	if (snd_ice1712_chip_init(ice) < 0)
+ 		return -EIO;
+ 
+diff --git a/sound/pci/ice1712/ice1712.h b/sound/pci/ice1712/ice1712.h
+index cd02710..6e9c13b 100644
+--- a/sound/pci/ice1712/ice1712.h
++++ b/sound/pci/ice1712/ice1712.h
+@@ -509,6 +509,7 @@ struct snd_ice1712_card_info {
+ 	const char *name;
+ 	const char *model;
+ 	const char *driver;
++	int (*eeprom_init)(struct snd_ice1712 *ice);
+ 	int (*chip_init)(struct snd_ice1712 *);
+ 	void (*chip_exit)(struct snd_ice1712 *);
+ 	int (*build_controls)(struct snd_ice1712 *);
