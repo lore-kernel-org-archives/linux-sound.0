@@ -1,102 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793252696;
-	b=4CTkERfydZgc5aQJQaYB2RpbpOWzV8YDUJMZXhtCHdgqr6JWPlJXKxtR1GO3TmfcYuIy
-	 Pwus6NmPkeHOUhm6DJqMUsda0r7PqIlwCs9yjqW8Tm5XXI/rwG4GLKihXaQjbbwMGPaMg
-	 RjXemrco8IbcZXOKZ8sAGsYYz6BblbfrFBB6U9RyJHYq4KKSOBXHJH4RPPwzut+3VuLVk
-	 /HoTWI65B/CRhGYEr1uNZQexvf13bEsqx4z8knKavpfxdHVioaj2smoI8DHsQgpwtC9DY
-	 29QkqpkZP6Q1gdWnJAUGcIjzb8C777QHwqirpH7K3ZaHgsZu2rev/2H6uAxXFtM/D2w==
+	t=1793253244;
+	b=aaflH2ZVap8g8UqVQTuRCrqGa0wawetd7ywyxHScP5gR+AdkhDLOzpOwQ7FRc1Y98vP1
+	 N5+aEaL3KGDrl02Hx6Zg6q0bZhXY+d/8ljsffXr20dVrfo60Gk/VhDFCo388mgJODNkIa
+	 Sqr05jpSMKbH2tz7DrGDf35RnHgnqVociyAvNP2vTbwyo3NU29a8uU4xlRQ2DQThg3Ju/
+	 yQodP0EZZ6HLPE9jYI+ECWmm3UltoCQWJKFd6KgWLNGcXpFGHvWWq3stFsIJLFP4ce61p
+	 ptBqPedMfEWd86CikLCmYcMAaJHdSiOUx0B/ffr3FIriv72zH2V9PlzLJWjLqhu/SOg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793252696;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=rn33wo8VGHhjpHEwoQH/m2TS1FP3dM6s2FcxZAOqUUo=;
-	b=U78gxsQO9a6RHY3FlbioBVEhvBNlpkBWvZFibUH3jHA+akpexQSWpqyodd+irdQjBheA
-	 bfaj+ImSKiL47X6Ex3ihU16THCWkVCe1vYjDJ1/F9GQad/HSiIsXQlJEnfs5q/aU3v6O/
-	 D+UAb9Fsszfd7GoUifar2PZJ07OrHCKdTXmCMF664cBF6s/2kuQLIuYjFmS5LAFOhL0/N
-	 ++dhbwN+TMJVJba/XJUPClQ3zu7R4YpE2LdYbMPz1zhrbwVA3SX6j7QH1UrxKT+cgK5gJ
-	 5Z6ALHsFEO28FTXSPYLvyY3++Bbk/HjdGRqfQryuyePnEIrzDrA6l+ltI7dtpqmMOtg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793253244;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=AieQM9WsY35MM95xjhY5gx7C3eRSNN4WOm//bIBgLtA=;
+	b=kWJKnRBTpznBBi6sgHswPMP0fzCMEG8daMKD7mANl7Ykawea1TT1JYPukeyTLP79xclh
+	 sbgBlNrwEbKwOZ5YCgrNY63VWXKFVBMPyH9keadMDNlj0hE9M3y8kX7yGBmTY7GmjuiYA
+	 NAyamXc3/tH0KbmUHaMDq+/BrS3N8DEKSyrJ4Iqus1uAtGYVM3kmF5x+F57ISi7n11t3N
+	 o2XRef0WcoMVCyP0Z7lYsMKaxvg1XY1WFDgr9+cBSF2aPg6vBGh4lioW4szv0xJ1CAy/U
+	 zwXRRAzzVvTqZGrqMD2ZB+LoJTWBk5AF9ttiiQxze+0QGT7P100G6Ga85V7zSCZB61w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bockavAG;
-	arc=none smtp.remote-ip=209.85.214.173
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TydZXWL7;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA262606A32D
-	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 05:44:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA262606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFFE606A31C;
+	Thu, 29 Oct 2026 05:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bockavAG
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2e8b20a899fso12009745ad.1
-        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 22:44:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793252695; x=1793857495; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rn33wo8VGHhjpHEwoQH/m2TS1FP3dM6s2FcxZAOqUUo=;
-        b=bockavAGG9CgSPhXpT2YfENGrJDsH6ZRDQ1Okk+V9fpfIdPpMzr46n+ofdHYjOKzG5
-         momK4e7xeAexQ9+yhizn/9RJiSWNRYlEKgrbXspga79C2QGhyArxLwkdyBZYjWY+rt1D
-         MH0FPZB1e16Nsz0ToCPPvg3xA7WNYxUcdKc+6osULL05Swa8xqJ1vCH+WnWg724eaKyl
-         F3S9NKhV7ggbTWRatF/c9dcjdrXkEAiKJ0iHclD9Tv4LqE1w1CGzSihZzUUM//prc+Q3
-         HndU/GOkeu69XQIuvv9JjNWfpDekQDHlsPLX0UIXXLIehqo8p8SCVgDKjNigVfSBufSr
-         p12Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793252695; x=1793857495;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rn33wo8VGHhjpHEwoQH/m2TS1FP3dM6s2FcxZAOqUUo=;
-        b=tdEZ1qJC0Dga/kBzgN6NMDpP2FP8bi0htZeHdqTb6eDTuqH5PdssZz+HDXYHPReNTH
-         Y4peR0SfYsmv+FYQWenhFGDZrALbMYR7R0p83PNxAxHQAot79hSJqxHz9wW9aWm1TEKu
-         /OzdprdK0S/iC3Pn69SmqgBoKDfUY/KZ7Fpv9sa4unF5TEnFPRyqBUPscuEQFZGhEGcY
-         8F4GQfJMmJbMbxsUAgNmOKW3wtWbeXgvts94ohtL+C+sDtx13YU3BYysZBcc7cyTCZ1+
-         YeY2ovJZ6zqkJku3kZg3HXzGPGdiHlQPdZgAkr0WzEUTj3klZFolVRoxiXIVcba+Q9FJ
-         cqEA==
-X-Gm-Message-State: AFq9FYKLZylpbYZ0E9pLCLLR/vwPARyL/kJ7ufpWzSH6ye0C+AoPOs1Z
-	G7pdT1Z97QS98IwnTsesDTorF57WWuRbfZLb3U2gToKQVRIyRiR01IZ1Fe//nw==
-X-Gm-Gg: AYBFou1aXzXW6CwTFsLbYRnt+GtFVdZyxqEE70dfmgSpijI53CmUYPwL2zPyFv1pVgv
-	ThqPX5adupSSjueyrbN1nrHlfTY1fhOA/iY3IeJrFAXQADVLppwnL07t5uFSF1HKEEIuhHnq8MJ
-	HsCboKOnuDV/xC6jvNyUHBApPAcbTLasy7eV2qZ8zWU7IiQVuu+e0jXPtXwolz3BSgx+5odV9/Q
-	Hkh5ur724bn1gRVK+f1jrsALq7rAj+u0ZWB66cCUXHuJjm+KkRNaUA43t73t2eHOKeJ4k2rXAvu
-	Cdj8ZFwT+CGR5SckgpWPWHuWJNFPx74LbCgqGs3S2OxdiHQD4hip5onzD1Kd9awaz5kVEzy2Lqy
-	9znjJMlmr8AsvwjSWHHKqgivJFqOUB426SEX+eEdseW5f8Hopm7iVlVO/E0ypDeJQVPLJ1LV4Fq
-	I1ArLJhU67aemYrhL3j1dTbhZJhvTxC4m8+ycyhzrIZu0HVvpMS5zTNlUkv7V/Bd5NX/U+W5rjW
-	1ngOszn0+4Dt8JleEKEMt4UScima2c4BR+/Pn/D9F1s6wqHHQIukud6HT4OCB/7iGD7iXuaqee/
-	PnmiItB0RlrC/i0XX3tIhXDgkiiLxKlCJDeNs8yGq47BKcuGDTulrkTlF93zU0vcZ4lAfX3dlxf
-	FuI28anoU1Rg4X0wEyRw2wnKlNM7NHUvkJAZNUNdP54xxguE=
-X-Received: by 2002:a17:90a:e7d2:b0:3ad:fb12:9bf5 with SMTP id 98e67ed59e1d1-3ae583152ffmr3612053a91.62.1793252695309;
-        Wed, 28 Oct 2026 22:44:55 -0700 (PDT)
-Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae6e83127csm2433520a91.10.2026.10.28.22.44.51
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 28 Oct 2026 22:44:54 -0700 (PDT)
-From: Joonho Lee <mynameisjune111@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.de,
-	perex@perex.cz,
-	anton.yakovlev@opensynergy.com,
-	mst@redhat.com,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v8 14/14] ALSA: virtio: synchronize indirect capture positions on reset
-Date: Thu, 29 Oct 2026 14:43:54 +0900
-Message-ID: <20261029054354.2931-15-mynameisjune111@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261029054354.2931-1-mynameisjune111@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TydZXWL7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1CFD1F01825;
+	Thu, 29 Oct 2026 05:54:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793253243;
+	bh=AieQM9WsY35MM95xjhY5gx7C3eRSNN4WOm//bIBgLtA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=TydZXWL7EuFMJuoNmcUQNFkw7DKo5cWsiw/z0T5ZSFTqvcnAtwGH2hIDIxme6KErZ
+	 QdH3MbmDtuGzY8a6g+XCmDi1lbGtFtSRL369XkRVxcZzb5RGkIPACYN1bo0W6EDmqy
+	 +uEElT2gtMVQjZEzr9PxyFFhs7nE/QOewsLU+zjmIP7SNGt9lb3NgtCAbr2TDARwOk
+	 Tm1Fy/r+JT6yd6/e8QzTvPOaQFYDi39v4iLorD4hmPTaCQbGmSyd56lfQbPNMrP1EG
+	 DfWVE8OJ75tY9/USV2GS1toZxlTTtSENbXKulxWEPk34z9pcOY6LjtdhrCDLMTyWfY
+	 zovkOudynrzQg==
+Message-ID: <sashiko-outbox-188779@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v8 05/14] ALSA: virtio: Keep control payloads alive
+ through DMA completion
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
+Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
+ Perez" <eperezma@redhat.com>
+In-Reply-To: <20261029054354.2931-6-mynameisjune111@gmail.com>
 References: <20261029054354.2931-1-mynameisjune111@gmail.com>
+ <20261029054354.2931-6-mynameisjune111@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 29 Oct 2026 05:54:03 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -105,158 +61,107 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-RESET rebases the PCM application position without updating the indirect
-capture accounting. The next ACK can interpret that change as a backward
-application move and return -EPIPE. In a QEMU reproduction, the PCM
-application position changed from 24000 to 2880 frames while the private
-position stayed at 24000. Both running and paused capture failed with
-free-running and buffer-sized stop thresholds.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] ALSA: virtio: misaligned virtio_snd_ctl_value access in virtsnd_=
+kctl_get()
+--
 
-Use a separate reset operation for indirect capture. The PCM stream lock
-covers the common pointer reset, private accounting and core completion.
-Discard the observed unread data and return its buffer space to RX. Keep
-the hardware and software ring offsets so in-flight completions continue
-at their existing DMA positions. Set the private application position to
-the position core will publish on completion.
+commit b0116a304a65fa5afc94f948da091c12c54f919b
+Author: Joonho Lee <mynameisjune111@gmail.com>
 
-A paused device retains its fixed DMA positions. Keep the observed
-software ring position as the reset position in this state, instead of
-making userspace read from offset zero while the device continues at a
-different offset. Completions after the observation are retained.
+ALSA: virtio: Keep control payloads alive through DMA completion
 
-If returning RX space fails, stop further transfers and return the
-error. The caller must drop and prepare or reopen the stream after this
-partial failure. The existing staged reset operation and playback are
-unchanged.
+This commit moves control message headers and data payloads into a
+reference-counted DMA buffer owned by struct virtio_snd_msg so that caller
+cleanup on timeout or interruption does not invalidate in-flight DMA. It al=
+so
+aligns scatterlist regions to the greater of the DMA cacheline and
+struct virtio_snd_ctl_value alignment.
 
-This patch depends on the proposed PCM reset operation and helper in
-patch 1. The series diff applies after patch 2 because both touch the
-operation tables. The indirect reset implementation also applies on top
-of patch 1 alone; an alternate local diff is supplied for that order.
-The reproduction uses the pending virtio-snd stack with local follow-up
-corrections described in the cover letter.
+> diff --git a/sound/virtio/virtio_ctl_msg.c b/sound/virtio/virtio_ctl_msg.c
+> index 7114bea4033a5..2e0ff15e729da 100644
+> --- a/sound/virtio/virtio_ctl_msg.c
+> +++ b/sound/virtio/virtio_ctl_msg.c
+[ ... ]
+> @@ -85,20 +161,85 @@ void *virtsnd_ctl_msg_response(struct virtio_snd_msg=
+ *msg)
+>   * Return: Allocated message on success, NULL on failure.
+>   */
+>  struct virtio_snd_msg *virtsnd_ctl_msg_alloc(size_t request_size,
+> -					     size_t response_size, gfp_t gfp)
+> +					     size_t response_size,
+> +					     size_t request_data_size,
+> +					     size_t response_data_size,
+> +					     gfp_t gfp)
+>  {
+[ ... ]
+> +	cache_alignment =3D dma_get_cache_alignment();
+> +	if (cache_alignment <=3D 0)
+> +		return NULL;
+> +	/* DMA coherence does not remove the CPU's type alignment requirement. =
+*/
+> +	alignment =3D max_t(size_t, cache_alignment,
+> +			  __alignof__(struct virtio_snd_ctl_value));
+[ ... ]
+> diff --git a/sound/virtio/virtio_kctl.c b/sound/virtio/virtio_kctl.c
+> index 45f7b6a5b3080..4cf75dedbe9a3 100644
+> --- a/sound/virtio/virtio_kctl.c
+> +++ b/sound/virtio/virtio_kctl.c
+> @@ -161,10 +163,12 @@ static int virtsnd_kctl_get(struct snd_kcontrol *kc=
+ontrol,
+>  	unsigned int i;
+>  	int rc;
+> =20
+> -	msg =3D virtsnd_ctl_msg_alloc(request_size, response_size, GFP_KERNEL);
+> +	msg =3D virtsnd_ctl_msg_alloc(request_size, response_size, 0, 0,
+> +				    GFP_KERNEL);
 
-The earlier RW capture tests covered running and paused RESET, both stop
-thresholds, a 240 ms read backlog, refill-error recovery and reopen. The
-core-only plus indirect variant also passed the four RW reset cases.
+[Severity: Medium]
+Does packing both struct virtio_snd_hdr and struct virtio_snd_ctl_value into
+response_size here leave kvalue misaligned in virtsnd_kctl_get()?
 
-Additional direct MMAP_INTERLEAVED tests used 48 kHz mono S16_LE in
-ARM64 QEMU. The pre-fix running and paused cases failed after RESET with
-ACK -EPIPE. All 13 fixed runs passed, including two 1-vCPU 70-second
-captures, refill -ENOSPC injection, managed overrun recovery and reopen.
-All 9,072,000 captured frames matched the deterministic source at their
-expected positions. RESET discards observed unread data; verification
-starts at the resulting position. Recovery and reopen checks start at
-the device's new START position.
+In sound/virtio/virtio_ctl_msg.c, virtsnd_ctl_msg_alloc() aligns the start =
+of
+each scatterlist region (including msg->sg_response) to a multiple of
+__alignof__(struct virtio_snd_ctl_value) (8 bytes) via
+virtsnd_ctl_msg_sg_init().
 
-KASAN and lockdep reported no errors. These MMAP runs used the combined
-local stack with staging disabled. Physical VZ/MOTU, other MMAP layouts,
-multi-channel input and concurrent RESET between mmap_begin and
-mmap_commit remain untested for this candidate.
+However, in sound/virtio/virtio_kctl.c, virtsnd_kctl_get() passes
+response_size =3D sizeof(struct virtio_snd_hdr) + sizeof(*kvalue) and
+response_data_size =3D 0, and then computes kvalue by adding the 4-byte
+sizeof(struct virtio_snd_hdr) to the 8-byte-aligned response buffer:
 
-Assisted-by: LLM
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
+sound/virtio/virtio_kctl.c:virtsnd_kctl_get() {
+    ...
+	kvalue =3D (void *)((u8 *)virtsnd_ctl_msg_response(msg) +
+			  sizeof(struct virtio_snd_hdr));
 
----
-diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
---- a/sound/virtio/virtio_pcm_ops.c
-+++ b/sound/virtio/virtio_pcm_ops.c
-@@ -10,6 +10,7 @@
- #include "virtio_card.h"
- 
- static const struct snd_pcm_ops virtsnd_pcm_capture_staged_ops;
-+static const struct snd_pcm_ops virtsnd_pcm_capture_indirect_ops;
- 
- bool virtsnd_capture_staging;
- module_param_named(capture_staging, virtsnd_capture_staging, bool, 0444);
-@@ -389,10 +390,13 @@
- 		}
- 	}
- 
--	/* Keep the legacy RESET completion policy outside staged capture. */
-+	/* Keep RESET operation selection fixed for the opened runtime. */
- 	substream->ops = vss->capture_staging ?
- 		&virtsnd_pcm_capture_staged_ops :
- 		&virtsnd_pcm_ops[substream->stream];
-+
-+	if (vss->direction == SNDRV_PCM_STREAM_CAPTURE && !vss->capture_staging)
-+		substream->ops = &virtsnd_pcm_capture_indirect_ops;
- 
- 	snd_pcm_hw_constraint_integer(substream->runtime,
- 				      SNDRV_PCM_HW_PARAM_PERIODS);
-@@ -1596,6 +1600,54 @@
- 			return 0;
- 	}
- 	return virtsnd_pcm_sync_stop_locked(substream);
-+}
-+
-+/* The PCM lock covers both indirect accounting and core completion. */
-+static int virtsnd_pcm_indirect_reset(struct snd_pcm_substream *substream)
-+{
-+	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
-+	struct snd_pcm_runtime *runtime = substream->runtime;
-+	struct virtio_snd_queue *queue = virtsnd_pcm_queue(vss);
-+	struct virtsnd_pcm_transfer transfer = {};
-+	int rc;
-+
-+	rc = snd_pcm_lib_reset(substream);
-+	if (rc)
-+		return rc;
-+	if (!snd_pcm_running(substream) &&
-+	    runtime->state != SNDRV_PCM_STATE_PAUSED)
-+		return 0;
-+
-+	guard(spinlock_irqsave)(&queue->lock);
-+	guard(spinlock)(&vss->lock);
-+	if (vss->resetting)
-+		return -ECANCELED;
-+	if (!vss->prepared || vss->stopped)
-+		return -EBADFD;
-+
-+	/* Pausing does not move the device's fixed DMA buffer positions. */
-+	if (runtime->state == SNDRV_PCM_STATE_PAUSED)
-+		runtime->status->hw_ptr =
-+			bytes_to_frames(runtime, vss->pcm_indirect.sw_io);
-+
-+	transfer.indirect = vss->pcm_indirect;
-+	transfer.indirect.sw_ready = 0;
-+	/* Consume no application delta while returning discarded RX space. */
-+	transfer.indirect.appl_ptr = runtime->control->appl_ptr;
-+	rc = snd_pcm_indirect_capture_transfer(substream, &transfer.indirect,
-+					       virtsnd_pcm_trans_copy);
-+	if (!rc)
-+		rc = transfer.error;
-+	if (rc) {
-+		virtsnd_pcm_transfer_failed(vss);
-+		return rc;
-+	}
-+
-+	/* RESET discards all samples through the observed software pointer. */
-+	transfer.indirect.sw_ready = 0;
-+	transfer.indirect.appl_ptr = runtime->status->hw_ptr;
-+	vss->pcm_indirect = transfer.indirect;
-+	return 0;
- }
- 
- /* The core holds the stream lock through the matching appl_ptr reset. */
-@@ -1691,3 +1743,17 @@
- 	.pointer = virtsnd_pcm_cp_pointer,
- 	.ack = virtsnd_pcm_cp_ack,
- };
-+
-+static const struct snd_pcm_ops virtsnd_pcm_capture_indirect_ops = {
-+	.open = virtsnd_pcm_open,
-+	.close = virtsnd_pcm_close,
-+	.ioctl = snd_pcm_lib_ioctl,
-+	.reset = virtsnd_pcm_indirect_reset,
-+	.hw_params = virtsnd_pcm_hw_params,
-+	.hw_free = virtsnd_pcm_hw_free,
-+	.prepare = virtsnd_pcm_prepare,
-+	.trigger = virtsnd_pcm_trigger,
-+	.sync_stop = virtsnd_pcm_sync_stop,
-+	.pointer = virtsnd_pcm_cp_pointer,
-+	.ack = virtsnd_pcm_cp_ack,
-+};
+	switch (type) {
+    ...
+	case VIRTIO_SND_CTL_TYPE_INTEGER64:
+		for (i =3D 0; i < count; ++i)
+			uvalue->value.integer64.value[i] =3D
+				le64_to_cpu(kvalue->value.integer64[i]);
+		break;
+    ...
+}
+
+Because virtsnd_ctl_msg_response(msg) is 8-byte aligned and
+sizeof(struct virtio_snd_hdr) is 4 bytes, kvalue is guaranteed to be at an
+address congruent to 4 mod 8. When userspace reads a control element with
+type VIRTIO_SND_CTL_TYPE_INTEGER64 via SNDRV_CTL_IOCTL_ELEM_READ,
+le64_to_cpu(kvalue->value.integer64[i]) performs an unaligned 64-bit typed
+load through kvalue.
+
+Note that a later commit in the series, 775188574a68 ("ALSA: virtio: add
+staged capture accounting and lifecycle recovery"), addresses this by passi=
+ng
+sizeof(*kvalue) as response_data_size and retrieving kvalue via
+virtsnd_ctl_msg_response_data(msg). Should that change be folded into this
+commit so that kvalue is aligned here as intended?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261029054354.2931=
+-1-mynameisjune111@gmail.com?part=3D5
