@@ -1,56 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.29
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793263568;
-	b=4un4Ypi0UPoBTPjtodyX5TRqZb5neDMhivJUYLNNd9yHJ48pvhZO27DCpJ+A7HhZzPld
-	 9v9EJQqGieZgP1UBoCsVEASDV8lMo92X7CMKcc9JZ1bwABrfu35AyghllZYLVt/kKUFak
-	 0yP0OhHGme6ZDER8XsZxIe16H3A0JQ1RM4St56JtCqV0n5pcIq4ql1S+9zrGfDxQFCpm8
-	 OyvaZpULlaR2kUetuI8sLM/9+1JF3Lm+pJWYzbrbE/1Wb1qOwS6qyQvkRxOC3iye/rOrJ
-	 WEGQeCxSmP3Pi7x54mlXRx6sTbpA19Cl7iC+hlNzwFz34wHgm2U9/CmfzXyjf15DNRQ==
+	t=1793263710;
+	b=ZG/YX8g2Pz9Qa3W7sR2js4a30ZBqPuZsFu61UKLr63a/yjvYZba3nx1GFNHgONUHwIf4
+	 8GVEFZh4RzG6IhfMicH1+H80HBOAL4UB0SBRuQMNSOmDuVTTCwwvjIRJyWA1xxB9xLwHc
+	 8VFvLbCP54WZz4gbBzQVkFVKezADF98+uxmN0/0LM3nEIdXfwG7EdK30mctZUPtr+K93Y
+	 vUKh28BHbM3t0fAABOo48zHiOHPNZA/ag/geV+OhVS22WUZckcLezaudz8YoRtDE+XUce
+	 M4ZBArqbSbsipSuMLlsKDsHedXjq9N+QaQx3zP+GcPdU3V2rM03DbK/FwHYH/bCqCRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793263568;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type;
-	bh=3i1Ss1/LEW5xM/O4Uf6Evq/gd84FCKkrCeu1OzEcG+Q=;
-	b=3t1XvxcH7YvBIpwcd1BwGytKKhZckuIYsZhyyR0CFIwfN12dUs0bm6qG31P66sO7UGj7
-	 MjA9XAetFkgB03QP7xy6qwjPE8lv7fGchdFqi1wNWnGviaqtOLyzIevNsmzs1+FwrNl/n
-	 sMPG9ByW90aSd71ATuPP3yPND2Z0XJDAUjpby+gyFfhUN++cTqPI2CQcEbjd8vnl7Rn9B
-	 8dOsMSUuI574G6A75gMHxcIlYMGtvhymTn/LaU/oC2swgXSfh7QZMa54Xv3kUui7aU8h6
-	 j8jroLdcirlWdB9z1QKaY/dJMPQ4VoRLNMZfeIAILq9iUqA6BgKGeZCmyEKgyZIvwDA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793263710;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=9YHy2jluue061+9f1QnvmhvqOkv6/lLP8VsJqdtmZoc=;
+	b=urFNsO0SkGL6SDYvyxzNKQwOoi6hHwiB5je2vLtvk4GbP4ZsPOq3Fb4PW6W0dDYwoi+p
+	 q75ZkJFSy9KEajB/QPfRXxYDD3Nqs/+oeN56K8xrMDZzb4PlKOAGXowkMxiNVmiswts1S
+	 JvTl4DCLLZX2kehqigE4uh1rSsDBnx8U8WWYHGLkkN8cywFVupI0BNSG+/txXQiwbQjLt
+	 jZbhuYjqVq05BoRXtPMDMPaqL0x1EIR4eYWsxARG7q37dGYHvH9LODzV/2Xqh2PF7epOd
+	 knywl40SMiA9J5aEtBmWbe9wDHMrlUgdf35gtPqg/Wd5DLcgEf90j15gop2heMLH2eA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=proton.me;
-	spf=pass smtp.mailfrom=proton.me;
-	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=mcrZ6pnJ;
-	arc=none smtp.remote-ip=79.135.106.29
-Received: from mail-10629.protonmail.ch (mail-10629.protonmail.ch [79.135.106.29])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E55606A31A
-	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 08:46:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51E55606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=mcrZ6pnJ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail2; t=1793263565; x=1793522765;
-	bh=3i1Ss1/LEW5xM/O4Uf6Evq/gd84FCKkrCeu1OzEcG+Q=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=mcrZ6pnJklxMF9AmG07AA5Fvr4fKVUAawGzoDblEn5MaV1PMBrL0gjqj4TssoPnxY
-	 y42+okPVrIxbnf+1NXBdpicmF/usbswYT+BPYTlMoW5cvGKeCbDaHl2dV4cHv5fRc3
-	 fNl4DdjxDT7pscEQ6m2Np95UJGJRKYXikUy8eLH7aSkJIUA9EUuyn9pcrXdU1PL35C
-	 QLmmVyf/ckE3HooYY6v10Cf3MOBlfr8dVdh3cDOlyKJVJci4bNbOi3kGYo8NM7dA3P
-	 /tQmAUvEmsbKhpLzEBD8i3Qm26Zyep5lsz09t4R3CSf7xKTvzewOBmxyBZvSxiYF4E
-	 GynDT+gFB04Sg==
-Date: Thu, 29 Oct 2026 08:46:01 +0000
-To: David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>
-From: Mads <mhbn@proton.me>
-Cc: Takashi Iwai <tiwai@suse.com>, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>
-Subject: [BUG] ALSA: hda: cs35l41: stale cs_dsp.name after component unbind breaks firmware load
-Message-ID: <dD5GFAprPRxWfPbbbrhD_wor9MMiT3a4ONaybCd3jr7tBR5xKw2oIcpfDhFtSiXUOsmHcUUUH_UNMBMvm57yTY1MMHqjriZRLAP4XvHrdmY=@proton.me>
-Feedback-ID: 46771976:user:proton
-X-Pm-Message-ID: e55efd899896104cec384d7f99f44229ef302ada
+	dmarc=pass header.from=stu.xidian.edu.cn;
+	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
+	arc=none smtp.remote-ip=162.243.164.118
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DBB9606A31C;
+	Thu, 29 Oct 2026 08:48:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1DBB9606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:In-Reply-To:References:MIME-Version:
+	Content-Transfer-Encoding; bh=9YHy2jluue061+9f1QnvmhvqOkv6/lLP8V
+	sJqdtmZoc=; b=JWlplOO1VjxY8+uyAUycIupOfBmmB3MKxs0G2k6jaogUfibcfF
+	sceOAllGGn4g27Q9+tpgkFTzyXhwG/z0NPNMxEYlhpMynceIxgoKQDuqNC+OBfzy
+	ThkHAOqEuLyBRsEVfkWI9+2gJmL79vGHHasCdxDE2pUrwFizEwk9g/irg=
+Received: from user-virtual-machine.localdomain (unknown [113.200.174.47])
+	by hzbj-edu-front-3.icoremail.net (Coremail) with UTF8SMTPA id BbQMCkAmKv1KCONq6jz8AA--.61740S3;
+	Thu, 29 Oct 2026 16:48:20 +0800 (CST)
+From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Bin Yu <byu@xidian.edu.cn>,
+	Cheng Wen <wencheng@xidian.edu.cn>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH 1/2] ALSA: hwdep: Serialize DSP load requests
+Date: Thu, 29 Oct 2026 16:48:09 +0800
+Message-Id: <20261029084810.21910-2-25031212351@stu.xidian.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261029084810.21910-1-25031212351@stu.xidian.edu.cn>
+References: <20261029084810.21910-1-25031212351@stu.xidian.edu.cn>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,91 +61,86 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha512; boundary="------9b070fd6c0b2b25878603b7f851a4023617296d5c4f8d15adda1f3e183033f45"; charset=utf-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:BbQMCkAmKv1KCONq6jz8AA--.61740S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7Cw48Gr4xKF4kGFykJFWfuFg_yoW8Kw18pF
+	4qkFWYkFyDKrs8Cw1DJanrWFyFyws7CFsxGr45J3W0yr15ZF1F93sYqFyUuryFkr4rCFy8
+	uFy0vF1rJFW3Jw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmqb7Iv0xC_Cr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
+	8067AKxVWUGwA2048vs2IY020Ec7CjxVAFwI0_JFI_Gr1l8cAvFVAK0II2c7xJM28CjxkF
+	64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcV
+	CY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv
+	6xkF7I0E14v26r4UJVWxJr1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcV
+	AaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0E
+	x4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x
+	0262kKe7AKxVWUAVWUtwCY02Avz4vE14v_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC
+	6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
+	C2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_
+	JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
+	WUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIY
+	CTnIWIevJa73UjIFyTuYvjxUxD73UUUUU
+X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAgUBD2riEkGQPAAAs+
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------9b070fd6c0b2b25878603b7f851a4023617296d5c4f8d15adda1f3e183033f45
-Content-Type: multipart/mixed;boundary=---------------------6f1ed0560da74235093d354cd5e9486d
+The check of the loaded DSP indices and the call of the driver's
+dsp_load callback in snd_hwdep_dsp_load() are not serialized.  A hwdep
+file descriptor can be shared among threads, or inherited across fork,
+so two SNDRV_HWDEP_IOCTL_DSP_LOAD requests for the same index can both
+observe the index as unloaded and enter the driver's callback
+concurrently, even though the device itself is opened exclusively.
 
------------------------6f1ed0560da74235093d354cd5e9486d
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;charset=utf-8
+This breaks the assumption behind hw->dsp_loaded that a firmware index
+is loaded only once.  For example, snd-usb-usx2y hits
+WARN_ON(usx2y->as04.buffer) in usx2y_async_seq04_init() and may
+allocate the US-428 sequence URBs twice.
 
-Hi,
+Serialize the check, the callback invocation and the bookkeeping with a
+per-hwdep mutex, so that the second request returns -EBUSY.
 
-Same machine and kernel as my report "amp dead until reboot after one
-failed system resume (shared reset)": HP Spectre x360 14-eu0xxx, SSID
-103C8C15, 2x CS35L41 on I2C, kernel 7.2.5 (Omarchy distro kernel). The
-code below is unchanged in mainline as of 75c1cb8178fe.
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
+Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
+Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+---
+ include/sound/hwdep.h | 1 +
+ sound/core/hwdep.c    | 2 ++
+ 2 files changed, 3 insertions(+)
 
-To recover the stuck right amp without a reboot, I unbound and rebound
-only .1:
-
-  echo i2c-CSC3551:00-cs35l41-hda.1 > /sys/bus/i2c/drivers/cs35l41-hda/unb=
-ind
-  echo i2c-CSC3551:00-cs35l41-hda.1 > /sys/bus/i2c/drivers/cs35l41-hda/bin=
-d
-
-.1 came back fine after a fresh probe. But .0, which was only unbound
-and rebound as a component, could no longer load firmware:
-
-  cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: Falling back to default firmwa=
-re.
-  cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: Unable to find firmware and tu=
-ning
-  cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: Cannot Initialize Firmware. Er=
-ror: -2
-  cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: Cannot Run Firmware, reverting=
- to dsp bypass...
-  cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: CS35L41 Bound - SSID: 103C8C15=
-, BST: 0, VSPK: 0, CH: L, FW EN: 0, SPKID: 0
-
-The files exist, and .1 loaded the same .wmfw a moment later. Toggling
-"L0 DSP1 Firmware Load" off and on gave the same -2. Only a reboot
-fixed it.
-
-From reading the code, I think it goes like this. With
-firmware_autostart, the first cs35l41_hda_bind() calls
-cs35l41_smart_amp() -> cs35l41_init_dsp() -> cs_dsp_halo_init(), and
-cs_dsp_create_name() allocates dsp->name with
-devm_kasprintf(dsp->dev, ...). Because that happens inside
-component_bind(), the allocation lands in the component's devres group,
-and component_unbind() releases that group. cs35l41_hda_unbind() does
-not reset halo_initialized; only cs35l41_remove_dsp() does, and that
-runs from remove. So the next bind skips cs_dsp_halo_init() and builds
-the firmware file names from the freed dsp->name, which is a
-use-after-free. The freed name also shows in .1's own messages during
-its unbind ("DSP1:" becomes empty):
-
-  cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: : Failed to read SCRATCH0: -16
-
-I have not confirmed this with KASAN. Possible fixes: tear the DSP down
-in cs35l41_hda_unbind() (cs35l41_remove_dsp(), or at least clear
-halo_initialized and dsp->name), or keep the name allocation out of the
-bind devres group.
-
-I'm happy to test patches.
-
-Thanks,
-Mads
------------------------6f1ed0560da74235093d354cd5e9486d--
-
---------9b070fd6c0b2b25878603b7f851a4023617296d5c4f8d15adda1f3e183033f45
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wrsEARYKAG0FgmrjB78JEBcwQI9sml54RRQAAAAAABwAIHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmcDJA8xjQHF3iWbOPXPg1xtRmigRdUuiLBtTR25
-IZEVhRYhBKrdUMiR2NqyOetv1hcwQI9sml54AAB4pQEAjDiqA9W+r/ZjXbDt
-YXogzM6S5mIBbGJbSHceepiZrSkA/0E4pQXC9f3Q+vyvXAbCQ67AO1Rdzt7m
-yNoR6URDfPsH
-=pF+d
------END PGP SIGNATURE-----
-
-
---------9b070fd6c0b2b25878603b7f851a4023617296d5c4f8d15adda1f3e183033f45--
+diff --git a/include/sound/hwdep.h b/include/sound/hwdep.h
+index b0da633184cd..7357727f0660 100644
+--- a/include/sound/hwdep.h
++++ b/include/sound/hwdep.h
+@@ -57,6 +57,7 @@ struct snd_hwdep {
+ 
+ 	struct mutex open_mutex;
+ 	int used;			/* reference counter */
++	struct mutex dsp_mutex;		/* serializes DSP load requests */
+ 	unsigned int dsp_loaded;	/* bit fields of loaded dsp indices */
+ 	unsigned int exclusive:1;	/* exclusive access mode */
+ };
+diff --git a/sound/core/hwdep.c b/sound/core/hwdep.c
+index c6de5345e946..fb9034897c56 100644
+--- a/sound/core/hwdep.c
++++ b/sound/core/hwdep.c
+@@ -212,6 +212,7 @@ static int snd_hwdep_dsp_load(struct snd_hwdep *hw,
+ 		return -ENXIO;
+ 	if (info->index >= 32)
+ 		return -EINVAL;
++	guard(mutex)(&hw->dsp_mutex);
+ 	/* check whether the dsp was already loaded */
+ 	if (hw->dsp_loaded & (1u << info->index))
+ 		return -EBUSY;
+@@ -380,6 +381,7 @@ int snd_hwdep_new(struct snd_card *card, char *id, int device,
+ 
+ 	init_waitqueue_head(&hwdep->open_wait);
+ 	mutex_init(&hwdep->open_mutex);
++	mutex_init(&hwdep->dsp_mutex);
+ 	hwdep->card = card;
+ 	hwdep->device = device;
+ 	if (id)
+-- 
+2.34.1
 
