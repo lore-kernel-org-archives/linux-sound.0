@@ -1,58 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793272722;
-	b=t6EBtCp6HhFlqYTTtZDWuZWi9mTWawV7PU3Aqgg+3quPWEhPZ8Td2QB+Phi9u2sPpUWn
-	 +uj1LARlmzumnJuFtDKhb+WBJQkmrWkYa8FwxL3sRatmUH7jbUGxrfcN39WuwK7DQFE81
-	 JcZogpr5PDyZ7f1JkwjvxNNviNUecgllLT2VLbZtSZGAw8lfWRs+J0mOWOBBTcp6whYK2
-	 HJ5FGIS11rG+byRz3OezoPfeMVMb4h+MlVAXvWAPVsvafEP/BYxxGlwNQRqmJJKlI6nia
-	 5Vz5Dl/l0yjY90/9HhB781TfY4WfkqdeM0lZzjeCjZ/kJnOYJaeRPzJTKLLXdqG7P5w==
+	t=1793272765;
+	b=BVujwD9TQIlZg6kKqNfH/JSKQVzo9KQ1AR8my72QNa+jOFwjwrCzg5oGoSHSkIcB9W2Q
+	 8+bHnRXYY4LW8Aq1afRxujrmQUD6jdNmx8EFWn2t6d4K7h+CU/rcj9fchjRCHLTdiHiz1
+	 TEQBHZcNlcRT62xCdWYVZlqGLC5jNUhYH3rn9qA1OmaiJEbWeFjzjPVA1Tw7+UfhPWoA8
+	 xNIBx/dWhdmSRKXOAX1+TFNYOgxo163v0UOPkkv45jFBN1bic7xnML3zbZA7x3aLrAqt1
+	 Lw9Tfi+hnLsfTXfuwOM3dbL5x735K9rbjm1yANGRezLbJU8lQ88pW2zoLpjQ2WLID0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793272722;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793272765;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
 	 X-Cookie;
-	bh=oRzZK2TV472kZHxDJFt7NKBBHWBp2CpJHIed8kBiKzw=;
-	b=vhD80Her69TN2KwiaKsGtF0wqId1PUVpYQOVfIQOK1Gl9ptLIdGdSQTh2kF2CkWJP3fa
-	 GBSkKRc0J+C5KL5OcemG9D4cbRTwJEjGu1j/G2WRBN8FuddEI7geQqCw53vEg8y/Vl/wC
-	 /iziTy52+HOrb1EJS6XR/M+gtSWjrNkWAEJauUIjBZzAlcSKJJYGukcvCn9lO17+SUhww
-	 zttRZZRCGTJifwpVfLOjnirffcYX0Vjet1+IggpPPUCew2yyAgPQhBBmFuU2WV00zhvKC
-	 A3vcYhfjnECEQ6SmnNWmWCPqIzo/S8CQLNH6oflbljQLcxg7sskLE1i4btKImej3CiQ==
+	bh=ASuFeZWVFqNm4w6NaGQHXdSU0AoN18nCC/XV68nOE20=;
+	b=EZz3cIPDxlDrdW3gznFdLtbXWT6irI5LEfUezfj9nGUSmZ6XP1xNKhobvyryJiFhojG9
+	 /iczgAUh3QwJ5GD8zmBp9zUmlEI/z99km5p1IN9ug1adPIamWowgfXWUxjmBzhS0k391Z
+	 4qDAxwkZvdSWGFQPKU8ws7VJExMOxvXOwCnT51fCw4i+4y8vRFc1w8EdYpKtzdFpvlIKZ
+	 YsWEUwiH9G6TsXfMM+sYiX6okdhhRNnshY2r5hGR8KpO8uYPaPL0sStlwclrFm3aDUrel
+	 DTyxdqvkMpj166THT98ERlO4+cXQNYSxoKT8vpIT67ZupUPLP+OYlNiimdmpa3985zQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IY68Gxyg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c8gzRHkO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF7E606A31A;
-	Thu, 29 Oct 2026 11:18:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0355606A326;
+	Thu, 29 Oct 2026 11:19:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IY68Gxyg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8C561F01825;
-	Thu, 29 Oct 2026 11:18:39 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c8gzRHkO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1832B1F01829;
+	Thu, 29 Oct 2026 11:19:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793272722;
-	bh=oRzZK2TV472kZHxDJFt7NKBBHWBp2CpJHIed8kBiKzw=;
+	s=k20260515; t=1793272764;
+	bh=ASuFeZWVFqNm4w6NaGQHXdSU0AoN18nCC/XV68nOE20=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IY68GxygSLUt+GAqqR5oqUaK5quHUhxyMViLgDu58VfNFFBHH0J4bpp6Io9yoouTy
-	 uqdfeJGUVnwpbFzI8HJ/jJXwaV9sHQnflXzCDU3Bim7HAMXFVRlph8FXnHAvmHqXhz
-	 A3FkSnrANIOsBRX4g9bFh/ZHVutwl/vQ0QAT3fLHIgkqRk64ka/QUUgYNdI0vPlDGE
-	 2+tDYlTVde8B5HFbsW5bK1g7soB2RQJ2Lr0dlx1XWW3hcGCu3CKT8FD0tzoTJrnWzN
-	 HKKWAOn04g/Lx15U2In1IxkcYhgNkjuJzvytsBPxzTCskBevAKCQPiqNN89qeqfUP0
-	 NRxbd+bg+Okvw==
-Date: Thu, 29 Oct 2026 11:18:37 +0000
+	b=c8gzRHkOhKzR4aVyxR8qR4c0FZZ3SNynYwNATS9kRpbQE6N2suBfX9oN1nAuVUv37
+	 Pf+otQrO0R67o/Nl/+UhYo+ojmdWoKgbNf28LoDuqJSnwDDKF0WKBkTVdDhnPrhFqk
+	 mdldAYSXmivhvJos1KnLHDmY1SlWWdrTjh4On8obXGDwjiT3Wb3TEbY+zhkD/DDRn8
+	 d33wEnci9zkApnCj2pJ19pnkIApgs1Ii0R2wJpzXIAlugV21hNM5PijBscyYDtQO7g
+	 RFWiYqm1iar55dL4l8TLzlKSyZQC3bWoSfVf+hhYPjCN64CHjcmvih4idah107eac4
+	 ofkFA44DUgxnA==
+Date: Thu, 29 Oct 2026 11:19:20 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Tristan Madani <tristmd@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Tristan Madani <tristan@talencesecurity.com>
-Subject: Re: [PATCH v10] ASoC: wm8994: drain delayed works on remove and
- probe error
-Message-ID: <58d8942a-16a1-46c5-87d5-486ae4e756e5@sirena.org.uk>
-References: <20261029102515.3417777-1-tristmd@gmail.com>
- <20261029105749.3732334-1-tristmd@gmail.com>
+To: Marco Giunta <marco_giunta@outlook.it>
+Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] ASoC: aw88399: move library exports to
+ SND_SOC_AW88399_LIB namespace
+Message-ID: <8c7ab5d9-8815-4c86-970d-0639e9befe49@sirena.org.uk>
+References: <SN6PR19MB23035A048BCAF108507B59D0FC6E2@SN6PR19MB2303.namprd19.prod.outlook.com>
+ <SN6PR19MB2303BF7F0C1B1BE767351D98FC6E2@SN6PR19MB2303.namprd19.prod.outlook.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,43 +61,37 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="DGKWooc7RhOjjnxM"
+	protocol="application/pgp-signature"; boundary="qpNotaX25K1MpkcZ"
 Content-Disposition: inline
-In-Reply-To: <20261029105749.3732334-1-tristmd@gmail.com>
+In-Reply-To: <SN6PR19MB2303BF7F0C1B1BE767351D98FC6E2@SN6PR19MB2303.namprd19.prod.outlook.com>
 X-Cookie: I have a TINY BOWL in my HEAD
 
 
---DGKWooc7RhOjjnxM
+--qpNotaX25K1MpkcZ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 29, 2026 at 10:57:49AM +0000, Tristan Madani wrote:
-> From: Tristan Madani <tristan@talencesecurity.com>
->=20
-> wm8994_component_probe() schedules several delayed works to handle jack
-> detection and microphone status polling.  If the component is removed or
-> probe fails after these works are scheduled, they can execute after
-> resources are freed.
+On Thu, Oct 29, 2026 at 11:51:59AM +0100, Marco Giunta wrote:
+> Replace every EXPORT_SYMBOL_GPL(x) in aw88399-lib.c with
+> EXPORT_SYMBOL_NS_GPL(x, "SND_SOC_AW88399_LIB"), and add the corresponding
+> MODULE_IMPORT_NS("SND_SOC_AW88399_LIB") metadata to the ASoC and HDA
+> users of the library (aw88399.c, aw88399_hda.c, aw88399_hda_i2c.c).
 
-Please don't send new patches in reply to old patches or serieses, this
-makes it harder for both people and tools to understand what is going
-on - it can bury things in mailboxes and make it difficult to keep track
-of what current patches are, both for the new patches and the old ones.
+Acked-by: Mark Brown <broonie@kernel.org>
 
---DGKWooc7RhOjjnxM
+--qpNotaX25K1MpkcZ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrjK4wACgkQJNaLcl1U
-h9Df9Qf9EAczEeBJjK/kzZxvH6thCAVJENf6HuUVW4uilNUrApgiqav9st/SQU08
-3/bDkzNO11+tUJV8qTVjyoxQI0zNmTf+/d2i4xnNSxY1FbXx59AybbQRVJX0w8aO
-H+Sr192DgJQ55HQ/jNw2ZmF8dA28AJIi82w6pTr1txNWAVQK1gPKF8Wm7aADxvyG
-I3YfxyU6MD4mzU4dggcARzR3KlnufBSPJpV/Fa2xJ+vA1YgPyF9yNW8W2uUtPPv+
-LTCDqpC6b8ATjdpLtikSqxWzeMtW4cSSdgaEuVjDvsqeW7+ZndroFJL8eaKGfmka
-QwKgIJAGg8U632Gm5NnQwR/68amUng==
-=7xco
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrjK7cACgkQJNaLcl1U
+h9CEegf+MJJGwkXb0geRGMHD+L7CENIs5LTQcMt578+OVAvsoR2PGvIdu2yRtk1m
+Phlm4/iGZ3P6UI46GwSfbeT1SKItcstOZG6CFoJmcu3RaZ2/H2Bm/Ph5CjwIl0Zd
+CDYGAG+MkEV53tPEv3iJNL3nrOzbIlsD5FlJuO16Hou80kqEXLYGkxkGK5GV5HcQ
+d2bf/pTVD4nQu853wCXgcbIISPr/IqMP9DIf0W6NHUq4kMDyNVesDUGgukvJ6bUv
++SjuYF4Eh52ozbKLM5zJMhu9Fx/kzjP2A8sMG5cu+peyPa97ZRLmR8PS8U9MPWBD
+UTzoB9+aKEMkU1PomPy95ixNXQDzQA==
+=m3hH
 -----END PGP SIGNATURE-----
 
---DGKWooc7RhOjjnxM--
+--qpNotaX25K1MpkcZ--
