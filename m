@@ -1,100 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.209.2
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793249797;
-	b=Ibpi6bkvrQAFKPgCqk7pg5bwgG4PiyA96B8BSJeenRxv7lFiYCrrwGjjmzb/Y4aoMKec
-	 BGnbTMNzhiYTaLLMn5Tl0kIcWQc0ch2bEC/b3LWAZh9xVxriS0nsfgWr/y8YV83OtVNn2
-	 aDxoOt3EXSAmIyZZT1K5KsdzmpbJ85Gf+iwFGU9gIVv05uh3W+hPRX1svwa50ba5AlY+R
-	 d1uIy1OrKFXfn23QzCACGhmvSknYppC3GOCuPbZI+hezTyLtbpn/rdupPpyBKTECs1qvC
-	 ArNAo5l9DPY5mQt/qJOYSxx1MmNENePKglFKpCPrQCEw/dux1XrvOmkVm226qX70S9w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793249797;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:Content-Language:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=xGpA9Yg1/F1cBRsil9u7wYgIfJ2S8sCSmyOB+OlPbeY=;
-	b=CMjER9Qmy9+AOw5/daABWtzBhg6r8v/Bfuf35f0qCh5+j6PLqA2UhVHSR3BdzbeMsgmr
-	 Sj6OhY0h6eZEc1u67db3wnNR3xdvG4DZ9y7dg6ThvKRlIyXlmYeQKQq9pcXc9z8o/lZa6
-	 3O2Bl+Gpa7IPsZVRcGolVcsNwKgvdjojiPVs23JXUWLBfAbS3JxM51krKRYbIF5WRTuYv
-	 Xr61y0KyC1Y2xwgpqXMy3LJ5S2TjbdeUsvoWPhVK8N/e+k+2zqJjA2qi6zTe9gO3lB4DD
-	 js3txj+JRGw0NAfrqXQUi2m06nb6hoYmRvp0tmGXM4NmibjTE4aIWPx8bx2YJeJAkyQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b="AovZ/5kF";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.209.2
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012002.outbound.protection.outlook.com [40.107.209.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.53
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793252646;
+	b=DRPSASqXp5PF3df+dBv9ZFzzJDG45flFkwriO6DSS60GgvR6l8JDa4SiP9EkFVzn1bv6
+	 FDeH+GaZ9kB1Zl9/KLBWGJ7VWwLNzVsKlQBZH9Nf2KoQHPtkQfcE7aiV0UMDU5y9a1bgC
+	 f7txRhn/a0gwCoTN4nEQI2AYX7DtM3a3B9z7S96KZ/YMHVpBqC05cV3QcU761/jwADv8p
+	 ZZmXt5pdfDFQ0b2VM4jv8vEZEFTTcR52zbOV3loJdu+MgKXFSs5J0hFUeMJgz+59zCzzx
+	 Zfue6Ynv2/rIEG/L1gJAVBkiqMKKsDu3shT6l+BkPsFts/xkdpVODXzoi8ab5adHrEQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793252646;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Kgp/0IKbbzTkFGoA+p+0MZbAmeWaaCFVonzMq0pKQfk=;
+	b=qScbo+cxNrE66X/DoSkZOd3seOMk9VWnLB8Muu9G/J65oq/Oh687meO/gH/g2bqRM60M
+	 0RGCSgxheP03veKP8I7398ezNxdFGEAdaSGi6QAg4Wsjb5SkK73K2yccK+97yVNWzfHWl
+	 W/47kOCtvDlxMU0QceQ6Q9QALtQpjd6APaMD1N67fblELBq8CToXXXntBwgC2ZxAfi89B
+	 l8DS+egTo+pq00oR0wUSc/05WRgHg5720ZzpRWR1YrFROwEfou8G+r0pG4rDQ11NwzEhE
+	 unyUIUnid7+FewxX+BcbhboyNCpE1JMw6QzEaVr7ciiCIuNdfDAuABs9KskwKFoasbA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NUiAT+p3;
+	arc=none smtp.remote-ip=209.85.216.53
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610EE606A31C;
-	Thu, 29 Oct 2026 04:56:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 610EE606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A2D606A31A
+	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 05:44:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60A2D606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=AovZ/5kF
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xoTkyR+7ZG5uDmakAyAwi7unclQE0LvGeqvBHKLmrSX1Yozf06dUWokGQd2kBfce8D0ZSdgXAGYPjVGLFYTE0TRRvUkMNzdIj47wdtAfAavF5uDDmm2uEzExbn/l5QqvdC8d6Wd1liWuXVWcELv2p18LT72UFmuhFazb2GbQLt00dnKvMnnWu/nF4RYPUxyN2DOTH+FFoDpVQ1INlCi6dHP9Dup35xd5yD8E380RgLNqOOjO+ifNSKD7KxkCkkYq6L0NUR2mIHfb1+97YTD1U2Cyl2WdAQqKe7TPdCuoqCT2CoHwCHfwgDcyzRXOxNguQwwId0plNmCoC7Rrvqimww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xGpA9Yg1/F1cBRsil9u7wYgIfJ2S8sCSmyOB+OlPbeY=;
- b=HEKfSOFRwDHUcyBUoV1JDSQXwxGObxvcLeM6VhFVw3X4i4a2zb9ZkgcSk7LAwovxVD80ERk9xCe4t5Bj2GFBfRustb30Q6Kq4aeCi/B3ebcej61B4xn4cqMiVZEgaCpy46ZfpWYw5gOPgKUbxODmu5JTBy6tdpkcGS0TrtaYfYloLb5popjFcpNsbJCjdB25MD8EeQ5zS8drKKRYJJSZthRDL+5CfcboV20a3ZawXObTJ2+DgzDKBDDDAbBuRiFoOosgQ/u3ZqcyCI/fhvaCn4H4xL9/HeZe4bNeKLCQDO226NP7RbbqQjIl652MTemq+8JZcKXU/qotiI9iQaNL9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xGpA9Yg1/F1cBRsil9u7wYgIfJ2S8sCSmyOB+OlPbeY=;
- b=AovZ/5kF2N6vaLdESFvhZaftwMZSE9M1/eglz3KuWNar5ZLYaFvPNfDX4cgvZWvAKkzufesfha4sbDGIYgpPMSW+VYyM8dVB+TIaXsSAliKDQA533Go+D2q0Ev0aX5WAR9duwJyst5CSMy7hgpQeJ1PqQqPxmwdp+yIUjbkPPzk=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
- by CYYPR12MB8703.namprd12.prod.outlook.com (2603:10b6:930:c4::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Thu, 29 Oct
- 2026 04:54:33 +0000
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0569.007; Thu, 29 Oct 2026
- 04:54:33 +0000
-Message-ID: <a5771999-6521-4d02-868a-5cf5b75b6848@amd.com>
-Date: Thu, 29 Oct 2026 10:26:55 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/13] ASoC: amd: acp: add ACP7.B/7.F SoundWire DAI
- link support
-Content-Language: en-US
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, broonie@kernel.org
-Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, yung-chuan.liao@linux.intel.com,
- Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
- venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com,
- Mario.Limonciello@amd.com, Richard.Gong@amd.com, Poojitha.N@amd.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- sound-open-firmware@alsa-project.org
-References: <20261023065216.3473883-1-Vijendar.Mukunda@amd.com>
- <20261023065216.3473883-3-Vijendar.Mukunda@amd.com>
- <f4a337e6-9ba4-4f52-be99-95d0d5ba11ff@linux.dev>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <f4a337e6-9ba4-4f52-be99-95d0d5ba11ff@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN4P287CA0107.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:276::10) To CY5PR12MB6252.namprd12.prod.outlook.com
- (2603:10b6:930:20::17)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NUiAT+p3
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3aded3c6103so898197a91.0
+        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 22:44:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793252645; x=1793857445; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Kgp/0IKbbzTkFGoA+p+0MZbAmeWaaCFVonzMq0pKQfk=;
+        b=NUiAT+p3vew3dvCFUIFB3TQ9suA1ZcTgZdKitD1bCw68LxSEV4NHT1ejzYx1LzQR0H
+         Ltsm7SgPqyFvmRK9/d+KWPVsL/gCY6c4xHiJAuTxE9TeXMnJYLTiav2++JK8qOsBoTYS
+         zmIKAD9cOVx9pxRwC7rp+pTnL9z3C76PjhzsdZmwzflWzU6sYsrU3muuRnm0pPAck5Vj
+         q5Y2jk7LShtO3A4w4BVuc7q2OKXL8r/4pBgwKiN7RgoPURpOuS9hw5BTkWyuSkyHzuu1
+         gBzv8v143lgaNW2mqohG6MSOfViGY9PtTUZPNpQejWp7ah1BctRX78C+D7IsXhVpbFUP
+         iX5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793252645; x=1793857445;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Kgp/0IKbbzTkFGoA+p+0MZbAmeWaaCFVonzMq0pKQfk=;
+        b=AFDtrHtaOC9Lef0uXT28lwj7FM+tO8vYZLJ1iIvyLQjNTkYTNDx5Pt181f8PzadI57
+         IPVNQqd4Yfuu4zqOxyFq7AqeFImkjsA3ECji55XGmM4ZDLLHn9nWBBgmQPqRwRflI0qH
+         zHscMpOKp95EdBVpp7ZowITPYfw7wwhUiTp/kiJpLLjWGo411xsu3F5fHv8S8wMp9FLs
+         OPwAmHKde7xC3TKixRmsyoXjGeCbb36w8cuJ4A7+oU+iqpMGcnd9cRlVSgUgqBcWBYvx
+         R03IY2qGaRLqJG7gl7Y0vWYlTH+AhHS8YxSgcKSdQFM7ohYrx7864mIWJDwYueFS4Iev
+         a5lA==
+X-Gm-Message-State: AFq9FYJYRHKcFLxuRkEpC4zwMagc8NN19g2XEwjXhSwq3RLK3ApKazVi
+	mfThjp0RYHCKb6a7XxX2e8gMX4+fJard9Qv2jUB2dSGcTAbZEhcxQzrp9nJm6w==
+X-Gm-Gg: AYBFou3jm42pOZNNmCwqBvoZfb2359pOaXrUrN1J9rkajHgpwW5dffUWHgGbo09Lesd
+	ICF1F7o2DwHFGvEyEL1w+T0ilNM2jcvgwvY0/EADrGyiMVNYgAFXUnSPrphBlbYPkEX/ewMINaQ
+	LxlUqfv1TRptrII2v8JZKhyf/gQ91kCTqyPjshc3uczwWNryWx6HUJZ/6lzBmhmiu+AQU1g8zd5
+	IB9+C8mcO+IA+JHx0nhO50aYSXo/U9CIig9m5Gk49td3dUJEhzoiJPsEDABU/OVLP+e+XqUgC2d
+	mcc72x9jSQ8MlZ6LwHSc1XsqsHwiE9+OUJZlkbik9b3W0p74xK9q+HJ3e5XaSWwX68KtzGN1pGZ
+	udllYLSNYgLy9/pGTn79zATXNRbfX+xqXl2PBsZLCUNk0kgOT6z8wqIM62QT8CqqFmFiBhJsfbA
+	4h6hME2jKgpITvNIdQQMyP71Iced7yXTZgjoce5v4VRP098m+XEXu0f/GbDWjGQB/QGCtageCd8
+	BW2OONy4wf2TGXCNpAA9yJRjIVe9lZE9ODm7XKUgZAq98d/WJTliqo5AwclZUDTZYSup/Ja1mT+
+	nywU6c1SRfzBCvITvWxNF2Fa8NBVDjCGOkCw+IdyiSwOHVYige4H5jVdljdjdXlAbmp83zwxk1A
+	n4IzJM+AxGKDzO6USKGN/CVqa9rJ9gDnW9QSAal/kRAOmF4I=
+X-Received: by 2002:a17:90b:5242:b0:3ac:7556:8eda with SMTP id 98e67ed59e1d1-3ae58100ac6mr2908685a91.26.1793252644765;
+        Wed, 28 Oct 2026 22:44:04 -0700 (PDT)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae6e83127csm2433520a91.10.2026.10.28.22.44.01
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 28 Oct 2026 22:44:04 -0700 (PDT)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.de,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	Joonho Lee <mynameisjune111@gmail.com>
+Subject: [PATCH v8 01/14] ALSA: virtio: Propagate PCM send failures through ACK
+Date: Thu, 29 Oct 2026 14:43:41 +0900
+Message-ID: <20261029054354.2931-2-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261029054354.2931-1-mynameisjune111@gmail.com>
+References: <20261029054354.2931-1-mynameisjune111@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,163 +106,158 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|CYYPR12MB8703:EE_
-X-MS-Office365-Filtering-Correlation-Id: a8dfb622-e951-411e-c8a7-08df3578b96b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|366016|1800799024|261028144727099003|261021121427099003|261022105027099003|11063799006|4143699003|56012099006|261026140227099003|261022075727099003|10067099003|22082099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	BZK0qyT4fP2CtLLmgs9xUJNPH2Aht1JYv10y83u/VIRN+S2oWWe5pooSbEvwSr/L67mLXEms4VjiEkn3ue+/SXfTRHLAi7y/dqxPgcQjgQgdgh812EMG7U14I4Xt2aC/KCOnABxinkNxGVmCl/k2x2+fwkTdklkJ6dbSCSAF7JTN9H1tRTfsVScPf5Uzaubvii18F6az16tmvT5No6Ce1oZ8SL4HNaUIVe7LbpwM8QBiFv4xUeSWzd9S31ux4GDsPlRF+HzImDCrnCL8qPYJTNl3xZ1TaK+Qg+FjdR3g2dLQa3+KfblF+6cKrDEflFkw0RMuLNEbh6r0GfUjn5aKpcWqpl6k909qxGNQfM9WtFwP/uTRCjSwfMu4j1Ckwa6spCdi3K7sw87E3KAZ82KFRHF2Vbb9BuNIzgPnCkJCV8Er6EQzfPbxI85eKvEjhyGqS70xwPNar6I+ZVVMwLQ6uvKRVEM3EM8H1+xpqABSxmPZ6LR83ADyVL+aoVx54SUb7VZ76rKrj36cPFcsBbISQ4bDSEL6SV46OaKPli3N8TJiNPcnKsPd2sZUemOVIp6siiz3q43zGmJ796P/XsIXPywdgJ18kaVvjMXPwgPCpDMRPru9t1S42adF0cKga6hCx6sPNwnDnfcxmgRLVX392hqWKtCPPmvxMvxOSOLAfPI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(366016)(1800799024)(261028144727099003)(261021121427099003)(261022105027099003)(11063799006)(4143699003)(56012099006)(261026140227099003)(261022075727099003)(10067099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UlhzTWpRdzBFMWxxc3dZK3BMMnlJcjJxdUJyVjJmV1dwZThGMFZRN2RRUWFn?=
- =?utf-8?B?WGEreTc4RkhLNHAvSzNheWJGajI5Y01tYVFUdC83VUdIbzVqSU5yTVNjRjNN?=
- =?utf-8?B?M3pQVFEyNStrczBpYVF2bmNkZjhPcnNYZGdaUmpTSWRmQk40OEx4ZXRHa2ZH?=
- =?utf-8?B?L2JtUjgzNFBDS3MrcTZQeXU4UW80OW5adC9GeWNnV3hzYnh3U1h2M3dIQ1Y5?=
- =?utf-8?B?bE8vNFJkaC9lV3BieGxGdXNxOFJGcFpPMEV0SHloMXJ1S0ZxcnhIYVIrRElX?=
- =?utf-8?B?ekkwSzFSNFVFanRpWm4yUURsZ0U1ZGJDZ3pRaEZUY2Y5SFFZZFh6MjBBbTF3?=
- =?utf-8?B?cG5sWlpnUjNpZkU3d0FpQ0dnZTNJTFJGM0hVVGhpd0RKMUgwNVRqVzZSeGRL?=
- =?utf-8?B?Wk55eC9qRE5FUURUUzZFSXJ6bVBOZy81bzRLczZUTnY2NC8zdnF2ZnVzeUpS?=
- =?utf-8?B?dmczSGV6a3VLRmVsYUovQ0lBUk1yRGlockZDTUV5bEJhbjg3SXFwMU9PTXoy?=
- =?utf-8?B?YUs2SzZmYXBUQjBVMml4TUFzT1BZaGRlUk03SjgrQ3ZDT1Y4QjBLRTZ4LzMr?=
- =?utf-8?B?M28wSUlkVW42dkZKMUJ1VXIzWU9IUDhVM0RUQVVkTi82UWljVEJJR2JRWFph?=
- =?utf-8?B?ZGpYZkZyZ2ZxOEI4SSsrTWRYSngzTUQrMTBBVVljZHR3NE9MS2dpQ1dJd0s1?=
- =?utf-8?B?VVd3OE1FUDJXN1BEZUhkaGVUUjZjbW9DQ2swbVhKRmV0aXJEdlRVRE5Ldktn?=
- =?utf-8?B?VlNPeEJHZUF3UGFLdW4wYjdkZXloNGp1M1VsT3NFdXFpOHBqRHp0SUwrZzQv?=
- =?utf-8?B?Yzkyb25PQ2VpVlZjcGxnSmo0WG9ZOU5VUkNjamVKeElRTGpCdEwyN2NabTY2?=
- =?utf-8?B?SEdaaDBEa0lMNUt5dW9qeER2a2FUdk4rYjVaSTExYXpJSlBodVloeEVrbUl1?=
- =?utf-8?B?S3FmMHIzY3hDYTZFa0diQUxuU3dxb2sxV0RaZEtrY1dwYnJBQlUvT05yTW51?=
- =?utf-8?B?Q1VRNkRoN2NBMWo3WTlESnFmUGZ2MDd5YzFhb21GaGZBOGxJQUVUQUpGZU1h?=
- =?utf-8?B?M3crd3JPVXU1ckp4eXQ2cTdPOEtzYXQycVZpN1V6dmhiNUtRV2E3WnZYUytl?=
- =?utf-8?B?S1YzOXRnRm8rZWVZUDNiQXJzTjFhc2xqeHpsUU1UajY0eUJveEpYdW5wZ1dY?=
- =?utf-8?B?TWhMZ1AzWWxPeTFpTTJmblVLRnk2WXJmOHQ4TDd1dThEYU9uUG9FVHZydDdI?=
- =?utf-8?B?N2h0MDJ4Wmk5ZFFZYTZvYllER3U3WDNsL1dva2dzbzkxNnI4UndQQUJISkpz?=
- =?utf-8?B?TUJrTk51eDVqb2NZUHNkbDJzcXp0dW1tcjBuZFlqNk9WTWRGQnRBcXMxWmlh?=
- =?utf-8?B?QXVsSkNmdDlBTERxdGZPL0hPc3hvbGRQQml0MWpuV1dzeGtsUUdtSVhaNjFr?=
- =?utf-8?B?dkZZcUQ0Qjd1dDVVVmQ2YlBJWmtMSTlZaE1nV1U4RjdOQUpCMHloZ0VVSlpx?=
- =?utf-8?B?WVJsNXJDUzdFZHA5eWRncnVjd3VrMFNGakFIUTBXa3VjYU00dm5HQzJLc0du?=
- =?utf-8?B?SndYdkNZNFUyeVViR1JTR3BZS09HU2hWZFY3M29xSWFYcGphOFNGUDNHS3JO?=
- =?utf-8?B?SHpEZzNmWm42V3JocXl1Y0RGNG9oWEttcWdwenFIWC8vekNuU09xVkt4VUp5?=
- =?utf-8?B?VUtZL05iQyt0bVowczUwS3MrUW5iSW1scnFpL3dXbm1GZmpMd2FDandDNzdz?=
- =?utf-8?B?c0IwR1hPMlZyUFBuWlVWV3plWFZrVU5pcUh5ZE52blhTaDc1ZDh1dnNJenc0?=
- =?utf-8?B?MlQ3RHNTMGwwZ2FmZ0JZSHd3MTU2YW1RamZvWEF5WjdXb0dhQmFLRmJqODZO?=
- =?utf-8?B?Z3BLaENxZi9wSFBBMkVqWmZMUUxUNVdRNnFkWENmbDV2M0lCQ1hFaGhEc2JW?=
- =?utf-8?B?MjJrSE54Ni9rMGhzd0hzbk5MSFdjcFdaYzRUT0lTQ2xKY1dYSXpCYlhYVGRD?=
- =?utf-8?B?OHNvSklSZ3Q1RU9ZaFc1TjBkQ0IrNXZrYnNML09kT3pBN0w3UWFlNjhqWk12?=
- =?utf-8?B?QjkxLzF5VHZpZ09FZ1BzMWc3YWs2WTVZanNVOEhFYXJLUnpBMXdoR0VHSC9L?=
- =?utf-8?B?aGF1RzNvOWgzNDZENWMyOTBTbnNuUEExV3c3VUR1SXdobDVQUUdKdXhhZE9C?=
- =?utf-8?B?V0t3ZmhVY2g0M09XcEdvWVVNVWRsZ3hZb05HUTVuWUd0RGhJYUJXLzFjTzFs?=
- =?utf-8?B?a0VYUWNuSnZGc0l5VWpMY2JkeXlLSHRrRmdYT1ZlWVg1V3ltblZoS0pkZkh3?=
- =?utf-8?B?L2V4MmlVZVFLdnQxUjFTVFJIWVordDlWL0YyMnBGS3Vrc2dKbldSZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a8dfb622-e951-411e-c8a7-08df3578b96b
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2026 04:54:33.6539
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yUVS9d0ptjoVd+JG1XbBHjQq6oNkQVsygyU/ayaHM7V50Oz5eXoAZ3Dv1TfTcARJEqAR3kaXW1Pfg6NI8M4hvg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8703
+Content-Transfer-Encoding: 8bit
 
-On 26/10/26 02:41, Pierre-Louis Bossart wrote:
-> It'd be useful to comment/explain why this routine only relies on a
-> subset of IDS...
-On ACP7x, each SoundWire data port has a dedicated DMA channel mapped
-in hardware. This function selects only the ports required by the
-currently supported ACP7x machine topologies:
+virtsnd_pcm_msg_send() can fail while queueing a transfer. Restore the
+failed message's length and notify the device about earlier messages
+queued by the same call, so they do not remain stranded.
 
-  AUDIO0_TX (0)  - headset/jack playback
-  AUDIO4_TX (4)  - amplifier/speaker playback
-  AUDIO0_RX (11) - headset/jack capture
-  AUDIO4_RX (15) - amplifier/speaker capture (feedback)
-  AUDIO5_RX (16) - DMIC capture
+Propagate that failure through the indirect PCM transfer callback instead
+of discarding it. Commit the updated indirect state only after successful
+submission and stop further transfers when a send fails. Return an XRUN
+error to ALSA so the stream can recover.
 
-The remaining port IDs are defined for completeness to represent the
-hardware data port layout, but are not used by the currently supported
-machine topologies.
+Keep the polling feature path unchanged.
 
-The ID numbering differs from ACP70 due to the hardware differences
-between ACP70 and ACP7x. ACP7x uses a flat ID space, with TX ports
-numbered 0-10 and RX ports numbered 11-21.
+Fixes: fe981e67568c ("ALSA: virtio: use ack callback")
+Assisted-by: LLM
+Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 
-Will add comments above the define block and the function to clarify
-this in the next version.
-
->
->> +int get_acp7x_cpu_pin_id(u32 sdw_link_id, int be_id, int *cpu_pin_id, struct device *dev)
->> +{
->> +	switch (sdw_link_id) {
->> +	case AMD_SDW0:
->> +	case AMD_SDW1:
->> +	case AMD_SDW2:
->> +	case AMD_SDW3:
->> +		switch (be_id) {
->> +		case SOC_SDW_JACK_OUT_DAI_ID:
->> +			*cpu_pin_id = ACP7X_SW_AUDIO0_TX;
->> +			break;
->> +		case SOC_SDW_JACK_IN_DAI_ID:
->> +			*cpu_pin_id = ACP7X_SW_AUDIO0_RX;
->> +			break;
->> +		case SOC_SDW_AMP_OUT_DAI_ID:
->> +			*cpu_pin_id = ACP7X_SW_AUDIO4_TX;
->> +			break;
->> +		case SOC_SDW_AMP_IN_DAI_ID:
->> +			*cpu_pin_id = ACP7X_SW_AUDIO4_RX;
->> +			break;
->> +		case SOC_SDW_DMIC_DAI_ID:
->> +			*cpu_pin_id = ACP7X_SW_AUDIO5_RX;
->> +			break;
->> +		default:
->> +			dev_err(dev, "Invalid be id:%d\n", be_id);
->> +			return -EINVAL;
->> +		}
->> +		break;
->> +	default:
->> +		return -EINVAL;
->> +	}
->> +	dev_dbg(dev, "sdw_link_id:%d, be_id:%d, cpu_pin_id:%d\n", sdw_link_id, be_id, *cpu_pin_id);
->> +	return 0;
->> +}
-> ... defined here - I marked the NOT USED ones.
-Please refer above comment explanation.
->
->> +/* ACP7.B/7.F SoundWire CPU pin IDs */
->> +#define ACP7X_SW_AUDIO0_TX	0
->> +#define ACP7X_SW_AUDIO1_TX	1 << NOT USED
->> +#define ACP7X_SW_AUDIO2_TX	2 << NOT USED
->> +#define ACP7X_SW_AUDIO3_TX	3 << NOT USED
->> +#define ACP7X_SW_AUDIO4_TX	4 
->> +#define ACP7X_SW_AUDIO5_TX	5 << NOT USED
->> +#define ACP7X_SW_AUDIO6_TX	6 << NOT USED
->> +#define ACP7X_SW_AUDIO7_TX	7 << NOT USED
->> +#define ACP7X_SW_AUDIO8_TX	8 << NOT USED
->> +#define ACP7X_SW_AUDIO9_TX	9 << NOT USED
->> +#define ACP7X_SW_AUDIO10_TX	10 << NOT USED
->> +
->> +#define ACP7X_SW_AUDIO0_RX	11
->> +#define ACP7X_SW_AUDIO1_RX	12 << NOT USED
->> +#define ACP7X_SW_AUDIO2_RX	13 << NOT USED
->> +#define ACP7X_SW_AUDIO3_RX	14 << NOT USED
->> +#define ACP7X_SW_AUDIO4_RX	15
->> +#define ACP7X_SW_AUDIO5_RX	16
->> +#define ACP7X_SW_AUDIO6_RX	17 << NOT USED
->> +#define ACP7X_SW_AUDIO7_RX	18 << NOT USED
->> +#define ACP7X_SW_AUDIO8_RX	19 << NOT USED
-> The IDs are different from what was used for ACP70
-
-ACP7x hardware exposes 11 TX and 11 RX data ports, mapped to 8 TX and
-8 RX DMA channels. The CPU pin IDs use linear numbering, with TX ports
-numbered 0-10 and RX ports numbered 11-21.
-
-The ID mapping differs from ACP70 due to the hardware differences
-between ACP70 and ACP7x. All port IDs are defined here to represent the
-ACP7x hardware data port layout.
-
-
-
+---
+diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
+index 72103f606716..5371f4985fd0 100644
+--- a/sound/virtio/virtio_pcm_msg.c
++++ b/sound/virtio/virtio_pcm_msg.c
+@@ -260,6 +260,18 @@ int virtsnd_pcm_msg_send(struct virtio_pcm_substream *vss, unsigned long offset,
+ 				dev_err(&vdev->dev,
+ 					"SID %u: failed to send I/O message\n",
+ 					vss->sid);
++				msg->length -= n;
++
++				/*
++				 * Do not leave earlier messages queued without notifying
++				 * the device when a later message could not be added.
++				 */
++				if (msg_count != vss->msg_count &&
++				    !(vss->features &
++				      (1U << VIRTIO_SND_PCM_F_MSG_POLLING)) &&
++				    virtqueue_kick_prepare(vqueue))
++					virtqueue_notify(vqueue);
++
+ 				return rc;
+ 			}
+ 
+diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
+index 1091100a4c98..a40ea394bf17 100644
+--- a/sound/virtio/virtio_pcm_ops.c
++++ b/sound/virtio/virtio_pcm_ops.c
+@@ -466,36 +466,100 @@ virtsnd_pcm_cp_pointer(struct snd_pcm_substream *substream)
+ 		vss->hw_ptr);
+ }
+ 
++struct virtsnd_pcm_transfer {
++	struct snd_pcm_indirect indirect;
++	int error;
++};
++
+ static void virtsnd_pcm_trans_copy(struct snd_pcm_substream *substream,
+ 				   struct snd_pcm_indirect *rec, size_t bytes)
+ {
+ 	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
++	struct virtsnd_pcm_transfer *transfer =
++		container_of(rec, struct virtsnd_pcm_transfer, indirect);
++
++	if (transfer->error)
++		return;
+ 
+-	virtsnd_pcm_msg_send(vss, rec->sw_data, bytes);
++	transfer->error = virtsnd_pcm_msg_send(vss, rec->sw_data, bytes);
++}
++
++/* Caller holds vss->lock. */
++static void virtsnd_pcm_transfer_failed(struct virtio_pcm_substream *vss)
++{
++	vss->xfer_enabled = false;
++	vss->stopped = true;
++	vss->substream->runtime->stop_operating = true;
+ }
+ 
+ static int virtsnd_pcm_pb_ack(struct snd_pcm_substream *substream)
+ {
+ 	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
+ 	struct virtio_snd_queue *queue = virtsnd_pcm_queue(vss);
++	struct virtsnd_pcm_transfer transfer = {};
++	int rc;
+ 
+-	guard(spinlock_irqsave)(&queue->lock);
+-	guard(spinlock)(&vss->lock);
++	scoped_guard(spinlock_irqsave, &queue->lock) {
++		guard(spinlock)(&vss->lock);
++		transfer.indirect = vss->pcm_indirect;
++		if (vss->stopped) {
++			rc = -EPIPE;
++		} else {
++			rc = snd_pcm_indirect_playback_transfer(substream,
++								&transfer.indirect,
++								virtsnd_pcm_trans_copy);
++		}
++		if (!rc)
++			rc = transfer.error;
++		if (rc)
++			virtsnd_pcm_transfer_failed(vss);
++		else
++			vss->pcm_indirect = transfer.indirect;
++	}
++	if (rc) {
++		dev_err(&vss->snd->vdev->dev,
++			"SID %u: playback ACK transfer failed: %d\n",
++			vss->sid, rc);
++		/* ALSA treats -EPIPE as an XRUN in ACK and pointer paths. */
++		return -EPIPE;
++	}
+ 
+-	return snd_pcm_indirect_playback_transfer(substream, &vss->pcm_indirect,
+-						  virtsnd_pcm_trans_copy);
++	return 0;
+ }
+ 
+ static int virtsnd_pcm_cp_ack(struct snd_pcm_substream *substream)
+ {
+ 	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
+ 	struct virtio_snd_queue *queue = virtsnd_pcm_queue(vss);
++	struct virtsnd_pcm_transfer transfer = {};
++	int rc;
+ 
+-	guard(spinlock_irqsave)(&queue->lock);
+-	guard(spinlock)(&vss->lock);
++	scoped_guard(spinlock_irqsave, &queue->lock) {
++		guard(spinlock)(&vss->lock);
++		transfer.indirect = vss->pcm_indirect;
++		if (vss->stopped) {
++			rc = -EPIPE;
++		} else {
++			rc = snd_pcm_indirect_capture_transfer(substream,
++							       &transfer.indirect,
++							       virtsnd_pcm_trans_copy);
++		}
++		if (!rc)
++			rc = transfer.error;
++		if (rc)
++			virtsnd_pcm_transfer_failed(vss);
++		else
++			vss->pcm_indirect = transfer.indirect;
++	}
++	if (rc) {
++		dev_err(&vss->snd->vdev->dev,
++			"SID %u: capture ACK transfer failed: %d\n",
++			vss->sid, rc);
++		/* ALSA treats -EPIPE as an XRUN in ACK and pointer paths. */
++		return -EPIPE;
++	}
+ 
+-	return snd_pcm_indirect_capture_transfer(substream, &vss->pcm_indirect,
+-						 virtsnd_pcm_trans_copy);
++	return 0;
+ }
+ 
+ /* PCM substream operators map. */
