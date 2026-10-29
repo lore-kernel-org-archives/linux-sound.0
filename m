@@ -1,119 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793240638;
-	b=P0noARqGJP7NkX8ox/iivzxMX7RUQjSvawo0gb4GAFncgyq52/Bw1DNxkVb2CkIb8Ioz
-	 Zchdb2TPJeuImFs6Pf9WvL1oK3bsD9Qc7HtczRctNSeWrdzz5YTE3GYWA1OxbZudnSLx9
-	 14Qgl/nxCej6f/ewvDs4NkNJZP6h/YKpGPJRXKEFOhMCWoNPxHjkZuMotY7bnT0PNlk3w
-	 haATpt/yitKMQudXHPa/LGQ7bloWANga7JLlSo6EGMQBZnJhE9UeMQAyfiO9hmbw+W5Ut
-	 NCtSupUnt0SlEPrmz4I4U6LdbVjhpgkJkfpG6RLgfEcz4l8xiuVZpYV1d9MLNXhxRZA==
+	t=1793240818;
+	b=XW3yabsvj+h1nHsdOTyvLD9e2iMKMe8V5OnHM0WA4koceSj5BM4KmSUWhDmEXyNCuajy
+	 ImClEfvxRUaGOi5RM0BvCJLstm37vkSNRmr6N+ArvijGjO95MNldTVarsxX70V0OiQDmX
+	 GqQRh0ay5/hvqAC3yw6N0LevV+zfkazk1lpifWfC1U2gQHQ/7Gm+i4WawC8JkrJJboNid
+	 Zc/UYl5KkerR64XBsuDURrTMxdAZV4KurQRrEoB+pFBNGIJ5gtYycqSGgpMGmJ+dZkWz0
+	 FjmYi6tjW6C3U/LIKSUP6a5kxYxQY/wI/eZpVB7A7Nb0mH9MBznwSn4x+TIbAgaRcfQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793240638;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=3oGkMQScRX/tXnQ0sOZoQxWWvmtTrIsdcCnCFnpOWw4=;
-	b=qH16Utq0uz3iBlO5OBVeEI8Cffh8Qf1Mh3QsdLtsmbJgs5p6hhuJxbIYvqUw+tvBAT/e
-	 2KpfPF5RPbjCvb9FzKoUYF8NjHV9S8Hm6Zl2BzG7Hbi7IFzmplTCPgFN1jCp3I5ZERkZw
-	 GAMMD+7cAJ0e+IyShS1CDxoIp8hQwGduRsizST9HnxuOCiaOTcA3ZyiiYVQnaoDbsmflr
-	 omgzSFH7XUfeMCf+XoychgBJtXoSP6+o9cD9qpxgoLBm8btsLq9ZbmEqCDxS1nk8NHDhf
-	 us7A+7r+X0eob7TVpm4sTKv4M5IJpJ0H5yeGgNi2mJUCklsqYZ3uvd9Rd3qQ8BUOeIw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793240818;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=3AQIVWKkCVoDQO4krIZozOYGjgLAL/sNPSz96FkGeQQ=;
+	b=s7zOVPuxh2GkM0rAvkVoDXTiHWuxsyWclcGBF32uEPqGbX8+fHJUDyoSrNoxLjtXqDrV
+	 06I55FvKvkVeswj5QyzS9dUgoHWbOAdbznKAViBoA5jzWemNxs/wJk3h7IaK6fNSjNqtC
+	 Zp9mZAIm59WGLjZeDMiQ7i2ZiIO2qky2cOWwURTHL3rFeN4hLifVABDaZQEERkzDeW3my
+	 W+hix/fXZ8/e2Iv4tawahFolizNbbGCPUdp36kfvf8Gh6toB9t5DZ2NTSh3/YmmsW5lK8
+	 egsUzbSpRUdMYgsyBPDA1Yx9IwImhu/DWXd8PWwm6B5tHFijGaxR+NAoVUcZ/6a/FEw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="pF29xO/e";
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=g9L1YRqc;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hYCs5a2Q;
+	arc=none smtp.remote-ip=74.125.82.173
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A74A606A31E
-	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 02:23:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A74A606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4634A606A31C
+	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 02:26:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4634A606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=pF29xO/e;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=g9L1YRqc
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69T1jl1J2523163
-	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 02:23:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=3oGkMQScRX/tXnQ0sOZoQxWWvmtTrIsdcCn
-	CFnpOWw4=; b=pF29xO/ed88eqibe1Q6JoJwYLr98Bqm7uJz7KkOflvyXwhT7i6p
-	EXnDOikekI1AEGIAuab7AVB+4yX0Hof6mGo5hAF2SDcPhOUbpHteuxYTQKGnmgC0
-	fUcP/flS00Ay1gWg4oy72q7ZvhU7uRtgNBTK+6bUvn8M5teFf2d4BY8Wf5/47mxf
-	nVP5QtVr7rZ7TGVO9nTuuWu9F83pConA7FKbXxSJ/pbhRYA+uaoKj32NfdWZRq+M
-	/8tz9ms2zCyQ3+hhZIopagfL1g/kA/eTYHNb8/gvaOL+G1ec571+zQpneQGe9NqM
-	PbdqvmchHdnzFcvx/ClYEbRbGOjmEaIelug==
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hknkp9qq9-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 02:23:56 +0000 (GMT)
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-33c35f5ca6cso2958402eec.1
-        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 19:23:56 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hYCs5a2Q
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-3645f0f3fcdso3000142eec.0
+        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 19:26:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793240635; x=1793845435; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3oGkMQScRX/tXnQ0sOZoQxWWvmtTrIsdcCnCFnpOWw4=;
-        b=g9L1YRqcaD/8gf7UZE8gmidcB1nu7ho52YxnPIUhC4CZ8LummyvwGP0YvOBslBC1AA
-         vvjlrZI5wSQ7skeh2ReAiJhdBMMNj9F+LpmkqoCKUSDTRow53Yh8MCFMSqUVQBz9kftI
-         i5bbYjszg71QPvkAhZR9UVBgv0X1VqMYRYPPQElEyk2rRTL4ZpTNmn+nWA602NBVrezM
-         JPmlF+MVXxg6M/Z0MpwRSvWUAzdz8penrJFThDca0yMUpyS0PM6PjOjOjT3jj0S5f3Fi
-         IhM+5DnzIbR1L8Dw+FaJCJbJG24HKrCFF84saqsU9j/6cx8Y7PDRGAfeXgQLcy71QyDC
-         XQfA==
+        d=gmail.com; s=20260707; t=1793240817; x=1793845617; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3AQIVWKkCVoDQO4krIZozOYGjgLAL/sNPSz96FkGeQQ=;
+        b=hYCs5a2QpeI/JDuPb6nWYmfPm1zkKWbG5Rj+68tdSyrFPHJx8TjNgnQcQpKfJV7omu
+         ALqqB9NACqE+2UR0AMlIeslx8TGv5DAQUstJ1uVkelrNmMQM3DVCnu509p8S8om70+Yq
+         0LprqcsGYFmHvBro0dBFYxH2uhmt4iJrYgQEMAiqS4u51/+OM+oVwxLTZhqMQHWNvp64
+         hUomdJDe5HjM1xa25hcGau5Z2LNsAcZpXmHh2Oq0vQvfk45po57TDIpPd93WIyprCN1V
+         zKc0xJUk0kIFleiGdwHOB1/Y4aqjBlM8Rc/+gru4z927kmBXdf7pHe/Q2ZMBRLmJRCSD
+         tKaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793240635; x=1793845435;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1793240817; x=1793845617;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3oGkMQScRX/tXnQ0sOZoQxWWvmtTrIsdcCnCFnpOWw4=;
-        b=EhWPyja7c12qp77xfA42iVdoWGo+nR8qDPo3n8vOcKKxtFfT1PDl0qpqe5cv679ROV
-         Q0sgwEj2N2/R4L6I+zCDxSZHHk3Dx7WHrfI5L2dNDfzU+bHDbYrfbHDhDej4fBg3fclz
-         j9LPCRfSbxwbXCD7EYM+LLeRumqlHnMkw3zOq+146taogbWatSE9Oq5Bb69XCy261awX
-         NkX/r8FfP3ni1o57l0iuIu6OqFOWVr69q+B0CJS9hATrFIl2xjtakMiKIrv73cnBksYy
-         MqDFvC7OonbUCfZ3lX++ijQdcNZkDUPJzlW2poXLNLMPaTbPseJF1XyC5egZORwMQVCH
-         lIrA==
-X-Forwarded-Encrypted: i=1; AKwUvBwNEocsmORehzpI5Aeh1mvhTf7gDOjx9WSa7xEIgQTnMMq6CZ7yaWNVZXR4HOwdslAAFrstnFqOUBZPRQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYK4S9ygGUzCwQsX9dqDXqHPECvtC9Kzz2s15sQ63CO/bshPGoXr
-	BisWAnWE9ZC9mAkyXXiPtc7amV3iU2vFHcgYPKzJ+hKrJvMhJM/02gjw5iQrupW6k6F5gyW4NAa
-	4TKM2XA5Wdb3o0w1imHFoPIoSsnEEjMOn+bpIYfUchxFrx5XvdVi4R46JpQHKBuGJ5Q==
-X-Gm-Gg: AYBFou3as6pFH1Kl9dd7G8+SDEi/m9cN8bq32AsX//kSWuZaY+FqAWCBhuIDyr6dgP7
-	IEsnD68eodXZ+FDlPHEPPcV4qPVRWN4lo5vMsP6VuyPd0QteEOhTYkUL6umMPbAqiLbAPy6Fm/s
-	hXEhiG5K2U226nP4hW7saVhhLR8aDM7wD/Fkp79e+QG9Ox/pJ3XmMUMRH4H7PJRH/TcVgz4IR+e
-	P25wCEmCODMO3FmLQRYbNjl/ydhhaOX0/lzip4x+0BX3KERtGc1kZ1ufQ2P5jcP4t4x6H2IfSab
-	WIC9o/7jwYCBTOze91VnhjL8ivG6HONJCLLGZuFFan7eERwJSwEmEZA0mBdzwmzDHOhQQ/aOgn6
-	3rCAoS6FQ1y++knJRb2FK5x4GWSITc9EswWEW9yad1tmjc2kLO1dyRgMMXKC6dYtYy4Q0UgK1ft
-	0RTPEMeMI5Q6gCS08iJO1bk+lGRpK9R3YC
-X-Received: by 2002:a05:7301:29ab:b0:351:7ec1:a92c with SMTP id 5a478bee46e88-36a201b1d5fmr5702501eec.28.1793240635022;
-        Wed, 28 Oct 2026 19:23:55 -0700 (PDT)
-X-Received: by 2002:a05:7301:29ab:b0:351:7ec1:a92c with SMTP id 5a478bee46e88-36a201b1d5fmr5702459eec.28.1793240634343;
-        Wed, 28 Oct 2026 19:23:54 -0700 (PDT)
-Received: from QCOM-aGQu4IUr3Y.qualcomm.com (i-global052.qualcomm.com. [199.106.103.52])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a23951e00sm15112588eec.20.2026.10.28.19.23.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 19:23:53 -0700 (PDT)
-From: Shawn Guo <shengchao.guo@oss.qualcomm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
-        Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>,
-        Bartosz Golaszewski <brgl@kernel.org>, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Shawn Guo <shengchao.guo@oss.qualcomm.com>
-Subject: [PATCH v2] ASoC: qcom: sc8280xp: Derive TDM channels from DT mask
-Date: Thu, 29 Oct 2026 10:23:40 +0800
-Message-ID: <20261029022340.591372-1-shengchao.guo@oss.qualcomm.com>
-X-Mailer: git-send-email 2.43.0
+        bh=3AQIVWKkCVoDQO4krIZozOYGjgLAL/sNPSz96FkGeQQ=;
+        b=wpd6BUi4x1KZ6BOxvSn6LV1SdDy8985Y5KhVBxx0qbH5CtM/5CqmdYnKIW6buWGFlk
+         yucaI9UbW/qIaqVFuK/YV+4UnjuixAHUb5Q5DKPAOOR3HXqHZC/KQlIy/1S5xpYZbMZ5
+         P0+O99raNQ2drXcvvfN/HmG2tWPhak7iV3TFtrEbMT0LKkMTasGlMI8TZFD+gZYZgSzi
+         /0UCa+P3oNnQrlXfoQ0MTsI350V2OtISEJ57wG8nbNnwMBcMzSXTU7+vyXeCDENZVKZc
+         DjZrqmSLEEeS8+ck0BEVuZnxyK8DSnaZx19SEpNliZ/ZEPla3fuKSQkfsQ3DN+5lIIh8
+         +/kw==
+X-Forwarded-Encrypted: i=1; AKwUvBxSnN6/as52ALlrKAWOdjSGbkyQrjFe5XCbY9q/wKQUTt5FgYAmNPZCGnwXTsDIhMXsotHRUK7yAvRCtA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ721ZhDpcglX/OZ9NgakMs5AorJGESiAOX9KiXqTxnbQHof1mc
+	O1NXrDaAM0AqmVyS7jpLN5OLANu7U+rIaJzg/l0weAe9RSzttDwRMvIi
+X-Gm-Gg: AYBFou09ZnI7ZQhv+FJk6rloVEoamgQT8tjOyhqcwZejFGOLurn9FwzCkwADdR3XZQn
+	bQv46CqZRoKmFFPB9oZXa/QIkeJXZOi00z/+HQmkNhWHtQgRKv0Uc9p//fBt8l2ybt7J1tprROH
+	Z7nl6oKALWeWt+8Hrf0AWO/hD1VOyvSQQTrpCjIOAX0Wm6HodvcTtg+k6DXsekwWALivqPT3e3K
+	UGUzpkzVxa6IX87BvbjgxaERrNlsJyn1SJtMz5Oi/wm9SOX1LjpqufYI2fJXX2D1Eqy7sjr3iyO
+	K1SNfzuCQfGEzs2+t0/u56twRHtaqlQAJXY7SfsYB3RCiwtm5B4uCrKwlMainOyLVwu7qcSJ6da
+	OkPeCitoJ0xAQ6P/RfX2UKRPTd0gghs4db+vEGfJx74zZ5SnqCcVYSu6ii4MmAEo9vqBIwq/nim
+	VPiWaeyVQJx4VIRJmSJ0de4kH47gkPz5qRyaDMPt1l7+QbSrSJebDyslXllSmK3WWUTQYaLWtxb
+	FkP8nL6evIadRxEYOj8P2fSt3uRPs7i21CemdrJLaW8bvRCnw4kQT/qiLGz9U4UAkyjoxU/Fnyg
+	YrLSP3Ls/pjIX0VqaP+gXhD6lr792/2G3zPYApBTs9SU9X4at8ItKFuF1UZ8ZrLL2af2Q1/8goc
+	1riek1kkpGOYPdQ==
+X-Received: by 2002:a05:701b:2702:b0:151:ece6:b16b with SMTP id a92af1059eb24-1a6cd499c0bmr5014472c88.7.1793240817266;
+        Wed, 28 Oct 2026 19:26:57 -0700 (PDT)
+Received: from [172.20.10.2] (114-137-68-118.emome-ip.hinet.net. [114.137.68.118])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a238da675sm11838778eec.5.2026.10.28.19.26.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Oct 2026 19:26:56 -0700 (PDT)
+Message-ID: <0752dec9-2de8-43fa-931b-27e1cae6e1df@gmail.com>
+Date: Thu, 29 Oct 2026 10:24:39 +0800
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -123,80 +93,110 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=Ju9kP84C c=1 sm=1 tr=0 ts=6ae2ae3c cx=c_pps
- a=Uww141gWH0fZj/3QKPojxA==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
- a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=0mQFbbcutK90DCAcDowA:9 a=PxkB5W3o20Ba91AHUih5:22
-X-Proofpoint-ORIG-GUID: 5fj5Jb6IRSZLVQ3YBtukcnzWGa1cxru8
-X-Proofpoint-GUID: 5fj5Jb6IRSZLVQ3YBtukcnzWGa1cxru8
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDAwOCBTYWx0ZWRfXzhegGHp/LSRM
- plZyzslkFm4mGPk6mtZ+OXDNtJzSjxM1Bs57vXPlssKJA/pBsdyAGqim7agHXOGxCpLc46FS61+
- M3Hl1noiLcUQrB9SJgJzagzajITKupA=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDAwOCBTYWx0ZWRfXx8SKn5PbBQFj
- IJXOQRKZA52AMASP0CNiyOAyXreP0FNmFPETCm7ZiakDe4WELRqT6z9sRCpf5GWHNM3h1w6zkWw
- 0KPK4k+FXmtYK2UZrZfoZMwVDPdqqvJF0HwTobmvWypHgIrhniVIj+dbg2CKt5ar0NRG0T/ABFl
- bBSoXHsOkz4y2MrlF57NTwMVMU0c4x35jyc+rbcFhr5iULQeu13mpA83PAYtBE3SbSqI5YFJ1ix
- oVvd3KqOmHi0NfUBYqvX6MC9jLCzS8s/pXMw+1XBCeeyQotIblD4yjf8k2mVD4B4H2d20FlxUl0
- WG6u+3kA8qJ1ODUMB4HFg5boTRsw+NQsbL0H87Kawom761duZxNFdgaI1TcUYWYB+mgZb/4RYVY
- AVkiDtftFyJKbs/+0OILa/B9WB0+q8hrbvm/33Czz0SgachV8+J0PRZHaFY4NgPE8PgA4QqEthe
- d9xmSdUKMd30Mu6EXEg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-29_01,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 adultscore=0 bulkscore=0 clxscore=1015
- suspectscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610290008
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 2/2] ASoC: codecs: nau8310: Add support for NAU83G10
+ amplifier
+To: Mark Brown <broonie@kernel.org>, Neo Chang <YLCHANG2@nuvoton.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org, krzk+dt@kernel.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ alsa-devel@alsa-project.org, kchsu0@nuvoton.com, sjlin0@nuvoton.com
+References: <20261022084037.259983-1-YLCHANG2@nuvoton.com>
+ <20261022084037.259983-3-YLCHANG2@nuvoton.com>
+ <179304693306.199157.5210648249546181520.b4-review@b4>
+Content-Language: en-US
+From: YLCHANG2 <neo.chang70@gmail.com>
+In-Reply-To: <179304693306.199157.5210648249546181520.b4-review@b4>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Derive the backend channel count of TDM DAIs from the cpu DAI TDM
-slot mask in the DT, using the same DAI ID ranges and tx/rx mask
-selection as q6tdm_set_tdm_slot(), so the channel count always matches
-the number of slots programmed into the DSP. Each board then gets the
-channel count its dai-link describes, e.g. 4/4 on Nord RRD, 6/4 on
-RIDE. Keep the default of two when the link has no TDM slot
-description.
 
-Signed-off-by: Shawn Guo <shengchao.guo@oss.qualcomm.com>
----
-Changes for v2:
-- Cover all TDM DAIs (PRIMARY..QUINARY and AIF_TDM ranges), matching
-  q6tdm_set_tdm_slot(), instead of only AIF_TDM_RX_8/TX_8 (Rafi)
-- Link to v1: https://lore.kernel.org/all/20261021025310.2072026-1-shengchao.guo@oss.qualcomm.com/
+On 10/27/26 04:35, Mark Brown wrote:
+>> Add support for the Nuvoton NAU83G10 audio amplifier.
+>> The NAU83G10 is a mono boost Class-D audio amplifier with
+>> integrated DSP and I/V-sense support.
+>>   	imply SND_SOC_MT6660
+>>   	imply SND_SOC_NAU8315
+>>   	imply SND_SOC_NAU8325
+>> +	imply SND_SOC_NAU8310
+> Please keep these sorted, same in other places like Makefile.
+Got it. I will fix the sorting here and in the Makefile in v2.
+>
+>> +static void nau8310_send_data_payload(struct snd_soc_component *cp,
+>> +	unsigned short dsp_addr, const void *param_data, int param_size,
+>> +	int *frag_cnt, int *padding)
+>> +{
+>> +	const u8 *data = (const u8 *)param_data;
+>> +	u32 payload = 0;
+>> +	int i, data_size = 0;
+>> +
+>> +	for (i = 0; i < param_size; i++) {
+>> +		payload |= data[i] << (data_size * 8);
+> data[i] will be promoted to int which won't DTRT for values with the top
+> bit set, cast to u32 before shifting.
+Thanks for catching this. I will cast it to u32 before shifting in v2.
+>
+>> +	struct snd_soc_component *cp = snd_soc_dapm_to_component(w->dapm);
+>> +	struct nau8310 *nau8310 = snd_soc_component_get_drvdata(cp);
+>> +	int ret = 0;
+>> +
+>> +	if (SND_SOC_DAPM_EVENT_ON(event)) {
+>> +		ret = nau8310_dsp_exec_command(cp, NAU8310_DSP_CMD_CLK_RESTART,
+> This needs to take nau8310->lock to avoid races with firmware load.
+Got it. I will add the lock to protect this in v2.
+>
+>> +	dev_info(dev, "Algorithm of DSP is ready, status %x", status);
+> dev_dbg(), this will get run a lot.
+I will change this to dev_dbg() in v2.
+>
+>> +	dev_dbg(dev, "Request firmware and wait until finish.");
+>> +	ret = request_firmware(&fw, NAU8310_DSP_FIRMWARE, dev);
+> We have a firmware-name in the binding, shouldn't we use it?
+I will modify it to use nau8310->dsp_firmware in v2.
+>
+>> +err_loaded:
+>> +	regmap_update_bits(regmap, NAU8310_R13_MUTE_CTRL, NAU8310_SOFT_MUTE, 0);
+> Shouldn't we leave things muted?
+It's redundant here. I will remove it in v2.
+>
+>> +static int nau8310_clkdet_put(struct snd_kcontrol *kcontrol,
+>> +	struct snd_ctl_elem_value *ucontrol)
+>> +{
+>> +	struct soc_mixer_control *mc =
+>> +		(struct soc_mixer_control *)kcontrol->private_value;
+>> +	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_to_dapm(kcontrol);
+Got it. I will remove the dapm lookup function here in v2.
+> This isn't a DAPM control, we can't use this lookup.
+>
+>> +static int nau8310_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+>> +{
+>> +	struct snd_soc_component *component = dai->component;
+>> +	struct nau8310 *nau8310 = snd_soc_component_get_drvdata(component);
+>> +	struct regmap *regmap = nau8310->regmap;
+>> +	unsigned int ctrl1_val = 0, ctrl2_val = 0;
+>> +
+>> +	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
+> SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK.
+I will change it to SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK in v2.
+>
+>> +static int nau8310_switch_internal_osc(struct snd_soc_component *cp)
+>> +{
+>> +	struct nau8310 *nau8310 = snd_soc_component_get_drvdata(cp);
+>> +	int ret;
+>> +
+>> +	/* For internal Ring OSC, the default fs apply to 48kHz */
+>> +	nau8310->fs = NAU8310_DEFAULT_SAMPLE_RATE;
+> This will overwrite anything set_sysclk() set, since we call this from
+> _shutdown() and _resume() we're relying on the machine driver
+> reconfiguring the clocks when starting streams.
+Regarding `switch_internal_osc()` overwriting `set_sysclk()` states 
+during suspend/resume, I'm considering two fixes:
 
- sound/soc/qcom/sc8280xp.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index 9aae6aadd43d..f5b147962afa 100644
---- a/sound/soc/qcom/sc8280xp.c
-+++ b/sound/soc/qcom/sc8280xp.c
-@@ -303,6 +303,22 @@ static int sc8280xp_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
- 	channels->min = 2;
- 	channels->max = 2;
- 	switch (cpu_dai->id) {
-+	case PRIMARY_TDM_RX_0 ... QUINARY_TDM_TX_7:
-+	case AIF_TDM_RX_0 ... AIF_TDM_TX_12: {
-+		struct qcom_snd_tdm_slot_cfg cpu_cfg, codec_cfg;
-+		unsigned int mask;
-+
-+		if (qcom_snd_get_dai_tdm_slots(rtd, &cpu_cfg, &codec_cfg))
-+			break;
-+
-+		/* Same slot mask selection as q6tdm_set_tdm_slot() */
-+		mask = (cpu_dai->id & 0x1) ? cpu_cfg.tx_mask : cpu_cfg.rx_mask;
-+		if (mask) {
-+			channels->min = hweight32(mask);
-+			channels->max = channels->min;
-+		}
-+		break;
-+	}
- 	case TX_CODEC_DMA_TX_0:
- 	case TX_CODEC_DMA_TX_1:
- 	case TX_CODEC_DMA_TX_2:
--- 
-2.43.0
-
+1. Add NAU8310_CLK_INTERNAL to set_sysclk(): Standardizes and unifies 
+clock setting through set_sysclk().
+It sets the 48kHz internal clock here, but would still temporarily 
+overwrite the nau8310->fs and mclk states during _shutdown() and _resume().
+2. Pass arguments to clock_config(..., mclk, fs): Configures the 48kHz 
+hardware directly via arguments, leaving the nau8310->fs and mclk states 
+completely untouched.
+Which approach would be preferred for upstream?
+>
