@@ -1,68 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793259974;
-	b=PxakuuDZr1tJTVYJ+zFudSJDQgBNAk+bRpf1yZ3jn34d7si2XlnSzNX5oz01s4I7k1BL
-	 0sNWycgl8THNxomSQ+zn4lVO7meTsmZaswD3zFSKAxePOkJU9HAoWtIFyWM+wLtbyZE4J
-	 LlNwjE/pe1OqDWaZmi2m6D2COkw6sAZJAQyRrJ6Poad5Gl/5UeSIpY4DKiTA5Rw3dzUOQ
-	 4AnV2kSkOYroIDewkH7O51ajIlATnCC+nAiCuAH3RsAAb8i7FW/Ce9JNJZYFdFeWfMGJ0
-	 vOBryMJMkC+FX6+NxKMWb+JokJpmvdANY9rACQhAEoIGNWsDKmX701BjgAzbIL5b0Nw==
+	t=1793260882;
+	b=QJnkEAquw6Dnf3yUG31ZT8l+IKLabjj6NATud4x+iBgI1oAfWVcfXywih4ksBguqaRcQ
+	 CPdH7IY1s/ys+b+PS/PGriodIL5BmZ+WwVbpmEWt4FgqUC7J6r93vIMK0rauE4jG7ijkX
+	 L8gTuLVA8RoflFgRnJYg4XBSy17nYdGbGz0v9bHYeo3K93ms2WeaTLkPTdejt1uobktv8
+	 GK0ARop+siSjVIcyULiaFLurXjiY7v9BLIC47n8aCH7ejzK7/ZqdqubpaeFPFXnCDpe7d
+	 5qMPYL1sLk+nnVje+qKJ/jwWtlzZ3ZVyl41jJ3eOxLSic7pgK10n5cMlsuD1sPnBj/w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793259974;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=hDPcx0zS9C4uw8gDkeYaMVywK+rChCE62DCbks73waY=;
-	b=Pgx0zrdy/j7m0o+6o9nafPHZtrTHRTHQ/rzjZL2/NloGHwlIAfnCbht3gTu/G6H9xdGq
-	 mz7kHWX/86Ib7sIFV7L8hFPsWNiJ7NAi3biHLIgo6he4KqnbMoSSm8er4P4DOX8UzSxnW
-	 sEeHQr4OEsRrMD+Hqxsp1/LuCH7tvdqD0ezGDpQJ1+C5SoMlB6lEwhOOqpgHYrXtWoDPU
-	 rsnF45D1sUkE2R+tWtRcWvncvSf1jNxkbuW0qd9Fhoz4vzBBfvcdztyutqLxKW0ltEeoD
-	 Vybnjl+SiuAzh9Zehwdlt9lcmEiCfx3Zo3+QHFgmbxz0fBYPys5hKIyU/cdAWnCeWTQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793260882;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=fmCkT2dDJS7PEu2WSf4TIeZW/Ul2nvJCI1F+qx+k+nc=;
+	b=uRUkTlrUYq4ES51YM1+V8swY737CJohajS2l9hBYtDJra6Yrdwv32obXb7hCnKtqpN9y
+	 S4NOBJ18D8QYgN+1iFLQqGuvSP7tJvao8wEMI053eKsbfZgayvnpnf5/2guUFxUFt+z9x
+	 e4C2iL9iaRHjzwfGAZm6I+yXREHGNJj6vP6n6jhE55xSCV9sevactzgWrGlqxEkZ/a83a
+	 EWFftEopp3oMtHmt9a2QB6nq7rUHxaVQ+Nx40KTXxxr21tvp0TkLb9Aw6Wlk6Kq0tdV0k
+	 6JPcaPsqKcsnR4tISzJssxC3CVFCY74GMcFT60nLH9G8gc1+SKS7Zukj96th4E0K9Xw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gkgeZMka;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cBjF5Csz;
+	arc=none smtp.remote-ip=209.85.215.180
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C3C606A31A;
-	Thu, 29 Oct 2026 07:46:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52C3C606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDAA606A31C
+	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 08:01:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5BDAA606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gkgeZMka
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793259975; x=1824795975;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=7nM3qfG5zpENM3bUedHWCR7ahkBU2tOxlJw8SAC78uc=;
-  b=gkgeZMkaK77DVMF9T7IPTUl9gayB79KmY9hbZc+ybxx4Cps6et+8TC7w
-   POrId6Qhjz2+q8opKxQxi/eJ8SniOotULsYADIfWbhCeqiilA2mrlfTsk
-   y0QiX+TLWL9MCpBIORsgVSfkom9WJSkI6gUwdiXhul7IbY3p/3/CgOQy/
-   sX5adh6QnaXdf196rHM6U8dIT6brqom7J5JmAhS48/dIgx0cfgQKra6Ne
-   42Fid5JiRfwms0z906LsrvTn8f/lEHKeRHDNhDnRisnbHcDFx0S+U0te8
-   NOCBGZR+8TWKKqYXl56SXgXXgYFB0kXloLfmsbUuofeRc1fpK6U1MDrXD
-   Q==;
-X-CSE-ConnectionGUID: 9iQC4CMHTm6DgXPSiX6Icg==
-X-CSE-MsgGUID: 4ry5soaoRxS5yiujBTufPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1891709"
-X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="1891709"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 00:46:14 -0700
-X-CSE-ConnectionGUID: MIFK3LTMRL2003gE9JEPAQ==
-X-CSE-MsgGUID: IYYn6DcrR1u62vNbhHPEPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="4953506"
-Received: from carterle-desk.ger.corp.intel.com (HELO [10.245.245.57]) ([10.245.245.57])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 00:46:10 -0700
-Message-ID: <3d074141-2360-4a63-9fcb-ac8f86a8cbb0@linux.intel.com>
-Date: Thu, 29 Oct 2026 09:46:45 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cBjF5Csz
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-cc7e79c1eaaso844083a12.2
+        for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 01:01:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793260882; x=1793865682; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fmCkT2dDJS7PEu2WSf4TIeZW/Ul2nvJCI1F+qx+k+nc=;
+        b=cBjF5CszmWRXbpvtG7vbWvhDWrbRo014YxGmU9dZ6gwHVI65SP6owcCpKGMi2vTSxP
+         ajr3FN24/h61HS+on4vVC3PToPL51UzJXyQmc0jgVjtzOJ6fk8H9O+AHa/JCGbLHDmR0
+         TT1e1ZZr0lw1QRu3+t29FM1+XMIg+gspLg5NHxKQOc1/45sPE/7YXThAlpCl/WfjipkJ
+         NkPg9BSD8U185av/shGLSvnl9VZ/O70VqPJC6yl13dvhhi5+Bpk0zsSOtlxq4mmm498l
+         8/YTqOHCtZs5JxNYA7EZ96LFIHVVsDQ2hqJV/rbDbgpyRQjVIl2KvwsvanCgsn7MJ9Je
+         VFLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793260882; x=1793865682;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fmCkT2dDJS7PEu2WSf4TIeZW/Ul2nvJCI1F+qx+k+nc=;
+        b=Dn0BRAsNmpb0pNPsnPypzNOYekTb0+cURtlLrTAK7oKaSNxNQ9wEoI6X7z/eMgGnRC
+         OVtr4KCMeFJKunpIT4gVPyBOVJN32wGjhDJmqkwm0qJjV4GDD6YaLVjIysL9x/wi5jrK
+         E6ASX7qU+HqjKzisfz8oWc+eteBl8QprvwKsQ1pyYDCNvOGpLVXujaxp+fbNfU0w8hCH
+         1WF1bxkkcP+N6Uu+i75ytm/AovJUD9iHn0io2eiQdqSbY8FyjIHVH6y2qN0oTHloEL+X
+         LnM5WPJyeo46s2wTre+SgzsvsPhJ18uYkfEmiP7aGHkUxbFqosseEoCjng1xR7eigOZy
+         Xm4g==
+X-Forwarded-Encrypted: i=1; AKwUvBzTrl29QKNHaJJ1FvAdNW7onsRP0jcTMQg0z3l74FTzxNgrBlPNpkWwShpEyMFsinvGQvo9qXlQVfZ4WQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKByDSO9rm9DvlaHl+tJ+jipdOQyK5mhvuCYmA9VQ3UCUOvLWxb
+	LHdPDeH5b55zx7g3sBIQKriDOSnQUDmz32Xp1wyPUPeMIOrWp4SNnFOO
+X-Gm-Gg: AYBFou1+yKwk3lcFTKoLPd3pc3fBkwgmpivNttZjvk2mPoviF87E6sMpulIQ88PIoWA
+	8D8X3+UDbkJEUqItU5+oLJE1IxiDX9g8X1Nk2rjT5fpsQ8CGslIgDk2CiKw5P8s9KAzFGvn26hv
+	PZku13VvRvtT/XFWwvFpfKrXX5QX2PynWQm/lOcZX45Bam/nHVjU5C0G/ONc9m+FXYY56I+68ly
+	yG43bErkbEdyS/uNtoKuIF6mAD3FsSDdZILrQ3WMaJmBm+07/0KyU3AgeHf1eSVqBJq/fFlooQM
+	k2A9XNO/D5qLCnDLvAiX94E+brv5HjU+NW8DpYnTnQgDzwb89jHxljVTWgBcpbT0VB4sAJxuQ4K
+	J4lBj9FSWu+++UntTN6u4ZNutTPvzADyqKkvPzPOD6SHELGMwY/qRQI+RFuM3Cll9bDPPivmI/0
+	YLfN0yStpqaf/gGJswmiRmH5RnVZl0i+R5WK5m+r4d3OCwTa7ETzK+n6I8pjxnSBbFPz9HLNaZi
+	fqKuKqxk52BqmD7F9oM1h6O4+vpcQxk4GG272OYvFdtRXWGQx4IFlhkmJ8MSN7tEwTpw3+u7flW
+	c5vjePscYORJAOup+k4cEqogIuv1kyXVgLgVFwWASgJKYyrgTnNaDow65LHtTtRnCDV85iylZxW
+	hlM/C6kMh0ytjQN31MnCwjYiUQc9jqPIL1ukFC2jiQj0d
+X-Received: by 2002:a17:90b:4cd2:b0:3ab:884b:659e with SMTP id 98e67ed59e1d1-3ae57f96d53mr3261282a91.9.1793260881559;
+        Thu, 29 Oct 2026 01:01:21 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae6e7fe923sm3380289a91.8.2026.10.29.01.01.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 01:01:20 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 0/2] ASoC: hisilicon: Clean up hi6210-i2s
+Date: Thu, 29 Oct 2026 15:01:07 +0700
+Message-ID: <20261029080109.12240-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -72,114 +100,27 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: SOF: Intel: hda: Stop the controller before freeing
- its DMA buffers
-To: Sasha Levin <sashal@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Daniel Baluta <daniel.baluta@nxp.com>, Takashi Iwai <tiwai@suse.com>,
- Jaroslav Kysela <perex@perex.cz>, sound-open-firmware@alsa-project.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- yifan2.li@intel.com
-References: <20261028144446.992948-1-sashal@kernel.org>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <20261028144446.992948-1-sashal@kernel.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+From: bui duc phuc <phucduc.bui@gmail.com>
 
+Hi all,
 
-On 28/10/2026 16:44, Sasha Levin wrote:
-> hda_dsp_probe() starts the CORB/RIRB DMA engines through
-> hda_dsp_ctrl_init_chip(), but neither hda_dsp_remove() nor the error
-> path of hda_dsp_probe() stops them before hda_dsp_stream_free() frees
-> the CORB/RIRB ring buffer and the position buffer.  Unsolicited
-> responses also stay enabled, so the controller can keep writing RIRB
-> entries into the freed page.
-> 
-> Until commit 9e6966f70404 ("ASoC: SOF: Intel: hda: Keep non-alt mlinks
-> powered at probe on ACE2+"), hda_init_caps() dropped the initial
-> references to the non-alternate links, and dropping the last one
-> stopped the command DMA, so a probe that failed later, e.g. because
-> the firmware is missing, did not leave it running.  Now it does, and
-> as the probe runs from a work item, the device stays bound after the
-> failure, with bus mastering enabled and the DMA engines pointed at
-> freed memory.
-> 
-> Normal removal resumes the device first, which restarts the command
-> DMA, so there the ring buffer is freed while the DMA is running until
-> pci_disable_device() clears bus mastering.
-> 
-> Stop the controller with hda_dsp_ctrl_stop_chip() before freeing the
-> buffers, as is done on suspend, and export it for use from hda.c.
-> 
-> This was reproduced by binding SOF in DSPless mode to a QEMU
-> ich9-intel-hda: after the probe fails with "SOF firmware and/or
-> topology file not found", CORB and RIRB DMA are still running with
-> unsolicited responses and bus mastering enabled, and the page they use
-> is soon reused as a page table.
+This series cleans up bit handling and clock cleanup in the
+HiSilicon I2S driver.
 
-This is indeed a possibility which I have overlooked.
-FWIW, Li Yifan spotted the same issue earlier:
-https://github.com/thesofproject/linux/pull/5976
+Compile-tested only.
 
-but using hda_dsp_ctrl_stop_chip() is the better way.
-> Fixes: dd96daca6c83 ("ASoC: SOF: Intel: Add APL/CNL HW DSP support")
+Best regards,
+Phuc
 
-Can you drop this Fixes tag, the hda-ctrl.c hunk will not apply nicely
-to older stable kernels
-With the removed tag:
-Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+bui duc phuc (2):
+  ASoC: hisilicon: Remove redundant bit clearing
+  ASoC: hisilicon: Disable clocks in reverse order
 
-> Fixes: 9e6966f70404 ("ASoC: SOF: Intel: hda: Keep non-alt mlinks powered at probe on ACE2+")
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-
-
-
-> ---
->  sound/soc/sof/intel/hda-ctrl.c | 1 +
->  sound/soc/sof/intel/hda.c      | 4 ++++
->  2 files changed, 5 insertions(+)
-> 
-> diff --git a/sound/soc/sof/intel/hda-ctrl.c b/sound/soc/sof/intel/hda-ctrl.c
-> index aeb34310eebd6..333f6bbea7539 100644
-> --- a/sound/soc/sof/intel/hda-ctrl.c
-> +++ b/sound/soc/sof/intel/hda-ctrl.c
-> @@ -349,6 +349,7 @@ void hda_dsp_ctrl_stop_chip(struct snd_sof_dev *sdev)
->  
->  	bus->chip_init = false;
->  }
-> +EXPORT_SYMBOL_NS(hda_dsp_ctrl_stop_chip, "SND_SOC_SOF_INTEL_HDA_COMMON");
->  
->  MODULE_LICENSE("Dual BSD/GPL");
->  MODULE_DESCRIPTION("SOF helpers for HDaudio platforms");
-> diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-> index 4dbba9186b29d..2a40cb9bf24d9 100644
-> --- a/sound/soc/sof/intel/hda.c
-> +++ b/sound/soc/sof/intel/hda.c
-> @@ -939,6 +939,7 @@ int hda_dsp_probe(struct snd_sof_dev *sdev)
->  		hda_dsp_ctrl_ppcap_enable(sdev, false);
->  	}
->  free_ipc_irq:
-> +	hda_dsp_ctrl_stop_chip(sdev);
->  	free_irq(sdev->ipc_irq, sdev);
->  free_irq_vector:
->  	if (sdev->msi_enabled)
-> @@ -1006,6 +1007,9 @@ void hda_dsp_remove(struct snd_sof_dev *sdev)
->  		snd_dma_free_pages(&hda->iccmax_dmab);
->  
->  skip_disable_dsp:
-> +	/* stop CORB/RIRB and position buffer DMA before the buffers are freed */
-> +	hda_dsp_ctrl_stop_chip(sdev);
-> +
->  	free_irq(sdev->ipc_irq, sdev);
->  	if (sdev->msi_enabled)
->  		pci_free_irq_vectors(pci);
+ sound/soc/hisilicon/hi6210-i2s.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 -- 
-Péter
+2.43.0
 
