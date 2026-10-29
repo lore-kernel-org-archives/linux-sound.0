@@ -1,56 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793272765;
-	b=BVujwD9TQIlZg6kKqNfH/JSKQVzo9KQ1AR8my72QNa+jOFwjwrCzg5oGoSHSkIcB9W2Q
-	 8+bHnRXYY4LW8Aq1afRxujrmQUD6jdNmx8EFWn2t6d4K7h+CU/rcj9fchjRCHLTdiHiz1
-	 TEQBHZcNlcRT62xCdWYVZlqGLC5jNUhYH3rn9qA1OmaiJEbWeFjzjPVA1Tw7+UfhPWoA8
-	 xNIBx/dWhdmSRKXOAX1+TFNYOgxo163v0UOPkkv45jFBN1bic7xnML3zbZA7x3aLrAqt1
-	 Lw9Tfi+hnLsfTXfuwOM3dbL5x735K9rbjm1yANGRezLbJU8lQ88pW2zoLpjQ2WLID0A==
+	t=1793274090;
+	b=zWxH0EkQB1KoSgX0i88Ffn4Ypc4fSRkBsazRwqMzKZjYKi94yL1Izv1OenmDyk2wvVEs
+	 +LVlDkhLb8HLWPot3m2Q4bdA9hFa3wom9YRDeEz1uyyZGCD9zydE++CQXkJww+hCFuOQc
+	 vjx8quR1ARLoddkQci1W2ojLT4eOvelGAh1VfmuvfAZiue8kG6cDNwzJ6wg4wqwol7C9v
+	 sqoGK+SO2duCdB3plNBj9UwQ9Srn5AOIT/rWgue0nBMNZtNjWI4EDdk6Nlk+L8JAz0LOO
+	 TUW/G1pSuV9mm1ZGrYAkryyarcYH4d16DO5nmNtmJHCAzn4jV54EqgQHtCy1MhkR90Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793272765;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=ASuFeZWVFqNm4w6NaGQHXdSU0AoN18nCC/XV68nOE20=;
-	b=EZz3cIPDxlDrdW3gznFdLtbXWT6irI5LEfUezfj9nGUSmZ6XP1xNKhobvyryJiFhojG9
-	 /iczgAUh3QwJ5GD8zmBp9zUmlEI/z99km5p1IN9ug1adPIamWowgfXWUxjmBzhS0k391Z
-	 4qDAxwkZvdSWGFQPKU8ws7VJExMOxvXOwCnT51fCw4i+4y8vRFc1w8EdYpKtzdFpvlIKZ
-	 YsWEUwiH9G6TsXfMM+sYiX6okdhhRNnshY2r5hGR8KpO8uYPaPL0sStlwclrFm3aDUrel
-	 DTyxdqvkMpj166THT98ERlO4+cXQNYSxoKT8vpIT67ZupUPLP+OYlNiimdmpa3985zQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793274090;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=pi2nVApqlKwx0joef1xugg5ItvXufYozQ1yREpi+wtk=;
+	b=IG+gSQIRAZUZZmMBNH2xoSbAHuMoqpoGd8uebsSHOIHB/zrh+oe818kCQDk4EpkM4T2i
+	 1H1N951tfU+C4heFWsAwXkLFnj0uqlr1B+EtG8HP1mbEPgKWX/ZTSyTLfibZurRjU8c2q
+	 4srWo5Wmw4bYkudUfUBRGNp0yS4p3tt3pZNEVFOuKDbnxVc16v3qKQkbHWW0mxNLcUx1j
+	 sshG+HhrB7P7rtuNm4xzA8kwup7nRhHnk570eknZb63V3i1EmdCpXlL9+nuuaFL7oui2d
+	 nMX7MAsRSlRy8TpYMXsxA654hCLtA4dVVRckUhfvsN9/8C9zyju5TNDg+8/YIYerBtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c8gzRHkO;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Gihb8kIs;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0355606A326;
-	Thu, 29 Oct 2026 11:19:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74CA1606A31A;
+	Thu, 29 Oct 2026 11:41:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c8gzRHkO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1832B1F01829;
-	Thu, 29 Oct 2026 11:19:22 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Gihb8kIs
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C73EF1F01825;
+	Thu, 29 Oct 2026 11:41:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793272764;
-	bh=ASuFeZWVFqNm4w6NaGQHXdSU0AoN18nCC/XV68nOE20=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=c8gzRHkOhKzR4aVyxR8qR4c0FZZ3SNynYwNATS9kRpbQE6N2suBfX9oN1nAuVUv37
-	 Pf+otQrO0R67o/Nl/+UhYo+ojmdWoKgbNf28LoDuqJSnwDDKF0WKBkTVdDhnPrhFqk
-	 mdldAYSXmivhvJos1KnLHDmY1SlWWdrTjh4On8obXGDwjiT3Wb3TEbY+zhkD/DDRn8
-	 d33wEnci9zkApnCj2pJ19pnkIApgs1Ii0R2wJpzXIAlugV21hNM5PijBscyYDtQO7g
-	 RFWiYqm1iar55dL4l8TLzlKSyZQC3bWoSfVf+hhYPjCN64CHjcmvih4idah107eac4
-	 ofkFA44DUgxnA==
-Date: Thu, 29 Oct 2026 11:19:20 +0000
+	s=k20260515; t=1793274090;
+	bh=pi2nVApqlKwx0joef1xugg5ItvXufYozQ1yREpi+wtk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Gihb8kIscXZQaR+6XpnWpr2udrlNsTsIhNfVuRRa969B9agMDR9LmItW9XyVcFMf0
+	 ZuBRARQqtrjUDKUuyEFzHSvpdFlNjUD9AeiDsXeLY/eLncnuRrBf6xINMALu3ZnS9i
+	 IBTa+sDCvx9cakUTStbcvsuwUlMCjMzIey5fE7LugsDePlQeLfYWe7XSByr8eyuH1h
+	 ZW2J3rbABl9+ivFiwWaBQy9iArDMMo7UnzRTQQIdmwbWMWdTxzwRpZwRNb32QLJONc
+	 Vi3RAptSULVoDFvNhFGznyH1jY3SogNC4mfuYbolxtJrmn1Be7jcjyjseC1heYLJFb
+	 VQF6x1Dcs2IAw==
 From: Mark Brown <broonie@kernel.org>
-To: Marco Giunta <marco_giunta@outlook.it>
-Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] ASoC: aw88399: move library exports to
- SND_SOC_AW88399_LIB namespace
-Message-ID: <8c7ab5d9-8815-4c86-970d-0639e9befe49@sirena.org.uk>
-References: <SN6PR19MB23035A048BCAF108507B59D0FC6E2@SN6PR19MB2303.namprd19.prod.outlook.com>
- <SN6PR19MB2303BF7F0C1B1BE767351D98FC6E2@SN6PR19MB2303.namprd19.prod.outlook.com>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Sasha Levin <sashal@kernel.org>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, Takashi Iwai <tiwai@suse.com>, 
+ Jaroslav Kysela <perex@perex.cz>, sound-open-firmware@alsa-project.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261028144446.992948-1-sashal@kernel.org>
+References: <20261028144446.992948-1-sashal@kernel.org>
+Subject: Re: [PATCH] ASoC: SOF: Intel: hda: Stop the controller before
+ freeing its DMA buffers
+Message-Id: <179327408341.62540.12883770899649017703.b4-ty@b4>
+Date: Thu, 29 Oct 2026 11:41:23 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,38 +64,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qpNotaX25K1MpkcZ"
-Content-Disposition: inline
-In-Reply-To: <SN6PR19MB2303BF7F0C1B1BE767351D98FC6E2@SN6PR19MB2303.namprd19.prod.outlook.com>
-X-Cookie: I have a TINY BOWL in my HEAD
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1163; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=VoP8bYW+khu29xNYswZNHpexAi0sI2RFBpRM67cmIR4=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIeGzwNexQZmX+4PuEh99IM62PBTX8e7ze+Y/k+1k9XI
+ VXmzbLmjlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAEzkORMjwyRFDZGPsr0i125/
+ Xns//klO4orZuU4XJty3FWByEvN2u8zIsLN28+HHtsd1C2qUGw+K+T9izVb4LRjj45D/asOEq9/
+ 4+QE=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Wed, 28 Oct 2026 10:44:46 -0400, Sasha Levin wrote:
+> ASoC: SOF: Intel: hda: Stop the controller before freeing its DMA buffers
 
---qpNotaX25K1MpkcZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Thu, Oct 29, 2026 at 11:51:59AM +0100, Marco Giunta wrote:
-> Replace every EXPORT_SYMBOL_GPL(x) in aw88399-lib.c with
-> EXPORT_SYMBOL_NS_GPL(x, "SND_SOC_AW88399_LIB"), and add the corresponding
-> MODULE_IMPORT_NS("SND_SOC_AW88399_LIB") metadata to the ASoC and HDA
-> users of the library (aw88399.c, aw88399_hda.c, aw88399_hda_i2c.c).
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Thanks!
 
---qpNotaX25K1MpkcZ
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/1] ASoC: SOF: Intel: hda: Stop the controller before freeing its DMA buffers
+      https://git.kernel.org/broonie/sound/c/11ae63bd9030
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrjK7cACgkQJNaLcl1U
-h9CEegf+MJJGwkXb0geRGMHD+L7CENIs5LTQcMt578+OVAvsoR2PGvIdu2yRtk1m
-Phlm4/iGZ3P6UI46GwSfbeT1SKItcstOZG6CFoJmcu3RaZ2/H2Bm/Ph5CjwIl0Zd
-CDYGAG+MkEV53tPEv3iJNL3nrOzbIlsD5FlJuO16Hou80kqEXLYGkxkGK5GV5HcQ
-d2bf/pTVD4nQu853wCXgcbIISPr/IqMP9DIf0W6NHUq4kMDyNVesDUGgukvJ6bUv
-+SjuYF4Eh52ozbKLM5zJMhu9Fx/kzjP2A8sMG5cu+peyPa97ZRLmR8PS8U9MPWBD
-UTzoB9+aKEMkU1PomPy95ixNXQDzQA==
-=m3hH
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---qpNotaX25K1MpkcZ--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
