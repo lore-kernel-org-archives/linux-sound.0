@@ -1,95 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.108.3.57
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793235317;
-	b=v1RDJraWJ0sbKFBz5Bw+jU7WQAV1EuT5qtcOgf1bMRQ2Jdjwm4rlZnzKXUTFq3gByIRG
-	 IV9vih9UkGRPzQduiGxDc1TxH1wA7hbJCyKRVUaNJ+yCus/4NIJgj4+6QEDj+f4T/4yvT
-	 MKrvfpln0SKtVWPjE2wvtLBMH3RZ5ERyt+imNw13QcjtxS6WvEq6MnnokvwqdbS9+hH1B
-	 3YS8yEg9enW4yEsuTuse/SWeD4xTTMZXDaoeOzbh4+i5Pdoei3/OzpG9nzkVPFA2CaNRb
-	 B07CGVt8q0pHc+i8dB14Tf3L/yqyNdxwnF3zZaBlRFVcIJ8uUwXH5XQ7/52JLiDdrow==
+	t=1793237607;
+	b=XlqJSeUb8ErT9hMgM1apxyI79QKqSyqJTWfevMuOb91DHqwdDr/XxWJkhmVfWMMkpNyD
+	 XEJKNZd+N5VdbPglArk10EJhe3e2l35gtU2LgrvY25tTbwxxq8EONcCadKKSE/W7BZl/0
+	 TWAJ/UW2tVx1hP/rgOvgSdTaujY6F7QnR8jBYuFGG+WwASxS52ZBcz4EVIMfDnR6GErqR
+	 3qaYlX9qbBCu0Imrs056bpeRY9Zb2q9IRqT3O6nskAce80LRRKO5SRrEFRxLhOi4duSat
+	 rXNURbUPGhpiUZKkKYBxwHBwhGm+OwsUk2J+Amv0jGLLV/tsNeNCVwVcgo8bywj6ohw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793235317;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=Lc/0ZwFHPEMcdqxUsWK2/XQWQDdOny9YCEaM4Qt1bOQ=;
-	b=Ahd5dBonc2tW0ORlsSrDtmO0gvE1t+i16qNpvv7cWELNEi0Lw5GJ3m5TNXtEMY1yoC3i
-	 epQzpsXE/jEDfY84a/4W7IATunVBM8fpizG50bPzkrSRzZv4B9dSc2krrErwGDIHCExzn
-	 KZ5HoSSBHwD9CVQjZSuyJIHyiLyA1OlXHxgCG+gZdzWiC7uxX+5POMbVZvuLU4b+Szw7T
-	 +AwjTfCOjy0j10KtjfM/f7en8nNIvOlEjCYxJ0/X1QsGUiOL7LzgwuCenBIePfJRStObO
-	 nnAqOZkpfQ+fziS9Qp/b/dzVUsAU6UfGcovUQEodpedKO1Dhwd/LZeRbBorNHJuJgTQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793237607;
+	h=DMARC-Filter:Received:X-Sender:X-Auth-ID:X-SMAIL-MID:X-SMAIL-UIID:
+	 From:To:Cc:References:In-Reply-To:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-Mailer:
+	 Thread-Index:Content-Language;
+	bh=3xKQId8usu94SY0Bq4swNV4qyJkv3z2J03kzKaNzsAo=;
+	b=aTA8GuLlT7dT51xAhOjpk7XZJoatDH26ErfXHaAoNqMAJFZJ0/McLmN7lxmtABK7v9Vv
+	 PCF+1f+zhyu8gsVCmRdKndCPe7u/bOZhbSxS3C79LQ20ZVbNAFPcKwQZkfP4cd1FD2L6b
+	 xYOzrtnm0xUFFy7BWf9FpzShZFuUmS2EQOOf0Rcff92I2wndVP8MAdO2nqlJglW7V6rIv
+	 e1oCW6gBhtBNeh5fmZKgwozxsjdAOOuCryOEPoivnHTnGDkOKwBjcew0Y4B8cnpR2dVP2
+	 69RAqKw0iinPcKK94czxImeDjqBjf7CoLXVHs7k3y1KNzMyNFd2cIomwo1FerQQ59nA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=w5+Z3pSu;
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=none header.from=everest-semi.com;
+	spf=pass smtp.mailfrom=everest-semi.com;
+	arc=none smtp.remote-ip=202.108.3.57
+Received: from r3-57.sinamail.sina.com.cn (r3-57.sinamail.sina.com.cn [202.108.3.57])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF4C606A31C
-	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 00:55:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CDF4C606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=w5+Z3pSu
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a2000d5fb1so11404815e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 28 Oct 2026 17:55:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793235315; x=1793840115; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Lc/0ZwFHPEMcdqxUsWK2/XQWQDdOny9YCEaM4Qt1bOQ=;
-        b=w5+Z3pSuMuIMAYKBb+u3kGyPRwFhURWg11bHVwwE9sFnzClMI9X9hLiSK2VY1DcTyD
-         PS2IPhdpiytOqIoli4WnapzgKjVO53J/smHJYVJUDt+Pa74f/tZMRUQNcLnuwJcweJ4N
-         aR9BGcvJCyLGTqixwUJP5VA0YgriN0Ufl7dh5cnpzGGH2CR+rfJWVWTTGUSUNLsxXsVl
-         X3mU+gHF3p5I88VbZkLXPFztPQMarXYXLSBkTDpDJWNBQcAoAw6QAAnwyyPMkaoK3h8S
-         CRehQYqUGT7rQmbati3x2vgpwueCYbiIe6Hcb3PF8FaOCz3gQDLzkxlnOMQUDbIWvGMD
-         Ik5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793235315; x=1793840115;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Lc/0ZwFHPEMcdqxUsWK2/XQWQDdOny9YCEaM4Qt1bOQ=;
-        b=UX3G96tEEYrDFuVfkb4evex8JSBWnj3zrWGa+9aE1H3+eq28kL4CfnqtquojcfMHOm
-         WDS8S9ae5UuUVmk8llbi4f+eyU4VPB6c8kJhDG/PIBu5DnaFe9OPQHmHi3tpRhKC5I2n
-         gYvOPPr/hEgju73mLPZ/u1eVA5I2MycDnq572T//oadgvsnHxz5oaNOEFhxDfgl3lnHf
-         zhqmnIu5GQuSOJsulHGmIzPgGG5FE0K++71SY45U430XrK0n2fGGfKFfPXWIRT0MBh1X
-         oHcKUQOY8vKME6DK0eqHOMulgqGb/MS+IUxh5kwbxuOsziQpREvGrCRlNNqcDDipI60b
-         pqxA==
-X-Forwarded-Encrypted: i=1; AKwUvBwga//pE2lCCnHacjNb9zHvT/RTNeFIKyzyY8q7MW8QxsFCYcAcKfXY5XIw5f8mIo8zZCj0zuQplZ9tfw==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKsPkwblDCr/AQ4gqa/fFG7LZS+sFMEF5uCUWSlU+HVyzwjtlbL
-	Ls9i+E0mL2+6V9JSPHvLkWli4D8l8KRhWH6XNghjP6xQpzwMT9xLcQc=
-X-Gm-Gg: AYBFou3c54tLOlQ68NChZ0m74iovVy9Fy41w4vWhHIHAc7nZzrRQODCRa61xNGpVkk7
-	QgYnjvG5XW5z0kFVo1dDq8Q99gi32GqUxp1WkL2gsCpKZtSkleiBlcKv8ROqdtQj+oEHmuTRy8p
-	x/56w3e9TKygo5Pfhnt5f+LGmmzDVtmfugYCQhRwPkNG+mdGFFwp+8IMpN/lW0AzTQ6kBIS+Fqr
-	bBP30WnL1WaDoCkEOWhlhjfCp6khyILbB8dNm3Kjs+PCblUmtWjM86BT3UN2E3UXWhF9ox07hSG
-	/Nc4odPj6znffPaGPtUeCraqm6MzfMZZdVqtIx5BQwDUGBXHWv8Ip2U5JIVP8uJTxj+8YXHG1vM
-	i2uyG4Ss0HSOuWAoWBdJJ50ha855AcnS3JHym9VJxh+/AlR9/OVIFr8/MYzjS4eup0wcqGKmm7f
-	bRI4BEi2BBb52st5/WgJb6DXb2AyM3fXbIq99jz1jfwvU7Eb0D9rukk6b4cgs6y1lVg3NXS1J4d
-	kIP+y+oMHk1GSx76Im80VYJVVaVzkvhPKltSVfczEzuvzli71zbUZlW4/RN1h/hl1Zud1y6Xg==
-X-Received: by 2002:a05:600c:474f:b0:4a1:cd83:b23e with SMTP id 5b1f17b1804b1-4a97452869cmr90177805e9.0.1793235315145;
-        Wed, 28 Oct 2026 17:55:15 -0700 (PDT)
-Received: from debian.. ([2001:41d0:303:db6b::])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa7f41895fsm23855575e9.5.2026.10.28.17.55.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 17:55:14 -0700 (PDT)
-From: Tristan Madani <tristmd@gmail.com>
-To: Oder Chiou <oder_chiou@realtek.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Tristan Madani <tristan@talencesecurity.com>
-Subject: [PATCH v9] ASoC: rt5659: cancel jack_detect_work on component remove
-Date: Thu, 29 Oct 2026 00:55:11 +0000
-Message-ID: <20261029005512.1927850-1-tristmd@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5C9606A31A
+	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 01:33:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D5C9606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO DESKTOPQJC4P40)([58.38.107.94])
+	by sina.net (10.54.253.36) with ESMTP
+	id 6AE2A25B000013E1; Thu, 29 Oct 2026 09:33:15 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: F977D91825B94355AC5AB166A6EB1C76
+X-SMAIL-UIID: F977D91825B94355AC5AB166A6EB1C76-20261029-093315
+From: <zhangyi@everest-semi.com>
+To: <broonie@kernel.org>
+Cc: <linux-sound@vger.kernel.org>,
+	<tiwai@suse.com>
+References: <20261026064251.15017-1-zhangyi@everest-semi.com> <408aee47-19a8-4bac-b5b4-7be26ef51f80@sirena.org.uk>
+In-Reply-To: <408aee47-19a8-4bac-b5b4-7be26ef51f80@sirena.org.uk>
+Subject: Re: [PATCH v2 0/3] Modify the initialization and headphone-related settings
+Date: Thu, 29 Oct 2026 09:33:15 +0800
+Message-ID: <123d01dd6745$7833fbe0$689bf3a0$@everest-semi.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,120 +59,23 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: Ad1nRXeYNZSoLktbTtaiQt+euVyuUQ==
+Content-Language: zh-cn
 
-From: Tristan Madani <tristan@talencesecurity.com>
+> > To support different versions of the ES9356, the code reads the chip 
+> > version and performs different initialization configurations based on
+the version number.
+> > To improve button performance, we've adjusted the timing and settings
+related to the headphones.>
+>
+> v1 was already applied, please send incrmental patches with the changes in
+v2.
 
-rt5659_remove() resets the codec via regmap_write() but does not cancel
-the pending jack_detect_work. Since the IRQ is registered with
-devm_request_threaded_irq(), it remains active until after the component
-remove callback returns.  The IRQ handler (rt5659_irq) schedules
-jack_detect_work, so a late interrupt can queue work that runs against a
-reset codec.
-
-Track successful IRQ acquisition with a flag so that disable_irq()
-only quiesces a line this driver actually owns.  Guard the
-cancel_delayed_work_sync() call with a flag that tracks whether the
-work was initialized, since INIT_DELAYED_WORK is only called for
-specific jd_src configurations (JD3, JD_HDA_HEADER) and cancelling
-an uninitialized work is undefined behavior.
-
-On component remove, disable the IRQ to synchronize with any running
-handler and prevent new enqueues, then drain the residual
-jack_detect_work synchronously before resetting the hardware.  On the
-next component probe (card rebind), re-enable the IRQ to restore jack
-detection.
-
-Fixes: d3cb2de2479b ("ASoC: rt5659: add rt5659 codec driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
----
-Changes in v9:
-- Guard cancel_delayed_work_sync() with jack_detect_work_inited flag
-  since INIT_DELAYED_WORK is conditional on jd_src (JD3 or HDA_HEADER
-  only), per Mark Brown
-
-Changes in v8:
-- Split codec series into individual patches
-- Track IRQ acquisition to guard disable_irq/enable_irq
-
- sound/soc/codecs/rt5659.c | 19 ++++++++++++++++++-
- sound/soc/codecs/rt5659.h |  3 +++
- 2 files changed, 21 insertions(+), 1 deletion(-)
-
-diff --git a/sound/soc/codecs/rt5659.c b/sound/soc/codecs/rt5659.c
-index a061028a16d82..255552af59f7e 100644
---- a/sound/soc/codecs/rt5659.c
-+++ b/sound/soc/codecs/rt5659.c
-@@ -3668,6 +3668,11 @@ static int rt5659_probe(struct snd_soc_component *component)
- 
- 	rt5659->component = component;
- 
-+	if (rt5659->irq_disabled) {
-+		enable_irq(to_i2c_client(component->dev)->irq);
-+		rt5659->irq_disabled = false;
-+	}
-+
- 	switch (rt5659->pdata.jd_src) {
- 	case RT5659_JD_HDA_HEADER:
- 		break;
-@@ -3685,7 +3690,15 @@ static int rt5659_probe(struct snd_soc_component *component)
- static void rt5659_remove(struct snd_soc_component *component)
- {
- 	struct rt5659_priv *rt5659 = snd_soc_component_get_drvdata(component);
-+	struct i2c_client *i2c = to_i2c_client(component->dev);
-+
-+	if (rt5659->irq_acquired) {
-+		disable_irq(i2c->irq);
-+		rt5659->irq_disabled = true;
-+	}
- 
-+	if (rt5659->jack_detect_work_inited)
-+		cancel_delayed_work_sync(&rt5659->jack_detect_work);
- 	regmap_write(rt5659->regmap, RT5659_RESET, 0);
- }
- 
-@@ -4272,6 +4285,7 @@ static int rt5659_i2c_probe(struct i2c_client *i2c)
- 		regmap_write(rt5659->regmap, RT5659_IRQ_CTRL_2, 0x0040);
- 		INIT_DELAYED_WORK(&rt5659->jack_detect_work,
- 			rt5659_jack_detect_work);
-+		rt5659->jack_detect_work_inited = true;
- 		break;
- 	case RT5659_JD_HDA_HEADER:
- 		regmap_write(rt5659->regmap, RT5659_GPIO_CTRL_3, 0x8000);
-@@ -4281,6 +4295,7 @@ static int rt5659_i2c_probe(struct i2c_client *i2c)
- 		regmap_write(rt5659->regmap, RT5659_IRQ_CTRL_1,  0x0040);
- 		INIT_DELAYED_WORK(&rt5659->jack_detect_work,
- 			rt5659_jack_detect_intel_hd_header);
-+		rt5659->jack_detect_work_inited = true;
- 		rt5659_intel_hd_header_probe_setup(rt5659);
- 		break;
- 	default:
-@@ -4291,7 +4306,9 @@ static int rt5659_i2c_probe(struct i2c_client *i2c)
- 		ret = devm_request_threaded_irq(&i2c->dev, i2c->irq, NULL,
- 			rt5659_irq, IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING
- 			| IRQF_ONESHOT, "rt5659", rt5659);
--		if (ret)
-+		if (!ret)
-+			rt5659->irq_acquired = true;
-+		else
- 			dev_err(&i2c->dev, "Failed to reguest IRQ: %d\n", ret);
- 
- 		/* Enable IRQ output for GPIO1 pin any way */
-diff --git a/sound/soc/codecs/rt5659.h b/sound/soc/codecs/rt5659.h
-index b49fd8baf4e7e..e10b3844501b9 100644
---- a/sound/soc/codecs/rt5659.h
-+++ b/sound/soc/codecs/rt5659.h
-@@ -1813,6 +1813,9 @@ struct rt5659_priv {
- 	int jack_type;
- 	bool hda_hp_plugged;
- 	bool hda_mic_plugged;
-+	bool irq_acquired;
-+	bool irq_disabled;
-+	bool jack_detect_work_inited;
- };
- 
- int rt5659_set_jack_detect(struct snd_soc_component *component,
--- 
-2.47.3
+But what I saw yesterday was that v2 had been applied.
+The Message-Id for the email I received yesterday is: 
+<179304576788.199157.7157888741242210309.b4-ty@b4>
 
