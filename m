@@ -1,111 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.118
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793261866;
-	b=vMTCJuPKZDZiL7nyBBDUKhhoXzatXERw5uhTosI2XDFtaHmlVefxCbE8QyHMPZbzzy5c
-	 BKuvgOWMLV0PH2cegUli3a8yI1RoUunfRTr8cDtWXVL8UiAVDBrDrI45VF24PAUyEJ7li
-	 Y87zsV7c0Or4TOKiLH5Oom7v8YaSTFrIDL5BsE55ZvrrMA7fHYhedR4BknoNzi33CkiNx
-	 9tK3/kMVbuWdqGpnTcTCU9AevZibntszfTqnLsbJ5ThY/B0JWQjn0YabTn6qdL5xFwFtu
-	 /T0rMwK3E9ftIuel9sW0Rx1lQK0uVEfKFrrKt5rcs8dCHd+q4RH/5kPFC6kjcDeinBw==
+	t=1793262014;
+	b=S5g7KV8lgdwNdxIqOvOJ8xBjWxbL6P6tuL2sz3g4YgXxC5nYwDLwMtxngGuQ4udD+O6M
+	 9srYvdQw/jFD9a1AAfgVxnC+lzGR198e+dL4panZyb2hH5bofFJPWpdkeTbYVb8ppG+Ko
+	 mhpf54ueB+3DlC7h+taNCAQPmHfnmLy0U6xVmtDQGnvVvFpj6cuqt7Leia3D6+LN8jHuk
+	 CB97AJ508nx8yeKFzew4DU9uuvtlgOcMD/soNDvhOqzbvIw6HatuwcSFvkUbQJME6tj0U
+	 CTDBMo5ZKQWTvOITkwiE1iAhhbqSnmpvI+pl2cw5MbdqFz06sD+ybIuyxJhOtBLR5uA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793261866;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=m2+7KRMYUUdk3+JsUexMv8qpOj90cSDYUOtSMZTSG60=;
-	b=vyTHonnxV55aDp+JNRKxB27LzUBirwJamrrtPBn7e16x2wLFbAseURe1fsE2QzIHq4o5
-	 bm0hZQ3+ugZzW61xNw5cPgYMaiwNzWtw7CoAgEZ3rKi3ofrMGDc8kekb0QsoBV3ZUn6ZO
-	 XjDfJhtvbBqRdwhMQEbECPfhbWcm/NYmuWvQBjx7Msq39UOEspRTSwJea/zecxmD1Yt6C
-	 CQ17A7+4wUBPx8L3D3oSG4x1Z0pb7FTBNC8H619SgH/BpmkMBGX6vxWv8fjSQLza6ZQ/s
-	 ZrvUPF2qSaiDtNh9+znOQ35h/weJeUbnsxhTKupH8+J4a5LyGuCMuaFxRin9mY9eBEA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793262014;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type;
+	bh=h/b/EWhQoNmGskeuVo8AITXFwoDM6XOl682bEGKfuaA=;
+	b=Bwxzx1c2PKOUUgdnNtMzgtpKqaLOAuk6vcDrQWvnqDSNC9WLJ49r3j8IeOujDY7agUta
+	 Lz7bHTGaQECrjvAYtJuxEiMjUI7oX2fvwAn3j7BYrrmetq0VX1EtexKrfEQX5gtmC3Rdx
+	 3e8Nkbj1AXCS+QjWdKEvCpcDOKCVWhAucicB34PHBLMQcY16CiRK8O5D0fse5QNxpAoU7
+	 tv77TmupTEAbllt18VTcprf7jvMYioG9Z92FjrXDaAa8h/85g2dBoCu32ZZ0B46E97DJz
+	 ajgFZOmtUK1853TZ6PStE/hA8Mb6iLS1Q4T0+M8LTaxz29UvRNJ7k8NybAcZKKGr++Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=E+8a5gz5;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=i8Wh0s30;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dmarc=pass header.from=proton.me;
+	spf=pass smtp.mailfrom=proton.me;
+	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=evxbvS4V;
+	arc=none smtp.remote-ip=79.135.106.118
+Received: from mail-106118.protonmail.ch (mail-106118.protonmail.ch [79.135.106.118])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25BA2606A324
-	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 08:17:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 25BA2606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B12606A31A
+	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 08:20:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3B12606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=E+8a5gz5;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=i8Wh0s30
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69T5H6Cm3295093
-	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 08:17:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	m2+7KRMYUUdk3+JsUexMv8qpOj90cSDYUOtSMZTSG60=; b=E+8a5gz5mE8FXXzB
-	7dU6HJoFxJEsPDc1K5cQDbAVcUEzlQHczx+F90ln4xeMzG0yVD/wBZ9yp/E8ZqA8
-	l2iVSa9Faw9da3rCY8/Zqtms4r5ypnhoFQNYXJkNdMNofXPhvMsq4kRiWPnZrpGg
-	FYO9u1gFcN4EavpgfirAzGfir0Z7IfoRP9v0P39XnSOrHy7tzROg/XgRypJM7tG9
-	SodkDhrFCXhxiuZjGwuPGc6b12RPyknhPfa1VP7N4g/vLn2TslK9XAx3/chyDMHI
-	7HiXrxtQzUhpqTxoGuAwYNDvpEjjwLTTCoavmWdHwrRaqI87EwAMffOVf5qSl/Id
-	hHl6hw==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hkxshrtja-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 08:17:44 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-944102381acso24652885a.3
-        for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 01:17:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793261864; x=1793866664; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=m2+7KRMYUUdk3+JsUexMv8qpOj90cSDYUOtSMZTSG60=;
-        b=i8Wh0s30wwQ8+60Q4lgSWrocQzkGhURYk+4rb2090UuebIqh+mMGsHZ4S7GvIFTM83
-         kZT8QIgAbjfnoGd9wECU6zMIgvczBcvFhRp9yOY//n6SNW4UDjQTwLhQknFnKgPvMUVO
-         g2vGPUsdv0sAMIY7e+ABGgRh8Lwi2Sew535RITbTH6EEou4R9hPAbzAHp0EMnHkRqRC2
-         EXgZyJ5Y0YTmWCf50kn7GpuUps829IhMeq39BvMQV2TnA4kr7U/v8zOcfSX1PpB8pfd0
-         TtImLFvBuNMSfVlWVbqFj/YukRcdQ+BLqK57vG/V33/sYrKPtCjP6Ub0CyVHtNc3Ay0n
-         G24w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793261864; x=1793866664;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=m2+7KRMYUUdk3+JsUexMv8qpOj90cSDYUOtSMZTSG60=;
-        b=W8+oxp5bvGU2rhCWlmhGKje8wiiYaTsQXAX7apKl3hC4w40UKtXNjG7Je2qY5TSUZt
-         Nx+5VFJWh4MyqvI3MSm5WKG97KlZOk4L53RPRnNA4cWgbnNlR7zfX1I6e/IiPKqONgG8
-         oiTqVrEO99AyT6967iSmy2Lyg96R8u2WXgCqRxt4Ode8Yp4CMylb67YneDqE0gU3RMRq
-         aqWIiuc3X8yRbvLqujYVYpXkX4egyH7d8KgZow3L+lYCXwUaalfGeqbSC1K6D4p/Z3V6
-         jS2zHjHMHHVEuWv8bb7psWICbGBVpHMFV86zMNz/ta820oz2i3SwJi5/UOLHG9V7FKV2
-         mGzQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwL3AB6jFTh9zT1UT36kObM7QJ52TIQ7Dz3zXA1fYmmw5dpFCONijP+LD/sZnSv2fvj8Xuh/pzSCXtSag==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ2mz/Ht38/JTtUEeU0C3pv8h+yKRVUk2zcyCR1VF7pWSEPAnfH
-	TiO9CSUH6faUI8Sb2KS0Y0goszK/03jLjuwgtZZtztR2u0RR0RG62Z/OHP6SUntTUHVkmyK4fLO
-	nXmEtgsURGdkdd1RxAjRZRbTg9/VfodDHi3/OZfg7/BOGxj5YnxnPWWuRSr3OS+dAug==
-X-Gm-Gg: AYBFou0QbRWUsD24N0fFgRi+QKQSsYDx6kvM4vMID7I9xtQaAHeZ2Z4NK2V/+jKWZQy
-	0x5BGHpwGQ1ReRCUUc81dHznxl7/K2VL8KrCAAtNJtRlmll3TbCd85J7t5XG/aC4XFnh0Fd9FsP
-	ZmmjRBKhKkQKT0Rx1Ki11X3BS7UO6Rq/y94HD4bA+wgSBeT0rLTvjaXf3XgPtGI1M0ugW79Kfsc
-	6DGv7qEJ7X0W/VfiRhwinaEu7Leg0AN9KSHuWfmV4bu60eC4vFdU5M0Bcgmg9SPx3otpVYAJAOs
-	rB0i4wVMmhctE7gucolD68YIgrXsV9701Yfobehpri8DxTunAS5EEsGjUDLxNprT1/KHMXulXGt
-	weEhrDb64wbjcV17NCD8KaCJrz2sc7/ricVkr15pcxLQ3XvjdQeB+4N6tCbpWa5Lr9UMn5d4=
-X-Received: by 2002:a05:620a:1135:b0:936:2f59:dfe4 with SMTP id af79cd13be357-94408845854mr747552985a.0.1793261864097;
-        Thu, 29 Oct 2026 01:17:44 -0700 (PDT)
-X-Received: by 2002:a05:620a:1135:b0:936:2f59:dfe4 with SMTP id af79cd13be357-94408845854mr747550085a.0.1793261863581;
-        Thu, 29 Oct 2026 01:17:43 -0700 (PDT)
-Received: from [192.168.226.64] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b49641f64csm2408328a12.21.2026.10.29.01.17.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Oct 2026 01:17:41 -0700 (PDT)
-Message-ID: <f8c823b4-9879-4a8c-8824-a745b5426c85@oss.qualcomm.com>
-Date: Thu, 29 Oct 2026 09:17:37 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=evxbvS4V
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail2; t=1793262011; x=1793521211;
+	bh=h/b/EWhQoNmGskeuVo8AITXFwoDM6XOl682bEGKfuaA=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=evxbvS4VathbcqXtzWPJMRlPMNQb0b5uUxmU4Q9wZImvgUqDItJ1+UFLJJwX6QiN4
+	 XEs2VaBEJgdmqt1zaKuDUcz68aQxh5DVYvgl/1khWyhrY+kDuTMnsbg4XjW3BHsAhE
+	 /wd3jJCUNu3wu5UJJmGnGRQNmXfoSiAMXeHSiR54w1HBNJ2btvD9T4dy6W8JDYzSbK
+	 5kOCwVnm6aoxjjysaQenxuTRd9JLoBhcXSjV6Bk4S/cPa6sEx3us7kYg4V9/OgJ/cy
+	 XpL7Ql7Z+y8I+rof0wMT6I3oKgBUcXRE4lBdysWYEY3YRPrnQLG3MWSGlNzLddckZH
+	 4qc8NjStfRkjg==
+Date: Thu, 29 Oct 2026 08:20:07 +0000
+To: David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>
+From: Mads <mhbn@proton.me>
+Cc: Takashi Iwai <tiwai@suse.com>, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>
+Subject: [BUG] ALSA: hda: cs35l41: amp dead until reboot after one failed system resume (shared reset)
+Message-ID: <NTfSz65gX8wGLl8ueVKxyXJfip46Ee4dbabGMaNtaILRK2MyqyTacUI4ejqeTur-CkARIxoLYIeyoKVMwaDHVuBhg6p2vfhRcUlOJDAdGTQ=@proton.me>
+Feedback-ID: 46771976:user:proton
+X-Pm-Message-ID: 6bf9c0a4d503ac1981e1f88ab5e73d61df51107a
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -115,103 +60,124 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 22/23] arm64: dts: qcom: glymur-crd: add WSA speaker
- protection VI feedback
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexey Klimov <alexey.klimov@linaro.org>,
-        Ravi Hothi <ravi.hothi@oss.qualcomm.com>, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
- <20261023171433.820092-23-srinivas.kandagatla@oss.qualcomm.com>
- <0bbe4db6-0c47-41e3-838c-37d880869ea9@oss.qualcomm.com>
- <2b9c44de-6379-43b5-933f-54074cf99930@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <2b9c44de-6379-43b5-933f-54074cf99930@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: c5nPBflA6OlM45gruM0OQD_KrVMzTwMn
-X-Authority-Analysis: v=2.4 cv=H6BOUOYi c=1 sm=1 tr=0 ts=6ae30128 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=EUspDBNiAAAA:8 a=LyDrgX5eIXfwpl7llHQA:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDAzMSBTYWx0ZWRfX+lrduJsZaUhB
- zSooRedVdjCeL+m+WOJKh8bmiKdbrJXkOFCdqaNR3G1YPlXY2f9hxKvKZqEw7Wr052RDZAMpi+2
- cXn3YkrFJGsfVx/0y7uH2RmpeoHSF88=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDAzMSBTYWx0ZWRfXyfHo7u89ISUb
- 5zPFz1ePWXTIUGmNuDhHvB4ZiYzt3iJutQecFbGLgoB24lVlcs77DQDz9Or7p5KNAbuVmj7foKW
- U67yu+/kzqnYIDY6RtqEDTPrc7vjXmhRUPjERCrYBBWSCEV/Rl8eobMi50UsSlxxB1WHwCuWUJl
- uULECH1Lt0BGVxaAwjGfihjDucS46eetxigu/2tpfP99hg1aSuVCIQTV4VnpG9A/SE9euuRL3HP
- 9XDTCPWUxa6a2afncgyKlEu8fpiEDU2Uw00XsxxIosOt9GgJerIUUCA4YDoIAGEcVQ/i+8HKihY
- s1d2sHATQ2MYxg0xzVp0hmBs7NlRvSWKeUaahKjTD5hjvj6sJH9lhCwhLE86TjgefcjzAEgVWOq
- OqpzEjDyMiEqB7MRoIS8xt3cmUlWRlZOs0+A/ODzdDMQ4Y2YjtcX6MwA+RejdC+i7hI/vRMSfAS
- LTEmkYBozRp5OjdlQTQ==
-X-Proofpoint-ORIG-GUID: c5nPBflA6OlM45gruM0OQD_KrVMzTwMn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-29_02,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 spamscore=0 impostorscore=0 bulkscore=0
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 adultscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610290031
+Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha512; boundary="------77115f033d7d33d90c807276282612b0fd1898528fb60cd2d7b6845c46d80aa8"; charset=utf-8
 
-On 10/28/26 10:59 PM, Srinivas Kandagatla wrote:
-> On 10/28/26 1:38 PM, Konrad Dybcio wrote:
->> On 10/23/26 7:14 PM, Srinivas Kandagatla wrote:
->>> From: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
->>>
->>> Add the V/I sense DAIs of the four WSA8845 speakers, the SoundWire VI
->>> ports and the WSA macro VI capture DAIs to the WSA Playback link, for
->>> speaker protection. The speakers now expose two DAIs, so give them a
->>> '#sound-dai-cells' of 1 and address the playback DAI explicitly.
->>>
->>> Signed-off-by: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
->>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
->>> ---
->>>  arch/arm64/boot/dts/qcom/glymur-crd.dtsi | 29 ++++++++++++++++++------
->>>  1 file changed, 22 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/arch/arm64/boot/dts/qcom/glymur-crd.dtsi b/arch/arm64/boot/dts/qcom/glymur-crd.dtsi
->>> index 58158b51fe29..fddc76f59557 100644
->>> --- a/arch/arm64/boot/dts/qcom/glymur-crd.dtsi
->>> +++ b/arch/arm64/boot/dts/qcom/glymur-crd.dtsi
->>> @@ -256,11 +256,26 @@ cpu {
->>>  				sound-dai = <&q6apmbedai WSA_CODEC_DMA_RX_0>;
->>>  			};
->>>  
->>> +			/*
->>> +			 * WSA SPKR playback-side codec DAIs plus the WSA
->>> +			 * speaker-protection VI capture-side DAIs on both
->>> +			 * WSA (left) and WSA2 (right) buses. One MM1
->>> +			 * playback open brings up both chains via the
->>> +			 * machine driver's multi_direction_codecs flag;
->>> +			 * the SP<->SP_VI control link in the tplg handles
->>> +			 * the DSP-side pairing.
->>> +			 */
->>
->> I think this part belongs in the commit message instead
->>
-> Yep..
->> Otherwise, do you think we could bind the speaker protection
->> channels in the driver to avoid having to modify the DT?
->>
-> Nope, it has to be a codec-to-codec link that should come from dt,
-> giving more flexibility.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------77115f033d7d33d90c807276282612b0fd1898528fb60cd2d7b6845c46d80aa8
+Content-Type: multipart/mixed;boundary=---------------------bc87a21b8d74f8f0fd99240ef3390b35
 
-OK
+-----------------------bc87a21b8d74f8f0fd99240ef3390b35
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;charset=utf-8
 
-Konrad
+Hi,
+
+On an HP Spectre x360 2-in-1 14-eu0xxx (SSID 103C8C15, Realtek ALC245
++ 2x CS35L41 on I2C, CSC3551, BIOS F.13) the right amp
+(i2c-CSC3551:00-cs35l41-hda.1) often stops working after s2idle resume
+and stays silent until reboot. On one boot it was dead after 19 of the
+last 21 resumes. Two things combine: an occasional resume failure, and
+an error path that never recovers from it.
+
+Kernel: 7.2.5 (Omarchy distro kernel linux-omarchy 7.2.5-3),
+linux-firmware-cirrus 20260810. I have not tested a vanilla build, but
+the code paths below are unchanged in mainline as of 75c1cb8178fe
+(sound-7.4-rc1 merge). The kernel is tainted OE only by an unrelated
+out-of-tree camera module (intel_ipu6_psys).
+
+1. Trigger: shared reset line on resume
+
+The two amps share one reset GPIO. .0 owns it, and .1 logs at probe:
+
+  cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: Reset line busy, assuming shar=
+ed reset
+
+cs35l41_system_suspend() on .0 asserts the reset and leaves it asserted
+across suspend. Only .0's cs35l41_system_resume() releases it, and .1
+has no reset_gpio. With async resume, my reading is that .1's
+cs35l41_system_resume() can run while the line is still held, so its
+first read NACKs:
+
+  [21168.849823] cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: Asserting Reset
+  [21168.852794] cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: Failed waiting =
+for OTP_BOOT_DONE
+  [21168.852960] cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: PM: dpm_run_cal=
+lback(): cs35l41_system_resume [snd_hda_scodec_cs35l41] returns -121
+  [21168.853110] cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: PM: failed to r=
+esume async: error -121
+
+This happened 3 times in 25 resumes on one boot, always on .1, never on
+.0. It fails within ~3 ms of monotonic time after the suspend-side
+"Asserting Reset", so it is a read error (-EREMOTEIO) and not the
+100 ms OTP_BOOT_DONE poll timeout.
+
+As a workaround I have set /sys/power/pm_async to 0, so resume follows
+dpm_list order with .0 before .1. It is too early to say whether that
+stops it; I will follow up. A device link from the amp that shares the
+reset to the amp that owns it might be the proper ordering fix.
+
+2. One failed resume leaves the amp dead until reboot
+
+cs35l41_system_resume() returns early when cs35l41_wait_boot_done()
+fails:
+
+	ret =3D cs35l41_wait_boot_done(cs35l41);
+	if (ret)
+		return ret;
+
+So pm_runtime_force_resume() is never called, and the
+pm_runtime_disable() done by pm_runtime_force_suspend() in
+cs35l41_system_suspend() is never balanced. After that, .1 shows
+power/runtime_status "unsupported" (.0 shows "suspended").
+
+The amp still works in that same cycle, because the error path leaves
+regcache_cache_only() false. It breaks on the next cycle. The amp was
+runtime-suspended, so pm_runtime_force_suspend() returns early.
+cs35l41_system_resume() then sets regcache_cache_only(true), and
+pm_runtime_force_resume() jumps straight to "out" (needs_force_resume
+is false and the status is suspended). cs35l41_runtime_resume() never
+runs and the regmap stays cache-only. From then on every firmware load
+and every playback fails with -EBUSY:
+
+  cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: DSP1: Failed to read algorithm=
+ info: -16
+  cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: Cannot Initialize Firmware. Er=
+ror: -16
+  cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: DSP1: Failed to read SCRATCH0:=
+ -16
+  cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: Enable(1) failed: -16
+
+This repeats on every PCM open/close (274 failed loads on one boot),
+and the right speaker stays silent until reboot. A later resume that
+hits -121 again "fixes" it for exactly one cycle, the same way.
+
+Unbinding .1 in this state also gave repeated "IRQ sync failed to
+resume: -13" and "WARNING: kernel/irq/manage.c:1008 at
+irq_nested_primary_handler" (Primary handler called for nested irq)
+from free_irq() during devres release.
+
+I'm happy to test patches.
+
+Thanks,
+Mads
+-----------------------bc87a21b8d74f8f0fd99240ef3390b35--
+
+--------77115f033d7d33d90c807276282612b0fd1898528fb60cd2d7b6845c46d80aa8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: ProtonMail
+
+wrsEARYKAG0FgmrjAawJEBcwQI9sml54RRQAAAAAABwAIHNhbHRAbm90YXRp
+b25zLm9wZW5wZ3Bqcy5vcme3ElJgVbRXBlDiBOxtcxAC4Fl+BPnEd3KCkEi0
+9qF1zhYhBKrdUMiR2NqyOetv1hcwQI9sml54AABtEgD+MDCgP4qpgbJ7PNM2
+ePc+Qh0vM2RgrlXYT165tqZvinUA/3amopb6Ux+zV1SAXKOvOgSpFq1ngyYG
++3kmCicHPWsB
+=jbHP
+-----END PGP SIGNATURE-----
+
+
+--------77115f033d7d33d90c807276282612b0fd1898528fb60cd2d7b6845c46d80aa8--
+
