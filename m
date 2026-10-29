@@ -1,56 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793270536;
-	b=HT85nfqSZmgnVE4MQzkMRWcbZ70aQn4ND4lFpihTHGbQ2iXVhqDyeysTavyZ48y8RSli
-	 YxSLBO/Ag7zpuUZnbxCp4bPE9FvP7lr4zycVhjqYRwu41ig9XksvoKmSEEB9m/YB0Nl8g
-	 sL5dW3X20S0Lb8aTgD5Amj+YVxXkiWrohVwa3QqxYYMh/EQwxsMti+acUjTIlxhOyY627
-	 Mnc68TAl8w+5CMnM6S7SWIIAySAPQRwFcZHYV9hQSzb9ZMy/525hEyFlIPuNpkvM+8Eru
-	 ywi0QISZx9A8Tp5bxlaokaj60YG9t4g8ECbupwUn0TtWWi3HK3FlcFo5OSx4Z13GYkQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793270536;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=2maSFqt0daC16nIjh+ROktTfpRQgphIb0icr6hD/9IM=;
-	b=GZyZkWJyPWsUMMkhQMxpsC7EJlI1Ul4qFjCTLwrSpesiZ1sGnxUfX2W7RDUGnkVOQw0B
-	 MHddVxpnFakTtzUTLYJ85hUuWKnzd0GaRdVjRJLsiMpkaqpJE/taqnayyKCgFlJ696jaE
-	 D3iMoJYPKGtp2jYybH6x3aOPYOslY7uBC/z3/SC1z09RqxStINKeJIPL+4ajk3gGhfItC
-	 nPqUD8IfzgQc6XQXaG/npwrviuQiCIP8uNx1npNXQKly3honmrdFLUntTYP0NeMFf/2rP
-	 4sKgy3IJtI01gcGEB3rAPAfZvMiNcoVcTrcfMFF5EMIAKMVKnOn+pewwnka07b+5GyQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cp97+4yA;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.14.60
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793271137;
+	b=cP4RFuawELTY5KEQMoYifEdrU93XBew28q2LuIALVnl2hisDtOFGwTx043t8Ue6fYPCF
+	 iEUX6L2NytU7fh0IjbNZm43IJP8aGWrCZt0YPQ3zTzaHv36D0g6m0aoA9e3ZIG+gRqr1u
+	 pAxL1jN2UaGuSgS+lQTKmOs9wCI13Arxw/hYqY3/iHHNykrxpGdC6csdDsWg0LTbKrF0F
+	 RMKTQpUWClIy1IExp+MMLJ+g1N5kTfPOgOQGjQ+3mWZBaoUFS06Tk6lbtoJjuG4v4qFgX
+	 6CtYDnJuA7ciThAUut4COoEw13xVDHrnDqq3IoYrt2cUWBlimx1Rc7Zh0/vsxTkpT2w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793271137;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:Content-Transfer-Encoding:Content-Type:
+	 X-ClientProxiedBy:X-Microsoft-Original-Message-ID:MIME-Version:
+	 X-MS-Exchange-MessageSentRepresentingType:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SLBlob-MailProps:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=caloWcDlVqgwkn9lQxMw59a9+hxUwJ29U3Uk6yPZGYk=;
+	b=JiyAab5QwVXnd9wWEQvE1afO8sPu6DgFS8PZaIHbZdN0yEMFaPZkqGoSn5ktw0/tn444
+	 MjX0CqbAFbZ78f90aSehuKQPzeCGArolP1spS11QgXLuujkradqx3qh+SaT3i153G+uSZ
+	 d2oGH4SXGUMdqOGdg4ZxlFpOWogKLkamcU1BrTduvoRXGETyLidxK6AICuJVWEx/2rndV
+	 bmYvZ1av3xdmIb/GzoO8cY7VY1IDxwA/B40K2gL9I0cF8T5pn4UmKzZAf2Rgr8BLVUWM/
+	 sP3a7oS++g61W0ig0tM5VKR8p1faVlq2dUNw4vzNagdDTNGrXN4/hl4sv71bmcbQncA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=outlook.it;
+	spf=pass smtp.mailfrom=outlook.it;
+	dkim=pass header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.a=rsa-sha256 header.s=selector1 header.b=lt1oWd6m;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.14.60
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazolkn19011060.outbound.protection.outlook.com [52.103.14.60])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5215606A31C
-	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 10:42:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 301F2606A320;
+	Thu, 29 Oct 2026 10:52:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 301F2606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cp97+4yA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 105301F01825;
-	Thu, 29 Oct 2026 10:42:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793270535;
-	bh=2maSFqt0daC16nIjh+ROktTfpRQgphIb0icr6hD/9IM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=cp97+4yAcbOxNm+EPC+OzdGkp/rJWWdo9q+lRMj7eSUSsQR2+wt1QWo4khxml5LJG
-	 ReuAs5N24WjxpTtS3auE1gDVGX+ma4Q6q2tFvcPRDm84dkcpfjxq7eNcFpCphI5cou
-	 A3K0irdixTnz8BP//84siqeptfP8OTYAK0nIYvwT/lwDVHP45dHkZY77a3ejeJczOl
-	 zCWF4bPX6PIo6q4vN2Md+xApsOO/T/uz4xs5RNbiQOj1eEE3r+cWUgG9egFvmKq50O
-	 jgdFVwV6e+Fuf30sf1Ui36AMFyRa9IIDao/r6euQmrYf0GpLwLPJ7fW97q8irxLLZ/
-	 9HFng+s+WO4Dw==
-Message-ID: <sashiko-outbox-189144@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v9] ASoC: wm8994: drain delayed works on remove and
- probe error
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Tristan Madani" <tristmd@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261029102515.3417777-1-tristmd@gmail.com>
-References: <20261029102515.3417777-1-tristmd@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 29 Oct 2026 10:42:14 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.a=rsa-sha256 header.s=selector1 header.b=lt1oWd6m
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NlvSkRobnx5OH7CKh1vrccgA5UADLRx5IQBYcCvh6LREn6wZQ55ShBuGaVi3/CKcNpuI+fKAIeoOqY3vVlR+zlFxT/pkMtGLf0YTAMA/MBKSnxNGjhc+cWnjEaTUESjINFHhk7+L3D9MqyJuHXFE4Z/JaVWZ/+4LtL9x0LKQx6+wWEPdsqoCk8eY7R41Rauub5clTjl2vbqXBT75as8AeeyJ60wM6LKYSm9R+MJTHVIX9oaooGrjbksbSV5hWa5V/KthJbjEWWZurSyQVePrRHo3oCMbHxAW1gJWbHJ434sqSZ4qJyvn/TjXDUebIb8zEdhGtlb+/oXO0NHHAhSLCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=caloWcDlVqgwkn9lQxMw59a9+hxUwJ29U3Uk6yPZGYk=;
+ b=b+YJwZjmeS8sw5SNQgZNezTBkg4zKzxOQPdC84GPNUBrwz5JTgvAD4S4FiH4x2Om7mCzh9o0f2zgk4i1Y8Xlu/mSN0d3LOtXdcV+529siG4kQEUtH4v0IIuRq/AnMuyZX8gIPqAgoajHnPjazgmnGFSlRxU+D74wEIW+36EGjTSxSKu6z7RFJt2k06cURgilOYHH37u4gia53mCZJuzfIv1oP4RzeYvJ05DKEQyGsSDBRve2zxbvHmptIJnYV3ssZnqeOBmrh0ns3jcwa1jdnMgLSx7d1WojYKsxJlcnq8lzGr8ZE9DOFZitJ2Dn+4h7J0yy78c/Nq8GJhCdUCQjbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.IT;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=caloWcDlVqgwkn9lQxMw59a9+hxUwJ29U3Uk6yPZGYk=;
+ b=lt1oWd6m8DcJKiyxAHDGo73k0Ieg40Zt1gkns/q+buzJXFGBI53LnRO3nRRQ6CLQF2v/ZwBCtBX6qRmihqp+itN3pbXo0RE0TpA502hCtgFCDEDB6tHvmD8V1WweouUSrIzwNeP5TziDCJcBFtoKL/J+24nhaedsP1dPde3fzCC3waYLCjsJJG/VhlnBNj427Ne+VisCTNRcDV8CheP162QDJQQNcdQxTrbVixcP9dxW+5oJaH1XJrTsI+thS//K/Z8gFV5T412nOl7XdZ0g3AC7hmw3IByhY+pci2ynlu/vd5qjtxBSZN607uclUvUN0SrRiOzx80XJlbpm0LhoBw==
+Received: from SN6PR19MB2303.namprd19.prod.outlook.com (2603:10b6:805:56::19)
+ by SJ0PR19MB997595.namprd19.prod.outlook.com (2603:10b6:a03:40f::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Thu, 29 Oct
+ 2026 10:52:14 +0000
+Received: from SN6PR19MB2303.namprd19.prod.outlook.com
+ ([fe80::805c:7f80:c69f:876a]) by SN6PR19MB2303.namprd19.prod.outlook.com
+ ([fe80::805c:7f80:c69f:876a%4]) with mapi id 15.21.0546.021; Thu, 29 Oct 2026
+ 10:52:14 +0000
+From: Marco Giunta <marco_giunta@outlook.it>
+To: Takashi Iwai <tiwai@suse.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Marco Giunta <marco_giunta@outlook.it>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] ALSA: hda: aw88399: use auto-cleanup for ACPI subsystem ID string
+Date: Thu, 29 Oct 2026 11:51:57 +0100
+Message-ID:
+ <SN6PR19MB23035A048BCAF108507B59D0FC6E2@SN6PR19MB2303.namprd19.prod.outlook.com>
+X-Mailer: git-send-email 2.56.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FR4P281CA0345.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ea::6) To SN6PR19MB2303.namprd19.prod.outlook.com
+ (2603:10b6:805:56::19)
+X-Microsoft-Original-Message-ID:
+ <20261029105159.16954-1-marco_giunta@outlook.it>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,148 +97,131 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR19MB2303:EE_|SJ0PR19MB997595:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9bc51a95-35c2-4359-2b27-08df35aaaf01
+X-MS-Exchange-SLBlob-MailProps:
+	ScCmN3RHayHq8QFbWW6Ra03gxaeZK6u4fY87tnuLwEhDmJ7FPP+BKw1SKvFVArjvuHQeFlYndFAmrrnZ/x/01pYlGHgo/VL4r78+8Qp7jO3stYUOpA/zHA1oUQgiklXYORkd8SLbaeEVinWShmxfhZ1LGMhM5LijalH4S0NpUQ6qTUWsh6u+z5crM7QdX/weEH8eVtfpRzxNOKLGz3vSgyPD6hAFWqjYBADf45g7VOLvHNyEhgud2GcfN7qdFIlnuh9wTytRXY9pcsLUIGvkC2tXdjcRpVIsdmLMcjjuVhw1MzygjX+BRNPkc+RymYqCkq9Mn9a+XRGHFOQjthGvfzgoPGmeyXOW1WXIrGVyDAmqRFQTjSeh6P6mPQCT5er5I7NWKXPXzZD15p/e2wXmGDkFI5tO93WetWsUsJxS+GrmZjctLyThBhZyOR9VL5ICVMY6QYZojro/+AmohVAff11Y3J0dlEarjok+tH5nH6mT8yb9AroOPrEE/i86ES9djmtQI5uPrayViYlb0ioX4fidZMxkmXgBt4jGjCmZ5iRR9o1Ft2H2TE8Yz2Ppi0VkEKLp8o+4lwv390hwfR6NBiMEGMEW+KzNLSDNqELnjDLhBo9tBeL5ddb56buoUVZPuLNLz0H4RblPhHC7gXR6TWPvLSH48ea3iS0kLdlz/BjaYM2uBYY5eA7J7Y1vQHif82WVjnBhRV0qRgZcVMJQpPQUSWOk3qjLICu9x3TOe2o=
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|19110799012|5072599009|23021999003|5062599005|51005399006|8060799015|24021099003|15080799012|41001999006|260925184616899003|25010399006|440099028|3412199025|12091999003|40105399003|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?QhtslZMDGtX5cdK2loX3A/80cnRVwwB6utikmLDmBFu6ibY6NuQSqc6hlDmK?=
+ =?us-ascii?Q?O7KaDWMIb48R2EQ1FqqlXYely5VJ1V0C9wU/hGQqBqdio7GoatkDCmFBoG2j?=
+ =?us-ascii?Q?AOH6JRsJNlumzq5NI0NO5L5AlWIZA/JGiVCNYDu/f4i70x+9yjYKny3ANEux?=
+ =?us-ascii?Q?pxBtjBq9IkfTdKZA2/+bPQmIx6wz6oX/ewG30m/PiZxQyrKQYlyvAT4QKzQz?=
+ =?us-ascii?Q?s1SzlWji4/R+yj61v+2BpLFv9K2HdcwqmMP8nj/1lnql1EB9uw+Pm75Db8wa?=
+ =?us-ascii?Q?xfwOqM6bb0BjCm1g9E25CwBHa/EZyCQgXlBbMQEQjsrXOpGe4ZHuGOgZ6r68?=
+ =?us-ascii?Q?hApGlkqFdqBlYlwQECbS6seFmM25q4oznzLqWJPjd4L387ZTH0AWSyQgkx9w?=
+ =?us-ascii?Q?zmoKBFDt8sCe2vVdWEKivOShzov8IFzZ/qUlfsQANhKlQg5Ufu2pf0ziFoa2?=
+ =?us-ascii?Q?ordpJNpgARu6PLSbd0IYHRU4PfhfdxKtfgjQ5Q3779ABsyevbc6juuJ2EbOx?=
+ =?us-ascii?Q?n5AfLWpu9xJqchIj2HaXufCNtAKzkYQCJvDGmt9q4RIAbW1X2aZAlhvZn+0J?=
+ =?us-ascii?Q?nVHtt+rhY2ZUPz6FwkSGayTYbmIZlhcok1CHbhJJ+SljubttIRol+6RnUA1s?=
+ =?us-ascii?Q?YFkkCLNisSpffkysD83/UyZyM8dpFRUOzbFwST+7dsE5wqzRXZl94kETjemF?=
+ =?us-ascii?Q?fC5np1hILVYNKJzwx8sm5N9VGt3ZAe7HxSeAymfJc5mjsBkO5DqXcV33Yqp2?=
+ =?us-ascii?Q?5nWsroHEPNrbdkUORwDCE1R/27I4sKdIjlLYu4eddo89z5byJ3SLRc0NQWTm?=
+ =?us-ascii?Q?W2uJvw0S9HKJcZxDIaqoKEk9/Pg65jIYIU4I3gg8cIg6JMdfWlRvUEhKBMn4?=
+ =?us-ascii?Q?YNhzJ5Fq0neC1RCgzVPrt27pDXwFzot6pJmfhdcNLBFNhpZDAQCcqZ6LHgZr?=
+ =?us-ascii?Q?mQL6HQBsmWHo2skPf1ZAkbcHAYeXTfrDYMvMZaz+ZTCfb7svPL5kMieOStH7?=
+ =?us-ascii?Q?1279Y6G/fFX65s6QWbvakwVx9iaOvhbVpbeidoRizFnQYmgWMoblQe+aWr8J?=
+ =?us-ascii?Q?MdwWuaBl?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?dZHC6E8JuMs82Jz8BMovC5zxkXg/rC9p8VFfE4KokeFKFVltnikIlJYL4eDc?=
+ =?us-ascii?Q?xOc8H2gG6VY41BsYbhaiipzGZ+svDM1XqzGQKpT+YJowwZsvsbTJn94//gmm?=
+ =?us-ascii?Q?ANYVDT/DYb9OxEbaeqS54dC+fhRnDfxvrhc2DS/dggIAwuZj60TX7zyndUh/?=
+ =?us-ascii?Q?dPaojii/pd0n/W428RpnB5smZHyahpDJeIMKhQ+Bw8Hp3o/uqAMi/Ofey2/O?=
+ =?us-ascii?Q?CMQYJuKHladjdSdrEgH3e/NZctcsCj19LrHYQpx0axVCq0WSoxNyVEUk4qGX?=
+ =?us-ascii?Q?IxgTZ34Be5xIPvP/oCkQ0dRJMbXFNBroe215ARIMOVDr2kHazLSVfC8dJMNz?=
+ =?us-ascii?Q?Z3XkGb0cKXqnG/diPoIlg18CEXaGc9G/jp/kZEDMmaMABNp/bpARtX4EVg7Q?=
+ =?us-ascii?Q?w9o2uX6t2OOlRfqM+y3qoMzq0t1/byNCzVvxHawWi0UM1vGkqU4Oo9xk3HFN?=
+ =?us-ascii?Q?XSrAx31UCTnL2vzXKvMh4vtrNgY/0YkBGtNRVQ0h9AkHXsJBgY4O8PomKMiy?=
+ =?us-ascii?Q?jToFb93RqOistpiT51rmvIiu1ZrcgEdrX1770tc6z8w9wWTTzQiq4sPJkUJC?=
+ =?us-ascii?Q?pb1BnmfZgON/Za28uaCkJverBlO61MQMknbC+6XJZvRA2JL7Byyn5FmMKdCx?=
+ =?us-ascii?Q?70l8b1JuIfBAzisQaO+kR2vlFwhwiF2B2TrVFPGkzMA0U6N56T9ppEMsYeCi?=
+ =?us-ascii?Q?i3rGvDoarIYBp6poWiwC0OcEjubtR6iIlQBqVxAncA6Q9I1fZDy+GG1tp9JZ?=
+ =?us-ascii?Q?GMmrBkSVQLH74oFtKePKBm5CysUd+GDZBN5ajKWGRpqbdLHOapNwk/2jhmUK?=
+ =?us-ascii?Q?bU8zLweQuY1EgAnXWO+INOKbqxJKaLXtEfYCO6m0gI/z82nzrNcYh1BGT2fH?=
+ =?us-ascii?Q?dPeuMTSGLx55O0DTHzrgx0qSFIylkYw42Lh7bzxrFZMx7TX/+PK5pycGBd/D?=
+ =?us-ascii?Q?QH9TEQWtfq/j+5piKE7BIkO2yeYV6GjpLYvPlMZ/3A1OfDs7rz0lJ9mWUQx3?=
+ =?us-ascii?Q?WyH+x49WKdynTCB1n1pMVafsh1/6YvYhUWa5qYt+LGeAFx+jsJPYFVzmRw9c?=
+ =?us-ascii?Q?gljmjwf91OeSP6em/dXywPoxghOl2+6x4wcU1iGAihFQDpyCMqTFrsFq40Ck?=
+ =?us-ascii?Q?ea3k3Dj14sEdaxXDyUb9F1SEIR1WDQk0B94RXJisfpwV7HIzxB6cPfArX63x?=
+ =?us-ascii?Q?NJ9KyHb8GpOCg2HC2TPOIAWPh4qqqSvjDWYmesz3vSHXnV/zJdIT5LHLXRf1?=
+ =?us-ascii?Q?ciIXojmIpxtq6AHNrAdGO6KimFLsaOQjmCHFnxGZn6Pf6zhI5MYP8yD8nSVr?=
+ =?us-ascii?Q?UWZo4NXRFZRk9twBvABA2WBVdWBJCjk7nVu5Lp4vAosNrgrw/cKXuCNEvLse?=
+ =?us-ascii?Q?WGkGmc6pEfDAR/mPP+/xEQPY95ZK?=
+X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-990eb.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9bc51a95-35c2-4359-2b27-08df35aaaf01
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR19MB2303.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2026 10:52:14.1037
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR19MB997595
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] ASoC: wm8994: mic_complete_work cancelled before mic_work allows r=
-e-arming
-- [High] ASoC: wm8994: wm1811_mic_work() can queue jackdet_bootstrap after =
-cancel
---
+Use scope-based cleanup for the string returned by acpi_get_subsystem_id()
+instead of freeing it manually, consistent with the other cleanup
+annotations in aw88399_hda_acpi_probe() and aw88399_hda_init().
 
-commit 04e84773079f92c3b3f2e772c451810f75d5d070
-Author: Tristan Madani <tristan@talencesecurity.com>
+This is just a code cleanup, with no functional changes intended.
 
-ASoC: wm8994: drain delayed works on remove and probe error
+Signed-off-by: Marco Giunta <marco_giunta@outlook.it>
+---
+Hi Takashi & Mark,
 
-This commit cancels pending delayed works in the probe error and component
-removal paths of the wm8994 codec driver to prevent them from executing aft=
-er
-resources are freed.
+This series contains some trivial cleanups that should (hopefully) improve
+the overall code quality. These patches are the result of me re-reviewing
+the driver code during the development of the recent firmware path change
+series.
 
-> diff --git a/sound/soc/codecs/wm8994.c b/sound/soc/codecs/wm8994.c
-> index c65a7769a9d25..cd5f134c70dd1 100644
-> --- a/sound/soc/codecs/wm8994.c
-> +++ b/sound/soc/codecs/wm8994.c
-> @@ -4574,6 +4574,11 @@ static int wm8994_component_probe(struct snd_soc_c=
-omponent *component)
->  	wm8994_free_irq(wm8994->wm8994, WM8994_IRQ_FIFOS_ERR, component);
->  	wm8994_free_irq(wm8994->wm8994, WM8994_IRQ_TEMP_SHUT, component);
->  	wm8994_free_irq(wm8994->wm8994, WM8994_IRQ_TEMP_WARN, component);
-> +	cancel_delayed_work_sync(&wm8994->jackdet_bootstrap);
-> +	cancel_delayed_work_sync(&wm8994->mic_complete_work);
-> +	if (control->type =3D=3D WM8994 || control->type =3D=3D WM1811)
-> +		cancel_delayed_work_sync(&wm8994->mic_work);
-> +	cancel_delayed_work_sync(&wm8994->open_circuit_work);
+I appreciate that it's likely too late to get these into 7.4.
+Apologies for not sending them earlier, I have been quite busy these past
+few weeks.
 
-[Severity: High]
-Could cancelling wm8994->mic_complete_work before wm8994->mic_work in both
-wm8994_component_probe() and wm8994_component_remove() allow
-wm8994->mic_complete_work to be re-queued after it was already cancelled?
+Note: for simplicity, I based everything on Takashi's tree, but if
+preferred I can resend patch 3 separately rebased on Mark's.
 
-On WM1811, the delayed work chain proceeds in the order:
+Best regards,
+Marco
 
-  jackdet_bootstrap (wm1811_jackdet_bootstrap -> wm1811_jackdet_irq)
-    -> mic_work (wm1811_mic_work)
-      -> WM8994_IRQ_MIC1_DET (wm8958_mic_irq)
-        -> mic_complete_work (wm8958_mic_work -> wm8958_mic_id)
-          -> open_circuit_work (wm8958_open_circuit_work)
+ sound/hda/codecs/side-codecs/aw88399_hda.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Note that WM8994_IRQ_MIC1_DET is not freed in the err_irq path of
-wm8994_component_probe(), nor in wm8994_component_remove() for WM1811/WM8958
-when !wm8994->micdet_irq.
+diff --git a/sound/hda/codecs/side-codecs/aw88399_hda.c b/sound/hda/codecs/side-codecs/aw88399_hda.c
+index 00b78299fa56..5d5acf87ef3c 100644
+--- a/sound/hda/codecs/side-codecs/aw88399_hda.c
++++ b/sound/hda/codecs/side-codecs/aw88399_hda.c
+@@ -184,7 +184,6 @@ static const struct aw88399_prop_model aw88399_prop_model_table[] = {
+ static int aw88399_hda_acpi_probe(struct aw88399_hda *aw88399)
+ {
+ 	struct acpi_device *adev;
+-	const char *sub;
+ 	const struct aw88399_prop_model *model;
+ 
+ 	aw88399->index = aw88399_hda_index_from_i2c(aw88399);
+@@ -203,14 +202,13 @@ static int aw88399_hda_acpi_probe(struct aw88399_hda *aw88399)
+ 	if (!physdev)
+ 		return -ENODEV;
+ 
+-	sub = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
++	const char *sub __free(kfree) = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
+ 	if (IS_ERR_OR_NULL(sub)) {
+ 		dev_err(aw88399->dev, "ACPI subsystem ID not available\n");
+ 		return -ENODEV;
+ 	}
+ 
+ 	aw88399->acpi_subsystem_id = devm_kstrdup(aw88399->dev, sub, GFP_KERNEL);
+-	kfree(sub);
+ 	if (!aw88399->acpi_subsystem_id)
+ 		return -ENOMEM;
+ 
 
-If wm1811_mic_work() is pending or executing when
-cancel_delayed_work_sync(&wm8994->mic_complete_work) returns, wm1811_mic_wo=
-rk()
-enables microphone detection in hardware:
+base-commit: af642c86437dc62558461f624efb703608d1c09f
+-- 
+2.56.0
 
-sound/soc/codecs/wm8994.c:wm1811_mic_work() {
-	...
-		wm8994->mic_detecting =3D true;
-		wm1811_jackdet_set_mode(component, WM1811_JACKDET_MODE_MIC);
-
-		snd_soc_component_update_bits(component, WM8958_MIC_DETECT_1,
-				    WM8958_MICD_ENA, WM8958_MICD_ENA);
-	...
-}
-
-When WM8994_IRQ_MIC1_DET then fires, wm8958_mic_irq() queues
-wm8994->mic_complete_work again:
-
-sound/soc/codecs/wm8994.c:wm8958_mic_irq() {
-	...
-	if (wm8994->mic_detecting)
-		queue_delayed_work(system_power_efficient_wq,
-				   &wm8994->mic_complete_work,
-				   msecs_to_jiffies(id_delay));
-	...
-}
-
-Should wm8994->mic_work (and WM8994_IRQ_MIC1_DET) be stopped before
-cancelling wm8994->mic_complete_work and wm8994->open_circuit_work so they
-cannot execute after struct snd_soc_component and struct wm8994_priv are fr=
-eed?
-
-> =20
->  	return ret;
->  }
-> @@ -4615,6 +4620,11 @@ static void wm8994_component_remove(struct snd_soc=
-_component *component)
->  			free_irq(wm8994->micdet_irq, wm8994);
->  		break;
->  	}
-> +	cancel_delayed_work_sync(&wm8994->jackdet_bootstrap);
-> +	cancel_delayed_work_sync(&wm8994->mic_complete_work);
-> +	if (control->type =3D=3D WM8994 || control->type =3D=3D WM1811)
-> +		cancel_delayed_work_sync(&wm8994->mic_work);
-> +	cancel_delayed_work_sync(&wm8994->open_circuit_work);
-
-[Severity: High]
-What happens in wm8994_component_remove() on WM1811 when wm8994->jackdet is
-true, control->pdata.jd_ext_cap is true, and wm8994->clk_has_run is still
-false?
-
-If WM8994_IRQ_GPIO(6) (wm1811_jackdet_irq) fires before the IRQ is freed in
-wm8994_component_remove() and queues wm8994->mic_work (wm1811_mic_work):
-
-1. cancel_delayed_work_sync(&wm8994->jackdet_bootstrap) returns immediately
-   because jackdet_bootstrap is not yet queued.
-
-2. cancel_delayed_work_sync(&wm8994->mic_work) then waits for the in-flight
-   wm1811_mic_work() to complete.
-
-3. Inside wm1811_mic_work(), force-enabling MICBIAS2 powers up its parent
-   supply CLK_SYS:
-
-sound/soc/codecs/wm8994.c:wm1811_mic_work() {
-	...
-	if (control->pdata.jd_ext_cap) {
-		snd_soc_dapm_force_enable_pin(dapm, "MICBIAS2");
-		snd_soc_dapm_sync(dapm);
-	}
-	...
-}
-
-4. Powering up CLK_SYS invokes clk_sys_event(SND_SOC_DAPM_POST_PMU), which
-   queues wm8994->jackdet_bootstrap:
-
-sound/soc/codecs/wm8994.c:clk_sys_event() {
-	...
-		if (wm8994->jackdet && !wm8994->clk_has_run) {
-			queue_delayed_work(system_power_efficient_wq,
-					   &wm8994->jackdet_bootstrap,
-					   msecs_to_jiffies(1000));
-			wm8994->clk_has_run =3D true;
-		}
-	...
-}
-
-Can this leave wm8994->jackdet_bootstrap armed after
-wm8994_component_remove() finishes, leading to a use-after-free when the wo=
-rk
-fires 1000ms later?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261029102515.3417=
-777-1-tristmd@gmail.com?part=3D1
