@@ -1,58 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793253975;
-	b=jXR50ETEwmg8UL7wvD2YSZdktt9lB8ijGq7NMMFR3ourXoO9SRkPJvYcl9O0mo4t6q1d
-	 rxumM0d96wh8tylTJBnBFZ+jjl6z/1fNJsAUOWKALlz4HYhRhci+CFSe+htbnZZQbiSyP
-	 XtLhpX+QT7H4fIIzUe5KnIXVIVrNlDh61NbUnrb/hJLEAvtAG+jXbo1T3bRuprAuUigwo
-	 VhGrvC41DtIeAV8TEz0bD5k8gwEk3M1C2HUgyZFc0oyuMlRPPvjL154VGkVRnvcEVoBSP
-	 R524hPNDZ6LmBcO8WtND+Zr/PqdPB8Uyye5OBcx2vSVFoLcN/if7JrEpPG6DSIqmiYA==
+	t=1793254072;
+	b=P/WEoUE3Pxj3zqmVam5r8RoINHdy1spjWYhhgcZo5Y2LdTC8odDGvve7QEMK+hNj/KwR
+	 pGHNogJ87NoAGZ21Lez5Ef8GFvuhhy1NPSE0Y6ipVKclV1tdTUHxj/N9wvaIy84kF0fT6
+	 xbcPg48rHSABGyWCndyAlRTdTY+Yz1kxBBsbdEH3Ej2EUGoS2ROVAZoM2QMoTeYD0Bh5V
+	 BXTyt0oUxVZh3ZpQqK1I3hvksjOmNNWaxk3CYkeknFkapDjzoRb+3rQaNTIlHyoWStHqQ
+	 Iq9BioSqJ0T8+NIcUFiDxrBp5uq7dzHpozPtUG5tZD6pSz8dEQOZ5cVzdFptyQXm62Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793253975;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793254072;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=X4arySgtTykmIq2fyaSsaIL6BJtHG3IjGv9r0enslb8=;
-	b=jQG200Z22LVF4arv454hKoEWgedgP9G84ZUhtoVUFRpPJ9JAwQqQbkdnP0XR7V0DlvGJ
-	 d31+Oc3oDbLvdy2g+bXZmXpPB6YGU6u7EIqZa/SH0iWu8n+neAlKYWW0/OzkK+LiKh5aO
-	 OIUgR81TLDA+lP/QMCgcZ0cqbQHten3s3rRdLQTppy0+Vvzn839upNf+PwpCZJbfZhvmq
-	 GrA3f8+loCsXiBH7q5C6fOv2x8NjOklStW4vibkLOvVPBkV+PU/hqUv31x4Hd5XeGKbFf
-	 yfaESQ1IPyR68oDw9FMjSGDu0eNfe++zndMBUfGJUmsrw3vA0bMNiuHgowmaFtGFdEw==
+	bh=9/w12gC2Flq4f1MChoH3uqKpVNeD2xjUZFA6jng+zrg=;
+	b=dzS4bOKWqG3A6zuMYVLfNib4WpQlcMdKD9IA8IJ3aNEoqnjYSfYqsbwzxRB7gnTuTwhN
+	 zlptl3h9wYEKnWMJb2Ys18OkxeZ28APB1rviCVS/b2hOubkok2YO3KEI4oV/txIiEUGIg
+	 VKrdG/jPkgN681QuqA4HS2YQ6+iTTJsBMT2I975ProO66Xpbd8iYoedr5yugnZFDXlESj
+	 LJx3Wafgx4QMIoPrI5flt+RLXxIsfg21gs11lagysQohmegIE00dyz+WlZ2+ptSJRMQrj
+	 3nlqLIPo11bFhk1xfISSE5jAuxnKdiKZ33ZOUJxTNtmhXaIp22eoyeHWCBdAaeckZnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SwMRNGrD;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g+RwfhPA;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1196C606A31A;
-	Thu, 29 Oct 2026 06:06:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57DF6606A31A;
+	Thu, 29 Oct 2026 06:07:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SwMRNGrD
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59A071F01825;
-	Thu, 29 Oct 2026 06:06:14 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g+RwfhPA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A07121F01825;
+	Thu, 29 Oct 2026 06:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793253974;
-	bh=X4arySgtTykmIq2fyaSsaIL6BJtHG3IjGv9r0enslb8=;
+	s=k20260515; t=1793254071;
+	bh=9/w12gC2Flq4f1MChoH3uqKpVNeD2xjUZFA6jng+zrg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=SwMRNGrD7BDbjp/Nd1wC8NWTGEDom9yWZcmcoEHowJa96ADp1KE1gPLOvc8Ot6KBf
-	 EVAU7oqex0qyLCduawh7lnX9MAK8zvM6NmPyCiKz/opUxo7rvWtdCkdIU+78c1omVE
-	 UHoaf8NqICeYCGQpckGuaLNhT6+QaxItaAm+lu8CfurnUR6DibRIcyRcp7gAvYM7nC
-	 9BUJaIZX6fC8w4dRu+iu7f0aD7nICQWCplWQXPCeWLMSrba/ypANqMwrmRxDox2Vpk
-	 e8ejOqegFyHbB2X5qVJced+U9K+jq1ATOEJdB+J+TpNGwkJNfpzBhKiuGN4fu1Uqa5
-	 KUaG+j0fLDflQ==
-Message-ID: <sashiko-outbox-188792@kernel.org>
+	b=g+RwfhPA1Mt6O6UVpev5um1RJ8s3LyPQF+6+aHd1g93pl7JREKQN+0SCWOlmE3irP
+	 AC2wIhDBwKQHGxjd4QrthcQTPA5fIZBEMIIz5+yQ2Hiybg1E62r6c13D0YQ/AcfGq4
+	 VWvB+4nQVzlEuWBj1U8DHdFpMtj6NF2euH0QmNj1CC6/MsTZFV2Qy9YhsE7BZExs7e
+	 0ttVSkcpDudQaO/MWjGSL2b7e6V1pIxyC63TaP0TxFMCt7he/7KtpGcRP4TeRYR6iA
+	 w6qzt/VYV56VxJ40VMZOGk92SYKnkJg9hzTCewolb0JubY0lDv6GfsgmgIBeDtO5tU
+	 rWPSzovTTnV7A==
+Message-ID: <sashiko-outbox-188794@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v8 14/14] ALSA: virtio: synchronize indirect capture
- positions on reset
+Subject: Re: [PATCH v8 04/14] ALSA: virtio: Keep PCM DMA buffers alive
+ through device ownership
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
 Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
  Perez" <eperezma@redhat.com>
-In-Reply-To: <20261029054354.2931-15-mynameisjune111@gmail.com>
+In-Reply-To: <20261029054354.2931-5-mynameisjune111@gmail.com>
 References: <20261029054354.2931-1-mynameisjune111@gmail.com>
- <20261029054354.2931-15-mynameisjune111@gmail.com>
+ <20261029054354.2931-5-mynameisjune111@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 29 Oct 2026 06:06:14 +0000
+Date: Thu, 29 Oct 2026 06:07:51 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,131 +64,126 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] ALSA: virtio: uncompleted hw_ptr rebase on virtsnd_pcm_indirect_re=
-set() error
+- [High] ALSA: virtio: out-of-bounds vss->msgs[] access when buffer_bytes <=
+ dma_bytes
 --
 
-commit 0cc03a4b001753550dc69b32471d30cec1719208
+commit 5684205c20865cb426276aaf2c41df707838c019
 Author: Joonho Lee <mynameisjune111@gmail.com>
 
-ALSA: virtio: synchronize indirect capture positions on reset
+ALSA: virtio: Keep PCM DMA buffers alive through device ownership
 
-This commit adds a dedicated reset operation for indirect capture streams
-to synchronize private indirect capture accounting with the core PCM
-pointer rebase on reset. It discards unread data, returns the freed RX
-buffer space to the virtqueue, and updates the indirect application
-pointer to match the rebased hardware pointer.
+This commit retains references to pages backing ALSA vmalloc buffers (or us=
+es
+a driver-owned DMA buffer on NOMMU systems) until queued virtio-snd I/O
+messages are freed. It also adds buffer validation during message allocation
+and clamps device-reported capture completion lengths to the message capaci=
+ty.
 
-> diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
-> index ba14f395eef8a..e4a7a4da4d3a8 100644
-> --- a/sound/virtio/virtio_pcm_ops.c
-> +++ b/sound/virtio/virtio_pcm_ops.c
+> diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
+> index 762480363b861..b7f2334bb221c 100644
+> --- a/sound/virtio/virtio_pcm_msg.c
+> +++ b/sound/virtio/virtio_pcm_msg.c
 
 [ ... ]
 
-> @@ -1598,6 +1602,54 @@ static int virtsnd_pcm_sync_stop(struct snd_pcm_su=
-bstream *substream)
->  	return virtsnd_pcm_sync_stop_locked(substream);
->  }
-> =20
-> +/* The PCM lock covers both indirect accounting and core completion. */
-> +static int virtsnd_pcm_indirect_reset(struct snd_pcm_substream *substrea=
-m)
-> +{
-> +	struct virtio_pcm_substream *vss =3D snd_pcm_substream_chip(substream);
-> +	struct snd_pcm_runtime *runtime =3D substream->runtime;
-> +	struct virtio_snd_queue *queue =3D virtsnd_pcm_queue(vss);
-> +	struct virtsnd_pcm_transfer transfer =3D {};
+> @@ -132,36 +211,99 @@ static void virtsnd_pcm_sg_from(struct scatterlist =
+*sgs, int nsgs, u8 *data,
+>  int virtsnd_pcm_msg_alloc(struct virtio_pcm_substream *vss,
+>  			  unsigned int periods, unsigned int period_bytes)
+>  {
+> -	struct snd_pcm_runtime *runtime =3D vss->substream->runtime;
+> +	struct snd_pcm_runtime *runtime;
+> +	size_t buffer_bytes;
+>  	unsigned int i;
 > +	int rc;
+> =20
+> -	vss->msgs =3D kzalloc_objs(*vss->msgs, periods);
+> -	if (!vss->msgs)
+> +	if (vss->msgs || vss->nmsgs || vss->dma_pages || vss->ndma_pages)
+> +		return -EBUSY;
+> +#ifndef CONFIG_MMU
+> +	if (vss->owned_dma_area || vss->owned_dma_bytes)
+> +		return -EBUSY;
+> +#endif
+> +	if (!periods || !period_bytes)
+> +		return -EINVAL;
 > +
-> +	rc =3D snd_pcm_lib_reset(substream);
-> +	if (rc)
-> +		return rc;
-> +	if (!snd_pcm_running(substream) &&
-> +	    runtime->state !=3D SNDRV_PCM_STATE_PAUSED)
-> +		return 0;
+> +	if (check_mul_overflow((size_t)periods, (size_t)period_bytes,
+> +			       &buffer_bytes))
+> +		return -EOVERFLOW;
 > +
-> +	guard(spinlock_irqsave)(&queue->lock);
-> +	guard(spinlock)(&vss->lock);
-> +	if (vss->resetting)
-> +		return -ECANCELED;
-> +	if (!vss->prepared || vss->stopped)
-> +		return -EBADFD;
-> +
-> +	/* Pausing does not move the device's fixed DMA buffer positions. */
-> +	if (runtime->state =3D=3D SNDRV_PCM_STATE_PAUSED)
-> +		runtime->status->hw_ptr =3D
-> +			bytes_to_frames(runtime, vss->pcm_indirect.sw_io);
-> +
-> +	transfer.indirect =3D vss->pcm_indirect;
-> +	transfer.indirect.sw_ready =3D 0;
-> +	/* Consume no application delta while returning discarded RX space. */
-> +	transfer.indirect.appl_ptr =3D runtime->control->appl_ptr;
-> +	rc =3D snd_pcm_indirect_capture_transfer(substream, &transfer.indirect,
-> +					       virtsnd_pcm_trans_copy);
-> +	if (!rc)
-> +		rc =3D transfer.error;
-> +	if (rc) {
-> +		virtsnd_pcm_transfer_failed(vss);
-> +		return rc;
-> +	}
+> +	if (!vss->substream || !vss->substream->runtime)
+> +		return -EINVAL;
+> +	runtime =3D vss->substream->runtime;
+> +	if (!runtime->dma_area || buffer_bytes > runtime->dma_bytes)
+> +		return -EINVAL;
 
 [Severity: High]
-What happens to the PCM ring buffer accounting if virtsnd_pcm_indirect_rese=
-t()
-returns an error after snd_pcm_lib_reset() has already rebased
-runtime->status->hw_ptr?
+Can this validation allow buffer_bytes < runtime->dma_bytes to pass and lead
+to an out-of-bounds read on vss->msgs[] in virtsnd_pcm_msg_send()?
 
-On an indirect capture substream in SNDRV_PCM_STATE_RUNNING or
-SNDRV_PCM_STATE_PAUSED that has wrapped past runtime->buffer_size (so
-runtime->hw_ptr_base >=3D runtime->buffer_size and runtime->control->appl_p=
-tr >=3D
-runtime->buffer_size), virtsnd_pcm_indirect_reset() first calls
-snd_pcm_lib_reset() (and in the paused state sets runtime->status->hw_ptr f=
-rom
-vss->pcm_indirect.sw_io), which rebases runtime->status->hw_ptr into
-[0, runtime->buffer_size).
+virtsnd_pcm_open() constrains SNDRV_PCM_HW_PARAM_PERIODS to an integer, and
+ALSA core constrains SNDRV_PCM_HW_PARAM_PERIOD_SIZE and
+SNDRV_PCM_HW_PARAM_BUFFER_BYTES to integers, but SNDRV_PCM_HW_PARAM_PERIOD_=
+BYTES
+is not constrained to an integer. When the device supports the 4-bit
+SNDRV_PCM_FORMAT_IMA_ADPCM format (VIRTIO_SND_PCM_FMT_IMA_ADPCM), a 1-chann=
+el
+stream (frame_bits =3D=3D 4) configured with an odd period_size (for exampl=
+e, 2001
+frames) and an even number of periods (for example, 2, giving buffer_size =
+=3D=3D
+4002 frames) refines SNDRV_PCM_HW_PARAM_BUFFER_BYTES to the exact integer 2=
+001
+(so runtime->dma_bytes is 2001), while SNDRV_PCM_HW_PARAM_PERIOD_BYTES refi=
+nes
+to the non-empty open interval (1000, 1001). Both params_period_bytes() and
+snd_pcm_lib_period_bytes() truncate that period byte size to 1000.
 
-If virtsnd_pcm_indirect_reset() then returns -ECANCELED, -EBADFD, or
-transfer.error, snd_pcm_do_reset() in sound/core/pcm_native.c aborts early
-without completing the rest of the rebase:
+In virtsnd_pcm_msg_alloc(), buffer_bytes is computed as periods * period_by=
+tes
+(2000), which passes buffer_bytes > runtime->dma_bytes and allocates only
+vss->nmsgs =3D 2 messages (along with 2000 bytes of retained pages or
+owned_dma_area).
 
-sound/core/pcm_native.c:snd_pcm_do_reset() {
+Later, virtsnd_pcm_prepare() sets vss->buffer_bytes and the pcm_indirect
+buffer sizes from snd_pcm_lib_buffer_bytes(substream) (2001):
+
+sound/virtio/virtio_pcm_ops.c:virtsnd_pcm_prepare() {
 	...
-	err =3D substream->ops->reset(substream);
-	if (err < 0)
-		return err;
-	runtime->hw_ptr_base =3D 0;
-	runtime->hw_ptr_interrupt =3D runtime->status->hw_ptr -
-		runtime->status->hw_ptr % runtime->period_size;
-	runtime->silence_start =3D runtime->status->hw_ptr;
-	runtime->silence_filled =3D 0;
-	runtime->control->appl_ptr =3D runtime->status->hw_ptr;
+		vss->buffer_bytes =3D snd_pcm_lib_buffer_bytes(substream);
+		vss->hw_ptr =3D 0;
+	...
+	vss->pcm_indirect.sw_buffer_size =3D
+		vss->pcm_indirect.hw_buffer_size =3D
+		snd_pcm_lib_buffer_bytes(substream);
+}
+
+When capture starts via virtsnd_pcm_trigger() ->
+virtsnd_pcm_msg_send(vss, 0, vss->buffer_bytes), or playback transfers the
+final byte of the buffer via virtsnd_pcm_pb_ack() -> virtsnd_pcm_msg_send(),
+virtsnd_pcm_msg_send() computes end =3D (offset + bytes - 1) / period_bytes=
+ =3D
+2000 / 1000 =3D 2 and indexes vss->msgs[2] past the end of the 2-element
+vss->msgs[] array:
+
+sound/virtio/virtio_pcm_msg.c:virtsnd_pcm_msg_send() {
+	...
+	start =3D offset / period_bytes;
+	end =3D (offset + bytes - 1) / period_bytes;
+
+	for (i =3D start; i <=3D end; i++) {
+		struct virtio_pcm_msg *msg =3D vss->msgs[i];
 	...
 }
 
-This leaves runtime->status->hw_ptr rebased below runtime->control->appl_ptr
-while runtime->hw_ptr_base and runtime->control->appl_ptr remain at their
-pre-reset values, and runtime->state stays in SNDRV_PCM_STATE_RUNNING or
-SNDRV_PCM_STATE_PAUSED. Although virtsnd_pcm_transfer_failed() sets
-runtime->stop_operating =3D true on transfer errors, stop_operating is only
-acted on by snd_pcm_sync_stop() and is not checked by pcm_accessible_state()
-or __snd_pcm_lib_xfer().
-
-In include/sound/pcm.h:snd_pcm_capture_avail():
-
-	snd_pcm_sframes_t avail =3D runtime->status->hw_ptr - runtime->control->ap=
-pl_ptr;
-	if (avail < 0)
-		avail +=3D runtime->boundary;
-	return avail;
-
-avail underflows and wraps by runtime->boundary. Wouldn't a subsequent read
-via sound/core/pcm_lib.c:__snd_pcm_lib_xfer() see this wrapped avail value =
-and
-copy stale DMA ring buffer frames to userspace via writer() before
-pcm_accessible_state() or pcm_lib_apply_appl_ptr() stops the transfer?
+Should virtsnd_pcm_msg_alloc() check buffer_bytes !=3D runtime->dma_bytes (=
+or
+constrain SNDRV_PCM_HW_PARAM_PERIOD_BYTES to an integer in virtsnd_pcm_open=
+())
+so that periods * period_bytes always covers the full PCM buffer?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261029054354.2931=
--1-mynameisjune111@gmail.com?part=3D14
+-1-mynameisjune111@gmail.com?part=3D4
