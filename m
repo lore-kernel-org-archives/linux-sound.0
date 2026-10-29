@@ -1,110 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793295144;
-	b=ZH7FQPfgI2OSTukRuW9/ygzmHMeD14Fc4MdRH0dkWmmAwbB3I5mt0g6wKzudTnpu5yWj
-	 mTY/Lp3YMMNN+q9cDLlVoUjzh8RjMNftwi6zDIsjaPogu1DUGTuZiNx3XEG4JOn663aeT
-	 HuQMKKWdzTzCcIM9nAVXx7wOoXdCNl8xKTWmPjB9xv+kCjmxw5i0qvSLLauDsGPpjHc/W
-	 +7El3V3+fR2omARSBYRvgfXDvwm3yF4YYb2uAg6G9aywWBEC1f8EpHwbFH9MYlLk7NIaq
-	 VqITUnXYeW95HK3F3NrjZLkYMPzDSe2yuSH+7jG21ZDdcsCnIygulQFEUoYH/NaZCfA==
+	t=1793295905;
+	b=zAgIqlyg3cIEbFE67nIMp0rl4U7ENxuE5IDQLQyx4/koYQmorb4aN71J3oC6TuypcBn+
+	 NaHIZ4JHtzSpXoBfEBfFRIpUqf5z9lN9FTmKUBLTRHbNFAg3hg1Fu73NYHIFYpiiP10LH
+	 pgf6EXCoaQcQxnD5rsBG8/Yoj04pJm3cBj2NCeuS0o18uXXLS+a0aguwG4JOAazGdSy7d
+	 m/UcABif08477semANYWBl5HllIBokL7iULOnn55Su9+nI8HiPzWV5pBcXeNjIwbOfoaJ
+	 e7232tECORUN/WJGqqILZ9rGc55B1XWfPzpUi59PHmATCzmJj0/3xWztRdllDFXsphQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793295144;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=qT91HFGy7t0ktVvPcHZxfHwE/E5wbUjgVxp9MS7FMZ8=;
-	b=HcfB0RREW5dBN660OOQvj8TOtVjCn9k+fyLqv5nEvX19UoOba5QFvda/mF8mcbtoCXnk
-	 ItvCNd4wq49VdcErA8y7+2pDP3BBiW6/74kDr83alwZqhKi6TLw5hfy+NZTjgfAJBTL6W
-	 oJU478YyqJ8h0SNLjNRhT348Mah10XQR5E4tJxWG1d8tzqtEtehnK7GCeHq8lmhtIDg8r
-	 GqdYE7MaXtXCOEIq8gWE/D454QG4OzPnxY1YH1GCYsFULzp/De82srcX2gqlaex07ervm
-	 PWcWMseEvmoux+5gmAmGJ+mujpDfTjweKLES0+plzQLmeD3VNpurq3fTjaswe02cFZQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793295905;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=Iihqh3jg1Fo/JG4K+1inwvG2PsMwLH1y1X5y2K/lrO8=;
+	b=aJFAX/V5W4Xq57Im6F9+7GAa2ZCxrw2HVKQymtuYbp1kbBg8kHhMDmMQIj+s5rhVlisI
+	 nMLCxWib077Efzyt+eU0RwwDAXCsBqkx+ahA2LjCqi5aq2zgySrpWmfyKJLtLPHnoCgG5
+	 xqOIPpWw7gYkvd9b9gQ8cIXVT2gfkb5x17dptftbszXc/+l4K5QhgBtX825h7RThf7bkC
+	 h2E8sM2x0TQwLnbPABdme7y3rKYpOxJ75NYxf8DZlYI9m7J/Eyqz8VKzTWrwX39utd3fO
+	 RmyRy1+uRuRCQfMi/t7vLI97l0s+w6rAAnlTaGsxLJko53iJGh3/qyZaSujexDGo1eQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=QC2V6mey;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=fJtWcF+G;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gaZnpUqo;
+	arc=none smtp.remote-ip=209.85.128.50
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905A3606A32C
-	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 17:32:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 905A3606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D5E606A31C
+	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 17:45:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43D5E606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=QC2V6mey;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=fJtWcF+G
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69TGD7kW1143524
-	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 17:32:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	qT91HFGy7t0ktVvPcHZxfHwE/E5wbUjgVxp9MS7FMZ8=; b=QC2V6meyZl4mc2Fi
-	Xk7S9Eh6zFOo0p+Y6zQUF34RVIwoVCSM/pZo2ea4+Lq4zXk7LNPjERypZJ40f7HJ
-	UvMVpv8EOBsn+KLbcOhJkMp0z6j3x/wHs187VCZrJZz/lFaRmEhCe0lhTj/25Pr7
-	WhpX4rLkVCOehgUTamolzVNBlFhGTjYbFuGTjV2LtdpfR798pSGjsGoQGHAR9J2e
-	zPtr+wvVF2J/SkfBdE7CwhZychQHTIdmoL+Tvhu8oexEpmrJNvAN3/xGKmL97D2k
-	LwrDnAmqV+Qqj/GYLha9C0iZ0HKiVcEO7nmRRdQnGy2L13TQ4+TLkdM92IQFn97a
-	qIXa5Q==
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hm76chk3j-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 17:32:22 +0000 (GMT)
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-3425098ae4bso1375085eec.0
-        for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 10:32:22 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gaZnpUqo
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a9a8d6cea8so14775995e9.1
+        for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 10:45:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793295142; x=1793899942; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qT91HFGy7t0ktVvPcHZxfHwE/E5wbUjgVxp9MS7FMZ8=;
-        b=fJtWcF+GkOFY5Q+GhjJhwqYobyF3suDcOtmEMmqMWiRCMcsQf9iMV7NfDSVqUBGNKK
-         TQBBtB6LaIK2CLjVOUZdAwdL2ERgvc2lV97YPxSlFAtmTHyN0taqH/OO3PITZfRx8S5/
-         TJby/Is4tdwoSWL+yP0wu8uRMMgnzqFnjB6sz3BJcVI45Qn0eR9tBglw/hmBlgeIQLrl
-         TTDf6X6o33hgDrWf2mYK1Qyrod/Ozv7VbK79Fc9CVlJbdYhu+v4eoVMQYb323ElKhGCf
-         /GutNqEYp6bkvhI7vr6CEOP4Np8rY/J4Oi7sozh+dqmtkJtN3D1GN1frUP0dnH5ac1DU
-         sYtA==
+        d=gmail.com; s=20260707; t=1793295902; x=1793900702; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Iihqh3jg1Fo/JG4K+1inwvG2PsMwLH1y1X5y2K/lrO8=;
+        b=gaZnpUqosYh+K+C2b7hl2OXB2Pjdz/S0be0v6Ir/6w7DFyiIgNpxEM/CB8Cy7Xnalw
+         cciI30agk6PFN7EFNYifjlZkrbxafO3INk/rVvGDfu+u0lUdhfkiJvCDezUxVXtwi2Kc
+         CtN2Y1ps1JlQisSUhNoVscoOyj5ZWfjfnEpj5Kxan6knpRgdDWYQF3LgUV+gBI6vths/
+         2iq7uFunhsKJ/CjiQnByjbdvAXb7TMOCO/jnEmryRhoaxnKO4eNKA52UKiXVCK0EwLls
+         UtABCJ2yn2vXEmeK4rOmfKSYGcuP/dLWbmVUXq+pFnbYqd8p3WsVGU1kKBESZEiIHgTb
+         yCgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793295142; x=1793899942;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1793295902; x=1793900702;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=qT91HFGy7t0ktVvPcHZxfHwE/E5wbUjgVxp9MS7FMZ8=;
-        b=2WT0kJt8WwwfqNFTdM+5NlnmiI2kPh3zjqq5Ph8CvYJaD8DnBqSxJPeBzGR1PiPkJi
-         A2FliXm39twmGJAMpNx7vpyEQS55uRKXgqKwGgFgjxEHDpOMJK/Gyn12pxyvea3NTg6i
-         hKub49fgsBXWYh4Txx/ErSoc4SbNNYsnZ3lJHO5ydjbPNnJ2KT752G9GnjeelAx8va02
-         NI74D9ZrndgWwD89qP+h/8fVxbPrq/zmtfRsUVIIGA/hZxrcfOQGLvm5ptammqL0qRQD
-         Y3WK7GyAaal9hIF00KW2pxUXoxOmJbgPd4PxZvNpoS+zgS2jwCN7QxWM0T06of8GnsS8
-         EsLg==
-X-Gm-Message-State: AFq9FYK6qRTRhHsaizguBT9ncLIp0TljOgiX0cd27f8ifVh7xDp2GTXI
-	IyTP255n/yt3Rx4/9FerfU3BPGef9hMb+2aXuDaWdpFseKsiLWOc6A89SURStJjO0pxocPcZk+4
-	UNMG802BDs0bGtfIOBzT7eb+RK8PKGKAEJKP4lnUtyVCyQ4/6w95myDEgHa6Ex9b3UQ==
-X-Gm-Gg: AYBFou2/6cbR1RfqeLog7e/e/v8098/CX254GgPOSI5LSzUnw3b8ux3KVzfI707C+Bq
-	lm7rWEOkqxaiPcbk8kgP9YRo4ro26nZizDsy2LdKGVMqRq3mg+yrWpGSCPIVLys5/CN/ihhHAjC
-	1kuQfgQqd/YcFiik7IsyvXYlHU8eApQytEm1PjY/s1rGIZLbEeh7b8iVaYkjSnnAqr/sG76HJHS
-	QkXZ9tQy3qgEejZmLlaUocBReT7CHJnp2rvttDyaYezmAsMlswpKpNK6I/ZzAswWVBJbfssDgyY
-	n9tj7saj3ev2HfjTW2oGrgYtOovbeIIMfGjnHtwuuXBeEjDKURgQhD0hC2ZUFnhzJ4MXjSxr11A
-	TC3UftjwoQgRikl1sP8QGiM7oU/jSEJT7fKUZQigMXFJX4I/Vk1YFMoxiiYNpSp76WGYczM/OV4
-	confbYClBg
-X-Received: by 2002:a05:701b:424e:20b0:194:e9e5:11b0 with SMTP id a92af1059eb24-1a9496c2e85mr4479415c88.14.1793295141592;
-        Thu, 29 Oct 2026 10:32:21 -0700 (PDT)
-X-Received: by 2002:a05:701b:424e:20b0:194:e9e5:11b0 with SMTP id a92af1059eb24-1a9496c2e85mr4479382c88.14.1793295140986;
-        Thu, 29 Oct 2026 10:32:20 -0700 (PDT)
-Received: from [192.168.0.104] ([124.123.197.72])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac192c2e9dsm82433c88.9.2026.10.29.10.32.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Oct 2026 10:32:20 -0700 (PDT)
-Message-ID: <e5a01a54-a619-4524-8829-cc19289c057a@oss.qualcomm.com>
-Date: Thu, 29 Oct 2026 23:02:13 +0530
+        bh=Iihqh3jg1Fo/JG4K+1inwvG2PsMwLH1y1X5y2K/lrO8=;
+        b=lBsvPEyrNi9PFe9I9AyWNzs29NWpLRTHF4gQpp7mbL+ambF4JQKGcOs0SAkaVLh4+4
+         0OLUO52/pQ/F5I66JeSSwyfIMOoE7JukIFKBfQrxyccjnidRNLdnRKw2cmjROyfq2UjR
+         qQmgUneKfoC879HBD2QU9M3kGG8xsKwaAH73IcSVccNKaIv9f6376o+j6Wrg0Y6RDoip
+         AHJokEBsi1h7DWSXNJ7XusqWeil9VX5GtUKkhOZ5pzgQjpg4Ov6eYZZKGad9TOuPzz0n
+         DOy6l+8rFzALzujGLxzO2uX9bEOsCBwLUW1Muirt01kavEHoiCl3n9zqOh97N0KUlFHK
+         yerg==
+X-Gm-Message-State: AFq9FYI2H0zkjhfVAWikP7d0GplAH3ft1hYWmQB3x8Ox34HXz558kr3z
+	DKFfXWvKCqkSRu8ijdo7NSAOamiEEqDqeqxUDK2pTJlnauPti8YyzzLo
+X-Gm-Gg: AYBFou05sp9PXTn5DX7quIwJl496Uw39e87aIF1soTqH93BCTksQ3kUziHkmvgVGjsk
+	iL71Jclo8nwElR2skS4iZtXltayYbdiBhFeGpt0aXH3r/BCaCnGUfo55zeFbpE/ms7TL9afwW9Q
+	cG3IAmIpg26BSg9F0u8ZMqzxSdXYeuLW/Pes+e/3uG6UGIPE9qW33v4deO16lsuD97dFplSUr25
+	Kf18Nplc2RhcSpgMXdyQyHBQl2q/CgKTZjMDsz6+PT61fmuff2ZgkpdDAPHNZt/4EBwhM8QlSGl
+	8xdMKUMMyf8qm2o7yAg0k6nHDO1sLzYuRCFYbVLd9NRsUvGx9Hz3lA1FNwrBIn/+y9NUdIOJ4Qg
+	KpFM5a1RMgTpBQl3NsMc8Io5K6dWHBh7HFrgIph0jLhy6uUDFbmlukB8PmFBpHxbXh+Ny2czvwU
+	3xvVydMho4KY7tSJwVj7+gDXtP5GPrGALRLo3lBHK6/YD+0C4VFp0QoRSd91EhyiyygexxEbN5y
+	lNpRLT5DVcY3wHsay2kkjqfmJcQNixvCv4PAaPfYFZUJ5WbxSuchaj8/GD2Ffnetqb3HpT9Aa/r
+	2z/tohPXeNBW3mzX29D6SWt5Z3y3mXvatAs8vH0pGm0ZTImsAkFQ6LKRcHygzi2n3GX4qFFCrOs
+	=
+X-Received: by 2002:a05:600c:621a:b0:4a2:10f9:37db with SMTP id 5b1f17b1804b1-4aa871e8be0mr84272155e9.7.1793295902519;
+        Thu, 29 Oct 2026 10:45:02 -0700 (PDT)
+Received: from ahmad-HP-ZBook-17-G3 ([5.208.162.109])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa820492cesm86776545e9.13.2026.10.29.10.45.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 10:45:01 -0700 (PDT)
+From: ahmad baghereslami <ahmad.b1995@gmail.com>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ahmad baghereslami <ahmad.b1995@gmail.com>
+Subject: [PATCH] ALSA: hda/conexant: Add mute LED quirk for HP ZBook 17 G3
+Date: Thu, 29 Oct 2026 21:14:46 +0330
+Message-ID: <20261029174446.1412118-1-ahmad.b1995@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -114,64 +95,76 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: codecs: lpass-rx-macro: fix PM ref leak in
- swclk_gate_enable
-To: Tang Bin <tangbin@cmss.chinamobile.com>, srini@kernel.org,
-        lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
-        tiwai@suse.com
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20261028114501.2192-1-tangbin@cmss.chinamobile.com>
-Content-Language: en-US
-From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-In-Reply-To: <20261028114501.2192-1-tangbin@cmss.chinamobile.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: UhrBI6fwPhbK3cuV5aCvOJz9QDNHZ8Fb
-X-Proofpoint-ORIG-GUID: UhrBI6fwPhbK3cuV5aCvOJz9QDNHZ8Fb
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDA2OCBTYWx0ZWRfX1ClLIeVSaljL
- dOEJ2P7V2J/zmCWUe0QtxY8Lz8y1yBVRMh1zj5wTkhRVczG7BANQh6K3JKe+BIZgAdJaCANl1vC
- Qr5MA5yQc+ZCsVN3RI4F/Yvr2mIusek=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDA2OCBTYWx0ZWRfX+tZ05AOQXR3l
- 3splr64CvAMVlUfBG9xd2gvwBl49O9ZaFdmtXbIZVIPuhlPAeOIzX36AtO6I8uX/XAP3eVAQM5d
- 9aM7mOWeBzSW3aU6ZfMNQxXjgjeJZS/TFmK/MloB6VuvG65Zj+7lQSVujIMW22JAmtDXOCdciup
- l8PdglmVI5a/JRu1XVMwPaMta8oImNAKGxssiqofGvowWQcTVJtkZOYaKGvAcGxyBytBmerH8os
- a9UK19vit4aCdzJsxJgAg8mhebX6PUzqV+dhUJMBlhdC8Qz1O5nTXsZhn5+ZT6Rcf5guGI71XbW
- pR4LrY540ByF+k2HUt5Pbz3ffJtp8HPPd0hjFfefd1+xW+6H3q03/gZEMrzKxh06JDAaUUXtdqM
- 15Tj7329syM+TnMlrhh7OZsLaWNl/g==
-X-Authority-Analysis: v=2.4 cv=NPtAaE6g c=1 sm=1 tr=0 ts=6ae38326 cx=c_pps
- a=Uww141gWH0fZj/3QKPojxA==:117 a=ud/Gc3SFmwde3Mv7YyqU3w==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=R5C9hjxsAAAA:8 a=EUspDBNiAAAA:8 a=87T0Mtg4cv8Si1ZwwcsA:9 a=QEXdDO2ut3YA:10
- a=PxkB5W3o20Ba91AHUih5:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-29_05,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0 bulkscore=0
- suspectscore=0 spamscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610290068
+Content-Transfer-Encoding: 8bit
 
+The HP ZBook 17 G3 (PCI SSID 103c:80d6, codec CX20724 with SSID
+103c:80f8) has a speaker-mute LED wired to GPIO0 of the codec, the same
+as HP's other Conexant laptops of that generation. HP's Windows driver
+for this model sets EnableGPIO0MuteSignal. The mic-mute key's LED is not
+connected to the codec: toggling each of GPIO0-6, the EAPD of the unused
+pins 0x1d and 0x22, and the VREF of pins 0x18 and 0x1d only ever lit the
+speaker-mute LED (GPIO0). CXT_FIXUP_MUTE_LED_GPIO would also register a
+mic-mute LED on GPIO1, which drives nothing here, so add a fixup that
+only sets up the mute LED on GPIO0.
 
-On 10/28/2026 5:15 PM, Tang Bin wrote:
-> swclk_gate_enable() calls pm_runtime_resume_and_get() (incrementing the PM
-> usage counter and, via of_pm_clk_add_clks, enabling mclk) before
-> rx_macro_mclk_enable(). On rx_macro_mclk_enable() failure it called
-> clk_disable_unprepare(rx->mclk) and returned, leaking the PM usage counter
-> and potentially unbalancing the clock that the PM clock domain also
-> manages. The sibling tx-macro/va-macro drivers call
-> pm_runtime_put_autosuspend() here; do the same.
->
-> Fixes: e38cbb75248a ("ASoC: codecs: lpass-rx-macro: Propagate regcache_sync() errors")
-> Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+Tested on an HP ZBook 17 G3 with Ubuntu's 7.0.0 kernel and this change
+applied to its conexant.c: hda::mute follows the master mute, sound and
+the microphone keep working, and the mic-mute key still mutes the mic.
 
-LGTM,
+The GPIO and pin tests, reading HP's driver and this patch were done with
+the help of an AI coding assistant (Claude); I verified the LED behaviour
+on the machine.
 
-Reviewed-by: Prasad Kumpatla<prasad.kumpatla@oss.qualcomm.com>
+Signed-off-by: ahmad baghereslami <ahmad.b1995@gmail.com>
+---
+ sound/hda/codecs/conexant.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-Thanks,
-Prasad
+diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+index a141c94ee..525a6d0d1 100644
+--- a/sound/hda/codecs/conexant.c
++++ b/sound/hda/codecs/conexant.c
+@@ -305,6 +305,7 @@ enum {
+ 	CXT_FIXUP_ACER_ASPIRE_GO_MUTE_LED,
+ 	CXT_FIXUP_HP_ELITEONE_OUT_DIS,
+ 	CXT_FIXUP_HP_ZBOOK_MUTE_LED,
++	CXT_FIXUP_MUTE_LED_GPIO0,
+ 	CXT_FIXUP_HEADSET_MIC,
+ 	CXT_FIXUP_HP_MIC_NO_PRESENCE,
+ 	CXT_PINCFG_SWS_JS201D,
+@@ -810,6 +811,13 @@ static void cxt_fixup_hp_zbook_mute_led(struct hda_codec *codec,
+ 		cxt_setup_mute_led(codec, 0x10, 0x20);
+ }
+ 
++static void cxt_fixup_mute_led_gpio0(struct hda_codec *codec,
++				     const struct hda_fixup *fix, int action)
++{
++	if (action == HDA_FIXUP_ACT_PRE_PROBE)
++		cxt_setup_mute_led(codec, 0x01, 0);
++}
++
+ static void cxt_fixup_acer_aspire_go_mute_led(struct hda_codec *codec,
+ 					      const struct hda_fixup *fix, int action)
+ {
+@@ -1089,6 +1097,10 @@ static const struct hda_fixup cxt_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = cxt_fixup_hp_zbook_mute_led,
+ 	},
++	[CXT_FIXUP_MUTE_LED_GPIO0] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = cxt_fixup_mute_led_gpio0,
++	},
+ 	[CXT_FIXUP_HEADSET_MIC] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = cxt_fixup_headset_mic,
+@@ -1193,6 +1205,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
+ 	SND_PCI_QUIRK(0x1025, 0x1937, "Acer Aspire Go 16", CXT_FIXUP_ACER_ASPIRE_GO_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8079, "HP EliteBook 840 G3", CXT_FIXUP_HP_DOCK),
+ 	SND_PCI_QUIRK(0x103c, 0x807C, "HP EliteBook 820 G3", CXT_FIXUP_HP_DOCK),
++	SND_PCI_QUIRK(0x103c, 0x80d6, "HP ZBook 17 G3", CXT_FIXUP_MUTE_LED_GPIO0),
+ 	SND_PCI_QUIRK(0x103c, 0x80FD, "HP ProBook 640 G2", CXT_FIXUP_HP_DOCK),
+ 	SND_PCI_QUIRK(0x103c, 0x8115, "HP Z1 Gen3", CXT_FIXUP_HP_GATE_MIC),
+ 	SND_PCI_QUIRK(0x103c, 0x814f, "HP ZBook 15u G3", CXT_FIXUP_MUTE_LED_GPIO),
+-- 
+2.53.0
 
