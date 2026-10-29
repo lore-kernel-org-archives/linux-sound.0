@@ -1,49 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793297945;
-	b=m5DnKeoNUxTItDGjIw/EelfN2U+/L5RKRf2WeO20+hlJ96fKZqCchd7GDwQSmI4Wvc4/
-	 wNMMNjNIB7czb7xjLKj6aRQD2HWF+V8OGTebJlXuwq35InGUtDS3g/Bp8asKDdEUpOxM6
-	 YIgUVJD58CTMceitxLoXiQ2NSir+SumKogZYbNmvoaQQILfcjJkPlDrinJ8p8oMU2JCBo
-	 ilkUrtoF3pdeZOzZy/TM3nfbQi3h6q3kQQ+iWlREutkEVJnVkav5RaGpdfTJDE+8ns4aB
-	 RHo4PQIZKX7mNk0vKHNAp6PRCndSSubSHE7g34nu/7kfFdcP2GyiKyMhAsDUGS45lcw==
+	t=1793300195;
+	b=Ig6ZZpeS/hkaAwLBzXkvTJ0IaWPBSI2AXg2VOO7wA49QlL9e71+YKaFoOoAa3hsMPfKe
+	 sRxXx1XMa2aPr9MH7x7W1x5u33qk69t2NL763fzja2B47whR3J0ZcGTKeuavXIVx0hpaS
+	 eNYr3QaS9HEdMAi2xN2mfnYDARwGd4DhhhDQxsjGlRN6lA+AUNBoSTXBc3YZ3nHnHzcAX
+	 4rcbRFcVeAxphOiOYrZXLkH8dw6e9gxMpgzvDUihmKq40zxKXQxU1vHHyJappef1YN64X
+	 JL0W9BKTs2nVCSu6L3Gyec62/5MZM5hx/oaBj5DYVOxy+kmKrxtnHgYvC3XJhk2Q+mg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793297945;
-	h=Received:DKIM-Signature:Message-ID:From:To:Cc:Subject:Date;
-	bh=TMt4tok8EtivAf1je3I6wfcfe3Gi9bFIlhPwzfeT6EI=;
-	b=fdaQVXKKN7hsYYhPAwsqioX3Tg9GeXdK9zOgP6Ohw3YrPwdSc7aOI2hiuJi4rh30aOwH
-	 QI77WweupKTi9Ij2HWHfKMXXgOrR07lxmdEGfOsGnQbjbDxQQWbNpZMog+F8A6WxK187L
-	 ptFHNnrfBpZYksnFRNXsikQ6szDPyOAULnqIQRUDD3pu+rfx58d+B5OBVcLGmhh7WJ3Jf
-	 P50BYjvtrh8LFOekb3rqnXvvjiYu0Bqm3JsHCibvcjPOsjwuGfO6Ur4SfJ95os+w8a3c2
-	 T0MI17/6IvmWvimoDxqb2dm4P60/RItCiDBpqa8Z+JeJt8tPH46bK/l6mLpUW4W2RaQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793300195;
+	h=Received:DKIM-Signature:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=Cx8dHJCA4VYiy10LgBmbN/sMFQQ+NghKdL/5fLQ6wlg=;
+	b=GUyoaRoIBZtlp1WAX1QYsRR3vTMKBtLnOaDfzf9NkSLJw4gzCKiemZjFBPma+3JcQkqi
+	 5kCfNyXWbBeE7dE8+MP02q+HiLhRXSeRoZmn0nT1gryqd2+j0d6zfVISUjKrWfJd2sa6T
+	 90r1bi5zy7NU1oGEP3pZI+J38xKMTQJvwNQSsBpS1fCirG9cCD70qeDmd9G8Xkt+9S8NL
+	 zkgvHIzvqUs01/i5lkijikrBMKhFiM4IyRXn01a2wR2TvNX7SQ8cvOSmHEeYNLVQWAfZG
+	 ztI8ur1LJqFU2E+sLlYtqQBbn/mxM6BzmE1Hwi/tlvILAxMMdfHxgv2pLNB7P3qJlNg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AcO317Bk;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X5sxNQ7Y;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id DCE18606A31C
-	for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 18:19:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0EF4606A31A;
+	Thu, 29 Oct 2026 18:56:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AcO317Bk
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id E5CF11F01816;
-	Thu, 29 Oct 2026 18:19:03 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X5sxNQ7Y
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0E9F1F01816;
+	Thu, 29 Oct 2026 18:56:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793297944;
-	bh=TMt4tok8EtivAf1je3I6wfcfe3Gi9bFIlhPwzfeT6EI=;
-	h=From:To:Cc:Subject:Date;
-	b=AcO317BkfglmuCWVcXoIgMsi49G392AHb5vTvJV9P9hMOJpAT3Udh5hHMpZTKWSL3
-	 PSSKK6d3zAJJRhvHmyUZZm3OC7FpK+yAO/GWLN9YpgG3k1f5VtM+Y464LmJBPsN8yo
-	 PRy+2fQs2UoXiypOkAIDRhxLeqd0gVCF32C60vwc9Kl3cqmo0U5hJdWpRzUx0LFgX7
-	 XeWqWRhwxHBm/hoTNj+uhMarh3aF+UcDIRC+d6ymmR6XyeL7hBxkoHikbzRcLRbtNr
-	 0Dpqg2kXQUuY9kIeVeD+RyvZ/3ivKf34h97HBaUwVdaXjR2exdBqImQa/5gDv3rTLz
-	 35DLBnEmDh7YA==
-Message-ID: <f3c0e30fe8b901ae314a5400bc8dda92@kernel.org>
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v7.4-merge-window
-Date: Thu, 29 Oct 2026 18:18:34 +0000
+	s=k20260515; t=1793300194;
+	bh=Cx8dHJCA4VYiy10LgBmbN/sMFQQ+NghKdL/5fLQ6wlg=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=X5sxNQ7YYTgxZ8adqrLm471dQvWeWFB3M3tjwVPaUAgPAJ+rKKkEx9k8wM2sAcWJW
+	 4sxt9fY4FN2SEbTPIBPnJQ5h/3j/diFhdhq7JhihwUELz0S2/L0aYnw/CoNZ6pOKvg
+	 LRUFPS2mv3V96NKow2N6sV//r2q/WlKvnKBLWtfQWty9ZYAk6I7h3q7R4E6tqIUbWd
+	 +ewhTkYRuIpKXiusZBw3nz8jXPv3pFXCNrdnO3PDrvPaBU3R2YEb4SAj9yTlxXs0FI
+	 plB4bvHim77RoLnArEFUHK9ytSHfLdQvo1DEQ5vSC0oOQ6d+QcHWIZVLMZAtZGV7d+
+	 PWUgDe24570LA==
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -52,159 +48,118 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 2/2] ASoC: codecs: add support for Everest ES7202
+ PDM ADC
+From: Mark Brown <broonie@kernel.org>
+To: Jun Yan <jerrysteve1101@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org
+In-Reply-To: <20261021124552.767218-3-jerrysteve1101@gmail.com>
+References: <20261021124552.767218-1-jerrysteve1101@gmail.com>
+ <20261021124552.767218-3-jerrysteve1101@gmail.com>
+Date: Thu, 29 Oct 2026 18:56:27 +0000
+Message-Id: <179330018771.62540.301527067818961107.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2982; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=SW+P999vmgK1SgjJAmpmz7r83A8kxMgYkaMdTC3Hm+Q=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIeT7vb2B0stVzBwNRrVtSN/Bj+1O0i5pbfH52QKpkWP
+ TeqbuqnjlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAExk3zmG/+lLzzzVfp2/vPWl
+ 0NypeWI9/J/uu0wNMNjk9Cz48cea7W8ZGWYZ9PPt6jukkiU6d5Un4wTnzUnRYaEOH6PiS9dc25Q
+ ezwUA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-The following changes since commit 73be2ee656f2722d498504259b9f1fdef8419431:
+> Add support for the Everest ES7202, a 2-channel PDM analog-to-digital
+> converter controlled over I2C. The device outputs PDM data to the SoC
+> PDM controller and is configured through registers for supply voltage,
+> analog front-end and per-channel PGA gain.
 
-  ASoC: codecs: Fix more control definitions that write another control's bits (2026-10-18 13:22:10 +0100)
+This looks pretty good, a few relatively minor issues below but nothing
+major.
 
-are available in the Git repository at:
+> --- a/sound/soc/codecs/Kconfig
+> +++ b/sound/soc/codecs/Kconfig
+> @@ -1274,6 +1274,16 @@ config SND_SOC_HDMI_CODEC
+>  config SND_SOC_ES7134
+>  	tristate "Everest Semi ES7134 CODEC"
+>  
+> +config SND_SOC_ES7202
+> +	tristate "Everest Semi ES7202 CODEC"
+> +	depends on I2C
+> +	select REGMAP_I2C
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.4-merge-window
+You should also add this to SND_SOC_ALL_CODECS.
 
-for you to fetch changes up to 11ae63bd9030349a0136fb2edd1622a4a029edc8:
+> --- /dev/null
+> +++ b/sound/soc/codecs/es7202.c
+> @@ -0,0 +1,367 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2020 Everest Semiconductor Co Ltd.,
+> + * Copyright (C) 2026 Jun Yan <jerrysteve1101@gmail.com>
+> + */
 
-  ASoC: SOF: Intel: hda: Stop the controller before freeing its DMA buffers (2026-10-29 11:41:21 +0000)
+Please make the whole comment block C++ so things look more intentional.
 
-----------------------------------------------------------------
-ASoC: Fixes for v7.4
+> +#include <linux/bitfield.h>
+> +#include <linux/delay.h>
+> +#include <linux/device.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <sound/pcm.h>
+> +#include <sound/pcm_params.h>
 
-A moderately large collection of fixes and quirks that have come in
-during the merge window, everything here is driver specific and none of
-it unusually severe.
+linux/of.h and sound/pcm_params.h aren't needed I think.
 
-----------------------------------------------------------------
-Alex Kazinsky (1):
-      ASoC: tlv320aic32x4: Prevent division by zero in divider callbacks
+> +static bool es7202_volatile_reg(struct device *dev, unsigned int reg)
+> +{
+> +	/* status and device-id registers are read-only, never cached */
+> +	return reg == ES7202_CHIP_STA ||
+> +	       reg == ES7202_DEV_ID1 ||
+> +	       reg == ES7202_DEV_ID0;
+> +}
 
-Arnd Bergmann (1):
-      ASoC: SOF: amd: add ACPI dependency
+A switch statement would be neater and would probably generate
+equivalent code.  Are you sure that the ID registers are actually
+volatile, that's quite unusual?  If they've volatile the hardware is
+accessed on each read, if you just omit the default then they will be
+cached after the first read.
 
-Bard Liao (1):
-      ASoC: soc-acpi-intel-arl-match: add rt712 on link 0 config
+Also should the rest register be uncached so we don't try to write it
+back out as part of a cache sync by mistake?
 
-Chancel Liu (1):
-      ASoC: imx-pcm-rpmsg: Flush pending work in hw_free
+> +static const struct regmap_config es7202_regmap = {
+> +	.reg_bits	= 8,
+> +	.val_bits	= 8,
+> +	.max_register	= ES7202_DEV_ID0,
+> +	.reg_defaults	= es7202_reg_defaults,
+> +	.num_reg_defaults = ARRAY_SIZE(es7202_reg_defaults),
+> +	.volatile_reg	= es7202_volatile_reg,
+> +	.cache_type	= REGCACHE_MAPLE,
 
-Fabio Estevam (1):
-      ASoC: fsl_utils: Tolerate fractional PLL rate residue
+I notice that other Everest devices set use_single_read and
+use_single_write - especially for write we can easily trigger
+multi-register write as part of a regcache sync so if the device lacks
+support it'll create bugs.
 
-Filippo Falezza (1):
-      ASoC: qcom: sm8250: Limit RX digital gain to 0 dB
+> +	es7202->supply = devm_regulator_get_optional(dev, "vdd");
+> +	if (IS_ERR(es7202->supply)) {
 
-HyeongJun An (1):
-      ASoC: cs42l56: Remove the ADC Mute Switch control
+Unless the device can operate without power this should be a normal
+regulator_get(), the core will substitude a dummy regulator if it's not
+configurd by the firmware.
 
-JJ Gault (1):
-      ASoC: Intel: soc-acpi-intel-arl-match: Add RT713 + dual RT1320 support
-
-Marek Szyprowski (6):
-      ASoC: wm8994: fix MCLK gating for AIF clocks sourced from MCLK2
-      ASoC: wm8994: don't lose the AIF clock ratio when staying at 32kHz SYSCLK
-      ASoC: wm8994: fix MCLK index used for setting MCLK rate
-      ASoC: samsung: midas_wm1811: run FLL1 at the AIF1 configured rate when idle
-      ASoC: wm8994: follow AIF clock source changes in MCLK gating
-      ASoC: codecs: wsa881x: Fix shared powerdown GPIO handling
-
-Mark Brown (7):
-      ASoC: wm8994/midas_wm1811: fix codec clocking issues
-      ASoC: qcom: q6apm: Fix shared memory unmap
-      ASoC: Intel: soc-acpi-intel-arl-match: add new
-      ASoC: qcom: AudioReach and WSA88xx fixes
-      ASoC: es9356-sdca: Modify the initialization and headphone-related settings
-      ASoC: codecs: es*: controls that write each other's bits
-      ASoC: hdac_hda: Fix module unbind/bind via sysfs
-
-Oder Chiou (1):
-      ASoC: rt721: Remove invalid register defaults
-
-Peter Ujfalusi (4):
-      ASoC: hdac_hda: Allocate the private data at codec driver bind
-      ASoC: hdac_hda: Restore the codec device type on unbind
-      ASoC: hdac_hda: Balance the runtime PM disable in codec remove
-      ASoC: hdac_hda: Keep runtime PM state in sync across codec remove/probe
-
-Ravi Hothi (3):
-      ASoC: qcom: audioreach: fix module cfg blob size handling
-      ASoC: codecs: wsa884x: Fix VI sense port channel count
-      ASoC: codecs: wsa883x: Fix VI sense port channel count
-
-Richard Fitzgerald (1):
-      ASoC: cs35l56: Wait for firmware timer expiry before system suspend
-
-Sasha Levin (1):
-      ASoC: SOF: Intel: hda: Stop the controller before freeing its DMA buffers
-
-Shawn Guo (3):
-      ASoC: qcom: q6apm: Fix unmap regions response handling
-      ASoC: qcom: q6apm: Clear the right handle on pos buffer unmap
-      ASoC: qcom: q6apm: Unmap DSP buffers before removing the topology
-
-Shuming Fan (1):
-      ASoC: rt722: enable mono speaker on Dell SKU 0EBA
-
-Srinivas Kandagatla (7):
-      ASoC: codecs: wsa884x: Accept temperatures across the full trim range
-      ASoC: codecs: wsa883x: Accept temperatures across the full trim range
-      ASoC: codecs: wsa884x: disable runtime PM on unbind
-      ASoC: codecs: wsa883x: disable runtime PM on unbind
-      ASoC: SDCA: propagate sdw_slave_read_prop() failure in class_read_prop
-      ASoC: SDCA: drop pm_runtime reference on probe failure path
-      ASoC: SDCA: re-enable IRQ on pm_runtime_force_suspend failure
-
-Val Packett (1):
-      ASoC: qcom: qdsp6: q6afe: fix clk vote response type mismatch
-
-Zhang Heng (1):
-      ASoC: amd: yc: Add DMI quirk for HP Laptop 14-em0xxx
-
-Zhang Yi (6):
-      ASoC: codecs: es8375: Modify Register Configuration
-      ASoC: es9356-sdca: Modify the timing and configuration of headphone events
-      ASoC: es9356-sdca: Add writeable_reg
-      ASoC: es9356-sdca: Modify the Initialization Configuration
-      ASoC: codecs: es*: Modify the registers related to ALC RECOVERY
-      ASoC: codecs: es*: Modify the maximum value of DMIC_GAIN
-
-bui duc phuc (2):
-      ASoC: amd: raven: Fix memory leak in acp3x_dma_close()
-      ASoC: xilinx: formatter_pcm: Fix read-modify-write of AUD_CTRL in hw_params
-
- include/sound/cs35l56.h                           |   4 +
- sound/soc/amd/raven/acp3x-pcm-dma.c               |   2 +
- sound/soc/amd/yc/acp6x-mach.c                     |   7 +
- sound/soc/codecs/cs35l56-sdw.c                    |  27 +++-
- sound/soc/codecs/cs35l56-shared.c                 |  38 ++++++
- sound/soc/codecs/cs35l56.c                        |  17 +++
- sound/soc/codecs/cs35l56.h                        |   1 +
- sound/soc/codecs/cs42l56.c                        |   1 -
- sound/soc/codecs/es8326.c                         |   2 +-
- sound/soc/codecs/es8375.c                         | 136 +++++++++----------
- sound/soc/codecs/es8375.h                         |   5 +-
- sound/soc/codecs/es9356.c                         | 106 +++++++++++----
- sound/soc/codecs/es9356.h                         |   5 +
- sound/soc/codecs/hdac_hda.c                       |  41 +++++-
- sound/soc/codecs/rt721-sdca-sdw.c                 |   2 -
- sound/soc/codecs/rt721-sdca-sdw.h                 |   4 -
- sound/soc/codecs/rt722-sdca.c                     |  18 +++
- sound/soc/codecs/rt722-sdca.h                     |   2 +
- sound/soc/codecs/tlv320aic32x4-clk.c              |   8 +-
- sound/soc/codecs/wm8994.c                         | 153 ++++++++++++----------
- sound/soc/codecs/wm8994.h                         |   2 +
- sound/soc/codecs/wsa881x.c                        |  18 ++-
- sound/soc/codecs/wsa883x.c                        |  21 +--
- sound/soc/codecs/wsa884x.c                        |  19 +--
- sound/soc/fsl/fsl_utils.c                         |  25 +++-
- sound/soc/fsl/imx-pcm-rpmsg.c                     |  14 +-
- sound/soc/intel/common/soc-acpi-intel-arl-match.c |  84 ++++++++++++
- sound/soc/qcom/qdsp6/q6afe.c                      |  10 +-
- sound/soc/qcom/qdsp6/q6apm.c                      |  49 +++++--
- sound/soc/qcom/qdsp6/topology.c                   |  31 ++++-
- sound/soc/qcom/sm8250.c                           |  10 ++
- sound/soc/samsung/midas_wm1811.c                  |  14 +-
- sound/soc/sdca/sdca_class.c                       |  10 +-
- sound/soc/sof/amd/Kconfig                         |   1 +
- sound/soc/sof/intel/hda-codec.c                   |  23 +---
- sound/soc/sof/intel/hda-ctrl.c                    |   1 +
- sound/soc/sof/intel/hda.c                         |   4 +
- sound/soc/xilinx/xlnx_formatter_pcm.c             |  18 +--
- 38 files changed, 685 insertions(+), 248 deletions(-)
+-- 
+Mark Brown <broonie@kernel.org>
