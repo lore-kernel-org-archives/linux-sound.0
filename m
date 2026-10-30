@@ -1,53 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.108.3.89
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=46.101.248.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793326408;
-	b=pQSnrsTWqNElN2+fsIPD0rL2hDm6UxOiCXevLqD5dyca+gJVdpZjl7twN6+K56tgboas
-	 g8v1N990FBiiz63mcBgK8rgv3dYt/p3MKnEizBaB/3599Lkf/AU3+0eImA14N5LtU1fL5
-	 a58zfryOucyWVzxBj8Nj0P8XVYV+fFK1mPxbhZmwPZo23AEhmcp7g6nvpzzpBuf4Ou4nh
-	 OMG3PSiaB+95xX+TNcNWL5DQCrmmusmjCqe7nJATXtgqf8OUCMMpfkcz/FskM9Htg8iMc
-	 2faXccAKs2XBzcbF5+VXgQqVAtORbzVwmBEoeDEXH6SSr1MhfMEhe7Fylm94zd2gVOQ==
+	t=1793335355;
+	b=fTqiWTJ/DV4dW0Zzx2H1BkgroBOmiHeXCp/Zkb0afRViJp1A7RtoTqCpm4EKwoZN3xEG
+	 abuAfCbeBg8U+9nts9EAOni6L1tg6ovJ3cSMQHXNokgDdCL93YVqebMrd+0Ojrnb5cL/M
+	 6OCm71S8NE2/IqLlK6shN9/F5f07yoxxmKhSSUlZPQSC2kjplZNYb8hLGttS6Hty/BIBM
+	 hqFTv6ZgsI4wtxrYM7NDEiGxqL4Mszzmvhn60ywe+SbbWuyWqQprklQujR0Cj/G/eaC0P
+	 EeVu02IcFfkvgarybiwVCqE4ZkZODK7YyGH4Tkc9453/6aqCl9hmKL9TORzXbzR57Qg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793326408;
-	h=DMARC-Filter:Received:X-Sender:X-Auth-ID:X-SMAIL-MID:X-SMAIL-UIID:
-	 From:To:Cc:Subject:Date:Message-Id:X-Mailer;
-	bh=3mfY1XQY6+BsOBwsGoVRzpOrpw7klvougLIh596jePQ=;
-	b=4eFfpyJp80Q7Jv1WcQ0cTZcCzixKldZh7zCA7WGMTl2v48FGluQ9oRW6wsvVNPNhKuFs
-	 2PS6hVF1hLMx3mRONXoW5wawgcs9m8ao7Rdt8YSRasoGMb+LMMfTtqChe9W1MzEqsSv/w
-	 FZaZLSFZDge+oE0GiViL9oox5Hwdy0PIRK+OXwbTOJiNqtqjnMGwJyConZ1mZa2DkT9bF
-	 ST2WoZtStx7G4d11ZUt9dYrRV5Q3taU8PnWcsCGd2xx7U38rPvp2eTjCdhEmxJon+sfPT
-	 4XubSPVUo+I9687aPScU7geBRwK86ONem+weGD2p+11rH40p2wrkVFF8JTtFyyawCww==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793335355;
+	h=DMARC-Filter:Received:X-Originating-IP:Date:X-CM-HeaderCharset:From:
+	 To:Cc:Subject:X-Priority:X-Mailer:X-CM-CTRLMSGS:Content-Type:
+	 MIME-Version:Message-ID:X-Coremail-Locale:X-CM-TRANSID:
+	 X-CM-SenderInfo:X-Coremail-Antispam;
+	bh=riPJx++z/4LiMdXSlp3NiX+qWyHn0dz6wZ/scGD4yg4=;
+	b=ipzbpqMDAxbZ1wFi0H2foxHcAgTYY3KEPutQ3EFXRyZalBEykwDdp8qYC7VsX4eiO1Gq
+	 RT/OEP+QG0083M8Ie3F6SyTEQZjveWckGSHlXBEz8zECppnBvIA7w86Ziq4+qnvRApT1A
+	 A9ni6vvdRRxx1Q2uQa4DRkQ7NLzl5pzT51o9aee/1bAjBynrLD+QMyzLLNs4i6RClzeNF
+	 /Q+cqe1OeldJKNQOhyS9xX/8/PNrmr90/P++nHp0fa3H1qjZ+LBmtQX+TYTH6ySyuW9ir
+	 k9Or/mJdMXegkUfXgoD2+wjaLpUreS2DCjLSADqI6k8SjM8uEeFpFJWp5EXQ6wtPjog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=everest-semi.com;
-	spf=pass smtp.mailfrom=everest-semi.com;
-	arc=none smtp.remote-ip=202.108.3.89
-Received: from r3-89.sinamail.sina.com.cn (r3-89.sinamail.sina.com.cn [202.108.3.89])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB50606A324
-	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 02:13:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5CB50606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
-Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
-	by sina.net (10.54.253.36) with ESMTP
-	id 6AE3FD3B0000704C; Fri, 30 Oct 2026 10:13:16 +0800 (CST)
-X-Sender: zhangyi@everest-semi.com
-X-Auth-ID: zhangyi@everest-semi.com
-Authentication-Results: sina.net;
-	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: 2405018BAED74B2698A9E81BB11A7DB6
-X-SMAIL-UIID: 2405018BAED74B2698A9E81BB11A7DB6-20261030-101316
-From: Zhang Yi <zhangyi@everest-semi.com>
-To: linux-sound@vger.kernel.org,
-	broonie@kernel.org
-Cc: tiwai@suse.com,
-	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH v2] ASoC: codecs: ES8389: Fix the issue of hpf_freq keep increasing
-Date: Fri, 30 Oct 2026 10:13:12 +0800
-Message-Id: <20261030021312.2027-1-zhangyi@everest-semi.com>
-X-Mailer: git-send-email 2.17.1
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=46.101.248.176
+Received: from zg8tndyumtaxlji0oc4xnzya.icoremail.net (zg8tndyumtaxlji0oc4xnzya.icoremail.net [46.101.248.176])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11CCF606A31A;
+	Fri, 30 Oct 2026 04:42:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11CCF606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from xuhx$hust.edu.cn ( [10.12.190.107] ) by ajax-webmail-app1
+ (Coremail) ; Fri, 30 Oct 2026 12:42:27 +0800 (GMT+08:00)
+Date: Fri, 30 Oct 2026 12:42:27 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?5b6Q5pmX57+U?= <xuhx@hust.edu.cn>
+To: perex@perex.cz, tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: sound: hda: reconfig reuses card->shutdown as a soft lock, so  a
+ concurrent controller remove skips the card disconnect (persistent
+  dangling card / concurrent UAF; reproducible system freeze)
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2025.3-cmXT6 build
+ 20260810(6c94e3b5) Copyright (c) 2002-2026 www.mailtech.cn hust
+X-CM-CTRLMSGS: =?B?qXmj4ziH6nJ5xwDR7hwMki1N8jM=
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_374260_639422403.1793335347920"
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -56,82 +52,178 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Message-ID: <5212a5fb.1b564.1a18b1dcad1.Coremail.xuhx@hust.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:IAEQrMCW3aM0IORqxpdRAQ--.15319W
+X-CM-SenderInfo: bgsqjkayqyjmo6kx23oohg3hdfq/1tbiAgMQB2rjce1GUwAAsW
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWkKw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-The problem is that on repeated stream runs the value of hpf_freq will keep on
-getting updated and drift away from the original setting.
-Until hpf_freq increases to a value higher than 1020, find_best_hpf_freq will return false.
+------=_Part_374260_639422403.1793335347920
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
----
-Changes in v2:
--Correct the error type
+VGhlIEhEQSByZWNvbmZpZyBwYXRoICh3cml0aW5nIC9zeXMvY2xhc3Mvc291bmQvaHdDeER5L3Jl
+Y29uZmlnLApDT05GSUdfU05EX0hEQV9SRUNPTkZJRykgaGFzIG5vIGRlZGljYXRlZCBsb2NrIGZv
+ciBpdHMgY3JpdGljYWwKc2VjdGlvbiAoY29kZWMgZHJpdmVyIHJlbGVhc2UgKyByZXByb2JlKTog
+aXQgdGVtcG9yYXJpbHkgc2V0cwpjYXJkLT5zaHV0ZG93biA9IDEgYXMgYSAic29mdCBsb2NrIiAo
+c25kX2hkYV9sb2NrX2RldmljZXMoKSwKc291bmQvaGRhL2NvbW1vbi9jb2RlYy5jOjE3NDYtMTc3
+OSkgYW5kIGNsZWFycyBpdCBhZnRlcndhcmRzLiAgQnV0CnNuZF9jYXJkX2Rpc2Nvbm5lY3QoKSBp
+bnRlcnByZXRzIGNhcmQtPnNodXRkb3duID09IDEgYXMgImRpc2Nvbm5lY3QKYWxyZWFkeSBkb25l
+IiBhbmQgcmV0dXJucyBpbW1lZGlhdGVseSAoc291bmQvY29yZS9pbml0LmM6NTAyLTUwNSkgLS0K
+dGhlIHNhbWUgZmxhZyBjYXJyeWluZyB0d28gbWVhbmluZ3MuICBJZiB0aGUgY29udHJvbGxlciBp
+cyByZW1vdmVkCihQQ0kgdW5iaW5kL3JlbW92ZSkgd2hpbGUgYSByZWNvbmZpZyBpcyBpbnNpZGUg
+aXRzIHNvZnQtbG9jayB3aW5kb3csCnRoZSBjYXJkIHRlYXJkb3duIHNraXBzIGl0cyBlbnRpcmUg
+ZGlzY29ubmVjdCBzZXF1ZW5jZTogc25kX2NhcmRzW10KaXMgbmV2ZXIgY2xlYXJlZCwgdGhlIGNh
+cmQgZGV2aWNlIGlzIG5ldmVyIGRldmljZV9kZWwnZWQsIHRoZSBjYXJkCm51bWJlciBiaXRtYXAg
+Yml0IGxlYWtzIC0tIGFuZCB0aGUgY2FyZCBtZW1vcnkgaXMgdGhlbiBrZnJlZSgpZCB3aXRoCnRo
+b3NlIHJlZmVyZW5jZXMgc3RpbGwgZGFuZ2xpbmcsIGEgcGVyc2lzdGVudCB1c2UtYWZ0ZXItZnJl
+ZSBzdXJmYWNlCnRoYXQgbGF0ZXIgb3JkaW5hcnksIHVucHJpdmlsZWdlZCBhY2Nlc3NlcyBoaXQg
+KHJlYWRpbmcKL3Byb2MvYXNvdW5kL2NhcmRzLCBzbmRfY2FyZF9yZWYoKSBmcm9tIGNvbnRyb2wv
+TEVEIHBhdGhzLCBzeXNmcwppZF9zdG9yZSB3aGljaCBjb3BpZXMgYXR0YWNrZXItY29udHJvbGxl
+ZCBieXRlcyBpbnRvIHRoZSBmcmVlZCBjYXJkKS4KCkkgcmVwcm9kdWNlZCBhIHN5c3RlbS1sZXZl
+bCBjb25zZXF1ZW5jZSBvbiBhIHZhbmlsbGEgTGludXggNy4zIEtBU0FOCmtlcm5lbCB3aXRoIGFu
+IGVtdWxhdGVkIEludGVsIEhEQSBjb250cm9sbGVyLCB1c2luZyBvbmx5IHJvb3Qgc3lzZnMKd3Jp
+dGVzOiB0aGUgcmVjb25maWcgeCBQQ0ktdW5iaW5kIGhhbW1lciBmcm96ZSB0aGUgd2hvbGUgZ3Vl
+c3Qgc29saWQKKHR3byBpbmRlcGVuZGVudCBydW5zLCB+MzMgcyBhbmQgfjM5IHMgaW4sIHNlcmlh
+bCBjb25zb2xlIHNpbGVudCwgbm8KaHVuZy10YXNrIG9yIHBhbmljIG91dHB1dCB1bnRpbCB0aGUg
+aG9zdCBraWxsZWQgdGhlIFZNKSwgd2hpbGUgdHdvCmNvbnRyb2wgaGFtbWVycyB3aXRob3V0IHRo
+ZSByZWNvbmZpZyBwYXRoIC0tIGluY2x1ZGluZyBhIG11Y2ggaGFyZGVyCmNvZGVjL1BDSS9QQ00g
+Y2h1cm4gdGhhdCBwcm9kdWNlZCB+MTkwMCBLQVNBTiBzcGxhdHMgLS0gbmV2ZXIgZnJvemUuClRo
+ZSBmcmVlemUgc2hhcGUgbWF0Y2hlcyBhIHBlcm1hbmVudCBzcGluIG9uIGEgbG9jayBlbWJlZGRl
+ZCBpbiBmcmVlZAptZW1vcnkgKHRoZSBzYW1lIGZyZWVkLWxvY2sgZmFtaWx5IHRoYXQgZG9taW5h
+dGVzIHRoZSBjaHVybiBydW4ncwpyZXBvcnRzKTsgSSBkaWQgbm90IGtwcm9iZS1waW4gdGhlIGV4
+YWN0IHNwaW4gcG9pbnQsIHNvIEkgcmVwb3J0IHRoZQpkZWFkbG9jay9yZXByb2R1Y2libGUtRG9T
+IHBhcnQgYXMgY29uZmlybWVkIGFuZCB0aGUgcHJlY2lzZSBVQUYKbG9jYWxpemF0aW9uIGFzIHNv
+dXJjZS12ZXJpZmllZC4KClRoZSBkZXRhaWxlZCBkZXNjcmlwdGlvbjoKCiogVGhlIHNlbWFudGlj
+IGNvbmZsaWN0IChMaW51eCA3LjMpCiAgc25kX2hkYV9sb2NrX2RldmljZXMoKSAoY29kZWMuYzox
+NzQ2LTE3NzkpLCB1bmRlcgogIGNhcmQtPmZpbGVzX2xvY2sgbW9tZW50YXJpbHk6IGlmICghY2Fy
+ZC0+c2h1dGRvd24pCiAgY2FyZC0+c2h1dGRvd24gPSAxOyAuLi4gcmV0dXJuIDA7ICAtLSBhbmQg
+dGhlIGZsYWcgc3RheXMgc2V0IGZvcgogIHRoZSB3aG9sZSByZWNvbmZpZyBjcml0aWNhbCBzZWN0
+aW9uIChkZXZpY2VfcmVsZWFzZV9kcml2ZXIoY29kZWMpLAogIG1pbGxpc2Vjb25kcykgQUZURVIg
+dGhlIHNwaW5sb2NrIGlzIHJlbGVhc2VkLgogIHNuZF9jYXJkX2Rpc2Nvbm5lY3QoKSAoaW5pdC5j
+OjQ5NS01NjEpOgogICAgICBzY29wZWRfZ3VhcmQoc3BpbmxvY2ssICZjYXJkLT5maWxlc19sb2Nr
+KSB7CiAgICAgICAgICAgICAgaWYgKGNhcmQtPnNodXRkb3duKQogICAgICAgICAgICAgICAgICAg
+ICAgcmV0dXJuOyAgICAgICAgIC8qIHNraXBzIEVWRVJZVEhJTkcgYmVsb3cgKi8KICAgICAgICAg
+ICAgICBjYXJkLT5zaHV0ZG93biA9IDE7CiAgICAgICAgICAgICAgLi4uIHJlcGxhY2UgZm9wcyAu
+Li4KICAgICAgfQogICAgICAuLi4gc25kX2RldmljZV9kaXNjb25uZWN0X2FsbCgpOyBkZXZpY2Vf
+ZGVsKCZjYXJkLT5jYXJkX2Rldik7CiAgICAgIC4uLiBzbmRfY2FyZHNbY2FyZC0+bnVtYmVyXSA9
+IE5VTEw7IGNsZWFyX2JpdCguLi4pOwogIEJvdGggY2hlY2stYW5kLXNldCBwYWlycyBhcmUgYXRv
+bWljIChzYW1lIGZpbGVzX2xvY2spLCBzbyB0aGVyZSBpcwogIG5vIHRvcm4gc3RhdGUgLS0gdGhl
+IHByb2JsZW0gaXMgcHVyZWx5IHRoYXQgVDIgY2Fubm90IGRpc3Rpbmd1aXNoCiAgImFscmVhZHkg
+ZGlzY29ubmVjdGVkIiAoc2hvdWxkIHByb2NlZWQgd2l0aCB0ZWFyZG93bikgZnJvbQogICJyZWNv
+bmZpZyBmcmVlemUgaW4gcHJvZ3Jlc3MiIChtdXN0IG5vdCBwcm9jZWVkKSwgYW5kIHRoZSBlYXJs
+eQogIHJldHVybiBtZWFucyB0aGUgdGVhcmRvd24gY29udGludWVzIHdpdGggdGhlIGRpc2Nvbm5l
+Y3Qgc3RlcHMKICBza2lwcGVkLgoKKiBJbnRlcmxlYXZpbmcgSSAoVDIncyBzbmRfY2FyZF9kaXNj
+b25uZWN0IGxhbmRzIGluc2lkZSB0aGUgcmVjb25maWcKICBzb2Z0LWxvY2sgd2luZG93KSAtLSB0
+aGUgbWFpbiBkYW1hZ2UKICBUMSAocmVjb25maWcpOiBsb2NrX2RldmljZXMgKHNodXRkb3duPTEp
+IC0+CiAgZGV2aWNlX3JlbGVhc2VfZHJpdmVyKGNvZGVjKSBbY29kZWNfZGV2LT5tdXRleCBoZWxk
+XSAuLi4KICBUMiAoUENJIHJlbW92ZSk6IGF6eF9yZW1vdmUgLT4gc25kX2NhcmRfZnJlZSAtPiBz
+bmRfY2FyZF9kaXNjb25uZWN0CiAgc2VlcyBzaHV0ZG93bj09MSAtPiByZXR1cm5zIChza2lwcyBm
+b3BzIHJlcGxhY2VtZW50LAogIHNuZF9kZXZpY2VfZGlzY29ubmVjdF9hbGwsIGNhcmRfZGV2IGRl
+dmljZV9kZWwsIHNuZF9jYXJkc1tdCiAgY2xlYXJpbmcpIC0+IHB1dF9kZXZpY2UgLT4gc25kX2Nh
+cmRfZG9fZnJlZSAtPgogIHNuZF9kZXZpY2VfZnJlZV9hbGw6IGZyZWVzIFBDTSBldGMuLCB0aGVu
+IHRoZSBDT0RFQyBub2RlIC0+CiAgc25kX2hkYV9jb2RlY191bnJlZ2lzdGVyIC0+IGRldmljZV9k
+ZWwoY29kZWNfZGV2KSBibG9ja3Mgb24KICBjb2RlY19kZXYtPm11dGV4IC4uLiAgVDEgcmVsZWFz
+ZXMgdGhlIGNvZGVjIG11dGV4LAogIHVubG9ja19kZXZpY2VzIChzaHV0ZG93bj0wOyBjYXJkIG5v
+dCB5ZXQga2ZyZWVkIC0tIFQyIGlzIGJsb2NrZWQKICBpbiB0aGUgQ09ERUMgcm91bmQpLCBkZXZp
+Y2VfcmVwcm9iZShjb2RlYykgYW5kCiAgc25kX2NhcmRfcmVnaXN0ZXIoY2FyZCkgcnVuIGFnYWlu
+c3QgdGhlIGNhcmQgdGhhdCBUMiBpcyB0ZWFyaW5nCiAgZG93biAuLi4gIFQyIHByb2NlZWRzLCBh
+enhfZnJlZSwga2ZyZWUoY2FyZCksIHJldHVybnMuCiAgTmV0IHJlc3VsdCByZWdhcmRsZXNzIG9m
+IHRoZSBzZWNvbmQtb3JkZXIgb3JkZXJpbmc6IHNuZF9jYXJkc1tpZHhdCiAgc3RpbGwgcG9pbnRz
+IGF0IHRoZSBrZnJlZSgpZCBjYXJkOyBjYXJkX2RldiB3YXMgbmV2ZXIKICBkZXZpY2VfZGVsJ2Vk
+IChzdGlsbCBvbiB0aGUgc291bmQgY2xhc3MgLyBzeXNmcyk7IHRoZQogIHNuZF9jYXJkc19sb2Nr
+IGJpdCBsZWFrZWQuICBQZXJzaXN0ZW50LCBubyBmdXJ0aGVyIHJhY2UgbmVlZGVkOgogICAgLSBz
+bmRfY2FyZF9yZWYoKSAoaW5pdC5jOjM4OS0zOTkpIGRvZXMgZ2V0X2RldmljZSgpIG9uIHRoZQog
+ICAgICBkYW5nbGluZyBjYXJkX2RldiAoa3JlZiB3cml0ZSBvbiBmcmVlZCBtZW1vcnkpOyByZWFj
+aGFibGUgZnJvbQogICAgICBtb2R1bGUgYXV0b2xvYWQgb24gb3BlbiAoc291bmQuYzoxMjcpLCB0
+aGUgY29udHJvbCBMRUQgY29kZQogICAgICAoY29udHJvbF9sZWQuYzoyNTAsMzEwLDYwNCw3Njgp
+LCBjb250cm9sLmM6MjM1ODsKICAgIC0gL3Byb2MvYXNvdW5kL2NhcmRzIChpbml0LmM6OTQzLTk2
+NSkgcHJpbnRzIGlkL3Nob3J0bmFtZS8KICAgICAgbG9uZ25hbWUgZnJvbSB0aGUgZnJlZWQgY2Fy
+ZCAoVUFGIHJlYWQgLyBpbmZvIGxlYWspOwogICAgLSAvc3lzL2NsYXNzL3NvdW5kL2NhcmROL2lk
+IHN0b3JlIChpbml0LmM6Nzg4LTgyOCkgc3Ryc2NweSdzCiAgICAgIGF0dGFja2VyLWNvbnRyb2xs
+ZWQgYnl0ZXMgaW50byB0aGUgZnJlZWQgY2FyZCdzIG1lbW9yeS4KICAoTmV3IC9kZXYvc25kIG9w
+ZW5zIHN0YXkgYmxvY2tlZDogdGhlIGNvbXBlbnNhdGluZyBkaXNjb25uZWN0IGluCiAgZG9fZnJl
+ZSB1bnJlZ2lzdGVycyB0aGUgbWlub3JzIC0tIHBjbS5jOjExMTgtMTEyMCwKICBjb250cm9sLmM6
+MjQzOC0yNDUxLikKICBTZWNvbmQtb3JkZXIgYnJhbmNoZXM6IGlmIHRoZSByZXByb2JlIHdpbnMg
+dGhlIGNvZGVjIGxvY2sgYmVmb3JlCiAgVDIga2lsbHMgdGhlIGRldmljZSwgaGRhX2NvZGVjX2Ry
+aXZlcl9wcm9iZSgpIHJlLWluc2VydHMgUENNCiAgc25kX2RldmljZSBub2RlcyBpbnRvIGNhcmQt
+PmRldmljZXMgYW5kIHNuZF9jYXJkX3JlZ2lzdGVyKCkKICByZS10cmF2ZXJzZXMgaXQgLS0gdW5s
+b2NrZWQgbGlzdCBvcGVyYXRpb25zIGFnYWluc3QgVDIncwogIGNvbmN1cnJlbnQgZnJlZV9hbGwg
+KHNhbWUgdW5sb2NrZWQgY2FyZC0+ZGV2aWNlcyBmYW1pbHkgYXMgbXkKICBzZXBhcmF0ZSBzbmRf
+ZGV2aWNlIHJlcG9ydCk7IGlmIFQyIHdpbnMsIHNuZF9jYXJkX3JlZ2lzdGVyKCkKICBzdGlsbCBy
+dW5zIG9uIHRoZSBwb3NzaWJseS1hbHJlYWR5LWZyZWVkIGNhcmQgKFVBRiByZWFkICsKICB0cmF2
+ZXJzYWwpLgoKKiBJbnRlcmxlYXZpbmcgSUkgKFQyJ3MgZGlzY29ubmVjdCBhcnJpdmVzIGFmdGVy
+IFQxJ3MgdW5sb2NrIGJ1dAogIGJlZm9yZSByZWNvbmZpZyBmaW5pc2hlcyk6IHRoZSBkaXNjb25u
+ZWN0IHJ1bnMgZnVsbHksIGFuZCB0aGUKICByZWNvbmZpZyB0YWlsIChzbmRfcGNtX25ldy9zbmRf
+ZGV2aWNlX25ldyBpbnNlcnRpb24sCiAgc25kX2RldmljZV9yZWdpc3Rlcl9hbGwgdHJhdmVyc2Fs
+LCBzbmRfY2FyZF9yZWdpc3RlcikgcmFjZXMgdGhlCiAgY2FyZCB0ZWFyZG93biBhbmQga2ZyZWUg
+LS0gYSBsYXJnZSB3aW5kb3cgKHRoZSB3aG9sZSBmaXJzdAogIGZyZWVfYWxsIHJvdW5kKSwgbm8g
+c29mdC1sb2NrIHRpbWluZyBuZWVkZWQuICBJbnRlcmxlYXZpbmcgSUlJCiAgKGRpc2Nvbm5lY3Qg
+YWxyZWFkeSBkb25lIGJlZm9yZSByZWNvbmZpZyBsb2Nrcyk6IHJlY29uZmlnCiAgY29ycmVjdGx5
+IGZhaWxzIHdpdGggLUVJTlZBTC4gIFNhZmUuCgoqIEV2aWRlbmNlICh2YW5pbGxhIDcuMyBLQVNB
+TiArIENPTkZJR19TTkRfSERBX1JFQ09ORklHPXksCiAgUUVNVSBpbnRlbC1oZGEgKyBoZGEtZHVw
+bGV4OyByZXByb2R1Y2VyIGF0dGFjaGVkKQogIEhhbW1lciAoYXR0YWNoZWQgc25kLWhhbW1lci1j
+LnNoKTogVDEgcmVjb25maWcgd3JpdGUgbG9vcCB4IFQyCiAgUENJIHVuYmluZC9iaW5kIHJvdW5k
+cyB3aXRoIGEgbGl2ZSB3aW5kb3cgLS0gcHVyZSByb290IHN5c2ZzCiAgd3JpdGVzLgoKICAtIFR3
+byBpbmRlcGVuZGVudCBydW5zOiBhZnRlciA2IGFuZCAxMiByZWFsIHJlY29uZmlnIGV4ZWN1dGlv
+bnMKICAgIHJlc3BlY3RpdmVseSwgdGhlIGd1ZXN0IGZyb3plIGNvbXBsZXRlbHkgYXQgfjMzLjUg
+cyBhbmQgfjM4LjkgcwogICAgKHNlcmlhbCBjb25zb2xlIGRlYWQgc2lsZW5jZSwgbm8gaHVuZy10
+YXNrIHdhcm5pbmcsIG5vIHBhbmljLAogICAgdW5yZXNwb25zaXZlIHVudGlsIHRoZSBob3N0IHRp
+bWVvdXQga2lsbGVkIHRoZSBWTSBhdCA1MDAgcykuCiAgLSBDb250cm9sIDEgKHNhbWUgUENJIGNo
+dXJuLCBubyByZWNvbmZpZywgNDAgcm91bmRzKTogY2xlYW4KICAgIGNvbXBsZXRpb24sIHplcm8g
+c3BsYXRzLCBkYW5nbGluZz0wLgogIC0gQ29udHJvbCAyIChhIG11Y2ggaGFyZGVyIGNodXJuIC0t
+IGNvZGVjIHVuYmluZCArIFBDSSB1bmJpbmQgKwogICAgUENNIG9wZW4vY2xvc2UsIG5vIHJlY29u
+ZmlnKTogfjE5MDAgS0FTQU4gc3BsYXRzIGJ1dCB0aGUgc3lzdGVtCiAgICBuZXZlciBmcm96ZSBp
+biA1MDAgcy4gIFRoZSBvbmx5IGRpZmZlcmluZyB2YXJpYWJsZSBpbiB0aGUKICAgIGZyZWV6ZSBy
+dW5zIGlzIHRoZSByZWNvbmZpZyBwYXRoIChzbmRfaGRhX2NvZGVjX3Jlc2V0J3MKICAgIGxvY2sv
+dW5sb2NrX2RldmljZXMgc29mdCBsb2NrICsgZGV2aWNlX3JlcHJvYmUgKwogICAgc25kX2NhcmRf
+cmVnaXN0ZXIpLgogIC0gVGhlIG5vLW91dHB1dCBmcmVlemUgKG5vdCBldmVuIHRoZSBodW5nLXRh
+c2sgZGV0ZWN0b3IpIGlzCiAgICBjb25zaXN0ZW50IHdpdGggcGVybWFuZW50IHNwaW5uaW5nIG9u
+IGEgbG9jayBpbnNpZGUgZnJlZWQKICAgIG1lbW9yeSAtLSB0aGUgY2h1cm4gcnVuJ3MgfjE4OTAg
+cXVldWVkX3NwaW5fbG9ja19zbG93cGF0aAogICAgc2xhYi1vdXQtb2YtYm91bmRzIHJlcG9ydHMg
+YXJlIHRoZSBzYW1lIGZhbWlseSBjYXVnaHQgbWlkLXNwaW4KICAgIGJ5IEtBU0FOOyBib3RoIGxv
+Y2tfZGV2aWNlcygpIGFuZCBzbmRfY2FyZF9kaXNjb25uZWN0KCkgdGFrZQogICAgY2FyZC0+Zmls
+ZXNfbG9jay4gIEkgZGlkIG5vdCBrcHJvYmUtcGluIHRoZSBleGFjdCBzcGluIHBvaW50IGluCiAg
+ICB0aGUgZnJvemVuIHN0YXRlLCBoZW5jZTogcmVwcm9kdWNpYmxlIERvUyA9IGNvbmZpcm1lZDsg
+ZXhhY3QKICAgIFVBRiBsb2N1cyA9IHNvdXJjZSBhbmFseXNpcyAoaW50ZXJsZWF2aW5ncyBhYm92
+ZSkgd2l0aCB0aGUKICAgIGZyZWV6ZSBhcyBpdHMgb2JzZXJ2YWJsZS4KCgoKUmVnYXJkcywKSGFu
+eGlhbmcgWHUKeHVoeEBodXN0LmVkdS5jbgoKCg==
+------=_Part_374260_639422403.1793335347920
+Content-Type: application/x-sh; name=snd-hammer-c.sh
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="snd-hammer-c.sh"
 
- sound/soc/codecs/es8389.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
-
-diff --git a/sound/soc/codecs/es8389.c b/sound/soc/codecs/es8389.c
-index 267806b72..2d60f7536 100644
---- a/sound/soc/codecs/es8389.c
-+++ b/sound/soc/codecs/es8389.c
-@@ -99,7 +99,7 @@ static const u32 hpf_table[10][10] = {
- 	{496, 244, 121, 60, 31, 17, 11, 8, 0, 0}
- };
- 
--static bool find_best_hpf_freq(u32 target_hz, u8 *hpf1, u8 *hpf2, u32 *out)
-+static bool find_best_hpf_freq(u32 target_hz, u8 *hpf1, u8 *hpf2)
- {
- 	int best_row = -1, best_col = -1;
- 	u32 min_diff = U32_MAX;
-@@ -118,7 +118,6 @@ static bool find_best_hpf_freq(u32 target_hz, u8 *hpf1, u8 *hpf2, u32 *out)
- 				min_diff = diff;
- 				best_row = i;
- 				best_col = j;
--				*out = f;
- 			}
- 		}
- 	}
-@@ -147,27 +146,25 @@ static int es8389_hpf_set(struct snd_kcontrol *kcontrol,
- 	u32 freq;
- 	bool hpf;
- 
-+	if ((ucontrol->value.integer.value[0] > 1020) || (ucontrol->value.integer.value[0] < 0))
-+		return -EINVAL;
-+
- 	if (es8389->hpf_freq == ucontrol->value.integer.value[0])
- 		return 0;
- 
- 	if (es8389->capture_rate) {
- 		freq = (ucontrol->value.integer.value[0] * 48000) / es8389->capture_rate;
- 
--		hpf = find_best_hpf_freq(freq, &es8389->hpfl, &es8389->hpfr, &es8389->hpf_freq);
-+		hpf = find_best_hpf_freq(freq, &es8389->hpfl, &es8389->hpfr);
- 		if (!hpf)
- 			return -EBUSY;
- 
--		if (es8389->hpf_freq != ucontrol->value.integer.value[0])
--			dev_dbg(component->dev, "At the %u Hz sampling rate, %ld Hz could not be obtained."
--				"the frequency has been set to the closest value, %u Hz\n",
--				es8389->capture_rate, ucontrol->value.integer.value[0], es8389->hpf_freq);
--
- 		regmap_update_bits(es8389->regmap, ES8389_ADC_HPF1, 0x0f, es8389->hpfl);
- 		regmap_update_bits(es8389->regmap, ES8389_ADC_HPF2, 0x0f, es8389->hpfr);
- 	} else {
--		es8389->hpf_freq = ucontrol->value.integer.value[0];
- 		dev_dbg(component->dev, "PCM_STREAM_CAPTURE is not active.retain the input frequency\n");
- 	}
-+	es8389->hpf_freq = ucontrol->value.integer.value[0];
- 
- 	return 1;
- }
-@@ -790,7 +787,7 @@ static int es8389_pcm_hw_params(struct snd_pcm_substream *substream,
- 	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
- 		es8389->capture_rate = params_rate(params);
- 		freq = (es8389->hpf_freq * 48000) / params_rate(params);
--		hpf = find_best_hpf_freq(freq, &es8389->hpfl, &es8389->hpfr, &es8389->hpf_freq);
-+		hpf = find_best_hpf_freq(freq, &es8389->hpfl, &es8389->hpfr);
- 		if (!hpf) {
- 			dev_err(component->dev, "The HPF frequency is invalid\n");
- 			return -EINVAL;
--- 
-2.17.1
+IyEvYmluL3NoCiMgQ2FzZSBDIGhhbW1lcjogcmVjb25maWcgbG9vcCB2cyBQQ0kgdW5iaW5kL2Jp
+bmQgbG9vcCAocHVyZSB1c2Vyc3BhY2UsIHJvb3QpLgojIEludGVybGVhdmUtSSBvYnNlcnZhYmxl
+OiAvcHJvYy9hc291bmQvY2FyZHMgc3RpbGwgbGlzdHMgdGhlIGNhcmQgYWZ0ZXIKIyB1bmJpbmQg
+KGRhbmdsaW5nIHNuZF9jYXJkc1tdIGVudHJ5KS4gT24gdGhlIHRlc3QgVk0gdGhlIHN5c3RlbSBm
+cm96ZQojIH4zMC00MCBzIGludG8gdGhpcyBoYW1tZXI7IHJ1biBvbiBhIEtBU0FOIGtlcm5lbCB3
+aXRoCiMgQ09ORklHX1NORF9IREFfUkVDT05GSUc9eS4Kc25kX3BjaV9iZGYoKQp7Cglmb3IgZCBp
+biAvc3lzL2J1cy9wY2kvZHJpdmVycy9zbmRfaGRhX2ludGVsLyo7IGRvCgkJYj0ke2QjIyovfQoJ
+CWNhc2UgIiRiIiBpbiBiaW5kfHVuYmluZHxtb2R1bGV8bmV3X2lkfHJlbW92ZV9pZCkgY29udGlu
+dWUgOzsgZXNhYwoJCWVjaG8gIiRiIjsgcmV0dXJuIDAKCWRvbmUKCXJldHVybiAxCn0Kc25kX2Nv
+ZGVjX2RldigpCnsKCSMgcmVjb25maWcgbGl2ZXMgb24gdGhlIGh3ZGVwIGRldmljZTogL3N5cy9j
+bGFzcy9zb3VuZC9od0MqRCovcmVjb25maWcKCWZvciBjIGluIC9zeXMvY2xhc3Mvc291bmQvaHdD
+KkQqOyBkbwoJCVsgLWUgIiRjL3JlY29uZmlnIiBdIHx8IGNvbnRpbnVlCgkJZWNobyAiJHtjIyMq
+L30iOyByZXR1cm4gMAoJZG9uZQoJcmV0dXJuIDEKfQpzbmRfY2FyZHNfbGlzdGVkKCkKewoJYz0k
+KGNhdCAvcHJvYy9hc291bmQvY2FyZHMgMj4vZGV2L251bGwpCgljYXNlICIkYyIgaW4KCQkqc291
+bmRjYXJkcyp8IiIpIHJldHVybiAxIDs7CgkJKikgcmV0dXJuIDAgOzsKCWVzYWMKfQpST1VORFM9
+JHsxOi00MH0KQkRGPSQoc25kX3BjaV9iZGYpIHx8IHsgZWNobyAiRVJSOiBubyBIREEgY2FyZCI7
+IGV4aXQgMTsgfQplY2hvICJoYW1tZXItYzogYmRmPSRCREYgcm91bmRzPSRST1VORFMiCiMgVDE6
+IHJlY29uZmlnIGxvb3AKKAoJd2hpbGUgOjsgZG8KCQlkPSQoc25kX2NvZGVjX2RldikKCQlpZiBb
+IC1uICIkZCIgXTsgdGhlbgoJCQllY2hvIDEgPiAvc3lzL2NsYXNzL3NvdW5kLyRkL3JlY29uZmln
+IDI+L2Rldi9udWxsCgkJZWxzZQoJCQlzbGVlcCAwLjAyCgkJZmkKCWRvbmUKKSAmCkE9JCEKaj0w
+OyBkYW5nbGluZz0wCndoaWxlIFsgJGogLWx0ICRST1VORFMgXTsgZG8KCWVjaG8gIiRCREYiID4g
+L3N5cy9idXMvcGNpL2RyaXZlcnMvc25kX2hkYV9pbnRlbC91bmJpbmQgMj4vZGV2L251bGwKCWlm
+IHNuZF9jYXJkc19saXN0ZWQ7IHRoZW4KCQlkYW5nbGluZz0kKChkYW5nbGluZysxKSkKCQllY2hv
+ICJEQU5HTElORyByb3VuZD0kajogWyQoY2F0IC9wcm9jL2Fzb3VuZC9jYXJkcyldIgoJZmkKCWVj
+aG8gIiRCREYiID4gL3N5cy9idXMvcGNpL2RyaXZlcnMvc25kX2hkYV9pbnRlbC9iaW5kIDI+L2Rl
+di9udWxsCglzbGVlcCAwLjQgICAjIGxpdmUgd2luZG93OiBsZXQgdGhlIHJlY29uZmlnIHRocmVh
+ZCByZWFjaCB0aGUgY2FyZAoJaj0kKChqKzEpKQpkb25lCmtpbGwgJEEgMj4vZGV2L251bGwKZWNo
+byAiaGFtbWVyLWMgZG9uZTogcm91bmRzPSRST1VORFMgZGFuZ2xpbmc9JGRhbmdsaW5nIGZpbmFs
+PVskKGNhdCAvcHJvYy9hc291bmQvY2FyZHMgMj4vZGV2L251bGwpXSIK
+------=_Part_374260_639422403.1793335347920--
 
