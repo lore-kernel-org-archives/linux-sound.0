@@ -1,48 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=132.226.202.154
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793335484;
-	b=woxEEC5uGo0iJeA1vj6ix5JG/iAIad4lilA0Se8BXo/OOyiRURNB3dPV1H7Z8/oNVxVT
-	 cjcv0FjgUw8t533tk//Nm7S3gaa4r8JziZmFyt1Cgh/9WJBZC+3CJUZz6LVxQ44JoYSie
-	 9zNmxt5CuqoJMK1ZNzlew+G+gnDyXzt3g8BoykQChlAZ/bYQnTtmTDhy5ZKcdgn4ET1Pf
-	 AfiBDkH6n3xlDF20Y+QmL4zdlYd4RHASqwOkMR0noaMwAuLe8GVFRQ9aSiYILKZGY8z0a
-	 cnBEVGArkFndpDc/dSkSrKax1puLPdqHpyw6f75/16R9vxpm4m7u2xYJZzcp+p13qNA==
+	t=1793336223;
+	b=AX3OnOq2IuxvSxGU7w6GQCeep2s5SwFC9kuF48lAXSbRSpG+OLdyCyDGw66QOsVRAWJt
+	 QhVQhbDpQOW8I8Xb3XU5qq+PwJGe4ajF9O6ipB00Hdoc1EpZ+2wx2X7yFPkKz0fk3UyaE
+	 1HQKSIL+R5FAtV5v9UO+wHrsRsUpuw3INBgrlnYvwfs9DJ2hH8iG88Hpw1bPWJK89Q6fY
+	 16uzeJKS3VqtOtHvgFlX8YwMCaB7fNoly+9NY6JFnXim1Zn+zqfHLHggytKbxskcGrR8w
+	 721xJ8QRi1PWxr6g/6SYneccwK4gw6vPbjG3HU1lwI/6xKfUevwhPJGUEo8aAB/ZO5g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793335484;
-	h=DMARC-Filter:Received:X-Originating-IP:Date:X-CM-HeaderCharset:From:
-	 To:Cc:Subject:X-Priority:X-Mailer:X-CM-CTRLMSGS:
-	 Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	 X-Coremail-Locale:X-CM-TRANSID:X-CM-SenderInfo:X-Coremail-Antispam;
-	bh=nCGTArrnvYvyIj8LUHLrSTgQzspsnEFFJnHl8rF049A=;
-	b=SzYDGh47SG/yfPPhRBMej4fksHzWhjO14KTnOOMQ9B1eRKz+B+dRMdK/gN5dOhZbqmSZ
-	 q0rFpDDPvuXqt/Yf+fI8XOkvqhSwbK50yJNC4AL3zzvN0On5wY4Q98km8VjaZfGun9k8c
-	 OmOJVzRY43iAzTOdH8rdRdsxtq8X19Y22MIelsQeE4aeMlGlBAvrYNUT7hWGu39zzlJjh
-	 OxViz50cQEKOiV9ZnLj/iW/4DLZZxWd05WBn1U25tRfxBXeACfElrD8m8nLjroGcDwN1X
-	 /7K5DpVrkKFbKOg3UwJsqn1UrOwA6+x8Rub08+8gudJ9o3OS14atM9FehBWhh234q9Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793336223;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=WauGYljzgKnkDbfgsq+TqBtz3mTXIMflL8/jV2GYK38=;
+	b=KBOQRtiOv9qUh27+Lqx/GuuKa3D+8I5k+BOHFskW6HFDTD/broRk9uD49apz04ZiulLB
+	 UpXMyu4KvN0nwI0w87XxVYiqdTdOvPaM7Gj0KQuBJpeRfc/zRAFZdKATwl/kSm0RwNdnp
+	 1ZtoGuiweoRCf517sfYxxzkmnfvcG2fjLiG1yUX16dVWMHWFYe+sVGpY3xujrsYRB3x0W
+	 YPMEPOnvBTgbiTlAfs6IMHj1hEWqZQx1ihgqBJRIW+ZfzfZe5e8sSK3O3TADweIqKAm/k
+	 WzYchwOn4Z5FAqbD4tkWcOOWJQl6P0rC2H2fgoyJcvZb/KHUXcGNndK1j9ZnsmbEKyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=132.226.202.154
-Received: from fraori-sdnproxy-3.icoremail.net (fraori-sdnproxy-3.icoremail.net [132.226.202.154])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2670606A322;
-	Fri, 30 Oct 2026 04:44:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D2670606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from xuhx$hust.edu.cn ( [10.12.190.107] ) by ajax-webmail-app1
- (Coremail) ; Fri, 30 Oct 2026 12:44:39 +0800 (GMT+08:00)
-Date: Fri, 30 Oct 2026 12:44:39 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?5b6Q5pmX57+U?= <xuhx@hust.edu.cn>
-To: perex@perex.cz, tiwai@suse.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: sound: core: snd_card_free()'s one-shot 'releasing' admission is
-  an unlocked TOCTOU (latent: no concurrent caller in tree today)
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2025.3-cmXT6 build
- 20260810(6c94e3b5) Copyright (c) 2002-2026 www.mailtech.cn hust
-X-CM-CTRLMSGS: =?B?DYc4ETiH6nJ5xwDR7hwMki1N8jM=
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rtnK0eLq;
+	arc=none smtp.remote-ip=209.85.128.47
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FFA606A31A
+	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 04:57:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 16FFA606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rtnK0eLq
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a5720b0a57so7664635e9.0
+        for <linux-sound@vger.kernel.org>; Thu, 29 Oct 2026 21:57:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793336221; x=1793941021; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=WauGYljzgKnkDbfgsq+TqBtz3mTXIMflL8/jV2GYK38=;
+        b=rtnK0eLqQBZ6iE5ubPlRK7qFsX0fEdPLRNcKXT6yCKGRIaRqsFIYF+UA4UutebBA8A
+         0pC6JpW275fFdM/XVFN6yK6K+Y8jYCHmtKRk5vnS1vd/uKD/ip+FXcj7ndGUvZaJs3CI
+         agY3Xja6Hd3vz6a+DY3hu9+F9pggrsMhS/wJnQWfRhh5PhJeOdqg/+ne2lQtNSql7Vvf
+         brMUEZy2h2gn1oti6kOYSzWcuWQiwZUuvbQshK7xrWTu1y7E4Clrf3zv7oJib0q8h+aM
+         5JdRHVeJ+ALrw/sxZJgFwA8+uIWDra/B3JZ0qyuBGOfE8x1K3CsuMk01Sqva7RQIFvOp
+         9ngQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793336221; x=1793941021;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=WauGYljzgKnkDbfgsq+TqBtz3mTXIMflL8/jV2GYK38=;
+        b=Q65llQXKfgRGv+vK8Wjo4HPVTt5nos7YA3X2x4bXN5rYGlKK98fI8rKD1Ur2hc+zDW
+         qVWR6WgQzl6LL1MswOvgY4G8jjDp62DYEQ3GQKsAS3z79L1oKsfgOminNFN2rxWkB7zn
+         9xoc0u64FTDd/HlhxxyLh5Cb+oMraSYtOMf+hMsMgNKaIjgAND/LFOroa7645Vr/FOzi
+         Ra+CUB5ACRoJFtebCA4ScrhEVfW5Y4xUIYhL8HXcfq9qiZOSZQIktceVZkSGK2UnLMBd
+         djKvc76E2mvW/URIEgtrhwHpbin1DEg8vNyvKD0U05fxXOIIln4LOmnTgAM75PC4d2bW
+         +joQ==
+X-Gm-Message-State: AFq9FYIJiwwe/4OCuuPQu8mqZu+wJKfk61gCDKBZqnBtvZVoykBtE5kG
+	F8h0zU7icGR2wCif8ADJejblEJcVw9s2W7YxQo8rSBuJ4g+DEjrQJ1Yd
+X-Gm-Gg: AYBFou3TLtQysw9l0g2TU7FyIEaNjkp10vTrGRoUOXSSH1uTE/eSdHU7PxPpJ2jf24s
+	NxbgRfVrxr35QDpYzKqfOlXYakfvita0g/BiZ+VD/aH4hC4DLofRc5BAw+T9z7iHSLqXny/iEFt
+	w7Arud2I09KtCVaomwbGzSjG4TZaLYlsnlEqpEZUhOZwgE1or9WctmxqTleNwHRLvXcVcYY+o8W
+	6f+/gpPGH5viOOT8/68grDghjPyfhkCNdbzniFpbxgugUmF0Yzwccjo+if1dXA7Ms8sXdGTyWrZ
+	NE6xHULqFnro9M/gj7+Z94Mt3tHH6L87ckR+/sHMoj2ZLAy9z09PXJQ3NIuNHE2d8uCGbtEgOKd
+	Q/XYAqu+zLJ/Jd913OiGCMJAeuNsZI+x3NBUtxHxQy0yUq8qYN+cFBdxjeRpMwBQvgLaf70t8ku
+	aDP/FA+SSYjTnVsYSoX4C/Y7TsVErxRhch8ZeOCp/zHPNElcvKBx0KIJ3vmS/dYSKrtmhZmz8T9
+	1o14G/+WWEtvZBQx5cjuuKpgjVATTsj/UOq7HXEn1PbpQUYzC9mPN/IdUDOG/DtuNtFL2ZfYvlb
+	BMa4Z8M2JEniRqtwh0VrrvY4bsc/n4F4k2zSCbaBDT2l4Snc9q8IOeD6cUipZdBAoZswfe9g
+X-Received: by 2002:a05:600c:19d3:b0:4a2:526b:d40f with SMTP id 5b1f17b1804b1-4ac1209eafcmr22580955e9.0.1793336221237;
+        Thu, 29 Oct 2026 21:57:01 -0700 (PDT)
+Received: from ahmad-HP-ZBook-17-G3 ([5.212.7.215])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abea72254csm19118045e9.1.2026.10.29.21.56.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 21:57:00 -0700 (PDT)
+From: ahmad baghereslami <ahmad.b1995@gmail.com>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ahmad baghereslami <ahmad.b1995@gmail.com>
+Subject: [PATCH v2] ALSA: hda/conexant: Add mute LED quirk for HP ZBook 17 G3
+Date: Fri, 30 Oct 2026 08:26:26 +0330
+Message-ID: <20261030045626.1608040-1-ahmad.b1995@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261029174446.1412118-1-ahmad.b1995@gmail.com>
+References: <20261029174446.1412118-1-ahmad.b1995@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -52,104 +98,53 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Message-ID: <7a2791ad.1b56b.1a18b1fcbeb.Coremail.xuhx@hust.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:IAEQrMBmraO3IORq4JxRAQ--.12560W
-X-CM-SenderInfo: bgsqjkayqyjmo6kx23oohg3hdfq/1tbiAgMQB2rjce1GUwADsV
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWkKw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
+Content-Transfer-Encoding: 8bit
 
-c25kX2NhcmRfZnJlZSgpIGltcGxlbWVudHMgaXRzIHJlLWVudHJhbmN5IHByb3RlY3Rpb24gYXMg
-YSBzaW5nbGUKdW5sb2NrZWQgYm9vbGVhbjogaXQgcmVhZHMgY2FyZC0+cmVsZWFzaW5nLCB3cml0
-ZXMgYSBzdGFjayBjb21wbGV0aW9uCnBvaW50ZXIgaW50byBjYXJkLT5yZWxlYXNlX2NvbXBsZXRp
-b24sIGFuZCBvbmx5IHNldHMgcmVsZWFzaW5nID0gdHJ1ZQptdWNoIGxhdGVyIGluc2lkZSBzbmRf
-Y2FyZF9kb19mcmVlKCkgLS0gd2hpY2ggcnVucyBmcm9tIHRoZSBjYXJkX2RldgprcmVmIHJlbGVh
-c2UsIHBvc3NpYmx5IGxvbmcgYWZ0ZXIgdGhlIGNoZWNrLiAgSWYgdHdvIHRocmVhZHMgZXZlcgpl
-bnRlcmVkIGl0IGNvbmN1cnJlbnRseSBmb3IgdGhlIHNhbWUgY2FyZCwgdGhlIHNlY29uZCB3b3Vs
-ZCBlaXRoZXIKZHJvcCBhIHNlY29uZCBjYXJkX2RldiByZWZlcmVuY2UgKGtyZWYgdW5kZXJmbG93
-OiB0aGUgY2FyZCBpcyBmcmVlZAp3aGlsZSBmaWxlcyBhcmUgb3BlbiwgYW5kIHRoZSBsYXRlciBm
-aWxlIGNsb3NlIGRvZXMgYSB0aGlyZApwdXRfZGV2aWNlIG9uIGZyZWVkIG1lbW9yeSksIG9yIG92
-ZXJ3cml0ZSB0aGUgZmlyc3QgY2FsbGVyJ3MKY29tcGxldGlvbiAoc25kX2NhcmRfZG9fZnJlZSgp
-IGNvbXBsZXRlcyBvbmx5IHRoZSBsYXN0IHdyaXRlciwgc28gdGhlCmZpcnN0IGNhbGxlciBzbGVl
-cHMgZm9yZXZlciwgdHlwaWNhbGx5IGhvbGRpbmcgdGhlIGRyaXZlci1jb3JlIGRldmljZQpsb2Nr
-KSwgb3IgcmFjZSBwYXN0IHRoZSBmaXJzdCBjYWxsZXIncyBrZnJlZShjYXJkKSBvdXRyaWdodC4g
-IEkKZW51bWVyYXRlZCBldmVyeSBjYWxsZXIgaW4gdGhlIHRyZWU6IHRvZGF5IHRoZXkgYXJlIGFs
-bCBzZXJpYWxpemVkCihvbmUgZW50cnkgcG9pbnQgcGVyIGNhcmQgYXQgYSB0aW1lIC0tIFBDSSBy
-ZW1vdmUgdW5kZXIgdGhlIHBjaV9kZXYKbXV0ZXg7IG1hbmFnZWQgY2FyZHMgY2FsbCBpdCBtdWx0
-aXBsZSB0aW1lcyBidXQgc2VxdWVudGlhbGx5IG9uIHRoZQpzYW1lIHRocmVhZDsgdGhlIFVTQi1h
-dWRpbyBhbmQgbWlzYyBkcml2ZXJzIHNlcmlhbGl6ZSB2aWEKcmVnaXN0ZXJfbXV0ZXggLyBzaHV0
-ZG93biBjb3VudGVycyAvIGludGVyZmFjZSBsb2NrcyksIHNvIHRoaXMgaXMKcmVwb3J0ZWQgYXMg
-YSBsYXRlbnQsIGRlZmVuc2l2ZS1oYXJkZW5pbmcgaXNzdWUsIG5vdCBhIHJlYWNoYWJsZSBidWcK
-LS0gdGhlIGNvZGUgY29tbWVudCBhdCBzb3VuZC9jb3JlL2luaXQuYzo2NTMtNjU3IGFscmVhZHkg
-YWRtaXRzIHRoZQptdWx0aS1lbnRyeSBkZXNpZ24gKCJ0aGUgcmVsZWFzZSB2aWEgZGV2cmVzIG1h
-eSBjYWxsIHNuZF9jYXJkX2ZyZWUoKQp0d2ljZSBkdWUgdG8gaXRzIG5hdHVyZSIpLCBhbmQgdGhl
-IHByb3RlY3Rpb24gYmV0d2VlbiB0aG9zZSBlbnRyaWVzCmlzIG9ubHkgdGhlIGFzc3VtcHRpb24g
-dGhhdCB0aGV5IG5ldmVyIG92ZXJsYXAuCgpUaGUgZGV0YWlsZWQgZGVzY3JpcHRpb246CiogVGhl
-IGNvZGUgKExpbnV4IDcuMywgc291bmQvY29yZS9pbml0LmM6NjQ5LTY2NykKICAgICAgdm9pZCBz
-bmRfY2FyZF9mcmVlKHN0cnVjdCBzbmRfY2FyZCAqY2FyZCkKICAgICAgewogICAgICAgICAgICAg
-IERFQ0xBUkVfQ09NUExFVElPTl9PTlNUQUNLKHJlbGVhc2VkKTsKICAgICAgICAgICAgICBpZiAo
-Y2FyZC0+cmVsZWFzaW5nKSAgICAgICAgICAgICAgICAgICAgLyogKDEpIHVubG9ja2VkIHJlYWQg
-Ki8KICAgICAgICAgICAgICAgICAgICAgIHJldHVybjsKICAgICAgICAgICAgICBjYXJkLT5yZWxl
-YXNlX2NvbXBsZXRpb24gPSAmcmVsZWFzZWQ7ICAvKiAoMikgdW5sb2NrZWQgd3JpdGUKICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBvZiBhIHN0
-YWNrIGFkZHIgKi8KICAgICAgICAgICAgICBzbmRfY2FyZF9mcmVlX3doZW5fY2xvc2VkKGNhcmQp
-OyAgICAgICAgLyogKDMpIGRpc2Nvbm5lY3QgKwogICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHB1dF9kZXZpY2UsIG5vCiAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY2FyZC1sZXZlbCBsb2Nr
-ICovCiAgICAgICAgICAgICAgd2FpdF9mb3JfY29tcGxldGlvbigmcmVsZWFzZWQpOyAgICAgICAg
-IC8qICg0KSAqLwogICAgICB9CiAgcmVsZWFzaW5nID0gdHJ1ZSBoYXBwZW5zIG9ubHkgaW4gc25k
-X2NhcmRfZG9fZnJlZSgpCiAgKGluaXQuYzo1ODgpLCBpbnZva2VkIGZyb20gdGhlIGNhcmRfZGV2
-IGRldmljZSByZWxlYXNlCiAgKGluaXQuYzoxNTEtMTU0KSAtLSBpLmUuIGFmdGVyIHB1dF9kZXZp
-Y2UoKSBpbnNpZGUgKDMpIGhhcyBkcm9wcGVkCiAgdGhlIGxhc3QtYnV0LW9uZSByZWZlcmVuY2Us
-IGFyYml0cmFyaWx5IGxhdGVyIHRoYW4gKDEpLgoKKiBDb25zZXF1ZW5jZXMgaWYgYSBjb25jdXJy
-ZW50IHNlY29uZCBlbnRyeSBldmVyIGV4aXN0cwogIDEuIGtyZWYgZG91YmxlIGRyb3A6IHdpdGgg
-b25lIG9wZW4gQUxTQSBmaWxlIChlYWNoIGZpbGUgaG9sZHMgYQogICAgIGNhcmRfZGV2IHJlZmVy
-ZW5jZSwgaW5pdC5jOjExMTEpLCB0d28gcHV0X2RldmljZSgpIGNhbGxzIGZyb20KICAgICB0d28g
-c25kX2NhcmRfZnJlZSgpcyBjYW4gYnJpbmcgdGhlIGtyZWYgdG8gemVybyB3aGlsZSB0aGUgZmls
-ZQogICAgIGlzIHN0aWxsIG9wZW47IHNuZF9jYXJkX2RvX2ZyZWUoKSBmcmVlcyBhbGwgZGV2aWNl
-cyBhbmQgdGhlIGNhcmQKICAgICAoaW5pdC5jOjYxMCksIGFuZCB0aGUgZmlsZSdzIGNsb3NlIHBh
-dGggdGhlbiBkb2VzIGEgdGhpcmQKICAgICBwdXRfZGV2aWNlKCkgKGluaXQuYzoxMTUzKSBvbiBm
-cmVlZCBtZW1vcnkgKGtyZWYgdW5kZXJmbG93ICsKICAgICB0aGUgY2xvc2UgcGF0aCdzIHN1YnNl
-cXVlbnQgd29yayBvbiBmcmVlZCBjYXJkIG1lbW9yeSkuCiAgMi4gY29tcGxldGlvbiBvdmVyd3Jp
-dGU6IHRoZSBzZWNvbmQgY2FsbGVyIG92ZXJ3cml0ZXMKICAgICByZWxlYXNlX2NvbXBsZXRpb24g
-d2l0aCBpdHMgb3duIHN0YWNrIGFkZHJlc3M7IGRvX2ZyZWUKICAgICBjb21wbGV0ZXMgb25seSB0
-aGUgbGFzdCB3cml0ZXIgKGluaXQuYzo2MDctNjA4KTsgdGhlIGZpcnN0CiAgICAgY2FsbGVyIHdh
-aXRzIGZvcmV2ZXIgLS0gd2l0aCBpdHMgY2FsbGVyIGNvbnRleHQgdHlwaWNhbGx5CiAgICAgaG9s
-ZGluZyBhIGRyaXZlci1jb3JlIGRldmljZSBsb2NrLCB0aGlzIGlzIGEgbG9ja2VkLXVwIGhhbmcu
-CiAgMy4gcG9zdC1rZnJlZSBhY2Nlc3M6IGFueSBpbnRlcmxlYXZpbmcgd2hlcmUgdGhlIGZpcnN0
-IGVudHJ5CiAgICAgZmluaXNoZXMga2ZyZWUoY2FyZCkgYmVmb3JlIHRoZSBzZWNvbmQgZXhlY3V0
-ZXMgKDIpLygzKSBpcwogICAgIHN0cmFpZ2h0IFVBRiBvbiB0aGUgY2FyZC4KICBOb3RlIHNuZF9j
-YXJkX2ZyZWVfd2hlbl9jbG9zZWQoKSBpdHNlbGYgKGluaXQuYzo2MjUtNjMzKSBjYWxscwogIHB1
-dF9kZXZpY2UoKSB1bmNvbmRpdGlvbmFsbHkgLS0gc25kX2NhcmRfZGlzY29ubmVjdCgpIGluc2lk
-ZSBpdCBpcwogIG9uZS1zaG90IHZpYSBjYXJkLT5zaHV0ZG93biwgYnV0IHRoZSByZWZlcmVuY2Ug
-ZHJvcCBpcyBub3QgZ3VhcmRlZAogIGVpdGhlciwgc28gYW55ICpjb21iaW5hdGlvbiogb2YgdGhl
-IHR3byBlbnRyeSBmdW5jdGlvbnMgaGFzIHRoZQogIHNhbWUgZXhwb3N1cmUuCgoqIENhbGxlciBl
-bnVtZXJhdGlvbiAod2h5IHRoaXMgaXMgbGF0ZW50IHRvZGF5KQogIC0gSERBIFBDSSBjb250cm9s
-bGVycyAoc25kX2NhcmRfbmV3LCBub24tbWFuYWdlZCk6IHNpbmdsZQogICAgc25kX2NhcmRfZnJl
-ZSgpIGZyb20gUENJIHJlbW92ZSwgdW5kZXIgcGNpX2Rldi0+bXV0ZXgKICAgIChkZXZpY2VfcmVs
-ZWFzZV9kcml2ZXJfaW50ZXJuYWwpLgogIC0gbWFuYWdlZCBjYXJkcyAoc25kX2Rldm1fY2FyZF9u
-ZXcgdXNlcnMpOiBkcml2ZXIgcmVtb3ZlICsgdGhlIHR3bwogICAgZGV2cmVzIGFjdGlvbnMgYWxs
-IHJ1biBzZXF1ZW50aWFsbHkgaW4gdGhlIHNhbWUgdGhyZWFkIGR1cmluZwogICAgZGV2aWNlX2Rl
-bC9kcml2ZXIgdW5iaW5kIChkcml2ZXJzL2Jhc2UvZGQuYzo1OTMtNjE4KTsgdGhlIGZpcnN0CiAg
-ICBjYWxsIGNvbXBsZXRlcyBkb19mcmVlIGFuZCBzZXRzIHJlbGVhc2luZywgdGhlIGxhdGVyIG9u
-ZXMgcmV0dXJuCiAgICBhdCAoMSkuICBUaGlzIGlzIGV4YWN0bHkgdGhlIGNhc2UgdGhlIGluaXQu
-YyBjb21tZW50IGRlc2NyaWJlcy4KICAtIHNuZF9jYXJkX2ZyZWVfb25fZXJyb3IoKTogcHJvYmUt
-Y29udGV4dCwgdW5kZXIgdGhlIGRldmljZSBsb2NrLgogIC0gVVNCIGF1ZGlvIG1haW4gZHJpdmVy
-IChjYXJkLmM6MTExNi8xMTY1KTogcHJvYmUtZXJyb3IgdnMKICAgIGRpc2Nvbm5lY3Qgc2VyaWFs
-aXplZCBieSByZWdpc3Rlcl9tdXRleCArCiAgICBhdG9taWNfaW5jX3JldHVybigmY2hpcC0+c2h1
-dGRvd24pID09IDEgKyBudW1faW50ZXJmYWNlcwogICAgY291bnRpbmcuCiAgLSBsaW5lNiAvIHVh
-MTAxIC8gNmZpcmUgLyBoaWZhY2UgLyBiY2QyMDAwIC8gdXN4Mnk6IHNpbmdsZS1pbnRlcmZhY2UK
-ICAgIGRldmljZSBsb2NrcyBvciBkZXZpY2VzX211dGV4IHNlcmlhbGl6YXRpb24uCiAgLSB2aXJ0
-aW8gKHZpcnRpb19jYXJkLmM6MzU1KTogc2luZ2xlIGNhbGwgdW5kZXIgdGhlIHZpcnRpbyBkZXZp
-Y2UKICAgIGxvY2suCiAgTm8gcGFpciBvZiB0aGVzZSBjYW4gcnVuIGNvbmN1cnJlbnRseSBhZ2Fp
-bnN0IHRoZSBzYW1lIGNhcmQgaW4gdGhlCiAgY3VycmVudCB0cmVlLgoKKiBWZXJpZmljYXRpb24K
-ICBPbiBhIFFFTVUvS1ZNIHg4Nl82NCBndWVzdCB3aXRoIGFuIGVtdWxhdGVkIEludGVsIEhEQSBj
-b250cm9sbGVyCiAgKGludGVsLWhkYSArIGhkYS1kdXBsZXgpLCBLQVNBTiBrZXJuZWwgYnVpbHQg
-ZnJvbSB0aGUgdmFuaWxsYSA3LjMKICB0YXJiYWxsICgrIENPTkZJR19TTkRfSERBX1JFQ09ORklH
-L0dFTkVSSUMpLCBleGVyY2lzaW5nIHRoZSBmdWxsCiAgY2FyZCBjcmVhdGUgLyByZWNvbmZpZyAv
-IFBDSSB1bmJpbmQgLyBiaW5kIGN5Y2xlIGFuZCBhIDQwLXJvdW5kCiAgdW5iaW5kL2JpbmQgY2h1
-cm46IHplcm8gc3BsYXRzIC0tIGNvbnNpc3RlbnQgd2l0aCB0aGUgZW51bWVyYXRpb24KICAodGhl
-cmUgaXMgbm90aGluZyB0byB0cmlnZ2VyKS4gIFRoaXMgaXMgYSBuZWdhdGl2ZSByZXN1bHQgYW5k
-IGlzCiAgcmVwb3J0ZWQgYXMgc3VjaC4KCgoKUmVnYXJkcywKSGFueGlhbmcgWHUKeHVoeEBodXN0
-LmVkdS5jbgoKCg==
+The HP ZBook 17 G3 (PCI SSID 103c:80d6, codec CX20724 with SSID
+103c:80f8) has its speaker-mute LED on codec GPIO0 and its mic-mute LED
+on GPIO1, both active high, like the HP ZBook 15u G3 that already uses
+CXT_FIXUP_MUTE_LED_GPIO. HP's Windows driver agrees: chdrt.inf sets
+EnableGPIO0MuteSignal for this model, and MicTray's MasterMute section
+for SUBSYS_103C80D6/103C80F8 sets PlaybackGPIO = 0 and CaptureGPIO = 1.
+
+Use CXT_FIXUP_MUTE_LED_GPIO for it.
+
+Tested on an HP ZBook 17 G3 with Ubuntu's 7.0.0 kernel: with each GPIO
+held high and low, GPIO0 switches only the speaker-mute LED and GPIO1
+only the mic-mute LED; GPIO2-6 switch neither. With this quirk applied,
+hda::mute and hda::micmute follow the speaker and mic mute, and sound
+and the microphone keep working.
+
+Finding the LEDs (the GPIO tests and reading HP's driver) and writing
+this patch were done with the help of an AI coding assistant (Claude);
+I checked the LEDs on the machine.
+
+Signed-off-by: ahmad baghereslami <ahmad.b1995@gmail.com>
+---
+
+Notes:
+    v2: v1 said the mic-mute LED is not on the codec and added a mute-only
+    fixup. That was wrong: my v1 test blinked each GPIO too fast to see.
+    Holding each GPIO high and low shows GPIO1 is the mic-mute LED, as HP's
+    MicTray configuration for this model says, so v2 just uses the existing
+    CXT_FIXUP_MUTE_LED_GPIO. v1:
+    https://lore.kernel.org/all/20261029174446.1412118-1-ahmad.b1995@gmail.com/
+
+ sound/hda/codecs/conexant.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+index a141c94ee..88651a36d 100644
+--- a/sound/hda/codecs/conexant.c
++++ b/sound/hda/codecs/conexant.c
+@@ -1193,6 +1193,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
+ 	SND_PCI_QUIRK(0x1025, 0x1937, "Acer Aspire Go 16", CXT_FIXUP_ACER_ASPIRE_GO_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8079, "HP EliteBook 840 G3", CXT_FIXUP_HP_DOCK),
+ 	SND_PCI_QUIRK(0x103c, 0x807C, "HP EliteBook 820 G3", CXT_FIXUP_HP_DOCK),
++	SND_PCI_QUIRK(0x103c, 0x80d6, "HP ZBook 17 G3", CXT_FIXUP_MUTE_LED_GPIO),
+ 	SND_PCI_QUIRK(0x103c, 0x80FD, "HP ProBook 640 G2", CXT_FIXUP_HP_DOCK),
+ 	SND_PCI_QUIRK(0x103c, 0x8115, "HP Z1 Gen3", CXT_FIXUP_HP_GATE_MIC),
+ 	SND_PCI_QUIRK(0x103c, 0x814f, "HP ZBook 15u G3", CXT_FIXUP_MUTE_LED_GPIO),
+-- 
+2.53.0
+
