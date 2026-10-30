@@ -1,71 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.135
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793349497;
-	b=i3bx/JqbZb07Q9Wsxo4V1FqrcMLgXDHXob31ZjkUxDYjoKfCqQfbb+MPNKt+Fu7CcSD2
-	 FfLciRHEk852A3gNHUJWtBPo7D2nJxqnyj7TUln7qEuRGzR0t2J0lrDsOM/Mj8nQLmvKj
-	 cBt7Rhv5NYegpMFUm61S8S2Rl13xAOn/rh3WdSXiIq4N+2N6yKhzvZHcJF+DMKTntNG5d
-	 ISJnaJtaxamKrzBGIQE8dcnl75A1zI5LUzmwrBdFna6qEHPztzQFs7/Eck1sscOiAzbol
-	 RjcjwslqpFIs8ckJvExw+d3gWBAGG1lu/LOGSXjpwJ1cYy2PJ2SY+/ZH2OGcRNEi0yQ==
+	t=1793350662;
+	b=VMgYqJ5SOlN2lWeM20/NrfV3djIFha76t55W26oFu5erwSUMYGKcIwy2pV3RBe2g70mF
+	 1izD/G+3Jqc8akOx1ulgjFkVVhXdJfvRhiKVe8DBQ/DmEGA+bChVbrnvTzNcv9XWVPhlQ
+	 Vm14PnZv4357CJBEv2jIoakZNvW+3MJ2lMtUrVS+F52Pp2ajuOYbUzeGM8gSf0CrvfYFL
+	 7s5qC2DZ48csUp1+Tak0AnqAT4E+L+QJrk9Xb1NTQGmjb6C41SEWcxde6F00aK2UKJTC2
+	 bbZw7cQLYADt6MD4BUbdb97/SuS5Z8DIaXjVi2cCEiUYRF8Nv3VmTScOOzZpH/8v4BQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793349497;
-	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
-	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
-	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793350662;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=L4YbgbPAe+FGPn8GCTGk5ZnAVwhjkVIrfVtDvzogHW8=;
-	b=lN0FAwzTZsdZCpgNgpMBKAopG5uggfrCploFo4q9NOvu1v3I77cdBQsM6n1eOkQwQf8v
-	 m1wsBvXm3mqNVDa78LqDFmvXLADam9b6xiWLA5iM+6MxHs8bbVIPOfUht+NudPgZh53iY
-	 wknNxa1hMI2g6G4xQAvv6mHEweZU+ZMwQV+FU4Qk7H3D2pVUhozRblqCCR6qCf12GVxvD
-	 XGLjkYYk5KQroS+FoAhqSlXfjbkI4Xhy4xRpUSjQvhosDZ0RQevP/NbKdWnM9N2tRNyK/
-	 8zklVXPVnMsWJhR3c7RLQB5eKvjIg/RvuE2BBveoMT6lpFBTubYan33FkXJ+haQe4/w==
+	bh=3f7gS8x9jk1QAEvKWYbIvU++gPKjDJUm616PxTVapbE=;
+	b=qKcsD0pOroAgzi+jxRXE67sR1lYIOllgoN38PyupJkpC88tixSgy+7jY7eNaWWeVtrQx
+	 JALjdp2sOFsTSlW5JtTqt95v9yCU8nB3fGAsxj0gCwcI+VnnBNqNiIREncVPPNLEe3IxT
+	 LUBRJLa+gx/YVnVhyTu4sJaJabJ/0ecDyxlyuTzPVHPuBKzP8jpff4iouHizHs9TMuVsQ
+	 OwBskuDErMLrwvNt3Pyo/VskwsaLP/SeS5bCJKjonFfptZ6P5xdQxsa8bsN0DGzkIxa0w
+	 3GYHlg6g8aEJ2lziCZImmtf/vUo9UXvDzKjMkXdx6pTYNcBnzmhdg1PSD/4Wdpbb0Fg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmss.chinamobile.com;
-	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=PsBg8u8s;
-	arc=none smtp.remote-ip=111.22.67.135
-Received: from cmccmta2.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF0DB606A330;
-	Fri, 30 Oct 2026 08:38:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF0DB606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=i0TdIJ3B;
+	arc=none smtp.remote-ip=209.85.128.44
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C4D606A31D
+	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 08:57:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62C4D606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=PsBg8u8s
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=i0TdIJ3B
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a59100fa83so3571095e9.0
+        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 01:57:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cmss.chinamobile.com; s=default; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=PsBg8u8sWJIcN5izkL4AEKIdA3/ccU2KyHe6crzrBLhF1ywkoGRjUALPkuVVsZFLN+YcKx5ATxKRA
-	 Pt13nIzsYHu7juaOcJfItLe5YJB2Gv5aBbfGeP5a5YibF1EjvMwhynphS+uSGhS9Jl8LgpZxo3aSHj
-	 4C/MkLsUmh+sebyk=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app03-12003 (RichMail) with SMTP id 2ee36ae45775516-3f4b5;
-	Fri, 30 Oct 2026 16:38:13 +0800 (CST)
-X-RM-TRANSID:2ee36ae45775516-3f4b5
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from DESKTOP-3K8GUTQ (unknown[223.108.79.101])
-	by rmsmtp-syy-appsvr03-12003 (RichMail) with SMTP id 2ee36ae45773be2-53d9b;
-	Fri, 30 Oct 2026 16:38:13 +0800 (CST)
-X-RM-TRANSID:2ee36ae45773be2-53d9b
-From: laixiangwu <laixiangwu@cmss.chinamobile.com>
-To: Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
+        d=gmail.com; s=20260707; t=1793350661; x=1793955461; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3f7gS8x9jk1QAEvKWYbIvU++gPKjDJUm616PxTVapbE=;
+        b=i0TdIJ3BaFpQ0AKlw7ZKABTcXFp/R61LHO3AZ2kEjTlHdlg291cF1wbdwEWxwC8egx
+         dV213izuvfa5Ol5H3/U7V4V1OhhfUbtdy42GRDNgtQ/7m+guqsvshiXmRqhA3lI5Cnhp
+         2H28QRcGOwcHr9/P0rutNf5tjmfJmVGM/EjXFv0OgytbHFPvIVCNI1KN39VhdGGv00Kh
+         wtVV334voo08DxOwioxYRDVuOUAioWiLcIVBKM4BsEwjWwBAcC73LZ8M+y9Jb+g24UMk
+         BE/xhGA3AZ7pEQYn+QhR8u0fkU3jv118ZW6EikkLMbWq2K3nl8jnwC6s6j9E1zwOPrYa
+         pcAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793350661; x=1793955461;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3f7gS8x9jk1QAEvKWYbIvU++gPKjDJUm616PxTVapbE=;
+        b=2XBrpJoXMmePY01IL/gAbLBHR38yJXD3jPR0Yy5HwtK/EO3eZmXhZuc+YcH2v4tSVZ
+         ejWG0pOqFxPE1nd/tOy1QSDH9lrps9OtMeXn7Ay2YgIpMvrHr1NM7RcsrFcajuTL9CfJ
+         fGAj/mUHHiNdb2p7hoAuo6mzS4vosSze2Eu8wpnaLw4LE5nMK2mzuJ2yDirQo18Ejezx
+         dpl99vAfi6T1IjuSUxYj27roz7/mip2sdv7fff7pkJSQ7KjY2OOJb592XBSE4fx27H4k
+         JxqKBladVzlqwwRQQDwRhQK8+pjg5k4TMDSfMmGpDBoYpyFkDXDDDKNLSRyAwGuJ3T0q
+         76tA==
+X-Forwarded-Encrypted: i=1; AKwUvBzMYxbGkwMrgXPOf2Gk2yqyIIjfpGl6soeLFWP5it3bDsbnDO9FD43zzktVHYTN5TbMGgDIXvx3cj4JeA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJwj1gwFcpAluhckqrKoj1v9BSOf2KqpC1eC6lOqfswaBPWhrJa
+	gQ4L1GjGf8XjEWr6+Qe8xqjKtCc+qbu0kgdma87dUEtC62R+b2NnxooP
+X-Gm-Gg: AYBFou17l9kNyqDy8GgcH90RV0souscriB54DT7tzlkUKrd2SR6yML10YIAJi8Ti8/B
+	vzOObaXm6GZVPaL7IEgDbrVP4moU2Mcj6X7wYXulFeo1ZXjXCHsmifXKpmITSMt7g+ziD2SoeJH
+	V2W1i24wS19A5YIW2hbK6mxZsLUrbA6WaVkAeTPbEybILb/Fbmlb/gG3YRkoLVAExTP02p8GJN7
+	Hspv7UO5fwfzThqybkFOKUFkKSxliyxZy2BBpA5K5cVs7zjecDtTopvVB4Dx0UArpYsQQZ46P8u
+	JFAyrTHOOaXqpMREjWfLfP9faBWlvoXhK/csTnebAyb5mQ5fAn+8RZ8PeMr4pb8YBWdlhGu5ZWp
+	nCCsP0HKiZeieWxD/QymOu7Wa0ysqs4av1LBYIZjpnLqiCiVPcPiaXfRloTNluzymeddTbNZLCB
+	/Yj3OdbcKP3dBD/mXkjMXQYf/vxKs6upgFhA4q0qfcD3r9X26S1rRcXER3ULVgfiSCA6uFLt9zy
+	3JmsvToys96tBBhUOvNlPOoUfjpbTuu13g8dn57PTlBLjunoQ7BdKdKkY+evUjIAld8pXwwYZrZ
+	Rn+caE32uz2UzJCL2BPXzbDaE/IBum/u3DNLiyfIowYwT68=
+X-Received: by 2002:a05:600c:5397:b0:4a4:7a8d:c736 with SMTP id 5b1f17b1804b1-4ac16acfceamr30142445e9.9.1793350660432;
+        Fri, 30 Oct 2026 01:57:40 -0700 (PDT)
+Received: from localhost.localdomain ([2a06:c701:4773:6f00:6ca3:c7d9:c03f:68c7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ac09ad35fdsm28215155e9.2.2026.10.30.01.57.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 01:57:39 -0700 (PDT)
+From: Avi Weiss <thnkslprpt@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Oder Chiou <oder_chiou@realtek.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	laixiangwu <laixiangwu@cmss.chinamobile.com>
-Subject: [PATCH] ASoC: mmp-sspa: Fix runtime PM refcount leak in mmp_sspa_open()
-Date: Fri, 30 Oct 2026 16:38:10 +0800
-Message-ID: <20261030083810.1597-1-laixiangwu@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.50.1.windows.1
+	linux-sound@vger.kernel.org
+Subject: [PATCH 1/4] ASoC: rt721-sdca: handle HID button read errors
+Date: Fri, 30 Oct 2026 10:57:32 +0200
+Message-ID: <20261030085735.2146047-1-thnkslprpt@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -77,49 +97,64 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-mmp_sspa_open() calls pm_runtime_get_sync() to power up the device,
-but when the port is found to be in use it returns -EBUSY without the
-matching pm_runtime_put_sync().
+rt_sdca_button_detect() returns zero when a regmap read fails,
+so RT721 treats the error as a valid no-button result.
 
-The ASoC core only invokes the component close() callback (which would
-drop the reference) for streams whose open() succeeded, so every
-rejected open leaves the runtime PM usage counter incremented and the
-device can never runtime suspend afterwards.
+Return the original error and skip button reporting when a read
+fails. Still report jack changes, and clear button state if the
+headset is removed.
 
-Drop the reference on the error path, and also check the return value
-of pm_runtime_get_sync() as the ASoC core itself does.
-
-Fixes: 7d98cc648253 ("ASoC: mmp-sspa: Add support for the runtime power management")
-Signed-off-by: laixiangwu <laixiangwu@cmss.chinamobile.com>
+Fixes: bbca8e7050e0 ("ASoC: rt-sdw-common: Common functions for Realtek soundwire driver")
+Signed-off-by: Avi Weiss <thnkslprpt@gmail.com>
 ---
- sound/soc/pxa/mmp-sspa.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ sound/soc/codecs/rt-sdw-common.c |  5 ++++-
+ sound/soc/codecs/rt721-sdca.c    | 13 +++++++++++++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/pxa/mmp-sspa.c b/sound/soc/pxa/mmp-sspa.c
-index f9066fbdd..eee15a6cf 100644
---- a/sound/soc/pxa/mmp-sspa.c
-+++ b/sound/soc/pxa/mmp-sspa.c
-@@ -421,14 +421,20 @@ static int mmp_sspa_open(struct snd_soc_component *component,
- 			 struct snd_pcm_substream *substream)
- {
- 	struct sspa_priv *sspa = snd_soc_component_get_drvdata(component);
-+	int ret;
- 
--	pm_runtime_get_sync(component->dev);
-+	ret = pm_runtime_get_sync(component->dev);
-+	if (ret < 0) {
-+		pm_runtime_put_noidle(component->dev);
+diff --git a/sound/soc/codecs/rt-sdw-common.c b/sound/soc/codecs/rt-sdw-common.c
+index ad61943ce75ff..e4139e6393b1c 100644
+--- a/sound/soc/codecs/rt-sdw-common.c
++++ b/sound/soc/codecs/rt-sdw-common.c
+@@ -199,7 +199,7 @@ int rt_sdca_button_detect(struct regmap *map, unsigned int entity_id,
+ 	ret = regmap_read(map, SDW_SDCA_CTL(SDCA_NUM_HID, entity_id,
+ 			RT_SDCA_CTL_HIDTX_CURRENT_OWNER, 0), &owner);
+ 	if (ret < 0)
+-		return 0;
 +		return ret;
+ 
+ 	/* if owner is device then there is no button event from device */
+ 	if (owner == 1)
+@@ -229,6 +229,9 @@ int rt_sdca_button_detect(struct regmap *map, unsigned int entity_id,
+ 			SDW_SDCA_CTL(SDCA_NUM_HID, entity_id,
+ 				RT_SDCA_CTL_HIDTX_CURRENT_OWNER, 0), 0x01);
+ 
++	if (ret < 0)
++		return ret;
++
+ 	return btn_type;
+ }
+ EXPORT_SYMBOL_GPL(rt_sdca_button_detect);
+diff --git a/sound/soc/codecs/rt721-sdca.c b/sound/soc/codecs/rt721-sdca.c
+index 9f567caecb70a..95c028efec01c 100644
+--- a/sound/soc/codecs/rt721-sdca.c
++++ b/sound/soc/codecs/rt721-sdca.c
+@@ -248,6 +248,19 @@ static void rt721_sdca_jack_detect_handler(struct work_struct *work)
+ 					RT721_SDCA_ENT_HID01, RT721_BUF_ADDR_HID1,
+ 					RT721_SDCA_HID_ID);
+ 
++	if (btn_type < 0) {
++		if (rt721->scp_sdca_stat1 & SDW_SCP_SDCA_INT_SDCA_0) {
++			unsigned int mask = SND_JACK_HEADSET;
++
++			if (rt721->jack_type != SND_JACK_HEADSET)
++				mask |= SND_JACK_BTN_0 | SND_JACK_BTN_1 |
++					SND_JACK_BTN_2 | SND_JACK_BTN_3;
++
++			snd_soc_jack_report(rt721->hs_jack, rt721->jack_type, mask);
++		}
++		return;
 +	}
++
+ 	if (rt721->jack_type == 0)
+ 		btn_type = 0;
  
- 	/* we can only change the settings if the port is not in use */
- 	if ((__raw_readl(sspa->tx_base + SSPA_SP) & SSPA_SP_S_EN) ||
- 	    (__raw_readl(sspa->rx_base + SSPA_SP) & SSPA_SP_S_EN)) {
- 		dev_err(component->dev,
- 			"can't change hardware dai format: stream is in use\n");
-+		pm_runtime_put_sync(component->dev);
- 		return -EBUSY;
- 	}
- 
-
-
