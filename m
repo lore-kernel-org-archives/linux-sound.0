@@ -1,80 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793347432;
-	b=QGBnPMjy3Y6nR73E0GW54C3fD/jPb75sj3jvoH9h8nUFfi7oI7rdeolfNh2++QWnMFf3
-	 PWeCdO2AzUOIknuSXmuBOvwk44F/7SQ9woS7rDzXUY2EjOGxcf7HJ4AsKBoZHm1i5tUqV
-	 1dTK54NY5+09aJILviS9SiGiM827+xCtqo/W+dIekl4jKRrJF2benPUn6Aww2ZLMCQMcB
-	 shDfaKwaeVWYbbGQX+yBQxoJThWF/iiuJ8snbmpiznxJXTVGZNThYTEHK51SIYVeN097O
-	 F3I/gR7kdqw0U8kbbMiSgUspTl+OuyjiBLNzFh6bkn40sSXl1sm7rfGY4MkIq2C0Cxw==
+	t=1793347436;
+	b=Rcqy31uJVX9XdjunQQoicmNh/gjQk6uFSY9bpwy1L291/ZiAiaqPKnBl6r566dBYdHon
+	 aRx/LE+JXM+/yTFQ5uIJ7Bi49gGW+6z+ihG+zJHlCKDVrB/YPfitd61r75XSvEo3Tuezd
+	 FzaIAUkhpzALcywU6fzwAKTd9s3k2vyp//EV1h1wPEqDqNoAdKy5Qw1CtKwZoccf1RhL+
+	 CddeRyEMUesQcyeyynXS9rGP+Esl92UrQU3J9xxnAoWE6Fy3CzSuzkZfTZVxDxa5uFcSE
+	 kwmFR/LUG6sHWvU3YrUdJHO1MGSzy5m+4zZNr+8j2fLbfsIpsbw5M40/pwhzAb/wXjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793347432;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793347436;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=Q6QB/49NRyPAoCN2vd2BzB0Ebs4MdUiS/1UntiQymG4=;
-	b=p5+Tnigf2Avm6f3mewK01OiT9RVJIWLKyAriS+qRXcGf5SLv0MtnNk/b6RZRb2GdJfJf
-	 DolF580471BMxZQ/WNC5Syl0Rrq12QEXqfJJFTI/Tn6OCvTDj3VPsgSHRfU+6dXJ5LFko
-	 St7Mldne9n6m+rgRnC81OpgUK4I4J/vYS1UHW5y0QYTQNrNCutgC0gNteNPXgxwqP7lZg
-	 3Ov2HRdYXOHy5RfAsz/tIGsUmek6Z/voRwWkf98PY7qcdQ8grvR0ZkV9nzJqav8hE2Cmn
-	 RHdiXAJSXDJNVS2pxeVIMBwmX0zEpMpW10FefDcSDI0IqnGS/IWR4NFHLrQ9h7xwQhA==
+	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=7TG0hQG6Ly9ECABHSZSPu0QD0aAkIq6xqd+y9iEY5so=;
+	b=AmQAhXwYc1XFizVf+6j1JtmyMRxl43ptr3/ufFOz2pVKxuwODSRaYnidfp8Eiu4Hh/Vh
+	 A/IxB4mN86626b4vroFjnuDe61YoZU+xT5BXc7bmSM5C+DR3wky7ItkPmOcM82J/6DqyL
+	 QOGqabmmk+AixBthtcPTHM4yG8rqU29E5AVQdTOFR88dUoE6e2NSeF1AUOOgsjq9Mz4o4
+	 yctltvXFJNa+6QGFGbxGlOEwrwp6CaiL+qQ8LdZ2s7NeqjfVBa60J+j4qpIjKi5+CXHFd
+	 X/1HhXYAaouQHTHsj1u1Dfj+2f4HB9EZbcTPLyXqb9i/b4pbpBe4WsBKO5+Jb234M3A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KXjqaw7G;
-	arc=none smtp.remote-ip=209.85.216.50
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="fdTjyD/x";
+	arc=none smtp.remote-ip=209.85.210.172
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C83606A31D
-	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 08:03:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D2C83606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D03606A32F
+	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 08:03:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2D03606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KXjqaw7G
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3ae702d28c4so190472a91.3
-        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 01:03:51 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fdTjyD/x
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8a05f2d5cd3so160296b3a.0
+        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 01:03:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793347431; x=1793952231; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Q6QB/49NRyPAoCN2vd2BzB0Ebs4MdUiS/1UntiQymG4=;
-        b=KXjqaw7GiZQ1Zenb93UyM8Fd4N32AwQfBcLIv/nMxX3/AvLNLBysoLbH3Y8VMYIB3M
-         TrB1hg2jpJ9pfHbvD5wpBNe6Itb+GGs1PmDAHlmOVXLjCh0KSGHmDVPG/3SJuurzF592
-         ie2dNkHDFZzOILzA+bTAidoyJggp31NLNmZC0FuvWTMAhlHGmRCnlBKuUng2d5bGUk+d
-         x/0g3OQB1TzGUDZ2nMb33YA/IZjjKh7yPTkk1AEsXoTfnydvk5itRVX996GFh/xUWLrl
-         7I9rPinvf84UKRlvpkDyg6dSOUCPAWREixcbiYDnWXgaWr+jZgGbfVYsQ/uEARaMc4Mr
-         Hsqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793347431; x=1793952231;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1793347435; x=1793952235; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Q6QB/49NRyPAoCN2vd2BzB0Ebs4MdUiS/1UntiQymG4=;
-        b=0ibCitqs1sDp9Pd7qBpnvhkTg282EpJFdy/DLnO45gXBIm0vKsQYKS+KLLyCZlG0aR
-         G/Nw1xFxCz8eYkNKhHHjUXJwMko44cdAuVaNA82nKb996cJPa3g6j5pfmeDdj5yZ6qVX
-         ue0tOhJQ/FcR8iaDGkQgXDNzJTrsv0x4/R8rnALAEPQfgSlU1Z7BRN0odWYZIZG5+JMZ
-         BCU2+HTcBupHurBz2MdzbthsolTzA+ai7YDmVc1jw8boVvLfhj2VW99qbgoqW2BmqlaZ
-         yX0S/FDFDAgrn9YLPGjK6Uf1Y6dIyBCIJwGuMKVePDRcllz+y7xWsrwjhQQdrc0fffGB
-         Flrw==
-X-Gm-Message-State: AFq9FYJamwJYwMPxZ2NvWHVrBMXdUnmnBq/Oj7urQyUN5tRy/CBDf0CK
-	9vjYTXF16Bm5D/2LSwm7hAvV17wwbLJgmMEvlJOwMlmA/K+VIotTHjsd
-X-Gm-Gg: AYBFou1Gm7UXYo2RzejuNnvvR3cf4bVwX9H0ZNODhupt3XfVqeit11J4811BLwFbFiN
-	9TPS1Mf+0jGIAtFIn/ASayqDupQs/VOTUdxIoEhGKj5ISbHZ/utuo2C+G3BJJ6Q+BNfg3XqOKeS
-	oKVVFFV0GIwCloXNDhudH4y9ncaI2YKw1uL/WwmlJl+jx0bEiiYrxQSuDe5YpnfeKVAAfN/TJNw
-	YtaStFg7WUKQMhEn9FSrG7whcaCPOSMPkylJFbd64gBPMaZxe6uurvo9wSCPvwFewt6T/qF5Asf
-	Cdx+GdvjNiROhRpte7ouYPpQV6Soesn3psURAYWWTfsKO21HRz8+Ke7wCCOGM09cboBPRRD8Z2i
-	DqDxOCb8d8w/7KISSlTPRcwiiASErY7ZiZtwYLZCp6xTnpWDZN03rG2tjPFJsEfMChuqU02+aSc
-	kfwsWdyzWmGs5KkF4WEIwYY1CtJXS7UpvVzR8WaC4E0Piv/7jooRTdHmcYfzIeBQh7AdUHpKPTu
-	RXxpTXO2FYoia5m60CYgbcehJE4tDdK2MpA9ObUeQhFjzVZ4wtBIMjw5BgkmIpzaZssnJO5DmFj
-	w9ahL4dFr/BPVhH5EFjGVTd/
-X-Received: by 2002:a17:90b:3881:b0:3ad:5c64:c7a0 with SMTP id 98e67ed59e1d1-3ae89814e7dmr1181473a91.38.1793347431081;
-        Fri, 30 Oct 2026 01:03:51 -0700 (PDT)
+        bh=7TG0hQG6Ly9ECABHSZSPu0QD0aAkIq6xqd+y9iEY5so=;
+        b=fdTjyD/xFNamCuqV8vTC6xZk3gAotWFnaubVtxLAIEhmDnH7oCUje/d//7MF4aZ3Sb
+         V9O+rejwDNxiL3qqyLbN+1/0TrYJ4TD37O+pE9mogyao31ARiob9H5Pz2WDq7/nUb2T6
+         bJAJqA6vJmu0xPVl+5KDHs1UzmiuFUEtPjhPxKc3/r3L7TOqIpGNKIDp9/MxEaBtZcUl
+         qCO+MPM5V0vCg0McSLH39ovNgpBnQ2PhMINI3HibnJIWeamFqOzHGfA81Jy6f+Y0i6/H
+         lJK/k6RieL0S6LjHsMnpHRigG/LBhMQD/I4MR1lYxd6brSWcjoGogKAP3Zek63ViRLlo
+         14yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793347435; x=1793952235;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7TG0hQG6Ly9ECABHSZSPu0QD0aAkIq6xqd+y9iEY5so=;
+        b=CqF8BAzMHECEPijwtTskWaupV+JJF/S/j+7HD0hqF2ZI2FsQfhtc9X2TM2do6FhdwX
+         FHwlqX8ZVRxnmhirAXU8vD/dNsXsgB8FFcpGkZHTRb+uXV1gxA6xIk3emPkpTynlX2Jh
+         rCiHM4VOfhyKop4/UInTE6fwRe9W1TBJyM5rze6PR0heOEJuGZqCHY3dqxee2R9XbARy
+         9Ygbi/cC6mHlUd+O8h+s2Q4ZrJtxg1fpf6K+ksfI8UPLBqV4YI5mjTjP40tVEdqVgg16
+         W9iUDxUMaGMoWLmN4UIy0HlAGj3Rej/+rHJen99P7gheFjSr1nkbqkb56jgzSyjcn8eQ
+         FYsw==
+X-Gm-Message-State: AFq9FYIex7KA6w3dgRgVDjq5gErcu1wU8fWDoPrVG8vafC0uLvehI+os
+	2DgKXaz2DJxyf+ezNnaEk6mxQ9I6mIhXRaygibGZHSqE9wCCjdQAV7hL
+X-Gm-Gg: AYBFou05EAWSp6j6nOuW/CfnKvp1PwL/KJdJhMnt7aUkIOiZeOgCzcccJNzZv5w50Zv
+	urZ1ZEjAfLGb9oMImDFIFLN0vTbVWG+TqJxzKy/am1z142TKSd0SHXkuErrlkoNsiTnppBXCbZe
+	IHAjcr39DPwGNx133I7E3L2t4AuOiSvgVE7XXXBcA0EhdIfIw8N/y5ZhFWfwvGmLXDp4FH1iBrp
+	BXUpgZQ0n0hHfpqcYfS+/s859O3O7ou5MC2LVUpSTxu5sUY9QAakVrCDTQWLm6ZrgB+X2JRxun4
+	8nl2dNa2Z34JSrkBwKzINJK2DaG/aUJ2Rv8iHfrRvHy+t3aFS1cx1XHwl0NFOZupQLUaIkzzx+o
+	72ROJvA1OKMtn2Ypeez9GWTgwqLQALxkL9TgDRUunNkvxKkS0cFf9motfWuzEj7iNe9mssG0PGQ
+	OPfXaiCl6B0qmJ7eBHB8jR1NXblUCLqeN/dMGViN0tyfq4q0FFqRKTFPLNJQIp2qB/EWWuspSoP
+	FtKNNQg8JVUdtzKI79JDUGz+X2iILDIvWR2SjDPqOz/ZFezLA8TSc5lTxce1kSfL7ui69MWSCvU
+	yUPvyaB7o4xZwOzyho4wbD8R
+X-Received: by 2002:a17:90b:3f84:b0:3a4:e934:e85c with SMTP id 98e67ed59e1d1-3ae897a5c4amr1209727a91.41.1793347435092;
+        Fri, 30 Oct 2026 01:03:55 -0700 (PDT)
 Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae84577911sm3073035a91.7.2026.10.30.01.03.47
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae84577911sm3073035a91.7.2026.10.30.01.03.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 01:03:50 -0700 (PDT)
+        Fri, 30 Oct 2026 01:03:54 -0700 (PDT)
 From: Cen Zhang <zzzccc427@gmail.com>
 To: perex@perex.cz,
 	tiwai@suse.com
@@ -84,10 +86,12 @@ Cc: linux-sound@vger.kernel.org,
 	baijiaju1990@gmail.com,
 	jjzuming@gmail.com,
 	zzzccc427@gmail.com
-Subject: [PATCH v3 0/5] ALSA: hda: Wait for PCM files on codec teardown
-Date: Fri, 30 Oct 2026 16:03:38 +0800
-Message-Id: <pm-pmb-a4703edca61d34aa679b-v11-d9186d19e8afb48972af-0@gmail.com>
+Subject: [PATCH v3 1/5] ALSA: hda: Serialize codec probe and remove on the same bus
+Date: Fri, 30 Oct 2026 16:03:39 +0800
+Message-Id: <pm-pmb-a4703edca61d34aa679b-v11-d9186d19e8afb48972af-1@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <pm-pmb-a4703edca61d34aa679b-v11-d9186d19e8afb48972af-0@gmail.com>
+References: <pm-pmb-a4703edca61d34aa679b-v11-d9186d19e8afb48972af-0@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,61 +103,75 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When an HD-audio codec is unbound while the card stays registered, the
-codec remove frees its PCMs while files can still use them, and the
-probe and remove of codecs on one bus can run at the same time.
+The probe and remove of different codecs on one HD-audio bus can run at
+the same time, for example when two codecs are bound and unbound through
+sysfs. A codec probe on a registered card calls snd_card_register(),
+which walks card->devices in snd_device_register_all(), while the remove
+of another codec frees its PCMs and deletes them from the same list.
+The list has no lock of its own.
 
-Following Takashi's suggestion on v2, this version fixes both in the
-HD-audio layer: patch 1 serializes the codec probe and remove on a bus,
-and patch 5 makes the codec teardown wait until the files opened on its
-PCMs are closed.
+Add a mutex to struct hdac_bus and hold it in hda_codec_driver_probe()
+and hda_codec_driver_remove(). The ASoC ext_ops paths are unchanged.
 
-Patches 2 and 3 add the file to the card while the PCM minor is looked
-up, so that the wait does not miss an open between the lookup and
-snd_card_file_add(), and record the device a file was opened for. The
-teardown waits only for the files of its own PCMs, because the card
-files also include the control device, which a sound server keeps open
-for as long as it runs. Patch 4 makes an open fail once its PCM is
-disconnected, so that a late open does not get a working stream and
-hold off the teardown.
-
+Fixes: bcd96557bd0a ("ALSA: hda - Build PCMs and controls at codec driver probe")
+Suggested-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 ---
-Cen Zhang (5):
-  ALSA: hda: Serialize codec probe and remove on the same bus
-  ALSA: core: Add the card file while looking up a minor
-  ALSA: pcm: Add the file to the card while looking up the minor
-  ALSA: pcm: Refuse to open a disconnected PCM
-  ALSA: hda: Wait for the files of the codec PCMs before freeing them
+ include/sound/hdaudio.h | 1 +
+ sound/hda/common/bind.c | 7 +++++++
+ sound/hda/core/bus.c    | 1 +
+ 3 files changed, 9 insertions(+)
 
- include/sound/core.h     |  7 +++++
- include/sound/hdaudio.h  |  1 +
- include/sound/pcm.h      |  1 +
- sound/core/init.c        | 61 ++++++++++++++++++++++++++++++++++++----
- sound/core/oss/pcm_oss.c | 19 ++++---------
- sound/core/pcm.c         |  3 ++
- sound/core/pcm_native.c  | 37 ++++++++++--------------
- sound/core/sound.c       | 34 ++++++++++++++++++++++
- sound/core/sound_oss.c   | 21 ++++++++++++++
- sound/hda/common/bind.c  | 24 ++++++++++++++++
- sound/hda/core/bus.c     |  1 +
- 11 files changed, 168 insertions(+), 41 deletions(-)
-
-
-base-commit: a4311e9447bbb219044db38897f95be112f46a8a
+diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
+index 04fd4794bcee..066d2fef3986 100644
+--- a/include/sound/hdaudio.h
++++ b/include/sound/hdaudio.h
+@@ -367,6 +367,7 @@ struct hdac_bus {
+ 	spinlock_t reg_lock;
+ 	struct mutex cmd_mutex;
+ 	struct mutex lock;
++	struct mutex codec_bind_lock;	/* codec driver probe and remove */
+ 
+ 	/* DRM component interface */
+ 	struct drm_audio_component *audio_component;
+diff --git a/sound/hda/common/bind.c b/sound/hda/common/bind.c
+index 957feace0f58..abbb3b64ec09 100644
+--- a/sound/hda/common/bind.c
++++ b/sound/hda/common/bind.c
+@@ -104,6 +104,12 @@ static int hda_codec_driver_probe(struct device *dev)
+ 	if (WARN_ON(!codec->preset))
+ 		return -EINVAL;
+ 
++	/*
++	 * snd_card_register() below walks the device list of the card, which
++	 * the removal of another codec changes when it frees its PCMs.
++	 */
++	guard(mutex)(&codec->bus->core.codec_bind_lock);
++
+ 	err = snd_hda_codec_set_name(codec, codec->preset->name);
+ 	if (err < 0)
+ 		goto error;
+@@ -171,6 +177,7 @@ static int hda_codec_driver_remove(struct device *dev)
+ 		return codec->bus->core.ext_ops->hdev_detach(&codec->core);
+ 	}
+ 
++	guard(mutex)(&codec->bus->core.codec_bind_lock);
+ 	snd_hda_codec_disconnect_pcms(codec);
+ 	snd_hda_jack_tbl_disconnect(codec);
+ 	snd_refcount_sync(&codec->pcm_ref);
+diff --git a/sound/hda/core/bus.c b/sound/hda/core/bus.c
+index 02462bd035e7..304110c9a6a7 100644
+--- a/sound/hda/core/bus.c
++++ b/sound/hda/core/bus.c
+@@ -44,6 +44,7 @@ int snd_hdac_bus_init(struct hdac_bus *bus, struct device *dev,
+ 	spin_lock_init(&bus->reg_lock);
+ 	mutex_init(&bus->cmd_mutex);
+ 	mutex_init(&bus->lock);
++	mutex_init(&bus->codec_bind_lock);
+ 	INIT_LIST_HEAD(&bus->hlink_list);
+ 	init_waitqueue_head(&bus->rirb_wq);
+ 	bus->irq = -1;
 -- 
 2.43.0
 
-Changes in v3:
-- Fix the codec teardown in the HD-audio layer as suggested by Takashi,
-  instead of retaining the PCM in the PCM core: serialize the codec probe
-  and remove on a bus, and wait for the files opened on the codec PCMs
-  before freeing them.
-- Add the card file while looking up the PCM minor, so that the wait cannot
-  miss an open, and wait only for the files of the codec PCMs instead of all
-  files of the card.
-- Refuse to open a disconnected PCM.
-- Drop the Assisted-by tag, which has been removed from the documentation
-  and checkpatch.
 
-Link to v1: https://lore.kernel.org/r/pm-pmb-a4703edca61d34aa679b-v6-680f350d78e44f9de7a7@gmail.com
-Link to v2: https://lore.kernel.org/r/pm-pmb-a4703edca61d34aa679b-v9-c4f3df026f28aea10fd1-0@gmail.com
