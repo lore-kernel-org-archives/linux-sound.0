@@ -1,55 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793358739;
-	b=fHV4MYkiamXblkwDG3gT1H/fFC3S+SXxjW1T20Snh+fAuYncazP1gdaKIMIKTXrWRwb4
-	 4RKQK+9Br1Uwac9pXSKXu4nU9kYji+wtVr10S1GccLHtjuRSkWkKv+bjoP0q2q1axJI3I
-	 nfqDsEeRmb7uEZ/u2R7/QHQzrgS/ThYAQnVhsIoLgaXvp1mvBUfN7dg/VXBQlIiIp016J
-	 gAX8l6BdLAe6/BQKxXv5vfqzMAzKv0W0FPjBuDf8qv3c4Xp48XDZVMfVV5k9858XW0FhY
-	 Bya6hu4Hjf/Ldczf8RqDj/W/LuP9ChDgWFd5MeS2AF6naMAO3ecbjgrCgzWaLPx5ihw==
+	t=1793358855;
+	b=M8d5WtjfC/38oGOwuN2Y4Z1ZpbO9wMFY3QedwkthWmhXs6fbC/1UB+kTG9z6YB64d306
+	 puQFpKeU47o2OSckfWpQBbspcbFMdk4L6fe8078D2HfNYocNzG1LNYt5Fk5gC4gw2Ij5w
+	 cd8rb93ioQqWffjIyFnL2O35zGXi2eA+qLaC3AgXeaaoE7cPaWu26u2qmKsujHVR6o2+j
+	 OWiX6xtHltaXVdI3T0wZGX9yuFuXn24F3CNf2nJLK9VLF8DLxH9Rv/AxnYhDx6yjMqSJ1
+	 9Xs9lT+cu2KRvowH0Sfg6GARyPlMhnCZDBJhNaXLwdhvWwIMZBEVB2WVI4KY++uCmrA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793358739;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:X-Developer-Signature:X-Developer-Key:
-	 Content-Transfer-Encoding;
-	bh=4ytDcB9XY2YHzLOI6QFQQmRgDySP+rWAybjDyIMn/RY=;
-	b=nswch2l/C4KTQAls51ptrdoIED3TvgQpvHU2SrbIRKyFineyVExFmFg/sNaanLIzIsLd
-	 TL52GCAPTul6CIeFMJtOZbDR1A/rrn37Oc4tfBMouenm1vCXnLEWsl4IVEfui31MvRC72
-	 41nQg3Xt54E3bfXWeNbZ/jZEO6+C/etwVdJ/b8xtL3WtpURW3+yws9q7ldLCf4jbjaI+r
-	 rZDC0mFVqwECrWaG9aRewJsl9CQnftnOBeReO1j5UV+TeRFKFj4THlechUOiuwGQRN1U6
-	 o0PdvBB3aCUhp+l+AsqEmMoxz6WJ/+G5Z5KmOT3iehAuHfayohLK0HJypWKb88JOdZw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793358855;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=b1KYN/Lwwltx8lsEo1ijSFDSSBnaiZ0WaUNnGosleeU=;
+	b=eUsXLHyfS7tdOzwS9iZI7TFyWm1D/kF1E1OA67fWo8cv7YWbBGQy3xWmEhIW5VsYdhF0
+	 x6nWA8hCcqp/+13Ja6SPL13TnatCajyGZjQwKcarwD6c158T05tlJe2iPW0BZBZFnd7eD
+	 PYq9UhnXYCfWg2WNGdMvwF5AzaWWoyTPdlnctGivaaaGVQFQ5USywnIguw6u5121UDxAJ
+	 kQeZDPkqqrJFnQrCr3qbMSTOML0eSPYtJjV8ZCOLTu/O7PaaEW7tYt1u0hbah91uHjFYL
+	 Fg4mlFj3PaffFB8BytRrUdK02m2pcg0Bpbv1oTBE6R+T6hyoKgz6UjUsKxR1d+R6PRQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XFRBtYmC;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zm9eYVj4;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEB2606A31A;
-	Fri, 30 Oct 2026 11:12:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA058606A31A;
+	Fri, 30 Oct 2026 11:14:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XFRBtYmC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9D041F000C1;
-	Fri, 30 Oct 2026 11:12:17 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zm9eYVj4
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E1BB1F00A18;
+	Fri, 30 Oct 2026 11:14:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793358739;
-	bh=4ytDcB9XY2YHzLOI6QFQQmRgDySP+rWAybjDyIMn/RY=;
-	h=From:To:Cc:Subject:Date;
-	b=XFRBtYmCwnP3QIr6WjtkHQocOUlJOFRP7bLaS5PkgXdivVzgVP9mPxvtyDrRUIYo1
-	 yai92bBJqClffopCMzHdA4tihR2YVY1X8MZXrvahpkW/LtmBvAWILFG95wlZYUjCuL
-	 dzpa8+bb9JZtxEI5/I9mwpfqulz3IVl/Dpz49698/I9QGt1JRq4JnSrKfZ07LVnbEC
-	 Q1+35u8N/XLaMeNp5KzptZMycwlp0ArQZtEM1zx+wM1o7CGzM4UFvw7ECz9F4o55i/
-	 r9DIsf8qI8V7OOdkZZuYGBuJVKvzPngeoFopVmvPjD/4pyQi3ZDnKbk7NtH7Q3k8rC
-	 40N79sLBekM5g==
-From: Thorsten Blum <blum@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Thorsten Blum <blum@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: usx2y: Use prepare_inurb() in usb_stream_start()
-Date: Fri, 30 Oct 2026 12:11:59 +0100
-Message-ID: <20261030111200.114945-3-blum@kernel.org>
-X-Mailer: git-send-email 2.56.0
+	s=k20260515; t=1793358854;
+	bh=b1KYN/Lwwltx8lsEo1ijSFDSSBnaiZ0WaUNnGosleeU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Zm9eYVj4LdURXeRBijkxLOYixVbDjIuCNzhwUyClUdnLrvSz7zanXkYKW0xlRkZaA
+	 1l/t/GdQzMxZdNXkj6YyJBzS1GBWAMo3kodyhM6TmvAwZtWSGWAmp/SLbnaH/oI/7S
+	 D05GKb2EbQRjoQuCFyCimWG6n9ZKyqYe92iyzxGrT8uf8YlaFVaIhttRvExMzYIuac
+	 lPr0hiQ9vHPXWfQegXj0Ean1pbFCMA/ky5UZPBuG9jy7yJ3UHH+3+acg6Z/N3pvV7A
+	 4iDonYgXwQzLJb5UCz6b3ZmwxDD9JGVQlBKlJ9Qg3A6VkuFpFNWaGQceBxUps3GVVs
+	 3Y2lcVa2Ok99g==
+Date: Fri, 30 Oct 2026 11:14:08 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Lee Jones <lee@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 05/21] ASoC: SOF: Intel: hda-sdw-bpt: Stop active DMA
+ before closing BPT streams
+Message-ID: <c56e07ba-3038-466c-9eb6-1cc5e23afe2d@sirena.org.uk>
+References: <20261030104840.3361217-1-lee@kernel.org>
+ <20261030104840.3361217-6-lee@kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,31 +69,41 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=838; i=blum@kernel.org; h=from:subject; bh=Pnq0FGfcBcs5kF1Q6HTPK1Tg0gol7LS4HMGSPqIN7i0=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDFlPqhuebN/xRmaGzYO4WaV79hg76B35ciHviJA691fea b18pVpxHaUsDGJcDLJiiiwPZv2Y4VtaU7nJJGInzBxWJpAhDFycAjCRyhiGf4aKMgIXjlVd/iaw veDAmyOdezSYl+3qk2XfcG9zkPbLCHOGX0zX9NZvrv369UuTvdDr82+syoJa4nu9J+Xzti13dJu RxAIA
-X-Developer-Key: i=blum@kernel.org; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Fn8/WZpsIpVzSicI"
+Content-Disposition: inline
+In-Reply-To: <20261030104840.3361217-6-lee@kernel.org>
+X-Cookie: Orders subject to approval.
 
-Replace the open-coded packet count and transfer buffer length
-assignments with prepare_inurb().
 
-Signed-off-by: Thorsten Blum <blum@kernel.org>
----
- sound/usb/usx2y/usb_stream.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+--Fn8/WZpsIpVzSicI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/usb/usx2y/usb_stream.c b/sound/usb/usx2y/usb_stream.c
-index 3122cf653273..d764e8c3b8f4 100644
---- a/sound/usb/usx2y/usb_stream.c
-+++ b/sound/usb/usx2y/usb_stream.c
-@@ -688,10 +688,7 @@ int usb_stream_start(struct usb_stream_kernel *sk)
- 		struct urb *outurb = sk->outurb[u];
- 
- 		playback_prep_freqn(sk, outurb);
--		inurb->number_of_packets = outurb->number_of_packets;
--		inurb->transfer_buffer_length =
--			inurb->number_of_packets *
--			inurb->iso_frame_desc[0].length;
-+		prepare_inurb(outurb->number_of_packets, inurb);
- 
- 		if (u == 0) {
- 			int now;
+On Fri, Oct 30, 2026 at 10:46:44AM +0000, Lee Jones wrote:
+> When sdw_enable_stream() fails in intel_ace2x_bpt_send_async() after
+> hda_sdw_bpt_send_async() has already started the TX and RX DMA streams,
+> intel_ace2x_bpt_close_stream() invokes hda_sdw_bpt_close() directly
+> without calling hda_sdw_bpt_wait().  As a result,
+> hda_sdw_bpt_dma_deprepare() tears down the DMA buffers and BDL while
+> the DMA hardware is still running.
+
+Does this actually need to be in with all the Soundwire stuff?  There's
+no immediately obvious dependency.
+
+--Fn8/WZpsIpVzSicI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrkfAAACgkQJNaLcl1U
+h9CU7gf+PrfLJvFsZ/VgKNswGCtY6iaRMKNQU0qw4VXl8KLHJiXvr27ktz3ktkRi
+v0QPBmsJb1IVNTC3gJ3D6Kb1hh65lkP8Dt5kyOLSCMDZQun13ncRdCzvTmekPA+B
+paLrSael/TJmZUYLaqqPGOAy+iIZSdQLdm0auH/SwyKJ7b+zbnQtcD8aBQ2j8boJ
+poUUr3OujFJmO9zlmcXbBOWH/PxX1XNUZ5MxC3TQoBsjxm6pTjyqf8de6zHqfkYJ
+IkMk5jG9JE1fbZYonvV9M9mgKDTWo/6xePYivSoCAuj6PkOZPQTw3xjzJefIf0xw
+ke+0vaXO/DvW7deBeZGYZL8KqVyQbA==
+=45f0
+-----END PGP SIGNATURE-----
+
+--Fn8/WZpsIpVzSicI--
