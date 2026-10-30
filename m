@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793357502;
-	b=m4G6HEYNJSXmntLR23dAjWUq8pq6FBM6weVkNk3wJ/wwO2eH+oQQiEJVdsvrxta3h+jq
-	 KZpcp9M0MQm6/XtVr6r3Xj8aDq6MEsITB0bo7Lj0A87yKrCe6T1FR1OVeaYXoR7JMLR8E
-	 RF8NI4BAvRZSGgQkfZBWPafs/sVaqyf7L5KO/jB0rmBSHufJb2QeohpGOzGUsAZYck2aj
-	 P5berJTtZLzp8cbURLLazOl/pG+OPdWd9dJ6LxFAXcKlx79xjYlAxwJM1T0rxqk2zu8SJ
-	 hXQ7oPO2SsF10zBR+r4jESmYE1mYYsOM4/2nmy3jzgj6mLMO7pnPI3udJFFlZIlhWAg==
+	t=1793357508;
+	b=CNjlqyLhz+zmp5Wany8zfUTfQetksV6XvztnRUUCAmINuA8QQiX9xWPqIhDu8t8EW2oO
+	 1ONQKZcdy1mJQQTj9GVCVb3k91PPZk4D4PuRoOsBaOjV5IcDAg4jr8ihVCMeuIcyOZH5Y
+	 OJUnyUb08TD1Wf7cnPp/hDuR2pr6WfwZq9AKzVp6XCBYrS68D3u8KTmMsFSmhgXJlR2GH
+	 8biFDjvwFEKPsgoS86sZk3qBAYKXZVbDZBNMukFuSyPz0NkkyplxBXKQP+2SumcWx/fS3
+	 9FACCk51eEgZFZb/ViwROZ65/pfS0QAMltQJqDB2UzoVt3PfyzJxUSJWQwVLPXcZMjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793357502;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793357508;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=Y1e+PgcW52HJA5LghhJEMGx2SKGvaUslgdry5hdV+d4=;
-	b=Wt8PnVDdWp9OriCasMGI+kPuZYU+T53zH1Pk85XEUltdLtZnJ0nNlsKmKTV6/O71cezk
-	 ovoSN9KbSLHTZZ+jbgGGL3qKalRBhnFPkK1Qvs4DxJhYOtx8gGoli6jsEgNbdTIkvvMIW
-	 fp3JNw7PeGnC1CnieS0BjKIKMWl3bQcX/QAlBp/W+FmQ+JVcP0xgMxZyAQHIQ7sGa06Db
-	 NHaeTDbHG95swogC1EEQhDT9vOdutG2s/9woNd7CiavB6naSC+VvG7cgVhl8XdLV4CInW
-	 qeWbP2cF6sPakM/2vdy+WivmYanFwDQGByfF67u6NBR/AF1dR+M6VJTERnyh2CKAPHQ==
+	bh=dY3TW4gVyH389BRWJY/TpocEjcncyQkeiLAGfm7WDB0=;
+	b=ahwJ+KiviAsWJvI272srif8GCF2DzwjkjJ4b0aFAVqzrNkuTNtB0XaWsQVIdLtUO1d4c
+	 oiJEbaf9FOsVD2K0WP73iA3e4oVC+zFUzFoekS3gz3waeZnZ32JsGZGktP/ww7/QTZ3i1
+	 yPBP3HG5yofK8Mvnt1i58sjxodghVz/qm0wICu6qBGzThHl+GqM5UdiqGNZCYExyOY0I4
+	 0s3NQkeziKYjoEO+AgxmngvCybTy3XU6boGJmNM9WwJ6Id9O/eT0+dfnTKw3Iug97mmY1
+	 xr6Cpu99uXlr6BQABzI47YRJK7VCy5gd6ICq0RzyfTL2ki6baBZzVj9kE8XQXKpgtTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d0pTAdMS;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gDlSCkg1;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0581606A8C4;
-	Fri, 30 Oct 2026 10:51:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E00606A337;
+	Fri, 30 Oct 2026 10:51:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d0pTAdMS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D26CD1F00A02;
-	Fri, 30 Oct 2026 10:51:39 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gDlSCkg1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BFED1F00A16;
+	Fri, 30 Oct 2026 10:51:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793357501;
-	bh=Y1e+PgcW52HJA5LghhJEMGx2SKGvaUslgdry5hdV+d4=;
+	s=k20260515; t=1793357507;
+	bh=dY3TW4gVyH389BRWJY/TpocEjcncyQkeiLAGfm7WDB0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=d0pTAdMSNwLbWRxM+moZ1E9/Q7xHm1NfHv0KM1Kxj+XSphSfJhZH3C02Itx58q8sm
-	 Tm1anfEsF+E1oThzdnVcHXaYlBjV0IYz5SLww+NGejQ2q6vhC9q2N1L7St+42/dqwt
-	 uT9C7D2Ti5JS9iyk+VatAIDxgr1bZYPpx0Qrte2ounv/aBGbyO2VtoBB+qWEUcdG2a
-	 buPJH1mhOmCPDJJHHjMk2JoDMdHR2jdgfLL8aoEJQvbcs6Br8/P86cLGrTxcnmQW/Z
-	 HUG+wolsUJ4BYEy4iKFV7J2ya+FHDVe0D10/Jv/6MtTpVNmstHfJZBm1DNq5Iw1SPi
-	 smsPGdKdoQ0ZQ==
+	b=gDlSCkg1nc3GvBuCEqjdT+mWhwEk3my50hDU/dGynPxHevpRA2oU9rkxBJvSP5SHd
+	 +Ygm080yHJuu4TbaX5B0sgljmOayndSJbw+q0Tugj6yCroJJ+deEtSG/ndkzKibqFm
+	 ixU991KKQG1an356pnhyx7OUbeNVpEiDDqMVYMYjkG5UnvPLWQ3i5D+3KO2OFoYG3a
+	 jYDr09BooKyPdobXbHhgv4hFXwriVoQYXLHF4E3wrHGPjqt6c3PN0l5hFAOhbcQI/W
+	 JmcH77WjXsGdvVpHEK/1KSOC/V8D4xB4NBeT1WVwwNuxGXL17MrIg62s/lsQFkBLDs
+	 0lEY6vm0n2NiA==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org,
 	Vinod Koul <vkoul@kernel.org>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar.Mukunda@amd.com,
-	Mark Brown <broonie@kernel.org>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: stable@vger.kernel.org
-Subject: [PATCH 12/21] soundwire: amd: Check for NULL manager drvdata in sdw_amd_startup()
-Date: Fri, 30 Oct 2026 10:46:51 +0000
-Message-ID: <20261030104840.3361217-13-lee@kernel.org>
+Subject: [PATCH 13/21] soundwire: amd: Check ping command response for timeout
+Date: Fri, 30 Oct 2026 10:46:52 +0000
+Message-ID: <20261030104840.3361217-14-lee@kernel.org>
 X-Mailer: git-send-email 2.56.0.317.g454f8302e1-goog
 In-Reply-To: <20261030104840.3361217-1-lee@kernel.org>
 References: <20261030104840.3361217-1-lee@kernel.org>
@@ -66,59 +65,45 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If amd_sdw_manager_probe() fails or defers when registering a SoundWire
-manager platform device, dev_get_drvdata(&ctx->pdev[i]->dev) returns
-NULL.  sdw_amd_startup() passes this pointer directly to
-amd_sdw_manager_start(), which dereferences it unconditionally.
+When amd_sdw_send_cmd_get_resp() times out, it returns -ETIMEDOUT as a
+sign-extended 64-bit value.  amd_sdw_read_and_process_ping_status() and
+amd_sdw_read_ping_status() extract peripheral status bits directly from
+the returned value without checking for -ETIMEDOUT, interpreting the
+error code bits as peripheral status values.
 
-Return -ENODEV in sdw_amd_startup() if dev_get_drvdata() returns NULL,
-matching sdw_amd_get_slave_info(), and clean up the allocated context
-and platform devices via sdw_amd_exit() if sdw_amd_startup() fails in
-sdw_amd_probe().
+Check for -ETIMEDOUT before extracting peripheral status from the ping
+response, matching amd_program_scp_addr() and amd_sdw_fill_msg_resp().
 
-Fixes: ed5e8741b8db ("soundwire: amd: refactor amd soundwire manager device node creation")
-Closes: https://sashiko.dev/#/bug/linux-6834a8a0-632f-4c73-9174-0fe7e06b5303
+Fixes: d8f48fbdfd9a ("soundwire: amd: Add support for AMD Manager driver")
+Closes: https://sashiko.dev/#/bug/linux-c3a53ed5-eb8f-4982-a3b6-db189e009b68
 Cc: stable@vger.kernel.org
 Signed-off-by: Lee Jones <lee@kernel.org>
 ---
- drivers/soundwire/amd_init.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ drivers/soundwire/amd_manager.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/soundwire/amd_init.c b/drivers/soundwire/amd_init.c
-index 8e419ddfa516..adf410fafb7e 100644
---- a/drivers/soundwire/amd_init.c
-+++ b/drivers/soundwire/amd_init.c
-@@ -156,6 +156,8 @@ static int sdw_amd_startup(struct sdw_amd_ctx *ctx)
- 		if (!(ctx->link_mask & BIT(i)))
- 			continue;
- 		amd_manager = dev_get_drvdata(&ctx->pdev[i]->dev);
-+		if (!amd_manager)
-+			return -ENODEV;
- 		ret = amd_sdw_manager_start(amd_manager);
- 		if (ret)
- 			return ret;
-@@ -166,11 +168,20 @@ static int sdw_amd_startup(struct sdw_amd_ctx *ctx)
- 
- int sdw_amd_probe(struct sdw_amd_res *res, struct sdw_amd_ctx **sdw_ctx)
- {
-+	int ret;
-+
- 	*sdw_ctx = sdw_amd_probe_controller(res);
- 	if (!*sdw_ctx)
- 		return -ENODEV;
- 
--	return sdw_amd_startup(*sdw_ctx);
-+	ret = sdw_amd_startup(*sdw_ctx);
-+	if (ret) {
-+		sdw_amd_exit(*sdw_ctx);
-+		*sdw_ctx = NULL;
-+		return ret;
-+	}
-+
-+	return 0;
+diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+index a3316efdf8ac..a8220235a2ae 100644
+--- a/drivers/soundwire/amd_manager.c
++++ b/drivers/soundwire/amd_manager.c
+@@ -448,6 +448,8 @@ static void amd_sdw_read_and_process_ping_status(struct amd_sdw_manager *amd_man
+ 	mutex_lock(&amd_manager->bus.msg_lock);
+ 	response = amd_sdw_send_cmd_get_resp(amd_manager, 0, 0);
+ 	mutex_unlock(&amd_manager->bus.msg_lock);
++	if (response == -ETIMEDOUT)
++		return;
+ 	amd_sdw_process_ping_status(response, amd_manager);
  }
- EXPORT_SYMBOL_NS(sdw_amd_probe, "SOUNDWIRE_AMD_INIT");
  
+@@ -458,6 +460,8 @@ static u32 amd_sdw_read_ping_status(struct sdw_bus *bus)
+ 	u32 slave_stat;
+ 
+ 	response = amd_sdw_send_cmd_get_resp(amd_manager, 0, 0);
++	if (response == -ETIMEDOUT)
++		return 0;
+ 	/* slave status from ping response */
+ 	slave_stat = FIELD_GET(AMD_SDW_MCP_SLAVE_STAT_0_3, response);
+ 	slave_stat |= FIELD_GET(AMD_SDW_MCP_SLAVE_STAT_4_11, response) << 8;
 -- 
 2.56.0.317.g454f8302e1-goog
 
