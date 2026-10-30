@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793351699;
-	b=fO1VSYtblm6GsjlnQfpS/wRZyPXHTFv8QgJpSGCc4OPSNrNdR5tU7FodjZxJpYJIWUVZ
-	 rjeeWWHogNG5ulHj/fs3d2ORrXyJcpu0A+AwVd2mz6o95eqev4dDgTNsgxLcLOFkHznij
-	 IvOrE61HtBsKM4wDMkSTwiqzmEf4mhWn0HmSnuaiwDSG/cfOsC+r1u2U9TSKtruOE72RW
-	 ez2lr+Wm+aBKEl9TPzszvuvzC/4hDmQN44BKRV7c7czXzamKldI7NlQMcqwdHz4WBZH9W
-	 kRidMh9wr5Pfw6D4EWBuXOKyDmGaM2M58xzIZW5I85yxrbyjVKJY53oYylEsVqDEhsg==
+	t=1793351705;
+	b=RKv+vgcoutGaNBpY9xLoHGvE48D7T5CbPFmRhFbddciMFPIyYIFdAyjgvU4+79DUaMcf
+	 vg/PhjRk8ZvYsWvJm3bNv+5hSJIBmrrhPR/rj3uME+H5qCO1LXzGYo8gEMuT4YGwBN9Oe
+	 UJuZPdsj/rx7PD1WJanPW9yK31TslmAqObJscWafnGBwfaSBwYwe8w3RKc2QfLZwrGTeM
+	 ZGAabbu08UphPeF4cXucNgjqI2mrYgaHFtA/VhHD5M3XO+yhIHrxxDrP7itCCR6c8bffy
+	 mNvkh9uhvoYdWTr/FuY5qa/BeKyPMyHfH8ssG+4JRuqDQ5P+ft17z75VIRUhlIsJH0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793351699;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793351705;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=ggzT8mm/DyquJidfZW7gt7MxdM7xQZcIv/Px9dQuRS4=;
-	b=E1e2p2+khbxHsIkW8hOlX59ZkWCbFw5JEwSObXUG8NcC4XCDW6XQdaKuk4yjdSc3j4oo
-	 wmUy66UABm1LDxDGuzIzjM3FoS8MiqsLj4Ddv9pJLk7V73tXxUwv9Hj3blv8ZHRzrKP1C
-	 4BVI6dwX7PR7yrS2/jJvMWYERZIAray71k6Fih/jWBbDhfVIVyZvcMjHyHw3vhTRBe2TH
-	 eVFUm+ZBXonRWUoDOHaecTiqB4oJwqnhZC2MGTKrGRZdH5jGz8hOxBDJed/1NvXDObfrN
-	 O2nIisaeC601ZVvt/rHwGDveyGbv/E47xUwZISlAMS9+MaC8lgTXUovndASXBLrPxpQ==
+	bh=zEuTfCcCze6o8lz+tPI92UoFysg4iqRaW2ZEcUe6QAU=;
+	b=jZWFxFN+gAsE13Yvyv/lvsl1OQ0ZoA8rA25kd2mldhlxxU29QV8kI/L1prEwjwM9q/ry
+	 REgdysADyzjLLXUJDfKuvu//9WwqxF9kSoTW9HeuH0nsBZt9M4DJLYf65MbN7pOzAGyWa
+	 t3Y/4aqLjEO7QE4lZwBS4w7AyF4Eze1yj5p6JTbi1YWv7Djr5nP9C78YGTNagz5YgB+/y
+	 W7+Bks8pzA6MnxUzESlZmUrB3M6+7A8q8H70fxcAmygu7xCbqK8rPpZu3QPufQbD3YRlg
+	 r+ChHRrlHXKHtYfok6qXEKP0Xw5PpJdA1H9LZhjlrBa7go6oMjL+NEe7nUF+W9KqW3A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tzM6CGYq;
-	arc=none smtp.remote-ip=209.85.214.172
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ggwNbcqh;
+	arc=none smtp.remote-ip=209.85.214.175
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED67606A31D
-	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 09:14:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7ED67606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1B6606A31A
+	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 09:15:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E1B6606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tzM6CGYq
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2ea7190aea1so2221965ad.1
-        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 02:14:59 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ggwNbcqh
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2ea7190aea1so2222345ad.1
+        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 02:15:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793351699; x=1793956499; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793351704; x=1793956504; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ggzT8mm/DyquJidfZW7gt7MxdM7xQZcIv/Px9dQuRS4=;
-        b=tzM6CGYq9mVXRZmXhwuJ5L+a5pDUyc35Hh/jAFHfWF808s0iH5b6jAuq0qg/FrzCS8
-         Ct4/qYfGDL1mcLMWWlC3pPwRPIk3lkDyrfLMVzk0qHFv9qT0tiR439sYH9OZF9MA4b1D
-         Gld9EpcE/XeBec0ihs1R0utDBJHN0BrhxdA/U6pev4hk7tUH3HFMkyhYdN5CtQeFEnoa
-         gtZJsEWjPX4FyqZhJyz8iMX+C4PFJyfTLCQ//HH/mBfBeRv5F7OKVGm/KSZujcxyxRKD
-         yHRjmZRo4VZ+TVFcyOhXF4EkvSuT0ppJ4n5rx6+hufDYYQyCpC2qCaNXzrpST0C9S0HY
-         /0gA==
+        bh=zEuTfCcCze6o8lz+tPI92UoFysg4iqRaW2ZEcUe6QAU=;
+        b=ggwNbcqhxPysnARVFOm5hYRe84p4hysDACIXJyBYHZ3gfywBlWTk9IZcOATvCdlmKh
+         Ak+PrxmwaHvl93tBD3QhHhSoyij4z84YuHF+xY8VSiuaEGVJ4P2TYvKzxfa1OLqYVd5A
+         ViHiaJkbS1DozM2nRj4tXoVY3A5UJf+D4IBEu/MocQPb7KpU7HHcvH0VDcuvV9eRERll
+         xcuwEEuFgawBIFmh96qmd2OSOuaGzh21OQdrh4fw2qmNpHTJBDtn3kgmLXqwMw8Fk/MD
+         m+HQEPGTByv62feTbQxlJvS+cWORbjMWkabXxgvPh63+0dTkHRTshw8IauO1K1MweWO/
+         8n9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793351699; x=1793956499;
+        d=1e100.net; s=20260707; t=1793351704; x=1793956504;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ggzT8mm/DyquJidfZW7gt7MxdM7xQZcIv/Px9dQuRS4=;
-        b=iJVtxjf1aotl8XYJuJdfWW+a5Xy9vz5FHnUoQXF3SyoOAqMNrV+D/NJ4MiGTtQxkI5
-         rajuHTUP4NfnpUohVkqojcMMUTbWaT5+aFcVYRiHEz5Zw68le6k3aVILr51zXc0vyg0D
-         7mSh2TUYlo6Rzc9H0tL07ZBbIcm1T165Y2c3nJRDzZByKwgwrn/rx6TDhqzlpGMrdkZF
-         7XWPE+/w15Qfj8Ta0EF32d4g6qlC2tEZqMgUdlj/Usyj1pJJAaNUuMl+SDnod+bnyIIF
-         5wv8Qfgx7LwwT5P5TgSKYWaKz9TvSO/jwoxSpX1Y/YiSXIbWU8xR51v86wYQXwOnuiYn
-         TRsw==
-X-Forwarded-Encrypted: i=1; AKwUvBxZzi3CikfS7L6UuRLNRk7Mr0wBLX7sOVepY/qwKla32LlrAeQEDkYkFzM+piQaB5W5TQHsvU159UjPcw==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKpvVKMcJMbj+2n07klVekFEmEr3mJx4z3Tgs9AZ2JUBzedlWvT
-	zyDjCY1J5gXU34tHC9rRiDQUyMXk7Qf2L/cIt1YnNDqS0OTcgyrJGRQd
-X-Gm-Gg: AYBFou3jiTliagECkDpL95cPOuqXMXiER2YnLBJgPxXoJnkk0OQOChMkmLYUMejMIdF
-	LmYJgjbtkINv2vgvMRmB9zCmisJq4TO+BsQf5dnxaG1+zb1MmDScOsqB1wpVsyglib+3ZXkUs9w
-	89l9kpxZA6Us0LxnRtMxAW4c6pW2BkRREufGLJiI7pjM3AE43FKuOAjBOcfNwfPriVvMibY1BqZ
-	8XcdSBglkXYZM6yqQS01NyzonpFSUfHtov9RAU9dRBO0Ixqq6Z5dN5A/c5Rkw/eGpHUW31A2Gdy
-	CvDST9FQspH0nG3ebPxvigSJdHt/3sf5FP639OFxTGVHEhXtkITI7Rus5cvLzdKogV4HNP/IueU
-	R8pcVC492eHtAgfTKROJWUvl7bqGbU6Q3hKNbI90oYywpHPJkQvbvYOZqnbQDPG3hnMUVMKPi7i
-	swWCT83JEKrQcYyTVRlSDIcOHGnSHcz3AaB26a1ACMzwLb1gTVRjAZS3HuP/F2WuBd0ym+Mowm6
-	Wik6aDJMItlIfXAT20pv67dfQPskCjZgrT8X2/+N7xvRX4ECk5pwunDS/bIkrRX8mVyUa8WFwUz
-	TMf+XpLoN2ippqHuKLT+6kYcE9aKFB6TGyOxplOMTauLWxzYdPhDI9pt4Y10Rg4LPDiOrP6ZfFc
-	yuMM5pLKsCgkqkgaiCuXd5cqZrdPnww7B37ajEK4dWkkv
-X-Received: by 2002:a17:902:f545:b0:2e9:58c5:8c68 with SMTP id d9443c01a7336-2eb3647be16mr17041095ad.54.1793351698836;
-        Fri, 30 Oct 2026 02:14:58 -0700 (PDT)
+        bh=zEuTfCcCze6o8lz+tPI92UoFysg4iqRaW2ZEcUe6QAU=;
+        b=0aVDMtBOO1SmOLURNBaMWWLZp/eGV5Toiz1HOFgV7JXnX+E2YmcJqK+x6e7l1CjQ4D
+         w8/BAM6Mt0zK2zuuq74zjUe/81lF3q0ae238AaZ91Ov3qxm11IgyNTJb0mr4nq/qCAQr
+         oxo0QcRKtXI9eeFvqtS4Xc/WG8Y+gEVjeEcHAAztLOctVB5IBoNwR/23UH/6ECPXbW62
+         nuDw4j1CHKHfFCjXmgz35kfA5f0XXkRbfSNXGEgATAH1Sk/8Ea+HbacPhF9rSrU1uoWY
+         dcETo4NpWWBJ+nX+bJx4FiRMWzLeykDAUwx7ex5R9J4Awch0bXwzZQy8SZd33AP1KDgM
+         yHxw==
+X-Forwarded-Encrypted: i=1; AKwUvBwaqaivj+8WvIhoKz/rdspTm9jThUA4/eE9DKlFzaxrcrdzcQFkbxKqogO5JHrk7CXpzhWkQfeeacWtXg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJkGkNw9NOtIQ7woExM8x09vpkYfN3Zq3NA11eZVWCX8LxrNJI3
+	m3MPxk4Mg82w41v7ETaV49Fu1O9W2P8qkbrIkbg2HP48uKgywxz0n/na
+X-Gm-Gg: AYBFou2JFaoYzfaaIg8D+iMBu5M80cAehsVCLfnO8sqA+5KphawZEy298FnHKtbSGXM
+	toGuK6XnLjYp9fR0EDuK00lveCOPxKluFtbKLoB8scHh/+oR/iwT92FGt5LBY8f/EvTrXVdMIg9
+	k+vTIbPFvuUEwF29YZnfQ/zOmaubZ1Rxe25Hv4O/eEU9UDHwv7SFAqtoJvvzWColYX2pgSbdYi+
+	/RCSJtWNhF32phrf/RDEDfVbRzAcbtJ/5FLdzvHKYW6f/D27xV36OmDq5amLIifL19zXzlRIxSR
+	XTttHdctLPwmEKPaPay/IzgBO2IieIXBqx6leUaAX4bnyoyjsk32UgzErbw3ghfKJ1ZgVl8StV+
+	LXMpxe+bbrN5bm/l1d9+NgVO1SLsxOPJphB3di2Ht4IlbxPecTRf+KS3fLZNit6+K64s81Cct4b
+	8JLfiMJOzuMI1jAZmUI4LBM2mht7TnazPrlenMH/GYE3X5rfHU/J381TpDkejpT14vFhevLNmjM
+	30++TH429RL0ASPZpb1prVaU+f/Th6s2tvUgVfysijQyM5bdndH5E9pqQZiKXywvlD7TKIo1obp
+	PH8Xoaiid/sR1RU5/Fmsrmd/nYmpXvWcfz67m0lUSkhTLYgCFvntbVQOoUSCji7P2tfr2wq1epx
+	PFWO/dW+3kpIsPXoF3R4AAG5LMwczLhJUfF2JHsiAX7wsH3Uf6C/w4Oe1eTe1A+T11A==
+X-Received: by 2002:a17:902:ec8d:b0:2e2:ffcb:87a9 with SMTP id d9443c01a7336-2eb3642fe66mr17350985ad.24.1793351703935;
+        Fri, 30 Oct 2026 02:15:03 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eb39052ec9sm4734685ad.6.2026.10.30.02.14.55
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eb39052ec9sm4734685ad.6.2026.10.30.02.14.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 02:14:58 -0700 (PDT)
+        Fri, 30 Oct 2026 02:15:03 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Shengjiu Wang <shengjiu.wang@gmail.com>,
 	Shengjiu Wang <shengjiu.wang@nxp.com>,
@@ -93,9 +93,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 3/5] ASoC: fsl_sai: Remove redundant error messages
-Date: Fri, 30 Oct 2026 16:14:02 +0700
-Message-ID: <20261030091404.18757-4-phucduc.bui@gmail.com>
+Subject: [PATCH 4/5] ASoC: fsl_sai: Propagate device tree property read errors
+Date: Fri, 30 Oct 2026 16:14:03 +0700
+Message-ID: <20261030091404.18757-5-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261030091404.18757-1-phucduc.bui@gmail.com>
 References: <20261030091404.18757-1-phucduc.bui@gmail.com>
@@ -112,54 +112,37 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-The errors are either reported directly by these functions
-or already reported deeper in the call chain, so additional
-dev_err() and dev_warn() calls are unnecessary.
+Return the original error codes from of_property_read_u32_index()
+instead of replacing them with -EINVAL.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/fsl/fsl_sai.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ sound/soc/fsl/fsl_sai.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
-index 44a34f48a0cf..5532fab80be0 100644
+index 5532fab80be0..cb07e7d13132 100644
 --- a/sound/soc/fsl/fsl_sai.c
 +++ b/sound/soc/fsl/fsl_sai.c
-@@ -1615,10 +1615,8 @@ static int fsl_sai_probe(struct platform_device *pdev)
+@@ -1495,15 +1495,15 @@ static int fsl_sai_read_dlcfg(struct fsl_sai *sai)
+ 		 */
+ 		ret = of_property_read_u32_index(np, propname, index++, &type);
+ 		if (ret)
+-			return -EINVAL;
++			return ret;
  
- 	/* read dataline mask for rx and tx*/
- 	ret = fsl_sai_read_dlcfg(sai);
--	if (ret < 0) {
--		dev_err(dev, "failed to read dlcfg %d\n", ret);
-+	if (ret < 0)
- 		return ret;
--	}
+ 		ret = of_property_read_u32_index(np, propname, index++, &rx);
+ 		if (ret)
+-			return -EINVAL;
++			return ret;
  
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0)
-@@ -1698,9 +1696,7 @@ static int fsl_sai_probe(struct platform_device *pdev)
- 	if (ret < 0)
- 		dev_warn(dev, "Error reading SAI version: %d\n", ret);
+ 		ret = of_property_read_u32_index(np, propname, index++, &tx);
+ 		if (ret)
+-			return -EINVAL;
++			return ret;
  
--	ret = fsl_sai_reset_hw(dev);
--	if (ret < 0)
--		dev_warn(dev, "Failed to reset hardware: %d\n", ret);
-+	fsl_sai_reset_hw(dev);
- 
- 	/* Select MCLK direction */
- 	if (sai->mclk_direction_output &&
-@@ -1715,10 +1711,8 @@ static int fsl_sai_probe(struct platform_device *pdev)
- 
- 	ret = devm_request_irq(dev, irq, fsl_sai_isr, IRQF_SHARED,
- 			       np->name, sai);
--	if (ret) {
--		dev_err(dev, "failed to claim irq %u\n", irq);
-+	if (ret)
- 		goto err_pm_get_sync;
--	}
- 
- 	if (of_device_is_compatible(np, "fsl,imx952-sai") &&
- 	    !of_property_read_string(np, "fsl,sai-amix-mode", &str)) {
+ 		if ((rx & ~soc_dl) || (tx & ~soc_dl)) {
+ 			dev_err(dev, "dataline cfg[%d] setting error, mask is 0x%x\n", i, soc_dl);
 -- 
 2.43.0
 
