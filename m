@@ -1,96 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793379866;
-	b=dKTY1XTpSuNlYUT0qhv5aklUkkboqbA6YxarvVBVojjDeyZQRXM2+nW2PmKnm4CwKYaL
-	 BV/l+EGlOlAQGu4FjOqkdOshd6c3r+fX2SrhFiDqdi0XyHgF16iq4nt8FimpXOWaLbhT6
-	 gm9c4p07KJ/7/2eCi0SiJBgjA1iC87uaYxrIRkurmpxOMiml+WMz3Z01cv572XRAJ+BmX
-	 eSPhtgGwGN6N9WDEYwryZ68J8v+bS9m8ASHJjW3dEnbxwcIcLfRyNizuPp06oiA6wSgaL
-	 PceXwrx6PjuGcbJK/XLtEBcJLVi9umtsuaE95xANrkiP88LjM+Qj3s/6aem30wAmxzA==
+	t=1793379868;
+	b=GFqSL25QpiuoK/m7L+w2/jqAIQhtTxMyDHrkCwzvVoZFleOk3svKuFVKTeWPWS9o39qB
+	 gpMntQ/1PGNAuaVR1araBmCi8XUxP8+T6goVtThu8vIvVFV1C9r5U7oMmKK1CH7MTr81O
+	 Kvnjp+TXJkkLEWN38KnOrfVYTcq2SPzoSQ91JlfVTVDDE+RcstRHNgqumIgVrp7qYxAci
+	 Jk22s+G8c5sXohx3XniRhBndXzJYe/ofc+qJI+O7Z5ShSWjn/mdq5wqvqMgclFD5alRpp
+	 5RaSeJiGQtCxh3HHpKCqFVnmbYiEXviAgcPn8bvixevxgnW2XUpqIRAtpWSL1GfDxzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793379866;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793379868;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=E4R8h7MFcdwbDDqOfCHR8zbDow4VH7LIlDFzvboffvI=;
-	b=IcbQ3uHqnrr+VT467dx6o38uVmt3fYJjUtaqIGkCXXTujNyggZVTAXPkfIYffyYtFXBF
-	 KWaAc5qNjC3AJx1nr8iu5m6rqN+kROUBYO2pkAaKvUBtV7bEbuAEHvv/M4OMUPLwDs0HL
-	 rzsuww8yjFwj1j4bhvBLz8LAqEWWgz04apG3A4QmEoltFLWiYuH2l6XrCKl/uBddoWU3h
-	 9TyJFP5edIhL19p8jqOvSOZmSXpWQpn7CapzUoLKdcMs8ebYu7QrM/GQHk00ALYXzPESL
-	 CPkA2KWvhtYyc/bkQLI9yt0tUwXCXzrC1k9aDqHoD+KvMGSiOeIh3QVb0CQDtDXhSDA==
+	 From:X-Google-Original-From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=lvTI4kYswy8nJRdl9QxlU0eMLqhgVMDUC7UVIheEm08=;
+	b=hd+2x/TXCRRpr/GryuE38WKV2tmIExS3zSulPkjd72m5Qtpd0IUt1AokLx74EFMcOcMG
+	 z7MceY7A/3HaTO5yOrThTF9uq/2vj0R9yhyRQhwP5Su6EHdY14bdSBqE1cH7XzXUuWVBu
+	 A5+QydOXsjtKvgh7zSFAMiivYlMs97dXRjN2bEFgKAV1kTqf1k7W+7qpddpNX69ZEEIfK
+	 9o99OyIEqjYcgg69eGQHLSCSGZkiaWtSJwi6ix0LXWzFfAZCcyVffZ1na8vat8aAWsI/U
+	 8/xwXy4gNp5dd+1BwLD+/1NeAbx49KKIC3RqkPV2aUg527Yzi338ndu3TFRzrrZimEA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vmFpJkl7;
-	arc=none smtp.remote-ip=209.85.161.42
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qAh5QXhW;
+	arc=none smtp.remote-ip=209.85.128.42
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49794606A31A
-	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 17:04:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49794606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A69D606A324
+	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 17:04:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A69D606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vmFpJkl7
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-6aa9606ddadso737340eaf.0
-        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 10:04:25 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qAh5QXhW
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a35db1f202so9950485e9.3
+        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 10:04:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793379864; x=1793984664; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=E4R8h7MFcdwbDDqOfCHR8zbDow4VH7LIlDFzvboffvI=;
-        b=vmFpJkl7EBNCYxDVYDJYKFjF4bIhiWR6Y9qfGSDu2HtVycSWM/UJQ7qwbN3W+6RrMy
-         UiiN72XyOoTobOprNNaufTysF8RjSXj2Qp0ywU2Y5YG5YctI8Rb1PpKqQ8bLatBK7Nv9
-         yN5CT03COYYOORcEy9hW8ii6N6gVvPp1btreb06r06BqE9bGdSHv+Idh0RVHJB64FHmq
-         fYmAKFxjkmxxMpIg9pKDJM7FQKIrGbOnFGgVqgbPeXLexNcL7thz0V8GJkDlkpFv2vQT
-         M1dvfVvh7RUlO20ykEWU/ftkF1erTjruOyL6KjaBqYneP8xxK5tzS6BNqAItE5MD+Rw7
-         evAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793379864; x=1793984664;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1793379866; x=1793984666; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=E4R8h7MFcdwbDDqOfCHR8zbDow4VH7LIlDFzvboffvI=;
-        b=NM0wTEqwFfbg1igJYRtR71dR7QKUj+DqRx/bLGUW/FtAZ8HMJXabQ+QAAc6DmRw5Ks
-         uRWlpHwqDaZJuLNPWUlL4SDh/xBHldGWCswEldh1lDTjU1RneLTdyVZzAG01uxJilBkb
-         GUcchWDfgzl2Oa3dnV1gDvBJmYckeRHsF0q7uLjlRYos6msPmQ2Y05wEZ9t5le3iud4h
-         066YMyHaNeukE2NaziB+BzOkQ3rIk8oj+8h84TVBCJOiXzcx+RBds8glRZy2fR6j5pzC
-         0YLQfmWZ2CgDVVIps04XPG7wbPNvNrAHxuWIoMZo3HMLVt+WOHq29gtzvThhjP9z3MG/
-         4OdA==
-X-Forwarded-Encrypted: i=1; AKwUvBy6JSN1Ay85hXHo3XospWlUoClPutD9I/6LFP5PWXnsSYxskRrfSIsUUkoywTJwz/LUkV9WM2V0M0nIQQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKlA9xkv6Srkn/R3hXrLDg6IHEAh+6YRXTnWvEMKZidfK6ljigv
-	ax26FT8Qb9v1GorxaZ3ahnm39hSlL8WjUEHVYdPbst3fsoTHO3nqUNIL
-X-Gm-Gg: AYBFou1do6Dr0gv6Zyau+6K7Lf3xBgYb+882LMENX8E/uzxxzNmGt7UqWZkRmzxaJDt
-	hHZyoKZdicUE1FM/P4KybKAxZRJz7GTMceUSvNd8nVYp5vZlH5rFAneb06/TQd2tvcRlPhxJTzG
-	2VfvRC14WBCKg8AGlMBVGl72bKCv5UaoSFihCqVIFGBqnQDcbQNzSOEu6kxm8IOnBq4hI3gfqMj
-	k7wnOjswa3DZnnxsQkKcQzLWgn1INTFbMa+11HXJHkx9otJrwVDrB/BC5JiGPvWB/j/CzcUAEKX
-	/6tG1ElucaYCM6mtiqBzE//AeKcW3RM/Kyyr0HyFd/huDsBDzs+YKmTve/HFUDCZc4UaZY3179h
-	OIeiq32cOtGKgiZkl1RJvghzKCPLrgT7ANT4mGUOUgBtz7v/EPqivBD+fTe/WDM6sdzXthukwEZ
-	+Lc6Vw07bVwMtsRlI8/j2KcoEMdNBW1sRDYsx8kUsU5dGCd3oC6GMPyosZZPGxkzliIciJrGuG4
-	7RXkLD74Ofck8p430X67IxUDNn3r79+2cZY6Og4UFgnnooNRLeIndR5bP83A6KA34SQ39/jDqid
-	ez4l70xBbUDwMpGv5NffQHvgiy/fA5uo8Fu2rp8=
-X-Received: by 2002:a05:6820:8598:20b0:70b:638d:4b9f with SMTP id 006d021491bc7-714f29eed98mr1265557eaf.47.1793379864124;
-        Fri, 30 Oct 2026 10:04:24 -0700 (PDT)
-Received: from cachyos-UX582Z ([47.185.113.166])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-714f2a818b9sm2419780eaf.1.2026.10.30.10.04.23
+        bh=lvTI4kYswy8nJRdl9QxlU0eMLqhgVMDUC7UVIheEm08=;
+        b=qAh5QXhWpUpVvZMP7HgQmJRPhLlItfGnffF+wryoIEIuocg0Z3gTKtBHdosKEChlxf
+         ovHownzIogEm7xNYDI9iJm2f+NYYU1Tx1r/ioHcJxav7mUfXGZPJ0FtMVQxRs9FL9UPQ
+         94KTHoT0AoFujNpX6kbCJRQ+LSr5OKQcpEddxTHhwZ3HgLsakt00sIJoDrlEF237XCMq
+         +v4m1YZYq5Uw9S7epp/OnOLBuPrClv3Ldw7FIyk6rJ4Fu+2R1UpAA87jNdYMbxEF2kZJ
+         vmFWyP0c1Xy7xcrVnk/FIJjG2iFnCjmGjGu/Or93vFfwZj5BkW0JQ83VO9sLO2bMsxpJ
+         1emw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793379866; x=1793984666;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=lvTI4kYswy8nJRdl9QxlU0eMLqhgVMDUC7UVIheEm08=;
+        b=wbwsjVas48Tdj1unbTrxGnI8qW8ufcrNpmrlW8OVfpjy+5ivq4monXv/R2H9sI0m9K
+         V9vb4AmpCdmXMJLQhrma+fJeFGeMJrxfi8+wRuuEB4JnxDIecLz3moprR46HzcplkKLw
+         R6pJXqPAZl92oP+fCZk7KhXPKMo5gweK+0xnZBB0EVFu02c37BXloD++tH7K+HLvhuIK
+         96OaQx4duUYL7npYliq49zilCYVR4cEaqONbXerF/JwllMohQEvf0gh7Kte5p2XhyAwl
+         9rTQdDgw9ySfmEPvjnx5T9zRdQa8XFZoY3o/zqscVJG6xoMaVVubSuC1ZsMghQXEZQ01
+         Xywg==
+X-Forwarded-Encrypted: i=1; AKwUvBxD0kFk8DmuRZjf+IbFu5sGPGD/ajplt3eAYM2xpi/OyLZLWw1zN++vOyz6Wkh4r0clcZikKHkHWair4g==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ89deamadfKTwm84bfMyPf82Yr8blkCtrPjIbAZfaRFCNgmfK/
+	FCXkyY65J1rBShY2bXWkwKWakhslvmnLQHCZr1AoSY3zVtairCmpA34=
+X-Gm-Gg: AYBFou11QImhvxoGuArHhN81jsULoxa63eLPU2YlowdtNcDmdtCQzwRBL28yEGBn5rD
+	++i0lx90dbhzZRSbZYcXJq6iDvdDziPYygCOJZLbsweKhCIST7869xBDSMhrJ6JU/zJQh8dZ2iX
+	iOY3MZmUqxmiljc0pdlZhL13yfjDMroLdrd6KBEBLKrBuWSMTJ8S5qFvf39FxQdgwqvnbisV8rE
+	l2v3h/KHlMhZKL6EqUSyVfW4mqd1tuMj9RpBiWZUcmTfVYMjWiAoxksZfI1QmrbW/mCmXb0qcSm
+	lw1qjz+KsdoxrmP7hjQvCH1tDKDmNUC/hQtILPFDFjN1VHjam4ww0Dpi6VucHug4dQ9iqMTNvpv
+	65wh77ltZRNEQiE9Rf69Y5ftWRGugJCkYfrir4qm1tzy5xKGbiu7FiVuEDAq20k+XFpCYAjBDhG
+	j+U/j3d5xG5q4FqBY5PFFFOn/OAyXmPmi9mYDkmZtujjfdlO+P5P/qbA4xJJIdcifzzOiKPX3f8
+	GCGYrD91bygylStIzKMn0A+eIWClvBafe3tUxh8sv/kE8n8RKQtBWE1mSCxoCy0NXKLMZ9+IVq4
+	a+dJGRPMDZxr
+X-Received: by 2002:a05:600c:8b55:b0:4a1:ddca:8b66 with SMTP id 5b1f17b1804b1-4ac19234a06mr63464125e9.31.1793379865897;
+        Fri, 30 Oct 2026 10:04:25 -0700 (PDT)
+Received: from debian.. ([2001:41d0:303:db6b::])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf7146621sm75121785e9.13.2026.10.30.10.04.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 10:04:23 -0700 (PDT)
-From: Slaton Christie <slatonchristie@gmail.com>
-To: David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Fri, 30 Oct 2026 10:04:24 -0700 (PDT)
+From: Tristan Madani <tristmd@gmail.com>
+X-Google-Original-From: Tristan Madani <tristan@talencesecurity.com>
+To: Mark Brown <broonie@kernel.org>,
+	Oder Chiou <oder_chiou@realtek.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
+Cc: Bard Liao <bardliao@realtek.com>,
+	Misael Lopez Cruz <misael.lopez@ti.com>,
 	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org,
-	Slaton Christie <slatonchristie@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: hda: cs35l41: Add DSD properties for ASUS UX582Z (1043:1a8f)
-Date: Fri, 30 Oct 2026 12:03:54 -0500
-Message-ID: <20261030170354.7427-1-slatonchristie@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	linux-sound@vger.kernel.org,
+	stable@vger.kernel.org,
+	Tristan Madani <tristan@talencesecurity.com>
+Subject: [PATCH v4 3/4] ASoC: twl6040: cancel headset jack work on component removal
+Date: Fri, 30 Oct 2026 17:04:15 +0000
+Message-ID: <20261030170416.3561618-4-tristan@talencesecurity.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261030170416.3561618-1-tristan@talencesecurity.com>
+References: <20261030170416.3561618-1-tristan@talencesecurity.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -102,65 +108,34 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The ASUS Zenbook Pro Duo 15 UX582Z with PCI SSID 1043:1a8f has two
-CS35L41 amplifiers on SPI (CSC3551), but its BIOS provides no _DSD
-properties for them, so the amps fail to probe and the internal
-speakers are silent:
+The twl6040 codec driver initializes a delayed work for headset jack
+detection (hs_jack.work) but the component remove callback only frees
+the plug IRQ without cancelling the pending work.
 
-  cs35l41-hda spi1-CSC3551:00-cs35l41-hda.0: Failed property cirrus,dev-index: -22
-  cs35l41-hda spi1-CSC3551:00-cs35l41-hda.0: error -EINVAL: Platform not supported
+Free the IRQ first so that the threaded handler cannot schedule new
+work, then cancel any residual queued work synchronously.  This
+ordering prevents the race where the handler fires between a cancel
+and the free_irq, re-arming the work after it was drained.
 
-The Realtek codec quirk for this SSID already exists
-(ALC245_FIXUP_CS35L41_SPI_2), and linux-firmware already ships the
-tuned cs35l41-dsp1-spk-prot-10431a8f-* files. Only the property table
-entry is missing.
-
-Add an entry using the same configuration as the sibling UX582ZS
-(1043:12af): internal boost, CS/reset/speaker-ID GPIOs at indices
-0/1/2, 1000nH inductor, 4500mA peak, 24uF capacitor.
-
-Tested on a UX582Z running 7.3.0 (CachyOS) with the change built as a
-DKMS module: both amps probe, load the spk-prot firmware, apply the
-EFI calibration (R0=10611 / 10708) and the speakers play audio.
-
-  cs35l41-hda spi1-CSC3551:00-cs35l41-hda.0: Firmware Loaded - Type: spk-prot, Gain: 17
-  cs35l41-hda spi1-CSC3551:00-cs35l41-hda.0: CS35L41 Bound - SSID: 10431A8F, BST: 0, VSPK: 0, CH: L, FW EN: 1, SPKID: 0
-  cs35l41-hda spi1-CSC3551:00-cs35l41-hda.1: CS35L41 Bound - SSID: 10431A8F, BST: 0, VSPK: 0, CH: R, FW EN: 1, SPKID: 0
-
-The boost values are copied from the 1043:12af entry, not taken from
-ASUS or Cirrus documentation; confirmation of the boost parameters by
-Cirrus would be appreciated.
-
-The diagnosis and the patch were prepared with the help of an AI
-assistant (Claude, Anthropic), from the dmesg output above and the
-existing 1043:12af table entry; testing was done on real hardware by
-the submitter.
-
+Fixes: a2d2362edf9f ("ASoC: twl6040: Add jack support for headset and handset")
 Cc: stable@vger.kernel.org
+Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
 ---
- sound/hda/codecs/side-codecs/cs35l41_hda_property.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/soc/codecs/twl6040.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-index c50c7e6..d5a9e1d 100644
---- a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-+++ b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-@@ -107,6 +107,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
- 	{ "10431863", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
- 	{ "104318D3", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 0, 0, 0 },
- 	{ "10431A83", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
-+	{ "10431A8F", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
- 	{ "10431B93", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
- 	{ "10431C9F", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
- 	{ "10431CAF", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
-@@ -566,6 +567,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "104318D3", generic_dsd_config },
- 	{ "CSC3551", "10431A63", missing_speaker_id_gpio2 },
- 	{ "CSC3551", "10431A83", generic_dsd_config },
-+	{ "CSC3551", "10431A8F", generic_dsd_config },
- 	{ "CSC3551", "10431B93", generic_dsd_config },
- 	{ "CSC3551", "10431C9F", generic_dsd_config },
- 	{ "CSC3551", "10431CAF", generic_dsd_config },
+diff --git a/sound/soc/codecs/twl6040.c b/sound/soc/codecs/twl6040.c
+index 650836f9615fb..826bde1a9ba46 100644
+--- a/sound/soc/codecs/twl6040.c
++++ b/sound/soc/codecs/twl6040.c
+@@ -1136,6 +1136,7 @@ static void twl6040_remove(struct snd_soc_component *component)
+ 	struct twl6040_data *priv = snd_soc_component_get_drvdata(component);
+ 
+ 	free_irq(priv->plug_irq, component);
++	cancel_delayed_work_sync(&priv->hs_jack.work);
+ }
+ 
+ static const struct snd_soc_component_driver soc_component_dev_twl6040 = {
 -- 
-2.43.0
+2.47.3
 
