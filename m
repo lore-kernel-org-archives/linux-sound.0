@@ -1,58 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793339806;
-	b=erVTDOmHeUg8dY9XeJimQz7w0Lhcmg8RofKUKkvIi6kI5b/gw8wAC+D7dyikm9WJDYQI
-	 D4+lkSJeQ4ZD6owuBR0tD1ze3QFtFkD2ET3tLksbwIUBYFQ55i79pkrDMsXwIO0uxfd0F
-	 +8kKXsa24dOG2LYr1P5kCS4skfrpnSH5dVriS/bguxXfKmtTiaWRAuROwz/kpoYS/cy7E
-	 PU1llSPaFPsNVU1DT4s57eqlkc02be0FAgPoHdMxdCDtRWK8wUPPKbSHq2LHcdsDRF0iy
-	 cidu6YF+wvPdH5OSvCwhDAyBHye2PgPyWol0Oq66nZc1qQsZU+BxBllghC/i8QXz3vQ==
+	t=1793342128;
+	b=xoUazMSFJozizk2F56dCdJId37kBADD01sVMYvSZXkWgssOK4AAopWNWM1IY1vXZz8Q7
+	 EQPNPFIjKr7ZZA1SppjpWQy2TlwLj/xKQl3TchuwRZ56HX5qQ0NeenQa6CNktYaO93HyM
+	 NRGraQ5TLC61i2RU1iih6LMXPsAe4dVCnIheqPf98AfazqVAaIqLDSQxiXzx1ymnMFt3N
+	 RJs8IsRJ5hxSYc1MuzhJNDmHXfzsu/IzJpR3C8rlvxcm99OpOQwTIUhZRNMvgo1Wq0ER6
+	 aHwGM9BUQpMn2TOra1pDrebr76HcqKLWUu+P70Wz8WRpM3yQuWy/lZOhAz7422ASFCA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793339806;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793342128;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=8VD8HsTJcDrAkjHPN25yMocgLHQq1/ynKeBsywslWlU=;
-	b=KwUbm+d7W+0wqhgDXh9epdzW+5SkKtmybimC/BMfM7wijJthvnuhvcu5njqUZDq1s4La
-	 lQIR/BCQP1axUOJ1Mi7OfyfdKL9khVrOh6naQJ5Cf8QJ1nwSqEXUkudBeSBTsP3nI+aSj
-	 EINlYWDHWjuRlzSBXoI4CZdK00kWSRgNpuGNNDOqXQPamUImc/EMKZ55bEbVCHwE+n2yy
-	 0P5R7zdWT+fPd7luY+h2L2JETegOsP2h9X5rlQZY0oHFGKtBbzNrqX+F9FKs2hXek49B9
-	 4+j9uhIwUBUmphDnbqpwpP7ub0ietbxCe2LxQi8x1afg/yaTG4NiZotJ0xmPVXcrYog==
+	bh=55x1/LXOkLzgf1skZEHnRDR9Mf3QC8gLrscUdEUD5P0=;
+	b=tL9ba7gxWhX2uyyoM7231+ifLVrh0GBKyCoQAy6SUTfU6e6sJ/VLBIj5nf/E0UerohQP
+	 LdoZ1E/d8LHLDX8ffc7L64kmUTY/6qQotSRxYDe2cwz32iBMAkA6hOelkafF6KRIPrXpT
+	 AzKGrEb4M4mAXN0RGkITI6Dtj7oJDqpggyzPKTxTwKxLraMvk/8aQxcUhZq78nDXD5vjl
+	 z0INjxaO2cuHSsBvMnmx2s49aJVZa3PKD1lPbUOHM61UctGG49V0IL4jqnQz4/v5+YV/T
+	 /31wwySWg2SUtXsuLi2LNYhfzoPb1iKndvZiAGgZiL+f/4KGEuj2AaA2+2GPwAMgM7Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gxZT7qkg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ESEfCB+y;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8FD606A31A;
-	Fri, 30 Oct 2026 05:56:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8988B606A31C;
+	Fri, 30 Oct 2026 06:35:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gxZT7qkg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8803B1F000C1;
-	Fri, 30 Oct 2026 05:56:45 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ESEfCB+y
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E9921F000C1;
+	Fri, 30 Oct 2026 06:35:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793339805;
-	bh=8VD8HsTJcDrAkjHPN25yMocgLHQq1/ynKeBsywslWlU=;
+	s=k20260515; t=1793342128;
+	bh=55x1/LXOkLzgf1skZEHnRDR9Mf3QC8gLrscUdEUD5P0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gxZT7qkgL9mLDQ/uAGKRZ9PiYi6XaFD/ls+GiIKl/uMC6JZf5ClU1qKg2rtWy1cSG
-	 MYrBp8eF00/LPvs1IKeGZcdqcJ7diXUqZbiXaDAvQjmt+y8PDFKtSMDdSJlYv8SdTQ
-	 il4GuHhmkWP0AMvstP9YCJTY8NWIFbl4A6vakJBTWRTji5DyeXfB5cRYJB3NhezyPo
-	 k0hjmqyCrIeoBw9VXTLXwPOC8Ly0GEX53lH5HQDEX70Ac0fr6TVhW7sXyK+NKPsqMO
-	 /IiYeJYukngiGC3aC+Jr61+IFXhWnwvpMflkHB2DlrORGCvF6fjXpqTtKPUF1G7bGe
-	 SfWqs+THU1d0Q==
-Message-ID: <sashiko-outbox-190581@kernel.org>
+	b=ESEfCB+ybAQcn6N0No2x0Uc2xzwiH4qIXayVL0YGCjBDewjHElqrB6IvCjuW+GtRc
+	 YvJGM047g9W9nqCnYHr+wkbLRzqBUJ08S0IHqE7Nz2ei6i42RWnwDObUWEIXjk6MAH
+	 vRohqVG7YluYFX021hNKELAmegzQfBIk/VdDljlEd4Bs+GlBwRGFMuf1vpMcEMH2D1
+	 YUNsq3UHTzp0ugXndYjenLL95ufGrwLmEUYLwzZOyQsT4lBYGyv7kIv0Mlp6GxZqtU
+	 1r8oWbNB28GypAAsC62OnQBSKwHEmYblz+2qoM9AeQDy17qnRVlccwcr2PiCRb23bg
+	 e4i94Ap9xKQXQ==
+Message-ID: <sashiko-outbox-190603@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v10 04/14] ALSA: virtio: Keep PCM DMA buffers alive
- through device ownership
+Subject: Re: [PATCH v10 14/14] ALSA: virtio: rebase ordinary capture
+ accounting on RESET
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
 Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
  Perez" <eperezma@redhat.com>
-In-Reply-To: <20261030052629.27742-5-mynameisjune111@gmail.com>
+In-Reply-To: <20261030052629.27742-15-mynameisjune111@gmail.com>
 References: <20261030052629.27742-1-mynameisjune111@gmail.com>
- <20261030052629.27742-5-mynameisjune111@gmail.com>
+ <20261030052629.27742-15-mynameisjune111@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Oct 2026 05:56:45 +0000
+Date: Fri, 30 Oct 2026 06:35:27 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,145 +62,224 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
-- [High] ALSA: virtio: pause release inflates msg->length in virtsnd_pcm_ms=
-g_send()
+- [High] ALSA: virtio: missing xfer_xrun checks in virtsnd_pcm_indirect_res=
+et() and ACK
+- [High] ALSA: virtio: RX msg->length corruption on PAUSE_RELEASE after pau=
+sed RESET
+- [Medium] ALSA: virtio: unlocked paused pointer update in virtsnd_pcm_indi=
+rect_reset()
 --
 
-commit ec627d670b7dce9aa5415f6f76196d33998b7e23
+commit 1a67c9c10a3b46bd06be6cb2ef4d737b79406386
 Author: Joonho Lee <mynameisjune111@gmail.com>
 
-ALSA: virtio: Keep PCM DMA buffers alive through device ownership
+ALSA: virtio: rebase ordinary capture accounting on RESET
 
-This commit retains references to ALSA's vmalloc buffer pages while I/O
-messages are queued (or uses a driver-owned buffer on NOMMU systems), valid=
-ates
-buffer and period boundaries, and clamps device-reported capture completion
-lengths to msg->length.
+This commit adds an indirect reset callback for ordinary capture streams so
+that indirect accounting follows the common ALSA reset observation while
+preserving fixed DMA ring offsets. It also suppresses nested ACK refills
+during pointer observation and preserves latched capture XRUN errors across
+late I/O completions.
 
-> diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
-> index 762480363b861..bc2002312a282 100644
-> --- a/sound/virtio/virtio_pcm_msg.c
-> +++ b/sound/virtio/virtio_pcm_msg.c
+Link: https://sashiko.dev/#/patchset/20261029085032.70689-1-mynameisjune111=
+%40gmail.com?part=3D14
+
+> diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
+> index 8060858d88203..4ab73c5e78f8e 100644
+> --- a/sound/virtio/virtio_pcm_ops.c
+> +++ b/sound/virtio/virtio_pcm_ops.c
 
 [ ... ]
 
-> @@ -363,15 +546,48 @@ static void virtsnd_pcm_msg_complete(struct virtio_=
-pcm_msg *msg,
->  	 * the hw_ptr value is unconditionally advanced.
->  	 */
->  	guard(spinlock)(&vss->lock);
-> +#ifndef CONFIG_MMU
-> +	if (vss->direction =3D=3D SNDRV_PCM_STREAM_CAPTURE &&
-> +	    vss->xfer_enabled && written_bytes > sizeof(msg->status)) {
-> +		struct snd_pcm_runtime *runtime =3D
-> +			vss->substream ? vss->substream->runtime : NULL;
-> +		size_t reported_bytes =3D written_bytes - sizeof(msg->status);
-> +		size_t data_bytes =3D min_t(size_t, reported_bytes, msg->length);
+> @@ -1738,6 +1746,77 @@ static int virtsnd_pcm_sync_stop(struct snd_pcm_su=
+bstream *substream)
+>  	return virtsnd_pcm_sync_stop_locked(substream);
+>  }
+> =20
+> +/*
+> + * The PCM lock covers indirect accounting and core completion. Once lib=
+_reset
+> + * changes hw_ptr, complete the core rebase even if refilling fails. The=
+ latched
+> + * XRUN rejects subsequent pointer/ACK operations; the worker publishes =
+XRUN to
+> + * paused streams too. RESET success therefore does not imply stream rec=
+overy.
+> + */
+> +static int virtsnd_pcm_indirect_reset(struct snd_pcm_substream *substrea=
+m)
+> +{
+> +	struct virtio_pcm_substream *vss =3D snd_pcm_substream_chip(substream);
+> +	struct snd_pcm_runtime *runtime =3D substream->runtime;
+> +	struct virtio_snd_queue *queue =3D virtsnd_pcm_queue(vss);
+> +	struct virtsnd_pcm_transfer transfer =3D {};
+> +	snd_pcm_uframes_t paused_ptr =3D 0;
+> +	bool paused =3D runtime->state =3D=3D SNDRV_PCM_STATE_PAUSED;
+> +	unsigned int hw_ptr;
+> +	int rc;
 > +
-> +		if (!runtime || !runtime->dma_area || !vss->owned_dma_area ||
-> +		    msg->data_offset > runtime->dma_bytes ||
-> +		    data_bytes > runtime->dma_bytes - msg->data_offset ||
-> +		    msg->data_offset > vss->owned_dma_bytes ||
-> +		    data_bytes > vss->owned_dma_bytes - msg->data_offset)
-> +			dev_err_ratelimited(&vss->snd->vdev->dev,
-> +					    "SID %u: invalid capture buffer for I/O message\n",
-> +				vss->sid);
-> +		else
-> +			memcpy(runtime->dma_area + msg->data_offset,
-> +			       vss->owned_dma_area + msg->data_offset, data_bytes);
+> +	/* Only PCM-locked callbacks access this observation flag. */
+> +	vss->indirect_reset_observing =3D true;
+> +	if (paused) {
+> +		scoped_guard(spinlock_irqsave, &vss->lock)
+> +			hw_ptr =3D vss->hw_ptr;
+> +		paused_ptr =3D snd_pcm_indirect_capture_pointer(substream,
+> +						&vss->pcm_indirect, hw_ptr);
 > +	}
-> +#endif
-> +	if (vss->direction =3D=3D SNDRV_PCM_STREAM_CAPTURE &&
-> +	    written_bytes > sizeof(msg->status) &&
-> +	    written_bytes - sizeof(msg->status) > msg->length)
-> +		dev_err_ratelimited(&vss->snd->vdev->dev,
-> +				    "SID %u: capture length exceeds I/O message capacity\n",
-> +			vss->sid);
->  	/*
->  	 * If the capture substream returned an incorrect status, then just
-> -	 * increase the hw_ptr by the message size.
-> +	 * increase the hw_ptr by the message size. Clamp valid capture lengths=
- to
-> +	 * the actual SG payload capacity before accounting them.
->  	 */
->  	if (vss->direction =3D=3D SNDRV_PCM_STREAM_PLAYBACK ||
-> -	    written_bytes <=3D sizeof(msg->status))
-> +	    written_bytes <=3D sizeof(msg->status)) {
->  		vss->hw_ptr +=3D msg->length;
-> -	else
-> -		vss->hw_ptr +=3D written_bytes - sizeof(msg->status);
-> +	} else {
-> +		size_t data_bytes =3D min_t(size_t,
-> +					  written_bytes - sizeof(msg->status),
-> +					  msg->length);
+
+[Severity: Medium]
+When resetting a paused stream in virtsnd_pcm_indirect_reset(), vss->hw_ptr
+is sampled under a temporary vss->lock guard and
+snd_pcm_indirect_capture_pointer() mutates vss->pcm_indirect before
+queue->lock and vss->lock are acquired below.
+
+Because snd_pcm_running(substream) is false in SNDRV_PCM_STATE_PAUSED,
+snd_pcm_lib_reset() does not inspect vss->pcm_indirect or call
+substream->ops->pointer(), and simply zeros runtime->status->hw_ptr and
+runtime->hw_ptr_wrap.
+
+If a late RX completion interrupt arrives via
+virtsnd_pcm_rx_notify_cb()->virtsnd_pcm_msg_complete() between releasing
+vss->lock here and acquiring queue->lock and vss->lock below, vss->hw_ptr
+advances and msg->length is cleared to 0 while vss->xfer_enabled is false.
+Wouldn't virtsnd_pcm_indirect_reset() then rebase runtime->status->hw_ptr to
+the stale paused_ptr and miss re-enqueueing the newly completed RX
+descriptor?
+
+In addition, since snd_pcm_indirect_capture_pointer() mutates
+vss->pcm_indirect (hw_io, hw_ready, sw_io) before the locked checks for
+vss->resetting, !vss->prepared, and vss->stopped, can those early returns
+leave vss->pcm_indirect out of sync with runtime->status->hw_ptr?
+
+> +	rc =3D snd_pcm_lib_reset(substream);
+> +	vss->indirect_reset_observing =3D false;
+> +	if (rc)
+> +		return rc;
+> +	if (!snd_pcm_running(substream) &&
+> +	    runtime->state !=3D SNDRV_PCM_STATE_PAUSED)
+> +		return 0;
 > +
-> +		vss->hw_ptr +=3D data_bytes;
+> +	guard(spinlock_irqsave)(&queue->lock);
+> +	guard(spinlock)(&vss->lock);
+> +	if (vss->resetting)
+> +		return 0;
+> +	if (!vss->prepared || vss->stopped ||
+> +	    (paused && paused_ptr =3D=3D SNDRV_PCM_POS_XRUN)) {
+> +		virtsnd_pcm_transfer_failed(vss);
+> +		vss->xfer_xrun =3D true;
+> +		virtsnd_pcm_schedule_period_elapsed(vss);
+> +		return 0;
 > +	}
 
 [Severity: High]
-Can SNDRV_PCM_TRIGGER_PAUSE_RELEASE on a capture substream inflate msg->len=
-gth
-beyond period_bytes in virtsnd_pcm_msg_send(), bypassing the new clamp in
-virtsnd_pcm_msg_complete() and advancing vss->hw_ptr out of bounds?
+As reported by Sashiko on v9 [1], what happens if vss->xfer_xrun is already
+latched when virtsnd_pcm_indirect_reset() or virtsnd_pcm_cp_ack_locked()
+runs?
 
-In sound/virtio/virtio_pcm_ops.c, virtsnd_pcm_trigger() handles both
-SNDRV_PCM_TRIGGER_START and SNDRV_PCM_TRIGGER_PAUSE_RELEASE by submitting t=
-he
-entire buffer on capture substreams:
+In sound/virtio/virtio_pcm.c:virtsnd_pcm_event(), receiving
+VIRTIO_SND_EVT_PCM_XRUN on an active ordinary capture stream sets
+vss->xfer_xrun =3D true without setting vss->stopped =3D true:
 
-sound/virtio/virtio_pcm_ops.c:virtsnd_pcm_trigger() {
-	case SNDRV_PCM_TRIGGER_START:
-	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-		...
-			if (vss->direction =3D=3D SNDRV_PCM_STREAM_CAPTURE)
-				rc =3D virtsnd_pcm_msg_send(vss, 0, vss->buffer_bytes);
+sound/virtio/virtio_pcm.c:virtsnd_pcm_event() {
+	case VIRTIO_SND_EVT_PCM_XRUN:
+		scoped_guard(spinlock, &vss->lock) {
+			if (vss->xfer_enabled) {
+				vss->xfer_xrun =3D true;
+				if (vss->capture_staging)
+					virtsnd_pcm_schedule_period_elapsed(vss);
+			}
+		}
+		break;
 }
 
-When a capture stream is paused with SNDRV_PCM_TRIGGER_PAUSE_PUSH, the driv=
-er
-sends VIRTIO_SND_R_PCM_STOP rather than VIRTIO_SND_R_PCM_RELEASE, so uncomp=
-leted
-RX messages remain queued in the virtqueue with msg->length =3D=3D period_b=
-ytes.
+And with the change in virtsnd_pcm_msg_complete(), capture I/O completions =
+no
+longer clear vss->xfer_xrun. If the stream is paused via
+SNDRV_PCM_TRIGGER_PAUSE_PUSH before a pointer query observes the XRUN (or if
+VIRTIO_SND_EVT_PCM_XRUN arrives on a running stream just after
+snd_pcm_lib_reset()), virtsnd_pcm_indirect_reset() calls
+snd_pcm_indirect_capture_pointer() directly instead of
+virtsnd_pcm_cp_pointer() and does not check vss->xfer_xrun in this condition
+(unlike virtsnd_pcm_reset()). Won't it skip virtsnd_pcm_transfer_failed() a=
+nd
+virtsnd_pcm_schedule_period_elapsed(), overwrite runtime->status->hw_ptr wi=
+th
+paused_ptr, and re-enqueue RX descriptors onto the virtqueue despite the
+latched XRUN?
 
-When SNDRV_PCM_TRIGGER_PAUSE_RELEASE subsequently calls
-virtsnd_pcm_msg_send(vss, 0, vss->buffer_bytes), the loop adds n to msg->le=
-ngth
-unconditionally for every period:
+Similarly, in sound/virtio/virtio_pcm_ops.c:virtsnd_pcm_cp_ack_locked(), the
+ordinary capture path checks vss->stopped but not vss->xfer_xrun:
+
+sound/virtio/virtio_pcm_ops.c:virtsnd_pcm_cp_ack_locked() {
+		if (vss->stopped && runtime->state !=3D SNDRV_PCM_STATE_DRAINING) {
+			rc =3D -EPIPE;
+		} else {
+			rc =3D snd_pcm_indirect_capture_transfer(substream,
+							       &transfer.indirect,
+							       virtsnd_pcm_trans_copy);
+		}
+}
+
+If an ACK operation does not first pass through virtsnd_pcm_cp_pointer()
+(such as reading buffered frames while paused or SNDRV_PCM_IOCTL_SYNC_PTR
+without HWSYNC), won't virtsnd_pcm_cp_ack_locked() succeed and enqueue RX
+buffers instead of rejecting the ACK with -EPIPE?
+
+> +
+> +	/* Discard completions observed through the paused device pointer too. =
+*/
+> +	if (runtime->state =3D=3D SNDRV_PCM_STATE_PAUSED)
+> +		runtime->status->hw_ptr =3D paused_ptr;
+> +
+> +	transfer.indirect =3D vss->pcm_indirect;
+> +	transfer.indirect.sw_ready =3D 0;
+> +	/* Consume no application delta while returning discarded RX space. */
+> +	transfer.indirect.appl_ptr =3D runtime->control->appl_ptr;
+> +	rc =3D snd_pcm_indirect_capture_transfer(substream, &transfer.indirect,
+> +					       virtsnd_pcm_trans_copy);
+
+[Severity: High]
+When virtsnd_pcm_indirect_reset() runs while the stream is in
+SNDRV_PCM_STATE_PAUSED, snd_pcm_indirect_capture_transfer() invokes
+virtsnd_pcm_trans_copy()->virtsnd_pcm_msg_send() to re-enqueue completed RX
+descriptors into the virtqueue, setting their msg->length to period_bytes
+while vss->device_running is false (cleared during
+SNDRV_PCM_TRIGGER_PAUSE_PUSH in virtsnd_pcm_stop_device()).
+
+When the stream is subsequently resumed via SNDRV_PCM_TRIGGER_PAUSE_RELEASE,
+virtsnd_pcm_trigger() calls virtsnd_pcm_start_queue(), which sees
+!vss->device_running and calls virtsnd_pcm_msg_send(vss, 0,
+vss->buffer_bytes) across the entire buffer:
+
+sound/virtio/virtio_pcm_ops.c:virtsnd_pcm_start_queue() {
+		if (vss->capture_staging)
+			rc =3D virtsnd_pcm_capture_send(vss);
+		else if (!vss->device_running)
+			rc =3D virtsnd_pcm_msg_send(vss, 0, vss->buffer_bytes);
+}
+
+In sound/virtio/virtio_pcm_msg.c:virtsnd_pcm_msg_send(), msg->length +=3D n=
+ is
+executed unconditionally before checking if msg->length =3D=3D period_bytes:
 
 sound/virtio/virtio_pcm_msg.c:virtsnd_pcm_msg_send() {
-		n =3D period_bytes - (offset % period_bytes);
-		if (n > bytes)
-			n =3D bytes;
-
 		msg->length +=3D n;
 		if (msg->length =3D=3D period_bytes) {
 			...
+		}
 }
 
-For messages already queued in the virtqueue, msg->length becomes
-2 * period_bytes (or (K + 1) * period_bytes after K pause/release cycles), =
-and
-for any partially acknowledged message (0 < msg->length < period_bytes),
-msg->length is incremented past period_bytes without ever matching
-msg->length =3D=3D period_bytes to be re-queued.
+For every RX descriptor already queued in the virtqueue with
+msg->length =3D=3D period_bytes, doesn't this increment msg->length to
+2 * period_bytes on PAUSE_RELEASE (and similarly corrupt msg->length if
+unread completed descriptors are re-submitted by virtsnd_pcm_start_queue()
+and later ACKed by the application)?
 
-In virtsnd_pcm_msg_complete(), clamping data_bytes to msg->length then perm=
-its
-oversized device completions up to the inflated msg->length rather than the
-single-period SG payload capacity (copying across adjacent periods on NOMMU=
- and
-advancing vss->hw_ptr by multiple periods). Likewise, if the stream is rele=
-ased
-and pending RX descriptors complete with written_bytes <=3D sizeof(msg->sta=
-tus),
-vss->hw_ptr +=3D msg->length advances vss->hw_ptr by a multiple of period_b=
-ytes,
-where the single subtraction of vss->buffer_bytes can leave
-vss->hw_ptr >=3D vss->buffer_bytes.
+[1] https://lore.kernel.org/r/20261029085032.70689-15-mynameisjune111@gmail=
+.com
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261030052629.2774=
-2-1-mynameisjune111@gmail.com?part=3D4
+2-1-mynameisjune111@gmail.com?part=3D14
