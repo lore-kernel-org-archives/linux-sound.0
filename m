@@ -1,60 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793357560;
-	b=HLTPDI5YkNeQHWaR+5W0IL9g1LsIPMQv6QxMNi1Q47RFy8m4n+VSYYRrctt9Uq8iYpdP
-	 KJknqeL74wZ7L4cX5HE/eYu2JpAkWsMdgBykAR63Ko0IewfATB57gqqyazvj09dF37/GZ
-	 PLq+mCw6p/GGOz1m7LPV+lIkinh+xcCoW1eTwJ2jRWE3nA0g0oHtR/FVApt7UaMo8sMaX
-	 hkE+5gj8dGaSeiog77OLUc/X4oDxSV5GcZPik8CoZ3rM0s1A1qo5ajpM7upbg9r3q/384
-	 I8X6k+300l5M2h3Tdeh1ZU6Vx6KO6hZOAWKh5djNIFkl6Jnk3JgYLZK3dPhJpCYhNXQ==
+	t=1793357805;
+	b=3m2ZUok1l4bXG1kkcCcC1pi6tDnTTFSuSww2G03qCLq6+dn8s8YOua92LZFVbtCJLeEh
+	 Pr/XJwN0v1A56Y/kUokQTOhUileuKxz/X7mC3uApdZZHJD6R621mtFQstVFu2h9wrhtDV
+	 0W2desbFi8M6Hv7aMV31OCc++a97lwZopiq5qnNK9S/QoKgtjITvGhkG96cVDXBcjDATF
+	 ib+5A9l/e8YOwCU++pLt8VzQy7M0GTOC1ajLRRn6nGIepr80DYkyDJADaMUcyMvtnCLOt
+	 SnmNw4kqq2RiRtf4buop0ucnjbV4587ciuJkiA4EhyFN0OWlyqWRgmTPo/DS2tCZOVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793357560;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=MAeoLtGMoWZCC2vTYblvujYJrqkujyJ7LqL1O3emB7A=;
-	b=vsIOV6OgDVN2IqnFZUbLETjYJqqFc48XRpe/TacalPRuxeC22hdC1eVTU+PpA6wnOUaH
-	 a3/k6vk9bHBAmYHbf6B9JzHVP64glMDHhrH5nguq13Axl5JIQ+ygV+ZF32205q0uqGY3g
-	 taoJtxzr3oDjpeV5byMlShYV8EmhEXLB5W6fU5kwchr1m51JXHHQM4wsqGqvAlvyFpDQx
-	 iFAkl7GLF4UDlJBiAw6uBLZwrhtRTO5whS3TZom4kXyqVZ00V5DE3SkGZorGZ/ZlDgl/5
-	 6to+wviYun70XeTUe34pzgszMqqSCKBbUfQlsMg05482AtGA85hyG4pfGnwGDyjq03Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793357805;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=NTukFeVWe3gPBUSKesHzqoAHfR6mFj65R6Awtdh2s/w=;
+	b=FG8MRX1dkaKTRjuCiBnsAMJozrRWAHmeB9eDzPc6ZT5Si/RzHdpSHw/FElKKrsYhMfmf
+	 WlMxTyPWlhZ9fFyM6nexddy1rkHnD506jCZ9sPxFshzQil2WcuAd9Ppuu9srwJGJwOJ9O
+	 8k+iKJq2mY6HFLFz6MfYy/joUTENVHsThgHKF9WuR6O/lTAxO2IVTdxj7Js0+x6F7IleJ
+	 0gNxzbn8RAhGLbtPVfkUm6J/UVm/xpkuVDI98gD0mN4WxsYmKLsaioa1iybFVS1K9W1yr
+	 yOB1bMqvVxa4SjtS8KoIKg1lQJqgqVoe9W1OKV+IR6Grt1YG/YPt+sNcAY2e7bas4Wg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TEReuHGb;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SOlfwdnY;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E00D60A3806;
-	Fri, 30 Oct 2026 10:52:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E5F606AC11;
+	Fri, 30 Oct 2026 10:56:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TEReuHGb
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26CE81F00A15;
-	Fri, 30 Oct 2026 10:52:38 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SOlfwdnY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D371A1F000C1;
+	Fri, 30 Oct 2026 10:56:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793357559;
-	bh=MAeoLtGMoWZCC2vTYblvujYJrqkujyJ7LqL1O3emB7A=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=TEReuHGb28g1HRowYwNmixLazG5eFnamEg+dEdYKT3A1mMODabX0yuNPhf4QiClcm
-	 KKVSKXZNaPly26D7TQi3dPbuFjqil/asz3d0RVA1pvHTKNtQsO6vsQ+0KfgO+S4/37
-	 SIpM1q3QTEjv40twyUB7NfdyXK68hvOWcjwqwxBkbHNy7lXteANRI5I0EdodYkJKdk
-	 L0KZs/OTbVkzlUBJLWq/Ig24VqiPc00z/H5VqHKDXxS4aiRpshND6eZ6qInr907nDl
-	 UfV/5xg7IsQzFJF5HdS68H0zg1ArQTFHsi4EVFas68HC42RB4V1tRyw56bZhnzfhLI
-	 eBJf0cKvpSGBA==
-From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org,
-	Vinod Koul <vkoul@kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Mastan Katragadda <Mastan.Katragadda@amd.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org
-Subject: [PATCH 21/21] soundwire: amd: Disable interrupts if enabling manager fails
-Date: Fri, 30 Oct 2026 10:47:00 +0000
-Message-ID: <20261030104840.3361217-22-lee@kernel.org>
-X-Mailer: git-send-email 2.56.0.317.g454f8302e1-goog
-In-Reply-To: <20261030104840.3361217-1-lee@kernel.org>
-References: <20261030104840.3361217-1-lee@kernel.org>
+	s=k20260515; t=1793357804;
+	bh=NTukFeVWe3gPBUSKesHzqoAHfR6mFj65R6Awtdh2s/w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SOlfwdnYYz8WckYxuFfVvlTCtKkE1wFzHuUSnNEqKqynJXSaxyMQuNdFL2BUrd0Qc
+	 HY6PNBB8f9aEhNp0lYPVnggIo/3OSA6sA3iRp60HqTowDu0mQ37e3C8LGsdaC+r/+J
+	 yObsPI+ODTHYEr3b3h6hRg0e4FzvaUA52j4P8X0z9mqXQ1iXXFQesDChQUzSmQeshE
+	 p+lxkrC8CiogH9EpNAubYfcCc8JFGzxmSAeYWzTJnP/x+/9NnLFq+8XHKiZhyXgsjq
+	 HhZP2U4hl0ej2dWX7QO4kgIVWX+Q/xXQwkEsNzcUgJpy0KbxGa27mVkimISz5ZqZke
+	 kRTbIeireisYw==
+Date: Fri, 30 Oct 2026 11:56:41 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Romain TISSERAND <romain.tisserand@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Oder Chiou <oder_chiou@realtek.com>, 
+	Animesh Agarwal <animeshagarwal28@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: dt-bindings: realtek,rt5631: Add the optional
+ MCLK
+Message-ID: <20261030-industrious-unicorn-of-pride-a4b188@quoll>
+References: <20261025145354.3476371-1-romain.tisserand@gmail.com>
+ <20261025145354.3476371-2-romain.tisserand@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,61 +61,24 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261025145354.3476371-2-romain.tisserand@gmail.com>
 
-In amd_sdw_manager_start() and amd_resume_runtime(),
-amd_enable_sdw_interrupts() is called before amd_enable_sdw_manager().
-If amd_enable_sdw_manager() fails, both functions return immediately
-with SoundWire interrupts left unmasked.  In addition,
-amd_resume_runtime() ignores the return value of
-amd_init_sdw_manager().
+On Sun, Oct 25, 2026 at 03:53:53PM +0100, Romain TISSERAND wrote:
+> The RT5631 runs from a master clock on its MCLK pin. On boards where that
+> clock comes from a SoC clock output, the codec node needs to name it so
+> the driver can keep it running while the codec is in use.
+> 
+> Document an optional "mclk" clock, as the realtek,rt5616 binding does.
+> 
+> Signed-off-by: Romain TISSERAND <romain.tisserand@gmail.com>
+> ---
+>  .../devicetree/bindings/sound/realtek,rt5631.yaml         | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-Check the return value of amd_init_sdw_manager() in
-amd_resume_runtime(), and disable interrupts if amd_enable_sdw_manager()
-fails in amd_sdw_manager_start() and amd_resume_runtime().
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Fixes: 81ff58ff71ad ("soundwire: amd: add runtime pm ops for AMD SoundWire manager driver")
-Closes: https://sashiko.dev/#/bug/linux-309820e5-f754-4d3d-80aa-7f70d59f3e8e
-Cc: stable@vger.kernel.org
-Signed-off-by: Lee Jones <lee@kernel.org>
----
- drivers/soundwire/amd_manager.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
-index faff3e9eefad..f64e8fea7e16 100644
---- a/drivers/soundwire/amd_manager.c
-+++ b/drivers/soundwire/amd_manager.c
-@@ -1109,8 +1109,10 @@ int amd_sdw_manager_start(struct amd_sdw_manager *amd_manager)
- 			return ret;
- 		amd_enable_sdw_interrupts(amd_manager);
- 		ret = amd_enable_sdw_manager(amd_manager);
--		if (ret)
-+		if (ret) {
-+			amd_disable_sdw_interrupts(amd_manager);
- 			return ret;
-+		}
- 		amd_sdw_set_frameshape(amd_manager);
- 	}
- 	/* Enable runtime PM */
-@@ -1503,11 +1505,15 @@ static int __maybe_unused amd_resume_runtime(struct device *dev)
- 		ret = amd_sdw_clk_init_ctrl(amd_manager);
- 		if (ret)
- 			return ret;
--		amd_init_sdw_manager(amd_manager);
-+		ret = amd_init_sdw_manager(amd_manager);
-+		if (ret)
-+			return ret;
- 		amd_enable_sdw_interrupts(amd_manager);
- 		ret = amd_enable_sdw_manager(amd_manager);
--		if (ret)
-+		if (ret) {
-+			amd_disable_sdw_interrupts(amd_manager);
- 			return ret;
-+		}
- 		amd_sdw_set_frameshape(amd_manager);
- 	}
- 	if (amd_manager->acp_rev >= ACP70_PCI_REV_ID) {
--- 
-2.56.0.317.g454f8302e1-goog
+Best regards,
+Krzysztof
 
