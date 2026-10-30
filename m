@@ -1,55 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793351285;
-	b=01bdOGMhMv/+gcYfsYMxnk3rQhj8bU5udy5oRKl3usJg+aCEeyZPt4x4jFIdi4+f+ZXr
-	 LLj5z+lApmMdd2gNYAu2cUPSxq4mib+ehEwBPh2k0OTpu7v+jGgqIKzezg5pVmvRg724y
-	 iqpEBWmZvkHLoU7qCOi1QVbNVmG/JOUF+6b462+tTRuSmSpbXkMMrhV2M/kyAv/RgaW2i
-	 rgcdbZRjCFJcbbjiJqt5rwF99xMUHHHR+lgVcAiNjpUef7Y4aRvkbp6GUqyUxOXNFTght
-	 F3zpaJaBb/Xa76z9/sXm/LdDlx6fwybfLggVg/+b0PYkO23hGv/9G5Y99zOV5ebzQ5A==
+	t=1793351678;
+	b=hCh7q9sVnyaZnFxqD2EyQrUq6GOCBLswfTwmbAVavAqnVNluW0IpRXHLFB9wJ5kgHCEv
+	 +DPITi8RihfwdTILKuVnf5wXwWxIFtqXFoFTDFeowzSBzp7j8o1fXt5tbCL9wvqVPPe0z
+	 ty+zCOcm7WZOC4JWLVuA7wfjbllN4ASMhFEfnpyZV9dQ8Xc5oHjT2kqid0uOtoN18WlGK
+	 j3hLm0KyC0kb23LN8gNbOG7cKpHG+DAWUXQGm5XaW12LTyZE8dj+m/OdcehTqZVriT27x
+	 J+G2VeD/+7xTeA+HTd2M74+14bDnnTw1LWSIkdzrnh0etsWE7cssd/1ru2RbwievspA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793351285;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=KjnUk5lw1l/4LHrB1CMb9LmGf2MMjhfDx+YPyHG7ROA=;
-	b=Uy4AaakS96pab4zOnwVQ42l0H7+kosWX5a5rZhNoobxUk1MXuxK5M8Xi7wo5iBpOHf5j
-	 Dbp9/lTXR6cZb3174KQPLRhfV5mQGJti0cSdz8LqWPlT9YfwGbnES74ZY/JsBVY+MVLJj
-	 a5HNEsIwSREWv0WjfcLJy5791UmF1oiOhlzcrcmlcrDrMqW1R1CWAA/kG9yV8lknknt3i
-	 2RXqCzu61n+xq4A1DD0/lvrfvzvyAMEDMqn2a8gj7LbqiqGo51hn8ZKA/JLNte8W5lKfE
-	 Xo8PnLJeEpj59LtGmgqsMIif6J7e+eXxqYfmwt/R0tLRvBct1LxTKixKpJpxHtU1QZg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793351678;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=01Uj7NkgzYwGaJezFr94PPu1LmMCL2796EWK+iXo/l0=;
+	b=H3zYpaSRHEpPdrDP5e1imiU+QSOJn7twKkdWgf9EfpN1UXxuso06jfBrR6L0Cg94kQDy
+	 nGPiyHKXCuysfASxudEOtbm92h7b97fZ/ODqi2jCn0iqKsgMqfR+UqizRgTQRbiuZVoVH
+	 1SKZ3D5VuWUI6KpwklGHqM3FstapbQS5uxvmvlzivJVBtisfEnqA7iT5VjpeHYY8sZ0Tn
+	 Sv/aHcbkXnB5pL/8g5B5Irar4zy5t5tUTt54NgEPfNT5xAeU83gXm7pGDOpCik7IGZ6Yx
+	 YNYMc0GHy4kFddmyuloaIrWho3xqHhlqSqLiAMEDz3z5Xf4utam2kKn7kO1/pUDdUbQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="T/S7iBg8";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=faDwsTNM;
+	arc=none smtp.remote-ip=209.85.214.174
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21D3606A31F
-	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 09:08:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDF3606A31A
+	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 09:14:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6CDF3606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T/S7iBg8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DB8E1F00A1A;
-	Fri, 30 Oct 2026 09:08:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793351284;
-	bh=KjnUk5lw1l/4LHrB1CMb9LmGf2MMjhfDx+YPyHG7ROA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=T/S7iBg8cPnga/LHt8aTLzFo1jJuMI7EQxVA7nTDZujaqkR3iH5dbMaKDFMkHGxcb
-	 VrLFfSgrar5vEwqKkiCFmpvvIy243tEBhGqQaL1qVorx2f3LL3qROKPX4sHtnKQ4Wv
-	 843E0dntx0yrV18/pvCTtRIGT7hgwUN9sBQNrmmByc31MTzsjDUsxo1oDo8OzCyn9s
-	 BWvQphHR5YbxJv8FoRGeGnVF8KrGVle49J7VegIRKFHxXiFS5gMf3yBY9uhpZGyaz2
-	 Vdzf7FLSfxHM0o/tNzqPXaat2eEDHS+vC6MbqAYIAEIBVOX2U5/IHzfh2pRnmtIpqX
-	 g2I1qw8bl32lA==
-Message-ID: <sashiko-outbox-190735@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/4] ASoC: rt721-sdca: handle HID button read errors
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Avi Weiss" <thnkslprpt@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261030085735.2146047-1-thnkslprpt@gmail.com>
-References: <20261030085735.2146047-1-thnkslprpt@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Oct 2026 09:08:03 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=faDwsTNM
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2e99b1e5b4cso2954775ad.0
+        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 02:14:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793351678; x=1793956478; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=01Uj7NkgzYwGaJezFr94PPu1LmMCL2796EWK+iXo/l0=;
+        b=faDwsTNMRY5951Zgwu+PKJrs29viWGALFCGAJAo1ADkElfT7GMMCmFHLPldVP2IDHg
+         HoVlcYHokMwqP5kUs7Hzvgtqkgi11Htwy95euLsF/jxP3nVux8FEG5TPMWfGflEJ4Gnf
+         La7MZBJ3EAIWx0PGLvxStO0VQ3Boqw/3BqUYRot86v7D6HGz89okW2SDJ139WbCLMhQw
+         IPkZbCCS8shXjIGs8247V+nVOyKbi9CUp1/K7E7mYqhwa8L6PT21DttnFlA9V1JJzyrX
+         +cyVueUrIYHgmlhcHY+24ZZVEZnuq7nmSaKChyeSG414RRvYKRHJOD5KlLkctLu4c4sK
+         ZKqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793351678; x=1793956478;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=01Uj7NkgzYwGaJezFr94PPu1LmMCL2796EWK+iXo/l0=;
+        b=vfZ/WWRElwLxVED2Wtfnw4ZwqAKXKyrmZhaQkXNNBLUqeOQqLpHfLJZyU4lJ9kmo57
+         6T9SMbE1mdJl5EL4veCcjtSvlE4N2gJfxjZ1e5z5ww7yq5i3WWcKk/JqGCtishXMWflm
+         aQHWf2C7sDZoUF3QGh+R9UTrQDZGWRM11G/2duWe8PrMLzGYkQGAdApMGPW6XVI9gvSi
+         TwzTZt1vVG0M9AiynnTZcryPPmRyZFCd/Myip3TBfqqa8nH0kfUmvlZXgg900X3xM8ds
+         sTFr6zsVVaWO15tBiNvMTTLecsgQevC9x9rq7bBbc9O5EPlIAV8N00j5dI2NChez2Dg7
+         KrWQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzPRphMLEIc1UIuzkwUwfUlmLby05ozYBZpZswthnkBMaiI+2kWjinM4ia1dDIIfZrec7cz9qRhy4IvVw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYI1rqvtZOOx3p+7ndHzerZxWAuJM/mXRfBzoMoWSVjFVqFCPUNJ
+	i9akWhbrnpPnlb9CtZYZu3n8m/bg5JMFIXfTh5v3yI5xwOJIdX1OQ8pm
+X-Gm-Gg: AYBFou3Yz7u8G3+0wa8Or8NzrJSW/27VVSv+MF8tw7AqbxQDdCKP0MedtCjfp0xG/A6
+	l+iKjjsg5+S+lYj6JDZMYtBU2dn2PDNAnZEj7TLUyv2L0JbyDbb6mRi/ZsW28sN1PugHc6npFY6
+	Vs7lJMRTSkAFl9cMNklWITfvuidipLT+1clLGJvTfJaKi++DYLYAo8W1sUWeUJ/AbmdApECFxFa
+	+bdsgHwMNyU36zfyJszwpWB9g4BXY12DWXblnkhI4uqXH9xPQR0RRQ3WPdQOlRav/30803eBqS0
+	AZzQ+n1kF9DE7l1HbmzhSe/PCHauUFW6sI4MFmdRf4EGbA0mWQ7Bw3V/4woEUMXNvamRy1mpWGZ
+	OO6Q9bZI3f8YSdu9XJmJxvODcSd2jUPxWQeapH2nHqeXuvk22mTOIAUIUB1F6zOPpbahNekPbTN
+	Hx6K65I7XrLfyCB2z9YkrCdzlYWO/l9LYRGBjxCuAiSi4DnLxmZF3oUqsIgGWRrPGB1OUY9TWrT
+	V7uOnpUcoWeiacmrHZSSpmxfxnrTQh+UKcNXCB/eDgB0t9+s2w7NUdlbKxyz/lsmLm7iuBR7Osx
+	7IVH09glnfK75aytwXeqcyzL7/YORzhebP4NwqKro1rRUQvsW75jZ5znlcJVvYz4SXp633dcNkU
+	JuhmY8KGz38+TAYLWiiuaIW6AvPyCTcZ1i+EH7VM3C7jq
+X-Received: by 2002:a17:902:e881:b0:2e9:4d43:d58a with SMTP id d9443c01a7336-2eb36402699mr18501005ad.1.1793351677709;
+        Fri, 30 Oct 2026 02:14:37 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eb39052ec9sm4734685ad.6.2026.10.30.02.14.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 02:14:37 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 0/5] ASoC: fsl_sai: Address several issues in the driver
+Date: Fri, 30 Oct 2026 16:13:59 +0700
+Message-ID: <20261030091404.18757-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,132 +104,37 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Medium] ASoC: rt721-sdca: missed jack unplug report in rt721_sdca_jack_d=
-etect_handler()
-- [Low] ASoC: rt-sdw-common: outdated kernel-doc for rt_sdca_button_detect(=
-) errors
---
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-commit cf6272e44cca067c36577fc836fb60a9747c068e
-Author: Avi Weiss <thnkslprpt@gmail.com>
+Hi all,
 
-ASoC: rt721-sdca: handle HID button read errors
+I've been reviewing the FSL SAI driver and found a few issues
+related to error handling and clock management.
 
-This commit updates rt_sdca_button_detect() to return negative error codes
-on regmap_read() failures instead of zero, and updates
-rt721_sdca_jack_detect_handler() to skip reporting button state on read
-errors while still reporting jack state changes.
+This series addresses those issues with several small fixes
+and cleanups.
 
-> diff --git a/sound/soc/codecs/rt-sdw-common.c b/sound/soc/codecs/rt-sdw-c=
-ommon.c
-> index ad61943ce75ff..e4139e6393b1c 100644
-> --- a/sound/soc/codecs/rt-sdw-common.c
-> +++ b/sound/soc/codecs/rt-sdw-common.c
-> @@ -199,7 +199,7 @@ int rt_sdca_button_detect(struct regmap *map, unsigne=
-d int entity_id,
->  	ret =3D regmap_read(map, SDW_SDCA_CTL(SDCA_NUM_HID, entity_id,
->  			RT_SDCA_CTL_HIDTX_CURRENT_OWNER, 0), &owner);
->  	if (ret < 0)
-> -		return 0;
-> +		return ret;
+There may be more to look at, but I wanted to send these
+changes first.
 
-[Severity: Low]
-This isn't a bug, but since rt_sdca_button_detect() in
-sound/soc/codecs/rt-sdw-common.c now returns negative error codes when
-regmap_read() fails, should its kernel-doc comment above the function:
+Compile-tested only.
 
-	 * A button type will be returned regarding to buffer,
-	 * it returns zero if buffer cannot be recognized.
+Best regards,
+Phuc
 
-also be updated to note that a negative errno is returned on error,
-similar to rt_sdca_headset_detect()?
+bui duc phuc (5):
+  ASoC: fsl_sai: Fix PM QoS cleanup on resume failure
+  ASoC: fsl_sai: Use optional clock getter for MCLKs
+  ASoC: fsl_sai: Remove redundant error messages
+  ASoC: fsl_sai: Propagate device tree property read errors
+  ASoC: fsl_sai: Drop redundant dataline mask AND
 
->  	/* if owner is device then there is no button event from device */
->  	if (owner =3D=3D 1)
-> @@ -229,6 +229,9 @@ int rt_sdca_button_detect(struct regmap *map, unsigne=
-d int entity_id,
->  			SDW_SDCA_CTL(SDCA_NUM_HID, entity_id,
->  				RT_SDCA_CTL_HIDTX_CURRENT_OWNER, 0), 0x01);
-> =20
-> +	if (ret < 0)
-> +		return ret;
-> +
->  	return btn_type;
->  }
->  EXPORT_SYMBOL_GPL(rt_sdca_button_detect);
-> diff --git a/sound/soc/codecs/rt721-sdca.c b/sound/soc/codecs/rt721-sdca.c
-> index 9f567caecb70a..95c028efec01c 100644
-> --- a/sound/soc/codecs/rt721-sdca.c
-> +++ b/sound/soc/codecs/rt721-sdca.c
-> @@ -248,6 +248,19 @@ static void rt721_sdca_jack_detect_handler(struct wo=
-rk_struct *work)
->  					RT721_SDCA_ENT_HID01, RT721_BUF_ADDR_HID1,
->  					RT721_SDCA_HID_ID);
-> =20
-> +	if (btn_type < 0) {
-> +		if (rt721->scp_sdca_stat1 & SDW_SCP_SDCA_INT_SDCA_0) {
-> +			unsigned int mask =3D SND_JACK_HEADSET;
-> +
-> +			if (rt721->jack_type !=3D SND_JACK_HEADSET)
-> +				mask |=3D SND_JACK_BTN_0 | SND_JACK_BTN_1 |
-> +					SND_JACK_BTN_2 | SND_JACK_BTN_3;
-> +
-> +			snd_soc_jack_report(rt721->hs_jack, rt721->jack_type, mask);
-> +		}
-> +		return;
-> +	}
+ sound/soc/fsl/fsl_sai.c | 40 +++++++++++++++++-----------------------
+ 1 file changed, 17 insertions(+), 23 deletions(-)
 
-[Severity: Medium]
-Can this leave rt721->hs_jack out of sync with rt721->jack_type on RT721_S
-when a headset is unplugged without SDW_SCP_SDCA_INT_SDCA_0 set in
-rt721->scp_sdca_stat1?
+-- 
+2.43.0
 
-In sound/soc/codecs/rt721-sdca-sdw.c:rt721_sdca_interrupt_callback(), if a
-pending jack_detect_work scheduled by an unplug interrupt
-(SDW_SCP_SDCA_INT_SDCA_0) is cancelled by a subsequent button interrupt
-(SDW_SCP_SDCA_INT_SDCA_8) from contact bounce, only scp_sdca_stat2 is
-preserved while scp_sdca_stat1 is overwritten with a fresh read of
-SDW_SCP_SDCA_INT1 (which was already cleared):
-
-	if (cancel_delayed_work_sync(&rt721->jack_detect_work)) {
-		dev_warn(&slave->dev, "%s the pending delayed_work was cancelled", __func=
-__);
-		/* avoid the HID owner doesn't change to device */
-		if (rt721->scp_sdca_stat2)
-			scp_sdca_stat2 =3D rt721->scp_sdca_stat2;
-	}
-	...
-	ret =3D sdw_read_no_pm(rt721->slave, SDW_SCP_SDCA_INT1);
-	if (ret < 0)
-		goto io_error;
-
-	rt721->scp_sdca_stat1 =3D ret;
-
-Then, when rt721_sdca_jack_detect_handler() runs on RT721_S, it checks
-RT721_JD_1PIN_GAT_STA1 and unconditionally resets the driver's jack state
-(setting rt721->jack_type =3D 0) regardless of SDW_SCP_SDCA_INT_SDCA_0:
-
-	if (rt721->wf_id =3D=3D RT721_S) {
-		...
-		rt_sdca_index_read(rt721->mbq_regmap, RT721_JD_CTRL,
-			RT721_JD_1PIN_GAT_STA1, &real_JD);
-		real_JD &=3D 0x1;
-		if (real_JD =3D=3D 0x0)
-			rt721_sdca_jack_reset_state(rt721);
-
-If rt_sdca_button_detect() then fails and returns a negative error while
-SDW_SCP_SDCA_INT_SDCA_0 is clear in rt721->scp_sdca_stat1, this new error
-path returns early without calling snd_soc_jack_report(), leaving
-rt721->hs_jack stuck reporting the headset as connected and any previously
-active buttons as pressed even though rt721->jack_type was reset to 0.
-
-Should the error path also report the jack state when rt721->jack_type =3D=
-=3D 0
-(or preserve scp_sdca_stat1 across cancelled work)?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261030085735.2146=
-047-1-thnkslprpt@gmail.com?part=3D1
