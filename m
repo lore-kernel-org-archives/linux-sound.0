@@ -1,77 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.250.56.165
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793370445;
-	b=wctlYeZ0dfhFQ4Lthx9A06iOA1esZmzdywfFuQs0VNnqc7+9G/eoNvzg/LBL1AQCK/bg
-	 X1gBXaJyMwvGZ7E+xr0yl8SdUu1vaY/RkgL3jcFxZFpD4PwJH2akYH3czWp+PiUDNrpQc
-	 csjlpSAOSUwpvAr3u3Sp3UCBWgGlV7e2xRsoAIIjz+Vl3YdpW3SdJn8i7cu9fGLxemjpx
-	 jIEscK2stsAJ21ppAhke1Oqjq+23J+sFc6jz2AQyvquyDRshz9twcrxxPGHdmWOb1YWoH
-	 b2lJKWNbXYZnUT1EXcjfn+OhKd3a4sdwFo8nhXN+OsLm8AI0pNBBlcTUytPlwxc34vw==
+	t=1793371122;
+	b=k3MVKhyT7hZuHC2W5gaeVGXCJR9woEtBhI7ojBIxD0pODrIQznfPP87eJuCTo1aFW8AP
+	 1b9IYXRrx64EU2d6uiLGFfwg5C3oHVc3kALX1pK3Cvy4hofbJp2KdHRBFsaxtLpyt64vv
+	 NrLYCnyfr/8N92oRzuOAKUueE11e6PqLrc1B/e+TJ0XZP22X/oSgbIduDRGi1QchSTkQk
+	 8V4VPVNjZLlY9rY2p48FehiBhea6DTfCMLBNZ1nJSqAdcXJLGI4VsZWCnv4eUz3I59yAL
+	 CnQcOyfKXJI/jfp+YrmN36/QKAndQJ8Yr4w3KcoxOMhwKqbDXQx8cHFvWqkqb7vuOGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793370445;
-	h=DMARC-Filter:Received:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=l1vEPyv4ZEYEenWJIonE0gIqYnvnC3U2rXltIEBtB7Y=;
-	b=blZsw0G1D13jkOi4NGglItM0dN4Hgs3uPQZNcvlGAn73IwSwajWP8Tfg+LbY+5E6R4Kw
-	 E2SeaPMF1p6W2jrAIaxbvnx8JZZGMOV8yLEQABfOLa8y3M2mOb2pDcgViA6w2flkum1s5
-	 invGem7uZ9RVMTY2lH0D/Z32sUuSsiS208RMimkLolx5DF3R1vIdiwGW6zjGAq8/qQD0m
-	 EObCC9I82HoKDvbhT+YAVjBL7Q/MPjmQpEqJlKsDmdoKtxvvztLowZWMirPyLqwaMQRZ/
-	 1ZRhbVMfJG8ATgbWMFwRiQLVrg5BmLXGd2yOJIXJ9byiyc5XXtewNPcTF+J8giI2pDg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793371122;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=/Dj6wQNSuCEVmxA8s3jzQ3MOnbyzCGPuihUcnRjde/w=;
+	b=zNX1tuahHdQI8hYjA8B0lBs6n1jtgJVQzH4tzN5Kv7u4QIveeE4MMZeY2k2xdvtACCSQ
+	 TFAmtVmqSDiLWyaq0NiHaabJ6ri2+MnjRGWj9gKWmiBDcyMcOnu35g8ueWkwN2gX5Wi1B
+	 3q5NoJ9QYMkSPl+3FwbFEZEptL7p5bQnUnPGA0v2oTxL8sSWBEzQDYW0zpZboH10eUCZb
+	 FiYjeyXUttKpYevWPimJ0WwhEsPNTuxOj3hyT4yK63Baw5mQ7vdFfLuuOplt2kZMOXG5x
+	 kXoID20507WQyAKGJDcxGL8GQH8XYo2EHtEJ0GDNE2Ep43Uo2cFNqMRiPoaMnY1rrzA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ideco.ru;
-	spf=pass smtp.mailfrom=ideco.ru;
-	dkim=pass header.d=ideco.ru header.i=@ideco.ru header.a=rsa-sha256 header.s=ics header.b=i7iEdlRe;
-	arc=none smtp.remote-ip=51.250.56.165
-Received: from smtp.ideco.ru (smtp.ideco.ru [51.250.56.165])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="dJqV+a/S";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E0B606A31E;
-	Fri, 30 Oct 2026 14:27:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38E0B606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ideco.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideco.ru
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E87960A260A
+	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 14:38:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ideco.ru header.i=@ideco.ru header.a=rsa-sha256 header.s=ics header.b=i7iEdlRe
-Received: from [169.254.254.254] (localhost [127.0.0.1])
-	by smtp.ideco.ru (Postfix) with ESMTP id E9ECD35F16;
-	Fri, 30 Oct 2026 19:27:21 +0500 (+05)
-Received: from fedora (5cfcac1b.dynamic.mv.ru [92.252.172.27])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.ideco.ru (Postfix) with ESMTPSA id B20D530F77;
-	Fri, 30 Oct 2026 19:26:52 +0500 (+05)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp.ideco.ru B20D530F77
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ideco.ru; s=ics;
-	t=1793370440; bh=l1vEPyv4ZEYEenWJIonE0gIqYnvnC3U2rXltIEBtB7Y=;
-	h=From:To:Cc:Subject:Date;
-	b=i7iEdlReoUtWXOiVr/e7HRfg1DnyewpSJuXcns3CXhgW2wBHW3eC+OA9KC+d/XFuH
-	 xpkK23F0sUFGX17csS8IUn5M+KNwFtfqNyz/o3F8zZYHMwVDb0YpLoBh5xXnBl1DSM
-	 6GYwlFWLz1Iw64Ke2KjR/pBOtBRmYgvBWHa0vAUS0Ok1gSmnrwVLOooh1vcSBFDQ19
-	 2wLKMN4ifgn0Q9ZTx23Hcm+qWcTcmAe5AfkA2BZfRl9fRbrkArvJ9vW6yq56W/FXw2
-	 /WU48viIDAo3Zvdfjf4Tx5mxlgfas8Yy8F9yTHunIGjz7qeU330eG41F1Kas+Ppjbt
-	 DenkuxWx/l/5Q==
-From: Alex Kazinsky <a.kazinsky@ideco.ru>
-To: David Rhodes <david.rhodes@cirrus.com>
-Cc: Alex Kazinsky <a.kazinsky@ideco.ru>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Brian Austin <brian.austin@cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	James Schulman <james.schulman@cirrus.com>,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: cs35l36: Handle zero sysclk frequency
-Date: Fri, 30 Oct 2026 18:26:36 +0400
-Message-ID: <20261030142637.415971-1-a.kazinsky@ideco.ru>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dJqV+a/S
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A87001F000C1;
+	Fri, 30 Oct 2026 14:38:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793371121;
+	bh=/Dj6wQNSuCEVmxA8s3jzQ3MOnbyzCGPuihUcnRjde/w=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=dJqV+a/SB7+8ppQS6mQoOSBeMDNzlGM/kJTTR+O4z5Wt0hgJuHqlq2ZXiNc9fRF6Y
+	 CwFG0X2rn4zzIFA8GXn12qS3vmA8LPUQyQJn3kNR2H41LA0qr6nf4JF6SGFfiOY94S
+	 aykmLWibAUWav9P/0OBpltRkt+VqnFLv8yuuSYiFM1dNl2YQbwKwwfcSJxERW/MUIz
+	 fj8e4NrsN9vGbncelxiSm2gZsAx7lMdyZjYHUYUTDLiRMX/uTCf4CBA8TQ1YlLNlxS
+	 U7YeEXILPG5nF2VblSqPrRjQqqh4wYcFQZPZIEZacvCm8J6Vev/NZZGmqp9XUfbzfG
+	 7JDz1qWuHpfDg==
+Message-ID: <sashiko-outbox-191113@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ALSA: cs46xx: Handle SCB creation failures before
+ dereferencing
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Alex Kazinsky" <a.kazinsky@ideco.ru>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261030142529.415697-1-a.kazinsky@ideco.ru>
+References: <20261030142529.415697-1-a.kazinsky@ideco.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 30 Oct 2026 14:38:41 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -80,44 +59,90 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-simple_util_shutdown() calls snd_soc_dai_set_sysclk() with a zero
-frequency when mclk-fs is configured, the clock is not fixed and the
-last active stream on the DAI is closed.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] ALSA: cs46xx: NULL deref in cs46xx_dsp_async_init() if timing_mast=
+er_scb fails
+--
 
-cs35l36_dai_set_sysclk() passes this frequency to DIV_ROUND_UP() when
-calculating the FS monitor windows, resulting in division by zero.
+commit 48c9250fe2fa75eef791b48e6968fdc6c7b7ecda
+Author: Alex Kazinsky <a.kazinsky@ideco.ru>
 
-Return success without updating the FS monitor windows when the
-frequency is zero, as there is no running clock to monitor.
+ALSA: cs46xx: Handle SCB creation failures before dereferencing
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE
-static analysis tool.
+This commit adds NULL checks for the return value of cs46xx_dsp_create_scb()
+in cs46xx_dsp_scb_and_task_init() and _dsp_create_generic_scb() to prevent
+NULL pointer dereferences when kmemdup() fails under CONFIG_PM_SLEEP.
 
-Fixes: 6ba9dd6c893b ("ASoC: cs35l36: Add support for Cirrus CS35L36 Amplifier")
-Cc: stable@vger.kernel.org
-Signed-off-by: Alex Kazinsky <a.kazinsky@ideco.ru>
----
- sound/soc/codecs/cs35l36.c | 3 +++
- 1 file changed, 3 insertions(+)
+> diff --git a/sound/pci/cs46xx/dsp_spos_scb_lib.c b/sound/pci/cs46xx/dsp_s=
+pos_scb_lib.c
+> index 71eee5cb478f4..ac914bf784c81 100644
+> --- a/sound/pci/cs46xx/dsp_spos_scb_lib.c
+> +++ b/sound/pci/cs46xx/dsp_spos_scb_lib.c
+> @@ -274,7 +274,8 @@ _dsp_create_generic_scb (struct snd_cs46xx *chip, cha=
+r * name, u32 * scb_data, u
+>  	dev_dbg(chip->card->dev, "dsp_spos: creating SCB <%s>\n", name);
+> =20
+>  	scb =3D cs46xx_dsp_create_scb(chip,name,scb_data,dest);
+> -
+> +	if (!scb)
+> +		return NULL;
+> =20
+>  	scb->sub_list_ptr =3D ins->the_null_scb;
+>  	scb->next_scb_ptr =3D ins->the_null_scb;
 
-diff --git a/sound/soc/codecs/cs35l36.c b/sound/soc/codecs/cs35l36.c
-index 5fc8ec292e3c..266b95397873 100644
---- a/sound/soc/codecs/cs35l36.c
-+++ b/sound/soc/codecs/cs35l36.c
-@@ -910,6 +910,9 @@ static int cs35l36_dai_set_sysclk(struct snd_soc_dai *dai, int clk_id,
- 			snd_soc_component_get_drvdata(component);
- 	int fs1, fs2;
- 
-+	if (!freq)
-+		return 0;
-+
- 	if (freq > CS35L36_FS_NOM_6MHZ) {
- 		fs1 = CS35L36_FS1_DEFAULT_VAL;
- 		fs2 = CS35L36_FS2_DEFAULT_VAL;
--- 
-2.56.0
+[Severity: High]
+Now that _dsp_create_generic_scb() returns NULL when cs46xx_dsp_create_scb()
+fails, can this still lead to a NULL pointer dereference in
+cs46xx_dsp_async_init() if cs46xx_dsp_create_timing_master_scb() fails?
 
+In sound/pci/cs46xx/dsp_spos.c:cs46xx_dsp_scb_and_task_init(),
+timing_master_scb is created via:
 
+	cs46xx_dsp_create_timing_master_scb()
+	  -> cs46xx_dsp_create_generic_scb()
+	    -> _dsp_create_generic_scb()
+
+Unlike the subsequent SCB creations in cs46xx_dsp_scb_and_task_init(),
+timing_master_scb is not checked for NULL:
+
+	/* create timing master SCB */
+	timing_master_scb =3D cs46xx_dsp_create_timing_master_scb(chip);
+
+	/* create the CODEC output task */
+	codec_out_scb =3D cs46xx_dsp_create_codec_out_scb(chip,"CodecOutSCB_I",0x0=
+010,0x0000,
+							MASTERMIX_SCB_ADDR,
+							CODECOUT_SCB_ADDR,timing_master_scb,
+							SCB_ON_PARENT_SUBLIST_SCB);
+
+If timing_master_scb is NULL, its child SCB creations (codec_out_scb and
+write_back_scb) pass parent_scb =3D=3D NULL into _dsp_create_generic_scb(),=
+ skip
+the if (scb->parent_scb_ptr) block, and succeed if their own allocations
+succeed. Execution then continues to the end of
+cs46xx_dsp_scb_and_task_init():
+
+	cs46xx_dsp_async_init(chip,timing_master_scb);
+	return 0;
+
+Inside cs46xx_dsp_async_init(), fg_entry (which is timing_master_scb) is
+dereferenced unconditionally:
+
+		/* this one is faked, as the parnet of SPDIFO task
+		   is the FG task tree */
+		fg_entry->parent_scb_ptr =3D spdifo_scb_desc;
+
+Additionally, cs46xx_dsp_scb_and_task_init() ignores the return value of
+cs46xx_dsp_async_init(), which calls cs46xx_dsp_create_scb() three times and
+returns -EIO on failure, leaving any partially created SCB descriptors in
+ins->scbs[] with NULL sub_list_ptr, next_scb_ptr, and task_entry pointers
+that can later be dereferenced in cs46xx_dsp_proc_scb_read().
+
+Should cs46xx_dsp_scb_and_task_init() check timing_master_scb for NULL and
+check the return value of cs46xx_dsp_async_init()?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261030142529.4156=
+97-1-a.kazinsky@ideco.ru?part=3D1
