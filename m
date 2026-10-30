@@ -1,57 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793375776;
-	b=QNj2dcBkqfKXenYoiRwG52+fHxXhsl7zdJ00QniuL2my14aG+qiYOE2VPZ61JxI/GGNb
-	 lmNdh7U6IpCYTKmR87/JLzQ5jCdql8o4U/OzIDqRJAbrHRn+xo6xJRVOCkdIqV9uo/j1u
-	 doUzAus2+CgS537EsedzzysQ3DBmj8+j1Ty1JZMySkIhq7acOs5s5Q/L2V1jwQlvi1xbJ
-	 8o3elWybr05zp4pQ0dJ591qibiG1v69OIgfgcbu13qTXVzfiv8Xd/V7pOoITexzsW5IvM
-	 Mlf9T/nz0ovKm22uTB6P88n0LFxPQyJ1IKMm329rUhLFoPZDEl1+7xfQ4VWJleQgl0Q==
+	t=1793377970;
+	b=Ruy0k7pIGqtH/awHkMA2vtuvrA2pL5uavFoLlqHlRF0Ja/tRsBDIMYliOnt+YxAYhsTh
+	 XGGR9S2USU2vFJusA7TSzi6AYjQ7qgf9RJvTvc66guJnZjeF/ssJUsWTr8dtfqhtRXIyX
+	 mn5zOm9WF6S1GCjThXR/R7FGvBJYy7/1ObtVEBucBmTN723fntXIk8mrpm4pECbr7Dfe2
+	 ImzpSqwo9jmCFHg6YUy4smFVhBSThoJ0Wgy2LmK/eKssijLewfvx6l9PhGwvekScUwqeJ
+	 wNEi0TAQtYlT9HX9cxXRfRYjzNozf7SRSOr8ev+3UEUgvW6TnU5aSL3a5939FZA8uDw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793375776;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Hj3n3JV0jV8WYQXjQMNP+1C/jSLUfZL9PLCwf8Cxj0g=;
-	b=brGBcZRp04emnbGaCr/53l2KfTFM+xwKVJl+3k+UVf3GrB6IIV3fsrEjCRgF6arNrGqg
-	 UrZ8xgjfhq956j3heJ5O+oHxz8aVStlV1K04lPTIure7xD1jctudhR+Tb9SDquaBU4u7X
-	 a7DQYTVbdUUwzkrXtjk/8eBPXOxfkDjeRqg6xiE6nsFaFD/SFKfjKHtsaTesqCf3B77ku
-	 +TICDGdp3uOJzu/E9RNzrZPIKwKi2JaywP+9998rNT/YDIf40OGQ+vFxyAQsT5Xo3MRoM
-	 Bl57rMs7qztqsZGfuhUnJAcqkGmMDH/tq9Q8+84nW+GGVXrOlTky/ioBqYaBjaskv5Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793377970;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Subject:Date:
+	 Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=4g4bBa15TQcCRqdP6/C6ogyt9YDhoGubfZMQbJjSRhc=;
+	b=uy1QZhOLtqDhkVS597oIsARKNf4mptMTIeqfqpO6GnHq4CE+ERBLYDH6PE7dk8GQnq8I
+	 NfL8RTHXkFvMM+AEVNal09jRfb2ptj5PGKOOf5GMFW38KYJiefiqVFpNl6yveFXBRhOrR
+	 C8mnt7fBwbAshG9nHJilZTwcQyhzYI/RzOxeGbhm8UP7Mv8W7vl+yCryoeMgXKXJZoUbX
+	 xey9e6uHLXkscEV5I1c2HDjwQ2wTaO9GeA95OmvvEbPkr46r8bDYSJXqeQq8VGNuWTh5b
+	 lvSTzG8xxMmFWGEWs06JAjlZCUV6B87BFMYzFqo4Al4JCu8ovCEtPZAApFUqzhKwFCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SxCxlSK+;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b="kBiqrbk/";
+	arc=none smtp.remote-ip=209.85.221.45
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E17606A31A
-	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 15:56:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27502606A31A
+	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 16:32:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27502606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SxCxlSK+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09D0E1F0093A;
-	Fri, 30 Oct 2026 15:56:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793375776;
-	bh=Hj3n3JV0jV8WYQXjQMNP+1C/jSLUfZL9PLCwf8Cxj0g=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=SxCxlSK+IWRCMRtSqnGgZ36bo6UV+fvjOzwwlkCRW5bIQMAMajbg1jisfCfMWnXlS
-	 YmcpCatGudcdZrceUnK5Icz+GfDJQEdSni1QS/wQ1Po0wuadUHFhUgOyVOtIs+KwfA
-	 RYSFWo8sYkYQN+efVsuCtsIEEhJBTu4axWSkgDCyxzxhtZxeTatM0PbKpPBh1jHfrG
-	 qSNHQ87CEqtdcUgT+56EgSrel+fev5qa6UxGv5YlF5KswYcYilKdLVFEtXVQYyyf5I
-	 2I9DJX2ELI+2OCwI2iEPQjzL/Thj+rk9aeqjHeyy1dzLYIUcfRpbgmNORY25Qfp1YF
-	 taSlYVOd3kmZA==
-Message-ID: <sashiko-outbox-191197@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 1/4] ASoC: rt5668: cancel delayed works on component
- removal
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Tristan Madani" <tristmd@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261030154202.2989936-2-tristan@talencesecurity.com>
-References: <20261030154202.2989936-1-tristan@talencesecurity.com>
- <20261030154202.2989936-2-tristan@talencesecurity.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Oct 2026 15:56:15 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=kBiqrbk/
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48e09aa5264so474862f8f.2
+        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 09:32:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1793377967; x=1793982767; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=4g4bBa15TQcCRqdP6/C6ogyt9YDhoGubfZMQbJjSRhc=;
+        b=kBiqrbk/dCQYNigE3JuppVC+5aXOMm3uDwohrN1p4hZSNpp1loTbvBmm+94OAVszBr
+         t13ZJekGenonoNiPNUc7DZboP6mtCGnri5Twx+GRKwowegQbHPXP2pK6+Lg1Itz0pyAW
+         q+k6+cboSWo48+n49U+IKM+Z9OfaDxHtlTxY0cAvDGvNG4AzyfiatrnAC5Zwu1ppXa9T
+         z1ccX3bE2Gv96J4BH9qz8pJSIGaSgTkL0/HGSkEO1ASpKvlu3vvfLuqUZ2/+z8v6XKTN
+         KSN1vRYOcCVQwvERkX5/oVtWZUU1ecU26j7kHnlnO+i76bniya3kLO3/9iFyE3MToNfV
+         o6qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793377967; x=1793982767;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=4g4bBa15TQcCRqdP6/C6ogyt9YDhoGubfZMQbJjSRhc=;
+        b=DEL3l0CZaPD2yXs4bcR4Q68MFl4fJdka+Dc7Qsx3Cq3HGkH9Q1/jyhEOZMwgeeabM0
+         hX5TdnACLntUFRRlI05ibRV8BWID2NKHa7FOXkiuyJCYAOHXSzjf4jfLLl/El3W+jxv4
+         IeVQ7WQP9Xe9u6ACJ83fmiIh7I23/K2vjJkdsE/3mxCbTf0KLE/nsddL6nrEjabgsf83
+         lLXsuw6zViVWHZj8BSChdHh8mwFB+3ybQqm2g2f7NLuD7w4380YyNBnFRuB0iY9UGVgZ
+         ho+OPLzGzH9uOLI5ee8DCGJ7+vkjZgE+QDJfgn6YG5gZscm556QEEciEX+bKxb2UHo8V
+         HkSw==
+X-Gm-Message-State: AFq9FYK6othwiMVi37HuHnLpgndAvrrS4E/yoaZhvTneBHS+75IGGe9d
+	i99AuJuVbcvCycVchidni91ejNhgywm1Qwt+bNI2tF3uQZlrFMYNjsVO1/LEseRdvSM=
+X-Gm-Gg: AYBFou1bxhxNrSAehjBgzToB2Zb16mtUSgfT2MPRhBI1vdv7LfMpQwaj992slspgg3M
+	3Mz0Jnxa+QE5VMZQ+/xXGPLIw57yDTJ8jv67X62pSEqjq2tsKTH9d7Dah0ZHcnftbp8hwLv685Q
+	JAZAqkt+grQLdZwX4p13sjT0XMpPtrU1DJnTzqdkgtZCOvBGk61oPzJN3YXMDw0ECPRi+2skJyi
+	EZUj9kJDfD9Kk0Pq5joUjfTkrlBib7MAHLNaHi9dATi/s4fFhPpwHrbl+nzvgqvf2vdPx8QgY3K
+	m/7N8kbUvXMkmKdSDUeBbvzgnuGrrfV6GFgr+/2O12LQTik9Q6JQ4D3TSrc2DJbKKWHj+OADLnp
+	HYXgfuWXT7ZvfFEIN1An1dYRiV5vkGLTogapcgjMdtROAaiA9eLvDiE29X7bD+a32D9f+CceXWs
+	w5r3xduThHSoV3/CGALn0jcyy8PINis7bSHTFxWcgQGv8Rf0VF8gzkCUNLk1r4daj6dXk2WTjEK
+	wo9xFiUcFAmuN9gKQO7GJJP/KM8FK+yNk4GzWGlM2bkGmPhbNgLb7ZZo1tgJSa0igjDVxzNui99
+	TlRg0Tat6uly+NrFerAd4eZ/YzSor6s65muTjX2/4NsmZ2VYrjqivKqfs0blx67/bo/qdQ==
+X-Received: by 2002:a5d:588e:0:b0:48e:6bbb:c3f3 with SMTP id ffacd0b85a97d-48e6e2fd071mr6553038f8f.28.1793377967347;
+        Fri, 30 Oct 2026 09:32:47 -0700 (PDT)
+Received: from localhost (82-67-6-57.subs.proxad.net. [82.67.6.57])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71bae25dsm3528697f8f.59.2026.10.30.09.32.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 09:32:46 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+Subject: [PATCH 0/2] ASoC: meson: card: fix driver remove
+Date: Fri, 30 Oct 2026 17:29:52 +0100
+Message-Id: <20261030-meson-card-register-fixup-v1-0-6474985e94f6@baylibre.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,121 +90,48 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMQQrCQBAEvxLm7ICbiFG/Ijlkd9s4gpswk4gQ8
+ ndHPfShaKpWMqjA6FKtpHiJyVgcwq6idO/LAJbsTPW+PgYfP2Fj4dRrZsUgNkP5Ju9l4ibE9nx
+ qcnuIgdyfFH782tfuz7bEB9L8DdK2fQA9Y8sMfQAAAA==
+X-Change-ID: 20261026-meson-card-register-fixup-31b7983d74b1
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Jerome Brunet <jbrunet@baylibre.com>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=660; i=jbrunet@baylibre.com;
+ h=from:subject:message-id; bh=fXalk+osyG8+ZDMUyak0NQXBdifxrSPFw4QoLcm/1KM=;
+ b=owGbwMvMwCW2VtK+WnvWU3HG02pJDFlPjq27xpM6JbNrbZS+3gUH2UWJRwWXvzs54T53dvrNP
+ OsuwaMqHaUsDGJcDLJiiiw13NXi7yS1vsyarnMbZg4rE8gQBi5OAZhI83FGhmOy6VOFZrpkt/9+
+ JvZO33RJ8RuX5D19jk84d99jdl62dDUjwz/NL/wOz9/2mnOfb741b3nRzpd8yhcs538x/+P47b+
+ dDAcA
+X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
+ fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] ASoC: rt5668: jack_detect_work UAF on I2C unbind in rt5668_remove()
-- [High] ASoC: rt5668: unbalanced disable_irq() in rt5668_remove() on card =
-rebind
-- [Medium] ASoC: rt5668: disable_irq() in rt5668_remove() when IRQ request =
-failed
---
+meson_card_remove() reads the wrong drvdata and frees the card links
+before the card is unregistered, which crashes when the driver is
+unbound. Fix both.
 
-commit d5c07e49b35a8b8aca80e062381c33477ad1f222
-Author: Tristan Madani <tristmd@gmail.com>
+---
+Jerome Brunet (2):
+      ASoC: meson: card: leave the device drvdata to the ASoC card
+      ASoC: meson: card: unregister the card before freeing its links
 
-ASoC: rt5668: cancel delayed works on component removal
+ sound/soc/meson/meson-card-utils.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+---
+base-commit: 11ae63bd9030349a0136fb2edd1622a4a029edc8
+base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+change-id: 20261026-meson-card-register-fixup-31b7983d74b1
 
-This commit disables the codec IRQ and cancels jack_detect_work and
-jd_check_work in rt5668_remove() to prevent work handlers from running
-after removal.
+Best regards,
+--  
+Jerome
 
-> diff --git a/sound/soc/codecs/rt5668.c b/sound/soc/codecs/rt5668.c
-> index cd6245d6b91af..7501c6c6ee128 100644
-> --- a/sound/soc/codecs/rt5668.c
-> +++ b/sound/soc/codecs/rt5668.c
-> @@ -2222,6 +2222,13 @@ static int rt5668_probe(struct snd_soc_component *=
-component)
->  static void rt5668_remove(struct snd_soc_component *component)
->  {
->  	struct rt5668_priv *rt5668 =3D snd_soc_component_get_drvdata(component);
-> +	struct i2c_client *i2c =3D to_i2c_client(component->dev);
-> +
-> +	if (i2c->irq)
-> +		disable_irq(i2c->irq);
-
-[Severity: High]
-Does calling disable_irq(i2c->irq) in the ASoC component remove callback
-rt5668_remove() leave the IRQ permanently disabled across sound card
-unbind/rebind cycles or deferred probe rollbacks?
-
-In rt5668_i2c_probe(), i2c->irq is requested once at I2C device probe time
-via devm_request_threaded_irq(), whereas rt5668_probe() and rt5668_remove()
-are snd_soc_component_driver callbacks invoked when an ASoC card binds or
-unbinds the component:
-
-sound/soc/codecs/rt5668.c:rt5668_probe() {
-	struct rt5668_priv *rt5668 =3D snd_soc_component_get_drvdata(component);
-
-	rt5668->component =3D component;
-
-	return 0;
-}
-
-If the sound card is unbound and later rebound while the I2C device stays
-bound, or if snd_soc_bind_card() fails or defers on a later component after
-rt5668_probe() succeeds (causing soc_cleanup_card_resources() ->
-soc_remove_link_components() -> snd_soc_component_remove() to run),
-rt5668_remove() calls disable_irq(i2c->irq). Because neither rt5668_probe()
-nor rt5668_set_jack_detect() calls enable_irq(i2c->irq), the IRQ disable
-depth remains incremented on subsequent card binds.
-
-[Severity: Medium]
-Also, what happens here if devm_request_threaded_irq() failed during
-rt5668_i2c_probe()?
-
-In rt5668_i2c_probe(), a failure to request the IRQ is logged as non-fatal
-while i2c->irq remains non-zero:
-
-	if (i2c->irq) {
-		ret =3D devm_request_threaded_irq(&i2c->dev, i2c->irq, NULL,
-			rt5668_irq, IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING
-			| IRQF_ONESHOT, "rt5668", rt5668);
-		if (ret)
-			dev_err(&i2c->dev, "Failed to request IRQ: %d\n", ret);
-
-	}
-
-When rt5668_remove() later checks only if (i2c->irq), won't it call
-disable_irq(i2c->irq) on an IRQ line that rt5668 never successfully
-claimed, causing an unbalanced IRQ disable?
-
-> +
-> +	cancel_delayed_work_sync(&rt5668->jack_detect_work);
-> +	cancel_delayed_work_sync(&rt5668->jd_check_work);
-
-[Severity: High]
-As reported by Sashiko on v2 [1], can rt5668->jack_detect_work still cause
-a use-after-free when the I2C device is unbound while no sound card is
-bound?
-
-In rt5668_i2c_probe(), rt5668->jack_detect_work and rt5668->jd_check_work
-are initialized and rt5668_irq() is registered via
-devm_request_threaded_irq() before devm_snd_soc_register_component(). If an
-interrupt fires before a sound card is bound or instantiated, rt5668_irq()
-queues rt5668->jack_detect_work, and rt5668_jack_detect_handler() re-arms
-itself every 15 ms:
-
-	if (!rt5668->component ||
-	    !snd_soc_card_is_instantiated(rt5668->component->card)) {
-		/* card not yet ready, try later */
-		mod_delayed_work(system_power_efficient_wq,
-				 &rt5668->jack_detect_work, msecs_to_jiffies(15));
-		return;
-	}
-
-When the I2C device is unbound while component->card is NULL,
-devm_component_release() -> snd_soc_unregister_component_by_driver() ->
-snd_soc_del_component_unlocked() skips snd_soc_unbind_card() because card is
-NULL, so snd_soc_component_remove() and rt5668_remove() are never called.
-Because rt5668_i2c_driver has no i2c_driver.remove callback (or devm action)
-to disable the IRQ and cancel the delayed works on I2C unbind, devres frees
-rt5668 while rt5668->jack_detect_work remains pending. Should the IRQ
-disable and work cancellation be handled at the I2C device lifecycle level
-(similar to rt5682-i2c.c and rt5682s.c) rather than only in rt5668_remove()?
-
-[1] https://lore.kernel.org/r/sashiko-outbox-190014@kernel.org
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261030154202.2989=
-936-1-tristan@talencesecurity.com?part=3D1
