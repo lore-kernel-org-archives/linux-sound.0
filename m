@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793351689;
-	b=RXTVooaGPqMdCVj5NikxvERNRp5ZGyEPY3nJivSnCiJ8iFIoOH+mhIFkDL1Fo7+94IYo
-	 D/a8EYGgdp7+zqHkGYJQ6qffHFe73JqpBC/YTufpqaO9AbkSKo/tkzQYi4f9JYYoLdb/s
-	 fuVg9yNzR1YszJMsdu9SfJEDs2D2ZG4dnoDtbOAHgdDjQWZ0K1KFe6UPSX2K7LYRjC2el
-	 8PbHmCAyMllpKFWjiUNGSkOdqF+uSMDv7OIhbk2CGONRMh5MLaSLtCctlddup+j+T3tz0
-	 xdoDVUBNRzq5hqDJasEOlxaMo5pY4BJ9rE5weDleF9MCV+k8rnbg5L/U4NYKNG8w+zA==
+	t=1793351694;
+	b=Wr4aIdDPVaisSxjuSthjG4CUG57AkahyLCgw8Edy79MYc4WG7+OEZjwhdTXUGHbdMRhx
+	 6S4ygmLFtfxBwce8IQIUXX3mAHlQdaYhh7lVmXHFO/ZCQto9ql6lo5ewEG11UaZPz4pl/
+	 KHcUScEQ9X0W7nu6/e/0JWzPEvNlbcrCiYK79RKIwDYNdm3ceAeq0QMZ7aerfYyJjMYmm
+	 BgJ/shnlHxJ22TPl3Ky6rD6BX50m8MaIxgrenZG764ESqQDJWs3KXwv1c7M1Q7Q/AO5dP
+	 /1W7TX+HySUfKREd+0BU5CoUD7NqXQJFQ4LHHbPLrjb65qZGCcwc2+jktYZIT9hNwlg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793351689;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793351694;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=wf7nEs/6d3ZIbLvKZhlKXZqIu3RM64be+7ASwgNMPP8=;
-	b=a1pnzueWDdzODcUeajxJGw9XntB5R049lLsvexAJyaaDW+TfrDHDOj4xTz++CXUa7hc+
-	 tAOb416wBySo5pfg3hUQukeNtPKijN0BoudXKGtkLcfF3bCmeqidsD4MMC7/VjfexobGz
-	 CIG5gI0o+rMYO6vf0aPLT58Ixgv/IZhJvpiMY0YhRnKMCr9reh7OJmICHs3n3DUS4JxyS
-	 FtjGBfd4L5zHLvjqwl3cgWTvxeUUjQ0vljAeLchuYICxJROvmnD46XJSmE6ZDicNgjw6C
-	 S3KyY/fLG06iEEcNxzA1gCq72ai/AbjiD00+BhMbKU0HHD6v4KujCP2QqIBrhouJXMQ==
+	bh=aTbOMPeQQR/WAw575MjV+whoOIimG2HfOgrdg3UiGjw=;
+	b=msqoljz1kJbu5A9lzMDJmAfjJxS4+JnbEdpS1KG7VJmEJvQw5L9NeKbpdYHPoGAnCBXN
+	 LOPp+svZYjdw3x1hpRKIWT5ZYLMAglcOqMlAIaxIYDg9Jk3asmS+NxDv7Ci0DOxGgpA7V
+	 BXf+2a7ksYHi2Vj6H470AlWIdciEJy2+vtQziagp/C02UN/q+JTJb4BnEifBuRf+FFk68
+	 K9U4R6jSO6SrMQeUPSPx5ovYFIBTNHDl2/R3SPFbJbR9GBywr1ysNa0wZYgBXCFC6DLsJ
+	 ClMZGYJenGHVridaE8kF6kH8/OpP4e2bGSiOO1CaTHAg+c8SPPICCC38anvJbzFgSHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wkiJSYOo;
-	arc=none smtp.remote-ip=209.85.214.180
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gZ3JMIwS;
+	arc=none smtp.remote-ip=209.85.214.169
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6746606A31D
-	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 09:14:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6746606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2851606A320
+	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 09:14:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2851606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wkiJSYOo
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2ea759cc9b6so2233965ad.3
-        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 02:14:48 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gZ3JMIwS
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2e8b20a899fso3493925ad.1
+        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 02:14:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793351688; x=1793956488; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793351693; x=1793956493; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wf7nEs/6d3ZIbLvKZhlKXZqIu3RM64be+7ASwgNMPP8=;
-        b=wkiJSYOoYdPq26IjNGL2Ui7PYoDpx3KL8pglt9u/ZfsdS+2+XbFoga2ydGEDKIc7h+
-         SWpbxTpefPfxQXniR7eeHtxvvB7v1E/PQTTS1eGRXZ9jtFH6iUCUL1i4pA5gywuxGsk4
-         SEVgM98lbwIFEMjmat/w9lt7it8WqiWA4W767+ctsUSm8DL58lEURyaNCY2//KPWQQ0i
-         DSg4qxFwtMUJRPl8X8KgyfZ5NTKTXkGcFllJChi5rO8oFw3TsX5jfze/jLwX+Yaxxfem
-         7oPRlHCRNUhWWbhfFy7dDTZeVYASDKUy8xwgTiZOcd55W12xwq2Mbxc4PyLYfCGFB+HV
-         Nauw==
+        bh=aTbOMPeQQR/WAw575MjV+whoOIimG2HfOgrdg3UiGjw=;
+        b=gZ3JMIwStBM0KMwHxGH/IriLhO6//9sJiOxUaVBB2dHP73oy7rda/qMMrUfoqGYb4C
+         f0rS73uIYXk59te7wIvSfCjqFlTAsYI432IYQZkRC/3tPpB3HXkRAOU4SpBzWNBEpsI3
+         KY7gQnJSFwmPew+Cs/cDIMMaYwhGvJ33gIHYx9Gwk5PEnYQdS+oiE2AeNfrpu+htrQcF
+         Mna6tDX/H/1mNu8hfAbnDIQCMUKfNYxZnA2pJ7G6c9hDc+Yxa66eEBYyHC7AD6u7+iS0
+         A/Rap1usdLB598S0LRqKhjO0GkUCmVxCM1MvR8NMrvbOjW98489dxxIf/AOVLQgsAJoW
+         MVFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793351688; x=1793956488;
+        d=1e100.net; s=20260707; t=1793351693; x=1793956493;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wf7nEs/6d3ZIbLvKZhlKXZqIu3RM64be+7ASwgNMPP8=;
-        b=c8X4516RXTVcNSPXzCzefNqFxSzfXJazBjBU4bxAgx8JV387xvtrdOHgm4TbqyjN1n
-         0yYcEIYXTRmlbS+Rcy1M/OOpLEPf7Unr+MtljDfjAu8HiAw4rGklK4fB8YhlRpikeDr9
-         T89WHW090tVz9Q28apVDiOvPdSV3YOsUJg0NHCh/2gufGAKm09adtH2e2026CNs0gccX
-         Z7ePDKVfZ5itQu/+Z740+U2W8M16rUKlnbbWUC3dEsRq8XIO5lAIA3jC6A0Ktlln+TgI
-         pEXSQUspMVzP/y5eTh4jdREsLKQwbqNKnlsb6R/FpbwdxT0WfUWtxrg+31JJVFzvyOhQ
-         oHkg==
-X-Forwarded-Encrypted: i=1; AKwUvBwtHFjLqjBQ/SJCwPUCmCDjSW2PNm/f8OPLMLbFqGzkX6ydu2l3g2TXXI71q0zWt2yQZVcupHic+aPfdg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKq53D72poTt9yl1OI7lj44bSpJx1d5LB+zMup62DqaXZh0P/zp
-	5EQiA0W6CiS2Zwn2C8mx8dyj/kjrGRW+XMSsu9M8SUYRklfIWLZ4ycm/
-X-Gm-Gg: AYBFou2polZ4heoe6PiwGdj00mZs/MYIgnSV4yOQ2miE71eqbsjVQMKvob3U3ibyCYq
-	q4I95bXPIofjNJo/eWXLkr+xv6HutcHt626GFTEr4ykLTInuPH+0Ca2Ca/gn6sh0tdP6gUC8R7m
-	SnsAskcW5789yGR3eNQsl928s7F99QF1Ty98VvsDIkLK3ttW1K0rfnaFNVAXxAaFhnlInoWyd0w
-	i67IL1M+6aChxLdSrhl3yRVNUi5YTwOJgRR2pmP0T5+ljHKHdI8gWTKyS8px+xD3s/Dq4eI6zIW
-	09ues8pGeM5+dNp//cuc3BmZmv6k8G/019bUqLkCr3I1Pp2/zs8U09/WsCzT9uqWSsSn7I1rlKB
-	Y8dJIEFi2ldczjSQ9MtNoPgGibPA9VLMK0NOH2fYg8ernryimidRtWI6m3oQwqjmjpzDX19jsjt
-	aEpmBBYs4e6UTBS8phnBzQiPMZV3KQbhn3/XCnPKSo0Pimz/IQszIECm41ykd1Nwh+w2y5RthD4
-	N8OWzLvn5u9Ftrm9EFUg8SXhBXRXnR7NiIqYWo47xOf4Kk6DEUkrHF582Kn54oH7XXlU+SEuEvj
-	vUxZHrhXBp0ePusddM90tcsrAJPLHqwEuYFyVhKSXfWtLFcFBzaooWpCQcDk6Qc2MgS5mECnHl4
-	ZBcqLzutWGq/StYSNIFxSNMG3M7/GIP3ErwCu+pXMxoBu
-X-Received: by 2002:a17:903:32d0:b0:2ea:778e:8647 with SMTP id d9443c01a7336-2eb364f8e54mr17088025ad.59.1793351688153;
-        Fri, 30 Oct 2026 02:14:48 -0700 (PDT)
+        bh=aTbOMPeQQR/WAw575MjV+whoOIimG2HfOgrdg3UiGjw=;
+        b=GCX5lfFdchFV/dlNk7fddL4ZSnYCvyUNEWZ2Fws8cjn5vQGleWagZtB3CNh7ALHCVx
+         I9qzN2Lujpk2CDel1g91ZUSdiorzpcV+vWEqQ7KS3Js6gnyaUlfIi9s/1es1P0iVYFNf
+         kf+1rB37KFo5mwm429+Z57OF9BZ5sQzSROn1iiIC8Lfm/dYKvsKMa2cSPPHOlUaZyjqX
+         p6nKVDzwlS7BTZVs5cA5u3zipO1Mq9uLGLU4baQ3CoGviAt+ApMRb+nLHWwWZl9oad+I
+         RpmRAY6d2p1StuR4ardEomb3v6rVBCS+J6d9HvhOQUip7ljglOzS2TpcT5qLSbiVaG8h
+         7M5w==
+X-Forwarded-Encrypted: i=1; AKwUvBxjNWa+xxZPKXEs6YH+gIeTfAQhZ5xJeakvNCD4sHOGj3cnEOUSY4evuV0ux+O8L+Ylp88WeZP4WDddSQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLXw/FsEtSfipSsJ67oHYtOPUY1B5hsReENTh82+2NZ0ghyr9bQ
+	ywR86s93qpT76cKFrAU5wL/uFfd8quIYgm4ps4Gl8eNjMxJGssszdphE
+X-Gm-Gg: AYBFou29D2CXFsfmDh8XLcVMutbSWtVj9fr+r92wWMSRDUkO4kow06SKRJzFbLyby7t
+	i9118zl+r4/J0FlJr2Kcwxob/qXMQ32zTHbNmh1Qxn++xpNnRYBljFrH15ERqPAZpsANhuClDKI
+	VxVnVRNC/dmO7xodCAFrX+gLOpkFyB8YSeXheVDSqaQIQYVw5lcGsXmDhswxiYB49Y9QPNBl3qk
+	veFlJ05kSDPXF76UzUYxZLOl+Npwp3OSk4TSOwfMX3MG+OVf/FkPeayOoP/xRMNxlTrQREuZiVl
+	Fj3l1DARfsoOKyFkXglqggjQBaOJq+kaV3C7L/epoyghixE0rgXfB6wqxhZ7WHiPhztM4mKVZxr
+	XGILGRTCbB2ugo/+EiG+QBjsEUIcXahBiOj1d1P0oKHDg+Q0OTc1aLRNZdHiP7dis2EIPcI5vSl
+	UOQ5+AvlTsZy1+Fc9efee/WxmGhAOqcsvrwcXuebbczCgZO0oN8PLnMB5c3T4i1zkFu5X0CAZcX
+	gaXX3AFVEA+f74hdwHnHLILhYQBWr3Hvc5O1RhUE2uoN1rkaHRmCHtdH4zEqpMHsd9fp21WK/bK
+	ImFxOP16H++Hqol7wsS04CgtdLCTLHWdZzYt5FCz56IvHuaqTKBpQGquUx7aemtITy8/FZX04/4
+	c2k04fUF+ygtrE88eV1lq7YgvaKba9zhjUePL83cbtCaOcA==
+X-Received: by 2002:a17:903:1ace:b0:2dd:b6e7:ac1b with SMTP id d9443c01a7336-2eb364005fcmr20273635ad.2.1793351692941;
+        Fri, 30 Oct 2026 02:14:52 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eb39052ec9sm4734685ad.6.2026.10.30.02.14.44
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eb39052ec9sm4734685ad.6.2026.10.30.02.14.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 02:14:47 -0700 (PDT)
+        Fri, 30 Oct 2026 02:14:52 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Shengjiu Wang <shengjiu.wang@gmail.com>,
 	Shengjiu Wang <shengjiu.wang@nxp.com>,
@@ -93,9 +93,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 1/5] ASoC: fsl_sai: Fix PM QoS cleanup on resume failure
-Date: Fri, 30 Oct 2026 16:14:00 +0700
-Message-ID: <20261030091404.18757-2-phucduc.bui@gmail.com>
+Subject: [PATCH 2/5] ASoC: fsl_sai: Use optional clock getter for MCLKs
+Date: Fri, 30 Oct 2026 16:14:01 +0700
+Message-ID: <20261030091404.18757-3-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261030091404.18757-1-phucduc.bui@gmail.com>
 References: <20261030091404.18757-1-phucduc.bui@gmail.com>
@@ -112,47 +112,41 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-If regcache_sync() fails during runtime resume, the CPU latency
-QoS request remains active even though the resume operation
-failed.
+The current code uses devm_clk_get() and sets the clock pointer
+to NULL when it returns an error. However, this silently ignores
+errors such as -EPROBE_DEFER, allowing the driver to continue
+probing without the requested clock.
 
-Switch the regmap back to cache-only mode and remove the PM QoS
-request before disabling the clocks, ensuring that the resources
-enabled earlier in the resume path are properly cleaned up.
+Use devm_clk_get_optional() to handle missing optional clocks
+automatically, and dev_err_probe() to properly propagate other
+errors, including -EPROBE_DEFER.
 
-Fixes: 907e0cdebc1f ("ASoC: fsl_sai: Add pm qos cpu latency support")
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/fsl/fsl_sai.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ sound/soc/fsl/fsl_sai.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
-index d232c8f53061..042885ba415e 100644
+index 042885ba415e..44a34f48a0cf 100644
 --- a/sound/soc/fsl/fsl_sai.c
 +++ b/sound/soc/fsl/fsl_sai.c
-@@ -1981,7 +1981,7 @@ static int fsl_sai_runtime_resume(struct device *dev)
+@@ -1589,12 +1589,10 @@ static int fsl_sai_probe(struct platform_device *pdev)
  
- 	ret = regcache_sync(sai->regmap);
- 	if (ret)
--		goto disable_rx_clk;
-+		goto remove_qos;
+ 	for (i = 1; i < FSL_SAI_MCLK_MAX; i++) {
+ 		sprintf(tmp, "mclk%d", i);
+-		sai->mclk_clk[i] = devm_clk_get(dev, tmp);
+-		if (IS_ERR(sai->mclk_clk[i])) {
+-			dev_err(dev, "failed to get mclk%d clock: %ld\n",
+-					i, PTR_ERR(sai->mclk_clk[i]));
+-			sai->mclk_clk[i] = NULL;
+-		}
++		sai->mclk_clk[i] = devm_clk_get_optional(dev, tmp);
++		if (IS_ERR(sai->mclk_clk[i]))
++			return dev_err_probe(dev, PTR_ERR(sai->mclk_clk[i]),
++					     "failed to get mclk%d clock\n", i);
+ 	}
  
- 	if (sai->soc_data->mclk_with_tere && sai->mclk_direction_output)
- 		regmap_update_bits(sai->regmap, FSL_SAI_TCSR(ofs),
-@@ -1989,7 +1989,12 @@ static int fsl_sai_runtime_resume(struct device *dev)
- 
- 	return 0;
- 
--disable_rx_clk:
-+remove_qos:
-+	regcache_cache_only(sai->regmap, true);
-+
-+	if (sai->soc_data->flags & PMQOS_CPU_LATENCY)
-+		cpu_latency_qos_remove_request(&sai->pm_qos_req);
-+
- 	if (sai->mclk_streams & BIT(SNDRV_PCM_STREAM_CAPTURE))
- 		clk_disable_unprepare(sai->mclk_clk[sai->mclk_id[0]]);
- disable_tx_clk:
+ 	if (sai->soc_data->mclk0_is_mclk1)
 -- 
 2.43.0
 
