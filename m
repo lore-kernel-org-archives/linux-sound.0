@@ -1,65 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793358855;
-	b=M8d5WtjfC/38oGOwuN2Y4Z1ZpbO9wMFY3QedwkthWmhXs6fbC/1UB+kTG9z6YB64d306
-	 puQFpKeU47o2OSckfWpQBbspcbFMdk4L6fe8078D2HfNYocNzG1LNYt5Fk5gC4gw2Ij5w
-	 cd8rb93ioQqWffjIyFnL2O35zGXi2eA+qLaC3AgXeaaoE7cPaWu26u2qmKsujHVR6o2+j
-	 OWiX6xtHltaXVdI3T0wZGX9yuFuXn24F3CNf2nJLK9VLF8DLxH9Rv/AxnYhDx6yjMqSJ1
-	 9Xs9lT+cu2KRvowH0Sfg6GARyPlMhnCZDBJhNaXLwdhvWwIMZBEVB2WVI4KY++uCmrA==
+	t=1793359603;
+	b=lWHnwVGRM8Q639KbgERVWsGKVYKEgtUQMcPnw2nUsiUSD/PKLrG78Gdvl0nFS1/p9vdT
+	 wrbUxODK3a5FgUI7JIvWbGmEPUWm436Lkq1CIiCmEZTCKNFl7LhmKXRMM2soCMExD6zIR
+	 6UQZaagPoYq9jsvwu+D8gqYLbw1+CmTke4uDYhOWg+RW6crpfBPtOr5jW4oxdjRibNVKw
+	 S4NQJOkJ8Hyf9znblNKL03+RJcnwJ0cAoy69d0/kEZZbhDyiPTGFUQbfLFx8Sy8n4JZLc
+	 Ch/jeB2EKm1TXf9NU+dEBSubrwxm1vZ/zDGMm0RwXR2iG9x7xRbs93Qk8+c3TdAbI1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793358855;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=b1KYN/Lwwltx8lsEo1ijSFDSSBnaiZ0WaUNnGosleeU=;
-	b=eUsXLHyfS7tdOzwS9iZI7TFyWm1D/kF1E1OA67fWo8cv7YWbBGQy3xWmEhIW5VsYdhF0
-	 x6nWA8hCcqp/+13Ja6SPL13TnatCajyGZjQwKcarwD6c158T05tlJe2iPW0BZBZFnd7eD
-	 PYq9UhnXYCfWg2WNGdMvwF5AzaWWoyTPdlnctGivaaaGVQFQ5USywnIguw6u5121UDxAJ
-	 kQeZDPkqqrJFnQrCr3qbMSTOML0eSPYtJjV8ZCOLTu/O7PaaEW7tYt1u0hbah91uHjFYL
-	 Fg4mlFj3PaffFB8BytRrUdK02m2pcg0Bpbv1oTBE6R+T6hyoKgz6UjUsKxR1d+R6PRQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793359603;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=xP0xsRMQMydwqUKpdDytHtAPCQPENgOAJoe9Lcl4pGA=;
+	b=GSIjm3gi3Eu4Nl2sz5m517nHWJCl2RvosLJpGH18v3cWiAJ6Vlj+/nBRV6CbF/Kg4+fP
+	 TS2Ta+XyUl95NxkCOnfXdcF53I/3/nlX2H3CHJZcdjWDYpPK6ASs8IDrhgOn3+4sE3vVj
+	 NuRu+a21Fh8ItWP2RtHjiCs8Iig4kQDa7cfkBvDYUiwmkPjHyLqD9shkMMjNlXukZl/l0
+	 BdtB8WDIr2Fu+KUCoFHezhFiXy2/W4fCcB0rLcueLAANKLSuxiTaEyUUCzIZWD6orm6zJ
+	 Xd9I31RzMw84fdf4lvL8x6wjXHMd0DxgO88J+WSWUyoNFv2HZ8K6ShOFUJZ42p69Piw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zm9eYVj4;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Dsf5qJgu;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA058606A31A;
-	Fri, 30 Oct 2026 11:14:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69718606A31C
+	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 11:26:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zm9eYVj4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E1BB1F00A18;
-	Fri, 30 Oct 2026 11:14:11 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Dsf5qJgu
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C53B91F000C1;
+	Fri, 30 Oct 2026 11:26:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793358854;
-	bh=b1KYN/Lwwltx8lsEo1ijSFDSSBnaiZ0WaUNnGosleeU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Zm9eYVj4LdURXeRBijkxLOYixVbDjIuCNzhwUyClUdnLrvSz7zanXkYKW0xlRkZaA
-	 1l/t/GdQzMxZdNXkj6YyJBzS1GBWAMo3kodyhM6TmvAwZtWSGWAmp/SLbnaH/oI/7S
-	 D05GKb2EbQRjoQuCFyCimWG6n9ZKyqYe92iyzxGrT8uf8YlaFVaIhttRvExMzYIuac
-	 lPr0hiQ9vHPXWfQegXj0Ean1pbFCMA/ky5UZPBuG9jy7yJ3UHH+3+acg6Z/N3pvV7A
-	 4iDonYgXwQzLJb5UCz6b3ZmwxDD9JGVQlBKlJ9Qg3A6VkuFpFNWaGQceBxUps3GVVs
-	 3Y2lcVa2Ok99g==
-Date: Fri, 30 Oct 2026 11:14:08 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Lee Jones <lee@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 05/21] ASoC: SOF: Intel: hda-sdw-bpt: Stop active DMA
- before closing BPT streams
-Message-ID: <c56e07ba-3038-466c-9eb6-1cc5e23afe2d@sirena.org.uk>
+	s=k20260515; t=1793359603;
+	bh=xP0xsRMQMydwqUKpdDytHtAPCQPENgOAJoe9Lcl4pGA=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=Dsf5qJguFT++qmVhN2ndjTyH/5P7w2M6hNI06Admo+4BBG0PdnauFnw0rUsG4ids+
+	 ePQZ0IU0lEOS7cGOy2eDmqGtcfU29q/2L/HExWwX1MtfDABNK14b2TtmHXhYGmPX8s
+	 t35JkHxY2xpk7vF5w5sW+kogYvfMFfY95MalKJlUthORL2FQk/fc+ARJrtdxKiJ6Jo
+	 iCw8xuHbFZ/hh+J+vT5wqWOFsoq1O7Dq/ZZYlBBToHwE2+cPgYIldP+TJaqSYuaG21
+	 QaV5eY5ewVNaY/w/R4MHyfCRFqh9ZCH7pf7HYfO7vqFP0Yv6yIGc1KIQ2kTngys7T+
+	 ayF8qptMLZHNQ==
+Message-ID: <sashiko-outbox-190937@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 06/21] soundwire: intel_ace2x: Protect bus.bpt_stream
+ with bus_lock
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Lee Jones" <lee@kernel.org>, linux-sound@vger.kernel.org
+In-Reply-To: <20261030104840.3361217-7-lee@kernel.org>
 References: <20261030104840.3361217-1-lee@kernel.org>
- <20261030104840.3361217-6-lee@kernel.org>
+ <20261030104840.3361217-7-lee@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 30 Oct 2026 11:26:42 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -68,42 +59,92 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Fn8/WZpsIpVzSicI"
-Content-Disposition: inline
-In-Reply-To: <20261030104840.3361217-6-lee@kernel.org>
-X-Cookie: Orders subject to approval.
 
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Low] soundwire: mix goto and scoped_guard() in intel_ace2x_bpt_open_stre=
+am()
+--
 
---Fn8/WZpsIpVzSicI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+commit c2ba69ef3a3456c129416a89de7531b53eb520ca
+Author: Lee Jones <lee@kernel.org>
 
-On Fri, Oct 30, 2026 at 10:46:44AM +0000, Lee Jones wrote:
-> When sdw_enable_stream() fails in intel_ace2x_bpt_send_async() after
-> hda_sdw_bpt_send_async() has already started the TX and RX DMA streams,
-> intel_ace2x_bpt_close_stream() invokes hda_sdw_bpt_close() directly
-> without calling hda_sdw_bpt_wait().  As a result,
-> hda_sdw_bpt_dma_deprepare() tears down the DMA buffers and BDL while
-> the DMA hardware is still running.
+soundwire: intel_ace2x: Protect bus.bpt_stream with bus_lock
 
-Does this actually need to be in with all the Soundwire stuff?  There's
-no immediately obvious dependency.
+This commit protects checks, assignments, and clearing of cdns->bus.bpt_str=
+eam
+with cdns->bus.bus_lock in intel_ace2x_bpt_open_stream() and
+intel_ace2x_bpt_close_stream(), and ensures both master and slave stream
+runtimes are removed on open failure.
 
---Fn8/WZpsIpVzSicI
-Content-Type: application/pgp-signature; name="signature.asc"
+> diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ac=
+e2x.c
+> index 642b33ab55260..3623fc9f4451f 100644
+> --- a/drivers/soundwire/intel_ace2x.c
+> +++ b/drivers/soundwire/intel_ace2x.c
+> @@ -83,16 +83,18 @@ static int intel_ace2x_bpt_open_stream(struct sdw_int=
+el *sdw, struct sdw_slave *
+>  	int len;
+>  	int i;
+> =20
+> -	if (cdns->bus.bpt_stream) {
+> -		dev_err(cdns->dev, "%s: BPT stream already exists\n", __func__);
+> -		return -EAGAIN;
+> -	}
+> +	scoped_guard(mutex, &cdns->bus.bus_lock) {
+> +		if (cdns->bus.bpt_stream) {
+> +			dev_err(cdns->dev, "%s: BPT stream already exists\n", __func__);
+> +			return -EAGAIN;
+> +		}
+> =20
+> -	stream =3D sdw_alloc_stream("BPT", SDW_STREAM_BPT);
+> -	if (!stream)
+> -		return -ENOMEM;
+> +		stream =3D sdw_alloc_stream("BPT", SDW_STREAM_BPT);
+> +		if (!stream)
+> +			return -ENOMEM;
+> =20
+> -	cdns->bus.bpt_stream =3D stream;
+> +		cdns->bus.bpt_stream =3D stream;
+> +	}
+> =20
+>  	ret =3D sdw_slave_bpt_stream_add(slave, stream);
+>  	if (ret < 0)
 
------BEGIN PGP SIGNATURE-----
+[ ... ]
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrkfAAACgkQJNaLcl1U
-h9CU7gf+PrfLJvFsZ/VgKNswGCtY6iaRMKNQU0qw4VXl8KLHJiXvr27ktz3ktkRi
-v0QPBmsJb1IVNTC3gJ3D6Kb1hh65lkP8Dt5kyOLSCMDZQun13ncRdCzvTmekPA+B
-paLrSael/TJmZUYLaqqPGOAy+iIZSdQLdm0auH/SwyKJ7b+zbnQtcD8aBQ2j8boJ
-poUUr3OujFJmO9zlmcXbBOWH/PxX1XNUZ5MxC3TQoBsjxm6pTjyqf8de6zHqfkYJ
-IkMk5jG9JE1fbZYonvV9M9mgKDTWo/6xePYivSoCAuj6PkOZPQTw3xjzJefIf0xw
-ke+0vaXO/DvW7deBeZGYZL8KqVyQbA==
-=45f0
------END PGP SIGNATURE-----
+> @@ -293,15 +295,16 @@ static int intel_ace2x_bpt_open_stream(struct sdw_i=
+ntel *sdw, struct sdw_slave *
+>  		dev_err(cdns->dev, "%s: remove master failed: %d\n",
+>  			__func__, ret1);
+> =20
+> -remove_slave:
+>  	ret1 =3D sdw_stream_remove_slave(slave, cdns->bus.bpt_stream);
+>  	if (ret1 < 0)
+>  		dev_err(cdns->dev, "%s: remove slave failed: %d\n",
+>  			__func__, ret1);
+> =20
+>  release_stream:
+> -	sdw_release_stream(cdns->bus.bpt_stream);
+> -	cdns->bus.bpt_stream =3D NULL;
+> +	scoped_guard(mutex, &cdns->bus.bus_lock) {
+> +		sdw_release_stream(cdns->bus.bpt_stream);
+> +		cdns->bus.bpt_stream =3D NULL;
+> +	}
 
---Fn8/WZpsIpVzSicI--
+[Severity: Low]
+This isn't a bug, but intel_ace2x_bpt_open_stream() relies on multi-label g=
+oto
+error unwinding (goto release_stream, goto remove_master, and goto
+deprepare_stream) while this patch introduces scoped_guard(mutex,
+&cdns->bus.bus_lock) blocks at the start of the function and under the
+release_stream label.
+
+Since kernel cleanup API conventions documented in include/linux/cleanup.h
+discourage mixing goto-based error handling with scope-based cleanup helpers
+in the same function, would it be better to use explicit mutex_lock() and
+mutex_unlock() on cdns->bus.bus_lock here instead?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261030104840.3361=
+217-1-lee@kernel.org?part=3D6
