@@ -1,45 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.250.56.165
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793367599;
-	b=bo1iXyvRlMqddV7lu40GO7XoMn5AiM4HVbwhVc99y+D1qKFwx/Swu03JJGHyWoLiSKA3
-	 W6TlikBaZW1p/SKTp44DiYYEbbRQioJ4eS4hw6eBEOT4QveKtq5mZfjukA4RaKbBQEUY3
-	 pdfbqPyLTWyk1P3a00CrjQtfBfSI6GsxbvYxxfPn4mN1kE8x8WIfJ8lJOGU1Q1Vc+/Owv
-	 qrDLTNMR0FM3ayxgGRjZWlANeO3Tz9PNECF0caZhNzB6FwvWQ00dUAtkYFvIw1A4dhDGP
-	 gpM0XrnnNmES8XZpIWkl1P38brDzHJesUsOLzP89woXdXiovXheA0P3pv2ON+mOC5FA==
+	t=1793370375;
+	b=tdmdxAA/XDUjGdAF70cqi2WGZzuiszHPbTcWun0NOPaUX/evOBpdBO7oP7mPQeGTS/hU
+	 W4XqYGUezsEfzTRlpGHYXe5cl+swBjUbPTCbv5JAj72j1krPd5GTAOYw2FGNsV82+Mn4g
+	 /mxUEYAfplVF+T0qEn7ETv8QAuI/9DaK2YwPoX4LdOmwgy/qbHFJ2PE2on7A2VB1Lyv5g
+	 5kt+joQb6LTMR87GCTAfTI4tJUkZWOR4Uj75QrTK4R/y7SBKgJRNunDxDuCoRM+/F7x3j
+	 teJf4DTyZ+xK9CH49ZZjPIoDAVhOO9oe/JqMuT2noW0bdw6ON15XlYBCdsZXQ0PvLEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793367599;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=VBpPBL53Xz0E4a91EvaDsqa0f+hUJQsTAaCimEA4Iio=;
-	b=NuKU0dEXiwlFMEEmUZo9lSTUp781c53aeKkDIwDM+nhQsLlbu5G2mAvOgKG+hPZRRLbM
-	 as48uinNBRwjlHwCIInUQBzdbxHiLLiZmLATYHLUBppjF7Qyyvr6UjD1pM/Do3gTZ0Z0o
-	 HtbH1dF/83PI4UwaSyk3D5J48DwHsH2yqzKEC0KNXjFkjE3Sh7D2eBRtg7GQbawYZEQiL
-	 BV3YqWjwJ9phuYKn7FCHrKOrxeKVCKfJjJksNwApg13lO/TN8HmrGA30WaGJfgP4t+oSW
-	 legl4O7q4If/sazTY6g1Y0X4O1mjv0Tq71Khyv8agZ5r2Z5Vo6paW8+lwC74dCOUpTw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793370375;
+	h=DMARC-Filter:Received:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=uLniq8O6XYqPzH27/PvcOhr+BiNaq9rB0JGdyWgSbGw=;
+	b=2XShb5vtzYp0AIic6DjwUy4MNQsrJf0D5Jk95y7UHjLcs1YxvErkvMiJzPhG+drzq7n8
+	 PzyzlEFYu+ZgEXBkbFytdGoOU7B4NvwY8TgZnRfwkFCqOfdT+jHruypa/xGMgNx5kXkhG
+	 qgHS0RCwVivnQrkt5Z/WvQIF73ridh87NXacoiRBDTsWT6WGPFxdg0sPN8JnxJu+pWMRE
+	 JNx+GaGUnZX9A/KlGL+iGQGWuSU6/rP7kE/vlRaaOI4s7GSKaIFvBMaaEX8I63AAZSwsz
+	 bPCheJGn7T5xGzo71ih0Ild218wiLUibxQu4vcKJB/1gMJR7FvJr8LO5J7xYnVNESCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CmsZMqdq;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=ideco.ru;
+	spf=pass smtp.mailfrom=ideco.ru;
+	dkim=pass header.d=ideco.ru header.i=@ideco.ru header.a=rsa-sha256 header.s=ics header.b=oMStJb9y;
+	arc=none smtp.remote-ip=51.250.56.165
+Received: from smtp.ideco.ru (smtp.ideco.ru [51.250.56.165])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAE5606A31D
-	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 13:39:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B399606A335;
+	Fri, 30 Oct 2026 14:26:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0B399606A335
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ideco.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideco.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CmsZMqdq
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E07551F00A22;
-	Fri, 30 Oct 2026 13:39:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793367598;
-	bh=VBpPBL53Xz0E4a91EvaDsqa0f+hUJQsTAaCimEA4Iio=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=CmsZMqdqXkYfFUHpXot0uwBCpqs9OPEPDZ508zOe99Fc0DwD1lJO1x61XqMPD4m3B
-	 +LmUxem1Z0eIq71G8UxFM1NQoz8VXrrQd/msMkNT2Y/JEOr9kkJtFIxJpLti/o1ZSP
-	 lH1zNT528vGokPX38TqvSSTidNpkK2u+rQMTX388pKc/HYS+XN/DiyDgp1T/lMawkw
-	 Za14zdpsZrBDcghrg6/e97sZk5UvF+WFiPaEfiyXw63xLzwKIb+bdMsnOHWuCeUMXM
-	 HOLDWXGU/bAYw80U6sGMNI3ONCV51ZXIEifiv8+eVOpPflOvBTxOgCJ5WtG7/+8Kkz
-	 rhYbk4eaujwHQ==
+	dkim=pass (2048-bit key, unprotected) header.d=ideco.ru header.i=@ideco.ru header.a=rsa-sha256 header.s=ics header.b=oMStJb9y
+Received: from [169.254.254.254] (localhost [127.0.0.1])
+	by smtp.ideco.ru (Postfix) with ESMTP id CB79E26FD9;
+	Fri, 30 Oct 2026 19:26:04 +0500 (+05)
+Received: from fedora (5cfcac1b.dynamic.mv.ru [92.252.172.27])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.ideco.ru (Postfix) with ESMTPSA id 5B5F0266AE;
+	Fri, 30 Oct 2026 19:25:46 +0500 (+05)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp.ideco.ru 5B5F0266AE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ideco.ru; s=ics;
+	t=1793370363; bh=uLniq8O6XYqPzH27/PvcOhr+BiNaq9rB0JGdyWgSbGw=;
+	h=From:To:Cc:Subject:Date;
+	b=oMStJb9yitBjLBnw1pBJ+8PwsWcPvPTyqP1XSnclIraGxfxH/cLJIWg45cc9FMfEr
+	 tcNkxl3NB0jlwSLaEItIsZkuhisddK6y/fhZJ47Wkja9e/+UQfyn8toNseclhdWSFO
+	 LrzXBfnp3oJQsSgvIJzvohCcyhMO3sqGj1Y7HnFhHX19/DT6gD03n6C37dQS3djW0P
+	 JH4d629BnKDjpJM8cqRW7Ws+WXuBf4RqJQsegP4eCuya18aDviDzyKqnZ0mNwf14xK
+	 9jSzpPXBiEyEgx3METKrD8K1JpKusHWF/2asVwgWV86vtkxCb7PE8dxkMyjbHCH2/z
+	 jzfj1JZ0ljnoQ==
+From: Alex Kazinsky <a.kazinsky@ideco.ru>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Alex Kazinsky <a.kazinsky@ideco.ru>,
+	Takashi Iwai <tiwai@suse.com>,
+	Denis Arefev <arefev@swemel.ru>,
+	Hemanth Selam <hemanth.selam@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: cs46xx: Handle SCB creation failures before dereferencing
+Date: Fri, 30 Oct 2026 18:25:27 +0400
+Message-ID: <20261030142529.415697-1-a.kazinsky@ideco.ru>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -49,38 +75,57 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 1/4] ASoC: rt721-sdca: handle HID button read errors
-From: Mark Brown <broonie@kernel.org>
-To: Avi Weiss <thnkslprpt@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>, Oder Chiou <oder_chiou@realtek.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org
-In-Reply-To: <20261030085735.2146047-1-thnkslprpt@gmail.com>
-References: <20261030085735.2146047-1-thnkslprpt@gmail.com>
-Date: Fri, 30 Oct 2026 13:37:41 +0000
-Message-Id: <179336746143.87968.13597851437825555245.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=499; i=broonie@kernel.org;
- h=from:subject:message-id; bh=Q7wESmG6CWuFRF+n+UK7nsbQE0q9a04NfnTMDFXt7Rw=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLKezNNJnCl6667UozO2ZWZzplTIPJaS/H71hpP40yuFT
- bnWy7/ldpSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAigYcY/rvXbBbvjf/Mb/ni
- xmdWxVsdpm+mHE8/ZCrep1DEZbjI9SnD/5hjnAq9Z78Zd145mMi775WJ+Hc5rqJ5LrcadPlDnh4
- 0YAEA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-> rt_sdca_button_detect() returns zero when a regmap read fails,
-> so RT721 treats the error as a valid no-button result.
-> 
-> Return the original error and skip button reporting when a read
-> fails. Still report jack changes, and clear button state if the
-> headset is removed.
+With CONFIG_PM_SLEEP enabled, cs46xx_dsp_create_scb() can return NULL
+if kmemdup() fails to allocate the SCB data saved for resume.
+cs46xx_dsp_scb_and_task_init() and _dsp_create_generic_scb() dereference
+the returned pointer without checking it, causing a NULL pointer
+dereference on allocation failure.
 
-The Sashiko issue with missing updates when we exit early seem valid at
-first glance:
+Check both return values before accessing the SCB descriptors.
+Return -ENOMEM when creating the null SCB fails and propagate NULL
+from _dsp_create_generic_scb().
 
-  https://sashiko.dev/#/patchset/20261030085735.2146047-1-thnkslprpt%40gmail.com
+Found by Linux Verification Center (linuxtesting.org) with SVACE
+static analysis tool.
 
+Fixes: 41116e926cb9 ("ALSA: cs46xx - Fix suspend/resume with new DSP")
+Cc: stable@vger.kernel.org
+Signed-off-by: Alex Kazinsky <a.kazinsky@ideco.ru>
+---
+ sound/pci/cs46xx/dsp_spos.c         | 2 ++
+ sound/pci/cs46xx/dsp_spos_scb_lib.c | 3 ++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/sound/pci/cs46xx/dsp_spos.c b/sound/pci/cs46xx/dsp_spos.c
+index a77e6f5a14ad..57b0a6321e0b 100644
+--- a/sound/pci/cs46xx/dsp_spos.c
++++ b/sound/pci/cs46xx/dsp_spos.c
+@@ -1104,6 +1104,8 @@ int cs46xx_dsp_scb_and_task_init (struct snd_cs46xx *chip)
+ 
+ 		null_scb.entry_point = null_algorithm->address;
+ 		ins->the_null_scb = cs46xx_dsp_create_scb(chip, "nullSCB", (u32 *)&null_scb, NULL_SCB_ADDR);
++		if (!ins->the_null_scb)
++			return -ENOMEM;
+ 		ins->the_null_scb->task_entry = null_algorithm;
+ 		ins->the_null_scb->sub_list_ptr = ins->the_null_scb;
+ 		ins->the_null_scb->next_scb_ptr = ins->the_null_scb;
+diff --git a/sound/pci/cs46xx/dsp_spos_scb_lib.c b/sound/pci/cs46xx/dsp_spos_scb_lib.c
+index 71eee5cb478f..ac914bf784c8 100644
+--- a/sound/pci/cs46xx/dsp_spos_scb_lib.c
++++ b/sound/pci/cs46xx/dsp_spos_scb_lib.c
+@@ -274,7 +274,8 @@ _dsp_create_generic_scb (struct snd_cs46xx *chip, char * name, u32 * scb_data, u
+ 	dev_dbg(chip->card->dev, "dsp_spos: creating SCB <%s>\n", name);
+ 
+ 	scb = cs46xx_dsp_create_scb(chip,name,scb_data,dest);
+-
++	if (!scb)
++		return NULL;
+ 
+ 	scb->sub_list_ptr = ins->the_null_scb;
+ 	scb->next_scb_ptr = ins->the_null_scb;
 -- 
-Mark Brown <broonie@kernel.org>
+2.56.0
+
+
