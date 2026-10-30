@@ -1,82 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793347443;
-	b=zCLhBUr33BP+hJ8ew2JHuuIcGTgEFFUje0YkTlGa+tM73IUmaLK2bsL7Dlk+XFGNECoy
-	 2seF+qLv7eQFizmXdcVJPBNwogOn78VCPjiLijSksEW/u5Q99ItmjqMOCjoBasn4OJz9F
-	 +Hdt9kYGafKo2ZmW6gHCxFCNJs0JzHbk/LTDxHuisuxDEoKR75PYSfuL7VCDgnl5qcs1o
-	 jPsl7Nm2SXXYKgDQ32eBrqPM6vQNZuxOqlEGVXiBjkJT9DPR2v7erLJS2EydvMd1uyswj
-	 Id5YDpoB37oVxS4abh8PNtw2lk3PZykJzRO1dX/BFRfWOSn1u944cHShAPXBfdozIfA==
+	t=1793347447;
+	b=5kKVHd5IdytkLxBN6b4N/FlrQvf+oqPre2FF6QxwuE//SDJk/YvL6VKimK+Jo03SSCPo
+	 vaUttFXroA7KOTS2lLDkAJBdFueEGnEGxhecapVhL55AIqUIwTAl7Z8gWK/0TazKK+iSd
+	 b5MLIql5nBGWA6OAwinEWwbyxG7l8gQlIiW78VxJdjmg0JGjmqKz1tHF8rkyA5BSpkPi2
+	 s7tkQuvkbFLTrwN0sC1a3zLBD/kQnmXY5mn7TcuYUdYsJdy+VpCbPGSzWJfuwENcm2q7U
+	 OMiCLUOACx1+Iv9K6fr6CeF1fq8+/7c0WMq7vJAR4Ps7e9mVxdyo6jEHAxlwRVwyh6A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793347443;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793347447;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=LFgGmpp8gd7H3GyjBY3/eSFS06JgJbzV8ZW5JhjT65U=;
-	b=lc3nPob266hw7ykQ3QYFG6vhf26sdomvfZhlaxAnpDlmIvUWi+Ah6msQ7ejywTBYihtm
-	 xe8IkreGYFVJLFDj5KHyxfduqeUiDNkgJEBbGoIuPXYzLcIrrH3z0H4/oRrEoSggEiPQX
-	 Gkrvw1Ci8apAzNkLDRjMiXTAaI33Gfg1aqqQ0SRUTjjJ1kWUMqy+Z8GfU2huuMfVsRtWK
-	 E8Nma1Yg5w56obqKy/fOTkTP7hLaaNwzL/RUV0aJNPhlnk/iJef232s6dnau4zRrfUWye
-	 MlJnfvKWKBW8Yz2ORjzLlIxDlnX6+1V5ZucmUc6kLwo5E75Re4ghO6eoL5DZa9DreSg==
+	bh=thnlgDsgaiZp29Xs/7SKR0Bl6MHpM2zZTlOwDr+vKFY=;
+	b=XLGNZtfYX3CocAHp9GYBRszdX4ptG916InNcYCcxsp1EBbYahueS8JBwy+PFSCqpTSd2
+	 eNRzR/g6WLf0yy9TUHZ6b8xOB01wMWZoIhAZDnvirjKbr/HPowhep+AEuHaFz2GAjP4xi
+	 /0L+XjviDpDIQ0zRx7I+xGCljNs+8mGlHSS6L15/FOZg8EtfF9Ensja2nZGYiVlB/EWtM
+	 CC8RhPEZHt1iQplbhE0GgZ+XATAmNTkjwPRVzR931Uezm0NJo7WNevs0y646DcGktU8Zc
+	 wwNUrTMfqG6Ym3oWku6jnMxl9Av0ZbLHCoaB5A497zOnrgM6JzOY8AAKsB2GDqyCO8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eTKjskP1;
-	arc=none smtp.remote-ip=209.85.216.52
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lz+H7Yt0;
+	arc=none smtp.remote-ip=209.85.216.51
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E527A606A329
-	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 08:04:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E527A606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A17606A31E
+	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 08:04:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50A17606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eTKjskP1
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3ae1da332bcso210515a91.2
-        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 01:04:02 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lz+H7Yt0
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3ad787b79ffso254484a91.1
+        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 01:04:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793347442; x=1793952242; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793347447; x=1793952247; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=LFgGmpp8gd7H3GyjBY3/eSFS06JgJbzV8ZW5JhjT65U=;
-        b=eTKjskP1yKldmIxYqTo6SF1jY2vCuO/r9e89RVH1m1uwu2hK18wGnRB/+OuocCSqs+
-         pSyfQKj9kte4Rf8uzbMRVjZ/58AJLfrk3Be/0a3XbmTlnzYUp6dDEDo1eBMyNP8kSGlS
-         r7jJMB7mZdPXr0IL+RDqVzCf7Kne7hBFfBI8kza7RwWIQcx2fSVQBLnWoZsXX6jn9F0w
-         J/wxmZKMHlPZehKUTM2C07mvdoVITffvLX1lOq9HaXAizxZxF1VLdpmXbu/Xr3DCZJjO
-         hJ13BMmzNRLzVVc5lTetPPwQ5H2NIcz12N4nDRMUqK7QNlymAZYbpqqLuYeoEQTVnaNB
-         juEA==
+        bh=thnlgDsgaiZp29Xs/7SKR0Bl6MHpM2zZTlOwDr+vKFY=;
+        b=lz+H7Yt0phI34TmKDeYrPMDqYLY3kcPpEFQ5awZoQmXenNRq8IF8ftieOFPBlo0Pds
+         RNErtohPebLxd6U/xMIPRsNC2SsEwaJKs3TM6HLn5X0GHr5+EAGIHwAXYe/8+LmcyAxw
+         ywdmR0mve4w8tE7pMqiZEZzR0+iMr6tfeDP2LzibMgj3cPsj+wvHyK7nw/OHZKPQaoQV
+         1Ekc/nRh8m15MEEhE3ASedCusZlXovy50/5UFONNS0BiFfQg8xUlMG+HEQbL7zd5LLAy
+         cSS1463A6frmC3mZdRT9/x8QVMSmWidKhqLdSIC1vxd0R6+b0qb2xtqAGKwM+02k1Jht
+         mZ3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793347442; x=1793952242;
+        d=1e100.net; s=20260707; t=1793347447; x=1793952247;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LFgGmpp8gd7H3GyjBY3/eSFS06JgJbzV8ZW5JhjT65U=;
-        b=l6Y7V4LeHUVDlgBHAxjGu7XZKchwAB8xyu4Dw1ys5xTmDkeAyYbbN08Dvj/vRSBgvP
-         Bg83h8TfBBlF/H5BktEO4YNIJ+KjJJVXd27ceynht3PfyAHPz1k7PVqMstZ0MtY+Zb0h
-         e8PMkGsgAzzR7c1gjl3CG/dmqJpW1o6E0ei7icoRbV/rtkVb996B2UIMKIuxnkDw5IW9
-         lby6R2luy9NUn5+9KG9Ca2XJ/n1pKTGbOVAVrCXMSQYL1Acls6W6VTWGxIbDknIWFIEP
-         WBMe0M9lq7uRzexMEvFSlJIcoHAThtWDjROIY3WAHF95a4QecL16I8VKzLJT4C7y8vjp
-         t8sw==
-X-Gm-Message-State: AFq9FYLH3gjwZw6yVhIVv0N46UJIok4ZlodZtup687pAPZ5pwIvJmZz+
-	8FSsQ/3da3clls0WnzFtMjYUlZ7BR8leSY9Dp2PpMHzrb8roU2Mjo3D7
-X-Gm-Gg: AYBFou1eoVzfLm0mXhYW41p7ccFAwlJVPLO4yjBZ5H/WItY2s6IJ9FNTAVQ5khWrA6x
-	nzdA+hqZ1SYuyANCSQMbSwufdxsS/iCCyIilHeCctVuyJ5ZlVxJXnreBCqgTqJ00yJTkPlbHPST
-	IRSSjCIN4LMg1Fa5P1Wr5RCJkC/ah/NARE3pe9SJ9QqYnnFZ/d20kyDcV0zVTB9uKCkTnpkt/ik
-	xexe/kptnWj5eMWRQMi3WmScMW0sAIAyyi/A96CTdTcv3Zza7+jILeH6KqrGE5oZ4VRalYuAYoK
-	geCS4SPLaeZaBdfBnP/YIf8gk8bff73W4+yOrYpRYpTE3pQTYLpmtSA83yx+4CG86muWv+8w2t/
-	qRvOCuHFb4wzlRI2I8UB98VEMB6U1yvzVGpL721ETtO3hGjH3TbIoUc6fnZHWEhIVA71ZbMhgLK
-	1xryNatVc7kAeC56gSZNpWjDxm7Nq+lpTmlHRASBjjxbJPjzlzh0VVfkve3uqFvEEudNBzV1DOt
-	w+1w7unQEJJQKZRwc6BYqGP4Czd7WWQ4qdOyj624WpiyGUMCqhTArocdy4tEXGX/zZxG4x3lndc
-	ShWqBdCt5bzEzspflTYKbels
-X-Received: by 2002:a17:90b:574e:b0:3aa:ff61:9504 with SMTP id 98e67ed59e1d1-3ae897c94f6mr1099490a91.20.1793347442212;
-        Fri, 30 Oct 2026 01:04:02 -0700 (PDT)
+        bh=thnlgDsgaiZp29Xs/7SKR0Bl6MHpM2zZTlOwDr+vKFY=;
+        b=Dnrq8TxnfLMkSzXaL+WMGzZkZPHcF7boeK8BgWiJ0DehRmnyRusjEmJpLvo1kt6Ec1
+         nCMo7psFBvpyMBX6ohFf6FJHQ77ujlHNu9uAwfy8QqBWdrpPoMiTKh+dPHDJIisnIUzd
+         ZHEpwycCv7lsWLRmhqHwZmHF3dWFxBuJGxaUF5MDbaElJq33NIQczHASsu38I924Z1J7
+         yrUxyQBRoiqUzRcMtifuZr7Hw6wckmvYT29ZOKboar/TYElPC/6/O6dOWh8S+sSKLyM7
+         DcpNeS7V/Yy5eZh00RAwBqmdlYgbIqN/WpVaOi5kKkmPu8MPNXNF3hqG8/EaXusyVclX
+         WZEA==
+X-Gm-Message-State: AFq9FYLzyHPx2GmN+c/3y7zldWQss85tPFuibBRXOIBbxLcRO9tIwiNo
+	IJVOgTD6OjXZEFP040q6JSS/eZl722Qy7obYo67QgBFyZZeSJjCeEj8C
+X-Gm-Gg: AYBFou2AMueCfUI5Dju0eEwF9uuHPtOrh3YsBnoFpNbGwTvGy+8VL4ab0TgbBjWf0Ru
+	m4ZgRg2G0J7KroZK9tY0VYcGId3emyaWNulcr8oN627CFdF+inzqjro1WsL6Wf1wCmTGSA/dTp5
+	O80qSj/a5lCcHOaibGuLX5Gva7w3ti7liEuITNjF+2/FOOcjSCH/8xnGyXjfid+B8lhIOlQiAll
+	VfUqn+VGrHvD3ZkAVM7i+AuPjQGeg9XVQh7axaC6+DAvK+T/uTA9XaaJ4sJLWqJJAEpW2teYLPb
+	g3OvZad7gdeho8FGmoXdhReQ9sPl0qjfTlbVOy3J9Ne19Owt4DeRmqUzkrM7ZVUuKAyKlQNsmZO
+	MaFQDIUUNSXfQWdv1+y2m3OqujesdB336S3yUiqu+OEs/PxlbTqQuZysPoyXHNJHx1T9B766T3x
+	eH/qy/SeV/3u1jVKUS6PzRa3F2eAk63mknzv7b/qsPyt9Rtd2StMT0uQz05qOp4RNCGnoTzO4CG
+	58VKA8THt2pJDK16ywfU/QF5j757OhHEwAmQyrtK3iF3t/nwv0+J1ytN16mIEPsT42DXIjwc0Tn
+	VUL7yt9MTU9jGq2ukn2Ow4Z8
+X-Received: by 2002:a17:90b:2549:b0:3ac:a7ee:678c with SMTP id 98e67ed59e1d1-3ae89536be7mr1302353a91.2.1793347446341;
+        Fri, 30 Oct 2026 01:04:06 -0700 (PDT)
 Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae84577911sm3073035a91.7.2026.10.30.01.03.59
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae84577911sm3073035a91.7.2026.10.30.01.04.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 01:04:01 -0700 (PDT)
+        Fri, 30 Oct 2026 01:04:04 -0700 (PDT)
 From: Cen Zhang <zzzccc427@gmail.com>
 To: perex@perex.cz,
 	tiwai@suse.com
@@ -86,9 +86,9 @@ Cc: linux-sound@vger.kernel.org,
 	baijiaju1990@gmail.com,
 	jjzuming@gmail.com,
 	zzzccc427@gmail.com
-Subject: [PATCH v3 3/5] ALSA: pcm: Add the file to the card while looking up the minor
-Date: Fri, 30 Oct 2026 16:03:41 +0800
-Message-Id: <pm-pmb-a4703edca61d34aa679b-v11-d9186d19e8afb48972af-3@gmail.com>
+Subject: [PATCH v3 4/5] ALSA: pcm: Refuse to open a disconnected PCM
+Date: Fri, 30 Oct 2026 16:03:42 +0800
+Message-Id: <pm-pmb-a4703edca61d34aa679b-v11-d9186d19e8afb48972af-4@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <pm-pmb-a4703edca61d34aa679b-v11-d9186d19e8afb48972af-0@gmail.com>
 References: <pm-pmb-a4703edca61d34aa679b-v11-d9186d19e8afb48972af-0@gmail.com>
@@ -103,136 +103,53 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use snd_lookup_minor_data_file() and snd_lookup_oss_minor_data_file() in
-the native and OSS PCM opens, so that the file is on the card before the
-PCM minor can be unregistered. The opens then no longer need the extra
-card reference from the lookup.
+An open that found the PCM before snd_pcm_dev_disconnect() can still
+attach a substream after it, because nothing in the open path checks
+whether the PCM was disconnected. When only the PCM is disconnected, as
+on an HD-audio codec unbind, the open then succeeds on a device that is
+going away, and its file delays the remove until it is closed.
 
-Without that reference, a failed open also no longer reads pcm->card
-after it has removed its file, which would race with a remove that waits
-for the files before freeing the PCM.
+Mark the PCM as disconnected under open_mutex in snd_pcm_dev_disconnect()
+and make snd_pcm_attach_substream() fail with -ENODEV for it.
 
 Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 ---
- sound/core/oss/pcm_oss.c | 19 ++++++-------------
- sound/core/pcm_native.c  | 37 +++++++++++++++----------------------
- 2 files changed, 21 insertions(+), 35 deletions(-)
+ include/sound/pcm.h | 1 +
+ sound/core/pcm.c    | 3 +++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
-index e8df27d09b97..2d99df900f76 100644
---- a/sound/core/oss/pcm_oss.c
-+++ b/sound/core/oss/pcm_oss.c
-@@ -2497,15 +2497,12 @@ static int snd_pcm_oss_open(struct inode *inode, struct file *file)
- 
- 	nonseekable_open(inode, file);
- 
--	pcm = snd_lookup_oss_minor_data(iminor(inode),
--					SNDRV_OSS_DEVICE_TYPE_PCM);
--	if (pcm == NULL) {
--		err = -ENODEV;
--		goto __error1;
--	}
--	err = snd_card_file_add(pcm->card, file);
--	if (err < 0)
--		goto __error1;
-+	pcm = snd_lookup_oss_minor_data_file(iminor(inode),
-+					     SNDRV_OSS_DEVICE_TYPE_PCM, file);
-+	if (IS_ERR(pcm))
-+		return PTR_ERR(pcm);
-+	if (!pcm)
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index 1cf511f8d880..04f58c2ec5c6 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -548,6 +548,7 @@ struct snd_pcm {
+ 	bool internal; /* pcm is for internal use only */
+ 	bool nonatomic; /* whole PCM operations are in non-atomic context */
+ 	bool no_device_suspend; /* don't invoke device PM suspend */
++	bool disconnected; /* disconnected, no new open */
+ #if IS_ENABLED(CONFIG_SND_PCM_OSS)
+ 	struct snd_pcm_oss oss;
+ #endif
+diff --git a/sound/core/pcm.c b/sound/core/pcm.c
+index 064df4cd3b50..567eeff23095 100644
+--- a/sound/core/pcm.c
++++ b/sound/core/pcm.c
+@@ -897,6 +897,8 @@ int snd_pcm_attach_substream(struct snd_pcm *pcm, int stream,
+ 		       stream != SNDRV_PCM_STREAM_CAPTURE))
+ 		return -EINVAL;
+ 	*rsubstream = NULL;
++	if (pcm->disconnected)
 +		return -ENODEV;
- 	if (!try_module_get(pcm->card->module)) {
- 		err = -ENODEV;
- 		goto __error2;
-@@ -2558,16 +2555,12 @@ static int snd_pcm_oss_open(struct inode *inode, struct file *file)
- 	mutex_unlock(&pcm->open_mutex);
- 	if (err < 0)
- 		goto __error;
--	snd_card_unref(pcm->card);
- 	return err;
+ 	pstr = &pcm->streams[stream];
+ 	if (pstr->substream == NULL || pstr->substream_count == 0)
+ 		return -ENODEV;
+@@ -1101,6 +1103,7 @@ static int snd_pcm_dev_disconnect(struct snd_device *device)
  
-       __error:
-      	module_put(pcm->card->module);
-       __error2:
-       	snd_card_file_remove(pcm->card, file);
--      __error1:
--	if (pcm)
--		snd_card_unref(pcm->card);
- 	return err;
- }
- 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 35152fae74ca..89bfe1f358ee 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -2938,45 +2938,39 @@ static int snd_pcm_open_file(struct file *file,
- static int snd_pcm_playback_open(struct inode *inode, struct file *file)
- {
- 	struct snd_pcm *pcm;
--	int err;
- 
- 	nonseekable_open(inode, file);
- 
--	pcm = snd_lookup_minor_data(iminor(inode),
--				    SNDRV_DEVICE_TYPE_PCM_PLAYBACK);
--	err = snd_pcm_open(file, pcm, SNDRV_PCM_STREAM_PLAYBACK);
--	if (pcm)
--		snd_card_unref(pcm->card);
--	return err;
-+	pcm = snd_lookup_minor_data_file(iminor(inode),
-+					 SNDRV_DEVICE_TYPE_PCM_PLAYBACK, file);
-+	if (IS_ERR(pcm))
-+		return PTR_ERR(pcm);
-+	if (!pcm)
-+		return -ENODEV;
-+	return snd_pcm_open(file, pcm, SNDRV_PCM_STREAM_PLAYBACK);
- }
- 
- static int snd_pcm_capture_open(struct inode *inode, struct file *file)
- {
- 	struct snd_pcm *pcm;
--	int err;
- 
- 	nonseekable_open(inode, file);
- 
--	pcm = snd_lookup_minor_data(iminor(inode),
--				    SNDRV_DEVICE_TYPE_PCM_CAPTURE);
--	err = snd_pcm_open(file, pcm, SNDRV_PCM_STREAM_CAPTURE);
--	if (pcm)
--		snd_card_unref(pcm->card);
--	return err;
-+	pcm = snd_lookup_minor_data_file(iminor(inode),
-+					 SNDRV_DEVICE_TYPE_PCM_CAPTURE, file);
-+	if (IS_ERR(pcm))
-+		return PTR_ERR(pcm);
-+	if (!pcm)
-+		return -ENODEV;
-+	return snd_pcm_open(file, pcm, SNDRV_PCM_STREAM_CAPTURE);
- }
- 
-+/* called with the file added to the card by snd_lookup_minor_data_file() */
- static int snd_pcm_open(struct file *file, struct snd_pcm *pcm, int stream)
- {
- 	int err;
- 	wait_queue_entry_t wait;
- 
--	if (pcm == NULL) {
--		err = -ENODEV;
--		goto __error1;
--	}
--	err = snd_card_file_add(pcm->card, file);
--	if (err < 0)
--		goto __error1;
- 	if (!try_module_get(pcm->card->module)) {
- 		err = -ENODEV;
- 		goto __error2;
-@@ -3018,7 +3012,6 @@ static int snd_pcm_open(struct file *file, struct snd_pcm *pcm, int stream)
- 	module_put(pcm->card->module);
-       __error2:
-       	snd_card_file_remove(pcm->card, file);
--      __error1:
-       	return err;
- }
+ 	guard(mutex)(&register_mutex);
+ 	scoped_guard(mutex, &pcm->open_mutex) {
++		pcm->disconnected = true;
+ 		wake_up(&pcm->open_wait);
+ 		list_del_init(&pcm->list);
  
 -- 
 2.43.0
