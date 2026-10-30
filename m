@@ -1,91 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793350662;
-	b=VMgYqJ5SOlN2lWeM20/NrfV3djIFha76t55W26oFu5erwSUMYGKcIwy2pV3RBe2g70mF
-	 1izD/G+3Jqc8akOx1ulgjFkVVhXdJfvRhiKVe8DBQ/DmEGA+bChVbrnvTzNcv9XWVPhlQ
-	 Vm14PnZv4357CJBEv2jIoakZNvW+3MJ2lMtUrVS+F52Pp2ajuOYbUzeGM8gSf0CrvfYFL
-	 7s5qC2DZ48csUp1+Tak0AnqAT4E+L+QJrk9Xb1NTQGmjb6C41SEWcxde6F00aK2UKJTC2
-	 bbZw7cQLYADt6MD4BUbdb97/SuS5Z8DIaXjVi2cCEiUYRF8Nv3VmTScOOzZpH/8v4BQ==
+	t=1793350667;
+	b=rODEqSuOZ5sraokP+gpmOULQqCVB3uIk40WpAKiKxU0TYrBZin8WRdRkP3q+LOX0Yaqh
+	 kO2XeX8WUQzLvkQVhJp1c8kcqaf0hPVa2HKar9DDLiRP8NfgdrZ9TPeLNhw2hh2k1ZtNx
+	 HxqY5WjyFW4DswJeXwrb6H2xqnvRAapHSzy66ZcKz/1yaYnEKzx8BF/D9nG7O6vHxP5/C
+	 aaFmzRh/FMATxWaAtvw4sRzpWBypJrcNtHL5gX7oSRd+xsdOAeaEzx+wiKlXtRf1BUh/w
+	 zZ/LMPp1cyVgBf4ZCCylOMbXzhwgesxRrI6ENfCUyPNu9MYmVG//1q0zzwCCqpA9uDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793350662;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793350667;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=3f7gS8x9jk1QAEvKWYbIvU++gPKjDJUm616PxTVapbE=;
-	b=qKcsD0pOroAgzi+jxRXE67sR1lYIOllgoN38PyupJkpC88tixSgy+7jY7eNaWWeVtrQx
-	 JALjdp2sOFsTSlW5JtTqt95v9yCU8nB3fGAsxj0gCwcI+VnnBNqNiIREncVPPNLEe3IxT
-	 LUBRJLa+gx/YVnVhyTu4sJaJabJ/0ecDyxlyuTzPVHPuBKzP8jpff4iouHizHs9TMuVsQ
-	 OwBskuDErMLrwvNt3Pyo/VskwsaLP/SeS5bCJKjonFfptZ6P5xdQxsa8bsN0DGzkIxa0w
-	 3GYHlg6g8aEJ2lziCZImmtf/vUo9UXvDzKjMkXdx6pTYNcBnzmhdg1PSD/4Wdpbb0Fg==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=If4vsWGhaeiTS83cVTbg7yhri2qjNXjXUxc4AnG1P48=;
+	b=VDS4uHuQbgCbHkf8eq2ITT4wHjUZ05OZhqoNU0hsir1ymm4S603b5rw3+FXfsKSSk/Vg
+	 FxGqijowkIjWiZzsJga6YycFYKeoRotKeiIZ2oKA9KwJw5aWpC0WO6G9lV4BZ/46Qx7KN
+	 IVKH1WUw/QGNg+ahlL368mR4dz1hcPvGXmoX5AHfMdq21FAIsmFLOtd30h9kjyEHK1sPU
+	 cycK3GJGZuPPhtkMg+5VLu+0cPi1xwJqgFuylJfb9fZWIdn1m7pjT3c5BtpeUo1JXvJQ2
+	 OF4wEJa49dp5eb5nUu5m1WSl0e67rNo36RV6B2PTVhqpxR4wzKQhvpOVJBLx/IVZLng==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=i0TdIJ3B;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tP9TCIdt;
+	arc=none smtp.remote-ip=209.85.128.47
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C4D606A31D
-	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 08:57:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62C4D606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A7E606A31E
+	for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 08:57:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22A7E606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=i0TdIJ3B
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a59100fa83so3571095e9.0
-        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 01:57:42 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tP9TCIdt
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a20bde60a0so3040485e9.3
+        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 01:57:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793350661; x=1793955461; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3f7gS8x9jk1QAEvKWYbIvU++gPKjDJUm616PxTVapbE=;
-        b=i0TdIJ3BaFpQ0AKlw7ZKABTcXFp/R61LHO3AZ2kEjTlHdlg291cF1wbdwEWxwC8egx
-         dV213izuvfa5Ol5H3/U7V4V1OhhfUbtdy42GRDNgtQ/7m+guqsvshiXmRqhA3lI5Cnhp
-         2H28QRcGOwcHr9/P0rutNf5tjmfJmVGM/EjXFv0OgytbHFPvIVCNI1KN39VhdGGv00Kh
-         wtVV334voo08DxOwioxYRDVuOUAioWiLcIVBKM4BsEwjWwBAcC73LZ8M+y9Jb+g24UMk
-         BE/xhGA3AZ7pEQYn+QhR8u0fkU3jv118ZW6EikkLMbWq2K3nl8jnwC6s6j9E1zwOPrYa
-         pcAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793350661; x=1793955461;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1793350665; x=1793955465; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3f7gS8x9jk1QAEvKWYbIvU++gPKjDJUm616PxTVapbE=;
-        b=2XBrpJoXMmePY01IL/gAbLBHR38yJXD3jPR0Yy5HwtK/EO3eZmXhZuc+YcH2v4tSVZ
-         ejWG0pOqFxPE1nd/tOy1QSDH9lrps9OtMeXn7Ay2YgIpMvrHr1NM7RcsrFcajuTL9CfJ
-         fGAj/mUHHiNdb2p7hoAuo6mzS4vosSze2Eu8wpnaLw4LE5nMK2mzuJ2yDirQo18Ejezx
-         dpl99vAfi6T1IjuSUxYj27roz7/mip2sdv7fff7pkJSQ7KjY2OOJb592XBSE4fx27H4k
-         JxqKBladVzlqwwRQQDwRhQK8+pjg5k4TMDSfMmGpDBoYpyFkDXDDDKNLSRyAwGuJ3T0q
-         76tA==
-X-Forwarded-Encrypted: i=1; AKwUvBzMYxbGkwMrgXPOf2Gk2yqyIIjfpGl6soeLFWP5it3bDsbnDO9FD43zzktVHYTN5TbMGgDIXvx3cj4JeA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJwj1gwFcpAluhckqrKoj1v9BSOf2KqpC1eC6lOqfswaBPWhrJa
-	gQ4L1GjGf8XjEWr6+Qe8xqjKtCc+qbu0kgdma87dUEtC62R+b2NnxooP
-X-Gm-Gg: AYBFou17l9kNyqDy8GgcH90RV0souscriB54DT7tzlkUKrd2SR6yML10YIAJi8Ti8/B
-	vzOObaXm6GZVPaL7IEgDbrVP4moU2Mcj6X7wYXulFeo1ZXjXCHsmifXKpmITSMt7g+ziD2SoeJH
-	V2W1i24wS19A5YIW2hbK6mxZsLUrbA6WaVkAeTPbEybILb/Fbmlb/gG3YRkoLVAExTP02p8GJN7
-	Hspv7UO5fwfzThqybkFOKUFkKSxliyxZy2BBpA5K5cVs7zjecDtTopvVB4Dx0UArpYsQQZ46P8u
-	JFAyrTHOOaXqpMREjWfLfP9faBWlvoXhK/csTnebAyb5mQ5fAn+8RZ8PeMr4pb8YBWdlhGu5ZWp
-	nCCsP0HKiZeieWxD/QymOu7Wa0ysqs4av1LBYIZjpnLqiCiVPcPiaXfRloTNluzymeddTbNZLCB
-	/Yj3OdbcKP3dBD/mXkjMXQYf/vxKs6upgFhA4q0qfcD3r9X26S1rRcXER3ULVgfiSCA6uFLt9zy
-	3JmsvToys96tBBhUOvNlPOoUfjpbTuu13g8dn57PTlBLjunoQ7BdKdKkY+evUjIAld8pXwwYZrZ
-	Rn+caE32uz2UzJCL2BPXzbDaE/IBum/u3DNLiyfIowYwT68=
-X-Received: by 2002:a05:600c:5397:b0:4a4:7a8d:c736 with SMTP id 5b1f17b1804b1-4ac16acfceamr30142445e9.9.1793350660432;
-        Fri, 30 Oct 2026 01:57:40 -0700 (PDT)
+        bh=If4vsWGhaeiTS83cVTbg7yhri2qjNXjXUxc4AnG1P48=;
+        b=tP9TCIdtLibxgvOn4AvisJ69/kZYvCD9tgfwnXdY2G4tY3iTiZthUPn+B61shOag+/
+         SyLCxsCfayAxNWfs1mjps81cvPwhjSni02SSt1NUtVKMty3ALS5pbnHNI5Ql4HX9WwM/
+         eHJYvKn4AuIDijAWulbdmoShh3n/IwOEJNwEMHVGa+y+vkBiMM3CFgXIITbNyKoWJvL3
+         I8fTFJCfL4tTq4xutb1mSD+Y5lo3iMn5ezIz1laxSLKsOCqXL5MFirTwepWXe8cjBlxO
+         9UrMzrwL2VzkNSN8KIvgGs0VNnPnwGolulJOEh5QCuqCFDAi2jWvZOhCPEG+vm8j9aeg
+         cOPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793350665; x=1793955465;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=If4vsWGhaeiTS83cVTbg7yhri2qjNXjXUxc4AnG1P48=;
+        b=GBDRtBsl4yGzx/mW5D5f2xYKdmyIwlSx1HQYRcakarPxgbkbNVgnqSpiwDVTdCK4xU
+         BDIkpP8bYSE4hW25nMimygqEGfC8C4D3UwvhsFmXdpvlk+l18a0tpBm4vOLK8+WorsZZ
+         pIxMHZgyIUVNybQWYm51ta2LM7+593UMelwBaDwXvWKqI6JVpK/KO95BPhBH4dxfKaq0
+         /U6uAkSC5ajt/Urcpl+7moi73wl0j+h0YdHyrUESzsNw8mHcK+Snls8eGWSUv4wEo/mT
+         oeler4iX/HtCbRKgXaygT6GJcnEHQBUr8antmmnNTME0fxqixhq3IuFaVTm3VeFplIxZ
+         iebg==
+X-Forwarded-Encrypted: i=1; AKwUvBzi2Amiu4v2o/idNuna+EtyhSVXWzydx+64PDkrdu4k61/bWJWTrRM/yCJi7JyHu/Khon1JPBheMREXWw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYItWxGorYWxboHQ3BzFOfzZq5I76ZumWw9FpZ/RUc835/9U/LlE
+	oB230IOYkgky0MOJbatUdYUv9ZQLUPQ6VVTatjPTRSuDSkEqzb/KrMGT
+X-Gm-Gg: AYBFou3iE+S+I0+qHVR+w3Q3lp/NIpvYHZiAfDrwfjHfFAX/jbeCKVLrjG0VBt8a5Pi
+	WeEKHVuHpw7zetHVAH0nNvHu2y80YmGaqTqVyPT3DS+tRBa37G/nHI+AAhbs3EdBJSF5mXPDy9G
+	XrosX3odtxFSiirCAlY8/6mvqveVM1u2FWMMAf0IZ2ffsCVLb65nL/uOFbRuPUI95xNOa6nEhHW
+	iBxiECtHycqJB6Ck5o0JVtEcRGmAoXtfoRdPyhZu/92jKrkQEF8nWXvpWtdGOldiv/gzRZlmucY
+	cWPIRBmQyqCZWXJuZeuLfoL3qJl4+qj+IJC4QrJpgU1pBgvc2wnXla9cUg2eMYr1edh/9wDIk2u
+	A0qE6qDAo1wPMPzDqzXiPnpY7fOaz1bDC+cwG02t+m+n1eG9R9uj66c5q1KBVmBA9da8w8EesOv
+	xzC9CBFRwg0ctLXUz6DUkzQUnRvFXJIw25enoAeTiu2QeGkh89IIjRBIyjrI7ciG1SUgH71pjBv
+	G4Emb9K+E2/gDj2VnOeg60Rv+0oWjbe/SEuSdWO9dazE9pAl8iO7FKpI0cuiNnnPlyACOobUWOj
+	HBFaoqVS3VScQHukSi+RUOFx2ZFbGvjsf+1inHm8oGqJbQ==
+X-Received: by 2002:a05:600c:4585:b0:4a7:8fe8:130c with SMTP id 5b1f17b1804b1-4ac1889d5a1mr33312815e9.28.1793350665364;
+        Fri, 30 Oct 2026 01:57:45 -0700 (PDT)
 Received: from localhost.localdomain ([2a06:c701:4773:6f00:6ca3:c7d9:c03f:68c7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ac09ad35fdsm28215155e9.2.2026.10.30.01.57.38
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ac09ad35fdsm28215155e9.2.2026.10.30.01.57.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 01:57:39 -0700 (PDT)
+        Fri, 30 Oct 2026 01:57:45 -0700 (PDT)
 From: Avi Weiss <thnkslprpt@gmail.com>
 To: Mark Brown <broonie@kernel.org>
 Cc: Oder Chiou <oder_chiou@realtek.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	linux-sound@vger.kernel.org
-Subject: [PATCH 1/4] ASoC: rt721-sdca: handle HID button read errors
-Date: Fri, 30 Oct 2026 10:57:32 +0200
-Message-ID: <20261030085735.2146047-1-thnkslprpt@gmail.com>
+Subject: [PATCH 2/4] ASoC: rt711-sdca: handle HID button read errors
+Date: Fri, 30 Oct 2026 10:57:33 +0200
+Message-ID: <20261030085735.2146047-2-thnkslprpt@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261030085735.2146047-1-thnkslprpt@gmail.com>
+References: <20261030085735.2146047-1-thnkslprpt@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -97,64 +100,74 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rt_sdca_button_detect() returns zero when a regmap read fails,
-so RT721 treats the error as a valid no-button result.
+rt711_sdca_button_detect() returns zero when a regmap read fails,
+so the jack handler cannot distinguish the error from a valid
+no-button result.
 
-Return the original error and skip button reporting when a read
-fails. Still report jack changes, and clear button state if the
-headset is removed.
+Return the original error and make the button result signed.
+Skip button reporting on read failure, but still report jack
+changes and clear button state when the headset is removed.
 
-Fixes: bbca8e7050e0 ("ASoC: rt-sdw-common: Common functions for Realtek soundwire driver")
+Fixes: 7ad4d237e7c4 ("ASoC: rt711-sdca: Add RT711 SDCA vendor-specific driver")
 Signed-off-by: Avi Weiss <thnkslprpt@gmail.com>
 ---
- sound/soc/codecs/rt-sdw-common.c |  5 ++++-
- sound/soc/codecs/rt721-sdca.c    | 13 +++++++++++++
- 2 files changed, 17 insertions(+), 1 deletion(-)
+ sound/soc/codecs/rt711-sdca.c | 24 ++++++++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/codecs/rt-sdw-common.c b/sound/soc/codecs/rt-sdw-common.c
-index ad61943ce75ff..e4139e6393b1c 100644
---- a/sound/soc/codecs/rt-sdw-common.c
-+++ b/sound/soc/codecs/rt-sdw-common.c
-@@ -199,7 +199,7 @@ int rt_sdca_button_detect(struct regmap *map, unsigned int entity_id,
- 	ret = regmap_read(map, SDW_SDCA_CTL(SDCA_NUM_HID, entity_id,
- 			RT_SDCA_CTL_HIDTX_CURRENT_OWNER, 0), &owner);
+diff --git a/sound/soc/codecs/rt711-sdca.c b/sound/soc/codecs/rt711-sdca.c
+index 9781f289f8adc..11ffe1b861972 100644
+--- a/sound/soc/codecs/rt711-sdca.c
++++ b/sound/soc/codecs/rt711-sdca.c
+@@ -184,10 +184,10 @@ static int rt711_sdca_calibration(struct rt711_sdca_priv *rt711)
+ 	return ret;
+ }
+ 
+-static unsigned int rt711_sdca_button_detect(struct rt711_sdca_priv *rt711)
++static int rt711_sdca_button_detect(struct rt711_sdca_priv *rt711)
+ {
+-	unsigned int btn_type = 0, offset, idx, val, owner;
+-	int ret;
++	unsigned int offset, idx, val, owner;
++	int btn_type = 0, ret;
+ 	unsigned char buf[3];
+ 
+ 	/* get current UMP message owner */
+@@ -195,7 +195,7 @@ static unsigned int rt711_sdca_button_detect(struct rt711_sdca_priv *rt711)
+ 		SDW_SDCA_CTL(FUNC_NUM_HID, RT711_SDCA_ENT_HID01, RT711_SDCA_CTL_HIDTX_CURRENT_OWNER, 0),
+ 		&owner);
  	if (ret < 0)
 -		return 0;
 +		return ret;
  
  	/* if owner is device then there is no button event from device */
  	if (owner == 1)
-@@ -229,6 +229,9 @@ int rt_sdca_button_detect(struct regmap *map, unsigned int entity_id,
- 			SDW_SDCA_CTL(SDCA_NUM_HID, entity_id,
- 				RT_SDCA_CTL_HIDTX_CURRENT_OWNER, 0), 0x01);
+@@ -259,6 +259,9 @@ static unsigned int rt711_sdca_button_detect(struct rt711_sdca_priv *rt711)
+ 			SDW_SDCA_CTL(FUNC_NUM_HID, RT711_SDCA_ENT_HID01,
+ 				RT711_SDCA_CTL_HIDTX_SET_OWNER_TO_DEVICE, 0), 0x01);
  
 +	if (ret < 0)
 +		return ret;
 +
  	return btn_type;
  }
- EXPORT_SYMBOL_GPL(rt_sdca_button_detect);
-diff --git a/sound/soc/codecs/rt721-sdca.c b/sound/soc/codecs/rt721-sdca.c
-index 9f567caecb70a..95c028efec01c 100644
---- a/sound/soc/codecs/rt721-sdca.c
-+++ b/sound/soc/codecs/rt721-sdca.c
-@@ -248,6 +248,19 @@ static void rt721_sdca_jack_detect_handler(struct work_struct *work)
- 					RT721_SDCA_ENT_HID01, RT721_BUF_ADDR_HID1,
- 					RT721_SDCA_HID_ID);
+ 
+@@ -330,6 +333,19 @@ static void rt711_sdca_jack_detect_handler(struct work_struct *work)
+ 	if (rt711->scp_sdca_stat2 & SDW_SCP_SDCA_INT_SDCA_8)
+ 		btn_type = rt711_sdca_button_detect(rt711);
  
 +	if (btn_type < 0) {
-+		if (rt721->scp_sdca_stat1 & SDW_SCP_SDCA_INT_SDCA_0) {
++		if (rt711->scp_sdca_stat1 & SDW_SCP_SDCA_INT_SDCA_0) {
 +			unsigned int mask = SND_JACK_HEADSET;
 +
-+			if (rt721->jack_type != SND_JACK_HEADSET)
++			if (rt711->jack_type != SND_JACK_HEADSET)
 +				mask |= SND_JACK_BTN_0 | SND_JACK_BTN_1 |
 +					SND_JACK_BTN_2 | SND_JACK_BTN_3;
 +
-+			snd_soc_jack_report(rt721->hs_jack, rt721->jack_type, mask);
++			snd_soc_jack_report(rt711->hs_jack, rt711->jack_type, mask);
 +		}
 +		return;
 +	}
 +
- 	if (rt721->jack_type == 0)
+ 	if (rt711->jack_type == 0)
  		btn_type = 0;
  
