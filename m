@@ -1,52 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.3
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793443388;
-	b=40TPUpL1MGUCG+YOuVYBaHqeb5VDXHqhIs+waDwUMdECSVq56W0h8IGPcuMBk6vmhn9Q
-	 RpuLdaEiCzOZZZ+/KhvGLAFAqlsYxbSXhK6FGNhVGAArC5LV1BGHJnD6M6JaMCP0Lt4OY
-	 36a2CaRkltj4A/KJtgSCLFaTb3Wx4zh6M/tugWqp1E2e6/LzifTi5VtrHYt4yiyUmAp1b
-	 4omXvlny1Cmz/VJXStMG7doZQTaTOtcsnOCSjfckCxvyFpRQ4Mvo6yBJPmPDitmwTRk39
-	 QcglJZ9Yr8ndyUppPqSF3c9EZb9hxg4aXB2CFFWxJMATRfx+MDuacVHzfjvNVZbNRtQ==
+	t=1793443385;
+	b=VJhYnm7UeaRFmiqZZs0Jg30F5HC+UGDRNjnV1VQs7GzrnU6OkyJWvdrRH/JRoIUi6kk1
+	 YBbyS3HCamssEjyIxjEJawLMNqM+2+5N41vPO2Y4Sj49ltvRoNbkC79jo8gx4Jc9FuwyE
+	 LVEK+VBljW6hRARX9inJjpFaajZsBHy+BZ1ro8ez0CsC54Bcs+xb6Y29UZgLD2sVJNuAn
+	 c9gjdz8gOP91na3S8Sdg5IlAmOcW6/hMFoB9WcnQ5eg6GtMJbyxq6jhxj/2qnOMwRs3yO
+	 o4GzlQ1U6r5Dl4ThrDCj5ZXjI8Hnl48Syrw6rtAO9eURBN2yD+F9kwnQ1wRW9q201qA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793443388;
-	h=DMARC-Filter:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-CM-TRANSID:X-Coremail-Antispam:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793443385;
+	h=DMARC-Filter:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-CM-TRANSID:X-Coremail-Antispam:
 	 X-CM-SenderInfo;
-	bh=ftfBy0RSzJpeQ5/Atx8b9/grpDyxwzrPWd12SgN+DJ0=;
-	b=dIZO3AmQdxRKFFywCDinx1Ji0I/fWT7U/5PGhG5XsDlVqsr/IYCLdft3kQ/+D8ev2A2e
-	 ir3AvpEbeKF9NVZ+YWnU5FMInuJlE86QZsjgC9EVcWmervmFI/3Gj66lg7tcZ1G8LVRqu
-	 mYplwoTARCuiOZXo0Z49xjeOcimNZVlCN2gNDN5G/VWt9pSZKH1fu7IDFX086KdDAPixA
-	 +dYnbk3EThCa9tBXyr/+XA4/2f4Rf16pHut6RoTIunQh4F2/dXrpCVLgE1mRvxxMHcr+5
-	 BZRizNHuvwNes/xb4udu04y20My68WffRlmz3yI0Itu1HcmVcbvDtjwI/nVzvZCc9bQ==
+	bh=rA40hPVN3Ee0cQ30/rR5Ha6uxxqpzfXY/oC6nYnSEK0=;
+	b=TqF/j4HUvL4JYcn3r3MZDOB/H7Y+y7GBkXtBNMbnwrTJ9bsEKR+4AEXgpTjsS25PIAPz
+	 Hc/4uKQ4nzSHEK4yGPGZw6keADsUgNZwG/rD0LQGtH0ej/kOOWmr2BtMxALpzNyQQ+/mz
+	 dbiE6DIizh7idwIisU02vFkbTaZYoIy6GagcriR0tDJh8IyPfZ7VAE8jVTbGseDSIA+43
+	 Vo+KrS1EecJoMdbnynxQt/M6NAcbezlOrw+DPD0imfkML2pxcJoNwL0iP/wdB+o3IyJOj
+	 QTjgI7N5yuSIfKsBplqK6Iqf0jvAT85y+UgkFQ7mY69G7vZYmqdsCzBtyivPbZ8HJQg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=163.com;
 	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b="I/Mcvnkr";
-	arc=none smtp.remote-ip=220.197.31.2
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=eX7f97Pb;
+	arc=none smtp.remote-ip=220.197.31.3
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A93606A31F;
-	Sat, 31 Oct 2026 10:43:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73A93606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77255606A31A;
+	Sat, 31 Oct 2026 10:43:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77255606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=I/Mcvnkr
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=eX7f97Pb
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version:
-	Content-Type:To; bh=ftfBy0RSzJpeQ5/Atx8b9/grpDyxwzrPWd12SgN+DJ0=;
-	b=I/Mcvnkrt5+iogWxMUO+g6hmE0PHHVKFms5zaUMyLlZzRgAamEhpCV9NKAo+IV
-	iMMo1+bW5tx4JvIrnEj62zsHApCszeg2TazJoLJ2/EemQeQSC65rQxWG4OhPJ+U3
-	hVNi/fXlFC5UmO3eIjr9bt2+BtEF+oHXyFUc7TdK9oWx0=
+	s=s110527; h=From:Date:Subject:MIME-Version:Content-Type:
+	Message-Id:To; bh=rA40hPVN3Ee0cQ30/rR5Ha6uxxqpzfXY/oC6nYnSEK0=;
+	b=eX7f97PbWQFlFOEQPQvgYh3PhwwjVuPVbrmNMW49CWauq7C3IKr1+2l8jl+HQm
+	zoXlBKL2OTmWExMMM8B0LfRCBvgBNMMRQanIX5l38jOjYYFt57lCDSxD9d9UNCXM
+	3PMH11DVf4HRJ0fOSooGuLKjW9AEi1vLff6M9cdiS9Jzo=
 Received: from 4F-GAME.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wDnbwoTxuVqQyp9EA--.12272S2;
-	Sat, 31 Oct 2026 18:42:28 +0800 (CST)
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wDnbwoTxuVqQyp9EA--.12272S3;
+	Sat, 31 Oct 2026 18:42:30 +0800 (CST)
 From: Bob Hui <bg9oxa@163.com>
-Subject: [PATCH v3 0/2] ASoC: es8328: enable capture on the ES8388
-Date: Sat, 31 Oct 2026 18:42:24 +0800
-Message-Id: <20261031-es8328-vol-init-v3-0-7d9c4b7ab67f@163.com>
+Date: Sat, 31 Oct 2026 18:42:25 +0800
+Subject: [PATCH v3 1/2] ASoC: es8328: reset the codec at probe time
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,104 +57,395 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIABDG5WoC/3WNyw7CIBQFf6VhLQYu9OXK/zAuWrhYjBYDlWia/
- rtQF5oYl5OcmTOTgN5iILtiJh6jDdaNCcSmIGroxhNSqxMTYFBxBpJiaAQ0NLoLtaOdaNWVoHj
- dtLXSJFk3j8Y+1uLh+OZw78+oppzJi8GGyfnnehl53v2vR04ZRdNrkBrbSrR7XomtcleS2xG+b
- MF/bUi25mXPpAIw0nzsZVlemYrXhfwAAAA=
-X-Change-ID: 20261024-es8328-vol-init-6a52c17897cd
+Message-Id: <20261031-es8328-vol-init-v3-1-7d9c4b7ab67f@163.com>
+References: <20261031-es8328-vol-init-v3-0-7d9c4b7ab67f@163.com>
+In-Reply-To: <20261031-es8328-vol-init-v3-0-7d9c4b7ab67f@163.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Bob Hui <bg9oxa@163.com>
 X-Mailer: b4 0.15.2
-X-CM-TRANSID:_____wDnbwoTxuVqQyp9EA--.12272S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxur48WrykAFyxtryxGry3Arb_yoWrWFWrpF
-	Z8WFy5KrykXr4Iyrsavw4UAF95u3yfJF45ZFyxt34jvw45Ww10yrW3Ka45XF1Dur9Yga42
-	9w12q34UWFWDZFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0p_GQ6DUUUUU=
-X-CM-SenderInfo: lejz05rd6rljoofrz/xtbC3hXKOGrlxhXEawAA3K
+X-CM-TRANSID:_____wDnbwoTxuVqQyp9EA--.12272S3
+X-Coremail-Antispam: 1Uf129KBjvAXoWfJrWrury3Gw45KFWkJF48Crg_yoW8JF4DWo
+	W2qry3Ww47Ww1kXFyrtr1fWF17WFs5Z343tFsrCw4DZwn3JFy5Kws2qw15ta4aga4Y9rZ5
+	Zw1DXFnxJrWxGFy7n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvj4i-B_UDUUUU
+X-CM-SenderInfo: lejz05rd6rljoofrz/xtbC+hbKOGrlxhaiXgAA39
 
-This series fixes capture on boards built around the ES8388.  That part
-shares the driver with the ES8328, and the two differ in eleven power-on
-register values and in the meaning of bit 7 of DAC Control 21, so the
-driver has to know which part it is talking to before it can set either
-of them up.
+Nothing brings the codec into a known state when the driver probes: the
+supplies may already be on, a warm reboot or a kexec keeps the registers
+alive, and a driver rebind leaves whatever the previous instance
+programmed.  Everything that reads a register back and writes it again,
+from the DAI format to the mute control, then works from a value the
+hardware never had.
 
-Changes in v3, addressing the Sashiko bot's suggestions on v2:
+Issue a control port reset while probing so the codec always starts from
+its documented defaults.  SCP_RESET is not self-clearing, so the reference
+and the VMID divider are written back afterwards, which is the documented
+default value of the register.
 
-- Give the variant enum non-zero values, and add an SPI device id table
-  plus the ES8388 entry to the SPI match table.  A zero match-data entry
-  cannot be told apart from "no match data", and with no id table the
-  fallback lookup walked a NULL table, which would fault on an
-  SPI-attached ES8328; an ES8388 behind SPI also resolved to the wrong
-  variant and skipped SLRCK.
-- Drop the register cache after the control port reset.  The cache
-  outlives a component rebind, so it would otherwise describe the values
-  the previous bind left behind instead of the ones the reset restored.
-- Link to v2: https://patch.msgid.link/20261031-es8328-vol-init-v2-0-d15b04c22f4f@163.com
+The cache outlives a component rebind, so drop it after the reset:
+otherwise the next read-modify-write compares against the values the
+previous bind left there instead of the ones the reset just restored.
 
-Changes in v2, addressing Mark Brown's review of v1:
+Describe those defaults in the regmap as well, one table per supported
+part, so the cache describes the codec instead of being filled in lazily
+on first access.  The two parts differ in eleven registers, so one table
+cannot describe both; the variant is looked up from the match data in the
+I2C and SPI glue, which also makes the driver work on ACPI systems.  The
+SPI glue gains an ES8388 entry and an id table of its own, so a part
+behind SPI resolves the same way and the id table lookup never runs off a
+NULL table.
 
-- Reset the codec at probe time through SCP_RESET, so that the register
-  cache describes a state the hardware is actually in.  SCP_RESET is not
-  self-clearing, so the reference and the VMID settings are written back
-  afterwards.
-- Provide one set of power-on defaults per supported part, taken from the
-  ES8328 datasheet Revision 1.0 and the ES8388 datasheet Revision 5.0,
-  sections 6.1.1 to 6.3.30 in both cases.
-- Look the variant up from the match data in the I2C and SPI glue instead
-  of testing the compatible string, so the lookup also works on ACPI
-  systems.  Both i2c_get_match_data() and spi_get_device_match_data()
-  fall back to the legacy id table, and the I2C id table carries the
-  variant as well.  The driver still has no ACPI HID table, as it never
-  had one.
-- Use a define for the SLRCK bit, and drop the of.h include which is no
-  longer needed.
-- Keep the regmap configuration indentation consistent.
-- Link to v1: https://patch.msgid.link/20261024-es8328-vol-init-v1-0-efbd24de9639@163.com
+The values come from the ES8328 datasheet, Revision 1.0, sections 6.1.1
+to 6.3.30, and from the ES8388 datasheet, Revision 5.0, same sections.
 
-The variant plumbing lives in patch 1 because the defaults have to be
-chosen when the regmap is created, which happens in the bus glue before
-the component is probed; patch 2 uses the same variant to decide whether
-SLRCK applies.  Boards with an ES8328 keep the same register values as
-before; the only change for them is the reset at probe time.
-
-One observation from bringing this up: this silicon is not fully
-readable.  Registers 0x28 and 0x29 read back as their power-on value
-regardless of what is written, and bit 7 of register 0x01 is not
-implemented, so writing 0xc0 reads back as 0x40.  That is one more reason
-to treat the register cache as the record of what the driver programmed
-rather than reading the state back.
-
-Testing: on a QuarkPi-CA2 (RK3588S, ES8388) running v7.3, where the codec
-sits on I2C, playback works and capture goes from digital silence to
-working audio.  A register the driver never writes was modified before a
-warm reboot and comes back at its reset value once the driver probes,
-which shows that the reset and not a power cycle restores the state.
-Unbinding and rebinding the sound card while the codec stays bound leaves
-capture working as well, which exercises the cache invalidation above.
-
-The SPI glue changes are compile-tested only: this board has no SPI
-wiring for the codec, and the SPI side of the fix came from the Sashiko
-review bot.
+Tested on a QuarkPi-CA2 (RK3588S, ES8388, I2C): a register deliberately
+modified before a warm reboot comes back at its reset value once the
+driver probes, so it is the reset rather than a power cycle that restores
+the state.
 
 Assisted-by: Hermes:deepseek-v4-flash
 Signed-off-by: Bob Hui <bg9oxa@163.com>
 ---
-Bob Hui (2):
-      ASoC: es8328: reset the codec at probe time
-      ASoC: es8328: set SLRCK for the ES8388
-
- sound/soc/codecs/es8328-i2c.c |  18 ++--
+ sound/soc/codecs/es8328-i2c.c |  18 +++--
  sound/soc/codecs/es8328-spi.c |  20 ++++-
- sound/soc/codecs/es8328.c     | 199 ++++++++++++++++++++++++++++++++++++++++--
- sound/soc/codecs/es8328.h     |  11 ++-
- 4 files changed, 231 insertions(+), 17 deletions(-)
----
-base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
-change-id: 20261024-es8328-vol-init-6a52c17897cd
+ sound/soc/codecs/es8328.c     | 182 ++++++++++++++++++++++++++++++++++++++++--
+ sound/soc/codecs/es8328.h     |   9 ++-
+ 4 files changed, 212 insertions(+), 17 deletions(-)
 
-Best regards,
---  
-Bob Hui <bg9oxa@163.com>
+diff --git a/sound/soc/codecs/es8328-i2c.c b/sound/soc/codecs/es8328-i2c.c
+index 36a4987e1a593..cb9392c0b8ea3 100644
+--- a/sound/soc/codecs/es8328-i2c.c
++++ b/sound/soc/codecs/es8328-i2c.c
+@@ -16,23 +16,29 @@
+ #include "es8328.h"
+ 
+ static const struct i2c_device_id es8328_id[] = {
+-	{ .name = "es8328" },
+-	{ .name = "es8388" },
++	{ .name = "es8328", .driver_data = ES8328_TYPE_ES8328 },
++	{ .name = "es8388", .driver_data = ES8328_TYPE_ES8388 },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, es8328_id);
+ 
+ static const struct of_device_id es8328_of_match[] = {
+-	{ .compatible = "everest,es8328", },
+-	{ .compatible = "everest,es8388", },
++	{ .compatible = "everest,es8328", .data = (void *)ES8328_TYPE_ES8328 },
++	{ .compatible = "everest,es8388", .data = (void *)ES8328_TYPE_ES8388 },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, es8328_of_match);
+ 
+ static int es8328_i2c_probe(struct i2c_client *i2c)
+ {
+-	return es8328_probe(&i2c->dev,
+-			devm_regmap_init_i2c(i2c, &es8328_regmap_config));
++	enum es8328_type type = (unsigned long)i2c_get_match_data(i2c);
++	const struct regmap_config *config;
++
++	config = type == ES8328_TYPE_ES8388 ? &es8388_regmap_config
++					    : &es8328_regmap_config;
++
++	return es8328_probe(&i2c->dev, devm_regmap_init_i2c(i2c, config),
++			    type);
+ }
+ 
+ static struct i2c_driver es8328_i2c_driver = {
+diff --git a/sound/soc/codecs/es8328-spi.c b/sound/soc/codecs/es8328-spi.c
+index 88e353ae52a10..93df788222ab6 100644
+--- a/sound/soc/codecs/es8328-spi.c
++++ b/sound/soc/codecs/es8328-spi.c
+@@ -13,16 +13,29 @@
+ #include <sound/soc.h>
+ #include "es8328.h"
+ 
++static const struct spi_device_id es8328_id[] = {
++	{ .name = "es8328", .driver_data = ES8328_TYPE_ES8328 },
++	{ .name = "es8388", .driver_data = ES8328_TYPE_ES8388 },
++	{ }
++};
++MODULE_DEVICE_TABLE(spi, es8328_id);
++
+ static const struct of_device_id es8328_of_match[] = {
+-	{ .compatible = "everest,es8328", },
++	{ .compatible = "everest,es8328", .data = (void *)ES8328_TYPE_ES8328 },
++	{ .compatible = "everest,es8388", .data = (void *)ES8328_TYPE_ES8388 },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, es8328_of_match);
+ 
+ static int es8328_spi_probe(struct spi_device *spi)
+ {
+-	return es8328_probe(&spi->dev,
+-			devm_regmap_init_spi(spi, &es8328_regmap_config));
++	enum es8328_type type = (unsigned long)spi_get_device_match_data(spi);
++	const struct regmap_config *config;
++
++	config = type == ES8328_TYPE_ES8388 ? &es8388_regmap_config
++					    : &es8328_regmap_config;
++
++	return es8328_probe(&spi->dev, devm_regmap_init_spi(spi, config), type);
+ }
+ 
+ static struct spi_driver es8328_spi_driver = {
+@@ -31,6 +44,7 @@ static struct spi_driver es8328_spi_driver = {
+ 		.of_match_table	= es8328_of_match,
+ 	},
+ 	.probe	= es8328_spi_probe,
++	.id_table = es8328_id,
+ };
+ 
+ module_spi_driver(es8328_spi_driver);
+diff --git a/sound/soc/codecs/es8328.c b/sound/soc/codecs/es8328.c
+index aaa6646ad4c5e..5618fd7e6eb62 100644
+--- a/sound/soc/codecs/es8328.c
++++ b/sound/soc/codecs/es8328.c
+@@ -78,6 +78,7 @@ static const char * const supply_names[ES8328_SUPPLY_NUM] = {
+ struct es8328_priv {
+ 	struct regmap *regmap;
+ 	struct clk *clk;
++	enum es8328_type type;
+ 	int playback_fs;
+ 	bool deemph;
+ 	int mclkdiv2;
+@@ -836,6 +837,37 @@ static int es8328_component_probe(struct snd_soc_component *component)
+ 		goto clk_fail;
+ 	}
+ 
++	/*
++	 * Put the codec into a known state: the supplies may already be on,
++	 * a warm reboot or a kexec keeps the registers alive, and a driver
++	 * rebind leaves whatever the previous instance programmed.  Without
++	 * this every read-modify-write in the driver works from a value the
++	 * hardware never had.  SCP_RESET is not self-clearing.
++	 */
++	ret = snd_soc_component_write(component, ES8328_CONTROL1,
++				      ES8328_CONTROL1_SCP_RESET);
++	if (ret) {
++		dev_err(component->dev, "unable to reset the codec\n");
++		clk_disable_unprepare(es8328->clk);
++		goto clk_fail;
++	}
++	usleep_range(1000, 5000);
++	ret = snd_soc_component_write(component, ES8328_CONTROL1,
++				      ES8328_CONTROL1_ENREF |
++				      ES8328_CONTROL1_VMIDSEL_500k);
++	if (ret) {
++		dev_err(component->dev, "unable to clear the codec reset\n");
++		clk_disable_unprepare(es8328->clk);
++		goto clk_fail;
++	}
++
++	/*
++	 * The reset put the codec back to its power-on values, so whatever
++	 * the cache still holds from a previous bind is stale.  Drop it and
++	 * let the next access read the chip again.
++	 */
++	regcache_drop_region(es8328->regmap, 0, ES8328_REG_MAX);
++
+ 	return 0;
+ 
+ clk_fail:
+@@ -856,16 +888,150 @@ static void es8328_remove(struct snd_soc_component *component)
+ 			       es8328->supplies);
+ }
+ 
++/*
++ * Power-on defaults from the ES8328 datasheet, Revision 1.0, sections
++ * 6.1.1 to 6.3.30.
++ */
++static const struct reg_default es8328_reg_defaults[] = {
++	{ ES8328_CONTROL1,	0x06 },
++	{ ES8328_CONTROL2,	0x1c },
++	{ ES8328_CHIPPOWER,	0xc3 },
++	{ ES8328_ADCPOWER,	0xfc },
++	{ ES8328_DACPOWER,	0xc0 },
++	{ ES8328_CHIPLOPOW1,	0x00 },
++	{ ES8328_CHIPLOPOW2,	0x00 },
++	{ ES8328_ANAVOLMANAG,	0x7c },
++	{ ES8328_MASTERMODE,	0x80 },
++	{ ES8328_ADCCONTROL1,	0x00 },
++	{ ES8328_ADCCONTROL2,	0x00 },
++	{ ES8328_ADCCONTROL3,	0x06 },
++	{ ES8328_ADCCONTROL4,	0x00 },
++	{ ES8328_ADCCONTROL5,	0x06 },
++	{ ES8328_ADCCONTROL6,	0x30 },
++	{ ES8328_ADCCONTROL7,	0x30 },
++	{ ES8328_ADCCONTROL8,	0xc0 },
++	{ ES8328_ADCCONTROL9,	0xc0 },
++	{ ES8328_ADCCONTROL10,	0x38 },
++	{ ES8328_ADCCONTROL11,	0xb0 },
++	{ ES8328_ADCCONTROL12,	0x32 },
++	{ ES8328_ADCCONTROL13,	0x06 },
++	{ ES8328_ADCCONTROL14,	0x00 },
++	{ ES8328_DACCONTROL1,	0x00 },
++	{ ES8328_DACCONTROL2,	0x06 },
++	{ ES8328_DACCONTROL3,	0x32 },
++	{ ES8328_DACCONTROL4,	0xc0 },
++	{ ES8328_DACCONTROL5,	0xc0 },
++	{ ES8328_DACCONTROL6,	0x08 },
++	{ ES8328_DACCONTROL7,	0x06 },
++	{ ES8328_DACCONTROL8,	0x1f },
++	{ ES8328_DACCONTROL9,	0xf7 },
++	{ ES8328_DACCONTROL10,	0xfd },
++	{ ES8328_DACCONTROL11,	0xff },
++	{ ES8328_DACCONTROL12,	0x1f },
++	{ ES8328_DACCONTROL13,	0xf7 },
++	{ ES8328_DACCONTROL14,	0xfd },
++	{ ES8328_DACCONTROL15,	0xff },
++	{ ES8328_DACCONTROL16,	0x00 },
++	{ ES8328_DACCONTROL17,	0x38 },
++	{ ES8328_DACCONTROL18,	0x38 },
++	{ ES8328_DACCONTROL19,	0x38 },
++	{ ES8328_DACCONTROL20,	0x38 },
++	{ ES8328_DACCONTROL21,	0x38 },
++	{ ES8328_DACCONTROL22,	0x38 },
++	{ ES8328_DACCONTROL23,	0x00 },
++	{ ES8328_LOUT1VOL,	0x00 },
++	{ ES8328_ROUT1VOL,	0x00 },
++	{ ES8328_LOUT2VOL,	0x00 },
++	{ ES8328_ROUT2VOL,	0x00 },
++	{ ES8328_MONOOUTVOL,	0x00 },
++	{ ES8328_DACCONTROL29,	0x00 },
++	{ ES8328_DACCONTROL30,	0x00 },
++};
++
++/*
++ * Power-on defaults from the ES8388 datasheet, Revision 5.0, sections
++ * 6.1.1 to 6.3.30.
++ */
++static const struct reg_default es8388_reg_defaults[] = {
++	{ ES8328_CONTROL1,	0x06 },
++	{ ES8328_CONTROL2,	0x5c },
++	{ ES8328_CHIPPOWER,	0xc3 },
++	{ ES8328_ADCPOWER,	0xfc },
++	{ ES8328_DACPOWER,	0xc0 },
++	{ ES8328_CHIPLOPOW1,	0x00 },
++	{ ES8328_CHIPLOPOW2,	0x00 },
++	{ ES8328_ANAVOLMANAG,	0x7c },
++	{ ES8328_MASTERMODE,	0x80 },
++	{ ES8328_ADCCONTROL1,	0x00 },
++	{ ES8328_ADCCONTROL2,	0x00 },
++	{ ES8328_ADCCONTROL3,	0x02 },
++	{ ES8328_ADCCONTROL4,	0x00 },
++	{ ES8328_ADCCONTROL5,	0x06 },
++	{ ES8328_ADCCONTROL6,	0x30 },
++	{ ES8328_ADCCONTROL7,	0x20 },
++	{ ES8328_ADCCONTROL8,	0xc0 },
++	{ ES8328_ADCCONTROL9,	0xc0 },
++	{ ES8328_ADCCONTROL10,	0x38 },
++	{ ES8328_ADCCONTROL11,	0xb0 },
++	{ ES8328_ADCCONTROL12,	0x32 },
++	{ ES8328_ADCCONTROL13,	0x06 },
++	{ ES8328_ADCCONTROL14,	0x00 },
++	{ ES8328_DACCONTROL1,	0x00 },
++	{ ES8328_DACCONTROL2,	0x06 },
++	{ ES8328_DACCONTROL3,	0x22 },
++	{ ES8328_DACCONTROL4,	0xc0 },
++	{ ES8328_DACCONTROL5,	0xc0 },
++	{ ES8328_DACCONTROL6,	0x08 },
++	{ ES8328_DACCONTROL7,	0x00 },
++	{ ES8328_DACCONTROL8,	0x1f },
++	{ ES8328_DACCONTROL9,	0xf7 },
++	{ ES8328_DACCONTROL10,	0xfd },
++	{ ES8328_DACCONTROL11,	0xff },
++	{ ES8328_DACCONTROL12,	0x1f },
++	{ ES8328_DACCONTROL13,	0xf7 },
++	{ ES8328_DACCONTROL14,	0xfd },
++	{ ES8328_DACCONTROL15,	0xff },
++	{ ES8328_DACCONTROL16,	0x00 },
++	{ ES8328_DACCONTROL17,	0x38 },
++	{ ES8328_DACCONTROL18,	0x28 },
++	{ ES8328_DACCONTROL19,	0x28 },
++	{ ES8328_DACCONTROL20,	0x38 },
++	{ ES8328_DACCONTROL21,	0x00 },
++	{ ES8328_DACCONTROL22,	0x00 },
++	{ ES8328_DACCONTROL23,	0x00 },
++	{ ES8328_LOUT1VOL,	0x00 },
++	{ ES8328_ROUT1VOL,	0x00 },
++	{ ES8328_LOUT2VOL,	0x00 },
++	{ ES8328_ROUT2VOL,	0x00 },
++	{ ES8328_MONOOUTVOL,	0x00 },
++	{ ES8328_DACCONTROL29,	0xaa },
++	{ ES8328_DACCONTROL30,	0xaa },
++};
++
+ const struct regmap_config es8328_regmap_config = {
+-	.reg_bits	= 8,
+-	.val_bits	= 8,
+-	.max_register	= ES8328_REG_MAX,
+-	.cache_type	= REGCACHE_MAPLE,
+-	.use_single_read = true,
+-	.use_single_write = true,
++	.reg_bits		= 8,
++	.val_bits		= 8,
++	.max_register		= ES8328_REG_MAX,
++	.cache_type		= REGCACHE_MAPLE,
++	.reg_defaults		= es8328_reg_defaults,
++	.num_reg_defaults	= ARRAY_SIZE(es8328_reg_defaults),
++	.use_single_read	= true,
++	.use_single_write	= true,
+ };
+ EXPORT_SYMBOL_GPL(es8328_regmap_config);
+ 
++const struct regmap_config es8388_regmap_config = {
++	.reg_bits		= 8,
++	.val_bits		= 8,
++	.max_register		= ES8328_REG_MAX,
++	.cache_type		= REGCACHE_MAPLE,
++	.reg_defaults		= es8388_reg_defaults,
++	.num_reg_defaults	= ARRAY_SIZE(es8388_reg_defaults),
++	.use_single_read	= true,
++	.use_single_write	= true,
++};
++EXPORT_SYMBOL_GPL(es8388_regmap_config);
++
+ static const struct snd_soc_component_driver es8328_component_driver = {
+ 	.probe			= es8328_component_probe,
+ 	.remove			= es8328_remove,
+@@ -884,7 +1050,8 @@ static const struct snd_soc_component_driver es8328_component_driver = {
+ 	.endianness		= 1,
+ };
+ 
+-int es8328_probe(struct device *dev, struct regmap *regmap)
++int es8328_probe(struct device *dev, struct regmap *regmap,
++		 enum es8328_type type)
+ {
+ 	struct es8328_priv *es8328;
+ 	int ret;
+@@ -898,6 +1065,7 @@ int es8328_probe(struct device *dev, struct regmap *regmap)
+ 		return -ENOMEM;
+ 
+ 	es8328->regmap = regmap;
++	es8328->type = type;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(es8328->supplies); i++)
+ 		es8328->supplies[i].supply = supply_names[i];
+diff --git a/sound/soc/codecs/es8328.h b/sound/soc/codecs/es8328.h
+index 9109f6b5b045a..3e2cfca050e2b 100644
+--- a/sound/soc/codecs/es8328.h
++++ b/sound/soc/codecs/es8328.h
+@@ -10,8 +10,15 @@
+ 
+ struct device;
+ 
++enum es8328_type {
++	ES8328_TYPE_ES8328 = 1,
++	ES8328_TYPE_ES8388,
++};
++
+ extern const struct regmap_config es8328_regmap_config;
+-int es8328_probe(struct device *dev, struct regmap *regmap);
++extern const struct regmap_config es8388_regmap_config;
++int es8328_probe(struct device *dev, struct regmap *regmap,
++		 enum es8328_type type);
+ 
+ #define ES8328_DACLVOL 46
+ #define ES8328_DACRVOL 47
+
+-- 
+2.34.1
 
