@@ -1,57 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793473629;
-	b=HxAawl65bz7m0m/J4mQaIuNOXQCMRqzIaZEV6nItr0GTNgOrc+0SLGHSvfElvmZwQFQb
-	 7WPaanNYNkMrFSaCzkjkYMqbqzCuMhr65VBMUxWE4uXskmH9y8xe2+3ZpFY4HKfje4A/H
-	 dayhtd94fFT4qBJHx5B+ebBNz+kEIE718O6pgl+eTmJ1aXa0SqYKFKnXuWShHetKqdaGW
-	 Q4ASFsHtxEIrVRNYjaGHOJ/yw6vN8xsCcXZkjc1iaSP3vdIHZNMPpM5AoIXrDAI17AXEk
-	 wodGwWH7GsH2zs4M5F3L3TvJgXfEUYhQj7RXZ6fZ4FuorR8vtv/4fSc2cc4YaUNH/+w==
+	t=1793473790;
+	b=HabjO9x5+8ulz65pLli0g8aqHYW687E2llJq5fcgP1LXpSngXGP7ozw3htXgg28MGUuO
+	 4hYlb+pspkBNhzLkPFamxYW1uj+UJYmbIyEJj9IXNtMSCuexBwSCMI7lSveDNZZcrv1m4
+	 1GiACdKj58h6HXirkWJibGnxoi6NcyVKxqPu3sOYf7mC7bTzssHzClaBqQ0uBPhPSWytT
+	 mdRWn4YQEDDBIWG+qrylXBEndLuRqnj6CFiPzhQixWIXW1796HQM1gRA6hMTZG7drCFyZ
+	 98blSLNCugMXVf5YqxSkNZVGWy7QSBdxNyeEWuVFOM88+jrRIWJgxF0l3FTBQjdG9KQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793473629;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=U+wrrW2HOSDtjFzDx7hdKCzLBl3TKzwdqLvOxSk+uBM=;
-	b=aCwcMJAgwJuB0FvTh5xidAVrF1w1JIwk76/eumitH0ZUymYRzxvM4GmedzsthCZNXmJJ
-	 aWQOpYUa9W1A39ZNj14o7wMj2i5MTPRkgKgqeKImGHxrezWDTZae2TaMH6CT9etO+NEqQ
-	 gsMOjumwetplWTVAYXTNM4/ZFT8U5xuhU7o2BN8mTs3fjiDQzX2ZmtiMVW/kG7GYBr7T7
-	 ovlxUzxq+9i1le5HaIjfbO87bf2XlfkhnvDNAT90fyl6p+hyATgxUnrExr7GTraQH/JjO
-	 W23/yOdgwxOkKR2WT5o21xErArCzicdgwj5fiEXQSFpQvXCtN57XgszYMwDFrj8ewYQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793473790;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=b+Qh5Uwalfg4+sQsbYwohX2NOBHbbc/nf2ild3+ohzI=;
+	b=wIPu/tDt0icu52GfUFwuhzI3ClU5hIAr4jXcPa6eAvtQecVLxB5XEoYz1vC2YYSvZ0Ya
+	 irFgFQl/mTCG4uSzVUJV6/dfot56ZWIWUW5lzFpXxtLH98Cv3Xpccs/T0k6pz2mhMUWFE
+	 JN7CxU8j+oPgrn+1pcc5A0HfIb9b8TAaOI06nDmO/6JelpFOGOE9Vl2/Dmm4Ci01e4rLn
+	 GaDbLBhZlENZZGJ+qXqCk3i6EmFcSLLhpg38gr6kXC5V9G72pFAXRSCo4/4XnCZzUC89A
+	 Qlh5FZiTrSvo0r0sH/DcKHotqhv/G2FsbAjT3xLFyNxX59RSjJ6dG6ZEv2ebjgwlAwQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UMHnNMiA;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A5C606A31A
-	for <linux-sound@vger.kernel.org>; Sat, 31 Oct 2026 19:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UMHnNMiA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEAE61F000C1;
-	Sat, 31 Oct 2026 19:07:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793473629;
-	bh=U+wrrW2HOSDtjFzDx7hdKCzLBl3TKzwdqLvOxSk+uBM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UMHnNMiAfSk6fPDs47PB66eXoNvf1Svn1c7ww0UJRuldhXB42IQ2EYLzKHFnbu9Rc
-	 oFtFUAmAMRJCjzriUdu3dZfs6bDd4ucrPn7EwOJXOM8EGsUx8g/eyZXeFSVoTuR3iA
-	 j3w3o94mqvJWDmozYOtziH9Do3hf6qwceV6pOWJg3pj37tvlS8u/WDzKUZdM6DzBfa
-	 zUGk7fHnvb7fMv5V+Zg1gHnBprNrAmAdzAtWuULJ4pRtfF/u5JPmMw10wIJaeGkuJ+
-	 5hvRu4mz/fl8GB5eRuSNdk+2G9LXnbri0dal96dKOOQbBjSoGA+coM6YOJr8F3G+PD
-	 MSGyrfCM/YAYA==
-Message-ID: <sashiko-outbox-192101@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3] ALSA: usx2y: Release the URBs when the DSP load
- fails
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "YuanZhe Liu" <25031212351@stu.xidian.edu.cn>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261031185619.18601-1-25031212351@stu.xidian.edu.cn>
-References: <871p95svvd.wl-tiwai@suse.de>
- <20261031185619.18601-1-25031212351@stu.xidian.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 31 Oct 2026 19:07:08 +0000
+	dmarc=pass header.from=stu.xidian.edu.cn;
+	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
+	arc=none smtp.remote-ip=162.243.164.118
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8605F606A31A;
+	Sat, 31 Oct 2026 19:09:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8605F606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:In-Reply-To:References:MIME-Version:
+	Content-Transfer-Encoding; bh=b+Qh5Uwalfg4+sQsbYwohX2NOBHbbc/nf2
+	ild3+ohzI=; b=OZLx7He7D9sWFx/jS8d1BqhnntFDHg2vzEGnO6cw6aH1sTzqFR
+	S9/jwtY31X0kzr9yWPE6Li7aVpcL6dJ8+IP3MA38LtYakBiocNxz+ZilyQS/5Cq8
+	/42lp5DfmgmF7GvVxUUqSlKYoP38by4Lq5Fi+JF82KQkOjO4Wp9I7MKgM=
+Received: from user-virtual-machine.localdomain (unknown [113.200.174.19])
+	by hzbj-edu-front-2.icoremail.net (Coremail) with UTF8SMTPA id BLQMCkCm6v_xPOZquI0SAQ--.42611S2;
+	Sun, 01 Nov 2026 03:09:38 +0800 (CST)
+From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.de>
+Cc: Bin Yu <byu@xidian.edu.cn>,
+	Cheng Wen <wencheng@xidian.edu.cn>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v3] ALSA: bcd2000: Fix use-after-free of MIDI URBs on file close
+Date: Sun,  1 Nov 2026 03:09:36 +0800
+Message-Id: <20261031190936.5696-1-25031212351@stu.xidian.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <874ie1rbge.wl-tiwai@suse.de>
+References: <874ie1rbge.wl-tiwai@suse.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,174 +60,99 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:BLQMCkCm6v_xPOZquI0SAQ--.42611S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZw1kCr13tFyxWF43Ww45KFg_yoW5Ar1kpF
+	W8Kr4Yyr1DGrn09FySyF1kCF1Fy3Wxta4DKryrW34YyFyrXw13tay0kF15ursxCryfG390
+	vF1ktFWfGFs8Cw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Ib7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4
+	A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x2
+	0xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15Mc
+	Ij6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l
+	c7CjxVAaw2AFwI0_JF0_Jw1lc2xSY4AK67AK6rWl42xK82IYc2Ij64vIr41l4I8I3I0E4I
+	kC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWU
+	WwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr
+	0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWU
+	JVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJb
+	IYCTnIWIevJa73UjIFyTuYvjxUyfb8UUUUU
+X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAgUDD2rmBsIaGwAAsC
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] ALSA: usx2y: NULL deref of in04_urb after usx2y_create_alsa_device=
-s() fails
-- [High] ALSA: usx2y: race between usx2y_free_urbs() and snd_usx2y_disconne=
-ct()
---
+bcd2000_disconnect() calls snd_card_disconnect(), which only prevents
+new opens, and then frees the MIDI URBs.  A rawmidi file that was
+already open can still be closed afterwards, and its close callback,
+bcd2000_midi_output_close(), calls usb_kill_urb() on midi_out_urb.
 
-commit 45a7e14f54ac22210b87cf753196e744d24a4e6a
-Author: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+The URB pointers are cleared on disconnect and their accesses are
+serialized with midi_lock, but bcd2000_midi_output_close() reads
+midi_out_urb without that lock.  The check can therefore pass just
+before the pointer is cleared, and usb_kill_urb() then runs on the URB
+that has already been freed:
 
-ALSA: usx2y: Release the URBs when the DSP load fails
+  BUG: KASAN: slab-use-after-free in usb_kill_urb+0x74/0x80
+  Read of size 8 at addr ffff8880078e7d40
+   usb_kill_urb
+   bcd2000_midi_output_close
+   close_substream
+   rawmidi_release_priv
+   snd_rawmidi_release
 
-This commit adds usx2y_free_urbs() to release the asynchronous sequence URBs
-and the interrupt URB when usx2y_in04_init() or usx2y_create_alsa_devices()
-fails in snd_usx2y_hwdep_dsp_load(). It also sets USX2Y_STAT_CHIP_HUP if
-usx2y_create_alsa_devices() fails so that subsequent DSP load requests are
-refused with -ENODEV.
+  Allocated by: usb_alloc_urb <- bcd2000_init_midi <- bcd2000_probe
+  Freed by:     usb_free_urb <- bcd2000_midi_free
+                <- bcd2000_disconnect
 
-> diff --git a/sound/usb/usx2y/usX2Yhwdep.c b/sound/usb/usx2y/usX2Yhwdep.c
-> index 7f153a2fcdd81..366167c62575d 100644
-> --- a/sound/usb/usx2y/usX2Yhwdep.c
-> +++ b/sound/usb/usx2y/usX2Yhwdep.c
+Take the lock in bcd2000_midi_output_close() and reference the URB with
+usb_get_urb() before releasing it.  The URB then stays valid until
+usb_put_urb() after usb_kill_urb() has returned, even if a disconnect
+frees it in the meantime.  usb_kill_urb() itself cannot run under
+midi_lock, as the completion handler takes the same lock.
 
-[ ... ]
+Fixes: b47a22290d58 ("ALSA: MIDI driver for Behringer BCD2000 USB device")
+Cc: stable@vger.kernel.org
+Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+---
+v3: reference the URB under midi_lock in bcd2000_midi_output_close()
+    instead of waiting for open files in bcd2000_disconnect(), which
+    would block the USB disconnect path on userspace.
 
-> @@ -201,11 +204,14 @@ static int snd_usx2y_hwdep_dsp_load(struct snd_hwde=
-p *hw,
->  		err =3D usx2y_in04_init(priv);
->  		if (err) {
->  			dev_err(&dev->dev, "usx2y_in04_init error\n");
-> +			usx2y_free_urbs(priv);
->  			return err;
->  		}
->  		err =3D usx2y_create_alsa_devices(hw->card);
->  		if (err) {
->  			dev_err(&dev->dev, "usx2y_create_alsa_devices error %i\n", err);
-> +			usx2y_free_urbs(priv);
-> +			priv->chip_status |=3D USX2Y_STAT_CHIP_HUP;
->  			return err;
->  		}
+ sound/usb/bcd2000/bcd2000.c | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
-[Severity: High]
-As reported by Sashiko on v2 [1], can freeing priv->in04_urb here cause a
-null pointer dereference in usx2y_format_set() if snd_card_register() fails
-after registering the PCM devices?
+diff --git a/sound/usb/bcd2000/bcd2000.c b/sound/usb/bcd2000/bcd2000.c
+index 2bd49bf82748..0fd086cac955 100644
+--- a/sound/usb/bcd2000/bcd2000.c
++++ b/sound/usb/bcd2000/bcd2000.c
+@@ -183,10 +183,24 @@ static int bcd2000_midi_output_open(struct snd_rawmidi_substream *substream)
+ static int bcd2000_midi_output_close(struct snd_rawmidi_substream *substream)
+ {
+ 	struct bcd2000 *bcd2k = substream->rmidi->private_data;
++	struct urb *urb = NULL;
+ 
+-	if (bcd2k->midi_out_active && bcd2k->midi_out_urb) {
+-		usb_kill_urb(bcd2k->midi_out_urb);
+-		bcd2k->midi_out_active = 0;
++	/*
++	 * Reference the URB under the lock so that it stays valid until
++	 * usb_kill_urb() returns, even if a disconnect frees it in the
++	 * meantime.  usb_kill_urb() cannot run under the lock, as the
++	 * completion handler takes the same lock.
++	 */
++	scoped_guard(spinlock_irqsave, &bcd2k->midi_lock) {
++		if (bcd2k->midi_out_active && bcd2k->midi_out_urb) {
++			urb = usb_get_urb(bcd2k->midi_out_urb);
++			bcd2k->midi_out_active = 0;
++		}
++	}
++
++	if (urb) {
++		usb_kill_urb(urb);
++		usb_put_urb(urb);
+ 	}
+ 
+ 	return 0;
+-- 
+2.34.1
 
-In sound/usb/usx2y/usX2Yhwdep.c:usx2y_create_alsa_devices(), the driver
-creates the rawmidi, PCM, and hwdep PCM devices and then calls
-snd_card_register(card):
-
-	err =3D usx2y_create_usbmidi(card);
-	if (err < 0) {
-		...
-		return err;
-	}
-	err =3D usx2y_audio_create(card);
-	if (err < 0)
-		return err;
-	err =3D usx2y_hwdep_pcm_new(card);
-	if (err < 0)
-		return err;
-	err =3D snd_card_register(card);
-	if (err < 0)
-		return err;
-
-Because snd_device_new() orders card->devices by enum snd_device_type,
-SNDRV_DEV_PCM precedes SNDRV_DEV_RAWMIDI and SNDRV_DEV_HWDEP. When
-snd_card_register() runs snd_device_register_all(), it registers the PCM
-devices before registering the rawmidi device, the second hwdep device, or =
-the
-procfs entries in snd_info_card_register(). If any of those later registrat=
-ion
-steps fail, snd_card_register() returns an error without unregistering the
-already-registered PCM device nodes.
-
-On that failure path, snd_usx2y_hwdep_dsp_load() now calls
-usx2y_free_urbs(priv), which frees priv->in04_urb and sets it to NULL, and
-then sets USX2Y_STAT_CHIP_HUP. However, neither snd_usx2y_pcm_open() nor
-snd_usx2y_pcm_prepare() in sound/usb/usx2y/usbusx2yaudio.c checks
-USX2Y_STAT_CHIP_HUP or USX2Y_STAT_CHIP_INIT.
-
-If user space opens the registered PCM device and issues
-SNDRV_PCM_IOCTL_PREPARE, snd_usx2y_pcm_prepare() calls usx2y_format_set(),
-which unconditionally dereferences usx2y->in04_urb:
-
-	usx2y->in04_urb->dev =3D usx2y->dev;
-	err =3D usb_submit_urb(usx2y->in04_urb, GFP_KERNEL);
-
-> diff --git a/sound/usb/usx2y/usbusx2y.c b/sound/usb/usx2y/usbusx2y.c
-> index 108f9bddf9aa3..8a551abe47dc6 100644
-> --- a/sound/usb/usx2y/usbusx2y.c
-> +++ b/sound/usb/usx2y/usbusx2y.c
-> @@ -349,6 +349,22 @@ static void usx2y_unlinkseq(struct snd_usx2y_async_s=
-eq *s)
->  	s->buffer =3D NULL;
->  }
-> =20
-> +/*
-> + * Release the URBs set up by usx2y_async_seq04_init() and usx2y_in04_in=
-it().
-> + * Used when a later step of the DSP loading fails.
-> + */
-> +void usx2y_free_urbs(struct usx2ydev *usx2y)
-> +{
-> +	if (usx2y->in04_urb) {
-> +		usb_kill_urb(usx2y->in04_urb);
-> +		usb_free_urb(usx2y->in04_urb);
-> +		usx2y->in04_urb =3D NULL;
-> +		kfree(usx2y->in04_buf);
-> +		usx2y->in04_buf =3D NULL;
-> +	}
-> +	usx2y_unlinkseq(&usx2y->as04);
-> +}
-
-[Severity: High]
-As reported by Sashiko on v2 [2], does usx2y_free_urbs() race with
-snd_usx2y_disconnect() when the USB device disconnects during DSP loading?
-
-When dsp->index =3D=3D 1 in snd_usx2y_hwdep_dsp_load(), if the USB device is
-disconnected while usx2y_in04_init() or usx2y_create_alsa_devices() is
-running (for example during the wait_event_timeout() in usx2y_rate_set()),
-that initialization fails and calls usx2y_free_urbs(priv) under hw->dsp_mut=
-ex.
-
-At the same time, the USB disconnect handler runs
-sound/usb/usx2y/usbusx2y.c:snd_usx2y_disconnect() without holding
-hw->dsp_mutex:
-
-	usx2y->chip_status =3D USX2Y_STAT_CHIP_HUP;
-	usx2y_unlinkseq(&usx2y->as04);
-	usb_kill_urb(usx2y->in04_urb);
-
-Previously, usx2y->in04_urb was only freed later in
-snd_usx2y_card_private_free() after snd_usx2y_disconnect() had finished. Wi=
-th
-usx2y_free_urbs() freeing usx2y->in04_urb before clearing the pointer, can
-snd_usx2y_disconnect() pass a freed usx2y->in04_urb to usb_kill_urb()?
-
-Additionally, both usx2y_free_urbs() and snd_usx2y_disconnect() call
-usx2y_unlinkseq(&usx2y->as04) concurrently:
-
-static void usx2y_unlinkseq(struct snd_usx2y_async_seq *s)
-{
-	int	i;
-
-	for (i =3D 0; i < URBS_ASYNC_SEQ; ++i) {
-		if (!s->urb[i])
-			continue;
-		usb_kill_urb(s->urb[i]);
-		usb_free_urb(s->urb[i]);
-		s->urb[i] =3D NULL;
-	}
-	kfree(s->buffer);
-	s->buffer =3D NULL;
-}
-
-Since usb_kill_urb() sleeps and s->urb[i] and s->buffer are only set to NULL
-after usb_free_urb() and kfree(), can concurrent execution of
-usx2y_unlinkseq() cause a use-after-free and double-free on s->urb[i] and
-s->buffer?
-
-[1] https://lore.kernel.org/r/20261031171612.8148-1-25031212351@stu.xidian.=
-edu.cn
-[2] https://lore.kernel.org/r/20261031171612.8148-1-25031212351@stu.xidian.=
-edu.cn
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261031185619.1860=
-1-1-25031212351@stu.xidian.edu.cn?part=3D1
