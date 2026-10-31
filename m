@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793412563;
-	b=XnFdfq9Afir0uOLALO1XeOCZPT5sadBhCBSQtACQLWZR3CIePU/wPcvsJ1FwKA8Pzil+
-	 AN8yWFF8UqzfeupkbJVTsW48FX1yl+78JZyUN70EDTiPvmDMIGScLtmR7IWYAopdS0a/x
-	 klE8L1h15J77HUnogUZQlcjY8eX6teFgzGlv/gGdPHAP/Wo7HVQptSuxdc7/XDBjif4zd
-	 UDQlatUUUZinV2T64bGO/aQY1u6deAnnTXBaL3ctX2gp/VY8ZY6wmUSoDS2mODUZW29rt
-	 nA8HEDBQ48Ma8mf4CVQB99C2Bs6eqQxoNK4z4XuerMY3mNuU7xhiyAOFOeuAPn/J+AQ==
+	t=1793412560;
+	b=CtchoGi+A/eBh3pdG1CWWBQo5LEiQ5EwdiuzRwSqNWyNElmzgfkwbsJJgsagtYIAjBGW
+	 5GM0vhz5lnctqb1dypu4imky1FsRI58/VIuhuqK944F/VTyC+xqlAOLdI/Fj53VDx4CVi
+	 9h7AXurA21jDFORFEreHYncsXPx67hsfE6+udmXP67+L8zNCs+6R1jYxmkwcVseMtK6ku
+	 cj38d8AtQvx/GQNz3GPYKlC9VfFO7oI9QuLDc6uTVQJHE/2ZA77SoDCiP2omNFpW3tQbK
+	 W1TCEtCvD4JLbZsbNs8bQZRAd//tuKJpTnSfGR89s54F6xoOUPT/Gm1ZUXtHOHhgAvA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793412563;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793412560;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=XTf7x6rvt6K8mT1295GgXCNKMEZiEblGXzNlO5X+Nyg=;
-	b=L5U6uyuKpo+O7864s65a0cksk5gLj2tUJxMDcktFzqXZ63q0WHhhSitG+PGdk23gTGYP
-	 LhJrc7zTA+Nd46otVWNPFMLz1yn42BjJckfy0x7TGzI6KN+jUpmA54PpFScnb50AxFFOS
-	 JYo+2SgjaNTZ4PrxErkOBo9S8vhMwBOTNRz1gtuAOLNwULprnl5OPYEKVHFHX/XTJHcz3
-	 G/OMHdI1Kll5zeBcn+OGG8k1EKOZ3/49x6xbzdz4tIjOZclmOidgoL6kGKe7jIOSJjlJH
-	 6bJl6122TwHA162ehl2QZEuPxJ/zao2uw4XOmlCqn7oz9QchVZSm5yGPnO9TIsjFE6g==
+	bh=xyRi7XDKpXV1gU6ovNhxbTiviMkA7YCbmNrm8NAAe74=;
+	b=POxOzPQwvyvLAgVloDZ3gFsAi3DvXBZVtByPM5tvITDPKH1SZH5aGuDNBXPz3V+0MvFQ
+	 cGzPOZh48h8pNAxASA2MqUphzbDqg4EO9XkXSjjv9ymYAKfA/eSaHAMIKkNGftNnoAXkC
+	 aw20kOnlRiCyfCNr40smJkogvkeBrnzjkTrOw+6702UAbFjPLDItaWtfRAl1dLveZYIiI
+	 IvpF/henkRhFjUnZXhzcE5e1qEueMBgChiY442m5W035yWhJ5MBwMajCeKlaarh+CwZuC
+	 169DXQjw9VAZ1IvI8SxyPQHXY6wWkhxW2i9La1IhBCOzCWLi9KDaJuUS7zdymVE0LNg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PLEar4NH;
-	arc=none smtp.remote-ip=74.125.82.181
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dmTwQp7a;
+	arc=none smtp.remote-ip=74.125.82.179
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D93606A325
-	for <linux-sound@vger.kernel.org>; Sat, 31 Oct 2026 02:09:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7D93606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55FD606A332
+	for <linux-sound@vger.kernel.org>; Sat, 31 Oct 2026 02:09:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D55FD606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PLEar4NH
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-369f33df08eso2679603eec.0
-        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 19:09:22 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dmTwQp7a
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-3550c917fd3so1778108eec.0
+        for <linux-sound@vger.kernel.org>; Fri, 30 Oct 2026 19:09:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793412562; x=1794017362; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793412559; x=1794017359; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=XTf7x6rvt6K8mT1295GgXCNKMEZiEblGXzNlO5X+Nyg=;
-        b=PLEar4NHS6whdrmAaC7HjlkeXnIV5cygTdxWVs2irViAPaa6qYALbmaCCQvHfx7gG0
-         kelX6F/yxvqaHyohJoM2vHYpzkESkEWa2j1yXYwNsWxuSAB0y1SZovIeJYrhAdvRNi1o
-         59l7zv/AvcWsHhFiYh4sIUCb8o86GbX4tnQHfxS8N4CN3U/G/QK2HIueGNM4v5nSWUcV
-         jPjFkYjcpJad1LP1U09ZrFZFDNaR3sEOzpZJvp2Ny59CsfXU3N63dtdQqYyAMj1NcSpt
-         1dQwggw+CCxbWJtDsy1rdwOhg158roGH5TPKGpD4o5oX29r7EU+cCM5FKnnODp3RMttd
-         SqMA==
+        bh=xyRi7XDKpXV1gU6ovNhxbTiviMkA7YCbmNrm8NAAe74=;
+        b=dmTwQp7aiqyVd7bNSgrF+/uwK+P1zjMYPazTAa4kJCYS3k4gI/gRFwHSuLk8hCcNcD
+         wSu70bJS0p2rRCcduRnTdrF4tp2QdiPhDny/RDfjIQ9x7ZP6BJ3SEGV5qqxttLKAuquH
+         GQU4Wr3+DAQPNJmkxRkp/+AFenfMsAI8A4ZNxC98oda2XCQHfjtMO9QPVmFkFFA8xJCg
+         Xgwjr3JnPms38N58bzty9R/uLeZsz1S5dCwEHbS+n+sJbkKNO0d0gBcqdo7Y+5T/ZSuF
+         VI7AKHdwKIqovLGZMZIncKxrypk1Vy+8yA6bCcX1oQky3/0kVGMXLDfRQElFYXwBoA9D
+         9u5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793412562; x=1794017362;
+        d=1e100.net; s=20260707; t=1793412559; x=1794017359;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XTf7x6rvt6K8mT1295GgXCNKMEZiEblGXzNlO5X+Nyg=;
-        b=LRgAA6Ue2UHRZu1kGQ8YJXxUnCThFuT8j7FF5eNxsL8jI7yMKOiqyvdS1Fdqeb0Nn4
-         aY2lLAFWNOWm2XF7gNgPLJbNX0B+PPCKrO/VEhH63n+wJQ9vmfkwB7vK0ivRJijzLOO1
-         KOVfHxCgaH2+JHQGVGkYvtwogDnD+LcG1ifKmghS+vy5dlDJcV5sUQEyMCtu1KjVyzzb
-         DcTPaM0cF3H1RhDQzUp2MyJjjxdePhMcxRG8Sp2A80k9yyIO2cGKi7dNWsO6VFFUxffY
-         0Utfc9742snt5MhyMoaMuxVRHa6gv9x2F7AEFRbDjUDlNtBAGmduUreWk7KdUHcVJ8k1
-         PIpA==
-X-Gm-Message-State: AFq9FYIszpyshzQ8GSS2t+TLlh3bjn7mGkq8baDiY6Ki3UZbrjCsFPEY
-	epoz7IOjW3Z9xkI367Ca3BSqwG4jB35lLMQL15D2WgJ85ovnEPfOszsgrNUOk2xx
-X-Gm-Gg: AYBFou1mVjzuKitCL21zxzAeB+zv3RA++DCQh56rKaSAmmn2cA1ZVFWqb1G3PGQ6349
-	fZzWbMSgzm0KxXGovOuxTAD0E2NIY0oMGwxuR9yWMzx19Gx+v7TCG3UWTEx56XVf+etEOcIsKBc
-	zhUkGqvU3o9iPZd2ZUIQa19kAwyNtX8GVQ1yBEpcWx+FkJFXdabGpW2TpcACg5Ng5ZosiDdPkbK
-	rtitsOxKY28u9Wy242vAOE4Ups2Uw78mi7qbqYDOBcN+9bHS4yRix/kbWpbfCuyzewOeRBAtv6m
-	VOGZrDcHuNe+fexmp9QF9TL7+VJOmBcwp3HEIf3MpKGL+Cm+fTN8rewlnKmF/SW6C++aIKESzgJ
-	Hsw+qoinXavqi+KCiCxSTi/LRF8Bh8xb4Wk+6zE7xVBH4Z3/cVqWqVIj7or0u2r5hCC6Fmerxyh
-	8WCOVbXseMyjRDQ61rWs2sN6ufFdRkha/h/z+pG41YgIugyyFJZH05cY/wPAM96mnu42c6lV6IU
-	H+/+cPNbb1BKmtLp2s5YmBx6FDGVqqHQ08w1lXe14DQbbvMgL7RvKo6WgLTWr1UMQUba/pwgp7r
-	ZhqsjYBQD+AXgUf42Y5ooo0RJeyY1CIOTRxb4tmr4DzmaXifcQphD23lCxpPWs/hZ8stM13/3ab
-	EJOxQFzwYSV29wQDpDlM7hS+MPRNFKVcu8We2e7sFbUigWXdwSGs+i8vtscPvnR47Zbc=
-X-Received: by 2002:a05:7300:2a91:b0:36a:1bd4:627f with SMTP id 5a478bee46e88-36a423a9d6fmr5462617eec.14.1793412561785;
-        Fri, 30 Oct 2026 19:09:21 -0700 (PDT)
+        bh=xyRi7XDKpXV1gU6ovNhxbTiviMkA7YCbmNrm8NAAe74=;
+        b=0YsNj2t+ry52KOujlM9XrGCYpsn/Z4UOaUIc/LJhC9mStxr+aO4REMaincQNMxTNh9
+         /+l12IN080K4vc/vQOIklFptJsvLAZr/shIHLC/pvLfimaz2oCfRneKnpiQ0NEoiGivF
+         fxmY0wEO0oVz9EFowaN76cweKojC/liTFYA9AtKkb+LffvoW19kYpXJoq+xjP+ErRkoR
+         +mMThhReEBe+zlSvquBnNDZ5hy6dR0t2c4gFGAtlo5GMzQXwpz/mueth+yS2iV3kEvIv
+         AD4yU3l9fgoxZNCjjG3qEd3fAeBlketxeAADZkwFZqzGXfuvA5gfVjBQTBBD5zQ6SnXF
+         pZWw==
+X-Gm-Message-State: AFq9FYLj981+aS4ohclhnJFfOFTZP1KzJU3/vlGiWj95nmAEV8LMPvQO
+	VNqopwklWFKZcaRLT3wiJT3W+vxvF9S/tMdOpSKzx21rci1JC8FQHjQpZdILyMcL
+X-Gm-Gg: AYBFou3FOSdjSNQXZoSrqxg+Hj6DtJeWDoxHUBgc2FcwMU+mOHFlhscP4jNN7mcjS/G
+	CMSp3sm+1MsNPxxOEFEJaSDFkrgA691aLibWje8F7OJDsccyfMl/K9yi1LlSnDaN/7OGr/BTcuv
+	V2n99YhOf7OTKsPX+nC2aPQqi8pobfAU6DnKBq1Ot+0e/M6nGM+uJJNYnPhpuw0A16KORZSQGNE
+	fRxMIjSTSi73nCCm0cwdBwHmF1RB8YsaMVzJu2Nb0hEFaeYLzuCLCeP0idwsefs2TQLKqRwbxAa
+	kRNWgRLrkCCKc6eaPxLDdFcy+H/x50/KYxnSWx5sezBdrCweUt6YJ10Ef4CFYBSSUN1ipmOy+7C
+	OrZ37ITwkfKy73M4pM6Am/+Isshn92vOOz1bg15j88yJGgCdOoHWyJEyy5F00Y9bSGSz1frTQ2q
+	8ThqSLIsUlPoi0gpSAGhVSGVF2mpRWkOzciiOhhp3jRnY1JFtqc83SYsGY8lStisCZ5BqtUId8s
+	XXrbnaR+oaoG7Kro8qa3QdX5jaRVo0z1FdIoTBn/AmJGsfx3CGw7p73YcuYjSm8VniFEKQNu9dz
+	3BisZfdXvYBNpD5bmyKSH4EVDLvFVKN1zR/qxXx2qTfwZ6cD496kKlWnnb3Q5HGRITjCCXNv8wD
+	p3EsV6KYzZRmY38TiRSepzq/uywA+pZHpraAHIkBd9Ri52w==
+X-Received: by 2002:a05:7300:6d22:b0:36a:13e1:c889 with SMTP id 5a478bee46e88-36a425e10f8mr8691655eec.36.1793412558707;
+        Fri, 30 Oct 2026 19:09:18 -0700 (PDT)
 Received: from localhost.localdomain ([180.182.24.11])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42a77c0dsm13214096eec.26.2026.10.30.19.09.19
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42a77c0dsm13214096eec.26.2026.10.30.19.09.15
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 30 Oct 2026 19:09:21 -0700 (PDT)
+        Fri, 30 Oct 2026 19:09:18 -0700 (PDT)
 From: Joonho Lee <mynameisjune111@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: tiwai@suse.de,
@@ -91,9 +91,9 @@ Cc: tiwai@suse.de,
 	rdunlap@infradead.org,
 	linux-doc@vger.kernel.org,
 	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v11 07/14] ALSA: pcm: mark stop-threshold accesses for capture policy sampling
-Date: Sat, 31 Oct 2026 11:08:48 +0900
-Message-ID: <20261031020855.2402-8-mynameisjune111@gmail.com>
+Subject: [PATCH v11 06/14] ALSA: virtio: wait through signals for PCM teardown
+Date: Sat, 31 Oct 2026 11:08:47 +0900
+Message-ID: <20261031020855.2402-7-mynameisjune111@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261031020855.2402-1-mynameisjune111@gmail.com>
 References: <20261031020855.2402-1-mynameisjune111@gmail.com>
@@ -108,66 +108,53 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The staged virtio-snd capture path needs to sample stop_threshold from
-completion context to distinguish free-running capture from bounded
-capture. Software parameters can update this field while capture runs.
+A signal can end the interruptible wait while a STOP or RELEASE request is
+still pending. A later teardown may then submit another RELEASE before the
+first request completes.
 
-Mark the runtime stop-threshold assignments with WRITE_ONCE and the proc
-status read with READ_ONCE. This pairs the assignments with the driver's
-READ_ONCE policy sampling in patch 9.
-
-These annotations do not provide a transaction for the entire sw_params
-update. The driver serializes its cached policy and accounting with its
-own substream lock.
+Keep both waits non-interruptible and use the existing message timeout.
+Other control requests remain interruptible. Device reset still cancels the
+pending request and wakes the waiter.
 
 Assisted-by: LLM
 Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 
 ---
-diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
---- a/sound/core/oss/pcm_oss.c
-+++ b/sound/core/oss/pcm_oss.c
-@@ -2958,7 +2958,7 @@
- 	       runtime->oss.mmap_bytes);
- #endif
- 	/* In mmap mode we never stop */
--	runtime->stop_threshold = runtime->boundary;
-+	WRITE_ONCE(runtime->stop_threshold, runtime->boundary);
- 
- 	return 0;
- }
-diff --git a/sound/core/pcm.c b/sound/core/pcm.c
---- a/sound/core/pcm.c
-+++ b/sound/core/pcm.c
-@@ -422,7 +422,8 @@
- 	snd_iprintf(buffer, "period_step: %u\n", runtime->period_step);
- 	snd_iprintf(buffer, "avail_min: %lu\n", runtime->control->avail_min);
- 	snd_iprintf(buffer, "start_threshold: %lu\n", runtime->start_threshold);
--	snd_iprintf(buffer, "stop_threshold: %lu\n", runtime->stop_threshold);
-+	snd_iprintf(buffer, "stop_threshold: %lu\n",
-+		    READ_ONCE(runtime->stop_threshold));
- 	snd_iprintf(buffer, "silence_threshold: %lu\n", runtime->silence_threshold);
- 	snd_iprintf(buffer, "silence_size: %lu\n", runtime->silence_size);
- 	snd_iprintf(buffer, "boundary: %lu\n", runtime->boundary);
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -871,7 +871,7 @@
- 	runtime->period_step = 1;
- 	runtime->control->avail_min = runtime->period_size;
- 	runtime->start_threshold = 1;
--	runtime->stop_threshold = runtime->buffer_size;
-+	WRITE_ONCE(runtime->stop_threshold, runtime->buffer_size);
- 	runtime->silence_threshold = 0;
- 	runtime->silence_size = 0;
- 	runtime->boundary = runtime->buffer_size;
-@@ -1062,7 +1062,8 @@
- 		runtime->period_step = params->period_step;
- 		runtime->control->avail_min = params->avail_min;
- 		runtime->start_threshold = params->start_threshold;
--		runtime->stop_threshold = params->stop_threshold;
-+		/* Drivers may sample the stop policy from completion context. */
-+		WRITE_ONCE(runtime->stop_threshold, params->stop_threshold);
- 		runtime->silence_threshold = params->silence_threshold;
- 		runtime->silence_size = params->silence_size;
- 		params->boundary = runtime->boundary;
+diff --git a/sound/virtio/virtio_ctl_msg.c b/sound/virtio/virtio_ctl_msg.c
+--- a/sound/virtio/virtio_ctl_msg.c
++++ b/sound/virtio/virtio_ctl_msg.c
+@@ -314,7 +314,20 @@
+ 		 */
+ 		virtsnd_ctl_msg_unref(msg);
+ 	} else if (!nowait) {
+-		rc = wait_for_completion_interruptible_timeout(&msg->notify, js);
++		/*
++		 * Teardown must observe completion even with a pending signal.
++		 * Otherwise a subsequent open can retry RELEASE while the device
++		 * is still processing the previous teardown request.
++		 */
++		switch (le32_to_cpu(request->code)) {
++		case VIRTIO_SND_R_PCM_STOP:
++		case VIRTIO_SND_R_PCM_RELEASE:
++			rc = wait_for_completion_timeout(&msg->notify, js);
++			break;
++		default:
++			rc = wait_for_completion_interruptible_timeout(&msg->notify, js);
++			break;
++		}
+ 		if (!rc) {
+ 			dev_err(&vdev->dev,
+ 				"control message (0x%08x) timeout\n",
+diff --git a/sound/virtio/virtio_ctl_msg.h b/sound/virtio/virtio_ctl_msg.h
+--- a/sound/virtio/virtio_ctl_msg.h
++++ b/sound/virtio/virtio_ctl_msg.h
+@@ -47,6 +47,9 @@
+  * The msg_timeout_ms module parameter defines the message completion timeout.
+  * If the message is not completed within this time, the function will return an
+  * error.
++ * PCM STOP and RELEASE wait through pending signals within this timeout.
++ * Other requests remain interruptible. Device reset cancels and wakes either
++ * kind of waiter.
+  *
+  * Context: Any context that permits to sleep.
+  * Return: 0 on success, -errno on failure.
