@@ -1,57 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793467628;
-	b=KPUKV7xWNYys+qsvtaOfuMdcKdCFKxLyNIvWMuEK5OB5i/ZfK4Q8muItJLw0MHLsylqX
-	 8G8Q/n41Cw8Bglx2aNBlXZ5/WOb4LlXu15npniTCSZKKPmvJ+uIWUCZ7biX44paU7m/m1
-	 kirENv5qKmUPL5+2wi6tbxkFMKNgdM+rxSp0D6fyZbo1qQycLJXmq327UHLpcnHORmCl4
-	 NLEsp4TP4LPQenXWusxw9WkRtpXSDui4o5UCGrlSmQK/GBc/LJ535PjiaYrlGl5BcKaPe
-	 m0SUWwQhHzj/UjnEsZkS5gWkZlV5VdQb6+QukJrEH3Vi7roLKOTAJnmrHoHFfJ0CY0w==
+	t=1793470021;
+	b=2yJ7DAjRklzH9UIOCXEdHbNSXJ1iX39+eGBbBUvVEGFMDgzuV2HfqXDe2k03MLBux1m4
+	 c5t/X4hRtPz/P6tDTk5h8OTvuf+dPFs/HG0+TwWLPM50K4vGGb+vdHpq4HelhJpgDkdGK
+	 93JbqEgXlvhrrWb4SfatkEGIYszQxCeQayup7CJSPRfaQbJIkqqlEvsV4avbnbkQQJGyP
+	 XNo3huydtmw10aEy2pDe4SDFDdmLkXwidmw+sWC7pXMCf46kKLv4bqnEVBjKf9evl5cA3
+	 AvH4qcmaERuVK4ChmiTCW7TKhCjPg7YtFLditZrM82ZMps82/zdz++s58+JGJLKtsTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793467628;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=kTapRWKuMqTdKPQ5DZi6SV+qjDLyRCHieDfYAVh/C5I=;
-	b=nl1zdEZzgQBYXhCOiImpHNb/SwVRKQ2zoO2CzxAKb+zLCu0HYt+vk0iDtMRSMO+KpfAH
-	 rm+OSiW2hcKRd05OCFGLFm9arwHHko6tjBaomgZEOxF/hWR/jpXEe+zCe0INVb3+hlQrp
-	 qiTkGVLXda5oOxc/mRvSUBnbdl1ARAFqj5v88f9yw8qP7Z9wA/BjF0cvlTFTudty6KTEa
-	 Fm/oMUBo0JRNx+9hWpKeAwDy3ArpNqVSLm6annSTSd4mVTm5LQ36+AxHEWmIgjsBGtQi+
-	 uGCqQCz4VApBx/kj5F3RixEHqmQtWrBUMseGredomz6gEyb2ufgovB9xzFUxIzuONfQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793470021;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=97IOB3KBTBB1Ps/2cLF9xPpHL4RwmRxv9hOhGLTCjyg=;
+	b=Ipd+YBMfxvt0/O0rFgBDGmnrKC6kJbiUe40o5lUWTz+tECD/6kwxGmiAPKB27/8RM13J
+	 2lnDDVJt1yaLjQ2GgZVm97P8O7g90VlSWqliCLbLjR4tJQ5aSafXuqp5YMcK7M6PFRyML
+	 LjYOMM7qKQug/s57L8dnLrDrcWZ7G1y8DImtnMUxZCwd/PxSkm/c92jHP5Ks2IG9CzJYw
+	 7HtsgaApBXdxdRD3K/FOGaDc0jKSGS/jbr1DeMQFnu19QvpnjSmfcXJHTYS6PiEh/Dmgx
+	 s+Gv16nQYgqmCkWZSzt+rFtMYojuLS/cCuTAKjtWVlPiBgMkDqLNAj6BMEuTUghRPYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NOy8a0nA;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=jo5nDAaT;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="HxfRsX0/";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=rdH8j4qU;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Y3rkQQpE;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A14606A31A
-	for <linux-sound@vger.kernel.org>; Sat, 31 Oct 2026 17:27:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1202E606A31A;
+	Sat, 31 Oct 2026 18:06:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1202E606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NOy8a0nA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EC3E1F000C1;
-	Sat, 31 Oct 2026 17:27:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793467627;
-	bh=kTapRWKuMqTdKPQ5DZi6SV+qjDLyRCHieDfYAVh/C5I=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NOy8a0nALVSUb9eMFg5K5mcZULD39rBkbNAEuWYeXNyV71w8uGBpvtivHci17WhIC
-	 AzUfTtsGow5Z8TzMola1j7yWfjuJLesT3QJJ9OcbXdal6/CBzx+FqRX5znG4MElnj3
-	 S2Tzm8w2i3KWPXhrM0BSd5GsgS+k+xaz8mY34rbEq7sTr7Ge5n0GraFaBqBWh506qh
-	 ZiSncX2JzD8fPki0atoQFarvdMB2u/U5Lwhr6B8nqqrStS9RXHJ3G2MJnRnCjdtM9N
-	 V2EHfMvq/uXyb6e/hRSS0dJMRna3CKfUfU+xkCgqSZqdo+/BCfAdhExqO1T5R+ih3i
-	 Xb8yOzSFvGIXw==
-Message-ID: <sashiko-outbox-192065@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] ALSA: usx2y: Release the URBs when the DSP load
- fails
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "YuanZhe Liu" <25031212351@stu.xidian.edu.cn>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261031171612.8148-1-25031212351@stu.xidian.edu.cn>
-References: <871p95svvd.wl-tiwai@suse.de>
- <20261031171612.8148-1-25031212351@stu.xidian.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 31 Oct 2026 17:27:06 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=jo5nDAaT;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HxfRsX0/;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=rdH8j4qU;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Y3rkQQpE
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CC9F31F455;
+	Sat, 31 Oct 2026 18:06:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793470018; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=97IOB3KBTBB1Ps/2cLF9xPpHL4RwmRxv9hOhGLTCjyg=;
+	b=jo5nDAaTyTWI6uwUrCeMqMhZ/hgiY2SNWwCnffGMhS6aJnFO+GtDa89vKSQt5/jrV8eF1H
+	oIDjukkZtSRqO5OmAzfDdf5Dmwxbf0z9k78ONQHlydYmShAS961+6VOt4DekPjnDXbTL1s
+	C2u2e9LhJDBXMxgQc3JyalLLwPof3o0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793470018;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=97IOB3KBTBB1Ps/2cLF9xPpHL4RwmRxv9hOhGLTCjyg=;
+	b=HxfRsX0/ov2IzgFPF32sXxXmFrzJrxw3qo21Uthrw12MMCEVcumHVGU/hYj6oU63DIdlAF
+	i6dXwXbzJ/7RSkBw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rdH8j4qU;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Y3rkQQpE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793470017; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=97IOB3KBTBB1Ps/2cLF9xPpHL4RwmRxv9hOhGLTCjyg=;
+	b=rdH8j4qUwi8yIGUAhg/XKg40NZZeCpwMQP7reyIcg5Hg1dM+Jrs8s6/G/CEp8KMePlD1t7
+	BHGzduQaqG/EDuIQrRkQOYP4R7huc/ZmPoh4oNExha/VR0EGAxtSir7tODIhMpSjlUKewK
+	9NtEa9heqjxx8tx46PtBnvC5u+VVmA0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793470017;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=97IOB3KBTBB1Ps/2cLF9xPpHL4RwmRxv9hOhGLTCjyg=;
+	b=Y3rkQQpEzl3MOKhjWGO/FbcwkHBouWaOopxgu3R9vVvYYUm5RncxqpBJjZ6Hr9McvR54tX
+	w15QZ+L+ad6QenDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D90113432;
+	Sat, 31 Oct 2026 18:06:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id QNYnFUEu5mrgKwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 31 Oct 2026 18:06:57 +0000
+Date: Sat, 31 Oct 2026 19:06:57 +0100
+Message-ID: <874ie1rbge.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/1] ALSA: bcd2000: fix use-after-free of MIDI URBs on disconnect
+In-Reply-To: <20261030.pref-21.8c455f52f06f402f@stu.xidian.edu.cn>
+References: <20260923103116.1666-1-25031212351@stu.xidian.edu.cn>
+	<20261030.pref-21.8c455f52f06f402f@stu.xidian.edu.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,161 +114,66 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: CC9F31F455
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -12.51
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Critical] ALSA: usx2y: missing device rollback in snd_usx2y_hwdep_dsp_lo=
-ad()
-- [High] ALSA: usx2y: unsynchronized URB free in usx2y_free_urbs()
---
+On Fri, 30 Oct 2026 18:37:13 +0100,
+YuanZhe Liu wrote:
+> 
+> Hi Takashi,
+> 
+> Could you please advise on the status of this series and whether any
+> further work is needed, considering the related upstream fixes?
+> 
+>   [PATCH 0/1] ALSA: bcd2000: fix use-after-free of MIDI URBs on
+>   disconnect
+> 
+> The series addresses MIDI URB lifetime on BCD2000 disconnect. I noticed
+> the related upstream commit below and would appreciate your guidance on
+> whether this series is still needed.
+> 
+> Related upstream fix:
+> https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux/+/459d3a64766f5ca2f1886daeaf24582831a5f5ab
+> 
+> I am copying this address for visibility.
+> 
+> Original submission:
+> https://lore.landau.one/lkml/20260923103116.1666-1-25031212351@stu.xidian.edu.cn/T/
 
-commit 8f4b5a194c16ab573b5c1441a177381d9389e8b1
-Author: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+The patch doesn't seem applied cleanly to the latest code.
+If the fix is still valid to the latest code, could you rebase and
+resubmit?
 
-ALSA: usx2y: Release the URBs when the DSP load fails
 
-This commit adds usx2y_free_urbs() and calls it on the error paths of
-snd_usx2y_hwdep_dsp_load() when usx2y_in04_init() or
-usx2y_create_alsa_devices() fails, so a retried DSP load request does not
-trip WARN_ON() on already allocated URBs.
+thanks,
 
-> diff --git a/sound/usb/usx2y/usX2Yhwdep.c b/sound/usb/usx2y/usX2Yhwdep.c
-> index 7f153a2fcdd81..13995e81d2ae9 100644
-> --- a/sound/usb/usx2y/usX2Yhwdep.c
-> +++ b/sound/usb/usx2y/usX2Yhwdep.c
-> @@ -201,11 +201,13 @@ static int snd_usx2y_hwdep_dsp_load(struct snd_hwde=
-p *hw,
->  		err =3D usx2y_in04_init(priv);
->  		if (err) {
->  			dev_err(&dev->dev, "usx2y_in04_init error\n");
-> +			usx2y_free_urbs(priv);
->  			return err;
->  		}
->  		err =3D usx2y_create_alsa_devices(hw->card);
->  		if (err) {
->  			dev_err(&dev->dev, "usx2y_create_alsa_devices error %i\n", err);
-> +			usx2y_free_urbs(priv);
->  			return err;
->  		}
-
-[Severity: Critical]
-When usx2y_create_alsa_devices() fails halfway through (for example, if
-usx2y_rate_set() times out in usx2y_audio_create(), or if
-usx2y_hwdep_pcm_new() or snd_card_register() fails), the MIDI and PCM
-devices created earlier in usx2y_create_alsa_devices() are not rolled back:
-
-sound/usb/usx2y/usX2Yhwdep.c:usx2y_create_alsa_devices() {
-	err =3D usx2y_create_usbmidi(card);
-	if (err < 0) {
-		...
-		return err;
-	}
-	err =3D usx2y_audio_create(card);
-	if (err < 0)
-		return err;
-	err =3D usx2y_hwdep_pcm_new(card);
-	if (err < 0)
-		return err;
-	err =3D snd_card_register(card);
-	if (err < 0)
-		return err;
-}
-
-Previously, priv->as04.buffer remained non-NULL, which blocked any retry of
-SNDRV_HWDEP_IOCTL_DSP_LOAD at usx2y_async_seq04_init() with -EBUSY. With
-usx2y_free_urbs(priv) clearing priv->as04.buffer and priv->in04_urb here, a
-retried DSP load for index 1 will now re-enter usx2y_create_alsa_devices()
-on the uncleaned card state.
-
-In usx2y_audio_create() -> usx2y_audio_stream_new(), each call indexes into
-usx2y(card)->subs[4] using 2 * usx2y(card)->pcm_devs and increments
-pcm_devs:
-
-sound/usb/usx2y/usbusx2yaudio.c:usx2y_audio_stream_new() {
-	struct snd_usx2y_substream **usx2y_substream =3D
-		usx2y(card)->subs + 2 * usx2y(card)->pcm_devs;
-
-	for (i =3D playback_endpoint ? SNDRV_PCM_STREAM_PLAYBACK : SNDRV_PCM_STREA=
-M_CAPTURE;
-	     i <=3D SNDRV_PCM_STREAM_CAPTURE; ++i) {
-		usx2y_substream[i] =3D kzalloc_obj(struct snd_usx2y_substream);
-		...
-	}
-	...
-	usx2y(card)->pcm_devs++;
-}
-
-Since struct usx2ydev only has 4 elements in subs[4], won't retrying
-SNDRV_HWDEP_IOCTL_DSP_LOAD once pcm_devs reaches 2 (on the first retry for
-US-428, or the second retry for US-122/US-224) write out of bounds past
-usx2y->subs[4] into prepare_subs, prepare_wait_queue, midi_list, and
-pcm_devs?
-
-In addition, if snd_card_register() fails after snd_device_register_all()
-has already registered the SNDRV_DEV_PCM devices (which also happens on
-retry when the duplicate rawmidi device 0 fails registration with -EBUSY),
-those PCM device nodes remain exposed to userspace while usx2y_free_urbs()
-sets usx2y->in04_urb to NULL. If userspace opens the PCM device and invokes
-SNDRV_PCM_IOCTL_PREPARE, won't snd_usx2y_pcm_prepare() ->
-usx2y_format_set() dereference a NULL usx2y->in04_urb at:
-
-	usb_kill_urb(usx2y->in04_urb);
-	...
-	usx2y->in04_urb->dev =3D usx2y->dev;
-	err =3D usb_submit_urb(usx2y->in04_urb, GFP_KERNEL);
-
-> diff --git a/sound/usb/usx2y/usbusx2y.c b/sound/usb/usx2y/usbusx2y.c
-> index 108f9bddf9aa3..8a551abe47dc6 100644
-> --- a/sound/usb/usx2y/usbusx2y.c
-> +++ b/sound/usb/usx2y/usbusx2y.c
-> @@ -349,6 +349,22 @@ static void usx2y_unlinkseq(struct snd_usx2y_async_s=
-eq *s)
->  	s->buffer =3D NULL;
->  }
-> =20
-> +/*
-> + * Release the URBs set up by usx2y_async_seq04_init() and usx2y_in04_in=
-it().
-> + * Used when a later step of the DSP loading fails.
-> + */
-> +void usx2y_free_urbs(struct usx2ydev *usx2y)
-> +{
-> +	if (usx2y->in04_urb) {
-> +		usb_kill_urb(usx2y->in04_urb);
-> +		usb_free_urb(usx2y->in04_urb);
-> +		usx2y->in04_urb =3D NULL;
-> +		kfree(usx2y->in04_buf);
-> +		usx2y->in04_buf =3D NULL;
-> +	}
-> +	usx2y_unlinkseq(&usx2y->as04);
-> +}
-
-[Severity: High]
-Can usx2y_free_urbs() race with snd_usx2y_disconnect() or concurrent
-SNDRV_HWDEP_IOCTL_DSP_LOAD calls?
-
-snd_hwdep_ioctl() invokes snd_hwdep_dsp_load() ->
-snd_usx2y_hwdep_dsp_load() without holding a driver lock, and
-snd_usx2y_hwdep_dsp_load() sleeps in msleep(250), usx2y_in04_init(), and
-usx2y_create_alsa_devices(). If the USB device disconnects during DSP
-loading, the initialization step fails and calls usx2y_free_urbs(priv) at
-the same time as the USB hub thread runs snd_usx2y_disconnect():
-
-sound/usb/usx2y/usbusx2y.c:snd_usx2y_disconnect() {
-	...
-	usx2y_unlinkseq(&usx2y->as04);
-	usb_kill_urb(usx2y->in04_urb);
-	snd_card_disconnect(card);
-	...
-}
-
-Since neither path is serialized, couldn't snd_usx2y_disconnect() call
-usb_kill_urb(usx2y->in04_urb) while or after usx2y_free_urbs() calls
-usb_free_urb(usx2y->in04_urb), and couldn't both paths enter
-usx2y_unlinkseq(&usx2y->as04) concurrently (or two threads sharing the
-hwdep fd race in SNDRV_HWDEP_IOCTL_DSP_LOAD), resulting in a use-after-free
-or double-free of in04_urb, as04.urb[i], and as04.buffer?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261031171612.8148=
--1-25031212351@stu.xidian.edu.cn?part=3D1
+Takashi
