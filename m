@@ -1,90 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.134
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793553705;
-	b=bwXYP7E3L/FAhLHteKLGPjiROOJIKolUEkPLAU5scX7ZkjT535TWuRo5eIeiAzSunfxW
-	 Nb+1Zj0LFLNXrmIJDMaeM4pzn8IOB+hAiv9pBSgOvwRt36kmFyw1UalS7gMvd8lqCP0QQ
-	 nmw180vZC+c0an2BZd/Psm5Tn6kPhXclqagTIUQ/HI4fwG0s3WFk2mJaCMjczY0L4YTth
-	 /BBK8o6dHhA5JmH5QJBBbuZURuALv0461aXUt0YjM45N+imTHocj9vVKDPOcjGffT9dBI
-	 bhLjnpXnF3H2RAbODLa2omYB10vDqdJR6/4z8h9kHqt53wcT+um8Ghq4GVAKYOmyF5Q==
+	t=1793553706;
+	b=4th7x9lQMBu9z57NPy6kVVdKqd//zbn1YTDTvQUfqR8HPDvuXIc1C90qEofCdAlm8zkn
+	 HhvyWWhvswin19tPcKcLfh96MpNvv5Wv6Nn9orqXnXGO7/mRwUdjPkHQAyht1g2JsUQg3
+	 AMP8jV85VQFpuKAqaumZKo7G0YsVPwDsT80ySRw8oKl6MAejj55z2VGlI0kvOQ3cfWVYT
+	 Ab0WjnfSf5Gp9WdqMayk6nLCC/VIiIhALs6IhmEsfqf4K1MTqehHwG08EJX3K13a3Z+qn
+	 2GBBp+CWIf9Rux7CtrdeLyz6hSCVuyO2MHw5x7GrGiH+3C+z8LCmC10ff9/nWKq18wg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793553705;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793553706;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=dep8lu2jYLxzayWGyAIE4MyxxyfU/O4hROTivKHxroU=;
-	b=clJ1SHOBqwCQrpCjvCGSS10kf7HumaVjiwirvEi0xrnVpvnqbnn/Eo6mJ6N5YUEQKlBU
-	 sgsbXZ38BJs2p/2v6Y6lIDouFcZUNBIt/6NTgCeG2tV+grepnh9wS4sRQ+S8HLyWCrDr/
-	 FS6dy03GC4S/8qrylg1eWA+BTQKviFd6SusoCk3U8wRHcTxDO88ntI5/QXnCkxTpgVhk8
-	 wKCv+N8hJJ+zcEfQPbk9rk+wKR+aoYu7aFBxPGwAPAHnyy5Sus6Wawwp2CZ4poJOP7zER
-	 /deyRJptjeLchkjtwqH6yXCphINYeB4p/hteSP9MuHQFAU2WMI00XoWSmPW/VQzg+Ug==
+	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=m14LVY7DENSypGjrtlzsQ8s45wKBaSdm3JiuYqURwGU=;
+	b=jZpn8lSJXZSx2oK6k0bCLcpLKGlncMJWVUOiqZb0h6t9oogAGEt2Up4l7o6H98xhPJzs
+	 ODyEqtdlsj7yCqxWrkdOdmR3DQEqlVthOrIpDtrAa//sL9FNetl5Vw+8o8wzeJiEr9fnh
+	 5nMHvqmAb13lR/gvMQzI4dEFOUaoz3B5Ml8M3rfgeuxREPKFp+FsxN1yYBp1kYgnjB3oX
+	 f7eskjLdmNViI2qabGCjZiXNaJ2mCb5Qz0t/bgMn6sB2Yjb8YjXX1yHHyuvT8tm5F6Fdl
+	 bisGed/tcqnAF0Y8VYuG/ORYg+IDjQgYE3BZWnr1pCL7BR9KOHF7Qe7nddi2p1/AeXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=korea.ac.kr;
 	spf=pass smtp.mailfrom=korea.ac.kr;
-	dkim=pass header.d=korea.ac.kr header.i=@korea.ac.kr header.a=rsa-sha256 header.s=google header.b=iszBT2+n;
-	arc=none smtp.remote-ip=209.85.128.176
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	dkim=pass header.d=korea.ac.kr header.i=@korea.ac.kr header.a=rsa-sha256 header.s=google header.b=D1r1tWNz;
+	arc=none smtp.remote-ip=74.125.224.134
+Received: from mail-yx2-f6.google.com (mail-yx2-f6.google.com [74.125.224.134])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C47606A325
-	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 17:21:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37C47606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B37606A329
+	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 17:21:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7B37606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=korea.ac.kr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=korea.ac.kr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=korea.ac.kr header.i=@korea.ac.kr header.a=rsa-sha256 header.s=google header.b=iszBT2+n
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-8aea7b7ca0cso19096367b3.2
-        for <linux-sound@vger.kernel.org>; Sun, 01 Nov 2026 09:21:41 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=korea.ac.kr header.i=@korea.ac.kr header.a=rsa-sha256 header.s=google header.b=D1r1tWNz
+Received: by mail-yx2-f6.google.com with SMTP id 00721157ae682-8acdc42ffa8so9929297b3.1
+        for <linux-sound@vger.kernel.org>; Sun, 01 Nov 2026 09:21:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=korea.ac.kr; s=google; t=1793553701; x=1794158501; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dep8lu2jYLxzayWGyAIE4MyxxyfU/O4hROTivKHxroU=;
-        b=iszBT2+ng7FqJn+05MOZ0Fqq4Lrw886pC4h1+XEPFO+LTCMR9s0YrcbqRnh4HR17p9
-         or6jGJU47KgVRMC6aY21kW8vmC8481U5eQnz/Cs/3LLpvoEqJgiExQbDQg7+ewFIBAAn
-         8wKpoSs4BHJPOfj/IptmRRkpRbnu7+0zg+Wtg6Dd0NXj6heTA2BKV6r7cwCA/oIVFiKA
-         OUx1x8xtchQbcXB/26TjFvhpgxfw5SeJ3lX22+dbdG3D7vtOn9HyEYr7SXUuzfcjgsDz
-         w0dgbuuXZQKOSw1DZZh42R3SizydNNJuDLpY8TclLeyLaScMa8hLZ8GCJJwA3WFtmd4g
-         1Wyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793553701; x=1794158501;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=korea.ac.kr; s=google; t=1793553704; x=1794158504; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=dep8lu2jYLxzayWGyAIE4MyxxyfU/O4hROTivKHxroU=;
-        b=RGDB3y/VckJwhplN67RYQNqpy+jN8Vf2w6PJcUnTSpGgQ4V30cXpMOiMQpzFKXl01q
-         T2BpaiaZUDW5qOP554XfjxXVQj0etidfqkBrpo/fA9abVfH28GwNkMQpw7SC1u617BYG
-         kSXSTzPuC1s9jbedi6vAfhEnEyCMjNQsKG4kKjWCuQf90xWwzx/sS9gxkQcwCaWqNjA8
-         hVYmoBIjxMN36LJn3ZN4xjgc2oTDZAZooB1J/EAFYKdVoxVwhlCeiFdVjzFmKS4BapWu
-         61bgWtnCLkjySEkrblnjPdiOo9hC5IRLt1qeq6rkjZUNxGS/zXVcmshN4YyFAFzVXmH6
-         4Tog==
-X-Gm-Message-State: APuU4Z8dLGUU5HNsUwlFAER8Amd0he6GOerc5MRI6l3y9TV1pmpHM2vd
-	oXxWuJ05L9W2r6AQPzAvgAP8oOnzj2uOnkHVn9d4G9VoYigQLDdF8KMZM4Ca15QnSLxUXTqqyCS
-	rp2+v/w==
-X-Gm-Gg: AYBFou2Kg0TdSHWMRoE7Uimlk8JfgqTMNmKoGaICEO4rTzVgHClmAdMkknAsHiRS1xU
-	kBh31sstwFAzuX3KEhOxekz5Dxj/oPpItVKVaQN1KRlW9luVL5wPYJR3dM4BtB3aTDLImTTQkyV
-	xd1IWj0GNNIgjUEsHtCUWG/f0Zq5YIuzqGKVi+R7W/4k9J+FMIvaQsbsymgDirncUudv8dqtoKY
-	6uvJHKCNUlanwtuiFAwUwQVno107LMLZ3OBJdQiB1HjNjIDQF1tXibsrF6j95iyE+/6bhuL5Q1L
-	sN/O4OVxPgyAieHhRH1HJ5X2YHgoldHRoY1bAOfx0qeFCZkvgcIVdX6J23ZgyP+dtyDYimhEox3
-	qarXvHwneHk5dlnBF2pkDO461WDIwmGSabKTL6pUbI4rB4j3qBFGm+kpvRUHNeoLSn31bNLnHXQ
-	tHi4u3OBb5+vBorF638dkb1qEYHnM1EiULBMlrvQasv9fNX/ZDc9uXhvBHW2gg6+H3pSs2EB3pm
-	1aRoZHzMxuwEi0cOQ0bqG7XxH5LmtPgZj3ZhqI0+kfUNFeSIQQhrRor4YJoDGcpCyfzMk4=
-X-Received: by 2002:a05:690c:389:b0:8b1:447c:cf05 with SMTP id 00721157ae682-8b2b67cd1b4mr43801677b3.67.1793553700742;
-        Sun, 01 Nov 2026 09:21:40 -0800 (PST)
+        bh=m14LVY7DENSypGjrtlzsQ8s45wKBaSdm3JiuYqURwGU=;
+        b=D1r1tWNzZ2MFxniUwm2wNGW9lQ35qgeKmGvMgEyN08MbJe/nlVeUTDY8cYEBmM02ok
+         0tuH6IALfPNmzGBPopmvP0biWu4CG+BuvOD4lQ9c78AKtwigBYFerhZaF2OHwlbgjlzO
+         9YVqVqHyZ57l22DlMulSEeRIG48b2oIgwjvrYL2Rj+9795EdXuWYqCjCDlobwh37+QXo
+         Mf9Ejdw1HY7+YMGX/Lad1GegN6ck4ZUVvv1oOIT0oWn7Kustie4bhsgGDJjUit0FJgrQ
+         rbw507S8pBuFTZYq6Po/CZS6tGilP0xCZByE+mrWOpqL5GQdhW6O4Nst+6z7IEfBoE+n
+         ulVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793553704; x=1794158504;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=m14LVY7DENSypGjrtlzsQ8s45wKBaSdm3JiuYqURwGU=;
+        b=wlXp395QXwOn68eVaVnlakrTKgQJqNoMLWlmeawNvpURO9eJOMoOfNPVKcueegqmXG
+         CgmUO0QM4jV++6R1K5KHCsxD+kteIJOpYR9nBFw/R1HeUHpXwQNY906MMrIMKX6CEqiu
+         ggcSzjJJtrCGcE4o36++9TJnehy/b5QgDMWPnY4zObiqTIVLSLT/l4h4L0Feuj7xuWrj
+         jY+kuJQpaqiIlVYykJmcqrrCQfzJcJxcVgZyN/RnZdOcBSkyfXWDwWsxLqjmdberklZd
+         MPFGDQVJPFknxh+wY7hYBpXzN8vZ4tBZHRiBtFpzrtrax2zFjirQ6eASn7yvoAWMPGLh
+         wzGA==
+X-Gm-Message-State: APuU4Z9J9B/1acH8QvrYYONfY8P/v/zcAEiLM8m6h5wLXJEU9Q1mhCHt
+	Ot9opUMKvDULnueQoy1H3wG9E3/M+z2cW1eIPXWQj5ALQxE8JOGJaeqIkWr8D0hauQ==
+X-Gm-Gg: AYBFou030nfeyrrdHzFGSWTLKz9gbudugXBgh8H5hb2MsUIS8QeXJStm/q9Gtga34bM
+	Kq6YdO7e3W6cPryW6tApUMFnVEH4pweCWAkyIULRCnk+WISGWcwWRXKlGK0X/I3ny1vFYyZ5uUB
+	ETzhaOLETzDoghABaz0A098PeCfMVvLgV96PHxA576WyJlwE6CDQHG5SXZQ8UCHNZJoO71k7S8B
+	7AQ0v4+67diINpEhGUALgACyQC+5wmMZpt2Q11wWRpQQRFP6l7ljTwoy7QR2/a+9gnpgW9FtBnL
+	/8ORHqOcXJXYZUfe2zjfCWI56UiQUcvV0I4SZEjype6vj4UoXr6iuMttB1GkUQA0lpwiIQSsdTO
+	EAyDvrjXFhAOCkaWBo20taEfNDPlNpo9+YlITJThJbagImQGwBBKD2UnxO8FS5+9P4psegr9VIo
+	CQxKT1oTvSr2RAkeAhUacBitvGjI1IV6rZSGbihq3bcmhbb7IltFC57xefyrdFs1UAA/rRmLQjC
+	SB1LHsGSUZ6tpcVp/2VLRc5wvQgq0tkBZiL/2w+n1Hpbi8ED5xFB98e1sAu0HlHrOFlLgA=
+X-Received: by 2002:a05:690c:e217:10b0:8b0:da2e:7a12 with SMTP id 00721157ae682-8b2b674d13fmr31076597b3.46.1793553703688;
+        Sun, 01 Nov 2026 09:21:43 -0800 (PST)
 Received: from s2lab05.. ([163.152.163.130])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b2b714bd40sm39086837b3.16.2026.11.01.09.21.37
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b2b714bd40sm39086837b3.16.2026.11.01.09.21.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 09:21:39 -0800 (PST)
+        Sun, 01 Nov 2026 09:21:43 -0800 (PST)
 From: Ingyu Jang <ingyujang25@korea.ac.kr>
 To: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Ingyu Jang <ingyujang25@korea.ac.kr>
-Subject: [PATCH 0/5] ALSA: Make always-successful helpers return void
-Date: Mon,  2 Nov 2026 02:21:29 +0900
-Message-Id: <20261101172134.3451066-1-ingyujang25@korea.ac.kr>
+Subject: [PATCH 1/5] ALSA: hda: Make snd_hda_multi_out_analog_{prepare,cleanup}() return void
+Date: Mon,  2 Nov 2026 02:21:30 +0900
+Message-Id: <20261101172134.3451066-2-ingyujang25@korea.ac.kr>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261101172134.3451066-1-ingyujang25@korea.ac.kr>
+References: <20261101172134.3451066-1-ingyujang25@korea.ac.kr>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -96,31 +99,135 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These helpers always return 0, so the error checks on their return
-values never trigger. This series makes them return void and removes
-the dead checks, one driver per patch.
+snd_hda_multi_out_analog_prepare() and snd_hda_multi_out_analog_cleanup()
+always return 0, so the error checks on their return values in
+playback_pcm_prepare() and playback_pcm_cleanup() never trigger.
 
-This follows up on the earlier discussion:
-https://lore.kernel.org/all/87jywvyu2q.wl-tiwai@suse.de/
+Make both functions return void, and call the playback hooks
+unconditionally.
 
-Ingyu Jang (5):
-  ALSA: hda: Make snd_hda_multi_out_analog_{prepare,cleanup}() return
-    void
-  ALSA: ice1712: Make chip_init helpers return void
-  ALSA: cs4236: Make snd_cs423x_pnp_init_mpu() return void
-  ALSA: vx222: Make put_xilinx_data() return void
-  ALSA: ali5451: Make snd_ali_reset_5451() return void
-
+Signed-off-by: Ingyu Jang <ingyujang25@korea.ac.kr>
+---
  sound/hda/codecs/generic.c   | 22 +++++++++-------------
  sound/hda/common/codec.c     | 16 +++++++---------
  sound/hda/common/hda_local.h | 14 +++++++-------
- sound/isa/cs423x/cs4236.c    |  9 +++------
- sound/pci/ali5451/ali5451.c  | 10 +++-------
- sound/pci/ice1712/ice1712.c  | 12 +++---------
- sound/pci/ice1712/ice1724.c  | 12 +++---------
- sound/pci/vx222/vx222_ops.c  |  7 +++----
- 8 files changed, 38 insertions(+), 64 deletions(-)
+ 3 files changed, 23 insertions(+), 29 deletions(-)
 
+diff --git a/sound/hda/codecs/generic.c b/sound/hda/codecs/generic.c
+index 6120f797b45a5..ca780b7f688f6 100644
+--- a/sound/hda/codecs/generic.c
++++ b/sound/hda/codecs/generic.c
+@@ -5324,14 +5324,12 @@ static int playback_pcm_prepare(struct hda_pcm_stream *hinfo,
+ 				struct snd_pcm_substream *substream)
+ {
+ 	struct hda_gen_spec *spec = codec->spec;
+-	int err;
+ 
+-	err = snd_hda_multi_out_analog_prepare(codec, &spec->multiout,
+-					       stream_tag, format, substream);
+-	if (!err)
+-		call_pcm_playback_hook(hinfo, codec, substream,
+-				       HDA_GEN_PCM_ACT_PREPARE);
+-	return err;
++	snd_hda_multi_out_analog_prepare(codec, &spec->multiout,
++					 stream_tag, format, substream);
++	call_pcm_playback_hook(hinfo, codec, substream,
++			       HDA_GEN_PCM_ACT_PREPARE);
++	return 0;
+ }
+ 
+ static int playback_pcm_cleanup(struct hda_pcm_stream *hinfo,
+@@ -5339,13 +5337,11 @@ static int playback_pcm_cleanup(struct hda_pcm_stream *hinfo,
+ 				struct snd_pcm_substream *substream)
+ {
+ 	struct hda_gen_spec *spec = codec->spec;
+-	int err;
+ 
+-	err = snd_hda_multi_out_analog_cleanup(codec, &spec->multiout);
+-	if (!err)
+-		call_pcm_playback_hook(hinfo, codec, substream,
+-				       HDA_GEN_PCM_ACT_CLEANUP);
+-	return err;
++	snd_hda_multi_out_analog_cleanup(codec, &spec->multiout);
++	call_pcm_playback_hook(hinfo, codec, substream,
++			       HDA_GEN_PCM_ACT_CLEANUP);
++	return 0;
+ }
+ 
+ static int playback_pcm_close(struct hda_pcm_stream *hinfo,
+diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
+index e367cc1c6e78f..51189e305ece6 100644
+--- a/sound/hda/common/codec.c
++++ b/sound/hda/common/codec.c
+@@ -3798,11 +3798,11 @@ EXPORT_SYMBOL_GPL(snd_hda_multi_out_analog_open);
+  * Set up the i/o for analog out.
+  * When the digital out is available, copy the front out to digital out, too.
+  */
+-int snd_hda_multi_out_analog_prepare(struct hda_codec *codec,
+-				     struct hda_multi_out *mout,
+-				     unsigned int stream_tag,
+-				     unsigned int format,
+-				     struct snd_pcm_substream *substream)
++void snd_hda_multi_out_analog_prepare(struct hda_codec *codec,
++				      struct hda_multi_out *mout,
++				      unsigned int stream_tag,
++				      unsigned int format,
++				      struct snd_pcm_substream *substream)
+ {
+ 	const hda_nid_t *nids = mout->dac_nids;
+ 	int chs = substream->runtime->channels;
+@@ -3865,7 +3865,6 @@ int snd_hda_multi_out_analog_prepare(struct hda_codec *codec,
+ 					   stream_tag, ch, format);
+ 	}
+ 
+-	return 0;
+ }
+ EXPORT_SYMBOL_GPL(snd_hda_multi_out_analog_prepare);
+ 
+@@ -3874,8 +3873,8 @@ EXPORT_SYMBOL_GPL(snd_hda_multi_out_analog_prepare);
+  * @codec: the HDA codec
+  * @mout: hda_multi_out object
+  */
+-int snd_hda_multi_out_analog_cleanup(struct hda_codec *codec,
+-				     struct hda_multi_out *mout)
++void snd_hda_multi_out_analog_cleanup(struct hda_codec *codec,
++				      struct hda_multi_out *mout)
+ {
+ 	const hda_nid_t *nids = mout->dac_nids;
+ 	int i;
+@@ -3897,7 +3896,6 @@ int snd_hda_multi_out_analog_cleanup(struct hda_codec *codec,
+ 		cleanup_dig_out_stream(codec, mout->dig_out_nid);
+ 		mout->dig_out_used = 0;
+ 	}
+-	return 0;
+ }
+ EXPORT_SYMBOL_GPL(snd_hda_multi_out_analog_cleanup);
+ 
+diff --git a/sound/hda/common/hda_local.h b/sound/hda/common/hda_local.h
+index 947a3152fdb53..8bd4497a6b090 100644
+--- a/sound/hda/common/hda_local.h
++++ b/sound/hda/common/hda_local.h
+@@ -241,13 +241,13 @@ int snd_hda_multi_out_analog_open(struct hda_codec *codec,
+ 				  struct hda_multi_out *mout,
+ 				  struct snd_pcm_substream *substream,
+ 				  struct hda_pcm_stream *hinfo);
+-int snd_hda_multi_out_analog_prepare(struct hda_codec *codec,
+-				     struct hda_multi_out *mout,
+-				     unsigned int stream_tag,
+-				     unsigned int format,
+-				     struct snd_pcm_substream *substream);
+-int snd_hda_multi_out_analog_cleanup(struct hda_codec *codec,
+-				     struct hda_multi_out *mout);
++void snd_hda_multi_out_analog_prepare(struct hda_codec *codec,
++				      struct hda_multi_out *mout,
++				      unsigned int stream_tag,
++				      unsigned int format,
++				      struct snd_pcm_substream *substream);
++void snd_hda_multi_out_analog_cleanup(struct hda_codec *codec,
++				      struct hda_multi_out *mout);
+ 
+ /*
+  * generic proc interface
 -- 
 2.34.1
 
