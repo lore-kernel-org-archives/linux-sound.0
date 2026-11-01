@@ -1,56 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.17.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793489375;
-	b=RwTDr68icIBBXfHD6SMGwcfL6jd0D+t9ORQwQqraIqb3L662ZTZ00UpJiiTy8uQKwX6w
-	 6nDHQnQG54ZIq7xW4gw0VYwu2k9FsUoKQki88tBgBpBfV6UD+76Gq8105AOAZKwpEra+H
-	 FCUwFKwGq/16GzJPpMDIzGUTi5cL4GWZiZ1JjR0GQ78yCmEzSuDAuxy0/N/3eK0J8lh4f
-	 sIwFpdKVIAvR1Ht3i/A0TgwVBd1jV6KOYCtWyFvq0LPATfv1iMnXNVaNzLU26DcdDgUJ8
-	 qDovkrG0GG+gnfCe30iMrj6rtXXQRJ2vFy4Pi5biIGa1DnH5UtgbDpVpl5Vxn6OmgNw==
+	t=1793491245;
+	b=gvutPwJoCKbaCMru0b1Uxu+aM/l29m3x08YjjN6SBBEGR0RZoH3qhGbtnSecs2f6qgfv
+	 dfKHsyeXp4zaapqodGIgQqo+gP+XRa26snQYbRb2iKFmzJkP/kvMpzBCZmEnn/uFkZtAJ
+	 VT1q+D9wG7OInQmPHVxsaXPK7grCq81nRgmwztYRHUkuuAJ2Pslcx8xp6raV7y+wxhf/z
+	 A/fwdQGpOah4ohUMKmiiEba6ZrzMwenqLX/S6NhQy16R2JVpeFxS3H3Y+NZQqp5gC6qU0
+	 Z8XxeylgoEL2FsbiNyoCJuy6QinV4qGWUXZMY/ThRaRCkvGmjJe+jsROTpGKhYsBOyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793489375;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=PTHsmSjdx2ekr0uNRSnehHeVup9fVWW5jmVnj1Y9jLI=;
-	b=cANlMmaMFeOoU1PWIZMswsRqHRfpXoyevCOigHoHAVNiJPDQ31cmJZ2lzgiira3t43vZ
-	 J0BrEDpBLrQz4RZUwcJFPfQw6H+0UaFb/iP1RL4SF933jBJ62uKBBGHLCI8ceCibjb/JY
-	 5JS6RgsCe7DmiJ0uGuEjM8TqkDnqvrhvrYT5E+NoQ18W4QisC62ncT9IAM+el50/FedK/
-	 FdyBDqRdKypXE/ExVzBbYk7CiW8GaMSZY9fMYRGSga+3uWUWqWJ4JwnCkW6u5LvEP6z1v
-	 BnhPuh6Ov45BjAohpko94F/Dwd1lljDie0FlxOdTWbjyJh0tMpN4xxfjbVWrbpgLJkA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793491245;
+	h=DMARC-Filter:DKIM-Signature:X-UI-Sender-Class:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:UI-OutboundReport;
+	bh=DrvzZxSNnVXfjio/UllZB8KLNYJteZZWIj8cIcFI4RY=;
+	b=2aQ9OcKR843tzL1cCmqPcw9rViCA5hR6w0jjwFR87BhnbM30Yc1jq5Z6zKXTSAV05mAN
+	 l8cuZzRy2Q4gHshJJlVOK8Fvzj3ZCKGmEx5DWc1bTafaowlwj2SzaOgrNNRcDeyaAcu8P
+	 qokdl6SaFBqKbnGQ+Ha5RIBXC+uHVLWAAV556DgtVCQZRpykNL9JAiS4OgeU8xAkTr5hk
+	 ctBybHdaoN8GRgVEMMUUiW4TP9OgCkmMMSoWz1mxy6nE5GxcRAlWTb6lR5uo0TWZOgJmG
+	 vX6qozJFeLnmwTBkDZ9qgHphwvkEjWAVlLpIcFapUYs7AAcfShAtt9vVnJofFHV75gw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lG7qF6x2;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=gmx.li;
+	spf=pass smtp.mailfrom=gmx.li;
+	dkim=pass header.d=gmx.li header.i=arc@gmx.li header.a=rsa-sha256 header.s=s31663417 header.b=tiAS1bvX;
+	arc=none smtp.remote-ip=212.227.17.21
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D86F606A31A
-	for <linux-sound@vger.kernel.org>; Sat, 31 Oct 2026 23:29:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE2D606A31A;
+	Sun,  1 Nov 2026 00:00:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4DE2D606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.li
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lG7qF6x2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88D4C1F000C1;
-	Sat, 31 Oct 2026 23:29:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793489374;
-	bh=PTHsmSjdx2ekr0uNRSnehHeVup9fVWW5jmVnj1Y9jLI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=lG7qF6x2EGV+NAYaKLCu+UUwSN60Bl5mi2M09DHF/8WQVIhgaA57KW5f+LEy+fqaj
-	 l+yko2wflrE2d7+Vt9fznuFU9hPDqI/3o1uYGyOoQ0YfqR1DaCZOC6gFYEjtJ/B3Ug
-	 ZETKqM6k9JccgxPtgG55ICMWVTMBKc0D/GTv+BaoIo7NjDnfXxYrPyaM6lgKMh5JSU
-	 vPnLAabkujSNMeax09cKns0tEpc+k6Xq3HsVbr5gaZFULP6HWpM5mJRGNwmy9rudY1
-	 m2X8xnvQ1od3LBsqcwBJvLbG6z0fptb434CgqD4UJwRJNyTB3DJ/uX5u/Dii+l7sq6
-	 ShGn4dMQpbwSg==
-Message-ID: <sashiko-outbox-192221@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC] ALSA: hda/tas2781: Reload DSP program if the
- amplifiers lost it
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Roman Maidanovych" <devuarpd@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261101-tas2781-reload-if-lost-v1-1-9d336120f1ba@gmail.com>
-References: <20261101-tas2781-reload-if-lost-v1-1-9d336120f1ba@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 31 Oct 2026 23:29:34 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmx.li header.i=arc@gmx.li header.a=rsa-sha256 header.s=s31663417 header.b=tiAS1bvX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.li;
+	s=s31663417; t=1793491240; x=1794096040; i=arc@gmx.li;
+	bh=DrvzZxSNnVXfjio/UllZB8KLNYJteZZWIj8cIcFI4RY=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=tiAS1bvXNS2quuWhZ23+txjPrnowczAGBRivfXlKkqT0oB9J59J73K64y02LBk0r
+	 fr+lmkKbLIu0omqCj1krldJ/lSBeuDjnIPXGT3jfdZK9yVSxod4zh32kWwqXZMDkq
+	 2LxnmvFxGMcWMBCfz1VmjVqdaJhnX5DRpC0M6Sr+heYeh1PnqVVrIrkpMihvHesT3
+	 ZN9bYXVC43ohhOQiUKZHfxzzNKiEpzNnZHSvOR8CQ/kK2T4dW76hZ62X7AUknDZEr
+	 kJY1ztuRwO1GXbRDjpNgaBTUUA89ayfhsvNXfu4jdhzcq6fEVoD+v7jQAsF443Yg0
+	 q0IztusGD/OpFmoi1g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M6Udt-1xUClC3U2z-001m4X; Sun, 01
+ Nov 2026 01:00:39 +0100
+From: Christian Ruppert <arc@gmx.li>
+To: Will Porter <mrwillporter@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Neil Andrews <neil@androos.io>,
+	Christian Ruppert <arc@gmx.li>
+Subject: [RFC PATCH 00/11] Re: ALSA: usb-audio: Audient iD14 MkI vendor controls
+Date: Sun,  1 Nov 2026 01:00:02 +0100
+Message-ID: <20261101000013.11880-1-arc@gmx.li>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <CAMZ8TEw=rmc=H3L60j-o_wa0fNc9eOhG7ZY0SdttFf+p-qUfkQ@mail.gmail.com>
+References: <CAMZ8TEw=rmc=H3L60j-o_wa0fNc9eOhG7ZY0SdttFf+p-qUfkQ@mail.gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,211 +72,251 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:UQh5fD9QbHfeOJ4Rwhh/unizQWuVnjMVqVSlyMUjCD44LazVqba
+ dyp+IZ61XMCj716x9RXoMMLC7tabTOzGVvcVvK1yRYzvX8qctVj4ApGdNrN/UhD/FQPDv9O
+ alPDtb0mXnyuYvTk5gCnD6L/u+WuEzVF2FJVJ4688yZbG9d4y5h0HzXX9bxJsrwOOu2+6AK
+ ArE6o3flaxdtayOdZQFVQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:GzmRa/+JNro=;3tkn+sLA1P8Z+mBO5IzA5jG0hkK
+ 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
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [Medium] ALSA: hda/tas2781: partial reload in tas2781_hda_reload_if_lost(=
-) wipes config
-- [Medium] ALSA: hda/tas2781: missing init_profile_id and double load in re=
-load_if_lost()
-- [Medium] ALSA: hda/tas2781: missing fw_state check in tas2781_hda_reload_=
-if_lost()
---
+Hi Will,
 
-commit 74dce121e5a4c4de7e8754632f2407d57f7750d6
-Author: Roman Maidanovych <devuarpd@gmail.com>
+As discussed here an RFC to prepare iD14 support. It goes on top of the
+previous patch set (minor fixes and tlv addition) which I hope can still
+make it into 7.4.
 
-ALSA: hda/tas2781: Reload DSP program if the amplifiers lost it
+The driver was restructured as agreed, with one (short) patch per item to
+make the changes as understandable as possible. Up to you to squash them
+into fewer ones before submitting everything in order to keep the final
+patch series short.
 
-This patch checks bit 7 of B0_P0_R0x44 on TAS2781 amplifiers when a PCM str=
-eam
-is opened and reloads the DSP program if the amplifier lost its program dur=
-ing
-HDA codec runtime suspend.
+The patches were generated for sound/master commit 603a4df9e6ae60a26adb335=
+f
+and tested with linux-7.3.1. In both cases, the "minor fixes and tlv
+addition" patch series was applied first. Note that I could not fully test
+everything using the EVO4 hardware, some of the newly possible
+configurations are only usable with the iD14.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D221735
+See below for a few more comments about the technical details.
 
-> diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/c=
-odecs/side-codecs/tas2781_hda_i2c.c
-> index 44855f593daf8..177a2194aeb70 100644
-> --- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-> +++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
+  Christian
 
-[ ... ]
+On Tue, Oct 27, 2026 at 09:36:23PM -0500, Will Porter wrote:
+> On Wed, Oct 28, 2026 at 12:21:51AM +0100, Christian Ruppert wrote:
+> > BTW: the mixer matrix seems to be identical also for the EVO8 so
+> > chances are it's the same for most audient devices and we could
+> > simply use a width and height parameter to generate it in a loop.
+>=20
+> That sounds good to me. On the iD14 it would be 14 inputs by 4
+> outputs.
 
-> @@ -162,6 +165,38 @@ static int tas2781_read_acpi(struct tasdevice_priv *=
-p, const char *hid)
->  	return ret;
->  }
-> =20
-> +/*
-> + * The amplifiers can lose their DSP program while the HDA codec is runt=
-ime
-> + * suspended, without the chip being reset. The cached program/configura=
-tion
-> + * then makes tasdevice_tuning_switch() skip the download and the speake=
-rs
-> + * stay silent. Bit 7 of B0_P0_R0x44 is set in that state: invalidate the
-> + * cache and download the program again.
-> + */
-> +static void tas2781_hda_reload_if_lost(struct tasdevice_priv *tas_priv)
-> +{
-> +	bool lost =3D false;
-> +	int i, ret, val;
-> +
-> +	if (tas_priv->chip_id !=3D TAS2781)
-> +		return;
+OK, defined as a list of names, see patch 11.
 
-[Severity: Medium]
-Should tas2781_hda_reload_if_lost() also check that tas_priv->fw_state is
-TASDEVICE_DSP_FW_ALL_OK before checking TAS2781_REG_DSP_LOST and calling
-tasdevice_prmg_load()?
+> > My view of the WO implementation would be to add three flags: cache,
+> > init and force_write:
+>=20
+> These look right to me. As per-control flags, you could set init on the
+> EVO matrix, and for the iD14 entries, could we set it only on the
+> write-only controls? The matrix, routing and readable monitor controls
+> keep their values across a replug on mains power, so I'd leave those
+> untouched at probe. Would each entry also carry its init value? On the
+> iD14 most start at off or the first item, but optical mode starts at
+> S/PDIF.
 
-In tas2781_hda_bind(), tascodec_init() schedules asynchronous firmware load=
-ing
-via request_firmware_nowait() and registers comp->playback_hook while
-tas_priv->fw_state is still TASDEVICE_DSP_FW_PENDING and tas_priv->fmw is N=
-ULL.
-Similarly, if tasdevice_dsp_parser() fails in tasdevice_dspfw_init(),
-tas_priv->fw_state is set to TASDEVICE_DSP_FW_FAIL without freeing a partia=
-lly
-populated tas_priv->fmw:
+Actually, the matrix settings also seem to survive a reboot on the EVO (as
+long as the device remains powered) so finally I decided not to initialize
+at enumeration either to make the behaviour consistent with the iD14.
 
-sound/hda/codecs/side-codecs/tas2781_hda_i2c.c:tasdevice_dspfw_init() {
-	...
-	ret =3D tasdevice_dsp_parser(tas_priv);
-	if (ret) {
-		dev_err(tas_priv->dev, "dspfw load %s error\n",
-			tas_priv->coef_binaryname);
-		tas_priv->fw_state =3D TASDEVICE_DSP_FW_FAIL;
-		return;
-	}
-}
+Init values are defined in the control type and apply to both the hardware
+(if the INIT_HW flag is set) and the cache (e.g. if the FORCE_SET flag is
+set without INIT_HW).
 
-Previously, tas2781_hda_playback_hook() only called tasdevice_tuning_switch=
-(),
-which returns early unless fw_state is TASDEVICE_RCA_FW_OK or
-TASDEVICE_DSP_FW_ALL_OK. Without checking fw_state =3D=3D TASDEVICE_DSP_FW_=
-ALL_OK
-here, opening a PCM stream before firmware loading finishes, in RCA-only mo=
-de,
-or after a DSP firmware parse error can read TAS2781_DSP_LOST as set on the
-unprogrammed amplifier and call tasdevice_prmg_load() with NULL or partially
-parsed firmware.
+> I'd keep force_write on the cached write-only controls, as a precaution
+> against a reset that leaves the card registered. I haven't seen that
+> on the iD14: the resets I've seen re-enumerate it and run probe again.
+> For the readable controls, skipping an unchanged write seems fine to me.
 
-> +
-> +	for (i =3D 0; i < tas_priv->ndev; i++) {
-> +		ret =3D tasdevice_dev_read(tas_priv, i, TAS2781_REG_DSP_LOST, &val);
-> +		if (ret || !(val & TAS2781_DSP_LOST))
-> +			continue;
-> +
-> +		tas_priv->tasdevice[i].cur_book =3D -1;
-> +		tas_priv->tasdevice[i].cur_prog =3D -1;
-> +		tas_priv->tasdevice[i].cur_conf =3D -1;
-> +		lost =3D true;
-> +	}
+OK, the flags should be rather orthogonal. I couldn't test all combination=
+s
+with the EVO, though, so don't hesitate to fix potential issues you might
+discover.
 
-[Severity: Medium]
-What happens if only a subset of channels have TAS2781_DSP_LOST set (or if
-tasdevice_dev_read() fails transiently on one channel while succeeding on
-another)?
+> > - The intent of the control types was to associate unit/selector
+> >   pairs with data types. I would add a new ctype for each
+> >   unit/selector pair [...]
+> > - I don't have a preference between explicit control names and the
+> >   basename/suffix system the EVO driver currently uses. If you prefer
+> >   we can simply replace the basename with a full name and remove the
+> >   flags field in the controls.
+>=20
+> Yes, full names would make the iD14 table easier to check. And
+> one ctype per unit/selector pair is fine with me.
 
-Earlier calls to tasdevice_select_cfg_blk() leave
-tas_priv->tasdevice[chn].is_loading set to true on all channels:
+ok, see patch 2 for the names and patch 3 to make the unit/selector pairs
+more explicit.
 
-sound/soc/codecs/tas2781-fmwlib.c:tasdevice_select_cfg_blk() {
-	...
-			for (; chn < chnend; chn++)
-				tas_priv->tasdevice[chn].is_loading =3D true;
-	...
-}
+> > - The boost switch writing 0x0 for 0dB gain and 0x0a00 for 10dB gain
+> >   looks suspiciously like a volume control between 0dB and 10dB *
+> >   256steps/dB. Does this control only accept these two values or can
+> >   we simply implement it as a standard volume type controlling a mic
+> >   pre-amp?
+>=20
+> Your guess was correct! The device answers no RANGE request for it, so
+> I tried intermediate values with a loopback cable: 0x0100, 0x0280 and
+> 0x0500 gave +1, +2.5 and +5 dB on both mic inputs, each tested
+> successfully within 0.01 dB of nominal. I didn't test outside 0..+10 dB
+> though.
+>=20
+> Even so, I'd like to keep it as a switch in this series, because the
+> iD14's documentation describes a fixed +10 dB boost. Your max-for-true,
+> min-for-false boolean would fit that, with 0 and 0x0a00. A 0..10 dB
+> volume could follow as its own patch if people want it later. Does that
+> sound reasonable?
 
-When tas2781_hda_reload_if_lost() then calls tasdevice_prmg_load(), the loop
-only updates channels where cur_prog !=3D prm_no and does not clear is_load=
-ing
-to false on the remaining channels:
+OK, with the current implementation both should be possible with a simple
+table change.
 
-sound/soc/codecs/tas2781-fmwlib.c:tasdevice_prmg_load() {
-	...
-	for (i =3D 0, prog_status =3D 0; i < tas_priv->ndev; i++) {
-		if (prm_no >=3D 0 && tas_priv->tasdevice[i].cur_prog !=3D prm_no) {
-			tas_priv->tasdevice[i].cur_conf =3D -1;
-			tas_priv->tasdevice[i].is_loading =3D true;
-			prog_status++;
-		}
-	}
-}
+> [...]
+> I haven't tested whether the iD14 rejects them. Could the generic put
+> handlers reject values outside each control's writable ALSA range with
+> -EINVAL, before converting them to device values? That would cover
+> both devices.
 
-Because is_loading is still true on the non-lost channel,
-tasdevice_load_data(tas_priv, &(program->dev_data)) downloads the DSP progr=
-am
-(including its software reset commands) to that channel as well, wiping its
-hardware state. However, because cur_conf was never reset to -1 on that
-channel, the subsequent tasdevice_tuning_switch() ->
-tasdevice_select_tuningprm_cfg() call sees cur_conf =3D=3D cfg_no and skips
-reloading the configuration and calibration data on that channel, leaving it
-unconfigured.
+OK, see patch 7.
 
-> +
-> +	if (lost) {
-> +		dev_dbg(tas_priv->dev, "DSP program lost, reloading\n");
-> +		tasdevice_prmg_load(tas_priv, tas_priv->cur_prog);
-> +	}
-> +}
+> [...]
 
-[Severity: Medium]
-Does reloading the program here miss applying tas_priv->rcabin.init_profile=
-_id,
-and can it cause a double program download when force_fwload_status is enab=
-led?
+Christian Ruppert (11):
+  ALSA: rename mixer_evo to mixer_audient
+  ALSA: mixer_audient: explicitly define full control names
+  ALSA: mixer_audient: clarify USB control message definition
+  ALSA: mixer_audient: Add length check to USB transfer
+  ALSA: mixer_audient: make USB control transfer size configurable
+  ALSA: mixer_audient: Allow arbitrary boolean control values
+  ALSA: mixer_audient: Add integer range checks
+  ALSA: mixer_audient: Add control initialization at probe
+  ALSA: mixer_audient: Add readback-free parameter set
+  ALSA: mixer_audient: add control value caching
+  ALSA: mixer_audient: Create matrix programmatically
 
-In both tasdevice_dspfw_init() and tas2781_system_resume(), calling
-tasdevice_prmg_load() is immediately followed by applying init_profile_id
-before tasdevice_tuning_switch():
+ MAINTAINERS               |   7 +-
+ sound/usb/Makefile        |   2 +-
+ sound/usb/mixer_audient.c | 633 ++++++++++++++++++++++++++++++++++++++
+ sound/usb/mixer_audient.h |  12 +
+ sound/usb/mixer_evo.c     | 526 -------------------------------
+ sound/usb/mixer_evo.h     |  12 -
+ sound/usb/mixer_quirks.c  |   4 +-
+ 7 files changed, 652 insertions(+), 544 deletions(-)
+ create mode 100644 sound/usb/mixer_audient.c
+ create mode 100644 sound/usb/mixer_audient.h
+ delete mode 100644 sound/usb/mixer_evo.c
+ delete mode 100644 sound/usb/mixer_evo.h
 
-sound/hda/codecs/side-codecs/tas2781_hda_i2c.c:tas2781_system_resume() {
-	...
-	tasdevice_prmg_load(tas_hda->priv, tas_hda->priv->cur_prog);
+=2D-=20
+2.56.0
 
-	/* Init common setting for different audio profiles */
-	if (tas_hda->priv->rcabin.init_profile_id >=3D 0)
-		tasdevice_select_cfg_blk(tas_hda->priv,
-			tas_hda->priv->rcabin.init_profile_id,
-			TASDEVICE_BIN_BLK_PRE_POWER_UP);
-	...
-}
-
-Without that step in tas2781_hda_reload_if_lost(), common profile settings
-from init_profile_id are not restored after tasdevice_prmg_load() reloads t=
-he
-DSP program.
-
-In addition, tasdevice_tuning_switch(tas_hda->priv, 0, false) runs immediat=
-ely
-after tas2781_hda_reload_if_lost() in tas2781_hda_playback_hook() and calls
-tasdevice_select_tuningprm_cfg(), which reloads the DSP program whenever
-cur_prog !=3D prm_no || tas_priv->force_fwload_status:
-
-sound/soc/codecs/tas2781-fmwlib.c:tasdevice_select_tuningprm_cfg() {
-	...
-			if (prm_no >=3D 0
-				&& (tas_priv->tasdevice[i].cur_prog !=3D prm_no
-				|| tas_priv->force_fwload_status)) {
-				tas_priv->tasdevice[i].cur_conf =3D -1;
-				tas_priv->tasdevice[i].is_loading =3D true;
-				prog_status++;
-			}
-	...
-}
-
-If the "Speaker Force Firmware Load" control (force_fwload_status) is enabl=
-ed,
-calling tasdevice_prmg_load() in tas2781_hda_reload_if_lost() and then call=
-ing
-tasdevice_tuning_switch() will download the full DSP program twice in a row=
- on
-PCM open.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261101-tas2781-re=
-load-if-lost-v1-1-9d336120f1ba@gmail.com?part=3D1
