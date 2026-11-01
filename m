@@ -1,91 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.180
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793543908;
-	b=30VkTLntW5znZP0wmYXCW0K2stMTXCYKQaxmivNf7R7SzIFNYpHKRlXpOZSqrSJyk7XW
-	 F9RFNnKw8poWvfryiDu6vU1tS6o76NL2/qCpbiw4xN2dy/WM6WnlRncw3N5BUpWvbyIwS
-	 1WussNgoZzpL1KQTSTW2qoEW8gBO/wh6ujlfdOrC+0TlbZDHUfugfEaTKsmmEdZZBmPpK
-	 FLyND+uNa3h3mKW3cFWzDRR2ytFogrVoGmfw8y3wxHQQmSDU3YWJsQci47wjXAeXd3/pe
-	 NSwE5W92xn+s3+V5wBvdKtuEkUhXvaU5rg+7kgiCXb74mBDnN6BNf0raumRitB8XwkQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793543908;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=Yj7uHm+i6moRPp1T/k/KtCZpjWPn8bcWSFuA0A8wuVI=;
-	b=td+5qqkjfgn8f5PyYiYzjtxqr7HkjJ3F8YT1yPJQg7hWqeV5Vs+Dxd0/fsUVxnZj3xe/
-	 4LiwmWHmsPtJj6Pzgl9c3vGtu7hVY+0v3l+twEn6m3vAQQPxMe+qP4kPKBrNgLUoiIBQn
-	 T7VWPsjxYHH+RyMpSef0YomKXSC2x8ru1mhWpW8hDLbwG9i20Q6eyMMOaTIB6BgDFYZWU
-	 V2P5K8WX1UkdgRi92WZaWXmqInCt08Zfuplx3U3BmIUx/8qslH3QQ3fmud6YFhBTUkeSm
-	 Fg1dklAPxxdmBXIh+tG3C0mHHMAQz/EL4UlTdYOg+YSmUrCb5UrjzgQia0vf77M6BYA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YZm2TLGX;
-	arc=none smtp.remote-ip=74.125.82.180
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=81.169.146.166
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793544806;
+	b=HQphjmzuRHqgoJ97wHmt8qrX6CH22FgGHf7pZNTghKeQzHLrKE7zWH0nmjS6oq4VGpwq
+	 KdOWa1BkowH6nHh7JHmXUCbxY3SfH9fZsfunLCqoR/VH3LJdWyjIhnKSyELEG1ONIrie1
+	 6rKs/D+EJdeLnCMBIntMpotMsVXGAflXQVx/AsVerpThHZ+SOtrMVVYQnQqLAXkG5Nbw1
+	 3c66nB2XQ0z5siMEZeS3ehWkXuXlUUPP22gUmd/BTg7Fxo9SBZPUrG8il+Pi4HbaprX+j
+	 UCSuIq0q74F+GxcsT5RqsNpOVJF/zQYv/btBuWbguS2Fdzpk4rTLjnrN52EqHMnp72A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793544806;
+	h=DMARC-Filter:X-RZG-CLASS-ID:DKIM-Signature:DKIM-Signature:X-RZG-AUTH:
+	 Received:Subject:From:To:Cc:References:Organization:Message-ID:Date:
+	 X-Mailer:MIME-Version:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=46gvrjJkkEAAte/F2HPQxRDwXOoV/JLiqnK4lMTYSB0=;
+	b=v9z3hVWTPQcVwYYEqGAM9D+Nfj9Poz2W0ZBfTP6rumsZZ489+k/Raw9yp02Fply5mrj1
+	 MLxRsVyXVORlRcqMT9poLkkpNZvFCFlCZ8411YF1R0SkzEpNDJwUu6fnoy0RLNBQBLGN0
+	 A0096diibzxJRqkldiCTaBxy56e8D7ltnUxhTgVG57ZTZOffKVsaEpqJVlxX2esc5qgTF
+	 yjlQ5Yp1OFZPZD5AcKoCw3BaM3wnxlvEdhYubCfKXntkSRzkBMjstAi7Q3EzPiA2JsBlN
+	 RXfqNaaNjtXGvc5vqWRodCbrxBGALFchnLbd/g+sEl4RF4ej882iowV+QMqMkcF3q3w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=xenosoft.de;
+	spf=none smtp.mailfrom=xenosoft.de;
+	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=SF9Fam3H;
+	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=vD19QXKD;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=81.169.146.166
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [81.169.146.166])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2145606A324
-	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 14:38:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2145606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0314606A324
+	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 14:53:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0314606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xenosoft.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=xenosoft.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YZm2TLGX
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-35829219da8so3843009eec.0
-        for <linux-sound@vger.kernel.org>; Sun, 01 Nov 2026 06:38:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793543907; x=1794148707; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Yj7uHm+i6moRPp1T/k/KtCZpjWPn8bcWSFuA0A8wuVI=;
-        b=YZm2TLGXk3iUa5GS57Vn23sf5WFeg0RVJUwNmU+aOqDVWLnV3F5iGB1X0JV1SZMfdY
-         nhxUfU3zqQ+pC9wytFmv1h0tpGp8sf62VCVfM1xpBTUGIBG1xbW1I78DpUwYMC/McE9Z
-         XlHErLLDloDrcD9zaAcz6466PMCxwGaz6NL6Fy7nnmC6LT0AiPrIHxfU7WMgV/V3LPYD
-         wLoCIOX9PNJDxXSI9v9iRSxk58SbR3E3k95xJB91w+tBzszD0KIehBG3zBxOgy7C5piC
-         IzdiTycmxGZesXLKN88R3su+C804/WXUkDpZ/GvXAquEmIaKgSotWtdSTCsaI0ltiHVC
-         vk/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793543907; x=1794148707;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Yj7uHm+i6moRPp1T/k/KtCZpjWPn8bcWSFuA0A8wuVI=;
-        b=rsjH3nAL/4QkKoFJoGBCUbdxWY4JQuOT/xHKTrvQWEp4uhPsK8LJJFHKfh8xGPe0Wi
-         zk6PY87z7hdk/+P6NlAKZm6AaaBFN+aImubJC0oFP61TeXdQm1Zc/2N/gCT6PZ7CVN8u
-         X2jgnjZnGH0syKveXSlzs7P9NvdFENBwealdCgbu5jlQ+R0Zb3NoaUT8x1jI9AiWKprA
-         wioI49Z3dzs3V2wjtgHiFiUZ1TjvDItZ+XKyiqymmeDWJdLepJvdeyAcSbLg7EqORiSj
-         7iaff6Ll9eWZE1h4TNxiVIc+GaEEBx/vj/t2oYtm3q3d6ZYYnDXPy0zKw5AQo+ZyUdev
-         3VfQ==
-X-Gm-Message-State: AFq9FYKQ87coHcQ6bfwM4r1xfwgQ2ppBpy/k81Kqxyz7qzmaW3tPliUY
-	nWb7lMMJtYuyy+cf8gasEojUM6iXzvfMHQzKkEaYGAY4OPhW9ySsY9kGDCaU0wdE
-X-Gm-Gg: AYBFou1sB5fsAP70awwmVToZnaz081ClDPSLr+PUHq0484LKIchjdJynerQjR+36s2W
-	ussTU4MYzlcUWjkmVipsJp/4R3/jsHj99muVFA/BUb/Fv0IoSNT2T2fbpS6oAWC9004YGKAFHKR
-	GAGwqRT/lmqkVj4Y5+7LZ2wCdOu9jdL5c3TMC/SPAlpqsyFNYKs6nIgeKpiXfToIvR0bmHJQVp4
-	RwGtSYdirJ2c7/aaU/JjLKcd1Cpk3/4LCEiMSgU+h/O0dstdYaMbzvztekJcM9lwCyeJWLW49iG
-	UyQzXSlaytaTUVWk2kf8YQ/Fr1BzVw3sf28DGU8HKWuOPxPecXp+sI8tHtydSpxdk/MGPzZyao1
-	V9i9k3xHcn+g6nQmjkr1UNYCzJYLoTVAojmEZBaUf1+jIwaD9K5Mt0E5fcgyoMXaldeg5MEvcPl
-	EImhOzbJINPggosCIJKo59WB0VfHq1YZ0QzLL0pk0XAtHQMuLOjEoys56iyVZqVPFY/g21dEZp8
-	9N3ZRAtSTFJWO+OLJV/Q+gryN+rnZvJW9aT61Unnk+NIcuwUc1j0eL+LvN92rFXGKWeCB8UN4T2
-	kBB5leo2r1QQmEXhdqyLGGGJWWO46i9tihgMJlfYCpRk1xnIA1cwbeihpOBzdd+PwHkAACRsYHV
-	uSvRYfImMP9sHsv6iYk07VEBppzq6M7H8
-X-Received: by 2002:a05:7023:a4b:10b0:159:f192:5290 with SMTP id a92af1059eb24-1a9496c2a81mr14598214c88.13.1793543906838;
-        Sun, 01 Nov 2026 06:38:26 -0800 (PST)
-Received: from puter ([49.207.217.88])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1a136537sm24898966c88.18.2026.11.01.06.38.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 06:38:26 -0800 (PST)
-From: Shivam Madlani <shivammadlani5@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Shivam Madlani <shivammadlani5@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Fix mute and mic-mute LEDs for HP OmniBook 7
-Date: Sun,  1 Nov 2026 20:08:18 +0530
-Message-ID: <20261101143818.17714-1-shivammadlani5@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=xenosoft.de header.i=@xenosoft.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=SF9Fam3H;
+	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=vD19QXKD
+ARC-Seal: i=1; a=rsa-sha256; t=1793544789; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=YTpVAkV7DbJQw/HebBhuQbEAR/O9IkL2/ENsYPrP5Q+eyvqwJrNb0JmDV/SnsbUgLX
+    7HFJhdb3bNzURqAy/aSiC3NuGIMQEKGGHdy2D4GC8diEEd0LRXCpRmZF7IVUh9kPAPwA
+    LsA3eBGY0o0wRYjVT02kWCpcBnsPmKOPVB9UyPHf7S3QHDhmVk8vtskuZhYD+WykHwpe
+    7+7jy+a6cacr08YgiPgfzPMiizgSrdLW4F+jee0dsNCAlVMLgQTQYPA+KW33m1jX00vz
+    Dox6CDUWxoDS910N/vmAQrow402zM7MA9C5Xj12jd/Az69wB5j8aLvZZaNugBZTO4L11
+    Cicw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1793544789;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:Date:Message-ID:References:Cc:To:From:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=46gvrjJkkEAAte/F2HPQxRDwXOoV/JLiqnK4lMTYSB0=;
+    b=gmY2dXfP5ZzKvU7IlhcsZY8oV8lpeOS+eFRmsifI76mOrIa6Bw0p+fTlqDJ1Pm3c09
+    SjiY89/CoHptWzCo/sc5j1n19VFb+0dS9pfwXxPyMZwoAFzgUHzm69tVrjsTCg+SCyDZ
+    b4Lzs6Z8D9NrB4krurS4qstD5KVFZ2qAwoe6+iMI7QHPs9ZWOyZrYuv3DKYX7yjRJyyk
+    hpLqaVQLCUbGj9pOw90LbQP4mFgPTnV8a1qkJi2eAfRB+kQ99kHjfqYuvtCe+5DLst5o
+    FS3vyhpCWtTX5wXlEGVMpubz/Cck5ia+HfLes0KMoD15p5C4DXG7s8wxBXIfutrXyCyF
+    6DMw==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1793544789;
+    s=strato-dkim-0002; d=xenosoft.de;
+    h=In-Reply-To:Date:Message-ID:References:Cc:To:From:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=46gvrjJkkEAAte/F2HPQxRDwXOoV/JLiqnK4lMTYSB0=;
+    b=SF9Fam3Hhre7LR+2avBkrhBtNNVkSqnN+G7jcqJ32JXKho1pdPZ/Gpm7rjhHkCKwKe
+    gjAsgSEA71rEcvFc/PRJT4CMBPvw5hzWncmN6yfa5R9qgg++f+tV5v06R/GTwsLp9Yk5
+    /3W+5VcVPkg4bqaVov1AEPoLwEO0u+y5PfeDdA2kVfoIW73gQQqokbe3WzQnoaSdCtD6
+    nRgu630S5fEGNAndFp9Zk8roz+yzoyNkZwh4fboQn+cOiVptZa5SDi6mHQJTtDhO/DUm
+    ToK/AiG8dbbiz0C8KaLCPBuSnLnBEmQ65ECGxGFviaaPXUlnTuArsfUMNCyAdgnx70Da
+    4GbQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1793544789;
+    s=strato-dkim-0003; d=xenosoft.de;
+    h=In-Reply-To:Date:Message-ID:References:Cc:To:From:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=46gvrjJkkEAAte/F2HPQxRDwXOoV/JLiqnK4lMTYSB0=;
+    b=vD19QXKDvZ3lNNRxSTM+0aEzNT5pi8rEbbUPs2+QUA9tS6Jdgu3xM/5xFMgs+C5yxB
+    qduFud0eAbqey5T2ulAg==
+X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGN0rBVhd9dFr4thIFiqT9BURIi+m7xzg"
+Received: from void-ppc.a-eon.tld
+    by smtp.strato.de (RZmta 55.6.3 DYNA|AUTH)
+    with ESMTPSA id e825d92A1Er86Jd
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Sun, 1 Nov 2026 15:53:08 +0100 (CET)
+Subject: Void PPC: PulseAudio issue with sound updates 7.4-rc1
+From: Christian Zigotzky <chzigotzky@xenosoft.de>
+To: zzzccc427@gmail.com
+Cc: tiwai@suse.de, perex@perex.cz, linux-sound@vger.kernel.org,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, "R.T.Dickinson"
+ <rtd2@xtra.co.nz>, mad skateman <madskateman@gmail.com>,
+ Damien Stewart <hypexed@yahoo.com.au>, Christian Zigotzky <info@xenosoft.de>
+References: <41a2e39a-5637-8afa-f84f-f79e63b3b56e@xenosoft.de>
+Organization: A-EON Open Source
+Message-ID: <3452eb30-44be-cdd1-72e9-c15e145a6444@xenosoft.de>
+Date: Sun, 1 Nov 2026 15:53:07 +0100
+X-Mailer: BrassMonkey/35.0.2
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -95,37 +105,58 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+In-Reply-To: <41a2e39a-5637-8afa-f84f-f79e63b3b56e@xenosoft.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-The HP OmniBook 7 Laptop 14-fr0xxx (PCI SSID 103c:8e3b) uses an ALC245
-codec with CS35L41 amplifiers. The existing quirk
-ALC287_FIXUP_CS35L41_I2C_2 does not configure the speaker mute or
-mic-mute LEDs, leaving them non-functional.
+On 01/11/26 10:15, Christian Zigotzky wrote:
+> Hi,
+>
+> Although PulseAudio recognises the sound cards, it is unable to 
+> successfully initialise the corresponding output profiles on Void PPC 
+> since the sound updates 7.4-rc1 [1]. The output via ALSA works.
+>
+> Tested with the onboard HDA ATI SB sound device, Soundblaster LIVE 
+> Player 1024 PCI card, AMD HDMI audio and with USB audio. Strangely 
+> enough Pulseaudio can enable the sound devices on MintPPC32. I think 
+> the latest sound updates are responsible for the issue on Void PPC.
+>
+> I bisected last week [2] and ad28d2f607d1792c04531f2c5fd9ac0bf5bdcc9c 
+> (ALSA: pcm: Serialize and check HW_REFINE ioctls) is the first bad 
+> commit.
+>
+> I was able to revert the first bad commit and this solved the issue. [2]
+>
+> Then I created a patch for reverting the bad commit. [3]
+>
+> Could you please check the sound updates 7.4-rc1? [1]
+>
+> Thanks,
+> Christian
+>
+> [1] 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=75c1cb8178fe84403fd95236ddf21754f0a4156c
+> [2] https://github.com/chzigotzky/kernels/issues/21
+> [3] 
+> https://github.com/chzigotzky/kernels/commit/644ec7c1f2f812d5eb89741e643f742596a49b2d
+> [4] Screenshots:
+>      - With the sound updates: 
+> https://i.ibb.co/675Yjxvd/Kernel-7-4-0-with-sound-updates.png
+>      - With the patched kernel: 
+> https://i.ibb.co/9HDrnnm1/Kernel-7-4-0-alpha8-Power-PC-1.png and 
+> https://i.ibb.co/vx77FdHV/Kernel-7-4-0-alpha8-Power-PC-2.png
+>
 
-Switch to ALC245_FIXUP_CS35L41_I2C_2_MUTE_MICMUTE_LED, which controls
-the speaker mute LED via COEF index 0x0b, the mic-mute LED via GPIO
-0x04, and chains to the CS35L41 amplifier setup. Also update the model
-name from the internal board codename ("HP Agusta") to the retail
-product name.
+The sound-fixes-7.4-rc1 [1] don't solve the issue with PulseAudio on 
+Void PPC. We still need the sound patch [2] for reverting the bad commit.
 
-Signed-off-by: Shivam Madlani <shivammadlani5@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+- Christian
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 23329d5887a5..b040cea9c268 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -8067,7 +8067,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8e36, "HP 14 Enstrom OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8e37, "HP 16 Piston OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8e3a, "HP Agusta", ALC287_FIXUP_CS35L41_I2C_2),
--	SND_PCI_QUIRK(0x103c, 0x8e3b, "HP Agusta", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8e3b, "HP OmniBook 7", ALC245_FIXUP_CS35L41_I2C_2_MUTE_MICMUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8e43, "HP Laptop 15-fd2xxx", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO),
- 	HDA_CODEC_QUIRK(0x103c, 0x84ee, "HP Pavilion AiO 24", ALC225_FIXUP_HP_AIO_SPK),
- 	SND_PCI_QUIRK(0x103c, 0x8e60, "HP OmniBook 7 Laptop 16-bh0xxx", ALC245_FIXUP_CS35L41_I2C_2_MUTE_LED),
+[1] 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e9954f3fbddd25e1a01b7e5a0b72fb8b564204e0
+[2] 
+https://raw.githubusercontent.com/chzigotzky/kernels/refs/heads/main/patches/e5500/sound.patch
+
 -- 
-2.56.0
+Sent with BrassMonkey 35.0.2 (https://github.com/chzigotzky/Web-Browsers-and-Suites-for-Linux-PPC/releases/tag/BrassMonkey_35.0.2)
 
