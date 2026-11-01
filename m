@@ -1,57 +1,127 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.106
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793560180;
-	b=OUcC27sXzMrdSp6m5bWzOG95LAgs7XGniKt3pSj0Ig8rJqe49tl+KdPCDt7/JMF+m1ca
-	 Gv2gdm9gSLYIv0Rb0/fNp6NzeBRwocZ0NqBBrQ8pl7TAReWQiDdkF2OKjJRVUJZ0cNN9B
-	 ymDjufC9Uwy1P/+XMwcHjj6Tvs/0t8CeZOlfqQ6Hy3thzUQAzKnTzVme/IiNu4cDwRwHr
-	 AQMaqiQQIjQlkNAQtT4wA8hxNZ6gh9c0Bqzrm6vlAwq2+Y6P2kQaIkDbdONMwr6s570vE
-	 BDAjod6Rgd+lka+4FsxC2w3wvVCNXz6gDQPzpID8LQCgYXp9upZ4PlQttd8HpS9+Agw==
+	t=1793560618;
+	b=K41Rzl18gTURmOz72z+ijAbKUm9V4e+hPhvSIXDHtQKPvUbJkz5Ksvu3aKFqsry49EMc
+	 YCg/I+P/aYgwrPA/O388AeBo8wILznIJEx8u8ckxSi29R67FZvP+MmnmTxXXj19LkafAF
+	 J2sc6QIaY53KPMJDk2O7Kv1VMynE4Ep1rd3FtxSRXWL0fFbTI0p4T5Py0IoR2rkIHK/eg
+	 zpVI6bDTUDm4sjLOdRvJBD/dI5XK3kk6gtv3wJmxbTyrOv4sL4bJpT68lZfr2lMkCPoy/
+	 thlLerYsCma1NZ8Riu8qB0P1XNykrS0qJhkJF1LCzsoNXddzA6IrElPvId3QuC4wi/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793560180;
-	h=DMARC-Filter:DKIM-Signature:X-Pm-Submission-Id:From:To:Cc:Subject:
-	 Date:Message-ID:Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=LA4MOBGnH7WOPJ3v5WtMa3hrQfPYQiY2vki2Q7WBKBk=;
-	b=EMHk9IOQ2M1YylV9g50HqAAGS1vN/J99u0bME0y3WmMf0f5evfc/8g8cmPXZo+qW5sTp
-	 JruvDfdVWnVNXJbJ+44OALxhIpsxn8OeXsFPUUTfhLm7/JwgAE9bMTzF0wshmARlo+3j/
-	 9y3NxMfXLIa7ijAZHfjtCRHQfQQO3PQYLaysDtZ5dW+q0OlT5zE/EzmnfeSSum3yFZW11
-	 2+Hrap/YK/QgpOWaNqBwRLx6E30i/Vi88oSotoMMH7jLF3vM4o839K6msvd0g1F6asn3J
-	 KMuSXyvj8gDGRDhZZjqCje1vl2sXp0r+7HacicWqxWj629OAAwy0lrbzh4zk4JFuaFg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793560618;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=UOs1j22LjLE1SIXla0/ZeRPDc93Djkkb3vt/+irTwsM=;
+	b=dtmQowS3kGPbiblEqPVN9MvOdhK+5bjYXS7DuvVbbbqDNMugirbSpdG5DrHfCrTlicun
+	 36EE2RXNz3PmdZu/jXQgDAA6BXXpTmmmiLKw/fVrdSlNXzV6a33fugbnX/WQOVAsqYZTg
+	 lhtRScMM+dRvzUwfwsMnPRG73M5opVEQ4NVvJgVxn6uq/qqcMdn7DzRHhbBWl2OutC5tI
+	 S+3P+AuclVeURuKVhhZTFLvKt597umXpdsShNBvMsXls95XWhoC5aNUadzhguvPfoFRLR
+	 IdUtIDVh0btDkpJk05oFKuVXa6YcEW6wdEB8UrqPWLR11Z83zTmS3VLVVxwg+z36vcg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=michaelmcallister.org;
-	spf=pass smtp.mailfrom=michaelmcallister.org;
-	dkim=pass header.d=michaelmcallister.org header.i=@michaelmcallister.org header.a=rsa-sha256 header.s=protonmail2 header.b=Oo59QWws;
-	arc=none smtp.remote-ip=109.224.244.106
-Received: from mail-244106.protonmail.ch (mail-244106.protonmail.ch [109.224.244.106])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="Lj/u2+tg";
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=bBLSzuTP;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED15606A326;
-	Sun,  1 Nov 2026 19:09:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BED15606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=michaelmcallister.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=michaelmcallister.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04776606A324
+	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 19:16:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04776606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=michaelmcallister.org header.i=@michaelmcallister.org header.a=rsa-sha256 header.s=protonmail2 header.b=Oo59QWws
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Lj/u2+tg;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=bBLSzuTP
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A1HQSFu889007
+	for <linux-sound@vger.kernel.org>; Sun, 1 Nov 2026 19:16:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=UOs1j22LjLE
+	1SIXla0/ZeRPDc93Djkkb3vt/+irTwsM=; b=Lj/u2+tgp0cEoJGTBhM2RPfzUbd
+	ZdX1QbQH2xav3dUclBCjHtSqspvB31kN3ImJf/6GK/s7QWBIIPIPaQF2yi0T0rh6
+	v90h9lDTJp2Z+UjPqCH6hQZi5hGm6/217zhNPn1a7UtWNURuF+O7UkMqQ3j43fuw
+	69qaPPf6VcvCs78nyhhe2QIVeSk4ff2uH26zSl5sdUJmTjQoqvXVu4GuyiZNt7ha
+	qTqFVWGaevtnibDyl6/hO6DizgJtS/PkudXSS9t0kiBO3gDvONPABPrqJT1CqLO3
+	p0Ba0ciC1z7s7/spva0JueoylYMMx7z+6PK+jUevJZPTvU5Y532pBBbrVWg==
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com [209.85.221.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hn93ekvuy-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Sun, 01 Nov 2026 19:16:56 +0000 (GMT)
+Received: by mail-vk1-f197.google.com with SMTP id 71dfb90a1353d-5c82cf2652dso397486e0c.1
+        for <linux-sound@vger.kernel.org>; Sun, 01 Nov 2026 11:16:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=michaelmcallister.org; s=protonmail2; t=1793560176; x=1793819376;
-	bh=LA4MOBGnH7WOPJ3v5WtMa3hrQfPYQiY2vki2Q7WBKBk=;
-	h=From:To:Cc:Subject:Date:Message-ID:From:To:Cc:Date:Subject:
-	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=Oo59QWwsn6DOx+vKWEP+KJTo3iSzN+4tSy4IbHEsEy5suIQ9jzImkBCL+Q+dmKRUv
-	 JBoxAZtI2YfppKFRkcQl54B3Sy/rD/Z7iRwDL0HoyuePPjkIY2nkPR15wb5Ch1WOyf
-	 aqo6VL9+/33/m/nE1f5PrW6JTfJP51mD6D3s2oAYCz86k9Qg2INGVv2NsSGXm3zprD
-	 midkrvc/O6ydfdTuUnUJKne5ZMohfMGIP5sPapozHiB9si5cjvB0cWb3ug1U+3nNPC
-	 LiGdD2sdjbOszgHYCZE0MX/ouojhlnzmsVKaoQ/0OGRK8AInPNQvIiQTE4RbBSDjYm
-	 hYwqJ7j48rb1A==
-X-Pm-Submission-Id: 4jHksn6L9Tz1DFSp
-From: Michael McAllister <me@michaelmcallister.org>
-To: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, Michael McAllister <me@michaelmcallister.org>
-Subject: [PATCH] ASoC: qcom: q6asm: Correct the 24-bit capture format
-Date: Sun, 01 Nov 2026 19:05:33 +0000
-Message-ID: <179355993304.51321.11135059681945648585.q6asm-capture-format-v1@michaelmcallister.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+        d=oss.qualcomm.com; s=google; t=1793560615; x=1794165415; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=UOs1j22LjLE1SIXla0/ZeRPDc93Djkkb3vt/+irTwsM=;
+        b=bBLSzuTPHA5+PA/yByTKS6PHYF0Ij1RKieMLlrc8+KuEnB3iP9tDzqvKJzE3yoUEUI
+         D1nfH31Jz3EN9EDck60ztIg5tTTZWxmEglBuTvdlbO22orUGVODg+U6fc9LYj/vpMvNc
+         UfiiPvwbSjGU9/+sUFTAx9UWRaebHyk5UftI4Uyv2tz78Zk3nJp9HYlwlfZkf5oAb0bA
+         6HczoDrXvVb4/0rkxdsrQvqmBQVri+Felbps3cavRrFOLTVut6AjjLTcJgUJmkoWFXuX
+         ySxe0jEtjve5Bo/MIdn3BppC6zIHjXdr6Lt+hJVE0jNZgxziFbDb4/5NmvY8Lp9W/a86
+         WfIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793560615; x=1794165415;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=UOs1j22LjLE1SIXla0/ZeRPDc93Djkkb3vt/+irTwsM=;
+        b=nGyKDtywDoBEpHxyiWyvPf7kgg5Mk+S93W+XGAVfDfW5qfaRcp1n0jJ4t0JfDIs13u
+         shNL/c/ZAjKu3dyfV93BYtazpPBNiWXqR8UFaXCzdYyUFZhulqpqr3ZDoQF459wuraYe
+         VkXL2LnOJdY5TpEDQBd8vhLRd+2sMuWX67PFSY5MWsPrJMGq3MXoNvNejQmyyS3MCCJh
+         nrlA6RBURahAoSisOC14tv1id9Hffk0pFj8VeHee6h+8ZDRr7qt0Zr+Nv0VmAonCdWCt
+         wK77nQqmBzSrscosK1ywT2Jmn6gBbA/leVk2bk2HbPoKgs+eIhLrSFfj2ScAxOxlCZzH
+         HawQ==
+X-Forwarded-Encrypted: i=1; AKwUvByRLIK5XOusmnIX8toI6cpoAns7vEGcSSLL1+hDcoWya99SosXL3IaXMGUJsAqwjOsO4s+TxPuqm8zd9g==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8NUDsLOLwwY/eGcMh5eLstGfOJoFceRUPW+yAf+BrlfCGv+gZX
+	NMcJeGA938Adhc9EPNscVu00EpfYl1Yu362Q1GCA5td9t4Wc6Km8Uo9jkUrysXoqgq07xahifes
+	UfAeuPP9x9Pi6dyX5Ovb9qAfAV8lUDhaPSminNX9eWOvgq3s1/gLzqvxnYwliqGD8ag==
+X-Gm-Gg: AYBFou3gHxU51Jv+gTAOlC9nmyAGmHLA8a1cDMjkGwZKkgf/CCho8ot+nHPHafB8THy
+	YnI/6DvaCeDWV6Sfr/c/v+aT2y+pxjOyG6cUXr7q+/ojqNu6mhiToANmkYkvSSO2ojRzCdBPQcT
+	W2VY7ZarhzbAEYd5lcVFjNB2CzcY9yepX+35mZTI/KMagAac0Nzz7xPMyncOfPnWXXJ8g8Z5uAA
+	BM4U7If9wyssu2nJPQnxgAobwbbrhB72vTQAtDtlCDOkgtkPY2Ozbg4ashaSNMXSzFKcaUzAOSf
+	hR0K2H/dzdRRiYYimTlRoDq0JfNPbYx9XsDBA8s4K0av923DL1iqQ3hVS0zKzASTv0+/74ShZSE
+	uBvh29DYq/p4OgRJbIZowNof+s+C+doo0T4DxjM/VC8XNK1lJDnHeytuv+s857A==
+X-Received: by 2002:a05:6102:524a:b0:7cc:1ace:fd11 with SMTP id ada2fe7eead31-7d0726359b5mr2913441137.8.1793560615035;
+        Sun, 01 Nov 2026 11:16:55 -0800 (PST)
+X-Received: by 2002:a05:6102:524a:b0:7cc:1ace:fd11 with SMTP id ada2fe7eead31-7d0726359b5mr2913435137.8.1793560614547;
+        Sun, 01 Nov 2026 11:16:54 -0800 (PST)
+Received: from quoll ([178.197.218.7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71a4d3f9sm17168223f8f.4.2026.11.01.11.16.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Nov 2026 11:16:53 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Abel Vesa <abelvesa@kernel.org>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Mark Brown <broonie@kernel.org>, Andy Gross <andy.gross@linaro.org>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        stable@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>
+Subject: [PATCH v2] soc: qcom: apr: Reject packets with header size larger than packet size
+Date: Sun,  1 Nov 2026 20:07:35 +0100
+Message-ID: <20261101190733.121473-4-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261101190733.121473-3-krzysztof.kozlowski@oss.qualcomm.com>
+References: <20261101190733.121473-3-krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,150 +131,100 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2069; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=kJg/rvfiN7UDl3v4JnVjo0T2/XuVJN1WlSd/w2seENE=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBq5436kMlPdugyAQucba+rGuml7G8LnGlzYcMDi
+ r4C/KyVAy+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaueN+gAKCRDBN2bmhouD
+ 15SKD/9rfYsZQDHFYT5ukKYAd98y0gH0XOt/ww0qCH7VHPI2mp+aO43S7bAAR9v2TZQMN9tZvaN
+ co6HZNn83E4znnaaNg/VZOPQxHhCVPJXaECLpRQrSXNMY7WjtUZXqTPI4jEh7E6szRxHSjnmXAv
+ s2ZfruTWiVVLTP8U2Vhnzm77fOCbgwSiLo00BgWXyZ7s+7oIRT4A+E6xXaFb0d4APn6pE68CvI/
+ XYhX+5XPv/V5Urs4iA+8QloZYddAXx6VwwCA009u8ksU8lgWVbMS0bc194nLIzfAxvggB69IDQ1
+ m46Ji4vqediUExfubRsPPpEi+lHkQnquo2FAockRKUyKLbsb5+j5+czLQaj4GKFl0wIoiOCdBmD
+ n957wW1OyUvoXuVtH80dFF4PyOpOxSGfTkGaBp/UfLKgYe40k/j+piY0reZjaQgT7FC4786AFRB
+ YW9pptUes2+3a3J/BI2k1J90Xf6K3LJCbvmRwFDxGuhE0k2hQZog7xa6xlhr7mmmn5i8s11hRW8
+ nQn3v/wC+6w8BXQU8prrKv0l5Tc8nYqeFwmUfqgWDKkX3Ehw2yP+m7s6zIBEznYHV12uqPTaIj9
+ 5j8/M2Cs7jkxmWliJG5JOIeg5UwpUMhNB0P0youYObuv3hpKMiAEjhxJXrNB4IE87U6puXTtaQD uT9sTflUQQlTrRA==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAxMDA3NiBTYWx0ZWRfX87h81B5vsNP9
+ wJ1BZQzF+/Hi/YgE8j6war+7fkDNf5vSLHkrQLBvPdzREZdzLhCxGUds4YhqW/0t9VkWHUNHl4E
+ J6KTrfjN3hXnzlBTzi2aEUWlN/d7XtELY3s/S0vYR2YWOEvaWO3WpcjJj3DhAe1ChNfS3ElxP12
+ YWgtVBP51I+PUiW8JEAE7qdgWNGe7s9UzoS5l2lwiw91aE9iLcU5wrIfPCAE34I64KgjyVqyW/Z
+ jWH2Qps5dmvCdszKHcs9mhWpvd0lcixeSm8KboyWvb6HekPgC2deQAP+Mwm7xS5gudSRfmF4hI6
+ nuyuW/kayjtNqmjvH24Z30JGTjx+uG0yciGFI3M10z5Oh/AYISZRmuesjc4QPabbooESw3vcQCZ
+ RSVWtmcz21qquGBqvyr6C3AQ6exyud3eByF9dtb0MCfPscDlmUANybfutvWpS6RQEdgMgOtq/30
+ POTFoMF9rSiBBvoEhcA==
+X-Authority-Analysis: v=2.4 cv=FciiV5+6 c=1 sm=1 tr=0 ts=6ae79028 cx=c_pps
+ a=JIY1xp/sjQ9K5JH4t62bdg==:117 a=uyPgTw0bjBTS2cVxpiNm5w==:17
+ a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=c92rfblmAAAA:8
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=fiEMaWzmfHqX7dR_b_IA:9
+ a=tNoRWFLymzeba-QzToBc:22 a=GvGzcOZaWPEFPQC_NcjD:22
+X-Proofpoint-ORIG-GUID: UiK56OQQ1z2VtdXPUf_MGwlIN6YK7WBV
+X-Proofpoint-GUID: UiK56OQQ1z2VtdXPUf_MGwlIN6YK7WBV
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAxMDA3NiBTYWx0ZWRfXzYEclbj8WEQg
+ UaWqmKy/hxEHKBEa5byphzLzhvUbjs9lx16PBBCh9Li6mZTxA0uqJ3EEl9K0wvYLOiMubsmdQaO
+ JXCBgI23rasA/frk6FQWsk+qltRutjE=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-01_06,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0 impostorscore=0 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 priorityscore=1501 phishscore=0 adultscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611010076
 
-Recording in S24_LE on my Moto G10 produces badly scaled samples that
-wrap at full scale. The PCM V2 DSP interface places 24-bit samples in
-bits 31:8 of each 32-bit word, but ALSA S24_LE expects bits 23:0.
+apr_do_rx_callback() and gpr_do_rx_callback() validate the header size
+and the packet size separately, but never check that the header fits
+within the packet.  Both sizes are u16, so with a malformed packet where
+the header size exceeds the packet size, the subtraction computing
+resp.payload_size gets promoted to int and becomes negative.
 
-Replace S24_LE with S32_LE for capture and constrain it to 24
-significant bits. Keep the DSP configured for 24-bit samples. This
-matches its native layout without converting samples in the kernel.
-Playback is unchanged.
+Further check "resp.payload_size > 0" would fail, leading to
+resp.payload left uninitialized (stack value).  Reject such packets as
+having a wrong packet size, although unlikely that firmware would
+produce such packets.
 
-Translate S32_LE back to S24_LE in the APQ8096 and SC7180 backend
-fixups so that routing and the physical audio ports keep their 24-bit
-width. The other Q6ASM machine drivers already set the backend format.
+Fixes: 6adba21eb434 ("soc: qcom: Add APR bus driver")
+Fixes: ec1471a898cc ("soc: qcom: apr: Add GPR support")
+Cc: stable@vger.kernel.org
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://sashiko.dev/#/bug/linux-82d40745-1593-4c20-8432-d86099836525
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Tested on the Moto G10 with direct ALSA and PipeWire capture at 48 kHz,
-using 16-bit and 32-bit containers, reopening the stream, and recording
-after suspend. ALSA reports 24 significant bits for S32_LE. S24_LE
-capture through ALSA's plug conversion also works.
-
-Signed-off-by: Michael McAllister <me@michaelmcallister.org>
 ---
-Hi,
 
-I found this while getting the microphone working on my Moto G10
-(SM4250). This fixes the incorrect sample format for 24-bit capture;
-I've tested it with ALSA and PipeWire, including after suspend.
+Changes in v2:
+1. Test for <=, because hdr==pkt size still would leave the response
+   payload uninitialized.
+---
+ drivers/soc/qcom/apr.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-The APQ8096 and SC7180 changes have only been build-tested, so testing
-on those boards would be appreciated.
-
-Thanks,
-Michael
-
- sound/soc/qcom/apq8096.c         |  8 ++++++++
- sound/soc/qcom/qdsp6/q6asm-dai.c | 12 ++++++++++--
- sound/soc/qcom/sc7180.c          |  8 ++++++++
- 3 files changed, 26 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/qcom/apq8096.c b/sound/soc/qcom/apq8096.c
-index cfd6438db..25f2f0c0e 100644
---- a/sound/soc/qcom/apq8096.c
-+++ b/sound/soc/qcom/apq8096.c
-@@ -6,6 +6,7 @@
- #include <sound/soc.h>
- #include <sound/soc-dapm.h>
- #include <sound/pcm.h>
-+#include <sound/pcm_params.h>
- #include "common.h"
- 
- #define SLIM_MAX_TX_PORTS 16
-@@ -19,10 +20,17 @@ static int apq8096_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
- 					SNDRV_PCM_HW_PARAM_RATE);
- 	struct snd_interval *channels = hw_param_interval(params,
- 					SNDRV_PCM_HW_PARAM_CHANNELS);
-+	struct snd_mask *fmt = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
- 
- 	rate->min = rate->max = 48000;
- 	channels->min = channels->max = 2;
- 
-+	/* Keep the backend at 24 bits despite the 32-bit capture container. */
-+	if (params_format(params) == SNDRV_PCM_FORMAT_S32_LE) {
-+		snd_mask_none(fmt);
-+		snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S24_LE);
-+	}
-+
- 	return 0;
- }
- 
-diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6asm-dai.c
-index 4261c3048..4bed05f0d 100644
---- a/sound/soc/qcom/qdsp6/q6asm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
-@@ -90,7 +90,7 @@ static const struct snd_pcm_hardware q6asm_dai_hardware_capture = {
- 				SNDRV_PCM_INFO_INTERLEAVED |
- 				SNDRV_PCM_INFO_PAUSE | SNDRV_PCM_INFO_RESUME),
- 	.formats =              (SNDRV_PCM_FMTBIT_S16_LE |
--				SNDRV_PCM_FMTBIT_S24_LE),
-+				SNDRV_PCM_FMTBIT_S32_LE),
- 	.rates =                SNDRV_PCM_RATE_8000_48000,
- 	.rate_min =             8000,
- 	.rate_max =             48000,
-@@ -151,7 +151,7 @@ static const struct snd_pcm_hardware q6asm_dai_hardware_playback = {
- 				  SNDRV_PCM_RATE_12000 |		\
- 				  SNDRV_PCM_RATE_24000),		\
- 			.formats = (SNDRV_PCM_FMTBIT_S16_LE |		\
--				    SNDRV_PCM_FMTBIT_S24_LE),		\
-+				    SNDRV_PCM_FMTBIT_S32_LE),		\
- 			.channels_min = 1,				\
- 			.channels_max = 4,				\
- 			.rate_min =     8000,				\
-@@ -377,6 +377,13 @@ static int q6asm_dai_open(struct snd_soc_component *component,
- 
- 	stream_id = cpu_dai->driver->id;
- 
-+	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
-+		/* The DSP stores 24-bit samples in the high bits of 32-bit words. */
-+		ret = snd_pcm_hw_constraint_msbits(runtime, 0, 32, 24);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
- 	pdata = snd_soc_component_get_drvdata(component);
- 	if (!pdata) {
- 		dev_err(dev, "Drv data not found ..\n");
-@@ -506,6 +513,7 @@ static int q6asm_dai_hw_params(struct snd_soc_component *component,
- 		prtd->bits_per_sample = 16;
- 		break;
- 	case SNDRV_PCM_FORMAT_S24_LE:
-+	case SNDRV_PCM_FORMAT_S32_LE:
- 		prtd->bits_per_sample = 24;
- 		break;
+diff --git a/drivers/soc/qcom/apr.c b/drivers/soc/qcom/apr.c
+index 2d5645ff9919..e303562526d4 100644
+--- a/drivers/soc/qcom/apr.c
++++ b/drivers/soc/qcom/apr.c
+@@ -210,7 +210,8 @@ static int apr_do_rx_callback(struct packet_router *apr, struct apr_rx_buf *abuf
+ 		return -EINVAL;
  	}
-diff --git a/sound/soc/qcom/sc7180.c b/sound/soc/qcom/sc7180.c
-index bc5a18883..9e4bd9855 100644
---- a/sound/soc/qcom/sc7180.c
-+++ b/sound/soc/qcom/sc7180.c
-@@ -13,6 +13,7 @@
- #include <sound/core.h>
- #include <sound/jack.h>
- #include <sound/pcm.h>
-+#include <sound/pcm_params.h>
- #include <sound/soc.h>
- #include <uapi/linux/input-event-codes.h>
  
-@@ -425,10 +426,17 @@ static int sc7180_qdsp_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
- 					SNDRV_PCM_HW_PARAM_RATE);
- 	struct snd_interval *channels = hw_param_interval(params,
- 					SNDRV_PCM_HW_PARAM_CHANNELS);
-+	struct snd_mask *fmt = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
+-	if (hdr->pkt_size < APR_HDR_SIZE || hdr->pkt_size != len) {
++	if (hdr->pkt_size < APR_HDR_SIZE || hdr->pkt_size != len ||
++	    hdr->pkt_size <= hdr_size) {
+ 		dev_err(apr->dev, "APR: Wrong packet size\n");
+ 		return -EINVAL;
+ 	}
+@@ -280,7 +281,8 @@ static int gpr_do_rx_callback(struct packet_router *gpr, struct apr_rx_buf *abuf
+ 		return -EINVAL;
+ 	}
  
- 	rate->min = rate->max = 48000;
- 	channels->min = channels->max = 2;
- 
-+	/* Keep the backend at 24 bits despite the 32-bit capture container. */
-+	if (params_format(params) == SNDRV_PCM_FORMAT_S32_LE) {
-+		snd_mask_none(fmt);
-+		snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S24_LE);
-+	}
-+
- 	return 0;
- }
- 
-
-base-commit: 46fec1c3029b552ec63b2d01af9d43a386f043ea
+-	if (hdr->pkt_size < GPR_PKT_HEADER_BYTE_SIZE || hdr->pkt_size != len) {
++	if (hdr->pkt_size < GPR_PKT_HEADER_BYTE_SIZE || hdr->pkt_size != len ||
++	    hdr->pkt_size <= hdr_size * 4) {
+ 		dev_err(gpr->dev, "GPR: Wrong packet size\n");
+ 		return -EINVAL;
+ 	}
 -- 
-2.39.5
+2.53.0
 
