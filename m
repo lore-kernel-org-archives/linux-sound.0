@@ -1,55 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793546865;
-	b=LiDKC6hfceH+NNblv+rENV+t127t3vo+X0B0PcNSaGKy6a7Q3nSR8nLeTT77JDZfmSID
-	 tOT9A6aXKBxf9O2X31kwLgrf3vAOB87C6JsBCVrkwcKlKoKvCoHREXY4AcuTxcSjVgoH+
-	 7SIeyqzs8xpR+VyWWXvoML9qImrLB3HRgWQqdJMd7cs0fxr8o8CViuKZ91VCS7wOzM2HG
-	 LxChqJne8BCoV6l7PjfQyPdX2lOkXwhiJdvO9Cz0Uej31yv0C3yBlXoPw8jFKsb0pMB6Q
-	 5alTmiscgqni4PaB+SzR2rPfU14G+Su5HoCL1XlmFEU4ASZcv3JrZjIjpccWtjyPTIQ==
+	t=1793547164;
+	b=3hxQzX6XJHvAV5vDMCwk9kiRBjPquOnFQCzM6Nuw/OBvmXLvIF16JKMu53AHN6VXdH7c
+	 vLa9sbocDudsu0Y0Cpg6C/z8tI2kabvD2C1gfK6DmV7CGNcCOH2+jphzUXfWtjk7dT7pK
+	 1GeKSCvhGCJwMjKaR3zzpAR4AZlb3W2ZIqtTbigeYyQpDlWSjK+ijL8Uv7/O0mlkFBHu6
+	 9JOycjLx5Gx/cTwta8NKLCGr/qu36ooMRcLVSi/vsPP4ZL5qrmlJWAVglZgBPHLeb/9lP
+	 hnVmDLl2q5ygTEyb9MjdEDjR5gGlr775EoB/8InloXXnBJ01SoQFp1z241CdWbtFaag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793546865;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=qQpA9tzrfc1MY6TOTF3afRoYZc8oN/zB5p3F/VUHBew=;
-	b=iqXlEujAFKoEgoR96gX7HGws3md0zYd9Qu1upOGkIimu59l2QIyZCf+HHxj5t8RiMjRT
-	 L65biDDK/8vMh26GoA33ey5zZoQhZQDRUJxINkrY/HUBgj5RX3HeVMEn0HsmTw7OAKdpm
-	 yzodWwO0YUym4BzZfVl+/sDIPiNO1g09jGlL3k4bBeRfLvXwsKIBa0FECdhWsz0EjHXXy
-	 52Xs/CFdEaG/Ss2wkUU2gJqbVeyMihXiGkRuHggOexcnAd/9+wEZNikGGzj6u7wk2L/Ay
-	 IrbWMs/yGm0I7vZwIIaY1G5KHld7TyVEc/hfgzjMiJZLpSL3NkNBzMrDKpO7lv6nfxw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793547164;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=Hvpx/ahIxVQP35occbNZa581qq41bBI9D98Rab5woag=;
+	b=yiPpe6IjiYzRS0U+JA/GE0X17j/SmNKb4z3w0uWq2nKzOMCIURPEAdG20xCO34XmYPuO
+	 hx1vgtBAzRb7vxjSoU+KesF9JFTu400IXDzjb+AL3o/15IlC+7exshkQQg0TnJYN8Xnp1
+	 4gxTV4Lmwtp/WwxJnA35w0RDc8MXpaZN3Ca7xKlhygFdA/4/B7Q+pjc0X2nYABd8QM37y
+	 ON2MEk3pbeFDnW25ooqmbndb2Bw8Se2CZs3eCXsA8DXtfmppMOZ7zmt4bW4ItVArCEATV
+	 7poEX9MDNSmY0p4Rqubp0opYDtVaFaaxXonyyOhvkqM7G3sRtqZPeO07I6mD2qkN7Aw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TMc6NOVV;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=xRwQuUE4;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="mCC/XQHI";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=xRwQuUE4;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="mCC/XQHI";
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E6D606A324
-	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 15:27:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBC8606A324;
+	Sun,  1 Nov 2026 15:32:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1DBC8606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TMc6NOVV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 728921F0093A;
-	Sun,  1 Nov 2026 15:27:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793546864;
-	bh=qQpA9tzrfc1MY6TOTF3afRoYZc8oN/zB5p3F/VUHBew=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=TMc6NOVVqfvUM7xmY0M+xloCESZkMBIJuYZGcBrmtPHS6qTK4q9qetCYHzwvX7nyD
-	 i55rva7WlQejJSgQGxa//KhyDOUR8lJpNeje0ZiBkz5E5rp0qJ/5+drWmvwjzV7hkI
-	 +qPSvZM4TabtknzhuUP5OZwowC8A7RUlkJUp9Wdro+KTMheMuy7W8dO024N5BIH0OF
-	 Ly+pd37eBoS6FCk5F8QMvmwBRVa1Eq9cflF2YcmIu8U/fjL/ARnQ9gdYTVOBqcabLj
-	 8zuUF08z/iFrNAJA7d2RIPPYrJM00iYuAtVqMmpWczHd8EMn09uitx+rBBDn33/UM3
-	 GWakMpV09INLw==
-Message-ID: <sashiko-outbox-192468@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ALSA: hdsp: allow sample rate changes from hw_params
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Rafael Gago" <rafael.gago@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261101-hdsp-sound-v1-1-f39f185400b5@gmail.com>
-References: <20261101-hdsp-sound-v1-1-f39f185400b5@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 01 Nov 2026 15:27:44 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=xRwQuUE4;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mCC/XQHI;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=xRwQuUE4;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mCC/XQHI
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F14F51F7BD;
+	Sun,  1 Nov 2026 15:32:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793547156; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Hvpx/ahIxVQP35occbNZa581qq41bBI9D98Rab5woag=;
+	b=xRwQuUE4pd3UTBUUfBWu1jKyyGXisxvq3YD4ebJnFiUuHlLHmalKFxHrwGuf4vtNjfLVkT
+	P+nQQrKXTzKRk67LEbeMhXeXAwCsR/68UJ7JKGyDcU2x64cDuDsCpNR0z/xqmIa3TPiWZ6
+	O35iJ7ZVZp9CS2k/W+Z2QX9DdgKhums=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793547156;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Hvpx/ahIxVQP35occbNZa581qq41bBI9D98Rab5woag=;
+	b=mCC/XQHImKF+H2eiZFg9yJzu38lQZxZQxMLuM+9KkH7Tl9HwnWOjjcJ197LoLDaYowBmFQ
+	g4G28QkXYtlrrcCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xRwQuUE4;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="mCC/XQHI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793547156; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Hvpx/ahIxVQP35occbNZa581qq41bBI9D98Rab5woag=;
+	b=xRwQuUE4pd3UTBUUfBWu1jKyyGXisxvq3YD4ebJnFiUuHlLHmalKFxHrwGuf4vtNjfLVkT
+	P+nQQrKXTzKRk67LEbeMhXeXAwCsR/68UJ7JKGyDcU2x64cDuDsCpNR0z/xqmIa3TPiWZ6
+	O35iJ7ZVZp9CS2k/W+Z2QX9DdgKhums=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793547156;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Hvpx/ahIxVQP35occbNZa581qq41bBI9D98Rab5woag=;
+	b=mCC/XQHImKF+H2eiZFg9yJzu38lQZxZQxMLuM+9KkH7Tl9HwnWOjjcJ197LoLDaYowBmFQ
+	g4G28QkXYtlrrcCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7B650134B3;
+	Sun,  1 Nov 2026 15:32:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 1MkkFJNb52qQLgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 01 Nov 2026 15:32:35 +0000
+Date: Sun, 01 Nov 2026 16:32:35 +0100
+Message-ID: <87ld7cpnxo.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.de>,
+	Bin Yu <byu@xidian.edu.cn>,
+	Cheng Wen <wencheng@xidian.edu.cn>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v3] ALSA: bcd2000: Fix use-after-free of MIDI URBs on file close
+In-Reply-To: <20261031190936.5696-1-25031212351@stu.xidian.edu.cn>
+References: <874ie1rbge.wl-tiwai@suse.de>
+	<20261031190936.5696-1-25031212351@stu.xidian.edu.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,125 +116,76 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: F14F51F7BD
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -12.51
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] ALSA: hdsp: race on other->runtime->state in hdsp_speed_change_b=
-locked()
---
+On Sat, 31 Oct 2026 20:09:36 +0100,
+YuanZhe Liu wrote:
+> 
+> bcd2000_disconnect() calls snd_card_disconnect(), which only prevents
+> new opens, and then frees the MIDI URBs.  A rawmidi file that was
+> already open can still be closed afterwards, and its close callback,
+> bcd2000_midi_output_close(), calls usb_kill_urb() on midi_out_urb.
+> 
+> The URB pointers are cleared on disconnect and their accesses are
+> serialized with midi_lock, but bcd2000_midi_output_close() reads
+> midi_out_urb without that lock.  The check can therefore pass just
+> before the pointer is cleared, and usb_kill_urb() then runs on the URB
+> that has already been freed:
+> 
+>   BUG: KASAN: slab-use-after-free in usb_kill_urb+0x74/0x80
+>   Read of size 8 at addr ffff8880078e7d40
+>    usb_kill_urb
+>    bcd2000_midi_output_close
+>    close_substream
+>    rawmidi_release_priv
+>    snd_rawmidi_release
+> 
+>   Allocated by: usb_alloc_urb <- bcd2000_init_midi <- bcd2000_probe
+>   Freed by:     usb_free_urb <- bcd2000_midi_free
+>                 <- bcd2000_disconnect
+> 
+> Take the lock in bcd2000_midi_output_close() and reference the URB with
+> usb_get_urb() before releasing it.  The URB then stays valid until
+> usb_put_urb() after usb_kill_urb() has returned, even if a disconnect
+> frees it in the meantime.  usb_kill_urb() itself cannot run under
+> midi_lock, as the completion handler takes the same lock.
+> 
+> Fixes: b47a22290d58 ("ALSA: MIDI driver for Behringer BCD2000 USB device")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
 
-commit 6c483175b4a8f7fb76733a5685d3d140f485defd
-Author: Rafael Gago <rafael.gago@gmail.com>
+Applied now.  Thanks.
 
-ALSA: hdsp: allow sample rate changes from hw_params
 
-This commit updates hdsp_set_rate() to accept the requesting PCM substream
-and adds hdsp_speed_change_blocked() so that speed mode transitions from
-snd_hdsp_hw_params() are only blocked when the opposite substream is open a=
-nd
-past SNDRV_PCM_STATE_OPEN.
-
-> diff --git a/sound/pci/rme9652/hdsp.c b/sound/pci/rme9652/hdsp.c
-> index 7dce548b9f363..a3dfa937d7e54 100644
-> --- a/sound/pci/rme9652/hdsp.c
-> +++ b/sound/pci/rme9652/hdsp.c
-> @@ -1095,7 +1095,35 @@ static void hdsp_set_dds_value(struct hdsp *hdsp, =
-int rate)
->  	hdsp_write(hdsp, HDSP_freqReg, hdsp->dds_value);
->  }
-> =20
-> -static int hdsp_set_rate(struct hdsp *hdsp, int rate, int called_interna=
-lly)
-> +/*
-> + * A speed mode change moves the channels to different DMA buffer slots
-> + * (hdsp->channel_map) and changes the channel count. It is only safe if
-> + * no substream other than the one asking for it (if any) was set up with
-> + * the old layout. A substream of another process is already turned away
-> + * by snd_hdsp_hw_params().
-> + */
-> +static bool hdsp_speed_change_blocked(struct hdsp *hdsp,
-> +				      struct snd_pcm_substream *substream)
-> +{
-> +	struct snd_pcm_substream *other;
-> +
-> +	if (!substream)
-> +		return hdsp->capture_pid >=3D 0 || hdsp->playback_pid >=3D 0;
-> +
-> +	if (substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK)
-> +		other =3D hdsp->capture_substream;
-> +	else
-> +		other =3D hdsp->playback_substream;
-> +
-> +	return other && other->runtime->state !=3D SNDRV_PCM_STATE_OPEN;
-> +}
-
-[Severity: Medium]
-Can two concurrent snd_pcm_hw_params() calls on the playback and capture
-substreams race here and switch hdsp->channel_map underneath a substream th=
-at
-has just finished snd_hdsp_hw_params()?
-
-When a single thread opens both directions, hdsp->playback_pid and
-hdsp->capture_pid match, so snd_hdsp_hw_params() allows both substreams to
-proceed to hdsp_set_rate(). In sound/core/pcm_native.c:snd_pcm_hw_params(),
-each substream only holds its own runtime->buffer_mutex, and runtime->state
-is not updated to SNDRV_PCM_STATE_SETUP until after substream->ops->hw_para=
-ms
-returns:
-
-sound/core/pcm_native.c:snd_pcm_hw_params() {
-	...
-	if (substream->ops->hw_params !=3D NULL) {
-		err =3D substream->ops->hw_params(substream, params);
-		if (err < 0)
-			goto _error;
-	}
-
-	runtime->access =3D params_access(params);
-	runtime->format =3D params_format(params);
-	runtime->subformat =3D params_subformat(params);
-	runtime->channels =3D params_channels(params);
-	runtime->rate =3D params_rate(params);
-	...
-	snd_pcm_set_state(substream, SNDRV_PCM_STATE_SETUP);
-}
-
-If one thread calls snd_pcm_hw_params() on playback at single speed (for
-example 48 kHz with ss_out_channels), snd_hdsp_hw_params() sets the
-single-speed hdsp->channel_map and releases hdsp->lock while
-playback_substream->runtime->state is still SNDRV_PCM_STATE_OPEN.
-
-Before that first thread reaches snd_pcm_set_state(), a second thread (or
-forked process sharing the open file descriptors) calling snd_pcm_hw_params=
-()
-on capture at double or quad speed (96 kHz or 192 kHz) will still observe
-playback_substream->runtime->state =3D=3D SNDRV_PCM_STATE_OPEN in
-hdsp_speed_change_blocked() (which is also read without holding the other
-substream's PCM stream lock or buffer_mutex). It will then overwrite
-hdsp->channel_map with the double-speed or quad-speed map while the playback
-substream finishes snd_pcm_hw_params() with runtime->channels set to
-ss_out_channels.
-
-Subsequent transfers on the higher channel numbers in snd_hdsp_playback_cop=
-y(),
-snd_hdsp_capture_copy(), or snd_hdsp_hw_silence() will then look up
-hdsp->channel_map[channel] =3D=3D -1 via hdsp_channel_buffer_location() and
-trigger snd_BUG_ON(!channel_buf):
-
-sound/pci/rme9652/hdsp.c:snd_hdsp_playback_copy() {
-	...
-	channel_buf =3D hdsp_channel_buffer_location (hdsp, substream->pstr->strea=
-m, channel);
-	if (snd_BUG_ON(!channel_buf))
-		return -EIO;
-	...
-}
-
-Would tracking whether each direction has configured hw_params in struct hd=
-sp
-under hdsp->lock (and clearing it in snd_hdsp_hw_free() and release) avoid
-relying on other->runtime->state across the lock boundary?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261101-hdsp-sound=
--v1-1-f39f185400b5@gmail.com?part=3D1
+Takashi
