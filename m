@@ -1,96 +1,119 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793554594;
-	b=zMzQIispJJ/v63BdEV6cnQ1buOKrgJRVCgFOeiaNIDy2MqukJCCrt5tFz4kLzBYJvQ0a
-	 exZ0LGWdpQ4lsJP9Te/xFKeDEuw0DT0/lHMkXfCv6CziC4jB7RM+lZioZgK0vdv+RWvTn
-	 w3IPtvNg2EjJ/cKfm2FTNtjPnUAwHAgUVi3tQG2YOD97GCj/DoEnG38ExG+ceK6ggxyUE
-	 93sA3v4u2C9yYVNfDOEqsY05VmPTCuRsBZb3yISZnxIKatFJFUph7bgbnp/U5m8reSL2F
-	 StK4NbZYVldt0UM06PGguI4VV+u/W2zpps9wmokPRu5SpM2FfKkDD1RTgyTn22OSupA==
+	t=1793555661;
+	b=3x+x3QfCyqgGhr64QQ5OKe2R26wb8MX9fRA6704SXMxGaJybIn0k8crA8FS913/vXBfb
+	 p9iiHcgyguy9fe1E3XHoH8MFyGWX60rSqt//RLdl+9OaZGznjW2tv3bHg15fNgeY18qfs
+	 jsSQo1dGUKiWqk4rgYwUmPpXh0XS/lNXeUCRvmJrZkh/hrFdkN4dgK/QjjTZ/rpRq8C0d
+	 k6Rxf1KfIpVCcpioUEz5JQMiKC4qwEys++wJ/zlveRRBEqSe28Fd5EA1XIrmcwl1wvSHl
+	 7pT4L42vFWbydXFNu6aWyrMFKZBTty3wtxKnMugwIimbwvPGMiqx5QWvcByjMyNKsXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793554594;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=zLkUAhIEsQVw9J8rJCtMxwzX85X0dmlthSr43BAfg5E=;
-	b=FOhKbZOGwVPPG0+BFI1aCqPYtfgBf2aSB3+SJYfjnRmiplR4SldOgnWzscdPACumKIlW
-	 1cOftuA7e3oZew+c70XYXmN1vw2oJlwYj5E7wFCKiGOYvl5paP6zYc633NrtN6++KbdV3
-	 yEIbKHzhJ2eLs1sGJ7RHhLNqFBCl499MqRzJI2inGMygxJ8HRG4yIdvJvf5ebTVNP8F7r
-	 o3J5I0n2r7Ba0TWO7e0BNlpaNRl7B6ELbRRu9jbVgdV9dERv7xys0vygQvSqVP5e1tTm4
-	 fCBTjgIf92o3Ft3/FzG/+62dlNTDp/+negNCXugiYKKFRhodLAZ071wb1KJ9d7QmxNA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793555661;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:X-Developer-Signature:
+	 X-Developer-Key:Content-Transfer-Encoding:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=kdtmiZdTU1nXwsamLd7Szc08WcYoKl4Y081kH3kHkjY=;
+	b=iqOxe+XiHTEA2hXIO9lwS1LRcuXIeg+O+QPmpFFDztfBp8mRL7GKq6wqYoGz7kgRdSz+
+	 imb8X5WkFW6Bhe1abuE4oxH/xBHiKLD9BWXfnLRDV7a3rnhq30E4vZ1znSqCSFROKoudw
+	 k+gzHYFpHpzn37OJZtzPdpSA3XArwrEoD2dGEHylb3sgODJFU+B1xuRxhVm++WjOWnRp6
+	 B/URfshrwh1FWF9tQMmFZ6yL56XH+QemjNxWcyzEMHH9qgwikeaRE/KAfndbQsT+4ZuqW
+	 s4FO0Vn1JzNiTvIriq/gSmb+EHfyiPco82Kk4vu1ddrL7Rh940uaithGYsZJuHoh9nA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SzgqRipu;
-	arc=none smtp.remote-ip=209.85.210.47
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=jOMHyELc;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Oi5g6u0w;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB52606A326
-	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 17:36:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EAB52606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E303A606A324
+	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 17:54:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E303A606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SzgqRipu
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-846566246e8so2334268a34.1
-        for <linux-sound@vger.kernel.org>; Sun, 01 Nov 2026 09:36:33 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=jOMHyELc;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Oi5g6u0w
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A1HQ5sZ2043802
+	for <linux-sound@vger.kernel.org>; Sun, 1 Nov 2026 17:54:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=kdtmiZdTU1nXwsamLd7Szc08WcYoKl4Y081
+	kH3kHkjY=; b=jOMHyELc7YKJrU2lbiIdQ8ccYv1sGKinrcX6pRVIoGtPQxOKdTb
+	ajo2yPCyEsZ6A39YuRUua/PyVE1HSgsTC+msvcgMy6cilaXVrQMAVFoB9Bk+eF1k
+	eq92zAc7d4/T/AJwx+pbwM40qKvHg0DzS/fjR5obDCft5fs9t7Q320FLeRKME+CB
+	pxBlv6MlKSPQklbPtBmxwan+oZDWymKUN7AByfw/mCz5YfZ4CjlUHmjjsaXSsaHx
+	mQcmFHGUbGPYlwAca078PwlIxnNtq4zcw5T9ITL55M32VRMAOqp3WlpmeTkG9m0a
+	Ou7DmlNQPHyEM/8lpx0wf1wUpL9nMZfj5FQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hn7wxkw4q-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Sun, 01 Nov 2026 17:54:19 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-934963b2bc0so463907885a.3
+        for <linux-sound@vger.kernel.org>; Sun, 01 Nov 2026 09:54:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793554593; x=1794159393; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zLkUAhIEsQVw9J8rJCtMxwzX85X0dmlthSr43BAfg5E=;
-        b=SzgqRipuguqYiIXBRiB+lMRexNXZaczFHHpt/kApHrj9nen69jjpBXL4iqh6ilLKae
-         G5Bx1YLd6nNG7jLd/9oc4ZXTJSsmcrOGTc+vLkVpu4V/ZBqMujPeVXsAzUI8k51BYtOp
-         4TspU5f4r3pEEIlWhS3kdmyf0bAVgD+paFbE19MSzBEXYe/s/4pCTSg9rOuUU8DayLPl
-         mMz/7xI/qzI0ukIX36JzywdHeS6o+vyLC9025aoROXtBfwNAuvVNdD+FYr1PMhFuSAlA
-         qtoAUavBsA7PSdkmdticnXDL3s1A2BnVjZtni1TgnuTH4CP1fWaxwPbMxZb/yapgrNPt
-         /4jg==
+        d=oss.qualcomm.com; s=google; t=1793555659; x=1794160459; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kdtmiZdTU1nXwsamLd7Szc08WcYoKl4Y081kH3kHkjY=;
+        b=Oi5g6u0wMuPbL5mLRDY7c74PZ8cLNzU2KBdkGN57JzUWNpr5q7ikxRd7tpPCIV7q24
+         VB1P6kBGuIQP1SE3diaQUEZvaIeicGP0vUjVguutSKgQ651+f7rGp9nLAf1lK6AcZOJS
+         dkA06vCtZbfAxhxGcs3Bq20XrUdc3q4DLNDMuS5C+tL6ZNxUyX8BthbTxTG/tbVy5+WC
+         DUzCorprBAY2IiTvizikDHHmI/5BRhAVgmEgkuXayJtW5KBynXa4DpA6K7fdO+u2IhJz
+         zqU15DEKkp/i97YyZsPW02HVRqfvzRRQkLrAEt2PGL8hE1iQTUcpNHSEnSkrXcV9go0K
+         JGnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793554593; x=1794159393;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zLkUAhIEsQVw9J8rJCtMxwzX85X0dmlthSr43BAfg5E=;
-        b=euCvdZPTselebiQu3wNGhyitWr8NzGD/jds3zIsSfW4+tzVTX3KTSV/ivznWg1y3BO
-         /NkygmS3Nnq4zgMbp6K97L/DzGHl+mTStN8uu7QVmI4x9LYulJE9cQfE5KU8TjgBNdjK
-         5M/uT6H0Y+GoLGo9hu+Ph6exZqID5oI6A2BaGB/IA1AYt5a54RPxLoDxQkwnhgVK5OtI
-         +SukoD7+pD43LB6yD0+9uHGPNPpgNdd2760vILGHbvALZ+aiub739BJL12/Iz+88GOOA
-         ZnvhvefVMSYV6iwSJ0Qb7HxJNQitLI6jHZLBSdVwZmBSM87CWwCdSERPgGpzuGpMOY5Y
-         AlyA==
-X-Forwarded-Encrypted: i=1; AKwUvBxHtVjXCG+AvwvAS+9SFYlyW5z/TYHygQObNujP+F76rtA2gUBmgViG41tbvHhOsMXxisc99hFrgfAUGQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLfXYpQpbmub2hIVQ30vIaZyrSKpG0UuSaEPtKPztbyWPLwbyuF
-	2tOSSaMDIfW1xHxCq/GuoaNmbkSzdzR05dItBk1iGDu68M0vygUcrd9C
-X-Gm-Gg: AYBFou2mqzFCxPbPdyytXfuyC+1bmYqczljEbttcrNxQxHe9aOz+v6QSfcxYbvWsjxn
-	p1Pldw/UU+8oqN561qoALUYDR0RXJTc0PlpKoeyHskFttvhfVNCvHwesbjNPsZ3U926rW7txxDY
-	FWi3Km/1LN3/SRahSb7DheXQM2VHmQifbFoLUUiqMDq3c5voYGUqoR7iRvqbDU5zWW7N9fupQgU
-	N3RGUdoeWFHvfisFbG/mQEqz8Aot4CJ2kp6hf+CWwD3TTbNk/bzJDgWnGfWm/VjrdWVL7Z9HQoW
-	Tj/ioOcha0u4KaI1NLmmTbPLmS1bv1QQKgwWFf0tzQjv0FAr5APGsuzBEIK8U3VGK9G1Ip8pDPu
-	LjJVY/JLQ0oeJqQynsEgBQsXgmhB2yFafcjI1IIRDtF2bU8cPAloFSN7TJ/99rMRva2RE2qORoE
-	ImLugPMzPlSWzi0KhSXHQwnQwOyQKt3W76pDdmmIJNlimvz5m3ILeiWSJ4s8tmT1sHUBUyl0gVx
-	94abaGGqGTqOOal1f6cbYLIPxoTXRMpqBYSzPGKmcQZCdbpRAApKIdhKV+3kYnyyPW5T30eT1j2
-	JWucRrvLII/4klY4kMKuWa0liL8p7GmYt0yaIESERP4WQQ==
-X-Received: by 2002:a05:6830:2308:b0:7f9:555:1df0 with SMTP id 46e09a7af769-85d364cabf7mr3558785a34.12.1793554592650;
-        Sun, 01 Nov 2026 09:36:32 -0800 (PST)
-Received: from localhost.localdomain ([2600:1702:4ff0:baa0:5054:ff:fe3d:4ddb])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85d3545b875sm7340271a34.5.2026.11.01.09.36.29
+        d=1e100.net; s=20260707; t=1793555659; x=1794160459;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kdtmiZdTU1nXwsamLd7Szc08WcYoKl4Y081kH3kHkjY=;
+        b=eblgCDWWHsUQCQrg6OQCD+ltxCbTp/eFpEEYOOpRJ0KSgG1UyKoRR9NfJwldlBCR0g
+         oE/DihQR8ljJABXo1fcnfCofxWS0UMKVqMq+iamEX+gJLyxXmdzwCVJbmeLOLBLqrq18
+         hQI79qkCyBdTbdOxe2YEWfRBMkxNJZ5fpJz9nBdGuM1X6DoS5cnJxHsiWouSw1dV6kHp
+         Pl1sjMLlEFY9Qo6bNcFZVZ40D89Ktw6mIGQIDWWtjE9Mj9zeDfN/VsvGu1tFco0GSS9a
+         D7ia0g1EPCKR9PANvJsXpwzOtfnbEmU7dZ4TKyvtpAsE3t8z6U3QoU4oQB4MVbVGVZ7n
+         +qTw==
+X-Forwarded-Encrypted: i=1; AKwUvByWAqtRkmQK2ELU/00kpMuTEWtiEb7wNj0K1TW1qvp99ZezFkKujOVUm5BOg3492oF+injAWWBIne2Phw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYIxov0wjgV2bcQ4sOhimtCqxjrg9KtSwIH2zjlu8ej+6/imDd+D
+	fpVjeBeriiHOTeidrbOdLw79IViHrPfXrRhKqdqdWY6cwIc5oEpJvOgAntavAQavOrMFxFvgkce
+	uNFqlJxGMRlViw4iVyZwLpqiSf0GYxWdfRpwoKo6x6fSCuSF58B1g8+o2r7BVaWX1rg==
+X-Gm-Gg: AYBFou3FeekKygR+JOLxAzV8FzzM0fLWZg1NK9svDJUvW9oyxjEz2+iO7zaFfb/HjQ1
+	kCMmMKTSOduT3Puq6u+qO6ONrhRkNWHQYoqiZiy6r5AoYmCqrXsh9GhZ2OqT4JqJ1LQ+Wdm+OKi
+	hczTBgv/DAtw31BAbWH4szltWyW/VqOHFub/my2//r1YXE2IDJh6HIIdKB0ZcTELscJzxz4Pmpo
+	NXhcXu9vBnpFgQw/0daK3OLPoWMsRtVjI9+GXuhsiL3HSjVB0sCQFBWFG+BhdkpVyTdEIDp3LZw
+	XETs/cWiKCuCURQE6ycqdnQKT4L3evoiP6Vk8XcvI52hZT/gInG/tsNfd+dNeZznodCT7fDam6E
+	jOXJmgpN6Oj8dxunfpj/Y/2ZtlunJ8peAca6J7JAStXa3AT/Dn4B61t+ewquZaw==
+X-Received: by 2002:a05:620a:6848:b0:939:ff85:8067 with SMTP id af79cd13be357-94421663f42mr1273097585a.30.1793555659026;
+        Sun, 01 Nov 2026 09:54:19 -0800 (PST)
+X-Received: by 2002:a05:620a:6848:b0:939:ff85:8067 with SMTP id af79cd13be357-94421663f42mr1273094685a.30.1793555658425;
+        Sun, 01 Nov 2026 09:54:18 -0800 (PST)
+Received: from quoll ([178.197.218.7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa80f04723sm325714735e9.5.2026.11.01.09.54.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 09:36:31 -0800 (PST)
-From: Will Porter <mrwillporter@gmail.com>
-To: Christian Ruppert <arc@gmx.li>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Neil Andrews <neil@androos.io>
-Subject: Re: [RFC PATCH 00/11] Re: ALSA: usb-audio: Audient iD14 MkI vendor controls
-Date: Sun,  1 Nov 2026 11:35:57 -0600
-Message-ID: <20261101173557.221869-1-mrwillporter@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261101000013.11880-1-arc@gmx.li>
-References: <20261101000013.11880-1-arc@gmx.li>
+        Sun, 01 Nov 2026 09:54:17 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Abel Vesa <abelvesa@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Andy Gross <andy.gross@linaro.org>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        stable@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>
+Subject: [PATCH] soc: qcom: apr: Reject packets with header size larger than packet size
+Date: Sun,  1 Nov 2026 18:54:08 +0100
+Message-ID: <20261101175407.110780-2-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -100,395 +123,94 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1945; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=4MmiwbTe67Vae9D7Lm+Zj++XqRihN9uwcpy1QVEzwR8=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBq53y/r7BuYv9eK3+a8QHoZBIisHOoqo5rhSCYT
+ x83EJSNlliJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaud8vwAKCRDBN2bmhouD
+ 1y9cEACPaj9qjm4Xgq2YAlnapjZ58AL8Ampb8QNuC8Q2em4csesDfI7RlNvwHxZkbCKKftlHP8q
+ R1l8jH6moeUbMfPMFoqbtgedazQfS1q+MVgIIzgI4yRkwf/gRPK3dOEGs74dGL2/VRIqriImqm6
+ ZRft9ZDOmNscRv8oSlf0cSusfzJhaY76AsT5XfhvdVxv9HHTCCwHmlQ1jqd+CJxdcXjpjdbuJ3/
+ f9da1/Wqa/x77gsXo70d/5DMqX/MFjIa/zcNOS9cz06dUAXqd5P+/Xj+ccr0R9o4vzaaIeXZuo1
+ +h1xXwIWbePSbuobLX9bs4kFqAXeMiXV//+c39eMpZaKEcwP/i/xo5/zX66AyvKrEoK+t9WzqV6
+ lQ2NSAs6ckCdKUAO06lNAcmmk0wo5p5smBNYyoxqTA4a3HdYp0KMucFEseiIpjj4SKRbXSlO6r6
+ M2CVnkiKM3i1IAS5NJ8hwuJiJ1mPhHMJXWZ8qyLyUbu6FsvjcdPtyBnazeo4FnZMBO20aGvjTOA
+ 8g+IkgWoTb8gHMAux6fT5SReiBGW1txvpPx1afafp6sbvTrp2Bl+VXzGl2YoiR68CnRo03I0sww
+ wckAJZ/8dfTPRSGKulNus45bOrJElgXwaAZew84f6a4qsfFQTdzSCDETRQaUX3+pG1IT+Tqa7xM u1hWjU49i/JprBA==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: FWGCIwM9BJH5oDDbWaTKAC7FwRokwqoa
+X-Proofpoint-ORIG-GUID: FWGCIwM9BJH5oDDbWaTKAC7FwRokwqoa
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAxMDA3MSBTYWx0ZWRfX8ZRvPZnPje2/
+ AZsi4tFoEVK1Csv69Ou8a0DXNxXn8mZTXzuD6Wp7TSyQ6Z/dcgU1axWVSGzsSAhubX02aIZhOB8
+ ewBy+6UEUSaBtxosc4xmTRdRpii8VVw=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAxMDA3MSBTYWx0ZWRfXzU+TCl1Mw0i1
+ Gz7NJQL97655G6aWfkbpOefrcVwbS2RPhiNdOFSsLr9SmEKFDzAwqSVLLx+bpcv7nBb856Ykx6v
+ ybtMCvFQx9UyzXMdHiDczfLa/FfpDhg7s2bCUA3ZdL1ieotmD+5Pgz/RtjCOkDSZN6P15RQbTfK
+ m1lADgv1rtWobmJR7spdkb9L87jgVe43XO9jxyMkWMihBsuIzWuECHUeUtP9PZhmE0BrRY3t57w
+ PgU+9Ru3mO34LAQ74Spb75pnJKUZ4+w2Cq8z05t0K21PLibOzsgnfuq+PU7GItRrxvwiSfzJTp5
+ /S+I51za5btKnZDzeK4SvLSbykjV0uo89246YREPqFAF50BjgUaMZeWHZ2latOA+5HBTsHV8Gjh
+ CDUczr4TWk07FrCtP5EuHLgMSOaS0qt5g/qsgerjZBI/HNgb5NBq8rQjlmCDUwEyOc3QJFKApg6
+ 6c0M0VKy/0bqN1JTmuw==
+X-Authority-Analysis: v=2.4 cv=JLquIMKb c=1 sm=1 tr=0 ts=6ae77ccb cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=uyPgTw0bjBTS2cVxpiNm5w==:17
+ a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=c92rfblmAAAA:8
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=DVh7n887_SxPlczGqH4A:9
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=GvGzcOZaWPEFPQC_NcjD:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-01_06,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0
+ clxscore=1015 priorityscore=1501 adultscore=0 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611010071
 
-Hi Christian,
+apr_do_rx_callback() and gpr_do_rx_callback() validate the header size
+and the packet size separately, but never check that the header fits
+within the packet.  Both sizes are u16, so with a malformed packet where
+the header size exceeds the packet size, the subtraction computing
+resp.payload_size gets promoted to int and becomes negative.
 
-Thanks for the RFC, and for splitting it into small patches. It made
-the review easy, and the cover letter answers my three questions.
+Further check "resp.payload_size > 0" would fail, leading to
+resp.payload left uninitialized (stack value).  Reject such packets as
+having a wrong packet size, although unlikely that firmware would
+produce such packets.
 
-I compiled mixer_audient.c after each patch with W=1, out of tree
-against a 7.2 kernel's headers: no warnings. checkpatch --strict
-gives only CHECK-level style notes. I can't test on an EVO, so the
-points below come from reading the code.
-
-1. Patch 10, cache index
-
-The cache has hwchannels entries, and the probe fills it by element
-index (cache[i]). But get, put and the INIT_HW write index it by device
-channel:
-
-    *value = cache[cidx];    /* cidx = val_offs + i */
-    cache[cidx] = value;
-
-So a nonzero val_offs can access past the allocation. On the EVO4,
-"Mic 2 Capture Volume" (val_offs 2) uses cache[2] and cache[3] of a
-2-entry array, and "Loopback Right Capture Volume" uses cache[10] and
-cache[11]. Those rows would also show other memory, not the value read
-at probe. On the iD14 the last matrix element would use cache[54] and
-cache[55].
-
-Would indexing relative to the element fix it? The diff at the end of
-this mail passes the cache entry of channel i instead of the array, so
-that raw_get_one() and raw_set_one() never see cidx for the cache.
-
-2. Probe-time USB errors now fail the whole card
-
-With patch 10 the EVO matrix is read at probe, and with INIT_HW a
-control is written at probe. If one of those transfers fails,
-snd_audient_controls_create() returns the error, snd_usb_create_mixer()
-fails, and the card does not register. As far as I can see,
-QUIRK_FLAG_IGNORE_CTL_ERROR does not suppress errors returned by
-snd_usb_mixer_apply_create_quirk(). Before this series the quirk sent no
-USB traffic at probe, so this is new.
-
-Could we keep the card registering after a failed probe transfer, while
-keeping the cache entry invalid until a transfer succeeds?
-
-To save a round, I wrote it out; the diff is at the end of this mail, on
-top of your series. Please change or drop anything that doesn't fit your
-plans.
-
-It gives each cache entry a valid flag, set when a transfer confirms the
-value (a read, or a write that succeeded). A failed probe transfer logs
-a warning and keeps the control with an invalid entry. For a cached
-write-only control, get still succeeds after a failed probe write, so
-that failure alone does not stop alsactl store: boolean and integer
-controls return their minimum, and my enum type reports "Unknown". A
-readable control retries the GET and returns an error if that retry
-fails. Since a get can now fill the cache, the callbacks take
-mixer->lock. Control allocation and registration errors still fail the
-probe. It contains the point 1 fix as well, since both change the same
-cache code.
-
-On the iD14 I tested it with a test-only control that the device
-refuses (polarity on Digi 3). The card registered, the log showed one
-warning for that control, and get returned off. A put returned -EPIPE;
-a subsequent get still returned off.
-
-3. Smaller points
-
-- Patch 05: would sign_extend32(buf, 8 * ctype->len - 1) work in
-  place of the shift pair?
-- Patch 05: the buffers mix u32/s32 with cpu_to_le32()/le32_to_cpu().
-  Would __le32 buffers keep sparse quiet?
-- Patch 05: the transfer buffer is 4 bytes on the stack, but nothing
-  checks the table's len. Could snd_audient_add_ctrl() return -EINVAL
-  unless 1 <= len <= 4?
-- Patch 09: with FORCE_SET, a put of the cached value still writes
-  (good) but also reports a change, so each alsactl restore sends a
-  change event for every such control. Could it write but return 0
-  when the cache already holds the value?
-- Patch 11: a device with no matrix list would dereference NULL in the
-  loop. Would a check on info->matrix_names be worth adding?
-- Patch 01: FYI, the file header still says "Audient EVO driver for
-  ALSA".
-
-4. iD14 tables on top
-
-I built the iD14 tables on your series, with the cache fix applied.
-On an iD14 MkI they passed control read and write checks, the range
-checks and a loopback test of the matrix crosspoints. The crosspoints
-also kept their values across a module reload and were read back into
-the cache.
-
-On top of your patches I needed three generic additions:
-
-- a step size for integer types (res): the iD14 level controls use
-  s16 in 1/256 dB; I expose them in whole-dB steps, matching the
-  volume knob. The control counts steps from min, as the generic USB
-  mixer does with the RANGE resolution;
-- an enumerated type with a value list, plus one extra last item that
-  a get shows for a device value outside the list;
-- a per-device create hook, for the FU 12 control that does not fit
-  the tables (in the same patch as that control).
-
-The matrix uses your loop as it is: with 2 channels per element and the
-names in the order Mic 1 Main, Mic 1 Cue, Mic 2 Main, ..., element n
-starts at CN 2 * n, which is input * 4 + output on the iD14. Does that
-fit what you had in mind?
-
-5. Next steps
-
-Would you prefer to incorporate these changes in an RFC v2, or shall I
-fold them into the relevant patches when I carry your series, with
-notes in the commit messages?
-
-Thanks,
-Will
-
--- >8 --
-From: Will Porter <mrwillporter@gmail.com>
-Subject: [RFC PATCH] ALSA: mixer_audient: Fix cache indexing and probe error handling
-
-The cache has hwchannels entries, but get, put and the INIT_HW write
-indexed it with the device channel (val_offs + i). Pass the entry of
-element channel i instead.
-
-A failed probe transfer made snd_audient_controls_create() fail, so
-the card did not register. Give each cache entry a valid flag, set
-when a transfer confirms the value: a read, or a write that
-succeeded. A failed probe transfer logs a warning and leaves the entry
-invalid. A readable control then reads the device on its next get,
-and returns an error if that read fails; a write-only (FORCE_SET)
-control shows its minimum until a put succeeds. CACHE | FORCE_SET
-without INIT_HW keeps the earlier behaviour: the init value is
-assumed, without a transfer.
-
-A get can now fill the cache, and the control core runs gets in
-parallel, so the callbacks take mixer->lock around the transfers and
-the cache.
-
-Control allocation and registration errors still fail the probe.
-
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: Will Porter <mrwillporter@gmail.com>
+Fixes: 6adba21eb434 ("soc: qcom: Add APR bus driver")
+Fixes: ec1471a898cc ("soc: qcom: apr: Add GPR support")
+Cc: stable@vger.kernel.org
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://sashiko.dev/#/bug/linux-82d40745-1593-4c20-8432-d86099836525
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
-Proposed changes to patches 08 and 10.
+ drivers/soc/qcom/apr.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/sound/usb/mixer_audient.c b/sound/usb/mixer_audient.c
-index 30f2f20..ef8fcdf 100644
---- a/sound/usb/mixer_audient.c
-+++ b/sound/usb/mixer_audient.c
-@@ -210,6 +210,26 @@ static inline u16 snd_audient_kctl_channels(struct snd_kcontrol *kctl)
- 	return info->channels;
- }
- 
-+/*
-+ * A cached value is valid once a transfer confirmed it: a read, or a write
-+ * that succeeded. A probe transfer that fails leaves it invalid. CACHE |
-+ * FORCE_SET without INIT_HW keeps the earlier behaviour: the init value is
-+ * assumed, without a transfer.
-+ */
-+struct snd_audient_cache_entry {
-+	u32 value;
-+	bool valid;
-+};
-+
-+/* Cache entry of element channel i, or NULL for an uncached control. */
-+static inline struct snd_audient_cache_entry *
-+snd_audient_cache_slot(struct usb_mixer_elem_info *elem, unsigned int i)
-+{
-+	struct snd_audient_cache_entry *const cache = elem->private_data;
-+
-+	return cache ? cache + i : NULL;
-+}
-+
- 
- #define AUDIENT_REQTYPE_SET (USB_DIR_OUT | USB_TYPE_CLASS \
- 					 | USB_RECIP_INTERFACE)
-@@ -259,18 +279,25 @@ static inline int snd_audient_set_cur(struct usb_mixer_interface *mixer,
- 
- static int snd_audient_raw_get_one(struct usb_mixer_interface *const mixer,
- 			const struct snd_audient_ctrl_type *const ctype,
--			const u32 *const cache,
-+			struct snd_audient_cache_entry *const slot,
- 			const u8 cidx, u32 *const value)
- {
- 	int ret;
- 	s32 buf = 0;
- 
--	if (cache) {
--		*value = cache[cidx];
-+	if (slot && slot->valid) {
-+		*value = slot->value;
- 
- 		return ctype->len;
+diff --git a/drivers/soc/qcom/apr.c b/drivers/soc/qcom/apr.c
+index 2d5645ff9919..6f29b57aaecc 100644
+--- a/drivers/soc/qcom/apr.c
++++ b/drivers/soc/qcom/apr.c
+@@ -210,7 +210,8 @@ static int apr_do_rx_callback(struct packet_router *apr, struct apr_rx_buf *abuf
+ 		return -EINVAL;
  	}
  
-+	/*
-+	 * Cached FORCE_SET controls are treated as write-only: an invalid
-+	 * cache entry does not trigger a GET.
-+	 */
-+	if (slot && (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_FORCE_SET))
-+		return -ENODATA;
-+
- 	ret = snd_audient_get_cur(mixer, ctype, cidx, &buf);
- 	if (ret < 0)
- 		return ret;
-@@ -285,12 +312,18 @@ static int snd_audient_raw_get_one(struct usb_mixer_interface *const mixer,
- 
- 	*value = buf;
- 
-+	if (slot) {
-+		slot->value = buf;
-+		slot->valid = true;
-+	}
-+
- 	return ret;
- }
- 
- static int snd_audient_raw_set_one(struct usb_mixer_interface *const mixer,
- 			const struct snd_audient_ctrl_type *const ctype,
--			u32 *const cache, const u8 cidx, const u32 value,
-+			struct snd_audient_cache_entry *const slot,
-+			const u8 cidx, const u32 value,
- 			bool force)
- {
- 	int ret;
-@@ -299,7 +332,7 @@ static int snd_audient_raw_set_one(struct usb_mixer_interface *const mixer,
- 	if ((ctype->flags & SND_AUDIENT_CTYPE_FLAGS_FORCE_SET) || force) {
- 		buf = !value;		/* just make it different */
- 	} else {
--		ret = snd_audient_raw_get_one(mixer, ctype, cache, cidx, &buf);
-+		ret = snd_audient_raw_get_one(mixer, ctype, slot, cidx, &buf);
- 		if (ret < 0)
- 			return ret;
+-	if (hdr->pkt_size < APR_HDR_SIZE || hdr->pkt_size != len) {
++	if (hdr->pkt_size < APR_HDR_SIZE || hdr->pkt_size != len ||
++	    hdr->pkt_size < hdr_size) {
+ 		dev_err(apr->dev, "APR: Wrong packet size\n");
+ 		return -EINVAL;
  	}
-@@ -310,8 +343,10 @@ static int snd_audient_raw_set_one(struct usb_mixer_interface *const mixer,
- 		if (ret < 0)
- 			return ret;
- 
--		if (cache)
--			cache[cidx] = value;
-+		if (slot) {
-+			slot->value = value;
-+			slot->valid = true;
-+		}
- 
- 		return 1;
- 	}
-@@ -337,14 +372,18 @@ static int snd_ctl_audient_boolean_get(struct snd_kcontrol *kctl,
- 	CLASS(snd_usb_lock, pm)(mixer->chip);
- 	if (pm.err < 0)
- 		return pm.err;
-+	/* serializes the transfers and the cache, also between gets */
-+	guard(mutex)(&mixer->lock);
- 
- 	for (i = 0; i < hwchan; i++) {
- 		u32 buf;
- 		int ret;
- 
--		ret = snd_audient_raw_get_one(mixer, ctype, elem->private_data,
-+		ret = snd_audient_raw_get_one(mixer, ctype, snd_audient_cache_slot(elem, i),
- 					      base + i, &buf);
--		if (ret < 0)
-+		if (ret == -ENODATA)	/* unknown write-only value: off */
-+			buf = ctype->min.integer;
-+		else if (ret < 0)
- 			return ret;
- 
- 		ctl_val->value.integer.value[i] = (buf == ctype->min.integer)
-@@ -374,13 +413,15 @@ static int snd_ctl_audient_boolean_set(struct snd_kcontrol *kctl,
- 	CLASS(snd_usb_lock, pm)(mixer->chip);
- 	if (pm.err < 0)
- 		return pm.err;
-+	/* serializes the transfers and the cache, also between gets */
-+	guard(mutex)(&mixer->lock);
- 
- 	for (i = 0; i < hwchan; i++) {
- 		u32 buf = ctl_val->value.integer.value[i] ? ctype->max.integer
- 							  : ctype->min.integer;
- 		int ret;
- 
--		ret = snd_audient_raw_set_one(mixer, ctype, elem->private_data,
-+		ret = snd_audient_raw_set_one(mixer, ctype, snd_audient_cache_slot(elem, i),
- 					      base + i, buf, false);
- 		if (ret < 0)
- 			return ret;
-@@ -409,14 +450,18 @@ static int snd_ctl_audient_integer_get(struct snd_kcontrol *kctl,
- 	CLASS(snd_usb_lock, pm)(mixer->chip);
- 	if (pm.err < 0)
- 		return pm.err;
-+	/* serializes the transfers and the cache, also between gets */
-+	guard(mutex)(&mixer->lock);
- 
- 	for (i = 0; i < hwchan; i++) {
- 		s32 val;
- 		int ret;
- 
--		ret = snd_audient_raw_get_one(mixer, ctype, elem->private_data,
-+		ret = snd_audient_raw_get_one(mixer, ctype, snd_audient_cache_slot(elem, i),
- 					      base + i, &val);
--		if (ret < 0)
-+		if (ret == -ENODATA)	/* unknown write-only value: minimum */
-+			val = ctype->min.integer;
-+		else if (ret < 0)
- 			return ret;
- 
- 		if (val < ctype->min.integer)
-@@ -458,12 +503,14 @@ static int snd_ctl_audient_integer_set(struct snd_kcontrol *kctl,
- 	CLASS(snd_usb_lock, pm)(mixer->chip);
- 	if (pm.err < 0)
- 		return pm.err;
-+	/* serializes the transfers and the cache, also between gets */
-+	guard(mutex)(&mixer->lock);
- 
- 	for (i = 0; i < hwchan; i++) {
- 		s32 val = ctl_val->value.integer.value[i];
- 		int ret;
- 
--		ret = snd_audient_raw_set_one(mixer, ctype, elem->private_data,
-+		ret = snd_audient_raw_set_one(mixer, ctype, snd_audient_cache_slot(elem, i),
- 					      base + i, val, false);
- 		if (ret < 0)
- 			return ret;
-@@ -534,7 +581,8 @@ static int snd_audient_add_ctrl(struct usb_mixer_interface *mixer,
- 
- 	elem = kzalloc(sizeof(*elem)
- 		       + ((ctype->flags & SND_AUDIENT_CTYPE_FLAGS_CACHE)
--			  ? (sizeof(u32) * ctrl->hwchannels)
-+			  ? (sizeof(struct snd_audient_cache_entry)
-+			     * ctrl->hwchannels)
- 			  : 0),
- 		       GFP_KERNEL);
- 	if (!elem)
-@@ -546,33 +594,44 @@ static int snd_audient_add_ctrl(struct usb_mixer_interface *mixer,
- 	if (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_CACHE)
- 		elem->private_data = elem + 1;
- 
-+	/*
-+	 * A failed probe transfer must not fail the card: warn and keep the
-+	 * control. Its cache entry stays invalid, so a readable control reads
-+	 * the device again on its next get, and a write-only control shows an
-+	 * unknown value until a put succeeds.
-+	 */
- 	if (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_INIT_HW) {
- 		int i;
- 
- 		for (i = 0; i < ctrl->hwchannels; i++) {
- 			ret = snd_audient_raw_set_one(mixer, ctype,
--						      elem->private_data,
-+						      snd_audient_cache_slot(elem, i),
- 						      ctrl->val_offs + i,
- 						      ctype->init, true);
- 			if (ret < 0)
--				goto free_elem;
-+				usb_audio_warn(mixer->chip,
-+					       "%s: cannot set channel %d (%d)\n",
-+					       ctrl->name, i, ret);
- 		}
- 	} else if (elem->private_data) {
--		u32 *const cache = elem->private_data;
-+		struct snd_audient_cache_entry *const cache = elem->private_data;
- 		int i;
- 
--		if (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_FORCE_SET)
--			for (i = 0; i < ctrl->hwchannels; i++)
--				cache[i] = ctype->init;
--		else
--			for (i = 0; i < ctrl->hwchannels; i++) {
--				ret = snd_audient_raw_get_one(
--							mixer, ctype, NULL,
--							ctrl->val_offs + i,
--							cache + i);
--				if (ret < 0)
--					goto free_elem;
-+		for (i = 0; i < ctrl->hwchannels; i++) {
-+			if (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_FORCE_SET) {
-+				cache[i].value = ctype->init;
-+				cache[i].valid = true;
-+				continue;
- 			}
-+
-+			ret = snd_audient_raw_get_one(mixer, ctype, cache + i,
-+						      ctrl->val_offs + i,
-+						      &cache[i].value);
-+			if (ret < 0)
-+				usb_audio_warn(mixer->chip,
-+					       "%s: cannot read channel %d (%d)\n",
-+					       ctrl->name, i, ret);
-+		}
+@@ -280,7 +281,8 @@ static int gpr_do_rx_callback(struct packet_router *gpr, struct apr_rx_buf *abuf
+ 		return -EINVAL;
  	}
  
- 	kctl = snd_ctl_new1(&knew, elem);
+-	if (hdr->pkt_size < GPR_PKT_HEADER_BYTE_SIZE || hdr->pkt_size != len) {
++	if (hdr->pkt_size < GPR_PKT_HEADER_BYTE_SIZE || hdr->pkt_size != len ||
++	    hdr->pkt_size < hdr_size * 4) {
+ 		dev_err(gpr->dev, "GPR: Wrong packet size\n");
+ 		return -EINVAL;
+ 	}
+-- 
+2.53.0
+
