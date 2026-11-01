@@ -1,101 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793543439;
-	b=HRdZE4rU/SRWNOK03vyh/lRPyxrRb5bwRmX4XZzKHDtYkaK9nouGi9pXdQzfaqCAyieD
-	 UrA+9Y4n2gjqtjFAayVc6NLblWs8MqLAO2Pq5rqPJh18QL7MTb9nTMu0LMGDMgm3urYl4
-	 6fiN3CBX/XY7GZ4/YL1apTYcYHq3aePEdMzML9FsH4B56PbEiOHZMxvG7RxS8UAAt+YvQ
-	 XVxwx72JkPtzF/0PL7ETLWLHhANjrIv0dQm1BldxI+3LJIOkumUH9ikYtjRqx5mgc/tgh
-	 2WzvDeVzUC6SjfFzF82tV3yORA4lCMcsffp++E9PWEtsh2bDV4a3zwsXA6jMIUisjLQ==
+	t=1793543908;
+	b=30VkTLntW5znZP0wmYXCW0K2stMTXCYKQaxmivNf7R7SzIFNYpHKRlXpOZSqrSJyk7XW
+	 F9RFNnKw8poWvfryiDu6vU1tS6o76NL2/qCpbiw4xN2dy/WM6WnlRncw3N5BUpWvbyIwS
+	 1WussNgoZzpL1KQTSTW2qoEW8gBO/wh6ujlfdOrC+0TlbZDHUfugfEaTKsmmEdZZBmPpK
+	 FLyND+uNa3h3mKW3cFWzDRR2ytFogrVoGmfw8y3wxHQQmSDU3YWJsQci47wjXAeXd3/pe
+	 NSwE5W92xn+s3+V5wBvdKtuEkUhXvaU5rg+7kgiCXb74mBDnN6BNf0raumRitB8XwkQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793543439;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793543908;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=beFOhHM7NoueVRBXy1T35SISL4UnsCDbE1h6tUqY/wA=;
-	b=y4cb9O8uVpxsccnHdcmvL37ukfzfWFSWBqBNq48ifhTG7+sEBney7Uu9+hLnEk85EvxU
-	 xuEJZLv+qW11w0AJmBE5deCBnvhH6xSDx+Muym2wfM5T/RZFyCJktVPmlY3hmJs08YUjU
-	 5fzWe+51kuB+8x4wjFt+LTR10KkyIRXJ0EmernpMQeSjejJl9KdfDNx817RWowOgky7mi
-	 RlEy8x6hWIzqKLx5QbacfyMpmm8XGtHHmO8tnmt6H20UjOvjYZxE5OTmsq3ZWIMRyezG3
-	 6Owdq55GY180Ys0jN6E7cJbvQdTjX/sOEcEPInVAiN4PHwrxjtTkgwCbAa41W9pTwuQ==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=Yj7uHm+i6moRPp1T/k/KtCZpjWPn8bcWSFuA0A8wuVI=;
+	b=td+5qqkjfgn8f5PyYiYzjtxqr7HkjJ3F8YT1yPJQg7hWqeV5Vs+Dxd0/fsUVxnZj3xe/
+	 4LiwmWHmsPtJj6Pzgl9c3vGtu7hVY+0v3l+twEn6m3vAQQPxMe+qP4kPKBrNgLUoiIBQn
+	 T7VWPsjxYHH+RyMpSef0YomKXSC2x8ru1mhWpW8hDLbwG9i20Q6eyMMOaTIB6BgDFYZWU
+	 V2P5K8WX1UkdgRi92WZaWXmqInCt08Zfuplx3U3BmIUx/8qslH3QQ3fmud6YFhBTUkeSm
+	 Fg1dklAPxxdmBXIh+tG3C0mHHMAQz/EL4UlTdYOg+YSmUrCb5UrjzgQia0vf77M6BYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="axrKvV5/";
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YZm2TLGX;
+	arc=none smtp.remote-ip=74.125.82.180
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02804606A329
-	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 14:30:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02804606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2145606A324
+	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 14:38:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2145606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=axrKvV5/
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a4d7ae1ae9so19838495e9.1
-        for <linux-sound@vger.kernel.org>; Sun, 01 Nov 2026 06:30:38 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YZm2TLGX
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-35829219da8so3843009eec.0
+        for <linux-sound@vger.kernel.org>; Sun, 01 Nov 2026 06:38:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793543437; x=1794148237; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793543907; x=1794148707; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=beFOhHM7NoueVRBXy1T35SISL4UnsCDbE1h6tUqY/wA=;
-        b=axrKvV5/sycBk82+6Nt8gbseFSxoBPJM35iGjjREg3AlOkRUPtjV0bkauhgc3l76Ns
-         uvwYudrYsSijF7O4AvU63k6xhpZobOwKxE2/qguQofve7K6aFBYk0HsX7zBnIzSgs1KQ
-         u+BPOJbCj3E46YyqH7mTr2yCLdwZe6mazzmvWbHxnIjDJDcEiLasYasbX6a5Af+9Pkfg
-         r8dufV8lZA2m888lkjrjpTnzodE0g+gQAnD6mamUiFsLXnZBobWTPKF14OPjd11ixwjJ
-         xqwiFyDn3nitgx7zggVDT6fH9ZiNhBU/q8cLwysv7LPCLfI/7eHLdNS9c/FRC8FUxTzv
-         EVXg==
+        bh=Yj7uHm+i6moRPp1T/k/KtCZpjWPn8bcWSFuA0A8wuVI=;
+        b=YZm2TLGXk3iUa5GS57Vn23sf5WFeg0RVJUwNmU+aOqDVWLnV3F5iGB1X0JV1SZMfdY
+         nhxUfU3zqQ+pC9wytFmv1h0tpGp8sf62VCVfM1xpBTUGIBG1xbW1I78DpUwYMC/McE9Z
+         XlHErLLDloDrcD9zaAcz6466PMCxwGaz6NL6Fy7nnmC6LT0AiPrIHxfU7WMgV/V3LPYD
+         wLoCIOX9PNJDxXSI9v9iRSxk58SbR3E3k95xJB91w+tBzszD0KIehBG3zBxOgy7C5piC
+         IzdiTycmxGZesXLKN88R3su+C804/WXUkDpZ/GvXAquEmIaKgSotWtdSTCsaI0ltiHVC
+         vk/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793543437; x=1794148237;
+        d=1e100.net; s=20260707; t=1793543907; x=1794148707;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=beFOhHM7NoueVRBXy1T35SISL4UnsCDbE1h6tUqY/wA=;
-        b=e0e+Y/HmglihuykfOhwERTffI7x257Wo9mzMydS56a0F2EhgzG5FuL95hUBX/4yULl
-         Me4PptBDfkfAK9T2AT36nck0uwhnQbkfdhQF/K863zV1y5+E/zhZzSVEa6T1XgE64Y6U
-         M81pzVSsV7V8Fo0jgN1KlTE+u4NWOGmKaO2AQ3hVpVDDgOSBKny+TV5QGvy/VjIqd7Dc
-         q8pJXaNwb3FpQgtsR8iWFbD8FO6uMLxDqQJ5osYOBWMXRBNvJExmJuVgKEx25BdfaNMf
-         nG1VPQ6NrzC2JCYgb9fOwkocBpjBp/7z/hjux8FXvhhhm0DDlzGRfx+ojmMN0ahNDjXP
-         dwBQ==
-X-Forwarded-Encrypted: i=1; AKwUvByHMlvO1uGTQErzhManiFmtFeTaC6+dygfNH4+dGsf1zYLO0i697W3w8N/JLrvxrpLRE2+f5Kr12SWBUQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYI7L/Vs/ffaA25DY7tv6LvLuAVAtfTo2fdYCrTAu7cta1S2NRIp
-	nnC5IpfHUeYpdIsS3tXMrH7xcg+8aqkqgdlWUcSl0E87tVCXao6hEEE5
-X-Gm-Gg: AYBFou16RpmFPXHKYGzKRgtyZ0vWzW57vJ22JuRAytevLt5xVqIxaheMCxhkzKQzGt3
-	UPcwprqmb9ab9UzBtxF5i3X29YoU9MrXhh/ZaBYW20gaIZUC+pUkLhvHieqQWJVQmiulH9lAkFR
-	m83fARN/wl1HlXT7ppXSwFVdron4w0zW1Lkll7k2X17Zr9LmJPJ8jQvPTav443Nq54eEhlCsk8S
-	Z0aqeDSm3bbZ5MUj0cMOsQW17Ca16ImmdGL6+5uXUgNvax/avRDw8rd7GCACPnw5UqtonO0FLmC
-	agBF7d/tAU+h1G4NFTxLJQ5piJXUsMoUE9+F+eEhJHgh5CY+hCEdUbDpJHXaNlxygYSKnELvKqV
-	xJuyxFsV1NMl7c/svbOvNZeYwk1sH3NQGbqABUk0zuGqVCaOB1NyxyCjIOw026J03NazoEj5yBO
-	6aWns+6qT9tvZGB9Tdh609UIRRy3XA9hAPkxJI1EwmCJPM5VRj4YAqduPDmWzsz7I6d3zxmA5pw
-	XBk+fiS/TyuC6DNSwZ9kKQMro8osObT3+ob8WDBMh7EkIsOzXUv9n0g9MP0ZRDAtTTBHHDugfHr
-	tp6EiGVaNcaBeu5Rbr15RVGPTVGLrYSxYJIsiu//adEYbypkBS/6bxI2FQ0dTiqsmUXD6sX+xkD
-	50sxYGbNNftHUv3iN6ZfXCqVEmTK9zdq4kL7fOVnYVKTIGw==
-X-Received: by 2002:a05:600c:8b85:b0:4a2:392:9de2 with SMTP id 5b1f17b1804b1-4ac1932b550mr152423265e9.28.1793543437168;
-        Sun, 01 Nov 2026 06:30:37 -0800 (PST)
-Received: from romain-ThinkPad-P14s-Gen-5-AMD.tail433d9c.ts.net ([2001:861:39c2:e340:849f:a468:4121:a85])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abe7706516sm138430595e9.0.2026.11.01.06.30.36
+        bh=Yj7uHm+i6moRPp1T/k/KtCZpjWPn8bcWSFuA0A8wuVI=;
+        b=rsjH3nAL/4QkKoFJoGBCUbdxWY4JQuOT/xHKTrvQWEp4uhPsK8LJJFHKfh8xGPe0Wi
+         zk6PY87z7hdk/+P6NlAKZm6AaaBFN+aImubJC0oFP61TeXdQm1Zc/2N/gCT6PZ7CVN8u
+         X2jgnjZnGH0syKveXSlzs7P9NvdFENBwealdCgbu5jlQ+R0Zb3NoaUT8x1jI9AiWKprA
+         wioI49Z3dzs3V2wjtgHiFiUZ1TjvDItZ+XKyiqymmeDWJdLepJvdeyAcSbLg7EqORiSj
+         7iaff6Ll9eWZE1h4TNxiVIc+GaEEBx/vj/t2oYtm3q3d6ZYYnDXPy0zKw5AQo+ZyUdev
+         3VfQ==
+X-Gm-Message-State: AFq9FYKQ87coHcQ6bfwM4r1xfwgQ2ppBpy/k81Kqxyz7qzmaW3tPliUY
+	nWb7lMMJtYuyy+cf8gasEojUM6iXzvfMHQzKkEaYGAY4OPhW9ySsY9kGDCaU0wdE
+X-Gm-Gg: AYBFou1sB5fsAP70awwmVToZnaz081ClDPSLr+PUHq0484LKIchjdJynerQjR+36s2W
+	ussTU4MYzlcUWjkmVipsJp/4R3/jsHj99muVFA/BUb/Fv0IoSNT2T2fbpS6oAWC9004YGKAFHKR
+	GAGwqRT/lmqkVj4Y5+7LZ2wCdOu9jdL5c3TMC/SPAlpqsyFNYKs6nIgeKpiXfToIvR0bmHJQVp4
+	RwGtSYdirJ2c7/aaU/JjLKcd1Cpk3/4LCEiMSgU+h/O0dstdYaMbzvztekJcM9lwCyeJWLW49iG
+	UyQzXSlaytaTUVWk2kf8YQ/Fr1BzVw3sf28DGU8HKWuOPxPecXp+sI8tHtydSpxdk/MGPzZyao1
+	V9i9k3xHcn+g6nQmjkr1UNYCzJYLoTVAojmEZBaUf1+jIwaD9K5Mt0E5fcgyoMXaldeg5MEvcPl
+	EImhOzbJINPggosCIJKo59WB0VfHq1YZ0QzLL0pk0XAtHQMuLOjEoys56iyVZqVPFY/g21dEZp8
+	9N3ZRAtSTFJWO+OLJV/Q+gryN+rnZvJW9aT61Unnk+NIcuwUc1j0eL+LvN92rFXGKWeCB8UN4T2
+	kBB5leo2r1QQmEXhdqyLGGGJWWO46i9tihgMJlfYCpRk1xnIA1cwbeihpOBzdd+PwHkAACRsYHV
+	uSvRYfImMP9sHsv6iYk07VEBppzq6M7H8
+X-Received: by 2002:a05:7023:a4b:10b0:159:f192:5290 with SMTP id a92af1059eb24-1a9496c2a81mr14598214c88.13.1793543906838;
+        Sun, 01 Nov 2026 06:38:26 -0800 (PST)
+Received: from puter ([49.207.217.88])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1a136537sm24898966c88.18.2026.11.01.06.38.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 06:30:36 -0800 (PST)
-From: Romain TISSERAND <romain.tisserand@gmail.com>
-To: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Animesh Agarwal <animeshagarwal28@gmail.com>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
+        Sun, 01 Nov 2026 06:38:26 -0800 (PST)
+From: Shivam Madlani <shivammadlani5@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	sashiko-reviews@lists.linux.dev
-Subject: [PATCH v2 0/2] ASoC: rt5631: Support an MCLK clock from the SoC
-Date: Sun,  1 Nov 2026 15:30:33 +0100
-Message-ID: <20261101143035.880469-1-romain.tisserand@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Shivam Madlani <shivammadlani5@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Fix mute and mic-mute LEDs for HP OmniBook 7
+Date: Sun,  1 Nov 2026 20:08:18 +0530
+Message-ID: <20261101143818.17714-1-shivammadlani5@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -107,54 +97,35 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The RT5631 driver doesn't take a master clock, so when MCLK comes from a
-SoC clock output, that clock is turned off at boot as unused. This
-series adds an optional "mclk" clock to the binding and enables it in
-the driver while the codec is active, as rt5616 does.
+The HP OmniBook 7 Laptop 14-fr0xxx (PCI SSID 103c:8e3b) uses an ALC245
+codec with CS35L41 amplifiers. The existing quirk
+ALC287_FIXUP_CS35L41_I2C_2 does not configure the speaker mute or
+mic-mute LEDs, leaving them non-functional.
 
-The board that needs it is the GPD XD (RK3288), whose device tree is not
-upstream yet. Its MCLK is i2s0_clkout: handed to simple-audio-card, the
-mux picked the 12 MHz oscillator for 12.288 MHz (wrong pitch); held by
-the codec, it follows the I2S clock, as on the RK3288 boards with ES8388
-and MAX98090 codecs.
+Switch to ALC245_FIXUP_CS35L41_I2C_2_MUTE_MICMUTE_LED, which controls
+the speaker mute LED via COEF index 0x0b, the mic-mute LED via GPIO
+0x04, and chains to the CS35L41 amplifier setup. Also update the model
+name from the internal board codename ("HP Agusta") to the retail
+product name.
 
-Changes in v2:
-- Patch 2: get the clock in the I2C probe, as rt5616 does since
-  b5c9df40ca56: from the component probe a deferral was lost and a rebind
-  leaked the clock (reported by Sashiko).
-- Patch 1: unchanged; picked up Krzysztof's Reviewed-by.
-- v1: https://lore.kernel.org/all/20261025145354.3476371-1-romain.tisserand@gmail.com/
+Signed-off-by: Shivam Madlani <shivammadlani5@gmail.com>
+---
+ sound/hda/codecs/realtek/alc269.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Testing: dt_binding_check for realtek,rt5631.yaml; W=1 builds for arm
-(multi_v7) and arm64 (defconfig) with SND_SOC_RT5631=y and =m, no
-warnings. Tested live on the GPD XD (RT5631 on simple-audio-card,
-mclk-fs 256) on 6.18.54 with this change backported (the bias level read
-uses snd_soc_component_get_bias_level() there): i2s0_clkout stays on the
-I2S clock at 11.2896 MHz for 44.1 kHz and 12.288 MHz for 48 kHz, and
-both play at the right pitch; v2 tested the same way, with the clock
-taken in the I2C probe. Boards without an "mclk" clock are not affected
-(clk_prepare_enable() on a NULL clock does nothing); not tested on other
-boards.
-
-Tool disclosure: this series was prepared with Claude Opus 5.5
-(Anthropic) as a coding assistant, in an interactive session where I
-asked it to fix the pitch problem without the RK3288 clock change that
-was refused in 2014. It traced the clock ordering in simple-audio-card,
-proposed taking the clock in the codec driver following rt5616, and
-drafted the patches and the messages; v2 follows the Sashiko review. I
-reviewed and understand them, and tested them on the GPD XD as described
-above.
-
-Romain TISSERAND (2):
-  ASoC: dt-bindings: realtek,rt5631: Add the optional MCLK
-  ASoC: codecs: rt5631: Enable the optional MCLK
-
- .../bindings/sound/realtek,rt5631.yaml         |  8 ++++++++
- sound/soc/codecs/rt5631.c                      | 18 +++++++++++++++++-
- 2 files changed, 25 insertions(+), 1 deletion(-)
-
-
-base-commit: cc3fc99f1bce93c3ae3771ef98cb91a566da857e
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 23329d5887a5..b040cea9c268 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -8067,7 +8067,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8e36, "HP 14 Enstrom OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8e37, "HP 16 Piston OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8e3a, "HP Agusta", ALC287_FIXUP_CS35L41_I2C_2),
+-	SND_PCI_QUIRK(0x103c, 0x8e3b, "HP Agusta", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x103c, 0x8e3b, "HP OmniBook 7", ALC245_FIXUP_CS35L41_I2C_2_MUTE_MICMUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8e43, "HP Laptop 15-fd2xxx", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO),
+ 	HDA_CODEC_QUIRK(0x103c, 0x84ee, "HP Pavilion AiO 24", ALC225_FIXUP_HP_AIO_SPK),
+ 	SND_PCI_QUIRK(0x103c, 0x8e60, "HP OmniBook 7 Laptop 16-bh0xxx", ALC245_FIXUP_CS35L41_I2C_2_MUTE_LED),
 -- 
-2.43.0
+2.56.0
 
