@@ -1,64 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793573126;
-	b=q1WmnQbalTjHv6QjLOnPC0ypwSr5Y+b9g2BnNdKxZgTCKgIOpG1YRtYQ4eeAng9T5XWP
-	 CnxhYQsxVkC8MWDEFLIFo22Kvs8QMKkz8nhVCipRSNCfYHw9VqRTbu1LgWAfqCVubDPRr
-	 4d0203FN6Pxho06ejIeM799+Frbgkh4vyk20ibs5lZFJnI7gF7cTVU1Uw3PW+0AbNds9Y
-	 KKN9d0xOt1sWbkPq3KYLUwl+npwmR4XIiDp8vzgRGoBTVfVquCbPh521lzalvf1ut5jHh
-	 fr4uU3oFHyrVGVTgTbBP1DA3+hvJ7JfDLZwexLPvwRpttvTCcut4GGKk/wPAMSiBBdg==
+	t=1793574060;
+	b=5OJgn0vHfGJEqo6aiLvFycK4wBNaOfXpjsuv+oxz/pdCUeCDT49v0rM4R3aZzGmCM0FA
+	 DGN40Fkvo4KyUYZMPQ+jT6aEB6ofBGsqKjjnUM/ec9V7/b44JvyFccdS3mi4rVa0Y56hB
+	 hlgGbRUE20dk0PffarqeGp9EKpcklbi+d+WKAwqd7SmruRI7VK/ElXM511di981PyH8z1
+	 vIV1j6fQ568DKVBHamlrP3GfOR8tvb3CMhhJeqYT2qwiOKbLU5r9d5KDyeXb0JwDmcI0L
+	 VzYp1dti1J+ipOYd82yFPkMnDt5EtCd1y0Cjb0TMl2K/lHFMIa5LuTHn28Rul9SHMcg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793573126;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=BzRuFBupQjQiDyoa/qXLe1S7CqDSM/Br1lwbCFNkGzY=;
-	b=yi2FWvTAtpIQFgLokQkG3fwIAyohQ3aBN3/g+OmZFOHsAv+uTV5UpiVs6tDfI8EJZGCV
-	 GB0iN56yC3N9YS7efPoqHZILtsj01E1Ibh8pt/7tmzLI0GgDDYDerR0yh8HkpJ4CTefDw
-	 3W0OYo9QXdGgY1jsw5nEbcHBaFC7xNdnU1KCWOT3GGv0iQtDKjlfUoz+2bAX8+/ppqyju
-	 mu1h37kkw80Q4JBT0KfJwuhDMDiXQsvrL00YtgAMfQ9Q1KNnSVKGwImAnWWO9A/QFoRAp
-	 PdRUeCYQHil+rAFyyrHyO1BH1QR79dQMH1ECPgK9kxKOiPPAxdALD8e6jMxWGWkL+lA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793574060;
+	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=WX2F145DmNnWNKyO8kav9VYCsTOxrh1LqXN9CUJ8PfA=;
+	b=0MyWZVh25X2zYHhfPp89MimLQM6GLLWekL5hVWyrs2sfzjYZ4VoOBmTJpHc8A++SDvJF
+	 MuNCWowypxXzXYAFVkkoen/B0Tz0Bh/DPfgdWYibX1W5gmxVIr3pj6zVbxWbkoPgIXPR0
+	 cT+wIWuQlbuuxY3BH+JIvKn7CWJe4NPr2LfOXwTcwjbIq28WDA454gHS0a2jy9HNiGCZJ
+	 YnQTPgh8rhIEUzr6Qd1IfyNZYjeCDX/jgGWd07VBvnNK4Fy6vhDkSGXgVpYPkueCqs1m/
+	 Aibe+4k3iL28woVgU5EXHXHqac99QOYDidPlh1Byw2fdODvvE34c/EAAZV+wm9/pIMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Wk+Rtdnl;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fgM9SoY8;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8F2606A324;
-	Sun,  1 Nov 2026 22:45:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C7A606A324;
+	Sun,  1 Nov 2026 23:00:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Wk+Rtdnl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDF791F000C1;
-	Sun,  1 Nov 2026 22:45:25 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fgM9SoY8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 769DA1F000C1;
+	Sun,  1 Nov 2026 23:00:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793573126;
-	bh=BzRuFBupQjQiDyoa/qXLe1S7CqDSM/Br1lwbCFNkGzY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Wk+RtdnlNfF0ZU1JG+cJnT6+Cm3sXxVjQsN6TARzsEQX378ayC2zgTKW6xx9AOEo5
-	 SyEx/0OuPrv7HTVQpfufdTXQOFuXF9JtHJ+qcYjlnl2TYByspxnxJr62180NhiVJVM
-	 LJ8JgSYfK85y4E8U6OCDDOmIgxlZuoKrVvo6gZ2vWv/WKihj2lOK/2EmYhYaiMzPU8
-	 CcJHn9A6ENzI11QIP4qI6TYpaiw0F3cO2j0Un0qjp46PzoQVVHMDc4E1l+9VkL9gVN
-	 7b1fB1JQBA+BnG5XpWcEWMPYuFlLm43xq1SAm3W4Tgzf/P+Ux3axqj7xkfrtmSAIJj
-	 ZS93vYt2DBpMw==
-Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
-	id 50F102065139; Sun, 01 Nov 2026 22:45:23 +0000 (GMT)
-Date: Sun, 1 Nov 2026 22:45:23 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Xing Zheng <zhengxing@rock-chips.com>
-Cc: heiko@sntech.de, linux-sound@vger.kernel.org, luca.ceresoli@bootlin.com,
-	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	linux-kernel@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, huangtao@rock-chips.com,
-	sugar.zhang@rock-chips.com, lxt@rock-chips.com,
-	xing.zheng@rock-chips.com
-Subject: Re: [PATCH v2 1/3] ASoC: dt-bindings: rk3308-codec: describe
- detection and ADC routing
-Message-ID: <aufBA7-uC7udM0qa@sirena.org.uk>
-References: <20261101040125.1864141-1-zhengxing@rock-chips.com>
- <20261101044149.2018744-1-zhengxing@rock-chips.com>
- <20261101044149.2018744-2-zhengxing@rock-chips.com>
+	s=k20260515; t=1793574059;
+	bh=WX2F145DmNnWNKyO8kav9VYCsTOxrh1LqXN9CUJ8PfA=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=fgM9SoY8R7tcstnRez/BdlKIO3DCsflQ78QVcOLuZ9R4EzO7L6LbvxwaoyjLxPouc
+	 KS5CCaBmwDoDeur7amu10YrRu1EKesjq4HRsSzlEPTKG1I0aKUuV9UU76dCmh5ly/V
+	 PF6dmk41Jr3iXgmWOFxR0piK9duLurBzvAmwEdPCG8GhxUl7kLVjG7e4NlaSmdpUs/
+	 TjcdBEfjy5Alc/PhRMKhrbU/GTknNoZMHi2rSL/9ld939J2j6VetERz6MQRyRp9QaZ
+	 /OOrjl6abKyJCa+zxPMk/wnnz/ZBZJmwTbYnraxK6E1H9hF5SA3DoEVmPWeWq6tbc+
+	 +4aYGMpOV7ZGQ==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id D582E208F436;
+	Sun, 01 Nov 2026 23:00:56 +0000 (GMT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -68,37 +52,42 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bSSLOBRclnUyzkCZ"
-Content-Disposition: inline
-In-Reply-To: <20261101044149.2018744-2-zhengxing@rock-chips.com>
-X-Cookie: Whoever dies with the most toys wins.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] ASoC: SOF: Intel: hda: Stop the controller before
+ freeing its DMA buffers
+From: Mark Brown <broonie@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, Takashi Iwai <tiwai@suse.com>, 
+ Jaroslav Kysela <perex@perex.cz>, sound-open-firmware@alsa-project.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261028144446.992948-1-sashal@kernel.org>
+References: <20261028144446.992948-1-sashal@kernel.org>
+Date: Sun, 01 Nov 2026 23:00:54 +0000
+Message-Id: <179357405490.1679716.7958054921741157139.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=485; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Pg4hrzRr5VUO6qkDDViQ2BcjDmYibLs67oDx3fEdgH4=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLKeH1nx91uk7KkZV8N2PH8z67eDptDqLMP8TZt/TRQOn
+ qgdrtu9o6OUhUGMi0FWTJElLov7ZX3J6zV8Bxe2wcxhZQIZwsDFKQATmcLDyLA+icXqdkCU/+mq
+ p1+Zv2e8KjzNka4U5Z5+27fiSUbhcXeG/7UrO/bdPCeR/27l9InRiXUml277CG9ZNLP9VOap06o
+ C+1kA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+> hda_dsp_probe() starts the CORB/RIRB DMA engines through
+> hda_dsp_ctrl_init_chip(), but neither hda_dsp_remove() nor the error
+> path of hda_dsp_probe() stops them before hda_dsp_stream_free() frees
+> the CORB/RIRB ring buffer and the position buffer.  Unsolicited
+> responses also stay enabled, so the controller can keep writing RIRB
+> entries into the freed page.
 
---bSSLOBRclnUyzkCZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This doesn't apply against current code, please check and resend.
 
-On Sun, Nov 01, 2026 at 12:41:47PM +0800, Xing Zheng wrote:
-> Describe the optional detect-GRF phandle and named interrupt resources
-> used by the B/C headphone detector. Retain the legacy interrupt order
-> and index-based lookup when names are absent. Document the detector
-> disable and reversed-jack properties and their resource dependencies.
-
-Please don't send new patches in reply to old patches or serieses, this
-makes it harder for both people and tools to understand what is going
-on - it can bury things in mailboxes and make it difficult to keep track
-of what current patches are, both for the new patches and the old ones.
-
---bSSLOBRclnUyzkCZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCaufBAwAKCRAv73Ows9A4
-iabwAP9Gmr6n9IX2ZB1GxaMa2+TbbQ+zn3trx0LRgC/h5052OgD9Gp6fMckCkXWu
-OhGm7TPU0nV/e3bw6I0v2x60AncDWA0=
-=ngH3
------END PGP SIGNATURE-----
-
---bSSLOBRclnUyzkCZ--
+-- 
+Mark Brown <broonie@kernel.org>
