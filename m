@@ -1,54 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.159
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.155
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793558081;
-	b=eL/1vBl4N+rkfaqIobXGQxm+YHVAArpT5NoAkynibWfoU93iW2dcsoHik6fAbSQJvSC3
-	 0DAlx/WffhVRzfJqiIEm7ygn95E1GvrT0tSHLJGszOkVEilZx6xp8uiDHfVAUbp99r+G8
-	 as0pQ8nDExFRuEsVsO/CkYcJn0o2rHzrv5phM8FqGDBxw1tSEFBGynPLIcwGSKKvNO2iw
-	 /ZtkCY8Rm/Ff4+Xj5q/yW2WiuN+464ZxVahsBnSuPv3/frR47jJ75nN0iIHleWErCgdsC
-	 AZFNKvVLpoB6yr38SI55GCfclfQUCIfGA+MJY9wkvTQ5iG+eCDLmF1vMO9s93uE7vhg==
+	t=1793558080;
+	b=HbiRfk6J9PV1OUgs/XJOA75LZlKw+0L7DH7LY8z7xXot1JSyKU34yibuTJ46qNJYIjEI
+	 tOAiKdDbxdIZcySR9vciPEdRQwLLRbS3PJ4ycaMBlmtVcN2iChwwMnE/xZnjf23YuP8q9
+	 XlPGtEqd1kNnvNMNWXdrPgkxxBrL8n5iNq5Kg64pilV+TprPkMUSdQMDrJqhDRiQpujlX
+	 kFNsu5b8lNZjItM0lr2gVq3HG2/ebTeCYXHVmWUfewx2tvj78B/Y9HNm8ZjaegUN/OGZk
+	 uShreEePWBxXcexyhpedEPaDQy/zZrXoFgw4J21CUOOyW6t7M+F/CfUnxAbacdbp9iQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793558081;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793558080;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=2BDtWG0A86UxDWkm7wyWbWGXJK4ISAAXVZmqeVGUULI=;
-	b=KLMwhsHQKvgLQ0ldRGCzZWGDnbHgTa1ciDXH8qDo9DN9NBLBS8flhUEZntAXhixHJrfn
-	 hTN3HEDjb6XHrJ1m8mOuFNWH0QiSyUOLXuALQdKcKxugmLcEqicNGjdEdkhNX5LQuq98M
-	 DJGvew+TCprUM/ZxGMCB7RngE6G2whVNllCcqGiEuc6+5pIj1s+GOCuy7bL9FKdRpL8qk
-	 d01+zgiDdEukQ1bsIUphaAO02S0A0Q9p6hGl02AHfGZ7Glv6LQp1ctGAKanxMVEQYOb1l
-	 82DDJ6UfFwpjI37/8rLoqisRV5C4BIscizxoDGUOnO19sEHRw8HHwE/xDMKy3sYvCKA==
+	bh=Nvp6wrPgoh5cGvPGRWSRB6p50iQcFbqgLtkhm6dJFRg=;
+	b=EnRnPELdczAYld7R3waYIXbjAnn879+nxY4+rhCxWPbtF750r93+KIjNrTlyIn6vzFVJ
+	 qej/dl9Hkwtd2eXOxGKiAnuByXJIZ9L9vf8ZLKDQldciCqgGsMqCZTfFScsfvklLSkT5U
+	 ou2jv1tYVB7meYla5HwHyKgUfaHPazEi/n7expUoQyngxzEHFm49S5MltN9ou6ewn4vkj
+	 NiZreOlUufOLuFYYzc6hdEtWT5EO8Y7BzDuPzxu0IIOhE4jrZMm/H7NAm1Lhuxoc6qnwK
+	 oJ7Di1A5JcK9ZEhGRW9QlkhX2J9AvqMFQbwYgcwQJoT641hS1FRbsJXTe4Kjf+GXzbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=n6tI8NAz;
-	arc=none smtp.remote-ip=95.215.58.159
-Received: from mta1.migadu.com (out-159.mta1.migadu.com [95.215.58.159])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=k5UAneQL;
+	arc=none smtp.remote-ip=95.215.58.155
+Received: from mta1.migadu.com (out-155.mta1.migadu.com [95.215.58.155])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33EB2606A327
-	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 18:34:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33EB2606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2B9606A326
+	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 18:34:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A2B9606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=n6tI8NAz
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=k5UAneQL
 X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Mx5lXE61FEtyxVjZYvYVCCXsLI55yMipYdYQ5PE+OQ8=;
+DKIM-Signature: a=rsa-sha256; bh=emt4OjL+/LipNW4IZBhyCSOLLno50wg5Z9yLtDcIYpw=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793558077; v=1; x=1794162877;
- b=n6tI8NAzrCrhlJJ8BIyFOwlj1dhqVVmGfYolwSkHjxJBAytsOdIsEzJ2E0g/btcbU8X3nDSm
- mcxim5dl+mtwsjyxXI5UTWj75UGXWgFV7hoI0cyLjtdueoD2YFv7um9sRXD7x/E01tBVluIBbGC
- 8dDi3N/U88+Q0YQzGHQ4Qnt8=
+ t=1793558076; v=1; x=1794162876;
+ b=k5UAneQLLz99EMXdbRdDYylkD/Ltuw5iJ0Vfk9NjQhtm+3p3EdSgWBcaObY8kg4Rm5swY6rd
+ HnFWaSy0WVh85lrSRJHhSPpX3jmRB6n0WI9B09TbBDXEgo8HUZe2hOY2qD8e3WS63W+uuEv8ILP
+ hjWrxc+W3E3EGqqZhhub4x+A=
 X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id be63853a791001dd;
-	Sun, 01 Nov 2026 18:34:37 +0000
-X-Mizu-Trace-ID: be63853a791001dd
+Received: by smtp.migadu.com with ESMTPS id 9dbb22a9bc9b35b4;
+	Sun, 01 Nov 2026 18:34:36 +0000
+X-Mizu-Trace-ID: 9dbb22a9bc9b35b4
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <15653bef-65b0-486f-aecd-ad7618d99cbd@linux.dev>
-Date: Sun, 1 Nov 2026 19:28:00 +0100
+Message-ID: <fe3eecdc-eb7f-4b1a-947c-fa05c4602fd1@linux.dev>
+Date: Sun, 1 Nov 2026 19:24:08 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,8 +59,8 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 06/16] ASoC: amd: acp: add PDM controller selection for
- ACP7.B/7.F SoundWire machine driver
+Subject: Re: [PATCH v4 13/16] ASoC: amd: acp: add ACPI machine tables for
+ ACP7.F SoundWire
 To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, broonie@kernel.org
 Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
  tiwai@suse.com, yung-chuan.liao@linux.intel.com,
@@ -70,140 +70,58 @@ Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  sound-open-firmware@alsa-project.org
 References: <20261030094714.1123396-1-Vijendar.Mukunda@amd.com>
- <20261030094714.1123396-7-Vijendar.Mukunda@amd.com>
+ <20261030094714.1123396-14-Vijendar.Mukunda@amd.com>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20261030094714.1123396-7-Vijendar.Mukunda@amd.com>
+In-Reply-To: <20261030094714.1123396-14-Vijendar.Mukunda@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 10/30/26 10:45, Vijendar Mukunda wrote:
-> Add ASOC_SDW_ACP_DMIC1 quirk bit (BIT(6)) and pdm_sel field to
-> amd_mc_ctx to support per-controller DMIC DAI selection on ACP7.B/7.F
-> platforms.
+> Add amd-acp7x-acpi-match.c with four snd_soc_acpi_mach entries for
+> ACP7.F SoundWire configurations:
+> - RT721 + RT1320 on SoundWire links L0+L3
+>   (jack+dmic on RT721, spk on RT1320)
+> - RT721 + RT1320 on SoundWire links L0+L1
+>   (jack+dmic on RT721, spk on RT1320)
+> - Standalone RT721 on L0 (jack, amp and dmic endpoints)
+> - Standalone RT722 on L0 (jack, amp and dmic endpoints)
 > 
-> In mc_probe(), read the active PDM controller from mach->pdata
-> (populated via ACPI acp-audio-ep-port _DSD). When ACPI does not set
-> pdm_sel, derive it from the quirk bits after dmi_check_system() and
-> quirk_override are applied: ASOC_SDW_ACP_DMIC1 selects DMIC1;
-> ASOC_SDW_ACP_DMIC selects DMIC0. Since only one PDM controller is
-> active at a time, DMIC1 is checked first.
+> RT721+RT1320 combo configurations use jack_dmic_endpoints for RT721,
+> skipping the internal amp since RT1320 provides amplification on a
+> dedicated SoundWire link.
 
-nit-pick: it'd be useful to explain the mapping between PDM controllers
-and PDM microphones. Is this one controller:2mics?
+[...]
 
-Also does anything prevent DMIC and DMIC1 from being active simultaneously?
-
-> 
-> In create_dmic_dailinks(), select the SOF CPU DAI name based on
-> pdm_sel: "acp-sof-dmic1" for ACP7X_PDM_DMIC1, "acp-sof-dmic0"
-> otherwise on ACP7.B/7.F; all other platforms use "acp-sof-dmic".
-> 
-> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-> ---
->  sound/soc/amd/acp/acp-sdw-sof-mach.c   | 44 +++++++++++++++++++++++++-
->  sound/soc/amd/acp/soc_amd_sdw_common.h |  3 ++
->  2 files changed, 46 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/amd/acp/acp-sdw-sof-mach.c b/sound/soc/amd/acp/acp-sdw-sof-mach.c
-> index 97b2e224492f..34a71f7a8c54 100644
-> --- a/sound/soc/amd/acp/acp-sdw-sof-mach.c
-> +++ b/sound/soc/amd/acp/acp-sdw-sof-mach.c
-> @@ -265,11 +265,31 @@ static int create_dmic_dailinks(struct snd_soc_card *card,
->  				struct snd_soc_dai_link **dai_links, int *be_id, int no_pcm)
->  {
->  	struct device *dev = card->dev;
-> +	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-> +	struct amd_mc_ctx *amd_ctx = (struct amd_mc_ctx *)ctx->private;
-> +	const char *cpu_dai_name;
->  	int ret;
->  
-> +	/*
-> +	 * For ACP7.B/7.F platforms the PDM controller is selected from ACPI
-> +	 * acp-audio-ep-port and stored in amd_ctx->pdm_sel. Use the
-> +	 * matching SOF DAI name ("acp-sof-dmic0" or "acp-sof-dmic1").
-> +	 * All other platforms use the generic "acp-sof-dmic" DAI.
-> +	 */
-> +	switch (amd_ctx->acp_rev) {
-> +	case ACP7B_PCI_REV:
-> +	case ACP7F_PCI_REV:
-> +		cpu_dai_name = (amd_ctx->pdm_sel == ACP7X_PDM_DMIC1) ?
-> +				"acp-sof-dmic1" : "acp-sof-dmic0";
-> +		break;
-> +	default:
-> +		cpu_dai_name = "acp-sof-dmic";
-> +		break;
+> +static const struct snd_soc_acpi_adr_device rt721_l0_single_adr[] = {
+> +	{
+> +		.adr = 0x000030025d072101ull,
+> +		.num_endpoints = ARRAY_SIZE(jack_dmic_endpoints),
+> +		.endpoints = jack_dmic_endpoints,
+> +		.name_prefix = "rt721"
 > +	}
+> +};
 > +
->  	ret = asoc_sdw_init_simple_dai_link(dev, *dai_links, be_id, "acp-dmic-codec",
->  					    0, 1, // DMIC only supports capture
-> -					    "acp-sof-dmic", platform_component->name,
-> +					    cpu_dai_name, platform_component->name,
->  					    "dmic-codec", "dmic-hifi", no_pcm,
->  					    asoc_sdw_dmic_init, NULL);
->  	if (ret)
-> @@ -378,6 +398,7 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
->  static int mc_probe(struct platform_device *pdev)
->  {
->  	struct snd_soc_acpi_mach *mach = dev_get_platdata(&pdev->dev);
-> +	struct amd_pdm_pdata *pdm_pdata;
->  	struct snd_soc_card *card;
->  	struct amd_mc_ctx *amd_ctx;
->  	struct asoc_sdw_mc_private *ctx;
-> @@ -398,6 +419,10 @@ static int mc_probe(struct platform_device *pdev)
->  		amd_ctx->max_sdw_links = ACP63_SDW_MAX_LINKS;
->  		break;
->  	}
-> +	if (mach->pdata) {
-> +		pdm_pdata = mach->pdata;
-> +		amd_ctx->pdm_sel = pdm_pdata->pdm_sel;
+> +static const struct snd_soc_acpi_adr_device rt721_l0_only[] = {
+> +	{
+> +		.adr = 0x000030025d072101ull,
+> +		.num_endpoints = ARRAY_SIZE(jack_amp_dmic_endpoints),
+> +		.endpoints = jack_amp_dmic_endpoints,
+> +		.name_prefix = "rt721"
 > +	}
->  	ctx = devm_kzalloc(&pdev->dev, sizeof(*ctx), GFP_KERNEL);
->  	if (!ctx)
->  		return -ENOMEM;
-> @@ -419,6 +444,23 @@ static int mc_probe(struct platform_device *pdev)
->  		sof_sdw_quirk = quirk_override;
->  	}
->  
-> +	/*
-> +	 * If ACPI did not set pdm_sel (no acp-audio-ep-port in _DSD), derive
-> +	 * it from the quirk bits. ACPI takes priority: quirks are only
-> +	 * consulted when pdm_sel is still zero. PDM controller selection is
-> +	 * only meaningful on ACP7B/7F platforms.
-> +	 * ASOC_SDW_ACP_DMIC selects DMIC0 (default); ASOC_SDW_ACP_DMIC1
-> +	 * overrides to DMIC1.
-> +	 */
-> +	if (!amd_ctx->pdm_sel &&
-> +	    (amd_ctx->acp_rev == ACP7B_PCI_REV ||
-> +	     amd_ctx->acp_rev == ACP7F_PCI_REV)) {
-> +		if (sof_sdw_quirk & ASOC_SDW_ACP_DMIC1)
-> +			amd_ctx->pdm_sel = ACP7X_PDM_DMIC1;
-> +		else if (sof_sdw_quirk & ASOC_SDW_ACP_DMIC)
-> +			amd_ctx->pdm_sel = ACP7X_PDM_DMIC0;
-> +	}
-> +
->  	log_quirks(&pdev->dev);
->  
->  	ctx->mc_quirk = sof_sdw_quirk;
-> diff --git a/sound/soc/amd/acp/soc_amd_sdw_common.h b/sound/soc/amd/acp/soc_amd_sdw_common.h
-> index c979adf4e978..07837a2cfa54 100644
-> --- a/sound/soc/amd/acp/soc_amd_sdw_common.h
-> +++ b/sound/soc/amd/acp/soc_amd_sdw_common.h
-> @@ -29,6 +29,7 @@
->  #define SOC_JACK_JDSRC(quirk)		((quirk) & GENMASK(3, 0))
->  #define ASOC_SDW_FOUR_SPK		BIT(4)
->  #define ASOC_SDW_ACP_DMIC		BIT(5)
-> +#define ASOC_SDW_ACP_DMIC1		BIT(6)	/* select DMIC1 controller for ACP7.B/7.F */
->  #define ASOC_SDW_CODEC_SPKR		BIT(15)
->  
->  #define AMD_SDW0	0
-> @@ -94,6 +95,8 @@
->  struct amd_mc_ctx {
->  	unsigned int acp_rev;
->  	unsigned int max_sdw_links;
-> +	/* PDM controller selection, copied from amd_pdm_pdata at probe time */
-> +	unsigned int pdm_sel;
->  };
->  
->  int get_acp63_cpu_pin_id(u32 sdw_link_id, int be_id, int *cpu_pin_id, struct device *dev);
+> +};
 
+nit-pick: The naming conventions aren't self-explanatory and don't match
+the explanations above. The difference between l0_single_adr and l0_only
+are related to the endpoints used, and they don't match what's used for
+rt722 below.
+
+[...]> +static const struct snd_soc_acpi_adr_device
+rt722_l0_single_adr[] = {
+> +	{
+> +		.adr = 0x000030025d072201ull,
+> +		.num_endpoints = ARRAY_SIZE(jack_amp_dmic_endpoints),
+> +		.endpoints = jack_amp_dmic_endpoints,
+> +		.name_prefix = "rt722"
+> +	}
+> +};
