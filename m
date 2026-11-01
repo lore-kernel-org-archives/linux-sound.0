@@ -1,66 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=160.236.53.103
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793505727;
-	b=1xLJ54pE5lKbl/TwLGsyERpCRPND2YvWWUmYe3RXZIzyoypp5Wnc00lXVD51quLPs6fL
-	 luWzkDnQhWhOZ+30ms2aaFmxSwQiuwg92kaUOxw55fIusLeuTlJUTo/hwpZICf7MQVF1s
-	 H+JVDP0+TcP2pL7utnzLAgWl2M7EW35Qi90ArseF07fZg/Pd/7GoDUqA6tZIJ3Be2nsTH
-	 ED3kAjHGyDlz5Y+jf91FqeRYHlPt9CXsEEbxClcoKUDYahHZSXgLSMpplveDGhdDUu0z8
-	 m/yeVQ+SVk3gKDqDcw5Xehm5OzvDuyK3yr03vc5WFsaTB+sRwbHXGFFZMsbMpHv78LA==
+	t=1793506397;
+	b=4DYqOhCb9cQRliMxarwvabJdcn9eSVXze+1+cAslvJFu0z9/NsHg/pQnNmvOJZYPBu85
+	 18ZTS5j/e3IWGpazA7UMEYgFLxA3JaZWhvO7WP9E/McnO1ashVVfsUSYo9kHTy0cxWiWR
+	 K57wbSaG0jECUWNVUKRJ2zVp8V8f2+NAvBI70xcUQBCWidMiHy+NGNuw4SGOyrHAKMeoQ
+	 SuTy1AoYNS7vo+Z+8OLZG+1pzABnkr9+CyHq6nSijDIPY1b8dl/YsOEt/B9jiAObAKvkR
+	 ypcvx8OjMfjdcWkGm7PSejZ6tnrcEGYkwmgvui3f4ALWOJfWSw/m5wS+NZVTK7Dn0UQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793505727;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
-	 X-HM-Tid:X-HM-MType:X-HM-Spam-Status:DKIM-Signature;
-	bh=peN5ftTqyFAP70ofPsYsaUWUB0BkZNqrFQzWyZxPC0Y=;
-	b=ieBup7QV5llqMrLKViDv6hRn8G22X+45TdzTLdBb2L/DQWMSvKmc+7nbxCT/ypKwB0To
-	 Rp+w0NBGARBW9Zo0+gkFgTQ/h8SQ8XzbwX+9Zq6ceuU/4gintNpVVClIT7ilY/RYIjTIe
-	 zB926v6MXaSmBAOD30NGC02xIkTmirAX54vj4aKfmcKkIodY2RRyuVE5wVHA62OtOimLC
-	 c1O4vdsFf7k1PFnRIJ9DQhSi4VJw2SfQQpSNkbWqN+Ol8jlyKKg/FWYeXm1FAlpPUOe/b
-	 T9IehU7oQ0jpORxa+NDS/jN0A9KJpPANxYt53eei6cuGSvX3b0KBRBKtl8AdRkS5Sbw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793506397;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=z2Cg74g46KG3N6ht9Q03662+u2VBApNKiCoPDwxUhGE=;
+	b=ApDChws5xP2egJB2xFY6pC3mWJUIG6EFxn0lBUoLnpcD+4EcNBIj7BzGnk7d/7+ECA5N
+	 1bbk4AKAv9tdg+WMgeWDdCnt2WwDVTWZ7SO3KCNMnXV5ASTaGQuvEI7pDuFOLxQzzTZJL
+	 R0Vp7krf1NxcJGdH1Au1jjhdwvQIPFQlfPPMPb2TnjUI9PKgjIRZ0hX8IXDuMcgH/YkJI
+	 lU/AuNMAS5bMTGnV7VptwLhdUf/CBycamMYI4QRMQpiy836S1/YxvrXL/mW7STVicJK6j
+	 qbz8+NiNepJMnGgClqNrzPzCsQAezEzhJodT+9cBmhi8MQ83PNVg5lDaYW/v0/KO4hw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rock-chips.com;
-	spf=pass smtp.mailfrom=rock-chips.com;
-	dkim=pass header.d=rock-chips.com header.i=@rock-chips.com header.a=rsa-sha256 header.s=default header.b=Z4GrQNjD;
-	arc=none smtp.remote-ip=160.236.53.103
-Received: from mail-m16023653103.xmail.ntesmail.com (mail-m16023653103.xmail.ntesmail.com [160.236.53.103])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=az+AjlIC;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F793606A33A;
-	Sun,  1 Nov 2026 04:02:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F793606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876C4606A324;
+	Sun,  1 Nov 2026 04:13:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.a=rsa-sha256 header.s=default header.b=Z4GrQNjD
-Received: from 5950x.tail741d0a.ts.net (unknown [61.154.14.86])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 530d84159;
-	Sun, 1 Nov 2026 12:01:55 +0800 (GMT+08:00)
-From: Xing Zheng <zhengxing@rock-chips.com>
-To: broonie@kernel.org,
-	heiko@sntech.de,
-	linux-sound@vger.kernel.org
-Cc: luca.ceresoli@bootlin.com,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-kernel@vger.kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	huangtao@rock-chips.com,
-	sugar.zhang@rock-chips.com,
-	lxt@rock-chips.com,
-	xing.zheng@rock-chips.com
-Subject: [PATCH v1 6/6] arm64: dts: rockchip: describe RK3308 codec detection resources
-Date: Sun,  1 Nov 2026 12:01:25 +0800
-Message-Id: <20261101040125.1864141-7-zhengxing@rock-chips.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261101040125.1864141-1-zhengxing@rock-chips.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=az+AjlIC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D21A41F000C1;
+	Sun,  1 Nov 2026 04:13:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793506397;
+	bh=z2Cg74g46KG3N6ht9Q03662+u2VBApNKiCoPDwxUhGE=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=az+AjlIC0CR7zhehcAHBHDMQ0yFhQ9hlA3uNgXBx6L8iyAFgeMMvb1+5tQ6hmvTeb
+	 7UmH2TWI/TU0pYOxmrHinGEVx2mfevVLkLE0zKAIlNLF0jdPfXOxTS89fOcUHWm0Rb
+	 KQBvuJyFEgZy/RxwK9jjf4VJTXdac9kd9BlWp67onqBRzomLBfiDaKQlCgfak5CabO
+	 zLG0bodB9qUZdat4chRS8yGkQ4f7rCfFF8c1Y8/bRYlII7pEdlLytdVeJb+TYvf/nr
+	 Y7o5cxQr75BnES3J6S+5W3i48io68thW5b8BADJtxwqMhnCK9uQHS/vr2QEpIwUHzT
+	 m1M3iTswRW7fw==
+Message-ID: <sashiko-outbox-192271@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v1 2/6] ASoC: codecs: rk3308: expose per-channel
+ microphone boost
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Xing Zheng" <zhengxing@rock-chips.com>, linux-sound@vger.kernel.org
+Cc: devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261101040125.1864141-3-zhengxing@rock-chips.com>
 References: <20261101040125.1864141-1-zhengxing@rock-chips.com>
+ <20261101040125.1864141-3-zhengxing@rock-chips.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 01 Nov 2026 04:13:16 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -69,44 +60,104 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa19545653203a8kunm8fccdc7416d2c3
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZGUMeVk9CGRpCQkhKGBlDTVYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlNSlVKTk9VSk9VQ01ZV1kWGg8SFR0UWUFZT0tIVUpLSE
-	pKQk1VSktLVUpCWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=Z4GrQNjDREKR9OntzCbcxyJ0F4IAzMQOh4a3q2Glom4QFLLIjtZYqUW//oeuY9C3Tn0Hsaws2HgV2mfhwcZGRi9pBHYoRerVStTJPO70+4cmGMgTNjIRcyhywQJBCkKj4NkZhSIfqL3wBwUvsZfbR3/LaY70oBqC4jxBb7WGeuU=; c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
-	bh=peN5ftTqyFAP70ofPsYsaUWUB0BkZNqrFQzWyZxPC0Y=;
-	h=date:mime-version:subject:message-id:from;
 
-Describe the detection GRF phandle and the codec and headphone
-interrupts for the internal audio codec. Name the interrupts so
-consumers can identify the revision-B/C headphone detector without
-depending on resource indices.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] ASoC: codecs: rk3308: non-contiguous mic boost range on rev A
+--
 
-Keep board audio routes and external amplifier GPIOs out of the SoC
-description.
+commit eb32aeb2bd3d3cce70cc5e7d254a08bf85314017
+Author: Xing Zheng <zhengxing@rock-chips.com>
 
-Signed-off-by: Xing Zheng <zhengxing@rock-chips.com>
----
- arch/arm64/boot/dts/rockchip/rk3308.dtsi | 4 ++++
- 1 file changed, 4 insertions(+)
+ASoC: codecs: rk3308: expose per-channel microphone boost
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3308.dtsi b/arch/arm64/boot/dts/rockchip/rk3308.dtsi
-index 31c25de2d689..fb4465eda574 100644
---- a/arch/arm64/boot/dts/rockchip/rk3308.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3308.dtsi
-@@ -836,6 +836,10 @@ codec: codec@ff560000 {
- 		compatible = "rockchip,rk3308-codec";
- 		reg = <0x0 0xff560000 0x0 0x10000>;
- 		rockchip,grf = <&grf>;
-+		rockchip,detect-grf = <&detect_grf>;
-+		interrupts = <GIC_SPI 114 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 115 IRQ_TYPE_LEVEL_HIGH>;
-+		interrupt-names = "codec", "hpdet";
- 		clock-names = "mclk_tx", "mclk_rx", "hclk";
- 		clocks = <&cru SCLK_I2S2_8CH_TX_OUT>,
- 			 <&cru SCLK_I2S2_8CH_RX_OUT>,
+This commit adds per-channel microphone boost controls for all eight ADC
+inputs on the RK3308 codec, using revision-specific TLV dB scales and
+rejecting intermediate gain settings on revision A.
+
+> diff --git a/sound/soc/codecs/rk3308_codec.c b/sound/soc/codecs/rk3308_co=
+dec.c
+> index 7a18ff45e391b..fc7e20e82700b 100644
+> --- a/sound/soc/codecs/rk3308_codec.c
+> +++ b/sound/soc/codecs/rk3308_codec.c
+> @@ -66,6 +66,84 @@ static const DECLARE_TLV_DB_RANGE(rk3308_codec_dac_lin=
+eout_gain_tlv,
+>  	3, 3, TLV_DB_SCALE_ITEM(0,    0, 0),
+>  );
+> =20
+> +static const DECLARE_TLV_DB_RANGE(rk3308_codec_adc_mic_gain_tlv_a,
+> +	0, 0, TLV_DB_SCALE_ITEM(0, 0, 0),
+> +	3, 3, TLV_DB_SCALE_ITEM(2000, 0, 0),
+> +);
+> +
+> +static const DECLARE_TLV_DB_RANGE(rk3308_codec_adc_mic_gain_tlv_b,
+> +	0, 0, TLV_DB_SCALE_ITEM(0, 0, 0),
+> +	1, 1, TLV_DB_SCALE_ITEM(660, 0, 0),
+> +	2, 2, TLV_DB_SCALE_ITEM(1300, 0, 0),
+> +	3, 3, TLV_DB_SCALE_ITEM(2000, 0, 0),
+> +);
+> +
+> +static int rk3308_codec_mic_boost_put(struct snd_kcontrol *kcontrol,
+> +				      struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct snd_soc_component *component =3D snd_kcontrol_chip(kcontrol);
+> +	struct rk3308_codec_priv *rk3308 =3D snd_soc_component_get_drvdata(comp=
+onent);
+> +	long gain =3D ucontrol->value.integer.value[0];
+> +
+> +	if (rk3308->codec_ver =3D=3D ACODEC_VERSION_A && gain !=3D 0 && gain !=
+=3D 3)
+> +		return -EINVAL;
+> +
+> +	return snd_soc_put_volsw(kcontrol, ucontrol);
+> +}
+> +
+> +static const struct snd_kcontrol_new rk3308_codec_mic_boost_controls[] =
+=3D {
+> +	SOC_SINGLE_EXT_TLV("MIC1 Boost Volume", RK3308_ADC_ANA_CON01(0),
+> +			   RK3308_ADC_CH1_MIC_GAIN_SFT, RK3308_ADC_CH1_MIC_GAIN_MAX, 0,
+> +			   snd_soc_get_volsw, rk3308_codec_mic_boost_put,
+> +			   rk3308_codec_adc_mic_gain_tlv_b),
+
+[Severity: Medium]
+On codec revision A (ACODEC_VERSION_A), rk3308_codec_probe() ->
+rk3308_codec_add_mic_boost_controls() in sound/soc/codecs/rk3308_codec.c
+registers the controls in rk3308_codec_mic_boost_controls[] using
+SOC_SINGLE_EXT_TLV() with RK3308_ADC_CH1_MIC_GAIN_MAX (3) and
+snd_soc_info_volsw().
+
+When userspace queries SNDRV_CTL_IOCTL_ELEM_INFO on ACODEC_VERSION_A,
+snd_soc_info_volsw() advertises an integer control with min =3D 0 and max =
+=3D 3,
+indicating that integer steps 0, 1, 2, and 3 are all valid. However, writing
+intermediate steps 1 or 2 via SNDRV_CTL_IOCTL_ELEM_WRITE ->
+rk3308_codec_mic_boost_put() returns -EINVAL, and
+rk3308_codec_adc_mic_gain_tlv_a leaves control values 1 and 2 unmapped in t=
+he
+TLV dB range.
+
+In ALSA, integer controls are expected to expose a contiguous range of valid
+steps from min to max without holes, as verified by
+test_ctl_write_valid_integer() in tools/testing/selftests/alsa/mixer-test.c:
+
+	for (i =3D 0; i < snd_ctl_elem_info_get_count(ctl->info); i++) {
+		for (j =3D snd_ctl_elem_info_get_min(ctl->info);
+		     j <=3D snd_ctl_elem_info_get_max(ctl->info); j +=3D step) {
+
+			snd_ctl_elem_value_set_integer(val, i, j);
+			err =3D write_and_verify(ctl, val, NULL);
+			if (err !=3D 0)
+				fail =3D true;
+		}
+	}
+
+Wouldn't advertising 0..3 on ACODEC_VERSION_A while rejecting values 1 and 2
+cause single-step mixer adjustments (such as incrementing from 0 to 1), TLV
+dB lookups on intermediate values, and the ALSA mixer kselftest to fail? Co=
+uld
+revision A expose a contiguous 0..1 control range (mapping 0 -> 0 and 1 -> 3
+in the register) instead?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261101040125.1864=
+141-1-zhengxing@rock-chips.com?part=3D2
