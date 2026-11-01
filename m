@@ -1,54 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793558081;
-	b=3YqyA46yCo9kl86M2i8jyaiIRb6LIvdl7iDK49ngJGPoPlrGStt/QyMzlD+9xZWYWGK9
-	 zevnBzR1CRTgmmPtXbo5wacGvkyjdhtV3maKg/rUANJ/da4ERlcz+Vaq5PLGomjvGwRD7
-	 srvwbQLp/AqW+F/GsfideHwacD/hC+1G91eoKEdXChfp9dDhl3p7g+/psv1gIU8WYFEMp
-	 GEwo4B9CjUianQFNZx4+s7vKDzQ4jHk0bwAwU2l9L5yuLu+LiGd4uvbfGeROcXUeb1ku+
-	 J19cyS/SPhAZKNNJyZj0AMnkfFrgf2ZnS43Otnin8O5j98/jay7R8u/GWdBaU0paypg==
+	t=1793559975;
+	b=2ZRxVsHuU8ZB9d4/+5rw2UfdD9NKPawGly+NX55PdCrDOZHKjqC3ekNwTagOX5+RIkq6
+	 ZZF6xEvwG2dL4CW2LB7vTPO+rGuaHPt2VU43y3WbY+yas2VIV5XaKgMk1QlcttNs763bL
+	 KwG+3dujNcJWq7dsGGK0A2oFt7CHAnwMZ99ARsx/IFeP+LVSUjaI47wsRSHbcgVqBwKJ1
+	 gZlOvZ9t/Lq9PnDmG+lP+3ILGoKr6JsKIlRXk10VTuERXtGaG8d7s6wpiGGAzFsEkzhaD
+	 0ZpuxbcFY0X1bY1NATO78BAhST2iVRSmb6amPmg17Tq2zhrzC8mQJxGdnEc+wYR9G3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793558081;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=roEXKHV3bSn32NXO5iU8AkavaOFDLM6xVfv3zpHRTqg=;
-	b=a+SjslSaXDwusMeUM3Omjjy5ORFuhp542za2SSj2QgXCpmK8Od6uheVLs5S/MfUaThTF
-	 91VGd9tOzdE1oWsMlS4wpdQteO4NZw2cdLQ++a28WYsljkxcu9Nj77P0Ockc0d/NERXQp
-	 v6kEbFwiuwbxPj1vLxNZA/kU+tjzwiCwhtZ8OtDzI/kuYSuBdfZ5O6JcOXEUG39kk/SWM
-	 YWjAnXUPUT/9HxB7zOzA1SSJoN+OD/lDNqNkKok0f0qz5lgy+deLpWp0VGqt37gJVVXKs
-	 GHDQRHDFNjaCDNpZ/XmmLZn9C0OlaFGD2jp3VTmZ+jYTWfC5h/Ls0vdjMCb1WsfMBSQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793559975;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=33cTqS93VQUbbVeIcCrD75pZNgE7Uh33rHjvWjbfF90=;
+	b=nHyyvDDbn8d9bhmxW09o9DogfnehmESdk0kQcnzfYtzbQ8zjv6e/eU5veO5pGxM0w9kc
+	 6uLaojVVB3K2BB2vqtmX0EPpSLHqYxDW1kWigEhK1BNo7vtmFTtsMCzfVZ3jGHENpISx1
+	 3Ztl0fMz5siD/4zjY2zDKYIOrCPTHDHiq09Zj5UKjqrh1BFJpA5gvQQEpThTWYPbhh8Ux
+	 miXADeQSpD6S2ozoopdBWWhT7Zan6QVxNJJ8O5K03dWG64dbOv5uro+wmAoPZE9aqdh6E
+	 iYISruuBHP8tBTSigK/Cxm18QmGAqZopne85sClbmF1MMDvF1pWiqRRZ+Qr7G6ATamA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=OXTITvZm;
-	arc=none smtp.remote-ip=95.215.58.172
-Received: from mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=EMRKsmdC;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=JFr9r6gi;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE794606A32D
-	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 18:34:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE794606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1980606A327
+	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 19:06:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1980606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=OXTITvZm
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=cW6qKgzk8mxeXA6HkHDZMcqXE+l3PrzoIeWlvKUlAVY=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793558079; v=1; x=1794162879;
- b=OXTITvZmoqcO3dDgGWla5y0xv9IGreFGH2Gi8UMx87blhOSHIyXtEesRvLW38aql2q+DU20w
- NgObbUKfHhhSa6y2MgIRRlKMU/K7sgSt281Wt9cNrJr1HTJzGHez1F8AUw0/4gdDG61+92nA+vD
- GeLzDUn10pzJY09rQvCREKrM=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 53ac8b846c1ec72b;
-	Sun, 01 Nov 2026 18:34:38 +0000
-X-Mizu-Trace-ID: 53ac8b846c1ec72b
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <3f3d7e4b-dd5a-4ef9-806e-5bc98a40d2d3@linux.dev>
-Date: Sun, 1 Nov 2026 19:34:20 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=EMRKsmdC;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=JFr9r6gi
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A1HQSEM889007
+	for <linux-sound@vger.kernel.org>; Sun, 1 Nov 2026 19:06:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	33cTqS93VQUbbVeIcCrD75pZNgE7Uh33rHjvWjbfF90=; b=EMRKsmdC5woX7Uxv
+	jv57183TZNgH9vN0WFV4bnXr5Lmg49w54lRk8ykXQx/Zjw4gAxQT1EWaIgqM/P3D
+	G+7uHDZvRj7auKNKo36OIXN4cXjtNNLH6mgSG4wprpXrRuztiKLel4VbJS5ZfNzB
+	MRROH2ai+wG8cj49u0REDHUD44jB2YRmkPJAzJhYaqtQ58sQwaULNfs+ocp3qMRF
+	qD3SMortdMPufwuzEmmSBWNvofAV0t3U0uKdWVxIAEgRcdPrz5Xj1C5PTHVRWEIR
+	D9fp/K3dh08G8cBrICIFFobK2KX9wIsS7iCZbyn4lm2+lfE14fLjaMw2tImJByds
+	Wy5t5g==
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com [209.85.222.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hn93ekva7-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Sun, 01 Nov 2026 19:06:13 +0000 (GMT)
+Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-9806e283b0eso1826190241.3
+        for <linux-sound@vger.kernel.org>; Sun, 01 Nov 2026 11:06:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793559973; x=1794164773; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=33cTqS93VQUbbVeIcCrD75pZNgE7Uh33rHjvWjbfF90=;
+        b=JFr9r6gi2riSRIxDhhic/9hICwhKLS8MmpV+HZkmK8pRWr9ylADOzWp9sIlYgPJL/M
+         1PhrRib6Jm0jE9VorFV/YBJxVd6RIJwRqWoEUks7pJMihu5J7Aqee8cw2zCZe4M16SUx
+         MqmO7CdOI6JuFfa3hy/GwjLjyCcHTd95NMj1xMPUjFmMp7MPf5JtJY5db+A7hnz7dAg4
+         +SxBJqhD/l6VOru0sOi1f+NeilU67YBNAgk1DZ/7THKJ5NolF3UNZ8dbq1FRjDi0u+sb
+         AyZItlAcBtuDw29V/cpCU4GLDYPp8jz9a5+UTvLkmM3awKauLh3aLY+vnzoVJ6uOD172
+         exew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793559973; x=1794164773;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=33cTqS93VQUbbVeIcCrD75pZNgE7Uh33rHjvWjbfF90=;
+        b=x50a4VEK44T9TiHabGoyMeG1Utq+jnBqG6H+Fs7jZEJePwZFMhH8W2i7pt6RTlqUjj
+         RjZD4vIkNYoNnYGh8zt2rvOHp35y8tcwF0jDXt/J191929WB4AiQzsid9PUZvVewQgZ0
+         iWaYSPAT966mbop3exTl1TS611hcEPPUA1vdpgEPejLp2HcAi2hhAoSzDbX2NNWrC8z6
+         8O5gLpcMCNS5uqsiHhZUt66qPQygJb5RD5Vdp6s6G1uMcIf7LUY5T4mFezFkpnI42uOq
+         uj8V0z7gTROEQ4fHXjjXRN5/PsjGivV54wqehoK8yAtAlpeTylXHFtEuBPLYRwkdMi5K
+         akIg==
+X-Forwarded-Encrypted: i=1; AKwUvByoZ6RY5ZaP5JASB2x6x/hvk3FuYPAZJ0MtxaxzKqJ2vwXFp6prywegAOoV8/6EZTnSPnuRPJV28Rjwmg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9JHm2HbL2FQO2nDixgx7CkBJvBn6tVE0UJ+bPbgHBf4EnZrWOF
+	PgRDWxWhkqBw/PgR+cpN6g9TxOEVnCLzW9UBgwXe533iQm5Py7y5VEBbbDY74yp/MyxKF/azy1u
+	ODsYDpjFPMv6jf6r5gW7y5Yao8QjVSO4ULsiauykEyvs39Kn5EtbReNYsD4JmVgIbHg==
+X-Gm-Gg: AYBFou2090lDHm2N4wsZH3p4WT/uLbR2PUkkhcI83JxQz4S13dbuEU6kpt0L0Q0Cgb6
+	BkjYlfBZgSywRRLde5qX3JYB1zmyvDm7TEnByidxHGtOXII0tkImYpQWK4zNP0YsjgorSGaNxKQ
+	2kLrUTGTEFHVtq2jSJ6nfZ+e6JgPVlma5Kk0pTo3WfN9e8+7Aie2yimbFsizRmT4kr8iLAUdeIN
+	gX1iQYgfkXVHS5tyMTRZkH80ddDoa2+iLmhmtV1CxeP114qM1KoVqEA6Pi6r7BsAAMPT42KC9/5
+	9/M9VLqBdvm2vos/iK+8JIa6ibVlINJP8SdQeJ7YRgQis+4QRFBZfiDRddU1m1v8LBZxelClrLK
+	AmDHU9myWpwq/aMDDwDDRGZcZZt5U9KxmH4pQ8W64FWet7FlQaImNgLhns9JZKj2cWXwtx9Fi7Q
+	==
+X-Received: by 2002:a05:6102:6cc:b0:7d0:3eca:a872 with SMTP id ada2fe7eead31-7d072711c8cmr3652904137.27.1793559972775;
+        Sun, 01 Nov 2026 11:06:12 -0800 (PST)
+X-Received: by 2002:a05:6102:6cc:b0:7d0:3eca:a872 with SMTP id ada2fe7eead31-7d072711c8cmr3652895137.27.1793559972307;
+        Sun, 01 Nov 2026 11:06:12 -0800 (PST)
+Received: from [192.168.1.110] ([178.197.218.7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b725b8sm15616335f8f.20.2026.11.01.11.06.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 01 Nov 2026 11:06:10 -0800 (PST)
+Message-ID: <07cf366c-4efe-4a80-a094-5ee93a683720@oss.qualcomm.com>
+Date: Sun, 1 Nov 2026 20:06:08 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,98 +115,72 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/16] ASoC: amd: acp: ACP7.B/7.F SoundWire machine
- driver support
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, broonie@kernel.org
-Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, yung-chuan.liao@linux.intel.com,
- Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
- venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com,
- Mario.Limonciello@amd.com, Richard.Gong@amd.com, Poojitha.N@amd.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- sound-open-firmware@alsa-project.org
-References: <20261030094714.1123396-1-Vijendar.Mukunda@amd.com>
+Subject: Re: [PATCH] soc: qcom: apr: Reject packets with header size larger
+ than packet size
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Abel Vesa <abelvesa@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Andy Gross <andy.gross@linaro.org>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>
+References: <20261101175407.110780-2-krzysztof.kozlowski@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20261030094714.1123396-1-Vijendar.Mukunda@amd.com>
+In-Reply-To: <20261101175407.110780-2-krzysztof.kozlowski@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAxMDA3NiBTYWx0ZWRfX/Ig24svQwhfB
+ f+c3ewl7MVz08qJXjGtOyjkhfTf1pFZE+vvvb3xhGZXJCWoJjX29WRlSNt8m4YEhOgvi1PlpFX1
+ nbscCZ/cWUzkOZx+ttPqfjpO1fc6g5HC1DYUpfST1lg25zhe0TJEGgon7O6D6MsCw1b41m1ANx6
+ ZETmGsCzFqWCMHMPoBrijTd45o3DU1bAWy5XeztkkPn+v5q6rAF5iRbWUl+JR4KZACi6scNxW/9
+ 82s+Pp5P7zikEIDKWkRiM8pdGMYQNP00EoMJKVQHZ3raQUM/g5UIKkGYvzH6njjngaF2daPArrP
+ k6JlwY1gyd5ifUSKe9xfQSm8Dh5+1laebqlbnVKy4h+rqvCslZrLuqw1lvgQre7LtPZ5718bC0U
+ JIdHXMhQp/cfo374JU5NcZV49VFRBmoDTleYBXAHJczzK7XNGSTZg6xnQk7Tk1M6zYs89G2a/o3
+ bOgo/ijJRtJmuM8trZw==
+X-Authority-Analysis: v=2.4 cv=FciiV5+6 c=1 sm=1 tr=0 ts=6ae78da5 cx=c_pps
+ a=KB4UBwrhAZV1kjiGHFQexw==:117 a=uyPgTw0bjBTS2cVxpiNm5w==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=c92rfblmAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=5t2Un5gMkzPXvGO7pNEA:9
+ a=QEXdDO2ut3YA:10 a=o1xkdb1NAhiiM49bd1HK:22 a=GvGzcOZaWPEFPQC_NcjD:22
+X-Proofpoint-ORIG-GUID: Nvno5Sj750mT1weVjTTW8CZz-hbQKUGL
+X-Proofpoint-GUID: Nvno5Sj750mT1weVjTTW8CZz-hbQKUGL
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAxMDA3NiBTYWx0ZWRfX3JExtjmcmzcm
+ GtgyHw591a2nSsFxp4UU9/VJ9wOvFFEHf+IgBlJeqb+s6M2w3/7OrMO4YheOTjKeM1WOPExxkcS
+ uRJ5DgZFWk3yFsSRONtPJHR7fAmN4lk=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-01_06,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0 impostorscore=0 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 priorityscore=1501 phishscore=0 adultscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611010076
 
-On 10/30/26 10:45, Vijendar Mukunda wrote:
-> This series adds SoundWire machine driver support for ACP7.B and ACP7.F
-> platforms. It extends the existing AMD ACP SoundWire infrastructure with
-> per-platform CPU pin ID lookup, PDM controller selection via ACPI and DMI
-> quirks, DMIC DAI link and components string handling, PCI subsystem ID
-> propagation, and ACPI machine tables for RT721/RT722/RT1320 codec
-> configurations on both platforms.
+On 01/11/2026 18:54, Krzysztof Kozlowski wrote:
+> apr_do_rx_callback() and gpr_do_rx_callback() validate the header size
+> and the packet size separately, but never check that the header fits
+> within the packet.  Both sizes are u16, so with a malformed packet where
+> the header size exceeds the packet size, the subtraction computing
+> resp.payload_size gets promoted to int and becomes negative.
 > 
-> Changes in v4:
->   - Patch 1: fix missing asoc_sdw_mc_dailink_exit_loop() cleanup on
->     devm_kasprintf() failure in acp-sdw-sof-mach.c mc_probe() (new).
->   - Patch 2: fix missing asoc_sdw_mc_dailink_exit_loop() cleanup on
->     both devm_kasprintf() failure paths in acp-sdw-legacy-mach.c
->     mc_probe(); update commit message to reference the correct function
->     name soc_card_dai_links_create() instead of sof_card_dai_links_create()
->     (new).
->   - Patch 3: remove unused ACP63_SDW_MAX_CPU_DAIS define (new).
->   - Patch 5 (was 2): add comments above ACP7X_SW_AUDIO* define block
->     and get_acp7x_cpu_pin_id() to document the dedicated per-port DMA
->     layout and the port-to-use-case mapping.
->   - Patch 9 (was 6): replace misleading "No functional change" claim
->     with an accurate description of the behavioural change for platforms
->     where ignore_internal_dmic is true (dmic_num now stays zero at the
->     gate rather than reaching the dmic_num > 0 block).
+> Further check "resp.payload_size > 0" would fail, leading to
+> resp.payload left uninitialized (stack value).  Reject such packets as
+> having a wrong packet size, although unlikely that firmware would
+> produce such packets.
 > 
-> Changes in v3:
->   - Patch 3: update subject and changelog to accurately describe the new
->     PDM controller selection infrastructure being added.
->   - Patch 5: fix commit subject prefix from "amd: acp7x:" to "amd: acp:"
->     since the change is in the generic ACP SoundWire machine driver
->     (acp-sdw-sof-mach.c), not the ACP7x-specific SOF driver.
-> 
-> Changes in v2:
->   - Patch 6: simplify the DMIC enable condition as suggested by Pierre:
->     evaluate the three-way boolean once and nest the ignore_internal_dmic
->     check inside, avoiding the double-tested condition from v1.
-> 
-> Vijendar Mukunda (16):
->   ASoC: amd: acp: fix missing cleanup on devm_kasprintf() failure in
->     mc_probe()
->   ASoC: amd: acp: fix missing cleanup on devm_kasprintf() failure in
->     legacy SDW machine driver
->   ASoC: amd: sdw: remove unused ACP63_SDW_MAX_CPU_DAIS define
->   ASoC: amd: acp: add ACP7.B/7.F SoundWire link count for machine driver
->   ASoC: amd: acp: add ACP7.B/7.F SoundWire DAI link support
->   ASoC: amd: acp: add PDM controller selection for ACP7.B/7.F SoundWire
->     machine driver
->   ASoC: amd: acp: log ASOC_SDW_ACP_DMIC1 quirk in SOF SoundWire machine
->     driver
->   ASoC: amd: acp: enable DMIC DAI link based on PDM controller selection
->   ASoC: amd: acp: move ignore_internal_dmic gate to DMIC enable
->     condition
->   ASoC: amd: acp: add DMIC components string for SOF SoundWire machine
->     driver
->   ASoC: amd: acp: set PCI subsystem ID for SOF SoundWire machine driver
->   ASoC: amd: acp: fix MODULE_AUTHOR missing closing angle bracket
->   ASoC: amd: acp: add ACPI machine tables for ACP7.F SoundWire
->   ASoC: SOF: amd: add alt_machines for ACP7.F SOF SoundWire
->   ASoC: amd: acp: add SoundWire machine table for ACP7.B platform
->   ASoC: SOF: amd: register SoundWire alt_machines for ACP7.B
-> 
->  sound/soc/amd/acp/Makefile               |   2 +-
->  sound/soc/amd/acp/acp-sdw-legacy-mach.c  |   8 +-
->  sound/soc/amd/acp/acp-sdw-mach-common.c  |  48 ++++++
->  sound/soc/amd/acp/acp-sdw-sof-mach.c     | 109 +++++++++++--
->  sound/soc/amd/acp/amd-acp7x-acpi-match.c | 198 +++++++++++++++++++++++
->  sound/soc/amd/acp/soc_amd_sdw_common.h   |  45 +++++-
->  sound/soc/amd/mach-config.h              |   2 +
->  sound/soc/sof/amd/pci-acp7x.c            |   2 +
->  8 files changed, 396 insertions(+), 18 deletions(-)
->  create mode 100644 sound/soc/amd/acp/amd-acp7x-acpi-match.c
+> Fixes: 6adba21eb434 ("soc: qcom: Add APR bus driver")
+> Fixes: ec1471a898cc ("soc: qcom: apr: Add GPR support")
+> Cc: stable@vger.kernel.org
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Closes: https://sashiko.dev/#/bug/linux-82d40745-1593-4c20-8432-d86099836525
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> ---
 
-For the patchset:
+Valid Sashiko review.
 
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-
-I added two nit-pick comments on naming and DMIC0/DMIC1 explanations, in
-case you respin a v5.
+Best regards,
+Krzysztof
