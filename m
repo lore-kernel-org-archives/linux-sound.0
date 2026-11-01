@@ -1,67 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=154.81.10.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793508129;
-	b=vHiodHr/JgSaZqZBDQJf+IJJPlYYG3u4v1Wwhrwi/2YaZ1cDp1Mg+lay7IxIMI9RkCeL
-	 3CrDJ2Rim0j5yyCPh0T0XkRUr6La99IT9vXVAZBBAdlroMMRyxJq/QmnE/fBgb63EyukJ
-	 Cu2SMnc80y4Y9zlraEVHAZcwlDsZR0Z1IXLReNsVEJunlo6zcBY9JcF7EoLrQz36krlTp
-	 HxHU4qfQbu4xQUK8b5tiUtNKP1mL9LMeOHKFDswuauDhF8uDdKW/hPLlDCo11rStunrk8
-	 dULueQRs1HOpKra4g3XGmeJXfIjYuIeL4+PaCkbPjbgff/g92kDmBQg5FZco9cqhD5g==
+	t=1793509312;
+	b=1/ONRVt5v2tzwpUcSe+Oieq3eVXMFdXjZ343zwnnopDJVA4/bmFxkQslz6+DsQ3eG2WQ
+	 NgLzxgyNw2Nkax6AUioqI3ILNgspO7BRqOWA80cq+53taOtb1rG7MeL47LIjgbpbZeppq
+	 4nwsh+x3Yb05JRp3pQvyRfQ6QDbX8h0THaBZbODztpt7i6Qax3YpVWoCCyF4qu12GQkeB
+	 LZreyx56XE2zRcj0vTtkcB4gbzcrDuE81YL++VZt2QiggVdWC25cbp1M5rpFV1yCAqvKv
+	 m1T4w/vdy6KTR7KInP0k7qqqVkonEU8X/l8+U5CdRK7rFgWb1a5U+b5SbSVEEdUYpqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793508129;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
-	 X-HM-Tid:X-HM-MType:X-HM-Spam-Status:DKIM-Signature;
-	bh=1YdCZdKcu6jcPnOK3BGWqFQvI2/EckQ+hEW64XoLjBQ=;
-	b=oRKA+OAzoUqjtF9cBf8FthMoUiA6IfE8YvOUkwhyIrkgPTRil6BCb6TPD8hSqLK1DUeD
-	 Auv75L5whL2UZ3EXpb7jx7wuDkq7IKXOzi/fnFMpg9KoR1KrctY3EL5Cn/x+fofp3mwbL
-	 Q+GCO8LsWen91rwb+i/8TVO2DyaR9pOFDOITSXfA8REvkOI5nXETmb6YKgGqbrr6+4R9D
-	 As6beyrH32ryz+xUk65P1LXpN58PftHAc/bUpOL1ccc2ZO4yrqF+NlwHpf1q4Ry1cAIoK
-	 3lNcyAnn4ruU8AuSOWPJssLB/zulZCm7lSCA0lCnUho0b7/o19X3/C3cqf92L5uQcaQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793509312;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=8c9g1YvoXl3dQdZ0csiY0Wy4dGb44DT9EIeLEFJBY+o=;
+	b=22XseI8to1QA1FPz4HILSM2lsJT1W7u73mQnQwa+3Bscwnr85AGfOf8XGXqsn/pEmegm
+	 hPbbysLvx5C6wnsnQpVnQrQ2RshFtQvUpwUEAScbw0sNlRpNKcZZjfsfXBYDjd39p3BLH
+	 Kn2UP5Hv+P2FYH6t0qnEbhArCnajCG6fcWT17VhKetMpwTO8/3LzphwMhCoJcDxH/PUuQ
+	 dYvn4LztB/9Oe7B+2FiuHeaq24rDd9gphNOUCu6se/jcFRd/UZIyG3scGMz0mg2UyotNs
+	 BgEQ4DcixC7TPVLCOFG6pzsfRtxR7rpcb9f1WY4Ji/8wu4MuWrNXDzMHft97IlaVKnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rock-chips.com;
-	spf=pass smtp.mailfrom=rock-chips.com;
-	dkim=pass header.d=rock-chips.com header.i=@rock-chips.com header.a=rsa-sha256 header.s=default header.b=Qo+QGKu9;
-	arc=none smtp.remote-ip=154.81.10.11
-Received: from mail-m1011.netease.com (mail-m1011.netease.com [154.81.10.11])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A5UIRtS0;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6281606A326;
-	Sun,  1 Nov 2026 04:42:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6281606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B101606A324;
+	Sun,  1 Nov 2026 05:01:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.a=rsa-sha256 header.s=default header.b=Qo+QGKu9
-Received: from 5950x.tail741d0a.ts.net (unknown [61.154.14.86])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 530dcc2d0;
-	Sun, 1 Nov 2026 12:41:57 +0800 (GMT+08:00)
-From: Xing Zheng <zhengxing@rock-chips.com>
-To: broonie@kernel.org,
-	heiko@sntech.de,
-	linux-sound@vger.kernel.org
-Cc: luca.ceresoli@bootlin.com,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-kernel@vger.kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	huangtao@rock-chips.com,
-	sugar.zhang@rock-chips.com,
-	lxt@rock-chips.com,
-	xing.zheng@rock-chips.com
-Subject: [PATCH v2 3/3] arm64: dts: rockchip: restore RK3308 codec detection resources
-Date: Sun,  1 Nov 2026 12:41:49 +0800
-Message-Id: <20261101044149.2018744-4-zhengxing@rock-chips.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261101044149.2018744-1-zhengxing@rock-chips.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A5UIRtS0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B5881F000C1;
+	Sun,  1 Nov 2026 05:01:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793509311;
+	bh=8c9g1YvoXl3dQdZ0csiY0Wy4dGb44DT9EIeLEFJBY+o=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=A5UIRtS083nw+bknX3uuX9NoYxkgt5bURxV1wmQ2phJHUfzQasGhuJWe7WAFlTz+e
+	 k8da3eP1FI7SP4KMfJ77sHxRDNemGD5PW9kBbx9NpwN1w/oM7PpKE+CmO8Zx48DFyx
+	 uv6fhJ53haXVa5sTmuxD5YpGFQ4aopxrLU2hVbPUMIjkSLOBMC16S34yXFD2MUSYn+
+	 DyA9RFG5glEtmX0oxPHOaPHIJZpgUDbihVaqH3yBbxlbWySlF79Yes0QcmbS4Z2fHy
+	 gVUcl872Vjm2qgxxhUjZwWc+Qd3ABt3npoC1K/7aXEfDzHbNU7dU4wgxww1BKZhVdk
+	 m0ZZx19FFy0VA==
+Message-ID: <sashiko-outbox-192275@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 3/3] arm64: dts: rockchip: restore RK3308 codec
+ detection resources
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Xing Zheng" <zhengxing@rock-chips.com>, linux-sound@vger.kernel.org
+Cc: devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261101044149.2018744-4-zhengxing@rock-chips.com>
 References: <20261101040125.1864141-1-zhengxing@rock-chips.com>
  <20261101044149.2018744-1-zhengxing@rock-chips.com>
+ <20261101044149.2018744-4-zhengxing@rock-chips.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 01 Nov 2026 05:01:50 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -70,48 +61,174 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa1956a0b3403a8kunmda3ed7c8171622
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCGU1PVhlIHx5LQh8eGh5PQlYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlNSlVKTk9VSk9VQ01ZV1kWGg8SFR0UWUFZT0tIVUpLSE
-	pKQk1VSktLVUpCWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=Qo+QGKu9H6ce+LFR1oU9QsQVhG3e74EJkjnpj8SIfDd1aEgZml/aDzLjjWdRdtGtglK+oW17Y9kyzAyI9oTUgA+u9ISEFlDGS33/nK3Bep7Z4NXnrzBL+bewQUbNZISLwu+0dMzd5LhCV5ykGbHDeMqt/eCzoospCyW6exO7cgo=; c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
-	bh=1YdCZdKcu6jcPnOK3BGWqFQvI2/EckQ+hEW64XoLjBQ=;
-	h=date:mime-version:subject:message-id:from;
 
-Provide the codec detect-GRF phandle and SPI 114/115 interrupt
-resources with the same trigger type and ordering as the vendor DTS.
-Name the interrupts codec and hpdet so the driver can request the
-B/C headphone detector by name while retaining the legacy index 1.
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
+- [High] ASoC: codecs: rk3308: dangling dac_analog and component pointers o=
+n unbind
+- [Medium] ASoC: codecs: rk3308: rk3308_codec_adc_event() overwrites MIC mu=
+te state
+- [Medium] ASoC: codecs: rk3308: leaked devm_kmemdup() widget array on comp=
+onent probe
+--
 
-Keep these SoC resources separate from EVB sound-card routing and
-external amplifier GPIO configuration.
+commit a099049aa9bf21b04f0558d74e37572e81c21ec8
+Author: Xing Zheng <zhengxing@rock-chips.com>
 
-Signed-off-by: Xing Zheng <zhengxing@rock-chips.com>
----
-Changes in v2:
-- Retain the same SoC detection resources as v1; no functional change.
-- Renumber after consolidating the full codec implementation.
+ASoC: codecs: rk3308: restore audio and headphone support
 
- arch/arm64/boot/dts/rockchip/rk3308.dtsi | 4 ++++
- 1 file changed, 4 insertions(+)
+This commit restores the vendor analog enable/disable sequences, reference
+current ramps, headphone detection, and output routing for the RK3308 audio
+codec across revisions A, B, and C.
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3308.dtsi b/arch/arm64/boot/dts/rockchip/rk3308.dtsi
-index 31c25de2d689..fb4465eda574 100644
---- a/arch/arm64/boot/dts/rockchip/rk3308.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3308.dtsi
-@@ -836,6 +836,10 @@ codec: codec@ff560000 {
- 		compatible = "rockchip,rk3308-codec";
- 		reg = <0x0 0xff560000 0x0 0x10000>;
- 		rockchip,grf = <&grf>;
-+		rockchip,detect-grf = <&detect_grf>;
-+		interrupts = <GIC_SPI 114 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 115 IRQ_TYPE_LEVEL_HIGH>;
-+		interrupt-names = "codec", "hpdet";
- 		clock-names = "mclk_tx", "mclk_rx", "hclk";
- 		clocks = <&cru SCLK_I2S2_8CH_TX_OUT>,
- 			 <&cru SCLK_I2S2_8CH_RX_OUT>,
+> diff --git a/sound/soc/codecs/rk3308_codec.c b/sound/soc/codecs/rk3308_co=
+dec.c
+> index a3d41cd8150d0..1894e1a93fbf8 100644
+> --- a/sound/soc/codecs/rk3308_codec.c
+> +++ b/sound/soc/codecs/rk3308_codec.c
+
+[ ... ]
+
+> +static int rk3308_codec_adc_event(struct snd_soc_dapm_widget *w,
+> +				  struct snd_kcontrol *kcontrol, int event)
+> +{
+> +	struct snd_soc_component *component =3D snd_soc_dapm_to_component(w->da=
+pm);
+> +	struct rk3308_codec_priv *rk3308 =3D snd_soc_component_get_drvdata(comp=
+onent);
+> +	unsigned int grp =3D w->shift;
+> +	unsigned int zerocross;
+> +
+> +	if (event =3D=3D SND_SOC_DAPM_PRE_PMU) {
+> +		regmap_update_bits(rk3308->regmap, RK3308_ADC_ANA_CON07(grp),
+> +				   RK3308_ADC_CH1_IN_SEL_MSK | RK3308_ADC_CH2_IN_SEL_MSK,
+> +				   RK3308_ADC_CH1_IN_MIC | RK3308_ADC_CH2_IN_MIC);
+> +		regmap_set_bits(rk3308->regmap, RK3308_ADC_ANA_CON00(grp),
+> +				RK3308_ADC_CH1_MIC_UNMUTE | RK3308_ADC_CH2_MIC_UNMUTE);
+
+[Severity: Medium]
+Does rk3308_codec_adc_event() overwrite the user-configured microphone mute
+state when capture starts?
+
+Bits 3 (RK3308_ADC_CH1_MIC_UNMUTE) and 7 (RK3308_ADC_CH2_MIC_UNMUTE) of
+RK3308_ADC_ANA_CON00(grp) directly back the MIC1..8 Capture Switch controls
+in rk3308_codec_controls:
+
+	SOC_SINGLE("MIC1 Capture Switch", RK3308_ADC_ANA_CON00(0), 3, 1, 0),
+	SOC_SINGLE("MIC2 Capture Switch", RK3308_ADC_ANA_CON00(0), 7, 1, 0),
+
+And rk3308_codec_initialize() already sets the initial unmuted default after
+codec reset:
+
+	/* Match the vendor analog defaults; controls remain adjustable. */
+	for (grp =3D 0; grp < ADC_LR_GROUP_MAX; grp++)
+		regmap_set_bits(rk3308->regmap, RK3308_ADC_ANA_CON00(grp),
+				BIT(3) | BIT(7));
+
+If userspace mutes a microphone channel via MIC1..8 Capture Switch while
+capture is idle and then starts a capture stream, DAPM powers up the
+ADC_CURRENT_EN12..78 supply widgets and runs rk3308_codec_adc_event() with
+SND_SOC_DAPM_PRE_PMU, which unconditionally sets RK3308_ADC_CH1_MIC_UNMUTE |
+RK3308_ADC_CH2_MIC_UNMUTE and clobbers the mute setting.
+
+[ ... ]
+
+> +static int rk3308_codec_add_widgets(struct snd_soc_component *component)
+> +{
+> +	struct snd_soc_dapm_widget *widgets;
+> +	int i, grp, ret;
+> +
+> +	widgets =3D devm_kmemdup(component->dev, rk3308_codec_dapm_widgets,
+> +			       sizeof(rk3308_codec_dapm_widgets), GFP_KERNEL);
+> +	if (!widgets)
+> +		return -ENOMEM;
+
+[ ... ]
+
+> +	ret =3D snd_soc_dapm_new_controls(snd_soc_component_to_dapm(component),
+> +					widgets, ARRAY_SIZE(rk3308_codec_dapm_widgets));
+> +	if (ret)
+> +		return ret;
+
+[Severity: Medium]
+Does rk3308_codec_add_widgets() leak the widgets template array across
+component probe cycles?
+
+snd_soc_dapm_new_controls() -> snd_soc_dapm_new_control_unlocked() ->
+dapm_cnew_widget() duplicates each widget individually with kmemdup() and
+does not retain a pointer to the input widgets array after returning.
+
+Because rk3308_codec_add_widgets() runs from the component probe callback
+rk3308_codec_probe() and allocates widgets with devm_kmemdup() on the
+underlying platform device (component->dev), the temporary array remains
+allocated for the lifetime of the platform device and allocates another copy
+on every sound card unbind/rebind or deferred probe cycle. Could this use
+kmemdup() and kfree() (or __free(kfree)) instead?
+
+[ ... ]
+
+>  static int rk3308_codec_probe(struct snd_soc_component *component)
+>  {
+>  	struct rk3308_codec_priv *rk3308 =3D snd_soc_component_get_drvdata(comp=
+onent);
+> +	int ret;
+> =20
+> +	ret =3D rk3308_codec_add_widgets(component);
+> +	if (ret)
+> +		return ret;
+>  	rk3308->component =3D component;
+> +	rk3308->dac_output =3D 11;
+> +	rk3308->output_routes_mask =3D 3;
+> =20
+>  	rk3308_codec_reset(component);
+>  	rk3308_codec_initialize(rk3308);
+> =20
+> -	return 0;
+> +	return rk3308_codec_add_mic_boost_controls(component);
+>  }
+
+[ ... ]
+
+> +static void rk3308_codec_remove(struct snd_soc_component *component)
+> +{
+> +	struct rk3308_codec_priv *rk3308 =3D snd_soc_component_get_drvdata(comp=
+onent);
+> +
+> +	rk3308_codec_set_jack(component, NULL, NULL);
+> +	mutex_lock(&rk3308->io_lock);
+> +	rk3308->component =3D NULL;
+> +	mutex_unlock(&rk3308->io_lock);
+> +}
+
+[Severity: High]
+Can rk3308->dac_analog and rk3308->component become dangling pointers across
+sound card unbind/rebind or component probe failure?
+
+In rk3308_codec_dac_event(), the driver caches the component's DAC_CURRENT_=
+EN
+DAPM widget pointer:
+
+	rk3308->dac_analog =3D w;
+
+When the sound card is unbound, snd_soc_component_remove() calls
+rk3308_codec_remove() and then snd_soc_dapm_free(), which frees all DAPM
+widgets belonging to the component. Neither rk3308_codec_remove() nor
+rk3308_codec_probe() clears rk3308->dac_analog. If the card is rebound and
+rk3308_codec_output_event() runs before rk3308_codec_dac_event(), it will
+see a non-NULL rk3308->dac_analog and dereference the freed widget:
+
+	if (!rk3308->dac_analog)
+		return 0;
+	...
+	if (event =3D=3D SND_SOC_DAPM_PRE_PMD && !rk3308->dac_analog->new_power)
+		return 0;
+
+Additionally, in rk3308_codec_probe(), rk3308->component is set before
+calling rk3308_codec_add_mic_boost_controls(component). If that call fails,
+snd_soc_component_probe() aborts before marking the component as probed, so
+rk3308_codec_remove() is not called during error cleanup and
+rk3308->component is left pointing to an unprobed component.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261101044149.2018=
+744-1-zhengxing@rock-chips.com?part=3D3
