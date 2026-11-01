@@ -1,121 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793546803;
-	b=xq5tn32RRRjvz62HofxOudno+fYBqOS8eeUe4jFvzVuX4Bj35X97CkUChVIO2bSYmmnp
-	 pd+ew59UxOnxHx8rcVKEGb1ZH396E95CMDcMTAkw3+QmE9/E+/It56zjzPowzDeoKngGB
-	 seh+fHT4CIyuT/LHEJRqQ/rlMGF2Z4Q+vU4t/Gw1/Ddok9hoVdmDJdufNibGEGuYFaQC7
-	 uSGOd0suVC+aXWz5wiHvznpW2fZX3WPbMVUjYazI+SH24t4JsFxlce1IkE2s8qatQJgu5
-	 qZx+rXPIe5JMSAXATQo13q024qZDgphTMu4abTywqscnRIzyJAreBebU46OCMcrhM1w==
+	t=1793546865;
+	b=LiDKC6hfceH+NNblv+rENV+t127t3vo+X0B0PcNSaGKy6a7Q3nSR8nLeTT77JDZfmSID
+	 tOT9A6aXKBxf9O2X31kwLgrf3vAOB87C6JsBCVrkwcKlKoKvCoHREXY4AcuTxcSjVgoH+
+	 7SIeyqzs8xpR+VyWWXvoML9qImrLB3HRgWQqdJMd7cs0fxr8o8CViuKZ91VCS7wOzM2HG
+	 LxChqJne8BCoV6l7PjfQyPdX2lOkXwhiJdvO9Cz0Uej31yv0C3yBlXoPw8jFKsb0pMB6Q
+	 5alTmiscgqni4PaB+SzR2rPfU14G+Su5HoCL1XlmFEU4ASZcv3JrZjIjpccWtjyPTIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793546803;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Spamd-Result:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
-	 X-Rspamd-Queue-Id;
-	bh=52jKgimrTd84xrYvjSddWThDrxhhsE9FTwPIYU9rfvE=;
-	b=bY1zxwJmXpuR83nAO6tHoAL0xaHZZGm0GeFLtPqD6tbMCYY5iva/vCkUlqz/+6LDAg9V
-	 DDWfrXvKlvQS97y/pQV/IyAguYSPi/7mmWa+D/Qz9tA0CnN/uVGRsfiw1Kq+70VdymOl4
-	 KDRVpxIGUgqhhpvvTA5agtDwm4C7YX8WUC12MLVsHFyeaW706o7BQqs+eh6bmANr4nU/A
-	 ou2zhzRCG/QyCHbUbzLOSetB94ZReOgSNzM6GQIzzSXlSRHkG+fYYoTkOJ9t7p1Ne5XPG
-	 dTxBng5hukiZNQydt0HaDLFV5mV211SL0HPlUWY374eo5+v98Xpr2EmOFcWQRuY3uKA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793546865;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=qQpA9tzrfc1MY6TOTF3afRoYZc8oN/zB5p3F/VUHBew=;
+	b=iqXlEujAFKoEgoR96gX7HGws3md0zYd9Qu1upOGkIimu59l2QIyZCf+HHxj5t8RiMjRT
+	 L65biDDK/8vMh26GoA33ey5zZoQhZQDRUJxINkrY/HUBgj5RX3HeVMEn0HsmTw7OAKdpm
+	 yzodWwO0YUym4BzZfVl+/sDIPiNO1g09jGlL3k4bBeRfLvXwsKIBa0FECdhWsz0EjHXXy
+	 52Xs/CFdEaG/Ss2wkUU2gJqbVeyMihXiGkRuHggOexcnAd/9+wEZNikGGzj6u7wk2L/Ay
+	 IrbWMs/yGm0I7vZwIIaY1G5KHld7TyVEc/hfgzjMiJZLpSL3NkNBzMrDKpO7lv6nfxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=yY5UnKxX;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="jslx2/5K";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="i/aA+Yda";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KjiDr2qL;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TMc6NOVV;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3C0606A324
-	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 15:26:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A3C0606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E6D606A324
+	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 15:27:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=yY5UnKxX;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jslx2/5K;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=i/aA+Yda;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KjiDr2qL
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id ED8161F7B0;
-	Sun,  1 Nov 2026 15:26:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793546799; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=52jKgimrTd84xrYvjSddWThDrxhhsE9FTwPIYU9rfvE=;
-	b=yY5UnKxX91NPGrYZXcJIJIXlE2YVJhDf9mEKWjtGe2tt1v9bUDUB15xagFVP29ljvkO5Gf
-	wDiE27tw0W0wvYebqJdSeziEpDASNjf/pnlpKYv3FMBU7GJSOeRdxytporEPdOz4WL32f4
-	B9wU0DAalfHbgcY918QTI7L2cAQi3WE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793546799;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=52jKgimrTd84xrYvjSddWThDrxhhsE9FTwPIYU9rfvE=;
-	b=jslx2/5Kq51FsKVXid6+Sb7v3YqH1RgnaBqTzxZAo3gRwU73+tpz7/TTMXEiuNPu1aYc77
-	52cKpcdy8849itCw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="i/aA+Yda";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KjiDr2qL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793546798; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=52jKgimrTd84xrYvjSddWThDrxhhsE9FTwPIYU9rfvE=;
-	b=i/aA+YdawaYD9yCnazbbQaseQ5M/WIoi0t/adzbs3RkFMqCPZmpDq1I/NVEKj5Tq5NHrF9
-	qoiMEj6T0pBu0q42AsSZ7Ins9I9yexnEFGJWeME4H3WZYdLmGMXYYbfyd5vuUFTpjEd2yl
-	neVnXdd3Rqq8zyQTKlihPdN84n1Ee2g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793546798;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=52jKgimrTd84xrYvjSddWThDrxhhsE9FTwPIYU9rfvE=;
-	b=KjiDr2qLJbR7mqEGBmkGlEJbH/nS69sA72F9Jxm6KhHB+M5WtRmBYnTFCUmjYSB5KJ9JiA
-	DCVQy9cjduXMB6BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 589C7134B3;
-	Sun,  1 Nov 2026 15:26:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id H366Ci1a52qrKAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 01 Nov 2026 15:26:37 +0000
-Date: Sun, 01 Nov 2026 16:26:36 +0100
-Message-ID: <87mrrspo7n.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Christian Zigotzky <chzigotzky@xenosoft.de>
-Cc: zzzccc427@gmail.com,
-	tiwai@suse.de,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-	"R.T.Dickinson"
- <rtd2@xtra.co.nz>,
-	mad skateman <madskateman@gmail.com>,
-	Damien Stewart <hypexed@yahoo.com.au>,
-	Christian Zigotzky <info@xenosoft.de>
-Subject: Re: Void PPC: PulseAudio issue with sound updates 7.4-rc1
-In-Reply-To: <3452eb30-44be-cdd1-72e9-c15e145a6444@xenosoft.de>
-References: <41a2e39a-5637-8afa-f84f-f79e63b3b56e@xenosoft.de>
-	<3452eb30-44be-cdd1-72e9-c15e145a6444@xenosoft.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TMc6NOVV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 728921F0093A;
+	Sun,  1 Nov 2026 15:27:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793546864;
+	bh=qQpA9tzrfc1MY6TOTF3afRoYZc8oN/zB5p3F/VUHBew=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=TMc6NOVVqfvUM7xmY0M+xloCESZkMBIJuYZGcBrmtPHS6qTK4q9qetCYHzwvX7nyD
+	 i55rva7WlQejJSgQGxa//KhyDOUR8lJpNeje0ZiBkz5E5rp0qJ/5+drWmvwjzV7hkI
+	 +qPSvZM4TabtknzhuUP5OZwowC8A7RUlkJUp9Wdro+KTMheMuy7W8dO024N5BIH0OF
+	 Ly+pd37eBoS6FCk5F8QMvmwBRVa1Eq9cflF2YcmIu8U/fjL/ARnQ9gdYTVOBqcabLj
+	 8zuUF08z/iFrNAJA7d2RIPPYrJM00iYuAtVqMmpWczHd8EMn09uitx+rBBDn33/UM3
+	 GWakMpV09INLw==
+Message-ID: <sashiko-outbox-192468@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ALSA: hdsp: allow sample rate changes from hw_params
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Rafael Gago" <rafael.gago@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261101-hdsp-sound-v1-1-f39f185400b5@gmail.com>
+References: <20261101-hdsp-sound-v1-1-f39f185400b5@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 01 Nov 2026 15:27:44 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -124,149 +58,125 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-13.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,xtra.co.nz,yahoo.com.au];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,suse.de,perex.cz,vger.kernel.org,lists.ozlabs.org,xtra.co.nz,yahoo.com.au,xenosoft.de];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,ibb.co:url]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -13.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: ED8161F7B0
 
-On Sun, 01 Nov 2026 15:53:07 +0100,
-Christian Zigotzky wrote:
-> 
-> On 01/11/26 10:15, Christian Zigotzky wrote:
-> > Hi,
-> > 
-> > Although PulseAudio recognises the sound cards, it is unable to
-> > successfully initialise the corresponding output profiles on Void
-> > PPC since the sound updates 7.4-rc1 [1]. The output via ALSA works.
-> > 
-> > Tested with the onboard HDA ATI SB sound device, Soundblaster LIVE
-> > Player 1024 PCI card, AMD HDMI audio and with USB audio. Strangely
-> > enough Pulseaudio can enable the sound devices on MintPPC32. I think
-> > the latest sound updates are responsible for the issue on Void PPC.
-> > 
-> > I bisected last week [2] and
-> > ad28d2f607d1792c04531f2c5fd9ac0bf5bdcc9c (ALSA: pcm: Serialize and
-> > check HW_REFINE ioctls) is the first bad commit.
-> > 
-> > I was able to revert the first bad commit and this solved the issue. [2]
-> > 
-> > Then I created a patch for reverting the bad commit. [3]
-> > 
-> > Could you please check the sound updates 7.4-rc1? [1]
-> > 
-> > Thanks,
-> > Christian
-> > 
-> > [1]
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=75c1cb8178fe84403fd95236ddf21754f0a4156c
-> > [2] https://github.com/chzigotzky/kernels/issues/21
-> > [3]
-> > https://github.com/chzigotzky/kernels/commit/644ec7c1f2f812d5eb89741e643f742596a49b2d
-> > [4] Screenshots:
-> >      - With the sound updates:
-> > https://i.ibb.co/675Yjxvd/Kernel-7-4-0-with-sound-updates.png
-> >      - With the patched kernel:
-> > https://i.ibb.co/9HDrnnm1/Kernel-7-4-0-alpha8-Power-PC-1.png and
-> > https://i.ibb.co/vx77FdHV/Kernel-7-4-0-alpha8-Power-PC-2.png
-> > 
-> 
-> The sound-fixes-7.4-rc1 [1] don't solve the issue with PulseAudio on
-> Void PPC. We still need the sound patch [2] for reverting the bad
-> commit.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] ALSA: hdsp: race on other->runtime->state in hdsp_speed_change_b=
+locked()
+--
 
-Hm, could you verify whether the below oneliner recovers from your
-problem or not?
+commit 6c483175b4a8f7fb76733a5685d3d140f485defd
+Author: Rafael Gago <rafael.gago@gmail.com>
 
--- 8< --
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -965,7 +965,8 @@ static int snd_pcm_hw_refine_user(struct snd_pcm_substream *substream,
- 	if (IS_ERR(params))
- 		return PTR_ERR(params);
- 
--	err = snd_pcm_hw_refine_with_lock(substream, params);
-+	//err = snd_pcm_hw_refine_with_lock(substream, params);
-+	err = snd_pcm_hw_refine(substream, params);
- 	if (err < 0)
- 		return err;
- 
--- 8< --
+ALSA: hdsp: allow sample rate changes from hw_params
 
-If this works, clear this change again, and figure out which check in
-snd_pcm_hw_refine_with_lock() gives the error.  The function has three
-preliminary checks: PCM_RUNTIME_CHECK(), snd_pcm_buffer_access_lock()
-(& unlock()), and hw_parms_state_check.  The first one must be
-harmless, and the real problem must be either
-snd_pcm_buffer_access_lock() or hw_params_state_check().
+This commit updates hdsp_set_rate() to accept the requesting PCM substream
+and adds hdsp_speed_change_blocked() so that speed mode transitions from
+snd_hdsp_hw_params() are only blocked when the opposite substream is open a=
+nd
+past SNDRV_PCM_STATE_OPEN.
 
-```
-static int snd_pcm_hw_refine_with_lock(struct snd_pcm_substream *substream,
-				       struct snd_pcm_hw_params *params)
-{
-	struct snd_pcm_runtime *runtime;
-	int err;
+> diff --git a/sound/pci/rme9652/hdsp.c b/sound/pci/rme9652/hdsp.c
+> index 7dce548b9f363..a3dfa937d7e54 100644
+> --- a/sound/pci/rme9652/hdsp.c
+> +++ b/sound/pci/rme9652/hdsp.c
+> @@ -1095,7 +1095,35 @@ static void hdsp_set_dds_value(struct hdsp *hdsp, =
+int rate)
+>  	hdsp_write(hdsp, HDSP_freqReg, hdsp->dds_value);
+>  }
+> =20
+> -static int hdsp_set_rate(struct hdsp *hdsp, int rate, int called_interna=
+lly)
+> +/*
+> + * A speed mode change moves the channels to different DMA buffer slots
+> + * (hdsp->channel_map) and changes the channel count. It is only safe if
+> + * no substream other than the one asking for it (if any) was set up with
+> + * the old layout. A substream of another process is already turned away
+> + * by snd_hdsp_hw_params().
+> + */
+> +static bool hdsp_speed_change_blocked(struct hdsp *hdsp,
+> +				      struct snd_pcm_substream *substream)
+> +{
+> +	struct snd_pcm_substream *other;
+> +
+> +	if (!substream)
+> +		return hdsp->capture_pid >=3D 0 || hdsp->playback_pid >=3D 0;
+> +
+> +	if (substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK)
+> +		other =3D hdsp->capture_substream;
+> +	else
+> +		other =3D hdsp->playback_substream;
+> +
+> +	return other && other->runtime->state !=3D SNDRV_PCM_STATE_OPEN;
+> +}
 
-	if (PCM_RUNTIME_CHECK(substream))
-		return -ENXIO;
-	runtime = substream->runtime;
-	err = snd_pcm_buffer_access_lock(runtime);
-	if (err < 0)
-		return err;
-	err = hw_params_state_check(substream);
-	if (err)
-		goto unlock;
+[Severity: Medium]
+Can two concurrent snd_pcm_hw_params() calls on the playback and capture
+substreams race here and switch hdsp->channel_map underneath a substream th=
+at
+has just finished snd_hdsp_hw_params()?
 
-	err = snd_pcm_hw_refine(substream, params);
+When a single thread opens both directions, hdsp->playback_pid and
+hdsp->capture_pid match, so snd_hdsp_hw_params() allows both substreams to
+proceed to hdsp_set_rate(). In sound/core/pcm_native.c:snd_pcm_hw_params(),
+each substream only holds its own runtime->buffer_mutex, and runtime->state
+is not updated to SNDRV_PCM_STATE_SETUP until after substream->ops->hw_para=
+ms
+returns:
 
- unlock:
-	snd_pcm_buffer_access_unlock(runtime);
-	return err;
+sound/core/pcm_native.c:snd_pcm_hw_params() {
+	...
+	if (substream->ops->hw_params !=3D NULL) {
+		err =3D substream->ops->hw_params(substream, params);
+		if (err < 0)
+			goto _error;
+	}
+
+	runtime->access =3D params_access(params);
+	runtime->format =3D params_format(params);
+	runtime->subformat =3D params_subformat(params);
+	runtime->channels =3D params_channels(params);
+	runtime->rate =3D params_rate(params);
+	...
+	snd_pcm_set_state(substream, SNDRV_PCM_STATE_SETUP);
 }
-```
 
-OTOH, if the oneliner above doesn't change the behavior, something
-else overlooked obviously.
+If one thread calls snd_pcm_hw_params() on playback at single speed (for
+example 48 kHz with ss_out_channels), snd_hdsp_hw_params() sets the
+single-speed hdsp->channel_map and releases hdsp->lock while
+playback_substream->runtime->state is still SNDRV_PCM_STATE_OPEN.
 
-Oh wait, it might be the 32bit compat path?  If so, the call at
-snd_pcm_ioctl_hw_params_compat() needs to be tested, instead.
+Before that first thread reaches snd_pcm_set_state(), a second thread (or
+forked process sharing the open file descriptors) calling snd_pcm_hw_params=
+()
+on capture at double or quad speed (96 kHz or 192 kHz) will still observe
+playback_substream->runtime->state =3D=3D SNDRV_PCM_STATE_OPEN in
+hdsp_speed_change_blocked() (which is also read without holding the other
+substream's PCM stream lock or buffer_mutex). It will then overwrite
+hdsp->channel_map with the double-speed or quad-speed map while the playback
+substream finishes snd_pcm_hw_params() with runtime->channels set to
+ss_out_channels.
 
+Subsequent transfers on the higher channel numbers in snd_hdsp_playback_cop=
+y(),
+snd_hdsp_capture_copy(), or snd_hdsp_hw_silence() will then look up
+hdsp->channel_map[channel] =3D=3D -1 via hdsp_channel_buffer_location() and
+trigger snd_BUG_ON(!channel_buf):
 
-thanks,
+sound/pci/rme9652/hdsp.c:snd_hdsp_playback_copy() {
+	...
+	channel_buf =3D hdsp_channel_buffer_location (hdsp, substream->pstr->strea=
+m, channel);
+	if (snd_BUG_ON(!channel_buf))
+		return -EIO;
+	...
+}
 
-Takashi
+Would tracking whether each direction has configured hw_params in struct hd=
+sp
+under hdsp->lock (and clearing it in snd_hdsp_hw_free() and release) avoid
+relying on other->runtime->state across the lock boundary?
 
-
-
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261101-hdsp-sound=
+-v1-1-f39f185400b5@gmail.com?part=3D1
