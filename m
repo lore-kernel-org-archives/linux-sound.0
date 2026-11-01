@@ -1,107 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793547451;
-	b=s+qKQIhR6pUOH7auquC2l7rps6gHiLYtUXaKd7par24MjKzscxS1ChR5U8P7BYouTOAo
-	 Xp77zfHOoufZ6Os36qCTlcF33Zw+zdjZ7YYvOmNYXvu2wGDy1kNX51TOsMYjQG22WH+3p
-	 Z4Pr/SG8gzvKb4skq3a0MhIcFDP+LhzW9mQH1o+pNssQKDQdDlfydAoHvYKNR3x8R4o4m
-	 pY+z/pVgBZ+Gkc7nRRj2PnvJ4WYxmLorjkVpi1XVnhmpcZBjx3pac2runk5WTzUhPzTvL
-	 xCXmcXZzhORkjov45XvCVCp5vV4NHtEHf6iFu8g36r6Vy/shPMwv8SZP/xyq/D/uruA==
+	t=1793553705;
+	b=bwXYP7E3L/FAhLHteKLGPjiROOJIKolUEkPLAU5scX7ZkjT535TWuRo5eIeiAzSunfxW
+	 Nb+1Zj0LFLNXrmIJDMaeM4pzn8IOB+hAiv9pBSgOvwRt36kmFyw1UalS7gMvd8lqCP0QQ
+	 nmw180vZC+c0an2BZd/Psm5Tn6kPhXclqagTIUQ/HI4fwG0s3WFk2mJaCMjczY0L4YTth
+	 /BBK8o6dHhA5JmH5QJBBbuZURuALv0461aXUt0YjM45N+imTHocj9vVKDPOcjGffT9dBI
+	 bhLjnpXnF3H2RAbODLa2omYB10vDqdJR6/4z8h9kHqt53wcT+um8Ghq4GVAKYOmyF5Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793547451;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=6lUU6hIrCqmK8U6bSvEGJzBOY/PrPmDQJZCn4oelURE=;
-	b=yZKQMcHA7ZcRuSCtDPzqfkgK3tR2q/8xpQD1E6x/W4dijELKXIwEQgWy8CZ/8Z3qcj/S
-	 Ts5781yHhI6Nu5z7mt1J9qz8Z4HTvrOooGHzyEU/IUYKE2YfmQpil/35GtGGPejnyhKfX
-	 eqyt9thxk2N+lriclOXxi4p+9Xw3WmZee/wHXVoQ0NvvDIYn06ZpEzVau9Z9dY6Bw/22o
-	 EGGFDyzVX+up7jzFRhwx5KRnPfQsdsu9PU04WkPWfeQWkwSLOJBom7OLixf4JVXnAiKzV
-	 2W36hhQRYURRkesQA5J8RxdDk+Qg8Y8O2fQGNjeAbVToJUfz4z2/R22z2EYlQTPLN2Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793553705;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=dep8lu2jYLxzayWGyAIE4MyxxyfU/O4hROTivKHxroU=;
+	b=clJ1SHOBqwCQrpCjvCGSS10kf7HumaVjiwirvEi0xrnVpvnqbnn/Eo6mJ6N5YUEQKlBU
+	 sgsbXZ38BJs2p/2v6Y6lIDouFcZUNBIt/6NTgCeG2tV+grepnh9wS4sRQ+S8HLyWCrDr/
+	 FS6dy03GC4S/8qrylg1eWA+BTQKviFd6SusoCk3U8wRHcTxDO88ntI5/QXnCkxTpgVhk8
+	 wKCv+N8hJJ+zcEfQPbk9rk+wKR+aoYu7aFBxPGwAPAHnyy5Sus6Wawwp2CZ4poJOP7zER
+	 /deyRJptjeLchkjtwqH6yXCphINYeB4p/hteSP9MuHQFAU2WMI00XoWSmPW/VQzg+Ug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Lvg9o+vz;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=D0Cg91Vz;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Lvg9o+vz;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=D0Cg91Vz;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=korea.ac.kr;
+	spf=pass smtp.mailfrom=korea.ac.kr;
+	dkim=pass header.d=korea.ac.kr header.i=@korea.ac.kr header.a=rsa-sha256 header.s=google header.b=iszBT2+n;
+	arc=none smtp.remote-ip=209.85.128.176
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E209F606A324;
-	Sun,  1 Nov 2026 15:37:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E209F606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C47606A325
+	for <linux-sound@vger.kernel.org>; Sun,  1 Nov 2026 17:21:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37C47606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=korea.ac.kr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=korea.ac.kr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Lvg9o+vz;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=D0Cg91Vz;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Lvg9o+vz;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=D0Cg91Vz
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 15C7A220D5;
-	Sun,  1 Nov 2026 15:37:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793547449; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6lUU6hIrCqmK8U6bSvEGJzBOY/PrPmDQJZCn4oelURE=;
-	b=Lvg9o+vzLXcy+1tr39kjrqqDr7XXfPbpL5EqLGRT+jrba3ytXrG+OUYP5AHlIuP2lEyJyL
-	bjL6GyvkTC0KK/IUqm1A8G2SYMUynfgLMD6aBHy/HRjh05mVZBwe3zMlnbtqTztMk3ubtt
-	l34fmVMM6JpuVp0rQPbgxtcycQ5u8wc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793547449;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6lUU6hIrCqmK8U6bSvEGJzBOY/PrPmDQJZCn4oelURE=;
-	b=D0Cg91VzPK1rM3fMHcZkNpgmLLSOfCQ+JYY2OhKeeR8rYB/W1dD2aLlqIj07yYZ9517+U5
-	5vXqLEjbu2xnO/BA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793547449; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6lUU6hIrCqmK8U6bSvEGJzBOY/PrPmDQJZCn4oelURE=;
-	b=Lvg9o+vzLXcy+1tr39kjrqqDr7XXfPbpL5EqLGRT+jrba3ytXrG+OUYP5AHlIuP2lEyJyL
-	bjL6GyvkTC0KK/IUqm1A8G2SYMUynfgLMD6aBHy/HRjh05mVZBwe3zMlnbtqTztMk3ubtt
-	l34fmVMM6JpuVp0rQPbgxtcycQ5u8wc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793547449;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6lUU6hIrCqmK8U6bSvEGJzBOY/PrPmDQJZCn4oelURE=;
-	b=D0Cg91VzPK1rM3fMHcZkNpgmLLSOfCQ+JYY2OhKeeR8rYB/W1dD2aLlqIj07yYZ9517+U5
-	5vXqLEjbu2xnO/BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B82EC13314;
-	Sun,  1 Nov 2026 15:37:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id weCGI7hc52qMMwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 01 Nov 2026 15:37:28 +0000
-Date: Sun, 01 Nov 2026 16:37:28 +0100
-Message-ID: <87h5i0pnpj.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Shivam Madlani <shivammadlani5@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix mute and mic-mute LEDs for HP OmniBook 7
-In-Reply-To: <20261101143818.17714-1-shivammadlani5@gmail.com>
-References: <20261101143818.17714-1-shivammadlani5@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key, unprotected) header.d=korea.ac.kr header.i=@korea.ac.kr header.a=rsa-sha256 header.s=google header.b=iszBT2+n
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-8aea7b7ca0cso19096367b3.2
+        for <linux-sound@vger.kernel.org>; Sun, 01 Nov 2026 09:21:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=korea.ac.kr; s=google; t=1793553701; x=1794158501; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=dep8lu2jYLxzayWGyAIE4MyxxyfU/O4hROTivKHxroU=;
+        b=iszBT2+ng7FqJn+05MOZ0Fqq4Lrw886pC4h1+XEPFO+LTCMR9s0YrcbqRnh4HR17p9
+         or6jGJU47KgVRMC6aY21kW8vmC8481U5eQnz/Cs/3LLpvoEqJgiExQbDQg7+ewFIBAAn
+         8wKpoSs4BHJPOfj/IptmRRkpRbnu7+0zg+Wtg6Dd0NXj6heTA2BKV6r7cwCA/oIVFiKA
+         OUx1x8xtchQbcXB/26TjFvhpgxfw5SeJ3lX22+dbdG3D7vtOn9HyEYr7SXUuzfcjgsDz
+         w0dgbuuXZQKOSw1DZZh42R3SizydNNJuDLpY8TclLeyLaScMa8hLZ8GCJJwA3WFtmd4g
+         1Wyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793553701; x=1794158501;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=dep8lu2jYLxzayWGyAIE4MyxxyfU/O4hROTivKHxroU=;
+        b=RGDB3y/VckJwhplN67RYQNqpy+jN8Vf2w6PJcUnTSpGgQ4V30cXpMOiMQpzFKXl01q
+         T2BpaiaZUDW5qOP554XfjxXVQj0etidfqkBrpo/fA9abVfH28GwNkMQpw7SC1u617BYG
+         kSXSTzPuC1s9jbedi6vAfhEnEyCMjNQsKG4kKjWCuQf90xWwzx/sS9gxkQcwCaWqNjA8
+         hVYmoBIjxMN36LJn3ZN4xjgc2oTDZAZooB1J/EAFYKdVoxVwhlCeiFdVjzFmKS4BapWu
+         61bgWtnCLkjySEkrblnjPdiOo9hC5IRLt1qeq6rkjZUNxGS/zXVcmshN4YyFAFzVXmH6
+         4Tog==
+X-Gm-Message-State: APuU4Z8dLGUU5HNsUwlFAER8Amd0he6GOerc5MRI6l3y9TV1pmpHM2vd
+	oXxWuJ05L9W2r6AQPzAvgAP8oOnzj2uOnkHVn9d4G9VoYigQLDdF8KMZM4Ca15QnSLxUXTqqyCS
+	rp2+v/w==
+X-Gm-Gg: AYBFou2Kg0TdSHWMRoE7Uimlk8JfgqTMNmKoGaICEO4rTzVgHClmAdMkknAsHiRS1xU
+	kBh31sstwFAzuX3KEhOxekz5Dxj/oPpItVKVaQN1KRlW9luVL5wPYJR3dM4BtB3aTDLImTTQkyV
+	xd1IWj0GNNIgjUEsHtCUWG/f0Zq5YIuzqGKVi+R7W/4k9J+FMIvaQsbsymgDirncUudv8dqtoKY
+	6uvJHKCNUlanwtuiFAwUwQVno107LMLZ3OBJdQiB1HjNjIDQF1tXibsrF6j95iyE+/6bhuL5Q1L
+	sN/O4OVxPgyAieHhRH1HJ5X2YHgoldHRoY1bAOfx0qeFCZkvgcIVdX6J23ZgyP+dtyDYimhEox3
+	qarXvHwneHk5dlnBF2pkDO461WDIwmGSabKTL6pUbI4rB4j3qBFGm+kpvRUHNeoLSn31bNLnHXQ
+	tHi4u3OBb5+vBorF638dkb1qEYHnM1EiULBMlrvQasv9fNX/ZDc9uXhvBHW2gg6+H3pSs2EB3pm
+	1aRoZHzMxuwEi0cOQ0bqG7XxH5LmtPgZj3ZhqI0+kfUNFeSIQQhrRor4YJoDGcpCyfzMk4=
+X-Received: by 2002:a05:690c:389:b0:8b1:447c:cf05 with SMTP id 00721157ae682-8b2b67cd1b4mr43801677b3.67.1793553700742;
+        Sun, 01 Nov 2026 09:21:40 -0800 (PST)
+Received: from s2lab05.. ([163.152.163.130])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b2b714bd40sm39086837b3.16.2026.11.01.09.21.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Nov 2026 09:21:39 -0800 (PST)
+From: Ingyu Jang <ingyujang25@korea.ac.kr>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ingyu Jang <ingyujang25@korea.ac.kr>
+Subject: [PATCH 0/5] ALSA: Make always-successful helpers return void
+Date: Mon,  2 Nov 2026 02:21:29 +0900
+Message-Id: <20261101172134.3451066-1-ingyujang25@korea.ac.kr>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -110,49 +93,34 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_FIVE(0.00)[5]
-X-Spam-Score: -12.30
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sun, 01 Nov 2026 15:38:18 +0100,
-Shivam Madlani wrote:
-> 
-> The HP OmniBook 7 Laptop 14-fr0xxx (PCI SSID 103c:8e3b) uses an ALC245
-> codec with CS35L41 amplifiers. The existing quirk
-> ALC287_FIXUP_CS35L41_I2C_2 does not configure the speaker mute or
-> mic-mute LEDs, leaving them non-functional.
-> 
-> Switch to ALC245_FIXUP_CS35L41_I2C_2_MUTE_MICMUTE_LED, which controls
-> the speaker mute LED via COEF index 0x0b, the mic-mute LED via GPIO
-> 0x04, and chains to the CS35L41 amplifier setup. Also update the model
-> name from the internal board codename ("HP Agusta") to the retail
-> product name.
-> 
-> Signed-off-by: Shivam Madlani <shivammadlani5@gmail.com>
+These helpers always return 0, so the error checks on their return
+values never trigger. This series makes them return void and removes
+the dead checks, one driver per patch.
 
-Applied now (with Fixes tag).  Thanks.
+This follows up on the earlier discussion:
+https://lore.kernel.org/all/87jywvyu2q.wl-tiwai@suse.de/
 
+Ingyu Jang (5):
+  ALSA: hda: Make snd_hda_multi_out_analog_{prepare,cleanup}() return
+    void
+  ALSA: ice1712: Make chip_init helpers return void
+  ALSA: cs4236: Make snd_cs423x_pnp_init_mpu() return void
+  ALSA: vx222: Make put_xilinx_data() return void
+  ALSA: ali5451: Make snd_ali_reset_5451() return void
 
-Takashi
+ sound/hda/codecs/generic.c   | 22 +++++++++-------------
+ sound/hda/common/codec.c     | 16 +++++++---------
+ sound/hda/common/hda_local.h | 14 +++++++-------
+ sound/isa/cs423x/cs4236.c    |  9 +++------
+ sound/pci/ali5451/ali5451.c  | 10 +++-------
+ sound/pci/ice1712/ice1712.c  | 12 +++---------
+ sound/pci/ice1712/ice1724.c  | 12 +++---------
+ sound/pci/vx222/vx222_ops.c  |  7 +++----
+ 8 files changed, 38 insertions(+), 64 deletions(-)
+
+-- 
+2.34.1
+
