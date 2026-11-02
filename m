@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793644008;
-	b=v68NVgsrerKMuJ1VDodZhOPVG13dej+AijSOuV/YNfkeC0fSZnCO7EOyvy6Fy4N+GpfO
-	 EOdJq56nCD/A81zgMkjbWiLknv9Rv9t61aHP27V1O0XqNxEk4HKbExGpbTdS5K4Fs0koY
-	 88Ka1CxtPxti3xsTrDqhC0EVqzZtC9EYgWUV0zKaDlOyDNkTxjgMItIhQpyV6xPCP1rPQ
-	 R6ajv6MelMQanVLGmM7ZDmsCZNcSfU58e1mFb9D50vWQPfcgy8vG2126m6M3VAcy+u3kY
-	 PbzvOnliJldgo36qHlizXr3CezMn9TO4KrxM1wKUse4To0jiIXXLFpxUp6z41fhKqNw==
+	t=1793644176;
+	b=cUdjDrzkLiTe8mUEXM9DWpcjg7cWVJK81rOAPLxyJuSlUuE9WZuSWzmVuddecdxfOf1M
+	 iFHyzNMMyXvpS7tuPxeVSfmoVECOlgkI/lyOBBOQ9yM0YoUoEXHXdKwH4PSRudezjuuNf
+	 AoSFcILoSos/ubeZhsbfIH2RpdTB5cS4/wffUBrqJise3EAnnnGkN7fWpF9TudCr0h4Hz
+	 XON3Z1581JcC12/H9Qswo35rLFbnOo9mmj6ia+DQuqbfJYWD/S89dTwx991GpNXeqoznZ
+	 /tF3BfPr9fCoYcHzqtRtdG+END8AdhIq0uj7EMsLGVfAcQuHwe1AGYfP8LEMzGVK0Qw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793644008;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793644176;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=oQ5o5ZgoHIY2Nk12lacf3grs12WTeT6DSiIfYTs6xWo=;
-	b=qpUTV/aO2ogGlkL7TBkR34NFAYDjbk5/SUFTn7aSpWMnik3WmYUHRicYOv8sJfgNYSRC
-	 3vM08lmRz6LjovboflwsKR5Ce6H90cxyJQraWY+z7yj6E/Cmd71S7j0DsbR3SdbpJ3IJE
-	 Kba5hjV6FqP6Ed6Xx7W0NCZOnmFZmjM7jmyBWND9VOraeROoosdFL1pvGgwJ/Se3EU1Y5
-	 RycDPJbcKOIFuait2Voau7AFPbUqCsR4NqMa4qWUkUUk869wwSQJNyc4NCV3vfK0o7NXX
-	 XPjC9lkSWIVwxfyDpZUpjzXB2Ld2bo2kuvmYJeTGp6HwimPRRoAlWoNNg4BcxtP66VQ==
+	bh=/3wv3CGORxc/kKuIdFCk+2E6eRnEsUONlivoAMyJ5bc=;
+	b=KQ/2Itzv2INSTqu4S9hkLsSxocAY/5pEOgM+4rdpSN300BkkiMeU+Od2a2kc4WzDOT96
+	 W+X6ar0bEmduP0EUSJG3RWzhDyqlt5Wo8Up4t8ZX0wShZcAEy2gWrDhWWGHTm1AZel8fY
+	 YYE38VUJzdUqeNLFfHg2hy2BpXzKdGaTaohpiKxjxSl2wq9bruGuI4fME/At0br4Cp4dp
+	 55GC6fSCgZWxgVgdKI2v3CQQtgHSes7+tJGlQPxq9IrKwQwmnyFtF/3GodL5I8fB9B2gv
+	 uaQmaQ2u+gp+7ok0+f+8BmPfFHkhyzIsyPjQ7JugA8yvoGPfBzmxUdj/5m5Jk8UaP+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fBBwKkSE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Z/hdRTYi";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7AB606A324
-	for <linux-sound@vger.kernel.org>; Mon,  2 Nov 2026 18:26:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648AC606A326
+	for <linux-sound@vger.kernel.org>; Mon,  2 Nov 2026 18:29:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fBBwKkSE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F09F1F00A17;
-	Mon,  2 Nov 2026 18:26:47 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z/hdRTYi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4B031F00A16;
+	Mon,  2 Nov 2026 18:29:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793644007;
-	bh=oQ5o5ZgoHIY2Nk12lacf3grs12WTeT6DSiIfYTs6xWo=;
+	s=k20260515; t=1793644176;
+	bh=/3wv3CGORxc/kKuIdFCk+2E6eRnEsUONlivoAMyJ5bc=;
 	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=fBBwKkSERLCLV62QWrpSwy6HrsNp/ksgGZBwmz86GAf+hjtYMIcBrT0BbdKrhFLC3
-	 pWXHt5T4QBZIOPgJ0hYDR55YgAwBzI0itcAupuRkxktWiUG29171iYsPMFJ3MjZf47
-	 cjgndqIwi5kOf3n+fQXkaJhfyWB/Pg1+Hu0x+atIiSfOaJCAebcLv+SVJzgdS8DDLD
-	 esvkPrvs4mKztOm3kEhzcPtGwPKJ5cP1ut6++gm69np43Hz+AgQtG9nRTQw4crDHyn
-	 ZYa3a0FIPpmjJVAbMFjMPVvUXBGPThkdBgkmJ6BWGUqdyaK06Ja0SjNg4dz9st4Cbo
-	 Lb+43M8YDwk6A==
-Message-ID: <sashiko-outbox-193935@kernel.org>
+	b=Z/hdRTYi7/KX/eeM8EzWu0iHwYaJCJqnAeYd+dOL2HqOXTrLlffru9Nx+NdLum6lu
+	 s/gsm5nZrSHjKiUeeEcH5eKmd7ctvddS591JWHeBxHOJfSZ4jirUiLsRINwU2xOQ46
+	 hjO/DuLYTUWbnR36CfXd5AJFpOQ6LgXErVGB5fs+cOYboqMDOF0+ReUgrVfdwl+urG
+	 W6N6AGClKeC/Rfb5WWJdAYHSsEOdVkne2AxEA7EpvRhVnn+1eNY0PiFa0D/GGlypVD
+	 /1ojx8hSaUQ2/Ct2XlvBf0LRXAF4dYazzQHY/nbnzVqrJSrhuhOhrxINpXjZYiQBCm
+	 yZfJwJgHHzE2Q==
+Message-ID: <sashiko-outbox-193940@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 7/7] ASoC: Intel: avs: SoundWire PCM BE operations
+Subject: Re: [PATCH 5/7] ASoC: Intel: avs: SoundWire support
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Cezary Rojewski" <cezary.rojewski@intel.com>, linux-sound@vger.kernel.org
-In-Reply-To: <20261102181042.1922005-8-cezary.rojewski@intel.com>
+In-Reply-To: <20261102181042.1922005-6-cezary.rojewski@intel.com>
 References: <20261102181042.1922005-1-cezary.rojewski@intel.com>
- <20261102181042.1922005-8-cezary.rojewski@intel.com>
+ <20261102181042.1922005-6-cezary.rojewski@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 02 Nov 2026 18:26:47 +0000
+Date: Mon, 02 Nov 2026 18:29:35 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,360 +61,218 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 5 potential issue(=
 s) to consider:
-- [High] ASoC: Intel: avs: broken suspend/resume due to avs_sdw_dai_hw_free=
-()
-- [High] ASoC: Intel: avs: m_rt leak and UAF on sdw_stream_add_master() err=
-or in avs_sdw_dai_hw_params()
-- [Medium] ASoC: Intel: avs: dangling codec stream pointer in avs_sdw_dai_s=
-hutdown()
-- [Medium] ASoC: Intel: avs: missing stream disable rollback in avs_sdw_dai=
-_trigger()
-- [Low] ASoC: Intel: avs: link failure when SND_SOC_INTEL_AVS=3Dy and SOUND=
-WIRE_INTEL=3Dm
+- [High] ASoC: Intel: avs: premature IRQ disable and UAF in avs_sdw_exit()
+- [Medium] ASoC: Intel: avs: disabling IRQs before avs_sdw_exit() in avs_pc=
+i_remove() breaks child resume
+- [Medium] ASoC: Intel: avs: missing link_mask check in avs_sdw_probe()
+- [Medium] ASoC: Intel: avs: cAVS SoundWire MMIO offsets used on ACE platfo=
+rms
+- [Low] ASoC: Intel: avs: vmlinux link failure when SND_SOC_INTEL_AVS=3Dy a=
+nd SOUNDWIRE_INTEL=3Dm
 --
 
-commit b4101c2b87dd19b6fc2e6be967189ca74f738d4e
+commit 99a0d9e68cf08e7f2ab6024f81ba2c7db0e51ac2
 Author: Cezary Rojewski <cezary.rojewski@intel.com>
 
-ASoC: Intel: avs: SoundWire PCM BE operations
+ASoC: Intel: avs: SoundWire support
 
-This commit implements back-end PCM operations for the SoundWire link in
-the Intel AVS driver, wiring up DAI startup, shutdown, hw_params, hw_free,
-prepare, and trigger callbacks to the SoundWire core and Cadence helpers.
+This commit adds SoundWire enumeration, startup, interrupt handling, and
+teardown support to the Intel AVS driver using the SoundWire Intel library.
 
+> diff --git a/sound/soc/intel/Kconfig b/sound/soc/intel/Kconfig
+> index 63367364916ae..4e453b55fc043 100644
+> --- a/sound/soc/intel/Kconfig
+> +++ b/sound/soc/intel/Kconfig
+> @@ -106,6 +106,7 @@ config SND_SOC_INTEL_AVS
+>  	select SND_HDA_EXT_CORE
+>  	select SND_HDA_DSP_LOADER
+>  	select SND_INTEL_DSP_CONFIG
+> +	select SND_INTEL_SOUNDWIRE_ACPI if SOUNDWIRE_INTEL !=3D n
+>  	select WANT_DEV_COREDUMP
+>  	help
+>  	  Enable support for Intel(R) cAVS 1.5 platforms with DSP
 > diff --git a/sound/soc/intel/avs/Makefile b/sound/soc/intel/avs/Makefile
-> index 1d48953c7a31c..07a82a6f5b23e 100644
+> index 576dc0da381d8..1d48953c7a31c 100644
 > --- a/sound/soc/intel/avs/Makefile
 > +++ b/sound/soc/intel/avs/Makefile
-> @@ -15,7 +15,7 @@ snd-soc-avs-y +=3D probes.o debugfs.o
+> @@ -14,6 +14,10 @@ ifneq ($(CONFIG_DEBUG_FS),)
+>  snd-soc-avs-y +=3D probes.o debugfs.o
 >  endif
 > =20
->  ifneq ($(CONFIG_SOUNDWIRE_INTEL),)
-> -snd-soc-avs-y +=3D soundwire.o
-> +snd-soc-avs-y +=3D soundwire.o pcm_sdw.o
->  endif
-> =20
->  obj-$(CONFIG_SND_SOC_INTEL_AVS) +=3D snd-soc-avs.o
+> +ifneq ($(CONFIG_SOUNDWIRE_INTEL),)
+> +snd-soc-avs-y +=3D soundwire.o
+> +endif
 
 [Severity: Low]
-Can this fail to link when CONFIG_SND_SOC_INTEL_AVS=3Dy and
+Will vmlinux fail to link when CONFIG_SND_SOC_INTEL_AVS=3Dy and
 CONFIG_SOUNDWIRE_INTEL=3Dm?
 
-In sound/soc/intel/Kconfig, SND_SOC_INTEL_AVS is tristate and does not
-depend on SOUNDWIRE_INTEL || !SOUNDWIRE_INTEL. When SND_SOC_INTEL_AVS=3Dy
-and SOUNDWIRE_INTEL=3Dm (with SOUNDWIRE=3Dm and SOUNDWIRE_CADENCE=3Dm),
-ifneq ($(CONFIG_SOUNDWIRE_INTEL),) is still true and links pcm_sdw.o into
-the built-in snd-soc-avs.o, while sdw_alloc_stream(),
-sdw_cdns_assign_pdi(), and the other SoundWire helpers live in loadable
-modules.
+In that configuration, sound/soc/intel/avs/Makefile compiles soundwire.o in=
+to
+the built-in snd-soc-avs.o, and sound/soc/intel/avs/soundwire.h enables the
+external declarations under IS_ENABLED(CONFIG_SOUNDWIRE_INTEL). However,
+avs_sdw_probe(), avs_sdw_startup(), avs_sdw_exit(),
+avs_sdw_process_wakeen_event(), and avs_sdw_thread() in
+sound/soc/intel/avs/soundwire.c call sdw_intel_cnl_hw_ops, sdw_intel_probe(=
+),
+sdw_intel_startup(), sdw_intel_exit(), sdw_intel_process_wakeen_event(), and
+sdw_intel_thread(), which live in the loadable soundwire-intel.ko module.
 
-> diff --git a/sound/soc/intel/avs/pcm_sdw.c b/sound/soc/intel/avs/pcm_sdw.c
-> new file mode 100644
-> index 0000000000000..27cb285eca091
-> --- /dev/null
-> +++ b/sound/soc/intel/avs/pcm_sdw.c
-> @@ -0,0 +1,276 @@
+Should SND_SOC_INTEL_AVS depend on SOUNDWIRE_INTEL || !SOUNDWIRE_INTEL (or
+use IS_REACHABLE), similar to how other ASoC drivers handle optional
+tristate dependencies?
 
 [ ... ]
 
-> +static int avs_sdw_dai_startup(struct snd_pcm_substream *substream, stru=
-ct snd_soc_dai *dai)
-> +{
-> +	struct snd_soc_pcm_runtime *rtd =3D snd_soc_substream_to_rtd(substream);
-> +	struct sdw_stream_runtime *sdw_stream;
-> +	struct snd_soc_acpi_mach *mach;
-> +	struct snd_soc_dai *codec_dai;
-> +	struct avs_dma_data *data;
-> +	struct sdw_cdns_pdi *pdi;
-> +	struct sdw_slave *codec;
-> +	int dir, ret;
-> +
-> +	mach =3D dev_get_platdata(dai->component->card->dev);
-> +	codec =3D mach->pdata;
-> +	if (substream->stream =3D=3D SNDRV_PCM_STREAM_CAPTURE)
-> +		dir =3D SDW_DATA_DIR_RX;
-> +	else
-> +		dir =3D SDW_DATA_DIR_TX;
-> +
-> +	ret =3D avs_dai_startup(substream, dai);
-> +	if (ret)
-> +		return ret;
-> +
-> +	sdw_stream =3D sdw_alloc_stream(substream->name, SDW_STREAM_PCM);
-> +	if (!sdw_stream) {
-> +		ret =3D -ENOMEM;
-> +		goto err_alloc_stream;
-> +	}
-> +
-> +	pdi =3D sdw_cdns_assign_pdi(codec->bus, dir);
-> +	if (!pdi) {
-> +		ret =3D -EBUSY;
-> +		goto err_assign_pdi;
-> +	}
-> +
-> +	/* Fulfill the codec needs by setting the sdw_stream. */
-> +	codec_dai =3D snd_soc_rtd_to_codec(rtd, 0);
-> +	snd_soc_dai_set_stream(codec_dai, sdw_stream, substream->stream);
-> +
-> +	data =3D snd_soc_dai_get_dma_data(dai, substream);
-> +	data->sdw_stream =3D sdw_stream;
-> +	data->pdi =3D pdi;
-> +	return 0;
-> +
-> +err_assign_pdi:
-> +	sdw_release_stream(sdw_stream);
-> +err_alloc_stream:
-> +	avs_dai_shutdown(substream, dai);
-> +	return ret;
-> +}
-> +
-> +static void avs_sdw_dai_shutdown(struct snd_pcm_substream *substream, st=
-ruct snd_soc_dai *dai)
-> +{
-> +	struct snd_soc_acpi_mach *mach;
-> +	struct avs_dma_data *data;
-> +	struct sdw_slave *codec;
-> +
-> +	data =3D snd_soc_dai_get_dma_data(dai, substream);
-> +	mach =3D dev_get_platdata(dai->component->card->dev);
-> +	codec =3D mach->pdata;
-> +
-> +	sdw_cdns_release_pdi(codec->bus, data->pdi);
-> +	sdw_release_stream(data->sdw_stream);
-> +	avs_dai_shutdown(substream, dai);
-> +}
+> diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
+> index 9413027e1e322..f9f25f651a9e2 100644
+> --- a/sound/soc/intel/avs/core.c
+> +++ b/sound/soc/intel/avs/core.c
+
+[ ... ]
+
+> @@ -587,6 +603,9 @@ static void avs_pci_remove(struct pci_dev *pci)
+>  	avs_dsp_op(adev, int_control, false);
+>  	snd_hdac_ext_bus_ppcap_int_enable(bus, false);
+> =20
+> +	avs_sdw_enable_irq(adev, false);
+> +	avs_sdw_exit(adev);
 
 [Severity: Medium]
-Should avs_sdw_dai_startup() check the return value of
-snd_soc_dai_set_stream(), and should avs_sdw_dai_shutdown() clear the
-stream pointer on codec_dai before freeing data->sdw_stream?
+In avs_pci_remove(), won't disabling interrupts before calling avs_sdw_exit=
+()
+cause SoundWire child device resume to time out during driver removal?
 
-In avs_sdw_dai_shutdown(), sdw_release_stream(data->sdw_stream) frees
-data->sdw_stream without calling
-snd_soc_dai_set_stream(codec_dai, NULL, substream->stream) (unlike
-sdw_shutdown_stream()). If a SoundWire codec driver does not clear its
-stream pointer in a .shutdown callback, or if __soc_pcm_open() fails
-during codec_dai startup after avs_sdw_dai_startup() has already run (so
-soc_pcm_clean() skips codec_dai shutdown during rollback), codec_dai is
-left holding a dangling pointer to the freed sdw_stream_runtime.
+Before avs_sdw_exit(adev) is called, avs_pci_remove() runs:
 
-> +static int avs_sdw_dai_hw_params(struct snd_pcm_substream *substream,
-> +				 struct snd_pcm_hw_params *hw_params,
-> +				 struct snd_soc_dai *dai)
+    snd_hdac_stop_streams_and_chip(bus);
+    avs_dsp_op(adev, int_control, false);
+    snd_hdac_ext_bus_ppcap_int_enable(bus, false);
+
+    avs_sdw_enable_irq(adev, false);
+    avs_sdw_exit(adev);
+
+Inside avs_sdw_exit() -> sdw_intel_exit(), the SoundWire teardown iterates
+over ctx->link_list and synchronously runtime-resumes all child peripheral
+devices and links via device_for_each_child(bus->dev, NULL,
+intel_resume_child_device) before cleaning them up.
+
+Because avs_sdw_probe() sets res.clock_stop_quirks =3D
+SDW_INTEL_CLK_STOP_BUS_RESET, resuming a runtime-suspended link and its
+peripherals restarts the bus via sdw_intel_start_bus_after_reset(), waits f=
+or
+peripheral attachment, and performs Cadence MCP register transfers in
+cdns_xfer_msg() waiting on cdns->tx_complete. Those completions and status
+updates depend on sdw_cdns_irq() running from avs_dsp_irq_thread() ->
+avs_cnl_dsp_interrupt() -> avs_sdw_thread(), which cannot fire once HDA,
+PPCTL, and AVS_ADSP_ADSPIC2_SNDW interrupts have been disabled.
+
+[ ... ]
+
+> diff --git a/sound/soc/intel/avs/soundwire.c b/sound/soc/intel/avs/soundw=
+ire.c
+> new file mode 100644
+> index 0000000000000..c2a6db08a3afb
+> --- /dev/null
+> +++ b/sound/soc/intel/avs/soundwire.c
+> @@ -0,0 +1,112 @@
+
+[ ... ]
+
+> +int avs_sdw_probe(struct avs_dev *adev)
 > +{
-> +	struct sdw_stream_config sconfig =3D {0};
-> +	struct sdw_port_config pconfig =3D {0};
-> +	struct snd_soc_acpi_mach *mach;
-> +	struct avs_dma_data *data;
-> +	struct sdw_cdns_pdi *pdi;
-> +	struct sdw_slave *codec;
+> +	struct hdac_bus *hbus =3D &adev->base.core;
+> +	struct sdw_intel_acpi_info info;
+> +	struct sdw_intel_ctx *ctx;
+> +	struct sdw_intel_res res;
 > +	int ret;
 > +
-> +	data =3D snd_soc_dai_get_dma_data(dai, substream);
-> +	if (data->path)
-> +		return 0;
-> +
-> +	mach =3D dev_get_platdata(dai->component->card->dev);
-> +	codec =3D mach->pdata;
-> +	pdi =3D data->pdi;
-> +	pdi->ch_count =3D params_channels(hw_params);
-> +	pdi->h_ch_num =3D pdi->ch_count - 1;
-> +	pdi->l_ch_num =3D 0;
-> +	sdw_intel_pdi_config(codec->bus, pdi);
-> +
-> +	sconfig.direction =3D pdi->dir;
-> +	sconfig.ch_count =3D pdi->ch_count;
-> +	sconfig.frame_rate =3D params_rate(hw_params);
-> +	sconfig.type =3D SDW_STREAM_PCM;
-> +	sconfig.bps =3D snd_pcm_format_width(params_format(hw_params));
-> +	pconfig.num =3D pdi->num;
-> +	pconfig.ch_mask =3D (1 << pdi->ch_count) - 1;
-> +
-> +	ret =3D sdw_stream_add_master(codec->bus, &sconfig, &pconfig, 1, data->=
-sdw_stream);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret =3D avs_dai_be_hw_params(substream, hw_params, dai, pdi->intel_alh_=
-id);
-> +	if (ret)
-> +		sdw_stream_remove_master(codec->bus, data->sdw_stream);
-> +	return ret;
-> +}
-
-[Severity: High]
-If sdw_stream_add_master() fails here in avs_sdw_dai_hw_params(), does
-this leak struct sdw_master_runtime and leave a dangling m_rt->stream
-pointer on codec->bus->m_rt_list?
-
-During __soc_pcm_hw_params(), the codec DAI hw_params runs before the CPU
-DAI hw_params:
-
-  __soc_pcm_hw_params()
-    soc_pcm_hw_params() [codec DAI]
-      sdw_stream_add_slave()
-        sdw_master_rt_alloc() -> allocates m_rt, links onto
-                                 codec->bus->m_rt_list with
-                                 m_rt->stream =3D data->sdw_stream
-    soc_pcm_hw_params() [CPU DAI: avs_sdw_dai_hw_params()]
-      sdw_stream_add_master()
-
-Because m_rt was already allocated by sdw_stream_add_slave(),
-sdw_stream_add_master() sets alloc_master_rt =3D false and does not free
-m_rt (or any allocated master ports) if sdw_master_port_alloc(),
-sdw_master_rt_config(), sdw_config_stream(), or sdw_master_port_config()
-fails.
-
-When avs_sdw_dai_hw_params() returns that error without calling
-sdw_stream_remove_master(), data->path remains NULL. Rollback in
-soc_pcm_hw_clean() only calls sdw_stream_remove_slave() on the codec DAI
-(which frees s_rt, not m_rt) and skips avs_sdw_dai_hw_free(). When the
-substream is then closed, avs_sdw_dai_shutdown() frees data->sdw_stream
-while m_rt is still linked on codec->bus->m_rt_list with m_rt->stream
-pointing to the freed stream.
-
-> +
-> +static int avs_sdw_dai_hw_free(struct snd_pcm_substream *substream, stru=
-ct snd_soc_dai *dai)
-> +{
-> +	struct snd_soc_acpi_mach *mach;
-> +	struct avs_dma_data *data;
-> +	struct sdw_slave *codec;
-> +	int ret;
-> +
-> +	data =3D snd_soc_dai_get_dma_data(dai, substream);
-> +	if (!data->path)
-> +		return 0;
-> +
-> +	mach =3D dev_get_platdata(dai->component->card->dev);
-> +	codec =3D mach->pdata;
-> +
-> +	ret =3D avs_path_reset(data->path);
+> +	ret =3D sdw_intel_acpi_scan(ACPI_HANDLE(adev->dev), &info);
 > +	if (ret < 0)
-> +		dev_err(dai->dev, "reset BE path failed: %d\n", ret);
-> +	avs_path_free(data->path);
-> +	data->path =3D NULL;
-> +	sdw_deprepare_stream(data->sdw_stream);
-> +	sdw_stream_remove_master(codec->bus, data->sdw_stream);
+> +		return -ENODEV;
+
+[Severity: Medium]
+Should avs_sdw_probe() also check if (!info.link_mask) before proceeding?
+
+In sdw_intel_acpi_scan() -> sdw_intel_scan_controller(), when the ACPI
+controller node is present with a valid master count but all links are
+disabled in firmware or masked via sdw_link_mask, sdw_intel_acpi_scan()
+returns 0 with info.link_mask =3D=3D 0.
+
+Without checking !info.link_mask, avs_sdw_probe() passes res.count > 0 and
+res.link_mask =3D=3D 0 to sdw_intel_probe(), which allocates and returns a
+non-NULL struct sdw_intel_ctx with zero active links. That leaves adev->sdw
+non-NULL with the SoundWire SHIM unpowered, causing avs_sdw_enable_irq() to
+unmask AVS_ADSP_ADSPIC2_SNDW and avs_cnl_dsp_interrupt() to read
+SDW_SHIM_WAKESTS (returning 0xffffffff when unpowered and falsely reporting
+IRQ_HANDLED) on every DSP interrupt.
+
 > +
-> +	return 0;
+> +	memset(&res, 0, sizeof(res));
+> +	res.mmio_base =3D adev->dsp_ba;
+> +	res.shim_base =3D SDW_SHIM_BASE;
+> +	res.alh_base =3D SDW_ALH_BASE;
+> +	res.ext =3D false;
+> +	res.irq =3D adev->base.core.irq;
+> +	res.handle =3D info.handle;
+> +	res.parent =3D adev->dev;
+> +	res.dev =3D adev->dev;
+> +	res.clock_stop_quirks =3D SDW_INTEL_CLK_STOP_BUS_RESET;
+> +	res.hbus =3D hbus;
+> +
+> +	memcpy(&avs_sdw_cnl_ops, &sdw_intel_cnl_hw_ops, sizeof(avs_sdw_cnl_ops)=
+);
+> +	avs_sdw_cnl_ops.register_dai =3D NULL;
+> +	res.hw_ops =3D &avs_sdw_cnl_ops;
+
+[Severity: Medium]
+What happens when avs_hda_probe_work() calls avs_sdw_probe(),
+avs_sdw_startup(), and avs_sdw_enable_irq() on ACE platforms such as
+fcl_desc (which sets AVS_PLATATTR_ACE)?
+
+Here avs_sdw_probe() unconditionally sets cAVS 1.8/2.5 BAR4 offsets
+(res.mmio_base =3D adev->dsp_ba, res.shim_base =3D SDW_SHIM_BASE, res.alh_b=
+ase =3D
+SDW_ALH_BASE, res.ext =3D false) and sdw_intel_cnl_hw_ops, and
+sdw_intel_enable_irq() unconditionally accesses AVS_ADSP_REG_ADSPIC2 at
+dsp_ba + 0x10. Because sdw_intel_cnl_hw_ops.get_link_count is NULL,
+sdw_intel_probe() succeeds without touching hardware if SoundWire is present
+in ACPI, and subsequent calls to avs_sdw_startup() and avs_sdw_enable_irq()
+will read and write cAVS BAR4 offsets (0x2c000, 0x30000, and 0x10) instead =
+of
+the ACE multi-link and MTL_DWICTL_BASE / MTL_HfINT_BASE registers.
+
+Should avs_sdw_probe() guard against avs_platattr_test(adev, ACE) until ACE
+SoundWire support is wired up?
+
+[ ... ]
+
+> +void avs_sdw_exit(struct avs_dev *adev)
+> +{
+> +	if (adev->sdw) {
+> +		sdw_intel_exit(adev->sdw);
+> +		adev->sdw =3D NULL;
+> +	}
 > +}
 
 [Severity: High]
-Won't calling sdw_stream_remove_master() in avs_sdw_dai_hw_free() break
-system suspend and resume when a SoundWire stream is active?
+Can avs_cnl_dsp_interrupt() race with avs_sdw_exit() and dereference
+adev->sdw after sdw_intel_exit() has freed it?
 
-avs_register_sdw_component() registers the component with
-avs_component_driver, which uses avs_component_suspend() and
-avs_component_resume():
+In avs_pci_remove(), pci_free_irq(pci, 0, adev) is called after
+avs_sdw_exit(adev), and in avs_sdw_exit(), sdw_intel_exit(adev->sdw) frees
+ctx->peripherals, ctx->ldev, and ctx before adev->sdw is cleared to NULL.
+Meanwhile, avs_cnl_dsp_interrupt() checks if (adev->sdw) without
+synchronization and accesses adev->sdw->shim_base, adev->sdw->link_list (via
+avs_sdw_thread() -> sdw_intel_thread()), and adev->sdw->ldev (via
+avs_sdw_process_wakeen_event() -> sdw_intel_process_wakeen_event()).
 
-  avs_component_suspend()
-    avs_component_suspend_hw_free()
-      avs_dai_suspend_be_hw_free()
-        dai->driver->ops->hw_free() -> avs_sdw_dai_hw_free()
-
-During suspend, avs_dai_suspend_be_hw_free() invokes hw_free only on the
-AVS CPU DAI (ASoC does not call hw_free or hw_params on the codec DAI
-across suspend/resume). In avs_sdw_dai_hw_free(),
-sdw_stream_remove_master() calls sdw_master_rt_free(), which frees both
-the master runtime and all attached codec slave runtimes on
-m_rt->slave_rt_list, and sets data->sdw_stream->state to
-SDW_STREAM_RELEASED.
-
-On resume:
-
-  avs_component_resume()
-    avs_component_resume_hw_params()
-      avs_dai_resume_hw_params()
-        avs_sdw_dai_hw_params()
-          sdw_stream_add_master()
-    avs_component_resume_prepare()
-      avs_dai_resume_be_prepare()
-        avs_sdw_dai_prepare()
-          sdw_prepare_stream()
-
-Because codec DAI hw_params (sdw_stream_add_slave()) is never called on
-resume, m_rt->slave_rt_list remains empty and data->sdw_stream->state
-remains SDW_STREAM_RELEASED (only sdw_stream_add_slave() transitions the
-stream state to SDW_STREAM_CONFIGURED). Consequently,
-sdw_prepare_stream() in avs_sdw_dai_prepare() fails with -EINVAL and
-avs_component_pm_op() disconnects the substream.
-
-> +
-> +static int avs_sdw_dai_prepare(struct snd_pcm_substream *substream, stru=
-ct snd_soc_dai *dai)
-> +{
-> +	struct avs_dma_data *data;
-> +	int ret;
-> +
-> +	data =3D snd_soc_dai_get_dma_data(dai, substream);
-> +
-> +	ret =3D sdw_prepare_stream(data->sdw_stream);
-> +	if (ret) {
-> +		dev_err(dai->dev, "sdw stream prepare failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return avs_dai_prepare(substream, dai);
-> +}
-> +
-> +static int avs_sdw_dai_trigger(struct snd_pcm_substream *substream, int =
-cmd,
-> +			       struct snd_soc_dai *dai)
-> +{
-> +	struct snd_soc_pcm_runtime *rtd =3D snd_soc_substream_to_rtd(substream);
-> +	struct avs_dma_data *data;
-> +	int ret =3D 0;
-> +
-> +	data =3D snd_soc_dai_get_dma_data(dai, substream);
-> +
-> +	switch (cmd) {
-> +	case SNDRV_PCM_TRIGGER_RESUME:
-> +		if (rtd->dai_link->ignore_suspend)
-> +			break;
-> +		fallthrough;
-> +	case SNDRV_PCM_TRIGGER_START:
-> +	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-> +		ret =3D sdw_enable_stream(data->sdw_stream);
-> +		if (ret)
-> +			break;
-> +
-> +		ret =3D avs_path_run(data->path, AVS_TPLG_TRIGGER_AUTO);
-> +		if (ret < 0)
-> +			dev_err(dai->dev, "run BE path failed: %d\n", ret);
-> +		break;
-> +
-> +	case SNDRV_PCM_TRIGGER_SUSPEND:
-> +		if (rtd->dai_link->ignore_suspend)
-> +			break;
-> +		fallthrough;
-> +	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-> +	case SNDRV_PCM_TRIGGER_STOP:
-> +		ret =3D avs_path_pause(data->path);
-> +		if (ret < 0)
-> +			dev_err(dai->dev, "pause BE path failed: %d\n", ret);
-> +
-> +		ret =3D sdw_disable_stream(data->sdw_stream);
-> +		if (ret)
-> +			dev_err(dai->dev, "disable sdw stream failed: %d\n", ret);
-> +		break;
-
-[Severity: Medium]
-If avs_path_run() fails in avs_sdw_dai_trigger(), should
-sdw_disable_stream(data->sdw_stream) be called to roll back
-sdw_enable_stream()?
-
-When avs_sdw_dai_trigger() returns an error from avs_path_run(), ASoC
-does not mark the DAI as triggered or transition the BE to
-SND_SOC_DPCM_STATE_START, so STOP will not be called on this DAI. That
-leaves data->sdw_stream in SDW_STREAM_ENABLED, causing
-sdw_deprepare_stream() in avs_sdw_dai_hw_free() to fail with -EINVAL and
-leak the stream's bus bandwidth allocation on codec->bus.
-
-Also, in the SUSPEND/PAUSE_PUSH/STOP case, assigning
-ret =3D sdw_disable_stream(data->sdw_stream) unconditionally overwrites any
-negative error returned by avs_path_pause(data->path).
+Even if MMIO interrupt bits are cleared beforehand, an already-running
+avs_dsp_irq_thread() is not synchronized until pci_free_irq(), and if
+interrupts remain enabled during sdw_intel_exit() so child devices can
+runtime-resume, avs_cnl_dsp_interrupt() can run concurrently while
+sdw_intel_exit() frees adev->sdw.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102181042.1922=
-005-1-cezary.rojewski@intel.com?part=3D7
+005-1-cezary.rojewski@intel.com?part=3D5
