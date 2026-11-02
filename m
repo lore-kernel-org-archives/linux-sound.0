@@ -1,64 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793627480;
-	b=P9qpENzSoTXp0nk5/O+ZjPvOOAHQEiYhaUnFk82oCyQVKStwZgqFfWszZEKJxtwo7XCV
-	 n6CSuje6hl7NPMHE6817n+QhoM7TxAoyV23Lt19gu815swkGvkXItLH+J8FIF1zRsowaf
-	 ze0IkeOdbMJJly6eL41C53MdHYBogxOLcHVgI5GKEZxVAH0l2/WAjVVy9zmanAypqvbpZ
-	 kfSOMjC96aYaniQmSF8s926ZkpQz41Ca0nvICvFZ/kjx4JOlPMs5KnjlAKT4+WEWdrUel
-	 ZEky2wOnXpKShxq4iizhKkVMaDv2l5yd6G9OpNK7hbprNcfZizFWmPxJBm4r008JBSg==
+	t=1793627481;
+	b=kCzNImAXerTseiJfVKk8R+fEgqqVAoMwK3Hop9hwSUxAxM83x4ad//nBCKYIfjx5zysg
+	 e5btp8SMuQMxbtsvxm85HcJXsGudxZSt94LK6WXERKEf5JJHMBFYUdPMp9Yvt2Nrdtief
+	 +2tkOlX+KFXEM4ijhTPtt0OckMGAubHmdzGBi+qrzlRSWpNAZehz8XThgiYD95hNtCd/z
+	 x/N5CeJvPgfdV3lwJXNi8r0TPHbxldYOAmfxoCesHSXUhW3Fe+QcGIZX8pQrKwGJGNbfF
+	 6Ivj+Bb76e+KzRVzMBa7Romri7/DJBrOIG+xaVM0lWMVuUYsVS9FTWPJX+x5VZwkpRA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793627480;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793627481;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=yUE+ajKb2SvUu34rlf3PuV8op+JEWESp3G1IkxKNGVg=;
-	b=zcrnrPv20lA8E/WoG8hX9ugpr0VaCx75C2sG6H9dkC02iz20gdHwIsfaMykhy5fxK463
-	 ut9lbagEdp6sVN/Mpsl50URwHWCHn9VAyrtlVtEsBh7bdQyVGzH9MekDPuhvNNrjtgwcr
-	 zCyX/QwFvPWY3n3fItRiwLw7a7YWx30uSIrkU5Lj4ILqHTvm3PEC+GRkVVOPhb9iEaQxn
-	 MYjl907ahtxx/pP7wmyAPmNcKPqiBVuwRDBCebvto1I5SuetTZ/fbskJYd20tQCOdGtYx
-	 ilY3tiy3pScDzZF/xTuFMRHM0D566enzsRpGEmIjeQdtShOPoaeSCv8kmaiDmrH3xVQ==
+	bh=mu4wQuiU7Vuu1UJtIffJnxFR+p6jd8AVeA7dEYolDLU=;
+	b=DFYP2QC3UaK+Z5WrNLVkywSME8xIEcBjLH20SvumirzwXx4wDgTcrIEEuZQTt9s9XZW8
+	 +mblVuaFsTbTOT4EYY/QRL9npzpSl8J+VdGb0h+T0gYCd+Vc4wPsbomuMSd9j+2EBrB0q
+	 69m6kw9Ut0BL06mzmDgTAU/hJMizJlcJfSo38SO/2XzOY7CJ7b5TxHFozXxaLQle5Yz16
+	 SnKcTZKHmMPH2qwqyD1fh72v/INaKRq+3OkrDD+9+L59DXz06hWumM65eAtSV8aSbIasa
+	 34jUdinkRpuuhYHc3scIHrH4c6sqcoyYv6exjU+B1Ck2OrBIX1DKP/UpwbC5eC4lnzQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="DzW3QY/E";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jjzHRu5C;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01924606A324;
-	Mon,  2 Nov 2026 13:51:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33796606A331;
+	Mon,  2 Nov 2026 13:51:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DzW3QY/E
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 881AB1F00A16;
-	Mon,  2 Nov 2026 13:51:19 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jjzHRu5C
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A65531F00A18;
+	Mon,  2 Nov 2026 13:51:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793627479;
-	bh=yUE+ajKb2SvUu34rlf3PuV8op+JEWESp3G1IkxKNGVg=;
+	s=k20260515; t=1793627480;
+	bh=mu4wQuiU7Vuu1UJtIffJnxFR+p6jd8AVeA7dEYolDLU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=DzW3QY/E1vTYb0tPj5dhj31TqNOVZLX3yHkAtyhaoWRl55SR9+VWdUGoQdoUArbeF
-	 oOmbLYVMiJJo6w7s3YA+pUyBE40zbeCBYcoys4vrEcq26jihwgKWcukCnDX5HPjnNA
-	 Yzi3dEK12FV1CjQ0gyfVenSlnygpmL8YXnOQKAiBhTxiyrXsIdvj3p2AHikiUP0BdN
-	 ZdXvVHzumMQ/sh0VZ0wDrSIhkr6YzJBzicE2g38hnlymFLXLPmb3CkpSPRbcOpfleb
-	 ZDHS22NwN/8NkdzNtDvStsihWKQP5CT/vadj266iVCYOJ1+qFkIYpYFeYJA6lt1c1r
-	 VLNTonOzIvqtw==
+	b=jjzHRu5CRmg/tMgC+YwXPz8LYH3F7G9LvwwvaYCTYBE/FzJXV8Xk3QyaEO1GQM+c9
+	 y3msO5/kUjQvNOIyFBIhYDMZKPVyls2AL8sb8aeCBbP4qe502XQ2QD215TYKyW6Hh2
+	 TYxIh9xK5itBab/pBR17ZlZSAE7ZVfTiYH18RjLLuHu+0HJZu3kEf+9QxFVgfk3xlC
+	 PXiFovjwXz4Ab/uwI61Nr0pKqZqYZhsdht+yuo6xYUdEbsIqlW14hbGLMXpiDW49nB
+	 uReakVgTMlby/rGgfMUU5UTvxs7qoK9Xpkzix6qF11hP+sJxHYQnA6NeTQPMK/1I1z
+	 Oz2irBmjyIIAw==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id C65672344C8A;
-	Mon, 02 Nov 2026 13:51:17 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id EF5EF2344C96;
+	Mon, 02 Nov 2026 13:51:18 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- =?utf-8?q?Micha=C5=82_Kope=C4=87?= <michal@nozomi.space>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Trevor Wu <trevor.wu@mediatek.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org
-In-Reply-To: <20261016161455.194400-1-michal@nozomi.space>
-References: <20261016161455.194400-1-michal@nozomi.space>
-Subject: Re: [PATCH] ASoC: mediatek: mt8188: Suspend the AFE across system
- sleep
-Message-Id: <179357913438.1716893.724348214369386121.b4-ty@b4>
-Date: Mon, 02 Nov 2026 00:25:34 +0000
+To: phucduc.bui@gmail.com
+Cc: Linus Walleij <linusw@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ u.kleine-koenig@baylibre.com, Igor Prusov <ivprusov@salutedevices.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261022102638.38606-1-phucduc.bui@gmail.com>
+References: <20261022102638.38606-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH 1/2] ASoC: codecs: ntp8918: Fix hw_params return values
+Message-Id: <179357905846.1716893.10746405809934167987.b4-ty@b4>
+Date: Mon, 02 Nov 2026 00:24:18 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -69,19 +67,19 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1138; i=broonie@kernel.org;
- h=from:subject:message-id; bh=Q+rLYquHGS+G0a65fcTBl8j90yUlRSeS2WSUr1yi3T0=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJeTA2NfyBbv/DNFum23rnHi4PeaBq8fxo3Ocb/9EReV
- S5mG6nbHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZjI4UsM/yOMXE2554gJFJzg
- mviM+wTjEQvWU9OepKpNN2559n+FGBMjw9Ku+YvfHGQuyGINOC1kV90o4VcmHrrS17KQSVdk8WI
- /HgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1244; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=lGQD2PuF/vr3cFUI8t6HzBOZfig2kbTMTnFuZ5jhIHY=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJeTA0TyprzY9te1Z8a/zml3swv3n/RcNcbXdPWf06He
+ K88uWna1FHKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJ7FjByHDaW+XyjefpGnJ5
+ F/fHKqxf9Pb747vH9i5Jmn1Z4wybzJatDP+zJPZkT//47Mv886diV4oHq1utETgnmGM5XV/3Bsv
+ fJAFuAA==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 16 Oct 2026 18:14:55 +0200, Michał Kopeć wrote:
-> ASoC: mediatek: mt8188: Suspend the AFE across system sleep
+On Thu, 22 Oct 2026 17:26:37 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: codecs: ntp8918: Fix hw_params return values
 
 Applied to
 
@@ -89,8 +87,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: mediatek: mt8188: Suspend the AFE across system sleep
-      https://git.kernel.org/broonie/sound/c/6c97476ea8d6
+[1/2] ASoC: codecs: ntp8918: Fix hw_params return values
+      https://git.kernel.org/broonie/sound/c/972483b70fbe
+[2/2] ASoC: codecs: ntp8835: Fix hw_params return values
+      https://git.kernel.org/broonie/sound/c/dd1112e7907f
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
