@@ -1,58 +1,63 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793623303;
-	b=yTJmSIGeKq87nRS0GHcs9YIFImv00XQUPAX+QQTd4weV1ANqFLLWZpUQ00NLdA/4O7sh
-	 9cJF0bOEgElr2FBhlbGZFH453t+eZQgVhHKVqfmt0Wk6MrQAc7uHYbx2aZ1wq823i6YwC
-	 p/yS5+1lmKhjLd26FRwTfUZSdgSeuH2h+9gPa7c+F8ByRv71hq82sg05+XkMAA6j8E80r
-	 mXe7UjRRvsXCqRCVFC3nT1fESefa8AL10ZRC+KltwMg3x7O+gL1SmS41xZWltVOMuv2B9
-	 +fVFZUBywfKb5q260mU+I9+elHV/UGOo+VLshm+bHFzJFwFDfYiSWg8ZUKuR028rSEA==
+	t=1793623304;
+	b=RHBTnSxD6khD4qSMg78HDKSgIMht6sw4qun68HT2U/My3aS+o7XpVpdcrUz3WQ51bIU3
+	 1g5q5eULjWFnnZTpjiquEPS5CCaabDLxEMekqruoMkv9wVwfzaObJRSi8ett/Ik07aGnV
+	 vxN7kcoqd54pgLgUguCa2uPPKAWL1t2TvvnKxTMTsckBs6MvHbXUzxEOK02aGPiSp21qu
+	 vZvbkILhodMCI7wyYdPOeeC8uDuv9++oTdOlhzvuXM0cfnryGHBkZgBq4O7g7aKv5NmW6
+	 Nw3DFWbppvzFFgvss61yfJKmsdcs8R58XcntLTK/fW7QhA4u+28jowwpNNU9NaYT/Fg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793623303;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793623304;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=BKD3ZF3nLJ6ZB1lLYdI/5TV4jJ+1t7sDNL8KDkqlnt8=;
-	b=yQf2AuwykgdyFTe3Aco1HJsChU+asEczr42ol2loUZW5/4ylXE0vaGmwcDj69nwEJSLx
-	 DPUFVSSp71uv01RwmDG88cmT6U+aSJoLIwrekAZGRCJJ1KFUw/yfFZMHjAgZVOsna6sKd
-	 uRS/RlWuIFJ9MEEdDYjgHXPwGiTDkXvbjGg6LlGjGVwYeNVyrAEFwVb+h8XDAeRPGclVe
-	 XorkpO5ppiJzk9MHcQzAx/n8vrMNnRy1e9ANgsUTo3drbob3suHpvhkTaLLhagfKZ8sV8
-	 3k39k/mGfDq1JvYLMmi8gZ3aUyvCbbLSzHKib/HSsuMX53Sd60bipAyMcxUNt/kq1zA==
+	bh=efMW/Sa50y1oXCP3CepOU+Na2ofPx4Z+d7YadQybQXI=;
+	b=e4Zk8AD0b+aao30mJe93HX1bu9kELHKX+ZmhEyPYWkK3calRtKEOsOB1nCfSwwW5OKR5
+	 JHhIFjA/zi8AvBlQKayvjvHAMHxDcucmiZLsSW+kaJQdgQKOho+KF8m0fJ10INbHkpUZU
+	 z1SSbwrkZAwUbWyq8V77q7R8mCWaEAa2FoOucsQW9sN1XpgGGOk10ficcuz/drKV+s+ra
+	 fAE41Wl7EKau30ShTdFbQ2Q8gPTHgIHNT/SgYGs8enRFBGoOuTF8niuOnPqjENGwNZo4H
+	 8cuOFTkmKcJw/hLURRSuIhyOdxmpikydkrhs0MtYRcnmb7v/jHsBSTpDfNIV+aUHBpQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TzBL++i9;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b4XCaQPg;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97ED160A380C
-	for <linux-sound@vger.kernel.org>; Mon,  2 Nov 2026 12:41:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C9660A3814;
+	Mon,  2 Nov 2026 12:41:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TzBL++i9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 249071F00A1F;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b4XCaQPg
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A780B1F00A1D;
 	Mon,  2 Nov 2026 12:41:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1793623303;
-	bh=BKD3ZF3nLJ6ZB1lLYdI/5TV4jJ+1t7sDNL8KDkqlnt8=;
+	bh=efMW/Sa50y1oXCP3CepOU+Na2ofPx4Z+d7YadQybQXI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=TzBL++i9vcQy1vPDb9kowBATtFM8BpxNUR8CIJzLwm1n616XM3UzKZRmgipaArRVB
-	 iYkla3KMQa/9dMQjrMF3Hij/mqZJlUNpN1qVwY5+pd44x6Qusis5lKN/kEgm7czdzL
-	 OuQP5Bf2t9GIrrvW4J+tccVH2hUcaqoWxbpSHm7ggAWy3/po+k/Zq1kmGlLtSmYHTY
-	 IiPSF4jiEANtO20atyEEWCQeC/KApA+TMLNVksR5A00W8WUa1KTQ+cWzus9GgZSI8r
-	 hZ+LAX9J2FeAIjV4HrNtRFjwA4+z+/xrQ6acQnocSsQPc22DNMbJOh3h4pQAXosusx
-	 9Ytz8636ctWjg==
+	b=b4XCaQPgYDDoQS6FyfvDl1PSgAH8+vZpe6hLbNdKrwWr1gUc8gYeIuHaU5BNQZiWE
+	 7kOCj/EJodw5cdA2zOwumBPQRSrNFr3PZFtN8AgltdnECfZyroucDGaQM5UiE72DS4
+	 dwG1y17q32r5No/6vhI7X7zBJpqez186goMdQKD6NUq+TA9pI+8tkoEu9ykW1aefOg
+	 mriBxwcXaRDUXDYddYqvv5Pca6wywR74RDddbDBppO+fjgCePn0q+l9VROjZDjJfyh
+	 3tW4x0wNDJREP/opVJWtdrI0xVCZ9jKYpXBsRFTlQEtIM4bs27KZiTyVh4XDiAcTpx
+	 F6wTUMqdtN5sg==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 6968A231040C;
+	by traversing.sirena.org.uk (Postfix) with ESMTP id EBEF52310418;
 	Mon, 02 Nov 2026 12:41:41 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: Avi Weiss <thnkslprpt@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, 
- Zhang Yi <zhangyi@everest-semi.com>, linux-sound@vger.kernel.org
-In-Reply-To: <20261030065441.2020789-2-thnkslprpt@gmail.com>
-References: <20261030065441.2020789-2-thnkslprpt@gmail.com>
-Subject: Re: [PATCH] ASoC: es9356: propagate HID button read errors
-Message-Id: <179357784365.1716893.12888031613655953078.b4-ty@b4>
-Date: Mon, 02 Nov 2026 00:04:03 +0000
+To: Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, laixiangwu <laixiangwu@cmss.chinamobile.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261030083810.1597-1-laixiangwu@cmss.chinamobile.com>
+References: <20261030083810.1597-1-laixiangwu@cmss.chinamobile.com>
+Subject: Re: [PATCH] ASoC: mmp-sspa: Fix runtime PM refcount leak in
+ mmp_sspa_open()
+Message-Id: <179357781735.1716893.17309656576064863789.b4-ty@b4>
+Date: Mon, 02 Nov 2026 00:03:37 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -65,17 +70,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1107; i=broonie@kernel.org;
- h=from:subject:message-id; bh=shgqCOgygmqZ2gS3kDBdlXaP6FR3nwPMVw18GWfgOQc=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJetLJq8O24Ff8l7cxLVzmdpXytPKv4WTY2qzTN17l06
- PeMWJNpHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZjIwh2MDM2LI1trjt15v9Bz
- p/7T1uUCt9eLBn1b4rP73c+FeezL9BQZ/jutXje7hbd1bR2HmKaAzgnehNovmQva/h42jldYv+G
- pER8A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1142; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=/TnCZd+Jyi59kPGq/1IC1o8ACBvZwEwMgZnKwQH0OeU=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJetLKenOp7QGfKIr+zDf3/PtnemBt9J8XGXFb/q+DzM
+ yv/rLwzsaOUhUGMi0FWTJElLov7ZX3J6zV8Bxe2wcxhZQIZwsDFKQATkV/LyPBPm0H2+OTd0Sel
+ 1QWNItcanFz22uju3N/ZPseYbWddTPrH8M/u7M6YZ97/9wcGsMuLFSXOF/7sYJG6WGpS4OmARyJ
+ FmzgB
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 30 Oct 2026 08:54:42 +0200, Avi Weiss wrote:
-> ASoC: es9356: propagate HID button read errors
+On Fri, 30 Oct 2026 16:38:10 +0800, laixiangwu wrote:
+> ASoC: mmp-sspa: Fix runtime PM refcount leak in mmp_sspa_open()
 
 Applied to
 
@@ -83,8 +88,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: es9356: propagate HID button read errors
-      https://git.kernel.org/broonie/sound/c/b491075b3f9a
+[1/1] ASoC: mmp-sspa: Fix runtime PM refcount leak in mmp_sspa_open()
+      https://git.kernel.org/broonie/sound/c/6bea7d731dbc
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
