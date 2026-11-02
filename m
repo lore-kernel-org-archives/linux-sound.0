@@ -1,95 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.176
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793591579;
-	b=N3C3L0CwjBOtosDVqWzDWmTzx4BeCu6ixB64Y5cjANVZAbOYoS2z2t6PX9hz7KyC6EQp
-	 CRfIjuZgpqSKHQ4+Uzw0z2pHotvKjbVXeAupDo630JpAcxb/9ZgNYIAYEFQqkMNE5fnHa
-	 yMW4BcueOPl0ngBhFykbcIlp8S8I9FNW9iL9ol8iG97ADeuSdWj39NLW3K/h1QdeDjrpi
-	 jCGqWanjIkT5l2+uUD2qqT/C02ftDb6PTr5LTaxIHYdBfUsxVX3cyTyCCLG9cnXan5CjO
-	 G5h7rio8X10XfOrne0mlu89/ObeDDi4RrmIyyKpavRznf+6r14VqvLpdBQbcaBEctdA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793591579;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.179
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793592432;
+	b=fdtINxANVO2k7Dn+h7uJptdxZlYyzHdGR+dENmL5ctBsyH8UXbv3r0LBLIuCul/i9JzZ
+	 56IEDAjyziFtIMIRnz0RbcjT+oxj9vCw/x9aqtJc0G0ljhJN37PCOyFUz7c59OLNSjr4C
+	 +XItB7ldoIZD+OyUlDzfWH8stC8uplkqCi/jBc8Z7cTAD95klINQgb2bo6lUL0EWaZyXw
+	 oSue6YBmlHyvZlkT7VP8RnrhtvL56Js0YqlrMHpDzL87OL83PN30sd7Tu2TYOjT1zOAai
+	 7t64wtPJevg75MOkSJROh/xibyTRzvm9mndnyHIk5BpxpDnKq0ewOvqi03Uya0ccXUw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793592432;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=GEgLVAromPaUrH1jitVPbv7vIRjTpekHb9MijwFJEpQ=;
-	b=atYQPTmUAha4QTFkvDbCyyfG4aRhwfZMllCIuS8lO60N5Y1MJnaLWaBbJA3u0yW2gQqN
-	 JOKfHwxP4thJYhq3y35sb1sWFWDR4Xyt9kD4FVFMdVHK+oub5ZMLtGmavhfbaBi7kLTRh
-	 XUkqmbljM2zE7h29qXd2OjxlOdkGOJcPtw2cOlF3+NgsEfmez3nCHA+4Mj/8BNcvwJLZT
-	 3PIW2B6XfbFjpvYVD5dpzyD6KHP1lpNiAKIs5osptEbqUsCZnk7XTgjS8DblOCvTeLdmb
-	 KAQZBFGcMHpgRkBqS+RK98lEBesCeQ1D9pPM6ZnwOt0K85oLKh0xNCBVTDZrMs3frtQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=VEjO7c3R3X2bsEgV7r7+JsM+DEZrXYUHNQTP6ex/oYk=;
+	b=QuzrldOIagBO+fzvWRyCr7DrR0KGCfPTPFne3UNwORLApQRKy5EqrlkvOy1dNdbp3hob
+	 S1SZ+oa+4CC0JC2dF5EFxCLLn8FY/pcZt9+GESsNJdQYS94/ktIy6iCsJchQ0RC4vLtMi
+	 pkYNBqC+lqF4C3xPPuZJ8nkLDW98/dxepdmo6Hr1OOf/5Hf7GO7R63sU2o2LYu53Ho5I9
+	 H5SoSV4l0s+bErBl7VTz3yS1v66WXyP3+5Q4JCgKSB5UP/u2p7UIAyvCvi1l47Sl+9scQ
+	 Z8s9pDsGaCu4NxfyIYHtwLJ9QalCT8z2kQK6zg8lelt/1TCbZLVqqWhqodHqGHXZgSg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0MWK818G;
-	arc=none smtp.remote-ip=209.85.214.176
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="n/PQaWUL";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.179
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9140E606A329
-	for <linux-sound@vger.kernel.org>; Mon,  2 Nov 2026 03:52:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9140E606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73F9606A326
+	for <linux-sound@vger.kernel.org>; Mon,  2 Nov 2026 04:07:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A73F9606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0MWK818G
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2e8b20a899fso16819565ad.1
-        for <linux-sound@vger.kernel.org>; Sun, 01 Nov 2026 19:52:58 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n/PQaWUL
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8a064fac8cbso1672744b3a.1
+        for <linux-sound@vger.kernel.org>; Sun, 01 Nov 2026 20:07:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793592431; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Z1STQmoOo2qVE0lce1H9BxeyxNTjzPPhq6Ko5pak42OcCWbjVnhVCpNL09y3GvmexC
+         3C0s3ORCjdMde5+KW2OiMgArHBwt+sMi1RFq3KQKQ5NWqDlBiEWk0i+xFipAH1zhTXLR
+         yVeKB7pWLpJaUSX53VZ3FIw0jew5jPBKyAICp2Nt6wcJeoCf1FxjecZ8WmEERn40YO4v
+         WvcEH3rbCcdFHyhIp2J8clioLSKvUxMgk4MdnH+HNFW1YaGuqSdGWOhuy561dz4gk7gz
+         S4Qy2/NbSWTu5Pzo0NDj0vD6iCY+5vOINu+ZCVkJkPPvvM4uL7uvebwhRKU7CtOHaM1f
+         WEng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=VEjO7c3R3X2bsEgV7r7+JsM+DEZrXYUHNQTP6ex/oYk=;
+        fh=O8N5sU7UiZzZ6o6Go3IdQZLwQ35RYMqUoR4/p8+GJNA=;
+        b=Qap8apr9uMYN9e6Z0kWiMfsMMg+3Dmk4mhaMi9saGqq+/G4aod4XSlyWAfLgnf9Wul
+         jLDXaSqsOsNAJsYVK4V3e5HNH/dtVgrZ6uETtG2Vv+mC/P4bP5YeLjAA6ac3PtZP+JR9
+         ilhbruI6rINB/KgLvSFXTa+Zs1CwbkelHUNPNfxzYXySpmiMA1ts64NcVDxIMuX1AIxP
+         Qoe8r+EHiSNvp7uW7/J1R0HE0WDzjtXq2QNUt/LXy5binj9VZIZXe9Zc4ZUfTI2cD8Ur
+         j9kW5oH86T2+diuL4y8yTb2J9esXh6gQoix30ctmUdl+RtrG0FmZB4KN6n40+X3GbcUX
+         Xl/g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793591578; x=1794196378; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GEgLVAromPaUrH1jitVPbv7vIRjTpekHb9MijwFJEpQ=;
-        b=0MWK818Gv28nmlTZO12RnNRMhWyi8fhmOjVscQpXx2kRVjMDCPCCYP3SdiYSpuC5nS
-         TdyNkGi10iE0/mH9ZaUN7V9IC+2sGF92ZZn2ClOlgB3IwitEfOVVu6Wq+Brh8QW35R15
-         iEObQv7eQbKWb/IhUaQ7/TPyavQJodNOn1emrXPgD1XL1P7vJcD8ZQSyhlgH7mOJtwrq
-         7ukFqIHqtIzvhT1GN+a3/5yefuvLScma8vNQV9B9X7FrWItWXfdYc+Y1nvDTSVvUKQgz
-         JPNZrPZAGwZqavUPdIbenu0Oc33XFW9s4PVxNkmDxWrT2vhnI24F8iRPWdg+DOhMYZVs
-         EcMQ==
+        d=gmail.com; s=20260707; t=1793592431; x=1794197231; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VEjO7c3R3X2bsEgV7r7+JsM+DEZrXYUHNQTP6ex/oYk=;
+        b=n/PQaWULTTcvCt4vkoQZcj7h/RsyFJGemB/065ZoKLOp1IHgZSSH8tHEqmfJMdAaCS
+         /Os3PUXS3WDwSIcpHGhDi+hCJykQZXiEZE1ZJ4+rjJwzWDWmawvAhywNpf/TcBl4wJeY
+         VFzMDLNM7whSos20IKuaNcNS0E4pV48GzqbbBXwrpEtT0dunvxPVXymyWl0sGMMU/2PM
+         FU6gIEz6zJWC3VDq/N1DwNfWa+dfsg+i2GolIS8JwO9L/gh2chtTNpA7LKs/oZzRMXc1
+         8koHBh48/e/u5J0Ye0zWEF+vVBdGmiHlg1lG0jaf1Yy9qX6To/tgidTuJsYbaKfrZ9i9
+         Qhjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793591578; x=1794196378;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GEgLVAromPaUrH1jitVPbv7vIRjTpekHb9MijwFJEpQ=;
-        b=O71RSUCdmtesEmhSdo+jbf6nRpTNCCi6RGkQKtWlG/+2k82U2/Ng2TR8q6cG+nUXfF
-         5vPnucjMnUJoX06FN3EZYOR6XH/dxAEisaexkbuDfQOcpxdZ1dDSLRW9WwOI1M1DgjDd
-         PCOYvYMVV84IIvoJr9vmihcTVfY0daQeqBufQQoICeVo49qTjxpmByyNouzc2Hj4Q7Ww
-         gQRkrTjF07fohbtU8pxTFTkGSW8pjb48iK6nIJWqv5HsIF4wa7vPudxVp5u6kolxhriz
-         uxdxZv3b1KGXbiYn1j7ZnMKe5rHgJh6XG42auB92eN8EggvPjl69kNI8+7cmAggCav6H
-         kazw==
-X-Forwarded-Encrypted: i=1; AKwUvBxA1cLVB1KvB5b/mq91JnITxW1TChf2ZrmWiIg+LaL/0TO49qVBKFOOLjJWY3QBr0mEZ1CcNUah4iyDMA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z//TErHb66utj3uFVXU8NLN8b8bHMssqyZNot8xAxFWJL9UFdly
-	wp4WLcU6AglFaONtFMlUpQ5lZdlfIOU7oGuUDn1R0amfJ2jgpgvvSiXG
-X-Gm-Gg: AYBFou0Mkg2BiGkJL6RCsw71xEQr+hnZCYvuLP0RT9V0K5fFZp3fE0XxIm4uN4s5Xcs
-	T1EGeGtABjNOq2hpbbet3jz9o9xkAwsJpPxyxokxDc19I74UyahCbBXLO1JllDHwf8KFwsOZ0E4
-	o5p7X4FjtxMpWtkQLrKwONn1Dyb6nf4mHsRg8McI4QpoUHXDXmxC6xlfDtiQLmvYQtW6v7whj81
-	QrBkys0TB3zdVEAUgwbhHHfi1FOR7F+bMx/wz/4spx8Z2/EPTkDwcLsZe9zxoYpkLh8FHTvDQMU
-	q7J7V52X1eaP0mezCtNaVRVF/7iDKUkHMq0Ds4jfuDGVPNaXyqrjQdCu62CPix3XjW27cfZFAkX
-	X40Wr5joejKBfb7G8NF9ERgJ9cZaRjL0vxKjBXbV/s1c8AnLJ4vDjd2W5RibYFN/sUqDG5zywfv
-	JaS1ED/9Tz815hrb3p+/hyTXDhUuaneIksklo8WF2qIdocmfP/cI65c/okdPQKP+iNQMYqPDcZN
-	BYvQdghn2rm3QQsOM6T4vt5njkeK79thChyhafy5jLCRKN/SGydMItNvzO/qpHjEk5hwIpqa3Cg
-	hZ2GTgkNb+4ozl0O3AePs2YCe2uIcXf3ffJvyXpwLlKwpADP4M7tuedmhh9xr+1Ll9A=
-X-Received: by 2002:a17:90b:580d:b0:3ad:25f6:1dd0 with SMTP id 98e67ed59e1d1-3ae8970e5e9mr6935025a91.11.1793591577770;
-        Sun, 01 Nov 2026 19:52:57 -0800 (PST)
-Received: from localhost.localdomain ([2400:d802:dd7:8000:50b9:9b10:1e19:1f0a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae880b1f71sm6998814a91.4.2026.11.01.19.52.54
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 01 Nov 2026 19:52:57 -0800 (PST)
-From: Yuqiang Sun <izaiahsun@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: wesley.cheng@oss.qualcomm.com,
-	raoxu@uniontech.com,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: qcom: Check the return value of qmi_handle_init()
-Date: Mon,  2 Nov 2026 11:52:37 +0800
-Message-ID: <20261102035237.56253-1-izaiahsun@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        d=1e100.net; s=20260707; t=1793592431; x=1794197231;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=VEjO7c3R3X2bsEgV7r7+JsM+DEZrXYUHNQTP6ex/oYk=;
+        b=TltFKnLJj1btGnR7jj5C4FnAQux2wa43U0PmHbN+7dg0+oiJrDzgsHhkA37MAl5Ed3
+         De+Eb7CNXoErC11SrlRWJrHtGXDhlpefwD0O3GIuszSrmvsa+iM87ygS4Ajqlaqn33M1
+         elIvxCNrDe161xEfhYgs2VsOZOI1NmNnVcZ07/gEE+zcluDabHnKw0jyMdI1Dh4Wpl4a
+         3n6CWPhHJMGUnNDze7bLSYvoBZ+kK6QQ0kHorENXFr1ClnYqdfXeiEEU3jNEPosyrCuA
+         m091oAcG6nOeVovym9osUZKlBrS6f0dk7c/bF+br7M/MzKv37P2F/4GNdLIqQ3CpneBY
+         1FAA==
+X-Forwarded-Encrypted: i=1; AKwUvBxuyEDJcQ8VBCz02rZlntFgeQZlpadJTqS+Je38oOxi4qtSXEriQrPEfWcmBgQ2dL5dOOfWkLrL/XJyaA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYK6pnl4DJb4iybs/OB72+LsTcVskc+qAPzBX9hDhCDP4vtJS4Oy
+	/4pprxyslWbis5DnJER3l01iAmen95Vq37vIN8yYO2Gkw65uaNIb4/2xVXInOMYvosREwibUrFU
+	nmnGHbN5MGuE/d89U2rDs8W8ElxL42jKz43iK
+X-Gm-Gg: AYBFou35Auo1NX5WicMrz9rPoCuhAjSKx75IBQ6ufCyT2GfYKqZzoJaLnp3C5eoFc+U
+	tMhDca5Pd9xemMMeed/OjFr0RiaNAFh1MJM+IYpeIxyLIGSCaYu28dU73bUD+hGrHDTwrV9GqpQ
+	pWBCZh1d4vLJWLZmaDUaQasHFx234aENIqkDNnjd4tjyBYgAen0pOF1I8pEgzQlwDsi6p+tb2Cs
+	nrAjGOHn/X8turKsycgb7NM1iow1lgVKRqURgUuWQ4OQIUpxTAqHzo/crUfRlL++aP7yUWKs2Tg
+	yZXXxzqJJL5nhclqD12ceKzZ8BBRoRvImib4FkmuSZur+58hXRAd8jtgRGfULnVfReMwcVSg+C4
+	KM8P0TaAadbHebgYbM4Ei3Cq426EOvBmbrXsHPNFeANQHkNxAWke0Nz4YGkB+hUqXFojfk9i0nh
+	UW3Kl21fdmDCin0Js8YFkqSAUEhJKnumIzvxmmG9pySNHrGpOH
+X-Received: by 2002:a05:6a21:9cc5:b0:3e3:37ff:378d with SMTP id
+ adf61e73a8af0-3e9289d48b6mr7780763637.40.1793592430971; Sun, 01 Nov 2026
+ 20:07:10 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,93 +104,57 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <179301363708.752130.11323881261715222213@pm.me>
+In-Reply-To: <179301363708.752130.11323881261715222213@pm.me>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Mon, 2 Nov 2026 11:06:59 +0700
+X-Gm-Features: AclHuK-Gw2LzF3mHyz4xOxxQKV5R0e0KWfeLN-nORpS70vKs3u59r3GyDfpcj_w
+Message-ID: <CAABR9nF+HekdvUboATGc71JJcA-DgYdzQVBzqb_-wx3QbvbhjQ@mail.gmail.com>
+Subject: Re: [REGRESSION] ASoC: rt721-sdca: runtime resume fails with -ENODATA
+ since v7.3, jack PCMs cannot be opened
+To: Robin Everaars <robineveraars@pm.me>
+Cc: Egor Poderiagin <egor@crazyrussian.pro>, Oder Chiou <oder_chiou@realtek.com>, 
+	Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Matthew Schwartz <matthew.schwartz@linux.dev>, Pengpeng Hou <pengpeng@iscas.ac.cn>, 
+	linux-sound@vger.kernel.org, regressions@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-qc_usb_audio_probe() overwrites the return value of qmi_handle_init()
-with that of qmi_add_server() without checking it. When
-qmi_handle_init() fails, it has already freed the receive buffer and
-destroyed the workqueue, and qmi->sock may hold an error pointer. If
-QRTR is not available, qmi_handle_init() returns -EPROBE_DEFER and
-qmi->sock is ERR_PTR(-EAFNOSUPPORT), so qmi_add_server() passes it to
-kernel_sendmsg():
+Hi all,
 
-  BUG: unable to handle page fault for address: ffffffffffffffb7
-  RIP: 0010:selinux_socket_sendmsg+0xa0/0x590
-  Call Trace:
-   security_socket_sendmsg+0x29/0x50
-   __sock_sendmsg+0x43/0x150
-   kernel_sendmsg+0xd6/0x180
-   qmi_send_new_server+0x1b8/0x2b0
-   qmi_add_server+0x165/0x200
-   qc_usb_audio_probe+0xf4/0x2e0
-   really_probe+0x2b4/0x850
+>> 7a0886826308 ("ASoC: codecs:
+>> rt721-sdca-sdw: Propagate regcache_sync() errors"), later simplified by
+>> 2df329044c61, makes the resume return that error.
 
-Had the probe gone on, the error and remove paths would call
-qmi_handle_release() on the half-initialized handle, which destroys the
-workqueue and frees the receive buffer a second time.
+Thanks Egor for the detailed report, and Robin for confirming it.
 
-Return the error from qmi_handle_init(), so that -EPROBE_DEFER defers
-the probe, and check qmi_add_server() as well.
+I wrote 2df329044c61. Besides simplifying the error path, it dropped
+the regcache_mark_dirty() calls there. The commit message calls them
+redundant, but they also set no_sync_defaults, so with them a retry
+would skip entries still at their defaults. Without them, every retry
+writes the whole cache back again, defaults included, and fails on
+PDE23 again. I still think dropping them is right: after a failed sync we can't
+assume the hardware is at its defaults, so writing everything back is
+the safe choice.
 
-The bug was found with kbound, a static analysis prototype for
-ownership mismatches at kernel interfaces, on v7.2.12; it is present in
-mainline.
+Adding regcache_mark_dirty() back might make retries pass, but only
+because the rejected registers still have their default values. I
+have only looked at the code, not tested it. The first resume would
+still fail, so I don't think it fixes the cause.
 
-Build-tested with x86_64 and arm64 allmodconfig (W=1, sparse): no new
-warnings. Run-tested on QEMU (x86_64, KVM) with KASAN and kmemleak, with
-the driver built in and a test module that registers the
-q6usb.qc-usb-audio-offload auxiliary device. Without QRTR, the probe
-crashes as above without this patch; with it the device is deferred and
-removing it again reports nothing. With QRTR the probe succeeds, and
-removal reports nothing either.
+I think the real problem is that the sync writes registers the codec
+does not accept. This was already happening before 7a0886826308, the
+error was just ignored. regcache_reg_needs_sync() does not sync
+registers that are not writable, but rt721 has no writeable_reg, so
+regmap treats all registers as writable.
 
-Fixes: 326bbc348298 ("ALSA: usb-audio: qcom: Introduce QC USB SND offloading support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yuqiang Sun <izaiahsun@gmail.com>
----
+Maybe rt721 should have a writeable_reg callback. But I don't have
+the datasheet, so I don't know which registers should be left out.
+In Egor's traces PDE23 REQ_POWER_STATE is rejected. Can Realtek tell
+us which registers can be written on rt721?
 
-Notes:
-    The bug was found with kbound, a research static analysis prototype.
-    The patch, the changelog and the test setup were written with the help
-    of an AI coding assistant (Claude); I have reviewed and tested them as
-    described above.
-    
-    The runs were on mainline d135ab453a74; the code this patch touches is
-    the same there and in sound for-linus, which it is based on.
+Egor's patch looks like a good minimal fix to me in the meantime.
 
- sound/usb/qcom/qc_audio_offload.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-index e4bfd43a2488..5ee568e0454c 100644
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -1969,8 +1969,13 @@ static int qc_usb_audio_probe(struct auxiliary_device *auxdev,
- 			      QMI_UAUDIO_STREAM_REQ_MSG_V01_MAX_MSG_LEN,
- 			      &uaudio_svc_ops_options,
- 			      &uaudio_stream_req_handlers);
-+	if (ret)
-+		goto free_qmi_hdl;
-+
- 	ret = qmi_add_server(svc->uaudio_svc_hdl, UAUDIO_STREAM_SERVICE_ID_V01,
- 			     UAUDIO_STREAM_SERVICE_VERS_V01, 0);
-+	if (ret)
-+		goto release_qmi_hdl;
- 
- 	uaudio_svc = svc;
- 
-@@ -1987,7 +1992,9 @@ static int qc_usb_audio_probe(struct auxiliary_device *auxdev,
- 
- release_qmi:
- 	qc_usb_audio_cleanup_qmi_dev();
-+release_qmi_hdl:
- 	qmi_handle_release(svc->uaudio_svc_hdl);
-+free_qmi_hdl:
- 	kfree(svc->uaudio_svc_hdl);
- free_svc:
- 	kfree(svc);
-
-base-commit: 56abaa599bbbee5500e166ddb0b5241a00c1f763
--- 
-2.53.0
-
+Best regards,
+Phuc
