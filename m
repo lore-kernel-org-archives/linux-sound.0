@@ -1,55 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793724591;
-	b=iruGaz6QBsF8S1m5mBQzoqYeNqHvppP2jZ/4Fiqcyuds/i4NVE74XX3HJ0wezdJmrH0W
-	 qlIHn7/LUmdvhJVrOQPiLFU/0g8JnlQy5jTuLtugQDi0EsadnWvnPZC+DpqDvHbwnBmBu
-	 xCDnR3+pFSAt4vdPRXvmKP97yKMV0nKDeO5soDK4QJNPVVgyyeWzkDNEELKF9oGRDYIxP
-	 lBkOZ8/wwwuyDkwyplN1h/knO1TR43TG/ZAjEZ/Pn8t8POq9HdprAnDsY5P7nmnAj9GNH
-	 r61F8qTm7P/tO2xOol/B7kLMxOaP0hamai+38emoDQiNUpGA7ymDXAqICJUG2yq5KXQ==
+	t=1793725418;
+	b=2d6ohnoiS6b8cy2wnN8GbMgfwGCYnkwsckSedq8ldp82EefRcK/Ud2ft2aSWA58/wITl
+	 ZuiAiNfWPGWA49516uuWpVh5IC1oXZm1yZKvbQYfiNOr3pTxI/yZTqiBpcmOwVMvc5BNe
+	 xDaEv0OkioHOwdQjHEJkLh4BICpHFTod3oLdvihfbsf/H4HWinevM1tYVldEq/AHgtVFL
+	 BY0I5dgjP00Sgt/nKSmukltVjHn0OHmG53mmsiSR4vNuZWVvGJ2akOHaxUvgXXcdJp/JA
+	 Qmt2WBlE7Wj/U7UGI+WXVlbCHBR8eMD2pILtlg+zng4Skpg7Eb9JAnKRHzcs2jcFCGA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793724591;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=JgzkxDLvLT73nIqEBv4EHYF8tqo1oI/Vz7oWz1FWoeU=;
-	b=ByoSnFoc3cy9wPcJB+N19Qzw9kOgi3eg450is4JkHubjjyXJB83nR9+NKoYNNz3iYxPi
-	 spqzM8PNhNHvR2MpkT8saGHd5k2ebCRCEgp7iDeUL/bZVeSEGGNm2kaqbFcsycWdVLmyd
-	 OxQ4v2DDe54lbDgnpdjNEzcpXjlDGoBdnqRVuUi8iax29oedqiFG2ZtwWL2dr0HU2QGa3
-	 sjiPmwtw7VDsfIi500NeOLaXlMbzJeCYGF/NOPem1ZSFwzDYe5RfqJuF6/gcIJQAeP7ER
-	 ccNVMknrKvw70/Hs+w3AICwohP/yqvMkdx9OIdSM1z/dKDnEO+2UoCNxH+s1xUn1dZw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793725418;
+	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
+	 Subject:Message-Id:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=UGlBfdtTI7DRdYb8AG56P7w1/F098INCkM1ZFPGKrvY=;
+	b=qOOn7ROFy0mE713mBlFh6edNRT0GjCSL14rW2bUyzhlFUvP1FhyHcZ7mptPLlDFvMX2C
+	 sLDviT6TgCb85GasVjm9WR0Xw02Efex+Q+qQEAogcB0TJ/Vh3djrWMAJRDfz1E8KcziJt
+	 rEBzh/078KKq0hO9dtTCN2PNnzRwUW/tFICNgu9ilMGNv/Nhgref//37E0NlydE4zoPP1
+	 HfxHRJXuuMKETUB103FTKEQdiGYSjlC3lCRV7MA4xMZXbRAJcT9OyQb2i6RIspR3ZzyEa
+	 Ru9NYPApEhk8fD9YWdfaDqJ5VQ740FvltPaGBzre5hvHwaq+4acxGI2r4kL4rPXof4w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ezYU3G6S;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GpHHRdJI;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFEB606D82F;
-	Tue,  3 Nov 2026 16:49:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177DD606A327;
+	Tue,  3 Nov 2026 17:03:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ezYU3G6S
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A7291F000C1;
-	Tue,  3 Nov 2026 16:49:48 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GpHHRdJI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 922D41F000C1;
+	Tue,  3 Nov 2026 17:03:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793724590;
-	bh=JgzkxDLvLT73nIqEBv4EHYF8tqo1oI/Vz7oWz1FWoeU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ezYU3G6SgjoJ1LB72MMr7ZlTVimAikMLIt7ztwl0Yh4TXKiTsDt1HMGC0L2SMu24V
-	 f8+6BNuoUKPDfWplmj3p2VrRsl29TBc+Qqhh8AhfGYV69rniAT4BxiduSzd4HNNLWD
-	 07zA8VH4xNmvHvwl7WNN9PqVXwEamBjlTWrV7GC1TX0EmBSsO98jfwgdfHP8QLXqT7
-	 PbpBjFVMcERPN0kV6UVFThN/HPplnWmCPBkjXO9hPDi7BSlV4qI6tFShpq43vXKP8Z
-	 +sM8hhksiNhQuM7dToHqzpGoYh88ZKPxpOTXkrVQa+eze6DczLbEgKLALeklDhPdTo
-	 Led81R3clv2PA==
-Date: Tue, 3 Nov 2026 16:49:46 +0000
+	s=k20260515; t=1793725417;
+	bh=UGlBfdtTI7DRdYb8AG56P7w1/F098INCkM1ZFPGKrvY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=GpHHRdJIbHjqUfSmLL5k24RJzFcyygCBWWSrOOwIya5mC3GVMGGaOAph5/1b+N/IK
+	 +jEL/y56L5ovcZfTeaGqGge2oZ/dF0otuplXBeuIQwpZwudDomGUOm3BySK1vs5f+B
+	 mzhhb8jIKvUaXH5hS0ZxXz8oVAQm0DyAeDwXEk9uut4bwPf+G+ImXHPWb5wPgYOiWl
+	 XA++c0x5r68UtC5vhq31i3y6sUJeje1RNSIUqeKX8mjdyvGR9XLkNqYR+/koCRDn/Z
+	 uEbdP1Dof0qc8qbXIatFlPgiBN71/Lr360ghmaL90SW2hGGunjAhpjdyQUwmHUz9p1
+	 CQfBmPDzEhxcQ==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 360D82557265;
+	Tue, 03 Nov 2026 17:03:35 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: HyeongJun An <sammiee5311@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
-	Ivan Orlov <ivan.orlov0322@gmail.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] ALSA: pcmtest: Add a volume control with event fault
- injection
-Message-ID: <61df01a7-10ee-407e-879f-d9c1085a5d43@sirena.org.uk>
-References: <20261103011000.1012035-1-sammiee5311@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Pengpeng Hou <hppiscas@163.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Seven Lee <wtli@nuvoton.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, John Hsu <supercraig0719@gmail.com>, 
+ "Fang, Yang A" <yang.a.fang@intel.com>, Yong Zhi <yong.zhi@intel.com>, 
+ Oder Chiou <oder_chiou@realtek.com>, Jack Yu <jack.yu@realtek.com>, 
+ Bard Liao <bardliao@realtek.com>, John Lin <john.lin@realtek.com>, 
+ Derek Fang <derek.fang@realtek.com>, 
+ Guennadi Liakhovetski <g.liakhovetski@gmx.de>, 
+ patches@opensource.cirrus.com, Stephen Warren <swarren@nvidia.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>
+In-Reply-To: <20261014032452.13456-1-hppiscas@163.com>
+References: <20261014032452.13456-1-hppiscas@163.com>
+Subject: Re: [PATCH v2 0/9] ASoC: stop dependent resume work after restore
+ failures
+Message-Id: <179365943058.2186205.6922291136572761907.b4-ty@b4>
+Date: Mon, 02 Nov 2026 22:43:50 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,47 +71,70 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="DhypsNCGn5z2zGxB"
-Content-Disposition: inline
-In-Reply-To: <20261103011000.1012035-1-sammiee5311@gmail.com>
-X-Cookie: Small is beautiful.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2468; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=DWIGyEvV5MXjINobRX3DmdNlKykWtOqu7HDWbTNwsH4=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJeCT/n0AnlK7fTYZ+7r+6T3K7vT38H6iQ/cRLZZOaoy
+ MMoNOlKRykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACaywI6RoeldYe369WnpVxnm
+ PJukfpbN+Ar/2nXnmnbdNDR9xX373imG/2H3rz6/urc+u852l7SzV0zoJdmq7UE1S0zj9vd99Yt
+ X5wQA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Wed, 14 Oct 2026 11:24:43 +0800, Pengpeng Hou wrote:
+> ASoC: stop dependent resume work after restore failures
+> 
+> This revision addresses Mark's cache-mode concern and Charles's WM8978
+> bias rollback question. It also accounts for the next suspend after a
+> failed resume: the ASoC wrapper reports the callback error but marks the
+> component resumed, so leaving an IRQ disabled needs driver-local ownership
+> tracking to avoid disabling it a second time in the next suspend.
+> 
+> [...]
 
---DhypsNCGn5z2zGxB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Tue, Nov 03, 2026 at 10:10:00AM +0900, HyeongJun An wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
-> mixer-test runs eight checks on each control. To see one of them fail
-> today, you need hardware with the bug or a driver broken by hand. I
-> broke snd-dummy by hand to test the side effect check. This patch does
-> the same for the two event checks, with module parameters.
+Thanks!
 
-> Two questions:
+[1/9] ASoC: nau8821: restore safe state after resume errors
+      https://git.kernel.org/broonie/sound/c/924b88cec6b5
+[2/9] ASoC: nau8824: restore safe state after resume errors
+      https://git.kernel.org/broonie/sound/c/230d0320971f
+[3/9] ASoC: nau8825: restore safe state after resume errors
+      https://git.kernel.org/broonie/sound/c/6bfb1abeee3b
+[4/9] ASoC: rt5663: restore safe state after resume errors
+      https://git.kernel.org/broonie/sound/c/7cd349171991
+[5/9] ASoC: rt5682s: restore safe state after resume errors
+      https://git.kernel.org/broonie/sound/c/9561e9be8996
+[6/9] ASoC: rt5682: restore safe state after resume errors
+      https://git.kernel.org/broonie/sound/c/083dbbdfee9e
+[7/9] ASoC: wm8978: restore safe state after resume errors
+      https://git.kernel.org/broonie/sound/c/947f7c8b9728
+[8/9] ASoC: rt5640: restore safe state after resume errors
+      https://git.kernel.org/broonie/sound/c/de80fa166b95
+[9/9] ASoC: rt5677: restore safe state after resume errors
+      https://git.kernel.org/broonie/sound/c/d9dd3f68d6be
 
-> 1. Is this useful enough to cover the other six checks too?
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-> 2. Should it live in pcmtest, or in a separate driver? pcmtest already
->    has the inject_* parameters and a selftest, so it seemed the natural
->    place.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-It seems reasonable enough to me FWIW.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---DhypsNCGn5z2zGxB
-Content-Type: application/pgp-signature; name="signature.asc"
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
------BEGIN PGP SIGNATURE-----
+Thanks,
+Mark
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrqEKkACgkQJNaLcl1U
-h9DWqAf9EMmJW1PTVnksugog02M4UhFyRNexHR8ft/Yg1+rth0MWOG5hVRStqtWy
-ynQzU0Y+eddwNdNjrxKQhK8WM6rqSVeoI5O9I4wSMl66ZeblR6A/0zvv5LYW3u0F
-8MffJ7G5JEpHUzv0UMGuoDTBRaLI0JMDnobzS8+2UyR6b/z6QoeqX87avydNpc5O
-cCJh5PYTAVJ3bUN6Xc1M0gJ5EIUTK+719g6wl384D3DGj8/NIwcoSWd8g5ni8Qc+
-64aKhKrrzbQj+NNYuy+hKtHzeizyGAIbljyN3Gw309Z8E3x18GrhhXbXMVgAg5QU
-9DwiD8cEwZ5tgqH01CNed7yhSeZ27w==
-=7G/P
------END PGP SIGNATURE-----
-
---DhypsNCGn5z2zGxB--
