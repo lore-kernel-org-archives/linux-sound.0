@@ -1,57 +1,162 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793636148;
-	b=1Q5PIS8xwOxZ+FSzmk6YJVYdzeT9y412pTaLttyRrpTsfFLh4xEc6HWbX7g5X1/AnomC
-	 Ny/JsA3ayZA7ois0W0mfv7uaOY2yZV8XyLLWP8xLzgIWLqbEfu2/xqJu79qn/xM1lEd6S
-	 dsuLFGwnv+J6OiXGt8KopyvGltvhc6HRH59u9XsY3vws0+jobL21o74gBQDq6oiLtZ/FS
-	 EMV5Hw+bb24oAbAAl9L1ohBIt/X+5e5X8r1XHpmGQSVJmBkV3EiomouwlD9YbFaOEVp3K
-	 iC1PSRZ2tfjR/9JOeY5ho1jaj7izPQrpMxhbRxprnRulAko020/AY/rf78XNVG01hRw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793636148;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=lrlk85/ZsHr5rujz74PPIndHNdBxoDtXFTMdpI6s0VI=;
-	b=yJ6Ffdwux23Os0Q4WAqdgrqOKavWoduXK3+nUbjFP2452lLV+6OPSshRxW1L+bPQsRE8
-	 e0DuBY7BTLg0cEPUeVdp41u6RJYBpqmJI38puqNEYChGCN8O4Ur2sZFT10Wrum9b0CSM0
-	 twar4RDkniRu+0UODcvtfI48D0kLrC9vePTURcjSxbziwsh0dZV1anJvGItM5WVfQn5Kz
-	 ewdl+zAbO443R7O9vvKKsdlzPF9OwK+Y0VlfZTLV7BkInJ5VBk1uBUxR+KUg8rDRqf/8T
-	 +RXuWQvzNQfMGP1GXWvxpuodnzfA6qUFLNBR9v0qnail6n7Zozm5FTADOPl5fxcEvvg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VV2E358I;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.66.31
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793637659;
+	b=DS5Utq0TSuufPe+4lTopwgb/OZkNWmvY1Ug9MdvoNNXL44NXcQpgGmbn6Oo6kfSqjNwp
+	 LP98rrjX/40Y9OZnuKdFwP7iLn5hOkhgtsmVpjWltkyH/QDLmj6v6DmytKMqYWPnuV5Q9
+	 3/ogYToKnWt4dxEDMXIVPfCUOR50SydX71NZkKYwGBxMWMkQ/zIDX/fgvYXT5yyuqBzZ2
+	 CJdiy3lG7MGlp82QR4NA1pxKr1KHu+ZuIdOIuNKRSEMOLJf1xH2jOckKxwbzAosx7PKj1
+	 79f0CYtmSSTeUVV74rXL9RmwYvUHR6H2GhYLmnd2cZ/OFMu9dGuUmWCVEgv5YLeRkYg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793637659;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=0AZEXm4C/DMSzFUg9+vViNaMwpucOgErMY5P1OzWIXE=;
+	b=NAgULYuXvkrjfNgf1QSCvKEdEeyLLJTd9yDZsZX2k4C3hDJVAGyiIzrHCETOHhwfx9Dt
+	 ZRvFa2gDEexBU1CLTpN1qisCboUA3IGYLmlxVjtvde1V43iF3ZPLnOTgiPClRdjfUP+YJ
+	 /nQvq0/xWleW4Webo0h4bUrKh/XLZFqwvEq2kfP7O23pqnqqXPKFQ7FlJv3sI0MLcYwkJ
+	 9Gs2oLeaOnn21zd9NCHa3i5BlsR5XUtSiaq1e5JnfsYl8wVcaYf5WJZhXEoogzcxzIL0z
+	 Zp4PZ4DtSQ7r/S6z8Pt9xaBWEdMDlk04/x3pTQnhFhaR6+r9OXKW3hPyohG3HpnkpLg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.nxp.com;
+	spf=pass smtp.mailfrom=oss.nxp.com;
+	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=V3ykH38V;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.66.31
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012031.outbound.protection.outlook.com [52.101.66.31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21972606A915
-	for <linux-sound@vger.kernel.org>; Mon,  2 Nov 2026 16:15:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C2C608762C;
+	Mon,  2 Nov 2026 16:40:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74C2C608762C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VV2E358I
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D5781F00A1B;
-	Mon,  2 Nov 2026 16:15:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793636147;
-	bh=lrlk85/ZsHr5rujz74PPIndHNdBxoDtXFTMdpI6s0VI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=VV2E358IUDuxI992bwiz9vT2uMsFTW/bNtiDEMRpUpNDpB3cEN4Q4+cJjhgPnon3p
-	 5sUE7z1mwm0KhrBi7wuccR4bszy8VqJrp7xQ5yRX2UpfgZkznlaeQNx/yFTQzXKQ2Z
-	 tQGKUcL4i443TntJGs7Ae265h3az/6U0OinchFnInLR10RLsCUD+nAUo4MpLJAYYk3
-	 jMMW9hZUvk7hSn03V8PuIA2nf79PeWlLvdqu2NXbZNR3iuDScCjXhdJyDk/lBNAtZM
-	 GazDP4gloOogbIH21my6LB/fmEr3X3wdfKb3mRI0AHj1Rp34g9k1Mg9CV85FFwtXFy
-	 ur5Yc95Frwj4g==
-Message-ID: <sashiko-outbox-193741@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 3/3] ASoC: cs42l43: Improve pop performance of the input
- power up
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Charles Keepax" <ckeepax@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261102155440.3995136-4-ckeepax@opensource.cirrus.com>
-References: <20261102155440.3995136-1-ckeepax@opensource.cirrus.com>
- <20261102155440.3995136-4-ckeepax@opensource.cirrus.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 02 Nov 2026 16:15:47 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=V3ykH38V
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UUahqT6OH80SrFgl+J8Dl0qQuEn9rpBY/sf6cMIiybmTtPW/B0oQ8mpWx/3hFmjH5kM3BorOwqSSuQeNYkik1ZDQNpQmWvoYIoWtmK0U8pLVqhvucBo9oVRJhSztrB3rpJKKQWoAQF5Cq6L7jyeurjP6RzoQ+Ua3B6z+fM+m+D7m3Dpyhq1C+qbH5bgzIVqRrLMt7U6KX2atZK38B0xIK7Kl306xFeFPSkelpw5FBHPrpDaTcV4B6s2TQxkI3kh6pCGMT37TbGrJVTbyLmeLGwS0Cxuo5GIVoM1ZiNl36tC35ESLTD9fRUaa767TI2vjZjQcUlmQf3BBeUbqmZHqCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0AZEXm4C/DMSzFUg9+vViNaMwpucOgErMY5P1OzWIXE=;
+ b=PrK0rnU2MQXRwPgJUUNGCRXQUyJZbjYp9VdLV86LlUg7HKLRtSypXjYL8GjRJ1PTh5HvCp1FDYBwAk67NfLbsc2171siuwW6Vukja1xYMHayoW8Rm6EEY3epYw21AX2UozOsMkJEK/GElQXfRg1PRaV5WAHK9VAWGaoC39ugw16XpPrgRc/nz+4bz9ElG4nFtSMUp7VpLaiZgclBf9KHaOcwyfVtgYZDoo47EsFn0wFBVuUTQQqfsifVyL/kX2ZP8ZglrxrF2KZb8vyto1FBtHBDQspIF2BWUkS8tsUD09nZwBQENMSDtX0c6CMzabo30vOQgUDq3leqETIR6QSdeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0AZEXm4C/DMSzFUg9+vViNaMwpucOgErMY5P1OzWIXE=;
+ b=V3ykH38VVd8brV2cpxqM1yZIcyzF4+A+yXTcS+Y08BhlXL8iCqyoF1CGucLJ0jjpUzZB9MY787jCeghPRfcXGTdFd7dRAf8GpjP/X3qHOnbZpuikYmwa8IjPyjldv0Be1F47Qdm1F3Xzh/WHSzmxyoJlLLsiop21RzwzwdEyGO2cDNUwc77Yo+11q3D2+sNSwXOHSMSUN4VUjtcC7GV5ZUJ62QAgBRlsm93KXdBfz6CvMAeL/O7l6Rbid5eO8/WdsUa1jgoo1N8pSOTL03memeUBbtREi+uXasKnsrrWGNW/yGKlO4tGvKf64bgR8rKwct+1FAjeKF65dE/dDW/6IA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from MI3PR04MB12438.eurprd04.prod.outlook.com (2603:10a6:290:76::14)
+ by AMBPR04MB468013.eurprd04.prod.outlook.com (2603:10a6:20b:7dc::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Mon, 2 Nov
+ 2026 16:40:54 +0000
+Received: from MI3PR04MB12438.eurprd04.prod.outlook.com
+ ([fe80::c715:c32:8bb1:b70b]) by MI3PR04MB12438.eurprd04.prod.outlook.com
+ ([fe80::c715:c32:8bb1:b70b%6]) with mapi id 15.21.0569.011; Mon, 2 Nov 2026
+ 16:40:54 +0000
+Date: Mon, 2 Nov 2026 10:40:32 -0600
+From: Frank Li <Frank.li@oss.nxp.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>, Ivan Vecera <ivecera@redhat.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Lee Jones <lee@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
+	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+	Ulf Hansson <ulfh@kernel.org>,
+	Hans Ulli Kroll <ulli.kroll@googlemail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Chanh Nguyen <chanh@os.amperecomputing.com>,
+	Alistair Francis <alistair@alistair23.me>,
+	Julius Werner <jwerner@chromium.org>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Ray Jui <ray.jui@broadcom.com>,
+	Scott Branden <scott.branden@broadcom.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	chrome-platform@lists.linux.dev, linux-gpio@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-tegra@vger.kernel.org, mfd@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Use hex unit address patterns
+Message-ID: <aui9AFUS3JpDKZGP@SMW015318>
+References: <20261102135330.2493332-1-robh@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102135330.2493332-1-robh@kernel.org>
+X-ClientProxiedBy: DM6PR08CA0037.namprd08.prod.outlook.com
+ (2603:10b6:5:1e0::11) To MI3PR04MB12438.eurprd04.prod.outlook.com
+ (2603:10a6:290:76::14)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,166 +165,76 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MI3PR04MB12438:EE_|AMBPR04MB468013:EE_
+X-MS-Office365-Filtering-Correlation-Id: 710964e4-aa24-4f3f-656a-08df39000ff5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|7416014|376014|19092799006|11063799006|56012099006|261009223027099003|261026121527099003|10067099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	713wdXmk0i3UHxEIluM11rOJcS4OyrF7QOCTSCmsWR3F+SjkAdWZMFG3VRd0RCZKsqzpwX79lW1ZURuA3XEG7NIHBOZkV4JnrBWaysJUjfdr0OUhol0yuECzmr5wd3Nm/UzUM5EwqVAR+QYj4W+SmtI761IP9KN6lWHWjbg/n6SjJOTOZ6msklaDfkH5hHnQP5StAKVHT9W9gsJqjzuHxfg+rf0Iy0mWgbFk/+2WbI9v3juaCvw7xc4DzCXO8QDOsKOf0JTc/cU+xocxpGBsM3RFG3QMuHAC7orJV2D4pCTGg+taaQlyWzi0XNsiASg4QbYrJjzl7BXz43cgvH2MI86i/EDbP3gel5zoG6yTkwuvQvt57UY/UKg10W3NY2jmRzvt3Yj4M0JT5rf+2tRzdGe4URWejHSMwBbt4nx1cepRuoiWpUjX9gRbpsw/QEpefuZoAaSV/BzdgQH0DnOqHyFkedCnbiZg2+NPQilXv15wWhHxWqVJo3gJyR3aPKC6jr75/ssgaUgLkJHrhSeVflsAaQPz210v76AxAOM8DUIj6uv3N/6DLX4v+06x+XEACqAiCrg7bAtQkMqY7vhViG9Xsn+83/QhcG5Aa+mQ0s+Ug8NVT1qTZHFSqjoL2yS2Oej19qpGLZNAe/mS3BTFlfVA9NqYnddes7uOh97mW6M=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI3PR04MB12438.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(7416014)(376014)(19092799006)(11063799006)(56012099006)(261009223027099003)(261026121527099003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?miViUnAHLHlSfVvNykj6itq4LYyZuvFGajuF5/WfPyzRO2cwd46TenQEyCr6?=
+ =?us-ascii?Q?Bk4r20OdtHVg4+E7+ONinqI5X1cdimy1a4RAJrw7ype9obM1asQI7C6wVGex?=
+ =?us-ascii?Q?Df1a+opO+isY+bZYbPK+5uq9C0EPVS8XTio1wzxbktQqXm4DPSyMNlHwhDK2?=
+ =?us-ascii?Q?aYIg/lsjPz5d0+J5Aq1tyf3Ql4rkk1IC/h2HDxCOqOnAv34JyclhCPcgiNbR?=
+ =?us-ascii?Q?alQr1FUqDeJ0JZBNQQCyAFKUUPhc+Sp10sDhkY8MhLqeqclUPZaiGWh1G25u?=
+ =?us-ascii?Q?/tnG5n8jk6GeM6ikrfrLEzOq4eFDktSaxonpzwhdZHHO/RpL/moKzOktaioj?=
+ =?us-ascii?Q?bwvNWJ8kslkjWCVbXk34R+W9nFzirZrw1OgNcjeXw6WWP8nN+wVCTC3SwFsK?=
+ =?us-ascii?Q?lqlMYYK4UUkLl8I10PH5DXJ/+b5zKdD0WRQpHrQKj6dTkT8I6lHNtIMs1aR9?=
+ =?us-ascii?Q?SZm+gZOod+VCue2X7ykMd3vGD0ODjAUWC/H4hZN6dqtP2BWtPIKP/qldFX/W?=
+ =?us-ascii?Q?gfMpxNPGxoRgkEWOHNIgcYZVOCpdSqID+31il65/Bcybng6IbJMsM7dBiKpA?=
+ =?us-ascii?Q?Rtb38dq4PZU0FUeVKK3Vz/z080KxNNnFskrpNkpQcRbpWFcdMmkrQzJ8ZKrO?=
+ =?us-ascii?Q?nYPU7BFNOrqUb27tqERv6Xs756Uy5lA2ZlkbXpLXAGPBvQ5YvhF0q8EWINPM?=
+ =?us-ascii?Q?INXukbJB3rJzOSDgtYaLwDvjYt5jxBHIztmfDtfTLP3RhFrBGRl54GzrtQGD?=
+ =?us-ascii?Q?GBMtwe77nUkzYN+Frpk8YjRQI1D49KpKlCz4km3foInJ5woh43Q+nnOamqVw?=
+ =?us-ascii?Q?iNg3mJYCUzNLErYW3KrJK2Vug/N2aO9qtVWorfrspwxETpQFe1uyAf4sYncg?=
+ =?us-ascii?Q?p54Wa7UuTfCtdCdZqoeDgk5IC4np4oFKL8L8k1pOzzDWS39CARqFI/8vJCGh?=
+ =?us-ascii?Q?yRx+sBbeP7pH94bqiOUnrNIWxqQsh+JOvf8w1amHOYmYW0MaVFl9xivXCvtA?=
+ =?us-ascii?Q?1StguKNayIluWpa5ZP98xmjQ4TZYHWjqktNNmQ0s7Dd3+uEy4AlkKZlrv+Gt?=
+ =?us-ascii?Q?AwVCvMGHPG8LC+HfNdzDm3O+kPFZ/lbwg53ZLBWNbbL6+4YQh+L+1f5/m4n5?=
+ =?us-ascii?Q?ZrHWXUBCzlhJzIvkFu0LkcXOx1IimA8eG0Fn/GFwOn+BnWHLonse0k38EsnB?=
+ =?us-ascii?Q?SOryFVi1m+3pEWpDYg/CHmkfIfeV2XgQo5bMrQ1ljgiteO6/cR19/BGEUTRM?=
+ =?us-ascii?Q?XGV7505tjTA8t+KETQsjdbh2WWr/hgWIjAcCWjK676y/o1Mz4sE5PSWmvqH3?=
+ =?us-ascii?Q?w4zOWqbwBy594KUxDz8BjNgoHIW7eKWwhnBdt0hnYOmS3VuWwL5RNS0tfy4H?=
+ =?us-ascii?Q?XswApNiAAjdTiaqz1dpu1PkoXwpLAZb4YTswjQ8O1inKWhW+uKlLqUO41O2H?=
+ =?us-ascii?Q?p/DbllPNiHLg0WzdGQ8giUOBU84ga1119QfWGX2j5MPov+ToQ3aOZyZxaRMi?=
+ =?us-ascii?Q?504bKjsTVvHpfPvhqOzUD8vWeqWfeI8vz4dFKOQ9v6/wLnWNUmgeNURUYGKC?=
+ =?us-ascii?Q?Z2wQBjPnoF3Qd7xhB9WAv2uFCSKazrD7kudcoq5yLrZHn2uTlzt2nuOrXCMj?=
+ =?us-ascii?Q?4ee5Q5NyAp8kxg9QZM+Vxjq+p7qNrg63cwOBY0tQh7FZTQRLWmbXYnHJCFGa?=
+ =?us-ascii?Q?jtDpxtDJFM/z8+TqgBrLmYj15xcMy4P1rhaPvLbngkWw24YHQmK7COJY2OfR?=
+ =?us-ascii?Q?YrfL1GNcONRkuUNhApZMdmxAbyCn3FxiBAYU608PkRryqUCh0Wgd?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 710964e4-aa24-4f3f-656a-08df39000ff5
+X-MS-Exchange-CrossTenant-AuthSource: MI3PR04MB12438.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 16:40:54.2384
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8fnO+R+KwExK8plb8UKHkb7CwqdyiR8BlWlu9O+f9zFhqX8xE8pSb4waLCfO7C9oxjAZQ1G2O3uYmut5fG5dOLhTOrhSgilIYT7HZsW1Lg8Yl0rUHI5yaM00tF9J8zP6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR04MB468013
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] ASoC: cs42l43: swapped filter registers for ADC2 and PDM1L in cs42=
-l43_decim_info
-- [Medium] ASoC: cs42l43: missing DAPM lock on Decimator HPF controls racin=
-g with cs42l43_mic_ev()
-- [Low] ASoC: cs42l43: missing static const on cs42l43_decim_info tables
---
+On Mon, Nov 02, 2026 at 07:53:22AM -0600, Rob Herring (Arm) wrote:
+> Unit-addresses by default (and most commonly) are hexadecimal. There's a
+> number of cases using decimal patterns. Fix all of them, limiting the
+> pattern to match the 'reg' limits if there are any.
+>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+>  .../bindings/display/xylon,logicvc-display.yaml      |  2 +-
+>  .../devicetree/bindings/dpll/dpll-device.yaml        |  2 +-
+>  .../bindings/embedded-controller/google,cros-ec.yaml |  4 ++--
+>  .../intel,ixp4xx-network-processing-engine.yaml      |  2 +-
+>  Documentation/devicetree/bindings/gpio/gpio-mxs.yaml |  4 ++--
 
-commit 09aa11a71081b83cbebd343e4e4609f427672725
-Author: Charles Keepax <ckeepax@opensource.cirrus.com>
+for gpio-mxs.xml
 
-ASoC: cs42l43: Improve pop performance of the input power up
+Acked-by: Frank Li <Frank.Li@nxp.com>
 
-This commit adjusts the decimator high pass filter settings during
-microphone startup in cs42l43_mic_ev(), waits 150ms for the filter to
-settle, and then restores the cached user settings.
-
-> diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
-> index 17d55a3de9de3..9576f7abba97f 100644
-> --- a/sound/soc/codecs/cs42l43.c
-> +++ b/sound/soc/codecs/cs42l43.c
-> @@ -1737,32 +1737,39 @@ static int cs42l43_hp_ev(struct snd_soc_dapm_widg=
-et *w,
->  }
-> =20
->  struct decim_info {
-> +	unsigned int freg;
->  	unsigned int vreg;
->  	unsigned int vmask;
->  };
-> =20
->  struct decim_info cs42l43_decim_info[] =3D {
->  	{
-> +		.freg =3D CS42L43_DECIM_HPF_WNF_CTRL1,
->  		.vreg =3D CS42L43_DECIM_VOL_CTRL_CH1_CH2,
->  		.vmask =3D CS42L43_DECIM1_VD_RAMP_MASK | CS42L43_DECIM1_MUTE_MASK,
->  	},
->  	{
-> +		.freg =3D CS42L43_DECIM_HPF_WNF_CTRL1,
->  		.vreg =3D CS42L43_DECIM_VOL_CTRL_CH1_CH2,
->  		.vmask =3D CS42L43_DECIM2_VD_RAMP_MASK | CS42L43_DECIM2_MUTE_MASK,
->  	},
->  	{
-> +		.freg =3D CS42L43_DECIM_HPF_WNF_CTRL2,
->  		.vreg =3D CS42L43_DECIM_VOL_CTRL_CH1_CH2,
->  		.vmask =3D CS42L43_DECIM1_VD_RAMP_MASK | CS42L43_DECIM1_MUTE_MASK,
->  	},
-
-[Severity: High]
-Are the .freg assignments for entries 1 and 2 in cs42l43_decim_info[]
-swapped?
-
-cs42l43_mic_ev() indexes cs42l43_decim_info[] by w->shift from
-CS42L43_BLOCK_EN3:
-
-  0: CS42L43_ADC1_EN_SHIFT       -> Decimator 1
-  1: CS42L43_ADC2_EN_SHIFT       -> Decimator 2 (.vmask uses DECIM2)
-  2: CS42L43_PDM1_DIN_L_EN_SHIFT -> Decimator 1 (.vmask uses DECIM1)
-  3: CS42L43_PDM1_DIN_R_EN_SHIFT -> Decimator 2 (.vmask uses DECIM2)
-
-Entry 1 (ADC2, Decimator 2) sets .freg =3D CS42L43_DECIM_HPF_WNF_CTRL1, and
-entry 2 (PDM1L, Decimator 1) sets .freg =3D CS42L43_DECIM_HPF_WNF_CTRL2.
-
-When ADC2 or PDM1L powers up individually on CS42L43, cs42l43_mic_ev()
-adjusts the HPF register of the wrong decimator channel.
-
-Furthermore, when stereo ADC1 + ADC2 (shifts 0 and 1) or PDM1L + PDM1R
-(shifts 2 and 3) power up together in a coalesced DAPM sequence via
-dapm_seq_run_coalesced(), SND_SOC_DAPM_PRE_PMU runs for both widgets
-before SND_SOC_DAPM_POST_PMU runs for either. Because both widgets in the
-pair point info->freg to the same register, the first PRE_PMU caches the
-user setting and writes the temporary fval, and the second PRE_PMU then
-reads that temporary fval into priv->decim_cache[w->shift][1]. When
-SND_SOC_DAPM_POST_PMU runs, the second widget writes fval back to
-info->freg, permanently overwriting the user's HPF configuration while the
-other decimator channel's HPF was never adjusted.
-
->  	{
-> +		.freg =3D CS42L43_DECIM_HPF_WNF_CTRL2,
->  		.vreg =3D CS42L43_DECIM_VOL_CTRL_CH1_CH2,
->  		.vmask =3D CS42L43_DECIM2_VD_RAMP_MASK | CS42L43_DECIM2_MUTE_MASK,
->  	},
->  	{
-> +		.freg =3D CS42L43_DECIM_HPF_WNF_CTRL3,
->  		.vreg =3D CS42L43_DECIM_VOL_CTRL_CH3_CH4,
->  		.vmask =3D CS42L43_DECIM3_VD_RAMP_MASK | CS42L43_DECIM3_MUTE_MASK,
->  	},
->  	{
-> +		.freg =3D CS42L43_DECIM_HPF_WNF_CTRL4,
->  		.vreg =3D CS42L43_DECIM_VOL_CTRL_CH3_CH4,
->  		.vmask =3D CS42L43_DECIM4_VD_RAMP_MASK | CS42L43_DECIM4_MUTE_MASK,
->  	}
-> @@ -1770,26 +1777,32 @@ struct decim_info cs42l43_decim_info[] =3D {
-> =20
->  struct decim_info cs42l43b_decim_info[] =3D {
-
-[Severity: Low]
-This isn't a bug, but should cs42l43_decim_info[] and
-cs42l43b_decim_info[] (and the info pointer in cs42l43_mic_ev()) be
-marked static const since they are only used inside sound/soc/codecs/cs42l4=
-3.c
-and have no external declarations?
-
-[ ... ]
-
-> @@ -1819,11 +1836,27 @@ static int cs42l43_mic_ev(struct snd_soc_dapm_wid=
-get *w,
->  			return ret;
->  		}
-> =20
-> +		ret =3D regmap_read(cs42l43->regmap, info->freg,
-> +				  &priv->decim_cache[w->shift][1]);
-> +		if (ret) {
-> +			dev_err(priv->dev,
-> +				"Failed to cache decimator filter settings: %d\n", ret);
-> +			return ret;
-> +		}
-> +
->  		regmap_update_bits(cs42l43->regmap, info->vreg,  info->vmask, vval);
-> +		regmap_update_bits(cs42l43->regmap, info->freg, fmask, fval);
->  		break;
->  	case SND_SOC_DAPM_POST_PMU:
-> +		if (priv->decim_pre_pmu) {
-> +			msleep(150);
-> +			priv->decim_pre_pmu =3D false;
-> +		}
-> +
-> +		regmap_update_bits(cs42l43->regmap, info->freg, fmask,
-> +				   priv->decim_cache[w->shift][1]);
->  		regmap_update_bits(cs42l43->regmap, info->vreg, info->vmask,
-> -				   priv->decim_cache[w->shift]);
-> +				   priv->decim_cache[w->shift][0]);
->  		break;
-
-[Severity: Medium]
-Should the Decimator 1..6 HPF Switch and Decimator 1..6 HPF Corner
-Frequency controls in cs42l43_controls[] and cs42l43_b_controls[] also use
-cs42l43_dapm_get_volsw() / cs42l43_dapm_put_volsw() and
-cs42l43_dapm_get_enum() / cs42l43_dapm_put_enum() to hold the DAPM mutex?
-
-The other controls whose register bits are cached in SND_SOC_DAPM_PRE_PMU
-and restored in SND_SOC_DAPM_POST_PMU (Decimator 1..6 Switch, Decimator
-1..6 Ramp Up/Down, and EQ Switch) serialize kcontrol access under
-snd_soc_dapm_mutex_lock(dapm).
-
-Because the HPF controls in cs42l43_controls[] and cs42l43_b_controls[]
-use plain SOC_SINGLE and SOC_ENUM:
-
-	SOC_SINGLE("Decimator 1 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL1,
-		   CS42L43_DECIM_HPF_EN_SHIFT, 1, 0),
-	...
-	SOC_ENUM("Decimator 1 HPF Corner Frequency", cs42l43_dec1_hpf_corner),
-
-can a userspace read or write during the 150ms msleep() window in
-cs42l43_mic_ev() observe the temporary fval override or have a newly
-written HPF setting clobbered when SND_SOC_DAPM_POST_PMU restores
-priv->decim_cache[w->shift][1]?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102155440.3995=
-136-1-ckeepax@opensource.cirrus.com?part=3D3
