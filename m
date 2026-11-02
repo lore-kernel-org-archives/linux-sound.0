@@ -1,56 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=85.128.243.59
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793643284;
-	b=07NwCb2saeH60LMFxWC90PLEjXDp3oDE76GGl+SaDbYTEX/M25lDw6v68hMOAfqJlCFF
-	 EZjGrzOfCCUxXLPTfH9faNe1RpuW3ffX3wv8mHtiPQa7w1t59Kt0jKBSIKY0SH+FY/RH7
-	 r05HklfSZP4+tbOaACtNDFFpX+lHCwESTzsFUdo/zgndPCpw0JQd1JqGFoDj9088l7Kfd
-	 2haewFWo6EeE44d5RICaxfn2zCiMFgLw2xba44WRiP/jT2Ge+5Tt4C/sun8uhucN3zdz9
-	 raRiFl9MXNlyU7kZxy5v2X6NOGRG4d6hLvDaUkwTphOqY6CQ4njSuWDI2zAwuDBqU/g==
+	t=1793643514;
+	b=pn1QhoeIUa1rwr/RXygaqB+yZCOMK0ErdOuzxuvzeGAM483qqPEGZCyPseni/yIz4lLO
+	 lc/LVb+bY6AW2UEIYY8+riwuBgxN+H6KOjKwrSSiA8ZcZY0iZUzsnV58x9eB51CD3mkHo
+	 shxzA6nLiZsbZ9++yb2gQ5Pz/r6FEs2pefrv3layiujMJbZLunwzCCx/g2Wr1JR1ueBjU
+	 iq7Ci8vViv1R7K/erSEk+BjVuPFMWQDhLJyRQC8vfT85pN5h9O91vXSbq/faPwgUWYjv8
+	 0mVskezFouSjXJH1G1gYAMOu/SyMF5t7wKOHo1gkg+TlkDAxyqrEUYmk7NPtXEG48Fw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793643284;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=XBNn1ew5udkUdcjzLwHZCSfaJmjk1k3qUVg/5XkvtTY=;
-	b=H0qImHBvsmM/K5wE0aViYuErWFKGY4KyLFBHF4EUhbrzdO74rRPlApA3nhJTb30gdUTk
-	 jZXcmTm1uzwg905sCAVljsQteHLPi+SsadUXsBfv/gdpBhxWfPm6aQ7mfLbXc6J4Nmm+3
-	 VQHCpOaFJAeqkSx9dKTiQ7MUZQXyzEW6aEc4bYRFIe4yp00Bl1NfwOhuM2uf6kG5oAPNj
-	 BFW4dvaE6QgFZfO99xxzfVUmxyGkx8GhKtDcFGEPmsyhYh0YqbFzbphBXIVJ3HsB5MPEd
-	 BLOAAkQ8w4lvHac6EQXn9b+3zsqa5cgbwvEzGVHQZKBSkPk79eWDVnTfoplvFo1fVqQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793643514;
+	h=DMARC-Filter:X-Virus-Scanned:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
+	 X-Spam-Status:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=pmADqantKKJ+lCbzXOd4rolz9NT0djZUcZtny+ZZ3UE=;
+	b=n6uGxb0VkreXHhpiIMJSQvRvo5XtxGO5Mxg52G/76gWrdxDpjMEluHH7L7B/qHOSqhMw
+	 l3ZiSetnXbKSjJ7UKIYIrsjDevNpLCDde/l8qzAgUQ67tPOi1i+A7o8j1hOWkh7YdWJ7g
+	 cZDp70HSSVZoL3xjL/bWPhMN8uDIhKhiRVFPAK9pNOlgrEhr7tdMKlPDr887Cz32zKKjA
+	 rJUrCF2A8qBAtVM6zJYD1ltr4c54VzECD4Otxqszj61qwqw3cgeTRGnSa8f7lOvg1n053
+	 AIbmAJeEPJUjhjtqJI1kixxWX6OFFY9AlUQ4KliJR+uNNQjXcdFNdexN5lK1R2FhSNQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=USgD3U8S;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=asmblr.net;
+	spf=pass smtp.mailfrom=asmblr.net;
+	dkim=pass header.d=asmblr.net header.i=@asmblr.net header.a=rsa-sha256 header.s=1706450368.internal header.b=borr9l7p;
+	arc=none smtp.remote-ip=85.128.243.59
+Received: from shared-aoh59.rev.nazwa.pl (shared-aoh59.rev.nazwa.pl [85.128.243.59])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB21606A326
-	for <linux-sound@vger.kernel.org>; Mon,  2 Nov 2026 18:14:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915BD606A336;
+	Mon,  2 Nov 2026 18:18:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 915BD606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asmblr.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asmblr.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=USgD3U8S
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAA4D1F00A16;
-	Mon,  2 Nov 2026 18:14:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793643284;
-	bh=XBNn1ew5udkUdcjzLwHZCSfaJmjk1k3qUVg/5XkvtTY=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=USgD3U8SksgZOEEZLtKYEco6TqoyRMmrpb7w8c0jGPRog5UAxchzNJicmekjTW1nE
-	 YizAZmjOPVaPJnBHc+Isyqxu9hMyAGYLrnq4JuXgDW/RhVm0wq7KNMVemJmdJugwCG
-	 kTFMEo4Ag6mYNxswg7B2U1DfeuufopDYVKgZGMHasn740g2Ebnb0YJhdPvSzrupJBa
-	 pu1SO2OpFUfhs23W+ckWomfN3Wid3kN5mrSDit350xOxECOtObVwvFfSttF31eedaN
-	 YXrQVRUoKA2JoA4Nfr/MNmLTDxDZoQ+SVTX1pPKMXj5bcr/fAilxeEP4UeIyh8Edb3
-	 si0N2+bE56zNw==
-Message-ID: <sashiko-outbox-193918@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 3/7] soundwire: intel: Split PDIs and DAIs
- initialization
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Cezary Rojewski" <cezary.rojewski@intel.com>, linux-sound@vger.kernel.org
-In-Reply-To: <20261102181042.1922005-4-cezary.rojewski@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=asmblr.net header.i=@asmblr.net header.a=rsa-sha256 header.s=1706450368.internal header.b=borr9l7p
+X-Virus-Scanned: by amavisd-new using ClamAV (3)
+X-Spam-Flag: NO
+X-Spam-Score: -0.625
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asmblr.net;
+	s=1706450368.internal; t=1793643504;
+	bh=pmADqantKKJ+lCbzXOd4rolz9NT0djZUcZtny+ZZ3UE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=borr9l7p2DcretBQTXYOGOoNLcq5+eV5PxlXlQamc4Vu8CpDhHYcxga2CrYFoKq+p
+	 EOqbH/fIvX6rwmSsKYcwho2L2/Hi4mpt//z19qS+TcycMzcE2d7J0zWmFIx590zyWn
+	 8VrsnYUs0PDCqFzYiI1GHenYrmtlm8BAmEa1wJiv44Yq0ODcjpLD5mdp10Uen4ucXW
+	 g1TcsQcrR6+/DlAmUYJQjSVBD/Y9A/W3T0PmBIpgMBoyvRKPtJgSryqrhf3vdROIMB
+	 pnzSZwXAf2BAZG8VZJgYNmOCcSUKFOEiS6ClCSXTNMTG/Rngdz/GZHPRIbgicR3/8s
+	 FOH5wCHo7FQlA==
+Received: from milkyway (91-150-220-230.dynamic.play.pl [91.150.220.230])
+	by server753313.nazwa.pl (Postfix) with ESMTP id C0E671BE233;
+	Mon, 02 Nov 2026 19:18:23 +0100 (CET)
+Date: Mon, 2 Nov 2026 19:18:23 +0100
+From: Amadeusz =?UTF-8?B?U8WCYXdpxYRza2k=?= <amade@asmblr.net>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: linux-sound@vger.kernel.org, broonie@kernel.org, tiwai@suse.com,
+ perex@perex.cz, linux-kernel@vger.kernel.org,
+ yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+ vkoul@kernel.org
+Subject: Re: [PATCH 6/7] ASoC: Intel: avs: Expose common PCM functions
+Message-ID: <20261102191823.117f3a58@milkyway>
+In-Reply-To: <20261102181042.1922005-7-cezary.rojewski@intel.com>
 References: <20261102181042.1922005-1-cezary.rojewski@intel.com>
- <20261102181042.1922005-4-cezary.rojewski@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 02 Nov 2026 18:14:43 +0000
+	<20261102181042.1922005-7-cezary.rojewski@intel.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,145 +72,32 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] soundwire: intel: sdw_intel_init_pdis() breaks PDI init on ACE2.x
-- [Medium] soundwire: intel: missing link power down on error in intel_link=
-_startup()
---
+On Mon,  2 Nov 2026 19:10:41 +0100
+Cezary Rojewski <cezary.rojewski@intel.com> wrote:
 
-commit 8870f97b0ab1ec823a91e4c81168130f5f4ee09d
-Author: Cezary Rojewski <cezary.rojewski@intel.com>
+> diff --git a/sound/soc/intel/avs/pcm.h b/sound/soc/intel/avs/pcm.h
+> index 0f3615c90398..ac127ade4ca1 100644
+> --- a/sound/soc/intel/avs/pcm.h
+> +++ b/sound/soc/intel/avs/pcm.h
+> @@ -9,8 +9,57 @@
+>  #ifndef __SOUND_SOC_INTEL_AVS_PCM_H
+>  #define __SOUND_SOC_INTEL_AVS_PCM_H
+>  
+> +#include <linux/device.h>
+> +#include <sound/hdaudio_ext.h>
+>  #include <sound/pcm.h>
+> +#include <sound/pcm_params.h>
+> +#include <sound/soc-acpi.h>
+> +#include <sound/pcm_params.h>
+> +#include <sound/soc-acpi.h>
+> +#include <sound/soc-acpi-intel-match.h>
+> +#include <sound/soc-component.h>
+> +#include <sound/soc-dai.h>
 
-soundwire: intel: Split PDIs and DAIs initialization
+Some headers are included twice?
 
-This commit splits PDI initialization out of intel_register_dai() in
-drivers/soundwire/intel.c into a new sdw_intel_init_pdis() helper and calls
-it from intel_link_startup() so that the register_dai() callback can be
-optional.
 
-> diff --git a/drivers/soundwire/intel.c b/drivers/soundwire/intel.c
-> index d53fa3d299bc7..708503373183f 100644
-> --- a/drivers/soundwire/intel.c
-> +++ b/drivers/soundwire/intel.c
-> @@ -1027,22 +1027,28 @@ static int intel_create_dai(struct sdw_cdns *cdns,
->  	return 0;
->  }
-> =20
-> -static int intel_register_dai(struct sdw_intel *sdw)
-> +int sdw_intel_init_pdis(struct sdw_intel *sdw)
->  {
-> -	struct sdw_cdns_dai_runtime **dai_runtime_array;
->  	struct sdw_cdns_stream_config config;
-> -	struct sdw_cdns *cdns =3D &sdw->cdns;
-> -	struct sdw_cdns_streams *stream;
-> -	struct snd_soc_dai_driver *dais;
-> -	int num_dai, ret, off =3D 0;
-> +	int ret;
-> =20
->  	/* Read the PDI config and initialize cadence PDI */
->  	intel_pdi_init(sdw, &config);
-> -	ret =3D sdw_cdns_pdi_init(cdns, config);
-> +	ret =3D sdw_cdns_pdi_init(&sdw->cdns, config);
->  	if (ret)
->  		return ret;
-> =20
->  	intel_pdi_stream_ch_update(sdw, &sdw->cdns.pcm);
-> +	return 0;
-> +}
-
-[Severity: High]
-Does calling sdw_intel_init_pdis() unconditionally from intel_link_startup()
-break PDI initialization on ACE2.x+ platforms?
-
-intel_link_startup() in drivers/soundwire/intel_auxdevice.c is shared betwe=
-en
-cAVS/ACE1.x (sdw_intel_cnl_hw_ops in drivers/soundwire/intel.c) and ACE2.x+
-(sdw_intel_lnl_hw_ops in drivers/soundwire/intel_ace2x.c).
-
-However, sdw_intel_init_pdis() is implemented in drivers/soundwire/intel.c
-and calls its file-local intel_pdi_init() and intel_pdi_stream_ch_update()
-helpers, which access the cAVS/ACE1.x SHIM layout at SDW_SHIM_PCMSCAP(link_=
-id)
-and SDW_SHIM_PCMSYCHC(link_id, pdi_num). On ACE2.x+, sdw->link_res->shim
-points to the per-link SDW_SHIM2_GENERIC_BASE(link_id), where the PDI
-registers are instead at SDW_SHIM2_PCMSCAP and SDW_SHIM2_PCMSYCHC(pdi_num).
-
-Meanwhile, intel_register_dai() in drivers/soundwire/intel_ace2x.c still has
-its own PDI initialization:
-
-drivers/soundwire/intel_ace2x.c:intel_register_dai() {
-	...
-	/* Read the PDI config and initialize cadence PDI */
-	intel_pdi_init(sdw, &config);
-	ret =3D sdw_cdns_pdi_init(cdns, config);
-	if (ret)
-		return ret;
-
-	intel_pdi_stream_ch_update(sdw, &sdw->cdns.pcm);
-	...
-}
-
-On ACE2.x+, intel_link_startup() will first run the cAVS/ACE1.x
-sdw_intel_init_pdis() against the SHIM2 MMIO space, reading bogus PDI counts
-and allocating cdns->pcm.{bd,in,out}, and then sdw_intel_register_dai() will
-call sdw_cdns_pdi_init() a second time (leaking the first devm_kcalloc() PDI
-allocations and leaving stale pointers in cdns->pcm.in or cdns->pcm.out if a
-stream count was non-zero in the bogus read and zero in the SHIM2 read, sin=
-ce
-cdns_allocate_pdi() returns early when num =3D=3D 0). Furthermore, if the n=
-ow
-optional register_dai callback is omitted on ACE2.x+, the SHIM2 PDI
-initialization will never run at all.
-
-Should init_pdis be dispatched through struct sdw_intel_hw_ops and split out
-of intel_register_dai() in drivers/soundwire/intel_ace2x.c as well?
-
-[ ... ]
-
-> diff --git a/drivers/soundwire/intel_auxdevice.c b/drivers/soundwire/inte=
-l_auxdevice.c
-> index 5983fbc5725a2..114dadedfa14f 100644
-> --- a/drivers/soundwire/intel_auxdevice.c
-> +++ b/drivers/soundwire/intel_auxdevice.c
-> @@ -423,6 +423,10 @@ int intel_link_startup(struct auxiliary_device *auxd=
-ev)
->  	if (ret)
->  		goto err_init;
-> =20
-> +	ret =3D sdw_intel_init_pdis(sdw);
-> +	if (ret)
-> +		goto err_init;
-
-[Severity: Medium]
-If sdw_intel_init_pdis() fails here in intel_link_startup(), should this ju=
-mp
-to err_power_up instead of err_init?
-
-At this point sdw_intel_link_power_up(sdw) has already succeeded:
-
-drivers/soundwire/intel_auxdevice.c:intel_link_startup() {
-	...
-	/* Initialize shim, controller */
-	ret =3D sdw_intel_link_power_up(sdw);
-	if (ret)
-		goto err_init;
-
-	ret =3D sdw_intel_init_pdis(sdw);
-	if (ret)
-		goto err_init;
-	...
-err_power_up:
-	sdw_intel_link_power_down(sdw);
-err_init:
-	return ret;
-}
-
-Jumping to err_init skips sdw_intel_link_power_down(sdw), leaving the link
-powered up, sdw->cdns.link_up set to true, and BIT(link_id) set in
-*sdw->link_res->shim_mask while sdw->startup_done remains false.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102181042.1922=
-005-1-cezary.rojewski@intel.com?part=3D3
