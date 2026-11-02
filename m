@@ -1,113 +1,109 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793609877;
-	b=hrtwIblcfrWvaHni+uovOIXicfqeAezLk36dnDXuAF7Vm8uYr3DcHp/i12SVqcqEVf2i
-	 nc5uj6kF7fTTMaDZlCA7kXaQYYu0TfBoyRqtdGIQufVQPsl2gu521JB/R5ykr329YYN/C
-	 dY3mXXoBUal8ggf+QK9q7iQ6VDWJpIl3RFnSo3V/pfg5GjdhFE3veKBZx5QWxBKOrGxUq
-	 VoUZGktgPZIeAeMCnNWrkZkZeIQD2vTralxxijZ6Nku9MiD287xALFvT0p/jOylGjcUyZ
-	 iU88riT1A6hyDNBHWKLHDdQyG8Jl5BXLBPXg8NxoKPEhV/h6oPgEtwNjmYdFKBx7hyw==
+	t=1793610010;
+	b=h96PKyHV+nISFsyN3z2Uia+zOmyqwjIrtWguW7WjJEtlFU+QKhAl/hKTtnIqpkTys7iU
+	 Ufc+WZbfS1x5/9Mr1eu+euKbUu9ojkMZctZiRuYpsLwLUOwXkoNFM/qLTJlmjgK8Hywds
+	 mD/zv7U/qh5Pp6VBpQEmIh4dHdSTYfKiewR/SlhGEPVolrDkE6Pvid2zyVAsuQg3kvA/0
+	 z8XyG8bvdmCW4mPPYz7A3c/Zu213IoCnK3Kx3sAgq3zP2RCHkqvy/hKllgqZIS1fQxKKd
+	 cul3CxUIQKYnYdDglFiWv6HTT85FQNJgZDPvfGH91pRMLsyLYG0Fw0rHhPrxqEDq75A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793609877;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793610010;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=3fxGFnrLPenEBS3hRgN9fftoOHtXAct/Kj+2DSQLtFw=;
-	b=ObA61q/CB1FxJhmV5BleTDr25t3SHKLtIzmA5x/ZtCZ9VOG51KsbYlfZpxb5zcOG0T0h
-	 m7vFWrBaZWIH0wXRTRRtn0E4XkxEZlAkMVFhxbidyZg5KZrLBgBIAZBWLlPZp1Af8lofK
-	 QUeoSeGY8Nm1cIEw5gfD+0ZYia1tXSkeDN4UCUOWvs809fkQCsXAPEstGh9zY9TzEhqFY
-	 aYa8Hhc1kRILJdFA5SjkFwr5zQpyfpXE2GzQVtyNv+RQgCByD0IoK93o4uUTcCvlh7cx/
-	 BqB9EtHzRvNrD08g9HlgfKK1/Zy/ZGQcKYUqDcLgko7vyPelNNU8HE3Y9QDsqDNDwiQ==
+	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=57BiYOXdOi8uKNsKTxyABVWaUaY+V4fc2euaOk5k4KM=;
+	b=V6c3ofFhBx5D8oDVpb4xoNwhARrH0aHg7aQtkQx2WU2L2osZG7Mim2RKHHrQKBkbQXGU
+	 kJ+3kymGBpEI59tPBSBLPhExrFPu1/55Yarh4DISm+mr3PrnDpPabKGIzevqGFjPtr9Vg
+	 6abepta+MkJNZw2cByDc8iJDPxyGBsaae6PUyi8LRcuekcSFp+MWWNNItfIXuNmBHygaW
+	 ZfR1jk/36bso0s8bU7h0w5hB5U52sW0hMHPxSm0Z3AvpcDvN233kXskncxe7CN3WmVXVz
+	 kivgpe5b0uSPIaPeq/4MY5FQ4CafYhv0sbNjrhuamZHfYhvofW5HZKbllzt+UKnEx+g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Z7Oj74UK;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cIiyNdLY;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Z7Oj74UK;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cIiyNdLY;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="FNY8/VdP";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6jA1WgW0;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="FNY8/VdP";
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6jA1WgW0;
 	arc=none smtp.remote-ip=195.135.223.130
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F5F606A32E
-	for <linux-sound@vger.kernel.org>; Mon,  2 Nov 2026 08:57:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28F5F606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A79606A333;
+	Mon,  2 Nov 2026 09:00:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64A79606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Z7Oj74UK;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cIiyNdLY;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Z7Oj74UK;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cIiyNdLY
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FNY8/VdP;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6jA1WgW0;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FNY8/VdP;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6jA1WgW0
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 91F7E21EB8;
-	Mon,  2 Nov 2026 08:57:47 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 83876222B7;
+	Mon,  2 Nov 2026 09:00:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793609867; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793610008; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3fxGFnrLPenEBS3hRgN9fftoOHtXAct/Kj+2DSQLtFw=;
-	b=Z7Oj74UKbtdUkAKOLh+GKY5N/GfaHCWXDYMHK2ntHPbTqbdaImIRuM5fFvbspPEFKBIoSo
-	QXlE+NdSCLUsLYZxRPskM6kgT8NveBaWIUg7wHGla+smbkcnKISSYCHlNXTO8e/nqIVhvU
-	JRbXWoKve1rKi/neB2bjPwNzegsVQLw=
+	bh=57BiYOXdOi8uKNsKTxyABVWaUaY+V4fc2euaOk5k4KM=;
+	b=FNY8/VdPl6jRayA3Go7XyVATXkMA3YHP41BzvYg/FJwwaxGy5f4Dq3VuwclK/ChBYLMdY9
+	l5RGU78ABBIgdmNMH3eYq89TxnOc1eLN0x5GcEpf8lOTDDUKYvT5FTov4dU/8g57rwP1j7
+	E2ML55EWILvtlhTxNTIJbkhEjb3GAVk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793609867;
+	s=susede2_ed25519; t=1793610008;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3fxGFnrLPenEBS3hRgN9fftoOHtXAct/Kj+2DSQLtFw=;
-	b=cIiyNdLYVOhJHW590PBqD2l5SlhN/37+jP940ns8cA/lCEkQXvnQfHWbX3MPmCc0j3oqXa
-	MO+nbwpWekP8rXDA==
+	bh=57BiYOXdOi8uKNsKTxyABVWaUaY+V4fc2euaOk5k4KM=;
+	b=6jA1WgW0bl/+wJCuHWw5yj7yjLoHo8IlOZ9EVIliyrW3TgxcaS4XrsLIra0A5xIMJ6TNN9
+	49xzfuiyQW18rRCQ==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="FNY8/VdP";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=6jA1WgW0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793609867; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793610008; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3fxGFnrLPenEBS3hRgN9fftoOHtXAct/Kj+2DSQLtFw=;
-	b=Z7Oj74UKbtdUkAKOLh+GKY5N/GfaHCWXDYMHK2ntHPbTqbdaImIRuM5fFvbspPEFKBIoSo
-	QXlE+NdSCLUsLYZxRPskM6kgT8NveBaWIUg7wHGla+smbkcnKISSYCHlNXTO8e/nqIVhvU
-	JRbXWoKve1rKi/neB2bjPwNzegsVQLw=
+	bh=57BiYOXdOi8uKNsKTxyABVWaUaY+V4fc2euaOk5k4KM=;
+	b=FNY8/VdPl6jRayA3Go7XyVATXkMA3YHP41BzvYg/FJwwaxGy5f4Dq3VuwclK/ChBYLMdY9
+	l5RGU78ABBIgdmNMH3eYq89TxnOc1eLN0x5GcEpf8lOTDDUKYvT5FTov4dU/8g57rwP1j7
+	E2ML55EWILvtlhTxNTIJbkhEjb3GAVk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793609867;
+	s=susede2_ed25519; t=1793610008;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3fxGFnrLPenEBS3hRgN9fftoOHtXAct/Kj+2DSQLtFw=;
-	b=cIiyNdLYVOhJHW590PBqD2l5SlhN/37+jP940ns8cA/lCEkQXvnQfHWbX3MPmCc0j3oqXa
-	MO+nbwpWekP8rXDA==
+	bh=57BiYOXdOi8uKNsKTxyABVWaUaY+V4fc2euaOk5k4KM=;
+	b=6jA1WgW0bl/+wJCuHWw5yj7yjLoHo8IlOZ9EVIliyrW3TgxcaS4XrsLIra0A5xIMJ6TNN9
+	49xzfuiyQW18rRCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 11900134B8;
-	Mon,  2 Nov 2026 08:57:43 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3CD0C134B8;
+	Mon,  2 Nov 2026 09:00:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xSa6NYZQ6GrYUAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 02 Nov 2026 08:57:43 +0000
-Date: Mon, 02 Nov 2026 09:57:42 +0100
-Message-ID: <87ecd34nll.wl-tiwai@suse.de>
+	id VQVFBRhR6GoHUwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 02 Nov 2026 09:00:08 +0000
+Date: Mon, 02 Nov 2026 10:00:07 +0100
+Message-ID: <87cxsn4nhk.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Joonho Lee <mynameisjune111@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	tiwai@suse.de,
-	perex@perex.cz,
-	anton.yakovlev@opensynergy.com,
-	mst@redhat.com,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v11 00/14] ALSA: virtio: staged capture recovery and PCM RESET synchronization
-In-Reply-To: <20261031020855.2402-1-mynameisjune111@gmail.com>
-References: <20261031020855.2402-1-mynameisjune111@gmail.com>
+To: Ingyu Jang <ingyujang25@korea.ac.kr>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/5] ALSA: ice1712: Make chip_init helpers return void
+In-Reply-To: <20261101172134.3451066-3-ingyujang25@korea.ac.kr>
+References: <20261101172134.3451066-1-ingyujang25@korea.ac.kr>
+	<20261101172134.3451066-3-ingyujang25@korea.ac.kr>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -119,165 +115,54 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 83876222B7
 X-Spam-Level: 
-X-Spamd-Result: default: False [-12.30 / 50.00];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-12.51 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.30
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -12.51
 
-On Sat, 31 Oct 2026 03:08:41 +0100,
-Joonho Lee wrote:
+On Sun, 01 Nov 2026 18:21:31 +0100,
+Ingyu Jang wrote:
 > 
-> Hi Takashi,
+> snd_ice1712_chip_init() and snd_vt1724_chip_init() always return 0, so
+> the error checks on their return values in the probe and resume paths
+> never trigger.
 > 
-> This revision supersedes v10 and includes the unmerged prerequisites.
-> Apply patches 1-14 to sound.git for-next at
-> a4311e9447bbb219044db38897f95be112f46a8a. Targeting 7.5 or later still
-> works for me.
+> Change both functions to return void and remove the dead checks.
 > 
-> Previous revision:
-> https://lore.kernel.org/linux-sound/20261030052629.27742-1-mynameisjune111@gmail.com/T/
-> 
-> The series adds staged capture accounting for shared clients such as
-> dsnoop, lifecycle recovery, and synchronized PCM RESET accounting. The
-> capture compatibility options remain opt-in and disabled by default.
-> 
-> Changes since v10
-> 
-> Sashiko raised nine findings in patches 4, 9, 12 and 14. This revision
-> folds the corrections into the relevant patches and carries the queue
-> retirement checks from patch 3.
-> 
-> Patch 4 seeds ordinary RX once per prepare. Native STOP leaves requests
-> and unread samples owned by the current ring, so resume preserves them.
-> Consumed or discarded space returns through ACK and RESET. This avoids
-> inflated pending lengths and resubmission of unread DMA slots.
-> 
-> Patch 9 restores notifications after rejected native pause and handles
-> both success and failure on the already-running START path. Ordinary
-> capture now honors the XRUN latch in ACK. Its monotonic completion count
-> also detects a whole unobserved ring and reports XRUN for prepare
-> recovery. Capture completions preserve the latch from this patch onward.
-> 
-> A first version of the recovery notification exposed an old ring of
-> samples after paused RESET. Passing every wakeup through period_elapsed
-> let ALSA infer a wrap without a newly completed period. The worker now
-> uses the partial-progress helper for synthetic wakeups and retains PCM
-> timer notifications for actual new periods. The sample comparison and
-> a periodic PCM timer test both reproduce the candidate regression and
-> pass with this separation.
-> 
-> Patch 12 removes the second appl_ptr assignment after a callback member
-> has completed prepare. A linked member's prepare can sleep while the
-> first member accepts SYNC_PTR. The callback path now preserves that
-> acknowledgment under its PCM lock. Explicit RESET retains playback
-> silence handling; prepare leaves filling to the normal START path.
-> 
-> Patch 14 checks the existing XRUN and lifecycle state before mutating
-> paused indirect accounting. The RX queue and substream locks cover its
-> pointer observation, temporary accounting and refill. The notification
-> floor follows the RESET observation. Refill failure retains the existing
-> zero-return policy while the worker reports XRUN and prepare recovers it.
-> 
-> Patch 3 retires each queue wrapper under the detach lock and checks queue
-> identity in PCM, control and event callbacks. The proposed detached-ring
-> IRQ failure was not reproduced on the tested PCI transport: forced
-> callback tests passed on both versions. This part strengthens teardown
-> ownership boundaries; the transport reset callback synchronization
-> contract still applies.
-> 
-> Patch layout
-> 
->   1-6: ACK errors, START/RELEASE recovery and request/DMA lifetime.
->   7:   Core stop-threshold accesses used by capture policy sampling.
->   8:   Partial-progress notification under the PCM stream lock.
->   9:   Staged capture, shared capture policy and lifecycle recovery.
->   10:  Staged capture work priority.
->   11:  Capture compatibility option documentation.
->   12:  Optional PCM reset operation under the stream lock.
->   13:  Staged capture RESET accounting.
->   14:  Ordinary capture RESET accounting.
-> 
-> The core API additions remain separate from their driver users. Drivers
-> without a reset callback retain the ioctl path. Linked RESET and prepare
-> retain their first-error, partial-completion contract. A zero RESET
-> return allows the core rebase to finish; later I/O can report -EPIPE and
-> require prepare or reopen. The internal snd_pcm_ops addition requires
-> out-of-tree modules using it to be rebuilt.
-> 
-> Validation
-> 
-> The functional candidate passed 23 ARM64 QEMU runs with KASAN and lockdep,
-> covering error injection, recovery, reopen and compatibility tests.
-> The core fixtures covered 72 atomic/nonatomic, callback/legacy and linked
-> failure cases, including playback silence. snd-dummy and virtio-snd each
-> passed three playback/capture cycles. Additional timer comparisons kept
-> real period ticks and removed the synthetic resume tick.
-> 
-> For both ordinary and staged capture, an uninstrumented kernel recorded
-> 70 seconds through RW and another 70 seconds through MMAP after
-> PAUSE, RESET and resume, followed by reopen. All 14 segments,
-> 14,208,000 S16 mono frames at 48 kHz, matched independently generated
-> SHA-256 values from QEMU sequence metadata. The oracle includes the
-> intended RESET discard and backend epoch boundaries. The earlier failing
-> candidate and its sample comparison remain in the local evidence.
-> 
-> The paused interleaving test verifies the new atomic observation
-> boundary; it does not establish sample loss in the original code.
-> ARM64 W=1 Image/modules and ARM32 LLVM object builds passed. Test hooks
-> remain separate from the submitted code. Each mail patch is applied to
-> the pinned baseline and compared with its expected intermediate source.
-> 
-> Fresh v11 postimages at stages 3-14 built without compiler warnings.
-> Nine additional stage VMs passed, including eight injected recovery cases
-> at patch 9, staged native and pause-restart capture, and paused RESET at
-> patches 13 and 14. All six additional MMAP segments matched the sequence
-> oracle. Neighboring patches have refreshed contexts where earlier changes
-> moved their code.
-> 
-> Packaging also adds braces to one existing staged if arm. The new module's
-> executable, relocation, data and symbol sections match the tested module
-> byte for byte. The fresh stage tests above use this formatted source.
-> 
-> These results cover QEMU synthetic input. Physical VZ/MOTU acceptance,
-> an independent KCSAN run and broader format/multichannel and ARM32
-> runtime testing remain pending. The high-load TCG scheduling results
-> from earlier revisions still limit performance conclusions. The new
-> ordinary full-ring check reports -EPIPE where the modulo-only path could
-> wait indefinitely. The core progress helper and linked RESET contract
-> still need maintainer review.
-> 
-> Coding assistance was used for analysis, implementation, fixtures and
-> this explanation. The patches carry Assisted-by: LLM.
-> 
-> Thanks,
-> Joonho
+> Signed-off-by: Ingyu Jang <ingyujang25@korea.ac.kr>
 
-Sashiko reported still a few issues.  As they seem to be rather minor
-issues, I can work v11 now and you can fix incrementally.  Or you can
-resubmit v12, if any.  Let me know which way you prefer.
+This one doesn't apply any longer due to the recent change.
+Could you rebase and resubmit only this?  Others have been merged.
 
 
 thanks,
 
 Takashi
-
