@@ -1,131 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793629582;
-	b=eLqUIeLyKimRJdqOqYufy017G1M/rkZYWMCLPH9PGzhRx9TKHTnv07C4+cO6XFcwqOgD
-	 MHBjj0ml97zuYg65/9LiwTPzPAZ2fWD9KT1or19mntOATDk4mpSMc7x3/15k8T73d2jO4
-	 GoqoZItS7jGzxkcCNNqFVwXQiVYE35lDPpZZStiA4Bt0JgP7kt1QdhPbgiGL5KxpAT05G
-	 q0mKCjImBdOH7pqrS3aQKek5SX+GQimfZQHilZoumC87FdXThE2/a1ne5hqD/ErHYctB8
-	 Aghyqg63i+uAQDqlPmt7b69A3unFxr62xx07+saCOLRXjvLqNuK4UzjHQbqU2boAbtw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793629582;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
-	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
-	 Received:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-Proofpoint-GUID:
-	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Reason;
-	bh=tWqozxyFrdFEt0XVxqE03dmjHUpPunMGDVo5iYeswY4=;
-	b=p7MipSxPk9xcITOZeIk9byTnH/ctu8f2IelzOomo51pTsuzveK7AwIKMllLVAlYztb0K
-	 85Hz/qqNyOUazQUFTVtpb1lFnDJliiuKHb5/kGBX1LrOQo4JZUdPnOV9b0vrku/keqIrB
-	 kCnpQhZ1+7aw4J9P8i4d+q7Ik3pwPwEpOp1t842NYbH6knUgEPkJ+kggnLzy9/5UDUg6B
-	 7cjZsobSL4S8i1W5SOAOWOAuu9Lc9qP1gBK6F3ltivzOefJCPYvNelPyxaAynWBKpT6XW
-	 +4O9cy5dG4zOj753gih7/UUo/6eHOvjbjc6sNGhMD4tSdS/oxdviIf5mEM7442cgeuQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=opensource.cirrus.com;
-	spf=pass smtp.mailfrom=opensource.cirrus.com;
-	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=e11Ue3q5;
-	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=dZ1UQcxo;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793629589;
+	b=u5f2aWsjHrtHWl8lnTKRBboEo1+Msy1dDSo+k7RCNwguvjzXLz167j7B2ZC0O0R3yrUk
+	 qf6do1+7J0LX10V9Gk/qzuy6W676wOh4oxhywh5zl9lbVFVrPsBApDKmIY3X9TP/4MvU7
+	 c5IYS2+R2ZoxcL5rycCnU6xMOJGS6W8f7LAOab10FMMbWz2fmM2CbZjaj/3yGYQsWhxQQ
+	 vIBJWAPErOjPh4hCWrZxme4NKhfs5SkpaTc6qd0thuOpbHEEiLV4AYOE1w/XE3NaduNsp
+	 lhwbc9TuX8v0DSYbYYuqxNtBkIdFBp95Qhrf9fQDgWh+wgUiGAsXz/5c+QmdL3NRFlw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793629589;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=+smlnQLXpLrL35ZrT755yEE+Gx6TEny4ygG6ui3b9as=;
+	b=ATQnD5f/XfCSFTTAcuKVEFvJTiRpQXTQ+cf1rbFykSNnQalv71k24iep/Il7eCoRt3U5
+	 LF6WnTaiXuEmE18RwPNMRvw7q+1Ufspubu/zo6J1/HcIFUng6ziE7TsMbRWN6H9LLFtE2
+	 7TNxcm3NitowaFadcT+9VwaFwG9gtBP38ALhgJu4SHhAsal1xH53D2hut+E5FIL0MwoWw
+	 BC7AjpeSXKn4wfsyeQL15bdb2crrZmYGYZDK6YhsDqrsdyVGWR8dCjKu9skqg1iaTn6SK
+	 XwAyIKZOXhSE5rI+v2ylFHfIdVa2aHRzBPVvTa7s3Ua/l1b6id/wqcpq+wQ5ZmuuE5w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XJEhvund;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488A3606D817;
-	Mon,  2 Nov 2026 14:26:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 488A3606D817
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9933606A333;
+	Mon,  2 Nov 2026 14:26:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=e11Ue3q5;
-	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=dZ1UQcxo
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A2EOWUA3054427;
-	Mon, 2 Nov 2026 08:25:21 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=tWqozxyFrdFEt0XVxq
-	E03dmjHUpPunMGDVo5iYeswY4=; b=e11Ue3q5GNuYEUfA85UIl7ikFRv3L+jYZo
-	SrZ8ZIhtYmzpam9GtWtI4BMjYpk57ONx8dkO5v2xzzY53Tc5MmFVEs63zu23bqDF
-	MxUJVQJDWfqTWEFt50+3K4T8YsxjyaBTSK3Up7RqqkzL1NACK+aPerhpcW6//Gfk
-	5q0pWr1AGkWH7hvfOK24b1e/VB4sh6ZGmv9ELD/M0QYTUSzS+zzevGZTaHWSRGeA
-	4HD+nrh4rV8AqHxfawv2XkeHW1jxdoQM7eU81qKkphYbMiu7G2+wQBaoi+cXjoK2
-	y6Ed7eLadW2henScJH5SEqA/B/tJxqEWGOmCli1jsllMnnIT96Dw==
-Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11022128.outbound.protection.outlook.com [40.93.195.128])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4hndrf9wgc-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 02 Nov 2026 08:25:21 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tc2kWIETpwj0h8GUmcSBmnDL9u4Zg7KQC0J+Go1Wllu9l9dLC/NEMLQwptY3JeTmv6LTZF3/xLb8R7zRWA5ljr7CO5I+RCF4ngLVSLLxqSG/JUGTZm5PYtlkzcV/Mxr7NOX4CdUDVq5vduzu9yWdiK9xAp9wgX/2+5MYsKcCre7zK/dspOHcfvSajZipuaFfdcKIXt8NSA1k3TwYwFpqYxnnna8nFDMoXJ+245EkhwL/ddUmuGRUHXke0mmqY8XfT7lN8QEqO5jzbhKJKCWhQTTk8PQpW2zT6J2cNTo5SbFsmnc5QEOvjUaqXcL1psH20bM/ItJlxF2xKWGYWtL6+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tWqozxyFrdFEt0XVxqE03dmjHUpPunMGDVo5iYeswY4=;
- b=tW+qY3tuqS403rm4ToFXjQp6lx0ar+E0KjmtZ24rCbjNYoSJm92gyK2/xslfMDI98gbZQMcuDuh9QIrA8vU61VPICIYPeoh7kdSEdOe9xcEZ4Gqm3fff6fdG6oeds2RQF1gfxQrMoyiY1OV4+pmUmmebdFmcO68NSh49Mr0qOxScrrjqH/P4MhJtj4M+a4Xs0S1SXlR2szW6uI9JPmIh/ACeQfAtfXtDVQokTHIZUmLHEc4dJaoGBJAIBVQUzBCE4R9/Yp6mfYZMmKCIC6bRLp0BOEeLFCx8hSUy08mGHBC2ohV7vy7fbdKlUGUTSlvMWoCscaNz8wLk72XA+Go7AA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tWqozxyFrdFEt0XVxqE03dmjHUpPunMGDVo5iYeswY4=;
- b=dZ1UQcxofHZlpriJNE4aEVvXxOQ7oCb0CnH38NegkeOV0cd5Y9YH4Z8db8fcvqi4jV3IHDbkMr3uyw/MO7DVHjU4ZkTuEjnqCHDvYNGYssU0GE4NRpP4QqRvU/Gkchup0Pf9Zn3oswh3BsGehdQgODUPutMhTnav+X4I9X1+hqs=
-Received: from CH5P221CA0022.NAMP221.PROD.OUTLOOK.COM (2603:10b6:610:1f2::23)
- by DM6PR19MB3755.namprd19.prod.outlook.com (2603:10b6:5:229::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Mon, 2 Nov
- 2026 14:25:15 +0000
-Received: from BN7PEPF000000A7.namprd05.prod.outlook.com
- (2603:10b6:610:1f2:cafe::50) by CH5P221CA0022.outlook.office365.com
- (2603:10b6:610:1f2::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.569.12 via Frontend Transport; Mon, 2
- Nov 2026 14:25:15 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
- IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
- not signed) header.d=none;dmarc=fail action=oreject
- header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BN7PEPF000000A7.mail.protection.outlook.com (10.167.245.231) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.5
- via Frontend Transport; Mon, 2 Nov 2026 14:25:15 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id BB431406544;
-	Mon,  2 Nov 2026 14:25:13 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 99347820273;
-	Mon,  2 Nov 2026 14:25:13 +0000 (UTC)
-Date: Mon, 2 Nov 2026 14:25:12 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Tristan Madani <tristmd@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>, Oder Chiou <oder_chiou@realtek.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Bard Liao <bardliao@realtek.com>,
-        Misael Lopez Cruz <misael.lopez@ti.com>, patches@opensource.cirrus.com,
-        linux-sound@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v4 4/4] ASoC: wm8994: drain delayed works on remove and
- probe error
-Message-ID: <auidSMrWVmT8cW2u@opensource.cirrus.com>
-References: <20261030170416.1839402-5-tristmd@gmail.com>
- <auhdJGbYnY95tJBS@opensource.cirrus.com>
- <6ae87c48.eabad26b.28ae48.d5ab@mx.google.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XJEhvund
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13A611F00A17;
+	Mon,  2 Nov 2026 14:26:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793629588;
+	bh=+smlnQLXpLrL35ZrT755yEE+Gx6TEny4ygG6ui3b9as=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=XJEhvund6hMVPQJ3RcEchBrOm5EXEzPG/XmOipl3N20lbtuOVIbVGGth/lwANQmOm
+	 2MLHVUgbpwmfwoS6ZxvNWEGNZytL8um4VA7L96QCc5ZElIKpNRCAnjTuSrPtTgq/Ku
+	 F0u5uYY2avJ1M+M77dUQXw+eL3oJN09kinA/iBSZfN3TBIPuTtvvoIYzixJ6K1SmrK
+	 we6emJ68mbMzZ9QAzcQ4Aq8/Ofd0frHNm3JBOohEdkJCS96TvC/88mtWwbGHABeGbk
+	 QZHQknmcNs15nJxqRWMOPnS6OX7+hzotVdKm4q4BOSltonATyDmmP/vwWts9yNXKSM
+	 NLhKCLq2kEgYg==
+From: Christian Brauner <brauner@kernel.org>
+Date: Mon, 02 Nov 2026 15:21:35 +0100
+Subject: [PATCH RFC 20/38] selftests/proc: check a /proc listing while
+ entries come and go
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -135,80 +53,343 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6ae87c48.eabad26b.28ae48.d5ab@mx.google.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN7PEPF000000A7:EE_|DM6PR19MB3755:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4c0fe751-8341-4cc7-f659-08df38ed1cd9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|82310400026|23010399003|376014|7416014|61400799027|6133799003|10067099003|22082099003|16102099003|18002099003|56012099006|11063799006|4143699003|261021121427099003|261022105027099003|261022075727099003|261026140227099003|261009223027099003|261028144727099003;
-X-Microsoft-Antispam-Message-Info:
-	H9Oa4ZyUYzhGvwQ3ztoHC2OHHtiiheWzdnhnoXW61tha1W/OXQ1sLPe5ce9cOQxYLJlr7nEZrbbLrDwpp9+ugMKrr5R8yFZr9p0ovGGofhlu3LjMxdB6YH4BjwQKeifPq2nQowPNdYZORnZ1kYTL2JFJ06d7KdhTyWlLS/gooj+C2T6stUqKXb7uF6fFVECR2C6LEGJQzFvyfBUHi8xdhes0DKAy4H0Iy9k9gp9rw3mDKs/s8pMhTxd2xXbam/PZl3xRZrjGRE0ApLHyWUuvQgVEDzzPWc6biVRT+kiVV81mGIF4IkhbIUCwUZYJFP6ZToUMqsZDzEoDAT/hyBUbAXlo5kVdDpkCcuS2SMLCbPVoTUh7W6V6Yr2FFu5x2RnYKmitoG5w0bueuPwA4VQarbKtzJjS19QO0YtdeAedSZX6YZ4kOBdgkDWMv6gL5Lqc2KsIvko3Uv50bSwdLcZEGqrlud41bzq89518xUC0ZRmMW/FUV5Ks88C+HSQxwREOHKyyT+5J2+Bun5TJRMQt5dmMAu6v1JAImEmYBKBuUJRGXNg0aybiIu1368g/zHiUE06xSt9lCizMw70T6N0XFsD1+ExPNj4g+yjDml5+Eg0rbr1ais8jO5v+md5YgrIe8Fyw2bKLn22xVSehcMW0kxTRwIjU2X5HUvpPogL+lvgc4/ZgAp+KrXy9F7A2US/8erbp5XzhW1HQBon2X1oMhg==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(23010399003)(376014)(7416014)(61400799027)(6133799003)(10067099003)(22082099003)(16102099003)(18002099003)(56012099006)(11063799006)(4143699003)(261021121427099003)(261022105027099003)(261022075727099003)(261026140227099003)(261009223027099003)(261028144727099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	jCJH2mJ/BRLbApaxiVHj/HA0dPKSK4O8aw3Iq5IKOnQU4I5TiWLwpnwluKlMcU9O5qSvvAGwk3t4P3jnKhJehzxDSQabQpkiKHh9R0o6e7k5YsG1bWyFGpB8P+4HI8rJ78Uwt3nm7aR21dSZHs0blO9PmtpEkvaKItMAnZ3LpUMOaRY19jA87p8Ep0NI/Rde0f3/2cvonT6E0Vj+l9FSWniXy4ZgLPfaqHUB5NNSEREsBJ+vpQLMOKNWmTajDnr+GTDXyaXnAsHF3D8oXHaJL8NokYRY10dVtCz9llhK3OE9M2VUhLMGr+Sf5p/Na5lOx4R8STQdGQOTzMqbFdA4jbyHsQ25UAM2Bsh4myVcEDCn6a54M/nbAhTr39CDtcooTlAP43Mxxuk9bZeAbtmQpz0vj25tlEkMYN53Z4lSTH5+gaDT8aI020PAlBIPIZrC
-X-Exchange-RoutingPolicyChecked:
-	lOi+Bb4Bmhe4lU58HmDAjZrf+YfiAF7wdk5YJmtQodbvWHAt4+41YJWoX7UBUFQus9JrQ04/LSwb9NlJ9yMFSVkNDqppklx4Yuib2qyeJj7T0lcfS4yWGIjLixjNWwyLfBgniTm0dvDIeHtL7RlVsN4GLq7VhTa48anTnAx5wibB5RESysrS5N65M2K0DyjqtntLr+2bQlZxeG9DvK7bKXlOkgCCbFPHtlAtfOOOdf8GPNae7gTfqCSz+jAkhRBkWbMm6QZNZqLgEta//LCZPd7CyUQHVsB5AvlHnxIGZdA0XDekCfuiaqHaMAQOF9bOncbgbVwxKjqyU/uS0NvbBw==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 14:25:15.0213
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c0fe751-8341-4cc7-f659-08df38ed1cd9
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN7PEPF000000A7.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR19MB3755
-X-Proofpoint-GUID: T89DtutAddZyMwniePjvYoy9CURTf_uK
-X-Authority-Analysis: v=2.4 cv=HMRWhYtv c=1 sm=1 tr=0 ts=6ae89d51 cx=c_pps
- a=+WkigaN7fx4UYWmYucrQAQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=pSIma_B1SM4golTAR9AA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: T89DtutAddZyMwniePjvYoy9CURTf_uK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA1NyBTYWx0ZWRfX3B/QKfQJr6/8
- sSL9ohJ+1d6xd2Hf9Z5ZsLEXVUHmepkNqn+Xw1KMAkjAXGuU8qNFbCyq5AButbqi0apnEUIODTk
- iOhrnYYi9XIbOi8xenALE/sfgD4BNwXEeFe320Z3z33N3PTA/7V2RVLDw77Nq5+vm2Bb2qgCFnZ
- mMv53u/BrJIjZj+LSkSyfOnKwtJI9qs4AE5kwL9dc9IkuA1GQ3+ZF9rMHXsUVYAvCl7/7VPsQBv
- fivMHZEILjnP4WCUzTkLk57pZvmWUbysZLRHSvePKYfBulPn1O+48zhxPD7gjVO8leUHvN5Y4ON
- Q2hZcvJtKqg+IjPF84Ni5F+wmwm2hGeYdyuPbZGdyuJBFyGjTXbo2+uHzzhyXViwEV32I2uxsRM
- S+A4xV/oRdFm3rxlbklgNeNgF/5+6iSn9zZVNk8p+sLYJ5z5snV8ZLHTud3iDQRlxa41nDmbKiZ
- 83k0vCh8YhXGaAsU2Rg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA1NyBTYWx0ZWRfX+dizXFwCOg6R
- f69xPNBsjAUEzK22FL5/uYZvibkh6MlN9DC3GgKHAJ91rNSsEEz3dss/Po4N3/AxNZJxkFWtyg8
- FliK1qSQMWRdSKCkd6gdQuEgE/3mBTk=
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261102-work-procfs-bugfixes-v1-20-59422ed3e465@kernel.org>
+References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
+In-Reply-To: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+ Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+ Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+ NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
+ Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+ Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+ Greg Kroah-Hartman <gregkh@suse.de>, 
+ Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, 
+ Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+ linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+ linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, 
+ ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+ coreteam@netfilter.org, kexec@lists.infradead.org, 
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+ netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+ linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-cifs@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+ linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-sh@vger.kernel.org, 
+ linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+ sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+ linux-doc@vger.kernel.org, linux-serial@vger.kernel.org, 
+ linux-atm-general@lists.sourceforge.net, Takashi Iwai <tiwai@suse.de>, 
+ linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+ linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
+ linux-debuggers@vger.kernel.org, 
+ "Christian Brauner (Amutable)" <brauner@kernel.org>, 
+ Chuck Lever <cel@kernel.org>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8577; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=6+oF1vHJFxUuLveQtxt4wRQj/KGMCrRoYw4g79cugGE=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9mJPdk2/MaPxuoVaHsJFFWUnHu7MegVvsd+nWb7w79
+ YfU78hZHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABPRPMTIsFeHlV3F/6jK3TCp
+ 71XvNEzlLc87dG3dbSaXlxFZc7FZhuF/9HF+hXesy7/WGOV3RQY+PZAT9Yl/vifbXOeYsx2PWTR
+ ZAQ==
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Mon, Nov 02, 2026 at 01:04:24PM +0100, Tristan Madani wrote:
-> On Mon, 2 Nov 2026 at 09:51:32 +0000, Charles Keepax wrote:
-> > Both paths appears to cancel the mic_work twice?
-> 
-> Yes, intentional.  wm1811_mic_work() can re-arm jackdet_bootstrap
-> through the DAPM power-up chain (force-enabling MICBIAS2 triggers
-> clk_sys_event which queues jackdet_bootstrap), and
-> wm1811_jackdet_bootstrap() ultimately queues mic_work back.
-> 
-> So the sequence is:
-> 
->   1. cancel mic_work           -- drain whatever is pending
->   2. cancel jackdet_bootstrap  -- drain; if its handler was in flight
->                                   during (1) it may have re-queued
->                                   mic_work
->   3. cancel mic_work           -- catch that re-arm
-> 
-> Without the second mic_work cancel, a jackdet_bootstrap handler
-> running concurrently with step 1 can slip a mic_work re-queue in
-> between steps 1 and 2, and that work fires after resources are freed.
+List /proc/net/dev_snmp6 of a new network namespace while a tun device
+comes and goes:
 
-:-) I see, I think would be good to add a comment in the code for
-that.
+- with a buffer that holds the dots and "lo", add a device whose name
+  sorts first, finish the listing: "lo" is listed once
 
-Thanks,
-Charles
+- with that device added and a buffer that holds the dots and it,
+  remove it, finish the listing: "lo" is still listed
+
+- with that device added, stall getdents64() on a userfaultfd page
+  while it writes the device's entry, remove the device, finish the
+  listing: "lo" is still listed
+
+All three fail without the fix, the first lists "lo" twice, the other
+two not at all.
+
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ tools/testing/selftests/proc/.gitignore           |   1 +
+ tools/testing/selftests/proc/Makefile             |   1 +
+ tools/testing/selftests/proc/proc-readdir-churn.c | 236 ++++++++++++++++++++++
+ 3 files changed, 238 insertions(+)
+
+diff --git a/tools/testing/selftests/proc/.gitignore b/tools/testing/selftests/proc/.gitignore
+index 9c9735570abf..8520c7878ea2 100644
+--- a/tools/testing/selftests/proc/.gitignore
++++ b/tools/testing/selftests/proc/.gitignore
+@@ -8,6 +8,7 @@
+ /proc-maps-race
+ /proc-multiple-procfs
+ /proc-net-dev-lseek
++/proc-readdir-churn
+ /proc-empty-vm
+ /proc-pid-vm
+ /proc-self-map-files-001
+diff --git a/tools/testing/selftests/proc/Makefile b/tools/testing/selftests/proc/Makefile
+index a7de2bb6d8be..e0c0d313f4d0 100644
+--- a/tools/testing/selftests/proc/Makefile
++++ b/tools/testing/selftests/proc/Makefile
+@@ -11,6 +11,7 @@ TEST_GEN_PROGS += proc-2-is-kthread
+ TEST_GEN_PROGS += proc-loadavg-001
+ TEST_GEN_PROGS += proc-maps-race
+ TEST_GEN_PROGS += proc-net-dev-lseek
++TEST_GEN_PROGS += proc-readdir-churn
+ TEST_GEN_PROGS += proc-empty-vm
+ TEST_GEN_PROGS += proc-pid-vm
+ TEST_GEN_PROGS += proc-self-map-files-001
+diff --git a/tools/testing/selftests/proc/proc-readdir-churn.c b/tools/testing/selftests/proc/proc-readdir-churn.c
+new file mode 100644
+index 000000000000..223b8a6698ee
+--- /dev/null
++++ b/tools/testing/selftests/proc/proc-readdir-churn.c
+@@ -0,0 +1,236 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * A listing of a /proc directory that takes more than one getdents64()
++ * must not show an entry twice or skip one when an entry is added or
++ * removed in between, and a listing must go on after an entry that is
++ * removed while it is being emitted. /proc/net/dev_snmp6/<dev> of a tun
++ * device comes and goes with the device.
++ */
++#define _GNU_SOURCE
++#include <dirent.h>
++#include <errno.h>
++#include <fcntl.h>
++#include <limits.h>
++#include <linux/if.h>
++#include <linux/if_tun.h>
++#include <linux/userfaultfd.h>
++#include <poll.h>
++#include <pthread.h>
++#include <sched.h>
++#include <string.h>
++#include <sys/ioctl.h>
++#include <sys/mman.h>
++#include <sys/syscall.h>
++#include <unistd.h>
++
++#include "../kselftest_harness.h"
++
++#define SNMP6_DIR	"/proc/net/dev_snmp6"
++#define TUN_NAME	"a0"		/* sorts before "lo" */
++#define TUN_PATH	SNMP6_DIR "/" TUN_NAME
++#define SMALL_BUF	80		/* ".", ".." and one short name */
++#define NAMES		64
++
++static int tun_open(const char *name)
++{
++	struct ifreq ifr = {};
++	int fd;
++
++	fd = open("/dev/net/tun", O_RDWR | O_CLOEXEC);
++	if (fd < 0)
++		return -1;
++	strncpy(ifr.ifr_name, name, IFNAMSIZ - 1);
++	ifr.ifr_flags = IFF_TUN | IFF_NO_PI;
++	if (ioctl(fd, TUNSETIFF, &ifr)) {
++		close(fd);
++		return -1;
++	}
++	return fd;
++}
++
++/* one getdents64() into @buf, the names appended to @names */
++static int list(int fd, char *buf, size_t size, char names[][NAME_MAX + 1],
++		int *n)
++{
++	long ret, off;
++	int got = 0;
++
++	ret = syscall(__NR_getdents64, fd, buf, size);
++	if (ret < 0)
++		return -errno;
++	for (off = 0; off < ret;) {
++		struct dirent64 *d = (void *)(buf + off);
++
++		if (*n < NAMES)
++			strcpy(names[(*n)++], d->d_name);
++		got++;
++		off += d->d_reclen;
++	}
++	return got;
++}
++
++static int count(char names[][NAME_MAX + 1], int n, const char *name)
++{
++	int i, c = 0;
++
++	for (i = 0; i < n; i++)
++		if (!strcmp(names[i], name))
++			c++;
++	return c;
++}
++
++/* removes the device once getdents64() faults on its entry, then resolves */
++struct stall {
++	int uffd;
++	int tun;
++	unsigned long addr;
++	unsigned long len;
++	int removed;
++};
++
++static void *stall_resolve(void *arg)
++{
++	struct stall *s = arg;
++	struct pollfd pfd = { .fd = s->uffd, .events = POLLIN };
++	struct uffdio_zeropage zero = {
++		.range = { .start = s->addr, .len = s->len },
++	};
++	struct uffd_msg msg;
++
++	if (poll(&pfd, 1, 10000) != 1)
++		return NULL;
++	if (read(s->uffd, &msg, sizeof(msg)) != sizeof(msg) ||
++	    msg.event != UFFD_EVENT_PAGEFAULT)
++		return NULL;
++	close(s->tun);
++	s->removed = access(TUN_PATH, F_OK) == -1;
++	ioctl(s->uffd, UFFDIO_ZEROPAGE, &zero);
++	return NULL;
++}
++
++FIXTURE(proc_readdir) {
++	int dir;
++	int n;
++	char names[NAMES][NAME_MAX + 1];
++	char buf[65536];
++};
++
++FIXTURE_SETUP(proc_readdir)
++{
++	if (unshare(CLONE_NEWNET))
++		SKIP(return, "unshare(CLONE_NEWNET): %s", strerror(errno));
++	if (access("/dev/net/tun", F_OK))
++		SKIP(return, "/dev/net/tun: %s", strerror(errno));
++	self->dir = open(SNMP6_DIR, O_RDONLY | O_DIRECTORY | O_CLOEXEC);
++	if (self->dir < 0)
++		SKIP(return, SNMP6_DIR ": %s", strerror(errno));
++	self->n = 0;
++}
++
++FIXTURE_TEARDOWN(proc_readdir)
++{
++	close(self->dir);
++}
++
++/* a device added in front of the position doesn't repeat an entry */
++TEST_F(proc_readdir, add_in_front)
++{
++	int tun;
++
++	/* ".", ".." and "lo" */
++	ASSERT_EQ(list(self->dir, self->buf, SMALL_BUF, self->names, &self->n), 3);
++	ASSERT_EQ(count(self->names, self->n, "lo"), 1);
++
++	tun = tun_open(TUN_NAME);
++	ASSERT_GE(tun, 0);
++	ASSERT_EQ(access(TUN_PATH, F_OK), 0);
++
++	while (list(self->dir, self->buf, sizeof(self->buf), self->names,
++		    &self->n) > 0)
++		;
++	EXPECT_EQ(count(self->names, self->n, "lo"), 1);
++	close(tun);
++}
++
++/* a device removed in front of the position doesn't skip an entry */
++TEST_F(proc_readdir, remove_in_front)
++{
++	int tun;
++
++	tun = tun_open(TUN_NAME);
++	ASSERT_GE(tun, 0);
++	ASSERT_EQ(access(TUN_PATH, F_OK), 0);
++
++	/* ".", ".." and the device, "lo" doesn't fit */
++	ASSERT_EQ(list(self->dir, self->buf, SMALL_BUF, self->names, &self->n), 3);
++	ASSERT_EQ(count(self->names, self->n, TUN_NAME), 1);
++
++	/* closing the device unregisters it and removes its entry */
++	close(tun);
++	ASSERT_EQ(access(TUN_PATH, F_OK), -1);
++
++	while (list(self->dir, self->buf, sizeof(self->buf), self->names,
++		    &self->n) > 0)
++		;
++	EXPECT_EQ(count(self->names, self->n, "lo"), 1);
++}
++
++/* the entry being emitted is removed meanwhile, the listing goes on */
++TEST_F(proc_readdir, remove_current)
++{
++	struct uffdio_api api = { .api = UFFD_API };
++	struct uffdio_register reg = {};
++	long page = sysconf(_SC_PAGESIZE);
++	struct stall s = {};
++	pthread_t thread;
++	char *map;
++	long ret, off;
++
++	s.uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
++	if (s.uffd < 0)
++		SKIP(return, "userfaultfd: %s", strerror(errno));
++	ASSERT_EQ(ioctl(s.uffd, UFFDIO_API, &api), 0);
++
++	/* the first page is there, the second one faults */
++	map = mmap(NULL, 2 * page, PROT_READ | PROT_WRITE,
++		   MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++	ASSERT_NE(map, MAP_FAILED);
++	map[0] = 0;
++	s.addr = (unsigned long)map + page;
++	s.len = page;
++	reg.range.start = s.addr;
++	reg.range.len = s.len;
++	reg.mode = UFFDIO_REGISTER_MODE_MISSING;
++	ASSERT_EQ(ioctl(s.uffd, UFFDIO_REGISTER, &reg), 0);
++
++	s.tun = tun_open(TUN_NAME);
++	ASSERT_GE(s.tun, 0);
++	ASSERT_EQ(access(TUN_PATH, F_OK), 0);
++	ASSERT_EQ(pthread_create(&thread, NULL, stall_resolve, &s), 0);
++
++	/*
++	 * ".." ends right before the second page, so writing the record of
++	 * the device stalls until it has been removed.
++	 */
++	ret = syscall(__NR_getdents64, self->dir, map + page - 48, 48 + page);
++	ASSERT_EQ(pthread_join(thread, NULL), 0);
++	ASSERT_TRUE(s.removed);
++	ASSERT_GT(ret, 0);
++	for (off = 0; off < ret;) {
++		struct dirent64 *d = (void *)(map + page - 48 + off);
++
++		if (self->n < NAMES)
++			strcpy(self->names[self->n++], d->d_name);
++		off += d->d_reclen;
++	}
++	ASSERT_EQ(count(self->names, self->n, TUN_NAME), 1);
++
++	while (list(self->dir, self->buf, sizeof(self->buf), self->names,
++		    &self->n) > 0)
++		;
++	EXPECT_EQ(count(self->names, self->n, "lo"), 1);
++	munmap(map, 2 * page);
++	close(s.uffd);
++}
++
++TEST_HARNESS_MAIN
+
+-- 
+2.53.0
+
