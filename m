@@ -1,92 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793660246;
-	b=iwSh/33s5cqQvRxf7KqU5EvF6cFRY0TUqwSSZuqcPkiehVaLb1NGch+nh2NCYSHDiRwX
-	 1DNvj1fF4Plj4pcf5Vy0HAcz7WYOliNoKQROk+4AvjcE5MjTM5Krs/3pdoLv/87nUQakR
-	 J90QuAgKmBHghGsqyhXGSEhWLPhlT3ifublqj8IxVmVqC0s8fz97KN7DwOuqqDLLzu2H2
-	 NP41Wu++/oT0iqbgR0iUyCMWrp+0bYC7ATyy0mxR1qmiyiQe8aSxARsnj9WYuozFANBAY
-	 nOk3R+ItDAZpXVL6aHqCt3wpGheYZsBshRWxGAFwps6wfTYw5KPX6dRzjfrPbLU3VQg==
+	t=1793663225;
+	b=Y8B+ezVNaY+C/KUuomrUFW/eSkafe13FIR++iD06vli0mVip3JZPGTf95babC85pcDZV
+	 xa9WrSiZh+pSd+alDZap9g7laviooqXp1LzWNEgwJKlv1kzPi9MawwlGCJFzyBUHt5gzE
+	 ZxSLb6fzcNDAHWaQtj5txxP7EKaR5aRqzkbI9Ull1OXNVsWovhTDxIakBAwfo2lIYopTf
+	 2DqXXSumwQYVx25fSL8C+EnMj7QlMdfotrADeDRepOWnKetct3luxR8qlJaZ2o7zSaWqW
+	 YGK6+ShQtgaiwZ+ACbew2zndz8NH7w4s5heBFLeIvLUwGvrpNzoX1laXUdasNKmNzpQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793660246;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ehloXEJ0Qoh+w2FzLa78Fer7qun1eUOwSzteJlwSAOc=;
-	b=Ppq6ur6Xiw3fReptXpsdiHg8amwdLsYNXSBvSvV6eSE9FHjyq0jETkmjRL8wOqvcAdHu
-	 P3R54RnM06JqvRIMhtpm3Tz7QiGLFXOBkjjnCYltug+YVhvYK8K7rST9sNhuGW3tj1h3M
-	 5imR8Xn/M1KLL6c7EK3xLiiUKV/rgP2+9MU0l1h/YjeO3CBYHPo3RquOUV8+900b1t2hZ
-	 9o1IrzEObFfKHsM82Afwe/3g9uVtmc2c2uECkDoM9wM8AjAGVOx3LO83LnkzG+e+ygScw
-	 rgihISRNmWdFiiUZQs1Rdc2isDLjaHhNsNyMvD/+ai9y0ZDw2OK1x6p9ewKuZbCc7pA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793663225;
+	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=xUUKB3dN+DcD4bi7XLmaUTdpOWOpoWsyGlGpTHaPhoQ=;
+	b=y+pvBps+H4p1/819TVmdNzKCSub59LUc4xSagYNCbRE7U6YQ4oAKUqCcrM6wrklWvJkX
+	 j3ZdBpI8F+ddxWrQXKecJN96EUpMamqxVhWL8vjNs/BBawvWhh68SYY/2WP5whhP8+cK0
+	 dDdZZ0lspzHfdJy6S6dU967F71uBm6k9Ao+7LwewIEZnbtuyAJ1MKlSIl/Il8jBXvLXI6
+	 PatwnqEnbV+liKCbpYbPTt8d2xcVcM+KzGPFz5ycKeKxqRTTXFX+HOJRievw/asvzLTKk
+	 s7LOJiDtqDy1hdofYLLIT9ui/J7lyITsFJJN/IoNmg0LgTDVW9fp2yxZ1prBlLbIHcw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gexdigital.net;
-	spf=none smtp.mailfrom=gexdigital.net;
-	dkim=pass header.d=gexdigital-net.20260707.gappssmtp.com header.i=@gexdigital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="g3eNE/OC";
-	arc=none smtp.remote-ip=209.85.167.172
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31734606A326
-	for <linux-sound@vger.kernel.org>; Mon,  2 Nov 2026 22:57:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 31734606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gexdigital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=gexdigital.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gexdigital-net.20260707.gappssmtp.com header.i=@gexdigital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=g3eNE/OC
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-4d198f1a591so2013725b6e.2
-        for <linux-sound@vger.kernel.org>; Mon, 02 Nov 2026 14:57:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gexdigital-net.20260707.gappssmtp.com; s=20260707; t=1793660245; x=1794265045; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ehloXEJ0Qoh+w2FzLa78Fer7qun1eUOwSzteJlwSAOc=;
-        b=g3eNE/OCzfuAHnvIt5Ry8mWaAJOlvsHmB4hFIab5F+k0kpIoJ2AqjqQyhksnm4U+tC
-         1FT5xOPD6ivTBI7TKxuEyN0rQc4fB+mJtFGu95WJav4iEYvi4cT7cH337XSb/qgTg/a2
-         ETPySw/70O2Iy037O50e3ylDffYzf47GWPiXrth7eT4Wb2dJ5EMjI7loBJ8jhWaVga7+
-         OoF3xqWNjsV82Ba9aYH7KKsWa3/kV4coyv1jhR2HOyi0Li8jUDuGGEJhv0B0su3+E8B/
-         30A1t6ms38BWSJEEPEfnMXnKyTmNzKBt2QjCNi5JRkSU+wZ2X5bOvNTYo7jUeR7V/fcU
-         RjFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793660245; x=1794265045;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ehloXEJ0Qoh+w2FzLa78Fer7qun1eUOwSzteJlwSAOc=;
-        b=vbQxI5ya267ypHxSf2eW9T1cXugbKX48EPZ8b1U8X2CcVuEf3OJs3eJsdDBoSjkDd2
-         jFmWeX7R9gcb+/0CXjtaJ8pS7KmC041iCQAPqUwexZSyTU2Kcpb4DuLPfttFXl6vgAi2
-         jGg/8xhoPoaznGiysTRmIrUmatqFFwfWYl3/Gdq/Vys8qtnLvp7xITbBgK/i+BW59RNy
-         lzPlmV8hA+vf4yYV/Ou0CimJ8R2sup3UeKDFxW5NpAbhSGznhH2/MhsGd9+dhfLizSRv
-         iodl1DqwombpQpcedX5NxZNgR3iJJtZEbx+xNYcQF9VFPw9hLqmvoSRrxG0IO2wYRJaV
-         TAmw==
-X-Forwarded-Encrypted: i=1; AKwUvBxXOKAx1L7TnmUKNzlLfJAtsIKsNAn4dmJSMvAECVUDFXVDpj0qx52tx8lgwVBdx9gdEXr1tUPDdm7WwA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYI9erfT7HmJhAnk5HPT9PlTQSYa/Ad0vWK3v1Bomcq31mZHcGJA
-	6cVrGW/C3HOniMGn6wsYMO+rOuQL3h0CLAZAfaQTAdhR7fDb+ElNcf8/4Vd/DwWMh7I=
-X-Gm-Gg: AYBFou2Ug1MldS7rpsX81pXDrMHPaHMQc1p92TSUPujfbsNmwU5t6MrdqKlVisdUSEm
-	KUC6LqlN5+jln67prPbprMk2/X6AdsKYRAz8pIoVN+kS8T9o3euu/F8r6bHcbXSHLhLa7oKzWhL
-	nRpkXHhGDFA8Pn55pgXXmyDJUmuIayaxz1Wr58kR0YR/QpbibI+DkkWs/bImlrWlzzEVuMeNSYl
-	HVTuE+GYxcMRAmXv4w14C4d5QIkxEXxBS00NHyzJMvGbc4W8qwtlF/BSiL7QE1DakY97oN/3FmI
-	y6rVSGMXHHyHVvLjablcZNyb/I4k4YKEq5tC9pHU5WIQn3CA05trHDjRDRwDy01KRKFpQThXglA
-	JasQepjbSzILHaLh568gbncdCBbzoBtAoCwHxHkBQ/cNZ4hx3UtXfCT9KkX82/r3iPb5A7Pc0gu
-	Ertq8nftcbq17+9qvojUXvElWlMSE9Tw9PvYzMhAW4lnM55zq7/yHUdkotrw9kd6g0fuWyfsdyU
-	CYMWaFsFJrEMOrYqtLlMP2+BnR7+fHiATzJuS2TbE86hWxS4CrjdU5BYWqm/XiSbjDnyp1SVPie
-	xhjfdk2ueahDO/Y=
-X-Received: by 2002:a05:6808:13c9:b0:4f6:5279:5c89 with SMTP id 5614622812f47-5640de30ddamr7627805b6e.47.1793660244993;
-        Mon, 02 Nov 2026 14:57:24 -0800 (PST)
-Received: from localhost ([177.225.211.4])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a9218ef39csm7415540fac.6.2026.11.02.14.57.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 14:57:24 -0800 (PST)
-From: Rafael Medina <rafael@gexdigital.net>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: Devin Christensen <dchristensen8@proton.me>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hda/ca0132: Restore AE-5 audio registers after LED strip send
-Date: Mon,  2 Nov 2026 16:57:23 -0600
-Message-ID: <20261102225723.123266-1-rafael@gexdigital.net>
-X-Mailer: git-send-email 2.56.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0BFB606A324;
+	Mon,  2 Nov 2026 23:46:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C35C1F00A1E;
+	Mon,  2 Nov 2026 23:46:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793663219;
+	bh=xUUKB3dN+DcD4bi7XLmaUTdpOWOpoWsyGlGpTHaPhoQ=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=kU2nRNlid4KU7wLrelnWxdd7c0r4wqEYroQBqsOZYMI65h+v+O/2mb3y0KhWEatzO
+	 stALIuVsFV5znade7G7PymtnR1BzMmVQN8lBm8fkCLB+Dp0YA4XVjyBgeJ6oI4/g34
+	 B9Kf8J+BH9sUvzW+Gd0HhWN8zmmiW5WTYaCVsPRWZubt9ZtMhuN5GJ/eIustVbmvVa
+	 qZMxsxJDMrQiGeHeOBDdVhX6TsbxG6XZa8UqVw45ZE9SI66lEW/q+R5MyjiL/EL/rK
+	 I0IwyOKfCmq74LSBb6ZFQG7xvxU6gx6AadKpGLESDzLl71EuyUaNjJNa6qK0NMxkg8
+	 v70Jn/tUBaicA==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id B4C512539370;
+	Mon, 02 Nov 2026 23:46:56 +0000 (GMT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -96,127 +49,81 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 4/5] ASoC: sdw_utils: honor empty DisCo port lists when
+ creating DAI links
+From: Mark Brown <broonie@kernel.org>
+To: Matthew Schwartz <matthew.schwartz@linux.dev>
+Cc: broonie@kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
+ Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261016232416.2628603-5-matthew.schwartz@linux.dev>
+References: <20261016232416.2628603-1-matthew.schwartz@linux.dev>
+ <20261016232416.2628603-5-matthew.schwartz@linux.dev>
+Date: Mon, 02 Nov 2026 23:46:54 +0000
+Message-Id: <179366321499.2186205.4801577738150056288.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1903; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=6YlooZfjzu+1oa+7B8k1+oMHoakogK8/1f9MxQ6BSaM=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJeKnz4ZOIocyZ48fPc5e0Wcyer6q6Xfu/vt+1NnHrSx
+ GqWGeb+HaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZjI+VmMDNuFda4eZKrb8WZq
+ 3OmIQ/L/ZOsv5BZ21z27Z3x7f1+392aGf1a/XDb898lYKHlqberUr38We3PYPpH4uH+7h8SFi7y
+ OF5gA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+> The codec_info tables give each DAI a fixed direction, so a TAS2783
+> always gets an amp feedback capture link. The ASUS ROG Xbox Ally X20
+> BIOS declares mipi-sdw-source-port-list as 0 for both of its TAS2783s,
+> so the capture port has no DisCo properties and every open of the
+> SmartAmp capture PCM fails in sdw_program_slave_port_params() with
+> -EINVAL. The PCM is probed at session start, which logs a burst of
+> transport errors on every boot, and the same failure is reported on the
+> ASUS ProArt PX13.
+> 
+> Store the effective direction in each endpoint and drop a direction
+> when the peripheral declares an empty port list for it. A missing port
+> list keeps the table direction, so platforms that do not describe their
+> ports are unaffected.
 
-The AE-5 LED strip transport added by commit c3e35f355fad ("ALSA:
-hda/ca0132: Add Sound BlasterX AE-5 external RGB LED strip support")
-reprograms the CA0113 audio serializer block in BAR2 to clock out the
-WS2812 data, and at the end clears only the stream routing register.
-The format and channel enable register at 0x100 is left at 0x3000ff8f
-instead of the 0x00000700 it reads after a normal codec init, and the
-analog outputs stay silent until the codec is initialised again.
+> +/* A DisCo port list that is present but empty means the stream cannot run */
+> +static bool asoc_sdw_has_ports(struct device *dev,
+> +			       const struct snd_soc_acpi_link_adr *adr_link,
+> +			       int adr_index, int stream)
+> +{
+> +	const char *prop = stream == SNDRV_PCM_STREAM_PLAYBACK ?
+> +			   "mipi-sdw-sink-port-list" : "mipi-sdw-source-port-list";
+> +	const char *sdw_codec_name;
+> +	struct device *sdw_dev;
+> +	u32 ports;
+> +	int ret;
+> +
+> +	sdw_codec_name = _asoc_sdw_get_codec_name(dev, adr_link, adr_index);
+> +	if (!sdw_codec_name)
+> +		return true;
+> +
+> +	sdw_dev = bus_find_device_by_name(&sdw_bus_type, NULL, sdw_codec_name);
+> +	if (!sdw_dev)
+> +		return true;
+> +
+> +	ret = device_property_read_u32(sdw_dev, prop, &ports);
+> +	put_device(sdw_dev);
+> +
+> +	return ret || ports;
 
-The strip control is marked volatile, but alsactl still stores it, and
-the udev rule runs "alsactl restore" for every card probe. The saved
-state of a card that never had a strip attached contains "AE-5 LED
-Strip" and "AE-5 LED Strip Count" with access "read write volatile".
-ae5_strip_ctl_put() sent a frame even when the colors were unchanged,
-so every boot of an AE-5 or AE-5 Plus ended with a silent card.
+A lot of CODEC drivers use fixed values here so would ignore the actual
+value from the firmware, it's possible there's firmwares out there just
+treating the property as a boolean.
 
-Save the registers that the transmit touches before programming them
-and write them back at the end of ae5_strip_send_frame(), and do not
-transmit from ae5_strip_ctl_put() when the colors did not change.
+There's also some Sashiko stuff on this patch that seems worth a look.
 
-Fixes: c3e35f355fad ("ALSA: hda/ca0132: Add Sound BlasterX AE-5 external RGB LED strip support")
-Cc: Devin Christensen <dchristensen8@proton.me>
-Signed-off-by: Rafael Medina <rafael@gexdigital.net>
----
-Tested on a Sound BlasterX AE-5 Plus (1102:0012, subsystem 1102:0191)
-with v7.4-rc1:
-
- - Stock: after boot BAR2 0x100 reads 0x3000ff8f and there is no audio.
-   Re-probing the card with the saved alsa state file moved aside gives
-   0x00000700 and working audio.
- - Patched: BAR2 0x100 stays at 0x00000700 after "alsactl restore" and
-   after writing a non-zero color to "AE-5 LED Strip", and audio works
-   at boot.
-
-No external LED strip is connected to the card, so I could not check the
-strip output itself. The control write completed without error and the
-audio registers were intact afterwards.
-
-I did not try to find which of the restored registers is the one that
-silences the outputs, so all of them are put back.
-
- sound/hda/codecs/ca0132.c | 43 ++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 41 insertions(+), 2 deletions(-)
-
-diff --git a/sound/hda/codecs/ca0132.c b/sound/hda/codecs/ca0132.c
-index 896091c11..b3e768be8 100644
---- a/sound/hda/codecs/ca0132.c
-+++ b/sound/hda/codecs/ca0132.c
-@@ -8416,6 +8416,10 @@ static int ae5_strip_send_frame(struct hda_codec *codec, const u32 *grb_colors,
- 	struct hdac_stream *hstr = NULL;
- 	unsigned int format, stream_tag;
- 	u32 enc_words[4];
-+	struct {
-+		u32 r100, r104, r400, r408, r40c, r410, rc04;
-+		u32 ser_base[4], ser_clk[4], ser_out[4];
-+	} saved;
- 	__le32 *dst;
- 	int word_idx = 0;
- 	int frame_words;
-@@ -8501,6 +8505,24 @@ static int ae5_strip_send_frame(struct hda_codec *codec, const u32 *grb_colors,
- 	/* Ensure DMA buffer writes are committed before triggering the HDA stream */
- 	wmb();
- 
-+	/*
-+	 * Save every BAR2 register the strip transport reprograms, so that the
-+	 * audio serializer/clock/routing setup done at codec init can be put
-+	 * back afterwards. Leaving them modified silences the analog outputs.
-+	 */
-+	saved.r100 = readl(spec->mem_base + 0x100);
-+	saved.r104 = readl(spec->mem_base + 0x104);
-+	saved.r400 = readl(spec->mem_base + 0x400);
-+	saved.r408 = readl(spec->mem_base + 0x408);
-+	saved.r40c = readl(spec->mem_base + 0x40c);
-+	saved.r410 = readl(spec->mem_base + 0x410);
-+	saved.rc04 = readl(spec->mem_base + 0xc04);
-+	for (i = 0; i < 4; i++) {
-+		saved.ser_base[i] = readl(CA0113_SERIALIZER_BASE(spec, i));
-+		saved.ser_clk[i] = readl(CA0113_SERIALIZER_CLK(spec, i));
-+		saved.ser_out[i] = readl(CA0113_SERIALIZER_OUT(spec, i));
-+	}
-+
- 	/* 2. Configure CA0113 BAR2 hardware registers */
- 	/* Power up clocks (CtxHdb 0x141b7 / 0x14210) */
- 	writel(readl(spec->mem_base + 0xc04) | 0x7, spec->mem_base + 0xc04);
-@@ -8559,8 +8581,19 @@ static int ae5_strip_send_frame(struct hda_codec *codec, const u32 *grb_colors,
- 	snd_hdac_dsp_trigger(hstr, false);
- 	codec_dbg(codec, "AE5 strip: trigger complete\n");
- 
--	/* Teardown: clear 0x104 pin mux back to 0 */
--	writel(0x00000000, spec->mem_base + 0x104);
-+	/* Teardown: put back the registers exactly as the audio path left them */
-+	writel(saved.r104, spec->mem_base + 0x104);
-+	for (i = 0; i < 4; i++) {
-+		writel(saved.ser_out[i], CA0113_SERIALIZER_OUT(spec, i));
-+		writel(saved.ser_clk[i], CA0113_SERIALIZER_CLK(spec, i));
-+		writel(saved.ser_base[i], CA0113_SERIALIZER_BASE(spec, i));
-+	}
-+	writel(saved.r100, spec->mem_base + 0x100);
-+	writel(saved.r410, spec->mem_base + 0x410);
-+	writel(saved.r40c, spec->mem_base + 0x40c);
-+	writel(saved.r408, spec->mem_base + 0x408);
-+	writel(saved.r400, spec->mem_base + 0x400);
-+	writel(saved.rc04, spec->mem_base + 0xc04);
- 
- 	snd_hdac_dsp_cleanup(hstr, &dmab);
- 	scoped_guard(spinlock_irq, &bus->reg_lock)
-@@ -8613,6 +8646,12 @@ static int ae5_strip_ctl_put(struct snd_kcontrol *kcontrol,
- 	}
- 	change = memcmp(spec->ae5_strip_cur_colors, colors,
- 			sizeof(spec->ae5_strip_cur_colors)) != 0;
-+	/*
-+	 * alsactl restores this control at every card probe with the saved
-+	 * values; do not run the whole transmit routine when nothing changed.
-+	 */
-+	if (!change)
-+		return 0;
- 	num_leds = spec->ae5_strip_cur_num_leds;
- 	ret = ae5_strip_send_frame(codec, colors, num_leds);
- 	if (ret < 0)
 -- 
-2.56.0
-
+Mark Brown <broonie@kernel.org>
