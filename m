@@ -1,64 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793627483;
-	b=Qr+5WmCZYw5k9ivoLcC3m9517PpIRh2jgZR7R5RqSm2Sg4c2QGa9AJU4dP0hPEe3oOfc
-	 pLpqXRXYwoch/vYQ8hRSghh4YFBXOEsXI7q9/DmgfpKQ/L/fGZ9IYrEsljXEwyVmaflNH
-	 V7ay+dJrgBgrddasTcQqfpR6HUvC2c9mjjjRVXh19jsSPV9cSn21mPsRO03IPj0AQI02a
-	 uUVxs5cprQPNs04l1BfwU8paMkzyEo5096ZIbcDZd3YRtNQ+xpokrO4Y5GN4JLH4dpkpD
-	 /vXNlvtNlC23Acfa7o91cgsrEurPVp58Fcry9S86Z8hV+qBB+PM5vqp1TmviDo+XVfg==
+	t=1793627486;
+	b=c4D81SbUq3nzsy0A5jMpTbMvWBa+0I1vZJuwEbQ+jVbG+rUpzxBVMz2KSsIeuxyd5tMs
+	 aR/UlcxujsOm8C4iVZufNXgY2+h0ACRbbEPn4jBdKYGmp2yRbLFibheKVzW/5we+dbEzn
+	 S8kVPpbOH1EKsOAKwiIrk74BRb43vhFDtect2zi46NkB3HQC2Ue+baxQSUL/hY172QyXc
+	 qpBNv9kacNc665aypyP339F0pZ2tJvIC6HNWr4aYy0XScIyQJPwOANGshoWuM3s6crDtX
+	 CNw60a2TGB+plOEfHQgvhOGXQiSnuf56cf7iszJEKp+9MkBFPV2QUcFzgnvoMxWxWXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793627483;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793627486;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=Nz3Lt3cMWewh5i72SDzg/4dkkmv0TxEXnsP0DBPQjJg=;
-	b=iNg2Mz4WO3xzfTzfZu7/sQ50/xdr5sYO9HSEKD/z10U1chN4natg/Bp1lB4ZG0DECjL0
-	 41cqzHWHSG0R2DPQgeIN4gRQ+eKKLLhjIaQYq2nRSPm9WGEWYMRaGoIkGEXA6/uVJVVW4
-	 VfB9uGI8P5X4WAI6dEMyhULvKpDZ36BRwQGtgwbtTXM/RWXu1EN93gFchIFsfTH7fsbtF
-	 olM1PmV//jet8BdSBWzxFeX5nItauJUliOafaTeL8VelV+HAq63lsjmG/eL28CFv2sM+X
-	 kMYROw4On0u5n0sy0P9j4PgByB8zWmykLGFYuxRbDZcfXZPvpRCu1cUNlc9aMSITvOA==
+	bh=csc3uWj0Keh3Pcfku6Ck/67dh0Q1joL6qQFkdr/R/gI=;
+	b=h70W43pDmRLbBYYSXNLLmlR+wl6xUSM0BpQBb39tKUMgeiK46IBaPOstiLMbQMfhO3Y5
+	 TTCf+FD4g1UPEhW2MmxxkO4+MGlzRfgj7LwoyDS9/4FucDCT/p73fJhQiiVArjRnximdn
+	 0OWSfhxhxH40d6+EYZTfnBiO1c5+1p7Py431vujg//5cqF3QqHPWKmeCH8uyrgG8qFpXa
+	 HwoNrQwlBmyuJOAyATW3YP7pDvHHpuBSQUkjvoYTPRp+x9pteVUzC7yAQRecnGNHLK7w8
+	 TjcGLK565nUEmwC4bUceIOLRMuYlBS3A+MPFMCKvF6xwrIdUvzjHcnCHLfnktw4ZvNQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MBVhYpYG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Uhct3If9;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F3060A2616;
-	Mon,  2 Nov 2026 13:51:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC9460A263A;
+	Mon,  2 Nov 2026 13:51:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MBVhYpYG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 805CD1F00A21;
-	Mon,  2 Nov 2026 13:51:22 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Uhct3If9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42CCD1F00A22;
+	Mon,  2 Nov 2026 13:51:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793627482;
-	bh=Nz3Lt3cMWewh5i72SDzg/4dkkmv0TxEXnsP0DBPQjJg=;
+	s=k20260515; t=1793627485;
+	bh=csc3uWj0Keh3Pcfku6Ck/67dh0Q1joL6qQFkdr/R/gI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=MBVhYpYGuWAigX2hvezKTp3wh1nremTca7Oh/AgfNzv1HlJlyt/qEMkhFdKMU6R/j
-	 GyjC4MeMeyW7l7Szm/k44+rH8mLgKupBRkw/KPq91RS2ZEBTrfwjbAAsIwIZCV9v+k
-	 TV7L9qytf9GGFHtsSj3RRHhX1bBC6G7qBOrwSDdLKh0vIx21ag6w85leNanMNwc1CF
-	 zyeag/ZDfP4NomauQISgc1NZZZtBb/7onY8tifskqdNvF47kQ+7eSpRY5hpny65OTv
-	 pf+ISmnisbhZZdP1M6XbszkEv0kqTsxI/c0HC1CSWGvKuqfxoshcctYKb/YGucF5rG
-	 0uDLzU/if7nhQ==
+	b=Uhct3If9A1MUiCmJYqYwtvGnJKimsRID5v7udYqTL2iqfbePo2iK7trSWsa8CqkdE
+	 v8k50apJESxhKFaSNAnAcSTyLrsjgYyj104dIis2avzafxOt2a+RodBFzB49nEm8Td
+	 uetfUHhgnDvou5BDgr4gDxMqiUMioCNU1SmywpEYREuqUSJqkjl+9yKWEI9C45jpw+
+	 EzNDJlS41XOBwCITxz7eRKN06SpYa9U1PuByys6YCpeKF91HRthp/tgh47iGL7cJx+
+	 V1aSks58+u7PjowC+yQC/WZYe5fb/yLmQvwxM4W6Iwd/bZAy4BuqF1w/fi/ytrDnIE
+	 tB8t7fv1K2dpA==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id C13DC2344CB8;
-	Mon, 02 Nov 2026 13:51:20 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 8BFAC2344CE8;
+	Mon, 02 Nov 2026 13:51:23 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Stephan Gerhold <stephan@gerhold.net>, phucduc.bui@gmail.com
+To: phucduc.bui@gmail.com
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
  Takashi Iwai <tiwai@suse.com>, 
  Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Wentao Liang <vulab@iscas.ac.cn>, HyeongJun An <sammiee5311@gmail.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261023090157.518032-1-phucduc.bui@gmail.com>
-References: <20261023090157.518032-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH 0/4] ASoC: codecs: Fix hw_params return values
-Message-Id: <179357894578.1716893.15632830053231500019.b4-ty@b4>
-Date: Mon, 02 Nov 2026 00:22:25 +0000
+ linux-sound@vger.kernel.org, Russell King <rmk+kernel@armlinux.org.uk>, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261026105835.19052-1-phucduc.bui@gmail.com>
+References: <20261026105835.19052-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH 0/5] ASoC: kirkwood: Improve clock and error handling
+Message-Id: <179357946794.1716893.14766270340356142891.b4-ty@b4>
+Date: Mon, 02 Nov 2026 00:31:07 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -71,24 +68,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1682; i=broonie@kernel.org;
- h=from:subject:message-id; bh=La5I+/wfOQV32DXC+LkuJlW5b/uNREDjWJspDW7VL5M=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJeTI1IZLq4TL4wL6Yttqf+f2vS858r73i6GG9ffLTv/
- flNXSGXOkpZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRkpOMDJPZo26Ys2Zf8RKp
- cFoxdf/Jj9cOngxN47b7dzmG+avy8sWMDBcXS6l35bYFSRSq6P65L1nQcSqi9v6ClN9/pKZfu9m
- uzQsA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1857; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=nxWnBd92h1N7ODyUIHEYhfQi23qn4aesHrkTl4OuRyQ=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJeTI2+2Z343vSs2y8FmfMquTNONizTWztP55qTWDrz3
+ Tm67+x7OkpZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRw78YGY5c+aqcNHltk2SP
+ xGXuPTYGLkfzH0pbPr30SZyvMkWWR52R4d7y0oQLG4/ei3j+b9OJkGmdn/75T2dk7t8mkVu4ROh
+ xGiMA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 23 Oct 2026 16:01:53 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: codecs: Fix hw_params return values
+On Mon, 26 Oct 2026 17:58:30 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: kirkwood: Improve clock and error handling
 > 
 > From: bui duc phuc <phucduc.bui@gmail.com>
 > 
 > Hi all,
 > 
-> These patches ensure that the codec drivers return 0 on successful
-> .hw_params() callbacks and propagate negative errors.
+> This series improves error handling and clock management in the
+> Kirkwood I2S driver.
 > 
 > [...]
 
@@ -98,14 +95,16 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: codec: cs4341: Handle hw_params return value
-      https://git.kernel.org/broonie/sound/c/b622ec286008
-[2/4] ASoC: codecs: si476x: Handle hw_params return value
-      https://git.kernel.org/broonie/sound/c/7b2c273dbadf
-[3/4] ASoC: codecs: tfa989x: Handle hw_params return value
-      https://git.kernel.org/broonie/sound/c/eddb6aa0c3b8
-[4/4] ASoC: codecs: wm8994: Handle hw_params return value
-      https://git.kernel.org/broonie/sound/c/d310df0fb2ab
+[1/5] ASoC: kirkwood: kirkwood-i2s: Fix error handling for resource mapping
+      https://git.kernel.org/broonie/sound/c/0d376515e842
+[2/5] ASoC: kirkwood: kirkwood-i2s: Improve error handling in probe
+      https://git.kernel.org/broonie/sound/c/cbe600cecb44
+[3/5] ASoC: kirkwood: kirkwood-i2s: Check return value of clk_prepare_enable()
+      https://git.kernel.org/broonie/sound/c/1de736925a68
+[4/5] ASoC: kirkwood: kirkwood-i2s: Disable extclk on internal clk error
+      https://git.kernel.org/broonie/sound/c/9765fd9e107d
+[5/5] ASoC: kirkwood: kirkwood-i2s: Disable clocks in reverse order in remove()
+      https://git.kernel.org/broonie/sound/c/9a5990047d40
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
