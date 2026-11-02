@@ -1,95 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793630143;
-	b=HjQGZ0pylLc1gkj2XtbfbtSR02ocFAjDG2neyIKndwQuHdMUH8dThkZlK217bO2i4jFm
-	 pJOTVNTgjrLpXVoa9lgz9h9KarcisJYFE0pZQAgacrGk0HYJjP1NuhpdxqbJur0xpsjLB
-	 27dGXga3OAIsFM9nORuf/SaRfjwT+HA0w1UyhCS/U1FFpAWkr9xZHEqcCpn6rOcakaAj4
-	 t3idkPLPVBd4bGan98h+aYhnoGp5ZfEFjWV/32cnj4CGES04HsFl0KCL94PWuXsKmDjqj
-	 8B1PFXcPqcVemS3lg+3jk4H93w1Q3kUx23/mHZmQTvlHltyylN1tHtdxZPznK3UiIsg==
+	t=1793630272;
+	b=rROoW0cUF8Ptn+AIlOPYIVf2Mr1a9SZJvzbvuYbvQeXQoIMAnYJ7HR9R5+g+t/ThkzzS
+	 BuBH2DilVGcLFiJzVkQ0tr9gq1cnJonFn9pm0gHqmMifH562zFiPGrtokw+FopQcG1PnL
+	 QPb2evku5TvBaD0IxEzG9oPi7zZQDnkE4ShEV2fq//6Uzu+E98LlPWtFNUCSLdicjZcR8
+	 SQJJ20e2WRQaftk10aEpS89UQs1x1If/3q685SdHYydFebsZKaVGO4Pj7KgZSDkIz4P2l
+	 04IonsLKS3mBFYaOROGH3FdtbIMhA/OIjKLNn2ImU9kiUIDST9pBEX6gduRdJUjFPWw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793630143;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=PQWcuimkt51bqENNt7X0xmz4uvJH/+F/iqbTS3hh2nU=;
-	b=tZfOScin+mBA7DjBC4v8oYv56OY8Wg6RwWcAAb7UTaSG/Vfa+IXPvO3ugM5aigZJ1q3m
-	 ilPXZAc8YWMULavuaGpg1dNxPLKsfdXEpfWazKvG92ev1qN2Kyid0QVXLi2zgapOYfzW1
-	 OrGJmYE/uKjaH2KsJ2C71mdpuBUFpL8lF2WoAUzqIDBbLGa7rWZOI0RLvHCVBwiLeaF1C
-	 GPF+Q/5N5XvjY7MFrlBC4W75E7WbMmonoKJ6V4yVALj4SkHVPhZW8kjlF+3I2JH+8gkX8
-	 6ZU1eN3JARWKSTvzqj7+EqcV2dJoP2fSznAuQw1Hhb9kLYcLWbn0zX9xDoLO0/MIFpQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793630272;
+	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
+	 Subject:Message-Id:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=qZM0t32A/7tLt5ZViY1Lx/RwaN6nR10tuL0SRgKPwxw=;
+	b=zFmPxu9LeM+ue9EEixHchfevg3/nxqroO1pcZp3RRHVWOwR2LcF9Dr59Qqf3PMSC6A2p
+	 P4ldOmsc1JzHhTIaSSgMsjnTdFD1bEe/7gKnqX+JVO0aMwKGRSnxAoY+ZjCBFdW4ng5n7
+	 IxfTRky5KNI5h9mUCWvEH4H47kTExdaNgc1rLybkRvSsZuJ67MoTNvEtew/0bVBJc3BhZ
+	 8UgnjFnJHwzuDcnjmVrSKnoPSC9NlSBAxMjdwPxX4RtD6rA1EIVuhNFiFRwRJbFyHElPy
+	 EZrEnBhPmpBhXivWAYg9E4xiXnIi0bI0FkPFlVLYtoajVemX+t7P9o8MbfvUpsG9ZKQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yVt4hFTN;
-	arc=none smtp.remote-ip=74.125.82.51
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BxpA50Dw;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0CCC606D80F
-	for <linux-sound@vger.kernel.org>; Mon,  2 Nov 2026 14:35:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0CCC606D80F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D996078273;
+	Mon,  2 Nov 2026 14:37:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yVt4hFTN
-Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-15dd124bbe7so3984089c88.1
-        for <linux-sound@vger.kernel.org>; Mon, 02 Nov 2026 06:35:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793630142; x=1794234942; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=PQWcuimkt51bqENNt7X0xmz4uvJH/+F/iqbTS3hh2nU=;
-        b=yVt4hFTNkBUmNE5EZfmnYBGV5CqUr+QR92A+7vdZRH9xtgCW/Prq8BpXjLn9lkHFHC
-         ubtq8ac0BNfwEnq2gMQJSydeFGN5Zk4YgVINwXOWSc5hb4AinmQ+F/IeOtcIz+U5bKKx
-         5LjmszP6yOqK91DhGvq/XXJGhJw5+/T9FXBRXrA+a+HwN/6FjjNXEG5yyfmiQJv8Yk56
-         w36MUdQV/E2uLt7tO5KVrvdkK900RG75ygS1FulRMAww6MEjX/W5xq03idB6Ig6xGZbD
-         Wdyik2SA5LLSfgWc5kvtO4CcSNP1yP7dZYVckcdowGU97zuykbAQgSkdD3iCVtKGWuCj
-         kGZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793630142; x=1794234942;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=PQWcuimkt51bqENNt7X0xmz4uvJH/+F/iqbTS3hh2nU=;
-        b=CqYEV7Mk9WCHjk6oN3AzcmAH/9HHGq0js4wwkr9lkVm1Rk48zOKeL6IJft28VWf1+j
-         ShwAO9icWQI0VZTdmlDGwrMozP1baFGT+rzAHRva/zdDdMYrOsODmKN9NqYL5aMOUCvF
-         nccv0+x/aqrW5msszbEKrbayRRzWH9wY5W9fPkxS/F1eOidMNFE1lzvqcaKGZalnZ+Pj
-         xqrkNxZRgpLFFgA28pWwO5R9YGwO2k0felFLB9StKlHkimkj1EdLVch723MTn/K2covh
-         w3GImjtKuN9+XvfCBs7UTecHRIgOJhhwkdAO0DqISOykVXGOFSj5+H5q1qGsLSHh/phC
-         4qNg==
-X-Forwarded-Encrypted: i=1; AKwUvBwnGARHth30Js4BqfDkGqIsV+E4TsgppitvaZt3lyqTaFeke8xDyS4z4/uCrK7hMtr0S6OGZFO8wFa46g==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ2wWee6cMXH/1s0sed90EZYZvB/zzoNnL81FrHjoGCPqNLwzzz
-	ZlU8wwrqrwaDDftfz7yRBECC/aq9S1o6jrofMMGcrf5YS3zb3dvMGjtg
-X-Gm-Gg: AYBFou0AjUJb42WZdPI0DoC86zxnNGOWZX8/VBzUMUdKuTivRvnlfJUZZtf5GNUj2Qt
-	LDBZxuixPtMUo8jSMnNSTOqzzRo510H+m4qs6S96XCiYsP6f4xbJNVTbl8ZYhNmHkok/rb8fu7P
-	4zt/mgml5YwzJPatTMELA4NSBT8F8bTveoREb1+OjjXOL8JI2taT61cwAi1fabIHeCkBhcnAqAB
-	UdyMV++Vq1HClNhyuk3NccEey8+CbPQBuvI+drhoqSl/s9CH8uvBJn9GmOLtjkAMTweU3uzLBbG
-	9h+7FmhDCKfHRGvDCMrNgnRNyD1wI3ZQdYwF3SizqXH5WJwpm++9Kt5jQPidO1an8fMW4nOaoyS
-	hbJB8+MeQfS2uvMwPOKW9knEbUm90vW83zIBuCCyHNgVqzTAvgHLTzbDGjnIDdhoIaEiard9A+V
-	U35COwX2ZIOqroDeuYqTuCuWDLBQQXz/Vng3xkW/iKFnA+4yHf3eJ1w/+7kXCfUXeU2ysAVSpno
-	U+xxHCxSCL322fnKznb9k/TkkoYZ2mZE/sUmz/3pLq8bjJJyLpv242ExR5uamI340d4f0DdOS7p
-	cvqnymBYQq7Q8ivkwERj0owfqDo05HJoihLoUC7F44fexs141Uc=
-X-Received: by 2002:a05:7022:f106:b0:14d:baf5:c419 with SMTP id a92af1059eb24-1ac55b51d6dmr14535952c88.6.1793630141807;
-        Mon, 02 Nov 2026 06:35:41 -0800 (PST)
-Received: from localhost.localdomain ([103.178.205.93])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1aed79b3dfcsm34385361c88.12.2026.11.02.06.35.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 06:35:41 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: rosenp@gmail.com,
-	cezary.rojewski@intel.com,
-	tim.bird@sony.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Subject: [PATCH] ALSA: pcm: Fix source frame count calculation
-Date: Mon,  2 Nov 2026 14:34:57 +0000
-Message-ID: <20261102143457.3438-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BxpA50Dw
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E48D1F00A16;
+	Mon,  2 Nov 2026 14:37:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793630271;
+	bh=qZM0t32A/7tLt5ZViY1Lx/RwaN6nR10tuL0SRgKPwxw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=BxpA50DwKknbB89mp/X1nZu7mM9unb6Vh5FlO30y4qTOYkAQUIHLg7FmQIobFgOEQ
+	 3+0Q6mSbA64yGisSqfpQSpJTi+3tuH6CzsZCuv2vLiicf+Y/lAeISIZq2qcrrYltxA
+	 4QpLxLTrXuxCgkQnnmgeyCSYC2hI14vT0pbD6TRGSyxX+YB9oj/mhKu2pBeM/vLSw2
+	 8JQ9LvmvIAscht2tamTSjm+/wMV/oDx4bhIytRzfyawx/dbf6GTmVdWPbOwt0KYeTu
+	 S6efzWAcjK63kH8HQPpkyf0E6irZKxi8xj694JbqYOP3Utv94W3iYL1efY3NNDlsrD
+	 2h9Wi6r9vi7gA==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id E76F0239163B;
+	Mon, 02 Nov 2026 14:37:48 +0000 (GMT)
+From: Mark Brown <broonie@kernel.org>
+To: Shawn Guo <shengchao.guo@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>, 
+ Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>, 
+ Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>, 
+ Bartosz Golaszewski <brgl@kernel.org>, linux-sound@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261031082318.1146398-1-shengchao.guo@oss.qualcomm.com>
+References: <20261031082318.1146398-1-shengchao.guo@oss.qualcomm.com>
+Subject: Re: [PATCH v3] ASoC: qcom: sc8280xp: Derive TDM channels from DT
+ mask
+Message-Id: <179362488950.1990291.1102369712993720367.b4-ty@b4>
+Date: Mon, 02 Nov 2026 13:08:09 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,33 +69,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1123; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=q+FupMn2YZMhVIkg0ZpIkbqp7R+diq23A3sR3O/sydg=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJeLLA5lzFFNsQ3mvF5b0zXgSxNBYWXr+wfTeTcoXn4O
+ ++GwJW/O0pZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRZXqMDMtZ9+4yNrjxpHCR
+ y3WujuqDj9NmSLg9Wqjro+VS4ub3IJrhv4dZbV9ckeqWadUzj+Z/tdeZ4LRDlluzR5fj7h21dZc
+ ucwAA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Pass the updated frame count to the "src_frames()" callback.
+On Sat, 31 Oct 2026 16:23:18 +0800, Shawn Guo wrote:
+> ASoC: qcom: sc8280xp: Derive TDM channels from DT mask
 
-When the next plugin handles fewer frames than requested, use the
-actual frame count instead of the original requested count.
+Applied to
 
-This ensures the correct number of source frames is calculated.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
-Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
----
- sound/core/oss/pcm_plugin.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks!
 
-diff --git a/sound/core/oss/pcm_plugin.c b/sound/core/oss/pcm_plugin.c
-index acf5ca663ba8..3de713779993 100644
---- a/sound/core/oss/pcm_plugin.c
-+++ b/sound/core/oss/pcm_plugin.c
-@@ -604,7 +604,7 @@ snd_pcm_sframes_t snd_pcm_plug_write_transfer(struct snd_pcm_substream *plug, st
- 			if (err != frames1) {
- 				frames = err;
- 				if (plugin->src_frames) {
--					frames = plugin->src_frames(plugin, frames1);
-+					frames = plugin->src_frames(plugin, err);
- 					if (frames <= 0)
- 						return frames;
- 				}
--- 
-2.55.0
+[1/1] ASoC: qcom: sc8280xp: Derive TDM channels from DT mask
+      https://git.kernel.org/broonie/sound/c/45e9d148a0a7
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
