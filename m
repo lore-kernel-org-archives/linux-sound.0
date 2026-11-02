@@ -1,15 +1,15 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.35
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.196.42
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793598035;
-	b=Yh5HtLkbOdNiq17u0Vk1S1b0a7ZjMESOW0ZTCJKe2YzfcakOjPuKXYLDFro5FIA4PaKR
-	 j9BkS2Aqnwj0+ae5AU2PkoxKlz2quKSlFyNNuzc4Yk0VoZ5GreT4rQk1ypSrvL+RiZUHN
-	 fLaubOVWgw/sgjyDsulfyKq5hhEO9L59BWYS9vDgbhx5TfC7jWn/czuDDtHp3znLc7k7r
-	 ypgjLBRVHennJ8msuM+y59UBlAJ9c+m71SKGiyfJw17ibwCuTpmoO+Ol4XiiIdspAxW7W
-	 /NZYR9PVmN3WRaSIv1CwLZ0fDd/vgr+I2xfRgsPmmpDmwXgsyJuKS0PnPSvDsqz4SGg==
+	t=1793599021;
+	b=lrK5hUGv62j8i0bEPidV23oZ+u4TsWaQSUPHMXcZ2WJfuR4oIy/Qe6w7RcL74mgzlbeO
+	 zfJS6YRa4GMFL97cG9tfta784gqFtxpyXIN+aFqVvLmr0917YHdqZmhAE7hk4MgZb2jX8
+	 Wr4d0O9SnxtxrHY7q65cb6zfHySDyVXOvmzXbGNGSwvFDgh1ELiUAS4fpukjGdwkKWzjA
+	 XDS0uiMaW8n5O/BQpMxwUdQYpt7WVgDSemfnI28IaE3AwkTtFozZ2DU2Gdab5L4WFWI2W
+	 tZDQQXDr39J0othzH9rFcz5segzP03iXL9ejbJob3idNHNnsKJSjg9KV7THsNtXEQXg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793598035;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793599021;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 User-Agent:Subject:Content-Language:To:Cc:References:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
 	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
 	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
@@ -24,58 +24,59 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=BpWhoecmVyd71CSvsgU+LM3fnFQdbxavgjylKIsZ6AU=;
-	b=WFEk6ZsRgIKfgGyBW32GqlEGrVeLirk/jjFqT1GUVHOW2ue+/4Bo6+C5iSp9aViJFrG/
-	 MJRMYK7tV55CJFy/3+HwZL5fvnprHsEI++nuvOYz0JuXtq5uGX1P/DL74f+5nMkJyG48V
-	 gy3xnEjFFeRpBCEMRDqBuMIN2WyfKIsC6ibLF29Dck/qix7v92sbaDG1ieSuC8gozA0ad
-	 Hwh8UNUopoqfEgQLx0VFXgguQ1lxyrJ1Vp6NX+Pg77S+G3YhBDOhtk0X/Tit2joFrAb9b
-	 YuJ7sTPxoQMTaZXyAGaXk6wMpFejwhlfm8V36gWR9c2zk50v6DnqLuu8rmEsYBXDksQ==
+	bh=VgBaBWc2HX4Za6w+/V/y2aKfVF3RixQJiQnAB7+NibE=;
+	b=lMJp+yub0jT4zDFX5COgoLXSgL0mpfyX6tJA/Ej6vL8wyBlfTCn/BhKutk5oXc6GJ+jU
+	 qYbTNTWGPTavpQqVMtOBTksOVwXkSd9HeXrxTTThKWtyETU1k1LeV3ilF3dmdsHVamGNL
+	 x6Dl/KLxzicgMbomTKrWjf2aVc2BxHA/QwEeJ0Re7nPCgHVnN0dhUmBoLAyynsDEwJce1
+	 Kzu4nf3OePQ9h98Mr2IQ7vsd51cuxDsSgVHtx2ADHgxPcyxH61ixspparMuseJ2bEfHsw
+	 RsDSkg3qQGJI+xCLauVj84H7ktXKOuetfZ++DaYdZgp8ZuwYqAaKrgBygzTji12Zteg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=amd.com;
 	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=bzka4RC+;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.35
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013035.outbound.protection.outlook.com [40.93.201.35])
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=4DuzLGO1;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.196.42
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013042.outbound.protection.outlook.com [40.93.196.42])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A0F606A324;
-	Mon,  2 Nov 2026 05:40:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22A0F606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A496E606A324;
+	Mon,  2 Nov 2026 05:57:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A496E606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=bzka4RC+
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=4DuzLGO1
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aKkaCuK2sEz2QrSVgEyUsurjssay1j+/LlOdXAZfaa97bqsGXWuXg308nQ30jOxKs7EAkYTO/8Q6u/kf8IPSUQv+9lqWwDw7yUfVbJ1yTftG65JORDgVEyoqqAkAb+cRrDe9IDUX1m/2X+OKzy/7PhOwSCNEqXc3N1MLWAutBO23tNy+H545PvTxcCQL/Dvja/CGoIdLh6lzqpwEJcD+JHHFWmqyS+NCl4PyXQRoZPxm1w9rGx5Rf4elDAP4rOmLAfJ9DreOdrYYtulCJLpM+Rvk6YX/k9d9Sinzul1S3zgTrAsdCmkxSCI9NC2LVUzJgwUCkrTQ2Fmit8/cnNobCg==
+ b=AYIleb6vCqm+Wg+Pc45+4reeDordPTL7MThZG5z8P0q/Zy7X0wBfBFn6Hubd7QOAFGDzQh4nYScHC4oI191bJYA5XF6d7ADHL1eMLwxqWv2JgcV3apVnxXcZCo2B1aOyIJBANXhgH6REuep54grHV+/Qn4NIJAp1DhW8hCIWxo71HMpPMrCYyRFihojgRXkgwlKkyfZSd16tbfLyN+qCH9XXxDfan2GoZvVDule5M6v4O0my42ULYFSLTFmUjAUOaC9z1y4ts7M7XGTi0mb0RzUZBuLMlcmu+uiJ7acYbrMRNsfsVVpTlWCyBS1EJUqnPIWHLITkZZC+PGL0mkiI5Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BpWhoecmVyd71CSvsgU+LM3fnFQdbxavgjylKIsZ6AU=;
- b=ebJ32QX+IK1SgDd9hT2MTXJSy7Nt3yfJ82iy08suYUi1s9h2dTwJ5pepY0cke4HwLN7uAZ3FvBGEnrtdn27q/MpJd28hYUbTzZbVmUhCttGtTPKxB43a5pRF4D+LYdUzR1wlYBZ+SgBd9iHUm5Vh3Ov0KhoPUk2nE5z0k4KheBzsdvMrGtIVXpqQ/9a0NePeepJzz0eHNNwGsMApnCA5NZz789L2/TTjERCg7e5oC3SBWhD/gsKQ2Ui+6OjKZAmfVpJgt2osOrwxoBPGEOUfT9exRILgstMexl21vTkhLk1rAF4ykm2rJDT8slj+3l9gW3+GxdzlTDwP+lhWHjYs2w==
+ bh=VgBaBWc2HX4Za6w+/V/y2aKfVF3RixQJiQnAB7+NibE=;
+ b=JHrsRaQUZD5ZKXPWaX51VbRf5Tc85805N8nwJwE8ewSwA4T+DgZbm5dVrrR7BeV9OjAMr17IRfdnXSizUZUWEJyNYJChXb6a9KJcwVJa/qDONYQ7V7flHwy1BwIRHCNMyBAf+8e6AwYs45DxB3vvD39KHkII3oOTrak3eTNu2ihnz005mzP5KjmJhk8TSUHglZwHK2Gb2PqUxwGzRnBoRte16h8NltOurwkoOTihlesTCcwbudVoP+Yc5K7ouWoXI7gKe8kvhUxRbps0gFK2MNHKicfV6E58zzCjsR+9f/IIhs4PivrkaVkl+MTd6g/Zbxv5ML9YCbywcrmmX0TzkA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BpWhoecmVyd71CSvsgU+LM3fnFQdbxavgjylKIsZ6AU=;
- b=bzka4RC+MZaJnP30FnO/vDftVoCUaX8gOSJJrlR8tlpPFTKDMZm3SxWS/2rOD0vDnwTIyHi/iGptFSIu9vpkU8F8J3XbVfF6GFoCzEeyzjCcd2gLmB+VtOxLDbQTww2fqSeimnnys7YQ+6QQ+Cya+MuzmK6oaBHZRjcpycNS3HE=
+ bh=VgBaBWc2HX4Za6w+/V/y2aKfVF3RixQJiQnAB7+NibE=;
+ b=4DuzLGO1U3G5ThwlnzidlbxWlDiexXiEIU8Mm8e1KszVoyNho4nxyLnZIZNfcWv2+9dC7pXZrRlGXzH0Evr3Y4WAoTMXzxvHQAxL64/0aiTKVBjr3WsmXcGHONZ5XxGUY2jTb0E2cRgQY+QmBOgQuUQ794vjTMMCYB0FwMA00qI=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
- by DS7PR12MB6094.namprd12.prod.outlook.com (2603:10b6:8:9d::14) with
+ by MW4PR12MB6828.namprd12.prod.outlook.com (2603:10b6:303:209::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Mon, 2 Nov
- 2026 05:40:32 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Mon, 2 Nov
+ 2026 05:56:57 +0000
 Received: from CY5PR12MB6252.namprd12.prod.outlook.com
  ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
  ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0569.011; Mon, 2 Nov 2026
- 05:40:32 +0000
-Message-ID: <c97688fa-1212-46c2-ad58-5117632e01b2@amd.com>
-Date: Mon, 2 Nov 2026 11:12:49 +0530
+ 05:56:57 +0000
+Message-ID: <3a96ed5e-a031-421d-b958-79fef8d3e39b@amd.com>
+Date: Mon, 2 Nov 2026 11:29:14 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 06/16] ASoC: amd: acp: add PDM controller selection for
- ACP7.B/7.F SoundWire machine driver
+Subject: Re: [PATCH v4 13/16] ASoC: amd: acp: add ACPI machine tables for
+ ACP7.F SoundWire
+Content-Language: en-US
 To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, broonie@kernel.org
 Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
  tiwai@suse.com, yung-chuan.liao@linux.intel.com,
@@ -85,15 +86,14 @@ Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  sound-open-firmware@alsa-project.org
 References: <20261030094714.1123396-1-Vijendar.Mukunda@amd.com>
- <20261030094714.1123396-7-Vijendar.Mukunda@amd.com>
- <15653bef-65b0-486f-aecd-ad7618d99cbd@linux.dev>
-Content-Language: en-US
+ <20261030094714.1123396-14-Vijendar.Mukunda@amd.com>
+ <fe3eecdc-eb7f-4b1a-947c-fa05c4602fd1@linux.dev>
 From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <15653bef-65b0-486f-aecd-ad7618d99cbd@linux.dev>
+In-Reply-To: <fe3eecdc-eb7f-4b1a-947c-fa05c4602fd1@linux.dev>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2P287CA0002.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:21b::10) To CY5PR12MB6252.namprd12.prod.outlook.com
+X-ClientProxiedBy: PN5PR01CA0016.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:25e::6) To CY5PR12MB6252.namprd12.prod.outlook.com
  (2603:10b6:930:20::17)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -105,204 +105,116 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|DS7PR12MB6094:EE_
-X-MS-Office365-Filtering-Correlation-Id: b130c05a-bf7b-48af-42c9-08df38a3cf5e
+X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|MW4PR12MB6828:EE_
+X-MS-Office365-Filtering-Correlation-Id: 930d1ba7-0e5e-49ae-5173-08df38a61a6e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|7416014|1800799024|366016|261026140227099003|22082099003|6133799003|18002099003|10067099003|261028144727099003|3023799007|56012099006|261021121427099003|11063799006|4143699003|261022105027099003|261021123027099003|261022075727099003|261009223027099003|261026121527099003;
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|23010399003|6133799003|10067099003|22082099003|18002099003|56012099006|4143699003|11063799006|261021121427099003|261026121527099003|261022113327099003|261022075727099003;
 X-Microsoft-Antispam-Message-Info:
-	o44Rfu2uHksagpW9DtT22mcGq1sdqOMKmMz3POJsEVsaugvYbFA3BA/fZeCoVaX0YR15lFcz+Guwp0CWNkxq3ZkzIulnk17GM/9hQnlHuRUAds5yocumQ8RsV/93+GAwlHQU9sUJbfRM6i2idGrctwCUMIOpOaZP9LGY0Wp4U+O3/Fi4avCHT+wC+WDc2H/3NrwmpUOIb5esCwunWrt50gKEoCeSHfY/w3m1F9+PfSarvMOr1GGeYoztjwvLYq1yqZ3UzMqMj6rZuDj0HJnI9meV1U/iJ2Qg9jTdcBqUvMuuWT2VQszwVEan8Q0WvSiMGJkXDElZegJ8J5uPFELcWRJ89u3XKqkZGuByZWwI5TYg57vhCxM0f+W0T+7pcCEYeA+XmpKoOA+Z7qRpLKpgD5Qm7eWLb1pID9p9JUNM4BAdfdL3XEUZ3A6SPaXs3oveuNd/JMGl6+g7d96SlbzK8p0PifPnJAW7aBQYspzE+xvZidzjx9RZ4+v4V5mCKpYqEhFHPcgKLLBCwzGc+tVXvKuJ44lSO/kKRf37GkDarj+hbNNDhi4+TCGutgS0lT/TUuuB6N8HzIfdpUPOynPDCPhFn+jnP99GcgvcruXUsCWDA54wJxAcp9dfiiIzP8E+FI8NsFHeqfR1ZGIbZAf+hxLixtVlgeObram2EZZ6i4g=
+	DducQvkcpTkpv8i08Ep05AyvHL6Tn1cgczPl33KG3va64H9/3eds69C91HyYKBYs8rJl4OIpOHYMSCtUQLXWM9UCrGdJ/jasPGxqlF6I04PPRb12sqNs0gGqfYctbLmuIpNKcvF1jhMSjFUk61YZxYUCB1x0OBT+v/68JYBg7XxVM0Jj5pHlN2bFNHGclcio5+vMi756NKq5oW9r5MpRcJkZ4J8doGkdOtUwgTLUgzKtbzhHTZ+zquQ9g78nncSBH3aJB9YfyGNofFW3gLo3wBljAW97ulc9ZHB8Y+5FCuRk0bifs5wAt3YPcRlt8pVMOt5jy6icb4/VbH+khbRup33VXhTWuV8MjvyiDkmQ1anMy+uAmMzhzpIMOQ43W1ZVHiAR+Zv2GUn8tXIa/AD+wMQqKphr8IqiR28uY7UZbbhwznyAjMSphrSKaeo8yDqOCdk/4Wxayk35LTP4Ik3rK9LNzGMSJJ0CfPaz0W43iSNBvVwIRkerAa7C25wfWkSX2036M/Q4nc7D/i9ebBtinlT+QKx9DAzrnfxsetfVwadzx6FZ8tc8R4z8KKfiyFkhbFjdfNDGOoLAzgjiQsc1MLVwZTLMJpG1Rhvl8ta89V6G0w/PslTnfIXX6iQq8/TYCajx1RbgxZSKhTwgNSuUL/c3J4nqP8x24cGwwu5hXdA=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(1800799024)(366016)(261026140227099003)(22082099003)(6133799003)(18002099003)(10067099003)(261028144727099003)(3023799007)(56012099006)(261021121427099003)(11063799006)(4143699003)(261022105027099003)(261021123027099003)(261022075727099003)(261009223027099003)(261026121527099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(23010399003)(6133799003)(10067099003)(22082099003)(18002099003)(56012099006)(4143699003)(11063799006)(261021121427099003)(261026121527099003)(261022113327099003)(261022075727099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QjB2d0NoV1dWbXdLWXk1LzFOeDd1YTJsOCtNeWZUZWRnNGZmWkVhdFJaMzly?=
- =?utf-8?B?MDdkWjVOQmVkRGtwSlBCUHlSM1RQVkQvNEs2RzBGNHFvdVRJQS92dEM5TFcz?=
- =?utf-8?B?cGlDWSs3VHpGUERmVVZnQU11V3QweUVDOThJNm1JVFVvbXFBdStSd05BSkZL?=
- =?utf-8?B?S0o3UjRiTXVrRi84UmhTckdnZEVqNDc2Sm1pa1J1Q0RyOXl1dFJVUm5YaUNG?=
- =?utf-8?B?MkQ0N0NqcnNCdjNxOVJHczNnQ2JwamVRaHREWFlXNklDVWM4RWM4MW51R0xh?=
- =?utf-8?B?bzIrMmR4YVZoVDNjYkwzbzNxa3pWS2ZGa1pKYXBnK3AvY1JVVFhVTHhQYUVj?=
- =?utf-8?B?OGpJd0FvZktxQkY2VUx2YkFWUTF1Y3BhSEZkZUJ0NjVRQUNORUJRWGdVRXdE?=
- =?utf-8?B?YUJJNkVtb21lam81V0szZVRuejUwR2RNeFdTRXBYRFl0SERMRzhhckx4K0Vk?=
- =?utf-8?B?aFVCSHBIZS84ODJtK0h4bzZ4OGxiTGQyRGhaTkN4RFNVNUdlc0Q3NTZNUGxJ?=
- =?utf-8?B?aWJzM1ArQ1VaNmtoZDlEMEs2eldJdkp6VUtFZysyRlJUS3hZZTBwOFZxUVhP?=
- =?utf-8?B?TVlyV3hicU53TDZqclRzZUpQNmtkTjNNTHNGRXBqS3o4YjhMNEM4ejI2Umww?=
- =?utf-8?B?MjhMekVkRE5yZGJzK29vR1VJRXlqUlptaVphNHpacWFRSG43bmFGbmwxdWxZ?=
- =?utf-8?B?Y3dnNmdVZjZGOWt3Y1o2L3U3YU9GVG4rU2dMSXFDQnphUzg2SHNaWXRHbWVX?=
- =?utf-8?B?TURZV0Q2MXY4b2h1Vlp4QlZ4MWFxdlord0hRTFZrVjZNa1pPWFRyT2hDM05j?=
- =?utf-8?B?TlBpSGduTk1tbzMyZDJTZE5yektFTS84SGw2VHh4QktKVVIvakxYUDJJN2d6?=
- =?utf-8?B?ZXhCNU13ZU05YUJ3dm5hM1VvVWRWcGhNYTQvQnIzWlNvdlgwRC9ETVpRcEVl?=
- =?utf-8?B?S3UzeWlOd2V1Z0I5UjdGNEplTTZCU2w3dThZWHppSUZtYytQODdqakwyS1hl?=
- =?utf-8?B?a2ltcVhJSDM1YmtjbnczcFBZMEJFNmZ0aThjcEgvVzFJbHNiYm1XVlhST2to?=
- =?utf-8?B?aStxVkhkS0liVjVRTzZqQkZrdGxlUUY1TCtoNk16Z2xGcTBGY2hhbFVIdisv?=
- =?utf-8?B?UitscmI4N293TEdCNGk2Qm1MUEJFbm5xSk5Udms5aGNOaXFxNzRFempzdXAy?=
- =?utf-8?B?Tis4NkN1ZGJXTGNTKzRyaUM3QU9HV0lkbHVpK2tzaU9GS3M0Y0wwZnNZQ1FN?=
- =?utf-8?B?MVUxTksyQTlmNm5EU0NLMFRsNmFaMnk4UHpUZ2JXbTZuZStNQlFydXRhVlg3?=
- =?utf-8?B?ZTdKYk5heXN0TzUvQUN0OUdoWU1CMnJTNk9RaHZJMW9NQk9UK3BXWG41UXcy?=
- =?utf-8?B?L2RYL3g2anJWOHl1S3JHRDA1NmVodmxmbUZlTExraVBYM0QyR3E1WDNxaXVz?=
- =?utf-8?B?RSt2T2VQb1lnTS9wV3lVRGp4SEhrOTBrQ0dENzJrTTV6Tkp4OEhMU28rMzB2?=
- =?utf-8?B?dmFIVVJzN3piZGE4d0huNzV5N3ZpdFBJYjVsSHNvdmR0akxMeExVaXJoVnR6?=
- =?utf-8?B?MFVFR0V4djhkLzh0OUJ6Zyt3aTJyYlJzYlM2VnlqRVFEa0dEajIrTjhxcXRQ?=
- =?utf-8?B?dnFvaFgySDVHMXhZbGwzRlppVnpGdXdpNWdmR0NQMzhjdVdWQjVSZWFLNzR1?=
- =?utf-8?B?c2RCcmRIMExoYVhmWWFjRTV1UktBc25MY05aMEcrM1gwalRvdDFPMkxFUVRP?=
- =?utf-8?B?VHZ2dTUwTlFldW9HWEhlcmF5V29QanUvM2Z1QkJtVEdOSTBuR1duWE1ERmR1?=
- =?utf-8?B?ZGF4RGxaL0tTRHlMaC9UYlVFSE5hWWllbTU1WXo0aGR5K2VMVVVnSTJndVp6?=
- =?utf-8?B?RjE3TGllY05zaHZhWkhaa2lmaFhEQzZOUjVjUWJPTy8zVlNFdFBnYVJHRUhh?=
- =?utf-8?B?c1djWVV1elNBbVNaSzl2VE5EWUYrRVlqdW04NFNBbmhNTFdQekJBb0F1NmhC?=
- =?utf-8?B?TFBTTXVwVU5QWXJBY291QVZqUmhzMWFQRHN5NTYvUXJJQkk3T3Aya25hZ3l5?=
- =?utf-8?B?TUUxSDI2L0VaTHZRbDlSQ3FrM0orUktxZUFuZFQ1eGdrNXZBTW5lMUp2QXZ2?=
- =?utf-8?B?NUJ3UDhMb1diV0YzYWRVNGErMFpjenpodmMxZnJHWjNUd04yc2lIS25YSHFG?=
- =?utf-8?B?dWVuL010enJHZ3JyODducTkyNTVEQmkvNkNoUWFFYXZvR2k1eFUwREFpeGEr?=
- =?utf-8?B?RGlnWHZ2VEx4ZDZTVU96Mm90eFI3aGFYU3c1ZlMydUYrVUZFaGxpRE9OUUJ3?=
- =?utf-8?B?UmdpSU1SZDFjQW1qT201QUJNY3NKdVNPd2FtNE5KV2krcUpiem56dz09?=
+	=?utf-8?B?b0x6aXdUbHM2VVNEQVVBekdKL0IwdlI3NHJ1dXU4WjNKK2lSaWhEU2dzbExL?=
+ =?utf-8?B?WUZhd09hZnRmNnVJZzhIYTE5WmxXK3Yva21jaFQ1L1BaM1V6d0x5VDZFZEV4?=
+ =?utf-8?B?dmkwU3Z2UzVpQ2ZxN1RTOWlkaWNHTVRSTmVMQWo2Q1FKSlh1Z0crdTBzbFFP?=
+ =?utf-8?B?cU1aandwck5XZnpOTld5bWYzdVQ4Wi9iaWI0T2dzbGtzbGVhcjJvbEJ6TDVh?=
+ =?utf-8?B?bnZ6eU5OL01WY1gxZmE5bU1pOFExSG93SWNDSGY0ZVVhQkVpSllOMXlJZlF6?=
+ =?utf-8?B?RGl3MTZBNkpLY3R3RURvcDlHSnB6aTVGcTVBbi8xckFMd0VOOEttMkJoUG8y?=
+ =?utf-8?B?eDF1eks3cmpOV2tUaUliemtPVDFiY2dQcS9OM3FJWUxLVzhWd1BZd080SDAw?=
+ =?utf-8?B?TDlDTVhYTXoyam1ZMWZoMzJKTFR2bkUzZzQ3U2VSUUtXd2VtUzRwM3g5NnNw?=
+ =?utf-8?B?M2N6YkNxdlBmYzI4NC84aG91dmsrUEdvcnJvS1BCTTh3d1EwNTd5RVU2VHc5?=
+ =?utf-8?B?SytQb1hZNkZXQkZhVm5VQ3laY2JBMW1iK2hlc1Z1bWR2QitzLzJiRWs3NWQ5?=
+ =?utf-8?B?aU42N25iMHVqMEhadnZzaDkzVWVnUTIzZklwV01YcGN1YzJBRGhWTWNYanpv?=
+ =?utf-8?B?VG1OQXlHTTVZcjN6RlZjdGVnV09jMjRyd3UwcDJKcjNVcExmcmdZWTNycUtQ?=
+ =?utf-8?B?aUtlMXFqZmNMSTJVWUYyNnhTZ3FqMXp5d1lNRlZQLzNOWWZFK1dSZzNwTVQ2?=
+ =?utf-8?B?UnVtRmdOQUxFM245VGZpcjNFS0piLzdIYytTZnlYY2N6VGpTVjdVd3Q0aFF6?=
+ =?utf-8?B?RTA0anZXeEorbEVmeWw3bTZXZG5HM0ZIeGpkMk5IN2N4L2hicE1DTTBSVWwr?=
+ =?utf-8?B?RDQwa0VIVlZDTDY2UmNBK2FqeWZGN1NFTkI3alhOVFQ1cXVmUzlZSWk2cWZu?=
+ =?utf-8?B?aDR0czNjRlV6TW9kU0RybkpvbVVCQVBhOFhjMjZFYzV6cWNvdWVHL1lSQk04?=
+ =?utf-8?B?YVhoR3hzcytNNEYxbzBlQzhHWGRZTm54T1MvcUhleUJJSHFwTXc2V1hTODgv?=
+ =?utf-8?B?QjV4WCtDNDR1ZzI1SEdQbTlDTDI3djFiOHYxdTRnS3FhZjZsVmFYU3Bpb3p4?=
+ =?utf-8?B?SFY3RnBPY084UzJyN3VNTmN5ZEVhSkZpOVFkL2wvZGJXN0pDRjViYXFkREtr?=
+ =?utf-8?B?Mk11Q1ZkKzJVWk5QOXFURGFxWlNNK2wyeHdwUVRSVlhaWFozUlFLVWllWTdR?=
+ =?utf-8?B?YVVCQUQ0VjB0dnM1bzZMQ3hRRDFMTmdDSGtsOSsyZlRtZjB2eGROcTh6UWtU?=
+ =?utf-8?B?N09Pc21Mem5UTktDZ2krNHFkdXZ5RXZqSHBqai8zTnZMamVsczJvdm1meU1Z?=
+ =?utf-8?B?ZEdQWmhYZjcwd1RuVGFiNUlKc1hYVmhPeE5SWWh0dUxvelZnd0dWM215TTVm?=
+ =?utf-8?B?RituMDRJK0ZwQVI1YkJYa3lBNms4Ym94UGxmQ0FLL1FRd1ROeU9lY2Z2aE1z?=
+ =?utf-8?B?TTVkcHhJZTk5V0R6S25MN3loaTFPUFF5eXdyZ2hjS21jUWZtOGdlWG5TckVJ?=
+ =?utf-8?B?MGh4WVZpY2ZKbUd4R3Y0V1VxeE15ZHpmQnRXUmpKZ1BtcWNsT3ZXa1Yvbk9C?=
+ =?utf-8?B?QzAvM1hkMXBLUTJWeXB2NXJBSjhabnNZSEZvWGRXRVFySlhaM05PeTkxL0VX?=
+ =?utf-8?B?WnZpY0pyb3BlNllvOHVKdHViL2IxQUpGWlN1QTdzcC81U1hkZzg3Ly9zNWVS?=
+ =?utf-8?B?eWJrVERwVVhSaHJyb2xRQVlhMUNPOTM0dU5WTHllK0ZLZXA3bGVtVkVQNFcv?=
+ =?utf-8?B?S1lMVFJZNE1wZG1TWVRiQU1NdHozYmdRTDdYOCtheHNqZ0RaUFJjTXNpaFhz?=
+ =?utf-8?B?ZHk3YTFobTZXSkZRNHBZRHUxVm8yZ0p2SFZRQVE5aC9HbFI0UHF5cE9vT0Rm?=
+ =?utf-8?B?RktPd0YveFdMTW1kaDdLVUFaYzhPY2d1WHUyYTBLUDBlZDIycVJPUG5jZlpw?=
+ =?utf-8?B?TDRpUHB3TXFlNUhKNTBibkwzYmxKMTg2anhBSW5BeVNqcXBudjMvVU9sU3hQ?=
+ =?utf-8?B?SmgvNGVZbm5xUGVUQ0pYUHVMb0I2dFMzSVhabURJZHZDQWlPeVFNTHZpTW1E?=
+ =?utf-8?B?ZUpPSkNHYTZBMy9UK3MxTldWMFZINDluNis1eDRHQ2RaZHhXQzlNZFJtd0Z5?=
+ =?utf-8?B?YUNCQTNBMDQ2Q09CY1ROb0tWWURWRTZSc3AxYTNoMGx2T2ZPK2ZjWXZDYVBo?=
+ =?utf-8?B?eElib2VtQjRPb3B4UXFzQUoxRU9DcElnRnQ5M1JPMTJMdklKNy85UjJibk41?=
+ =?utf-8?B?Ukp1ekhZcUdEaExma3JCREdobmd3aG15cmRzQ0hsajBsRFVHckhOQT09?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b130c05a-bf7b-48af-42c9-08df38a3cf5e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 930d1ba7-0e5e-49ae-5173-08df38a61a6e
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 05:40:32.3487
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 05:56:57.2972
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZrjOhBJmEKiSzGyMrT88phH/bPR7mVUT6RCR85j3oDnkYHlRpdFxIFaYVVxwLhZ4HJ2n7lhIiE//vJk72es5BA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6094
+X-MS-Exchange-CrossTenant-UserPrincipalName: +grNdRhiSdC2YfeSv+B4hGpVcVO4m8ZxwEAE1riut0y7Ph0cLyOP6ZUXCngxk7ZCXgjkanS3s4htuuduMl5m0Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6828
 
-On 01/11/26 23:58, Pierre-Louis Bossart wrote:
+On 01/11/26 23:54, Pierre-Louis Bossart wrote:
 > On 10/30/26 10:45, Vijendar Mukunda wrote:
->> Add ASOC_SDW_ACP_DMIC1 quirk bit (BIT(6)) and pdm_sel field to
->> amd_mc_ctx to support per-controller DMIC DAI selection on ACP7.B/7.F
->> platforms.
+>> Add amd-acp7x-acpi-match.c with four snd_soc_acpi_mach entries for
+>> ACP7.F SoundWire configurations:
+>> - RT721 + RT1320 on SoundWire links L0+L3
+>>   (jack+dmic on RT721, spk on RT1320)
+>> - RT721 + RT1320 on SoundWire links L0+L1
+>>   (jack+dmic on RT721, spk on RT1320)
+>> - Standalone RT721 on L0 (jack, amp and dmic endpoints)
+>> - Standalone RT722 on L0 (jack, amp and dmic endpoints)
 >>
->> In mc_probe(), read the active PDM controller from mach->pdata
->> (populated via ACPI acp-audio-ep-port _DSD). When ACPI does not set
->> pdm_sel, derive it from the quirk bits after dmi_check_system() and
->> quirk_override are applied: ASOC_SDW_ACP_DMIC1 selects DMIC1;
->> ASOC_SDW_ACP_DMIC selects DMIC0. Since only one PDM controller is
->> active at a time, DMIC1 is checked first.
-> nit-pick: it'd be useful to explain the mapping between PDM controllers
-> and PDM microphones. Is this one controller:2mics?
-
+>> RT721+RT1320 combo configurations use jack_dmic_endpoints for RT721,
+>> skipping the internal amp since RT1320 provides amplification on a
+>> dedicated SoundWire link.
+> [...]
 >
-> Also does anything prevent DMIC and DMIC1 from being active simultaneously?
-Yes, each PDM controller supports two microphones, i.e. a 2-channel
-DMIC configuration. PDM0 and PDM1 are alternative controllers, with
-the OEM/platform configuration determining which controller is used.
-Only one PDM controller is selected for a given platform, so DMIC and
-DMIC1 are not expected to be active simultaneously.
-
-Will add a comment in the code to clarify this and post a supplemental
-patch.
+>> +static const struct snd_soc_acpi_adr_device rt721_l0_single_adr[] = {
+>> +	{
+>> +		.adr = 0x000030025d072101ull,
+>> +		.num_endpoints = ARRAY_SIZE(jack_dmic_endpoints),
+>> +		.endpoints = jack_dmic_endpoints,
+>> +		.name_prefix = "rt721"
+>> +	}
+>> +};
+>> +
+>> +static const struct snd_soc_acpi_adr_device rt721_l0_only[] = {
+>> +	{
+>> +		.adr = 0x000030025d072101ull,
+>> +		.num_endpoints = ARRAY_SIZE(jack_amp_dmic_endpoints),
+>> +		.endpoints = jack_amp_dmic_endpoints,
+>> +		.name_prefix = "rt721"
+>> +	}
+>> +};
+> nit-pick: The naming conventions aren't self-explanatory and don't match
+> the explanations above. The difference between l0_single_adr and l0_only
+> are related to the endpoints used, and they don't match what's used for
+> rt722 below.
+Agreed. The naming is inconsistent. Will fix the naming to make the
+usage clearer and post a supplemental patch.
 >
->> In create_dmic_dailinks(), select the SOF CPU DAI name based on
->> pdm_sel: "acp-sof-dmic1" for ACP7X_PDM_DMIC1, "acp-sof-dmic0"
->> otherwise on ACP7.B/7.F; all other platforms use "acp-sof-dmic".
->>
->> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
->> ---
->>  sound/soc/amd/acp/acp-sdw-sof-mach.c   | 44 +++++++++++++++++++++++++-
->>  sound/soc/amd/acp/soc_amd_sdw_common.h |  3 ++
->>  2 files changed, 46 insertions(+), 1 deletion(-)
->>
->> diff --git a/sound/soc/amd/acp/acp-sdw-sof-mach.c b/sound/soc/amd/acp/acp-sdw-sof-mach.c
->> index 97b2e224492f..34a71f7a8c54 100644
->> --- a/sound/soc/amd/acp/acp-sdw-sof-mach.c
->> +++ b/sound/soc/amd/acp/acp-sdw-sof-mach.c
->> @@ -265,11 +265,31 @@ static int create_dmic_dailinks(struct snd_soc_card *card,
->>  				struct snd_soc_dai_link **dai_links, int *be_id, int no_pcm)
->>  {
->>  	struct device *dev = card->dev;
->> +	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
->> +	struct amd_mc_ctx *amd_ctx = (struct amd_mc_ctx *)ctx->private;
->> +	const char *cpu_dai_name;
->>  	int ret;
->>  
->> +	/*
->> +	 * For ACP7.B/7.F platforms the PDM controller is selected from ACPI
->> +	 * acp-audio-ep-port and stored in amd_ctx->pdm_sel. Use the
->> +	 * matching SOF DAI name ("acp-sof-dmic0" or "acp-sof-dmic1").
->> +	 * All other platforms use the generic "acp-sof-dmic" DAI.
->> +	 */
->> +	switch (amd_ctx->acp_rev) {
->> +	case ACP7B_PCI_REV:
->> +	case ACP7F_PCI_REV:
->> +		cpu_dai_name = (amd_ctx->pdm_sel == ACP7X_PDM_DMIC1) ?
->> +				"acp-sof-dmic1" : "acp-sof-dmic0";
->> +		break;
->> +	default:
->> +		cpu_dai_name = "acp-sof-dmic";
->> +		break;
+> [...]> +static const struct snd_soc_acpi_adr_device
+> rt722_l0_single_adr[] = {
+>> +	{
+>> +		.adr = 0x000030025d072201ull,
+>> +		.num_endpoints = ARRAY_SIZE(jack_amp_dmic_endpoints),
+>> +		.endpoints = jack_amp_dmic_endpoints,
+>> +		.name_prefix = "rt722"
 >> +	}
->> +
->>  	ret = asoc_sdw_init_simple_dai_link(dev, *dai_links, be_id, "acp-dmic-codec",
->>  					    0, 1, // DMIC only supports capture
->> -					    "acp-sof-dmic", platform_component->name,
->> +					    cpu_dai_name, platform_component->name,
->>  					    "dmic-codec", "dmic-hifi", no_pcm,
->>  					    asoc_sdw_dmic_init, NULL);
->>  	if (ret)
->> @@ -378,6 +398,7 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
->>  static int mc_probe(struct platform_device *pdev)
->>  {
->>  	struct snd_soc_acpi_mach *mach = dev_get_platdata(&pdev->dev);
->> +	struct amd_pdm_pdata *pdm_pdata;
->>  	struct snd_soc_card *card;
->>  	struct amd_mc_ctx *amd_ctx;
->>  	struct asoc_sdw_mc_private *ctx;
->> @@ -398,6 +419,10 @@ static int mc_probe(struct platform_device *pdev)
->>  		amd_ctx->max_sdw_links = ACP63_SDW_MAX_LINKS;
->>  		break;
->>  	}
->> +	if (mach->pdata) {
->> +		pdm_pdata = mach->pdata;
->> +		amd_ctx->pdm_sel = pdm_pdata->pdm_sel;
->> +	}
->>  	ctx = devm_kzalloc(&pdev->dev, sizeof(*ctx), GFP_KERNEL);
->>  	if (!ctx)
->>  		return -ENOMEM;
->> @@ -419,6 +444,23 @@ static int mc_probe(struct platform_device *pdev)
->>  		sof_sdw_quirk = quirk_override;
->>  	}
->>  
->> +	/*
->> +	 * If ACPI did not set pdm_sel (no acp-audio-ep-port in _DSD), derive
->> +	 * it from the quirk bits. ACPI takes priority: quirks are only
->> +	 * consulted when pdm_sel is still zero. PDM controller selection is
->> +	 * only meaningful on ACP7B/7F platforms.
->> +	 * ASOC_SDW_ACP_DMIC selects DMIC0 (default); ASOC_SDW_ACP_DMIC1
->> +	 * overrides to DMIC1.
->> +	 */
->> +	if (!amd_ctx->pdm_sel &&
->> +	    (amd_ctx->acp_rev == ACP7B_PCI_REV ||
->> +	     amd_ctx->acp_rev == ACP7F_PCI_REV)) {
->> +		if (sof_sdw_quirk & ASOC_SDW_ACP_DMIC1)
->> +			amd_ctx->pdm_sel = ACP7X_PDM_DMIC1;
->> +		else if (sof_sdw_quirk & ASOC_SDW_ACP_DMIC)
->> +			amd_ctx->pdm_sel = ACP7X_PDM_DMIC0;
->> +	}
->> +
->>  	log_quirks(&pdev->dev);
->>  
->>  	ctx->mc_quirk = sof_sdw_quirk;
->> diff --git a/sound/soc/amd/acp/soc_amd_sdw_common.h b/sound/soc/amd/acp/soc_amd_sdw_common.h
->> index c979adf4e978..07837a2cfa54 100644
->> --- a/sound/soc/amd/acp/soc_amd_sdw_common.h
->> +++ b/sound/soc/amd/acp/soc_amd_sdw_common.h
->> @@ -29,6 +29,7 @@
->>  #define SOC_JACK_JDSRC(quirk)		((quirk) & GENMASK(3, 0))
->>  #define ASOC_SDW_FOUR_SPK		BIT(4)
->>  #define ASOC_SDW_ACP_DMIC		BIT(5)
->> +#define ASOC_SDW_ACP_DMIC1		BIT(6)	/* select DMIC1 controller for ACP7.B/7.F */
->>  #define ASOC_SDW_CODEC_SPKR		BIT(15)
->>  
->>  #define AMD_SDW0	0
->> @@ -94,6 +95,8 @@
->>  struct amd_mc_ctx {
->>  	unsigned int acp_rev;
->>  	unsigned int max_sdw_links;
->> +	/* PDM controller selection, copied from amd_pdm_pdata at probe time */
->> +	unsigned int pdm_sel;
->>  };
->>  
->>  int get_acp63_cpu_pin_id(u32 sdw_link_id, int be_id, int *cpu_pin_id, struct device *dev);
+>> +};
 
