@@ -1,65 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793611911;
-	b=TK72gxi1cnZ81WB4rLL2S1mfpSSUFoJSbzMfxDk4B2cPpJKMIE3gUqUr4NTVJKkW6jyR
-	 JzVlYTUt0Dvj4peSbp/oSAD/o1IhNlCF1NAYJYCbr47pumO59oBZFQfPDp7IR53tKfTv+
-	 R1HeaHHWN6Yd23lD2MNYmfHcDkRKf+2/RRceSneT8RS5OloSL1afwr2gudEpQhtjd9l9y
-	 sL0faa97OZn7TeH7UYtbXt7kaJyjKkQm8i/j6kREibMPlom0+R/I4Xt8aO2t1SPxGCWrg
-	 oEY/Hmlthb4vog874d2RzAsm+Yap04Zvuq2EwTrYzZHk6/64OGjh0YvJIxybo0znevQ==
+	t=1793612315;
+	b=1vdxcpehyIhPCoZVQfOIXEBwKOhRokvJ6xRrUSfabOwBol/FBYIhZXaMRxzN0/iwDDZK
+	 8VTCz3AiEfa9Q16ytLxDwjmXqSfVra+fxR5VNJZInhbOeCT7UzLiRkbcqT2ZcO/wpC1l+
+	 4Q6+hAQDjSL0j1IJ7TiCO1LrAToWY4dpw544HMrIjia2glX6w1VdX4xS6WNsjyWI/55+B
+	 oPnrAFNCSk+rK0qiihvbPYTB4B1gY82Pxa/pNzPQ0ypGRLabllxmBZY0LSPkIjpEPi09A
+	 7D316HjrtpJqfcMOaDLl1V3IpsIGAULTmjt4WfSWXnLP7urM5S5ocMkqC/p6SAv+axA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793611911;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=0O8J1AJDW3RflaJPN7IuNL/LtU/ZdZpwEcplV5q5I3M=;
-	b=LJb90EIbTHqRXytvSC0yHd0objl8XxmioZ1p+LKGy6XlDfGvXYY/Ll0VeFHFiXPQ+H6J
-	 eJtjykNCOUJRNqSH+H1pGRNr8JlM15m5A69ZhYk+uvwXa1WdDoI6Vo8nQ+EMAGpgPoPoQ
-	 1Xj8u4eE1NocPNWcz6cP4lnWDJxIY8T2mkWCRIbN3wHVt6fRrlwQSh2Yda2hmtis2ex4Q
-	 RJwK9ULT5Kuw1pVYlK8xa1e/zeZOWfsPaU1J/Z87kbMbUqJnxJAIutohf+TA9suAs8Aer
-	 fkWSfGdWtOkZVo9zzgKjXiX0wCA7hdDil4fx0qCoYPX8gkQPePnC9HFf7FZOVJjOfjw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793612315;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=9W6SMwMnOG7tjkQ5Ri3kpEZarqiEynjz7U73u8xMxLA=;
+	b=X8avTemaQRuff5qw4LmYo3Agd/xhSL4l6VznQx44RH/l1I0jFwTcrPBjM+jB8IPizdKM
+	 N5/R61tbjTZ3VZbXQAckWv/nF10uDHrpd75eggxz1WTdThSBFuLAEZevohqEIXYxQ90Ae
+	 IvlwoLers1AqYrSPMJcK4L6qOcOgXc3VF2UL6i92VHoP1C7PGLCjQT6bWMM6uQUOEOoyJ
+	 EG7tCC5UedrApK3V/ERecS1ONHk4vdWNKCeMI1qjZBQ5on8v3JO5FXolAJza0wD10NNnZ
+	 dJbjDHzOGzQTaHQVxM7mrel9PUeF1CzC2bHFbcnQMnplQTIthwk67M+f5XP71AjXQGQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MNZiKyNx;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=korea.ac.kr;
+	spf=pass smtp.mailfrom=korea.ac.kr;
+	dkim=pass header.d=korea.ac.kr header.i=@korea.ac.kr header.a=rsa-sha256 header.s=google header.b=lpDNggkl;
+	arc=none smtp.remote-ip=209.85.128.171
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F85606A32D;
-	Mon,  2 Nov 2026 09:31:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8A9606A324
+	for <linux-sound@vger.kernel.org>; Mon,  2 Nov 2026 09:38:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA8A9606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=korea.ac.kr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=korea.ac.kr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MNZiKyNx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B865F1F000C1;
-	Mon,  2 Nov 2026 09:31:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793611911;
-	bh=0O8J1AJDW3RflaJPN7IuNL/LtU/ZdZpwEcplV5q5I3M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MNZiKyNx9JSupF5Wj/aYtT25Rv/iSTckPVQGrowzr0vKrfPGABwJIiJ1UZik6bsxn
-	 qi6+AMjS8ahx/HZpX4DZJrkPITRtgrX1ptfEEqKrxsSL56OaNaIaPCKLZpD045y0+P
-	 hAHgardWZk30myrKjPeDBZPKkCQ9/yXjZXFSljrdC0hu56PziiPExklcgZC1X3LP2s
-	 AfUydW9yW0Iw1AU4NQ6UwW3wvsSgAFdodE+LWLjnauvhC3gSwyTH7OcLYYnWl9FjGm
-	 PyakdTSI06QkegfnZNB71SiI+FwsijyhCTmEGRUu2c1vEgkT/NM7sq5JLLNhGYHoMg
-	 twKmqCkuTTcsA==
-Date: Mon, 2 Nov 2026 09:31:45 +0000
-From: Lee Jones <lee@kernel.org>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: stable@vger.kernel.org, "Mukunda,Vijendar" <vijendar.mukunda@amd.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mastan Katragadda <Mastan.Katragadda@amd.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Syed Saba Kareem <syed.sabakareem@amd.com>,
-	"Prasad, Prasad" <venkataprasad.potturu@amd.com>,
-	"Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
-	"N, Poojitha" <Poojitha.N@amd.com>
-Subject: Re: [PATCH 16/21] soundwire: amd: Initialise and cancel IRQ work
- around manager lifetime
-Message-ID: <20261102093145.GB13023@google.com>
-References: <20261030104840.3361217-1-lee@kernel.org>
- <20261030104840.3361217-17-lee@kernel.org>
- <43cae78b-8a9f-4528-982c-85c0049b1414@amd.com>
- <3f883f3f-221d-4355-a39f-8321f2ebce49@amd.com>
+	dkim=pass (2048-bit key, unprotected) header.d=korea.ac.kr header.i=@korea.ac.kr header.a=rsa-sha256 header.s=google header.b=lpDNggkl
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-8b125371596so27434197b3.0
+        for <linux-sound@vger.kernel.org>; Mon, 02 Nov 2026 01:38:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=korea.ac.kr; s=google; t=1793612311; x=1794217111; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=9W6SMwMnOG7tjkQ5Ri3kpEZarqiEynjz7U73u8xMxLA=;
+        b=lpDNggkl1wdDfUyHy0IGsj330/0ITDVxw0HAC2o42SIcmmsQg4sCcTd221hmuK8Fwb
+         KTrUnU+ZKoPmysoWazVFzL9sObwRnEECcVx0HkmbI3HxwBLyQ6hVhmgqdw/JhH8BROcT
+         dSeXbp+Ga19xif+mRpVGQh2G8ASyiUj9r8gIJvbta0yRPyFjgteQIGqdNPRu60itDSGs
+         pYmBZIvYFHPdsy6JzghVuJyaYXANwi97nSAVFQZJmg3/7mWRDv9uRNx4Xg4Jd7XB0rcE
+         O/BX6zPEBvp1mfQrHihqnelbKtTQpLWZMs5yagqMjosFZeQI0qlV8VNmE+tnFiABu/R1
+         AVfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793612311; x=1794217111;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=9W6SMwMnOG7tjkQ5Ri3kpEZarqiEynjz7U73u8xMxLA=;
+        b=g7A7wkgK1yTupOR7q6OSn5krH9898s3QYpy/oaNdU9/Mc+KLMI9DUa8FBHBldiNa23
+         UA0yjWRHDiVtAoKjpK7daqoYaSyzGrBR/yR11bj1xdAsImNjw7q/BEBAxnwfJAvUCbo0
+         Wn/vOL7CpU57tI1eBesRxmCl/dE3ve+MdsoFQgsFYNpXbUwnr+EnRq6GZMvNZ6DgPc0F
+         J20yGxC/H7CFutPKhjR4VCSv6DXOiUsHdzYpdJLAMmzHrTlZbeVI+YauCQ51Ae84cvCV
+         5JVKG7nfrTteD0/GZe74hNAGdLHSxUXMLAge+XPSgl7zIc0huATHIHPKPGoIeUYuC7OR
+         1f5w==
+X-Gm-Message-State: APuU4Z+faZSp0vq9XmOVjZC2LQODmyW1fZWclO1Nqeq7f+bJ9gZacH3S
+	d7Qn8BVUnkfLrHqS3SNnrK6Cdeq1sNg1kiJsyaH4XXIT8AL1Q9fuYMQMiZQl4ntdN7CP8cspMYl
+	0gPRpHg==
+X-Gm-Gg: AYBFou2YRruTyNCHy90rxkuH9eyEFGnA3fEGzdBPFVhxQO8RsedPYFy6NmlIGYzpJcj
+	iWfKrrQm3YFoXGFC8baFiSQO/9Ln9ZuRPySNCZF36MgIOppbqQ9VxfVOZmat9bVW6P966T+1BY0
+	PMEQ7O8KZw4gw3N1tfO4UrHxsyZ7Z0I0RRBqmaY39WtNfFQ8B8xB0Op0rXXTmwase+d95io/Yfa
+	5qqLnyziP3RmSv7EnXQPds+VU9RyR4R4d/IsQ8AQHzjuM59fQhjT1G+IG7CRc/BZXKpVp2y1j4C
+	/WAd4iBWKMD9ZY0DJBX5jJcdHqUQltqC9G2p1AdFsW4H62RiV9pL7yFiqWnUwxfd58XFVmqJCEV
+	6CLh0gRiRcTE+NRy+ZWnDjfLgpkMIOMZAJNUJH9kYXmmiTJMo6jNyWiMCeEYOB920t7rBfisJib
+	bZM/wfwXvPrHxWS4obNpVizNtEmz8O/ItxT0ZzBfYdqMlJAJGv9DM6bzy48l4PriuvPI5zUr/IU
+	Emczil2bZ19WFQZnIRiINyZYLEpK7f6T6zECeeyjQfkEmNH2/DAAJMduWqmAfOKwwHvkJs=
+X-Received: by 2002:a05:690e:1186:b0:679:a925:edf8 with SMTP id 956f58d0204a3-67ba50a3868mr7303167d50.44.1793612310652;
+        Mon, 02 Nov 2026 01:38:30 -0800 (PST)
+Received: from s2lab05.. ([163.152.163.130])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67baf2e0937sm4731269d50.13.2026.11.02.01.38.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 01:38:29 -0800 (PST)
+From: Ingyu Jang <ingyujang25@korea.ac.kr>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ingyu Jang <ingyujang25@korea.ac.kr>
+Subject: [PATCH v2] ALSA: ice1712: Make chip_init helpers return void
+Date: Mon,  2 Nov 2026 18:38:24 +0900
+Message-Id: <20261102093824.3123528-1-ingyujang25@korea.ac.kr>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -69,83 +94,114 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3f883f3f-221d-4355-a39f-8321f2ebce49@amd.com>
 
-On Fri, 30 Oct 2026, Mario Limonciello wrote:
-> On 10/30/26 07:13, Mukunda,Vijendar wrote:
-> > On 10/30/26 16:16, Lee Jones wrote:
-> > > [You don't often get email from lee@kernel.org. Learn why this is
-> > > important at https://aka.ms/LearnAboutSenderIdentification ]
-> > > 
-> > > amd_sdw_manager_probe() publishes amd_manager via dev_set_drvdata()
-> > > before initialising amd_sdw_irq_thread and amd_sdw_work, allowing an
-> > > early interrupt to schedule uninitialised work.  During removal,
-> > > amd_sdw_manager_remove() only cancels amd_sdw_work without first
-> > > cancelling amd_sdw_irq_thread, allowing deferred IRQ work to re-queue
-> > > amd_sdw_work or dereference amd_manager after it is freed.
-> > > 
-> > > Initialise both work items before calling dev_set_drvdata() in
-> > > amd_sdw_manager_probe(), and cancel amd_sdw_irq_thread before
-> > > amd_sdw_work in amd_sdw_manager_remove().
-> > > 
-> > > Fixes: 65f93e4096a0 ("soundwire: amd: add SoundWire manager
-> > > interrupt handling")
-> > > Closes: https://sashiko.dev/#/bug/linux-9890e8dc-4b7d-44d3-
-> > > bfb0-171dc421e28c
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Lee Jones <lee@kernel.org>
-> > > ---
-> > >   drivers/soundwire/amd_manager.c | 3 ++-
-> > >   1 file changed, 2 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/
-> > > amd_manager.c
-> > > index 98b09d81f3b8..2e1038ea0f36 100644
-> > > --- a/drivers/soundwire/amd_manager.c
-> > > +++ b/drivers/soundwire/amd_manager.c
-> > > @@ -1185,9 +1185,9 @@ static int amd_sdw_manager_probe(struct
-> > > platform_device *pdev)
-> > >                  sdw_bus_master_delete(&amd_manager->bus);
-> > >                  return ret;
-> > >          }
-> > > -       dev_set_drvdata(dev, amd_manager);
-> > >          INIT_WORK(&amd_manager->amd_sdw_irq_thread, amd_sdw_irq_thread);
-> > >          INIT_WORK(&amd_manager->amd_sdw_work,
-> > > amd_sdw_update_slave_status_work);
-> > > +       dev_set_drvdata(dev, amd_manager);
-> > The probe-side ordering issue is valid — an interrupt arriving after
-> > dev_set_drvdata() but before INIT_WORK() could schedule work on an
-> > uninitialised work_struct.
-> > 
-> > The remove-side fix is already posted as part of our v3 patch series:
-> > 
-> > https://lore.kernel.org/alsa-devel/20261013085111.2009061-6-
-> > Vijendar.Mukunda@amd.com/T/#m60177687bb84758efdd6f5f09eba8ad32f0e4631
-> > 
-> > The probe-side fix will be included in our upcoming v4 patch series,
-> > which contains major driver restructuring and customer-critical bug
-> > fixes. Merging this patch independently would conflict with v4 and
-> > complicate the review process.
-> > 
-> > Could you please drop this patch? Both issues will be covered by our
-> > v3/v4 series.
-> > 
-> Lee,
-> 
-> I think as a general statement since there is still these big pending
-> changes already in flight, could you either wait a few weeks until they
-> merge or rebase your series on the in-flight version to see what still
-> actually makes sense?
+snd_ice1712_chip_init() and snd_vt1724_chip_init() always return 0, so
+the error checks on their return values in the probe and resume paths
+never trigger.
 
-I will leave the AMD driver alone.
+Change both functions to return void and remove the dead checks.
 
-Please be kind enough to add my Reported-by for any issued that you fix
-as a result of these reports.
+Signed-off-by: Ingyu Jang <ingyujang25@korea.ac.kr>
+---
+Changes in v2:
+- Rebased onto sound for-next, on top of commit d54819ee513f ("ALSA:
+  ice1712: add a board-specific EEPROM initialization hook").
 
-Thanks.
+Link to v1: https://lore.kernel.org/all/20261101172134.3451066-3-ingyujang25@korea.ac.kr/
 
+ sound/pci/ice1712/ice1712.c | 12 +++---------
+ sound/pci/ice1712/ice1724.c | 12 +++---------
+ 2 files changed, 6 insertions(+), 18 deletions(-)
+
+diff --git a/sound/pci/ice1712/ice1712.c b/sound/pci/ice1712/ice1712.c
+index 5481720a17ed6..2d4c9bdfb62f2 100644
+--- a/sound/pci/ice1712/ice1712.c
++++ b/sound/pci/ice1712/ice1712.c
+@@ -2299,7 +2299,7 @@ static int snd_ice1712_init_eeprom(struct snd_ice1712 *ice)
+ 	return 0;
+ }
+ 
+-static int snd_ice1712_chip_init(struct snd_ice1712 *ice)
++static void snd_ice1712_chip_init(struct snd_ice1712 *ice)
+ {
+ 	outb(ICE1712_RESET | ICE1712_NATIVE, ICEREG(ice, CONTROL));
+ 	udelay(200);
+@@ -2343,8 +2343,6 @@ static int snd_ice1712_chip_init(struct snd_ice1712 *ice)
+ 	      ICE1712_IRQ_PBKDS | ICE1712_IRQ_CONCAP | ICE1712_IRQ_CONPBK : 0),
+ 	     ICEREG(ice, IRQMASK));
+ 	outb(0x00, ICEMT(ice, IRQ));
+-
+-	return 0;
+ }
+ 
+ int snd_ice1712_spdif_build_controls(struct snd_ice1712 *ice)
+@@ -2517,8 +2515,7 @@ static int snd_ice1712_create(struct snd_card *card,
+ 	err = snd_ice1712_init_eeprom(ice);
+ 	if (err < 0)
+ 		return err;
+-	if (snd_ice1712_chip_init(ice) < 0)
+-		return -EIO;
++	snd_ice1712_chip_init(ice);
+ 
+ 	return 0;
+ }
+@@ -2696,10 +2693,7 @@ static int snd_ice1712_resume(struct device *dev)
+ 	else
+ 		rate = PRO_RATE_DEFAULT;
+ 
+-	if (snd_ice1712_chip_init(ice) < 0) {
+-		snd_card_disconnect(card);
+-		return -EIO;
+-	}
++	snd_ice1712_chip_init(ice);
+ 
+ 	ice->cur_rate = rate;
+ 
+diff --git a/sound/pci/ice1712/ice1724.c b/sound/pci/ice1712/ice1724.c
+index 651d926635675..d4ed7050c533a 100644
+--- a/sound/pci/ice1712/ice1724.c
++++ b/sound/pci/ice1712/ice1724.c
+@@ -2342,7 +2342,7 @@ static void snd_vt1724_chip_reset(struct snd_ice1712 *ice)
+ 	msleep(10);
+ }
+ 
+-static int snd_vt1724_chip_init(struct snd_ice1712 *ice)
++static void snd_vt1724_chip_init(struct snd_ice1712 *ice)
+ {
+ 	outb(ice->eeprom.data[ICE_EEP2_SYSCONF], ICEREG1724(ice, SYS_CFG));
+ 	outb(ice->eeprom.data[ICE_EEP2_ACLINK], ICEREG1724(ice, AC97_CFG));
+@@ -2364,8 +2364,6 @@ static int snd_vt1724_chip_init(struct snd_ice1712 *ice)
+ 	 * since they cause machine lockups
+ 	 */
+ 	outb(VT1724_MULTI_FIFO_ERR, ICEMT1724(ice, DMA_INT_MASK));
+-
+-	return 0;
+ }
+ 
+ static int snd_vt1724_spdif_build_controls(struct snd_ice1712 *ice)
+@@ -2511,8 +2509,7 @@ static int snd_vt1724_create(struct snd_card *card,
+ 	snd_vt1724_chip_reset(ice);
+ 	if (snd_vt1724_read_eeprom(ice, modelname) < 0)
+ 		return -EIO;
+-	if (snd_vt1724_chip_init(ice) < 0)
+-		return -EIO;
++	snd_vt1724_chip_init(ice);
+ 
+ 	return 0;
+ }
+@@ -2703,10 +2700,7 @@ static int snd_vt1724_resume(struct device *dev)
+ 
+ 	snd_vt1724_chip_reset(ice);
+ 
+-	if (snd_vt1724_chip_init(ice) < 0) {
+-		snd_card_disconnect(card);
+-		return -EIO;
+-	}
++	snd_vt1724_chip_init(ice);
+ 
+ 	if (ice->pm_resume)
+ 		ice->pm_resume(ice);
 -- 
-Lee Jones
+2.34.1
+
