@@ -1,61 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793623282;
-	b=pVZFRbLUORW9hNJZvvfZELdh+VpGd8BCJh9BwdPg3jOOBJXT2ZogZeStlT+avsdPiExM
-	 8X3hnENp4D2X+ss3M/AF73PVAz75OMizzS7MYTThECiYvKOKatgOK98IQiOaPyg4qseSg
-	 zYyIAzQ2dFEESNY4Z0aSo9fLeuUtedK5EOA36kyM8IGAOfOfm5Gl1aKvXZHpYLuFhl5/x
-	 q9oy8oxxovCRpMMl0XRJ7htNAbcSeIiR/iHhHSQ5UmBpl4J+qwESmfz4mF2XrPq50nXFA
-	 rYJEUPpvYhXHNRYTA7Y0cbSnegtpntg3unAo23l/qPfFkmHu3HrQiWDnNRt/NUC+DeQ==
+	t=1793623297;
+	b=QZDsEsFqLNkZJSCbGQtUVVZJSwizBhe/2NuWgNx9GY8MAt2re3Tx36GDIE5CQQM9/bAo
+	 xwEiEB+J9/nKsnw5YyMrhVFYRoiWyWyA1EOy8DzolXTR2VcODTwRzbh8SvyVT+fNiexz5
+	 3kGuXABDODXhJssHa4JCJRnL2hkQTukfxowkRmJtVc/FPyP1Z0stiTno80ln0LtnIAkp/
+	 4exXXQC6f5K0JE7Uy7I5QXy9SGCYyvURyXdtNW35PCzmWYJY69u5xuan0LYIwfreczkZI
+	 hnEVopnk40mETa0pjCrbkYEqq76EtNozDEhzH7U+d83tQ51woZTSnnlh1wo3pH9uSGQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793623282;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793623297;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=wG6PVl9afjCgJht1ela7RS82/k1lmfw/hbm2CmVadAE=;
-	b=QqgS8yVodk7rZkZLRicVdwWT046jOlDPNgzs0Cc45EZE2+7JWZeZr+ywLEDfWILwyS6/
-	 W40XdAjcSV8XFDxpjAYE6kh6aqLP/2/JSnRwYd5Z2dXVCCKMUwDo3JpkNED7AlD5vC10/
-	 CzVhYkD4pwxg+witQRGZWJlMyJzph9y72jRjOk0MiQqULYIrBwzLoch6jE2pA7dl/Hmg3
-	 Y0EUfeH/W3hx7I8NCdcoBZJX6WBM0W+xtM2qtaDLktMY/UDA8QcEqYb4QxbrBhg1StsWI
-	 /hEgQxwU6/aiyhnQoXQaOoVjCjOzQ8P/QziumotNd1K+NBwQ8g4Pq8r/aVIIu5ZfLVg==
+	bh=/ctRInFLIXM8Zr3UG7MbiXc1PIk/A2Vn0/3BPZ0Lpqo=;
+	b=KZykSY2Fgg/o0zn7+7Ta35fKcvUZQB8UwPXgrmJPK7OrQC7foCPF8ZwbhHXicAzheCOm
+	 3eV3swObp6AUtjxDwcYiC+97be94okixd5/G8/pMEqHw5lYruVm3nsJk+xUgCCDn/hM8K
+	 jS01XNJDk5zrPR+1WcuU22FPlGlGFPUBBEfiXS3DWR1HinPaetKlV5ATpwOllJ20TjsZo
+	 ucqnheaDH1q2Lygd9epky8bfwbxgsTjgxK6Mi0aY31/8cr/va74KgaDmiYHTMn0faK22a
+	 fINQQq7pE9iqT18uID6H9C5UsyyMNQirU/FnSNwmaqx+vpC/9swyaJV1zvxpcGQY6EA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A0G9qo1H;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Ow/lmMas";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329E960A2612;
-	Mon,  2 Nov 2026 12:41:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B905606A33A;
+	Mon,  2 Nov 2026 12:41:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A0G9qo1H
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C70251F00A1E;
-	Mon,  2 Nov 2026 12:41:21 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ow/lmMas
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B53FC1F00A16;
+	Mon,  2 Nov 2026 12:41:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793623281;
-	bh=wG6PVl9afjCgJht1ela7RS82/k1lmfw/hbm2CmVadAE=;
+	s=k20260515; t=1793623296;
+	bh=/ctRInFLIXM8Zr3UG7MbiXc1PIk/A2Vn0/3BPZ0Lpqo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=A0G9qo1HUDB2TLR+mGlJMsBlaviQdgwHXOGYKSlzvODvmwk69v4yNP566InFCzca0
-	 ctGpvI0Kfhk9I9W246kA0UxRUEtQQDezHhbcgAQUCyeJBJpT3oQqkkrhoLv0cFnRrV
-	 rtKyNyK6HsvMNzLdwvF24ji51IgihhTggBKVKtx5kRaJtGR+/LqmL7WHgQ5Ned/989
-	 v41eRZwMYs/l+E3gxnovCZHp5t5kaU2qe1w0cNLB22hEN8LZoJK15KR57D1r1H25Sy
-	 P77WgcRvuF8P1pFFk/wSL7+EoAme3ujOZw1rR9z+Rw+E/skrO5xgl1sjlOTQHlG7lM
-	 UpCZget492RyQ==
+	b=Ow/lmMashqonWLQc6FSl7bUZJZOZt0tAbwhoY+idh6Y0EGFBRa3GmLrUTi4xg03c7
+	 RS0HRijW/viK6wvskhxFFZZhsMn0MQ2RGTwbRW7YW9jDtDzwDNnZjE1soUz6LDdhkg
+	 zeyAYo+NF5/nDvi1GxAIDn9cPeNGAUxeQ/SElzHEVCDaBpYLUFPf9YYh5ynACKqew8
+	 bBKJGAixjHw0qQYRXsU5sWMw9ZawV+P1G76taYeCHP6m2DA9j17T0S/dt1s1fKPrhd
+	 jph05npTy2JtSbotkgzplsGgb5q40T6YgsVKLfDoix0hJuZIFnMzHSz6h3wdiCTBAb
+	 YKShdjhZxNV7g==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 1661D2310396;
-	Mon, 02 Nov 2026 12:41:20 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 006CA23103C5;
+	Mon, 02 Nov 2026 12:41:35 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: Gianluca Balboni <gianluca.balboni06@gmail.com>
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-In-Reply-To: <20261031102136.24600-1-gianluca.balboni06@gmail.com>
-References: <20261031102136.24600-1-gianluca.balboni06@gmail.com>
-Subject: Re: [PATCH] ASoC: amd: yc: Add DMI quirk for HP OmniBook 3 Laptop
- 16-by0xxx
-Message-Id: <179358147029.1776482.17688065387290621695.b4-ty@b4>
-Date: Mon, 02 Nov 2026 01:04:30 +0000
+To: Olivier Louvignes <olivier@mgcrea.io>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, 
+ Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ "H . Nikolaus Schaller" <hns@goldelico.com>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-mips@vger.kernel.org
+In-Reply-To: <20261024214438.33342-1-olivier@mgcrea.io>
+References: <20261024214438.33342-1-olivier@mgcrea.io>
+Subject: Re: [PATCH v3 0/2] ASoC: jz4740-i2s: Add the X1600
+Message-Id: <179357847400.1716893.15741515093171614557.b4-ty@b4>
+Date: Mon, 02 Nov 2026 00:14:34 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -68,26 +69,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1148; i=broonie@kernel.org;
- h=from:subject:message-id; bh=EaL75SNL5ucRFJvQ8UXpIEJyGbu9Bl+L/9Mt/Esv7VM=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJetLy/PPd69QXXqnu7n7/fk3U1980GEaHpzv5Zn2yU+
- pQEv6042FHKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJRE9h+J/k3uceMEFmdkQb
- Z2H0lm/7DQKypt7QObDVUjpunuZ20RCG/x7p8z1iygSq+/rmLxO9b/a9Ie/Z5pjLmj92S9bIX7f
- 6wAwA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1916; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=SV4jhlUiBxMInjzzpsP03roHQSvpTpye4nevuuAn7d4=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJetPzrrLxUKqKXbrhRtOJ9mLv9Is2/6tfW6KlFnsvg6
+ PXj007vKGVhEONikBVTZInL4n5ZX/J6Dd/BhW0wc1iZQIYwcHEKwET+bWL4w8ekeG/fl/ojbyOi
+ 85SrepJXTRfqiOaUn+rREdqWWht9jJFhfqrhEiPV9xWLTjm9SxHvUt9R1h+961n1ukrp1a/Vn/9
+ jBAA=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sat, 31 Oct 2026 11:21:36 +0100, Gianluca Balboni wrote:
-> ASoC: amd: yc: Add DMI quirk for HP OmniBook 3 Laptop 16-by0xxx
+On Sat, 24 Oct 2026 23:44:36 +0200, Olivier Louvignes wrote:
+> ASoC: jz4740-i2s: Add the X1600
+> 
+> The X1600's AIC differs from the X1000's in its bit clock divider (the
+> divider itself, even values only) and in how it plays mono (a channel
+> count in AICCR, no MONO_TO_STEREO). Tested on a HiBy R1.
+> 
+> Changes since v2:
+> - The channel field is bits 26:24, not 27:24 (bit 27 is reserved), as
+>   Nikolaus pointed out from the X1600 programming manual.
+> - Don't set MONO_TO_STEREO on the X1600: bit 11 is reserved there.
+>   Listened to on the R1, a mono stream sounds the same with it set or
+>   clear, held clear from before the stream starts included.
+> - Commit messages say what the manual says, and the X1000 is left as
+>   it is.
+> - Rebased on broonie/for-next.
+> 
+> [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
 Thanks!
 
-[1/1] ASoC: amd: yc: Add DMI quirk for HP OmniBook 3 Laptop 16-by0xxx
-      https://git.kernel.org/broonie/sound/c/1e73257dff33
+[1/2] ASoC: dt-bindings: ingenic,aic: Add the X1600
+      https://git.kernel.org/broonie/sound/c/c9b80010a8af
+[2/2] ASoC: jz4740-i2s: Add support for the X1600
+      https://git.kernel.org/broonie/sound/c/318260c84945
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
