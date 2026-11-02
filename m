@@ -1,61 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793627486;
-	b=c4D81SbUq3nzsy0A5jMpTbMvWBa+0I1vZJuwEbQ+jVbG+rUpzxBVMz2KSsIeuxyd5tMs
-	 aR/UlcxujsOm8C4iVZufNXgY2+h0ACRbbEPn4jBdKYGmp2yRbLFibheKVzW/5we+dbEzn
-	 S8kVPpbOH1EKsOAKwiIrk74BRb43vhFDtect2zi46NkB3HQC2Ue+baxQSUL/hY172QyXc
-	 qpBNv9kacNc665aypyP339F0pZ2tJvIC6HNWr4aYy0XScIyQJPwOANGshoWuM3s6crDtX
-	 CNw60a2TGB+plOEfHQgvhOGXQiSnuf56cf7iszJEKp+9MkBFPV2QUcFzgnvoMxWxWXA==
+	t=1793627491;
+	b=sA40hiukn/ojXUJZmmWP+C8T2B3xE+eruC184iqRidJ2Fiyz2tcjzlc7kNHfxzicKghh
+	 IstUu9ebL8yzhgzTNMOimBY6dQ3kQZ5qLiPcbeILDBvw8f4FlltuQqPm2m5BtDb/v9217
+	 9kVL6kdpY73n/ADLKNO16J1d2oqBC6T5s8fGGJIyWjzOSDBoIUGi/CZ9567f2Lc9ctRgb
+	 dX5K6ciSE0Dj3ck3TNEJbaShaRpI+MklYc9mBmVlr9ZqQJx06xwRQ87jbEam1dRv71hin
+	 GtxOwo1UhEzcTwgu+AqIes5zZ8e3SPnCRJ3Jn5fjx9LhDmFv1JwfaZs7ghL/JzPbGxw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793627486;
-	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
-	 Subject:Message-Id:Date:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key;
-	bh=csc3uWj0Keh3Pcfku6Ck/67dh0Q1joL6qQFkdr/R/gI=;
-	b=h70W43pDmRLbBYYSXNLLmlR+wl6xUSM0BpQBb39tKUMgeiK46IBaPOstiLMbQMfhO3Y5
-	 TTCf+FD4g1UPEhW2MmxxkO4+MGlzRfgj7LwoyDS9/4FucDCT/p73fJhQiiVArjRnximdn
-	 0OWSfhxhxH40d6+EYZTfnBiO1c5+1p7Py431vujg//5cqF3QqHPWKmeCH8uyrgG8qFpXa
-	 HwoNrQwlBmyuJOAyATW3YP7pDvHHpuBSQUkjvoYTPRp+x9pteVUzC7yAQRecnGNHLK7w8
-	 TjcGLK565nUEmwC4bUceIOLRMuYlBS3A+MPFMCKvF6xwrIdUvzjHcnCHLfnktw4ZvNQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793627491;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=KkViRr1Qxpn9LLhb4kMwqtknFYRFzwLHGukxfnQUbrA=;
+	b=RuIpPZifMNAExn+QgZsTXXqTC/czhprHz6yne308oZRMmO1IzIkWiGORcwysCJqXBZzZ
+	 SMmJDbTck/2D/BJBEi3JOWs0yL2973SrVVVslqlfByaS/nNU8l1O+IwFk4G7SypTL+f3w
+	 35JpI1Q1k/Gy+2oVxbsWicRLPB2qbM4/YSbvLj+aadQbhB+5KVNw53k8BxLu0KGNY61Ev
+	 HCnvVwm8UT7DHq0ndihrgMHa4FuoiuXohOaFDgOqMBrQ1q6DyO7kmTA9vNKZICpxvk9L2
+	 N/TBSwIIceJnDP9FMRTYIrHOvxN18v8+NhjDeMkeizeiO4p5b4uXIeLJ4m8Ujd1miXQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Uhct3If9;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jajE8V+p;
+	arc=none smtp.remote-ip=74.125.82.42
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC9460A263A;
-	Mon,  2 Nov 2026 13:51:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F7860A6F45
+	for <linux-sound@vger.kernel.org>; Mon,  2 Nov 2026 13:51:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61F7860A6F45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Uhct3If9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42CCD1F00A22;
-	Mon,  2 Nov 2026 13:51:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793627485;
-	bh=csc3uWj0Keh3Pcfku6Ck/67dh0Q1joL6qQFkdr/R/gI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Uhct3If9A1MUiCmJYqYwtvGnJKimsRID5v7udYqTL2iqfbePo2iK7trSWsa8CqkdE
-	 v8k50apJESxhKFaSNAnAcSTyLrsjgYyj104dIis2avzafxOt2a+RodBFzB49nEm8Td
-	 uetfUHhgnDvou5BDgr4gDxMqiUMioCNU1SmywpEYREuqUSJqkjl+9yKWEI9C45jpw+
-	 EzNDJlS41XOBwCITxz7eRKN06SpYa9U1PuByys6YCpeKF91HRthp/tgh47iGL7cJx+
-	 V1aSks58+u7PjowC+yQC/WZYe5fb/yLmQvwxM4W6Iwd/bZAy4BuqF1w/fi/ytrDnIE
-	 tB8t7fv1K2dpA==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 8BFAC2344CE8;
-	Mon, 02 Nov 2026 13:51:23 +0000 (GMT)
-From: Mark Brown <broonie@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- linux-sound@vger.kernel.org, Russell King <rmk+kernel@armlinux.org.uk>, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261026105835.19052-1-phucduc.bui@gmail.com>
-References: <20261026105835.19052-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH 0/5] ASoC: kirkwood: Improve clock and error handling
-Message-Id: <179357946794.1716893.14766270340356142891.b4-ty@b4>
-Date: Mon, 02 Nov 2026 00:31:07 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jajE8V+p
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1aefd1bf74aso1822389c88.1
+        for <linux-sound@vger.kernel.org>; Mon, 02 Nov 2026 05:51:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793627490; x=1794232290; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KkViRr1Qxpn9LLhb4kMwqtknFYRFzwLHGukxfnQUbrA=;
+        b=jajE8V+puKWvRXqYysJKyK+KkvuPz7FISda/lccWgIr5rA5YT3YKiet0VXiU5NSjFI
+         iXJoS6SEiYqvPJ4iscz2fVcZulI9p1WNJM4KXGRlHuuQMB0k52hPHFHmnCSv6cmA/pa7
+         2fT1RgPdH3Npu/8nD6SQgYaj6xLEFcPUC4rih+d+UWZcj3cY+oU52nr2f4lsDHFDTk1c
+         smER58QfM/Q2jmWaqCZP39u9mcE22NmPc+4H2jMr7xVq32SZLA+JB6JpU8OQlIey/Q0x
+         14td8my62u5pHslTJ4d3kAVA6oz/+ABjysCA+ZVtuImqa2EO4hSW6EO/DuaVpSChQUna
+         guGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793627490; x=1794232290;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KkViRr1Qxpn9LLhb4kMwqtknFYRFzwLHGukxfnQUbrA=;
+        b=sOHTjIrCHxSaHwwbmsaughjD5A5quaMc22UZE4ojBvADvRGv374pzRBDuhvcrIK7HL
+         Y2I0ZA4JXuu43+kV2zIF2dYRFnyqV2r2k0NM740Ih4RODqRGrzsFtH0AwIatvFG+LtQ0
+         Wtx5Xd5zTQT3rrv309T0aHw4BslG5m812iWpoQpqAKOQW4T5s2or7Sg/9z5FGeLN6PRX
+         brPDLxWIPrWnU4QzQcb9np1qhgw3gW3rGLVdTzamdP0xuNCBKhV/3Iv3n0PX9jmtGIS6
+         JyRvPTe6zO/T5HMZzVZk5IGMNT+lSx0n6OZjpLMTnXqxKKW3WenBMa9PdkqeKIMoZdv4
+         vN0g==
+X-Forwarded-Encrypted: i=1; AKwUvBzrps/QvXyVeq6e/3+yFx9DaPE1f23QOfO4jdUHP8ZXclHuQqslWPPWcH8km4FuTnPS90gnfsGMvnyYLA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKnRcTpvd9tdWZZCxKCXTkf5CIcGxu5Mli08Ns6TQ+MAI+i6sa+
+	rvdfn5kGIM/YHnLQMlvYIB1ZRq79oxX0LdlOi+ajZUic5/ot8Umu35NA
+X-Gm-Gg: AYBFou1UZmkMfHJRh4amhW1hpzLXmhV9VXVDaWQcZ6V4ptqUdLTrEhdj+Rz1J/b6d2h
+	pgoSUESnPBNejNxWIzGcZeYo1k3Nmxh2fIfR+eCC/zpTkWN93UNq7pjBZyrUsWg7LIuiEBtsJCA
+	OxW+xX3LLq9MmL3pnst85g2JbzOemox9/OgzyXrZGWa/ezHnpCADbIyGc5ezQvEwOuNUIptwcwN
+	xRp20q/zZfLb13ucXSBrtE5bkdrucJOQXOpsw1/erg+RQSpgc3Wf13EzRyF2f7D1+hrMxZhLplC
+	RZrHsZCGga9QcwzVIRVDkft1JwQDncuRjae7f1CsojpLCOXQesktpu0b1j2mRLYOBjzktiG2ejC
+	2caL/aJTvxbEKIipZuLJ6Z+p0TUvyk6LgTSXB1jb358aGrkLerz8wRt7NySFmIiX6OhS+xGsbus
+	Of/AWU7wf9dfKD/hBGhBV+5G5S/sDBtcsZMiRPVRCQP6lPyOzZyy2hlJOX0XGKDqTM32TL9jFSX
+	DocP0IFh0DM+HJiX6cp48OqSG2QJpsqvRRpBlHQ/VEPL7p447h5hb6er+8nPoKAUpS4RVKoKKwj
+	tbF2dmjR6b4gqB5xMH9umnrSG5yS07Piii78WOkl2iQzWxeLpMM=
+X-Received: by 2002:a05:7022:b889:b0:195:8fa1:b447 with SMTP id a92af1059eb24-1a9494d8f22mr18903679c88.12.1793627490224;
+        Mon, 02 Nov 2026 05:51:30 -0800 (PST)
+Received: from localhost.localdomain ([103.178.205.93])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1845817csm33682841c88.5.2026.11.02.05.51.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 05:51:29 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: cezary.rojewski@intel.com,
+	phucduc.bui@gmail.com,
+	kees+treewide@kernel.org,
+	cassiogabrielcontato@gmail.com,
+	mstrozek@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+Subject: [PATCH] ALSA: control: Clear user-provided numid before adding a control
+Date: Mon,  2 Nov 2026 13:50:34 +0000
+Message-ID: <20261102135034.2751-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -65,63 +101,37 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1857; i=broonie@kernel.org;
- h=from:subject:message-id; bh=nxWnBd92h1N7ODyUIHEYhfQi23qn4aesHrkTl4OuRyQ=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJeTI2+2Z343vSs2y8FmfMquTNONizTWztP55qTWDrz3
- Tm67+x7OkpZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRw78YGY5c+aqcNHltk2SP
- xGXuPTYGLkfzH0pbPr30SZyvMkWWR52R4d7y0oQLG4/ei3j+b9OJkGmdn/75T2dk7t8mkVu4ROh
- xGiMA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Mon, 26 Oct 2026 17:58:30 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: kirkwood: Improve clock and error handling
-> 
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> Hi all,
-> 
-> This series improves error handling and clock management in the
-> Kirkwood I2S driver.
-> 
-> [...]
+Clear the user-provided numid before checking for duplicate controls.
 
-Applied to
+A non-existing numid can cause the duplicate control ID check to be
+skipped, allowing a control with the same name and index to be added.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
+Since the kernel assigns the numid when adding a control,
+ignore the value provided by userspace.
 
-Thanks!
+Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+---
+ sound/core/control.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-[1/5] ASoC: kirkwood: kirkwood-i2s: Fix error handling for resource mapping
-      https://git.kernel.org/broonie/sound/c/0d376515e842
-[2/5] ASoC: kirkwood: kirkwood-i2s: Improve error handling in probe
-      https://git.kernel.org/broonie/sound/c/cbe600cecb44
-[3/5] ASoC: kirkwood: kirkwood-i2s: Check return value of clk_prepare_enable()
-      https://git.kernel.org/broonie/sound/c/1de736925a68
-[4/5] ASoC: kirkwood: kirkwood-i2s: Disable extclk on internal clk error
-      https://git.kernel.org/broonie/sound/c/9765fd9e107d
-[5/5] ASoC: kirkwood: kirkwood-i2s: Disable clocks in reverse order in remove()
-      https://git.kernel.org/broonie/sound/c/9a5990047d40
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/core/control.c b/sound/core/control.c
+index 535ceba294ac..42f16d2d0e79 100644
+--- a/sound/core/control.c
++++ b/sound/core/control.c
+@@ -1759,9 +1759,10 @@ static int snd_ctl_elem_add(struct snd_ctl_file *file,
+ 	if (strnlen(info->id.name, sizeof(info->id.name)) >= sizeof(info->id.name))
+ 		return -EINVAL;
+ 
++	info->id.numid = 0;
++
+ 	/* Delete a control to replace them if needed. */
+ 	if (replace) {
+-		info->id.numid = 0;
+ 		err = snd_ctl_remove_user_ctl(file, &info->id);
+ 		if (err)
+ 			return err;
+-- 
+2.55.0
 
