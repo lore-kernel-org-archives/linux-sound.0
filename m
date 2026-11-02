@@ -1,107 +1,110 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793609412;
-	b=qrF+EFMwGOAmK1+anaLPYXrzDhBOZpprv7ZdhKYAEiTV/6njbUrWBLpus77DFYdXmI5N
-	 PfvG24VuwI2UiUu93ofknHwZHL8rVcbU3grLVZzm6fOu6stdL0g1a2hxBcBO3ViSYjhku
-	 v3MyVJAuqIu7icuSX9jHUARpeUo3npKBhIyksKYx83sWd2Yqmf6vgrE699LovC9XXmnYp
-	 GCnkzKbm5WTDKkizkkfsjMV21NLHqvUALTMl9qkkAnL8kluGbx9b8aMKZq2wJL0bqKpky
-	 +la9CMs4kZkDxydRPTpv9PR1jRxw1bRC1aMhOP7aTAk4kjaojWwSCzCHZs63zn11u0g==
+	t=1793609462;
+	b=bx+4DjZZ36B/UNa3Pa83Q3ojnTF3Ps4A6ul58RrwfWoJrTBDwt3/DJEe+5WnYi/xG37Q
+	 9J/NIei8UTCXyUCMV+cEZAH95acnK7+60q4JhQPwsiYZzMsP9e6MCwUu6ZW4LlFgf0SPE
+	 5doNhlXxCBaeHSKf/GIRNKKDH0CLK6K8Yr0RK+aw7yGTtPgmCd/Ka2OBfoFoisjPGuKWi
+	 xwTDM2kyeBkI19dK07vAYAW9XvPML9JwbWnAiOeXfkltNG1Zmy0Gt2CM96Xbg6TjHQ0yX
+	 3FHn4vsMrfqfwvpGAxyxGHZ72OI7kV/q3PgpgEYNcqgaDPxjdqxqFTTDkHPuSiaoyBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793609412;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793609462;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=mt7G0a5tL88xWpbLvssUpPfSa7xs4f7RrY8h/XruTsY=;
-	b=kbNGJv/w0im4HTYCVuKUc9VrpzmyC8AK6dsQPbaADMZj0RfNrI0He9epsOQrU00y//3j
-	 YnE5yhwNPZXLQdoeEteqiybYgethAJy0Inqe+yo+3bcE/bRj2FvCKBQl+kcF0BRiIbZIj
-	 rlhNT9+yDbGdo3Q1Dwt0oINLKZHPq0mtLyicQquyUC/lal7NgHp3+xTEzhbhBJUBEj17T
-	 MmIX2mOY7nQ92VW1ysjU+yV4c2FLjDUZvApT8lkzGbfnRKAR09LFqzKwS+k3WzXSpT5x7
-	 Ucpk6UZMBsAJ3IKLeNIX8e7KcuyP7Vij4du+rFbdVPTdXKAB5z/A3lbyGfLJf2Dv0vQ==
+	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=FybLTP04cq4U6sgKHlnCBy/A2QdmmVaR5IkgA24/DMI=;
+	b=4klaB/aJhgh0WblPnbagWdee96vnPACrsnQOie3ZPbz/qhdQGEZPhWNA7QZuQ57N57l7
+	 20O4G9gkI7ocSRi9Y5XDjOcphpHPUk59ayRItahMIkLLpOzZfibqsx97Euft/oGWeLmlA
+	 5eEWT9R7N4SoRfvkKVDpfLyqlc226HnG0a5OxIUVj9tRlqbddrfLxFAhoG+Osd4neZ5Wm
+	 v3aAFiy7bt3JvsFMa/By7LmqP4WbL8raJ1X4lY/mm2HPiDE7uHiZovCFR+PJLwuCkP7Fn
+	 bWRoSRJgQ+xntFrPUDlJra7C9VLjVh15WyAXnioRxfA3DQanblEeuhAcrolIEto+YNQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Rk3qJNnB;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1Hiby9MW;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Rk3qJNnB;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1Hiby9MW;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=nqB8Rzrl;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=hNP06WHq;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=nqB8Rzrl;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=hNP06WHq;
 	arc=none smtp.remote-ip=195.135.223.131
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E87E606A324
-	for <linux-sound@vger.kernel.org>; Mon,  2 Nov 2026 08:50:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E87E606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95777606A33E;
+	Mon,  2 Nov 2026 08:51:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95777606A33E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Rk3qJNnB;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1Hiby9MW;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Rk3qJNnB;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1Hiby9MW
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=nqB8Rzrl;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=hNP06WHq;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=nqB8Rzrl;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=hNP06WHq
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8BE531FB35;
-	Mon,  2 Nov 2026 08:50:09 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 287481F83D;
+	Mon,  2 Nov 2026 08:50:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793609409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793609453; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mt7G0a5tL88xWpbLvssUpPfSa7xs4f7RrY8h/XruTsY=;
-	b=Rk3qJNnBDS5Eo7Xm+PrfGkMzzd8kU/Aw4OjzAEmzWiotmthDYxa3/tvqMSbHj04w13Vf2j
-	VVgEnt2cHeLhIyB/g3TCkG30dzLR2ncRIaTW52mgjML99xvXuLm7vwB3U4urAw572ldnm0
-	lAmILt5yR0kviugZEAXp5aXrEGcs0IQ=
+	bh=FybLTP04cq4U6sgKHlnCBy/A2QdmmVaR5IkgA24/DMI=;
+	b=nqB8RzrlI+Vl/lNRLw0fz5B+58DCQukMreggpg7UQ6pZ4PcBWwrgZ676VcCUaRwfpHPRpH
+	TunEkIdulqWE1dimHBhA4+PuQmw317lfCYVm9bsZansNZqPB+owy78snm9cRNg+A1E9x13
+	6d4v15AqotWCpfAGDMxHij5SroBdbR4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793609409;
+	s=susede2_ed25519; t=1793609453;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mt7G0a5tL88xWpbLvssUpPfSa7xs4f7RrY8h/XruTsY=;
-	b=1Hiby9MWsfj3BZ7KdEUq6CcrNFmF3clsDpLpEjwnZ74x1IfyMl3niudLCX2WWSimdbAHpo
-	JvzqHSqM6hHeW3Ag==
+	bh=FybLTP04cq4U6sgKHlnCBy/A2QdmmVaR5IkgA24/DMI=;
+	b=hNP06WHqmof17lIyKvpH3jD7cgelHi+ZKe3AZA25U/VlSrOYqbDOpmEtCJ/H2GK94Ezt+C
+	72g2jVZg76ppMxAg==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Rk3qJNnB;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1Hiby9MW
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793609409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793609453; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mt7G0a5tL88xWpbLvssUpPfSa7xs4f7RrY8h/XruTsY=;
-	b=Rk3qJNnBDS5Eo7Xm+PrfGkMzzd8kU/Aw4OjzAEmzWiotmthDYxa3/tvqMSbHj04w13Vf2j
-	VVgEnt2cHeLhIyB/g3TCkG30dzLR2ncRIaTW52mgjML99xvXuLm7vwB3U4urAw572ldnm0
-	lAmILt5yR0kviugZEAXp5aXrEGcs0IQ=
+	bh=FybLTP04cq4U6sgKHlnCBy/A2QdmmVaR5IkgA24/DMI=;
+	b=nqB8RzrlI+Vl/lNRLw0fz5B+58DCQukMreggpg7UQ6pZ4PcBWwrgZ676VcCUaRwfpHPRpH
+	TunEkIdulqWE1dimHBhA4+PuQmw317lfCYVm9bsZansNZqPB+owy78snm9cRNg+A1E9x13
+	6d4v15AqotWCpfAGDMxHij5SroBdbR4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793609409;
+	s=susede2_ed25519; t=1793609453;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mt7G0a5tL88xWpbLvssUpPfSa7xs4f7RrY8h/XruTsY=;
-	b=1Hiby9MWsfj3BZ7KdEUq6CcrNFmF3clsDpLpEjwnZ74x1IfyMl3niudLCX2WWSimdbAHpo
-	JvzqHSqM6hHeW3Ag==
+	bh=FybLTP04cq4U6sgKHlnCBy/A2QdmmVaR5IkgA24/DMI=;
+	b=hNP06WHqmof17lIyKvpH3jD7cgelHi+ZKe3AZA25U/VlSrOYqbDOpmEtCJ/H2GK94Ezt+C
+	72g2jVZg76ppMxAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4E67B134B8;
-	Mon,  2 Nov 2026 08:50:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C2CA9134B8;
+	Mon,  2 Nov 2026 08:50:52 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9xPKCcFO6GoxSAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 02 Nov 2026 08:50:09 +0000
-Date: Mon, 02 Nov 2026 09:50:08 +0100
-Message-ID: <87mrrr4ny7.wl-tiwai@suse.de>
+	id A43gJOxO6GouSQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 02 Nov 2026 08:50:52 +0000
+Date: Mon, 02 Nov 2026 09:50:52 +0100
+Message-ID: <87ld7b4nwz.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Cc: tiwai@suse.de,
+To: Yuqiang Sun <izaiahsun@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	wesley.cheng@oss.qualcomm.com,
+	raoxu@uniontech.com,
 	linux-sound@vger.kernel.org,
-	linux1394-devel@lists.sourceforge.net
-Subject: Re: [PATCH] ALSA: firewire: fix inverted streaming speed between tx and rx streams
-In-Reply-To: <20261102033652.1184893-1-o-takashi@sakamocchi.jp>
-References: <20261102033652.1184893-1-o-takashi@sakamocchi.jp>
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: qcom: Check the return value of qmi_handle_init()
+In-Reply-To: <20261102035237.56253-1-izaiahsun@gmail.com>
+References: <20261102035237.56253-1-izaiahsun@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -113,50 +116,75 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.51 / 50.00];
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.30 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -12.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 8BE531FB35
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.30
 
-On Mon, 02 Nov 2026 04:36:52 +0100,
-Takashi Sakamoto wrote:
+On Mon, 02 Nov 2026 04:52:37 +0100,
+Yuqiang Sun wrote:
 > 
-> ALSA firewire-tascam driver uses inverted streaming speed when reserving
-> isochronous resources between tx and rx streams.
+> qc_usb_audio_probe() overwrites the return value of qmi_handle_init()
+> with that of qmi_add_server() without checking it. When
+> qmi_handle_init() fails, it has already freed the receive buffer and
+> destroyed the workqueue, and qmi->sock may hold an error pointer. If
+> QRTR is not available, qmi_handle_init() returns -EPROBE_DEFER and
+> qmi->sock is ERR_PTR(-EAFNOSUPPORT), so qmi_add_server() passes it to
+> kernel_sendmsg():
 > 
-> Correct the streaming speeds. This has no impact on existing
-> functionality, as both streams are always reserved together when handling
-> PCM substreams.
+>   BUG: unable to handle page fault for address: ffffffffffffffb7
+>   RIP: 0010:selinux_socket_sendmsg+0xa0/0x590
+>   Call Trace:
+>    security_socket_sendmsg+0x29/0x50
+>    __sock_sendmsg+0x43/0x150
+>    kernel_sendmsg+0xd6/0x180
+>    qmi_send_new_server+0x1b8/0x2b0
+>    qmi_add_server+0x165/0x200
+>    qc_usb_audio_probe+0xf4/0x2e0
+>    really_probe+0x2b4/0x850
 > 
-> Fixes: dbd0cf204fe6 ("ALSA: firewire-tascam: reserve resources for transferred isochronous packets at S400")
-> Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+> Had the probe gone on, the error and remove paths would call
+> qmi_handle_release() on the half-initialized handle, which destroys the
+> workqueue and frees the receive buffer a second time.
+> 
+> Return the error from qmi_handle_init(), so that -EPROBE_DEFER defers
+> the probe, and check qmi_add_server() as well.
+> 
+> The bug was found with kbound, a static analysis prototype for
+> ownership mismatches at kernel interfaces, on v7.2.12; it is present in
+> mainline.
+> 
+> Build-tested with x86_64 and arm64 allmodconfig (W=1, sparse): no new
+> warnings. Run-tested on QEMU (x86_64, KVM) with KASAN and kmemleak, with
+> the driver built in and a test module that registers the
+> q6usb.qc-usb-audio-offload auxiliary device. Without QRTR, the probe
+> crashes as above without this patch; with it the device is deferred and
+> removing it again reports nothing. With QRTR the probe succeeds, and
+> removal reports nothing either.
+> 
+> Fixes: 326bbc348298 ("ALSA: usb-audio: qcom: Introduce QC USB SND offloading support")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Yuqiang Sun <izaiahsun@gmail.com>
 
 Applied now.  Thanks.
 
