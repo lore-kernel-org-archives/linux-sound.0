@@ -1,88 +1,136 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793622320;
-	b=ERSwjm8xhEkbqPEBhZj751Wt4rHEd4UouDwKV1zFdOwr35pdxyh9q/6GXimdJo0z+d0C
-	 usLAoHAqgdVQqtMxKLZdNrvKW0+JbSrupGnx+WFfrhE9x3LK4kTGsjyrXKpyYZnofCKo8
-	 0RfnfOR7mphaB6TH2fVVmmJiUGx8p8zfFH86YslCcOBIccxfM3eRzf+Qw13TMvhVaSmTG
-	 teLYYLohx+bFP4NTncwuv03KsDj7foE3DhoDzpr4D8ZqQ2qgLsuzy3fkE6xr0zYfHJiPD
-	 TbJ03KqQY/yju5b+6A/eiGnEXKzd1rpR55L/Qfelvr5iQQ39Iu9Ua/UcxsyZNSRoXew==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793622320;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=qnxaTAkpwcOidnWuLl/cJuwzJ/f4ZOoVnf34DWpLrVk=;
-	b=hQYOQyINjIEGQcdakZPKB2BWw8WKrsKWUyZpBwE822xD04IzIvuINsiMVkyrA4ZGocde
-	 zEGcodtkXRsgeSLqYd0yTJbi7cB6ZqtwUwtrM2hz/cv8KMtUAwYXyKFogGiBbQCtGHdcD
-	 lSpBmr+3Uyiveu++HmYXXgF4ECVXcT2C13IofiWrBRlYryCoYRWaHorJoaUdiJHx1VSPv
-	 jfQd8fH12+CkxZHiX0ZaQhVl8VqZK/5EGvKxY4MEPIvIotzUuy9vwAkkbGSOvl/G+Y+pd
-	 ydDjs59WsxmF7EP0bXhgLwSVYvRnHsw3NGDwtyqPDiCrZnKCEA0GL0I6Rl5FH5xn+YQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=thegoodpenguin.co.uk;
-	spf=pass smtp.mailfrom=thegoodpenguin.co.uk;
-	dkim=pass header.d=thegoodpenguin-co-uk.20260707.gappssmtp.com header.i=@thegoodpenguin-co-uk.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=hD0T4KxY;
-	arc=none smtp.remote-ip=209.85.221.51
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=148.163.135.77
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793623257;
+	b=MRMR5qMeGfaGIcO4m8NVptg1deszCBNM3dqHX1uGafc+QyFD0bmWnDes9cHB+xHhemGu
+	 L3ub8ttjgHVbEWBIcrpkVuRoVQ1vW8lSpGElEDfMhhqRG8b5/MkGZ+Lzbt75IaowPMyOJ
+	 vZxEzIphlhdSF/Ig5eQqKUX6pl2Lk5k52QgcwnIUlf9CGPP0+aLLrhrL3F+e2eFwh9eht
+	 vIZ5R6mVmiGUAJLnZzrnSv5rajr3sR6w4KS4xvUge9Ud+IjkTHQKRoF0QfYX0Xh8aNpUj
+	 AZLg/g3/3EmNk/8vmVRuMuODBTFtCGMhn/UdWOOR5sRpklv4hLnbigUjbhDUU2Aq3NQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793623257;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
+	 Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-LD-Processed:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=r8Zw3pDbzt2XtV/9KWLgShPzNZh93bL1kQ40A3VxQOE=;
+	b=JeNTSJhoj7VGSkrRweuqKzkQ8DX3MEOQSXtbqnDLk5C+Sm18E/+lKhRrLab/DnHMh48u
+	 rD6WvhCBH7zw5QDTVZ8g+XYUqnNn9dmftgDWU7sCzdjI8mkA5zMa3lUGM4Zipp1NamITo
+	 fK4eyObR5kJwU/TLF58Fj/1tVVEmel5ogz2BAol+7ar86tAx4snU71u4BnYhafA9thbb5
+	 Im5he33av8/99LAaPREBKk6SUNno7RU7DjSmhW1/i2Erxdplmq1BuK7Rsb/OfGfGZz5Yr
+	 hvSnOhEKQ8gxqClLNeoFjXih/wXn1AWpHNpkcNFp9qU+ZzmO9vKSn+VwfUikshSdqrg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=analog.com;
+	spf=pass smtp.mailfrom=analog.com;
+	dkim=pass header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=IbY2Mi7u;
+	dkim=pass header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=ko2eZPdh;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=148.163.135.77
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFA7606D245
-	for <linux-sound@vger.kernel.org>; Mon,  2 Nov 2026 12:25:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7EFA7606D245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 234F4606A327;
+	Mon,  2 Nov 2026 12:40:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 234F4606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=thegoodpenguin-co-uk.20260707.gappssmtp.com header.i=@thegoodpenguin-co-uk.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=hD0T4KxY
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48e04773687so810887f8f.2
-        for <linux-sound@vger.kernel.org>; Mon, 02 Nov 2026 04:25:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20260707.gappssmtp.com; s=20260707; t=1793622318; x=1794227118; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=qnxaTAkpwcOidnWuLl/cJuwzJ/f4ZOoVnf34DWpLrVk=;
-        b=hD0T4KxYPfXkyRuWEcYoEWKFD2kJqqOFy3vaCMKHs+/Mmgyyg2YIT/wT0cRBH5Pogd
-         DNvyxYnMhsqwh3h7Jlrus+o8qbSMB6aUaTi8hpbEl04p/sq4hSqsGOu6dRs1OaJBDBu7
-         vP9XKQCeaU8W1guGCHAL02MUuw3cokAq1O87Yov1EXFOro5IwaBGVo01sWATj6vvnrGu
-         fwuu+TBr0CQYVMu4zEXGlYSh4pFeMLFSKOwxL9rnY/0tXZqwWC2lNV7YgvomedHo1RNX
-         /0e0jKkZflb8FhTwupIf9PMnZUP4kRgdE4EKZWDKTsVQkaONogrib8L1+uTo2zkyewnJ
-         wXjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793622318; x=1794227118;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=qnxaTAkpwcOidnWuLl/cJuwzJ/f4ZOoVnf34DWpLrVk=;
-        b=0RiHfadFH0MLF3up8V5dsOpi//9H+3L4n02RSudFGGlF2gDPGAVv9vy1P8BiMPi4Vs
-         JqvgJD/qnNDGl6emTL+ZZHXzG6pwqrBMY9huLbk76YULCQRFM2+NfQUFdtKjX2ei68/h
-         ESijyoMEer47hbqnmR7OTFlLUvlLBaYcn33BR3n+7meFqoMzS9FDE4gmlXBjJ8FItyCB
-         0KnwMm9ELd32LRaUkJFoWuJUb1nLw5gX+vEuy0NTgWH+eUJYA6vAlXYzAHF0hj4LBP8G
-         1i3sTOzTA4kaSGocgwKKwDZi/DOjGR+Pq7Fg/3agwJkpHHny4eoZrLr8n0LGHatKIKqq
-         sGcg==
-X-Forwarded-Encrypted: i=1; AKwUvBwM+KR369X6nClfZn2TdOixz4FUMM2H86izHJhy48vrCs/sW5Yi2veQ+D+rNmDbrPDnnugCdaw+Omb6UA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLfyfKh0Zpp2ktfvTQIJjKUUe9sNm2JBPA16BIQceiNIzeTt5Il
-	DU1Kv8k37rAl1sIah4BPudqJQdWhiMk8RoGXievKYprHmaD9o1UlseXxKwDF9NEJYcuMu1hg0q6
-	QAcWpptU=
-X-Gm-Gg: AYBFou2+dF4xpvwonEImd3L1+oEOvcmJ7x3bGDJbN26L8oARmdvN3gWiovU4zwaieDk
-	Zt0pxXkoYrPLNigDj3pNBPKG75h2BYMxGt880bvBbkm0KHzb/osTJLiqJ1ZmlLhE4BcXFkoMeJe
-	E1x0nneKwN8RwgGn5BWtyfO8Gd5XlPXhqGTWO9GD/ENjcveLxSpOL6l8LlEisDzNYt7ZtUTkc2n
-	h5us4IpTmAvMDWbR+RcrINya//5R9FJ8brhVkvkA9PBD3S8uoxo2Y2RpQTj7ZvqycU7jzCA24ZJ
-	A/zCH06HcGjWuQXSiQlTz+h0Zbrs6RdwMbMNKZK15CQ//dJfg8XtRKX1zjTfa4jjtfmZNL8dRyR
-	hO0IMu82ZTJ7Z7lxT2uuOeygn2I4bQFEKiflMNY13Ax9QC1djm+Z6HZwF/oqmwqQn2RydIwPABZ
-	24mdiWcnTpMAYN5GQxb5KudGNt8I8T+KQdXMEfZV0gNTLENCCNFPH47JgxekxmfNIeiqQRJzG5r
-	r5DmZgXwyMT/HoQrvr8GkhxZBG4nM5Jc9KXuRmYzN9VGbByP/hy1NoRONJHvD+wlz/WyMhCTMw6
-	cEwiRSarUtmQWfUXy66R/vJpVqCJQdTeG/iI6Su/Q5/djw==
-X-Received: by 2002:a05:600c:8b66:b0:4a3:5a91:5f61 with SMTP id 5b1f17b1804b1-4ac1793f8ddmr236704555e9.14.1793622317763;
-        Mon, 02 Nov 2026 04:25:17 -0800 (PST)
-Received: from [10.42.0.1] ([2a00:23c7:1d1a:9c01:a898:4bb0:ad55:e439])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf6e63e0esm346783795e9.12.2026.11.02.04.25.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 04:25:17 -0800 (PST)
-From: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-Date: Mon, 02 Nov 2026 12:25:14 +0000
-Subject: [PATCH] mfd: Use named initializers for acpi_device_id
+	dkim=pass (2048-bit key, unprotected) header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=IbY2Mi7u;
+	dkim=pass (2048-bit key, unprotected) header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=ko2eZPdh
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A29CRaC4152226;
+	Mon, 2 Nov 2026 07:35:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vtelectron.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	DKIM; bh=r8Zw3pDbzt2XtV/9KWLgShPzNZh93bL1kQ40A3VxQOE=; b=IbY2Mi7
+	u3Vi7oLKSXyE7YI3j+UsahWhU2YLR0/4AGEtNCNYpUawwPKs5c6MupBxxTCbwbU+
+	+wJiU/m3jziZ9svaaoaxXWXpmxoDg8tbHA3YmssAEp1rc1+DqM7EFh75eRm6BDU3
+	8K9YA+BJH8A/zQYeXnMujRcTusso4KRMpjKJ98qeqgM0Jxdow53e7h6V/sXlyuO2
+	gjSTwAozPoNPJNOKq+rZDIhVhIiWItvIRvFXwDPEi+YZmjyxZEGD3W5gt/HX8Wtm
+	V4+femIUYc9iBOWwFYeQzdRc+rBV4Am4O3xteSCND0kLpDrvgF4QTu23KwN8zk7e
+	P88FksRlhoFlyGw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=r8Zw3
+	pDbzt2XtV/9KWLgShPzNZh93bL1kQ40A3VxQOE=; b=ko2eZPdh60mAyziXV0Har
+	UUxYYD9/oedyjjo0jDTcOPGxByUOWeHeZNWeDFOOoIPL0NTSOxD0f3LzDzZingZh
+	cK2hxpHV8DHiVSem2JoA0RQGAp4ADuC4rAsHxNiLfpItyH8hsL9qupU3g8ADtHJZ
+	cgpZelaUxSgtvHOi64G5Zp/BN4eNiVHFFbMNn51zmn7Cfn94I9v2bmjb/4h2Z7rw
+	CxbNp6vl46S7UsFRxyoPj/Bev+pwB3XPPu3ul1AYm6ry3pc4agjrXj4I0XVuO7eA
+	t0QFJfNYf+Y4s59aTZhdhnSwmFoF7pyHwX/9ZZwpO9N19+JWZD6NYn52B2tFEGWa
+	g==
+Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010047.outbound.protection.outlook.com [52.101.46.47])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4hpjhat5dc-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 02 Nov 2026 07:35:09 -0500 (EST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=G4kQ37iPHGqADIsaZa4GtJuf/UO06thbHYmguwf/orcE2KOU55ZQrbplWYyC8b1fYGys/bVrz4UFkLirs8k03gDJsQX1Q2HS/VOGOvh9Q6urBDsXnozvtZxYxw8xDGI+v2xLOHlFk0INJNKsD1MEHQ+uBsTIgW87/RV0ubgThb2vOtXyOVBg8OqKDtbzAyoRWdEo9tUhW9WHRDKfv2SnY3tKEy0b355SMEPVKvO0P8Ot7pWeXavxWuP0V8MeeX5E7t81UOUYR8S4ltU1bkUv/WGmJ7g7/FdJQd/FxiMKjpDyf++HVVT1hPo56wtqxQwl4wB6CTXT26wJXN5z14hGKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r8Zw3pDbzt2XtV/9KWLgShPzNZh93bL1kQ40A3VxQOE=;
+ b=h3Ngj4PsqIKhupS6GGEuyrIlX48BVfLL6WBCgEj535Se5zNoKip7kguhuS0Hi7JRWXS9O0KKiFIPxSsOIuyut0hHY2SjRm2Jsv7SHFmF+saNnDM5mwQdE801t9PCMd9SoovANUNFpIyX4l2R1li1IdPLyypUVg2jdngChhf08s1N/HXfVug7NRuQ+34kPBS3b26J6qaWCzGP+SBXuMfdsBPxp/NZmWPpNa04VqplpvHbSDX9RedJaS1rD01VDWWWYlVYu817ceTZx1WDt7KeZ/3tE/2vcvK7lf062pzaK7mMf8kDqt48qn862q08f07Xtn3044Jsit3tmc+uoQhLxA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=analog.com;
+Received: from SJ0PR03MB5469.namprd03.prod.outlook.com (2603:10b6:a03:28a::17)
+ by SJ0PR03MB5789.namprd03.prod.outlook.com (2603:10b6:a03:2d6::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Mon, 2 Nov
+ 2026 12:35:06 +0000
+Received: from SJ0PR03MB5469.namprd03.prod.outlook.com
+ ([fe80::2a19:76b2:e731:8c5a]) by SJ0PR03MB5469.namprd03.prod.outlook.com
+ ([fe80::2a19:76b2:e731:8c5a%6]) with mapi id 15.21.0569.011; Mon, 2 Nov 2026
+ 12:35:06 +0000
+Date: Mon, 2 Nov 2026 12:36:29 +0000
+From: Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>
+To: linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+        linux-sound@vger.kernel.org, linux-spi@vger.kernel.org
+Cc: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+        =?utf-8?Q?Am=C3=A9lie?= Delaunay <amelie.delaunay@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        David Lechner <dlechner@baylibre.com>,
+        Andy Shevchenko <andy@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+        Frank Li <Frank.Li@nxp.com>,
+        Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>
+Subject: Re: [PATCH v6 0/9] dmaengine: Support bus widths of 32 bytes and
+ above
+Message-ID: <auiDhzNcif3LhPlq@nsa>
+References: <20261014-dmaengine-support-wider-dma-masks-v6-0-5b3ffdef8191@analog.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261014-dmaengine-support-wider-dma-masks-v6-0-5b3ffdef8191@analog.com>
+X-ClientProxiedBy: ZR0P278CA0008.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:16::18) To SJ0PR03MB5469.namprd03.prod.outlook.com
+ (2603:10b6:a03:28a::17)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -92,330 +140,172 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-acpi-mfd-v1-1-d61029971be8@thegoodpenguin.co.uk>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMywqAIBCF4VeJWSeogVGvEi28jDVBF7QiCN89q
- +UH/zk3RAyEEdrihoAnRVqXDFEWYEe9DMjIZYPkUglecabtRmz2jmmlbeOEUrUwkPMtoKfru+r
- 63/EwE9r93UNKD5T+/9VsAAAA
-X-Change-ID: 20261030-acpi-mfd-a6ac9d16671b
-To: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Mika Westerberg <mika.westerberg@linux.intel.com>, 
- Zha Qipeng <qipeng.zha@intel.com>, Qunqin Zhao <zhaoqunqin@loongson.cn>, 
- Thomas Richard <thomas.richard@bootlin.com>
-Cc: mfd@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- linux-crypto@vger.kernel.org, 
- Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793622316; l=12397;
- i=pzalewski@thegoodpenguin.co.uk; s=20260430; h=from:subject:message-id;
- bh=1GEV7hhED3325gUvci85Sx4ni8Bu2o31ERMO8HWKgdg=;
- b=TfJYQo/tDyoJ4oEXab/+yXykW74+6dCOZLOexoiVY+aut/lFWDgbPgx2UZ3yEy2Q98u8N3K2g
- zPnoyn/64rvCTGQ9n6NjPvqV55EA0zPBd/LU/cF6gL4gUeQd6cch6CN
-X-Developer-Key: i=pzalewski@thegoodpenguin.co.uk; a=ed25519;
- pk=vHq4n9IonORH2GTzLv8r6CWAFHzgfBuNkQPXA8NSly0=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR03MB5469:EE_|SJ0PR03MB5789:EE_
+X-MS-Office365-Filtering-Correlation-Id: d35f1c59-f0ff-479c-65fa-08df38ddb99b
+X-LD-Processed: eaa689b4-8f87-40e0-9c6f-7228de4d754a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|366016|1800799024|376014|7416014|23010399003|6133799003|18002099003|22082099003|56012099006|261009221227099003|261009221727099003|261009220027099003|261009223027099003|261022105027099003|261021123027099003|261021121427099003|261009223327099003|261022075727099003|11063799006|10067099003|261026140227099003|261028144727099003|261026121527099003;
+X-Microsoft-Antispam-Message-Info:
+ 0Vmm3f2Jx2VVrDuDTInSlhaRB42ZeKGpx7pvptwMR4bm10bR81D/kVeCQvLcevC3iGC7XGY2aNt2TBBtypX8qh3vMVFadER8QTAEow1ti+VZC4xdd4kwZjVNDmjtsGnqy2WqvlQKdAqesiU0mlvfNzuOAI/dH/zpOP/8yf7eLn4ZgdFgz9n8M4GzRM3pFUbQjMpu/RbwLUf0orM8R9KYUr5sOPSQ2FCDaVURlmMglMkVp1R2sy4R7sKWJcRZv7llfr4aS/hrG3p1pNauTyCffRn/eazEpPsPtLNTVHlhjGJlxXLcGm3x5lkA6GsOSz8db/lfIrSMnmKWC5LeatNEP66o5lTVPB5ZGLBLKlVPJjCIyUNi+njHc+BiREU3M83VXDwxTE0zlnwY0541U546JyC4ugLhyub6TQBQa6+ERHSQkP3ec1JPwNXEPEgxIxt2yOooe3F+S8YmBatYguw+wNDMe+HfY1momBczzIGSDUYxAmKWkz+HUXqOPcV1cUXdrbPZm7gqvntZS81iI3dbQhCIWRfZbGCQurhIe6KRDxCP0CemgBVt8uYtfs/RYP5egEkhrZJZ5G/j9LwrnFQItBJJFMVmKvxmkKQnuAtu/ug=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB5469.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(23010399003)(6133799003)(18002099003)(22082099003)(56012099006)(261009221227099003)(261009221727099003)(261009220027099003)(261009223027099003)(261022105027099003)(261021123027099003)(261021121427099003)(261009223327099003)(261022075727099003)(11063799006)(10067099003)(261026140227099003)(261028144727099003)(261026121527099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?cnJDcTY5S2lwTEw0LzJBbW9teFpuMUEwWE9yTnhrMEdOUXJDT1laWUNVUG96?=
+ =?utf-8?B?N3ZQY0lxWDZHdjNjcWNFSFV5OTh5Yi9TOENGS2lybnJsU2ZtQkVDeGFWQStH?=
+ =?utf-8?B?ZnR1NjNjMDA2VThlSDVyclhldWpaUXM2V21BajAyRVF0WTBMU003dFJKL0xu?=
+ =?utf-8?B?NVN5MThtNmFramZXZDBzUHAwYTNTOC9ibWI2a0hsL2J2YkpWZTcvSWMyYnln?=
+ =?utf-8?B?QloybUllY25PMWFFTk90YWZiK3lsekpDT1JPNmp2d3JSSndwYmdHUUJ4Z0NM?=
+ =?utf-8?B?WCtOQ05tMGJCeTREQjV5dUZuUXdZT2xqWDFPQlFCa2xNaG1WSkY1M3pzT1lV?=
+ =?utf-8?B?ME8vLy9heEUzMHVLaTEzYlZKVEdMTjE4bzJhQXBmT0NiSDdrMk1xcndWTW13?=
+ =?utf-8?B?VG5yRzY3Mzl6YUxJbnNqVWRtTndrZldxcDd6c3BIMUhnbDhXSXcrZE80UGwx?=
+ =?utf-8?B?TWZlSWh3R2kvN0VoRkZDTkdwOGNYOG1NY1B3K1BvRzRqL1drOS91aWZabFY5?=
+ =?utf-8?B?c200eE5xaFRDR2Vreld3akE0eDg2ZWxJdyt5MWZCYkVZUnBRa1N6RXdXSUgy?=
+ =?utf-8?B?VEo3R3hYODE4YTRuQ0hlTlppbldEbUNZM3B5aEFqUWh6Vlk5dlY5UGE4REJG?=
+ =?utf-8?B?MHBORWlrdzdwS21aUTZ5cmFKU2Rsd2ZuU3BYeGxWQmNDKy9GbDZPUTVaUHR4?=
+ =?utf-8?B?N1dPQ0VtS0F0RnRmK25Ya3lLMzAvTVdVNlZJenZYTU93ZEZpNzQ1NjZqS0Ns?=
+ =?utf-8?B?Mjg0ZVcrWERNV2pJM2VjNG9TZjF3OW8xR0RoMHZXWHBGMEVCcVFlNUdrelJj?=
+ =?utf-8?B?QVpMTnFIV3lheDBIWU5UTytVbGR1elY3d28vUzE1UlpXaURKQmg2d3lQSHVw?=
+ =?utf-8?B?RVpzWWR3ek92dTRxdWwzOXJnNVZibEFKS0xvenFGSTFGbElLUFYyZWJqNEx1?=
+ =?utf-8?B?N1ZpUmhSVTdoMFlxbmNNU1ZOL0VVejM3WkQ2cjBEMEl3ckRqU1JvZjJMN1Qw?=
+ =?utf-8?B?MkZGMUx1TjEySXV4emwzdzFtNU5GYmVzcUZ6NDRqdms2RkVpY0VvUFNRYW9R?=
+ =?utf-8?B?T3JDb21yVHcyUTVMRFNXT1dMNktQRmw4RzlnaXkvTXB1N0kzZDZiM0xYVXNl?=
+ =?utf-8?B?dFFlOXlFYlZBL2hBVG05cVc0TDZNN1duTGNwRldnWnhLRDlRcFZXSHpzOXlu?=
+ =?utf-8?B?clRkUVNaUVBuSm0veWdRNU9xSHE5ZEljUTV4OG94ZDVVS1Rkd1EyN04vbFV2?=
+ =?utf-8?B?Q3RiOEFuZmVHWGFRMUlMcDUzdlhNM3NLc2pBampBbVV5bnJWblJqa1hHeFl4?=
+ =?utf-8?B?V2UyemlaSFhaWGhERlExR0I4WFR6SUhXNHhLU0N1Z3RSSkxydFgwZ1VScTJl?=
+ =?utf-8?B?eHZIUkVRUzh5Q0NUZDgzUXdxYW5rWHFZQUs2dUhXRVYwNjFWb3daK0d5WlRO?=
+ =?utf-8?B?ZkxqOTZDWW45d2xQSHAvY2UwTWhZanI2Wno3dklqWVY0aXpsREg5T1Q3TXpR?=
+ =?utf-8?B?T3lnS1l3czdzbUZUUUtYL0dmTGx1Y3VaUU5yVm9QbFBPbCs1Q01xMjhTUS9U?=
+ =?utf-8?B?Q0xSMFB1UmhMK016eElSRnZ5TkxQN2NwQTN4UVJpNVFOVTB0a0F2dHpONzVt?=
+ =?utf-8?B?aVJXK01nYlpYUVo5bFhNSTZjTHZScVVQOGorRW02bDcvSmVKQXNpVFVWak9F?=
+ =?utf-8?B?c3d4OFF2UWV4TkZrdEo3RXY4UTBaeWNyYitmUG1OcjNNc2l0ajNvdXg5dXp0?=
+ =?utf-8?B?MS9SUDBiQWRhQ3AzV2prbmcvZkpEQVd2REtpYXh0WWI5azNoRVNLdUNvOGNB?=
+ =?utf-8?B?enBWMGlnTkZ6RDI2cTZxQ0xVVTVxSmlTc0hIUVkwQ0FGY1pYeEhhZHBqdm9h?=
+ =?utf-8?B?d3d1QlY4TXh3cE8yaU52cWY4eTFvdUFEN3pjdzc5K1ZzZEhoaDEwRy90cXl5?=
+ =?utf-8?B?eTVtUFNoVDhBeTExUnVJcGRPZ0tHakdyLzdLTE0ybDVUNmY5Z1AxK3BLMDh2?=
+ =?utf-8?B?QjREdnFoUFNYT3lxVHI4RWx2M0J6UGg4ZlU2Q1FnUXgzV1dYVyttMCtnM0t2?=
+ =?utf-8?B?bm9CblZtWmxXSVBqOE1OaXdJUitEZzYwNkVrdWdwUlp1R0hONWVISGpJQTlW?=
+ =?utf-8?B?SUVkRFVteFVKQ1dhMHVzdnplOEhDOTNBbUp2L0IxS3BQRThxbk8zWlFnY0JG?=
+ =?utf-8?B?RzJobVdlanRDcVgzOHZGWllQSnJXMXJpbE1PRzcrRWpNWW5rcDN4VEh6SVZq?=
+ =?utf-8?B?KzFoeFVua3JBMjNZcExjUERCaFRjbitWbjFPbjkyYmZOMGthd045N1kvOXc0?=
+ =?utf-8?B?U0xBRFZSTVhqZWR0a2RQL1ZTdks2L0gwTnZ4dTdJdHVkUjcyLzRjZz09?=
+X-Exchange-RoutingPolicyChecked:
+	BJEqOHP5+yhDUYciZEhO7fuGVoM0pxEns8hxNxTAmq37WsCNcs69YW2IC73LGIVkY7kcKxa79voAxgvZN3fTKLtglCzXUX1J1NCGfVQG4MrsjZax6aRVimjldcx6Eo+v2m2SzfDjzt2Xp7p8iWKrAMobYOYz6yQ7Yo6yjbQItscwqWjXMnYCRTz9FTE9lzNoQLM773YB7ma3ztENDy2IDcrxawUCJrmstkSXtMEaPJy9eaw4qNVgIMkOyco5HqUKAx3tTdL/HpL/ohGMvR5zJ2M+LrG1mztouAM3d+mPSUON++iL7GeqI1zT6PMrdrJVUEsqgvEdly7NKp6sblpRgQ==
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d35f1c59-f0ff-479c-65fa-08df38ddb99b
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB5469.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 12:35:06.4021
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DKg+jzcrPLDG3r3F42bzqHuD3+MA8uSu8OYo6XSA9gWagjd5o42IUAAqnAAUfGgUXcsi5u1092RjsFbOYxcX/w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR03MB5789
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA0OSBTYWx0ZWRfX6jWeVezjOQHE
+ uMmmCorON0jgBPyoJpVTG9f+DWMuDvChYMebw3QDHWJVfAoNYCxxvFFE7EBlM3alBeKWMVpzcNZ
+ 5gpl42+mg/Xukl7Sep6h/5LmwI6Z80JXZ4qRkqpmM1lI3WBGNlQA
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA0OSBTYWx0ZWRfX46kk3+P3j777
+ pOwU6Y3t3UENt96Aq59fM61HMf0RWjsSHPtarNrrpm727XvWntZJtJyl2EaYHdl6LUxqZkChqez
+ 6+KAEF6yLVTg8ETgGS6gvzhYQHYGHTotF7ECjy7ghgzwbKPexcRoUKQMlwrP+RAkJKjuezYr80x
+ +EWbLU82tTyEXD5+f8OzayVnXNv+Il8uAFM8lIxp6DgBxaQwV7KfOueeziWs0F5ZX8jBffG8Sqh
+ hMk81lCOISVLBKqEhq9oRSZWrowMa4AqrJy211hKcF0phUpcHmkSgJpJTAUcBxYCNiOVWr5bqDU
+ 78LD+uWYYdaDgEbfwTjZldvCMDx8rcxk7+JkAGKVI4t+rUewyiGvplCQfhg8lErd0zfQM9UNby7
+ GWtvLpazQ3Z3nTRe6ANpnQnwLcIE6i04/jd+lYbK0eveHxqOHCtgqYniaM64UtHE6P+6u9HFgc/
+ tDlPusQIhkhPZR6cYKw==
+X-Proofpoint-GUID: Y3NkQJ3EaZvmhMY88tHr8bOkpboJb3kl
+X-Proofpoint-ORIG-GUID: Y3NkQJ3EaZvmhMY88tHr8bOkpboJb3kl
+X-Authority-Analysis: v=2.4 cv=cbtHPXDM c=1 sm=1 tr=0 ts=6ae8837d cx=c_pps
+ a=jlQ7B5VXLElZiQQO4hIw4A==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M51BFTxLslgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22 a=Z0pTeXoby7EwIRygza74:22
+ a=VwQbUJbxAAAA:8 a=bC-a23v3AAAA:8 a=gAnH3GRIAAAA:8 a=YzQNDb6hcuZkokZpYvcA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=FO4_E8m0qiDe52t0p3_H:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-02_03,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 clxscore=1015 malwarescore=0 bulkscore=0
+ priorityscore=1501 impostorscore=0 phishscore=0 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611020049
 
-Use a designated initializer for the acpi_device_id fields which makes the
-code more readable and consistent with how lists are initialized in the
-rest of the kernel code base. Also drop explicitly setting fields to 0
-where it is redundant.
+On Wed, Oct 14, 2026 at 03:19:10PM +0100, Nuno Sá wrote:
+> The DMA engine slave capabilities advertise the supported source and
+> destination bus widths through src_addr_widths / dst_addr_widths. These
+> are plain u32 bitmasks where a set bit's position equals the
+> corresponding enum dma_slave_buswidth value, e.g.
+> DMA_SLAVE_BUSWIDTH_4_BYTES sets bit 4.
+> 
+> The consequence is that widths of 32 bytes and above cannot be
+> represented at all: DMA_SLAVE_BUSWIDTH_32/64/128_BYTES would need bits
+> 32, 64 and 128, which do not fit in a u32. Hardware with wider data
+> paths is becoming common, so add a representation that can express these
+> widths while still using enum dma_slave_buswidth.
+> 
+> This series switches consumers and a small set of producers to the new
+> bus width capabilities, represented by a dma_buswidth_mask_t modeled
+> after dma_cap_mask_t. The legacy dma_device u32 fields are kept for now
+> so the remaining DMA controller drivers can be converted incrementally:
+> dma_async_device_register() folds a legacy-only producer's u32 into the
+> mask, so consumers only ever have to look at the mask.
+> 
+> Once the remaining producers are converted, the legacy dma_device
+> src/dst_addr_widths fields can be removed as a final cleanup.
+> 
+> This issue was discussed before here:
+> 
+> https://lore.kernel.org/dmaengine/abkoXXbaxaiqbBuX@vaman/
+> 
+> Changes in v6:
+> - Patch 1:
+>   - Prefix the bus width helpers with dmaengine_ (Frank).
+>   - Drop the wrapper macros taking the address of their mask arguments.
+>     The helpers are now static inline functions taking a
+>     dma_buswidth_mask_t pointer (Frank).
+>   - Drop a stray blank line in dma_get_slave_caps() (Frank).
+> - Patch 2-8:
+>   - Use the renamed helpers, passing the masks by pointer.
+> - Link to v5: https://patch.msgid.link/20261009-dmaengine-support-wider-dma-masks-v5-0-4c4e63a7a1af@analog.com
+> 
+> ---
+> Nuno Sá (9):
+>       dmaengine: Support bus widths of 32 bytes and above
+>       dmaengine: dma-axi-dmac: Use bus width capability helpers
+>       dmaengine: dw-axi-dmac: Use bus width capability helpers
+>       dmaengine: qcom: gpi: Use bus width capability helpers
+>       dmaengine: stm32-dma3: Use bus width capability helpers
+>       iio: buffer-dmaengine: Use dma_slave_caps bus width accessors
+>       ALSA: pcm_dmaengine: Use dma_slave_caps bus width helpers
+>       spi: dw: Use dma_slave_caps bus width helpers
+>       dmaengine: Drop legacy bus width fields from dma_slave_caps
+> 
+>  drivers/dma/dma-axi-dmac.c                         |  13 +-
+>  drivers/dma/dmaengine.c                            |  23 ++-
+>  drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c     |  39 +++--
+>  drivers/dma/qcom/gpi.c                             |  11 +-
+>  drivers/dma/stm32/stm32-dma3.c                     |  37 ++--
+>  drivers/iio/buffer/industrialio-buffer-dmaengine.c |  15 +-
+>  drivers/spi/spi-dw-dma.c                           |   7 +-
+>  drivers/spi/spi-dw.h                               |   3 +-
+>  include/linux/dmaengine.h                          | 188 +++++++++++++++++++--
+>  sound/core/pcm_dmaengine.c                         |  20 ++-
+>  10 files changed, 289 insertions(+), 67 deletions(-)
+> ---
+> base-commit: 42c31fec1ca76b8b5f7759def122d418dff2cd4b
+> change-id: 20260615-dmaengine-support-wider-dma-masks-5aac12497e27
+> --
+> 
+> Thanks!
+> - Nuno Sá
+> 
 
-Unify the list terminator to have a single space between the brackets and
-no trailing comma.
+Hi Vinod, pinging this one before resend. Already got the rb  tag from Frank on the
+first patch. If anything left to do, let me know please.
 
-Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
----
-This series is converting lists that contain the acpi_device_id struct,
-which is defined in the include/linux/device-id/acpi.h to make use of named
-initializers (which they do not use currently). This work is part of the on
-going effort in the kernel associated with device-ids [1]
-
-The plan is to convert acpi_device_id::driver_data to have an anonymous
-union, similarly to what was introduced for PCI and I2C device ID tables.
-The goal is to increase type-safety (most of the existing casts are gone),
-to improve readability and to make use intent a bit more clear:
-
-```
-union {
-	kernel_ulong_t driver_data;
-	const void *driver_data_ptr;
-}
-```
-
-But for that to work all lists containing the structs need to use named
-initializers first to avoid triggering -Wmissing-braces. I already have
-patches that implement this and touching a lot of kernel subsystmes that
-use the acpi_device_id struct and that list keeps on growing. Therefore,
-I have decided to split the series per every subsystem into:
-- pre-clean-ups that convert the lists to use named initializers
-  (which is this series)
-- actual implementations that make some of the modules use the new
-  driver_data_ptr member
-
-That way the task can be fragmented into manageable and independent chunks
-of work and makes this effort easier to review.
-
-[1] https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre.com/
----
- drivers/mfd/axp20x-i2c.c              |  2 +-
- drivers/mfd/cs42l43-i2c.c             |  8 ++---
- drivers/mfd/intel-lpss-acpi.c         | 58 +++++++++++++++++------------------
- drivers/mfd/intel_pmc_bxt.c           |  2 +-
- drivers/mfd/intel_soc_pmic_bxtwc.c    |  2 +-
- drivers/mfd/intel_soc_pmic_chtdc_ti.c |  4 +--
- drivers/mfd/intel_soc_pmic_chtwc.c    |  2 +-
- drivers/mfd/intel_soc_pmic_crc.c      |  4 +--
- drivers/mfd/intel_soc_pmic_mrfld.c    |  4 +--
- drivers/mfd/kempld-core.c             |  6 ++--
- drivers/mfd/loongson-se.c             |  2 +-
- drivers/mfd/upboard-fpga.c            |  6 ++--
- 12 files changed, 50 insertions(+), 50 deletions(-)
-
-diff --git a/drivers/mfd/axp20x-i2c.c b/drivers/mfd/axp20x-i2c.c
-index 5c93136f977e..c5d0d35c7fb0 100644
---- a/drivers/mfd/axp20x-i2c.c
-+++ b/drivers/mfd/axp20x-i2c.c
-@@ -97,7 +97,7 @@ static const struct acpi_device_id axp20x_i2c_acpi_match[] = {
- 		.id = "INT33F4",
- 		.driver_data = AXP288_ID,
- 	},
--	{ },
-+	{ }
- };
- MODULE_DEVICE_TABLE(acpi, axp20x_i2c_acpi_match);
- #endif
-diff --git a/drivers/mfd/cs42l43-i2c.c b/drivers/mfd/cs42l43-i2c.c
-index 2f1862199618..89dca295cc57 100644
---- a/drivers/mfd/cs42l43-i2c.c
-+++ b/drivers/mfd/cs42l43-i2c.c
-@@ -73,10 +73,10 @@ MODULE_DEVICE_TABLE(of, cs42l43_of_match);
- 
- #if IS_ENABLED(CONFIG_ACPI)
- static const struct acpi_device_id cs42l43_acpi_match[] = {
--	{ "CSC4243", CS42L43_DEVID_VAL },
--	{ "CSC2A3B", CS42L43B_DEVID_VAL },
--	{ "CSC4244", CS42L43B_DEVID_VAL },
--	{}
-+	{ .id = "CSC4243", .driver_data = CS42L43_DEVID_VAL },
-+	{ .id = "CSC2A3B", .driver_data = CS42L43B_DEVID_VAL },
-+	{ .id = "CSC4244", .driver_data = CS42L43B_DEVID_VAL },
-+	{ }
- };
- MODULE_DEVICE_TABLE(acpi, cs42l43_acpi_match);
- #endif
-diff --git a/drivers/mfd/intel-lpss-acpi.c b/drivers/mfd/intel-lpss-acpi.c
-index 720adb0ee21f..2f46a85066bd 100644
---- a/drivers/mfd/intel-lpss-acpi.c
-+++ b/drivers/mfd/intel-lpss-acpi.c
-@@ -137,38 +137,38 @@ static const struct intel_lpss_platform_info cnl_i2c_info = {
- 
- static const struct acpi_device_id intel_lpss_acpi_ids[] = {
- 	/* SPT */
--	{ "INT3440", (kernel_ulong_t)&spt_info },
--	{ "INT3441", (kernel_ulong_t)&spt_info },
--	{ "INT3442", (kernel_ulong_t)&spt_i2c_info },
--	{ "INT3443", (kernel_ulong_t)&spt_i2c_info },
--	{ "INT3444", (kernel_ulong_t)&spt_i2c_info },
--	{ "INT3445", (kernel_ulong_t)&spt_i2c_info },
--	{ "INT3446", (kernel_ulong_t)&spt_i2c_info },
--	{ "INT3447", (kernel_ulong_t)&spt_i2c_info },
--	{ "INT3448", (kernel_ulong_t)&spt_uart_info },
--	{ "INT3449", (kernel_ulong_t)&spt_uart_info },
--	{ "INT344A", (kernel_ulong_t)&spt_uart_info },
-+	{ .id = "INT3440", .driver_data = (kernel_ulong_t)&spt_info },
-+	{ .id = "INT3441", .driver_data = (kernel_ulong_t)&spt_info },
-+	{ .id = "INT3442", .driver_data = (kernel_ulong_t)&spt_i2c_info },
-+	{ .id = "INT3443", .driver_data = (kernel_ulong_t)&spt_i2c_info },
-+	{ .id = "INT3444", .driver_data = (kernel_ulong_t)&spt_i2c_info },
-+	{ .id = "INT3445", .driver_data = (kernel_ulong_t)&spt_i2c_info },
-+	{ .id = "INT3446", .driver_data = (kernel_ulong_t)&spt_i2c_info },
-+	{ .id = "INT3447", .driver_data = (kernel_ulong_t)&spt_i2c_info },
-+	{ .id = "INT3448", .driver_data = (kernel_ulong_t)&spt_uart_info },
-+	{ .id = "INT3449", .driver_data = (kernel_ulong_t)&spt_uart_info },
-+	{ .id = "INT344A", .driver_data = (kernel_ulong_t)&spt_uart_info },
- 	/* CNL */
--	{ "INT34B0", (kernel_ulong_t)&cnl_info },
--	{ "INT34B1", (kernel_ulong_t)&cnl_info },
--	{ "INT34B2", (kernel_ulong_t)&cnl_i2c_info },
--	{ "INT34B3", (kernel_ulong_t)&cnl_i2c_info },
--	{ "INT34B4", (kernel_ulong_t)&cnl_i2c_info },
--	{ "INT34B5", (kernel_ulong_t)&cnl_i2c_info },
--	{ "INT34B6", (kernel_ulong_t)&cnl_i2c_info },
--	{ "INT34B7", (kernel_ulong_t)&cnl_i2c_info },
--	{ "INT34B8", (kernel_ulong_t)&spt_uart_info },
--	{ "INT34B9", (kernel_ulong_t)&spt_uart_info },
--	{ "INT34BA", (kernel_ulong_t)&spt_uart_info },
--	{ "INT34BC", (kernel_ulong_t)&cnl_info },
-+	{ .id = "INT34B0", .driver_data = (kernel_ulong_t)&cnl_info },
-+	{ .id = "INT34B1", .driver_data = (kernel_ulong_t)&cnl_info },
-+	{ .id = "INT34B2", .driver_data = (kernel_ulong_t)&cnl_i2c_info },
-+	{ .id = "INT34B3", .driver_data = (kernel_ulong_t)&cnl_i2c_info },
-+	{ .id = "INT34B4", .driver_data = (kernel_ulong_t)&cnl_i2c_info },
-+	{ .id = "INT34B5", .driver_data = (kernel_ulong_t)&cnl_i2c_info },
-+	{ .id = "INT34B6", .driver_data = (kernel_ulong_t)&cnl_i2c_info },
-+	{ .id = "INT34B7", .driver_data = (kernel_ulong_t)&cnl_i2c_info },
-+	{ .id = "INT34B8", .driver_data = (kernel_ulong_t)&spt_uart_info },
-+	{ .id = "INT34B9", .driver_data = (kernel_ulong_t)&spt_uart_info },
-+	{ .id = "INT34BA", .driver_data = (kernel_ulong_t)&spt_uart_info },
-+	{ .id = "INT34BC", .driver_data = (kernel_ulong_t)&cnl_info },
- 	/* BXT */
--	{ "80860AAC", (kernel_ulong_t)&bxt_i2c_info },
--	{ "80860ABC", (kernel_ulong_t)&bxt_info },
--	{ "80860AC2", (kernel_ulong_t)&bxt_info },
-+	{ .id = "80860AAC", .driver_data = (kernel_ulong_t)&bxt_i2c_info },
-+	{ .id = "80860ABC", .driver_data = (kernel_ulong_t)&bxt_info },
-+	{ .id = "80860AC2", .driver_data = (kernel_ulong_t)&bxt_info },
- 	/* APL */
--	{ "80865AAC", (kernel_ulong_t)&apl_i2c_info },
--	{ "80865ABC", (kernel_ulong_t)&bxt_info },
--	{ "80865AC2", (kernel_ulong_t)&bxt_info },
-+	{ .id = "80865AAC", .driver_data = (kernel_ulong_t)&apl_i2c_info },
-+	{ .id = "80865ABC", .driver_data = (kernel_ulong_t)&bxt_info },
-+	{ .id = "80865AC2", .driver_data = (kernel_ulong_t)&bxt_info },
- 	{ }
- };
- MODULE_DEVICE_TABLE(acpi, intel_lpss_acpi_ids);
-diff --git a/drivers/mfd/intel_pmc_bxt.c b/drivers/mfd/intel_pmc_bxt.c
-index e405d7513ca1..6a9ad1f135c7 100644
---- a/drivers/mfd/intel_pmc_bxt.c
-+++ b/drivers/mfd/intel_pmc_bxt.c
-@@ -414,7 +414,7 @@ static int intel_pmc_create_devices(struct intel_pmc_dev *pmc)
- }
- 
- static const struct acpi_device_id intel_pmc_acpi_ids[] = {
--	{ "INT34D2" },
-+	{ .id = "INT34D2" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(acpi, intel_pmc_acpi_ids);
-diff --git a/drivers/mfd/intel_soc_pmic_bxtwc.c b/drivers/mfd/intel_soc_pmic_bxtwc.c
-index 117517c171b5..08fedf3d3fee 100644
---- a/drivers/mfd/intel_soc_pmic_bxtwc.c
-+++ b/drivers/mfd/intel_soc_pmic_bxtwc.c
-@@ -606,7 +606,7 @@ static int bxtwc_resume(struct device *dev)
- static DEFINE_SIMPLE_DEV_PM_OPS(bxtwc_pm_ops, bxtwc_suspend, bxtwc_resume);
- 
- static const struct acpi_device_id bxtwc_acpi_ids[] = {
--	{ "INT34D3", },
-+	{ .id = "INT34D3" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(acpi, bxtwc_acpi_ids);
-diff --git a/drivers/mfd/intel_soc_pmic_chtdc_ti.c b/drivers/mfd/intel_soc_pmic_chtdc_ti.c
-index 6daf33e07ea0..49f4138961c8 100644
---- a/drivers/mfd/intel_soc_pmic_chtdc_ti.c
-+++ b/drivers/mfd/intel_soc_pmic_chtdc_ti.c
-@@ -162,8 +162,8 @@ static int chtdc_ti_resume(struct device *dev)
- static DEFINE_SIMPLE_DEV_PM_OPS(chtdc_ti_pm_ops, chtdc_ti_suspend, chtdc_ti_resume);
- 
- static const struct acpi_device_id chtdc_ti_acpi_ids[] = {
--	{ "INT33F5" },
--	{ },
-+	{ .id = "INT33F5" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(acpi, chtdc_ti_acpi_ids);
- 
-diff --git a/drivers/mfd/intel_soc_pmic_chtwc.c b/drivers/mfd/intel_soc_pmic_chtwc.c
-index aa71a7d83fcd..413d2fd4f86a 100644
---- a/drivers/mfd/intel_soc_pmic_chtwc.c
-+++ b/drivers/mfd/intel_soc_pmic_chtwc.c
-@@ -261,7 +261,7 @@ static const struct i2c_device_id cht_wc_i2c_id[] = {
- };
- 
- static const struct acpi_device_id cht_wc_acpi_ids[] = {
--	{ "INT34D3", },
-+	{ .id = "INT34D3" },
- 	{ }
- };
- 
-diff --git a/drivers/mfd/intel_soc_pmic_crc.c b/drivers/mfd/intel_soc_pmic_crc.c
-index 627a89334908..d39f73ae6773 100644
---- a/drivers/mfd/intel_soc_pmic_crc.c
-+++ b/drivers/mfd/intel_soc_pmic_crc.c
-@@ -252,8 +252,8 @@ static int crystal_cove_resume(struct device *dev)
- static DEFINE_SIMPLE_DEV_PM_OPS(crystal_cove_pm_ops, crystal_cove_suspend, crystal_cove_resume);
- 
- static const struct acpi_device_id crystal_cove_acpi_match[] = {
--	{ "INT33FD" },
--	{ },
-+	{ .id = "INT33FD" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(acpi, crystal_cove_acpi_match);
- 
-diff --git a/drivers/mfd/intel_soc_pmic_mrfld.c b/drivers/mfd/intel_soc_pmic_mrfld.c
-index 77121775c1a3..531d8b8be44d 100644
---- a/drivers/mfd/intel_soc_pmic_mrfld.c
-+++ b/drivers/mfd/intel_soc_pmic_mrfld.c
-@@ -139,8 +139,8 @@ static int bcove_probe(struct platform_device *pdev)
- }
- 
- static const struct acpi_device_id bcove_acpi_ids[] = {
--	{ "INTC100E" },
--	{}
-+	{ .id = "INTC100E" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(acpi, bcove_acpi_ids);
- 
-diff --git a/drivers/mfd/kempld-core.c b/drivers/mfd/kempld-core.c
-index 47062f876e5d..399f1c97320c 100644
---- a/drivers/mfd/kempld-core.c
-+++ b/drivers/mfd/kempld-core.c
-@@ -470,9 +470,9 @@ static void kempld_remove(struct platform_device *pdev)
- }
- 
- static const struct acpi_device_id kempld_acpi_table[] = {
--	{ "KEM0000", (kernel_ulong_t)&kempld_platform_data_generic },
--	{ "KEM0001", (kernel_ulong_t)&kempld_platform_data_generic },
--	{}
-+	{ .id = "KEM0000", .driver_data = (kernel_ulong_t)&kempld_platform_data_generic },
-+	{ .id = "KEM0001", .driver_data = (kernel_ulong_t)&kempld_platform_data_generic },
-+	{ }
- };
- MODULE_DEVICE_TABLE(acpi, kempld_acpi_table);
- 
-diff --git a/drivers/mfd/loongson-se.c b/drivers/mfd/loongson-se.c
-index 3902ba377d69..49a95b8e4ca3 100644
---- a/drivers/mfd/loongson-se.c
-+++ b/drivers/mfd/loongson-se.c
-@@ -233,7 +233,7 @@ static int loongson_se_probe(struct platform_device *pdev)
- }
- 
- static const struct acpi_device_id loongson_se_acpi_match[] = {
--	{ "LOON0011", 0 },
-+	{ .id = "LOON0011" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(acpi, loongson_se_acpi_match);
-diff --git a/drivers/mfd/upboard-fpga.c b/drivers/mfd/upboard-fpga.c
-index 9a9599dcb0a1..37c3c50aa6e4 100644
---- a/drivers/mfd/upboard-fpga.c
-+++ b/drivers/mfd/upboard-fpga.c
-@@ -300,9 +300,9 @@ static int upboard_fpga_probe(struct platform_device *pdev)
- }
- 
- static const struct acpi_device_id upboard_fpga_acpi_match[] = {
--	{ "AANT0F01", (kernel_ulong_t)&upboard_up2_fpga_data },
--	{ "AANT0F04", (kernel_ulong_t)&upboard_up_fpga_data },
--	{}
-+	{ .id = "AANT0F01", .driver_data = (kernel_ulong_t)&upboard_up2_fpga_data },
-+	{ .id = "AANT0F04", .driver_data = (kernel_ulong_t)&upboard_up_fpga_data },
-+	{ }
- };
- MODULE_DEVICE_TABLE(acpi, upboard_fpga_acpi_match);
- 
-
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20261030-acpi-mfd-a6ac9d16671b
-
-Best regards,
---  
-Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-
+- Nuno Sá
