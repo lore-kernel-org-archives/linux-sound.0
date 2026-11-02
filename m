@@ -1,102 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793664291;
-	b=c3fwsH62qU6YWkzFDY7iVk6GsHJw2w0KYIeUSzfBVCViy2d8zQJTIUpeQNCnDd7BuEff
-	 w6ZBN0Ce7U8Vb1ovUmhh8WWMDsD2ybT9wG2GVV794yAHLrkL2c2c+90L3o2N+GaXzl0yG
-	 +YwIeamphNqfnatsd2QpSOgw6qKSPlTjYCYxEysEkB2NS/9FwRNM37yNZVBGPCZh0RKd5
-	 o9cr37A9Y6D1VOkCJs/xVcuh5txuB9cHfj3uRkRMol/pUZ6llhlOy4R3ccLaETQN5iTWj
-	 dxwhpOlvLwXEO5NdbQxU0itfHgHIbU+FwzgFrVQOpWyGEjFP2wpmyQbBTf8ZUHqdgZw==
+	t=1793664440;
+	b=phqQnUPts7UIaJYPkvN6sui39oxPGrgiIwNCd1TYzZwtR0i8/n/FzZDvNeMcwF7UFTe0
+	 Mfhe/yyMdHtG6bZ1ppEcOoMpmJPFK0S9oDPgWcgCDEu80Zx0rXSgcJCbJKBHHM5bOsZXA
+	 bfVUjSRLenLAGXU58PhjYOFU0X041w89oTWnys6vodrfcxoG4oXvUhQESvGMFLXMZu7/p
+	 cfceNPNHSiXCgEQRwRTQpT51JLW5OMdxlHWq4nHMsOlHcC9Kbk2fukHNIvlIlAJTc7p5c
+	 O/T2ZbOMG1E7eSRKVsTvQxGP/QUL8cdWG0O4ICy+RxN1NdgCg7khGFDbtjspIdmfeTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793664291;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=BRslTI0ynJSL8rFIMfwDZ46YUeqzoiUybS2SxS5DQ24=;
-	b=EiBJeqYNhup9iXvhY7nimLoZCg8LmW2tjqZoYldFZZZdsEopJx3ZygiCa6L2+hwUOytM
-	 aJq/p7xxNtB0I0uHUBS97g7LwAaMVASnQaRqyYDzmtGKcg/a7EsnSTn7PWppUmVwwMC+z
-	 VB7O9lGIFIp2NfqVqAfo9hUlKK6zvHvKoUTid5hIlzTnM4ed/Y1FQdzhOId1V0JHQCgam
-	 H11wE/b4kV8ezWt6QyPo25Dnbnn/eZTRvBNixr1uQwgongsNwYCwckfll5Ij7ctb5RzL2
-	 r7alvquyxeWZGIo51xdhVdKm8d+/NRmYKu17EdeuBlSkPItm+rohf0akLVs+uDl6Jlg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793664440;
+	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
+	 Subject:Message-Id:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=qUlR2HVhwzzB13nKghCD6zW/Rz6gdlT3qv4Azsy/Fyw=;
+	b=kpvGWvDzj2P0oKSrQyyeZW9M5skZrA6kouPH64DaXtoUF7Ck2/Sa7uRbnlC0kj3BFvtJ
+	 cttmIEz1RxE9FLUW4Ri3BRb1bWna8BGbHM4MchVPhoKxXVmYdtiP+Pf1nr22XAB/uz8Iu
+	 jbPMH5siJvpMNy6mKSyHBxleaHgOwPqUPRkHCxt+STwWojZ+cfQ/DN5I6cO9W6mA70oz2
+	 JV9zCengbkmS0V0TI6Gx0mhmWI77BDAqj0krdAdNVo+VVWZ2hSmk9t6ULN8COgk/0bbSH
+	 rGooPyHJ05sH/Fp2d1R4CrVv6vTNRhmXvBaemb6p+VhG3xBEnUIC/EL/BdyM+HNsyEA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mrnDsFY+;
-	arc=none smtp.remote-ip=209.85.214.175
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RiakG14G;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6C8606D81F
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 00:04:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA6C8606D81F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80195606A324;
+	Tue,  3 Nov 2026 00:07:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mrnDsFY+
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2e812e2b31bso21343795ad.3
-        for <linux-sound@vger.kernel.org>; Mon, 02 Nov 2026 16:04:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793664290; x=1794269090; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=BRslTI0ynJSL8rFIMfwDZ46YUeqzoiUybS2SxS5DQ24=;
-        b=mrnDsFY+eebB89xZ+DTIafFd39MdDkOLEYtamDNq83jCQfH7RMjlPLE2anoUohaLr8
-         oTwh53Zbi5SzKKY+nR+3fBGfl1xBauWGkT3Kq2E2hg35H2tnRevGfJYnjygVezf5M/nu
-         BaU8nkfqxQgYA6GiVXCBgeLyM0FHPbiKy1eweNxWcznMkFRk7ob9zF3wfDDLdS8zhKKt
-         dj0KBRSRbTctb+hkNWansuprjxYlK7kBAefQQJtmiWTn1vTQ9ebxi+RxUAlfVAkLRYLe
-         gir6pb43XjiYHjPMrveNT6qMsojM2Gn+2PcZ0ctGQJeEveTSJ5KIDqOuw7+92rJLUFKk
-         EFPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793664290; x=1794269090;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BRslTI0ynJSL8rFIMfwDZ46YUeqzoiUybS2SxS5DQ24=;
-        b=sH9Gg7mdn6c1yqNVjuojJy6kQhsfgVHCR5TCVi2exF3LPzQE0PT9matzD+kKjOnI3e
-         ZcyQ+g9fn5az8C7YyhyfK6YcJb5J2rIIuFJOXptzElCyAZfrYgw1Z3mq+4pJ8wHeY3Kd
-         cip1mowbweIgZuHXBzmq5JdxP+MVMuVhC2K2sLi/qa6XcZRT/xZ64KeY4ZKDW3t9YwKx
-         yf+yMSrIRmRCzgFc9R3ixuoe8qkcha7T1lD/zw4nAMSFQtYb6woJernNZNRh9ypEI0xF
-         PT3j4Z0x/XiXRl6vEr/16A2dmeqqG5t0X7CpDIrupD+LF0QmAqF0C3K8kTXKBPSXGSIZ
-         lRTA==
-X-Gm-Message-State: APuU4Z+upWLafEMZx59CEBnImpEivQLAPAl/199DDIQ0nglVTpkM3m+F
-	sid2b388Bf6bVl9h2C9dR1U1md1yumvWNYbeuexjAdzc4c8CNdZYdrhX9yCgMg==
-X-Gm-Gg: AYBFou12vFcp84x4xcYnzb4v0A27GxwgFrXEvTRbf1wp1TcMlqrnThsZ0z+tc3I7Jma
-	3dtD7snpMFGczG84Ur1F1FsP6qvTzXwtkbPUXQGVK42KEsFr8WIZUPqpuSfdJb241FhOIEVww9g
-	NWBnJDoJJ9dQURJkuNP0FKTVHLygE6rzLIRn+f6Yx+ha3ArD35/aCmoxFwbfmMBcO8YHta2mXXO
-	fi/jxz1CU+1JRXLCbXPaxorVuSCKzLsolMC0uXRyoapI44JWGyaCk1Uj6WWJwhLpDVpLjPiri4C
-	A0WtU+AJpRDzv/4TL420PQ2hqkZW/az2l1FS2AFN89Omf3ujOYmy1NRKIL3629GH+G0s4yToHan
-	vG+cQCbS06AJmPYhZcwo0IPigcdYGy+u+cZfQwt7Gh4A4HSuUhJM0os9i7vB7Yem3ICTdAYjwZ7
-	kx2TxGEm0BaJQhJBgscinL3n62pnNBGfo4ZAMLYyCjqDPCp0+lGO2nuih7ZPO5SRFKmoFAq2lax
-	s9ur4hplEXGGadfwEouTBQ8yspvMshhNZPHjshUC1KStFg8FJa4E+zuXdEriiZAwU6tKybFao/C
-	gV/qHvDMkd944OL096FTQjza1ek9KfdL3l8lqXYLXfMGwBskDvNvLiaPCnoF2QTbwHVjm7cbN73
-	w64sBkt5xbxjgIn30JyWfb1L4ZNKl7zHX1iqZGxy0F/q1ZMA=
-X-Received: by 2002:a17:90b:380c:b0:3a7:250:333e with SMTP id 98e67ed59e1d1-3ae896f8315mr9974105a91.11.1793664289956;
-        Mon, 02 Nov 2026 16:04:49 -0800 (PST)
-Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c6b3493sm1339225a91.13.2026.11.02.16.04.46
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 02 Nov 2026 16:04:49 -0800 (PST)
-From: Joonho Lee <mynameisjune111@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.de,
-	perex@perex.cz,
-	anton.yakovlev@opensynergy.com,
-	mst@redhat.com,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v12 12/12] docs: describe virtio-sound capture options
-Date: Tue,  3 Nov 2026 09:04:03 +0900
-Message-ID: <20261103000403.67106-13-mynameisjune111@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261103000403.67106-1-mynameisjune111@gmail.com>
-References: <20261103000403.67106-1-mynameisjune111@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RiakG14G
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EADA31F000C1;
+	Tue,  3 Nov 2026 00:07:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793664440;
+	bh=qUlR2HVhwzzB13nKghCD6zW/Rz6gdlT3qv4Azsy/Fyw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=RiakG14GsS06yW6UK4ZxE6knzHsaBbvopUusHSNKsA9LT4JyeVVco5lDu8iXkL+GP
+	 /ZCsOErMVNs071LHE9WA0m0OudEnl88DVoqKWhpfX0SnfQGaXJl9p+4boA3SEfZrWw
+	 xYWqioy1BH0D1dcgAdRieWuK25q2pQreoU5vtvoitbCYK4e4Jw0mVGZH8EY0dX0zF9
+	 T3phvXrakTQ4yDVJqsBYuWUnNyBuFJBC0CEmDUv5dL9ADDKh8SrwKVZ99ljQ2hV9zE
+	 28Q+RY+1285Z/+mnGPQ8/3vAWq25ffAlJF3vDldOOIlqQmgl7jgCSNQS/2CLGwtonZ
+	 LsqudJyQ2H5qg==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id D7E5D2539619;
+	Tue, 03 Nov 2026 00:07:17 +0000 (GMT)
+From: Mark Brown <broonie@kernel.org>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, James Calligeros <jcalligeros99@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, stable@vger.kernel.org
+In-Reply-To: <20261025-tas2770-idle-fix-v2-1-6c8096a87f44@gmail.com>
+References: <20261025-tas2770-idle-fix-v2-1-6c8096a87f44@gmail.com>
+Subject: Re: [PATCH v2] ASoC: tas2770: Fix error detection in
+ tas2770_set_dai_tdm_idle
+Message-Id: <179364968992.2167617.17427338438659332154.b4-ty@b4>
+Date: Mon, 02 Nov 2026 20:01:29 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -106,54 +66,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1146; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=ARZg3+Jk+gjKvlIs4yQIDjocmpJGxyHdgXFeZ0p0+GI=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJeqm513Trf16jXaHZHjFT0VBOJQKOPym/uOr284Xt6Z
+ YyKzfo3HaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZjIQ29GhqfsT6OeX8q++8rP
+ 3vVg4+rL0vMCXnUe+W4+40CzX6Ligc8Mf7jWfDTp+Biw2Sv/ntz8vNUfVlvOmuXdwP/qY5u25sF
+ nFvwA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Document the five opt-in capture module parameters introduced by this
-series. All default to false. Describe the startup-empty, short-payload,
-packed-status and pause-restart compatibility behavior alongside staging,
-and require validation with the target device.
+On Sun, 25 Oct 2026 13:22:18 +1000, James Calligeros wrote:
+> ASoC: tas2770: Fix error detection in tas2770_set_dai_tdm_idle
 
-Assisted-by: LLM
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
+Applied to
 
----
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -8328,6 +8328,36 @@
- 			brightness level.
- 			default: 1
- 
-+	virtio_snd.capture_allow_empty= [HW,SOUND]
-+			Retry a bounded number of empty startup capture replies.
-+			Format: <bool>
-+			Default: false. Compatibility option for devices that
-+			require staged capture; validate with the target device.
-+
-+	virtio_snd.capture_allow_short= [HW,SOUND]
-+			Accept non-empty, frame-aligned short capture replies.
-+			Format: <bool>
-+			Default: false. Compatibility option for devices that
-+			require staged capture; validate with the target device.
-+
-+	virtio_snd.capture_packed_status= [HW,SOUND]
-+			Read status immediately after the returned capture data.
-+			Format: <bool>
-+			Default: false. Compatibility option for devices that
-+			require staged capture; validate with the target device.
-+
-+	virtio_snd.capture_pause_restart= [HW,SOUND]
-+			Release and reprepare capture streams across pause.
-+			Format: <bool>
-+			Default: false. Compatibility option for devices that
-+			require staged capture; validate with the target device.
-+
-+	virtio_snd.capture_staging= [HW,SOUND]
-+			Use request-owned buffers for capture data.
-+			Format: <bool>
-+			Default: false. Compatibility option for devices that
-+			require staged capture; validate with the target device.
-+
- 	virtio_mmio.device=
- 			[VMMIO] Memory mapped virtio (platform) device.
- 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+
+Thanks!
+
+[1/1] ASoC: tas2770: Fix error detection in tas2770_set_dai_tdm_idle
+      https://git.kernel.org/broonie/sound/c/f65f866dacbb
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
