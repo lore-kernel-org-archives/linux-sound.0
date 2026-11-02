@@ -1,125 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793616477;
-	b=r6bNcisO95POt9XaJlrdCWAhO7OGVRktp1G8OHMmz45CV16R5L2kZ2Mk9bdsz+uOsChL
-	 gMfmOQDsmMNsGYAnaJ7D5wAYuwJv6Div1f99CqQBocL0oES7tTYmK0lZ55JcPnepqUd72
-	 6eEdcOjVeXmFhWdUhUzFZdbWBWcfZgR3P2temFdx/UtItXp7yI0FN580jCrh8UL+ygwrw
-	 gPTZpeDztrJuJY+YUSkpdHcGesF7w8BJLhLtbMGFRXKd92Sx4eNEMDbfmSc3zg6++q7Tq
-	 E9UUNxtN0CfWj8Z9NMbHcWrxlcVWrDAldd86ha7HzI2NEO5Gj0HoMyH4ZITnjDU7CPw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793616477;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
-	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
-	 Received:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-Proofpoint-GUID:
-	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Reason;
-	bh=t1XBeVwblnLfe4umu6pg/u0JixseDJFaOXazNyfF748=;
-	b=al1AD8f+L/e/vYx1G62EWZWnPq5b4j0OT7K6D3hOPEyZ2k7lU+2cgpxL2WZjSuTIW+GJ
-	 xPiKqpF7Dr5I1Lns/5RkRtWYebY/7yGSipYyncdwdqfmTTC0IcuNB6oiHtJ1aRB1voHk8
-	 zW7iCQT5JHvhL2RoIkj/uITeX+7McymvGgQACX7jeoKOjPEWdYa6XpCI/v9b5A2saEOSe
-	 zpzm/8kZbN+jrzaM8xyMJUiaz38erF1PZoRny5kGqrSvwzY9+AwjsWg1GC4z08Z/kg/JE
-	 KWDtaNWGX9i8+UlkEiJZfO4dPWO83U2w41hanFtvOCrZ4qLLDKUzgL1A/hlOqjKKLGQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=opensource.cirrus.com;
-	spf=pass smtp.mailfrom=opensource.cirrus.com;
-	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b="j/O0fMlm";
-	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=bwKNfjBT;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793616927;
+	b=2O/9eLlFsAk1EW+NM2CN1Bg52OFpz4YWDr2QkFmeQk4KkP0Q1tMwZjJdXLCYaTwQjTbu
+	 k1BkSyFaxCQD68c66yN9Ca4Dm7U4ZZpGI0EwU1jim3kYM2Lb0SdONnjAaHlij6gIxwZuh
+	 3Jt5vE9skelpAGjm+IK2T7O4lE21R+MmGCylRieuSFUn1pn/AFO63JCRnF14VvRBeJNsN
+	 27j2LRJa3lmPs9gMXZOHhXQR8pIwWh721GEEIcGdwmgVEIg1mzu1aZPlbEo9efmjVfw4d
+	 0IxJeLkEerU9tEKjXLE2ZEktkK8GyeTztsuMy81DgVbjGS2UIFUAes1SUhiMF0NC1ng==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793616927;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=+g4RtcpsbOEJna1NU7oN7OB6+C78U6kIVa5NdLfGLYE=;
+	b=Uz+nbA3vuxG8dtbzyiLJ72GLv8ocv0PtVWRztZLnzNEHV3L2vZohGdfQpqocmnVRVH2e
+	 +O/1tPZ/VClp7p7OB7AHepXf/IT4azY7pg6noAI8FhbKBnFUWgGykZYvqxcNxtP6nCnVE
+	 065ZTuCp+6NhJc/2jJXcuOIomiqREO2K5kdT1X0dULd4jcpv4JELnA9HHTiQN8rpn8FTy
+	 BWB2w1M/cG5w/+QmqUfWVhT9YwKlcVlzR+xQwwF7B74jA4opkoe6VhAr6orSY1hbJNFsg
+	 SRlRKvvXhGSijq2GA+vP7Y4BEC9q4udvHh9FkgdPy9PlDu68WbqteuQLpEOE+LSyVmQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=AogXHSbm;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=GR1njt3C;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC3E60A2605
-	for <linux-sound@vger.kernel.org>; Mon,  2 Nov 2026 10:47:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FC3E60A2605
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DE7606A329
+	for <linux-sound@vger.kernel.org>; Mon,  2 Nov 2026 10:55:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10DE7606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=j/O0fMlm;
-	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=bwKNfjBT
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A2AN5QK2666461;
-	Mon, 2 Nov 2026 04:47:46 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=t1XBeVwblnLfe4umu6
-	pg/u0JixseDJFaOXazNyfF748=; b=j/O0fMlmX7Jh7d3tucdUiFEPzH76siHsOs
-	oWJmbsceqlPhc+N/L4vcl96q5FYs3RVH0O+rW2ejocI8l46BhcM+hyPyWFcMa2wo
-	v8sW90X7QW+Lgc/oIlS8KlS6/K+8AWzAL2k/zq882laYlZ/w20jAbKRvUaeUZBfI
-	9M50LMtgiurzyXMl1spA01GtEKp5pnvMKOvOSNlM9F6d3oN/1zsRywBiZmCFUYxq
-	wi0apG7KFb1gEFw94u83Z7IDBOXE6dkiOzCOTrHYe5k6J6l5qunAJiqSwoGFAtZc
-	nMXp4fLpmvrHW/X0mc+LpnfeoU8vh8CogtJQIcvdy+xc57u8UHiw==
-Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11021119.outbound.protection.outlook.com [52.101.57.119])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4hndrf9pqq-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 02 Nov 2026 04:47:44 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wCtEKYi+6f+shLaBvjc5Tt6SHWRnx1JnagYfj4ovOVVXUptuWTPjJbk8syZF0r1X5cokkbudfoHFfDh/s0+0BZbbwr4A57hYnGSuIslXY91FlgUmMG+yIEGA+r+uvHAp03iPIE+dF5fr+80Kg+l0g02XxeIGunibxR3mxAVfoxip0FZpiw5EzQqW8SHAtkehwSK3/IKV6us/BUnORIGV5yEPvM23oFr1ZOHNE9TMKPuARLbOM/HTj6x+k/SIJHye+tPcdvCt9FtImE5UypwE79Uc1yvehqXyeQarhBGBlczE1FUMsAZKmuGnIxwIvyvObKFo+4/XptiOxvVsHCK5dA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t1XBeVwblnLfe4umu6pg/u0JixseDJFaOXazNyfF748=;
- b=UfWcnv/AAXZvpmU5Jiv6e/ajYFJLRBXmxGjLg/qUUD4mJM6JnesI1T7kuODe5tYM8PEGFhYyZW6y0Va3Axb8Qf0deYDSWx1nlD0u7PZatfgD1YeMUo2JSj+NXcoimd5gn95lthOm4nhDLRwhdg+YUgODj87O3zF72EEsTlgLuU5Ytf/YbFCngUPFKl8eok9V1tX+lAdlUVI2wcYjrGEnuNU1fb2ErrdZHTHWiUbOkaTPdxTgdzULjLA/UtyhyEYuwFjtJhpv4uyi6EUfl7OiUNilf6K6rYM77hP2UAqweMRPjZbRL9yNbuu3Q1EHyDH31NdcPblJG2B0fDuOSzM8BQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=protonmail.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=AogXHSbm;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=GR1njt3C
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A29A6kQ214014
+	for <linux-sound@vger.kernel.org>; Mon, 2 Nov 2026 10:55:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	+g4RtcpsbOEJna1NU7oN7OB6+C78U6kIVa5NdLfGLYE=; b=AogXHSbmMq6jzD4G
+	FpC2vT9N2l2ssJoU2GTqwwA6aVKt62y/VCLyquDPzKg+ACVhTJxeGPX363wT4SK6
+	wuvN3/6EORHDsXpoMFz8MNcDyjmIsPPFQEqwJ7n9SCZisyk0qsQNxKpZzqtcq21Z
+	2neDglkb2wDs7pGwa50igsGCLJjv84KQanQhD2hqrJ/dqxyLhdbIQ2/S/pcO3WID
+	gMcoTgBxB8KfvnNXmfnmoOPGkMZREyO4O7qB6KtZ60xdxLtIOWUqysW0F8HestKJ
+	dw9o35jvJAE1YC+Dbel+RMWVzYexXlIokLqD06JOanCK39gjfkhvi/O7SCCkzynd
+	63K05g==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hpmf1s813-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 02 Nov 2026 10:55:21 +0000 (GMT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-36a3451ea93so4778302eec.1
+        for <linux-sound@vger.kernel.org>; Mon, 02 Nov 2026 02:55:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t1XBeVwblnLfe4umu6pg/u0JixseDJFaOXazNyfF748=;
- b=bwKNfjBTz6BQfPZ9osZYvECplJf3nxpBKh4x/JaAKsB7B5y7m0YVc+zjJFA8Z7HyqdM6fivFQ2h6Hk5ZTOi0F0IbEXMtFQqTREnkTxhQDWGZiFoXf1ORRetEpJs0DwpNxVpqvFUiAfryvqSUFgH5bIX8pzc9sQM9qSoxLeWdmz4=
-Received: from CH0PR04CA0045.namprd04.prod.outlook.com (2603:10b6:610:77::20)
- by PH3PPFB16E4B5EB.namprd19.prod.outlook.com (2603:10b6:518:1::c46) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Mon, 2 Nov
- 2026 10:47:36 +0000
-Received: from BN5PEPF0004698A.namprd02.prod.outlook.com
- (2603:10b6:610:77:cafe::9d) by CH0PR04CA0045.outlook.office365.com
- (2603:10b6:610:77::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.569.12 via Frontend Transport; Mon, 2
- Nov 2026 10:47:36 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
- IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
- not signed) header.d=none;dmarc=fail action=oreject
- header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BN5PEPF0004698A.mail.protection.outlook.com (10.167.245.39) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.5
- via Frontend Transport; Mon, 2 Nov 2026 10:47:35 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id F3601406544;
-	Mon,  2 Nov 2026 10:47:34 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id E024582026C;
-	Mon,  2 Nov 2026 10:47:34 +0000 (UTC)
-Date: Mon, 2 Nov 2026 10:47:33 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Ned Blake <ned.blake@protonmail.com>
-Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: Re: Lenovo Yoga Pro 7 15ASH11 (83W5): constant hiss from speakers
- during playback, headphones clean
-Message-ID: <auhqRXI16ubRPCo8@opensource.cirrus.com>
-References: <j42YdZOPMn1UBkfj2HTDC9cUW9vO0S1GjRdS8xTrWu35DTCOKAoa6gR7N0ZZF_JX_6_HOjF1Pj0PFqrmMsSlSYTEVNa6IW88dq8caB07pRw=@protonmail.com>
+        d=oss.qualcomm.com; s=google; t=1793616921; x=1794221721; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+g4RtcpsbOEJna1NU7oN7OB6+C78U6kIVa5NdLfGLYE=;
+        b=GR1njt3Cv+wv29tAVmps+evmm76ytzvisPXju1cA43Wak7qyuDnY9shnOS3FoqD2Fg
+         GmNsbxq3sFSE0GDDuJIinoZHXzvuBJBXvy0OHUT2FbWsTis3JfH0ZCWWIyFB5P3nxzdm
+         04pgLjRYN6UxSSHd+rEu3tXlkGpEHA1qJ+Sp9hEvOm3LyBcCL0Ma1yXY9LJpwhEBZsCt
+         0/Dv5CFabJN2RaYDlgus+dCZiWRO5xX7ZVRE6E5RnUdBd3DFsyIcaSpZxMZPN27PCmej
+         YfgqTloFb2Bya4WEpqzLJcJPP1O6P9WmISWWjicE3OQ+6JOR/AYCE7ITpT9JLNz2h0Vt
+         Poaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793616921; x=1794221721;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+g4RtcpsbOEJna1NU7oN7OB6+C78U6kIVa5NdLfGLYE=;
+        b=FS37TsQSZW3xnZKNp0kDIVXcDDVoOXfTklXOpWZLNizF5nwY+Pxx282FPyZbOZObnh
+         3Uucu7PzR4rBIvPUR+oQaeMBrYgDmSd1GnT/cVl5ASO7sOgoImr4zMZff6iEjzM2YQre
+         r34IzafnfdNwunu58ADupEphajfa2rVJBs0QdBYUuqmxeNvHIGJ9UyKcrfqlbqIiNpR3
+         D/GkuMqdzaE6fPNnUSj5XM7bnSODjY5lKyNG0e0bA4lZhmUmkoTtyaiIj2ASEyBxqBoa
+         0Hmi3cloFISTxeaYD5fseQ/Xr6W6IOcb+FlMsU1jvrj+7ejExWJrZKtXYxhYOaaTbyKe
+         BF+g==
+X-Forwarded-Encrypted: i=1; AKwUvBzh3Jt2H4Tp/6AXKEzwOetr8ldtJwvQngr8qtVvA3IbkQAKnZfjtG71RD7BuOUFtG7SEjcumdjwtEblbg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+lloi8efIjhM+lZ9mvi0ELHBsutiLaTpgK8hX7zF5xR4V4hIZP
+	26iSx44w/NpGlB1Jpxc3+jeWBBuboYvplweNO0uDE8Q85TYZjg8/q8+pcbTCAJ53pzqWzg4p4q3
+	OD9ysd2HAcONOpu8KoOIMY2cENF9BEz5A7h2EVFIpmbtiaMGkT85daT6rtcSsG35Nwg==
+X-Gm-Gg: AYBFou1m9wFiqUNKRhe/YepWkcbV/NlxTPYo4QXF/MVLyf78DDmzgvRUXetYBiofeM6
+	ga8gPgf/IOozRXlbKBwZSor25jmwbWTqzxlwVcPsLDwd8YHP8dGgsHOwUj6AdGmxayKoBeBqGMg
+	taokWtih7nJ4BR5ZA5IT2jb2Ef0248g7svhB1K3SsF1gespCbrv+Oa7bLpUOFyWRqbNZdzXHAgj
+	U1Uw6rGIROM9a99MZxjmUSfh4xt7TKSV6a7vUdwGPxfnVALYVAN4vSPW2u0eLBcJN4eSS+Gaov8
+	597Iq0mJ3dDELg5VN24WOg8adUJzl+kCv+xFiFDO7UkF1Ps5HE1W9joqx+BBsA0vCvOMjerpCuR
+	0z0vtr/R4katwPfTJSA5bKp8xU1N2a2SdFPn8O5AKlmqcQsI6/EfI1j16lcKwLaAdN3ZJ3glDQR
+	VAydWPz8mTTw==
+X-Received: by 2002:a05:7300:c00c:20b0:351:7e5d:2de9 with SMTP id 5a478bee46e88-36a422039cdmr17301662eec.1.1793616920511;
+        Mon, 02 Nov 2026 02:55:20 -0800 (PST)
+X-Received: by 2002:a05:7300:c00c:20b0:351:7e5d:2de9 with SMTP id 5a478bee46e88-36a422039cdmr17301615eec.1.1793616919790;
+        Mon, 02 Nov 2026 02:55:19 -0800 (PST)
+Received: from [10.218.21.154] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a428aed76sm38286105eec.9.2026.11.02.02.55.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Nov 2026 02:55:19 -0800 (PST)
+Message-ID: <fa8bb99c-6f85-4a83-a920-227991303d57@oss.qualcomm.com>
+Date: Mon, 2 Nov 2026 16:25:13 +0530
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -129,96 +116,92 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <j42YdZOPMn1UBkfj2HTDC9cUW9vO0S1GjRdS8xTrWu35DTCOKAoa6gR7N0ZZF_JX_6_HOjF1Pj0PFqrmMsSlSYTEVNa6IW88dq8caB07pRw=@protonmail.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN5PEPF0004698A:EE_|PH3PPFB16E4B5EB:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3efef827-16c9-4f3b-4020-08df38ceb4f3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|23010399003|376014|82310400026|36860700016|11063799006|56012099006|261009223027099003|261028144727099003|261026121527099003|261021121427099003|261026140227099003|261022105027099003|261022075727099003|10067099003|16102099003|18002099003|22082099003|6133799003|3023799007|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	cyHwYBzjeD5j4VDpbmje4pRJ5LsuupGZmnTSWhF2ADFgzELsRo7BcJjaPzbzWjc/kDYf1vJH5pPaEWGmahj0cn5R753dDQ4kIz1qXhg/yxQ+yQbZ9GZx6Gu3nh26lXcR8eeEb252TMBoHNi5Yz8Y01uzEaE7fkUQ7F/s5eX02FEa7cHX+pjfrJxFmJNkDefxQHsRIHkjch5H3mk7SgRLUNgZcKAX8wofWMH2v7zMW06TIUWwqDAaPcgzWJe10bZ5UrFADA5vyd2HI+fVMTaWv21FRHgiWAUg/KYCAUbMb+22IgtB1BaLxxKoZ6Ffuc+2IQzW54v641WdeH7pvyYVZoQeFxKRyJcd5qOM6IKB8Z1FMTRhpgi3xHvlafqzM2XJ8xY2EFdfINFd4qYcTb2PeIUVZ2C1DwvZ5NUm2N8qNGAgdsIGIF+V8dIx5lthCmLYHCmFJ2xK2RObTlluvuxw3B9ScCxT9+5SC407kdAcG2U1d/FvtAL17zb2Man3w3KQmz7Bu8G6CpwW0x70CqMIWiTUcaV1ovZdZUFrK72vtKaZ8g7+JNN+ZHbKuOyVlODy2ZE0S0PgRQegV8xsKioLOHdJMdYbbQL8P7ifeedJHnQSEbN9sJ8QrAzourFhs7fJrufrafw8oZmUS7a141N1IA==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(23010399003)(376014)(82310400026)(36860700016)(11063799006)(56012099006)(261009223027099003)(261028144727099003)(261026121527099003)(261021121427099003)(261026140227099003)(261022105027099003)(261022075727099003)(10067099003)(16102099003)(18002099003)(22082099003)(6133799003)(3023799007)(13003099007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	uSahObIih3Ob0oFn2eUpvIshHB84MG3KU4RWeXY4eRnr8uvwwJEmKmYAUSzdeGYQ+7SnxizZn13puBhVso23h91o573ZAkgDSQ0JRGbftyhg+FSlKRAuRt677I9WM+2P16Ngvy1GWvXhOY49yiZgdg6QF0ad26UxGleQiZqbquPPPgP/sWYSVSM8qLNccmTSHFdGU0gFyCqoxTB5oP9Q0bu+LqP1d1dcAKz0tCS9P9dNzatsFy9UyqxzLMJNXIRCfc1IKET5RtmuwU7Lq/20hRURQRgMk6PdzIykeXdXPV3QLsBKxDp1WvbmGvXkCC+b/0v0iQUkzHaPKXbdbi7BzZzskXz+wffkv5j05vS7MdUnsjWbalqjweSwjFTQgZ5v/QL/Ivl3AZM2RdOA4R2g8OIz3+0uMaPqgX8f6BkVoV107lkPoSnjKeGTY40vx2xY
-X-Exchange-RoutingPolicyChecked:
-	UGUW7z05CNrT4IpeMVRftyjqP0huTIdKkw2pa4d1PeuLl4IxI7nMxu8snS6j7L3r7CSzNqEodpaU3jMx9reCYyYwn90yTYMpQiRJOsel0w8cYF+BpugUbzsyUvs/TEAdyHvLVZJiT0sC7o8OpVyuI9twPKyj24tjmhRzbYdnlovNc4hzKOIJp2YI47pMWPA2KkoKtuYqXanTUalNj+KRAGr3G91HvJLuCxzoT3iCC4bO39ZftuuxP3xll+bULC3XItkR/4RO7aMcOtCm/aWi2jrxHXzhq5kZxo+/S1r2/7ueEi841dJrWQ8Gca1FEAePkHuQH5heKZQYks05kh4lWg==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 10:47:35.8019
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3efef827-16c9-4f3b-4020-08df38ceb4f3
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN5PEPF0004698A.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPFB16E4B5EB
-X-Proofpoint-GUID: aqgzlC4h9yRRj_2XvemjdbK1nFNndPR8
-X-Authority-Analysis: v=2.4 cv=HMRWhYtv c=1 sm=1 tr=0 ts=6ae86a51 cx=c_pps
- a=iRxRSAF+HohKiaZghI2QEQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=VwQbUJbxAAAA:8 a=w1d2syhTAAAA:8 a=7CfkJBqIlPHRergTP0wA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: aqgzlC4h9yRRj_2XvemjdbK1nFNndPR8
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA0MiBTYWx0ZWRfXzNQrHEFxMXLe
- +KuSsg9mS3Uxe52ToC8DaaKHIm9t7W4ZctlxLR5Qdls4ywmP2ZQwYWjK8FbOMUQuvvetFK6x68H
- C4giRJ8zh9ebCUm7rKNbzFq+rguhiwj2a22E0Vhhyyx/GdPixrwzzQTuLP1mJQtkb6WaWYp0G+n
- xA+U5RixdNbSODqfaBhusAI0noTjSfn+jSwRabjqGGZSYG2qTDm4PyNSSmSefz8iyCWz3YnLfrP
- DkjKtULhXijMGb+HRg9EL5ApYtPRdrIou68W5E0Wej20Bts7lZ1qz7yjCW3BuCZoWzn+LVWZrgu
- KCGlj+U1XWCVTRMi0wVCR0VRHT68nLnEa4g3D9iAv7QyIbXDbWtBmyW6BKFgkjm2N18c70NL2hM
- A+nBsCRmzzJIljNvU2ruFC97tT91kXzBtvLRc/ZljpbevWf6HpkA/Y/23tHvNPmEJ5fCH0u9Now
- 4i1g32nkN8J5ftY18rg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA0MiBTYWx0ZWRfXyPXO/uRmlVEc
- z0+DSHGyuoYjvUOZuini8VUABj95hEgaCvYnhxwHczxpESxhz26BJIBFYMPDlkj2wgwT892M8wo
- bZlc+m8XCBCK6dEhrrg1Qcmj7IW4y1o=
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 3/4] ASoC: codecs: pm4125: Keep the micbias reference
+ count balanced
+To: Mark Brown <broonie@kernel.org>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Alexey Klimov <alexey.klimov@linaro.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261015-pm4125_mbhc_support-v1-0-8bc1212db6f7@oss.qualcomm.com>
+ <20261015-pm4125_mbhc_support-v1-3-8bc1212db6f7@oss.qualcomm.com>
+ <a3df845a-ab58-4945-9221-ff671c3dc378@sirena.org.uk>
+Content-Language: en-US
+From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+In-Reply-To: <a3df845a-ab58-4945-9221-ff671c3dc378@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: xu_A9yLVSKOOqAjponsAWk0LmeZYgTwu
+X-Authority-Analysis: v=2.4 cv=bNaDs/+Z c=1 sm=1 tr=0 ts=6ae86c19 cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=cy-uCPSrX33jWG4tK70A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=scEy_gLbYbu1JhEsrz4S:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA0MyBTYWx0ZWRfX7wn41rOCCg7D
+ R73irnmPkfH15bU2e3aeJGrnZvmmhAqTfDSaNfc5vL1NsOhREJFoNXYSRdg75QvDWzw02csVA7+
+ gTACFAV63CD1hqj4Ue7RPH97QmIlotK8lbLS8EkkehH0tMMTdmuVkm604CvgXcsCXECpEUhvQVX
+ jdVB7wBKFnIF7HRQgEHWupsbHCY+Y8mT75tgaZdf/xSoQlpcV2dGIZvxUFl9LEE8h7+w9iSTNu1
+ 6lPiJPHv0TuRaU62CKbA+YonGwRBczladIb1PYfFjvALbUPEh5uK1c7p+/GKw+XkFVIZURvyODJ
+ UbY01AWkf14TjPFUyns0uPGQ8A8yTgVIIXQVHDc3k0KrPqeLYvzpsmQteyK3ppR4n35mvzg2Uh6
+ zSwJXehsE/3tpgg29tw3pm0u8vAt+pbVjwHPpNLBl0tMzV4QBU9F1ETpI0aXdGLRcAK0uYwz3SA
+ tCJNZJxJLKJmqbSa9sA==
+X-Proofpoint-GUID: xu_A9yLVSKOOqAjponsAWk0LmeZYgTwu
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA0MyBTYWx0ZWRfX6IjoVjUWq4wE
+ gOFOKZ0mSaYcydhJWizt+M+UYIoNMj1ncTFV/QymJtvs8c4LEsp2p4kL+vCqTZWqMUcdnjEiynT
+ J3HCkIH0Mky+ULt3/+8XKVQDsSxzeo0=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-02_03,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0 phishscore=0
+ priorityscore=1501 adultscore=0 suspectscore=0 clxscore=1015 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611020043
 
-On Fri, Oct 30, 2026 at 11:44:02PM +0000, Ned Blake wrote:
-> Hardware
-> - Lenovo Yoga Pro 7 15ASH11, DMI product 83W5
-> - Codec: Realtek ALC287 (codec SSID 17aa:3960), PCI SSID 17aa:38fc
-> - Two Cirrus CS35L56 amps (cs35l56-hda, firmware ...spkid1.wmfw)
-> - Kernel: 7.2.11-ogc4.1.fc44.x86_64 (Bazzite, Fedora 44 based), PipeWire 1.6.10
+
+
+On 10/16/2026 12:33 AM, Mark Brown wrote:
+> On Thu, Oct 15, 2026 at 07:43:11PM +0530, Mohammad Rafi Shaik wrote:
 > 
-> Problem
-> Constant hiss from the internal speakers while audio is playing.
-> - It stops when playback is paused.
-> - Its level does not change with the volume slider (tested at very low
->   volume, e.g. 5%).
-> - Headphones on the 3.5 mm jack are clean; the speakers still hiss.
-> - Persists across reboots.
+>> The analog master bias is shared between the microphone bias supplies
+>> and the playback and capture paths, so pm4125_global_mbias_enable() and
+>> pm4125_global_mbias_disable() reference count it and only touch
+>> PM4125_ANA_MBIAS_EN for the first user and the last one.
 > 
-> Observations
-> - dmesg: "ALC287: picked fixup for PCI SSID 17aa:38fc", both CS35L56 amps
->   bind and load firmware normally. No audio errors.
-> - Muting either the "Speaker" or the "Bass Speaker" switch silences all
->   speaker output, so they cannot be used to isolate the noise.
-> - Auto-Mute Mode is Disabled: speakers keep playing with headphones plugged in.
-> - Pin routing (/proc/asound/card1/codec#0):
->   0x14 (Speaker) -> DAC 0x02
->   0x17 (Bass Speaker) -> DAC 0x03 (same DAC as headphone pin 0x21)
+>> MICB_DISABLE clamps the per-supply reference count at zero but then
+>> evaluates the enable and pull-up counts regardless, so a release that
+>> has no matching request still reaches pm4125_global_mbias_disable() and
+>> drops a reference it never took. The MBHC framework issues exactly such
+>> a release: it takes MIC_BIAS_2 once when it starts detecting a plug
+>> type and releases it both at the end of the correction work and again
+>> from wcd_micbias_disable(). Inserting a jack while a stream is running
+>> therefore switches the analog master bias off underneath it, leaving
+>> the path up but silent, and it stays silent until another stream takes
+>> the first reference again.
+>>
+>> Return early when there is nothing to release, so the hardware is only
+>> touched for a request that was actually made.
 > 
-> Not tested: other kernel versions, changing AMP1/AMP2 gain.
-> 
-> Happy to test patches and provide more output (alsa-info, full codec dump).
+> This feels like a bodge for poor reference counting elsewhere - in
+> particular the MBHC seems to be fairly clearly double freeing.  The fix
+> here just silently eats double frees AFAICT?
 
-Could you create a bugzilla on: https://bugzilla.kernel.org/
+Hi Mark,
 
-Attach an alsa-info and make sure to add patches@opensource.cirrus.com
-to the ticket.
+Good catch. I’ll check this and fix it in the next revision.
 
-Could you check adjusting the "... Speaker Playback Volume" controls
-manually, would be curious to see if that helps? My gut feeling
-says this is the I2S setup being slightly off and some quirks
-are needed on the Realtek side. But that doesn't quite gel with
-the volume not affecting things.
+Sorry for the delayed response. I was away for a few days.
 
-Thanks,
-Charles
+Best Regards.
+Rafi.
+
+
+
+
