@@ -1,65 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793627482;
-	b=D7hWa1f3U9Q0eZl6WEhs4O4aGjcqj3iB/Dp+b9kBGSHwTSaXmhUf8NXKlB/KGslDNKgm
-	 CophxGPbG5Wfwmj5OGEjz1OFgUEmMjSp2fpHzlycMpWmj97eItTezkKpIRUeMZfJV3DGb
-	 jqCLmtYZ0ABLowtDybdCmqMtWfKIFKi3k6tURMCrpD85nQkZY7i79xm9FzWpqBVVff4lz
-	 +Myb6IOvEyUHc/dRLG4b3wxbBSmQTHuHYEcyaDSrEP1bIemqzx2T1s9gVbvZmoJYcz1gZ
-	 fqDayqhtR1nRoXedbAZ2A8h8LeSfdoTo1HRttBoXuNQy/85RkNEq+v09ifZgl6WaH3Q==
+	t=1793627484;
+	b=Qmw+dqAbzVYEE8lIGWePn61vJbg2KNA+ZqGVOodKdJoHDakOTx7eMXg6eVdAEjdZvjqF
+	 x1318g6lnKaYjtz04Ykpz3SHL2IXQ2n9on6RdRORWBRnc62AG3kSYMHNkawRdQD0HnM4t
+	 ocMZKT5cYIRfZlKsGZXD4a7VvnP0gwOQW0lmOob0jWIQbSPqU5nqDeHqy9CeKZ8GPa7oL
+	 RSLMnNGpMrqaZsjnrQ4FXRvTzPG1HBg8dIjL45ppsXlWNi1KdJ1p5wEkab3DIzRF2AzH6
+	 8yddE75dCMn1PG6A/b8AtIWk2PXtZlJrztrws+Qf4zj28RT7/KBt47PTdsvXnbh03HQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793627482;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793627484;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=xn1TtuKDeZZB9pUoWm6FQt6Du063VQMOmhSj/mKvSMw=;
-	b=qhiySME1eohSdM3HJ5+SjQVlZzCpEEEzH4U1Msu1vWYgytqIE2ihaovVx6gtrVrEqkoK
-	 nspsA9j0sWqos9qrO0jx/VsA/6pd2PDsaZy3CXiP5KdGvjbiBdEBAjlkXGrdk02LK2SvG
-	 GtsfeXVANmabgc6HI7V/EAQhqhPR3VuGqf/g6X5KKVRrzq9f9GZVYo7ZsNmdl852oxc6T
-	 lZsU2f8nDcUxtDfv7hht4SawlcuGZcaBU1XpfxvfEow7jlxuRv7SJrGEm+U7YocZX+dTo
-	 2tg1XReRLrEDN2bCqTUxTFtyj9tbZdYuplmQkcKoqMeoT1Vp+krt0Ff+yRy6W+H7zyA==
+	bh=gwiZBxBwh3YvFiuU3Wf/oJCU0MRFpiDJmH/bzEWCvwM=;
+	b=dWDNLEGvwsSFm2dyMfSFv1uZP5bEJcfi6aSKvra6gNQv9EGv0lepxZBmc64fxbkC2lps
+	 rQQZbbK0qILUT742dtU2L0prOy3HH+QgEZbAtK5G6x/z116XBcMMkyFIBce7PtGj0jdH0
+	 mNNavWwF8PDt8kd/x060VV4luhm+L797q5n9Xjl9iHOE0zsaKZCIFUwEBZSXTm0pmw2oe
+	 CsEGMYcpSfjLL84YQ5EwlkEV9SRielWII8LWHZBVgmHL4Ha0wUQc19O3sNM2yaSxxO/RQ
+	 yGDC3qFkFFbsL6R/DgV/WCHiqGovKROBJw6f/LXlbIprsPeWBx+c44RnA/7+IPEUgpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GQ4MOUQj;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iWFIDGp9;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2B560A2603;
-	Mon,  2 Nov 2026 13:51:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3270560A2620;
+	Mon,  2 Nov 2026 13:51:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GQ4MOUQj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCEC21F00A1C;
-	Mon,  2 Nov 2026 13:51:21 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iWFIDGp9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E80CF1F00A22;
+	Mon,  2 Nov 2026 13:51:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793627482;
-	bh=xn1TtuKDeZZB9pUoWm6FQt6Du063VQMOmhSj/mKvSMw=;
+	s=k20260515; t=1793627484;
+	bh=gwiZBxBwh3YvFiuU3Wf/oJCU0MRFpiDJmH/bzEWCvwM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=GQ4MOUQjoCfsNCI7k7FAApjZ1DOcaBm3nrhDwLU3+jx8C5ggDeA0f9I5W71rpMtgb
-	 YBtOEeLfJznCCAUufRzV7uwOC5jRMwcP2wXsdDhKVT7SVE7o4OZhYvn1yCFJ3j5XqB
-	 fl0TRBP0VXercMkxAjVO1vsEUIk0upcosjUK0TH7ci4cDlzzeqATyz3P/hiqwRsVuw
-	 TWMaJzmp4cKQ8GqfDQ03nWl6zl4wQ9EKgA/8BdM5wF9QhEjRrSXNz+oIp2Em9EvI6a
-	 FbVhk3aFkxFNSZfnkJDdrxnB6JMhXRZIu2HWrahOrXGpeoQpk877AF83pr3F80RwuF
-	 t/Kg/jsHrVLuw==
+	b=iWFIDGp9hjniYVb/JQRGpUqMritbyBXoWCCd/1eQreIaJucwXuWKjURmikJ5+SYmT
+	 4p8SUJkovwyjbbgy09m6fz10fd7KnRjpIfHeSPbkM5L7salg2vvBoGVbnfDgCCFM6x
+	 lR/fD5O6kT1h5MPcYsOHwppBNm1GLlud0GpElggnDghNn4d6jgQbfE+LsYW/kFyJp7
+	 FdInW28Goh5uixnj4rK8FyX5j0wTkDg7RSRzuoy64fCM3/IaHyXdIqBsilkXtEhSfN
+	 HFQAinAyk3yGMfhanqUrZOVYzS3M1E061moQqiNAJj1LUcv0qyVodCb5iSs0WSBYOG
+	 q/Ne6swBvx1yg==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 261AA2344CAD;
-	Mon, 02 Nov 2026 13:51:20 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 3B6912344CD0;
+	Mon, 02 Nov 2026 13:51:22 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Peng Fan <peng.fan@nxp.com>, 
- Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org
-In-Reply-To: <20261027-twl4030-extmute-v2-0-c7e0c90509a1@gmail.com>
-References: <20261027-twl4030-extmute-v2-0-c7e0c90509a1@gmail.com>
-Subject: Re: [PATCH v2 0/2] ASoC: codecs: twl4030: external mute GPIO
- lookup fix and binding update
-Message-Id: <179357887855.1716893.1892265929428497615.b4-ty@b4>
-Date: Mon, 02 Nov 2026 00:21:18 +0000
+To: srini@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Tang Bin <tangbin@cmss.chinamobile.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261025081610.2675-1-tangbin@cmss.chinamobile.com>
+References: <20261025081610.2675-1-tangbin@cmss.chinamobile.com>
+Subject: Re: [PATCH] ASoC: qcom: storm: Fix of_node_put leak on error path
+Message-Id: <179357908661.1716893.12932787546089480317.b4-ty@b4>
+Date: Mon, 02 Nov 2026 00:24:46 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -72,30 +66,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1930; i=broonie@kernel.org;
- h=from:subject:message-id; bh=NaYM3suoQ1Mq2ydfMZzihLSG7Mgadl8/jPapPAn3I1U=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJeTI1QNb773zxWpULIo3r9nKg3az6trL1xyPpSke2ci
- 0+3S97q7ihlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBENkkw/BW7t+Ih5ze1330v
- lA/1xvwPbDA4JuMl8Ofw5y/flm/Yrt3F8JutSPCdSFdz2TSNqi63otULDp++6hfmX3hQ8jxfO+P
- fmfwA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1120; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=HTZNBV0AGiJdeyefYbDJG3WhtdKiUwyg28WPMoJ7wX0=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJeTI0y1pogqcggLLVdc8Gk4saV+RFcamal23eU+z0/r
+ 1l516Ovo5SFQYyLQVZMkSUui/tlfcnrNXwHF7bBzGFlAhnCwMUpABOZLs7w32FydbSoTtIDniWX
+ XzEsmKvlY+DMostT+Zv1Un5yvXjBGUaGfmGFA47WBz5I1WdcnuW9eUb83KqfevOX/BEr/Dn95ub
+ LXAA=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 27 Oct 2026 14:32:07 -0700, Dmitry Torokhov wrote:
-> ASoC: codecs: twl4030: external mute GPIO lookup fix and binding update
-> 
-> This series fixes external mute GPIO lookup for the TWL4030 codec driver
-> and updates the corresponding device tree binding.
-> 
-> The twl4030-codec platform device created by the twl4030-audio MFD does
-> not have its own of_node or fwnode assigned, as its DT properties reside
-> in the "codec" child node of the parent MFD device. Consequently,
-> standard devm_gpiod_get_optional() calls on the codec device never
-> succeed. Fix this by looking up the GPIO descriptor directly from the
-> codec child firmware node. Also update the device tree binding to
-> document the standard "ti,hs_extmute-gpios" property name.
-> 
-> [...]
+On Sun, 25 Oct 2026 16:16:09 +0800, Tang Bin wrote:
+> ASoC: qcom: storm: Fix of_node_put leak on error path
 
 Applied to
 
@@ -103,10 +84,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: codecs: twl4030: fix external mute GPIO lookup
-      https://git.kernel.org/broonie/sound/c/5c23fe26f116
-[2/2] dt-bindings: mfd: twl4030-audio: document preferred name for external mute
-      https://git.kernel.org/broonie/sound/c/7c0dc66f7cdc
+[1/1] ASoC: qcom: storm: Fix of_node_put leak on error path
+      https://git.kernel.org/broonie/sound/c/3e8dba0e26a5
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
