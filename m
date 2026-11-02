@@ -1,64 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793725420;
-	b=Eo0NSHuJT3Mn0hAShbPLikCqAzMCm8S9uNOzPIczu3ktG5nelzyr9YZsBgtnb4K17q5z
-	 9CBguWJZeJL/1dzEMskMSO0IMid/zarU0hsVPTZ2jC2HkTbkUl0Ot2CB9eWwdB+w+MSok
-	 I8pj+HCiW0zSfzTB/roJgbW0ads2bDQMuDfDXxb9OxeXw7AuooOWIRVGcPFwLT2LmBDO0
-	 +LbmGNG0LR9MA9wcaR4LsPUa+Y4vx6rAosnZ+9M3j82ZC7im14/ZcDdawL2O5DqcohhZw
-	 e3xk6JSFwbU/Rm8Z/bu8PCzgiUC70Z0UuJEobgeIgCsaohG3ignNJITJUNxEg3kRNmg==
+	b=oHsjVBzE697wmRHlmqmVOJZO6fB8GtT5QQrUPAMKBkxQ1oiOW17NgpxxY+Awebin1hyp
+	 y/LZu5OSVIgxgQlHsJeI+w47oww8Rxxl7r9P2Cd+M3uLFqaboY4O9AigBoNTrNpYlyUaP
+	 caFzssQc++Aho7pyV72kEuLzmxlJLEAiFBeZKOeobdmtZ807VwuBAvPV6re0N+P/vIMK5
+	 QTFPFsnLTHrA0WAVaKFOehbM2kIUGe4/A9HQ00mDm2vMaHd41NxPyoa/XUV7686DAYp8B
+	 N8YRWGyGQIbe2ujyrrkGmAEps2iMUA8qwHKVwxsGtii4v7F8JLCAJtkw5At7qT0b19w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793725420;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=JiCDgwVCg16WXZ6ncpwAPeYjziheuaMGPWgI1mJbVCI=;
-	b=MMA5192O8ZkEaqbJyWOFsmulh1x9Si7jdahcCizzpFn64oCmQvnHGNRceZaAnFBpjl87
-	 46NhHosMkicIKLiI6WpWFnuUSRsRVeTEOOPiXTtpjyeAjl7lLaUGE/Cm3b8g42dl066nD
-	 jUriecTa0BG4amsSCHMUdVYf/fN/p6MJq/Txkb6uzQGEBZcNGT7piOST2vOXGvfmP7PsK
-	 er4yHCRY6igBsiQPibSlFhVDcxLsK4jR9GUOkQuLvZ21/PA7sRhR+ndmKBL282TzZvnRG
-	 lH3QuHKePlXfDMc2kVy3rrSrI2XBQIwNYYRqBbPdtQLs2zAF7Ft7bJhuZjGHp18oNDw==
+	bh=Z0HCYOLsSGr5UkBh+IhznoAbi6k1ZjyzG78Iy+nQLrs=;
+	b=SpLmsXH3BmQf95+UMxSYzCsEThyTKrW83nKqrNNTgflFosr2BYKsyRVqsls03OEUk1mc
+	 CFYYgrg8cpwntJCzV2klon+3gqWnOOeKmMcZ2jZme/4pqrhxw+cQvwTlHdqOIZN6flK+L
+	 OAKGiP9NwkJHS0gl7d2jnYuapHvOHXkAZ1IJU/LSWw5NnjJtg+XBAvkWYNKJKCL9WJhUN
+	 Gn8iewO76p6pMVZwTsuE1VaBTd3ZHJw7mRBPkXyfUOqOSYKqFo/J9hQgI+Oab6nc6mM/t
+	 cWEjt6Sd4FJ7ZsmxxFlcHp7q5rVHNqOLcqN7IhvwHLtVSG6HAWY2xX95CaASKyT7sVw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EhZFB+Zl;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g6chWzjo;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B449C606D80E;
-	Tue,  3 Nov 2026 17:03:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A177A606D827;
+	Tue,  3 Nov 2026 17:03:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EhZFB+Zl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 622E21F00A18;
-	Tue,  3 Nov 2026 17:03:39 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g6chWzjo
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56ACB1F00A18;
+	Tue,  3 Nov 2026 17:03:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793725419;
-	bh=JiCDgwVCg16WXZ6ncpwAPeYjziheuaMGPWgI1mJbVCI=;
+	s=k20260515; t=1793725420;
+	bh=Z0HCYOLsSGr5UkBh+IhznoAbi6k1ZjyzG78Iy+nQLrs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=EhZFB+ZlAZtEexaZ41u1BcOpHkR1LAdk7bMgqtYKjQiltXJ9NbZ1XzsPDmv+JfU1A
-	 lns0XvpIVuzH0NREp4WNbpMZgie5FnOhCpSjwwloyatn1o87BDwwcyPaS4yOmWSrjK
-	 +kiRuKEfDNAh6OdqqhPTooHYmDUXoAP6eW9U2BZWE2enWRH9vSBzeUBgePRW1dsbO6
-	 hR3VLXiMHofRUoORbnmuYbuNxUiAMF67+/G++8nFc5dU/pOYW2+ZGdndEkHdljQMB6
-	 HTx9MxgfL+mHDApsQ0xdNW/HgbxWz1B5bP1ipi9v4o+qOClGAOdTdI9kx2NwSiyAd0
-	 neVLM+S4YUcrA==
+	b=g6chWzjoabqhu62aUfoiBWaD16eUnrSN2c1B3AAtE9pYrTymLTrOOd74dyrvabgqK
+	 zSsWUpSZ47G1qPXBm+D0tA+ATBaFgMM8I9SK6efpI28YcGOynKyCKbFfCdV8AyCr+n
+	 V2tyo7U40rxeK1W07C/K0ywwReKzXI0e4ueHhIgxI04Qe1I3Hsy8lS6Ke/XkuX3uhk
+	 KoGzYeeaxjMOEYqBfXins0hhLpNfvv+A1n6vAfZuBTPjuMHBn41alPrxhBk78mwgxo
+	 uZkXawat/Knme28FTRQh6QbVC+l4Bzseks7SchlLJiJMhlPRRuYeHn2w027/dMVUi4
+	 WMzo3CngNzDyA==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 7CF4A255728F;
-	Tue, 03 Nov 2026 17:03:37 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 485DB255729B;
+	Tue, 03 Nov 2026 17:03:38 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Wesley Cheng <quic_wcheng@quicinc.com>, 
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org
-In-Reply-To: <68e28df174c8524bef54cb437e568afcb8a82e1e.1792834312.git.christophe.jaillet@wanadoo.fr>
-References: <68e28df174c8524bef54cb437e568afcb8a82e1e.1792834312.git.christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH v3] ASoC: qcom: qdsp6: Add an error handling path in
- q6usb_component_probe()
-Message-Id: <179366030216.2186205.6039386182230232762.b4-ty@b4>
-Date: Mon, 02 Nov 2026 22:58:22 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Tristan Madani <tristmd@gmail.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Oder Chiou <oder_chiou@realtek.com>, Bard Liao <bardliao@realtek.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jorge Eduardo Candelaria <jorge.candelaria@ti.com>, 
+ Margarita Olaya Cabrera <magi.olaya@ti.com>, 
+ Misael Lopez Cruz <misael.lopez@ti.com>, patches@opensource.cirrus.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, tristan@talencesecurity.com
+In-Reply-To: <20261102165340.1558853-1-tristmd@gmail.com>
+References: <20261102165340.1558853-1-tristmd@gmail.com>
+Subject: Re: [PATCH v6 0/4] ASoC: cancel pending delayed works on codec
+ removal
+Message-Id: <179366159252.2186205.9607100672021463096.b4-ty@b4>
+Date: Mon, 02 Nov 2026 23:19:52 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -71,17 +72,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1168; i=broonie@kernel.org;
- h=from:subject:message-id; bh=qrYCBIgcfstxVxCGu//w28qjj1a4OidLvGoGVX2VXUc=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJeCb/ktORIdw9vKVr0weVm6pTahbXHvVKX8LmeEmE3N
- Tl7UlGso5SFQYyLQVZMkSUui/tlfcnrNXwHF7bBzGFlAhnCwMUpABOJbWX4Z3/nkK/oihdT/ocd
- FPe7drb6l2R4kXVPQUHWhoy1Lgaz7zH8U73zRUCFPcv62/r7EUnrT7tKr11t5fXOflfwIcU9Iur
- PeQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1777; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=fUCAoE4UzcTLsSTNshH6xWqRfcKzXtKH9tBdUScr77w=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJeCb+a/tFQUeS+LQPzHdMXn/q87YKfK8fcvbWGQW82x
+ 7zmYyc7O0pZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRV5MZGfZv7f/SN5k9OnNZ
+ x9zJTFW81sfLzCr3fyj0iGV4a+py7i8jw8GSnndl++5a3Pj3uIzj2JpTLdoGJf8Or1Xx7I7aMp/
+ nADcA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sat, 24 Oct 2026 11:32:09 +0200, Christophe JAILLET wrote:
-> ASoC: qcom: qdsp6: Add an error handling path in q6usb_component_probe()
+On Mon, 02 Nov 2026 16:53:36 +0000, Tristan Madani wrote:
+> ASoC: cancel pending delayed works on codec removal
+> 
+> From: Tristan Madani <tristan@talencesecurity.com>
+> 
+> Several ASoC codec drivers schedule delayed works for jack detection
+> and microphone polling but do not cancel them on component removal,
+> leaving handlers that can run against freed memory.
+> 
+> [...]
 
 Applied to
 
@@ -89,8 +98,14 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: qcom: qdsp6: Add an error handling path in q6usb_component_probe()
-      https://git.kernel.org/broonie/sound/c/789a11cc2f98
+[1/4] ASoC: rt5668: cancel delayed works on component removal
+      https://git.kernel.org/broonie/sound/c/965bad6195d0
+[2/4] ASoC: rt5659: cancel jack_detect_work on component removal
+      https://git.kernel.org/broonie/sound/c/ca3efbaa8aeb
+[3/4] ASoC: twl6040: cancel headset jack work on component removal
+      https://git.kernel.org/broonie/sound/c/0f367f70e185
+[4/4] ASoC: wm8994: drain delayed works on remove and probe error
+      https://git.kernel.org/broonie/sound/c/905d79dffa3e
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
