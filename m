@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.17.22
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793579590;
-	b=AAgWt+hJk8kEboeKxjm2CJLpbtREBx/TS8nJEwTsQxRB9yg4U92U25G+4NYK5gmY0TkQ
-	 Ncc1XRwkBcDTP72YZNGo9cdD0oKZcbS1fQOweUgDzVR+4d4ExWspnGjqplSLsN0V8Ls7m
-	 7QXeGrrZHJpSwWcTI/8idQIBNPV+P0OmPJK4vmLPDjRgAU7JgZ9Hl4i/2/afKS5/315wg
-	 BdDJxsZVMDBnnUqM2LZaE/geMt7q1IpAVW4+D6eJiAtLTHishXmDu0tc9BcfHicQHAtZ+
-	 KRsGfBYHvjnIGsiYEufZpSY0eLhPVrDEx9p1X4bQBBQXfZDTC+7JSGXQLyW9USTbWWg==
+	t=1793579586;
+	b=2IAV4+TrsbDD3ShiGOR/qeFzJa42VwJbP5NnFYH6p8KHfTn9owHcWRPB0gxVFOaGKV9R
+	 OMOhHWdqYKjfrSDijAubbKrDKvQuWEyd38bZp8/IFVW+M2Kzzc6tDZ0bvndkNtlaI2DO2
+	 2uUCZqLe8BC5GJdXlrP8csPKPDsv4Au9soXj81p49fKwZ1Xa/7JjHPiZK8G9BC7wn4B9O
+	 BO+LiaV6UnWLzjWVGec9OdLF7ggUdCKC9F/HI0u1VFohfBbMyk9MXkpOWzTFrneTVIGKw
+	 sb+ko2ha+35j+q4tbZMhqyw+6tDzf4s0s6FOrwTitXaoD35qPAVCkSaw+B2j2nimo+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793579590;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793579586;
 	h=DMARC-Filter:DKIM-Signature:X-UI-Sender-Class:Received:From:To:Cc:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:UI-OutboundReport;
-	bh=4Oy7fzcIG3y0nP5b3iiI/X8Ax2z/W0aXM9bqY3TYz14=;
-	b=iJvT8Rxi/4XRCz02Jz9uAOKXxtJ0XatfdbyaHf8M81lWVA6ZoPpKgpgoTUVCySCqRge+
-	 fOy7Ffn/j6hbRatCfAmYd8a9EfRkl40K9jRyOA4Xv8hhRSnoFPx3G5b4nFOGIpMtySp2F
-	 r3pyDGDCwjMhmjwcdTx+0E+XWBij4h/fHC3eoGibrEdZabPLr5fqGx6C+74DtjIhgcJ4C
-	 UZTU8uC3ck0/N5Chnfj6IShVjA3JG/Vw0AbntFXJpYSAW48cMSa334I8OeoTAwB8BwOqk
-	 vtjkkWWmlxiz7UB29FyI8wbrqOOCnEDvT/fKvKDqKb9ZMd7iijVAR/JzCHrrsPpR7tg==
+	bh=6jBMR7rS22aADUglfFVOrbu1utV7ydiWQpkLb3G5y1Y=;
+	b=qXM0MjJjkCLovQH4cTMmAb2knDlCdteSbkptldPFV152AbDb2iGMs2gfcdaGlRWsulcZ
+	 RFDVtWxTlsfvDequHGfv6PpfudKAOaVuA5/fnGUL0h+LxYIgVF1IYMwaCTd1YSQclPopv
+	 9H0h7gdxTBUjXaCtC+u4ZuM2vhIgUJf5IQDLovdMuO46vsyyN/6Vnh9oNGITyO/K+TeDj
+	 vf6PIghkckwbaOiqRLKGdCSPwNE+JDq7dw5fZdEetwFy4pQE65qXBb8Fxwi1h1mmPkZ52
+	 J/do8JyUdqwAyO1raztt3iG8PieJFrGRB1awyXnj9A8JstlguCY+yAffI02Xum3GHrQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmx.li;
 	spf=pass smtp.mailfrom=gmx.li;
-	dkim=pass header.d=gmx.li header.i=arc@gmx.li header.a=rsa-sha256 header.s=s31663417 header.b="i/0XDMwn";
+	dkim=pass header.d=gmx.li header.i=arc@gmx.li header.a=rsa-sha256 header.s=s31663417 header.b=A9M7ZEaA;
 	arc=none smtp.remote-ip=212.227.17.22
 Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5347F606A33D;
-	Mon,  2 Nov 2026 00:33:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5347F606A33D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BBA606A329;
+	Mon,  2 Nov 2026 00:33:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46BBA606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.li
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.li
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmx.li header.i=arc@gmx.li header.a=rsa-sha256 header.s=s31663417 header.b=i/0XDMwn
+	dkim=pass (2048-bit key, unprotected) header.d=gmx.li header.i=arc@gmx.li header.a=rsa-sha256 header.s=s31663417 header.b=A9M7ZEaA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.li;
-	s=s31663417; t=1793579579; x=1794184379; i=arc@gmx.li;
-	bh=4Oy7fzcIG3y0nP5b3iiI/X8Ax2z/W0aXM9bqY3TYz14=;
+	s=s31663417; t=1793579581; x=1794184381; i=arc@gmx.li;
+	bh=6jBMR7rS22aADUglfFVOrbu1utV7ydiWQpkLb3G5y1Y=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=i/0XDMwnBYLmcP5VZ3Qx4mdpfXrZswAf8fm5h1gRIu+ziAg2EyyRl6J06WHS96Mr
-	 ADSvuJMe09+PFplxdM+phRNDylT9xph//tCBcQUI5JXjwcOah+xJfnvwcD+YPI8Rm
-	 g+9BNXd8SOnFeOrL3d3fI5GXVAIURrRaSFTWmkBjPInGOa0qEdQzeCAzLA7H+Ppbh
-	 y4cRyqfVFFk+Qlxja/5evT45gdEAl2klaNPDddz8fSul7ukLEaLKz3EWa51J5ddCW
-	 yZF5/dic/9dxUengeEpRKunQajrzSbwq2701Bt5IEj4VU2og/U0GwxardiCMLjYXI
-	 AeIIsbcqYcmscFqS9w==
+	b=A9M7ZEaAI8bOfozmIvskbXlW34YunEaHuQvas19UzzfQbFLhh1S9kEolTpaw4cnN
+	 e2xYxWypQ7hN+xtVvWrhHshDUo0ga3aTrTutjAn1ux7amPOUzeGtyV9v4tisjf9dA
+	 xVJtembn1OHXlj3u/J/3tYrYra+VVGRtS7o/5b0JGpBeixxVZvJVAdk7Q/yS76XQs
+	 qawOInP07kXRM+8T26w7vnzLkFZ42UKHIjrCvqk7wvMoBrpGRh9GufyMILSwc6RrM
+	 E4PZx3p1PgA8YCd8lKPmhV6xEekSSU480Mbkc5aaF3/cQy1UotPJ/b/ju2c7hF4td
+	 yS30o2OIHYJdUX89tA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from client.hidden.invalid by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1McY8T-1wpAAw2aXF-00jWYL; Mon, 02
- Nov 2026 01:32:59 +0100
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MFsUp-1xJYxu2IGd-006Nmu; Mon, 02
+ Nov 2026 01:33:01 +0100
 From: Christian Ruppert <arc@gmx.li>
 To: Will Porter <mrwillporter@gmail.com>
 Cc: Takashi Iwai <tiwai@suse.com>,
@@ -58,12 +58,13 @@ Cc: Takashi Iwai <tiwai@suse.com>,
 	linux-kernel@vger.kernel.org,
 	Neil Andrews <neil@androos.io>,
 	Christian Ruppert <arc@gmx.li>
-Subject: [RFC V2 PATCH 00/11] Re: ALSA: usb-audio: Audient iD14 MkI vendor
-Date: Mon,  2 Nov 2026 01:32:46 +0100
-Message-ID: <20261102003257.10134-1-arc@gmx.li>
+Subject: [RFC V2 PATCH 02/11] ALSA: mixer_audient: explicitly define full control names
+Date: Mon,  2 Nov 2026 01:32:48 +0100
+Message-ID: <20261102003257.10134-3-arc@gmx.li>
 X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261101173557.221869-1-mrwillporter@gmail.com>
+In-Reply-To: <20261102003257.10134-1-arc@gmx.li>
 References: <20261101173557.221869-1-mrwillporter@gmail.com>
+ <20261102003257.10134-1-arc@gmx.li>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -74,247 +75,291 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:GMrxYsBxu65rFWoacF4eVQHqFjqSAzmyGxDq24XwLhVB6j2IDIj
- cBLqt6Clos/OWUZs9zwkiqhbfKBqap+pjSl0FksxZcHqGSdVnv4aW8Y2/9Uc+dbH+CzmEhz
- SBwAsRJoTs16JYvgcTCQPEJbGLZh38M/LQ/LwOFrHhjw5de4XFyYqBm/NlFlyv2qn+RF3X7
- w5+mXxR1ePCeD9ED0Nd2g==
+X-Provags-ID: V03:K1:MgW0w9BtNKjBkbKP/7hVNaZiY2K9wVjb4q9SKQcxup9ol9828p7
+ LRIqTcp9zbJkk0PyXNBgewNXKJeG2bsRQAQ5K4Sh9T6VgfSPp+FLVtevj1xWmfkwB9lAH6G
+ eRAOwrKI3zP0ZLrDtYtUqfNEV3oIeT19wbn1zrHVrbJ5S803/4Z29DSMvx1UFv+hCvFq2tH
+ LJw1lJOc6Uosrw96otOkA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:65YUDJ9lyp8=;1HAjsCvi3S9LjrfGLDyyyDwH2HQ
- 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
- UOQgo+H9T5mnyqS
+UI-OutboundReport: notjunk:1;M01:P0:eKxFfMQDlu0=;BscM9htAvVOkQddChnqiM9FGfEo
+ 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
+ MpFob0H89RJ2lY3Q0EA==
 
-Hi Will,
+Previously, control names were dynamically created depending if the
+control was an input or an output, a volume or a switch. Get rid of this
+logic by simply defining the full name in the control structure.
 
-On Sun, Nov 01, 2026 at 11:35:57AM -0600, Will Porter wrote:
-> [...]
->=20
-> 1. Patch 10, cache index
->=20
-> The cache has hwchannels entries, and the probe fills it by element
-> index (cache[i]). But get, put and the INIT_HW write index it by device
-> channel:
-> [...]
+Signed-off-by: Christian Ruppert <arc@gmx.li>
+=2D--
+ sound/usb/mixer_audient.c | 50 +++++++++++----------------------------
+ 1 file changed, 14 insertions(+), 36 deletions(-)
 
-Good catch and thanks for the fix, applied in RFC V2.
-
-> 2. Probe-time USB errors now fail the whole card
-> [...]
-> Could we keep the card registering after a failed probe transfer, while
-> keeping the cache entry invalid until a transfer succeeds?
->=20
-> To save a round, I wrote it out; the diff is at the end of this mail, on
-> top of your series. Please change or drop anything that doesn't fit your
-> plans.
-> [...]
-
-Fine with me, I suppose the question if individual reads should be allowed
-to fail during driver initialization is more philosophical in this case.
-I don't see any harm. Patch applied in RFC V2
-
-> 3. Smaller points
->=20
-> - Patch 05: would sign_extend32(buf, 8 * ctype->len - 1) work in
->   place of the shift pair?
-> - Patch 05: the buffers mix u32/s32 with cpu_to_le32()/le32_to_cpu().
->   Would __le32 buffers keep sparse quiet?
-
-OK, these make the code a bit cleaner, added to RFC V2.
-
-> - Patch 05: the transfer buffer is 4 bytes on the stack, but nothing
->   checks the table's len. Could snd_audient_add_ctrl() return -EINVAL
->   unless 1 <=3D len <=3D 4?
-
-I don't think this is necessary as it should be rather obvious to everyone
-touching the driver that the u32 argument can't carry more than 4 bytes.
-Added a comment to the parameter definition.
-
-> - Patch 09: with FORCE_SET, a put of the cached value still writes
->   (good) but also reports a change, so each alsactl restore sends a
->   change event for every such control. Could it write but return 0
->   when the cache already holds the value?
-
-Makes sense. Added to RFC V2 (in patch 10 where the cache is added). Pleas=
-e
-double-check if the logic reflects what you had in mind.
-
-> - Patch 11: a device with no matrix list would dereference NULL in the
->   loop. Would a check on info->matrix_names be worth adding?
-
-Makes sense although this could also be held off until somebody actually
-adds such a device. Added to RFC V2.
-
-> - Patch 01: FYI, the file header still says "Audient EVO driver for
->   ALSA".
-
-Fixed in RFC V2.
-
-> 4. iD14 tables on top
->=20
-> I built the iD14 tables on your series, with the cache fix applied.
-> On an iD14 MkI they passed control read and write checks, the range
-> checks and a loopback test of the matrix crosspoints. The crosspoints
-> also kept their values across a module reload and were read back into
-> the cache.
->=20
-> On top of your patches I needed three generic additions:
->=20
-> - a step size for integer types (res): the iD14 level controls use
->   s16 in 1/256 dB; I expose them in whole-dB steps, matching the
->   volume knob. The control counts steps from min, as the generic USB
->   mixer does with the RANGE resolution;
-> - an enumerated type with a value list, plus one extra last item that
->   a get shows for a device value outside the list;
-> - a per-device create hook, for the FU 12 control that does not fit
->   the tables (in the same patch as that control).
->=20
-> The matrix uses your loop as it is: with 2 channels per element and the
-> names in the order Mic 1 Main, Mic 1 Cue, Mic 2 Main, ..., element n
-> starts at CN 2 * n, which is input * 4 + output on the iD14. Does that
-> fit what you had in mind?
-
-Yep, sounds good.
-
-> 5. Next steps
->=20
-> Would you prefer to incorporate these changes in an RFC v2, or shall I
-> fold them into the relevant patches when I carry your series, with
-> notes in the commit messages?
-
-I created RFC V2 with your patch and the fixes you suggested. This will
-make things easier to review when we submit the everything, compared to
-fixes on top of a long series of patches.
-
-Based on the same commit as before and retested on 7.3.1.
-
-  Christian
-
-Christian Ruppert (11):
-  ALSA: rename mixer_evo to mixer_audient
-  ALSA: mixer_audient: explicitly define full control names
-  ALSA: mixer_audient: clarify USB control message definition
-  ALSA: mixer_audient: Add length check to USB transfer
-  ALSA: mixer_audient: make USB control transfer size configurable
-  ALSA: mixer_audient: Allow arbitrary boolean control values
-  ALSA: mixer_audient: Add integer range checks
-  ALSA: mixer_audient: Add control initialization at probe
-  ALSA: mixer_audient: Add readback-free parameter set
-  ALSA: mixer_audient: add control value caching
-  ALSA: mixer_audient: Create matrix programmatically
-
- MAINTAINERS               |   7 +-
- sound/usb/Makefile        |   2 +-
- sound/usb/mixer_audient.c | 702 ++++++++++++++++++++++++++++++++++++++
- sound/usb/mixer_audient.h |  12 +
- sound/usb/mixer_evo.c     | 526 ----------------------------
- sound/usb/mixer_evo.h     |  12 -
- sound/usb/mixer_quirks.c  |   4 +-
- 7 files changed, 721 insertions(+), 544 deletions(-)
- create mode 100644 sound/usb/mixer_audient.c
- create mode 100644 sound/usb/mixer_audient.h
- delete mode 100644 sound/usb/mixer_evo.c
- delete mode 100644 sound/usb/mixer_evo.h
-
+diff --git a/sound/usb/mixer_audient.c b/sound/usb/mixer_audient.c
+index e2700b08cf80..2afef52a12d9 100644
+=2D-- a/sound/usb/mixer_audient.c
++++ b/sound/usb/mixer_audient.c
+@@ -90,107 +90,92 @@ static const struct snd_audient_ctrl_type {
+ 	},
+ };
+=20
+-#define SND_AUDIENT_FLAGS_DIRECTION (1L<<0)
+-#define SND_AUDIENT_FLAGS_CAPTURE (1L<<0)
+-#define SND_AUDIENT_FLAGS_PLAYBACK (0L<<0)
+=20
+ struct snd_audient_ctrl {
+-	char *basename;
++	char *name;
+ 	enum snd_audient_type type;
+ 	unsigned int channels;
+ 	unsigned int hwchannels;
+ 	unsigned int val_offs;
+-	unsigned long flags;
+ };
+=20
+ static const struct snd_audient_ctrl snd_audient_evo4_controls[] =3D {
+ 	{
+-		.basename =3D "Master",
++		.name =3D "Master Playback Switch",
+ 		.type =3D SND_AUDIENT_TYPE_MUTE_OUT,
+ 		.channels =3D 1,
+ 		.hwchannels =3D 1,
+ 		.val_offs =3D 0,
+-		.flags =3D SND_AUDIENT_FLAGS_PLAYBACK,
+ 	},
+ 	{
+-		.basename =3D "Mic",
++		.name =3D "Mic Playback Switch",
+ 		.type =3D SND_AUDIENT_TYPE_MUTE,
+ 		.channels =3D 4,
+ 		.hwchannels =3D 2,
+ 		.val_offs =3D 0,
+-		.flags =3D SND_AUDIENT_FLAGS_PLAYBACK,
+ 	},
+ 	{
+-		.basename =3D "Monitor",
++		.name =3D "Monitor Playback Volume",
+ 		.type =3D SND_AUDIENT_TYPE_MONITOR,
+ 		.channels =3D 1,
+ 		.hwchannels =3D 1,
+ 		.val_offs =3D 0,
+-		.flags =3D SND_AUDIENT_FLAGS_PLAYBACK,
+ 	},
+ 	{
+-		.basename =3D "Mic 1",
++		.name =3D "Mic 1 Capture Volume",
+ 		.type =3D SND_AUDIENT_TYPE_MIXER,
+ 		.channels =3D 2,
+ 		.hwchannels =3D 2,
+ 		.val_offs =3D 0,
+-		.flags =3D SND_AUDIENT_FLAGS_CAPTURE,
+ 	},
+ 	{
+-		.basename =3D "Mic 2",
++		.name =3D "Mic 2 Capture Volume",
+ 		.type =3D SND_AUDIENT_TYPE_MIXER,
+ 		.channels =3D 2,
+ 		.hwchannels =3D 2,
+ 		.val_offs =3D 2,
+-		.flags =3D SND_AUDIENT_FLAGS_CAPTURE,
+ 	},
+ 	{
+-		.basename =3D "Master Left",
++		.name =3D "Master Left Capture Volume",
+ 		.type =3D SND_AUDIENT_TYPE_MIXER,
+ 		.channels =3D 2,
+ 		.hwchannels =3D 2,
+ 		.val_offs =3D 4,
+-		.flags =3D SND_AUDIENT_FLAGS_CAPTURE,
+ 	},
+ 	{
+-		.basename =3D "Master Right",
++		.name =3D "Master Right Capture Volume",
+ 		.type =3D SND_AUDIENT_TYPE_MIXER,
+ 		.channels =3D 2,
+ 		.hwchannels =3D 2,
+ 		.val_offs =3D 6,
+-		.flags =3D SND_AUDIENT_FLAGS_CAPTURE,
+ 	},
+ 	{
+-		.basename =3D "Loopback Left",
++		.name =3D "Loopback Left Capture Volume",
+ 		.type =3D SND_AUDIENT_TYPE_MIXER,
+ 		.channels =3D 2,
+ 		.hwchannels =3D 2,
+ 		.val_offs =3D 8,
+-		.flags =3D SND_AUDIENT_FLAGS_CAPTURE,
+ 	},
+ 	{
+-		.basename =3D "Loopback Right",
++		.name =3D "Loopback Right Capture Volume",
+ 		.type =3D SND_AUDIENT_TYPE_MIXER,
+ 		.channels =3D 2,
+ 		.hwchannels =3D 2,
+ 		.val_offs =3D 10,
+-		.flags =3D SND_AUDIENT_FLAGS_CAPTURE,
+ 	},
+ 	{
+-		.basename =3D "Mic 1 Phantom",
++		.name =3D "Mic 1 Phantom Capture Switch",
+ 		.type =3D SND_AUDIENT_TYPE_PHANTOM,
+ 		.channels =3D 1,
+ 		.hwchannels =3D 1,
+ 		.val_offs =3D 0,
+-		.flags =3D SND_AUDIENT_FLAGS_CAPTURE,
+ 	},
+ 	{
+-		.basename =3D "Mic 2 Phantom",
++		.name =3D "Mic 2 Phantom Capture Switch",
+ 		.type =3D SND_AUDIENT_TYPE_PHANTOM,
+ 		.channels =3D 1,
+ 		.hwchannels =3D 1,
+ 		.val_offs =3D 1,
+-		.flags =3D SND_AUDIENT_FLAGS_CAPTURE,
+ 	},
+ 	{ 0 }, /* sentinel */
+ };
+@@ -458,13 +443,12 @@ static int snd_audient_add_ctrl(struct usb_mixer_int=
+erface *mixer,
+ {
+ 	const struct snd_audient_ctrl_type *ctype
+ 					=3D &snd_audient_ctypes[ctrl->type];
+-	char name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
+ 	struct snd_kcontrol_new knew =3D { 0 };
+ 	struct snd_kcontrol *kctl;
+ 	struct usb_mixer_elem_info *elem;
+=20
+ 	knew.iface =3D SNDRV_CTL_ELEM_IFACE_MIXER;
+-	knew.name =3D name;
++	knew.name =3D ctrl->name;
+ 	knew.info =3D snd_ctl_audient_info;
+ 	knew.private_value =3D snd_audient_kctl_priv(ctrl->type, ctrl->val_offs,
+ 						   ctrl->hwchannels);
+@@ -486,12 +470,6 @@ static int snd_audient_add_ctrl(struct usb_mixer_inte=
+rface *mixer,
+ 		return -EINVAL;
+ 	}
+=20
+-	snprintf(name, sizeof(name), "%s %s %s", ctrl->basename,
+-		 ((ctrl->flags & SND_AUDIENT_FLAGS_DIRECTION)
+-			=3D=3D SND_AUDIENT_FLAGS_CAPTURE) ? "Capture" : "Playback",
+-		 (ctype->type =3D=3D SNDRV_CTL_ELEM_TYPE_BOOLEAN)
+-			? "Switch" : "Volume");
+-
+ 	elem =3D kzalloc_obj(*elem);
+ 	if (!elem)
+ 		return -ENOMEM;
+@@ -524,7 +502,7 @@ int snd_audient_controls_create(struct usb_mixer_inter=
+face *mixer)
+ 	if (!info->controls)
+ 		return -ENODEV;
+=20
+-	for (ctrl =3D info->controls; ctrl->basename; ctrl++) {
++	for (ctrl =3D info->controls; ctrl->name; ctrl++) {
+ 		const int ret =3D snd_audient_add_ctrl(mixer, ctrl);
+=20
+ 		if (ret < 0)
 =2D-=20
 2.56.0
 
