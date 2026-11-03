@@ -1,56 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793701616;
-	b=l7pie6V49rYuzcGNbdYKuxreP6wKtfDNATBdGEAb8cmVY29VDGQ3VCpV3AQ8b8f4keYk
-	 eyVjCfsDAbfTCIvU9vQzPD6+IiU3e2Rjf/duSeMD87DaDyxrwWAumGpdtfCQwYDm01qMb
-	 sWlCieZASm7EQ7LdUpqOrLnUM3L+/0ySr2rUn3X4IXF7ka4PsGfWRF3aN/fUMpD/r6Ryj
-	 DBXrWGRvOnm240o1T+LzMkPFwvdFbBrPstLke9M//EgQs6FK+wSPNcknPhPtOQ+QqLdAk
-	 naRsMuEdPh8n3Wfh5FGAZqa8sryBiwOOhrBDFiF2rMSEt384Ko2LmvOndL8TfVRphNw==
+	t=1793701708;
+	b=Ie8qn1OrNtToaIN3jt2hRbbrzY74Ra99/ED/yuquEAae/wg0qgiW4heJY4LwEjn5DL7s
+	 adcdfV8i6ofdfTeBtjP0Uy2Hn3cC9KoMX5Gq6zoTqTvvQ2hVQSjgKfaTBFrM2B8qjMF+o
+	 dOocs0+LqNdYsYmIflOGFWSJVwrLRM742oc3/jsP1M6zGPygFIcSrqqWiquj7DkQ2utQo
+	 5hp54dPcK5ucDgfvu6/kxogG6M4FsSXx/pVpHiOdTz7Fhu8AIswS5ErhK30vf5+5/dtmh
+	 255Bw/uysoBglw8+ozc+GSq4xSpBoYyVTY1V5eNZrbyn9DNnb3lp/o9muZNUZiPiGLA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793701616;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=7R6UTYUH52b8ElIxclfIaVb/K+pm7uw8plJWc2CMcm8=;
-	b=SJvCFc1esKp3V3QNLzHupmgw1AW8GOVid3gWM/4L41noENkY7XpZLbZp5HW1QoCz4ple
-	 QGszT/XuYgnE6UqbqvQ9iriBX6QDlRfm/8WAMlyaL6gxJwRxiGW+iFQqjwx9vSSBI2Epq
-	 sKFz4fyQi+Rob314eZ2VVEwRNjXD1Zb3HKp+snO49WhnkwN0YUD8JEmtT11w+OCQX3NrN
-	 v/cLFseU3hE8/q/lY4zrP8TlbyMJcNmcS7hjXwUIEjVdWBI7of9XCOKmEAHCI+Wp/f5VH
-	 qa9NxV6Us0++n7KW2zmZ7ZdpBvD3VHZTAUbj7gvXYv60Ys9UN0+n8Lff3qigLctR5Vg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793701708;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=brI27/R3evN0ktEK8A0I0W9UNIMPS/xp4y6+g+aCaBo=;
+	b=hwgRZn0MjZPjWZib1pXmbbR6wNYwBny8wtL/BHgHyhiQbIJ1pgMpDxZVQiKdGKKgNb6u
+	 9vGeQhXNqBG4c6MdJI4W/k7IpXU5wW6An9OY9ZlmP2/0okJtqgs1LJCL3CWUMenk919gC
+	 x5ngl0JJE57VNQVRCUFLGEIv2lBzIzsyJqSbf26miBC/VuvY33x0j0bHlcYOmS4H/vmGM
+	 sMsBC6W9A2OWXka2rGfse55oDJwTZlo5z06Rl9p792AOJ0u9MZHar6IpZUkAJJ1G3A8+j
+	 LAPmB+azru28Sl4dbZSCq+m+5YrIrnzeXkhnszHQsyzWOPhxSV6tic42sjg51f9tTWA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AwqCsJEh;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I+7E1g4J;
+	arc=none smtp.remote-ip=192.198.163.8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A61D606C586
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 10:26:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EC4606FAF5;
+	Tue,  3 Nov 2026 10:28:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6EC4606FAF5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AwqCsJEh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97BC41F000C1;
-	Tue,  3 Nov 2026 10:26:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793701615;
-	bh=7R6UTYUH52b8ElIxclfIaVb/K+pm7uw8plJWc2CMcm8=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=AwqCsJEhws4lbyUxaYyOXUjWJLqH1ZuA9Ljr3DfimOL0eesElEvxBvpdD6fdXGMAl
-	 +TcSQCLFRg/NeDZFEXfIm2zoqDckPu8q7ymTrD2JqgLGCeQQQjdQkMqe3nAdF4sNbu
-	 L4c8vqoflFIvhAzjjtahfW4sOBm0+0TYFjb7fUZeOE8z3qumWJuNPy6CW2cV6Y1+oJ
-	 7l7CKk+0wYKP4+7Cmtkrbd97fKNHZhYHWBxuHFOHjIo0iERmkV99q5HWsW7hPtVYdK
-	 PdxGg/ggUmdgJdTAfqIeVYMYXcTX4ec3hSI0Yf/BZsbkoPoTs5sqEADu6puY5rGyIS
-	 6OvIQ5ZzFa0Jg==
-Message-ID: <sashiko-outbox-195045@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 06/10] soundwire: qcom: Prevent pconfig buffer
- overflow in qcom_swrm_stream_alloc_ports()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Lee Jones" <lee@kernel.org>, linux-sound@vger.kernel.org
-In-Reply-To: <20261103095445.81414-7-lee@kernel.org>
-References: <20261103095445.81414-1-lee@kernel.org>
- <20261103095445.81414-7-lee@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 10:26:55 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I+7E1g4J
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793701707; x=1825237707;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/azmaKzOQApHWRANZvyKMDE5eR/p+FiNIyfzDv8GWBc=;
+  b=I+7E1g4JHJecLkpIciu5oeD36dnuzruzJCqWeQVAwUzwY0RTZB6go0fJ
+   ewYkGD2V03kW5UvP57iXn6MyQ9GKKrt0O7tteHHRgOdW+R5hoOnLaUh/M
+   AWb1o1Mg5tKQh2BlQ9GVZFTgzCADCzV+kg5fV201ZKYQfeZU5nAjDCWhK
+   85nEEUON+8s7lWbW2+/WxQoeovXatOckRV/UT3r5I/3pDcQE06qmxyqhe
+   /41C9gXhqWXZMfyvkWOzh5uQcXy1R8E9q6VktKDjTtCQrX2gtzOYZeJ88
+   1NFCm9Q7NNQuxWyYjjVSzwS09qPBO6BDtHp//gHhixfNy/ukFQ7atP/PL
+   w==;
+X-CSE-ConnectionGUID: KD/mWuJATtGw+9yWx+CIFQ==
+X-CSE-MsgGUID: bcIageVgQu67I/XKkuriJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2310418"
+X-IronPort-AV: E=Sophos;i="6.27,193,1787036400"; 
+   d="scan'208";a="2310418"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 02:28:26 -0800
+X-CSE-ConnectionGUID: 1bIC71+GRU+9xXUc9Jx1pA==
+X-CSE-MsgGUID: V2qjLPU4SH2zD8mLISaVAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,193,1787036400"; 
+   d="scan'208";a="6387021"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.108])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 02:28:22 -0800
+Date: Tue, 3 Nov 2026 12:28:20 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+Cc: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Zha Qipeng <qipeng.zha@intel.com>,
+	Qunqin Zhao <zhaoqunqin@loongson.cn>,
+	Thomas Richard <thomas.richard@bootlin.com>, mfd@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com, linux-crypto@vger.kernel.org
+Subject: Re: [PATCH] mfd: Use named initializers for acpi_device_id
+Message-ID: <aum3RLDLDa1gllge@ashevche-desk.local>
+References: <20261102-acpi-mfd-v1-1-d61029971be8@thegoodpenguin.co.uk>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,78 +84,26 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102-acpi-mfd-v1-1-d61029971be8@thegoodpenguin.co.uk>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] soundwire: qcom: qcom_swrm_stream_alloc_ports() rollback clears =
-active ports
---
+On Mon, Nov 02, 2026 at 12:25:14PM +0000, Pawel Zalewski wrote:
+> Use a designated initializer for the acpi_device_id fields which makes the
+> code more readable and consistent with how lists are initialized in the
+> rest of the kernel code base. Also drop explicitly setting fields to 0
+> where it is redundant.
+> 
+> Unify the list terminator to have a single space between the brackets and
+> no trailing comma.
 
-commit ff22f63970718cc2818a7a2729f4f9674b452688
-Author: Lee Jones <lee@kernel.org>
+Can you split Intel LPSS to a separate patch? It will help reviewing both parts.
 
-soundwire: qcom: Prevent pconfig buffer overflow in qcom_swrm_stream_alloc_=
-ports()
+-- 
+With Best Regards,
+Andy Shevchenko
 
-This commit bounds-checks nports against maxport before writing to
-pconfig[nports] in qcom_swrm_stream_alloc_ports(), and clears pconfig[].num
-bits from port_mask on error.
 
-> diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-> index 6e0c5fb10efad..29130745c8097 100644
-> --- a/drivers/soundwire/qcom.c
-> +++ b/drivers/soundwire/qcom.c
-> @@ -1350,8 +1350,10 @@ static int qcom_swrm_stream_alloc_ports(struct qco=
-m_swrm_ctrl *ctrl,
->  				else
->  					pn =3D find_first_zero_bit(port_mask, maxport);
-> =20
-> -				if (pn >=3D maxport) {
-> +				if (pn >=3D maxport || nports >=3D maxport) {
->  					dev_err(ctrl->dev, "All ports busy\n");
-> +					while (nports--)
-> +						clear_bit(pconfig[nports].num, port_mask);
->  					return -EBUSY;
->  				}
-
-[Severity: Medium]
-Can this rollback loop clear bits in ctrl->port_mask that were already in u=
-se
-before qcom_swrm_stream_alloc_ports() was called?
-
-When slave->m_port_map[p_rt->num] is non-zero, qcom_swrm_stream_alloc_ports=
-()
-assigns pn =3D m_port directly without checking whether bit pn was already =
-set
-in ctrl->port_mask:
-
-drivers/soundwire/qcom.c:qcom_swrm_stream_alloc_ports() {
-	...
-	m_port =3D slave->m_port_map[p_rt->num];
-	/* Port numbers start from 1 - 14*/
-	if (m_port)
-		pn =3D m_port;
-	else
-		pn =3D find_first_zero_bit(port_mask, maxport);
-	...
-	set_bit(pn, port_mask);
-	pconfig[nports].num =3D pn;
-}
-
-Because ctrl->port_mask is shared across all DAIs on the controller (access=
-ed
-via qcom_swrm_hw_params() -> qcom_swrm_stream_alloc_ports()), bit m_port may
-already be set by another active DAI stream or by an earlier slave port
-sharing the same master port.
-
-If a subsequent port in the loop hits the error condition (pn >=3D maxport =
-||
-nports >=3D maxport), the new while (nports--) loop unconditionally calls
-clear_bit(pconfig[nports].num, port_mask), clearing that pre-existing bit in
-ctrl->port_mask and allowing future find_first_zero_bit() calls to hand out=
- an
-in-use master port.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103095445.8141=
-4-1-lee@kernel.org?part=3D6
