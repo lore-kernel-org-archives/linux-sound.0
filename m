@@ -1,57 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793693757;
-	b=3UmuujkvQz/uluU1cOebzZ+OmxnXW3gkoCfADkH470nSXIYjWA3Jcm1Jy8K/LKxO0WCS
-	 yfJwMEc5nIUm8NAx7gTL37sUkbasmD6ZJxToDKkratepyoKQud9uRhs6SNjGXLHovBdGr
-	 4PwaY+PEQSiJUhIij0e7lqPwqTcc8ZLzTURbZ+ojbpglPPZIbBzGo2fbeihDruzigPDD9
-	 SIXtapPSjw/lRIeN8bHilluJhwJae2vtK/ue5eFJEkSacu8rOQ1Ljvdp/HcVMDZCb09Rr
-	 COl3uxo6dVVCnygXHRW9NvZS9AF55QXjgeg9nZbBCS5YizgbTxZr8jtrvZdcbOy66wg==
+	t=1793694462;
+	b=qiRID4lp97Xp42KzeJpEp6rfRShSw/p3JTzyLkafnh9Lr4f8cgqLwJlpk+uP8OjwUQ/w
+	 pcc+vMHkPQgWEuZKGSJKC5dWvrqh+5hSxyoH23s/krZ2kfUSMjtzdH8TaMNAH3bR+FR5o
+	 4KuC4wcx1WEjlkv9yq/rSV0wouPI4TG+pfN6qDvHJhbnTkMVsneE34D/xnR2IWK5tFrJA
+	 omYcWzcPsdE5T+XQfVab1IE1Rp44oulWGSNtzf6prxYpRROfI25sDAs3EKkeukSSynnPs
+	 9ssBGUCyP0AxPvjqgQlZZe7Cy68Sfq2ZIq1R1s4CnXrEeLhpYn8RYC/wTCsP3NTQ/OA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793693757;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=oMEG94uXx3ths6Q0X6yf4IGn6gzot/8TgdAvgghHqOY=;
-	b=wS9JUU7Mg+9twG9oUFsmWqs2JexZV0yvg/amh1LDTRMjrIa1DsPhA+L8k1BPiXbUu9HY
-	 d7c09TD4PE/4B/0jgLzBVK0/Ka6hHp+ZVKdP+itlGeWeXuyYc8inzSIeLENGw80z+oSFE
-	 9/HZBjnPmChu+OfwbLPN0gKwUnm1PpoNykSadWP8OHuYfMyNX9a5tIId/papuem4681np
-	 diejV+ZgTKRpfbu7xStbe2o+lQEaaaRXzJ28vtsZ/v/UoT0hLW9boSNFTh6tTKaoPqkoc
-	 7cRJJcnLrBRSdQcNzAoX7F33Yq64VS1fNY3z3f88xNJdZk092fIoaoMqxhT2uFgCF9Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793694462;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=E6pq6ak40PnPg7rzCuFYJAL64PxLZCXIE6ht0rHomGY=;
+	b=Q/m4lMAmcinwjiVM0t/z2ttp5YlGPXQ0xVjtwQtsStsxGfrtGccq4XmnlQxa46uQ9McU
+	 g8rUIV+B32pTf6eZyAhOamVaC/gb++WiAtV7sMX4rHApPAAfJACBBwgGmBpJYo1cMSqt4
+	 xq9erk4v+K0tjHR3Q8MB3esER04kuFNsTAN2OkMwKDXyYsAWqr8KhDTcHooCcBQ5l4kU3
+	 jZQw3/Flb+Mycr8ftERyUu3xiPIPf5I8nhKUXJVMUXfBs0UdK32q5yKalvUMAR7wY4e9g
+	 qL/lPYpu1KvBTfZMHPFhvHADzGP3Lql52TUGjSSO/fTktughp+CT8H72RtrqTNDJs8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=St9xxpH6;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=Y9BrtkBa;
+	arc=none smtp.remote-ip=209.85.221.53
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ABC8606A324;
-	Tue,  3 Nov 2026 08:15:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB4C606A326
+	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 08:27:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7AB4C606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=St9xxpH6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89F671F0093A;
-	Tue,  3 Nov 2026 08:15:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793693756;
-	bh=oMEG94uXx3ths6Q0X6yf4IGn6gzot/8TgdAvgghHqOY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=St9xxpH62LJnKBWqAuN6h+mtqExwxr/O+WTYhRLombHHi82pjySJSRK+Mlmdz+sXz
-	 LFEMn/U7xvZogi8j6TKZWoZJoiYqRBjgxQDOdv0Pk0Gy1mHFR8/RmC/0o4/iOr4wrl
-	 mFXy4eK06DhWaw+3hMVQDsfhJZS54//q0tsKFH4TVROzG2wLuN0CCeu8mkqMW4KJDX
-	 uDob9/lish7aUUY9B49rlyURagAZJvfPBkcQSH8avTm0txSEej2zPO4eIcDAuGLQXk
-	 FaJAg3m7TeCpmlm7XUnslrNdnsMygHdvzdcqkYWC9WS+n49VpVNaeBE/C99ZCr2+oq
-	 lW/G7wWBF5dYg==
-Message-ID: <sashiko-outbox-194812@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 11/22] arm64: dts: apple: t8103-j274: Add
- speaker/headset jack nodes
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "James Calligeros" <jcalligeros99@gmail.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261103-macaudio-v4-11-637484efe46d@gmail.com>
-References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
- <20261103-macaudio-v4-11-637484efe46d@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 08:15:56 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=Y9BrtkBa
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48e00eee27dso1946452f8f.0
+        for <linux-sound@vger.kernel.org>; Tue, 03 Nov 2026 00:27:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1793694460; x=1794299260; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=E6pq6ak40PnPg7rzCuFYJAL64PxLZCXIE6ht0rHomGY=;
+        b=Y9BrtkBaP+bm4/LU+6qfRuvD653GVyhcZQpqSTn5q9ZshvGXKKFU57Lt+9493dEEG8
+         2tZpPGFIaRPef/sWCz7O5O4HbkvsE0xDiiMyHTnG2XUn7wEv9J4PncagAzSLPjcnafQb
+         0mG2UYIDzBdloFkfOHSAiXPb1gCAmaHgeIxNLEH6jIvaBwaQpxwJHcb0h0rvlWmP1WXG
+         ZVY8BE1fCDt3QK3qKSXKxJJIoHoW/G1E2Xlbhl6tnzNVInpAOEZLHPemel6r4iMeNfIU
+         keKQsTVs520f04nyLQgTzi7zyIBYDhFLApAjcz/tQQA1KcvsNwZ1yCwDG4hWXsXiDXea
+         abpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793694460; x=1794299260;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=E6pq6ak40PnPg7rzCuFYJAL64PxLZCXIE6ht0rHomGY=;
+        b=bCzXSiSYC7+jCWpXPvGrOnijkKVlgAcuYvIuHG9FCjb7XoI0DIU68u6/TWyKfG+J1x
+         4Aq87TQRfPW20pVXi16qzEDaV+qWQ9BLmH2mqyCa8fB6FbbAcAXdRgeYkxz6OrfxdXf+
+         RK3g+fWBbIKWyd+wtDBEbU9GbsKuu+NOwvxm/E+VMBE0QauHtxhZ6QpvXBe7UlrAlu9j
+         iOoH7IF2VIiXF43ojhoYwqI6xRPtAxC6k+WXB2gMh0js+ebhPRQVYwzzYKlc0Z8O73u7
+         5twPm7YBpbbsiG7LMRFBAdmo6nSc6JIzpCIAXAgNrfgg6kRSWUlKBInA3lneY1LOQ4mS
+         +LmA==
+X-Forwarded-Encrypted: i=1; AKwUvBw5TVowE6Qe4NaPYzC+yZy3js7HoYw18N1Gsmp7MfruvCl3wlMpq0h12LEHUCZRwR31U5kEeXql4Vxn3A==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8YV7zvkRrw2NdFY/nZ4v1diw7lIaGiUEb2ULojne8fION8qXui
+	NWP3moLFReRWdFMe9xaswoi/JPf/8775PxE1mAba5QzK+svezP0W3L0yPX7Nb2U/ctI=
+X-Gm-Gg: AYBFou1jcurWnWgPmFuW2WqSZVvDuPHrMPp8Jy4K4dSI5IFMeo+iVI0BLjEeUDAvq1o
+	Qv32M27ePC72QZTVOhEvwu+KZLssMLPHZrvNZzmoALOJOzSI1261YBKnDfLdXtkC+Rt5omIiH8x
+	yICa9hYeybZIUQN8sOlpEsABeWku7cac7UJeyJbg2LFVLqXeMO6gjDGfwryasLqV7H/ulvfJGXK
+	H4tN/ELOzt0ijB48FgWplrUKSzn4ydBpJj9rF4dIF9dPIBMkMD+SoTTBVE5Qz1CBHgA2DyMEns7
+	aMbd8aEsjMbEIC9kZtuvzcgbRoXQ87YoGaHKVfzUUpT7op2LkHZed5Nkbl7NshekEyud9cOaj4T
+	UBVEvUBSy5SumojR9CaJW/lnE98W4TJZkEZEd8ahZZguLYVl+HKhKgtwdXsTCN7NJ0T17P7ZGhL
+	Kh0Xeg8QBrTWuTKTmY9a4dzQIMg+L3Mex7jnkFtiR3Xc8ovDC8Q5+Bx3WcJftYyiEXrmimXtVfG
+	JejgZ19149ZXanayRRvIA2qVp+4ln/Dy3pXgsWGtV7lMyRKK/aZy7mwZAjSHxdkym0z0jnYlkJi
+	dN39gHlTxwLb4tdzWu7bBh6iRXQ=
+X-Received: by 2002:a5d:6f0b:0:b0:48d:ed30:f863 with SMTP id ffacd0b85a97d-48e6e304aaemr28242503f8f.30.1793694459888;
+        Tue, 03 Nov 2026 00:27:39 -0800 (PST)
+Received: from [127.0.1.1] ([151.61.248.197])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e86a06078sm7666552f8f.54.2026.11.03.00.27.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 00:27:39 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,99 +88,45 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] ASoC: meson: axg-fifo: request the irq with the clock
+ enabled
+From: Valerio Setti <vsetti@baylibre.com>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Sashiko <sashiko-bot@kernel.org>
+In-Reply-To: <20261030-asoc-axg-fifo-irq-clock-v1-1-f8c170ac8b0d@baylibre.com>
+References: <20261030-asoc-axg-fifo-irq-clock-v1-1-f8c170ac8b0d@baylibre.com>
+Date: Tue, 03 Nov 2026 09:27:33 +0100
+Message-Id: <179369445362.97387.1853118570427796429.b4-review@b4>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=384; i=vsetti@baylibre.com;
+ h=from:subject:message-id; bh=w36hV1IUYMxpRRFJ0VIcI3DKJb88rpzFhmqT04FnZko=;
+ b=owGbwMvMwCV2z3ty7kUrRgbG02pJDFkvZ303F1f/kVIiF3xAbXN2+m1Do7+9s9VvKp1ZdKF+1
+ e4U/gusHaUsDGJcDLJiiiws0+/9LihVe2iccLIAZg4rE8gQBi5OAZjIhDaG/wGCL4X0gr64XVnW
+ 4nnGLO0fd4zAeeE/ikezsz4f/fVOVIfhv5uquuzhF+1N62ce/CKqYaxpXFAh8qIu6No+Nr+z96+
+ HcQIA
+X-Developer-Key: i=vsetti@baylibre.com; a=openpgp;
+ fpr=0497DEFB707526E13360C970DE4B936DD13A0100
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Low] arm64: dts: apple: t8103-j274: unnecessary #address-cells/#size-cel=
-ls in sound
-- [Low] arm64: dts: apple: t8103-j274: duplicate &i2c2 and root node blocks
---
+> The fifo irq handler accesses registers which need pclk, but the irq is
+> requested before pclk is enabled on open and freed after it is disabled
+> on close.
+> 
+> Request the irq after enabling pclk and masking the fifo irqs.
+> Free it before disabling pclk.
 
-commit 5f98a7f1339930a19f607ba0ee5a326410be0b76
-Author: James Calligeros <jcalligeros99@gmail.com>
+Looks good to me.
 
-arm64: dts: apple: t8103-j274: Add speaker/headset jack nodes
+Reviewed-by: Valerio Setti <vsetti@baylibre.com>
 
-This commit adds the TI TAS5770L speaker amplifier and Cirrus CS42L83
-headset jack codec nodes to the M1 Mac mini (J274) device tree, along
-with the sound node linking them to the MCA controller.
-
-> diff --git a/arch/arm64/boot/dts/apple/t8103-j274.dts b/arch/arm64/boot/d=
-ts/apple/t8103-j274.dts
-> index 1212852251e07..2fcadd77b1c90 100644
-> --- a/arch/arm64/boot/dts/apple/t8103-j274.dts
-> +++ b/arch/arm64/boot/dts/apple/t8103-j274.dts
-> @@ -75,4 +75,74 @@ &i2c2 {
->  	status =3D "okay";
->  };
-> =20
-> +/* Audio codecs */
-> +&i2c1 {
-> +	status =3D "okay";
-> +
-> +	speaker: codec@31 {
-> +		compatible =3D "ti,tas5770l";
-> +		reg =3D <0x31>;
-> +		interrupts-extended =3D <&pinctrl_ap 182 IRQ_TYPE_LEVEL_LOW>;
-> +		shutdown-gpios =3D <&pinctrl_ap 181 GPIO_ACTIVE_HIGH>;
-> +		#sound-dai-cells =3D <0>;
-> +		ti,imon-slot-no =3D <0>;
-> +		ti,vmon-slot-no =3D <2>;
-> +	};
-> +};
-> +
-> +&i2c2 {
-> +	status =3D "okay";
-> +
-> +	jack_codec: codec@48 {
-[ ... ]
-> +	};
-> +};
-> +
-> +/ {
-
-[Severity: Low]
-As reported by Sashiko on v3 [1], arch/arm64/boot/dts/apple/t8103-j274.dts
-already has an &i2c2 block just above &i2c1 that sets status =3D "okay", as
-well as a root / { ... }; node at the top of the file:
-
-    / {
-    	compatible =3D "apple,j274", "apple,t8103", "apple,arm-platform";
-    	model =3D "Apple Mac mini (M1, 2020)";
-    	chassis-type =3D "desktop";
-
-    	aliases {
-    		ethernet0 =3D &ethernet0;
-    	};
-    };
-
-Could jack_codec be placed inside the existing &i2c2 block (or replace the
-earlier stub) and the sound node be placed inside the existing root / node
-instead of opening duplicate &i2c2 and / blocks in the same file?
-
-> +	sound: sound {
-> +		compatible =3D "apple,j274-macaudio";
-> +		model =3D "Mac mini J274";
-> +
-> +		#address-cells =3D <1>;
-> +		#size-cells =3D <0>;
-
-[Severity: Low]
-Does defining #address-cells and #size-cells in the sound node trigger a
-dtc avoid_unnecessary_addr_size warning when building dtbs with W=3D1?
-
-Neither the sound node nor its headphone-dai-link and speaker-dai-link
-child nodes define reg, ranges, or dma-ranges properties, which causes
-check_avoid_unnecessary_addr_size() in scripts/dtc/checks.c to warn:
-
-    FAIL(c, dti, node, "unnecessary #address-cells/#size-cells without \"ra=
-nges\", \"dma-ranges\" or child \"reg\" or \"ranges\" property");
-
-Should #address-cells and #size-cells be removed from both the sound node
-here and Documentation/devicetree/bindings/sound/apple,macaudio.yaml?
-
-[1] https://lore.kernel.org/r/20261018-macaudio-v3-10-abdff7741dea@gmail.com
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103-macaudio-v=
-4-0-637484efe46d@gmail.com?part=3D11
+-- 
+Valerio Setti <vsetti@baylibre.com>
