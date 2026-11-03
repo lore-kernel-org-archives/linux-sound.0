@@ -1,57 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793712188;
-	b=kaCE+T2jp7mjI1czeXrx1VFfmgbz/Z5T6auduRAP/KgnMsHIU4IDELFaOEkUs2Z3cOPv
-	 oKfwKkQ8Q/4DZIsyl+Ec8yD0Aan1rbdtbt35HXvMHMwaYjBBJuTSm+q9vN30mqgazBsAz
-	 Z/dD2aNTiTzfJo2zC2Btw1MVJwGnnVJzKSWHJzcRrKUVjG2iC/MF7FeTBJEdbLDUdjcqA
-	 LBSXA5Ofqmd3CbsXtRFRMSxA2tOURmsk8PyStHnhNjKovh683TE0whOcaGBeBUwtKerSr
-	 BYTGFUldXxZfGGPoGSqEJSpA6tmDtSNMpMzy50NOQdKo3fqyMpMG0Bx2JxoUAnfkYMw==
+	t=1793712362;
+	b=J4QdJx9iUJ5Xp1SN2kvuvPDSSk3IknaOV8GBjj0mCwq1Y2VoUHkh3XBSD3TalcXf69HL
+	 Sg9Siy47eud+zd4SoZrEIoPmBSq9JRW4fbtlBJ882S4NrxgXc/JCz8MHD5jmUaIcAzS7x
+	 69iuWTYvnrx4V4QRpzvAeGFs8r7NfhU29qPVubdwcwIkIRMrKTGGWGtjl4g0UG9IZD3Zf
+	 oYDmMG2hdopObWIKDigbAFWMgtyMrXxSm0Fp8rPGdr3pmQ59KNmfYkRr5QSEmkKIAPER+
+	 17gtUdziNwdmpEor3hoa8UqSwZ/hbuX9Huh8QWBQqgbVKkNV5T324Smqwwn1AT6SUZQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793712188;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=Jnvtc4gqdtiixcNCaFZLBeaCmrtHkcb1NAUR/aXN7GI=;
-	b=2llWdHhI57tbCNUt7+175KGFwhKIoLc1KzZkOsntrup3zKAk4sWPbH3XidFA/0R7yHMK
-	 x4ZxH2Yp6m+PyfitxaPMsUSeFML/4Y2LlgQwUeL9igSd32zzUh7mO3p3ynCiDpNzsB90u
-	 MTWr/JhJ3zGPmQ09S7FFVJZTLM/6KolLFzREcERHSuAj97fHCT5Fi5kaqtyxOzC2tskkg
-	 /bYxUutXGq5UHnFaj3q9WP5Oi8/aWMxeDPLfJwnTld/93NME5GVH2EbCnlTG+34b4rpK+
-	 q+0+69zf6GiJWANcS/K65j1/7ehTA5fZbZ5+5TCJ+iiYPKfBTJtCaUyDlnnSZQDlycQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793712362;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=4tPenR+/9h0LCzZJprU/jbaqrKPBMlOXgrDY4zMH4eg=;
+	b=tFeh/9NMVRAGQ1ejKXpQZsGUgOYyqPda79wrWLpM1VJYuJW7COom/Yb6kscNPJdmLGbU
+	 s+uRSDFuqmtOMxT7d2xo2dBQaX4TjFvIZ5D6e7j0+OtriPrTlnYHNZprOmYnppNhixPJ+
+	 Pjeyy0NtZoXeWsdXwtnZ6xS1ukeELFAyyFbIwgfaSnK4PVDrQ+t3MTHyYAo6AfAi6McT+
+	 3hQ+rPykSwVX4SXoA3u5B/YU5lFpGTY31n0elaRaDBQiAuMmjl9OdRKdstmv5u13M0/b6
+	 qgrAvmL/L2ML2rOvP5DHCOtyN4BAGpgE15D/8cZHNj1dTiuvNwREqGLjFyRiC0novdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=pm.me;
-	spf=pass smtp.mailfrom=pm.me;
-	dkim=pass header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=OCzXpUDo;
-	arc=none smtp.remote-ip=185.70.43.16
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pr1e8+U0;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244F1606A33F
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 13:23:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 244F1606A33F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AECE606A32F
+	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 13:26:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2AECE606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=OCzXpUDo
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1793712185; x=1793971385;
-	bh=Jnvtc4gqdtiixcNCaFZLBeaCmrtHkcb1NAUR/aXN7GI=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=OCzXpUDodzgnJ/KkNHRu8AajhAziYdVk9f23cQWaRXHEnQSGFA+QLHR0UPGKytBA0
-	 jSGUa0uQZuMLONvYIucBYUWHKswDM1GE/QL5Wq6RuUIHwh7oe41pVzGwP9Js8X8w4G
-	 aaKJOOsMKUFWZ/RcVOddi8XlfWdC7pN8Z2c9dluW0FUEJ3+gPhBy2VgOSjcR/x2DT/
-	 G7Z+ACnn0JX4khILjAyIGh6usoCXSQ/dyIPNZtViT5Rx76MquLNyHKK73vVSrezlwk
-	 +hAvuRhWwAl1XlGJk4WLmyDpKPnl1vZN7NpFV7c6MRkpKEtuu/fFo+jHWeD1hUkGCC
-	 iUBQf2Q4oX2Pg==
-Date: Tue, 03 Nov 2026 13:23:03 +0000
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-From: Sinan Turunc <enscrpt@pm.me>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH v2] ALSA: usx2y: Reject buffers smaller than two packets
-Message-ID: <20261103132247.713-1-enscrpt@pm.me>
-Feedback-ID: 48393780:user:proton
-X-Pm-Message-ID: 7f98d601991cc0f07238302346ff0ac8e1b05903
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pr1e8+U0
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so28376355e9.3
+        for <linux-sound@vger.kernel.org>; Tue, 03 Nov 2026 05:26:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793712360; x=1794317160; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4tPenR+/9h0LCzZJprU/jbaqrKPBMlOXgrDY4zMH4eg=;
+        b=pr1e8+U0b60Vg86WqF9hISWy2VhHBhTPV0Top3duFznVviKPcsIIhKmqTzXK9c1uKj
+         C/gOOQzQRh/x8B4O/fDbE8jDc4kYFoMhZYTXVModQ30qRCIhC6fWbSWuGB9tIrtPeYyT
+         Tx5FUpZjxtOJVGi8gM3AHX5FLlDIfEBGYLAoNAioAafqXk6Hx14g4AdKi9joV8+IUm4o
+         arn6+HqerXCfP7AZnZSPxGnPptQD+5MvOdPUhomBG7Pr3xiB9D+TfYD/pGnHlPiCRPg2
+         kkD0Isa4fk5+6P7Yir/CUgPAzbWq2loBsnDAxbkpKZIZyDJnO9uXwB9HgDTFjD3dyLQW
+         9tfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793712360; x=1794317160;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4tPenR+/9h0LCzZJprU/jbaqrKPBMlOXgrDY4zMH4eg=;
+        b=Kq9RRu8f3KsdQPeewYLEdku/MQqu2/1VUzSphl0hzC02Jro1+n4BlYxd/A7fiV9+se
+         WFqo2EOBVLAW5moi/Bu/WMmf+CwRI03wKuvDMscUooUOsrl6bfpiJ7DHSvdgQ6gme4c6
+         dGQFb5t748Z+UUCG5mAmefMAcqnHCFeIVCH0a/EEF/sOOJA/PudmZDXA7Tu9i9Zl1OLx
+         91TfZNOfPrftHyledhBDrWh5kHa2t8YR+cpvOnK2BGUb++dP8TzF2hVudCSUXOlUSivt
+         /tNLvWyFQsLxNZl43Hj1o1b3ok34/uXCRuHfdFlPn+K/ZNYTd4/vj+ZjBPitB7CoY0V8
+         DUNA==
+X-Gm-Message-State: APuU4Z8g9qq+leh7Xwcx+r3Dw/EXuiRZuScgpPeI/qqxFnjuokkgm8eO
+	GzeOFTHjLZSsP30f7jiRF88yryLbCOB7mXk2LnWQ0scUSJhJ7yqhXOC8
+X-Gm-Gg: AYBFou1uWvcVHGv1mEMCaF4oCQF8quVlKvVRowXhuDaq92KR1KMf2vbiEG4RaB4c7bV
+	l2zc2AADgV9qtWnzkdDH29O5f8hQynz6q3kLRhbZ/HJHvYIbTa0Uk0C6fpgDLKmzbIA7/j7C1RH
+	Jgjgav5o9ppJ+kGk38IZCIEXLAHbgSM1lLy/m8x9ME4yHMWnPiaTErS1CUIL11JvAE753+elj+1
+	oo084YFXqKFLrWGjk9/48PXr6sK3Nf5g7S2FyS1zvOA5UZYn4oidG80GvjTzg1e9KcUbv3zB3E1
+	1XMBJo6uUyLWU5c2JgiuJfSbbfdQmCyM9nkHc1TvS1MSKseb053OI37/iuMufmVwsh3dYpaSGJL
+	WfwV4CJVuvrCzWD2SejHIYQty3//Hijk3Vd7aRKvTocvwFDOa9fHuVHurKeplEbijj1vJg8xBuY
+	3TNcqSUHipjfeIsyYyp1qY5PB8TMdXvk48DkH3BSukxshE9XlwfAUcOYPheoowkIWn65/HladuO
+	PIayR5jd4LrhtCtgNu5Fhwstx/xoCx9L/v0ZBSZlg0Yfso8uNIG7KHdqWLjiyHoqMELCs8Rislv
+	72zHWcqa+PZvHJ9qlS99YpbqkACZ3oCG6J2bgDucl7Oo62DEXeQk+o3N7tltGnc08OCB0ScMDka
+	i8kc0G8FwdIPjore1Pm8CUMw=
+X-Received: by 2002:a05:600c:a00b:b0:4a7:b304:253e with SMTP id 5b1f17b1804b1-4ac1765d8abmr303491105e9.22.1793712360411;
+        Tue, 03 Nov 2026 05:26:00 -0800 (PST)
+Received: from kreach.multipass (nat44-21-238.net.ruhr-uni-bochum.de. [134.147.21.238])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b2a82cebc1sm84725725e9.1.2026.11.03.05.25.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 05:25:59 -0800 (PST)
+From: Jude Gyimah <jude.gyimah87@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	heiko@sntech.de
+Cc: linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Jude Gyimah <jude.gyimah87@gmail.com>
+Subject: [PATCH 0/5] ASoC: rockchip: fix missing REGMAP_MMIO dependencies
+Date: Tue,  3 Nov 2026 14:25:32 +0100
+Message-ID: <20261103132537.3717496-1-jude.gyimah87@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,109 +99,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-usx2y_urb_capt_retire() splits the copy into the ALSA ring buffer once
-at the buffer end and wraps hwptr_done once, which is only correct when
-one packet holds at most buffer_size frames. The packet size is the
-endpoint's maxpacksize from usb_maxpacket(), while the hw constraints
-allow 64-byte periods with periods_min 2, so a packet can be larger than
-the whole buffer.
+Each of these drivers can be built into vmlinux while the code
+providing a symbol it calls is a module, which fails to link.  The
+same shape in 5 drivers, so they are here as one series.
 
-The endpoint is known at probe time, so constrain
-SNDRV_PCM_HW_PARAM_BUFFER_BYTES in snd_usx2y_pcm_open() to at least
-twice the endpoint's packet size. Two packets, matching the line6 fix.
-The bound makes the copy safe, but it does not make every larger buffer
-progress: the position is reported once per URB of 4 packets, so a
-buffer that divides one URB's data returns to the same position at every
-callback. That was already the case before this patch and is not changed
-here. Keep a guard in usx2y_urb_capt_retire() that drops an oversized
-packet with a ratelimited error, for the case that should no longer be
-reachable.
+Affected: rockchip_i2s, rockchip_i2s_tdm, rockchip_pdm, rockchip_sai,
+rockchip_spdif.
 
-Reproduced on 7.3-rc7 with a USB/IP device presenting the US-122
-interface layout and 1024-byte packets into a 512-byte buffer:
+The fix is a select rather than a depends on: the providers have no
+prompt of their own and are only ever enabled by a select, so a
+depends on would leave these drivers unselectable.
 
-  BUG: KASAN: out-of-bounds in i_usx2y_urb_complete+0x1285/0x1ac0
-  Read of size 18446744073709551104 at addr ffff88800e448800 by task vhci_r=
-x/83
+Each was reproduced on v7.3, x86_64, by a vmlinux link that failed on
+the named symbol, and each links once the select is added.
 
-With this patch a 1024-byte buffer is refused at hw_params; a 2048-byte
-buffer is accepted and safe but barely advances (hw_ptr 9216 after 30 s,
-for the reason above); a 3072-byte buffer streams for 30 s with no
-report and with the position moving inside the buffer.
+Found with kreach, a static check that compares what Kconfig allows
+against the symbols the compiled objects actually reference.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Sinan Turunc <enscrpt@pm.me>
----
-v2: constrain the buffer at open instead of clamping in the copy. v1
-clamped the frame count to buffer_size, which left the ring position
-unchanged on every oversized packet and stalled the stream, as the
-Sashiko review of the line6 patch pointed out. The bound is two
-packets, matching the line6 fix; see the message for what it does and
-does not change. The clamp is replaced by a drop guard for the case the
-constraint makes unreachable.
+The checker is at https://github.com/JGyimah/kreach, and the
+reproducer configuration for each finding is published with it
+under results/.
 
- sound/usb/usx2y/usbusx2yaudio.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+Jude Gyimah (5):
+  ASoC: rockchip_i2s: select REGMAP_MMIO
+  ASoC: rockchip_i2s_tdm: select REGMAP_MMIO
+  ASoC: rockchip_pdm: select REGMAP_MMIO
+  ASoC: rockchip_sai: select REGMAP_MMIO
+  ASoC: rockchip_spdif: select REGMAP_MMIO
 
-diff --git a/sound/usb/usx2y/usbusx2yaudio.c b/sound/usb/usx2y/usbusx2yaudi=
-o.c
-index a3a0bc13632..d1ddc2b425d 100644
---- a/sound/usb/usx2y/usbusx2yaudio.c
-+++ b/sound/usb/usx2y/usbusx2yaudio.c
-@@ -51,6 +51,17 @@ static int usx2y_urb_capt_retire(struct snd_usx2y_substr=
-eam *subs)
- =09=09=09dev_dbg(&usx2y->dev->dev, "%s: 0 =3D=3D len ERROR!\n", __func__);
- =09=09=09continue;
- =09=09}
-+=09=09/*
-+=09=09 * snd_usx2y_pcm_open() constrains the buffer to hold at least
-+=09=09 * two packets, so this cannot happen for a conforming device.
-+=09=09 * Drop the packet rather than overrun the single wrap below.
-+=09=09 */
-+=09=09if (unlikely(len > runtime->buffer_size)) {
-+=09=09=09dev_err_ratelimited(&usx2y->dev->dev,
-+=09=09=09=09=09    "%s: packet of %i frames exceeds %lu-frame buffer, drop=
-ping\n",
-+=09=09=09=09=09    __func__, len, runtime->buffer_size);
-+=09=09=09continue;
-+=09=09}
-=20
- =09=09/* copy a data chunk */
- =09=09if ((hwptr_done + len) > runtime->buffer_size) {
-@@ -880,6 +891,7 @@ static int snd_usx2y_pcm_open(struct snd_pcm_substream =
-*substream)
- =09=09((struct snd_usx2y_substream **)
- =09=09 snd_pcm_substream_chip(substream))[substream->stream];
- =09struct snd_pcm_runtime=09*runtime =3D substream->runtime;
-+=09unsigned int=09=09pipe;
-=20
- =09if (subs->usx2y->chip_status & USX2Y_STAT_CHIP_MMAP_PCM_URBS)
- =09=09return -EBUSY;
-@@ -888,6 +900,18 @@ static int snd_usx2y_pcm_open(struct snd_pcm_substream=
- *substream)
- =09runtime->private_data =3D subs;
- =09subs->pcm_substream =3D substream;
- =09snd_pcm_hw_constraint_minmax(runtime, SNDRV_PCM_HW_PARAM_PERIOD_TIME, 1=
-000, 200000);
-+=09/*
-+=09 * The capture and playback copies wrap the ring buffer once per
-+=09 * packet and advance the position by the packet, which only works
-+=09 * when the buffer holds more than one packet. The packet size is the
-+=09 * endpoint's, so bound the buffer by two packets here.
-+=09 */
-+=09pipe =3D substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK ?
-+=09=09usb_sndisocpipe(subs->usx2y->dev, subs->endpoint) :
-+=09=09usb_rcvisocpipe(subs->usx2y->dev, subs->endpoint);
-+=09snd_pcm_hw_constraint_minmax(runtime, SNDRV_PCM_HW_PARAM_BUFFER_BYTES,
-+=09=09=09=09     2 * usb_maxpacket(subs->usx2y->dev, pipe),
-+=09=09=09=09     UINT_MAX);
- =09return 0;
- }
-=20
---=20
-2.56.0
+ sound/soc/rockchip/Kconfig | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+-- 
+2.43.0
 
