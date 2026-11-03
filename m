@@ -1,55 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793715201;
-	b=AOMVKI/Av95UF2rxDJGlZaEbdF7uZcvcLMiWomGdWLiYlTpDktxz17HM+qQbjF3JjW1z
-	 ++Q7fWLE8Li+buP5eT2o0VDFC76T5WBnVvr0QrZ6BzqVP+NNEtPjZpc8bRUuoVgoadhTl
-	 OPWUfZSjg8F2LAfRMJp3+MbZ8so0iPQaN5W79hxzxK9xB3+RZH1Z/TE7L/dQJQzT33ppT
-	 y7QYGLqlZ1g6KNq1hrNQFxXJ4aJ6MuobdpLr8TZzLqGN8qp5kRJ1f5nQQk7MQbA3zs0oZ
-	 qdQVUSfJbBzJKgEYkR0J2iZawS9XLyl8dCHB+jDxycwMzCeNen7o92h61VI3+Zly8sg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793715201;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=MNtA8FIQTPRkT1vS0onamH09FDjgFqeul5kiajnNDm8=;
-	b=yZe1L44bEpjs9UHlcRdrrI89iP7K4vTcs6JzgKwfhQ90E81JHz0ISEvQqBmDz2lD0wFq
-	 UvYBmv5DdxOwc3FFF2dLGMSB4565xJiASQ7MgCEY08xC6IXXgYVwrdCmUX2FA9kYpdqKY
-	 uGBcx36f0s06D7aQswyQruZCvSucPnQQSW8KU+oZwcoQhP9GyMqYJD9ly3n4LFfG/dyBq
-	 LaC5PtpSogF3l37xYOJ8db0ULEKayH8pf1I1D5sE1fVwCUa7pGXF9niyTReshSjV8lnC0
-	 935BovA6Q9w01/8jZ2Riyzdm7+8xpT/G7S9jWhy8UE+k2o+15FXg3mK4aS4tFEtImew==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nhjb6qgA;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.152.168
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793715554;
+	b=bPZSaSkrdJGyaLHyi3JVUc0Gz3YlHT7QlRbvEC/admCQV8ZvD6sEVsl5FX0MB2CcvS5I
+	 7KaDy7nu6HhDBJoGyYqiDDTYPo7vYDC1dga4cULmeigxMjux3l2ZgL0o4Yy1khdHUist2
+	 IAlv+MGuyPmfo86ocxYHfp9iNsC5xchept1jgDdZACEDsmbFEe9Xu3wcyvIz6G4oyBBex
+	 jAGuMFNRvfi66f8JwQVmB6qN7KYVBGRgBq8Hz1qPqfevy2SiWJFNC5x7w/HKpuAfFp8Xs
+	 mq8FCJXJbbX5tmubDlV+ZxqzL2lsUniIxyEW0moiQXZ4NIq+I3PPu/HBoPRAaF8za+A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793715554;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
+	 Received:Received:Received:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:Content-Type:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Reason;
+	bh=ggQa9clEsThpK7bCIuJK63IAKNPCBUZmwC+RVffZKzc=;
+	b=iuSq/exbP5UQc0mciOVuiFhj6oj2K1cA7X9UrEZj848rBvBDixp9yMVX67Jpa+UHVvkP
+	 dy+nNiC8AOyfhBo/FuXHM8gJqRDWD7bA8p+OAxkvR7fZ0kBBvCalXuXjudUGNkqff9HKP
+	 7U1Yrf1R+7pPznXz905WvSUYm/lTBbdfv0K5FyiZVS/8grt0mYP0OYWm3L/Lnoc2ZKwD2
+	 oXqpkkoEWu44Z0abPHBfHXHQtoM0Fz4erQqfWQN+dWdpiVDABsUUP2mQAu2AOxxO95vfF
+	 xsQtyQ1nXnZnH2WbZt1lFNawMC4oHt1KPZU/ILeNuP5UrsnjOJb4PzMjd/Vd2Gp2JbQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=opensource.cirrus.com;
+	spf=pass smtp.mailfrom=opensource.cirrus.com;
+	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=R5HTRXyO;
+	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=SbzJT2Ph;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.152.168
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA867606A324
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 14:13:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F47606D815;
+	Tue,  3 Nov 2026 14:19:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74F47606D815
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nhjb6qgA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13AC91F000C1;
-	Tue,  3 Nov 2026 14:13:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793715200;
-	bh=MNtA8FIQTPRkT1vS0onamH09FDjgFqeul5kiajnNDm8=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=Nhjb6qgA5vQzZLWIAy63y9bwkAvfvHFYs/GSlGX6rbXBqWNkUx1z7+So/luiduHYS
-	 xPV42hg4P8keC9LACyq2+dDPzCMFrf4JqAuBsMVZ1is0B/6dmpl8fJ0YxgaTrESZu8
-	 9xl3FlFcYAwegBhMkFyZhHApu5yqrVuC70k0elxMz/eGt7/T/hE4AnY55BbIuPGals
-	 8eeTESW62W/nydt3zAII+HeALU3j/ju8JvOsNxO3CaPyLcBGnqbupAj5u+8KWr4eDZ
-	 /HwEbasd3NslCBsDWXLruT940DH4rBNdsIqykctHUcJNuU3Xi2X3LCTrPwrTz73txx
-	 S6vpudTCCPHnw==
-Message-ID: <sashiko-outbox-195427@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 5/7] ASoC: Intel: avs: SoundWire support
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Cezary Rojewski" <cezary.rojewski@intel.com>, linux-sound@vger.kernel.org
-In-Reply-To: <20261103134958.2089136-6-cezary.rojewski@intel.com>
-References: <20261103134958.2089136-1-cezary.rojewski@intel.com>
- <20261103134958.2089136-6-cezary.rojewski@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 14:13:19 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=R5HTRXyO;
+	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=SbzJT2Ph
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3E5FG91102867;
+	Tue, 3 Nov 2026 08:19:10 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=ggQa9clEsThpK7bC
+	IuJK63IAKNPCBUZmwC+RVffZKzc=; b=R5HTRXyO774unagmknq/on59kip3E63q
+	FfdCMATDvmn6jYLZ9yYxA60gQUIcfWpi8s15e6FQE//GYmvxB+focnLxCDTXzSzh
+	iWTbbruDwWlDa4kIMZQdzmNkcJc7taWiFjfK30/qhGxDZOZBADRtVWYGWfhSNjXn
+	FYExn0GHLMFNF3uUIrl/XqbWGJSb2bzy+I3rqdQ6xETGGilqCm3Nev0MIEeV++zM
+	Wmxpi1Xr0XQvQRu/tNVvmNH6C7PYEgNr6mIZ++NU+ybXUbOdidev9VG0pXDYR4+2
+	+fm4ixQoGXT84v/aDkGXNBULZlUCIIjYL1HmdpwlUfKYUdIlxlr1pA==
+Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11021127.outbound.protection.outlook.com [40.107.208.127])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4hncrfuu5y-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 03 Nov 2026 08:19:09 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=E5y5T6k4ZV4/dqcJr8uWEGj+MkV06FTqE5SwI+ZfO8pBmb4fCv+NnQo9CJXItvoMqe83wwapqDYg+hX0Sd3mVOnMycVF3YxjsVUFG6AqOiuRjjHfZhB/eC3LqZaKZbqftH+h/kEXj5yhHqY3s6MeUxFOCamYQOroau+w+MhJSF+JH39yuU1s+fsxDlc1CO3Wg4JFShf5NhIAluM0h8s6Kl/KpQLaFnnOunxFR4920b8N7S/msCGIO1gYQz1N5kmJAN2WFFGlH1LbvehLoGCKdbgwhdcecgPU9+5Jzea5HxaDCrAZsmCKiOUvIjKh+sGWYhbXI4BT+LE8UwSXkzrTjQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ggQa9clEsThpK7bCIuJK63IAKNPCBUZmwC+RVffZKzc=;
+ b=GWXIeRirEuIIweIw8sHuVn6To3/WExipTMpbokLeXBGTYz8SztVWVUvS73/woPjX96L+/3Bm6xu9dGCtTOsiE7XlmA511tCM8z0CzpbOYBvx8lpiWoWd8yT0N10wPRHX3M8Ga7CyZByZolacUeRcRLLknxeLw0WxMk948E6G6lvNDu8/uQLOYi7Ik8k9JqLKhewfZfDQ1C4IaP2TODv4ZVZ9ugg9++PqcSVVerh/Eh9WT1tCaoyG5p1IJLVBpq4LgRNkbCn1MHJva6KX/b+bIYPcYwp+IcUeNXEafEIqTINp9JkWWAzAhgKkFHnbJeXlJLN3jT4Zh3NIDrnOTa36lg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ggQa9clEsThpK7bCIuJK63IAKNPCBUZmwC+RVffZKzc=;
+ b=SbzJT2PheyHH11uswLDcDLbsY1tjK7nbM5Mr5wTQXss3zyJxGcQ4oJWLX9FkdR9bi52BTBXv+DN4KTHOaAtl0vJoJzD0vuN9YsgUVP0SADmDThCeuAbQ21l487rHvPby85/K7FI4u/0XIPc8Ng3EeCOR6ZNiRtwh1AZPIqnObfg=
+Received: from BN9PR03CA0942.namprd03.prod.outlook.com (2603:10b6:408:108::17)
+ by PH7PR19MB5776.namprd19.prod.outlook.com (2603:10b6:510:1d4::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Tue, 3 Nov
+ 2026 14:19:05 +0000
+Received: from LV8PEPF00000067.namprd03.prod.outlook.com
+ (2603:10b6:408:108:cafe::77) by BN9PR03CA0942.outlook.office365.com
+ (2603:10b6:408:108::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.569.9 via Frontend Transport; Tue, 3
+ Nov 2026 14:19:05 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ LV8PEPF00000067.mail.protection.outlook.com (10.167.248.39) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.5
+ via Frontend Transport; Tue, 3 Nov 2026 14:19:05 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id EDAD4406544;
+	Tue,  3 Nov 2026 14:19:03 +0000 (UTC)
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.12])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id C977982026C;
+	Tue,  3 Nov 2026 14:19:03 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: broonie@kernel.org
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Subject: [PATCH v2 0/3] Improve pop performance of cs42l43 input path
+Date: Tue,  3 Nov 2026 14:18:54 +0000
+Message-ID: <20261103141857.672537-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,156 +128,76 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PEPF00000067:EE_|PH7PR19MB5776:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: a272faf1-aa3d-44ef-2efe-08df39b56ae5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|23010399003|376014|36860700016|61400799027|261021121427099003|261021123027099003|10067099003|11063799006|261009223027099003|261102123227099003|18002099003|16102099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	AiIXPOomC7Ihsohos7nmPCV36jwk0w6rq3qIUZqirH2TJAzAVH/2eM0FCasXXMYnTy4N6hNRPC3AXkW7N/eGqNSBSz82ORK/uvi2rHS11Q3ZKkx6mqhUQyB4HUHypYZSqSrA9np2TmiLeiClXdYjx/C0Dkm2N1PB02wnZqijYcTn3o5lpG7mGBz0StvVvhxHYyPNRYS68YMF5F2o8wGskZOe0HRsgaU7IjAkC3xhhCbhu6EVexFFvYunrcoLWgUDHD/GtVBw8U87PrHj7RP9yLYwdpYZtnWFJi0BzwN9NAgJb7g7A5n4rFc1d0Y4Jau9i7R7Eoxn0f1pXdwgip0qjJYgQrzmiBbT8zji6pTGkITf0l7xMFH0vg3yaM16HM940BfI/7Yd/g33tTIaxIa+g7sYS2jgUlJaBKmwpsA1fz6Y877rvjATLvqvhN/seRfcVQ0vb+da0lpo7Z9mXT48+hBaX0Z0eUbbIKJqXSQ7+y41N6pnXWXxS/36/Qnr5SE8UDmfO0dzwhtMqXkMZmZJ/xF6vNiGodjNMuuDqge7Ku/hmFoQr/yRldbGObf7Dzo/4ENtSkzuTCh8Pz0PG7xC4ONRcfHl5BNcUVsMQz85wlqMRTmgMdoKKiOS/zn7vsFJnJy1cbG4V7ZWrJ3mznCzWGGQRbGgTMvGnLEGBIQW8/3UzBwF9/9zwID78yzjckvr2iahQpBKrQBAeuq5MeYLBQ==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(23010399003)(376014)(36860700016)(61400799027)(261021121427099003)(261021123027099003)(10067099003)(11063799006)(261009223027099003)(261102123227099003)(18002099003)(16102099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	FbrP8k1FlU15BeMASge2XbqG6aZwnxM++CF61bxQF+D5tCb/+7/etof445LD8ZBR1KZsXsdLEmz/naVpNibj1aFJydEy6gsUw90zpUFt4zuaHQDG/PpOCTqaB7PgHtyJvZGiYm3qrT1Ks5dCZy/uKOiX0lhNsCNH0XSVzH366OC7V1o2K74ztor//O1G2v6S2rAWFlQFOzq+SSy/ME+grFp4kfojxcwVaTBJ23LNXS33h23cXd1Ik7GgHWxeWpL1m9y+d9KWRYX8BuYecW0oP4VyjVcQIBaoGvLk82cni0ncqlUT4/ghZxYm9zQNQhCGkaDOKWNi/m/e96TUu/z0phP0jGj1BP33SyrRpi/GTWYtK52UyytVEXTwnsiX37KINNSuG140hy4Oc0of/tGOcQA7sZVbUcR4tMMa+Hiz+nLWW6BkVoFBiJS+DzOFs6rr
+X-Exchange-RoutingPolicyChecked:
+	2XyMOog1RCm79UvdRdHVZsNyipt9rVGY6OwY3iM4ZbbqKjkVkQB3gT81c/hIdWhTEEXN7Se6yh4TJOlnqolVN2gZ4+TYIbM9JCAprQajlH0+YDdZvhpLt1ksTpYqXKTMTswnfnokZgQfRPjVYXS2cj9UF41wEYGv7ZoQ+ZtfpDgndpUyB1RJHldxIxW+dH7nrdvRomkIOgkgENgpizDYfmjyLWzasBbT+lpNJR1HeraU2QWQUP2+D95ZtLVFkHftB1EmyE7JjPLrkKsHVHkj4sY6zyfnpLdcRIBluO2DbPpY2PrZQGGGOSFKyUcavYMWG8FmhSgi0jOceaZGCT/usA==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 14:19:05.3035
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a272faf1-aa3d-44ef-2efe-08df39b56ae5
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-LV8PEPF00000067.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR19MB5776
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAzMDA1NSBTYWx0ZWRfX55GVQC0qXj7X
+ oFDU084CZG3RRjW/U8TK2Sp+aPpwwyZGlyIUj5tz1PaIHS/JDJvdRS45+2F0x+DRsu0csbl4yGp
+ E/KSr01amuG6W+PY8PFdeRR+AKZoJT2tnx2gxDeBHiTRVAukLmrhSxjYQzBclMN+FyOCeh64/Qy
+ cgKkz+oSQUhItwe1Vyl7cMcnsy2i/fMNWa5Ij8FnZuB/84vv1yovI1WMQHskkDl7HxVMYkhy1IE
+ qp4kSOlC0/fttF4woqbjB34gedzOHiRyYbrjPSuTbcxQSKfTMBs+z8p3CNopObLHq7O2WUReKyC
+ yBvFM0E/ubvQtUrg52WqKMqgI1SWuBUD5s72R+/ztm4PPT5WMDii5op5fRqgzxhOlOU6I4N8eDA
+ qEm3QzrLogOWgul5T47k10quPFjbhhCDyWZ6cXCco1hnk5iCR1kUxvIArv0gaQkuYy+ep1gY+p6
+ PW2YCV68/S+TvxwA0lg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAzMDA1NSBTYWx0ZWRfX/SMIbQvMSiu8
+ l1TnXWQHCdOP53gtJ8U1NlRkV45wdO7vhaUzOPBsk9QuDzl41DKKXez/L6TGd4pRi+6Z0FGxpze
+ L8F/M0o8CLrS5JXX1M5zst7iOCFRRJA=
+X-Authority-Analysis: v=2.4 cv=LtgHWXdc c=1 sm=1 tr=0 ts=6ae9ed5d cx=c_pps
+ a=TSVcXIYLINIUQqCwOqgFvg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=zJRp6_cAMcgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=c52L210Bym4mdPEIlocA:9
+X-Proofpoint-GUID: aC70CysY6q1bQllbevf6Z9J1hE3rSxos
+X-Proofpoint-ORIG-GUID: aC70CysY6q1bQllbevf6Z9J1hE3rSxos
+X-Proofpoint-Spam-Reason: safe
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] ASoC: Intel: avs: premature sdw clear, IRQ race, and unmasked IRQ =
-in teardown
-- [Medium] ASoC: Intel: avs: 32-bit unaligned read and missing all-ones che=
-ck on WAKESTS
---
+Some rework to improve the pop noises associated with bring up of both
+the analogue and the digital input paths on cs42l43. As part of that
+there is also a little refactoring of the DAPM mic event handler to
+switch over to look tables rather than switch statements.
 
-commit 8ccf2c90780786f5e6483aeba7422e7c31a54429
-Author: Cezary Rojewski <cezary.rojewski@intel.com>
+Changes since v1:
+ - Added static const to decim_info arrays
+ - Corrected order of a couple registers in the decim_info array
+ - Added missing dapm lock around affected controls from new workaround
 
-ASoC: Intel: avs: SoundWire support
+Charles Keepax (3):
+  ASoC: cs42l43: Improve analogue mic pop performance
+  ASoC: cs42l43: Factor out decimator startup data to an array
+  ASoC: cs42l43: Improve pop performance of the input power up
 
-This commit adds SoundWire support to the Intel AVS driver by utilizing
-the existing SoundWire library to probe, start up, tear down, and handle
-interrupts for the SoundWire component.
+ sound/soc/codecs/cs42l43.c | 219 +++++++++++++++++++++----------------
+ sound/soc/codecs/cs42l43.h |   3 +-
+ 2 files changed, 127 insertions(+), 95 deletions(-)
 
-> diff --git a/sound/soc/intel/avs/cnl.c b/sound/soc/intel/avs/cnl.c
-> index 31fd9f251d6c9..7090b91572d88 100644
-> --- a/sound/soc/intel/avs/cnl.c
-> +++ b/sound/soc/intel/avs/cnl.c
-[ ... ]
-> @@ -61,16 +66,30 @@ static void avs_cnl_ipc_interrupt(struct avs_dev *ade=
-v)
->  irqreturn_t avs_cnl_dsp_interrupt(struct avs_dev *adev, int irq)
->  {
->  	u32 adspis =3D snd_hdac_adsp_readl(adev, AVS_ADSP_REG_ADSPIS);
-> +	u32 adspis2 =3D snd_hdac_adsp_readl(adev, AVS_ADSP_REG_ADSPIS2);
->  	irqreturn_t ret =3D IRQ_NONE;
-> =20
-> -	if (adspis =3D=3D UINT_MAX)
-> +	if (adspis =3D=3D UINT_MAX && adspis2 =3D=3D UINT_MAX)
->  		return ret;
-> =20
-> -	if (adspis !=3D UINT_MAX && (adspis & AVS_ADSP_ADSPIS_IPC)) {
-> +	if (adspis !=3D UINT_MAX && (adspis & AVS_ADSP_ADSPIS_IPC)) {
->  		avs_cnl_ipc_interrupt(adev);
->  		ret =3D IRQ_HANDLED;
->  	}
-> =20
-> +	if (adev->sdw) {
-> +		u32 wakests;
-> +
-> +		if (adspis2 !=3D UINT_MAX && (adspis2 & AVS_ADSP_ADSPIS2_SNDW))
-> +			ret =3D avs_sdw_thread(irq, adev);
-> +
-> +		wakests =3D snd_hdac_adsp_readl(adev, adev->sdw->shim_base + SDW_SHIM_=
-WAKESTS);
-> +		if (wakests) {
-> +			avs_sdw_process_wakeen_event(adev);
-> +			ret =3D IRQ_HANDLED;
-> +		}
-> +	}
+-- 
+2.47.3
 
-[Severity: Medium]
-In avs_cnl_dsp_interrupt() in sound/soc/intel/avs/cnl.c, should
-SDW_SHIM_WAKESTS be read with the 16-bit helper snd_hdac_adsp_readw() and
-checked against U16_MAX?
-
-In include/linux/soundwire/sdw_intel.h, SDW_SHIM_WAKESTS is defined at
-2-byte-aligned offset 0x192 immediately after SDW_SHIM_WAKEEN at 0x190,
-and drivers/soundwire/intel.c accesses it as a 16-bit register via
-intel_readw() in intel_shim_check_wake(). Using snd_hdac_adsp_readl()
-performs an unaligned 32-bit MMIO read across offsets 0x192..0x195.
-
-Additionally, in avs_hda_probe_work() in sound/soc/intel/avs/core.c,
-avs_sdw_probe() populates adev->sdw before avs_dsp_first_boot_firmware()
-and avs_sdw_startup() run. When an IPC interrupt fires while the SoundWire
-SHIM power domain is still unpowered (or powered down at runtime), the
-MMIO read can return all-ones. Without filtering out U16_MAX (like the
-UINT_MAX checks on adspis and adspis2 above), could wakests evaluate to
-non-zero and spuriously trigger avs_sdw_process_wakeen_event()?
-
-> diff --git a/sound/soc/intel/avs/soundwire.c b/sound/soc/intel/avs/soundw=
-ire.c
-> new file mode 100644
-> index 0000000000000..284a00ea794e7
-> --- /dev/null
-> +++ b/sound/soc/intel/avs/soundwire.c
-[ ... ]
-> +void avs_sdw_exit(struct avs_dev *adev)
-> +{
-> +	struct sdw_intel_ctx *ctx =3D adev->sdw;
-> +
-> +	if (ctx) {
-> +		adev->sdw =3D NULL;
-> +		sdw_intel_exit(ctx);
-> +	}
-> +}
-
-[Severity: High]
-As reported by Sashiko on v1 [1], in avs_sdw_exit() in
-sound/soc/intel/avs/soundwire.c (called from avs_pci_remove() in
-sound/soc/intel/avs/core.c), does setting adev->sdw to NULL before calling
-sdw_intel_exit(ctx) while interrupts are still active cause several issues
-during driver removal?
-
-1. Inside sdw_intel_exit() in drivers/soundwire/intel_init.c, each link
-synchronously runtime-resumes its child peripheral devices:
-
-drivers/soundwire/intel_init.c:sdw_intel_exit() {
-	list_for_each_entry(link, &ctx->link_list, list) {
-		struct sdw_bus *bus =3D &link->cdns->bus;
-		int ret;
-
-		ret =3D device_for_each_child(bus->dev, NULL, intel_resume_child_device);
-		...
-	}
-}
-
-Because avs_sdw_probe() sets SDW_INTEL_CLK_STOP_BUS_RESET, resuming a
-suspended link powers it up, enables Cadence MCP interrupts, restarts the
-SoundWire bus, and performs register transfers waiting on completion.
-However, since adev->sdw was already cleared to NULL,
-avs_cnl_dsp_interrupt() skips avs_sdw_thread(), so SoundWire interrupts
-are never serviced during sdw_intel_exit(), causing child device resume
-and bus transfers to time out while the unacknowledged level-triggered
-interrupt remains asserted.
-
-2. Neither avs_pci_remove() nor avs_sdw_exit() calls
-avs_sdw_enable_irq(adev, false) to clear AVS_ADSP_ADSPIC2_SNDW in
-AVS_ADSP_REG_ADSPIC2.
-
-3. In avs_pci_remove(), avs_sdw_exit() runs before pci_free_irq() without
-synchronization against the IRQ thread. In avs_cnl_dsp_interrupt(),
-adev->sdw is checked at the start of the block and then dereferenced again
-for adev->sdw->shim_base:
-
-sound/soc/intel/avs/cnl.c:avs_cnl_dsp_interrupt() {
-	if (adev->sdw) {
-		u32 wakests;
-
-		if (adspis2 !=3D UINT_MAX && (adspis2 & AVS_ADSP_ADSPIS2_SNDW))
-			ret =3D avs_sdw_thread(irq, adev);
-
-		wakests =3D snd_hdac_adsp_readl(adev, adev->sdw->shim_base + SDW_SHIM_WAK=
-ESTS);
-		...
-	}
-}
-
-If avs_sdw_exit() clears adev->sdw and calls sdw_intel_exit(ctx)
-concurrently, can avs_cnl_dsp_interrupt() hit a NULL pointer dereference
-on adev->sdw->shim_base or a use-after-free on ctx in sdw_intel_thread()
-and sdw_intel_process_wakeen_event()?
-
-[1] https://lore.kernel.org/r/20261102181042.1922005-6-cezary.rojewski@inte=
-l.com
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103134958.2089=
-136-1-cezary.rojewski@intel.com?part=3D5
