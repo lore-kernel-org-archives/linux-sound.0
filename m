@@ -1,57 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.28
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793707697;
-	b=B1pR+Pp7dbsjkQOf4VFS4nayxJYYmQcGzHBCY0orlHMtgFasqtB1gpsg3rS+vMW7CDQ/
-	 VnLvcWZpY7kTh9M+OgW17rRB658LCEBcNDWyV0Dj0lFkcPVE4Mydgf0O3m8L8f1AqcqI1
-	 O9eis6CdAh2tiepxTShfaldwyiwmLyuJwIy26gSN58GD5sHxMJJG7kCbLZvL9qhrmK9aB
-	 M98UGob4H2f/gp0E6yNlSQcpkPvDJqp/BlUFkLS5oM2mvnoim+aeNTahPgIRStjocvwk6
-	 i29Bn+xQ3Yh8GDWElcnte1T8DOIxUNxzZqavNfWmc8bKg9Wek3wQRIVdl/zNn1t/i7A==
+	t=1793708694;
+	b=qv+i0g8dUxRXtABuYd0Wu72BLHr7Waqx/Ud/WdbDFSctMxay3LDI4czvy0xwVCyX0i7C
+	 oVMlmzFJQk8aFAzMFMRFjnE55ENa9szrQulaRdX/cZiZMJnqbwg/3dW08/ghnUo2eD5mc
+	 R44ukj/K5SgZM5XyVJgJLKEtYGVsjcVS8VeRpgZLdip38E5IK8oOIxdRT09zZF6ilIld3
+	 UUcRoMirzSSei1IIaOcxt1GnmXTSro3k/XuUR99ElcI05ED/Z2CU7Z+dKyr8nrz6nuqLR
+	 niyVInxcFUDGxR4z2Vga0TM12T4Z8PBPS7Eo8JOlA2B/y8LAE8QPi1ulomoWyLlITDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793707697;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=wK+F9iSHxL12xB7GmsXN/Ir/YPM0zAj50vPxKwtp7tk=;
-	b=slMt5lurUfndxynt9CfzmHSXn4gAAKvhySCzN9Q7pdhxyhnSGgkXiieUPMOGbrnxuXJc
-	 9+IrJ3CSYmnqY+5xkv+b9gn7LuN1sxZk90PofrGrhZv3P1A8rPEzzLeiaY3lCo7v2qegN
-	 WwAmwYPRtN9dXf6L3bYGVOT0ST1dzbjK10CMxMq/tcUXguqyFCVLKaKPxbNYpDJnvWxH2
-	 OOBdGIUCadLIu1Euo3XFgHP/nTn0AXs164pSsF3RJ6a0n+2clPq1fIG71BiX/vmeUuLL0
-	 D40on9mVbgfopSUU7CKlFc/9rxQgXMEA5xrFY/x3zP3iGAKhkPEi0+7CG/3HDQy0Nmg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793708694;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=me8J2uYLMQkuoqe5/vPxb7HHNlUwI5nJJ5By45iGNB4=;
+	b=mSepJRP/EyMLvVZg4BGWaQSQJ7CWobtnKqOw043hWxzPRZ06fZBobwZBZZGtPVJKqWK4
+	 UDndsU00RBzgaQcaXy1PRXEg8/mFc027WxUPdemQnf+BKYjFwxJZp0mRPkhO4EZjMZuv1
+	 KTuAyZYJuNCDAfW03p6m37cMRtboR1gxaaCXpzD1AFireayQX+FZnUGKgsKCACtbVoynO
+	 M25cujkzROmKcqKvqKvJ0omNtom3YDl8TTuXfFHmmfCx85mzeSVUaiLRP2CPFgq3jyyOO
+	 y5qlSg01/GSG++lRbPUXSRFu+2u37bJdcOQ3ULLgsCJIvTX82wcl6OLzzpu5PdyBr4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=pm.me;
-	spf=pass smtp.mailfrom=pm.me;
-	dkim=pass header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=qGhvasLw;
-	arc=none smtp.remote-ip=79.135.106.28
-Received: from mail-10628.protonmail.ch (mail-10628.protonmail.ch [79.135.106.28])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XInZzJ3p;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02CF606A32D;
-	Tue,  3 Nov 2026 12:08:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D02CF606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01FB8606A327
+	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 12:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=qGhvasLw
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1793707694; x=1793966894;
-	bh=wK+F9iSHxL12xB7GmsXN/Ir/YPM0zAj50vPxKwtp7tk=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=qGhvasLwC4X9P1ioZMYv9+YOpw2IGUZwubTO3J/AuSt1Mp+qkyBGTQnJwFOjAhHKl
-	 c3HmO9LMdLhyYfBumGvrpKnbC5gW21GecQv2sK9AN/1BRNUOyt4JnIRoKlM4OZb/Nw
-	 TKJeiyaFKkE1f8CPRsWwQRkHR+G8lIO+/EsNnw/knZ6NIWfqvx79EQ2Q7TWlzxi/NT
-	 s2zQZ92Eql9PD6+4NeDT/k8ME8BdTDzXy+e1B4bsPG8aiwLJLjldIXvpxBSIm8qdtB
-	 kywvmqblNYPPQPbdFqcBfK/oXAUaZ6sMuLQC+FsKzzg+vYgdDnSTzgElxp6pmm8fKO
-	 nZ2Dj3GsihqcQ==
-Date: Tue, 03 Nov 2026 12:08:09 +0000
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-From: Sinan Turunc <enscrpt@pm.me>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH] ALSA: usx2y: Bound capture copies by the PCM buffer size
-Message-ID: <20261103120753.345-1-enscrpt@pm.me>
-Feedback-ID: 48393780:user:proton
-X-Pm-Message-ID: b88b7f34eef7d0237507a0ef2f71b4f8760194ec
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XInZzJ3p
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD0271F0093A;
+	Tue,  3 Nov 2026 12:24:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793708693;
+	bh=me8J2uYLMQkuoqe5/vPxb7HHNlUwI5nJJ5By45iGNB4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=XInZzJ3pkKJW/kNgRUl7AEIPxKQZwgyJ6QhJ5Q0RhsIHgoq3WXGWi3tIq3PPf11em
+	 z5c7OlaZmbrnBai7FmskV94XEUdss+l7pJPCdgGvKLP4b29k7REZJsocWePBN+RGu/
+	 em/ZtQXbyAQgfVBMSqzfBJ73bDWq/PYTsif/ToA6GMBszyeU7rMz1wEUVGdmifJnSt
+	 gWyiP7FRr3yNj2JIGn04uiaiS+VcuBS0cfCnour+ynAxels1HbK1QZdOymhwjK7spj
+	 b6OoxQRLnhDn1MOiGj5n9Ot0ptTmOWhuDdT2s+rzx9HKj8+IDOMriY1X7X6+ml/2tx
+	 X0jtJFaOZPRsA==
+Message-ID: <sashiko-outbox-195233@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ALSA: line6: Bound capture copies by the PCM buffer
+ size
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Sinan Turunc" <enscrpt@pm.me>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261103120723.328-1-enscrpt@pm.me>
+References: <20261103120723.328-1-enscrpt@pm.me>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 03 Nov 2026 12:24:53 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,55 +59,101 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-usx2y_urb_capt_retire() splits the copy into the ALSA ring buffer once
-at the buffer end and wraps hwptr_done once, which is only correct when
-one packet holds at most buffer_size frames. The packet size is the
-endpoint's maxpacksize from usb_maxpacket(), while the hw constraints
-allow 64-byte periods with periods_min 2, so a packet can be larger
-than the whole buffer.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] ALSA: line6: clamping frames to buffer_size in line6_capture_copy(=
+) stalls PCM
+--
 
-Clamp len to buffer_size before the copy so the single wrap stays
-inside the buffer.
+commit dece7d69941f7080a104841df1e03f3fae6b7577
+Author: Sinan Turunc <enscrpt@pm.me>
 
-Reproduced on 7.3-rc7 with a USB/IP device presenting the US-122
-interface layout and 1024-byte packets into a 512-byte buffer:
+ALSA: line6: Bound capture copies by the PCM buffer size
 
-  BUG: KASAN: out-of-bounds in i_usx2y_urb_complete+0x1285/0x1ac0
-  Read of size 18446744073709551104 at addr ffff88800e448800 by task vhci_r=
-x/83
+This patch clamps the number of captured frames in line6_capture_copy() to
+runtime->buffer_size so that oversized incoming USB packets do not overflow
+the single ring-buffer wrap calculation.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Sinan Turunc <enscrpt@pm.me>
----
- sound/usb/usx2y/usbusx2yaudio.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> diff --git a/sound/usb/line6/capture.c b/sound/usb/line6/capture.c
+> index 17f49f567efbf..8b6a0dd2ddde2 100644
+> --- a/sound/usb/line6/capture.c
+> +++ b/sound/usb/line6/capture.c
+> @@ -94,6 +94,17 @@ void line6_capture_copy(struct snd_line6_pcm *line6pcm=
+, char *fbuf, int fsize)
+>  	if (runtime =3D=3D NULL)
+>  		return;
+> =20
+> +	/*
+> +	 * A packet can carry up to max_packet_size_in, which the device
+> +	 * chooses, while the ring buffer can be as small as one 64-byte
+> +	 * period. The single wrap below is only valid for
+> +	 * frames <=3D buffer_size, so keep what fits.
+> +	 */
+> +	if (unlikely(frames > runtime->buffer_size)) {
+> +		frames =3D runtime->buffer_size;
+> +		fsize =3D frames * bytes_per_frame;
+> +	}
 
-diff --git a/sound/usb/usx2y/usbusx2yaudio.c b/sound/usb/usx2y/usbusx2yaudi=
-o.c
-index a3a0bc13632..ea4ae5caba6 100644
---- a/sound/usb/usx2y/usbusx2yaudio.c
-+++ b/sound/usb/usx2y/usbusx2yaudio.c
-@@ -51,6 +51,14 @@ static int usx2y_urb_capt_retire(struct snd_usx2y_substr=
-eam *subs)
- =09=09=09dev_dbg(&usx2y->dev->dev, "%s: 0 =3D=3D len ERROR!\n", __func__);
- =09=09=09continue;
- =09=09}
-+=09=09/*
-+=09=09 * A packet can carry up to maxpacksize, which the device
-+=09=09 * chooses, while the ring buffer can be as small as two
-+=09=09 * 64-byte periods. The single wrap below is only valid for
-+=09=09 * len <=3D buffer_size, so keep what fits.
-+=09=09 */
-+=09=09if (unlikely(len > runtime->buffer_size))
-+=09=09=09len =3D runtime->buffer_size;
-=20
- =09=09/* copy a data chunk */
- =09=09if ((hwptr_done + len) > runtime->buffer_size) {
+[Severity: High]
+Does clamping frames to runtime->buffer_size here cause the capture stream
+to stall whenever an incoming packet exceeds the buffer size (for example,
+when a user configures a 1-period 64-byte capture buffer of 11 or 16 frames
+and receives a regular 44- or 48-frame 1 ms packet or a larger USB/IP
+packet)?
+
+At the end of line6_capture_copy(), pos_done is updated with:
+
+sound/usb/line6/capture.c:line6_capture_copy() {
+	...
+	line6pcm->in.pos_done +=3D frames;
+	if (line6pcm->in.pos_done >=3D runtime->buffer_size)
+		line6pcm->in.pos_done -=3D runtime->buffer_size;
+}
+
+When frames is clamped to runtime->buffer_size, adding and immediately
+subtracting runtime->buffer_size leaves line6pcm->in.pos_done unchanged on
+every packet.
+
+When audio_in_callback() then calls snd_pcm_period_elapsed(),
+snd_pcm_update_hw_ptr0() reads the same position via snd_line6_pointer().
+In the interrupt path, snd_pcm_update_hw_ptr0() only treats an unchanged
+pointer as a full-buffer wrap when hdelta exceeds
+runtime->hw_ptr_buffer_jiffies / 2 + 1:
+
+sound/core/pcm_lib.c:snd_pcm_update_hw_ptr0() {
+	...
+	if (in_interrupt) {
+		/* we know that one period was processed */
+		/* delta =3D "expected next hw_ptr" for in_interrupt !=3D 0 */
+		delta =3D runtime->hw_ptr_interrupt + runtime->period_size;
+		if (delta > new_hw_ptr) {
+			/* check for double acknowledged interrupts */
+			hdelta =3D curr_jiffies - runtime->hw_ptr_jiffies;
+			if (hdelta > runtime->hw_ptr_buffer_jiffies/2 + 1) {
+				hw_base +=3D runtime->buffer_size;
+				...
+			}
+		}
+	}
+	/* new_hw_ptr might be lower than old_hw_ptr in case of */
+	/* pointer crosses the end of the ring buffer */
+	if (runtime->status->hw_ptr =3D=3D new_hw_ptr) {
+		runtime->hw_ptr_jiffies =3D curr_jiffies;
+		update_audio_tstamp(substream, &curr_tstamp, &audio_tstamp);
+		return 0;
+	}
+}
+
+Because isochronous URBs complete every 1 ms (or 125 us), hdelta is at most
+1 jiffy, so snd_pcm_update_hw_ptr0() takes the
+runtime->status->hw_ptr =3D=3D new_hw_ptr return path and refreshes
+runtime->hw_ptr_jiffies on every URB without ever advancing hw_ptr or waking
+user space.
+
+Also, fsize is not read again after frames is computed at the top of
+line6_capture_copy(), so is the assignment to fsize here unused?
+
 --=20
-2.56.0
-
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103120723.328-=
+1-enscrpt@pm.me?part=3D1
