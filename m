@@ -1,68 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793669496;
-	b=EBF/cSRcEzGO4KPEdiBtUJX5WqHzrIffuGjg3v1+m1EbBmWn3QtlhiBeHHz/eQ+8ZynW
-	 2r9EdYuDdnfr0cGXRgeFp/NPrgWPlf6ORYLRoZFYYMO6Wy41NXM3hrKMnicX1uxToqwXt
-	 mFLf5Ya2/20IiCK5nA8MeM5NYTzyXs1Azzcqe5P89I5c96vpfchY8OoVysiTKruONeUZs
-	 qLXpixglbWprxwHTES2ssp49w12EFp3S9REY3cIr/AU+0A4xyKZo5+7rJ7t0kXaUry4VX
-	 ISzoYhdBrqg5w80BjHgh526VviSgfFAo4ryqIu1KcRVMikyHyGrCXoixUrP+6j6+EMA==
+	t=1793672865;
+	b=lniYRzdxhrk01uKG7YJHwnYL+GAMR+XHTC+65GAnYdmCzNWj/KzZBg8s4UdQ+ppslRVo
+	 P+H6UI8VqdqvyKk+vD1k5FJmUPjsHEpMtIeYoCQblRdRUcJ2r5+nRU/RRkC9W7JWOstgi
+	 4+QNKEE6nnINR6wz1AJuQ6sesuqiGIWvvsHmkLOK3PRC0hwj+KeZFp64oXzymlJ1YSsfW
+	 oeod8CH7+kViZkq/cMGsj3nImtW1y9Um1O5k3kve6ujr9ODFMtXje/Db9cmh8Dp08fnXK
+	 d1YRWIg2B4IZNJgo/kLC7v8MGVa2c4mr6WkaS9D9JovQZ8wmczQCGvCN9B2NLe8psiA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793669496;
-	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
-	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
-	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ORJ527vScYTcyRVQXLOjs3H8InD+uVNFm8/gn/4ZshA=;
-	b=X8FCVOuljJ+KDYQFteigQ6+8PfNlCWjFnp2t4VTvgb3UPwCC7Ok+hUlJ1LZtLefTi6Zj
-	 3F2k5Z8wZvoKSUlL1axc0DMwq9mvkKDejdBz+5Xs/bOD4vUgY0KPLUKn5Xb0p3VEv+7VC
-	 D5FljroNH4bIoQPEbvWL6ibGzDxO3Cd/Hy1pEpwK0Ww4fGrCf4wBIi+jpeHJR6UNXBdP/
-	 66wR2GXvpXgbl1fUoT3yL/W/5tgAGVQhKNrtb0v+TfRipssx0h7GCH3mpkvp3vHTUkboT
-	 tD1LVGkdbD4r4jUN148lZ2e4WMprnuOwJmz960gi7SjTLkgDek4oCpwvEQMIFBhzCgw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793672865;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=p8Gfu7m3jVEYukKEc7L9eAr2IwmBTUG/Vj2feSFNAgQ=;
+	b=kQag7B4jucYOzvWnf7NhgaQUj2v4b/NljQaDVPU4YfjDGWGsfelPuCnxdB9fprbbud2n
+	 p2GdbaHWY9LparFhrPxitnw03e1qZz3x2bdz3KG2xvglLAK6mctiW2lzGEhmMPPtzcI2X
+	 EbmUhtzg3j0ElN66I8bsLSGgAfnLUx6wg+1/UZSfGD9trN+9OTbU5AOA/1vpZ/NmMqaKE
+	 hF2dtSmmA6X+9viXnjQDV/eFSydmEBH7MYL/CNMQeE19lC0fMKSecksT9LHV9+h15W7Zh
+	 xHD7m2S8Q1aEKKTQdppZH6xFHaxDU0c4KVSNzipGuSAkRAz/4krDZDyrc/OeE/PZQsA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmss.chinamobile.com;
-	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=vGEI2T7K;
-	arc=none smtp.remote-ip=111.22.67.139
-Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1345C606A326;
-	Tue,  3 Nov 2026 01:31:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1345C606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mYM5HwkO;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89936606A326;
+	Tue,  3 Nov 2026 02:27:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89936606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=vGEI2T7K
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cmss.chinamobile.com; s=default; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=vGEI2T7KXqc0LYg37CUq2n5OmnvFkqDJqcBmtnv9HOUe0Ru6kPHQVXnuTbRXU66q5xIj52fscAHTS
-	 GgHG5KB9Ck7qYzOUYw9lESdqa+gf2NxYX47/ercOvtT6iQuSy8RVZ5Bfn4l1FWUCl5P4K7Ibms+l6X
-	 ZzBHC3/bQDIRpCO8=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee16ae9396edcf-68d8a;
-	Tue, 03 Nov 2026 09:31:29 +0800 (CST)
-X-RM-TRANSID:2ee16ae9396edcf-68d8a
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from DESKTOP-3K8GUTQ (unknown[223.108.79.98])
-	by rmsmtp-syy-appsvr09-12009 (RichMail) with SMTP id 2ee96ae9396f106-e3f58;
-	Tue, 03 Nov 2026 09:31:28 +0800 (CST)
-X-RM-TRANSID:2ee96ae9396f106-e3f58
-From: Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
-To: Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mYM5HwkO
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793672865; x=1825208865;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=SQ13tx7di0W4Idm6/YUJIKkQi+15W7dpYhnzBWHKOWI=;
+  b=mYM5HwkOc7RHzxxnLFvHQhF+C9ElHspd0118ZK1wVzEQ57tlymTWEHQg
+   rht3+j4AEgsk76zaVfxZa6yF70IzOtScZvJ9XjlXOmN+Eh2qed/d9gvY2
+   UUHmGlxpQUpGpEWwTbj5BJf2gOrojcW0JNfmfnQfLk8PvnWbrhRH88y1G
+   8SPLCL2tifLsYvQtzzz0JPWjo5DXmU5+ZVA/3CBsp/l4uZwsmdlHHSSmm
+   neNvnzMUD7wCVD5lgXte+17I+XprzXJiqEPMhgt3/JS2FYc5E1mZ0dyvj
+   9jvogl3xKU7QY+0S8g1qlta+2SjA/rUFWoVV3WfAqC7G5YATgtw3F3Xof
+   w==;
+X-CSE-ConnectionGUID: xNn0LjLARQWqyf+WBuj8nw==
+X-CSE-MsgGUID: dnlMqDAGRWGRCIgDz44CLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2263874"
+X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
+   d="scan'208";a="2263874"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 18:27:44 -0800
+X-CSE-ConnectionGUID: GsbJAB9mQJKdODKnrSQSEQ==
+X-CSE-MsgGUID: 0UF13+5WQHGVAcq4ug7Gcw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
+   d="scan'208";a="6380580"
+Received: from emr-371.sh.intel.com ([10.112.106.129])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 18:27:39 -0800
+From: Baoli Zhang <baoli.zhang@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>
+Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
+	sound-open-firmware@alsa-project.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
-Subject: [PATCH] ASoC: samsung: i2s: Fix runtime PM usage count leak on failed trigger
-Date: Tue,  3 Nov 2026 09:31:25 +0800
-Message-ID: <20261103013125.1067-1-laixiangwu@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.50.1.windows.1
+	Baoli Zhang <baoli.zhang@linux.intel.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: SOF: ipc4-topology: Fix pin format leak in process widget setup
+Date: Tue,  3 Nov 2026 10:17:10 +0800
+Message-ID: <20261103021710.3647599-1-baoli.zhang@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -74,50 +92,48 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-i2s_trigger() calls pm_runtime_get_sync() when the stream is started,
-but if config_setup() fails it returns -EINVAL directly without
-dropping the reference.  The matching pm_runtime_put() only runs in
-the STOP path.
+sof_ipc4_widget_setup_comp_process() allocates the input and output pin
+format arrays via sof_ipc4_get_audio_fmt(). When the following
+sof_ipc4_widget_setup_msg() fails, e.g. because the firmware does not
+provide a module matching the widget UUID, the error path jumps to the
+'err' label, which frees the process struct and clears swidget->private
+but skips sof_ipc4_free_audio_fmt(). The arrays are then unreachable and
+are reported by kmemleak:
 
-Neither the ASoC core nor the PCM core will issue a compensating
-TRIGGER_STOP for the DAI whose trigger callback failed, so the usage
-count stays incremented and the I2S device, together with its clocks,
-can never runtime suspend afterwards.  Each failed stream start adds
-another reference.
+    sof_ipc4_get_audio_fmt+0xc9/0x420 [snd_sof]
+    sof_ipc4_widget_setup_comp_process+0x8e/0x200 [snd_sof]
+    snd_sof_load_topology+0x71a/0x840 [snd_sof]
+    sof_pcm_probe+0x77/0x120 [snd_sof]
+    snd_soc_component_probe+0x21/0x60 [snd_soc_core]
+    ...
 
-Drop the runtime PM reference before returning the error.  The put()
-must happen outside the scoped_guard() section because it may sleep.
+Jump to 'free_available_fmt' instead, as the other process widget error
+paths after sof_ipc4_get_audio_fmt() already do.
 
-Fixes: dc938ddb5628 ("ASoC: samsung: i2s: Ensure proper runtime PM state of I2S device")
-Signed-off-by: Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
+The other IPC4 widget setup functions (pga, mixer, src, asrc) free the
+audio formats in their common error label and are not affected.
+
+Fixes: f9efae954905 ("ASoC: SOF: ipc4-topology: Add support for base config extension")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-5-5
+Signed-off-by: Baoli Zhang <baoli.zhang@linux.intel.com>
 ---
- sound/soc/samsung/i2s.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ sound/soc/sof/ipc4-topology.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/samsung/i2s.c b/sound/soc/samsung/i2s.c
-index 442e70b10..30a188f54 100644
---- a/sound/soc/samsung/i2s.c
-+++ b/sound/soc/samsung/i2s.c
-@@ -936,7 +936,7 @@ static int i2s_trigger(struct snd_pcm_substream *substream,
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index 8b13c97b34804..de03dc58021a1 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -1313,7 +1313,7 @@ static int sof_ipc4_widget_setup_comp_process(struct snd_sof_widget *swidget)
  
- 		scoped_guard(spinlock_irqsave, &priv->lock) {
- 			if (config_setup(i2s))
--				return -EINVAL;
-+				goto err_put;
+ 	ret = sof_ipc4_widget_setup_msg(swidget, &process->msg);
+ 	if (ret)
+-		goto err;
++		goto free_available_fmt;
  
- 			if (priv->fixup_late)
- 				priv->fixup_late(substream, dai);
-@@ -964,6 +964,10 @@ static int i2s_trigger(struct snd_pcm_substream *substream,
- 	}
- 
- 	return 0;
-+
-+err_put:
-+	pm_runtime_put(dai->dev);
-+	return -EINVAL;
- }
- 
- static int i2s_set_clkdiv(struct snd_soc_dai *dai,
-
-
+ 	/* parse process init module payload config type from module info */
+ 	fw_module = swidget->module_info;
+-- 
+2.43.0
 
