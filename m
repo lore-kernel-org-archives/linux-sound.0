@@ -1,58 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793706824;
-	b=3aI/1ZSAjXNPNiz9Pq8RULmmKQXwDo8TUgTWpkS6VVxXRNVmMoAbNfLhXx0yPhMWZ0hV
-	 CCxFOdYuvxMWHfYni0vQg4fbzwULS7NAmQJ5yvsLIzE6nKK7VSw1Ojy4XLh7A3FhcFLCM
-	 1pS35XA/2TdarrhnFYtGhB2V/f7rRg0QjLeP3EBFSbvkXL5h5bM6U9hfrtxTFsv2ODvrM
-	 szYHNBOHyPO2PxDryLlac3dPHWAKwpP8rq/0SwrCTqpxOxbL3vUB03JPcjyvRR0vtpdGl
-	 SGhi3ckLGopT6SVu8rQsE9+21Cf52DO1bh0mxG4AkneU4hNobp9I5VU1OxTnd93W+YQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793706824;
-	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
-	 Subject:Message-Id:Date:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key;
-	bh=4ZsPZKQ616wlffNR+k8ZxVsC3ZJsQNe9aB/LGmaM27I=;
-	b=atnjZ1SVQPRUPzfKFnUI8h41KuztVj2TmzSilTTyzYEM+gekNmmOIAF+/RfLtDMtgQVH
-	 TCgaye5nzhgI0CYLO16gb2hKHl9itnv/FLGaNUZZecst8IQeD0FpFkaLplDaXQE+norID
-	 L/Aty2F8elPqkEuEnQElBdSpzRNK3nTqAV+1wyXsMXD7tgJoOytR/bpCsIFtW4mpsX5w1
-	 2dIjWZTKUKj7jMdrahkOAU+mjLS41005WOCRkZftWZNcmux3rL9Z+KbMyKf8zMbuC6QHM
-	 CvRAvPUR5pGd4PWye3xsn5x6VAHHET8xQdWMv9UFYpY4xqXivm17bejPkIn7YK9cOAg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K0sY6fyt;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=85.215.255.53
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793707276;
+	b=M9bRCZpy6jdJ9Fsxt5HCZ5s7XvhtXeQUejhyJv4qwBnbrx6C5grv018jyiK0vMDEdDiC
+	 WCl0x0a95y/IZPR7WBIR7FoRLgH6hKvyn8Xxk5hUL4PKrA7IK2EdddidOR6GAFQ1gdOX0
+	 H9lBTAyljj9R9KleNYzO7HAyv/HE/Bx7RA5nmR6LrXAPAgIwnVqeBbQr81KIb55T/U4hs
+	 vv6wgYXFRhhzz65aM6+84vdjO1177J+Y/zJl9PT/oq323k9WvUsJc9oh9LhkoVOo73+kz
+	 FLt5W/GY6kKozfFkt9m4FFBHMOFDkewG+jyupkWuA2WhnVIO5gGZFG9WYJP6CY9N5IA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793707276;
+	h=DMARC-Filter:X-RZG-CLASS-ID:DKIM-Signature:DKIM-Signature:X-RZG-AUTH:
+	 Received:Content-Type:Content-Transfer-Encoding:From:Mime-Version:
+	 Subject:Date:Message-Id:References:Cc:In-Reply-To:To:X-Mailer;
+	bh=VCfhyFhtjRWlSALaNGPIzNS7a7BQ/PmFXkQDuImDC3M=;
+	b=KzFRnDswCxtRQSP4EYFyYNSKbn+sE0xYlLMN7P3ZT5III7lb9Royvoj9XrsNAfAj9oD5
+	 DnIJ1tUUwyO2/iVaOqBUGasDYPN4J30Eq0Fr+EN5HmI9HNhy/23onft/78ziCHz7L6Shd
+	 tZ+YwGSKzeJsr3aUdM2tIRdqL4P6p9Y4y6gO2j1OVF/RvZaOtOSJNGK151A66LV8ILSQK
+	 NLEb+UwIVBTyaSsp6SJwWE/yQb4G+FB3gNJiGTpua88s8HkM3ElYP2eENZ6bTMmNzFz8X
+	 o0G/dVHWr+IWqbZiYoak3yxZesYJ+jxIOp9UiqiAeQ6EmKzuV7p2Uq3M9OWT4weNf9w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=xenosoft.de;
+	spf=none smtp.mailfrom=xenosoft.de;
+	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=f1CWSzzD;
+	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=ficQJRWs;
+	arc=fail smtp.remote-ip=85.215.255.53
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.53])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18CA6606A32C
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 11:53:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88A5606A326
+	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 12:01:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B88A5606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xenosoft.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=xenosoft.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K0sY6fyt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C22391F00A16;
-	Tue,  3 Nov 2026 11:53:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793706824;
-	bh=4ZsPZKQ616wlffNR+k8ZxVsC3ZJsQNe9aB/LGmaM27I=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=K0sY6fytY1nQia1Htc1NnKqZTTbQH6WDgKtIZD3u2eOMmhjIh9vcbNC9zx8e0a9jf
-	 B+mKHo4vBA0kwgFi9S0oULVxH2DieQLeXBlw3gC3Q02A19sngHG45k8hXY2H3/vaGE
-	 lnMgCzQu37CSQQaJJjZ344yEbSu4IVQT4PummlxiozmAOMAoH50Qd+uk27f5KGZBUC
-	 oSIIT/m5zwMcFg9ojJxkbDSFEmG18lJPKp73jIx3hCc0CAxhPnPoB7Z+YIxZ6/TSxV
-	 YcXrHjIqifM0IZixtiYuh2LTHo4m8ueo7Jahspyqf8VRTQb0aXXd+RpSIFnkYZttjg
-	 uzd+Q5cLe+8nw==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 9D05F253A60C;
-	Tue, 03 Nov 2026 11:53:41 +0000 (GMT)
-From: Mark Brown <broonie@kernel.org>
-To: Avi Weiss <thnkslprpt@gmail.com>
-Cc: Oder Chiou <oder_chiou@realtek.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org
-In-Reply-To: <20261101110056.423353-5-thnkslprpt@gmail.com>
-References: <20261101110056.423353-5-thnkslprpt@gmail.com>
-Subject: Re: [PATCH v2 1/4] ASoC: rt721-sdca: handle HID button read errors
-Message-Id: <179365889024.2186205.11499122571487905373.b4-ty@b4>
-Date: Mon, 02 Nov 2026 22:34:50 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=xenosoft.de header.i=@xenosoft.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=f1CWSzzD;
+	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=ficQJRWs
+ARC-Seal: i=1; a=rsa-sha256; t=1793707236; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=Hb822UotgDoHgAwd+YHuUT7dWmhIMdC2Rhzny8IEs41+qCl/ynV1StASFVv6lhUqrn
+    R1ccrq2Kz+VhI6QlSsFtF44sZvh0oyaJvR8C5wwDlZYAl/WL/ZPjJmabInhnc93Z/f0w
+    GuVelhmzOrN+TyAArnTtD5ICNXJHsCPJscW1moCN423IndRJW1suGOpsRHVS+7MQ13el
+    tTK3mH2crDxfLRw5qni5RcDuNqQPA08R3MBkhwV9YI8hOAIvBdeotZB3Q5UqaYOpacDi
+    ZZQGxrD3Bt+AmcVbxwkINcw1jNYLpjlcXyoQvu0VA60dlrcleXof1uQSPddLyagz4r8x
+    Zbgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1793707236;
+    s=strato-dkim-0002; d=strato.com;
+    h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
+    From:Subject:Sender;
+    bh=VCfhyFhtjRWlSALaNGPIzNS7a7BQ/PmFXkQDuImDC3M=;
+    b=lPM1uRPBc+P1rvLO0V+QTTLX0eEEBGTBg+H9Cj4JEMvYC4m2xBpp3rH6r+OficfWE+
+    q6Y/w6ZnuzO2AtytZpaZ7uFsi2LgYL4ikSPbykrY/gMuIjmUX5yvZSPSybKsE58hRLMe
+    /zEgeUGQ/BoC9XzIDZ9YZhvf5wGeZDlga32j+reUrr69HekBsbynBasZ67eft68hHDnH
+    p3ZzL0vbzrDaNJNt7xNNEEfPM1hPWPIQDQNcPbMqcZchoU8ChdhwYVmn6/1zDVObQ6Te
+    OWvHR+bOiFNCVvMWW3utw7hyM1eWNFEZ8OIgUC/U6kq6MDPs47N0ty8Pncp5AOy4+KMG
+    BubA==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1793707236;
+    s=strato-dkim-0002; d=xenosoft.de;
+    h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
+    From:Subject:Sender;
+    bh=VCfhyFhtjRWlSALaNGPIzNS7a7BQ/PmFXkQDuImDC3M=;
+    b=f1CWSzzD8mIIBROl646y2/jW/lHG3ZqPzVllpm5Ol+xZG1MhSeH/3FceMBPVnPhv1K
+    bTxdJnDlZ76rp+Jz2DUAqtN5C1WDbAXszjTpvG12aVugBeif9dvGcrzGn06wjpbd7Tas
+    vLvw4lRk0FJE7bHKEJVrmnMEbUhqmyW+BERr0LtnQeOjnHMrV9IFgbqOKbUsUw6gx2CF
+    YhkgFK3dlGIVnharK7TDN1lTc4Vr5bV3aX/ONRfwLEEp61YebddDAUu6HJRcxfIaLf3D
+    rRTmq16c5Vd4UtT6tOfAZq8wdb+7nflVRihMlVYWrzHgXBLhB3aD3K4ZmxdGyBKUmaTl
+    MQuA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1793707236;
+    s=strato-dkim-0003; d=xenosoft.de;
+    h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
+    From:Subject:Sender;
+    bh=VCfhyFhtjRWlSALaNGPIzNS7a7BQ/PmFXkQDuImDC3M=;
+    b=ficQJRWspo9wFofzQl77fjjSscHWH9UNkl97Y7YgWBtS5h50icl0fOgNpF9kaKPEhc
+    ZBUdO9vPVQ0tglTiZaDQ==
+X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGN0rBVhd9dFr6KxrfO5Oh7V7X5jis3jDAXtDOW2DIUk1jJESq0dCA/mrin4I+No="
+Received: from smtpclient.apple
+    by smtp.strato.de (RZmta 55.6.3 AUTH)
+    with ESMTPSA id e825d92A3C0ZH6G
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Tue, 3 Nov 2026 13:00:35 +0100 (CET)
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+From: Christian Zigotzky <chzigotzky@xenosoft.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,53 +94,98 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1451; i=broonie@kernel.org;
- h=from:subject:message-id; bh=l4hk4H1DZKrJXo1QM3nEMGqWq1dJ37B343vikR7yJPw=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJennZd4RY+65rOvzLVU96PlhVx/NWxr66un8zYcXn5V
- ubuebyqHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZgIpyUjw8JXb6dOWWM1r0fq
- cfIfsQfXbxbZmvvrHF/otWC/4fPJojqMDM92mK9euTNs44+D3otPZq2/uePdpqUnV9UcnlXhH5h
- 0L4kHAA==
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Mime-Version: 1.0 (1.0)
+Subject: Re: Void PPC: PulseAudio issue with sound updates 7.4-rc1
+Date: Tue, 3 Nov 2026 13:00:24 +0100
+Message-Id: <BD226162-844C-449D-A486-8888184DEBF0@xenosoft.de>
+References: <874idy2wbe.wl-tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.de>, zzzccc427@gmail.com, perex@perex.cz,
+ linux-sound@vger.kernel.org, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ "R.T.Dickinson" <rtd2@xtra.co.nz>, mad skateman <madskateman@gmail.com>,
+ Damien Stewart <hypexed@yahoo.com.au>,
+ Christian Zigotzky <info@xenosoft.de>
+In-Reply-To: <874idy2wbe.wl-tiwai@suse.de>
+To: Takashi Iwai <tiwai@suse.de>
+X-Mailer: iPhone Mail (24B119)
 
-On Sun, 01 Nov 2026 13:00:57 +0200, Avi Weiss wrote:
-> ASoC: rt721-sdca: handle HID button read errors
+On 03 November 2026 at 08:44 am, Takashi Iwai <tiwai@suse.de> wrote:
 
-Applied to
+Have you tried changing the call of snd_pcm_hw_refine_with_lock() in
+snd_pcm_ioctl_hw_params_compat(), too?  Or check the call in
+snd_pcm_hw_refine_old_user(), too.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
+If it doesn't change even if you replace all callers of
+snd_pcm_hw_refine_with_lock() with snd_pcm_hw_refine(), something
+wrong in the test itself.
 
-Thanks!
 
-[1/4] ASoC: rt721-sdca: handle HID button read errors
-      https://git.kernel.org/broonie/sound/c/fbfcb71025b8
-[2/4] ASoC: rt711-sdca: handle HID button read errors
-      https://git.kernel.org/broonie/sound/c/92017b92d9dd
-[3/4] ASoC: rt712-sdca: handle HID button read errors
-      https://git.kernel.org/broonie/sound/c/fc9d50bb07fe
-[4/4] ASoC: rt722-sdca: handle HID button read errors
-      https://git.kernel.org/broonie/sound/c/5928cfa8474f
+Takashi
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+- - -
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+I have tried it and sound works again.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+My modifications:
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+diff -rupN a/sound/core/pcm_compat.c b/sound/core/pcm_compat.c
+--- a/sound/core/pcm_compat.c	2026-11-01 22:26:31.000000000 +0100
++++ b/sound/core/pcm_compat.c	2026-11-03 10:01:54.228010513 +0100
+@@ -252,7 +252,7 @@ static int snd_pcm_ioctl_hw_params_compa
+ 		return -EFAULT;
+ 
+ 	if (refine) {
+-		err = snd_pcm_hw_refine_with_lock(substream, data);
++		err = snd_pcm_hw_refine(substream, data);
+ 		if (err < 0)
+ 			return err;
+ 		err = fixup_unreferenced_params(substream, data);
+diff -rupN a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+--- a/sound/core/pcm_native.c	2026-11-01 22:26:31.000000000 +0100
++++ b/sound/core/pcm_native.c	2026-11-03 10:02:24.836343549 +0100
+@@ -932,29 +932,6 @@ static int snd_pcm_hw_params_user(struct
+  * this one should be used for ioctls and other external paths instead of
+  * direct call of snd_pcm_hw_refine()
+  */
+-static int snd_pcm_hw_refine_with_lock(struct snd_pcm_substream *substream,
+-				       struct snd_pcm_hw_params *params)
+-{
+-	struct snd_pcm_runtime *runtime;
+-	int err;
+-
+-	if (PCM_RUNTIME_CHECK(substream))
+-		return -ENXIO;
+-	runtime = substream->runtime;
+-	err = snd_pcm_buffer_access_lock(runtime);
+-	if (err < 0)
+-		return err;
+-	err = hw_params_state_check(substream);
+-	if (err)
+-		goto unlock;
+-
+-	err = snd_pcm_hw_refine(substream, params);
+-
+- unlock:
+-	snd_pcm_buffer_access_unlock(runtime);
+-	return err;
+-}
+-
+ static int snd_pcm_hw_refine_user(struct snd_pcm_substream *substream,
+ 				  struct snd_pcm_hw_params __user * _params)
+ {
+@@ -965,7 +942,7 @@ static int snd_pcm_hw_refine_user(struct
+ 	if (IS_ERR(params))
+ 		return PTR_ERR(params);
+ 
+-	err = snd_pcm_hw_refine_with_lock(substream, params);
++	err = snd_pcm_hw_refine(substream, params);
+ 	if (err < 0)
+ 		return err;
+ 
+@@ -4247,7 +4224,7 @@ static int snd_pcm_hw_refine_old_user(st
+ 	if (IS_ERR(oparams))
+ 		return PTR_ERR(oparams);
+ 	snd_pcm_hw_convert_from_old_params(params, oparams);
+-	err = snd_pcm_hw_refine_with_lock(substream, params);
++	err = snd_pcm_hw_refine(substream, params);
+ 	if (err < 0)
+ 		return err;
