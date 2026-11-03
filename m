@@ -1,113 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793716725;
-	b=uTt+MhLCfPxEEK//Ky7Gm04XHiz09xc7sLb5jpqJMN922YMQfHo5LebNlm1g+PVKSw7b
-	 K2OQAK6O16cnfqmPrk/iwtevgUKgX6LdhuaZbpcP7fyJBohrW/TnLP7nYzhRw1MN0cgy/
-	 7wP3uLF5KMBk8MrvIiJb1cTv451DZz0mPDEaJZb31AiDHW8E7A9dN97oar+ZyQ1+oOOC+
-	 oocnUr1oTqeBfDWoD9MIDtr39C2aZmEvgVn8QInGBbXAe4hjYF73ZuYeO0F1G8O6M6E6p
-	 8LvEYvfYrUSwfizDF8W8RRY7YqJc4jLZLS7+STro4ug7jVUzdHwM0z3eLNrFagS5S0Q==
+	t=1793716793;
+	b=eNtKq/sNSWrROZkastkjZEHndCcTCXm7HJ54WCLXfsPQqF5rYxd4xrueYAWnV1xkCnkw
+	 TRtCNGnOn7DrJdrneqlKqiOOGSPiONlvtjo+Tx18n1RwzSRUOWTrS2+KuF5LThPw7AArB
+	 h6AuiSc/Z93d0GA/8garwBxxOXwpGPztQeKtRiwNHKoBFBCsL8KcZjlLOIZzWhA/koLy+
+	 ogtnp6atVE0JwCNQISIK2ZZJ7pbHjIZmyTyMgtQDA4qfOqzcAZ4KHnrAvD4AGx37Nqdq7
+	 J2QB1stV935Upor6OUzp9unfgxoaRUQZuCw68OvtUIRjCpBs5/z8LHBt56Yx1R+PF5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793716725;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=kVH6lEoMeQpH1Hape2ngmhAinE+qo6gyJ4nEWWBRqGg=;
-	b=OIlyiMW4626orn62dOU2olwV7jQG9w0RTSpC47680XBsvCu+7gauP/UAGMUCmeYS6WH1
-	 7MpNNhg+LLt0EbmmR+UogE/s640FeoBAdsY6hCPFB0nTmVy2aIcdY+1B/p3Ml11qyEGL+
-	 0VoreX82jx2MeWFcuLcZ1hOYhz4rwJ4xBwf0JobRr6JsQJxjInA/qOJCpryoKVObCmsGh
-	 58/dPfj10sPzxFJ4xmlA9LeLdH0kMGrgeZaDJx0xM4aDHFFnXToIZNL4VJ2X53eu85poC
-	 ZUxGD0sJthGuyuMx7d0KgtBhYI1kRPHD/dUyMH/r3YrB7DUDSKeVTzH5VfBp3Fkr/mg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793716793;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=ZwbaMG6aUSMTnRL9MhToGte5CDhehKEdwXeLnhI65gw=;
+	b=nDRqflq5TdVEc0OlHaHWm31Hy9MwFpTVi+rN+Yac2yxyf5jCvU7h6OxBduUoIalpo2kw
+	 Gv1JMNAG+YbWtwjzhQDORX6UH8WEvmSBdz6pU9JwNVD5t04BgNu8dH6FQcY87nioUeljQ
+	 PIu2Makun5Ql2mFc0Pzyk8EZJSDk7j5MjJ5k/Fcv8G+0oa41Q2Y6P/6q3VTy960yUrsAN
+	 LXVwY09EydKRUlVjqIEbDQ2N12xCFNpbTrZBvtYn4odA5ZKGgFEuV05C66269Yb5BtDXi
+	 sUuadusZAXqNyW7qUpxMt2DpfsLX7kWxnP7wGn9fbmOnHqoDkJPwD2Y96eJS1z1R/0Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FHvB8WeM;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xqce2axH;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Y9MRsZzA;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Iae+n5Xu;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nONsd5+m;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C23606A329
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 14:38:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7C23606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6D5606D81B
+	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 14:39:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=FHvB8WeM;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xqce2axH;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Y9MRsZzA;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Iae+n5Xu
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 072641F745;
-	Tue,  3 Nov 2026 14:38:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793716723; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kVH6lEoMeQpH1Hape2ngmhAinE+qo6gyJ4nEWWBRqGg=;
-	b=FHvB8WeMZdOjok91qroXbmiaOz8sEf1MXAFOXnJg4Ea8D0A4Fg+8LdSesvChbPooqalcIV
-	ST29QKJYltPF2nK1tyYLhBA2LJEdTLzg6G8DIwkKhVydzUMA2xFuGq1A4fwU+WIrtya4KN
-	9NcqzPtWK/ABJzAbdoQK8pRyJsZpRfc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793716723;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kVH6lEoMeQpH1Hape2ngmhAinE+qo6gyJ4nEWWBRqGg=;
-	b=xqce2axHdSZUsEr2hDsSQFVCS8v0rFocryoBxxeO89U0Ej4iRZMwv94j9vzUcmm5yuTPKC
-	e4ecci23oWyfsmCQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793716722; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kVH6lEoMeQpH1Hape2ngmhAinE+qo6gyJ4nEWWBRqGg=;
-	b=Y9MRsZzAjf3A0fR3Rl2drD0DfMh8qQFSAfCJBtUgm4GceAQMs0omC68vfkgw9tDjyqBvep
-	XDAi7oK3ocrRq5mEvbhJ/xLi5L0411+it1deRI6ppJUlKT0NnQfwsamWFpGTO4npXR8QDj
-	fOazgHK9qamwnjbABZmwSfsZvebj7zw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793716722;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kVH6lEoMeQpH1Hape2ngmhAinE+qo6gyJ4nEWWBRqGg=;
-	b=Iae+n5XuNO+uwvoL8np7L1pCpgWWYc9hzaXqmRfxIRUTHCK1Zsljyv7L2sVAKhDHK42mMD
-	puoI8wK3JK2zqNCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B3D81134B8;
-	Tue,  3 Nov 2026 14:38:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DKqlIvHx6WoYCQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 03 Nov 2026 14:38:41 +0000
-Date: Tue, 03 Nov 2026 15:38:37 +0100
-Message-ID: <874idyx9n6.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Christian Zigotzky <chzigotzky@xenosoft.de>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	zzzccc427@gmail.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-	"R.T.Dickinson" <rtd2@xtra.co.nz>,
-	mad skateman <madskateman@gmail.com>,
-	Damien Stewart <hypexed@yahoo.com.au>,
-	Christian Zigotzky <info@xenosoft.de>
-Subject: Re: Void PPC: PulseAudio issue with sound updates 7.4-rc1
-In-Reply-To: <BD226162-844C-449D-A486-8888184DEBF0@xenosoft.de>
-References: <874idy2wbe.wl-tiwai@suse.de>
-	<BD226162-844C-449D-A486-8888184DEBF0@xenosoft.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nONsd5+m
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C3F11F00A18;
+	Tue,  3 Nov 2026 14:39:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793716792;
+	bh=ZwbaMG6aUSMTnRL9MhToGte5CDhehKEdwXeLnhI65gw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=nONsd5+mNYQKLpyxoMGNVVdc9GdARJYZ3XBiEuXphj1e9E8fjbyc0IKVU8ulPuG0k
+	 DfL/Q36pnyxUagX8IGKvGSnka25gVkF1A2bCH3xl44iQPtBH25yxB28NX5WrHuCVye
+	 801U5HT8XyKfLJ4PrjVnbvYw+G9BgbNRz1EZACzNozDYvb7Z4SAG5KnfV1Ymhxf2db
+	 b5rzjMCBhWAOOtT8tDfgd+RY/2/tJwBCrghmKtyqVcbyb9mCaPbfQ473G1mk+FHf0/
+	 bswHd8vmdE4azuBZI6Xu6/G9cjOhPQIbm45c6Q3iHEr39ZZ8bmX+KfmfRM3KfV00We
+	 8p8CVDLydJpHQ==
+Message-ID: <sashiko-outbox-195464@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 3/3] ASoC: cs42l43: Improve pop performance of the
+ input power up
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Charles Keepax" <ckeepax@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261103141857.672537-4-ckeepax@opensource.cirrus.com>
+References: <20261103141857.672537-1-ckeepax@opensource.cirrus.com>
+ <20261103141857.672537-4-ckeepax@opensource.cirrus.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 03 Nov 2026 14:39:52 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -116,124 +60,145 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,gmail.com,perex.cz,vger.kernel.org,lists.ozlabs.org,xtra.co.nz,yahoo.com.au,xenosoft.de];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,xtra.co.nz,yahoo.com.au];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
-X-Spam-Score: -12.30
 
-On Tue, 03 Nov 2026 13:00:24 +0100,
-Christian Zigotzky wrote:
-> 
-> On 03 November 2026 at 08:44 am, Takashi Iwai <tiwai@suse.de> wrote:
-> 
-> Have you tried changing the call of snd_pcm_hw_refine_with_lock() in
-> snd_pcm_ioctl_hw_params_compat(), too?  Or check the call in
-> snd_pcm_hw_refine_old_user(), too.
-> 
-> If it doesn't change even if you replace all callers of
-> snd_pcm_hw_refine_with_lock() with snd_pcm_hw_refine(), something
-> wrong in the test itself.
-> 
-> 
-> Takashi
-> 
-> - - -
-> 
-> I have tried it and sound works again.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] ASoC: cs42l43: missing DAPM lock on Decimator 5 and 6 HPF contro=
+ls
+--
 
-Then please figure out which replacement of
-snd_pcm_hw_refine_with_lock() actually matters.
-(You can keep snd_pcm_hw_refine_with_lock() definition there.)
+commit 8cf1c31ea6b0941fdadc51d4efe5a6f1e81ead1b
+Author: Charles Keepax <ckeepax@opensource.cirrus.com>
 
+ASoC: cs42l43: Improve pop performance of the input power up
 
-thanks,
+This commit adjusts the decimator high pass filter settings and adds a 150ms
+settling delay during microphone power up to reduce startup pop noises, whi=
+le
+converting the Decimator 1..4 HPF controls to take the DAPM lock.
 
-Takashi
+> diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
+> index 8fccddf7a1b22..43758f790cb0f 100644
+> --- a/sound/soc/codecs/cs42l43.c
+> +++ b/sound/soc/codecs/cs42l43.c
+> @@ -1345,19 +1345,27 @@ static const struct snd_kcontrol_new cs42l43_cont=
+rols[] =3D {
+>  	SOC_ENUM("Decimator 3 WNF Corner Frequency", cs42l43_dec3_wnf_corner),
+>  	SOC_ENUM("Decimator 4 WNF Corner Frequency", cs42l43_dec4_wnf_corner),
+> =20
+> -	SOC_SINGLE("Decimator 1 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL1,
+> -		   CS42L43_DECIM_HPF_EN_SHIFT, 1, 0),
+> -	SOC_SINGLE("Decimator 2 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL2,
+> -		   CS42L43_DECIM_HPF_EN_SHIFT, 1, 0),
+> -	SOC_SINGLE("Decimator 3 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL3,
+> -		   CS42L43_DECIM_HPF_EN_SHIFT, 1, 0),
+> -	SOC_SINGLE("Decimator 4 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL4,
+> -		   CS42L43_DECIM_HPF_EN_SHIFT, 1, 0),
+> +	SOC_SINGLE_EXT("Decimator 1 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL1,
+> +		       CS42L43_DECIM_HPF_EN_SHIFT, 1, 0,
+> +		       cs42l43_dapm_get_volsw, cs42l43_dapm_put_volsw),
+> +	SOC_SINGLE_EXT("Decimator 2 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL2,
+> +		       CS42L43_DECIM_HPF_EN_SHIFT, 1, 0,
+> +		       cs42l43_dapm_get_volsw, cs42l43_dapm_put_volsw),
+> +	SOC_SINGLE_EXT("Decimator 3 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL3,
+> +		       CS42L43_DECIM_HPF_EN_SHIFT, 1, 0,
+> +		       cs42l43_dapm_get_volsw, cs42l43_dapm_put_volsw),
+> +	SOC_SINGLE_EXT("Decimator 4 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL4,
+> +		       CS42L43_DECIM_HPF_EN_SHIFT, 1, 0,
+> +		       cs42l43_dapm_get_volsw, cs42l43_dapm_put_volsw),
+> =20
+> -	SOC_ENUM("Decimator 1 HPF Corner Frequency", cs42l43_dec1_hpf_corner),
+> -	SOC_ENUM("Decimator 2 HPF Corner Frequency", cs42l43_dec2_hpf_corner),
+> -	SOC_ENUM("Decimator 3 HPF Corner Frequency", cs42l43_dec3_hpf_corner),
+> -	SOC_ENUM("Decimator 4 HPF Corner Frequency", cs42l43_dec4_hpf_corner),
+> +	SOC_ENUM_EXT("Decimator 1 HPF Corner Frequency", cs42l43_dec1_hpf_corne=
+r,
+> +		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
+> +	SOC_ENUM_EXT("Decimator 2 HPF Corner Frequency", cs42l43_dec2_hpf_corne=
+r,
+> +		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
+> +	SOC_ENUM_EXT("Decimator 3 HPF Corner Frequency", cs42l43_dec3_hpf_corne=
+r,
+> +		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
+> +	SOC_ENUM_EXT("Decimator 4 HPF Corner Frequency", cs42l43_dec4_hpf_corne=
+r,
+> +		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
 
-> 
-> My modifications:
-> 
-> diff -rupN a/sound/core/pcm_compat.c b/sound/core/pcm_compat.c
-> --- a/sound/core/pcm_compat.c	2026-11-01 22:26:31.000000000 +0100
-> +++ b/sound/core/pcm_compat.c	2026-11-03 10:01:54.228010513 +0100
-> @@ -252,7 +252,7 @@ static int snd_pcm_ioctl_hw_params_compa
->  		return -EFAULT;
->  
->  	if (refine) {
-> -		err = snd_pcm_hw_refine_with_lock(substream, data);
-> +		err = snd_pcm_hw_refine(substream, data);
->  		if (err < 0)
->  			return err;
->  		err = fixup_unreferenced_params(substream, data);
-> diff -rupN a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-> --- a/sound/core/pcm_native.c	2026-11-01 22:26:31.000000000 +0100
-> +++ b/sound/core/pcm_native.c	2026-11-03 10:02:24.836343549 +0100
-> @@ -932,29 +932,6 @@ static int snd_pcm_hw_params_user(struct
->   * this one should be used for ioctls and other external paths instead of
->   * direct call of snd_pcm_hw_refine()
->   */
-> -static int snd_pcm_hw_refine_with_lock(struct snd_pcm_substream *substream,
-> -				       struct snd_pcm_hw_params *params)
-> -{
-> -	struct snd_pcm_runtime *runtime;
-> -	int err;
-> -
-> -	if (PCM_RUNTIME_CHECK(substream))
-> -		return -ENXIO;
-> -	runtime = substream->runtime;
-> -	err = snd_pcm_buffer_access_lock(runtime);
-> -	if (err < 0)
-> -		return err;
-> -	err = hw_params_state_check(substream);
-> -	if (err)
-> -		goto unlock;
-> -
-> -	err = snd_pcm_hw_refine(substream, params);
-> -
-> - unlock:
-> -	snd_pcm_buffer_access_unlock(runtime);
-> -	return err;
-> -}
-> -
->  static int snd_pcm_hw_refine_user(struct snd_pcm_substream *substream,
->  				  struct snd_pcm_hw_params __user * _params)
->  {
-> @@ -965,7 +942,7 @@ static int snd_pcm_hw_refine_user(struct
->  	if (IS_ERR(params))
->  		return PTR_ERR(params);
->  
-> -	err = snd_pcm_hw_refine_with_lock(substream, params);
-> +	err = snd_pcm_hw_refine(substream, params);
->  	if (err < 0)
->  		return err;
->  
-> @@ -4247,7 +4224,7 @@ static int snd_pcm_hw_refine_old_user(st
->  	if (IS_ERR(oparams))
->  		return PTR_ERR(oparams);
->  	snd_pcm_hw_convert_from_old_params(params, oparams);
-> -	err = snd_pcm_hw_refine_with_lock(substream, params);
-> +	err = snd_pcm_hw_refine(substream, params);
->  	if (err < 0)
->  		return err;
+[ ... ]
+
+> @@ -1770,26 +1785,32 @@ static const struct decim_info cs42l43_decim_info=
+[] =3D {
+> =20
+>  static const struct decim_info cs42l43b_decim_info[] =3D {
+>  	{
+> +		.freg =3D CS42L43_DECIM_HPF_WNF_CTRL1,
+>  		.vreg =3D CS42L43B_DECIM_VOL_CTRL_CH1_CH2,
+>  		.vmask =3D CS42L43_DECIM1_VD_RAMP_MASK | CS42L43_DECIM1_MUTE_MASK,
+>  	},
+>  	{
+> +		.freg =3D CS42L43_DECIM_HPF_WNF_CTRL2,
+>  		.vreg =3D CS42L43B_DECIM_VOL_CTRL_CH1_CH2,
+>  		.vmask =3D CS42L43_DECIM2_VD_RAMP_MASK | CS42L43_DECIM2_MUTE_MASK,
+>  	},
+>  	{
+> +		.freg =3D CS42L43_DECIM_HPF_WNF_CTRL3,
+>  		.vreg =3D CS42L43B_DECIM_VOL_CTRL_CH3_CH4,
+>  		.vmask =3D CS42L43_DECIM3_VD_RAMP_MASK | CS42L43_DECIM3_MUTE_MASK,
+>  	},
+>  	{
+> +		.freg =3D CS42L43_DECIM_HPF_WNF_CTRL4,
+>  		.vreg =3D CS42L43B_DECIM_VOL_CTRL_CH3_CH4,
+>  		.vmask =3D CS42L43_DECIM4_VD_RAMP_MASK | CS42L43_DECIM4_MUTE_MASK,
+>  	},
+>  	{
+> +		.freg =3D CS42L43B_DECIM_HPF_WNF_CTRL5,
+>  		.vreg =3D CS42L43B_DECIM_VOL_CTRL_CH5_CH6,
+>  		.vmask =3D CS42L43B_DECIM5_PATH1_VOL_FALL_RATE_MASK | CS42L43B_DECIM5_=
+MUTE_MASK,
+>  	},
+>  	{
+> +		.freg =3D CS42L43B_DECIM_HPF_WNF_CTRL6,
+>  		.vreg =3D CS42L43B_DECIM_VOL_CTRL_CH5_CH6,
+>  		.vmask =3D CS42L43B_DECIM6_PATH1_VOL_FALL_RATE_MASK | CS42L43B_DECIM6_=
+MUTE_MASK,
+>  	}
+
+[Severity: Medium]
+As reported by Sashiko on v1 [1], cs42l43b_decim_info[] adds
+CS42L43B_DECIM_HPF_WNF_CTRL5 and CS42L43B_DECIM_HPF_WNF_CTRL6 so that
+cs42l43_mic_ev() caches, temporarily overrides, and restores them across the
+150ms settle delay during PDM2L and PDM2R startup.
+
+While the Decimator 1..4 HPF controls in cs42l43_controls[] were updated to
+use the DAPM-locked helpers, the Decimator 5 and 6 HPF controls in
+cs42l43_b_controls[] still use plain SOC_SINGLE and SOC_ENUM:
+
+sound/soc/codecs/cs42l43.c:cs42l43_b_controls[] {
+	...
+	SOC_SINGLE("Decimator 5 HPF Switch", CS42L43B_DECIM_HPF_WNF_CTRL5,
+		   CS42L43_DECIM_HPF_EN_SHIFT, 1, 0),
+	SOC_SINGLE("Decimator 6 HPF Switch", CS42L43B_DECIM_HPF_WNF_CTRL6,
+		   CS42L43_DECIM_HPF_EN_SHIFT, 1, 0),
+
+	SOC_ENUM("Decimator 5 HPF Corner Frequency", cs42l43b_dec5_hpf_corner),
+	SOC_ENUM("Decimator 6 HPF Corner Frequency", cs42l43b_dec6_hpf_corner),
+};
+
+If userspace reads or writes the Decimator 5 or 6 HPF controls on CS42L43B
+while PDM2L or PDM2R is powering up in cs42l43_mic_ev(), can it read back t=
+he
+temporary startup filter settings or have a concurrent write overwritten wh=
+en
+SND_SOC_DAPM_POST_PMU restores priv->decim_cache[w->shift][1]?
+
+Should the Decimator 5 and 6 HPF Switch and Corner Frequency controls in
+cs42l43_b_controls[] also be converted to SOC_SINGLE_EXT and SOC_ENUM_EXT w=
+ith
+cs42l43_dapm_get_volsw, cs42l43_dapm_put_volsw, cs42l43_dapm_get_enum, and
+cs42l43_dapm_put_enum?
+
+[1] https://lore.kernel.org/r/sashiko-outbox-193741@kernel.org
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103141857.6725=
+37-1-ckeepax@opensource.cirrus.com?part=3D3
