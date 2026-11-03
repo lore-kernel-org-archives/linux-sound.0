@@ -1,56 +1,182 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793694539;
-	b=DrJ5sHEaW0NBj0PCI1Pdt3LkzXP6Xfh5/+u9xKJIB/Q6rKejf9R583eRdkibhjBKoTQk
-	 PDMCIBibddyfGJYhSeHg5UxDvhrbsXN6wnvQdvpaZhwzvykZiyYaxjUMRS6C3P4hc4LIN
-	 kPan82S9K7/+CxdIlutvOp4RqGLPf9XRw3dn7GQyFj9voAbduw9t0pJ1P67jq7O3ylQ1k
-	 U10AOQay4A7KESg4BexbIPot8C9qsjeh3/KORUgJNOhFmdVcfHWmQX6FFyzclrFepEFw5
-	 A17I5fKBRm4Nf41TbgaYkd/SwdsNULmumXmHccSi+Eg8l/3Ah7tK32x49wqGIL74mqw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793694539;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=IftVdBI69CsESGRe4PbJdIBmB9aVffPvuk46QbCRY40=;
-	b=tAYCV1iL8SGABmnHe0RNBpzZfKBaXDYluZO1ASabch6gTCGphVmECiarYC7XYfM5+MFy
-	 gg9MIvN4c+DvscFAJshXOHqXlxU0XlTegDnAs2zdzeLrRBKD3jt38SoRn1SgelidgaPvY
-	 oRFAwEYCr8LZt2cd4s/t5U91xi7kPCwCI6k1Dahnllc2/u5o5nrcq09NJgzZtOtxj1InV
-	 qTrugDSXoLmn4h4dMm54G27yfgAQl/iOT+ejbgwHSy+YDuir1ouONS7LyXty5gbt0O6Ut
-	 P+1O9bZIGv00jzb3hY9Hyu1aiTuNls/l+lr2d11+20tIix27+Hh5Oho6RedLKtaoDtQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="NI/H5kHd";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=198.175.65.17
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793694548;
+	b=nyIbCD+AGW/bG6sUhCKIL1hZE0JbVG/j3fnnfCMGKxO+Xvz8VaAjqCwDIL5P67LgZDf4
+	 s5oq8e5wroMakKuq21k/xQl3hoz1ND93eBUXM3Kr5by9J7woDa6BW5HD1XLTuf1lmvlW8
+	 mX9WcMY5yfzBQVVnrDU1YPviKoNhsJKvgsdoEYYMGgoyjN9Bpa3kZ9RejIZd5xEWbVmeo
+	 NJQFv9fXIHPPNigD5dECinhwmeI4y0HLMnRsqWvZXJ177TyxPpjX6Og7ufbeRSzje8Nsw
+	 eYrHBkc548h6KuVXekSI9uJ+loftC5hyvathand7hGsXryva+iVkk8HsfFVN3Yu+aqg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793694548;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
+	 Received:Received:Received:From:To:Subject:Thread-Topic:Thread-Index:
+	 Date:Message-ID:References:In-Reply-To:Accept-Language:
+	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
+	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:
+	 X-Exchange-RoutingPolicyChecked:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+	 X-MS-Exchange-CrossTenant-userprincipalname:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+	bh=BBJyehNc8hR3r4ct849ZSS6YMh7RwlofT4qeyhs+waA=;
+	b=VEpd7yMoXuYQuz7yI6PBoBPDStz0zZR3I9uu7WdNRW1qDN9kxcZFTSbftKkyI3P5R8W5
+	 vVe+yuuwXidYLSZqwWf3DQn5u0WeQjn7A/0ZyIPqiI34nVilXGM4CmyUZyBqmd2wN9dyV
+	 tpdatkWn5kxdM8z5lS1A6HEGHnVsJi6/KxrH3MmSM/+gPG4Pi9MMolEZpo89TkoNPB0Rg
+	 tQ/syRfa1MVhPyy+xQZrx6AC+xDEGsh8AXt+F+yrW1MQtSIHHUx7N08KpWrcH6DRY7srk
+	 /YhOlrRRizXIrUy1Rec0l9O4PX9KJKK5gjo8tRuTpRfR+mv2iVrtRShWQJOxzPC7rcQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=H7xHro0E;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0725606A329;
-	Tue,  3 Nov 2026 08:28:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2C5606A32C
+	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 08:29:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E2C5606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NI/H5kHd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A5021F000C1;
-	Tue,  3 Nov 2026 08:28:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793694538;
-	bh=IftVdBI69CsESGRe4PbJdIBmB9aVffPvuk46QbCRY40=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NI/H5kHdzBQLElenC5k+nV0X1ikVI9TtSxxW9wTHmDxoxIGDW1lYFsoWT43rPlb+/
-	 6MTY6KZOLm2A4LsNFhfUPbSlWlZFSG5fEylCvHpsyaojiuzMy1075QVUm42rgssdXz
-	 bZFMePai0yerkUBOtVp4LYsusd4RuL5JHMIqk6Jcr3opjI8HRZ2QyIm6J58uJ9uqxB
-	 PD4tVQi2KFTPM6sFKSrngw+bk0GMHF8gEsnI69IWeoybDUsgb3N5JR+s4ZrRqk1roV
-	 wviFn7V25rKF+a8dk5zMVPfn30sLrRVpI9jq1tj0HXePUt67misjHrbmdasOfoFuJG
-	 5eMjgR6HQLIxA==
-Message-ID: <sashiko-outbox-194828@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 09/22] ASoC: apple: Add macaudio machine driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "James Calligeros" <jcalligeros99@gmail.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261103-macaudio-v4-9-637484efe46d@gmail.com>
-References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
- <20261103-macaudio-v4-9-637484efe46d@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 08:28:57 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=H7xHro0E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793694547; x=1825230547;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=BBJyehNc8hR3r4ct849ZSS6YMh7RwlofT4qeyhs+waA=;
+  b=H7xHro0E3PbDTH8Im2tI2mMTKsMwuLFntiNKvgyu2RGsT0WLoH8ojkHi
+   kGFQlzLayeG7Dd9tZeVBXJmYa4CIsKJi7aLf18+jv7AsHquP3HxXmvDqH
+   XN65Q3IZie6TdlQO4ICEt9BQnVQ/El8WkKzKf2e+G5Y/cUxxEF6NsPeRI
+   7A2OHEbN+JyfLvCn0tUuKHR6uI3NjxU8iE+ruUmf0d12Kafhb86gl/3LK
+   B3MAoNoqRmuff1hx6UcLOMrCRZbwD+ep9PRPwKNqSePasg0gdPNbhy47q
+   sfKL2eNcSCHf+2udoi6navChHvKfAA/tukyKtEzkpN0GM5n9X8Wz9bBKS
+   A==;
+X-CSE-ConnectionGUID: VPN/GIOAQ1qn3kvybaoxsw==
+X-CSE-MsgGUID: 6KfTxeV2TgOTV5bM0dYgKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2424427"
+X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
+   d="scan'208";a="2424427"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 00:28:49 -0800
+X-CSE-ConnectionGUID: 6SWhf3O8T9aJOM+Qr72BKw==
+X-CSE-MsgGUID: 4xIjMtHoTZeI/B3yxRZJvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
+   d="scan'208";a="6249923"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 00:28:48 -0800
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Tue, 3 Nov 2026 00:28:47 -0800
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56 via Frontend Transport; Tue, 3 Nov 2026 00:28:47 -0800
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.59)
+ by edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Tue, 3 Nov 2026 00:28:47 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hn8alxRLrbn3iqJACF7vPP4bN49rSmhSD9epYDlrpix2eS/IBbS/A8Iu8RlDyd5WHlwxUfp7EbI4sNWw1OKSZLUzhtEm2fqHnjouSswSp9Nt0RNXkCq/UHjxh2EhyejsWZBWGyvTv6V0c0PsGL8dW/Ng4ceYJT2lqgmk7VrgYP6+Hg/8k5kWpVYzg69SGp8a/veV3lzlVEmHASgy55wAcnJQwFixzl2vrkkGo9Rc4/mH62yPwPICaHpvRl/Os/pL8RuO0vlZy30uXpK7NBz8BGDvfkAPtZ8QP1/pnzNvLagLLvf+wGU0Cfs/SPoPIup9ODX9Kzc/h9Kej2oqan/Rsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BBJyehNc8hR3r4ct849ZSS6YMh7RwlofT4qeyhs+waA=;
+ b=tEuTOyK/fQEQegXmJaZBhitSUvK8DFqSOUSvGJ927thZXxcKz+EleSMf3eHA2An6yVxCKgDDtt/ieNSjFBSy6xqllRWwMPN1xiIWLlUn11n5Ya6Bx2h2nQknqqfCUY5sO7MXIYie9bPwJ/LH34HxPn3T1asbhjXbfociLpkc36ceMptGIlRTH8aBy7lmlToVtLWC+GAgwylHP2dvJ2xLAsbCWsJbIyaT9SZUO5I9j9uNGaRK7Hey4puQObG5e90P7ElXirgTsXoloTJSnP26Ge/5NuVnTuQRrSInNQFaUDhlrphb900TK3SUej0d2/mWx1x7laVlh9DGS0zgvClcRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ2PR11MB8424.namprd11.prod.outlook.com (2603:10b6:a03:53e::10)
+ by MW3PR11MB4602.namprd11.prod.outlook.com (2603:10b6:303:52::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Tue, 3 Nov
+ 2026 08:28:39 +0000
+Received: from SJ2PR11MB8424.namprd11.prod.outlook.com
+ ([fe80::3df:33f9:59a1:da76]) by SJ2PR11MB8424.namprd11.prod.outlook.com
+ ([fe80::3df:33f9:59a1:da76%3]) with mapi id 15.21.0569.011; Tue, 3 Nov 2026
+ 08:28:39 +0000
+From: "Liao, Bard" <bard.liao@intel.com>
+To: "sashiko-reviews@lists.linux.dev" <sashiko-reviews@lists.linux.dev>, "Bard
+ Liao" <yung-chuan.liao@linux.intel.com>, "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>
+Subject: RE: [PATCH 1/2] soundwire: move lane bandwidth into bus params
+Thread-Topic: [PATCH 1/2] soundwire: move lane bandwidth into bus params
+Thread-Index: AQHdapAaN/nbVKf0pUCQ+APuDX+i8bcaTiqAgAG3P1A=
+Date: Tue, 3 Nov 2026 08:28:39 +0000
+Message-ID: <SJ2PR11MB84240CE803A01D45BBD993ACFF692@SJ2PR11MB8424.namprd11.prod.outlook.com>
+References: <20261102060437.824814-1-yung-chuan.liao@linux.intel.com>
+ <20261102060437.824814-2-yung-chuan.liao@linux.intel.com>
+ <sashiko-outbox-192942@kernel.org>
+In-Reply-To: <sashiko-outbox-192942@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ2PR11MB8424:EE_|MW3PR11MB4602:EE_
+x-ms-office365-filtering-correlation-id: 4c96c5eb-9dc3-4092-20c1-08df39847664
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|38070700021|261021135927099003|261021133027099003|11063799006|4143699003|56012099006|261009223027099003|261028144727099003|261021121427099003|261021130227099003|261026135527099003|261026140227099003|261022105027099003|261026130827099003|261022115727099003|261022113327099003|261021123027099003|261026121527099003|261022075727099003|10067099003|18002099003|22082099003|261102123227099003|3023799007;
+x-microsoft-antispam-message-info: Nravvb/RCK7dzdM3lT81s7cKCJwpwN4Bv1fFlW0XMKslPui/5g19hxrbnmLDCqOP76kKlsxGQTmzUSFvs7J0tg9R3kYmIPnD3NKywRiwh16Lfcn1tIcHkUFvRUQayV7tfYWhSdrRfLT+p2YKjKtIOaz/0FwkmTRvef2lDvZlsoHbvVGN+d672hEi6b9RRX/yS6MLMBQq6EJyoUAgrS8BajDG+YX/d+dEBke1U7Cgm/qw5PRl+PqbXvy8BFUd5OBseA8AZ5EyIjpqjF9na8TdN9I9CcUOK0lpWFIlNCJ82GQeb2sXs0FxZauuAefvoUZ7s3ObDfs485OVc6TUV8UkdXtos3C1Jkk7UCzv+N9q09U2QWZ5OM9cmVM0OX7ODptpKFF8BRunscn9baCLNGAnWiQfFbkOMwfJtcFOvdwFfZS98TzSfEyqvFb7xOK+3zbIPx6dxVQhqhPXzoPqymoxFNI9YPGRm6GemC6WoI5iDH7Iq5bN486jbVuNnSc9CpKFW8anavFd3TicrwLrlkdLyr83iQUcA7GBOe398IqDpwQAQCma3tZ7e4MIoqOyrnyR3iTJkCn/5+qOPgsjWG4rCLR6Gr/n/4fz+32YORkBShyB5uzHzwb26x//DnkGHesBCEjqtP528tHwAaHAhR7AbhR1u4n0123sECBu1h9Ez58=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8424.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(38070700021)(261021135927099003)(261021133027099003)(11063799006)(4143699003)(56012099006)(261009223027099003)(261028144727099003)(261021121427099003)(261021130227099003)(261026135527099003)(261026140227099003)(261022105027099003)(261026130827099003)(261022115727099003)(261022113327099003)(261021123027099003)(261026121527099003)(261022075727099003)(10067099003)(18002099003)(22082099003)(261102123227099003)(3023799007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eWFBc29BNnNlWmxjR2FNZ29UUnNqSVUxZlFhU3NrN0xFaGpNVnh0SVlTLzlx?=
+ =?utf-8?B?RlNkREZ6ZGk5TXdWSHVFcVNDSEdwRDV3MElMcE9NbkMweXB6U1ZlVVkxNFJS?=
+ =?utf-8?B?SUVITmNEYjh2UThyUmR4OWZLOHB1UmNPVlEyc1BKOUIybXJlZUxteGN0a0FN?=
+ =?utf-8?B?SWFXdkpaazY2Q3IxRGlIU29yV0RRcE54YmFpR1I3NUZOT1h4TzJMM215QXRT?=
+ =?utf-8?B?amZjVzNQR1A1ZW0xWExtYXpHVFpMUXhoc0J3cVBDSXUrYTBWTlhGQUxyZ2pn?=
+ =?utf-8?B?TC9VYUQ1cEErWjNFOVI0ZXFaMW11SkU0VHNJVXAwV0IzeUpNQ0RUbmpBZnhh?=
+ =?utf-8?B?c1phc0JpU294T1F3OHVveWpoelE1Nlh5NGxnUEdqVzBkSHZRTWk2OUhDZ2I2?=
+ =?utf-8?B?QkhucXpFZHNjSTFLZkVzbkZxUnMxRGh5OUZVaytzbWNObVpNa2NjMjNDYUJz?=
+ =?utf-8?B?MURUd1lKZ2wvSFZFeTdhSFBremxwejVZU0lOUXh2Q2hiTzFKYThDbEdCYTBu?=
+ =?utf-8?B?S2V3M3NCVmhhTjA5MWRST3gzc0RmUkN5dHdZUlE5YTNCd0RWOWFBaW9OWGxD?=
+ =?utf-8?B?RFNJTVd5Z2xIOEFQcGN1NGZJaktwaUxBQzVwWXlrSjhWeXk0OURUNVB1MU5M?=
+ =?utf-8?B?cnRoWFV3NUZCZGZpQlNDd1dKZkM4ZHRmS1dBY21mRmZ2dWY5V1ZBbStwV2FW?=
+ =?utf-8?B?bTdBTTN0UjU5MHhla1BieG5ZTGFCNGFNb3pGbUFOTVdQN2o4RUNpRFZLaGxH?=
+ =?utf-8?B?WHQ4NnZGVXJWdU1DZkg5RnpLNEdlYUFOYVc1S2dVMVdCQ0pBVUwwNHBiRGxN?=
+ =?utf-8?B?cHJ0enRoeHRBa2lzaU9JQXZ4ZVNMQkZFZmxrRFptUEZ6bW9meUZMNFhrb3Y1?=
+ =?utf-8?B?WTlodjcwekFFWHphUGVTWmlUdStkRThrYXVZeGtwdURFRUZ1QXhZRVNXMVZT?=
+ =?utf-8?B?Sno3VnVpVDEzQ003WkhXTG9QclRpUkxybUxqaGxXTlB4N09EM3ZMYkd5V0Nt?=
+ =?utf-8?B?S0JqdzU4U2U5d3FVOGFIMzkvQWtPUmN3ZHN3ZVlPZlI5WHpOM0RBQ3FMSmF2?=
+ =?utf-8?B?b1JyU29oM3gxWGV4UkhLakFOc0M0dnNndm5VWWNnZU5KaXZ3NFZOS1NmS1o4?=
+ =?utf-8?B?UWllMnBwNWJxaHVCaWxzYkt3dXptaTNxVUVVZHBsb2ZPcUFGYldyL2xmLzRB?=
+ =?utf-8?B?dytsUkVLSldUMHdGZVQvTkVlbElLU1hkTmpWd0FNTm1Leit2UDJMZkZVQzB5?=
+ =?utf-8?B?WXMzZ3ZGS3lBam52MS9sYlNhRkZNUGgvSFhXMmxTN2NaMzFhOFg0UG5kU1dJ?=
+ =?utf-8?B?bkcxbTBMNGU3emZwSktrOWZ3MlpyTUdGR3ZpcUFzRWJxRGFKMTJvOUdjVjhE?=
+ =?utf-8?B?K2dYL3ZNdys3dmVtaFNCb0dISmt2ZFYzMVNmcXpEa3loalJPUFFKYjA5WkpS?=
+ =?utf-8?B?ZzZtQXlHZHY3OEVsUlJvUVFtYmd6VHJSWmRZVEJwWmV3S1dXank2S3lrRldV?=
+ =?utf-8?B?Sno4Y2RvVGxvTkV2MFhkQzdrR3Q5OHpON2Y3ZEVNZmJ3dGZBUkVlNGVGbEtX?=
+ =?utf-8?B?RUphZjk3ZlRXSjZWUnlmSFhVY0lWa1E0dEJqMWVGa0hrRUVJN1d1QjVsNS9u?=
+ =?utf-8?B?WHRhd3c5dTM3RS9NTWYwbnNMWU9JYnF3MW53S2FWNkZCQU00bUZxM09tUVhO?=
+ =?utf-8?B?RitlS3NlZHRESW4zMUVrR24zTWlZYWxwN0cxeUhIWG01d2pYUmhBeTByM0Uv?=
+ =?utf-8?B?RFdJOWlPbFI2VFp6TGk0WXQ5azZISGJHWUhLNzlRcU0rdlhPcEVvc2lCUzhI?=
+ =?utf-8?B?b2h5QWgrZ1N3VmhzT3dKTHlOVGU2RHNQM1Iwci9NWHlUL1V0QWVZemorMlln?=
+ =?utf-8?B?bjJaUU9RL0FURVdkSE9yR3dLcEVpU2I2TmhDOWFyUHFtZndBbGU5S3MwK2wv?=
+ =?utf-8?B?OXhjVWl1WmJ0cHBaUlNheG5HdGZHUHhvNHJvbTRRK0JBWFFSUXZWNnVjbmF6?=
+ =?utf-8?B?ZWVpTmwzcjM3WmhEazcyVXJaWVZNZXk5SEN6YXVDNW1DKzFEbmtYOVhpYWt2?=
+ =?utf-8?B?dlE4ZUdkWTJIbVJPQi9Nak5rVDNEWGVoRVhXcDdzUkpjMk5SVDRPcXR3UXNJ?=
+ =?utf-8?B?UWw1eVIxZWhoRG5NWHJ0eHNwd3NhZDdKaThvYU5HeTVuWmhJN1llSFZtWUZu?=
+ =?utf-8?B?ZnpTOTJKTUhwbXQ3U05wOXVHbzlKRzlKRjc1MFJDWkpzMGdsUUgxN1lpK3RW?=
+ =?utf-8?B?eThUb0ZTbzYwQlhJaEd3dElYV0pvNHhlaHVXQWFObmNidDFCUDZ2b2lCdDVI?=
+ =?utf-8?Q?5UPytfZGSkt+uyaGxP?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,417 +185,92 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+X-Exchange-RoutingPolicyChecked: ZoGLDSieV3vQDt4dJ093+oBxzHob3vvTpgTTrLRxKRKAyKOenP8UabPLdP9xsx9jEf7TwaUu9B8oNp+HemRSfzGAJ/FxHLQpD30UAGPKsFaLVrw7yH6ey7/zziG18lac1xiiI0v4GKCIBdGPuYP+2ljxPW57s5jOfrJclzpjpf4aq61IoJfOFE9ToLbfCLuLv4Vk8kIT1JWFCVG6AX4gk8VcUxtcR4AXjL8q9F6OP3BsaQjo/qPd0tuS0FRMjj+BSNjvp383RTSEnwfMB7ZKsnyiS1BVnZtJc/DzTMs8cLfK2pML3vDQY58FGuJKYfsm6tKZh7HeC2L7Q3Sbp0sUjA==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8424.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c96c5eb-9dc3-4092-20c1-08df39847664
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Nov 2026 08:28:39.3891
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LZXkCRV40j552WKB17E1Ao2C5y8bo9ATRwO4AflF+H/zK0zRx0Nv3ZWnc1kiKiLHhzJF4ZS/DPWEPGDtKAAC1w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4602
+X-OriginatorOrg: intel.com
 
-Thank you for your contribution! Sashiko AI review found 7 potential issue(=
-s) to consider:
-- [High] ASoC: apple: macaudio: AB-BA deadlock in macaudio_vlimit_update()
-- [High] ASoC: apple: macaudio: UAF from canceling works after card teardown
-- [High] ASoC: apple: macaudio: zeroing rate in macaudio_dpcm_hw_params()
-- [High] ASoC: apple: macaudio: sleeping mutex lock in DMA tasklet via nona=
-tomic links
-- [Medium] ASoC: apple: macaudio: leak of DAI link OF nodes on unbind and e=
-rror
-- [Medium] ASoC: apple: macaudio: overwritten error in macaudio_be_assign_t=
-dm()
-- [Medium] ASoC: apple: macaudio: timeout race with cancel_delayed_work()
---
-
-commit 2cdf88f52057f61693fcf4754466c5850f0fe004
-Author: Martin Povi=C5=A1er <povik+lin@cutebit.org>
-
-ASoC: apple: Add macaudio machine driver
-
-This commit adds an ASoC machine driver for Apple Silicon Macs, linking MCA
-I2S ports and multiple speaker/headset codecs as DPCM backends to synthetic
-frontends, along with speaker volume safety limiting and jack detection.
-
-> diff --git a/sound/soc/apple/macaudio.c b/sound/soc/apple/macaudio.c
-> new file mode 100644
-> index 0000000000000..2baabf5f3016b
-> --- /dev/null
-> +++ b/sound/soc/apple/macaudio.c
-
-[ ... ]
-
-> +static void macaudio_vlimit_update(struct macaudio_snd_data *ma, bool ta=
-ke_rwsem)
-> +{
-> +	bool unlock =3D true;
-> +	const char *reason;
-> +
-> +	/* Do nothing if there is no safety configured */
-> +	if (!ma->has_safety)
-> +		return;
-> +
-> +	/* Check that the control has been pinged within the timeout */
-> +	if (ma->speaker_lock_remain <=3D 0) {
-> +		reason =3D "Lock timeout";
-> +		unlock =3D false;
-> +	}
-> +
-> +	/*
-> +	 * If this has been called from either of the safety interlock
-> +	 * workqueues, the core API has not taken controls_rwsem for us.
-> +	 * Take the write semaphore since macaudio_vlimit_unlock writes
-> +	 * to the kcontrols.
-> +	 */
-> +	if (take_rwsem)
-> +		down_write(&ma->card.snd_card->controls_rwsem);
-
-[Severity: High]
-As reported by Sashiko on v3 [1], can this lock ordering in
-macaudio_vlimit_update() cause an AB-BA deadlock between the ALSA control
-write path and the speaker volume-limit workqueue handlers?
-
-When userspace writes to the Speaker Volume Unlock mixer control via
-snd_ctl_elem_write(), the ALSA core acquires controls_rwsem for write before
-calling macaudio_slk_put(), which then acquires ma->volume_lock_mutex:
-
-  snd_ctl_elem_write()
-    down_write(&card->controls_rwsem)
-    macaudio_slk_put()
-      guard(mutex)(&ma->volume_lock_mutex)
-
-Conversely, when macaudio_vlimit_enable_timeout(),
-macaudio_vlimit_disable_timeout(), or macaudio_vlimit_timeout_work() runs f=
-rom
-workqueue context, each function acquires ma->volume_lock_mutex first and t=
-hen
-calls macaudio_vlimit_update(ma, true), which takes controls_rwsem:
-
-  macaudio_vlimit_timeout_work()
-    guard(mutex)(&ma->volume_lock_mutex)
-    macaudio_vlimit_update(ma, true)
-      down_write(&ma->card.snd_card->controls_rwsem)
-
-If a control write races with either workqueue handler, could the two threa=
-ds
-deadlock waiting on each other's lock?
-
-> +
-> +	if (unlock !=3D ma->speaker_volume_unlocked) {
-> +		if (unlock) {
-> +			dev_info(ma->card.dev, "Speaker volumes unlocked\n");
-> +		} else  {
-> +			dev_info(ma->card.dev, "Speaker volumes locked: %s\n", reason);
-> +			ma->speaker_volume_was_locked =3D true;
-> +		}
-> +
-> +		macaudio_vlimit_unlock(ma, unlock);
-> +		ma->speaker_volume_unlocked =3D unlock;
-> +		snd_ctl_notify(ma->card.snd_card, SNDRV_CTL_EVENT_MASK_VALUE,
-> +			       &ma->speaker_lock_kctl->id);
-> +	}
-> +
-> +	if (take_rwsem)
-> +		up_write(&ma->card.snd_card->controls_rwsem);
-> +}
-
-[ ... ]
-
-> +static void macaudio_vlimit_disable_timeout(struct macaudio_snd_data *ma)
-> +{
-> +	ktime_t now;
-> +
-> +	guard(mutex)(&ma->volume_lock_mutex);
-> +
-> +	if (!ma->speaker_lock_timeout_enabled) {
-> +		return;
-> +	}
-> +
-> +	now =3D ktime_get();
-> +
-> +	cancel_delayed_work(&ma->lock_timeout_work);
-> +
-> +	if (ktime_after(now, ma->speaker_lock_timeout))
-> +		ma->speaker_lock_remain =3D 0;
-> +	else if (ma->speaker_lock_remain > 0)
-> +		ma->speaker_lock_remain =3D ktime_sub(ma->speaker_lock_timeout, now);
-> +
-> +	dev_dbg(ma->card.dev, "Disabling volume limit timeout: %ld us left\n",
-> +		(long)ktime_to_us(ma->speaker_lock_remain));
-> +
-> +	macaudio_vlimit_update(ma, true);
-> +
-> +	ma->speaker_lock_timeout_enabled =3D false;
-> +}
-> +
-> +static void macaudio_vlimit_timeout_work(struct work_struct *wrk)
-> +{
-> +	struct macaudio_snd_data *ma =3D container_of(to_delayed_work(wrk),
-> +						    struct macaudio_snd_data, lock_timeout_work);
-> +
-> +	guard(mutex)(&ma->volume_lock_mutex);
-> +	ma->speaker_lock_remain =3D 0;
-> +	macaudio_vlimit_update(ma, true);
-> +}
-
-[Severity: Medium]
-As reported by Sashiko on v3 [2], what happens if lock_timeout_work expires
-just as macaudio_slk_put() or macaudio_vlimit_disable_timeout() acquires
-ma->volume_lock_mutex?
-
-If macaudio_vlimit_timeout_work() has already been dispatched and is waiting
-on guard(mutex)(&ma->volume_lock_mutex), the non-synchronous
-cancel_delayed_work(&ma->lock_timeout_work) calls in macaudio_slk_put() and
-macaudio_vlimit_disable_timeout() will not stop it.
-
-Once macaudio_slk_put() refreshes ma->speaker_lock_remain and releases
-ma->volume_lock_mutex (or macaudio_vlimit_disable_timeout() disables the
-timeout and releases the mutex), wouldn't macaudio_vlimit_timeout_work()
-immediately acquire ma->volume_lock_mutex, unconditionally zero
-ma->speaker_lock_remain, and lock the speaker volumes?
-
-[ ... ]
-
-> +static int macaudio_dpcm_hw_params(struct snd_pcm_substream *substream,
-> +				   struct snd_pcm_hw_params *params)
-> +{
-> +	struct snd_soc_pcm_runtime *rtd =3D snd_soc_substream_to_rtd(substream);
-> +	struct macaudio_snd_data *ma =3D snd_soc_card_get_drvdata(rtd->card);
-> +	struct macaudio_link_props *props =3D &ma->link_props[rtd->dai_link->id=
-];
-> +	struct snd_soc_dai *cpu_dai =3D snd_soc_rtd_to_cpu(rtd, 0);
-> +	struct snd_interval *rate =3D hw_param_interval(params,
-> +						      SNDRV_PCM_HW_PARAM_RATE);
-> +	int bclk_ratio =3D macaudio_get_runtime_bclk_ratio(substream);
-> +	int i;
-> +
-> +	if (props->is_sense) {
-> +		/*
-> +		 * The sense FE is opened exclusively by speakersafetyd in blocking
-> +		 * mode. At the time of opening, this sample rate may be 0 if the
-> +		 * speaker BE is not running. This does not matter, as speakersafetyd
-> +		 * only cares about the active sample rate exported to the virtual
-> +		 * sample rate kcontrol below.
-> +		 */
-> +		rate->min =3D rate->max =3D cpu_dai->symmetric_rate;
-> +		return 0;
-> +	}
-> +
-> +	/* Speakers BE */
-> +	if (props->is_speakers) {
-> +		if (substream->stream =3D=3D SNDRV_PCM_STREAM_CAPTURE) {
-> +			/* Sense PCM: keep the existing BE rate (0 if not already running) */
-> +			rate->min =3D rate->max =3D cpu_dai->symmetric_rate;
-> +
-> +			return 0;
-> +		}
-
-[Severity: High]
-As reported by Mark Brown on v1 [3], can setting rate->min =3D rate->max =3D
-cpu_dai->symmetric_rate on the Speaker Sense capture paths corrupt the PCM
-runtime rate and fail when speaker playback is not active?
-
-First, on the Speaker BE capture path (props->is_speakers &&
-substream->stream =3D=3D SNDRV_PCM_STREAM_CAPTURE), if speaker playback is =
-not
-running yet, cpu_dai->symmetric_rate is 0. Overwriting the BE hw_params rate
-with 0 causes the codec hw_params callback (such as tas2764_hw_params() or
-tas2770_hw_params()) to see params_rate(params) =3D=3D 0 and fail with -EIN=
-VAL.
-
-Second, on the Speaker Sense FE path (props->is_sense), macaudio_fe_hw_para=
-ms()
-passes the FE substream's struct snd_pcm_hw_params directly to
-macaudio_dpcm_hw_params(). Because the Sense FE's CPU DAI (mca-pcm-2) is
-capture-only and distinct from the Speaker BE CPU DAI, its
-cpu_dai->symmetric_rate remains 0 even when speaker playback is running.
-
-When dpcm_fe_dai_hw_params() returns to snd_pcm_hw_params(), doesn't
-runtime->rate =3D params_rate(params) set runtime->rate to 0, triggering
-snd_BUG_ON(!rate) in snd_pcm_timer_resolution_change() and a division by ze=
-ro
-in snd_pcm_post_start() at (runtime->buffer_size * HZ) / runtime->rate?
-
-[ ... ]
-
-> +static int macaudio_be_trigger(struct snd_pcm_substream *substream, int =
-cmd)
-> +{
-> +	struct snd_soc_pcm_runtime *rtd =3D snd_soc_substream_to_rtd(substream);
-> +	struct macaudio_snd_data *ma =3D snd_soc_card_get_drvdata(rtd->card);
-> +	struct macaudio_link_props *props =3D &ma->link_props[rtd->dai_link->id=
-];
-> +
-> +	/* Speaker link is marked nonatomic */
-> +	if (props->is_speakers && substream->stream =3D=3D SNDRV_PCM_STREAM_PLA=
-YBACK) {
-> +		scoped_guard(mutex, &ma->be_link_mutex) {
-
-[Severity: High]
-As reported by Ajay Kumar Nandam on v2 [4], does marking the Secondary FE,
-Speaker Sense FE, and Speaker BE DAI links as nonatomic cause sleeping in
-atomic context during DMA completion?
-
-In macaudio_fe_links and macaudio_parse_of(), .nonatomic =3D 1 is set on th=
-ese
-DAI links, which causes soc_new_pcm() to set pcm->nonatomic =3D true. Howev=
-er,
-the MCA platform driver (sound/soc/apple/mca.c) uses generic dmaengine PCM
-with the Apple ADMAC controller (drivers/dma/apple-admac.c), which invokes
-dmaengine_pcm_dma_complete() from admac_chan_tasklet() in softirq context:
-
-  admac_chan_tasklet() [softirq]
-    dmaengine_pcm_dma_complete()
-      snd_pcm_period_elapsed()
-        _snd_pcm_stream_lock_irqsave()
-          mutex_lock(&substream->self_group.mutex)
-
-Furthermore, if an XRUN or drain stop occurs inside
-snd_pcm_period_elapsed_under_stream_lock(), it triggers the PCM stop path f=
-rom
-that same tasklet, which calls macaudio_be_trigger() and acquires
-ma->be_link_mutex in softirq context.
-
-Should the DAI links remain atomic and macaudio_be_trigger() avoid sleeping
-locks, or how should this interact with ADMAC's tasklet completion path?
-
-> +			switch (cmd) {
-> +			case SNDRV_PCM_TRIGGER_START:
-> +			case SNDRV_PCM_TRIGGER_RESUME:
-> +			case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-> +				ma->bes_active |=3D BIT(rtd->dai_link->id);
-> +				break;
-> +			case SNDRV_PCM_TRIGGER_SUSPEND:
-> +			case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-> +			case SNDRV_PCM_TRIGGER_STOP:
-> +				ma->bes_active &=3D ~BIT(rtd->dai_link->id);
-> +				break;
-> +			default:
-> +				return -EINVAL;
-> +			}
-> +		}
-> +
-> +		if (ma->has_safety)
-> +			schedule_work(&ma->lock_update_work);
-> +	}
-> +
-> +	return 0;
-> +}
-
-[ ... ]
-
-> +static int macaudio_be_assign_tdm(struct snd_soc_pcm_runtime *rtd)
-> +{
-> +	struct snd_soc_card *card =3D rtd->card;
-> +	struct macaudio_snd_data *ma =3D snd_soc_card_get_drvdata(card);
-> +	struct macaudio_link_props *props =3D &ma->link_props[rtd->dai_link->id=
-];
-> +	struct snd_soc_dai *dai;
-> +	unsigned int mask;
-> +	int nslots, ret, i;
-> +
-> +	if (!props->tdm_mask)
-> +		return 0;
-> +
-> +	mask =3D props->tdm_mask;
-> +	nslots =3D __fls(mask) + 1;
-> +
-> +	if (rtd->dai_link->num_codecs =3D=3D 1) {
-> +		dai =3D snd_soc_rtd_to_codec(rtd, 0);
-> +		ret =3D snd_soc_dai_set_tdm_slot(dai, mask, 0, nslots, MACAUDIO_SLOTWI=
-DTH);
-> +
-> +		/*
-> +		 * Headphones get a pass on -ENOTSUPP (see the comment
-> +		 * around bclk_ratio value for primary FE).
-> +		 */
-> +		if (ret =3D=3D -ENOTSUPP && props->is_headphones)
-> +			return 0;
-> +
-> +		if (props->codecs[0].idle_mode) {
-> +			ret =3D snd_soc_dai_set_tdm_idle(dai, props->codecs[0].idle_mask,
-> +						       0, props->codecs[0].idle_mode, 0);
-
-[Severity: Medium]
-In macaudio_be_assign_tdm(), when rtd->dai_link->num_codecs =3D=3D 1 and
-snd_soc_dai_set_tdm_slot() returns an error other than -ENOTSUPP on headpho=
-nes,
-shouldn't this return ret before checking props->codecs[0].idle_mode?
-
-As written, if props->codecs[0].idle_mode is set, the error in ret from
-snd_soc_dai_set_tdm_slot() is overwritten by snd_soc_dai_set_tdm_idle().
-
-[ ... ]
-
-> +static void macaudio_devm_release(void *data)
-> +{
-> +	struct macaudio_snd_data *ma =3D data;
-> +
-> +	cancel_work_sync(&ma->lock_update_work);
-> +	cancel_delayed_work_sync(&ma->lock_timeout_work);
-> +}
-> +
-> +static int macaudio_snd_platform_probe(struct platform_device *pdev)
-> +{
-
-[ ... ]
-
-> +	INIT_WORK(&data->lock_update_work, macaudio_vlimit_update_work);
-> +	INIT_DELAYED_WORK(&data->lock_timeout_work, macaudio_vlimit_timeout_wor=
-k);
-> +
-> +	ret =3D devm_add_action(dev, macaudio_devm_release, data);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret =3D devm_snd_soc_register_card(dev, &data->card);
-> +	if (ret) {
-> +		for_each_card_prelinks(&data->card, i, link) {
-> +			snd_soc_of_put_dai_link_codecs(link);
-> +			snd_soc_of_put_dai_link_cpus(link);
-> +		}
-> +
-> +		return ret;
-> +	}
-
-[Severity: High]
-As reported by Sashiko on v3 [5], can registering macaudio_devm_release()
-before devm_snd_soc_register_card() lead to a use-after-free or NULL pointer
-dereference of ma->card.snd_card and ma->speaker_lock_kctl in workqueue
-context during card teardown?
-
-Because devres actions run in reverse order on driver unbind (and
-devm_snd_soc_bind_card() registers devm_card_bind_release() when the card
-binds), soc_cleanup_card_resources() runs before macaudio_devm_release()
-cancels lock_update_work and lock_timeout_work. Similarly, if a component
-device unbinds while macaudio stays bound, snd_soc_unbind_card() runs
-soc_cleanup_card_resources() without triggering macaudio_devm_release() at =
-all.
-
-During soc_cleanup_card_resources(), snd_card_disconnect_sync() stops active
-PCM streams, which calls macaudio_be_trigger() with SNDRV_PCM_TRIGGER_STOP =
-and
-schedules ma->lock_update_work. soc_cleanup_card_resources() then frees all
-kcontrols (including ma->speaker_lock_kctl), frees card->snd_card, and sets
-card->snd_card =3D NULL.
-
-If lock_update_work or lock_timeout_work executes before
-macaudio_devm_release() runs, won't macaudio_vlimit_update() and
-macaudio_vlimit_unlock() dereference ma->card.snd_card and
-ma->speaker_lock_kctl after they have been freed?
-
-[Severity: Medium]
-As reported by Sashiko on v3 [6], does macaudio_snd_platform_probe() leak t=
-he
-backend CPU and CODEC device_node references acquired in
-macaudio_parse_of_component() when the driver is later unbound or if
-devm_add_action() fails?
-
-In macaudio_snd_platform_probe(), snd_soc_of_put_dai_link_codecs() and
-snd_soc_of_put_dai_link_cpus() are only called when
-devm_snd_soc_register_card() fails, and are not called in
-macaudio_devm_release() or on the devm_add_action() error path.
-
-[1] https://lore.kernel.org/r/20261018-macaudio-v3-8-abdff7741dea@gmail.com
-[2] https://lore.kernel.org/r/20261018-macaudio-v3-8-abdff7741dea@gmail.com
-[3] https://lore.kernel.org/r/arJMrsl45g2_bLPB@sirena.co.uk
-[4] https://lore.kernel.org/r/a166844a-ba68-46b2-b37b-111ce54dbba3@oss.qual=
-comm.com
-[5] https://lore.kernel.org/r/20261018-macaudio-v3-8-abdff7741dea@gmail.com
-[6] https://lore.kernel.org/r/20261018-macaudio-v3-8-abdff7741dea@gmail.com
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103-macaudio-v=
-4-0-637484efe46d@gmail.com?part=3D9
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogc2FzaGlrby1ib3RAa2Vy
+bmVsLm9yZyA8c2FzaGlrby1ib3RAa2VybmVsLm9yZz4NCj4gU2VudDogTW9uZGF5LCBOb3ZlbWJl
+ciAyLCAyMDI2IDI6MTYgUE0NCj4gVG86IEJhcmQgTGlhbyA8eXVuZy1jaHVhbi5saWFvQGxpbnV4
+LmludGVsLmNvbT47IGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZw0KPiBTdWJqZWN0OiBSZTog
+W1BBVENIIDEvMl0gc291bmR3aXJlOiBtb3ZlIGxhbmUgYmFuZHdpZHRoIGludG8gYnVzIHBhcmFt
+cw0KPiANCj4gVGhhbmsgeW91IGZvciB5b3VyIGNvbnRyaWJ1dGlvbiEgU2FzaGlrbyBBSSByZXZp
+ZXcgZm91bmQgMSBwb3RlbnRpYWwgaXNzdWUocykgdG8NCj4gY29uc2lkZXI6DQo+IC0gW0hpZ2hd
+IHNvdW5kd2lyZTogdW5yZXN0b3JlZCBwb3J0IGxhbmVzIG9uIGVycm9yIGluIF9zZHdfcHJlcGFy
+ZV9zdHJlYW0oKQ0KPiAtLQ0KPiANCj4gY29tbWl0IGJjOGRjNTRiZGI4NTJiNTc5MzkyNDZmNDVh
+MWQ1YWI4MDI1ZWU0NTYNCj4gQXV0aG9yOiBCYXJkIExpYW8gPHl1bmctY2h1YW4ubGlhb0BsaW51
+eC5pbnRlbC5jb20+DQo+IA0KPiBzb3VuZHdpcmU6IG1vdmUgbGFuZSBiYW5kd2lkdGggaW50byBi
+dXMgcGFyYW1zDQo+IA0KPiBUaGlzIGNvbW1pdCBtb3ZlcyB0aGUgbGFuZV91c2VkX2JhbmR3aWR0
+aCBhcnJheSBmcm9tIHN0cnVjdCBzZHdfYnVzIGludG8NCj4gc3RydWN0IHNkd19idXNfcGFyYW1z
+IHNvIHRoYXQgdXNlZCBsYW5lIGJhbmR3aWR0aCBpcyByZXN0b3JlZCB3aGVuDQo+IGJ1cy0+cGFy
+YW1zIGlzIHJvbGxlZCBiYWNrIG9uIGZhaWx1cmUuDQo+IA0KPiA+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL3NvdW5kd2lyZS9nZW5lcmljX2JhbmR3aWR0aF9hbGxvY2F0aW9uLmMNCj4gYi9kcml2ZXJz
+L3NvdW5kd2lyZS9nZW5lcmljX2JhbmR3aWR0aF9hbGxvY2F0aW9uLmMNCj4gPiBpbmRleCAzMGE0
+OTVhYmUxOWVhLi4zZDZiOWM4OTVlNDZmIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvc291bmR3
+aXJlL2dlbmVyaWNfYmFuZHdpZHRoX2FsbG9jYXRpb24uYw0KPiA+ICsrKyBiL2RyaXZlcnMvc291
+bmR3aXJlL2dlbmVyaWNfYmFuZHdpZHRoX2FsbG9jYXRpb24uYw0KPiANCj4gWyAuLi4gXQ0KPiAN
+Cj4gPiBAQCAtNTA3LDcgKzUwNyw3IEBAIHN0YXRpYyBpbnQgZ2V0X21hbmFnZXJfbGFuZShzdHJ1
+Y3Qgc2R3X2J1cyAqYnVzLA0KPiBzdHJ1Y3Qgc2R3X21hc3Rlcl9ydW50aW1lICptX3J0DQo+ID4g
+IAkJCQkJICAgICAgbV9ydC0+c3RyZWFtLT5wYXJhbXMuYnBzOw0KPiA+ICAJCX0NCj4gPiAgCQlp
+ZiAocmVxdWlyZWRfYmFuZHdpZHRoIDw9DQo+ID4gLQkJICAgIGN1cnJfZHJfZnJlcSAtIGJ1cy0+
+bGFuZV91c2VkX2JhbmR3aWR0aFtsXSkgew0KPiA+ICsJCSAgICBjdXJyX2RyX2ZyZXEgLSBidXMt
+PnBhcmFtcy5sYW5lX3VzZWRfYmFuZHdpZHRoW2xdKSB7DQo+ID4gIAkJCS8qIENoZWNrIGlmIG1f
+bGFuZSBpcyBjb25uZWN0ZWQgdG8gYWxsIFBlcmlwaGVyYWxzICovDQo+ID4gIAkJCWlmICghaXNf
+bGFuZV9jb25uZWN0ZWRfdG9fYWxsX3BlcmlwaGVyYWxzKG1fcnQsDQo+ID4gIAkJCQlzbGF2ZV9w
+cm9wLT5sYW5lX21hcHNbbF0pKSB7DQo+ID4gQEAgLTUxOCw3ICs1MTgsNyBAQCBzdGF0aWMgaW50
+IGdldF9tYW5hZ2VyX2xhbmUoc3RydWN0IHNkd19idXMgKmJ1cywNCj4gc3RydWN0IHNkd19tYXN0
+ZXJfcnVudGltZSAqbV9ydA0KPiA+ICAJCQl9DQo+ID4gIAkJCW1fbGFuZSA9IHNsYXZlX3Byb3At
+PmxhbmVfbWFwc1tsXTsNCj4gPiAgCQkJZGV2X2RiZygmc19ydC0+c2xhdmUtPmRldiwgIk0gbGFu
+ZSAlZCBpcyB1c2VkXG4iLA0KPiBtX2xhbmUpOw0KPiA+IC0JCQlidXMtPmxhbmVfdXNlZF9iYW5k
+d2lkdGhbbF0gKz0gcmVxdWlyZWRfYmFuZHdpZHRoOw0KPiA+ICsJCQlidXMtPnBhcmFtcy5sYW5l
+X3VzZWRfYmFuZHdpZHRoW2xdICs9DQo+IHJlcXVpcmVkX2JhbmR3aWR0aDsNCj4gPiAgCQkJLyoN
+Cj4gPiAgCQkJICogVXNlIG5vbi16ZXJvIG1hbmFnZXIgbGFuZSwgc3VidHJhY3QgdGhlIGxhbmUg
+MA0KPiA+ICAJCQkgKiBiYW5kd2lkdGggdGhhdCBpcyBhbHJlYWR5IGNhbGN1bGF0ZWQNCj4gDQo+
+IFtTZXZlcml0eTogSGlnaF0NCj4gV2hlbiBfc2R3X3ByZXBhcmVfc3RyZWFtKCkgZmFpbHMgYWZ0
+ZXIgc2R3X2NvbXB1dGVfYnVzX3BhcmFtcygpIGhhcw0KPiBhc3NpZ25lZA0KPiBhIG5vbi16ZXJv
+IGxhbmUgdmlhIGdldF9tYW5hZ2VyX2xhbmUoKSwgcmVzdG9yaW5nIGJ1cy0+cGFyYW1zIHJvbGxz
+IGJhY2sNCj4gYnVzLT5wYXJhbXMubGFuZV91c2VkX2JhbmR3aWR0aFtsXSBhbmQgYnVzLT5wYXJh
+bXMuYmFuZHdpZHRoLCBidXQgbGVhdmVzDQo+IHRoZSBwb3J0IHJ1bnRpbWUgbGFuZSBhc3NpZ25t
+ZW50cyBtb2RpZmllZDoNCj4gDQo+IGRyaXZlcnMvc291bmR3aXJlL2dlbmVyaWNfYmFuZHdpZHRo
+X2FsbG9jYXRpb24uYzpzZHdfY29tcHV0ZV9idXNfcGFyYW1zKCkNCj4gew0KPiAgICAgLi4uDQo+
+IG91dDoNCj4gCS8qIG11bHRpbGFuZSBjYW4gYmUgdXNlZCAqLw0KPiAJaWYgKG1fbGFuZSA+IDAp
+IHsNCj4gCQkvKiBTZXQgUGVyaXBoZXJhbCBsYW5lcyAqLw0KPiAJCWxpc3RfZm9yX2VhY2hfZW50
+cnkoc19ydCwgJm1fcnQtPnNsYXZlX3J0X2xpc3QsIG1fcnRfbm9kZSkgew0KPiAJCQlzbGF2ZV9w
+cm9wID0gJnNfcnQtPnNsYXZlLT5wcm9wOw0KPiAJCQlmb3IgKGwgPSAxOyBsIDwgU0RXX01BWF9M
+QU5FUzsgbCsrKSB7DQo+IAkJCQlpZiAoc2xhdmVfcHJvcC0+bGFuZV9tYXBzW2xdID09IG1fbGFu
+ZSkgew0KPiAJCQkJCWxpc3RfZm9yX2VhY2hfZW50cnkoc19wX3J0LCAmc19ydC0NCj4gPnBvcnRf
+bGlzdCwgcG9ydF9ub2RlKSB7DQo+IAkJCQkJCXNfcF9ydC0+bGFuZSA9IGw7DQo+ICAgICAuLi4N
+Cj4gCQlsaXN0X2Zvcl9lYWNoX2VudHJ5KG1fcF9ydCwgJm1fcnQtPnBvcnRfbGlzdCwgcG9ydF9u
+b2RlKSB7DQo+IAkJCW1fcF9ydC0+bGFuZSA9IG1fbGFuZTsNCj4gCQl9DQo+IAl9DQo+ICAgICAu
+Li4NCj4gfQ0KPiANCj4gSWYgYSBzdWJzZXF1ZW50IHN0ZXAgZmFpbHMgaW4gc2R3X2NvbXB1dGVf
+YnVzX3BhcmFtcygpIChzdWNoIGFzDQo+IHNkd19zZWxlY3Rfcm93X2NvbCgpKSwgc2R3X2NvbXB1
+dGVfcG9ydF9wYXJhbXMoKSAoc3VjaCBhcw0KPiBzZHdfY29tcHV0ZV9ncm91cF9wYXJhbXMoKSBy
+ZXR1cm5pbmcgLUVJTlZBTCB3aGVuIGNvbHVtbl9uZWVkZWQgPg0KPiBzZWxfY29sKSwNCj4gb3Ig
+X3Nkd19wcmVwYXJlX3N0cmVhbSgpIChzZHdfcHJvZ3JhbV9wYXJhbXMoKSwgZG9fYmFua19zd2l0
+Y2goKSwgb3INCj4gc2R3X3ByZXBfZGVwcmVwX3BvcnRzKCkpLCBfc2R3X3ByZXBhcmVfc3RyZWFt
+KCkganVtcHMgdG8gcmVzdG9yZV9wYXJhbXM6DQo+IA0KPiBkcml2ZXJzL3NvdW5kd2lyZS9zdHJl
+YW0uYzpfc2R3X3ByZXBhcmVfc3RyZWFtKCkgew0KPiAgICAgLi4uDQo+IHJlc3RvcmVfcGFyYW1z
+Og0KPiAJbWVtY3B5KCZidXMtPnBhcmFtcywgJnBhcmFtcywgc2l6ZW9mKHBhcmFtcykpOw0KPiAJ
+cmV0dXJuIHJldDsNCj4gfQ0KPiANCj4gV2l0aCBtX3BfcnQtPmxhbmUgYW5kIHNfcF9ydC0+bGFu
+ZSBzdGlsbCBzZXQgdG8gbm9uLXplcm8gdmFsdWVzIHdoaWxlDQo+IGJ1cy0+cGFyYW1zLmxhbmVf
+dXNlZF9iYW5kd2lkdGhbbF0gaXMgcmVzdG9yZWQgdG8gaXRzIHByZXZpb3VzIHZhbHVlIChzdWNo
+DQo+IGFzIDApLCB3b24ndCBzdWJzZXF1ZW50IGNhbGxzIHRvIHNkd19jb21wdXRlX2dyb3VwX3Bh
+cmFtcygpIGFuZA0KPiBfc2R3X2NvbXB1dGVfcG9ydF9wYXJhbXMoKSBza2lwIGNvbXB1dGluZyBw
+YXJhbWV0ZXJzIGZvciB0aG9zZSBwb3J0cyB3aGVuDQo+IGJ1cy0+cGFyYW1zLmxhbmVfdXNlZF9i
+YW5kd2lkdGhbbF0gaXMgMCwgYW5kIHdvbid0IF9zZHdfZGVwcmVwYXJlX3N0cmVhbSgpDQo+IGxh
+dGVyIHVuZGVyZmxvdyBidXMtPnBhcmFtcy5sYW5lX3VzZWRfYmFuZHdpZHRoW3BfcnQtPmxhbmVd
+IGFuZCBsZWFrIGxhbmUgMA0KPiBiYW5kd2lkdGggaW4gYnVzLT5wYXJhbXMuYmFuZHdpZHRoPw0K
+PiANCg0KVGhhbmtzIGZvciB0aGUgcmV2aWV3LCBJIHdpbGwgZml4IGl0IGluIHRoZSBuZXh0IHZl
+cnNpb24uDQoNCj4gLS0NCj4gU2FzaGlrbyBBSSByZXZpZXcgwrcgaHR0cHM6Ly9zYXNoaWtvLmRl
+di8jL3BhdGNoc2V0LzIwMjYxMTAyMDYwNDM3LjgyNDgxNC0xLQ0KPiB5dW5nLWNodWFuLmxpYW9A
+bGludXguaW50ZWwuY29tP3BhcnQ9MQ0KDQo=
