@@ -1,56 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793678623;
-	b=frG4yiex/DZSfKOwef5cS9681dNzG8wkzOy3hzBt2pso257QgPBVK80l4E4Ogvruv37m
-	 l2EbxPUznrvsrZwSpJVHv/b4zqSqKGn3GaMKo72lB3oAncxaVkQjxuTJNl8EQ+1EQk6Ez
-	 GGTnVX4tY3ppXcdwu4Z1cOmgcPlixcUlhSgYueMhlFrNbt8EvlmUxl9L4u+8ikHahUVhl
-	 T9V+DuDbso4iTdO+hl64nDhDNTlViKYvkcMiArdbK13hbNopP8EX9jcLyVSBuJ5Dhe4Z7
-	 /qnGyL091YbBa+HaLnh3JfOtARsRYcbPJg10pIqgU1kNJTFfL1oh/O71lBdIPIKqrxA==
+	t=1793684284;
+	b=AxLcG2YRArceCj8hoKjU0te7+QaWAL4V6oE0z4jgKwNVqqIItEMyfLfKK1jTqTcpVX1x
+	 LvlJ8mLIpxq86Qjza6bm56vyEPLTWbCLgIdizZfd+3KpXPx/7H8NyIVLnEi7REzYTZtEk
+	 DWwqDQep419CgDWwyI7xA9tepgrmb7FFbFSxqP1rImtK8soO+s+TLI7/WcI4wBzpHAAb/
+	 xCm6u25lpZg4dinEGjF/qYOEWOYYSmpbGn1l1XaWhe/Cks8D1RAQnzWZ2r0ba5YmrJaBm
+	 wu1JoYqmriO64l3qCzUaY3X/b7DwV5+GaoMgFuPetZ+yFDrqAJ+b1ZYJZVdZPwz4DWw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793678623;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=uc6MGCe96t+IelIF79mH2+ICsB+mD+kxbZd2yKhQkKM=;
-	b=F5P9h9Do9fV6o3Er6AZfmBIvlUnTK6hSiZXE7SEDCbFnr+8Viw9UCDtxnBLgcJ5OQXGB
-	 7vYR9kACD1oFhwKvOSNjz3+aGh51RQNIPXd0Gjn+Pq49Q9ngYpeW0QjvXbH1Ro6Cd6wMm
-	 fz6gjY6ru2JcJNXQoElTSlYDn8RUhYVI8mJkIAngG2mCdufebWxEuegF2+9q/pSSo82H5
-	 l8YjpD0D7EexwMDbDGwdAj4Ite7J0VdcAm9qqD1G+Kw+5Qd6PDq5kUdA+BVBGVCrJV6Rc
-	 lCwN6/kQNdm13dpG19w83bTO9M/sI8EUe/gE8b8CjBIMyYdaTJA4t+DJUGlCrT+vSdA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793684284;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=DKQqu+mzr8P4Njw19lrTInQy5OStEJKS8qeZmyL2MNM=;
+	b=QFiIrzwdIqhiMgMFMXHb5e8x9EE/g2nDcK1yyfPyVaajZh3LDvYMHKdV4Z/ZRtDLO7uy
+	 a2SHufJhf1SEdorNUcpPY1f9oU4HK6zNzsKrUOTlxqwg2RVvGGpvrIeT5V/bW/bBjQE74
+	 BJPBUVOAc8Svj6NCxLdMltsTIgL1SQzToqkyFAB6leNV25L9CRphib+nYP+izb6vRycgJ
+	 E3zdk84j2w5xcmyAfGxu3b4m7ildTHYHqjyyUYyJmf+eSLEqYDdBhmsXn4PG7WfFzrB86
+	 Oh8nw0yLiGYFVVMweqs4l1vSb0QZM8VcIZ6ocIgS+3OHaDfLGnX4NzOfAWTXsQB/3MA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nszIkpN1;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B9LN9gWC;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1500B606A332
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 04:03:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC37606A329;
+	Tue,  3 Nov 2026 05:38:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nszIkpN1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 827511F000C1;
-	Tue,  3 Nov 2026 04:03:42 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B9LN9gWC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D48A91F000C1;
+	Tue,  3 Nov 2026 05:38:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793678622;
-	bh=uc6MGCe96t+IelIF79mH2+ICsB+mD+kxbZd2yKhQkKM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=nszIkpN1Hs5k9uFPssWJMzhCjoyR8nAHkniM6kaog7uNTELbuOKoU9JX57xvEP/v8
-	 FDwTrCmXxtdh2DAc3mAf9pN6pggzKcyqLRMMhqx+dz8GoD8QWX8/9En8fdSiz4rhHI
-	 dxoTbarXWEiPFEH4dUajYeDRpYndoudeVkBcXCZu9/JB8BKzKjp6/GSuNgB55HwRex
-	 uj1aeNApk6LwB8UYD78jQFWZr8oc/BGYE3APs30bDXRIRK9LJZuxlxX3BEgxtHerXF
-	 CgtNPvmye21Vhhs2Xt+CgMxgiZCG5R09BT8gQ72zf1gT3oVnTp0sMfX04S+N+8LlWZ
-	 mOaJPHo5LT9zA==
-Message-ID: <sashiko-outbox-194556@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v1] ASoC: amd: acp: Add support for more projects on
- ACP7.0
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Baojun Xu" <baojun.xu@ti.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261103034415.1495-1-baojun.xu@ti.com>
-References: <20261103034415.1495-1-baojun.xu@ti.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 04:03:42 +0000
+	s=k20260515; t=1793684283;
+	bh=DKQqu+mzr8P4Njw19lrTInQy5OStEJKS8qeZmyL2MNM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=B9LN9gWCiRHEa0yN41Dp6ZFAIrfEN/fEyH01CdUyaEG0DjZmd/+WZKA51CTDVK/P/
+	 n+gNGN7xmFtEzIflF/CHlkMjNQHPF+xgflDZAMaY2AE9yJuhQA/elyl7NQVXhm61PL
+	 hXyu3TBgDpxBeEsGRTBRck97t8qI2Bjq08iaRuoO0mdy9Ixz9Ntn9X+MXCWVch/pIu
+	 Tk7OaVNS8RzbRUllR062xF5lOrcHyjZdTx+6e6NYdnsqab22/oKl9eJhHTG8SqYUEs
+	 3eiWKA4g3VYdS/h8Lp4okE6/nlKXHTkLaPZIsmoUHwqL5hNGUiks1GtuqbQ32aoyxz
+	 R5Ph03y7hGjDw==
+Date: Tue, 3 Nov 2026 11:07:59 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: linux-sound@vger.kernel.org, broonie@kernel.org, tiwai@suse.com,
+	perex@perex.cz, amade@asmblr.net, linux-kernel@vger.kernel.org,
+	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev
+Subject: Re: [PATCH 0/7] ASoC: Intel: avs: Soundwire support
+Message-ID: <aulzN9MCl5CJB1Al@parshuram>
+References: <20261102181042.1922005-1-cezary.rojewski@intel.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,364 +56,106 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102181042.1922005-1-cezary.rojewski@intel.com>
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] ASoC: amd: acp: invalid SoundWire link IDs 2 and 3 in ACP7.0 match=
- table
-- [High] ASoC: amd: acp: ASUS DMI overrides match PCI SSIDs instead of boar=
-d names
-- [Medium] ASoC: amd: acp: single-link TAS2783 entries placed before dual-l=
-ink entries
---
+On 02-11-26, 19:10, Cezary Rojewski wrote:
+> The RaptorLake-P and RaptorLake-M based platform used in Automotive area
+> do utilize SoundWire for streaming audio.  This patchset brings such
+> support to the public domain.
+> 
+> If possible, I'd like the changes to go through Mark's tree.
+> 
+> As the patchset updates drivers/soundwire, I've decided to strip it off
+> any machine-boards and have here just the changes done to the main
+> soundwire driver and their user/usage.  Machine boards for RPL-P/M will
+> follow in a separate set and do not touch drivers/soundwire stuff.
+> 
+> 
+> The reasoning behind modyfing the soundwire code:
+> 
+> Typically dai->startup() is responsible for checking if all the required
+> resources are available whereas dai->hw_params() is responsible for
+> configuring such resources.  Existing code does the PDI assignment and
+> its configuration within one function - intel_hw_params().  The logical
+> split is not possible.  The change provides functions that represent
+> such logical blocks: assign, release and config.  Such division exists
+> already for the HDAudio interface, see sound/hda/core/stream.c
 
-commit f9ad24008c2750b4190c6a78319b12a9228b0c5a
-Author: Baojun Xu <baojun.xu@ti.com>
+I understand that you want to split things up which helps your avs
+driver but I fail to understand why should we add one more layer in
+soundwire intel driver to handle one more driver from Intel.
 
-ASoC: amd: acp: Add support for more projects on ACP7.0
+Why not modify soundwire intel driver to do both startup and hw_params.
+This way the driver does not care if it is calling sof driver, avs
+driver or somenew team driver! I would like to avoid a new driver
+specific handling please..
 
-This commit adds DMI flag override entries and SoundWire ACPI match table
-entries to support additional HP and ASUS platforms using the TAS2783
-amplifier on ACP7.0.
+> 
+> For the user i.e.: avs-driver (sound/soc/intel/avs) it also makes the
+> code very cohesive - aligns with that's done on the HDAudio side as all
+> the HDAudio streams are assignment during dai->startup() and configured
+> with dai->hw_params().  
+> 
+> Also, the existing code fetches the PDIs based on pre-defined "dai_id".
+> That's not the case for the avs-driver.  It simply asks: "is any PDI
+> free?" and assigns it for the substream if one is found.
 
-> diff --git a/sound/soc/amd/acp-config.c b/sound/soc/amd/acp-config.c
-> index 2fb9789cac0ac..473d68ebde143 100644
-> --- a/sound/soc/amd/acp-config.c
-> +++ b/sound/soc/amd/acp-config.c
-> @@ -98,6 +98,111 @@ static const struct dmi_system_id acp70_acpi_flag_ove=
-rride_table[] =3D {
+That makes sense, we can have pdis dynamically done, that is an
+improvement..
 
-[ ... ]
+> No predefining.  Again, this aligns with how HDAudio streaming is done.
+> 
+> avs-driver -only patches follow the three soundwire ones.  First, they
+> extend the existing code so it can accommodate SDW interface.  With that
+> done, laverage existing PCM code (sound/soc/intel/avs/pcm.c) and
+> soundwire-intel to implement DAI operations.
+> 
+> Cezary Rojewski (7):
+>   soundwire: intel: Define stubs when library is disabled
+>   soundwire: intel: Allow for dynamic assignment of PDIs
+>   soundwire: intel: Split PDIs and DAIs initialization
+>   ASoC: Intel: avs: Pass irq to dsp_interrupt callback
+>   ASoC: Intel: avs: SoundWire support
+>   ASoC: Intel: avs: Expose common PCM functions
+>   ASoC: Intel: avs: SoundWire PCM BE operations
+> 
+>  drivers/soundwire/cadence_master.c    |  64 ++++++
+>  drivers/soundwire/cadence_master.h    |  24 +--
+>  drivers/soundwire/intel.c             |  40 +++-
+>  drivers/soundwire/intel.h             |   3 +-
+>  drivers/soundwire/intel_auxdevice.c   |   4 +
+>  include/linux/soundwire/sdw_cadence.h |  35 ++++
+>  include/linux/soundwire/sdw_intel.h   |  41 ++++
+>  sound/hda/core/Kconfig                |   2 +-
+>  sound/hda/core/Makefile               |   3 +
+>  sound/soc/intel/Kconfig               |   1 +
+>  sound/soc/intel/avs/Makefile          |   4 +
+>  sound/soc/intel/avs/apl.c             |   2 +-
+>  sound/soc/intel/avs/avs.h             |  15 +-
+>  sound/soc/intel/avs/cnl.c             |  25 ++-
+>  sound/soc/intel/avs/core.c            |  24 ++-
+>  sound/soc/intel/avs/loader.c          |   3 +
+>  sound/soc/intel/avs/messages.h        |   2 +
+>  sound/soc/intel/avs/mtl.c             |   2 +-
+>  sound/soc/intel/avs/path.c            |   2 +
+>  sound/soc/intel/avs/pcm.c             |  42 +---
+>  sound/soc/intel/avs/pcm.h             |  51 +++++
+>  sound/soc/intel/avs/pcm_sdw.c         | 276 ++++++++++++++++++++++++++
+>  sound/soc/intel/avs/registers.h       |   4 +
+>  sound/soc/intel/avs/skl.c             |   2 +-
+>  sound/soc/intel/avs/soundwire.c       | 112 +++++++++++
+>  sound/soc/intel/avs/soundwire.h       |  63 ++++++
+>  26 files changed, 765 insertions(+), 81 deletions(-)
+>  create mode 100644 include/linux/soundwire/sdw_cadence.h
+>  create mode 100644 sound/soc/intel/avs/pcm_sdw.c
+>  create mode 100644 sound/soc/intel/avs/soundwire.c
+>  create mode 100644 sound/soc/intel/avs/soundwire.h
+> 
+> -- 
+> 2.34.1
 
-> +	{
-> +		/* ASUS HN7306 */
-> +		.matches =3D {
-> +			DMI_MATCH(DMI_BOARD_VENDOR, "ASUS"),
-> +			DMI_MATCH(DMI_BOARD_NAME, "1714"),
-> +		},
-> +	},
-> +	{
-> +		/* ASUS RC74XA */
-> +		.matches =3D {
-> +			DMI_MATCH(DMI_BOARD_VENDOR, "ASUS"),
-> +			DMI_MATCH(DMI_BOARD_NAME, "1954"),
-> +		},
-> +	},
-> +	{
-> +		/* ASUS RC74RA */
-> +		.matches =3D {
-> +			DMI_MATCH(DMI_BOARD_VENDOR, "ASUS"),
-> +			DMI_MATCH(DMI_BOARD_NAME, "1964"),
-> +		},
-> +	},
-> +	{
-> +		/* ASUS UX3408GA */
-> +		.matches =3D {
-> +			DMI_MATCH(DMI_BOARD_VENDOR, "ASUS"),
-> +			DMI_MATCH(DMI_BOARD_NAME, "1AC4"),
-> +		},
-> +	},
-> +	{
-> +		/* ASUS B7406CKA */
-> +		.matches =3D {
-> +			DMI_MATCH(DMI_BOARD_VENDOR, "ASUS"),
-> +			DMI_MATCH(DMI_BOARD_NAME, "1B94"),
-> +		},
-> +	},
-> +	{
-> +		/* ASUS CHG01LA */
-> +		.matches =3D {
-> +			DMI_MATCH(DMI_BOARD_VENDOR, "ASUS"),
-> +			DMI_MATCH(DMI_BOARD_NAME, "1C64"),
-> +		},
-> +	},
-> +	{
-> +		/* ASUS UX3480ZA */
-> +		.matches =3D {
-> +			DMI_MATCH(DMI_BOARD_VENDOR, "ASUS"),
-> +			DMI_MATCH(DMI_BOARD_NAME, "1E54"),
-> +		},
-> +	},
-
-[Severity: High]
-Will dmi_check_system(acp70_acpi_flag_override_table) in
-snd_amd_acp_find_config() ever match these seven ASUS entries?
-
-Unlike HP systems, which populate DMI_BOARD_NAME with a 4-hex-digit board I=
-D,
-ASUS systems populate DMI_BOARD_NAME and DMI_PRODUCT_NAME with the model na=
-me
-string (such as "HN7306EA", "RC74XA", "RC74RA", "UX3408GA", "B7406CKA",
-"CHG01LA", and "UX3480ZA"), whereas "1714", "1954", "1964", "1AC4", "1B94",
-"1C64", and "1E54" appear to be the PCI subsystem_device IDs.
-
-For example, earlier in acp70_acpi_flag_override_table[], HN7306EA is match=
-ed
-with:
-
-	{
-		.matches =3D {
-			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-			DMI_MATCH(DMI_PRODUCT_NAME, "HN7306EA"),
-		},
-	},
-
-and drivers/platform/x86/asus-armoury.h matches RC74XA via
-DMI_MATCH(DMI_BOARD_NAME, "RC74XA").
-
-If these entries do not match, snd_amd_acp_find_config() falls back to
-snd_amd_acp_acpi_find_config() and snd_acp63_probe() will abort with -ENODEV
-when the BIOS sets a non-zero acp-audio-config-flag. Should these entries
-match against the ASUS DMI product or board model names instead of the PCI
-SSIDs?
-
-> diff --git a/sound/soc/amd/acp/amd-acp70-acpi-match.c b/sound/soc/amd/acp=
-/amd-acp70-acpi-match.c
-> index c2f0479301ebd..a6df59c212bc0 100644
-> --- a/sound/soc/amd/acp/amd-acp70-acpi-match.c
-> +++ b/sound/soc/amd/acp/amd-acp70-acpi-match.c
-
-[ ... ]
-
-> @@ -614,6 +614,116 @@ static const struct snd_soc_acpi_adr_device tas2783=
-_2_adr[] =3D {
->  	},
->  };
-> =20
-> +/* HP: Dominion 16 A */
-> +static const struct snd_soc_acpi_adr_device tas2783_3_1_adr[] =3D {
-> +	{
-> +		/* left */
-> +		.adr =3D 0x00023C0102000001ull,
-> +		.num_endpoints =3D 1,
-> +		.endpoints =3D &spk_l_endpoint,
-> +		.name_prefix =3D "tas2783-1",
-> +	},
-> +	{
-> +		/* right */
-> +		.adr =3D 0x00023D0102000001ull,
-> +		.num_endpoints =3D 1,
-> +		.endpoints =3D &spk_l_endpoint,
-> +		.name_prefix =3D "tas2783-2",
-> +	},
-> +};
-> +
-> +static const struct snd_soc_acpi_adr_device tas2783_3_2_adr[] =3D {
-> +	{
-> +		/* left */
-> +		.adr =3D 0x0003390102000001ull,
-> +		.num_endpoints =3D 1,
-> +		.endpoints =3D &spk_r_endpoint,
-> +		.name_prefix =3D "tas2783-3",
-> +	},
-> +	{
-> +		/* right */
-> +		.adr =3D 0x00033A0102000001ull,
-> +		.num_endpoints =3D 1,
-> +		.endpoints =3D &spk_r_endpoint,
-> +		.name_prefix =3D "tas2783-4",
-> +	},
-> +};
-> +
-> +/* HP: Dominion A LW. */
-> +static const struct snd_soc_acpi_adr_device tas2783_4_1_adr[] =3D {
-> +	{
-> +		/* left */
-> +		.adr =3D 0x00023C0102000001ull,
-> +		.num_endpoints =3D 1,
-> +		.endpoints =3D &spk_l_endpoint,
-> +		.name_prefix =3D "tas2783-1",
-> +	},
-> +};
-> +
-> +static const struct snd_soc_acpi_adr_device tas2783_4_2_adr[] =3D {
-> +	{
-> +		/* right */
-> +		.adr =3D 0x0003390102000001ull,
-> +		.num_endpoints =3D 1,
-> +		.endpoints =3D &spk_r_endpoint,
-> +		.name_prefix =3D "tas2783-2",
-> +	},
-> +};
-> +
-> +/* HP: Kamo (Koki). */
-> +static const struct snd_soc_acpi_adr_device tas2783_5_adr[] =3D {
-> +	{
-> +		/* left */
-> +		.adr =3D 0x00023C0102000001ull,
-> +		.num_endpoints =3D 1,
-> +		.endpoints =3D &spk_l_endpoint,
-> +		.name_prefix =3D "tas2783-1",
-> +	},
-> +	{
-> +		/* right */
-> +		.adr =3D 0x0002390102000001ull,
-> +		.num_endpoints =3D 1,
-> +		.endpoints =3D &spk_r_endpoint,
-> +		.name_prefix =3D "tas2783-2",
-> +	},
-> +};
-
-[ ... ]
-
-> @@ -623,6 +733,61 @@ static const struct snd_soc_acpi_link_adr acp70_tas2=
-783_2[] =3D {
->  	{}
->  };
-> =20
-> +static const struct snd_soc_acpi_link_adr acp70_tas2783_3[] =3D {
-> +	{
-> +		.mask =3D  BIT(2),
-> +		.num_adr =3D ARRAY_SIZE(tas2783_3_1_adr),
-> +		.adr_d =3D tas2783_3_1_adr,
-> +	},
-> +	{
-> +		.mask =3D  BIT(3),
-> +		.num_adr =3D ARRAY_SIZE(tas2783_3_2_adr),
-> +		.adr_d =3D tas2783_3_2_adr,
-> +	},
-> +	{}
-> +};
-> +
-> +static const struct snd_soc_acpi_link_adr acp70_tas2783_4[] =3D {
-> +	{
-> +		.mask =3D  BIT(2),
-> +		.num_adr =3D ARRAY_SIZE(tas2783_4_1_adr),
-> +		.adr_d =3D tas2783_4_1_adr,
-> +	},
-> +	{
-> +		.mask =3D  BIT(3),
-> +		.num_adr =3D ARRAY_SIZE(tas2783_4_2_adr),
-> +		.adr_d =3D tas2783_4_2_adr,
-> +	},
-> +	{}
-> +};
-> +
-> +static const struct snd_soc_acpi_link_adr acp70_tas2783_5[] =3D {
-> +	{
-> +		.mask =3D  BIT(2),
-> +		.num_adr =3D ARRAY_SIZE(tas2783_5_adr),
-> +		.adr_d =3D tas2783_5_adr,
-> +	},
-> +	{}
-> +};
-
-[Severity: High]
-Can acp70_tas2783_3, acp70_tas2783_4, and acp70_tas2783_5 work with SoundWi=
-re
-link IDs 2 and 3 on ACP7.0?
-
-In tas2783_3_1_adr, tas2783_4_1_adr, and tas2783_5_adr, bits 48..51 of .adr
-encode link ID 2 (0x0002...) with .mask =3D BIT(2), and tas2783_3_2_adr and
-tas2783_4_2_adr encode link ID 3 (0x0003...) with .mask =3D BIT(3).
-
-However, AMD ACP7.0 only supports two SoundWire manager instances (AMD_SDW0=
- on
-link 0 and AMD_SDW1 on link 1, with AMD_SDW_MAX_MANAGERS and
-ACP63_SDW_MAX_LINKS both defined as 2):
-
-1. In drivers/soundwire/amd_init.c, sdw_amd_probe_controller() only registe=
-rs
-manager instances 0 and 1, so acp63_sdw_machine_select() ->
-snd_soc_acpi_sdw_link_slaves_found() will never match _ADR entries with
-SDW_DISCO_LINK_ID(adr) =3D=3D 2 or 3.
-
-2. In sound/soc/amd/acp/acp-sdw-legacy-mach.c, mc_probe() sets
-amd_ctx->max_sdw_links =3D ACP63_SDW_MAX_LINKS (2), and create_sdw_dailink()
-rejects any link >=3D max_sdw_links:
-
-	if ((ffs(soc_end->link_mask) - 1) >=3D amd_ctx->max_sdw_links) {
-		dev_err(dev, "link_id %d exceeds max_sdw_links %d\n",
-			ffs(soc_end->link_mask) - 1, amd_ctx->max_sdw_links);
-		return -EINVAL;
-	}
-
-3. get_acp70_cpu_pin_id() in sound/soc/amd/acp/acp-sdw-mach-common.c only
-handles AMD_SDW0 (0) and AMD_SDW1 (1), returning -EINVAL for any other link
-ID.
-
-4. In addition, acp70_tas2783_3 and acp70_tas2783_4 split spk_l_endpoint and
-spk_r_endpoint (both having .aggregated =3D 1 and .group_id =3D 1) across t=
-wo
-separate SoundWire links. asoc_sdw_parse_sdw_endpoints() merges endpoints w=
-ith
-the same group_id into a single DAI link with num_cpus =3D=3D 2, but
-create_sdw_dailink() in sound/soc/amd/acp/acp-sdw-legacy-mach.c only popula=
-tes
-cpus[0].dai_name and leaves cpus[1].dai_name NULL, which fails
-soc_dai_link_sanity_check() with -EINVAL.
-
-Should these devices be on link 0 or link 1 instead?
-
-[ ... ]
-
-> @@ -804,6 +969,31 @@ struct snd_soc_acpi_mach snd_soc_acpi_amd_acp70_sdw_=
-machines[] =3D {
->  		.links =3D acp70_tas2783_2,
->  		.drv_name =3D "amd_sdw",
->  	},
-> +	{
-> +		.link_mask =3D BIT(2) | BIT(3),
-> +		.links =3D acp70_tas2783_3,
-> +		.drv_name =3D "amd_sdw",
-> +	},
-> +	{
-> +		.link_mask =3D BIT(2) | BIT(3),
-> +		.links =3D acp70_tas2783_4,
-> +		.drv_name =3D "amd_sdw",
-> +	},
-> +	{
-> +		.link_mask =3D BIT(2),
-> +		.links =3D acp70_tas2783_5,
-> +		.drv_name =3D "amd_sdw",
-> +	},
-> +	{
-> +		.link_mask =3D BIT(0),
-> +		.links =3D acp70_tas2783_6,
-> +		.drv_name =3D "amd_sdw",
-> +	},
-> +	{
-> +		.link_mask =3D BIT(0),
-> +		.links =3D acp70_tas2783_7,
-> +		.drv_name =3D "amd_sdw",
-> +	},
->  	{
->  		.link_mask =3D BIT(0) | BIT(1),
->  		.links =3D acp70_tas2783x2_l0u9c_rt712_vb_l1u0,
-
-[Severity: Medium]
-Should the single-link amplifier-only entries (acp70_tas2783_5,
-acp70_tas2783_6, and acp70_tas2783_7) be placed after the dual-link
-BIT(0) | BIT(1) entries in snd_soc_acpi_amd_acp70_sdw_machines[]?
-
-In sound/soc/amd/ps/pci-ps.c, acp63_sdw_machine_select() iterates through
-snd_soc_acpi_amd_acp70_sdw_machines[] and selects the first entry whose
-mach->links are all found (!link->num_adr), without checking whether other
-SoundWire links also have active peripherals:
-
-	for (mach =3D acp_data->machines; mach; mach++) {
-		if (!mach->links)
-			break;
-		link =3D mach->links;
-		for (i =3D 0; i < acp_data->info.count && link->num_adr; link++, i++) {
-			if (!snd_soc_acpi_sdw_link_slaves_found(dev, link,
-								acp_data->sdw->peripherals))
-				break;
-		}
-		if (i =3D=3D acp_data->info.count || !link->num_adr)
-			if (!mach->machine_check || mach->machine_check(acp_data->sdw))
-				break;
-	}
-
-Placing single-link entries before dual-link entries causes any dual-link
-platform with matching link 0 TAS2783 amplifiers to match the single-link
-entry first and ignore the codec on link 1. In particular, tas2783_5_adr us=
-es
-the same two TAS2783 unique IDs (0xC and 0x9) as tas2783x2_l0u9c_adr in
-acp70_tas2783x2_l0u9c_rt712_vb_l1u0 immediately below, so if acp70_tas2783_5
-is moved to link 0 at this position in the table, it will shadow
-acp70_tas2783x2_l0u9c_rt712_vb_l1u0 and drop the RT712-VB codec on link 1.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103034415.1495=
--1-baojun.xu@ti.com?part=3D1
+-- 
+~Vinod
