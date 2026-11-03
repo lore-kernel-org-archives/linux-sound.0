@@ -1,57 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793695929;
-	b=rC4OkUOV7fs0+dJr70vvgJyyWEKWgFj55pYSbTTJUmgyRbZ/OnF1uzZU7TUc1/zeJM11
-	 u4Wouto6e+P9i0QgtBAPO4fBPN1Hzd/rNQNxemVZEGud1ymeBfZ3w3hkK3ZrWFgDmRmIb
-	 E4wa/ggVOIY+D6gct23HwXu+YoqZNeKxRoQ4T2GXuZg8rrzLaS4XPm6QRti90XrlONlTE
-	 FjX1+iE5noVM2kviwtlGC6F1N5/Zy1GP2LcSxeQ1CJiIVRLys0WWML819PVacG4u2Xtnx
-	 9b4nQHAF7JzNeVdEVZ7nD7y177tm8mmkOSpmTFVfpwNjjcShC+jm7jOeBscXTTkTG2A==
+	t=1793696284;
+	b=HEc8sFkapA4VCiNqmLrTcAzkmOfubG9xif+mMEWcSLYJHsuWEl+izWNivEAri91G7cYX
+	 yKjWIJN3Po53gFEfnPcx83v/7MXbd+ngKwalX4g2ZqYL0nnAQGAFQCSGIXI9wvpSuky5K
+	 xPSOa06HOPvmL1Azfqa6QTB/VgkjafdsECY/vpZY49KTG2y7doX+5F8NdexURujHS03EI
+	 CuGkNZIUT84JlIQ3oQBl2Xg582xMAeJM2lGbeyg0VZF7Z9UP0eObD0j75ek2KjMdbB84k
+	 V+tuygXnlReICMsbXUixPK7OYZrnPhB8BCCP4SF/wMFfO0j4LQj80M3tO0gVq7jdioQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793695929;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=JQdXkRbY5tBUk/8uhoReaqjfvCnLIIFiCpm3rkQK68E=;
-	b=fkjsBJgh6VEAJ9L6+bRd8iKQhEzWmH+8elc1XUVCMC1CAB32vZxmCnwgBgIVS4Uq4JZB
-	 ug/O/SDfbcQ9STVesOewk1vB2C22gpugcHhhfkgj60EbLRzQilnLsDFyKS10tJPzA5vsj
-	 X5VkvHqkBUq/S9BYF7k71XWj653d38VcuRJnmiZWoI/8DWQgAALBQu8nUlG+KPdE8MjSw
-	 Y182YlCVpf4zL30vl5y1oKFPTk5rgWgQV84ytlT+vkIrzwFr43gpMe2riEfDM4Dcu5k4U
-	 1mmVcI5gk1fnr0pXKrEbiFtuRbM+Cwv89nJ6MKujPBWn3m1K1DqL0UFL5wgj0hRjlrQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793696284;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=AUgj7ybzOrbdmhNXXkJnAoh6ZouzAZL90keqraEO3nw=;
+	b=devCl46ywzvZDMCzx8xSzJSxP83o0ETmCn95wZRx+3+ncV6zs8GiSuXOTawJC8KspuYB
+	 lHliWrr4dCcPbsi8dF1dDzdeUHfxF82ZFsPPQdRlEb5DW5Y+nn9u2gcbmNaGmcBzsgX2Z
+	 Q8ZbMoOUrMIitr/bWZwCJ4fJKaMK03qpWMGiMVBPB27zlD81ovdaTlFwmzuOMZK37FLqQ
+	 pt+sGL41Mvbr+spnYTBZczJxxsRO5oflIcIoZPOuoxIIkYndBKwomT3EfX53Zap4/8odj
+	 hUU6ySm5AOOS99XwV7aveMUA6/Z3/eRyRxIMYvShCoIH/dozsYH7Ikl/Rkb5/fNuKdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="LQZon/u/";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JKH6l+Xc;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9748D606A326;
-	Tue,  3 Nov 2026 08:52:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965FF606A339
+	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 08:58:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LQZon/u/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB6FD1F000C1;
-	Tue,  3 Nov 2026 08:52:08 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JKH6l+Xc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 791981F00A1D
+	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 08:58:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793695929;
-	bh=JQdXkRbY5tBUk/8uhoReaqjfvCnLIIFiCpm3rkQK68E=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=LQZon/u/U+FTcAZ33zUurlNH2pcmGzeMTP5Uy1Opuzddb7BnftkW4RB+AVpLx/wTC
-	 3ns0EG2Z/Cr8FOZm49IaFiIjvjm5gsvdqX3MWnK2Hg29nh64o/7xcqIPLfJmE4dqE2
-	 Uv4MGxl+cOvkVyLi4An/+tSR4QvqvZsq2S+WGXZJKhfAe+Dg+ANLCytWHyp9pNWrfo
-	 pIN+zFMraDZSzteO7vmRMifVN7EKAmuDfsLCaliV0UPkOEOMMhrZPXJ9Nb02Ft1KMt
-	 +bQ9+Y7ce7ZaKkA3OOD+J+P4LQJOiIqj8o21s9/NRy5GJ7Mi80suYymOXSTMl3CF/8
-	 72DLew2yS1sYw==
-Message-ID: <sashiko-outbox-194889@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 13/22] arm64: dts: apple: t8103-j293: Add
- speaker/headset jack nodes
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "James Calligeros" <jcalligeros99@gmail.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261103-macaudio-v4-13-637484efe46d@gmail.com>
-References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
- <20261103-macaudio-v4-13-637484efe46d@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 08:52:08 +0000
+	s=k20260515; t=1793696284;
+	bh=AUgj7ybzOrbdmhNXXkJnAoh6ZouzAZL90keqraEO3nw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=JKH6l+Xc19miNOkvdh6fwXKmZ/peo1JLSx8CpwB7AijrPFwQ5nMrSkiCTWGvwxYnV
+	 hmZms6pQ7UWI+F4lN0IqndsfmhgVlMBSc8TdwaDl8EmL3ndRDomC00sTJnD5ZPU3Fx
+	 CpI7jvnpjWuPFi1lqaZ3xY/95vrPjNcicxGk5InxLjv0XvTn3x1DPFYlEN/tpT9bVy
+	 HHXOI1+z4niVB+11bzLb/GPbjtm5Z8gExi689a+FQqGsFDyszprbcR9DXFG4T0eEPa
+	 aFQEmKpZSbWRCkVwkQgHv6wy6f2XGzk3YWJBctaYRCMrImJ+A9CCR+rH8d1FwSvjVp
+	 8qwcOpfV6jG/Q==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5be42ae8eadso2405307e87.3
+        for <linux-sound@vger.kernel.org>; Tue, 03 Nov 2026 00:58:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AKwUvBwYD43VU3ule53z71ED139XDHsMkHST0lNh+Z/FEvsCInC/xBOEPT9uuYvXE23xfxLFfQKPYLM/hInlFg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+pcLS+bMkAulxkegte21GybLhTFeoGWyOrWKYdC65aY830uaGV
+	a1CUbJxK9W1NHp/GutGPArOdeR2zPGRvkvtGZjJcBpwZX8+PmQWivdKeKPtjGboDddgBVrrFhkL
+	sYeXaOVmdc08F/AF+kl6s/+vUJ2Oloks=
+X-Received: by 2002:a05:6512:b84:b0:5bf:dc30:93a5 with SMTP id
+ 2adb3069b0e04-5bfdc3094a3mr4560521e87.4.1793696282130; Tue, 03 Nov 2026
+ 00:58:02 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,77 +58,73 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+References: <20261102135330.2493332-1-robh@kernel.org>
+In-Reply-To: <20261102135330.2493332-1-robh@kernel.org>
+From: Linus Walleij <linusw@kernel.org>
+Date: Tue, 3 Nov 2026 09:57:48 +0100
+X-Gmail-Original-Message-ID: <CAD++jL=DvHOGWpYYudhG-EhxTk3iUhtfz7OBS0mFgurvnCmb3g@mail.gmail.com>
+X-Gm-Features: AclHuK-LEcFutZHI-ID3nCMC-9st3AveCqqRSTzeXkI5ke3GTM3j4j9Kq1OFBKw
+Message-ID: <CAD++jL=DvHOGWpYYudhG-EhxTk3iUhtfz7OBS0mFgurvnCmb3g@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Use hex unit address patterns
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Jiri Pirko <jiri@resnulli.us>, 
+	Ivan Vecera <ivecera@redhat.com>, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Bartosz Golaszewski <brgl@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Olivier Moysan <olivier.moysan@foss.st.com>, 
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Lee Jones <lee@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, 
+	Ulf Hansson <ulfh@kernel.org>, Hans Ulli Kroll <ulli.kroll@googlemail.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Chanh Nguyen <chanh@os.amperecomputing.com>, 
+	Alistair Francis <alistair@alistair23.me>, Julius Werner <jwerner@chromium.org>, 
+	Paul Cercueil <paul@crapouillou.net>, Dmitry Osipenko <digetx@gmail.com>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Ray Jui <ray.jui@broadcom.com>, Scott Branden <scott.branden@broadcom.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-gpio@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org, 
+	linux-iio@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, mfd@lists.linux.dev, 
+	linux-arm-msm@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Low] arm64: dts: apple: unnecessary #address-cells/#size-cells in j293 s=
-ound node
-- [Low] arm64: dts: apple: duplicate &i2c2 and root node blocks in t8103-j2=
-93.dts
---
+On Mon, Nov 2, 2026 at 2:53=E2=80=AFPM Rob Herring (Arm) <robh@kernel.org> =
+wrote:
 
-commit 7afed482bafffba735ddfd1d14a91b354bbef084
-Author: James Calligeros <jcalligeros99@gmail.com>
+> Unit-addresses by default (and most commonly) are hexadecimal. There's a
+> number of cases using decimal patterns. Fix all of them, limiting the
+> pattern to match the 'reg' limits if there are any.
+>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
-arm64: dts: apple: t8103-j293: Add speaker/headset jack nodes
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-This commit adds device tree nodes for the TI TAS5770L speaker amplifiers
-and Cirrus Logic CS42L83 headset jack codec on the M1 MacBook Pro (J293),
-and wires them up to the macaudio sound card node.
-
-> diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/d=
-ts/apple/t8103-j293.dts
-> index 1d074b9e60183..6980247b94e55 100644
-> --- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-> +++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-> @@ -133,5 +133,119 @@ &displaydfr_dart {
-
-[ ... ]
-
-> +&i2c2 {
-> +	status =3D "okay";
-> +
-> +	jack_codec: codec@48 {
-
-[Severity: Low]
-This isn't a bug, but arch/arm64/boot/dts/apple/t8103-j293.dts already
-has an earlier &i2c2 reference that sets status =3D "okay", as well as an
-existing root / node at the top of the file:
-
-arch/arm64/boot/dts/apple/t8103-j293.dts:
-    / {
-        compatible =3D "apple,j293", "apple,t8103", "apple,arm-platform";
-        ...
-    };
-    ...
-    &i2c2 {
-        status =3D "okay";
-    };
-
-Could the earlier &i2c2 block be merged with this one and the sound node
-placed into the existing root node to avoid duplicating both blocks in the
-same file?
-
-[ ... ]
-
-> +/ {
-> +	sound: sound {
-> +		compatible =3D "apple,j293-macaudio";
-> +		model =3D "MacBook Pro J293";
-> +
-> +		#address-cells =3D <1>;
-> +		#size-cells =3D <0>;
-
-[Severity: Low]
-Does defining #address-cells and #size-cells in the sound node trigger a
-dtc avoid_unnecessary_addr_size warning when building DTBs with W=3D1?
-
-Although Documentation/devicetree/bindings/sound/apple,macaudio.yaml lists
-#address-cells and #size-cells on the sound node, the child nodes
-(headphone-dai-link and speaker-dai-link) do not have reg or ranges
-properties, so check_avoid_unnecessary_addr_size() in scripts/dtc/checks.c
-warns on this node under W=3D1.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103-macaudio-v=
-4-0-637484efe46d@gmail.com?part=3D13
+Yours,
+Linus Walleij
