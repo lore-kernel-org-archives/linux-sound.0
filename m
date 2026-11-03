@@ -1,96 +1,138 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.51
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793674038;
-	b=mF0zothgZg9uD84IdvH+1tF0qh5NMVOhJ2JXYt6E2ech9xid4JYKd2aIkKP30TtjLBWz
-	 d1C/8YMylRl4wtoYhAih2lMPyzbPWQdjpkyOJpsoUbW7wV3JX/uKxkNPXO44PoOGwDMFQ
-	 hAwo62AtNk/P+h5159ZYi57NT/BK5XRxjS2CnX3ryVzHNe5zESj7zGXlKVlw5svKDJFCs
-	 Vp5H3BJsrWFEcLtQPW6WyvVAYEtkeCBlrj20Cg9U9dXpm1wUoijHjSJJMxAUlyaLqdvao
-	 IajCrHcMd0ao9edP876WTlaWwCVCEeqUyuU9uyA2/B4++AdzUPwn47q9C2Nqo4ItlwQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793674038;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=vrSlLYKqBTk9lHfoJXvUFx0RvhGbfM69yXRklThhUu0=;
-	b=JjQzAW2Zda6hUyPjFTCOuQtQXBPfJ7M9zfway+iVn+PlNOyqw9wK9b245dGvfoao1JOw
-	 J2CKzv1ivULthbbe8D6yMQjszZ4dIiZzrDDIpnPsnTpMXpJ/tkbO1OpCJ7x74CzAbkKiw
-	 PVJJMXB2bNaGYbxF8hykVZ28By/ot1M6gNu0SnC65u5bLGtOzt/8A/AmVL/scOE5j+2/j
-	 TOPUmP9fpPhJifb5gABlQ3NbtKYl1HCZ+Slvk3ARjAoCQWXny+W8+KwM7miDgMn+6rT1c
-	 rYUJW6CYGRs4pgHLRhW63sECLxS8aTYY9yUsWsnWUZ0gRI3NjP03KVdsAqYEM4xIT+g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nxdVgLv7;
-	arc=none smtp.remote-ip=209.85.210.51
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=148.163.150.75
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793677513;
+	b=mVFhOP42nnJJyF4w25gIm9lJq9L2mPmGiYy4GqlDJ4BQs9PsrbjT5OpuzFo9DFSGL5gz
+	 6yXwIE90ts2jiB7d1UWe8/nc8fiMP3VEVRvX23zjjHNRteGwejRNrqXakhuKmL43CZMok
+	 og7RQ7ZiREYJLZEPWg/jKmyoOEfb1VbMhIoOpqO8DrOKTwqiPyUwz+EUmeBA8rb+nvjKc
+	 3C3yTeFtohu8T4QMP3PkuJl51awozG3N5ta4+pjPgwAZVEVusuZPOuuv0vO5kW1p0eUfE
+	 E2bpcyqjQrjBNwcdVnixGuRKrJkGnbiEMV15ONf3ooaoOmKgdE62U2OtoPAYyehYYFA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793677513;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
+	 Received:Received:Received:Received:Received:From:To:CC:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 Content-Type:X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-LD-Processed:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=0ufZ57+0ceSefFrCAIFhIdwvRjBVmWCP+U232dGpg2Y=;
+	b=GDqHU1Dg/b1KskThqjVH/0P3q6BeyusTVGi2K6x+1Du34GUSlvbjd7RnGuDjhbF7Xnfa
+	 qWb8IDno3Cfev3QUVA/MjtjtlFim8R8yTc4Du1cPFAD7tg7oVzVuRw5ChLJa6vz4T7ZCm
+	 OJcv/YOQInUTKo9FRxN3+oBaFibBurH7xU04Ql8PnQHNGA4TO2nnAl6jv55Ju2v1RxtXZ
+	 vAeMhOcXT1J8PGTB3oTIoUQEFse03DNNC0oqGjZCfUTTboY2H5aSycDFLmp7Li7yfQIi+
+	 5u5jv1VhiYMDNDnzshW5CpoaBQCackpOw9bE3Cb11NFSd84UqZMF9TXoKPokOER/Aww==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=ti.com;
+	spf=pass smtp.mailfrom=ti.com;
+	dkim=pass header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=proofpoint-05-2026 header.b=AKTH3tDU;
+	dkim=pass header.d=ticloud.onmicrosoft.com header.i=@ticloud.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-ticloud-onmicrosoft-com header.b=Oklh7OJQ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=148.163.150.75
+Received: from mx0a-0002e601.pphosted.com (mx0a-0002e601.pphosted.com [148.163.150.75])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D4C606A326
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 02:47:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97D4C606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AAF6606A32E;
+	Tue,  3 Nov 2026 03:45:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AAF6606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nxdVgLv7
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-84a248254f4so2577151a34.0
-        for <linux-sound@vger.kernel.org>; Mon, 02 Nov 2026 18:47:17 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=proofpoint-05-2026 header.b=AKTH3tDU;
+	dkim=pass (1024-bit key, unprotected) header.d=ticloud.onmicrosoft.com header.i=@ticloud.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-ticloud-onmicrosoft-com header.b=Oklh7OJQ
+Received: from pps.filterd (m0384305.ppops.net [127.0.0.1])
+	by m0384305.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 6A31gtkw4162273;
+	Mon, 2 Nov 2026 21:44:56 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=proofpoint-05-2026; bh=0ufZ57+0ceSef
+	FrCAIFhIdwvRjBVmWCP+U232dGpg2Y=; b=AKTH3tDU8t+9aqt6hB7aLC6640g1q
+	Rg18BFoiOQJmAGVthYioYX7JK/9QgyAnU6Y4j07A4DWiU/1gEdo6/QGfJN4A2r4p
+	i2jOas6OCEWS3fKPsc2XnhegK0WK5Ycw8QHuTqjJz6AOV/JjaGbEDn9+Eb4JofUP
+	jixZ/vjiWilD6UY+RBiizr2/eANDR/JO0gSbK2816gWdwrUZyi89F5zQxVjyfcaB
+	UMLQGDDNgqKIaD6NSqdZoOL1Lv6INEHedUCUx5nSbLErbKtb2IVR0EaEOo2t/lZS
+	Ba04bji7076YBPVpRM6QN2R0vJBCnX1whRIH9YWT37MmGJhtFvv+0DU5g==
+Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010037.outbound.protection.outlook.com [52.101.46.37])
+	by m0384305.ppops.net (PPS) with ESMTPS id 4hq0fht99s-2
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 02 Nov 2026 21:44:55 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hYcXQDxIN9PUtuZykOnqgHXKMV+icSHlHh/DuIWPx22cpj8Wi35gSntkWlJF80RSHdpY80xHhDI4363paoNfYinrrzybyUprJtCiRbjl3fsImJlJd3BtXNPxUecWq/op32O0Kxur9HQNwpfyBgcu8zpu6Ayo5L0lYYuBdii2caAr0R3NhO1nX3LwLKspZI8fLkBUGEf2mZ3NWe+wHvXUOprSLACcyPVooiEEEPooCWHbcRNfboX/e8XLp+Z2wooa95O3TkBE7Y53vllGscpZm4sKto0S0Ot+prEMymH/+VVBk6x4rtKiZ3tnKgWCaDllakDvtkkPUqZdvZasMbEQ2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0ufZ57+0ceSefFrCAIFhIdwvRjBVmWCP+U232dGpg2Y=;
+ b=rmU0oDy1tLeRNLZyvwuEj21TVqXbFZenKG/WzIwShk5vJmzHfbGDM3frBMDkolKxJN8Tz88qG52VEBRV52fz0EiptR5lGmCpdQT7tFzWbLsX+6rQ0LVrfbRHm41j3ciOQvfbinnHdebOZpkSbsyxZm1YjZzNrWb51XRCpFMTSJdr7RKoyQJHMGuzvszcSsuvJ+tgVfq4/ViMVGntnis5/hyYJdehD1S0AjzZek1nckt86JaoZs1ij5oTqOY4RfBmEqvVqv6SsWWy048xiB4Cg1kaqeKs5F7AWqYaKYXp+njAgZEv0cGOg6BjOJbxKJDmFfyqVgW44l6jbZL2aEqXWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.194) smtp.rcpttodomain=amd.com smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793674036; x=1794278836; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vrSlLYKqBTk9lHfoJXvUFx0RvhGbfM69yXRklThhUu0=;
-        b=nxdVgLv7IBC1nyRc9b2chIdr/JbQJ3EfOur0Ekw1+AiE3HQyyGOPNwiB1VBV3zgFw3
-         950HwYRCCN6eVrbR7EIxBN5WK25f7AxPWrZd+799ARISopMpNbCdQiga+HrDFCeV5QQv
-         g+QukyIqat7Nl07ve5ix9iTLW/xKOVUmOJbt6gG1WTV+R9s2xYMSfDCtNqq3dJS6aFLX
-         Gm1A0eaEEPnPzWK2sbEpWsNL26u+WWO78MSVxOWuLB8M0UZQmeaQa2UCATAh5TkteT2u
-         kM0F8180vpPlJjbECvrls7HcZKyE1aPKcDJR8eCx7rGoPVolXkjg0SJojB/lA8s+nqr/
-         E1Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793674036; x=1794278836;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vrSlLYKqBTk9lHfoJXvUFx0RvhGbfM69yXRklThhUu0=;
-        b=Gn6YuNElEID+zNzmlvWnckf17jt5sMWQbTE/zSsAmtYmcQ7WfNidTJmSfwWEJy/CoE
-         xj/xA8RwAh20wpnD/FGX/FxzmuyIbe8ISLmwhWfwJhEwfGs+MrO9RMv/gCa1QudQx0Rn
-         GTiE92h1k8+6igj1x54WkLQKJTJCC4mUCgw7XaX1tyeyBqouZNwyqxPlRKhYn8UqvBdn
-         KnH+5JmHl8rsxh7l/930PxW2nfDdtb0NpZDLMYJU4tfk5Eofvuzl8KeyrWj4Xd65v5Y+
-         rWpHQtXt0vaypnXetr5b6KWCVQ6pxFMf/XH8r5LTjirKBVRqOaD55Ls9/cM7PDy1SCj7
-         eebQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzrfFn9IvARUfTC0eKq9K+9qN6r0ts9nY7U8SKxL31HOCDXwRftIBH72GgNS1fSqIAekqcpG/LFQfsGgw==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKDCqfOp4677NOQol8n+Aw5HacOS+11S82C+3xU/5rGrySASHpE
-	HNBwjEHeYoUqrMrgM3ADTL8YxLuP4ad1ScoYdwtIOvOpFGMvmvp4CzFz
-X-Gm-Gg: AYBFou1jtO6LIcsEmbXEegcHlHPIs2brGrIIjFvVZokAp/bt8NcFJl4xadYHL/0saIs
-	aQyMjhu7bZKbr3+y+u1vuFq3em2Ty637N/Nb9E2QRFDjOjLI+mcJ7LiivnsmQZLiejWfxs7xPW2
-	3iF1suGhVHb3B4E/PslxZ5Q80pT6a6IxllfCGdhJl2tGG7mEoEbRUsHT8uRhsRb5HWYmLriDyWu
-	20WjL06UnlI6f8oJ4dNcOvd1j3XWy4a0y1v5rVWGIBHggI24ccyKBFk+lFH5WWzFoZpxXJncC/Y
-	wJmZyZDIHXzu5aDGNU1MGMr9QaOmvqnzBCQp15aFokhqlDcqeAhLQbpbwV8BRJgaIsrtpOP3JZE
-	TY8HkZ3LVfkMSxj3d9zuIh5PWa1xQ9OL3YyBtz/BORzp2i8SARjZiY3MoXKHz/nrT07k/SU9GOZ
-	WcJPhgXSDrbsFJB6q3r8QtbZE3UlCvovEqGquEw+h0A+OGV7JIkyoVYKvqyXlgsLAxVhrrw2egk
-	w1no8piLoPf5YJYsMExONSvtzMSpCsCIF+BA5td8IQP28wzEN+E85KZVuPg9+xZIKHYMvFNTVHY
-	HY6wa3cP8WdWUwKoNuq3dmq8hvjgQSGGJd7ONEXQq+XR1awA8nG12St6U7VGsDlHQQY=
-X-Received: by 2002:a05:6830:a1d2:20b0:85d:4ed7:1cb0 with SMTP id 46e09a7af769-85d4ed7219cmr3495647a34.27.1793674036476;
-        Mon, 02 Nov 2026 18:47:16 -0800 (PST)
-Received: from localhost.localdomain ([2600:1702:4ff0:baa0:5054:ff:fe3d:4ddb])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85d3545bfebsm10427454a34.4.2026.11.02.18.47.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 18:47:14 -0800 (PST)
-From: Will Porter <mrwillporter@gmail.com>
-To: Christian Ruppert <arc@gmx.li>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Neil Andrews <neil@androos.io>
-Subject: Re: [RFC V2 PATCH 00/11] Re: ALSA: usb-audio: Audient iD14 MkI vendor
-Date: Mon,  2 Nov 2026 20:45:18 -0600
-Message-ID: <20261103024518.948089-1-mrwillporter@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261102003257.10134-1-arc@gmx.li>
-References: <20261102003257.10134-1-arc@gmx.li>
+ d=ticloud.onmicrosoft.com; s=selector1-ticloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0ufZ57+0ceSefFrCAIFhIdwvRjBVmWCP+U232dGpg2Y=;
+ b=Oklh7OJQpCHGuZqLYp0yfeXiV/2OcchynIsWVqxcNQVotDA+xZQ0OFPlXur/wp3VoQhIuflLT71nf5npqToF78g7srWBYOeGzbbhEj9ClLDanDz35PyuIUjYVec4ENOA+osNSYCnzKVA47/ldX6swCjFftYJRCLmC4f7mPBBn1o=
+Received: from BN9PR03CA0465.namprd03.prod.outlook.com (2603:10b6:408:139::20)
+ by CH4PR10MB8049.namprd10.prod.outlook.com (2603:10b6:610:240::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Tue, 3 Nov
+ 2026 03:44:51 +0000
+Received: from BN7PEPF00000096.namprd03.prod.outlook.com
+ (2603:10b6:408:139:cafe::4) by BN9PR03CA0465.outlook.office365.com
+ (2603:10b6:408:139::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.20 via Frontend Transport; Tue, 3
+ Nov 2026 03:44:50 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 198.47.21.194) smtp.mailfrom=ti.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ BN7PEPF00000096.mail.protection.outlook.com (10.167.245.74) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.592.5 via Frontend Transport; Tue, 3 Nov 2026 03:44:49 +0000
+Received: from DFLE205.ent.ti.com (10.64.6.63) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Mon, 2 Nov
+ 2026 21:44:26 -0600
+Received: from DFLE204.ent.ti.com (10.64.6.62) by DFLE205.ent.ti.com
+ (10.64.6.63) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Mon, 2 Nov
+ 2026 21:44:26 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE204.ent.ti.com
+ (10.64.6.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45 via Frontend
+ Transport; Mon, 2 Nov 2026 21:44:26 -0600
+Received: from LAPTOP-70RJ5B8Q ([10.250.165.249])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6A33iJ5J2405520;
+	Mon, 2 Nov 2026 21:44:20 -0600
+From: Baojun Xu <baojun.xu@ti.com>
+To: <broonie@kernel.org>
+CC: <tiwai@suse.de>, <andriy.shevchenko@linux.intel.com>,
+        <13916275206@139.com>, <alsa-devel@alsa-project.org>,
+        <shenghao-ding@ti.com>, <baojun.xu@ti.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <k-yi@ti.com>, <henry.lo@ti.com>, <robinchen@ti.com>,
+        <niranjan.hy@ti.com>, <pin-hao.huang@hp.com>,
+        <Syed.SabaKareem@amd.com>
+Subject: [PATCH v1] ASoC: amd: acp: Add support for more projects on ACP7.0
+Date: Tue, 3 Nov 2026 11:44:15 +0800
+Message-ID: <20261103034415.1495-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.55.0.windows.3
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,116 +143,411 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN7PEPF00000096:EE_|CH4PR10MB8049:EE_
+X-MS-Office365-Filtering-Correlation-Id: 772c86fb-fc78-4aa2-e5f8-08df395ccfb5
+X-LD-Processed: e5b49634-450b-4709-8abb-1e2b19b982b7,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|376014|1800799024|23010399003|36860700016|82310400026|261102123227099003|56012099006|261021121427099003|260925021311599003|260925022911599003|260925021911599003|261009223027099003|261026121527099003|261021123027099003|10067099003|18002099003|6133799003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+ 8aCswc/3xpGqiT9ypgnwnTNMggVDvFu5wZuz0o2XiH8BS33DuNL0WqDgrsWSDF2izzlhBuKj7C7mKChOBzG13TXMeKk/JMhMO9nYeXYdvrcbrYLwIHhuN+swsvFwkXX8Ee1tFGZ/D5uDot2TXJ5T8i+1sx/0LqewCpYHr0ku80e7wU7LZl4JcZEFg83gCWrzzxaqUvJT32VJGvhw5IIIs0XVhV8G9A6w3M4XaoRPUNrNpUjIbKkg/NO+zP+QtvC1ElKIyOyXAEgT/PaXoXmrHXnqaGQEeShqE40f6+3omKoHSxuVDWNvkRmNCHS1hD1s9Tyt2gew7cGKSVPnTvG2wnIw5jlzw8/HvKqEaXhuXMQG5uT1mHqtCCHQGk0l/r+ZYL17JBQIp9Czv7Db4cXxKbinD7hzRWaYf0dr/6u6sOv0RHS2oUaL7RRCLrK4E571K2TTQ4acZ58UOIts2UUaWED3a9kiT+1LW4Speo2Jywfuro7bz9tr8rmaXEI7rAthwrPHHFY8Fx7MfOCXXUmHIyyJN96jvl6BnA//w8sJ4o7TekjqkU5erR69Lmc9pKgWAxLvcd9qeF8/5a1p7StP70s566c3u/2J05TWYZifjKJAOyPh3fc/+kcAxCrqV1eTfHEY198iGRkRzF0DTgAIIO0QzzRihBnHPafzVyN4QNoEQKnr2spooDKLCLHr1jeBddiB2OHX4VsIiANC6y6xnw==
+X-Forefront-Antispam-Report:
+ CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(36860700016)(82310400026)(261102123227099003)(56012099006)(261021121427099003)(260925021311599003)(260925022911599003)(260925021911599003)(261009223027099003)(261026121527099003)(261021123027099003)(10067099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ jOWLmEoN4QA7bEMLsrZYQ9vr3LEtRpD5K9bFbM3bqc2mahPQG2fHLKKNMktmxzxgtlKcr0CL9FGY5bVlUr9V9yQbFZIB5YRqVfo6xHJOiHdtTr2w0dRWjsoUA6isb6TptQKMVVLbh2Xu+mnSut+2gwNivjHAh/yZC2UY+6NMAuIOrXXxq1QDd7tAy118q3tRq4Q011eHTaZdRG/6hyUDVONHElKspbzBsEQKFWZXslRgUZp7A3fOz35OCaYCyMzmdqWtPBACL653IseiPMFqoRANhZvCS2iNWH2imQBf9BqByFL04dxM81Jp3HbsdLItXaxFmzLr8L+WOxAPotd9qi1RlDRZx4/Ji99wkpp53AJJzr74LeNLQ2/O3WOcuNYhvGgbMVOClDAmSqoLGtJhvr7Ydp50mNF8DOIDbt1mgkXVJYSvr478bm1ctPuIS4fi
+X-Exchange-RoutingPolicyChecked:
+	5G3iF59kgW3iiFnK1iemifgFD9zrHC3W+aqfD4wFTJWfSgQQBawf47/r236zX1/afUxpcOD/qBKqsL4EQArI6yV23EdFZdVhrY7ao3e9QwF4xiCg0pbkVlDTurpVTQ5l0XklKCgB5XHdQV/spts4Dph3SaZvdgWwVD90FjWAoV4surdyWAFxMiCg6GgDoNJa1A2WFX+lCkSsfSxll3Mx9Vw4Ks4XddNk3q5+dffmdUA0lfdaKGafNwQjkfyRFYnTtJ6Mx5AP/IrSgdhyiLuqYmlVhEN22K/BV8gUs9l+2lwsr4mD16gMfbq/XK/4ArhzOsfT/qCB/D91iKX5xwVk3Q==
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 03:44:49.3285
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 772c86fb-fc78-4aa2-e5f8-08df395ccfb5
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN7PEPF00000096.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH4PR10MB8049
+X-Authority-Analysis: v=2.4 cv=H7NOUOYi c=1 sm=1 tr=0 ts=6ae958b8 cx=c_pps
+ a=gjcLB77VbSPYcqvaeYBpgA==:117 a=iwqwCZQqcuTv3JOpYdM7/Q==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=zJRp6_cAMcgA:10 a=AlMIdn_sM9wA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22 a=taLDd7a_hP9WKsMzeGRc:22
+ a=sozttTNsAAAA:8 a=TcxrbrMTMqHS3ul9X8YA:9
+X-Proofpoint-GUID: ldZVOZInc6P0XGQah01cK6HyoLtwstV5
+X-Proofpoint-ORIG-GUID: ldZVOZInc6P0XGQah01cK6HyoLtwstV5
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAzMDAxNCBTYWx0ZWRfX6jA/75Z/QnGn
+ CN5cwlubLvSQ2ahchveR1MNMXZOyuXRbsmQNU2AI44OHzRm4JW+U2C34WPSIO4obpVJUY3GVhQs
+ c6gxyePk5BPl/7iPLgjngPTFJEJ4Btc=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAzMDAxNCBTYWx0ZWRfX1NJejXavYDhF
+ pQNH8Cl8Gq4yqBSHMu5Aei9Oji6AdGyZ8OQ4bhFD4yB1AMcF+XPNuYB787jXs0vzN6pivDe7oxK
+ MIVG0dWS8qEGZs0IAM7M0E2pTcSZshuKD1IvMS7wYiiniN+PnmaEnU7B4kC1gFITsVeH6MFKluO
+ NaQwbkCdvogZ/JDxNh0lJ3dryLbgsGWaRwzE3JvRs/w88IaofM88tn3yA5byGG4JC7hDVcJe9n2
+ O5eNGKE+fGw9R788BYOmS1Ir7pfw2p67BMr0eiEESVHjJPDBlil//K9+/6lOxAckGxQ4FQCLg69
+ p0OlQccFq2USZCMthnKWO8PTeLE7z8WG/zZCAdexYJG6fvIbQxZacPAOjR7K5gZfcp/c31MGBoX
+ 2PLUU8bKqyftSuBP3CEI9GhZK55/79PP1DeT0Oe7u8I2L9/ZlAsWL3HMjMzfJqqtx9qL2w52eRp
+ tuFMWjK2pktV6zyAghA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-03_01,2026-11-02_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0 impostorscore=0
+ spamscore=0 clxscore=1015 bulkscore=0 priorityscore=1501 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611030014
 
-Hi Christian,
+Add driver data and ACPI match table entries to support additional projects
+using the TAS2783 codec on the ACP7.0 platform.
 
-Thanks for RFC V2, and for folding everything in so quickly.
-
-On Mon, Nov 02, 2026 at 01:32:46AM +0100, Christian Ruppert wrote:
-> Makes sense. Added to RFC V2 (in patch 10 where the cache is added).
-> Please double-check if the logic reflects what you had in mind.
-
-Yes, that is what I had in mind: a put of the cached value still
-writes it, but returns 0, so alsactl restore sends no change events.
-On an iD14 MkI, a put of the held value sent no change event on a
-write-only switch, a volume or a matrix control. A put of a new value
-on the write-only switch sent one.
-
-One question on the same function. A FORCE_SET control without CACHE
-now reads the device before each write; in RFC v1 the put skipped
-that read. If the device refuses the read, the put fails before it
-writes. No table uses FORCE_SET without CACHE today, so nothing
-breaks now.
-
-Should that combination work? If yes, the put could skip the read
-when the control has no cache slot, as the diff below does. If not,
-a comment or a check in snd_audient_add_ctrl() would say so, and you
-can drop the diff.
-
-> I don't think this is necessary as it should be rather obvious to
-> everyone touching the driver that the u32 argument can't carry more
-> than 4 bytes. Added a comment to the parameter definition.
-
-Fine with me.
-
-checkpatch --strict on the 11 patches gives no errors or warnings,
-only CHECK-level style notes, mostly unneeded parentheses (04, 05,
-07, 10) and alignment (01, 05). I'll leave those to your discretion.
-
-iD14 patches on RFC V2
-
-I rebased my iD14 patch series on RFC V2. Three of my patches are now
-part of yours, so seven remain:
-
-  1. a step size for integer controls
-  2. enumerated controls
-  3. a separate mixer map for the iD14 MkI
-  4. iD14 MkI monitor and routing controls
-  5. iD14 MkI mixer matrix
-  6. iD14 MkI write-only controls
-  7. the iD14 MkI FU 12 control
-
-All 18 patches build one by one with W=1 without warnings.
-On an iD14 MkI (7.2.11 stable), the controls passed the same read and
-write checks as on RFC v1.
-
-Next steps
-
-As agreed, I'll send the final series: your 11 patches, then the
-seven iD14 patches. Two questions first:
-
-- Your four mixer_evo fixes ("ALSA: mixer_evo: minor fixes and tlv
-  addition") are still open on Patchwork. Should they still go in
-  separately, before this series? Then I'd base the final series on
-  sound for-next once Takashi applies them. Or should I put them at
-  the front of the final series?
-- If the diff below looks right to you, shall I fold it into patch
-  10 when I send, or would you prefer to take it into your own tree
-  first?
-
-Thanks,
-Will
-
--- >8 --
-From: Will Porter <mrwillporter@gmail.com>
-Subject: [RFC PATCH] ALSA: mixer_audient: Skip the read for an uncached FORCE_SET put
-
-A FORCE_SET put without a cache slot reads the device before the
-write, and fails without writing if that read fails. Skip the read
-in that case, as RFC v1 did. Puts on cached controls keep their
-change reporting.
-
-Also fix a typo in a comment and drop a blank line.
-
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: Will Porter <mrwillporter@gmail.com>
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 ---
-Proposed change to patch 10.
+ sound/soc/amd/acp-config.c               | 105 +++++++++++++
+ sound/soc/amd/acp/amd-acp70-acpi-match.c | 192 ++++++++++++++++++++++-
+ 2 files changed, 296 insertions(+), 1 deletion(-)
 
-diff --git a/sound/usb/mixer_audient.c b/sound/usb/mixer_audient.c
-index 483ab8f..33c2d1f 100644
---- a/sound/usb/mixer_audient.c
-+++ b/sound/usb/mixer_audient.c
-@@ -329,11 +329,12 @@ static int snd_audient_raw_set_one(struct usb_mixer_interface *const mixer,
- 	int ret;
- 	u32 val;
- 
--	if (force) {
-+	if (force ||
-+	    (!slot && (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_FORCE_SET))) {
- 		val = !value;		/* just make it different */
- 	} else {
- 		ret = snd_audient_raw_get_one(mixer, ctype, slot, cidx, &val);
--		if (ret == -ENODATA)	/* FORCED_SET and not cached yet */
-+		if (ret == -ENODATA)	/* FORCE_SET and not cached yet */
- 			val = !value;	/* just make it different */
- 		else if (ret < 0)
- 			return ret;
-@@ -352,7 +353,6 @@ static int snd_audient_raw_set_one(struct usb_mixer_interface *const mixer,
- 			slot->value = value;
- 			slot->valid = true;
- 		}
+diff --git a/sound/soc/amd/acp-config.c b/sound/soc/amd/acp-config.c
+index 2fb9789cac0a..473d68ebde14 100644
+--- a/sound/soc/amd/acp-config.c
++++ b/sound/soc/amd/acp-config.c
+@@ -98,6 +98,111 @@ static const struct dmi_system_id acp70_acpi_flag_override_table[] = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "8EA2"),
+ 		},
+ 	},
++	{
++		/* HP Cashmere-A */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "8EF5"),
++		},
++	},
++	{
++		/* HP Sundae */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "8F6D"),
++		},
++	},
++	{
++		/* HP SundaeWhip UMA */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "8FA4"),
++		},
++	},
++	{
++		/* HP SundaeWhip DSC */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "8FA5"),
++		},
++	},
++	{
++		/* HP Kamo (Koki) */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "9012"),
++		},
++	},
++	{
++		/* HP Dominion 16 A */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "9028"),
++		},
++	},
++	{
++		/* HP Dominion A LW */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "9029"),
++		},
++	},
++	{
++		/* HP Kata-A */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "9056"),
++		},
++	},
++	{
++		/* ASUS HN7306 */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUS"),
++			DMI_MATCH(DMI_BOARD_NAME, "1714"),
++		},
++	},
++	{
++		/* ASUS RC74XA */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUS"),
++			DMI_MATCH(DMI_BOARD_NAME, "1954"),
++		},
++	},
++	{
++		/* ASUS RC74RA */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUS"),
++			DMI_MATCH(DMI_BOARD_NAME, "1964"),
++		},
++	},
++	{
++		/* ASUS UX3408GA */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUS"),
++			DMI_MATCH(DMI_BOARD_NAME, "1AC4"),
++		},
++	},
++	{
++		/* ASUS B7406CKA */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUS"),
++			DMI_MATCH(DMI_BOARD_NAME, "1B94"),
++		},
++	},
++	{
++		/* ASUS CHG01LA */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUS"),
++			DMI_MATCH(DMI_BOARD_NAME, "1C64"),
++		},
++	},
++	{
++		/* ASUS UX3480ZA */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUS"),
++			DMI_MATCH(DMI_BOARD_NAME, "1E54"),
++		},
++	},
+ 	{
+ 		/* Dell 14S DS14265 */
+ 		.matches = {
+diff --git a/sound/soc/amd/acp/amd-acp70-acpi-match.c b/sound/soc/amd/acp/amd-acp70-acpi-match.c
+index c2f0479301eb..a6df59c212bc 100644
+--- a/sound/soc/amd/acp/amd-acp70-acpi-match.c
++++ b/sound/soc/amd/acp/amd-acp70-acpi-match.c
+@@ -582,7 +582,7 @@ static const struct snd_soc_acpi_link_adr acp70_rt722_l0_rt1320_l1[] = {
+ 	},
+ 	{}
+ };
 -
- 	}
++/* HP: Sundae, Cashmere-A. */
+ static const struct snd_soc_acpi_adr_device tas2783_2_adr[] = {
+ 	{
+ 		/* left */
+@@ -614,6 +614,116 @@ static const struct snd_soc_acpi_adr_device tas2783_2_adr[] = {
+ 	},
+ };
  
- 	return val != value;
++/* HP: Dominion 16 A */
++static const struct snd_soc_acpi_adr_device tas2783_3_1_adr[] = {
++	{
++		/* left */
++		.adr = 0x00023C0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "tas2783-1",
++	},
++	{
++		/* right */
++		.adr = 0x00023D0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "tas2783-2",
++	},
++};
++
++static const struct snd_soc_acpi_adr_device tas2783_3_2_adr[] = {
++	{
++		/* left */
++		.adr = 0x0003390102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "tas2783-3",
++	},
++	{
++		/* right */
++		.adr = 0x00033A0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "tas2783-4",
++	},
++};
++
++/* HP: Dominion A LW. */
++static const struct snd_soc_acpi_adr_device tas2783_4_1_adr[] = {
++	{
++		/* left */
++		.adr = 0x00023C0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "tas2783-1",
++	},
++};
++
++static const struct snd_soc_acpi_adr_device tas2783_4_2_adr[] = {
++	{
++		/* right */
++		.adr = 0x0003390102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "tas2783-2",
++	},
++};
++
++/* HP: Kamo (Koki). */
++static const struct snd_soc_acpi_adr_device tas2783_5_adr[] = {
++	{
++		/* left */
++		.adr = 0x00023C0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "tas2783-1",
++	},
++	{
++		/* right */
++		.adr = 0x0002390102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "tas2783-2",
++	},
++};
++
++/* ASUS: CHG01LA, UX3408GA, UX3480ZA. */
++static const struct snd_soc_acpi_adr_device tas2783_6_adr[] = {
++	{
++		/* left */
++		.adr = 0x0000380102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "tas2783-1",
++	},
++	{
++		/* right */
++		.adr = 0x00003B0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "tas2783-2",
++	},
++};
++
++/* ASUS: B7406CKA. */
++static const struct snd_soc_acpi_adr_device tas2783_7_adr[] = {
++	{
++		/* left */
++		.adr = 0x00003B0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "tas2783-1",
++	},
++	{
++		/* right */
++		.adr = 0x00003C0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "tas2783-2",
++	},
++};
++
+ static const struct snd_soc_acpi_link_adr acp70_tas2783_2[] = {
+ 	{
+ 		.mask = BIT(0),
+@@ -623,6 +733,61 @@ static const struct snd_soc_acpi_link_adr acp70_tas2783_2[] = {
+ 	{}
+ };
+ 
++static const struct snd_soc_acpi_link_adr acp70_tas2783_3[] = {
++	{
++		.mask =  BIT(2),
++		.num_adr = ARRAY_SIZE(tas2783_3_1_adr),
++		.adr_d = tas2783_3_1_adr,
++	},
++	{
++		.mask =  BIT(3),
++		.num_adr = ARRAY_SIZE(tas2783_3_2_adr),
++		.adr_d = tas2783_3_2_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr acp70_tas2783_4[] = {
++	{
++		.mask =  BIT(2),
++		.num_adr = ARRAY_SIZE(tas2783_4_1_adr),
++		.adr_d = tas2783_4_1_adr,
++	},
++	{
++		.mask =  BIT(3),
++		.num_adr = ARRAY_SIZE(tas2783_4_2_adr),
++		.adr_d = tas2783_4_2_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr acp70_tas2783_5[] = {
++	{
++		.mask =  BIT(2),
++		.num_adr = ARRAY_SIZE(tas2783_5_adr),
++		.adr_d = tas2783_5_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr acp70_tas2783_6[] = {
++	{
++		.mask =  BIT(0),
++		.num_adr = ARRAY_SIZE(tas2783_6_adr),
++		.adr_d = tas2783_6_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr acp70_tas2783_7[] = {
++	{
++		.mask =  BIT(0),
++		.num_adr = ARRAY_SIZE(tas2783_7_adr),
++		.adr_d = tas2783_7_adr,
++	},
++	{}
++};
++
+ static const struct snd_soc_acpi_adr_device rt1320_0_single_adr[] = {
+ 	{
+ 		.adr = 0x000030025D132001ull,
+@@ -804,6 +969,31 @@ struct snd_soc_acpi_mach snd_soc_acpi_amd_acp70_sdw_machines[] = {
+ 		.links = acp70_tas2783_2,
+ 		.drv_name = "amd_sdw",
+ 	},
++	{
++		.link_mask = BIT(2) | BIT(3),
++		.links = acp70_tas2783_3,
++		.drv_name = "amd_sdw",
++	},
++	{
++		.link_mask = BIT(2) | BIT(3),
++		.links = acp70_tas2783_4,
++		.drv_name = "amd_sdw",
++	},
++	{
++		.link_mask = BIT(2),
++		.links = acp70_tas2783_5,
++		.drv_name = "amd_sdw",
++	},
++	{
++		.link_mask = BIT(0),
++		.links = acp70_tas2783_6,
++		.drv_name = "amd_sdw",
++	},
++	{
++		.link_mask = BIT(0),
++		.links = acp70_tas2783_7,
++		.drv_name = "amd_sdw",
++	},
+ 	{
+ 		.link_mask = BIT(0) | BIT(1),
+ 		.links = acp70_tas2783x2_l0u9c_rt712_vb_l1u0,
+-- 
+2.25.1
+
