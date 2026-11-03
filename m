@@ -1,182 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=198.175.65.17
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793694548;
-	b=nyIbCD+AGW/bG6sUhCKIL1hZE0JbVG/j3fnnfCMGKxO+Xvz8VaAjqCwDIL5P67LgZDf4
-	 s5oq8e5wroMakKuq21k/xQl3hoz1ND93eBUXM3Kr5by9J7woDa6BW5HD1XLTuf1lmvlW8
-	 mX9WcMY5yfzBQVVnrDU1YPviKoNhsJKvgsdoEYYMGgoyjN9Bpa3kZ9RejIZd5xEWbVmeo
-	 NJQFv9fXIHPPNigD5dECinhwmeI4y0HLMnRsqWvZXJ177TyxPpjX6Og7ufbeRSzje8Nsw
-	 eYrHBkc548h6KuVXekSI9uJ+loftC5hyvathand7hGsXryva+iVkk8HsfFVN3Yu+aqg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793694548;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:Received:Received:From:To:Subject:Thread-Topic:Thread-Index:
-	 Date:Message-ID:References:In-Reply-To:Accept-Language:
-	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
-	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:
-	 X-Exchange-RoutingPolicyChecked:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=BBJyehNc8hR3r4ct849ZSS6YMh7RwlofT4qeyhs+waA=;
-	b=VEpd7yMoXuYQuz7yI6PBoBPDStz0zZR3I9uu7WdNRW1qDN9kxcZFTSbftKkyI3P5R8W5
-	 vVe+yuuwXidYLSZqwWf3DQn5u0WeQjn7A/0ZyIPqiI34nVilXGM4CmyUZyBqmd2wN9dyV
-	 tpdatkWn5kxdM8z5lS1A6HEGHnVsJi6/KxrH3MmSM/+gPG4Pi9MMolEZpo89TkoNPB0Rg
-	 tQ/syRfa1MVhPyy+xQZrx6AC+xDEGsh8AXt+F+yrW1MQtSIHHUx7N08KpWrcH6DRY7srk
-	 /YhOlrRRizXIrUy1Rec0l9O4PX9KJKK5gjo8tRuTpRfR+mv2iVrtRShWQJOxzPC7rcQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=H7xHro0E;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793694796;
+	b=SoW7ie0mKOTq2vcsuz2RPiDlhlqo12fDZd17eUdgpHzHfTFYNxk/SW35alSKP5EjZdaW
+	 rL6GHZXeNS3hYs5hfXX2Neh9D1DLAi30uUK2mrVeTF6YcF6HfHTDHA2sg4gg9CZaRzv0l
+	 dhXOXSiZ221EliaMXE7LN/ky7cfdQEbTILk9YkT6JYqVD2An4iN6WsvyXfoy7NqdzWuI/
+	 Fhz9L2y/XjbkKprC4ARqFiig6nSPSgQM9QgusR2dPztupgdqkmICmTAs1aVGPRHoioaD4
+	 zzhUYYHRyi3g0YhTiJ4As2/qRhXCtBOa4nS0VkJ7hoeT2Y+EikjirrzG5A1UadKhiow==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793694796;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=d8XvZ731/nH3uz6YjucyhxkBQmpTLgZPZ5QlBs2V3eA=;
+	b=P9wrSNDKr0G8P0j1wBkuV0Ia3PacjogXN9AOxFFADxqptUtLHOxC4bONCQqTibtySoji
+	 fiu1ke+KhDPBfOdSN6u82r8hE+UpDT5mKkraEW6hm5u5j+e2RBXg/3VOCuQvkw+eHK2Yv
+	 qUb7cPLHQOxjxx+RqcLWMHIj1wXKv8Y0YuwMY+jAA8pJ7BPTfoc/ijSQMtp6EhgCPQWHB
+	 BQPIENez+JmOxr8BBAYPz7RZBvS+2/gF+XowTQ6ZClkdPpG+gXlZ9wArD1K5GtopIourg
+	 GVUZeeRStoMwIMdfuikyAw8kBeUW8KOVgmGEp/4uNtk8lNPpYB2X/yPeDuh/EQMZ7fA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vdi1+Azj;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2C5606A32C
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 08:29:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E2C5606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24E5606A334;
+	Tue,  3 Nov 2026 08:33:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=H7xHro0E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793694547; x=1825230547;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=BBJyehNc8hR3r4ct849ZSS6YMh7RwlofT4qeyhs+waA=;
-  b=H7xHro0E3PbDTH8Im2tI2mMTKsMwuLFntiNKvgyu2RGsT0WLoH8ojkHi
-   kGFQlzLayeG7Dd9tZeVBXJmYa4CIsKJi7aLf18+jv7AsHquP3HxXmvDqH
-   XN65Q3IZie6TdlQO4ICEt9BQnVQ/El8WkKzKf2e+G5Y/cUxxEF6NsPeRI
-   7A2OHEbN+JyfLvCn0tUuKHR6uI3NjxU8iE+ruUmf0d12Kafhb86gl/3LK
-   B3MAoNoqRmuff1hx6UcLOMrCRZbwD+ep9PRPwKNqSePasg0gdPNbhy47q
-   sfKL2eNcSCHf+2udoi6navChHvKfAA/tukyKtEzkpN0GM5n9X8Wz9bBKS
-   A==;
-X-CSE-ConnectionGUID: VPN/GIOAQ1qn3kvybaoxsw==
-X-CSE-MsgGUID: 6KfTxeV2TgOTV5bM0dYgKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2424427"
-X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
-   d="scan'208";a="2424427"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 00:28:49 -0800
-X-CSE-ConnectionGUID: 6SWhf3O8T9aJOM+Qr72BKw==
-X-CSE-MsgGUID: 4xIjMtHoTZeI/B3yxRZJvQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
-   d="scan'208";a="6249923"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 00:28:48 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Tue, 3 Nov 2026 00:28:47 -0800
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56 via Frontend Transport; Tue, 3 Nov 2026 00:28:47 -0800
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.59)
- by edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Tue, 3 Nov 2026 00:28:47 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hn8alxRLrbn3iqJACF7vPP4bN49rSmhSD9epYDlrpix2eS/IBbS/A8Iu8RlDyd5WHlwxUfp7EbI4sNWw1OKSZLUzhtEm2fqHnjouSswSp9Nt0RNXkCq/UHjxh2EhyejsWZBWGyvTv6V0c0PsGL8dW/Ng4ceYJT2lqgmk7VrgYP6+Hg/8k5kWpVYzg69SGp8a/veV3lzlVEmHASgy55wAcnJQwFixzl2vrkkGo9Rc4/mH62yPwPICaHpvRl/Os/pL8RuO0vlZy30uXpK7NBz8BGDvfkAPtZ8QP1/pnzNvLagLLvf+wGU0Cfs/SPoPIup9ODX9Kzc/h9Kej2oqan/Rsg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BBJyehNc8hR3r4ct849ZSS6YMh7RwlofT4qeyhs+waA=;
- b=tEuTOyK/fQEQegXmJaZBhitSUvK8DFqSOUSvGJ927thZXxcKz+EleSMf3eHA2An6yVxCKgDDtt/ieNSjFBSy6xqllRWwMPN1xiIWLlUn11n5Ya6Bx2h2nQknqqfCUY5sO7MXIYie9bPwJ/LH34HxPn3T1asbhjXbfociLpkc36ceMptGIlRTH8aBy7lmlToVtLWC+GAgwylHP2dvJ2xLAsbCWsJbIyaT9SZUO5I9j9uNGaRK7Hey4puQObG5e90P7ElXirgTsXoloTJSnP26Ge/5NuVnTuQRrSInNQFaUDhlrphb900TK3SUej0d2/mWx1x7laVlh9DGS0zgvClcRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ2PR11MB8424.namprd11.prod.outlook.com (2603:10b6:a03:53e::10)
- by MW3PR11MB4602.namprd11.prod.outlook.com (2603:10b6:303:52::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Tue, 3 Nov
- 2026 08:28:39 +0000
-Received: from SJ2PR11MB8424.namprd11.prod.outlook.com
- ([fe80::3df:33f9:59a1:da76]) by SJ2PR11MB8424.namprd11.prod.outlook.com
- ([fe80::3df:33f9:59a1:da76%3]) with mapi id 15.21.0569.011; Tue, 3 Nov 2026
- 08:28:39 +0000
-From: "Liao, Bard" <bard.liao@intel.com>
-To: "sashiko-reviews@lists.linux.dev" <sashiko-reviews@lists.linux.dev>, "Bard
- Liao" <yung-chuan.liao@linux.intel.com>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>
-Subject: RE: [PATCH 1/2] soundwire: move lane bandwidth into bus params
-Thread-Topic: [PATCH 1/2] soundwire: move lane bandwidth into bus params
-Thread-Index: AQHdapAaN/nbVKf0pUCQ+APuDX+i8bcaTiqAgAG3P1A=
-Date: Tue, 3 Nov 2026 08:28:39 +0000
-Message-ID: <SJ2PR11MB84240CE803A01D45BBD993ACFF692@SJ2PR11MB8424.namprd11.prod.outlook.com>
-References: <20261102060437.824814-1-yung-chuan.liao@linux.intel.com>
- <20261102060437.824814-2-yung-chuan.liao@linux.intel.com>
- <sashiko-outbox-192942@kernel.org>
-In-Reply-To: <sashiko-outbox-192942@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ2PR11MB8424:EE_|MW3PR11MB4602:EE_
-x-ms-office365-filtering-correlation-id: 4c96c5eb-9dc3-4092-20c1-08df39847664
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|38070700021|261021135927099003|261021133027099003|11063799006|4143699003|56012099006|261009223027099003|261028144727099003|261021121427099003|261021130227099003|261026135527099003|261026140227099003|261022105027099003|261026130827099003|261022115727099003|261022113327099003|261021123027099003|261026121527099003|261022075727099003|10067099003|18002099003|22082099003|261102123227099003|3023799007;
-x-microsoft-antispam-message-info: Nravvb/RCK7dzdM3lT81s7cKCJwpwN4Bv1fFlW0XMKslPui/5g19hxrbnmLDCqOP76kKlsxGQTmzUSFvs7J0tg9R3kYmIPnD3NKywRiwh16Lfcn1tIcHkUFvRUQayV7tfYWhSdrRfLT+p2YKjKtIOaz/0FwkmTRvef2lDvZlsoHbvVGN+d672hEi6b9RRX/yS6MLMBQq6EJyoUAgrS8BajDG+YX/d+dEBke1U7Cgm/qw5PRl+PqbXvy8BFUd5OBseA8AZ5EyIjpqjF9na8TdN9I9CcUOK0lpWFIlNCJ82GQeb2sXs0FxZauuAefvoUZ7s3ObDfs485OVc6TUV8UkdXtos3C1Jkk7UCzv+N9q09U2QWZ5OM9cmVM0OX7ODptpKFF8BRunscn9baCLNGAnWiQfFbkOMwfJtcFOvdwFfZS98TzSfEyqvFb7xOK+3zbIPx6dxVQhqhPXzoPqymoxFNI9YPGRm6GemC6WoI5iDH7Iq5bN486jbVuNnSc9CpKFW8anavFd3TicrwLrlkdLyr83iQUcA7GBOe398IqDpwQAQCma3tZ7e4MIoqOyrnyR3iTJkCn/5+qOPgsjWG4rCLR6Gr/n/4fz+32YORkBShyB5uzHzwb26x//DnkGHesBCEjqtP528tHwAaHAhR7AbhR1u4n0123sECBu1h9Ez58=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8424.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(38070700021)(261021135927099003)(261021133027099003)(11063799006)(4143699003)(56012099006)(261009223027099003)(261028144727099003)(261021121427099003)(261021130227099003)(261026135527099003)(261026140227099003)(261022105027099003)(261026130827099003)(261022115727099003)(261022113327099003)(261021123027099003)(261026121527099003)(261022075727099003)(10067099003)(18002099003)(22082099003)(261102123227099003)(3023799007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eWFBc29BNnNlWmxjR2FNZ29UUnNqSVUxZlFhU3NrN0xFaGpNVnh0SVlTLzlx?=
- =?utf-8?B?RlNkREZ6ZGk5TXdWSHVFcVNDSEdwRDV3MElMcE9NbkMweXB6U1ZlVVkxNFJS?=
- =?utf-8?B?SUVITmNEYjh2UThyUmR4OWZLOHB1UmNPVlEyc1BKOUIybXJlZUxteGN0a0FN?=
- =?utf-8?B?SWFXdkpaazY2Q3IxRGlIU29yV0RRcE54YmFpR1I3NUZOT1h4TzJMM215QXRT?=
- =?utf-8?B?amZjVzNQR1A1ZW0xWExtYXpHVFpMUXhoc0J3cVBDSXUrYTBWTlhGQUxyZ2pn?=
- =?utf-8?B?TC9VYUQ1cEErWjNFOVI0ZXFaMW11SkU0VHNJVXAwV0IzeUpNQ0RUbmpBZnhh?=
- =?utf-8?B?c1phc0JpU294T1F3OHVveWpoelE1Nlh5NGxnUEdqVzBkSHZRTWk2OUhDZ2I2?=
- =?utf-8?B?QkhucXpFZHNjSTFLZkVzbkZxUnMxRGh5OUZVaytzbWNObVpNa2NjMjNDYUJz?=
- =?utf-8?B?MURUd1lKZ2wvSFZFeTdhSFBremxwejVZU0lOUXh2Q2hiTzFKYThDbEdCYTBu?=
- =?utf-8?B?S2V3M3NCVmhhTjA5MWRST3gzc0RmUkN5dHdZUlE5YTNCd0RWOWFBaW9OWGxD?=
- =?utf-8?B?RFNJTVd5Z2xIOEFQcGN1NGZJaktwaUxBQzVwWXlrSjhWeXk0OURUNVB1MU5M?=
- =?utf-8?B?cnRoWFV3NUZCZGZpQlNDd1dKZkM4ZHRmS1dBY21mRmZ2dWY5V1ZBbStwV2FW?=
- =?utf-8?B?bTdBTTN0UjU5MHhla1BieG5ZTGFCNGFNb3pGbUFOTVdQN2o4RUNpRFZLaGxH?=
- =?utf-8?B?WHQ4NnZGVXJWdU1DZkg5RnpLNEdlYUFOYVc1S2dVMVdCQ0pBVUwwNHBiRGxN?=
- =?utf-8?B?cHJ0enRoeHRBa2lzaU9JQXZ4ZVNMQkZFZmxrRFptUEZ6bW9meUZMNFhrb3Y1?=
- =?utf-8?B?WTlodjcwekFFWHphUGVTWmlUdStkRThrYXVZeGtwdURFRUZ1QXhZRVNXMVZT?=
- =?utf-8?B?Sno3VnVpVDEzQ003WkhXTG9QclRpUkxybUxqaGxXTlB4N09EM3ZMYkd5V0Nt?=
- =?utf-8?B?S0JqdzU4U2U5d3FVOGFIMzkvQWtPUmN3ZHN3ZVlPZlI5WHpOM0RBQ3FMSmF2?=
- =?utf-8?B?b1JyU29oM3gxWGV4UkhLakFOc0M0dnNndm5VWWNnZU5KaXZ3NFZOS1NmS1o4?=
- =?utf-8?B?UWllMnBwNWJxaHVCaWxzYkt3dXptaTNxVUVVZHBsb2ZPcUFGYldyL2xmLzRB?=
- =?utf-8?B?dytsUkVLSldUMHdGZVQvTkVlbElLU1hkTmpWd0FNTm1Leit2UDJMZkZVQzB5?=
- =?utf-8?B?WXMzZ3ZGS3lBam52MS9sYlNhRkZNUGgvSFhXMmxTN2NaMzFhOFg0UG5kU1dJ?=
- =?utf-8?B?bkcxbTBMNGU3emZwSktrOWZ3MlpyTUdGR3ZpcUFzRWJxRGFKMTJvOUdjVjhE?=
- =?utf-8?B?K2dYL3ZNdys3dmVtaFNCb0dISmt2ZFYzMVNmcXpEa3loalJPUFFKYjA5WkpS?=
- =?utf-8?B?ZzZtQXlHZHY3OEVsUlJvUVFtYmd6VHJSWmRZVEJwWmV3S1dXank2S3lrRldV?=
- =?utf-8?B?Sno4Y2RvVGxvTkV2MFhkQzdrR3Q5OHpON2Y3ZEVNZmJ3dGZBUkVlNGVGbEtX?=
- =?utf-8?B?RUphZjk3ZlRXSjZWUnlmSFhVY0lWa1E0dEJqMWVGa0hrRUVJN1d1QjVsNS9u?=
- =?utf-8?B?WHRhd3c5dTM3RS9NTWYwbnNMWU9JYnF3MW53S2FWNkZCQU00bUZxM09tUVhO?=
- =?utf-8?B?RitlS3NlZHRESW4zMUVrR24zTWlZYWxwN0cxeUhIWG01d2pYUmhBeTByM0Uv?=
- =?utf-8?B?RFdJOWlPbFI2VFp6TGk0WXQ5azZISGJHWUhLNzlRcU0rdlhPcEVvc2lCUzhI?=
- =?utf-8?B?b2h5QWgrZ1N3VmhzT3dKTHlOVGU2RHNQM1Iwci9NWHlUL1V0QWVZemorMlln?=
- =?utf-8?B?bjJaUU9RL0FURVdkSE9yR3dLcEVpU2I2TmhDOWFyUHFtZndBbGU5S3MwK2wv?=
- =?utf-8?B?OXhjVWl1WmJ0cHBaUlNheG5HdGZHUHhvNHJvbTRRK0JBWFFSUXZWNnVjbmF6?=
- =?utf-8?B?ZWVpTmwzcjM3WmhEazcyVXJaWVZNZXk5SEN6YXVDNW1DKzFEbmtYOVhpYWt2?=
- =?utf-8?B?dlE4ZUdkWTJIbVJPQi9Nak5rVDNEWGVoRVhXcDdzUkpjMk5SVDRPcXR3UXNJ?=
- =?utf-8?B?UWw1eVIxZWhoRG5NWHJ0eHNwd3NhZDdKaThvYU5HeTVuWmhJN1llSFZtWUZu?=
- =?utf-8?B?ZnpTOTJKTUhwbXQ3U05wOXVHbzlKRzlKRjc1MFJDWkpzMGdsUUgxN1lpK3RW?=
- =?utf-8?B?eThUb0ZTbzYwQlhJaEd3dElYV0pvNHhlaHVXQWFObmNidDFCUDZ2b2lCdDVI?=
- =?utf-8?Q?5UPytfZGSkt+uyaGxP?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vdi1+Azj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7061C1F00919;
+	Tue,  3 Nov 2026 08:33:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793694795;
+	bh=d8XvZ731/nH3uz6YjucyhxkBQmpTLgZPZ5QlBs2V3eA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Vdi1+Azj3K2gZsCYPnJbHvEtsrnsDn35vlur1tnr05DH/iIB+N7O2FB9Wxx71GhHB
+	 jn52bWG8/IdFPh6/+hNXxdhOxfW5u/QZXuvl42Jgk4N5Z7R2SmX7bNvSqVTMYDAnF1
+	 0FI+0EsKGoFJ3MFnQFt9V69f01h/muKjQm3ORPjg3dsnYmzUczPRL+Z0vd3xZdqqgT
+	 DcgdYw+d2ISx0dSxjHmUS0QxOA1FZ6lk3a5+yFEEFp225vZ9uq1I58+xs+X5XSEuDe
+	 UcGJ+fEQZN9864+eUrXA/9/JMb375Ov02s/+VFD9UA6Lubzr955r9E2sg/vTt4ObNo
+	 1MIcYc0N5qTRQ==
+Message-ID: <sashiko-outbox-194832@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v13 01/12] ALSA: virtio: Propagate PCM send failures
+ through ACK
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
+Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
+ Perez" <eperezma@redhat.com>
+In-Reply-To: <20261103080821.16983-2-mynameisjune111@gmail.com>
+References: <20261103080821.16983-1-mynameisjune111@gmail.com>
+ <20261103080821.16983-2-mynameisjune111@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 03 Nov 2026 08:33:14 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -185,92 +61,167 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: ZoGLDSieV3vQDt4dJ093+oBxzHob3vvTpgTTrLRxKRKAyKOenP8UabPLdP9xsx9jEf7TwaUu9B8oNp+HemRSfzGAJ/FxHLQpD30UAGPKsFaLVrw7yH6ey7/zziG18lac1xiiI0v4GKCIBdGPuYP+2ljxPW57s5jOfrJclzpjpf4aq61IoJfOFE9ToLbfCLuLv4Vk8kIT1JWFCVG6AX4gk8VcUxtcR4AXjL8q9F6OP3BsaQjo/qPd0tuS0FRMjj+BSNjvp383RTSEnwfMB7ZKsnyiS1BVnZtJc/DzTMs8cLfK2pML3vDQY58FGuJKYfsm6tKZh7HeC2L7Q3Sbp0sUjA==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8424.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c96c5eb-9dc3-4092-20c1-08df39847664
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Nov 2026 08:28:39.3891
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LZXkCRV40j552WKB17E1Ao2C5y8bo9ATRwO4AflF+H/zK0zRx0Nv3ZWnc1kiKiLHhzJF4ZS/DPWEPGDtKAAC1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4602
-X-OriginatorOrg: intel.com
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogc2FzaGlrby1ib3RAa2Vy
-bmVsLm9yZyA8c2FzaGlrby1ib3RAa2VybmVsLm9yZz4NCj4gU2VudDogTW9uZGF5LCBOb3ZlbWJl
-ciAyLCAyMDI2IDI6MTYgUE0NCj4gVG86IEJhcmQgTGlhbyA8eXVuZy1jaHVhbi5saWFvQGxpbnV4
-LmludGVsLmNvbT47IGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZw0KPiBTdWJqZWN0OiBSZTog
-W1BBVENIIDEvMl0gc291bmR3aXJlOiBtb3ZlIGxhbmUgYmFuZHdpZHRoIGludG8gYnVzIHBhcmFt
-cw0KPiANCj4gVGhhbmsgeW91IGZvciB5b3VyIGNvbnRyaWJ1dGlvbiEgU2FzaGlrbyBBSSByZXZp
-ZXcgZm91bmQgMSBwb3RlbnRpYWwgaXNzdWUocykgdG8NCj4gY29uc2lkZXI6DQo+IC0gW0hpZ2hd
-IHNvdW5kd2lyZTogdW5yZXN0b3JlZCBwb3J0IGxhbmVzIG9uIGVycm9yIGluIF9zZHdfcHJlcGFy
-ZV9zdHJlYW0oKQ0KPiAtLQ0KPiANCj4gY29tbWl0IGJjOGRjNTRiZGI4NTJiNTc5MzkyNDZmNDVh
-MWQ1YWI4MDI1ZWU0NTYNCj4gQXV0aG9yOiBCYXJkIExpYW8gPHl1bmctY2h1YW4ubGlhb0BsaW51
-eC5pbnRlbC5jb20+DQo+IA0KPiBzb3VuZHdpcmU6IG1vdmUgbGFuZSBiYW5kd2lkdGggaW50byBi
-dXMgcGFyYW1zDQo+IA0KPiBUaGlzIGNvbW1pdCBtb3ZlcyB0aGUgbGFuZV91c2VkX2JhbmR3aWR0
-aCBhcnJheSBmcm9tIHN0cnVjdCBzZHdfYnVzIGludG8NCj4gc3RydWN0IHNkd19idXNfcGFyYW1z
-IHNvIHRoYXQgdXNlZCBsYW5lIGJhbmR3aWR0aCBpcyByZXN0b3JlZCB3aGVuDQo+IGJ1cy0+cGFy
-YW1zIGlzIHJvbGxlZCBiYWNrIG9uIGZhaWx1cmUuDQo+IA0KPiA+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL3NvdW5kd2lyZS9nZW5lcmljX2JhbmR3aWR0aF9hbGxvY2F0aW9uLmMNCj4gYi9kcml2ZXJz
-L3NvdW5kd2lyZS9nZW5lcmljX2JhbmR3aWR0aF9hbGxvY2F0aW9uLmMNCj4gPiBpbmRleCAzMGE0
-OTVhYmUxOWVhLi4zZDZiOWM4OTVlNDZmIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvc291bmR3
-aXJlL2dlbmVyaWNfYmFuZHdpZHRoX2FsbG9jYXRpb24uYw0KPiA+ICsrKyBiL2RyaXZlcnMvc291
-bmR3aXJlL2dlbmVyaWNfYmFuZHdpZHRoX2FsbG9jYXRpb24uYw0KPiANCj4gWyAuLi4gXQ0KPiAN
-Cj4gPiBAQCAtNTA3LDcgKzUwNyw3IEBAIHN0YXRpYyBpbnQgZ2V0X21hbmFnZXJfbGFuZShzdHJ1
-Y3Qgc2R3X2J1cyAqYnVzLA0KPiBzdHJ1Y3Qgc2R3X21hc3Rlcl9ydW50aW1lICptX3J0DQo+ID4g
-IAkJCQkJICAgICAgbV9ydC0+c3RyZWFtLT5wYXJhbXMuYnBzOw0KPiA+ICAJCX0NCj4gPiAgCQlp
-ZiAocmVxdWlyZWRfYmFuZHdpZHRoIDw9DQo+ID4gLQkJICAgIGN1cnJfZHJfZnJlcSAtIGJ1cy0+
-bGFuZV91c2VkX2JhbmR3aWR0aFtsXSkgew0KPiA+ICsJCSAgICBjdXJyX2RyX2ZyZXEgLSBidXMt
-PnBhcmFtcy5sYW5lX3VzZWRfYmFuZHdpZHRoW2xdKSB7DQo+ID4gIAkJCS8qIENoZWNrIGlmIG1f
-bGFuZSBpcyBjb25uZWN0ZWQgdG8gYWxsIFBlcmlwaGVyYWxzICovDQo+ID4gIAkJCWlmICghaXNf
-bGFuZV9jb25uZWN0ZWRfdG9fYWxsX3BlcmlwaGVyYWxzKG1fcnQsDQo+ID4gIAkJCQlzbGF2ZV9w
-cm9wLT5sYW5lX21hcHNbbF0pKSB7DQo+ID4gQEAgLTUxOCw3ICs1MTgsNyBAQCBzdGF0aWMgaW50
-IGdldF9tYW5hZ2VyX2xhbmUoc3RydWN0IHNkd19idXMgKmJ1cywNCj4gc3RydWN0IHNkd19tYXN0
-ZXJfcnVudGltZSAqbV9ydA0KPiA+ICAJCQl9DQo+ID4gIAkJCW1fbGFuZSA9IHNsYXZlX3Byb3At
-PmxhbmVfbWFwc1tsXTsNCj4gPiAgCQkJZGV2X2RiZygmc19ydC0+c2xhdmUtPmRldiwgIk0gbGFu
-ZSAlZCBpcyB1c2VkXG4iLA0KPiBtX2xhbmUpOw0KPiA+IC0JCQlidXMtPmxhbmVfdXNlZF9iYW5k
-d2lkdGhbbF0gKz0gcmVxdWlyZWRfYmFuZHdpZHRoOw0KPiA+ICsJCQlidXMtPnBhcmFtcy5sYW5l
-X3VzZWRfYmFuZHdpZHRoW2xdICs9DQo+IHJlcXVpcmVkX2JhbmR3aWR0aDsNCj4gPiAgCQkJLyoN
-Cj4gPiAgCQkJICogVXNlIG5vbi16ZXJvIG1hbmFnZXIgbGFuZSwgc3VidHJhY3QgdGhlIGxhbmUg
-MA0KPiA+ICAJCQkgKiBiYW5kd2lkdGggdGhhdCBpcyBhbHJlYWR5IGNhbGN1bGF0ZWQNCj4gDQo+
-IFtTZXZlcml0eTogSGlnaF0NCj4gV2hlbiBfc2R3X3ByZXBhcmVfc3RyZWFtKCkgZmFpbHMgYWZ0
-ZXIgc2R3X2NvbXB1dGVfYnVzX3BhcmFtcygpIGhhcw0KPiBhc3NpZ25lZA0KPiBhIG5vbi16ZXJv
-IGxhbmUgdmlhIGdldF9tYW5hZ2VyX2xhbmUoKSwgcmVzdG9yaW5nIGJ1cy0+cGFyYW1zIHJvbGxz
-IGJhY2sNCj4gYnVzLT5wYXJhbXMubGFuZV91c2VkX2JhbmR3aWR0aFtsXSBhbmQgYnVzLT5wYXJh
-bXMuYmFuZHdpZHRoLCBidXQgbGVhdmVzDQo+IHRoZSBwb3J0IHJ1bnRpbWUgbGFuZSBhc3NpZ25t
-ZW50cyBtb2RpZmllZDoNCj4gDQo+IGRyaXZlcnMvc291bmR3aXJlL2dlbmVyaWNfYmFuZHdpZHRo
-X2FsbG9jYXRpb24uYzpzZHdfY29tcHV0ZV9idXNfcGFyYW1zKCkNCj4gew0KPiAgICAgLi4uDQo+
-IG91dDoNCj4gCS8qIG11bHRpbGFuZSBjYW4gYmUgdXNlZCAqLw0KPiAJaWYgKG1fbGFuZSA+IDAp
-IHsNCj4gCQkvKiBTZXQgUGVyaXBoZXJhbCBsYW5lcyAqLw0KPiAJCWxpc3RfZm9yX2VhY2hfZW50
-cnkoc19ydCwgJm1fcnQtPnNsYXZlX3J0X2xpc3QsIG1fcnRfbm9kZSkgew0KPiAJCQlzbGF2ZV9w
-cm9wID0gJnNfcnQtPnNsYXZlLT5wcm9wOw0KPiAJCQlmb3IgKGwgPSAxOyBsIDwgU0RXX01BWF9M
-QU5FUzsgbCsrKSB7DQo+IAkJCQlpZiAoc2xhdmVfcHJvcC0+bGFuZV9tYXBzW2xdID09IG1fbGFu
-ZSkgew0KPiAJCQkJCWxpc3RfZm9yX2VhY2hfZW50cnkoc19wX3J0LCAmc19ydC0NCj4gPnBvcnRf
-bGlzdCwgcG9ydF9ub2RlKSB7DQo+IAkJCQkJCXNfcF9ydC0+bGFuZSA9IGw7DQo+ICAgICAuLi4N
-Cj4gCQlsaXN0X2Zvcl9lYWNoX2VudHJ5KG1fcF9ydCwgJm1fcnQtPnBvcnRfbGlzdCwgcG9ydF9u
-b2RlKSB7DQo+IAkJCW1fcF9ydC0+bGFuZSA9IG1fbGFuZTsNCj4gCQl9DQo+IAl9DQo+ICAgICAu
-Li4NCj4gfQ0KPiANCj4gSWYgYSBzdWJzZXF1ZW50IHN0ZXAgZmFpbHMgaW4gc2R3X2NvbXB1dGVf
-YnVzX3BhcmFtcygpIChzdWNoIGFzDQo+IHNkd19zZWxlY3Rfcm93X2NvbCgpKSwgc2R3X2NvbXB1
-dGVfcG9ydF9wYXJhbXMoKSAoc3VjaCBhcw0KPiBzZHdfY29tcHV0ZV9ncm91cF9wYXJhbXMoKSBy
-ZXR1cm5pbmcgLUVJTlZBTCB3aGVuIGNvbHVtbl9uZWVkZWQgPg0KPiBzZWxfY29sKSwNCj4gb3Ig
-X3Nkd19wcmVwYXJlX3N0cmVhbSgpIChzZHdfcHJvZ3JhbV9wYXJhbXMoKSwgZG9fYmFua19zd2l0
-Y2goKSwgb3INCj4gc2R3X3ByZXBfZGVwcmVwX3BvcnRzKCkpLCBfc2R3X3ByZXBhcmVfc3RyZWFt
-KCkganVtcHMgdG8gcmVzdG9yZV9wYXJhbXM6DQo+IA0KPiBkcml2ZXJzL3NvdW5kd2lyZS9zdHJl
-YW0uYzpfc2R3X3ByZXBhcmVfc3RyZWFtKCkgew0KPiAgICAgLi4uDQo+IHJlc3RvcmVfcGFyYW1z
-Og0KPiAJbWVtY3B5KCZidXMtPnBhcmFtcywgJnBhcmFtcywgc2l6ZW9mKHBhcmFtcykpOw0KPiAJ
-cmV0dXJuIHJldDsNCj4gfQ0KPiANCj4gV2l0aCBtX3BfcnQtPmxhbmUgYW5kIHNfcF9ydC0+bGFu
-ZSBzdGlsbCBzZXQgdG8gbm9uLXplcm8gdmFsdWVzIHdoaWxlDQo+IGJ1cy0+cGFyYW1zLmxhbmVf
-dXNlZF9iYW5kd2lkdGhbbF0gaXMgcmVzdG9yZWQgdG8gaXRzIHByZXZpb3VzIHZhbHVlIChzdWNo
-DQo+IGFzIDApLCB3b24ndCBzdWJzZXF1ZW50IGNhbGxzIHRvIHNkd19jb21wdXRlX2dyb3VwX3Bh
-cmFtcygpIGFuZA0KPiBfc2R3X2NvbXB1dGVfcG9ydF9wYXJhbXMoKSBza2lwIGNvbXB1dGluZyBw
-YXJhbWV0ZXJzIGZvciB0aG9zZSBwb3J0cyB3aGVuDQo+IGJ1cy0+cGFyYW1zLmxhbmVfdXNlZF9i
-YW5kd2lkdGhbbF0gaXMgMCwgYW5kIHdvbid0IF9zZHdfZGVwcmVwYXJlX3N0cmVhbSgpDQo+IGxh
-dGVyIHVuZGVyZmxvdyBidXMtPnBhcmFtcy5sYW5lX3VzZWRfYmFuZHdpZHRoW3BfcnQtPmxhbmVd
-IGFuZCBsZWFrIGxhbmUgMA0KPiBiYW5kd2lkdGggaW4gYnVzLT5wYXJhbXMuYmFuZHdpZHRoPw0K
-PiANCg0KVGhhbmtzIGZvciB0aGUgcmV2aWV3LCBJIHdpbGwgZml4IGl0IGluIHRoZSBuZXh0IHZl
-cnNpb24uDQoNCj4gLS0NCj4gU2FzaGlrbyBBSSByZXZpZXcgwrcgaHR0cHM6Ly9zYXNoaWtvLmRl
-di8jL3BhdGNoc2V0LzIwMjYxMTAyMDYwNDM3LjgyNDgxNC0xLQ0KPiB5dW5nLWNodWFuLmxpYW9A
-bGludXguaW50ZWwuY29tP3BhcnQ9MQ0KDQo=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] ALSA: virtio: race with sync_stop in virtsnd_pcm_pb_ack()
+--
+
+commit 75f714a08c45af9f82b5baffff5589166c1182bf
+Author: Joonho Lee <mynameisjune111@gmail.com>
+
+ALSA: virtio: Propagate PCM send failures through ACK
+
+This commit restores message length and notifies the virtqueue on partial
+send failures in virtsnd_pcm_msg_send(), and propagates those errors through
+the PCM ACK callbacks as XRUNs while rejecting ACK calls from invalid PCM
+states.
+
+> diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
+> index 1091100a4c982..67460bd2a61ca 100644
+> --- a/sound/virtio/virtio_pcm_ops.c
+> +++ b/sound/virtio/virtio_pcm_ops.c
+> @@ -466,36 +466,124 @@ virtsnd_pcm_cp_pointer(struct snd_pcm_substream *s=
+ubstream)
+[ ... ]
+> +/* Caller holds vss->lock. */
+> +static void virtsnd_pcm_transfer_failed(struct virtio_pcm_substream *vss)
+> +{
+> +	vss->xfer_enabled =3D false;
+> +	vss->stopped =3D true;
+> +	vss->substream->runtime->stop_operating =3D true;
+> +}
+> =20
+> -	virtsnd_pcm_msg_send(vss, rec->sw_data, bytes);
+> +/* The caller holds the PCM lock, also used by DROP and state transition=
+s. */
+> +static int virtsnd_pcm_ack_state(struct snd_pcm_substream *substream)
+> +{
+> +	switch (substream->runtime->state) {
+> +	case SNDRV_PCM_STATE_XRUN:
+> +		return -EPIPE;
+> +	case SNDRV_PCM_STATE_PREPARED:
+> +	case SNDRV_PCM_STATE_RUNNING:
+> +	case SNDRV_PCM_STATE_PAUSED:
+> +	case SNDRV_PCM_STATE_DRAINING:
+> +		return 0;
+> +	default:
+> +		return -EBADFD;
+> +	}
+>  }
+> =20
+>  static int virtsnd_pcm_pb_ack(struct snd_pcm_substream *substream)
+>  {
+>  	struct virtio_pcm_substream *vss =3D snd_pcm_substream_chip(substream);
+>  	struct virtio_snd_queue *queue =3D virtsnd_pcm_queue(vss);
+> +	struct virtsnd_pcm_transfer transfer =3D {};
+> +	int rc;
+> =20
+> -	guard(spinlock_irqsave)(&queue->lock);
+> -	guard(spinlock)(&vss->lock);
+> +	rc =3D virtsnd_pcm_ack_state(substream);
+> +	if (rc)
+> +		return rc;
+> =20
+> -	return snd_pcm_indirect_playback_transfer(substream, &vss->pcm_indirect,
+> -						  virtsnd_pcm_trans_copy);
+> +	scoped_guard(spinlock_irqsave, &queue->lock) {
+> +		guard(spinlock)(&vss->lock);
+> +		transfer.indirect =3D vss->pcm_indirect;
+> +		if (vss->stopped) {
+> +			rc =3D -EPIPE;
+> +		} else {
+> +			rc =3D snd_pcm_indirect_playback_transfer(substream,
+> +								&transfer.indirect,
+> +								virtsnd_pcm_trans_copy);
+> +		}
+> +		if (!rc)
+> +			rc =3D transfer.error;
+> +		if (rc)
+> +			virtsnd_pcm_transfer_failed(vss);
+
+[Severity: Medium]
+As reported by Sashiko on v12 [1], can virtsnd_pcm_pb_ack() and
+virtsnd_pcm_cp_ack() still race with snd_pcm_sync_stop() ->
+virtsnd_pcm_sync_stop() on vss->stopped and substream->runtime->stop_operat=
+ing
+when a stream is in SNDRV_PCM_STATE_PREPARED or SNDRV_PCM_STATE_DRAINING?
+
+Because virtio-snd sets vpcm->pcm->nonatomic =3D true, snd_pcm_prepare() and
+snd_pcm_hw_params() hold runtime->buffer_mutex rather than the PCM stream
+lock across snd_pcm_sync_stop() and substream->ops->prepare() /
+substream->ops->hw_params(). Meanwhile, a concurrent SNDRV_PCM_IOCTL_SYNC_P=
+TR
+in snd_pcm_sync_ptr() only acquires the PCM stream lock and calls
+pcm_lib_apply_appl_ptr() -> virtsnd_pcm_pb_ack() / virtsnd_pcm_cp_ack().
+
+In virtsnd_pcm_ack_state(), SNDRV_PCM_STATE_SETUP is rejected, which covers
+snd_pcm_drop(), but SNDRV_PCM_STATE_PREPARED and SNDRV_PCM_STATE_DRAINING a=
+re
+allowed:
+
+1. When a capture stream with available frames is drained via
+   snd_pcm_drain(), snd_pcm_do_drain_init() stops the stream and places it =
+in
+   SNDRV_PCM_STATE_DRAINING with vss->stopped =3D true and
+   runtime->stop_operating =3D true. Similarly, if snd_pcm_start() fails on=
+ a
+   later linked stream, snd_pcm_undo_start() stops the earlier stream while
+   leaving it in SNDRV_PCM_STATE_PREPARED with vss->stopped =3D true and
+   runtime->stop_operating =3D true. On a draining capture stream, any read=
+ or
+   SNDRV_PCM_IOCTL_SYNC_PTR will also see vss->stopped =3D=3D true in
+   virtsnd_pcm_cp_ack() and fail with -EPIPE.
+
+2. When snd_pcm_prepare() or snd_pcm_hw_params() is called from
+   SNDRV_PCM_STATE_PREPARED (or snd_pcm_prepare() from
+   SNDRV_PCM_STATE_DRAINING on capture), runtime->state is unchanged while
+   snd_pcm_sync_stop() clears runtime->stop_operating =3D false and calls
+   virtsnd_pcm_sync_stop():
+
+   sound/virtio/virtio_pcm_ops.c:virtsnd_pcm_sync_stop() {
+       if (!vss->stopped)
+           return 0;
+       ...
+       vss->stopped =3D false;
+   }
+
+   While virtsnd_pcm_sync_stop() is sleeping in cancel_work_sync(),
+   VIRTIO_SND_R_PCM_RELEASE, or wait_event_interruptible_timeout(), a
+   concurrent SNDRV_PCM_IOCTL_SYNC_PTR passes virtsnd_pcm_ack_state(), sees
+   vss->stopped =3D=3D true, calls virtsnd_pcm_transfer_failed(vss) to re-a=
+rm
+   vss->stopped =3D true and runtime->stop_operating =3D true, and returns =
+-EPIPE
+   so pcm_lib_apply_appl_ptr() triggers __snd_pcm_xrun(). Conversely, if
+   SNDRV_PCM_IOCTL_SYNC_PTR runs right after virtsnd_pcm_sync_stop() clears
+   vss->stopped =3D false and before prepare finishes, ACK sees
+   vss->stopped =3D=3D false and enqueues I/O messages on the released stre=
+am.
+
+3. Later commits in this series ("ALSA: virtio: Recover PCM state after a
+   failed start" and "ALSA: virtio: add staged capture and serialize PCM
+   lifecycle accounting") add vss->lock around vss->stopped and gate ACK on
+   vss->prepared and vss->preparing, but virtsnd_pcm_prepare_locked() and
+   virtsnd_pcm_hw_params() still call virtsnd_pcm_sync_stop_locked() before
+   setting vss->preparing =3D true or clearing vss->prepared =3D false. Whi=
+le
+   virtsnd_pcm_sync_stop_locked() or virtsnd_pcm_pause_restart_sync_stop()
+   sleeps in disable_work_sync(), cancel_work_sync(),
+   virtsnd_pcm_stop_device(), or virtsnd_pcm_send_sync() for
+   VIRTIO_SND_R_PCM_RELEASE, runtime->state remains SNDRV_PCM_STATE_PREPARE=
+D,
+   vss->preparing is false, and vss->prepared remains true. A concurrent
+   SNDRV_PCM_IOCTL_SYNC_PTR can still enqueue messages during
+   disable_work_sync() or observe vss->stopped =3D=3D true during STOP/RELE=
+ASE,
+   re-arm runtime->stop_operating =3D true via virtsnd_pcm_transfer_failed(=
+),
+   and return -EPIPE to trigger __snd_pcm_xrun().
+
+[1] https://lore.kernel.org/r/20261103000403.67106-2-mynameisjune111@gmail.=
+com
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103080821.1698=
+3-1-mynameisjune111@gmail.com?part=3D1
