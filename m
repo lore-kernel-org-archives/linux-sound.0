@@ -1,57 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793716793;
-	b=eNtKq/sNSWrROZkastkjZEHndCcTCXm7HJ54WCLXfsPQqF5rYxd4xrueYAWnV1xkCnkw
-	 TRtCNGnOn7DrJdrneqlKqiOOGSPiONlvtjo+Tx18n1RwzSRUOWTrS2+KuF5LThPw7AArB
-	 h6AuiSc/Z93d0GA/8garwBxxOXwpGPztQeKtRiwNHKoBFBCsL8KcZjlLOIZzWhA/koLy+
-	 ogtnp6atVE0JwCNQISIK2ZZJ7pbHjIZmyTyMgtQDA4qfOqzcAZ4KHnrAvD4AGx37Nqdq7
-	 J2QB1stV935Upor6OUzp9unfgxoaRUQZuCw68OvtUIRjCpBs5/z8LHBt56Yx1R+PF5w==
+	t=1793716945;
+	b=k5nVQZLrg5DTLdIGn1aJoW7TrO4hyxBK2Fwf7WVLkDpkJS6aYTZpv221LyWyD2SNpJqN
+	 v8gHyJKRbrFksV2Lp47savNkfUr+gHxjpBYqw6T/a39JkKfRcepwbGT8K4X36eMNYw46C
+	 ehYhGQd0CjZHEPaimMRcHxuBdpC4DFGXMcn3/XIhR3kUoNbqIZo0Mkyy2Oejh3rD5MLm9
+	 /r/NHO5TwI6qOybO8dWZKfefkMTIDaSZAYm+kViAybBkKuul2Ro2hKlKGkRVrFFu4nhiN
+	 4K2sR9BptLnxXSZWaPFwX5vMrWCiRJI91nU9+cW1SAtMhSsDagq/swi9EkKMtXrjHEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793716793;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ZwbaMG6aUSMTnRL9MhToGte5CDhehKEdwXeLnhI65gw=;
-	b=nDRqflq5TdVEc0OlHaHWm31Hy9MwFpTVi+rN+Yac2yxyf5jCvU7h6OxBduUoIalpo2kw
-	 Gv1JMNAG+YbWtwjzhQDORX6UH8WEvmSBdz6pU9JwNVD5t04BgNu8dH6FQcY87nioUeljQ
-	 PIu2Makun5Ql2mFc0Pzyk8EZJSDk7j5MjJ5k/Fcv8G+0oa41Q2Y6P/6q3VTy960yUrsAN
-	 LXVwY09EydKRUlVjqIEbDQ2N12xCFNpbTrZBvtYn4odA5ZKGgFEuV05C66269Yb5BtDXi
-	 sUuadusZAXqNyW7qUpxMt2DpfsLX7kWxnP7wGn9fbmOnHqoDkJPwD2Y96eJS1z1R/0Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793716945;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=T6/q6QjCoLJn3pJStx+qUEEr8xGJyJ+1T7hFKQ1zg0E=;
+	b=KAYR1c2gCfX7j6wbabwCRkPiju17B5bO+lvcCpbTxahDJzi0pUD8sdoUtZo18flTqiQ7
+	 6DtNAWxKucJkKWRA4odwyzqms8lwyl/Y9sotDfgxS6ilFREP5BRyUeUIQLJfiGDYy8rIz
+	 i7munm9GjGAk9gvl7vSjIEvZZ2wkb5mAJZ4csj+rdwLyqBOkZoHRntkGdDcPTFlimzlxl
+	 MaBIiXjtBnKmayxNRFyRZ7QyaVoTlSCZQgN27GTNcOwqPICUNGPz2fcVvq4cZMQAdAvcC
+	 lKtn2KbrdIR8Bp8Fmq1UlacvCVJMFkqSkGj5xNqSZPv/RGeuy+jXGHJSomyWET/kvXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nONsd5+m;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RCV6t8xM;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Cj3eoL6+;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="us5GvG/C";
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6XmP0pS6;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6D5606D81B
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 14:39:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14E1606D83B;
+	Tue,  3 Nov 2026 14:42:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D14E1606D83B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nONsd5+m
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C3F11F00A18;
-	Tue,  3 Nov 2026 14:39:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793716792;
-	bh=ZwbaMG6aUSMTnRL9MhToGte5CDhehKEdwXeLnhI65gw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=nONsd5+mNYQKLpyxoMGNVVdc9GdARJYZ3XBiEuXphj1e9E8fjbyc0IKVU8ulPuG0k
-	 DfL/Q36pnyxUagX8IGKvGSnka25gVkF1A2bCH3xl44iQPtBH25yxB28NX5WrHuCVye
-	 801U5HT8XyKfLJ4PrjVnbvYw+G9BgbNRz1EZACzNozDYvb7Z4SAG5KnfV1Ymhxf2db
-	 b5rzjMCBhWAOOtT8tDfgd+RY/2/tJwBCrghmKtyqVcbyb9mCaPbfQ473G1mk+FHf0/
-	 bswHd8vmdE4azuBZI6Xu6/G9cjOhPQIbm45c6Q3iHEr39ZZ8bmX+KfmfRM3KfV00We
-	 8p8CVDLydJpHQ==
-Message-ID: <sashiko-outbox-195464@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 3/3] ASoC: cs42l43: Improve pop performance of the
- input power up
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Charles Keepax" <ckeepax@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261103141857.672537-4-ckeepax@opensource.cirrus.com>
-References: <20261103141857.672537-1-ckeepax@opensource.cirrus.com>
- <20261103141857.672537-4-ckeepax@opensource.cirrus.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 14:39:52 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RCV6t8xM;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Cj3eoL6+;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=us5GvG/C;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6XmP0pS6
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CD64F1F745;
+	Tue,  3 Nov 2026 14:42:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793716943; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T6/q6QjCoLJn3pJStx+qUEEr8xGJyJ+1T7hFKQ1zg0E=;
+	b=RCV6t8xMHNw8cO3lvHKLb91Ht9fJD52yW+U6BepP66XiPFuXyBuEIub65PPwLBCfaQo6CX
+	fOq0drUvozhU5r35hTaF0rVjwkNpoFfen7UdnO948qxLlDkpT8EM8bYYyGcqG7zg43/pg6
+	FSGnMEUj28HEp2JzJRa4REU67P16KPU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793716943;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T6/q6QjCoLJn3pJStx+qUEEr8xGJyJ+1T7hFKQ1zg0E=;
+	b=Cj3eoL6+GJIJYCEyItg3saQWy2VkYdpcSOM45e5NgjeRoIxKbicLv/IrOMgRONWlIlOKOO
+	tNlJWnsRTpDDdLDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="us5GvG/C";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=6XmP0pS6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793716942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T6/q6QjCoLJn3pJStx+qUEEr8xGJyJ+1T7hFKQ1zg0E=;
+	b=us5GvG/CzvuM4qLxOpJVOP8r8AQf60FnxHcsiGPJyUegw2CbczzdCswprBDk1fsaAQ+C3D
+	yxQ0EOYF6f31tQoiJ+bGsj5ITzt/FvJnkviPGg2GNRVmp0eAwCNKHxq+jc5FQsiilBVlMg
+	F1lZ6mmuxif8jDU/gX0LpMOVJHDT1vU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793716942;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T6/q6QjCoLJn3pJStx+qUEEr8xGJyJ+1T7hFKQ1zg0E=;
+	b=6XmP0pS6OBrR8iMlcPjlHhiYEEx00vT3NszrdSWzT0RK3pjBGJf60o8lfGZmImvrh5fAxg
+	JFyPJTJ5mSd9meCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8EE37134B8;
+	Tue,  3 Nov 2026 14:42:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id G7pZGs7y6WrEDAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 03 Nov 2026 14:42:22 +0000
+Date: Tue, 03 Nov 2026 15:42:14 +0100
+Message-ID: <8733tix9h5.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+Cc: tiwai@suse.de,
+	cezary.rojewski@intel.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	rosenp@gmail.com,
+	tim.bird@sony.com,
+	tiwai@suse.com
+Subject: Re: [PATCH] ALSA: pcm: Fix source frame count calculation
+In-Reply-To: <20261103125211.3484-1-sreekuttan2156239@gmail.com>
+References: <87pkwn8ebe.wl-tiwai@suse.de>
+	<20261103125211.3484-1-sreekuttan2156239@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,145 +117,59 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,intel.com,vger.kernel.org,perex.cz,gmail.com,sony.com,suse.com];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -12.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: CD64F1F745
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] ASoC: cs42l43: missing DAPM lock on Decimator 5 and 6 HPF contro=
-ls
---
+On Tue, 03 Nov 2026 13:52:11 +0100,
+Sreeraj S Kurup wrote:
+> 
+> Hi Takashi,
+> 
+> I would like to kindly follow up on my first patch.
+> 
+> Could you please let me know if you have had a chance to review it?
+> 
+> For reference, here is the patch link:
+> https://lore.kernel.org/all/20261102135034.2751-1-sreekuttan2156239@gmail.com/
+> 
+> I would appreciate your feedback whenever you have time.
+> 
+> Thank you for your time and consideration.
 
-commit 8cf1c31ea6b0941fdadc51d4efe5a6f1e81ead1b
-Author: Charles Keepax <ckeepax@opensource.cirrus.com>
+Don't worry, it's still on my TODO to be processed :)
 
-ASoC: cs42l43: Improve pop performance of the input power up
 
-This commit adjusts the decimator high pass filter settings and adds a 150ms
-settling delay during microphone power up to reduce startup pop noises, whi=
-le
-converting the Decimator 1..4 HPF controls to take the DAPM lock.
-
-> diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
-> index 8fccddf7a1b22..43758f790cb0f 100644
-> --- a/sound/soc/codecs/cs42l43.c
-> +++ b/sound/soc/codecs/cs42l43.c
-> @@ -1345,19 +1345,27 @@ static const struct snd_kcontrol_new cs42l43_cont=
-rols[] =3D {
->  	SOC_ENUM("Decimator 3 WNF Corner Frequency", cs42l43_dec3_wnf_corner),
->  	SOC_ENUM("Decimator 4 WNF Corner Frequency", cs42l43_dec4_wnf_corner),
-> =20
-> -	SOC_SINGLE("Decimator 1 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL1,
-> -		   CS42L43_DECIM_HPF_EN_SHIFT, 1, 0),
-> -	SOC_SINGLE("Decimator 2 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL2,
-> -		   CS42L43_DECIM_HPF_EN_SHIFT, 1, 0),
-> -	SOC_SINGLE("Decimator 3 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL3,
-> -		   CS42L43_DECIM_HPF_EN_SHIFT, 1, 0),
-> -	SOC_SINGLE("Decimator 4 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL4,
-> -		   CS42L43_DECIM_HPF_EN_SHIFT, 1, 0),
-> +	SOC_SINGLE_EXT("Decimator 1 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL1,
-> +		       CS42L43_DECIM_HPF_EN_SHIFT, 1, 0,
-> +		       cs42l43_dapm_get_volsw, cs42l43_dapm_put_volsw),
-> +	SOC_SINGLE_EXT("Decimator 2 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL2,
-> +		       CS42L43_DECIM_HPF_EN_SHIFT, 1, 0,
-> +		       cs42l43_dapm_get_volsw, cs42l43_dapm_put_volsw),
-> +	SOC_SINGLE_EXT("Decimator 3 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL3,
-> +		       CS42L43_DECIM_HPF_EN_SHIFT, 1, 0,
-> +		       cs42l43_dapm_get_volsw, cs42l43_dapm_put_volsw),
-> +	SOC_SINGLE_EXT("Decimator 4 HPF Switch", CS42L43_DECIM_HPF_WNF_CTRL4,
-> +		       CS42L43_DECIM_HPF_EN_SHIFT, 1, 0,
-> +		       cs42l43_dapm_get_volsw, cs42l43_dapm_put_volsw),
-> =20
-> -	SOC_ENUM("Decimator 1 HPF Corner Frequency", cs42l43_dec1_hpf_corner),
-> -	SOC_ENUM("Decimator 2 HPF Corner Frequency", cs42l43_dec2_hpf_corner),
-> -	SOC_ENUM("Decimator 3 HPF Corner Frequency", cs42l43_dec3_hpf_corner),
-> -	SOC_ENUM("Decimator 4 HPF Corner Frequency", cs42l43_dec4_hpf_corner),
-> +	SOC_ENUM_EXT("Decimator 1 HPF Corner Frequency", cs42l43_dec1_hpf_corne=
-r,
-> +		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-> +	SOC_ENUM_EXT("Decimator 2 HPF Corner Frequency", cs42l43_dec2_hpf_corne=
-r,
-> +		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-> +	SOC_ENUM_EXT("Decimator 3 HPF Corner Frequency", cs42l43_dec3_hpf_corne=
-r,
-> +		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-> +	SOC_ENUM_EXT("Decimator 4 HPF Corner Frequency", cs42l43_dec4_hpf_corne=
-r,
-> +		     cs42l43_dapm_get_enum, cs42l43_dapm_put_enum),
-
-[ ... ]
-
-> @@ -1770,26 +1785,32 @@ static const struct decim_info cs42l43_decim_info=
-[] =3D {
-> =20
->  static const struct decim_info cs42l43b_decim_info[] =3D {
->  	{
-> +		.freg =3D CS42L43_DECIM_HPF_WNF_CTRL1,
->  		.vreg =3D CS42L43B_DECIM_VOL_CTRL_CH1_CH2,
->  		.vmask =3D CS42L43_DECIM1_VD_RAMP_MASK | CS42L43_DECIM1_MUTE_MASK,
->  	},
->  	{
-> +		.freg =3D CS42L43_DECIM_HPF_WNF_CTRL2,
->  		.vreg =3D CS42L43B_DECIM_VOL_CTRL_CH1_CH2,
->  		.vmask =3D CS42L43_DECIM2_VD_RAMP_MASK | CS42L43_DECIM2_MUTE_MASK,
->  	},
->  	{
-> +		.freg =3D CS42L43_DECIM_HPF_WNF_CTRL3,
->  		.vreg =3D CS42L43B_DECIM_VOL_CTRL_CH3_CH4,
->  		.vmask =3D CS42L43_DECIM3_VD_RAMP_MASK | CS42L43_DECIM3_MUTE_MASK,
->  	},
->  	{
-> +		.freg =3D CS42L43_DECIM_HPF_WNF_CTRL4,
->  		.vreg =3D CS42L43B_DECIM_VOL_CTRL_CH3_CH4,
->  		.vmask =3D CS42L43_DECIM4_VD_RAMP_MASK | CS42L43_DECIM4_MUTE_MASK,
->  	},
->  	{
-> +		.freg =3D CS42L43B_DECIM_HPF_WNF_CTRL5,
->  		.vreg =3D CS42L43B_DECIM_VOL_CTRL_CH5_CH6,
->  		.vmask =3D CS42L43B_DECIM5_PATH1_VOL_FALL_RATE_MASK | CS42L43B_DECIM5_=
-MUTE_MASK,
->  	},
->  	{
-> +		.freg =3D CS42L43B_DECIM_HPF_WNF_CTRL6,
->  		.vreg =3D CS42L43B_DECIM_VOL_CTRL_CH5_CH6,
->  		.vmask =3D CS42L43B_DECIM6_PATH1_VOL_FALL_RATE_MASK | CS42L43B_DECIM6_=
-MUTE_MASK,
->  	}
-
-[Severity: Medium]
-As reported by Sashiko on v1 [1], cs42l43b_decim_info[] adds
-CS42L43B_DECIM_HPF_WNF_CTRL5 and CS42L43B_DECIM_HPF_WNF_CTRL6 so that
-cs42l43_mic_ev() caches, temporarily overrides, and restores them across the
-150ms settle delay during PDM2L and PDM2R startup.
-
-While the Decimator 1..4 HPF controls in cs42l43_controls[] were updated to
-use the DAPM-locked helpers, the Decimator 5 and 6 HPF controls in
-cs42l43_b_controls[] still use plain SOC_SINGLE and SOC_ENUM:
-
-sound/soc/codecs/cs42l43.c:cs42l43_b_controls[] {
-	...
-	SOC_SINGLE("Decimator 5 HPF Switch", CS42L43B_DECIM_HPF_WNF_CTRL5,
-		   CS42L43_DECIM_HPF_EN_SHIFT, 1, 0),
-	SOC_SINGLE("Decimator 6 HPF Switch", CS42L43B_DECIM_HPF_WNF_CTRL6,
-		   CS42L43_DECIM_HPF_EN_SHIFT, 1, 0),
-
-	SOC_ENUM("Decimator 5 HPF Corner Frequency", cs42l43b_dec5_hpf_corner),
-	SOC_ENUM("Decimator 6 HPF Corner Frequency", cs42l43b_dec6_hpf_corner),
-};
-
-If userspace reads or writes the Decimator 5 or 6 HPF controls on CS42L43B
-while PDM2L or PDM2R is powering up in cs42l43_mic_ev(), can it read back t=
-he
-temporary startup filter settings or have a concurrent write overwritten wh=
-en
-SND_SOC_DAPM_POST_PMU restores priv->decim_cache[w->shift][1]?
-
-Should the Decimator 5 and 6 HPF Switch and Corner Frequency controls in
-cs42l43_b_controls[] also be converted to SOC_SINGLE_EXT and SOC_ENUM_EXT w=
-ith
-cs42l43_dapm_get_volsw, cs42l43_dapm_put_volsw, cs42l43_dapm_get_enum, and
-cs42l43_dapm_put_enum?
-
-[1] https://lore.kernel.org/r/sashiko-outbox-193741@kernel.org
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103141857.6725=
-37-1-ckeepax@opensource.cirrus.com?part=3D3
+Takashi
