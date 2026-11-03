@@ -1,66 +1,66 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793713400;
-	b=rJylxl/fpdplDiVcxOctFQ3LGnJOVfrTuBXMIA8U5tBtSIOyQBff4PkQ4I5HAqDi8pr/
-	 55q6BYnTJ914uOQUpq3t3u6lU8aarV5xNnkWrg4D+WXkzTqeSXEY09lk/fPbp/hyAGfpd
-	 +3uZaFoLdnVoq0KBPMVNS56gxwVQUSg79775+7odT5RisL+hrZp9ZnTaS3xYNpLn+g29W
-	 qSG9RLYprHPuK1IWHF2LyfOVgg2FwvvNE6cEMDq5Z7l1SHTSiaXMxoDk2W7ePxfITSPyV
-	 giFilVJlQBE38pJ2aFOWKGn/L06l5AzA2NHnlXWtgGaSxuPPEjIl4RRdAxKQolLqWbQ==
+	t=1793713405;
+	b=cVa7vtzoD17QO/J0xtXAaeEB2sGLlNxapTJjejDVgwl7FwKr8Q70wYOQW8hXAa/ZSgmq
+	 ALJqu3AMbNQlZasonNo+r8MuTP5oaI/z4WOhpfPJmFfBCJjMLujy76FTUc1A+YrBM3B+k
+	 t0LEPtTOGibO46XOdLtoh7XrPIC//Zu53hcfBPPK2lGuGS4ciru8V7Cj6e5qfC6eizK6n
+	 S4BbVjKlJluhefEIEQTO3rmEPHycj5FA7Y0Qf5RB4VNuu2RzB18WXegk9MZF44eEohBKb
+	 YcrXhIEymWt/Pq4SZ1v95WnvuEEgvv/ezgTFSyQz0HLNaWJfUPOgDqW+15Ulgxov16A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793713400;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793713405;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
 	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=LBZT1lXwPvoeeYPGJrtFBbjl896cFdaiC8MYzzDlx1M=;
-	b=4x3lkonA/zoyMZ/I5ChVYrsErVHQUKXbVZIaT8Viv/EukPKwa1dN8Dd3SsIJnfcGg+ml
-	 PpOjxkF9PdUNm+Ynn8bY1UbReajbe+AF2jnTBrh5kVy1sf9Umfr/2zdQBbKg2DqysEIMt
-	 6eG8eSUslKEn6rRBvitAHyR/o9d6O1BwKWD5vyQUAWKIUC8nnU9XWt2UD3VDGka/lS+ou
-	 pjBfT5ajAdezx82Aln6g8omXgvbLH6iZlkN60iePF79X3M3qD2NaV4fUclE2bGwy/6+Qh
-	 FBgBidWJoDAWxaSVjlCtsMPp0uGpoJ52cuKyeOfIXUH/g1b0kN+7n/zHwlax+iacubw==
+	 Content-Transfer-Encoding;
+	bh=KpRGszESBl5jvCJDwwoKr7LbLx+VTLH9IfxExLoguiM=;
+	b=mE4ZA8bYsRRpPtcEtb2rCPpoPrAzjgxLIqJEWYLSwX/hD+Pz2jo411JOGkzCUPVVIZvR
+	 LaBxOoD3QxxLxL3bIQZiEIdcFkcF8uoeoF0PpisJgAb9EV04aSmOP9qR9LQ+8/bZE1Wsm
+	 tyANFIIfeaiZb8FFvekrevcwRgEHPs/PpYh9zBMmuI6Dda+rzq7xCeOdxDiGLQeuB+0RD
+	 kCPCEL+fnvSaGhF3p5anxBHaDcXM3DYZ7SQVkOCAXoeJEKHoiilnzDpHMyF3irUDEEs1C
+	 9w0PbO2Fbh3fxEfojWk/AWEgoA5PoGRFmc1IvIuBoZxfI9h17hV6kX3OKcTdO4Pvd7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kI1BcTT1;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LxFbBd92;
 	arc=none smtp.remote-ip=198.175.65.9
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7633B606A33E;
-	Tue,  3 Nov 2026 13:43:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7633B606A33E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF46D606D82B;
+	Tue,  3 Nov 2026 13:43:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF46D606D82B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kI1BcTT1
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LxFbBd92
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793713399; x=1825249399;
+  t=1793713405; x=1825249405;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=J8v0IAgGr9SXVQka7hqpw9c39FB0mh7inFSdj01aDr4=;
-  b=kI1BcTT1o9olZg/5YnyrkENV35nEVyPZLsdpyiH8oR8bfTZDYfzPcTPC
-   SPiKAaqdXRxaTr206KGZ5XoUR7O7OfNN3/9+Z5rmgIji8/8AZ/1Ca8345
-   CLg0QPIk19CzDkswESEYkro0M554/1mH5zPWxAySCz9zCY8fRmM/kwnB7
-   PEAGaos/Ru+P4aoasjTp17eWemSP+IufHYL2gPxEewGpw1gIbeBcEpJMx
-   8BQm+jmzVgFDDwfnhsEcbcKwr7hQaJDBXAUabHEdy5bKMETEvX6syJdzF
-   +heL1xS4s9Tp/Qb3KIuoXy/AxGbDD4x1RysZlQTgInCRR5pyg8h/PcKOv
-   A==;
-X-CSE-ConnectionGUID: YchADwFtRxWY0SloKp2oqg==
-X-CSE-MsgGUID: dnEOTOJ5S/eYFfINI3EEuw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2328124"
+  bh=kr2jtRk2KhfB8+fdvYQAEGVe0uHQVpzCVoHw03U9eV8=;
+  b=LxFbBd92lbdFlk8FxtRr/sBOeHXtZrIUKAHdZlyY5sYeQAi1u7Gd2jjT
+   VkDPvx20dUpoH4XcH9OhpDUKqdApebor6QJAr4xLLXDAbEZe7H6q1W0Ng
+   gHXqPhhlk4IgMBp1Sof3M85lPnB1LtLlDlRyz1wVi4esgLEa7N4fJgzH4
+   8q/bR60kVEHxmO3elLwEP7vTEFA03BpnWq8XSHb0nxIw5NRl6+BsNhZYp
+   ZW1Xk4gNEuyJ4BK1dc5cYyabzVqmNbMe2iOvlGh9S8c0M9D0OttlEZXiq
+   eu+mYJWRBC6ynvWUa0UFPCwOOryjlcjQUme69EM7nRQK93gzU/+/r40Z/
+   Q==;
+X-CSE-ConnectionGUID: hUjh0QGpT0+X7r4sjEhH5A==
+X-CSE-MsgGUID: 57vbhBuQSmmiE/Yav65ifQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2328151"
 X-IronPort-AV: E=Sophos;i="6.27,193,1787036400"; 
-   d="scan'208";a="2328124"
+   d="scan'208";a="2328151"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 05:43:19 -0800
-X-CSE-ConnectionGUID: qTh6q61HQLCNz8ihy1p1Lg==
-X-CSE-MsgGUID: F2eSjGm8SGCCxIbZY/6cug==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 05:43:24 -0800
+X-CSE-ConnectionGUID: YjeQamOyRbic4rOiswzrFg==
+X-CSE-MsgGUID: 5pmF74SmTIy5XriBuzlQig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,193,1787036400"; 
-   d="scan'208";a="6428249"
+   d="scan'208";a="6428299"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa001.jf.intel.com with ESMTP; 03 Nov 2026 05:43:17 -0800
+  by orviesa001.jf.intel.com with ESMTP; 03 Nov 2026 05:43:22 -0800
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: linux-sound@vger.kernel.org
 Cc: broonie@kernel.org,
@@ -72,9 +72,9 @@ Cc: broonie@kernel.org,
 	vkoul@kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v2 4/7] ASoC: Intel: avs: Pass irq to dsp_interrupt callback
-Date: Tue,  3 Nov 2026 14:49:55 +0100
-Message-Id: <20261103134958.2089136-5-cezary.rojewski@intel.com>
+Subject: [PATCH v2 6/7] ASoC: Intel: avs: Expose common PCM functions
+Date: Tue,  3 Nov 2026 14:49:57 +0100
+Message-Id: <20261103134958.2089136-7-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20261103134958.2089136-1-cezary.rojewski@intel.com>
 References: <20261103134958.2089136-1-cezary.rojewski@intel.com>
@@ -87,113 +87,194 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Soundwire IRQ thread function requires passing irq as one of the
-arguments, as we will want to call it in dsp_interrupt callback, it
-needs to be passed throguh.
+All the PCM operations are currently bundled together within the pcm.c
+file regardless of which transfer type they cover. To allow for
+splitting them, provide a header that exposes the common operations
+outside.
 
-Signed-off-by: Amadeusz Sławiński <amade@asmblr.net>
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/apl.c  | 2 +-
- sound/soc/intel/avs/avs.h  | 6 +++---
- sound/soc/intel/avs/cnl.c  | 2 +-
- sound/soc/intel/avs/core.c | 2 +-
- sound/soc/intel/avs/mtl.c  | 2 +-
- sound/soc/intel/avs/skl.c  | 2 +-
- 6 files changed, 8 insertions(+), 8 deletions(-)
+ sound/soc/intel/avs/avs.h |  8 -------
+ sound/soc/intel/avs/pcm.c | 42 +++++++++-------------------------
+ sound/soc/intel/avs/pcm.h | 47 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 58 insertions(+), 39 deletions(-)
 
-diff --git a/sound/soc/intel/avs/apl.c b/sound/soc/intel/avs/apl.c
-index cf600e1c986e..3abcdf062035 100644
---- a/sound/soc/intel/avs/apl.c
-+++ b/sound/soc/intel/avs/apl.c
-@@ -17,7 +17,7 @@
- #include "registers.h"
- #include "topology.h"
- 
--static irqreturn_t avs_apl_dsp_interrupt(struct avs_dev *adev)
-+static irqreturn_t avs_apl_dsp_interrupt(struct avs_dev *adev, int irq)
- {
- 	u32 adspis = snd_hdac_adsp_readl(adev, AVS_ADSP_REG_ADSPIS);
- 	irqreturn_t ret = IRQ_NONE;
 diff --git a/sound/soc/intel/avs/avs.h b/sound/soc/intel/avs/avs.h
-index b4f9d66d55ad..b3af2c4126be 100644
+index 40e65639adb2..1b2f1e7d0556 100644
 --- a/sound/soc/intel/avs/avs.h
 +++ b/sound/soc/intel/avs/avs.h
-@@ -45,7 +45,7 @@ struct avs_dsp_ops {
- 	int (* const power)(struct avs_dev *, u32, bool);
- 	int (* const reset)(struct avs_dev *, u32, bool);
- 	int (* const stall)(struct avs_dev *, u32, bool);
--	irqreturn_t (* const dsp_interrupt)(struct avs_dev *);
-+	irqreturn_t (* const dsp_interrupt)(struct avs_dev *, int irq);
- 	void (* const int_control)(struct avs_dev *, bool);
- 	int (* const load_basefw)(struct avs_dev *, struct firmware *);
- 	int (* const load_lib)(struct avs_dev *, struct firmware *, u32);
-@@ -273,8 +273,8 @@ int avs_mtl_core_stall(struct avs_dev *adev, u32 core_mask, bool stall);
- int avs_lnl_core_stall(struct avs_dev *adev, u32 core_mask, bool stall);
- void avs_mtl_interrupt_control(struct avs_dev *adev, bool enable);
- void avs_skl_ipc_interrupt(struct avs_dev *adev);
--irqreturn_t avs_cnl_dsp_interrupt(struct avs_dev *adev);
--irqreturn_t avs_mtl_dsp_interrupt(struct avs_dev *adev);
-+irqreturn_t avs_cnl_dsp_interrupt(struct avs_dev *adev, int irq);
-+irqreturn_t avs_mtl_dsp_interrupt(struct avs_dev *adev, int irq);
- int avs_apl_enable_logs(struct avs_dev *adev, enum avs_log_enable enable, u32 aging_period,
- 			u32 fifo_full_period, unsigned long resource_mask, u32 *priorities);
- int avs_icl_enable_logs(struct avs_dev *adev, enum avs_log_enable enable, u32 aging_period,
-diff --git a/sound/soc/intel/avs/cnl.c b/sound/soc/intel/avs/cnl.c
-index 5b5359e9128b..31fd9f251d6c 100644
---- a/sound/soc/intel/avs/cnl.c
-+++ b/sound/soc/intel/avs/cnl.c
-@@ -58,7 +58,7 @@ static void avs_cnl_ipc_interrupt(struct avs_dev *adev)
- 			      AVS_ADSP_HIPCCTL_DONE | AVS_ADSP_HIPCCTL_BUSY);
+@@ -347,14 +347,6 @@ struct avs_soc_component {
+ 
+ extern const struct snd_soc_dai_ops avs_dai_fe_ops;
+ 
+-int avs_register_dmic_component(struct avs_dev *adev, const char *name);
+-int avs_register_i2s_component(struct avs_dev *adev, const char *name, unsigned long port_mask,
+-			       unsigned long *tdms);
+-int avs_register_hda_component(struct avs_dev *adev, const char *name);
+-int avs_register_component(struct device *dev, const char *name,
+-			   struct snd_soc_component_driver *drv,
+-			   struct snd_soc_dai_driver *cpu_dais, int num_cpu_dais);
+-
+ int avs_register_all_boards(struct avs_dev *adev);
+ void avs_unregister_all_boards(struct avs_dev *adev);
+ 
+diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
+index f17bbc2ba63d..fb1af3bb493f 100644
+--- a/sound/soc/intel/avs/pcm.c
++++ b/sound/soc/intel/avs/pcm.c
+@@ -22,26 +22,6 @@
+ #include "utils.h"
+ #include "../../codecs/hda.h"
+ 
+-struct avs_dma_data {
+-	struct avs_tplg_path_template *template;
+-	struct avs_path *path;
+-	struct avs_dev *adev;
+-
+-	/* LINK-stream utilized in BE operations while HOST in FE ones. */
+-	union {
+-		struct hdac_ext_stream *link_stream;
+-		struct hdac_ext_stream *host_stream;
+-	};
+-
+-	struct snd_pcm_hw_constraint_list rate_list;
+-	struct snd_pcm_hw_constraint_list channels_list;
+-	struct snd_pcm_hw_constraint_list sample_bits_list;
+-
+-	struct work_struct period_elapsed_work;
+-	struct hdac_ext_link *link;
+-	struct snd_pcm_substream *substream;
+-};
+-
+ static struct avs_tplg_path_template *
+ avs_dai_find_path_template(struct snd_soc_dai *dai, bool is_fe, int direction)
+ {
+@@ -117,7 +97,7 @@ static int avs_hw_constraints_init(struct snd_pcm_substream *substream, struct s
+ 	return 0;
  }
  
--irqreturn_t avs_cnl_dsp_interrupt(struct avs_dev *adev)
-+irqreturn_t avs_cnl_dsp_interrupt(struct avs_dev *adev, int irq)
+-static int avs_dai_startup(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
++int avs_dai_startup(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
  {
- 	u32 adspis = snd_hdac_adsp_readl(adev, AVS_ADSP_REG_ADSPIS);
- 	irqreturn_t ret = IRQ_NONE;
-diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
-index 611ae9f034d4..9413027e1e32 100644
---- a/sound/soc/intel/avs/core.c
-+++ b/sound/soc/intel/avs/core.c
-@@ -344,7 +344,7 @@ static irqreturn_t avs_dsp_irq_thread(int irq, void *dev_id)
- 
- 	status = readl(bus->ppcap + AZX_REG_PP_PPSTS);
- 	if (status & AZX_PPCTL_PIE)
--		avs_dsp_op(adev, dsp_interrupt);
-+		avs_dsp_op(adev, dsp_interrupt, irq);
- 
- 	/* Unmask GIE, masked in irq_handler(). */
- 	snd_hdac_chip_updatel(bus, INTCTL, AZX_INT_GLOBAL_EN, AZX_INT_GLOBAL_EN);
-diff --git a/sound/soc/intel/avs/mtl.c b/sound/soc/intel/avs/mtl.c
-index d8bdd03275d7..29f79d6ff0d4 100644
---- a/sound/soc/intel/avs/mtl.c
-+++ b/sound/soc/intel/avs/mtl.c
-@@ -166,7 +166,7 @@ static void avs_mtl_ipc_interrupt(struct avs_dev *adev)
- 			      AVS_ADSP_HIPCCTL_DONE | AVS_ADSP_HIPCCTL_BUSY);
+ 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+ 	struct avs_dev *adev = to_avs_dev(dai->component->dev);
+@@ -147,7 +127,7 @@ static int avs_dai_startup(struct snd_pcm_substream *substream, struct snd_soc_d
+ 	return avs_hw_constraints_init(substream, dai);
  }
  
--irqreturn_t avs_mtl_dsp_interrupt(struct avs_dev *adev)
-+irqreturn_t avs_mtl_dsp_interrupt(struct avs_dev *adev, int irq)
+-static void avs_dai_shutdown(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
++void avs_dai_shutdown(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
  {
- 	u32 adspis = snd_hdac_adsp_readl(adev, MTL_DWICTL_REG_FINALSTATUSL);
- 	irqreturn_t ret = IRQ_NONE;
-diff --git a/sound/soc/intel/avs/skl.c b/sound/soc/intel/avs/skl.c
-index 8fb86f364ff3..54c883658cca 100644
---- a/sound/soc/intel/avs/skl.c
-+++ b/sound/soc/intel/avs/skl.c
-@@ -54,7 +54,7 @@ void avs_skl_ipc_interrupt(struct avs_dev *adev)
- 			      AVS_ADSP_HIPCCTL_DONE | AVS_ADSP_HIPCCTL_BUSY);
+ 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+ 	struct avs_dma_data *data;
+@@ -165,10 +145,10 @@ static void avs_dai_shutdown(struct snd_pcm_substream *substream, struct snd_soc
+ 	kfree(data);
  }
  
--static irqreturn_t avs_skl_dsp_interrupt(struct avs_dev *adev)
-+static irqreturn_t avs_skl_dsp_interrupt(struct avs_dev *adev, int irq)
+-static int avs_dai_hw_params(struct snd_pcm_substream *substream,
+-			     struct snd_pcm_hw_params *fe_hw_params,
+-			     struct snd_pcm_hw_params *be_hw_params, struct snd_soc_dai *dai,
+-			     int dma_id)
++int avs_dai_hw_params(struct snd_pcm_substream *substream,
++		      struct snd_pcm_hw_params *fe_hw_params,
++		      struct snd_pcm_hw_params *be_hw_params,
++		      struct snd_soc_dai *dai, int dma_id)
  {
- 	u32 adspis = snd_hdac_adsp_readl(adev, AVS_ADSP_REG_ADSPIS);
- 	irqreturn_t ret = IRQ_NONE;
+ 	struct avs_dma_data *data;
+ 	struct avs_path *path;
+@@ -199,9 +179,9 @@ static int avs_dai_hw_params(struct snd_pcm_substream *substream,
+ 	return 0;
+ }
+ 
+-static int avs_dai_be_hw_params(struct snd_pcm_substream *substream,
+-				struct snd_pcm_hw_params *be_hw_params, struct snd_soc_dai *dai,
+-				int dma_id)
++int avs_dai_be_hw_params(struct snd_pcm_substream *substream,
++			 struct snd_pcm_hw_params *be_hw_params,
++			 struct snd_soc_dai *dai, int dma_id)
+ {
+ 	struct snd_pcm_hw_params *fe_hw_params = NULL;
+ 	struct snd_soc_pcm_runtime *fe, *be;
+@@ -217,7 +197,7 @@ static int avs_dai_be_hw_params(struct snd_pcm_substream *substream,
+ 	return avs_dai_hw_params(substream, fe_hw_params, be_hw_params, dai, dma_id);
+ }
+ 
+-static int avs_dai_prepare(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
++int avs_dai_prepare(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
+ {
+ 	struct avs_dma_data *data;
+ 	int ret;
+@@ -1376,7 +1356,7 @@ static int avs_component_new(struct snd_soc_component *component,
+ 	return 0;
+ }
+ 
+-static struct snd_soc_component_driver avs_component_driver = {
++struct snd_soc_component_driver avs_component_driver = {
+ 	.name			= "avs-pcm",
+ 	.probe			= avs_component_probe,
+ 	.remove			= avs_component_remove,
+diff --git a/sound/soc/intel/avs/pcm.h b/sound/soc/intel/avs/pcm.h
+index 0f3615c90398..a5093e62da26 100644
+--- a/sound/soc/intel/avs/pcm.h
++++ b/sound/soc/intel/avs/pcm.h
+@@ -9,8 +9,55 @@
+ #ifndef __SOUND_SOC_INTEL_AVS_PCM_H
+ #define __SOUND_SOC_INTEL_AVS_PCM_H
+ 
++#include <linux/device.h>
++#include <sound/hdaudio_ext.h>
+ #include <sound/pcm.h>
++#include <sound/pcm_params.h>
++#include <sound/soc-acpi.h>
++#include <sound/soc-acpi-intel-match.h>
++#include <sound/soc-component.h>
++#include <sound/soc-dai.h>
++
++struct avs_dma_data {
++	struct avs_tplg_path_template *template;
++	struct avs_path *path;
++	struct avs_dev *adev;
++
++	/* LINK-stream utilized in BE operations while HOST in FE ones. */
++	union {
++		struct hdac_ext_stream *link_stream;
++		struct hdac_ext_stream *host_stream;
++	};
++
++	struct snd_pcm_hw_constraint_list rate_list;
++	struct snd_pcm_hw_constraint_list channels_list;
++	struct snd_pcm_hw_constraint_list sample_bits_list;
++
++	struct work_struct period_elapsed_work;
++	struct hdac_ext_link *link;
++	struct snd_pcm_substream *substream;
++};
+ 
+ void avs_period_elapsed(struct snd_pcm_substream *substream);
++int avs_dai_startup(struct snd_pcm_substream *substream, struct snd_soc_dai *dai);
++void avs_dai_shutdown(struct snd_pcm_substream *substream, struct snd_soc_dai *dai);
++int avs_dai_hw_params(struct snd_pcm_substream *substream,
++		      struct snd_pcm_hw_params *fe_params,
++		      struct snd_pcm_hw_params *be_params,
++		      struct snd_soc_dai *dai, int dma_id);
++int avs_dai_be_hw_params(struct snd_pcm_substream *substream,
++			 struct snd_pcm_hw_params *be_params,
++			 struct snd_soc_dai *dai, int dma_id);
++int avs_dai_prepare(struct snd_pcm_substream *substream, struct snd_soc_dai *dai);
++
++extern struct snd_soc_component_driver avs_component_driver;
++int avs_register_component(struct device *dev, const char *name,
++			   struct snd_soc_component_driver *drv,
++			   struct snd_soc_dai_driver *cpu_dais, int num_cpu_dais);
++
++int avs_register_dmic_component(struct avs_dev *adev, const char *name);
++int avs_register_i2s_component(struct avs_dev *adev, const char *name, unsigned long port_mask,
++			       unsigned long *tdms);
++int avs_register_hda_component(struct avs_dev *adev, const char *name);
+ 
+ #endif
 -- 
 2.34.1
 
