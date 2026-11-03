@@ -1,113 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793717070;
-	b=vnZuQhlxdxuJRDFSQpJd7UbmnJxd6E+bilpDCl40A5aZW/ThVJEqSOZxwYZKPS9H2ymi
-	 CAbgEAzDKOTkTZ3+9gk1909d7UzeuwcC8YrD7wD13ziNp9lQxRCYTR75+Tte/sHWqYlnd
-	 gMNswvGuVsE9utKZieOu4/JvHHMGRyeZdRtX/7+uzFX1rE4SO1w+KpkSWEoikHewJ5zJ2
-	 BZDDso1thHF0qi9ONjXSXbSzi57E8ypfxvVOijQkfc2s+g3KR3fwh9hNZVlyaTjnisixn
-	 R6qEsBwEGX3Hmawov6gBUa65sPbkvxvPRpmf2Na7OwrnXit1VYHsIWnHDLRGQPQHKdA==
+	t=1793717305;
+	b=ohwrqtzX/ZP1ZbrOE6EW0w1Z4HhXLeb+1w0W5ML84XsyCIDjpqvbheWSwE2mp4Ekb73r
+	 65SXAfV1OAF+4g5ok90BbvkgmZ/S6jfWAn+SEhsTCTnx+X1Y9aJWxd3+gRL1aTMf9Vido
+	 z/jREXMeTN5524ECTnuOHYGlvRDRoIvlQFvVKo5cZb4Q5pwpZoaxhEW73rx4L8RjlZIak
+	 wkPL0uPsQQrH8FqR+TUE4STQRFGq3kmKlaXkg47Lly6qxuLD/tGlTe5jdGp2CEci+yTMJ
+	 fXdXT9UISAjTp8TvGw5L1Cr95q0rRHouRk+Mg9bLKKm0eDMqwWZezyDZlabDmDSsajw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793717070;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=MOx8F45uSrWJfrvKQQ9bd2fIwgZx3o0QDqg7GBPLn0o=;
-	b=KSS2V7wq0WB7nBR/4OYzbj1MPqiw16jQCyK/72FaWxb47jCxmUom/nZVkx7TgTjBkBps
-	 iW6+h7Er30i2urAJPGrjmq+BIBxVnQkP2wevS8+PBJc0IhSnOsi3EQNiobmukeNbRCboa
-	 lUFufVSjN1cDbMd2B3BY0UpmHdnlLzBJHmdTQHHXUtf9uRZyZah3Jk72knM/lF4mFHAqt
-	 ghY0recs2qDZIeRUL6SF7HC/Z7m5q+2EX5f9XoGIYfReXUUbBXeQFhSn6KaTEija7APl5
-	 hjIMySTVLQiEQPrCQBlTeJU9g963+FJ9DMK+BWzUTMiyQORog79ynC25JRgyVWnSxRg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793717305;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=c0x/bwvUTy91TeSNlshE2x6EC5UWF1SAOxo9ylrayLg=;
+	b=5mPQym73+iKZn6w2LBq2+N3PywUVFCYBiyWcqAsRMVAhtudsa60NDRWaqq16d2U/vLAa
+	 SFxjqT6a3/RpuCcZTGtv9uEqyHmeTayqb9Ng7+vfd7nZnt3buk1tICkQZ0522vatsA3n6
+	 WRqob25JFY/7fn8UEZmVofXRCSbX9B+RZTUZhig5kgzxwpEWEAUsPEfyQjN/RZMGp49W1
+	 jT8xX4OB+YopWFRx6QVFmMWixQWD4Xsd+R39zuvdRO/wWZHv3jb0QNWY8NTO+gpIPRP38
+	 ewkhtuQSHS6EnxQirZSAnvqPb/+C+W/cecPBzi5UlWneg3xEQx9yA2u3j7V1dFC50fw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=vYWHbTwJ;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pjH1LFEK;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=veVd1VnK;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=fu55teLJ;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bqxUBmmI;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E59606A327;
-	Tue,  3 Nov 2026 14:44:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1E59606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1179606B250;
+	Tue,  3 Nov 2026 14:48:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=vYWHbTwJ;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pjH1LFEK;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=veVd1VnK;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=fu55teLJ
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8E7D21F769;
-	Tue,  3 Nov 2026 14:44:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793717067; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MOx8F45uSrWJfrvKQQ9bd2fIwgZx3o0QDqg7GBPLn0o=;
-	b=vYWHbTwJHrx+bHm+iJSZc6M+BPrBQ1uiG0X2WcWxr9Ywc3IJUIaVreUwNhEZD7ACKnfJLq
-	dOhDoBO91elMkKglnlJ90JB8x11tihfknKPFDfBdrzhJ8SYPgy8SK3k/ERgpjYhUWqNymX
-	FTy6GYatUJuYJnMDOC0rit9qJizcuWE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793717067;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MOx8F45uSrWJfrvKQQ9bd2fIwgZx3o0QDqg7GBPLn0o=;
-	b=pjH1LFEKtGfIYJVjgCfyO5KqKO18HTqb9IT1qxFpuYvsJ0NO62EGJg3kGPXqiGQM0cqKPV
-	VETySZIi1J+zKLAg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=veVd1VnK;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fu55teLJ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793717066; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MOx8F45uSrWJfrvKQQ9bd2fIwgZx3o0QDqg7GBPLn0o=;
-	b=veVd1VnKzGi9ou7E8al/Z1MNeqbcEe/7BsP67W0o6YroWdAuLP992JtUXxwvYAiAN+acfR
-	HBcWpUd5bXtRX5ZZj0Wt6jo9PYmCyitAO2imwYLjlP+J5vnQPNA2IHMMEoSleV5gz6Mu1o
-	jfGnKnJjo3PdwWSPKZxBPpC9MJUnoPM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793717066;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MOx8F45uSrWJfrvKQQ9bd2fIwgZx3o0QDqg7GBPLn0o=;
-	b=fu55teLJdDMP1BP90SMNi97wx4SaHkG4InEwNntbU/TjzrUGx7Dk9TMzB+DTCdFoAbHdC3
-	xIidlfHPPx7kPJDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4D76C134B8;
-	Tue,  3 Nov 2026 14:44:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Mz1DCkrz6WrwDgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 03 Nov 2026 14:44:26 +0000
-Date: Tue, 03 Nov 2026 15:44:25 +0100
-Message-ID: <871p92x9di.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Slaton Christie <slatonchristie@gmail.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: cs35l41: Add DSD properties for ASUS UX582Z (1043:1a8f)
-In-Reply-To: <20261030170354.7427-1-slatonchristie@gmail.com>
-References: <20261030170354.7427-1-slatonchristie@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bqxUBmmI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B29171F000C1;
+	Tue,  3 Nov 2026 14:48:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793717304;
+	bh=c0x/bwvUTy91TeSNlshE2x6EC5UWF1SAOxo9ylrayLg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=bqxUBmmIruc8WVpdDnTaZKZMybp6tbdqSNtX5Vxb8SbRLH8Zr2JWwBPY98aQ3hFcO
+	 mF4KERe0Pl6zVdX7ZTe2YfvSwUDpjVOk0tXjo8nokMnupOaJWZpwf9x3s1jjDqLc7o
+	 D8x2o27+nwq7964W+Sy/E0e8KLqKLtVO62ftCwu5g7mpOe3sE4UYTyU1eKEd9wvkG6
+	 9ziGsoyYsjc+8FEQzGARNtSKo/GIQynC+oiEc7kqzm/+yyy218WWaRIIGwPjaGFK1d
+	 0aiHWvAjGKyvLg2SLb3ZdKLVkElsDVk3YwkpAFqEpwcF1NBvaDa6WRGXNTZsB/rjMv
+	 m/ZkDBbjhFEUA==
+Message-ID: <sashiko-outbox-195500@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RFC 28/38] scsi: esas2r: bound the lengths of the HBA,
+ SMP and firmware ioctls
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Christian Brauner" <brauner@kernel.org>
+Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
+ Bacik" <josef@toxicpanda.com>, "Chris Mason" <mason@kernel.org>, "Jeff
+ Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>, "Eric Dumazet" <edumazet@kernel.org>, "Thomas
+ Gleixner" <tglx@kernel.org>, "Al Viro" <viro@zeniv.linux.org.uk>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Christoph Hellwig" <hch@lst.de>, "Greg
+ Kroah-Hartman" <gregkh@suse.de>, "Joel Granados" <joel.granados@kernel.org>, "Kees
+ Cook" <kees@kernel.org>, "Jan Kara" <jack@suse.cz>, "Jan Kara" <jack@suse.com>, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-serial@vger.kernel.org, "Takashi
+ Iwai" <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, "Chuck
+ Lever" <cel@kernel.org>, tytso@mit.edu, dmitry.torokhov@gmail.com, "Petr
+ Pavlu" <petr.pavlu@suse.com>, "Anna Schumaker" <anna@kernel.org>, yukuai@fygo.io, "Heiko
+ Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
+ Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
+In-Reply-To: <20261102-work-procfs-bugfixes-v1-28-59422ed3e465@kernel.org>
+References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
+ <20261102-work-procfs-bugfixes-v1-28-59422ed3e465@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 03 Nov 2026 14:48:22 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -116,83 +71,95 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -12.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 8E7D21F769
 
-On Fri, 30 Oct 2026 18:03:54 +0100,
-Slaton Christie wrote:
-> 
-> The ASUS Zenbook Pro Duo 15 UX582Z with PCI SSID 1043:1a8f has two
-> CS35L41 amplifiers on SPI (CSC3551), but its BIOS provides no _DSD
-> properties for them, so the amps fail to probe and the internal
-> speakers are silent:
-> 
->   cs35l41-hda spi1-CSC3551:00-cs35l41-hda.0: Failed property cirrus,dev-index: -22
->   cs35l41-hda spi1-CSC3551:00-cs35l41-hda.0: error -EINVAL: Platform not supported
-> 
-> The Realtek codec quirk for this SSID already exists
-> (ALC245_FIXUP_CS35L41_SPI_2), and linux-firmware already ships the
-> tuned cs35l41-dsp1-spk-prot-10431a8f-* files. Only the property table
-> entry is missing.
-> 
-> Add an entry using the same configuration as the sibling UX582ZS
-> (1043:12af): internal boost, CS/reset/speaker-ID GPIOs at indices
-> 0/1/2, 1000nH inductor, 4500mA peak, 24uF capacitor.
-> 
-> Tested on a UX582Z running 7.3.0 (CachyOS) with the change built as a
-> DKMS module: both amps probe, load the spk-prot firmware, apply the
-> EFI calibration (R0=10611 / 10708) and the speakers play audio.
-> 
->   cs35l41-hda spi1-CSC3551:00-cs35l41-hda.0: Firmware Loaded - Type: spk-prot, Gain: 17
->   cs35l41-hda spi1-CSC3551:00-cs35l41-hda.0: CS35L41 Bound - SSID: 10431A8F, BST: 0, VSPK: 0, CH: L, FW EN: 1, SPKID: 0
->   cs35l41-hda spi1-CSC3551:00-cs35l41-hda.1: CS35L41 Bound - SSID: 10431A8F, BST: 0, VSPK: 0, CH: R, FW EN: 1, SPKID: 0
-> 
-> The boost values are copied from the 1043:12af entry, not taken from
-> ASUS or Cirrus documentation; confirmation of the boost parameters by
-> Cirrus would be appreciated.
-> 
-> The diagnosis and the patch were prepared with the help of an AI
-> assistant (Claude, Anthropic), from the dmesg output above and the
-> existing 1043:12af table entry; testing was done on real hardware by
-> the submitter.
-> 
-> Cc: stable@vger.kernel.org
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] scsi: esas2r: TOCTOU race on data_length in handle_hba_ioctl() via=
+ read_hw()
+--
 
-You forgot Signed-off-by tag?  Please resubmit with it.
+commit 8af21917bc01e9991b2ab872e7a4c38c91a6e388
+Author: Christian Brauner <brauner@kernel.org>
 
+scsi: esas2r: bound the lengths of the HBA, SMP and firmware ioctls
 
-thanks,
+This commit adds bounds checks on user-supplied lengths for the HBA, SMP,
+and firmware ioctls in esas2r to prevent out-of-bounds reads and writes past
+the end of struct atto_express_ioctl and a->local_atto_ioctl.
 
-Takashi
+> diff --git a/drivers/scsi/esas2r/esas2r_ioctl.c b/drivers/scsi/esas2r/esa=
+s2r_ioctl.c
+> index 3f7c1d131ec34..f99318f61c934 100644
+> --- a/drivers/scsi/esas2r/esas2r_ioctl.c
+> +++ b/drivers/scsi/esas2r/esas2r_ioctl.c
+
+[ ... ]
+
+> @@ -1221,11 +1231,16 @@ static void hba_ioctl_done_callback(struct esas2r=
+_adapter *a,
+>  	}
+>  }
+> =20
+> +/* @room is the size of the buffer that starts with @ioctl_hba. */
+>  u8 handle_hba_ioctl(struct esas2r_adapter *a,
+> -		    struct atto_ioctl *ioctl_hba)
+> +		    struct atto_ioctl *ioctl_hba, size_t room)
+>  {
+>  	struct esas2r_buffered_ioctl bi;
+> =20
+> +	/* The data follows @ioctl_hba in the same buffer. */
+> +	if (ioctl_hba->data_length > room - sizeof(struct atto_ioctl))
+> +		return IOCTL_INVALID_PARAM;
+> +
+>  	memset(&bi, 0, sizeof(bi));
+> =20
+>  	bi.a =3D a;
+
+[Severity: High]
+Can a concurrent write_hw() bypass this bounds check when handle_hba_ioctl()
+is called from read_hw()?
+
+In drivers/scsi/esas2r/esas2r_main.c, read_hw() and write_hw() both operate
+on the shared a->local_atto_ioctl buffer without holding a driver lock (and
+kernfs only serializes per open file description via of->mutex, not across
+separate file descriptors):
+
+drivers/scsi/esas2r/esas2r_main.c:read_hw() {
+	...
+	if (handle_hba_ioctl(a, a->local_atto_ioctl,
+			     sizeof(struct atto_ioctl)) !=3D IOCTL_SUCCESS)
+		return -ENOMEM;
+	...
+}
+
+drivers/scsi/esas2r/esas2r_main.c:write_hw() {
+	...
+	memset(a->local_atto_ioctl, 0, sizeof(struct atto_ioctl));
+	memcpy(a->local_atto_ioctl, buf, length);
+	...
+}
+
+Inside handle_hba_ioctl(), ioctl_hba->data_length is read twice without
+synchronization:
+
+drivers/scsi/esas2r/esas2r_ioctl.c:handle_hba_ioctl() {
+	if (ioctl_hba->data_length > room - sizeof(struct atto_ioctl))
+		return IOCTL_INVALID_PARAM;
+
+	memset(&bi, 0, sizeof(bi));
+
+	bi.a =3D a;
+	bi.ioctl =3D ioctl_hba;
+	bi.length =3D sizeof(struct atto_ioctl) + ioctl_hba->data_length;
+	...
+	return handle_buffered_ioctl(&bi);
+}
+
+If write_hw() overwrites a->local_atto_ioctl->data_length with a non-zero
+value between the bounds check and the assignment to bi.length, wouldn't
+handle_buffered_ioctl() still read and write bi.length bytes past the end of
+a->local_atto_ioctl?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102-work-procf=
+s-bugfixes-v1-0-59422ed3e465@kernel.org?part=3D28
