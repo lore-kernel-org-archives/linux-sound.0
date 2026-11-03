@@ -1,55 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793712861;
-	b=XBUCG677Z746sFhSa1T6yQSSPOT6rCfeZNkrUEb6xhquRQ8hnAgm7NPoktsVlJZCWNuA
-	 GVejGz7dyJR47USHIiYPDQXpV1oJQuOpD2xDnTqAN0Bbk7f5K8upR/tlHOZ1kZ7nDDEXK
-	 HFDjti3YnT0GJxe+pYJd+NtO2BWHxlyda2oHuweNQ2raMfv8ay498KCA+JGMPwK3Mp8hP
-	 GcRLJ9RmZ+JF5VLyIwydKV+/0an7QgeTMg22zGqWOqQWbttuBVSctfFmJRVXpeLzaCmJx
-	 dIdvJ2ieRAuin8bKVFnIB2r4NdaEVbUi02MfgunU/22n2yc4MWBqh4ayCF3htyqCMMQ==
+	t=1793713179;
+	b=LkzmMURBAZFh02d7Gsu3VXpVdgYBjjc650c6S/s9BwtPmnZ+/h+Hsl3QieH5v2IrXeRM
+	 CawukPEot4bhwGRJrOXH/0nzqtbSrKYWMkGgPAr9gzEt7xk8wPjpUgd+Tqv+ZYYAARSUj
+	 tchZCsFH4jtqKh3bzV+CD5PVPi5lgMc3MKovsedWKnx6cmkdoHFLvuRguaYQCpKLFE56Q
+	 ti5zUuLrLVCuXIioXT4gSPhWbAkbt4LcAg2Q8SvrDzJjGXwI+C9XxOx5cucdWwsBFku3L
+	 vaGa8iQEHW4C72JCHWi6FUxVOzMcH/9X/vuARgCtCvzTzotvfk6N0Xsb+Z9W9FIpBXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793712861;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=J3XCfTnQ0bmxQnFnr1883GNTbiR1HlZNkVk9cuWiAqI=;
-	b=RcOZV3KEG1UZPgASP3uEcLklc1lE+fsbxSAZitPvkjHJt5HulUnp1Mw62lWErsgkWXrw
-	 PcrZo0sAjkAH/y1lnbIirUhuGpOPTFaKgfd8Hq2vJg/XpwHbTkNVLbuxxuZQzo9VyLVpV
-	 BiDqjRFAhqFKoid4lBES5vxJ6a83nqOXEXKzIAfN+/7hgt5azROTWAwb8XixVp2+V4Gol
-	 QfGsublgZDYA4IPn54sb9HI7mJieyGFcRJT28gXd9JtGI+w8+llOxJHaeyMw8eGvDoYGV
-	 CntggLXFpSbfnKJqH1nJq8y3rCr2ruY8II0F6TF9GCGlbcQswCVRMh6gYeN3RAgrcnw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793713179;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=XG0hirTIOU4ZJDEKh5lv1WUM1lIXvG44FvkqV/nZoA4=;
+	b=YFp+4XTJSK9kwbXtOO6klSShdHDt6Wbs0ar762RW4RWkNO0AS6ZAnmr6/VVSV7Zln46J
+	 LKTDYdFqHSzjBUofSTjfBU0xOE9pwuykoUdyZ7WXrL85dwo/am2MbkzW+VnxJVlzkgAcj
+	 x1hSxWXmVVvty1LNwDxOS/1R5WKvik9u0OWZs7Tl6pQ95tfc5RuGhUL2HvHt5Z6/FK5L6
+	 aisUxqFq71NVZG8t6u86nIdxk0nRRJtPCyZ6UOKib7VKWNaVXZ0VwNCTu1YarTyl/mvXY
+	 V6lKd4CXID4PH5C/GQosS3+nEpIZyoOzD2hqNonRHSFGx6+AlohUtlF0m8aczVBpWUQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LpCdi7xo;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MCXvPlcq;
+	arc=none smtp.remote-ip=209.85.128.50
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE284606A324
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 13:34:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92BE5606A330
+	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 13:39:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92BE5606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LpCdi7xo
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A347A1F00A02;
-	Tue,  3 Nov 2026 13:34:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793712860;
-	bh=J3XCfTnQ0bmxQnFnr1883GNTbiR1HlZNkVk9cuWiAqI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=LpCdi7xold68sL4efX1vx1+IXja/eFP4zvNncWjU5QtL9HdlQ8/o8uQZfVE2YClaW
-	 xMv0GoBLj88wERkpqHf0R19blTojwuLXz+4ZWQjN3LA04kZjrnAwPvmoewfmwWOBj0
-	 9xPe08M4Ig3rgAj9/wzuFosJCVJkrfN5ME6LcABoIjQXwL+5l9OhoFtO5EMsNRXKVf
-	 ceiA2WkMzIDi6OD4DnlL29eAqHmBMX5ntlMtK/ptTkE+nno9SXjPI2tyaWtm/OweTE
-	 h5YTu1C2m+hUpj2MS4HgtvARdQKQDRqvZoC01rcBz0ZTN+kXOccyJSlXObfJub22JB
-	 KXlIGlVoW930w==
-Message-ID: <sashiko-outbox-195366@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] ALSA: usx2y: Reject buffers smaller than two packets
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sinan Turunc" <enscrpt@pm.me>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261103132247.713-1-enscrpt@pm.me>
-References: <20261103132247.713-1-enscrpt@pm.me>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 13:34:20 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MCXvPlcq
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a2084d62cdso37312995e9.1
+        for <linux-sound@vger.kernel.org>; Tue, 03 Nov 2026 05:39:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793713177; x=1794317977; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=XG0hirTIOU4ZJDEKh5lv1WUM1lIXvG44FvkqV/nZoA4=;
+        b=MCXvPlcqdVs7tTpKypMadM0mmxEQaagyVJ/B+2LiOkKeFDrHSiXXO2Mb0CD9yzFBMk
+         76PpMH3k45jbVFkZow4UasPjMK31Q4IScz85juHliolZdaW3KpLFTXGtCgDO9k78Q7Xy
+         Aa+jw/50DXZ7HsmfstIAvPAYZjooV112Tc2IeAHYQZ33E3qdVTGXgrayRPxiDad49DwZ
+         OebleavsRlHAuVH1mGTsB4FH3SdtXmN5SygEFibHQS1P2R/MzDuoWSX3RcdhjDqgPwuf
+         bfA3HdEaTNTCBPashow2hlvVhw8G/cHSUnA6o7wrBeOrrTQFgLpACDo+JYYYC4Sw8+rb
+         sOrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793713177; x=1794317977;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=XG0hirTIOU4ZJDEKh5lv1WUM1lIXvG44FvkqV/nZoA4=;
+        b=hWPxx+LyJ2MtEfDMpjjNtZHQURhEgRdv+eqwDwcsMKxkHdoazwy9U/qNKO0kIDXDhK
+         r4v6Y8MItPK8HjR5QM8hhE0BUyVw8SZt725jsfRxnLMF+AizWW0tITtncN+dicoL0oKh
+         /8xwuW+1LK6i+X+0es4CSZ44zVaOlvrHnNMbh4St9uXhl10q9UZM7fg8Asc9lrJ+6fSO
+         OrVV/FzKQLtbKVXf6+ld+GDStC4nZkNQpC8rl18YTsw0kAJy4nw2fwqSGx3voVJouEqx
+         q6X+r6lLZJkyjLLOVN37zD9LHMO0DP/4gEzTBc52P5cigCYshGEBAog2yxBwTUVUjlmE
+         hymA==
+X-Forwarded-Encrypted: i=1; AKwUvBwWwHo/SC5VaSkk6kHypPuCs0jxX7f0XO3lJ9tfUEOEUa7EbpURMxefD06FyEZXen5k+2+xKqn0dvntXQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8QlKMA/Ig4nXm/iBgtuRBsHt7I8MJrtOMsCPak8TIDGd/qavkj
+	cLU8UnHNiTGWRfaaxTNSUPbSGZu+KtJXZszrSgN3S+4srFBY0YASk8kC
+X-Gm-Gg: AYBFou2u9rTKDMF3OlfWPQ1SxKngvT1JUCFD+6zJ7P1DP0Ur/0TlOhQlVFJGMNHG97p
+	6sspDqB74L16l/BMfphTyJweB/RWsNmpAsEQhm26lwlw9ErTdfd8HFKtVfYKUV3ywn3DzJMJxIu
+	dL3vaLxltXazf72AkWoRJkcR+JTQGErcINCNo9OXLxMcAzexTwZq95H+v5J8rKilvrr+q5oZW4D
+	M3B9BXZzPMcasP/s7i4squSsJ16FjaqOZGlnHnsciM6Zk3fYFK3ZgwcCZHSZ0U+vWc3h1iUgayz
+	hfj1iPWfDPShPLsq0Ev/NBJ9y4UFqpU/yxmF7aclImvFWsOA3KAnTNAkwRzUzcUWmTNoLWGfzBP
+	ENGL0599+fa3BI084o/WBynxqFm7S0fZ9FV9C8LVWWIIkKFj38aibck7VLWrq3BGLT32/Ap3/Kd
+	nnN4HxhnCgcxiJwlrpjXGzc6pLPeTBcoYbVjh+9toSOMfgQhsrRsuVZqt+Qgc5dej5ZhKjAsH0K
+	IurT7IXeD9qUyQTuDIGvB6qh+8HxA7sZ2Ebd2MbbHWsg7tLevyoZ4NBQdd9MK0lTxxWf5wTrRR9
+	g2MduPj0rP22pGiU6YfByqmv0leOViZHkIXpL0INhojF0NkTclDVBstdzw0Uxqix8GzVIg8mxeI
+	FnYJHaEHk/WEEdQqIHwwaD/eFEWLS97LgVgOh8Aa474Qibw==
+X-Received: by 2002:a05:600c:848c:b0:4a6:42cc:bf65 with SMTP id 5b1f17b1804b1-4ac1709b206mr319276755e9.17.1793713176492;
+        Tue, 03 Nov 2026 05:39:36 -0800 (PST)
+Received: from romain-ThinkPad-P14s-Gen-5-AMD.tail433d9c.ts.net ([2001:861:39c2:e340:14ec:7986:30c8:6bc6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b78a1dsm24174999f8f.24.2026.11.03.05.39.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 05:39:36 -0800 (PST)
+From: Romain TISSERAND <romain.tisserand@gmail.com>
+To: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	sashiko-reviews@lists.linux.dev
+Subject: [PATCH] ASoC: sun8i-codec-analog: Add the headphone inversion control
+Date: Tue,  3 Nov 2026 14:39:35 +0100
+Message-ID: <20261103133935.2892210-1-romain.tisserand@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,143 +103,92 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Critical] ALSA: usx2y: playback buffer constraint in snd_usx2y_pcm_open(=
-) is too small
-- [Medium] ALSA: usx2y: snd_usx2y_pcm_open() queries usb_maxpacket() before=
- altsetting
---
+Bits 1 and 0 of PAEN_HP_CTRL (analog register 0x07; LTRNMUTE, RTLNMUTE)
+feed the inverted left output to the right one and the inverted right
+output to the left one ("Left HPOUT Negative To Right HPOUT Mute" and
+the reverse in the A23 and A33 user manuals and the V3s datasheet; 0 =
+mute, the reset value). The driver defines them but nothing can set
+them.
 
-commit eebe8fbe46c3cb8c8efeb19dc1b855c69b38b38e
-Author: Sinan Turunc <enscrpt@pm.me>
+They are needed when a mono speaker amplifier is bridged across HPL and
+HPR, as on the PocketGo S30 (A33): with the same signal on both outputs
+the speaker gets almost nothing. With a mono mix on both DACs and the
+inverted left added to the right output, HPL - HPR carries the signal.
 
-ALSA: usx2y: Reject buffers smaller than two packets
+Expose them as one enum, "Off", "Left to Right" or "Right to Left", so
+that the two outputs are never fed with each other at the same time. It
+defaults to "Off" (both muted), so nothing changes for existing boards.
 
-This commit constrains SNDRV_PCM_HW_PARAM_BUFFER_BYTES in
-snd_usx2y_pcm_open() to at least twice the endpoint's maximum packet size
-and adds a defensive check in usx2y_urb_capt_retire() to drop packets
-larger than runtime->buffer_size.
+Signed-off-by: Romain TISSERAND <romain.tisserand@gmail.com>
+---
+Notes:
+- Testing: built with W=1 for arm (multi_v7_defconfig) and arm64
+  (defconfig), SND_SUN8I_CODEC_ANALOG=m, no warnings. On a PocketGo S30
+  (A33, mono speaker amplifier bridged across HPL and HPR), first with
+  the bits written by hand while a 600 Hz tone played (same tone on both
+  channels, AIF1 DA0 route "Mix Mono"): with PAEN_HP_CTRL = 0xf4 (HPCOM
+  driven, no inversion) the speaker is much quieter than with 0xf6
+  (bit 1 set) or 0xf5 (bit 0 set, the other output muted).
+  Then on 7.3.1 with this patch, same tone through PipeWire: "Headphone
+  Inversion Playback Route" = "Left to Right" sets bit 1 (0xf4 -> 0xf6)
+  and the speaker is clearly louder than with "Off"; "Right to Left"
+  sets bit 0 (0xf5).
+- The A23 shares this code path; its user manual (v1.0, PAEN_HP_CTRL)
+  documents the same two bits, with the same names and reset value.
+- Tool disclosure: this patch was prepared with Claude Opus 5.5
+  (Anthropic) as a coding assistant, in an interactive session where I
+  asked it to get the PocketGo S30 speaker working. It ran the register
+  tests above while I listened, found the two unused bits in the A33
+  manual and drafted the change and the message. I reviewed and
+  understand the change and tested it as described above.
 
-> diff --git a/sound/usb/usx2y/usbusx2yaudio.c b/sound/usb/usx2y/usbusx2yau=
-dio.c
-> index a3a0bc13632b8..d1ddc2b425dbb 100644
-> --- a/sound/usb/usx2y/usbusx2yaudio.c
-> +++ b/sound/usb/usx2y/usbusx2yaudio.c
+ sound/soc/sunxi/sun8i-codec-analog.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-[ ... ]
+diff --git a/sound/soc/sunxi/sun8i-codec-analog.c b/sound/soc/sunxi/sun8i-codec-analog.c
+index 3335855c6311..7188b498fb08 100644
+--- a/sound/soc/sunxi/sun8i-codec-analog.c
++++ b/sound/soc/sunxi/sun8i-codec-analog.c
+@@ -314,6 +314,25 @@ static const struct snd_soc_dapm_route sun8i_codec_mixer_routes[] = {
+ 
+ /* headphone specific controls, widgets, and routes */
+ static const DECLARE_TLV_DB_SCALE(sun8i_codec_hp_vol_scale, -6300, 100, 1);
++
++/* For a speaker bridged across HPL and HPR: one direction at a time */
++static const char * const sun8i_codec_hp_inv_enum_text[] = {
++	"Off", "Left to Right", "Right to Left",
++};
++
++static const unsigned int sun8i_codec_hp_inv_enum_values[] = {
++	0,
++	BIT(SUN8I_ADDA_PAEN_HP_CTRL_LTRNMUTE),
++	BIT(SUN8I_ADDA_PAEN_HP_CTRL_RTLNMUTE),
++};
++
++static SOC_VALUE_ENUM_SINGLE_DECL(sun8i_codec_hp_inv_enum,
++				  SUN8I_ADDA_PAEN_HP_CTRL, 0,
++				  BIT(SUN8I_ADDA_PAEN_HP_CTRL_LTRNMUTE) |
++				  BIT(SUN8I_ADDA_PAEN_HP_CTRL_RTLNMUTE),
++				  sun8i_codec_hp_inv_enum_text,
++				  sun8i_codec_hp_inv_enum_values);
++
+ static const struct snd_kcontrol_new sun8i_codec_headphone_controls[] = {
+ 	SOC_SINGLE_TLV("Headphone Playback Volume",
+ 		       SUN8I_ADDA_HP_VOLC,
+@@ -323,6 +342,8 @@ static const struct snd_kcontrol_new sun8i_codec_headphone_controls[] = {
+ 		   SUN8I_ADDA_DAC_PA_SRC,
+ 		   SUN8I_ADDA_DAC_PA_SRC_LHPPAMUTE,
+ 		   SUN8I_ADDA_DAC_PA_SRC_RHPPAMUTE, 1, 0),
++	SOC_ENUM("Headphone Inversion Playback Route",
++		 sun8i_codec_hp_inv_enum),
+ };
+ 
+ static const char * const sun8i_codec_hp_src_enum_text[] = {
 
-> @@ -888,6 +900,18 @@ static int snd_usx2y_pcm_open(struct snd_pcm_substre=
-am *substream)
->  	runtime->private_data =3D subs;
->  	subs->pcm_substream =3D substream;
->  	snd_pcm_hw_constraint_minmax(runtime, SNDRV_PCM_HW_PARAM_PERIOD_TIME, 1=
-000, 200000);
-> +	/*
-> +	 * The capture and playback copies wrap the ring buffer once per
-> +	 * packet and advance the position by the packet, which only works
-> +	 * when the buffer holds more than one packet. The packet size is the
-> +	 * endpoint's, so bound the buffer by two packets here.
-> +	 */
-> +	pipe =3D substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK ?
-> +		usb_sndisocpipe(subs->usx2y->dev, subs->endpoint) :
-> +		usb_rcvisocpipe(subs->usx2y->dev, subs->endpoint);
-> +	snd_pcm_hw_constraint_minmax(runtime, SNDRV_PCM_HW_PARAM_BUFFER_BYTES,
-> +				     2 * usb_maxpacket(subs->usx2y->dev, pipe),
-> +				     UINT_MAX);
+base-commit: aae83f3931bc3a5497bcc8351b5f954ad7ac895c
+-- 
+2.43.0
 
-[Severity: Critical]
-Is bounding the playback buffer to two packets sufficient for
-usx2y_urb_play_prepare() and usx2y_urb_play_retire()?
-
-Unlike usx2y_urb_capt_retire(), which copies and wraps hwptr_done per
-packet inside the packet loop, usx2y_urb_play_prepare() in
-sound/usb/usx2y/usbusx2yaudio.c accumulates count across all nr_of_packs()
-packets in the URB and then performs a single split copy and a single wrap
-for the entire URB:
-
-	count =3D 0;
-	for (pack =3D 0; pack <  nr_of_packs(); pack++) {
-		/* calculate the size of a packet */
-		counts =3D cap_urb->iso_frame_desc[pack].actual_length / usx2y->stride;
-		count +=3D counts;
-		if (counts < 43 || counts > 50) {
-			dev_err(&usx2y->dev->dev, "%s: should not be here with counts=3D%i\n",
-				__func__, counts);
-			return -EPIPE;
-		}
-		...
-	}
-	if (atomic_read(&subs->state) >=3D STATE_PRERUNNING) {
-		if (subs->hwptr + count > runtime->buffer_size) {
-			len =3D runtime->buffer_size - subs->hwptr;
-			urb->transfer_buffer =3D subs->tmpbuf;
-			memcpy(subs->tmpbuf, runtime->dma_area +
-			       subs->hwptr * usx2y->stride, len * usx2y->stride);
-			memcpy(subs->tmpbuf + len * usx2y->stride,
-			       runtime->dma_area, (count - len) * usx2y->stride);
-			subs->hwptr +=3D count;
-			subs->hwptr -=3D runtime->buffer_size;
-
-Likewise, usx2y_urb_play_retire() advances subs->hwptr_done by
-urb->actual_length / subs->usx2y->stride for the whole URB and subtracts
-runtime->buffer_size only once.
-
-If a user configures a playback buffer that holds at least two packets
-(satisfying 2 * usb_maxpacket()) but fewer frames than a full URB of
-nr_of_packs() packets (4 packets by default, or up to USX2Y_NRPACKS_MAX
-via the nrpacks module parameter), count exceeds runtime->buffer_size.
-When that happens in usx2y_urb_play_prepare(), there is no guard against
-count > runtime->buffer_size: the second memcpy() can read past the end of
-runtime->dma_area, and subs->hwptr grows past runtime->buffer_size so that
-len =3D runtime->buffer_size - subs->hwptr becomes negative on the next URB,
-passing a negative length converted to size_t into memcpy() and overflowing
-subs->tmpbuf.
-
-In addition, usx2y_urb_play_prepare() sizes each playback packet from
-cap_urb->iso_frame_desc[pack].actual_length rather than the playback
-endpoint's maxpacksize. If a non-conforming device reports a smaller
-wMaxPacketSize on the playback endpoint than the capture packet length,
-could count * usx2y->stride also overflow subs->tmpbuf (which is allocated
-in usx2y_urbs_allocate() as kcalloc(nr_of_packs(), subs->maxpacksize,
-GFP_KERNEL))?
-
-[Severity: Medium]
-Can usb_maxpacket() return a stale packet size or 0 when called here in
-snd_usx2y_pcm_open()?
-
-In sound/usb/usx2y/usbusx2yaudio.c, the USB interface alternate setting is
-not selected until snd_usx2y_pcm_prepare() -> usx2y_format_set() calls
-usb_set_interface(usx2y->dev, 0, alternate) to switch between alternate
-setting 1 (SNDRV_PCM_FORMAT_S16_LE, stride 4) and alternate setting 2
-(SNDRV_PCM_FORMAT_S24_3LE, stride 6), after which usx2y_urbs_allocate()
-queries usb_maxpacket():
-
-	if (format =3D=3D SNDRV_PCM_FORMAT_S24_3LE) {
-		alternate =3D 2;
-		usx2y->stride =3D 6;
-	} else {
-		alternate =3D 1;
-		usx2y->stride =3D 4;
-	}
-	...
-	err =3D usb_set_interface(usx2y->dev, 0, alternate);
-
-Because usb_maxpacket() reads udev->ep_in[epnum] or udev->ep_out[epnum]
-from whichever alternate setting happens to be active when
-snd_usx2y_pcm_open() runs, won't opening a stream while interface 0 is in
-alternate setting 1 and then configuring SNDRV_PCM_FORMAT_S24_3LE constrain
-SNDRV_PCM_HW_PARAM_BUFFER_BYTES using alternate setting 1's wMaxPacketSize
-instead of alternate setting 2's?
-
-Also, since snd_usx2y_pcm_open() does not hold usx2y->pcm_mutex, if another
-substream is concurrently running usx2y_format_set() -> usb_set_interface(),
-usb_disable_interface() temporarily clears udev->ep_in and udev->ep_out to
-NULL before usb_enable_interface() installs the new descriptors. Could
-usb_maxpacket() return 0 in that window and leave the minimum buffer size
-unconstrained?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103132247.713-=
-1-enscrpt@pm.me?part=3D1
