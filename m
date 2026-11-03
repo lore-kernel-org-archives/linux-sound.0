@@ -1,53 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.97
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793684284;
-	b=AxLcG2YRArceCj8hoKjU0te7+QaWAL4V6oE0z4jgKwNVqqIItEMyfLfKK1jTqTcpVX1x
-	 LvlJ8mLIpxq86Qjza6bm56vyEPLTWbCLgIdizZfd+3KpXPx/7H8NyIVLnEi7REzYTZtEk
-	 DWwqDQep419CgDWwyI7xA9tepgrmb7FFbFSxqP1rImtK8soO+s+TLI7/WcI4wBzpHAAb/
-	 xCm6u25lpZg4dinEGjF/qYOEWOYYSmpbGn1l1XaWhe/Cks8D1RAQnzWZ2r0ba5YmrJaBm
-	 wu1JoYqmriO64l3qCzUaY3X/b7DwV5+GaoMgFuPetZ+yFDrqAJ+b1ZYJZVdZPwz4DWw==
+	t=1793688095;
+	b=Yd3sBOJFIndGgBg5BiPD0t9+kTsYwTNUV6NzkdVTJKy1AhtPgWZ9skn9tnCwXOiOsUPl
+	 zSdiPM18mHfeu4T5o4/x/Dh2m/nLUEVvUG46CQep09UWUtkdFEvoJwBGgPPY83p0pg/0F
+	 IUEBCnGMRAC3ny0MHLKjPiTNWSNsqcoW+uwmElAZbZWYDBsZTEvEyNu///M4hsz/qzd9k
+	 1Ka7lijLuQK0Ui4z3etQF1KPRQ1hS+WIiCEDyMoKCpRbOiqZen9YyrTfQthMRe6IORhQs
+	 uELHefrVd+Ve6zgzlGD1eZvVsNHwFrf7xN+dMNhlQ6RBcIKm+ILgBsdQ0HN+Zm93P0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793684284;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=DKQqu+mzr8P4Njw19lrTInQy5OStEJKS8qeZmyL2MNM=;
-	b=QFiIrzwdIqhiMgMFMXHb5e8x9EE/g2nDcK1yyfPyVaajZh3LDvYMHKdV4Z/ZRtDLO7uy
-	 a2SHufJhf1SEdorNUcpPY1f9oU4HK6zNzsKrUOTlxqwg2RVvGGpvrIeT5V/bW/bBjQE74
-	 BJPBUVOAc8Svj6NCxLdMltsTIgL1SQzToqkyFAB6leNV25L9CRphib+nYP+izb6vRycgJ
-	 E3zdk84j2w5xcmyAfGxu3b4m7ildTHYHqjyyUYyJmf+eSLEqYDdBhmsXn4PG7WfFzrB86
-	 Oh8nw0yLiGYFVVMweqs4l1vSb0QZM8VcIZ6ocIgS+3OHaDfLGnX4NzOfAWTXsQB/3MA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793688095;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:X-HM-Tid:X-HM-MType:
+	 X-HM-Spam-Status:DKIM-Signature;
+	bh=fTgSatG4MvjMsRT9jq0XYpI+3FtgBlqcdEho8ORyYa4=;
+	b=Sbq85EBrcU7aNLIUBjtHYs7aMMxnEyJgl+p+XxinII+2Qz37/BVUAIADa0YZ/Jz1Yy2q
+	 uCUQ8fX4iOa3LVaTJxOCVGfa0FpsG2JXXf+X5EVK/7dgvtKXjpMth9fk7C3q1ig7Z08di
+	 MRL7o1hWbdqFFs1U3aGJEab1vLzLgFTkZEba5BoLQfHlMUW9dSAPNCNzFJ45LlknCiWpl
+	 aUPP8DgUzoQF80gx1gFIy0WTovYalZzIPWmq+Rn0jhg+mJQTVRgERl+covVl2nhLkCcQR
+	 7kSNZ6nVtSlnPgWMbiFI6bIZV5CycS2t5taqE4BoDDeM4MfKiLXR9Ea7zUOYJiwOcdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B9LN9gWC;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=senarytech.com;
+	spf=pass smtp.mailfrom=senarytech.com;
+	dkim=pass header.d=senarytech.com header.i=@senarytech.com header.a=rsa-sha256 header.s=default header.b=f2wG4d2x;
+	arc=none smtp.remote-ip=220.197.31.97
+Received: from mail-m1973197.qiye.163.com (mail-m1973197.qiye.163.com [220.197.31.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC37606A329;
-	Tue,  3 Nov 2026 05:38:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD09606A324
+	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 06:41:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8CD09606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B9LN9gWC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D48A91F000C1;
-	Tue,  3 Nov 2026 05:38:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793684283;
-	bh=DKQqu+mzr8P4Njw19lrTInQy5OStEJKS8qeZmyL2MNM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=B9LN9gWCiRHEa0yN41Dp6ZFAIrfEN/fEyH01CdUyaEG0DjZmd/+WZKA51CTDVK/P/
-	 n+gNGN7xmFtEzIflF/CHlkMjNQHPF+xgflDZAMaY2AE9yJuhQA/elyl7NQVXhm61PL
-	 hXyu3TBgDpxBeEsGRTBRck97t8qI2Bjq08iaRuoO0mdy9Ixz9Ntn9X+MXCWVch/pIu
-	 Tk7OaVNS8RzbRUllR062xF5lOrcHyjZdTx+6e6NYdnsqab22/oKl9eJhHTG8SqYUEs
-	 3eiWKA4g3VYdS/h8Lp4okE6/nlKXHTkLaPZIsmoUHwqL5hNGUiks1GtuqbQ32aoyxz
-	 R5Ph03y7hGjDw==
-Date: Tue, 3 Nov 2026 11:07:59 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: linux-sound@vger.kernel.org, broonie@kernel.org, tiwai@suse.com,
-	perex@perex.cz, amade@asmblr.net, linux-kernel@vger.kernel.org,
-	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev
-Subject: Re: [PATCH 0/7] ASoC: Intel: avs: Soundwire support
-Message-ID: <aulzN9MCl5CJB1Al@parshuram>
-References: <20261102181042.1922005-1-cezary.rojewski@intel.com>
+	dkim=pass (1024-bit key, unprotected) header.d=senarytech.com header.i=@senarytech.com header.a=rsa-sha256 header.s=default header.b=f2wG4d2x
+Received: from Wangqianghua.localdomain (unknown [27.38.136.171])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 534b0d0c1;
+	Tue, 3 Nov 2026 14:41:22 +0800 (GMT+08:00)
+From: Qianghua Wang <qianghua.wang@senarytech.com>
+To: linux-sound@vger.kernel.org
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Mark Brown <broonie@kernel.org>,
+	alsa-devel@alsa-project.org,
+	Qianghua Wang <qianghua.wang@senarytech.com>
+Subject: [PATCH] ASoC: Intel: soc-acpi: use dummy topology for SN624x
+Date: Tue,  3 Nov 2026 14:41:22 +0800
+Message-ID: <20261103064123.115057-1-qianghua.wang@senarytech.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -57,105 +59,136 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261102181042.1922005-1-cezary.rojewski@intel.com>
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa1a02418d509d8kunmfda58cfb30caff
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaTkgYVkpMQkpLQ0xNSRpDTVYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJTFVIQ1VKSE1VSkxKWVdZFhoPEhUdFFlBWUtVS1VLVU
+	tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=f2wG4d2xNar2tRML1bj8EYhaJN2zjDU4tdbUZMxDv9/paWsDiIh0pq1qWuLIsMBlZtz0ntMRignCxk3wzS7rDxbLD6RUIHiWigrUu/m2nRgIRcCM0Fm7J6svbtIBJ2s1ueF6tk4ttKKTmgUK/1ARdjEba0nzt3qYwdZslqJH2NQ=; s=default; c=relaxed/relaxed; d=senarytech.com; v=1;
+	bh=fTgSatG4MvjMsRT9jq0XYpI+3FtgBlqcdEho8ORyYa4=;
+	h=date:mime-version:subject:message-id:from;
 
-On 02-11-26, 19:10, Cezary Rojewski wrote:
-> The RaptorLake-P and RaptorLake-M based platform used in Automotive area
-> do utilize SoundWire for streaming audio.  This patchset brings such
-> support to the public domain.
-> 
-> If possible, I'd like the changes to go through Mark's tree.
-> 
-> As the patchset updates drivers/soundwire, I've decided to strip it off
-> any machine-boards and have here just the changes done to the main
-> soundwire driver and their user/usage.  Machine boards for RPL-P/M will
-> follow in a separate set and do not touch drivers/soundwire stuff.
-> 
-> 
-> The reasoning behind modyfing the soundwire code:
-> 
-> Typically dai->startup() is responsible for checking if all the required
-> resources are available whereas dai->hw_params() is responsible for
-> configuring such resources.  Existing code does the PDI assignment and
-> its configuration within one function - intel_hw_params().  The logical
-> split is not possible.  The change provides functions that represent
-> such logical blocks: assign, release and config.  Such division exists
-> already for the HDAudio interface, see sound/hda/core/stream.c
+The SN624x SoundWire entries in the MTL, ARL, LNL and PTL match tables
+point at sof-<platform>-sn624x.tplg. Those monolithic topologies are not
+shipped in sof-bin, so the SOF probe fails with a missing topology on
+any system that does not carry the out-of-tree files.
 
-I understand that you want to split things up which helps your avs
-driver but I fail to understand why should we add one more layer in
-soundwire intel driver to handle one more driver from Intel.
+The SN624x jack, amp and mic DAIs map onto the generic SDCA function
+topologies (sof-sdca-jack, sof-sdca-1amp, sof-sdca-mic) and the HDMI
+fragments. Use sof-<platform>-dummy.tplg so the card is always built
+from function topologies and no monolithic topology is needed.
 
-Why not modify soundwire intel driver to do both startup and hw_params.
-This way the driver does not care if it is calling sof driver, avs
-driver or somenew team driver! I would like to avoid a new driver
-specific handling please..
+Tested on a Wildcat Lake (PTL match table) laptop with SN6244, with
+sof-ptl-sn624x.tplg removed: the card probes with sof-sdca-jack-id0,
+sof-sdca-1amp-id2, sof-sdca-mic-id4 and sof-hdmi-pcm5-id5. Speaker,
+headset, DMIC and HDMI playback/capture work.
 
-> 
-> For the user i.e.: avs-driver (sound/soc/intel/avs) it also makes the
-> code very cohesive - aligns with that's done on the HDAudio side as all
-> the HDAudio streams are assignment during dai->startup() and configured
-> with dai->hw_params().  
-> 
-> Also, the existing code fetches the PDIs based on pre-defined "dai_id".
-> That's not the case for the avs-driver.  It simply asks: "is any PDI
-> free?" and assigns it for the substream if one is found.
+Fixes: 32f9c551a91a ("ASoC: Intel: soc-acpi: add SN624x entries for ARL/LNL/MTL/PTL")
+Link: https://github.com/thesofproject/sof/issues/11167
+Link: https://github.com/thesofproject/linux/issues/6002
+Signed-off-by: Qianghua Wang <qianghua.wang@senarytech.com>
+---
+ sound/soc/intel/common/soc-acpi-intel-arl-match.c | 4 ++--
+ sound/soc/intel/common/soc-acpi-intel-lnl-match.c | 4 ++--
+ sound/soc/intel/common/soc-acpi-intel-mtl-match.c | 4 ++--
+ sound/soc/intel/common/soc-acpi-intel-ptl-match.c | 6 +++---
+ 4 files changed, 9 insertions(+), 9 deletions(-)
 
-That makes sense, we can have pdis dynamically done, that is an
-improvement..
-
-> No predefining.  Again, this aligns with how HDAudio streaming is done.
-> 
-> avs-driver -only patches follow the three soundwire ones.  First, they
-> extend the existing code so it can accommodate SDW interface.  With that
-> done, laverage existing PCM code (sound/soc/intel/avs/pcm.c) and
-> soundwire-intel to implement DAI operations.
-> 
-> Cezary Rojewski (7):
->   soundwire: intel: Define stubs when library is disabled
->   soundwire: intel: Allow for dynamic assignment of PDIs
->   soundwire: intel: Split PDIs and DAIs initialization
->   ASoC: Intel: avs: Pass irq to dsp_interrupt callback
->   ASoC: Intel: avs: SoundWire support
->   ASoC: Intel: avs: Expose common PCM functions
->   ASoC: Intel: avs: SoundWire PCM BE operations
-> 
->  drivers/soundwire/cadence_master.c    |  64 ++++++
->  drivers/soundwire/cadence_master.h    |  24 +--
->  drivers/soundwire/intel.c             |  40 +++-
->  drivers/soundwire/intel.h             |   3 +-
->  drivers/soundwire/intel_auxdevice.c   |   4 +
->  include/linux/soundwire/sdw_cadence.h |  35 ++++
->  include/linux/soundwire/sdw_intel.h   |  41 ++++
->  sound/hda/core/Kconfig                |   2 +-
->  sound/hda/core/Makefile               |   3 +
->  sound/soc/intel/Kconfig               |   1 +
->  sound/soc/intel/avs/Makefile          |   4 +
->  sound/soc/intel/avs/apl.c             |   2 +-
->  sound/soc/intel/avs/avs.h             |  15 +-
->  sound/soc/intel/avs/cnl.c             |  25 ++-
->  sound/soc/intel/avs/core.c            |  24 ++-
->  sound/soc/intel/avs/loader.c          |   3 +
->  sound/soc/intel/avs/messages.h        |   2 +
->  sound/soc/intel/avs/mtl.c             |   2 +-
->  sound/soc/intel/avs/path.c            |   2 +
->  sound/soc/intel/avs/pcm.c             |  42 +---
->  sound/soc/intel/avs/pcm.h             |  51 +++++
->  sound/soc/intel/avs/pcm_sdw.c         | 276 ++++++++++++++++++++++++++
->  sound/soc/intel/avs/registers.h       |   4 +
->  sound/soc/intel/avs/skl.c             |   2 +-
->  sound/soc/intel/avs/soundwire.c       | 112 +++++++++++
->  sound/soc/intel/avs/soundwire.h       |  63 ++++++
->  26 files changed, 765 insertions(+), 81 deletions(-)
->  create mode 100644 include/linux/soundwire/sdw_cadence.h
->  create mode 100644 sound/soc/intel/avs/pcm_sdw.c
->  create mode 100644 sound/soc/intel/avs/soundwire.c
->  create mode 100644 sound/soc/intel/avs/soundwire.h
-> 
-> -- 
-> 2.34.1
-
+diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
+index 310c4b77c..1d5f6677b 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
+@@ -769,14 +769,14 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
+ 		.link_mask = BIT(0),
+ 		.links = arl_link_sn6242,
+ 		.drv_name = "sof_sdw",
+-		.sof_tplg_filename = "sof-arl-sn624x.tplg",
++		.sof_tplg_filename = "sof-arl-dummy.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{
+ 		.link_mask = BIT(0),
+ 		.links = arl_link_sn6244,
+ 		.drv_name = "sof_sdw",
+-		.sof_tplg_filename = "sof-arl-sn624x.tplg",
++		.sof_tplg_filename = "sof-arl-dummy.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{},
+diff --git a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
+index cbf79eb2e..a9fef394f 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
+@@ -867,14 +867,14 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
+ 		.link_mask = BIT(0),
+ 		.links = lnl_link_sn6242,
+ 		.drv_name = "sof_sdw",
+-		.sof_tplg_filename = "sof-lnl-sn624x.tplg",
++		.sof_tplg_filename = "sof-lnl-dummy.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{
+ 		.link_mask = BIT(0),
+ 		.links = lnl_link_sn6244,
+ 		.drv_name = "sof_sdw",
+-		.sof_tplg_filename = "sof-lnl-sn624x.tplg",
++		.sof_tplg_filename = "sof-lnl-dummy.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{},
+diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
+index e89c5cfd6..704b4e0d2 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
+@@ -1564,14 +1564,14 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
+ 		.link_mask = BIT(0),
+ 		.links = mtl_link_sn6242,
+ 		.drv_name = "sof_sdw",
+-		.sof_tplg_filename = "sof-mtl-sn624x.tplg",
++		.sof_tplg_filename = "sof-mtl-dummy.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{
+ 		.link_mask = BIT(0),
+ 		.links = mtl_link_sn6244,
+ 		.drv_name = "sof_sdw",
+-		.sof_tplg_filename = "sof-mtl-sn624x.tplg",
++		.sof_tplg_filename = "sof-mtl-dummy.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{},
+diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+index 0ce51c44b..a5896796a 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+@@ -599,21 +599,21 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
+ 		.link_mask = BIT(3),
+ 		.links = ptl_link_sn6242,
+ 		.drv_name = "sof_sdw",
+-		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
++		.sof_tplg_filename = "sof-ptl-dummy.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{
+ 		.link_mask = BIT(3),
+ 		.links = ptl_link_sn6244,
+ 		.drv_name = "sof_sdw",
+-		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
++		.sof_tplg_filename = "sof-ptl-dummy.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{
+ 		.link_mask = BIT(3),
+ 		.links = ptl_link_sn6247,
+ 		.drv_name = "sof_sdw",
+-		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
++		.sof_tplg_filename = "sof-ptl-dummy.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{},
 -- 
-~Vinod
+2.53.0
+
