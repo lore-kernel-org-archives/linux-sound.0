@@ -1,81 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793712362;
-	b=J4QdJx9iUJ5Xp1SN2kvuvPDSSk3IknaOV8GBjj0mCwq1Y2VoUHkh3XBSD3TalcXf69HL
-	 Sg9Siy47eud+zd4SoZrEIoPmBSq9JRW4fbtlBJ882S4NrxgXc/JCz8MHD5jmUaIcAzS7x
-	 69iuWTYvnrx4V4QRpzvAeGFs8r7NfhU29qPVubdwcwIkIRMrKTGGWGtjl4g0UG9IZD3Zf
-	 oYDmMG2hdopObWIKDigbAFWMgtyMrXxSm0Fp8rPGdr3pmQ59KNmfYkRr5QSEmkKIAPER+
-	 17gtUdziNwdmpEor3hoa8UqSwZ/hbuX9Huh8QWBQqgbVKkNV5T324Smqwwn1AT6SUZQ==
+	t=1793712363;
+	b=N47kGBb/JZTOA8tkmtsAd/1zMhJYuXvZ8/qW/YesXp/38oBfi1WYvI+rp0Vt5suZngcz
+	 FIln4ttN0K1319lnUa9ZBdfKuLdM7Hy5nhLYcZ/OxZVnHKz3fyBYHl1J4JU0GgVgiok5T
+	 vOtik2xGMyflXm0xTjI9TLrWjVr4uMi5TyopyMBLeKRJ0VuK9pCHMMJr9/8H1BRTdn+0n
+	 Y2IvsqG4AFigkMyo86JFYEgJyqHZvbdyPf6Aw9xV/ku2fMdSot28F/FQHmlXuaMLhen+P
+	 XI2wFVlDS41f244W7xf0ONWoMoCgZ0EgJBjsAz0DAXYWK+NdmOnJZ4hh7PcF/LK6UVA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793712362;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793712363;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=4tPenR+/9h0LCzZJprU/jbaqrKPBMlOXgrDY4zMH4eg=;
-	b=tFeh/9NMVRAGQ1ejKXpQZsGUgOYyqPda79wrWLpM1VJYuJW7COom/Yb6kscNPJdmLGbU
-	 s+uRSDFuqmtOMxT7d2xo2dBQaX4TjFvIZ5D6e7j0+OtriPrTlnYHNZprOmYnppNhixPJ+
-	 Pjeyy0NtZoXeWsdXwtnZ6xS1ukeELFAyyFbIwgfaSnK4PVDrQ+t3MTHyYAo6AfAi6McT+
-	 3hQ+rPykSwVX4SXoA3u5B/YU5lFpGTY31n0elaRaDBQiAuMmjl9OdRKdstmv5u13M0/b6
-	 qgrAvmL/L2ML2rOvP5DHCOtyN4BAGpgE15D/8cZHNj1dTiuvNwREqGLjFyRiC0novdw==
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=iyxcrfJd2R6utTsQVGbm2c3rEERhlQ+yqDUDF6loNwA=;
+	b=MVPsGx5yekQO7corQI7Nj2DBBNI6RjfNJEo7fkPfhhFY4pGaHKRyY+Uz7BKkzLNeaDt3
+	 dcgMXTPi0bc+9licaBpAaP065o7ftioz+CnyAO6Ezo2vBVVNXD/hXtKUMuJeHpf1KdGnz
+	 6ej3PN8xzThjCwgTqKZPCHRFKxqj1RnvVq0LLzTePGY+pXvbFPTsQrSmizsY42pYmLMz6
+	 bXwAUftFF5PHH7j+GfeXNqdS5PkUmcipe6KNw4l5kNEGEc9Dbg2MpB1ib2IaiUUuF42/a
+	 NBeMzs9T3rthYSXudRFEp6N5fnRY+jHhsMpkvkL8SyYuIYoPP1NmLEj8oJVbpdpm+ZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pr1e8+U0;
-	arc=none smtp.remote-ip=209.85.128.54
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=R7VkuIbj;
+	arc=none smtp.remote-ip=209.85.128.53
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AECE606A32F
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 13:26:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2AECE606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D37606A329
+	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 13:26:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27D37606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pr1e8+U0
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so28376355e9.3
-        for <linux-sound@vger.kernel.org>; Tue, 03 Nov 2026 05:26:01 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=R7VkuIbj
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a218c463d1so28223195e9.0
+        for <linux-sound@vger.kernel.org>; Tue, 03 Nov 2026 05:26:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793712360; x=1794317160; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4tPenR+/9h0LCzZJprU/jbaqrKPBMlOXgrDY4zMH4eg=;
-        b=pr1e8+U0b60Vg86WqF9hISWy2VhHBhTPV0Top3duFznVviKPcsIIhKmqTzXK9c1uKj
-         C/gOOQzQRh/x8B4O/fDbE8jDc4kYFoMhZYTXVModQ30qRCIhC6fWbSWuGB9tIrtPeYyT
-         Tx5FUpZjxtOJVGi8gM3AHX5FLlDIfEBGYLAoNAioAafqXk6Hx14g4AdKi9joV8+IUm4o
-         arn6+HqerXCfP7AZnZSPxGnPptQD+5MvOdPUhomBG7Pr3xiB9D+TfYD/pGnHlPiCRPg2
-         kkD0Isa4fk5+6P7Yir/CUgPAzbWq2loBsnDAxbkpKZIZyDJnO9uXwB9HgDTFjD3dyLQW
-         9tfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793712360; x=1794317160;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1793712361; x=1794317161; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=4tPenR+/9h0LCzZJprU/jbaqrKPBMlOXgrDY4zMH4eg=;
-        b=Kq9RRu8f3KsdQPeewYLEdku/MQqu2/1VUzSphl0hzC02Jro1+n4BlYxd/A7fiV9+se
-         WFqo2EOBVLAW5moi/Bu/WMmf+CwRI03wKuvDMscUooUOsrl6bfpiJ7DHSvdgQ6gme4c6
-         dGQFb5t748Z+UUCG5mAmefMAcqnHCFeIVCH0a/EEF/sOOJA/PudmZDXA7Tu9i9Zl1OLx
-         91TfZNOfPrftHyledhBDrWh5kHa2t8YR+cpvOnK2BGUb++dP8TzF2hVudCSUXOlUSivt
-         /tNLvWyFQsLxNZl43Hj1o1b3ok34/uXCRuHfdFlPn+K/ZNYTd4/vj+ZjBPitB7CoY0V8
-         DUNA==
-X-Gm-Message-State: APuU4Z8g9qq+leh7Xwcx+r3Dw/EXuiRZuScgpPeI/qqxFnjuokkgm8eO
-	GzeOFTHjLZSsP30f7jiRF88yryLbCOB7mXk2LnWQ0scUSJhJ7yqhXOC8
-X-Gm-Gg: AYBFou1uWvcVHGv1mEMCaF4oCQF8quVlKvVRowXhuDaq92KR1KMf2vbiEG4RaB4c7bV
-	l2zc2AADgV9qtWnzkdDH29O5f8hQynz6q3kLRhbZ/HJHvYIbTa0Uk0C6fpgDLKmzbIA7/j7C1RH
-	Jgjgav5o9ppJ+kGk38IZCIEXLAHbgSM1lLy/m8x9ME4yHMWnPiaTErS1CUIL11JvAE753+elj+1
-	oo084YFXqKFLrWGjk9/48PXr6sK3Nf5g7S2FyS1zvOA5UZYn4oidG80GvjTzg1e9KcUbv3zB3E1
-	1XMBJo6uUyLWU5c2JgiuJfSbbfdQmCyM9nkHc1TvS1MSKseb053OI37/iuMufmVwsh3dYpaSGJL
-	WfwV4CJVuvrCzWD2SejHIYQty3//Hijk3Vd7aRKvTocvwFDOa9fHuVHurKeplEbijj1vJg8xBuY
-	3TNcqSUHipjfeIsyYyp1qY5PB8TMdXvk48DkH3BSukxshE9XlwfAUcOYPheoowkIWn65/HladuO
-	PIayR5jd4LrhtCtgNu5Fhwstx/xoCx9L/v0ZBSZlg0Yfso8uNIG7KHdqWLjiyHoqMELCs8Rislv
-	72zHWcqa+PZvHJ9qlS99YpbqkACZ3oCG6J2bgDucl7Oo62DEXeQk+o3N7tltGnc08OCB0ScMDka
-	i8kc0G8FwdIPjore1Pm8CUMw=
-X-Received: by 2002:a05:600c:a00b:b0:4a7:b304:253e with SMTP id 5b1f17b1804b1-4ac1765d8abmr303491105e9.22.1793712360411;
-        Tue, 03 Nov 2026 05:26:00 -0800 (PST)
+        bh=iyxcrfJd2R6utTsQVGbm2c3rEERhlQ+yqDUDF6loNwA=;
+        b=R7VkuIbjFzlOrnPSNxpJE2G2yXkwSEIR7kaAD95jDwLmTnu9WhLHaf/BiAaLV+lcc2
+         lyjTVdUr2jPPEnWGol7yqT//AwaacuZLAXKVAHrWbGyL2tT1GSqyC9359QOh2Dg5II65
+         lkvy2o2QoEpALrBrnnYdy5wfVJTYY+GEI/1ryrUerThfxGmM+xwsSSLWzWHnhwBIYXOD
+         Z622L2yYMFm9oatgvg5OrRvM419Lf/PsQT92FRqJiqh8702bYk+45MGmqiAxPl0z+6hc
+         bvAzDvsD8HiA0hJORkLqkRNDp5hGmBIwRKS1l1+cwuIvXTjFR5W8gk+KM4vgwZrRxKi+
+         Fo7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793712361; x=1794317161;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=iyxcrfJd2R6utTsQVGbm2c3rEERhlQ+yqDUDF6loNwA=;
+        b=DvIEQTYc/NMBtPG5MOqAHil+Sx6CK6bcehOkiPJgp0zZQYMVMPMmW8Yf+JWj2UthZb
+         mSwY2GjzIQSoDhoA6al7PeqHAqy/rVFD+nZ5iwRj9t9dknIGRsKaxs+TSatBKPHvhrGB
+         PSNpWZeAURAnrTqohdkW7drt6Z/L98dzM4yjbnqeUk/xgXHqwzPDDUJvcsKkVTMMNHaS
+         fEegEAxFg88lUReFvMLA25UqorLXMOU+UkoLMHv1kkJr7t6aT0kBNtAq0iRjWR3mR5ZA
+         QlkuyDcar8oFGTRlMNVQtiwP5HAhzyO1fpEeEBAqDFGboX40gyOoFC7DkYyHFifOII5+
+         nAGg==
+X-Gm-Message-State: APuU4Z8hHM8eqeaBtK/Wj3nN8U/4TbmUPq82KX7K4Oo4/x8Kvoku9Va+
+	PvfW52nS4E0lLwe+eKkJxWKQueHUDDgM6UwWdUmz7rs8cOHdjkh4KZjc
+X-Gm-Gg: AYBFou2M5nFnPPfkMMkejnXJMWyOa+jRwC4j7mRWYszXwXpgZIWt678Z2ciK6G8AUtM
+	8TFHoK05tmYAaXuOZhQYCr4T5frV6BuIgOWNNj/FxVMJSDuuf+r3VK7ywlgwJF6+WGYv4TpMD6b
+	qG850nvO0U+bDMvq1beLy96wptffRbMbPOlZfS+l63UbXAB194aOe/f5+MipUDCk80qSs/qUFwN
+	d057S8VxnUIYEXe74DFYKs8K+2L19gAYFJsy0pdph1yNOKZBlhcv7Q/8SMMRR800FS6MDItRfh1
+	buydFrpxhiHmNzgRZQpPjwZdaqrEiftl+y9AgeXYmtmzClQPjI6lLJnC+q89QOjnLM7qxiRPjnF
+	gC9c/M/GmBBqk2HrzxF5/NfY//UVsLOHcY6IF1uCRZW1iRvgUg3qyCsURx5V/IESp7OszVCKu36
+	wmWlgKsbgtAT4gtC4n80HMJiaW9sK2PqqMHR+7sjrumcDq+4XkTyLmqpbDgpYoOdn4Jwi754bhB
+	mZp2cdOiXQMX9eSTMqa2+uyMYtFejtEGeCFPhLV42YcPOg3bx6LxaZ11yLNvNr8+YO0luwX/EkS
+	wzD1NkESO9JR8r15q78OdsZOjTiWNKssrK5NmeOtJ025JsoDxUkRTxuYoAN/BB5epIgwG2ZmC5F
+	wTwU=
+X-Received: by 2002:a05:600c:46d2:b0:4a1:d537:1c8d with SMTP id 5b1f17b1804b1-4ac187a6a38mr302145995e9.19.1793712361435;
+        Tue, 03 Nov 2026 05:26:01 -0800 (PST)
 Received: from kreach.multipass (nat44-21-238.net.ruhr-uni-bochum.de. [134.147.21.238])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b2a82cebc1sm84725725e9.1.2026.11.03.05.25.58
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b2a82cebc1sm84725725e9.1.2026.11.03.05.26.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 05:25:59 -0800 (PST)
+        Tue, 03 Nov 2026 05:26:00 -0800 (PST)
 From: Jude Gyimah <jude.gyimah87@gmail.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org,
@@ -86,10 +88,12 @@ Cc: linux-sound@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Jude Gyimah <jude.gyimah87@gmail.com>
-Subject: [PATCH 0/5] ASoC: rockchip: fix missing REGMAP_MMIO dependencies
-Date: Tue,  3 Nov 2026 14:25:32 +0100
-Message-ID: <20261103132537.3717496-1-jude.gyimah87@gmail.com>
+Subject: [PATCH 1/5] ASoC: rockchip_i2s: select REGMAP_MMIO
+Date: Tue,  3 Nov 2026 14:25:33 +0100
+Message-ID: <20261103132537.3717496-2-jude.gyimah87@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261103132537.3717496-1-jude.gyimah87@gmail.com>
+References: <20261103132537.3717496-1-jude.gyimah87@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,37 +105,43 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Each of these drivers can be built into vmlinux while the code
-providing a symbol it calls is a module, which fails to link.  The
-same shape in 5 drivers, so they are here as one series.
+rockchip_i2s calls __devm_regmap_init_mmio_clk, which
+drivers/base/regmap/regmap-mmio.c provides under REGMAP_MMIO.
 
-Affected: rockchip_i2s, rockchip_i2s_tdm, rockchip_pdm, rockchip_sai,
-rockchip_spdif.
+  rockchip_i2s.c:(.text+0x418): undefined reference to
+    `__devm_regmap_init_mmio_clk'
 
-The fix is a select rather than a depends on: the providers have no
-prompt of their own and are only ever enabled by a select, so a
-depends on would leave these drivers unselectable.
+The driver can be built into vmlinux while REGMAP_MMIO is a module, in
+which case the symbol is not there at link time.
 
-Each was reproduced on v7.3, x86_64, by a vmlinux link that failed on
-the named symbol, and each links once the select is added.
+Select rather than depend on: REGMAP_MMIO has no prompt of its own and is
+only ever enabled by a select, so a depends on would leave
+SND_SOC_ROCKCHIP_I2S unselectable.
+
+Reproduced on v7.3, x86_64, with CONFIG_SND_SOC_ROCKCHIP_I2S=y and
+CONFIG_REGMAP_MMIO=m.
 
 Found with kreach, a static check that compares what Kconfig allows
 against the symbols the compiled objects actually reference.
 
-The checker is at https://github.com/JGyimah/kreach, and the
-reproducer configuration for each finding is published with it
-under results/.
+Fixes: 4495c89fcf26 ("ASoC: add driver for Rockchip RK3xxx I2S controller")
+Signed-off-by: Jude Gyimah <jude.gyimah87@gmail.com>
+---
+ sound/soc/rockchip/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Jude Gyimah (5):
-  ASoC: rockchip_i2s: select REGMAP_MMIO
-  ASoC: rockchip_i2s_tdm: select REGMAP_MMIO
-  ASoC: rockchip_pdm: select REGMAP_MMIO
-  ASoC: rockchip_sai: select REGMAP_MMIO
-  ASoC: rockchip_spdif: select REGMAP_MMIO
-
- sound/soc/rockchip/Kconfig | 5 +++++
- 1 file changed, 5 insertions(+)
-
+diff --git a/sound/soc/rockchip/Kconfig b/sound/soc/rockchip/Kconfig
+index 391ce2225fde..d7ec1fbe17a5 100644
+--- a/sound/soc/rockchip/Kconfig
++++ b/sound/soc/rockchip/Kconfig
+@@ -5,6 +5,7 @@ menu "Rockchip"
+ 
+ config SND_SOC_ROCKCHIP_I2S
+ 	tristate "Rockchip I2S Device Driver"
++	select REGMAP_MMIO
+ 	select SND_SOC_GENERIC_DMAENGINE_PCM
+ 	help
+ 	  Say Y or M if you want to add support for I2S driver for
 -- 
 2.43.0
 
