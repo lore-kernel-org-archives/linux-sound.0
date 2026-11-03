@@ -1,71 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793703154;
-	b=x385oFXeVFhMaCQaj9/r3vMtpYRLTsiOYcp2a6YuZKQVehY1m6hUMQR6CzYU+958zwOy
-	 chSFhujR0EBem7d3wSkA6+AvwyDBhPPQd1CLJc/g1VuDKUN5MUK/Cets+qhbloJCZX/oQ
-	 vjtL4mz5z4pejR2wJcyEEsUbZIDEmdS9/7gH4phGBF1Z+g+rcMjWXPCMB8yguNE3qa8mc
-	 L34G2b0BE0E6A5HErUjP/Qvm/PBTSIhQDOGnjm5SlKMcj4mEnBAPR3oYQ1+DOCnkd0cGr
-	 VnrGBHQdn+jLlGulRk7b4S/dEZ+pziowcWBwGk5X4yJlnHOc4kp1qzYN006nBzj/epg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793703154;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Proofpoint-Reinject:
-	 X-QCInternal:X-QCInternal:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=qEy5ltw6jOyv468LbQnSyZW5ZFllBAyvgrz77H+x4a8=;
-	b=Zi7Fpp4w0OzhzAn4i0t+V8FJCwlVCnbYFluWFdxauI07Wt5Q5j9CrbiUtAqPKbUifa4D
-	 DoPvhNIYdtRcfwhFwRluoFfSmyIX2g6VMeKHrnvfaMtSAm9TI8teQRhlVscY/xY6Gxd4x
-	 Wn1TQRtaTwobzV72KnrPLsxjaXVrbOMGmT9udBm+PdilzHjLp4CKUplCGi7IohRMkCVB1
-	 yJVl8s+P5Sb9X6+7PunFGXXKiUyYCd3oQqaC3lnC25+L4cQ/iPfW6e4Cj+o4borYhMTsb
-	 /omWiugdI2CCalNCbW6S7IaDAKVBDV5r/cUFlh2FoOMxkjZMSOD5GI/XObFsnMqnSVA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b="P9BN/vkM";
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.182
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793703679;
+	b=rLs/oEWVtTmK0A2PCzvHyGoeC9vDOsEJm/T81d1iVB+rsQWKo6aSIgNcY/9ZWdg4iqC+
+	 kjj1y8OYKCyQ7hz2nlA1u3xsc5w8GaLwJBL4LbBMnaB5huoWQA5NmmSNe43P/ojcxz1bQ
+	 2/51tpt7GLbcVECwwHUp+M0mAZSevvcYnCSi4j3WsXgncifsP1k15ksYjIoaWXYtjS16R
+	 Furn26WPP8BaXf8iX8WWCSRCKYFg4vImdMGSbeektmV09cZqNE//2u+KME44EbmaNlI1C
+	 VIaL+47MZo4y4KLBXO5R0xWzdrDMtYlM+SNsoBRMKkl0nqARw6yhZt6CPMRobiDBNLw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793703679;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=sn9Od1d1g96GmgUVpWI8H/bAOkp0jHvgb53RStXQYfQ=;
+	b=wOiIGsgrUuWBDtuWRNwIO9f6qsMqRMX3/HRQ2MgPpJKj/Q6L1IMVhwOzr9oQE63VMCj6
+	 cyhf8f8+QHo033KF3RFhdJoYNq00RIZDc9nRqTW+8u/hTXKahBZpaR6OX+5Eh+kLar4HR
+	 qfjm0ITVkqddxSKCtZVL4Yv9+B7UChimCRIoHaBzgd2ciMv/Rpj6I7CcGBs6RSIiBWcjP
+	 x0Id7vWkhtC+xKQJX8gcoGT4Zuf6x3+Y/Wphal9AH84q+UYBLajfPlZJV+uDOeWuWkwOI
+	 5qpm6iYGc+o6Azn4oDWhqHOgzT9BYS3NBFCvl21XJ/r9RNQPf8f+GZroxUozjWIUI+w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=thegoodpenguin.co.uk;
+	spf=pass smtp.mailfrom=thegoodpenguin.co.uk;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.182
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0212606A81A;
-	Tue,  3 Nov 2026 10:52:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0212606A81A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=P9BN/vkM
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3AAoSH928175;
-	Tue, 3 Nov 2026 10:52:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=qEy5ltw6jOyv468LbQnSyZ
-	W5ZFllBAyvgrz77H+x4a8=; b=P9BN/vkM2R16Gv5sVLEcNlmMM6/Y5esO2IKvxl
-	E6jxkFvKAVziSk87wGooyQLEzV6mgRtE8Bmf4ceC8Odc5BVQUDIkqSg/GABIUN7U
-	JimFFIKPxEonSH4uY0VeLFUnkdcdQzZqPyerZD8v3hFl/78WCZcdEJga/bIzgif8
-	8iRZKcnAOHUd53MG2zU447JhEWOlsL86LAbJ6ODsjoQV78T9kJbWy1tjmgNxXOqG
-	lR4MbzcMnww+T5HxXwYw0KzrkzBght6j9kZ4+I8oBxhLKxIWLDNGW8PclPMG4ISO
-	FRU+SUsilz29CsMDjJFsL1hgPmZTg9MuszV+psuryR3PfVlA==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hq07ekbvb-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 03 Nov 2026 10:52:29 +0000 (GMT)
-Received: from pps.filterd (apblrppmta01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3AqPTG571772;
-	Tue, 3 Nov 2026 10:52:25 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-visr-hyd.qualcomm.com [10.147.247.190])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 6A3AqPx6571764
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 03 Nov 2026 10:52:25 +0000 (GMT)
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4111776)
-	id 5B44864C; Tue,  3 Nov 2026 16:22:24 +0530 (+0530)
-From: Ravulapati Vishnuvardhan Rao <visr@oss.qualcomm.com>
-Date: Tue, 03 Nov 2026 16:22:20 +0530
-Subject: [PATCH] ASoC: soc-core: Increase the channel map size
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8D2606B109
+	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 11:01:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B8D2606B109
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-5364042eecfso65978151cf.2
+        for <linux-sound@vger.kernel.org>; Tue, 03 Nov 2026 03:01:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793703672; cv=none;
+        d=google.com; s=arc-20260327;
+        b=tAa0TlVq+fAw+UO4AHEdwHxbQYxdLjnoDj9KPcMPS2AfW9LszwxOMv2BIvZzeHzJWu
+         SvkC1PqnRZhw2rkscryqlqA2khwBnYZOPBxTUNiJ/jSMF0OwiA6iL9LYjEDIcmSAUuyl
+         xmeongepMXZ5eGvkXGLiLBDdnoJhlbKCWDu36Mkw43DIe7d02e0uHXvspbzIZqonTAvk
+         4QbI2a1z0LemJrSn31/Vd6JyNpJdxKFIwPKA6txK2FHiE9EbC2wEasNJbP0mf5GPCJX/
+         N7INM1O6PVs8r8iwm8lebrLuB4UquX/mL6aOx3ebKtwbe1IEDozWwWe4t0MZKgarm8sb
+         fmJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=sn9Od1d1g96GmgUVpWI8H/bAOkp0jHvgb53RStXQYfQ=;
+        fh=0v1NAMqZuXKJZoYtVsl7l1WY01RDhg1wi5N6vWkI8xY=;
+        b=pemVWElXtK5h50WeprHKw7UokXFBZS5KVBVMDnM++ynvAs8+1AiULz0cowmLqo5FL+
+         7ZAutX8YZjsBUIY09E0cdAsqpUtuSEKA9A5GYeGn8FDPTPsQdZofq7yEhMQUuCwqjWla
+         SVFz8xqvSd0uOS4vRgaHU4/+/Dw5q7brkaxgMI58NMP7/26CkAKRv8HFTZLqZg16Ku/D
+         UG1fUiTogCwgyrvm2YT0AF2x3kiACApWv+ZXMp+0kmvEm7wWd5MXx4uANOEEOaDR1P5t
+         40rMVJ0OyadOU2Ia/P5OB6LwsPhRxyWp0mTlW8d4CHKZELg3NO1bnv+U7mnRr6MOxIln
+         +Pwg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=thegoodpenguin-co-uk.20260707.gappssmtp.com; s=20260707; t=1793703672; x=1794308472; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=sn9Od1d1g96GmgUVpWI8H/bAOkp0jHvgb53RStXQYfQ=;
+        b=Pz3Y4KMeK2eY7RaHYtlKu1J7sH+3HT1AN9Y1jhkU1u1BzolllJGseg6l0Oh+TO8WmZ
+         I787+KldE1OJsVNQ2eZ1lqF2kjDacSGnXeu/o+LOEpxQXmQVkfUFpS/62LO1lxz56G9f
+         RkPsCCf8TfPczShU7BO/ULwQqV6l2XIQ/vMOl0YzKXnRMgfI74WdLvnUjgSHxJUWWSok
+         iUAV/T1HLxAGh1up7gSomvRNV76+6VaXaQTUcMC5ZBRjgjs71nHOZ27jLrBWjrnoqx7k
+         oQDdoOjRZnn9TbtLI3DhY2XCnZ8HBCxPVNA6+eJIfEUPR5CAJ3UmuUeWgkypprr3KVHN
+         xFGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793703672; x=1794308472;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=sn9Od1d1g96GmgUVpWI8H/bAOkp0jHvgb53RStXQYfQ=;
+        b=nRdSBIWO3DRZWb44UqQiOLWt72STABnIU5nqBK2w0w9MtoMv4+SiMWerb/T7avlfUf
+         9hq+gwDQNiUf30ccZFzrFNfq4AdlpzGdYobo47jnQT5JrCdDApE2FsLTdKl7LpCxbAD4
+         yWQH9xDE7B6gmnDE9oa+TK9QFy7Jt7YyWJfw6ubFvuKL3OFTfcbE5aiQ7jRGAV9ynqg7
+         nIgp99MgS2UO9sFZQhOXnAdfKNhHXqe/YHz2ovBgdYMARbTbdk6JXDs60sNOEp/8kc6z
+         OM/PIkIfA1/KbjaKgcoxw1OhoAgjZ1h/gONJcPCPAsZsHlRZ0rTkPWr/cy9UeSw5XmpB
+         sxPQ==
+X-Forwarded-Encrypted: i=1; AKwUvBydmdDNU/L6SBbKKDBhU0WM6gWOircWHh3+daDzoHyQ/dlEzLurjDXgpUO9q+KlXbf8O2zL0qcT/hsesg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9W1/paHh185Xc6G+6NitTNz4QFuS6tZ980vpmo+9phtF6nhc+G
+	onvE7v2h3mWRcW58G41lPwX9bRpygLX95nanWDeEJ9ph92xkAe+ZT1WVmBzsd0vXZqx4aJpXqsy
+	7pfJx8w2ReKfBKXlSVFacW3L9w+FuS+oHOtmPBEtkrA==
+X-Gm-Gg: AYBFou3yN11MnuBrCQKaFSgXqtckoBw13GqkjONJ5ej3Nk4G1yRTpzwo7ZmJcJ9g5ly
+	03fmnrfqnTYUV8PJtUR6khaZXo2p/j1JQJMW4a+Wo+L6wqAmKYfiFvTj1DdDr4jQC9Sd8uO/6Fj
+	Jm/jQgckGl4ld4YHycPJIbmeyAn7g2DtVDbT5V6bRwXjvF7T73fPprNoSSkhLnB8sMN4bd5zuTB
+	8yr6/xMFQequLVqOb/UmtmKNY/NIb6rnA1Z4srn3jI4PRA8pvYWo5eXnW95laBABB3SCWpEJ3PH
+	PeQmBDlpyAHWX1dDwkVlRzN4Kw2SVN4OVGSrtn4KiHKLG4PJJtXnGoAWph2XuvndYOOR+TTPK6i
+	ScyW2PurW70e+7ohz3TDaowGbBaPp1t47ivompaRl17eazGLP0mCXl3qJ6Z34y+bBwK05J78=
+X-Received: by 2002:a05:622a:1386:b0:537:f05d:6ae9 with SMTP id
+ d75a77b69052e-542b62a5744mr204134421cf.13.1793703672263; Tue, 03 Nov 2026
+ 03:01:12 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -75,128 +100,22 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261103-for-next-v1-1-ecb1348f5941@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIAOO86WoC/yXMyw5AMBSE4VeRs9ZEqzTxKmLhMjgWJS0ikb67Y
- vkl/8xNHo7hqUpucjjZ82ojZJpQP7d2guAhmlSmSimzXIyrExbXLlQhdQ4MRhtDMd8cRr6+q7r
- 57Y9uQb+/ewrhAZsd5nVsAAAA
-X-Change-ID: 20261103-for-next-25143eed7477
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@kernel.org>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ravulapati Vishnuvardhan Rao <visr@oss.qualcomm.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793703144; l=2839;
- i=visr@oss.qualcomm.com; s=default; h=from:subject:message-id;
- bh=u//ojz9Yufyu/uL+n9G+DkvUhOXUOkfa2iKt+yWtb3A=;
- b=FLcTe9FmHsJ5nsffA93vQABgwmWa6RGXEst55btV4thHml9z7oHipT0BFlsu5nlVp3SPpB3/d
- k0DEed4dgElAe8n0VZ/3BzOnzQNaNV1pNLZCpCB6V9RjdiqpQHQ4GjH
-X-Developer-Key: i=visr@oss.qualcomm.com; a=ed25519;
- pk=GoDnV13dWTslbCatMEeEY9AEcT1eIoUN1ommOImG20s=
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAzMDA0MyBTYWx0ZWRfX/MoBw2f7L8q7
- U9deTHs7mUqm6QUML1y0zwMF7t70OBZRopoOgteDZj/YJQ0H0pZZovDuMzRyFaBV/3YM9RP2CbJ
- qeeu5yFxsk4VfOT1h4lNFW2CjFdWXClyYc/NN4avSvV6fwhgA2XFLBycWEFaYHckJbNUVG5OoPB
- sztY5odWOQ+vKZv34od0IHlHJSqYl65Y/v617lPynwGhGxf7kkuBJJWO0K07Umm0/0VzC4B7xBy
- GvcoDj2G8Q8kGF3cN6jdQdkQtz+/1VHiHfePazEP56nvw2ge6BjGJ2nW3JYyurt/RMbcaCvYIjL
- W8qM7Gt0fo959XJhtotJ64oEj9EtssHyQNhQ1sBMuC0p/D7RlgZSNiabnZxUk2LOORgaYfAhzye
- J6IvHAKnsPs2jcu8ZM9G78bjAp/xhJrYkooavmnHg99l+PfW9N5zpyqWsqUsXUQPotcOdSaDlAF
- 3nLi0JBbKqt7z9UMwUg==
-X-Proofpoint-ORIG-GUID: HGZb5sTiM_RZqUxUMoUw3_IJzuiU7_On
-X-Proofpoint-GUID: HGZb5sTiM_RZqUxUMoUw3_IJzuiU7_On
-X-Authority-Analysis: v=2.4 cv=B/wsQ+tM c=1 sm=1 tr=0 ts=6ae9bcee cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8
- a=Ay8ZzO_LnnA4frhq9ssA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAzMDA0MyBTYWx0ZWRfX+zugDiz5XVYx
- LIVhWBzZnC2E9bcoFz1JAiarlC+r0aljQ/VrPab2CoCZ8EvTi+yY6WbsIpcT7BEGtcV1PJTw2le
- UtLxZ6l5aCPUzEOiFPHWgiJutHX4xM0=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-03_02,2026-11-02_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 suspectscore=0 adultscore=0 clxscore=1011
- impostorscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611030043
+References: <20261102-acpi-mfd-v1-1-d61029971be8@thegoodpenguin.co.uk> <aum3RLDLDa1gllge@ashevche-desk.local>
+In-Reply-To: <aum3RLDLDa1gllge@ashevche-desk.local>
+From: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+Date: Tue, 3 Nov 2026 11:01:01 +0000
+X-Gm-Features: AclHuK-r_cJD1goYWPornsINa7shzhekDP8lLl1_99QVlK0QEb0lwrUHquiGssM
+Message-ID: <CAA6zWZKqCpD8GLjnTwAOnBq+Uhq0fA=eCRm4tkX9YDeiC=h2mQ@mail.gmail.com>
+Subject: Re: [PATCH] mfd: Use named initializers for acpi_device_id
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Lee Jones <lee@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, Zha Qipeng <qipeng.zha@intel.com>, 
+	Qunqin Zhao <zhaoqunqin@loongson.cn>, Thomas Richard <thomas.richard@bootlin.com>, mfd@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-crypto@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-As per the need for new OEMs it is needed to increase the
-number of channels size as some of the OEM have ten mics
-and one speaker.
-So for this it is important to make sure that channel map
-needs to be increased.
+> Can you split Intel LPSS to a separate patch? It will help reviewing both parts.
 
-Signed-off-by: Ravulapati Vishnuvardhan Rao <visr@oss.qualcomm.com>
----
-The ASoC core currently provides default channel connection maps for up to
-8 channels. Newer OEM designs can exceed this (for example, topologies with
-10 microphones plus speaker paths), which makes the default maps too small.
-
-Increase MAX_DEFAULT_CH_MAP_SIZE from 8 to 12 and extend the default
-sync/1cpu/1codec mapping tables accordingly.
-
-This keeps existing behaviour unchanged for <=8 channels while allowing
-larger channel maps to be represented by default.
----
- sound/soc/soc-core.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 97269b4ee..f5660245f 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -859,7 +859,7 @@ static int soc_dai_link_sanity_check(struct snd_soc_card *card,
- 	return -EINVAL;
- }
- 
--#define MAX_DEFAULT_CH_MAP_SIZE 8
-+#define MAX_DEFAULT_CH_MAP_SIZE 12
- static struct snd_soc_dai_link_ch_map default_ch_map_sync[MAX_DEFAULT_CH_MAP_SIZE] = {
- 	{ .cpu = 0, .codec = 0 },
- 	{ .cpu = 1, .codec = 1 },
-@@ -869,6 +869,10 @@ static struct snd_soc_dai_link_ch_map default_ch_map_sync[MAX_DEFAULT_CH_MAP_SIZ
- 	{ .cpu = 5, .codec = 5 },
- 	{ .cpu = 6, .codec = 6 },
- 	{ .cpu = 7, .codec = 7 },
-+	{ .cpu = 8, .codec = 8 },
-+	{ .cpu = 9, .codec = 9 },
-+	{ .cpu = 10, .codec = 10 },
-+	{ .cpu = 11, .codec = 11 },
- };
- static struct snd_soc_dai_link_ch_map default_ch_map_1cpu[MAX_DEFAULT_CH_MAP_SIZE] = {
- 	{ .cpu = 0, .codec = 0 },
-@@ -879,6 +883,10 @@ static struct snd_soc_dai_link_ch_map default_ch_map_1cpu[MAX_DEFAULT_CH_MAP_SIZ
- 	{ .cpu = 0, .codec = 5 },
- 	{ .cpu = 0, .codec = 6 },
- 	{ .cpu = 0, .codec = 7 },
-+	{ .cpu = 0, .codec = 8 },
-+	{ .cpu = 0, .codec = 9 },
-+	{ .cpu = 0, .codec = 10 },
-+	{ .cpu = 0, .codec = 11 },
- };
- static struct snd_soc_dai_link_ch_map default_ch_map_1codec[MAX_DEFAULT_CH_MAP_SIZE] = {
- 	{ .cpu = 0, .codec = 0 },
-@@ -889,6 +897,10 @@ static struct snd_soc_dai_link_ch_map default_ch_map_1codec[MAX_DEFAULT_CH_MAP_S
- 	{ .cpu = 5, .codec = 0 },
- 	{ .cpu = 6, .codec = 0 },
- 	{ .cpu = 7, .codec = 0 },
-+	{ .cpu = 8, .codec = 0 },
-+	{ .cpu = 9, .codec = 0 },
-+	{ .cpu = 10, .codec = 0 },
-+	{ .cpu = 11, .codec = 0 },
- };
- static int snd_soc_compensate_channel_connection_map(struct snd_soc_card *card,
- 						     struct snd_soc_dai_link *dai_link)
-
----
-base-commit: 11ae63bd9030349a0136fb2edd1622a4a029edc8
-change-id: 20261103-for-next-25143eed7477
-
-Best regards,
---  
-Ravulapati Vishnuvardhan Rao <visr@oss.qualcomm.com>
-
+Sure I can - will do in v2.
