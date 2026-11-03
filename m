@@ -1,113 +1,112 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793716945;
-	b=k5nVQZLrg5DTLdIGn1aJoW7TrO4hyxBK2Fwf7WVLkDpkJS6aYTZpv221LyWyD2SNpJqN
-	 v8gHyJKRbrFksV2Lp47savNkfUr+gHxjpBYqw6T/a39JkKfRcepwbGT8K4X36eMNYw46C
-	 ehYhGQd0CjZHEPaimMRcHxuBdpC4DFGXMcn3/XIhR3kUoNbqIZo0Mkyy2Oejh3rD5MLm9
-	 /r/NHO5TwI6qOybO8dWZKfefkMTIDaSZAYm+kViAybBkKuul2Ro2hKlKGkRVrFFu4nhiN
-	 4K2sR9BptLnxXSZWaPFwX5vMrWCiRJI91nU9+cW1SAtMhSsDagq/swi9EkKMtXrjHEw==
+	t=1793717070;
+	b=vnZuQhlxdxuJRDFSQpJd7UbmnJxd6E+bilpDCl40A5aZW/ThVJEqSOZxwYZKPS9H2ymi
+	 CAbgEAzDKOTkTZ3+9gk1909d7UzeuwcC8YrD7wD13ziNp9lQxRCYTR75+Tte/sHWqYlnd
+	 gMNswvGuVsE9utKZieOu4/JvHHMGRyeZdRtX/7+uzFX1rE4SO1w+KpkSWEoikHewJ5zJ2
+	 BZDDso1thHF0qi9ONjXSXbSzi57E8ypfxvVOijQkfc2s+g3KR3fwh9hNZVlyaTjnisixn
+	 R6qEsBwEGX3Hmawov6gBUa65sPbkvxvPRpmf2Na7OwrnXit1VYHsIWnHDLRGQPQHKdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793716945;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793717070;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
 	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
 	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=T6/q6QjCoLJn3pJStx+qUEEr8xGJyJ+1T7hFKQ1zg0E=;
-	b=KAYR1c2gCfX7j6wbabwCRkPiju17B5bO+lvcCpbTxahDJzi0pUD8sdoUtZo18flTqiQ7
-	 6DtNAWxKucJkKWRA4odwyzqms8lwyl/Y9sotDfgxS6ilFREP5BRyUeUIQLJfiGDYy8rIz
-	 i7munm9GjGAk9gvl7vSjIEvZZ2wkb5mAJZ4csj+rdwLyqBOkZoHRntkGdDcPTFlimzlxl
-	 MaBIiXjtBnKmayxNRFyRZ7QyaVoTlSCZQgN27GTNcOwqPICUNGPz2fcVvq4cZMQAdAvcC
-	 lKtn2KbrdIR8Bp8Fmq1UlacvCVJMFkqSkGj5xNqSZPv/RGeuy+jXGHJSomyWET/kvXA==
+	bh=MOx8F45uSrWJfrvKQQ9bd2fIwgZx3o0QDqg7GBPLn0o=;
+	b=KSS2V7wq0WB7nBR/4OYzbj1MPqiw16jQCyK/72FaWxb47jCxmUom/nZVkx7TgTjBkBps
+	 iW6+h7Er30i2urAJPGrjmq+BIBxVnQkP2wevS8+PBJc0IhSnOsi3EQNiobmukeNbRCboa
+	 lUFufVSjN1cDbMd2B3BY0UpmHdnlLzBJHmdTQHHXUtf9uRZyZah3Jk72knM/lF4mFHAqt
+	 ghY0recs2qDZIeRUL6SF7HC/Z7m5q+2EX5f9XoGIYfReXUUbBXeQFhSn6KaTEija7APl5
+	 hjIMySTVLQiEQPrCQBlTeJU9g963+FJ9DMK+BWzUTMiyQORog79ynC25JRgyVWnSxRg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RCV6t8xM;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Cj3eoL6+;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="us5GvG/C";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6XmP0pS6;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=vYWHbTwJ;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pjH1LFEK;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=veVd1VnK;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=fu55teLJ;
 	arc=none smtp.remote-ip=195.135.223.131
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14E1606D83B;
-	Tue,  3 Nov 2026 14:42:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D14E1606D83B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E59606A327;
+	Tue,  3 Nov 2026 14:44:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1E59606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RCV6t8xM;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Cj3eoL6+;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=us5GvG/C;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6XmP0pS6
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=vYWHbTwJ;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=pjH1LFEK;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=veVd1VnK;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=fu55teLJ
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CD64F1F745;
-	Tue,  3 Nov 2026 14:42:22 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8E7D21F769;
+	Tue,  3 Nov 2026 14:44:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793716943; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793717067; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=T6/q6QjCoLJn3pJStx+qUEEr8xGJyJ+1T7hFKQ1zg0E=;
-	b=RCV6t8xMHNw8cO3lvHKLb91Ht9fJD52yW+U6BepP66XiPFuXyBuEIub65PPwLBCfaQo6CX
-	fOq0drUvozhU5r35hTaF0rVjwkNpoFfen7UdnO948qxLlDkpT8EM8bYYyGcqG7zg43/pg6
-	FSGnMEUj28HEp2JzJRa4REU67P16KPU=
+	bh=MOx8F45uSrWJfrvKQQ9bd2fIwgZx3o0QDqg7GBPLn0o=;
+	b=vYWHbTwJHrx+bHm+iJSZc6M+BPrBQ1uiG0X2WcWxr9Ywc3IJUIaVreUwNhEZD7ACKnfJLq
+	dOhDoBO91elMkKglnlJ90JB8x11tihfknKPFDfBdrzhJ8SYPgy8SK3k/ERgpjYhUWqNymX
+	FTy6GYatUJuYJnMDOC0rit9qJizcuWE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793716943;
+	s=susede2_ed25519; t=1793717067;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=T6/q6QjCoLJn3pJStx+qUEEr8xGJyJ+1T7hFKQ1zg0E=;
-	b=Cj3eoL6+GJIJYCEyItg3saQWy2VkYdpcSOM45e5NgjeRoIxKbicLv/IrOMgRONWlIlOKOO
-	tNlJWnsRTpDDdLDw==
+	bh=MOx8F45uSrWJfrvKQQ9bd2fIwgZx3o0QDqg7GBPLn0o=;
+	b=pjH1LFEKtGfIYJVjgCfyO5KqKO18HTqb9IT1qxFpuYvsJ0NO62EGJg3kGPXqiGQM0cqKPV
+	VETySZIi1J+zKLAg==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="us5GvG/C";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=6XmP0pS6
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=veVd1VnK;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fu55teLJ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793716942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793717066; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=T6/q6QjCoLJn3pJStx+qUEEr8xGJyJ+1T7hFKQ1zg0E=;
-	b=us5GvG/CzvuM4qLxOpJVOP8r8AQf60FnxHcsiGPJyUegw2CbczzdCswprBDk1fsaAQ+C3D
-	yxQ0EOYF6f31tQoiJ+bGsj5ITzt/FvJnkviPGg2GNRVmp0eAwCNKHxq+jc5FQsiilBVlMg
-	F1lZ6mmuxif8jDU/gX0LpMOVJHDT1vU=
+	bh=MOx8F45uSrWJfrvKQQ9bd2fIwgZx3o0QDqg7GBPLn0o=;
+	b=veVd1VnKzGi9ou7E8al/Z1MNeqbcEe/7BsP67W0o6YroWdAuLP992JtUXxwvYAiAN+acfR
+	HBcWpUd5bXtRX5ZZj0Wt6jo9PYmCyitAO2imwYLjlP+J5vnQPNA2IHMMEoSleV5gz6Mu1o
+	jfGnKnJjo3PdwWSPKZxBPpC9MJUnoPM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793716942;
+	s=susede2_ed25519; t=1793717066;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=T6/q6QjCoLJn3pJStx+qUEEr8xGJyJ+1T7hFKQ1zg0E=;
-	b=6XmP0pS6OBrR8iMlcPjlHhiYEEx00vT3NszrdSWzT0RK3pjBGJf60o8lfGZmImvrh5fAxg
-	JFyPJTJ5mSd9meCg==
+	bh=MOx8F45uSrWJfrvKQQ9bd2fIwgZx3o0QDqg7GBPLn0o=;
+	b=fu55teLJdDMP1BP90SMNi97wx4SaHkG4InEwNntbU/TjzrUGx7Dk9TMzB+DTCdFoAbHdC3
+	xIidlfHPPx7kPJDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8EE37134B8;
-	Tue,  3 Nov 2026 14:42:22 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4D76C134B8;
+	Tue,  3 Nov 2026 14:44:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id G7pZGs7y6WrEDAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 03 Nov 2026 14:42:22 +0000
-Date: Tue, 03 Nov 2026 15:42:14 +0100
-Message-ID: <8733tix9h5.wl-tiwai@suse.de>
+	id Mz1DCkrz6WrwDgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 03 Nov 2026 14:44:26 +0000
+Date: Tue, 03 Nov 2026 15:44:25 +0100
+Message-ID: <871p92x9di.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Cc: tiwai@suse.de,
-	cezary.rojewski@intel.com,
-	linux-kernel@vger.kernel.org,
+To: Slaton Christie <slatonchristie@gmail.com>
+Cc: David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	rosenp@gmail.com,
-	tim.bird@sony.com,
-	tiwai@suse.com
-Subject: Re: [PATCH] ALSA: pcm: Fix source frame count calculation
-In-Reply-To: <20261103125211.3484-1-sreekuttan2156239@gmail.com>
-References: <87pkwn8ebe.wl-tiwai@suse.de>
-	<20261103125211.3484-1-sreekuttan2156239@gmail.com>
+	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda: cs35l41: Add DSD properties for ASUS UX582Z (1043:1a8f)
+In-Reply-To: <20261030170354.7427-1-slatonchristie@gmail.com>
+References: <20261030170354.7427-1-slatonchristie@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -124,52 +123,76 @@ X-Spamd-Result: default: False [-12.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,intel.com,vger.kernel.org,perex.cz,gmail.com,sony.com,suse.com];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 X-Spam-Flag: NO
 X-Spam-Score: -12.51
 X-Spam-Level: 
-X-Rspamd-Queue-Id: CD64F1F745
+X-Rspamd-Queue-Id: 8E7D21F769
 
-On Tue, 03 Nov 2026 13:52:11 +0100,
-Sreeraj S Kurup wrote:
+On Fri, 30 Oct 2026 18:03:54 +0100,
+Slaton Christie wrote:
 > 
-> Hi Takashi,
+> The ASUS Zenbook Pro Duo 15 UX582Z with PCI SSID 1043:1a8f has two
+> CS35L41 amplifiers on SPI (CSC3551), but its BIOS provides no _DSD
+> properties for them, so the amps fail to probe and the internal
+> speakers are silent:
 > 
-> I would like to kindly follow up on my first patch.
+>   cs35l41-hda spi1-CSC3551:00-cs35l41-hda.0: Failed property cirrus,dev-index: -22
+>   cs35l41-hda spi1-CSC3551:00-cs35l41-hda.0: error -EINVAL: Platform not supported
 > 
-> Could you please let me know if you have had a chance to review it?
+> The Realtek codec quirk for this SSID already exists
+> (ALC245_FIXUP_CS35L41_SPI_2), and linux-firmware already ships the
+> tuned cs35l41-dsp1-spk-prot-10431a8f-* files. Only the property table
+> entry is missing.
 > 
-> For reference, here is the patch link:
-> https://lore.kernel.org/all/20261102135034.2751-1-sreekuttan2156239@gmail.com/
+> Add an entry using the same configuration as the sibling UX582ZS
+> (1043:12af): internal boost, CS/reset/speaker-ID GPIOs at indices
+> 0/1/2, 1000nH inductor, 4500mA peak, 24uF capacitor.
 > 
-> I would appreciate your feedback whenever you have time.
+> Tested on a UX582Z running 7.3.0 (CachyOS) with the change built as a
+> DKMS module: both amps probe, load the spk-prot firmware, apply the
+> EFI calibration (R0=10611 / 10708) and the speakers play audio.
 > 
-> Thank you for your time and consideration.
+>   cs35l41-hda spi1-CSC3551:00-cs35l41-hda.0: Firmware Loaded - Type: spk-prot, Gain: 17
+>   cs35l41-hda spi1-CSC3551:00-cs35l41-hda.0: CS35L41 Bound - SSID: 10431A8F, BST: 0, VSPK: 0, CH: L, FW EN: 1, SPKID: 0
+>   cs35l41-hda spi1-CSC3551:00-cs35l41-hda.1: CS35L41 Bound - SSID: 10431A8F, BST: 0, VSPK: 0, CH: R, FW EN: 1, SPKID: 0
+> 
+> The boost values are copied from the 1043:12af entry, not taken from
+> ASUS or Cirrus documentation; confirmation of the boost parameters by
+> Cirrus would be appreciated.
+> 
+> The diagnosis and the patch were prepared with the help of an AI
+> assistant (Claude, Anthropic), from the dmesg output above and the
+> existing 1043:12af table entry; testing was done on real hardware by
+> the submitter.
+> 
+> Cc: stable@vger.kernel.org
 
-Don't worry, it's still on my TODO to be processed :)
+You forgot Signed-off-by tag?  Please resubmit with it.
 
+
+thanks,
 
 Takashi
