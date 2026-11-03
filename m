@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793692430;
-	b=AcG37VyL+nfV26jvnSggEfFli+WuMu3KSjvrkfbWNRonDcafL6fD70H+CzvzjQecXFt3
-	 M5CDQeYydqoi+XNTR5RtljZYAGnRMivI8LQ2g+xI4Nv5255fNauEqCPWk4KEx51dizVTL
-	 zUXTOfB3drKZMb2HS3LWPQn44pqc/4/JSeGcQodxSLedTjlRT9JQpLgi/gzJgEb/PunE3
-	 duAHS7ItTMOROkfz+7s1Wau2kzWDZpo9eoZy7y9Nfa9GYh+mbOHc95bPKPwviGqUC7FL1
-	 bG4P2Hti0JToOcZvqN4qoVHH1DD33CsynWXuX8RUXQLiSIr/OA7FBpo6+FhTpJ7WH5Q==
+	t=1793692738;
+	b=XWzt7E8kxo4FL6LlSSO1e2O0q33UoRJ0NEO7woDA8B2Y0we+Cx5PLxxeHhJMH1etWLca
+	 2AzDtSPxN6s4taKfJnsCnF/Nb/YPibpOWuJ+c1tWvpO/vKnSofXygSxQdWMKSeyaNrayf
+	 eTURm1K9fP33jT/Xwt1cEw1+zxC8tnlpritTCNbMYXA2c0j+th+vHIkPw6kTi5m8GJgJC
+	 7c7dniYPmvljvCwCQL2p6BQa51LvhBooo0lcrFZlBGYmqG5s9uTl65g3RVnsVu5eMXWUf
+	 TtUxCpvDPvuo0PFSE64wl8CsKeh/OV6DPYFdZBzG6zLJguQ1hkLziXoTxcoWcBaDJ8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793692430;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793692738;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=NSEF6IMREPbRYJwxq5ZNXwh3i/SY6gOoEyTh0Y+96EA=;
-	b=R2sdxlJ71eKgLwMFti6hxkqAOpRJXPMa21q8k0ZB9hzMR/HccNW3nRMR6aWkVR5K7DwH
-	 8a/ww649/okShxwATvVTYNsc+UQMNw5YwEU8mpQveVHH37LcwTbAfrPr44YTNl7t9smvX
-	 HLJvtlmgw1EMXORpptjexdGtDCZrkB2AKiiHsI8uILWFp/F98Ru4yDZawbEAggJqe9vwL
-	 qpB1eKtY0Ym91/48JhPcWcLvnIkKlPSvQ+fZaIb6cJIoqHbvfc9mYJkOkR8LIbRNBSLyJ
-	 t+EvYP63iA74qbFwTzpf+4KL7V1w3T4VsN1y/Q6T9Ja8o6Yg+7aQhVwf4hLSD3zuQAQ==
+	bh=LDkwUPzmjdfRONwaHupqKDUAz44VqFEVdwFb3Eppasg=;
+	b=23ApXZVV7JHezTYSRIey9mkEzZJKwHmoGtjCGSbbduCI5Spd6XJpBfsog/gtC4wYy7zZ
+	 OV1KhQoJE5BiRoc5L2HsgP1pW5vzEBSJaBJPycEBQzhqeEeanqtTeO53bKqcdLWm+5HuO
+	 xlz8D7qI+vSwiwWM82hwJ0KhkkLrCqptbDuxXzX+R4p3Kevbaoor/L3Y2CgrRQTK3Mv/m
+	 XS2cTtHhpMgDGWlJX8FXYsP2xq6lkp4LVuuQWkbh+7jQsrDRYasNhFSW2OswpDaYqOm1V
+	 g4VamW69v5HH3WtYx4qDaPBeuHbkqdOoTzzcFKHmdFUS96ZBjykmA7IwYMUxpiqlMkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qb40SwVv;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cD3jQjDX;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E907606A324;
-	Tue,  3 Nov 2026 07:53:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E481606A32C;
+	Tue,  3 Nov 2026 07:58:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qb40SwVv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8358F1F000C1;
-	Tue,  3 Nov 2026 07:53:49 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cD3jQjDX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5AF51F00A17;
+	Tue,  3 Nov 2026 07:58:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793692429;
-	bh=NSEF6IMREPbRYJwxq5ZNXwh3i/SY6gOoEyTh0Y+96EA=;
+	s=k20260515; t=1793692738;
+	bh=LDkwUPzmjdfRONwaHupqKDUAz44VqFEVdwFb3Eppasg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Qb40SwVvLGaAiFuzkhDvPkpa/nM25qFo2WmwKKk4qcv/MZpcwA/D7RppEziVz54/Q
-	 U+0K46+Ki7Ed5c73ZroyOWS23Pv07PVXbvh4b/Z442tbVKIW9NiuN3xSlrRcZPehtK
-	 T42XrAbhha/VUDHtTO9KfVQRdscVn00zEuxbc2TXNLgInOjaIOMRAvk4W8BtcN75rV
-	 eDq13Z/VY1L0dx+WXt2Wne7S2sBITzvrJv3FPsolNPeazS5Tr0gfNtiruW525U9P6i
-	 jEb3Uihl6H4tlegbQak1/JWYj7ImIChO3fgYAnlqevDB5F3I4iD4Wg76HrrfxvR2Xg
-	 EMpzyaZb9qyQw==
-Message-ID: <sashiko-outbox-194759@kernel.org>
+	b=cD3jQjDX+FHYClLxGbd5BMtTA4ivFZ/K5wxxc4riqav3yaVmcYdcVWYFigpdM85mm
+	 f6yYwLZIVOI01ArOogsnoyPom94Kj/yyta1+Aiy/RTxAsCckYbZW65y0+GaBfMlLct
+	 S+nXIm3hMAWLskc+NiWWegoDjyz0DeaMlefHRo4HVTrA8GTfUrXp1X8TxuuMUu4KQ/
+	 eZFlGpz8YB9dJZH4qnk0cOMOJJJd/omVSMfdUJ8WAYqegkow9XadSaSKWc/9cxwtgO
+	 ahInj2duq1i1kWpl4HXBxqPKxAP60H1QHTjCrzc2ni+CgqO+xIxJVPghCCXLX0f6+b
+	 lma5mtGpN+mIQ==
+Message-ID: <sashiko-outbox-194781@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 01/22] ASoC: dt-bindings: cs42l84: Allow referenced
- dai-common properties
+Subject: Re: [PATCH v4 04/22] ASoC: dt-bindings: Add binding for Apple
+ Silicon Mac audio
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "James Calligeros" <jcalligeros99@gmail.com>
 Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261103-macaudio-v4-1-637484efe46d@gmail.com>
+In-Reply-To: <20261103-macaudio-v4-4-637484efe46d@gmail.com>
 References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
- <20261103-macaudio-v4-1-637484efe46d@gmail.com>
+ <20261103-macaudio-v4-4-637484efe46d@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 07:53:49 +0000
+Date: Tue, 03 Nov 2026 07:58:57 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,74 +63,77 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Low] ASoC: dt-bindings: cs42l84: loss of #sound-dai-cells const: 0 const=
-raint
+- [Low] ASoC: dt-bindings: apple,macaudio: drop unnecessary #address-cells/=
+#size-cells
 --
 
-commit 51c8f9a50da0d86d550f375ea1f80d7bccc11075
-Author: James Calligeros <jcalligeros99@gmail.com>
+commit 7babcc38fd08c53ef9be38d7c4acfca64730a1a5
+Author: Martin Povi=C5=A1er <povik+lin@cutebit.org>
 
-ASoC: dt-bindings: cs42l84: Allow referenced dai-common properties
+ASoC: dt-bindings: Add binding for Apple Silicon Mac audio
 
-This patch updates the cirrus,cs42l84 Devicetree binding schema to reference
-dai-common.yaml, switches additionalProperties to unevaluatedProperties, and
-removes the explicit #sound-dai-cells property definition.
+This commit adds a Devicetree binding schema for the primary audio
+subsystem found on Apple Silicon Macs, integrating the SoC I2S peripheral
+and codecs for the headphone jack and speaker arrays.
 
->     ASoC: dt-bindings: cs42l84: Allow referenced dai-common properties
->    =20
->     Some consumers may wish to prepend the codec's name with a known value
->     to identify a specific codec among many and set #sound-dai-cells. All=
-ow
->     this by allowing referenced properties from dai-common.yaml.
->    =20
->     Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> diff --git a/Documentation/devicetree/bindings/sound/apple,macaudio.yaml =
+b/Documentation/devicetree/bindings/sound/apple,macaudio.yaml
+> new file mode 100644
+> index 0000000000000..7a97ce5bb7a1d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/apple,macaudio.yaml
+> @@ -0,0 +1,195 @@
 
-> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml =
-b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
-> index 94062c1d9d45f..66cae8b7db5da 100644
-> --- a/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
-> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
-> @@ -9,6 +9,9 @@ title: Cirrus Logic CS42L84 audio CODEC
->  maintainers:
->    - Martin Povi=C5=A1er <povik+lin@cutebit.org>
-> =20
-> +allOf:
-> +  - $ref: dai-common.yaml#
+[ ... ]
+
+> +  "#address-cells":
+> +    const: 1
 > +
->  description: |
->    The CS42L84 is a headphone jack codec made by Cirrus Logic and embedded
->    in personal computers sold by Apple. It was first seen in 2021 Macbook
-> @@ -29,14 +32,11 @@ properties:
->    interrupts:
->      maxItems: 1
-> =20
-> -  '#sound-dai-cells':
-> -    const: 0
-> -
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  model:
+> +    description:
+> +      Model name for presentation to users
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +
+> +patternProperties:
+> +  "^([a-z]+-)?dai-link$":
+> +    description: Node for each sound peripheral such as the speaker arra=
+y,
+> +      headphones jack, or microphone.
+> +    type: object
+> +    $ref: tdm-slot.yaml#
+> +    unevaluatedProperties: false
+
+[ ... ]
+
+> +required:
+> +  - '#address-cells'
+> +  - '#size-cells'
+> +  - compatible
+> +  - model
 
 [Severity: Low]
-Does removing the const: 0 constraint on #sound-dai-cells weaken schema
-validation for cirrus,cs42l84 nodes?
+Are #address-cells and #size-cells needed in this binding?
 
-Documentation/devicetree/bindings/sound/dai-common.yaml only sets:
+The only child nodes permitted under the sound node match the pattern
+^([a-z]+-)?dai-link$ with unevaluatedProperties: false, which forbids unit
+addresses in the child node names and disallows reg and ranges properties
+on the child nodes. The parent sound node also sets additionalProperties:
+false without allowing ranges or dma-ranges.
 
-  properties:
-    '#sound-dai-cells': true
+Because these properties are marked as required, any conforming devicetree
+source file will trigger a dtc avoid_unnecessary_addr_size warning when
+compiled with W=3D1 in scripts/dtc/checks.c:check_avoid_unnecessary_addr_si=
+ze():
 
-However, the CS42L84 driver in sound/soc/codecs/cs42l84.c registers only a
-single DAI in cs42l84_i2c_probe():
+	FAIL(c, dti, node, "unnecessary #address-cells/#size-cells without \"range=
+s\", \"dma-ranges\" or child \"reg\" or \"ranges\" property");
 
-  ret =3D devm_snd_soc_register_component(&i2c_client->dev,
-          &soc_component_dev_cs42l84, &cs42l84_dai, 1);
-
-Without const: 0 in cirrus,cs42l84.yaml, dtbs_check will allow non-zero
-#sound-dai-cells values even though the codec only supports 0 cells.
-
-Also, since cirrus,cs42l84.yaml already permitted #sound-dai-cells prior to
-this change, should the commit message be updated so it does not claim that
-referencing dai-common.yaml is needed to allow setting #sound-dai-cells, and
-should '#sound-dai-cells': const: 0 be retained here?
+Should #address-cells and #size-cells be dropped from properties, required,
+and examples in Documentation/devicetree/bindings/sound/apple,macaudio.yaml?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103-macaudio-v=
-4-0-637484efe46d@gmail.com?part=3D1
+4-0-637484efe46d@gmail.com?part=3D4
