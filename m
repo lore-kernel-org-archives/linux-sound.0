@@ -1,13 +1,13 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793749201;
-	b=umHoqWA7f/H/xEKWd78f669HE0COBSrNherPPZcddvh5ujJEkaS3i4Qrf6a41DhnQsBM
-	 5c/5r3kZ7HaGuqf7Uvg8B0twHywEV6aYV2gpCmxoY4Mr40LM1wkEcVP5e/haxFjRvUNRD
-	 5oWrIBJIuzoTcMAyyPx4hvXfCIu7sibOvyAYrwKzBr3VroMgCMlCevYSHEBGLWpTasSd3
-	 H3+g9yTwKx4jdBhlwFcgIGBLdVolGvAsVeun/zU3lwGgTzi/Y0Jhu/ETHpyIodkEyr7r/
-	 gq1fDxKYwkomhuwc3KnfnsQnkA6g6L/ZkEe7YGkqdnY/4bjkTO7hk3TFnL7Im0NFZYw==
+	t=1793749202;
+	b=xu6Zy6OJfMXaK2dzeuZfTmF4yv0dhO5T+0a+8aw8o0MJ1dGylH/jbynqXM1qD8/2GzDT
+	 v8FNFdV4wRWRvZyaTmEH5Dh+pnUDzyTy2EJcyQTx/p1XDGAFw03dA1bd+huRh/HMqapct
+	 XZaxbVkkF6aqca/Rcgj3rAOf5iAqvss+S2+XJCkwvkEZ0HC8hxdwnclH3uC3HfqePbcyF
+	 ELm92JD9AxvTJeJPO66xbvVUG8+apaeMEBtiK5I6wlcIvcbSBQKBN5R3E/PpeTulB+EM9
+	 5rP2Y4lOJxvjGIgF4I0X6/IS6oCP0qt/08WJJH58JL0UR0GBAvMNTfk+snhW4qtvnfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793749201;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793749202;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
@@ -16,97 +16,97 @@ ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
 	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
 	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=BMJRXIBnzBDnhpP0qSv9tAh0Q24G4628Xt2fKxucKGo=;
-	b=vN8nxClXk3J1F67JQQVfIHo6rpf24D1w7pUKRCHYIW05jwjVCINmcHhIAEwrZazGQIT9
-	 fehLgVc597E4D/qtswEJnaQh/M7x/P4a0F5X8Erzi9auBI0aOk5F+jqjL7r3Ow7tJ3pwa
-	 uhSmBUJ5YfSb8oGoq5G7yt49Ej3gbE0wmD6cmkoUK47Iti3aEFJCXtO2/u5qhEiurF03x
-	 SbsqGRH8YV5j1mJ9NoQJofD4mW3/QsVYpdcS2F71wyfdK2zhbnXHszXlSUTRMARWjPH1l
-	 vFuLrlp9qYDmI+o2d/TQ4pLPx5HlMPmLTIfI7lNE7mLxvVrA0WYqOK+zlmph6FWtMGg==
+	bh=lvXZcfaa+HN98EXHPn5d1WDUoJ4ZesFQ3Otqng7SRvs=;
+	b=yrpmVHR5P3i5oMOzy/4u8LIsMLPW85ThgYLeR3TwIPMKy+xLYsdC4lcF71OgIlZRThnl
+	 cHPTO/VMdaG68wzIue+xv0nGfN+XjwQMlskoVW5+J87Bto9jDRPbSK4RwZlXEGkaFxzAJ
+	 23EnIcO+F/Z6lKYFb3Ii5z5hpLWckq+bVgHec+kwSpFvAwPXwFwqRSeMlqHYKf1MQ6kdZ
+	 As+86I1TvRjiTGlT7WMBAhilODhzwjGmpF04CH5DmU53HqHK6HwLoauG5ZKKHNmbmqD5D
+	 7SEn//hDf68AH87VN+Xy13IQec/9kuNmaYKvqyME3+5vDBdD2ARNSiKGeToEasEPvdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=kXk9st5M;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Ah15+kEg;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=A+058vLe;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="HC6rcW/g";
 	arc=none smtp.remote-ip=205.220.168.131
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD1C606A32E
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 23:40:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DD1C606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7958B606A33C
+	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 23:40:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7958B606A33C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=kXk9st5M;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Ah15+kEg
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=A+058vLe;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=HC6rcW/g
 Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3LKb7M3993576
-	for <linux-sound@vger.kernel.org>; Tue, 3 Nov 2026 23:40:00 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3LKilu3993609
+	for <linux-sound@vger.kernel.org>; Tue, 3 Nov 2026 23:40:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	BMJRXIBnzBDnhpP0qSv9tAh0Q24G4628Xt2fKxucKGo=; b=kXk9st5MYKn0AuQS
-	ISPexGWmEj2v/94hfv6+6qmXlu9l663rFvhpO/hMc3t14zd8JOMhtZV0pmDZKrcT
-	sg+UgHnRqrrodiy3X+BrX644u9MXiDnr4SmKH6NAs2gs4AB36JSTqNqv9R2KLRRW
-	aBF2xcr2X7bONrd0FzdDf0LCfVzTSizBkMeNWnBd6bon+S7AIbadDUr9fTkzwz4m
-	IaCe1vcCfh3a3/RakERBLBiIuGlYf1SiQ+BhKN8r2zywn2rDOy8LCoXTgd9pPr2t
-	s0QDDOMeO00qO+04Q/xdaLlCPQ7PAD8vG4MZUeE6H1WR+pgPfGC6Kd4/X6IMcYTt
-	QEat3A==
-Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hqn8ngxqa-1
+	lvXZcfaa+HN98EXHPn5d1WDUoJ4ZesFQ3Otqng7SRvs=; b=A+058vLe4yk1a4Ah
+	mUwnCinRo1m4OuqqVF+g1tVczfD6Kfq3Aje95zEQW/OWC94p3mGxs7P70MU3N34X
+	xuvMOTCXo7xsCOTvJOMicneiSgxDCkzcjHwtRXs7vNjNOM8QGBK9Ta48VmiZXIkz
+	fmbp6duji1R9SuoZOnG/GJOWFpD9shv98dlJMn3xBvvC/QmAKZpJuHg+Wr4czU6M
+	5txUSEVv6HF9u7IDE/KNgh1lkdhYj0PR+u5MME6FD8GGfWutjrCr32DfdanHCNuk
+	IQDiaRl4qp+gAVfZLF2cSF3Tq5FoJPwQFPEvqawioTBkemF2M9ziuTMre/abtN1K
+	SayxNQ==
+Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hqn8ngxqd-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 03 Nov 2026 23:39:59 +0000 (GMT)
-Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-1ac19c6bc71so130863c88.0
-        for <linux-sound@vger.kernel.org>; Tue, 03 Nov 2026 15:39:59 -0800 (PST)
+	for <linux-sound@vger.kernel.org>; Tue, 03 Nov 2026 23:40:00 +0000 (GMT)
+Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-1a71dd190b0so598651c88.1
+        for <linux-sound@vger.kernel.org>; Tue, 03 Nov 2026 15:40:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793749199; x=1794353999; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1793749200; x=1794354000; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=BMJRXIBnzBDnhpP0qSv9tAh0Q24G4628Xt2fKxucKGo=;
-        b=Ah15+kEgi0FCPusQlLg3nyuv2Op9c3GFNWWgIz2VfknlqtkRZmCemsyYpCduwfn4lF
-         +lFCQ5CO1OxsT1zLEV2uPB8snz0xeQHEzpWUJGCNQLxxfhTzwH2RVySQUUpgYJXlf5g7
-         uYqS2vWWHbYGH7IEEy0b5EmUaAiy9hljsDcA3wl6X6fAgbnY7pZZ4Zon92VirVdbXrlp
-         1LPsqwEdT9wOe8QumZ6qBEvyPU5kOo/QSsJQXKxu8XUeLMQBRdEWc8h3TIjPO1zL9Go4
-         kbYvLFqxixuYB1y14cW7z9zlTUIsxbXAADEFhRs4hnkDg8EWvHemTvYe599hBwwmQzq5
-         iTlg==
+        bh=lvXZcfaa+HN98EXHPn5d1WDUoJ4ZesFQ3Otqng7SRvs=;
+        b=HC6rcW/gQELyjPO1QsNgqY6vn6iag8YYVn/CMqG7vleaQswD7efIfTVB7pGNThdeOd
+         nmDZISbBWsW4Wh9Ln+BAPXdz4naBkagNEC3JpfzBgQPl9jv9ZPfIPFgYYRFXqz3FBTSU
+         KTKaHS2SdsC9e+rgF4q9gz/EJP7uerxlzQgQhlfvKyKtb4HknOMKU0M3MNTufLe5BHLZ
+         +3suMkl5pk0N0AHuXRPPjfIaYIGTZFi9gfHWrc+zMoCRh/XUJPXWd4QfpxDG6zboCFug
+         Db/kYL2PwSoDSgCM622GoX5K3WfQct1xeJ9Py6LlM4k6ApReQaifmt166nLqdLleSz/E
+         /WXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793749199; x=1794353999;
+        d=1e100.net; s=20260707; t=1793749200; x=1794354000;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=BMJRXIBnzBDnhpP0qSv9tAh0Q24G4628Xt2fKxucKGo=;
-        b=KtacND3MdxcZsW9ws8WjlFuT+dEuSdR1gY7KGNU0a9mzY7Md+WuAe57+2NOtLuNNjG
-         viT9rsS6z1I8wtew2PcrHwf/JTIZoPY1mOMjyCU6N82QOLrzQb9Qj7JyXIIJgnmSmS4K
-         Igh+LUZjPOs7H40XLBpNmBEaS3Nqaw2gR2QTwVbhGi3JQmK0UX7HW8SnWdKsztUNuV5H
-         3WhaTTx2+UF5/k5C7PXK1Rf4zoe9KLbNio1+CLkZykmpqPVrSfTanMGhXi2E5Egrcspo
-         bmSLSiBH5X2t5kNOtKI1C3tCeroqmWTGHI90yCJ+L/A3f410hEMm2cS2ZuTU7eH3IHW8
-         kwlw==
-X-Forwarded-Encrypted: i=1; AKwUvByhJryzfl/rDP2pjy0ceoBjaAfIpGxzBSv7iF6wC1sqKxnPr/iOevFAgxNHL5daCVoBuKyPBxm+kJypCA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/2mQMZJ+YhfxeuI2p33hqrmJlH/1eGsCkBpUqXHwfOwS+wqrts
-	wvHUtealKqy/XNLByl9Iv7HqTLaWEBeueA3yAn1GnhmHENVAHZpldtcRNjic2SGqeBVc8X1Vhe+
-	UbySP8DI18WSLgN+oSCkb8+pawvTi+iEyI80f6sez1Xj8rbZs6nh/plg5mHy6PzXdvA==
-X-Gm-Gg: AYBFou1jwpBJzpEQ9u/eumX3eXEJMZsOfGexpp5zfkhFSzjOevjgJxAMUAkuAbI/SFR
-	YyCtE/WEJX1cYNjGJYQz0fQAaJ366o3kCvHeWEvIJtWbeCK5Yg1paJ7ZI7LybpyaVw7qchJifUD
-	A0xLqAYZyBOM5WoBILH3Mz4Np4Le0ZeKzTSlhAMZVUkVhxOBERTtAjnifSGPE7ffI0BfujnGVL+
-	Z1GYLrjknzrSwqoTNiJX37Ejvq749THzEVBrIrrhkCcZgIRIOxf5RtyT17rhqjPb8rxxLyOl8sK
-	Xx//lZqEMLzgFNtQ5PnhSQ+1KMEJHtNbPM74QWzcB2L3rU58fXITG+7l37NL4yZ3kmN+vMBLzE3
-	ORUAGR37dteG68rbQoEzDfX5skx9suNXaPt2wFw8+JWgHYRhoxv3V7BSN5fa/VVvdx9BfpWHpvp
-	aOj17l3nRZk8cGpvQZc8ZOArPDhw==
-X-Received: by 2002:a05:7022:1308:b0:193:7fb5:2c3d with SMTP id a92af1059eb24-1ac5e3233e7mr18367548c88.21.1793749198841;
-        Tue, 03 Nov 2026 15:39:58 -0800 (PST)
-X-Received: by 2002:a05:7022:1308:b0:193:7fb5:2c3d with SMTP id a92af1059eb24-1ac5e3233e7mr18367510c88.21.1793749198175;
-        Tue, 03 Nov 2026 15:39:58 -0800 (PST)
+        bh=lvXZcfaa+HN98EXHPn5d1WDUoJ4ZesFQ3Otqng7SRvs=;
+        b=tjlaeR4gcSUizNgu1gB2nAmbRhzDgqG+YgUOX1tdfMyzAriclAFcDIkCZtaZPhRVw4
+         ZsaAgUVA7HBSdAQeVFEqMZ/8L6jWcQznmsE4DGl9zFvRNml4ZpFZOgQQ0y3rEz5udTZC
+         00MMD9ZgE89fpX86eswOcLExadGH4QrbB60X/e73AOPe7PRHU/G1ou1Ed5tM2rATH0as
+         ioaNCprFn52duYdL9teDVODMT3wVOf+OEMzGWsy7j6WSeGK1zKp/q7/1mTEVZ2JsagCz
+         tCdUS8IN0csVMkrwF6GNRxPEVjXaCxicLlfq+7j8Df2EIdqa1lRmSBG6VnosGciop0HH
+         uqiQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzgcfZj/Sum/EgXt495rjYd/xYVmwlL3JnlplqOCiP/KuEU+dsv8W+GWU5oQK2uLIdnc5iFTk+xQnex1Q==@vger.kernel.org
+X-Gm-Message-State: APuU4Z///DOfnD16XwkEcdX1c1yYqRW1jrdLxUYvrpAPlGd4WYSjRKbh
+	jNC+YJncH7iDZQmleAYpyLmtNP3msR9kRggPCAkfzFbuBC7gbxQWQYCBcz2MrlyIFr4hxCFsH+3
+	4tvxmhKWd6s6u4oO0O+cyDYae+jgXMzMu4E4c3UGolF8f2NsI+kRqK39aYMdIVTNRsg==
+X-Gm-Gg: AYBFou2ATp9b/fURjRpKxr51E2eInZ4L/nfk4kjWBpUWNGpfDdB6qK56Cb58KfkQbq6
+	y0q9BY1YCfwfi76QSzdYBOoM1zOcJk0EvnogUryI3Fl3ZfgW4zXx7+SHOwc6NFMEUWiT7CA7niW
+	P9UNPSRJGF91Q5EHMCI5PWCiAtQIMg5a0Q/VW9DIaaMvtlWcSQ8wY0fuTOKYE8sa+fI0ubZoWIT
+	/L/9qr6c5recIiiDB4iId5pDZVudzbqTysoNiLfrpZUk+d3FFjiEWVA30Z5XmUkLmNpAgPgqg4W
+	lfj293hYOfXxQ8uYkz45zb6AAbToZhnz3P+eP72UA3AQNLODlHDl+ETAbcYexAdxz4wm52Xt4lM
+	16z3gPdBBN6kUUSmSZkjvqbaY1cRaQBBya29U35iGSe1fHD54rT5eys8BISRUTvEyNzpIZm9XjX
+	iqxJJZlR1Lwm4s1/Boon2l8y3xdA==
+X-Received: by 2002:a05:701b:240e:b0:1b2:3e9b:3dcd with SMTP id a92af1059eb24-1b23e9b3e26mr4717148c88.10.1793749199960;
+        Tue, 03 Nov 2026 15:39:59 -0800 (PST)
+X-Received: by 2002:a05:701b:240e:b0:1b2:3e9b:3dcd with SMTP id a92af1059eb24-1b23e9b3e26mr4717114c88.10.1793749199083;
+        Tue, 03 Nov 2026 15:39:59 -0800 (PST)
 Received: from hu-wcheng-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245b86fbesm2356442c88.1.2026.11.03.15.39.57
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245b86fbesm2356442c88.1.2026.11.03.15.39.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 15:39:57 -0800 (PST)
+        Tue, 03 Nov 2026 15:39:58 -0800 (PST)
 From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-Date: Tue, 03 Nov 2026 15:39:54 -0800
-Subject: [PATCH v5 2/4] usb: xhci: Allocate sideband ring segments with
- dma_alloc_coherent()
+Date: Tue, 03 Nov 2026 15:39:55 -0800
+Subject: [PATCH v5 3/4] ALSA: usb-audio: qcom: tag sideband endpoints
+ before ring allocation
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -118,7 +118,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261103-16k_offload_v1_b4-v5-2-67184126e91c@oss.qualcomm.com>
+Message-Id: <20261103-16k_offload_v1_b4-v5-3-67184126e91c@oss.qualcomm.com>
 References: <20261103-16k_offload_v1_b4-v5-0-67184126e91c@oss.qualcomm.com>
 In-Reply-To: <20261103-16k_offload_v1_b4-v5-0-67184126e91c@oss.qualcomm.com>
 To: Mathias Nyman <mathias.nyman@intel.com>,
@@ -127,28 +127,27 @@ To: Mathias Nyman <mathias.nyman@intel.com>,
         Michal Pecio <michal.pecio@gmail.com>
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-sound@vger.kernel.org,
-        Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
+        Wesley Cheng <wesley.cheng@oss.qualcomm.com>
 X-Mailer: b4 0.13.0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAzMDA5NCBTYWx0ZWRfX0E2gq2KUJZF6
- frCcYJSyH9CGLHpCpk2lffu+B1dz4ONRUxKo/ehBAU8Tj9eURRAXq2Lm2bt4jKOAV0FHLAUkxj+
- 6tCPqbjthcyt4FkSJoK4BFXcLVNyZ1i5D95yYKK1Q6eA4mrCct6l58/m619KhxGNKdDk3U2GpkC
- Thw+fAT3dFu3RS66wIzXE/a/AuuygmJT7rCgVCZiqIo3bk8fFFatp8NJrz9jGYLt9BJFDqCGXgG
- NefVW3nnbt+UrK62zalWFayBjSjsAt+GjxFt1iybQ42yflgz8ebFSgt10JUNXvdoXPTPGEdTI6t
- JMfsvviOLPWMtvRThfCEBs/gqc6sWTeqxNXKhLE+8VGD4CQ/KfBcdwqVanT3B5CYNvY2mQacS0t
- OOwlkZ5p1phuGNqazRjkf2d0vMHaw+AC+a6nnKgQTw+M5a30c8VlpvlGL3SnsclyatOKTezUD2X
- TO0xOGlUGyg9WFOKViQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAzMDA5NCBTYWx0ZWRfXzTUr4E/S+wHI
- DajunS0oiSOtslLuyZeRCO1wMaoxRH3ukzTYoV77QM386q2SJuWydbOwc58CNqDMhpRkm387jDn
- UYcrT8B+Y2Mklac8C4f5EkW5FWzsx1c=
-X-Proofpoint-GUID: tgtasrt6sDgewHmcCNUA789ldMaTfV4t
-X-Proofpoint-ORIG-GUID: tgtasrt6sDgewHmcCNUA789ldMaTfV4t
-X-Authority-Analysis: v=2.4 cv=As17T+9P c=1 sm=1 tr=0 ts=6aea70cf cx=c_pps
- a=bS7HVuBVfinNPG3f6cIo3Q==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAzMDA5NCBTYWx0ZWRfX9Phxv5xqxtyu
+ Y2CQpmK3C3ma+JNuQ27T321rZPJ5qVJqkQBU7RAgEPD2Y7r4hGI7zYyVPUrqUM//csvBS0dVulL
+ fznxc0yGHCX8UZmmIm+41m3mDL8Ck1J2QPfum3fKw0yydcgtRrDydWJU+54AoRhyuLXm56I+4dS
+ lt4b03bkP8F/+kezPhQuZgvI2JBuDCRkvD/ubRJoLjFQaC1Hn5b6zAVlmS5ZTvrfqblOgEXHRN+
+ 7jlVwZIX+91I94aYOClEOqryE0hb34FPA2FjkkTY9fb667iz9/gbE7vFZh++gVquyYcIjrDUXkK
+ 2+Juxfo5YJQiT+125SRh+Zw9DzGoKQ4o4oYseE4U2TleJlyRcq+VV4mNBHlbH2tD5naGRgTZv+b
+ XnVc5eTLDebwHI49Ld//w+3tjurcnzKyLuALaoVghAhJb4brmsNdKBfUHFskWBT+4CMsHgs+gWk
+ gzq9u8DJFbPsblkZmVQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAzMDA5NCBTYWx0ZWRfX47ltxYqn6/DM
+ E3DxASGe6ac1zXZZVwHpn/GKhULb+O7ojyRgWLyS2Grqc4N4hbBDzZz1Lav6TRLDtM0FaLJJb4l
+ UksmxCjHDJLLRFGey1AKUBhN+XNsrsU=
+X-Proofpoint-GUID: mkZeLBVRrxFUmdIUjJfI9IwURxjIslAj
+X-Proofpoint-ORIG-GUID: mkZeLBVRrxFUmdIUjJfI9IwURxjIslAj
+X-Authority-Analysis: v=2.4 cv=As17T+9P c=1 sm=1 tr=0 ts=6aea70d0 cx=c_pps
+ a=JYo30EpNSr/tUYqK9jHPoA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
  a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
  a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=R5uxNPeLo-eXpQxxT6kA:9 a=QEXdDO2ut3YA:10
- a=vBUdepa8ALXHeOFLBtFW:22
+ a=EUspDBNiAAAA:8 a=N4D07k82oIDTXTuHkvEA:9 a=QEXdDO2ut3YA:10
+ a=Fk4IpSoW4aLDllm1B1p-:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-03_05,2026-11-03_04,2025-10-01_01
@@ -158,358 +157,172 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611030094
 
-Ring segments are normally allocated from a shared DMA pool sized and
-aligned to TRB_SEGMENT_SIZE (4096 bytes). On kernels built with a
-larger PAGE_SIZE (e.g. 16K or 64K page arches), multiple segments can
-share the same physical page.
+On kernels with a PAGE_SIZE larger than TRB_SEGMENT_SIZE,
+xhci_endpoint_init() allocates the ring segments of endpoints that have
+already been tagged via xhci_sideband_add_endpoint() with
+dma_alloc_coherent() instead of from the shared xhci->segment_pool, so
+the buffer reported to the ADSP over QMI is guaranteed to come from a
+page of its own.
 
-A sideband client that maps a ring buffer directly via the IOMMU
-(which operates at page granularity) would then also expose any other
-ring segment sharing that page, as well as the dma_pool bookkeeping
-kept in free blocks, to the entity handling the offloaded endpoints.
+xhci_sideband_add_endpoint() must therefore run before the endpoint's
+transfer ring is first allocated (i.e. before snd_usb_endpoint_prepare()
+triggers xhci_endpoint_init()) for that allocation to apply. Move the
+xhci_sideband_add_endpoint() calls out of uaudio_endpoint_setup() and
+into enable_audio_stream(), before snd_usb_endpoint_prepare() is called
+for the data and sync endpoints, and unwind them on the new error paths.
 
-Add a no_pool_alloc flag for endpoints and rings, which has the ring
-segments allocated with dma_alloc_coherent() instead of from
-xhci->segment_pool. Coherent allocations are page aligned, so each of
-these segments gets a page of its own. When PAGE_SIZE is larger than
-TRB_SEGMENT_SIZE, xhci_sideband_add_endpoint() sets the flag for the
-endpoint, and xhci_sideband_create_interrupter() requests it for the
-secondary event ring. Normal (non-offloaded) endpoints, and kernels
-using 4K pages, are unaffected, as they keep allocating from
-xhci->segment_pool.
+At that point in the setup sequence dev->ep_in[]/ep_out[] are not yet
+populated, since the endpoint's altsetting has not been activated, so
+usb_pipe_endpoint() cannot be used to find the usb_host_endpoint. Add
+uaudio_find_host_endpoint(), which resolves it directly from the
+interface's altsetting descriptor table instead.
 
-xHCI still owns and frees these rings once the endpoint has been
-dropped or the slot disabled. All of the ring free paths run in
-sleepable context, except for xhci_free_dev(), which frees the virt
-device while holding xhci->lock with interrupts disabled, where
-dma_free_coherent() can't be used. Detach these rings while holding the
-lock, after the slot is disabled, and free them once it is released.
-
-Since xHCI never queues transfers to a sideband ring, refuse ring
-expansion for these rings. The flag has to be set before the endpoint
-ring is allocated, so have xhci_sideband_add_endpoint() return -EBUSY if
-the endpoint already has a ring.
-
-Suggested-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 Assisted-by: Claude:claude-opus-5-5
 Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
 ---
- drivers/usb/host/xhci-mem.c      | 63 ++++++++++++++++++++++++++++++----------
- drivers/usb/host/xhci-sideband.c | 17 +++++++++--
- drivers/usb/host/xhci.c          | 13 +++++++++
- drivers/usb/host/xhci.h          |  5 +++-
- 4 files changed, 80 insertions(+), 18 deletions(-)
+ sound/usb/qcom/qc_audio_offload.c | 86 +++++++++++++++++++++++++++++++++------
+ 1 file changed, 74 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 75577f441cdd..d280023ecbce 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -26,10 +26,15 @@
-  *
-  * Section 4.11.1.1:
-  * "All components of all Command and Transfer TRBs shall be initialized to '0'"
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index e4bfd43a2488..48ee55116004 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -941,6 +941,40 @@ static void uaudio_dev_release(struct kref *kref)
+ 	wake_up(&dev->disconnect_wq);
+ }
+ 
++/**
++ * uaudio_find_host_endpoint() - look up usb_host_endpoint for a snd_usb_endpoint
++ * @subs: usb substream owning the target snd_usb_endpoint
++ * @endpoint: sync or data snd_usb_endpoint to resolve
 + *
-+ * If no_pool_alloc is set, the segment is allocated with dma_alloc_coherent()
-+ * instead of from the segment pool. Coherent allocations are page aligned, so
-+ * the segment then has a page of its own.
-  */
- static struct xhci_segment *xhci_segment_alloc(struct xhci_hcd *xhci,
- 					       unsigned int max_packet,
- 					       unsigned int num,
-+					       bool no_pool_alloc,
- 					       gfp_t flags)
- {
- 	struct xhci_segment *seg;
-@@ -40,7 +45,11 @@ static struct xhci_segment *xhci_segment_alloc(struct xhci_hcd *xhci,
- 	if (!seg)
- 		return NULL;
- 
--	seg->trbs = dma_pool_zalloc(xhci->segment_pool, flags, &dma);
-+	if (no_pool_alloc)
-+		seg->trbs = dma_alloc_coherent(dev, TRB_SEGMENT_SIZE, &dma, flags);
-+	else
-+		seg->trbs = dma_pool_zalloc(xhci->segment_pool, flags, &dma);
-+
- 	if (!seg->trbs) {
- 		kfree(seg);
- 		return NULL;
-@@ -50,7 +59,10 @@ static struct xhci_segment *xhci_segment_alloc(struct xhci_hcd *xhci,
- 		seg->bounce_buf = kzalloc_node(max_packet, flags,
- 					dev_to_node(dev));
- 		if (!seg->bounce_buf) {
--			dma_pool_free(xhci->segment_pool, seg->trbs, dma);
-+			if (no_pool_alloc)
-+				dma_free_coherent(dev, TRB_SEGMENT_SIZE, seg->trbs, dma);
-+			else
-+				dma_pool_free(xhci->segment_pool, seg->trbs, dma);
- 			kfree(seg);
- 			return NULL;
- 		}
-@@ -62,10 +74,15 @@ static struct xhci_segment *xhci_segment_alloc(struct xhci_hcd *xhci,
- 	return seg;
- }
- 
--static void xhci_segment_free(struct xhci_hcd *xhci, struct xhci_segment *seg)
-+static void xhci_segment_free(struct xhci_hcd *xhci, struct xhci_segment *seg,
-+			      bool no_pool_alloc)
- {
- 	if (seg->trbs) {
--		dma_pool_free(xhci->segment_pool, seg->trbs, seg->dma);
-+		if (no_pool_alloc)
-+			dma_free_coherent(xhci_to_hcd(xhci)->self.sysdev,
-+					  TRB_SEGMENT_SIZE, seg->trbs, seg->dma);
-+		else
-+			dma_pool_free(xhci->segment_pool, seg->trbs, seg->dma);
- 		seg->trbs = NULL;
- 	}
- 	kfree(seg->bounce_buf);
-@@ -81,7 +98,7 @@ static void xhci_ring_segments_free(struct xhci_hcd *xhci, struct xhci_ring *rin
- 
- 	while (seg) {
- 		next = seg->next;
--		xhci_segment_free(xhci, seg);
-+		xhci_segment_free(xhci, seg, ring->no_pool_alloc);
- 		seg = next;
- 	}
- }
-@@ -334,7 +351,7 @@ static int xhci_alloc_segments_for_ring(struct xhci_hcd *xhci, struct xhci_ring
- 	struct xhci_segment *prev;
- 	unsigned int num = 0;
- 
--	prev = xhci_segment_alloc(xhci, ring->bounce_buf_len, num, flags);
-+	prev = xhci_segment_alloc(xhci, ring->bounce_buf_len, num, ring->no_pool_alloc, flags);
- 	if (!prev)
- 		return -ENOMEM;
- 	num++;
-@@ -343,7 +360,8 @@ static int xhci_alloc_segments_for_ring(struct xhci_hcd *xhci, struct xhci_ring
- 	while (num < ring->num_segs) {
- 		struct xhci_segment	*next;
- 
--		next = xhci_segment_alloc(xhci, ring->bounce_buf_len, num, flags);
-+		next = xhci_segment_alloc(xhci, ring->bounce_buf_len, num,
-+					  ring->no_pool_alloc, flags);
- 		if (!next)
- 			goto free_segments;
- 
-@@ -369,8 +387,9 @@ static int xhci_alloc_segments_for_ring(struct xhci_hcd *xhci, struct xhci_ring
-  * Set the end flag and the cycle toggle bit on the last segment.
-  * See section 4.9.1 and figures 15 and 16.
-  */
--struct xhci_ring *xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int num_segs,
--				  enum xhci_ring_type type, unsigned int max_packet, gfp_t flags)
-+static struct xhci_ring *__xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int num_segs,
-+					   enum xhci_ring_type type, unsigned int max_packet,
-+					   bool no_pool_alloc, gfp_t flags)
- {
- 	struct xhci_ring	*ring;
- 	int ret;
-@@ -382,6 +401,7 @@ struct xhci_ring *xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int num_segs,
- 
- 	ring->num_segs = num_segs;
- 	ring->bounce_buf_len = max_packet;
-+	ring->no_pool_alloc = no_pool_alloc;
- 	INIT_LIST_HEAD(&ring->td_list);
- 	ring->type = type;
- 	if (num_segs == 0)
-@@ -398,6 +418,12 @@ struct xhci_ring *xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int num_segs,
- 	return NULL;
- }
- 
-+struct xhci_ring *xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int num_segs,
-+				  enum xhci_ring_type type, unsigned int max_packet, gfp_t flags)
++ * usb_pipe_endpoint() resolves via dev->ep_in[]/ep_out[], which are only
++ * populated after usb_set_interface() activates the endpoint's altsetting.
++ * Look the endpoint up directly in that altsetting before preparation instead.
++ *
++ * Return: matching usb_host_endpoint, or NULL if not found.
++ */
++static struct usb_host_endpoint *
++uaudio_find_host_endpoint(struct snd_usb_substream *subs,
++			  struct snd_usb_endpoint *endpoint)
 +{
-+	return __xhci_ring_alloc(xhci, num_segs, type, max_packet, false, flags);
++	struct usb_host_interface *alt;
++	struct usb_interface *iface;
++	int i;
++
++	iface = usb_ifnum_to_if(subs->dev, endpoint->iface);
++	if (!iface)
++		return NULL;
++
++	alt = usb_altnum_to_altsetting(iface, endpoint->altsetting);
++	if (!alt)
++		return NULL;
++
++	for (i = 0; i < alt->desc.bNumEndpoints; i++)
++		if (alt->endpoint[i].desc.bEndpointAddress == endpoint->ep_num)
++			return &alt->endpoint[i];
++
++	return NULL;
 +}
 +
- void xhci_free_endpoint_ring(struct xhci_hcd *xhci,
- 		struct xhci_virt_device *virt_dev,
- 		unsigned int ep_index)
-@@ -419,8 +445,12 @@ int xhci_ring_expansion(struct xhci_hcd *xhci, struct xhci_ring *ring,
- 	if (num_new_segs == 0)
- 		return 0;
- 
-+	if (ring->no_pool_alloc)
-+		return -EINVAL;
-+
- 	new_ring.num_segs = num_new_segs;
- 	new_ring.bounce_buf_len = ring->bounce_buf_len;
-+	new_ring.no_pool_alloc = false;
- 	new_ring.type = ring->type;
- 	ret = xhci_alloc_segments_for_ring(xhci, &new_ring, flags);
- 	if (ret)
-@@ -1488,7 +1518,8 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
- 
- 	/* Set up the endpoint ring */
- 	virt_dev->eps[ep_index].new_ring =
--		xhci_ring_alloc(xhci, 2, ring_type, max_packet, mem_flags);
-+		__xhci_ring_alloc(xhci, 2, ring_type, max_packet,
-+				  virt_dev->eps[ep_index].no_pool_alloc, mem_flags);
- 	if (!virt_dev->eps[ep_index].new_ring)
- 		return -ENOMEM;
- 
-@@ -2305,7 +2336,8 @@ static int xhci_setup_port_arrays(struct xhci_hcd *xhci, gfp_t flags)
- }
- 
- static struct xhci_interrupter *
--xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs, gfp_t flags)
-+xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs, bool no_pool_alloc,
-+		       gfp_t flags)
+ /**
+  * enable_audio_stream() - enable usb snd endpoints
+  * @subs: usb substream
+@@ -958,8 +992,9 @@ static void uaudio_dev_release(struct kref *kref)
+ static int enable_audio_stream(struct snd_usb_substream *subs,
+ 			       snd_pcm_format_t pcm_format,
+ 			       unsigned int channels, unsigned int cur_rate,
+-			       int datainterval)
++			       int datainterval, unsigned int card_num)
  {
- 	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
- 	struct xhci_interrupter *ir;
-@@ -2322,7 +2354,7 @@ xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs, gfp_t flags)
- 	if (!ir)
- 		return NULL;
++	struct usb_host_endpoint *data_ep = NULL, *sync_ep = NULL;
+ 	struct snd_pcm_hw_params params;
+ 	struct snd_usb_audio *chip;
+ 	struct snd_interval *i;
+@@ -997,15 +1032,45 @@ static int enable_audio_stream(struct snd_usb_substream *subs,
+ 			goto detach_ep;
+ 		}
  
--	ir->event_ring = xhci_ring_alloc(xhci, segs, TYPE_EVENT, 0, flags);
-+	ir->event_ring = __xhci_ring_alloc(xhci, segs, TYPE_EVENT, 0, no_pool_alloc, flags);
- 	if (!ir->event_ring) {
- 		xhci_warn(xhci, "Failed to allocate interrupter event ring\n");
- 		kfree(ir);
-@@ -2370,7 +2402,8 @@ void xhci_add_interrupter(struct xhci_hcd *xhci, unsigned int intr_num)
- 
- struct xhci_interrupter *
- xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
--				  u32 imod_interval, unsigned int intr_num)
-+				  u32 imod_interval, unsigned int intr_num,
-+				  bool no_pool_alloc)
- {
- 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
- 	struct xhci_interrupter *ir;
-@@ -2381,7 +2414,7 @@ xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
- 	    intr_num >= xhci->max_interrupters)
- 		return NULL;
- 
--	ir = xhci_alloc_interrupter(xhci, segs, GFP_KERNEL);
-+	ir = xhci_alloc_interrupter(xhci, segs, no_pool_alloc, GFP_KERNEL);
- 	if (!ir)
- 		return NULL;
- 
-@@ -2512,7 +2545,7 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
- 	if (!xhci->interrupters)
- 		goto fail;
- 
--	xhci->interrupters[0] = xhci_alloc_interrupter(xhci, 0, flags);
-+	xhci->interrupters[0] = xhci_alloc_interrupter(xhci, 0, false, flags);
- 	if (!xhci->interrupters[0])
- 		goto fail;
- 
-diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
-index d0c0f75d6085..04eb39e540c8 100644
---- a/drivers/usb/host/xhci-sideband.c
-+++ b/drivers/usb/host/xhci-sideband.c
-@@ -98,6 +98,7 @@ __xhci_sideband_remove_endpoint(struct xhci_sideband *sb, struct xhci_virt_ep *e
- 	xhci_stop_endpoint_sync(sb->xhci, ep, 0, GFP_KERNEL);
- 
- 	ep->sideband = NULL;
-+	ep->no_pool_alloc = false;
- 	sb->eps[ep->ep_index] = NULL;
- }
- 
-@@ -150,6 +151,9 @@ EXPORT_SYMBOL_GPL(xhci_sideband_notify_ep_ring_free);
-  * After an endpoint is added the sideband client can get the endpoint transfer
-  * ring buffer by calling xhci_sideband_endpoint_buffer()
-  *
-+ * The endpoint must be added before its transfer ring is allocated (before
-+ * the alternate setting that enables it is selected).
-+ *
-  * Return: 0 on success, negative error otherwise.
-  */
- int
-@@ -177,10 +181,18 @@ xhci_sideband_add_endpoint(struct xhci_sideband *sb,
- 	 * to add the endpoint the normal way, but instead offload it immediately,
- 	 * and let this function add the endpoint and allocate the ring buffer
- 	 * with the smallest common DMA mask
-+	 *
-+	 * Ensure that the sideband endpoint is added before xHCI has initialized
-+	 * the endpoints.
- 	 */
--	if (sb->eps[ep_index] || ep->sideband)
-+	if (sb->eps[ep_index] || ep->sideband || ep->ring || ep->new_ring)
- 		return -EBUSY;
- 
-+	/*
-+	 * The rings are mapped for the offload entity, so on kernels with pages
-+	 * larger than a ring segment, give each segment a page of its own.
-+	 */
-+	ep->no_pool_alloc = PAGE_SIZE > TRB_SEGMENT_SIZE;
- 	ep->sideband = sb;
- 	sb->eps[ep_index] = ep;
- 
-@@ -347,7 +359,8 @@ xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
- 
- 	sb->ir = xhci_create_secondary_interrupter(xhci_to_hcd(sb->xhci),
- 						   num_seg, imod_interval,
--						   intr_num);
-+						   intr_num,
-+						   PAGE_SIZE > TRB_SEGMENT_SIZE);
- 	if (!sb->ir)
- 		return -ENOMEM;
- 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index fc1b0a6b0429..64710df97697 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -4106,6 +4106,7 @@ static int xhci_discover_or_reset_device(struct usb_hcd *hcd,
-  */
- static void xhci_free_dev(struct usb_hcd *hcd, struct usb_device *udev)
- {
-+	struct xhci_ring *no_pool_rings[EP_CTX_PER_DEV] = {};
- 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
- 	struct xhci_virt_device *virt_dev;
- 	struct xhci_slot_ctx *slot_ctx;
-@@ -4138,9 +4139,21 @@ static void xhci_free_dev(struct usb_hcd *hcd, struct usb_device *udev)
- 	xhci_disable_slot(xhci, udev->slot_id);
- 
- 	spin_lock_irqsave(&xhci->lock, flags);
-+	/*
-+	 * Rings not allocated from the segment pool are freed with
-+	 * dma_free_coherent(), which can't be called with interrupts disabled.
-+	 */
-+	for (i = 0; i < EP_CTX_PER_DEV; i++) {
-+		if (virt_dev->eps[i].ring && virt_dev->eps[i].ring->no_pool_alloc) {
-+			no_pool_rings[i] = virt_dev->eps[i].ring;
-+			virt_dev->eps[i].ring = NULL;
++		data_ep = uaudio_find_host_endpoint(subs, subs->data_endpoint);
++		if (!data_ep) {
++			dev_err(&subs->dev->dev, "data ep # %d not found\n",
++				subs->data_endpoint->ep_num);
++			ret = -ENODEV;
++			goto detach_ep;
 +		}
-+	}
- 	xhci_free_virt_device(xhci, virt_dev, udev->slot_id);
- 	spin_unlock_irqrestore(&xhci->lock, flags);
++
++		ret = xhci_sideband_add_endpoint(uadev[card_num].sb, data_ep);
++		if (ret < 0) {
++			dev_err(&subs->dev->dev,
++				"failed to add data ep to sideband: %d\n", ret);
++			goto detach_ep;
++		}
++
+ 		if (subs->sync_endpoint) {
++			sync_ep = uaudio_find_host_endpoint(subs, subs->sync_endpoint);
++			if (!sync_ep) {
++				dev_err(&subs->dev->dev, "sync ep # %d not found\n",
++					subs->sync_endpoint->ep_num);
++				ret = -ENODEV;
++				goto remove_data_ep;
++			}
++
++			ret = xhci_sideband_add_endpoint(uadev[card_num].sb, sync_ep);
++			if (ret < 0) {
++				dev_err(&subs->dev->dev,
++					"failed to add sync ep to sideband: %d\n", ret);
++				goto remove_data_ep;
++			}
++
+ 			ret = snd_usb_endpoint_prepare(chip, subs->sync_endpoint);
+ 			if (ret < 0)
+-				goto detach_ep;
++				goto remove_sync_ep;
+ 		}
  
-+	for (i = 0; i < EP_CTX_PER_DEV; i++)
-+		xhci_ring_free(xhci, no_pool_rings[i]);
- }
+ 		ret = snd_usb_endpoint_prepare(chip, subs->data_endpoint);
+ 		if (ret < 0)
+-			goto detach_ep;
++			goto remove_sync_ep;
  
- int xhci_disable_slot(struct xhci_hcd *xhci, u32 slot_id)
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index ec4bfeb4887c..7e5152862562 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -711,6 +711,7 @@ struct xhci_virt_ep {
- 	bool			use_extended_tbc;
- 	/* set if this endpoint is controlled via sideband access*/
- 	struct xhci_sideband	*sideband;
-+	bool			no_pool_alloc;
- };
+ 		dev_dbg(uaudio_qdev->data->dev,
+ 			"selected %s iface:%d altsetting:%d datainterval:%dus\n",
+@@ -1019,6 +1084,11 @@ static int enable_audio_stream(struct snd_usb_substream *subs,
  
- enum xhci_overhead_type {
-@@ -1382,6 +1383,7 @@ struct xhci_ring {
- 	unsigned int		stream_id;
- 	unsigned int		num_segs;
- 	unsigned int		bounce_buf_len;
-+	bool			no_pool_alloc;
- 	enum xhci_ring_type	type;
- 	u32			old_trb_comp_code;
- 	struct radix_tree_root	*trb_address_map;
-@@ -1870,7 +1872,8 @@ void xhci_free_port_bw_ctx(struct xhci_hcd *xhci,
- 		struct xhci_container_ctx *ctx);
- struct xhci_interrupter *
- xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
--				  u32 imod_interval, unsigned int intr_num);
-+				  u32 imod_interval, unsigned int intr_num,
-+				  bool no_pool_alloc);
- void xhci_remove_secondary_interrupter(struct usb_hcd
- 				       *hcd, struct xhci_interrupter *ir);
- void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
+ 	return 0;
+ 
++remove_sync_ep:
++	if (sync_ep)
++		xhci_sideband_remove_endpoint(uadev[card_num].sb, sync_ep);
++remove_data_ep:
++	xhci_sideband_remove_endpoint(uadev[card_num].sb, data_ep);
+ detach_ep:
+ 	snd_usb_hw_free(subs);
+ 
+@@ -1140,14 +1210,6 @@ uaudio_endpoint_setup(struct snd_usb_substream *subs,
+ 
+ 	memcpy(ep_desc, &ep->desc, sizeof(ep->desc));
+ 
+-	ret = xhci_sideband_add_endpoint(uadev[card_num].sb, ep);
+-	if (ret < 0) {
+-		dev_err(&subs->dev->dev,
+-			"failed to add data ep to sec intr: %d\n", ret);
+-		ret = -ENODEV;
+-		goto exit;
+-	}
+-
+ 	sgt = xhci_sideband_get_endpoint_buffer(uadev[card_num].sb, ep);
+ 	if (!sgt) {
+ 		dev_err(&subs->dev->dev,
+@@ -1637,7 +1699,7 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
+ 		ret = enable_audio_stream(subs,
+ 					  map_pcm_format(req_msg->audio_format),
+ 					  req_msg->number_of_ch, req_msg->bit_rate,
+-					  datainterval);
++					  datainterval, pcm_card_num);
+ 
+ 		if (!ret)
+ 			ret = prepare_qmi_response(subs, req_msg, &resp,
 
 -- 
 2.43.0
