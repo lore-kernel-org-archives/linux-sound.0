@@ -1,55 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.102
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793743075;
-	b=a698otn6C5JgS5jjjyTfJ+i0bMNLG82uJj3oJqX189E1Vd/Lx4iZg1mgwSaRGi1q/7qb
-	 Vu75Tk9bEYO/9ebaCKDKgNG8jI/qSDpMzdz1ewWVHtx69nlNiMgwdWXeQr5nevatAgLab
-	 XJpaGKjw83ijvHCv9b+EjedCK3wvwpCCS6JrH9ZmRbovTCoJJBko2FEpBb1GDtZ9pCTvu
-	 tCL5TQaD5bWotWAEA9bWaOirbw3gYzxds6MzpiUPdyLYSU6kn+RHMi0UJIOpfMFSQIOzg
-	 lyTS2ie9ARP3nSF7oM9NwfOJv7sv9i8cjmvN3FFpSiK7T5CNC8hG89o7kj6OydMm7nA==
+	t=1793743087;
+	b=EsCEbT3qQrjYMgWG8BdRdwAeQBhTAjA1sLdtFpbEJxqamVRY8RcVenAIg9PuxH0Z/Nno
+	 XihWOI/m/m+9ELCjY0FKEwLQhYvDJek/uKoL8iQJJWMW3WaQRZkmeNXgR5rhq3LbDCcRE
+	 TJKzM4PyD/Ys/dcVUCZGGRXRX/2KF+y/Dm9VJvrMZ1njkguNWUaKu9KuTroyawVhqgqcQ
+	 LTnB25QBEQK3v+2zAaUzAB/XjwhBeMjLZ3Ek2wRRcHKbKpkrjjN2ja5zir0M7dJ0PBq42
+	 OZaa+fIrZgCPH6uVuDHd2AfbZKeiUmt1kHE2GHUqUX8D+C7OSAphrtr+xZOU1yW1Igg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793743075;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=4H8eU6z2JR3iXPnaXPV2uTwunMPI539+3YmBBPsTqq8=;
-	b=m3KALxrI/3Y3uoaMNFu2aFflchqqJbwjSNFPYa7EAQrfVeJ1DIheLyvEdv6/xcI4YcJW
-	 VkfWK9Qm56IZqc11HW7i0ZAgjANKO4e2a7bIaWRikW32aPcX0y6fwXG4OVGcuOAtoPdiL
-	 KiNb2bWx1zK3oDZ+Q6DCb2DScMqQtci6yPEFtCqfXMcjU1+XwbjRpDtxC4Lyvx+8s71Ib
-	 NewiH4GjqO/K68SzqIKtZsNDgdgVjHgjLB31sK885l+/AS4ft7ZOxoG1/U0Ei3uI/w5cO
-	 bkNyB9kcxrMP0/POajR+4Xqt7W5hQXJ1qfyNz2698SbahtNevNkhVsAEpVtktzzf2tQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793743087;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=yPgBcDhS3l/K6o3rV3DSm2qU59TL8IzS+23Q+lTdKdY=;
+	b=ZXxouSFtGTLAXpLTyFBx6tgLYRtjbOCoBxmQSxWfCr7u5LQ2xcoSkolze6raZQqS9ViN
+	 3eIY2oNr1165AuPtK0vnafLmZ34WbnRQw77iDAabSrCnbATIquXSwdlx21VAJpbR3Q3u6
+	 GI4DkB+TktCeJ77ErwF+cG+c0tI1QbWg3kcBS7n28i2wLlMHMO1bIqnEoaSonpVYyrWUE
+	 Ln5QzHs8qv6sRfr+1aSvwM/6MYdB7cNCfi6ylh1sOkdQSYPb2Xypt01qyzkl4YaG0cpwv
+	 oHB8geuh72TvaD8LwXy2hCYhM/E2w4ABZFJa5O8JKlqi+BwTeirvcUEmUDpj58BkKTQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NN4zXVrv;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=protonmail.com;
+	spf=pass smtp.mailfrom=protonmail.com;
+	dkim=pass header.d=protonmail.com header.i=@protonmail.com header.a=rsa-sha256 header.s=protonmail3 header.b=Fd+iQUA7;
+	arc=none smtp.remote-ip=79.135.106.102
+Received: from mail-106102.protonmail.ch (mail-106102.protonmail.ch [79.135.106.102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAFD606D813
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 21:57:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA82606A32C;
+	Tue,  3 Nov 2026 21:58:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CA82606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NN4zXVrv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88DA91F00A2C
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 21:57:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793743074;
-	bh=4H8eU6z2JR3iXPnaXPV2uTwunMPI539+3YmBBPsTqq8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=NN4zXVrv4HX75rNjDW8n2rGhpIdcwT226SOYEzZIJkf4wky///aAUqXsW/LNjWIkB
-	 +jqhBmbKEGHqpB/RfJ3IOme2x4Uro3Y6FFkYU7Lcb9k3EYVAL1RdZOfZBIO6UiCdmd
-	 KU9/YPoFAEbimG8yPTj0+ET9beRolcznhTqYs/aM+V+aZskkRu62idx1+KnN4AwSau
-	 1qKaj1M79st+FVG6mdkANAoRT1WY2ezZ902n3LEXe1SUMJ3M1nio7P61uGsrtysmqO
-	 t+l8RFDh+9jqGqOg9Z/Kt58ZxPm2v6e40EATAVtiGV3R2E35gTnJzuKbjPNba1LZpc
-	 +CFP4IuYefF8g==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5bccb867d6fso11541e87.0
-        for <linux-sound@vger.kernel.org>; Tue, 03 Nov 2026 13:57:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBzJazeqr6H+a3y+hwFF94F0SgaBRDCUPdvCqztwYUbn1Ynj7QyATkA4cFBUHFHB0WoAn81K+QKtMTILyQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+/QlNYO45GOhdhKxLfGOQaTnmK4+h/TxGxETuiyz6kNNuVIa9Y
-	H/AluxBVZmYDpDg8rKsMToMG0398kU1C0QYIgRwCztfn5I0GGJI6YUNqMBeqhyyZBRAy0gHdEtu
-	t70Gzxrf1UWNwZ4TP01trRacBpxz2DtE=
-X-Received: by 2002:a05:6512:a94:b0:5bf:b246:87a2 with SMTP id
- 2adb3069b0e04-5bfd957b610mr4953868e87.10.1793743072116; Tue, 03 Nov 2026
- 13:57:52 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=protonmail.com header.i=@protonmail.com header.a=rsa-sha256 header.s=protonmail3 header.b=Fd+iQUA7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1793743084; x=1794002284;
+	bh=yPgBcDhS3l/K6o3rV3DSm2qU59TL8IzS+23Q+lTdKdY=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=Fd+iQUA7Ms4qv5sQLKEoIlBJ9RYHqM5H57giVY/pdeEQVds235vBjpP2BXWpX7RUK
+	 RS97whK2cZfuxBAE3IF45dXwUXKBdnIyRBbvpjb613kj6Z9RHd/NR6rnJck+S7Mpb6
+	 A+yvWn0HIDzp5yiP7xxnDQic38vDza1dqUGIcft9bNycrqQpZSGmFiOACheeT9iyqv
+	 xhTTz1vcw2Jmm7Dsf1NqKVqe2GD5z3VLu1r+1YyZHBQbiW1ETxCOERA42cbIRBLqUZ
+	 GbLBP/4JVZzC4pW1p8yBeC7I2HMuT2i6+EyY0sfXRwhoI/xLj7RC/4QTK1CH/SKDIi
+	 HRlMZGInTBg5w==
+Date: Tue, 03 Nov 2026 21:58:01 +0000
+To: "stable@vger.kernel.org" <stable@vger.kernel.org>
+From: The Darkbird <thedarkbird@protonmail.com>
+Cc: "regressions@lists.linux.dev" <regressions@lists.linux.dev>, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "eadavis@qq.com" <eadavis@qq.com>, "tiwai@suse.de" <tiwai@suse.de>
+Subject: [REGRESSION 6.12.y] Please backport 70b4db7d2581 ("ALSA: usb-audio: Use the right limit for PCM OOB check")
+Message-ID: <shfaXkZCI7FtyNr5tS4kCC_d5E4uQFhc0MtwJa2CQFXpNMfSw7Ub6urwWpGrcoRnHuoneJEi9mLwtnvVImMhz1Hb25iwNJxx8GZZsDCV_HE=@protonmail.com>
+Feedback-ID: 23654000:user:proton
+X-Pm-Message-ID: 37861ae8205a94bb379d1365cf092ca5056b5e9d
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,72 +61,66 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261102135330.2493332-1-robh@kernel.org>
-In-Reply-To: <20261102135330.2493332-1-robh@kernel.org>
-From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 3 Nov 2026 22:57:39 +0100
-X-Gmail-Original-Message-ID: <CAD++jLm10TL4FkkyhvyF-CKNREA-mOSjbR5zKUisC_Wx1-nqgg@mail.gmail.com>
-X-Gm-Features: AclHuK-xZTzLWXlPWAOCiWHBj5C4K-MSmY2Fnjjj517UPimoWDCn2vjwhrapfPU
-Message-ID: <CAD++jLm10TL4FkkyhvyF-CKNREA-mOSjbR5zKUisC_Wx1-nqgg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Use hex unit address patterns
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Jiri Pirko <jiri@resnulli.us>, 
-	Ivan Vecera <ivecera@redhat.com>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Bartosz Golaszewski <brgl@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Olivier Moysan <olivier.moysan@foss.st.com>, 
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Lee Jones <lee@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, 
-	Ulf Hansson <ulfh@kernel.org>, Hans Ulli Kroll <ulli.kroll@googlemail.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Chanh Nguyen <chanh@os.amperecomputing.com>, 
-	Alistair Francis <alistair@alistair23.me>, Julius Werner <jwerner@chromium.org>, 
-	Paul Cercueil <paul@crapouillou.net>, Dmitry Osipenko <digetx@gmail.com>, 
-	Florian Fainelli <f.fainelli@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Ray Jui <ray.jui@broadcom.com>, Scott Branden <scott.branden@broadcom.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	linux-gpio@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org, 
-	linux-iio@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, mfd@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-mmc@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 2, 2026 at 2:53=E2=80=AFPM Rob Herring (Arm) <robh@kernel.org> =
-wrote:
+Hello,
 
-> Unit-addresses by default (and most commonly) are hexadecimal. There's a
-> number of cases using decimal patterns. Fix all of them, limiting the
-> pattern to match the 'reg' limits if there are any.
->
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+First of all: I noticed this regression on my LMDE 7 install and let=20
+Claude analyze the problem. I thoroughly read its analyses, read the kernel=
+=20
+code diff involved, and I deemed it probable enough to mail it. However, I=
+=20
+have no technical experience in this matter, nor with kernel-related coding=
+,=20
+nor reporting regressions like these, so keep that in mind. I sincerely hop=
+e=20
+I won't be wasting your time with AI-generated nonsense.
 
-Acked-by: Linus Walleij <linusw@kernel.org>
+-----
 
-Yours,
-Linus Walleij
+Please backport the following upstream commit to 6.12.y:
+
+=C2=A0 70b4db7d2581 ("ALSA: usb-audio: Use the right limit for PCM OOB chec=
+k")
+
+It fixes ef5749ef8b30 ("ALSA: usb-audio: Prevent excessive number of
+frames"), which went into 6.12.114 as commit 81e4b0009f2a. The fix
+itself did not follow: it is not in 6.12.114 or 6.12.115, and it is not
+in queue - 6.12 as of 2026-11-03. It has been in mainline since
+v6.19-rc7, and 6.18.y already has both commits (6.18.10).
+
+On 6.12.114 and later, USB audio playback is completely silent on
+devices that use implicit feedback. In data_ep_set_params(),
+ep->max_urb_frames is only assigned for playback endpoints without
+implicit feedback, so for implicit-feedback playback it stays 0. The
+check added to prepare_playback_urb()
+
+=C2=A0 =C2=A0 if (counts < 0 || frames + counts >=3D ep->max_urb_frames)
+
+is then always true. The loop breaks before the first packet, frames
+stays 0, and the function returns -EAGAIN for every URB, so no audio
+data is ever sent. Players that sync video to the audio clock (mpv,
+Firefox) show a black picture.
+
+Hardware: MOTU UltraLite-mk5 (07fd:000c), which runs in implicit
+feedback mode according to /proc/asound/cardN/stream0.
+
+=C2=A0 6.12.113 (Debian 6.12.113-1): works
+=C2=A0 6.12.115 (Debian 6.12.115-2): no sound at all
+
+The code above is identical in upstream v6.12.115, so this is not
+specific to Debian.
+
+Note that 70b4db7d2581 does not apply cleanly to 6.12.y, because the
+loop in prepare_playback_urb() is one indentation level shallower
+there. The change itself is the same single line, and it applies with
+"patch -l". I have not built and tested a 6.12 kernel with the fix.
+
+The original report of the regression on mainline:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220997
+
+#regzbot introduced: 81e4b0009f2a
+
+Thanks,
+D.
