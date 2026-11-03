@@ -1,55 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.97
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793688095;
-	b=Yd3sBOJFIndGgBg5BiPD0t9+kTsYwTNUV6NzkdVTJKy1AhtPgWZ9skn9tnCwXOiOsUPl
-	 zSdiPM18mHfeu4T5o4/x/Dh2m/nLUEVvUG46CQep09UWUtkdFEvoJwBGgPPY83p0pg/0F
-	 IUEBCnGMRAC3ny0MHLKjPiTNWSNsqcoW+uwmElAZbZWYDBsZTEvEyNu///M4hsz/qzd9k
-	 1Ka7lijLuQK0Ui4z3etQF1KPRQ1hS+WIiCEDyMoKCpRbOiqZen9YyrTfQthMRe6IORhQs
-	 uELHefrVd+Ve6zgzlGD1eZvVsNHwFrf7xN+dMNhlQ6RBcIKm+ILgBsdQ0HN+Zm93P0w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793688095;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding:X-HM-Tid:X-HM-MType:
-	 X-HM-Spam-Status:DKIM-Signature;
-	bh=fTgSatG4MvjMsRT9jq0XYpI+3FtgBlqcdEho8ORyYa4=;
-	b=Sbq85EBrcU7aNLIUBjtHYs7aMMxnEyJgl+p+XxinII+2Qz37/BVUAIADa0YZ/Jz1Yy2q
-	 uCUQ8fX4iOa3LVaTJxOCVGfa0FpsG2JXXf+X5EVK/7dgvtKXjpMth9fk7C3q1ig7Z08di
-	 MRL7o1hWbdqFFs1U3aGJEab1vLzLgFTkZEba5BoLQfHlMUW9dSAPNCNzFJ45LlknCiWpl
-	 aUPP8DgUzoQF80gx1gFIy0WTovYalZzIPWmq+Rn0jhg+mJQTVRgERl+covVl2nhLkCcQR
-	 7kSNZ6nVtSlnPgWMbiFI6bIZV5CycS2t5taqE4BoDDeM4MfKiLXR9Ea7zUOYJiwOcdw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=senarytech.com;
-	spf=pass smtp.mailfrom=senarytech.com;
-	dkim=pass header.d=senarytech.com header.i=@senarytech.com header.a=rsa-sha256 header.s=default header.b=f2wG4d2x;
-	arc=none smtp.remote-ip=220.197.31.97
-Received: from mail-m1973197.qiye.163.com (mail-m1973197.qiye.163.com [220.197.31.97])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793688634;
+	b=BN/D1nGXhSV+OfqI9Vfu2uiaNOAReHL7Me30+6u205Lc/un8bXXs7BN4TX8v/G2LPdZA
+	 9hDZFP0us03/zOtNJjaWZdAu5krS3gZVloY0MU+thoZkqQyxRGcUUO4gdDSx5zIq9c+1i
+	 qzGflpbZlSWIwsHIbnaYWp3xW1Jl5xHeMXmqCP9+Z9r9ASIZBsjVlQOj4Dq/qCqrC911R
+	 l72vqEWHaAK1eOMXeVuOPB3fMEZSm3Hr/Cd4zlVLswKWHCZYgXJDYvSr2tPGNLCkTXpb/
+	 yQG1NLBrYPMFqH/o2LuSYeEmAwuzsflIApphD2bvFqi4Tti17ZLKGJsH4Ly6krgoNwA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793688634;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=sQblcdlkbUfmB1DaJ6Kr5GTjgM7QZjkVClqVKNQ5Z6E=;
+	b=p3KsFz+XzSAmLdrJys/9XngWOz9ZnpSldQhKLOLqTGISgH35PJQ7sGyATBtJIvRtzKfL
+	 TBtqCRATgBU1/5n3eRWwhKGwrxwWrVoB9wP+6zF5R+ZR3Drl/C+1rlJ28fgFZfhrCRf1x
+	 ue7Q4kKCsfTzNzAK9mWJW+w3lNt7NKh354SvfwIrQjy6TTBbyWwgQkXl9nLRLgesu2rYA
+	 XVNZob/z+W3HR0CnFPT70X9B+Ar1PaO8rU10PyVqQvINXaEewn0EqgFyDG/xFb5q0A1+L
+	 DISvvaQCkpC2LO5glOYzX4tx3SmzCaWkpIgBIXE6hjcpOzFxWFhN3FOZwsQuoeFQHsg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KjWvmr7u;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60BA3606A331;
+	Tue,  3 Nov 2026 06:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KjWvmr7u
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793688634;
+	b=BOwc2WJCr+DcDyMswovOfjklm+xfrxY6ic/JAjoYYkQxekwW86hNa2oeYIk7wWigO2fL
+	 F8uxMQ7W+QvYDBYjHaZke9ASbLo9mHpX+FMEzM3lGjrK6pmSqhWcWRRYpnjKXdGxxkke/
+	 /24Lu0CVs9ELHmbhTzUdU4vc0lth6QIftLiX7Oz6PvUasOmlth3tcAhQkJxxs7uth18Vp
+	 b9l9jl07ZaNQzLPlOeGbqCTik6l2RMdN4EeOTVKqfS0TKVojkBZETuXdxilFXhtVMmFnJ
+	 aVJMiSpOtc8F2MJAYnwYxFIIDb7UgFs46HRG+eREJ79I7AX3AMFuG+G6+rtmZX3GFFQ==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793688634;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=sQblcdlkbUfmB1DaJ6Kr5GTjgM7QZjkVClqVKNQ5Z6E=;
+	b=XXWfe4R6eOgnoYkOWQ9Q8QzRIf+59Bfu3ALtUOKo9jKaxk77Ax88o1tyxLOimyX6gphk
+	 PnCzV0JDwkQfTzRakwNPv6pi+fIA85oBGiHFzmvB0YU2DNRahSF5rzmbQDAG38sPRerel
+	 SXP/AdNYFZYyjx1RAs+CjMpKWxkJDvkyOJqWMUXrIYPZxehww+DgZxJE29ZL2iQ1RZhTT
+	 if8dNxr5egDUd9YKkAT4bU2TITBQ/fvlnP+u3Z0sLOaei027a+jH9ZGUWG/IXywWBIJBv
+	 nWeervIVGKaH1ikO1j5pfxNgX0XmZ/Z6dvllPa8l9PbK2cv9+RFD4RNy8c7CdtWg1Lw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD09606A324
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 06:41:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8CD09606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=senarytech.com header.i=@senarytech.com header.a=rsa-sha256 header.s=default header.b=f2wG4d2x
-Received: from Wangqianghua.localdomain (unknown [27.38.136.171])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 534b0d0c1;
-	Tue, 3 Nov 2026 14:41:22 +0800 (GMT+08:00)
-From: Qianghua Wang <qianghua.wang@senarytech.com>
-To: linux-sound@vger.kernel.org
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>,
-	alsa-devel@alsa-project.org,
-	Qianghua Wang <qianghua.wang@senarytech.com>
-Subject: [PATCH] ASoC: Intel: soc-acpi: use dummy topology for SN624x
-Date: Tue,  3 Nov 2026 14:41:22 +0800
-Message-ID: <20261103064123.115057-1-qianghua.wang@senarytech.com>
-X-Mailer: git-send-email 2.43.0
+	by smtp.kernel.org (Postfix) with ESMTPS id B14731F00919;
+	Tue,  3 Nov 2026 06:50:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793688634;
+	bh=sQblcdlkbUfmB1DaJ6Kr5GTjgM7QZjkVClqVKNQ5Z6E=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=KjWvmr7uP92FXRO4zGdMOamWGpi2urvBtJwEGPOq0HrqW+ZPCj8aJCLiUNR4Se9xx
+	 /AbxZqx1IAsFt5LZq+6G9L1A71fSvqvPIlc/79XCrBqXy57WotsgMsK08B04VcrOkO
+	 XXgWyZ2UHAdNQQ1ziffKOFmDttCQxI140kUUbcUDBSQEmJ7vfKWMPDY6X6l0xXJYnf
+	 XoC5+DUDl1lL/BKog/v9exDe4A/wPANBxZq0SzxRqnMKHlThG6NM8jMfabBFeslaCL
+	 Xm2CYz8KGm0SetbXY0hi1V9T5rowMHu+8LAUGNw5vOcVDxc+1iALywCKPvwVVaK0I9
+	 h9ENEW/tbo4fA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 1DFB2467EE;
+	Tue,  3 Nov 2026 06:50:32 +0000 (UTC)
+From: Hermes Wu via B4 Relay <devnull+Hermes.wu.ite.com.tw@kernel.org>
+Date: Tue, 03 Nov 2026 14:50:19 +0800
+Subject: [PATCH 1/5] dt-bindings: media: ite,it6625: add audio DAI
+ properties
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,136 +83,106 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa1a02418d509d8kunmfda58cfb30caff
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaTkgYVkpMQkpLQ0xNSRpDTVYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJTFVIQ1VKSE1VSkxKWVdZFhoPEhUdFFlBWUtVS1VLVU
-	tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=f2wG4d2xNar2tRML1bj8EYhaJN2zjDU4tdbUZMxDv9/paWsDiIh0pq1qWuLIsMBlZtz0ntMRignCxk3wzS7rDxbLD6RUIHiWigrUu/m2nRgIRcCM0Fm7J6svbtIBJ2s1ueF6tk4ttKKTmgUK/1ARdjEba0nzt3qYwdZslqJH2NQ=; s=default; c=relaxed/relaxed; d=senarytech.com; v=1;
-	bh=fTgSatG4MvjMsRT9jq0XYpI+3FtgBlqcdEho8ORyYa4=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261103-upstream-it6625-alsa-i2s-v1-1-bb91e2879b01@ite.com.tw>
+References: <20261103-upstream-it6625-alsa-i2s-v1-0-bb91e2879b01@ite.com.tw>
+In-Reply-To: <20261103-upstream-it6625-alsa-i2s-v1-0-bb91e2879b01@ite.com.tw>
+To: Hermes Wu <Hermes.Wu@ite.com.tw>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
+ linux-api@vger.kernel.org, Hermes Wu <Hermes.wu@ite.com.tw>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793688630; l=2381;
+ i=Hermes.wu@ite.com.tw; s=20241230; h=from:subject:message-id;
+ bh=YquEGnkfejE8LQ3h36bXPBE3tLh6TFPGHJoLWRG719M=;
+ b=lLa4lYyu0HCAvAC77t+VFLi8mHRGaDxq0l3ShmMhyDEv9x09C/rJmAzz4NtI+UYwIy0FFRS6Z
+ MWSSGIdCtJACYzF2hCf13F7H0z7i5eJ3X0FqCs3gET+azSqwYf7rqnZ
+X-Developer-Key: i=Hermes.wu@ite.com.tw; a=ed25519;
+ pk=qho5Dawp2WWj9CGyjtJ6/Y10xH8odjRdS6SXDaDAerU=
+X-Endpoint-Received: by B4 Relay for Hermes.wu@ite.com.tw/20241230 with
+ auth_id=310
+X-Original-From: Hermes Wu <Hermes.wu@ite.com.tw>
+Reply-To: Hermes.wu@ite.com.tw
+Content-Transfer-Encoding: 7bit
 
-The SN624x SoundWire entries in the MTL, ARL, LNL and PTL match tables
-point at sof-<platform>-sn624x.tplg. Those monolithic topologies are not
-shipped in sof-bin, so the SOF probe fails with a missing topology on
-any system that does not carry the out-of-tree files.
+From: Hermes Wu <Hermes.wu@ite.com.tw>
 
-The SN624x jack, amp and mic DAIs map onto the generic SDCA function
-topologies (sof-sdca-jack, sof-sdca-1amp, sof-sdca-mic) and the HDMI
-fragments. Use sof-<platform>-dummy.tplg so the card is always built
-from function topologies and no monolithic topology is needed.
+IT6625 and IT6626 decode the HDMI audio stream and output it on an I2S
+interface, driving the bit and frame clocks themselves. The bridge has up
+to eight I2S data pins.
 
-Tested on a Wildcat Lake (PTL match table) laptop with SN6244, with
-sof-ptl-sn624x.tplg removed: the card probes with sof-sdca-jack-id0,
-sof-sdca-1amp-id2, sof-sdca-mic-id4 and sof-hdmi-pcm5-id5. Speaker,
-headset, DMIC and HDMI playback/capture work.
+Add '#sound-dai-cells' so the bridge can be referenced as an audio codec
+DAI, and 'ite,i2s-data-lanes' to describe which data pins are connected
+to the audio receiver, in HDMI channel-pair order. Without the property
+only SD0 is connected.
 
-Fixes: 32f9c551a91a ("ASoC: Intel: soc-acpi: add SN624x entries for ARL/LNL/MTL/PTL")
-Link: https://github.com/thesofproject/sof/issues/11167
-Link: https://github.com/thesofproject/linux/issues/6002
-Signed-off-by: Qianghua Wang <qianghua.wang@senarytech.com>
+Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
 ---
- sound/soc/intel/common/soc-acpi-intel-arl-match.c | 4 ++--
- sound/soc/intel/common/soc-acpi-intel-lnl-match.c | 4 ++--
- sound/soc/intel/common/soc-acpi-intel-mtl-match.c | 4 ++--
- sound/soc/intel/common/soc-acpi-intel-ptl-match.c | 6 +++---
- 4 files changed, 9 insertions(+), 9 deletions(-)
+ .../devicetree/bindings/media/i2c/ite,it6625.yaml  | 23 +++++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-index 310c4b77c..1d5f6677b 100644
---- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-@@ -769,14 +769,14 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
- 		.link_mask = BIT(0),
- 		.links = arl_link_sn6242,
- 		.drv_name = "sof_sdw",
--		.sof_tplg_filename = "sof-arl-sn624x.tplg",
-+		.sof_tplg_filename = "sof-arl-dummy.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(0),
- 		.links = arl_link_sn6244,
- 		.drv_name = "sof_sdw",
--		.sof_tplg_filename = "sof-arl-sn624x.tplg",
-+		.sof_tplg_filename = "sof-arl-dummy.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{},
-diff --git a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-index cbf79eb2e..a9fef394f 100644
---- a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-@@ -867,14 +867,14 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
- 		.link_mask = BIT(0),
- 		.links = lnl_link_sn6242,
- 		.drv_name = "sof_sdw",
--		.sof_tplg_filename = "sof-lnl-sn624x.tplg",
-+		.sof_tplg_filename = "sof-lnl-dummy.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(0),
- 		.links = lnl_link_sn6244,
- 		.drv_name = "sof_sdw",
--		.sof_tplg_filename = "sof-lnl-sn624x.tplg",
-+		.sof_tplg_filename = "sof-lnl-dummy.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{},
-diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-index e89c5cfd6..704b4e0d2 100644
---- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-@@ -1564,14 +1564,14 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 		.link_mask = BIT(0),
- 		.links = mtl_link_sn6242,
- 		.drv_name = "sof_sdw",
--		.sof_tplg_filename = "sof-mtl-sn624x.tplg",
-+		.sof_tplg_filename = "sof-mtl-dummy.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(0),
- 		.links = mtl_link_sn6244,
- 		.drv_name = "sof_sdw",
--		.sof_tplg_filename = "sof-mtl-sn624x.tplg",
-+		.sof_tplg_filename = "sof-mtl-dummy.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{},
-diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-index 0ce51c44b..a5896796a 100644
---- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-@@ -599,21 +599,21 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
- 		.link_mask = BIT(3),
- 		.links = ptl_link_sn6242,
- 		.drv_name = "sof_sdw",
--		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
-+		.sof_tplg_filename = "sof-ptl-dummy.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(3),
- 		.links = ptl_link_sn6244,
- 		.drv_name = "sof_sdw",
--		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
-+		.sof_tplg_filename = "sof-ptl-dummy.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(3),
- 		.links = ptl_link_sn6247,
- 		.drv_name = "sof_sdw",
--		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
-+		.sof_tplg_filename = "sof-ptl-dummy.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{},
+diff --git a/Documentation/devicetree/bindings/media/i2c/ite,it6625.yaml b/Documentation/devicetree/bindings/media/i2c/ite,it6625.yaml
+index 9b621f726249189255692da02049ebcbf1d5b43c..9304a0507903e7eaee44fa565e49c6938e9eb7d8 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ite,it6625.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ite,it6625.yaml
+@@ -43,6 +43,23 @@ properties:
+   ovdd-supply:
+     description: I/O supply voltage
+ 
++  '#sound-dai-cells':
++    const: 0
++
++  ite,i2s-data-lanes:
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    minItems: 1
++    maxItems: 8
++    uniqueItems: true
++    items:
++      enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
++    description:
++      I2S audio data pins (SD0 - SD7) that are connected to the audio
++      receiver, in HDMI channel-pair order. The first entry is the pin
++      carrying HDMI channels 1 and 2, the second the pin carrying channels 3
++      and 4, and so on. The bridge drives the I2S bit and frame clocks. If
++      the property is absent, only SD0 is connected.
++
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+     properties:
+@@ -111,6 +128,7 @@ required:
+   - ovdd-supply
+ 
+ allOf:
++  - $ref: /schemas/sound/dai-common.yaml#
+   - if:
+       properties:
+         compatible:
+@@ -131,7 +149,7 @@ allOf:
+                   required:
+                     - bus-type
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
+@@ -153,6 +171,9 @@ examples:
+         vdd33-supply = <&vdd33_reg>;
+         ovdd-supply = <&ovdd_reg>;
+ 
++        #sound-dai-cells = <0>;
++        ite,i2s-data-lanes = <0 1 2 3>;
++
+         ports {
+           #address-cells = <1>;
+           #size-cells = <0>;
+
 -- 
-2.53.0
+2.34.1
+
 
