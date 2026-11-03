@@ -1,58 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793694796;
-	b=SoW7ie0mKOTq2vcsuz2RPiDlhlqo12fDZd17eUdgpHzHfTFYNxk/SW35alSKP5EjZdaW
-	 rL6GHZXeNS3hYs5hfXX2Neh9D1DLAi30uUK2mrVeTF6YcF6HfHTDHA2sg4gg9CZaRzv0l
-	 dhXOXSiZ221EliaMXE7LN/ky7cfdQEbTILk9YkT6JYqVD2An4iN6WsvyXfoy7NqdzWuI/
-	 Fhz9L2y/XjbkKprC4ARqFiig6nSPSgQM9QgusR2dPztupgdqkmICmTAs1aVGPRHoioaD4
-	 zzhUYYHRyi3g0YhTiJ4As2/qRhXCtBOa4nS0VkJ7hoeT2Y+EikjirrzG5A1UadKhiow==
+	t=1793694972;
+	b=w+FBqPxOXs1+29EM6RMXUnbpybyiZk0P3vQTFWqgdCWjmqNEzT+c1sPEZOThHUr5Im7C
+	 qF3PQmEeIJEMaLeLtnlAebjD2G0hoZIPPH1VRjFesgykjCYp5/1mjDNQfRyKomFYb582L
+	 ccdl5qp/GoKluC/y+zkAiLCN4jrPvWspzJDk6B5tkS0CaU7+PjqAud2O3KhMJIj/I079r
+	 8DSTFDBOwGKM/0xu6Wc0uv6e0Mx5vQ95ZAci5zu2QQg5tvOXdo1l4Xha08Dw8NGV40yfn
+	 ZPVcx7qV9WWdPJq4VeNAKjjHkMJCPbXlbFSqbgLfea7U7XUsyq5/pVBVWozzCCQuDNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793694796;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793694972;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=d8XvZ731/nH3uz6YjucyhxkBQmpTLgZPZ5QlBs2V3eA=;
-	b=P9wrSNDKr0G8P0j1wBkuV0Ia3PacjogXN9AOxFFADxqptUtLHOxC4bONCQqTibtySoji
-	 fiu1ke+KhDPBfOdSN6u82r8hE+UpDT5mKkraEW6hm5u5j+e2RBXg/3VOCuQvkw+eHK2Yv
-	 qUb7cPLHQOxjxx+RqcLWMHIj1wXKv8Y0YuwMY+jAA8pJ7BPTfoc/ijSQMtp6EhgCPQWHB
-	 BQPIENez+JmOxr8BBAYPz7RZBvS+2/gF+XowTQ6ZClkdPpG+gXlZ9wArD1K5GtopIourg
-	 GVUZeeRStoMwIMdfuikyAw8kBeUW8KOVgmGEp/4uNtk8lNPpYB2X/yPeDuh/EQMZ7fA==
+	bh=YHMyH5n3CwX4ey/bPvWwSK67mbEcamik8agTwl+J6bg=;
+	b=Fk7JKHMwcYTSZi3BjH4ROXeT8O80ypP+G+dExMbuMevQMSG9ZaM8JiWeJ2/9BsMdnJ/G
+	 p1/peIdStJ9bnaVvAbjMRxb1HyohnmVeEnoXTKfcWmFaJi+QOuUTiYSWjk69HZ+FR4z2M
+	 yXhROHEUzEjLRWRzH9SDS2NmQYdWhiLCp+ukpQFbt7zIgVT7DMW/TJMJatnFe5r8BYKxI
+	 iNmulc+iEvDAEEIL+nUnuACBkedtacD1mZkGqJn3yZ1vDHE71B/nvwhnKxNch1voFJz6J
+	 W0oYAXqpsj3qXmw5k6dbjqMbgba9DDY3dF+rIUREZ/YWc6UXN58YE+YH7h/f4IzcNDg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vdi1+Azj;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EFK6SCmr;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24E5606A334;
-	Tue,  3 Nov 2026 08:33:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B28606A32E;
+	Tue,  3 Nov 2026 08:36:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vdi1+Azj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7061C1F00919;
-	Tue,  3 Nov 2026 08:33:15 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EFK6SCmr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D321A1F000C1;
+	Tue,  3 Nov 2026 08:36:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793694795;
-	bh=d8XvZ731/nH3uz6YjucyhxkBQmpTLgZPZ5QlBs2V3eA=;
+	s=k20260515; t=1793694972;
+	bh=YHMyH5n3CwX4ey/bPvWwSK67mbEcamik8agTwl+J6bg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Vdi1+Azj3K2gZsCYPnJbHvEtsrnsDn35vlur1tnr05DH/iIB+N7O2FB9Wxx71GhHB
-	 jn52bWG8/IdFPh6/+hNXxdhOxfW5u/QZXuvl42Jgk4N5Z7R2SmX7bNvSqVTMYDAnF1
-	 0FI+0EsKGoFJ3MFnQFt9V69f01h/muKjQm3ORPjg3dsnYmzUczPRL+Z0vd3xZdqqgT
-	 DcgdYw+d2ISx0dSxjHmUS0QxOA1FZ6lk3a5+yFEEFp225vZ9uq1I58+xs+X5XSEuDe
-	 UcGJ+fEQZN9864+eUrXA/9/JMb375Ov02s/+VFD9UA6Lubzr955r9E2sg/vTt4ObNo
-	 1MIcYc0N5qTRQ==
-Message-ID: <sashiko-outbox-194832@kernel.org>
+	b=EFK6SCmrc4gZY5ktRiZDshIttTnELS5KHwlzuz2n5FhG+sbBTJKkiFJnNv2FPG0rz
+	 2WIJGt5KjbOQpRALb1IlSKIgRTVfL6touf8k3tUQi1uM7SOdswHqLCBS9c9DqDXJe5
+	 5OhtSX32pjwOtI+mc+NYospfRDXSc7kSty86Vx1oZ1raMgC+FriixJFNI7cgUL0ZCT
+	 mWkdqArcBTRLwLDXXTJmvUKxb9QmQhC7rDazKKyQmYZ1hRdgpZO5dwopGMNra/jb0I
+	 cHMwQTy6Kw76V7Nfy41dXi2qpV1fnXoSP0uIekiyt8tkvH/4kFx/+PL4MCUbu8RMXe
+	 2Q9vckGy7ssXA==
+Message-ID: <sashiko-outbox-194839@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v13 01/12] ALSA: virtio: Propagate PCM send failures
- through ACK
+Subject: Re: [PATCH v4 12/22] arm64: dts: apple: t8103-j313: Add
+ speaker/headset jack nodes
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
-Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
- Perez" <eperezma@redhat.com>
-In-Reply-To: <20261103080821.16983-2-mynameisjune111@gmail.com>
-References: <20261103080821.16983-1-mynameisjune111@gmail.com>
- <20261103080821.16983-2-mynameisjune111@gmail.com>
+To: "James Calligeros" <jcalligeros99@gmail.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261103-macaudio-v4-12-637484efe46d@gmail.com>
+References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
+ <20261103-macaudio-v4-12-637484efe46d@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 08:33:14 +0000
+Date: Tue, 03 Nov 2026 08:36:11 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,166 +61,236 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
 s) to consider:
-- [Medium] ALSA: virtio: race with sync_stop in virtsnd_pcm_pb_ack()
+- [High] ASoC: apple: macaudio: OF ref leak and devres order in macaudio_de=
+vm_release()
+- [Medium] ASoC: tas2770: tas2770_set_dai_tdm_idle() treats positive return=
+ as error
+- [Medium] ASoC: apple: macaudio: macaudio_be_assign_tdm() overwrites slot =
+error
+- [Low] arm64: dts: apple: t8103-j313: unused #address-cells/#size-cells in=
+ sound
 --
 
-commit 75f714a08c45af9f82b5baffff5589166c1182bf
-Author: Joonho Lee <mynameisjune111@gmail.com>
+commit dd4cb33fc5a853fd54101899a161b5d0c84f160e
+Author: James Calligeros <jcalligeros99@gmail.com>
 
-ALSA: virtio: Propagate PCM send failures through ACK
+arm64: dts: apple: t8103-j313: Add speaker/headset jack nodes
 
-This commit restores message length and notifies the virtqueue on partial
-send failures in virtsnd_pcm_msg_send(), and propagates those errors through
-the PCM ACK callbacks as XRUNs while rejecting ACK calls from invalid PCM
-states.
+This commit adds the TI TAS5770L speaker amplifier and Cirrus CS42L83
+headset jack codec device tree nodes for the M1 MacBook Air (J313), along
+with the sound node advertising them to the macaudio machine driver.
 
-> diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
-> index 1091100a4c982..67460bd2a61ca 100644
-> --- a/sound/virtio/virtio_pcm_ops.c
-> +++ b/sound/virtio/virtio_pcm_ops.c
-> @@ -466,36 +466,124 @@ virtsnd_pcm_cp_pointer(struct snd_pcm_substream *s=
-ubstream)
+> diff --git a/arch/arm64/boot/dts/apple/t8103-j313.dts b/arch/arm64/boot/d=
+ts/apple/t8103-j313.dts
+> index f8b2b1637b9dc..36c47734a1dc0 100644
+> --- a/arch/arm64/boot/dts/apple/t8103-j313.dts
+> +++ b/arch/arm64/boot/dts/apple/t8103-j313.dts
+> @@ -55,4 +55,89 @@ &typec1 {
+
 [ ... ]
-> +/* Caller holds vss->lock. */
-> +static void virtsnd_pcm_transfer_failed(struct virtio_pcm_substream *vss)
-> +{
-> +	vss->xfer_enabled =3D false;
-> +	vss->stopped =3D true;
-> +	vss->substream->runtime->stop_operating =3D true;
-> +}
-> =20
-> -	virtsnd_pcm_msg_send(vss, rec->sw_data, bytes);
-> +/* The caller holds the PCM lock, also used by DROP and state transition=
-s. */
-> +static int virtsnd_pcm_ack_state(struct snd_pcm_substream *substream)
-> +{
-> +	switch (substream->runtime->state) {
-> +	case SNDRV_PCM_STATE_XRUN:
-> +		return -EPIPE;
-> +	case SNDRV_PCM_STATE_PREPARED:
-> +	case SNDRV_PCM_STATE_RUNNING:
-> +	case SNDRV_PCM_STATE_PAUSED:
-> +	case SNDRV_PCM_STATE_DRAINING:
-> +		return 0;
-> +	default:
-> +		return -EBADFD;
-> +	}
->  }
-> =20
->  static int virtsnd_pcm_pb_ack(struct snd_pcm_substream *substream)
->  {
->  	struct virtio_pcm_substream *vss =3D snd_pcm_substream_chip(substream);
->  	struct virtio_snd_queue *queue =3D virtsnd_pcm_queue(vss);
-> +	struct virtsnd_pcm_transfer transfer =3D {};
-> +	int rc;
-> =20
-> -	guard(spinlock_irqsave)(&queue->lock);
-> -	guard(spinlock)(&vss->lock);
-> +	rc =3D virtsnd_pcm_ack_state(substream);
-> +	if (rc)
-> +		return rc;
-> =20
-> -	return snd_pcm_indirect_playback_transfer(substream, &vss->pcm_indirect,
-> -						  virtsnd_pcm_trans_copy);
-> +	scoped_guard(spinlock_irqsave, &queue->lock) {
-> +		guard(spinlock)(&vss->lock);
-> +		transfer.indirect =3D vss->pcm_indirect;
-> +		if (vss->stopped) {
-> +			rc =3D -EPIPE;
-> +		} else {
-> +			rc =3D snd_pcm_indirect_playback_transfer(substream,
-> +								&transfer.indirect,
-> +								virtsnd_pcm_trans_copy);
-> +		}
-> +		if (!rc)
-> +			rc =3D transfer.error;
-> +		if (rc)
-> +			virtsnd_pcm_transfer_failed(vss);
+
+> +/ {
+> +	sound: sound {
+> +		compatible =3D "apple,j313-macaudio";
+> +		model =3D "MacBook Air J313";
+
+[Severity: High]
+As reported by Sashiko on v3 [1], when this apple,j313-macaudio node binds =
+to
+macaudio_snd_driver, does macaudio_snd_platform_probe() in
+sound/soc/apple/macaudio.c leak the backend DAI link CPU and CODEC device_n=
+ode
+references on unbind or if devm_add_action() fails, and can the devres
+registration order cause macaudio_vlimit_update() to dereference a NULL
+ma->card.snd_card during unbind?
+
+During probe, macaudio_parse_of() -> macaudio_parse_of_be_dai_link() ->
+macaudio_parse_of_component() acquires device_node references via
+of_parse_phandle_with_args() for the CPU and CODEC DAIs. In
+macaudio_snd_platform_probe():
+
+sound/soc/apple/macaudio.c:macaudio_snd_platform_probe() {
+	...
+	ret =3D devm_add_action(dev, macaudio_devm_release, data);
+	if (ret)
+		return ret;
+
+	ret =3D devm_snd_soc_register_card(dev, &data->card);
+	if (ret) {
+		for_each_card_prelinks(&data->card, i, link) {
+			snd_soc_of_put_dai_link_codecs(link);
+			snd_soc_of_put_dai_link_cpus(link);
+		}
+
+		return ret;
+	}
+}
+
+If devm_add_action() fails, macaudio_snd_platform_probe() returns without
+releasing the DAI link CPU and CODEC device_node references. Likewise, when
+probe succeeds and the device is later unbound, neither ASoC core teardown
+nor macaudio_devm_release() calls snd_soc_of_put_dai_link_codecs() and
+snd_soc_of_put_dai_link_cpus():
+
+sound/soc/apple/macaudio.c:macaudio_devm_release() {
+	struct macaudio_snd_data *ma =3D data;
+
+	cancel_work_sync(&ma->lock_update_work);
+	cancel_delayed_work_sync(&ma->lock_timeout_work);
+}
+
+In addition, because devm_add_action(dev, macaudio_devm_release, data) is
+registered before devm_snd_soc_register_card(), devres LIFO teardown runs
+devm_card_bind_release() -> snd_soc_unregister_card() ->
+soc_cleanup_card_resources() first, which frees card->snd_card and sets it =
+to
+NULL before macaudio_devm_release() cancels lock_update_work and
+lock_timeout_work. If either work item runs during teardown,
+macaudio_vlimit_update() accesses ma->card.snd_card->controls_rwsem:
+
+sound/soc/apple/macaudio.c:macaudio_vlimit_update() {
+	...
+	if (take_rwsem)
+		down_write(&ma->card.snd_card->controls_rwsem);
+}
+
+> +
+> +		#address-cells =3D <1>;
+> +		#size-cells =3D <0>;
+
+[Severity: Low]
+Will defining #address-cells and #size-cells on the sound node trigger a dtc
+avoid_unnecessary_addr_size warning when building with W=3D1?
+
+Neither headphone-dai-link nor speaker-dai-link uses a reg or ranges proper=
+ty
+(and Documentation/devicetree/bindings/sound/apple,macaudio.yaml does not
+define reg on child dai-link nodes despite listing #address-cells and
+#size-cells in required), which causes check_avoid_unnecessary_addr_size() =
+in
+scripts/dtc/checks.c to warn under W=3D1.
+
+Also, since arch/arm64/boot/dts/apple/t8103-j313.dts already has a root
+/ { ... }; block at the top of the file, should the sound node be placed in
+that existing root node block rather than opening a second / { ... }; block
+after the phandle overrides?
+
+> +
+> +		headphone-dai-link {
+> +			link-name =3D "Headphone Jack";
+> +
+> +			codec {
+> +				sound-dai =3D <&jack_codec>;
+> +			};
+> +
+> +			cpu {
+> +				sound-dai =3D <&mca 2>;
+> +			};
+> +		};
+> +
+> +		speaker-dai-link {
+> +			dai-tdm-idle-mode-0 =3D "zero";
+> +			dai-tdm-idle-mode-1 =3D "zero";
 
 [Severity: Medium]
-As reported by Sashiko on v12 [1], can virtsnd_pcm_pb_ack() and
-virtsnd_pcm_cp_ack() still race with snd_pcm_sync_stop() ->
-virtsnd_pcm_sync_stop() on vss->stopped and substream->runtime->stop_operat=
-ing
-when a stream is in SNDRV_PCM_STATE_PREPARED or SNDRV_PCM_STATE_DRAINING?
+When speaker-dai-link sets dai-tdm-idle-mode-0 and dai-tdm-idle-mode-1 to
+"zero" for the two ti,tas5770l codecs, will tas2770_set_dai_tdm_idle() fail=
+ to
+complete the TDM idle setup and cause macaudio_be_assign_tdm() to fail?
 
-Because virtio-snd sets vpcm->pcm->nonatomic =3D true, snd_pcm_prepare() and
-snd_pcm_hw_params() hold runtime->buffer_mutex rather than the PCM stream
-lock across snd_pcm_sync_stop() and substream->ops->prepare() /
-substream->ops->hw_params(). Meanwhile, a concurrent SNDRV_PCM_IOCTL_SYNC_P=
-TR
-in snd_pcm_sync_ptr() only acquires the PCM stream lock and calls
-pcm_lib_apply_appl_ptr() -> virtsnd_pcm_pb_ack() / virtsnd_pcm_cp_ack().
+During backend initialization, macaudio_be_init() -> macaudio_be_assign_tdm=
+()
+calls snd_soc_dai_set_tdm_idle() with SND_SOC_DAI_TDM_IDLE_ZERO, which
+dispatches to tas2770_set_dai_tdm_idle() in sound/soc/codecs/tas2770.c:
 
-In virtsnd_pcm_ack_state(), SNDRV_PCM_STATE_SETUP is rejected, which covers
-snd_pcm_drop(), but SNDRV_PCM_STATE_PREPARED and SNDRV_PCM_STATE_DRAINING a=
-re
-allowed:
+sound/soc/codecs/tas2770.c:tas2770_set_dai_tdm_idle() {
+	...
+	case SND_SOC_DAI_TDM_IDLE_ZERO:
+		ret =3D snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
+						    TAS2770_TDM_CFG_REG4_TX_KEEPER,
+						    TAS2770_TDM_CFG_REG4_TX_KEEPER);
+		if (ret)
+			return ret;
 
-1. When a capture stream with available frames is drained via
-   snd_pcm_drain(), snd_pcm_do_drain_init() stops the stream and places it =
-in
-   SNDRV_PCM_STATE_DRAINING with vss->stopped =3D true and
-   runtime->stop_operating =3D true. Similarly, if snd_pcm_start() fails on=
- a
-   later linked stream, snd_pcm_undo_start() stops the earlier stream while
-   leaving it in SNDRV_PCM_STATE_PREPARED with vss->stopped =3D true and
-   runtime->stop_operating =3D true. On a draining capture stream, any read=
- or
-   SNDRV_PCM_IOCTL_SYNC_PTR will also see vss->stopped =3D=3D true in
-   virtsnd_pcm_cp_ack() and fail with -EPIPE.
+		ret =3D snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
+						    TAS2770_TDM_CFG_REG4_TX_FILL, 0);
+		if (ret)
+			return ret;
+		break;
+}
 
-2. When snd_pcm_prepare() or snd_pcm_hw_params() is called from
-   SNDRV_PCM_STATE_PREPARED (or snd_pcm_prepare() from
-   SNDRV_PCM_STATE_DRAINING on capture), runtime->state is unchanged while
-   snd_pcm_sync_stop() clears runtime->stop_operating =3D false and calls
-   virtsnd_pcm_sync_stop():
+Because snd_soc_component_update_bits() returns 1 when the register value
+changes, 0 when unchanged, and a negative errno on error, setting
+TAS2770_TDM_CFG_REG4_TX_KEEPER after reset returns 1. Checking if (ret)
+instead of if (ret < 0) causes tas2770_set_dai_tdm_idle() to return 1 early
+without clearing TAS2770_TDM_CFG_REG4_TX_FILL or updating
+tas2770->idle_tx_mode.
 
-   sound/virtio/virtio_pcm_ops.c:virtsnd_pcm_sync_stop() {
-       if (!vss->stopped)
-           return 0;
-       ...
-       vss->stopped =3D false;
-   }
+In sound/soc/apple/macaudio.c, macaudio_be_assign_tdm() then checks if (ret)
+on the return value of snd_soc_dai_set_tdm_idle():
 
-   While virtsnd_pcm_sync_stop() is sleeping in cancel_work_sync(),
-   VIRTIO_SND_R_PCM_RELEASE, or wait_event_interruptible_timeout(), a
-   concurrent SNDRV_PCM_IOCTL_SYNC_PTR passes virtsnd_pcm_ack_state(), sees
-   vss->stopped =3D=3D true, calls virtsnd_pcm_transfer_failed(vss) to re-a=
-rm
-   vss->stopped =3D true and runtime->stop_operating =3D true, and returns =
--EPIPE
-   so pcm_lib_apply_appl_ptr() triggers __snd_pcm_xrun(). Conversely, if
-   SNDRV_PCM_IOCTL_SYNC_PTR runs right after virtsnd_pcm_sync_stop() clears
-   vss->stopped =3D false and before prepare finishes, ACK sees
-   vss->stopped =3D=3D false and enqueues I/O messages on the released stre=
-am.
+sound/soc/apple/macaudio.c:macaudio_be_assign_tdm() {
+	...
+		if (props->codecs[0].idle_mode) {
+			ret =3D snd_soc_dai_set_tdm_idle(dai, props->codecs[0].idle_mask,
+						       0, props->codecs[0].idle_mode, 0);
+			if (ret) {
+				dev_err(card->dev, "Failed to set idle props for codec\n");
+				return ret;
+			}
 
-3. Later commits in this series ("ALSA: virtio: Recover PCM state after a
-   failed start" and "ALSA: virtio: add staged capture and serialize PCM
-   lifecycle accounting") add vss->lock around vss->stopped and gate ACK on
-   vss->prepared and vss->preparing, but virtsnd_pcm_prepare_locked() and
-   virtsnd_pcm_hw_params() still call virtsnd_pcm_sync_stop_locked() before
-   setting vss->preparing =3D true or clearing vss->prepared =3D false. Whi=
-le
-   virtsnd_pcm_sync_stop_locked() or virtsnd_pcm_pause_restart_sync_stop()
-   sleeps in disable_work_sync(), cancel_work_sync(),
-   virtsnd_pcm_stop_device(), or virtsnd_pcm_send_sync() for
-   VIRTIO_SND_R_PCM_RELEASE, runtime->state remains SNDRV_PCM_STATE_PREPARE=
-D,
-   vss->preparing is false, and vss->prepared remains true. A concurrent
-   SNDRV_PCM_IOCTL_SYNC_PTR can still enqueue messages during
-   disable_work_sync() or observe vss->stopped =3D=3D true during STOP/RELE=
-ASE,
-   re-arm runtime->stop_operating =3D true via virtsnd_pcm_transfer_failed(=
-),
-   and return -EPIPE to trigger __snd_pcm_xrun().
+		}
+}
 
-[1] https://lore.kernel.org/r/20261103000403.67106-2-mynameisjune111@gmail.=
-com
+Won't this treat the positive return value 1 as an error and log "Failed to
+set idle props for codec" when initializing speaker_left and speaker_right?
+
+[Severity: Medium]
+In the same single-codec branch of macaudio_be_assign_tdm() in
+sound/soc/apple/macaudio.c (used for each of the two CPU/CODEC pairs in
+speaker-dai-link), can a failure from snd_soc_dai_set_tdm_slot() be
+overwritten when props->codecs[0].idle_mode is set?
+
+Looking at macaudio_be_assign_tdm():
+
+sound/soc/apple/macaudio.c:macaudio_be_assign_tdm() {
+	if (rtd->dai_link->num_codecs =3D=3D 1) {
+		dai =3D snd_soc_rtd_to_codec(rtd, 0);
+		ret =3D snd_soc_dai_set_tdm_slot(dai, mask, 0, nslots, MACAUDIO_SLOTWIDTH=
+);
+
+		/*
+		 * Headphones get a pass on -ENOTSUPP (see the comment
+		 * around bclk_ratio value for primary FE).
+		 */
+		if (ret =3D=3D -ENOTSUPP && props->is_headphones)
+			return 0;
+
+		if (props->codecs[0].idle_mode) {
+			ret =3D snd_soc_dai_set_tdm_idle(dai, props->codecs[0].idle_mask,
+						       0, props->codecs[0].idle_mode, 0);
+			if (ret) {
+				dev_err(card->dev, "Failed to set idle props for codec\n");
+				return ret;
+			}
+
+		}
+
+		return ret;
+	}
+}
+
+Unlike the multi-codec loop below it (which checks if (ret) return ret;
+immediately after snd_soc_dai_set_tdm_slot()), the num_codecs =3D=3D 1 path=
+ does
+not check ret before entering if (props->codecs[0].idle_mode), so
+snd_soc_dai_set_tdm_idle() overwrites any negative error returned by
+snd_soc_dai_set_tdm_slot().
+
+[1] https://lore.kernel.org/r/20261018-macaudio-v3-11-abdff7741dea@gmail.com
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103080821.1698=
-3-1-mynameisjune111@gmail.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103-macaudio-v=
+4-0-637484efe46d@gmail.com?part=3D12
