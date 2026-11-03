@@ -1,59 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793718269;
-	b=F+HMEMmpjDScmn92q5LDddkkmqfRVBJhdIKBRizWFoK2E0y3Jps4zlXJOXpUv9R7Ug/3
-	 vtxqdj0aQqLns5rALriEGOyum3Cju4B92o9LEmfyOEByUA6aOlDPXkzkHNSbE+df1zl6F
-	 RMKkzP9dU0YAnT+EbNuT0bhC6DidrYwl0qltuB+et5ezZJtlJkDqKXxbGttfnR/Ejpnsr
-	 PMQNsP7e8nbTC48wZCOrwVLQWvX832mQC7vLwLGn9Ji/D6QbxPRcv3ZJ30fcmowb50RXt
-	 GaNWoc2USUvrClZiDl/QdNmR6VGrqXMtQevGvLApzjfRYB5BeKKyySwbrDU06k/Ba2Q==
+	t=1793719131;
+	b=tHgLfxBqB3OVYSTbTVuR4b30dEoUnAL9GiPZBjsGtxWP2LmCOdyhnzDuzw8aV67qxJu+
+	 OqvR1pzkDbvj/YnTPMoUc60nlk58kn79UuOdMJh9+ou8w+1y+dwdqijQeIm991OtVu+Rq
+	 ePKC0NuCDvbQSaM1GB988tNCH7eMLeLntboAGrthjNN/R7nxteb05QTlnEFTr9U/zkC+R
+	 yAofY4FgyroyA8LcXBIsqC01SveaM/mDc7o8h4Ca3RfZ/aTSnnQgBuYTD7ahBdpibSReC
+	 ShxH68CuHuA7ekWNzdEbt+mXajVcTkQ02osCyp7a3B258cqyLDOPIFrS0VSfOlOHWWw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793718269;
-	h=DMARC-Filter:DKIM-Signature:X-Pm-Submission-Id:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=BH0imWme+TMyg8qza96jTJW3ELiMkC4Rzc4h5VKPEDo=;
-	b=qDuq/nLRoE3p+Kq8aAvSZj7Jw+OblN1Uzc8A0zSVJvTJuRW9Wc1ZJPcVaWpykVIpqqqk
-	 qTeCgT/oQ/gswx5MkcRFQTexN9rfr08UmWnvsC43b7tBbDlCzQkhcLTyANwUlxsxae2td
-	 JoFV2k9KunEp35ItAQKEC3xyxw2eNjtAA35fBq/drg8S3eXe7SPubbYA12EBmrarzWLTM
-	 kL+Kwts4IKMf1JcFx6/zn7oSGUpn5lXWEvD+ya3MpxHJKTRQxw5+uesJ7aG3W7qYoMIJ+
-	 mPL+eMQcHlNCDKMZ1an68GedOoUN+ndxCw0dZabOaY84oR1WRrUZRp4TpVRC8/77scw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793719131;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=Bc8aT4Z6get1K0vbpp5ygtanM/hIwI+PelNNb0VgB7c=;
+	b=mtXPuqtX4jmWHuPTnUJp5WMiDcrBAjULAoqzcagKStFaOzHRViFtmNFsPL5lnTuXAdgc
+	 osWYd/7r9GUgW0uzvvmr0aEW9VXh772nO5GGWe8W/vLHf9OpzKXX+z0kL5G1R/D75+6GT
+	 Xr2LsdliHD6AeBI+95m562i5YosYCaUpcFluESpI9nR9hBlPJFtpYd1ISPGU7Fv0jJeim
+	 FYtChRzTwfc+ESh/hXpdUSWiSDsumM+PjTYTSu1iVE/7DQ8c2L4X5hQ42RzUSAMYtUwgO
+	 j84EL7wmu9afc5BudIIky0Qf9u3/sdU27piGNpxus5M7fI5z/VNSC3ZhylQOVjkMvew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=httpd.dev;
-	spf=pass smtp.mailfrom=httpd.dev;
-	dkim=pass header.d=httpd.dev header.i=@httpd.dev header.a=rsa-sha256 header.s=protonmail3 header.b=jfksPK8o;
-	arc=none smtp.remote-ip=185.70.43.171
-Received: from mail-43171.protonmail.ch (mail-43171.protonmail.ch [185.70.43.171])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="CoJeH/FT";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC76606B257
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 15:04:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8DC76606B257
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=httpd.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=httpd.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9EB2606B258;
+	Tue,  3 Nov 2026 15:18:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=httpd.dev header.i=@httpd.dev header.a=rsa-sha256 header.s=protonmail3 header.b=jfksPK8o
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=httpd.dev;
-	s=protonmail3; t=1793718265; x=1793977465;
-	bh=BH0imWme+TMyg8qza96jTJW3ELiMkC4Rzc4h5VKPEDo=;
-	h=From:To:Cc:Subject:Date:Message-ID:From:To:Cc:Date:Subject:
-	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=jfksPK8os/z6Wp1xu8XFH6LvhimOw6/ZxDi4GuJt8fjsLqI6qVq8kUv5o74/nog8U
-	 60oPm5/rK1y+YhHzvAfiJH76THX4xR/fwP/mtVZq12EAnDn4gyTL+MBWOiaoqUuoDW
-	 PMqNNx0jvsRG0v0wIUvsDS6jF3vZGfbeeQgd1lZXrvqqCaakzUqgJg/5q2AtRtblcg
-	 s+F/mzJVsTkuJxOoZkpe/BOeHk/FfgMK+1qEoyLUFBgym2ExGvilEkNlPexafe1zkr
-	 EhmE4elLpMkP81lnh2R81e9eJfh3D89DDWyTiB2AnKAgbNWi9kEvrrG+pNt+LgIRHR
-	 65BsBh5ULWIFg==
-X-Pm-Submission-Id: 4jJsKy34JJz2SchG
-From: Angel J <iamanaws@httpd.dev>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-kernel@vger.kernel.org,
-	Angel J <iamanaws@httpd.dev>
-Subject: [PATCH] ALSA: hda/realtek: Fix the Dell XPS 8940 headset microphone
-Date: Tue,  3 Nov 2026 07:03:36 -0800
-Message-ID: <20261103150336.507675-1-iamanaws@httpd.dev>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CoJeH/FT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 856681F0093A;
+	Tue,  3 Nov 2026 15:18:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793719130;
+	bh=Bc8aT4Z6get1K0vbpp5ygtanM/hIwI+PelNNb0VgB7c=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=CoJeH/FTtYurhrEu7pHCjreAy8kglbRPwM3Bp2MFbNXs5sfimskiQ6GdFaw2b46h5
+	 LFYZjIjC0HLk9VtZElPrV+LCrvrtO/TXriYCzcHxI7ww7m4DuMtGSua9gCijZ8ag5C
+	 C1QyPEjg//XpCtccxJ83qTFkU2bPqiwCZUATJ82pjvzmj0HhclIwZdtkBZ4X0D4FpB
+	 W2kjXVSW4Jh+gJKkh7n8hluL4QKxxLPc9zkayoPnR79tHeS7TL9oS5+LArhquuyOcO
+	 R0f20W9hUcQSALMEMf5u4F5ldJdbIIx8/qJHUPE3ePz+MiGIzk37ns/uj3hE88ZoNC
+	 wd/gwuy246nxg==
+Message-ID: <sashiko-outbox-195591@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RFC 11/23] selftests/proc: check that a faulting writer
+ doesn't hold up removal
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Christian Brauner" <brauner@kernel.org>
+Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
+ Bacik" <josef@toxicpanda.com>, "Chris Mason" <mason@kernel.org>, "Jeff
+ Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>, "Eric Dumazet" <edumazet@kernel.org>, "Thomas
+ Gleixner" <tglx@kernel.org>, "Al Viro" <viro@zeniv.linux.org.uk>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Christoph Hellwig" <hch@lst.de>, "Greg
+ Kroah-Hartman" <gregkh@suse.de>, "Joel Granados" <joel.granados@kernel.org>, "Kees
+ Cook" <kees@kernel.org>, "Jan Kara" <jack@suse.cz>, "Jan Kara" <jack@suse.com>, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-serial@vger.kernel.org, "Takashi
+ Iwai" <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, "Chuck
+ Lever" <cel@kernel.org>, tytso@mit.edu, dmitry.torokhov@gmail.com, "Petr
+ Pavlu" <petr.pavlu@suse.com>, "Anna Schumaker" <anna@kernel.org>, yukuai@fygo.io, "Heiko
+ Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
+ Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
+In-Reply-To: <20261102-work-procfs-drivers-v1-11-a994bd4d3b1a@kernel.org>
+References: <20261102-work-procfs-drivers-v1-0-a994bd4d3b1a@kernel.org>
+ <20261102-work-procfs-drivers-v1-11-a994bd4d3b1a@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 03 Nov 2026 15:18:48 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,72 +71,93 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The Dell XPS 8940 (1028:09c5) has an ALC3861 codec (0x10ec0899).
-Its BIOS marks the headset microphone pin at NID 0x19 as disconnected
-(0x411111f0). With no external microphone input in the pin configuration,
-the generic parser creates a shared headphone/mic input on NID 0x1b
-instead. Headphone playback works, but the headset microphone is silent.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] selftests/proc: fail and leak scsi_debug host without CONFIG_SCS=
+I_PROC_FS
+--
 
-Override NID 0x19 as a front microphone without independent presence
-detection. This gives the generic parser the dedicated microphone
-input and preserves NID 0x1b for simultaneous headphone playback.
+commit d0cceed0cde591b286c7977ad630183fc653ded2
+Author: Christian Brauner <brauner@kernel.org>
 
-I encountered this issue on my XPS 8940. Similar symptoms were also
-reported by a user on Ubuntu:
-https://bugs.launchpad.net/bugs/1971232
+selftests/proc: check that a faulting writer doesn't hold up removal
 
-Cc: stable@vger.kernel.org
-Assisted-by: Codex (GPT-6.1 Sol)
-Signed-off-by: Angel J <iamanaws@httpd.dev>
----
+This commit adds a procfs selftest that uses userfaultfd and scsi_debug to
+verify that a writer faulting during copy-in does not block removal of a
+/proc/scsi/scsi_debug/<host> entry and fails with -EIO once the fault is
+resolved.
 
-Notes:
-    Build-tested alc882.o with x86_64 defconfig, GCC 16.2.0 and W=1
-    without warnings. The patch also applies to upstream v6.18.
+> diff --git a/tools/testing/selftests/proc/proc-remove-slow-writer.c b/too=
+ls/testing/selftests/proc/proc-remove-slow-writer.c
+> new file mode 100644
+> index 0000000000000..f69ca75ba87cb
+> --- /dev/null
+> +++ b/tools/testing/selftests/proc/proc-remove-slow-writer.c
+> @@ -0,0 +1,203 @@
 
-    Boot-tested on a Dell XPS 8940 running Linux 6.18.58.
-    Microphone capture and headphone playback work simultaneously.
+[ ... ]
 
- sound/hda/codecs/realtek/alc882.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+> +/* the numbers of the hosts in /proc/scsi/scsi_debug as a bitmap */
+> +static int list_hosts(unsigned long *hosts)
+> +{
+> +	struct dirent *d;
+> +	DIR *dir;
+> +
+> +	memset(hosts, 0, MAX_HOSTS / 8);
+> +	dir =3D opendir(HOST_DIR);
+> +	if (!dir)
+> +		/* the directory comes with the first host and goes with the last */
+> +		return errno =3D=3D ENOENT ? 0 : -errno;
 
-diff --git a/sound/hda/codecs/realtek/alc882.c b/sound/hda/codecs/realtek/alc882.c
-index 800c3d6f5..cf8d3c48e 100644
---- a/sound/hda/codecs/realtek/alc882.c
-+++ b/sound/hda/codecs/realtek/alc882.c
-@@ -50,6 +50,7 @@ enum {
- 	ALC889_FIXUP_MP41_VREF,
- 	ALC882_FIXUP_INV_DMIC,
- 	ALC882_FIXUP_NO_PRIMARY_HP,
-+	ALC898_FIXUP_DELL_XPS8940_MIC,
- 	ALC887_FIXUP_ASUS_BASS,
- 	ALC887_FIXUP_BASS_CHMAP,
- 	ALC1220_FIXUP_GB_DUAL_CODECS,
-@@ -507,6 +508,13 @@ static const struct hda_fixup alc882_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc882_fixup_no_primary_hp,
- 	},
-+	[ALC898_FIXUP_DELL_XPS8940_MIC] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x19, 0x02a19130 }, /* headset mic, no separate jack detect */
-+			{}
-+		},
-+	},
- 	[ALC887_FIXUP_ASUS_BASS] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
-@@ -610,6 +618,8 @@ static const struct hda_quirk alc882_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1025, 0x0259, "Acer Aspire 5935", ALC889_FIXUP_DAC_ROUTE),
- 	SND_PCI_QUIRK(0x1025, 0x026b, "Acer Aspire 8940G", ALC882_FIXUP_ACER_ASPIRE_8930G),
- 	SND_PCI_QUIRK(0x1025, 0x0296, "Acer Aspire 7736z", ALC882_FIXUP_ACER_ASPIRE_7736),
-+	SND_PCI_QUIRK(0x1028, 0x09c5, "Dell XPS 8940",
-+		      ALC898_FIXUP_DELL_XPS8940_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x13c2, "Asus A7M", ALC882_FIXUP_EAPD),
- 	SND_PCI_QUIRK(0x1043, 0x1873, "ASUS W90V", ALC882_FIXUP_ASUS_W90V),
- 	SND_PCI_QUIRK(0x1043, 0x1971, "Asus W2JC", ALC882_FIXUP_ASUS_W2JC),
+[ ... ]
 
-base-commit: a4311e9447bbb219044db38897f95be112f46a8a
+> +FIXTURE_SETUP(host)
+> +{
+> +	unsigned long before[MAX_HOSTS / HOST_BITS];
+> +	unsigned long after[MAX_HOSTS / HOST_BITS];
+> +
+> +	self->host =3D -1;
+> +	if (access(ADD_HOST, W_OK) && system("modprobe -q scsi_debug add_host=
+=3D0"))
+> +		SKIP(return, "no scsi_debug");
+> +	if (access(ADD_HOST, W_OK))
+> +		SKIP(return, ADD_HOST ": %s", strerror(errno));
+> +
+> +	/* host numbers are reused, so look for the one that's new */
+> +	ASSERT_EQ(list_hosts(before), 0);
+> +	ASSERT_EQ(add_host(1), 0);
+> +	ASSERT_EQ(list_hosts(after), 0);
+> +	self->host =3D new_host(before, after);
+> +	ASSERT_GE(self->host, 0);
+> +	snprintf(self->path, sizeof(self->path), HOST_DIR "/%d", self->host);
+> +}
+> +
+> +FIXTURE_TEARDOWN(host)
+> +{
+> +	if (self->host >=3D 0 && !access(self->path, F_OK))
+> +		add_host(-1);
+> +}
+
+[Severity: Medium]
+What happens if the test runs on a kernel where scsi_debug is available
+(CONFIG_SCSI_DEBUG is enabled), but CONFIG_SCSI_PROC_FS is disabled?
+
+The sysfs attribute /sys/bus/pseudo/drivers/scsi_debug/add_host is still
+present and writable without CONFIG_SCSI_PROC_FS, while /proc/scsi is never
+created. In FIXTURE_SETUP(host), list_hosts(before) sees ENOENT on
+/proc/scsi/scsi_debug and returns 0, add_host(1) creates a new scsi_debug
+host in the kernel, and list_hosts(after) still sees ENOENT and returns 0
+with an empty bitmap.
+
+As a result, new_host(before, after) returns -1 and ASSERT_GE(self->host, 0)
+fails the test instead of skipping for the missing prerequisite. Because
+FIXTURE_SETUP(host) aborts with self->host still set to -1, the newly
+created scsi_debug host is never removed by add_host(-1) and remains leaked.
+
+Should FIXTURE_SETUP(host) check that /proc/scsi exists and skip before
+calling add_host(1)?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102-work-procf=
+s-drivers-v1-0-a994bd4d3b1a@kernel.org?part=3D11
