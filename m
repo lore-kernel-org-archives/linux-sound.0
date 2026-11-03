@@ -1,68 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793719138;
-	b=wfiYz7NMOp+OtBffRsiV6XEtUlPhtGjEtriBF4pmcnCtLBQu+c2x/b71C6m6YHmv76Ox
-	 czygbAAuMwXIzkI0QxedagoHm8cp0DRFD7w7hgwUmN/7sVHHAWlCy+ty7zYOonuiZkXIj
-	 gV4oUXjxYsnXVNzSQ7wYrYN+d4AyuEexU5lmCx6r6aUnGuQRKdmKCnTm0msAUFs8UWUii
-	 2M6MmFUPjGM40ro9DA5ym1yPdHoPPXS8Q/g8KVuVSa1mSTwhOGsTVQ39WmFC8JGaEkA+U
-	 KPUxnT9yREUDaxO0iEBlfjUt7kzTm3UAp4L4npqUL0Lr+dCcu7ggGMaPmI2wMzzZX5Q==
+	t=1793719892;
+	b=Cqb3N1eU85ilh4R+HZNic4xJkml2gO0eWC1/kuXYXucrZ67WeiOZNjhOROXcHSeqqO6k
+	 pKwkyUpSVciqeDPdN6W+7k0lAOYGw+Nm2m+wtDCzOMvccDpPtHjzi3mzPKOiHtyi5MIYw
+	 dKztXbV+E9Hhx83irE1knQUSGkCtmxeiXaly1sAS5w+BNqHlpSPpuL79juIx6M2v828wi
+	 IB10TjqwFH5CDhDbCSKWMeROqF61H2neFBU/yIu4Qdu1ngZ3om2xrULqugzOqDoMgCGda
+	 k6DKAgEnC2G/OxJ2Qejj181FzlJZQr2lnofdueteV+x73HH8O8BHU7DOWH/orznLXaA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793719138;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=pXYmXnE4YnSZAwVsghhJ8qwzD8WHMLT3acK3fEE1c5w=;
-	b=VRVzrOzKHjuke7e/KwRA7aIJ0pYm/yiqZHO3k6XSPmnKTcpReF1kk4SR0/o6y9X39NFZ
-	 7336z3pxLK2WKSQM9SvRc1iOwsDjNR9lEkBU/0OdOshY0EL5+ZeIU6Qpmx/f3ghtOfCMx
-	 MQ82En/FnxNNdnwReTczJ6UAfmjmLhvNTfviE2WV2D79SlmTAEbhp9TLyFrMrjjv0FOE6
-	 mQuqf1Gu7vdyV9v8gfzY3SuGQMajzqEO+aTqqibQHGJ+HKqO2OQmOEGKbfQ/Ti1yF9awy
-	 +vJfXhOUmmLLlYjIztkJSQt+XVdcrC+b7n+/JzlrAjseUKDHsszd4++fLHdXEhKPNNw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793719892;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:From:To:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding:X-Rspamd-Queue-Id:
+	 X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spamd-Result:X-Spam-Score;
+	bh=K3kP4kGzmn/1aYNPq6B9QmpO9cbuV7gtsYRqryKvkkg=;
+	b=j8lIe+KAJVW7sehTccRfW5ZENh1VzKXD5BJHVCuGbP3oLSfUnmsY6/SriW476n5+9wTF
+	 0qENZOrFxV/cQsL1udnXbpThdjDlIAoX46c1n6jFzjJhEYHtYR03AFu7sR8l1tZuPu68J
+	 8Hb50du4l/DDk0LN2YUykrFZ/6Wz9/TkTp1J9tVv6rjmFYdaw/w6hCftEv4ZZPlDX032u
+	 iolJaJTFjCXpnRSCzbSzJW2ZH2z2CjSt7XpzUWrbxF7Q2FeSez959kihoK66paI0M1gM2
+	 DAl1jPIbZkkdIr5Vv3pv4G/2DzMBhgjpie0RGTCOh1d1AjWBIc9Q+A9Vu2eya96wCOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lt7kWY0w;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=1FYUUksO;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=A2hgtGmI;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=1FYUUksO;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=A2hgtGmI;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E5C6082BFE;
-	Tue,  3 Nov 2026 15:18:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3730606A324
+	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 15:31:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B3730606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lt7kWY0w
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 224A01F00A2C;
-	Tue,  3 Nov 2026 15:18:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793719137;
-	bh=pXYmXnE4YnSZAwVsghhJ8qwzD8WHMLT3acK3fEE1c5w=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=lt7kWY0w9ieExJiXhsRbswLZTk4I62Ut15H6kMqjEztfFu4VGWWEAsyq1h1RunGi7
-	 quYJ9gon1XZinTxL/vkjGOaRSh41+Spy89HkKrIkDLVlyQ2DPkr57UTA8uNv7ZJQPX
-	 Gkb+9Ork4a09lK3yz7JxXHSWqFcBarBUl6xpojcbcZ6LCj9+K0W6f0I8igzSlL1ee7
-	 HOzooULSEPo6yfs5dQxOzgo+Ck2+yelQJNljZ0d/RFz7CfzGvoYCRRMJGyc+UGPBSP
-	 xmtleTQuYNol2touf60/WN8WAXQ5Y7pfGj4AOYhP5EA7RtetswDsaHw6Wd78ymD48r
-	 5m+hEjoe7SkUg==
-Message-ID: <sashiko-outbox-195594@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC 14/23] scsi: esas2r: let procfs copy the ioctl
- argument of the ATTONode file
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Christian Brauner" <brauner@kernel.org>
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
- Bacik" <josef@toxicpanda.com>, "Chris Mason" <mason@kernel.org>, "Jeff
- Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>, "Eric Dumazet" <edumazet@kernel.org>, "Thomas
- Gleixner" <tglx@kernel.org>, "Al Viro" <viro@zeniv.linux.org.uk>, "Jonathan
- Corbet" <corbet@lwn.net>, "Christoph Hellwig" <hch@lst.de>, "Greg
- Kroah-Hartman" <gregkh@suse.de>, "Joel Granados" <joel.granados@kernel.org>, "Kees
- Cook" <kees@kernel.org>, "Jan Kara" <jack@suse.cz>, "Jan Kara" <jack@suse.com>, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-serial@vger.kernel.org, "Takashi
- Iwai" <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, "Chuck
- Lever" <cel@kernel.org>, tytso@mit.edu, dmitry.torokhov@gmail.com, "Petr
- Pavlu" <petr.pavlu@suse.com>, "Anna Schumaker" <anna@kernel.org>, yukuai@fygo.io, "Heiko
- Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
- Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261102-work-procfs-drivers-v1-14-a994bd4d3b1a@kernel.org>
-References: <20261102-work-procfs-drivers-v1-0-a994bd4d3b1a@kernel.org>
- <20261102-work-procfs-drivers-v1-14-a994bd4d3b1a@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2026 15:18:54 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=1FYUUksO;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=A2hgtGmI;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=1FYUUksO;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=A2hgtGmI
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7262821C35;
+	Tue,  3 Nov 2026 15:31:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793719889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=K3kP4kGzmn/1aYNPq6B9QmpO9cbuV7gtsYRqryKvkkg=;
+	b=1FYUUksOSWYOH3IEGq8GsOECtXizGAxP8N8jiDvAWQJUybdYqXv3pW7I1bXcuMBUNAJXA8
+	xAs/ZGkyyaEuY23k0iqcbkfT+Vf+kUU7ozZDnu/h9Y2J2GCW/embfTvVfEwd+Q2+S0EOVS
+	k9Dm+8OArRx0L9K4gEH9xheNCcC6K9s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793719889;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=K3kP4kGzmn/1aYNPq6B9QmpO9cbuV7gtsYRqryKvkkg=;
+	b=A2hgtGmIdSm7o9g3w9E4Rn7n9KKiHGihACWYXWKYNtd3pxWa6MfVJOBlhZG7rRzBWCgJAV
+	+nHg4OakJJgAH9CA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1FYUUksO;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=A2hgtGmI
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793719889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=K3kP4kGzmn/1aYNPq6B9QmpO9cbuV7gtsYRqryKvkkg=;
+	b=1FYUUksOSWYOH3IEGq8GsOECtXizGAxP8N8jiDvAWQJUybdYqXv3pW7I1bXcuMBUNAJXA8
+	xAs/ZGkyyaEuY23k0iqcbkfT+Vf+kUU7ozZDnu/h9Y2J2GCW/embfTvVfEwd+Q2+S0EOVS
+	k9Dm+8OArRx0L9K4gEH9xheNCcC6K9s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793719889;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=K3kP4kGzmn/1aYNPq6B9QmpO9cbuV7gtsYRqryKvkkg=;
+	b=A2hgtGmIdSm7o9g3w9E4Rn7n9KKiHGihACWYXWKYNtd3pxWa6MfVJOBlhZG7rRzBWCgJAV
+	+nHg4OakJJgAH9CA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4451A1352B;
+	Tue,  3 Nov 2026 15:31:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3ijbBlH+6WrYQQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 03 Nov 2026 15:31:29 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: Abort properly at errors for Extidy boot quirk
+Date: Tue,  3 Nov 2026 16:31:16 +0100
+Message-ID: <20261103153123.112097-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -71,69 +102,83 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 7262821C35
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-12.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	FROM_EQ_ENVFROM(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -12.01
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Low] scsi: esas2r: split declaration and initialization of __free() vari=
-able in esas2r_ioctl_handler()
---
+The boot quirk for Extigy tries to continue even if the extraction of
+a new device descriptor fails, and it means an uninitialized data is
+copied onto the device.
 
-commit 0fd79b7040b09fc840e0499afbc88e68b34a3e18
-Author: Christian Brauner <brauner@kernel.org>
+Abort properly upon errors for safety, instead.
+Also, make the error messages more visible, as they are now supposed to
+be real errors.
 
-scsi: esas2r: let procfs copy the ioctl argument of the ATTONode file
+Fixes: b909df18ce2a ("ALSA: usb-audio: Fix potential out-of-bound accesses for Extigy and Mbox devices")
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/usb/quirks.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-This commit factors the core logic of esas2r_ioctl_handler() into
-esas2r_ioctl_buf() operating on a kernel copy of struct atto_express_ioctl,
-and converts the procfs ATTONode file to use .proc_ioctl_buf and
-.proc_ioctl_args so procfs handles copying the ioctl buffer in and out.
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 05a9f6727a3a..220ac9b10238 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -575,13 +575,18 @@ static int snd_usb_extigy_boot_quirk(struct usb_device *dev, struct usb_interfac
+ 			return -ENOMEM;
+ 		err = usb_get_descriptor(dev, USB_DT_DEVICE, 0,
+ 				new_device_descriptor, sizeof(*new_device_descriptor));
+-		if (err < 0)
+-			dev_dbg(&dev->dev, "error usb_get_descriptor: %d\n", err);
+-		if (new_device_descriptor->bNumConfigurations > dev->descriptor.bNumConfigurations)
+-			dev_dbg(&dev->dev, "error too large bNumConfigurations: %d\n",
++		if (err < 0) {
++			dev_err(&dev->dev, "error usb_get_descriptor: %d\n", err);
++			return -ENODEV;
++		}
++
++		if (new_device_descriptor->bNumConfigurations > dev->descriptor.bNumConfigurations) {
++			dev_err(&dev->dev, "error too large bNumConfigurations: %d\n",
+ 				new_device_descriptor->bNumConfigurations);
+-		else
+-			memcpy(&dev->descriptor, new_device_descriptor, sizeof(dev->descriptor));
++			return -ENODEV;
++		}
++
++		memcpy(&dev->descriptor, new_device_descriptor, sizeof(dev->descriptor));
+ 		err = usb_reset_configuration(dev);
+ 		if (err < 0)
+ 			dev_dbg(&dev->dev, "error usb_reset_configuration: %d\n", err);
+-- 
+2.55.0
 
-> diff --git a/drivers/scsi/esas2r/esas2r_ioctl.c b/drivers/scsi/esas2r/esa=
-s2r_ioctl.c
-> index f99318f61c934..eb39ba8263b31 100644
-> --- a/drivers/scsi/esas2r/esas2r_ioctl.c
-> +++ b/drivers/scsi/esas2r/esas2r_ioctl.c
-
-[ ... ]
-
-> @@ -1515,19 +1501,43 @@ int esas2r_ioctl_handler(void *hostdata, unsigned=
- int cmd, void __user *arg)
-> =20
->  	}
-> =20
-> +	return 0;
-> +}
-> +
-> +int esas2r_ioctl_handler(void *hostdata, unsigned int cmd, void __user *=
-arg)
-> +{
-> +	struct atto_express_ioctl *ioctl __free(kfree) =3D NULL;
-> +	int err;
-> +
-> +	esas2r_log(ESAS2R_LOG_DEBG, "ioctl (%p, %x, %p)", hostdata, cmd, arg);
-> +
-> +	if ((arg =3D=3D NULL)
-> +	    || (cmd < EXPRESS_IOCTL_MIN)
-> +	    || (cmd > EXPRESS_IOCTL_MAX))
-> +		return -ENOTSUPP;
-> +
-> +	ioctl =3D memdup_user(arg, sizeof(struct atto_express_ioctl));
-
-[Severity: Low]
-This isn't a bug, but in esas2r_ioctl_handler() in
-drivers/scsi/esas2r/esas2r_ioctl.c, ioctl is declared with __free(kfree) =3D
-NULL at the top of the function before the argument validation check and
-assigned later via memdup_user().
-
-Per the Cleanup API conventions, could the __free(kfree) variable definition
-and initialization be combined into a single statement at the point of
-allocation:
-
-	struct atto_express_ioctl *ioctl __free(kfree) =3D
-		memdup_user(arg, sizeof(struct atto_express_ioctl));
-
-after the early return check?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102-work-procf=
-s-drivers-v1-0-a994bd4d3b1a@kernel.org?part=3D14
