@@ -1,67 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.143
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.224
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793736436;
-	b=jhEad08C85GerPJmo3SnGGPfC4+zcX2dyDDTSBZdmxKa0/0aPknkvzk6OsngEBY+uStX
-	 2h7q1mmPeuVkmTZWLyX6jhe2ETcJ/KsLq/JXVbvwXxHijx4S8kM6gOmUO4UV1y72qh09H
-	 lfkqtdDTq7alZFh7mslaLGdfiuazBV7edIbXv0bUQEkRbNR/PHVPDnL3lxVrfveuN7B1X
-	 olrjor7OUb2oMrwmQahwoQzDW2kFTIMMgy6f0rr0Ecmt/1fUvbrajzBBa27C5kNwDPdS7
-	 26dZGTKFhl5oorxhOIWk7cqc1XvYzQToUWrg7ZNfxI8tKxuQJcUVaanSquuj+rSbEdA==
+	t=1793736445;
+	b=N1L+igsYj+Mww6i1fF+ysAj37+n8TMcAyhaIWhRcka5ULwTSU3UoNt+qx5svC4eCZOlI
+	 5/sTiLoVqR0Yc4AGZf0vaWi8CnOCuruMaGlpSND30giJCD3pv5Ic/ANk0ZuNkD7a4Rzlb
+	 aU2gWK0kE1swUWmqG3wN/H1ez7pQlByBMa8MN6M4ibohZp07ReqUPHSqM+CT2HXQDv67p
+	 9BaPfasFBDz8XASgeuFn5vFypvSZ52lUVdQOQ75l7NzhaY2450XOj5fOluX9dz5ZM29kf
+	 ptsjozoJXBoGOqnGq5GCnzUYYv2gggrRi0Ul5xJ/OcsOl3jXwC14kO1jIBP8MdfPo+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793736436;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793736445;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=th/Ww1P5uDF1PBXrWbYrYf165uKvlwjcDlmrWyut+Y4=;
-	b=4dSMiMC7q8kUgbb8axeFszCH4677B7VLpSDnRQ3jEYkqugaFyKGqxRujRsWIFGF/0C9T
-	 qzXUUT7LaKip0ibkmSIaARivSAw2GKnpMcsEb4+rgnKY+m3Wdm5xodo73RSIqKPsyg+tN
-	 rrPkJ/KqXBZF0tNlvAjqL9TZ4ZULv1zFutwNiujlIqgYy7gah/QhToU172sC4gdF0f1RX
-	 lsX9HC3kBYF5ocTHTibvBym6RMMpQ6H2gOi2+3fwyxHbHQrc1HnN9pQxM+jSyemAvKsYi
-	 VOR9cXdZiXCT++HjyPB5Ejkjp9Aw3QBYvbyliMAy4NV85hcLAsrrdCOlH4H3qtul6vw==
+	bh=Djp7fxIvWGZFaV0DbzEZyakJG4BafUd57S34IbT5aLo=;
+	b=Rg9FnZsNwG42rcFDSfVqTqPUrMP+19/evz5pDi4Gf/QaH1g6T24dGKXx30bthdx5ugSa
+	 g8XE5xeju4e2rFZFUTA5mhcz11Km02owUATTDtLbccvfMJ22H6hBLXsfXGurCy8gFrQ9F
+	 mV2PGn5WLyL//6Ls5RxoAk5P3m8mJryQiFc0aTe64b8Y7JP4NO+RGmV8WYrEI8kYKDTGg
+	 fUuabKx27x9teP1yR64vjhVMWkY9RrtLJfXh1/weGXUr38x/QWBXqD7k0AXMSMEfcMpli
+	 fOTfEezU8A/yrtCiotsi3/Nj2r1Lpwx4kQif3QaW+23w4ihu41+zTIx49BDxq5N7/Gw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=jbqpItze;
-	arc=none smtp.remote-ip=91.218.175.143
-Received: from mta0.migadu.com (out-143.mta0.migadu.com [91.218.175.143])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=JKiHUjlx;
+	arc=none smtp.remote-ip=95.215.58.224
+Received: from mta1.migadu.com (out-224.mta1.migadu.com [95.215.58.224])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3212606D806
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 20:07:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F3212606D806
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73736606EE8C
+	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 20:07:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73736606EE8C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=jbqpItze
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=JKiHUjlx
 X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=6yvyB6SLXU1xeeTMh1l23Uuem1Hn9Iqw8xMZzhMEaq0=;
+DKIM-Signature: a=rsa-sha256; bh=+HBh9PCDoOVSgniwVzdp064w1if1mJ10eg0q78SkfXI=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793736434; v=1; x=1794341234;
- b=jbqpItze0hO1CHrVdAhufL01NN98XGZGjWQy+sNt6r1PctfBpZEWxHIe4OJJ6MGYHs+neIBI
- qYaC314qFnd2OjmYVTbnhvLuxwr444FaousdMQHCT2Ilb3TkQA0xL1J/0tkUHYC6/rg6qzGM/Tq
- GRpHqVNrKjSmYH8fIOPqC0UA=
+ t=1793736442; v=1; x=1794341242;
+ b=JKiHUjlxQinO8oW9vB04u469qYYq4s5Hq+cjCf/v0prr7PqlsqGgKIfpUlh7Fif+YGr4LVMl
+ SiOpRU3ciGYrakDAfinmi6u2sgmtN+vKi6/qrlTam+WoJ5xoLuimakR+FBL0YPvHRVEM4FJv1ON
+ psTHG4yZQ5GLYBT11hm7EcOg=
 X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 4d358d4a05660d99;
-	Tue, 03 Nov 2026 20:07:14 +0000
-X-Mizu-Trace-ID: 4d358d4a05660d99
+Received: by smtp.migadu.com with ESMTPS id 8a98e208986c0b77;
+	Tue, 03 Nov 2026 20:07:22 +0000
+X-Mizu-Trace-ID: 8a98e208986c0b77
 X-Migadu-Flow: FLOW_OUT
 From: Matthew Schwartz <matthew.schwartz@linux.dev>
 To: broonie@kernel.org
 Cc: Matthew Schwartz <matthew.schwartz@linux.dev>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Sen Wang <sen@ti.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
+	Oder Chiou <oder_chiou@realtek.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/5] ASoC: tas2783-sdw: use the BIOS speaker ID in the firmware name
-Date: Tue,  3 Nov 2026 12:05:37 -0800
-Message-ID: <20261103200540.3863272-4-matthew.schwartz@linux.dev>
+Subject: [PATCH v2 5/5] ASoC: rt721-sdca: wait for PDEs to reach PS0 after powering them up
+Date: Tue,  3 Nov 2026 12:05:39 -0800
+Message-ID: <20261103200540.3863272-6-matthew.schwartz@linux.dev>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261103200540.3863272-1-matthew.schwartz@linux.dev>
 References: <20261103200540.3863272-1-matthew.schwartz@linux.dev>
@@ -76,216 +73,168 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some boards have TAS2783 firmware in linux-firmware named
-SSID-SPKID-LINK-0xUID.bin, with a speaker ID ahead of the link ID (the
-HP 8EA1 has its amps on link 0 and ships 8EA1-{0,1}-0-0x*.bin). The
-driver only builds the three-field SSID-LINK-0xUID name, so these boards
-never load firmware. On the ASUS ROG Xbox Ally X20 (SSID 1954) the BIOS
-provides the speaker ID in a 4-byte SPEAKER_ID EFI variable, and only
-the four-field 1954-*-*-0x*.bin files exist.
+The PDE event handlers write REQUESTED_PS and return, so DAPM unmutes
+the feature unit and the stream starts while the power domain is still
+transitioning. On the ASUS ROG Xbox Ally X20 the first headset mic
+capture after the capture path powers down starts with about 0.45 s
+pinned at full scale, and the DisCo tables give the jack function PDEs
+up to 500 ms to reach PS0.
 
-Read SPEAKER_ID once at probe and try the firmware names in a fixed
-order: the four-field name when the variable is present, then the
-current SSID-LINK-0xUID name and the unprefixed SSID-LINK-UID one.
-Boards without the variable keep the current names and order.
+Poll ACTUAL_PS with sdca_asoc_pde_poll_actual_ps() after each power up,
+like rt722 does since its DMIC pop noise fix, and use the 500 ms maximum
+for the jack function PDEs. Power down is left alone because ACTUAL_PS
+can stay at PS0 while the data port is still running.
 
 Signed-off-by: Matthew Schwartz <matthew.schwartz@linux.dev>
 ---
- sound/soc/codecs/tas2783-sdw.c | 123 ++++++++++++++++++++++-----------
- 1 file changed, 84 insertions(+), 39 deletions(-)
+ sound/soc/codecs/Kconfig          |  1 +
+ sound/soc/codecs/rt721-sdca-sdw.c | 17 ++++++++++++++++
+ sound/soc/codecs/rt721-sdca.c     | 33 +++++++++++++++++++++++++++++++
+ sound/soc/codecs/rt721-sdca.h     |  1 +
+ 4 files changed, 52 insertions(+)
 
-diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
-index a57230e01f755..02fe74d457bfc 100644
---- a/sound/soc/codecs/tas2783-sdw.c
-+++ b/sound/soc/codecs/tas2783-sdw.c
-@@ -46,6 +46,8 @@
- #define TAS2783_PROBE_TIMEOUT 5000
- #define TAS2783_CALI_GUID EFI_GUID(0x1f52d2a1, 0xbb3a, 0x457d, 0xbc, \
- 				   0x09, 0x43, 0xa3, 0xf4, 0x31, 0x0a, 0x92)
-+#define TAS2783_SPKID_GUID EFI_GUID(0xaa61eaaf, 0x6e83, 0x7523, 0xb0, \
-+				    0xd0, 0x7d, 0xf7, 0x4b, 0xb2, 0x4a, 0x81)
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index ba59dabeeccde..133f397cc6e96 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -1978,6 +1978,7 @@ config SND_SOC_RT712_SDCA_DMIC_SDW
+ config SND_SOC_RT721_SDCA_SDW
+ 	tristate "Realtek RT721 SDCA Codec - SDW"
+ 	depends on SOUNDWIRE
++	depends on SND_SOC_SDCA
+ 	select REGMAP_SOUNDWIRE
+ 	select REGMAP_SOUNDWIRE_MBQ
  
- static const u32 tas2783_cali_reg[] = {
- 	TAS2783_CAL_R0,
-@@ -102,8 +104,13 @@ struct tas2783_prv {
- 	wait_queue_head_t fw_wait;
- 	bool fw_dl_task_done;
- 	bool fw_dl_success;
--	/* use fallback fw name */
--	bool fw_use_fallback;
-+	/* the file for the firmware name being tried is missing */
-+	bool fw_missing;
-+#if IS_ENABLED(CONFIG_PCI)
-+	/* UEFI speaker ID */
-+	u32 spk_id;
-+	bool spk_id_valid;
-+#endif
- };
+diff --git a/sound/soc/codecs/rt721-sdca-sdw.c b/sound/soc/codecs/rt721-sdca-sdw.c
+index fc34a0537d5fb..44cf9ca866c94 100644
+--- a/sound/soc/codecs/rt721-sdca-sdw.c
++++ b/sound/soc/codecs/rt721-sdca-sdw.c
+@@ -39,6 +39,14 @@ static bool rt721_sdca_readable_register(struct device *dev, unsigned int reg)
+ 		RT721_SDCA_CTL_HIDTX_CURRENT_OWNER, 0) ... SDW_SDCA_CTL(FUNC_NUM_HID,
+ 		RT721_SDCA_ENT_HID01, RT721_SDCA_CTL_HIDTX_MESSAGE_LENGTH, 0):
+ 	case RT721_BUF_ADDR_HID1 ... RT721_BUF_ADDR_HID2:
++	case SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PDE12,
++		RT721_SDCA_CTL_ACTUAL_POWER_STATE, 0):
++	case SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PDE40,
++		RT721_SDCA_CTL_ACTUAL_POWER_STATE, 0):
++	case SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY, RT721_SDCA_ENT_PDE2A,
++		RT721_SDCA_CTL_ACTUAL_POWER_STATE, 0):
++	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_PDE41,
++		RT721_SDCA_CTL_ACTUAL_POWER_STATE, 0):
+ 	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT0,
+ 		RT721_SDCA_CTL_FUNC_STATUS, 0):
+ 		return true;
+@@ -64,6 +72,14 @@ static bool rt721_sdca_volatile_register(struct device *dev, unsigned int reg)
+ 		RT721_SDCA_CTL_HIDTX_CURRENT_OWNER, 0) ... SDW_SDCA_CTL(FUNC_NUM_HID,
+ 		RT721_SDCA_ENT_HID01, RT721_SDCA_CTL_HIDTX_MESSAGE_LENGTH, 0):
+ 	case RT721_BUF_ADDR_HID1 ... RT721_BUF_ADDR_HID2:
++	case SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PDE12,
++		RT721_SDCA_CTL_ACTUAL_POWER_STATE, 0):
++	case SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PDE40,
++		RT721_SDCA_CTL_ACTUAL_POWER_STATE, 0):
++	case SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY, RT721_SDCA_ENT_PDE2A,
++		RT721_SDCA_CTL_ACTUAL_POWER_STATE, 0):
++	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_PDE41,
++		RT721_SDCA_CTL_ACTUAL_POWER_STATE, 0):
+ 	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT0,
+ 		RT721_SDCA_CTL_FUNC_STATUS, 0):
+ 		return true;
+@@ -595,3 +611,4 @@ module_sdw_driver(rt721_sdca_sdw_driver);
+ MODULE_DESCRIPTION("ASoC RT721 SDCA SDW driver");
+ MODULE_AUTHOR("Jack Yu <jack.yu@realtek.com>");
+ MODULE_LICENSE("GPL");
++MODULE_IMPORT_NS("SND_SOC_SDCA");
+diff --git a/sound/soc/codecs/rt721-sdca.c b/sound/soc/codecs/rt721-sdca.c
+index 9f567caecb70a..db4bf367011ec 100644
+--- a/sound/soc/codecs/rt721-sdca.c
++++ b/sound/soc/codecs/rt721-sdca.c
+@@ -21,6 +21,9 @@
+ #include <linux/soundwire/sdw_registers.h>
+ #include <linux/slab.h>
+ #include <sound/soc-dapm.h>
++#include <sound/sdca.h>
++#include <sound/sdca_asoc.h>
++#include <sound/sdca_function.h>
+ #include <sound/sdw.h>
+ #include <sound/tlv.h>
  
- static const struct reg_default tas2783_reg_default[] = {
-@@ -757,19 +764,11 @@ static void tas2783_fw_ready(const struct firmware *fmw, void *context)
- 		goto out;
- 	}
- 
--	/* firmware binary not found*/
-+	/* firmware binary not found, tas_io_init() tries the next name */
- 	if (!fmw || !fmw->data) {
--		if (!tas_dev->fw_use_fallback) {
--			tas_dev->fw_use_fallback = true;
--			dev_info(tas_dev->dev,
--				"Failed to read preferred fw binary: %s, attempting fallback binary load\n",
--				tas_dev->rca_binaryname);
--		} else {
--			dev_err(tas_dev->dev,
--				"Failed to read fallback fw binary %s\n",
--				tas_dev->rca_binaryname);
--		}
--
-+		tas_dev->fw_missing = true;
-+		dev_info(tas_dev->dev, "Failed to read fw binary %s\n",
-+			 tas_dev->rca_binaryname);
- 		ret = -EINVAL;
- 		goto out;
- 	}
-@@ -1156,42 +1155,79 @@ static const struct dev_pm_ops tas2783_sdca_pm = {
- 	RUNTIME_PM_OPS(tas2783_sdca_dev_suspend, tas2783_sdca_dev_resume, NULL)
- };
- 
--static void tas_generate_fw_name(struct sdw_slave *slave, char *name, size_t size)
-+#if IS_ENABLED(CONFIG_PCI)
-+/* BIOS speaker ID that selects the SSID-SPKID-LINK-UID firmware name */
-+static int tas2783_get_spk_id(u32 *spk_id)
-+{
-+	efi_guid_t guid = TAS2783_SPKID_GUID;
-+	unsigned long size = sizeof(*spk_id);
-+	efi_status_t status;
-+
-+	if (!efi_rt_services_supported(EFI_RT_SUPPORTED_GET_VARIABLE))
-+		return -ENOENT;
-+
-+	status = efi.get_variable(L"SPEAKER_ID", &guid, NULL, &size, spk_id);
-+	if (status != EFI_SUCCESS || size != sizeof(*spk_id))
-+		return -ENOENT;
-+
-+	return 0;
-+}
-+#endif
-+
-+/*
-+ * Firmware names in the order they are tried: SSID-SPKID-LINK-0xUID when the
-+ * BIOS has a speaker ID, then SSID-LINK-0xUID and SSID-LINK-UID.
-+ */
-+static bool tas_generate_fw_name(struct sdw_slave *slave, unsigned int idx,
-+				 char *name, size_t size)
- {
- 	struct sdw_bus *bus = slave->bus;
- 	u8 unique_id = slave->id.unique_id;
--	bool pci_found = false;
- #if IS_ENABLED(CONFIG_PCI)
--	struct device *dev = &slave->dev;
- 	struct tas2783_prv *tas_dev = dev_get_drvdata(&slave->dev);
--	struct pci_dev *pci = NULL;
--	const char *fw_uid_prefix = tas_dev->fw_use_fallback ? "" : "0x";
--
--	for (; dev; dev = dev->parent) {
--		if (dev->bus == &pci_bus_type) {
--			pci = to_pci_dev(dev);
--			scnprintf(name, size, "%04X-%1X-%s%1X.bin",
--				  pci->subsystem_device, bus->link_id,
--				  fw_uid_prefix, unique_id);
--			pci_found = true;
--			break;
-+	struct device *dev;
-+
-+	for (dev = &slave->dev; dev; dev = dev->parent) {
-+		u16 ssid;
-+
-+		if (dev->bus != &pci_bus_type)
-+			continue;
-+
-+		ssid = to_pci_dev(dev)->subsystem_device;
-+		if (!tas_dev->spk_id_valid)
-+			idx++;
-+
-+		switch (idx) {
-+		case 0:
-+			scnprintf(name, size, "%04X-%X-%1X-0x%1X.bin", ssid,
-+				  tas_dev->spk_id, bus->link_id, unique_id);
-+			return true;
-+		case 1:
-+			scnprintf(name, size, "%04X-%1X-0x%1X.bin", ssid,
-+				  bus->link_id, unique_id);
-+			return true;
-+		case 2:
-+			scnprintf(name, size, "%04X-%1X-%1X.bin", ssid,
-+				  bus->link_id, unique_id);
-+			return true;
-+		default:
-+			return false;
- 		}
- 	}
- #endif
- 
--	if (!pci_found)
--		scnprintf(name, size, "tas2783-%1X-%1X.bin",
--			  bus->link_id, unique_id);
-+	if (idx)
-+		return false;
-+
-+	scnprintf(name, size, "tas2783-%1X-%1X.bin", bus->link_id, unique_id);
-+	return true;
+@@ -1482,6 +1485,32 @@ static int rt721_sdca_fu36_event(struct snd_soc_dapm_widget *w,
+ 	return 0;
  }
  
--static s32 tas_fw_load(struct tas2783_prv *tas_dev, struct sdw_slave *slave)
-+static s32 tas_fw_load(struct tas2783_prv *tas_dev)
- {
- 	s32 ret;
- 	u8 unique_id = tas_dev->sdw_peripheral->id.unique_id;
- 
--	tas_generate_fw_name(slave, tas_dev->rca_binaryname,
--			     sizeof(tas_dev->rca_binaryname));
--
- 	tas_dev->fw_dl_task_done = false;
- 	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
- 				      tas_dev->rca_binaryname, tas_dev->dev,
-@@ -1216,6 +1252,7 @@ static s32 tas_fw_load(struct tas2783_prv *tas_dev, struct sdw_slave *slave)
- static s32 tas_io_init(struct device *dev, struct sdw_slave *slave)
- {
- 	struct tas2783_prv *tas_dev = dev_get_drvdata(dev);
-+	unsigned int i;
- 	s32 ret;
- 
- 	if (tas_dev->hw_init)
-@@ -1230,10 +1267,15 @@ static s32 tas_io_init(struct device *dev, struct sdw_slave *slave)
- 	}
- 	usleep_range(2000, 2200);
- 
--	tas_dev->fw_use_fallback = false;
--	ret = tas_fw_load(tas_dev, slave);
--	if (!ret && tas_dev->fw_use_fallback)
--		ret = tas_fw_load(tas_dev, slave);
-+	for (i = 0; tas_generate_fw_name(slave, i, tas_dev->rca_binaryname,
-+					 sizeof(tas_dev->rca_binaryname)); i++) {
-+		tas_dev->fw_missing = false;
-+		ret = tas_fw_load(tas_dev);
-+		if (ret || !tas_dev->fw_missing)
-+			break;
++/* The DisCo tables give the jack function PDEs up to 500 ms for PS3 to PS0 */
++static const struct sdca_pde_delay rt721_jack_pde_delays[] = {
++	{ .from_ps = SDCA_PDE_PS3, .to_ps = SDCA_PDE_PS0, .us = 500000 },
++};
++
++/* REQUESTED_PS only starts the transition, so wait for ACTUAL_PS to reach PS0 */
++static void rt721_sdca_pde_wait_ps0(struct rt721_sdca_priv *rt721,
++				    unsigned char func, unsigned char entity)
++{
++	const struct sdca_pde_delay *delays = NULL;
++	int num_delays = 0;
++	int ret;
++
++	if (func == FUNC_NUM_JACK_CODEC) {
++		delays = rt721_jack_pde_delays;
++		num_delays = ARRAY_SIZE(rt721_jack_pde_delays);
 +	}
-+	if (tas_dev->fw_missing)
-+		dev_err(dev, "no firmware binary found\n");
++
++	ret = sdca_asoc_pde_poll_actual_ps(rt721->regmap, func, entity,
++					   SDCA_PDE_PS3, SDCA_PDE_PS0,
++					   delays, num_delays);
++	if (ret)
++		dev_warn(&rt721->slave->dev, "PDE 0x%x did not reach PS0: %d\n",
++			 entity, ret);
++}
++
+ static int rt721_sdca_pde47_event(struct snd_soc_dapm_widget *w,
+ 	struct snd_kcontrol *kcontrol, int event)
+ {
+@@ -1495,6 +1524,7 @@ static int rt721_sdca_pde47_event(struct snd_soc_dapm_widget *w,
+ 		regmap_write(rt721->regmap,
+ 			SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PDE40,
+ 				RT721_SDCA_CTL_REQ_POWER_STATE, 0), ps0);
++		rt721_sdca_pde_wait_ps0(rt721, FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PDE40);
+ 		break;
+ 	case SND_SOC_DAPM_PRE_PMD:
+ 		regmap_write(rt721->regmap,
+@@ -1518,6 +1548,7 @@ static int rt721_sdca_pde41_event(struct snd_soc_dapm_widget *w,
+ 		regmap_write(rt721->regmap,
+ 			SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_PDE41,
+ 				RT721_SDCA_CTL_REQ_POWER_STATE, 0), ps0);
++		rt721_sdca_pde_wait_ps0(rt721, FUNC_NUM_AMP, RT721_SDCA_ENT_PDE41);
+ 		break;
+ 	case SND_SOC_DAPM_PRE_PMD:
+ 		regmap_write(rt721->regmap,
+@@ -1541,6 +1572,7 @@ static int rt721_sdca_pde11_event(struct snd_soc_dapm_widget *w,
+ 		regmap_write(rt721->regmap,
+ 			SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY, RT721_SDCA_ENT_PDE2A,
+ 				RT721_SDCA_CTL_REQ_POWER_STATE, 0), ps0);
++		rt721_sdca_pde_wait_ps0(rt721, FUNC_NUM_MIC_ARRAY, RT721_SDCA_ENT_PDE2A);
+ 		break;
+ 	case SND_SOC_DAPM_PRE_PMD:
+ 		regmap_write(rt721->regmap,
+@@ -1564,6 +1596,7 @@ static int rt721_sdca_pde34_event(struct snd_soc_dapm_widget *w,
+ 		regmap_write(rt721->regmap,
+ 			SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PDE12,
+ 				RT721_SDCA_CTL_REQ_POWER_STATE, 0), ps0);
++		rt721_sdca_pde_wait_ps0(rt721, FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PDE12);
+ 		break;
+ 	case SND_SOC_DAPM_PRE_PMD:
+ 		regmap_write(rt721->regmap,
+diff --git a/sound/soc/codecs/rt721-sdca.h b/sound/soc/codecs/rt721-sdca.h
+index cc3bce0ba5178..2ae68ce3fde28 100644
+--- a/sound/soc/codecs/rt721-sdca.h
++++ b/sound/soc/codecs/rt721-sdca.h
+@@ -260,6 +260,7 @@ struct rt721_sdca_dmic_kctrl_priv {
+ #define RT721_SDCA_CTL_XUV				0x34
+ #define RT721_SDCA_CTL_FU_CH_GAIN			0x0b
+ #define RT721_SDCA_CTL_FUNC_STATUS			0x10
++#define RT721_SDCA_CTL_ACTUAL_POWER_STATE		0x10
  
- 	if (!ret) {
- 		if (tas_dev->sa_func_data)
-@@ -1427,6 +1469,9 @@ static s32 tas_sdw_probe(struct sdw_slave *peripheral,
- 	tas_dev->fw_version = 0;
- 	mutex_init(&tas_dev->calib_lock);
- 	mutex_init(&tas_dev->pde_lock);
-+#if IS_ENABLED(CONFIG_PCI)
-+	tas_dev->spk_id_valid = !tas2783_get_spk_id(&tas_dev->spk_id);
-+#endif
- 
- 	init_waitqueue_head(&tas_dev->fw_wait);
- 	dev_set_drvdata(dev, tas_dev);
+ /* RT721 SDCA channel */
+ #define CH_L	0x01
 -- 
 2.56.0
 
