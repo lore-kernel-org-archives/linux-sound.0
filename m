@@ -1,91 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=85.215.255.53
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1793707276;
-	b=M9bRCZpy6jdJ9Fsxt5HCZ5s7XvhtXeQUejhyJv4qwBnbrx6C5grv018jyiK0vMDEdDiC
-	 WCl0x0a95y/IZPR7WBIR7FoRLgH6hKvyn8Xxk5hUL4PKrA7IK2EdddidOR6GAFQ1gdOX0
-	 H9lBTAyljj9R9KleNYzO7HAyv/HE/Bx7RA5nmR6LrXAPAgIwnVqeBbQr81KIb55T/U4hs
-	 vv6wgYXFRhhzz65aM6+84vdjO1177J+Y/zJl9PT/oq323k9WvUsJc9oh9LhkoVOo73+kz
-	 FLt5W/GY6kKozfFkt9m4FFBHMOFDkewG+jyupkWuA2WhnVIO5gGZFG9WYJP6CY9N5IA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793707276;
-	h=DMARC-Filter:X-RZG-CLASS-ID:DKIM-Signature:DKIM-Signature:X-RZG-AUTH:
-	 Received:Content-Type:Content-Transfer-Encoding:From:Mime-Version:
-	 Subject:Date:Message-Id:References:Cc:In-Reply-To:To:X-Mailer;
-	bh=VCfhyFhtjRWlSALaNGPIzNS7a7BQ/PmFXkQDuImDC3M=;
-	b=KzFRnDswCxtRQSP4EYFyYNSKbn+sE0xYlLMN7P3ZT5III7lb9Royvoj9XrsNAfAj9oD5
-	 DnIJ1tUUwyO2/iVaOqBUGasDYPN4J30Eq0Fr+EN5HmI9HNhy/23onft/78ziCHz7L6Shd
-	 tZ+YwGSKzeJsr3aUdM2tIRdqL4P6p9Y4y6gO2j1OVF/RvZaOtOSJNGK151A66LV8ILSQK
-	 NLEb+UwIVBTyaSsp6SJwWE/yQb4G+FB3gNJiGTpua88s8HkM3ElYP2eENZ6bTMmNzFz8X
-	 o0G/dVHWr+IWqbZiYoak3yxZesYJ+jxIOp9UiqiAeQ6EmKzuV7p2Uq3M9OWT4weNf9w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=xenosoft.de;
-	spf=none smtp.mailfrom=xenosoft.de;
-	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=f1CWSzzD;
-	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=ficQJRWs;
-	arc=fail smtp.remote-ip=85.215.255.53
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.53])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.22
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793707674;
+	b=upS8R60yCv1IcnOTIfh5I5l1cx32Bn4itAPn0zNM+ID2tUihT2/WClSfD/QMWthn9FJM
+	 zSrrc9uIm+F5zm+2OF+LQd1EjZZlKNeH1gk15H34ZXY/SZJQU4elAXEFZ1i2n/LsGkaF4
+	 13JmHoppFDWl+x0rRDwKWA/ZXx9a7/cR/xWhj/HoRGegm+ncPmnKCsRetS3jFUvnX/sDi
+	 bi1RFbQ+rGmEOUeMZwEMbHYky2lRgZrvYuTKyKVO6UZ+L5nfT3R7yPh7ro3Njxq0Pnrvh
+	 Hu/pUbeWnA8yqHL4YHq72fKBhgTNsxEYoxIPVxoJCi51bCmqNVhqR7XRqKlxZK8QpYQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793707674;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=W8ThHzrlivPu8gAbaKgXemSEWB7nzcOBJLB5Uh70tcQ=;
+	b=z5blKWFEdPDaaT/vKyY0Bc8jByD4W92vNil92PrDn58x2Hr4c1eXX01iOa1Gm12l7VhX
+	 cQtMjahGzp/Ej1mI5xNs0sePBdPxooGdnDtuaU7Zcio7gljkuHxFQA67aWca4VRQj5zKb
+	 CjPW0jfeIs7dwAJ3yNBGak1YBRE3cQ5AM0qfaDM4OQcEtQyRsOL9oB+EyTrt4itdT3fdN
+	 Z3kJ0uKFasrAUUuF3RO70r6eOIDMcYd6Zc1th4xtq4FHo4btLkRfQ2RPJvxJSWOF+2bqf
+	 abQ0fD5EDS4VsXoO026ZlTM/eeVw8yBMdzO4Z+NcWJY1/7liTNGth36UKnWX5nTcdFg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=pm.me;
+	spf=pass smtp.mailfrom=pm.me;
+	dkim=pass header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=oAVQtPnP;
+	arc=none smtp.remote-ip=185.70.43.22
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88A5606A326
-	for <linux-sound@vger.kernel.org>; Tue,  3 Nov 2026 12:01:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B88A5606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xenosoft.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=xenosoft.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB94606A32C;
+	Tue,  3 Nov 2026 12:07:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CAB94606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=xenosoft.de header.i=@xenosoft.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=f1CWSzzD;
-	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=ficQJRWs
-ARC-Seal: i=1; a=rsa-sha256; t=1793707236; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=Hb822UotgDoHgAwd+YHuUT7dWmhIMdC2Rhzny8IEs41+qCl/ynV1StASFVv6lhUqrn
-    R1ccrq2Kz+VhI6QlSsFtF44sZvh0oyaJvR8C5wwDlZYAl/WL/ZPjJmabInhnc93Z/f0w
-    GuVelhmzOrN+TyAArnTtD5ICNXJHsCPJscW1moCN423IndRJW1suGOpsRHVS+7MQ13el
-    tTK3mH2crDxfLRw5qni5RcDuNqQPA08R3MBkhwV9YI8hOAIvBdeotZB3Q5UqaYOpacDi
-    ZZQGxrD3Bt+AmcVbxwkINcw1jNYLpjlcXyoQvu0VA60dlrcleXof1uQSPddLyagz4r8x
-    Zbgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1793707236;
-    s=strato-dkim-0002; d=strato.com;
-    h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
-    From:Subject:Sender;
-    bh=VCfhyFhtjRWlSALaNGPIzNS7a7BQ/PmFXkQDuImDC3M=;
-    b=lPM1uRPBc+P1rvLO0V+QTTLX0eEEBGTBg+H9Cj4JEMvYC4m2xBpp3rH6r+OficfWE+
-    q6Y/w6ZnuzO2AtytZpaZ7uFsi2LgYL4ikSPbykrY/gMuIjmUX5yvZSPSybKsE58hRLMe
-    /zEgeUGQ/BoC9XzIDZ9YZhvf5wGeZDlga32j+reUrr69HekBsbynBasZ67eft68hHDnH
-    p3ZzL0vbzrDaNJNt7xNNEEfPM1hPWPIQDQNcPbMqcZchoU8ChdhwYVmn6/1zDVObQ6Te
-    OWvHR+bOiFNCVvMWW3utw7hyM1eWNFEZ8OIgUC/U6kq6MDPs47N0ty8Pncp5AOy4+KMG
-    BubA==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1793707236;
-    s=strato-dkim-0002; d=xenosoft.de;
-    h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
-    From:Subject:Sender;
-    bh=VCfhyFhtjRWlSALaNGPIzNS7a7BQ/PmFXkQDuImDC3M=;
-    b=f1CWSzzD8mIIBROl646y2/jW/lHG3ZqPzVllpm5Ol+xZG1MhSeH/3FceMBPVnPhv1K
-    bTxdJnDlZ76rp+Jz2DUAqtN5C1WDbAXszjTpvG12aVugBeif9dvGcrzGn06wjpbd7Tas
-    vLvw4lRk0FJE7bHKEJVrmnMEbUhqmyW+BERr0LtnQeOjnHMrV9IFgbqOKbUsUw6gx2CF
-    YhkgFK3dlGIVnharK7TDN1lTc4Vr5bV3aX/ONRfwLEEp61YebddDAUu6HJRcxfIaLf3D
-    rRTmq16c5Vd4UtT6tOfAZq8wdb+7nflVRihMlVYWrzHgXBLhB3aD3K4ZmxdGyBKUmaTl
-    MQuA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1793707236;
-    s=strato-dkim-0003; d=xenosoft.de;
-    h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
-    From:Subject:Sender;
-    bh=VCfhyFhtjRWlSALaNGPIzNS7a7BQ/PmFXkQDuImDC3M=;
-    b=ficQJRWspo9wFofzQl77fjjSscHWH9UNkl97Y7YgWBtS5h50icl0fOgNpF9kaKPEhc
-    ZBUdO9vPVQ0tglTiZaDQ==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGN0rBVhd9dFr6KxrfO5Oh7V7X5jis3jDAXtDOW2DIUk1jJESq0dCA/mrin4I+No="
-Received: from smtpclient.apple
-    by smtp.strato.de (RZmta 55.6.3 AUTH)
-    with ESMTPSA id e825d92A3C0ZH6G
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Tue, 3 Nov 2026 13:00:35 +0100 (CET)
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
+	dkim=pass (2048-bit key, unprotected) header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=oAVQtPnP
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1793707671; x=1793966871;
+	bh=W8ThHzrlivPu8gAbaKgXemSEWB7nzcOBJLB5Uh70tcQ=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=oAVQtPnPycudYfHaBNSNjVQgnbl3mGeLOrJBGmx7F6rRyoWhkL4U3Vr/E4hJkTeWC
+	 rNW5CkP/ubEJlb5xbmVU6+5BASRin4WyvV89efXnsDtQaY5uwDZD0aPS6OQN2ukE2B
+	 aKG32JVgEMOYbYfhjltUIiOZpfK/kBNlQFILJX9SHjGSVU8mNkAL2xTrWfb/DIPFLD
+	 5us0k+lt1vWW0ztx+1eYlW8hhcejUxgqPMhj8ZQc2wJ2c9cl+gmmj1m18RaDqD4vLh
+	 jAFkZ67CrNmU3lfDFMSfJiycSdfgq4nOEQvkUna+TT6NDZBbIe8Q6HxFU7ZOawSkJL
+	 apZiuQPPsjZxw==
+Date: Tue, 03 Nov 2026 12:07:47 +0000
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+From: Sinan Turunc <enscrpt@pm.me>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: [PATCH] ALSA: line6: Bound capture copies by the PCM buffer size
+Message-ID: <20261103120723.328-1-enscrpt@pm.me>
+Feedback-ID: 48393780:user:proton
+X-Pm-Message-ID: 983d19f266c16ba23ba2f9fe93eab4dbe563245a
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -94,98 +60,55 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0 (1.0)
-Subject: Re: Void PPC: PulseAudio issue with sound updates 7.4-rc1
-Date: Tue, 3 Nov 2026 13:00:24 +0100
-Message-Id: <BD226162-844C-449D-A486-8888184DEBF0@xenosoft.de>
-References: <874idy2wbe.wl-tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.de>, zzzccc427@gmail.com, perex@perex.cz,
- linux-sound@vger.kernel.org, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- "R.T.Dickinson" <rtd2@xtra.co.nz>, mad skateman <madskateman@gmail.com>,
- Damien Stewart <hypexed@yahoo.com.au>,
- Christian Zigotzky <info@xenosoft.de>
-In-Reply-To: <874idy2wbe.wl-tiwai@suse.de>
-To: Takashi Iwai <tiwai@suse.de>
-X-Mailer: iPhone Mail (24B119)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 03 November 2026 at 08:44 am, Takashi Iwai <tiwai@suse.de> wrote:
+line6_capture_copy() splits the copy into the ALSA ring buffer once at
+the buffer end and wraps pos_done once, which is only correct when one
+packet holds at most buffer_size frames. The packet size comes from the
+device's endpoint, and the per-device hw structs allow 64-byte periods
+with periods_min 1, so a packet can be larger than the whole buffer.
+audio_in_callback() logs an oversized packet and then copies it anyway.
 
-Have you tried changing the call of snd_pcm_hw_refine_with_lock() in
-snd_pcm_ioctl_hw_params_compat(), too?  Or check the call in
-snd_pcm_hw_refine_old_user(), too.
+Clamp frames to buffer_size before the copy so the single wrap stays
+inside the buffer.
 
-If it doesn't change even if you replace all callers of
-snd_pcm_hw_refine_with_lock() with snd_pcm_hw_refine(), something
-wrong in the test itself.
+Reproduced on 7.3-rc7 with a USB/IP device presenting the GuitarPort
+interface layout and 1024-byte packets into a 128-byte buffer: ALSA
+logged "invalid position: pos =3D 224, buffer size =3D 32" and the driver
+logged "driver bug: len" on every following packet.
 
+Fixes: 705ececd1c60 ("Staging: add line6 usb driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Sinan Turunc <enscrpt@pm.me>
+---
+ sound/usb/line6/capture.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Takashi
+diff --git a/sound/usb/line6/capture.c b/sound/usb/line6/capture.c
+index 6dbaf30232f..7d8e7e83eeb 100644
+--- a/sound/usb/line6/capture.c
++++ b/sound/usb/line6/capture.c
+@@ -94,6 +94,17 @@ void line6_capture_copy(struct snd_line6_pcm *line6pcm, =
+char *fbuf, int fsize)
+ =09if (runtime =3D=3D NULL)
+ =09=09return;
+=20
++=09/*
++=09 * A packet can carry up to max_packet_size_in, which the device
++=09 * chooses, while the ring buffer can be as small as one 64-byte
++=09 * period. The single wrap below is only valid for
++=09 * frames <=3D buffer_size, so keep what fits.
++=09 */
++=09if (unlikely(frames > runtime->buffer_size)) {
++=09=09frames =3D runtime->buffer_size;
++=09=09fsize =3D frames * bytes_per_frame;
++=09}
++
+ =09if (line6pcm->in.pos_done + frames > runtime->buffer_size) {
+ =09=09/*
+ =09=09   The transferred area goes over buffer boundary,
+--=20
+2.56.0
 
-- - -
-
-I have tried it and sound works again.
-
-My modifications:
-
-diff -rupN a/sound/core/pcm_compat.c b/sound/core/pcm_compat.c
---- a/sound/core/pcm_compat.c	2026-11-01 22:26:31.000000000 +0100
-+++ b/sound/core/pcm_compat.c	2026-11-03 10:01:54.228010513 +0100
-@@ -252,7 +252,7 @@ static int snd_pcm_ioctl_hw_params_compa
- 		return -EFAULT;
- 
- 	if (refine) {
--		err = snd_pcm_hw_refine_with_lock(substream, data);
-+		err = snd_pcm_hw_refine(substream, data);
- 		if (err < 0)
- 			return err;
- 		err = fixup_unreferenced_params(substream, data);
-diff -rupN a/sound/core/pcm_native.c b/sound/core/pcm_native.c
---- a/sound/core/pcm_native.c	2026-11-01 22:26:31.000000000 +0100
-+++ b/sound/core/pcm_native.c	2026-11-03 10:02:24.836343549 +0100
-@@ -932,29 +932,6 @@ static int snd_pcm_hw_params_user(struct
-  * this one should be used for ioctls and other external paths instead of
-  * direct call of snd_pcm_hw_refine()
-  */
--static int snd_pcm_hw_refine_with_lock(struct snd_pcm_substream *substream,
--				       struct snd_pcm_hw_params *params)
--{
--	struct snd_pcm_runtime *runtime;
--	int err;
--
--	if (PCM_RUNTIME_CHECK(substream))
--		return -ENXIO;
--	runtime = substream->runtime;
--	err = snd_pcm_buffer_access_lock(runtime);
--	if (err < 0)
--		return err;
--	err = hw_params_state_check(substream);
--	if (err)
--		goto unlock;
--
--	err = snd_pcm_hw_refine(substream, params);
--
-- unlock:
--	snd_pcm_buffer_access_unlock(runtime);
--	return err;
--}
--
- static int snd_pcm_hw_refine_user(struct snd_pcm_substream *substream,
- 				  struct snd_pcm_hw_params __user * _params)
- {
-@@ -965,7 +942,7 @@ static int snd_pcm_hw_refine_user(struct
- 	if (IS_ERR(params))
- 		return PTR_ERR(params);
- 
--	err = snd_pcm_hw_refine_with_lock(substream, params);
-+	err = snd_pcm_hw_refine(substream, params);
- 	if (err < 0)
- 		return err;
- 
-@@ -4247,7 +4224,7 @@ static int snd_pcm_hw_refine_old_user(st
- 	if (IS_ERR(oparams))
- 		return PTR_ERR(oparams);
- 	snd_pcm_hw_convert_from_old_params(params, oparams);
--	err = snd_pcm_hw_refine_with_lock(substream, params);
-+	err = snd_pcm_hw_refine(substream, params);
- 	if (err < 0)
- 		return err;
