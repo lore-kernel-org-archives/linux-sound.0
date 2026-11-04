@@ -1,54 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793793209;
-	b=ovGhso5umgF2onSJXKo1z8ooZxfaSLFIv41YgEfv25l6tOG6SCe74nrG2tdPcKurBaDW
-	 +WJfzhLs9JGdIjh4YuRBt0EkiNBY7Ksg8kPr9eUeP8/l6SvssbUEnRJ4bi7WnaZCSBScQ
-	 3P47psJnc+QUcvaO6tjEap1Q0Lhs3i3tl0HIJ4TdvPDweRre1a22pTpQUVMqJRSeYBb9M
-	 bq+vextkOf2KbfKnQxTGZ8wHxNbeQwsNbPrwG5Si1Tkezcs1DSUmTiDtwWSTgR58zp9wd
-	 WsdJZ2Bur9eKllAZzhozyRNGWUz8vIGKf/Dt+Ztf1G+kX2udV83A2AHA56qT276d7sw==
+	t=1793793367;
+	b=Leytl2P6fj8uSpu+d26yi3dsx6pW1EcISNbrO2ze4A0Amng5jB+4nqgz0YAmjRSr0fzM
+	 qzURgF/L62q7jC0+DB5gqEUZYxzrDRfPNdqV/m6NZRiD+SO2KwestHd/wvo03Yhxkjn9Z
+	 LXnWkJuAzCpx6SfZ/WaqPmej60ulorTKcs5SCFqxPD6rBUBd0VdU9nHE4KIyQYzDuoY/N
+	 OCgVaYomPfo7pGlLvWLjjFU6j5bJ79fypSqNMGGukns8VFqOpLesvCWNYumz6SiSxZDs+
+	 0Vz9HE2G3ccw8bcNuDhrBMlFW7XdmzhXhELGHMAIgaJWnKGHuLF0a1XEBfw1OSgKpQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793793209;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=y+NYpw7VcamMXqZ0sP+WVZVi54+wDw6fM6nEwwrB8Hc=;
-	b=07T/ewOCPmWFECtF6DIdch7gboqucR6/E0n0AcdNmfLmSXft54puIQLPPAqePCFAMdKS
-	 Ummkd7T4ENZqg9PCh0qscDHe3lC71KPcRcvwbW3qOyQG6ZqJD4ocaDkb2gTRVewO+fZ5e
-	 16KUqD/6A8kEgZcgsh95hy6F4s7kKwpHhySWF58+IzgUsCvT0wXLfdFFIyb0+BIc5Yika
-	 kcRPu9am7+dqOjKXdETk8sJxHpjvV2dqUHM1VRZM1oYzG3f0gOmKYW/g2+Dmmlp1nCFOq
-	 I/HtzJvuDEd1bbvwaJPEfRnMgTIaI6Zv2jCqmklGFvnnS8NEb3zbeJdmpvDDJZHx7tg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793793367;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=3Z+J6zTwOue/WyhMWlH2EQxFTfzHjqxqklWPoKUJkxE=;
+	b=KsCRnlKluZctQ9qcHWxhiyxu/uXCCIKhpZYexqJlGID27HNiD744VXIR+pwSwXqf5nWR
+	 GWMEOa7XECOzkqFLjT8ZKMD4cMXJFAaxbHrDr/sw0y62vHblB5EBMd5GyEPCSvtq8kXTI
+	 yJDkhkLNHUrAFTV5zYPq0OO2gZCHbrvR9R44XOKRYYxdDgcXUNiSwxtUq2BBSQRgAL3r/
+	 Zz/gBd/Q5QFgT/a9Ag6+5aX5Wn2+zq67UgDVaDLikTIJgYc7QsD1GzLNOVopPO3OhBIPN
+	 0jtvFFFVnqfxFXIhMjqWClWTIWTokbbnFdTKT8XThy1VqxlsZZCKylJDlsddQX4Lxpw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=CvYd9Nlz;
-	arc=none smtp.remote-ip=91.218.175.124
-Received: from mta0.migadu.com (out-124.mta0.migadu.com [91.218.175.124])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NZXxVFsb;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB496606A32D
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 11:53:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB496606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24275606A326;
+	Wed,  4 Nov 2026 11:56:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=CvYd9Nlz
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=pOoMwnuu6Rp2se8zYeQGNlKVFILsgpZAF6qFVCLOGW8=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793793205; v=1; x=1794398005;
- b=CvYd9NlzMZTYKXFbDOd+DVdlB3EkTnsbY8xx48lUD3mMp92Q0YRUBQDuTMjorv3yA862tWWz
- RRM0nVuLBDZdigzqzpGEVDMB/AYcJ1d+kmuTVxoRcqqM3wDEeiJb45cIXVqQyH+F7X99Wmx+tc6
- K7+EHYD98tUTlzQbtvDZzaP0=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 817128640c2180d6;
-	Wed, 04 Nov 2026 11:53:25 +0000
-X-Mizu-Trace-ID: 817128640c2180d6
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <6e812fd1-218d-4393-a2a0-ed05f67e6b14@linux.dev>
-Date: Wed, 4 Nov 2026 12:36:17 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NZXxVFsb
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B03C21F000C1;
+	Wed,  4 Nov 2026 11:56:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793793367;
+	bh=3Z+J6zTwOue/WyhMWlH2EQxFTfzHjqxqklWPoKUJkxE=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=NZXxVFsboZQ9i6wav6VayYf0Uj/DEK428CnCaG8eU+Xf5UvYHRU5nGsUF+iAGQwsl
+	 lB5Z50Pgks/Jz/C8Yzlx8rpIzUk/Wl2KB+jWJNXKAb8fRtRucf6xsFCgkG51NkrmJJ
+	 XBA1svZkEQimwZ7qrNTGWOL0AOyJ5gAa5tqkxtCkPQrrj7mIgnT/Xd6WBw3N2FP3Op
+	 eVCvInG4hfiKMg4OIOwiiYfUhjvPYEDPMB0iNY9oLvaJPiIFyTqO7zli78Oc4pT+WG
+	 zQjiI3vzWYGx9pXBRL/xnmHtyK1jcQEerBGxx2xRkJJ9xqKpgMJV/xCFF6t9V3QLEz
+	 VpHxTVXBzJUnA==
+Message-ID: <sashiko-outbox-197215@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v4 RESEND 2/4] ASoC: cdns: Add Cadence I2S-SC controller
+ driver
+Reply-To: sashiko-reviews@lists.linux.dev
+To: joakim.zhang@cixtech.com
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261104113342.3660269-3-joakim.zhang@cixtech.com>
+References: <20261104113342.3660269-1-joakim.zhang@cixtech.com>
+ <20261104113342.3660269-3-joakim.zhang@cixtech.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 04 Nov 2026 11:56:06 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -57,61 +60,205 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/5] ASoC: sdw_utils: honor empty DisCo port lists when
- creating DAI links
-To: Matthew Schwartz <matthew.schwartz@linux.dev>, broonie@kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261103200540.3863272-1-matthew.schwartz@linux.dev>
- <20261103200540.3863272-5-matthew.schwartz@linux.dev>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20261103200540.3863272-5-matthew.schwartz@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-On 11/3/26 21:05, Matthew Schwartz wrote:
-> The codec_info tables give each DAI a fixed direction, so a TAS2783
-> always gets an amp feedback capture link. The ASUS ROG Xbox Ally X20
-> BIOS declares mipi-sdw-source-port-list as 0 for both of its TAS2783s,
-> so the capture port has no DisCo properties and every open of the
-> SmartAmp capture PCM fails in sdw_program_slave_port_params() with
-> -EINVAL. The PCM is probed at session start, which logs a burst of
-> transport errors on every boot, and the same failure is reported on the
-> ASUS ProArt PX13.
-> 
-> Store the effective direction in each endpoint and, for codecs whose
-> driver takes its ports from the DisCo port lists, drop a direction when
-> the peripheral declares an empty list for it, and skip the endpoint when
-> neither direction is left. Other codecs keep the table direction, as
-> many of their drivers use fixed port masks. Since endpoints in one group
-> can now differ, the machine drivers take the stream name and DAI link ID
-> from an endpoint that is part of the stream, and only count and
-> initialize those endpoints.
-Can I suggest a more nuclear option, ignore all the port properties and
-add them directly in the driver?
-I am not aware of any other codec that relies on those properties, and
-guess what they are wrong in that unique case. all other codec drivers
-list the ports in their read_prop callback, e.g. ﻿﻿.read_prop =
-rt711_read_prop,
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
+- [Medium] ASoC: cdns: unbalanced clock enable in cdns_i2s_sc_probe() and o=
+n unbind
+- [Medium] ASoC: cdns: wrong devres ordering for IRQ and PM in cdns_i2s_sc_=
+probe()
+- [Medium] ASoC: cdns: cdns_i2s_sc_set_tdm_slot() rejects slots =3D=3D 0 to=
+ disable TDM
+--
 
-While I am at it, this TAS2783-sdw driver does some really weird things
-with data ports, all the uses of
+commit 8608e01e4e2208a8765fd0b404456a7e98eea27f
+Author: Joakim Zhang <joakim.zhang@cixtech.com>
 
-	case 0x000 ... 0x080: /* Data port 0. */
-	case 0x100 ... 0x140: /* Data port 1. */
-	case 0x200 ... 0x240: /* Data port 2. */
-	case 0x300 ... 0x340: /* Data port 3. */
-	case 0x400 ... 0x440: /* Data port 4. */
-	case 0x500 ... 0x540: /* Data port 5. */
+ASoC: cdns: Add Cadence I2S-SC controller driver
 
-are not correct IMHO, the data ports are managed by the core without
-using regmap.
+This commit adds an ASoC driver for the Cadence I2S-SC controller found in
+the CIX SKY1 audio subsystem, supporting full-duplex stereo I2S and up to
+16-slot TDM modes with dmaengine PCM and runtime/system PM support.
+
+> diff --git a/sound/soc/cdns/cdns-i2s-sc.c b/sound/soc/cdns/cdns-i2s-sc.c
+> new file mode 100644
+> index 0000000000000..160a0ec573d72
+> --- /dev/null
+> +++ b/sound/soc/cdns/cdns-i2s-sc.c
+
+[ ... ]
+
+> +static int cdns_i2s_sc_set_tdm_slot(struct snd_soc_dai *cpu_dai, unsigne=
+d int tx_mask,
+> +				    unsigned int rx_mask, int slots, int slot_width)
+> +{
+> +	struct cdns_i2s_sc_priv *i2s_sc_priv =3D snd_soc_dai_get_drvdata(cpu_da=
+i);
+> +	struct device *dev =3D i2s_sc_priv->dev;
+> +
+> +	dev_dbg(dev, "tx_mask =3D 0x%x, rx_mask =3D 0x%x, slots =3D %d, slot_wi=
+dth =3D %d\n",
+> +		tx_mask, rx_mask, slots, slot_width);
+> +
+> +	if (slots < 1 || slots > 16) {
+> +		dev_err(i2s_sc_priv->dev, "TDM mode supports 1 to 16 slots\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (slot_width < 8 || slot_width > 32) {
+> +		dev_err(i2s_sc_priv->dev, "TDM slot width must be 8 to 32 bits\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if ((tx_mask >> slots) || (rx_mask >> slots)) {
+> +		dev_err(i2s_sc_priv->dev, "TDM slot mask has bits outside the slots\n"=
+);
+> +		return -EINVAL;
+> +	}
+> +
+> +	i2s_sc_priv->tdm_config.slots =3D slots;
+> +	i2s_sc_priv->tdm_config.slot_width =3D slot_width;
+> +	i2s_sc_priv->tdm_config.rx_mask =3D rx_mask;
+> +	i2s_sc_priv->tdm_config.tx_mask =3D tx_mask;
+> +
+> +	i2s_sc_priv->is_tdm_mode =3D true;
+> +
+> +	return 0;
+> +}
+
+[Severity: Medium]
+As reported by Sashiko on v4 [1], snd_soc_dai_set_tdm_slot() allows callers
+to disable TDM mode by passing slots =3D=3D 0, in which case tx_mask, rx_ma=
+sk,
+and slot_width are ignored.
+
+In cdns_i2s_sc_set_tdm_slot(), checking slots < 1 rejects slots =3D=3D 0 wi=
+th
+-EINVAL, and nothing ever clears i2s_sc_priv->is_tdm_mode back to false.
+
+Should cdns_i2s_sc_set_tdm_slot() handle !slots by setting
+i2s_sc_priv->is_tdm_mode =3D false and returning 0?
+
+[ ... ]
+
+> +static int cdns_i2s_sc_probe(struct platform_device *pdev)
+> +{
+> +	struct cdns_i2s_sc_priv *i2s_sc_priv;
+> +	struct resource *res;
+> +	void __iomem *base;
+> +	int i, irq, ret;
+
+[ ... ]
+
+> +	pm_runtime_get_noresume(&pdev->dev);
+> +	pm_runtime_set_active(&pdev->dev);
+> +	ret =3D devm_pm_runtime_enable(&pdev->dev);
+> +	if (ret) {
+> +		pm_runtime_put_noidle(&pdev->dev);
+> +		return dev_err_probe(&pdev->dev, ret, "Failed to enable runtime PM\n");
+> +	}
+> +
+> +	ret =3D cdns_i2s_sc_clks_enable(i2s_sc_priv);
+> +	if (ret) {
+> +		pm_runtime_put_noidle(&pdev->dev);
+> +		return dev_err_probe(&pdev->dev, ret, "Failed to enable clocks\n");
+> +	}
+> +
+> +	cdns_i2s_sc_rst(i2s_sc_priv);
+> +
+> +	irq =3D platform_get_irq(pdev, 0);
+> +	if (irq < 0) {
+> +		ret =3D irq;
+> +		goto err_disable_clks;
+> +	}
+> +	i2s_sc_priv->irq =3D irq;
+> +
+> +	ret =3D devm_request_irq(&pdev->dev, irq, cdns_i2s_sc_isr, 0,
+> +			       dev_name(&pdev->dev), i2s_sc_priv);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "Failed to request irq: %d\n", ret);
+> +		goto err_disable_clks;
+> +	}
+
+[Severity: Medium]
+As reported by Sashiko on v4 [2], devm_pm_runtime_enable() is registered in
+cdns_i2s_sc_probe() before cdns_i2s_sc_clks_enable(), before
+i2s_sc_priv->irq is initialized, and before devm_request_irq().
+
+Because devres cleans up in reverse registration order, devm_request_irq()
+will free the IRQ before devm_pm_runtime_enable() disables runtime PM on
+unbind or probe failure. While runtime PM is still enabled after the IRQ is
+freed, can cdns_i2s_sc_runtime_suspend() or cdns_i2s_sc_runtime_resume() run
+and call disable_irq() or enable_irq() on i2s_sc_priv->irq?
+
+Similarly, if cdns_i2s_sc_clks_enable(), platform_get_irq(), or
+devm_request_irq() fails in cdns_i2s_sc_probe(), pm_runtime_put_noidle()
+drops the usage count to zero while runtime PM is still enabled and marked
+active, before devres disables runtime PM.
+
+Would it be safer to request the IRQ and enable clocks (for example via
+devm_clk_get_enabled() or a devm action) before enabling runtime PM?
+
+> +
+> +	/*
+> +	 * Let pm_runtime_put_sync() disable the clocks, and take regcache effe=
+ct.
+> +	 * If CONFIG_PM is not enabled, the clock will stay powered.
+> +	 */
+> +	pm_runtime_put_sync(&pdev->dev);
+> +
+> +	ret =3D devm_snd_soc_register_component(&pdev->dev, &cdns_i2s_sc_compon=
+ent,
+> +					      &cdns_i2s_sc_dai, 1);
+> +	if (ret)
+> +		return dev_err_probe(&pdev->dev, ret, "Failed to register soc componen=
+t\n");
+> +
+> +	return 0;
+> +
+> +err_disable_clks:
+> +	cdns_i2s_sc_clks_disable(i2s_sc_priv);
+> +	pm_runtime_put_noidle(&pdev->dev);
+> +	return ret;
+> +}
+
+[ ... ]
+
+> +static struct platform_driver cdns_i2s_sc_driver =3D {
+> +	.probe =3D cdns_i2s_sc_probe,
+> +	.driver =3D {
+> +		.name =3D DRV_NAME,
+> +		.pm =3D pm_ptr(&cdns_i2s_sc_pm_ops),
+> +		.of_match_table =3D cdns_i2s_sc_of_match,
+> +	},
+> +};
+
+[Severity: Medium]
+As reported by Sashiko on v4 [3], clk_hst and clk_i2s are acquired with
+devm_clk_get() and enabled via cdns_i2s_sc_clks_enable() in
+cdns_i2s_sc_probe(), relying on pm_runtime_put_sync() to invoke
+cdns_i2s_sc_runtime_suspend() and disable the clocks.
+
+When CONFIG_PM is disabled, or when runtime suspend is prevented (such as
+via sysfs power/control), pm_runtime_put_sync() leaves clk_hst and clk_i2s
+prepared and enabled. If devm_snd_soc_register_component() then fails, or
+when cdns_i2s_sc_driver is unbound while runtime-active or with !CONFIG_PM
+(since there is no .remove callback and devm_pm_runtime_enable() only calls
+pm_runtime_disable()), won't clk_hst and clk_i2s remain prepared and
+enabled, leaking their clock enable references?
+
+Also, on the error paths in cdns_i2s_sc_probe() before pm_runtime_put_sync(=
+),
+should pm_runtime_set_suspended(&pdev->dev) be called to undo
+pm_runtime_set_active(&pdev->dev)?
+
+[1] https://lore.kernel.org/r/20261019122048.1107179-3-joakim.zhang@cixtech=
+.com
+[2] https://lore.kernel.org/r/20261019122048.1107179-3-joakim.zhang@cixtech=
+.com
+[3] https://lore.kernel.org/r/20261019122048.1107179-3-joakim.zhang@cixtech=
+.com
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104113342.3660=
+269-1-joakim.zhang@cixtech.com?part=3D2
