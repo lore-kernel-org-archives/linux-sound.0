@@ -1,57 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793782757;
-	b=5M//ONHAYgfKVPDZouNSJSN5T84KCFCKQQw9xppjlvyW5H6/Xsd0GCTulB3FyFRfCOL4
-	 dA0vOq2jqjuO/PppMynuvCkysoC/17V/kQmHNt3WoKlnjbisOtJaElHQa1BGTU4lUMk99
-	 jxAtLjlefwlsomu6KNu5B1SCGBHZIy6E8XHwxUXSygKf5V0E+Ai26MlfkMqB2AA9m92EH
-	 AWPd7h99uKCiYgzTemzmpYDyqPEurhrAinwQ1zAMa857bspyqUSkRWqPsfXZ2RS+l4hKj
-	 FNws4QpqZqycXKDPp4IvEY1YrNEpVqp5SBe7Ga/CdnIy6yNOQWAFPODQ1WkrXCjM5Dg==
+	t=1793782870;
+	b=aQBLcyZj1ah03GYdlQJjdVIU6a2P51E6KWcCqWNTuE0qt3JAKyUKPPzBkrSfDCsI9gyh
+	 FO13Yz9zbhpvb8b5iqFfUEk5XZzMObaCWB4Xqmdrqe/TJSElr70/Nhgxt5/VBuicMycWu
+	 q02h5xXHG29BjJEl6tkLhoEDsTC2gEj+akrVs5VWuk3dCVjVrjSkzf/2PTED5//EVcDsG
+	 aklXZmjNh0RvUMkbDLU2HJMpuajU0PpAZuIM7ucOnH+zsuhzTOa5L3RSvavVatwX4Y/Gt
+	 vQcFq+K+UrWxqiYgAxDec7+G4weKnXR+mPMlaRgmPMY2O8rlTQbIx7IB5DRaM1k3uZg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793782757;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=PDLtNAeuvy14V/+LXyKVJqTpGOel+uo7Z7Ve4WH5+Iw=;
-	b=vRXfVD8nmWojL4NSXrGrFdLwu29C+P8WmNXbKOG+qhur3RrEbxibYJgsjYJZVU9HhW6G
-	 mC1SIYjuzaCo5JNMkUi0BW0SIVfdGm7NL93OxsassbF22Du5Ghq3XScfFgR2WBux/y+U1
-	 0pCV6P/zQ0MY4mnNgOytqtZPP6ZgPssVEm4/WmBvphzdWt7B3pD9xhDfV0mOV3crJtpOc
-	 CfsdsBnD3tffKxGowY8+ZFKoFVVyB1m1DUw396Uev5kDTta6z3eFdVthnybhdYN+ewxcs
-	 ya8J0LIZ8G0K7XSFsOilwmJ8svWxBdR3btmhjGyAWAq5wkyWXC92aCZoB7UTTfRyiNw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793782870;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
+	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
+	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=FGCg97yy95ZQI6qLmppFJ/H1F7e4GuIsRRONIaiTYdU=;
+	b=UVwU5IoWAuLrAzY+x0v+7J1LVtNgFpsA57BDS1JB7LTTsBAkgQPTGlEHPwiLmBvQD8KH
+	 TLvuM76TXlzOSRNRbKV901sjrdloj/fU7YglWC42a5WJVAttJXbnX0DgiJ1szZvngNIjR
+	 HGFzfpDiuyBSn3EDONsTIPS5rF//ZaNcZCmMgQsT0XHWdaKojhVa9HjG5pDlczHbjrnJd
+	 sZsgWgWU2QfQ8PAUPmWQf9z1SUQhXp20lm9dGWpA6iVXhpJZ+dH2Cm3wgym/C2xdZHWPF
+	 IzOcelsx4RjAMnprzAv8G5LtLU2CkUqxv3ojWr+wCkbrwMJUevgZ1xw9+1J0TzUxrDg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=proton.me;
-	spf=pass smtp.mailfrom=proton.me;
-	arc=none smtp.remote-ip=185.70.43.16
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA37F606A333
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 08:59:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA37F606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=3sb6q255wjhffg5rxdcfm2t4fu.protonmail2; t=1793782753;
-	x=1794041953; bh=PDLtNAeuvy14V/+LXyKVJqTpGOel+uo7Z7Ve4WH5+Iw=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=PIfDX+C7wcYmaHSGFHcE5dMEelODbiYVkhY1xD85AaX5gBxQAA0aRpTBdybyvCvME
-	 4rWDFPAzwSkLvWAYNz10tW6+xPfba7i71s05DuRM3b4oLDpcKFEaWojtgFz4DPAdjS
-	 ryfCEJChxS5Qabef4hNXiGyiPbu7OYwGtYHyyeBkHm0yhzUfiuGJleJAoeeZxAURRp
-	 mDAiVeDXgNL0Fz2tPM3uMdY+eGo4pbMCoxru5JEc7KljT46OwqNLMJpXAY9MKSdXiq
-	 rwYBhyTqY8+X25KwB8KWqEOS/aX2gUTsMfsCDEgiTmwurDyzeUkqq2s44lTVt256fc
-	 IBOIJQKm15MrA==
-Date: Wed, 04 Nov 2026 08:59:09 +0000
-To: Takashi Iwai <tiwai@suse.de>
-From: =?utf-8?Q?Juan_M=2E_M=C3=A9ndez_Rey?= <juan.mendezr@proton.me>
-Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: Re: snd-usb-audio: list_add corruption in snd_complete_urb, fatal panic in softirq (7.2.9)
-Message-ID: <jxeuvDYjKOIms0gowTSJZYGmHyKgiV9gjNQbgF1sHiR5cRxc7kwC9gqemsnDDRO8OVASaUSplsIZ_OUE6NCLXxSiLBsfMbWeYmnDFVxvnJY=@proton.me>
-In-Reply-To: <871p91w08y.wl-tiwai@suse.de>
-References: <J1sr9AtFJ_J1bpxFaO0ivZEW9qZBdme6iMaAISltxABWM7FcdjLX9Svl18kcV1QM1jRFjzPqjdIr5wuC4VzPer3b-iHa05OovdSHx0isMlE=@proton.me> <871p91w08y.wl-tiwai@suse.de>
-Feedback-ID: 176548819:user:proton
-X-Pm-Message-ID: 9c097579ed7270bf4da0fbe253dec8e397246247
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0D0606A326;
+	Wed,  4 Nov 2026 09:01:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F0D0606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 41e8cf48d82e11f19a56ed5b684f684d-20261104
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:6e7870b8-ded4-4216-8cd1-5ea337f9cd7f,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:7db8b62,CLOUDID:0698f503bc8e9f34a1c55a7ee0b32ff3,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|102|136|850|865|898,TC:nil,Content:0|15|50|9
+	9,EDM:-3|-100,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,O
+	SI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 41e8cf48d82e11f19a56ed5b684f684d-20261104
+X-User: songxiebing@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <songxiebing@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1838893252; Wed, 04 Nov 2026 17:01:01 +0800
+From: songxiebing <songxiebing@kylinos.cn>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	songxiebing@kylinos.cn,
+	stable@vger.kernel.org
+Subject: [PATCH v2] ALSA: hdsp: Validate DDS offset range and propagate errors
+Date: Wed,  4 Nov 2026 17:00:57 +0800
+Message-Id: <20261104090057.2067780-1-songxiebing@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20261104083045.1939479-1-songxiebing@kylinos.cn>
+References: <20261104083045.1939479-1-songxiebing@kylinos.cn>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,25 +72,89 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-El mi=C3=A9rcoles, 4 de noviembre de 2026 a las 07:59, Takashi Iwai <tiwai@=
-suse.de> escribi=C3=B3:
+From: Bob Song <songxiebing@kylinos.cn>
 
+hdsp_set_dds_offset() computes the target rate as
+system_sample_rate + offset_hz without validating the result.  A user
+can set the DDS offset to -system_sample_rate through the control API,
+making rate zero and causing div_u64() in hdsp_set_dds_value() to
+divide by zero.  Larger offsets can also overflow the rate calculation
+or push the DDS value out of range.
 
-> This should have been already addressed in the upstream.
-> Could you try 7.3 kernel, or cherry-pick the fix commit
-> dbd9d1cbf970 ("ALSA: usb-audio: fix list_add double-add in
-> push_back_to_ready_list")?
->=20
+Validate offset_hz against the [-5000, 5000] range advertised by the
+control, keep the non-positive rate check as a safety net, and
+propagate the error from snd_hdsp_put_dds_offset() instead of
+reporting success.
 
-That matches what I see.=20
+Fixes: e4b6088c8cf1 ("[ALSA] hdsp - Add support for fine tuning of sample rate support to HDSP 9632")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Bob Song <songxiebing@kylinos.cn>
+---
+ sound/pci/rme9652/hdsp.c | 27 +++++++++++++++++++++------
+ 1 file changed, 21 insertions(+), 6 deletions(-)
 
-In Debian: 7.2.15 doesn't have it yet, so I'm moving to Debian's 7.3.1. I'v=
-e only hit this once in 16 days and can't trigger it on demand, so I can't =
-really confirm the fix. I'll report back if it shows up again on 7.3.
+diff --git a/sound/pci/rme9652/hdsp.c b/sound/pci/rme9652/hdsp.c
+index 7dce548b9f36..467121a5fb4f 100644
+--- a/sound/pci/rme9652/hdsp.c
++++ b/sound/pci/rme9652/hdsp.c
+@@ -2768,6 +2768,9 @@ static int snd_hdsp_get_adat_sync_check(struct snd_kcontrol *kcontrol, struct sn
+ 	return 0;
+ }
+ 
++#define HDSP_DDS_OFFSET_MIN	-5000
++#define HDSP_DDS_OFFSET_MAX	5000
++
+ #define HDSP_DDS_OFFSET(xname, xindex) \
+ { .iface = SNDRV_CTL_ELEM_IFACE_MIXER, \
+   .name = xname, \
+@@ -2801,7 +2804,15 @@ static int hdsp_dds_offset(struct hdsp *hdsp)
+ 
+ static int hdsp_set_dds_offset(struct hdsp *hdsp, int offset_hz)
+ {
+-	int rate = hdsp->system_sample_rate + offset_hz;
++	int rate;
++
++	if (offset_hz < HDSP_DDS_OFFSET_MIN ||
++	    offset_hz > HDSP_DDS_OFFSET_MAX)
++		return -EINVAL;
++
++	rate = hdsp->system_sample_rate + offset_hz;
++	if (rate <= 0)
++		return -EINVAL;
+ 	hdsp_set_dds_value(hdsp, rate);
+ 	return 0;
+ }
+@@ -2810,8 +2821,8 @@ static int snd_hdsp_info_dds_offset(struct snd_kcontrol *kcontrol, struct snd_ct
+ {
+ 	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
+ 	uinfo->count = 1;
+-	uinfo->value.integer.min = -5000;
+-	uinfo->value.integer.max = 5000;
++	uinfo->value.integer.min = HDSP_DDS_OFFSET_MIN;
++	uinfo->value.integer.max = HDSP_DDS_OFFSET_MAX;
+ 	return 0;
+ }
+ 
+@@ -2833,10 +2844,14 @@ static int snd_hdsp_put_dds_offset(struct snd_kcontrol *kcontrol, struct snd_ctl
+ 		return -EBUSY;
+ 	val = ucontrol->value.integer.value[0];
+ 	guard(spinlock_irq)(&hdsp->lock);
+-	if (val != hdsp_dds_offset(hdsp))
+-		change = (hdsp_set_dds_offset(hdsp, val) == 0) ? 1 : 0;
+-	else
++	if (val != hdsp_dds_offset(hdsp)) {
++		change = hdsp_set_dds_offset(hdsp, val);
++		if (change < 0)
++			return change;
++		change = 1;
++	} else {
+ 		change = 0;
++	}
+ 	return change;
+ }
+ 
+-- 
+2.25.1
 
-Thanks for the quick answer,
-
-Juan
