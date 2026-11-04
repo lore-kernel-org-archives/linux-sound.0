@@ -1,78 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793752780;
-	b=Wlh1czhrLKUhPiB+xah8k86HvXZUJAhHIjNgElyDIDK38Xci+aesfUD3deYEZ6x4YOgk
-	 pk9AU8lgYGj54LgmeGCXVZbthP7dwQ0lmfIWVAD0hI8q/5njLdYJjB+QdiFe0C699EaFB
-	 7ZFzU5h+BtcDK+mD1KEX+9eAvBQVzZwJXN1BlVnB1vwiXEuxAqwlJXaumK+qNx2Hj2vs4
-	 DJnTBKivHUf1YjQUk8kxZQNynwEISB9/ECcim5ou7IJMkpLtQqmoA6LrLtC2lThsXPaMv
-	 NjW/y5NIpHY1SZM4gmdHBVG5q20zIObqqoVNJh68d4v+t3gzJnLx2P0ejH+trMhaBLw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793752780;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=+O+pkPnJezxUbDLb9nqWUUW01sXrmpX00Gprg49lIhY=;
-	b=dIp3BfYBcVC+uOv+kir1tAYT8f28oGyo4+xeYJ/1IwpM1HjYQDuZgX5y1ggGcOJ1VH9p
-	 j9kVxx5g7WV/ntblslBTFpVE8g5+Q43ouaYifKlmJSOV7VCCOhW2RePo/2RAy9yW/7n1y
-	 /KoILB1RcKsPFrW6Xxwo0xfDriEPsgdRoDSJZsa/p2WknEbO4zvTEVG4p5oNScIcV0UYs
-	 U46dR0FkypNela9/kv/XRRh+3ADdIsU0pmsYN7D9dJuKPDywukbWwcS8JYfcc0U7mvU9l
-	 24NG6IzitZUNJpIvKeTTe5h5fKh/Vw8k5TPMJlu33cPzNORObqlDJKo2/NIQzhkHIuQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="UG/+EVFf";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=57.103.91.194
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793752897;
+	b=QuBeg5JAU8hD6eRLxkBQDNQHhgaTT7KsQc6N8JMsmemkT741sdpAuDZEDbxqAoV4FuJ7
+	 Ic+r173dg/sd8USk/Pmjz0aBy3pDt7dPZL5dglIrAMtGB8DAubyZLVA54lEYlatqBOU83
+	 gP31f9VjyXVl7QiYlA+ExYD7vk+MVUqR/jrm9EYFOW+L9F05D98qrhJAkHpEa0k3oJjyz
+	 9wcNgEFWM5xxHgVWzRKcqoimRiitG//T/dOPK5nD53Bo9+ctnkKjqzPXd5QG4x5bqNVvJ
+	 +TVrkvlW5ndDo4xm5ZR8+Yn6n+fBtAp2LuxeWZRHPTWXbeQw/NfeFqFcZTVkPXL9tjw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793752897;
+	h=DMARC-Filter:Received:X-ICL-RepId:X-ICL-Out-Info:Dkim-Signature:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:
+	 X-Authority-Info-Out:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-JNJ;
+	bh=97ConwPDRwMbMtTmkOwWCjQTSwiRslAvHm/yhsHrsF8=;
+	b=HAYjThavqZcEJn5bBEIPGUnUvxU23pA4uYLj7l3dX3cTIHfs1YDmix5dfOP1fw1Zw7uE
+	 rI8kB4zDMLbLPTgVS43k/eokjfkWVBO7fwSwRoRy80WHLkyV2MI9+TFnxx8uVxDwXhJVh
+	 zjgkMlLiadqwhlQnHYdgLsRicZMdeJ0Rf89tcWPlioR04TIPT5reQcfPgkJwegAjIN1EX
+	 OnhSmJR8FOqSkZnzhoM+34AQn22AN2hr2Z8M3No9u/2paHss73lsYAtxlRCwp9l0WFSyO
+	 sRyrf7S9nSnog03dlpQ2tqj5MR6MoyvgLQ5z/9NSElvYT3nFYsIVa5baEGHFcMqZkVg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=icloud.com;
+	spf=pass smtp.mailfrom=icloud.com;
+	dkim=pass header.d=icloud.com header.i=@icloud.com header.a=rsa-sha256 header.s=1a1hai header.b=H056MXzI;
+	arc=none smtp.remote-ip=57.103.91.194
+Received: from outbound.ci.icloud.com (ci-2003g-snip4-3.eps.apple.com [57.103.91.194])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B7F606A31B;
-	Wed,  4 Nov 2026 00:39:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48DE5606A31B
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 00:41:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48DE5606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UG/+EVFf
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793752779;
-	b=PvtT+iyxeIaSzZiAI+mV+EYlyPoq9UyVeEhjjOBIdQG8Qc4sCVLj6v+vwJgpZ00Z6vqm
-	 5P6E6d6gN0svgdfjValzzyHdYb6bWmiZSlKe8vjYHmAzBwD+0Ht+RlsQiEG6ys4U+nSFq
-	 A6ke/g5vlCLYGAdqVTViTNO8T3xizqFvgTqK9vnZI68l5pkpAL1a3kaFMe049FSEgtVco
-	 KRTqpoYGeEZCpk/FKhKQQ1N6k/MID9zSN+N+Pc2Z7VHaHr6dBjRar26xnmH9/CQRZiWPv
-	 g6N4+m2wy8GSFDqYVR+bhDSi5Gj3bu2nkCYirhuGOCZ8MHqkKDZ1f+v+fApmQXN9X3g==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793752779;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=+O+pkPnJezxUbDLb9nqWUUW01sXrmpX00Gprg49lIhY=;
-	b=AGULh2LhGebvoFrYVbGtvHnhNLg4RIOBuUjZn9oDFohGfLEm3cf2GOeeEawspaQmwjcz
-	 pRJjqOxcv8mk+o9Nhu+VI7DrELJrI63tujPTrsvZ5xKRBv8Ek56GPuxXrKVbaIRd1KjYK
-	 cO0VYBRiOXCUlolvZ9G9aKdqAbuDiJjhM6lBPrwOPfOmKOvNbWKV9D5GO0pOqfm2kfvE1
-	 mP3SHCvLIoEc7MKACFEFsKfDed/MRsOKMIdc7BEYrG1e5V/r14yEdkOpm6d5LzeGVyKBk
-	 qNDXh5hq43sg5GDRpk4U78DQA/uTKd52lE39Xg9HYVxACN2j33smX1RMBBEPxyzYUyg==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 16AD91F000C1;
-	Wed,  4 Nov 2026 00:39:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793752779;
-	bh=+O+pkPnJezxUbDLb9nqWUUW01sXrmpX00Gprg49lIhY=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=UG/+EVFfZZlnGC46q7fUFz/14rT7VKNNh2beb/zT/4JRH2Njc4Ys/MxJN40uIJJwC
-	 cLCIqH08xBp5jaYgEX5IDgf9bouTDbhn6z1amx/rSHyrtKBseO2HaVafb9y7T3w0fo
-	 EixrI4cGnXjmnTe0c3aZsdFbmSIfJtuKfy1nBsApF6GRE4api3jQwRwzy3wXqG0Ljh
-	 GLByTqUhf4N5mCOhudC50qPTP1XT0M/0JusG2meDRAv5ND8X4SKkPdXG8zIQtq6Q62
-	 Tu64SphZl2qBZYqn9Y0d20YPsVZWDlH4WWV+ea5IZUUisJv2vjlon6TQk5PlDUdaLc
-	 Uebj2X5GBAAAA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 9907E46B9B;
-	Wed,  4 Nov 2026 00:39:38 +0000 (UTC)
-From: Riley via B4 Relay <devnull+riley.redeker.gmail.com@kernel.org>
-Date: Wed, 04 Nov 2026 11:39:38 +1100
-Subject: [PATCH] ALSA: usb-audio: Add quirk for Yamaha ZG02
+	dkim=pass (2048-bit key, unprotected) header.d=icloud.com header.i=@icloud.com header.a=rsa-sha256 header.s=1a1hai header.b=H056MXzI
+Received: from outbound.ci.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-central-1k-60-percent-1 (Postfix) with ESMTPS id 7BA7918002DC;
+	Wed, 04 Nov 2026 00:41:34 +0000 (UTC)
+X-ICL-RepId: 01a1a401-0be0-73dc-92c0-772a0b5a0311
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhPAEMGXAVeC1YBXwFLVxQEDloDVA5cBBcbXwJCH1sVSzhaDlsERxQXG1wAFw1WTVAbXwJCDxwTVhUTH1RWBFBRHV8CCgRHBFsXRgNTRVEZFxFQAVgeVl5aF15NRx9ATWJJAVoZWxxAF0puTVMPDxlaFFwYU0VRH1RYXgRTVg5CCUoFXAZbBkAJTAJcBEUHRA9PAl8aWh8GUBZQCFkfHBNVF0YZXg5AMFAbXwJCDxwTVhUNTUMSQhUEEVABWB5W
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1793752896; x=1825288896; bh=97ConwPDRwMbMtTmkOwWCjQTSwiRslAvHm/yhsHrsF8=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=H056MXzIk+WzCi9vY7Q91adVVZtq7El4qbdCfV3IP86O8b1vZywhU+HrYrMR15XvmhX/F7wqLQKMl+u+gEt63Qf5kiwc/78Vto7VYIP9O+RD16QbRqMPNuAtCaSWQbekL6dOBVyKRrVOMTRHVDMkriZb6QrAc2yivGwzpQI3Jgpu4MLahG6JzOlXgq0XS9b3WF5SVzHdkLzcjGq+udmb3ckTyqXMmrTAz48fLjT2ynW7dXqx9+BCPN/G3uVI97gVZcQ5v4+LS/vJbcCzmtJJidCNVWyUdzJ0FyTov5jRRw8fmuqfTVycOCabI9Ea3pjTm+XTzTSmnL+qOp4pDHb8pw==
+Received: from bigre.tail98293.ts.net (unknown [17.57.156.36])
+	by p00-icloudmta-asmtp-us-central-1k-60-percent-1 (Postfix) with ESMTPSA id 7933C180051E;
+	Wed, 04 Nov 2026 00:41:33 +0000 (UTC)
+From: Vincent Cloutier <vincent.cloutier@icloud.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Vincent Cloutier <vincent@cloutier.co>,
+	Christian Zigotzky <chzigotzky@xenosoft.de>,
+	Cen Zhang <zzzccc427@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: pcm: Allow HW_REFINE queries with mapped buffers
+Date: Tue,  3 Nov 2026 19:40:25 -0500
+Message-ID: <20261104004113.546712-1-vincent.cloutier@icloud.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <874idyx9n6.wl-tiwai@suse.de>
+References: <874idyx9n6.wl-tiwai@suse.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -82,123 +66,113 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261104-yamaha-zg02-v1-1-3fd61b8c564f@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzNDQwMT3crE3MSMRN2qdAMj3RRz00SL5LSUxMRkQyWgjoKi1LTMCrBp0bE
- QfnFpUlZqcgnICKXaWgCuY3tBbwAAAA==
-X-Change-ID: 20261104-yamaha-zg02-d75a8cfdaac1
-To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Riley <riley.redeker@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793752778; l=3436;
- i=riley.redeker@gmail.com; s=20261104; h=from:subject:message-id;
- bh=QfAs+gUhXiKkL5wB51Zjd56vxHsgYEBg+Im4XPnvZHo=;
- b=REIeVRBrNFUpjO85xAq43voKcSvOApMyTOUHbvak5DKrYqtr9s3PFhA0CB3t7hjtpFJ1N+5PC
- pmdQ+FwIXqJBomg5u7X2T/T+yrNGr5qH7U28vXdfCg+jYGVwMW51bZD
-X-Developer-Key: i=riley.redeker@gmail.com; a=ed25519;
- pk=wo/NEUhxXVG+kr+llQuIWhIFFvK0zNLuzLmkrUPQBR4=
-X-Endpoint-Received: by B4 Relay for riley.redeker@gmail.com/20261104 with
- auth_id=1401
-X-Original-From: Riley <riley.redeker@gmail.com>
-Reply-To: riley.redeker@gmail.com
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Authority-Info-Out: v=2.4 cv=J/inLQnS c=1 sm=1 tr=0 ts=6aea7f3f
+ cx=c_apl:c_pps:t_out a=2G65uMN5HjSv0sBfM2Yj2w==:117
+ a=2G65uMN5HjSv0sBfM2Yj2w==:17 a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10
+ a=5j__JWfIoqoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8
+ a=bEYm-9ale8fJAr3hifAA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA0MDAwMSBTYWx0ZWRfX0Hce1/uSrHsC
+ aSMqulfCml/YRJ2Ao3VhJR9gIGYck6YkOveNMIeC3defJYU5su5WOyF94RHnJEJGhBdBLZeNHBq
+ DyfhJhvoaBNb6e78BVli5dQM+1TxcF6OcPryc5MNEfPg3xAWwHhUaQQpiFEKNRlatjWix8DHEW2
+ V+nvLjnHjs0HJmrvONWaeh2jtFXJ8YrJ30aT/Mb95Z38AlAK7O4KEbk4nnNEdx2YGJNZ93tUgWp
+ OAB0hdZBffNWzF7rYdGyxREDV4YiazJXxZhRX8Ienb5EvLaXUzKQzN9WXemathRUxj8M48wLpl9
+ RjFGkBbasHMsZz6MwNKZxcFqT5huK1NcC59tt+lbEfJ6RN9roXsneGccz/1gc8=
+X-Proofpoint-ORIG-GUID: vWv3Lb2O_VaShhjKrtQO2tK45XZHWBvi
+X-Proofpoint-GUID: vWv3Lb2O_VaShhjKrtQO2tK45XZHWBvi
+X-JNJ: AAAAAAABsoq1lq/3jxT/Bg5KS2FhNikXWroD61wgx1LXbkC9uJ4R2p0aM2aM5qCegzrvPj
+ JzKSZ0PMijNitko6BmpvnNPR0txK6KjCCDYpI0BB1QS3iB1U5/1fMbllAlKuqmTItuj1xS
+ Un/yvHx8Kj+P1Ik48IOYXXCYJzv5bhFWBSKfrGYHexB7xFlWLPn8Yf+qiiwbhRNLVM6MR2
+ nj+d1Q5HAbt64nC5wjhrWOVyYvYyYVLyN5L+xgMW8/86t5wQ6FxYLn9kYFUwZQYzIoEb+N
+ Q76G/iMkTNZRWGoqFytF42a46uNGvL7WkTnJ8PRmKI7OLzPqGSwIhUCFeKvzP53oL/8gfU
+ ke+eDf94tKcXVwK8su6oSn4vfSa+Ovnhd0CHRgVQHDZblJOv81zyuIEaaUlvyGNzuhwcpI
+ vKFBghgU5gfTowsFJSFeScH+rp1kOLYmZzL07Knm+Hy+OMGy1MY6DhCPOG5rPw3TGR5Ym6
+ ndEni64B0s1GAmXhZBas5Jl/tY7m5H49ZQmJynh/5E1g8q6Y/NHsqVnJG7bbvbkcJcsWdH
+ QlslewHANpS0gQkwIwAjnS330gHPq+gsAyGf+/Q2LTLRK74iEXTCMJHezrhp8yFgRdv6Bp
+ jUwBFqiJ+iuu0P1/Dp4SkM6N4WM0S1f3+MbDeeAuFAMvYpN7FxFD5LbVNL40FpyOuEPlEf
+ QjB2RIpvhZsR1w4szhmU7lay/za4/llprVDhSG6ekl8GqJYhBuLeGOMWI0xKr72MH+ap82
+ O80orM+epwZGgw9VU5LLpF2yLZ/OUfzADX0l/XlTh5V0LR/1E4DWzE9u7fZJnoX3qOJ7j4
+ pgyMUJLNRl35t6LkrMG9le0JHOm3lSVsrUGi1O9KCSWhmxsIqbMZYhwLXxiyesgVYabGEA
+ UwScY0uu1ttdZQMzoBWd7K5OPfNcgx4hFHhux8HWJiECBYlrwxLiTUz3ClXSVsEMa4OL0d
+ wJ5K5XeFbHOffNyQWjLz+99y00/y3gm0pgoe7pbsLcOiwgRPvuvub76avxqCCqvsqfF6I9
+ q1EQwV/2YAYUHm3ARY10FR0uhpo4vzJmNwXwU2uzMZj3qDVX7J4m/MIyvihQjqVcKbGuwz
+ bmva1B3JOOcaDNh9Q1sJO+W1Ba3zF3mSS9RAHByjQury71WvPmx7cVcIfqslKBseLJXL2z
+ HlZS3GyDil52cqNLiOCiAQ0Fvo7jIxax7m4tTyfeJLTMqq6TGED7Xi+iCgu8GPs4yjxsrp
+ OY/BoTpuWJFvTvVHtioHN0tszNPe8PktwuzfcTsOCOU83hWRqcdSupdxqrLoOWSohind/C
+ 4SiHQf7jvkfg==
 
-From: Riley <riley.redeker@gmail.com>
+From: Vincent Cloutier <vincent@cloutier.co>
 
-The Yamaha ZG02 game streaming mixer (0499:1516) exposes UAC2 audio
-streaming interfaces with a vendor-specific interface class. Only its
-MIDI interfaces get bound today: the Yamaha catch-all QUIRK_AUTODETECT
-entry rejects the PCM interfaces because create_auto_pcm_quirk()
-expects a UAC1-sized FORMAT_TYPE descriptor (bLength >= 8), while the
-ZG02 has the 6-byte UAC2 one. As a result no PCM device is created.
+PulseAudio 16.1 queries supported formats after configuring and mapping
+a PCM buffer. Sharing HW_PARAMS' state checker with HW_REFINE causes
+these queries to fail with -EBADFD because a non-OSS stream has active
+buffer mappings. PulseAudio then fails to create its sinks and sources.
 
-The interface layout matches the Steinberg UR22 (0499:1509):
+Make the mmap restriction optional in the shared state checker. Keep it
+for HW_PARAMS, which can reconfigure the mapped buffer, but skip it for
+HW_REFINE, which only refines the caller's constraint structure. Keep
+the stream-state checks and buffer access locking for native, compat
+and legacy refinement ioctls rather than bypassing their wrapper.
+Leave the accepted stream states unchanged.
 
-  0: UAC2 AudioControl (vendor class), clock source ID 1
-  1: playback, 10ch S32_LE 48kHz, async isochronous OUT
-  2: capture, 4ch, isochronous IN used as implicit feedback
-  3: Yamaha MIDI
-  4: vendor bulk interface
+On Librem 5, both L5 and Modem cards reproduce the failure for playback
+and capture: refinement succeeds before setup and after RW setup, but
+fails after MMAP setup in PREPARED state. With this change, all eight
+cases pass, PulseAudio starts normally and audible playback works.
+The reproducer does not start streams or transfer audio data.
 
-Add the same composite quirk and QUIRK_FLAG_GENERIC_IMPLICIT_FB for
-it. The generic UAC2 implicit feedback detection does not apply here
-because it requires USB_CLASS_AUDIO.
-
-Tested on a 7.3 kernel with this patch applied (no quirk_alias): the
-card registers as USB0499:1516, implicit feedback is set up from EP
-0x81, and playback (voice chat and game buses) and capture (microphone)
-work. The full channel mapping (playback 1-2 voice chat bus, 3-10 game
-bus; capture 1-2 streaming mix, 3-4 microphone) was verified with
-quirk_alias=04991516:04991509, which applies the same quirk and flag
-entries.
-
-Assisted-by: Claude Opus 5.5
-Signed-off-by: Riley <riley.redeker@gmail.com>
+Fixes: ad28d2f607d1 ("ALSA: pcm: Serialize and check HW_REFINE ioctls")
+Link: https://lore.kernel.org/linux-sound/41a2e39a-5637-8afa-f84f-f79e63b3b56e@xenosoft.de/
+Link: https://lore.kernel.org/linux-sound/874idyx9n6.wl-tiwai@suse.de/
+Assisted-by: OpenCode:GPT-6.1 Sol
+Signed-off-by: Vincent Cloutier <vincent@cloutier.co>
 ---
-Hi,
+ sound/core/pcm_native.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-The Yamaha ZG02 currently shows up with MIDI only and no PCM device, so
-it's unusable as a sound card on Linux.
-
-I've been running the identical quirk via quirk_alias since 2026-11-03 in
-daily use (including voice chat), and tested this patch itself on the
-device: playback, capture and implicit feedback all work. Full lsusb -v
-output for the device is available if useful.
-
-A UCM profile that splits the streams into Game / Chat / Microphone /
-Streaming Mix is going to alsa-ucm-conf separately.
----
- sound/usb/quirks-table.h | 14 ++++++++++++++
- sound/usb/quirks.c       |  2 ++
- 2 files changed, 16 insertions(+)
-
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index 8b2316fe8..e85eeb536 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -404,6 +404,20 @@ YAMAHA_DEVICE(0x105d, NULL),
- 		}
- 	}
- },
-+{
-+	USB_DEVICE(0x0499, 0x1516),
-+	QUIRK_DRIVER_INFO {
-+		/* .vendor_name = "Yamaha", */
-+		/* .product_name = "ZG02", */
-+		QUIRK_DATA_COMPOSITE {
-+			{ QUIRK_DATA_STANDARD_AUDIO(1) },
-+			{ QUIRK_DATA_STANDARD_AUDIO(2) },
-+			{ QUIRK_DATA_MIDI_YAMAHA(3) },
-+			{ QUIRK_DATA_IGNORE(4) },
-+			QUIRK_COMPOSITE_END
-+		}
-+	}
-+},
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 5cbf88da7626..01d9f5ad4ea9 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -776,14 +776,15 @@ static void pcm_qos_req_update(struct snd_pcm_substream *substream, int usecs)
+ 					    usecs);
+ }
+ 
+-static int hw_params_state_check(struct snd_pcm_substream *substream)
++static int hw_params_state_check(struct snd_pcm_substream *substream,
++				 bool check_mmap)
  {
- 	USB_DEVICE(0x0499, 0x1718),
- 	QUIRK_DRIVER_INFO {
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 05a9f6727..7c581e283 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2556,6 +2556,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
- 	DEVICE_FLG(0x0499, 0x1509, /* Steinberg UR22 */
- 		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
-+	DEVICE_FLG(0x0499, 0x1516, /* Yamaha ZG02 */
-+		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
- 	DEVICE_FLG(0x0499, 0x3108, /* Yamaha YIT-W12TX */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x04d8, 0xfeea, /* Benchmark DAC1 Pre */
+ 	guard(pcm_stream_lock_irq)(substream);
+ 	switch (substream->runtime->state) {
+ 	case SNDRV_PCM_STATE_OPEN:
+ 	case SNDRV_PCM_STATE_SETUP:
+ 	case SNDRV_PCM_STATE_PREPARED:
+-		if (!is_oss_stream(substream) &&
++		if (check_mmap && !is_oss_stream(substream) &&
+ 		    atomic_read(&substream->mmap_count))
+ 			return -EBADFD;
+ 		return 0;
+@@ -806,7 +807,7 @@ static int snd_pcm_hw_params(struct snd_pcm_substream *substream,
+ 	err = snd_pcm_buffer_access_lock(runtime);
+ 	if (err < 0)
+ 		return err;
+-	err = hw_params_state_check(substream);
++	err = hw_params_state_check(substream, true);
+ 	if (err)
+ 		goto unlock;
+ 
+@@ -944,7 +945,8 @@ static int snd_pcm_hw_refine_with_lock(struct snd_pcm_substream *substream,
+ 	err = snd_pcm_buffer_access_lock(runtime);
+ 	if (err < 0)
+ 		return err;
+-	err = hw_params_state_check(substream);
++	/* Refinement queries constraints without changing the mapped buffer. */
++	err = hw_params_state_check(substream, false);
+ 	if (err)
+ 		goto unlock;
+ 
 
----
-base-commit: 3f2882212c558336d0bf3b1c03b8e1a6b348a6e0
-change-id: 20261104-yamaha-zg02-d75a8cfdaac1
-
-Best regards,
---  
-Riley <riley.redeker@gmail.com>
-
+base-commit: 05441d697f7f9a927264f4058cbbc6a03dfcac9d
+-- 
+2.56.0
 
