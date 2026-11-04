@@ -1,22 +1,22 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793758461;
-	b=gS2JXf3NUH2vTYlBIQK6kjntFPMxFPBX0kmUSaxf/JUpIy/ucqGtB0or/iJRiZBhoEFs
-	 isTtwC/K1nQ+zgDML6eyZWS7hJ98K5vGSpB5ZzV1msEaFuHhSQuWD65Wql6HlB1Uz18D7
-	 McXdUMVKi2yBaSb1XZx/yOb/DpTcl2t/zvu+tpehlx0Ksdkp8R8D3xSzIm8tTgcXXyPGO
-	 wzzNfZIzyAL8FhFWtK1dBXBl/ee+Z/DYvqzUo7ESQYFqgG+0TjG3VxiO405Q25s6FtXoX
-	 WnBZ5EcVrNYnEB0nHF8/U+YqY6N9xSbqQckzZ/tS9PGLWx5U904+Kw2SUqBcMZLjGTw==
+	t=1793758458;
+	b=xolJSniTOZMWvdgUf5DqpIJIcOL6E8PvUPdWiMb0rkr/AW9aMoF4nmC3VnArk5fO7uN0
+	 GXAVMeYtiA6k0mJJ1KFnFGxG3TDVYgitGhEzycANLxMj4YKOlD7FIqbU+8/D55sdjoQ0E
+	 LDR2bbia1Y4lL76OsUmW8jNbT+dxGwHa3QpaY1ZbOrTrRgSxxMgx/mpcrHS14EtTX1k+z
+	 UUo//BcVug6aAGEBh5zmpbF8z3y5LW4j5Jlm1137Ozoc45d/mTEdU3Z2NtdgEvZrpEfg7
+	 pOfqOX70+6aLQyD7CIxtDR+pb8l1f347y6GW9IarJvDTnmn3TAcZkXiP2YnGOc0ZVOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793758461;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793758458;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
 	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
 	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=sQMTdW7wPKj6QoGszGrBV9vRe2nzNB5kXAWg6mqZW3A=;
-	b=fVB+iyCJl2p/Nd6SECucjp/a9xkI36dTORYuRVsqAgEZwzQyblTM6CSft5SvbUEGKyRt
-	 mgkw8bbd6wJiYYNfqYwRM752ldvRqCj4w3EiuJ0YSrdqQrLEUSKxv5zHGed48aG78P6p2
-	 bIULwDnlztK1AG+IpkvS4p1T3/6zY9ObPv23d8X4tHrRe5CjdwZ4rZXowh6u5AUNGw9+L
-	 IdZeT5QT3BbXnvgtNYOieP+nLWfJqAUZkzFgRxKDhZ6s/K2lmUz6Qg7Amzi7zBM2/8TnB
-	 Ak8gNYnn3Xk7hJpQJCkiTjdC1Qew2/HiPY7EXGW0rqhi3zH3ntp0CFIq692vX8xMXfQ==
+	bh=NsQOfhmEJsYI9NgpqbZnKdoQEGz3y26t5RU5pHQFQGk=;
+	b=QWUDJShh3Ma8iMPqbYzVQ8cTUW787mhtLnKBLctKRwOsK+8SPHTcF906DFh3VnRlygUB
+	 4Z425f0xfa1rOaiVbij+2IBYXk2c1LhjloRlJTZvSdu/eMu1wFMcr2g8MuMnB47hFTuZb
+	 bwi1m9JhNefJqp3lLXVcuwMzsArKRZN1uCwOrF/s+9PyE8Zbbof5Im9uXqgzilYsKBdBi
+	 Why6ak9FV3l+jux+XPMwtV1XlwKjZRLebwGm6bzn2PYl64jZivWHex/fbmrSRyTK9wTbQ
+	 1coP+ctVZO/XhUY2MGPO66Uozujk0jz5yeMKv6X2MgGuOl0QpHANmfSN7+FEuxtJt6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=iscas.ac.cn;
 	spf=pass smtp.mailfrom=iscas.ac.cn;
@@ -25,21 +25,21 @@ Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412D0606A31B;
-	Wed,  4 Nov 2026 02:14:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 412D0606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6A6606A329;
+	Wed,  4 Nov 2026 02:14:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C6A6606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-01 (Coremail) with SMTP id qwCowACHsvz6lOpq5XQ+AA--.5026S2;
-	Wed, 04 Nov 2026 10:14:18 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowABXg_33lOpqzXQ+AA--.27416S2;
+	Wed, 04 Nov 2026 10:14:15 +0800 (CST)
 From: Wentao Liang <vulab@iscas.ac.cn>
 To: Srinivas Kandagatla <srini@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH] slimbus: qcom-ngd-ctrl: put the child platform device on unregister
-Date: Wed,  4 Nov 2026 02:14:27 +0000
-Message-Id: <20261104021427.1468218-1-vulab@iscas.ac.cn>
+Subject: [PATCH] slimbus: qcom-ngd-ctrl: drop the PM runtime reference after a sync transfer
+Date: Wed,  4 Nov 2026 02:14:24 +0000
+Message-Id: <20261104021424.1468172-1-vulab@iscas.ac.cn>
 X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,54 +51,53 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowACHsvz6lOpq5XQ+AA--.5026S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7AF45ZF1rCFyDWw4DCryxAFb_yoW8Jw15pa
-	15Wa4Skan0gF4j9a1jq3s2vFy5Ca42g3yrKr95JFyak395ury7tFyF9a48XFs3ArW8G3W5
-	JrnIq3WruF45ur7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkab7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
-	AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
-	6r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14
-	v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
-	McIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7x
-	kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
-	6cx26r48ZrWUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr
-	4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxG
-	rwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr
-	1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvE
-	x4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07be3ktUUUUU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAMBA2rqY+S5bwABsd
+X-CM-TRANSID:qwCowABXg_33lOpqzXQ+AA--.27416S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7GrW3tryxCrW3tw1DWrWxWFg_yoWDAFXEkr
+	yfWF92yFy5CFnrAwnFqrs8ZrWfZF1kWFy0gwsIva43GFWqvF4DXF4avFZ5Cr1UJw4ayw1U
+	J3Z8tFWrArn7WjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb2kYjsxI4VWkCwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+	s7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4
+	kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_
+	Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI
+	0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
+	Yx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26r4UJVWxJr1lOx8S6xCaFVCjc4
+	AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIE
+	Y20_Gr43Wr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGw
+	C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48J
+	MIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJw
+	CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2
+	z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU82LvtUUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAMBA2rqY+S5bwAAsc
 
-qcom_slim_ngd_unregister() only takes the child device out of the device
-hierarchy with platform_device_del().  That leaves the reference taken
-by platform_device_alloc() in of_qcom_slim_ngd_register() behind, so the
-child platform device, the resources attached to it and the reference it
-holds on its parent leak on every controller removal and on the probe
-error path.
+qcom_slim_ngd_xfer_msg_sync() takes a runtime PM reference with
+pm_runtime_get_sync() and only releases it on the error paths.  On a
+successful transfer the function returns 0 with the usage counter still
+elevated, so the controller can never runtime-suspend again.
 
-Use platform_device_unregister(), which also puts the reference.
+Drop the reference on the success path as well.
 
-Fixes: 8663e8334d7b ("slimbus: qcom-ngd-ctrl: Fix up platform_driver registration")
+Fixes: 917809e2280b ("slimbus: ngd: Add qcom SLIMBus NGD driver")
 Cc: stable@vger.kernel.org
 Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
 Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- drivers/slimbus/qcom-ngd-ctrl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/slimbus/qcom-ngd-ctrl.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/slimbus/qcom-ngd-ctrl.c b/drivers/slimbus/qcom-ngd-ctrl.c
-index 9bee4b376877..9f24fcc5f0e0 100644
+index eb983b6d1815..9bee4b376877 100644
 --- a/drivers/slimbus/qcom-ngd-ctrl.c
 +++ b/drivers/slimbus/qcom-ngd-ctrl.c
-@@ -1641,7 +1641,7 @@ static void qcom_slim_ngd_unregister(struct qcom_slim_ngd_ctrl *ctrl)
- {
- 	struct qcom_slim_ngd *ngd = ctrl->ngd;
+@@ -942,6 +942,9 @@ static int qcom_slim_ngd_xfer_msg_sync(struct slim_controller *ctrl,
+ 		ret = -ETIMEDOUT;
+ 		goto pm_put;
+ 	}
++
++	pm_runtime_put(ctrl->dev);
++
+ 	return 0;
  
--	platform_device_del(ngd->pdev);
-+	platform_device_unregister(ngd->pdev);
- }
- 
- static int qcom_slim_ngd_probe(struct platform_device *pdev)
+ pm_put:
 -- 
 2.34.1
 
