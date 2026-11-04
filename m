@@ -1,22 +1,22 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793760049;
-	b=WlB9QJ4Ktt0mU1ohlVvcavlo+Vu6MlMMNexyCYZEcSEFhyNqF39mnsqJoNoEIH6PVq6N
-	 Uock9G+MOhc0b+WosKFAmgc18fCf2ksK87X2/HcZk9fiMDMab9wQpQyJsu31qhYZSE25O
-	 PYbRLLhvc2k8UVNYBOhwdnoMK/bvaaOyhUbOwk2j5ENUpqzBcW3xv21KL/TYkVDPeLy2N
-	 qUr73R8nMD3UvROJIHqgisbiiqPRbvzv2qCwGtTc5bwbYhUvZTaRN9tneSiyFqS5YE2FB
-	 DxPnpAcLmIY2UUw9qqwiUPbBmV9XAXF0vy3XwG1NwzQfL7vGjFAFNPw7ySULiuWuG4A==
+	t=1793760044;
+	b=Y4/pJla30x7ZWs2FnN7NVNMVWq7OBHdl6fQt9DTbMYoI/MXS7qe26hLquU06uinw36PZ
+	 2X2rHWEftVW3xq6IaWK1CNVrIk0l44T4amujP4eigszNnDcVr6VAGO060q9P0H0P3e2KX
+	 EPrtHsDNnH5P9OqjWRlYv8DmFTcu3vKAgObjuoNoElttQn9lI15ThiF1zI6yrU9vztTWe
+	 qpWPRdAgkYew74IvGSatqHuU1DgwWF4Cy4MGCArTKZLdK9dA5MfEG4PZTlWo8aaIDvreI
+	 jkvQD44NzDLbppCsHEu98S2GwRlC8Q/CYrB8BsC8Q7m66N82egki2s/rcW3FCrRDcBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793760049;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793760044;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
 	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
 	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=Sa+D+dzprkVI3tIOAtO1m4XfnZeM3jvqoRm5YNJEvJQ=;
-	b=x6eokKMTFHe4Sr9EV8tEH05dvhuOK3kjzVKXMJpFC+lCsMkYQDoyVUk03Whn5PG3RUDa
-	 dYLAvHo7cNoIlt5hUMyQSuQ+7At2ezug1z2tApT84uEjyHHNSYdYOUbnX83JNJ0/Vqadh
-	 OQiLnQ+dS1UORZDomng3JouGwrjMu4xhGSwF+7SOlaz1Rle9f4/6li2+o/sNAQOg3T/e8
-	 l07K9DoJ7jnjba/PYRA2bG2LZ0bEhd2F0dRd66WzsPCfFdWHo3AM0bRbcsIp/W/Gvp4Wc
-	 yskWjZct5CkSFcGgBKNGf++LWpMm/DYwI9hiQFlxxR1gGf2LDUOqhz7o/TM8jtPLWag==
+	bh=Opg9v+YpeyMpqKoJTHUQ4Wtp+2FW1oixCC8F3nDorwU=;
+	b=AjgwGwdLp0Bfna1HJ6PNJ9xkQHAqBwqzeyg3UoRxrVVg3nDUWtY6JSBU3cmo9N/7hyx6
+	 BQ8bRAZ5XGILq902/yqpxxBObIFCa8xOgb4jxbadOzntVBo/PpaEwhhj3KXT8Lg3NarBn
+	 eBC7Qtz6D5DLh+v6WXmd+KDRJqVrukaRbe8TvPbwa8TJRAPk+jThsUEGvs+MDcnKCiDTF
+	 nXGaRA95ejViNgiZlsmzwhpbudvchJb+//MFuvUD2vmxBLSGSuE26Ofv6zftXICcTM7K3
+	 YkiDxeGgwS8wXU3BOKXASYTD6b4p90Vr78QK+IFDYEPGbiYxb3PH7z+pTjiNDLI5eJQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=iscas.ac.cn;
 	spf=pass smtp.mailfrom=iscas.ac.cn;
@@ -25,28 +25,25 @@ Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A814606A333
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 02:40:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A814606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F8B606D801;
+	Wed,  4 Nov 2026 02:40:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1F8B606D801
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-01 (Coremail) with SMTP id qwCowABHcfskm+pqHrk+AA--.42584S2;
-	Wed, 04 Nov 2026 10:40:36 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowADH8_0lm+pqNrk+AA--.9831S2;
+	Wed, 04 Nov 2026 10:40:38 +0800 (CST)
 From: Wentao Liang <vulab@iscas.ac.cn>
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+To: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org
-Subject: [PATCH] ASoC: Intel: sof_cirrus_common: release the physical device reference
-Date: Wed,  4 Nov 2026 02:40:45 +0000
-Message-Id: <20261104024045.1508525-1-vulab@iscas.ac.cn>
+Cc: linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: [PATCH] ASoC: qcom: q6apm-dai: close the graph when compress open fails
+Date: Wed,  4 Nov 2026 02:40:47 +0000
+Message-Id: <20261104024047.1508584-1-vulab@iscas.ac.cn>
 X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -58,69 +55,78 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowABHcfskm+pqHrk+AA--.42584S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFW8tFWrXF45Ar1DAFW8JFb_yoW8urWrpF
-	s3Wa98Wr98Xr1rua4UAr15uF17ury7CF4fGr1vka95Cr1fWry8ZF9Fqw10vF15GrWvqF1D
-	AFW5Zr1rXwn0yrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUBjb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+X-CM-TRANSID:qwCowADH8_0lm+pqNrk+AA--.9831S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZrykKFyUCr45tw1DGF1rWFg_yoW8ur1fpa
+	yrKFZ8try8uFyxCr9rKrn5G3WagrWkAFWDGw4Iy340y3W3Jrn3ury7tr10gF4aqFy5Gan5
+	X39Fqry5Kwn3G3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvlb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
 	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
 	AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
 	6r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14
 	v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
 	McIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7x
-	kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kK
-	e7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r48ZrWUJr1UMx
-	C20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAF
-	wI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20x
-	vE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAv
-	wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267
-	AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07befHbUUUUU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAABA2rqY+TXGwAAsF
+	kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0E
+	wIxGrwCF04k20xvE74AGY7Cv6cx26r48ZrWUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI
+	8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
+	xVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI
+	8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
+	87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvj
+	DU0xZFpf9x07b5lk3UUUUU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAABA2rqY+TXGwADsG
 
-cs35l41_compute_codec_conf() looks up the physical device of each ACPI
-CS35L41 node with acpi_bus_get_primary_device(), which takes a reference
-on the returned device, but the reference is never dropped because only
-the device name is kept in the static codec configuration.
+q6apm_dai_compr_open() opens the AudioReach graph before allocating the
+DMA buffer and handing it to the DSP. If the allocation or the SCM
+assignment fails, the function returns without closing the graph. The
+compress core does not call the free callback for a stream that failed
+to open, so the graph, its AudioReach reference and the private data are
+all leaked.
 
-Copy the name into a per-amplifier buffer that lives as long as the
-static configuration, and release the reference right after the lookup.
-Card setup no longer leaks one device reference per amplifier.
+Unwind the graph and the private data on both failure paths.
 
-Fixes: 1ca726424a12 ("ASoC: Intel: cirrus-common: Use UID to map correct amp to prefix")
+Fixes: 88b60bf047fd ("ASoC: q6dsp: q6apm-dai: Add open/free compress DAI callbacks")
 Cc: stable@vger.kernel.org
 Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
 Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- sound/soc/intel/boards/sof_cirrus_common.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ sound/soc/qcom/qdsp6/q6apm-dai.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/intel/boards/sof_cirrus_common.c b/sound/soc/intel/boards/sof_cirrus_common.c
-index c7e77e20a096..12124917b552 100644
---- a/sound/soc/intel/boards/sof_cirrus_common.c
-+++ b/sound/soc/intel/boards/sof_cirrus_common.c
-@@ -45,6 +45,8 @@ static struct snd_soc_dai_link_component cs35l41_components[CS35L41_MAX_AMPS];
-  */
- static struct snd_soc_codec_conf cs35l41_codec_conf[CS35L41_MAX_AMPS];
+diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
+index 6c0245e92d3a..94af3b79c61d 100644
+--- a/sound/soc/qcom/qdsp6/q6apm-dai.c
++++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
+@@ -834,7 +834,7 @@ static int q6apm_dai_compr_open(struct snd_soc_component *component,
+ 	size = COMPR_PLAYBACK_MAX_FRAGMENT_SIZE * COMPR_PLAYBACK_MAX_NUM_FRAGMENTS;
+ 	ret = snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV, dev, size, &prtd->dma_buffer);
+ 	if (ret)
+-		return ret;
++		goto err_close_graph;
  
-+static char cs35l41_physdev_names[CS35L41_MAX_AMPS][64];
-+
- static int cs35l41_init(struct snd_soc_pcm_runtime *rtd)
- {
- 	struct snd_soc_card *card = rtd->card;
-@@ -175,9 +177,11 @@ static int cs35l41_compute_codec_conf(void)
- 					uid, cs35l41_name_prefixes[uid]);
- 			return 0;
+ 	if (pdata->use_scm_assign && !pdata->has_reserved_mem) {
+ 		ret = q6apm_dai_scm_assign(pdata, prtd->dma_buffer.addr,
+@@ -843,7 +843,7 @@ static int q6apm_dai_compr_open(struct snd_soc_component *component,
+ 			dev_err(dev, "SCM assign compr buffer failed: %d\n",
+ 				ret);
+ 			snd_dma_free_pages(&prtd->dma_buffer);
+-			return ret;
++			goto err_close_graph;
  		}
--		cs35l41_components[sz].name = dev_name(physdev);
-+		strscpy(cs35l41_physdev_names[sz], dev_name(physdev));
-+		put_device(physdev);
-+		cs35l41_components[sz].name = cs35l41_physdev_names[sz];
- 		cs35l41_components[sz].dai_name = CS35L41_CODEC_DAI;
--		cs35l41_codec_conf[sz].dlc.name = dev_name(physdev);
-+		cs35l41_codec_conf[sz].dlc.name = cs35l41_physdev_names[sz];
- 		cs35l41_codec_conf[sz].name_prefix = cs35l41_name_prefixes[uid];
- 		sz++;
  	}
+ 
+@@ -857,6 +857,13 @@ static int q6apm_dai_compr_open(struct snd_soc_component *component,
+ 
+ 	q6apm_enable_compress_module(dev, prtd->graph, true);
+ 	return 0;
++
++err_close_graph:
++	runtime->private_data = NULL;
++	q6apm_graph_close(prtd->graph);
++	kfree(prtd);
++
++	return ret;
+ }
+ 
+ static int q6apm_dai_compr_free(struct snd_soc_component *component,
 -- 
 2.34.1
 
