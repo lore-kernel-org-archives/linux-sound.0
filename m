@@ -1,116 +1,109 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793776939;
-	b=HW2qGCWmYOhsm8WODmMO6I6uWQrwr1D7o+cBRWoww4A6lPBVH0jZzu707G/S1LKOzCc+
-	 PNfaUvfxTVBWi+7bjSXD6H0rEKKPEawzpZC84ZRPdXBBz6pj12XuFVK0LugOhRGGIYCkP
-	 rlnwbmx+bg/dbpGsKThxiwG1/3e3YS5S7shy2HC4FR2dtxJMOw3z6hczUlLtrQur9xEG/
-	 Qow2fYAkNGYr84512T7yXk3a1Elirks4fjPGXGJepzqIOnRIk6PRB+ET6g8N7F38u+tA/
-	 BpnQ+YOwFVAeULf526kWUEI1W7Tt25kcuS9Zke2kSDeDXGODraWg9xCCjyJtxbHuXIg==
+	t=1793777295;
+	b=fnJVIHZSTLHy+UIp1SAr1tKMkHgmhb3pCtY61U1Ew0nBW1UC1G4LHDkHNQ7RHsuuGwSh
+	 oRKojgSiV0FnVBbyoXhLgiJ4VrstCY0dAx42WtUZvACIRAFlCXjgt29BrwHtA9Kra2YIs
+	 7Ozj3VxWJRx9vOX/vNVJnGlkrLxsE1b2Y8eep5rOF0IGJQanMZjvZ7tf72lmdrbIT8kf4
+	 rTxeQ+4MffAc2RrkeiHNW4mCcvo8ASNbzhqkbWz3igW6Xe1H8pvi0yuArsYLbrVhyI6m3
+	 pnVlFhsIPvHpRiT71fTf6T8evFiVwcb3DnC4IaOSCTbXoUY43nWXUHyw0qckdDTl2vw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793776939;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793777295;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=+H1Cs3HEyvTi0DffUo23ljDUGdJ2HE+qMvgJ+s00WfY=;
-	b=cFDncYgMJK1ZIFi1f/zzfjTac50TiqDk/YFxxmNj0ClTxv/t072dONmiytPG42JA5dfL
-	 OqnrjpMcpcQaaygQ3udLBC1SG/eoYK+qA9hr6rPGk8vosoOYlXo5tpboKOLntjjmiCcYS
-	 qgN6Xfx3Z1lNKUTjJ4WcnL82EjKUwpV6/eQMNn5zQc/6T4fw9cFcFolAqvTsgRcfNmNYu
-	 J2VxCCunDlHiVpIOM31IeQkFnC2c0z/sEtR+5M4DLzrBkKBZk6vUIDonglQ6H9sKXVHqr
-	 WRwScjU8Rk4k70hjealZRuGLsWTrVD8/JxcDcKnIaKK5p2iognVty/fXimldw2dUCEg==
+	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=Cs+H3h98GfSASeJhgoOBtq8wjY9dLbCYg+HjD0WUZmw=;
+	b=5Y88iR7/ADqTpgPGfBNs5lt/MOUODD9umAWGBFC4Lu47UtueRRATTqGtYHWp4SiBWox3
+	 9idR0wnN+rMIHvR9D14aEvE4zCgrBoABxfq88itf4+lX81dQzHdmB0fZnbVvdx5OrdAvG
+	 Z2u7lza5FSEhiR8I1FHXRuXMyUoEM3LyU7pa1Itxt78r5M2fUEaE2ZOVkZaTaoqX2ZwJN
+	 doA014pzFh/X13LsX4KLmdD5WbqImPQGz7RKAVRYyAbTUBbXaAcgJuxYpJ79Moiix+sJ/
+	 LlLoSn10MZ2cRMw3IkwCVfuTwSqsNdmz3HrEsBT70wkn54HXLbcSMsEka8NL3v3IBPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=aVIeYbJr;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=RyR2Wjy7;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=SCvLAOdw;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=LXTAZYF8;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gajlb9r1;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="Rr9ht7/O";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=tbzDb26b;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=+wlGik5j;
 	arc=none smtp.remote-ip=195.135.223.131
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FF6606EE8B;
-	Wed,  4 Nov 2026 07:22:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4FF6606EE8B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD56606A31B;
+	Wed,  4 Nov 2026 07:28:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EBD56606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=aVIeYbJr;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=RyR2Wjy7;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=SCvLAOdw;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=LXTAZYF8
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gajlb9r1;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Rr9ht7/O;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=tbzDb26b;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=+wlGik5j
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B65481F7A7;
-	Wed,  4 Nov 2026 07:22:16 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D62421F832;
+	Wed,  4 Nov 2026 07:28:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793776937; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793777293; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+H1Cs3HEyvTi0DffUo23ljDUGdJ2HE+qMvgJ+s00WfY=;
-	b=aVIeYbJrplvCL5G6I/2q8kHt3LGCWu8wmC+u0EaWRLuOTuk+Hfna/vv2a9h3T4L6Mup8Dg
-	+Mm2g8SvyGVcFxB+plgOYZP9btw34qvmj9d+I80h5NmKU+AJ5Un/GOYTDILubpxSXTRM+x
-	5sN1jblXblTXl/jyEyYtR0AiDVXKDHo=
+	bh=Cs+H3h98GfSASeJhgoOBtq8wjY9dLbCYg+HjD0WUZmw=;
+	b=gajlb9r13J45QLnHL786DIxXHFcWigcOgmjT5emPz69FH4kZyFBjtDyqY/5SzpX1D8fxhZ
+	D0aIW7b65kcswDGEM2bgN5qaU7uTsqud7Y9spyHbx8xHZpFWlN8mZoyLdn7fL6Ygb7/3i8
+	5DHZWKExvzRtVJ8c3AIA4PeZ1/PAj7M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793776937;
+	s=susede2_ed25519; t=1793777293;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+H1Cs3HEyvTi0DffUo23ljDUGdJ2HE+qMvgJ+s00WfY=;
-	b=RyR2Wjy7SWm0bZMtg7L98LfqYJ4PkxNMIFIqktPNjN2N5eVf8Qhs7GEVP1ueK4tA5ze7Z/
-	dOCsG4kdCiuHnZAQ==
+	bh=Cs+H3h98GfSASeJhgoOBtq8wjY9dLbCYg+HjD0WUZmw=;
+	b=Rr9ht7/ONBeCUZ74H5MzEvHOWpuR66Cdaso9DUp0oX7/H/PeriErn6JcxUEFl1IZ+i0UDm
+	5TOzBdzF9K83csBg==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=SCvLAOdw;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LXTAZYF8
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tbzDb26b;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+wlGik5j
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793776936; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793777291; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+H1Cs3HEyvTi0DffUo23ljDUGdJ2HE+qMvgJ+s00WfY=;
-	b=SCvLAOdwIhb+0Jj74xa6aMeE6P7C9VY9wVcjf2Pai/IvonOVTa/qJrfDKupdy7NEgSN7yJ
-	KDCQIiOGdsy2IG49u3k3AXz1ufppdH+eZQ92dx/jzVMsser69IAort/VTXg8P+q14DkYgI
-	JBhGk7KEAwzWHCs2TbjRFrMJst9Lpww=
+	bh=Cs+H3h98GfSASeJhgoOBtq8wjY9dLbCYg+HjD0WUZmw=;
+	b=tbzDb26bOcoaEDhGhjAqajJj0TP7ed+GxNSxHQzbCulVXIeQc60DPmyMdQjDDKciRNbV0i
+	AWD1xcYIVcSeq979KB5ZGf6OvvwVY0+ZT09/VndYXIPiUrJrx75dXl8SZm/oetqLR7E8Vk
+	3JwUo3aJkfRIC5sM7JSian/Wl1YYeig=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793776936;
+	s=susede2_ed25519; t=1793777291;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+H1Cs3HEyvTi0DffUo23ljDUGdJ2HE+qMvgJ+s00WfY=;
-	b=LXTAZYF8b+NWDtflu8zU1wbKqEVy7QpLhTCB12urZ7gWrEm7XAVsW5UOQ3RrJpro6ACwJW
-	XL0m6n5hJwsDQQAA==
+	bh=Cs+H3h98GfSASeJhgoOBtq8wjY9dLbCYg+HjD0WUZmw=;
+	b=+wlGik5jwdGVzrew4O963nDmcfLpqtM9ypzmuzGFCIhV4tGx4BTSs6eJoexkG17lLLKotA
+	kOctVV9gft4LZJBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4BC6A134A5;
-	Wed,  4 Nov 2026 07:22:16 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 87A78134A5;
+	Wed,  4 Nov 2026 07:28:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OHNwCSjd6mpeMwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 04 Nov 2026 07:22:16 +0000
-Date: Wed, 04 Nov 2026 08:22:15 +0100
-Message-ID: <87pkwlukm0.wl-tiwai@suse.de>
+	id KwGrF4ve6mqXOQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 04 Nov 2026 07:28:11 +0000
+Date: Wed, 04 Nov 2026 08:28:11 +0100
+Message-ID: <87mrrpukc4.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: med.jebabli@gmail.com
-Cc: regressions@lists.linux.dev,
-	Cristian Castellano <cristian.castellano@icloud.com>,
-	stable@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.com>,
+To: Rafael Medina <rafael@gexdigital.net>
+Cc: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>,
+	Devin Christensen <dchristensen8@proton.me>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thorsten Leemhuis <regressions@leemhuis.info>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Sen Wang <sen@ti.com>
-Subject: Re: [PATCH] ALSA: hda/tas2781: Only accept CRC-less V1 data if all entries are valid
-In-Reply-To: <20261103-tas2781-v1-nocrc-fix-v1-1-a769c27f21ce@gmail.com>
-References: <20261103-tas2781-v1-nocrc-fix-v1-1-a769c27f21ce@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/ca0132: Restore AE-5 audio registers after LED strip send
+In-Reply-To: <20261102225723.123266-1-rafael@gexdigital.net>
+References: <20261102225723.123266-1-rafael@gexdigital.net>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -122,80 +115,66 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: B65481F7A7
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-11.01 / 50.00];
+X-Spamd-Result: default: False [-12.51 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
 	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_TO(0.00)[gmail.com];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,icloud.com:email];
-	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,icloud.com];
-	FREEMAIL_CC(0.00)[lists.linux.dev,icloud.com,vger.kernel.org,suse.com,perex.cz,leemhuis.info,ti.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	TAGGED_RCPT(0.00)[];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
-X-Spam-Score: -11.01
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,proton.me:email,gexdigital.net:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -12.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: D62421F832
 
-On Tue, 03 Nov 2026 10:27:12 +0100,
-Mohamed Yassine Jebabli via B4 Relay wrote:
+On Mon, 02 Nov 2026 23:57:23 +0100,
+Rafael Medina wrote:
 > 
-> From: Mohamed Yassine Jebabli <med.jebabli@gmail.com>
 > 
-> Commit 408249089c48 ("ALSA: hda/tas2781: Accept V1 calibration data
-> without CRC") only checked the first device entry. On machines where
-> the BIOS populates fewer entries than p->ndev, the remaining all-zero
-> entries are applied and tas2781_cali_preproc() divides by zero on
-> playback open.
+> The AE-5 LED strip transport added by commit c3e35f355fad ("ALSA:
+> hda/ca0132: Add Sound BlasterX AE-5 external RGB LED strip support")
+> reprograms the CA0113 audio serializer block in BAR2 to clock out the
+> WS2812 data, and at the end clears only the stream routing register.
+> The format and channel enable register at 0x100 is left at 0x3000ff8f
+> instead of the 0x00000700 it reads after a normal codec init, and the
+> analog outputs stay silent until the codec is initialised again.
 > 
-> Accept CRC-less V1 data only if every expected entry is non-zero and
-> self-consistent (R0 * 1/R0 close to 1.0), otherwise reject it as
-> before.
+> The strip control is marked volatile, but alsactl still stores it, and
+> the udev rule runs "alsactl restore" for every card probe. The saved
+> state of a card that never had a strip attached contains "AE-5 LED
+> Strip" and "AE-5 LED Strip Count" with access "read write volatile".
+> ae5_strip_ctl_put() sent a frame even when the colors were unchanged,
+> so every boot of an AE-5 or AE-5 Plus ended with a silent card.
 > 
-> Fixes: 408249089c48 ("ALSA: hda/tas2781: Accept V1 calibration data without CRC")
-> Reported-by: Cristian Castellano <cristian.castellano@icloud.com>
-> Closes: https://lore.kernel.org/all/4e500063-d985-46b6-a0a1-3feaa77c4b2f@leemhuis.info/
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Mohamed Yassine Jebabli <med.jebabli@gmail.com>
-> ---
-> Cristian, could you test this on the Yoga Pro 9 16IRP8? With the fix,
-> the driver should log "V1 CRC error" again and fall back to default
-> parameters, as it did before 408249089c48. If it still logs
-> "accepting", p->ndev is 2 on your machine and the root cause is
-> elsewhere, so please send the full "dmesg | grep -i tas2781".
+> Save the registers that the transmit touches before programming them
+> and write them back at the end of ae5_strip_send_frame(), and do not
+> transmit from ae5_strip_ctl_put() when the colors did not change.
 > 
-> Takashi's re_cal check in tas2781_cali_preproc() is complementary
-> and still worth applying as a safeguard.
+> Fixes: c3e35f355fad ("ALSA: hda/ca0132: Add Sound BlasterX AE-5 external RGB LED strip support")
+> Cc: Devin Christensen <dchristensen8@proton.me>
+> Signed-off-by: Rafael Medina <rafael@gexdigital.net>
 
-As the code looks safe enough, I applied now.
-Let me know if the problem still happens.
+Applied now.  Thanks.
 
-I'm going to submit my zero-check patch as a further hardening, too.
-
-
-thanks,
 
 Takashi
