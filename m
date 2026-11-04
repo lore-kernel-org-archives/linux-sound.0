@@ -1,60 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.19
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793752207;
-	b=CD7ZOIZIIdajj1ytkYFlKeARxSh/aQU9qEMXBl7LLu+1tnOf6NQvoAn8+7d8EtEOuKaw
-	 AG0PbOF17C59m8DFJEAmq/tNU03WLcC/Gynw5+YkwzyudMEqyqPgIZ8sB+55PJkBX3s+y
-	 QbTHZ+i44ILgwh6yaOcQwRn3+kDD9y7jx8IHg7FpUefs+XWhj+IsQWKgu0jMNNsjv5t1u
-	 0gvW2AUrhGjKVDubfLscHDoEIyDcBVfDMkyzgqgdx5ITw1KSG6syvjkxf53NGXNydzg0N
-	 fkPTofGw7yyNGiOjyE+nmYVNMjiaqrPia5BySv50PRySlF5CzLq1FdOAKXgkZkA8J2A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793752207;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=L/m7oJyhFTGqB4Viq7ESs4c6x4/iAJeiP9E3QqgTO4Y=;
-	b=ghesfaeGJs4ei/kfrCAjCU87mtEmn6oDDlFlQd2rvBrKsjiMIKFlwRTU38k4O37CqMj6
-	 6gir24iMaIDN5KD2uk9aqJHa4IHwCX6yGrCBrSmGKWXZtTNRyIsBq7+LmWpx+/WNA3tlo
-	 XJ8oR1vRMt58I7AbiWhh//ktxk3qg6EmxOjQA0ePdSI/n1DCJwFkMoIYq6Kp5UnUrW8lT
-	 4z6Bjtg8Wm9nSuRwKJ3V6/DgpTezeO1OEJwP00i5SxaYixQwXN1SQ/R+tbBIM4QnLp2MJ
-	 OrfRiaan2qbJGHnhBIpcDRm2q5193uPY00ywxcIaln3IgIPOA8anccgfXiP8+qrFCgA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=protonmail.com;
-	spf=pass smtp.mailfrom=protonmail.com;
-	dkim=pass header.d=protonmail.com header.i=@protonmail.com header.a=rsa-sha256 header.s=protonmail3 header.b=FHUFlbwo;
-	arc=none smtp.remote-ip=185.70.43.19
-Received: from mail-4319.protonmail.ch (mail-4319.protonmail.ch [185.70.43.19])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793752780;
+	b=Wlh1czhrLKUhPiB+xah8k86HvXZUJAhHIjNgElyDIDK38Xci+aesfUD3deYEZ6x4YOgk
+	 pk9AU8lgYGj54LgmeGCXVZbthP7dwQ0lmfIWVAD0hI8q/5njLdYJjB+QdiFe0C699EaFB
+	 7ZFzU5h+BtcDK+mD1KEX+9eAvBQVzZwJXN1BlVnB1vwiXEuxAqwlJXaumK+qNx2Hj2vs4
+	 DJnTBKivHUf1YjQUk8kxZQNynwEISB9/ECcim5ou7IJMkpLtQqmoA6LrLtC2lThsXPaMv
+	 NjW/y5NIpHY1SZM4gmdHBVG5q20zIObqqoVNJh68d4v+t3gzJnLx2P0ejH+trMhaBLw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793752780;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=+O+pkPnJezxUbDLb9nqWUUW01sXrmpX00Gprg49lIhY=;
+	b=dIp3BfYBcVC+uOv+kir1tAYT8f28oGyo4+xeYJ/1IwpM1HjYQDuZgX5y1ggGcOJ1VH9p
+	 j9kVxx5g7WV/ntblslBTFpVE8g5+Q43ouaYifKlmJSOV7VCCOhW2RePo/2RAy9yW/7n1y
+	 /KoILB1RcKsPFrW6Xxwo0xfDriEPsgdRoDSJZsa/p2WknEbO4zvTEVG4p5oNScIcV0UYs
+	 U46dR0FkypNela9/kv/XRRh+3ADdIsU0pmsYN7D9dJuKPDywukbWwcS8JYfcc0U7mvU9l
+	 24NG6IzitZUNJpIvKeTTe5h5fKh/Vw8k5TPMJlu33cPzNORObqlDJKo2/NIQzhkHIuQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="UG/+EVFf";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE88D606A328
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 00:30:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE88D606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B7F606A31B;
+	Wed,  4 Nov 2026 00:39:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=protonmail.com header.i=@protonmail.com header.a=rsa-sha256 header.s=protonmail3 header.b=FHUFlbwo
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1793752203; x=1794011403;
-	bh=L/m7oJyhFTGqB4Viq7ESs4c6x4/iAJeiP9E3QqgTO4Y=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=FHUFlbwotUnf8wyn+Xv06vx1YY99P/bxxyOmN9iilyeMuDf3w+A9OjNcCHBFecW/d
-	 Gij4zet0I2yI8BT6RRLwM/2ptz6B3xgFIKtTZptFQDariEgdOe3+0urGfWXdfULXNp
-	 Zxc5es1wTs4V82Cfewc4Cj2q4oti88uhPoHlfymFFXZv6bg4Ro8uLV2lMtjg+6CQb+
-	 i8yGLrbx+026DwmENOSP7qTDwZVVOIcM1pxBEmsIB5hqu5k6fjbdQLGlfQrrdIyyN6
-	 yP0vnvqMmkwqdxE8EPw2yxPNhSiWyiBZ0Vo0JO1ttkSA+ZQT/+/mHufG8frcRy2hNS
-	 gM4C8rJocJnwA==
-Date: Wed, 04 Nov 2026 00:29:58 +0000
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-From: Ned Blake <ned.blake@protonmail.com>
-Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: Re: Lenovo Yoga Pro 7 15ASH11 (83W5): constant hiss from speakers during playback, headphones clean
-Message-ID: <kKlCkdjqp0g4tLyK_ty5jkmh8G5IhXcDE_y5v6pUlFr0thaI2HH-m33k0X54z8JSkSX594dh9nYEEw6bAJfNn8OaEiMyAFnIl7V92NBp0Oo=@protonmail.com>
-In-Reply-To: <auhqRXI16ubRPCo8@opensource.cirrus.com>
-References: <j42YdZOPMn1UBkfj2HTDC9cUW9vO0S1GjRdS8xTrWu35DTCOKAoa6gR7N0ZZF_JX_6_HOjF1Pj0PFqrmMsSlSYTEVNa6IW88dq8caB07pRw=@protonmail.com> <auhqRXI16ubRPCo8@opensource.cirrus.com>
-Feedback-ID: 42001000:user:proton
-X-Pm-Message-ID: 9273cd9350269589857e9d5f144ed3c0a9da1c97
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UG/+EVFf
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793752779;
+	b=PvtT+iyxeIaSzZiAI+mV+EYlyPoq9UyVeEhjjOBIdQG8Qc4sCVLj6v+vwJgpZ00Z6vqm
+	 5P6E6d6gN0svgdfjValzzyHdYb6bWmiZSlKe8vjYHmAzBwD+0Ht+RlsQiEG6ys4U+nSFq
+	 A6ke/g5vlCLYGAdqVTViTNO8T3xizqFvgTqK9vnZI68l5pkpAL1a3kaFMe049FSEgtVco
+	 KRTqpoYGeEZCpk/FKhKQQ1N6k/MID9zSN+N+Pc2Z7VHaHr6dBjRar26xnmH9/CQRZiWPv
+	 g6N4+m2wy8GSFDqYVR+bhDSi5Gj3bu2nkCYirhuGOCZ8MHqkKDZ1f+v+fApmQXN9X3g==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793752779;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=+O+pkPnJezxUbDLb9nqWUUW01sXrmpX00Gprg49lIhY=;
+	b=AGULh2LhGebvoFrYVbGtvHnhNLg4RIOBuUjZn9oDFohGfLEm3cf2GOeeEawspaQmwjcz
+	 pRJjqOxcv8mk+o9Nhu+VI7DrELJrI63tujPTrsvZ5xKRBv8Ek56GPuxXrKVbaIRd1KjYK
+	 cO0VYBRiOXCUlolvZ9G9aKdqAbuDiJjhM6lBPrwOPfOmKOvNbWKV9D5GO0pOqfm2kfvE1
+	 mP3SHCvLIoEc7MKACFEFsKfDed/MRsOKMIdc7BEYrG1e5V/r14yEdkOpm6d5LzeGVyKBk
+	 qNDXh5hq43sg5GDRpk4U78DQA/uTKd52lE39Xg9HYVxACN2j33smX1RMBBEPxyzYUyg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 16AD91F000C1;
+	Wed,  4 Nov 2026 00:39:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793752779;
+	bh=+O+pkPnJezxUbDLb9nqWUUW01sXrmpX00Gprg49lIhY=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=UG/+EVFfZZlnGC46q7fUFz/14rT7VKNNh2beb/zT/4JRH2Njc4Ys/MxJN40uIJJwC
+	 cLCIqH08xBp5jaYgEX5IDgf9bouTDbhn6z1amx/rSHyrtKBseO2HaVafb9y7T3w0fo
+	 EixrI4cGnXjmnTe0c3aZsdFbmSIfJtuKfy1nBsApF6GRE4api3jQwRwzy3wXqG0Ljh
+	 GLByTqUhf4N5mCOhudC50qPTP1XT0M/0JusG2meDRAv5ND8X4SKkPdXG8zIQtq6Q62
+	 Tu64SphZl2qBZYqn9Y0d20YPsVZWDlH4WWV+ea5IZUUisJv2vjlon6TQk5PlDUdaLc
+	 Uebj2X5GBAAAA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 9907E46B9B;
+	Wed,  4 Nov 2026 00:39:38 +0000 (UTC)
+From: Riley via B4 Relay <devnull+riley.redeker.gmail.com@kernel.org>
+Date: Wed, 04 Nov 2026 11:39:38 +1100
+Subject: [PATCH] ALSA: usb-audio: Add quirk for Yamaha ZG02
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,68 +82,123 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261104-yamaha-zg02-v1-1-3fd61b8c564f@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDQwMT3crE3MSMRN2qdAMj3RRz00SL5LSUxMRkQyWgjoKi1LTMCrBp0bE
+ QfnFpUlZqcgnICKXaWgCuY3tBbwAAAA==
+X-Change-ID: 20261104-yamaha-zg02-d75a8cfdaac1
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Riley <riley.redeker@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793752778; l=3436;
+ i=riley.redeker@gmail.com; s=20261104; h=from:subject:message-id;
+ bh=QfAs+gUhXiKkL5wB51Zjd56vxHsgYEBg+Im4XPnvZHo=;
+ b=REIeVRBrNFUpjO85xAq43voKcSvOApMyTOUHbvak5DKrYqtr9s3PFhA0CB3t7hjtpFJ1N+5PC
+ pmdQ+FwIXqJBomg5u7X2T/T+yrNGr5qH7U28vXdfCg+jYGVwMW51bZD
+X-Developer-Key: i=riley.redeker@gmail.com; a=ed25519;
+ pk=wo/NEUhxXVG+kr+llQuIWhIFFvK0zNLuzLmkrUPQBR4=
+X-Endpoint-Received: by B4 Relay for riley.redeker@gmail.com/20261104 with
+ auth_id=1401
+X-Original-From: Riley <riley.redeker@gmail.com>
+Reply-To: riley.redeker@gmail.com
+Content-Transfer-Encoding: 7bit
 
-On Monday, 2 November 2026 at 10:47, Charles Keepax <ckeepax@opensource.cir=
-rus.com> wrote:
+From: Riley <riley.redeker@gmail.com>
 
-> On Fri, Oct 30, 2026 at 11:44:02PM +0000, Ned Blake wrote:
-> > Hardware
-> > - Lenovo Yoga Pro 7 15ASH11, DMI product 83W5
-> > - Codec: Realtek ALC287 (codec SSID 17aa:3960), PCI SSID 17aa:38fc
-> > - Two Cirrus CS35L56 amps (cs35l56-hda, firmware ...spkid1.wmfw)
-> > - Kernel: 7.2.11-ogc4.1.fc44.x86_64 (Bazzite, Fedora 44 based), PipeWir=
-e 1.6.10
-> >
-> > Problem
-> > Constant hiss from the internal speakers while audio is playing.
-> > - It stops when playback is paused.
-> > - Its level does not change with the volume slider (tested at very low
-> >   volume, e.g. 5%).
-> > - Headphones on the 3.5 mm jack are clean; the speakers still hiss.
-> > - Persists across reboots.
-> >
-> > Observations
-> > - dmesg: "ALC287: picked fixup for PCI SSID 17aa:38fc", both CS35L56 am=
-ps
-> >   bind and load firmware normally. No audio errors.
-> > - Muting either the "Speaker" or the "Bass Speaker" switch silences all
-> >   speaker output, so they cannot be used to isolate the noise.
-> > - Auto-Mute Mode is Disabled: speakers keep playing with headphones plu=
-gged in.
-> > - Pin routing (/proc/asound/card1/codec#0):
-> >   0x14 (Speaker) -> DAC 0x02
-> >   0x17 (Bass Speaker) -> DAC 0x03 (same DAC as headphone pin 0x21)
-> >
-> > Not tested: other kernel versions, changing AMP1/AMP2 gain.
-> >
-> > Happy to test patches and provide more output (alsa-info, full codec du=
-mp).
->=20
-> Could you create a bugzilla on: https://bugzilla.kernel.org/
->=20
-> Attach an alsa-info and make sure to add patches@opensource.cirrus.com
-> to the ticket.
->=20
-> Could you check adjusting the "... Speaker Playback Volume" controls
-> manually, would be curious to see if that helps? My gut feeling
-> says this is the I2S setup being slightly off and some quirks
-> are needed on the Realtek side. But that doesn't quite gel with
-> the volume not affecting things.
->=20
-> Thanks,
-> Charles
->=20
+The Yamaha ZG02 game streaming mixer (0499:1516) exposes UAC2 audio
+streaming interfaces with a vendor-specific interface class. Only its
+MIDI interfaces get bound today: the Yamaha catch-all QUIRK_AUTODETECT
+entry rejects the PCM interfaces because create_auto_pcm_quirk()
+expects a UAC1-sized FORMAT_TYPE descriptor (bLength >= 8), while the
+ZG02 has the 6-byte UAC2 one. As a result no PCM device is created.
 
-Hi Charles,
+The interface layout matches the Steinberg UR22 (0499:1509):
 
-Thanks. I filed a bugzilla with alsa-info attached and added
-patches@opensource.cirrus.com:
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222235
+  0: UAC2 AudioControl (vendor class), clock source ID 1
+  1: playback, 10ch S32_LE 48kHz, async isochronous OUT
+  2: capture, 4ch, isochronous IN used as implicit feedback
+  3: Yamaha MIDI
+  4: vendor bulk interface
 
-I tried the amp volumes: "AMP1 Speaker" and "AMP2 Speaker" lowered from
-448 (+12 dB) to 224 (-44 dB), playing at low desktop volume. The audio
-became inaudible but the hiss stayed at the same level, so it does not
-seem to come from before the amps. Restoring both to 448 brought the
-audio back, hiss unchanged.
+Add the same composite quirk and QUIRK_FLAG_GENERIC_IMPLICIT_FB for
+it. The generic UAC2 implicit feedback detection does not apply here
+because it requires USB_CLASS_AUDIO.
+
+Tested on a 7.3 kernel with this patch applied (no quirk_alias): the
+card registers as USB0499:1516, implicit feedback is set up from EP
+0x81, and playback (voice chat and game buses) and capture (microphone)
+work. The full channel mapping (playback 1-2 voice chat bus, 3-10 game
+bus; capture 1-2 streaming mix, 3-4 microphone) was verified with
+quirk_alias=04991516:04991509, which applies the same quirk and flag
+entries.
+
+Assisted-by: Claude Opus 5.5
+Signed-off-by: Riley <riley.redeker@gmail.com>
+---
+Hi,
+
+The Yamaha ZG02 currently shows up with MIDI only and no PCM device, so
+it's unusable as a sound card on Linux.
+
+I've been running the identical quirk via quirk_alias since 2026-11-03 in
+daily use (including voice chat), and tested this patch itself on the
+device: playback, capture and implicit feedback all work. Full lsusb -v
+output for the device is available if useful.
+
+A UCM profile that splits the streams into Game / Chat / Microphone /
+Streaming Mix is going to alsa-ucm-conf separately.
+---
+ sound/usb/quirks-table.h | 14 ++++++++++++++
+ sound/usb/quirks.c       |  2 ++
+ 2 files changed, 16 insertions(+)
+
+diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
+index 8b2316fe8..e85eeb536 100644
+--- a/sound/usb/quirks-table.h
++++ b/sound/usb/quirks-table.h
+@@ -404,6 +404,20 @@ YAMAHA_DEVICE(0x105d, NULL),
+ 		}
+ 	}
+ },
++{
++	USB_DEVICE(0x0499, 0x1516),
++	QUIRK_DRIVER_INFO {
++		/* .vendor_name = "Yamaha", */
++		/* .product_name = "ZG02", */
++		QUIRK_DATA_COMPOSITE {
++			{ QUIRK_DATA_STANDARD_AUDIO(1) },
++			{ QUIRK_DATA_STANDARD_AUDIO(2) },
++			{ QUIRK_DATA_MIDI_YAMAHA(3) },
++			{ QUIRK_DATA_IGNORE(4) },
++			QUIRK_COMPOSITE_END
++		}
++	}
++},
+ {
+ 	USB_DEVICE(0x0499, 0x1718),
+ 	QUIRK_DRIVER_INFO {
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 05a9f6727..7c581e283 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2556,6 +2556,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
+ 	DEVICE_FLG(0x0499, 0x1509, /* Steinberg UR22 */
+ 		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
++	DEVICE_FLG(0x0499, 0x1516, /* Yamaha ZG02 */
++		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
+ 	DEVICE_FLG(0x0499, 0x3108, /* Yamaha YIT-W12TX */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x04d8, 0xfeea, /* Benchmark DAC1 Pre */
+
+---
+base-commit: 3f2882212c558336d0bf3b1c03b8e1a6b348a6e0
+change-id: 20261104-yamaha-zg02-d75a8cfdaac1
+
+Best regards,
+--  
+Riley <riley.redeker@gmail.com>
+
+
