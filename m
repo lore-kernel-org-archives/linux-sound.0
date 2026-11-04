@@ -1,65 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793779013;
-	b=aCFXRuYLNDDuH+wu0CrLimdDNHmCSVhn7vwk1oVOJg3D5tqs4PtxtkjEm0fpY9DTiihw
-	 eScc3pJs8mF04MGLcTO8WUPsxEjLahGbHukVKOy3EG1bLGR1MPV79pkx7mH4g2YjfvpUp
-	 dnbAFEfFoYgjLRJ9CLfQpgmg35TlDwrlsf/3uPGRXKQj+ctzCuj6E9c+L41Tl+x6DvlkB
-	 ZlOuYX5CIMF0npu/Cl5VcZZCaXSMKOVKu1IDLLr2Duy4PUOe4Jkrn8VuLoF1R4aN9BrvF
-	 J4cn48GEfwj2N83Sy6X5L4Ma0OaU7CLia8OUVs0JuDnG2e35ZtWUXO1rmerfJZe8dpQ==
+	t=1793779387;
+	b=hxEbRWtUeKWg6wBumKMfGFk3G6hJn6hjINn9oLKRia9oLtUz929CYmTzM5bWdx8mGHhl
+	 0tARKB90ohb0fErUydgHb8kEXfGkG0KPeLtijLAnwVku/Ixb34WlSWKH4NeQqLPT4n7PO
+	 fYpHQbbz3+S4RMajlS6TKmbo1osiPyTi87I/GBWx0GVWIPlVjsZkgJRdvrBusH1wHaNUl
+	 GoMSbjHDy2T1EF29/PQWev+0G4R7riz7m32e8b2d6ffLNW3TiXr7PBtKrdBMNALlmQbaP
+	 Oprvb6g2IRucxi5wjyfuRjizleLnhZe/TEB/ug49q50T3DgYIIsFfOL+cmL6iWQkl9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793779013;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
-	 Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793779387;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=2uOYWGt4AO3+u8u+kd0zrEytZb9XowJ07OqUMUTGZZg=;
-	b=WPzZWVRbMqA/njfAFQc/k62216FPRqut/xwbh0RBtidhNmbIRJi+m/6rZsvXGTAeGTMf
-	 RkA+PVGrgoxgLRJxG4ywfDSlrEnQUfQ8ZuJDd6u7lNwKF+67vTgx4SMIZoWZbeD362LRI
-	 M4c1sw4tPfubUjlUFwkXnlMhu82lofT2dbaaLdcgpORTWZOflgyhRNQjzIdQCPQ9ohyrw
-	 kuC4f6OkZZnJWG4GBl5suGVSvktRrX/bQEIue5sAieRL0PbIF0sC1W7NTHrk7KQk679GL
-	 pBtCVESVMvcE3wNhfYqJH9yK3AxdaogaazRlf7D21FuoctefJspsXU5fow56rSUjePw==
+	bh=XV9GMZ9ARnbEUDTmpGeUALzqWg3SZrmQDiIpPzkxOHI=;
+	b=rcEIwYF5J+qr6m2zxTifudMuukIvueK3rw21qb5PFgYM5JbNRrwAC7ul10RdZ6ZA541g
+	 kflLeHB8xGMTKnaiSBX6gFKFMLox09XaRR8Dk05XClTYVpJK2Laup/hVTEGriKBJRV63+
+	 9Gfm6806eLusZYClQUnOMODHZeycahTr8HFVYT00lugMmdJDreM7RvGRDnoUjPocHEUlk
+	 h2AvdUq4FketeMCR0HmnfGjhu1PCKzssr9PWbanQx1QekWp+qvG/r7HgsNZiOohHIGwM5
+	 N91f145MPfGBXt8ukImmEG8p+L9d5KUX5HAzGDmjicB2OEIaHNCqHnwEagq1qczkGGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33B2606A31B;
-	Wed,  4 Nov 2026 07:56:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C33B2606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 486e9bb2d82511f19a56ed5b684f684d-20261104
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:4077d316-8174-4c66-9782-bfd9944b7806,IP:0,U
-	RL:0,TC:0,Content:0,EDM:-20,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-20
-X-CID-META: VersionHash:7db8b62,CLOUDID:0d7082b4cebb77ea3168c59fb2ef3cce,BulkI
-	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50|99,EDM:1|-1
-	00,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
-	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 486e9bb2d82511f19a56ed5b684f684d-20261104
-X-User: songxiebing@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <songxiebing@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1742231886; Wed, 04 Nov 2026 15:56:46 +0800
-From: songxiebing <songxiebing@kylinos.cn>
-To: tiwai@suse.com,
-	perex@perex.cz
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=mOSchalZ;
+	arc=none smtp.remote-ip=111.22.67.137
+Received: from cmccmta4.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41A9A606A31B;
+	Wed,  4 Nov 2026 08:03:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41A9A606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=mOSchalZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=mOSchalZAy9EbFRbwYZ23/2idFY6qoZH4i8Zc0A9n1e6BDtESptFrxoLCKMVzeQF3ZZDx6nQ2p96C
+	 +FRlxF/ewXV8gmhwkCbTc6ebxpqf9VH/+sihytAD7U9Zi8egDE0Tgp0mQO4yCc982LO5nvgzbwCqdi
+	 0d46hUrpXaFIEeUE=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app04-12004 (RichMail) with SMTP id 2ee46aeae6b46a9-3b0fa;
+	Wed, 04 Nov 2026 16:03:03 +0800 (CST)
+X-RM-TRANSID:2ee46aeae6b46a9-3b0fa
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from FHA-W6400298 (unknown[10.55.1.71])
+	by rmsmtp-syy-appsvr09-12009 (RichMail) with SMTP id 2ee96aeae6b10a5-19406;
+	Wed, 04 Nov 2026 16:03:01 +0800 (CST)
+X-RM-TRANSID:2ee96aeae6b10a5-19406
+From: Tang Bin <tangbin@cmss.chinamobile.com>
+To: david.rhodes@cirrus.com,
+	rf@opensource.cirrus.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
 Cc: linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
 	linux-kernel@vger.kernel.org,
-	songxiebing@kylinos.cn
-Subject: [PATCH] ALSA: mixer: oss: Fix uninitialized index in recsrc ioctls
-Date: Wed,  4 Nov 2026 15:56:42 +0800
-Message-Id: <20261104075642.1790966-1-songxiebing@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	tangbin@cmss.chinamobile.com,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: cs42l43: leak MCLK when PLL enable fails on PRE_PMU
+Date: Wed,  4 Nov 2026 16:02:57 +0800
+Message-ID: <20261104080257.1144-1-tangbin@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.52.0.windows.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -71,65 +77,34 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bob Song <songxiebing@kylinos.cn>
+cs42l43_pll_ev() PRE_PMU arm enables mclk (when refclk_src is MCLK) then
+calls cs42l43_enable_pll(). If PLL enable fails, ret is negative and DAPM
+does not power up the widget, so POST_PMD never runs and the matching
+clk_disable_unprepare(mclk) at line 1621 is skipped - mclk refcount leaked.
+Roll back the mclk enable on PLL failure.
 
-snd_mixer_oss_get_recsrc2() returns success without setting active_index
-when the current Capture Source does not match any OSS mixer slot.
-snd_mixer_oss_get_recsrc() then uses that uninitialized index for
-"1 << index", and snd_mixer_oss_set_recsrc() does the same while ignoring
-the callback's return value.
-
-Make get_recsrc2() return -ENOENT if no slot matches, only use the
-returned index in set_recsrc() when the lookup succeeds, and initialize
-the index variables as a defensive measure.
-
-Signed-off-by: Bob Song <songxiebing@kylinos.cn>
+Fixes: fc918cbe874e ("ASoC: cs42l43: Add support for the cs42l43")
+Cc: stable@vger.kernel.org
+Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
 ---
- sound/core/oss/mixer_oss.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ sound/soc/codecs/cs42l43.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/core/oss/mixer_oss.c b/sound/core/oss/mixer_oss.c
-index c533d767c29a..6c8ca1d320ac 100644
---- a/sound/core/oss/mixer_oss.c
-+++ b/sound/core/oss/mixer_oss.c
-@@ -185,7 +185,7 @@ static int snd_mixer_oss_get_recsrc(struct snd_mixer_oss_file *fmixer)
- 		return -EIO;
- 	guard(mutex)(&mixer->reg_mutex);
- 	if (mixer->put_recsrc && mixer->get_recsrc) {	/* exclusive */
--		unsigned int index;
-+		unsigned int index = 0;
- 		result = mixer->get_recsrc(fmixer, &index);
- 		if (result < 0)
- 			return result;
-@@ -212,7 +212,7 @@ static int snd_mixer_oss_set_recsrc(struct snd_mixer_oss_file *fmixer, int recsr
- 	struct snd_mixer_oss *mixer = fmixer->mixer;
- 	struct snd_mixer_oss_slot *pslot;
- 	int chn, active;
--	unsigned int index;
-+	unsigned int index = 0;
- 	int result = 0;
- 
- 	if (mixer == NULL)
-@@ -222,8 +222,8 @@ static int snd_mixer_oss_set_recsrc(struct snd_mixer_oss_file *fmixer, int recsr
- 		if (recsrc & ~mixer->oss_recsrc)
- 			recsrc &= ~mixer->oss_recsrc;
- 		mixer->put_recsrc(fmixer, ffz(~recsrc));
--		mixer->get_recsrc(fmixer, &index);
--		result = 1 << index;
-+		if (mixer->get_recsrc(fmixer, &index) == 0)
-+			result = 1 << index;
- 	}
- 	for (chn = 0; chn < 31; chn++) {
- 		pslot = &mixer->slots[chn];
-@@ -826,6 +826,8 @@ static int snd_mixer_oss_get_recsrc2(struct snd_mixer_oss_file *fmixer, unsigned
- 			break;
+diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
+index 1b817e1a6..0ac9e2361 100644
+--- a/sound/soc/codecs/cs42l43.c
++++ b/sound/soc/codecs/cs42l43.c
+@@ -1613,6 +1613,8 @@ static int cs42l43_pll_ev(struct snd_soc_dapm_widget *w,
  		}
- 	}
-+	if (idx == 32)
-+		return -ENOENT;
- 	return 0;
- }
  
+ 		ret = cs42l43_enable_pll(priv);
++		if (ret && priv->refclk_src == CS42L43_SYSCLK_MCLK)
++			clk_disable_unprepare(priv->mclk);
+ 		break;
+ 	case SND_SOC_DAPM_POST_PMD:
+ 		ret = cs42l43_disable_pll(priv);
 -- 
-2.25.1
+2.52.0.windows.1
+
+
 
