@@ -1,96 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.201.47
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793829360;
-	b=gEQlM24TU2D1f6+/3V/ZFYWjGjUau+s44OPfp+0FsNs/QAAN8ciOtz1x/dVHN68QtixA
-	 f+JGXY09IZDR2jY6Qy0V6x0uv86lNlPyR7odYs6cLGG+hEleHMFLaZXei4gj74xVG5bai
-	 2Ia6QjnR9iyaqh0HottYhh+r4UN1xjGGzZpVu4/kmiJI/tW+dTC1NTM3tjpqBV/MF9kso
-	 jFAdUB51hubCzCKSBvfjzNvF2zD7Khn5YKG+asrGJ8Z8137h+XEVLxf2eEDXmCs2y9vHa
-	 L5uNppahBk5PMK0Ay/pDPbjgdMtYppqffnT8w589ftJD1UpPtdAB8yYJLrQC2CyINlA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793829360;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-ID:X-B4-Tracking:X-Change-ID:To:CC:X-Mailer:X-Originating-IP:
-	 X-ClientProxiedBy:X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=NGXHUpuwQym4I4YGxxMhI6C2lnX8VWsQO5IQd9uMOPc=;
-	b=x90HzTnQv20WCuJb0ixeG2K1y+r23o6VbFs9qyElyxzvs3G3oihHeV5CZsVmuJfs+ONK
-	 tYRD1Zeo5JEEnJCakevytg9QKfZl9f1Pzy+/0NPjt75JzxZANRs9cTqrtZMYS+uPDc1h4
-	 v4MLFIvMZZQy3U3Fv8TJxZlr4lXzXuokrIwNVI2mYVV0UlvJwjHf1BbcAm5pE41xEpH1R
-	 B6WXwdoBZfakEufFr+Fph8RD1J03fwUhMq1VUmFZiWAMBwptEMf89a2CL59RfTohJNEch
-	 /hrdCXe5/IxH57ws+QyASa0B/tsp6lyjisMaT75A9s6a4c4hfbP/GTpgud0XP5r4yHg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b="L0Ws/Z0m";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.201.47
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013047.outbound.protection.outlook.com [40.107.201.47])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.178
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793831034;
+	b=K0SaAIHuXDe5KrLZiFtcFXlPX7bbCCG98MvjAMzt0tsAi+8qGVNVfNccrlxwkb2QZ2rB
+	 NlvHnZgWXP/TPj2hzrnU8+NmX+236/rWoOYOtc93voA2xYnK6EgIi89YlNuCoHcyqiUOn
+	 EE0D0a9XIhwK8c8yMN/Jm6OrnxLZbZwB2/TbnWZTbOvfSjNVd7FWWaSmDt9NmtnZKtMOr
+	 wwL4isNvayRqwu3/snA2QQxcfuW2W1VLt5+uewfhcJSw50Q/98TbJx5kkl4HbSRktVd3/
+	 JEEXHEnek81BFGRJJcF1NGIYteL4MP4XaX0H1oPxFi8Jerm/lyQl4rpJJEOiB7p1o9w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793831034;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=KeZ2aB0X0IqNy32Bwapb83gUzvOHb7jOV5nmidAoLRQ=;
+	b=YgbEMsFGBMOx3rJu/MyGakWvoFH1FRhPVH6AzdLiALW7pF9vTM7pOFREQHmYOEI5+5E0
+	 z/11fgmAWJzwM+8D3SRH8aROnWohckXHZXl/2p67rCvjzrnYv/3pugDE+8BbIk6axK2tW
+	 jgg9j5aHDNuV8VmkZ3tUuUrr25IVryytlRwiSiZRMpNv2EBF1nXeXzj97UEgno2QHoqit
+	 hGT49G0xevYrrvlbf1AgKwGqEqeXMYC6wlG8hDyX3YzC20kN0e19YnqTNKSkcT1vYnSJu
+	 aUsJ7Ls2JUVOThPmfA7qi0IxGaf4y+T3W+S5NVPE2UMbv/NwCeuqwcJ37l2fBEgmxDQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=toxicpanda.com;
+	spf=pass smtp.mailfrom=toxicpanda.com;
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=NcEExbnD;
+	arc=none smtp.remote-ip=209.85.222.178
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934C8607490C;
-	Wed,  4 Nov 2026 21:55:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 934C8607490C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36FA606A843
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 22:23:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E36FA606A843
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=L0Ws/Z0m
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uCE+apGpa9B2xFdadPHT8Bl/4+73NxrLPWvpCngVwf0Ev3VJ0Y2B5PnfuR90Z1VuoZ5JGYx6wyqJJDpd5vUkoJ7U97CLRrJrs/mlP1z9Led9GH+QfV9HDERH+pDMW16zF8zYjDS7y3Kvug+ARqwcm5l7rRGu3nSXpFtAaMvUBJ7LmpKDRBnN/wxN4lMDCkkxbSi/Xv5YHnmGBBGGVnRbXMmXnnQAVr2ruHawf51soaWTg6UHH3oJ3a6vGsazmmV2ZKKPV1aqaUQtzymI48mQh3edHirH9fVMYeBX6DyzjYvpQUmLHGxWDSbikV9WLh5uzgaYtrSkkCQKAbmCquDl8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NGXHUpuwQym4I4YGxxMhI6C2lnX8VWsQO5IQd9uMOPc=;
- b=blINXackJt191SOLSR2+mRHPRlURuR41Y0G4Ean4YolkDeKBXW49dkesLi8NjLUEHZs/fZWHEbsoqLjmiP8xsWyZTWPuUNnJrUfd2cYwmkd3/CXQUAt78jfanF9U115KjorABCUg1Cg6LP+8ewmW2sgdXF04nrzEgB3+vRxzybbMNdNejXAlYRUfYM10OOgRbI6i17fqurr+Ako4uQ/x67VEYTt7J+NTvjoFJQ1K/AtpqerxK6PbdBJ9+uy+YfeuEMM56junna/NemY+s0ATs4c+TKfU8pYPXk2p+wtpYe9GWQ7bHFKXnUsju2YVrf1CRfj05vlZ4uAXSC33q9b4ow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NGXHUpuwQym4I4YGxxMhI6C2lnX8VWsQO5IQd9uMOPc=;
- b=L0Ws/Z0mqjIDDAq5mEqufttKqlQjEVUgM39KJpfjWMSedFLifaBNWEvXT9O3b8qQm6lP/7+dJhxNBp12SzresCFx9nB/uhLcxww6wUDL3PjvCLEm61NFLFdcX4IDofCTpabEUaU3V5Ax5qe8lFXT7I7EP2BdwV3FQD1NCA2qKyY=
-Received: from CH0PR13CA0050.namprd13.prod.outlook.com (2603:10b6:610:b2::25)
- by IA1PR12MB8191.namprd12.prod.outlook.com (2603:10b6:208:3f3::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Wed, 4 Nov
- 2026 21:53:50 +0000
-Received: from LV8PEPF0000005A.namprd02.prod.outlook.com
- (2603:10b6:610:b2:cafe::2f) by CH0PR13CA0050.outlook.office365.com
- (2603:10b6:610:b2::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.4 via Frontend Transport; Wed, 4
- Nov 2026 21:53:50 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- LV8PEPF0000005A.mail.protection.outlook.com (10.167.245.135) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.592.5 via Frontend Transport; Wed, 4 Nov 2026 21:53:50 +0000
-Received: from [127.0.1.1] (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Wed, 4 Nov
- 2026 15:53:49 -0600
-From: Mario Limonciello <mario.limonciello@amd.com>
-Date: Wed, 4 Nov 2026 15:53:27 -0600
-Subject: [PATCH] ASoC: SOF: amd: Load alternatively signed firmware with an
- "_l" suffix
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=NcEExbnD
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-93f3c616c84so109982685a.1
+        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 14:23:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toxicpanda.com; s=google; t=1793831033; x=1794435833; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KeZ2aB0X0IqNy32Bwapb83gUzvOHb7jOV5nmidAoLRQ=;
+        b=NcEExbnDLtiALC276t5kcclQzZoOYloVis0hCWAdB5suqT0QkRwNJ+AFK0XB4NzGVk
+         MBvKf3YK63ail+629aXUNIvCM1WnXnfCIha+DrPSuNj8k3YzkImzwB+xGI2s2y2HBJ5T
+         vvkTuikiQqNxAICkZ4ywv2TcbVVqmFMFp/2B11hfLkRa7xqDvLx4q/6WouEjHlPu8igf
+         zrdHc2HpeafPYSIxUQLBS1un6n7qW3BkOqpkKrUbvRAIFCSnaZItXy7Cg5Cn0kHFlgPO
+         kv82C6T1O0AQD/2BA2RX99j/GbgpjX9B9AtvNADneDIEvKVhq+f3BAJVyYf4DaCus4Kp
+         YwFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793831033; x=1794435833;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:subject:cc:to:from:message-id:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KeZ2aB0X0IqNy32Bwapb83gUzvOHb7jOV5nmidAoLRQ=;
+        b=Zcr+aPRowXKTFLR1RId+wq62j7qEwkjLGz2ltd6gNCOt/T72LW3NLDeFMp90f9R3bx
+         Inbt6Iw0M3fEt0zN6L5ZGAAXqid3t7VCn4H3juM/YBKj7JpcBEBpTAV0qpabXh+l6K3H
+         DrfQ02jHf5dhRyKUJQ01y9nx1lj9ZGj4O0yECCi8G14LzMr1Rq6crcvm9bg00Fe/6Ig7
+         0CKErrGUGjyRaFvjowyI59g8xJOnZ8lCnaA3ngnixfpCFLhR7GyVfG3p6G0IQHaxIyTq
+         glXriukHaaIQU0ArkhRiba9xQWXMYq7Le9JKbaQqN/ICw6fWudWeV84fNiIrfZne7VLW
+         jwpQ==
+X-Forwarded-Encrypted: i=1; AKwUvByTD39fxBygEV9LeF3sJWqwg+UqaXCU8/+EEkJnUKQdP3K26dzd4Eixk046fpTFsMapu0IwsqJhAmqewQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9pON9GNVVHB8bhrMjAgLxamo4nQfcMKvEKJePabACRiJCg2Wsx
+	kN8Jj3uT8CsJTvD6At140ujDjGW5F6oA68qKeXi6lyGK8RPoIOGeezwKPIuZQlaagR0=
+X-Gm-Gg: AYBFou1OzhfC79i1LXOVXLYJYTxMjk7Cx5Qnjq5CYv+B6Jhr7Jcv58keRqdA3WRrsE5
+	FmnQ/YJqwtCUz0E9SR/0aCWCg/FRoGU6qKuDpd71xuth9M8KixC9xtFsrOazAT3NZaj98SzUJLN
+	njKzk0FDg5xgFiyXxk5WMTFhfO74o+UveLV8LGEjJCVtbPnn5JosfoJFY5xPAl6EG35usJKhLbB
+	fdCPHyrz92z1nuzmE6SPmJNtknemD4IvALv9Sl6CH6KIfw5fzdLNPpHVW/GXic5Zg/MIpx9sGpy
+	mraCex9dRutHhZlrAoZyxxmLHZZr9a1wx1DHWxhcVfqNvMqBXzdkDRKX6Nz7xji7lvEKJ3pu1C1
+	xoleRNYrBHOKF5PsEtqPIQ8nBszJvQQTCJ+hNyzlSw3zkZXKh5sUTBkVmqBA56SO44x1IItl96/
+	+hqin/KKKKGZc4iTOok9R5qbTnQ6LGQCCn5oIv89jOb+6O0RR6OvYflLGspMSh552NnXL/CwaNE
+	4puDo7RKs0U+z+fFJSZjrXYPk5OfC7yTIm9ESObp4aCr/l6UkJViCCAqjsYKF93EogKa+uQIp4B
+	aRd+ibPQTtaAAjQ7B12Io3B0yFLQ1QITjwy+5hl0/prxXw==
+X-Received: by 2002:a05:620a:608d:b0:93c:7e9c:3bba with SMTP id af79cd13be357-944216bd4bdmr3093198785a.41.1793831032557;
+        Wed, 04 Nov 2026 14:23:52 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.240])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d4691a76sm312610285a.4.2026.11.04.14.23.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 14:23:51 -0800 (PST)
+Date: Wed, 04 Nov 2026 22:23:51 +0000
+Message-ID: <464ef986eab97abf226791c7e19ad111.josef@toxicpanda.com>
+From: Josef Bacik <josef@toxicpanda.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
+ Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+ Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>,
+ Christoph Hellwig <hch@lst.de>, Greg Kroah-Hartman <gregkh@suse.de>,
+ Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>,
+ Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>,
+ linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev,
+ linux-sound@vger.kernel.org, linux-mm@kvack.org,
+ Chuck Lever <chuck.lever@oracle.com>, Takashi Iwai <tiwai@suse.de>
+Subject: Re: [PATCH RFC 0/7] proc: move procfs to what kernfs does
+In-Reply-To: <20261102-defizit-jobaussicht-kurios-7016c6e67442@brauner>
+References: <20261102-defizit-jobaussicht-kurios-7016c6e67442@brauner>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -100,141 +107,199 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-Message-ID: <20261104-superm1-lms-sound-v1-1-c50b9284bcc2@amd.com>
-X-B4-Tracking: v=1; b=H4sIAFap62oC/yXMQQ6CMBBA0auQWTtJp6JEr2JYaDvVIVJIhxKSh
- rtbdfkW/xdQTsIK16ZA4lVUplhBhwbc6x6fjOKrwRp7JjItap45jYTvUVGnHD06E1p7OZ4ouA5
- qNycOsv2et/5vzY+B3fIdwb5/AMgg+t11AAAA
-X-Change-ID: 20261104-superm1-lms-sound-c0f429351fc7
-To: Liam Girdwood <lgirdwood@gmail.com>, Peter Ujfalusi
-	<peter.ujfalusi@linux.intel.com>, Bard Liao
-	<yung-chuan.liao@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>,
-	"Kai Vehmanen" <kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.dev>, Vijendar Mukunda
-	<Vijendar.Mukunda@amd.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
-	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC: <sound-open-firmware@alsa-project.org>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Mario Limonciello <mario.limonciello@amd.com>
-X-Mailer: b4 0.16.0
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PEPF0000005A:EE_|IA1PR12MB8191:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1accc3e0-262f-486f-e709-08df3abe1c38
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|82310400026|23010399003|376014|7416014|1800799024|10067099003|261102123227099003|18002099003|921020|56012099006|261022105027099003|261022115727099003|261022075727099003|261021123027099003|261021121427099003|261009223027099003|11063799006|261028144727099003|261026121527099003|261026140227099003;
-X-Microsoft-Antispam-Message-Info:
-	IKfODCsbvBaD/uFsbmcWzF4rVPvuh1HJ2VBKdyn9w9qfj8Sb0ZeO6SPe/bBGSTDaDp1pNDO0oIj9ngzD9sqQeK9/1gDEMvWrgJYpolZNYCiOLaj/opV+bxdphQ7col009uMhMmriWmUZTcEXfbjgf2noLPvM64c77CnUEAqqyZnAisquFpyyg2Y+QKrM5GVm/KTHGc0DSq+oUTDhYw1hPqjLjpFhpsHJWSMprDXVg0uhN6wmw7HhR8SHAGAcPJBrgdVEjcIcRHPoYyKXjIL8gb3eDJ5IZjmDtrYlgnT6xnQQyb32GanG1NUao876HOIAi1tfDNi9lIoKShwX4J83YAM4V3/39WNUkiIW+MAtvb7wVvvkJLlmcicS2/yoF9GJwtnR32qNFfhkx35Hf4IdhzHUcGMpLq6eoKtg1wFUaPCvymeuNJKlonfzZY7qWPGONeSVSBq3ryZEzdXo9+ARLtFUqnqXScIPIegf+yJXAHzMCR/43LoNBT5hon3/S4VscTnV0/qkH67qO33HT/7pSVnvRwGKR120nd3h0fm/7H7uf2vY85vMlI8BifxlmfNiKcihQshPRH/shbfCcKxCQa/B163mUCTo2RPF0iO5lnqgza76w/k8vHsSglJHv7/8zHr9bjvPuor2yid6Se6vN2Vgu8fEAEPjkGthxmosvzcp558O7RJlK3qTm5L9D/RYqRpTZ9MzgQ8wTfUP6SecZ4I16vbuhig0JnXvTcLCQr14AKaZiU7E3dSrO5qY4Wwy
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(23010399003)(376014)(7416014)(1800799024)(10067099003)(261102123227099003)(18002099003)(921020)(56012099006)(261022105027099003)(261022115727099003)(261022075727099003)(261021123027099003)(261021121427099003)(261009223027099003)(11063799006)(261028144727099003)(261026121527099003)(261026140227099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	i2UJmi+crIeTxHht37oQlX+F1xRmOLMszUUrfi2Ou4uQigcxb5eh95yDf21xDss8dP1XY3WLmtVOIXMISSkvXu/Tf3aRHPSzQZURFDRtvraKkoDd2qz2eJBJErxQoR7O07p0HU3yPWH5GyF5IZMXLvdooAZYIZF4Fj9wJ5/Jwrml1THnk0+1eJR5M3PD+iLAqK8shMlxLajk5YawGmLJVcvfkH8gQSK2NwCTyZ1sS9SAvBbjdkT4Q8sXQX5y0qzQ4Ro2EkDAljYUbXQ9GKOGtHQHHHeOJ1rfwrnkly1msDmLmfUX4CeP28pnjClBbaWtuftCA7pUP+ZGWtfTGB1G4RQ0CqKWh/HrV5xuBICiiePEPmF6DyJ5vOUv8WpOHQFLILWmJa2zB1Crj3gEutZ6wvYRBHoz0ShBGgZvTdQo8IvSNtWiZkxrvDeBlyDYY6tE
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2026 21:53:50.1148
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1accc3e0-262f-486f-e709-08df3abe1c38
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	LV8PEPF0000005A.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8191
 
-Platforms ship BIOS with either a default or an alternative trust
-authority. The PSP validates the signed DSP firmware image so it must
-be signed with the matching scheme. Firmware for the alternative scheme
-is named with an "_l" suffix before the extension
-(e.g. "sof-X-code.bin" becomes "sof-X-code_l.bin").
+Hey Christian,
 
-The PSP reports the signing type in bit 6 of C2PMSG_63
-(0 = default, 1 = alternative). Read it over SMN, as is already done
-for the other PSP mailbox registers, when building the signed code
-image name, and add the "_l" suffix for the alternative scheme.
+This is a summary of my Claude review of everything.  It didn't find
+anything wrong with the conversions in parts 3 to 6, the findings are in
+part 1 and on the procfs side.  1-3 are reproduced in a VM, 4-6 are from
+reading the code.
 
-Reviewed-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- sound/soc/sof/amd/acp.c | 33 ++++++++++++++++++++++++++++++++-
- sound/soc/sof/amd/acp.h |  2 ++
- 2 files changed, 34 insertions(+), 1 deletion(-)
+1) bugfixes 19/38 ("proc: resume readdir after the last name it
+   returned")
 
-diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
-index 86e2402b8ffd2..2f1a8be8460d4 100644
---- a/sound/soc/sof/amd/acp.c
-+++ b/sound/soc/sof/amd/acp.c
-@@ -1212,6 +1212,31 @@ static int amd_sof_sdw_exit(struct snd_sof_dev *sdev)
- }
- #endif
- 
-+/*
-+ * The PSP validates the signed DSP firmware, so it must be signed with the
-+ * scheme the platform firmware uses: images for the alternative scheme are
-+ * named with an "_l" suffix before the extension, the default ones have none.
-+ */
-+static int amd_sof_acp_get_fw_suffix(struct snd_sof_dev *sdev, const char **suffix)
-+{
-+	u32 val;
-+	int ret;
-+
-+	ret = amd_smn_read(0, MP0_C2PMSG_63_REG, &val);
-+	if (ret) {
-+		dev_err(sdev->dev, "failed to read PSP firmware signing type: %d\n", ret);
-+		return ret;
-+	}
-+
-+	/* all ones means the register isn't accessible */
-+	if (val == 0xffffffff)
-+		return -EIO;
-+
-+	*suffix = (val & MP0_C2PMSG_63_FW_SIGN_ALT) ? "_l" : "";
-+
-+	return 0;
-+}
-+
- int amd_sof_acp_probe(struct snd_sof_dev *sdev)
- {
- 	struct pci_dev *pci = to_pci_dev(sdev->dev);
-@@ -1448,8 +1473,14 @@ int amd_sof_acp7x_probe(struct snd_sof_dev *sdev)
- 	sdev->debug_box.size = BOX_SIZE_1024;
- 
- 	if (adata->acp_sof_signed_firmware_image) {
-+		const char *fw_suffix;
-+
-+		ret = amd_sof_acp_get_fw_suffix(sdev, &fw_suffix);
-+		if (ret)
-+			goto free_ipc_irq;
-+
- 		adata->fw_code_bin = devm_kasprintf(sdev->dev, GFP_KERNEL,
--						    "sof-%s-code.bin", chip->name);
-+						    "sof-%s-code%s.bin", chip->name, fw_suffix);
- 		if (!adata->fw_code_bin) {
- 			ret = -ENOMEM;
- 			goto free_ipc_irq;
-diff --git a/sound/soc/sof/amd/acp.h b/sound/soc/sof/amd/acp.h
-index b17a36b31ee0d..81eeeabc5cf5c 100644
---- a/sound/soc/sof/amd/acp.h
-+++ b/sound/soc/sof/amd/acp.h
-@@ -97,6 +97,8 @@
- #define ACP_EXT_INTR_ERROR_STAT			0x20000000
- #define MP0_C2PMSG_114_REG			0x3810AC8
- #define MP0_C2PMSG_73_REG			0x3810A24
-+#define MP0_C2PMSG_63_REG			0x38109FC
-+#define MP0_C2PMSG_63_FW_SIGN_ALT		BIT(6)
- #define MBOX_ACP_SHA_DMA_COMMAND		0x70000
- #define MBOX_ACP_IRAM_DRAM_FENCE_COMMAND	0x80000
- #define MBOX_DELAY_US				1000
+proc_readdir_de() now returns 1 instead of 0 when there's nothing left
+to emit:
 
----
-base-commit: 68e9934bd17af558b62cac8a444de28d4d5cdb9f
-change-id: 20261104-superm1-lms-sound-c0f429351fc7
+	if (!de) {
+		read_unlock(&proc_subdir_lock);
+		return 1;
+	}
 
-Best regards,
---  
-Mario Limonciello <mario.limonciello@amd.com>
+proc_root_readdir() needs that to go on to the pids, but proc_readdir()
+and proc_tgid_net_readdir() are also the ->iterate_shared() of every
+other directory, and iterate_dir() hands the value to its caller.
+getdents doesn't look at it, old_readdir() and the compat one do:
 
+	error = iterate_dir(fd_file(f), &buf.ctx);
+	if (buf.result)
+		error = buf.result;
+
+	return error;
+
+So at the end of the directory readdir(2) returns 1 without having
+written a dirent, and keeps doing that.  This is syscall 89 through
+int $0x80 in a loop on x86_64 with IA32_EMULATION, giving up after
+100000 calls:
+
+	             base, 18/38         19/38, whole series
+	/proc        106 entries, 0      106 entries, 0
+	/proc/fs       4 entries, 0        4 entries, 1 from then on
+	/proc/net     31 entries, 0       31 entries, 1 from then on
+	/proc/sys     10 entries, 0       10 entries, 0
+
+/proc/bus, driver, irq, tty and self/net do the same as /proc/fs.
+glibc doesn't use that syscall, but this patch is tagged for stable.
+
+proc_readdir() has to keep returning the 1 for proc_root_readdir(), so
+I think proc_dir_operations and proc_net_operations want a wrapper that
+turns it into 0.  The comment above proc_readdir_de() that says the VFS
+doesn't care about the return value should go as well.
+
+2) cleanup 5/5 ("proc: drop the _buf suffix from the new methods")
+
+4/5 renames the old ->proc_read() so that "A module that sets one of
+them doesn't build anymore".  5/5 hands the name to the new method, and
+the old and the new prototype only differ in __user:
+
+	ssize_t (*proc_read)(struct file *, char __user *, size_t, loff_t *);
+	ssize_t (*proc_read)(struct file *, char *, size_t, loff_t *);
+
+Only sparse sees that.  The compiler does reject an old ->proc_write()
+or ->proc_ioctl() (gcc 13, clang 18), but this
+
+	.proc_open	= foo_open,	/* single_open() */
+	.proc_read	= seq_read,
+	.proc_lseek	= seq_lseek,
+	.proc_release	= single_release,
+
+builds without a warning with W=1.  pde_set_flags() only refuses the
+release helpers for seq_file entries, which this isn't one of, so it
+registers too.  With a module that has exactly that loaded on top of the
+series there's no warning, open() works and every read() fails with
+-EFAULT.
+
+The tree had 84 of those at your base.  None are left, but whatever is
+in flight in other trees, gets backported or lives out of tree ends up
+there without anybody noticing.  Either the read method keeps a name of
+its own or pde_set_flags() refuses seq_read, and either way this
+probably wants an entry in porting.rst.
+
+3) bugfixes 38/38 ("selftests/proc: check that a faulting readlink()
+   doesn't hold up removal")
+
+This adds proc-remove-slow-reader to the Makefile and to .gitignore
+along with proc-remove-slow-readlink, but proc-remove-slow-reader.c
+only shows up in core 08/16.  From here up to core 07/16 make says
+
+	make: *** No rule to make target '[...]/proc-remove-slow-reader'.  Stop.
+
+in tools/testing/selftests/proc, so also with part 1 applied on its
+own.  The two lines want to move to core 08/16.
+
+4) core 04/16 ("proc: let procfs own the seq_file of seq_file entries")
+
+pde_seq_start() returns right after it unpinned, pde_seq_next() goes on:
+
+	v = pde->seq_ops->next(m, v, pos);
+	if (v == ERR_PTR(-EIO))
+		pde_seq_stop_pinned(m, v);
+	/* seq_file would blame these seq_operations, blame the entry's */
+	if (*pos == old) {
+		pr_info_ratelimited("buggy .next function %ps did not update position index\n",
+				    pde->seq_ops->next);
+		++*pos;
+	}
+	return v;
+
+core 16/16 documents that next() may return ERR_PTR(-EIO).  A next()
+that does and leaves *pos alone is called buggy for it, and
+pde->seq_ops is read after the unpin, when the module it points into
+can be gone.  Nothing in the tree returns -EIO from next() today.  A
+return v after pde_seq_stop_pinned() takes care of both.
+
+5) bugfixes 35/38 ("proc: sysctl: don't hold the tables while readdir
+   copies to userspace")
+
+	while (err > 0) {
+		if (!d.skip) {
+			err = proc_sys_fill_dirent(file, &d);
+			if (err)
+				break;
+	...
+	sysctl_dir_done(&d);
+	return 0;
+
+sysctl_dir_next() only pins the memory, so the entry can be unregistered
+before proc_sys_make_inode() looks at it and returns -ENOENT.  The loop
+breaks without moving ctx->pos and returns 0.  If that was the first
+entry of the getdents64() call userspace sees the end of the directory
+and loses everything behind it.
+
+The old code bailed out the same way, so it's not a regression, but
+it's the "terminated early" case you set out to fix and these are the
+lines that get rewritten.  Handling -ENOENT like d.skip would carry on
+after that name.  -ENOMEM probably wants to be returned instead of
+turning into EOF.
+
+6) stable tags, bugfixes 34/38 and 37/38
+
+34/38 has no Fixes: or stable tag and says "No functional changes", but
+35/38 is tagged for stable and depends on it.  Without 34/38
+proc_sys_make_inode() reads table->mode and calls ->set_ownership()
+after it dropped sysctl_lock, and the caller 35/38 adds doesn't keep the
+table registered.  35/38 applies cleanly without 34/38, so nothing will
+complain if only the tagged one gets picked up.
+
+37/38 has Fixes: 7e0e953bb0cf, which is 4.0.  "the inode holds a
+reference to the entry" only covers RCU walk since 47458802f660
+("procfs: move dropping pde and pid from ->evict_inode() to
+->free_inode()"), which went into 6.8.  Before that the inode drops the
+entry in ->evict_inode() without a grace period, and the pin is what
+keeps ->data around for a walker that got it from ->get_link().  Which
+stable trees have that commit isn't something I checked.
+
+Smaller stuff:
+
+- The cursors in bugfixes 19/38 and 31/38 hang off an open file and
+  anybody can have as many as they have fds, so GFP_KERNEL_ACCOUNT.
+
+- copy_to_user_fromio() has no callers left after drivers 22/23.
+
+- fs 07/27 says ntfs_set_label() refused a label that's too long with
+  -ENAMETOOLONG or -EFBIG.  It doesn't always, cpu_str.len is a u8 and
+  ntfs_nls_to_utf16() is allowed (PATH_MAX - 2) / 2 here, so 300
+  characters come out as 44 and pass the check.  That's an old ntfs3
+  bug, it's only the sentence in the changelog.
+
+Two more old ones that you might want in part 1, the series doesn't
+change either of them:
+
+- allocinfo can deadlock against a module load.
+  codetag_alloc_module_section() calls reserve_module_tags() with
+  mod_lock held for write, and its three error paths call
+  shutdown_mem_profiling(true) -> remove_proc_entry("allocinfo"), which
+  waits for the readers.  A reader that's pinned and in
+  allocinfo_start() -> codetag_lock_module_list() sits in
+  down_read(mod_lock).  There's no copy to userspace involved, so
+  moving the copies out doesn't help this one.
+
+- snd_info_text_entry_write() allocates the larger buffer and frees the
+  old one without copying what's in it, so a text entry written in
+  pieces loses the start once it crosses a page.  It's been like that
+  since ffb73b08e794.
+
+For what it's worth the end state checks out.  Every proc_ops
+initializer in the tree matches the final struct, the only entries that
+still read straight into userspace are kcore, kmsg, kpagecount,
+kpageflags, kpagecgroup and profile, all built in and never removed, and
+nothing in the tree trips the new checks in pde_set_flags().
+
+This part is me. I have a selftest that my claude wrote to validate #1.
+If you want I can send it along, but we should probably have a test for
+that.
+
+Thanks,
+Josef
