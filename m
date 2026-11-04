@@ -1,60 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.102
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793789580;
-	b=Z91GcvmW3pL3OZcKu+bxfvYJMph7BXK2UWGimha2r8iR58I0znjVIfQI1vaDNd1B+HrD
-	 v4FF0vRARa6IIK1BCLE9Pg9n2790KMlpcFaPks2rD8dJWVqXisi7AUSPSDsBflbDZTE+z
-	 cp7dYD9dd6sCy9ww5t+CL0SNllX6+mnQ8yEnOCUnt/Yn+kd7YOa2D6hF68oHbXCcuTH0r
-	 2hpZ2SSbtrfisz+Y6tCTu8blF97sevNRiYHim0k5EB3qRRkJd6VcHEq6FoxXFuAj6eIup
-	 ZmhEqnoA5d/kgu+zyt812caa/iFxpd4Bq4uUnC9kPcIsrcfnPojm52VtdiZw2ayGE9A==
+	t=1793789944;
+	b=eg6bYt+5IRzv4Dbbg8N3e8aZIOEaTXuiCffEYzuuU8ohuObGm4pxqVBr4+2dX5w45ujg
+	 mLYlnHv24UZCUaySnl5r3TWdBHSxEpfcMUe0tz0ptkZHubaKfVJT6nuCZIsrqmX6Y0Y8x
+	 SyXw5G7dNs2tqINtu/+pIbMNySZblE528YXOgqoGY+qNdEcizg/4dEQmSlArZpjrgUFS5
+	 0e/wpds4mPDd2D8NgNrluCS/qVI0WogxnLGISbxZblU9x+dfhTFkEGEUUIvf+kq+jYEcs
+	 d/Jwtbi2qG34a9FaACNnstKTTHnOx5F7L131UrXPpV8cdiTMFUkG3FOMnSZmqV1GtGg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793789580;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=GimgcPXH2fNoHOLDkivcT6L2F+6r2bGEOK3CclBJHEE=;
-	b=2PWo4Q3I0qEWcbUvgr+2dIycZDcw+Ma41tOlroeDML5YuFixr37TU3nwzTZo3prWk68o
-	 ncPDrxqhCAn1xnfJXy65XD4VxfZP9mrRmuJuIPRTszKWLPu2hxbIItQXoX4ylpx49C2k/
-	 /hWSrkEzbhBaxRqeg55XtT7Aa2YfL3+poDvkY87Ao+PxrhSWvujQF03QZ7otCpY18kb/D
-	 Ps5TcmyQJIwYrh6wd3WE4+IK7lDrYaZW7pcJ4s3BUihOMp41ffdeeXcYFMHvdiS8Dm6Wp
-	 hMlF/b6VJcwhE9A+wIf/gdtAXjXab7xQYOmJGJm95Mb8uzX2t+KJ7LlTpM8WkKcq50Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793789944;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type;
+	bh=bBTgawvztyIZVheW/rAsVHtWBMGpPSBdrEb02iHgYVo=;
+	b=j330RGI+mE7ub/C2//2NJYal/1s2XLLTJU6MtaX38BK5ZcmkFCkAaEFBaIUNecrRSuM9
+	 nzGuIiWGEdUele0wg1HRZGRCOR9wdTj8spkranZ6n1ng6JINuS3Y15FOu/rYIBssPclra
+	 iGrvEmG4O83ZAvOHcFRhtWS3kGsRh/ROeH/xtBTihr6Ua4jO9CFMeIsuarYZQqPI9qeE8
+	 X30Iv/Kwx9+dfpuF7WZ81vh5DpVW1n0DmXbNvdJZLCHOAt8exawJo/8YzsCmrjai6BKxj
+	 SINiDo4zDTqzniv+YrS6trUIJtCfjKPlbRO53xQpZhvzjq8hjP3y8tz0eSMsW3ZU+Jw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=pm.me;
-	spf=pass smtp.mailfrom=pm.me;
-	dkim=pass header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b="JzGU/S5R";
-	arc=none smtp.remote-ip=185.70.43.102
-Received: from mail-43102.protonmail.ch (mail-43102.protonmail.ch [185.70.43.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=veHHt0AT;
+	arc=none smtp.remote-ip=209.85.215.171
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8FD606A31B;
-	Wed,  4 Nov 2026 10:53:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F8FD606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F22A5606A32E
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 10:59:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F22A5606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=JzGU/S5R
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1793789578; x=1794048778;
-	bh=GimgcPXH2fNoHOLDkivcT6L2F+6r2bGEOK3CclBJHEE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=JzGU/S5RVygaOe8FMojJxUCsVBL7E7/XsSh395fO6shr6D2yu1uFTNpoTxNFVuh5U
-	 iZNN5cHZbaKFar+uMz2gkdHHHc1n97zLAjvC6V1u8Pw3yXwSFwvYnW4Tt4w1TUoHQJ
-	 94P5NCVnVJ9EPfi1KbkjWWsNpvwgHlp9hkgq8tL0G54i9U+p0GqSyHX+r/rAvQHq61
-	 5YZNy0uzcJCWsFoHQbLZUBGgpMdLqnYsKC8qwb0vqS5yJzupH2ZU8xhokB1p6vX4Su
-	 5cfU/dUIiuelFxwFnBgOJ1FjnUEeHkRUIsypIAENBZ/G4QNy/VMY4n/B6lTs0q9jEq
-	 kLseACskaee4w==
-Date: Wed, 04 Nov 2026 10:52:55 +0000
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-From: Sinan Turunc <enscrpt@pm.me>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH v3 2/2] ALSA: usx2y: Guard the playback copy
-Message-ID: <20261104105228.1124-3-enscrpt@pm.me>
-In-Reply-To: <20261104105228.1124-1-enscrpt@pm.me>
-References: <20261104105228.1124-1-enscrpt@pm.me>
-Feedback-ID: 48393780:user:proton
-X-Pm-Message-ID: 6f257916e3e14e150a1c466d7fb4812cb07fc0e7
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=veHHt0AT
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cd3310348d2so768201a12.1
+        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 02:59:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793789943; x=1794394743; darn=vger.kernel.org;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bBTgawvztyIZVheW/rAsVHtWBMGpPSBdrEb02iHgYVo=;
+        b=veHHt0ATjkA8mDlg+Nd4K6AnUtOdd8i+sPNfn9TF2mxGCLRhq6+cTPNd0w0DYO0WwO
+         qb5NtaCQGXxgo1Hh4hWWZ0zRArNwHTTyVWnTVeZg1lXMvOLlU+w1r+cPsG5P1we3Cf7w
+         JSVbYA6jpjub2xiHwpEOmHOLZBEdzEXtYMe88IqmohHHYfws2Ug0seUFpcBpDz0B446E
+         nSlENjNPDjTpw9Gdijhn9gHm3M1+QbVjs4ra/DFYRZqH9dAYEOBfNouTO2sNlU3HBVxB
+         jE18ToGHZUWXn1g5b40KCeIxrjNEIiA5oyrGMO4UlX6HLiCc134nMAWMLECdMG5hrUFI
+         bGSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793789943; x=1794394743;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bBTgawvztyIZVheW/rAsVHtWBMGpPSBdrEb02iHgYVo=;
+        b=InB4oWGfwolzYQAR/8cW9671nmBswcO2PSlBMJCc03s3kOyzEzY6INeY/f1cuu0VYL
+         3ZTEGh/usDoLgqmRkF88JEzUJInh4uCmzFn276wIJB+wjIr18fpl7ngRzOAcsT9IMq4Y
+         tvhuSjWMz0tIyEosX/M1pXvH3S+NRw5RWdIctfj8R96uSYyPL7On6Q9EoAvTL+m2yxHw
+         PdHPVxzn3fA6wRvbSplB/Bbm5MvEoR7EHTa3QLDNNNr7OV31UwL9hQdM3IsO2qlbiJrF
+         LUd6d1UPu70ffzNiaCiZFcWFZDARuoWgc4V8rR47KvxhQhd6w0o5n22mRR08cXRQFD/b
+         Gj5g==
+X-Forwarded-Encrypted: i=1; AKwUvBygzEjrSwq68zBInvvETymtrz6dSqSbl7KFBPkm9zwiEWqL9dOhpvx4mmj/+s4iMGAEejVBH/Kz8a63eQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+sS1Dvg9jZW6xQV/wVL6nt13palq+Yiv+t4ixw/ouxEmoXT9ye
+	REIKZELGBET5WbOe4nxWYD0zQY4/cTiBGY37FstiKFGmaUqjEQ0KaqHx
+X-Gm-Gg: AYBFou1BL/hEXb3eQtv1M5v+H/mWnU+bayVs0XVr99xHkPMFUCBh/YEn5cAI0cluTPv
+	STj/K78Q2Ij/ptqP0wAXAoQGc+sea4rxpPPqa2GVvXYCDqTBYp77VwOn9bW9ZrnvfFHCe5vaOej
+	txBPFjMoZkOru8HwNzDHrzXoGgcmNUzpv0Zn3XsMcclEhftNsvYbZBwIIJOwSSSsZAdAYYCIJkO
+	NnxsLvcPhU3RjQLLwK2Y2ZFgCIOEoUn93qlkpWBL27CBLZOkUB2G3BqqXPklCwB2bAdzB7jNE2E
+	cxiHyG5uUfu7Kyryc0OlyG/P6Ukoserkh2XOuGWV7T3FH+AinYpJGijFsFBXJB2HN02PzZr0UYN
+	Ll5RL5PRiGNyjMBq3yCKcZiGr4AurlbBof9zkb6Gb92Ni+rioR06vICJIdw6WtO1cgDRpDq9ZDt
+	01wQp14Yz8/8dfck6xAy4WMl2AD0Wv2SgxN4o67vqbJvjYWIeqvH3oFQY0JXn50VF7Af3ojwr0d
+	wDD3ioBvpypAggS11ueWKbRJNh5GXG3Kn1cd+BC06Nd/WX2SozDYIjdFLtGKhofuz+8KRP0GnfL
+	KpfTLyT65zRKgHEGggvuWXSBDfecIt7lvR70Otcd0Fcg1LijHqiFvOYLAuIZl1T8efRFKswtmJR
+	zzTWDm3T68mEWxpXIm4QsCRQ4vls22RYK/FTMiEnJJrlKegjA/LPqe1avbQ3U3oWZ3gtoMunBOj
+	98zl3e
+X-Received: by 2002:a17:90b:1cc5:b0:3ae:3d82:5d88 with SMTP id 98e67ed59e1d1-3ae8917bf84mr9431934a91.0.1793789942970;
+        Wed, 04 Nov 2026 02:59:02 -0800 (PST)
+Received: from minako.localnet ([2403:581e:d87e:0:739f:50a5:e171:f133])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b095314e85sm3304868a91.15.2026.11.04.02.58.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 02:59:02 -0800 (PST)
+From: James Calligeros <jcalligeros99@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Martin =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+ Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Subject:
+ Re: [PATCH v4 02/22] ASoC: dt-bindings: cs42l42: Allow referenced dai-common
+ properties
+Date: Wed, 04 Nov 2026 20:58:53 +1000
+Message-ID: <dD3cbQkjQr2lqk83ChC6wQ@gmail.com>
+In-Reply-To: <f25646e3-d80e-4b26-b869-42608c89e665@kernel.org>
+References:
+ <20261103-macaudio-v4-0-637484efe46d@gmail.com>
+ <20261104-strict-precise-mouflon-85cbad@quoll>
+ <f25646e3-d80e-4b26-b869-42608c89e665@kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,83 +117,66 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-usx2y_urb_play_prepare() sums the packet lengths of a whole URB, copies
-that many frames with a single wrap, and sizes each playback packet from
-the capture packet's actual_length. Two assumptions are unchecked: that
-the URB fits in the ring buffer, and that a packet fits in the playback
-endpoint's maxpacksize, from which tmpbuf is allocated.
+On Wednesday, 4 November 2026 8:52:38=E2=80=AFpm Australian Eastern Standar=
+d Time=20
+Krzysztof Kozlowski wrote:
+> On 04/11/2026 11:49, Krzysztof Kozlowski wrote:
+> > On Tue, Nov 03, 2026 at 05:39:50PM +1000, James Calligeros wrote:
+> >> We may need to define both #sound-dai-cells and sound-name-prefix on s=
+ome
+> >> machines where this codec is part of a simple DAI. Allow this by
+> >> refrencing
+> >> dai-common.yaml and allowing its properties to be used.
+> >>=20
+> >> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> >> ---
+> >>=20
+> >>  Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml | 5 ++++-
+> >>  1 file changed, 4 insertions(+), 1 deletion(-)
+> >>=20
+> >> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.ya=
+ml
+> >> b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml index
+> >> ab4c7d22dc0e..4ac0af34c464 100644
+> >> --- a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
+> >> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
+> >> @@ -9,6 +9,9 @@ title: Cirrus Logic CS42L42 audio CODEC
+> >>=20
+> >>  maintainers:
+> >>    - patches@opensource.cirrus.com
+> >>=20
+> >> +allOf:
+> >> +  - $ref: dai-common.yaml#
+> >> +
+> >>=20
+> >>  description:
+> >>    The CS42L42 is a low-power audio codec designed for portable
+> >>    applications.
+> >>    It provides a high-dynamic range, stereo DAC for audio playback and=
+ a
+> >>    mono
+> >>=20
+> >> @@ -193,7 +196,7 @@ required:
+> >>    - VL-supply
+> >>    - VA-supply
+> >=20
+> > Missing dai-cells constraint
+>=20
+> Heh, I already asked for this two weeks ago.
+>=20
+> I do not see how you responded to my comment, dropping everything from
+> DT patchwork.
+>=20
+> Best regards,
+> Krzysztof
 
-Return -EPIPE, as the existing packet-size check does, when the URB is
-larger than the buffer or a packet is larger than maxpacksize. The first
-case is prevented by the buffer bound in the previous patch and this is
-the guard for it; the second depends only on the device.
+Given that the binding did not have a constraint for this originally, it
+was my impression that adding one would best go in another patch unrelated
+to this series. If you think it's fine to add here then I can simply fix th=
+is
+for v5.
 
-The first case is reachable on the unpatched driver with ordinary
-packets: on 7.3-rc7, a USB/IP device presenting the US-122 interface
-layout and sending 48-frame packets, with a 100-frame playback buffer
-(two 50-frame periods, inside the stock constraints), KASAN reports:
-
-  BUG: KASAN: out-of-bounds in i_usx2y_urb_complete+0x79b/0x1ac0
-  Read of size 18446744073709551280 at addr ffff88800e6b02e0 by task vhci_r=
-x/80
-
-With both patches, the same device and a 200-frame playback buffer is
-refused at hw_params with EINVAL, and a 400-frame buffer plays for 30 s
-with the position advancing inside the buffer, no KASAN report and
-neither guard message. The maxpacksize check is not exercised: the
-emulated device reports the same wMaxPacketSize on both endpoints.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Sinan Turunc <enscrpt@pm.me>
----
-v3: new patch, split out of the v3 draft; the review of v2 found both
-unchecked assumptions. The buffer case is confirmed on the unpatched
-driver and the guards tested on 7.3-rc7, see above.
-
- sound/usb/usx2y/usbusx2yaudio.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
-
-diff --git a/sound/usb/usx2y/usbusx2yaudio.c b/sound/usb/usx2y/usbusx2yaudi=
-o.c
-index ee224b4dfb0..5f241d45401 100644
---- a/sound/usb/usx2y/usbusx2yaudio.c
-+++ b/sound/usb/usx2y/usbusx2yaudio.c
-@@ -112,7 +112,8 @@ static int usx2y_urb_play_prepare(struct snd_usx2y_subs=
-tream *subs,
- =09=09/* calculate the size of a packet */
- =09=09counts =3D cap_urb->iso_frame_desc[pack].actual_length / usx2y->stri=
-de;
- =09=09count +=3D counts;
--=09=09if (counts < 43 || counts > 50) {
-+=09=09if (counts < 43 || counts > 50 ||
-+=09=09    counts * usx2y->stride > subs->maxpacksize) {
- =09=09=09dev_err(&usx2y->dev->dev, "%s: should not be here with counts=3D%=
-i\n",
- =09=09=09=09__func__, counts);
- =09=09=09return -EPIPE;
-@@ -125,6 +126,16 @@ static int usx2y_urb_play_prepare(struct snd_usx2y_sub=
-stream *subs,
- =09=09urb->iso_frame_desc[pack].length =3D cap_urb->iso_frame_desc[pack].a=
-ctual_length;
- =09}
- =09if (atomic_read(&subs->state) >=3D STATE_PRERUNNING) {
-+=09=09/*
-+=09=09 * The copy below wraps once, which needs count <=3D buffer_size.
-+=09=09 * snd_usx2y_pcm_open() guarantees it; guard anyway.
-+=09=09 */
-+=09=09if (unlikely(count > runtime->buffer_size)) {
-+=09=09=09dev_err_ratelimited(&usx2y->dev->dev,
-+=09=09=09=09=09    "%s: URB of %i frames exceeds %lu-frame buffer\n",
-+=09=09=09=09=09    __func__, count, runtime->buffer_size);
-+=09=09=09return -EPIPE;
-+=09=09}
- =09=09if (subs->hwptr + count > runtime->buffer_size) {
- =09=09=09/* err, the transferred area goes over buffer boundary.
- =09=09=09 * copy the data to the temp buffer.
---=20
-2.56.0
 
