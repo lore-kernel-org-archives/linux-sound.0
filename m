@@ -1,64 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793838118;
-	b=jQYkEAahSea3Law99/2Ukiprj79S1xZpONvJA5txDuKRvv/bggy5GSVneAlBy67P/mV+
-	 AlVyCir38v9ixF8PIUq7ha/9yan53NhUzovg1sbmhu34ett9aH7u8bl0I9LZv0evP86kF
-	 IEqFv2m+kQCqDLTxF3NySQ6Lgebt0MWNC4xrNYk4JTBYJpdo4bP/7KAtwQMW7YdmsKzLQ
-	 o8boAgb9RKvOFAo0vkrrQz8pJOUN2gzrSszqFK/3Q3L8dF0Velye2ISRQGtZvwq2XU5k+
-	 O6YNlV/5KuoldmCDi+e7g8ZHP6bozmVPmjRLYdA4y9ew2A5fPYD+8/SordyrhPMMe3Q==
+	t=1793838894;
+	b=L4DTfTphroH6x2mhVcvnDsj3LMun4S8Xuwpz3fybFuuRYQ3zXpS/9Jx59L8eNJCgI6nL
+	 gkjXsL4aja/5qP4OhB67vMWBxqIAJixMSEFl0QjLood0eGr53Ol/ZKYgIwCMRSHsPdwzL
+	 HQ+gFX0NhrN/rlU6RqYkUQ0J/9YUw5k0H/MLGydHT1vd4LMJeRA3GKRTwuTgu6pLZAa+9
+	 0pUka9IzjmjpNMYuAJJFeGvOHq8dpOOieVLvV0lGPKBPPNnupKH7W00gQgkMgTf3V/9Si
+	 j71BxCaMXDXCoNgDX/QyboiclCnIm1BN2BgyxcgWHGWeobpUF4MC3H6ciORSQRfZEAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793838118;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=KJ+EWn5f31K8LTsipMRwE67SY96qb24TRG/ZZUgor4E=;
-	b=WA6HU/iClVzU88Crqx6oYymbjPob2ZyCP07/4RigjLNn0pJDXq4LLBcBDNju7KxlwkTi
-	 SbdopUddWY3TFQqV7fQKu9gjei+W0daKyXxYcSSaccVcRlZW/H2S7EcINGfklG243d6be
-	 mMUcC82bg3JF5B3VG2PqrxQ9QuCoDG7BLbdSKYb+ItCht4ZMqHQr7oYkapOnOGtljX03z
-	 +Gw2fqNarkB1lf9G/KQczb7/fZ++nPD2JfWs5NoibPSYRDnDqlPuqxzR+CXEjbwwGp5uB
-	 WbRhBUizO8Y4l6N1ZHTM9l85V0XPVIAloBRBIn6Hs2tfSz1Bm4NCShBFJGrT29LvKUA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793838894;
+	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
+	 Subject:Message-Id:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=1hNeofC6CYWxQvsjGCSYjmci92xlsWhOuFkDA76tl0o=;
+	b=kc9k98u6gff2cRo9sxLur2QHtHYoTYL+1ZYV1xdnPlofazbtLGAoUlIh4GKO7lDPirpJ
+	 ktZBh2fWSKH1nN1u9+2dZmkLsoWRdkvmWroGMyeYFaNBl4AAmXDqxLgda1O6D6NAAmnCl
+	 6G4KzhN9v8MTDpmQcWLOIgxs68TZXcSXPUjihjn1m0Ywj96wBpKz9T5V68/mQUP//g3Eb
+	 1gdQ4Uba5Dz/W3AJ/jB+QOCJeik1HyRpKIGyZbehyvYzwEnGYtNHXGWYha2hLWK5jnFO3
+	 GD2kBc8U71qURXFhUKXrTSRzY6UhK7COVCRNIBwKVQONM2xti4RKg16dJZsb3N8cekQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jFRjSZ3V;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TnSmeitP;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F0E606A31B;
-	Thu,  5 Nov 2026 00:21:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30342606A31B;
+	Thu,  5 Nov 2026 00:34:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jFRjSZ3V
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76DA51F000C1;
-	Thu,  5 Nov 2026 00:21:57 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TnSmeitP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE2B91F000C1;
+	Thu,  5 Nov 2026 00:34:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793838117;
-	bh=KJ+EWn5f31K8LTsipMRwE67SY96qb24TRG/ZZUgor4E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jFRjSZ3Vjg2/3aqnl3ftOlADfJwCoHEFZ89XEajUiiTXtFgUUus+uer+Ptdu3Ztuv
-	 lf4AgGKcAz1wf+1jPrFB4NwTgP+WFN+61Vok/HozH6p5F/KWFoHpAT3NlxM1cvSb2j
-	 C739jhTdTi0ZaI26Ajh1epVtVX/nxV5PbMJtrAlHD/4IARRMkmOIJNaH5wzYCHCFOD
-	 JshCoEPt0LG2qji65DxmVfd8SGBSTWIBAHPQsYg4nFSl/8Az77DBFilsC7adseC0rS
-	 53Np+hG5Y0J2o2lJcVU6zMCig0aY7vRVJVRxsqK8art1bQ/9lpfFSlNeFhnF3Y1gYf
-	 HY0LLms01dBgg==
-Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
-	id 514B1269328F; Thu, 05 Nov 2026 00:21:55 +0000 (GMT)
-Date: Thu, 5 Nov 2026 00:21:55 +0000
+	s=k20260515; t=1793838893;
+	bh=1hNeofC6CYWxQvsjGCSYjmci92xlsWhOuFkDA76tl0o=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=TnSmeitPUF6orFBe0OkfoNDbLhP/Yb3hlXS7e2ay/aKrnnJ0Xtb9WFiPwZ6tKatU6
+	 ox3qQpdXCn5minUg84P1/p8vx023x22sCTSUQdQ43iGl9MgKdW2DKqro0I6P2fUw16
+	 5SmrOhiV61Jzl0hrpF5NYFbkBb529gD0LCvaooKNu9tvLsbtbEM3xQ2roQCGo1wxwh
+	 T7zeAn49prnvxDP0754q6GyXF1z1z1ShoJi3/oyoQwzBg/3Czk6QUqCxKgIOLwzXOV
+	 snQbgyhXklwxBnR73bYwS5hwWL/ZCjGqdcjPwFH5uwxPl64gA7YnzlPACfUKcvmoLa
+	 S4ozk5GEewmvg==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 9CEBA26DF5D8;
+	Thu, 05 Nov 2026 00:34:51 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: Sheetal <sheetal@nvidia.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mohan Kumar <mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Anupama Kunkulagunta <akunkulagunt@nvidia.com>
-Subject: Re: [PATCH 1/2] dt-bindings: sound: Add Tegra268 AHUB support
-Message-ID: <eb487bb8-1d43-473b-8eac-c35f11aee6dd@sirena.org.uk>
-References: <20261104112055.1101243-1-sheetal@nvidia.com>
- <20261104112055.1101243-2-sheetal@nvidia.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20261104133322.1085061-1-rf@opensource.cirrus.com>
+References: <20261104133322.1085061-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: wm_adsp: Prevent negative string length in
+ wm_adsp_control_add()
+Message-Id: <179382078808.2456854.1438608478800868665.b4-ty@b4>
+Date: Wed, 04 Nov 2026 19:33:08 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -68,40 +63,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/o0u/gJGJlEXgU5E"
-Content-Disposition: inline
-In-Reply-To: <20261104112055.1101243-2-sheetal@nvidia.com>
-X-Cookie: Whoever dies with the most toys wins.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1164; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=6c5BgDfBvCzuLkMhi6liTwHOkvTKv2XER678wtE6eSY=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJen9d2arr7/tsXN1EJpelXApecubVZ85P4qkX2j8xkX
+ nC7ztg9uaOUhUGMi0FWTJElLov7ZX3J6zV8Bxe2wcxhZQIZwsDFKQAT6bzHyLDc6vgThRfT9J86
+ z1+ZpG1/K1inPcI4orh2v25IaPqf/c8YGR4taLuV91RWsFGmLadq/o4VH56WLDr6aceeypjdiUV
+ Z57kB
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Wed, 04 Nov 2026 13:33:22 +0000, Richard Fitzgerald wrote:
+> ASoC: wm_adsp: Prevent negative string length in wm_adsp_control_add()
 
---/o0u/gJGJlEXgU5E
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Wed, Nov 04, 2026 at 11:20:54AM +0000, Sheetal wrote:
-> From: Anupama Kunkulagunta <akunkulagunt@nvidia.com>
->=20
-> Tegra268 AHUB supports five RX and five TX ADMAIF interfaces, five
-> I2S instances, two MVC instances, and one instance each of AMX, ADX,
-> MIXER and ASRC.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
+Thanks!
 
---/o0u/gJGJlEXgU5E
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/1] ASoC: wm_adsp: Prevent negative string length in wm_adsp_control_add()
+      https://git.kernel.org/broonie/sound/c/4d07af76ca41
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCauvMIwAKCRAv73Ows9A4
-ic7YAPoDZZC/AHN6uGF95k8G1Y4mgrZ5on6qIUN2NaWY5Ek0EgEA7zCSlgtDmyRM
-NRssu04HoncgGiLJN5vUVjhl1RC+rAo=
-=s/In
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---/o0u/gJGJlEXgU5E--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
