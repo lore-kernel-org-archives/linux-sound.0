@@ -1,48 +1,111 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793820323;
-	b=QLG9KMo6AV8pycW70MqmJCVjWbwButJMpuvqYGgkLLjK9xcQSnBr/KAJW1siIsP7gFRB
-	 dCyoHiOcDWF0aY0ikF5uR3qA4Chcc1TceUbpQUHwvhw+mlObJV70rnmD/KcZeg2wifBbN
-	 7dWOK5y0X9KZ8UN1CE/IaziWzRkJ/5oBMY3lwTmWg/v4DqWKmNE1FRGXoSQuMzUkD8sLB
-	 0TGekLBLqcRZjBf0Exbprx938ui4JbiQgM12hf+xzFGxumgQmDKAomoX1E2WOf8t9TVDV
-	 DOpp6xk4cxYGURzC5nQVwt7tyo0xsyRqNwleTWkii63AaLvvky22rpROMJsUIHjBZcQ==
+	t=1793820332;
+	b=SL6OUZgH5bal9Ezs9e0x7INmvGZ+fT1Yf9IEJsvum+MtgC5Ya/lYDI7pculi8/2wJaoY
+	 a9ZhcctXTqWWzb7hz5YTUnJF4TtkOrNW4n70Gs4WzBdxlfDDw8GoMBzmzHD6pSgbVVTwB
+	 gkHVCrEWBRGas5rtgCJH0Uqsyn+f1oy1zIeF+UZUIjwmpNQoGrKKi/TVG0ij0/glppi0Q
+	 Ro40pkLAiiamxkQNXV+F4Y5lQxHd4JTD5iAUMjdeLodRN3ZNatKo/O8FoTc66zf/mnpoA
+	 KbecIYgFfFGoRkeliirlDiuQP71E1bC+QiFlefE3D+kKI+N5n+7JEZ5Aln/SM+hdAiA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793820323;
-	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=Uk0o6FBoGcY5NBuL2LZGlytPcIssZi7GRrhUphWLTxQ=;
-	b=1j6gZ5EZXavzWzoP6xeFCWKg8G2pn0bQ4SXN6NBGQxzL29JhqM9krs0+gLOZYYeY+DSA
-	 4dD5HqfvZX0xZD8NEXkRPMgc60GIMIOMB6iGKQsCxeCuuQ/9Z38rFaFnwdTyZApqmHzun
-	 vG7KTbpVLo2qtphUfDNpcp+NnXYRqe2mWF+bEuL5YO2TwsN1u22NRNixt/GcIxL+by1hM
-	 0lKu4mjXm/8jJm7MwEj3vTlQyFM8dPvwQpf/X7cJyZEiABgtJf2w0a7wxbeTkWXkGEtoX
-	 EGFzd8q+/2DkOfk9obydLabH6rmEEAPIifI07knjN9AcEFCtL80WVLEKkOANntnzuvA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793820332;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
+	bh=v5t8qKNo68SCWoforDimF8hL2ZYL+p0Okj8bWoZ1JT0=;
+	b=H3JlDk22X4gEYSi7Nh//o24gu8aykS7iCFhNWUhveL6jfj74FZF+BEwCy5/PUF6hUV8F
+	 FgAsm3Q2sp5yeoWxrQxH5VZqTrqxB7vwrngnmFNMcmGaRGYv52Xr2O6DFRoP5nPYDxoIQ
+	 5MhlFy0+mgl630WC6DrW4JJtvylb9hvgX9bpXOtLbcR/NfVLKbx8uIB/6ila6TIYxMABI
+	 xa5JEh27ca+qFLzvkkPfJmMex+EzQ5jJx5t80e4sgpaas6bECgXMrqpKVMkg2uRhHXsiS
+	 D0OuplmtaLgr1hpeLSZFYFBCEpKGVHkNLHZPH+H5F0AKUcmkEU7jRB/RmcnoTKSLzcw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fERs4CgT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d2Yp3suk;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6FE6082098;
-	Wed,  4 Nov 2026 19:25:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1464D6084191;
+	Wed,  4 Nov 2026 19:25:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fERs4CgT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B18A21F00A22;
-	Wed,  4 Nov 2026 19:25:22 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d2Yp3suk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A98241F0093A;
+	Wed,  4 Nov 2026 19:25:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793820322;
-	bh=Uk0o6FBoGcY5NBuL2LZGlytPcIssZi7GRrhUphWLTxQ=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=fERs4CgTg6+eT98lS7Wr8OWNaful2DOb7NsQ4/EFDrOoKGxYJKwqzRoSGs1VFWJO5
-	 zn8qCzM6X3gZ7FurA6/7bJMPt8k7ToEKifwCaQCx3kEvdCCuxcJCAQQaOBvA/tDDpQ
-	 yFNZUNqb1XTbZVdGbooCeloWqex6KsUz7r6YX8HZ/lSvjpCmVg0mkp6/0ISbZlxKVU
-	 jdgHO1GJDi7jchtTT0P2ifxoQ9D3aKmC5GY1CODPg4DAbuU4A/lnKlJY6x9IA/IUk5
-	 9+xOKvDbSr9FZ/owkWyilWMiGFGUs9UgeIHHjtrcjQUWFYreYoK/853HwMDSHWjVJl
-	 yFDNKRh33DnPw==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id A6DED262AA11;
-	Wed, 04 Nov 2026 19:25:20 +0000 (GMT)
+	s=k20260515; t=1793820331;
+	bh=v5t8qKNo68SCWoforDimF8hL2ZYL+p0Okj8bWoZ1JT0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=d2Yp3suk+xIFUQRM7BO7x7E3aft20rXKQTfKi2EJdB6puqKguKbDO/RzfDRA7X3lV
+	 gSljFhFAbMDcd/asHliyJikYnWdkdW8FRwy3bQh6M+ewh9drJ7d35YOJvdhtwFBPH9
+	 JRwJWLRJM4Vxp/NSD7VcC/GqW0BZH+vd44UCHmE480t5IclYXqoZgoP1rxpP7ASvzi
+	 MV6zaQzy3dS5SCMydWsqMWRJAW6dgE80WRCZ4oN2w3QDfNKA1V+orpBh9N1WCS1BnB
+	 qAK1SagQtlE4k26S60ABDjOQvWS+i75OCJwN1Sg08aifhf820lnDivFXg1KjOzyPpn
+	 JuTk2cFWA7+Bg==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Jann Horn <jannh@google.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Chris Mason <mason@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christoph Hellwig <hch@lst.de>,
+	Greg Kroah-Hartman <gregkh@suse.de>,
+	Joel Granados <joel.granados@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jan Kara <jack@suse.com>,
+	linux-kernel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-wireless@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	netdev@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org,
+	coreteam@netfilter.org,
+	kexec@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	netfilter-devel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	ibm-acpi-devel@lists.sourceforge.net,
+	jfs-discussion@lists.sourceforge.net,
+	linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-sh@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	samba-technical@lists.samba.org,
+	sparclinux@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-doc@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-input@vger.kernel.org,
+	linux-raid@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-debuggers@vger.kernel.org,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>,
+	Chuck Lever <cel@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH RESEND v2 38/51] powerpc/crash_dump: check ioremap_cache() in copy_oldmem_page()
+Date: Wed,  4 Nov 2026 20:25:17 +0100
+Message-ID: <20261104-work-procfs-bugfixes-v2-38-021c84d852e0@kernel.org>
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
+References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -53,41 +116,42 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH] firmware: cs_dsp: Fix memory leak on cs_dsp_power_up()
- error path
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: broonie@kernel.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20261104152402.1153795-1-rf@opensource.cirrus.com>
-References: <20261104152402.1153795-1-rf@opensource.cirrus.com>
-Date: Wed, 04 Nov 2026 19:25:19 +0000
-Message-Id: <179382031940.2456854.940954168773032652.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=442; i=broonie@kernel.org;
- h=from:subject:message-id; bh=6ST5GjTKv6pWjG2QugZsumFA9GJltuLOJEHUi+qAFNE=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJety1Ye3D9H9cc7jzdW++dHu7UW/2vmONm3p43kglsj
- k/CPkxK7yhlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBEduYy/I/OjczriVCqV7Qt
- mb3rZvzRA/9XyHRcjProdEPto4/tli2MDJ83eVy8nGX9cn3ZEcVsJZsFk6sEMj8WqxxJzL1QNX/
- 6bBYA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1312; i=brauner@kernel.org; h=from:subject:message-id; bh=2dbZnDPFapx3dAW5qeN54CL6hHWBvjsrs28L3h6tsIk=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9bvxl/P2Dzo5anu13Tqzf1xxtev7aJSeWp+ezo6b2t N9VrY5U7ChlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZiIaS/D/3hfsRnFFt+mr1Gq mfCx747C6gAR6081CmdVZ93UW9i0TJWRYddzz5Q7xvsdygJ9F50qmvOkfr37pFAJ8balvcaJT6z +8gEA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-> If cs_dsp_power_up() fails on or after cs_dsp_load() mark the controls
-> disabled and free the alg regions.
+copy_oldmem_page() maps a page of the old kernel that isn't in the
+linear mapping with ioremap_cache() and copies from it without checking
+whether the mapping worked. If it didn't, the copy reads from an offset
+into the NULL page. That oopses unless the copy happens to be a user
+copy, whose exception table entries turn the fault into a short copy.
 
-> @@ -2838,6 +2839,11 @@ int cs_dsp_power_up(struct cs_dsp *dsp,
->  
->  	return 0;
->  err_ena:
-> +	list_for_each_entry(ctl, &dsp->ctl_list, list)
-> +		ctl->enabled = 0;
-> +
-> +	cs_dsp_free_alg_regions(dsp);
-> +
+Return -ENOMEM like the other architectures do. read_from_oldmem()
+turns that into -EFAULT like any other short copy.
 
-Do we need something similar in cs_dsp_adsp1_power_up() as well?
+Reported-by: Chris Mason <mason@kernel.org>
+Fixes: 54c32021eb6f ("[PATCH] powerpc: Add arch-dependent copy_oldmem_page")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ arch/powerpc/kernel/crash_dump.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/powerpc/kernel/crash_dump.c b/arch/powerpc/kernel/crash_dump.c
+index 103b6605dd68..1543917bd3e1 100644
+--- a/arch/powerpc/kernel/crash_dump.c
++++ b/arch/powerpc/kernel/crash_dump.c
+@@ -86,6 +86,8 @@ ssize_t copy_oldmem_page(struct iov_iter *iter, unsigned long pfn,
+ 		csize = copy_to_iter(vaddr + offset, csize, iter);
+ 	} else {
+ 		vaddr = ioremap_cache(paddr, PAGE_SIZE);
++		if (!vaddr)
++			return -ENOMEM;
+ 		csize = copy_to_iter(vaddr + offset, csize, iter);
+ 		iounmap(vaddr);
+ 	}
 
 -- 
-Mark Brown <broonie@kernel.org>
+2.53.0
+
