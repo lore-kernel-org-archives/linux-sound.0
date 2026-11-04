@@ -1,110 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793820587;
-	b=tAEs9kmGTO0vOSImRy0B4po4bANbW3kgMVIqc5sE1gR67/ZsQ+XQTWTG1Q/LV9VUVR2n
-	 dRwIwZVqQNaf1m7AFRtLOXuGURe86wKw8HMEi/ADI0vPHH2EuqdOxaA6i84lAQVBS/OX4
-	 Me64NBHXH38Zo2rvLSSxpMu6rGeqpUoW1c9RO5sMZH1zfKxm7nCND9LJ0TVqo871aXQDa
-	 r1bDs7vX2xrdFRwBHjfeoZoQPDnhYMd1370Timef81t/d/mZGZuQmi8YdK4cth01h+1SN
-	 tTdPWz7nXVN3hCVhN2csldjZZYVMjbxg4P1Oyd2pa5cw5GMI3H1BUkPAEXNb1mLhd3g==
+	t=1793820588;
+	b=Umn+aJhoBHiM1BnOGoE9RRt3f1/3wZVAlTQG2rs8rzCEeXrPGH1A49kzs3PGGFVxDvaE
+	 VywwCH7LoeReQVuUCnk+6sNgmVPJA907bryFn5/JhEmSZC0eMrpokF49njw1eqwENDmbE
+	 8+xFr0cc92S+Q/Kj8gM0167Tse+79jnofE0EvxS2PtRJY8yZgO2OZl0KODQK0sBir0o8x
+	 TirzHrobxhuTg2WAk2hOI5tsk6rV4fbj1OzW5by+UIYa4TQk+YEkmF2kHprjTjQoSON7f
+	 AbilVNozsXVrrR3cTtW07zpyMchMREnPw8wuBo7nshGPcMR8YcGwj7zXcAgC6+Ax1Eg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793820587;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=jJveCArfJ4dJAlkDsE+PsTgPNAew1JtEqbKqeEtjh0c=;
-	b=SbKrvu2bNrsqHjeONx2HIaCVfQfKRQWbnkwrmFUC/qADLDTuyAp4Uivzu+vC0Aqg7p17
-	 Nr1pSqT11ONAqCYSmWrSAjsc9QHkw7wAXCe6NZsui2Yi7B8b+yuDyOgG5KOy1dYqCsREj
-	 w6lrmeb4t9eK1i/HuOH2CbT59jNKX5FwNce940615YI2aRyAl6ZRujkD1UvWUI87sQaw4
-	 XQgsJXPoqyYqlzlvGQOx6VUlyg+VuJgmfayWNpNcEhBvKC+fSGk+BvTo+LwenPuHzp8Et
-	 2mwZjGpJUnuoUHDk/x/XWISyHwF+0p+5GspoNX6df4+e5H/OkfCl1XWiYF1jINbcbGQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793820588;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Last-TLS-Session-Version;
+	bh=yWX9HzorOqGIhuw+UhmBUEbF43oZfzZ1Cb6+mPXskkk=;
+	b=hJaH/DuB8+3B4uGU0mZD7LBZiHA+oLE+qQcLYB6HVrP6aCabyduvsRRc1uoJ8OXrBsmw
+	 PE48EQQ1vKxsyUImPUfxnYfykJiuPGDn9jVcP1K+0IloGB8zQqoyBrxKlyYHZoAv6fL9c
+	 CvPAZB+4oHXreAtq/WhQFZSEeXPzPdTTk5FOYjnXXex/6IERrXQsiVFNDK6xRhuC/6WZZ
+	 Fpp/iIu6b4LzzMeMKYLgUDiB0gWIDw5Q3h6RpVZNYhUJLWcIEETV20RrOSI6sDHJE/rlc
+	 KTIp88AcgzYRqJkpGSBGwN9HK6xcB2HAulw04dNsk+Q8xorpULpVN+ow2KAPw4c20nA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="BjZ/Zf08";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=BSj8IZT7;
+	arc=none smtp.remote-ip=185.171.202.116
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF236076366;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D506076362;
 	Wed,  4 Nov 2026 19:29:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 63D506076362
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BjZ/Zf08
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1F0A1F00A17;
-	Wed,  4 Nov 2026 19:29:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793820586;
-	bh=jJveCArfJ4dJAlkDsE+PsTgPNAew1JtEqbKqeEtjh0c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=BjZ/Zf08BvWFVtiPIjuPZ7YyWoio1bwIZMMZVBF20DzzjnxA22jWzFxc9KjKjaDvT
-	 rViB/7feQqOjmIju1fIMJ4a+1vVMheCQ/Lrk5pNSdEe7937GT4q7VYJRDRZ2FTv2lh
-	 C/KvEqXWJmv76siosW+mEyiwP42cccALGsX6OmqEmfv7sn7fyyyEhW4DwY1lepXGap
-	 VVEvKtdm//l0UV8A5yXcOdbtJeVrpe0JA8pTZmD3AlPnJBCkqJoqHuJZtDgqSt3khc
-	 88vcSfprY+zWqxmh00X2TKAsyOgox1rWtHhY7hk8VIBQVGLti3lb08ZLZo2VrV985S
-	 v/G8P54ivmf+A==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Jann Horn <jannh@google.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Chris Mason <mason@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	Joel Granados <joel.granados@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jan Kara <jack@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org,
-	coreteam@netfilter.org,
-	kexec@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	netfilter-devel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	ibm-acpi-devel@lists.sourceforge.net,
-	jfs-discussion@lists.sourceforge.net,
-	linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sh@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	sparclinux@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-doc@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-input@vger.kernel.org,
-	linux-raid@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	Chuck Lever <cel@kernel.org>
-Subject: [PATCH RESEND v2 01/23] proc: drop the compat file operations
-Date: Wed,  4 Nov 2026 20:29:32 +0100
-Message-ID: <20261104-work-procfs-core-v2-1-76ace653a773@kernel.org>
-In-Reply-To: <20261104-work-procfs-core-v2-0-76ace653a773@kernel.org>
-References: <20261104-work-procfs-core-v2-0-76ace653a773@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=BSj8IZT7
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 6E64DC8F46B;
+	Wed,  4 Nov 2026 19:30:49 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 3180160770;
+	Wed,  4 Nov 2026 19:29:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F1B4410329206;
+	Wed,  4 Nov 2026 20:29:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1793820582; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=yWX9HzorOqGIhuw+UhmBUEbF43oZfzZ1Cb6+mPXskkk=;
+	b=BSj8IZT7vEM8sPwRrBbpYMSNZS4utcQHBp7d60z3/cZn1wUBZnl2jwSztI087/32KR6k+R
+	84GtoqcAny7uqt+Hzfi7lMiU+JieyMXUFHcDqS9JUm1ESOLCZl6YqoVlngEFoPZiC0+Z6q
+	LskGLvs7rRGF3z04Gw7Bud5lUEdBYeEQ5sAKKTLPNY21osBMUJtfzi5vU5AgXOnlCnEqcF
+	KJaO0pr/lzp6lh66c160vcYixvk+TC1ikWwkwXeMKVKbmAVovJzyW+tqXS88s/uT6VkH09
+	B+orPWf9BVprThZH/+OjxxslO2GyC7dH55CL5pSRSRcwFy0msbA535tHIvyn2w==
+Date: Wed, 4 Nov 2026 20:29:35 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Abel Vesa <abelvesa@kernel.org>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Mark Brown <broonie@kernel.org>, Andy Gross <andy.gross@linaro.org>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	stable@vger.kernel.org, Wentao Liang <vulab@iscas.ac.cn>,
+	Sashiko <sashiko-bot@kernel.org>
+Subject: Re: [PATCH v2] memory: atmel-ebi: Disable SMC clock on probe failure
+Message-ID: <20261104192935108e0e12@mail.local>
+References: <20261101190733.121473-3-krzysztof.kozlowski@oss.qualcomm.com>
+ <20261104185308b845fb6d@mail.local>
+ <c4eb1d41-8b61-4aca-abad-22cb61a4415e@kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -114,168 +80,68 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5437; i=brauner@kernel.org; h=from:subject:message-id; bh=2wrGueNUlsSX/cB6QD56PXJI32dZ2evqLoQHTbyNmak=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9bi80rwldk9xsNCM88cQWmaL5ejXnqpvnZdyZxcf3a JOaS+/cjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgImkRjEyHDk9+33iyk/3v0l/ Pvmv4kDpyx/CU2XYgk81tbCteMR3V57hv3fbzJj2eNeqs4lze0saDYXOKnhp666eWf7l+JJnopF f+QE=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c4eb1d41-8b61-4aca-abad-22cb61a4415e@kernel.org>
+X-Last-TLS-Session-Version: TLSv1.3
 
-procfs has both sets of file operations twice, with and without
-->compat_ioctl(), and picks the one with it for entries that have
-->proc_compat_ioctl(). That's from commit 778f3dd5a13c ("Fix procfs
-compat_ioctl regression") when a file without ->compat_ioctl() went
-through the translation tables in fs/compat_ioctl.c and one with it
-didn't. Those tables are gone since commit 77b9040195de ("compat_ioctl:
-simplify the implementation"). compat_sys_ioctl() answers -ENOTTY for a
-file without ->compat_ioctl() now, which is what
-proc_reg_compat_ioctl() answers for an entry without
-->proc_compat_ioctl().
+On 04/11/2026 19:59:45+0100, Krzysztof Kozlowski wrote:
+> On 04/11/2026 19:53, Alexandre Belloni wrote:
+> > Hi,
+> > 
+> > On 01/11/2026 20:07:34+0100, Krzysztof Kozlowski wrote:
+> >> Unprepare and drop the SMC clock reference, if probe fails to avoid
+> >> resource leakage e.g. during probe deferral.
+> >>
+> >> There is no remove() callback, presumably on purpose so only error paths
+> >> are handled.
+> >>
+> >> Cc: <stable@vger.kernel.org>
+> >> Fixes: 87108dc78eb8 ("memory: atmel-ebi: Enable the SMC clock if specified")
+> >> Reported-by: Wentao Liang <vulab@iscas.ac.cn>
+> >> Closes: https://lore.kernel.org/all/20260917101623.2146392-1-vulab@iscas.ac.cn/
+> >> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> >> Closes: https://sashiko.dev/#/bug/linux-8e236c81-01b2-4274-a213-11c3f31acfc2
+> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> >>
+> >> ---
+> >>
+> >> I independently developed the patch and then checked the queue with
+> >> pending work of iscas. That one has issues and other complains from me,
+> >> so only credits for the report.
+> >>
+> >> Changes in v2:
+> >> 1. Handle of_platform_populate() error.
+> >> ---
+> >>  drivers/memory/atmel-ebi.c | 27 ++++++++++++++++++++-------
+> >>  1 file changed, 20 insertions(+), 7 deletions(-)
+> >>
+> >> diff --git a/drivers/memory/atmel-ebi.c b/drivers/memory/atmel-ebi.c
+> >> index 1e8e8aba2542..7dc2f7add1b1 100644
+> >> --- a/drivers/memory/atmel-ebi.c
+> >> +++ b/drivers/memory/atmel-ebi.c
+> >> @@ -562,7 +562,7 @@ static int atmel_ebi_probe(struct platform_device *pdev)
+> >>  	}
+> >>  	ret = clk_prepare_enable(ebi->smc.clk);
+> >>  	if (ret)
+> >> -		return ret;
+> >> +		goto err_put_clk;
+> >>  
+> > 
+> > Couldn't we simply devm_clk_get_enabled() ?
+> It is not this device's clock. Is there devm_clk_get_enabled() variant
+> which takes from other node?
 
-So always set ->compat_ioctl() and drop the second set of file
-operations and the flag that picked it.
+Right! Not that I know of.
 
-No functional changes.
+Reviewed-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/proc/generic.c       |  4 ----
- fs/proc/inode.c         | 45 +++------------------------------------------
- fs/proc/internal.h      |  9 ---------
- include/linux/proc_fs.h |  1 -
- 4 files changed, 3 insertions(+), 56 deletions(-)
 
-diff --git a/fs/proc/generic.c b/fs/proc/generic.c
-index 9a0a2fcac7c7..e7264f0cf5ab 100644
---- a/fs/proc/generic.c
-+++ b/fs/proc/generic.c
-@@ -446,10 +446,6 @@ static void pde_set_flags(struct proc_dir_entry *pde)
- 		pde->flags |= PROC_ENTRY_PERMANENT;
- 	if (proc_ops->proc_read_iter)
- 		pde->flags |= PROC_ENTRY_proc_read_iter;
--#ifdef CONFIG_COMPAT
--	if (proc_ops->proc_compat_ioctl)
--		pde->flags |= PROC_ENTRY_proc_compat_ioctl;
--#endif
- 	if (proc_ops->proc_lseek)
- 		pde->flags |= PROC_ENTRY_proc_lseek;
- }
-diff --git a/fs/proc/inode.c b/fs/proc/inode.c
-index 2d65f3c8ec03..18f6490bfe77 100644
---- a/fs/proc/inode.c
-+++ b/fs/proc/inode.c
-@@ -410,6 +410,8 @@ static long proc_reg_compat_ioctl(struct file *file, unsigned int cmd, unsigned
- 	}
- 	return rv;
- }
-+#else
-+#define proc_reg_compat_ioctl NULL
- #endif
- 
- static int pde_mmap(struct proc_dir_entry *pde, struct file *file, struct vm_area_struct *vma)
-@@ -569,6 +571,7 @@ static const struct file_operations proc_reg_file_ops = {
- 	.write		= proc_reg_write,
- 	.poll		= proc_reg_poll,
- 	.unlocked_ioctl	= proc_reg_unlocked_ioctl,
-+	.compat_ioctl	= proc_reg_compat_ioctl,
- 	.mmap		= proc_reg_mmap,
- 	.get_unmapped_area = proc_reg_get_unmapped_area,
- #ifndef CONFIG_MMU
-@@ -585,39 +588,6 @@ static const struct file_operations proc_iter_file_ops = {
- 	.splice_read	= copy_splice_read,
- 	.poll		= proc_reg_poll,
- 	.unlocked_ioctl	= proc_reg_unlocked_ioctl,
--	.mmap		= proc_reg_mmap,
--	.get_unmapped_area = proc_reg_get_unmapped_area,
--#ifndef CONFIG_MMU
--	.mmap_capabilities = proc_reg_mmap_capabilities,
--#endif
--	.open		= proc_reg_open,
--	.release	= proc_reg_release,
--};
--
--#ifdef CONFIG_COMPAT
--static const struct file_operations proc_reg_file_ops_compat = {
--	.llseek		= proc_reg_llseek,
--	.read		= proc_reg_read,
--	.write		= proc_reg_write,
--	.poll		= proc_reg_poll,
--	.unlocked_ioctl	= proc_reg_unlocked_ioctl,
--	.compat_ioctl	= proc_reg_compat_ioctl,
--	.mmap		= proc_reg_mmap,
--	.get_unmapped_area = proc_reg_get_unmapped_area,
--#ifndef CONFIG_MMU
--	.mmap_capabilities = proc_reg_mmap_capabilities,
--#endif
--	.open		= proc_reg_open,
--	.release	= proc_reg_release,
--};
--
--static const struct file_operations proc_iter_file_ops_compat = {
--	.llseek		= proc_reg_llseek,
--	.read_iter	= proc_reg_read_iter,
--	.splice_read	= copy_splice_read,
--	.write		= proc_reg_write,
--	.poll		= proc_reg_poll,
--	.unlocked_ioctl	= proc_reg_unlocked_ioctl,
- 	.compat_ioctl	= proc_reg_compat_ioctl,
- 	.mmap		= proc_reg_mmap,
- 	.get_unmapped_area = proc_reg_get_unmapped_area,
-@@ -627,7 +597,6 @@ static const struct file_operations proc_iter_file_ops_compat = {
- 	.open		= proc_reg_open,
- 	.release	= proc_reg_release,
- };
--#endif
- 
- static const char *proc_get_link(struct dentry *dentry,
- 				 struct inode *inode,
-@@ -683,14 +652,6 @@ struct inode *proc_get_inode(struct super_block *sb, struct proc_dir_entry *de)
- 			inode->i_fop = &proc_iter_file_ops;
- 		else
- 			inode->i_fop = &proc_reg_file_ops;
--#ifdef CONFIG_COMPAT
--		if (pde_has_proc_compat_ioctl(de)) {
--			if (pde_has_proc_read_iter(de))
--				inode->i_fop = &proc_iter_file_ops_compat;
--			else
--				inode->i_fop = &proc_reg_file_ops_compat;
--		}
--#endif
- 	} else if (S_ISDIR(inode->i_mode)) {
- 		inode->i_op = de->proc_iops;
- 		inode->i_fop = de->proc_dir_ops;
-diff --git a/fs/proc/internal.h b/fs/proc/internal.h
-index 04f7ce2b24ed..268a0523be12 100644
---- a/fs/proc/internal.h
-+++ b/fs/proc/internal.h
-@@ -92,15 +92,6 @@ static inline bool pde_has_proc_read_iter(const struct proc_dir_entry *pde)
- 	return pde->flags & PROC_ENTRY_proc_read_iter;
- }
- 
--static inline bool pde_has_proc_compat_ioctl(const struct proc_dir_entry *pde)
--{
--#ifdef CONFIG_COMPAT
--	return pde->flags & PROC_ENTRY_proc_compat_ioctl;
--#else
--	return false;
--#endif
--}
--
- static inline bool pde_has_proc_lseek(const struct proc_dir_entry *pde)
- {
- 	return pde->flags & PROC_ENTRY_proc_lseek;
-diff --git a/include/linux/proc_fs.h b/include/linux/proc_fs.h
-index 47d7deaeed8f..6ad5150020bf 100644
---- a/include/linux/proc_fs.h
-+++ b/include/linux/proc_fs.h
-@@ -26,7 +26,6 @@ enum {
- #endif
- 
- 	PROC_ENTRY_proc_read_iter	= 1U << 1,
--	PROC_ENTRY_proc_compat_ioctl	= 1U << 2,
- 	PROC_ENTRY_proc_lseek		= 1U << 3,
- 
- 	PROC_ENTRY_FORCE_LOOKUP		= 1U << 7,
+> 
+> Best regards,
+> Krzysztof
 
 -- 
-2.53.0
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
