@@ -1,68 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.252
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793833182;
-	b=bElnTibpArjqoOHvlUSn8xrKYkLgZmHhYSR6LDJzDYVblpGgiRKhdMmoBPP1FOauRub+
-	 TFEtm76WKuvuMgUO5qCIwNZ/quTc0E5rlJ6EpKVPAsYEzVCw3HCPESZlrWJLh2HTZ/TJ7
-	 a9P+oHsBSM4cwBqdS6LzwluGE2Y+HFoGIjc82CLkIs/h998zqfwQBc6mOL2HxVoOJW9RH
-	 6nhbhfeh7LyLfMu8CgClnqEeiK1AuX4oVbPhZilFrKYOCBmSPDaeKHYCmHBWWxqUjJR4b
-	 YxQww+KR9DI3S3nlCqLZd9aMczQAL54GfnYb07FXtXyS2j0JTcH1qkjyij2DNtVOYAA==
+	t=1793835540;
+	b=fCF+JfujEr35vnVVeqgYXTztL8g4CC2oT5oVVIOjwhGIr1EgiY/ypnFINM4WlkV+QcKn
+	 MgjxbiqzpyAsKo45+JSHv+zNebGQidgrZoIGHmVuuCqG3wSSyzXxMRsCxOG64R8rbfPyl
+	 MAu0gVorGT5JQX6ggLaDe6YayVYAB0gaAe2GjzyYh663mRvirrnCm3aXi2nhRr8ix7lOO
+	 vyDMyBzUYO0vcELossgxuEJJDpQfm8vKI4HOr5NCWjyO1Dsmm+mLxMNGBQexq9EylYh7S
+	 8CkbBNPmNygiU7i4Sx0b3Tsaxu5vIV91v/hyPk+kLCpBv6b6ibfSvpX4sV1bZB920vA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793833182;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=BInk29Bm1/cypDatkmjM06J6zHFKks4ZHicr6kuplkk=;
-	b=05HngQ3WB38TySPoGhDS5cAFLeRm37eAIJppiJ+rBEz2x5RKZ0dhoaa0MA01Ulb52Tl0
-	 RIInKCN50zzOYVkufs9zgLmwmJu7qLlI2gutJ6JZ346GXDEjmy693nzKRlYt5PC54IWWI
-	 gjBE3hyKNmfnQgNAri0kMXZC2NQzSXb7zTl2zgmWht1hUd+tClm8PHYSdhhkVe+yAhxUn
-	 MLwP7buBUv1UKOIUc3ct4FyRLS2Th1n66xFBDc7d+54VqEB+5cYseLtGlRGkn7BEmNZ6J
-	 xH96HtnKxRzepsPQMrZt3aTXWiemXHx66OVtU90eG/HCd8cF3BkT7EuJFGWfQyANLDw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793835540;
+	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
+	 Subject:Message-Id:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=mQBS192ZpSJxSlcf7a/+JqZA1p1CGK2qlxHgtgp+wV8=;
+	b=mY92ruNcXSduxgaw2EIpjiDLWDqWH7WcMuTphTOjM03HSNNdxcRJojSzxNuO+lAvyIPX
+	 UXoaTZoKwV5lxoGkutVfDmOJt6TFIrYLyIfr4nodyRcmcn9cFy3U9/oDGRBfbpMPZaqna
+	 AcPOUTqJUFx9DJYU4LLl+LCxoLxiNX5EA0p+nRieEPrVfmccFdW7BxHFL91fkQw/ISH23
+	 HPi97JzrF6FcIxLuiB0UX+AHHZPFjpunZUFf9Ck3YmsWg9DtR54L1q3rvWaJS37yUzq1S
+	 KL8TfOHbWcilrQe+cPYTn0YNgqHOHLOlSzaijhhm+udfakao3aEanskNWBhkmmEtLxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=R+n9V49P;
-	arc=none smtp.remote-ip=91.218.175.252
-Received: from mta0.migadu.com (out-252.mta0.migadu.com [91.218.175.252])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PIluHJ9k;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39576606A328
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 22:59:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39576606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA218606A328;
+	Wed,  4 Nov 2026 23:38:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=R+n9V49P
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=n+BgTz1WSrNDtfZp9vDHIcJ1FE9xUZfuX05vlcrRddY=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793833179; v=1; x=1794437979;
- b=R+n9V49POl6a5fezVEIzUqcpCRxpGg58+THiqnhLlG0et4HOsmDTfA+84LCsqC2hnf1le8X6
- HIMlhG+DeRwSzUTsCD0J6ME3QAHrKzQ446yTIrASWnoKQPiyL1+FOcCU2M9bPyl5z3BqTuM0OWm
- kPqLJOKzpahmDOSjexcw3LvM=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 93d0879ff005aedc;
-	Wed, 04 Nov 2026 22:59:39 +0000
-X-Mizu-Trace-ID: 93d0879ff005aedc
-X-Migadu-Flow: FLOW_OUT
-From: Matthew Schwartz <matthew.schwartz@linux.dev>
-To: broonie@kernel.org
-Cc: Matthew Schwartz <matthew.schwartz@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/4] ASoC: amd: acp: add ACP70 SoundWire machine entry for ASUS RC74XA
-Date: Wed,  4 Nov 2026 14:58:01 -0800
-Message-ID: <20261104225803.1574849-3-matthew.schwartz@linux.dev>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261104225803.1574849-1-matthew.schwartz@linux.dev>
-References: <20261104225803.1574849-1-matthew.schwartz@linux.dev>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PIluHJ9k
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30A191F00919;
+	Wed,  4 Nov 2026 23:38:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793835539;
+	bh=mQBS192ZpSJxSlcf7a/+JqZA1p1CGK2qlxHgtgp+wV8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=PIluHJ9krwFfqLOXH8c1/dUfKy00UZN4osar7tfcibuAOnxlf6FgybLzsKPJpHhA1
+	 FUSq62J6iuVKTAmdWMM+cOxQTDl1hluVRy5+PiHZ+zS70wiyGX6a3IUYmo6KqEO9CM
+	 O/q9wOQK9bZtt1BHzVEpAe69ri1vlgTNU45DOXXI2m9T81eU96Y0mbc1+Vlvq1x5XU
+	 933Dep/w0q2FDvQWAd8YJcll5rAk9vQ6Yrdan+CpShURUB/el6IbwJaklB7zN1kD/f
+	 AezFiHtO9pF7hjE6AIEuGa3T49zNqPBUAkR2QY0O7Zhk7/zyaO+S/zpZ3b4JsKE0D5
+	 ZCA+v1qhXyr3A==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id EAE6526925ED;
+	Wed, 04 Nov 2026 23:38:56 +0000 (GMT)
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20261104111650.1079215-1-ckeepax@opensource.cirrus.com>
+References: <20261104111650.1079215-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH v3 0/3] Improve pop performance of cs42l43 input path
+Message-Id: <179379699621.2456854.17021609174709716123.b4-ty@b4>
+Date: Wed, 04 Nov 2026 12:56:36 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -72,84 +62,57 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1665; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=+KKLojYL3AJvQvWccrRH/4RvT7kERet00hUtaQxyxbU=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJeH+KpEeJhZFks/SSl/3vSL1bx/padjQor37HMEdX0q
+ sp2dHrYUcrCIMbFICumyBKXxf2yvuT1Gr6DC9tg5rAygQxh4OIUgInMCGNkeCO6Zc/vnHndZyxa
+ WLNzmG7bGv5nz3uoobstM9dqVj3bS0aGHwbf6j9MEfP90N6ilnO4f1bACf2/tjGr6pO2TDjvJOL
+ HDwA=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-The ROG Xbox Ally X20 (RC74XA) has two TAS2783 amps on link 0 with
-unique IDs 0x8 and 0xB and an RT721 on link 1. No table entry describes
-that layout, so machine selection falls through to acp70_rt721_only and
-routes speaker playback to the unused RT721 amp endpoint.
+On Wed, 04 Nov 2026 11:16:47 +0000, Charles Keepax wrote:
+> Improve pop performance of cs42l43 input path
+> 
+> Some rework to improve the pop noises associated with bring up of both
+> the analogue and the digital input paths on cs42l43. As part of that
+> there is also a little refactoring of the DAPM mic event handler to
+> switch over to look tables rather than switch statements.
+> 
+> [...]
 
-Add a two-link entry ahead of acp70_rt721_only with the RT721 limited
-to its jack and DMIC endpoints.
+Applied to
 
-Reviewed-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Signed-off-by: Matthew Schwartz <matthew.schwartz@linux.dev>
----
- sound/soc/amd/acp/amd-acp70-acpi-match.c | 44 ++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
-diff --git a/sound/soc/amd/acp/amd-acp70-acpi-match.c b/sound/soc/amd/acp/amd-acp70-acpi-match.c
-index c2f0479301ebd..0c1a7a70ce146 100644
---- a/sound/soc/amd/acp/amd-acp70-acpi-match.c
-+++ b/sound/soc/amd/acp/amd-acp70-acpi-match.c
-@@ -739,6 +739,45 @@ static const struct snd_soc_acpi_link_adr acp70_tas2783x2_l0u9c_rt712_vb_l1u0[]
- 	{}
- };
- 
-+static const struct snd_soc_acpi_adr_device tas2783x2_l0u8b_adr[] = {
-+	{
-+		.adr = 0x0000380102000001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "tas2783-1",
-+	},
-+	{
-+		.adr = 0x00003B0102000001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "tas2783-2",
-+	},
-+};
-+
-+static const struct snd_soc_acpi_adr_device rt721_l1u0_jack_dmic_adr[] = {
-+	{
-+		.adr = 0x000130025D072101ull,
-+		.num_endpoints = ARRAY_SIZE(jack_dmic_endpoints),
-+		.endpoints = jack_dmic_endpoints,
-+		.name_prefix = "rt721",
-+	}
-+};
-+
-+/* ASUS ROG Xbox Ally X20 (RC74XA) */
-+static const struct snd_soc_acpi_link_adr acp70_tas2783x2_l0u8b_rt721_l1u0[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(tas2783x2_l0u8b_adr),
-+		.adr_d = tas2783x2_l0u8b_adr,
-+	},
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(rt721_l1u0_jack_dmic_adr),
-+		.adr_d = rt721_l1u0_jack_dmic_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_endpoint rt721_endpoints[] = {
- 	{ /* Jack Playback/Capture Endpoint (AIF1) */
- 		.num = 0,
-@@ -906,6 +945,11 @@ struct snd_soc_acpi_mach snd_soc_acpi_amd_acp70_sdw_machines[] = {
- 		.links = acp70_rt721_l1u0_tas2783x2_l1u8b,
- 		.drv_name = "amd_sdw",
- 	},
-+	{
-+		.link_mask = BIT(0) | BIT(1),
-+		.links = acp70_tas2783x2_l0u8b_rt721_l1u0,
-+		.drv_name = "amd_sdw",
-+	},
- 	{
- 		.link_mask = BIT(1),
- 		.links = acp70_rt721_only,
--- 
-2.56.0
+Thanks!
+
+[1/3] ASoC: cs42l43: Improve analogue mic pop performance
+      https://git.kernel.org/broonie/sound/c/b7d1b857f596
+[2/3] ASoC: cs42l43: Factor out decimator startup data to an array
+      https://git.kernel.org/broonie/sound/c/2b71e0408324
+[3/3] ASoC: cs42l43: Improve pop performance of the input power up
+      https://git.kernel.org/broonie/sound/c/cd2e9a5195bf
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
