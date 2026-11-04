@@ -1,111 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793820317;
-	b=UBMODQuPa+xcM2g7guxlzuEnaYTeySn1a7JMUXGQdzwQG6FKRzxAdCHGnADxPaCb0vqQ
-	 2zIHfazW8bD1FYF0Kf4FU3pwUOsBAZfYuO1IZKK/jet/OCV2JouBiDxKDBoZ6qxN8R0/f
-	 ZWBStB2+lWamFk9vXAnvao/UbHhqZmk/OptQdq3+HxaPxc3ECgrxNUTDkF7HpYvV3eqyJ
-	 eBJx3zAh0T985IeNwDjetuVS+Cki4i1R4Wju6c+N7ZbGi2fJcDTkbcT8i7EIbUcJOTycg
-	 n+YHoq0RP0LlnRKT3b76CuDR/07HOO1zHw2s2SfAzhCcwc8+sZYLJK06GjEL9sD40jw==
+	t=1793820323;
+	b=QLG9KMo6AV8pycW70MqmJCVjWbwButJMpuvqYGgkLLjK9xcQSnBr/KAJW1siIsP7gFRB
+	 dCyoHiOcDWF0aY0ikF5uR3qA4Chcc1TceUbpQUHwvhw+mlObJV70rnmD/KcZeg2wifBbN
+	 7dWOK5y0X9KZ8UN1CE/IaziWzRkJ/5oBMY3lwTmWg/v4DqWKmNE1FRGXoSQuMzUkD8sLB
+	 0TGekLBLqcRZjBf0Exbprx938ui4JbiQgM12hf+xzFGxumgQmDKAomoX1E2WOf8t9TVDV
+	 DOpp6xk4cxYGURzC5nQVwt7tyo0xsyRqNwleTWkii63AaLvvky22rpROMJsUIHjBZcQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793820317;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=xlRe6ByN3zpYNOlJQq83OVbC6fU3d9RayIfuGISBpLE=;
-	b=j6+y/m0YhH1v6rWDv8Uq2Qg4VujRtGv4a+FdPbv/M4bBCmKUh3JsJad4tvf0u0rSUPTU
-	 26BfPJCM0oneh9KBsP4sjurq6CXXUYAkfeh6DIjTQMoYsFruKvB5BGLYjMF0kkelcGeFV
-	 ulvxhW+UA4E2Huaue0jgDTbrOttr90+n/aALkYQSSkqjoapnkrp4RYLURMuLEdZw3/nwi
-	 HWfKyaeLAmRc/uDG2Xy0KD7jtCp3Ed7L5QhB8FGpAnrB9GEys4VHWdu78B8DXUrhTyXeN
-	 NX8ctzbJp7x1mg4oq4c1I+5ayvQY48/H2oDpWG9PlP6jKTzIzj8hz7oxZTuWHqMaxBw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793820323;
+	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=Uk0o6FBoGcY5NBuL2LZGlytPcIssZi7GRrhUphWLTxQ=;
+	b=1j6gZ5EZXavzWzoP6xeFCWKg8G2pn0bQ4SXN6NBGQxzL29JhqM9krs0+gLOZYYeY+DSA
+	 4dD5HqfvZX0xZD8NEXkRPMgc60GIMIOMB6iGKQsCxeCuuQ/9Z38rFaFnwdTyZApqmHzun
+	 vG7KTbpVLo2qtphUfDNpcp+NnXYRqe2mWF+bEuL5YO2TwsN1u22NRNixt/GcIxL+by1hM
+	 0lKu4mjXm/8jJm7MwEj3vTlQyFM8dPvwQpf/X7cJyZEiABgtJf2w0a7wxbeTkWXkGEtoX
+	 EGFzd8q+/2DkOfk9obydLabH6rmEEAPIifI07knjN9AcEFCtL80WVLEKkOANntnzuvA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kkCvPqeJ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fERs4CgT;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DAB86082BC5;
-	Wed,  4 Nov 2026 19:25:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6FE6082098;
+	Wed,  4 Nov 2026 19:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kkCvPqeJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D76511F000C1;
-	Wed,  4 Nov 2026 19:25:04 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fERs4CgT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B18A21F00A22;
+	Wed,  4 Nov 2026 19:25:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793820317;
-	bh=xlRe6ByN3zpYNOlJQq83OVbC6fU3d9RayIfuGISBpLE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=kkCvPqeJt9hXEFyti3iJ1FwuLHxmLXyjHHLihOfXAuh24SOvF5m2sIXA2UBAh8zQQ
-	 tsZTpgZBpzYwBDlu66b4vShl+NYAJTi7OGk2wP7Ucha8AWhX9jcDy7R8S9N5GjeOby
-	 MOJMhwZqq5jk1LHpQtOrhu5TAJznkDJyCPku1XJuUlWnmjNp6Lg/pIqjCYjb2E9pRw
-	 PlIWcj69apuPJIahs9+j3NJIIhvqdlJy8k5li84RC/zXcbSfahqzG08MO06TAxTgGD
-	 MsdlO68zHBsAVPP5uOrOJ4ggSIX4Lm9icnN+egX0bDbSKuctAZGL1q6hKv1U57BXdn
-	 DGKynIt51Y7WQ==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Jann Horn <jannh@google.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Chris Mason <mason@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	Joel Granados <joel.granados@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jan Kara <jack@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org,
-	coreteam@netfilter.org,
-	kexec@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	netfilter-devel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	ibm-acpi-devel@lists.sourceforge.net,
-	jfs-discussion@lists.sourceforge.net,
-	linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sh@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	sparclinux@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-doc@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-input@vger.kernel.org,
-	linux-raid@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	Chuck Lever <cel@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH RESEND v2 37/51] proc/vmcore: don't let vmcore_cleanup() run twice at once
-Date: Wed,  4 Nov 2026 20:25:02 +0100
-Message-ID: <20261104-work-procfs-bugfixes-v2-37-021c84d852e0@kernel.org>
-In-Reply-To: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
-References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
+	s=k20260515; t=1793820322;
+	bh=Uk0o6FBoGcY5NBuL2LZGlytPcIssZi7GRrhUphWLTxQ=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=fERs4CgTg6+eT98lS7Wr8OWNaful2DOb7NsQ4/EFDrOoKGxYJKwqzRoSGs1VFWJO5
+	 zn8qCzM6X3gZ7FurA6/7bJMPt8k7ToEKifwCaQCx3kEvdCCuxcJCAQQaOBvA/tDDpQ
+	 yFNZUNqb1XTbZVdGbooCeloWqex6KsUz7r6YX8HZ/lSvjpCmVg0mkp6/0ISbZlxKVU
+	 jdgHO1GJDi7jchtTT0P2ifxoQ9D3aKmC5GY1CODPg4DAbuU4A/lnKlJY6x9IA/IUk5
+	 9+xOKvDbSr9FZ/owkWyilWMiGFGUs9UgeIHHjtrcjQUWFYreYoK/853HwMDSHWjVJl
+	 yFDNKRh33DnPw==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id A6DED262AA11;
+	Wed, 04 Nov 2026 19:25:20 +0000 (GMT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -116,53 +53,41 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] firmware: cs_dsp: Fix memory leak on cs_dsp_power_up()
+ error path
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: broonie@kernel.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20261104152402.1153795-1-rf@opensource.cirrus.com>
+References: <20261104152402.1153795-1-rf@opensource.cirrus.com>
+Date: Wed, 04 Nov 2026 19:25:19 +0000
+Message-Id: <179382031940.2456854.940954168773032652.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1758; i=brauner@kernel.org; h=from:subject:message-id; bh=gmON/Vwu30bm66aR7FLjt15bWl4pslPspuVjwp92LoI=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9bvzZL8Hl33wxMMfFJ8kjYsv9ztuaxT/NbubGcJp7u i+Umj2lo5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCIcnxj+2TzZ/6BE4al+9D+l /+ZvBS6e1/KbqBD6LzUpOUjjyhHN2YwM69oa4jcaTUuZdOZNvK/7ramu9j/M3Cx9f4RUnOD8bDu LDQA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=442; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=6ST5GjTKv6pWjG2QugZsumFA9GJltuLOJEHUi+qAFNE=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJety1Ye3D9H9cc7jzdW++dHu7UW/2vmONm3p43kglsj
+ k/CPkxK7yhlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBEduYy/I/OjczriVCqV7Qt
+ mb3rZvzRA/9XyHRcjProdEPto4/tli2MDJ83eVy8nGX9cn3ZEcVsJZsFk6sEMj8WqxxJzL1QNX/
+ 6bBYA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-vmcore_cleanup() has a single caller, fadump's release_mem_store() on
-powerpc. That checks fw_dump.dump_active without a lock and calls
-vmcore_cleanup() without one, and kernfs only serializes the writers of
-one open file. So two tasks that write to
-/sys/kernel/fadump/release_mem through different files run
-vmcore_cleanup() at the same time.
+> If cs_dsp_power_up() fails on or after cs_dsp_load() mark the controls
+> disabled and free the alg regions.
 
-The first one removes /proc/vmcore and waits for its readers in
-proc_remove(). The second one finds the entry already unlinked, returns
-from proc_remove() right away and frees vmcore_list, the ELF headers
-and the device dumps while those readers still walk them. Or both of
-them free the same lists at once.
+> @@ -2838,6 +2839,11 @@ int cs_dsp_power_up(struct cs_dsp *dsp,
+>  
+>  	return 0;
+>  err_ena:
+> +	list_for_each_entry(ctl, &dsp->ctl_list, list)
+> +		ctl->enabled = 0;
+> +
+> +	cs_dsp_free_alg_regions(dsp);
+> +
 
-Serialize vmcore_cleanup() with a mutex of its own. It can't be
-vmcore_mutex, removing /proc/vmcore calls release_vmcore() which takes
-it. The second caller then finds nothing left to free.
-
-Reported-by: Chris Mason <mason@kernel.org>
-Fixes: b500afff11f6 ("fadump: Invalidate registration and release reserved memory for general use.")
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/proc/vmcore.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/fs/proc/vmcore.c b/fs/proc/vmcore.c
-index 1fe70c4ecc54..ccb795b85509 100644
---- a/fs/proc/vmcore.c
-+++ b/fs/proc/vmcore.c
-@@ -1764,6 +1764,11 @@ fs_initcall(vmcore_init);
- /* Cleanup function for vmcore module. */
- void vmcore_cleanup(void)
- {
-+	/* Not vmcore_mutex, removing /proc/vmcore calls release_vmcore(). */
-+	static DEFINE_MUTEX(vmcore_cleanup_mutex);
-+
-+	/* Two writers of fadump's release_mem can get here at once. */
-+	guard(mutex)(&vmcore_cleanup_mutex);
- 	if (proc_vmcore) {
- 		proc_remove(proc_vmcore);
- 		proc_vmcore = NULL;
+Do we need something similar in cs_dsp_adsp1_power_up() as well?
 
 -- 
-2.53.0
-
+Mark Brown <broonie@kernel.org>
