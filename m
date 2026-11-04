@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793815660;
-	b=g7Q3xoOOluS3b9K43/+cm3ZOie7xfo3wyh10cNoPGElUtrhQg//RhqF+VQlmqvTP/HLX
-	 CBPYsBCqZ6r2f8V+vaaY7ef3SCw+rza79Np+U9lAZqKZGfQcO8h7HqsRFPsLBWn3Ehv1C
-	 7Ppu/vHPARyDIL/lC3hY8+gqCmi/QPZH7Kf48yckQ/yjWwfutZe8lQrkqbIK4Cfpi9J0I
-	 IWKZl/qZ37fhqYCi62+Xh5qd0als5+Z8GbTJ5xYAv/xuVgpn7WDwNWn8P4kdnQuFFfr+0
-	 0u7JGIzFNnj71wVRcuL9+fsSpzWI7z/BfCtGDfJ9KYHQhBZat/wum3xMJSJywPyczuw==
+	t=1793815661;
+	b=c4rX1rshU+cSSbJb+YpTqKGWN02+c2sh/ymSqxR4X6mxUVeXryLhpl1bSZbBa7eCve/Y
+	 61ESJzFICIx/dofaSkwRWEcQKxUldH8N4GjZlavQbbGoyFUuhzTZP/fJu5FrbRX08qMDl
+	 jmmoo45/N87ilrqD8Wi3rAVEqUj1IcHCyM3fF3jWvrJS3EIkG+aS5IIrindJEvzgz9IyI
+	 qdgrNEXBiMAM6CsCDRYiVupCSxY8GR7i3owX5BOJ86iGFXQi7BHLWuloKyy5UsmZo28pJ
+	 gDPDhY9xtFZxt2P4fViSKgkTbVZFSr9u21Ar2VABFFWrTNrOyi1V5dCAjVQr3ifMjmw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793815660;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=EMkD1pg31XkRNT5X4prEULnhee2/vYIGdX91uOpvaE8=;
-	b=GN2JaeyMLuA9TtDADqSjikCpgk7YgmKJV3XFYhjFgaAr5up2O5zUAinJSp+rkLadYEyb
-	 XypCDuBAMGvFnx/XiTB3GMBKdDWmFB/pwDW+1aT+uRKS1iMuUBLrBl9tTXgtnEcYHHuTM
-	 nc4FbGmutLMGGJX7rlJ0L1HvubO7yATU8SGFBVszxB9K/Q9k7TySLWo+ymWS2FbB/49at
-	 MhlcASJi3cc30avVlVMFpTweiJWReOhtb+WgUh0ZQrfBn9K0EYxVtW870CtL/h0W40IaF
-	 zymneBQqtLhn7czHkuZI/Su9NWskXfHGS+lYlstV8xUJz3nm7wf3TfikR06Q1COQgIA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793815661;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=BYe3sgLS+96q0sciZfM/YWu/u3jfTHhQ8igiEsW1NWM=;
+	b=QuGIO3pLTbbD35O49paNP1pXy1WdM10kR6ma+fhheUjNvkNo4xk9Jo0Xv0/jwKXGNWcD
+	 IfDOq+eCF3hRpkkraOTgMhBVXuJ05oOpQZ1j10QX3bBMX0CVJkFyb3b2xIX68Vqkf0Gtn
+	 V0h9krcl1yEI65KowNMh+on0C6lh0LGCOfSDs86Rqe/nM4faaLkzkyCOArIgC67/+vtjK
+	 zmXo9X1YrQBT6GtUBN8WkkOr1fwxfhhhNX8iy+XnR2wg7czWFJDDAYV5ctzeTE/o1lDpd
+	 97FLt0laLuGqoIU4H37jLoZa0zmsB8OEbH+2dRrpx4oLNUS6HuQU4p4dvpG2V28QRqA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="DbFS/uhh";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eaFFHEWJ;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E9C606A335;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B432C606A68D;
 	Wed,  4 Nov 2026 18:07:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DbFS/uhh
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eaFFHEWJ
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1793815660;
-	b=160KAIXgZ85JU+a1qVaTKo9RlAOP9j+dfY7VY+6uv/2k/qpyS5+KdW7B9bfouLyJdnfr
-	 +ibJQnJ+FzyBZwi+/30DEixwfuyQ5mT3MRtAjXpWnLFPR1HSDmKCHG2hMk2p18uuIW2Up
-	 Vi60EGxIfq1cGfsDCR05R1Lu3smAzJ8VL8oZws0SnGis+X7AofkY8QtEjH/mcMjXP9kWA
-	 12XC19wZjT4bE61QT1F8vmn2GHfp7k307Q4zE+JejQl6RIDTEw9XteSAvyRnwZTPkmpu0
-	 mmQvsN43aOsSVAKGvfsZfQ4I9QMec09QDnzGa/Qg81SiGVg6t9vKcZ9IWmV7OiVRBQg==
+	b=ZOT0sKABCem5SXAs6P7fAYHDgk+6J3My1i4gK9X5VeKdimOzkMlPqMhYEOWoYwi3fGVe
+	 tpEUzmPzqwEFZhMEU04ywiC+hCa/fIE70IxxdCFhayyyLj3/j7AhpGd5wy9+tklFAqpkZ
+	 GrkKgFWorQ9uwnEYPev2rCzwKu2upOY6DRw89EDGAI5bAiWsstrEr+fYE5wqeKNEkeyM4
+	 p9Am59nPz2G3CBpx5vBdWNmXJeqxKJmLEMAuR6HBOSWD1xHo2wexQr3s8bZrKEWkDMkuU
+	 yKoIoRRAX3S/s6HtgGiSUeDgh0u2/1cAt2aiWDi+6h9uKEOyPGmUTEydZe8+v7CrFiw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1793815660;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=EMkD1pg31XkRNT5X4prEULnhee2/vYIGdX91uOpvaE8=;
-	b=Yc442eVgC7BVncAvMiRaNoWXeMwHNomlYLdUxkSKLHGIOZTbWGzUj6x0wmUge2gwSf9K
-	 BhOX0c+h9cOYAwZPlBRLELbUdRXXE6mz9MzKhsShoFeZNQwldNDXkdG6XXn81JWZn1Xhw
-	 v/u7hxfYTj2hsVLGPxt+4jhHWtv+dpPhI0DeuM9MPwtTrWHOOKohW4/PPAtUvvVcsoPdo
-	 0mPrhreZyFAaxrhcs+R3lZJW/F1L+RPM191l47QEGk8bWVUI5PtoZqG79Rdq4kL69NAGa
-	 oV1rDGFTdYBXO8sakTN9u+gdWTiCu8uHI2gQj4YdiLSgOhM8sALTsysUgUGS37seI0A==
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=BYe3sgLS+96q0sciZfM/YWu/u3jfTHhQ8igiEsW1NWM=;
+	b=PgDKGDkt3JWdCeSryJb8oxKrYQtIY7drdHSe6gq47otznXJL4ZG9UOYPq/xf1SgmUwfY
+	 FOUnSfSvnduBDS0zpuFzh76Ogv56m52EQypORefijjb24NR30YHeVWZy5KdfCLmMbuhD/
+	 WAtEJRomO32XypryOWvjDbNrqKBItk1Wflmm1AKII0tj7DHZB2yFzwpeI/elB6T81DpF6
+	 IVjyDgIgti4tmG5OwFuBXecbr0il/i7OUmx/TgqxkkkaQoSrUk3d+Ii7cEtjmX0c3g/k8
+	 mN9+fzwsU4UJQpXxkfu7L+vDmpVTqyqHbClsT0nOkwRWD9lsFIxIh6mfqA5CmfBwUHQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 63D011F000C1;
+	by smtp.kernel.org (Postfix) with ESMTPS id 63D671F0093A;
 	Wed,  4 Nov 2026 18:07:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1793815660;
-	bh=EMkD1pg31XkRNT5X4prEULnhee2/vYIGdX91uOpvaE8=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=DbFS/uhh9eWu7JLQzcL1TY+sRi7xd7C2BHIXOwXax97zkIGFkFKlKB+zznR3/sPaB
-	 I9oG+E0mayP2CKrSeeEzvF4eEZThxbe8W/kt7D1+2xcdgmXnM2hl3ED4Q4BHIzD882
-	 EWIO5o/IrED+nhChmR02ZVOAOpqQgRdTezsCj5dGgzrreXpv1ly3w1IUDyl5fSc9YA
-	 tzus46Lnksj0n1jAduxVh32TW0y5MwxQCmoBFNGBZg3XSxOhX29jAhypT886l3asWq
-	 TyYFdAJdWCG/itrXGs3cTC9MBRXwqvaTGb38pzqvzwI3oa38ysxVeB/noyFth8nvcy
-	 WUARt9g6FAlcQ==
+	bh=BYe3sgLS+96q0sciZfM/YWu/u3jfTHhQ8igiEsW1NWM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=eaFFHEWJ4zQ8m5OFUufrEZ9YuKKGNq1eFRbgRoVrQsVVun9CPaxC9vvkuQNuxjdqy
+	 XLwDLimnXHcjpaHxxoH6eYZy+HpnkymrepSbLsQxL1kXz6xqstjTLEf1zZSmVIGblA
+	 59ZB0UxWlxT7/V89xq1veuVbDBPdji/lySmj5Qi9mTqZKvbolHLCSkGRFnCWQoOIDW
+	 qIUWf6xxwnDjlyopT1iO1N5GD92b2rtoTgRykxdVPJidmGO/c/92D6zAGFxIk0mdI4
+	 mGfB6IQDBAB5dsxGSpNeR9AEf/oPEUKo8qAQR1Fsg6c7XW8reBJXC5SaYqMZQqWwTy
+	 am+ihQjPpUfmQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id B888B46F05;
+	by lkml.kernel.org (Postfix) with ESMTP id CBB6B46F09;
 	Wed,  4 Nov 2026 18:07:38 +0000 (UTC)
 From: Demeter Barna via B4 Relay <devnull+me.fromdisposition.org@kernel.org>
-Subject: [PATCH 0/7] arm64: dts: qcom: sm8350: Add SoundWire and LPASS
-Date: Wed, 04 Nov 2026 18:07:08 +0000
-Message-Id: <20261104-b4-sm8350-sound-v1-0-4c872df294fa@fromdisposition.org>
+Date: Wed, 04 Nov 2026 18:07:09 +0000
+Subject: [PATCH 1/7] dt-bindings: clock: qcom,sc8280xp-lpasscc: Add SM8350
+ LPASS audio CSR
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -84,11 +84,9 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrDuQxFS0VykuTBx1hEbJGBHEu
- ze1y7f4/wShyCTwKk6ItLPwEjL0owA/dWEk5D4bjDKV1sqisyifunwqlCWFHqlzplHW+KFuIFd
- rpIGP+/hu/5bkZvLbbwPX9QXVuT6YcwAAAA==
-X-Change-ID: 20261104-b4-sm8350-sound-eab29042cf89
+Message-Id: <20261104-b4-sm8350-sound-v1-1-4c872df294fa@fromdisposition.org>
+References: <20261104-b4-sm8350-sound-v1-0-4c872df294fa@fromdisposition.org>
+In-Reply-To: <20261104-b4-sm8350-sound-v1-0-4c872df294fa@fromdisposition.org>
 To: Bjorn Andersson <andersson@kernel.org>, Abel Vesa <abelvesa@kernel.org>, 
  Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
  Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
@@ -100,60 +98,46 @@ Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-sound@vger.kernel.org, Demeter Barna <me@fromdisposition.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793815654; l=2038;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793815654; l=1122;
  i=me@fromdisposition.org; s=20261012; h=from:subject:message-id;
- bh=fNBkRx9oOq8JcXG9i2p9apIYE9Yo40nYXqote7bxW7w=;
- b=o+uWwnaZIlViseX7pK0bL3/DF7R5FDEX9+1gjo8H8V16mzfT87FBFOM2NbKaHW53knKx5DsPq
- DCT8rBR2POgBrl1RdDDSUPI4kKF/80aapRv8Iuwo8cOisy/7jfcwP/j
+ bh=uLYdELyKXVAh9MvLIYStuylxx4awTFDCq7SbOgzzjnw=;
+ b=bAj0U3eEhnrejkKNtVQFKlZ39o42GQzv9CEmwXty9EoSqncyDB2NWQHL8iwk7wg5UlIlwXgiV
+ hkHtxEl+usVAs6otEOHuXKKvdxEDBzML3HXm+MYhm93pyQkP3CsT8jt
 X-Developer-Key: i=me@fromdisposition.org; a=ed25519;
  pk=S0QFlGq1BQEaAtPPdAH8YKEOXMeRuSkTgctXuvtU+1Y=
 X-Endpoint-Received: by B4 Relay for me@fromdisposition.org/20261012 with
  auth_id=1163
 X-Original-From: Demeter Barna <me@fromdisposition.org>
 Reply-To: me@fromdisposition.org
+Content-Transfer-Encoding: 7bit
 
-SM8350 has the ADSP audio services in its dtsi but none of the LPASS
-codec macros or SoundWire controllers, so boards can't describe their
-codecs and DMICs yet. This series adds the RX, TX and VA macros with
-their SoundWire controllers, and the SM8350 sound card compatible.
+From: Demeter Barna <me@fromdisposition.org>
 
-Patches 1-2 go through clk, 3-5 and 7 through ASoC, 6 through qcom
-arm64. The macros use the data the drivers already have: RX that of
-SM8250, TX that of SM8450, VA that of SC7280.
+As on SC8280XP, the SM8350 LPASS audio CSR is controlled by the ADSP and
+only provides resets to the OS, so it takes no clocks. Its resets are the
+RX, TX and WSA SoundWire ones of SC7280 (at 0xa0, 0xa8 and 0xb0);
+SC8280XP has no TX reset in this block, so there is no SC8280XP fallback
+and the SC7280 reset IDs are used.
 
-Tested on the Razer Edge 5G: both DMICs record through the VA macro and
-the WCD9380 enumerates on the RX and TX buses. Capture from the
-WCD9380's ADCs through the TX macro is silent with the SM8450 data, and
-headphone playback isn't tested. The WSA macro is left out: this board
-has no WSA amplifiers to test it with.
-
-Prepared with the help of an AI coding assistant, reviewed and tested
-by me.
-
+Signed-off-by: Demeter Barna <me@fromdisposition.org>
 ---
-Demeter Barna (7):
-      dt-bindings: clock: qcom,sc8280xp-lpasscc: Add SM8350 LPASS audio CSR
-      clk: qcom: lpassaudiocc-sc7280: Add SM8350 audio CSR resets
-      ASoC: dt-bindings: qcom,lpass-rx-macro: Add SM8350 LPASS RX
-      ASoC: dt-bindings: qcom,lpass-tx-macro: Add SM8350 LPASS TX
-      ASoC: dt-bindings: qcom,lpass-va-macro: Add SM8350 LPASS VA
-      arm64: dts: qcom: sm8350: Add SoundWire and LPASS
-      ASoC: dt-bindings: qcom,sm8250: Add SM8350 sound card
+ Documentation/devicetree/bindings/clock/qcom,sc8280xp-lpasscc.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
- .../bindings/clock/qcom,sc8280xp-lpasscc.yaml      |   1 +
- .../bindings/sound/qcom,lpass-rx-macro.yaml        |  12 +-
- .../bindings/sound/qcom,lpass-tx-macro.yaml        |  12 +-
- .../bindings/sound/qcom,lpass-va-macro.yaml        |   3 +
- .../devicetree/bindings/sound/qcom,sm8250.yaml     |   3 +
- arch/arm64/boot/dts/qcom/sm8350.dtsi               | 196 +++++++++++++++++++++
- drivers/clk/qcom/lpassaudiocc-sc7280.c             |   4 +
- 7 files changed, 223 insertions(+), 8 deletions(-)
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20261104-b4-sm8350-sound-eab29042cf89
+diff --git a/Documentation/devicetree/bindings/clock/qcom,sc8280xp-lpasscc.yaml b/Documentation/devicetree/bindings/clock/qcom,sc8280xp-lpasscc.yaml
+index f235b4e24..3d4a794ab 100644
+--- a/Documentation/devicetree/bindings/clock/qcom,sc8280xp-lpasscc.yaml
++++ b/Documentation/devicetree/bindings/clock/qcom,sc8280xp-lpasscc.yaml
+@@ -22,6 +22,7 @@ properties:
+       - enum:
+           - qcom,sc8280xp-lpassaudiocc
+           - qcom,sc8280xp-lpasscc
++          - qcom,sm8350-lpassaudiocc
+       - items:
+           - const: qcom,x1e80100-lpassaudiocc
+           - const: qcom,sc8280xp-lpassaudiocc
 
-Best regards,
---  
-Demeter Barna <me@fromdisposition.org>
+-- 
+2.53.0
 
 
