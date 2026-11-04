@@ -1,56 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793791426;
-	b=htCZp/uXZ7iOMndtpcvonZa4WC4UwwTV0WmhO42Alle9P4LjXxNau38H2MPFvEy3ZQ88
-	 kHiKPUE0T4aNm/A0ymSfzQQzm1GeavL/JkmUOzIS3FC6ZxIxT3kMsuWBrFX8AHDjAAvLg
-	 DLEbQ+BxhmIPo1r64bIrMdECHtx1Vtg2r4ARQe4xQcuofNVtmUburL3NZUDPchhW+Yjck
-	 PP3Ou30ak0Yr7ZFgfouI6DpnfePWDCLaomp6GDuiWhAoOXy095jv18dEdATKFOBLTuGh4
-	 MMei/0A5+nFx1odvagfFAxBux3t/pwt/Y/ehSyfUljcGTSFAoYBxLWR4ojp4lQuciyA==
+	t=1793791492;
+	b=vRgbv4Q6MwwtWqLNE98Mh3T0t88R8bJfWJiEsRZ70cq+NXFLU7Ty14FNYMaSwXHp+ZvG
+	 qtDucu5lCeMWPrC4JXsMX7GJ1gwwWmkKW3SKmBVs9wy/EbXOUFfxEN182giHKd4TMT6X4
+	 JkjX3Nd+qo8+P0HTjl/Qp7/xDWODIOOyM9bULQWFQTRe76prOj61IsE1dmADYrGzZA95D
+	 vqYeWpRcMkdq7/Q2k8ETrqUPstW9ZjPIoRnQJAwBNiRF8Uy24JWwCm1WBCZDbCuJOh3GC
+	 MuaKJy9GMEiun9bMm8fK23npeiudhdwGP9rv5sSre+L39ONj9lMo95iM++NIUFZqa5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793791426;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ggRw8+tEFLNOkk9bHJIbKmZDiUQm8BxVL6/k41FBf50=;
-	b=lMidlrTFNFknasWwdCNxq1BUJHWJMZQlVktolrUu4M9Qw/lDsz97gHf+7oTv0Rv3gqLE
-	 4RcrYiktmonrO6exx4/Qd2vr4zN4/RxUQIRFbDOar1y8EaNdnH1+mLnHkNia3I1NAJq3W
-	 7wU0Qqc3/7JSrmT8u34HMOcDhAw2aOdjy17bUeOfHXNWCoWShFTexFUF4de5ekvpL/LHQ
-	 vpH2t3hR7KFajD1Xpu+ljwNzTD84aD1QbcwuWdsiFG/+0WYMwMXFZtnaZfhzYKtfqZhG+
-	 RAy0/b41W5fcrkjAph+zA3GF5fNSJD/xxIaJqWNvkBE2t00bTZVMMi4MN7deUYm+QUw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793791492;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=4IBdrSIssnJ05THmo7WQfZycMs7WrEcD17MjNmRyjv8=;
+	b=hIQ7T/O/e1yzdstfdo+IG7H5ZWXFYwSbiUGDl5pd3yF3WgvAhCBuUQex9pahfmqisOVo
+	 SLvIQOQa6WF/8co2OJfwH/kma+cElklEDy5BrubeUWXqrx7KTQnZt9fpUfUbikJL7ZdL8
+	 g35PN4SLoKuNsPpawmPtOcpXVLGcHUG7sfYWjHPnDTldiOoT4/0Zy6PmWcmfSyaEwAjFZ
+	 LK9H5Kv7tZT7AVCMlxiQ/8QZ/mmU2Cqt/KwZSvyLGKKSd1AEIrsFRzKnJw3a/XAJ6FcuR
+	 CDwV9kbcBtEs1z6F+2vqtaFgV0deByY+nqQNgSXuOi46jZR+LHkl6FRINcJ17Y765zw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QPT3REo5;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=itcxuo75;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1939606D807;
-	Wed,  4 Nov 2026 11:23:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A718606A328;
+	Wed,  4 Nov 2026 11:24:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QPT3REo5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D82DF1F00A15;
-	Wed,  4 Nov 2026 11:23:45 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=itcxuo75
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A85231F00919;
+	Wed,  4 Nov 2026 11:24:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793791426;
-	bh=ggRw8+tEFLNOkk9bHJIbKmZDiUQm8BxVL6/k41FBf50=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=QPT3REo5GG/2pAlG89KMrgk0SHNIl/Aa+IHsv2SrToU7bCX+Xhqk+ilI+RxLrBHqE
-	 c0cEcthdnfG95doNbJ3WH3hVh1wTzmq2JUrBlBayd/vKw1oNuGl2+kra0QbmpwKaF+
-	 FaJzDasQC7F3m09kVoToT6iaadVn4MbEJgLPUe86/zjU9XCm2s4PCDT2reuQa+SMuj
-	 95pIuPTQs6McTRp+Br+rVPq5FwZJ2YnmybUJx62eNaLtNoRKRLUxapjRw7pLzYgLhs
-	 NBh9GEGYS7yZSbIzFkRJFX7frVMbZpyipzNu0zJoICopWLv2WIXbodgSy33VKGwZoe
-	 LDcif1TnQURfg==
-Message-ID: <sashiko-outbox-197164@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: sound: Add Tegra268 ADMAIF support
-Reply-To: sashiko-reviews@lists.linux.dev
-To: Sheetal <sheetal@nvidia.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261104111836.1100527-2-sheetal@nvidia.com>
-References: <20261104111836.1100527-1-sheetal@nvidia.com>
- <20261104111836.1100527-2-sheetal@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 11:23:45 +0000
+	s=k20260515; t=1793791492;
+	bh=4IBdrSIssnJ05THmo7WQfZycMs7WrEcD17MjNmRyjv8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=itcxuo75GX41lc40SLUkOBXhcdmq7EgSW9q5wU6wo4tKpB5Ea5pfFhcuosv7YMx6I
+	 CMfA3X85LpLUt1T9amPV9qHWWIWwuqxC9sBJrWHXgLcrVuMV6Mb9ojcnBQbBHvQt6z
+	 9nTCOD0b5Xzk+LEq2alA040hKQgJfh9UeP5Jl0PaCgqvGX5DLpIvwzRYLgckIw7/fP
+	 sxK8JxGYccxXH4/paBHiABVHs8A4Ptxmt1laMTImTZ0+PkRAl+/qfjCRc5t4Mn7XiW
+	 rDORn+CkVcPNngYNq1AZ6LTQbEnepGj4I4dao1qkV+6aq9dEh7WMAMxGizQLRYdPm1
+	 Icc0rcXplWQeQ==
+Date: Wed, 4 Nov 2026 11:24:46 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Linus Walleij <linusw@kernel.org>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH] ASoC: pcm3168a: don't request the reset GPIO as
+ non-exclusive
+Message-ID: <9b3609a7-5897-4141-9ff6-9ec1d0a1228f@sirena.org.uk>
+References: <20261103-pcm3168a-non-exclusive-gpios-v1-1-5cfdcf36c915@oss.qualcomm.com>
+ <179375063580.2186205.641519776071903771.b4-review@b4>
+ <laiektucfxhzdf7ifiypwy6plkifriuovtarzz3qrwyd2yk7ks@3cskrh7fkwbf>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,80 +64,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dcvHIohDVW+bMuHq"
+Content-Disposition: inline
+In-Reply-To: <laiektucfxhzdf7ifiypwy6plkifriuovtarzz3qrwyd2yk7ks@3cskrh7fkwbf>
+X-Cookie: All rights reserved.
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Low] dt-bindings: sound: unwieldy per-compatible conditionals in tegra21=
-0-admaif
---
 
-commit 8b302b26b4687658ab926b6d8c1160f749d509a9
-Author: Anupama Kunkulagunta <akunkulagunt@nvidia.com>
+--dcvHIohDVW+bMuHq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-dt-bindings: sound: Add Tegra268 ADMAIF support
+On Wed, Nov 04, 2026 at 09:06:31AM +0100, Bartosz Golaszewski wrote:
+> On Wed, Nov 04, 2026 at 12:03:55AM +0000, Mark Brown wrote:
 
-This commit adds the nvidia,tegra268-admaif compatible string and its
-per-compatible DMA channel constraints for five RX and five TX channels to
-the Tegra210 ADMAIF device tree binding schema.
+> > sound/soc/intel/avs/boards/pcm3168a.c would beg to differ about this
+> > being arm64 only, though that only has one CODEC and shouldn't share the
+> > GPIO so it should be fine.
 
-> diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra210-adma=
-if.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra210-admaif.ya=
-ml
-> index 2ce4049f94acc..054bacf602349 100644
-> --- a/Documentation/devicetree/bindings/sound/nvidia,tegra210-admaif.yaml
-> +++ b/Documentation/devicetree/bindings/sound/nvidia,tegra210-admaif.yaml
+> Right. Do you want me to resend with commit message amended?
 
-[ ... ]
+May as well, especially with Cezary's other note.
 
-> @@ -134,6 +135,27 @@ allOf:
->            minItems: 1
->            maxItems: 64
-> =20
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: nvidia,tegra268-admaif
-> +    then:
-> +      properties:
-> +        dmas:
-> +          description:
-> +            DMA channel specifiers, equally divided for Tx and Rx.
-> +          minItems: 1
-> +          maxItems: 10
-> +        dma-names:
-> +          items:
-> +            pattern: "^[rt]x[1-5]$"
-> +          description:
-> +            Should be "rx1", "rx2" ... "rx5" for DMA Rx channel
-> +            Should be "tx1", "tx2" ... "tx5" for DMA Tx channel
-> +          minItems: 1
-> +          maxItems: 10
+--dcvHIohDVW+bMuHq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-[Severity: Low]
-This isn't a bug, but in Documentation/devicetree/bindings/sound/nvidia,teg=
-ra210-admaif.yaml,
-the top-level properties section leaves dmas and dma-names as bare true
-booleans:
+-----BEGIN PGP SIGNATURE-----
 
-  dmas: true
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrrFf4ACgkQJNaLcl1U
+h9AG5wf/QxXlZFq7WOBTmfdMx/pPsm1Y2LdJht5JFdnlJlIDq/tTnzZAwrM0LKKU
+IVxHyK06bZi+Y05YXu9fBZ8j6qmYHr/xwmTBZ4VU1FNa78m02o7pyRT9P8gyjyLK
+xzCHcD/tPBtNYSU0yzVxVCQCNSzGA9zpxJzr9K/ZmaYP5kknNB81j3jtC1eF3jry
+n8BUCvSPuk9Bv3hoALp3xIvqi0/FM6nA0mB2rGM3IBnbvW8kLdtEVTbBbmDVXdaQ
+9/Q66vT8A/iNqQXegXTlpCUjg4COYAadxVNvudeRvsVp4hOLzTldtHlxUvMzpBkG
+WqXZt9fO+/4O3ZjundjwMc5nsnlMew==
+=2/Pe
+-----END PGP SIGNATURE-----
 
-  dma-names: true
-
-while the allOf section already contains three per-compatible if-then blocks
-for nvidia,tegra210-admaif, nvidia,tegra186-admaif, and
-nvidia,tegra264-admaif. Adding a fourth per-compatible if-then block here f=
-or
-nvidia,tegra268-admaif duplicates the dmas and dma-names descriptions,
-minItems/maxItems bounds, and dma-names pattern structure again.
-
-Since the per-compatible conditionals in this schema are becoming unwieldy
-due to variant differences, would it be cleaner to split the variants into
-separate schema documents or factor the shared dmas and dma-names definitio=
-ns
-into the top-level properties section instead of piling on another
-conditional block?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104111836.1100=
-527-1-sheetal@nvidia.com?part=3D1
+--dcvHIohDVW+bMuHq--
