@@ -1,57 +1,72 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793816531;
-	b=skOiw1GWsQo2win0ttHQty0C4ogRZh+eSPOfWyvOLAke9USfvDqElziLKQG/0FLckOtQ
-	 CrwkoFgJZk4Vcgs5yD0b05aFo1Oq5Fp5yIdRrJSnr04I6bU+34ICyCBv2IrSsytBie4TO
-	 wqvhZ+y3xOfT/rGeptULvFlOmULZXDb0SvMDEp4kbNxa8h6PiZ9uZlqy9VF835PECDtcl
-	 5z/h0HU3DkcBK2/LnmpPZpX0Aob7yC3sm7FnBCuJoT4zMOz+gzmZDWBJDonfcIgGE3M5c
-	 a2hgFlJ5a4trZm/UsehMT3ugS4u+c8hD4Fi31NUL89g24sc77MDFX34dP8yk0x/dPEA==
+	t=1793817596;
+	b=BlQgriMZLGg/yfbCecgnT/WRHHdMyMysZ5/p+CO9fkZ2sHG8eo7X1pLiAU074Vtqdt62
+	 4nf/2o/wRFQS1htOabDUwzs9WrPQU9Xb0j48hVgq6dRvESExkCyAHBbKFeO1mv460jVCd
+	 XL7YmRZuIy5pY5DBF5FpSVv7tWBcJ0foc7xCB9W85WOqFZstnh+Qsc216l827yZCJIqPl
+	 E6KVXO/EYb/OyoFVQGBmC9mIRhfESuokZKYmrTpbcIn6vEvZ7YUDQBIZIGVcBN6YROBbx
+	 hH2o3cQsMLDk9yvP/KOMslRFXuJJlgkW5qYfmVR6IHh4r67ryrs/kMaRJ9AxxdxEGxQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793816531;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ivWTJPqjdiuB5Vs30SI6emsm3IIETLMbeYJntQT1hdw=;
-	b=XrowEHex747tcuBtgtZGrMpXY6iwh/2gh3fRy6LwujC2EXZtFvYUyRNvxwHpZ5/nA1Fv
-	 IcYJ9fwqe7/BLstTRvwaOf1iqzS64sqBvBiq5pHL+sVNAplRoKMdL3jb+Pmjt0c+feE8k
-	 KmFBKv1pt+fjiFUjIFckszXTz4omb55EYtWMLt5LSZQtOtDRjn/G5Daj72Vsz+jxDq1Nv
-	 zVDGjLopPySu0JIsGTcLb21pS6ilyRCN+2WUOX3sk89AfhvrGKke/lDuU+ZgLn7aGy3ZH
-	 zR8RCnMCEGZgfGk9Uu7muECnBXj9X9DqHxmME0ZR2jf6lKLlbmojbVDT1uXaXocpXIg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793817596;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=cfX+RSDf63q8RdYOSefxL9B17eZvLgT/fF9r72R8ItM=;
+	b=JpGYuH62Vv5k02PpA0XvVss9NtYioYWRtz69gVxHJQEeqpNvr77/I4KuTb9VkV3L5XUO
+	 9jvVW9vuqOBaUjPjt64Phu7te06oPAul0ykvdEjKqj8PFHulCZsF5i1uhcE69M8W8fDIO
+	 /Z5KurUGXmfaPmfbAWxkquRdmUiO76oMFEaeP7fHcQ7S0BxDNysZeSGr1YPCvQLNGpmB4
+	 oa2WYUsLgb+AAYZzr8cbHqzwkcxmOz9z8boV7QT6aRxDHBvq/nIy+aFfKOBlUBrtPPP0U
+	 vXvvhlxmvtSYD9GcdQbGEr6fGCSogYCS+V8Fu7+Wy8aLgECQEQNhdoqRH1Dyr4cT/JQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=biPw850Q;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GDU8EuhU;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E68606D2DC;
-	Wed,  4 Nov 2026 18:22:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2318606A337;
+	Wed,  4 Nov 2026 18:39:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=biPw850Q
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19DCF1F000C1;
-	Wed,  4 Nov 2026 18:22:10 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GDU8EuhU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D94A1F000C1;
+	Wed,  4 Nov 2026 18:39:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793816530;
-	bh=ivWTJPqjdiuB5Vs30SI6emsm3IIETLMbeYJntQT1hdw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=biPw850Qh7eUdzejzjr9cmpBWZxjMSFnXJE1D5FmNOuzgLcxet6+7xhVbOW6y9KNV
-	 2cQTNN6cNHDf53ajT35zi97f+QTFuniVTArFfg4Xj2tQwMRz/j6FKzmioLe+F5B6+9
-	 kdj4qBZOP/evRZLkoGOOWhw5sdvk8KJZN4KfN9YrVt5E0VraLgrEmoqf+Od/ne17BH
-	 63qoKs2GdGJgqu33B8RfBHabJltIpY8JzXKyXYFDXx0LbT6/cLNo8aMwoqLbRTiwXC
-	 DQWz+LGoN86gP8AoaBpnqjpVwcVN8Qs0r3u5oGZYBisjsMZ5+K971LhZihllOiEoUT
-	 /XzpY6ZiNobGA==
-Message-ID: <sashiko-outbox-197833@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/7] dt-bindings: clock: qcom,sc8280xp-lpasscc: Add
- SM8350 LPASS audio CSR
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Demeter Barna" <me@fromdisposition.org>
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, linux-sound@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261104-b4-sm8350-sound-v1-1-4c872df294fa@fromdisposition.org>
-References: <20261104-b4-sm8350-sound-v1-0-4c872df294fa@fromdisposition.org>
- <20261104-b4-sm8350-sound-v1-1-4c872df294fa@fromdisposition.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 18:22:09 +0000
+	s=k20260515; t=1793817595;
+	bh=cfX+RSDf63q8RdYOSefxL9B17eZvLgT/fF9r72R8ItM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GDU8EuhUF/10B5PY7Ge41gK5xPnjrcLHs7feXWHlvH4fq+/JLsc6ePLzmMcenBTV8
+	 F8DU2mNIqG7yMOIN0gPqiAwJM3jV9nVVVUEYkA/ePBSooGTee00ROqhKBnF1Bqim3H
+	 1MIVC6ndCg4IYSs9ehay5xqAR6tGspnn8txoZnqUV3a/rwlemC2StvUcjU4rBzRdDh
+	 smT5Fi28DptI2/GHQw2s7uG8id08IW1enmMV0ZcuUo2Xf6u9ciNae6b4/FwizkvKf5
+	 0O5jZIOLbbQIYlYObNdALqLNo9VEtQX1aZ+lQxJHqEn6uUf5MjI2wjNp8uWWy07SZL
+	 e+KRVPYe7/Ndw==
+Date: Wed, 4 Nov 2026 19:39:40 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Chuck Lever <chuck.lever@oracle.com>, Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, 
+	linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org
+Subject: Re: [PATCH v2 0/7] proc: move procfs to what kernfs does
+Message-ID: <20261104-angriff-abgewandelt-ohnehin-e5ba30d31576@brauner>
+References: <20261104-trompete-gejagt-raddampfer-9fb5640a6102@brauner>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,62 +75,14 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261104-trompete-gejagt-raddampfer-9fb5640a6102@brauner>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Low] dt-bindings: clock: missing sc7280 header in qcom,sc8280xp-lpasscc =
-See also
---
+Please ignore this. Network dropped halfway through and the umbrella
+went out under a broken message-id.
 
-commit dee8eaeed95bbc7385e8c1208d78c9a4483b6760
-Author: Demeter Barna <me@fromdisposition.org>
+I'll resend it all correctly.
 
-dt-bindings: clock: qcom,sc8280xp-lpasscc: Add SM8350 LPASS audio CSR
-
-This commit adds the qcom,sm8350-lpassaudiocc compatible to the
-qcom,sc8280xp-lpasscc binding schema for the SM8350 LPASS audio CSR block,
-which only provides resets to the OS and uses the SC7280 reset IDs.
-
-> diff --git a/Documentation/devicetree/bindings/clock/qcom,sc8280xp-lpassc=
-c.yaml b/Documentation/devicetree/bindings/clock/qcom,sc8280xp-lpasscc.yaml
-> index f235b4e24cc70..3d4a794abf134 100644
-> --- a/Documentation/devicetree/bindings/clock/qcom,sc8280xp-lpasscc.yaml
-> +++ b/Documentation/devicetree/bindings/clock/qcom,sc8280xp-lpasscc.yaml
-> @@ -22,6 +22,7 @@ properties:
->        - enum:
->            - qcom,sc8280xp-lpassaudiocc
->            - qcom,sc8280xp-lpasscc
-> +          - qcom,sm8350-lpassaudiocc
-
-[Severity: Low]
-As noted in the commit message and implemented in
-drivers/clk/qcom/lpassaudiocc-sc7280.c, qcom,sm8350-lpassaudiocc binds to
-lpass_audio_cc_reset_sc7280_desc and uses the reset IDs from
-include/dt-bindings/clock/qcom,lpassaudiocc-sc7280.h:
-
-  LPASS_AUDIO_SWR_RX_CGCR  0
-  LPASS_AUDIO_SWR_TX_CGCR  1
-  LPASS_AUDIO_SWR_WSA_CGCR 2
-
-However, the description property in
-Documentation/devicetree/bindings/clock/qcom,sc8280xp-lpasscc.yaml only
-lists the SC8280XP header:
-
-  description: |
-    Qualcomm LPASS core and audio clock control module provides the clocks,
-    and reset on SC8280XP.
-
-    See also:
-      include/dt-bindings/clock/qcom,lpasscc-sc8280xp.h
-
-In include/dt-bindings/clock/qcom,lpasscc-sc8280xp.h, the same macro names
-have different numeric values (with LPASS_AUDIO_SWR_WSA_CGCR defined as 1
-and LPASS_AUDIO_SWR_TX_CGCR defined as 0 for the LPASS TCSR block).
-
-Should include/dt-bindings/clock/qcom,lpassaudiocc-sc7280.h also be listed
-under "See also:" in description so that users of this binding know where
-the SM8350 reset IDs are defined?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104-b4-sm8350-=
-sound-v1-0-4c872df294fa@fromdisposition.org?part=3D1
+-- 
