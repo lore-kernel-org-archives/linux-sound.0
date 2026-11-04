@@ -1,53 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793778113;
-	b=lV++VHVWP+gQ2fPHmXljnmkLafzZIARoOb/zSuP0Iccc8NGI9u67pFmpDG1/YCFi09CN
-	 4PixIdhnSBwRMhiE3dZ8VYmI/aaqfKQevhs+VzquiWXGETd6hBDXZlzqMv/wUvEKzOxvK
-	 bDdwLddH9pU8b3BO2PoitMCAx7gTYNgYZbfBOQbQPXWt0QMKrVZFKJ2yNSQ9XR0+X+Gfj
-	 imnvu0jeKr67STtksruJmUWffjtBhwl7TC1QoTy0+ldwMzL70EObYpm6988tZQxQvZZsp
-	 u7kDhAruXJ79p8NhvSvcHUalQbmO80ZFr/XUMbwyxmWDsj5Egd1dOVIcQJIJ/GtLt7A==
+	t=1793779013;
+	b=aCFXRuYLNDDuH+wu0CrLimdDNHmCSVhn7vwk1oVOJg3D5tqs4PtxtkjEm0fpY9DTiihw
+	 eScc3pJs8mF04MGLcTO8WUPsxEjLahGbHukVKOy3EG1bLGR1MPV79pkx7mH4g2YjfvpUp
+	 dnbAFEfFoYgjLRJ9CLfQpgmg35TlDwrlsf/3uPGRXKQj+ctzCuj6E9c+L41Tl+x6DvlkB
+	 ZlOuYX5CIMF0npu/Cl5VcZZCaXSMKOVKu1IDLLr2Duy4PUOe4Jkrn8VuLoF1R4aN9BrvF
+	 J4cn48GEfwj2N83Sy6X5L4Ma0OaU7CLia8OUVs0JuDnG2e35ZtWUXO1rmerfJZe8dpQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793778113;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=pXiQdoWv0KwPIzgtUdWpww3Qg5HvKLBIIS7lNOsz+Gg=;
-	b=lkAH5z2EKD1+Mb5ITl8dBfFmcd+Arr7LJIp0+9lpUSlsWpYQgPb5kEBf0NAyiBWyyoMM
-	 n+K6Cny9KXt0Er+0IYdjqp6saL0OGeHtjwyvE4BLK4OErJhJpmrQoCAQrunCnbR+qNK0a
-	 EwX9dQkQOLPGDACd1eYJW4hhpOmZ4Bxed+YnHZOU7zgbZDLN/f68GCbWZb6X/d3V9sA+D
-	 XptjOZvk7+oXZc+9qgM+a8fGLbzZu+iXK22j4MJhicME55vmdGXY8gy6BlUlLDWyF50q3
-	 eEGVobVsg2DpTOWt1TKn3KgXquFGMvvSMH3RCQS6V66Fu2suxnikMFKm9GFQP1oPYQw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793779013;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
+	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
+	 Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=2uOYWGt4AO3+u8u+kd0zrEytZb9XowJ07OqUMUTGZZg=;
+	b=WPzZWVRbMqA/njfAFQc/k62216FPRqut/xwbh0RBtidhNmbIRJi+m/6rZsvXGTAeGTMf
+	 RkA+PVGrgoxgLRJxG4ywfDSlrEnQUfQ8ZuJDd6u7lNwKF+67vTgx4SMIZoWZbeD362LRI
+	 M4c1sw4tPfubUjlUFwkXnlMhu82lofT2dbaaLdcgpORTWZOflgyhRNQjzIdQCPQ9ohyrw
+	 kuC4f6OkZZnJWG4GBl5suGVSvktRrX/bQEIue5sAieRL0PbIF0sC1W7NTHrk7KQk679GL
+	 pBtCVESVMvcE3wNhfYqJH9yK3AxdaogaazRlf7D21FuoctefJspsXU5fow56rSUjePw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SdUrEupW;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29055606A326;
-	Wed,  4 Nov 2026 07:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SdUrEupW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E73971F000C1;
-	Wed,  4 Nov 2026 07:41:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793778112;
-	bh=pXiQdoWv0KwPIzgtUdWpww3Qg5HvKLBIIS7lNOsz+Gg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SdUrEupWdcHWSEAxHy2bduJSuavOlyrkyKImVgYF1E3nqy5IR+SRdOJeA9xtITz0E
-	 /1XyZZkqQElJfLLSLoQqkVrX8zlVZjsbZ4b82ZBxsYXTAhoKm+yDw+JH30a7PAegK9
-	 8ttTsZheyIdFXVIsaOhMN+Pb7kleFlEmmcoi7vV2fdTkvjC8lcWR5Mg+A0nQp/mOQz
-	 j+cyAQbhLzoYBhGodqk1M34bAR3tRXmREuKwj4uGS2RtOhyQhUZcwT4Gro8Fc2AuP7
-	 3LARsfLzv8TIjygH+eWdcD8ciu1U00AIGhq6YvwsTkCj6oK3tgXM7FyR23lDwfR13U
-	 vhL1uhCYrQswQ==
-Date: Wed, 4 Nov 2026 08:41:49 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: Srinivas Kandagatla <srini@kernel.org>, linux-sound@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] slimbus: qcom-ngd-ctrl: drop the PM runtime reference
- after a sync transfer
-Message-ID: <20261104-gifted-easygoing-earthworm-818d8d@quoll>
-References: <20261104021424.1468172-1-vulab@iscas.ac.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33B2606A31B;
+	Wed,  4 Nov 2026 07:56:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C33B2606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 486e9bb2d82511f19a56ed5b684f684d-20261104
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:4077d316-8174-4c66-9782-bfd9944b7806,IP:0,U
+	RL:0,TC:0,Content:0,EDM:-20,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-20
+X-CID-META: VersionHash:7db8b62,CLOUDID:0d7082b4cebb77ea3168c59fb2ef3cce,BulkI
+	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50|99,EDM:1|-1
+	00,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
+	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 486e9bb2d82511f19a56ed5b684f684d-20261104
+X-User: songxiebing@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <songxiebing@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1742231886; Wed, 04 Nov 2026 15:56:46 +0800
+From: songxiebing <songxiebing@kylinos.cn>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	songxiebing@kylinos.cn
+Subject: [PATCH] ALSA: mixer: oss: Fix uninitialized index in recsrc ioctls
+Date: Wed,  4 Nov 2026 15:56:42 +0800
+Message-Id: <20261104075642.1790966-1-songxiebing@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -57,66 +69,67 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261104021424.1468172-1-vulab@iscas.ac.cn>
+Content-Transfer-Encoding: 8bit
 
+From: Bob Song <songxiebing@kylinos.cn>
 
-On Wed, 04 Nov 2026 02:14:24 +0000, Wentao Liang wrote:
-> qcom_slim_ngd_xfer_msg_sync() takes a runtime PM reference with
-> pm_runtime_get_sync() and only releases it on the error paths.  On a
-> successful transfer the function returns 0 with the usage counter still
-> elevated, so the controller can never runtime-suspend again.
-> 
-> Drop the reference on the success path as well.
-> 
-> Fixes: 917809e2280b ("slimbus: ngd: Add qcom SLIMBus NGD driver")
-> Cc: stable@vger.kernel.org
-> Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
-> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
-> ---
->  drivers/slimbus/qcom-ngd-ctrl.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
+snd_mixer_oss_get_recsrc2() returns success without setting active_index
+when the current Capture Source does not match any OSS mixer slot.
+snd_mixer_oss_get_recsrc() then uses that uninitialized index for
+"1 << index", and snd_mixer_oss_set_recsrc() does the same while ignoring
+the callback's return value.
 
-Multiple things here:
-1. Your team ignored completely previous feedback. Multiple times.
+Make get_recsrc2() return -ENOENT if no slot matches, only use the
+returned index in set_recsrc() when the lookup succeeds, and initialize
+the index variables as a defensive measure.
 
-2. You use multiple identities with this email address, thus I doubt that we
-   speak with an actual person.
+Signed-off-by: Bob Song <songxiebing@kylinos.cn>
+---
+ sound/core/oss/mixer_oss.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-3. Your bot does not even bother running checkpatch, right?
-
-4. Nothing of this was reproduced nor tested.
-
-5. Finally, the same feedback:
-You sent multiple independent patches, to multiple independent
-subsystems. The amount of these patches clearly suggest this was
-AI generated and most likely not tested.
-
-More importantly, you sent all this work without properly organizing
-relevant patches into patchsets. This makes reviewing difficult
-and might cause multiple reviewers to address the same issue.
-Replying to the entire set is impossible and requires handling each
-patch independently, instead of applying or discarding the set.
-Maintainers also won't see the bigger picture of your work. Quite
-worrying.
-
-This is on the verge of hostile patch: bomb us with so many
-contributions, we won't be able to handle them in efficient manner,
-like responding ONCE to ask you to slow down.  Considering all this
-is untested and LLM generated, I have even more doubts whether this
-should be considered for review.
-
-Please read kernel documentation BEFORE posting more work. It will
-explain you how to identify subsystems, how to organize your work per
-subsystem (so a patchset grouping multiple patches with a short cover
-letter), how to document the issue discovery method and what was
-or was not tested.
-
-Best regards,
-Krzysztof
-
-
-
+diff --git a/sound/core/oss/mixer_oss.c b/sound/core/oss/mixer_oss.c
+index c533d767c29a..6c8ca1d320ac 100644
+--- a/sound/core/oss/mixer_oss.c
++++ b/sound/core/oss/mixer_oss.c
+@@ -185,7 +185,7 @@ static int snd_mixer_oss_get_recsrc(struct snd_mixer_oss_file *fmixer)
+ 		return -EIO;
+ 	guard(mutex)(&mixer->reg_mutex);
+ 	if (mixer->put_recsrc && mixer->get_recsrc) {	/* exclusive */
+-		unsigned int index;
++		unsigned int index = 0;
+ 		result = mixer->get_recsrc(fmixer, &index);
+ 		if (result < 0)
+ 			return result;
+@@ -212,7 +212,7 @@ static int snd_mixer_oss_set_recsrc(struct snd_mixer_oss_file *fmixer, int recsr
+ 	struct snd_mixer_oss *mixer = fmixer->mixer;
+ 	struct snd_mixer_oss_slot *pslot;
+ 	int chn, active;
+-	unsigned int index;
++	unsigned int index = 0;
+ 	int result = 0;
+ 
+ 	if (mixer == NULL)
+@@ -222,8 +222,8 @@ static int snd_mixer_oss_set_recsrc(struct snd_mixer_oss_file *fmixer, int recsr
+ 		if (recsrc & ~mixer->oss_recsrc)
+ 			recsrc &= ~mixer->oss_recsrc;
+ 		mixer->put_recsrc(fmixer, ffz(~recsrc));
+-		mixer->get_recsrc(fmixer, &index);
+-		result = 1 << index;
++		if (mixer->get_recsrc(fmixer, &index) == 0)
++			result = 1 << index;
+ 	}
+ 	for (chn = 0; chn < 31; chn++) {
+ 		pslot = &mixer->slots[chn];
+@@ -826,6 +826,8 @@ static int snd_mixer_oss_get_recsrc2(struct snd_mixer_oss_file *fmixer, unsigned
+ 			break;
+ 		}
+ 	}
++	if (idx == 32)
++		return -ENOENT;
+ 	return 0;
+ }
+ 
+-- 
+2.25.1
 
