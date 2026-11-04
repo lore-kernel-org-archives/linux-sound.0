@@ -1,95 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793800217;
-	b=MFCKHlk/xQikPrd0i8ztglVukrvuwEbFAn4Izl5fnj9dfs6X/+W/+P+zICQM84sMdvBo
-	 Lu+3BB1/uhdm1VxJzbis41sFzyVP0ugBeCPE29HtqbLEZl5wUeKpC+5TJPPfu2Zn1yFEz
-	 0a/usMdUHFk2SMA8QVoueo0tIc31aKd7YrjT0O7xqAxT3zL7Cf+RTUU7h4Z4sERuUpCBA
-	 Eq7ZIMHwzCuydudemMoIyHpGxxI83bZLOSgL2GSt9AHWmUin178q0RQXHzs5a+AkfL5Mb
-	 qJPOI45Ryxt4gvdRwSC+0ttcOSAXFqIYqRswZdn84GGISOL6ZpGGG7UzloleA36wUyw==
+	t=1793800321;
+	b=10Tosyb7By45v4IxcT6ANn9OTp0N1GOIdv2YKasHBb627iIWOEOkuoKkJHsNOjDK2nCV
+	 317JdG5DP44l3p3BI0lZE6GtJYImqy7o6IIayCCQtQx1YW/n82V2mZ6Xncke4tCxJuJtl
+	 bh+/97CNALB4bcErvHFWetuauEJNfpBkm5dscHb3zm+nmBxN2aZylc2r1p72TKPxfEKps
+	 cCvMBCyu6M2FdNnLUmQyMVfaFL4dBKjGXayURYwjC3c38In3Yvv6tAGUs7jB3GfZr0H/T
+	 cni7A+5GfuLIKD0tjQrBmIuo/uYt4MtgKKsgTtHSz/ocGtJWQSMRsorlItqdCzBzaqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793800217;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793800321;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=gEk6xorPw5gb8yxYwLwtpa5jgaqjVwNrEmfQm53gGBI=;
-	b=0pX79Za0F5VQJEnglt/UWxiDEWzpr2ft5Idl7jg+7zQOUq4YI0ciwmn5pB3LeqXhv5lP
-	 JLjCwCKz0RZkNchFiTXaAzKDDAMVsT9m1joZMlgokBAyJRBqssUsZ/aQe+FUV+c76yC6S
-	 Qpb/74XyNrZrKX/214omk4ByDUpItLxk70waulUCDqPJH5H5YWoQXhiVTwLRSP8ikmHGn
-	 g6vT75VsoP5luDKyKlhXY/Qa0R06KUJjsrhN8BXlw2oTlMNte5CUqPKGEFKpRylw1MPFE
-	 UvipOyjptI2c2jg8PqwOInBZon4F3xrBl5hUjJPtPdDlQzE/O2uqXyaZMjCLLgUAHKQ==
+	bh=01M35NZZpeWjd4gnv+/XOBov4FxdMv9wcj9zzRZb8b8=;
+	b=hoK3AvosT1nh02tfOxoImx/LlLsIKYx2UQKigNXBlGK1X1Q1OffsNvdb8F9RgoSO8iiz
+	 e/GMmdreQg26hpEWuGSS+lpLrFqU9EhRZinq2ArMn9J3RwHq0MwaMWibaiDYiYKGqXXoF
+	 yIuaNSK9O4ipNGlGoOrFi95MnLFNhbJQmO5fhXsWjfL2jaXbVRKbabd2Wol3rhkbWJLiq
+	 IyORAezQiS9HswaazY0mXovaTD16R4mjXMYG06OfjQNGU3spCnpJ7//bWSupNTR2srXyi
+	 JPPVCz3jGra20PK15VVRYDbNONt0CDalbRav8WVJRIDp5ARDy5Nq7nu9ebPaDxcMtdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=b1Ptw56y;
-	arc=none smtp.remote-ip=209.85.221.54
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QbMwDCU1;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8364C606A31B
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 13:50:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8364C606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C5C606A32C
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 13:52:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 27C5C606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=b1Ptw56y
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48e4831c028so707306f8f.0
-        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 05:50:17 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QbMwDCU1
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a2072b9832so11093925e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 05:52:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793800216; x=1794405016; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793800319; x=1794405119; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gEk6xorPw5gb8yxYwLwtpa5jgaqjVwNrEmfQm53gGBI=;
-        b=b1Ptw56yq0D5+pQfQTThcCmHYYF9buugspKazy0mbiF/W3Fi23hz06QhEMiy21AhU/
-         k1G+CdPi3T3usJmq7eCeSSaJlr98g0TwaWyUJQNSd9nVZrsQ5CAE7YVoewrQ18a7JYnR
-         cl9vEXV4K6+G84jlMOQE7o5HQKVAYjq9060+F9OLU/3J4Nn6NwIjXAJ43mvtTGZVH/Q3
-         R3/U5mR5fSibifiDXDh83i4HlxM3skcMDrCCia18F2KcK73cb5AgJ2jVIrE78yS0AfVK
-         1liLqOe22ipgbYV4I47jnqM9xm/ALXWPcjHTROy6RRIUSZsxnhvLxW3wez1YD315kCdZ
-         YcRg==
+        bh=01M35NZZpeWjd4gnv+/XOBov4FxdMv9wcj9zzRZb8b8=;
+        b=QbMwDCU1GBBhi0HNBlNPffLMPbXZaDrj0/d19Jjl2+wLg360OT07xsf1if+9nb5vLo
+         NGT/muRwG9UdP1eqVjFjyd4EKzi/216CFVu/48xCeYXkV25whP1XKU3SiQDNqU/jbkTz
+         xSyNnDbOm2lf25kxV/RauWoXmSpmm1HoSZsd/WMa29zfcGldjRjgU1SNCYHTXIwwu5eM
+         QXc7eTC9gCvqc9Brh1QkNdCLdPqWi8ldcYGBMe6crKUCjnmznFHDEtHDKv235CI08d07
+         wd2v2DNEkZO10vYdlXXFvfo5HRjO+nd3MI7J3oC+FrxIZ3ySi1aloRp5hPujJTF+ypIL
+         QUlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793800216; x=1794405016;
+        d=1e100.net; s=20260707; t=1793800319; x=1794405119;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=gEk6xorPw5gb8yxYwLwtpa5jgaqjVwNrEmfQm53gGBI=;
-        b=njOZLi5XO+bKUIKr4jG9Qso3itXp6VV0Osl3dh7T9k4mDmRlgfP0Gph70/inJf8rfk
-         jF8xAw7w2dTT1XQJBKT4vyDct7CaCfqKBzPICPRvD9v5ZoC3+eEZ9382UPiB0U/b1KNQ
-         GdCyjcscAjLbRFKwRiPSF/usu35SblqXx84mqSJTjYET1PWMs2W8aphuPgiyDI8Y33T8
-         xUxOoNbPKeTuyhqcmKF68RJUdrycRMyDpTzn3qxDBf7xqMiLmZXrZII4Bwwk5Ry0FoPe
-         TXaytEmjKocn9+A/9h5U83jcnomGzCRU3zvjsT97A9zo3pIroigO7yblc5cRYWa8qgyS
-         Bo1g==
-X-Forwarded-Encrypted: i=1; AKwUvBwrphmKoaxF5gvvRySVqGk694JuM+1LcIwP0WkEF0PP20LRe125EyHWxNyiL+V/fe0eaI42hj9owrX+OQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+tcN/yfL4n8kIqrb4UrBEpEhp6Oko5x3Gbd6hp3J2K1T0kEVit
-	TxOxbd4lvic1/ju94QLkjy0umVU2fY5P8YIMTFie8RH5efRyQ9BgJIo2
-X-Gm-Gg: AYBFou3pMkrzPvVjpiEIMAwPUhsLf7Cahgnxxjwf+RLCuvUxmY13xPGB+Xgo4cBiRmU
-	W0r8r2ck+nU/QhoHyctdzMKca+54cPqnXLgD/ClrS4GK1Q2FUNcf7LHES3LR8AJCs/TZc/Xsqv1
-	rHzPHivzKdsAsIbj7V+b2XNj7cc/oYifAY34vQJ8T/ka9NTG6W6nCbQTnNWATMiBeLOgOydTcry
-	BOfsn7Uzek9NAsec74YbtXRynmL13pat8Fs93karSASIQH7rsEWCXVTaYMRqUua6sXblwiqlTwk
-	Jwh0pNvxYqU4+2KzcUeDAKFl/ox2RLB80c2TEWJWxnoD9YJhX17d0wtqsWfJodIunzDtV9ILeiQ
-	BEfqW07ctpSXAkoYNs7OZ6Qjnxy6yY7/3eCcT3W1gsS6H5JffNRCdUUzRPN6sb/xFJppP/EZtWu
-	pxSXw1sCVRow01SfwMSWGMfDsd6TzNUs7ppahKFE28qppAUguqSHeIgaX5bf6hVQVkcQDsHykT8
-	Bvw/CuNMs6CmfY73ZVU1G3uXyo6/nFmeV9CWYtyd6S0JvN3HPpC6Sp91NKywWXYFVvME9Lq4x64
-	+kIAhIWRBlScbDcJblGzxvCUKBcGBIusWyTw7tr+Yj4/sEes+Bwmq5kzO3KA3V34euqZmySrac6
-	6ww==
-X-Received: by 2002:adf:edcd:0:b0:48b:f08:8159 with SMTP id ffacd0b85a97d-48e6e502fa8mr27675362f8f.40.1793800215622;
-        Wed, 04 Nov 2026 05:50:15 -0800 (PST)
+        bh=01M35NZZpeWjd4gnv+/XOBov4FxdMv9wcj9zzRZb8b8=;
+        b=jkL3uyqnqzJ8tfRe++sDUK/5zthqistxEtngYKfDU2/6IOhXC1ggaBiWm72syfpEhS
+         dwwqxQc4L1ZlU0hXMEZvXxFXA33RDl/Gmqc9bmxNnlY/6yEqxhFlwIJW/KqtVMqDLntn
+         rK4/6Xhe8tCxOlcDFX+3y93aHLETfeejh8u5OJK5ww5aosLscszSiB5nf4Luec3T3rmq
+         9wbystyzCHZ4sa8J+t8Ufz8yepsOwy9ZeCZBiUCXHJ7ee1rkz3iJ1EmUQjITY37y5GW6
+         vB4bgArzDllKA7TZxu8+TE1Ize8rBIAwRxczOY1n0pJgApJ7pe1VIZk14xwPh0ytMWDT
+         MiGw==
+X-Forwarded-Encrypted: i=1; AKwUvBz51nSQuN6GQkcjCQ9neiapzkEjT4M8tXezucA3lA9ri1Qs+ryitEsNQ9TGqT7OxTRkXVnOghJM9o4/Cg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z//IBfalBb+GDVeCb6j+l/LGpkOVSkTWu5QkaU7L+Qo8Ue47FO8
+	o3d2/2eXawDVjIQ3NqbOGr1fLRrmoooQ5vbB/SFPFvRQmHLuYpByjXeM
+X-Gm-Gg: AYBFou36oKIHuNCQ5m+HkVeeq3YJwbCU0pt1t9jaA/M05NTf45kgvjxbng0lLsC5rZ8
+	U7c3cjGrjaENzClIlBDD5WobUWQSXwBvMsVVB0l3Uf344W/auokYc/kGG35abuX9lgR4wL2GArm
+	maO+mvYWAEjMlF55B0Rlj5477jFdl1me9HeiSEb7UX5m8nucOfK8GnV/O0O5OEDomozASTKgeI2
+	WgX975q4S0WvrNGB/Armxjg2qxmO2Ki2au+2OW/aFrk8dGbdShz3huX2OTIjgw+AoURE+8CPbHv
+	jpDiylJhAnovFdmbHR+i8b9Ilr1ZIFW/7lh/SoVQaFRhp3BVSFVJHsc5yCDxAkEds8EThWoK9oT
+	JELg7cBj6ZG1dqhS47xbZzEX3ndCegsmlUb3AviWpo/wdeowycgQpG1ancwYpUQfukWRQWlZhRK
+	xp6dyq5COXpmjtEhiTiRfZBNieqMVq+Am1U8UT3N6eeCrJyKdKx6zKoOIQI6rzG5n8awGfaSM1X
+	qc/CPPQacfh1MC0KqdQ9WE8vKMwj4CdThS2bpQsEAyzBfeF0UwtwoS3e5dryKqAwjdm04oLjEVI
+	fDsDKD//mgbaRrH8WJEsNIKIZA8ZZmEVmAGksfJ7LPzWtv/1+vuVt2SFx9QE5mzlp7iw1n/zArm
+	xWw==
+X-Received: by 2002:a05:600c:5246:b0:4a2:1960:6fa with SMTP id 5b1f17b1804b1-4ac16acd947mr378511775e9.4.1793800319429;
+        Wed, 04 Nov 2026 05:51:59 -0800 (PST)
 Received: from kreach.multipass (nat44-21-238.net.ruhr-uni-bochum.de. [134.147.21.238])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48feeb5196esm3701024f8f.58.2026.11.04.05.50.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b4134ff2a3sm50795495e9.2.2026.11.04.05.51.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 05:50:14 -0800 (PST)
+        Wed, 04 Nov 2026 05:51:58 -0800 (PST)
 From: Jude Gyimah <jude.gyimah87@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
+To: cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	broonie@kernel.org
+Cc: pierre-louis.bossart@linux.dev,
 	perex@perex.cz,
-	tiwai@suse.com
-Cc: chancel.liu@nxp.com,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Jude Gyimah <jude.gyimah87@gmail.com>
-Subject: [PATCH 0/3] ASoC: fsl: fix missing GENERIC_BITREVERSE and REGMAP_MMIO dependencies
-Date: Wed,  4 Nov 2026 14:49:57 +0100
-Message-ID: <20261104135000.3723017-1-jude.gyimah87@gmail.com>
+Subject: [PATCH] ASoC: Intel: kmb_platform: select BITREVERSE
+Date: Wed,  4 Nov 2026 14:51:42 +0100
+Message-ID: <20261104135142.3723042-1-jude.gyimah87@gmail.com>
 X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -102,34 +106,50 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Each of these drivers can be built into vmlinux while the code
-providing a symbol it calls is a module, which fails to link.  The
-same shape in 3 drivers, so they are here as one series.
+kmb_platform calls byte_rev_table, which lib/bitrev.c provides under
+BITREVERSE.
 
-Affected: fsl_aud2htx, fsl_xcvr, lpc3xxx-i2s.
+  kmb_platform.c:(.text+0x1473): undefined reference to `byte_rev_table'
 
-The fix is a select rather than a depends on: the providers have no
-prompt of their own and are only ever enabled by a select, so a
-depends on would leave these drivers unselectable.
+The driver can be built into vmlinux while GENERIC_BITREVERSE is a module,
+in which case the symbol is not there at link time.
 
-Each was reproduced on v7.3, x86_64, by a vmlinux link that failed on
-the named symbol, and each links once the select is added.
+Select rather than depend on: BITREVERSE has no prompt of its own and is
+only ever enabled by a select, so a depends on would leave
+SND_SOC_INTEL_KEEMBAY unselectable.
+
+BITREVERSE is the symbol to select rather than GENERIC_BITREVERSE: it
+selects GENERIC_BITREVERSE only where the architecture has no native
+implementation, so this stays correct on the architectures that do.
+
+Reproduced on v7.3, x86_64, with CONFIG_SND_SOC_INTEL_KEEMBAY=y and
+CONFIG_GENERIC_BITREVERSE=m.
 
 Found with kreach, a static check that compares what Kconfig allows
 against the symbols the compiled objects actually reference.
 
+Fixes: c5477e966728 ("ASoC: Intel: Add KeemBay platform driver")
+Signed-off-by: Jude Gyimah <jude.gyimah87@gmail.com>
+---
 The checker is at https://github.com/JGyimah/kreach, and the
 reproducer configuration for each finding is published with it
 under results/.
 
-Jude Gyimah (3):
-  ASoC: fsl_aud2htx: select missing dependencies
-  ASoC: fsl: lpc3xxx-i2s: select REGMAP_MMIO
-  ASoC: fsl_xcvr: select BITREVERSE
+ sound/soc/intel/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
- sound/soc/fsl/Kconfig | 4 ++++
- 1 file changed, 4 insertions(+)
-
+diff --git a/sound/soc/intel/Kconfig b/sound/soc/intel/Kconfig
+index 63367364916a..3d361778a48d 100644
+--- a/sound/soc/intel/Kconfig
++++ b/sound/soc/intel/Kconfig
+@@ -87,6 +87,7 @@ config SND_SOC_INTEL_KEEMBAY
+ 	tristate "Keembay Platforms"
+ 	depends on ARCH_KEEMBAY || COMPILE_TEST
+ 	depends on COMMON_CLK
++	select BITREVERSE
+ 	select SND_DMAENGINE_PCM
+ 	select SND_SOC_GENERIC_DMAENGINE_PCM
+ 	help
 -- 
 2.43.0
 
