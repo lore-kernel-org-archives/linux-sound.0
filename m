@@ -1,102 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793758715;
-	b=fO3li5A2LzIzzgTNDQBsRGK7CCI6rFGm/XdlK4vfVm4BPGhFj+t3SVhC5S3Xck6zh74P
-	 p7Fx8Lk1MXm8aXLacXbjYXB90CTuURJBP5sfJYOMRXLiL+uTv7VMfp4XWrJidwXo01Oem
-	 HGKt7rRKSKaYD2lkuMN8N0lMwk0FWdL1HciPGD3uo4Ejo0njtyFS1o3FfIoAunDxdx6d4
-	 dw7Kb/DNpedU/LXiS6hckzsxzXQpJM8YCd6mU7S7FJVwfma9qWL417sNXVaml0IsFBljv
-	 0TQ0UtGvhlWfYs3IidlkroFOcaaMfhQMWTCgzXgus1w397c7c5mjQ+YuAcrrGqGe9LA==
+	t=1793758921;
+	b=YUTOTXFH85YU/sGCgjR0ixm0W0VnkT5HkVhRAOotGVP0gW+repVMTmKaUTevHOwEaOZg
+	 J6h5o/Lm9MEf7iQ+BuSYHZFa8AqnDe11zUHo5BtxCykCbHWmd7PstNfuNnSJxvX6F/Xeu
+	 hw2RMYauKXeJPXs0lbDNVOiSfsR8xwtWFyofWlccVULalkyxHd9FlECp2Iwe9fwJjBKm2
+	 iwCF2PqWv4NZe8n4fzUFtn5FHgiInrRSULALOtcAPSaqO6NBUoqzj6u4NFFSqZa/CVd6K
+	 eZWUb31fLzlBVu6efj8JF5eXth71NypxghbRodfJ+SNbFeQ6TDLalLPuKN1Q1IFJbwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793758715;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=I+E1FT7j2TPwT2i0hneBh3LNGnIyRwhqUFoGV1aFaFs=;
-	b=xm653+Da/qktXt1O1EK6T8ZgaQR1Lp9S/MtHIsva+/xUEwe9DyQZOW9agI8RIJWJJYxi
-	 kkSrbGBr0HDuVE3M3JhI4nHTg3emCz8Mn/xwL+idFbkiKnUwXLVwtZZOe17L+jNLxXeTs
-	 Rm5dmpPRj14N7UnK+cpcw/VBiO+Lw6GnSkxEzB6/efpmfeH7bpRi4eMywBeiayyKOq6sf
-	 9lfZXiMSiqSirhmkDQtRAN2vAtY3PI2sxvkDqD92PNmS6p5FqT2LJs7ct37a6ykT4yprD
-	 K7YkbiOrZRYiSohVBhdBV/k7QmHz0fx3EBqw79SPOoQdCrQJj9ZYmcICJEl4crtSdgA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793758921;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=wduqqznwFdwM4/A1mBx7ra2HodPQY2NKe2CIrZ5bscg=;
+	b=h/xOedY9D+KIvAULNL7l7lIJ6AmmDUwTH2urSA6rFQQkvKgK4LEXs5ju5qOnmoad/+k5
+	 MDZGnw2s94GgagSZatFLbHLwgxwOlK5L/6gzXSEJZA+J9Sz2jv9k/9Ks2alzW/Ogy6MUL
+	 Atai8CGhJyQolMLFMAxFFlxT7kDZO6Yd5TfUQcWzi3odlGDwJ5dC++AgVRo0fqgOwGMon
+	 jh/jw1mYHrQiKsHTtSiZFHMCG8Uoo78gbKlVTi0NrmU7KjL4JRkifIO7GDtZ3iXh2KsAN
+	 JtfOT20HJGqB01hbO144f77zt2gT9J4WC5TgJ3k2baTplSY3+O7Nxc4xUIlryY0w5kQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yKwJHKFU;
-	arc=none smtp.remote-ip=209.85.216.43
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XTJpKD8X;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD9F606D819
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 02:18:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5FD9F606D819
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F30606A32E
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 02:22:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yKwJHKFU
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3ab2cb8d577so238011a91.1
-        for <linux-sound@vger.kernel.org>; Tue, 03 Nov 2026 18:18:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793758715; x=1794363515; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=I+E1FT7j2TPwT2i0hneBh3LNGnIyRwhqUFoGV1aFaFs=;
-        b=yKwJHKFU2D2DhPMYMCgCzYmIt4/34+y+HODW5waB91q+93S3cWU9u7MBfBFVa0PteX
-         6urz8fIXfBJ21XmZArDNWZrvvcph1C/Vp+4/3JU67wwKWpThQrH1qz/iArCXcUSsU59o
-         dGi02BuGhVfROnsDKgtQOOlw10MyjPD3xM702XttGNZeEklm1/+TwH4hUvh8Xsy49Nna
-         lJmHkFpWT34THeTt+trsVvf8twhyKktNGlP7cWVE933LCqxALK+65nuY7eF6jQOlqjl6
-         RmctE8Cz7xVEOqiwExJULFeFVAtxJb8CpE7ocLyFsWf392b+27z+sS6Z6hjFBEksz6AM
-         toFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793758715; x=1794363515;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=I+E1FT7j2TPwT2i0hneBh3LNGnIyRwhqUFoGV1aFaFs=;
-        b=rjcrjLddzW6gZEDkzQaVP/klFggr+ymDib6YEVCM4gNJC9SqWg78sVhuDej2C66gdP
-         420EyROst5GCeiWSMprCCVLszgc+Qq4TUUvsixy7snVvCfk6Eb94wMee5L6tvej1q6BM
-         SJDC9P24tVA775oRtFasxToKhSYvrq8q9T/7r8ZPgA7PE/7ykWX8R/gwmpj1RQ0ALcyY
-         kwLFop+eg4lJG/hA+PLBLbjmBds0zO9Jg2no6p0smtqUPTbaXj7OrAiKOrG+JM6ka42I
-         9lp+xb0P9ERC0V+/Agh46GnUdBgWaOdx2Yt7Ipd30qJ3Io/EExDOqzXLffpXckvc4cVI
-         yRrg==
-X-Gm-Message-State: APuU4Z9uKlZgTQH5JDJKYKAWimmrRUYqkf6DH/TxWgSYTrmSupIOhKTR
-	aGfK4AoUJjidrW/RAOppLCFl99FEib4Yk+i5l0HzBpePr5cPuHbFCZT4/wj7Ug==
-X-Gm-Gg: AYBFou0iOL4ryOzfU2Em4l8EZ2m8pD8cijCFPyKSU6/70Nzm+gc4UgS9VE5g/N8nF2I
-	2sADtuCyt7sz3wgLaejAOAfC68ZR+RbfJzdOqcMos6835+ah0gGnAmeJoZ6fyWGGH0pfregbZpi
-	wvuzs3Wd8U26iV+FQpR8+j+LvyOzCX9IhGlwii99APQztfrJWsjUO6Q1HU8povyVA2eg9Sh8fZT
-	XQe3PYupNdobyOR5PxFLWJQHJ4yVfTy91GQesgXp0TlKBrDNIt0h/GmLMzvNj2x1LYB67pMAQ9T
-	tjemGe8oJeOCN3sZ1yoPahH3ZiZyM+x2AFGZdNwI/OrrmNO3M00oh1GVuDOHRrZBox8Hdm+yYyY
-	aLAAANgyKlUVri4Ckb4zwT1LxzJ/NwVg26kcJltr0247feDz+w/zCjijFaScz1T3189YIBxVZCF
-	LuLQViiwQCUvzsZ0d6w8D+bE28/pzn36VNCjryTBfcwkZysWXEaJAPSJ/RgaJSTgL7NkrL4DuNh
-	/2C5jBrfwyvQ8kEwfJNNuoPw7K50/y5sA8PqlRUWMr9SkukAhHL4YxnQirOauGFEhBqTEJpIfvW
-	1CnaWLikPGP5zS6GiH/Zsd/9vDoFW4Cnkf5BWX13NT5sVawFqEN+kbevi3icL/0lwZfYs5uJOKf
-	JorKcYR28lQK8nHU3XH/4RweaqnxtVCT010W41R4A2vTnmkmWJmECkXctYwtsyRhywBfp
-X-Received: by 2002:a17:90b:4b8c:b0:3a8:9d0d:ca50 with SMTP id 98e67ed59e1d1-3ae897c853cmr12970769a91.10.1793758714583;
-        Tue, 03 Nov 2026 18:18:34 -0800 (PST)
-Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb46326f8bsm346131a12.0.2026.11.03.18.18.31
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 03 Nov 2026 18:18:34 -0800 (PST)
-From: Joonho Lee <mynameisjune111@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	anton.yakovlev@opensynergy.com,
-	mst@redhat.com,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v14 12/12] docs: describe virtio-sound capture options
-Date: Wed,  4 Nov 2026 11:17:45 +0900
-Message-ID: <20261104021745.57733-13-mynameisjune111@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261104021745.57733-1-mynameisjune111@gmail.com>
-References: <20261104021745.57733-1-mynameisjune111@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XTJpKD8X
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6074C1F00A02;
+	Wed,  4 Nov 2026 02:22:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793758920;
+	bh=wduqqznwFdwM4/A1mBx7ra2HodPQY2NKe2CIrZ5bscg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=XTJpKD8XiYhUcnJucKM1tCt5hljNPfgLA+n/IVj+QEZ5N7YEpr6HFMRKDQdCzDL2B
+	 gWfJPcnCQjcS0F6GAOlQDoDTbpuepuAcU5OD1msHoLQt6edYOekkpAX64xSJWDwrFj
+	 q23boZNkcxkITCqNq8s/O6jS8OFhm8WPWP7j/IDLixhjh5Hu0em/k4PsPnGtOx2adC
+	 HDWGe9fl4Y5A21KhhsKmQEMDRgm26ARg91EEprr4IKJMFMn340xGhnTXcPRhYfhBYc
+	 JdrAbrx8Q15KT9CuoF1mxvG/bIfMZ5CRs0Ja+nj7Z924+zQtuNbtgGKPbUnTDFyPWk
+	 fR2m2jWv9PYXA==
+Message-ID: <sashiko-outbox-196442@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] slimbus: qcom-ngd-ctrl: drop the PM runtime reference
+ after a sync transfer
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Wentao Liang" <vulab@iscas.ac.cn>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261104021424.1468172-1-vulab@iscas.ac.cn>
+References: <20261104021424.1468172-1-vulab@iscas.ac.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 04 Nov 2026 02:21:59 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -105,57 +59,84 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Document the five opt-in virtio_snd capture module parameters. State that
-capture_allow_empty, capture_allow_short, capture_packed_status and
-capture_pause_restart require capture_staging, and use the ALSA kernel
-parameter restriction tag for each entry.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] slimbus: qcom-ngd-ctrl: runtime PM underflow in qcom_slim_ngd_xfer=
+_msg_sync()
+--
 
-Assisted-by: LLM
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
+commit 95f275b622c76bd63160fe6491c0337ce83609c2
+Author: Wentao Liang <vulab@iscas.ac.cn>
 
----
-Documentation/admin-guide/kernel-parameters.txt |   29 +++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+slimbus: qcom-ngd-ctrl: drop the PM runtime reference after a sync transfer
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -8344,6 +8344,35 @@
- 
- 			Can be used multiple times for multiple devices.
- 
-+	virtio_snd.capture_allow_empty= [HW,ALSA]
-+			Retry a bounded number of empty startup capture replies
-+			when virtio_snd.capture_staging=1.
-+			Format: <bool>
-+			Default: false. Validate with the target device.
-+
-+	virtio_snd.capture_allow_short= [HW,ALSA]
-+			Accept non-empty, frame-aligned short capture replies
-+			when virtio_snd.capture_staging=1.
-+			Format: <bool>
-+			Default: false. Validate with the target device.
-+
-+	virtio_snd.capture_packed_status= [HW,ALSA]
-+			Read status immediately after the returned capture data
-+			when virtio_snd.capture_staging=1.
-+			Format: <bool>
-+			Default: false. Validate with the target device.
-+
-+	virtio_snd.capture_pause_restart= [HW,ALSA]
-+			Release and reprepare capture streams across pause when
-+			virtio_snd.capture_staging=1.
-+			Format: <bool>
-+			Default: false. Validate with the target device.
-+
-+	virtio_snd.capture_staging= [HW,ALSA]
-+			Enable staged capture using request-owned buffers.
-+			Format: <bool>
-+			Default: false. Validate with the target device.
-+
- 	vga=		[BOOT,X86-32] Select a particular video mode
- 			See Documentation/arch/x86/boot.rst and
- 			Documentation/admin-guide/svga.rst.
+This commit adds a pm_runtime_put() call on the success path of
+qcom_slim_ngd_xfer_msg_sync() to balance the pm_runtime_get_sync() call made
+at the start of the transfer.
+
+> diff --git a/drivers/slimbus/qcom-ngd-ctrl.c b/drivers/slimbus/qcom-ngd-c=
+trl.c
+> index eb983b6d1815f..9bee4b376877e 100644
+> --- a/drivers/slimbus/qcom-ngd-ctrl.c
+> +++ b/drivers/slimbus/qcom-ngd-ctrl.c
+> @@ -942,6 +942,9 @@ static int qcom_slim_ngd_xfer_msg_sync(struct slim_co=
+ntroller *ctrl,
+>  		ret =3D -ETIMEDOUT;
+>  		goto pm_put;
+>  	}
+> +
+> +	pm_runtime_put(ctrl->dev);
+
+[Severity: High]
+Won't this underflow the runtime PM usage counter on ctrl->dev after every
+successful synchronous transfer?
+
+Every caller of qcom_slim_ngd_xfer_msg_sync() (qcom_slim_ngd_enable_stream(=
+),
+qcom_slim_ngd_disable_stream(), and qcom_slim_ngd_get_laddr()) allocates a
+transaction ID via slim_alloc_txn_tid(ctrl, &txn).
+
+When the reply or ACK (SLIM_USR_MC_ADDR_REPLY or SLIM_USR_MC_GENERIC_ACK)
+arrives in qcom_slim_ngd_rx(), it invokes slim_msg_response(), which already
+completes txn->comp (&done) and drops the runtime PM reference:
+
+drivers/slimbus/qcom-ngd-ctrl.c:qcom_slim_ngd_rx() {
+	...
+	if (mc =3D=3D SLIM_MSG_MC_REPLY_INFORMATION ||
+	    mc =3D=3D SLIM_MSG_MC_REPLY_VALUE || (mc =3D=3D SLIM_USR_MC_ADDR_REPLY=
+ &&
+	    mt =3D=3D SLIM_MSG_MT_SRC_REFERRED_USER) ||
+		(mc =3D=3D SLIM_USR_MC_GENERIC_ACK &&
+		 mt =3D=3D SLIM_MSG_MT_SRC_REFERRED_USER)) {
+		slim_msg_response(&ctrl->ctrl, &buf[4], buf[3], len - 4);
+		pm_runtime_mark_last_busy(ctrl->ctrl.dev);
+	}
+}
+
+drivers/slimbus/messaging.c:slim_msg_response() {
+	...
+	slim_free_txn_tid(ctrl, txn);
+	memcpy(msg->rbuf, reply, len);
+	if (txn->comp)
+		complete(txn->comp);
+
+	/* Remove runtime-pm vote now that response was received for TID txn */
+	pm_runtime_mark_last_busy(ctrl->dev);
+	pm_runtime_put_autosuspend(ctrl->dev);
+}
+
+Because slim_msg_response() drops the runtime PM reference when the response
+is received, only the error and timeout paths in qcom_slim_ngd_xfer_msg_syn=
+c()
+(where slim_msg_response() is not reached, as handled in commit 63c60a226c9=
+0)
+should call pm_runtime_put(ctrl->dev). Calling pm_runtime_put(ctrl->dev) on
+the success path releases the single pm_runtime_get_sync(ctrl->dev) referen=
+ce
+a second time, which can cause premature runtime suspension of the controll=
+er.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104021424.1468=
+172-1-vulab@iscas.ac.cn?part=3D1
