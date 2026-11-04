@@ -1,93 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793814815;
-	b=W8T5WoA8EOAcsiuiWQVg6xsx3UgZbCV/dyGEIOvtyIFKUitDeyjmu7gHwMpMsEEpryyz
-	 fEixS8XjvJiY+1tImNZ2VLy9INYJGtDFlVIiCf4Htg1WNaeLVK8sJPe+Vvo9CADNJy0E/
-	 GowUQcNphcRwEqjgUY3DeosmzMyn4a92QHYgfZyjfHAFCi9/S60y1VwnP39VxRFdDBaCz
-	 BUFAUfrx9jwH6c3FeShl4zP2S/ZtYGPmfXibg3VrNtePBj/upbe/p+7SLjaWECkxoZZpw
-	 H9GLnpsZqPWYZT/yW7L8iWaeWNeZFcfusF5FleJjYOADMl6H8xqeI2CD2ZNkN50IFWQ==
+	t=1793814816;
+	b=zme++miS4E+oQ6J9xTc+6eik+Jy4cHGJsi3Ul5ZDXP9bGXgJ54JX4bh120emeeg+qcnx
+	 xvqtS7UBcjCZvNc/DtvUQTNHdZkalJmJDOdDipdiceID0M86mOxtKxgPMEcpbd0cyQOU5
+	 N2XlWMNty8S4XE+jdeo+3RJ2xSu+aaKbQVgJ7gslIIf53iEpzvBqzEEH+usPARJ28cd/2
+	 Kl5a7O+8vzCQ+kXQYO0gYnhvGT2R7HeTOGwE2TEbuRcT+YJEaLOqf7jxbkdpvqbF3JIQi
+	 lC1gfTLooFUtzIPfm0vxo6++xri9KFv/9Um/aeQ9juroTMivb4/WK4pDDnP2P13AyoA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793814815;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=nzrMeoX+0unzTNhRa/szxB/nypWquuAzb94RbOq3TGY=;
-	b=pj5Wy2FKvHK5S9ieYdqcbuOzDouGrH8jl/iuFNlWCgcNiUp66KFPqTjG14S7ZrNctaK6
-	 Hdt7ZYI54Rh1baxSi3iaB//b3L9IKoLM1aYn2TJTxoIZ8ZEuSIMO/RkdNxVGT8Gl9tuZP
-	 aOTuvGXFmsPOuj+PGQOE3kwvoCYTw1FbzDOjPc/L6j9nyfkf7LO7XD6D9DTdRZ+6mGAXq
-	 qzjeoWGkg3Zk6P8BsREptQxEzoR6GO+F7RIPEbsMdig89Zs9MdQsyUERuS9TPwRGAwhvg
-	 v6YJ2FsC9n6Sq4NQUt5aZuD8woAHoV2+SWyWpSWDYV0vkzkFHGNHO8GMiPXCqZbX6JA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793814816;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
+	bh=QKQgab6F/A3kQED3xQkQ3++bbO+NbqHo8+XrgOES7ts=;
+	b=3SGB6q/6vVyTlXeF2+f7wZYuorCWDiylCFAOXQOSP8s2/ysr5lD8c37SMUhHRnhfAvvX
+	 cGKbLV8C1x6zVw5VXJrLzkfMdD1VaAKKZas/4uANC13CJYSFGyCikCJIWzGtgrlQUQryb
+	 K/zSY87w23zJ0NFTbQV33CgO0lkmBa5AUhbXu7WED/bfzScbmgkWsSEVM4xKnJUtuQnhV
+	 DxafpllPMkW8jlcsQW7HrkiAswVZTr0uUUXzI1p8KUxNzVn2r4zCXKe4ramD/nyIuv6oW
+	 veI1s+8m6HhdEdkWkdqwboKRxeeg5UgzH2SdFOJzEoBU+dGJCKAhgFeQqGuoqgFi1Zw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0Vz9cMfK;
-	arc=none smtp.remote-ip=74.125.82.182
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K2MBURx3;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4099F606B23A
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 17:53:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4099F606B23A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23124606B22A;
+	Wed,  4 Nov 2026 17:53:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0Vz9cMfK
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-3282db206d3so1884428eec.0
-        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 09:53:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793814814; x=1794419614; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=nzrMeoX+0unzTNhRa/szxB/nypWquuAzb94RbOq3TGY=;
-        b=0Vz9cMfK8u6moTgXlMIY5a/rImfB5jFn6ckY0QBHKq8XwbZej4c/T1mgzge41Uib4f
-         n3bPRZs9GHvRA1B4MslwpX2y0hCqjtJkWz5ayBYoaJkmksPtzkSVGhyxAkiZS/tlpQyq
-         QGuRflrCsD175W927B+wa0jWsXdX7GHKG5QzqrWr9US4+WJW9EYc5cgxfw1h5/Nfx0rj
-         vTxwtuf0QFWVP+6DQFqjn4EEasQfVj6a4n0lKI/MfgNuntckkAJ6fkSD9kIRE4SUwrkZ
-         DuJ52cCsEJ/xy04/xMzdCkRUcPV9Wc3GwqmW4pnpUPDQXE2VaM+pVvUMa3ETZ5YMr6KM
-         F+hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793814814; x=1794419614;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=nzrMeoX+0unzTNhRa/szxB/nypWquuAzb94RbOq3TGY=;
-        b=ujvsXucFemml/x4HKOI5jVoYHbm5Sh1DZ3S/c/HcxLgxVp5QaJ3HJ11MJlljQi3cst
-         EZq3MDa3cCiQ8D2I1WsBEvzy/z5/EQRtmo5uLcTMAEmmx1UlYw38H5/U3RGBDsky443c
-         OlaSimV4TSrxv9KivBnZKNWcAQ2g8ysbl7x7BxxvSQR/Hhwsdp2cEo2zx/HQOKmTKkCd
-         sadLNatIEPMmH2xbPXYwCtHOmwyKRQD1kUIc6ZMc3AzpjrM9NyyqPfkMAOK/TZRoiadl
-         5HW0tOfbji6N35u4cYYsPUo7Cyu6OQ+3mIfXiOeDjNrTxApmXfuuubsnEhComRFNIcd2
-         0KVQ==
-X-Gm-Message-State: APuU4Z8U+78jb3Dewpam5opTxYlANIPDFXLSfZkY6pFTPqwMWdIzlGVz
-	KO5JarIaE8J2n9T/gOmIEidVqm/Gm6nPGVXP0AAUAPqMpSPghyG+SmVWHkaOsxY=
-X-Gm-Gg: AYBFou2AJhZyBllikryMlMYypzlGlTDl9dacVmpHhjMu3gWib3nCGYUsy1mM7Gt3eIk
-	7Ke8XPR4rC/pIHOZKNOI0/3vME8X2LBt4aGDgC+l+x5+xJySDrX25n23cof1LUkrcDcjdGPeZdW
-	8bLJUvOol7zSEVOfcLyNp10PQ7haqgx3U75UBFvWj6JeeOzsDlpGWBPhwkF3dO2afDCSpzXD6xv
-	KxbMQydSzVDl3gdJlnYMyUUSO9QAtKs8f2gSwbdwPqWkyGp6j8KJr7L6NZI2YG7ntzlPFvA5Gg7
-	giLfBDJvAzzOAcA8M2UBCirvzpRW0eHwTxpmE58KcJNjWKvSdodAuY3eCRJX3RVndDyeKP10cIn
-	A15U4NjuYb1tH1JH6NmJu5s/kfTgatcN0JH4dvyzfhPEevE4lFJC9MbhkhQo5ZpNe/pCGMsyqlu
-	JmWotT6ckSht8mEHEfvEdG/QiBA8L/3PousF9Z0XD4KCMpMAbX+jdO9GfH3lGBRj8uB1JgE80jl
-	+i9XsYQr6VkmMPo87Xeu9kveVVqaTav3ztd89L6vSm2nGB/And8RNK2PQp8X44r+w1mhDbWAr5T
-	MnsOultJ9bxD0aabgfMRGpo3C27EoUB/X6Ka904Bbk8xKZV32KpZmPBO1MCX8/vTj6Zzpw==
-X-Received: by 2002:a05:7300:fa17:b0:36c:3b8a:8089 with SMTP id 5a478bee46e88-36c3b8a8474mr7678595eec.36.1793814813579;
-        Wed, 04 Nov 2026 09:53:33 -0800 (PST)
-Received: from localhost.localdomain ([2406:3003:2002:639c:a599:d119:deec:193f])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca394f297sm10458939eec.21.2026.11.04.09.53.31
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 04 Nov 2026 09:53:33 -0800 (PST)
-From: Yige Jiang <yigejiang86@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Yige Jiang <yigejiang86@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K2MBURx3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3A771F000C1;
+	Wed,  4 Nov 2026 17:53:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793814814;
+	bh=QKQgab6F/A3kQED3xQkQ3++bbO+NbqHo8+XrgOES7ts=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=K2MBURx36IjZzkcLb2KZAEwlpj6Z6rTqm97dO+7doIkZr1Kqzh3uc53FtsyC6p1Qp
+	 E8Af1CfcCZKJoPDeo0p3M/GnYCJ80+n57IzNLCGvu4Bk9CouKYGn+orF70IL7nf4yK
+	 nSpBJriEksHHTVFnNpFK4ihBuIC0cyx3Y7QU8Dbel9oqxkaIvG8hLqBlKw9PD83NvO
+	 Bpz6mm+6hDo0ijhkfwkqF65V7CvpgQI6W9+n1sejUJ9eDCv5Ck/cp7SLlpsYIc7IQv
+	 Zd1bVKw2snQGORVqHtYYXf4KLvRRmu/GjBV2fT+bsIs5Xg1tLwdr852VnqimxYBAh0
+	 3a+pujJgabI2w==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Jann Horn <jannh@google.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Chris Mason <mason@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christoph Hellwig <hch@lst.de>,
+	Greg Kroah-Hartman <gregkh@suse.de>,
+	Joel Granados <joel.granados@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jan Kara <jack@suse.com>,
 	linux-kernel@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: [PATCH] ASoC: cpcap: use the platform OF node setter
-Date: Thu,  5 Nov 2026 01:53:26 +0800
-Message-ID: <rc-review-20261103-28-afc55c614a25@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	linux-nfs@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-wireless@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	netdev@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org,
+	coreteam@netfilter.org,
+	kexec@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	netfilter-devel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	ibm-acpi-devel@lists.sourceforge.net,
+	jfs-discussion@lists.sourceforge.net,
+	linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-sh@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	samba-technical@lists.samba.org,
+	sparclinux@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-doc@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-input@vger.kernel.org,
+	linux-raid@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-debuggers@vger.kernel.org,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>,
+	Chuck Lever <cel@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH v2 30/51] net: pktgen: reject device names with a '/'
+Date: Wed,  4 Nov 2026 18:47:16 +0100
+Message-ID: <20261104-work-procfs-bugfixes-v2-30-bbf7d5546809@kernel.org>
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
+References: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -97,45 +115,57 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1684; i=brauner@kernel.org; h=from:subject:message-id; bh=F9CLtO30/n/hY0YqeSuPpMfy319PBmjhBXOfLkB61UI=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9znvCdcJ1NYf0fOujSQtemwvu3bBBpcRumo2Bz5Xi5 X/ThD8YdJSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAExkbhIjw/Ob9c5r2Pj/Kk6s buYtSBDaVZfYmFppvu/Y99lhKbqyPIwMMz2n+1lZtz+NPHGpn+1Yf0m55kdBz6TyQ6z6D9ifhZc wAQA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-cpcap_codec_probe() gets the audio-codec child node and assigns it
-only to dev.of_node. Platform device release now puts dev.fwnode,
-so the acquired node reference is never returned.
+"add_device" takes a name like eth0@1. Only the part in front of the
+'@' has to name a network device. The rest is free text and all of it
+becomes the name of a file in /proc/net/pktgen, where procfs takes a
+'/' as a directory separator. So "add_device lo@a/b" makes procfs look
+for a directory "lo@a" that doesn't exist and warn about it. Any user
+can do that in a network namespace of its own:
 
-Use platform_device_set_of_node() to synchronize both fields and
-give the device its own reference, then put the local lookup
-reference. The device keeps the node until it is replaced or the
-platform device is released; a probe retry also drops the old
-device-owned reference.
+  name 'lo@a/b'
+  WARNING: fs/proc/generic.c:174 at __xlate_proc_name+0xb1/0xf0, CPU#3: bash/241
+  Call Trace:
+   __proc_create+0xd0/0x9b0
+   proc_create_reg+0x45/0xf0
+   proc_create_data+0x77/0xf0
+   pktgen_thread_write+0xd8d/0x1750
 
-Fixes: 7b5b51b2b05c ("driver core: platform: count references to all kinds of firmware nodes")
-Assisted-by: LLM
-Signed-off-by: Yige Jiang <yigejiang86@gmail.com>
+With panic_on_warn that takes the machine down. And if "lo@a" exists
+because somebody added a device of that name, procfs used to register
+the new entry below that regular file, and removing "lo@a" freed both.
+
+Reject names with a '/'.
+
+Reported-by: Chris Mason <mason@kernel.org>
+Fixes: e6fce5b916cd ("pktgen: multiqueue etc.")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
-Based on linux-next next-20261102 (2637bdec0535).
-Compile-tested: arm64, GCC 14.2.0, W=1, CONFIG_OF_DYNAMIC=y.
-COMPILE_TEST=y.
-Baseline and patched target objects built from this exact base.
-No full kernel/module-link, hardware or runtime test was performed.
-AI assistance: Codex (LLM) for ownership analysis, code and changelog.
+ net/core/pktgen.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- sound/soc/codecs/cpcap.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/sound/soc/codecs/cpcap.c b/sound/soc/codecs/cpcap.c
-index eaaf141dea57..eda72fe830ae 100644
---- a/sound/soc/codecs/cpcap.c
-+++ b/sound/soc/codecs/cpcap.c
-@@ -1761,7 +1761,8 @@ static int cpcap_codec_probe(struct platform_device *pdev)
- 	if (!codec_node)
- 		return -ENODEV;
+diff --git a/net/core/pktgen.c b/net/core/pktgen.c
+index d63eeadddfcc..02af70d360bc 100644
+--- a/net/core/pktgen.c
++++ b/net/core/pktgen.c
+@@ -3831,6 +3831,10 @@ static int pktgen_add_device(struct pktgen_thread *t, const char *ifname)
+ 	int err;
+ 	int node = cpu_to_node(t->cpu);
  
--	pdev->dev.of_node = codec_node;
-+	platform_device_set_of_node(pdev, codec_node);
-+	of_node_put(codec_node);
++	/* The name becomes the name of a file in /proc/net/pktgen. */
++	if (strchr(ifname, '/'))
++		return -EINVAL;
++
+ 	/* We don't allow a device to be on several threads */
  
- 	cpcap = devm_kzalloc(&pdev->dev, sizeof(*cpcap), GFP_KERNEL);
- 	if (!cpcap)
+ 	if (__pktgen_NN_threads(t->net, ifname, FIND)) {
 
-base-commit: 2637bdec0535a2044cd830eba9a79363651d9043
+-- 
+2.53.0
+
