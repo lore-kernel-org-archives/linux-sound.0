@@ -1,110 +1,146 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793826875;
-	b=ki2sg9oAuKrq+As+a8F+tEswMMEqWyTko9auO9G8kT4stdSaWjpR/pTRC3gI13ubPn8J
-	 NoOx6JNC6jXS8DBSpLfx+nzgDpf79FGYf/+VR/6OEUB3afYUBs2shtGYu4HB7SJPrY1lX
-	 bBul9oFtjPy1dgy26HSi4wNH/1j3XHOS6LbomIXET0yCu2Q1g6rpJOrmyyJjwg6oscG85
-	 MCajehKnp47xWZ2O1xCaxjRPsT+r7ay3NskQqH8pPcWp3vx/fLh4IyfuNtsyQAwkQOQnQ
-	 n3Mn04XSoKSxzqYzQZG1mUm1tvQHp+Q7+f7PEqy6FuKdAOJpCKPlkWKYdclL++7RQzw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793826875;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=e4hWAYy+9h5Ws1+QsnOeSYUee4W4bqw00qwXFyYDM2Q=;
-	b=sxKxn5XHTMyAvnBX3tvMHfm1ymsd918g3D5yeFT8p8aUo2fveZEPX38EHg23fauyzWWE
-	 wT5cO3PHZ/kPiXdRLzmK2tZnYeT32kSCW/eoYF4ADTA/w+YKJQttD/6OoTJZZf6oJOhUC
-	 Du5rJC+UCfo8RZlGil+wlZ79fOR13d4E6x9on6H6Mgieb3eDsMk8K7xx5TQXcZ+Fz1nwy
-	 Jkj8RQcn3Zv4ry73s0SHDgo40qiZM/XVtvgWucxJMdxkfTIa6twg1UAMmA+b4XBYm4Oqf
-	 Gcyd+fqW4srJ4fhAjvW9jr4bEbczncPw4/7aiSWL12biHMP/tUkFULyjDNrCP/HMdrQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fINV72S8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.33.19
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793826911;
+	b=hSFUcXFo8HAqq5SwVWWohf+oQbLUoNFunVC/dxgn8h0bdln6VRTssXhpknhnEjrgJD1J
+	 tcCvb7y2Ulax3cG9oa+aoITEeQQJ8jivV0QFuaKFDAZ2sOzMWwcrbJ6cxN/CiqLVZX3q/
+	 TFQ6J9XtRw5QVz49v/pddyaMub1q4rK4JFUqBxhqSVwjJi0da3+3yU95xAY7ADKOd+trU
+	 pt47A6AbFWDYQuCf4/jqndYhg12YCZgcJk0j/eJZ65Nnoi93bl60R/LUgdfznLJt+y87H
+	 QOKBi0DNDKZKTkDH0Te/whJAXsYN7fjYogzMRZSr0aOBH/0ti3lkOcFMGFp4pjRys4A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793826911;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Subject:
+	 Thread-Topic:Thread-Index:Date:Message-ID:Accept-Language:
+	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:
+	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=ZfLtgMechoVo01ORtC8BwXY39MKQqH/k4RI5S6XTRhc=;
+	b=2ml7YIdCbTwk3G8HIwNm4mx0W3hhzDfNcG1QZ09VSs8hXANXHX/i6akFwF8M/ge1feKe
+	 rlhvk8vMJ0NYueldhNyg5lvORiYw+ZQ1S1wK7NbGqEezyQa9VuC4ihAZkp3srin3SZunE
+	 0CzS3vRC+J9VkvnaJnc5xGY/3mSdgh39guHD5Fkwdn7nmYvaYoV5/23Z+kisFM8eReWEX
+	 UheZ9d6qz7zhYg7xgJBJd8hkPQMFgPlVS0whkooSkCHWvZZB2C5Wus0zMO84vzA/we8F2
+	 9p3LkfWParw5gaPWJUn4sb7a6b65ahhaMWod3DUkHc0DR4SarNJzrrDsbr4dWLrU3Eg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=outlook.de;
+	spf=pass smtp.mailfrom=outlook.de;
+	dkim=pass header.d=OUTLOOK.DE header.i=@OUTLOOK.DE header.a=rsa-sha256 header.s=selector1 header.b=pvqpk+za;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.33.19
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazolkn19010019.outbound.protection.outlook.com [52.103.33.19])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51296072663;
-	Wed,  4 Nov 2026 21:14:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DA66072F80
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 21:15:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1DA66072F80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=outlook.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fINV72S8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 032A61F00A02;
-	Wed,  4 Nov 2026 21:14:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793826874;
-	bh=e4hWAYy+9h5Ws1+QsnOeSYUee4W4bqw00qwXFyYDM2Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=fINV72S8bDDNAGDfuVdNkKEJ8IkqVCRv+9pBI3vQ5asq9IiLLozzE0QdmmFli8th5
-	 X4s5LvAfCGJyYoNEE5Wh/0hw46DJ/gYX99FhVUKbbQ9fpJN7vbIOTm0BON4CFe267M
-	 fjt8RFAd/brjcqiBtefp8sO8lO8+Jk10nEbQ6PlyE/7KlVHDLViBB+q3BjfLDENgvu
-	 +cfDHNU9ti/Im92D+yfRD+3y/UeJe2pfCEzwWfnk7g5gX1KGx3F4JUPAldHuRmAzQX
-	 R9u5jYwMUj2KA/fDxFq3B1ucLCU5hIL1w9JynYqO9s8HhX0xdmUp1Rax8ITizcXngq
-	 K4fOq7xS0CHnQ==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Jann Horn <jannh@google.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Chris Mason <mason@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	Joel Granados <joel.granados@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jan Kara <jack@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org,
-	coreteam@netfilter.org,
-	kexec@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	netfilter-devel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	ibm-acpi-devel@lists.sourceforge.net,
-	jfs-discussion@lists.sourceforge.net,
-	linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sh@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	sparclinux@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-doc@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-input@vger.kernel.org,
-	linux-raid@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	Chuck Lever <cel@kernel.org>
-Subject: [PATCH RESEND v2 13/13] selftests/proc: check that removing a polled entry wakes its pollers
-Date: Wed,  4 Nov 2026 22:14:20 +0100
-Message-ID: <20261104-work-procfs-net-v2-13-221e2437fed1@kernel.org>
-In-Reply-To: <20261104-work-procfs-net-v2-0-221e2437fed1@kernel.org>
-References: <20261104-work-procfs-net-v2-0-221e2437fed1@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=OUTLOOK.DE header.i=@OUTLOOK.DE header.a=rsa-sha256 header.s=selector1 header.b=pvqpk+za
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ld3CM9iAdGUVzogE34JyfHaxcxvslEn/onpF5advQgCrxjjdLfeEcQydb5LUOBGiCxy06jecC4f8Yh7MkuiuAhADQtNF05l5juc8GA18k4+PuU4mA1QUGztdxirz6hDMvya4D8K1Yu1LhpvDrQ4pDbJq+c1MKhJps6V0TTYYQOqPW69J92sqJ8Avaa/wz/nAbH+uzmAWPvJbgKXrD/KWSMqXEGXM2O91UWW5leNzX2D6wqR8wsfYl3gsE/2XSWwIZOPMEbjX/uB0r3ntgqex/Tp857HASGWrq9BcNmHr8lVMm8K1PbvI9yb6iL2y8n3O9Hiyp5WnjEciVsFYf603sw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZfLtgMechoVo01ORtC8BwXY39MKQqH/k4RI5S6XTRhc=;
+ b=gW/rbuDjgeC7ZB1DRQUE4+ZYAHql+Wf+9ztcMWysHpxqOktxqIlFtH/+Ma9FYOJ1HwjxsrLJ6hFLiyZ3BDrewix60Ponqk3tSfg3Jz6qKC1AjLz8/k2Zs42FT16IXnL7ZfBNo9GyIP9AvxePaHW8ZvhlFnGJsw6kRaKR7GTGzZUyxnifxNIJ3j5/KQ6gtyBbjAP+xDYJD4BDtNRoqNtMjPt1lAC1VOlWycciq9RwsqKmoglbtgHwffNqyFg8TQkNgiyL9e8Pb75vv2OirkisbOWpLFJaFQzOSrC99oh7RL3UirYtaA0S284rCm6RwRPvlqnI+cOO3ORc4zzAv55CMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.DE;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZfLtgMechoVo01ORtC8BwXY39MKQqH/k4RI5S6XTRhc=;
+ b=pvqpk+zaI+uFW9mvswfYaIT/QxIOD7ZwxszJ11qnURitFm7lJxfLfbLRv1lfen+ri5potkAVELmZgcncO1K8gwnpkf8KRLXb6oNu3tpIL6IVATmD9MR6qDjokf8C8OI+WSjp3kit3RyULo/yBmypnq+sDL4R+k/t1g3zBJL2Y+vxej6VrdCK0hVEc38mJKPSQD3km1VzK9t2j6gyTI0ozkefon8xakgVd481KqPomP9Vy6KmKVpvalP4la8cUjVEjhsVW+XWrqng0iVvtYKPCOCIbhANloSn7lKphGVgsbSnEcaCUTSSW12joipDXbWj//k0aOK6xIgnSSGjAcRJDg==
+Received: from AM9PR01MB7284.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:2cd::9) by AS8PR01MB8729.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:44d::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Wed, 4 Nov
+ 2026 21:15:08 +0000
+Received: from AM9PR01MB7284.eurprd01.prod.exchangelabs.com
+ ([fe80::e6a8:d03:ddbd:2bd9]) by AM9PR01MB7284.eurprd01.prod.exchangelabs.com
+ ([fe80::e6a8:d03:ddbd:2bd9%6]) with mapi id 15.21.0592.009; Wed, 4 Nov 2026
+ 21:15:07 +0000
+From: golne tree <lrepper@outlook.de>
+To: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>
+Subject: ASoC: Intel: sof_es8336: internal analog mic on Gemini Lake laptop
+ needs HEADSET_MIC1 quirk plus explicit mixer writes, no DMI match
+Thread-Topic: ASoC: Intel: sof_es8336: internal analog mic on Gemini Lake
+ laptop needs HEADSET_MIC1 quirk plus explicit mixer writes, no DMI match
+Thread-Index: AQHdbJ/rKC5cu2nFOkm8SwcJqtYGwQ==
+Date: Wed, 4 Nov 2026 21:15:07 +0000
+Message-ID:
+ <AM9PR01MB728455EF755C5F80732FC8A1D0682@AM9PR01MB7284.eurprd01.prod.exchangelabs.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM9PR01MB7284:EE_|AS8PR01MB8729:EE_
+x-ms-office365-filtering-correlation-id: 312e02a5-35a0-4121-c276-08df3ab8b3cb
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|31061999003|15080799012|15030799006|19110799012|8060799015|39105399006|8062599012|41001999006|37102599003|25010399006|4140399003|45011099003|20031999006|3412199025|440099028|102099032|40105399003;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?211Q9Rk3UDDv23DGIRtcN2MtHA9C8Md7JGDUjIaqNsTFSy3UtKlbqs0v+T?=
+ =?iso-8859-1?Q?suetHBCqytWjsLA+DtshDZJ6rgJkiF3Y65n7ng5xfrJHaIl9EFduEjPwmU?=
+ =?iso-8859-1?Q?At9aeH3U85hza2oql+oYxejG4B/WRvDJT2nPnpKxk9b0Hce1PfN8ZpSoaw?=
+ =?iso-8859-1?Q?uRf0eQ+tWH+Jo3RtgVZPuWfjcOEbx5zXsp5R2a9J0qGhgfnGIiw46ViJpM?=
+ =?iso-8859-1?Q?PcVoExAGE/urSA4F1SwwblycnAmZq0w2HyolKZl/k3C+QoW/0zSe/KyLqd?=
+ =?iso-8859-1?Q?pHBGvrxJldUDkRTBghCSaRO0XwzXLYm/VLEccMjRo2s4/Gx+U1OE7H4VRT?=
+ =?iso-8859-1?Q?uu2/ho/Id8tnczwa6E6GCjEUBpLnfyXOyX0kj4Ed0vCsrWUpLiVubP2MBi?=
+ =?iso-8859-1?Q?+Tz1xssKqghOPN2+Yx0vlOwnUKeIN1FBNyP12o6mU2KnlY0US5v6HB7rd3?=
+ =?iso-8859-1?Q?IkQZk+Bk2m3ZFraNZOxLaT9ae9TN4WehByJrm8JAoFdvZcSHKs3PYiqKP+?=
+ =?iso-8859-1?Q?GtEDz+S5n45iyKHOAsvJWTSJtPCjBSQjzIFaar34Ou3cF+AmtNav9deac8?=
+ =?iso-8859-1?Q?SKSRu5a1N8B7fJlGJ+u5pqdotX3lktrWIbj6P6wOiDpuHKRQXFyHzsNzCr?=
+ =?iso-8859-1?Q?JR5sXFFAABG2ei9j/LZByB3bkhHweks50z5vtpfU5HHAtaL67jvygJnlu+?=
+ =?iso-8859-1?Q?XLri92l6Uv+y+5rpGc75QQYLgWmSIjZ1V5K3EdN+keC/Hi/AHBN2U+VwMn?=
+ =?iso-8859-1?Q?NhD7IlKR7yeCSWenzOK3za3WhkAIAz19uHBUgnT8VPyhqJhz3D4IVoXl2X?=
+ =?iso-8859-1?Q?g8dKGn5QPy9HWLAjFDpMKePAw0csVjnf0grWuNfNZSFtbDqWz0Z11HO5wj?=
+ =?iso-8859-1?Q?PCiIX8nq+VgwvH7/+Ah7UMdcqlhVGmwqdwm3znsqo17eNxLxYsC9wbwaut?=
+ =?iso-8859-1?Q?Jr3HWCbmUMLSRRQ+sgSGfxCRx13bRIiCtb/SRsMO8Hh+t+JxsmIFi05Wd7?=
+ =?iso-8859-1?Q?6nALQ8+4toe3s+UyDhQvFqjsHY41bWW5/+wdcMwq4CKdRknOAAMdx3zftR?=
+ =?iso-8859-1?Q?ceIP4vTID23d6x0Wp+xWtX70rJD3Rdp1Zum9dWb12+89?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?ognmglXUM0d1mzX40rn6zs9cO83MJZ/YSkXuGbR8JWD5FazrBMJ5aUizKr?=
+ =?iso-8859-1?Q?Lbo5sMTzpEIR8ayf468u7jKxwRdYhLtNKF79psHvtAS5KCXjftDU4/JxK1?=
+ =?iso-8859-1?Q?orWt/IaSVMVKWSyffUA3D9kKeva9FzBxXErJnABk4Pwc+Pbvnpvg37s520?=
+ =?iso-8859-1?Q?kYGSO0y6hfqvPWxxFxM1SzmUaPEs6RiGUEfYwiwY+E5QiVOG6xf5mrmTBN?=
+ =?iso-8859-1?Q?nizs4I4B3v9wyuXUC+QdcTcanNpEAIE7TF9RNCSnvKB6aubj3N5P5D3abL?=
+ =?iso-8859-1?Q?dG5I9d9dmOm4Zd/3ulpuGw6gNltmlb18hnjVre23QoXId2HbeXUiYy0fHu?=
+ =?iso-8859-1?Q?F6StEQhUq7pxe8g1BvDg8YifvITYjyRZwNAoKgZf/H/cdoSEigthWN5JLy?=
+ =?iso-8859-1?Q?BbuJXMn16dLRrF6U/uG2em1JyFTy/l+g1+cSMZ8AqurdNaEsY6SyK4XHHD?=
+ =?iso-8859-1?Q?O1GMJrfSobM0i/PP2YaiE0noWMgtUFrogChbfCXPDif131NrtgDdycW8Px?=
+ =?iso-8859-1?Q?nKLQiY40IcRzmt8xLnqGoMpP0sJONhOg3FQi0oOvKsKXDZKEcl5py+/bEL?=
+ =?iso-8859-1?Q?tTOOwFfTmj2QEqilw8jZQu05l42xfLs3vVfyx3cXb5S8ZDatJbkcdlpRzo?=
+ =?iso-8859-1?Q?RmbXZuvuA3zCf4yQ3hyt7/pLMNfRrwglMGExSHpJEFj6PZ8C5Z1x68/9tY?=
+ =?iso-8859-1?Q?ENFqZlTR5hM4zIkhNltKNyDz64IUqu169ys+GYXwOaakh4TeT4B3Flha9A?=
+ =?iso-8859-1?Q?DzzfXh6QvwusqlkJHDQfdnLuON0ofIht+VZv1BAz0H4uoqURAUnyt6i0/1?=
+ =?iso-8859-1?Q?Mgbl3hFp4izYSjO5/e/aqY/lmGCIQUGLZRopdnE9onAZlYDG/jz56/nCAV?=
+ =?iso-8859-1?Q?6BO3A5J2g3NACT2GTodsXe12g9bktqgbQjVDXBX+lp/Y6C6V710/uW5F6V?=
+ =?iso-8859-1?Q?4wtIk8A2/EB7aOI5wP0nYCnQZiBsSIVK410MukD0bIsUlBnaHEI+cTs/7C?=
+ =?iso-8859-1?Q?QQPZsn6sHsxWpxex33/onEqExlDh8KanDLwk1DZ1JyYcgKsFMvEsg0cpkq?=
+ =?iso-8859-1?Q?tX+3OGJ8FombqtOaKGoF667KLABaNoFbGBN8wBvyNmQO/lXYvfUjue0odS?=
+ =?iso-8859-1?Q?yn7CaJiLoX8UYRx3eULQDdp8VtLpMYEqGoSwZpXw/IPmD1aOrVfZEUkKM+?=
+ =?iso-8859-1?Q?CpY0avS2IJ6jWFftMegXHo+Mgvt4Y7pqyW15Uxa9GqZBUJRGCSK8fmWRI9?=
+ =?iso-8859-1?Q?6+S+Vp9KjOA80jycFwAHZXLfi56m2mKV4bB/HB2KwNzEtGG7PH6lWbNoCm?=
+ =?iso-8859-1?Q?4fithCbX/B4Jw/kWJlHIcg+qQuTpKSVX1aNaSGmdhJ1Af+gNL+Anpmbdqw?=
+ =?iso-8859-1?Q?k6OyU01AjO0Il9f2jB8XntyngykvTkY3KEqDNkLRAvQegO0UrKPCIgKjtw?=
+ =?iso-8859-1?Q?CS3W09lUmv3eOTFMhUhJScP1Pm3I8gkbgJSrJdvuy3oqDkfNm5rI4iHvlx?=
+ =?iso-8859-1?Q?Y=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -114,265 +150,79 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7551; i=brauner@kernel.org; h=from:subject:message-id; bh=fkaoStBZv6n90Leh8+p5gt2ttSaWSW3wQWIJomPzMyw=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS97jO6eabzQ8af0CCncwxiapUmjm9LO9ZX+8151WM8/ 0fHlH+xHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABMpiWJkWD31e+bEH6H98r+P hcf+KTFovSdbka6jnFTV2m3yOt4ygeGvZHu0Ve0uR+XXvqyXA8Nqj7+7aLx20bk/219c3a4dcte SEQA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-d13a4.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR01MB7284.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 312e02a5-35a0-4121-c276-08df3ab8b3cb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2026 21:15:07.4749
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR01MB8729
 
-Poll the channel file of a sunrpc cache in /proc/net of a network
-namespace of its own and let the namespace die while the poller sleeps:
-
-- the poller wakes up and gets POLLERR | POLLPRI
-
-- so does an epoll with an item on the entry
-
-- a poll of the removed entry keeps reporting POLLERR, and a read of it
-  fails with -EIO
-
-The namespace is torn down from a workqueue, so a regression stalls the
-test for ten seconds before it fails.
-
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- tools/testing/selftests/proc/.gitignore           |   1 +
- tools/testing/selftests/proc/Makefile             |   1 +
- tools/testing/selftests/proc/config               |   2 +
- tools/testing/selftests/proc/proc-remove-polled.c | 189 ++++++++++++++++++++++
- 4 files changed, 193 insertions(+)
-
-diff --git a/tools/testing/selftests/proc/.gitignore b/tools/testing/selftests/proc/.gitignore
-index ed863db1688f..d06bb704d29d 100644
---- a/tools/testing/selftests/proc/.gitignore
-+++ b/tools/testing/selftests/proc/.gitignore
-@@ -31,5 +31,6 @@
- /self
- /setns-dcache
- /setns-sysvipc
-+/proc-remove-polled
- /proc-sysctl-readdir-churn
- /thread-self
-diff --git a/tools/testing/selftests/proc/Makefile b/tools/testing/selftests/proc/Makefile
-index 95c9212fb670..e4f5142da47d 100644
---- a/tools/testing/selftests/proc/Makefile
-+++ b/tools/testing/selftests/proc/Makefile
-@@ -30,6 +30,7 @@ TEST_GEN_PROGS += setns-sysvipc
- TEST_GEN_PROGS += thread-self
- TEST_GEN_PROGS += proc-multiple-procfs
- TEST_GEN_PROGS += proc-fsconfig-hidepid
-+TEST_GEN_PROGS += proc-remove-polled
- TEST_GEN_PROGS += proc-sysctl-readdir-churn
- TEST_GEN_PROGS += proc-pidns
- TEST_GEN_PROGS += proc-remove-slow-sysctl
-diff --git a/tools/testing/selftests/proc/config b/tools/testing/selftests/proc/config
-index 15b307189392..3cc12e91e5a7 100644
---- a/tools/testing/selftests/proc/config
-+++ b/tools/testing/selftests/proc/config
-@@ -6,6 +6,8 @@ CONFIG_NET_NS=y
- CONFIG_IPV6=y
- CONFIG_TUN=y
- CONFIG_USERFAULTFD=y
-+CONFIG_USER_NS=y
-+CONFIG_SUNRPC=y
- CONFIG_SOUND=y
- CONFIG_SND=y
- CONFIG_SND_DUMMY=m
-diff --git a/tools/testing/selftests/proc/proc-remove-polled.c b/tools/testing/selftests/proc/proc-remove-polled.c
-new file mode 100644
-index 000000000000..e313d22be43f
---- /dev/null
-+++ b/tools/testing/selftests/proc/proc-remove-polled.c
-@@ -0,0 +1,189 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * A poll() or epoll on a /proc entry must wake up when the entry is removed,
-+ * and report the removed entry as an error. The channel file of a sunrpc
-+ * cache lives in /proc/net of a network namespace and goes away with it.
-+ */
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <poll.h>
-+#include <pthread.h>
-+#include <sched.h>
-+#include <stdarg.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <sys/epoll.h>
-+#include <sys/wait.h>
-+#include <unistd.h>
-+
-+#include "../kselftest_harness.h"
-+
-+#define CHANNEL_FMT	"/proc/%d/net/rpc/auth.unix.ip/channel"
-+#define TIMEOUT_MS	10000
-+
-+struct netns_child {
-+	pid_t pid;
-+	int go;		/* closing it lets the child exit, and its netns die */
-+};
-+
-+struct poller {
-+	int fd;
-+	int done;
-+	int ret;
-+	short revents;
-+};
-+
-+static int write_file(const char *path, const char *fmt, ...)
-+{
-+	char buf[64];
-+	va_list ap;
-+	int fd, len, ret;
-+
-+	va_start(ap, fmt);
-+	len = vsnprintf(buf, sizeof(buf), fmt, ap);
-+	va_end(ap);
-+	fd = open(path, O_WRONLY | O_CLOEXEC);
-+	if (fd < 0)
-+		return -1;
-+	ret = write(fd, buf, len) == len ? 0 : -1;
-+	close(fd);
-+	return ret;
-+}
-+
-+/*
-+ * A child in a network namespace of its own, owned by a user namespace that
-+ * maps us to root, so that we may open the files in its /proc/net. The child
-+ * is the only thing that keeps the namespace alive.
-+ */
-+static int start_netns_child(struct netns_child *c)
-+{
-+	uid_t uid = getuid();
-+	gid_t gid = getgid();
-+	int ready[2], go[2];
-+	char ch = 'f';
-+
-+	if (pipe2(ready, O_CLOEXEC) || pipe2(go, O_CLOEXEC))
-+		return -1;
-+	c->pid = fork();
-+	if (c->pid < 0)
-+		return -1;
-+	if (c->pid == 0) {
-+		close(ready[0]);
-+		close(go[1]);
-+		if (!unshare(CLONE_NEWUSER) &&
-+		    !write_file("/proc/self/setgroups", "deny") &&
-+		    !write_file("/proc/self/uid_map", "0 %d 1", uid) &&
-+		    !write_file("/proc/self/gid_map", "0 %d 1", gid) &&
-+		    !unshare(CLONE_NEWNET))
-+			ch = 'r';
-+		if (write(ready[1], &ch, 1) == 1 && ch == 'r')
-+			(void)!read(go[0], &ch, 1);
-+		_exit(0);
-+	}
-+	close(ready[1]);
-+	close(go[0]);
-+	c->go = go[1];
-+	if (read(ready[0], &ch, 1) != 1 || ch != 'r') {
-+		close(ready[0]);
-+		close(c->go);
-+		waitpid(c->pid, NULL, 0);
-+		errno = EPERM;
-+		return -1;
-+	}
-+	close(ready[0]);
-+	return 0;
-+}
-+
-+static void end_netns_child(struct netns_child *c)
-+{
-+	close(c->go);
-+	waitpid(c->pid, NULL, 0);
-+}
-+
-+static int open_channel(struct netns_child *c, char *path, size_t len)
-+{
-+	snprintf(path, len, CHANNEL_FMT, c->pid);
-+	return open(path, O_RDONLY | O_CLOEXEC);
-+}
-+
-+static void *poll_thread(void *arg)
-+{
-+	struct poller *p = arg;
-+	struct pollfd pfd = { .fd = p->fd, .events = POLLPRI };
-+	ssize_t ret;
-+
-+	p->ret = poll(&pfd, 1, TIMEOUT_MS);
-+	p->revents = pfd.revents;
-+	ret = write(p->done, "x", 1);
-+	return (void *)ret;
-+}
-+
-+TEST(poll_wakes_on_removal)
-+{
-+	struct netns_child c;
-+	struct poller p = {};
-+	struct pollfd pfd;
-+	char path[64], buf[16];
-+	pthread_t pt;
-+	int done[2];
-+
-+	if (start_netns_child(&c))
-+		SKIP(return, "network namespace: %s", strerror(errno));
-+	p.fd = open_channel(&c, path, sizeof(path));
-+	if (p.fd < 0)
-+		SKIP(return, "%s: %s", path, strerror(errno));
-+
-+	/* A fresh channel has nothing to read and no error. */
-+	pfd = (struct pollfd){ .fd = p.fd, .events = POLLIN | POLLPRI };
-+	ASSERT_EQ(poll(&pfd, 1, 0), 0);
-+
-+	ASSERT_EQ(pipe2(done, O_CLOEXEC), 0);
-+	p.done = done[1];
-+	ASSERT_EQ(pthread_create(&pt, NULL, poll_thread, &p), 0);
-+
-+	/* The poller sleeps on the entry, now its namespace goes away. */
-+	end_netns_child(&c);
-+	pfd = (struct pollfd){ .fd = done[0], .events = POLLIN };
-+	EXPECT_EQ(poll(&pfd, 1, TIMEOUT_MS), 1) {
-+		TH_LOG("removing %s didn't wake its poller", path);
-+	}
-+	ASSERT_EQ(pthread_join(pt, NULL), 0);
-+	EXPECT_EQ(p.ret, 1);
-+	EXPECT_EQ(p.revents & (POLLERR | POLLPRI), POLLERR | POLLPRI);
-+
-+	/* The removed entry stays an error, and there is nothing to read. */
-+	pfd = (struct pollfd){ .fd = p.fd, .events = POLLIN };
-+	EXPECT_EQ(poll(&pfd, 1, 0), 1);
-+	EXPECT_TRUE(pfd.revents & POLLERR);
-+	EXPECT_EQ(read(p.fd, buf, sizeof(buf)), -1);
-+	EXPECT_EQ(errno, EIO);
-+}
-+
-+TEST(epoll_wakes_on_removal)
-+{
-+	struct epoll_event ev = { .events = EPOLLPRI };
-+	struct netns_child c;
-+	char path[64];
-+	int fd, epfd;
-+
-+	if (start_netns_child(&c))
-+		SKIP(return, "network namespace: %s", strerror(errno));
-+	fd = open_channel(&c, path, sizeof(path));
-+	if (fd < 0)
-+		SKIP(return, "%s: %s", path, strerror(errno));
-+
-+	epfd = epoll_create1(EPOLL_CLOEXEC);
-+	ASSERT_GE(epfd, 0);
-+	ASSERT_EQ(epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &ev), 0);
-+	ASSERT_EQ(epoll_wait(epfd, &ev, 1, 0), 0);
-+
-+	/* The item sits on the entry's queue, now its namespace goes away. */
-+	end_netns_child(&c);
-+	EXPECT_EQ(epoll_wait(epfd, &ev, 1, TIMEOUT_MS), 1) {
-+		TH_LOG("removing %s didn't wake epoll", path);
-+	}
-+	EXPECT_EQ(ev.events & (EPOLLERR | EPOLLPRI), EPOLLERR | EPOLLPRI);
-+}
-+
-+TEST_HARNESS_MAIN
-
--- 
-2.53.0
-
+Hello,=0A=
+I have a cheap OEM laptop (Denver brand) with an Intel Celeron N4020=0A=
+and an ES8336 codec. The internal microphone does not work on Linux,=0A=
+but it works on Windows with the vendor driver. I found a combination=0A=
+that makes it work and would like to ask how this can be made=0A=
+automatic for this board.=0A=
+Hardware / software=0A=
+Laptop: Denver (OEM). DMI system and baseboard fields are all=0A=
+"Default string"=0A=
+BIOS: American Megatrends, version string=0A=
+"$(AMI_ROM_NAME)_T$(2021)$(03)$(12)$(18)$(44)" (looks like an=0A=
+unfilled template, build around 2021-03)=0A=
+CPU: Intel Celeron N4020, audio controller 8086:3198,=0A=
+subsystem 02f3:f000=0A=
+Kernel: 7.2.7-1-cachyos (CachyOS)=0A=
+Driver: snd_soc_sof_es8336, card sof-essx8336=0A=
+SOF firmware: intel/sof/sof-glk.ri=0A=
+Topology: intel/sof-tplg/sof-glk-es8336-ssp2.tplg=0A=
+ACPI: ESSX8336 on I2C2 (address 0x11) with one GpioIo (pin 29),=0A=
+one GpioInt (pin 20) and a large _DSM method=0A=
+dmesg: "DMICs detected in NHLT tables: 0"=0A=
+Problem=0A=
+The internal microphone records only noise or silence. A headset=0A=
+microphone works.=0A=
+Findings=0A=
+With the default quirk mask (0x2, SSP2): Differential Mux=0A=
+"lin1-rin1" gives noise only, the two "with 20db Boost" values=0A=
+give digital silence. "lin2-rin2" gives a usable signal only if I=0A=
+turn on "Headset Mic Switch" by hand.=0A=
+So the internal mic seems to be wired to the MIC2 input=0A=
+(lin2-rin2), which the driver reserves for the headset by default.=0A=
+With the module option snd_soc_sof_es8336 quirk=3D0x102=0A=
+(SSP2 | SOC_ES8336_HEADSET_MIC1), dmesg shows "quirk headset at=0A=
+mic1 port enabled".=0A=
+After a reboot with quirk=3D0x102 and no manual mixer commands, the=0A=
+internal mic still records only silence, although reading the=0A=
+controls back shows Internal Mic Switch =3D on, Headset Mic Switch =3D=0A=
+off and Digital Mic Mux =3D 0. Writing only Differential Mux =3D 1=0A=
+(lin2-rin2) did not help. After I write these four controls=0A=
+explicitly with amixer cset, the internal mic works:=0A=
+Differential Mux =3D 1 (lin2-rin2)=0A=
+Headset Mic Switch =3D off=0A=
+Internal Mic Switch =3D on=0A=
+Digital Mic Mux =3D 0=0A=
+I have not determined which single write is the decisive one, and=0A=
+I do not know why the explicit write is needed when the values read=0A=
+back as correct. To work around it I now run these commands from a=0A=
+systemd user service after login.=0A=
+Quirk 0x22 (DMIC) with the dmic2ch topology gives only digital=0A=
+silence, which fits the missing DMIC in NHLT.=0A=
+I have not yet tested the headset microphone with quirk 0x102.=0A=
+Questions=0A=
+Because all DMI fields are "Default string", I cannot see how a DMI=0A=
+quirk could match this board. Is there another way to set=0A=
+SOC_ES8336_HEADSET_MIC1 automatically (another DMI field, ACPI=0A=
+data, the _DSM method)?=0A=
+Should the UCM profile for sof-essx8336 write these controls when=0A=
+the internal mic is enabled, and is it expected that the values=0A=
+read back correctly but the path stays inactive until they are=0A=
+written?=0A=
+I can provide the DSDT, alsa-info output and more logs, and I can=0A=
+test patches on this machine.=0A=
+Best regards,=0A=
+Goldi Tree=
