@@ -1,22 +1,22 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793760047;
-	b=x58o2FGEnorO99/L+AJ0fBT4TSH9L3+CPVfUfUT2J8xYWarOSJNTKWyRPXw0kgNCty1Z
-	 /RH+qlCsP09WdB8x8PTOF13aF6V1AzWcfb3GJubX8GIwsAKEhQdmXaQXUvszi5XF7lse2
-	 roOzL1XT64FXVt15LS0AOPD2fmUUkJF+GHXFLqJgYJ4V0anrbU3Hcktjo//QOI0zCI14E
-	 q3+bb7Jlj4ONSCJgg99cZYrP9y+aKA/f8fL7TpbKB5EGQlNp+cAcmQHm40bZEyrtZnpeJ
-	 /3FgF8vilQk6/9VjxBxc7zR0xSqEdK1/g4y2r+l6A+TIOKMP8PN5ipBluLDCJUCpkZQ==
+	b=PQba5gN0jchso/hzUzh0SH5VVOkyIiH1QFGt9OPvwi8XeGcqx6t2wvR+MpL7rglmWBm7
+	 0ltD/YQaVHtn0oU4Xsk1pzglGmldazIJ3I/GRiAiF7HLTdj8nQIIfGDfsP7H8thV+PP3w
+	 RpUuJW9DUzhAwksWwrpSe7yKxYepaD0KUE6B75tnUkbL31DUWidq2OMzFp9xH3TDMIyTF
+	 weVQ1L0HKOdXx3u3TCDrZsLgYq052KdFn65MlFP6wc2GsbQsmkuM//6udzFffHIZrijoi
+	 /Zrfca8kfu/rqqasULbqk1AZRQngD9kb8exSws4dbYRcyLorHEds7P30+mjqtNVomJA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793760047;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
 	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
 	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=95Mbzq34kLdr6uMOCvVpyg0yTvXAJtNbJWCZ7Bc63uM=;
-	b=TolYLLkIu6nff2+ddpBELZtEq+NAOLDiFuG9LQljUY+JN1KnBouywDDnXBPMUgWSgYs6
-	 ixO+Ih7x9bQLqvtVLpnTzmy5mRVwJFykWLZvO36g9Aaoy17XvjYFUp0CWQmhkz0ShcshE
-	 /t4hzMcuNylk69Q/SRDBAVB5XbyNQPcVcbxrqKpKY2oTRaaLSNR9dOwja4r878/fasZHc
-	 UahtHdRiifOOkkDJXB7iWD7SjzlbC4XT9oyK2ZSsRUz2Jsn49GCpGqzZLTKZ3JGllWGTt
-	 Cs2k9UpNkroPZQmbkxKjG+W8T40Ee4XetYVGm5CwTsRU2CFLackxvocl817tJQO90KA==
+	bh=xO1keHoH4I0FfYSNyYlK+7y+faugCv+KHvCBvniDd+8=;
+	b=fpIaXlu5Df82jnpKTz1n3mqxi4rq5w39KiXNmem4kAeImikyiYbWIxPPlZCCJ0irEe03
+	 ucdTUPDSab4oOmfzWHIetH44aQL+3ctOaebbXk9yEGVE+Y8PGMj33V8reSsMM6ko8/dxS
+	 Jk8yZvUJYMjHGJs6aEeUejImBLhhJ70498OtwfKXxSABCN+JmHkL6bUXWcrdm8Gr8FN7O
+	 lpeh1gc/Ihz58t0PwUFlbicuYElS1Pzp5+DPil75oT5o+C4BpVWDBciFP9JzOaNHlg5NP
+	 QT31pSoENOlogbajwQG57LIBcaBblxGVFWDwH+19IsA/9KiOJZ0wHy8ciUqMjrmQD2g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=iscas.ac.cn;
 	spf=pass smtp.mailfrom=iscas.ac.cn;
@@ -25,14 +25,14 @@ Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641AA606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820AF606A335
 	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 02:40:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 641AA606A331
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 820AF606A335
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-01 (Coremail) with SMTP id qwCowAAXQfspm+pqdLk+AA--.27707S2;
-	Wed, 04 Nov 2026 10:40:41 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowACXvvgrm+pqlbk+AA--.9982S2;
+	Wed, 04 Nov 2026 10:40:43 +0800 (CST)
 From: Wentao Liang <vulab@iscas.ac.cn>
 To: Sylwester Nawrocki <s.nawrocki@samsung.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -40,9 +40,9 @@ To: Sylwester Nawrocki <s.nawrocki@samsung.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org
-Subject: [PATCH] ASoC: samsung: i2s: release the runtime PM reference if config_setup fails
-Date: Wed,  4 Nov 2026 02:40:50 +0000
-Message-Id: <20261104024050.1508669-1-vulab@iscas.ac.cn>
+Subject: [PATCH] ASoC: samsung: snow: release the I2S bus clock if registration fails
+Date: Wed,  4 Nov 2026 02:40:52 +0000
+Message-Id: <20261104024052.1508720-1-vulab@iscas.ac.cn>
 X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,10 +54,10 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAAXQfspm+pqdLk+AA--.27707S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxJry7Wr1fXrykWr4fKF45Jrb_yoW8Cr4kpr
-	4vg3yIqFy3JF1Iqr4rJw1kZF13ArWfKrs5Ka12qw1Fv3yrZFyagF18W34xuFn3Aay8Xa9x
-	X3ykAFy5ZF4kAw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID:qwCowACXvvgrm+pqlbk+AA--.9982S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Xw1DZr13tr4fZr48KFyxAFb_yoW8Jr48pw
+	s3W390gFWYyr40yr4UXrs5JF1Ik34IgrWfWr48W347Ar1rJrn7tF9Ig3yUuFZFqrykWws8
+	tryUGa4xZF4kZaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
 	9KBjDU0xBIdaVrnRJUUUvlb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
 	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
 	AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
@@ -71,60 +71,41 @@ X-Coremail-Antispam: 1UD129KBjvJXoWxJry7Wr1fXrykWr4fKF45Jrb_yoW8Cr4kpr
 	8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
 	87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvj
 	DU0xZFpf9x07b7pBhUUUUU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgIBA2rqY4LY6gAAsV
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAABA2rqY+TXRQAAsb
 
-i2s_trigger() takes a runtime PM reference before calling config_setup().
-config_setup() can fail with -EINVAL or -EAGAIN, and the error path
-currently returns with that reference still held. A failed START does not
-guarantee a matching STOP, so the runtime PM usage count stays elevated.
+snow_probe() takes a reference on the I2S bus clock with
+of_clk_get_by_name(), but the only place that drops it is snow_remove(),
+which is not called when the probe fails.  An error from
+devm_snd_soc_register_card() therefore leaks that reference, and since a
+deferred probe runs the probe again, every retry leaks another one.
 
-Drop the reference before returning the error.
+Drop the clock reference before returning the registration error.
 
-Fixes: dc938ddb5628 ("ASoC: samsung: i2s: Ensure proper runtime PM state of I2S device")
+Fixes: aff8d2bed9e5 ("ASoC: samsung: Add HDMI audio support for Snow")
 Cc: stable@vger.kernel.org
 Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
 Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- sound/soc/samsung/i2s.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ sound/soc/samsung/snow.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/samsung/i2s.c b/sound/soc/samsung/i2s.c
-index 442e70b107da..d2060c3ff6e8 100644
---- a/sound/soc/samsung/i2s.c
-+++ b/sound/soc/samsung/i2s.c
-@@ -924,6 +924,7 @@ static int i2s_trigger(struct snd_pcm_substream *substream,
- 	int capture = (substream->stream == SNDRV_PCM_STREAM_CAPTURE);
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct i2s_dai *i2s = to_info(snd_soc_rtd_to_cpu(rtd, 0));
-+	bool failed = false;
+diff --git a/sound/soc/samsung/snow.c b/sound/soc/samsung/snow.c
+index 66ef49dff1ba..ad99c153e9f8 100644
+--- a/sound/soc/samsung/snow.c
++++ b/sound/soc/samsung/snow.c
+@@ -211,9 +211,11 @@ static int snow_probe(struct platform_device *pdev)
+ 	snd_soc_card_set_drvdata(card, priv);
  
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
-@@ -935,8 +936,10 @@ static int i2s_trigger(struct snd_pcm_substream *substream,
- 			priv->fixup_early(substream, dai);
+ 	ret = devm_snd_soc_register_card(dev, card);
+-	if (ret)
++	if (ret) {
++		clk_put(priv->clk_i2s_bus);
+ 		return dev_err_probe(&pdev->dev, ret,
+ 				     "snd_soc_register_card failed\n");
++	}
  
- 		scoped_guard(spinlock_irqsave, &priv->lock) {
--			if (config_setup(i2s))
--				return -EINVAL;
-+			if (config_setup(i2s)) {
-+				failed = true;
-+				break;
-+			}
- 
- 			if (priv->fixup_late)
- 				priv->fixup_late(substream, dai);
-@@ -946,6 +949,11 @@ static int i2s_trigger(struct snd_pcm_substream *substream,
- 			else
- 				i2s_txctrl(i2s, 1);
- 		}
-+
-+		if (failed) {
-+			pm_runtime_put(dai->dev);
-+			return -EINVAL;
-+		}
- 		break;
- 	case SNDRV_PCM_TRIGGER_STOP:
- 	case SNDRV_PCM_TRIGGER_SUSPEND:
+ 	return 0;
+ }
 -- 
 2.34.1
 
