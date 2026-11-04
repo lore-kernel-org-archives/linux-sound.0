@@ -1,71 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793779387;
-	b=hxEbRWtUeKWg6wBumKMfGFk3G6hJn6hjINn9oLKRia9oLtUz929CYmTzM5bWdx8mGHhl
-	 0tARKB90ohb0fErUydgHb8kEXfGkG0KPeLtijLAnwVku/Ixb34WlSWKH4NeQqLPT4n7PO
-	 fYpHQbbz3+S4RMajlS6TKmbo1osiPyTi87I/GBWx0GVWIPlVjsZkgJRdvrBusH1wHaNUl
-	 GoMSbjHDy2T1EF29/PQWev+0G4R7riz7m32e8b2d6ffLNW3TiXr7PBtKrdBMNALlmQbaP
-	 Oprvb6g2IRucxi5wjyfuRjizleLnhZe/TEB/ug49q50T3DgYIIsFfOL+cmL6iWQkl9Q==
+	t=1793779600;
+	b=yoTaPXWCouOg6mhVGn9Zf93FHbFzxAQMUwSRI5lhUlxl7FSEO+srJXBjJ0y+al66emA1
+	 8Cj7aIauroHV1BidZzjaTAyDmh47dJ2PG3YPqQq2zm6kvqF1KBIvB8O9aIMxwZ7XrLWlc
+	 mfQYnM7qqULOl7ySozsqNBYrNlv3V/grkOtrq8GesBKXFPpZAtAIqt98gGX2svUFH/Zk0
+	 MVNY1lOLSPJcrJ63JjA13GjlRmqDajeql+kC5YfhD1vUN2f67ceDwuoMEOF13kMqLYrXQ
+	 hqQxF+kxO3aoOZqRBXsMqw/KBMRqt8J65k8C6/40V5BWpJk1Hg7ogSvCAwyYqNnNBrg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793779387;
-	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
-	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
-	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=XV9GMZ9ARnbEUDTmpGeUALzqWg3SZrmQDiIpPzkxOHI=;
-	b=rcEIwYF5J+qr6m2zxTifudMuukIvueK3rw21qb5PFgYM5JbNRrwAC7ul10RdZ6ZA541g
-	 kflLeHB8xGMTKnaiSBX6gFKFMLox09XaRR8Dk05XClTYVpJK2Laup/hVTEGriKBJRV63+
-	 9Gfm6806eLusZYClQUnOMODHZeycahTr8HFVYT00lugMmdJDreM7RvGRDnoUjPocHEUlk
-	 h2AvdUq4FketeMCR0HmnfGjhu1PCKzssr9PWbanQx1QekWp+qvG/r7HgsNZiOohHIGwM5
-	 N91f145MPfGBXt8ukImmEG8p+L9d5KUX5HAzGDmjicB2OEIaHNCqHnwEagq1qczkGGw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793779600;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=UCruh3jicTYv8+YF4TUIqesgd1DRi0GyP+fOcsuR8kE=;
+	b=LWFfcgT7fjB7HwUxy1AUGgqre+/WdDR/UZtc347NpAYnVdpR0XkNbFcper9Q2E694I+U
+	 Lpb58aIvlh3IkO0SRVvduT8AmJv9LO5fxxIQhdcmsBPOOFe/C5ACGJzW5iLo4I4CLUEjC
+	 KtFC/gkP3KVXPExdcFs0Iwc+WM7X9z5Y4Sq6IvPuZdPnDoXOuvmvDnvGxO4SxadQiDWKi
+	 STFdo9hGL4jQZYGKZDXg1ssMtY3Fs27DgvJyedR3AbNciUDGhoVqMnbQ5QaoLR31RZKDx
+	 TtQBwKr607sDPwskE6Ol48zfWuvaKg7G5Yud8Vt92L5KzcrYPrWlaLyN4q+pTmXpAjQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmss.chinamobile.com;
-	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=mOSchalZ;
-	arc=none smtp.remote-ip=111.22.67.137
-Received: from cmccmta4.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41A9A606A31B;
-	Wed,  4 Nov 2026 08:03:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41A9A606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W5sczTgJ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 9BAD7606A31B;
+	Wed,  4 Nov 2026 08:06:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=mOSchalZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cmss.chinamobile.com; s=default; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=mOSchalZAy9EbFRbwYZ23/2idFY6qoZH4i8Zc0A9n1e6BDtESptFrxoLCKMVzeQF3ZZDx6nQ2p96C
-	 +FRlxF/ewXV8gmhwkCbTc6ebxpqf9VH/+sihytAD7U9Zi8egDE0Tgp0mQO4yCc982LO5nvgzbwCqdi
-	 0d46hUrpXaFIEeUE=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app04-12004 (RichMail) with SMTP id 2ee46aeae6b46a9-3b0fa;
-	Wed, 04 Nov 2026 16:03:03 +0800 (CST)
-X-RM-TRANSID:2ee46aeae6b46a9-3b0fa
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from FHA-W6400298 (unknown[10.55.1.71])
-	by rmsmtp-syy-appsvr09-12009 (RichMail) with SMTP id 2ee96aeae6b10a5-19406;
-	Wed, 04 Nov 2026 16:03:01 +0800 (CST)
-X-RM-TRANSID:2ee96aeae6b10a5-19406
-From: Tang Bin <tangbin@cmss.chinamobile.com>
-To: david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org,
-	tangbin@cmss.chinamobile.com,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: cs42l43: leak MCLK when PLL enable fails on PRE_PMU
-Date: Wed,  4 Nov 2026 16:02:57 +0800
-Message-ID: <20261104080257.1144-1-tangbin@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.52.0.windows.1
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W5sczTgJ
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id C786E1F00919;
+	Wed,  4 Nov 2026 08:06:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793779600;
+	bh=UCruh3jicTYv8+YF4TUIqesgd1DRi0GyP+fOcsuR8kE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=W5sczTgJgtx0gxJRAu52urkMSgsNXiz7kFvESLY+FtWXL3fcclgqijku0mlsa3NzK
+	 sjVREQvi9ZpG4VFwS90xF9rPkwj+xnvjhjgnFhx8uFG2Zish8Smfn6vmRZ1kMHR0rf
+	 +smtj6+lCIqHsuBwaBYfC+CYiUCPIlyZBrgWpCTqhgvSq/dU9JoIjjwj4oep85iGtP
+	 BA2XDEAcJJkxiGm1Wx4rAHKmKtHix2d9WDmkRdG6opW1hqT7M2JgtGh0epP+O/ayK3
+	 o7xk3XI7FVZco4yFNEYXcRdiyNY2yzXLeZE2EcGN2mAHZumNQWpr1a0Z8S9lFIUR/t
+	 DRNV9EBnowCVw==
+Date: Wed, 4 Nov 2026 09:06:31 +0100
+From: Bartosz Golaszewski <brgl@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+	Sen Wang <sen@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Linus Walleij <linusw@kernel.org>, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH] ASoC: pcm3168a: don't request the reset GPIO as
+ non-exclusive
+Message-ID: <laiektucfxhzdf7ifiypwy6plkifriuovtarzz3qrwyd2yk7ks@3cskrh7fkwbf>
+References: <20261103-pcm3168a-non-exclusive-gpios-v1-1-5cfdcf36c915@oss.qualcomm.com>
+ <179375063580.2186205.641519776071903771.b4-review@b4>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -75,36 +61,22 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <179375063580.2186205.641519776071903771.b4-review@b4>
 
-cs42l43_pll_ev() PRE_PMU arm enables mclk (when refclk_src is MCLK) then
-calls cs42l43_enable_pll(). If PLL enable fails, ret is negative and DAPM
-does not power up the widget, so POST_PMD never runs and the matching
-clk_disable_unprepare(mclk) at line 1621 is skipped - mclk refcount leaked.
-Roll back the mclk enable on PLL failure.
+On Wed, Nov 04, 2026 at 12:03:55AM +0000, Mark Brown wrote:
+> > The GPIOD_FLAGS_BIT_NONEXCLUSIVE flag is deprecated and users should
+> > rely on the GPIO shared proxy. All users of this codec driver are ARM64
+> > and this architecture now enables automatically shared GPIOs for
+> > everyone. The driver now longer has to care about the sharing so drop
+> > the flag.
+> 
+> sound/soc/intel/avs/boards/pcm3168a.c would beg to differ about this
+> being arm64 only, though that only has one CODEC and shouldn't share the
+> GPIO so it should be fine.
+>
 
-Fixes: fc918cbe874e ("ASoC: cs42l43: Add support for the cs42l43")
-Cc: stable@vger.kernel.org
-Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
----
- sound/soc/codecs/cs42l43.c | 2 ++
- 1 file changed, 2 insertions(+)
+Right. Do you want me to resend with commit message amended?
 
-diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
-index 1b817e1a6..0ac9e2361 100644
---- a/sound/soc/codecs/cs42l43.c
-+++ b/sound/soc/codecs/cs42l43.c
-@@ -1613,6 +1613,8 @@ static int cs42l43_pll_ev(struct snd_soc_dapm_widget *w,
- 		}
- 
- 		ret = cs42l43_enable_pll(priv);
-+		if (ret && priv->refclk_src == CS42L43_SYSCLK_MCLK)
-+			clk_disable_unprepare(priv->mclk);
- 		break;
- 	case SND_SOC_DAPM_POST_PMD:
- 		ret = cs42l43_disable_pll(priv);
--- 
-2.52.0.windows.1
-
-
-
+Bart
