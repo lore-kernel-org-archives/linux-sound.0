@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793820449;
-	b=sxw6YTDjxR4QqcLDQhpNozflSt7LvF/W+BUnr1c2gkxC8K76nM528Q6awU25tWYDzHmY
-	 lJAVMnFBs5etVUe/C2TEOwk3fVSam2ZVdmAEtW1QQYQuLq+NUezKq7cYsUcjneJNblKpC
-	 YA2IM/SfZTkSTwelsDK2HcajuQbX3ZAh2/kjRyL2pHUSCw2KnsG9xzfqDDsiVuptUERGy
-	 YDVGm5Yygu4dr34AA2kQsBtytJR1aKzagRbaJCNQQpkq7Sa6vqgRh5QLbRCIahIpyZtri
-	 aDTlXaVMeAQ0IcI+HliobsOmG8RhN/O+yP4Jsh+b5fGWYIr87xMMHEreuZBBm5CvR/A==
+	t=1793820492;
+	b=b0uRbB3EJR1+pu9hdDA+1ol4pMO4xSbGhOs84/Bp9qeOnafRqRMJ8xaFYyKwt2c51Vhz
+	 eHzm5FrRagNychrlSL2kc3FOQuIcAFoK5c3+l6xliXID77N9SMJs6mU0QmbU/nfPdiiAb
+	 /ISpmiDNPpuxG4rR3hLWjgeUQbX2CKT9vTJAGqsZrjWrFvBdQYEAsdAYSsm2dhK+dGfmG
+	 iWmhg7BmujX9FuxjNTNfIv/ruceipCuA0KQ5X/wuw1Ihl52swZ6GozyhxqpKvC0+aYvBm
+	 xYMX3dOP6uBl7n1WztiWs2FhfzOPtEvY2YLfi7tcZeR6kdj11tb4+gqjUP135oWyLQA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793820449;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793820492;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
 	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=SGZXtenDzDnzN/hAwCoJvR7nlijFBob6FQl7GJGEPCo=;
-	b=neHCgjLOGUft3PDS8S9WRcdTtx2usB0WBbt272+c9/sHu3+cj8YKV7hMUsGGJS93lQkU
-	 MFNRpkhFd+wB4/4lVmL1bBSqjLqBgsCU4lDJbLROVXFFwTFUs7NrPp1eUAfWXASwT4YvW
-	 7nEcYb3BziVL4m6dGIfxIK/HMc1fJzOdAMvBJKnJA6RfyC7MckoJP9zOjXdNu18jn+/Zr
-	 tw65J3nXmdpWe1ulq5p9363xJmD8iuX5dUcM/jF8iUFYNyBhHE31t4gs0+m8iBVbIA/mG
-	 GBc2da/oK/DYROevIkOvZ5hhMjRiGzLg5l1HIRUtLMy21hJ2MKvJHjT3z9SSgAH5/OQ==
+	bh=NP9uzi8hQ+GlRLcZMObnNOIDymBGDWJ+1F292ZdPL1I=;
+	b=RVOkkh6R8HFTUs5tcqeoAZhBAJP5IiDXsmXmXbC+hkcDP4bFyVVID/cZHI04lvm1JVMT
+	 GoovKU3Tnt/wO5sRJ+fq9+46u2R9DwkO79GkHW6WK399Ev61hNlRGfF3A9pM4JKeu98gM
+	 BKeGznTCqNz5fbT6ryK4vk2YcDBt/JEjFzXjQTbhfYezXlNoXgvJUVDkLDwN2X4uA9hGh
+	 0i/mRgWnMFy4NGe4A+mTtHEXrIDFWMbuEd221caw4OgzWqQ3nAQmWNdjtZZxuABZ8gCYN
+	 VPdF6gnm+oeZTLqqor9Wa5/NqtMYu5zAZAmGmhgEE6X+8olwJONsjgHa+JxdgBm6+5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WTvTLYti;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NAj0hod0;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362176070A80;
-	Wed,  4 Nov 2026 19:27:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515DD606AB17;
+	Wed,  4 Nov 2026 19:28:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WTvTLYti
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47E111F000C1;
-	Wed,  4 Nov 2026 19:27:17 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NAj0hod0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F0181F00A1A;
+	Wed,  4 Nov 2026 19:28:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793820449;
-	bh=SGZXtenDzDnzN/hAwCoJvR7nlijFBob6FQl7GJGEPCo=;
+	s=k20260515; t=1793820491;
+	bh=NP9uzi8hQ+GlRLcZMObnNOIDymBGDWJ+1F292ZdPL1I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=WTvTLYtifxKVDAKFEwxAEpP+KqKkmbss0O3FvCVjbPGqXrJpDoCPGQ5oGFz8SBrvF
-	 tD4WfYtmmvZefQl5gXXU+H6104nXZB3j0cHwCa26xKcGLASKW04PHQjju0x3TofBoF
-	 S79TIjcYh1lweJqcaNbaT/pbmq+p2weA2MdCekZKRls0X/Ylguuocf58PMZMsqe6iU
-	 WvCIu6r2l53iIdxnn8bil7C8dwL66KwhqW+O2kINiXOW3Ed+Ri+kkytDZR5IK/8kso
-	 n+9Fdzr9qEImJtKrDVp1BycV7REVcXz7sk4DiO2Lwzvv9u/aZkCNq9czsaCkPV2+GQ
-	 KdO70U2m2nATw==
+	b=NAj0hod0GiSh4qiNLTi1WX0FoLlXN1CGhLjOdCOe4qKNayvu6TCmjiiEC+ctqpF30
+	 Igi4m0MulaDp3RSFvu12z8/wJ0dZpMZZQme4XlhE5RIM8NWMXxDqUFA5eauZhBnQRO
+	 j2urs+dGqlCxGrcn5k38haREiKA82S2hwykYvSi0weYQCwh1ZmuLytX/pSd0D8M2hT
+	 L77+vI7tAfBbEJuHDq4CScHOXscr4x4MRY6of9vu1Cc+S8fMmRGO+jwvJWiZORMyjB
+	 7Dd2f7v8aATY8DgDMEEOJzcMqYDQ+r7ut2U0vVHHCtlWaUiln6c9F0ICijdirmp7HY
+	 syT8HsDpuWIgQ==
 From: Christian Brauner <brauner@kernel.org>
 To: linux-fsdevel@vger.kernel.org
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
@@ -99,11 +99,10 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
 	linux-modules@vger.kernel.org,
 	linux-debuggers@vger.kernel.org,
 	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	Chuck Lever <cel@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH RESEND v2 46/51] proc: sysctl: copy to and from userspace without holding the table
-Date: Wed,  4 Nov 2026 20:27:15 +0100
-Message-ID: <20261104-work-procfs-bugfixes-v2-46-021c84d852e0@kernel.org>
+	Chuck Lever <cel@kernel.org>
+Subject: [PATCH RESEND v2 49/51] selftests/proc: check that faulting sysctl accesses don't hold up removal
+Date: Wed,  4 Nov 2026 20:27:58 +0100
+Message-ID: <20261104-work-procfs-bugfixes-v2-49-021c84d852e0@kernel.org>
 In-Reply-To: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
 References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -117,121 +116,279 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3702; i=brauner@kernel.org; h=from:subject:message-id; bh=+LAd81fwJIRlW5EjEhH8yOMnOBiQOQqVJycA7u6Pdz8=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9bmJ1eDRjm+PEc3vLTC2v/lkZcX9ytWi95Scpc5nVn y74amrGd5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzEMJzhvx/PlO0lwpvb3J5V fmKL8G+eIrrAz/ZQTsb51hX150VF7Rj+abVIqjzO1EzVz7t77eLZC5a9v0xatB6dWHvCQsyFq2M 7IwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7877; i=brauner@kernel.org; h=from:subject:message-id; bh=nCZPyQUbx5TtYoxg9V0ET+7jSg+MEw36C1ShZRwuIz8=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9buIQvq4skXTQTjUuXmTXOeOyKTNaPto9S5ZwizNK1 bd4x7mto5SFQYyLQVZMkcWh3SRcbjlPxWajTA2YOaxMIEMYuDgFYCL1kxj+Vyjv+nbt3OspWhEb vBoP9CTYsfBOVTztsymEa5vl9nmsgYwMbxrZPeK5fOzuqipN+Wp3d03//tlX/wmFFa3eVMgRE3m LFQA=
 X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-proc_sys_call_handler() grabs the table, copies in what is written,
-calls the handler and copies what it produced out to userspace before
-it lets go of the table again. Unregistering a table waits until nobody
-uses it anymore. So a reader or writer whose copy faults for as long as
-it wants, with userfaultfd or a stalled FUSE mapping, keeps
-unregister_sysctl_table() waiting, and its callers like to hold locks
-while they do that. addrconf unregisters the ipv6 sysctls of a device
-with RTNL held, so a stalled read of /proc/sys/net/ipv6/conf/<dev>/mtu
-holds up every RTNL user until the reader gives up.
+Read, write and list /proc/sys/net/ipv6/conf/<dev>/ of a tun device
+with a buffer whose first page is backed by userfaultfd and remove the
+device while the task sleeps in its copy from or to userspace:
 
-Copy in before grabbing the table and copy out after letting go of it,
-like procfs and kernfs do for their files. The buffer is ours, nothing
-needs the table for the copies.
+- unregistering the table doesn't wait for a faulting read(), write()
+  or getdents64()
 
-That moves the allocation and the copy in before the permission check.
-A write that can't be copied in, or a request that is too large, now
-fails with -EFAULT or -ENOMEM where it used to fail with -EPERM.
+- the read still gets the value that was produced before the removal
+  and the next read fails with -ENOENT
 
-Fixes: 330d57fb98a9 ("[PATCH] Fix sysctl unregistration oops (CVE-2005-2709)")
-Cc: stable@vger.kernel.org
+- the write is copied in after the removal and fails with -ENOENT
+
+- getdents64() still lists what it looked up before the removal and
+  fails with -ENOENT afterwards
+
+The tables are unregistered under RTNL, so a regression stalls each
+test for five seconds before it fails.
+
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- fs/proc/proc_sysctl.c | 50 ++++++++++++++++++++++++++++----------------------
- 1 file changed, 28 insertions(+), 22 deletions(-)
+ tools/testing/selftests/proc/.gitignore            |   1 +
+ tools/testing/selftests/proc/Makefile              |   1 +
+ .../selftests/proc/proc-remove-slow-sysctl.c       | 215 +++++++++++++++++++++
+ 3 files changed, 217 insertions(+)
 
-diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-index ba52f13eb8f3..f5c9f04e8509 100644
---- a/fs/proc/proc_sysctl.c
-+++ b/fs/proc/proc_sysctl.c
-@@ -602,14 +602,36 @@ static ssize_t proc_sys_call_handler(struct kiocb *iocb, struct iov_iter *iter,
- 		int write)
- {
- 	struct inode *inode = file_inode(iocb->ki_filp);
--	struct ctl_table_header *head = grab_header(inode);
- 	const struct ctl_table *table = PROC_I(inode)->sysctl_entry;
-+	struct ctl_table_header *head;
- 	size_t count = iov_iter_count(iter);
- 	char *kbuf;
- 	ssize_t error;
+diff --git a/tools/testing/selftests/proc/.gitignore b/tools/testing/selftests/proc/.gitignore
+index 5b5e24e39cbd..7b8133492782 100644
+--- a/tools/testing/selftests/proc/.gitignore
++++ b/tools/testing/selftests/proc/.gitignore
+@@ -21,6 +21,7 @@
+ /proc-uptime-001
+ /proc-uptime-002
+ /proc-pidns
++/proc-remove-slow-sysctl
+ /read
+ /self
+ /setns-dcache
+diff --git a/tools/testing/selftests/proc/Makefile b/tools/testing/selftests/proc/Makefile
+index dae09f333455..bce6beca7274 100644
+--- a/tools/testing/selftests/proc/Makefile
++++ b/tools/testing/selftests/proc/Makefile
+@@ -32,5 +32,6 @@ TEST_GEN_PROGS += proc-multiple-procfs
+ TEST_GEN_PROGS += proc-fsconfig-hidepid
+ TEST_GEN_PROGS += proc-sysctl-readdir-churn
+ TEST_GEN_PROGS += proc-pidns
++TEST_GEN_PROGS += proc-remove-slow-sysctl
  
--	if (IS_ERR(head))
--		return PTR_ERR(head);
-+	/* don't even try if the size is too large */
-+	if (count >= KMALLOC_MAX_SIZE)
-+		return -ENOMEM;
-+	kbuf = kvzalloc(count + 1, GFP_KERNEL);
-+	if (!kbuf)
-+		return -ENOMEM;
+ include ../lib.mk
+diff --git a/tools/testing/selftests/proc/proc-remove-slow-sysctl.c b/tools/testing/selftests/proc/proc-remove-slow-sysctl.c
+new file mode 100644
+index 000000000000..e2992a26ed69
+--- /dev/null
++++ b/tools/testing/selftests/proc/proc-remove-slow-sysctl.c
+@@ -0,0 +1,215 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * A read(), write() or getdents64() of /proc/sys that faults while copying
++ * from or to userspace must not hold up unregistering the sysctl table.
++ * /proc/sys/net/ipv6/conf/<dev>/ of a tun device is unregistered under RTNL
++ * when the device's file is closed.
++ */
++#define _GNU_SOURCE
++#include <errno.h>
++#include <fcntl.h>
++#include <linux/if.h>
++#include <linux/if_tun.h>
++#include <linux/userfaultfd.h>
++#include <poll.h>
++#include <pthread.h>
++#include <sched.h>
++#include <string.h>
++#include <sys/ioctl.h>
++#include <sys/mman.h>
++#include <sys/syscall.h>
++#include <unistd.h>
 +
-+	/*
-+	 * Copy in before grabbing the table and copy out after letting go of
-+	 * it. Unregistering the table waits for us and a copy that faults can
-+	 * take as long as userspace wants.
-+	 */
-+	if (write) {
-+		error = -EFAULT;
-+		if (!copy_from_iter_full(kbuf, count, iter))
-+			goto out_free_buf;
-+		kbuf[count] = '\0';
++#include "../kselftest_harness.h"
++
++#define TUN_NAME	"procslow0"
++#define CONF_PATH	"/proc/sys/net/ipv6/conf/" TUN_NAME
++#define MTU_PATH	CONF_PATH "/mtu"
++#define BUF_PAGES	16
++#define TIMEOUT_MS	5000
++
++enum sysctl_op {
++	SYSCTL_READ,
++	SYSCTL_WRITE,
++	SYSCTL_GETDENTS,
++};
++
++struct worker {
++	enum sysctl_op op;
++	int fd;
++	char *buf;
++	size_t len;
++	ssize_t ret;
++	int err;
++};
++
++struct closer {
++	int tun;
++	int done;
++};
++
++static void *work_thread(void *arg)
++{
++	struct worker *w = arg;
++
++	switch (w->op) {
++	case SYSCTL_READ:
++		w->ret = read(w->fd, w->buf, w->len);
++		break;
++	case SYSCTL_WRITE:
++		w->ret = write(w->fd, w->buf, w->len);
++		break;
++	case SYSCTL_GETDENTS:
++		w->ret = syscall(__NR_getdents64, w->fd, w->buf, w->len);
++		break;
++	}
++	w->err = errno;
++	return NULL;
++}
++
++static void *close_thread(void *arg)
++{
++	struct closer *c = arg;
++	ssize_t ret;
++
++	close(c->tun);
++	ret = write(c->done, "x", 1);
++	return (void *)ret;
++}
++
++FIXTURE(proc_sys_slow) {
++	int tun;
++	int uffd;
++	char *buf;
++	long psz;
++};
++
++FIXTURE_SETUP(proc_sys_slow)
++{
++	struct uffdio_api api = { .api = UFFD_API };
++	struct uffdio_register reg = {};
++	struct ifreq ifr = {};
++
++	if (unshare(CLONE_NEWNET))
++		SKIP(return, "unshare(CLONE_NEWNET): %s", strerror(errno));
++
++	self->tun = open("/dev/net/tun", O_RDWR | O_CLOEXEC);
++	if (self->tun < 0)
++		SKIP(return, "/dev/net/tun: %s", strerror(errno));
++	strncpy(ifr.ifr_name, TUN_NAME, IFNAMSIZ - 1);
++	ifr.ifr_flags = IFF_TUN | IFF_NO_PI;
++	ASSERT_EQ(ioctl(self->tun, TUNSETIFF, &ifr), 0);
++	if (access(CONF_PATH, F_OK))
++		SKIP(return, CONF_PATH ": %s", strerror(errno));
++
++	self->uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
++	if (self->uffd < 0)
++		SKIP(return, "userfaultfd: %s", strerror(errno));
++	ASSERT_EQ(ioctl(self->uffd, UFFDIO_API, &api), 0);
++
++	/* Only the first page of the buffer goes through userfaultfd. */
++	self->psz = sysconf(_SC_PAGESIZE);
++	self->buf = mmap(NULL, BUF_PAGES * self->psz, PROT_READ | PROT_WRITE,
++			 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++	ASSERT_NE(self->buf, MAP_FAILED);
++	reg.range.start = (unsigned long)self->buf;
++	reg.range.len = self->psz;
++	reg.mode = UFFDIO_REGISTER_MODE_MISSING;
++	ASSERT_EQ(ioctl(self->uffd, UFFDIO_REGISTER, &reg), 0);
++}
++
++FIXTURE_TEARDOWN(proc_sys_slow)
++{
++}
++
++/*
++ * Let @w sleep in its copy from or to the first page of the buffer, then
++ * close the device. Unregistering the table must not wait for @w.
++ */
++static void stall_and_remove(struct __test_metadata *_metadata,
++			     FIXTURE_DATA(proc_sys_slow) *self,
++			     struct worker *w)
++{
++	struct closer c = { .tun = self->tun };
++	struct uffdio_zeropage zero = {};
++	struct uffd_msg msg;
++	struct pollfd pfd;
++	pthread_t wt, ct;
++	int done[2];
++
++	w->buf = self->buf;
++	ASSERT_EQ(pthread_create(&wt, NULL, work_thread, w), 0);
++
++	pfd = (struct pollfd){ .fd = self->uffd, .events = POLLIN };
++	ASSERT_EQ(poll(&pfd, 1, TIMEOUT_MS), 1);
++	ASSERT_EQ(read(self->uffd, &msg, sizeof(msg)), sizeof(msg));
++	ASSERT_EQ(msg.event, UFFD_EVENT_PAGEFAULT);
++
++	ASSERT_EQ(pipe2(done, O_CLOEXEC), 0);
++	c.done = done[1];
++	ASSERT_EQ(pthread_create(&ct, NULL, close_thread, &c), 0);
++	pfd = (struct pollfd){ .fd = done[0], .events = POLLIN };
++	EXPECT_EQ(poll(&pfd, 1, TIMEOUT_MS), 1) {
++		TH_LOG("unregistering " CONF_PATH " waited for the faulting task");
 +	}
 +
-+	head = grab_header(inode);
-+	if (IS_ERR(head)) {
-+		error = PTR_ERR(head);
-+		goto out_free_buf;
-+	}
- 
- 	/*
- 	 * At this point we know that the sysctl was not unregistered
-@@ -624,28 +646,15 @@ static ssize_t proc_sys_call_handler(struct kiocb *iocb, struct iov_iter *iter,
- 	if (!table->proc_handler)
- 		goto out;
- 
--	/* don't even try if the size is too large */
--	error = -ENOMEM;
--	if (count >= KMALLOC_MAX_SIZE)
--		goto out;
--	kbuf = kvzalloc(count + 1, GFP_KERNEL);
--	if (!kbuf)
--		goto out;
--
--	if (write) {
--		error = -EFAULT;
--		if (!copy_from_iter_full(kbuf, count, iter))
--			goto out_free_buf;
--		kbuf[count] = '\0';
--	}
--
- 	error = BPF_CGROUP_RUN_PROG_SYSCTL(head, table, write, &kbuf, &count,
- 					   &iocb->ki_pos);
- 	if (error)
--		goto out_free_buf;
-+		goto out;
- 
- 	/* careful: calling conventions are nasty here */
- 	error = table->proc_handler(table, write, kbuf, &count, &iocb->ki_pos);
-+out:
-+	sysctl_head_finish(head);
- 	if (error)
- 		goto out_free_buf;
- 
-@@ -658,9 +667,6 @@ static ssize_t proc_sys_call_handler(struct kiocb *iocb, struct iov_iter *iter,
- 	error = count;
- out_free_buf:
- 	kvfree(kbuf);
--out:
--	sysctl_head_finish(head);
--
- 	return error;
- }
- 
++	zero.range.start = (unsigned long)self->buf;
++	zero.range.len = self->psz;
++	ASSERT_EQ(ioctl(self->uffd, UFFDIO_ZEROPAGE, &zero), 0);
++	ASSERT_EQ(pthread_join(wt, NULL), 0);
++	ASSERT_EQ(pthread_join(ct, NULL), 0);
++}
++
++TEST_F(proc_sys_slow, read)
++{
++	struct worker w = {
++		.op	= SYSCTL_READ,
++		.len	= BUF_PAGES * self->psz,
++	};
++
++	w.fd = open(MTU_PATH, O_RDONLY | O_CLOEXEC);
++	ASSERT_GE(w.fd, 0);
++	stall_and_remove(_metadata, self, &w);
++
++	/* The value was produced before the table went away, then nothing. */
++	EXPECT_GT(w.ret, 0);
++	EXPECT_EQ(read(w.fd, self->buf, self->psz), -1);
++	EXPECT_EQ(errno, ENOENT);
++}
++
++TEST_F(proc_sys_slow, write)
++{
++	struct worker w = {
++		.op	= SYSCTL_WRITE,
++		.len	= 5,
++	};
++
++	w.fd = open(MTU_PATH, O_WRONLY | O_CLOEXEC);
++	ASSERT_GE(w.fd, 0);
++	stall_and_remove(_metadata, self, &w);
++
++	/* The table went away while the value was copied in. */
++	EXPECT_EQ(w.ret, -1);
++	EXPECT_EQ(w.err, ENOENT);
++}
++
++TEST_F(proc_sys_slow, getdents)
++{
++	struct worker w = {
++		.op	= SYSCTL_GETDENTS,
++		.len	= BUF_PAGES * self->psz,
++	};
++
++	w.fd = open(CONF_PATH, O_RDONLY | O_DIRECTORY | O_CLOEXEC);
++	ASSERT_GE(w.fd, 0);
++	/* start behind the dots so that it faults on an entry it looked up */
++	ASSERT_EQ(lseek(w.fd, 2, SEEK_SET), 2);
++	stall_and_remove(_metadata, self, &w);
++
++	/* What was looked up before the removal still arrives, then nothing. */
++	EXPECT_GT(w.ret, 0);
++	EXPECT_EQ(syscall(__NR_getdents64, w.fd, self->buf, self->psz), -1);
++	EXPECT_EQ(errno, ENOENT);
++}
++
++TEST_HARNESS_MAIN
 
 -- 
 2.53.0
