@@ -1,74 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793818404;
-	b=SIYKvRFNEyO8OOhnsXB99EFFCRhj/rVGI7BBOuIs80BnrDnOuDtCgTdCpycHI9p7Dc1/
-	 JML7P5FID1oUBwm3VLw+d9lNgohkR3l8Xk76uCVAbG8dS0/IGx3yM7e0Zyq3gewKbrgpO
-	 YqR//sFdXdDAa4RpnK34bFIaZ3l6mjxRfLFcXg5uqh7VWyRN/eQqi8dw1PRfP+Ofv+uAB
-	 oFSuPZKeB3UFyJkY/PEgCgooMtEhzM7tkV3fhFap0mlQ8lEe9jtZRk+dDfFga44OznA9I
-	 Uv0AvTi850jBT3dc1qquQ3p1Kq6C77bQ3dDYB5iG5R1qkx4NKaBhrmiyl8Ib6hKP/Ew==
+	t=1793818793;
+	b=MfZLEnjsw4EQAdUY7ZymHOifyYx377jGTpJsB6XLfYihdxxGMxiwdAkgJjgRmw9JpPMy
+	 Vcpj1yDE1vnyoot6UbYzfoUNS04p7QzM9y+z2KyZZeYSQQPL4Ndj3EFVIAg5PsSqUCy7L
+	 ZVShSNKhqIwe9evo6hhdlwASS455z4+U6wD+1aJxScgnYBcQ9y2uhrN+T+k8AAS4DpWD+
+	 wY5fD+WN8TWJqcr7j6nVYa97iekK4RBCer/Q/y4LQAeBQ9GFAIGCQC/17Gyqe1AUdXy0j
+	 DsdtP6l94G24N+FEYo0+JNlM6UtuOkMMBpLoAG2qaadESAgpuMtVAkKqXg7SCpAiJMA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793818404;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Last-TLS-Session-Version;
-	bh=kll/G1zD/C2JyZu7pxNelwTrLUBWbNvvxhXCfrLDdII=;
-	b=g8no6G6OjmtNm4YbcWW2Jnn2bYA/hBv48jNV7QIV0qjI6eJ+WGjXLa5prIqXaisDpopP
-	 1/Sjzic2I6uxz+Sy2kYax1X1aoXPO/nklDpTWUiMb+Lt3d/qFSy64286VfIWoeSHOovdH
-	 GKneh8jumTUqrgU2FshZjoqNssBwfGsvU8Cgg79jPcAx90GAlXaCwEMcz4ZWqe64yWykd
-	 cYsrF7iH6+MmTQYJRqcN5EtCk87WcnEurOqp1iS/3Hpn9Ctx8r1UdJFZJ2/ISLpAzwLK1
-	 cRmg/uf+6BpJ+LLWPojc19Eqdf7lCCYWCn7OucPpYWPWY/MLiIjvAQrx/VMNolL4BaQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793818793;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=U5YU4saxnJTeNwoe6kvpcWy7vnNuqiTY5SpblJDoGjM=;
+	b=YiJXG5NezjiLQL4mroeDk/HCT3OucjxgwHW2W4ti9pv8LWrJlQu5K/NeNE6KED34DqVe
+	 7vg9TJnxmoXveNpNA5bzHtpCG9wtyjlpC6U89OhK8Tj/+0R4pCW/Hy2BOAcTZ+RAD0J6k
+	 XhJURougEuGe6XjRFa6awYz16WCU0uP4QmEc04ZxvZfBoehqCjlwbkyAsp34WuunSye7a
+	 JA9pLx/7AvTonv93MpDSoaOQmoo3HBzk+JxykPmIlp9f8hC2H8GhqddEeHVgPIBBktB7V
+	 JAjqqUO7Pm07TZF57HSi4uZTn9IL8UNZRlL5ILBTULcATxWnkucZ6gg4T9HBEIaMGjg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Tv+VOjuX;
-	arc=none smtp.remote-ip=185.246.84.56
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="lZtxG2b/";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D7B606A32D
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 18:53:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44D7B606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDE8606A31B;
+	Wed,  4 Nov 2026 18:59:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Tv+VOjuX
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id A71331A1451;
-	Wed,  4 Nov 2026 18:53:20 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6714A60770;
-	Wed,  4 Nov 2026 18:53:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C414410329205;
-	Wed,  4 Nov 2026 19:53:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793818395; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=kll/G1zD/C2JyZu7pxNelwTrLUBWbNvvxhXCfrLDdII=;
-	b=Tv+VOjuXj3AH4ln4E3aXj4PZMQKql3KWSZmz2mqRiK+jgYCiAKLyFxJvFwNFzOT2mtfa/p
-	/bx6al1jJJa+bZV3C/HjKYVwdSHnNj8K+VmDEMZY3OlMMIZEFHnds8sgV9MHo+HHCYtDbn
-	x70RoP2HsMme65Nfa8ffeM8rDHEGo3j2+2HSbRpN6yCyuTlkgd0HG3FUPB2K32I/sVrj1A
-	QtaakxhrG4MI4ibpZz6wPkLdC3Y5lwyrVFf/Ha/JM1zFsyvQeTFeUDZjjKHvUFr+l7oMnW
-	YRz4CV1SlYuEY/gOOB+7jtEAUBx2umSS15PswdMcUJmkil+id0WtdNn/3JwwbA==
-Date: Wed, 4 Nov 2026 19:53:08 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Abel Vesa <abelvesa@kernel.org>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Mark Brown <broonie@kernel.org>, Andy Gross <andy.gross@linaro.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	stable@vger.kernel.org, Wentao Liang <vulab@iscas.ac.cn>,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH v2] memory: atmel-ebi: Disable SMC clock on probe failure
-Message-ID: <20261104185308b845fb6d@mail.local>
-References: <20261101190733.121473-3-krzysztof.kozlowski@oss.qualcomm.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lZtxG2b/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5BB11F000C1;
+	Wed,  4 Nov 2026 18:59:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793818792;
+	bh=U5YU4saxnJTeNwoe6kvpcWy7vnNuqiTY5SpblJDoGjM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=lZtxG2b/cSDkF9V30h0rcrAe5BIggwcCMhjdRsohDuPTf5xQpsrWNVb7gBU0Q35fs
+	 YRk2gWxMWvdFOyeKxNzZ9g4iaI+Gic5Fxvb+GBngUf4x2L654czCbnbA2gFBwDLmVa
+	 WcLmhfB9UI1SHIKoUuRnWrZR8ACaKLhXAI2+i9gr8ctj0EKG4aGL9l44yugbfEckbS
+	 QQpdXKiPyMrRkIQLDip3EQyXT7AXcbzkEL9T69ouTSSwyuYQF64MBNbQXST6KUrv8E
+	 9KCetbeybQPoPFXHllEpL8BEaC/oDUIpkJKBTFE2LJ2rDbQ/YB3QFEXsJpSt4X6caH
+	 xYHQskebWUf7Q==
+Message-ID: <c4eb1d41-8b61-4aca-abad-22cb61a4415e@kernel.org>
+Date: Wed, 4 Nov 2026 19:59:45 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -78,115 +51,118 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261101190733.121473-3-krzysztof.kozlowski@oss.qualcomm.com>
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] memory: atmel-ebi: Disable SMC clock on probe failure
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Srinivas Kandagatla <srini@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Abel Vesa <abelvesa@kernel.org>,
+ Boris Brezillon <bbrezillon@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Andy Gross <andy.gross@linaro.org>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ stable@vger.kernel.org, Wentao Liang <vulab@iscas.ac.cn>,
+ Sashiko <sashiko-bot@kernel.org>
+References: <20261101190733.121473-3-krzysztof.kozlowski@oss.qualcomm.com>
+ <20261104185308b845fb6d@mail.local>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20261104185308b845fb6d@mail.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 04/11/2026 19:53, Alexandre Belloni wrote:
+> Hi,
+> 
+> On 01/11/2026 20:07:34+0100, Krzysztof Kozlowski wrote:
+>> Unprepare and drop the SMC clock reference, if probe fails to avoid
+>> resource leakage e.g. during probe deferral.
+>>
+>> There is no remove() callback, presumably on purpose so only error paths
+>> are handled.
+>>
+>> Cc: <stable@vger.kernel.org>
+>> Fixes: 87108dc78eb8 ("memory: atmel-ebi: Enable the SMC clock if specified")
+>> Reported-by: Wentao Liang <vulab@iscas.ac.cn>
+>> Closes: https://lore.kernel.org/all/20260917101623.2146392-1-vulab@iscas.ac.cn/
+>> Reported-by: Sashiko <sashiko-bot@kernel.org>
+>> Closes: https://sashiko.dev/#/bug/linux-8e236c81-01b2-4274-a213-11c3f31acfc2
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+>>
+>> ---
+>>
+>> I independently developed the patch and then checked the queue with
+>> pending work of iscas. That one has issues and other complains from me,
+>> so only credits for the report.
+>>
+>> Changes in v2:
+>> 1. Handle of_platform_populate() error.
+>> ---
+>>  drivers/memory/atmel-ebi.c | 27 ++++++++++++++++++++-------
+>>  1 file changed, 20 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/memory/atmel-ebi.c b/drivers/memory/atmel-ebi.c
+>> index 1e8e8aba2542..7dc2f7add1b1 100644
+>> --- a/drivers/memory/atmel-ebi.c
+>> +++ b/drivers/memory/atmel-ebi.c
+>> @@ -562,7 +562,7 @@ static int atmel_ebi_probe(struct platform_device *pdev)
+>>  	}
+>>  	ret = clk_prepare_enable(ebi->smc.clk);
+>>  	if (ret)
+>> -		return ret;
+>> +		goto err_put_clk;
+>>  
+> 
+> Couldn't we simply devm_clk_get_enabled() ?
+It is not this device's clock. Is there devm_clk_get_enabled() variant
+which takes from other node?
 
-On 01/11/2026 20:07:34+0100, Krzysztof Kozlowski wrote:
-> Unprepare and drop the SMC clock reference, if probe fails to avoid
-> resource leakage e.g. during probe deferral.
-> 
-> There is no remove() callback, presumably on purpose so only error paths
-> are handled.
-> 
-> Cc: <stable@vger.kernel.org>
-> Fixes: 87108dc78eb8 ("memory: atmel-ebi: Enable the SMC clock if specified")
-> Reported-by: Wentao Liang <vulab@iscas.ac.cn>
-> Closes: https://lore.kernel.org/all/20260917101623.2146392-1-vulab@iscas.ac.cn/
-> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Closes: https://sashiko.dev/#/bug/linux-8e236c81-01b2-4274-a213-11c3f31acfc2
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> 
-> ---
-> 
-> I independently developed the patch and then checked the queue with
-> pending work of iscas. That one has issues and other complains from me,
-> so only credits for the report.
-> 
-> Changes in v2:
-> 1. Handle of_platform_populate() error.
-> ---
->  drivers/memory/atmel-ebi.c | 27 ++++++++++++++++++++-------
->  1 file changed, 20 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/memory/atmel-ebi.c b/drivers/memory/atmel-ebi.c
-> index 1e8e8aba2542..7dc2f7add1b1 100644
-> --- a/drivers/memory/atmel-ebi.c
-> +++ b/drivers/memory/atmel-ebi.c
-> @@ -562,7 +562,7 @@ static int atmel_ebi_probe(struct platform_device *pdev)
->  	}
->  	ret = clk_prepare_enable(ebi->smc.clk);
->  	if (ret)
-> -		return ret;
-> +		goto err_put_clk;
->  
-
-Couldn't we simply devm_clk_get_enabled() ?
-
->  	/*
->  	 * The sama5d3 does not provide an EBICSA register and thus does need
-> @@ -572,14 +572,16 @@ static int atmel_ebi_probe(struct platform_device *pdev)
->  		ebi->regmap =
->  			syscon_regmap_lookup_by_phandle(np,
->  							ebi->caps->regmap_name);
-> -		if (IS_ERR(ebi->regmap))
-> -			return PTR_ERR(ebi->regmap);
-> +		if (IS_ERR(ebi->regmap)) {
-> +			ret = PTR_ERR(ebi->regmap);
-> +			goto err_disable_clk;
-> +		}
->  	}
->  
->  	ret = of_property_read_u32(np, "#address-cells", &val);
->  	if (ret) {
->  		dev_err(dev, "missing #address-cells property\n");
-> -		return ret;
-> +		goto err_disable_clk;
->  	}
->  
->  	reg_cells = val;
-> @@ -587,7 +589,7 @@ static int atmel_ebi_probe(struct platform_device *pdev)
->  	ret = of_property_read_u32(np, "#size-cells", &val);
->  	if (ret) {
->  		dev_err(dev, "missing #address-cells property\n");
-> -		return ret;
-> +		goto err_disable_clk;
->  	}
->  
->  	reg_cells += val;
-> @@ -603,11 +605,22 @@ static int atmel_ebi_probe(struct platform_device *pdev)
->  
->  			ret = atmel_ebi_dev_disable(ebi, child);
->  			if (ret)
-> -				return ret;
-> +				goto err_disable_clk;
->  		}
->  	}
->  
-> -	return of_platform_populate(np, NULL, NULL, dev);
-> +	ret = of_platform_populate(np, NULL, NULL, dev);
-> +	if (ret)
-> +		goto err_disable_clk;
-> +
-> +	return 0;
-> +
-> +err_disable_clk:
-> +	clk_disable_unprepare(ebi->smc.clk);
-> +err_put_clk:
-> +	clk_put(ebi->smc.clk);
-> +
-> +	return ret;
->  }
->  
->  static __maybe_unused int atmel_ebi_resume(struct device *dev)
-> -- 
-> 2.53.0
-> 
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Best regards,
+Krzysztof
