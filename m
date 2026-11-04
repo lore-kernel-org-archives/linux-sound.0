@@ -1,108 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793776153;
-	b=qF71qDPCBBJdi9ukaA8ksXL6TwmutkcDG+u2TSFly0n/XWpwiT1miNHBrib00jBvxSMU
-	 kSLqBXPVrnTykpYWuRghE9T3wmsyY8RjIw69N8MCgS2LSS7FtMFDZJEG/1rKNbAVPENML
-	 76UpU4Zpb7V66SShyeyaaGKrejIw2fusN9S7xkJxYpbdDboVCNEgRgKRzvr64efxpkfu3
-	 rRXsakSZ7OR/XXhrWYrGTe3ORIS1PclzgXylpVs31DmXqfgKwzM3TlKKcctLFR10jyk5M
-	 JEwYtW6c5ydJn/XvCveqIC4oYOgj7pQMxWXezibKfk78W63s1bWlhVzn84KkU/wEFiQ==
+	t=1793776212;
+	b=a1rHA+xiGTu4je7JGsuHXkFT27QfFInYMpVwgz1r9hMn7zv6lmtR1EiyO+DBRDPvUlEi
+	 lLjGMk9QvKaRvcMPYj47aFk+8PyzwNf03x+HsAanEGPTsAywSdldgtGPq55pTsZSs1La/
+	 Xe0GRGWtqMoQeRPnyPzFiB8BidzrHEHVecSNAH/Lq2qN57YjRgAa05GhD7jnKLtAYJGhl
+	 fTJV15Wm5Cg4YZQRq4irhMPtd8x66PNZtibdZczNFdRJ9AfupiN3ZOX9LjVTHh0ApnMyQ
+	 Wt/2dZ9nsT14lTiXD8zGKw/i2UFBJpf9Wnp0Y7SwjWqhzzWg7GQYvoz7kiETbk94Uug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793776153;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=emnBMYYtlelYYV2L6n2Io2FmE+4Pu+/TpD5NrJBlQnk=;
-	b=hSSpM1Z437DemGRtJhuu/U9d3rJyIBKNboKHHiGb01HjY2ZmlOpwDqxPakEoL8vVA5y5
-	 JsfxTCKcf6N2SLsNdtjRUPuT/Phyc8aRAJjWvm2QuYJ8GDm/HlpjVplazidpqedKbyH5v
-	 4D9rIQHI044VuFcmH6svpXXzIJ/bOHWipGuKJKK3pYUaTk/nARHoTajiFzKWSZR1pPm09
-	 VL9u7s2bGaiXVl0FbY7H/CzQMJkVUGS8BDaq3Y8zf5LDQEGgqjqGWpgMkgEyQtBzEabep
-	 kdhffHX4tAfcAXGjeNjrrBFYlDYgJUG3DzEjGxoE7rTrdJXJTkKwiQO+5E8AIOotqKg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793776212;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=NMYNB9COF46oh5WnNHwes5NR7sSly5pD5TV0jSzxyfc=;
+	b=hiF8bTemmSZsZilT1sw1djEWAlcqR+juGfQvKxsv1WAFajoK5Yzslusph2gNK+Z84+te
+	 9sQM6DbZ6DQ+C6LGwdDMYosvJi3DOXzpa5DO5orSYIUMoF3a229lC9pkfiI1lkFBbNwaA
+	 R/vppZBkksCHnyqjcDqHFdqBC+g9PDBJrCrKaDus/OmvdZwkrRrA4n4RcssPBBEGMvE2y
+	 AQmxIzh+okWpysN/saJ2Yly64ggwAHw+/zmLK62gWMe1eFJwlnCZNtuiOxaYi2eeOtVmk
+	 RjBoAo4hDafOodrdLu1Z4aLBP3gic4/kPFHJv9/ToH6qDYzEopqWl4XzrOcK/DZUc0w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=NqvtMp1w;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=U2z5gkbP;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=NqvtMp1w;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=U2z5gkbP;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ya9nnf2l;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1A5606A31B;
-	Wed,  4 Nov 2026 07:09:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D1A5606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB38606A31B
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 07:10:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=NqvtMp1w;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=U2z5gkbP;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=NqvtMp1w;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=U2z5gkbP
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 83C5821F99;
-	Wed,  4 Nov 2026 07:09:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793776150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=emnBMYYtlelYYV2L6n2Io2FmE+4Pu+/TpD5NrJBlQnk=;
-	b=NqvtMp1wtygzwO2MiMnGRHr4qNurHVyURpcVOgMImoGRzvi3nO0lB8LFXv35+q4D+BmBiq
-	1D3NYGvvMzPVX5Lobe+2TGpuF9qVvl3QjbgX+o5tFYo9+ZpOL+uxwiDLFk0tPg9YFgoGr1
-	fsiIT6eiW+3IAMad2+rQGfAeI6tDqw4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793776150;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=emnBMYYtlelYYV2L6n2Io2FmE+4Pu+/TpD5NrJBlQnk=;
-	b=U2z5gkbP2Fcy3YRapafti7PUuZi1wT8gj0iFbbi7ySmfP4Y9SKpkXQK5uo4E36lgPHauQd
-	NIl13uND1dh2M8Ag==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793776150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=emnBMYYtlelYYV2L6n2Io2FmE+4Pu+/TpD5NrJBlQnk=;
-	b=NqvtMp1wtygzwO2MiMnGRHr4qNurHVyURpcVOgMImoGRzvi3nO0lB8LFXv35+q4D+BmBiq
-	1D3NYGvvMzPVX5Lobe+2TGpuF9qVvl3QjbgX+o5tFYo9+ZpOL+uxwiDLFk0tPg9YFgoGr1
-	fsiIT6eiW+3IAMad2+rQGfAeI6tDqw4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793776150;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=emnBMYYtlelYYV2L6n2Io2FmE+4Pu+/TpD5NrJBlQnk=;
-	b=U2z5gkbP2Fcy3YRapafti7PUuZi1wT8gj0iFbbi7ySmfP4Y9SKpkXQK5uo4E36lgPHauQd
-	NIl13uND1dh2M8Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0ED35134A5;
-	Wed,  4 Nov 2026 07:09:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eXeNNBXa6mqSJQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 04 Nov 2026 07:09:10 +0000
-Date: Wed, 04 Nov 2026 08:09:09 +0100
-Message-ID: <87zevpul7u.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: songxiebing <songxiebing@kylinos.cn>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: info: Fix maxsize underflow in snd_info_entry_write()
-In-Reply-To: <20261104061311.1345791-1-songxiebing@kylinos.cn>
-References: <20261104061311.1345791-1-songxiebing@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ya9nnf2l
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A4B11F00919;
+	Wed,  4 Nov 2026 07:10:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793776212;
+	bh=NMYNB9COF46oh5WnNHwes5NR7sSly5pD5TV0jSzxyfc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ya9nnf2lXxnUl4w9Brnl5zOag7F6DSPrjaNubAxn0GmbNo9ChtaoPbg+38cH3kwSS
+	 VB1cN2gXkHj5qu0x6Q4rW6rTFe8YESZNhjy0LVUPx/6YVm1bBD5tuveblpnJX6JnGs
+	 7ssHq16pKKyd9QCv0ct/Llwl6JiTRvAe3dEwqK1OMr5xT5CcQUP3K82g/z0tQ0qOoF
+	 jIQl5uDs4kOMH3HPJuW0rLmgZRjSN3vrW1obmMcZ62vfJrExRofZ+mMqWBYXUxfkOp
+	 PufjoIJtIJ6pfE+etIrT8SZg+XT9eEjGqtUrq3kysJzNYrZrpVbsbPBmHGPnjLNsW0
+	 xcl7UDRrUamcQ==
+Date: Wed, 4 Nov 2026 08:10:08 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: audio-graph-card2: fix device node leaks in
+ graph_count_c2c()
+Message-ID: <20261104-vengeful-impartial-chipmunk-0c8a8e@quoll>
+References: <20261104024055.1508771-1-vulab@iscas.ac.cn>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -111,77 +57,70 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email]
-X-Spam-Score: -12.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261104024055.1508771-1-vulab@iscas.ac.cn>
 
-On Wed, 04 Nov 2026 07:13:11 +0100,
-songxiebing wrote:
+
+On Wed, 04 Nov 2026 02:40:55 +0000, Wentao Liang wrote:
+> graph_count_c2c() takes two references that it never drops: the one
+> from of_node_get(lnk) stored in port0, and the extra one added on top
+> of the reference of_graph_get_next_port() already returns for port1.
+> Both nodes are leaked once per codec2codec link parsed at probe time.
 > 
-> From: Bob Song <songxiebing@kylinos.cn>
+> Release port0 with the cleanup attribute and drop the redundant
+> of_node_get() around the port1 lookup, so that the cleanup attribute
+> balances the single reference of_graph_get_next_port() returns.  This
+> is the same ownership model audio_graph2_link_c2c() uses.
 > 
-> snd_info_entry_write() computes maxsize as entry->size - pos without
-> first checking whether pos has already reached entry->size.  If a write
-> is issued with an offset beyond the entry size, the subtraction
-> underflows and count is left unclamped, so the write callback is called
-> with an out-of-range offset and the original count.
-> 
-> The read path already handles this case by returning 0 when
-> pos >= entry->size.  Add the same check to the write path.
-> 
-> Fixes: d97e1b78239c ("ALSA: info - Check file position validity in common layer")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Bob Song <songxiebing@kylinos.cn>
-
-This was already addressed in Christian's recent patchset.
-https://lore.kernel.org/20261102-work-procfs-bugfixes-v1-9-59422ed3e465@kernel.org
-
-(... and he mentioned that return 0 would lead to endless stdio
-retry, too.)
-
-
-thanks,
-
-Takashi
-
+> Fixes: 5f281c3e82b1 ("ASoC: audio-graph-card2: use __free(device_node) for device node")
+> Cc: stable@vger.kernel.org
+> Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
+> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 > ---
->  sound/core/info.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  sound/soc/generic/audio-graph-card2.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/sound/core/info.c b/sound/core/info.c
-> index 3b8ccda04e1a..676b06e0d463 100644
-> --- a/sound/core/info.c
-> +++ b/sound/core/info.c
-> @@ -171,6 +171,8 @@ static ssize_t snd_info_entry_write(struct file *file, const char __user *buffer
->  	pos = *offset;
->  	if (!valid_pos(pos, count))
->  		return -EIO;
-> +	if (pos >= entry->size)
-> +		return 0;
->  	if (count > 0) {
->  		size_t maxsize = entry->size - pos;
->  		count = min(count, maxsize);
-> -- 
-> 2.25.1
-> 
+
+Multiple things here:
+1. Your team ignored completely previous feedback. Multiple times.
+
+2. You use multiple identities with this email address, thus I doubt that we
+   speak with an actual person.
+
+3. Your bot does not even bother running checkpatch, right?
+
+4. Nothing of this was reproduced nor tested.
+
+5. Finally, the same feedback:
+You sent multiple independent patches, to multiple independent
+subsystems. The amount of these patches clearly suggest this was
+AI generated and most likely not tested.
+
+More importantly, you sent all this work without properly organizing
+relevant patches into patchsets. This makes reviewing difficult
+and might cause multiple reviewers to address the same issue.
+Replying to the entire set is impossible and requires handling each
+patch independently, instead of applying or discarding the set.
+Maintainers also won't see the bigger picture of your work. Quite
+worrying.
+
+This is on the verge of hostile patch: bomb us with so many
+contributions, we won't be able to handle them in efficient manner,
+like responding ONCE to ask you to slow down.  Considering all this
+is untested and LLM generated, I have even more doubts whether this
+should be considered for review.
+
+Please read kernel documentation BEFORE posting more work. It will
+explain you how to identify subsystems, how to organize your work per
+subsystem (so a patchset grouping multiple patches with a short cover
+letter), how to document the issue discovery method and what was
+or was not tested.
+
+Best regards,
+Krzysztof
+
+
+
+
