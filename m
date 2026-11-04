@@ -1,59 +1,122 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793797813;
-	b=zB/9uWePppAVswPV3Yz5VepBCSxCkmPJWCYMK44etGV6jDu6x/ugw02Vxdav9gn3hNJm
-	 52Kl76Av+mp7xn+8DYRjGTky9AwcN4p2CKOVHmupX2K+6/BCaPlSZj4WLYF+aB+JFqy8o
-	 t9bhaDnnfl3O+zq/4vab06ndJjVQcoOqFFEf6l4oRDqWgapAo13cGdwI/h/Bnj/Dpxtu8
-	 xSpVtQZofljwzuewGNIFv130VXp4buHEsXbV9neX07XQUUhfbRIFNTTxecitpuH0Fkrfs
-	 AJ/9SHViAgC2jl+8JsZohomG8NdQGVDIG8treZNY5+JiOlcx7Bcoy7teGsKldx83SwQ==
+	t=1793798487;
+	b=uTf1SDdPv41XLw7eBFKFv3T1yxo3JohIw3fgigyU+JNFKsCQ5RVUBBXdzB+K6AMYKbKA
+	 30owf01Dsu2U8GdIekGaMgj0GsTxnZt3qty8Q36nkJ3FUHLQ/TiKwJcGpkPlTvNJxkHWr
+	 E5qG0TNe4nRaewpsoLJKRKOvQqXZO+vxKSAIn1EB045fD1fpCnyN9inGz+Oo2ZKeXMXZz
+	 8hKeM5LSWEC3ZKAlkHyf8TTKfe0nW1sy6/PggvjOOBXe6wxwsGPmB2Yu2MO/qixSa6G1f
+	 oGo0B4qA3mvWv+y4qXSK9gmvZKV+S6cviHNjdCmhatHAvx6Us3S3ZE3onenzI93Ra3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793797813;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=EaXRoxZs9PRx2wo2tzSq0ef3gNUQ37to3HPL9EgpspY=;
-	b=UzsuQOYE9wywmhLLhBK9jLwTVPPojBBh6HPUMi8E1MO98ob67n5hCacU6YrAGpuv9ilM
-	 tt6zJz7q/dmQ7DvBom9dnRG1wRDHvpYO6eLlVtp1EoLts9w3QdFXXrE1B33XzpPo8454M
-	 smra1ce8tU9LrRiMGS7ktjj7npWLTfn5UkrksntNZ4of7CdPMALY1wSPAtb4SR7pUsO4A
-	 xwRIkt9oam3eaNZmyviRUmtsQCNTLvyBdmsnuTEAMDddwbXyDDXJplkE0fG/1/EyTtGzB
-	 bK2JcccIYWan61Q0GLxblBsrggNJ4/qOuTNAJyGsKHTWZzdkCDY7OERAScMPg1DRxLw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793798487;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=Qo4pe7avcSY5Cv2vjrKx5CQZiGftqTo4ZYX8oBfFgQU=;
+	b=lGfaOUSlWTtI4e6YGUwKLXMT3+StTghsbuycIh7AFJS6hHJE5ozI9Qgsv/u5HA9ZBdFC
+	 jifpPT2e9oHSBAcgJ6woQInYfWVCmzQf5/D8Ov0p+AOmYFCKAVGoaWeAMkpnbGuBWKOmd
+	 AXOkLPC+eTHW/TRA4f/O2KX9kXRKh+Ffjca9mgn9mWHH/aNb9rq7tEcLngqA6xddu93g1
+	 rpr/D4FMEgHoQpvOU79lYEDaBESOvukHTgRlYRb20JdE9SXAUt27hj4IZlhjM76p+ARt8
+	 xSVwrvzV6x45kDyq440do45Oz+eR1xJYIfuQUB+EWynPochkx11olWWapAH0FK6/pCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="k+5OJid/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=R7mhROGi;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=O2uw9ryP;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9125606A31B;
-	Wed,  4 Nov 2026 13:10:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4036606D805
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 13:21:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A4036606D805
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k+5OJid/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DE8B1F00919;
-	Wed,  4 Nov 2026 13:10:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793797812;
-	bh=EaXRoxZs9PRx2wo2tzSq0ef3gNUQ37to3HPL9EgpspY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=k+5OJid/VkQ3swVXuHLrFLBfnJA0PGG4Zhrv9HJAGwkQmMgt/6YaCL5KMQvwLXSTF
-	 O9yMB5ZVpxaDNFY4Gz5VlJRtuFBs8Spl04eVXVRaHh4A/crCFbpkkZwaFg+TBJbMPY
-	 vG3hd8gbd64DkQGvbZH/qqqZoliTbayqqN5ENZvW84oEUeDAiEibS//xfiPUMi/WgJ
-	 bjjMPfdSoFojto5KvVbOrF/ct72w7DU7ipswheAm3qrSYvTB7QTCFe5XPOIFWv4RDg
-	 CeUYyoRMyVEz+VmfdJaGKIhmqsxD8HhL+5loiTZuLac9VHAJTmxp9qev2Bn/My2oSb
-	 juzgE1wLbSUZA==
-Date: Wed, 4 Nov 2026 14:10:08 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Xing Zheng <zhengxing@rock-chips.com>
-Cc: broonie@kernel.org, heiko@sntech.de, linux-sound@vger.kernel.org, 
-	luca.ceresoli@bootlin.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
-	linux-kernel@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, huangtao@rock-chips.com, sugar.zhang@rock-chips.com, 
-	lxt@rock-chips.com, xing.zheng@rock-chips.com
-Subject: Re: [PATCH v2 1/3] ASoC: dt-bindings: rk3308-codec: describe
- detection and ADC routing
-Message-ID: <20261104-russet-stingray-of-penetration-fef32e@quoll>
-References: <20261101040125.1864141-1-zhengxing@rock-chips.com>
- <20261101044149.2018744-1-zhengxing@rock-chips.com>
- <20261101044149.2018744-2-zhengxing@rock-chips.com>
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=R7mhROGi;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=O2uw9ryP
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A4Ba09k1149880
+	for <linux-sound@vger.kernel.org>; Wed, 4 Nov 2026 13:21:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=Qo4pe7avcSY5Cv2vjrKx5CQZ
+	iGftqTo4ZYX8oBfFgQU=; b=R7mhROGiOL6p2MqnlO1Hg6L2M8Ht89mafYPL2Dkl
+	f+4hp8rWPFWVDcirAgkzqrJPWVjrvLM6nnIikWuY777x9dd6IIYEBJgy1K7VJleO
+	rNalgb6jwpFkReVE4yMSy+rY6KA3qZx9JgkCMbVhi9UrVmZKkAovaapNOu1AGAtW
+	SpljDoCPzw5evg7bTF74EO40pgdEUgYfxaC0LJ/kVLt40xX/8D74TcrT0erKhUGc
+	Gbj6d3T2lGwZYOKziqXQnsNpJ4L1afRkHtmfNRvFZpO/sRjjabBfBIvbbWu0V19B
+	z0tTJKIWZLbAPwiSU9DMdHMnsQDIdnUCfu3M+L4LJY7sdA==
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com [209.85.221.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hqn8y3x0q-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 13:21:25 +0000 (GMT)
+Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-5c96bf59c31so19026e0c.3
+        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 05:21:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793798485; x=1794403285; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Qo4pe7avcSY5Cv2vjrKx5CQZiGftqTo4ZYX8oBfFgQU=;
+        b=O2uw9ryPc4xEeCfO8TPlgEId+43tfNPkoi3xfTVO1jPXwiSMP4CZqaJCffIvh518CX
+         kVsTzF23ih4qLJohAsPk7rRwza9MvScQPMPSHW1NZbb/9JKG595tk5N2NejFvkef1G3o
+         ahybGlUN+X2t7lwwZV2SLazu4zBgppP6N/JHwEpnGTxrNZgNqoN0icGzmlAkHAplGbRx
+         ASd/EXHLDfMIAYNEL1ilZ6mMrxxdNBg1T6+bjyp5T5cMg0P09XyssdXuswTZcX58jg2C
+         n8PKruAWUYz7qRRRpasRcGneb9pld9FeCWjs2OPogwwKXdD8nhVGV67iEY7HoX5a1ckO
+         Qlpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793798485; x=1794403285;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Qo4pe7avcSY5Cv2vjrKx5CQZiGftqTo4ZYX8oBfFgQU=;
+        b=JTCaF9G1TZxPPkxO9v943jmma7Bf1qoH1lRfcdrDfZ0bu0niHJoqXZjbXy40rSv8Cg
+         z3DTN7wdm6ykDex+Vh57xruDd0TrGFyuOqaQwjcNUBAi19cOgAvz+it+nLAp8klZIF4z
+         aOqJQtVVkflO6DIdX6uZ9FyOGFO75YgqPmu5eQgs9IDsOhxbklHVB0ljYeC4pilfGlhT
+         V59fP//VbqLNgVFwge72WebMfrJ2WxcIxfbAfcdaO7XM3DNKEDA9xytwCE3u2hDQaYTE
+         P/5Lg8J2u9xdBOcnQhifvOo7uEXjz4mN/EQ7znh9xoPFvFab/M36HKihdSF6UhnEenKf
+         WzYg==
+X-Forwarded-Encrypted: i=1; AKwUvBzuR3S+Umn1apyiQm3e8Z46gmZ0i/ySF12ZtyYqoglxQbCDFW53R0860/qhSk8zOdP/dkzGqCRTAWlPkQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+DHyhTjH5E2nIudxqjhQZkQtirxYWvSehwVg2tdxxun4ZP8Sdg
+	ygVwbZr3UzCJzjEDsEBOaZFEpXiPQDFy5Y1VnZeQySlqFo7r0UAnmnISDLDMYkP0Wi1Lh2h+zM1
+	wIZi67H1/h8I4nfYyaJ5LHUs1SHv8nt2BOW7ywrWI1fUKhwuWDein3/vWlqOrnwbroQ==
+X-Gm-Gg: AYBFou36hfdEBvMKdnH7OL6dcuo+WBzNb72vpe3M+HXvOzzZGbrZGQ4gbZ4pEkAZcsA
+	FNfF1nXdXgv1WXf8dLE4ajhyqDJtqquSqUbl0PbeTo+tUcJnR8egh1aLuFreIOHWTjXTiEvcyOo
+	VkzPDVE8KDwQVqmmGEURWF3F0aIPjo5nJmMNMuurixFp4sZ9q8b4bMSQ9GRIWgcSXiI0K+dfyWr
+	/SW+ZqkuYi6YtuaJxnM+F74Ne8N3GpXZ/r4j/SVThIoHcn+8Yaa8ESM6MnKrgVCGNUJ1OnC5wBT
+	BTjI0pyIZCOmI/LJcP/0olOYgeNVA80+lvVUo9G3dXfXRFcJPAO2SH0oV3iszrXQ04zcLsBKB/Y
+	GbaaCqhVICA02lcHMqzWZFdsJmLW235ICBQFzCL/AmpzDBpuPqTQgzKuy9GP0czA=
+X-Received: by 2002:a05:6102:149c:b0:7cc:9d83:c670 with SMTP id ada2fe7eead31-7d0727380dcmr4847985137.25.1793798484379;
+        Wed, 04 Nov 2026 05:21:24 -0800 (PST)
+X-Received: by 2002:a05:6102:149c:b0:7cc:9d83:c670 with SMTP id ada2fe7eead31-7d0727380dcmr4847970137.25.1793798483608;
+        Wed, 04 Nov 2026 05:21:23 -0800 (PST)
+Received: from oss.qualcomm.com ([188.27.161.77])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fed45d2bbsm4151228f8f.33.2026.11.04.05.21.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 05:21:22 -0800 (PST)
+Date: Wed, 4 Nov 2026 15:21:21 +0200
+From: Abel Vesa <abel.vesa@oss.qualcomm.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Abel Vesa <abelvesa@kernel.org>, Andy Gross <andy.gross@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] soc: qcom: apr: Narrow critical section in error
+ path of gpr_alloc_port()
+Message-ID: <f5iivuswaihysan45izwqpzgnrvxjdvf3qqq7ihw6bcht2xzcu@6fxt4h7hg2b4>
+References: <20261103145635.309032-4-krzysztof.kozlowski@oss.qualcomm.com>
+ <20261103145635.309032-6-krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,103 +126,44 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261101044149.2018744-2-zhengxing@rock-chips.com>
+In-Reply-To: <20261103145635.309032-6-krzysztof.kozlowski@oss.qualcomm.com>
+X-Proofpoint-GUID: jm4XzJ1HFblOyQ6ZZ1GJ6vj-GN45q1pe
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA0MDA1MyBTYWx0ZWRfX/zs3tLUKVrU4
+ hWpOJetEkCiYWhl4aWxW/069Oj6GIT+6itcBBENT0NWHdgLaEhpAg9bveNg+gjWpJTSlz5D5Gf/
+ pPQ2CnyUjGPsqzSWG656I4dkuJ0y8Sl3pO5VPRctJ+gJ4iW4t4La2+64Ltzd4xttOIw0lQqlQ1e
+ O9d7CCjUl8okurUMNp1IwT9TZPNODRMr07yawGYknOiRwKJQ+CWGbjKey6HXEcYooMe785JWh3N
+ EIMzDe+a4gUQznA3oxgNVMChxqKU87oWkmsKtdm1ACjKx1RVuY01kSlevrGNe00+asdTRmjP6AT
+ Sgq36et/5Z7gPpm8DkFdl+EgXaxzuWy9QsRMTKhJITC01jeDOlf+jfMLMm/DRM0LpfmCD6s14Ij
+ XbExAsWhcZ1LSmJwIcgdEbB1Q2lFjqwABeP+Om1ftt3Yf5RNdl0YrFx27v1FGV3Va1O+ByEAiVt
+ /EYhYTGAo7mtJ7Kuavw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA0MDA1MyBTYWx0ZWRfX9Wi1iPl4kgU8
+ spw31A5mjGKmwXmVYeMbkB7Vv+Ev6WzzSy3vjUWXSZ1davR0EqXG5OCJ2PgV1E0pfBt0ikeTYxK
+ NCOkHJ24o3R7yrLOb6W2f10N96Aib7g=
+X-Proofpoint-ORIG-GUID: jm4XzJ1HFblOyQ6ZZ1GJ6vj-GN45q1pe
+X-Authority-Analysis: v=2.4 cv=NP5AaE6g c=1 sm=1 tr=0 ts=6aeb3155 cx=c_pps
+ a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=asF+/XNaGoxFafzDDLC1GQ==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=EUspDBNiAAAA:8 a=hx4PSVFuWk2BDCO8aWAA:9 a=CjuIK1q_8ugA:10
+ a=hhpmQAJR8DioWGSBphRh:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-04_04,2026-11-03_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 priorityscore=1501 bulkscore=0 suspectscore=0 adultscore=0
+ phishscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611040053
 
-On Sun, Nov 01, 2026 at 12:41:47PM +0800, Xing Zheng wrote:
-> Describe the optional detect-GRF phandle and named interrupt resources
-> used by the B/C headphone detector. Retain the legacy interrupt order
-> and index-based lookup when names are absent. Document the detector
-> disable and reversed-jack properties and their resource dependencies.
+On 26-11-03 15:56:38, Krzysztof Kozlowski wrote:
+> Error path of gpr_alloc_port() can unlocok the spinlock earlier, before
+> printing error message and freeing the local memory, because the
+> allocated memory is not published outside of this context.  Shorter
+> critical section makes system more responsive, although gain won't be
+> likely because it is only an error path.
 > 
-> Describe the ADC stereo-group routing consumed by the codec driver.
-> Require four unique group IDs in the range 0-3, in I2S2 SDI order,
-> matching the driver's validation. Leave GRF routing unchanged when
-> the property is absent.
-> 
-> Extend the example with headphone-detection resources and ADC routing.
-> Keep machine-driver amplifier GPIOs and debug interfaces outside this
-> codec binding.
-> 
-> Signed-off-by: Xing Zheng <zhengxing@rock-chips.com>
-> ---
-> Changes in v2:
-> - Retain the original detection descriptions and legacy IRQ ordering.
-> - Keep the binding change in its own patch before the codec change.
-> 
->  .../bindings/sound/rockchip,rk3308-codec.yaml | 55 +++++++++++++++++++
->  1 file changed, 55 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/rockchip,rk3308-codec.yaml b/Documentation/devicetree/bindings/sound/rockchip,rk3308-codec.yaml
-> index 2cf229a076f0..60c6140dc5df 100644
-> --- a/Documentation/devicetree/bindings/sound/rockchip,rk3308-codec.yaml
-> +++ b/Documentation/devicetree/bindings/sound/rockchip,rk3308-codec.yaml
-> @@ -36,6 +36,49 @@ properties:
->      description:
->        Phandle to the General Register Files (GRF)
->  
-> +  rockchip,detect-grf:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      Phandle to the detection GRF used for headphone insertion and
-> +      removal interrupts on codec revisions B and C.
-> +
-> +  interrupts:
-> +    description:
-> +      Keep the legacy interrupt order. If interrupt-names is omitted,
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-What is legacy interrupt order? There are no interrupts here, so how
-could there be anything legacy?
-
-> +      the driver uses the second interrupt for B/C headphone detection.
-> +    items:
-> +      - description: Legacy codec headphone detection interrupt
-> +      - description: Detection GRF headphone interrupt for revisions B and C
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: codec
-> +      - const: hpdet
-
-Why same device has both GRF to detect headphones and interrupts?
-
-> +
-> +  rockchip,no-hp-det:
-> +    type: boolean
-> +    description: Disable the internal headphone detector.
-> +
-> +  rockchip,hp-jack-reversed:
-> +    type: boolean
-> +    description: Reverse the headphone detection polarity.
-> +
-> +  rockchip,adc-grps-route:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    description: |
-> +      ADC stereo-group mapping to the four I2S2 SDI inputs. Each entry
-> +      selects the ADC group connected to the corresponding SDI input,
-> +      in SDI0 through SDI3 order. Group IDs 0 through 3 represent
-> +      MIC1/MIC2, MIC3/MIC4, MIC5/MIC6 and MIC7/MIC8 respectively.
-> +      All four groups must appear exactly once. For example, <1 2 3 0>
-> +      connects groups 1, 2, 3 and 0 to SDI0, SDI1, SDI2 and SDI3.
-> +      If omitted, the GRF routing is left unchanged.
-> +    minItems: 4
-> +    maxItems: 4
-> +    uniqueItems: true
-> +    items:
-> +      enum: [ 0, 1, 2, 3 ]
-
-Why are all the rockchip properties before clocks, not next to other
-rockchip properties? What logic drives this placement?
-
-> +
->    clocks:
->      items:
->        - description: clock for TX
-> @@ -72,6 +115,12 @@ properties:
->  
->      enum: [ 50, 55, 60, 65, 70, 75, 80, 85 ]
-
-Best regards,
-Krzysztof
-
+Reviewed-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
