@@ -1,22 +1,22 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793760044;
-	b=Y4/pJla30x7ZWs2FnN7NVNMVWq7OBHdl6fQt9DTbMYoI/MXS7qe26hLquU06uinw36PZ
-	 2X2rHWEftVW3xq6IaWK1CNVrIk0l44T4amujP4eigszNnDcVr6VAGO060q9P0H0P3e2KX
-	 EPrtHsDNnH5P9OqjWRlYv8DmFTcu3vKAgObjuoNoElttQn9lI15ThiF1zI6yrU9vztTWe
-	 qpWPRdAgkYew74IvGSatqHuU1DgwWF4Cy4MGCArTKZLdK9dA5MfEG4PZTlWo8aaIDvreI
-	 jkvQD44NzDLbppCsHEu98S2GwRlC8Q/CYrB8BsC8Q7m66N82egki2s/rcW3FCrRDcBQ==
+	t=1793760050;
+	b=S7kjYj2o4/WsDH4ZW+ldGomPmlsYJCxXeupkgtTOf55cnOl+krmCQzE1/Eoh/eLoodqV
+	 ZdiIGifg2O27HIr07JVa6vBH/1QjkVU7v/UhXPbnA8OS3UoFetxxjAG5CHdzyIKKvR13L
+	 bZeFDDH5h2Qb3lqHSK87CIevn8p/JEKm+5uwKwbQyu8xeTyk4wUF42f7q2WkIJuvVfVLH
+	 WS6jR7vjQuDpStYeSxj1s5Aa4jRb09PXPNufqnqOSr7gd0UIrWcDU3Jpz+sRNdNADUnt8
+	 7mNlZBf1ElcZPD1MiPGyqmR25jxGs1/oY4tNl6qQT6H55z4nhqCzR2tXFsLKjdN7FsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793760044;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793760050;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
 	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
 	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=Opg9v+YpeyMpqKoJTHUQ4Wtp+2FW1oixCC8F3nDorwU=;
-	b=AjgwGwdLp0Bfna1HJ6PNJ9xkQHAqBwqzeyg3UoRxrVVg3nDUWtY6JSBU3cmo9N/7hyx6
-	 BQ8bRAZ5XGILq902/yqpxxBObIFCa8xOgb4jxbadOzntVBo/PpaEwhhj3KXT8Lg3NarBn
-	 eBC7Qtz6D5DLh+v6WXmd+KDRJqVrukaRbe8TvPbwa8TJRAPk+jThsUEGvs+MDcnKCiDTF
-	 nXGaRA95ejViNgiZlsmzwhpbudvchJb+//MFuvUD2vmxBLSGSuE26Ofv6zftXICcTM7K3
-	 YkiDxeGgwS8wXU3BOKXASYTD6b4p90Vr78QK+IFDYEPGbiYxb3PH7z+pTjiNDLI5eJQ==
+	bh=36Y5pL4NdH8kDIXYo87U2fescr4cMGf2b+Jv2gOIdXM=;
+	b=ErQ51QyPUMfdtX854g10J5UHjZoFaUYt5A7VswAoIL3gnuW4EA9mM9KW1AIHt6Go5kYf
+	 DvsHBim1BUZmkInOapVIy+eWryilssARu5/+Y593iG7Q2FF9wHO8DZeV9B4L4nESryc8S
+	 za8QDDVIO2hfAnpd7ETi0XxUHnYj9oZ/R79NTCMKsBQrWEdUBrYf1b0BhHgJ5xr+H6e1N
+	 jnKI8VdjOT+yI3hsdsAzPLZSr8SFOKccQjtCtnUJwv05gb6g0QiJU/woRQyCDPgIiiP03
+	 wHYiO4YNyQkTAoBj0U4mgxeSPlmlGuHhOYI1YwRVSNgbvsC6+9lnUFCezKfnx0YdrDg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=iscas.ac.cn;
 	spf=pass smtp.mailfrom=iscas.ac.cn;
@@ -25,25 +25,29 @@ Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F8B606D801;
-	Wed,  4 Nov 2026 02:40:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1F8B606D801
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA158606A33B
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 02:40:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA158606A33B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-01 (Coremail) with SMTP id qwCowADH8_0lm+pqNrk+AA--.9831S2;
-	Wed, 04 Nov 2026 10:40:38 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowABXg_0nm+pqT7k+AA--.27763S2;
+	Wed, 04 Nov 2026 10:40:39 +0800 (CST)
 From: Wentao Liang <vulab@iscas.ac.cn>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
+	Takashi Iwai <tiwai@suse.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>
 Cc: linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH] ASoC: qcom: q6apm-dai: close the graph when compress open fails
-Date: Wed,  4 Nov 2026 02:40:47 +0000
-Message-Id: <20261104024047.1508584-1-vulab@iscas.ac.cn>
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] ASoC: mxs-saif: unregister the mclk if adding the provider fails
+Date: Wed,  4 Nov 2026 02:40:48 +0000
+Message-Id: <20261104024048.1508618-1-vulab@iscas.ac.cn>
 X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -55,78 +59,56 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADH8_0lm+pqNrk+AA--.9831S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZrykKFyUCr45tw1DGF1rWFg_yoW8ur1fpa
-	yrKFZ8try8uFyxCr9rKrn5G3WagrWkAFWDGw4Iy340y3W3Jrn3ury7tr10gF4aqFy5Gan5
-	X39Fqry5Kwn3G3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvlb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
-	AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
-	6r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14
-	v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
-	McIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7x
-	kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0E
-	wIxGrwCF04k20xvE74AGY7Cv6cx26r48ZrWUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI
-	8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
-	xVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI
-	8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
-	87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvj
-	DU0xZFpf9x07b5lk3UUUUU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAABA2rqY+TXGwADsG
+X-CM-TRANSID:qwCowABXg_0nm+pqT7k+AA--.27763S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKw1rZF48tFykGrWDXw4ruFg_yoWDtrg_ta
+	yv93yqvryDCF1Fkw1DCws8ZryIgasrCw1rW34UKr43tFyxJFsIva4qyrZ8u3s8Zr1IgFy5
+	XryUZryfJ3y2kjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbf8YjsxI4VWkCwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+	s7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4
+	kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_
+	Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI
+	0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
+	Yx0E2Ix0cI8IcVAFwI0_Wrv_ZF1lYx0Ex4A2jsIE14v26r4UJVWxJr1lOx8S6xCaFVCjc4
+	AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Gr43Wr1UJr1l4I
+	8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AK
+	xVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
+	AFwI0_Xr0_Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxK
+	x2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6xkF7I0E14
+	v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU0c6pPUUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRMBA2rqY-nVXwAAsI
 
-q6apm_dai_compr_open() opens the AudioReach graph before allocating the
-DMA buffer and handing it to the DSP. If the allocation or the SCM
-assignment fails, the function returns without closing the graph. The
-compress core does not call the free callback for a stream that failed
-to open, so the graph, its AudioReach reference and the private data are
-all leaked.
+clk_register_divider() registers the mclk, while of_clk_add_provider() only
+stores it as the provider data. If of_clk_add_provider() fails, the clock
+stays registered but no provider refers to it, and the driver has no remove
+callback to release it, so the clock is leaked.
 
-Unwind the graph and the private data on both failure paths.
+Unregister the clock on this error path before returning.
 
-Fixes: 88b60bf047fd ("ASoC: q6dsp: q6apm-dai: Add open/free compress DAI callbacks")
+Fixes: 7c9e6150f2e7 ("ASoC: mxs: register saif mclk to clock framework")
 Cc: stable@vger.kernel.org
 Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
 Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- sound/soc/qcom/qdsp6/q6apm-dai.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ sound/soc/mxs/mxs-saif.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
-index 6c0245e92d3a..94af3b79c61d 100644
---- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-@@ -834,7 +834,7 @@ static int q6apm_dai_compr_open(struct snd_soc_component *component,
- 	size = COMPR_PLAYBACK_MAX_FRAGMENT_SIZE * COMPR_PLAYBACK_MAX_NUM_FRAGMENTS;
- 	ret = snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV, dev, size, &prtd->dma_buffer);
- 	if (ret)
--		return ret;
-+		goto err_close_graph;
- 
- 	if (pdata->use_scm_assign && !pdata->has_reserved_mem) {
- 		ret = q6apm_dai_scm_assign(pdata, prtd->dma_buffer.addr,
-@@ -843,7 +843,7 @@ static int q6apm_dai_compr_open(struct snd_soc_component *component,
- 			dev_err(dev, "SCM assign compr buffer failed: %d\n",
- 				ret);
- 			snd_dma_free_pages(&prtd->dma_buffer);
--			return ret;
-+			goto err_close_graph;
- 		}
+diff --git a/sound/soc/mxs/mxs-saif.c b/sound/soc/mxs/mxs-saif.c
+index e46896ac9669..aaf62f081b32 100644
+--- a/sound/soc/mxs/mxs-saif.c
++++ b/sound/soc/mxs/mxs-saif.c
+@@ -783,8 +783,10 @@ static int mxs_saif_mclk_init(struct platform_device *pdev)
  	}
  
-@@ -857,6 +857,13 @@ static int q6apm_dai_compr_open(struct snd_soc_component *component,
+ 	ret = of_clk_add_provider(np, of_clk_src_simple_get, clk);
+-	if (ret)
++	if (ret) {
++		clk_unregister(clk);
+ 		return ret;
++	}
  
- 	q6apm_enable_compress_module(dev, prtd->graph, true);
  	return 0;
-+
-+err_close_graph:
-+	runtime->private_data = NULL;
-+	q6apm_graph_close(prtd->graph);
-+	kfree(prtd);
-+
-+	return ret;
  }
- 
- static int q6apm_dai_compr_free(struct snd_soc_component *component,
 -- 
 2.34.1
 
