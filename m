@@ -1,47 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793760815;
-	b=WlZmH9eU3QAi6W2xsyJV5p0t3U6/eZbE4sEgyvXGuR2GJJteqNT7SJ8JSOozzhVCHVyX
-	 yyYtxhYvbHdpAkXWRB9XVZhdNeHGpwnw3k3KpPTHG9tMGhbhxAnNtBH1OtZUESQP7FKdj
-	 gvFRzO/cegazvDITB+EXmwXTDUl9uieWaTMHgFaNUY564gZj8nBGmSP/EvfmolrFfB1zm
-	 YgsPD+UMIH4XEwsHNg4nhK62DlBjbzpnoUBYuLXCQa4nv5chxVm4fPXzsjg0Sn6W3GFw9
-	 BCEyCJFWIV0vQoOcZTCfmK61TtcKXMKFotEOGRwTcdMPmfR4j+yiQ7BeIGLPMisI8sg==
+	t=1793760950;
+	b=dNNg81n1mQFOxzY7IbT2Ea3H21iKFgdg5PNUa2btDTWFuLRcFFHARhzwTBD4LQo0FOfe
+	 yD0BVMedKHprvyxTr3Kk/ZVKnrFiwJJ7mtfMZwpq2tc2B/xaA1qw0yHsXifQAeTXItwfr
+	 qJONeXqGclLQ6QPO1X5qHaIk2xtMo2j1RRtenDqukho7Wr/hu1+5SkN+bCjUYeQmDGFIs
+	 RJEi5J4oFfS4An5sPBn7o9QHBdXdRPJF8rPRM2TsOGWgNiY7r+7GfrvXN9iKhlzN7lCxb
+	 5nUFm7EW+e6eB+mjA41DCusb86sRllTIUBlWSBbD9Tku9IuTXLaEFmbv4JKt6TeS+CA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793760815;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
-	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=P4OEdOQa0oh5Oei1pCzbd6LADH7gtlJv62ngQJAj3oA=;
-	b=0WzRODd3tHs3lbusUeYNR4SA7GuG9cz0uGpjBP1s5Q+pwvgjDebtQQhXj0S/v7cPrfl2
-	 Pk0As8CWjyjbVc3aQjQoCIQLZV8Jr6AZyUCwdiTRuYPyThZMVfDjawo4CfLom8VdOf7TV
-	 hTyh3q4n676ycM5fElPnu0kU7hGBjHINSEZfPGx6ei+wNHMafX60/gjn6ugXaNRkJVWV9
-	 YpvN+OKC/aGinVBpGafryYPDfM6b0RIxje+QftHHBlNSNrp5jdkyx12YkBLigJajcLxHs
-	 DnBdlwBubVl+9hmZ5/8mRqn+Bib+fkeXYihkZohmNnGAL/Okn3iRg1gw32dguBQs7jQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793760950;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=8r/sTKz31x9VxvGA6N5AFFzKcZfUHdsFawH7Xm9Bcy0=;
+	b=diqCIzkDyxRL/50M7utfqf1kdL5ihgOZMoU6nFDMXymavSX0EDvMH0hH7q4mIhaaYlEd
+	 OuFt9VGDel3PwJXk21L68uysWjrfPHf7kSBO8UgGId9j5nCxS5xptyo/3ufja+AzfIZOE
+	 6myTeaZKN98hrFZfrBRhpEK4BRU+aQv7+LGv74pWuSHKluR0jdLa+BICWAWX7Se9+l+nh
+	 +lr23BtyV7PDRf1bBVf7Ja2OZWvxPAxL5Jzft5lRhl3shleHI+6V7a40CPMUf7pHjVbSC
+	 2dV4RW71wqrv5j9X6jQjNCGbuBZ84UQ57b/1N2VB41XUuKYoOLLyOG0wOmvcFKE7Pbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=iscas.ac.cn;
-	spf=pass smtp.mailfrom=iscas.ac.cn;
-	arc=none smtp.remote-ip=159.226.251.21
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bmgGwa7Y;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44713606A31B
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 02:53:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44713606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-01 (Coremail) with SMTP id qwCowAAXP_ksnupq3OQ+AA--.10061S2;
-	Wed, 04 Nov 2026 10:53:32 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: Daniel Mack <zonque@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859E8606A31B
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 02:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bmgGwa7Y
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 335C11F000C1;
+	Wed,  4 Nov 2026 02:55:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793760950;
+	bh=8r/sTKz31x9VxvGA6N5AFFzKcZfUHdsFawH7Xm9Bcy0=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=bmgGwa7YHtdE+dN/bXXX9pJoCr7kNO2qnXOaN62yERO22LZ9rRY8WBHu8zgJ3FRhk
+	 RC8Ys/8O5oDNWS8anVKDncFWVDYYJI6kmPAmtzycImWYXW+xokA4G0g+oMbyWP70tX
+	 a4Llj/OtoiOk0DceEsluBgwgyIFHYy/N0fQGFan3U3jFH1zkenIyqCSPdixBb2/lf4
+	 y+XgM4cyPO1htsXYCKnf6lTo87MQxsmYwcZrSEaN498h1NJwxEIFVtimpMOdg6bSdI
+	 zD/mF0Jhk7shZLhsUL+zcvw0xN0hssY0whieJ+2ks057Ig8vakumiZU5Ps/QwNEubv
+	 zRNoicbdKdzdQ==
+Message-ID: <sashiko-outbox-196547@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ASoC: samsung: i2s: release the runtime PM reference if
+ config_setup fails
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Wentao Liang" <vulab@iscas.ac.cn>
 Cc: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: caiaq: free the EP4 URB when input setup fails
-Date: Wed,  4 Nov 2026 02:53:41 +0000
-Message-Id: <20261104025341.1527407-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261104024050.1508669-1-vulab@iscas.ac.cn>
+References: <20261104024050.1508669-1-vulab@iscas.ac.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 04 Nov 2026 02:55:49 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -50,56 +59,130 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAAXP_ksnupq3OQ+AA--.10061S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZF4kXFWxurW5WFWrGw43trb_yoWkuFb_Wr
-	W5ZF97XFy5AF1Utw1Dtr1Fqr1DKFWIva4jvr13tryxJryrZa12vw17ZrykGryUu3yxur98
-	G3Wq9w4fuw1S9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbc8YjsxI4VWkKwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-	s7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4
-	kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_
-	Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI
-	0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
-	Yx0E2Ix0cI8IcVAFwI0_Wrv_ZF1lYx0Ex4A2jsIE14v26r4UJVWxJr1lOx8S6xCaFVCjc4
-	AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIE
-	Y20_Gr43Wr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGw
-	C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48J
-	MIIF0xvE2Ix0cI8IcVAFwI0_Xr0_Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr
-	1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY
-	6I8E87Iv6xkF7I0E14v26F4UJVW0obIYCTnIWIevJa73UjIFyTuYvjxUyZmRDUUUU
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwUBA2rqZFjiPgAAsg
 
-The three controllers that use the EP4 input URB allocate it before
-checking the endpoint type and before registering the input device. On
-failure they jump to exit_free_idev, which clears cdev->input_dev but
-leaves cdev->ep4_in_urb set. The card teardown then calls
-snd_usb_caiaq_input_free(), which returns early because input_dev is
-NULL, so the URB is never freed.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] ASoC: samsung: i2s: double pm_runtime_put() on failed trigger star=
+t in i2s_trigger()
+--
 
-Release the URB before dropping the input device on the error path.
+commit 1c9f9f4fb51c6368b6950d91e87f392b539a7a79
+Author: Wentao Liang <vulab@iscas.ac.cn>
 
-Fixes: 6da7a2aa899f ("ALSA: usb/caiaq: Add support for Traktor Kontrol X1")
-Cc: stable@vger.kernel.org
-Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
----
- sound/usb/caiaq/input.c | 2 ++
- 1 file changed, 2 insertions(+)
+ASoC: samsung: i2s: release the runtime PM reference if config_setup fails
 
-diff --git a/sound/usb/caiaq/input.c b/sound/usb/caiaq/input.c
-index 2830a1da067d..5a415d1acca4 100644
---- a/sound/usb/caiaq/input.c
-+++ b/sound/usb/caiaq/input.c
-@@ -863,6 +863,8 @@ int snd_usb_caiaq_input_init(struct snd_usb_caiaqdev *cdev)
- 	return 0;
- 
- exit_free_idev:
-+	usb_free_urb(cdev->ep4_in_urb);
-+	cdev->ep4_in_urb = NULL;
- 	input_free_device(input);
- 	cdev->input_dev = NULL;
- 	return ret;
--- 
-2.34.1
+This commit releases the runtime PM reference on dai->dev in i2s_trigger()
+when config_setup() fails during a start, resume, or pause-release trigger.
 
+> diff --git a/sound/soc/samsung/i2s.c b/sound/soc/samsung/i2s.c
+> index 442e70b107dac..d2060c3ff6e8b 100644
+> --- a/sound/soc/samsung/i2s.c
+> +++ b/sound/soc/samsung/i2s.c
+> @@ -924,6 +924,7 @@ static int i2s_trigger(struct snd_pcm_substream *subs=
+tream,
+>  	int capture =3D (substream->stream =3D=3D SNDRV_PCM_STREAM_CAPTURE);
+>  	struct snd_soc_pcm_runtime *rtd =3D snd_soc_substream_to_rtd(substream);
+>  	struct i2s_dai *i2s =3D to_info(snd_soc_rtd_to_cpu(rtd, 0));
+> +	bool failed =3D false;
+> =20
+>  	switch (cmd) {
+>  	case SNDRV_PCM_TRIGGER_START:
+> @@ -935,8 +936,10 @@ static int i2s_trigger(struct snd_pcm_substream *sub=
+stream,
+>  			priv->fixup_early(substream, dai);
+> =20
+>  		scoped_guard(spinlock_irqsave, &priv->lock) {
+> -			if (config_setup(i2s))
+> -				return -EINVAL;
+> +			if (config_setup(i2s)) {
+> +				failed =3D true;
+> +				break;
+> +			}
+> =20
+>  			if (priv->fixup_late)
+>  				priv->fixup_late(substream, dai);
+> @@ -946,6 +949,11 @@ static int i2s_trigger(struct snd_pcm_substream *sub=
+stream,
+>  			else
+>  				i2s_txctrl(i2s, 1);
+>  		}
+> +
+> +		if (failed) {
+> +			pm_runtime_put(dai->dev);
+> +			return -EINVAL;
+> +		}
+
+[Severity: High]
+Does dropping the runtime PM reference here cause a double
+pm_runtime_put(dai->dev) when config_setup(i2s) fails during
+SNDRV_PCM_TRIGGER_START or SNDRV_PCM_TRIGGER_PAUSE_RELEASE on a non-linked,
+non-DPCM substream?
+
+When snd_pcm_start() or snd_pcm_pause() runs on a single substream,
+snd_pcm_action_single() sets substream->runtime->trigger_master =3D substre=
+am
+in pre_action, then calls do_action which invokes:
+
+  soc_pcm_trigger()
+    -> snd_soc_pcm_dai_trigger(substream, cmd, 0)
+      -> soc_dai_trigger()
+        -> i2s_trigger()
+
+If config_setup(i2s) fails, this patch calls pm_runtime_put(dai->dev) and
+returns -EINVAL. After soc_pcm_trigger() returns that error to
+snd_pcm_action_single(), the ALSA PCM core invokes ops->undo_action
+(snd_pcm_undo_start() or snd_pcm_undo_pause()):
+
+sound/core/pcm_native.c:snd_pcm_action_single() {
+	res =3D ops->do_action(substream, state);
+	if (res =3D=3D 0)
+		ops->post_action(substream, state);
+	else if (ops->undo_action)
+		ops->undo_action(substream, state);
+}
+
+sound/core/pcm_native.c:snd_pcm_undo_start() {
+	if (substream->runtime->trigger_master =3D=3D substream) {
+		substream->ops->trigger(substream, SNDRV_PCM_TRIGGER_STOP);
+		substream->runtime->stop_operating =3D true;
+	}
+}
+
+Because snd_pcm_undo_start() and snd_pcm_undo_pause() invoke
+soc_pcm_trigger() as a fresh SNDRV_PCM_TRIGGER_STOP or
+SNDRV_PCM_TRIGGER_PAUSE_PUSH call with rollback =3D=3D 0,
+snd_soc_pcm_dai_trigger() does not check soc_dai_mark_match():
+
+sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger() {
+	...
+	for_each_rtd_dais(rtd, i, dai) {
+		if (rollback && !soc_dai_mark_match(dai, substream, trigger))
+			continue;
+		...
+		r =3D soc_dai_trigger(dai, substream, cmd);
+}
+
+This enters the STOP / PAUSE_PUSH branch of i2s_trigger(), which does not
+check whether the stream was actually started and unconditionally calls
+pm_runtime_put(dai->dev) a second time:
+
+sound/soc/samsung/i2s.c:i2s_trigger() {
+	...
+	case SNDRV_PCM_TRIGGER_STOP:
+	case SNDRV_PCM_TRIGGER_SUSPEND:
+	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+		scoped_guard(spinlock_irqsave, &priv->lock) {
+			...
+		}
+		pm_runtime_put(dai->dev);
+		break;
+}
+
+Wouldn't each failed start or pause-release trigger therefore perform one
+pm_runtime_get_sync(dai->dev) and two pm_runtime_put(dai->dev) calls,
+consuming the runtime PM reference held while the substream is open and
+underflowing dev->power.usage_count on close?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104024050.1508=
+669-1-vulab@iscas.ac.cn?part=3D1
