@@ -1,111 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793815021;
-	b=1RtcZ4H7Yvmu7BNfpsOw5R8YNcCL817+lT4MYRI4mwVQ1BOJHjHgqto/jn3NPbKrkVqa
-	 pX1pryw8L1aGPyfITjnIow2nV8l5QWIonz+/3U7gnbHNCAtTCVhuFA8UEmOFHG9/2OslZ
-	 99r5faOy1kNFlSaAbaSPwMhnKfWNIiVobgBLuYi90YbTJWg+vbPiMFgOkq46jxHSKT6kl
-	 S7wxGq7id9JaFTzWxLv3UdplMmBtOEX1CBjUxXf8wbR729aaj926E0+O7nv1/+rezZFKB
-	 ESKUd9hGT8m1HVbvdj4/y3AQb1sTrX+spAcQcH5QNtnmIm9cJxRgZ7EYcsLMJE17Csw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793815021;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=qeQgphPdxdiWtw36JzKqWooMSgzPZU+EeD4NlyLVhDM=;
-	b=hLWmFrbPw7erilaLuXoiV/7HRrwEOrMVpup6UyLm8lHm7YmyiBt+xXFplhDYhCHP3LVS
-	 vynbqIoOhr4+ti6wXyLdyl5iiQHoNj866LJGWssg+f07Q9VHRPBsRyfeNg6QRec0rglK7
-	 mUv07lPvusXTYkekg8Rrtrdf2XIOduIzih/WU7whBaYgURp3v5CfbsTdcnlCenrm/OzXM
-	 27IcMkVM7UyNZ8dgd//cqwN3UXfC63F8vzFaY+V8YIrOQqs7p7tKlQLuNPk/fB/VtKwqi
-	 FzU6kiWXhyWsyBjkk6j7FEzbVcQkjo53dNE1NL3V5Swd+1AkIYQbIcbHOWm3RsPq/kQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jJ+YsSS1;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793815660;
+	b=g7Q3xoOOluS3b9K43/+cm3ZOie7xfo3wyh10cNoPGElUtrhQg//RhqF+VQlmqvTP/HLX
+	 CBPYsBCqZ6r2f8V+vaaY7ef3SCw+rza79Np+U9lAZqKZGfQcO8h7HqsRFPsLBWn3Ehv1C
+	 7Ppu/vHPARyDIL/lC3hY8+gqCmi/QPZH7Kf48yckQ/yjWwfutZe8lQrkqbIK4Cfpi9J0I
+	 IWKZl/qZ37fhqYCi62+Xh5qd0als5+Z8GbTJ5xYAv/xuVgpn7WDwNWn8P4kdnQuFFfr+0
+	 0u7JGIzFNnj71wVRcuL9+fsSpzWI7z/BfCtGDfJ9KYHQhBZat/wum3xMJSJywPyczuw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793815660;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=EMkD1pg31XkRNT5X4prEULnhee2/vYIGdX91uOpvaE8=;
+	b=GN2JaeyMLuA9TtDADqSjikCpgk7YgmKJV3XFYhjFgaAr5up2O5zUAinJSp+rkLadYEyb
+	 XypCDuBAMGvFnx/XiTB3GMBKdDWmFB/pwDW+1aT+uRKS1iMuUBLrBl9tTXgtnEcYHHuTM
+	 nc4FbGmutLMGGJX7rlJ0L1HvubO7yATU8SGFBVszxB9K/Q9k7TySLWo+ymWS2FbB/49at
+	 MhlcASJi3cc30avVlVMFpTweiJWReOhtb+WgUh0ZQrfBn9K0EYxVtW870CtL/h0W40IaF
+	 zymneBQqtLhn7czHkuZI/Su9NWskXfHGS+lYlstV8xUJz3nm7wf3TfikR06Q1COQgIA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="DbFS/uhh";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E895607A3C1;
-	Wed,  4 Nov 2026 17:57:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E9C606A335;
+	Wed,  4 Nov 2026 18:07:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jJ+YsSS1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0110B1F000C1;
-	Wed,  4 Nov 2026 17:56:43 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DbFS/uhh
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793815660;
+	b=160KAIXgZ85JU+a1qVaTKo9RlAOP9j+dfY7VY+6uv/2k/qpyS5+KdW7B9bfouLyJdnfr
+	 +ibJQnJ+FzyBZwi+/30DEixwfuyQ5mT3MRtAjXpWnLFPR1HSDmKCHG2hMk2p18uuIW2Up
+	 Vi60EGxIfq1cGfsDCR05R1Lu3smAzJ8VL8oZws0SnGis+X7AofkY8QtEjH/mcMjXP9kWA
+	 12XC19wZjT4bE61QT1F8vmn2GHfp7k307Q4zE+JejQl6RIDTEw9XteSAvyRnwZTPkmpu0
+	 mmQvsN43aOsSVAKGvfsZfQ4I9QMec09QDnzGa/Qg81SiGVg6t9vKcZ9IWmV7OiVRBQg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793815660;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=EMkD1pg31XkRNT5X4prEULnhee2/vYIGdX91uOpvaE8=;
+	b=Yc442eVgC7BVncAvMiRaNoWXeMwHNomlYLdUxkSKLHGIOZTbWGzUj6x0wmUge2gwSf9K
+	 BhOX0c+h9cOYAwZPlBRLELbUdRXXE6mz9MzKhsShoFeZNQwldNDXkdG6XXn81JWZn1Xhw
+	 v/u7hxfYTj2hsVLGPxt+4jhHWtv+dpPhI0DeuM9MPwtTrWHOOKohW4/PPAtUvvVcsoPdo
+	 0mPrhreZyFAaxrhcs+R3lZJW/F1L+RPM191l47QEGk8bWVUI5PtoZqG79Rdq4kL69NAGa
+	 oV1rDGFTdYBXO8sakTN9u+gdWTiCu8uHI2gQj4YdiLSgOhM8sALTsysUgUGS37seI0A==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 63D011F000C1;
+	Wed,  4 Nov 2026 18:07:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793815020;
-	bh=qeQgphPdxdiWtw36JzKqWooMSgzPZU+EeD4NlyLVhDM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jJ+YsSS1mKgXVutXvIprPjWbk/f3EaiHLkE0iUZZAD8UlGdeiTsq37AMjiJ1LQO42
-	 s7IKloTcsbSWCr6Lc4020v768o++Pni3fgFkFO5tp1ySQmamfYyvOlYF89oN/AE0uz
-	 cDBLCJtKpTc2bEc32o8AER5NNVvUQIyxG/58XGRNwW4UebnC4TzH2w4THg6Y4IuZEE
-	 HY4QLlr1k8HjiamlPJYs4KZrW3+I6WmOXTXZ8NvkX2h2a4OGzF5wxpPCxFfmNGgkxC
-	 TEjrpd9SN8JK0f/Vf8mgRK+nlmhJ6yDeGzIC6DtBcVm6ZCj3+6Kd0iuDWQx/Ae1YSo
-	 KOmYuIt4jqdDw==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Jann Horn <jannh@google.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Chris Mason <mason@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	Joel Granados <joel.granados@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jan Kara <jack@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org,
-	coreteam@netfilter.org,
-	kexec@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	netfilter-devel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	ibm-acpi-devel@lists.sourceforge.net,
-	jfs-discussion@lists.sourceforge.net,
-	linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sh@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	sparclinux@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-doc@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-input@vger.kernel.org,
-	linux-raid@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	Chuck Lever <cel@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v2 39/51] powerpc/crash_dump: recover from a machine check in copy_oldmem_page()
-Date: Wed,  4 Nov 2026 18:47:25 +0100
-Message-ID: <20261104-work-procfs-bugfixes-v2-39-bbf7d5546809@kernel.org>
-In-Reply-To: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
-References: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
+	s=k20260515; t=1793815660;
+	bh=EMkD1pg31XkRNT5X4prEULnhee2/vYIGdX91uOpvaE8=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=DbFS/uhh9eWu7JLQzcL1TY+sRi7xd7C2BHIXOwXax97zkIGFkFKlKB+zznR3/sPaB
+	 I9oG+E0mayP2CKrSeeEzvF4eEZThxbe8W/kt7D1+2xcdgmXnM2hl3ED4Q4BHIzD882
+	 EWIO5o/IrED+nhChmR02ZVOAOpqQgRdTezsCj5dGgzrreXpv1ly3w1IUDyl5fSc9YA
+	 tzus46Lnksj0n1jAduxVh32TW0y5MwxQCmoBFNGBZg3XSxOhX29jAhypT886l3asWq
+	 TyYFdAJdWCG/itrXGs3cTC9MBRXwqvaTGb38pzqvzwI3oa38ysxVeB/noyFth8nvcy
+	 WUARt9g6FAlcQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id B888B46F05;
+	Wed,  4 Nov 2026 18:07:38 +0000 (UTC)
+From: Demeter Barna via B4 Relay <devnull+me.fromdisposition.org@kernel.org>
+Subject: [PATCH 0/7] arm64: dts: qcom: sm8350: Add SoundWire and LPASS
+Date: Wed, 04 Nov 2026 18:07:08 +0000
+Message-Id: <20261104-b4-sm8350-sound-v1-0-4c872df294fa@fromdisposition.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -116,62 +84,76 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2421; i=brauner@kernel.org; h=from:subject:message-id; bh=VIVKq8y+KdCJwnDd/z4L2OCrr1yqDfObdGoCOSjiCdM=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9znu/ZLFx05xpnp+TTtxLuaWnvKXR5q5SRcWM5RNFJ +7uuXKbraOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAi0wIZ/nB7KCi471/L1Nq6 9n0/51Uea/Fd3qy9fnsOr1vwmcnr62yG/yWGkZU+VvatQgcYS97WRSfuKtivn95TcozLZv5XWWl eDgA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrDuQxFS0VykuTBx1hEbJGBHEu
+ ze1y7f4/wShyCTwKk6ItLPwEjL0owA/dWEk5D4bjDKV1sqisyifunwqlCWFHqlzplHW+KFuIFd
+ rpIGP+/hu/5bkZvLbbwPX9QXVuT6YcwAAAA==
+X-Change-ID: 20261104-b4-sm8350-sound-eab29042cf89
+To: Bjorn Andersson <andersson@kernel.org>, Abel Vesa <abelvesa@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, Demeter Barna <me@fromdisposition.org>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793815654; l=2038;
+ i=me@fromdisposition.org; s=20261012; h=from:subject:message-id;
+ bh=fNBkRx9oOq8JcXG9i2p9apIYE9Yo40nYXqote7bxW7w=;
+ b=o+uWwnaZIlViseX7pK0bL3/DF7R5FDEX9+1gjo8H8V16mzfT87FBFOM2NbKaHW53knKx5DsPq
+ DCT8rBR2POgBrl1RdDDSUPI4kKF/80aapRv8Iuwo8cOisy/7jfcwP/j
+X-Developer-Key: i=me@fromdisposition.org; a=ed25519;
+ pk=S0QFlGq1BQEaAtPPdAH8YKEOXMeRuSkTgctXuvtU+1Y=
+X-Endpoint-Received: by B4 Relay for me@fromdisposition.org/20261012 with
+ auth_id=1163
+X-Original-From: Demeter Barna <me@fromdisposition.org>
+Reply-To: me@fromdisposition.org
 
-A capture kernel reads the memory of the crashed kernel, and that memory
-may well have uncorrectable errors. On powerpc a machine check in the
-kernel is only recovered from if the instruction that took it has an
-exception table entry (cf. mce_common_process_ue()). copy_oldmem_page()
-copies with copy_to_iter(). For a read() of /proc/vmcore that is a user
-copy, all of whose loads have exception table entries, so the machine
-check turns into a short copy and read_from_oldmem() returns -EFAULT.
+SM8350 has the ADSP audio services in its dtsi but none of the LPASS
+codec macros or SoundWire controllers, so boards can't describe their
+codecs and DMICs yet. This series adds the RX, TX and VA macros with
+their SoundWire controllers, and the SM8350 sound card compatible.
 
-But since commit 4a22fd20379c ("vmcore: convert __read_vmcore to use an
-iov_iter") /proc/vmcore can be spliced too, and splice(), sendfile()
-and copy_file_range() copy into kernel pages with memcpy(), which has
-no exception table entries. A machine check there panics the capture
-kernel. The same goes for the reads of the ELF headers and notes that
-vmcore does itself, and those have been memcpy() for as long as
-copy_oldmem_page() has had its kernel buffer branch, since commit
-54c32021eb6f ("[PATCH] powerpc: Add arch-dependent copy_oldmem_page").
+Patches 1-2 go through clk, 3-5 and 7 through ASoC, 6 through qcom
+arm64. The macros use the data the drivers already have: RX that of
+SM8250, TX that of SM8450, VA that of SC7280.
 
-Copy with _copy_mc_to_iter() instead. PPC64 selects ARCH_HAS_COPY_MC
-and there it uses copy_mc_generic() for kernel and user destinations
-alike, which has the exception table entries. Everywhere else it is
-_copy_to_iter().
+Tested on the Razer Edge 5G: both DMICs record through the VA macro and
+the WCD9380 enumerates on the RX and TX buses. Capture from the
+WCD9380's ADCs through the TX macro is silent with the SM8450 data, and
+headphone playback isn't tested. The WSA macro is left out: this board
+has no WSA amplifiers to test it with.
 
-Reported-by: Chris Mason <mason@kernel.org>
-Fixes: 54c32021eb6f ("[PATCH] powerpc: Add arch-dependent copy_oldmem_page")
-Fixes: 4a22fd20379c ("vmcore: convert __read_vmcore to use an iov_iter")
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Prepared with the help of an AI coding assistant, reviewed and tested
+by me.
+
 ---
- arch/powerpc/kernel/crash_dump.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Demeter Barna (7):
+      dt-bindings: clock: qcom,sc8280xp-lpasscc: Add SM8350 LPASS audio CSR
+      clk: qcom: lpassaudiocc-sc7280: Add SM8350 audio CSR resets
+      ASoC: dt-bindings: qcom,lpass-rx-macro: Add SM8350 LPASS RX
+      ASoC: dt-bindings: qcom,lpass-tx-macro: Add SM8350 LPASS TX
+      ASoC: dt-bindings: qcom,lpass-va-macro: Add SM8350 LPASS VA
+      arm64: dts: qcom: sm8350: Add SoundWire and LPASS
+      ASoC: dt-bindings: qcom,sm8250: Add SM8350 sound card
 
-diff --git a/arch/powerpc/kernel/crash_dump.c b/arch/powerpc/kernel/crash_dump.c
-index 1543917bd3e1..ca7e019ae3e9 100644
---- a/arch/powerpc/kernel/crash_dump.c
-+++ b/arch/powerpc/kernel/crash_dump.c
-@@ -83,12 +83,12 @@ ssize_t copy_oldmem_page(struct iov_iter *iter, unsigned long pfn,
- 
- 	if (memblock_is_region_memory(paddr, csize)) {
- 		vaddr = __va(paddr);
--		csize = copy_to_iter(vaddr + offset, csize, iter);
-+		csize = _copy_mc_to_iter(vaddr + offset, csize, iter);
- 	} else {
- 		vaddr = ioremap_cache(paddr, PAGE_SIZE);
- 		if (!vaddr)
- 			return -ENOMEM;
--		csize = copy_to_iter(vaddr + offset, csize, iter);
-+		csize = _copy_mc_to_iter(vaddr + offset, csize, iter);
- 		iounmap(vaddr);
- 	}
- 
+ .../bindings/clock/qcom,sc8280xp-lpasscc.yaml      |   1 +
+ .../bindings/sound/qcom,lpass-rx-macro.yaml        |  12 +-
+ .../bindings/sound/qcom,lpass-tx-macro.yaml        |  12 +-
+ .../bindings/sound/qcom,lpass-va-macro.yaml        |   3 +
+ .../devicetree/bindings/sound/qcom,sm8250.yaml     |   3 +
+ arch/arm64/boot/dts/qcom/sm8350.dtsi               | 196 +++++++++++++++++++++
+ drivers/clk/qcom/lpassaudiocc-sc7280.c             |   4 +
+ 7 files changed, 223 insertions(+), 8 deletions(-)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261104-b4-sm8350-sound-eab29042cf89
 
--- 
-2.53.0
+Best regards,
+--  
+Demeter Barna <me@fromdisposition.org>
+
 
