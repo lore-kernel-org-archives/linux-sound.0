@@ -1,22 +1,22 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793760050;
-	b=S7kjYj2o4/WsDH4ZW+ldGomPmlsYJCxXeupkgtTOf55cnOl+krmCQzE1/Eoh/eLoodqV
-	 ZdiIGifg2O27HIr07JVa6vBH/1QjkVU7v/UhXPbnA8OS3UoFetxxjAG5CHdzyIKKvR13L
-	 bZeFDDH5h2Qb3lqHSK87CIevn8p/JEKm+5uwKwbQyu8xeTyk4wUF42f7q2WkIJuvVfVLH
-	 WS6jR7vjQuDpStYeSxj1s5Aa4jRb09PXPNufqnqOSr7gd0UIrWcDU3Jpz+sRNdNADUnt8
-	 7mNlZBf1ElcZPD1MiPGyqmR25jxGs1/oY4tNl6qQT6H55z4nhqCzR2tXFsLKjdN7FsA==
+	t=1793760051;
+	b=3zgGMBcBmoHG1UFw0GZ3zLNQfwW6ZwOfo0cYl1FRI52+jFOnT+rJaeMtSTvOf/ME3mQM
+	 PPtwWXuvKGpjRx+ayzlBgtvfDrIXx4gOFCTjw7pI35eBcjysknrXioJqBgDFaqbt0l3H/
+	 jaq67yxWDCLioiF6ikrihL7y0VJhRKJ+8EsasrVY8IqZgt4UGkI0rl09WQjT6g32Y5Zni
+	 s8iSQAryBDADIcan7rtN6O5JAdi3UnTtACpXe0h7NRfIvkBmr+OcJwPBU3OOlC1s5QJL9
+	 uneT9yLHKl4n0tjE1xf3Eh7XEQrSwPXauoVY0qhriCxWhvgWyDpiOViTlRNoHpP2eCA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793760050;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793760051;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
 	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
 	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=36Y5pL4NdH8kDIXYo87U2fescr4cMGf2b+Jv2gOIdXM=;
-	b=ErQ51QyPUMfdtX854g10J5UHjZoFaUYt5A7VswAoIL3gnuW4EA9mM9KW1AIHt6Go5kYf
-	 DvsHBim1BUZmkInOapVIy+eWryilssARu5/+Y593iG7Q2FF9wHO8DZeV9B4L4nESryc8S
-	 za8QDDVIO2hfAnpd7ETi0XxUHnYj9oZ/R79NTCMKsBQrWEdUBrYf1b0BhHgJ5xr+H6e1N
-	 jnKI8VdjOT+yI3hsdsAzPLZSr8SFOKccQjtCtnUJwv05gb6g0QiJU/woRQyCDPgIiiP03
-	 wHYiO4YNyQkTAoBj0U4mgxeSPlmlGuHhOYI1YwRVSNgbvsC6+9lnUFCezKfnx0YdrDg==
+	bh=6wTAtoWFBdyw2/dbZ2e3Vc7Sps/cYBw7lqvN0VRWnmA=;
+	b=yPc4gIegFGkaZT/BJo2Z3U9Zn7Xyl1aAyno/6BhCoPLlabpUFKXDk670DdfRPxIsDCok
+	 Dk1EjMVsS9+R8PQiVDPk31xcXUT1RDEpGXTg2WP1Hw2NqusVwBo6KRWEICIqNdma/D+RW
+	 x6Z8pKyHoTM7yNtoujO3rdteyrBdSo91+w11/0JTXNUNpIyOj028yH702P89HsTXAUzw7
+	 YgaOYcjQzmvaZMVODadSY+M36mcJ/4xxg6avl9cx7QeD3Qzg7KTqJdJYbZ648gS2fnlEf
+	 n5u+/54x3r/g3lPuuyRw4twwQwBeeij4YJrEuF1y6bCK89LIYUGkO4oGhnZ7Ja54/QA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=iscas.ac.cn;
 	spf=pass smtp.mailfrom=iscas.ac.cn;
@@ -25,29 +25,24 @@ Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA158606A33B
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 02:40:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA158606A33B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B023D606A331
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 02:40:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B023D606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-01 (Coremail) with SMTP id qwCowABXg_0nm+pqT7k+AA--.27763S2;
-	Wed, 04 Nov 2026 10:40:39 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowAAnUfsum+pqx7k+AA--.42079S2;
+	Wed, 04 Nov 2026 10:40:46 +0800 (CST)
 From: Wentao Liang <vulab@iscas.ac.cn>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+To: Mark Brown <broonie@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] ASoC: mxs-saif: unregister the mclk if adding the provider fails
-Date: Wed,  4 Nov 2026 02:40:48 +0000
-Message-Id: <20261104024048.1508618-1-vulab@iscas.ac.cn>
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org
+Subject: [PATCH] ASoC: audio-graph-card2: fix device node leaks in graph_count_c2c()
+Date: Wed,  4 Nov 2026 02:40:55 +0000
+Message-Id: <20261104024055.1508771-1-vulab@iscas.ac.cn>
 X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,56 +54,59 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowABXg_0nm+pqT7k+AA--.27763S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKw1rZF48tFykGrWDXw4ruFg_yoWDtrg_ta
-	yv93yqvryDCF1Fkw1DCws8ZryIgasrCw1rW34UKr43tFyxJFsIva4qyrZ8u3s8Zr1IgFy5
-	XryUZryfJ3y2kjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbf8YjsxI4VWkCwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-	s7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4
-	kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_
-	Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI
-	0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
-	Yx0E2Ix0cI8IcVAFwI0_Wrv_ZF1lYx0Ex4A2jsIE14v26r4UJVWxJr1lOx8S6xCaFVCjc4
-	AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Gr43Wr1UJr1l4I
-	8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AK
-	xVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
-	AFwI0_Xr0_Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxK
-	x2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6xkF7I0E14
-	v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU0c6pPUUUUU==
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRMBA2rqY-nVXwAAsI
+X-CM-TRANSID:qwCowAAnUfsum+pqx7k+AA--.42079S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFyDJrWxXw18Gr45Gr15Arb_yoW8ZF1Up3
+	Z5Kay5ArWDWr48uF40vrWUJrZFkr47C3yrGr1UJ392ka93t3yfA3WUZr1Duw45CFs7uFWk
+	trWDKa4xJ34UuaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvmb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
+	AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
+	6r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14
+	v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
+	McIj6xIIjxv20xvE14v26rWY6Fy7McIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7x
+	kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0E
+	wIxGrwCF04k20xvE74AGY7Cv6cx26r48ZrWUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI
+	8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
+	xVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI
+	8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
+	87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267AKxVWxJr0_GcJvcSsGvfC2KfnxnU
+	UI43ZEXa7IU0-Tm3UUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAABA2rqY+TXVAAAsK
 
-clk_register_divider() registers the mclk, while of_clk_add_provider() only
-stores it as the provider data. If of_clk_add_provider() fails, the clock
-stays registered but no provider refers to it, and the driver has no remove
-callback to release it, so the clock is leaked.
+graph_count_c2c() takes two references that it never drops: the one
+from of_node_get(lnk) stored in port0, and the extra one added on top
+of the reference of_graph_get_next_port() already returns for port1.
+Both nodes are leaked once per codec2codec link parsed at probe time.
 
-Unregister the clock on this error path before returning.
+Release port0 with the cleanup attribute and drop the redundant
+of_node_get() around the port1 lookup, so that the cleanup attribute
+balances the single reference of_graph_get_next_port() returns.  This
+is the same ownership model audio_graph2_link_c2c() uses.
 
-Fixes: 7c9e6150f2e7 ("ASoC: mxs: register saif mclk to clock framework")
+Fixes: 5f281c3e82b1 ("ASoC: audio-graph-card2: use __free(device_node) for device node")
 Cc: stable@vger.kernel.org
 Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
 Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- sound/soc/mxs/mxs-saif.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ sound/soc/generic/audio-graph-card2.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/mxs/mxs-saif.c b/sound/soc/mxs/mxs-saif.c
-index e46896ac9669..aaf62f081b32 100644
---- a/sound/soc/mxs/mxs-saif.c
-+++ b/sound/soc/mxs/mxs-saif.c
-@@ -783,8 +783,10 @@ static int mxs_saif_mclk_init(struct platform_device *pdev)
- 	}
- 
- 	ret = of_clk_add_provider(np, of_clk_src_simple_get, clk);
--	if (ret)
-+	if (ret) {
-+		clk_unregister(clk);
- 		return ret;
-+	}
- 
- 	return 0;
- }
+diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/audio-graph-card2.c
+index 503170578cff..f20301c3a441 100644
+--- a/sound/soc/generic/audio-graph-card2.c
++++ b/sound/soc/generic/audio-graph-card2.c
+@@ -1199,8 +1199,9 @@ static int graph_count_c2c(struct simple_util_priv *priv,
+ 			   struct link_info *li)
+ {
+ 	struct device_node *ports	__free(device_node) = port_to_ports(lnk);
+-	struct device_node *port0	= of_node_get(lnk);
+-	struct device_node *port1	= of_node_get(of_graph_get_next_port(ports, of_node_get(port0)));
++	struct device_node *port0	__free(device_node) = of_node_get(lnk);
++	struct device_node *port1	__free(device_node) =
++		of_graph_get_next_port(ports, of_node_get(port0));
+ 	struct device_node *ep0		__free(device_node) = of_graph_get_next_port_endpoint(port0, NULL);
+ 	struct device_node *ep1		__free(device_node) = of_graph_get_next_port_endpoint(port1, NULL);
+ 	struct device_node *codec0	__free(device_node) = of_graph_get_remote_port(ep0);
 -- 
 2.34.1
 
