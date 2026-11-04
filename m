@@ -1,60 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.22
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793794925;
-	b=xhIC2ZVacszbwoBvMImQ5GwJwBC9C9fFwE07sPZYQy0NR5XmWXnRCbnDRMBob2rS5MlD
-	 IIIZ128lrttMackggx9PqEHBRUxoX5Y8m6gGaL52tP/PEphJM4ehMmlUkW4apHq3WdxCR
-	 Sv6nnI9nDA5Px5J+5czUaRbwMOH8YCKZ8j19iZ/yKCapvw3jPStNvxLxY9LLUSVul8zda
-	 hUpwNve/9zsBiMkmysCk1A2zXu/dncHsTUwplqgcUrliwpP7zhzj2cllyVtctaz91DEvh
-	 q4uzyhxwtb02rGogeDI4r3ssAQINFM4WIXbq3u5zoLbse7LPqu1tQ3uph775kcFQGEg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793794925;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=ved1DWcD7rA5TlRy/FZm6Y2WqpyF91+l7PRtshag9Nk=;
-	b=bsE9XMvw5uwBkOsy11qV2cgQO/2ZjNuSEa7vH+npc1ybFkfYEtB9Zr2tmtJlFZXSTVJZ
-	 o3Mnbn75mSFKRzxV/nhrWr+wqFAZHYQPPeTwDFKEROrwL66oKlPuayqhqjp/+OrtLvGq+
-	 1UkYx/RzMXPa3V1zWDbMEPa37TcNPwXB4wsSIc9zAPPysaexCSw2mbr1gT82KxyaGK4ul
-	 S9Umir4jdSseDmNc5RcKLaI8HI1UB4Pzui9DRuYq6W40cMoMrGw1RuMinLIOe89lqRS28
-	 Ko4FazKsW12b/4aOgE4gILTzyWmbvWpyED5iH0mIxjr2DzemAVZgDxMnZ/ouQLSVeZw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=pm.me;
-	spf=pass smtp.mailfrom=pm.me;
-	dkim=pass header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=QsksqQ7A;
-	arc=none smtp.remote-ip=185.70.43.22
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793795035;
+	b=ditr3CtypDheeUTa6J6xphfEBMfOuJNVLauw1YGOn4uP/v/DqtblLU9z+clrCtM9weGe
+	 6HbEZRo5DrG4JMbSwnIzhkS21pa6AwKFfmP0QDxDj7fLHpLUSusRnbO9nvwRk6XuJUP4W
+	 zgtlP93JLbKTzwzhcf+/W7ERNodheYZiddZxmwp7RwPzY1F88zb3GdKfW2ws2ewjT1JBj
+	 DJAgRoNKWFdEhLqB3mpRH0Hs/ed+r9IA28/L908AL7khOYXtdFMvecSkVbd7NMDbQ9rot
+	 d2xo2JZruyM41DtAOmAbWme7HiwI6LGcKAGlJ+SWA2J59hdKfU7k8ZS7EqRJGnbi+zA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793795035;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
+	 Received:Received:Received:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:Content-Type:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-Proofpoint-GUID:
+	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Reason;
+	bh=+lmcAkWCpT/aVLSC1pKevazqlEX9JzhBJYQspZFRAEg=;
+	b=t7OX9oSQjgO3m5e9mGTiP9ytwGUPYWeu/YuwnYZA8H8+Aoz7RaLRUmAcfcbkZULhDIQi
+	 sf8C8JWRHW9mMIqOzIFayUhvgDuz9n/83tuj6SXe+ckSydsxGKbQ6Kt7AvIyiUUm0/pMD
+	 bbX8nzBV9KSlzi6knlVpSG9OqzAik9EW2jxWCR4ZOA4wgBfLLixLyWSmVMsu7+HLDCrTH
+	 /7ZdLmiFKI3CqPnWv1YxaD8NtDtjF+PX03ejL0n+giadK/gQSLoOuIwV7VTxVxWlIT2+B
+	 p8a6D0I9Z9UjeUW1G6Cg9fY1RsHqRtHlz6d09pHIhs//TqGsZoDbzGS0U8tc0hgLEwg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=opensource.cirrus.com;
+	spf=pass smtp.mailfrom=opensource.cirrus.com;
+	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=TVtqQhlr;
+	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=PQKLbHxz;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B20606A329;
-	Wed,  4 Nov 2026 12:22:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 55B20606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F68606A32C;
+	Wed,  4 Nov 2026 12:23:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99F68606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=QsksqQ7A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1793794922; x=1794054122;
-	bh=ved1DWcD7rA5TlRy/FZm6Y2WqpyF91+l7PRtshag9Nk=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=QsksqQ7AWHkPW8NZHOnbCXnFomM+pSzCGQveYJHGMXGIjQkBJ0dc5qlsg0FxHubau
-	 BpFRaXEWX1qGvebQmWL+hMH2cRGAe4HXnYx+QA0dnnxgLjUe3CfTiXcgFaaRxIY0QK
-	 TuDfl6qbKLm2gT8wca/tJcIPcRw8hCaNUcvJI12j/9qUB3VIsfrM6c3Rq8md8WwHM4
-	 1mvyzAhdmYWTNsjCusQNdnvA5ky5sf8oL9WTZCsDOD/YA8Ik+eCZESSr3Phi/U3IZD
-	 GymbX+tFczWETl/aqU3Zx1qwxaojW/2/L0HJVdEBatAMMOuT8S//ut4kLAqMA2JncW
-	 VwyoaAah1t/lQ==
-Date: Wed, 04 Nov 2026 12:21:57 +0000
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-From: Sinan Turunc <enscrpt@pm.me>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH v4 1/2] ALSA: usx2y: Require a buffer of two URBs
-Message-ID: <20261104122136.1518-2-enscrpt@pm.me>
-In-Reply-To: <20261104122136.1518-1-enscrpt@pm.me>
-References: <20261104122136.1518-1-enscrpt@pm.me>
-Feedback-ID: 48393780:user:proton
-X-Pm-Message-ID: 7d0c6ab1ad28032b964268eef48df3ded2cdd609
+	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=TVtqQhlr;
+	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=PQKLbHxz
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A4C7KXV3315494;
+	Wed, 4 Nov 2026 06:23:46 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=+lmcAkWCpT/aVLSC
+	1pKevazqlEX9JzhBJYQspZFRAEg=; b=TVtqQhlrI3ix6HUCFHcUdmjNGGUruXeR
+	0523DzDQ1vgm+T+kGlgAot/StkwPutdx5kVEcIOrhrf1o+j6KvjAD95vEdVGjiWl
+	0riNTsFKCAQ5gHFMyo9/Gu9jRMnDM/wQ3OKLQMsxRV0kmfVKA+MBgiQ6b0cTHU42
+	0XKs5XP0lNivyOoUSgHE1nR6WVDYQ2eKZXABFASbKipF4XUGjXz+lE3HgC43q2zz
+	8UD8OzbprtTrNpoP/bTyhyOam7Dfh9e7ojZsi4SaTRSBvXghGiSKXEbAQACDEzNF
+	qNWqay5fedt5O9myAPtDAcHVKH2Abf8103jBPkg6nszse0iWUOMR4w==
+Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11021097.outbound.protection.outlook.com [52.101.52.97])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4hndrfd5ch-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 04 Nov 2026 06:23:46 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cY8TgoXEdiS/Jqt6LcS9pgkbMYkaTZq/0JvmpeXrPuOo12l3cPxaVNl2tX7OhKOjz87FnvNncImGDJMb/VhcrsNFG2xpu2CgHoOw/Peh6uS0TcwAmR7pXMefuNO+wM0ioykgRwLcvyE915wUmTW8hs8Bxo2UkTk1iYevVExBWZTIQcC/X7CoJfjdpi2WTqO7P5qhv/J+9Yt5YyYotb0I9s9nxiKbaIwYcAG5asasQbOH06zqP5EwWYikc/zVEMlwgZEhxjTHzgW5H5FC4iGpDJb2efHoqHnTpyH1nZWd6ZSbyN4OcT3pCAX4bfeNWxUwqKkbKsxHprMrSdiG+CN6mg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+lmcAkWCpT/aVLSC1pKevazqlEX9JzhBJYQspZFRAEg=;
+ b=no0zSCGupHxvoBWLMK0742F+WNxRGmqQikxh6f4VruL/AYGwutZa6oKJ20X686Wm7Ciun1BHaIeGg43NtgvVhHoOZt+o7Q5iGxcaG+W8gj6DPRc1muftCsGnXZWzV88VpoYB1MPC2AhPeKGYnYfIz9EE6VOv20kBKM3i11dxHSjqaaRt+RFkYFroTMcB+hdd0t3CeDieedqu0fJJXVaS/qR7O34YYqjOwj4KMtYngdhaJpwidm29ifC+6OdhYTjMhIhCN4G4WZCiCLj7aJ8t9GGazAvJNEuh8ZACxHRLBkEAeEZphB1V4gBhWTT7pyXJmnWuZfJ5N77ghTZpdmyp+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+lmcAkWCpT/aVLSC1pKevazqlEX9JzhBJYQspZFRAEg=;
+ b=PQKLbHxzKPTTrnSd95J9yP2Uq1bn8BRXNPuT6/ErS4JAhIHiIXHlU+QEGgOue6sok52wVeIP4sB6HyP3euvZ/9Tut8LmzyzbDdXdfQ3r5euJjQK6ltUK1E+om1ckRY5q8xTYqT4t8T5Vc6RJRR1+FpHR5ELlWxq7eWpPnxLW1Vg=
+Received: from PH8PR20CA0018.namprd20.prod.outlook.com (2603:10b6:510:23c::28)
+ by CY5PR19MB6339.namprd19.prod.outlook.com (2603:10b6:930:21::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Wed, 4 Nov 2026
+ 12:23:40 +0000
+Received: from PH4PEPF0000B60E.namprd21.prod.outlook.com
+ (2603:10b6:510:23c:cafe::9c) by PH8PR20CA0018.outlook.office365.com
+ (2603:10b6:510:23c::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.10 via Frontend Transport; Wed, 4
+ Nov 2026 12:23:40 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ PH4PEPF0000B60E.mail.protection.outlook.com (10.167.243.89) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.569.0
+ via Frontend Transport; Wed, 4 Nov 2026 12:23:39 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id A618D406544;
+	Wed,  4 Nov 2026 12:23:37 +0000 (UTC)
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 88712820273;
+	Wed,  4 Nov 2026 12:23:37 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com
+Subject: [PATCH] ALSA: hda: cs35l56: Stop cs_dsp before calling cs_dsp_power_down()
+Date: Wed,  4 Nov 2026 12:23:37 +0000
+Message-ID: <20261104122337.1072468-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,110 +129,86 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH4PEPF0000B60E:EE_|CY5PR19MB6339:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 49378afb-2634-42fc-9d84-08df3a6e7506
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|36860700016|82310400026|23010399003|61400799027|18002099003|10067099003|16102099003|56012099006|261022105027099003|11063799006|261028144727099003|261102123227099003|261026121527099003|261021121427099003|261009223027099003|261026140227099003;
+X-Microsoft-Antispam-Message-Info:
+	qPfLLz+IVtLOYJUvmZ/1PLU3iWstZO/cJk0Vh/T3lUvoXEiVoW29+VAJ75IW05+KQAmNWoGpF4BCi9qJvuNOUGh13nvS6i5a1dk4+wdeVf8l9qjFzxHrP3oGn67IZ8f9nFq4FSVaxy55YnhdocV5A0duGlUHRrzGW3j0BFeD5136QcQUPA4D5nsgD7czoZujtUnBvA3hi8xvB/d19HPwr5QasEQit1IQJLg/RrdkJI3gn6rt5+GH7XVkWu6Q7vHtZBiayFbqcv32Ay97Jv0+FxWl3awSCeG2cqnj6FHyJXD2tis1cdIKJ/BM+b1B8RBdC2m8K109X1OEtf+okB5W09upPUWI02dLbqkNVi35ydIlVZgAeDwf22yUQKkKPDIuq6RbY1U4APP2Xc6OgcZ2RrJ3TO/4eHPxT84hAv7p6DbcamBNHFms4pvxEf1jykhpdUDWuTjinKEU781gK5rvs9bNxE978WipkMxD5nXgXXHuXp9dvAuhse3SuZAUzVd9k2ChdMSBQ5o4HWwpbo4ovsvA+k0EpY51fwJomXT+H+MSbuOonJD7L9sjBQe7GRuXujb03Zhmgr5rqg7YZPivmyP9WBhesfdwTKdc4JuNWTh5BLABmJyb9XomT/ohi20K/YIOLWOVMNCSaoTkFBgbYrO7mrOKq3HMrZNO5IVv2db2t5rqk8FR+bkt/BfG7xXUaTdUArIgcw6F1PnxunDxNg==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(82310400026)(23010399003)(61400799027)(18002099003)(10067099003)(16102099003)(56012099006)(261022105027099003)(11063799006)(261028144727099003)(261102123227099003)(261026121527099003)(261021121427099003)(261009223027099003)(261026140227099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	kjJS8RWWySKl7nXvsDuf7SyWrO4eE0Zi5wyD+4gm8vxAJkmGkSw0fk95hEH4MSaFm7vRqEaenFfMN8PVuoA0o3+PUL4UIGbesVSK4FUT6r7rm/e0bbT/aR0p+NnIBtIgjzhFZxj6fuOJTl+PEkHLICF7ElQDnj2uS2mt1woonZ4nFdLYaLjiQaL2EDBPJ8iCrp2OA88VfCLuSn0Ku17cVgsvgg/1OYuyenlEtLgvthQe8z7b6D9dwtHg+NyDYqsuG8aEUDv4Jx9YDdS1Z8qwX1zsLNAm7MyT8g1xAbYAVsYGt7Gu1KlDJL9i82kZR0vX/OprpQL+IJfESiap+5UfinuU5BeROXwcLud1A4WUkbN0ntQ9BF8U4bDU4p5T77WOADDgGQcaNOZsJ3exFGoRLOCzvrFac7stED+SlAlB+mhW7BFsUC/oLbvcEutAcdHQ
+X-Exchange-RoutingPolicyChecked:
+	e/7TsIAHe8S5Q1QYKnHYNutNLk51AXNbwzay4wpTO4whDFS3OYcsqKisjkduNoTK7kSm/q5HPjdFwJrv3fuFDBUEpsx5HxeSz1RCpx410GmV9O0W+Z0htQnAiL4Ljhep8zwTsW2g5oo5Vj2esc1nJipRB6R9DCMMwFArlIRvqBpJSNJKyCJi/vFQFp9hTNsMEilrIHeQgRJFOiw3ssA/Rk5HTPdX76kQ0UTK/abzGS4lUSMLqlamSoBWx9AoGqF7TGavYTZwm4QccUr002lylZ/YCcWkQ31XYMTwNUv0mVq+ZVprXhikeEYLlBT9A8HrZwRPWK/Xs9EAQByZBylyrQ==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2026 12:23:39.0810
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49378afb-2634-42fc-9d84-08df3a6e7506
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-PH4PEPF0000B60E.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR19MB6339
+X-Proofpoint-GUID: MRdFAHBGcZ8QU44CFcgw9gNWRMiMFae8
+X-Authority-Analysis: v=2.4 cv=HMRWhYtv c=1 sm=1 tr=0 ts=6aeb23d2 cx=c_pps
+ a=is7RXpa33aREoC4jGqxG7A==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=zJRp6_cAMcgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=w1d2syhTAAAA:8 a=o-kdSdbC3fNsenE9wQsA:9
+X-Proofpoint-ORIG-GUID: MRdFAHBGcZ8QU44CFcgw9gNWRMiMFae8
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA0MDA0OSBTYWx0ZWRfXzb0PxUY2hQC/
+ 9kS1x+7CzTS3Wgh3mvOslM4i3jojn7UpUVYblMC8qTFuftNf4NhJIMQ838pXqoibVPL/BjkCr8d
+ lmKOekonGYkzrlI1cLDNrkQ6nTvKKDkxbev3xUZ+mKNYSntK7AQL7oqtPZEYfigRlL8LyJGUay3
+ fBZ5i0V9vD4qCF8Nm5pDwjLL0mEz/r9ZTjpLd0e8bfQj/PWPnqt8VfarOR6lEMjxUd1lCqs6iiX
+ 2Ot3YUO7JYHIYMxGuP2/L+QUSwa2T3337OB0xS7eJEXuhpJ2clVYjCo7ohlHRmMuLfq4TY9xqHa
+ IqUYSIiG6Rxdsx6WypnkNRQKl5zAmXjSrDJ2bJxPQYPNigF5aRdDHcW0b1wGIsy7A8InpHT+N84
+ mTKn/2hmpt7PALJt88ZHWc2PUY73txd4Up5vCzJJnn+SEHfLOaF3jWUSkFHgcl7xie17roaaPE2
+ b/e+PKNIQktQPJRZ1LQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA0MDA0OSBTYWx0ZWRfXzXVKjCp+G3/j
+ a3PmX5ocOynHfsnvUk3l++F8cZkYyTLD/AydabpBRXu1ywjeMHW2jBuaDlwlE8BscI1DMqTX9x+
+ 6IBwX6FJSt5P1WfnPo26Abgdtk3uOEQ=
+X-Proofpoint-Spam-Reason: safe
 
-usx2y_urb_capt_retire() wraps the ring buffer once per packet and
-usx2y_urb_play_prepare() once per URB of nr_of_packs() packets of up to
-50 frames. Both assume that the data fits in the buffer, and the hw
-constraints only require about two 1 ms periods, so a packet larger
-than the buffer on capture, or a URB larger than the buffer on playback,
-violates that assumption.
+In cs35l56_hda_unbind() call cs_dsp_stop() before cs_dsp_power_down()
+if cs_dsp is in a running state.
 
-Constrain SNDRV_PCM_HW_PARAM_BUFFER_SIZE in snd_usx2y_pcm_open() to at
-least two URBs, 2 * nr_of_packs() * 50 frames, for both directions. The
-bound is in frames and derived from the driver's own packet limit, so it
-does not read the endpoint, whose altsetting is only selected in
-prepare. Two URBs rather than one, because the position advances by a
-URB on playback and only moves when a URB is less than the whole buffer.
-Keep a guard in usx2y_urb_capt_retire() that drops a packet larger than
-the buffer, for the case the constraint makes unreachable.
+cs35l56_hda_runtime_resume() calls cs_dsp_run() if cs_dsp_power_up() has
+previously run successfully. If cs35l56_hda_unbind() is then called while
+in this runtime-resumed state cs_dsp will be running. The code wasn't
+checking for this and was calling cs_dsp_power_down() while still in a
+running state, which is illegal. This is currently fairly harmless for
+the cs35l56 driver. But it doesn't comply with the API, so potentially
+could break with any future changes that expect the correct API use.
 
-With nrpacks above about 163 (S16_LE) or 109 (S24_3LE) the bound exceeds
-the 64 KiB buffer the substream preallocates (twice that with the
-preallocation raised to its 128 KiB maximum), so hw_params fails for
-those module settings. That is intended: the driver cannot be safe with
-a URB larger than half the largest buffer.
-
-Reproduced on 7.3-rc7 with a USB/IP device presenting the US-122
-interface layout and 1024-byte packets into a 512-byte capture buffer:
-
-  BUG: KASAN: out-of-bounds in i_usx2y_urb_complete+0x1285/0x1ac0
-  Read of size 18446744073709551104 at addr ffff88800e448800 by task vhci_r=
-x/83
-
-Tested on 7.3-rc7 with the same device, S16_LE at 44100 Hz, nrpacks 4,
-so the bound is 400 frames. A 128-frame capture buffer and a 200-frame
-playback buffer are refused at hw_params with EINVAL. A 400-frame buffer
-streams for 30 s in each direction with the position advancing inside
-the buffer and no KASAN report; the capture guard did not fire. The
-same 400-frame capture buffer with S24_3LE, which selects altsetting 2
-in prepare, streams for 30 s with the same result.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Sinan Turunc <enscrpt@pm.me>
+Fixes: fb78d73dde2d4 ("ALSA: hda/cs35l56: Call cs_dsp_power_down() before calling cs_dsp_remove()")
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 ---
-v4: the comment in snd_usx2y_pcm_open() says which direction needs which
-bound; the nrpacks limit in the changelog is computed against the
-preallocated buffer, not the hw struct maximum (review of v3).
-v3: bound the buffer in frames by two URBs instead of two packets, so
-the playback copy is covered and the bound no longer reads the endpoint
-before the altsetting is selected (both from the review of v2). The
-open() comment that described playback as wrapping per packet is
-corrected. Both directions tested on 7.3-rc7, see above.
-v2: constrain the buffer at open instead of clamping in the copy.
+ sound/hda/codecs/side-codecs/cs35l56_hda.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
- sound/usb/usx2y/usbusx2yaudio.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/sound/usb/usx2y/usbusx2yaudio.c b/sound/usb/usx2y/usbusx2yaudi=
-o.c
-index a3a0bc13632..1e1d0cfbd16 100644
---- a/sound/usb/usx2y/usbusx2yaudio.c
-+++ b/sound/usb/usx2y/usbusx2yaudio.c
-@@ -51,6 +51,18 @@ static int usx2y_urb_capt_retire(struct snd_usx2y_substr=
-eam *subs)
- =09=09=09dev_dbg(&usx2y->dev->dev, "%s: 0 =3D=3D len ERROR!\n", __func__);
- =09=09=09continue;
- =09=09}
-+=09=09/*
-+=09=09 * snd_usx2y_pcm_open() constrains the buffer to hold at least
-+=09=09 * two URBs, so this cannot happen for a device that keeps its
-+=09=09 * packets at 50 frames. Drop the packet rather than exceed the
-+=09=09 * single wrap below.
-+=09=09 */
-+=09=09if (unlikely(len > runtime->buffer_size)) {
-+=09=09=09dev_err_ratelimited(&usx2y->dev->dev,
-+=09=09=09=09=09    "%s: packet of %i frames exceeds %lu-frame buffer, drop=
-ping\n",
-+=09=09=09=09=09    __func__, len, runtime->buffer_size);
-+=09=09=09continue;
-+=09=09}
-=20
- =09=09/* copy a data chunk */
- =09=09if ((hwptr_done + len) > runtime->buffer_size) {
-@@ -888,6 +900,18 @@ static int snd_usx2y_pcm_open(struct snd_pcm_substream=
- *substream)
- =09runtime->private_data =3D subs;
- =09subs->pcm_substream =3D substream;
- =09snd_pcm_hw_constraint_minmax(runtime, SNDRV_PCM_HW_PARAM_PERIOD_TIME, 1=
-000, 200000);
-+=09/*
-+=09 * Capture wraps the ring buffer once per packet and playback once
-+=09 * per URB of nr_of_packs() packets of at most 50 frames (see
-+=09 * usx2y_urb_play_prepare()). Playback needs the buffer to hold more
-+=09 * than one URB and capture more than one packet; use the URB bound
-+=09 * for both, and two URBs rather than one, because the position only
-+=09 * advances when a URB is less than the whole buffer. The bound is in
-+=09 * frames and does not depend on the altsetting, which is selected
-+=09 * in prepare.
-+=09 */
-+=09snd_pcm_hw_constraint_minmax(runtime, SNDRV_PCM_HW_PARAM_BUFFER_SIZE,
-+=09=09=09=09     2 * nr_of_packs() * 50, UINT_MAX);
- =09return 0;
- }
-=20
---=20
-2.56.0
+diff --git a/sound/hda/codecs/side-codecs/cs35l56_hda.c b/sound/hda/codecs/side-codecs/cs35l56_hda.c
+index 148d760987fdd..5982eebae1525 100644
+--- a/sound/hda/codecs/side-codecs/cs35l56_hda.c
++++ b/sound/hda/codecs/side-codecs/cs35l56_hda.c
+@@ -809,6 +809,8 @@ static void cs35l56_hda_unbind(struct device *dev, struct device *master, void *
+ 	cs_dsp_cleanup_debugfs(&cs35l56->cs_dsp);
+ 	debugfs_remove_recursive(cs35l56->debugfs_root);
+ #endif
++	if (cs35l56->cs_dsp.running)
++		cs_dsp_stop(&cs35l56->cs_dsp);
+ 
+ 	if (cs35l56->cs_dsp.booted)
+ 		cs_dsp_power_down(&cs35l56->cs_dsp);
+-- 
+2.47.3
 
