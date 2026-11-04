@@ -1,95 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793804529;
-	b=VC+BzjglWRPsIUDQwWETJb1OqF7XOJZ11vy7Lm+GX15CTtZAgkoom1iwJ48gR53+f/Na
-	 NRaMUGvPvFUVnOtKP3cQQsUVWG8fZPSQsQqznDLwDCWixNhGlgYrWGhaGlqDzDvhVOW7P
-	 qqC3HcXJZCcR4Hx7A80CJDELVh66wVtmhW2GyvgjVSUST8eV2vaVpB+9A1JS3rBY/2J+/
-	 jKJYFhydk8sEK3/BU6WsmhBO49J2cDA3+UEC5OtULtnujOS4HUjhLB2MqhYocC95BZA1f
-	 qHywd9dR5hQZBGcDUkbmObil8FYiRQlW6nDK86KtHoxOb8UxEsrYYSf+fG+ek0ToU8g==
+	t=1793804599;
+	b=akkQSB/L6fQzS9AgdgGKpcqm6imYJ4oKFv2IgseNYgqtxiNGSuc36L7lZ3X9c/vLl9I2
+	 8WWOe5k6E/EdMHxV8oN0hoUNyA1NlZM+Q7abefgX8xTyfFf8HjQFdLoBcPt0IYjXQ+pQg
+	 2CdRbN/xiuzEyDjUCTGNVEPGPm2XAczZPlFYez7cF6BqQ6Qw6TkX29sXQ+8jbJ+zmAqEa
+	 j0bElVYCfm6nIr/Jd0OvD+AEsKDCCr6UKZE7BNLnCIPrR9RgtXpqeph9w2TFwtQKQCf4j
+	 00Uc+WjmPrT1wp+fsLRlZqxlwCpGxj3Aghx6wMOQtyt2YBGVMH/0oulS57TCNwHTdog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793804529;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=NhDXAxK7zSTJl6yEBVccSqn0jUP1G3BBGvx5RY+eCO0=;
-	b=jgltWADr1+omvlOkdm9cwdIMlrV6+fAT0HbL6q8aL6B53aoZBvw1iVgZCEmwgn9+lnV3
-	 fRW/WGjVyha5kuZKOf0w1M0EyiLhd1RvDFAAzMO0DOjP/Gw3WnP9tcVpLWIO57JO3t0lX
-	 UAg0wVij7LJRdSbQEksvXrGBOrFY1q36JTgiwYCiKsTxU9+hQ2CvLAqVIadYCjloeJpXz
-	 6zD96cTtGddslOQWo5TFEamXZPtzslJYPZbyG97oDfKqrlCbc75ndS1rr8enUcqvzpf1v
-	 y7QNpfLqoCI666OL+GdPByKbQAW25JSD7NreiSZhtChEZoXlB0E4q9vrP+eW7/I25wA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793804599;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=+P5gL9m6Jyb/Bky3cak3kQaT6qa1hpJwvcCZC+IMB28=;
+	b=Q0C60VdeZJ9EZTwE2AE2T8wWjfhy90JM0qRabulbafqA4WdngQTpfnOhWUcjRvZ7FQB6
+	 mDAQGlHny53NOn4RGcv43oJ3x1KKiOdxtn2wtgQg1g4mrVgn1f2QawOpPDitE1nfFDnwg
+	 N2s5Vzq+crLlHYHTH0OJ9xLzzLPY0zTfidGJwrAkZUFuT1sav8XDC23S6FVwFJzmR44a+
+	 VRYSnJsl3qNlo+rXp5+4ZCbRBDe1t34MGDzN4VVixqR7biIQcPJr8bsZ0LUY9Ygk0XyjA
+	 m66sWKG/1cRfKe1FbvTEumfrD5KtmothSn4bcihIzCZ3i8cYjUIpglaLGW/jI5MOxdg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sLrvMirh;
-	arc=none smtp.remote-ip=74.125.82.42
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=tDM5kKq8;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=nw2J5e2F;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EdRE7sou;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=7myMNNSZ;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A3C606A328
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 15:02:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96A3C606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61AD3606A328;
+	Wed,  4 Nov 2026 15:03:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61AD3606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sLrvMirh
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1a2761c69fbso1890449c88.0
-        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 07:02:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793804527; x=1794409327; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NhDXAxK7zSTJl6yEBVccSqn0jUP1G3BBGvx5RY+eCO0=;
-        b=sLrvMirh2ecuW2S7MRadWh1VKld0W3L5ypNP/I+48lkDU7us20FkyWVOVzpbfAlPlW
-         GeoJFyBQ4xaq2wAGSzYIBs9RCiGSuomNpcRpKlS0eUloAIeTZFCH2v96y3rpIiKBezHt
-         /4B2ant3dT1pS51g2HCehn44IGAMaCeh5g0Q/MEI54G0BxTh0byVOpVSdRsAWcy3J97G
-         KDnENarjgTWtqLkpnpgCWyhM/BB43Y1FeKCHYMo0GmIZs8hevWFokPeR1oMPOtyz0WXt
-         Eg3xyDXT47kIkuGPOkUfG/36i0NMz63W1Wh3W3AmD2Kxi3QL/GZGbYrracB+yZp0pYMg
-         WbRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793804527; x=1794409327;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NhDXAxK7zSTJl6yEBVccSqn0jUP1G3BBGvx5RY+eCO0=;
-        b=wpuabmq8pDC9rnFS9CBngLbLWR7/4/d7VsBBFvO8A75gCqbUUGy7FpNH/IQHChG2Di
-         wSjF1c5JQowmzgstZ+jWFK5OQ3dEzkMw9s+aWuOOdNnOpzaalsX+KndWHrhjJKVurwPj
-         PDW9zbJbMr4WX5dz26shCnxTZAWKjuWR/gXn6wF+wCifPhhD6IvJTsPufptPdXqfhkWa
-         b/eMUjN6L+49ZxXZ1bZ+uaMpdWkA6r4J4HcpVqLZjoSigonwzgfjGzQY8DWJyAljeku8
-         ju9Dr5+SQwcbqnhnt/oCHz6qHwEvudbpqcZuLkBsnRDOG/kSjIwtS9Sk3ddfweD5cr/I
-         RvoA==
-X-Forwarded-Encrypted: i=1; AKwUvBzJeHKjHwK3cLDZCd7KH+s/yTDw16usKrm4Q+MeF6fWA0la3gvlFou2ULVDjVpQGNc9fiZQrYrFsZfXwA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8R70sAw0Sjq2WVr9z2StwUiBnaU27uvEtKrJzGryDXcNZsYeuk
-	x/wLWBdJk0nl+TGA2YCZBzmu5gnBT5dD4Fny8TXfg6tE/tsWwKHanKQF
-X-Gm-Gg: AYBFou2qdvA6ZKX5RB+hnhsH4IWZ0Z28jFEsAsD+XfcNNgw0PiU4o4oh63Ur+Z6jhsW
-	Nzi+sCC71Fxo8y98X+tEvBX7rJhroiVOp4qvdeu5GWrs0nwWo74YKDkEFQNAoOr4FrztM25+L3U
-	L5m3rLPEPVMP2v22340TycAQ8VGL+NWT3vtm2tpPKoPQHkz6pvav1An/obTXS6QyShT08tqUo3U
-	KTLbUolE7CQ4GXYN+XU2x+229tco1mDeRgllOH0edf2mYvU/0HO/JRN4OUK2FiLoWHwWnNJeoqZ
-	g3HfNY9vMrL2p/6/6dfsU/AsJ5Y4JxyetuujvGbj8MDaM4dHuwrHl75WK0U6aHuV5pfTphTJFH2
-	GJMkFNy/GQyNElXbw5LmS0hikTdEc64tXMmZhjV7QoERUQ9YtcM9m3o/J+frAr2pxaOCOd1q0jj
-	8hCZerQXVxbL3iwW48oxrUX8sfzj9Mbws9kp91V25SACtgLtVTx3nUp+hLgQBZPNFyBFL5afTPJ
-	ffxJcJDBzYcp65z7AzpZpuEt5o1rvL2Ypq3z6+x4WsS1gn6k46PY6j/nWReUhLitH84fq+3rSt1
-	GUwM2GEpu9T/kzpqgePlzOx7d491OLZXzSJpXSuSogcNUHNRar2Bf91J/mDP9X7JLZja2199Xdi
-	Vj0Aw3jLiPYKsEiVkwD/5U4rXNng=
-X-Received: by 2002:a05:7022:2582:b0:1ae:e0f5:2cdd with SMTP id a92af1059eb24-1aee0f52cf9mr24971896c88.28.1793804525902;
-        Wed, 04 Nov 2026 07:02:05 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:301c:f8cd:5040:8550:f5e4:709a])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245b86fbesm8735094c88.1.2026.11.04.07.02.01
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 04 Nov 2026 07:02:04 -0800 (PST)
-From: Aryan Sinha <sinha.aryan03@gmail.com>
-To: bo liu <bo.liu@senarytech.com>,
-	"qianghua . wang" <qianghua.wang@senarytech.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=tDM5kKq8;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=nw2J5e2F;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EdRE7sou;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=7myMNNSZ
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C9D8A1F7DD;
+	Wed,  4 Nov 2026 15:03:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793804591; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+P5gL9m6Jyb/Bky3cak3kQaT6qa1hpJwvcCZC+IMB28=;
+	b=tDM5kKq8pf8GVfG9fOExlLk1TxNLOOappoytcpGAHjvDV3oTSsku1yW4s2AjXedCH4Jhsn
+	MJEYKrAWjVQy1GLbT4erjNQR+7Km4m3f57fx83jaCDdFxktPwsgtiC5SYDed+hE/8Pzmuv
+	PvoaDr03dkE5Z7NfhhhOvFOR9g009uY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793804591;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+P5gL9m6Jyb/Bky3cak3kQaT6qa1hpJwvcCZC+IMB28=;
+	b=nw2J5e2FUgZeWlBJM3rxi9aQdLWKEM/kgGKqM1TQ7MCEXMbBqFJRM6fsjACKzNRwAQ5MgE
+	HzNDh7I/wPV42ODg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EdRE7sou;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7myMNNSZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793804588; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+P5gL9m6Jyb/Bky3cak3kQaT6qa1hpJwvcCZC+IMB28=;
+	b=EdRE7souunZDZuLHhjG3578kCbOX8zfp5ad7pke8lJFhSuHw0sV/8gRF8L8aCK3lBpuP0K
+	uTWSuRSmdNdVyRLBhFNum9jbpwRmEPBHG/T2MFtlcLeIaU4hi6kp+5q+67ajSoNzAy38fD
+	1FpvQV4NUPJnZT6fRp0UQ9Tajk5ak1I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793804588;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+P5gL9m6Jyb/Bky3cak3kQaT6qa1hpJwvcCZC+IMB28=;
+	b=7myMNNSZInCmi3MKr9n2P4XJRcdgWiUcWOc1yrAUETx6ilqNUm4MPtgffPYNsEDBZKdQdA
+	H8tLzvTyZWYNJ2Cg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7912F134A5;
+	Wed,  4 Nov 2026 15:03:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id g+XYEyxJ62pmEwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 04 Nov 2026 15:03:08 +0000
+Date: Wed, 04 Nov 2026 16:03:07 +0100
+Message-ID: <87qzh0tz9w.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Sinan Turunc <enscrpt@pm.me>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Aryan Sinha <sinha.aryan03@gmail.com>
-Subject: [PATCH] ASoC: sn624x: use dev_err_probe() for the regmap failure
-Date: Wed,  4 Nov 2026 20:31:54 +0530
-Message-ID: <20261104150155.33157-1-sinha.aryan03@gmail.com>
-X-Mailer: git-send-email 2.46.0
+	stable@vger.kernel.org,
+	sashiko-reviews@lists.linux.dev
+Subject: Re: [PATCH v4 0/2] ALSA: usx2y: Bound the PCM buffer by the URB size
+In-Reply-To: <20261104122136.1518-1-enscrpt@pm.me>
+References: <20261104122136.1518-1-enscrpt@pm.me>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -98,36 +114,72 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -12.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: C9D8A1F7DD
 
-dev_err_probe() prints the symbolic errno and stays quiet on
- -EPROBE_DEFER. The sn624x prefix goes too, dev_err_probe() already prints the device name..
+On Wed, 04 Nov 2026 13:21:52 +0100,
+Sinan Turunc wrote:
+> 
+> v4 of the usx2y buffer fix. Patch 1 changes only its comments and the
+> nrpacks note in the changelog. Patch 2 now also sizes the playback ISO
+> descriptors from whole frames, after the review of v3 found that they
+> were filled from the raw capture actual_length while
+> transfer_buffer_length used whole frames, and gives the maxpacksize
+> check its own message.
+> 
+> Patch 1 replaces the two-packet BUFFER_BYTES bound of v2 with a
+> two-URB BUFFER_SIZE bound in frames that does not read the endpoint,
+> and keeps the capture drop guard. Patch 2 adds guards in the playback
+> prepare path for a URB larger than the buffer and a packet larger than
+> the playback endpoint's maxpacksize, and sizes each descriptor as
+> counts * stride, all pre-existing and unchecked.
+> 
+> Tested on 7.3-rc7 with a USB/IP device presenting the US-122 interface
+> layout. The playback case of patch 2 reproduces on the unpatched driver
+> with ordinary 48-frame packets and a 100-frame buffer, which the stock
+> constraints allow. With both patches, buffers below the bound are
+> refused at hw_params and 400-frame buffers stream in both directions
+> with no KASAN report, for S16_LE and, on capture, S24_3LE. With
+> 195-byte capture packets the descriptor sizing of patch 2 shows through
+> USB/IP's completion check, which refused the v3 URBs (descriptors of
+> 780 bytes for 768 bytes of data) and accepts the v4 ones. The results
+> are in the patch messages.
+> 
+> Sinan Turunc (2):
+>   ALSA: usx2y: Require a buffer of two URBs
+>   ALSA: usx2y: Guard the playback copy
 
-Signed-off-by: Aryan Sinha <sinha.aryan03@gmail.com>
----
- sound/soc/codecs/sn624x-sdca-sdw.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Applied both patches now.  Thanks.
 
-diff --git a/sound/soc/codecs/sn624x-sdca-sdw.c b/sound/soc/codecs/sn624x-sdca-sdw.c
-index c9e690482..1a83f0a11 100644
---- a/sound/soc/codecs/sn624x-sdca-sdw.c
-+++ b/sound/soc/codecs/sn624x-sdca-sdw.c
-@@ -1736,11 +1736,9 @@ static int sn624x_sdca_sdw_probe(struct sdw_slave *slave,
- 	regmap = devm_regmap_init_sdw_mbq_cfg(&slave->dev, slave,
- 					      &sn624x_sdca_regmap,
- 					      &sn624x_sdca_mbq_cfg);
--	if (IS_ERR(regmap)) {
--		dev_err(&slave->dev, "sn624x: devm_regmap_init_sdw_mbq_cfg failed (%ld)\n",
--			PTR_ERR(regmap));
--		return PTR_ERR(regmap);
--	}
-+	if (IS_ERR(regmap))
-+		return dev_err_probe(&slave->dev, PTR_ERR(regmap),
-+				     "devm_regmap_init_sdw_mbq_cfg failed\n");
- 
- 	ret = sn624x_sdca_init(&slave->dev, regmap, slave);
- 	if (ret < 0)
--- 
-2.46.0
 
+Takashi
