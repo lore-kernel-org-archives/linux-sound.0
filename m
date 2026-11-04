@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793760163;
-	b=nGa9Je+RmwiGIIW4UVIbvd9275wyqqeEHNX1Q9BYba5LyAfAKKtENdBAoeskt0Q7V9N7
-	 V5AxGkqVFpy+LMgvRVc4nWdaoX0NFFn3AxW7UutNqOxYZwCvWDNFd5Sr62IDO+dujJvFf
-	 0pGjSyvV9N9im5QVYuq7qTfw7s07PqNqa+I0WtafLnyt86iT1iOJ0I6M3YTgBt84iUdxd
-	 qxErQNztGVYJAgtNRrT1QWAm5VDCIDZrQZo6Ar4pJMbJBpmMV1fpK1hf8vMmq6dBJUi5R
-	 n3kWGRMdEReL0abcZl8cvFZVAXcJWXpuyKH8Hl63d0rGFIcm+Japp/99V1Kxn7acs3g==
+	t=1793760592;
+	b=EPmDKdZj2/9yq6kxgUXb4XpxJzDb9iEMlm79FhNgzJjVAkP9reSA79WqjbpzsCoSbQEk
+	 It9/WghpmvMK0AvHtibEhyR6NYwj8y3gysn+o/OxZTY0WD9Jfn9pu2bUa/IgtFm89KfdG
+	 3OoHdBMWTXlLAkZED+IWNi0kejLFT8x5zrRlqa2Gvs2+iGEpLBVTHOSa/xCwm0Z+zu+H5
+	 v/7Ym2TzYmH4y2xsAUGT0NJ0k/DRI1JFOCeikbKuxBrXlVQIopF08f9QghQQnUtX7Rxfv
+	 Vm3GxjWnSSqjHbOksTEDhKM5bDOfvD+lzTbU4+04bseWbPfTcwTkTAHP/C3Oqiozt0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793760163;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793760592;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=7Y8wZY/M66n3HuHnMcr2OpiKj/rvo4pX4K9g1fZaXzU=;
-	b=X1HJoT1+S7ovc6EXuNJiCiQkpyz5FOp5ldmyrAdbJ4NzERKNTE3NVm0RskHA77jdjvWT
-	 lV9jqPk+nUHifPaPQq/BA5/AbkdM/MlQuESZ8kwcGtl8AMkbVLVtK2FslV7K+fZvYIeP/
-	 DXFVKL5E7Qog+UKTh1bnpyM9gqIODySYuiLbBqvN0eLYaKJ3nvNIaksDysrx+k9cNU1Ub
-	 l9KVdippD9hCuzsRX6CjBDOTAoLbr5LENpF5RTdA1U8ef4PhPCisiRbBFL4DcpcEHpEn1
-	 CaC1hnJB633lSTRKsibPQVPVP00DbaHuX4IUNAzm02/xcFDwYqhSlvTqm3wDU57EIow==
+	bh=awhcE1A9sjM4O0h9S9mHx2WiFOb9a3gs4WjZbkGrh54=;
+	b=CfQF39PS/mTvJsQSVKBpARs2Fgghx/h2zoNM8b8flUs0kYO9fYCfe2w6J7MRvz5J3NDx
+	 QoVK/SdgyREo/NEg/OZ+juXKRFpBZCEm9ONAmSJeg9CBZJuHU1UzVQi1La75iAVf0AXA7
+	 89/UINmCwDKiwkobRb8BzKMH6nhA3lGKHR5J6uLemL4i79HPnfJlpOahM2oebS6QqHucI
+	 ozl3C6wWf7Ea5C3ovf4RywmVUxWgSjTv+gX05xV2Ah2b3MHLU6pjGBfuJAEOasv5BmXAG
+	 A6jiXpd5s/ayMmlDvyj1tOQBT2UdNqnHyq9U+tpJOI5/8CYek10qnb3W5rI7vEQjO0w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l+M25UwI;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JSftz5d6;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 029C4606A332
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 02:42:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78211606A31B;
+	Wed,  4 Nov 2026 02:49:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l+M25UwI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68D881F000C1;
-	Wed,  4 Nov 2026 02:42:42 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JSftz5d6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F8181F000C1;
+	Wed,  4 Nov 2026 02:49:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793760162;
-	bh=7Y8wZY/M66n3HuHnMcr2OpiKj/rvo4pX4K9g1fZaXzU=;
+	s=k20260515; t=1793760592;
+	bh=awhcE1A9sjM4O0h9S9mHx2WiFOb9a3gs4WjZbkGrh54=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=l+M25UwINxqB4ZZKFaX08f1mYP32hVAi4/UHoIglTlaPSW682GcJWSOgbXBaluC5T
-	 a7A4liQXx2NeFDJeLfFsu2OZrKVvMFhauIcySAfrTMHmbST0TWgzz/gGjFf1OBm5J9
-	 NEatJ3o54tiqgu9fZ8a2XT5eGZNsK+vUBS2gsUQmKUq3Xzt6w2IbD+XyN3TTChHWj5
-	 BymohS7JqNQaCbEL3blitXW6YXKOP/WD/IK0b0yD6bafEiK9MCk87PX8Kz2aq4GyvL
-	 1W+p6m0scdVfs7J3wfbizHJg1rnbqrT4IaiYyAiZK0Eka8NnUPCf2FqbihrWHy0MvM
-	 4NG8lRo5Gk9pA==
-Message-ID: <sashiko-outbox-196515@kernel.org>
+	b=JSftz5d6Vo1lSDTUeldRgpLlAid44t6/uqkoKKeuE9h5qOPd9OohmPlHrCfe3Dwd9
+	 z6wyhaQ+Lg/P5J1VQcrY+76S1HCT/F4eWA8uyEgo0lw720s37O8Xo6oOn6oCiKNwbo
+	 kt0/z9qHLy9Zw76EeqjLEqWqa+oVyHqNwu/5Uuc5oi7MfiQ7xe+PzGvOGKo5Pqa2pT
+	 F31gsAfGRE1+Ol3KaN45MqgdLBZHJFgf4hfP/Ds7HXEi8VKep9HTMlKGf/REFp6CD/
+	 DMDpO75BkfAJJSUThnP7jfAYYfcGsq5aKShypO2CSIEXvPRgiUHqAilSlQbvAS0rZ/
+	 PKF7+UA5RIYlQ==
+Message-ID: <sashiko-outbox-196531@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ASoC: codecs: madera: release runtime PM ref on FLL
- config failure
+Subject: Re: [PATCH] ASoC: mxs-saif: unregister the mclk if adding the
+ provider fails
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Wentao Liang" <vulab@iscas.ac.cn>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261104022814.1484284-1-vulab@iscas.ac.cn>
-References: <20261104022814.1484284-1-vulab@iscas.ac.cn>
+Cc: linux-sound@vger.kernel.org, imx@lists.linux.dev, Frank.Li@kernel.org
+In-Reply-To: <20261104024048.1508618-1-vulab@iscas.ac.cn>
+References: <20261104024048.1508618-1-vulab@iscas.ac.cn>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 02:42:41 +0000
+Date: Wed, 04 Nov 2026 02:49:49 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,124 +62,70 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] ASoC: madera: broken error handling and return value in madera_fll=
-hj_enable()
+- [Medium] ASoC: mxs-saif: clk_divider leak in mxs_saif_mclk_init() on error
 --
 
-commit 0527a87963a29c49669e1565c1faf7d3cc1ad756
+commit b511c3de71e5dad6a930d46251d7637ae094c5cc
 Author: Wentao Liang <vulab@iscas.ac.cn>
 
-ASoC: codecs: madera: release runtime PM ref on FLL config failure
+ASoC: mxs-saif: unregister the mclk if adding the provider fails
 
-This commit releases the runtime PM reference and skips waiting for FLL lock
-when madera_fllhj_apply() fails in madera_fllhj_enable() while the FLL was
-previously disabled.
+This commit unregisters the mclk in mxs_saif_mclk_init() if
+of_clk_add_provider() fails so the registered clock is not leaked.
 
-> diff --git a/sound/soc/codecs/madera.c b/sound/soc/codecs/madera.c
-> index 58255844b4df3..2f6256f8e87b2 100644
-> --- a/sound/soc/codecs/madera.c
-> +++ b/sound/soc/codecs/madera.c
-> @@ -4608,8 +4608,17 @@ static int madera_fllhj_enable(struct madera_fll *=
-fll)
->  			   MADERA_FLL1_HOLD_MASK,
->  			   0);
+> diff --git a/sound/soc/mxs/mxs-saif.c b/sound/soc/mxs/mxs-saif.c
+> index e46896ac9669c..aaf62f081b327 100644
+> --- a/sound/soc/mxs/mxs-saif.c
+> +++ b/sound/soc/mxs/mxs-saif.c
+> @@ -783,8 +783,10 @@ static int mxs_saif_mclk_init(struct platform_device=
+ *pdev)
+>  	}
 > =20
-> -	if (!already_enabled)
-> -		madera_wait_for_fll(fll, true);
-> +	/*
-> +	 * If configuring the FLL failed it is left disabled, so a later
-> +	 * madera_fllhj_disable() will not see the ENA bit set and will not
-> +	 * drop the runtime PM reference taken above.
-> +	 */
-> +	if (!already_enabled) {
-> +		if (ret)
-> +			pm_runtime_put_autosuspend(madera->dev);
-> +		else
-> +			madera_wait_for_fll(fll, true);
-> +	}
-> =20
->  	return 0;
->  }
+>  	ret =3D of_clk_add_provider(np, of_clk_src_simple_get, clk);
+> -	if (ret)
+> +	if (ret) {
+> +		clk_unregister(clk);
 
-[Severity: High]
-When madera_fllhj_apply() fails in sound/soc/codecs/madera.c, execution
-jumps to the out label before calling pm_runtime_put_autosuspend() and
-returning:
+[Severity: Medium]
+Does calling clk_unregister() here in mxs_saif_mclk_init() (in
+sound/soc/mxs/mxs-saif.c) still leak the struct clk_divider when
+of_clk_add_provider() fails?
 
-sound/soc/codecs/madera.c:madera_fllhj_enable() {
-	...
-	ret =3D madera_fllhj_apply(fll, fll->ref_freq);
-	if (ret) {
-		madera_fll_err(fll, "Failed to set FLL: %d\n", ret);
-		goto out;
-	}
-	...
-out:
-	regmap_update_bits(madera->regmap,
-			   fll->base + MADERA_FLL_CONTROL_11_OFFS,
-			   MADERA_FLL1_LOCKDET_MASK,
-			   MADERA_FLL1_LOCKDET_MASK);
+Earlier in mxs_saif_mclk_init(), the clock is registered via
+clk_register_divider():
 
-	regmap_update_bits(madera->regmap,
-			   fll->base + MADERA_FLL_CONTROL_2_OFFS,
-			   MADERA_FLL1_CTRL_UPD_MASK,
-			   MADERA_FLL1_CTRL_UPD_MASK);
+	clk =3D clk_register_divider(&pdev->dev, "mxs_saif_mclk",
+				   __clk_get_name(saif->clk), 0,
+				   saif->base + SAIF_CTRL,
+				   BP_SAIF_CTRL_BITCLK_MULT_RATE, 3,
+				   0, NULL);
 
-	/* Release the hold so that flln locks to external frequency */
-	regmap_update_bits(madera->regmap,
-			   fll->base + MADERA_FLL_CONTROL_1_OFFS,
-			   MADERA_FLL1_HOLD_MASK,
-			   0);
+clk_register_divider() calls __clk_hw_register_divider() in
+drivers/clk/clk-divider.c, which allocates a struct clk_divider wrapper
+around struct clk_hw. Because clk_divider_ops does not implement a
+.terminate callback, clk_unregister(clk) only unregisters clk_core and frees
+the struct clk handle, leaving the struct clk_divider allocation leaked.
+
+Should this call clk_unregister_divider(clk) instead, which frees the
+struct clk_divider after calling clk_unregister(clk):
+
+drivers/clk/clk-divider.c:clk_unregister_divider() {
+	struct clk_divider *div;
+	struct clk_hw *hw;
+
+	hw =3D __clk_get_hw(clk);
+	if (!hw)
+		return;
+
+	div =3D to_clk_divider(hw);
+
+	clk_unregister(clk);
+	kfree(div);
 }
 
-As documented in madera_fllhj_disable(), a disabled FLL requires
-MADERA_FLL1_LOCKDET_MASK =3D 0, MADERA_FLL1_HOLD_MASK =3D 1, and
-MADERA_FLL1_CTRL_UPD_MASK =3D 0 across runtime suspend and resume so that
-regcache_sync() does not latch CTRL_UPD before writing out all FLL
-registers:
-
-sound/soc/codecs/madera.c:madera_fllhj_disable() {
-	...
-	/* ctrl_up gates the writes to all the fll's registers, setting it to 0
-	 * here ensures that after a runtime suspend/resume cycle when one
-	 * enables the fll then ctrl_up is the last bit that is configured
-	 * by the fll enable code rather than the cache sync operation which
-	 * would have updated it much earlier before writing out all fll
-	 * registers
-	 */
-	regmap_update_bits(madera->regmap,
-			   fll->base + MADERA_FLL_CONTROL_2_OFFS,
-			   MADERA_FLL1_CTRL_UPD_MASK, 0);
-}
-
-Does dropping the runtime PM reference at the end of madera_fllhj_enable()
-allow the device to runtime-suspend while MADERA_FLL1_CTRL_UPD_MASK =3D 1,
-MADERA_FLL1_LOCKDET_MASK =3D 1, and MADERA_FLL1_HOLD_MASK =3D 0 remain set =
-in
-the regcache for a disabled FLL?
-
-Additionally, madera_fllhj_enable() still returns 0 instead of ret at the
-end of the function. Because cs47l92_set_fll() -> madera_fllhj_set_refclk()
-stores fll->fout before calling madera_fllhj_enable():
-
-sound/soc/codecs/madera.c:madera_fllhj_set_refclk() {
-	...
-	fll->ref_src =3D source;
-	fll->ref_freq =3D fin;
-	fll->fout =3D fout;
-
-	if (fout)
-		ret =3D madera_fllhj_enable(fll);
-	else
-		madera_fllhj_disable(fll);
-
-	return ret;
-}
-
-shouldn't madera_fllhj_enable() avoid setting LOCKDET/CTRL_UPD or clearing
-HOLD on error and return ret so the caller does not see success with
-fll->fout left non-zero while the FLL hardware is disabled?
+or switch to devm_clk_hw_register_divider() and
+devm_of_clk_add_hw_provider()?
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104022814.1484=
-284-1-vulab@iscas.ac.cn?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104024048.1508=
+618-1-vulab@iscas.ac.cn?part=3D1
