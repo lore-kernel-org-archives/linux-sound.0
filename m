@@ -1,107 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793796084;
-	b=hNwWbKGOv2iDq59iBPdL430QrSOzVx7vpMTtwdDHSmTyjzLBnUYRlA6ON6fEJXJIRNOr
-	 RFRemJdNEu8y95541SBWccURxgMpTovk64lwxGPJc4OGdNUkHcepGI8GP1LlDckigL2oG
-	 p6BS3NF4tFpxeFpRdQOztV8wCKfYmn1bQhYiqUIkPz44uWFeNZuhCTgYO4ngAZz12zIhp
-	 lc9lraSpTcErPK5HkcOBaKpxQSxkM/UW+pygycudGgON7qiM6cgwm6ZNl7tBw7CvHFWLe
-	 FxTk88LpfjXeSlYGVGEQPVgK25Y4k4mxgyJTl7btYm7p5A7QYeX0ldClt0qpbRbEw2A==
+	t=1793797813;
+	b=zB/9uWePppAVswPV3Yz5VepBCSxCkmPJWCYMK44etGV6jDu6x/ugw02Vxdav9gn3hNJm
+	 52Kl76Av+mp7xn+8DYRjGTky9AwcN4p2CKOVHmupX2K+6/BCaPlSZj4WLYF+aB+JFqy8o
+	 t9bhaDnnfl3O+zq/4vab06ndJjVQcoOqFFEf6l4oRDqWgapAo13cGdwI/h/Bnj/Dpxtu8
+	 xSpVtQZofljwzuewGNIFv130VXp4buHEsXbV9neX07XQUUhfbRIFNTTxecitpuH0Fkrfs
+	 AJ/9SHViAgC2jl+8JsZohomG8NdQGVDIG8treZNY5+JiOlcx7Bcoy7teGsKldx83SwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793796084;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=RX5JkljdDqaMIqrBDcx4CTusbOfYgX4R/O3KQl4nKGc=;
-	b=POcIItMV6D/ZwMeMkNLPUZNsxJ8O195C2kkITM7r7T7RLbEq25M9SERY0Uf3UwgKX4JO
-	 +mIOywxfdrDsJw1KR9Cmgtl/2thp2Tacfynr3lqd8mD/JGyMUxIEJLhpqg2v2xzbLzpXh
-	 ZMlzqM7XnBRojgaCBeAI8gQdtrQSC4dQaiic2dSTj65w0fJauhd6Hf1Aa4tPqVD61cIaY
-	 qz7rYdURsR3jm01VZcxKTO4aXcYadbQbAThR6nsGgwhvgr8K1ETp7dfeNBcdY6h7nTXMD
-	 Zi/K5vww/juBMcWtJND4G5qAPUwjCvyMsIpaJ/9ReeQXVJDYCl5AxZPR/Yt4v+X7FAA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793797813;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=EaXRoxZs9PRx2wo2tzSq0ef3gNUQ37to3HPL9EgpspY=;
+	b=UzsuQOYE9wywmhLLhBK9jLwTVPPojBBh6HPUMi8E1MO98ob67n5hCacU6YrAGpuv9ilM
+	 tt6zJz7q/dmQ7DvBom9dnRG1wRDHvpYO6eLlVtp1EoLts9w3QdFXXrE1B33XzpPo8454M
+	 smra1ce8tU9LrRiMGS7ktjj7npWLTfn5UkrksntNZ4of7CdPMALY1wSPAtb4SR7pUsO4A
+	 xwRIkt9oam3eaNZmyviRUmtsQCNTLvyBdmsnuTEAMDddwbXyDDXJplkE0fG/1/EyTtGzB
+	 bK2JcccIYWan61Q0GLxblBsrggNJ4/qOuTNAJyGsKHTWZzdkCDY7OERAScMPg1DRxLw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zKY4OQFF;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="k+5OJid/";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDEE1606A328
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 12:41:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDEE1606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9125606A31B;
+	Wed,  4 Nov 2026 13:10:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zKY4OQFF
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a1fbd52ab6so4486955e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 04:41:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793796082; x=1794400882; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RX5JkljdDqaMIqrBDcx4CTusbOfYgX4R/O3KQl4nKGc=;
-        b=zKY4OQFFhb/TWccWcZhqYME7NpIAKPOvuGo90LadGTQ9KTewXXAS6ZMqyBs9/GbbeX
-         dxvYTXHKTf50H7XwFnzmj/n0IskHBp6LAGq3FsIUYyeu9uQbyDAhoJkqDpTyWJ13Zd8y
-         ByBJhwGZmuj9RAhkz9Fsg+3QUKA1efAoAKu3R96Vh/CQh6jJe6GjJNEBFFrFHhBDnGCe
-         qcQaPwTejmhNGlx2Bp+QxdtBslS5MlHoWKn+TP+C1KexTC7MWacYIAmgwJUNNEOd3hiZ
-         PUuhY9fcR7zI3HofX78Sjik+H0gm1HTG8NYZ+RIMgs0QSIdVHpTjMnRJHqifPpTUkcu2
-         sLNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793796082; x=1794400882;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=RX5JkljdDqaMIqrBDcx4CTusbOfYgX4R/O3KQl4nKGc=;
-        b=y3uzBhUkPq36TlQY4yvoBR83nT5MzYp1Z26ElSOQ8LVhoIuTciDNBmId2srjc0Nmcu
-         jZlZZ0iXjZvEYR5NiCUHbEmdqnypCvJn6v0sdKj8BMnYvRVtXsq2OyUKApi2BBGHRR0h
-         cxWmrvcYKN5JV1OBK2uuE6M89LQyt06zGniri8FYcZgP0w/WHjyFczFhs+ZrEHXDUUdf
-         AMO7Sia2wmRORQeV7hPamqHqrfup7q3oN3xcGl6rwzT5YbWAHadnST0uF2ekr1odP532
-         GWDnNs1ky9a3Pbpr5mmwM7xcdIPELhhFr1oNvDD2lGyPx21raAR4JG1cggjFJvrGnfgY
-         AE7g==
-X-Forwarded-Encrypted: i=1; AKwUvByFdD+o2YowrnMCYlbkqb5Bmj/zJ9jtEGppiKoTAWbGXtC9Y/DvCadxeTmTI+aKAxQAFhy4YmTN3L4uoA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+sCZ7/vlzQpRiiEu4uL7ztkZYkbY/NQQnLYvqzNUGHt6J2s9Ey
-	FIbFF9M2LynR3zfYSq3ewLrYxArT5Xpmo2So5S2b3tXaoZOILPFLlqnm
-X-Gm-Gg: AYBFou1xmV3nQZ/0PMK0br8zPhhwK4x6ZqhStIz0qjbN3KjprVriCOQbSrmZRu9X+1v
-	fyBEJcq4GGaqP3P4UR1Krrs1J3eChb1Ngt5DjkSqvlH8+80wBJUhJ+PIKoVmexTqWP3YxZedWhP
-	ieJMx+7kZsIFFfndHqkcInHXiMidB+xjtQIOxh/65DctLMtaNpNUWfUYbuEH+u5IJGLtGP2voBN
-	Juq5OEVF2IzPZSktukMzFecaZpWdeCVjYlk9WL8cWTEYujNoqHvtiUWx4CbWGiihcbpL12KXxww
-	lf1DxZMt6APhx4DHVurWfxDnB1KQCkkmHkiDzJwBfu11J9FzFvr7ac451S6EE55GrMPJnDmnhL+
-	vB+CM7RxItq+FRTIalrK/4ayP7pwrXPtL3jBEpLNA0v0b+369PdgU8S3oe4cHPeG5o/uf041Wa+
-	EAtBrHcts3poFvn1blrALkTiQw6CaFWduzXHKK4Zz7Wp67+TlVi4NC+bnd4Vz9LQOmhade7QJW7
-	KNbgqeQC/GtFBX792HbljXNXUHk3xLrXQoQ6BnHOqHBzEuTFRHW7jfOglr/KyBO2sbeXjVzYYiQ
-	9K0fJe6AuMnLUYc1kCfgSoyBakgei5ptB/O51SY3b2pHPOf5WHqUWpXVkwVP0WwWuAJk+3I=
-X-Received: by 2002:a05:600c:c0d4:b0:4b1:2026:6b31 with SMTP id 5b1f17b1804b1-4b12026723bmr142181145e9.28.1793796082303;
-        Wed, 04 Nov 2026 04:41:22 -0800 (PST)
-Received: from xeon ([188.163.112.62])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b433ebd278sm46347145e9.3.2026.11.04.04.41.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 04:41:21 -0800 (PST)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Svyatoslav Ryhel <clamor95@gmail.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Animesh Agarwal <animeshagarwal28@gmail.com>
-Cc: patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-tegra@vger.kernel.org
-Subject: [PATCH v2 7/7] ARM: tegra: Add '#sound-dai-cells' property for audio-related nodes
-Date: Wed,  4 Nov 2026 14:40:57 +0200
-Message-ID: <20261104124057.240288-8-clamor95@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261104124057.240288-1-clamor95@gmail.com>
-References: <20261104124057.240288-1-clamor95@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k+5OJid/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DE8B1F00919;
+	Wed,  4 Nov 2026 13:10:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793797812;
+	bh=EaXRoxZs9PRx2wo2tzSq0ef3gNUQ37to3HPL9EgpspY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=k+5OJid/VkQ3swVXuHLrFLBfnJA0PGG4Zhrv9HJAGwkQmMgt/6YaCL5KMQvwLXSTF
+	 O9yMB5ZVpxaDNFY4Gz5VlJRtuFBs8Spl04eVXVRaHh4A/crCFbpkkZwaFg+TBJbMPY
+	 vG3hd8gbd64DkQGvbZH/qqqZoliTbayqqN5ENZvW84oEUeDAiEibS//xfiPUMi/WgJ
+	 bjjMPfdSoFojto5KvVbOrF/ct72w7DU7ipswheAm3qrSYvTB7QTCFe5XPOIFWv4RDg
+	 CeUYyoRMyVEz+VmfdJaGKIhmqsxD8HhL+5loiTZuLac9VHAJTmxp9qev2Bn/My2oSb
+	 juzgE1wLbSUZA==
+Date: Wed, 4 Nov 2026 14:10:08 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Xing Zheng <zhengxing@rock-chips.com>
+Cc: broonie@kernel.org, heiko@sntech.de, linux-sound@vger.kernel.org, 
+	luca.ceresoli@bootlin.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+	linux-kernel@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, huangtao@rock-chips.com, sugar.zhang@rock-chips.com, 
+	lxt@rock-chips.com, xing.zheng@rock-chips.com
+Subject: Re: [PATCH v2 1/3] ASoC: dt-bindings: rk3308-codec: describe
+ detection and ADC routing
+Message-ID: <20261104-russet-stingray-of-penetration-fef32e@quoll>
+References: <20261101040125.1864141-1-zhengxing@rock-chips.com>
+ <20261101044149.2018744-1-zhengxing@rock-chips.com>
+ <20261101044149.2018744-2-zhengxing@rock-chips.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -111,205 +63,103 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261101044149.2018744-2-zhengxing@rock-chips.com>
 
-Add the '#sound-dai-cells' property to audio-related nodes to support more
-advanced audio routing configurations.
+On Sun, Nov 01, 2026 at 12:41:47PM +0800, Xing Zheng wrote:
+> Describe the optional detect-GRF phandle and named interrupt resources
+> used by the B/C headphone detector. Retain the legacy interrupt order
+> and index-based lookup when names are absent. Document the detector
+> disable and reversed-jack properties and their resource dependencies.
+> 
+> Describe the ADC stereo-group routing consumed by the codec driver.
+> Require four unique group IDs in the range 0-3, in I2S2 SDI order,
+> matching the driver's validation. Leave GRF routing unchanged when
+> the property is absent.
+> 
+> Extend the example with headphone-detection resources and ADC routing.
+> Keep machine-driver amplifier GPIOs and debug interfaces outside this
+> codec binding.
+> 
+> Signed-off-by: Xing Zheng <zhengxing@rock-chips.com>
+> ---
+> Changes in v2:
+> - Retain the original detection descriptions and legacy IRQ ordering.
+> - Keep the binding change in its own patch before the codec change.
+> 
+>  .../bindings/sound/rockchip,rk3308-codec.yaml | 55 +++++++++++++++++++
+>  1 file changed, 55 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/rockchip,rk3308-codec.yaml b/Documentation/devicetree/bindings/sound/rockchip,rk3308-codec.yaml
+> index 2cf229a076f0..60c6140dc5df 100644
+> --- a/Documentation/devicetree/bindings/sound/rockchip,rk3308-codec.yaml
+> +++ b/Documentation/devicetree/bindings/sound/rockchip,rk3308-codec.yaml
+> @@ -36,6 +36,49 @@ properties:
+>      description:
+>        Phandle to the General Register Files (GRF)
+>  
+> +  rockchip,detect-grf:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      Phandle to the detection GRF used for headphone insertion and
+> +      removal interrupts on codec revisions B and C.
+> +
+> +  interrupts:
+> +    description:
+> +      Keep the legacy interrupt order. If interrupt-names is omitted,
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- arch/arm/boot/dts/nvidia/tegra114.dtsi | 10 ++++++++++
- arch/arm/boot/dts/nvidia/tegra124.dtsi | 10 ++++++++++
- arch/arm/boot/dts/nvidia/tegra20.dtsi  |  7 +++++++
- arch/arm/boot/dts/nvidia/tegra30.dtsi  | 10 ++++++++++
- 4 files changed, 37 insertions(+)
+What is legacy interrupt order? There are no interrupts here, so how
+could there be anything legacy?
 
-diff --git a/arch/arm/boot/dts/nvidia/tegra114.dtsi b/arch/arm/boot/dts/nvidia/tegra114.dtsi
-index a5958f3a965b2..f2766c11ee6c3 100644
---- a/arch/arm/boot/dts/nvidia/tegra114.dtsi
-+++ b/arch/arm/boot/dts/nvidia/tegra114.dtsi
-@@ -881,6 +881,8 @@ tegra_i2s0: i2s@70080300 {
- 			clocks = <&tegra_car TEGRA114_CLK_I2S0>;
- 			resets = <&tegra_car 30>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 
-@@ -891,6 +893,8 @@ tegra_i2s1: i2s@70080400 {
- 			clocks = <&tegra_car TEGRA114_CLK_I2S1>;
- 			resets = <&tegra_car 11>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 
-@@ -901,6 +905,8 @@ tegra_i2s2: i2s@70080500 {
- 			clocks = <&tegra_car TEGRA114_CLK_I2S2>;
- 			resets = <&tegra_car 18>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 
-@@ -911,6 +917,8 @@ tegra_i2s3: i2s@70080600 {
- 			clocks = <&tegra_car TEGRA114_CLK_I2S3>;
- 			resets = <&tegra_car 101>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 
-@@ -921,6 +929,8 @@ tegra_i2s4: i2s@70080700 {
- 			clocks = <&tegra_car TEGRA114_CLK_I2S4>;
- 			resets = <&tegra_car 102>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 	};
-diff --git a/arch/arm/boot/dts/nvidia/tegra124.dtsi b/arch/arm/boot/dts/nvidia/tegra124.dtsi
-index 86956b94ca0b0..920b1329a4dcb 100644
---- a/arch/arm/boot/dts/nvidia/tegra124.dtsi
-+++ b/arch/arm/boot/dts/nvidia/tegra124.dtsi
-@@ -1125,6 +1125,8 @@ tegra_i2s0: i2s@70301000 {
- 			clocks = <&tegra_car TEGRA124_CLK_I2S0>;
- 			resets = <&tegra_car 30>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 
-@@ -1135,6 +1137,8 @@ tegra_i2s1: i2s@70301100 {
- 			clocks = <&tegra_car TEGRA124_CLK_I2S1>;
- 			resets = <&tegra_car 11>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 
-@@ -1145,6 +1149,8 @@ tegra_i2s2: i2s@70301200 {
- 			clocks = <&tegra_car TEGRA124_CLK_I2S2>;
- 			resets = <&tegra_car 18>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 
-@@ -1155,6 +1161,8 @@ tegra_i2s3: i2s@70301300 {
- 			clocks = <&tegra_car TEGRA124_CLK_I2S3>;
- 			resets = <&tegra_car 101>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 
-@@ -1165,6 +1173,8 @@ tegra_i2s4: i2s@70301400 {
- 			clocks = <&tegra_car TEGRA124_CLK_I2S4>;
- 			resets = <&tegra_car 102>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 	};
-diff --git a/arch/arm/boot/dts/nvidia/tegra20.dtsi b/arch/arm/boot/dts/nvidia/tegra20.dtsi
-index e4be3b62a51fe..b7102e6317ab1 100644
---- a/arch/arm/boot/dts/nvidia/tegra20.dtsi
-+++ b/arch/arm/boot/dts/nvidia/tegra20.dtsi
-@@ -405,6 +405,8 @@ tegra_ac97: ac97@70002000 {
- 		reset-names = "ac97";
- 		dmas = <&apbdma 12>, <&apbdma 12>;
- 		dma-names = "rx", "tx";
-+		#sound-dai-cells = <0>;
-+
- 		status = "disabled";
- 	};
- 
-@@ -419,6 +421,7 @@ tegra_spdif: spdif@70002400 {
- 		dmas = <&apbdma 3>, <&apbdma 3>;
- 		dma-names = "rx", "tx";
- 		#sound-dai-cells = <0>;
-+
- 		status = "disabled";
- 
- 		assigned-clocks = <&tegra_car TEGRA20_CLK_SPDIF_OUT>;
-@@ -434,6 +437,8 @@ tegra_i2s1: i2s@70002800 {
- 		reset-names = "i2s";
- 		dmas = <&apbdma 2>, <&apbdma 2>;
- 		dma-names = "rx", "tx";
-+		#sound-dai-cells = <0>;
-+
- 		status = "disabled";
- 	};
- 
-@@ -446,6 +451,8 @@ tegra_i2s2: i2s@70002a00 {
- 		reset-names = "i2s";
- 		dmas = <&apbdma 1>, <&apbdma 1>;
- 		dma-names = "rx", "tx";
-+		#sound-dai-cells = <0>;
-+
- 		status = "disabled";
- 	};
- 
-diff --git a/arch/arm/boot/dts/nvidia/tegra30.dtsi b/arch/arm/boot/dts/nvidia/tegra30.dtsi
-index ed1bbf86434ce..1e51da329f310 100644
---- a/arch/arm/boot/dts/nvidia/tegra30.dtsi
-+++ b/arch/arm/boot/dts/nvidia/tegra30.dtsi
-@@ -1043,6 +1043,8 @@ tegra_i2s0: i2s@70080300 {
- 			clocks = <&tegra_car TEGRA30_CLK_I2S0>;
- 			resets = <&tegra_car 30>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 
-@@ -1053,6 +1055,8 @@ tegra_i2s1: i2s@70080400 {
- 			clocks = <&tegra_car TEGRA30_CLK_I2S1>;
- 			resets = <&tegra_car 11>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 
-@@ -1063,6 +1067,8 @@ tegra_i2s2: i2s@70080500 {
- 			clocks = <&tegra_car TEGRA30_CLK_I2S2>;
- 			resets = <&tegra_car 18>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 
-@@ -1073,6 +1079,8 @@ tegra_i2s3: i2s@70080600 {
- 			clocks = <&tegra_car TEGRA30_CLK_I2S3>;
- 			resets = <&tegra_car 101>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 
-@@ -1083,6 +1091,8 @@ tegra_i2s4: i2s@70080700 {
- 			clocks = <&tegra_car TEGRA30_CLK_I2S4>;
- 			resets = <&tegra_car 102>;
- 			reset-names = "i2s";
-+			#sound-dai-cells = <0>;
-+
- 			status = "disabled";
- 		};
- 	};
--- 
-2.53.0
+> +      the driver uses the second interrupt for B/C headphone detection.
+> +    items:
+> +      - description: Legacy codec headphone detection interrupt
+> +      - description: Detection GRF headphone interrupt for revisions B and C
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: codec
+> +      - const: hpdet
+
+Why same device has both GRF to detect headphones and interrupts?
+
+> +
+> +  rockchip,no-hp-det:
+> +    type: boolean
+> +    description: Disable the internal headphone detector.
+> +
+> +  rockchip,hp-jack-reversed:
+> +    type: boolean
+> +    description: Reverse the headphone detection polarity.
+> +
+> +  rockchip,adc-grps-route:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description: |
+> +      ADC stereo-group mapping to the four I2S2 SDI inputs. Each entry
+> +      selects the ADC group connected to the corresponding SDI input,
+> +      in SDI0 through SDI3 order. Group IDs 0 through 3 represent
+> +      MIC1/MIC2, MIC3/MIC4, MIC5/MIC6 and MIC7/MIC8 respectively.
+> +      All four groups must appear exactly once. For example, <1 2 3 0>
+> +      connects groups 1, 2, 3 and 0 to SDI0, SDI1, SDI2 and SDI3.
+> +      If omitted, the GRF routing is left unchanged.
+> +    minItems: 4
+> +    maxItems: 4
+> +    uniqueItems: true
+> +    items:
+> +      enum: [ 0, 1, 2, 3 ]
+
+Why are all the rockchip properties before clocks, not next to other
+rockchip properties? What logic drives this placement?
+
+> +
+>    clocks:
+>      items:
+>        - description: clock for TX
+> @@ -72,6 +115,12 @@ properties:
+>  
+>      enum: [ 50, 55, 60, 65, 70, 75, 80, 85 ]
+
+Best regards,
+Krzysztof
 
