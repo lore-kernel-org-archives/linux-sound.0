@@ -1,22 +1,22 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793760049;
-	b=HexIqfiyTWHsCUHkOU+rq+ADokC9N4wUNVCJ7vuleRWtcnTrOabM44cbyyTgHHBAmTgr
-	 sY3E2LtiYjA0EPGy9LrwQ3Fbv+gjC9pG+LhgMOsbKHSxcDmMrqQGh+/SK4SxvosyNAk4D
-	 N8SHr4e8yVfU9DA9q7rrAnjIwHDN55lXYb40/a9xNza+lPMTA3ArprFnH07ckFVXJzpmD
-	 /MRowo4Cc2LXhNccV8p+RCxkju+N8EvObGOHTO7lckFli+SOGQOYTkTvc6UN7HiqdAqiC
-	 bwbmEEqTSWawZ1DZ8OQdC75NaPY2Bw845bftcSQwCuIe5RKuBqF7UIYb4GyqSmNFnEQ==
+	b=WlB9QJ4Ktt0mU1ohlVvcavlo+Vu6MlMMNexyCYZEcSEFhyNqF39mnsqJoNoEIH6PVq6N
+	 Uock9G+MOhc0b+WosKFAmgc18fCf2ksK87X2/HcZk9fiMDMab9wQpQyJsu31qhYZSE25O
+	 PYbRLLhvc2k8UVNYBOhwdnoMK/bvaaOyhUbOwk2j5ENUpqzBcW3xv21KL/TYkVDPeLy2N
+	 qUr73R8nMD3UvROJIHqgisbiiqPRbvzv2qCwGtTc5bwbYhUvZTaRN9tneSiyFqS5YE2FB
+	 DxPnpAcLmIY2UUw9qqwiUPbBmV9XAXF0vy3XwG1NwzQfL7vGjFAFNPw7ySULiuWuG4A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793760049;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
 	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
 	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=Aiw8ztCLCwr7ofFLwmsjgCzbaqYAulB7XDuA9opYCwM=;
-	b=Vr+Zll0BW2CEleqlaVprOMbyenNwbLXddIYGcEN6wIj7ckq4sYinX6//fd3VUZ7cPA6z
-	 NI7ybkm5xBJc0LTNQndBezDH4YLLZ7sS+XKePZdnHAG8SVxuACkAQfbr9BPL+EdxyNhB9
-	 diOrzSDqgc5l5Zg13bA1Y/qlClBGCeHMuGx25Q4qixaBXLvjYLPmQKnXNOLUXrWtBPzy5
-	 jLO2e0uCbd42PXer+1Gfb46/SZFY3wfJBXGoM/3ybHmWlPu3kJDYJZpHEdH4ssuJl8CuE
-	 FhcwnEC4tZZEn4gvTw5H/esm6MYYSeJVVOrE/E0bygJRJcwkKi37B0PBFbIs7MN0uxQ==
+	bh=Sa+D+dzprkVI3tIOAtO1m4XfnZeM3jvqoRm5YNJEvJQ=;
+	b=x6eokKMTFHe4Sr9EV8tEH05dvhuOK3kjzVKXMJpFC+lCsMkYQDoyVUk03Whn5PG3RUDa
+	 dYLAvHo7cNoIlt5hUMyQSuQ+7At2ezug1z2tApT84uEjyHHNSYdYOUbnX83JNJ0/Vqadh
+	 OQiLnQ+dS1UORZDomng3JouGwrjMu4xhGSwF+7SOlaz1Rle9f4/6li2+o/sNAQOg3T/e8
+	 l07K9DoJ7jnjba/PYRA2bG2LZ0bEhd2F0dRd66WzsPCfFdWHo3AM0bRbcsIp/W/Gvp4Wc
+	 yskWjZct5CkSFcGgBKNGf++LWpMm/DYwI9hiQFlxxR1gGf2LDUOqhz7o/TM8jtPLWag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=iscas.ac.cn;
 	spf=pass smtp.mailfrom=iscas.ac.cn;
@@ -25,24 +25,28 @@ Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD1E606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A814606A333
 	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 02:40:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BD1E606A331
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A814606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-01 (Coremail) with SMTP id qwCowABnVf8om+pqbLk+AA--.27471S2;
-	Wed, 04 Nov 2026 10:40:40 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowABHcfskm+pqHrk+AA--.42584S2;
+	Wed, 04 Nov 2026 10:40:36 +0800 (CST)
 From: Wentao Liang <vulab@iscas.ac.cn>
-To: Oder Chiou <oder_chiou@realtek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+To: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
 	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org
-Subject: [PATCH] ASoC: rt5677: register the GPIO chip through devm
-Date: Wed,  4 Nov 2026 02:40:49 +0000
-Message-Id: <20261104024049.1508652-1-vulab@iscas.ac.cn>
+Subject: [PATCH] ASoC: Intel: sof_cirrus_common: release the physical device reference
+Date: Wed,  4 Nov 2026 02:40:45 +0000
+Message-Id: <20261104024045.1508525-1-vulab@iscas.ac.cn>
 X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,97 +58,69 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowABnVf8om+pqbLk+AA--.27471S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Cry5Gr15Cr4rZFy5Wr1UGFg_yoW5JF4kpr
-	nYq393CrWUJF47WF4UJr45Aa4xtw4xtr42yF4xW34F9F1Uur1Ik3WUtF4jvFyUKry8u3Zx
-	Xa1I9a4UJr4kZFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvlb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+X-CM-TRANSID:qwCowABHcfskm+pqHrk+AA--.42584S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFW8tFWrXF45Ar1DAFW8JFb_yoW8urWrpF
+	s3Wa98Wr98Xr1rua4UAr15uF17ury7CF4fGr1vka95Cr1fWry8ZF9Fqw10vF15GrWvqF1D
+	AFW5Zr1rXwn0yrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBjb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
 	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
 	AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
 	6r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14
 	v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
-	McIj6xIIjxv20xvE14v26rWY6Fy7McIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7x
-	kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0E
-	wIxGrwCF04k20xvE74AGY7Cv6cx26r48ZrWUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI
-	8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
-	xVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI
-	8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
-	87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvj
-	DU0xZFpf9x07b7pBhUUUUU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAEBA2rqY+TXMAAAsv
+	McIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7x
+	kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kK
+	e7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r48ZrWUJr1UMx
+	C20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAF
+	wI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20x
+	vE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAv
+	wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267
+	AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07befHbUUUUU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAABA2rqY+TXGwAAsF
 
-rt5677_init_gpio() registers the GPIO chip with gpiochip_add_data(), and
-rt5677_i2c_remove() unregisters it. If devm_snd_soc_register_component()
-fails at the end of rt5677_i2c_probe(), the probe returns an error and the
-driver core never calls .remove, so the GPIO chip stays registered and
-keeps its reference to the parent I2C device.
+cs35l41_compute_codec_conf() looks up the physical device of each ACPI
+CS35L41 node with acpi_bus_get_primary_device(), which takes a reference
+on the returned device, but the reference is never dropped because only
+the device name is kept in the static codec configuration.
 
-Register the chip with devm_gpiochip_add_data() so that it is torn down on
-probe failure as well as on driver unbind, and drop the now redundant
-manual cleanup.
+Copy the name into a per-amplifier buffer that lives as long as the
+static configuration, and release the reference right after the lookup.
+Card setup no longer leaks one device reference per amplifier.
 
-Fixes: 44caf7648064 ("ASoC: rt5677: Add the GPIO function")
+Fixes: 1ca726424a12 ("ASoC: Intel: cirrus-common: Use UID to map correct amp to prefix")
 Cc: stable@vger.kernel.org
 Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
 Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- sound/soc/codecs/rt5677.c | 19 +------------------
- 1 file changed, 1 insertion(+), 18 deletions(-)
+ sound/soc/intel/boards/sof_cirrus_common.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/rt5677.c b/sound/soc/codecs/rt5677.c
-index 7b80922236e5..4e6bb23eda17 100644
---- a/sound/soc/codecs/rt5677.c
-+++ b/sound/soc/codecs/rt5677.c
-@@ -4861,17 +4861,10 @@ static void rt5677_init_gpio(struct i2c_client *i2c)
- 	rt5677->gpio_chip.parent = &i2c->dev;
- 	rt5677->gpio_chip.base = -1;
+diff --git a/sound/soc/intel/boards/sof_cirrus_common.c b/sound/soc/intel/boards/sof_cirrus_common.c
+index c7e77e20a096..12124917b552 100644
+--- a/sound/soc/intel/boards/sof_cirrus_common.c
++++ b/sound/soc/intel/boards/sof_cirrus_common.c
+@@ -45,6 +45,8 @@ static struct snd_soc_dai_link_component cs35l41_components[CS35L41_MAX_AMPS];
+  */
+ static struct snd_soc_codec_conf cs35l41_codec_conf[CS35L41_MAX_AMPS];
  
--	ret = gpiochip_add_data(&rt5677->gpio_chip, rt5677);
-+	ret = devm_gpiochip_add_data(&i2c->dev, &rt5677->gpio_chip, rt5677);
- 	if (ret != 0)
- 		dev_err(&i2c->dev, "Failed to add GPIOs: %d\n", ret);
- }
--
--static void rt5677_free_gpio(struct i2c_client *i2c)
--{
--	struct rt5677_priv *rt5677 = i2c_get_clientdata(i2c);
--
--	gpiochip_remove(&rt5677->gpio_chip);
--}
- #else
- static void rt5677_gpio_config(struct rt5677_priv *rt5677, unsigned offset,
- 		int value)
-@@ -4881,10 +4874,6 @@ static void rt5677_gpio_config(struct rt5677_priv *rt5677, unsigned offset,
- static void rt5677_init_gpio(struct i2c_client *i2c)
++static char cs35l41_physdev_names[CS35L41_MAX_AMPS][64];
++
+ static int cs35l41_init(struct snd_soc_pcm_runtime *rtd)
  {
- }
--
--static void rt5677_free_gpio(struct i2c_client *i2c)
--{
--}
- #endif
- 
- static int rt5677_probe(struct snd_soc_component *component)
-@@ -5703,11 +5692,6 @@ static int rt5677_i2c_probe(struct i2c_client *i2c)
- 				      rt5677_dai, ARRAY_SIZE(rt5677_dai));
- }
- 
--static void rt5677_i2c_remove(struct i2c_client *i2c)
--{
--	rt5677_free_gpio(i2c);
--}
--
- static struct i2c_driver rt5677_i2c_driver = {
- 	.driver = {
- 		.name = RT5677_DRV_NAME,
-@@ -5716,7 +5700,6 @@ static struct i2c_driver rt5677_i2c_driver = {
- 	},
- 	.id_table = rt5677_i2c_id,
- 	.probe    = rt5677_i2c_probe,
--	.remove   = rt5677_i2c_remove,
- };
- module_i2c_driver(rt5677_i2c_driver);
- 
+ 	struct snd_soc_card *card = rtd->card;
+@@ -175,9 +177,11 @@ static int cs35l41_compute_codec_conf(void)
+ 					uid, cs35l41_name_prefixes[uid]);
+ 			return 0;
+ 		}
+-		cs35l41_components[sz].name = dev_name(physdev);
++		strscpy(cs35l41_physdev_names[sz], dev_name(physdev));
++		put_device(physdev);
++		cs35l41_components[sz].name = cs35l41_physdev_names[sz];
+ 		cs35l41_components[sz].dai_name = CS35L41_CODEC_DAI;
+-		cs35l41_codec_conf[sz].dlc.name = dev_name(physdev);
++		cs35l41_codec_conf[sz].dlc.name = cs35l41_physdev_names[sz];
+ 		cs35l41_codec_conf[sz].name_prefix = cs35l41_name_prefixes[uid];
+ 		sz++;
+ 	}
 -- 
 2.34.1
 
