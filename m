@@ -1,107 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793803498;
-	b=FXe/+Ck386NrliBKTgEjkO/Cic2JhCh48ZTzufinidUkHls7JmpQLbKSVcJfpiagi5e1
-	 36g6jPLhmrcNZiyKXBMVzEJuDEwgjR630C0FJCMzbmQClchzXQzDLMsxzjOy0VEAuUlLY
-	 HTrZA7780yyE+9NKN2B6iPGhl1uqrQJaM5t1A4dAnCB2UhhvrJnAcGLKDBHF1d6nM+2ru
-	 A/zXLGrmeTHtytHOhAMf0akQmJhlXXo2+KvmvHQ6dZTttD51I4m5nWrurJeaKogUG5zZ+
-	 mNxy7Y65jNEwfF4JYxJqA+bv/9OkWB/nYxmWvyaBrAEiE/PI4O1nrfvf+Yxj4knqS1A==
+	t=1793804529;
+	b=VC+BzjglWRPsIUDQwWETJb1OqF7XOJZ11vy7Lm+GX15CTtZAgkoom1iwJ48gR53+f/Na
+	 NRaMUGvPvFUVnOtKP3cQQsUVWG8fZPSQsQqznDLwDCWixNhGlgYrWGhaGlqDzDvhVOW7P
+	 qqC3HcXJZCcR4Hx7A80CJDELVh66wVtmhW2GyvgjVSUST8eV2vaVpB+9A1JS3rBY/2J+/
+	 jKJYFhydk8sEK3/BU6WsmhBO49J2cDA3+UEC5OtULtnujOS4HUjhLB2MqhYocC95BZA1f
+	 qHywd9dR5hQZBGcDUkbmObil8FYiRQlW6nDK86KtHoxOb8UxEsrYYSf+fG+ek0ToU8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793803498;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=z+ocxglX4x6lIElIhv28QGOEK//y3x55gjU+CEeqUd4=;
-	b=mp08vJcco/OzsIAflt4M4vcTDdEz+puTSJG/zPHcno+e0hDvhepa5Q/JE/k9CLJ2TSVh
-	 TGQrX7p7ohTzS2Ll10k60t95gDiOpTJV7Uk3IzDvKxqJp7XM4DjAFRiRCKixCwcvtUQGd
-	 1ROz8enWDHEFTHUzdcbNMJdPXDfAqfE82y8QughEnIOlZaTH1IZr4CtlrneHycq8xu6aH
-	 mJFPqfJz6Un4KYKSDAX9NOHVyq6zqvWCsBsp0uNyuZVPwdCsHVDjqhbulGHGS08E+zWgU
-	 YnONxzbzd/J/L9qvcCYh9lX1B1O9jJjKSsr1epyXYw12T/jLXymtd9huS5q7ZNdT5cQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793804529;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=NhDXAxK7zSTJl6yEBVccSqn0jUP1G3BBGvx5RY+eCO0=;
+	b=jgltWADr1+omvlOkdm9cwdIMlrV6+fAT0HbL6q8aL6B53aoZBvw1iVgZCEmwgn9+lnV3
+	 fRW/WGjVyha5kuZKOf0w1M0EyiLhd1RvDFAAzMO0DOjP/Gw3WnP9tcVpLWIO57JO3t0lX
+	 UAg0wVij7LJRdSbQEksvXrGBOrFY1q36JTgiwYCiKsTxU9+hQ2CvLAqVIadYCjloeJpXz
+	 6zD96cTtGddslOQWo5TFEamXZPtzslJYPZbyG97oDfKqrlCbc75ndS1rr8enUcqvzpf1v
+	 y7QNpfLqoCI666OL+GdPByKbQAW25JSD7NreiSZhtChEZoXlB0E4q9vrP+eW7/I25wA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=g4Kbsl7I;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=rdMtxS+G;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=b53b3e1I;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=gGIeCN6I;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sLrvMirh;
+	arc=none smtp.remote-ip=74.125.82.42
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B9D606A326;
-	Wed,  4 Nov 2026 14:44:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A4B9D606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A3C606A328
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 15:02:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96A3C606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=g4Kbsl7I;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=rdMtxS+G;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=b53b3e1I;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=gGIeCN6I
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E4E6E1F79A;
-	Wed,  4 Nov 2026 14:44:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793803496; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z+ocxglX4x6lIElIhv28QGOEK//y3x55gjU+CEeqUd4=;
-	b=g4Kbsl7Igd4wdLVbMgJHKsKkMZIZdJUI3pLs9mQMgfgjYCxjxhBA4whDllJehOKr96NH2A
-	s5DFFv6gw1usm7mreq6t11ygDV64AAXyaQhDxRD/BW8W/HJsdvkJSyJVWFGkgl5Kz3DB7x
-	rid/fK6ojJb7CbtHjVLCERnICSEwdME=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793803496;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z+ocxglX4x6lIElIhv28QGOEK//y3x55gjU+CEeqUd4=;
-	b=rdMtxS+G3SnzoUTugQpVGpeqCXilLMK5+JX+pD9WuFX+CdFcezScmcCbWnWXRWNfDlAD0i
-	DvIiiMaFu5ng16Cw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793803494; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z+ocxglX4x6lIElIhv28QGOEK//y3x55gjU+CEeqUd4=;
-	b=b53b3e1IQ+WAcKH9lsjaP4u+TnfwYohrhI+U6cmHz/MYdF/Exe0IWB2pFQas0HbGv3luT/
-	RI/Pky6JqLYJVhGIE2qrHv2oxm/DdvRncfXJEX8hZMa5BaSuCm+IIW9hOvfsDrPTYeTTZu
-	I5PCJZ6ed7ZJ+x0+uOXVd+4zZUXVm2o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793803494;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z+ocxglX4x6lIElIhv28QGOEK//y3x55gjU+CEeqUd4=;
-	b=gGIeCN6IMRh8R1NBy6Fkxbs8YJly3KVXOnS0Pbc+qEJObXrAOirhmQpNSh077MEMYcSJQG
-	UwerUp523RNvZoDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C00E134F0;
-	Wed,  4 Nov 2026 14:44:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kxEeHeZE62ojfwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 04 Nov 2026 14:44:54 +0000
-Date: Wed, 04 Nov 2026 15:44:54 +0100
-Message-ID: <87tslwu049.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: tiwai@suse.com,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sLrvMirh
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1a2761c69fbso1890449c88.0
+        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 07:02:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793804527; x=1794409327; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=NhDXAxK7zSTJl6yEBVccSqn0jUP1G3BBGvx5RY+eCO0=;
+        b=sLrvMirh2ecuW2S7MRadWh1VKld0W3L5ypNP/I+48lkDU7us20FkyWVOVzpbfAlPlW
+         GeoJFyBQ4xaq2wAGSzYIBs9RCiGSuomNpcRpKlS0eUloAIeTZFCH2v96y3rpIiKBezHt
+         /4B2ant3dT1pS51g2HCehn44IGAMaCeh5g0Q/MEI54G0BxTh0byVOpVSdRsAWcy3J97G
+         KDnENarjgTWtqLkpnpgCWyhM/BB43Y1FeKCHYMo0GmIZs8hevWFokPeR1oMPOtyz0WXt
+         Eg3xyDXT47kIkuGPOkUfG/36i0NMz63W1Wh3W3AmD2Kxi3QL/GZGbYrracB+yZp0pYMg
+         WbRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793804527; x=1794409327;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=NhDXAxK7zSTJl6yEBVccSqn0jUP1G3BBGvx5RY+eCO0=;
+        b=wpuabmq8pDC9rnFS9CBngLbLWR7/4/d7VsBBFvO8A75gCqbUUGy7FpNH/IQHChG2Di
+         wSjF1c5JQowmzgstZ+jWFK5OQ3dEzkMw9s+aWuOOdNnOpzaalsX+KndWHrhjJKVurwPj
+         PDW9zbJbMr4WX5dz26shCnxTZAWKjuWR/gXn6wF+wCifPhhD6IvJTsPufptPdXqfhkWa
+         b/eMUjN6L+49ZxXZ1bZ+uaMpdWkA6r4J4HcpVqLZjoSigonwzgfjGzQY8DWJyAljeku8
+         ju9Dr5+SQwcbqnhnt/oCHz6qHwEvudbpqcZuLkBsnRDOG/kSjIwtS9Sk3ddfweD5cr/I
+         RvoA==
+X-Forwarded-Encrypted: i=1; AKwUvBzJeHKjHwK3cLDZCd7KH+s/yTDw16usKrm4Q+MeF6fWA0la3gvlFou2ULVDjVpQGNc9fiZQrYrFsZfXwA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8R70sAw0Sjq2WVr9z2StwUiBnaU27uvEtKrJzGryDXcNZsYeuk
+	x/wLWBdJk0nl+TGA2YCZBzmu5gnBT5dD4Fny8TXfg6tE/tsWwKHanKQF
+X-Gm-Gg: AYBFou2qdvA6ZKX5RB+hnhsH4IWZ0Z28jFEsAsD+XfcNNgw0PiU4o4oh63Ur+Z6jhsW
+	Nzi+sCC71Fxo8y98X+tEvBX7rJhroiVOp4qvdeu5GWrs0nwWo74YKDkEFQNAoOr4FrztM25+L3U
+	L5m3rLPEPVMP2v22340TycAQ8VGL+NWT3vtm2tpPKoPQHkz6pvav1An/obTXS6QyShT08tqUo3U
+	KTLbUolE7CQ4GXYN+XU2x+229tco1mDeRgllOH0edf2mYvU/0HO/JRN4OUK2FiLoWHwWnNJeoqZ
+	g3HfNY9vMrL2p/6/6dfsU/AsJ5Y4JxyetuujvGbj8MDaM4dHuwrHl75WK0U6aHuV5pfTphTJFH2
+	GJMkFNy/GQyNElXbw5LmS0hikTdEc64tXMmZhjV7QoERUQ9YtcM9m3o/J+frAr2pxaOCOd1q0jj
+	8hCZerQXVxbL3iwW48oxrUX8sfzj9Mbws9kp91V25SACtgLtVTx3nUp+hLgQBZPNFyBFL5afTPJ
+	ffxJcJDBzYcp65z7AzpZpuEt5o1rvL2Ypq3z6+x4WsS1gn6k46PY6j/nWReUhLitH84fq+3rSt1
+	GUwM2GEpu9T/kzpqgePlzOx7d491OLZXzSJpXSuSogcNUHNRar2Bf91J/mDP9X7JLZja2199Xdi
+	Vj0Aw3jLiPYKsEiVkwD/5U4rXNng=
+X-Received: by 2002:a05:7022:2582:b0:1ae:e0f5:2cdd with SMTP id a92af1059eb24-1aee0f52cf9mr24971896c88.28.1793804525902;
+        Wed, 04 Nov 2026 07:02:05 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:301c:f8cd:5040:8550:f5e4:709a])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245b86fbesm8735094c88.1.2026.11.04.07.02.01
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 04 Nov 2026 07:02:04 -0800 (PST)
+From: Aryan Sinha <sinha.aryan03@gmail.com>
+To: bo liu <bo.liu@senarytech.com>,
+	"qianghua . wang" <qianghua.wang@senarytech.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH] ALSA: hda: cs35l56: Stop cs_dsp before calling cs_dsp_power_down()
-In-Reply-To: <20261104122337.1072468-1-rf@opensource.cirrus.com>
-References: <20261104122337.1072468-1-rf@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	Aryan Sinha <sinha.aryan03@gmail.com>
+Subject: [PATCH] ASoC: sn624x: use dev_err_probe() for the regmap failure
+Date: Wed,  4 Nov 2026 20:31:54 +0530
+Message-ID: <20261104150155.33157-1-sinha.aryan03@gmail.com>
+X-Mailer: git-send-email 2.46.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -110,49 +98,36 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[cirrus.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 04 Nov 2026 13:23:37 +0100,
-Richard Fitzgerald wrote:
-> 
-> In cs35l56_hda_unbind() call cs_dsp_stop() before cs_dsp_power_down()
-> if cs_dsp is in a running state.
-> 
-> cs35l56_hda_runtime_resume() calls cs_dsp_run() if cs_dsp_power_up() has
-> previously run successfully. If cs35l56_hda_unbind() is then called while
-> in this runtime-resumed state cs_dsp will be running. The code wasn't
-> checking for this and was calling cs_dsp_power_down() while still in a
-> running state, which is illegal. This is currently fairly harmless for
-> the cs35l56 driver. But it doesn't comply with the API, so potentially
-> could break with any future changes that expect the correct API use.
-> 
-> Fixes: fb78d73dde2d4 ("ALSA: hda/cs35l56: Call cs_dsp_power_down() before calling cs_dsp_remove()")
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+dev_err_probe() prints the symbolic errno and stays quiet on
+ -EPROBE_DEFER. The sn624x prefix goes too, dev_err_probe() already prints the device name..
 
-Applied now.  Thanks.
+Signed-off-by: Aryan Sinha <sinha.aryan03@gmail.com>
+---
+ sound/soc/codecs/sn624x-sdca-sdw.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
+diff --git a/sound/soc/codecs/sn624x-sdca-sdw.c b/sound/soc/codecs/sn624x-sdca-sdw.c
+index c9e690482..1a83f0a11 100644
+--- a/sound/soc/codecs/sn624x-sdca-sdw.c
++++ b/sound/soc/codecs/sn624x-sdca-sdw.c
+@@ -1736,11 +1736,9 @@ static int sn624x_sdca_sdw_probe(struct sdw_slave *slave,
+ 	regmap = devm_regmap_init_sdw_mbq_cfg(&slave->dev, slave,
+ 					      &sn624x_sdca_regmap,
+ 					      &sn624x_sdca_mbq_cfg);
+-	if (IS_ERR(regmap)) {
+-		dev_err(&slave->dev, "sn624x: devm_regmap_init_sdw_mbq_cfg failed (%ld)\n",
+-			PTR_ERR(regmap));
+-		return PTR_ERR(regmap);
+-	}
++	if (IS_ERR(regmap))
++		return dev_err_probe(&slave->dev, PTR_ERR(regmap),
++				     "devm_regmap_init_sdw_mbq_cfg failed\n");
+ 
+ 	ret = sn624x_sdca_init(&slave->dev, regmap, slave);
+ 	if (ret < 0)
+-- 
+2.46.0
 
-Takashi
