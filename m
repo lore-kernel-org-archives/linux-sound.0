@@ -1,56 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793790169;
-	b=JJq7sP1yXINu9vKPa3tmSaG1deX2vFZMtMGkOzMKMEKlEYQOl09l+/MVFVi8wioq0jMz
-	 1sM3Coh/O/kTYZrC4XhYqMLMztXYce+gxHpNEdRpQs7ifazfe7PfAWyDdA1Jq1qwT4U7u
-	 C95+nHKngcwJAbuSENstBkqh9MJBk8Ro47me4itBZ2RagDOF8w3CESbT/VCI+rourbqJO
-	 EyDjm242nILi1kDg2bYMpLw5Fw316tI4i5sP3PudTwE60pT3BQBb/5LgSja0D9cSjyP2E
-	 M2osFkl9GObj7VlciRdz9SOTVJorC0GD9bMNUD14MdLYzu4dULO6FygEX1MxDBwdBaw==
+	t=1793790255;
+	b=WHoPiucKWWq0eN+97dddo0ipgMa9jzvqVqK63h3ItmjJPilFy/smdvlA2EqAhHdiEAt7
+	 Dfd5dEMjxYF8vZusHYtU1mzu+vzd3G/BmSUdf2gkjtMZHp9Alvl0dcguGlvQQ4DZnZYZK
+	 bYNKZhyigXLfvoXFvzO5r8LQhtUZuGd1AQwb8Dvf+JwCSrxzwp2AY9btTflYUEJ9pSI/O
+	 GlCqDOQX+STjUjIO/BGdjP5UVwydGk4WKinOTPOAGiNZ84CCSrQpcmZVCGsSqSyTACM2J
+	 qbX3Di5eZJevXwtuuCdzVgYJ6+pqdsQ3rMgSsSo2g4cO6W76VflOx99tBpl9zkxA0+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793790169;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ZRHqIekbDu1lx7ajAhsLM6Au52Hm3H9/zVtEt4181EU=;
-	b=tCgpvGMHfAiNlRs2DBMoWE9h8CSub4DDpK0QRvOV9Urc6ikHBmuV9a6YvsIQMvlEGalX
-	 8gZt8FF4AEweyHHBFgnoCXvf7LLkT4njwF7THVxpt+C33p8u37pRIb3Jdu5pLQsnvkv6a
-	 PDriguCEcfnDjHKsBajVHWLG24qc+DE8NXy5BwWd4DVqkIDv8HOFSiAaWnwxrNH3phLxR
-	 msgR/mKzTa1AjUT8aP0KojyuI5M5roixsCIr6uCzfBOnE6z80SRwhr8chGWCpR0Vp4YW/
-	 FD7L7D/JsFrPO5FpDtYYbkmXkLdk6nRz/JPAb+WjEZQczPwbmrHyhA05gwj9YGr32YQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793790255;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=di6PXeHB5ao9aED5rnI+MTd/fUST/3nbmo+6wj6cYKc=;
+	b=s+Ujy9SE4vdliwBpNlAb1RfVVG7GJwCnSC5GU5s7bGUlLmWBie8vl5clTqnYKB2y1kJI
+	 DNve2oKNVzZpsJIdz2Vic6edk5Jd2V+TlmRpEqfJC9h+wrNlh+gO9ztKH6rpCSaV13f5v
+	 m6K7HstwtK2E76iZfIiryvPyhsxOeqlJ1YvgRGzWc5+H0SYYF+iVcoQzQUXHLOXTFeLjD
+	 1CxdSloz+4ET5qJoNkStqla9wkoI2WLeF25vKrM1QPJp99b+Gdf3gRX2rA/K5Tq2llvii
+	 dTvgCD1hpbWnQ8JU32bUkAseCpwFDqQOPwB8RXVSZirSERxT7xqMTTgu0PrBEsvY5yg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Gx6zT0Wd;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RN68OluP;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50FF3606A33E
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 11:02:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE08606A333;
+	Wed,  4 Nov 2026 11:04:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Gx6zT0Wd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C74031F000C1;
-	Wed,  4 Nov 2026 11:02:48 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RN68OluP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 836381F000C1;
+	Wed,  4 Nov 2026 11:04:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793790168;
-	bh=ZRHqIekbDu1lx7ajAhsLM6Au52Hm3H9/zVtEt4181EU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Gx6zT0WdKshRT0qorkXakz8TDGhfU9nFyZWIeNnqOV0nPCS8w0YT2+bHrkO3qRYhy
-	 mbq/VXzbgdrjiL9uEzbT1doRtQ2gFGLBucByabutVgRt/kwjvp5WiIqO3s9Bdky5Rt
-	 +vxS8aCxr32TeuObl+SEZgwxKEWh789wzHvXj1XpeejGWrPtORHSVgXyhK/bRVEi0d
-	 owAERs+6tfeP8R1B7L74XpxRHDXGJoid27wm9FLQ6+mPQiPJxWLplOxvG6BGZj3luZ
-	 /22LhJ6FGXIjrt8ksmn05YIq9hrHpluc+n6dxXMyZV6mA61S7Ufvn3h68al/DSYVZy
-	 2IurbIV2B+r/g==
-Message-ID: <sashiko-outbox-197138@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 2/2] ALSA: usx2y: Guard the playback copy
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sinan Turunc" <enscrpt@pm.me>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261104105228.1124-3-enscrpt@pm.me>
-References: <20261104105228.1124-1-enscrpt@pm.me>
- <20261104105228.1124-3-enscrpt@pm.me>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 11:02:48 +0000
+	s=k20260515; t=1793790255;
+	bh=di6PXeHB5ao9aED5rnI+MTd/fUST/3nbmo+6wj6cYKc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=RN68OluPXZoITcxHSrLsbOtsG8Ly5//ASQqc92i7xUl439vTmX5vX/nLHS2JUDixb
+	 XBAAJCFj3HR1LJLIYT35y+wfcZ+kztwTZkMIjBpBgU6GDc7GpSyD1wow6zjgaVhlXc
+	 VO/mxBFb01zcyIGsMgWZFJx4Pl+ieqn7dKV8ef2YYWy3REAV1Ivb7isYDdrD/944Oq
+	 jcnBmWe2dhoZI7d/WfBQe/I9YSCD77PQkLUTea2ciL3rwJSRGA7Q5xmUDV5u9aG6wP
+	 sfp+EhNE+XCtCYmg3yJKjMb7/TPhO8GeWraaTMqCX8xs0joCsRik1yzfAwWLZE0qPc
+	 NXGm3Rei7+HpQ==
+Message-ID: <02bde189-8ab3-4a39-8abf-0c61298f406d@kernel.org>
+Date: Wed, 4 Nov 2026 12:04:04 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,119 +50,137 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 02/22] ASoC: dt-bindings: cs42l42: Allow referenced
+ dai-common properties
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+ Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
+ <20261104-strict-precise-mouflon-85cbad@quoll>
+ <f25646e3-d80e-4b26-b869-42608c89e665@kernel.org>
+ <dD3cbQkjQr2lqk83ChC6wQ@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <dD3cbQkjQr2lqk83ChC6wQ@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] ALSA: usx2y: incomplete packet length validation in usx2y_urb_play=
-_prepare()
---
+On 04/11/2026 11:58, James Calligeros wrote:
+> On Wednesday, 4 November 2026 8:52:38 pm Australian Eastern Standard Time 
+> Krzysztof Kozlowski wrote:
+>> On 04/11/2026 11:49, Krzysztof Kozlowski wrote:
+>>> On Tue, Nov 03, 2026 at 05:39:50PM +1000, James Calligeros wrote:
+>>>> We may need to define both #sound-dai-cells and sound-name-prefix on some
+>>>> machines where this codec is part of a simple DAI. Allow this by
+>>>> refrencing
+>>>> dai-common.yaml and allowing its properties to be used.
+>>>>
+>>>> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+>>>> ---
+>>>>
+>>>>  Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml | 5 ++++-
+>>>>  1 file changed, 4 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
+>>>> b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml index
+>>>> ab4c7d22dc0e..4ac0af34c464 100644
+>>>> --- a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
+>>>> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
+>>>> @@ -9,6 +9,9 @@ title: Cirrus Logic CS42L42 audio CODEC
+>>>>
+>>>>  maintainers:
+>>>>    - patches@opensource.cirrus.com
+>>>>
+>>>> +allOf:
+>>>> +  - $ref: dai-common.yaml#
+>>>> +
+>>>>
+>>>>  description:
+>>>>    The CS42L42 is a low-power audio codec designed for portable
+>>>>    applications.
+>>>>    It provides a high-dynamic range, stereo DAC for audio playback and a
+>>>>    mono
+>>>>
+>>>> @@ -193,7 +196,7 @@ required:
+>>>>    - VL-supply
+>>>>    - VA-supply
+>>>
+>>> Missing dai-cells constraint
+>>
+>> Heh, I already asked for this two weeks ago.
+>>
+>> I do not see how you responded to my comment, dropping everything from
+>> DT patchwork.
+>>
+>> Best regards,
+>> Krzysztof
+> 
+> Given that the binding did not have a constraint for this originally, it
+> was my impression that adding one would best go in another patch unrelated
+> to this series. If you think it's fine to add here then I can simply fix this
+> for v5.
 
-commit 8f4cd6a52f3d49a81dfc6755062eeb7276e1ee4b
-Author: Sinan Turunc <enscrpt@pm.me>
+Can be separate patch preceding this one, because adding constraint
+later would be an ABI break/impact.
 
-ALSA: usx2y: Guard the playback copy
 
-This commit adds bounds checks in usx2y_urb_play_prepare() to verify that e=
-ach
-packet fits within the playback endpoint's maxpacksize and that the total U=
-RB
-frame count does not exceed the ring buffer size, returning -EPIPE on a
-violation.
-
-> diff --git a/sound/usb/usx2y/usbusx2yaudio.c b/sound/usb/usx2y/usbusx2yau=
-dio.c
-> index ee224b4dfb046..5f241d454012f 100644
-> --- a/sound/usb/usx2y/usbusx2yaudio.c
-> +++ b/sound/usb/usx2y/usbusx2yaudio.c
-> @@ -112,7 +112,8 @@ static int usx2y_urb_play_prepare(struct snd_usx2y_su=
-bstream *subs,
->  		/* calculate the size of a packet */
->  		counts =3D cap_urb->iso_frame_desc[pack].actual_length / usx2y->stride;
->  		count +=3D counts;
-> -		if (counts < 43 || counts > 50) {
-> +		if (counts < 43 || counts > 50 ||
-> +		    counts * usx2y->stride > subs->maxpacksize) {
->  			dev_err(&usx2y->dev->dev, "%s: should not be here with counts=3D%i\n",
->  				__func__, counts);
->  			return -EPIPE;
-> @@ -125,6 +126,16 @@ static int usx2y_urb_play_prepare(struct snd_usx2y_s=
-ubstream *subs,
->  		urb->iso_frame_desc[pack].length =3D cap_urb->iso_frame_desc[pack].act=
-ual_length;
-
-[Severity: High]
-What happens in usx2y_urb_play_prepare() in sound/usb/usx2y/usbusx2yaudio.c
-when i_usx2y_urb_complete() -> usx2y_usbframe_complete() ->
-usx2y_urb_play_prepare() -> usx2y_urb_submit() processes a capture URB whose
-cap_urb->iso_frame_desc[pack].actual_length is not a multiple of
-usx2y->stride?
-
-Because counts is computed via truncating integer division:
-
-	counts =3D cap_urb->iso_frame_desc[pack].actual_length / usx2y->stride;
-
-any remainder actual_length % usx2y->stride is discarded from counts, and t=
-he
-new guard only checks the truncated byte count counts * usx2y->stride again=
-st
-subs->maxpacksize. However, the playback ISO descriptor offsets and lengths
-are still populated from the untruncated actual_length:
-
-	urb->iso_frame_desc[pack].offset =3D pack ?
-		urb->iso_frame_desc[pack - 1].offset +
-		urb->iso_frame_desc[pack - 1].length :
-		0;
-	urb->iso_frame_desc[pack].length =3D cap_urb->iso_frame_desc[pack].actual_=
-length;
-
-Meanwhile, the ring-buffer wrap check, the memcpy() into subs->tmpbuf, the
-non-wrapping pointer slice into runtime->dma_area, and
-urb->transfer_buffer_length all account for only count * usx2y->stride byte=
-s:
-
-		} else {
-			/* set the buffer pointer */
-			urb->transfer_buffer =3D runtime->dma_area + subs->hwptr * usx2y->stride;
-			subs->hwptr +=3D count;
-			if (subs->hwptr >=3D runtime->buffer_size)
-				subs->hwptr -=3D runtime->buffer_size;
-		}
-	} else {
-		urb->transfer_buffer =3D subs->tmpbuf;
-	}
-	urb->transfer_buffer_length =3D count * usx2y->stride;
-
-If actual_length has a non-zero remainder modulo usx2y->stride, can this st=
-ill
-read past the end of subs->tmpbuf or runtime->dma_area? For example:
-
-1. When counts * usx2y->stride =3D=3D subs->maxpacksize and actual_length h=
-as
-   trailing remainder bytes (such as stride =3D 4, subs->maxpacksize =3D 20=
-0, and
-   actual_length =3D 203, giving counts =3D 50), counts * usx2y->stride >
-   subs->maxpacksize does not trigger, so urb->iso_frame_desc[pack].length
-   (203) exceeds subs->maxpacksize (200) and the cumulative ISO descriptors
-   across nr_of_packs() packets exceed the subs->tmpbuf allocation of
-   nr_of_packs() * subs->maxpacksize.
-
-2. Even when actual_length <=3D subs->maxpacksize (such as stride =3D 4,
-   subs->maxpacksize =3D 200, and actual_length =3D 195, giving counts =3D =
-48 and
-   counts * stride =3D 192), the ISO descriptors in urb->iso_frame_desc[] s=
-pan
-   more bytes than urb->transfer_buffer_length. When subs->hwptr + count =
-=3D=3D
-   runtime->buffer_size in the non-wrapping branch, only count * usx2y->str=
-ide
-   bytes remain before the end of runtime->dma_area, so the ISO descriptors
-   extend past the end of runtime->dma_area.
-
-Should usx2y_urb_play_prepare() either size urb->iso_frame_desc[pack].length
-as counts * usx2y->stride or reject packets where actual_length is not alig=
-ned
-to usx2y->stride?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104105228.1124=
--1-enscrpt@pm.me?part=3D2
+Best regards,
+Krzysztof
