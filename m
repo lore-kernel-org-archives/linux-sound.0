@@ -1,82 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793771198;
-	b=R1pUJPMjyk9e2txoLYtDZm+Y4yatlCGjsLjv0/9vyS6hohxYX8BYOMZBqCpFhArW+Uo2
-	 wUb8rDdFHIKWidHI4b/kpKWcXuhaUm7nscZT/TZZELEiCOT7fxHQRe/YWtiDViBs0Itqz
-	 ZSzeNQH8/sw1rrrZtWaqICAZ5FQB+/82GjIb9lQEqreJuf/6u4useiGCZuHGaVviuIAue
-	 zrikqW50UUpryBDwid4xz99/G2HzHHi3civST8FGmj04TP3ffePygRjel2/ZnlegDXEgL
-	 j9vxjWCIQ11hEZ4YTvtVNMYxF1vJfkcCuV+LNOqEuljUkSQImzZJWEX6jrg15C1z3nA==
+	t=1793772803;
+	b=5TTy+0Y/daroO/k/V4v7BvA/Q7r/IRt5QMkhI8BKm9ur+CxCdNtVUoZLYa8mZRXb+WmE
+	 oX2fDswnslnDOEL2UeT+sekqZTP6fr/IM7DUCnsfjMO/KFSzfG6F4r40VQCxkDgGtwAYM
+	 NrL3KX/SUl8fRi5IEDRXR4uArkkXnIEDZMijbnF5tdmuItrSnCh9owlvOS683neOCg6Up
+	 boYWP0Wlvr+9Ex75D0d7n91LuAsqWPPY3GkFr4m8V0oTs5fuDHLg5EuNPO4RuGWaSFlTL
+	 Hq4mMlEOJ0e8WtsQ2u2zKCRAsb9l82z4bpNdTDGcIM3XML388mOZWxcOgrGWlUajvVQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793771198;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=J/dWx4XyY9Qu61P8ybBzax3t6bA7XT2OkEgtv4viqsc=;
-	b=F4ZHCE2LP6oXCWsStr2lkf9Dfv4AZD29uvHd/Mo0L70wZ6+ao8Gev/MSjSazKIFDhY0B
-	 KTnLFnB8EuEkLPmuYVfzBiH6t9J7JX+2aI/lPT26FIbNILp8zwJP9NC2G2SJ7Hanj8eqA
-	 MNWJt65OtsHlWKYgGZip1Pj4xmBvEQvb2lzik8Sualj0gjll3W86/qXi7JeAm0nWYSKpR
-	 gQOMI/A6dzGl8E6+gk6icFGDcr/FWvv0qKd2UAeI0yqlN2Llw7iidLG84C2tuK6akDMQ+
-	 FAjt5fO7QLlKsFCl1MmlGPoTzmR0Fv6nPbvSGEQTCwA+yVHkaYN7Rs2TmGoWyhS/bYA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793772803;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
+	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
+	 Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=rWbZ8X89Medg3HQeGT3676tXWcqmogYTamKMYPyJwUs=;
+	b=UP4oyCW3eMcXynD7BtqEkIZ7dZYnVeZeCrCQkOQgOqEEhxFJfPsyOGE5R6MhHE23Yq6Q
+	 8DmpeRtF8BJ9v8oC+w+ieOE+WxV29gU8+63IvXloPbcM20FI/T0a/zgOxgFDEOj1rizAy
+	 TSkXciRffjgVfpD/2D94Sp+dKQTOqgTH6LBp+vNLDDKQOG0FLUqFL9yW0IQfoE6+TJaSf
+	 6qyC+w6tsaQINZXDr86sdyMEqHF10TPRT6yqMqiFQTOcVwoC1vWcvInrSNAN+ZScU2vTO
+	 R8IVOR+1CmBh3ULh12DU1q1DiVxrASJmpNhd/TZ1EB7Mhu5OxmD2SyvBo/+P7k2GPIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="Y+tZw4/L";
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF08606D824;
-	Wed,  4 Nov 2026 05:46:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2AF08606D824
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Y+tZw4/L
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793771197; x=1825307197;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qhahMrQYHLJ+Qp5l4x02iu2RBmtmF/q7vKTTQcducQ4=;
-  b=Y+tZw4/LSgeNwFygAiznkKhJTPTqVxPshonNRiapGnzHZlxVf4IKO9r0
-   nGeiVOEC1yJ3IbjobBFzmJTa9snv+uxbwWp+XEqKjMJb6gPC7hkGdo+1Y
-   gjuCSj0LxlM3Sz7uoZLA+elYqNpI5StB0mxlnbgt812yw6JsdFaO50nkj
-   Z9WV3w8EC6/QifuplYUZ/gH4SProE2pagywjJ1Kh1zf/jkrGrln2q5nBg
-   K8Xso90J94kG/TxYVEb5EldR/u9JP+FUtqjZ8B1sZOI5saifQV/9RN/uc
-   7xfG+GoCv1wBJ8GMA07KrtqlwBhe8PviArj8u3c9hpsy7K+ywEoUPVM1E
-   g==;
-X-CSE-ConnectionGUID: jw2vics/RImOmb5WfjdFZA==
-X-CSE-MsgGUID: ubm+ejkrSA6n4cDYbAwE3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2608629"
-X-IronPort-AV: E=Sophos;i="6.27,194,1787036400"; 
-   d="scan'208";a="2608629"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 21:46:36 -0800
-X-CSE-ConnectionGUID: S2thmX75Qq211O7/p4MTlw==
-X-CSE-MsgGUID: BV6HQmkQTH+rilKIKIhjKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,194,1787036400"; 
-   d="scan'208";a="6448714"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 03 Nov 2026 21:46:30 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xOTpL-00000000jpl-1Agm;
-	Wed, 04 Nov 2026 05:46:27 +0000
-Date: Wed, 4 Nov 2026 13:45:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Baojun Xu <baojun.xu@ti.com>, broonie@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, tiwai@suse.de,
-	andriy.shevchenko@linux.intel.com, 13916275206@139.com,
-	alsa-devel@alsa-project.org, shenghao-ding@ti.com, baojun.xu@ti.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	k-yi@ti.com, henry.lo@ti.com, robinchen@ti.com, niranjan.hy@ti.com,
-	pin-hao.huang@hp.com, Syed.SabaKareem@amd.com
-Subject: Re: [PATCH v1] ASoC: tas2783-sdw: Add basic BPT support
-Message-ID: <202611041243.Bn9AJATC-lkp@intel.com>
-References: <20261103133853.1612-1-baojun.xu@ti.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB19606A326;
+	Wed,  4 Nov 2026 06:13:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDB19606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: d26aea64d81611f19a56ed5b684f684d-20261104
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:f1ebb4f9-3004-42fa-ba73-e241ace3ac4c,IP:0,U
+	RL:0,TC:0,Content:0,EDM:-20,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-20
+X-CID-META: VersionHash:7db8b62,CLOUDID:baa2d7b74ce05ef148e86059de8592c1,BulkI
+	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50|99|100|102|
+	153,EDM:1|-100,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,
+	OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: d26aea64d81611f19a56ed5b684f684d-20261104
+X-User: songxiebing@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <songxiebing@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1825802523; Wed, 04 Nov 2026 14:13:15 +0800
+From: songxiebing <songxiebing@kylinos.cn>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	songxiebing@kylinos.cn,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: info: Fix maxsize underflow in snd_info_entry_write()
+Date: Wed,  4 Nov 2026 14:13:11 +0800
+Message-Id: <20261104061311.1345791-1-songxiebing@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -86,99 +70,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261103133853.1612-1-baojun.xu@ti.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Baojun,
+From: Bob Song <songxiebing@kylinos.cn>
 
-kernel test robot noticed the following build warnings:
+snd_info_entry_write() computes maxsize as entry->size - pos without
+first checking whether pos has already reached entry->size.  If a write
+is issued with an offset beyond the entry size, the subtraction
+underflows and count is left unclamped, so the write callback is called
+with an out-of-range offset and the original count.
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master next-20261030]
-[cannot apply to v7.3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The read path already handles this case by returning 0 when
+pos >= entry->size.  Add the same check to the write path.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Baojun-Xu/ASoC-tas2783-sdw-Add-basic-BPT-support/20261103-213853
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20261103133853.1612-1-baojun.xu%40ti.com
-patch subject: [PATCH v1] ASoC: tas2783-sdw: Add basic BPT support
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20261104/202611041243.Bn9AJATC-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 65303e81f481bbfe386b8596423f94c43198ba94)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261104/202611041243.Bn9AJATC-lkp@intel.com/reproduce)
+Fixes: d97e1b78239c ("ALSA: info - Check file position validity in common layer")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Bob Song <songxiebing@kylinos.cn>
+---
+ sound/core/info.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611041243.Bn9AJATC-lkp@intel.com/
+diff --git a/sound/core/info.c b/sound/core/info.c
+index 3b8ccda04e1a..676b06e0d463 100644
+--- a/sound/core/info.c
++++ b/sound/core/info.c
+@@ -171,6 +171,8 @@ static ssize_t snd_info_entry_write(struct file *file, const char __user *buffer
+ 	pos = *offset;
+ 	if (!valid_pos(pos, count))
+ 		return -EIO;
++	if (pos >= entry->size)
++		return 0;
+ 	if (count > 0) {
+ 		size_t maxsize = entry->size - pos;
+ 		count = min(count, maxsize);
+-- 
+2.25.1
 
-All warnings (new ones prefixed by >>):
-
->> sound/soc/codecs/tas2783-sdw.c:1369:6: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-    1369 |         if (ret) {
-         |             ^~~
-   sound/soc/codecs/tas2783-sdw.c:1362:9: note: initialize the variable 'ret' to silence this warning
-    1362 |         s32 ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
-
-
-vim +/ret +1369 sound/soc/codecs/tas2783-sdw.c
-
-  1357	
-  1358	static s32 tas_io_init(struct device *dev, struct sdw_slave *slave)
-  1359	{
-  1360		struct tas2783_prv *tas_dev = dev_get_drvdata(dev);
-  1361		uint val;
-  1362		s32 ret;
-  1363	
-  1364		if (tas_dev->hw_init)
-  1365			return 0;
-  1366	
-  1367		regmap_read(tas_dev->regmap, TASDEV_REG_SDW(0, 0, 7), &val);
-  1368		dev_dbg(dev, "Got B0P0R7 = %02X with %d.", val, ret);
-> 1369		if (ret) {
-  1370			dev_err(dev, "Get FW download status failed, err=%d", ret);
-  1371			return ret;
-  1372		}
-  1373		if (val != 0x22) {
-  1374			tas_dev->fw_dl_success = false;
-  1375			ret = regmap_write(tas_dev->regmap, TAS2783_SW_RESET, 0x1);
-  1376			if (ret) {
-  1377				dev_err(dev, "sw reset failed, err=%d", ret);
-  1378				return ret;
-  1379			}
-  1380			usleep_range(2000, 2200);
-  1381			regcache_cache_only(tas_dev->regmap, false);
-  1382			tas_dev->fw_use_fallback = false;
-  1383			ret = tas_fw_load(tas_dev, slave);
-  1384			if (!ret && tas_dev->fw_use_fallback)
-  1385				ret = tas_fw_load(tas_dev, slave);
-  1386		}
-  1387		if (!ret) {
-  1388			if (tas_dev->sa_func_data)
-  1389				ret = sdca_regmap_write_init(dev, tas_dev->regmap,
-  1390							     tas_dev->sa_func_data);
-  1391			else
-  1392				ret = regmap_multi_reg_write(tas_dev->regmap, tas2783_init_seq,
-  1393							     ARRAY_SIZE(tas2783_init_seq));
-  1394	
-  1395			/* Re-active AMP after resume. */
-  1396			regmap_write(tas_dev->regmap, TASDEV_REG_SDW(0, 0, 2), 0);
-  1397			if (ret)
-  1398				dev_err(tas_dev->dev,
-  1399					"init writes failed, err=%d", ret);
-  1400			else
-  1401				tas_dev->hw_init = true;
-  1402		}
-  1403	
-  1404		return ret;
-  1405	}
-  1406	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
