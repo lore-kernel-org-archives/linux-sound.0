@@ -1,54 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793776212;
-	b=a1rHA+xiGTu4je7JGsuHXkFT27QfFInYMpVwgz1r9hMn7zv6lmtR1EiyO+DBRDPvUlEi
-	 lLjGMk9QvKaRvcMPYj47aFk+8PyzwNf03x+HsAanEGPTsAywSdldgtGPq55pTsZSs1La/
-	 Xe0GRGWtqMoQeRPnyPzFiB8BidzrHEHVecSNAH/Lq2qN57YjRgAa05GhD7jnKLtAYJGhl
-	 fTJV15Wm5Cg4YZQRq4irhMPtd8x66PNZtibdZczNFdRJ9AfupiN3ZOX9LjVTHh0ApnMyQ
-	 Wt/2dZ9nsT14lTiXD8zGKw/i2UFBJpf9Wnp0Y7SwjWqhzzWg7GQYvoz7kiETbk94Uug==
+	t=1793776230;
+	b=2N19AWjSKNpFeWpRTXtrqIEq9RDxUR9K3reCINfRAU0vQtyKYmNQp5QBCnJ6gK9F350c
+	 16aTLuH95PsmqtdqIP6jcx/8N9huWg3GpBzU8xlNJku1Dlv0cXQM6e2whNQigqnPknV32
+	 1Ik4EEj2nBc3+e4Pvmh9+ljhyA7y0C5XnToqerZeK10Y5pl1PyWy6/CJ+zhplgNkTN50/
+	 U8LPDsBjNZ/cBoMk9+a+Mync6eZgDrdQ10UzJ1sG/3yTDVAoYq5Etf4iXHVx0wf/vm/C7
+	 hUV1xNTsbN3xv7g9UbjKUuBtg54/Vgj+5uGc9vI3zsSlHratWZXrlQgMN8LtX0RNTig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793776212;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793776230;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=NMYNB9COF46oh5WnNHwes5NR7sSly5pD5TV0jSzxyfc=;
-	b=hiF8bTemmSZsZilT1sw1djEWAlcqR+juGfQvKxsv1WAFajoK5Yzslusph2gNK+Z84+te
-	 9sQM6DbZ6DQ+C6LGwdDMYosvJi3DOXzpa5DO5orSYIUMoF3a229lC9pkfiI1lkFBbNwaA
-	 R/vppZBkksCHnyqjcDqHFdqBC+g9PDBJrCrKaDus/OmvdZwkrRrA4n4RcssPBBEGMvE2y
-	 AQmxIzh+okWpysN/saJ2Yly64ggwAHw+/zmLK62gWMe1eFJwlnCZNtuiOxaYi2eeOtVmk
-	 RjBoAo4hDafOodrdLu1Z4aLBP3gic4/kPFHJv9/ToH6qDYzEopqWl4XzrOcK/DZUc0w==
+	bh=nnN6He0RXvY2VkT+nSbM7VBuAeMa+p41/pVo1bpAvuE=;
+	b=LE8aMLHvK0QDBZkUMW3WPhsMXj4SCVp6VmrgaBbjQgXScPPI/XciDgmEH7hC+nZrIPNB
+	 QSSDT1HU6HUBX5+niR1jm/v2cNORHrFf4+cs+gmY3JtLat+RiH1fZOHB8zWUIn7hTXIQv
+	 0AWTZ+7KE51seONBP1kR/Ap49MNFmFwsCDp16CFwR70r/1tu0SVdRlF8Sj+PtV31PTPu4
+	 ijcphT1jC5mENvcRq0gxiURFwzc7Tpe2A+Hc/0opwYZhjsMjd9NG6mXxcyqcstKuEPyxZ
+	 EsWi5muZnzyGCzFoDSvkd55zVT4dH+aj5mjSS0czaibwflNNSKXE602ChuqJiks2Oaw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ya9nnf2l;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eV6crkqO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB38606A31B
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 07:10:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1904606A31B
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 07:10:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ya9nnf2l
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A4B11F00919;
-	Wed,  4 Nov 2026 07:10:11 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eV6crkqO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFF4D1F0093A;
+	Wed,  4 Nov 2026 07:10:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793776212;
-	bh=NMYNB9COF46oh5WnNHwes5NR7sSly5pD5TV0jSzxyfc=;
+	s=k20260515; t=1793776229;
+	bh=nnN6He0RXvY2VkT+nSbM7VBuAeMa+p41/pVo1bpAvuE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Ya9nnf2lXxnUl4w9Brnl5zOag7F6DSPrjaNubAxn0GmbNo9ChtaoPbg+38cH3kwSS
-	 VB1cN2gXkHj5qu0x6Q4rW6rTFe8YESZNhjy0LVUPx/6YVm1bBD5tuveblpnJX6JnGs
-	 7ssHq16pKKyd9QCv0ct/Llwl6JiTRvAe3dEwqK1OMr5xT5CcQUP3K82g/z0tQ0qOoF
-	 jIQl5uDs4kOMH3HPJuW0rLmgZRjSN3vrW1obmMcZ62vfJrExRofZ+mMqWBYXUxfkOp
-	 PufjoIJtIJ6pfE+etIrT8SZg+XT9eEjGqtUrq3kysJzNYrZrpVbsbPBmHGPnjLNsW0
-	 xcl7UDRrUamcQ==
-Date: Wed, 4 Nov 2026 08:10:08 +0100
+	b=eV6crkqOrsNEjwERotti4SiBRUN7m41yC0T7yLqinIA0/A0YWNKTR77vfE5jUPzr/
+	 8MKUyRdJxjjtFHMlWZavdS5IlcIYxih1ftKq1XcbkEMvPt8atwq6WDWLuxxcadHPSm
+	 94G2dP9vf+W+zkaVhS5Zh4BI4qmdeTdYFyREoPJaattNm/6ATLKWSGs6X8O9uo+7cW
+	 AuO1WrHJvYfVl/TNKac5lG2wkUD1xCRkkNw8A77rJs3F3WpeVeb6tZW/4Faa950q8q
+	 HbgjvERMZo7qJVERnrQiuPLvfp0vV2gkQ6PcEzX0iX2YhJyvq5t6kVbaHBkmpabiSM
+	 5s1bLQyB+zVvg==
+Date: Wed, 4 Nov 2026 08:10:26 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] ASoC: audio-graph-card2: fix device node leaks in
- graph_count_c2c()
-Message-ID: <20261104-vengeful-impartial-chipmunk-0c8a8e@quoll>
-References: <20261104024055.1508771-1-vulab@iscas.ac.cn>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Sylwester Nawrocki <s.nawrocki@samsung.com>
+Subject: Re: [PATCH] ASoC: samsung: i2s: release the runtime PM reference if
+ config_setup fails
+Message-ID: <20261104-diamond-woodlouse-of-temperance-d8938c@quoll>
+References: <20261104024050.1508669-1-vulab@iscas.ac.cn>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,27 +60,24 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261104024055.1508771-1-vulab@iscas.ac.cn>
+In-Reply-To: <20261104024050.1508669-1-vulab@iscas.ac.cn>
 
 
-On Wed, 04 Nov 2026 02:40:55 +0000, Wentao Liang wrote:
-> graph_count_c2c() takes two references that it never drops: the one
-> from of_node_get(lnk) stored in port0, and the extra one added on top
-> of the reference of_graph_get_next_port() already returns for port1.
-> Both nodes are leaked once per codec2codec link parsed at probe time.
+On Wed, 04 Nov 2026 02:40:50 +0000, Wentao Liang wrote:
+> i2s_trigger() takes a runtime PM reference before calling config_setup().
+> config_setup() can fail with -EINVAL or -EAGAIN, and the error path
+> currently returns with that reference still held. A failed START does not
+> guarantee a matching STOP, so the runtime PM usage count stays elevated.
 > 
-> Release port0 with the cleanup attribute and drop the redundant
-> of_node_get() around the port1 lookup, so that the cleanup attribute
-> balances the single reference of_graph_get_next_port() returns.  This
-> is the same ownership model audio_graph2_link_c2c() uses.
+> Drop the reference before returning the error.
 > 
-> Fixes: 5f281c3e82b1 ("ASoC: audio-graph-card2: use __free(device_node) for device node")
+> Fixes: dc938ddb5628 ("ASoC: samsung: i2s: Ensure proper runtime PM state of I2S device")
 > Cc: stable@vger.kernel.org
 > Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
 > Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 > ---
->  sound/soc/generic/audio-graph-card2.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  sound/soc/samsung/i2s.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
 > 
 
 Multiple things here:
