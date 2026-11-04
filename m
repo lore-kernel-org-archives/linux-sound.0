@@ -1,22 +1,22 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793760054;
-	b=EERupE3rh/UWtqIGSoq4uKkps9A0xaugynjju8k0TlHLjG2MMbcYbBf3PKxLFpRQADTR
-	 1P6n5SbxG5xY8oQZOXnl1nVZcfEJuvghJEsjaKAmM46yCjTUAQvP0Wt54f9TZd5TJw6w7
-	 8180qsyM323gGNnNJaaWmdeGDIMWYtYfCUqMRwmhqwwAHdq32tyYGk3jn4lS+Aq6iPend
-	 9bIBZay5iWh7DYPYVnQ4RWlMXA2wvBvlQWvR5pe2lK41YWDQDGorMEfHiJR4ke962TAaz
-	 RbtMTAfrp2dCQoWB1ITHsX6kiW2sBEikwLARC3wKsXmZvV03OhdvDzSl85f9dpxDxjw==
+	t=1793760059;
+	b=4g/W2G/F956GwzwiDJY+OpvQXs5fO9N8/kTjX3pRcnFUOZoPkryMxLhzrRbqsdPGYrwb
+	 r29EhJqKceLq/RNDyx6BoqImBQRSBEqiY/C0UD/DubYctURwy6dsSmKkU+HIQNjONQKGO
+	 WZ9hB108WajX9TrdhQ+hc1xKl2qU2m09Lnb/ozx2F6azleqft258PtdvMppcNmK5S+dyH
+	 8hzKzkp4ctLs6BAx80ydihcrGhOrhX/H9O4/rJiaTiPbm/w7TNdKsv/Z4xIRKl4N85lwn
+	 P6UZ7imtEIksxRm6K8ePU1arMzoC5JBainRtzTCoDTq0gh9TjolA2iNLtJDG7hlFV2Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793760054;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793760059;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
 	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
 	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=GPPjgPXMdTGHADngYsCikDS3FDt2Si5kyVRezK2CTn8=;
-	b=48S+URVeDih4rhjPJh+pOXedolvRZSinW7r4oSmaXJSPwTWICygKB7npFk+CffeHNMY0
-	 MNEOv5avtsWsBPocMJtm7471kH72K/sDZe9D4d57FRLCn25jbX77zstWyuI+Q3eUKxRV5
-	 AXRIGoXhYaLdj4PAotJJMGTgU4pxwSEd34qEjbmd6OzHdkcbR1OtJ3s6pEI4XLTrH7ovw
-	 k4c6reW2kN4RVd0m5G41piCuGkm43Z+8+FX31JFm2a1MrYsK9emKJzTGp+2Osjg4cjL37
-	 i8P27Okc9qwl3jBidEgBzY401jjBQibLBLq2dEwnWKMxNMF6po/DNMDdNMs7B8uMH9w==
+	bh=FfLgWic/PTZ5YFFae+6QQhwMy+EW+5TDgbCnt4o7zfQ=;
+	b=bmqA+8Ta/AHu1CNDzI7fuLTcWzL+vyCGdp/AuDXZ9uPgk20GPV6DQPX0d5hre5i9x6xa
+	 JHZT7vqIdAKUyjlFn4XaV+XDmJ9LCHmhvQ5TLFMM5amrO/BW6qOdtQUqUjXlwMsWDM/Nu
+	 GUFsWziG0rieURfINgGNDd9NSGUDbGO71mi9hUug3kemNLSDWBO/8mFc8X0iw+uaKenFr
+	 Md5UgYx1wd9YtIsq+RxWI/ZZXn2ti+GhfhuznaUUWtvti05oPs3L2dFHwrA/2h6oLgUtm
+	 0fKAdHPpH+WVSD2A/opka+oxnWpxnkiQTAjBVcA1sgP2wv17NCuJRBfKgUP/Zqu9iaA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=iscas.ac.cn;
 	spf=pass smtp.mailfrom=iscas.ac.cn;
@@ -25,29 +25,30 @@ Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E278C606A31B
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 02:40:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E278C606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4E3606A31B
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 02:40:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A4E3606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-01 (Coremail) with SMTP id qwCowACXwvwqm+pqh7k+AA--.5176S2;
-	Wed, 04 Nov 2026 10:40:42 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowADnD_otm+pqu7k+AA--.29326S2;
+	Wed, 04 Nov 2026 10:40:45 +0800 (CST)
 From: Wentao Liang <vulab@iscas.ac.cn>
-To: Olivier Moysan <olivier.moysan@foss.st.com>,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
 	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] ASoC: stm32: spdifrx: keep the control DMA channel on config failure
-Date: Wed,  4 Nov 2026 02:40:51 +0000
-Message-Id: <20261104024051.1508703-1-vulab@iscas.ac.cn>
+	Takashi Iwai <tiwai@suse.com>
+Cc: sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH] ASoC: SOF: amd: fix leaks when SoundWire probe fails
+Date: Wed,  4 Nov 2026 02:40:54 +0000
+Message-Id: <20261104024054.1508754-1-vulab@iscas.ac.cn>
 X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,11 +60,11 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowACXwvwqm+pqh7k+AA--.5176S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CF43ZF17Jr4xKw1ktFyfCrg_yoW8Jw1rpr
-	4rJrWvg3y5Xan8XF4qgr109ayv9rZ3Ar4DKws8Ww12vrnxAryIva9xWw4qgr42yFW8Ga12
-	9rs3tFy5uw1rCF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUBjb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+X-CM-TRANSID:qwCowADnD_otm+pqu7k+AA--.29326S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CrW5WrWDWw1UWrWUAF4fZrb_yoW8GrW7pa
+	n5Crs0yr9xJr1xA34DWa10ga4FkrWIyrW5C39rKw12gw1rXryIg3W7Jr47WFW8CFW0ya17
+	trWYvayrXF1vvaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Eb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
 	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
 	AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
 	6r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14
@@ -75,43 +76,42 @@ X-Coremail-Antispam: 1UD129KBjvJXoW7CF43ZF17Jr4xKw1ktFyfCrg_yoW8Jw1rpr
 	wI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20x
 	vE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAv
 	wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267
-	AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07bzhL5UUUUU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwQBA2rqZFjVPQAAsV
+	AKxVWxJr0_GcJvcSsGvfC2KfnxnUUI43ZEXa7IU5ENtDUUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRQBA2rqY-nVdgABsn
 
-When dmaengine_slave_config() fails, stm32_spdifrx_dma_ctrl_register()
-sets ctrl_chan to NULL and returns the error. The channel obtained from
-dma_request_chan() is thus lost, and stm32_spdifrx_probe() calls
-stm32_spdifrx_remove() on the error path, which then passes NULL to
-dma_release_channel().
+When amd_sof_sdw_probe() fails, amd_sof_acp_probe() only frees the IPC
+IRQ and returns, leaving the "dmic-codec" platform device registered by
+platform_device_register_data() behind.  The SoundWire context that
+sdw_amd_probe() allocated before the startup step failed is leaked as
+well.  The probe never succeeds for this device, so neither
+amd_sof_acp_remove() nor the devres cleanup releases them.
 
-Leave ctrl_chan untouched so that the remove path releases the channel.
-Its IS_ERR() check already handles the case where dma_request_chan()
-failed.
+Jump to the existing free_ipc_irq label instead, which also calls
+amd_sof_sdw_exit() and unregisters the DMIC device, as the ACP7.x probe
+path already does.
 
-Fixes: 03e4d5d56fa5 ("ASoC: stm32: Add SPDIFRX support")
+Fixes: d948218424bf ("ASoC: SOF: amd: add code for invoking soundwire manager helper functions")
 Cc: stable@vger.kernel.org
 Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
 Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- sound/soc/stm/stm32_spdifrx.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ sound/soc/sof/amd/acp.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/sound/soc/stm/stm32_spdifrx.c b/sound/soc/stm/stm32_spdifrx.c
-index 88863dbd05d9..ce75929daf73 100644
---- a/sound/soc/stm/stm32_spdifrx.c
-+++ b/sound/soc/stm/stm32_spdifrx.c
-@@ -425,10 +425,8 @@ static int stm32_spdifrx_dma_ctrl_register(struct device *dev,
+diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
+index 86e2402b8ffd..120dde4ab777 100644
+--- a/sound/soc/sof/amd/acp.c
++++ b/sound/soc/sof/amd/acp.c
+@@ -1278,8 +1278,7 @@ int amd_sof_acp_probe(struct snd_sof_dev *sdev)
+ 	ret = amd_sof_sdw_probe(sdev);
+ 	if (ret < 0) {
+ 		dev_err(sdev->dev, "error: SoundWire probe error\n");
+-		free_irq(sdev->ipc_irq, sdev);
+-		return ret;
++		goto free_ipc_irq;
+ 	}
  
- 	ret = dmaengine_slave_config(spdifrx->ctrl_chan,
- 				     &spdifrx->slave_config);
--	if (ret < 0) {
-+	if (ret < 0)
- 		dev_err(dev, "dmaengine_slave_config returned error %d\n", ret);
--		spdifrx->ctrl_chan = NULL;
--	}
- 
- 	return ret;
- };
+ skip_soundwire:
 -- 
 2.34.1
 
