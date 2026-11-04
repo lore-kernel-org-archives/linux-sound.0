@@ -1,58 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793839471;
-	b=ii+6B/9peUasUNpc1UrAVr6Z38SR3p6GMStmzlk4jwr8CnYjbCrCjWh8vnfoToKMQ594
-	 q2yVcirLUoTBR8iv+uGJolJFVW35ene1kQ1oqrCizv9lV/iCTWYEELjCUWOBoY6WsYCsO
-	 o3+/cJS1EwYS0tycC5evirGFyfqaRaEA8s7wBeE/IHRFvbO/ORfiAgHcVBWeoCTS1s+jP
-	 8v5NRRq4FtV1Rg/r6UEF6rxOJXct4XSbK/CVD1et6I/FYRlOBoqwZnGJGIfHdTFcKSujE
-	 SAhseeSIhHAGDCoqc6MLJmK3Cz4PKJ5UJmW328tC2LHdWzwn/bGdMhyuJ7sl+z+iiEg==
+	t=1793841838;
+	b=dPAweSeOjHc/ARNtWcDSTQwjotZya1OlxUIrT7levUMbtgrcxmXrf3oD6n5DxP79GqPc
+	 Ypw8rg1e6daqB0HrgvybvNT4Xy5Cu6tb8FoYnsPOaaslD4lIxKRt/9yM/rw5pdzVcsoiw
+	 /xA2hRmbAr/axUpaIPKOtCLNzWtEkXX+FSXWCUl6/DiooHQiK4+UafLhAciRgi+VkZ/qF
+	 xR7vZ5NmJRsOnflu3CxOhuTtoL3BZC56bOq+2aemIs5V+g3Czpf/o1edSQ+NkXn3N6oDt
+	 4taLfHKGgKtQn4xVoW8CiXKSBccLRWhc8IJBC1KRYCl21AqJBG5ZxFK8CMEnTl719ew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793839471;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=bJGd8mlTjpQ0FfgBLfZzt394CDwVDTgiO6kKFxC3j64=;
-	b=B1XO18biB0LLqln0jwslHYwr5xVt803aleUyGk/j8GcT2z42rm5kiOuy/ljymqfzOa5T
-	 2H3mES15kcVSA9xGTIVK/dIdJGmpGtWEPfMQ7yuHW0Q797B550BqCW21e9l9XNU5OX+Mc
-	 yZhAFHw2TGybET1IiQm8P53jX37YIITkeZBjMQ4/0mX2FbxWiYgUR4MCCb/uVPweoD7Sw
-	 kuw6IVP5ZS45W6axznuT/mxr5RUVUqs97ob2/E0TY80wL8kfWOj5okdc0oxwtufggB4M3
-	 fd4hBL3KBCZXfld8j8ilFytEgadkJdFqB4hA8K+UGV+dMrGWI3qa1WuxiK+m0JOCboQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793841838;
+	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
+	 Subject:Message-Id:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=B03EpnY+z56E8b+5oaNyqCn3HsGGwzQ5W5zhM7R00iE=;
+	b=wTh2S6DjqQBIbHZK/oI8f22KXu6XHeVKmKGYjGs8i0DqC1xCRWhdeGrVUXRmiLPK5ayl
+	 pThpElcNh8s1/4cVtUM9b5IIXZXfwlkjfhQG84x/ZfDTJ2amNIpLmMb2z1mi4MH8scIcl
+	 t8/PXZM1JaUqbWjQFMD0EGP9HswLaZRFJNnAKSxBcRGwAOvT5gWn9+IAHI841TASbUpQ8
+	 /AIJ+cHDgPWEq+3vTuRWek5xdjQS1FeZdS9OQr7Ikyl2OrGcCccGIeBcsaF/84FinsScu
+	 I2/3tQsJ4CcUz5igQRRgc5s9IoVpKINqEvpXsU2DV4ION3LJJ1XdF4ngR1J6MUaqsDA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="KI/vqXco";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ifp7tFkP;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF2A606A31B;
-	Thu,  5 Nov 2026 00:44:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9D6606A32C
+	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 01:23:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KI/vqXco
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D0631F000C1;
-	Thu,  5 Nov 2026 00:44:31 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ifp7tFkP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF7441F00919;
+	Thu,  5 Nov 2026 01:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793839471;
-	bh=bJGd8mlTjpQ0FfgBLfZzt394CDwVDTgiO6kKFxC3j64=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=KI/vqXcoPhP4IBiGQd4ZbJrCWOrorVGSZxHmxlKxCJzHYSf2rVDRd1mPtb/F2BOnD
-	 jRaUHA5eh71tkSUofnBe2nyXN2TrFOEnrqmx/0HgSD3uOQtqjq//v2tU47voXa/oQS
-	 XoTvvI7lXs853pPOq8ANdFX8higykK5wfxvxFcrAODv7WV36vGcTpAgGNiwdTDJjhN
-	 gSvynHXWUG+MYCGM47XKkZTDF6OD/b+QJD6WPz79n8f/InprzPEzsiNptW+Yf8QNVj
-	 rP42HLIzpC0732MpDQHELvgbMM0+XMnOeHrAioOFeJedceB32nx76GArKYAwFB/3hy
-	 N2CS32k7X5G9g==
-Message-ID: <sashiko-outbox-198370@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v15 10/12] ALSA: virtio: add staged capture and
- serialize PCM lifecycle accounting
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
-Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
- Perez" <eperezma@redhat.com>
-In-Reply-To: <20261105000915.15177-11-mynameisjune111@gmail.com>
-References: <20261105000915.15177-1-mynameisjune111@gmail.com>
- <20261105000915.15177-11-mynameisjune111@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 00:44:30 +0000
+	s=k20260515; t=1793841838;
+	bh=B03EpnY+z56E8b+5oaNyqCn3HsGGwzQ5W5zhM7R00iE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=ifp7tFkPzUEcu2oJRmN/o3qMEE/h0ed3wGTmD3IHXiGm5TCwDGZY2OSctVfCeTmAr
+	 ogmn8LhZw7FRCT3EPNNJvOkHxIdMOeC6i2fSZOEtdHI4Fv0pZ/EM8I3E4swZOUrQvB
+	 rghlQ1tsgnCpIJ1URvBnbk6bWcl2PnHC2Mg4+Awfe0DmwIcOlE5czJnsVsLBfPNppZ
+	 ghkb3NdiI1TyxBBh6Kl+Rg/X6lcvpYja711UZOCgtkDJdGb0bS6QTyW08RlLLjOvDz
+	 OYBYOSBTvo2VRLKDGwKcCiVyV78kEqPaPNEo62q4+5LEnW5+R0tkz5WphIJz00BT2w
+	 GibyLRh8AucFg==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 8FC92272CB32;
+	Thu, 05 Nov 2026 01:23:55 +0000 (GMT)
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Wentao Liang <vulab@iscas.ac.cn>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261104024055.1508771-1-vulab@iscas.ac.cn>
+References: <20261104024055.1508771-1-vulab@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: audio-graph-card2: fix device node leaks in
+ graph_count_c2c()
+Message-Id: <179383158964.2456854.14440938297573440809.b4-ty@b4>
+Date: Wed, 04 Nov 2026 22:33:09 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,172 +63,47 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1152; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=B+VP4+Why3bCVQBSzH0nJ5ZT91/1hCh9sYoruXGhpVc=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJe31r9NWCDvsKi27pKBv+Ll6y0uDP1PYsC7wcBoasTl
+ s1ZcaN+d0cpC4MYF4OsmCJLXBb3y/qS12v4Di5sg5nDygQyhIGLUwAmIszB8Fdw92vJWfvk91/b
+ IH+/z3HTjuK0Hbc1VP7dFT5SJGu6aY4ww18xHt0rTplBkaY7mha3ypdMmWqyQy/xywXt5aEifjp
+ 6ckwA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] ALSA: virtio: staged capture ACK and pointer bypass prepared che=
-ck in DRAINING
---
+On Wed, 04 Nov 2026 02:40:55 +0000, Wentao Liang wrote:
+> ASoC: audio-graph-card2: fix device node leaks in graph_count_c2c()
 
-commit 50d3f0b4df898e1d66fc877101e4baac71884d78
-Author: Joonho Lee <mynameisjune111@gmail.com>
+Applied to
 
-ALSA: virtio: add staged capture and serialize PCM lifecycle accounting
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
-This commit adds an opt-in staged capture mode using request-owned RX
-buffers with monotonic byte accounting for shared capture clients. It also
-serializes PCM lifecycle transitions with lifecycle_lock and coordinates
-pointer, reset, and ACK admission under the PCM stream lock.
+Thanks!
 
-> diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
-> index 706d59d8c7201..a60f960287e2e 100644
-> --- a/sound/virtio/virtio_pcm_ops.c
-> +++ b/sound/virtio/virtio_pcm_ops.c
+[1/1] ASoC: audio-graph-card2: fix device node leaks in graph_count_c2c()
+      https://git.kernel.org/broonie/sound/c/740fb77b3838
 
-[ ... ]
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-> @@ -601,14 +1513,69 @@ static snd_pcm_uframes_t
->  virtsnd_pcm_cp_pointer(struct snd_pcm_substream *substream)
->  {
->  	struct virtio_pcm_substream *vss =3D snd_pcm_substream_chip(substream);
-> +	struct snd_pcm_runtime *runtime =3D substream->runtime;
-> +	size_t hw_ptr =3D 0;
-> +	u64 total;
-> +	bool free_running;
-> +	bool xrun;
-> =20
-> -	scoped_guard(spinlock_irqsave, &vss->lock)
-> -		if (vss->xfer_xrun)
-> +	if (vss->capture_staging) {
-> +		scoped_guard(spinlock_irqsave, &vss->lock) {
-> +			if (!vss->runtime_active || vss->preparing || vss->suspended ||
-> +			    (!vss->prepared && runtime->state !=3D SNDRV_PCM_STATE_DRAINING &&
-> +			     !(runtime->state =3D=3D SNDRV_PCM_STATE_PAUSED &&
-> +			       virtsnd_pcm_pause_restart_enabled(vss) &&
-> +			       vss->pause_restart_state =3D=3D VIRTSND_PCM_PAUSE_RESTART_RELE=
-ASED)))
-> +				return SNDRV_PCM_POS_XRUN;
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-[ ... ]
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-> @@ -647,86 +1658,176 @@ static int virtsnd_pcm_ack_state(struct snd_pcm_s=
-ubstream *substream)
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-[ ... ]
+Thanks,
+Mark
 
-> +static int virtsnd_pcm_capture_staged_ack(struct virtio_pcm_substream *v=
-ss,
-> +					  struct snd_pcm_runtime *runtime)
-> +{
-> +	struct virtio_snd_queue *queue =3D virtsnd_pcm_queue(vss);
-> +	int rc =3D 0;
-> +
-> +	/*
-> +	 * The RX callback holds the queue lock while draining completions.
-> +	 * Account ALSA's read under the substream lock alone so completions la=
-ter
-> +	 * in that drain observe the newly released ring space.
-> +	 */
-> +	scoped_guard(spinlock_irqsave, &vss->lock) {
-> +		snd_pcm_uframes_t appl_ptr;
-> +		snd_pcm_uframes_t appl_diff;
-> +		snd_pcm_uframes_t ack_frames;
-> +		snd_pcm_sframes_t diff;
-> +		size_t bytes;
-> +		u64 outstanding;
-> +		u64 next_acked_total;
-> +		bool free_running;
-> +
-> +		if (!vss->runtime_active || vss->preparing || !runtime || !runtime->co=
-ntrol ||
-> +		    !runtime->dma_area || vss->suspended)
->  			return -EBADFD;
-> -		if (vss->stopped)
-> +		/* Preserve DRAINING tails only when no transfer XRUN is latched. */
-> +		if (vss->stopped && vss->xfer_xrun)
->  			return -EBADFD;
-> -		if (vss->xfer_xrun) {
-> -			rc =3D -EPIPE;
-> -		} else {
-> -			transfer.indirect =3D vss->pcm_indirect;
-> -			rc =3D snd_pcm_indirect_playback_transfer(substream,
-> -							       &transfer.indirect,
-> -							       virtsnd_pcm_trans_copy);
-> -			if (!rc)
-> -				rc =3D transfer.error;
-> +		if (vss->xfer_xrun)
-> +			return -EPIPE;
-> +		if (!vss->prepared && runtime->state !=3D SNDRV_PCM_STATE_DRAINING &&
-> +		    !(runtime->state =3D=3D SNDRV_PCM_STATE_PAUSED &&
-> +		      virtsnd_pcm_pause_restart_enabled(vss) &&
-> +		      vss->pause_restart_state =3D=3D VIRTSND_PCM_PAUSE_RESTART_RELEAS=
-ED))
-> +			return -EBADFD;
-> +		if (vss->stopped && runtime->state !=3D SNDRV_PCM_STATE_DRAINING &&
-> +		    !(runtime->state =3D=3D SNDRV_PCM_STATE_PAUSED &&
-> +		      virtsnd_pcm_pause_restart_enabled(vss) &&
-> +		      vss->pause_restart_state =3D=3D VIRTSND_PCM_PAUSE_RESTART_RELEAS=
-ED))
-> +			return -EBADFD;
-
-[Severity: Medium]
-Should virtsnd_pcm_cp_pointer() and virtsnd_pcm_capture_staged_ack()
-exempt SNDRV_PCM_STATE_DRAINING from the !vss->prepared check?
-
-When a capture stream enters SNDRV_PCM_STATE_DRAINING via
-snd_pcm_drain() -> snd_pcm_do_drain_init() -> snd_pcm_do_stop() ->
-virtsnd_pcm_trigger(SNDRV_PCM_TRIGGER_STOP), the driver sets
-vss->stopped =3D true and vss->xfer_enabled =3D false while keeping
-vss->prepared =3D true. Unlike SNDRV_PCM_STATE_PAUSED under
-capture_pause_restart (which sends VIRTIO_SND_R_PCM_RELEASE and sets
-vss->prepared =3D false), an active draining capture epoch always keeps
-vss->prepared =3D true until teardown retires it.
-
-If userspace subsequently calls snd_pcm_prepare() on a draining staged
-capture stream, snd_pcm_do_prepare() leaves runtime->state as
-SNDRV_PCM_STATE_DRAINING while invoking snd_pcm_sync_stop() ->
-virtsnd_pcm_sync_stop() -> virtsnd_pcm_sync_stop_locked():
-
-sound/virtio/virtio_pcm_ops.c:virtsnd_pcm_sync_stop_locked() {
-	scoped_guard(pcm_stream_lock_irqsave, substream) {
-		guard(spinlock_irqsave)(&vss->lock);
-		preparing =3D vss->preparing;
-		vss->preparing =3D true;
-		vss->prepared =3D false;
-		vss->xfer_enabled =3D false;
-	}
-	rc =3D virtsnd_pcm_release_locked(substream);
-	scoped_guard(pcm_stream_lock_irqsave, substream) {
-		guard(spinlock_irqsave)(&vss->lock);
-		vss->preparing =3D preparing;
-	}
-	return rc;
-}
-
-Once virtsnd_pcm_sync_stop_locked() returns, vss->prepared and
-vss->stopped are both false and vss->preparing is restored to false,
-while runtime->state is still SNDRV_PCM_STATE_DRAINING. In the window
-before virtsnd_pcm_prepare_locked() takes the PCM stream lock (or
-permanently if virtsnd_pcm_prepare_locked() fails before
-virtsnd_pcm_dev_prepare(), such as on -ECANCELED or a
-virtsnd_pcm_dev_set_params() error, where virtsnd_pcm_prepare() resets
-vss->preparing =3D false), concurrent SNDRV_PCM_IOCTL_SYNC_PTR or
-SNDRV_PCM_IOCTL_HWSYNC calls bypass the !vss->prepared check and proceed
-on the released, unprepared epoch.
-
-By comparison, the non-staged path in virtsnd_pcm_cp_ack_locked() only
-exempts SNDRV_PCM_STATE_DRAINING from vss->stopped and unconditionally
-rejects !vss->prepared:
-
-	if (!vss->prepared ||
-	    (vss->stopped &&
-	     runtime->state !=3D SNDRV_PCM_STATE_DRAINING))
-		return -EBADFD;
-
-Should virtsnd_pcm_cp_pointer() and virtsnd_pcm_capture_staged_ack()
-likewise require vss->prepared to be true unless the stream is in the
-pause-restart released state?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105000915.1517=
-7-1-mynameisjune111@gmail.com?part=3D10
