@@ -1,22 +1,22 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793759297;
-	b=z3KzltqZVZLpGG5Ml3d6AnbbWH/IKkVyee/YJAZ6qVE+ozF3pJkKv7/DBkJN8+VXvbeG
-	 D7l7M+VqEqfZAgUi/GKRY4scwyvHOnJnZNdnqtnevXDo1lLzGpyenCbXPaSFqYPgBRTWx
-	 jUmu77FRRO8Bou3ta/jZND0Wb3Qa/KKRtKiwT7wEJpMQoK1xNedSx2tnpgtE8mteHvVTu
-	 T3ya9T08ZGxBPTvs2utj8J2AFU3KwR5hQk52+SzDnKnbexZ6BEIOIwYYypBTx+TSE8yhb
-	 h58g/eW392CwI7XZnI4flpDiQOTbFj3MitDSiqD/elM4a5aYAZpMWNIalbgaJ3uvcDA==
+	t=1793759291;
+	b=10d2jdzLuJ3SAOB8GwfRG1ApWt9Dre9IyeVTTeS6aADftw7ZwQvQOUypeyy6Bt2TBCI5
+	 f2RJlVkx2mofL1MXi4xpx6MJgBVqqlKQl3CedK04yIzq8uFyJPnUrrILjdSS4F/lYY+Fi
+	 mLK1XQcGDs0vV9XJB40H3sIWN2+AORzn/3f5JEfRBM/Tu1FY2Yt10iwD6RFBtCrit26Y5
+	 6yMZcfpGao/m6uniePMd7fcNy0EWCsfsXezr04HSVLxuHktH+kLv+lj9MBrSl+9jXToPL
+	 tX6ZLmDEpHbISEqLmW9epk2NafQWhpk625gKTODm5nA8NZ8GHg5uku6f9pADoNUi2QA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793759297;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793759291;
 	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
 	 MIME-Version:Content-Transfer-Encoding:X-CM-TRANSID:
 	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=i58akWjzUYm8bTHH/RbasE8Ou8t+HVevZjRVQ3Fujhg=;
-	b=0/McrKRBanOlCGemOfoxncFGA5uAAn8X97IuH88sR98Iw/8U/v33zkPQeQluCed2vGnC
-	 55M1aiOw7cyNiA+gl0x2quaX9uNq8YZj7b14c/+xwtyfctvolEaxhvICEhYFKNgNTiRl3
-	 bZSZOY3xqqlBo1MdlXVeNA4+dxmhWDZHNUXMf1oQ46gq3OF2Vsca1QIZrQW6ATaSfFFlH
-	 ozdcCzO9b0eMz4L/YdSRUkagPuMVWAXD9fQIuINu+jeWO+CWiobeiF4QCzuLEYUq9R7GK
-	 mxmDvoljlTXSFeL+7nBR/fS9q0LGzqLxGz7rIPJyCKQM7pBxdFnFWud8E1L6oM0XRyA==
+	bh=pu7TWcgnV8s/LqBU3li0z2ZO6VUbOEfAFsaK5V9FRes=;
+	b=xuDv3rhLuQ4lM7bU/PxrF7xZe38sPklstoGvQbbZYnMan/OAbL5aCXK5C7QBvL+H3FQU
+	 NUT3ooBlTQHmyq6RGUf1LyNusizQ4d4kIFftYu31zNNaa3FH0BihLh/UBpEY+uJGtaMza
+	 z52Ig8gHZNnyXXbhf3CRvF1ElnWsQ3A5lctVjB+YdOJ0QNZl8jTbv3n8yM6plS1ijyctD
+	 ti9iFXVVWTn+CSlCjN1yj7w3f+ubSdGn5zIap7PKZiZhUGTiYSpRAYXDqEfq32LD1c8ie
+	 HKO5FVvdhNVJJLPVUd7wwOXBg6u0mrqupjNl1ihDvmcn/Pg4RG78UxNUo+whUpYPlZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=iscas.ac.cn;
 	spf=pass smtp.mailfrom=iscas.ac.cn;
@@ -25,33 +25,25 @@ Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09A3606A32E
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 02:28:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E09A3606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE973606D80D;
+	Wed,  4 Nov 2026 02:28:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE973606D80D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-01 (Coremail) with SMTP id qwCowABnVf82mOpq2Js+AA--.27325S2;
-	Wed, 04 Nov 2026 10:28:06 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowAD3H_o1mOpq1ps+AA--.29145S2;
+	Wed, 04 Nov 2026 10:28:05 +0800 (CST)
 From: Wentao Liang <vulab@iscas.ac.cn>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
+To: Srinivas Kandagatla <srini@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>
+	Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] ASoC: fsl: imx-sgtl5000: drop codec device reference after probe
-Date: Wed,  4 Nov 2026 02:28:15 +0000
-Message-Id: <20261104022815.1484320-1-vulab@iscas.ac.cn>
+	linux-arm-msm@vger.kernel.org
+Subject: [PATCH] ASoC: codecs: wcd939x: fix device node leak in probe
+Date: Wed,  4 Nov 2026 02:28:14 +0000
+Message-Id: <20261104022814.1484303-1-vulab@iscas.ac.cn>
 X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,52 +55,52 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowABnVf82mOpq2Js+AA--.27325S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZw48Gw1furyUWw1kurW7Arb_yoWDGwbEk3
-	48Wa4kZryrGr9rKF1DZr47Zrs7WFnrWFW7Jr4IyF4DW3s8tFWrXry5Gr45uF1DXw4rCrs5
-	A3WUZFWFgr1S9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbfxYjsxI4VWkKwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+X-CM-TRANSID:qwCowAD3H_o1mOpq1ps+AA--.29145S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7XF45Ww13XFykGF17WFyDZFb_yoWkXwcEg3
+	y8uayvqryxWFs2kr4DtrsFvan7WFs3CrW0kw4ktry7Ka45KF4fX3s3tr9xua4UZ393Za4r
+	ZF1UXa13X347WjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbV8YjsxI4VWkKwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
 	s7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4
 	kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_
 	Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI
 	0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
 	Yx0E2Ix0cI8IcVAFwI0_ZF0_GryDMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7x
-	kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kK
-	e7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r48ZrWUJr1UMx
-	C20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAF
-	wI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20x
-	vE14v26F1j6w1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAv
-	wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267
-	AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07bz5lnUUUUU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRMBA2rqY-nHZQAAsg
+	kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0E
+	wIxGrwCF04k20xvE74AGY7Cv6cx26r48ZrWUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI
+	8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
+	xVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26F1j6w1UMIIF0xvE2Ix0cI
+	8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
+	87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvj
+	DU0xZFpf9x07b7a9fUUUUU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAMBA2rqY+TJlgABsU
 
-imx_sgtl5000_probe() takes a reference on the codec i2c device, but the
-successful probe path returns without releasing it. Only the error
-paths drop the reference, so every successful probe leaks the i2c
-client device.
+wcd939x_populate_dt_data() fetches the remote endpoint node to check
+whether the headphone lines are routed through the USBSS part, but
+never drops the reference returned by of_graph_get_remote_node().
+Probing a codec whose audio port has a valid remote endpoint therefore
+leaks a device node reference.
 
-Release the reference once the card has been registered.
+Drop the reference once the result has been used.
 
-Fixes: 81e8e4926167 ("ASoC: fsl: add sgtl5000 clock support for imx-sgtl5000")
+Fixes: 10f514bd172a ("ASoC: codecs: Add WCD939x Codec driver")
 Cc: stable@vger.kernel.org
 Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
 Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- sound/soc/fsl/imx-sgtl5000.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/soc/codecs/wcd939x.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/fsl/imx-sgtl5000.c b/sound/soc/fsl/imx-sgtl5000.c
-index 8bcf54ef709e..8ce333eb47fe 100644
---- a/sound/soc/fsl/imx-sgtl5000.c
-+++ b/sound/soc/fsl/imx-sgtl5000.c
-@@ -177,6 +177,8 @@ static int imx_sgtl5000_probe(struct platform_device *pdev)
- 		goto put_device;
+diff --git a/sound/soc/codecs/wcd939x.c b/sound/soc/codecs/wcd939x.c
+index 2d463f062e6d..595eab8e33d9 100644
+--- a/sound/soc/codecs/wcd939x.c
++++ b/sound/soc/codecs/wcd939x.c
+@@ -3214,6 +3214,7 @@ static int wcd939x_populate_dt_data(struct wcd939x_priv *wcd939x, struct device
+ 		wcd939x->typec_analog_mux = true;
+ 		cfg->typec_analog_mux = true;
+ 		cfg->swap_gnd_mic = wcd939x_swap_gnd_mic;
++		of_node_put(np);
  	}
- 
-+	put_device(&codec_dev->dev);
-+
- 	of_node_put(ssi_np);
- 	of_node_put(codec_np);
+ #endif /* CONFIG_TYPEC */
  
 -- 
 2.34.1
