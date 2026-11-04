@@ -1,57 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.22
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.120
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793794919;
-	b=ioWIq33S4uz6uzPhIU7aYd2KqUzmqGWhL182md5C2sozY9uSdpRvCrNjLT/Lsmx/vyMz
-	 YcLHmnEkCfMe7wNUUyMWvqxUlDXCdKehomKuCmKavYqi3b6ST3y89UsBIrvnwbMBYzKYj
-	 QAhq3G7NM0vX06Lx0grqvgf0A8AXZiJzCWW6+Q53CYVtYO7eoSYldNjvGwuwV3AW2Lb3n
-	 AzDA+g9ulIYNxuFuba+ZA2Cq6zCLj070Y4t613er7DOn8L7cz+LVoKBkGDaLqF7yBu5cc
-	 D8whikxihI+rjVV8rVPj2gO8TyfwPF5IHxp9pMOY3spngmuzVo20fRIjPwFC2tCbCHw==
+	t=1793794930;
+	b=YCm0TSuP68tWr9yRaJtIaj38LprmnRd12R187dvFtNMZsQjW2yL19y5mIgMIB2YvQr9+
+	 r1nNMMt+ikDBgLoQgqRggjLezQ3qJsQTb6FpTIf3bT5MTU2XVQr7l97B7cCi2HhO/AGSn
+	 ZSz4RHSvK1aMClOQU/5pGES0pruPpmlULgs56rC4uZcveK47rUS1MylgG3x5ZxSSXLcBG
+	 QMi3ZaocMVinXsM8u51QbdbtQbqL/rvyu5JP1ZLbT9KmqTgTLLMO9TuchIqzLNPkzJtkl
+	 nb07zzEP6MKlcmYRJALzaIQ9PiPTh4qbjeHRS3EevuMTjXeUzovanekoLTN+NpozEmg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793794919;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793794930;
 	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=UnEnkvalLpA9bogWtSVKDojXdVfOEBBi5ZWxJhdb+eY=;
-	b=JP0x5avJHmx4v5yFchUKMytxMJ2uzsX14JaZmj9F5wG9rhcIL8R0FDBU86/TyB7Ey+l6
-	 5wBMqgnHnxrFA9ar2mHSx2aBn1FNNEuiizoQHHEwSPnMgYWJJw6loDokETYKpo8AoSX2j
-	 87W+U5ZBQYHpdCf0bynzqXFBjboxJPnyKKaowentiMgvW6acrGn4gnpp6EZquW/tLPyL1
-	 6FummYDGONkCt5cwMwcBx1DexhUhXKvNj5mLfKFP891oZYYeZF48PVE0Q3zk+5d0x957u
-	 6yl6RMIH2fY4TwMtQ0AwbARMlQS8IBSLMgMqIntT2ssIocTdOyCKuTDZ56OJPFZbRZg==
+	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=1VRHBV0Vi6lcFS6X07earnXeCOVYmYuBX2CJ9LanzrM=;
+	b=u935T5sRpYjWPtvw5YlT0tNkycUlBLwpN0BdveUre/yXMf3xb7SdhI3mknjHkIKL8PZq
+	 3ijDVVurM4vpfmsWqfhPwC25CA50zBgg4Y5r2kg3WDTSbbm25vTIejbr9nvXG4B14lSi2
+	 nw77MO5By0yV1qktYzFEf64jafAhTeD0K+jLw0rlr8zts6nlExtUAlc9trAmOQBGyKhQB
+	 8PHdpTTSfMP9U5vJkIV0D2LvdYatruRTyAm/5+eMB+BfZl6OqavOaChNElbPm/ziGip4k
+	 jBv0MzgSExKxs5InuljBZZM+NYomSV8mdGNgDRqv3fZAjXdR0OwyZ9KkdNiOQYjybgQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=pm.me;
 	spf=pass smtp.mailfrom=pm.me;
-	dkim=pass header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=Xf5Y6pVA;
-	arc=none smtp.remote-ip=185.70.43.22
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+	dkim=pass header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=Av+rzeCN;
+	arc=none smtp.remote-ip=79.135.106.120
+Received: from mail-106120.protonmail.ch (mail-106120.protonmail.ch [79.135.106.120])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC22C606A328;
-	Wed,  4 Nov 2026 12:21:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC22C606A328
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD2A606A32E
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 12:22:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDD2A606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=Xf5Y6pVA
+	dkim=pass (2048-bit key, unprotected) header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=Av+rzeCN
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1793794916; x=1794054116;
-	bh=UnEnkvalLpA9bogWtSVKDojXdVfOEBBi5ZWxJhdb+eY=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=Xf5Y6pVA6NixcyqFrS/YDRp2gWR9+IepDHfwhMQJpdefaQMNh3wA4PqjWXybS3G3C
-	 x6wBKVmmNbaYZCoYNOby2f7KaEfqrJkaZ9vCU7WMEmJFOUnXKgqZwhUYRtbF0UZPjB
-	 NOxmf5CvsYYUhmL31UCuDLDrDbEGN0Aa7Kfxu0YlNsfnySG4GJlxgNWA7+G9JnE9Hy
-	 Rzi8myeWIPJMGlbHlWE1MFR8y1ClzEuOZ3TncO8o8bDsKkV9fO/WQJJBv3ELtHidQg
-	 y+ClPvXFKSMN3IA6uuBe0atkwvF82Xy71fuEh0KE+Owr6030lErU3/nwY8T1SMyFuD
-	 8YrNVcL8+RN0A==
-Date: Wed, 04 Nov 2026 12:21:52 +0000
+	s=protonmail3; t=1793794927; x=1794054127;
+	bh=1VRHBV0Vi6lcFS6X07earnXeCOVYmYuBX2CJ9LanzrM=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=Av+rzeCNyk0HPev1VhXkgLnD2VHnha7GXmXz/RPAgyASSdQUWdf1P7Wo+kfd4HaLL
+	 TRWFGMpnWbmuW37Dv7j/9ZXRyDW0VkSrV3FyGDCBEpN5rl7j6/zOUyeSPHr+odYSv2
+	 m8Pvpak2MI9+RBl7BAovdw7SrMp/HtNNYVVXWLn7PWE5gMlFMgAh+VVZ0NSd+fz9uX
+	 ew4S2iwyuGKNgvsd/78MCmR9WVGNKh3mGb49yGBElbLFo1S7O72V7iTp7P8+zkJSaQ
+	 ZgZV1f0QdlUh8ilMVSYVQBrloxf2auNreLm3dVoVzsu/hR0EchxObQrn6l/rUpcXBj
+	 TwArMVu0Z67cQ==
+Date: Wed, 04 Nov 2026 12:22:03 +0000
 To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 From: Sinan Turunc <enscrpt@pm.me>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org, sashiko-reviews@lists.linux.dev
-Subject: [PATCH v4 0/2] ALSA: usx2y: Bound the PCM buffer by the URB size
-Message-ID: <20261104122136.1518-1-enscrpt@pm.me>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: [PATCH v4 2/2] ALSA: usx2y: Guard the playback copy
+Message-ID: <20261104122136.1518-3-enscrpt@pm.me>
+In-Reply-To: <20261104122136.1518-1-enscrpt@pm.me>
+References: <20261104122136.1518-1-enscrpt@pm.me>
 Feedback-ID: 48393780:user:proton
-X-Pm-Message-ID: b9e734d70338c72dead360983e9b291a9abbcea7
+X-Pm-Message-ID: c65bdafba056a5aa7f65a001c8ab584f50cb00e9
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,36 +67,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-v4 of the usx2y buffer fix. Patch 1 changes only its comments and the
-nrpacks note in the changelog. Patch 2 now also sizes the playback ISO
-descriptors from whole frames, after the review of v3 found that they
-were filled from the raw capture actual_length while
-transfer_buffer_length used whole frames, and gives the maxpacksize
-check its own message.
+usx2y_urb_play_prepare() sums the packet lengths of a whole URB, copies
+that many frames with a single wrap, and sizes each playback packet from
+the capture packet's actual_length. Three things are unchecked: that the
+URB fits in the ring buffer, that a packet fits in the playback
+endpoint's maxpacksize, from which tmpbuf is allocated, and that
+actual_length is a whole number of frames. The ISO descriptors take the
+raw actual_length while transfer_buffer_length and the copies take
+count * stride, so a packet that is not a multiple of the stride makes
+the descriptors add up to more than the buffer, by up to stride - 1
+bytes per packet.
 
-Patch 1 replaces the two-packet BUFFER_BYTES bound of v2 with a
-two-URB BUFFER_SIZE bound in frames that does not read the endpoint,
-and keeps the capture drop guard. Patch 2 adds guards in the playback
-prepare path for a URB larger than the buffer and a packet larger than
-the playback endpoint's maxpacksize, and sizes each descriptor as
-counts * stride, all pre-existing and unchecked.
+Return -EPIPE, as the existing packet-size check does, when the URB is
+larger than the buffer or a packet is larger than maxpacksize, and size
+each descriptor from whole frames, so the descriptors add up to
+transfer_buffer_length and each stays within maxpacksize. The buffer
+case is prevented by the previous patch and this is the guard for it;
+the other two depend only on the device.
 
-Tested on 7.3-rc7 with a USB/IP device presenting the US-122 interface
-layout. The playback case of patch 2 reproduces on the unpatched driver
-with ordinary 48-frame packets and a 100-frame buffer, which the stock
-constraints allow. With both patches, buffers below the bound are
-refused at hw_params and 400-frame buffers stream in both directions
-with no KASAN report, for S16_LE and, on capture, S24_3LE. With
-195-byte capture packets the descriptor sizing of patch 2 shows through
-USB/IP's completion check, which refused the v3 URBs (descriptors of
-780 bytes for 768 bytes of data) and accepts the v4 ones. The results
-are in the patch messages.
+The first case is reachable on the unpatched driver with ordinary
+packets: on 7.3-rc7, a USB/IP device presenting the US-122 interface
+layout and sending 48-frame packets, with a 100-frame playback buffer
+(two 50-frame periods, inside the stock constraints), KASAN reports:
 
-Sinan Turunc (2):
-  ALSA: usx2y: Require a buffer of two URBs
-  ALSA: usx2y: Guard the playback copy
+  BUG: KASAN: out-of-bounds in i_usx2y_urb_complete+0x79b/0x1ac0
+  Read of size 18446744073709551280 at addr ffff88800e6b02e0 by task vhci_r=
+x/80
 
- sound/usb/usx2y/usbusx2yaudio.c | 43 +++++++++++++++++++++++++++++++++++++=
-+++++-
- 1 file changed, 42 insertions(+), 1 deletion(-)
+With both patches, the same device and a 200-frame playback buffer is
+refused at hw_params with EINVAL, and a 400-frame buffer plays for 30 s
+with the position advancing inside the buffer, no KASAN report and
+neither guard message. The maxpacksize check is not exercised: the
+emulated device reports the same wMaxPacketSize on both endpoints.
+
+The descriptor case is visible with capture packets of 195 bytes at
+stride 4 (48 frames and 3 bytes): without this change the four
+descriptors add up to 780 bytes for 768 bytes of data, and USB/IP's
+completion check refuses the URB ("total length of iso packets 780 not
+equal to actual length of buffer 768", -EPROTO), after which the driver
+stops the streams. With this patch every descriptor is 192 bytes, the
+descriptors add up to the data in every URB for 30 s, the position
+advances inside the buffer and KASAN reports nothing. The 48-frame
+playback run above is unchanged.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Sinan Turunc <enscrpt@pm.me>
+---
+v4: size the ISO descriptors from whole frames, so they add up to
+transfer_buffer_length (review of v3); the maxpacksize check has its own
+ratelimited message. Regenerated on top of 1/2.
+v3: new patch, split out of the v3 draft; the review of v2 found both
+unchecked assumptions. The buffer case is confirmed on the unpatched
+driver and the guards tested on 7.3-rc7, see above.
+
+ sound/usb/usx2y/usbusx2yaudio.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
+
+diff --git a/sound/usb/usx2y/usbusx2yaudio.c b/sound/usb/usx2y/usbusx2yaudi=
+o.c
+index 1e1d0cfbd16..798c9bb5386 100644
+--- a/sound/usb/usx2y/usbusx2yaudio.c
++++ b/sound/usb/usx2y/usbusx2yaudio.c
+@@ -118,14 +118,31 @@ static int usx2y_urb_play_prepare(struct snd_usx2y_su=
+bstream *subs,
+ =09=09=09=09__func__, counts);
+ =09=09=09return -EPIPE;
+ =09=09}
++=09=09if (counts * usx2y->stride > subs->maxpacksize) {
++=09=09=09dev_err_ratelimited(&usx2y->dev->dev,
++=09=09=09=09=09    "%s: packet of %i bytes exceeds maxpacksize %u\n",
++=09=09=09=09=09    __func__, counts * usx2y->stride,
++=09=09=09=09=09    subs->maxpacksize);
++=09=09=09return -EPIPE;
++=09=09}
+ =09=09/* set up descriptor */
+ =09=09urb->iso_frame_desc[pack].offset =3D pack ?
+ =09=09=09urb->iso_frame_desc[pack - 1].offset +
+ =09=09=09urb->iso_frame_desc[pack - 1].length :
+ =09=09=090;
+-=09=09urb->iso_frame_desc[pack].length =3D cap_urb->iso_frame_desc[pack].a=
+ctual_length;
++=09=09urb->iso_frame_desc[pack].length =3D counts * usx2y->stride;
+ =09}
+ =09if (atomic_read(&subs->state) >=3D STATE_PRERUNNING) {
++=09=09/*
++=09=09 * The copy below wraps once, which needs count <=3D buffer_size.
++=09=09 * snd_usx2y_pcm_open() guarantees it; guard anyway.
++=09=09 */
++=09=09if (unlikely(count > runtime->buffer_size)) {
++=09=09=09dev_err_ratelimited(&usx2y->dev->dev,
++=09=09=09=09=09    "%s: URB of %i frames exceeds %lu-frame buffer, stoppin=
+g\n",
++=09=09=09=09=09    __func__, count, runtime->buffer_size);
++=09=09=09return -EPIPE;
++=09=09}
+ =09=09if (subs->hwptr + count > runtime->buffer_size) {
+ =09=09=09/* err, the transferred area goes over buffer boundary.
+ =09=09=09 * copy the data to the temp buffer.
+--=20
+2.56.0
 
