@@ -1,55 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793781544;
-	b=nzj5mtyMD3YI6hKT7fk/B2mIqmkKXiI6uXLNzMfN97gQEWYteG3vX7Hjtsz/NtQfidsU
-	 +HWz4q+yQ8yKHF4ADufMyM7dVkz3Feazf6+ejOD+6Pvzw3/LkxDURiUTT+tNevwLG73Pa
-	 B+HhdT3MqEhvG1bt87kM6RWu1QIG0lDLViUvmtAdYmM4eKts+NmInJlBVbZJqfeOTvhS6
-	 40mWvjrFrrDQYztRUFzLRPhBv8n+//aVsqt8yxt/XLfGy/6EUJZfv+6OBgzvJMrN9Ei01
-	 YMWEz8qbzrlSalUXY+T7TF0KEMGjeebaKnpVDsETkh7IUnCf7uMZ7deIlZiq+df9/yQ==
+	t=1793781983;
+	b=ygRccwnUIcbygF8IFWgCeilYRD36nXwroYo3qSn1p7X6S0ErybseLaXnSKAK0qvHDRp0
+	 IoG5Exxw9H/4KeWOzpp4uIaaWjW3TG/aruEqjfm0UPVrNuPQ1Dm/PLdA+UL6XOyz5Uhcx
+	 +XsFkTZmjFoZ5HEpBr1RxnwrkCzGOm5r6KvNcYEQGr1/l2hXH1CHF77XVjGAaeCubbwaw
+	 SishuI4Wrmk9+UHQbtygI9LizkH6KkfHPe9mm9cccX64p6lKh5L0gQQxVeEUpfH+hK4rw
+	 o43pEtnhM1/UEPiHEiuTeyC90wbCGQwhqX1QVTobQHX2g1aUoDflamfeR1FZjrCvSEA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793781544;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=+SFAmIgJkrYqhYDgAl3dZELKR8vej0Oc6F1sUMciH/g=;
-	b=AHzAS7vYpQ0a8eM+19sdYLTsMlWPV0GnnVGRvdWW86fYb05F6hxGm3yaIMEQCWTBetAI
-	 6xpsAh54RILPfxy9blfKJ78RA09o4+NQBKwodK4AtChq7g6sdn6pwjM9W3bDD+/UxrH2Q
-	 6GBUf+7BYrKMxdvTwP6Edt34XKmW22YS0LExKfugVQc58y7blZg7bPho77K7UsvTT0Ihp
-	 nbXK/UjQqMQIGe+16judi45rk1G5xXWVheTew85NBkTAJOCFBtinMcC16dGSWe8OfvbQG
-	 3kwuY2P9tgWG0HF0mVHEsPbX9ra0kz9qBFFQMr2/g4R+4YClz3NGr8K3nGPQBoSC/sw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793781983;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
+	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
+	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=ubS0Mc1JwuLdPtK1RIzVjUmXMBZ2df+GGrwUK5Rlses=;
+	b=rH+yt0sXBfNC/Su9H3RmmZJqbIeZIgx8oiAZzfOfYKh2lqq9ukdH+M8G/fFi0XIP4x/o
+	 VtbsAdjq5VNiF+uwRPGDu98H9o8x4bf9A1BKw5IxuOatK+OLj0nIpG00QNHKnwWcUSSod
+	 Pctupyqyxfk/QZE1h67RrTF4ad5ZfxDtDQEPimW7LoEIgyObxJ/cY7iT8Ix+xKTAGi2cn
+	 EmR6zGsYLF7RN94flHDeGpAAxJe2Smw0IRZA/cZG5nLeSxhG1G4SWZcZA42AVTmaqN2Hs
+	 qx1MDL8LlF5GJO0VFHxQLPYPCc6SyZX0dQs2jnFfNxccg5XKrRsa367ncKgFtrJbSNQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=itbeR0nv;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B0A606A326
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 08:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=itbeR0nv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2B701F000C1;
-	Wed,  4 Nov 2026 08:39:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793781543;
-	bh=+SFAmIgJkrYqhYDgAl3dZELKR8vej0Oc6F1sUMciH/g=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=itbeR0nviziSuBDTHNu4iLcjkAw4n7mQFXhZD+/fREY2/mnEgu9ebdhZ1Tow+f6fI
-	 mFV2/swYU/4c1/8ziLn19FnQEMQw2/5qFlGwApOXbQLNDnvQCdd7E2Hvl36xP1QVSV
-	 36qhBZT1yviYEEhjVjy0jZy2k7zcAiqETAyhT6IZY7gW9PYRbAhlgX3/v3tUuZPyKF
-	 7BWXJYpmw3dkj+JGmM9IjTyLLatp6fuJGbdYjV1gV6pGR/XmHNOz3FwIOvdqomCbQe
-	 /4Ncc0c+q9jBlsQRlwFzD1gXe2ZW5lpvem8GWAOyXMRDNrTTZ0lSRuOQT9fvOGkC+F
-	 wDOWCMGskOC5A==
-Message-ID: <sashiko-outbox-196882@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ALSA: hdsp: Fix divide-by-zero in DDS offset control
-Reply-To: sashiko-reviews@lists.linux.dev
-To: songxiebing <songxiebing@kylinos.cn>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261104083045.1939479-1-songxiebing@kylinos.cn>
-References: <20261104083045.1939479-1-songxiebing@kylinos.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 08:39:03 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75072606A32C;
+	Wed,  4 Nov 2026 08:46:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75072606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 3196a720d82c11f19a56ed5b684f684d-20261104
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:103a28cd-7cdf-4ebc-ad1d-074fc210735a,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:7db8b62,CLOUDID:ae6ff80dba10cbf38515eda183a1ee71,BulkI
+	D:nil,BulkQuantity:0,SF:80|81|82|83|102|817|850|865|898,TC:nil,Content:-10
+	|-8|-5|14|50|99,EDM:-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC
+	:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 3196a720d82c11f19a56ed5b684f684d-20261104
+X-User: songxiebing@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <songxiebing@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1301761025; Wed, 04 Nov 2026 16:46:14 +0800
+From: songxiebing <songxiebing@kylinos.cn>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	songxiebing@kylinos.cn
+Subject: Re: [PATCH] ALSA: info: Fix maxsize underflow in snd_info_entry_write()
+Date: Wed,  4 Nov 2026 16:46:12 +0800
+Message-Id: <20261104084612.2004410-1-songxiebing@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20261104061311.1345791-1-songxiebing@kylinos.cn>
+References: <20261104061311.1345791-1-songxiebing@kylinos.cn>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,89 +70,20 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] ALSA: hdsp: incomplete offset validation in hdsp_set_dds_offset()
---
+>This was already addressed in Christian's recent patchset.
+>https://lore.kernel.org/20261102-work-procfs-bugfixes-v1-9-59422ed3e465@kernel.org
+>
+>(... and he mentioned that return 0 would lead to endless stdio
+>retry, too.)
+>
+>
+>thanks,
+>
+>Takashi
 
-commit a91b0358087c1f7f09a07e8d353cc380f3a7e223
-Author: Bob Song <songxiebing@kylinos.cn>
+Thanks for your reply. The above approach is indeed better.
 
-ALSA: hdsp: Fix divide-by-zero in DDS offset control
-
-This commit updates hdsp_set_dds_offset() to reject non-positive target
-sample rates with -EINVAL before calling hdsp_set_dds_value() to prevent a
-divide-by-zero in div_u64().
-
-> diff --git a/sound/pci/rme9652/hdsp.c b/sound/pci/rme9652/hdsp.c
-> index 7dce548b9f363..694816f966d29 100644
-> --- a/sound/pci/rme9652/hdsp.c
-> +++ b/sound/pci/rme9652/hdsp.c
-> @@ -2802,6 +2802,9 @@ static int hdsp_dds_offset(struct hdsp *hdsp)
->  static int hdsp_set_dds_offset(struct hdsp *hdsp, int offset_hz)
->  {
->  	int rate =3D hdsp->system_sample_rate + offset_hz;
-> +
-> +	if (rate <=3D 0)
-> +		return -EINVAL;
-
-[Severity: Medium]
-Is checking rate <=3D 0 sufficient to validate offset_hz here?
-
-When snd_hdsp_put_dds_offset() calls hdsp_set_dds_offset(), offset_hz comes
-from ucontrol->value.integer.value[0] without enforcing the [-5000, 5000]
-range declared in snd_hdsp_info_dds_offset():
-
-sound/pci/rme9652/hdsp.c:snd_hdsp_info_dds_offset() {
-	...
-	uinfo->value.integer.min =3D -5000;
-	uinfo->value.integer.max =3D 5000;
-	return 0;
-}
-
-First, adding an unvalidated positive offset_hz to hdsp->system_sample_rate
-can overflow a signed 32-bit int.
-
-Second, a positive rate in the range 1..24414 (for example, passing
-offset_hz =3D 1 - hdsp->system_sample_rate) still passes the rate <=3D 0 ch=
-eck
-and reaches hdsp_set_dds_value():
-
-sound/pci/rme9652/hdsp.c:hdsp_set_dds_value() {
-	...
-	n =3D DDS_NUMERATOR;
-	n =3D div_u64(n, rate);
-	/* n should be less than 2^32 for being written to FREQ register */
-	snd_BUG_ON(n >> 32);
-	/* HDSP_freqReg and HDSP_resetPointer are the same, so keep the DDS
-	   value to write it after a reset */
-	hdsp->dds_value =3D n;
-	hdsp_write(hdsp, HDSP_freqReg, hdsp->dds_value);
-}
-
-Because DDS_NUMERATOR is 104857600000000ULL, any rate in 1..24414 produces
-n >=3D 2^32, which triggers snd_BUG_ON(n >> 32) and truncates n when writing
-hdsp->dds_value and HDSP_freqReg. Offsets outside [-5000, 5000] can also
-cross the 56000 or 112000 thresholds in hdsp_set_dds_value(), whereas
-hdsp_dds_offset() chooses the 2x or 4x multiplier based on
-hdsp->system_sample_rate.
-
-In addition, when hdsp_set_dds_offset() returns -EINVAL, its caller
-snd_hdsp_put_dds_offset() drops the error code:
-
-sound/pci/rme9652/hdsp.c:snd_hdsp_put_dds_offset() {
-	...
-	if (val !=3D hdsp_dds_offset(hdsp))
-		change =3D (hdsp_set_dds_offset(hdsp, val) =3D=3D 0) ? 1 : 0;
-	...
-	return change;
-}
-
-Should hdsp_set_dds_offset() validate that offset_hz is within
-[-5000, 5000] before computing rate, and should snd_hdsp_put_dds_offset()
-propagate negative error codes from hdsp_set_dds_offset()?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104083045.1939=
-479-1-songxiebing@kylinos.cn?part=3D1
+Bob
