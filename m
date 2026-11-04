@@ -1,56 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.135
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793779931;
-	b=b5/i7gOYpryXcRIl2ZLkcto6r7M83qbOmyGRADQwxRPhthxEA6LOLEEKtiFRygc6tswG
-	 vuKpdlbRsuQgE5rQMWAzNID2+OwuinSoUNrL1EtMI0lc3xtUFOj8N4abkQ+Ii1pDYQQ3S
-	 /xIDjyDNFgynf+3kJBzlD1UX8V12kTTG2IbnNk2/XT2bxG7jUdB/kgfcpUyH5jSNtZtiV
-	 8J1wCeMtX7dDmlatmeEgiFgPAPtnLp7472krgTPyqTcONXnLNfufEvl55X5QzUTduyO2z
-	 fxiFIkZiWz272NmgJk+HxW87My1I4LO0w0lSB/3Ztt/pmDa9rSozwIujRqrPEae6kdg==
+	t=1793780407;
+	b=1FmTraEKbV+A8AwA8IezVAGPGXSRzJRKpmpswST9drBkwMkStcKOipsN1B8pBhKITkXe
+	 P3vsW8zSvXPW4GOTMRktSSaYLh9xUWN12JbKrpYX8iuFSTpi2jijYbQLAlI8r3JHE99n+
+	 U6JCcp+a9Efyb3IRiLBae0cVC4HwFxqMJJtzqs+IjenPWue4H8qnhbckDvbM6IxBNb3eM
+	 F0xt9ukSvRTASLOWUd52eukW9kPS6nyDOuKhhU2byl/oOzp3XE6St2fJTQIN1HrdOK5qJ
+	 PX7ezpunv0bXzJMDcUPVa9uuZCd63gHt+MPZt0p21CHkvRfwQ8q1VqVNR/Z5Bvf/BjQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793779931;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=omKJmZPQPbQeP7ITErPhX0hFXTUXvZIaGOnS5hhkmhI=;
-	b=0yU7TmVRu/1YFsLLFzIi8cUxDXQ+5bV9xRjtz0JWPLWZDeRaPTY2T5oJeJrLn4pQegZw
-	 vdxW9LiCctMNlKS4TlnHHmUiNumLtWzHAki31+FmqUolwcT6HLvG5lMvgtti+iptx150p
-	 7s7NCZI9sAIBvPl2SyFNo36sEERIzHhqgkxGmTnlROsujmBVHCENrYzmJcQUMlAOfQZye
-	 wMAY+q9dNcV+cEhJWkmrEIV92GM2zcTd5fBQYqahjUhgkzqZYEE4sAyAnutQ9hjPs8LqF
-	 099Y6UCxLWBZ2RcCY+B8RuUUClSivuqvUp6hca/4lNhaJuJkBi+S3kTkWj9PojCfcag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793780407;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=ZMHuMddkEVnoySoE38sxvHRnp8CSMxn0vabnDI6DXBw=;
+	b=RkOs0XrCUTl0uVheeQdIC7jhq2Ld5A8OvyCDbaT+Nu9HZ/A86uZ/01TNVmzO4o1pu81A
+	 FRwfJALeZDDQC1RhOFh/kKz+NDOJZQavL4C7A76UGbAnMqg2U0Q07jZmiUZuFbECEofVL
+	 fYl26SOSomhRZGgkg+6AbntJFTlaoke2+NQ73aU6aoAwcd476zCMqyo0jB79Eas9h1iG0
+	 /WceEJc1VFtnTckmmBQkrmLle4FWXWuXZAo0o9O6IsrcwNnar9g2oQWzTBQGlpgI6ul89
+	 7jN9dOD6GLH+XbFfJOiRM8dNeIBLj+RY+O85ULHbEG9Cqxi3m3r5Yet4CY+9IRE5GYw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WQGssLsF;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1AD606A31B
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 08:12:10 +0000 (UTC)
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=rVi9Eyxn;
+	arc=none smtp.remote-ip=111.22.67.135
+Received: from cmccmta2.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14E97606A326;
+	Wed,  4 Nov 2026 08:20:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14E97606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WQGssLsF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 658C01F00919;
-	Wed,  4 Nov 2026 08:12:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793779930;
-	bh=omKJmZPQPbQeP7ITErPhX0hFXTUXvZIaGOnS5hhkmhI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=WQGssLsFoLcZ7F8/gYAjmLd39d70taX0TtIqK8droIHw3V5PTTE2oIm8FUJB6+rcA
-	 +lKubExNI7ZC4MQrbI9F8fWfMNamyOrO+enM8HjFMKh7FN2fnsiT1CXofdiK7efPB+
-	 wr5eFX8n//6U4D5lcw3SzPmm/UiigWiyxw1zPBIKPtnywcR78UOlb7eCja5rbEHzVB
-	 0eXa8cbiGNYVbGPwAYXcePGP8jq7F/XqQtrBt2j11CV5mSZvycrwpxPDeUfm9VHl43
-	 2AlYHbcLcGixvkZDXldL5hSMLw48Hl2m2PBtnGBQ4r2cgpfqOXgAwOTmq8iiQ0AGU6
-	 D84q87t+abm2A==
-Message-ID: <sashiko-outbox-196862@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ASoC: cs42l43: leak MCLK when PLL enable fails on
- PRE_PMU
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Tang Bin" <tangbin@cmss.chinamobile.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261104080257.1144-1-tangbin@cmss.chinamobile.com>
-References: <20261104080257.1144-1-tangbin@cmss.chinamobile.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2026 08:12:09 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=rVi9Eyxn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=rVi9EyxnEb1IEZp30izmrxTsozphIjA/PORrrZibcxpt2HT84wZZuW2uvk7XPA71EaX/5zeICCDZk
+	 0E1vBzxpE1Jl3W//ohtxb4NqH1+xA34yk/0agYBbVeo/+Nfv4NLyN8DL2Eb84ls/gr/ekMGGnG6bBt
+	 +mPPTJ/wIhdEuAYs=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app07-12007 (RichMail) with SMTP id 2ee76aeaeab15a3-9ca4c;
+	Wed, 04 Nov 2026 16:20:03 +0800 (CST)
+X-RM-TRANSID:2ee76aeaeab15a3-9ca4c
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from FHA-W6400298 (unknown[10.55.1.71])
+	by rmsmtp-syy-appsvr05-12005 (RichMail) with SMTP id 2ee56aeaeab1521-1aa10;
+	Wed, 04 Nov 2026 16:20:03 +0800 (CST)
+X-RM-TRANSID:2ee56aeaeab1521-1aa10
+From: Tang Bin <tangbin@cmss.chinamobile.com>
+To: shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
+	sen@ti.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	tangbin@cmss.chinamobile.com
+Subject: [PATCH] ASoC: pcm512x: fix SCLK/supplies leak on resume failure
+Date: Wed,  4 Nov 2026 16:20:00 +0800
+Message-ID: <20261104082000.1230-1-tangbin@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.52.0.windows.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,72 +74,62 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] ASoC: cs42l43: double clk_disable_unprepare() in cs42l43_pll_ev()
---
+pcm512x_resume() enabled SCLK then supplies, but each later failing step
+(regcache_sync, regmap_update_bits) returned directly without undoing the
+already-enabled resources, and the matching suspend() is not called by the
+PM core on a failed resume. Use goto cleanup labels that disable supplies
+and SCLK in reverse order.
 
-commit 22be724b77049d9bdd49902edcd96899ee4749da
-Author: Tang Bin <tangbin@cmss.chinamobile.com>
+Fixes: 5a3af1293194 ("ASoC: pcm512x: Add PCM512x driver")
+Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+---
+ sound/soc/codecs/pcm512x.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-ASoC: cs42l43: leak MCLK when PLL enable fails on PRE_PMU
+diff --git a/sound/soc/codecs/pcm512x.c b/sound/soc/codecs/pcm512x.c
+index f3e209190..24194a8ec 100644
+--- a/sound/soc/codecs/pcm512x.c
++++ b/sound/soc/codecs/pcm512x.c
+@@ -1772,24 +1772,31 @@ static int pcm512x_resume(struct device *dev)
+ 				    pcm512x->supplies);
+ 	if (ret != 0) {
+ 		dev_err(dev, "Failed to enable supplies: %d\n", ret);
+-		return ret;
++		goto err_sclk;
+ 	}
+ 
+ 	regcache_cache_only(pcm512x->regmap, false);
+ 	ret = regcache_sync(pcm512x->regmap);
+ 	if (ret != 0) {
+ 		dev_err(dev, "Failed to sync cache: %d\n", ret);
+-		return ret;
++		goto err_supplies;
+ 	}
+ 
+ 	ret = regmap_update_bits(pcm512x->regmap, PCM512x_POWER,
+ 				 PCM512x_RQPD, 0);
+ 	if (ret != 0) {
+ 		dev_err(dev, "Failed to remove power down: %d\n", ret);
+-		return ret;
++		goto err_supplies;
+ 	}
+ 
+ 	return 0;
++
++err_supplies:
++	regulator_bulk_disable(ARRAY_SIZE(pcm512x->supplies), pcm512x->supplies);
++err_sclk:
++	if (!IS_ERR(pcm512x->sclk))
++		clk_disable_unprepare(pcm512x->sclk);
++	return ret;
+ }
+ 
+ EXPORT_GPL_DEV_PM_OPS(pcm512x_pm_ops) = {
+-- 
+2.52.0.windows.1
 
-This commit disables and unprepares MCLK in cs42l43_pll_ev() if
-cs42l43_enable_pll() fails during SND_SOC_DAPM_PRE_PMU.
 
-> diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
-> index b6238f89c789c..6f308ea227fb6 100644
-> --- a/sound/soc/codecs/cs42l43.c
-> +++ b/sound/soc/codecs/cs42l43.c
-> @@ -1625,6 +1625,8 @@ static int cs42l43_pll_ev(struct snd_soc_dapm_widge=
-t *w,
->  		}
-> =20
->  		ret =3D cs42l43_enable_pll(priv);
-> +		if (ret && priv->refclk_src =3D=3D CS42L43_SYSCLK_MCLK)
-> +			clk_disable_unprepare(priv->mclk);
 
-[Severity: High]
-Does this cause a double clk_disable_unprepare(priv->mclk) when the widget
-later powers down?
-
-In sound/soc/soc-dapm.c, dapm_seq_run_coalesced() sets w->power before
-running SND_SOC_DAPM_PRE_PMU:
-
-sound/soc/soc-dapm.c:dapm_seq_run_coalesced() {
-	list_for_each_entry(w, pending, power_list) {
-		WARN_ON(reg !=3D w->reg || dapm !=3D w->dapm);
-		w->power =3D w->new_power;
-		...
-		/* Check for events */
-		dapm_seq_check_event(card, w, SND_SOC_DAPM_PRE_PMU);
-
-And dapm_seq_check_event() only logs an error when w->event() returns a
-negative value, without rolling back w->power:
-
-sound/soc/soc-dapm.c:dapm_seq_check_event() {
-		ret =3D w->event(w, NULL, event);
-		trace_snd_soc_dapm_widget_event_done(w, event);
-		if (ret < 0)
-			dev_err(dev, "ASoC: %s: %s event failed: %d\n",
-			       ev_name, w->name, ret);
-
-Because w->power remains 1 even when cs42l43_enable_pll() fails, DAPM will
-still run the SND_SOC_DAPM_POST_PMD event when the audio path powers down:
-
-sound/soc/codecs/cs42l43.c:cs42l43_pll_ev() {
-	case SND_SOC_DAPM_POST_PMD:
-		ret =3D cs42l43_disable_pll(priv);
-
-		if (priv->refclk_src =3D=3D CS42L43_SYSCLK_MCLK)
-			clk_disable_unprepare(priv->mclk);
-		break;
-
-Wouldn't disabling priv->mclk in the SND_SOC_DAPM_PRE_PMU error path cause
-SND_SOC_DAPM_POST_PMD to call clk_disable_unprepare(priv->mclk) a second
-time and underflow the clock enable and prepare reference counts?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104080257.1144=
--1-tangbin@cmss.chinamobile.com?part=3D1
