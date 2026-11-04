@@ -1,84 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793800223;
-	b=5gcDVIr+duFKGtYFyuVV7o03xTy4UZ0f8lYHpVgoJ57rzz5JsPPh/Jai8NIalBJv0PdA
-	 YtDWSQVYmK7VLVGbNncbl+an6Nk0ntgBeSM0U5y4/3kToNdSFP4gs47s8qM7+GZoWStp9
-	 rbzSGs0icluKvDJ2zYJkRO+gQGLGKAXV1sRxw0tztJc1sq3015PB2AIHpiplnO7ND4y8Q
-	 CEvb/+6NstRqpJ9fH/XWtBlQhPN0TpXM5HU/I368n/90V0ytswdvE3rBjcevPHDioaMle
-	 /R5wJ3/SmN0CRfHTCO6NYeI6+1DW36pF1NTSdTKJjmSlttWepKIaAKHU0D0TwPYt2PA==
+	t=1793800217;
+	b=MFCKHlk/xQikPrd0i8ztglVukrvuwEbFAn4Izl5fnj9dfs6X/+W/+P+zICQM84sMdvBo
+	 Lu+3BB1/uhdm1VxJzbis41sFzyVP0ugBeCPE29HtqbLEZl5wUeKpC+5TJPPfu2Zn1yFEz
+	 0a/usMdUHFk2SMA8QVoueo0tIc31aKd7YrjT0O7xqAxT3zL7Cf+RTUU7h4Z4sERuUpCBA
+	 Eq7ZIMHwzCuydudemMoIyHpGxxI83bZLOSgL2GSt9AHWmUin178q0RQXHzs5a+AkfL5Mb
+	 qJPOI45Ryxt4gvdRwSC+0ttcOSAXFqIYqRswZdn84GGISOL6ZpGGG7UzloleA36wUyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793800223;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793800217;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=qGJYREng6mP0a84Z/i9sYR/1pkROGCrxvOWyOcTMik4=;
-	b=ZEd/mF500IpQywFkLPONoabRt/d6+YEfLZIWlqem+BXSPKxNtZBGrqV4XkTrGgetd6xT
-	 B5tUo8ouxdwaISIS7FvTY8G06nlxoc0ebvufxNT3chpa2MCrbfF4lvzOVT2pnWBK3hqs0
-	 CiQtNauej3zWP7+O1G7d3m7FT07PXVi0rBpSQaq2u8ThCcJu52IoUAsO6xXhCqfSOwZ3D
-	 BaKHcFngbtsBY4jpxwIWgSZdkrQltO4Y9sst7kfKAhZUJQP7ImV9fy1Q+3AxiH6ElOiY8
-	 t0273jq5HTYPUvSwkJ3LizrI+ue179HqKePIaDRjiuH6XL+KE+jhd8Nt+yvGlQS/xkA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=gEk6xorPw5gb8yxYwLwtpa5jgaqjVwNrEmfQm53gGBI=;
+	b=0pX79Za0F5VQJEnglt/UWxiDEWzpr2ft5Idl7jg+7zQOUq4YI0ciwmn5pB3LeqXhv5lP
+	 JLjCwCKz0RZkNchFiTXaAzKDDAMVsT9m1joZMlgokBAyJRBqssUsZ/aQe+FUV+c76yC6S
+	 Qpb/74XyNrZrKX/214omk4ByDUpItLxk70waulUCDqPJH5H5YWoQXhiVTwLRSP8ikmHGn
+	 g6vT75VsoP5luDKyKlhXY/Qa0R06KUJjsrhN8BXlw2oTlMNte5CUqPKGEFKpRylw1MPFE
+	 UvipOyjptI2c2jg8PqwOInBZon4F3xrBl5hUjJPtPdDlQzE/O2uqXyaZMjCLLgUAHKQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yKqQayPk;
-	arc=none smtp.remote-ip=209.85.221.46
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=b1Ptw56y;
+	arc=none smtp.remote-ip=209.85.221.54
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE44B606A326
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 13:50:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE44B606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8364C606A31B
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 13:50:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8364C606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yKqQayPk
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48e20edd106so506379f8f.1
-        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 05:50:22 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=b1Ptw56y
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48e4831c028so707306f8f.0
+        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 05:50:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793800221; x=1794405021; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=qGJYREng6mP0a84Z/i9sYR/1pkROGCrxvOWyOcTMik4=;
-        b=yKqQayPkJUWw6J7hqazH+ozjYPN/i0P0GqigVVPrJAZRF4u+eyK095IDxuiUayrkRP
-         yUk/QTlnEcXJTgCsLAdfjnsElyqiwTTIh/49tnKCOsRv979Kqih7xugL461Riubzg4ny
-         RU1nM887SxNpjTWk1g/EsKYHJVgyeyRo+EK1BNdiHJZOSyI2WIJeiE65mJuXKHM2YkTe
-         QDiiUxGSuAoArceeYBO5nJgyIe3JtjvtAFmyP09tHpZhHGHNFzDpsD6G82xvZDeCGuMO
-         LKPBGXk2RJdnCAXLfZQvCOVh402qXIO5YvuRGa8yKcIg94Ieov59KJCGllMnlD7uya3r
-         +P6w==
+        d=gmail.com; s=20260707; t=1793800216; x=1794405016; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=gEk6xorPw5gb8yxYwLwtpa5jgaqjVwNrEmfQm53gGBI=;
+        b=b1Ptw56yq0D5+pQfQTThcCmHYYF9buugspKazy0mbiF/W3Fi23hz06QhEMiy21AhU/
+         k1G+CdPi3T3usJmq7eCeSSaJlr98g0TwaWyUJQNSd9nVZrsQ5CAE7YVoewrQ18a7JYnR
+         cl9vEXV4K6+G84jlMOQE7o5HQKVAYjq9060+F9OLU/3J4Nn6NwIjXAJ43mvtTGZVH/Q3
+         R3/U5mR5fSibifiDXDh83i4HlxM3skcMDrCCia18F2KcK73cb5AgJ2jVIrE78yS0AfVK
+         1liLqOe22ipgbYV4I47jnqM9xm/ALXWPcjHTROy6RRIUSZsxnhvLxW3wez1YD315kCdZ
+         YcRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793800221; x=1794405021;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=qGJYREng6mP0a84Z/i9sYR/1pkROGCrxvOWyOcTMik4=;
-        b=GPMtYGyOI00Mn6/N6z7KT+s0DhHYSIOunXDDO8h+yzqk1M+gACT1GG8FLxtFpWAOPE
-         Pps+/L0QrWM4qQ9OaddQE3pmhDhcpZjQHqwHEq1rSQI/kjPXCGmd2eVEVsc5HwjGkSo6
-         vkaoccLTrOE4Txy/wha69FbGfIXnbTkH8op5wwYnNrAT9u08pmeAeBjF+qa8RudnSajX
-         HKklX1Vw2TPTDpNI8GNuS6ly9MFB6LRQlf/A3+DeQcUNbiD5CPHL7oEWhod7InwE9IjO
-         Q8Myt/+84Cq9XfbLBQ3Szp9Q8o4jBcHX2Pnfwj/qAGeJ8jNDppOqIG3M25E//MT3E9SJ
-         cnhA==
-X-Forwarded-Encrypted: i=1; AKwUvBzWiUDmIxxonLVR5ghs1M7nwapnchLHThuw5Ii6qwXicLilXxZc9fo7xrTxZinOeSJwZUT+s5MQASC6pA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/Sokp9XP2gzGv0+Y+8Xhad8qjLSzgydlpkW2T0rjdiEoWfUzCl
-	jSuwijP71xu9iVhkHdsPUlcj91v7z9sGNXki9rPJcY4L4FlIo03yee5i
-X-Gm-Gg: AYBFou2sZh2X9LFb4/uuUOMdEinYAkWSfz4w7cMM1tww+FfP6E2/8ljgsLyq94hT6SE
-	xi9gp/0apfENbSnyHAM1zv/p1aaAr+PV7v14asVLzav6SEUF//fHvL49oLIGVkziIjQMqCfLCMO
-	QIX0zgbJfA2k0Uupzthf9TMq81Gsf4RG+XEg+pnXaiF/mzMFCviE5GMc+u2c9fhKVtWnDR6B036
-	b4DAbcU1c6ZV47bhVZ0irVIYf+xe/GvY4A1An760R/TMCTzEkYBdMbPgt6YOuI7jU9wr9nqKDly
-	laNmnoGlXpOaPXLNvcGsKNOSX/d6b7SLHMnDrhvLC9+RPZFizRZEgWoa6OYOBWoVTbye68hkWcf
-	H00K3WM22BlilDea7SpzNa+9e1Nr6l5okf97jT98yA2JY3zddm79tcUl2nxM4NQzpua/MVg6Jrj
-	xuiczkeakZ8231Mt9HlM/MMkCzvhLiUIsTWpev68sKuPLDcFlHVAdIVjL8sU4SYv6tY8uN/WkTO
-	GyUk+489Uxm7iwFJn8zHd6FeSeDTnMdnK6ferHddGDEOgwGsPhWcEERiuVmI518V6hQ14RarNKQ
-	9xKYqxPU9dRPLzndn95vrmBKOoeWtJPsibn+UGIh0LqOTCrc/zmkldxczH7sPQJDPgT1ogKI6cn
-	T1g==
-X-Received: by 2002:a05:6000:184b:b0:48d:deaa:4dbb with SMTP id ffacd0b85a97d-48e6e2fc210mr35662505f8f.40.1793800220819;
-        Wed, 04 Nov 2026 05:50:20 -0800 (PST)
+        d=1e100.net; s=20260707; t=1793800216; x=1794405016;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=gEk6xorPw5gb8yxYwLwtpa5jgaqjVwNrEmfQm53gGBI=;
+        b=njOZLi5XO+bKUIKr4jG9Qso3itXp6VV0Osl3dh7T9k4mDmRlgfP0Gph70/inJf8rfk
+         jF8xAw7w2dTT1XQJBKT4vyDct7CaCfqKBzPICPRvD9v5ZoC3+eEZ9382UPiB0U/b1KNQ
+         GdCyjcscAjLbRFKwRiPSF/usu35SblqXx84mqSJTjYET1PWMs2W8aphuPgiyDI8Y33T8
+         xUxOoNbPKeTuyhqcmKF68RJUdrycRMyDpTzn3qxDBf7xqMiLmZXrZII4Bwwk5Ry0FoPe
+         TXaytEmjKocn9+A/9h5U83jcnomGzCRU3zvjsT97A9zo3pIroigO7yblc5cRYWa8qgyS
+         Bo1g==
+X-Forwarded-Encrypted: i=1; AKwUvBwrphmKoaxF5gvvRySVqGk694JuM+1LcIwP0WkEF0PP20LRe125EyHWxNyiL+V/fe0eaI42hj9owrX+OQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+tcN/yfL4n8kIqrb4UrBEpEhp6Oko5x3Gbd6hp3J2K1T0kEVit
+	TxOxbd4lvic1/ju94QLkjy0umVU2fY5P8YIMTFie8RH5efRyQ9BgJIo2
+X-Gm-Gg: AYBFou3pMkrzPvVjpiEIMAwPUhsLf7Cahgnxxjwf+RLCuvUxmY13xPGB+Xgo4cBiRmU
+	W0r8r2ck+nU/QhoHyctdzMKca+54cPqnXLgD/ClrS4GK1Q2FUNcf7LHES3LR8AJCs/TZc/Xsqv1
+	rHzPHivzKdsAsIbj7V+b2XNj7cc/oYifAY34vQJ8T/ka9NTG6W6nCbQTnNWATMiBeLOgOydTcry
+	BOfsn7Uzek9NAsec74YbtXRynmL13pat8Fs93karSASIQH7rsEWCXVTaYMRqUua6sXblwiqlTwk
+	Jwh0pNvxYqU4+2KzcUeDAKFl/ox2RLB80c2TEWJWxnoD9YJhX17d0wtqsWfJodIunzDtV9ILeiQ
+	BEfqW07ctpSXAkoYNs7OZ6Qjnxy6yY7/3eCcT3W1gsS6H5JffNRCdUUzRPN6sb/xFJppP/EZtWu
+	pxSXw1sCVRow01SfwMSWGMfDsd6TzNUs7ppahKFE28qppAUguqSHeIgaX5bf6hVQVkcQDsHykT8
+	Bvw/CuNMs6CmfY73ZVU1G3uXyo6/nFmeV9CWYtyd6S0JvN3HPpC6Sp91NKywWXYFVvME9Lq4x64
+	+kIAhIWRBlScbDcJblGzxvCUKBcGBIusWyTw7tr+Yj4/sEes+Bwmq5kzO3KA3V34euqZmySrac6
+	6ww==
+X-Received: by 2002:adf:edcd:0:b0:48b:f08:8159 with SMTP id ffacd0b85a97d-48e6e502fa8mr27675362f8f.40.1793800215622;
+        Wed, 04 Nov 2026 05:50:15 -0800 (PST)
 Received: from kreach.multipass (nat44-21-238.net.ruhr-uni-bochum.de. [134.147.21.238])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48feeb5196esm3701024f8f.58.2026.11.04.05.50.18
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48feeb5196esm3701024f8f.58.2026.11.04.05.50.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 05:50:19 -0800 (PST)
+        Wed, 04 Nov 2026 05:50:14 -0800 (PST)
 From: Jude Gyimah <jude.gyimah87@gmail.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org,
@@ -88,12 +87,10 @@ Cc: chancel.liu@nxp.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Jude Gyimah <jude.gyimah87@gmail.com>
-Subject: [PATCH 3/3] ASoC: fsl_xcvr: select BITREVERSE
-Date: Wed,  4 Nov 2026 14:50:00 +0100
-Message-ID: <20261104135000.3723017-4-jude.gyimah87@gmail.com>
+Subject: [PATCH 0/3] ASoC: fsl: fix missing GENERIC_BITREVERSE and REGMAP_MMIO dependencies
+Date: Wed,  4 Nov 2026 14:49:57 +0100
+Message-ID: <20261104135000.3723017-1-jude.gyimah87@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261104135000.3723017-1-jude.gyimah87@gmail.com>
-References: <20261104135000.3723017-1-jude.gyimah87@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -105,49 +102,34 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-SND_SOC_FSL_SPDIF, a few stanzas up in the same file, already selects
-BITREVERSE for the same reason.  SND_SOC_FSL_XCVR is missing it.
+Each of these drivers can be built into vmlinux while the code
+providing a symbol it calls is a module, which fails to link.  The
+same shape in 3 drivers, so they are here as one series.
 
-fsl_xcvr calls byte_rev_table, which lib/bitrev.c provides under
-BITREVERSE.
+Affected: fsl_aud2htx, fsl_xcvr, lpc3xxx-i2s.
 
-  fsl_xcvr.c:(.text+0x1634): undefined reference to `byte_rev_table'
+The fix is a select rather than a depends on: the providers have no
+prompt of their own and are only ever enabled by a select, so a
+depends on would leave these drivers unselectable.
 
-The driver can be built into vmlinux while GENERIC_BITREVERSE is a module,
-in which case the symbol is not there at link time.
-
-Select rather than depend on: BITREVERSE has no prompt of its own and is
-only ever enabled by a select, so a depends on would leave
-SND_SOC_FSL_XCVR unselectable.
-
-BITREVERSE is the symbol to select rather than GENERIC_BITREVERSE: it
-selects GENERIC_BITREVERSE only where the architecture has no native
-implementation, so this stays correct on the architectures that do.
-
-Reproduced on v7.3, x86_64, with CONFIG_SND_SOC_FSL_XCVR=y and
-CONFIG_GENERIC_BITREVERSE=m.
+Each was reproduced on v7.3, x86_64, by a vmlinux link that failed on
+the named symbol, and each links once the select is added.
 
 Found with kreach, a static check that compares what Kconfig allows
 against the symbols the compiled objects actually reference.
 
-Fixes: 28564486866f ("ASoC: fsl_xcvr: Add XCVR ASoC CPU DAI driver")
-Signed-off-by: Jude Gyimah <jude.gyimah87@gmail.com>
----
- sound/soc/fsl/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+The checker is at https://github.com/JGyimah/kreach, and the
+reproducer configuration for each finding is published with it
+under results/.
 
-diff --git a/sound/soc/fsl/Kconfig b/sound/soc/fsl/Kconfig
-index 2f58a1a51afd..21b0509da76d 100644
---- a/sound/soc/fsl/Kconfig
-+++ b/sound/soc/fsl/Kconfig
-@@ -104,6 +104,7 @@ config SND_SOC_FSL_EASRC
- 
- config SND_SOC_FSL_XCVR
- 	tristate "NXP Audio Transceiver (XCVR) module support"
-+	select BITREVERSE
- 	select REGMAP_MMIO
- 	select SND_SOC_IMX_PCM_DMA if SND_IMX_SOC != n
- 	select SND_SOC_GENERIC_DMAENGINE_PCM
+Jude Gyimah (3):
+  ASoC: fsl_aud2htx: select missing dependencies
+  ASoC: fsl: lpc3xxx-i2s: select REGMAP_MMIO
+  ASoC: fsl_xcvr: select BITREVERSE
+
+ sound/soc/fsl/Kconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
+
 -- 
 2.43.0
 
