@@ -1,69 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.254.200.128
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793781277;
-	b=xE5Pv92n7FwCrx/YNTmZcbx6Z+vNby4TyTFAdp0VtfCIuyPX9erwPMTDBkpM662DFIo/
-	 F4h/eVufkbqb8A+y6IpRCQAUY/hNvem7L7yRf3Ubh+YKjnQXlaviAdRsITGaUwjFcyWiH
-	 XJw7Sm1W43AHzzmhxhBpBmlhehc6Ur/dVuZ7FcmunI4b0i87CB47yyiRFYo14fWuL40hA
-	 F+AQ2GDNZJ5+IXy6yy1iMFWAej9Epr3r/zEABMBWdNS1OOV8YTh4wpKjmIneqzqqVDnBQ
-	 CRUaw+TA4WDgdH3B4N0IZwhNb70/ClK4JNYoZY1zMUBbCyuEC8VoQnfq5U1a2nIjt3A==
+	t=1793781544;
+	b=nzj5mtyMD3YI6hKT7fk/B2mIqmkKXiI6uXLNzMfN97gQEWYteG3vX7Hjtsz/NtQfidsU
+	 +HWz4q+yQ8yKHF4ADufMyM7dVkz3Feazf6+ejOD+6Pvzw3/LkxDURiUTT+tNevwLG73Pa
+	 B+HhdT3MqEhvG1bt87kM6RWu1QIG0lDLViUvmtAdYmM4eKts+NmInJlBVbZJqfeOTvhS6
+	 40mWvjrFrrDQYztRUFzLRPhBv8n+//aVsqt8yxt/XLfGy/6EUJZfv+6OBgzvJMrN9Ei01
+	 YMWEz8qbzrlSalUXY+T7TF0KEMGjeebaKnpVDsETkh7IUnCf7uMZ7deIlZiq+df9/yQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793781277;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
-	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
-	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
-	bh=7dJIJKULXdMXlKFG0VQk/UpZC37r4yyYr4hDt7gk8BQ=;
-	b=kNUQh1j8wmXLkNiji5qQX/yS4dWVoPoYqBqjoHE3s+nfndG86jyBm/48SMnF1+5CHcLK
-	 P/0kzJEj8ewFN1/PVUygPKvE168trNdgC4n9DPQzCP2bKhlfohnJWEM5CMlLZXqN6HW69
-	 moukwYa+6mjcc8AluySfckY+M1i36l7YoOPvrg1S1x+QR7cqXdkrLPGcepWix+CMnAE1o
-	 PhKUsREgQYavXf2/ZjN0Jp/frn6T7quIHuLsFHToCrSjv5vwbSXvRKAwVA0ykmpPLvaJ6
-	 EHP+EykXVHinJRW1yIW1ryyjqztIcjMhUlbVMUcoO+ue47YmgXZDbcGQo5651a/WPuQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793781544;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=+SFAmIgJkrYqhYDgAl3dZELKR8vej0Oc6F1sUMciH/g=;
+	b=AHzAS7vYpQ0a8eM+19sdYLTsMlWPV0GnnVGRvdWW86fYb05F6hxGm3yaIMEQCWTBetAI
+	 6xpsAh54RILPfxy9blfKJ78RA09o4+NQBKwodK4AtChq7g6sdn6pwjM9W3bDD+/UxrH2Q
+	 6GBUf+7BYrKMxdvTwP6Edt34XKmW22YS0LExKfugVQc58y7blZg7bPho77K7UsvTT0Ihp
+	 nbXK/UjQqMQIGe+16judi45rk1G5xXWVheTew85NBkTAJOCFBtinMcC16dGSWe8OfvbQG
+	 3kwuY2P9tgWG0HF0mVHEsPbX9ra0kz9qBFFQMr2/g4R+4YClz3NGr8K3nGPQBoSC/sw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=uniontech.com;
-	spf=pass smtp.mailfrom=uniontech.com;
-	dkim=pass header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=kCTvSCK2;
-	arc=none smtp.remote-ip=54.254.200.128
-Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=itbeR0nv;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41AA2606A31B;
-	Wed,  4 Nov 2026 08:34:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41AA2606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B0A606A326
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 08:39:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=kCTvSCK2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1793781205;
-	bh=7dJIJKULXdMXlKFG0VQk/UpZC37r4yyYr4hDt7gk8BQ=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=kCTvSCK2VFcwQvxbUM02aX70cuW1SbP6rCxzMEW7j1Uzb4OqPhp/dHtZhDIRKbcmX
-	 vVsFv4Uq2fx2/PYHVKDH7R8z4+GRJF9XKUK0+9uAGHM7ysJNnmKs/2uadJ49zQJJ7a
-	 52z6guHkBu/k2eKjhv9QkBUzyvyU+nrkQut8mw+I=
-X-QQ-mid: zesmtpgz9t1793781188tff86e048
-X-QQ-Originating-IP: zZTmu6q6f46xmWIdyU1OUvSG1UQvWXLb/CllEYt+42k=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 04 Nov 2026 16:33:06 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 2712297879338175184
-EX-QQ-RecipientCnt: 9
-From: raoxu <raoxu@uniontech.com>
-To: perex@perex.cz
-Cc: tiwai@suse.com,
-	luiz.von.dentz@intel.com,
-	brgl@kernel.org,
-	pengpeng@iscas.ac.cn,
-	pmenzel@molgen.mpg.de,
-	raoxu@uniontech.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: cs8427: read the PCM stream IEC958 status from its own buffer
-Date: Wed,  4 Nov 2026 16:33:04 +0800
-Message-ID: <7A8A7F3C30522F89+20261104083304.4000520-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=itbeR0nv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2B701F000C1;
+	Wed,  4 Nov 2026 08:39:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793781543;
+	bh=+SFAmIgJkrYqhYDgAl3dZELKR8vej0Oc6F1sUMciH/g=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=itbeR0nviziSuBDTHNu4iLcjkAw4n7mQFXhZD+/fREY2/mnEgu9ebdhZ1Tow+f6fI
+	 mFV2/swYU/4c1/8ziLn19FnQEMQw2/5qFlGwApOXbQLNDnvQCdd7E2Hvl36xP1QVSV
+	 36qhBZT1yviYEEhjVjy0jZy2k7zcAiqETAyhT6IZY7gW9PYRbAhlgX3/v3tUuZPyKF
+	 7BWXJYpmw3dkj+JGmM9IjTyLLatp6fuJGbdYjV1gV6pGR/XmHNOz3FwIOvdqomCbQe
+	 /4Ncc0c+q9jBlsQRlwFzD1gXe2ZW5lpvem8GWAOyXMRDNrTTZ0lSRuOQT9fvOGkC+F
+	 wDOWCMGskOC5A==
+Message-ID: <sashiko-outbox-196882@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ALSA: hdsp: Fix divide-by-zero in DDS offset control
+Reply-To: sashiko-reviews@lists.linux.dev
+To: songxiebing <songxiebing@kylinos.cn>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261104083045.1939479-1-songxiebing@kylinos.cn>
+References: <20261104083045.1939479-1-songxiebing@kylinos.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 04 Nov 2026 08:39:03 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -72,63 +58,89 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MIGBBOK2RQC48W3b349eeHh6nsZhj6AQkjoVNehN8xdqaTr1wt4yKb9Q
-	kkz1fzPhmGwm68UpYXa0VBKdsiMLNxxrOU7+VeRlcJL7c6J0tfFnoIUbBCYyh15vD0u2SoM
-	f9mOU8EEMnQwKofwTDLp5DgmzW4jBXAJoDjLP4lca6Pzw3U34rlJ6JYHWlVaYPh5x4bMwYs
-	obvsQjN8fK2aFxE3500VQG1GR0VjM3E9OgKvJ/qi62HJ80u//FmHRRNHV6TrP5kuwvdOXwq
-	pIJ+KUtUl8yQHXhXzPTsPAT3wzHS32D+g+IzJW1fCrR2Be/Gg3aBBQaB8AtycpVo94P7Yxc
-	0esmdgDXNxIyZM1xUWaXH76PqQiiiPu5NI2xsHyhR4ExI8TA3pQk0yZG+jwFcjEOeNyB+p6
-	51OcwUwjg8PlK+h7ryTA0DHKLh8ec23/0vYJ3sEKTxqDzX2n6y2wefM0IaUfZa8dfszPXdo
-	75CqNSdc6azYrv00AoP97wdHS009wGnPtYUY/0ngG5st1kPJBA28ni5cJ4FlXXxiicQPX/J
-	dmKu1SWT/SgLtaOUOIpK18E81W0lX1IZhVZspUe1im3uvWSgyRTndVKsW3vWsb/Brk214nQ
-	f4GLEG+N4a/TEiKlFldPfzCuBKNyDYckHvlyFBMXQ5iJaSC+I0rEbKG2249DzBFxHRy9Z55
-	NG6n41nZo+VZo6JuP2SOfK3FdT9oqpiHmZ+RyShrulMF7piPRXS427lteYHCpjJxtNBwvIK
-	f/tzi2jFV/Zk9mQnCLdfd4yFj25VnsNKLSdMfWco68fL3Q53HgfZtnplLQ/xdjI2+Usug/P
-	5SUd/ajQ0pHtHBpJMoNx13MO5g80xByph73FOSVPzfCmrFhEyFhLgod8WJkkDGxR5nAx/ZA
-	B2p6ktsq7mkg/veuTNEsO4SMf5YTsTZNWHhWOOjvC0zdWrdTP6Mvx9mQX6L9Xjq+EM/wWSl
-	bXqfJ5p+g8vdZBZ8kfxnehVWpj15AQkrJ6MQjwRC/L90sVSRAtStK1JFTliCzNAXj4ugBeO
-	It9FRMLMCKs6L/S7yp5DX1JPDFQnfxOkDwyVin1EvqeHwQGpJsuRa/wG/JREY=
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-X-QQ-RECHKSPAM: 0
 
-From: Xu Rao <raoxu@uniontech.com>
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] ALSA: hdsp: incomplete offset validation in hdsp_set_dds_offset()
+--
 
-The IEC958 Playback PCM Stream control writes pcm_status, but its
-get callback always returns def_status.  As a result, userspace
-reads back the default status instead of the PCM stream status after
-writing the stream control.  Rate changes also update pcm_status
-without being reflected in the value returned by the control.
+commit a91b0358087c1f7f09a07e8d353cc380f3a7e223
+Author: Bob Song <songxiebing@kylinos.cn>
 
-Select the status buffer using the same private_value as the put
-callback.  The default control continues to return def_status,
-while the PCM stream control now returns its own current status.
+ALSA: hdsp: Fix divide-by-zero in DDS offset control
 
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
----
- sound/i2c/cs8427.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+This commit updates hdsp_set_dds_offset() to reject non-positive target
+sample rates with -EINVAL before calling hdsp_set_dds_value() to prevent a
+divide-by-zero in div_u64().
 
-diff --git a/sound/i2c/cs8427.c b/sound/i2c/cs8427.c
-index 1de985ba85d9..773383471f17 100644
---- a/sound/i2c/cs8427.c
-+++ b/sound/i2c/cs8427.c
-@@ -424,9 +424,11 @@ static int snd_cs8427_spdif_get(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_i2c_device *device = snd_kcontrol_chip(kcontrol);
- 	struct cs8427 *chip = device->private_data;
-+	const char *status = kcontrol->private_value ?
-+		chip->playback.pcm_status : chip->playback.def_status;
- 	
- 	snd_i2c_lock(device->bus);
--	memcpy(ucontrol->value.iec958.status, chip->playback.def_status, 24);
-+	memcpy(ucontrol->value.iec958.status, status, 24);
- 	snd_i2c_unlock(device->bus);
- 	return 0;
- }
--- 
-2.50.1
+> diff --git a/sound/pci/rme9652/hdsp.c b/sound/pci/rme9652/hdsp.c
+> index 7dce548b9f363..694816f966d29 100644
+> --- a/sound/pci/rme9652/hdsp.c
+> +++ b/sound/pci/rme9652/hdsp.c
+> @@ -2802,6 +2802,9 @@ static int hdsp_dds_offset(struct hdsp *hdsp)
+>  static int hdsp_set_dds_offset(struct hdsp *hdsp, int offset_hz)
+>  {
+>  	int rate =3D hdsp->system_sample_rate + offset_hz;
+> +
+> +	if (rate <=3D 0)
+> +		return -EINVAL;
 
+[Severity: Medium]
+Is checking rate <=3D 0 sufficient to validate offset_hz here?
+
+When snd_hdsp_put_dds_offset() calls hdsp_set_dds_offset(), offset_hz comes
+from ucontrol->value.integer.value[0] without enforcing the [-5000, 5000]
+range declared in snd_hdsp_info_dds_offset():
+
+sound/pci/rme9652/hdsp.c:snd_hdsp_info_dds_offset() {
+	...
+	uinfo->value.integer.min =3D -5000;
+	uinfo->value.integer.max =3D 5000;
+	return 0;
+}
+
+First, adding an unvalidated positive offset_hz to hdsp->system_sample_rate
+can overflow a signed 32-bit int.
+
+Second, a positive rate in the range 1..24414 (for example, passing
+offset_hz =3D 1 - hdsp->system_sample_rate) still passes the rate <=3D 0 ch=
+eck
+and reaches hdsp_set_dds_value():
+
+sound/pci/rme9652/hdsp.c:hdsp_set_dds_value() {
+	...
+	n =3D DDS_NUMERATOR;
+	n =3D div_u64(n, rate);
+	/* n should be less than 2^32 for being written to FREQ register */
+	snd_BUG_ON(n >> 32);
+	/* HDSP_freqReg and HDSP_resetPointer are the same, so keep the DDS
+	   value to write it after a reset */
+	hdsp->dds_value =3D n;
+	hdsp_write(hdsp, HDSP_freqReg, hdsp->dds_value);
+}
+
+Because DDS_NUMERATOR is 104857600000000ULL, any rate in 1..24414 produces
+n >=3D 2^32, which triggers snd_BUG_ON(n >> 32) and truncates n when writing
+hdsp->dds_value and HDSP_freqReg. Offsets outside [-5000, 5000] can also
+cross the 56000 or 112000 thresholds in hdsp_set_dds_value(), whereas
+hdsp_dds_offset() chooses the 2x or 4x multiplier based on
+hdsp->system_sample_rate.
+
+In addition, when hdsp_set_dds_offset() returns -EINVAL, its caller
+snd_hdsp_put_dds_offset() drops the error code:
+
+sound/pci/rme9652/hdsp.c:snd_hdsp_put_dds_offset() {
+	...
+	if (val !=3D hdsp_dds_offset(hdsp))
+		change =3D (hdsp_set_dds_offset(hdsp, val) =3D=3D 0) ? 1 : 0;
+	...
+	return change;
+}
+
+Should hdsp_set_dds_offset() validate that offset_hz is within
+[-5000, 5000] before computing rate, and should snd_hdsp_put_dds_offset()
+propagate negative error codes from hdsp_set_dds_offset()?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104083045.1939=
+479-1-songxiebing@kylinos.cn?part=3D1
