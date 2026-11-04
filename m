@@ -1,114 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793777407;
-	b=QcVCqGqncIVU2I0SXZRPDAOAJFMcv7kvzbE8k3Gx/nbwqPl0KMXQcrvMeOCiuq7Ukvwj
-	 AqFYYl+/5muamMdV0j0A3E8VzStWqwEX46EHJ1bTLkQr/eDkWwpT2lrUIyEFrCwQdynQ/
-	 S1KXhcx6r3urqYqTB0U9iGhpEUFrN+SROFI6Z6ZRY9bVeZRXrDovNsyDXg7yoh3veY3Tb
-	 C/6ubkcvfvTffI0DXh7VFmcl2vNf7Ap4I+mAq+0cGJY9vsZEW4yr77eY+qYErYB/Z90sl
-	 KN/ibXfT0VK/juAVdQp0uzk4L8+I3ieeVNIuYgPtCJ7l2KZGjqjH0NA+AQpcxs0CijA==
+	t=1793777662;
+	b=LWnzsSruiPA+TN04n7DgoROWqA3qPFG9hkc3+HBUQG//WIy/EUu4+y+ertjyHLB2O9za
+	 2iOH1GfIy/DOu3mlZ7FQg/M98QrkgV/VzeDMqTgO7pAN9JXJwwguGgV7m1yNvZg0EMCvk
+	 w02zCxKE5myu4TpvolQrrKzgNNGRjH4EY4FR9hZo4B4bt70HHTbWDRSST/JEZ5FqHF/9C
+	 mBVNYoObTT9Mya1f9PwBaBBL5az3FXzy0F2lB/W+3xT8WUddXileHIvQWHWjUX8tk7v63
+	 hcEOZtcV3uyz+8ge3qiGsubNZf4rLR62K/55JcBaCN2SRqrUFhTTuyzWXzhcWNQB9iQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793777407;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793777662;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=S3SrCHCwk6BAKWXVnhjVzpnJ6Mzpbi9ZiVkWv+2Nb3U=;
-	b=BYgPPtidzC3JXifmgwTK6GHYmHyYa5L/XJy0KzsVtjktukB37jw7CoPBKCR6N5Kf1vUk
-	 St15JR3H3g34GdnX6zz1KYhXhv3lCB9TwUGn6sOe2wtT7bVzLw/mETDwtYOguNazzSN/Q
-	 VFdzeSUZ17U5t/V3G5RNEPGaaEAbUtXwe3iVbXZne3alZQ5GT/Ng3zcPgKbCK9rbXbBft
-	 xDQpua5xZl9KT4I2AYaAhL2Eq3gIm7+I3brmjsrK1UGwpwh84p4P1nqSn429Wn/fAiPwr
-	 vLi3V2J4iI1XWUp631KX85YHZFir6PdiXxR9Ph00r9Y/xPOiAR0W/ltmLfV67Y2xtsg==
+	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=n9WJmtjmaiG9H73C8oCIeI1tkQAyaNAnEi147NL4GLA=;
+	b=yY2J0UqSKpXngzjYNEhBZFq4wX2iW0O2C5C4QbyPsXqyZtMY7SI4CjOnNhGfOylogCr5
+	 27nmcO56UgAPc4ej1hGxOX0CxkIdaDJPnq90B7cdcrGNYIjffjmC5S/UgprAAXyLyXEYk
+	 ZrH0eAuEIvF8Rz7Jlh8tak0xTcEql6ko8VbmKY5u2J9dUFWluMN//TzuDGCgHjNhFtrty
+	 +CeJmLz+fYV3hhCRWOArLeyoht+V8C1IECOImDE44V5qTBdZ8CooGOBqm/DOlcqJvO/b2
+	 SndDjALwqWiWbY4Kr48TXvKAxr4VDyHRRDOrbw8fPDG3Ab0TAs5gG4pBCJMwbTFEp/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="EPqzKPa/";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tmwVX4dD;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="0rkF/Ybv";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="IIxl4c/0";
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=einSExJF;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=I2OgySH1;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=j7Hga9j8;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=+kIlFVu8;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21F4606A32E
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 07:30:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B21F4606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9FEE606A329;
+	Wed,  4 Nov 2026 07:34:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9FEE606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EPqzKPa/;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tmwVX4dD;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=0rkF/Ybv;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IIxl4c/0
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=einSExJF;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=I2OgySH1;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=j7Hga9j8;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=+kIlFVu8
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D0EB722011;
-	Wed,  4 Nov 2026 07:30:04 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E2EFE1F7BA;
+	Wed,  4 Nov 2026 07:34:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793777405; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793777660; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=S3SrCHCwk6BAKWXVnhjVzpnJ6Mzpbi9ZiVkWv+2Nb3U=;
-	b=EPqzKPa/vsIzvS0zY4qvRrnJ1fpyhgXrJig0/SYaUfdx5ntcOvr2GXLcuWlf6yFjfB+Naq
-	E4D23VtCZqYMJzuua8rJJZg9hXtzqyTCCnJum9Jdj5jXmD1kdvzvIR4je+jZdmpJ0RF6+I
-	bB/lCB/b9d9ZJcN9MKJfZ7RRISq9+pk=
+	bh=n9WJmtjmaiG9H73C8oCIeI1tkQAyaNAnEi147NL4GLA=;
+	b=einSExJFc7yKcZbI6vV/BouuaDJI7GbTlUr+FhamRfYL+jCiTJj8uTwbCUcO45Vvi4zXLA
+	GPbwKidkjOwXaHbIkTFAIz8J/xIZlFsXzNYfRhjMBY4wp7LqNGbz5Aff5tKjRgKcuOYO2v
+	KXXOlSMf+vbCjxOKgI0ne/nckY2X0ok=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793777405;
+	s=susede2_ed25519; t=1793777660;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=S3SrCHCwk6BAKWXVnhjVzpnJ6Mzpbi9ZiVkWv+2Nb3U=;
-	b=tmwVX4dD658j89zc000wdeEibFrjtUAil97JOXYGhCgrJ4q9G/9K2XG1S4DoUbWnnDCgTF
-	UoXJwwCNleKIuWCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=n9WJmtjmaiG9H73C8oCIeI1tkQAyaNAnEi147NL4GLA=;
+	b=I2OgySH1HUh3jlKvjk/42B4NlHH+p8k0rrx3LNYk/qRwxJKRwu5+PqyPkPwvZgDPfjDh0q
+	gH3DV1D+5cXiX6CQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=j7Hga9j8;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+kIlFVu8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793777404; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793777659; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=S3SrCHCwk6BAKWXVnhjVzpnJ6Mzpbi9ZiVkWv+2Nb3U=;
-	b=0rkF/Ybvrq7clFXyHQc3CZz3Vc/aV0O3VLtkLnkxg0cdxLsULs+mE6GJEcqwPxgMDzXrmu
-	4R/6agL109dKJlHwkZp4vmDSNc55wF9lBWutEK4X6a6cxYIBT99++l5L+IqRWwFZQoAtu0
-	LWvdmRudRHK0cgenrntMvu0imHObJpE=
+	bh=n9WJmtjmaiG9H73C8oCIeI1tkQAyaNAnEi147NL4GLA=;
+	b=j7Hga9j8NF9UX49c9hpZ7IVWXNlMGVB4eMVnkA40cuOVEIBCV6t22PatZlnCbCbHEJS7B+
+	dKGgIHFXZnv7GEVUlkzihIdQC2BlZoflmbuZ56kvRQsHWFpNEzSzt1uyLvTBykjPJaSqnv
+	WBaDJ5ul1NBPvzlAlVmdxuxBptkPeNM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793777404;
+	s=susede2_ed25519; t=1793777659;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=S3SrCHCwk6BAKWXVnhjVzpnJ6Mzpbi9ZiVkWv+2Nb3U=;
-	b=IIxl4c/0gFOOaS9b2qbneefwtVgzaCes8N0anmkvEYA4f9WZeMFxgawXcuATZs9nCvvfm4
-	GxnDS6cS5GOtv/Aw==
+	bh=n9WJmtjmaiG9H73C8oCIeI1tkQAyaNAnEi147NL4GLA=;
+	b=+kIlFVu8ahLNvacutHdv+O0GxNVlAGELWlvHKY2H5Csi35mImCQ/juBC5BWSPHPlaNSiwS
+	w950UX90Qs5YWGAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6005D134A5;
-	Wed,  4 Nov 2026 07:30:04 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 93A1A134A5;
+	Wed,  4 Nov 2026 07:34:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IZ83Dvze6mpVOwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 04 Nov 2026 07:30:04 +0000
-Date: Wed, 04 Nov 2026 08:30:03 +0100
-Message-ID: <87jymtuk90.wl-tiwai@suse.de>
+	id 32qVGvvf6mqtPwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 04 Nov 2026 07:34:19 +0000
+Date: Wed, 04 Nov 2026 08:34:19 +0100
+Message-ID: <87h5hxuk1w.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Christian Zigotzky <chzigotzky@xenosoft.de>
-Cc: Vincent Cloutier <vincent.cloutier@icloud.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Vincent Cloutier <vincent@cloutier.co>,
-	Cen Zhang <zzzccc427@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
+To: Sinan Turunc <enscrpt@pm.me>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
-	"R.T.Dickinson" <rtd2@xtra.co.nz>,
-	mad skateman <madskateman@gmail.com>,
-	Damien Stewart <hypexed@yahoo.com.au>,
-	Christian Zigotzky <info@xenosoft.de>
-Subject: Re: [PATCH] ALSA: pcm: Allow HW_REFINE queries with mapped buffers
-In-Reply-To: <18b03c3e-a6d7-f500-50ce-3097d01ab042@xenosoft.de>
-References: <874idyx9n6.wl-tiwai@suse.de>
-	<20261104004113.546712-1-vincent.cloutier@icloud.com>
-	<18b03c3e-a6d7-f500-50ce-3097d01ab042@xenosoft.de>
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] ALSA: usx2y: Reject buffers smaller than two packets
+In-Reply-To: <87se1hukq1.wl-tiwai@suse.de>
+References: <20261103132247.713-1-enscrpt@pm.me>
+	<87se1hukq1.wl-tiwai@suse.de>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -120,114 +116,81 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.30 / 50.00];
+X-Rspamd-Queue-Id: E2EFE1F7BA
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-12.51 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,icloud.com,xtra.co.nz,yahoo.com.au];
-	ARC_NA(0.00)[];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[icloud.com,suse.de,cloutier.co,gmail.com,perex.cz,vger.kernel.org,xtra.co.nz,yahoo.com.au,xenosoft.de];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pm.me:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -12.51
 
-On Wed, 04 Nov 2026 06:27:00 +0100,
-Christian Zigotzky wrote:
+On Wed, 04 Nov 2026 08:19:50 +0100,
+Takashi Iwai wrote:
 > 
-> On 11/04/2026 01:40 AM, Vincent Cloutier wrote:
-> > From: Vincent Cloutier <vincent@cloutier.co>
+> On Tue, 03 Nov 2026 14:23:03 +0100,
+> Sinan Turunc wrote:
 > > 
-> > PulseAudio 16.1 queries supported formats after configuring and mapping
-> > a PCM buffer. Sharing HW_PARAMS' state checker with HW_REFINE causes
-> > these queries to fail with -EBADFD because a non-OSS stream has active
-> > buffer mappings. PulseAudio then fails to create its sinks and sources.
+> > usx2y_urb_capt_retire() splits the copy into the ALSA ring buffer once
+> > at the buffer end and wraps hwptr_done once, which is only correct when
+> > one packet holds at most buffer_size frames. The packet size is the
+> > endpoint's maxpacksize from usb_maxpacket(), while the hw constraints
+> > allow 64-byte periods with periods_min 2, so a packet can be larger than
+> > the whole buffer.
 > > 
-> > Make the mmap restriction optional in the shared state checker. Keep it
-> > for HW_PARAMS, which can reconfigure the mapped buffer, but skip it for
-> > HW_REFINE, which only refines the caller's constraint structure. Keep
-> > the stream-state checks and buffer access locking for native, compat
-> > and legacy refinement ioctls rather than bypassing their wrapper.
-> > Leave the accepted stream states unchanged.
+> > The endpoint is known at probe time, so constrain
+> > SNDRV_PCM_HW_PARAM_BUFFER_BYTES in snd_usx2y_pcm_open() to at least
+> > twice the endpoint's packet size. Two packets, matching the line6 fix.
+> > The bound makes the copy safe, but it does not make every larger buffer
+> > progress: the position is reported once per URB of 4 packets, so a
+> > buffer that divides one URB's data returns to the same position at every
+> > callback. That was already the case before this patch and is not changed
+> > here. Keep a guard in usx2y_urb_capt_retire() that drops an oversized
+> > packet with a ratelimited error, for the case that should no longer be
+> > reachable.
 > > 
-> > On Librem 5, both L5 and Modem cards reproduce the failure for playback
-> > and capture: refinement succeeds before setup and after RW setup, but
-> > fails after MMAP setup in PREPARED state. With this change, all eight
-> > cases pass, PulseAudio starts normally and audible playback works.
-> > The reproducer does not start streams or transfer audio data.
+> > Reproduced on 7.3-rc7 with a USB/IP device presenting the US-122
+> > interface layout and 1024-byte packets into a 512-byte buffer:
 > > 
-> > Fixes: ad28d2f607d1 ("ALSA: pcm: Serialize and check HW_REFINE ioctls")
-> > Link: https://lore.kernel.org/linux-sound/41a2e39a-5637-8afa-f84f-f79e63b3b56e@xenosoft.de/
-> > Link: https://lore.kernel.org/linux-sound/874idyx9n6.wl-tiwai@suse.de/
-> > Assisted-by: OpenCode:GPT-6.1 Sol
-> > Signed-off-by: Vincent Cloutier <vincent@cloutier.co>
-> > ---
-> >   sound/core/pcm_native.c | 10 ++++++----
-> >   1 file changed, 6 insertions(+), 4 deletions(-)
+> >   BUG: KASAN: out-of-bounds in i_usx2y_urb_complete+0x1285/0x1ac0
+> >   Read of size 18446744073709551104 at addr ffff88800e448800 by task vhci_rx/83
 > > 
-> > diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-> > index 5cbf88da7626..01d9f5ad4ea9 100644
-> > --- a/sound/core/pcm_native.c
-> > +++ b/sound/core/pcm_native.c
-> > @@ -776,14 +776,15 @@ static void pcm_qos_req_update(struct snd_pcm_substream *substream, int usecs)
-> >   					    usecs);
-> >   }
-> >   -static int hw_params_state_check(struct snd_pcm_substream
-> > *substream)
-> > +static int hw_params_state_check(struct snd_pcm_substream *substream,
-> > +				 bool check_mmap)
-> >   {
-> >   	guard(pcm_stream_lock_irq)(substream);
-> >   	switch (substream->runtime->state) {
-> >   	case SNDRV_PCM_STATE_OPEN:
-> >   	case SNDRV_PCM_STATE_SETUP:
-> >   	case SNDRV_PCM_STATE_PREPARED:
-> > -		if (!is_oss_stream(substream) &&
-> > +		if (check_mmap && !is_oss_stream(substream) &&
-> >   		    atomic_read(&substream->mmap_count))
-> >   			return -EBADFD;
-> >   		return 0;
-> > @@ -806,7 +807,7 @@ static int snd_pcm_hw_params(struct snd_pcm_substream *substream,
-> >   	err = snd_pcm_buffer_access_lock(runtime);
-> >   	if (err < 0)
-> >   		return err;
-> > -	err = hw_params_state_check(substream);
-> > +	err = hw_params_state_check(substream, true);
-> >   	if (err)
-> >   		goto unlock;
-> >   @@ -944,7 +945,8 @@ static int snd_pcm_hw_refine_with_lock(struct
-> > snd_pcm_substream *substream,
-> >   	err = snd_pcm_buffer_access_lock(runtime);
-> >   	if (err < 0)
-> >   		return err;
-> > -	err = hw_params_state_check(substream);
-> > +	/* Refinement queries constraints without changing the mapped buffer. */
-> > +	err = hw_params_state_check(substream, false);
-> >   	if (err)
-> >   		goto unlock;
-> >   
-> > base-commit: 05441d697f7f9a927264f4058cbbc6a03dfcac9d
-> @Takashi
+> > With this patch a 1024-byte buffer is refused at hw_params; a 2048-byte
+> > buffer is accepted and safe but barely advances (hw_ptr 9216 after 30 s,
+> > for the reason above); a 3072-byte buffer streams for 30 s with no
+> > report and with the position moving inside the buffer.
+> > 
+> > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Sinan Turunc <enscrpt@pm.me>
 > 
-> Should I still try to find out which replacement of
-> snd_pcm_hw_refine_with_lock() actually matters or has the issue been
-> sorted out with Vincent's patch?
+> Applied now.  thanks.
 
-Try Vincent's patch at first.  If it doesn't help, go for further
-investigations.
+... and I noticed Sashiko warnings now, so dropped again from the
+queue.  Could you verify whether those complaints are valid or not?
 
 
 thanks,
