@@ -1,108 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793803317;
-	b=xp3yOQxFrPaiZ36LtdU/UQPop4mFtQ5CVesWnHjiMbCl1jgWwssZRqPyFQn+KN3baaUu
-	 RLYk7dpDmUx/q1jO9xvk5g+M8wQEQPBKSy5JHkfZQHBboH+e7nYJfadVIhOzpTDxGqF+x
-	 axqZplV3STkCCF5M1YI33C37kVD3qnU5dvN6ycrnHDSnLfsQ6tVJsJDLQBx0tQhHNQdME
-	 dhGJwHsX4ofU3iUK4PIJvEDKYHnh6hoRjMOaW0GTtOrwP1hIP8dGIL2x+rEq4NdID5UnV
-	 RIPBrmGaiOuMzRXY70ZR2rm3qVhCiMKTFBzPbcbWrHJrLmrjjexgwnt4Or4btbGFdbQ==
+	t=1793803346;
+	b=37yf3OerNLwa0ynK7ucjsxDycUcrSa3AT2/w/0HLqPFVsiZqX493sjXhem6iDbqqnoVi
+	 THioEar5jmnn6794PFK6WgLQCHHGlM4TbxGFwUPbT3byspEPds7v8RFzXBbkQVDDBD71v
+	 Ye2V30KkgEUNDsQDYGboi5OQuGDY1Bg9EovuoZWVjbKJxzkPPuBtdPkVJrgDcFobtvnVi
+	 l/9nyw6swb5lH/kbGMyQJ/9L8kMhMhyW2F4E0OInpBr+fXopDgE0PjZAR6k3INs30EbBd
+	 +gX8cOvcK9yISqtOV/sxcR5xFCFlPigY5X75E3KbOANWLrW7Q0oUvt3C3Lq0h+R/YiQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793803317;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793803346;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
 	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=OlAtB6wp4Rxg9m5TZVPBBQubE31obnHvFW2n9aoXtc0=;
-	b=uSuVHEjbxC1jufPjZdYWVWzHXwTOqpa4ATsofmAu5V935Bm5nCOXIuD4+59Q4E27eirZ
-	 fC6xyNnjw0AvafUpc+JIk3dSO8qNjnL1v/0APFJovAjD+LSEC3drK2s8v2ci4vLmNzUlm
-	 1x4dWISyItrJ4GOfAaCQSqFFKsLUMaWYsfns9+A9IOXtNF007oGppijXlAaW1SSLblVUV
-	 tDU4cZY349i0uoI2Co2ipjQGbnr0xdzavof4JAcX+bY0q7YYuILDkA5DZxaxjBUtv5woD
-	 8e/wJGnT0syEueZriNI1vZOvF1S0NHX25dRIHMeoPP1G6VQC33OyvU8UX0oZ71UMwVw==
+	bh=8ARMFZxNNi/buQN4eiuPsPm4c2kwN+KPdTFFG4SxMNo=;
+	b=YwACSPw2pZO6pgd8KVp7QhKKGSi1k3rmMuOPrfPQBnTobb9AOvJMTObLv9cAwZsgqXoD
+	 q2JKq/Uk+UIi5E6M+IZPSieTv82dLcDjSrTJWORkBx70VZrAqGQGJBnebiDa+e20zq37/
+	 scpovIjll/7NZHwxEdK3w3tPtGwNmyEHxUpnjGffRrZP0SZvSh14jPjybHawO8H6TVzV+
+	 q08mQvunkIQrQVpCL/MzTPotwLYKlQWQ6MCowoA8siYOdV6jO4JBYLLkgwAgDT0VuODPA
+	 EmFnBL3yiPH6W1pwPrz55Rl8b25Q5ZeK10VjPKeHDhDWz8lyuzgFERZ2TDTjyYI3P/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=AKbhyIDy;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Bu6W5BCe;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="l/qI6CXm";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=UMxra7va;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=pLADRu9y;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KG8y44Va;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=pLADRu9y;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KG8y44Va;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE3E606A328;
-	Wed,  4 Nov 2026 14:41:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2CE3E606A328
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C8F606A31B;
+	Wed,  4 Nov 2026 14:42:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28C8F606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=AKbhyIDy;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Bu6W5BCe;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=l/qI6CXm;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=UMxra7va
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=pLADRu9y;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KG8y44Va;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=pLADRu9y;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KG8y44Va
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4761F21EB3;
-	Wed,  4 Nov 2026 14:41:54 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5D7011F790;
+	Wed,  4 Nov 2026 14:42:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793803315; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793803344; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OlAtB6wp4Rxg9m5TZVPBBQubE31obnHvFW2n9aoXtc0=;
-	b=AKbhyIDyHgGo91GC3dXwslkq9tS0ZQtkg01wK+MfVqKuuJQLfh0B3INdFkS8ytdjtzykuX
-	bYopyHrewCgQJ2RHZwQcEThjh6TsSTA6DWwntYOGe9zmFa29nXzAvmDDwg4FxdCx38IFzs
-	iPZ01U9f83Na03Z+tzYvckAnaHcR8M0=
+	bh=8ARMFZxNNi/buQN4eiuPsPm4c2kwN+KPdTFFG4SxMNo=;
+	b=pLADRu9y5XZHglg7L1gBYy0heMvqKWsKruEjleINHaxZ+jKVxqIlHnR/QbGm5bV44raBoo
+	PKnK3JQ4c/IrTaEK05yww8V30a6Yt4olT8ejHln9Zfat0XC1jThUQPKSqn6lJ4i7rc8Sg3
+	+30XxotSarPlqDOyRFnhzyRch3quB4A=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793803315;
+	s=susede2_ed25519; t=1793803344;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OlAtB6wp4Rxg9m5TZVPBBQubE31obnHvFW2n9aoXtc0=;
-	b=Bu6W5BCe/JFSAecVZKVJeHALwVRCwqiH0lns4oyJ7dj2tee/xSYw/mKLM11BPpXD9A/YR6
-	QCDcS3KIwEWrA9Bg==
-Authentication-Results: smtp-out1.suse.de;
+	bh=8ARMFZxNNi/buQN4eiuPsPm4c2kwN+KPdTFFG4SxMNo=;
+	b=KG8y44VaXrJYQKLC/qdOhIppADF02iI2eitqj2Byb4ncHpF38bHAQ5DU5KPT+vdmOPKGsR
+	npjKVXmAk1xi4tDg==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793803314; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793803344; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OlAtB6wp4Rxg9m5TZVPBBQubE31obnHvFW2n9aoXtc0=;
-	b=l/qI6CXmCutpQP8eED8mBKo4QtvY3EXMN/aHUyokASYshw5Eibc9rIr5p0oFfjoQr7ObQx
-	gfx+zGU46y0Sev5cCrYgHdBesuUNid7w7FEFpzAH5IHRPx+0Gb4lCkr7bomigdlipTXbEU
-	sr3GfFnm30M1F8JUuBS39zmBUjSRbD8=
+	bh=8ARMFZxNNi/buQN4eiuPsPm4c2kwN+KPdTFFG4SxMNo=;
+	b=pLADRu9y5XZHglg7L1gBYy0heMvqKWsKruEjleINHaxZ+jKVxqIlHnR/QbGm5bV44raBoo
+	PKnK3JQ4c/IrTaEK05yww8V30a6Yt4olT8ejHln9Zfat0XC1jThUQPKSqn6lJ4i7rc8Sg3
+	+30XxotSarPlqDOyRFnhzyRch3quB4A=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793803314;
+	s=susede2_ed25519; t=1793803344;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OlAtB6wp4Rxg9m5TZVPBBQubE31obnHvFW2n9aoXtc0=;
-	b=UMxra7va6xYAZJdrkNU+Nm6OD9DncwPjLsVC/NmGzB6fK0L6WciX+yObhnKKf9mEPGbufk
-	lIVZVK3jeAIM7JDw==
+	bh=8ARMFZxNNi/buQN4eiuPsPm4c2kwN+KPdTFFG4SxMNo=;
+	b=KG8y44VaXrJYQKLC/qdOhIppADF02iI2eitqj2Byb4ncHpF38bHAQ5DU5KPT+vdmOPKGsR
+	npjKVXmAk1xi4tDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EB584134F0;
-	Wed,  4 Nov 2026 14:41:53 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DDC62134F0;
+	Wed,  4 Nov 2026 14:42:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id k5wHMDFE62oBfAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 04 Nov 2026 14:41:53 +0000
-Date: Wed, 04 Nov 2026 15:41:53 +0100
-Message-ID: <87zevou09a.wl-tiwai@suse.de>
+	id FmnmLE9E62oifAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 04 Nov 2026 14:42:23 +0000
+Date: Wed, 04 Nov 2026 15:42:23 +0100
+Message-ID: <87y0b8u08g.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Zhang Heng <zhangheng@kylinos.cn>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	kailang@realtek.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Roman Maidanovych via B4 Relay <devnull+devuarpd.gmail.com@kernel.org>
-Subject: Re: [PATCH 1/3] ALSA: hda/realtek: Fix DAC binding for Lenovo Legion Pro 7 16ARX8H
-In-Reply-To: <20261104100427.474270-1-zhangheng@kylinos.cn>
-References: <20261104100427.474270-1-zhangheng@kylinos.cn>
+To: Sheetal <sheetal@nvidia.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter
+	<jonathanh@nvidia.com>,
+	Mohan Kumar <mkumard@nvidia.com>,
+	Sameer Pujar
+	<spujar@nvidia.com>,
+	<linux-sound@vger.kernel.org>,
+	<linux-tegra@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	"Anupama Kunkulagunta" <akunkulagunt@nvidia.com>
+Subject: Re: [PATCH] ALSA: hda/tegra: Add Tegra268 HDMI/DP codec ID
+In-Reply-To: <20261104102955.1089991-1-sheetal@nvidia.com>
+References: <20261104102955.1089991-1-sheetal@nvidia.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -116,47 +122,44 @@ MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Spamd-Result: default: False [-10.80 / 50.00];
+X-Spamd-Result: default: False [-12.30 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[devuarpd.gmail.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -10.80
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,nvidia.com:email]
+X-Spam-Score: -12.30
 
-On Wed, 04 Nov 2026 11:04:25 +0100,
-Zhang Heng wrote:
+On Wed, 04 Nov 2026 11:29:55 +0100,
+Sheetal wrote:
 > 
-> The Lenovo Legion Pro 7 16ARX8H (SSID 17aa:38a7) uses the TAS2781
-> I2C DAC. The generic ALC287_FIXUP_TAS2781_I2C quirk assumes two
-> speakers (0x14 and 0x17). It forcibly binds 0x14 to DAC 0x02, and
-> binds 0x17 and 0x21 to DAC 0x03.
+> From: Anupama Kunkulagunta <akunkulagunt@nvidia.com>
 > 
-> However, this machine only has 0x17 as the speaker and lacks 0x14,
-> which leads to incorrect DAC binding. To fix this, chain the
-> alc295_fixup_asus_dacs() fixup before the generic quirk to ensure
-> the correct DAC routing for this hardware layout.
+> The Tegra268 HDMI/DP HDA codec reports codec ID 0x10de0037, which is
+> not present in the Tegra HDMI codec driver's device table. Add this
+> ID so the driver can bind to the Tegra268 codec.
 > 
-> Tested-by: Roman Maidanovych via B4 Relay <devnull+devuarpd.gmail.com@kernel.org>
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=221735
-> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+> Tegra268 uses the same HDMI/DP codec programming model as Tegra234.
+> Reuse MODEL_TEGRA234 to enable DP MST, dynamic pin output assignment
+> and HDMI interrupt trigger control for Tegra268.
+> 
+> Signed-off-by: Anupama Kunkulagunta <akunkulagunt@nvidia.com>
+> Signed-off-by: Sheetal <sheetal@nvidia.com>
 
-Applied all three patches now.  Thanks.
+Applied now.  Thanks.
 
 
 Takashi
