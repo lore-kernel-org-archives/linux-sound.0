@@ -1,54 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.134
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793793213;
-	b=PeXrOhbsfXeENoATUpkbYlWVtBJT5ZlzNN2EY3Wjl5J4bhuN/fbPhSum0Q+5dnZdpFe/
-	 lz5xc+pCmD9+mmK7L1X/xArL+DSzjuJX+Utnol3+aKq1TYsBytt0MEbPdODG9+Y+e6qFE
-	 BqD2WmyzBOOeLvfzjqUkSk+FGtD/RFbUhrdm4iBtT5OtXw6aUbBZwnjJbhQ+HWrI8MgSO
-	 3JnqkJdooPLpLLOn/pppc7rYTlWaMCNsvomV1zS0mOAH6/F/ZsiKeQWmL0uljz6URs5Lh
-	 NYUGk/S7a63X/TEQ8P4y16nLPbKIZV4lE+OMIp2NBHYzmSIm2rTwUau0iWleFrFXaaQ==
+	t=1793793209;
+	b=ovGhso5umgF2onSJXKo1z8ooZxfaSLFIv41YgEfv25l6tOG6SCe74nrG2tdPcKurBaDW
+	 +WJfzhLs9JGdIjh4YuRBt0EkiNBY7Ksg8kPr9eUeP8/l6SvssbUEnRJ4bi7WnaZCSBScQ
+	 3P47psJnc+QUcvaO6tjEap1Q0Lhs3i3tl0HIJ4TdvPDweRre1a22pTpQUVMqJRSeYBb9M
+	 bq+vextkOf2KbfKnQxTGZ8wHxNbeQwsNbPrwG5Si1Tkezcs1DSUmTiDtwWSTgR58zp9wd
+	 WsdJZ2Bur9eKllAZzhozyRNGWUz8vIGKf/Dt+Ztf1G+kX2udV83A2AHA56qT276d7sw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793793213;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793793209;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=K3XuBnrGM9sjcbyr+vhPAVUTy0Q76eXEKQQ9/GBy7po=;
-	b=BJw543sIqvDSV1A4dqclqNFaKPvmo9NWV8f2AyM5esSczAUZGcjcdzkvLS6sf0wZ3/YJ
-	 aIVpd+YHFFlATR8l28PFVTvNHxj6hsk1QdPJv7opa2pRfSRcvrikacv3hAzSxb5/+wF0I
-	 bBPB8JcBTW5TaeZYg88gKZVPtXl39BfIAlxklsAz/GlRDLdf/wFyF50ZliMXUZSLKpy8P
-	 c52NOP8StRI1XGq24ZnyepWfHBYSYykOvNwx0RulzcqF93NgnLgcuhglo4GyASYuZ5jvh
-	 /xXDNtk6lsUfkxQMOsky/B6Zs7Ieug1bmsvMUQ7wap81Cjd52TNrE9OV32lBMs9EOJA==
+	bh=y+NYpw7VcamMXqZ0sP+WVZVi54+wDw6fM6nEwwrB8Hc=;
+	b=07T/ewOCPmWFECtF6DIdch7gboqucR6/E0n0AcdNmfLmSXft54puIQLPPAqePCFAMdKS
+	 Ummkd7T4ENZqg9PCh0qscDHe3lC71KPcRcvwbW3qOyQG6ZqJD4ocaDkb2gTRVewO+fZ5e
+	 16KUqD/6A8kEgZcgsh95hy6F4s7kKwpHhySWF58+IzgUsCvT0wXLfdFFIyb0+BIc5Yika
+	 kcRPu9am7+dqOjKXdETk8sJxHpjvV2dqUHM1VRZM1oYzG3f0gOmKYW/g2+Dmmlp1nCFOq
+	 I/HtzJvuDEd1bbvwaJPEfRnMgTIaI6Zv2jCqmklGFvnnS8NEb3zbeJdmpvDDJZHx7tg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=u8EFKRoE;
-	arc=none smtp.remote-ip=91.218.175.134
-Received: from mta0.migadu.com (out-134.mta0.migadu.com [91.218.175.134])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=CvYd9Nlz;
+	arc=none smtp.remote-ip=91.218.175.124
+Received: from mta0.migadu.com (out-124.mta0.migadu.com [91.218.175.124])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB02606D802
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 11:53:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0FB02606D802
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB496606A32D
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 11:53:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB496606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=u8EFKRoE
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=CvYd9Nlz
 X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=+A0/0+mkCu8UwikYOVQTTnJ2ULdHaDIJYUHPMTx6ARc=;
+DKIM-Signature: a=rsa-sha256; bh=pOoMwnuu6Rp2se8zYeQGNlKVFILsgpZAF6qFVCLOGW8=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793793211; v=1; x=1794398011;
- b=u8EFKRoETood6w9kHal8izrceQgeK970LC7hBYJzH5K3VzPJfPuZzJRJQp1zDNWA0WKO+f/e
- fooZaZZLzLZ8vf11jpervjvXk8JKOeMsR+UdposM8SSvEVPI+txEVNsDf22aGUafXiv4uB+CBVy
- wUyZBYXdVIn6VE3GRJY1S4QI=
+ t=1793793205; v=1; x=1794398005;
+ b=CvYd9NlzMZTYKXFbDOd+DVdlB3EkTnsbY8xx48lUD3mMp92Q0YRUBQDuTMjorv3yA862tWWz
+ RRM0nVuLBDZdigzqzpGEVDMB/AYcJ1d+kmuTVxoRcqqM3wDEeiJb45cIXVqQyH+F7X99Wmx+tc6
+ K7+EHYD98tUTlzQbtvDZzaP0=
 X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id b8301430ec0ad741;
-	Wed, 04 Nov 2026 11:53:31 +0000
-X-Mizu-Trace-ID: b8301430ec0ad741
+Received: by smtp.migadu.com with ESMTPS id 817128640c2180d6;
+	Wed, 04 Nov 2026 11:53:25 +0000
+X-Mizu-Trace-ID: 817128640c2180d6
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <d9672276-5616-4609-98c1-5b9bdd06cf05@linux.dev>
-Date: Wed, 4 Nov 2026 12:52:40 +0100
+Message-ID: <6e812fd1-218d-4393-a2a0-ed05f67e6b14@linux.dev>
+Date: Wed, 4 Nov 2026 12:36:17 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,55 +59,59 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/7] ASoC: Intel: avs: Soundwire support
-To: Cezary Rojewski <cezary.rojewski@intel.com>, linux-sound@vger.kernel.org
-Cc: broonie@kernel.org, tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
- linux-kernel@vger.kernel.org, vkoul@kernel.org,
- yung-chuan.liao@linux.intel.com
-References: <20261103134958.2089136-1-cezary.rojewski@intel.com>
- <bcfe64de-359c-4f16-9014-5d6f8bf30c40@linux.dev>
- <9da94716-4dde-4389-9574-12f90b52e05a@intel.com>
+Subject: Re: [PATCH v2 4/5] ASoC: sdw_utils: honor empty DisCo port lists when
+ creating DAI links
+To: Matthew Schwartz <matthew.schwartz@linux.dev>, broonie@kernel.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261103200540.3863272-1-matthew.schwartz@linux.dev>
+ <20261103200540.3863272-5-matthew.schwartz@linux.dev>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <9da94716-4dde-4389-9574-12f90b52e05a@intel.com>
+In-Reply-To: <20261103200540.3863272-5-matthew.schwartz@linux.dev>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/4/26 10:14, Cezary Rojewski wrote:
-> On 11/3/2026 6:20 PM, Pierre-Louis Bossart wrote:
->>
->>> Also, the existing code fetches the PDIs based on pre-defined "dai_id".
->>> That's not the case for the avs-driver.  It simply asks: "is any PDI
->>> free?" and assigns it for the substream if one is found.
->>> No predefining.  Again, this aligns with how HDAudio streaming is done.
->> Yeah but at the end of the day there's a 1:1 mapping between cpu_dai and
->> PDI, no?
->>
->> All PDIs are created equal, a dynamic mapping doesn't make things more
->> efficient. It just makes things more complex to debug since you don't
->> have a fixed mapping between dailinks/stream/cpu_dai/PDI.
->>
->> Put differently, couldn't the AVS driver work around that fixed mapping
->> to avoid changes to legacy platforms that have shipped many moons ago?
+On 11/3/26 21:05, Matthew Schwartz wrote:
+> The codec_info tables give each DAI a fixed direction, so a TAS2783
+> always gets an amp feedback capture link. The ASUS ROG Xbox Ally X20
+> BIOS declares mipi-sdw-source-port-list as 0 for both of its TAS2783s,
+> so the capture port has no DisCo properties and every open of the
+> SmartAmp capture PCM fails in sdw_program_slave_port_params() with
+> -EINVAL. The PCM is probed at session start, which logs a burst of
+> transport errors on every boot, and the same failure is reported on the
+> ASUS ProArt PX13.
 > 
-> Kind disagree on the debugging part.  Having SDW streaming follow
-> closely to what is done for HDAudio from the beginning (no hardcodes)
-> makes it easier for a developer to debug stuff.  OTOH if one of these
-> two follows a completely different path, the developer has to have such
-> hardcodes in mind when debugging the PCM code or even when looking at
-> the topology.
-> 
-> At the same time, I'm not going anywhere and I do intend to work with
-> Peter and Kai to update the common code. Simply put, such a refactor
-> would be routed through SOF GH first.
-The machine driver selects the first available cpu_dai when creating a
-dailink. It doesn't really add much value to add a second level of
-freedom to select PDIs, since in practice it'll select the first as
-well. PDIs have no moral equivalent in HDaudio, it's a Cadence-specific  IP.
+> Store the effective direction in each endpoint and, for codecs whose
+> driver takes its ports from the DisCo port lists, drop a direction when
+> the peripheral declares an empty list for it, and skip the endpoint when
+> neither direction is left. Other codecs keep the table direction, as
+> many of their drivers use fixed port masks. Since endpoints in one group
+> can now differ, the machine drivers take the stream name and DAI link ID
+> from an endpoint that is part of the stream, and only count and
+> initialize those endpoints.
+Can I suggest a more nuclear option, ignore all the port properties and
+add them directly in the driver?
+I am not aware of any other codec that relies on those properties, and
+guess what they are wrong in that unique case. all other codec drivers
+list the ports in their read_prop callback, e.g. ﻿﻿.read_prop =
+rt711_read_prop,
 
-Also there is already a degree of freedom in the allocation of
-stream_tag, which is used for DMA support. That one makes sense since
-DMAs may be used for non-SoundWire things (HDMI, trace, probe, etc).
+While I am at it, this TAS2783-sdw driver does some really weird things
+with data ports, all the uses of
 
-That's 2 degrees of freedom on 3 levels, do you really need full
-configurability?
+	case 0x000 ... 0x080: /* Data port 0. */
+	case 0x100 ... 0x140: /* Data port 1. */
+	case 0x200 ... 0x240: /* Data port 2. */
+	case 0x300 ... 0x340: /* Data port 3. */
+	case 0x400 ... 0x440: /* Data port 4. */
+	case 0x500 ... 0x540: /* Data port 5. */
+
+are not correct IMHO, the data ports are managed by the core without
+using regmap.
