@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793758703;
-	b=Fv/kCClWX5BE4OWbZlUTc2fYCjg2BO2q9wH0MHTRFDD2QMQ/pUdd9Os9mbGBY0LI4gDv
-	 YR/wazmVsl1s7UBfkAzVxFHH2igNmBDLe/i/0ulj9ZAjpkf0wYgqhHGgGSJ6bBXcZghRW
-	 kUnG8YPW0QnNJ3VrIGksE08BU8vFJ5XtRxMJDdgtE2lroW34mMKhoNi6d1XPcVACmti+6
-	 Vgd1To4cV1M/2WDf2h6R95JnYu+F8Cg61tSzbRL51HEegp0cYGYfhlmF1NE6U+OYt7OnY
-	 xATWaIjzYwDO60PaqBdqQQN6PbEO5imaAbQ70pzni1xBwhsYSQvEHFUmJtSmL1NwvDA==
+	t=1793758706;
+	b=leJtXsTFrphzXvrUkfSwYh/1Qw2MmeLKWV8QwfO88q36J8Zn5XhOxHvLk0BeObL+ovtt
+	 MYFBIq84s0RMwsBwGmWpe6WmlxlNDRBGM+O4luGZsrF4XmpO3Z2Xwt3zFXie7qeZxyrIl
+	 F6Ngx+R7COBauNpFPHHuGK6BfzE5Z16CgCydFAMYWa5XY+adIZQbTUjj9OOowOQrWKxZy
+	 fO9T6GbwjzmFVJDWw1whnYsAv8cLse+T76x6RfzS//ZVnj9BuRwxkOj2JcfhwpZAa/Zy9
+	 Q4BdS0r9oQRrq7obG8W6iP8oiyhRWJqNC8YmVu2MVRcIsIwgJeO/+zXXBB3JEAGkRDg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793758703;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793758706;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=G3Mhn5pgq0/0jo62rU47ai/rum5/iwqq7/Vtusa+I4g=;
-	b=2qH/aJNQBpH3oKZE4GqiOviJn0ed9AcA2LPZ3cfaJuNeobNpfFZsGwDEmqTEmP49oZix
-	 PilVdgIH0WB/i09AEE102t+trrlCXgP2u1H9hnpD/UPf84hSPjykc1r4/kxK1JLCSIm6L
-	 nEPt8hgP3ltuSchC1xqcQnS1LYARiuu7gtbGwlhKb0zze4U5QP/qVWgQwpxuQTpl4BAV1
-	 +4wrXpay2dW5AfvJ7IxDMg//hGO8ZCqLVDAWegcYexmrvmTxeprA8q3La6rxwlwkxwg3c
-	 yrCDfbUkauc/EWOMLybZ9Ibt+XqrgEnMBJ551Ti26P99Mx7cyTz10fccJlpd0zVwDSQ==
+	bh=Hy/84DnLRHSkLYr0y43NMukCMjMkWuzO7+IZ4PjZ4VU=;
+	b=m6yV36PLwlpvAScweFEmJfq6YXGNdoBKtngYE6PmD9nsH1ybKZX4O5j42lkNIXCgvX38
+	 gfPcr+5j16/roGEC/7duoPc+C55+RKRs113ljMw1ikVCcsT4Gk52z0RJDtME9B4e9NYGF
+	 9ksmANEG5HAnjWvlIGU3z3W+7HOfUXQzrlKW/CFlMV+wbCo3q+MqhEPk9ITZXmCmJj5d3
+	 zA84IP1t1t0n690d0UEzkCOScWqDqIlpztqdrvhoYkcYRMFRLLWDiVvDeh3tX/CdF5YIs
+	 wS41TW4MtSSynS8uqsq/k+X+/RuvHhlqwjgL0XiFD6JdjbMgBbadA2M4bCZEWUCBIVg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DbMahyPd;
-	arc=none smtp.remote-ip=209.85.216.42
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Y3o/CCpf";
+	arc=none smtp.remote-ip=209.85.215.181
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D13606A33C
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 02:18:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74D13606A33C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47629606D806
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 02:18:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47629606D806
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DbMahyPd
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3ae6b4c669fso851302a91.0
-        for <linux-sound@vger.kernel.org>; Tue, 03 Nov 2026 18:18:22 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Y3o/CCpf
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-cc52c1b8286so53334a12.1
+        for <linux-sound@vger.kernel.org>; Tue, 03 Nov 2026 18:18:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793758702; x=1794363502; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793758704; x=1794363504; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=G3Mhn5pgq0/0jo62rU47ai/rum5/iwqq7/Vtusa+I4g=;
-        b=DbMahyPd9PKK+H/CP5oAoXRDi5O3liQ62AQkQ/+X2z3Uh3WbYuUb+RQUHgifWiMiju
-         R9qmbuAyLq5jrp51MTYTVjkaYVBLFXGXUzS1SA3yCJxGmOgwRsRnb6a9t6QmDMvJQlQM
-         h8+2tLyUV2fUj/mQ2L0QRyVvV1fTUkipASqet98ehljZLtURzV9OgAq9hpVB2VvD4tVI
-         F4FH7OClHI5EhJZsoVovYR63+o0XImp7yd/V6N2QzEdegt4L63DcFa5IOSoeY2PgIJQE
-         YzRDh/yqB5pvikNWNpzRoGBhaX/tvAATdk22mZBPRX63bXiNxwridUNR7oYvHHUXBF29
-         NLBQ==
+        bh=Hy/84DnLRHSkLYr0y43NMukCMjMkWuzO7+IZ4PjZ4VU=;
+        b=Y3o/CCpfCiBQofPKM4Ywt8dc7DFmzbyUfKOWVrdCUW5tyOO41UUzmvQ+6Esg818GI0
+         IuBUALQkirdwq5/BeanIktv80xC4d+A1y38PxF71Tg8yvD8jRU5GE6nzbysHTivnh7nB
+         p5Hf8GDtgS4rsEyXCzRVf5zlCDasVYfrJXuvn7bui67frp9GBND/AfjuqA6NxIwDTAsu
+         nAa2n17352M4IpomjHxS1w6vRYYIZu57gZbsnmLaFWtDs8CMWf4q+dFcNJFYrV797s4O
+         jcNQjId8jP0VguTH7xjBsU7ReStMAJI1yJSwFc2KnP3CHdZv8Ykvf296TRluWTqbQ1tM
+         9RuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793758702; x=1794363502;
+        d=1e100.net; s=20260707; t=1793758704; x=1794363504;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=G3Mhn5pgq0/0jo62rU47ai/rum5/iwqq7/Vtusa+I4g=;
-        b=eM29Yw5GLUgVg0y4QR3lJp74U5v9PZS3HIQAjg6S78CyQxWXVqkcbEGaCm+O/95h8+
-         rJoHtPd3jpjWIiOIkHhRiB7Fl1MKcYCVkaEKnT00F4wshoegXLilQYqnglACNuQVDgom
-         nHIBVImdezEr3FQ5bxPfiaM5dz/x2AnsPha6He0PFkF5TGJdf5FRlRnEGsVjrX6iGAEJ
-         0QYS7APwZZj/3u+OZcMN5zWrD4A8VzgIwLXgNQwi1NWduO/RJoMrbU4mikGR7lYBvFp7
-         eXWwpzLAHFGlPrURLY1U9nzo3DW+3pTRqor+/8Ko/r5qGhkTWWRPusdRcxDifwpGJgJn
-         vDJQ==
-X-Gm-Message-State: APuU4Z8VmBZX345RGCJ+kGnVAD3q8qK2C4tEhHrKO9CR2vPPsiETyGsf
-	PEkF8EiRkuR32tOJm5ib7ePxfKCYftknqvurplADZJEMkoiw8BtT/rg7Jwak8Q==
-X-Gm-Gg: AYBFou0QPjzluc2ppCG8+1IiZyAcBRGArrmmPp+Hp40LWyZFoc0SFRD21LFdM5zgYxZ
-	NwIfrA5QF2bjDoaUR80rjlnEHvYWvy4hu5pzV5I/6/3F8D3OtG6LLPNp0BFLufaj/kR4bZdHx2v
-	TdT07Y2DceFnm0HwTNdpurOwDYPj1AuO7kiLO8vudN4vV6dlOUuSldlXfvo/VxViGGiUOmRtwFl
-	hRZZbd8aZTuM3atO8Ct/AXynTJWqxIiRQVusi7Mrsu53jhWfzQzX1nolYUhBIvZZTmMchTxHcpj
-	gfGXD6G3lcceqcAWZ/itjv3Qe9DUIwwDbz07+s1N4iCZCbCVAjRHMhmLQcX/45XHKnj+Ubh+pqI
-	enxaMn5GNiJnuOd1yCIXQfvzZAZ2GTZLMANJaLLLfUHSJ9exhF+4C25wgqMTUNLPy7DU387VZHv
-	4FStgD+xRgLbQu99BLWpJY7tqqsmupXkuKPyhIX4JxbnuWtjXQkYJLDT4+w7/KvaEUTDJWWkEOe
-	5c8ZenDWrVr520USM9f04bSOkN7PDR+TIkMAE29NYIDvvf5b3XoNtp/KoKdtplkPP+5lSZU6toa
-	cmQ+TI5I9V/UDHNi84iKeKWQKcwV3Q8ugG35I1+HZ7phjjbupCyaOWdYup+5/6Kzymcp401x6oA
-	kN/CBYCSOLGCIU0Dmacur8uoddEREpNEaqKgFxXw+ApOrfbU=
-X-Received: by 2002:a17:90b:2241:b0:3ac:77a2:18a4 with SMTP id 98e67ed59e1d1-3ae6eacae6fmr12697052a91.0.1793758701282;
-        Tue, 03 Nov 2026 18:18:21 -0800 (PST)
+        bh=Hy/84DnLRHSkLYr0y43NMukCMjMkWuzO7+IZ4PjZ4VU=;
+        b=rnb1DNV1xy4v9zAlzRyxM9kQfIWz+tj/lo81VPRQ0eZFrNhVGh2EHTaJdn/oQfwnEb
+         kZfAREuNtwn0xeaQdeOxjja9809BzS9MpDYWM+5QFm0kJ/3sFGW6M/aL6+T1s7LnhvCe
+         IObBKfdUXP0GJB5MrUWr2fy0Ci7pApzuu45yP8o39DkuWdzybCsEOA8i3xi2IgyLrj3i
+         3tgHkvEyXDZRl3vG0b9N+aJZcgQKP9xD1Lkvu4HeFcW2o/o02Wp67H+KWEyUBC36Nc5s
+         M5SJKjcP5epCmRgXP63hHoVRO8MyNdSVhjjN5gJypkb9+Fj/sK5iShpMvLN7AJiRrlkl
+         cs7Q==
+X-Gm-Message-State: APuU4Z8Hkd/zloF4pqR4ufHzgKCroX5uShvx4CppDagqddvfnWDbvINZ
+	bJqv6tqOhIDF3li4aD1MvA1o0hcF95zf8MEglZ5lIxFUo98MR342JLDExhv2Fg==
+X-Gm-Gg: AYBFou1cUxTcjyLIOYmqz3Y1DrWP0JFFoFS8/edeO7j6Tvt6eYWIIe7dxtqVacSWOd6
+	A5Yirh0NITdfWCwpcHP8/IdoT+wscJR8m0m1j/i3V+9QBlChtq+6BPqXmdglDUu2x8a6mlPgo8F
+	ofoTCZWkSlatnzjnYRKqZbMRZoV7LVMG/KP9ZZUNlYnOvtc/HInG/1KOGNXNuytybiol+8xAg3Z
+	ztsshIwc+CVpzRWTU/T5nWHn+o01wl+H0o65YtE8mk23Ra4GTtMXx1+dp+uLK7BlCdmxPvVFVT1
+	ey/M26JKNUgNTg25Pl+jPxkdd6+T0F4UDRlMncW5U0Ojhq6pwZ+QAax8ntsDo4QT6NJ2P2KjpBY
+	8SxzcL/SfcFg2MF57TNrRR+JpiNduKlp5heUkFrEP+6AvP2KLsTCC3U3yXXjpLfKaikKgSZLdsp
+	CcqzuhxaDQjXHMRUMzWHwLUMXzpFxQbL6mPYximbfkSojQ8emDkY+/tzTI7Sk84lz2dc3oc+WAG
+	T+j9FYsjq29nWs9mapZr3SRVVYN+tBaq2sTBQ6PybG+TLOo233qHLLoJ0+r/DONUWeNcHUONphr
+	DaJ/9WbopQkMoW4rJTbo+JeDzdzZA9bdjpTxcv3IxQIlBGoawZrTDSEYCO86HQ0U1GzlIKwmSod
+	e8S9K51NvEFTZTSZnR1KYxODr4ZQVaiSq0iXr8qk+UipQ3B4=
+X-Received: by 2002:a17:90b:3c08:b0:3a6:e159:a229 with SMTP id 98e67ed59e1d1-3ae6f0349b6mr11883081a91.49.1793758704355;
+        Tue, 03 Nov 2026 18:18:24 -0800 (PST)
 Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb46326f8bsm346131a12.0.2026.11.03.18.18.18
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb46326f8bsm346131a12.0.2026.11.03.18.18.21
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 03 Nov 2026 18:18:20 -0800 (PST)
+        Tue, 03 Nov 2026 18:18:23 -0800 (PST)
 From: Joonho Lee <mynameisjune111@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: tiwai@suse.com,
@@ -91,9 +91,9 @@ Cc: tiwai@suse.com,
 	rdunlap@infradead.org,
 	linux-doc@vger.kernel.org,
 	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v14 08/12] ALSA: virtio: Keep control payloads alive through DMA completion
-Date: Wed,  4 Nov 2026 11:17:41 +0900
-Message-ID: <20261104021745.57733-9-mynameisjune111@gmail.com>
+Subject: [PATCH v14 09/12] ALSA: virtio: wait through signals for PCM teardown
+Date: Wed,  4 Nov 2026 11:17:42 +0900
+Message-ID: <20261104021745.57733-10-mynameisjune111@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261104021745.57733-1-mynameisjune111@gmail.com>
 References: <20261104021745.57733-1-mynameisjune111@gmail.com>
@@ -108,713 +108,57 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Control requests can expose caller-owned payloads to the device after a
-synchronous send times out. Keep request and response headers and payloads
-in the reference-counted message so caller cleanup cannot invalidate DMA.
+A signal can end the interruptible wait while a STOP or RELEASE request is
+still pending. A later teardown may then submit another RELEASE before the
+first request completes.
 
-Keep the queue reference until device completion or post-reset cleanup,
-even when the caller times out or is interrupted. Consume the caller's
-reference on every send path, and let response readers retain an extra
-reference through copyout. Check payload sizes and allocation arithmetic
-before building the scatterlists.
+Keep both waits non-interruptible and use the existing message timeout.
+Other control requests remain interruptible. Device reset still cancels the
+pending request and wakes the waiter.
 
-A control value payload is also read by the CPU as a typed structure. DMA
-cacheline alignment alone does not guarantee the structure's CPU alignment.
-Align regions to the greater of the DMA cacheline and control-value type
-alignment, and reserve prefix slack from the buffer base so typed accesses
-remain aligned while scatterlist regions stay on cacheline boundaries.
-
-Keep response values in a separately allocated aligned response buffer
-so INTEGER64 control accesses are aligned from this patch onward.
-
-Fixes: 9d45e514da88 ("ALSA: virtio: handling control messages")
 Assisted-by: LLM
 Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 
 ---
-sound/virtio/virtio_ctl_msg.c |  289 +++++++++++++++++++++++++++++++----------
- sound/virtio/virtio_ctl_msg.h |   24 ++-
- sound/virtio/virtio_kctl.c    |  121 +++++++++--------
- sound/virtio/virtio_pcm_msg.c |    2 
- 4 files changed, 300 insertions(+), 136 deletions(-)
+sound/virtio/virtio_ctl_msg.c |   15 ++++++++++++++-
+ sound/virtio/virtio_ctl_msg.h |    3 +++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/sound/virtio/virtio_ctl_msg.c b/sound/virtio/virtio_ctl_msg.c
 --- a/sound/virtio/virtio_ctl_msg.c
 +++ b/sound/virtio/virtio_ctl_msg.c
-@@ -3,7 +3,10 @@
-  * virtio-snd: Virtio sound device
-  * Copyright (C) 2021 OpenSynergy GmbH
-  */
-+#include <linux/dma-mapping.h>
-+#include <linux/limits.h>
- #include <linux/moduleparam.h>
-+#include <linux/overflow.h>
- #include <linux/virtio_config.h>
- 
- #include "virtio_card.h"
-@@ -11,7 +14,12 @@
- /**
-  * struct virtio_snd_msg - Control message.
-  * @sg_request: Scattergather list containing a device request (header).
-+ * @sg_request_data: Scattergather list containing request data.
-  * @sg_response: Scattergather list containing a device response (status).
-+ * @sg_response_data: Scattergather list containing response data.
-+ * @dma_buffer: Message-owned storage for all DMA-visible SG regions.
-+ * @request_data_size: Size of the request data buffer.
-+ * @response_data_size: Size of the response data buffer.
-  * @list: Pending message list entry.
-  * @notify: Request completed notification.
-  * @ref_count: Reference count used to manage a message lifetime.
-@@ -19,7 +27,12 @@
-  */
- struct virtio_snd_msg {
- 	struct scatterlist sg_request;
-+	struct scatterlist sg_request_data;
- 	struct scatterlist sg_response;
-+	struct scatterlist sg_response_data;
-+	void *dma_buffer;
-+	size_t request_data_size;
-+	size_t response_data_size;
- 	struct list_head list;
- 	struct completion notify;
- 	refcount_t ref_count;
-@@ -47,8 +60,10 @@
-  */
- void virtsnd_ctl_msg_unref(struct virtio_snd_msg *msg)
- {
--	if (refcount_dec_and_test(&msg->ref_count))
-+	if (refcount_dec_and_test(&msg->ref_count)) {
-+		kfree(msg->dma_buffer);
- 		kfree(msg);
-+	}
- }
- 
- /**
-@@ -71,12 +86,73 @@
- void *virtsnd_ctl_msg_response(struct virtio_snd_msg *msg)
- {
- 	return sg_virt(&msg->sg_response);
-+}
-+
-+/**
-+ * virtsnd_ctl_msg_request_data() - Get the request data buffer.
-+ * @msg: Control message.
-+ *
-+ * Context: Any context.
-+ */
-+void *virtsnd_ctl_msg_request_data(struct virtio_snd_msg *msg)
-+{
-+	return msg->request_data_size ? sg_virt(&msg->sg_request_data) : NULL;
-+}
-+
-+/**
-+ * virtsnd_ctl_msg_response_data() - Get the response data buffer.
-+ * @msg: Control message.
-+ *
-+ * Context: Any context.
-+ */
-+void *virtsnd_ctl_msg_response_data(struct virtio_snd_msg *msg)
-+{
-+	return msg->response_data_size ? sg_virt(&msg->sg_response_data) : NULL;
-+}
-+
-+/**
-+ * virtsnd_ctl_msg_sg_init() - Place one DMA region on cacheline boundaries.
-+ * @sg: Scattergather entry for the region.
-+ * @cursor: Current location in the message-owned DMA buffer.
-+ * @size: Region length.
-+ * @alignment: Alignment for DMA cachelines and typed CPU accesses.
-+ *
-+ * Context: Any context during message allocation.
-+ * Return: 0 on success, -EOVERFLOW if the address cannot be represented.
-+ */
-+static int virtsnd_ctl_msg_sg_init(struct scatterlist *sg, u8 **cursor,
-+				   size_t size, size_t alignment)
-+{
-+	uintptr_t address = (uintptr_t)*cursor;
-+	uintptr_t end;
-+	size_t padding;
-+
-+	padding = address % alignment;
-+	if (padding &&
-+	    check_add_overflow(address, (uintptr_t)(alignment - padding),
-+			       &address))
-+		return -EOVERFLOW;
-+
-+	if (check_add_overflow(address, (uintptr_t)size, &end))
-+		return -EOVERFLOW;
-+
-+	padding = end % alignment;
-+	if (padding &&
-+	    check_add_overflow(end, (uintptr_t)(alignment - padding), &end))
-+		return -EOVERFLOW;
-+
-+	sg_init_one(sg, (void *)address, (unsigned int)size);
-+	*cursor = (u8 *)end;
-+
-+	return 0;
- }
- 
- /**
-  * virtsnd_ctl_msg_alloc() - Allocate and initialize a control message.
-  * @request_size: Size of request header.
-  * @response_size: Size of response header.
-+ * @request_data_size: Size of request data buffer.
-+ * @response_data_size: Size of response data buffer.
-  * @gfp: Kernel flags for memory allocation.
-  *
-  * The message will be automatically freed when the ref_count value is 0.
-@@ -85,20 +161,85 @@
-  * Return: Allocated message on success, NULL on failure.
-  */
- struct virtio_snd_msg *virtsnd_ctl_msg_alloc(size_t request_size,
--					     size_t response_size, gfp_t gfp)
-+					     size_t response_size,
-+					     size_t request_data_size,
-+					     size_t response_data_size,
-+					     gfp_t gfp)
- {
- 	struct virtio_snd_msg *msg;
--
--	if (!request_size || !response_size)
-+	struct scatterlist *sgs[4];
-+	size_t sizes[4] = {
-+		request_size,
-+		response_size,
-+		request_data_size,
-+		response_data_size,
-+	};
-+	size_t alignment;
-+	size_t dma_buffer_size;
-+	size_t aligned_size;
-+	size_t padding;
-+	u8 *data;
-+	unsigned int i;
-+	int cache_alignment;
-+	int rc;
-+
-+	if (!request_size || !response_size || request_size > UINT_MAX ||
-+	    response_size > UINT_MAX || request_data_size > UINT_MAX ||
-+	    response_data_size > UINT_MAX)
- 		return NULL;
--
--	msg = kzalloc(sizeof(*msg) + request_size + response_size, gfp);
-+	cache_alignment = dma_get_cache_alignment();
-+	if (cache_alignment <= 0)
-+		return NULL;
-+	/* DMA coherence does not remove the CPU's type alignment requirement. */
-+	alignment = max_t(size_t, cache_alignment,
-+			  __alignof__(struct virtio_snd_ctl_value));
-+
-+	/* Reserve prefix alignment slack before the first DMA region. */
-+	dma_buffer_size = alignment - 1;
-+	for (i = 0; i < ARRAY_SIZE(sizes); ++i) {
-+		if (!sizes[i])
-+			continue;
-+
-+		padding = sizes[i] % alignment;
-+		aligned_size = sizes[i];
-+		if (padding &&
-+		    check_add_overflow(aligned_size, alignment - padding,
-+				       &aligned_size))
-+			return NULL;
-+
-+		if (check_add_overflow(dma_buffer_size, aligned_size,
-+				       &dma_buffer_size))
-+			return NULL;
-+	}
-+
-+	msg = kzalloc(sizeof(*msg), gfp);
- 	if (!msg)
- 		return NULL;
- 
--	sg_init_one(&msg->sg_request, (u8 *)msg + sizeof(*msg), request_size);
--	sg_init_one(&msg->sg_response, (u8 *)msg + sizeof(*msg) + request_size,
--		    response_size);
-+	msg->dma_buffer = kzalloc(dma_buffer_size, gfp);
-+	if (!msg->dma_buffer) {
-+		kfree(msg);
-+		return NULL;
-+	}
-+	data = msg->dma_buffer;
-+	sgs[0] = &msg->sg_request;
-+	sgs[1] = &msg->sg_response;
-+	sgs[2] = &msg->sg_request_data;
-+	sgs[3] = &msg->sg_response_data;
-+	for (i = 0; i < ARRAY_SIZE(sizes); ++i) {
-+		if (!sizes[i])
-+			continue;
-+
-+		rc = virtsnd_ctl_msg_sg_init(sgs[i], &data, sizes[i], alignment);
-+		if (rc) {
-+			kfree(msg->dma_buffer);
-+			kfree(msg);
-+			return NULL;
-+		}
-+	}
-+
-+	msg->request_data_size = request_data_size;
-+	msg->response_data_size = response_data_size;
- 
- 	INIT_LIST_HEAD(&msg->list);
- 	init_completion(&msg->notify);
-@@ -112,17 +253,15 @@
-  * virtsnd_ctl_msg_send() - Send a control message.
-  * @snd: VirtIO sound device.
-  * @msg: Control message.
-- * @out_sgs: Additional sg-list to attach to the request header (may be NULL).
-- * @in_sgs: Additional sg-list to attach to the response header (may be NULL).
-  * @nowait: Flag indicating whether to wait for completion.
-  *
-  * Context: Any context. Takes and releases the control queue spinlock.
-  *          May sleep if @nowait is false.
-+ *          Consumes the caller's reference on every return path.
-  * Return: 0 on success, -errno on failure.
-  */
- int virtsnd_ctl_msg_send(struct virtio_snd *snd, struct virtio_snd_msg *msg,
--			 struct scatterlist *out_sgs,
--			 struct scatterlist *in_sgs, bool nowait)
-+			 bool nowait)
- {
- 	struct virtio_device *vdev = snd->vdev;
- 	struct virtio_snd_queue *queue = virtsnd_control_queue(snd);
-@@ -133,6 +272,7 @@
- 	unsigned int nins = 0;
- 	struct scatterlist *psgs[4];
- 	bool notify = false;
-+	unsigned long flags;
- 	int rc;
- 
- 	virtsnd_ctl_msg_ref(msg);
-@@ -142,27 +282,27 @@
- 	response->code = cpu_to_le32(VIRTIO_SND_S_IO_ERR);
- 
- 	psgs[nouts++] = &msg->sg_request;
--	if (out_sgs)
--		psgs[nouts++] = out_sgs;
-+	if (msg->request_data_size)
-+		psgs[nouts++] = &msg->sg_request_data;
- 
- 	psgs[nouts + nins++] = &msg->sg_response;
--	if (in_sgs)
--		psgs[nouts + nins++] = in_sgs;
--
--	scoped_guard(spinlock_irqsave, &queue->lock) {
--		if (snd->ctl_msgs_blocked)
--			rc = -ENODEV;
--		else
--			rc = virtqueue_add_sgs(queue->vqueue, psgs, nouts, nins,
--					       msg, GFP_ATOMIC);
--		if (!rc) {
--			notify = virtqueue_kick_prepare(queue->vqueue);
--
--			list_add_tail(&msg->list, &snd->ctl_msgs);
--			if (notify)
--				virtqueue_notify(queue->vqueue);
--		}
--	}
-+	if (msg->response_data_size)
-+		psgs[nouts + nins++] = &msg->sg_response_data;
-+
-+	spin_lock_irqsave(&queue->lock, flags);
-+	if (snd->ctl_msgs_blocked)
-+		rc = -ENODEV;
-+	else
-+		rc = virtqueue_add_sgs(queue->vqueue, psgs, nouts, nins, msg,
-+				       GFP_ATOMIC);
-+	if (!rc) {
-+		notify = virtqueue_kick_prepare(queue->vqueue);
-+
-+		list_add_tail(&msg->list, &snd->ctl_msgs);
-+		if (notify)
-+			virtqueue_notify(queue->vqueue);
-+	}
-+	spin_unlock_irqrestore(&queue->lock, flags);
- 
- 	if (rc) {
- 		dev_err(&vdev->dev, "failed to send control message (0x%08x)\n",
-@@ -173,46 +313,36 @@
- 		 * called, it is necessary to decrement the reference count.
+@@ -314,7 +314,20 @@
  		 */
  		virtsnd_ctl_msg_unref(msg);
--
--		goto on_exit;
--	}
--
--	if (nowait)
--		goto on_exit;
--
--	rc = wait_for_completion_interruptible_timeout(&msg->notify, js);
--	if (rc <= 0) {
-+	} else if (!nowait) {
-+		rc = wait_for_completion_interruptible_timeout(&msg->notify, js);
+ 	} else if (!nowait) {
+-		rc = wait_for_completion_interruptible_timeout(&msg->notify, js);
++		/*
++		 * Teardown must observe completion even with a pending signal.
++		 * Otherwise a subsequent open can retry RELEASE while the device
++		 * is still processing the previous teardown request.
++		 */
++		switch (le32_to_cpu(request->code)) {
++		case VIRTIO_SND_R_PCM_STOP:
++		case VIRTIO_SND_R_PCM_RELEASE:
++			rc = wait_for_completion_timeout(&msg->notify, js);
++			break;
++		default:
++			rc = wait_for_completion_interruptible_timeout(&msg->notify, js);
++			break;
++		}
  		if (!rc) {
  			dev_err(&vdev->dev,
  				"control message (0x%08x) timeout\n",
- 				le32_to_cpu(request->code));
- 			rc = -ETIMEDOUT;
-+		} else if (rc > 0) {
-+			if (READ_ONCE(msg->cancelled)) {
-+				rc = -ENODEV;
-+			} else {
-+				switch (le32_to_cpu(response->code)) {
-+				case VIRTIO_SND_S_OK:
-+					rc = 0;
-+					break;
-+				case VIRTIO_SND_S_NOT_SUPP:
-+					rc = -EOPNOTSUPP;
-+					break;
-+				case VIRTIO_SND_S_IO_ERR:
-+					rc = -EIO;
-+					break;
-+				default:
-+					rc = -EINVAL;
-+					break;
-+				}
-+			}
- 		}
--
--		goto on_exit;
--	}
--
--	if (READ_ONCE(msg->cancelled)) {
--		rc = -ENODEV;
--		goto on_exit;
--	}
--
--	switch (le32_to_cpu(response->code)) {
--	case VIRTIO_SND_S_OK:
--		rc = 0;
--		break;
--	case VIRTIO_SND_S_NOT_SUPP:
--		rc = -EOPNOTSUPP;
--		break;
--	case VIRTIO_SND_S_IO_ERR:
--		rc = -EIO;
--		break;
--	default:
--		rc = -EINVAL;
--		break;
--	}
--
--on_exit:
-+	}
-+
-+	/* Drop the reference consumed by this send attempt. */
- 	virtsnd_ctl_msg_unref(msg);
- 
- 	return rc;
-@@ -308,10 +438,23 @@
- {
- 	struct virtio_snd_msg *msg;
- 	struct virtio_snd_query_info *query;
--	struct scatterlist sg;
-+	size_t info_size;
-+	int rc;
-+
-+	if (count < 0)
-+		return -EINVAL;
-+
-+	if (size > UINT_MAX ||
-+	    check_mul_overflow((size_t)count, size, &info_size) ||
-+	    info_size > UINT_MAX)
-+		return -EOVERFLOW;
-+
-+	if (info_size && !info)
-+		return -EINVAL;
- 
- 	msg = virtsnd_ctl_msg_alloc(sizeof(*query),
--				    sizeof(struct virtio_snd_hdr), GFP_KERNEL);
-+				    sizeof(struct virtio_snd_hdr), 0, info_size,
-+				    GFP_KERNEL);
- 	if (!msg)
- 		return -ENOMEM;
- 
-@@ -321,9 +464,13 @@
- 	query->count = cpu_to_le32(count);
- 	query->size = cpu_to_le32(size);
- 
--	sg_init_one(&sg, info, count * size);
--
--	return virtsnd_ctl_msg_send(snd, msg, NULL, &sg, false);
-+	virtsnd_ctl_msg_ref(msg);
-+	rc = virtsnd_ctl_msg_send(snd, msg, false);
-+	if (!rc && info_size)
-+		memcpy(info, virtsnd_ctl_msg_response_data(msg), info_size);
-+	virtsnd_ctl_msg_unref(msg);
-+
-+	return rc;
- }
- 
- /**
 diff --git a/sound/virtio/virtio_ctl_msg.h b/sound/virtio/virtio_ctl_msg.h
 --- a/sound/virtio/virtio_ctl_msg.h
 +++ b/sound/virtio/virtio_ctl_msg.h
-@@ -21,20 +21,28 @@
- void *virtsnd_ctl_msg_response(struct virtio_snd_msg *msg);
- 
- struct virtio_snd_msg *virtsnd_ctl_msg_alloc(size_t request_size,
--					     size_t response_size, gfp_t gfp);
-+					     size_t response_size,
-+					     size_t request_data_size,
-+					     size_t response_data_size,
-+					     gfp_t gfp);
-+
-+void *virtsnd_ctl_msg_request_data(struct virtio_snd_msg *msg);
-+
-+void *virtsnd_ctl_msg_response_data(struct virtio_snd_msg *msg);
- 
- int virtsnd_ctl_msg_send(struct virtio_snd *snd, struct virtio_snd_msg *msg,
--			 struct scatterlist *out_sgs,
--			 struct scatterlist *in_sgs, bool nowait);
-+			 bool nowait);
- 
- /**
-  * virtsnd_ctl_msg_send_sync() - Simplified sending of synchronous message.
-  * @snd: VirtIO sound device.
-  * @msg: Control message.
-  *
-- * After returning from this function, the message will be deleted. If message
-- * content is still needed, the caller must additionally to
-- * virtsnd_ctl_msg_ref/unref() it.
-+ * This function consumes the caller's message reference on return. A message
-+ * accepted by the control queue keeps its queue reference until completion or
-+ * post-reset cleanup, including when this function returns on timeout or
-+ * interruption. Callers that read the response after success must retain an
-+ * additional reference through that access.
-  *
+@@ -47,6 +47,9 @@
   * The msg_timeout_ms module parameter defines the message completion timeout.
   * If the message is not completed within this time, the function will return an
-@@ -49,7 +57,7 @@
- static inline int virtsnd_ctl_msg_send_sync(struct virtio_snd *snd,
- 					    struct virtio_snd_msg *msg)
- {
--	return virtsnd_ctl_msg_send(snd, msg, NULL, NULL, false);
-+	return virtsnd_ctl_msg_send(snd, msg, false);
- }
- 
- /**
-@@ -63,7 +71,7 @@
- static inline int virtsnd_ctl_msg_send_async(struct virtio_snd *snd,
- 					     struct virtio_snd_msg *msg)
- {
--	return virtsnd_ctl_msg_send(snd, msg, NULL, NULL, true);
-+	return virtsnd_ctl_msg_send(snd, msg, true);
- }
- 
- void virtsnd_ctl_msg_cancel_all(struct virtio_snd *snd);
-diff --git a/sound/virtio/virtio_kctl.c b/sound/virtio/virtio_kctl.c
---- a/sound/virtio/virtio_kctl.c
-+++ b/sound/virtio/virtio_kctl.c
-@@ -3,8 +3,10 @@
-  * virtio-snd: Virtio sound device
-  * Copyright (C) 2022 OpenSynergy GmbH
-  */
-+#include <linux/limits.h>
-+#include <linux/overflow.h>
-+#include <linux/virtio_config.h>
- #include <sound/control.h>
--#include <linux/virtio_config.h>
- 
- #include "virtio_card.h"
- 
-@@ -157,14 +159,16 @@
- 	struct virtio_snd_ctl_hdr *hdr;
- 	struct virtio_snd_ctl_value *kvalue;
- 	size_t request_size = sizeof(*hdr);
--	size_t response_size = sizeof(struct virtio_snd_hdr) + sizeof(*kvalue);
-+	size_t response_size = sizeof(struct virtio_snd_hdr);
- 	unsigned int i;
- 	int rc;
- 
--	msg = virtsnd_ctl_msg_alloc(request_size, response_size, GFP_KERNEL);
-+	msg = virtsnd_ctl_msg_alloc(request_size, response_size, 0,
-+				    sizeof(*kvalue), GFP_KERNEL);
- 	if (!msg)
- 		return -ENOMEM;
- 
-+	/* Response lifetime through ALSA value copyout. */
- 	virtsnd_ctl_msg_ref(msg);
- 
- 	hdr = virtsnd_ctl_msg_request(msg);
-@@ -175,8 +179,7 @@
- 	if (rc)
- 		goto on_failure;
- 
--	kvalue = (void *)((u8 *)virtsnd_ctl_msg_response(msg) +
--			  sizeof(struct virtio_snd_hdr));
-+	kvalue = virtsnd_ctl_msg_response_data(msg);
- 
- 	switch (type) {
- 	case VIRTIO_SND_CTL_TYPE_BOOLEAN:
-@@ -233,7 +236,8 @@
- 	size_t response_size = sizeof(struct virtio_snd_hdr);
- 	unsigned int i;
- 
--	msg = virtsnd_ctl_msg_alloc(request_size, response_size, GFP_KERNEL);
-+	msg = virtsnd_ctl_msg_alloc(request_size, response_size, 0, 0,
-+				    GFP_KERNEL);
- 	if (!msg)
- 		return -ENOMEM;
- 
-@@ -288,22 +292,27 @@
- 	struct virtio_snd *snd = snd_kcontrol_chip(kcontrol);
- 	struct virtio_snd_msg *msg;
- 	struct virtio_snd_ctl_hdr *hdr;
--	unsigned int *tlv;
--	struct scatterlist sg;
-+	size_t request_data_size = 0;
-+	size_t response_data_size = 0;
- 	int rc;
- 
-+	switch (op_flag) {
-+	case SNDRV_CTL_TLV_OP_READ:
-+		response_data_size = size;
-+		break;
-+	case SNDRV_CTL_TLV_OP_WRITE:
-+	case SNDRV_CTL_TLV_OP_CMD:
-+		request_data_size = size;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
- 	msg = virtsnd_ctl_msg_alloc(sizeof(*hdr), sizeof(struct virtio_snd_hdr),
-+				    request_data_size, response_data_size,
- 				    GFP_KERNEL);
- 	if (!msg)
- 		return -ENOMEM;
--
--	tlv = kzalloc(size, GFP_KERNEL);
--	if (!tlv) {
--		rc = -ENOMEM;
--		goto on_msg_unref;
--	}
--
--	sg_init_one(&sg, tlv, size);
- 
- 	hdr = virtsnd_ctl_msg_request(msg);
- 	hdr->control_id = cpu_to_le32(kcontrol->private_value);
-@@ -312,13 +321,16 @@
- 	case SNDRV_CTL_TLV_OP_READ:
- 		hdr->hdr.code = cpu_to_le32(VIRTIO_SND_R_CTL_TLV_READ);
- 
--		rc = virtsnd_ctl_msg_send(snd, msg, NULL, &sg, false);
--		if (!rc) {
--			if (copy_to_user(utlv, tlv, size))
--				rc = -EFAULT;
--		}
--
--		break;
-+		/* Response lifetime through user copyout. */
-+		virtsnd_ctl_msg_ref(msg);
-+		rc = virtsnd_ctl_msg_send(snd, msg, false);
-+		if (!rc && size &&
-+		    copy_to_user(utlv, virtsnd_ctl_msg_response_data(msg),
-+				 size))
-+			rc = -EFAULT;
-+		virtsnd_ctl_msg_unref(msg);
-+
-+		return rc;
- 	case SNDRV_CTL_TLV_OP_WRITE:
- 	case SNDRV_CTL_TLV_OP_CMD:
- 		if (op_flag == SNDRV_CTL_TLV_OP_WRITE)
-@@ -327,28 +339,16 @@
- 			hdr->hdr.code =
- 				cpu_to_le32(VIRTIO_SND_R_CTL_TLV_COMMAND);
- 
--		if (copy_from_user(tlv, utlv, size)) {
--			rc = -EFAULT;
--			goto on_msg_unref;
--		} else {
--			rc = virtsnd_ctl_msg_send(snd, msg, &sg, NULL, false);
-+		if (size && copy_from_user(virtsnd_ctl_msg_request_data(msg), utlv,
-+					   size)) {
-+			virtsnd_ctl_msg_unref(msg);
-+			return -EFAULT;
- 		}
- 
--		break;
--	default:
--		rc = -EINVAL;
--		/* We never get here - we listed all values for op_flag */
--		WARN_ON(1);
--		goto on_msg_unref;
--	}
--	kfree(tlv);
--	return rc;
--
--on_msg_unref:
--	virtsnd_ctl_msg_unref(msg);
--	kfree(tlv);
--
--	return rc;
-+		return virtsnd_ctl_msg_send(snd, msg, false);
-+	}
-+
-+	return -EINVAL;
- }
- 
- /**
-@@ -369,27 +369,36 @@
- 	struct virtio_snd_msg *msg;
- 	struct virtio_snd_ctl_hdr *hdr;
- 	unsigned int n = le32_to_cpu(kinfo->value.enumerated.items);
--	struct scatterlist sg;
--
--	msg = virtsnd_ctl_msg_alloc(sizeof(*hdr),
--				    sizeof(struct virtio_snd_hdr), GFP_KERNEL);
--	if (!msg)
--		return -ENOMEM;
-+	size_t items_size;
-+	int rc;
-+
-+	if (check_mul_overflow((size_t)n, sizeof(*kctl->items), &items_size) ||
-+	    items_size > UINT_MAX)
-+		return -EOVERFLOW;
- 
- 	kctl->items = devm_kcalloc(&vdev->dev, n, sizeof(*kctl->items),
- 				   GFP_KERNEL);
--	if (!kctl->items) {
--		virtsnd_ctl_msg_unref(msg);
--		return -ENOMEM;
--	}
--
--	sg_init_one(&sg, kctl->items, n * sizeof(*kctl->items));
-+	if (!kctl->items)
-+		return -ENOMEM;
-+
-+	msg = virtsnd_ctl_msg_alloc(sizeof(*hdr),
-+				    sizeof(struct virtio_snd_hdr), 0, items_size,
-+				    GFP_KERNEL);
-+	if (!msg)
-+		return -ENOMEM;
- 
- 	hdr = virtsnd_ctl_msg_request(msg);
- 	hdr->hdr.code = cpu_to_le32(VIRTIO_SND_R_CTL_ENUM_ITEMS);
- 	hdr->control_id = cpu_to_le32(cid);
- 
--	return virtsnd_ctl_msg_send(snd, msg, NULL, &sg, false);
-+	/* Item-buffer lifetime through the control-list copyout. */
-+	virtsnd_ctl_msg_ref(msg);
-+	rc = virtsnd_ctl_msg_send(snd, msg, false);
-+	if (!rc && items_size)
-+		memcpy(kctl->items, virtsnd_ctl_msg_response_data(msg), items_size);
-+	virtsnd_ctl_msg_unref(msg);
-+
-+	return rc;
- }
- 
- /**
-diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
---- a/sound/virtio/virtio_pcm_msg.c
-+++ b/sound/virtio/virtio_pcm_msg.c
-@@ -690,7 +690,7 @@
- 		break;
- 	}
- 
--	msg = virtsnd_ctl_msg_alloc(request_size, response_size, gfp);
-+	msg = virtsnd_ctl_msg_alloc(request_size, response_size, 0, 0, gfp);
- 	if (msg) {
- 		struct virtio_snd_pcm_hdr *hdr = virtsnd_ctl_msg_request(msg);
- 
+  * error.
++ * PCM STOP and RELEASE wait through pending signals within this timeout.
++ * Other requests remain interruptible. Device reset cancels and wakes either
++ * kind of waiter.
+  *
+  * Context: Any context that permits to sleep.
+  * Return: 0 on success, -errno on failure.
