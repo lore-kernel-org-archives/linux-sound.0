@@ -1,90 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.203
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793823076;
-	b=ZnnkDBC0hX8UqgCLRTf117c9uVCtwpaupWKXcBSpDaKDTqynZhz7uzL0ISYuFdQ6jhUN
-	 vhqRAf0tV3Me4zz8gfZtf6iMG3PzmftlCNAiHbN7ASYTnFBTpIOT8tu9a+vLh3vV8hu85
-	 AMK2tPv7B5k2BqmkD+cm94h2wOZuLJ1ckWQLvqcvJJpVIiW0Mp5Zy2VD3jMtGHNVffj8M
-	 M/wAWkk23iClKerLSZxuGDwB/gpK8KYz1kLL7RlpWXOy8UbC8EWF9lQRcDU889BCsjoH3
-	 cRSCP8QPXVh/c4CN4mM5H7vK1KbMY0+zkZS6Yz0iCydQ872rwEXrYeT2vXgm0tWD45g==
+	t=1793823724;
+	b=bp883wYC7tFS6GJu59V6YIe7RWsJyY9eXwvJssrfXmN7BYDXWi8xiSfej/6rwUTXCat5
+	 ihJCK1NlpVXNjTJUWL/bOjBj2GtQw+AN+4THFXSV7Uk3Yrm67jMnYMSJ1Psl+pn2xg2w4
+	 hccFONd7ePqHUJvJLA2jiPPki/j26HdyT+1FsIY6zGftamqKlA8msi91aMMIHXvTpLbnR
+	 PUKKa3mfMMFgUmPUzo0e5aLKO9aWE6zVzyWP70RJXiwpMgnyMOpCKeumXk+nySFmruUz+
+	 QKOE4h2rvMLkn2nMlwdoS+BM1QPKTlwrnywjBFHuqvpKOzQ6MvvnrgS+Ol+SZwIRyig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793823076;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=LCqiLHf1DIbfKNXx3ccWkvqxBhOdwo3yYkazQxIGarg=;
-	b=LOrkhqYM4sxLavdShji2oZEQiBAUHi4hihOpbFzR9wJ3p2WUMjw5x0DEr8+3Vd31bxE1
-	 vJ/Vy5gxhYTThAmoea629IrIWnHDF6fkTAujSZPiN0tLyrMOiRwvr7zCEHR+Jw/Qh7gh+
-	 2x1U/GHXphXbs1m+8J8R+5la7IrV3CuSjUr3rddU6af0zEBHQaINAK3hQ/EqS4mFkMybi
-	 +9BQ6mQv97FY5//m7JoJMbBrWI8NAy6LDO+a0JBv91uQ+pzs1ZMSFw6yP6Yh6ABM/TOyw
-	 iE1hYVWtgoeT5UAxffvuKPp4tuz18Xuw8zMinIvdi+XIWm/MUCUTaNj/nRFlUEK+/ww==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793823724;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=XWjAjz3gKTPiU4WwwdsPU5E4IxT2eeZD2iTwvrhk29g=;
+	b=ibluNRED7Jpc+jX7lk0DGsIBSNEqgovYJ9kvBKSMtpaYqXREW1X4ERCoPBW+vxR/6RFa
+	 k0/Jyu/6TPQmg0L29h6X2O2xSmXg1n+qzuWTALIezwZa52RE0Th/RGYNlpE78eh9n3kkW
+	 zbJkZ31qFspiLKRV4ZkOwL2J8g4M7yivJ0FKWOClKXuR+qL8/K/P2dvuO/IfrzaB/EB4U
+	 aKl9kHpGj3Ty+gGiMn3XD1k8XC2dFjqWS7AGZ6C9MkngNDqDg9qXFSAQ7MXQa0sMmcJwK
+	 l3bWiBH/E+BfX02DXFNUkLyzM3M1OL2vXGxWgO8/IpQy2K8vEGhtP5EIxbY8raox+Eg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux-foundation.org;
-	spf=pass smtp.mailfrom=linuxfoundation.org;
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=D+WoaIlg;
-	arc=none smtp.remote-ip=209.85.218.51
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=f4Rr9qzz;
+	arc=none smtp.remote-ip=95.215.58.203
+Received: from mta1.migadu.com (out-203.mta1.migadu.com [95.215.58.203])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A294607F287
-	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 20:11:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A294607F287
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B916070311
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 20:22:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00B916070311
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=D+WoaIlg
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c423b145922so162982666b.3
-        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 12:11:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1793823074; x=1794427874; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LCqiLHf1DIbfKNXx3ccWkvqxBhOdwo3yYkazQxIGarg=;
-        b=D+WoaIlgn7GR90Re66DaZJXg6cruikrrY05vWAWYWwuZx/NKzqWZImQ6Y/YjqfT0uR
-         WviNDVZ/f094GtgrW3FlJmiFD/oYgeWy1WZ1obUP76B83AdPZYBNx+nVIouM+3b27YvD
-         zP6ROa+6IScSM3DYxgSm0JYVypsHiHr1wXg4E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793823074; x=1794427874;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=LCqiLHf1DIbfKNXx3ccWkvqxBhOdwo3yYkazQxIGarg=;
-        b=ih3BaSTFXzRTIlkcjAeuT5v/Bd1by9F6Z6Sm5KSnIo9OPdNxEUUG5x9KeFxlprLsyf
-         59MJF8xbZa3eO75mPrFZP6X0pUwzGDSu6j2Mu86C1vxNm2v3ZEmBniPGGJPYngvGqW7R
-         bbYLzNFdr2hVYYPMnoTpqyhy10LNm8/OoXsFoqpR5IP41zl8+Jfl0U5zjty2o9nnWEAT
-         8o846Cf2nR0uwzEFoYk8iBWRjaFqterweTnElRybyM10gEsS1xa0jdwHOPaanzZOYgRI
-         TAERnzRPFEtEDD0+BY+v30xb3NKZys5jVj/FXBFoMxqz+s4vXM/d2it+lokPI7KX993O
-         mHCg==
-X-Forwarded-Encrypted: i=1; AKwUvBzLZYK/txbQmTL0QMuHBwEQIQF3iDGHMzZWwBT+R/xL58fJ8dq55DJTw5ywHKFDsvtQFsYmmX9p60I0Uw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/fQGTO0R7lRdh7oe0jhKnB/YVBMc6mgKygfFZfh/IuZADy6nu2
-	s/0eaiVh12MqCx1ZJcTMhPpDZOngD6nZb+cgxM8LBqjvACb1cKRvwzxRElNNffhJg9YQDz7xots
-	HhXfl/S00rg==
-X-Gm-Gg: AYBFou0eMlSyJ2uBWryOKfPk1Bt98Xz3/5KODP/NC7DSMa6VQSRvS5D4cZyfErm8lK3
-	K2ix5IaNXX/6lwslC02IKZAJPiMZZ7OH9ad/yfWuN3s11e5bwoLo3m0qEZ8cV+hkrRyv+UfzdIb
-	YcTLh9eUpM+aWLefAfYQr39pPnOOMX2pXvFC+Rde9wBgWYdWf6PCgR7ek6H38b1/eUM/FroV8vd
-	PF0yNk5wPwdTUjYObpTrl5XgJ4VRewBKTXa/XxD5webEjnLOUyQwN2uAAFtzYQ3VTMUkoRV1g5a
-	hq+Ovdp8J4uJuzSq1ahI38qWA9U6CkKs83B5TxjQxzbKjh872wB04+H7fPtcI0aYdIHetExeoxC
-	ytVcm5ETEjDY6vVeWfTURXSHT0cLuZMyEnylV/vL432pU4fNXpzOEFMOmqv7j/2vI9zDHix2D2I
-	LoeG/7T2IPGX524jV/nVsTT5+8g0a0xqSHy8QnN4yeintTykDFT3pYrL6g7uaOhEGlO0e0a/1sT
-	cRl2bKoYl07k7oBLoZ6+KSXmUNO9KRiR+CXpzn9mmFOldnGWtnj0+cQ9L3oV+jdGtz3spVXoxrJ
-	Zn2CsCelz07dvZUw3YrdpTCrMN+IkPOb7qFeSQgoTrdaq0lczH18QlvhEcvbGYUUEkVzjP/voh8
-	4hQ==
-X-Received: by 2002:a17:907:9410:b0:c34:1ed:54d9 with SMTP id a640c23a62f3a-c4ca795ef4amr1614194466b.4.1793823074574;
-        Wed, 04 Nov 2026 12:11:14 -0800 (PST)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4d0e46a71fsm104590566b.61.2026.11.04.12.11.14
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Nov 2026 12:11:14 -0800 (PST)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c418e215671so167554266b.0
-        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 12:11:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBwKfSf35Pzf2US24SNJ4TwsIsGMVn49T2rzCDc+XXUqH1gIi2EqyWXyzFMfp27Bj5CaOUuAEN7SHA+RBg==@vger.kernel.org
-X-Received: by 2002:a17:907:60c8:b0:c49:a4b1:9cb1 with SMTP id
- a640c23a62f3a-c4ca795fa50mr1973235866b.3.1793822725121; Wed, 04 Nov 2026
- 12:05:25 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=f4Rr9qzz
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=snRuUIe/UGnz3itk6GOa9diYP72EGtNdi6p2RQh7Bfk=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793823720; v=1; x=1794428520;
+ b=f4Rr9qzzenG9TX+F11C9QYchKVaZLQ14lU1el/E+58KJRI4C7rcYKdnXQujSz304bREF7/Xq
+ UTvLKg4xBQSKYBz9/nq4MbniThtEFqYVh/MHzSLinBVWVhJUpoJDO1B5cTQDZZaPRcxxUcm7xSB
+ oC8LqXv7Q4br57aTzCRRUFEQ=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 01081e1aec6ec143;
+	Wed, 04 Nov 2026 20:22:00 +0000
+X-Mizu-Trace-ID: 01081e1aec6ec143
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <259d0c79-2a36-4a36-8e7c-fa24137a02bd@linux.dev>
+Date: Wed, 4 Nov 2026 21:20:39 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -94,51 +58,90 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261104-work-procfs-v2-0-b45cd5789ac5@brauner> <20261104-work-procfs-fs-v2-0-319e0f9a8aae@kernel.org>
-In-Reply-To: <20261104-work-procfs-fs-v2-0-319e0f9a8aae@kernel.org>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 4 Nov 2026 12:05:08 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wj9Y9NcOesBBm+jhPjYa7qO00fD7g7uwX+H-k0-R2difA@mail.gmail.com>
-X-Gm-Features: AclHuK9j_YIgrwhhpWOlnull6heAULBd4dgTqoOhUQQjFm_MgoIgrL1vgPfefvI
-Message-ID: <CAHk-=wj9Y9NcOesBBm+jhPjYa7qO00fD7g7uwX+H-k0-R2difA@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 00/30] proc: convert the fs, kernel and mm
- entries (Part 5/7)
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, 
-	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, Greg Kroah-Hartman <gregkh@suse.de>, 
-	Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Jan Kara <jack@suse.com>, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, ntfs3@lists.linux.dev, 
-	platform-driver-x86@vger.kernel.org, coreteam@netfilter.org, 
-	kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net, 
-	jfs-discussion@lists.sourceforge.net, linux-alpha@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, 
-	samba-technical@lists.samba.org, sparclinux@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
-	linux-debuggers@vger.kernel.org, Chuck Lever <cel@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/7] ASoC: Intel: avs: Soundwire support
+To: Cezary Rojewski <cezary.rojewski@intel.com>, Vinod Koul <vkoul@kernel.org>
+Cc: linux-sound@vger.kernel.org, broonie@kernel.org, tiwai@suse.com,
+ perex@perex.cz, amade@asmblr.net, linux-kernel@vger.kernel.org,
+ yung-chuan.liao@linux.intel.com
+References: <20261103134958.2089136-1-cezary.rojewski@intel.com>
+ <bcfe64de-359c-4f16-9014-5d6f8bf30c40@linux.dev>
+ <9da94716-4dde-4389-9574-12f90b52e05a@intel.com>
+ <d9672276-5616-4609-98c1-5b9bdd06cf05@linux.dev> <aus0GT3ht1oEY2mc@parshuram>
+ <746bae53-ed1d-4881-9268-968c25270bda@intel.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <746bae53-ed1d-4881-9268-968c25270bda@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 4 Nov 2026 at 11:49, Christian Brauner <brauner@kernel.org> wrote:
->
-> Part 5/7 of "proc: move procfs to what kernfs does", on top of part 2
+On 11/4/26 15:31, Cezary Rojewski wrote:
+> On 11/4/2026 2:33 PM, Vinod Koul wrote:
+>> On 04-11-26, 12:52, Pierre-Louis Bossart wrote:
+>>> On 11/4/26 10:14, Cezary Rojewski wrote:
+>>>> On 11/3/2026 6:20 PM, Pierre-Louis Bossart wrote:
+>>>>>
+>>>>>> Also, the existing code fetches the PDIs based on pre-defined "dai_id".
+>>>>>> That's not the case for the avs-driver.  It simply asks: "is any PDI
+>>>>>> free?" and assigns it for the substream if one is found.
+>>>>>> No predefining.  Again, this aligns with how HDAudio streaming is done.
+>>>>> Yeah but at the end of the day there's a 1:1 mapping between cpu_dai and
+>>>>> PDI, no?
+>>>>>
+>>>>> All PDIs are created equal, a dynamic mapping doesn't make things more
+>>>>> efficient. It just makes things more complex to debug since you don't
+>>>>> have a fixed mapping between dailinks/stream/cpu_dai/PDI.
+>>>>>
+>>>>> Put differently, couldn't the AVS driver work around that fixed mapping
+>>>>> to avoid changes to legacy platforms that have shipped many moons ago?
+>>>>
+>>>> Kind disagree on the debugging part.  Having SDW streaming follow
+>>>> closely to what is done for HDAudio from the beginning (no hardcodes)
+>>>> makes it easier for a developer to debug stuff.  OTOH if one of these
+>>>> two follows a completely different path, the developer has to have such
+>>>> hardcodes in mind when debugging the PCM code or even when looking at
+>>>> the topology.
+>>>>
+>>>> At the same time, I'm not going anywhere and I do intend to work with
+>>>> Peter and Kai to update the common code. Simply put, such a refactor
+>>>> would be routed through SOF GH first.
+>>> The machine driver selects the first available cpu_dai when creating a
+>>> dailink. It doesn't really add much value to add a second level of
+>>> freedom to select PDIs, since in practice it'll select the first as
+>>> well. PDIs have no moral equivalent in HDaudio, it's a Cadence-specific  IP.
+>>>
+>>> Also there is already a degree of freedom in the allocation of
+>>> stream_tag, which is used for DMA support. That one makes sense since
+>>> DMAs may be used for non-SoundWire things (HDMI, trace, probe, etc).
+>>>
+>>> That's 2 degrees of freedom on 3 levels, do you really need full
+>>> configurability?
+> 
+> I'm not following this "level of freedom" notion. What's part of this
+> set is a basic allocation - driver (a user of the soundwire-lib) comes
+> and ask for a free resource (PDI). If there is one, it gets assigned.
+> Very standard, how many expect resources are redistributed.
 
-Christian - way too many patches, re-sent much too often, cc'd to way
-too many people.
+You're missing a level. The platform driver exposes a set of DAIs, and
+then the machine driver will decide which dai it needs for a specific
+dailink/stream. That's the part that really matters IMHO.
 
-Nobody is going to read these repeated resends, and all you are doing
-is clogging up peoples mailboxes.
+The choice of the PDI is done only internally in the Intel platform
+driver, and it really doesn't matter how you map cpu_dais to PDIs. A
+fixed mapping is just as good as a dynamic approach - same results,
+maybe less elegant but the performance is identical.
 
-             Linus
+>> I dont see any gain from this approach. I would reconsider and see if we
+>> can reuse things
+>>
+> 
+> I'm not sure which way the last message goes.
+> 
+> However, I find it easier to move from hardcodes to the basic allocation
+> approach (seen here, in this very patchset) than the other way around.
+> The change would consist of updating intel_hw_params() so the PDI
+> allocation is no longer done there.
+
+Change is risky, especially when this touches platforms all the way to
+CNL across at least 3 generations of Intel hardware since 2018, for no
+tangible benefit.
