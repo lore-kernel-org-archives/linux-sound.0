@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.70
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793832370;
-	b=GiPJj/b5IETTgaiAxC956zQaYbDdSyZGCxNYuLZCFetISqeOrO3uXvnnxHK/YH+Y5AdN
-	 4y8iWiN+H2uWkXG5NYIeMWDex1F6hAD7Iiwz8nY+Y/tgL3WlQEzCOoYI9bNEtMBe9C1VJ
-	 Z9NOIQQ9aeTnjEUWkEV93rwBqp+0i4UklS/GTPjExFt6z7o5tIVZHumYX25qS1/VXXXZo
-	 W/t6qH6hbIPDpGauq8KUwS60tWoCyzSZyhrKape3UE6/6HA5ZCLzUWE5ww0+Gbs2PdKIw
-	 bfE8s5rueKgjC9MAVHCQX4l3CO3W0PJYEIeu5pCJ7/8DoJ43V/TWU8KY+Kgw6AoKxOw==
+	t=1793833173;
+	b=ZmWLamdYwBpmg28oTSnLv0l7KHq0+7/mHZbZ3JNcY6I+obPeATGHDnVqrf8TVHAYwNvD
+	 D7ao0OZvDHntEvCGJdWPuksTFlHYXyEVKPYLzSRoRLRLYx7f0/Qi8k5vQK9USaJqq4b3n
+	 kFDnuETEV7hGr5GFEsnJUoTs3acp3ESWw8A/rdwCutE1jwINGQJLzKg3GtD1KhmD2ZkhC
+	 m045EV47Gjxg2P7R7HRppDIwR709WXcXpnnVx+fzwiT0JOD6HQdLjv3EmbyG6EZ/uVkXW
+	 1+ZxvjFmhbXYzdeNBUXfWdXAzm0F9eNhZEfyrIVBjsOPchdzrdmUZWtnCVXRmxlItDQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793832370;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=XBOw8umZc0PSygGL6ZhSsNEhyMPfzoczgqWFX+5YDNY=;
-	b=Re/6Rg9jSD9Xebvi70a84ZeMmu/I2lfDULXQp8gVW/rAcQgEQo7H7Bm2B45i/4cWD2Qz
-	 bA5PiYIc9GvM4LsvRra4bsZTC675SEPOrg8kMw2nb505Tv9nEXMOEXBmWOA2oIxYMgmqJ
-	 +lHWOwBIftcc35KCKzB0hLHvHE/OhEFsHLfPgbhC0Ts/pbORmj97PoUbWtjBounXmDjiB
-	 mQfvZZDBX4X96/9TtFlVhx528WLd9pGG+gUaWMkQQO/cRYvFd1uTPq/NWJKxb2Q0AZYRH
-	 dcHEjS7kMdFBNNoIBuEl1SVfzq//hK+nG7BkfvMxHJqFrp/DW75GAm8UPQXw5VfKfrw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793833173;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=arZxwJUH8KsLmgA0OaH9zQ7lRvV2honSTZ5JrbyQ1xU=;
+	b=qMhFattY2EPAjUTgMxRFyTbmEk88HkAyttoegVYcIhG7CjctDXkwxP2qL8kO/fy+AQJv
+	 R2AhuOWxZE9DGbdQ4aLnk1vkcG4oUASw0H2TrEg5BKSoOdLgF++46jlPDJpAXxDY/X+lt
+	 9Tco9RNkXDu16eHMK78p1Lnc/90S94lVTOXemUHlo9y3cWozYt2rO5RPom3oZggvqFpjF
+	 JsFhCEVAvSxPxQccXhWmgJ52r09hgcBmtwfF/THaJ0V6gLbMZGNsIdIuC4ccdUjVKTb/K
+	 C2oZKZK0Fxxq8RmxDuJguDuwu5eboSyRUu8VqA6Xq9djiuVO+xtOX9sntytNAFrkQIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y+guEyix;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=TPblOg65;
+	arc=none smtp.remote-ip=95.215.58.70
+Received: from mta1.migadu.com (out-70.mta1.migadu.com [95.215.58.70])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24D4606A31B;
-	Wed,  4 Nov 2026 22:46:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3111D606A31B
+	for <linux-sound@vger.kernel.org>; Wed,  4 Nov 2026 22:59:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3111D606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y+guEyix
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6C1B1F000C1;
-	Wed,  4 Nov 2026 22:45:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793832369;
-	bh=XBOw8umZc0PSygGL6ZhSsNEhyMPfzoczgqWFX+5YDNY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Y+guEyixDVYqpS8g3d4FmlRYq/qp1tQeGL16K2BSxNthPOaRsDL0VFTK+tjHByNf5
-	 UG3G3TR4IbDk5BaZwlgwVySr0HiRvL1WeYdDEujyS+zzG35LMJqu1Pm8BzfQ5Z+w4F
-	 3DGZwBGiTOYlKSVRIgaBstWj6LtjUlnMrGUfTY6AgB7LPx3pVl/0nxTfWzl1eRWVeu
-	 9SzZPPQ7yLUIbBzvzOD5olkzaVc7Od6fJQ93jvoDvEvbyLIezG28vK5PJuGqQJ/Zu+
-	 C/TFnkMniWMHftytXgdebgJiyvQu099dnGFvQXlwnwRKY6VGKt0bkFzVDUexAPr+Sm
-	 GvRbuyQmKti0Q==
-Date: Wed, 4 Nov 2026 23:45:55 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
-	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>
-Subject: Re: [PATCH RESEND v2 00/30] proc: convert the fs, kernel and mm
- entries (Part 5/7)
-Message-ID: <20261104-allein-bepacken-hitzig-5e517d3c129f@brauner>
-References: <20261104-work-procfs-v2-0-b45cd5789ac5@brauner>
- <20261104-work-procfs-fs-v2-0-319e0f9a8aae@kernel.org>
- <CAHk-=wj9Y9NcOesBBm+jhPjYa7qO00fD7g7uwX+H-k0-R2difA@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=TPblOg65
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=IwL2qFezpoqNR9l2/hRYcJYYkgE1KoPejqM6U5mzOmw=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793833170; v=1; x=1794437970;
+ b=TPblOg655oKjHbEOBeuW4QotDit9+5bilHlKV2AawpNU8vNWwgPUUJ+NJEgvOvWFhpj0XQQE
+ 78TtNfYs6mLaR17CtmDcKEkqMlTLL6KHVVrqsuahaYUv8o3dm8ewPk/d085dXBSBCocK13Nxv9v
+ 93lDPDQNdMzzXO1to7pFmeQo=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 63f206f8476da4c7;
+	Wed, 04 Nov 2026 22:59:29 +0000
+X-Mizu-Trace-ID: 63f206f8476da4c7
+X-Migadu-Flow: FLOW_OUT
+From: Matthew Schwartz <matthew.schwartz@linux.dev>
+To: broonie@kernel.org
+Cc: Matthew Schwartz <matthew.schwartz@linux.dev>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	Oder Chiou <oder_chiou@realtek.com>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Sen Wang <sen@ti.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/4] ASoC: support the ASUS ROG Xbox Ally X20 audio
+Date: Wed,  4 Nov 2026 14:57:59 -0800
+Message-ID: <20261104225803.1574849-1-matthew.schwartz@linux.dev>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -79,20 +79,75 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wj9Y9NcOesBBm+jhPjYa7qO00fD7g7uwX+H-k0-R2difA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 04, 2026 at 12:05:08PM -0800, Linus Torvalds wrote:
-> On Wed, 4 Nov 2026 at 11:49, Christian Brauner <brauner@kernel.org> wrote:
-> >
-> > Part 5/7 of "proc: move procfs to what kernfs does", on top of part 2
-> 
-> Christian - way too many patches, re-sent much too often, cc'd to way
-> too many people.
-> 
-> Nobody is going to read these repeated resends, and all you are doing
-> is clogging up peoples mailboxes.
+The ASUS ROG Xbox Ally X20 (RC74XA) moves from the HDA codec and TAS2781
+amps of the earlier ROG Ally models to SoundWire on ACP 7.0, with two
+TAS2783 amps on link 0 and an RT721 on link 1. Its BIOS marks the ACP as
+legacy DMIC only, no machine table entry matches the link layout, and
+its TAS2783 firmware in linux-firmware uses the four-field name that
+carries the BIOS speaker ID, so the speakers do not work today.
 
-I resent once after I cleaned things up post RFC and I don't plan on
-resending (one failed attempt due to my network dropping).
+Patches 1 to 3 cover that: the ACP config override so the SoundWire
+links are probed, the machine entry, and the speaker ID firmware name.
+Patch 4 makes rt721-sdca wait for its power domains to reach PS0, which
+removes a burst of full scale samples at the start of headset mic
+capture.
+
+Tested on an RC74XA with speaker playback on both amps, headphones, jack
+detection, both microphones and suspend.
+
+Changes in v3:
+- Dropped the sdw_utils DisCo port list patch, including the hunk Bard
+  commented on. With patches 1 and 2 the RC74XA probes the AMD legacy
+  machine driver, which skips the amp reference capture link since
+  commit 9867312e9fd2 ("ASoC: amd: acp-legacy-mach: skip dai link for
+  amp reference stream"), so the SmartAmp capture PCM that failed on
+  every open is not created. That commit was already in the base of v1
+  and v2, and I had only seen the failure on a kernel without it.
+  Pierre-Louis's suggestion to set the TAS2783 ports in the driver still
+  applies where the amp reference stream is used, and will follow
+  separately along with his point about the data port ranges in the
+  regmap callbacks.
+- Picked up Pierre-Louis's Reviewed-by on patch 4 (was 5).
+
+Changes in v2:
+- Patch 3: try the firmware names in a fixed order, the four-field name
+  when SPEAKER_ID is present, then SSID-LINK-0xUID and SSID-LINK-UID,
+  so a board with the variable but three-field firmware still loads the
+  0x name. Read SPEAKER_ID once at probe into a u32 and only use it
+  when it is four bytes. With no PCI parent, try the generic name once
+  instead of twice. (Mark, Sashiko)
+- Patch 4: only honor empty port lists for codecs whose driver takes its
+  ports from DisCo, currently TAS2783. (Mark) Take the stream name and
+  DAI link ID from an endpoint that is part of the stream, only run init
+  for those endpoints, count the AMD legacy amp capture endpoints by
+  their effective direction, and skip an endpoint left with no
+  direction. Check the endpoint number against dai_num before using
+  its DAI info. (Sashiko) Dropped Vijendar's Reviewed-by because of
+  these changes.
+- Picked up Vijendar's Reviewed-by on patches 1 and 2.
+
+v2: https://lore.kernel.org/r/20261103200540.3863272-1-matthew.schwartz@linux.dev
+v1: https://lore.kernel.org/r/20261016232416.2628603-1-matthew.schwartz@linux.dev
+
+Matthew Schwartz (4):
+  ASoC: amd: acp-config: force SoundWire probe on ASUS RC74XA
+  ASoC: amd: acp: add ACP70 SoundWire machine entry for ASUS RC74XA
+  ASoC: tas2783-sdw: use the BIOS speaker ID in the firmware name
+  ASoC: rt721-sdca: wait for PDEs to reach PS0 after powering them up
+
+ sound/soc/amd/acp-config.c               |   7 ++
+ sound/soc/amd/acp/amd-acp70-acpi-match.c |  44 ++++++++
+ sound/soc/codecs/Kconfig                 |   1 +
+ sound/soc/codecs/rt721-sdca-sdw.c        |  17 ++++
+ sound/soc/codecs/rt721-sdca.c            |  33 ++++++
+ sound/soc/codecs/rt721-sdca.h            |   1 +
+ sound/soc/codecs/tas2783-sdw.c           | 123 ++++++++++++++++-------
+ 7 files changed, 187 insertions(+), 39 deletions(-)
+
+
+base-commit: 2450a9bcd3423612f614ea15ff44966fed189191
+-- 
+2.56.0
+
