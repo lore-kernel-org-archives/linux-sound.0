@@ -1,57 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793878171;
-	b=BFEdn8XD3CxqUhNwcqwnDmjGgAufb8ipd+eEf3+Zq15tfZwnHOAoePp8Zfy/+28mCa09
-	 ahmKwAEXlA2DM8FwIEvWCsHCUjiPFvTONjTHXjbf1IamzdbLBFMRuX+QHmZQH8eGfRPqm
-	 TeXpwtI8VH8T7lPE3P4++o6fEGb7LV+M3GZoADoZI8hu22DI/k+8StdCxDvmnXZJnNgSd
-	 31nsPIG5z+vd+TX7w0BBqYtl9GHZywFZhBfkn9q9vsL+a6KJCM9LNqfliWdv3aJYFXRlT
-	 V8uKjfLVOmWRX7iCxne/1D9dvOlQfU50BNDDQxrSN68I+oxm04AhqUj2xtE0/eBN5vw==
+	t=1793878182;
+	b=tBrtmoDcVqD26gqcyPvLlk1buAp0GwUUWivrpnuNSAfTJlmnCofpZXq6KTN/q2diKkKx
+	 /PBOT/5d0kQScA1wmc7NWe6zGe1K11cufUH7Pf40aSms1on/5aqdL5uO1JWXi9078EFeK
+	 XehHs27fnhfiY9UrEOAKXmra1+5W5N8I5rVvtMKWHUe5tsMiJ7Ad2FBv2tGkeGbPZjkCv
+	 pZ1orhip9f0siuMD8iZTDssQYUIs2Ubm9iM2GDqBOp4ZK7KyaTrir9SAmsoO8DeNIQsgg
+	 uItCZkJdMck5xGpPP4/USPc3KIgZjxXh/OKLD1xHjZOqKP0GOA8FcwahLUR2ff654fQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793878171;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=9U9GB3endV6JAjeDDhjtVJSKjAitnI4NRLIWnORLmss=;
-	b=JBZjGUPkft/4xl1aYF5unGB0dLHQbgyAYOknrITWnnQNQvxySfmxSJb6dzuTKHmMORh8
-	 p8YBkBLLtpVH1lTu6yFe5S38BBeE8CJY8lH/coaDMtJofILlocvS5HiWg+ZGOeeNofiVT
-	 c6xlJ9HAI4xogcokHDOVU6zS9AnYcHI1UGJYq0cmRb1ECFOJu/VvrnLNPphI0eUda3JGE
-	 YXJi0RF/Z6QKbxscg4sZG/R/NdxgUHDW2d0oAXMw2Zpjxr0Ui5JdcgKkOG/+ZnzAHAXZR
-	 eKB68VNCKnwbiRtFVWn5w/lUg0qyEtS73b7J/3SbCeR1wKLPTEkyQXRMwOMPYCOVang==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793878182;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=FLHBd2itr/YyJ+QhRpnjae+TMuupiEZD7EB6TUX9ubo=;
+	b=YF7wwYGOsDk9MpuuuLWp2Y4GO+mByOLQSmvufPvWCcZjXHDX4OCf+TwdQUlWSQW3YAC7
+	 xHPbdv5RxPGvBLu9KLt+iTYB7Ks+/D7kUkADnFfb3wLmZWvATwn76kR+yynAM4+avxsu6
+	 uIsZc4T3bmYUvcFwMxPo5WYWuq9EpA6wHzwHWCkog1atMbqfyEKYlBn4/QgNYIAyU3Y6h
+	 eavOa/iHCA/J9ivJBzzyrJC4kjliyhX6nIuL9y30liG+cDwkFmr2PXo+SVuK3YkKk+r//
+	 Qc6CF4iVyYutok83A1FU8WJdjTez0cx8BC9oI2uhiHznv4T9BZQklG4ylG98hlKtaNQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m5Gy0by0;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tOGk6cjO;
+	arc=none smtp.remote-ip=74.125.82.172
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1078B606A31B
-	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 11:29:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42205606A329
+	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 11:29:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42205606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m5Gy0by0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C70451F00919;
-	Thu,  5 Nov 2026 11:29:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793878170;
-	bh=9U9GB3endV6JAjeDDhjtVJSKjAitnI4NRLIWnORLmss=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=m5Gy0by0qIyS3vmpAHkE1nNi5yoQb8cwGg8zu5INgvLVLKXj0bS/7qVchVYXlj5uD
-	 NfdOvs6Yy12YC81HCTasARL76leWLC2wN5/yKWJVSwnZfeXk6/XBKMcfN/sWu8du2X
-	 7BcXnQLEP6KC+9wVNSK6z4AQudjE0diOT6io2MYzucfux2sZ6J+lbkxSoDS1tfjmSt
-	 4jWz3kM8BQ5XyZxY0HMcFC3JFZGyJ00IAWi0nRAdztSF02qz9h1sBjCIqZvJbxgek0
-	 NCTCrvDRkgG3NDwjAbqgUSc9bmi+OCGsvtwbKqCzWRBLQXGvSX3A0vNLhUPGycglfg
-	 Uu3A0Bt1dDStA==
-Message-ID: <sashiko-outbox-198950@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 v2 2/2] soundwire: qcom: Add set_channel_map support
- to SWR master DAI
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mohammad Rafi Shaik" <mohammad.rafi.shaik@oss.qualcomm.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261105-soundwire_channel_map-v2-2-5efe2021552a@oss.qualcomm.com>
-References: <20261105-soundwire_channel_map-v2-0-5efe2021552a@oss.qualcomm.com>
- <20261105-soundwire_channel_map-v2-2-5efe2021552a@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 11:29:30 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tOGk6cjO
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-36cad25b8b0so2579300eec.1
+        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 03:29:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793878181; x=1794482981; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FLHBd2itr/YyJ+QhRpnjae+TMuupiEZD7EB6TUX9ubo=;
+        b=tOGk6cjOnLo4EV1CmL9k8hDbqbc+stqO84OB4ZgGwGWMux1ClZXL377GgxbbfhoNni
+         NcjrRBFg6EQvrVLKNQISW8KmsgZ7yMqOgZrDkHch8iMb1m75r4Zf/TRo9NxjLB8wgZoX
+         X+OfSBsUUF0l3IEO+rRGyghh+f4g+008W2rPYQK6w5qx/cUZXw0iS2qzYR1bCiZaynn5
+         n4cu7faqKoN1gd2NsjLWx8Pp6JYE8mxuFxOGy1WuULYkBnXCqv8/jNPeRHmkfWtVNGHf
+         oORUFaL8N5YWBA6Q7CNLr3vey/yCt7/Lq2p/esH0BiY5poFMihcMAMM1TIGT05yLKg75
+         EaQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793878181; x=1794482981;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FLHBd2itr/YyJ+QhRpnjae+TMuupiEZD7EB6TUX9ubo=;
+        b=cprYGpokimvL2kshxouhVyEE4lRfpzFDpPQU2Z/wXzNAlz7KgE6Fb/aviRuUblOVbx
+         TFKmG2Kt0I3o3xw+eW3LJh2ZhDZFwij0Xkgli3q7aytEf2kcaFKORlwQCcJQ2P8I1hsR
+         OsSUwr+j3iKzeNhBdimrwLg7AiRMy/AzUu1nu28L+tx66Z0hN33dlaBoFZVCjlpf4hYZ
+         YLyLnPA2T7yuh36eRKMJ3WajYBVcNRjlebwFD7GdPKvGkV0i2hvOPhnmr2DJMLbjELVR
+         bfnIE1A0tEoiCzdFKELDvn8td4LAeQkWOPlmycsiZCHyvOSGd2TuuM0AQnShjtIosI0R
+         AGnQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwWwUXIc00s5EX9TgsiKQJFfg7wKICZd44fxjC5ShrWA/+Dm6fY1Gy92wRLxVaG4HvWjSEEh8Y07ikMXg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8/iDL8S16L/w1vbBdJleWXp/0KoS2IlPz2rNI2i++GjUm0IKxG
+	V0OqoXV9ggTslzffBnXudc2fOCxQB2oVmSy4AVTCJ278OWt84ZxlJ1SCnDXl8BmG
+X-Gm-Gg: AYBFou0fgwbfAeaRrQ3SkpefcgxRu9CrCaZo1GJoMtt+Fcl7s2GVYicr2ZxHvZRhwV9
+	r9m72MR6DyQ3mjeulthPpM2B6RbRXW1cJu6dKpZz9US4r1xsSVi2PfTR3/KcCea6kzvtc/gHlDD
+	DCiKaD/8TxpDN43ZoWlyT6cOvxuZIknyNGczesQv6J+QtrXSyFIyLF+w5sOF7t9Yu4oTa7Yg+pl
+	7OO2T3en3EhlXUWFdTNHsswaG+xLIumS9CEerp8xzuSMz4BHGB/io7rKrBJzDeKobqf+Buq+0xl
+	IPj4PWxi4y55hOZKrkZeqvqkOVaR2TlKkdxZnVmsWiA/tlplbfiCltOnfQDH7uN1E05NdBYJ47B
+	BIf2fU/Ayezt4YDWCwkZ3Z2zzQZ4stut0YWX3EyV3SYByzf5TLJH3L2CDqbJe03fCTd+LVoNkDA
+	8ZMzzZ9Iz5DccYlNSYsdA62soe8qnbm4e6o9G3QUUNbGBjaKhWFa3ljSwSBJJsjTrYpBpCB9jpN
+	QiAefLlyKQ0ocTW46DahwPhJEIGaTRH1aSlOZ6OnFj2ZglhRpaynLaUINNAvw9lEpnpFPXBGzV7
+	1Vbwc/t3sICKxFDlbT59gl8FrVbiRQ==
+X-Received: by 2002:a05:7300:ec82:b0:36d:7f5f:7e97 with SMTP id 5a478bee46e88-36d7f5f8290mr4601005eec.40.1793878181167;
+        Thu, 05 Nov 2026 03:29:41 -0800 (PST)
+Received: from AD03042041 ([115.137.252.248])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36dd7ec8881sm14177194eec.18.2026.11.05.03.29.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 03:29:40 -0800 (PST)
+From: Deukjung Kim <mentalese@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Deukjung Kim <mentalese@gmail.com>
+Subject: [PATCH v2] ALSA: usb-audio: Add Arturia AudioFuse 48V/Main mute mixer controls
+Date: Thu,  5 Nov 2026 20:29:03 +0900
+Message-ID: <20261105112903.536150-1-mentalese@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <87ecd0tt6x.wl-tiwai@suse.de>
+References: <87ecd0tt6x.wl-tiwai@suse.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,188 +99,236 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] soundwire: qcom: lock ordering inversion in qcom_swrm_port_enable()
-- [High] soundwire: qcom: zero slot masks in qcom_swrm_set_channel_map() cl=
-obber ports
-- [High] soundwire: qcom: single-direction qcom_swrm_set_channel_map() clob=
-bers other direction
---
+Add mixer quirk controls for Arturia AudioFuse (0x1c75:0xaf02):
+ - Input1 48V LED Switch (wValue 0x0001)
+ - Main Speaker Mute LED Switch (wValue 0x0500)
 
-commit c509f8b3c2506c16cc2d00c47ddc8257189902cf
-Author: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Values are written with a class MEM request to entity 0x46 and the
+initial state is read from a 178-byte status block of entity 0x47.
+Protocol reverse engineered from Arturia AudioFuse Control Center.
 
-soundwire: qcom: Add set_channel_map support to SWR master DAI
+Signed-off-by: Deukjung Kim <mentalese@gmail.com>
+---
+v2: Fix indentation in patch description
 
-This commit adds .set_channel_map support to the Qualcomm SoundWire master
-DAI so the ASoC layer can configure per-port TX and RX channel masks used by
-qcom_swrm_port_enable().
+ sound/usb/mixer_quirks.c | 187 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 187 insertions(+)
 
-> diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-> index 147e55b7a600b..c411c3628dee4 100644
-> --- a/drivers/soundwire/qcom.c
-> +++ b/drivers/soundwire/qcom.c
+diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+index 5eee501948fb..5839719444f8 100644
+--- a/sound/usb/mixer_quirks.c
++++ b/sound/usb/mixer_quirks.c
+@@ -22,6 +22,7 @@
+ #include <linux/slab.h>
+ #include <linux/usb.h>
+ #include <linux/usb/audio.h>
++#include <linux/usb/audio-v2.h>
+ 
+ #include <sound/asoundef.h>
+ #include <sound/core.h>
+@@ -4419,6 +4420,189 @@ static int snd_djm_controls_create(struct usb_mixer_interface *mixer,
+ 	return 0;
+ }
+ 
++/*
++ * Arturia AudioFuse (Rev2)
++ *
++ * The protocol was reverse engineered from Arturia AudioFuse Control Center.
++ * A parameter is written with a UAC2 class MEM request to the vendor entity
++ * 0x46 (wValue = parameter id, 1 byte payload), and the current device state
++ * can be read back as a 178 byte block from the vendor entity 0x47.
++ * Both entities live on the audio control interface 0.
++ *
++ * Layout of kcontrol->private_value: (parameter id << 8) | current value
++ */
++#define SND_AF_CTRL_IFNUM	0
++#define SND_AF_ENTITY_SET	0x46
++#define SND_AF_ENTITY_STATUS	0x47
++#define SND_AF_STATUS_LEN	178
++
++#define SND_AF_PARAM_SHIFT	8
++#define SND_AF_VAL_MASK		0xff
++
++struct snd_audiofuse_ctl {
++	const char *name;
++	u16 param;		/* wValue of the set request */
++	u8 status_offset;	/* offset of the value in the status block */
++};
++
++static const struct snd_audiofuse_ctl snd_audiofuse_ctls[] = {
++	{
++		.name = "Input1 48V LED Switch",
++		.param = 0x0001,
++		.status_offset = 0x3e,
++	},
++	{
++		.name = "Main Speaker Mute LED Switch",
++		.param = 0x0500,
++		.status_offset = 0x5c,
++	},
++};
++
++static u16 snd_audiofuse_windex(struct usb_mixer_interface *mixer, u8 entity)
++{
++	return (entity << 8) | mixer->hostif->desc.bInterfaceNumber;
++}
++
++static int snd_audiofuse_ctl_write(struct usb_mixer_interface *mixer,
++				   u16 param, u8 val)
++{
++	struct snd_usb_audio *chip = mixer->chip;
++	int err;
++
++	err = snd_usb_lock_shutdown(chip);
++	if (err < 0)
++		return err;
++
++	/* snd_usb_ctl_msg() bounces the buffer, so a stack variable is fine */
++	err = snd_usb_ctl_msg(chip->dev, usb_sndctrlpipe(chip->dev, 0),
++			      UAC2_CS_MEM,
++			      USB_DIR_OUT | USB_TYPE_CLASS | USB_RECIP_INTERFACE,
++			      param,
++			      snd_audiofuse_windex(mixer, SND_AF_ENTITY_SET),
++			      &val, sizeof(val));
++
++	snd_usb_unlock_shutdown(chip);
++	return err;
++}
++
++/* Returns the number of bytes read, or a negative error code */
++static int snd_audiofuse_read_status(struct usb_mixer_interface *mixer,
++				     u8 *buf)
++{
++	struct snd_usb_audio *chip = mixer->chip;
++	int len;
++
++	len = snd_usb_ctl_msg(chip->dev, usb_rcvctrlpipe(chip->dev, 0),
++			      UAC2_CS_MEM,
++			      USB_DIR_IN | USB_TYPE_CLASS | USB_RECIP_INTERFACE,
++			      0,
++			      snd_audiofuse_windex(mixer, SND_AF_ENTITY_STATUS),
++			      buf, SND_AF_STATUS_LEN);
++	if (len < 0)
++		return len;
++
++	/* enable with dynamic debug: file mixer_quirks.c +p */
++	print_hex_dump_debug("AudioFuse status: ", DUMP_PREFIX_OFFSET, 16, 1,
++			     buf, len, false);
++	return len;
++}
++
++static int snd_audiofuse_ctl_get(struct snd_kcontrol *kcontrol,
++				 struct snd_ctl_elem_value *ucontrol)
++{
++	ucontrol->value.integer.value[0] =
++		kcontrol->private_value & SND_AF_VAL_MASK;
++	return 0;
++}
++
++static int snd_audiofuse_ctl_put(struct snd_kcontrol *kcontrol,
++				 struct snd_ctl_elem_value *ucontrol)
++{
++	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kcontrol);
++	unsigned long pval = kcontrol->private_value;
++	u16 param = pval >> SND_AF_PARAM_SHIFT;
++	u8 oldval = pval & SND_AF_VAL_MASK;
++	long newval = ucontrol->value.integer.value[0];
++	int err;
++
++	if (newval < 0 || newval > 1)
++		return -EINVAL;
++	if (newval == oldval)
++		return 0;
++
++	err = snd_audiofuse_ctl_write(list->mixer, param, newval);
++	if (err < 0)
++		return err;
++
++	/* update the cache only after the device accepted the value */
++	kcontrol->private_value = ((unsigned long)param << SND_AF_PARAM_SHIFT) |
++				  newval;
++	return 1;
++}
++
++static int snd_audiofuse_ctl_resume(struct usb_mixer_elem_list *list)
++{
++	unsigned long pval = list->kctl->private_value;
++
++	return snd_audiofuse_ctl_write(list->mixer,
++				       pval >> SND_AF_PARAM_SHIFT,
++				       pval & SND_AF_VAL_MASK);
++}
++
++static int snd_audiofuse_controls_create(struct usb_mixer_interface *mixer)
++{
++	struct snd_kcontrol_new knew = {
++		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
++		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
++		.info = snd_ctl_boolean_mono_info,
++		.get = snd_audiofuse_ctl_get,
++		.put = snd_audiofuse_ctl_put,
++	};
++	u8 *status;
++	int len, i, err = 0;
++
++	/*
++	 * The quirk is applied for every mixer of the card, but the vendor
++	 * entities are only reachable through the control interface 0.
++	 * Checking this per mixer (instead of a global flag) keeps the
++	 * controls working after re-plugging and with multiple devices.
++	 */
++	if (mixer->hostif->desc.bInterfaceNumber != SND_AF_CTRL_IFNUM)
++		return 0;
++
++	status = kmalloc(SND_AF_STATUS_LEN, GFP_KERNEL);
++	if (!status)
++		return -ENOMEM;
++
++	/* a failed read is not fatal: start from "off" and keep audio working */
++	len = snd_audiofuse_read_status(mixer, status);
++	if (len < 0)
++		usb_audio_warn(mixer->chip,
++			       "AudioFuse: cannot read device status (%d)\n",
++			       len);
++
++	for (i = 0; i < ARRAY_SIZE(snd_audiofuse_ctls); i++) {
++		const struct snd_audiofuse_ctl *ctl = &snd_audiofuse_ctls[i];
++		u8 val = 0;
++
++		if (ctl->status_offset < len)
++			val = !!status[ctl->status_offset];
++
++		knew.name = ctl->name;
++		knew.private_value =
++			((unsigned long)ctl->param << SND_AF_PARAM_SHIFT) | val;
++
++		err = add_single_ctl_with_resume(mixer, 0,
++						 snd_audiofuse_ctl_resume,
++						 &knew, NULL);
++		if (err < 0)
++			break;
++	}
++
++	kfree(status);
++	return err;
++}
++
+ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
+ {
+ 	int err = 0;
+@@ -4609,6 +4793,9 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
+ 	case USB_ID(0x03f0, 0x0269): /* HP TB Dock G2 */
+ 		err = hp_dock_mixer_create(mixer);
+ 		break;
++	case USB_ID(0x1c75, 0xaf02): /* Arturia AudioFuse */
++		err = snd_audiofuse_controls_create(mixer);
++		break;
+ 	}
+ 
+ 	return err;
+-- 
+2.53.0
 
-[ ... ]
-
-> @@ -1188,12 +1192,28 @@ static int qcom_swrm_port_enable(struct sdw_bus *=
-bus,
->  {
->  	u32 reg;
->  	struct qcom_swrm_ctrl *ctrl =3D to_qcom_sdw(bus);
-> +	struct qcom_swrm_port_config *pcfg;
->  	u32 val;
->  	u32 offset =3D ctrl->reg_layout[SWRM_OFFSET_DP_PORT_CTRL_BANK];
-> =20
->  	reg =3D SWRM_DPn_PORT_CTRL_BANK(offset, enable_ch->port_num, bank);
-> =20
->  	ctrl->reg_read(ctrl, reg, &val);
-> +	pcfg =3D &ctrl->pconfig[enable_ch->port_num];
-> +
-> +	mutex_lock(&ctrl->port_lock);
-
-[Severity: High]
-Does acquiring ctrl->port_lock inside qcom_swrm_port_enable() cause a lock
-ordering inversion with ctrl->bus.bus_lock?
-
-During hw_params, qcom_swrm_hw_params() -> qcom_swrm_stream_alloc_ports()
-acquires ctrl->port_lock and then calls sdw_stream_add_master(), which locks
-bus->bus_lock:
-
-drivers/soundwire/qcom.c:qcom_swrm_stream_alloc_ports() {
-	guard(mutex)(&ctrl->port_lock);
-	...
-	sdw_stream_add_master(&ctrl->bus, &sconfig, pconfig,
-			      nports, stream);
-}
-
-During stream enable and disable, sdw_enable_stream() and sdw_disable_strea=
-m()
-acquire bus->bus_lock via sdw_acquire_bus_lock() before calling into
-bus->port_ops->dpn_port_enable_ch(), which invokes qcom_swrm_port_enable() =
-and
-acquires ctrl->port_lock in the reverse order (bus->bus_lock ->
-ctrl->port_lock).
-
-> +	if (enable_ch->port_num <=3D ctrl->num_dout_ports) {
-> +		if (pcfg->rx_ch_map_valid)
-> +			enable_ch->ch_mask =3D pcfg->rx_ch_mask;
-> +		else if (pcfg->tx_ch_map_valid)
-> +			enable_ch->ch_mask =3D pcfg->tx_ch_mask;
-> +	} else {
-> +		if (pcfg->tx_ch_map_valid)
-> +			enable_ch->ch_mask =3D pcfg->tx_ch_mask;
-> +		else if (pcfg->rx_ch_map_valid)
-> +			enable_ch->ch_mask =3D pcfg->rx_ch_mask;
-> +	}
-> +	mutex_unlock(&ctrl->port_lock);
-> =20
->  	if (enable_ch->enable)
->  		val |=3D (enable_ch->ch_mask << SWRM_DP_PORT_CTRL_EN_CHAN_SHFT);
-> @@ -1413,6 +1433,39 @@ static void *qcom_swrm_get_sdw_stream(struct snd_s=
-oc_dai *dai, int direction)
->  	return ctrl->sruntime[dai->id];
->  }
-> =20
-> +static int qcom_swrm_set_channel_map(struct snd_soc_dai *dai,
-> +				     unsigned int tx_num, const unsigned int *tx_slot,
-> +				     unsigned int rx_num, const unsigned int *rx_slot)
-> +{
-> +	struct qcom_swrm_ctrl *ctrl =3D dev_get_drvdata(dai->dev);
-> +	unsigned int max_ports =3D ctrl->nports;
-> +	unsigned int i;
-> +
-> +	if ((tx_num && !tx_slot) || (rx_num && !rx_slot))
-> +		return -EINVAL;
-> +
-> +	mutex_lock(&ctrl->port_lock);
-> +	for (i =3D 1; i <=3D max_ports; i++) {
-> +		ctrl->pconfig[i].tx_ch_map_valid =3D false;
-> +		ctrl->pconfig[i].rx_ch_map_valid =3D false;
-
-[Severity: High]
-As reported by Sashiko on v1 [1], when qcom_swrm_set_channel_map() is called
-for a single stream direction, does unconditionally resetting both
-tx_ch_map_valid and rx_ch_map_valid to false clobber the opposite direction=
-'s
-channel map?
-
-In qcom_snd_sdw_startup(), playback calls snd_soc_dai_set_channel_map() with
-tx_num =3D 0 and rx_num =3D SDW_MAX_PORTS, whereas capture calls it with
-tx_num =3D SDW_MAX_PORTS and rx_num =3D 0. Because all DAIs on the controll=
-er
-share ctrl->pconfig[], starting a playback stream clears tx_ch_map_valid ac=
-ross
-all ports and sets rx_ch_map_valid =3D true, while starting a capture stream
-clears rx_ch_map_valid and sets tx_ch_map_valid =3D true.
-
-In addition, because qcom_swrm_port_enable() falls back to the opposite
-direction's mask when a port's own direction flag is false:
-
-	if (enable_ch->port_num <=3D ctrl->num_dout_ports) {
-		if (pcfg->rx_ch_map_valid)
-			enable_ch->ch_mask =3D pcfg->rx_ch_mask;
-		else if (pcfg->tx_ch_map_valid)
-			enable_ch->ch_mask =3D pcfg->tx_ch_mask;
-	} else {
-		if (pcfg->tx_ch_map_valid)
-			enable_ch->ch_mask =3D pcfg->tx_ch_mask;
-		else if (pcfg->rx_ch_map_valid)
-			enable_ch->ch_mask =3D pcfg->rx_ch_mask;
-	}
-
-won't DIN (TX) ports end up using pcfg->rx_ch_mask after a playback
-set_channel_map() call, and DOUT (RX) ports end up using pcfg->tx_ch_mask
-after a capture set_channel_map() call?
-
-> +
-> +		/* TX setup */
-> +		if (tx_slot && i < tx_num) {
-> +			ctrl->pconfig[i].tx_ch_mask =3D tx_slot[i];
-> +			ctrl->pconfig[i].tx_ch_map_valid =3D true;
-> +		}
-> +
-> +		/* RX setup */
-> +		if (rx_slot && i < rx_num) {
-> +			ctrl->pconfig[i].rx_ch_mask =3D rx_slot[i];
-> +			ctrl->pconfig[i].rx_ch_map_valid =3D true;
-> +		}
-
-[Severity: High]
-As reported by Sashiko on v1 [2], if tx_slot[i] or rx_slot[i] is 0 for an
-unused or unmapped port in the sparse channel map array, will marking
-tx_ch_map_valid or rx_ch_map_valid as true cause qcom_swrm_port_enable() to
-override enable_ch->ch_mask with 0?
-
-Codec callbacks such as wcd937x_get_channel_map() and pm4125_get_channel_ma=
-p()
-populate a 15-element (SDW_MAX_PORTS) sparse array where unmapped or inacti=
-ve
-master ports have slot[i] =3D=3D 0:
-
-sound/soc/codecs/wcd937x.c:wcd937x_get_channel_map() {
-	for (i =3D 0; i < SDW_MAX_PORTS; i++)
-		rx_slot[i] =3D wcd->master_channel_map[i];
-
-	*rx_num =3D i;
-}
-
-Since max_ports <=3D 14 < SDW_MAX_PORTS, i < tx_num or i < rx_num is true f=
-or
-every port 1..max_ports. Any port whose slot entry is 0 gets tx_ch_mask =3D=
- 0 or
-rx_ch_mask =3D 0 with the valid flag set to true, so qcom_swrm_port_enable(=
-) will
-overwrite the stream-provided enable_ch->ch_mask with 0 instead of falling
-back to the stream's channel mask.
-
-[1] https://lore.kernel.org/r/20260629141633.86657-3-mohammad.rafi.shaik@os=
-s.qualcomm.com
-[2] https://lore.kernel.org/r/20260629141633.86657-3-mohammad.rafi.shaik@os=
-s.qualcomm.com
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105-soundwire_=
-channel_map-v2-0-5efe2021552a@oss.qualcomm.com?part=3D2
