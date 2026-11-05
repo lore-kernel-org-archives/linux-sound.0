@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793875424;
-	b=d7+hcbNqEA5vcK/0Jc9eQNiRhZgZo2cASHDK96UpsBii9DvNjJu2k7JyoL0McYsBxzfa
-	 jTudUxpQklZ0+k+24VQ9wx+nYnAOQnPKJEh5NxLbJbkZHazJu+nndLLUPYZCo33W3V3BG
-	 cNAVDA2wOx0vUgt25HDTXjsrRILiB1jTw7rkbmWybk4+xK+3Bl0rOL42z2r4jNplQdq4O
-	 xUyB4tE0oFiT3HW9rSRu+v0PPN55vJExcSCjDhln9gtTQ/0lnbcwMjN2xfOlFIs82db5D
-	 jYMHsbHwfUhRlKYruvxVb1ENG6T4fB9K6sUbl7OrH6clN1XHT7CmEQWrLqUd2CW4SsA==
+	t=1793875429;
+	b=Id0bXy06I8sAv1G795jFMjUDZWLcBN6OwBaI2VCkcW84BTBaOMkUOYKbmgvYhEfHc/0A
+	 KYWS+GPLO804O+QCCmIvOOqx7az6OScQ1BtAC3cfIqCz5ggNWb/fz1MvbZshbnGSKfMXU
+	 rHoNlg8e6t0c8ZlneBNoPOapq95duyYy6GvqGuV91T+9YKSB2AKJfx05c+snvOAo2PVWM
+	 YGf88GXkaJYVqW7EsTzmofZahPPv6TQ6LIFBZu4A5upwim933UNG8+c0dWDdUHwnaLS4N
+	 oDA1cZRGi044gooZLwNCjYkgwoEVdghcCOrkOYphcW1aQHgLQoyLsKNesy4Qep1F8+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793875424;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793875429;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=uXICPYwChrk17gf+gSy2co454kHftdzrJdqzDelhNpI=;
-	b=RC8OydrHLtuJFz0mHR0mRFMMdG49UITPuzWD8/dGZNEBWMX9WJuy7MBRW//lDmKEEXw/
-	 kh124JK/fx8fcChYs8xeWFXq6h+lMbh6JUB6AaH7fRRP1mYqCme5d6N+AzL29Q3FviJ7e
-	 ITfSBEZJTIRIbPnBAT1TDbHJz7SB+YOw/3JszxZe0AyUJfzegsNVHz6GgcOyOk3+/PYkk
-	 ou0MFR2aXD3njEMJrNcs/RfixwMYHg5GlJDKNp8I5l+hUEbaT8FkfMnQgokTdLLDKwGON
-	 ++BaMfLyJZQqEdyYQmDZbfwh97JDEyU4FI72s8/cwtKr02S1o4HUXTEkbZVP17Yq88A==
+	bh=XIRj/VHtFRarv0lZNWmzV0C1FzshlGUywm6oQSCzwkE=;
+	b=xTe71jbgiSrKOFhhVVh3Awdbnz6ob4LOpQLTRZYgME6jS5iaV+6t06otMs3Waq/o+gdD
+	 k5tfxDmfxEg8PAdX5eyEVQSviCwR9xB/0ZuWAmNUegKl3tFfeet8BOhY1BstTRYd4doEz
+	 xi1g3Lua8N+SFfLUKghzo+UGys6ZUKVpoxaq2I5lRZjUu+dsprlixSNTTqTGtXMs1hkPZ
+	 Nyl6tOITo8kPHnjF9rLHgHh4JIIRkCIQZekTFolIDdXgGbSh/4sCruO/lWkQ7rzUcSfZA
+	 MQrb9xvUKEjWK8SJP5NId8y2b+gL6GAAqrawaGgpQGQijpypGhNPdKoV0zyFKxwHV3A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZdrL6Nc7;
-	arc=none smtp.remote-ip=74.125.82.52
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eejIlaPH;
+	arc=none smtp.remote-ip=74.125.82.42
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E183606A31B
-	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 10:43:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0E183606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460F1606D80C
+	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 10:43:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 460F1606D80C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZdrL6Nc7
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1ae18eb9ad0so1990001c88.1
-        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 02:43:43 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eejIlaPH
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1ae18eb9ad0so1990060c88.1
+        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 02:43:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793875423; x=1794480223; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793875428; x=1794480228; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=uXICPYwChrk17gf+gSy2co454kHftdzrJdqzDelhNpI=;
-        b=ZdrL6Nc7UuMPZ8WbsJf8eI1EYtxNQn8a0B9DBM1fmnXDl2neue25X14OdQYqZGqMs4
-         3mMOy9SedUY0oHqTuE6vEhDiSjsk1vZStte+4IsjbVNkAGMthfckeTjoL8AlTy+YFk7w
-         uh4rXnPZ3F+kUPs4JnoO2FkMbMCxKm6dEkGOiyAWJt00N6D5acu9giGBiI4t4GmPdZfJ
-         9+hWs05EjWEN9e/75mesjqSMtxE2CYUJ1eVAd/Dj1F+heg1G7d1bNQIaoV6nkoJC/5/1
-         PuuUA9YCJ2MTfdnP8NTxQ+nsOOHNUzJ2vw7UqB6fvWmt7XO61E6+mmVYfUCpEkOwvT9o
-         YqkA==
+        bh=XIRj/VHtFRarv0lZNWmzV0C1FzshlGUywm6oQSCzwkE=;
+        b=eejIlaPHoVCdN+3ll6UyV4g0vciZtl0gpdogZFJ21OwGNoqux3wetKknXg5Qjh6Yn4
+         kbqdMhXbY92b/8Gnb6duxvaFK9zpGGXeShusSvmVvODyferwCxJ5CGYD+Phm9sIxzzzN
+         4aRy10JDjXagAGn7ZHjdeAbsh3uLu8sV/EzarHAr6F5GJzbQrksG4Erqz1yOW8h9UIX+
+         thsPAq2LUvAXn1U9Z4treehgUjMtqM9hhA5+g6xueaIz6oDJ9KOv67rElf/IZd4u+CFk
+         GwR3w0mRSTqgjMHBd89xJ1PMlcYAn3gAHQ7vOPrykqzBSeP5kJlZR5zfs5HeOS69h4al
+         eJ+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793875423; x=1794480223;
+        d=1e100.net; s=20260707; t=1793875428; x=1794480228;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uXICPYwChrk17gf+gSy2co454kHftdzrJdqzDelhNpI=;
-        b=MNJ7ku8sg74ZDvog/vWiEx6vXc9wpEh+BLHBljX41B09bfhFV12gVic4XYThc9iEhE
-         x++p9xNrg9n5uewqdokDNNP5iI1b49tajmy2qI9VGGLCCqxltEr2PBzA4Ojq16G8XBES
-         YfUPusVr+/tP7cNjA5d2zxCbI+geeibjxY2pd7YQ2OcbTLnZZfXcjyE1+C1EqizQATsm
-         aPGWrajT5pEPSIFX+wvFzfl+8iNbWiju6OSHshDRiinRikR5UEbGdCsLGRP+a7yBA+i0
-         pbDlDb8ECLmzG87Ujw+b6Hseb4uiYe0uJYIWQ5eyOY0Thy4X8yGY8fyU67ygRm3r9HXv
-         7EOA==
-X-Forwarded-Encrypted: i=1; AKwUvBwZp1Wl+ykbxtQyvk2FchmSoAW7DeAogv4FEz/4J+KFEsa27jAjqI7CQPkn5QVMf8mNyAPEq0CUa2fJuw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/7NoM/L3GtnQ0C1ksGKgwt9cys+775R2xCMOgPjKsyA5cxsKdH
-	C7G64SK9AMqR+yc7ksqUzCk7zONe2u7ZkIqQTjMbFtb6Ama5/SQGcz92
-X-Gm-Gg: AYBFou1EqJg4QWAqDyn78sJrnCKlpjg1KB6Lq1iVfvyIMH+wJl0hPRZiMMNlaBuI3mw
-	8QRoEpTfqLG2m4A1LiL9yjZViCNfQBSNY99SKh1aw0Zy1je5AwI74BcMwGpSVo5WTUhVAvnzY/X
-	qgV0zsjXuyzu4CJ1wmOM5b5N1nF8qsAxbDNEqm47PnGygRveei/0MQchjq+7+zT9mBAccuTLi+9
-	Ko7ErEALJWo8XPdf5r61dX2lQgBXnufR1rYfDtveMj6Tz+ac0LRUT1HvDxBtmxoqvr8hpX3sTuG
-	ZL23ckYIQ+mAyvqGABrbgKuwpGuWexYrHG1c0g0zTAkCZ558JMDkP5GSrcwbuNmK7pBSwUSp9Jd
-	JuYFsJoGWtJAcWQltBLnc9RVs9JBj/5SW6efjtsccULE/0rR0vg3TnTfHfOVEax003cMIFAlsiK
-	ANdhoZ2ejZ5m/K7iiGgI84mbcdpy3eRjphN/L3mqOudoVxvl7rAV25/scfP+wi1SnVIZgz5dWhg
-	wATxklU2//omZiANXAjWiQBDOajezif04aB6T/5oWH9Hp+jx2r0qbxhLxES4IPRSQvQPnRB31cR
-	3FNB3Sl3/UK1SQ2KlR3hjpxW+yXXaojthxu3cDO/AF5OGmVeDl1LuCuac5V/wufLksma2PCwklF
-	hug5J0ZaAKnKDfgnf11EbA7IjAPCm8bEQQbwXjhalNYkH
-X-Received: by 2002:a05:7022:f507:b0:190:d9bb:281f with SMTP id a92af1059eb24-1ac5e3225aamr26533948c88.18.1793875422948;
-        Thu, 05 Nov 2026 02:43:42 -0800 (PST)
+        bh=XIRj/VHtFRarv0lZNWmzV0C1FzshlGUywm6oQSCzwkE=;
+        b=AusW3WXagMkt5xPWZ49kxFZ/4AH5rbCKA0IhkUrsHIcNpYl7Fppot2flGU8bfelhzH
+         TJ0Dw4/itfQkiVVxKJutRzfqLtsWTMU0Q7mhzxLHrEClsBQhd9/TMxrpkcj55o8P4b6e
+         09kI6ocZuZyfswvy2znVflMBKnbXuK4KpTW+TIOYIyEA6EiZzxXtcfxTOAArFy4V+5oC
+         mCBjJR2d6fDwwcvwoh/GGmI8y4Qt1dwytFejQXj3g9bKmycEVFLsobxTDm0kp8Bk5nP8
+         sNFY2Bcgn0DuRJSYG5F1bMt7llD3nZh9GS1+DZ7Fc3Y3UtyVNvVIL0jlceNQ84bG4XYR
+         84kQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwDX+EHuo1CKJBQxAApQ1UytrHdp0MywLxVCJdp21K8dwTUbuK2o70LysZkSDW4ZMbo6XKKyr8AK3Eb2Q==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+kYU9mFwe2iZmezvNoPY03hDnUgU3Akg7iHPxwNMP/NdeH6x9w
+	XwDw/KUOEu/NRngah20kuoQw7BTFHh6Z9LWxgqzuNOBqsZt+oHSjFjgM
+X-Gm-Gg: AYBFou3gm5JyICkHJx6DFXAUXPq60t3X/Hp4J+Y7qkIqCb9i4hOeUvhisLMyUhEMPnD
+	3s13+B1wNau5ljmdIXdQ7feIgrxMRPKI2Gog1JmiLtO1CiCVlF25E/LOQEHEvIwn+jJiPAKQUEb
+	H9TJbvzYyQ+85TUdo7T4tyu+dNfhC44kqNpYzt4zWX8jw5ZV4vgJkh2JPW+uipoeOwgtAX4duHZ
+	fj+RlPAg2GECt/RS0vVXy0rf21Yyv+JG75+YeWb8CtcuTnAZqiRP8pTcfEI5hGP7RIijmCq3YEH
+	ZBwhkiCxHYZcxO0uLxlhQA1R7YpOXShBkXlr4KlVbvSFikNlQADqiySFKHxqr9oPUQZwcTRgrvO
+	U5NaaKJFHsSkgAVf2yqU4n17N5tTEdDZaBKvmkyGINnEZ08KCUj75odUyF/xf1zUqzER3DP7Qrs
+	/7znZetJoj8BVCQ5bbe4pJ8NK37YmJXqv+ZkbcBTMsEDBnP0DaWSsPGwCnCgUoMsp/clpHwtHJo
+	pD7DE5DUQYnA5KQKnNgpnt9w6dCQ2i7nFZ1MvnMkcAS+ok7ksO83bAQr1jnmureBrBfKL1+6+37
+	yOIlgh95E9hO2yMARpHkCSyz6VhEFU09T55bsB9L6/x2vkT3t5jrjKstCvlJfRDOCMXQ+IgVrow
+	4rkQmstgUaHKOVxg/CLbGZD9e3Vb+c/+lRLwnulDWX26gJr300fy992aL7PoXmA0lxQ==
+X-Received: by 2002:a05:701b:42c7:20b0:1b0:f0f5:e38f with SMTP id a92af1059eb24-1b0f0f5e3b5mr20779490c88.34.1793875428330;
+        Thu, 05 Nov 2026 02:43:48 -0800 (PST)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c1c272sm15595215c88.8.2026.11.05.02.43.38
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c1c272sm15595215c88.8.2026.11.05.02.43.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 02:43:42 -0800 (PST)
+        Thu, 05 Nov 2026 02:43:47 -0800 (PST)
 From: phucduc.bui@gmail.com
 To: Shengjiu Wang <shengjiu.wang@gmail.com>,
 	Shengjiu Wang <shengjiu.wang@nxp.com>,
@@ -93,9 +93,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 06/10] ASoC: fsl_sai: Warn if TE/RE does not clear on disable
-Date: Thu,  5 Nov 2026 17:42:33 +0700
-Message-ID: <20261105104237.38542-7-phucduc.bui@gmail.com>
+Subject: [PATCH v2 07/10] ASoC: fsl_sai: Clarify fsl_sai_dir_is_synced() documentation
+Date: Thu,  5 Nov 2026 17:42:34 +0700
+Message-ID: <20261105104237.38542-8-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261105104237.38542-1-phucduc.bui@gmail.com>
 References: <20261105104237.38542-1-phucduc.bui@gmail.com>
@@ -112,51 +112,46 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-fsl_sai_config_disable() polls TE/RE with an open-coded loop and
-continues silently if the bit does not clear within 1ms. Also, if
-regmap_read() fails, the loop condition evaluates xcsr uninitialized.
+The summary line of fsl_sai_dir_is_synced() reads as if @dir follows
+the clocks of the opposite stream, while the function returns true
+when @dir provides the clocks and the opposite stream is synchronous.
 
-Use regmap_read_poll_timeout_atomic() and warn on timeout.
+Reword the description to match the behavior and document the return
+value. No functional change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/fsl/fsl_sai.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ sound/soc/fsl/fsl_sai.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
-index 8315a0d8893b..f75a1d61d7b7 100644
+index f75a1d61d7b7..25243b6859d6 100644
 --- a/sound/soc/fsl/fsl_sai.c
 +++ b/sound/soc/fsl/fsl_sai.c
-@@ -849,7 +849,8 @@ static void fsl_sai_config_disable(struct fsl_sai *sai, int dir)
+@@ -88,14 +88,16 @@ static const struct snd_kcontrol_new fsl_sai_timestamp_ctrls[] = {
+ };
+ 
+ /**
+- * fsl_sai_dir_is_synced - Check if stream is synced by the opposite stream
+- *
+- * SAI supports synchronous mode using bit/frame clocks of either Transmitter's
+- * or Receiver's for both streams. This function is used to check if clocks of
+- * the stream's are synced by the opposite stream.
+- *
++ * fsl_sai_dir_is_synced - Check if the opposite stream is synced to @dir
+  * @sai: SAI context
+- * @dir: stream direction
++ * @dir: stream direction, TX or RX
++ *
++ * SAI supports synchronous mode, where one direction uses the bit clock and
++ * frame sync of the other. This function checks whether @dir provides the
++ * clocks, i.e. @dir runs in asynchronous mode while the opposite direction
++ * runs in synchronous mode.
++ *
++ * Return: true if the opposite direction uses the clocks of @dir.
+  */
+ static inline bool fsl_sai_dir_is_synced(struct fsl_sai *sai, int dir)
  {
- 	unsigned int ofs = sai->soc_data->reg_offset;
- 	bool tx = dir == TX;
--	u32 xcsr, count = 100, mask;
-+	u32 xcsr, mask;
-+	int ret;
- 
- 	if (sai->soc_data->mclk_with_tere && sai->mclk_direction_output)
- 		mask = FSL_SAI_CSR_TERE;
-@@ -860,10 +861,15 @@ static void fsl_sai_config_disable(struct fsl_sai *sai, int dir)
- 			   mask, 0);
- 
- 	/* TERE will remain set till the end of current frame */
--	do {
--		udelay(10);
--		regmap_read(sai->regmap, FSL_SAI_xCSR(tx, ofs), &xcsr);
--	} while (--count && xcsr & FSL_SAI_CSR_TERE);
-+	ret = regmap_read_poll_timeout_atomic(sai->regmap, FSL_SAI_xCSR(tx, ofs),
-+					      xcsr, !(xcsr & FSL_SAI_CSR_TERE),
-+					      10, 1000);
-+	if (ret == -ETIMEDOUT)
-+		dev_warn(&sai->pdev->dev, "%cx not disabled at frame end\n",
-+			 tx ? 'T' : 'R');
-+	else if (ret)
-+		dev_err(&sai->pdev->dev, "failed to read %cSCR : %d\n",
-+			tx ? 'T' : 'R', ret);
- 
- 	regmap_update_bits(sai->regmap, FSL_SAI_xCSR(tx, ofs),
- 			   FSL_SAI_CSR_FR, FSL_SAI_CSR_FR);
 -- 
 2.43.0
 
