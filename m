@@ -1,59 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793835567;
-	b=eEXdrKvnxdCE60cN/Jh7nNfMau5/yg0bwtdJipOfUTHCDGeneGEaYqHPzzEgyt+ba4GZ
-	 G8e5gP3RIgUqoCdAdnnnCafRENTTB0h2K3SVT/79nu035wTsISifv3uBJsnIzOv5inHpw
-	 D8wsGR5jP2qKSA/YncWcC2O5fHDgN6yQubHpj4kHWepDC6c32fpoBXRkU9UGPSKDi1qlm
-	 vVVBp1OmKaY2KhnPA5Zyvugd+nKeDt9UFHaxnaTE4Kbo7JDwJ5RvJ733Nsk6rCZzbryQe
-	 y1GMbi/L6u1VPODGcmj8/5B2AD5CeD3l886cRwKqiYe4hwb2M38szaKU9PdPStooUog==
+	t=1793837362;
+	b=p7h/zuluuk//CFdAlZeP04G8N8BhFSyFKyWUYHGzHFsZGKSb4KOqDD/Bx7PiRyEfTSXu
+	 PPBy9Mbi4yG5mVF1+N3S9//4VrJwhapqiMM5rp5KuGuTUd+/cy+RvtVC407gnC1F9BWhJ
+	 8CY5VE544/b8k2eRsFk6Nlf8Cjxu7pTXdolDCxJ8A8BXH/YBAragZZJyTvQN8NdGvgH00
+	 Jdj9vivNUy9lJu3vD5Ayh+thdpI3CWsywWfRnDSCEqQSSHSnXhZkZbXvW/7K0iA8WEo+f
+	 WG3VXpR9btmuspSrQxH/VkJ9QrTESj+SqQxQNSU4bAR5nTv1g78qSrH5U+eCVgjt3zA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793835567;
-	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
-	 Subject:Message-Id:Date:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key;
-	bh=wV1uJInLusVv585fK3kDQzS6tz7tXCsUgiPuQYP+aoI=;
-	b=RvtAnhURiArEEWES03cGm9IVaFKsTJXGlmSzZCiSeUnuFmEK2dZyfnX85GNBR20AINBq
-	 yXVgXmO53VpOclQ+8idQF5kpyv7MDIqeuM8UTC7mjXb0g4Rx2w5KN9tr5edhV128PdEDE
-	 dW2yNfxpMQv0OjX2lpXfCfAWP2yt/xa6f241MztYBxMt8+C76EsCzFhJEbssFbh7J7WmT
-	 7fLyXTof4HgR45lYhA9Pj9WU1MAkQO/X7FAN4/ENPs5ZNWetCnBe+1z0b76AsZE2lkucc
-	 kB0SK+FpqmhLEywAJmGJKjarLnt+oQ0A3vAB+ImLDrpguDr+vukquEit1Me+9/6W/qA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793837362;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=vIwsFQ9mq4AE+G3auhIPcX8ZrPg+4PCX1f2mZBFZYXw=;
+	b=xpwgmgOFW2jQciVACKDLe92bi6hbPvNA94VB+hsJU2yi2h7BH/o+BQ6pru5m5+DZ9glR
+	 XQEn5K0KqKYM/VM1BeIZuSi0EXFuQt4sLfnZi05Z2b3EKR14X2wopym6/Iq3HFZXY/l65
+	 93uWHT5wP4TnFvSCZrSU/qbTWiJS3w5pnsppCGPLOffJPZV/ovlWx5rLlXcMj5djvWlkr
+	 QCxrrGz1frDvWRbmWUy2OW1eQ1DegRRGZmlJXRbvjHcBMAjecfoKpf4aiKJfvDgB+eC/D
+	 FreS5uRRhbET7t+oc73nFkz9tRf5vnH+T4YUvd1e2I+LpD4ifgHqufIM6fMctUowDdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kdw1orWb;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZNLgfPbH;
+	arc=none smtp.remote-ip=209.85.215.179
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC70606A334;
-	Wed,  4 Nov 2026 23:39:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588C6606A329
+	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 00:09:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 588C6606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kdw1orWb
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EC7D1F00A16;
-	Wed,  4 Nov 2026 23:39:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793835567;
-	bh=wV1uJInLusVv585fK3kDQzS6tz7tXCsUgiPuQYP+aoI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Kdw1orWb5PLTRwwIhdL9XEJmjzHpIlqXwc/Nzd4TE6dnadg/L8wZyz7PfBp3xsgZz
-	 SrPsYbk8VCvcZLKuLUpCLK6TjWoQ64L0aQkkOQ9PEhdG76ERb0S8UCCl5C6IBPabV4
-	 R6jy0tGasvtnPcWSiV+CQWn+FSHEQIgbBbzYQqJPq6jx6KZeyDvwykZuD7X0A7H5Km
-	 hs7ekAr4ktTGeHXrcZcWtgGeQipI4GR0lJkZiywPpTv+zcSrxSIsAIMOkNoegObIl9
-	 ehj+ybnciS2V0c3L7o0tc129Oec5sYDXMqg4HgmGhlMoQrn4tAG4WvF4upd9ViBYmt
-	 8u9sesVEs9tvQ==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 20A2926926D3;
-	Wed, 04 Nov 2026 23:39:25 +0000 (GMT)
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20261104152402.1153795-1-rf@opensource.cirrus.com>
-References: <20261104152402.1153795-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH] firmware: cs_dsp: Fix memory leak on cs_dsp_power_up()
- error path
-Message-Id: <179382036950.2456854.5834583890748599492.b4-ty@b4>
-Date: Wed, 04 Nov 2026 19:26:09 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZNLgfPbH
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cc502d509c0so549969a12.2
+        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 16:09:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793837362; x=1794442162; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vIwsFQ9mq4AE+G3auhIPcX8ZrPg+4PCX1f2mZBFZYXw=;
+        b=ZNLgfPbH7vUmYfIeS9V0roTfzAAefwyXv0a+VKA/+NezG3VMXCTqt/w41TWm2V7ye2
+         v6JhDIsU5BB+OD9P4libjsoLfnr85WDlefj9L2sBhcdXrNPZUWiWIDjWC/HcBYLjdBum
+         sIOW+6+eZaq6bPwydSTBRK40gesxjKFo3fcBjIQCRmBPutlP/EftFTdPspj6OzXG6Cx8
+         w/MoRgtDoV6JppMpu/WqrXJcg599Xuf19Ip1da7/cLHXvX6Gr6i8ti5xH62iveYJHzGC
+         WSbAZeTIIEFYMSMyLHx3JAb9RONTjCR+vHXfVrLQXyz+8pQowrKLDmn8Mv6n0J3ldINb
+         rXyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793837362; x=1794442162;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vIwsFQ9mq4AE+G3auhIPcX8ZrPg+4PCX1f2mZBFZYXw=;
+        b=LnKcuoNNPmDnKYRjzJ+ta8fqOdzEDtjISpUSxu59CBNZCPrORlJtfDO2fQMoOufcit
+         qapLzJgejxVkjHGc5Pnke7Dr0HRKdV0t3qjRufEOO0Ul/b2736yswdSVu+cTwzF5fx3Z
+         S3NRy7eAl2t3UJVEe6B/Zwx/1Wbbdwe3upYTAzlykv+ndLKwsVnWroUIP9OvaF9IuhzZ
+         aXWrkC9JDtlgTBcTDrTQ/O92Br5vk+VCbRC/soUOnrsFCmhnXrx7eeN3uyJWNPGxwSaL
+         AtjD+TkpQ9mDzPlYM9ONaQ+ZN0HTVFKny68JnqkbRUGurOaFR5V+0EWvZR6QF6jO2EFa
+         InmA==
+X-Gm-Message-State: APuU4Z8kYJmf8mYOBaavS4Le0yhzcfZI0DmYl23v0G05K9u2E3BOgMmN
+	kB6yb0ivEbMGHYyQh85XfENhNYnEDoTmfOIfEeDFWb7kCvENVUSbYqhzGv/5fQ==
+X-Gm-Gg: AYBFou3K3ZA+pSJDu0qQIF1xxogY8vDHv5A/4wAKoNEWyoux7rxXN607iHNFCRLx7gc
+	ajIsqG9rTLGPzYIw77wEM43F2v2k80GTgc+79SthQns4vUPZybl5b2434UFdjAW/F2/Kk7x/7SS
+	VjG6NGH6R6+hlu0VoHcqmdrBt6A5JJAPrwEfx8rzQOhQpSIXEdB1u5yxbqnPEcWg/w0xVmnZHmW
+	ZSd55j3uX+dyToG5xrlZLIvFxJpXsuXvcKI5otgmQ5UJa1SXX5Ck4ypfhZowAab5xS+olGK5c/4
+	4p/0Tf9dAW+ocNUt9irHFZMDfyPG7UL4lS9H4czShCx3ceZXsVtjQs5PNuZqg5ueuDqCgvBYgiH
+	etEAnxSDIUfJ+h9gJ91X59mBflTRzjjCiqOT67i6YYizohnG1hm/DmK0+NAhlxNSDRdurMvG/yF
+	o4Kvm7NkPeK49V1xNUW9KvtuCNImhBfaBVecAd5zSce7FQ/2+h3JZRq3VoWG7h3eTg6x74n0mQU
+	8u2FOk6KMI1TV4mT/9SRealFG2w0u0i4YRtJjWzaaXrluGJuIXkDN/qAqVfRmhsjQYmAKqppW/8
+	L4O2uPWBfCmq8iJMAgQzmaYNDOmK6NTvQwKVnq6TyXcLUN8sxoIWm0AY5L60nWTAcVOreTEMwsQ
+	WgA5yD4fm/5Q8sxOBTf2rznnpVP6gzb11vseagSKYxWL8kNs=
+X-Received: by 2002:a17:90b:2e07:b0:3b0:9e2c:9b5f with SMTP id 98e67ed59e1d1-3b09e2c9e85mr2639557a91.2.1793837361622;
+        Wed, 04 Nov 2026 16:09:21 -0800 (PST)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b323c18fsm897208a91.4.2026.11.04.16.09.17
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 04 Nov 2026 16:09:20 -0800 (PST)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v15 00/12] ALSA: virtio: staged capture recovery and PCM ACK handoff
+Date: Thu,  5 Nov 2026 09:09:03 +0900
+Message-ID: <20261105000915.15177-1-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,46 +101,44 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1154; i=broonie@kernel.org;
- h=from:subject:message-id; bh=6oFp6tmzvlDfpw9hW2ryT6vUdG1gUdtcbcRU6kM0MDU=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJeH9Kt0X8o+P/rm0Pe/A1Vaa0vv6kLaAf/X3om7OZqi
- a/f15ot6yhlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBEFosy/DP4/sql/oHHwhtW
- FS7/znacXm8jMnvq7w2tF/qmN31MLGFmZJjOuk+tTPH1JjveHxsfuNm8C3OweMHeWy15P4Dr9/4
- 1ajwA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Wed, 04 Nov 2026 15:24:02 +0000, Richard Fitzgerald wrote:
-> firmware: cs_dsp: Fix memory leak on cs_dsp_power_up() error path
+Hi Takashi,
 
-Applied to
+This twelve-patch series replaces v14 and is based on
+a4311e9447bbb219044db38897f95be112f46a8a.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+The follow-up closes a PCM ACK race after the core clears stop_operating and
+before sync_stop finishes. If a substream is already stopped with a transfer
+XRUN latched, playback and both capture ACK paths now return -EBADFD before
+they can re-enter the XRUN path and re-arm stop_operating. A transfer XRUN on
+an active stream keeps the existing -EPIPE behavior. A capture tail remains
+available during DRAINING when no transfer XRUN is latched.
 
-Thanks!
+I reproduced the race in playback and capture. In each baseline run, the ACK
+returned -EPIPE, changed the PCM state to XRUN, and re-armed stop_operating.
+The candidate returned -EBADFD and kept the stream PREPARED with
+stop_operating clear. The capture comparisons cover a synthetic stage-04
+fixture and the real virtio-snd module at stage 12. A separate instrumented
+stage-12 QEMU run placed playback ACK in the core sync_stop handoff window;
+its production playback ACK functions match the candidate source byte for
+byte. The tests also checked the clean DRAINING tail and the latched-XRUN
+case.
 
-[1/1] firmware: cs_dsp: Fix memory leak on cs_dsp_power_up() error path
-      https://git.kernel.org/broonie/sound/c/39d31f76ad1b
+All twelve cumulative stages built on 7.3.0-rc7-virtio-next-kasan. The six
+ACK/XRUN race comparisons and three ops regression runs completed with exit
+status zero. KASAN and lockdep reported no diagnostics. KCSAN was not enabled.
+The stage-04 fixture logs include ignored notices for five module parameters;
+these are recorded separately from kernel diagnostics. No physical-device
+capture or suspend test was performed.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+The harness leaves behavior_passed unset, so the reported behavior is derived
+from the guest serial markers. The attached evidence records source, build,
+image, module, fixture, and serial-log hashes.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Assisted-by: LLM
 
 Thanks,
-Mark
+Joonho
 
+base-commit: a4311e9447bbb219044db38897f95be112f46a8a
