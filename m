@@ -1,54 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.104
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793908187;
-	b=35Gu1fTHgk//Fp0PFZvnOW0/Wnnyms28nSAV5rAXr9VT3xEzEfSsIqYrejiznLAjmP9h
-	 suQ4ww0B+hZMSv4PLsMJgm+/2c5EIzSmGlwWVuCzMn/i0D2PTPteaAg1pyzLxM77e1vin
-	 HLYpHEJYab743k2AU1gO6ydj8GwogHcSz7sVx5AkXRTezthdZXlk+4SkVS4MsTcX95+5r
-	 8qC9djB9VlWxwlJZ9ic8L8OCEEU7lj8ZqMnoQb6rN7uglBOfjB8LAzbM91N67rEcoruzU
-	 qVP1+yZmd/6xqn9rpoDksmSjj86Lm8Hwxw3EfzfkU/RtAIdLCbE1EyQWas7IiIC4CUQ==
+	t=1793908179;
+	b=3mTGFUhx5nD5rcR1sthOcsMdzxhyy9eMOncEK+z4CMK8E6HceRO5Ev5Oyk1yfCCjPoC1
+	 Yqz/zS04coJxSErDX/sSIzdTPUJPzXDuThCJzYhstt1hx6kxm5/OCB2mY8VmHq1prtCwI
+	 kuJWvwglicWQwQJr4JxBMs/Lc7xzzbjxD87yiJM65nnAiHKon8wjaSyT6ZdIyzrKyb7zi
+	 Id+pgN/4Ohl93hQ11jTewjn2EKfx605hqcjUJp44sIU1J66zQk2010aNjYD+e45z72fD0
+	 d7AGa72CWWN5CDJtA7yGSX61RMKwgCaUC3CQfBsJG3RsobrIjkcA1wg+CrkRXjgox8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793908187;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=qScYQxrMhDNOEAGF/9rBfbZWicHpQDMbkGzOg5+rxBU=;
-	b=BFZ2Qq8PXbQtozHEN8LIjF/h07dy7W8fhWS5uUeeYuLeXt3mIvy/Q5Ds6+Ke//JfzVeC
-	 DLLfi4gev1FNbfTfSCqOpdW9ul2NFxR0YdXopz+S3OC9ka4O7Npwj4cU+zIOHGZzCfdml
-	 bTbIUeuo7fwfAWzsxCZlvMVcH50vLmDCw/9Bo/93dIYedAnBYDbpur3KuJ0Sa2E4lnGE9
-	 6Vroo1D27dwUF4cpQ68dBv06DuiDyjkYibo+zOHQnlC4Z0uy1T06F/wXHza8vskLUGYEe
-	 8rSuucpfgVnN/Juc/46f83XbanRjHBfdSZfwjchikUKRXg3C4diosXOL8jzwSjw81lg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793908179;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=M7KNGdpx2i/AmmS1+Byv0+ZgaBgPY2uq2xeQiT+keAU=;
+	b=p/PRWx/WFCaMT8XfQ1qfGFGIDzzx2jqDvSPRKPOe5aKwP2WSPmNd++v+/M8S8uFKMY5x
+	 zYLzWWkHC6zyG/YGsfr/RlkSWjrgDtXPx46P16RSgr/C/YBf6xHzQftZOR43AGtA3scWb
+	 3Qaw0u2IZJ8wVMek2wsmZ/TxdK11IfRmZA8Jh4bt2dw8lsg7+kwtekTSb+OTt8OfVUW13
+	 Kd1m7IBcPmFye72MB0Gpxrb6WMK4Spy9/56aMjaQOIvOKemyqmzfqW8C2bMHA6wuxgKm/
+	 qynTCsqdxjKmzrmUA00YCMlQKfkfGNgz9NbYjUrbxXxXYx36DZyMWOBlZacy8GAzGOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=qemT7U8e;
-	arc=none smtp.remote-ip=95.215.58.104
-Received: from mta1.migadu.com (out-104.mta1.migadu.com [95.215.58.104])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kf5VH4Lc;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362EF60772B6
-	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 19:49:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 362EF60772B6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC3B60741E5;
+	Thu,  5 Nov 2026 19:49:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=qemT7U8e
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=hllPb5qZ3MwACXrit8oyaRfVECBhdjxwmlbhGw/GJz4=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793908184; v=1; x=1794512984;
- b=qemT7U8e/A/UCeZLneIPHTKmmFbWKXrkGzDdmXqSOk3qEsEYf2aCA/apehPcDL7L1fdnstnm
- 9+eiKUGZ4gpRIfKWrmZejTVV+xMZaEXLID7MsPZgxfoHI/SoOV3wYCWKa2AXJTC1lQWfXdRmz8Q
- hgrjvsO63w2NTGz8YtoiJ4dM=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id d639df3448ef7c08;
-	Thu, 05 Nov 2026 19:49:43 +0000
-X-Mizu-Trace-ID: d639df3448ef7c08
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <1cae1b17-4c49-4a10-922e-c552e90593c4@linux.dev>
-Date: Thu, 5 Nov 2026 20:49:43 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kf5VH4Lc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 275921F008A2;
+	Thu,  5 Nov 2026 19:49:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793908179;
+	bh=M7KNGdpx2i/AmmS1+Byv0+ZgaBgPY2uq2xeQiT+keAU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Kf5VH4LctFatk6QfTSC9l2Zq5DIdDxDbiocaT53RxB5PZgnwJbYXHqXYskqa15x55
+	 ivaB3B3fv8jl6A7hAuWJ6iF9gZy7wwXbs5dz5rhFLKUam6nHeRCS7IMsZRh+8qJJWZ
+	 3oTfWxO8O50TI8zaNLVLummUy2H+F+f3WhDwx0BKzaSLT/yVx3UmsGnVkYw5m8Y48/
+	 C8wmhXX+V1RZQdDf6orNHcGku00f/860bMGYlu8Xt0LPq5cght5qJ9ZJmC+8K8KLX2
+	 T/UjpIt/kXoaf7HlsGh4+lP+LcFRCHjTGoj5qQPEMgSxlZtw1N7WNE5HwXyLGDQKKc
+	 QzqmZeKavsbhQ==
+Message-ID: <sashiko-outbox-200001@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RESEND v2 15/26] scsi: esas2r: let procfs copy the ioctl
+ argument of the ATTONode file
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Christian Brauner" <brauner@kernel.org>
+Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
+ Bacik" <josef@toxicpanda.com>, "Chris Mason" <mason@kernel.org>, "Jeff
+ Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>, "Eric Dumazet" <edumazet@kernel.org>, "Thomas
+ Gleixner" <tglx@kernel.org>, "Al Viro" <viro@zeniv.linux.org.uk>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Christoph Hellwig" <hch@lst.de>, "Greg
+ Kroah-Hartman" <gregkh@suse.de>, "Joel Granados" <joel.granados@kernel.org>, "Kees
+ Cook" <kees@kernel.org>, "Jan Kara" <jack@suse.cz>, "Jan Kara" <jack@suse.com>, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-serial@vger.kernel.org, "Takashi
+ Iwai" <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, "Chuck
+ Lever" <cel@kernel.org>, tytso@mit.edu, dmitry.torokhov@gmail.com, "Petr
+ Pavlu" <petr.pavlu@suse.com>, "Anna Schumaker" <anna@kernel.org>, yukuai@fygo.io, "Heiko
+ Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
+ Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
+In-Reply-To: <20261104-work-procfs-drivers-v2-15-245e54e87116@kernel.org>
+References: <20261104-work-procfs-drivers-v2-0-245e54e87116@kernel.org>
+ <20261104-work-procfs-drivers-v2-15-245e54e87116@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Nov 2026 19:49:36 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -57,54 +71,69 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ASoC: SDCA: Add port constraints into
- sdca_asoc_set_constraints()
-To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
-Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20261105134952.1728147-1-ckeepax@opensource.cirrus.com>
- <20261105134952.1728147-3-ckeepax@opensource.cirrus.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20261105134952.1728147-3-ckeepax@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Low] scsi: esas2r: split declaration and initialization of __free() vari=
+able in esas2r_ioctl_handler()
+--
 
-> +static int get_port_masks(struct sdw_slave *sdw, unsigned int port,
-> +			  struct snd_pcm_substream *substream,
-> +			  unsigned int *word_mask, unsigned int *ch_mask)
-> +{
-> +	struct sdw_dpn_prop *prop;
-> +	unsigned int nprop;
-> +	int i, j;
+commit 6197b49c6d17310202283a54ea188828c65f914a
+Author: Christian Brauner <brauner@kernel.org>
+
+scsi: esas2r: let procfs copy the ioctl argument of the ATTONode file
+
+This commit factors the core ATTO ioctl handling out of esas2r_ioctl_handle=
+r()
+into esas2r_ioctl_buf() and wires up the procfs entry to use proc_ioctl_buf
+with a table of supported commands so procfs handles copying the ioctl buff=
+er
+to and from userspace.
+
+> diff --git a/drivers/scsi/esas2r/esas2r_ioctl.c b/drivers/scsi/esas2r/esa=
+s2r_ioctl.c
+> index 80ae5b9d45db1..901c5d40cda8c 100644
+> --- a/drivers/scsi/esas2r/esas2r_ioctl.c
+> +++ b/drivers/scsi/esas2r/esas2r_ioctl.c
+
+[ ... ]
+
+> @@ -1516,19 +1502,43 @@ int esas2r_ioctl_handler(void *hostdata, unsigned=
+ int cmd, void __user *arg)
+> =20
+>  	}
+> =20
+> +	return 0;
+> +}
 > +
-> +	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-> +		prop = sdw->prop.sink_dpn_prop;
-> +		nprop = hweight32(sdw->prop.sink_ports);
-> +	} else {
-> +		prop = sdw->prop.src_dpn_prop;
-> +		nprop = hweight32(sdw->prop.source_ports);
-> +	}
+> +int esas2r_ioctl_handler(void *hostdata, unsigned int cmd, void __user *=
+arg)
+> +{
+> +	struct atto_express_ioctl *ioctl __free(kfree) =3D NULL;
+> +	int err;
+> +
+> +	esas2r_log(ESAS2R_LOG_DEBG, "ioctl (%p, %x, %p)", hostdata, cmd, arg);
+> +
+> +	if ((arg =3D=3D NULL)
+> +	    || (cmd < EXPRESS_IOCTL_MIN)
+> +	    || (cmd > EXPRESS_IOCTL_MAX))
+> +		return -ENOTSUPP;
+> +
+> +	ioctl =3D memdup_user(arg, sizeof(struct atto_express_ioctl));
 
-The definition of those DisCo properties was done with separate masks
-for source and sinks, but it's allowed to have the same bit set for
-source and sink if the port supports bi-directional transfers.
+[Severity: Low]
+As reported by Sashiko on RFC [1], this isn't a bug, but in
+esas2r_ioctl_handler() in drivers/scsi/esas2r/esas2r_ioctl.c, the ioctl
+pointer is declared with __free(kfree) =3D NULL at the top of the function
+and then assigned via memdup_user() after the early validation check.
 
-I don't think it impacts the way the constraints are added, since you
-use substream->stream direction to disambiguate, but I thought I'd ask
-the question.
+Per the cleanup.h conventions, could ioctl be defined and initialized in a
+single statement at the memdup_user() call site instead of declaring it at
+the top of the function?
 
-> -	if (entity->type != SDCA_ENTITY_TYPE_IT)
-> -		return 0;
-> +	/* FIXME: Currently only a single unshared port is supported */
+[1] https://lore.kernel.org/r/20261102-work-procfs-drivers-v1-14-a994bd4d3b=
+1a@kernel.org
 
-I must admit I have no idea how we'd handle ports that can be connected
-to multiple terminals. It's allowed in the spec, even between Functions
-which are then no longer independent, and I was told it was due to
-hardware restrictions, but still I hope we never have to deal with this...
-
-
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104-work-procf=
+s-drivers-v2-0-245e54e87116@kernel.org?part=3D15
