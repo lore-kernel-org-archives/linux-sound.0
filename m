@@ -1,57 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793894141;
-	b=E8EZS9P9WKDwxE7bzkFRaVvuXipQgaLMWJ9HE19h+CpObsvacyMyB2+dSbMKxNLWuUZU
-	 dpiGTr3i3lxAcdOK6UpFAXU+b05ApDhRusDpfnVslobeHhK2z5IbffV8NoiXG2MmfRKPT
-	 8jLvZSq9WEwHwwNF+xAluJJ2FD8Xwo0e7hxI7FAqu/8FpipKlTXWT+g/enAARbET2ZQ92
-	 327Hh/ZkBkwmSh9xjsqaEt3T+LGOXph26wgLIS6Emrtnzm5iY9ljYdTFsALeneaSTR3YL
-	 LQbuq2QpYq+24EWmwYvW1osp0FK6HGIiJ9c/j57qw3IEfES5K2HfLFFu2Kp+JmaA9RA==
+	t=1793894387;
+	b=QRI8krfh2pUdvwFpbJdNmHSYNU0OxaV15xorDEQAOqmEXI5cBfLB8ouq9qlrHnA1Y6r0
+	 EJA9ZD7WNQA2MKN3iJCyWIC68bmWBlzhY7G9JNTmzv6K8WasYQwDroW2PJmb+QVQmTPNS
+	 u44QK8Iuhejqo0f+vHa1GzUElgBS8hhppKTO+47JqzpC45F3fy3OMMVafmg4X97MOvjwU
+	 hOU71tNPjPgMjcr7XRKymX0f1JyNUG4AFgPRm51R4yTvngJGRtwnvQR8dIKdgH+nYKV0M
+	 cjarI4Yog6zJmCqDpy8PKUvmJDbjTSfMJunDJsOjBsKJdCVpHFYZ3kSUByCi0A8Xe3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793894141;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=94wVoJ9KCC8Guus9UCfUns/GfWIkY+4eO2IUb3fSnN4=;
-	b=er+luXcFVrBjwu4YsHdhmF+cEAevGFnkqT5p7Rn+WPbTV8NPGc8moAvDXU3nN+WNJMte
-	 ALfuOC+SoPmiTdB7ev+ufUOVXPrqS6FiB2Z5fPqEhhLD1yKxcCyifx2vNXjeSQjE8xq/G
-	 8PBx0+i+J4xSPkZb9EAaleIr9RTSVUyWAn1FBByOZhYmfu+TBHhc/dXiZp4Mg/HiGv6HY
-	 8WcPMS5uBXqvelG25lqajisnCGj1qG8jc5rPkRtcKBw6dQCH8lgLpmE7FwudmybwBkoNz
-	 vngw2X0Jg/9qNhCtIco/8oAcby6uurxmmSsrQlhefNCmRwovb57OOYWCJ+2OoqOmcxQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793894387;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=SyweY0UXz6hh0hI/nESUYL8IRVfask0csXM9VevHXJw=;
+	b=dT5rgQl2W27GDnCqlNs99ZDyExrs0GTwHgSFSLpXtldvWuw8My8AL4LDHsr4R20NVtKI
+	 J4dOzNlwv/7G1MxLcIqu9Ns8YEUFDIxJ+gMGYj1mqiVyaFCeI6r3Q0F16EmYVAtWv3sBP
+	 UwwL/7P0rFMIoBGuePP3zVVzmBXbTbGlHvPyiBdoNv4xsIz2k1MXUS1dcx1khIDrABBfs
+	 tDSTEA54TWilHfqBzJ3HKKGQV7FOx0Jkiw+63gIQL+3YcLxom1XaquN9q9AhBk0us1Q71
+	 1ur6YzQUD+ah0aXATdyDEGv3hc9rd+s/EEm8Owv+O3R0WyPaueI+s1t0m8hf1uOcLTA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IhSC7KcW;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=toxicpanda.com;
+	spf=pass smtp.mailfrom=toxicpanda.com;
+	dkim=pass header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=imh3HM7u;
+	arc=none smtp.remote-ip=209.85.222.46
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BBB86082BCA
-	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 15:55:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048D4606A609
+	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 15:59:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 048D4606A609
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IhSC7KcW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89F1E1F000C1;
-	Thu,  5 Nov 2026 15:55:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793894140;
-	bh=94wVoJ9KCC8Guus9UCfUns/GfWIkY+4eO2IUb3fSnN4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=IhSC7KcWetrZ29cg4AfXvtcsr+Q0AtfkvmAl8zH8eDYB7NYcn50OEcUXGzj9lAMC6
-	 KQ4NGJWHGPc0yQ5sRZdtST6CZ6ENnZRw2uQhJ5WuGAUlMYIF1InifkzUxWeQhDCXdh
-	 jraJxDA1+D/M+L8NKZCPWOA/OBvgF6mIR0GInx+JBzMCHMoKNA5lPJ7S378tBDUOIP
-	 yOp5YZmyRnJOPxB8UP+ZR53QOB/HDbcdlrBQaLkOgEgnerC5uraEB9zYDFOQvHwhLZ
-	 pLV3TKITGb48KcVgRhGMy/NTq5Qdn67icrA2c9ndeVDTM4PhOxL/1KpCQZyA1ijVKv
-	 EJDtK3TW45Lmw==
-Message-ID: <sashiko-outbox-199373@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 1/4] ASoC: rt5668: cancel delayed works on component
- removal
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Tristan Madani" <tristmd@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261102165340.1558853-2-tristmd@gmail.com>
-References: <20261102165340.1558853-1-tristmd@gmail.com>
- <20261102165340.1558853-2-tristmd@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 15:55:40 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=toxicpanda.com header.i=@toxicpanda.com header.a=rsa-sha256 header.s=google header.b=imh3HM7u
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-996eeadfbeaso1052981241.3
+        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 07:59:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toxicpanda.com; s=google; t=1793894386; x=1794499186; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=SyweY0UXz6hh0hI/nESUYL8IRVfask0csXM9VevHXJw=;
+        b=imh3HM7uPpU/TSgpgy9tuGDfsT3kYPBMMDlqwUxIWR9eni6++YnmIn/DFaEGnaw6Dr
+         +nWZ4e9BcKaqrBG0RmBswk3iRHUnqLWWrADqGFso0TxcbQ1KdBvxxUF+siqurSVI4Yrf
+         BSz7ljqX0zkXncPcJgaHGMZ+OJ23cm4EEtj9KPVq7qB4frJ36YWuBBHG0wdJnVCpfH/K
+         L9No9V1wjswYmImK37+33bhDghJ8Wn3pZ2G7zh0kVua0SzhC4xUUvFZLkX+l6ChWDRb5
+         GhHADEPHBC6EWB62YFZ2bRuOVzR7/gwYMGmrawc407G4qZgEI7be0Lq9nOnreJdYyw7o
+         TLgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793894386; x=1794499186;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:subject:cc:to:from:message-id:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SyweY0UXz6hh0hI/nESUYL8IRVfask0csXM9VevHXJw=;
+        b=R7P/URBaj5QxILf29ev+dNbwkk4auwvPNHTKUVYeabFJfbDF4jcDjJpwqNoQaXTPg1
+         XMQaGjH6kxjqZGevRPdqclTJ4nCZpmo7pxjT+FtFqhBAdMggSh0MAHXA6GhPOJVk+jhO
+         ItqLkDMSXITyi3lwkuKo3EY5fkOcOI30hxo0dNYk9iSfGwsIfNcK0nTTnIRsB/O795NX
+         yq77tl0nXzXZMY9Z+HtoBOyWv8s7r/SeB+5oycMAR3r+A/PkldfxBKNaEgQB9lIpaHcn
+         /99lO3dsMAJ9cwsxZvMhuHWasfTjJ4Nqrx97tBW0vGw+UGN3Rw11ZkR3marrxvllcldO
+         zjMw==
+X-Forwarded-Encrypted: i=1; AKwUvBxsQzfN3DiR6Tmp9lugtQOG/nALiL9J27IMQBzjd3QB4uUS7v1bbE08gO6h8dlzZho/woKLtBWrCEALXQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9bjxD0YQ7G577A6Ozm6NdZoJ2gjlX3Rd9vrabHDF3pPywKAlJG
+	UMDIMMUOCqjojZQhVdBLwLiRgkL0lIF6Az3pDddT+Gz6D/PHLMo/qlNd6jKvHOvpi6o=
+X-Gm-Gg: AYBFou2Qm/GUxOEcfWb7jq8eNI02V+L+MQeH5Jv3/G0E/ecpUQbpXD5dkViIOJQIjNp
+	m7sJeaPAHE/LpPyaKhwD03RZua7z1HBfoEUB6Bg9AiZ9190vfukeQKalSsJ4BMuoKFtK0NfVgzn
+	UWZahRok2Cq00ApkqhQK4pReMAy7ljrULrALRbSB4ltJGFhPKmy8WQauAZu/snk+y5K5RqlYSvV
+	+8pSm0c0C1xwaEBaQRjOhD1+1EX/Fx6+OsTyuPQOKxXSS0zuZ/13o7/PMoWexSnJek07+1qEMor
+	cIKkw9QabVORrcBiCe6GFAE1JVDFDWtWCh01Rvh6mkyyGqjkAyoJIb2qhXLzH6eR3jTWaI/M9t/
+	Q9ZF9PNAQ0Gzzc5NlSAjyByjae35ObzWMmDN9dv50CAVB1cEbm4x7ZoNJBe+G0bmEf4IhrNu8JN
+	wTJpbjStf7zhbQnAEWBJK3Rf/UNLLdj2K/ocnI5xcWn0jaNjswERMmEZC0kmDx6OWGbKCBZ0vxH
+	dQVhl4DLxDHB9H+YyX+RMPw1NUxPYXbfOgFep5uR4jnQfOFqtuUNOjcwAj4UihpzVjtCTh1OBtV
+	AmTHcl/nCwdnxGT/TDFF0c2vNtcW9CsWDsmYJI9JVUMUXoXgEQtavDvCd9CkvTP/JA==
+X-Received: by 2002:a67:e11a:0:b0:7cc:2c52:47aa with SMTP id ada2fe7eead31-7d2a0f73864mr14699137.0.1793894385884;
+        Thu, 05 Nov 2026 07:59:45 -0800 (PST)
+Received: from toxicpanda.com ([153.61.196.254])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d296415719sm1096670137.8.2026.11.05.07.59.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 07:59:45 -0800 (PST)
+Date: Thu, 05 Nov 2026 15:59:44 +0000
+Message-ID: <499ba73b1a72a30c6118a4f693f8fc5b.josef@toxicpanda.com>
+From: Josef Bacik <josef@toxicpanda.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
+ Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+ Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>,
+ Christoph Hellwig <hch@lst.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>,
+ Jan Kara <jack@suse.cz>, Takashi Iwai <tiwai@suse.de>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-raid@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RESEND v2 0/7] proc: move procfs to what kernfs does
+In-Reply-To: <20261104-work-procfs-v2-0-b45cd5789ac5@brauner>
+References: <20261104-work-procfs-v2-0-b45cd5789ac5@brauner>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,151 +107,179 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] ASoC: rt5668: uncancelled delayed work on I2C unbind in rt5668_rem=
-ove()
-- [High] ASoC: rt5668: stale jack and regcache state across rebind in rt566=
-8_remove()
---
+Hey Christian,
 
-commit 9f28175a1bd0b2b45e9d47c7fba83c88de116699
-Author: Tristan Madani <tristan@talencesecurity.com>
+This is a summary of my Claude review of v2.  v2 went out before my mail
+on the RFC [1] did, so the first part is what's left of that one with
+the new patch numbers and the second part is what's new in v2.  What
+says "run" was run in a VM on top of v2, the rest is from reading the
+code.
 
-ASoC: rt5668: cancel delayed works on component removal
+3 (selftests Makefile), 4 (pde_seq_next()), 5 (sysctl readdir ending
+early) and the allocinfo deadlock from that mail are gone in v2.  These
+still apply:
 
-This patch tracks IRQ acquisition in rt5668_i2c_probe(), disables the IRQ
-and cancels the pending jack_detect_work and jd_check_work delayed works in
-rt5668_remove(), and re-enables the IRQ in rt5668_probe() on sound card
-rebind.
+- 1 is bugfixes 32/51 ("proc: resume readdir after the last name it
+  returned") now and the patch is unchanged.  Run again, readdir(2)
+  still returns 1 without a dirent at the end of /proc/fs, bus, driver,
+  irq, tty, net and self/net, for all of the 100000 calls.
 
-> diff --git a/sound/soc/codecs/rt5668.c b/sound/soc/codecs/rt5668.c
-> index cd6245d6b91af..29d70802a046a 100644
-> --- a/sound/soc/codecs/rt5668.c
-> +++ b/sound/soc/codecs/rt5668.c
-[ ... ]
-> @@ -2216,12 +2219,26 @@ static int rt5668_probe(struct snd_soc_component =
-*component)
-> =20
->  	rt5668->component =3D component;
-> =20
-> +	if (rt5668->irq_disabled) {
-> +		enable_irq(to_i2c_client(component->dev)->irq);
-> +		rt5668->irq_disabled =3D false;
-> +	}
-> +
->  	return 0;
->  }
+- 2 is cleanup 5/6 ("proc: drop the _buf suffix from the new methods")
+  now.  Run again, the module with .proc_read = seq_read builds without
+  a warning with W=1, loads without a warning, and every read() fails
+  with -EFAULT.  There's still nothing in porting.rst.
 
-[Severity: High]
-As reported by Sashiko on v5 [1], when a sound card unbinds, rt5668_remove()
-calls rt5668_reset(rt5668->regmap), which writes 0 to RT5668_RESET and
-resets all codec hardware registers to power-on defaults, without resetting
-or dirtying the REGCACHE_MAPLE regmap cache and without clearing
-rt5668->hs_jack, rt5668->jack_type, or rt5668->component.
+- 6 is bugfixes 47/51, 48/51 and 50/51 now.  47/51 has no Fixes: or
+  stable tag, 48/51 is tagged for stable and git apply takes it on top
+  of 46/51 with two hunks offset by 6 lines.  50/51 has the same Fixes:
+  7e0e953bb0cf.
 
-When a sound card subsequently binds and rt5668_probe() re-enables the IRQ,
-can this leave the driver and hardware out of sync in three ways?
+- All of the smaller stuff.  The cursor is allocated in one place since
+  core 03/23 and it's still GFP_KERNEL, copy_to_user_fromio() loses its
+  last caller in drivers 24/26, the sentence about ntfs_set_label() is
+  in fs 07/30, and snd_info_text_entry_write() still drops what was
+  written before it grows the buffer.
 
-1. If the previous sound card unbound and freed its snd_soc_jack without
-calling snd_soc_component_set_jack(component, NULL, NULL), rt5668->hs_jack
-remains a dangling pointer. Even if set_jack was called with NULL,
-rt5668_set_jack_detect() does not check for !hs_jack before enabling JD1 and
-queueing jack_detect_work. When rt5668_probe() calls enable_irq() on rebind,
-if the new card does not call set_jack or if an interrupt queues
-jack_detect_work before set_jack updates hs_jack, could
-rt5668_jack_detect_handler() pass the dangling rt5668->hs_jack pointer to
-snd_soc_jack_report()?
+New in v2:
 
-2. When the rebound card calls rt5668_set_jack_detect(),
-snd_soc_component_update_bits() and regmap_update_bits() on the non-volatile
-cached registers RT5668_CBJ_CTRL_3, RT5668_SAR_IL_CMD_1, RT5668_GPIO_CTRL_1
-(RT5668_GP1_PIN_IRQ), RT5668_RC_CLK_CTRL, RT5668_PWR_ANLG_2, and
-RT5668_IRQ_CTRL_2 (RT5668_JD1_EN) will see those bits already set in the
-stale regmap cache from the first bind and skip writing them to the reset
-hardware, leaving the physical IRQ pin and jack detection disabled.
+1) bugfixes 01/51 ("alloc_tag: don't remove /proc/allocinfo under the
+   codetag module lock")
 
-3. If a headset was plugged in when the card unbound (rt5668->jack_type !=
-=3D 0),
-rt5668_jack_detect_handler() after rebind will see rt5668->jack_type !=3D 0=
- and
-skip the initial rt5668_headset_detect(rt5668->component, 1) configuration =
-on
-the reset hardware:
+shutdown_mem_profiling_async() is defined outside of #ifdef
+CONFIG_MODULES and its three callers are inside of it.  Run with
+CONFIG_MODULES=n, CONFIG_MEM_ALLOC_PROFILING=y and CONFIG_WERROR=y,
+v7.4-rc1 builds mm/alloc_tag.o and with 01/51 it's
 
-sound/soc/codecs/rt5668.c:rt5668_jack_detect_handler() {
+	mm/alloc_tag.c:620:13: error: 'shutdown_mem_profiling_async' defined but not used [-Werror=unused-function]
+
+This one is tagged for stable.
+
+2) drivers 07/26 ("md: let procfs own the wait queue of /proc/mdstat")
+
+md_exit() used to remove /proc/mdstat first, which waited for the
+readers.  It now does that after destroy_workqueue(md_misc_wq), so that
+nothing can reach proc_poll_notify() on a removed entry.  But a reader
+can be in here while md_exit() runs:
+
+	mddev = list_entry(v, struct mddev, all_mddevs);
+	if (!mddev_get(mddev))
+		return 0;
+
+	spin_unlock(&all_mddevs_lock);
 	...
-		if (rt5668->jack_type =3D=3D 0) {
-			/* jack was out, report jack type */
-			rt5668->jack_type =3D
-				rt5668_headset_detect(rt5668->component, 1);
-		} else {
-			/* jack is already in, report button event */
-			rt5668->jack_type =3D SND_JACK_HEADSET;
-			btn_type =3D rt5668_button_detect(rt5668->component);
+	spin_lock(&all_mddevs_lock);
 	...
-}
+	mddev_put_locked(mddev);
 
-Should rt5668_remove() also clear rt5668->hs_jack, rt5668->jack_type, and
-rt5668->component, and reinitialize or mark the regmap cache dirty after
-rt5668_reset()?
+md_exit() clears the array, but its mddev_put_locked() isn't the last
+one anymore, so nothing gets queued and destroy_workqueue() has nothing
+to wait for.  The reader's put is the last one and ends up in
 
->  static void rt5668_remove(struct snd_soc_component *component)
->  {
->  	struct rt5668_priv *rt5668 =3D snd_soc_component_get_drvdata(component);
-> +	struct i2c_client *i2c =3D to_i2c_client(component->dev);
-> +
-> +	if (rt5668->irq_acquired) {
-> +		disable_irq(i2c->irq);
-> +		rt5668->irq_disabled =3D true;
-> +	}
-> +
-> +	cancel_delayed_work_sync(&rt5668->jack_detect_work);
-> +	cancel_delayed_work_sync(&rt5668->jd_check_work);
-> =20
->  	rt5668_reset(rt5668->regmap);
->  }
+	queue_work(md_misc_wq, &mddev->del_work);
 
-[Severity: High]
-As reported by Sashiko on v2 [2], in rt5668_i2c_probe(), the driver
-initializes rt5668->jack_detect_work and rt5668->jd_check_work and requests
-i2c->irq via devm_request_threaded_irq() before calling
-devm_snd_soc_register_component() and before any sound card binds.
+on the destroyed workqueue.  It takes an rmmod with an inactive array
+left over and somebody reading /proc/mdstat, and this wasn't run.
 
-If i2c->irq fires while no sound card is bound or instantiated (or if
-devm_snd_soc_register_component() fails), rt5668_irq() queues
-rt5668->jack_detect_work, which then re-arms itself every 15 ms in
-rt5668_jack_detect_handler():
+The two orders each fix one side.  If proc_poll_notify() was safe to
+call on an entry that's been removed the removal could stay where it
+was.
 
-sound/soc/codecs/rt5668.c:rt5668_jack_detect_handler() {
-	...
-	if (!rt5668->component ||
-	    !snd_soc_card_is_instantiated(rt5668->component->card)) {
-		/* card not yet ready, try later */
-		mod_delayed_work(system_power_efficient_wq,
-				 &rt5668->jack_detect_work, msecs_to_jiffies(15));
-		return;
-	}
-	...
-}
+3) core 21/23 ("proc: let lockdep check the pin")
 
-Because rt5668_remove() is the snd_soc_component_driver.remove callback, the
-ASoC core only invokes it when a sound card was bound to the component
-(snd_soc_del_component_unlocked() skips snd_soc_unbind_card() when card is
-NULL, and snd_soc_component_remove() returns early when !component->card).
-Meanwhile, rt5668_i2c_driver has no .remove callback and registers no devm
-action to disable the IRQ or cancel the delayed works.
+The class is keyed on the proc_ops, and every ALSA text entry uses
+snd_info_text_entry_ops, so they're all one class.  Run with
+PROVE_LOCKING and snd-dummy built in, cat /proc/asound/pcm and then
+unbind snd_dummy.0:
 
-If the I2C device is unbound while no sound card is bound (or if
-devm_snd_soc_register_component() fails after an IRQ fires), won't
-rt5668_remove() be skipped, allowing devres to free struct rt5668_priv while
-rt5668->jack_detect_work remains pending and self-rearming?
+	WARNING: possible circular locking dependency detected
+	init/1 is trying to acquire lock:
+	 (pde->in_use){++++}-{0:0}, at: __remove_proc_subtree
+	but task is already holding lock:
+	 (register_mutex#3){+.+.}-{4:4}, at: snd_pcm_dev_disconnect
 
-[1] https://lore.kernel.org/r/20261030174837.1839402-2-tristan@talencesecur=
-ity.com
-[2] https://lore.kernel.org/r/sashiko-outbox-190014@kernel.org
+	-> #1 (register_mutex#3){+.+.}-{4:4}:
+	       snd_pcm_proc_read
+	       snd_info_seq_show
+	       seq_read_iter
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102165340.1558=
-853-1-tristmd@gmail.com?part=3D1
+	-> #0 (pde->in_use){++++}-{0:0}:
+	       proc_entry_rundown
+	       __remove_proc_subtree
+	       snd_info_disconnect_entry
+	       snd_pcm_dev_disconnect
+
+snd_pcm_proc_read() is the only proc callback that takes register_mutex
+and it only serves /proc/asound/pcm.  What snd_pcm_dev_disconnect()
+removes under the mutex is pcmNp and pcmNc, and nothing below those
+takes it.  So it's a false positive, and it turns lockdep off for
+whoever unplugs a sound card.  The removal under register_mutex is
+already there at your base, only the annotation is new.
+
+proc_create_single_data() gets a key per registration site, but there's
+no way for a proc_create_data() user that multiplexes callbacks behind
+one proc_ops to say so.  sysfs has the per attribute key and
+ignore_lockdep for this.
+
+4) core 20/23 ("selftests/proc: check that a mapped entry can be
+   removed")
+
+The core cover letter says this one "fails without the mmap patch and
+passes with it".  Run against a virtio-rng device, it passes on core
+18/23, which has no proc_vm_ops in System.map, and it passes on the
+whole series.  The test checks that the removal doesn't wait, that the
+entry is gone and that pread() fails with -EIO, and it doesn't touch the
+mapping after the removal, so none of the new wrappers run on a removed
+entry.  These kernels had neither KASAN nor lockdep, so if what fails
+for you is a splat then that's the difference, but the test itself
+doesn't notice.
+
+5) core 18/23 ("proc: let procfs copy ioctl arguments in and out")
+
+No Signed-off-by in the mail.  It's the only one of the 172, and the RFC
+version had it.
+
+Smaller stuff:
+
+- The 0/7 mail still says "the xt_recent deadlock fixed in (1) below".
+  The part 1 cover letter has it right, it goes through netfilter now.
+
+- cleanup 03/06 says mmap() and write() are all that changes for kcore,
+  kmsg and the kpage files.  proc_reg_poll() answered for every regular
+  file, and kcore_fops and the three kpage ones have no ->poll(), so
+  EPOLL_CTL_ADD on them goes from working to -EPERM.  I doubt anybody
+  cares, it's only the changelog.
+
+One more old one for part 1, and this is the lockdep patch doing its
+job.  devm_rtc_unregister_device() holds rtc->ops_lock over
+rtc_proc_del_device(), and rtc_proc_show() -> rtc_read_time() takes
+ops_lock while it's pinned.  Run with PROVE_LOCKING and rtc-test as
+rtc0, cat /proc/driver/rtc and then unbind rtc-test.0:
+
+	WARNING: possible circular locking dependency detected
+	init/1 is trying to acquire lock:
+	 (pde->in_use){++++}-{0:0}, at: remove_proc_entry
+	but task is already holding lock:
+	 (&rtc->ops_lock){+.+.}-{4:4}, at: devm_rtc_unregister_device
+
+	-> #1 (&rtc->ops_lock){+.+.}-{4:4}:
+	       rtc_read_time
+	       rtc_proc_show
+	       seq_read_iter
+
+That one is the same entry on both sides, so it's real.
+rtc_read_time() uses mutex_lock_interruptible(), so a signal to the
+reader gets both of them out of it.
+
+The end state still checks out.  Every proc_ops initializer matches the
+final struct, nothing copies to or from userspace while pinned, and it
+didn't find anything wrong with the new seq_file, open node, poll or
+vm_ops code itself.
+
+[1] https://lore.kernel.org/r/464ef986eab97abf226791c7e19ad111.josef@toxicpanda.com
+
+Thanks,
+Josef
