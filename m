@@ -1,68 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793898496;
-	b=hY35vPT4Y7f6xoPfp2J9rCg8viyn5bqFfh9hkPiM4RVIpTzJGrSLJ68kbKdlmXlgBsb6
-	 lmXJ9u9CXp+bygOXRKqFQDXhenBTFbnVmFb58xOKHoOsRgipgmCerI55ROi7WhhUmnpuN
-	 bbjpfQRSvh5rmltKV0x2JJZ6N2XEiWeOfEzpj1jWG4sUrFC/HaZPqVmTnYIhFttRyaSUC
-	 UQNa1KgW6UIe5TLljEHWT74qqZpxmeP5fB3SfPGXhhVQOTeStjqmJoSpiy0Rwd8RpPr7c
-	 r7q8VeBeq28tK08PyFYA0sJyMfZST2JGdkCIh6XeiWynnDsKH9RSvtl7mSS6BEGcWBg==
+	t=1793898576;
+	b=V0Po2zh69i5Pt/6fyQt88VHBBgbAf1NoUQtrdEuxbdsxVOKMoRIg76kkKjUHfseyP6q4
+	 jgTgK/Vlb6rbWhIVM054/t/YH/GQQuAStE4FWAFm+Fd5+PaAGvsMXbMKpN6Mfe3y0yA2I
+	 Rj/ZQzjIFsKn1EUTnM1k5/CAFIaoHTRdq2ELwktD+AfaKV/y0L93/pgbGAk02cRFia0LW
+	 dKMcgDyQkcRCX49fwTLOto5kmCvkmEeyAcOWKftE5UK9F5vKGi49D4en4BTv4wzAb7u1k
+	 w64mgsWNXwmzNVXHAGXsKx13BsiY3hqnD5j0Wfbo1cvrYw1ZdCWpxFSWnz5RlhYMMfQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793898496;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793898576;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
 	 X-Patchwork-Hint:Organization;
-	bh=7AoGRv98QAGYix/8Uqtqep6mkgC01+p5woiezEKkDZw=;
-	b=zzbBxtOo8MIS1PL+Xi+mM4McthHqr7AexAjAGjt5y/Rs89Mdl2qZUP8pL0D5nQ2JzsAQ
-	 0ztolMsWmNvp61P2FhXhwfoGDSIjAWARZB0BpVSAXBPAFRWiVoktAXeqBt4zmjviLazgw
-	 EeWzK6SUFl0UquCumyfzJBUeCQB9DmxeH5IDTlBAMQP/YU8cb4pmAYEXdr9+SfMi+ZeM1
-	 6zJm3Xcpk9JZd422x7cM1BD9vx4hmgJQhEITHemvj5SJZ3l69y9h6vLZDvPdEGKBnF4Tu
-	 Wx0AyQU9azL3vdVYhTSEKaYfBlDy+6KW0nIB5AAp1sfuqHSRpZ4VORcWyE4IzGq1O2A==
+	bh=ftXrLJ3VGDxoUJyKbJMYpPqFnmx7TbsuL9Req11yyW8=;
+	b=OGW3VS/FUQXqdEDYjQgNA9ryLPu9+blwfYblXnMq69J9sO5MAWvawHQ8x5Z9+CVLIKAw
+	 QVq6MVpf+WhISp9P4BMRgfX9gxv4ShBOhSlKJZbpcEQS5ylwTqXLBYAhhgkwaR690P0aY
+	 EDni/4nPXWjZvqOtuEs0eojz/xLosbZbkg1fgSu4F090L6J75WzBY61+mJcJ9FOwj6jnd
+	 LlDwNsxPVLWD6YXOcwFodJKaKMR2bUE+KIWpNbnt4KDlDui5Gy8X+MFZD5YLtjJMhoQg6
+	 Hr9K0ff6r6rbIE4EgSUsY31SCNMLOnf6qC1MPXPngkbchl6HrcVwlFfEALxM/xZv/Ag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EOV9Cepp;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PHbKldF5;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E96F606A326;
-	Thu,  5 Nov 2026 17:08:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E96F606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A2F606A326;
+	Thu,  5 Nov 2026 17:09:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86A2F606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EOV9Cepp
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PHbKldF5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793898495; x=1825434495;
+  t=1793898576; x=1825434576;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=5SWCj7u+AZVyRuqaD0dvIIMKCEG7YeyHF+pdDOeuanA=;
-  b=EOV9CeppdioIM14C2V6ILn+z+5iSzWV4uB7fJNgLX2nzMjlEgiCl4KbK
-   OlQRoYP4E6bHHBYOAbCcF56xSw/k3xmlQXa6gC5ufPLqEBBdEXXx5DDNG
-   gEweypddOBhZr7yRqmLWrwJqa0yOVAfbeXIfNnHGjNdoIdJiFFevbxJoU
-   TuceF8hhDxrhPQLSITIdglr/Y17nh3zyWH3e6ASWaBjf1ed6zRYNslLPI
-   KSPqts0OKSO1s9NbmUiDpY0JUU5fNTADzciItoaxCHa+W2z7tDfDBUG09
-   fqnrZKUUHMlcme3DEe8Ve+q14FS3QokdKiFgM5nDAfLLMkRKEi6fu51i+
+  bh=z/d+aYcT75wGZnwBdM9DEcoUTmOnTK13mjsp6wxBpiU=;
+  b=PHbKldF5Z6MYX2+yFw17UQAV2HgIng59OSLcMYm6RF2m4KfuDk54qwVq
+   ZmiUK8Bb7Mbeuh4CXQRnT51Maoq+cWvqn1AB/zEDER1Wjhl4AqPkd3IXn
+   7S83cCA3rfwpeKhDiwyGt4x4rCkWnfpsM7AcszKyulZfIKlNFuSCMKkMT
+   wZvN1M2sRqVL+7P2tna4l27CfkvcaNFmvcDTtUJpx89REeOkit5E8Sn2V
+   Pbv/GpLeWNQq/Jd5Qw5HZCxnwi42sAo9E/JBPVuEm2R9loo+duvV5aQRv
+   wJdypFXEvW1bOaCjJAUoc+NNlWljqH3PyC0haHVHMKsdL2+GP8ooJxMze
    w==;
-X-CSE-ConnectionGUID: DBgCyt/dQU2oCH4zuAxmbQ==
-X-CSE-MsgGUID: eVTK1kB3QYSRp/l/SO9puw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2610066"
+X-CSE-ConnectionGUID: 1HxxxujoS1WcGkHYffh9aw==
+X-CSE-MsgGUID: O7dTPc2VRG6+GOkBk3T1Rw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2571937"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2610066"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 09:08:14 -0800
-X-CSE-ConnectionGUID: AeNGSIuSRayL8fMkqkYhOw==
-X-CSE-MsgGUID: xpCkq7RMRQ2x9GCfaAtyzQ==
+   d="scan'208";a="2571937"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 09:09:35 -0800
+X-CSE-ConnectionGUID: NPSPczPMT5+IW8n9a9DqNA==
+X-CSE-MsgGUID: Q31IRDsjRS2dKxEWx/ovsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7397912"
+   d="scan'208";a="7072778"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.198])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 09:08:07 -0800
-Date: Thu, 5 Nov 2026 19:08:04 +0200
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 09:09:29 -0800
+Date: Thu, 5 Nov 2026 19:09:25 +0200
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
@@ -85,10 +85,10 @@ Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
 	=?utf-8?B?VG9tw6HFoQ==?= Hnyk <tomashnyk@gmail.com>,
 	Wim Taymans <wtaymans@redhat.com>, nouveau@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] drm/eld: Add drm_eld_set_port_id() helper
-Message-ID: <auy39DQZEc3SpqYo@intel.com>
+Subject: Re: [PATCH 2/2] drm/i915/audio: Populate ELD Port_ID
+Message-ID: <auy4RTCRfprhD-5Z@intel.com>
 References: <20261105160240.2850042-1-kai.vehmanen@linux.intel.com>
- <20261105160240.2850042-2-kai.vehmanen@linux.intel.com>
+ <20261105160240.2850042-3-kai.vehmanen@linux.intel.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,135 +101,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261105160240.2850042-2-kai.vehmanen@linux.intel.com>
+In-Reply-To: <20261105160240.2850042-3-kai.vehmanen@linux.intel.com>
 X-Patchwork-Hint: comment
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
 
-On Thu, Nov 05, 2026 at 06:02:39PM +0200, Kai Vehmanen wrote:
-> The ELD baseline block reserves bytes 8..15 for a 64-bit Port_ID that
-> identifies the source port of the audio endpoint. drm_edid_to_eld()
-> leaves the field zero, and no driver fills it in, so it carries no
-> information.
+On Thu, Nov 05, 2026 at 06:02:40PM +0200, Kai Vehmanen wrote:
+> i915 never fills in the ELD Port_ID field, so it is always zero, and
+> the ELDs of identical monitors connected to different outputs are
+> byte-identical. Userspace then cannot tell which HDMI/DP PCM belongs to
+> which DRM connector without toggling the connector audio property.
 > 
-> When two identical monitors are connected, their ELDs are then
-> byte-identical, and userspace has no passive way to tell which HDMI/DP
-> PCM belongs to which DRM connector. The only workaround is to toggle
-> the connector audio property and watch which ELD goes away, which
-> disrupts the endpoint.
+> Use drm_eld_set_port_id() when computing the audio config, so the value
+> reaches the audio driver through every path: the audio component
+> get_eld() callback, the hardware ELD buffer, SDVO and LPE audio.
 > 
-> Add a helper that drivers can use to fill in Port_ID with a common
-> layout:
+> The value is fixed for the lifetime of the connector, so it does not
+> cause extra audio re-enables when the ELD is compared across commits,
+> and state readout stays consistent because it is copied from the
+> programmed ELD.
 > 
->   bits 63:48 - PCI domain of the DRM device
->   bits 47:32 - PCI bus/device/function of the DRM device
->   bits 31:0  - DRM connector object ID
-> 
-> Userspace can read the connector object ID directly from KMS, and the
-> PCI address tells GPUs apart in multi-GPU systems. For non-PCI devices
-> the upper half is left zero.
-> 
-> The split between a 16-bit PCI BDF in the upper half and a per-device
-> display identifier in the lower half follows the Port_ID layout
-> documented for the AMD Azalia sink info registers in dce_audio.c.
-> 
+> Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/work_items/16693
 > Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-> ---
->  drivers/gpu/drm/drm_eld.c | 42 +++++++++++++++++++++++++++++++++++++++
->  include/drm/drm_eld.h     |  3 +++
->  2 files changed, 45 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_eld.c b/drivers/gpu/drm/drm_eld.c
-> index c0428d07de53..baebece7b4ed 100644
-> --- a/drivers/gpu/drm/drm_eld.c
-> +++ b/drivers/gpu/drm/drm_eld.c
-> @@ -4,7 +4,11 @@
->   */
->  
->  #include <linux/export.h>
-> +#include <linux/pci.h>
-> +#include <linux/unaligned.h>
->  
-> +#include <drm/drm_connector.h>
-> +#include <drm/drm_device.h>
->  #include <drm/drm_edid.h>
->  #include <drm/drm_eld.h>
->  
-> @@ -55,3 +59,41 @@ int drm_eld_sad_set(u8 *eld, int sad_index, const struct cea_sad *cta_sad)
->  	return 0;
->  }
->  EXPORT_SYMBOL(drm_eld_sad_set);
-> +
-> +/**
-> + * drm_eld_set_port_id - set the ELD Port_ID for a connector
-> + * @eld: ELD buffer
-> + * @connector: connector the ELD belongs to
-> + *
-> + * drm_edid_to_eld() leaves the 64-bit Port_ID field of the ELD baseline
-> + * block zero. Drivers can use this helper to fill it in with a value
-> + * that identifies the audio endpoint, so that userspace can associate an
-> + * ELD, and the PCM device it belongs to, with a DRM connector, even when
-> + * identical sinks are connected to multiple outputs.
-> + *
-> + * The Port_ID is stored in little-endian byte order, with the layout:
-> + *
-> + * - bits 63:48 - PCI domain of the DRM device, truncated to 16 bits
-> + * - bits 47:32 - PCI bus/device/function of the DRM device
-> + * - bits 31:0  - DRM connector object ID
-> + *
-> + * For non-PCI devices bits 63:32 are zero.
-> + *
-> + * The connector object ID is only stable for the lifetime of the
-> + * connector, so userspace must look it up at runtime, and not store it.
-> + */
-> +void drm_eld_set_port_id(u8 *eld, const struct drm_connector *connector)
-> +{
-> +	struct device *dev = connector->dev->dev;
-> +	u64 port_id = connector->base.id;
-> +
-> +	if (dev && dev_is_pci(dev)) {
-> +		struct pci_dev *pdev = to_pci_dev(dev);
-> +
-> +		port_id |= (u64)(pci_domain_nr(pdev->bus) & 0xffff) << 48 |
-> +			   (u64)pci_dev_id(pdev) << 32;
 
-The numbers look correct.
-
-> +	}
-> +
-> +	put_unaligned_le64(port_id, &eld[DRM_ELD_PORT_ID]);
-
-Endianness agrees with the HDA spec.
-
-The implementation looks good
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-But I'll leave it to someone else to judge the actual
-usefulness of the provided information.
-
-> +}
-> +EXPORT_SYMBOL(drm_eld_set_port_id);
-> diff --git a/include/drm/drm_eld.h b/include/drm/drm_eld.h
-> index 0a88d10b28b0..de0478720721 100644
-> --- a/include/drm/drm_eld.h
-> +++ b/include/drm/drm_eld.h
-> @@ -9,6 +9,7 @@
->  #include <linux/types.h>
+> ---
+>  drivers/gpu/drm/i915/display/intel_audio.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_audio.c b/drivers/gpu/drm/i915/display/intel_audio.c
+> index 32f8c5e55319..3277e67748ee 100644
+> --- a/drivers/gpu/drm/i915/display/intel_audio.c
+> +++ b/drivers/gpu/drm/i915/display/intel_audio.c
+> @@ -881,6 +881,8 @@ bool intel_audio_compute_config(struct intel_encoder *encoder,
+>  	crtc_state->eld[6] = drm_av_sync_delay(connector, adjusted_mode) / 2;
+>  	mutex_unlock(&connector->eld_mutex);
 >  
->  struct cea_sad;
-> +struct drm_connector;
->  
->  /* ELD Header Block */
->  #define DRM_ELD_HEADER_BLOCK_SIZE	4
-> @@ -80,6 +81,8 @@ static inline int drm_eld_mnl(const u8 *eld)
->  int drm_eld_sad_get(const u8 *eld, int sad_index, struct cea_sad *cta_sad);
->  int drm_eld_sad_set(u8 *eld, int sad_index, const struct cea_sad *cta_sad);
->  
-> +void drm_eld_set_port_id(u8 *eld, const struct drm_connector *connector);
+> +	drm_eld_set_port_id(crtc_state->eld, connector);
 > +
->  /**
->   * drm_eld_sad - Get ELD SAD structures.
->   * @eld: pointer to an eld memory structure with sad_count set
+>  	return true;
+>  }
+>  
 > -- 
 > 2.43.0
 
