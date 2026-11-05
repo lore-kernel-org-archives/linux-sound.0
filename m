@@ -1,60 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793896481;
-	b=XckEUTIy8wffpVqZSZyJcFSAQDvSq5Ov9sAYK5eIeZqd4fzyRIc52ZCNkBlJvrFKDkwg
-	 eE9eQiLxaEX1QRAgbA2KTuvnfx/jxoX6PsnWgI2XL84mlPMaSB0UrOOy4Qm7c1sJuYC10
-	 V1N4wEgtczqgSi1xYguKmnNodkON1vKD0qmOV/0z29eybCbTs9JlV1t7zHnXh47UncS01
-	 luZwSp1Dj+ysDXTK/TvW1c2axXpW6tTQFrEzHn2McK+sNc3kt+uwkkyMSkIJR9aAuEww0
-	 +wYbsquWvS6CFc9qEOIkeapmEKbxrA6Z/Sz4EkmGIAxUWd9n/Is3XWXEbgPsO+5ZmMQ==
+	t=1793897152;
+	b=pTYhAC2Qwr4pw+bLxdXUQV7b+MZQlJN3flK/lQTSzjLZ86PYqOKQ2OC/JO6nhYXWBPDO
+	 +MEqbu8VdarI659VlHEKekJ0+1jn0esZqg0WOY0Iseyw8e3bxC8OoHP3c8gB4WcB8uKhz
+	 f2RijWcSqDxxcxSKDwSDiiRNKkjJQeCFLm66Was7SBFJFhyFss17Ic2QELWlzMNjiZq7O
+	 AARoN38j618+GVWOEjI/poeSwDPx+fAj8ntcLKgDhidZEuR7g7U5wRss6kZ3bIIZSYpkf
+	 ls4qe0pzvjPGRNjtpTiJbqtBJnB7WO6MO9vlpQR/TcV3laghTQJinRgkEAc70Ot/SgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793896481;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=TBv924hgucUDgTSkptAFinyCftVnMUELhrGg/YfjC20=;
-	b=jwuosJ4YK57+Rx8BDFoBSCLc1Fl4nNpy2k0C4ofi11LZim0W0dVGsrUZunJSz7wYdK2h
-	 eG8m17WDC4BmFOhDBvvNMRt81AR2qc8K8uPvN7yrvc0jepSZo+zLJ0XM9gtIx5mtkphQ2
-	 68LMdE76Ngk1n0eY5R/57BtJnldg56PBujMP4eChDMTJUIuibHSbsU0d8b+G4/Cw2AFfF
-	 GloR2RWBcCXAOLR3zxWn+iYiAsAhpAQLOEYxQsERJAAg/R4H1o3CSqbtgn8L4ZUrRdagM
-	 wcBRTKY0OIs/0nzm8k4yvejYuUcFYWZ9I6kd9+CQzb9hKX+Hfckh7/fXye54wlzpeOQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793897152;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=UqTNYt0orVb3OIDUoccxdh8EdCSCeRzKDMXX05PY8W4=;
+	b=3CY2ZYlw8G9r+VDC2A6/K81/kkFJn36OU4pPbiLfJyt4WT5y3E6eb1gh0uWyZQ1ME4x+
+	 /4mdlwf+lG+igrA9XlsKVkUbCEG6VXU3luqJhi16PTKraF1TeT5NN5EfLdVTamRHYxH0t
+	 KpW4we8NyE5vJka2waCcL4XniFf+D/QlmdcESpW3SbMQA/ISFFbu7YMr2G84r/vl0qrIF
+	 3zELJoMjJNQz09Jo0fNitTU9RTubmczkdwDSW/HmuPu0CuUG/nw7tYLiJUiYVrnE2Ky3i
+	 WTvD5h7HD5ZToz4hn73UzC1aaJRyuEFOWoGVyFbpIKgqBIChd1ad9G33hzpwT6F+2Ag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kBi5aVin;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=crd2dIPV;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448F6606A32E;
-	Thu,  5 Nov 2026 16:34:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8537606D828;
+	Thu,  5 Nov 2026 16:45:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kBi5aVin
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CC081F000C1;
-	Thu,  5 Nov 2026 16:34:35 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=crd2dIPV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93D211F00A02;
+	Thu,  5 Nov 2026 16:45:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793896480;
-	bh=TBv924hgucUDgTSkptAFinyCftVnMUELhrGg/YfjC20=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kBi5aVinozWdr30SvlvWrbdI+oxqrfg3wYreCZsip56P/UpCA483hwMdhKZsZz7mj
-	 KjuO/qua4lm1T1mf88OAbvrP/gBxXSPQVsLvkQnRrFoRWZpaF7S1WlGP6GhfVMesz7
-	 2V7ZNv/cQ4Ob8gsjHpKE47v9oHbp30d1zMVdi1J2YQJSrYu0jiQY4yVmh8c4SUZ3uT
-	 3o/dU6wNdMjidrvPNWkPVzuRpPBSsk67u2Y5jDdYv8Li012xdmn/q8HMLeknUWTI4p
-	 /gffZiGoufno26Ei7fpsRfB5GlREuJZJgJchn/9BssPnAtTfT2ILPKTuaBFNuVeREH
-	 dmWVx4tsdojMg==
-Date: Thu, 5 Nov 2026 17:34:34 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, 
-	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Takashi Iwai <tiwai@suse.de>, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-raid@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-rtc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RESEND v2 0/7] proc: move procfs to what kernfs does
-Message-ID: <20261105-chauffieren-zertifikat-weinanbau-685bf4373da7@brauner>
-References: <20261104-work-procfs-v2-0-b45cd5789ac5@brauner>
- <499ba73b1a72a30c6118a4f693f8fc5b.josef@toxicpanda.com>
+	s=k20260515; t=1793897151;
+	bh=UqTNYt0orVb3OIDUoccxdh8EdCSCeRzKDMXX05PY8W4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=crd2dIPVBGtL7yeIRche4O4/nbLBjmp7z6VqhsVnUXbaz81FnuDgw9ARAt+0lTr7E
+	 fmlcizmuVsK25zQaxHlewPKh87nZsecQ9V6vnpqWTjf/jTDC6eY9fpT4HeVhLnwDu+
+	 jyVMui+vE9VGTnhyCgPZG8FJC4ko5CWbLfWKpawTetkleyYfPts3+H5j5FXWRLUEiw
+	 5RkvAZKuWtD6v07Q5+nD40YFtrDgY9tLDvu9XQDIj0hd2f72tGeTmWqPvO+qEx0mVK
+	 m+wtFCC1gWOOiwUL+RWfETawKz3aqb5jm9tl6RzN2rt9T7kYK15BJyGf9Kd3/Xz3pn
+	 yvhloXnSECrrA==
+Message-ID: <sashiko-outbox-199524@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v8 5/8] ALSA: usb: babyfacepro: add S3 suspend/resume
+Reply-To: sashiko-reviews@lists.linux.dev
+To: =?utf-8?b?SXNtYcOvbCBCYWhsb3Vs?= <i.bahloul01@gmail.com>, linux-sound@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261105151553.223722-6-i.bahloul01@gmail.com>
+References: <20261105151553.223722-1-i.bahloul01@gmail.com>
+ <20261105151553.223722-6-i.bahloul01@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Nov 2026 16:45:51 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,140 +59,133 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <499ba73b1a72a30c6118a4f693f8fc5b.josef@toxicpanda.com>
 
-On Thu, 05 Nov 2026 15:59:44 +0000, Josef Bacik wrote:
-> This is a summary of my Claude review of v2.  v2 went out before my mail
-> on the RFC [1] did, so the first part is what's left of that one with
-> the new patch numbers and the second part is what's new in v2.  What
-> says "run" was run in a VM on top of v2, the rest is from reading the
-> code.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [Medium] ALSA: usb: babyfacepro: missing snd_power_change_state() in susp=
+end and resume
+- [Low] ALSA: usb: babyfacepro: babyface_suspend() walks private card->devi=
+ces list
+--
 
-Thanks for running it again. Everything from the RFC mail is already
-folded into the tree.
+commit f0c674e7a86798c445b9cc47638dc398955e5a17
+Author: Isma=C3=AFl Bahloul <i.bahloul01@gmail.com>
 
-> - 1 is bugfixes 32/51 ("proc: resume readdir after the last name it
->   returned") now and the patch is unchanged.  Run again, readdir(2)
->   still returns 1 without a dirent at the end of /proc/fs, bus, driver,
->   irq, tty, net and self/net, for all of the 100000 calls.
+ALSA: usb: babyfacepro: add S3 suspend/resume
 
-That's fixed.
+This commit adds system suspend, resume, and reset_resume callbacks to the
+RME Babyface Pro USB audio driver. On suspend, it suspends PCM substreams,
+kills active URBs, and cancels stream work; on resume, it re-runs cold
+initialization and restores cached mixer state and flags.
 
-> - 2 is cleanup 5/6 ("proc: drop the _buf suffix from the new methods")
->   now.  Run again, the module with .proc_read = seq_read builds without
->   a warning with W=1, loads without a warning, and every read() fails
->   with -EFAULT.  There's still nothing in porting.rst.
+> diff --git a/sound/usb/babyfacepro/babyfacepro.c b/sound/usb/babyfacepro/=
+babyfacepro.c
+> index 12cfd7fea3315..06ef1a97d27a4 100644
+> --- a/sound/usb/babyfacepro/babyfacepro.c
+> +++ b/sound/usb/babyfacepro/babyfacepro.c
 
-That's fixed. I'm keeping the proc_{read,write}_buf() variants.
-All methods are documented in porting.rst now.
+[ ... ]
 
-> - 6 is bugfixes 47/51, 48/51 and 50/51 now.  47/51 has no Fixes: or
->   stable tag, 48/51 is tagged for stable and git apply takes it on top
->   of 46/51 with two hunks offset by 6 lines.  50/51 has the same Fixes:
->   7e0e953bb0cf.
+> @@ -1752,6 +1764,62 @@ static void babyface_disconnect(struct usb_interfa=
+ce *intf)
+>  	snd_card_free_when_closed(chip->card);
+>  }
+> =20
+> +static int babyface_suspend(struct usb_interface *intf, pm_message_t mes=
+sage)
+> +{
+> +	struct snd_usb_babyface *chip =3D usb_get_intfdata(intf);
+> +
+> +	struct snd_device *sdev;
+> +
+> +	if (!chip)
+> +		return 0;
+> +	list_for_each_entry(sdev, &chip->card->devices, list) {
+> +		if (sdev->type =3D=3D SNDRV_DEV_PCM)
+> +			snd_pcm_suspend_all(sdev->device_data);
+> +	}
 
-Fixed.
+[Severity: Low]
+This isn't a bug, but why walk the internal chip->card->devices list here?
 
-> - All of the smaller stuff.  The cursor is allocated in one place since
->   core 03/23 and it's still GFP_KERNEL, copy_to_user_fromio() loses its
->   last caller in drivers 24/26, the sentence about ntfs_set_label() is
->   in fs 07/30, and snd_info_text_entry_write() still drops what was
->   written before it grows the buffer.
+card->devices and struct snd_device are internal to sound/core/device.c and
+are not meant to be traversed directly by drivers. In addition, the commit
+message notes:
 
-Fixed.
+  On suspend, let the PCM core suspend the substreams (applications get
+  -ESTRPIPE and restart)
 
-> 1) bugfixes 01/51 ("alloc_tag: don't remove /proc/allocinfo under the
->    codetag module lock")
-> [...]
-> This one is tagged for stable.
+With USB autosuspend disabled, the PCM core already registers pcm_dev_pm_ops
+(do_pcm_suspend() in sound/core/pcm.c) on the child PCM device, which calls
+snd_pcm_suspend_all() before the parent USB interface suspend callback runs.
+If the driver ever needs to reference its PCM instance directly, could it
+store the struct snd_pcm pointer returned by snd_pcm_new() in struct
+snd_usb_babyface instead of iterating over chip->card->devices?
 
-Dropped because Hao Ge sent the same fix in August that I hadn't seen.
+> +	/* The URB handlers queue the work: kill them first. */
+> +	scoped_guard(mutex, &chip->mutex) {
+> +		if (chip->streaming)
+> +			babyface_stream_kill(chip);
+> +	}
+> +	cancel_work_sync(&chip->stream_work);
+> +	return 0;
+> +}
+> +
+> +static int babyface_resume(struct usb_interface *intf)
+> +{
+> +	struct snd_usb_babyface *chip =3D usb_get_intfdata(intf);
+> +	int err;
+> +
+> +	if (!chip)
+> +		return 0;
+> +
+> +	/* The device lost its state across the suspend; re-run the cold
+> +	 * init and re-apply the cached mixer state.  Suspended PCM
+> +	 * substreams are woken by the core - apps get -ESTRPIPE and
+> +	 * restart (prepare starts a new session).
+> +	 *
+> +	 * This is also the reset_resume handler.  Some hosts reset the
+> +	 * device on resume; that needs nothing more than the cold init
+> +	 * already does here, and without the handler the USB core unbinds
+> +	 * and re-probes the driver instead: the card goes away, open PCMs
+> +	 * fail, and udev's alsactl restore then loads the mixer state
+> +	 * stored at the last shutdown over the current one.
+> +	 */
+> +	guard(mutex)(&chip->mutex);
+> +	err =3D usb_set_interface(chip->dev, BF_IFACE, chip->alt);
+> +	if (err < 0)
+> +		return err;
+> +	err =3D bf_cold_init(chip);
+> +	if (err < 0)
+> +		return err;
+> +	err =3D babyface_restore_state(chip);
+> +	if (err < 0)
+> +		return err;
+> +	err =3D bf_state_apply_flags(chip);
+> +
+> +	return err;
+> +}
 
-> 2) drivers 07/26 ("md: let procfs own the wait queue of /proc/mdstat")
-> [...]
-> The two orders each fix one side.  If proc_poll_notify() was safe to
-> call on an entry that's been removed the removal could stay where it
-> was.
+[Severity: Medium]
+Should babyface_suspend() and babyface_resume() update the card power state
+via snd_power_change_state()?
 
-Good catch. We can simply move removal to the front and md_new_event()
-takes the entry pointer under RCU that then gets cleared/synchronized
-before the removal. So no side can reach a freed entry or the destroyed
-workqueue. Looks like input and sunrpc have the same problem.
+In ALSA core (sound/core/pcm_native.c and sound/core/control.c), entry
+points such as snd_pcm_common_ioctl(), snd_pcm_release(),
+snd_ctl_elem_read_user(), snd_ctl_elem_write_user(),
+snd_ctl_elem_info_user(), and snd_ctl_tlv_ioctl() call snd_power_wait() or
+snd_power_ref_and_wait(), which only block while snd_power_get_state(card)
+is not SNDRV_CTL_POWER_D0.
 
-> 3) core 21/23 ("proc: let lockdep check the pin")
-> [...]
-> snd_pcm_proc_read() is the only proc callback that takes register_mutex
-> and it only serves /proc/asound/pcm.  What snd_pcm_dev_disconnect()
-> removes under the mutex is pcmNp and pcmNc, and nothing below those
-> takes it.  So it's a false positive, and it turns lockdep off for
-> whoever unplugs a sound card.  The removal under register_mutex is
-> already there at your base, only the annotation is new.
->
-> proc_create_single_data() gets a key per registration site, but there's
-> no way for a proc_create_data() user that multiplexes callbacks behind
-> one proc_ops to say so.  sysfs has the per attribute key and
-> ignore_lockdep for this.
+Because babyface_suspend() never sets SNDRV_CTL_POWER_D3hot and
+babyface_resume() never restores SNDRV_CTL_POWER_D0, chip->card->power_state
+stays at SNDRV_CTL_POWER_D0 across the entire suspend and resume cycle.
+Couldn't a user-space audio server woken by snd_pcm_suspend_all() (receiving
+-ESTRPIPE) or issuing SNDRV_PCM_IOCTL_PREPARE or control writes enter
+babyface_pcm_prepare() or mixer callbacks while the interface is suspending,
+suspended, or before babyface_resume() finishes restoring hardware register=
+s?
 
-Hm, I think that's fixable like sysfs does by allowing to specify a key
-per entry.
-
-> 4) core 20/23 ("selftests/proc: check that a mapped entry can be
->    removed")
-> [...]
-> entry.  These kernels had neither KASAN nor lockdep, so if what fails
-> for you is a splat then that's the difference, but the test itself
-> doesn't notice.
-
-Dropped.
-
-> 5) core 18/23 ("proc: let procfs copy ioctl arguments in and out")
-> No Signed-off-by in the mail.  It's the only one of the 172, and the RFC
-> version had it.
-
-Yeah, dropped it when I folded the patch in, I guess.
-
-> - The 0/7 mail still says "the xt_recent deadlock fixed in (1) below".
->   The part 1 cover letter has it right, it goes through netfilter now.
-
-Fixed.
-
-> - cleanup 03/06 says mmap() and write() are all that changes for kcore,
->   kmsg and the kpage files.  proc_reg_poll() answered for every regular
->   file, and kcore_fops and the three kpage ones have no ->poll(), so
->   EPOLL_CTL_ADD on them goes from working to -EPERM.  I doubt anybody
->   cares, it's only the changelog.
-
-Added to the changelog.
-
-> One more old one for part 1, and this is the lockdep patch doing its
-> job.  devm_rtc_unregister_device() holds rtc->ops_lock over
-> rtc_proc_del_device(), and rtc_proc_show() -> rtc_read_time() takes
-> ops_lock while it's pinned.  Run with PROVE_LOCKING and rtc-test as
-> rtc0, cat /proc/driver/rtc and then unbind rtc-test.0:
->
-> 	WARNING: possible circular locking dependency detected
-> 	init/1 is trying to acquire lock:
-> 	 (pde->in_use){++++}-{0:0}, at: remove_proc_entry
-> 	but task is already holding lock:
-> 	 (&rtc->ops_lock){+.+.}-{4:4}, at: devm_rtc_unregister_device
->
-> 	-> #1 (&rtc->ops_lock){+.+.}-{4:4}:
-> 	       rtc_read_time
-> 	       rtc_proc_show
-> 	       seq_read_iter
->
-> That one is the same entry on both sides, so it's real.
-> rtc_read_time() uses mutex_lock_interruptible(), so a signal to the
-> reader gets both of them out of it.
-
-JOSEF! I already got yelled because of the amount of patches. :)
-
-> The end state still checks out.  Every proc_ops initializer matches the
-> final struct, nothing copies to or from userspace while pinned, and it
-> didn't find anything wrong with the new seq_file, open node, poll or
-> vm_ops code itself.
-
-Thanks!
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105151553.2237=
+22-1-i.bahloul01@gmail.com?part=3D5
