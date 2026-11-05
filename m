@@ -1,53 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.152
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793869158;
-	b=RgUHk2GYJo93vLheRGLTmchcebysup06tQg008Xtjm4IO6pNXNbjxQnuyEAhci/6XWeJ
-	 AilAWA5IzXST7MueVLv9Zno5CDXn0c7y0jLu6WPwPXqfDLIigXb7zfRifA3q43S5YuCyi
-	 PkNjUpvzPjV4OTkwvpqiWjIjQKQ5+gYyM+qJoqb0vPn4fYeE/ZO4MB8ELkw/+lD/U/0Y1
-	 WZtNE6ygRQO6BPitkbIPeg8YF4UvfZ5VF3w977CFJwOnmxlS0IWGhjCSk0+qshXWK8Suf
-	 5JaLE+ZJ6XgSMHxDUGj3YQMDIypsOSdjvT6dsTDhnQB/Hm7aE98O0m52bbqUdxfQ7Uw==
+	t=1793869286;
+	b=i3qF3eZFzmgZqKKCayjYCY6PdYVHM/zR4wxU4+8hMjNiUrJTmY+/H+6JCkD1SSXiF45H
+	 BobBdIXjb8Ty5eAhnhckkTo6JCLSIAma7Lnbj4bv48YIq1Ak4ozxH2NN3/J4dRzvic3lI
+	 j8M7Kl3YDl0R/Zi7DjbVE0kGHGujexe+nWMKNO2llaolEfBs4lDLveGoIr3JoLwMaZK/C
+	 KxruHHUtU8Ful4bNbaswgeQeQmPAMGWXUY3zf1SP6QN0IsGcdO5Ifd5tG9kKJYEN3jGqj
+	 bHznpQ+IUiGc5CZwi0l0LlsNGqUOoQjXrrADRtqtsNKkxICTMole08FVQSh2zOIaYKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793869158;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=cperLeOZ10xvR2QABkMcO6kpsD+q+HraFWCgZLyuZXU=;
-	b=P+YCDiv2OPRdLn5FU1wTlRP8Tf5pP6JrD/bVQUYjNapJw3Kcn7Ovp1scX8PujbhMWVkS
-	 +oUgnht56W7zglhUqnpGqxUl0rbm/hctoCQ+4DrUe44wE5kceOeEfJh+DxetGynyQ2lpR
-	 wgqYtHpWQav/NuzVHiUEd4a9YTGbYbeSCTo5eDp61VcZ+lLt2Q1iNFriednY+LW7gqG30
-	 5MZg3Tamwi6pWc4xViGNidl7fpiMQq7cHl6QwAXRFsDePULeqOiRSV1Z2CTmrijWc2nAh
-	 BqDIWfD52CujorfHBnmkqiiG8JGAq6AHBv+YkhkucUbRo2zyim7gTdoGxLgB88NA/Wg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793869286;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=ZhBHR54kEL9iXFFLculYwS1Y3YGdU3q4GAVnVZsSbSo=;
+	b=x2/5JAAxZGwrRE6o3GL8do1jCAvgnDvDRcW3zPAhPewnPS9KjCWQQGxhmW2qST7i01iA
+	 088j9+UsrX1+98H724l97tz7gf8dVU9d36OH80ak3PrmUM0v+Tt/2lVzeRtUXQrt72CjX
+	 cuGabk1hQ2ZOGk1GB86bHr2rtSikW4d5kxiuzUECtRzMVdP+z/76bX70Y2ZmnMI/RQriT
+	 rTUdWeOHzCpy70PdY4lYyycJzIhvMR462sPqEpnw0DG1zXF5S8cqK2vWJY2qpvtVj9bE7
+	 16c9Ojc2pktDkCkxpJzs5RBDSwBkhperxgXjFryS2oaBTYD8lRD9jf+O+dn7fHF6+FQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GKyQ80vO;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=cwCf2cL+;
+	arc=none smtp.remote-ip=91.218.175.152
+Received: from mta0.migadu.com (out-152.mta0.migadu.com [91.218.175.152])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 1E6DB606A31B;
-	Thu,  5 Nov 2026 08:59:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B10606A328
+	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 09:01:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42B10606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GKyQ80vO
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id F30E51F000C1;
-	Thu,  5 Nov 2026 08:59:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793869157;
-	bh=cperLeOZ10xvR2QABkMcO6kpsD+q+HraFWCgZLyuZXU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GKyQ80vOubI5f7D0k727ncTLW+M2OBbpwOhV01iS/0zHomLcKREC6XdQZwXXF4SLj
-	 X1ZDODU0Bk+cWTSi6/5g5lxIihicSKEvZUqxsxj7cWHZrmBXqRB8oAoj2TcPUYOx2P
-	 Kl+dfoplr/48uAxn3y/GOe7WdEswQ8XlT28FSzzr1RXh3McfvPLJOrkuVor66LAgEk
-	 RpQIQV2Ilh/BLsAIsFnGmGnmAv5V6lyFQMu49stsjHMSQz7N6oIAXmBeyom8JREnQP
-	 tAKzWVYQ20iZWR/5ajcwikVyDHj5xDThg20bYOBDNMTwlbNRsI7x9ol7Uwm8lT/clo
-	 OQr3ekh7eWC9w==
-Date: Thu, 5 Nov 2026 09:59:14 +0100
-From: Bartosz Golaszewski <brgl@kernel.org>
-To: Yige Jiang <yigejiang86@gmail.com>
-Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-kernel@vger.kernel.org, Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: Re: [PATCH] ASoC: cpcap: use the platform OF node setter
-Message-ID: <hnnasmztl6q2pvrbttc6dmzp5hqroxiianvarlkbmq25o3c4p4@2piw3ttc4bgl>
-References: <rc-review-20261103-28-afc55c614a25@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=cwCf2cL+
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=EjAYAwEjxdMoSEuay9tHnlAFEwg1E9QXVI4FTt6mxzo=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793869283; v=1; x=1794474083;
+ b=cwCf2cL+Eeev+FPIaper5OI/aglvDeJaOcO0GDeV8KKPQ2WOmyoZP8+zdLkbnrzznBI4CYIW
+ G7NTcCm5jJ6kv3H3fov3NcpY7ipeKVAY6CVBy4dATEpHD3B5F+hmq2j2WMj/Y9KNd/41z7qw1XL
+ ZeqOYJcBZte8sUslOdAht32Q=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id f9eee819d6736c7b;
+	Thu, 05 Nov 2026 09:01:22 +0000
+X-Mizu-Trace-ID: f9eee819d6736c7b
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <a5b6947e-4184-48f0-840a-ff2222be3f80@linux.dev>
+Date: Thu, 5 Nov 2026 10:01:20 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -57,49 +58,82 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <rc-review-20261103-28-afc55c614a25@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/7] ASoC: Intel: avs: Soundwire support
+To: Cezary Rojewski <cezary.rojewski@intel.com>, Vinod Koul <vkoul@kernel.org>
+Cc: linux-sound@vger.kernel.org, broonie@kernel.org, tiwai@suse.com,
+ perex@perex.cz, amade@asmblr.net, linux-kernel@vger.kernel.org,
+ yung-chuan.liao@linux.intel.com
+References: <20261103134958.2089136-1-cezary.rojewski@intel.com>
+ <bcfe64de-359c-4f16-9014-5d6f8bf30c40@linux.dev>
+ <9da94716-4dde-4389-9574-12f90b52e05a@intel.com>
+ <d9672276-5616-4609-98c1-5b9bdd06cf05@linux.dev> <aus0GT3ht1oEY2mc@parshuram>
+ <746bae53-ed1d-4881-9268-968c25270bda@intel.com>
+ <259d0c79-2a36-4a36-8e7c-fa24137a02bd@linux.dev>
+ <54b9b19e-7513-49cb-8367-8ef7711ac918@intel.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <54b9b19e-7513-49cb-8367-8ef7711ac918@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 05, 2026 at 01:53:26AM +0800, Yige Jiang wrote:
-> cpcap_codec_probe() gets the audio-codec child node and assigns it
-> only to dev.of_node. Platform device release now puts dev.fwnode,
-> so the acquired node reference is never returned.
-> 
-> Use platform_device_set_of_node() to synchronize both fields and
-> give the device its own reference, then put the local lookup
-> reference. The device keeps the node until it is replaced or the
-> platform device is released; a probe retry also drops the old
-> device-owned reference.
-> 
-> Fixes: 7b5b51b2b05c ("driver core: platform: count references to all kinds of firmware nodes")
-> Assisted-by: LLM
-> Signed-off-by: Yige Jiang <yigejiang86@gmail.com>
-> ---
-> Based on linux-next next-20261102 (2637bdec0535).
-> Compile-tested: arm64, GCC 14.2.0, W=1, CONFIG_OF_DYNAMIC=y.
-> COMPILE_TEST=y.
-> Baseline and patched target objects built from this exact base.
-> No full kernel/module-link, hardware or runtime test was performed.
-> AI assistance: Codex (LLM) for ownership analysis, code and changelog.
-> 
->  sound/soc/codecs/cpcap.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/codecs/cpcap.c b/sound/soc/codecs/cpcap.c
-> index eaaf141dea57..eda72fe830ae 100644
-> --- a/sound/soc/codecs/cpcap.c
-> +++ b/sound/soc/codecs/cpcap.c
-> @@ -1761,7 +1761,8 @@ static int cpcap_codec_probe(struct platform_device *pdev)
->  	if (!codec_node)
->  		return -ENODEV;
->  
-> -	pdev->dev.of_node = codec_node;
-> +	platform_device_set_of_node(pdev, codec_node);
-> +	of_node_put(codec_node);
->
 
-Just use __free(device_node) when calling of_get_child_by_name() and
-avoid having to call of_node_put().
+>>> However, I find it easier to move from hardcodes to the basic allocation
+>>> approach (seen here, in this very patchset) than the other way around.
+>>> The change would consist of updating intel_hw_params() so the PDI
+>>> allocation is no longer done there.
+>>
+>> Change is risky, especially when this touches platforms all the way to
+>> CNL across at least 3 generations of Intel hardware since 2018, for no
+>> tangible benefit.
+> 
+> Well, that's why I don't want to mix the 2 patchsets. However, I'm of
+> those who is not afraid of editing code that touches older platform - my
+> intention wouldn't be to level the code, obviously. From functional
+> perspective it should reach status quo. And both teams have their CIs.
 
-Bart
+CI resources are limited, lab space and maintenance costs result in
+older generation moved to 'community support', you'd be lucky if there
+is one device per generation...
+
+"If it ain't broke don't fix it" applies here.
+
+There are many other topics to work on with the on-going change from
+HDaudio to SoundWire in the PC space, Linux is way way behind Windows as
+measured by all the recent bug reports on configurations with new
+vendors/new chips - not to mention that there are very few reviewers for
+SoundWire...
+
+> Now, I assume most of the discussion touches on patch 2/7, the one with
+> sdw_cdns_assign_pdi()/release_pdi(). The main suspect:
+> 
+> intel_hw_params(dai)
+> 	alloc_pdi()
+> 	config_pdi()
+> 	params_hook()
+> 
+> is a DAI operation, represents dai->hw_params(). The params hook is
+> there to give SOF some location to send IPC from. If intel_hw_params()
+> is split, there is no need for hooks. Such hooks are certainly not elegant.
+
+The reason for those hooks is not technical, it's due to the split in
+the code between the Soundwire code in drivers/soundwire and the
+controller in sound/soc/sof/intel. There's no real other way to send an
+IPC from the SoundWire side, it is what it is now.
+
+> I believe the way forward is to convert DAI ops present in intel.c to
+> library-type functions. Let platform components call these. Frankly,
+> except for our friend, intel_hw_params(), one could say they already are
+> - perhaps the whole intel_pcm_dai_ops could be dropped.
+
+No, the intel_pcm_dai_ops was introduced to have intel-bus-common define
+a generic behavior for a stream and the ops hide hardware-specific
+implementations between CNL and LNL. This has nothing to do with the PDI
+really.
+
+There's a second level of indirection to send an IPC with the
+dai->hw_params, again the implementation is done differently depending
+on generations. Note that in theory on ACE2.x SoundWire could have been
+managed without any dependency on the DSP firmware and thus no IPC,
+unfortunately decisions made by firmware folks result in the need for
+this IPC. It is also what it is now.
