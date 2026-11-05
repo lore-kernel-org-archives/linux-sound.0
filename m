@@ -1,93 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793891989;
-	b=RD5ys3WMEqp2N6ok4C93ZFI0fRYWtZRzsjouwVryHbdxQlCHsEOedo4ih41fZpIewZ6b
-	 ccKX2mL7WHRSFtgGweFwTRt8ZilsoeXClTYVsjx1utA3/aU8s/Z2vwxMEXJDXemiA0SaF
-	 Bd4mwv5NOgA+ygLhWHqhSqR9YtBcNCjmM4jd8dvKKboHGFhGAiJl/8S50SKLBWwfZePzK
-	 Szpc0uV/4Wj2roDGCAAl7qBElqx1DiH+LCJf6b/MGCnEdPDORGrGTn/a6r2ULsIS+zm30
-	 qXF+oMc0+b9G829Z5eissmR0nZDUWBhWzAK2zl4K3srGBY/gK1oiXPVJyGIOXNl7gJQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793891989;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=iqKgCijpj9ab+BkBIEugALnlDmONm52bKTuzp4FLzzU=;
-	b=40vOZcDBlcYF16zA9BxjulaZDE826zP+pwczw15Vrv/YiN86RrxJdUoKs5Y+812Ibpls
-	 kUZmiiOQP2A9Bk8uVE6tjeZg/XaPwWgZdfaiqVGbuY6nfGXog8MFOSGDtDQWqi8TgaxcF
-	 Nu3/PPPubOEGH/lGLtpnhdRs4jY+v4cqCkYFSAyOyfKl0ctgWLTt5spFPxz4Z02G0dsC5
-	 AEK7Kpvu44ls+w2Hcb4dBOiGdxNGQr2jZ2Y7OGkhQ1z2o+iLQlO4gV0lc/lEScYCgaQaP
-	 tea7FtOM2r3ZE82m1YF3ArDBL2hWHN36kCoxB9/OQAD/06tzMnV3tFF18ZUzJur/tMA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ms4pqF23;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.62.39
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793892257;
+	b=jErTJQpIkXR8dB8zyhyc3LAHvYd33kXMLpAfyQhzovgq7I8Q9dm6vZbLF7S6Ix0bmlgU
+	 nozGvFLa3lPmP4kD3+l+P0NUYsaQscM8ypuvaMFfXD1lxygK0UyHRPuNx9a6yTPDHina4
+	 nQ6r8I2CTySO2xlMIHVTwoNDWcMjY3vgqxC6RV88Fa+V4g7UR6sCmq/8mIumBUrt9fQ7X
+	 0pfYJwaUmgaXx7H3+mUwgQKr7lhv+XUu30mKvJc0SLLTD6svxkKKpoeo9YP9c9jjvi6ho
+	 DWWzzZioFDmXl5faSH86LguOelCjPVYzID3VVVgGk0k2DnGQGEMgcIXvfoD3P4H40Wg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793892257;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-ID:X-B4-Tracking:X-Change-ID:To:CC:X-Mailer:X-Originating-IP:
+	 X-ClientProxiedBy:X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=YYQD1h03Kk+FoGpQZLtfP5eN82+0pOCc76wea1l2yKE=;
+	b=h2HJp42/Xf/smi/JsTx6MjHJGMjHTf4CS6AS0KGp6gJr6Ut7gPESaQ+ciR3yPRKMo1Qs
+	 PTsRBuEa9aC16IJH9eQBuu9xdPxf6Sblwl+ufcSjD9BI1BAtmiXsoSxEgQNH7fG1IZ13t
+	 Ko149mU4c+OV6/mkdXoMquNGpN4z+GMlyD6S+3STsUypzZ0rGLMTIaAsYWS++Q5sd1zKq
+	 VfG2x3rj6/JN5B+3FAts589FFJMao3Xh+CSEf6i4uLdmiiV28H6/mRmhJ7PpRH5K8FQlI
+	 2uKlKE9gx35jZ3Ry+L6FczhmYqS3k0WGTcL43T4eYM638Tl0vnx8xj/kWjXUcTaaNbQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=Ib2a9APO;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.62.39
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011039.outbound.protection.outlook.com [52.101.62.39])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23746082BDF
-	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 15:19:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C23746082BDF
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A28606A326;
+	Thu,  5 Nov 2026 15:24:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6A28606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ms4pqF23
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a5b2be99a8so16215395e9.2
-        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 07:19:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793891987; x=1794496787; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=iqKgCijpj9ab+BkBIEugALnlDmONm52bKTuzp4FLzzU=;
-        b=ms4pqF233nqWrjgmJEtwt+z25wy1UCKh9vFFfYLj/Si/kmHESiFTsNoOFZVmPsmEtD
-         F6L08K1a542ic++SLs/FeFcUKBoPCOczUrHqV/Gi2fa84dob9nCqyVm2OsZgmZncQs2U
-         VUawwXtqSdfVGnhpvLvWzEwOyDl1N6i2cMLZWqyZwCFhqzjhAi3PFMYEpzjLYFu4nCEB
-         HntE4C/ZsQGlfZ36PxfGMXWOq3XmFfrCliIHhEr/PpazuyDZ/3uTcRHsQwbbMmbMEY2i
-         /H4DoBREF35VxDIsMjQ2Eyn037A1olR6IFo4UlZKQrnDdhfBAz2O8lCadvPOswNi+K5p
-         bRkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793891987; x=1794496787;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=iqKgCijpj9ab+BkBIEugALnlDmONm52bKTuzp4FLzzU=;
-        b=h5PZbUE7BB3IJm/SeDACrbfgNpuYFsrysWuDAws/hmff2u7UnWtI0J/z/2kne4Dsjo
-         RGsuv/SUAnlPZCJlL/apASS7/xtwecatBZoO9u85Tei8bCsU2qzq0rnmS0uaNN169E5s
-         JVkxl96Q0OWd+l5drWuvjk8q8UhWns5pdjUpz6qqg5M+eOqon2v3ixRytlTq15awt8FI
-         6X5GBnbJknfsmlktsk4dY6r0Y4fn9kLpgbsAYo+o8piI4rOeik+UqDlC4riehG0vYIyp
-         m62Dc+DBA5dcY7YR1dbAf+yCRNHqHA0lD0KdJyVZobiXFdlY+GDy2f36U1S+ISjeMQVt
-         dvPw==
-X-Forwarded-Encrypted: i=1; AKwUvBwzAJA/Yx5wiuEQx6k9SO9xlXG0RFDhVxfGNKo+T/7q6o1sFoWgmooTBpKLn196B21iC+fxGiapg8VzMw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8436V5sotmvs9CmM6sNM3yJkx32pbhUfCwn/B65B6AE/j7Z51A
-	O8RFCHJ9SGRiH4SdIXTMbL8vEN3VWDFNjpZBvx2AvCv0HpqedvsitCzo
-X-Gm-Gg: AYBFou3qpTySA+OaWR/x1oLJytVvtUVnP3RGM6J6DNUCboH9ATzVq9hUeb1P6lz5aBa
-	9TcvDO5gS1wLonydlmfeHhpIA+5NwOoYnOekEkAFci2TlAjXORaCC0Wf6bbuWGqbBSFAmPBnxcx
-	uhyjRax+y1dDP7wqOEkakTBBheEDz6VPxfvHJLIQ/A808J8JBKQ4ydFQ5rCGGabDjP+TnF3rqHA
-	c9TwZhC6cO3thHCtFXd2+wEDJkHb1EPkc4QdWOBuNlquF3BxUqKQtBxyhAQP/76zHzDDUSmJDcb
-	J9Wy+uTJTjewFaXcKFOwMWInGZnho5FQeZml8NBU+WNGmoWYo+nfuUK25zq3v/OIgJANNCvGcNG
-	qzabZZTs7DKVEgKNMMcId8LW7okqQJkDe1dA/dnjrVkbmAjdDb/QrfJ6SP/QLMrs31X0bjSr3P/
-	sjuMqB5xsBokBvIJJHga3irDEhlyZu7XQ4tVpH+LOgTLTvwJCEAkxqWA+XTsp0jVK0zOBPmew2j
-	orlo2f4DJXBPalyA85fgwX29Yv9+hLaV6ZjOJ+TDCdVFoA1/5wftCQF8NDUA8RSp5wqRtXgCwHz
-	t0lntpb+mlOj9yBgOBHUI2LoLW9P
-X-Received: by 2002:a05:600c:4ece:b0:4a3:5a42:b2a4 with SMTP id 5b1f17b1804b1-4ac185bca52mr419437475e9.12.1793891986984;
-        Thu, 05 Nov 2026 07:19:46 -0800 (PST)
-Received: from slavik-laptop.. ([2a12:26c0:3205:5301::1baa])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fea180eaesm12372226f8f.2.2026.11.05.07.19.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:19:46 -0800 (PST)
-From: Viacheslav-Illia Detsyk <detsykvyacheslav@gmail.com>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for Acer Nitro AN16-41
-Date: Thu,  5 Nov 2026 15:18:37 +0000
-Message-ID: <20261105151839.13524-1-detsykvyacheslav@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=Ib2a9APO
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=I/U0SG4X0fvlVBEAvIWLHutEQhyljL3BiMvfJxJMX8qZasrDnQjfamefweAGp7ztAFoH+syy9wzrztC1czJLv91vuCXR2/JAwDXcOCQOBqzWOElPnig11FPOjhFfVzDupeb2B8m4UrrXCB4pEOxEI6sdpAS59bJ37qXztR55/4p+q8dwpMHjkMlhOXeKs68SzsrZ0UTeEMUYc3oXulSZBF7o3SZyiutLSqNR38Gacp7vfN31OuI1JP9UMWQO1xYkOAJufxpPjJ1PLo2iTGUI+BnHUVPu1blZ8yv6Wt5JKAmKsYrr0Juxv4Hd5/nlnaXpb/Djn4lJnxYDFyIuR3CksQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YYQD1h03Kk+FoGpQZLtfP5eN82+0pOCc76wea1l2yKE=;
+ b=UDT/IicpSla3B+6PMMWKM4GSaQAST68+MDgMf5EFOvW8AtEd+HcupSDi2H1l7TJNUZY2GBeYFxlu2y9pk7aRiQJS+P7b2wnptdFmt5Hsu5EQcY5JZQrJ1wjE2hzNX5ktrAWbvmQkG2zrhLPPXxLSqD3/X69fTw+PnQjLgT/oBeBY+XWP2ei4J0/fnGNpqWgMgsT6uICCgClLKKT8Fdv3PsKmYekhVQg2TCKnKOjHvRAp8kHyfX/OcySjJ3EPaJES/I3x6PeDjpyuDpwahbjjNgGJNDhAd5493qmnHjDD3IRORX90mbql8Ou83smN5zWQVOX4A9/2JGfr/CFvLHrplA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YYQD1h03Kk+FoGpQZLtfP5eN82+0pOCc76wea1l2yKE=;
+ b=Ib2a9APOjjGy8sUVjlLQBZpvO0M0uM5F0W+we84PmOclgnFi3gd92wDgvzowBz1N6883EcU1+vZ19i9nOJdRzJX1wiCz1/DCYkq0VzKvb3q66J0yp3L3VDsW+u8Qxq2DV0idxb90VBTECBAoQ+CnY6MF+6GUBO4T3DRfAXfi/jc=
+Received: from MW4PR03CA0035.namprd03.prod.outlook.com (2603:10b6:303:8e::10)
+ by IA0PR12MB8421.namprd12.prod.outlook.com (2603:10b6:208:40f::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Thu, 5 Nov 2026
+ 15:23:20 +0000
+Received: from BY1PEPF0002696A.namprd05.prod.outlook.com
+ (2603:10b6:303:8e:cafe::7c) by MW4PR03CA0035.outlook.office365.com
+ (2603:10b6:303:8e::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.10 via Frontend Transport; Thu, 5
+ Nov 2026 15:23:18 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BY1PEPF0002696A.mail.protection.outlook.com (10.167.244.154) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.592.5 via Frontend Transport; Thu, 5 Nov 2026 15:23:17 +0000
+Received: from [127.0.1.1] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Thu, 5 Nov
+ 2026 09:23:16 -0600
+From: Mario Limonciello <mario.limonciello@amd.com>
+Date: Thu, 5 Nov 2026 09:23:05 -0600
+Subject: [PATCH v2] ASoC: SOF: amd: Load alternatively signed firmware with
+ an "_l" suffix
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -97,55 +100,143 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20261105-superm1-lms-sound-v2-1-33327881f4fc@amd.com>
+X-B4-Tracking: v=1; b=H4sIAFif7GoC/32NSw6CQBAFr0J6bZvpEfytvIdhAU0jYxyGTAPRE
+ O4u4N5lJfXqTaASnShckwmijE5daBewuwS4KdqHoKsWBmvskcikqEMn0RO+vKKGoa2QTZ3ayyG
+ jmk+w7LootXtvzXv+Yx3Kp3C/hlajcdqH+NlOR1q9f/2RkJAzU17sOS2Z7a3w1Z6Dh3ye5y8TU
+ xAWwgAAAA==
+X-Change-ID: 20261104-superm1-lms-sound-c0f429351fc7
+To: Liam Girdwood <lgirdwood@gmail.com>, Peter Ujfalusi
+	<peter.ujfalusi@linux.intel.com>, Bard Liao
+	<yung-chuan.liao@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+	"Kai Vehmanen" <kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.dev>, Vijendar Mukunda
+	<Vijendar.Mukunda@amd.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
+	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+CC: <sound-open-firmware@alsa-project.org>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Mario Limonciello <mario.limonciello@amd.com>
+X-Mailer: b4 0.16.0
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY1PEPF0002696A:EE_|IA0PR12MB8421:EE_
+X-MS-Office365-Filtering-Correlation-Id: 78900bc4-9e84-41bd-8804-08df3b50b807
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|23010399003|1800799024|82310400026|36860700016|921020|261021121427099003|261022105027099003|11063799006|10067099003|56012099006|261021123027099003|261009223027099003|261026121527099003|261028144727099003|261022075727099003|261022115727099003|261102123227099003|261026140227099003|18002099003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	VpP5Knkk3iHauq19TXU+qLmPm8peq6epbMsDVsBPP5vBW9yMJMvHuIsnPO8VPtiFXNhEwnr/y1a4dBF7P3U/ImgjooIAH/jvVZDAQyzUW4cSOjifwHb3LM6IlNtYeoHMHQWVHp21JpGSikhtuJ4j783jXT88t4vHWGFv4eVsz1eMc0cNgkcMMq17Pw3CQGVthorqQKLn6FwWMDNWoresk2zJZ+BJKAbKqql+WcdILo8F6o//F8flvGydCIPj6/S17cZEkdX1KLEsYeMiJ07g27QzTH936AdQcSOSKk6j8qJvp/hQepbl92D0vI4xrY0cyH7iWEiXF1RwzFt3+vbNpZfwQtpAqNajH06iq/4AqfmXHccvVwKU9cj/ZOeX7qny7ENsh7AVdEBnCdqDK7OQZQa2xyAw2nSG+rIB3I4hi0wk1qQ+uk/p4Vk1OMUPtqKwM6ivKxX0lfPeLwFJ2W04RBEyzj0RBWsnkj5c/5Apucw7zx83Cm3cA3onKC1QANnXZXkiBRkQUcTs0JKEXR1nQF6S6QQXvnMthGs5mzSotK7W1yUVSNxcinHkP9Dv4Cu6zdK+vWnKWPvnmc+PrHf2kyuQf7JRLFnqL5epGMY8ltfMit/Cvi5TNIPL8rR600WrgiF4hWkJcCGt+sTYKazt1hvbfpk9JF/gXeSlIJpnyx3khLXZs0WW+ZyWMXPPalI2
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(1800799024)(82310400026)(36860700016)(921020)(261021121427099003)(261022105027099003)(11063799006)(10067099003)(56012099006)(261021123027099003)(261009223027099003)(261026121527099003)(261028144727099003)(261022075727099003)(261022115727099003)(261102123227099003)(261026140227099003)(18002099003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	fXuExj6pPm0daBvsb9bT+CyStF/Qlff8z4Dbt2eH/I550tk76nGCXWNfNFy0wQyo52HyN+fNO7qowSE38rXK1i1rQ80u2xd+2WM/wKPmpV2e3LZMLSc+xAixhqEkUVIYRXdJGcmJGMAh4H7RgyFf+d5O8D8OUORfvRFmWJaB8FFTYlF37fzB4bVJjQR8azcN457rkgQHAblRFmAaBOnZ59v9Jvz0zBoJNLynj48sPlJkfX7q084hP+eQqXVHpG4kUHCgAOYaC8hPk50o3Hgp6h3Vv9qMbUXV64T0Sf3mh/wQtxjb3cw3S8s58Tc3zsrSfo38jRnS15WL8blmLFviwfi4t/XLrB355zJxvj7scCKfXmEx4oULDuV7eqZIlJ/hignY9kR6zU4e9bQBhTQalBTks045Y47QCD6MglRfBqC4sHzLeBdxhQaFBjz29XEd
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2026 15:23:17.9571
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78900bc4-9e84-41bd-8804-08df3b50b807
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BY1PEPF0002696A.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8421
 
-The built-in digital microphone on the Acer Nitro AN16-41 does not work
-with the stock driver on the tested system. Adding a DMI override enables
-the ACP6x microphone card and allows recording.
+Platforms ship BIOS with either a default or an alternative trust
+authority. The PSP validates the signed DSP firmware image so it must
+be signed with the matching scheme. Firmware for the alternative scheme
+is named with an "_l" suffix before the extension
+(e.g. "sof-X-code.bin" becomes "sof-X-code_l.bin").
 
-Add the board vendor and product name to yc_acp_quirk_table so the existing
-ACP6x driver can register the microphone card on this model.
+The PSP reports the signing type in bit 6 of C2PMSG_63
+(0 = default, 1 = alternative). Read it over SMN, as is already done
+for the other PSP mailbox registers, when building the signed code
+image name, and add the "_l" suffix for the alternative scheme.
 
-Signed-off-by: Viacheslav-Illia Detsyk <detsykvyacheslav@gmail.com>
+Reviewed-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
-Tested on Acer Nitro AN16-41 using upstream machine-driver sources built
-against Ubuntu 7.0.0-38-generic headers, retaining Ubuntu PCI/DMA drivers.
-Without the entry, the card is absent; with it, the card registers and a
-ten-second PipeWire recording captures clear speech, verified by listening.
-Native x86-32 driver objects and minimal x86-64 vmlinux/modules also built
-with W=1 without compiler warnings or errors.
+Changes in v2:
+- Clarify error
+- Remove dead code for error condition
+- Link to v1: https://patch.msgid.link/20261104-superm1-lms-sound-v1-1-c50b9284bcc2@amd.com
+---
+ sound/soc/sof/amd/acp.c | 29 ++++++++++++++++++++++++++++-
+ sound/soc/sof/amd/acp.h |  2 ++
+ 2 files changed, 30 insertions(+), 1 deletion(-)
 
-With the installed Ubuntu driver and the same quirk, recording passed after
-suspend/resume, and the microphone also worked after shutdown/startup.
-A full upstream kernel was not booted; boot and suspend/resume were not
-tested with the newly built module.
+diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
+index 86e2402b8ffd2..7bb50b8265d8f 100644
+--- a/sound/soc/sof/amd/acp.c
++++ b/sound/soc/sof/amd/acp.c
+@@ -1212,6 +1212,27 @@ static int amd_sof_sdw_exit(struct snd_sof_dev *sdev)
+ }
+ #endif
+ 
++/*
++ * The PSP validates the signed DSP firmware, so it must be signed with the
++ * scheme the platform firmware uses: images for the alternative scheme are
++ * named with an "_l" suffix before the extension, the default ones have none.
++ */
++static int amd_sof_acp_get_fw_suffix(struct snd_sof_dev *sdev, const char **suffix)
++{
++	u32 val;
++	int ret;
++
++	ret = amd_smn_read(0, MP0_C2PMSG_63_REG, &val);
++	if (ret) {
++		dev_err(sdev->dev, "PSP firmware signing type read failed (err %d)\n", ret);
++		return ret;
++	}
++
++	*suffix = (val & MP0_C2PMSG_63_FW_SIGN_ALT) ? "_l" : "";
++
++	return 0;
++}
++
+ int amd_sof_acp_probe(struct snd_sof_dev *sdev)
+ {
+ 	struct pci_dev *pci = to_pci_dev(sdev->dev);
+@@ -1448,8 +1469,14 @@ int amd_sof_acp7x_probe(struct snd_sof_dev *sdev)
+ 	sdev->debug_box.size = BOX_SIZE_1024;
+ 
+ 	if (adata->acp_sof_signed_firmware_image) {
++		const char *fw_suffix;
++
++		ret = amd_sof_acp_get_fw_suffix(sdev, &fw_suffix);
++		if (ret)
++			goto free_ipc_irq;
++
+ 		adata->fw_code_bin = devm_kasprintf(sdev->dev, GFP_KERNEL,
+-						    "sof-%s-code.bin", chip->name);
++						    "sof-%s-code%s.bin", chip->name, fw_suffix);
+ 		if (!adata->fw_code_bin) {
+ 			ret = -ENOMEM;
+ 			goto free_ipc_irq;
+diff --git a/sound/soc/sof/amd/acp.h b/sound/soc/sof/amd/acp.h
+index b17a36b31ee0d..81eeeabc5cf5c 100644
+--- a/sound/soc/sof/amd/acp.h
++++ b/sound/soc/sof/amd/acp.h
+@@ -97,6 +97,8 @@
+ #define ACP_EXT_INTR_ERROR_STAT			0x20000000
+ #define MP0_C2PMSG_114_REG			0x3810AC8
+ #define MP0_C2PMSG_73_REG			0x3810A24
++#define MP0_C2PMSG_63_REG			0x38109FC
++#define MP0_C2PMSG_63_FW_SIGN_ALT		BIT(6)
+ #define MBOX_ACP_SHA_DMA_COMMAND		0x70000
+ #define MBOX_ACP_IRAM_DRAM_FENCE_COMMAND	0x80000
+ #define MBOX_DELAY_US				1000
 
-AI assistance: Codex helped prepare the patch and message and validate the
-results. I performed the hardware tests and listening review.
-
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 4908f4cc1..c1fdda668 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -416,6 +416,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Nitro ANV15-41"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "RB"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Nitro AN16-41"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
-
+---
 base-commit: 68e9934bd17af558b62cac8a444de28d4d5cdb9f
--- 
-2.43.0
+change-id: 20261104-superm1-lms-sound-c0f429351fc7
+
+Best regards,
+--  
+Mario Limonciello <mario.limonciello@amd.com>
 
