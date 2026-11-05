@@ -1,67 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.209.128.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793842340;
-	b=m5LcBDvZc8LYtoiKl0xWbKM1e/s//BpU0UIxl0QHF7K8OjYEIq2gqHAPnrAyNEuhvxeO
-	 lWPOjctfyFa4LE079CkBJta4OvLiYTYTb+oX6b5z5sCdsioQNVlmlG6s1vsi6EMt3aBOw
-	 f/JxB8a06270iFErySnIYvtG5phWbj9q15H0XRG0rFM5eZH4THEC/Gfw7xqMei5+RuVqr
-	 Nj7YVzryn9bn0uGPETSynu738AkZ0BNtXyASvzCl0sWT9XvpwSYNqCc8cz+kYueDwAJD+
-	 DKIUmdbD92GcqQ7HRLR6JIoiC3RHxZaV0V9A/8FYaHlNA47d7cFU3t30EUsbVbDfAXQ==
+	t=1793843151;
+	b=GaBtRKFCxk8Ze/MkzM5f0XxNe+/ZKAIbnFbLCqkviNTgcu+blAdAfxp01C51xY+Fq9zF
+	 pIxq57Hn6On7nJVZTcYmbVN4IeyALX3pDQ4QPodNzcacguLPiaziZzvDyrCy63UWSVhbi
+	 rz6Y8bwEhXhpxt1/6l9uWK4128/L/lc27i62iJMeYYCA0chV1l5Z+3BZ3FpOqEwlRNqKb
+	 3SlxHbhCdKI+bCEtVGWcoYffys0cXEO3GjXCrrtDgMCu7uQqPU+K9DhTLrQBbP8Rj0aC8
+	 OrhwwIlgT1hrq094uIAqGHqP9/8QikF5qkn0NoOrOzbUhtqSbIFM4GsgZGszcMFBlhA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793842340;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
-	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=oGdio0uoJf1hkzfoyPxQRXi+XFYHI2WIdonOmkqgiq0=;
-	b=y0OhmT/Roo1DA+39zn3Wu60hw9fFI3byupn59VUJlnSINedFfHzLrKcDnX06r5DDQA03
-	 pFDXTJlWsMur7W8/YOEjGSTdAuk2xaP5rqYaeODikNDH/95rsaImp20Z1qOkdzLRmJGgr
-	 QXLQg27iMzHU7rS3mP24zWFXaTENHIixBuB1Rt8pI4qPkhcKrN8r2PbXjh8rbP+tLuFQt
-	 Xe6lvm3VbWfXk53+QLcEll+O2gYoDfzP4ZuTg6VHRHXSvcTXL29/7FKadb63k/IsosN4w
-	 KzE5bYETWCpl/Oo34UIlf44aVFY9BNh9A1TjHKt/4G+Gkype7FZY/z7o+dHfc3fzWsg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793843151;
+	h=DMARC-Filter:Received:From:To:Cc:References:In-Reply-To:Subject:Date:
+	 Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:Thread-Index:Content-Language:X-HM-Tid:X-HM-MType:
+	 X-HM-Spam-Status:DKIM-Signature;
+	bh=DEhtPKvaPfer98HDB/+YfltTs1IatZZughDbevQu6YM=;
+	b=BY2Asv8UyIjqzWkyeEp7130UctkCJwjzY5Oy0Egs9CbiqYRqbBlSyUyib16CHZ4XDARg
+	 w29rVOrW3HE7XyUQhChX2CcsjtxY3OtUAjcszfiWe7a36DdfdiLAA+k21Z5fFTtEEUxmj
+	 KGTX0HyvZT71ftKnREF7u9doOGtcLMAn2BJu2a7IFmKv9bkp/K4g5qy6/JoLT89dmzGgB
+	 aetNZhzcypEKqS5nCMq0qyM4UXI/nz99IEHy+lLcWqHaxlBMIA7AxiMA63lqlbUYDDhDh
+	 LvmzTuNYUemAfB8tfDoFi3+Zm1KPEgSstgWL/PtYMd7TU+i6d5F2Dne8KYXoUHWzJ6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	dmarc=pass header.from=senarytech.com;
+	spf=pass smtp.mailfrom=senarytech.com;
+	dkim=pass header.d=senarytech.com header.i=@senarytech.com header.a=rsa-sha256 header.s=default header.b=EOK+gFUT;
+	arc=none smtp.remote-ip=103.209.128.44
+Received: from mail-m12844.netease.com (mail-m12844.netease.com [103.209.128.44])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD64606A31B;
-	Thu,  5 Nov 2026 01:32:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CD64606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: b5dc080ed8b811f19a56ed5b684f684d-20261105
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:9931cb2c-ed14-45d9-b2e5-e2110dc7d701,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:27713f95af788ecf4b4f6fc0c9bf1d14,BulkI
-	D:nil,BulkQuantity:0,SF:80|81|82|83|102|817|850|865|898,TC:nil,Content:-10
-	|-8|-5|14|50|99,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:ni
-	l,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: b5dc080ed8b811f19a56ed5b684f684d-20261105
-X-User: songxiebing@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <songxiebing@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1608521847; Thu, 05 Nov 2026 09:32:06 +0800
-From: songxiebing <songxiebing@kylinos.cn>
-To: tiwai@suse.com,
-	perex@perex.cz
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	songxiebing@kylinos.cn
-Subject: Re: [PATCH] ALSA: hdsp: Fix divide-by-zero in DDS offset control
-Date: Thu,  5 Nov 2026 09:32:03 +0800
-Message-Id: <20261105013203.246636-1-songxiebing@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20261104083045.1939479-1-songxiebing@kylinos.cn>
-References: <20261104083045.1939479-1-songxiebing@kylinos.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A229B606A31B;
+	Thu,  5 Nov 2026 01:45:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A229B606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=senarytech.com header.i=@senarytech.com header.a=rsa-sha256 header.s=default header.b=EOK+gFUT
+Received: from Wangqianghua (unknown [27.38.136.171])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 538ba163e;
+	Thu, 5 Nov 2026 09:45:38 +0800 (GMT+08:00)
+From: <qianghua.wang@senarytech.com>
+To: "'Aryan Sinha'" <sinha.aryan03@gmail.com>,
+	"'bo liu'" <bo.liu@senarytech.com>
+Cc: "'Mark Brown'" <broonie@kernel.org>,
+	"'Liam Girdwood'" <lgirdwood@gmail.com>,
+	<linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+References: <20261104150155.33157-1-sinha.aryan03@gmail.com>
+In-Reply-To: <20261104150155.33157-1-sinha.aryan03@gmail.com>
+Subject: =?UTF-8?Q?=E5=9B=9E=E5=A4=8D:_=5BPATCH=5D_ASoC:_sn624x:_use_de?=
+	=?UTF-8?Q?v=5Ferr=5Fprobe=28=29_for_the_regmap_fai?=
+	=?UTF-8?Q?lure?=
+Date: Thu, 5 Nov 2026 09:45:39 +0800
+Message-ID: <004901dd6cc7$5d1d5cc0$17581640$@senarytech.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -71,22 +60,77 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQIVECT69IlxfdJHo62NjHEsqVRnULavbZCQ
+Content-Language: zh-cn
+X-HM-Tid: 0aa1a9620e4909d8kunm55e2c912451fab
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZTB4ZVhpIQkIYGk8dS0geTlYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJTFVIQ1VKSE1VSkxKWVdZFhoPEhUdFFlBWU9LSFVKS0
+	lCQ0NMVUpLS1VLWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=EOK+gFUTd/5WmQB+MINFW9V2f5jS3NO8+U9n0Rwph8XZoCg9weMu78hXXrXDrDfET2J4515AfQAZlmrGEWit6+j5O7iLJNkiWFgaMVpYmqhP1/DMl6tz0O8WxDLxMMz/Dp/489604vExWn1GSnZ1cuavquJBHZ+bBmX4O8vI2TU=; s=default; c=relaxed/relaxed; d=senarytech.com; v=1;
+	bh=DEhtPKvaPfer98HDB/+YfltTs1IatZZughDbevQu6YM=;
+	h=date:mime-version:subject:message-id:from;
 
->
->The caller doesn't check the error case properly.
->Please fix the caller side, too.
->
->
->thanks,
->
->Takashi
+On Thu, 5 Nov 2026, Aryan Sinha wrote:
+> dev_err_probe() prints the symbolic errno and stays quiet on
+> -EPROBE_DEFER. ...
 
-Hi Takashi,
+Acked-by: Qianghua Wang <qianghua.wang@senarytech.com>
 
-Thanks for the reply, v2 has fixed the caller side, please review.
+Qianghua Wang
 
-[v2] ALSA: hdsp: Validate DDS offset range and propagate errors
+Email: qianghua.wang@senarytech.com
+Website: https://www.senarytech.com     =20
 
-thanks,
-Bob
+-----Original Message-----
+From: Aryan Sinha sinha.aryan03@gmail.com
+Sent: November 4, 2026 23:02
+To: bo liu bo.liu@senarytech.com; qianghua . wang =
+qianghua.wang@senarytech.com
+Cc: Mark Brown broonie@kernel.org; Liam Girdwood lgirdwood@gmail.com; =
+linux-sound@vger.kernel.org; linux-kernel@vger.kernel.org; Aryan Sinha =
+sinha.aryan03@gmail.com
+Subject: [PATCH] ASoC: sn624x: use dev_err_probe() for the regmap =
+failure
+
+dev_err_probe() prints the symbolic errno and stays quiet on  =
+-EPROBE_DEFER. The sn624x prefix goes too, dev_err_probe() already =
+prints the device name..
+
+Signed-off-by: Aryan Sinha <sinha.aryan03@gmail.com>
+---
+ sound/soc/codecs/sn624x-sdca-sdw.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/sound/soc/codecs/sn624x-sdca-sdw.c =
+b/sound/soc/codecs/sn624x-sdca-sdw.c
+index c9e690482..1a83f0a11 100644
+--- a/sound/soc/codecs/sn624x-sdca-sdw.c
++++ b/sound/soc/codecs/sn624x-sdca-sdw.c
+@@ -1736,11 +1736,9 @@ static int sn624x_sdca_sdw_probe(struct sdw_slave =
+*slave,
+ 	regmap =3D devm_regmap_init_sdw_mbq_cfg(&slave->dev, slave,
+ 					      &sn624x_sdca_regmap,
+ 					      &sn624x_sdca_mbq_cfg);
+-	if (IS_ERR(regmap)) {
+-		dev_err(&slave->dev, "sn624x: devm_regmap_init_sdw_mbq_cfg failed =
+(%ld)\n",
+-			PTR_ERR(regmap));
+-		return PTR_ERR(regmap);
+-	}
++	if (IS_ERR(regmap))
++		return dev_err_probe(&slave->dev, PTR_ERR(regmap),
++				     "devm_regmap_init_sdw_mbq_cfg failed\n");
+=20
+ 	ret =3D sn624x_sdca_init(&slave->dev, regmap, slave);
+ 	if (ret < 0)
+--
+2.46.0
+
+
