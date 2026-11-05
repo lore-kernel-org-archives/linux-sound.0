@@ -1,129 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793881462;
-	b=oOo6lE8Ftc3KT/7sB4G5eVg9hdgSwaxXCBETfsS1AJevbRij7b98V/pO0fsuXPvN6my0
-	 ia+CNl+FNkthWlTrBJTSNNapNzapFb1Br8yPJP+xsdNQZNtrGrs1Qzs9n5qyJcKfl3wUy
-	 sHLst3oN4EqmqYGBW3ItaFeAkKSty0blp/3oT7MrY7aNMn24DkfOvjGJTdZ4YQHC48eef
-	 qd+zpRu2t47rfCB9cKvrEd7kUrfS88GArut0OVZfV6FpJEmR/TXhGmhb6kW0rPXaO/LHa
-	 I/TCvPCZs8qJwmCoLktePHwgL6e90aINNuM+zPNTtZ91tk+jHx3hR+XoYZHMBNb204g==
+	t=1793882139;
+	b=dUMYyQ4OL+yZ8imm7274GA1FTljPZDgMNefsnuYzzM+g85QrQvjODXQeaymzzTCLa8EG
+	 0/xozgRwm33AOM+s5RzMxbfnCH+KtfkFQB38pmeSxj8g+KeUXpTnTZem1s4n0Rjg8Y9N+
+	 y3r+qRswBPWskb4KVlYNKcTHhl06KKQR65/ojioEZ2zq/axWHScSy6ViWpKHcnzD27vx+
+	 A88k/dcSgRSusu7B2oZ39oCbo0JZOlICARVF6Q+XzfleJBsUrHrUUpbr/9o9OeRSTJoY5
+	 e6/gXP8ug8U+COYI6TShY2d+TgvmSzXURM8/4Fi7zXGB2y9c8ZluU9ULkeTMe4bsDZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793881462;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=qZ2SbYk3GrokaaO0nBX/KKA3dRohO53XWjNLOWBHmzM=;
-	b=KAJa1IfrIA1lNXIgjD80F2dj9Y0N1kk6ciL/YlWeV026mLLEKOrzZ1tZ/ql755x5O+av
-	 AOZgT1rWe69OvhmK75rfgJEkGFTXGqBYFMimKSSB75vEJJU9gwb+9HdB2jGBF+r33HONj
-	 4pW9AUj8+yr8QBNaGB0bheHWX/vWEZUn4LtFEV2K5HjNBVKMAoJ52jMgxF99EK0pNTz3J
-	 B7+0cvVJc6brZRB6fcP33GceXm6YAy27u+wfgtTowj6CchFtHTyqC1xCz0A7c8iF93L8G
-	 tGR+k3Xt+ajItW1GE6HObY1Fad/ZsQ8tTDKbzbsKYM5nyAdvE2ZJSxNFa+9FW/Mm74g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793882139;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=syMOQJNZT949tPtaFso8iwjMJ2GFKalrcIxBNtIXXhk=;
+	b=cdPPZlobToKaVsYrH1eacwbvA+kVs59lfVm7ws15fOvcLZJj7+6M4YL5aLNicII5sEjC
+	 AYFb8UQrN1dJQrsEDvJfyJAqSBk0BTmQrmcu3FSH9ZDJtlc+2O2qlQErMmrHUpZ3uJ2oR
+	 YjUwNj5ZEffXbPyrsfGPkEWq85WXjTOACo7CJQ6RCahSfySP1kWj0paQOl6niBNAbRpCV
+	 +CSe168d5bqliWJTDnum72qx5TgwWdjgxBVVmcXUVUvIqAAk30Ys7D6U82kymAQuE9KQ+
+	 oQGaNDvnLFnwf2tXs70eV2Z27omeUiyfOeODdYJLqZ/K9CIkf45fJ9A1E9OJ3ToNgbA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=PCr9ZQmx;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Zx7+aO1b;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=x9Zosn4E;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=OA7rJSNx;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QX4gYcuV;
+	arc=none smtp.remote-ip=74.125.82.169
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09E5606A31B;
-	Thu,  5 Nov 2026 12:24:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A09E5606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86997606A326
+	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 12:35:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86997606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=PCr9ZQmx;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Zx7+aO1b;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=x9Zosn4E;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=OA7rJSNx
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CECD91F825;
-	Thu,  5 Nov 2026 12:24:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793881460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qZ2SbYk3GrokaaO0nBX/KKA3dRohO53XWjNLOWBHmzM=;
-	b=PCr9ZQmxJ1QHKzVbFide62XSTQuBL6wMyZ4ixgZonrOq7qO6Z7+mMaPhQmH6K8idF1AXs8
-	0dx7Ptuknz/mnEi38AADm66kn20F6q2YV44iThgkzuPEOJyH7BuDZb9IxT2GDZR9E41ZX1
-	OpwzN7CI0fdifDWvCMxvxjoduXA3X6Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793881460;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qZ2SbYk3GrokaaO0nBX/KKA3dRohO53XWjNLOWBHmzM=;
-	b=Zx7+aO1bN5Xl1IHapdl8fOmPBt0pa7X0oRYDzk5w1JovAHisW/PfVfacjBCbAAzFFn8yQ0
-	yE8fdIjekv9nMZCw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=x9Zosn4E;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=OA7rJSNx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793881459; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qZ2SbYk3GrokaaO0nBX/KKA3dRohO53XWjNLOWBHmzM=;
-	b=x9Zosn4EbchHGeE5udevL1r29rgPf9Y02dysOElisjHj+VO5UilfwMafmPydaCNnTjwNzv
-	UF86KGWPiD1Le7Ah5EEn+d+JCboYs72l6yBZbRCo6mTyh4eKiPufQjAAHaHoFJVIZkad7k
-	Ds8jF1cavCxTYhTDUloFMVoekboGBwY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793881459;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qZ2SbYk3GrokaaO0nBX/KKA3dRohO53XWjNLOWBHmzM=;
-	b=OA7rJSNxuyCmeklmiqZ15Mq0PWDdCAvs2gjXUAdfvq+IV2EYP6LI9FD76bFqQPglYJgSmh
-	0coVcjc/QUeRzhDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7C676134F6;
-	Thu,  5 Nov 2026 12:24:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LsThF3N17GqBIwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 05 Nov 2026 12:24:19 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 0060FB6DF; Thu, 05 Nov 2026 13:24:18 +0100 (CET)
-Date: Thu, 5 Nov 2026 13:24:18 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
-	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>
-Subject: Re: [PATCH RFC 34/38] proc: sysctl: look at the table under
- sysctl_lock when creating an inode
-Message-ID: <tmxt2djcskr7qa6a2ewpelbhnyxtd4xp6dabc2uq5cdea5xdex@qn7wcwyjf5ah>
-References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
- <20261102-work-procfs-bugfixes-v1-34-59422ed3e465@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QX4gYcuV
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso4910746eec.0
+        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 04:35:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793882138; x=1794486938; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=syMOQJNZT949tPtaFso8iwjMJ2GFKalrcIxBNtIXXhk=;
+        b=QX4gYcuVHgwKJCQ9cSDV4cN3M57epP733qL1J/0vOQ5KzMRAKinQQ7bmC/DJmPjdbc
+         HNvqdzdagU9G/zWUbofNenZERu6ryiSdNI5Jru6DgJQ9AL+Jrmv8iXbIM3DjZHjGzO0t
+         EfutDO+67FHU5UtvJSwPa/HMRlsSu7b2V9Y4JPQW9ESILRyw1+u71Ea5yN10RQJcQ87R
+         JDOK9vkCsWS/uFx9qJtH6+S7psryitbPzkrBakk0rB2r6ay0IGFLtQwtgaJR5MYzNpuz
+         2oRGW3bSJcZTrZM9OmKxc2ZeENLJHWilUQEjoM5JDFuJcMqSZL1+Ta4scMqEBSIgW7kx
+         fJng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793882139; x=1794486939;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=syMOQJNZT949tPtaFso8iwjMJ2GFKalrcIxBNtIXXhk=;
+        b=w8RezMDpDmceTVtqzXVig0IhE/SZfmvqoBCKzvZAxYaRaDBDRua3K61WQKCnDB/Vf0
+         uqX400u5lCMEGjO5g6ssjdhpnSsrV1leV7uvdiLVXc0Ziem6PMR2lTwxEekUOz2ivDQJ
+         B+12mPq0xqzhVK+fRjP73AoEbYE1OopnbkWURkcNdvWjf76/VojqjHm0BySwLM5G+XMa
+         5Yu8+h9mm8pvRY7QJHJ8jidyFni/fBVS0DSs7YITU0A7HmDvg8hKBgp0kIF7Oqtu5muF
+         8D9QRf5pioeFOoJIHU1j/HyYRTU5g1WDevP8Z2cTgNNXVGDuU3eRNdS/R3S/xrijv6R4
+         cW+g==
+X-Forwarded-Encrypted: i=1; AKwUvByeHTfoOIfDS1zjpT5MkPVKuOMKMsgXdZSMCBwZA42oZnM4FyB/mWK4Yc/SL9FNZzXnYAKz2vZHbJ98Iw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9XxHAo3rwjH766JDSGXpSNXuZCswE+zyR8J7HLoxdA0Tp9sfSx
+	kHcoNCR1syfEZxxyywzGvMl1puz0jGuH8E0eEiom75pu/RO0Bq0n1/8=
+X-Gm-Gg: AYBFou34jb5tRIObJ2xGHocnfnsdvInzdEwSli/76DMZgYqmpYcp+SUIttgwb8hvxkS
+	Ilx7ltu+86hLNAuV6BG7b9RgHJJRxOZWVIqt6t3P8cJwWtAQEgUDq0Pb+Lj6nbTCKWW24hhx2oW
+	mvh7Ak31OjCxuOBYR6WjhH7Nm6Ce2uQALooij5XwOXpeHy8I4cArnZnOJTHewyyiyFOK/hxIs3I
+	L/wP5kDYRG82xBBkWhzg9GP/SS/pAUYJO1fdaglcfKRmYU8sroXUqOakYT1Bv/eS7BxrVCMAKzt
+	AWezBegbgq7l1ERI7ylNOAKjXEdtIvKPVxT/V1jXQf3NJbwpDFOhaiTzEJbmuAsSJAjvAkOQm91
+	9MDsBdFcYfCE2IMSa5XWgIixK7HZSvJ4t3qJZUi9Kw4XYa96fCEDCLAgqxhYUbbQYwk0cfgcIJD
+	j3wu/C31JJYuyfSgYXW4iuLVZn64nq2eKnu/IvFhXQHAiE/QEbE9JhzLzniE/Nb1jNnOfZ4ECV9
+	s0uGUT5sC8eqBjSZi90Kv27jLnbvjr/LW3Ztt1n2IF0mwzlKZ+N7Fr8BfMCjkCGwLUTWg/ywlaP
+	MXjBCi1Zp4FRpdxMWRCrWnCJKRWl0Q3a4RNiwdXV84Y84H3LfE7Imbq+pg==
+X-Received: by 2002:a05:7301:6199:10b0:36e:3a0a:2953 with SMTP id 5a478bee46e88-36e3a0a2afdmr2828151eec.41.1793882138307;
+        Thu, 05 Nov 2026 04:35:38 -0800 (PST)
+Received: from localhost.localdomain ([202.51.247.22])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca39b8eb3sm22384893eec.27.2026.11.05.04.35.34
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 05 Nov 2026 04:35:36 -0800 (PST)
+From: Yige Jiang <yigejiang86@gmail.com>
+To: brgl@kernel.org
+Cc: Yige Jiang <yigejiang86@gmail.com>,
+	linux-sound@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ASoC: cpcap: use the platform OF node setter
+Date: Thu,  5 Nov 2026 20:32:28 +0800
+Message-ID: <rc-review-20261105-v2-28-d7877b3f9c24@gmail.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -133,131 +99,58 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261102-work-procfs-bugfixes-v1-34-59422ed3e465@kernel.org>
-X-Spamd-Result: default: False [-11.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_GT_50(0.00)[59];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:email,suse.cz:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -11.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: CECD91F825
+Content-Transfer-Encoding: 8bit
 
-On Mon 02-11-26 15:21:49, Christian Brauner wrote:
-> proc_sys_make_inode() checks under sysctl_lock that @head isn't being
-> unregistered, lets go of the lock, and then reads the mode of @table
-> and calls ->set_ownership() with @head. That's fine as long as the
-> caller holds @head in use, which keeps unregistering from getting past
-> that check. The next patch has a caller that only pins the memory of
-> @head. For that one the table, and whatever the owner of the header
-> keeps behind it, is only there for as long as nobody unregisters the
-> header, which happens under sysctl_lock. So read the mode and set the
-> ownership before letting go of the lock. The ->set_ownership()
-> callbacks only look up ids in a user namespace.
-> 
-> No functional changes.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+cpcap_codec_probe() gets the audio-codec child node and assigns it
+only to dev.of_node. Platform device release now puts dev.fwnode,
+so the acquired node reference is never returned.
 
-Looks good to me. Feel free to add:
+Use platform_device_set_of_node() to synchronize both fields and
+give the device its own reference. Use __free(device_node) to release
+the local lookup reference when probe returns. The device keeps the
+node until it is replaced or the platform device is released; a probe
+retry also drops the old device-owned reference.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Fixes: 7b5b51b2b05c ("driver core: platform: count references to all kinds of firmware nodes")
+Signed-off-by: Yige Jiang <yigejiang86@gmail.com>
+---
+Changes in v2:
+- Use __free(device_node) for the local lookup reference instead of
+  an explicit of_node_put(), as suggested by Bartosz Golaszewski.
+- Remove the Assisted-by trailer and keep a plain-text AI disclosure.
 
-								Honza
+v1: https://lore.kernel.org/r/rc-review-20261103-28-afc55c614a25@gmail.com
 
-> ---
->  fs/proc/proc_sysctl.c | 20 +++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
-> 
-> diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-> index 2150cf842919..a1242247f492 100644
-> --- a/fs/proc/proc_sysctl.c
-> +++ b/fs/proc/proc_sysctl.c
-> @@ -500,6 +500,7 @@ static struct inode *proc_sys_make_inode(struct super_block *sb,
->  	struct ctl_table_root *root = head->root;
->  	struct inode *inode;
->  	struct proc_inode *ei;
-> +	umode_t mode;
->  
->  	inode = new_inode(sb);
->  	if (!inode)
-> @@ -509,12 +510,22 @@ static struct inode *proc_sys_make_inode(struct super_block *sb,
->  
->  	ei = PROC_I(inode);
->  
-> +	inode->i_uid = GLOBAL_ROOT_UID;
-> +	inode->i_gid = GLOBAL_ROOT_GID;
->  	spin_lock(&sysctl_lock);
->  	if (unlikely(head->unregistering)) {
->  		spin_unlock(&sysctl_lock);
->  		iput(inode);
->  		return ERR_PTR(-ENOENT);
->  	}
-> +	/*
-> +	 * The table, and whatever the owner of the header keeps behind it,
-> +	 * is only there for as long as nobody unregisters the header, which
-> +	 * happens under sysctl_lock. So look at them before letting go of it.
-> +	 */
-> +	mode = table->mode;
-> +	if (root->set_ownership)
-> +		root->set_ownership(head, &inode->i_uid, &inode->i_gid);
->  	ei->sysctl = head;
->  	ei->sysctl_entry = table;
->  	hlist_add_head_rcu(&ei->sibling_inodes, &head->inodes);
-> @@ -522,8 +533,8 @@ static struct inode *proc_sys_make_inode(struct super_block *sb,
->  	spin_unlock(&sysctl_lock);
->  
->  	simple_inode_init_ts(inode);
-> -	inode->i_mode = table->mode;
-> -	if (!S_ISDIR(table->mode)) {
-> +	inode->i_mode = mode;
-> +	if (!S_ISDIR(mode)) {
->  		inode->i_mode |= S_IFREG;
->  		inode->i_op = &proc_sys_inode_operations;
->  		inode->i_fop = &proc_sys_file_operations;
-> @@ -535,11 +546,6 @@ static struct inode *proc_sys_make_inode(struct super_block *sb,
->  			make_empty_dir_inode(inode);
->  	}
->  
-> -	inode->i_uid = GLOBAL_ROOT_UID;
-> -	inode->i_gid = GLOBAL_ROOT_GID;
-> -	if (root->set_ownership)
-> -		root->set_ownership(head, &inode->i_uid, &inode->i_gid);
-> -
->  	return inode;
->  }
->  
-> 
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Based on linux-next next-20261102 (2637bdec0535).
+Compile-tested: arm64, GCC 14.2.0, W=1, CONFIG_OF_DYNAMIC=y.
+COMPILE_TEST=y.
+Baseline and v2 target objects built from this exact base.
+No full kernel/module-link, hardware or runtime test was performed.
+AI assistance was used for analysis and patch preparation.
+
+ sound/soc/codecs/cpcap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/codecs/cpcap.c b/sound/soc/codecs/cpcap.c
+index eaaf141dea57e3d14078c47350c1c4daaa0662b6..0e7c05f5bab607f8c4fb17d493e578b831a32f84 100644
+--- a/sound/soc/codecs/cpcap.c
++++ b/sound/soc/codecs/cpcap.c
+@@ -1754,14 +1754,14 @@ static const struct snd_soc_component_driver soc_codec_dev_cpcap = {
+ 
+ static int cpcap_codec_probe(struct platform_device *pdev)
+ {
+-	struct device_node *codec_node =
++	struct device_node *codec_node __free(device_node) =
+ 		of_get_child_by_name(pdev->dev.parent->of_node, "audio-codec");
+ 	struct cpcap_audio *cpcap;
+ 
+ 	if (!codec_node)
+ 		return -ENODEV;
+ 
+-	pdev->dev.of_node = codec_node;
++	platform_device_set_of_node(pdev, codec_node);
+ 
+ 	cpcap = devm_kzalloc(&pdev->dev, sizeof(*cpcap), GFP_KERNEL);
+ 	if (!cpcap)
+
+base-commit: 2637bdec0535a2044cd830eba9a79363651d9043
