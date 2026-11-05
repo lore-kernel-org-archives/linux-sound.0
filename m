@@ -1,100 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.46
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793861352;
-	b=leFvv3pMRF1FYG4qFxcvF92xf0RFF1pXy6dfbcjRxYz7TpdBxvv5dI0WEPL4j1hpZvCP
-	 svmuqCbPOt/M14hjMJ13ukLnbd73kqAINMa0J0jzhW9l533Fg3nVe4yP2KEWqkit95KpK
-	 +tvpZ0G+bPVrkqnfTW8j6GrngYwaCBmTWHiK9vWKqEgoIvKYvQ2sANrokvSzYd+JUqsKG
-	 aWZGB67OFFF2JEVCuK+uvhuSG5CdMgKp3mOF6boZBnCUEzCN+CkWZ5ot3atg1jEfb91J5
-	 wU8SjKl/iCKSYKw1x+96J5PzcAshJ65xBYbMEl58yEWDx56qHGxJsutIPS7AtQmHweQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793861352;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.180
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793862536;
+	b=5evQS/l5MsT2lVzulQUgbBTE+WneaJN3pVKazAXx9nuTfqk/1AXun0vqul3lQjGjoLQP
+	 t3KQCNPMpmnrBbUASR4klCOy4ZQzgLB1Th0BlSbnE2ggrCJQY8lKnh9AllvX9LrAvIFAK
+	 fUZIV+wjSaftmHRZJZp/H3MDbzdVSY4DHhnKt+Dpxvq5RYR00WMNqsJQ/qj5AykcQR8Q6
+	 eITHFdjYIb7QFlH8OcT+7cxzCdJeHiP++6XcCpz+ZXFJ+UAP3L8e8wM+MaTb8n/Q/BiHS
+	 0NIg8AlEYR/+MEp63vCMPAbyQE8NpqbBOo0x79NRIOM1aSTGk8y5wYK7SRUImWy8P3g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793862536;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=dqJik3giojyQdxTVlYt/SVYHbelelREmDC0vou6fiGs=;
-	b=BnRC3m/nt0CocxYcQP67piDaIby+WMkNjQO3WFhKWoawBYf8rQb8rU93zm96o9ewwC/e
-	 A1k/4v3JZ/faMpmAMAkmX0ik0YY0yOKedpJT5fsoZrPTCJp+Hf70+s2mUwZYpjyhgUurr
-	 u+We75R51BIVIHo+ZJVie6k2g8ihmUoSJbEOy5p7eTtH6C3xt75835r4PYVTeaeTHQXWQ
-	 2o4cquYvmgt0LjLZA/nOUhwCw/SOl17+JsfmpA5be7/bxJvJiV1HM+S1q3jLkoMZhxhUW
-	 9IoBLuFte0FL4WCYthERm4VepjYndzmNYz6PXcoBEsrAlkO9bkEsw6DKhDmSN2fAmiw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=TCJQrdOJD6q85RoEuEvG9HE6RMwlPauaG0/4SV008m8=;
+	b=WMGW6DpVAW5wAREFfp9d6Zz+JySIaLEXrTTJAlTBPbJvqPU0zGjBdFgpT80Iy/JkAAYk
+	 2WXLLww6oEJi/ogzABwqKsA0efN4Q8V5VRSfE+b03xv8VtUpTekimMAlcOBCpS5Zbwpiu
+	 5UHS5AVxK0rJRJKDxYhWc2jdMuGgL9CvwX03+nQ1sJvNEm2D0tfD/tohE017dk3JRly/i
+	 ElFZVZIhTmCutO49ZewU+WcqfhtR17KQ280WjVb6GbRLNRX4C9ckZ52IDIrBpfAMri2wh
+	 HaIH9Un25FwYwYagI7w+gU5VCTWqihhmAj252I+dgb7brrxTqzHaqe9J8Hudd/JcYyQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=d00ACOtS;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.46
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=g8vJaLNy;
+	arc=none smtp.remote-ip=74.125.82.180
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F154606A32C
-	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 06:49:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F154606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160FC606A328
+	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 07:08:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 160FC606A328
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=d00ACOtS
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3ae6b4c669fso193459a91.0
-        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 22:49:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793861352; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ZkekYFDSZvQdaie7OIp76C8vKm729rA3xiHjbzf3M1bTQU91PV5Qsg1kp/Op1AEL8n
-         99eJ0GPJ7rNJOYK3NlU2IB1SaH5YtGHR0Izb525ddQSllWTGgLZYVt2g3/IDTmUFhsKt
-         pa7JFC1LI4jujlVujUHbkJQyBAVYawTKz2ClTpu2SphFe0sQpAFBviRDn3qb8yJfgCnO
-         LS4K8nivtd+u4DVPPI9fnYM7S0Dn/TPy8mhpt8CeAcFGciVgZLbykBi/IwaZp+ObS4vg
-         8hnFvbJZkdPi5/t5hW9kJZeCSVH2Qmst4xFDRAuAQgeW8WXODl6H9x1z9uRU5ybx3YCB
-         bVzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dqJik3giojyQdxTVlYt/SVYHbelelREmDC0vou6fiGs=;
-        fh=gGgD206+TU4rJNgukVtNu7SpIb9OlPEMI7xwSgWrhII=;
-        b=quaUWiLq9kwcX1TYr8V+A/WDQHoC+LeqLE54DBJhlLPDgJ+geufYnqwY/HD4YcBs93
-         ZE4qkep6sbC64l+V3I/ekD8q9ARl2NQ9e/Zsc9vSZIYd4QPlYrAPMllhdGKJYBOHwdvz
-         kKPEOybkYJp828Z6C6EHYmdjkYTbsJZHWceltU0xv4+X1rhB3LF7vpAR38Nr7ZZgD3ds
-         1VKvgPXckQv1iDJcdB8TnkHs+HQ4sLTujXdug8B28sMcMXJ/QstyMVcoEIRDPvRpoVFA
-         peWHYkSDXrz2+GQ6XDacokedSTKUPaQ3+GfWDFjiDcmIumL7TznoAGHNTvI8FB8KZpkP
-         347g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=g8vJaLNy
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-35c76e9614aso2044481eec.0
+        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 23:08:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793861352; x=1794466152; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=dqJik3giojyQdxTVlYt/SVYHbelelREmDC0vou6fiGs=;
-        b=d00ACOtS9HcN/J2BXx4D9RIH+3xexy6Xeiwc6YHiGHWqOjqyZMrURvS0t4zaLvqkSG
-         ML9QcZnD8mbM8NPo9UKnDj6w+PpvJT9xTyuq0pQEu6IStZPWuAN8ulpy6voaLDV67qR9
-         uvI8jxHoZKRqb8jJY2S9vkDbraArQZO8KykqS+sCTmjAAdmvnmEk0J8B5kUu1ewcFqOl
-         H8VWfjQMjzNdvrM8r6lUEqR0LHuUPny5WJuG7IJ2hZ9QCmPBNy2tQFns5Q2HbJsPkiox
-         9TB/Lewqo2B+jHlfBIctwdE/Ho1mhnmgxH+Ngskrnj9VYWWJ8tXCEBg0vIrS908EdefD
-         Al/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793861352; x=1794466152;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1793862535; x=1794467335; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dqJik3giojyQdxTVlYt/SVYHbelelREmDC0vou6fiGs=;
-        b=SQRTisKHRSeyvoRwAj5goWbBbnhSVIr3/XsB93zu/sJtydH2djxx7rIzCOLc9KzLz1
-         5HRHVTr7QzFEtt8gze123qHWk18XxgALk/wWtrc+8n7g3/zjw/leJodl87wr0r/lk5bq
-         h8kYQw3tAGSPBVfI9nigqEEzNlraOB+bKhC8zrUGLuz9k/lM8RGaCjSUw8dRfqiileFn
-         UxxyZRdRuufFujw6ncT7Vuc1KWLIkIJ/etkBEBoLzJVdvDreDfSrykrIccBnCpaMuEUI
-         uv90yMxFNxa7Cwdqn1JOs1qaIZO+D17uHC2067dokoEaQUW/u7IvlDTU6BpS2DZGMml9
-         6fHg==
-X-Forwarded-Encrypted: i=1; AKwUvBxN7/DqKqlajBSmryNkiB6B9MczufrigMtBBSopLwNlElMrXOXYJsfDyUiAk3xzYElgTILxkebsvlYNRw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/dyefUfc3wx3WGtFi6ZDJgWjLHCJ8litKMyALnOCiaCGcp6CXV
-	ZzcXj54l1Xnu96DYlQpFvc654VTbiQpa3+Z3qjaz/9Pzj453QOlUIJWmJuEkCB0MiAnnLOK0TZZ
-	i7UPW6xLSAmMzMGUh3GGf7ESqcg/26kc=
-X-Gm-Gg: AYBFou15VdsdNtJWeo96KTVMt/eV0rmO7tszIF4SJpHiaTNnoCJ50vb/WnBtuJns1Sh
-	jEdhEd5D4+MuKYXvzPHfE8fmVBbacTmK9DmyCth+RhrzePweCJMDgnSDiwGArNONtzliaX42Ylp
-	yu0xANCdAXqkwyxq0daVz97aPfvJbOCXeFcKz0/UOu8aak4mqOVKfLZj3c7GOssdLprGwHceTMb
-	u683kfKihbn4K+gkHon3gwmg5q6vgXypvbx7DdGnJahs8t8IWMccelvteA9LhTz5yDkY8OxCWEk
-	r5EVob2FmsaXRmryfk8vJO8pOwcsHkVwq3P2Rtj12TDFMNbJ++z1pcsPCx9nBq0ppk+GVa/yRAp
-	uZdcKPMHDAT3gJvSfGlnUfrB3lbbi5JZ0NKJ8
-X-Received: by 2002:a17:90b:5145:b0:3b0:a7b5:c044 with SMTP id
- 98e67ed59e1d1-3b0afbf69bamr928353a91.1.1793861351672; Wed, 04 Nov 2026
- 22:49:11 -0800 (PST)
+        bh=TCJQrdOJD6q85RoEuEvG9HE6RMwlPauaG0/4SV008m8=;
+        b=g8vJaLNyWdK/2IwJZX87OinpbOSbz1AbzBqDx/r9PNCRj7gx/giJfw5qv+KHxpT8Ea
+         m0okD5WVPkaK1r1dc9ypYrL1bcsWXabUAEnyvHgKRXf42UnDbNaEtzqN1lYChqqZmLnL
+         PdynBAI/2lnw3d57FB0NLENAxt76wBUE5iyvJ8YFgwT7iEiZKCAp7g6oL7Ifo3wDLpjl
+         WPu2dV5cuTIiWH8zL9C1Il0wUqCoGzu5HWGC8lXbuj853zQq9MNnztipXFpP+N/R00+i
+         s2PtGX7PViqxqZtr3abHvLs6IrL4BdJ3jj9aDRpSOVJBKmKbWBG6xv1hz9AYHJ9Z1gDf
+         hdcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793862535; x=1794467335;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=TCJQrdOJD6q85RoEuEvG9HE6RMwlPauaG0/4SV008m8=;
+        b=r4JxqdSbXNTM0Xh3n5nI9RC29Nb6WY8oe3oK1jMA71KstMQh0FX1iqn5iJUvqG5+nL
+         vpm9gzQ3M5firU9P6QtaFxJQinwIneKnrEe4xxqdV8usEyDYoM9I/3t+mRAx1/im1S9A
+         3E7T1eWQYl0uWexcDGSE8pRENrQnQnN7PeBsEZAYS4LiG2IYVSOVA97wPDePP8HWvqzA
+         P5zOfDoUud9IdS1b2yUc9RLnIY1kj7OdxQ4L0sEf58KNqW/1cnGruFEL8fv4Bsldv8OJ
+         RLYuykH54OUOiwTTjEomr0loJ1j1vy/p1Np2UDE5i9BTZFUDRnIUbdvD40T9Cak9+CvX
+         0Cnw==
+X-Gm-Message-State: APuU4Z9++Cm656m2pJShOAxuWzXrkjPhvXsr36WmSlNxB4zkSunGEDWl
+	aZIYArnJ+3km7GYfob708870rFueTMu1F00jygkU5ZFqfRP24ssnk4OB6PzDzA==
+X-Gm-Gg: AYBFou2tbA/cfOTFCDEeqEwKuMktGA5Jof/tQiAbggGh7vGl3QxhVRX1R70fPJ6dCfJ
+	EQjnVoo1HdXnVkHznLopZt4ejG6pZFPjX9AvQOgz2uN0Bi66MmwxmuE6phHe3+9r23HQ85EWYV/
+	wd0rF7v+OBFmlE3Osd+O+UNfcvjkIusP0UU0+e6skER5Lf2s+frxR5Caf6NBcER/oFjUr3u9UKx
+	UIFNQUmjyhBboIDe2L/HB4TPwlmOMCpmfiCfHhw/r/FKZEmoxl9hi0NSK/9YCjg4rfojAVCj01P
+	iIgzdDkYrR2ET8O69uQb46uDBM6Vl6akc/I9HZXyU7N2IQMu2qCLubeDgFCASeD5K8k6YwUYLlv
+	KIR0PwaK2i0qcl+8E5gI0BIRmBakhY3aRDsruUlUBit3MnhKIsf7VZsa1SYXKvTTNrjSpVM3QOe
+	hRXnIHU9olgz4QuAlyJ8zHpTUg6P07hHbI3HXEApdOaGGRB13Ma99Iy9ULmvfudFaAtRYV4jnfx
+	DofBZUF9sHnhNDdRvkIVBvokqLlb3CRcCW32vfiglNJifizx6GKnkb/T2L69wtY0LziKdVcGMOi
+	32Pyo97SJ4G4exaM5SPDhYz5eRHtMleVtll24GqFnIGBG3lQkyEFU0D+EFeM9rAKmeJRo8hOPsI
+	TupHAAjRvzcGTSmxGnThM3kwegllwL2ML+aTicb5uR9onIWU=
+X-Received: by 2002:a05:7300:5988:b0:369:ef92:bd7b with SMTP id 5a478bee46e88-36a42426236mr26992906eec.41.1793862534957;
+        Wed, 04 Nov 2026 23:08:54 -0800 (PST)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca3981ff0sm16812286eec.24.2026.11.04.23.08.51
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 04 Nov 2026 23:08:54 -0800 (PST)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v17 00/12] ALSA: virtio: fix capture lifetime and accounting
+Date: Thu,  5 Nov 2026 16:08:33 +0900
+Message-ID: <20261105070845.6449-1-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,144 +103,69 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261104-imx-sgtl5000-cleanup-v1-1-62739fbb4a25@baylibre.com>
-In-Reply-To: <20261104-imx-sgtl5000-cleanup-v1-1-62739fbb4a25@baylibre.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Thu, 5 Nov 2026 14:48:43 +0800
-X-Gm-Features: AclHuK9RYtMW40xJ2QKN3LFb2Z1eP_S0Ak6cnyuxLFg7_4CvqzYMgBFsDCsykmE
-Message-ID: <CAA+D8AO6dy8Jn+yAaSmdQ2Zh0r_L_ChCAOhpQ-AJh1k+C_usrA@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsl: imx-sgtl5000: release codec clock right after
- reading its rate
-To: Valerio Setti <vsetti@baylibre.com>
-Cc: Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
-	Nicolin Chen <nicoleotsuka@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, linux-sound@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 4, 2026 at 6:48=E2=80=AFPM Valerio Setti <vsetti@baylibre.com> =
-wrote:
->
-> The 'codec_clk' is only used in 'probe' to read its rate, which is then
-> cached in clk_frequency and used by 'imx_sgtl5000_dai_init()'. Holding th=
-e
-> clk until 'remove()' serves no purpose.
->
-> Release the clock right after reading its rate. This allows turning
-> 'codec_clk' into a local variable, simplifying the probe error path and
-> dropping the 'remove()' callback, which has nothing left to do.
->
-> Signed-off-by: Valerio Setti <vsetti@baylibre.com>
+Hi Takashi,
 
-Reviewed-by: Shengjiu Wang <shengjiu.wang@gmail.com>
+This cumulative resend keeps the twelve-patch series on the same base,
+a4311e9447bbb219044db38897f95be112f46a8a. It covers PCM stop-threshold
+sampling, locked partial-progress reporting, the optional reset operation,
+VirtIO ACK error propagation and recovery, PCM and control DMA ownership,
+signal-safe teardown, staged capture lifecycle and work prioritization, and
+capture parameter documentation.
 
-Best regards
-Shengjiu Wang
-> ---
-> While reviewing [1] I realized that the driver could be simplified a bit.
-> 'codec_clk' is only used in the 'probe()' function with 'clk_get_rate()',
-> so it can be a local variable there. Also it must be put when no more
-> used, still in the 'probe()' function.
-> This allows to remove 'imx_sgtl5000_remove()'.
->
-> This patch does not depend on [1] and they are addressing different thing=
-s.
-> The two should apply cleanly on 7.4-rc1.
->
-> [1] https://lore.kernel.org/all/20261104022815.1484320-1-vulab@iscas.ac.c=
-n/
-> ---
->  sound/soc/fsl/imx-sgtl5000.c | 24 +++++++-----------------
->  1 file changed, 7 insertions(+), 17 deletions(-)
->
-> diff --git a/sound/soc/fsl/imx-sgtl5000.c b/sound/soc/fsl/imx-sgtl5000.c
-> index 8bcf54ef709e..032ea3e066bd 100644
-> --- a/sound/soc/fsl/imx-sgtl5000.c
-> +++ b/sound/soc/fsl/imx-sgtl5000.c
-> @@ -20,7 +20,6 @@ struct imx_sgtl5000_data {
->         struct snd_soc_card card;
->         char codec_dai_name[DAI_NAME_SIZE];
->         char platform_name[DAI_NAME_SIZE];
-> -       struct clk *codec_clk;
->         unsigned int clk_frequency;
->  };
->
-> @@ -54,8 +53,9 @@ static int imx_sgtl5000_probe(struct platform_device *p=
-dev)
->         struct device_node *ssi_np, *codec_np;
->         struct platform_device *ssi_pdev;
->         struct i2c_client *codec_dev;
-> -       struct imx_sgtl5000_data *data =3D NULL;
-> +       struct imx_sgtl5000_data *data;
->         struct snd_soc_dai_link_component *comp;
-> +       struct clk *codec_clk;
->         int int_port, ext_port;
->         int ret;
->
-> @@ -129,13 +129,14 @@ static int imx_sgtl5000_probe(struct platform_devic=
-e *pdev)
->                 goto put_device;
->         }
->
-> -       data->codec_clk =3D clk_get(&codec_dev->dev, NULL);
-> -       if (IS_ERR(data->codec_clk)) {
-> -               ret =3D PTR_ERR(data->codec_clk);
-> +       codec_clk =3D clk_get(&codec_dev->dev, NULL);
-> +       if (IS_ERR(codec_clk)) {
-> +               ret =3D PTR_ERR(codec_clk);
->                 goto put_device;
->         }
->
-> -       data->clk_frequency =3D clk_get_rate(data->codec_clk);
-> +       data->clk_frequency =3D clk_get_rate(codec_clk);
-> +       clk_put(codec_clk);
->
->         data->dai.cpus          =3D &comp[0];
->         data->dai.codecs        =3D &comp[1];
-> @@ -185,22 +186,12 @@ static int imx_sgtl5000_probe(struct platform_devic=
-e *pdev)
->  put_device:
->         put_device(&codec_dev->dev);
->  fail:
-> -       if (data && !IS_ERR(data->codec_clk))
-> -               clk_put(data->codec_clk);
->         of_node_put(ssi_np);
->         of_node_put(codec_np);
->
->         return ret;
->  }
->
-> -static void imx_sgtl5000_remove(struct platform_device *pdev)
-> -{
-> -       struct snd_soc_card *card =3D platform_get_drvdata(pdev);
-> -       struct imx_sgtl5000_data *data =3D snd_soc_card_get_drvdata(card)=
-;
-> -
-> -       clk_put(data->codec_clk);
-> -}
-> -
->  static const struct of_device_id imx_sgtl5000_dt_ids[] =3D {
->         { .compatible =3D "fsl,imx-audio-sgtl5000", },
->         { /* sentinel */ }
-> @@ -214,7 +205,6 @@ static struct platform_driver imx_sgtl5000_driver =3D=
- {
->                 .of_match_table =3D imx_sgtl5000_dt_ids,
->         },
->         .probe =3D imx_sgtl5000_probe,
-> -       .remove =3D imx_sgtl5000_remove,
->  };
->  module_platform_driver(imx_sgtl5000_driver);
->
->
-> ---
-> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-> change-id: 20261104-imx-sgtl5000-cleanup-371e704e5de6
->
-> Best regards,
-> --
-> Valerio Setti <vsetti@baylibre.com>
->
+This version addresses the v16 transport and timeout findings. Patch 6 tracks
+successful virtqueue allocation so rollback does not call `del_vqs()` twice,
+and so queues are released after a later event allocation failure. It also
+keeps freed event-message ownership clear across freeze and restore. Patch 9
+keeps jiffies timeouts and completion wait results in the kernel wait API's
+return types. Patch 4 keeps ACKs rejected with `-EBADFD` during XRUN recovery
+until the core publishes PREPARED, preventing a duplicate linked XRUN.
+
+Patch 10 retains the staged capture lifecycle and DMA ownership work, and
+defers linked-stream XRUN delivery while paused. The v17 follow-up arms
+`stop_operating` for every member on pause, keeps a failed linked group paused
+until a successful resume completes, then reports XRUN through ALSA's normal
+group stop path.
+Inactive `sync_stop` retires stream ownership even when the stream was not
+marked stopped.
+
+Validation:
+
+- The complete cumulative stages 04–12 passed ARM64 `W=1` builds with KASAN,
+  lockdep, and OSS PCM enabled. Candidate r5 changes one line wrap in
+  `virtio_pcm_ops.c`; its stages 10–12 passed incremental rebuilds against the
+  successful stage-12 build cache.
+- The MMIO partial-allocation test failed queue setup after queue 0 had been
+  created. Baseline reported a duplicate free-IRQ warning after transport
+  rollback; the candidate completed reprobe and remove without KASAN or
+  lockdep reports.
+- A final-source r5 PCI test completed three remove/reprobe cycles and final
+  module removal with no kernel diagnostics.
+- Linked PAUSED XRUN tests covered native pause and pause-restart. Baseline
+  moved the group to XRUN while paused; the candidate kept both members paused,
+  accepted `PAUSE_RELEASE`, and delivered XRUN after resume. DROP, peer PREPARE,
+  failed resume, blocked read, and close cases completed with clean fixtures.
+- The final-source timeout pair used `msg_timeout_ms=2147483648` through
+  `snd_pcm_hw_params()`: baseline returned `-ENOENT`, candidate returned
+  success. A separate HZ=1000 synthetic completed-wait probe confirmed full
+  width for jiffies and the wait result; it is supplemental type-width
+  evidence, not a device request.
+- Final-source production RW and MMAP reset/reopen capture ran for 70 seconds.
+  Seven final-source segments matched the QEMU sequence oracle; fourteen
+  segments were compared across baseline and candidate.
+
+These are guest QEMU results. Physical Virtualization.framework devices,
+NOMMU systems, and KCSAN were not tested.
+
+Previous version:
+https://lore.kernel.org/linux-sound/20261105023140.18373-1-mynameisjune111@gmail.com/
+
+AI assistance was used for analysis, implementation, and test preparation.
+Assisted-by: LLM
+
+Thanks,
+Joonho
+
+base-commit: a4311e9447bbb219044db38897f95be112f46a8a
