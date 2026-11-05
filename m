@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793875429;
-	b=Id0bXy06I8sAv1G795jFMjUDZWLcBN6OwBaI2VCkcW84BTBaOMkUOYKbmgvYhEfHc/0A
-	 KYWS+GPLO804O+QCCmIvOOqx7az6OScQ1BtAC3cfIqCz5ggNWb/fz1MvbZshbnGSKfMXU
-	 rHoNlg8e6t0c8ZlneBNoPOapq95duyYy6GvqGuV91T+9YKSB2AKJfx05c+snvOAo2PVWM
-	 YGf88GXkaJYVqW7EsTzmofZahPPv6TQ6LIFBZu4A5upwim933UNG8+c0dWDdUHwnaLS4N
-	 oDA1cZRGi044gooZLwNCjYkgwoEVdghcCOrkOYphcW1aQHgLQoyLsKNesy4Qep1F8+g==
+	t=1793875435;
+	b=FvFtIjrSoRsX7NTMiwMHe7QD1cS4X2CN3FgclWt0v8iH5WYCRcDTOAi3BLQBtYnmdYlz
+	 Kz8Ookkr3V9aESS/xbvmvoj5BzecpgsnkwwGMEMW57vtXspfdhv80VK+mobDHSgff04Lc
+	 nwLwv9KyKkYJ94vxmeKdcEEdczuHNY4QfTAlc34fayOIZRFc2UCpw0Z2ot/0ihiXeiqnc
+	 cmDPyRjhDp369sQN9PECER1VDppUladfzV0C3TMhvzvp51YYWZB3Cg8b34T5q2oIHAZnd
+	 31AzT/uZDb4Kg+Xm3FCdwk63V+Z+FTA65fK9p9K+1o9HOjqOD3Qr8hODdzAu32mfAnA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793875429;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793875435;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=XIRj/VHtFRarv0lZNWmzV0C1FzshlGUywm6oQSCzwkE=;
-	b=xTe71jbgiSrKOFhhVVh3Awdbnz6ob4LOpQLTRZYgME6jS5iaV+6t06otMs3Waq/o+gdD
-	 k5tfxDmfxEg8PAdX5eyEVQSviCwR9xB/0ZuWAmNUegKl3tFfeet8BOhY1BstTRYd4doEz
-	 xi1g3Lua8N+SFfLUKghzo+UGys6ZUKVpoxaq2I5lRZjUu+dsprlixSNTTqTGtXMs1hkPZ
-	 Nyl6tOITo8kPHnjF9rLHgHh4JIIRkCIQZekTFolIDdXgGbSh/4sCruO/lWkQ7rzUcSfZA
-	 MQrb9xvUKEjWK8SJP5NId8y2b+gL6GAAqrawaGgpQGQijpypGhNPdKoV0zyFKxwHV3A==
+	bh=vKAKMQ4BVho2fFcjnz3XT6CSg1r7fe1rHI3g3JTlXJ4=;
+	b=sQ8l8HaAghAwAJJdEE8ZF5Oiva2PbD3lLLt7p5a+ErfQ2cqcf/+T/ZZ0CqFujkwDsT1W
+	 AlQd96MhtAeV0UR2N5gtqzNFzJp28dO+tXRGnBg45vCAC4nfK/oqTwbIY8CTbDm3LXnC7
+	 afAEtk0/HQt5r/1PG9cDkx7SZ8VjA/spZNbjM4Bboza99zgvXsYYOUhHE7Qc4HzG72G4g
+	 J+t8nwhwpvXWxFxwUj83J1BjnaLuRV8m6q6XTWEzfbn7IFLktjqagGpWwbhb+GnsuSkV3
+	 B8hqrEV3syGaxjP1qcTbt8zMQmQty5fpKpPJzMtMuSAmBKyt1hNghhnwRQ7I2p78yYw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eejIlaPH;
-	arc=none smtp.remote-ip=74.125.82.42
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AJf1DmpG;
+	arc=none smtp.remote-ip=74.125.82.44
+Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460F1606D80C
-	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 10:43:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 460F1606D80C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD26606A338
+	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 10:43:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AAD26606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eejIlaPH
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1ae18eb9ad0so1990060c88.1
-        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 02:43:49 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AJf1DmpG
+Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-1a3c08d6928so2497818c88.0
+        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 02:43:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793875428; x=1794480228; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793875434; x=1794480234; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=XIRj/VHtFRarv0lZNWmzV0C1FzshlGUywm6oQSCzwkE=;
-        b=eejIlaPHoVCdN+3ll6UyV4g0vciZtl0gpdogZFJ21OwGNoqux3wetKknXg5Qjh6Yn4
-         kbqdMhXbY92b/8Gnb6duxvaFK9zpGGXeShusSvmVvODyferwCxJ5CGYD+Phm9sIxzzzN
-         4aRy10JDjXagAGn7ZHjdeAbsh3uLu8sV/EzarHAr6F5GJzbQrksG4Erqz1yOW8h9UIX+
-         thsPAq2LUvAXn1U9Z4treehgUjMtqM9hhA5+g6xueaIz6oDJ9KOv67rElf/IZd4u+CFk
-         GwR3w0mRSTqgjMHBd89xJ1PMlcYAn3gAHQ7vOPrykqzBSeP5kJlZR5zfs5HeOS69h4al
-         eJ+A==
+        bh=vKAKMQ4BVho2fFcjnz3XT6CSg1r7fe1rHI3g3JTlXJ4=;
+        b=AJf1DmpGYIlbnB8CmMI1UCKzRgnBQ/OJgKhmCn/AnmpuUR9ce8AFeLheZjQaqkeFXP
+         Eknu+XDUEDJhaHEnl9mKuHA4PXmR6ftkTbJT4v40kqOZfAFQ82LQZ69pvd9kdIJUjtWN
+         9OAwFMZa73jBi6AzHpFo+MaJJaEkdfs4JGvRmAlPvFYLOoIlo9Yk6sWooZHAnL/48FRj
+         ORcK13xXSFLhWYkOFz5r/KpxfPtnfsk/0A7SsnLXw1enfvfYomk6rD/dNtZzmHE/kYGt
+         twqhOYf1tVAM5ChRSGSUzziij6ggLfl9JOA19Sy5RHL2nIoVMr0niDWZK4zoGPqVxIS+
+         D+GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793875428; x=1794480228;
+        d=1e100.net; s=20260707; t=1793875434; x=1794480234;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XIRj/VHtFRarv0lZNWmzV0C1FzshlGUywm6oQSCzwkE=;
-        b=AusW3WXagMkt5xPWZ49kxFZ/4AH5rbCKA0IhkUrsHIcNpYl7Fppot2flGU8bfelhzH
-         TJ0Dw4/itfQkiVVxKJutRzfqLtsWTMU0Q7mhzxLHrEClsBQhd9/TMxrpkcj55o8P4b6e
-         09kI6ocZuZyfswvy2znVflMBKnbXuK4KpTW+TIOYIyEA6EiZzxXtcfxTOAArFy4V+5oC
-         mCBjJR2d6fDwwcvwoh/GGmI8y4Qt1dwytFejQXj3g9bKmycEVFLsobxTDm0kp8Bk5nP8
-         sNFY2Bcgn0DuRJSYG5F1bMt7llD3nZh9GS1+DZ7Fc3Y3UtyVNvVIL0jlceNQ84bG4XYR
-         84kQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwDX+EHuo1CKJBQxAApQ1UytrHdp0MywLxVCJdp21K8dwTUbuK2o70LysZkSDW4ZMbo6XKKyr8AK3Eb2Q==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+kYU9mFwe2iZmezvNoPY03hDnUgU3Akg7iHPxwNMP/NdeH6x9w
-	XwDw/KUOEu/NRngah20kuoQw7BTFHh6Z9LWxgqzuNOBqsZt+oHSjFjgM
-X-Gm-Gg: AYBFou3gm5JyICkHJx6DFXAUXPq60t3X/Hp4J+Y7qkIqCb9i4hOeUvhisLMyUhEMPnD
-	3s13+B1wNau5ljmdIXdQ7feIgrxMRPKI2Gog1JmiLtO1CiCVlF25E/LOQEHEvIwn+jJiPAKQUEb
-	H9TJbvzYyQ+85TUdo7T4tyu+dNfhC44kqNpYzt4zWX8jw5ZV4vgJkh2JPW+uipoeOwgtAX4duHZ
-	fj+RlPAg2GECt/RS0vVXy0rf21Yyv+JG75+YeWb8CtcuTnAZqiRP8pTcfEI5hGP7RIijmCq3YEH
-	ZBwhkiCxHYZcxO0uLxlhQA1R7YpOXShBkXlr4KlVbvSFikNlQADqiySFKHxqr9oPUQZwcTRgrvO
-	U5NaaKJFHsSkgAVf2yqU4n17N5tTEdDZaBKvmkyGINnEZ08KCUj75odUyF/xf1zUqzER3DP7Qrs
-	/7znZetJoj8BVCQ5bbe4pJ8NK37YmJXqv+ZkbcBTMsEDBnP0DaWSsPGwCnCgUoMsp/clpHwtHJo
-	pD7DE5DUQYnA5KQKnNgpnt9w6dCQ2i7nFZ1MvnMkcAS+ok7ksO83bAQr1jnmureBrBfKL1+6+37
-	yOIlgh95E9hO2yMARpHkCSyz6VhEFU09T55bsB9L6/x2vkT3t5jrjKstCvlJfRDOCMXQ+IgVrow
-	4rkQmstgUaHKOVxg/CLbGZD9e3Vb+c/+lRLwnulDWX26gJr300fy992aL7PoXmA0lxQ==
-X-Received: by 2002:a05:701b:42c7:20b0:1b0:f0f5:e38f with SMTP id a92af1059eb24-1b0f0f5e3b5mr20779490c88.34.1793875428330;
-        Thu, 05 Nov 2026 02:43:48 -0800 (PST)
+        bh=vKAKMQ4BVho2fFcjnz3XT6CSg1r7fe1rHI3g3JTlXJ4=;
+        b=SpDR1ds0U7X968CNLGISFf2cbJwis0qjUyAwYdoVdFLOFwOFb1B8mNfJUG9XGOZJDw
+         4NCA6P8v6MukQTrmLq7rhtIRIumX32/VmFmleDD+Qi5bQnW4o5mlT/zBtvypgRYHLBSI
+         8ibiQYIKbfdfqzXe5xdM5JQLa3gjHWYhY5YJwuDD8XOnGPUL53nlTbrE2vcPvjqiuPdT
+         iCzznhRBXuCQlZ6SWMYsXaHeq6MPWUWYpXHM1+eYQtlPr0v7QczU1kDX20UElN28pObr
+         a7g8Xr9OckT+vQOhWLYr+qisSGzSC4O23tE45sQHR7uU6aU2JmbweweNlnwH4SCEyw71
+         bnbg==
+X-Forwarded-Encrypted: i=1; AKwUvBygt5+p9pKbQX1sJjtBjcLOsoBn1FUqqcEtfD9i7M36ZcAy7q2XHPlW90BuR/J7e6vivWDcIlPNmFS8KQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+4RIA0XnSBI91q7/EzlyOC4xE5eHWiDQaji5tswd1khUG9kz2l
+	MbuciIr8Z5F1tOOB86r504XEq7SidlqGgV+4kJMKK9hy6t2npTQnri5D
+X-Gm-Gg: AYBFou35RH3sASAaMpGOPEK2OfzuXJYinA2kAIO1tYRSbOajP/8Py30Zcv0QESwc1uE
+	YYpvNEu7ogmDfxv+f3lXKfEBf3GY+uIHqnHNWmEdfa59Ims8vBQqyWo8+FNaop142UtPg6Z2v7l
+	LAGCc5GCjE0o2jubWjR/UoEwohUxhe/f0JpliJEXxkwuT0fqJU6pYeno6229potSP2zDaTgFjak
+	1JStLhzERjRcQe+EM6yXaykB3/huu4oEVqA5MbV4BRgh8WpptuKgjWxy3J4rdtdFfWEbkkohqR3
+	4K2tMQv99sqWAn5NNebv8jAI5Y1Dx4vpziCIq9blhRL0yPMCNoinUs+1egiLWcD0FWUK814VFDO
+	GHPIy8Aus30RqcG9JfzNYcMVJQKQROAK+k7fAEHgz8kSMzLjeVC9rnTqZIYh7QDFhF13elc6/b6
+	vdUge6PlG1Y2KbU15cErI6Uu8F5aVIekk8vLB9bynq/9nOL6bxGw/eZSC7LprbgbraWdd7hkJ2K
+	b0QoEd1KfO3H08jRozD070YKpXMRZzSMpb7Jm9O+hV6jh/y2NX9ZulZcNS2A7QzvWM5nBCmoRpI
+	8RkN1Yt0vne3bu3BeCjBzmHppthawCMCViUopDXtXQszH68mn3IsE1X0Md996vu59ir6aY7Ltn2
+	OwaIw9Zqh3vmoPatHTZOex51yBLsUxS+XB3tdnSLHZf2N4kv/15dk+nzvcaygNKRuqQ==
+X-Received: by 2002:a05:7022:b0c4:b0:144:fb87:5b91 with SMTP id a92af1059eb24-1ac5e32099dmr27470535c88.44.1793875433623;
+        Thu, 05 Nov 2026 02:43:53 -0800 (PST)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c1c272sm15595215c88.8.2026.11.05.02.43.44
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c1c272sm15595215c88.8.2026.11.05.02.43.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 02:43:47 -0800 (PST)
+        Thu, 05 Nov 2026 02:43:53 -0800 (PST)
 From: phucduc.bui@gmail.com
 To: Shengjiu Wang <shengjiu.wang@gmail.com>,
 	Shengjiu Wang <shengjiu.wang@nxp.com>,
@@ -93,9 +93,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 07/10] ASoC: fsl_sai: Clarify fsl_sai_dir_is_synced() documentation
-Date: Thu,  5 Nov 2026 17:42:34 +0700
-Message-ID: <20261105104237.38542-8-phucduc.bui@gmail.com>
+Subject: [PATCH v2 08/10] ASoC: fsl_sai: Check regmap_read() return value in ISR
+Date: Thu,  5 Nov 2026 17:42:35 +0700
+Message-ID: <20261105104237.38542-9-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261105104237.38542-1-phucduc.bui@gmail.com>
 References: <20261105104237.38542-1-phucduc.bui@gmail.com>
@@ -112,46 +112,42 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-The summary line of fsl_sai_dir_is_synced() reads as if @dir follows
-the clocks of the opposite stream, while the function returns true
-when @dir provides the clocks and the opposite stream is synchronous.
+The IRQ is shared, so fsl_sai_isr() may run while the SAI is runtime
+suspended. The regmap is then in cache-only mode, so regmap_read()
+fails and xcsr is used uninitialized.
 
-Reword the description to match the behavior and document the return
-value. No functional change.
+Check the return value of regmap_read() for both TCSR and RCSR, and
+skip the handling of the corresponding direction on failure.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/fsl/fsl_sai.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ sound/soc/fsl/fsl_sai.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
-index f75a1d61d7b7..25243b6859d6 100644
+index 25243b6859d6..5c50ed7c2258 100644
 --- a/sound/soc/fsl/fsl_sai.c
 +++ b/sound/soc/fsl/fsl_sai.c
-@@ -88,14 +88,16 @@ static const struct snd_kcontrol_new fsl_sai_timestamp_ctrls[] = {
- };
+@@ -148,7 +148,8 @@ static irqreturn_t fsl_sai_isr(int irq, void *devid)
+ 	mask = (FSL_SAI_FLAGS >> FSL_SAI_CSR_xIE_SHIFT) << FSL_SAI_CSR_xF_SHIFT;
  
- /**
-- * fsl_sai_dir_is_synced - Check if stream is synced by the opposite stream
-- *
-- * SAI supports synchronous mode using bit/frame clocks of either Transmitter's
-- * or Receiver's for both streams. This function is used to check if clocks of
-- * the stream's are synced by the opposite stream.
-- *
-+ * fsl_sai_dir_is_synced - Check if the opposite stream is synced to @dir
-  * @sai: SAI context
-- * @dir: stream direction
-+ * @dir: stream direction, TX or RX
-+ *
-+ * SAI supports synchronous mode, where one direction uses the bit clock and
-+ * frame sync of the other. This function checks whether @dir provides the
-+ * clocks, i.e. @dir runs in asynchronous mode while the opposite direction
-+ * runs in synchronous mode.
-+ *
-+ * Return: true if the opposite direction uses the clocks of @dir.
-  */
- static inline bool fsl_sai_dir_is_synced(struct fsl_sai *sai, int dir)
- {
+ 	/* Tx IRQ */
+-	regmap_read(sai->regmap, FSL_SAI_TCSR(ofs), &xcsr);
++	if (regmap_read(sai->regmap, FSL_SAI_TCSR(ofs), &xcsr))
++		return IRQ_NONE;
+ 	flags = xcsr & mask;
+ 
+ 	if (flags)
+@@ -179,7 +180,8 @@ static irqreturn_t fsl_sai_isr(int irq, void *devid)
+ 
+ irq_rx:
+ 	/* Rx IRQ */
+-	regmap_read(sai->regmap, FSL_SAI_RCSR(ofs), &xcsr);
++	if (regmap_read(sai->regmap, FSL_SAI_RCSR(ofs), &xcsr))
++		goto out;
+ 	flags = xcsr & mask;
+ 
+ 	if (flags)
 -- 
 2.43.0
 
