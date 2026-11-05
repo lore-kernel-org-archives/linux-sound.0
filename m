@@ -1,96 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793878182;
-	b=tBrtmoDcVqD26gqcyPvLlk1buAp0GwUUWivrpnuNSAfTJlmnCofpZXq6KTN/q2diKkKx
-	 /PBOT/5d0kQScA1wmc7NWe6zGe1K11cufUH7Pf40aSms1on/5aqdL5uO1JWXi9078EFeK
-	 XehHs27fnhfiY9UrEOAKXmra1+5W5N8I5rVvtMKWHUe5tsMiJ7Ad2FBv2tGkeGbPZjkCv
-	 pZ1orhip9f0siuMD8iZTDssQYUIs2Ubm9iM2GDqBOp4ZK7KyaTrir9SAmsoO8DeNIQsgg
-	 uItCZkJdMck5xGpPP4/USPc3KIgZjxXh/OKLD1xHjZOqKP0GOA8FcwahLUR2ff654fQ==
+	t=1793878698;
+	b=APRhnN2ifjgXtAXfk4uKALCOScy4gl2Gk/+ddD2j2awmkpTMXiOrzlN9N1w+8ebcNIy0
+	 yFkcaxXhn+DBHyWCEJLY/qTHeEdWKazF4xk3PuKF5JztjUffJX3UK7RTk/eEXtcfnwfIJ
+	 7+WH+3D7bRkB+Msdj2OCE07qkLnPudTGQ42yTO9iVdOPFO4Msb5pfMthgH1b2RU4pK6o4
+	 IydAJ8WuBQ04uUKoTsTbnypUZ2SBUjgl7Q9ysjXQBxpxDnVqyfjZM1bLSkXUDC/GHhAzt
+	 UfXpSShl6J7bW1wKh8iKc2akBps5l3W24nzGH+a78Z96lW4Lqe8HOJpl03oT4lNMkYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793878182;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=FLHBd2itr/YyJ+QhRpnjae+TMuupiEZD7EB6TUX9ubo=;
-	b=YF7wwYGOsDk9MpuuuLWp2Y4GO+mByOLQSmvufPvWCcZjXHDX4OCf+TwdQUlWSQW3YAC7
-	 xHPbdv5RxPGvBLu9KLt+iTYB7Ks+/D7kUkADnFfb3wLmZWvATwn76kR+yynAM4+avxsu6
-	 uIsZc4T3bmYUvcFwMxPo5WYWuq9EpA6wHzwHWCkog1atMbqfyEKYlBn4/QgNYIAyU3Y6h
-	 eavOa/iHCA/J9ivJBzzyrJC4kjliyhX6nIuL9y30liG+cDwkFmr2PXo+SVuK3YkKk+r//
-	 Qc6CF4iVyYutok83A1FU8WJdjTez0cx8BC9oI2uhiHznv4T9BZQklG4ylG98hlKtaNQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793878698;
+	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
+	 Subject:Message-Id:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=Q6jCznp4FWJivYaq4sEsBkt+UeNYwPtuXVwM6XHYKto=;
+	b=OUdXgX2QJ8bnavA8mhvfSf7C+ezL9j5qhIk4CQvaN+lSEcKQLkaUjmwnPxUv7PmARSLb
+	 7JDWgA+F9iyRknmStMMzFvsu5qBraAtDOdu0vQQTpVFilYQjU71Ktv14SHtlo4dANKDsw
+	 hV35F9dFb0OXfbNc3HU1vLwAW0WHPakA5EjfwIVZ91DHEL085xCpJ6rHsEYNn3jCLxkx3
+	 vKP+YgQqYEUmZcMEKMYtCN1JjcUBtLV61zz/ZNu1vn1JNRY1z7LxkGUOai7wUjWemTj9J
+	 p1jjgpTIaSQwh7+qqNE9vswRC4fji72PcDo9XwZTO6Kbi5+8Exk3YwNZSKUlI9cIoZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tOGk6cjO;
-	arc=none smtp.remote-ip=74.125.82.172
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="nAlbBku/";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42205606A329
-	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 11:29:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42205606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58026606A33F
+	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 11:38:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tOGk6cjO
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-36cad25b8b0so2579300eec.1
-        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 03:29:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793878181; x=1794482981; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FLHBd2itr/YyJ+QhRpnjae+TMuupiEZD7EB6TUX9ubo=;
-        b=tOGk6cjOnLo4EV1CmL9k8hDbqbc+stqO84OB4ZgGwGWMux1ClZXL377GgxbbfhoNni
-         NcjrRBFg6EQvrVLKNQISW8KmsgZ7yMqOgZrDkHch8iMb1m75r4Zf/TRo9NxjLB8wgZoX
-         X+OfSBsUUF0l3IEO+rRGyghh+f4g+008W2rPYQK6w5qx/cUZXw0iS2qzYR1bCiZaynn5
-         n4cu7faqKoN1gd2NsjLWx8Pp6JYE8mxuFxOGy1WuULYkBnXCqv8/jNPeRHmkfWtVNGHf
-         oORUFaL8N5YWBA6Q7CNLr3vey/yCt7/Lq2p/esH0BiY5poFMihcMAMM1TIGT05yLKg75
-         EaQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793878181; x=1794482981;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FLHBd2itr/YyJ+QhRpnjae+TMuupiEZD7EB6TUX9ubo=;
-        b=cprYGpokimvL2kshxouhVyEE4lRfpzFDpPQU2Z/wXzNAlz7KgE6Fb/aviRuUblOVbx
-         TFKmG2Kt0I3o3xw+eW3LJh2ZhDZFwij0Xkgli3q7aytEf2kcaFKORlwQCcJQ2P8I1hsR
-         OsSUwr+j3iKzeNhBdimrwLg7AiRMy/AzUu1nu28L+tx66Z0hN33dlaBoFZVCjlpf4hYZ
-         YLyLnPA2T7yuh36eRKMJ3WajYBVcNRjlebwFD7GdPKvGkV0i2hvOPhnmr2DJMLbjELVR
-         bfnIE1A0tEoiCzdFKELDvn8td4LAeQkWOPlmycsiZCHyvOSGd2TuuM0AQnShjtIosI0R
-         AGnQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwWwUXIc00s5EX9TgsiKQJFfg7wKICZd44fxjC5ShrWA/+Dm6fY1Gy92wRLxVaG4HvWjSEEh8Y07ikMXg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8/iDL8S16L/w1vbBdJleWXp/0KoS2IlPz2rNI2i++GjUm0IKxG
-	V0OqoXV9ggTslzffBnXudc2fOCxQB2oVmSy4AVTCJ278OWt84ZxlJ1SCnDXl8BmG
-X-Gm-Gg: AYBFou0fgwbfAeaRrQ3SkpefcgxRu9CrCaZo1GJoMtt+Fcl7s2GVYicr2ZxHvZRhwV9
-	r9m72MR6DyQ3mjeulthPpM2B6RbRXW1cJu6dKpZz9US4r1xsSVi2PfTR3/KcCea6kzvtc/gHlDD
-	DCiKaD/8TxpDN43ZoWlyT6cOvxuZIknyNGczesQv6J+QtrXSyFIyLF+w5sOF7t9Yu4oTa7Yg+pl
-	7OO2T3en3EhlXUWFdTNHsswaG+xLIumS9CEerp8xzuSMz4BHGB/io7rKrBJzDeKobqf+Buq+0xl
-	IPj4PWxi4y55hOZKrkZeqvqkOVaR2TlKkdxZnVmsWiA/tlplbfiCltOnfQDH7uN1E05NdBYJ47B
-	BIf2fU/Ayezt4YDWCwkZ3Z2zzQZ4stut0YWX3EyV3SYByzf5TLJH3L2CDqbJe03fCTd+LVoNkDA
-	8ZMzzZ9Iz5DccYlNSYsdA62soe8qnbm4e6o9G3QUUNbGBjaKhWFa3ljSwSBJJsjTrYpBpCB9jpN
-	QiAefLlyKQ0ocTW46DahwPhJEIGaTRH1aSlOZ6OnFj2ZglhRpaynLaUINNAvw9lEpnpFPXBGzV7
-	1Vbwc/t3sICKxFDlbT59gl8FrVbiRQ==
-X-Received: by 2002:a05:7300:ec82:b0:36d:7f5f:7e97 with SMTP id 5a478bee46e88-36d7f5f8290mr4601005eec.40.1793878181167;
-        Thu, 05 Nov 2026 03:29:41 -0800 (PST)
-Received: from AD03042041 ([115.137.252.248])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36dd7ec8881sm14177194eec.18.2026.11.05.03.29.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 03:29:40 -0800 (PST)
-From: Deukjung Kim <mentalese@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Deukjung Kim <mentalese@gmail.com>
-Subject: [PATCH v2] ALSA: usb-audio: Add Arturia AudioFuse 48V/Main mute mixer controls
-Date: Thu,  5 Nov 2026 20:29:03 +0900
-Message-ID: <20261105112903.536150-1-mentalese@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <87ecd0tt6x.wl-tiwai@suse.de>
-References: <87ecd0tt6x.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nAlbBku/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A8D01F000C1;
+	Thu,  5 Nov 2026 11:38:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793878698;
+	bh=Q6jCznp4FWJivYaq4sEsBkt+UeNYwPtuXVwM6XHYKto=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=nAlbBku/jMZW1pzpQWX2EYVDI5jl2psLJDTua7Y4l3zFqI6Px9qwIo3wJtAsL6wef
+	 17kRaXCXC8dCWckbtoecK8Nms9XOkSPZzAi70qyBr2OTHlRZ++s9278LlUWVdl4hum
+	 r6KvZijRnGg70BszT5LmNcqqCl7mzV+z4/fuOxry5oBIazt0p0ilxcOhFVICABBEWE
+	 ifnEVqLbO67CVcYp4jKf2PkVy/iOJOSrMOldsTyHNi9X9U1BQ+O0p6ezh8NguHqcl2
+	 Y2GG6Mc22dSz1wtA16DgkXIYyK8Bj8BNaUiq4RhXtpTFVLhPuABl59UR7L5QIgcTD/
+	 J6VYYVJlrZ9lQ==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 5147A272E986;
+	Thu, 05 Nov 2026 11:38:16 +0000 (GMT)
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Wentao Liang <vulab@iscas.ac.cn>
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20261104022814.1484284-1-vulab@iscas.ac.cn>
+References: <20261104022814.1484284-1-vulab@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: codecs: madera: release runtime PM ref on FLL
+ config failure
+Message-Id: <179383949624.2186205.3567258255805511183.b4-ty@b4>
+Date: Thu, 05 Nov 2026 00:44:56 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -100,235 +65,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1150; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=kxRk7kahlwN3RhYDXvJ6myKB24z6XKy7DHmIMIL/e1M=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLeZK3IvW8oK9ibsOOw5bmaw8+XKiTf6fIr+vF5YcqNi
+ 4/Da/jNOkpZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRvCZGhj0JTVf4snS6rB/+
+ Y+7acpBb7dfH7fKe19bqP865dXqv7EKGf+quh+TWzbrKJiRmftRqwjul2UFvqx44hNwQr7HjqA7
+ LZQUA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Add mixer quirk controls for Arturia AudioFuse (0x1c75:0xaf02):
- - Input1 48V LED Switch (wValue 0x0001)
- - Main Speaker Mute LED Switch (wValue 0x0500)
+On Wed, 04 Nov 2026 02:28:14 +0000, Wentao Liang wrote:
+> ASoC: codecs: madera: release runtime PM ref on FLL config failure
 
-Values are written with a class MEM request to entity 0x46 and the
-initial state is read from a 178-byte status block of entity 0x47.
-Protocol reverse engineered from Arturia AudioFuse Control Center.
+Applied to
 
-Signed-off-by: Deukjung Kim <mentalese@gmail.com>
----
-v2: Fix indentation in patch description
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
- sound/usb/mixer_quirks.c | 187 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 187 insertions(+)
+Thanks!
 
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index 5eee501948fb..5839719444f8 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -22,6 +22,7 @@
- #include <linux/slab.h>
- #include <linux/usb.h>
- #include <linux/usb/audio.h>
-+#include <linux/usb/audio-v2.h>
- 
- #include <sound/asoundef.h>
- #include <sound/core.h>
-@@ -4419,6 +4420,189 @@ static int snd_djm_controls_create(struct usb_mixer_interface *mixer,
- 	return 0;
- }
- 
-+/*
-+ * Arturia AudioFuse (Rev2)
-+ *
-+ * The protocol was reverse engineered from Arturia AudioFuse Control Center.
-+ * A parameter is written with a UAC2 class MEM request to the vendor entity
-+ * 0x46 (wValue = parameter id, 1 byte payload), and the current device state
-+ * can be read back as a 178 byte block from the vendor entity 0x47.
-+ * Both entities live on the audio control interface 0.
-+ *
-+ * Layout of kcontrol->private_value: (parameter id << 8) | current value
-+ */
-+#define SND_AF_CTRL_IFNUM	0
-+#define SND_AF_ENTITY_SET	0x46
-+#define SND_AF_ENTITY_STATUS	0x47
-+#define SND_AF_STATUS_LEN	178
-+
-+#define SND_AF_PARAM_SHIFT	8
-+#define SND_AF_VAL_MASK		0xff
-+
-+struct snd_audiofuse_ctl {
-+	const char *name;
-+	u16 param;		/* wValue of the set request */
-+	u8 status_offset;	/* offset of the value in the status block */
-+};
-+
-+static const struct snd_audiofuse_ctl snd_audiofuse_ctls[] = {
-+	{
-+		.name = "Input1 48V LED Switch",
-+		.param = 0x0001,
-+		.status_offset = 0x3e,
-+	},
-+	{
-+		.name = "Main Speaker Mute LED Switch",
-+		.param = 0x0500,
-+		.status_offset = 0x5c,
-+	},
-+};
-+
-+static u16 snd_audiofuse_windex(struct usb_mixer_interface *mixer, u8 entity)
-+{
-+	return (entity << 8) | mixer->hostif->desc.bInterfaceNumber;
-+}
-+
-+static int snd_audiofuse_ctl_write(struct usb_mixer_interface *mixer,
-+				   u16 param, u8 val)
-+{
-+	struct snd_usb_audio *chip = mixer->chip;
-+	int err;
-+
-+	err = snd_usb_lock_shutdown(chip);
-+	if (err < 0)
-+		return err;
-+
-+	/* snd_usb_ctl_msg() bounces the buffer, so a stack variable is fine */
-+	err = snd_usb_ctl_msg(chip->dev, usb_sndctrlpipe(chip->dev, 0),
-+			      UAC2_CS_MEM,
-+			      USB_DIR_OUT | USB_TYPE_CLASS | USB_RECIP_INTERFACE,
-+			      param,
-+			      snd_audiofuse_windex(mixer, SND_AF_ENTITY_SET),
-+			      &val, sizeof(val));
-+
-+	snd_usb_unlock_shutdown(chip);
-+	return err;
-+}
-+
-+/* Returns the number of bytes read, or a negative error code */
-+static int snd_audiofuse_read_status(struct usb_mixer_interface *mixer,
-+				     u8 *buf)
-+{
-+	struct snd_usb_audio *chip = mixer->chip;
-+	int len;
-+
-+	len = snd_usb_ctl_msg(chip->dev, usb_rcvctrlpipe(chip->dev, 0),
-+			      UAC2_CS_MEM,
-+			      USB_DIR_IN | USB_TYPE_CLASS | USB_RECIP_INTERFACE,
-+			      0,
-+			      snd_audiofuse_windex(mixer, SND_AF_ENTITY_STATUS),
-+			      buf, SND_AF_STATUS_LEN);
-+	if (len < 0)
-+		return len;
-+
-+	/* enable with dynamic debug: file mixer_quirks.c +p */
-+	print_hex_dump_debug("AudioFuse status: ", DUMP_PREFIX_OFFSET, 16, 1,
-+			     buf, len, false);
-+	return len;
-+}
-+
-+static int snd_audiofuse_ctl_get(struct snd_kcontrol *kcontrol,
-+				 struct snd_ctl_elem_value *ucontrol)
-+{
-+	ucontrol->value.integer.value[0] =
-+		kcontrol->private_value & SND_AF_VAL_MASK;
-+	return 0;
-+}
-+
-+static int snd_audiofuse_ctl_put(struct snd_kcontrol *kcontrol,
-+				 struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kcontrol);
-+	unsigned long pval = kcontrol->private_value;
-+	u16 param = pval >> SND_AF_PARAM_SHIFT;
-+	u8 oldval = pval & SND_AF_VAL_MASK;
-+	long newval = ucontrol->value.integer.value[0];
-+	int err;
-+
-+	if (newval < 0 || newval > 1)
-+		return -EINVAL;
-+	if (newval == oldval)
-+		return 0;
-+
-+	err = snd_audiofuse_ctl_write(list->mixer, param, newval);
-+	if (err < 0)
-+		return err;
-+
-+	/* update the cache only after the device accepted the value */
-+	kcontrol->private_value = ((unsigned long)param << SND_AF_PARAM_SHIFT) |
-+				  newval;
-+	return 1;
-+}
-+
-+static int snd_audiofuse_ctl_resume(struct usb_mixer_elem_list *list)
-+{
-+	unsigned long pval = list->kctl->private_value;
-+
-+	return snd_audiofuse_ctl_write(list->mixer,
-+				       pval >> SND_AF_PARAM_SHIFT,
-+				       pval & SND_AF_VAL_MASK);
-+}
-+
-+static int snd_audiofuse_controls_create(struct usb_mixer_interface *mixer)
-+{
-+	struct snd_kcontrol_new knew = {
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
-+		.info = snd_ctl_boolean_mono_info,
-+		.get = snd_audiofuse_ctl_get,
-+		.put = snd_audiofuse_ctl_put,
-+	};
-+	u8 *status;
-+	int len, i, err = 0;
-+
-+	/*
-+	 * The quirk is applied for every mixer of the card, but the vendor
-+	 * entities are only reachable through the control interface 0.
-+	 * Checking this per mixer (instead of a global flag) keeps the
-+	 * controls working after re-plugging and with multiple devices.
-+	 */
-+	if (mixer->hostif->desc.bInterfaceNumber != SND_AF_CTRL_IFNUM)
-+		return 0;
-+
-+	status = kmalloc(SND_AF_STATUS_LEN, GFP_KERNEL);
-+	if (!status)
-+		return -ENOMEM;
-+
-+	/* a failed read is not fatal: start from "off" and keep audio working */
-+	len = snd_audiofuse_read_status(mixer, status);
-+	if (len < 0)
-+		usb_audio_warn(mixer->chip,
-+			       "AudioFuse: cannot read device status (%d)\n",
-+			       len);
-+
-+	for (i = 0; i < ARRAY_SIZE(snd_audiofuse_ctls); i++) {
-+		const struct snd_audiofuse_ctl *ctl = &snd_audiofuse_ctls[i];
-+		u8 val = 0;
-+
-+		if (ctl->status_offset < len)
-+			val = !!status[ctl->status_offset];
-+
-+		knew.name = ctl->name;
-+		knew.private_value =
-+			((unsigned long)ctl->param << SND_AF_PARAM_SHIFT) | val;
-+
-+		err = add_single_ctl_with_resume(mixer, 0,
-+						 snd_audiofuse_ctl_resume,
-+						 &knew, NULL);
-+		if (err < 0)
-+			break;
-+	}
-+
-+	kfree(status);
-+	return err;
-+}
-+
- int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
- {
- 	int err = 0;
-@@ -4609,6 +4793,9 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
- 	case USB_ID(0x03f0, 0x0269): /* HP TB Dock G2 */
- 		err = hp_dock_mixer_create(mixer);
- 		break;
-+	case USB_ID(0x1c75, 0xaf02): /* Arturia AudioFuse */
-+		err = snd_audiofuse_controls_create(mixer);
-+		break;
- 	}
- 
- 	return err;
--- 
-2.53.0
+[1/1] ASoC: codecs: madera: release runtime PM ref on FLL config failure
+      https://git.kernel.org/broonie/sound/c/1ba6a1d89d11
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
