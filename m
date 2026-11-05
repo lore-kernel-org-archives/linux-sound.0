@@ -1,103 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.125.188.122
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793847424;
-	b=iqTKwFj5+p8BOD9bMC353EorxMmjAVcAzXgRQeaQEMGjFuWt7de4knkMgeqDB/v8C71h
-	 Xt9OPor/RFtGKHAupBD0VGhwgQpmPAfBaBPJ4H+Fgt4qYqkmYFlfGlljLyMr8F93bg7HS
-	 KNQMTiSl0PR7BfyXgFuOK9r74rb6kIcZsOmP/PfZ9gEZmTW2GMdqbkIXr1XH+/ESqvTyE
-	 Hyp36ckW4PCfKhP5myYFnpnSyp/ToHtdGMDlorxQXveivnPajHmRcUMw+EZDLsiMy/d4c
-	 flZ2GBpKc0ddVmCXB4OGD44tmmimmpcrongS6E1bPFJ/g+y/qQze3Svwb4lcvSH3U4w==
+	t=1793847545;
+	b=tnGrdcGkZFbArL8caLLfOyPgjGnbrMK+I7E+9GbNiz5mQKF+7ck5XkjvimqgqI1dhEGS
+	 JqbD8A/ur16nO2hVCBrI3t6lMWf3PgYFrodyNH+dsR2AKXH0/FEWC1PvltSFONH+PK9E0
+	 XgJg7qurMWBbM5ohByk1/HmivGJfRqsRQRQDbIw+neafjByhENdyOevO+wdMGrNzycuqE
+	 KTfECKw38bVmh/LngANUbjshjRTZIpdFQIH2OQXM79LTpjjHH9JH9R/nnK8FMBLUNdK4v
+	 wxT92ZW1/IJBFkDDSXaQv0g8oy1f0njXvGMYKGUCDYDi9yjSW+JeWE7Jqftlv8lLhQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793847424;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:
-	 X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=glFoeqTtNUfY2+mxzil5Yl+taLvoFmrlvPohUi507NU=;
-	b=jiA1v8sKVlM+6IBTSpktv4pGeeo9XSP35qwK0cebJpOoqY8yQK4phvQ1j6IlRIZ7NiiX
-	 0nxEwehDuqJBp0Im7sjtHY4+7kh8K/xM5Pa0/da3bjnhqceopSpIwSqyP1hqUO1juoUiC
-	 24erKl13Ov2VqzzzcKPSl/riQUmdo0aMCdGtqr9c3cTMSuX3iFiXrfdNDA4HwdN57PcEm
-	 PIJ23ka607TM7q1jQrnl+1N+RU/TdwofyWIwjVPPnspXBmwc4pDOaRDAQGeMxgnizGxYt
-	 ChzS7/fwjD/qS6rfCQvT849Eyee7U9AUzHd2jX0i9/WbO5sLj3Fwv49cRdsRwEaXSPg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793847545;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=HkkHKPhfaM2A4qlGiSslXaZbsWoV2oYt+yic7jYpVjw=;
+	b=LOxifZ9yLR7QxbtWANZSQkhca8FHOPgxkxt+QnwB5AO9Zzjt7Ir9v+gzxqAJ0rBnYVaR
+	 GzMV4EL06dj5T6R7s4CKwFBPskWMjC1QDRGNz0i+cUe04f5JDY75amGDmael7vQLjQCrF
+	 xpPIi20R12ulG+GaflXCUWWkUGeJr1J1AXaQCWahqJT0KvSxShHZS5wET2t+Oipf4IcbL
+	 yLeRDBxI2swe9IUgEInqkyoqM2caTPEeEwLdr9WmCsoYQfw8OdiohxWRgbKiON8gVyeYe
+	 GLcFHZrpewm61+upuf1BClXKvFPloQr4Llc8r9o7nlHrlgSLzWfsfQ2r85nyI+oLCeQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=canonical.com;
-	spf=pass smtp.mailfrom=canonical.com;
-	dkim=pass header.d=canonical.com header.i=@canonical.com header.a=rsa-sha256 header.s=20251003 header.b=R7Qt27yL;
-	arc=none smtp.remote-ip=185.125.188.122
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gUhnMK6V;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5DD606A328
-	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 02:57:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A5DD606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B96606A326;
+	Thu,  5 Nov 2026 02:59:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key, unprotected) header.d=canonical.com header.i=@canonical.com header.a=rsa-sha256 header.s=20251003 header.b=R7Qt27yL
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id C96C83F853
-	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 02:57:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1793847420;
-	bh=glFoeqTtNUfY2+mxzil5Yl+taLvoFmrlvPohUi507NU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version;
-	b=R7Qt27yLogN3RdwhkZEmcyiyW6IZiEIXy5Zu80URZC1U8z2l53NHQULrfFmhvvgag
-	 m83lobKsrmVgbMg/TZtycvej2pY1E630J62ZHBXdQTmCIHzwjOURDY7X89ulrc5e4K
-	 ycE8n0+ntb9ullBhGrDttiRIDwZOH9Ia1cEshE49jjnrdzlWOTji2+wbFgtWoe+LQL
-	 V/hRmOXPBK6OgKzQAdTbIStBgQW+LHMcb7WNhYxMCGqAASfVqsS/znmCo+pdfEciST
-	 fX5E6BjS6THvcuZq6qOfFp7yzYjyL+Zh7x9nL7I75lYW+GWpNQ+9j/0LLq6UkWKvbk
-	 fR2rRZEbFIuZ9sLVMMvtwtFBfm72GNqdBdsemj7qZRG74Q7GlBFhMjSc08QGbL92+1
-	 /kBVQcI5bbGeHIKsUNt7K1DDd84BumEUvpezoGoGiaC9cntwKlkRQhGpFMWB1f0MQH
-	 USl4zSQ22e59tcbCWY48fvYtmC6Hol+mh5QpIW76RU4ozEDiIEhLxiwLR2JbaSqrJH
-	 MDNCHdoZbIPXNjpAk+f5qm71TvqAc4FiskyCBw+crER0li+2xTUeUh5HiYsMpQNWUd
-	 KlJhNsLPRM2B4GIRFPsXN61BI2GLYRYlOxSPfAR+rhT9RSKmqiIoIFoGZyXC2+ze9A
-	 xVfk7fQXJJGSf8V0e8np4gQw=
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-8862ed0539dso1660676b3a.0
-        for <linux-sound@vger.kernel.org>; Wed, 04 Nov 2026 18:57:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793847419; x=1794452219;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=glFoeqTtNUfY2+mxzil5Yl+taLvoFmrlvPohUi507NU=;
-        b=LLPZKBPEBkgJYRFJxBODmQtaDa+cur+pvjtHedKmp8tJwVj0rQFKobiILceObWDApr
-         7HrgMrxxvlbXm7j1H5aoYtvQIxWNB5h/kCbSluhRI9E8RL7CLcvFK7+2nSi17bsSOqH0
-         /RLfKRyU8aHWepY4iK8vvl/DaRzC6Pu1eGn8bYxVmv3FlIhxBZHEO5i7BKb1nAwUw/N1
-         YlHhWkJFCWmdLHGA4lAnGqP69ToqbkRN6gCo/J3uOaB6CGZ2Rb4LN6yJlhzQGnBXLrn4
-         Iclao9uaqJ/JHm+XfrQDUVB+gp86c+Mn01xotkzcN769VBNmWuTVsRilh86vHrdoIWIs
-         NsqQ==
-X-Gm-Message-State: APuU4Z/JDZaY9OJH8upJLsOYMzw3U9fMxEqdEVl78zYOK1MX5rLhSKP2
-	l0Q+Ru+2oK3BcXyGDJffMRCLUFpcMQF2+H/FInQE5jSY74NkKIKJFvtZYzSd0/8DKAe7W6u+Uej
-	xbiQ97MEzsrn6YR0zMxsY6xCPhW/akEulYIb3LelKW7Iry11NOlLci1dvWxGgNTZtdyplKYoHES
-	b46g95
-X-Gm-Gg: AYBFou3K1kvn0upd93ZU+lf3tgxf9oGszl8lExx/nEvDw0v6CRQLneNS9MOaF9+FUyo
-	xSI+/K2Rsn5MJM4dfGijatDr2X7faRH4EgnJ2Fh0TDRr61BhX7IzwGqFddWK03UVGkU8EYlfnH0
-	vwVRpi/e+gsIfVCreqhuEgh/cbMV+xEX7yOQOLosUFLT7EGf24+wrvR5W0Nb4ASO41EZllB6HbG
-	hmWURgVWCw0qTbrsZltzhbz8no84j6pKIZ2tinbQLPQDqtDBSTrt4iCjbuXEqDBknSYs4Hjp+de
-	sifslwe1OgknNZ7pWbmESjNl5NH9smjtthf4MxrGqmFIndm5zBC5y6WX0JrDEAYa26f9NQ44nqO
-	btYhMpD+drYjXIuDWmBxla3EWNyED6EQ4Bca5xoAZpulwrzap7d6Jubk64t+93M5nW6dIA5fS+E
-	BsRQv8x9awnDK+gZGFO16fz0WPXp/h
-X-Received: by 2002:a05:6a00:806:b0:886:bb44:631f with SMTP id d2e1a72fcca58-8a9bb79fb0dmr15642264b3a.10.1793847419307;
-        Wed, 04 Nov 2026 18:56:59 -0800 (PST)
-X-Received: by 2002:a05:6a00:806:b0:886:bb44:631f with SMTP id d2e1a72fcca58-8a9bb79fb0dmr15642244b3a.10.1793847418922;
-        Wed, 04 Nov 2026 18:56:58 -0800 (PST)
-Received: from localhost.localdomain (211-75-139-218.hinet-ip.hinet.net. [211.75.139.218])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8b09b667995sm1399905b3a.40.2026.11.04.18.56.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 18:56:58 -0800 (PST)
-From: Chris Chiu <chris.chiu@canonical.com>
-To: tiwai@suse.com,
-	kailang@realtek.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chris Chiu <chris.chiu@canonical.com>
-Subject: [PATCH] ALSA: hda/realtek: Use inverted mute LED quirk for HP ZBook 8 G2a
-Date: Thu,  5 Nov 2026 10:56:47 +0800
-Message-ID: <20261105025647.1116662-1-chris.chiu@canonical.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gUhnMK6V
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69A11F00919;
+	Thu,  5 Nov 2026 02:59:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793847544;
+	bh=HkkHKPhfaM2A4qlGiSslXaZbsWoV2oYt+yic7jYpVjw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=gUhnMK6VsoxJH3lcKLMMishMQ3FwlsO0fnPivjTJAbltEOu8MEZPtKqHm51PfszAA
+	 RhOOpFPECNBgRQyIdbqtFZj5OXlsvIqI2jIRe9xsUx7Rzxc9COpG1vzS+sIqMraANQ
+	 1T6xFKWmESmkuVuMiupckSE8VdupPW1UO3wAEDZzK0qLh11kDgBAwbVuuDZhiYNYMx
+	 EV+ps8ZLIzmAp0rrjshNY3uzb6PCXtib/EFYFAw6jshw1nfAG5dapoztnufkVB5doF
+	 R8jEzy/oECaff7rU7BmKOV8XDKnh5oirkxbDXIINCfhUtMgwEuOwtcQtidNJ2faQ/g
+	 mY8vkw/QOZBzQ==
+Message-ID: <sashiko-outbox-198493@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v16 10/12] ALSA: virtio: add staged capture and
+ serialize PCM lifecycle accounting
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
+Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
+ Perez" <eperezma@redhat.com>
+In-Reply-To: <20261105023140.18373-11-mynameisjune111@gmail.com>
+References: <20261105023140.18373-1-mynameisjune111@gmail.com>
+ <20261105023140.18373-11-mynameisjune111@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Nov 2026 02:59:04 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -106,45 +61,104 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-HP ZBook 8 G2a (SSIDs 0x103c:0x8f40, 0x103c:0x8f41, 0x103c:0x8f42,
-0x103c:0x8f62) use the Realtek ALC245 codec with a TAS2781 amplifier
-via I2C. They share the same hardware configuration as the related
-0x103c:0x8f94 / 0x103c:0x8f95 models but were left on
-ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED, which drives the speaker mute
-LED backwards: off when muted and on when unmuted.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] ALSA: virtio: virtsnd_pcm_period_elapsed() corrupts linked paused =
+streams
+--
 
-Reassign these SSIDs to ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED_INVERTED
-so the LED follows mute state correctly.
+commit d8e5fc87d68c2238eeb8bbf2e3deb7ce9fbe8f3e
+Author: Joonho Lee <mynameisjune111@gmail.com>
 
-Fixes: 9afbbf490322 ("ALSA: hda/realtek - Enable Mute LED and Tas2781 for HP platform")
-Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
----
- sound/hda/codecs/realtek/alc269.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ALSA: virtio: add staged capture and serialize PCM lifecycle accounting
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index f7786e1b0878..b00036f2719d 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7738,11 +7738,11 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8f3a, "HP EliteBook 6 G2i", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8f3c, "HP EliteBook 6 G2a", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8f3d, "HP EliteBook 6 G2a", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
--	SND_PCI_QUIRK(0x103c, 0x8f40, "HP ZBook 8 G2a 14", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED),
--	SND_PCI_QUIRK(0x103c, 0x8f41, "HP ZBook 8 G2a 16", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED),
--	SND_PCI_QUIRK(0x103c, 0x8f42, "HP ZBook 8 G2a 14W", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8f40, "HP ZBook 8 G2a 14", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED_INVERTED),
-+	SND_PCI_QUIRK(0x103c, 0x8f41, "HP ZBook 8 G2a 16", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED_INVERTED),
-+	SND_PCI_QUIRK(0x103c, 0x8f42, "HP ZBook 8 G2a 14W", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED_INVERTED),
- 	SND_PCI_QUIRK(0x103c, 0x8f57, "HP Trekker G7JC", ALC287_FIXUP_CS35L41_I2C_2),
--	SND_PCI_QUIRK(0x103c, 0x8f62, "HP ZBook 8 G2a 16W", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8f62, "HP ZBook 8 G2a 16W", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED_INVERTED),
- 	SND_PCI_QUIRK(0x103c, 0x8f7e, "HP Messi", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8f94, "HP ZBook 8 G2a 14", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED_INVERTED),
- 	SND_PCI_QUIRK(0x103c, 0x8f95, "HP ZBook 8 G2a 16", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED_INVERTED),
--- 
-2.43.0
+This commit adds staged capture using request-owned RX storage and
+separates produced, observed, and consumed positions for shared capture
+clients. It also serializes PCM lifecycle operations with lifecycle_lock
+and ACK accounting with the PCM stream lock.
 
+> diff --git a/sound/virtio/virtio_pcm.c b/sound/virtio/virtio_pcm.c
+> index be3893de40a55..f9b301e4a70ae 100644
+> --- a/sound/virtio/virtio_pcm.c
+> +++ b/sound/virtio/virtio_pcm.c
+> @@ -310,8 +310,119 @@ static void virtsnd_pcm_period_elapsed(struct work_=
+struct *work)
+>  {
+>  	struct virtio_pcm_substream *vss =3D
+>  		container_of(work, struct virtio_pcm_substream, elapsed_period);
+> +	struct snd_pcm_substream *substream =3D vss->substream;
+> +	struct snd_pcm_runtime *runtime;
+> +	size_t period_bytes;
+> +	u64 period_floor;
+> +	u64 snapshot;
+> +	bool staged_capture;
+> +	bool paused_xrun =3D false;
+> +	bool notify =3D false;
+> +	bool partial =3D false;
+> +	bool requeue =3D false;
+> +
+> +	scoped_guard(spinlock_irqsave, &vss->lock) {
+> +		staged_capture =3D vss->direction =3D=3D SNDRV_PCM_STREAM_CAPTURE &&
+> +				 vss->capture_staging;
+> +	}
+> +
+> +	/* Serialize the pointer snapshot with ALSA's pointer and ACK callbacks=
+. */
+> +	guard(pcm_stream_lock_irqsave)(substream);
+> +	if (!substream->runtime)
+> +		return;
+> +	if (!snd_pcm_running(substream)) {
+> +		scoped_guard(spinlock_irqsave, &vss->lock) {
+> +			runtime =3D substream->runtime;
+> +			paused_xrun =3D runtime &&
+> +				      runtime->state =3D=3D SNDRV_PCM_STATE_PAUSED &&
+> +				      vss->xfer_xrun;
+> +			if (paused_xrun)
+> +				virtsnd_pcm_capture_arm_paused_stop(vss);
+> +		}
+> +		if (paused_xrun) {
+> +			/* Stop paused transfers and wake blocked readers. */
+> +			snd_pcm_stop(substream, SNDRV_PCM_STATE_XRUN);
+> +		}
+> +		return;
+> +	}
+
+[Severity: High]
+How does virtsnd_pcm_period_elapsed() handle paused substreams that are
+linked to sibling substreams via SNDRV_PCM_IOCTL_LINK?
+
+When runtime->state is SNDRV_PCM_STATE_PAUSED and vss->xfer_xrun is set,
+virtsnd_pcm_period_elapsed() calls virtsnd_pcm_capture_arm_paused_stop(vss)
+on only that single substream (setting vss->xfer_enabled =3D false,
+vss->stopped =3D true, and runtime->stop_operating =3D true), and then calls
+snd_pcm_stop(substream, SNDRV_PCM_STATE_XRUN).
+
+Because snd_pcm_stop() runs snd_pcm_action(&snd_pcm_action_stop, ...)
+across all substreams in substream->group, and snd_pcm_do_stop() only
+invokes ops->trigger(s, SNDRV_PCM_TRIGGER_STOP) and sets
+s->runtime->stop_operating =3D true when snd_pcm_running(s) is true (which =
+is
+false for SNDRV_PCM_STATE_PAUSED), snd_pcm_post_stop() transitions any
+paused sibling substream to SNDRV_PCM_STATE_XRUN without
+virtsnd_pcm_capture_arm_paused_stop() ever running on it.
+
+When userspace subsequently calls SNDRV_PCM_IOCTL_DROP, snd_pcm_drop() sees
+the sibling substream already in SNDRV_PCM_STATE_XRUN rather than
+SNDRV_PCM_STATE_PAUSED, so snd_pcm_pause(s, false) and snd_pcm_do_stop()
+are skipped, and snd_pcm_sync_stop() is also skipped because
+s->runtime->stop_operating is false. Does this leave the sibling substream
+in SNDRV_PCM_STATE_SETUP while its VirtIO stream remains prepared on the
+device with active virtqueue buffers?
+
+In addition, if substream is linked and snd_pcm_stream_group_ref() inside
+snd_pcm_stop() contends on group->mutex, it temporarily drops substream's
+PCM stream lock to acquire group->mutex in lock order. Can a concurrent
+snd_pcm_drop() or snd_pcm_prepare() complete during that window and place
+the substreams into SNDRV_PCM_STATE_SETUP or a new SNDRV_PCM_STATE_PREPARED
+epoch before snd_pcm_stop(substream, SNDRV_PCM_STATE_XRUN) finishes locking
+and overwrites runtime->state with SNDRV_PCM_STATE_XRUN?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105023140.1837=
+3-1-mynameisjune111@gmail.com?part=3D10
