@@ -1,128 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793877181;
-	b=UyikgISSer9j1qz0HUq/+qVD46Oe7ECVrD/Y6Dzi/AuqtWE915oBSM4peuUxJYb2eRKk
-	 +Eo3xhcHExPwURZTGmE7UrMhFpZONbUS8P4Hm3bnawvW0D1Ts9IF81u9NdzH0ZZEVjLV8
-	 MHn3lbuea7Fwg+bMm1qO5L/MkVw1RZjfOmWt2b6Cu2ZYx9zjth4oVRKsYHxaSQFMjkX07
-	 vm3pTVbTiRDl5VpDlru4+stEFZTZ0OcfjA6K8+eJiz24pUK9aJeBPobGhMq0XRqQke9M2
-	 6Fax7mYoXAx+mhHSMYJlz/tKgZhpgYZLUgTAhLRHOSaG4t1E0COXlPi5MpNe3Xf7FUw==
+	t=1793878171;
+	b=BFEdn8XD3CxqUhNwcqwnDmjGgAufb8ipd+eEf3+Zq15tfZwnHOAoePp8Zfy/+28mCa09
+	 ahmKwAEXlA2DM8FwIEvWCsHCUjiPFvTONjTHXjbf1IamzdbLBFMRuX+QHmZQH8eGfRPqm
+	 TeXpwtI8VH8T7lPE3P4++o6fEGb7LV+M3GZoADoZI8hu22DI/k+8StdCxDvmnXZJnNgSd
+	 31nsPIG5z+vd+TX7w0BBqYtl9GHZywFZhBfkn9q9vsL+a6KJCM9LNqfliWdv3aJYFXRlT
+	 V8uKjfLVOmWRX7iCxne/1D9dvOlQfU50BNDDQxrSN68I+oxm04AhqUj2xtE0/eBN5vw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793877181;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=ZHY6y+s2RrJzwaejYRMjR8b7lUTPpigmvDA0dU0XxKE=;
-	b=ZL4vgMfdknEWiXidAErizJR8D6oGMeptdqlm/kuESur2FGRb9aQb0q4pzhZa8bWKeOOk
-	 BMjLs2AFPAQ13FrwPxqB4V+YRzvxDN3e0bxa9lb4CORkTlZ8+ohEbymTmVvYfxvesGIYZ
-	 NcRRw79KgAXFf+gMk0hQJc84dE8obzw6JSEO1Y/8Gg3As7dvLsaW0+WY3WoOsN0ccoKL6
-	 VZsRPysf3/jZtZGpI22ZRWDZxAbslA0EoUxtkHd1qP/jxKTr4c3ja0n5YtADIPSgKPzkZ
-	 VQW9fMdNlcr9p7OYdhkdoGsuCnsVxg/F8LR7fLbQAuxdPBVe/YC9cd8qeZ5lMg2o3NA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793878171;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=9U9GB3endV6JAjeDDhjtVJSKjAitnI4NRLIWnORLmss=;
+	b=JBZjGUPkft/4xl1aYF5unGB0dLHQbgyAYOknrITWnnQNQvxySfmxSJb6dzuTKHmMORh8
+	 p8YBkBLLtpVH1lTu6yFe5S38BBeE8CJY8lH/coaDMtJofILlocvS5HiWg+ZGOeeNofiVT
+	 c6xlJ9HAI4xogcokHDOVU6zS9AnYcHI1UGJYq0cmRb1ECFOJu/VvrnLNPphI0eUda3JGE
+	 YXJi0RF/Z6QKbxscg4sZG/R/NdxgUHDW2d0oAXMw2Zpjxr0Ui5JdcgKkOG/+ZnzAHAXZR
+	 eKB68VNCKnwbiRtFVWn5w/lUg0qyEtS73b7J/3SbCeR1wKLPTEkyQXRMwOMPYCOVang==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=PFN6w7Uo;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=OIIJR9F3;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=PFN6w7Uo;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=OIIJR9F3;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m5Gy0by0;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D6E606A32F;
-	Thu,  5 Nov 2026 11:12:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71D6E606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1078B606A31B
+	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 11:29:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=PFN6w7Uo;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=OIIJR9F3;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=PFN6w7Uo;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=OIIJR9F3
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B0DFF21FC5;
-	Thu,  5 Nov 2026 11:12:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793877173; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZHY6y+s2RrJzwaejYRMjR8b7lUTPpigmvDA0dU0XxKE=;
-	b=PFN6w7UogynvDg6wXP5wRfpBkFaml+uFR7+DGPlk44D7H+/LQa+SoO2XJcQjvnSWrZwu11
-	0Hu0xVZ/0wl3P3VSS2M4p6oN+AHfLIdMpImDTZLXRA49JKD79Q7UQ54TherVqbDKGvid1C
-	dm4w3eHvJSCns3Mg7kqvbfylEJcImJE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793877173;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZHY6y+s2RrJzwaejYRMjR8b7lUTPpigmvDA0dU0XxKE=;
-	b=OIIJR9F30Nqs/C66tmGPlHwJsAZoznWM2UgcVCWZi+3xk/7RQOJOBCyTUNyGtkbOhEzr9X
-	eWIQGVIGQKlqH2DQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793877173; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZHY6y+s2RrJzwaejYRMjR8b7lUTPpigmvDA0dU0XxKE=;
-	b=PFN6w7UogynvDg6wXP5wRfpBkFaml+uFR7+DGPlk44D7H+/LQa+SoO2XJcQjvnSWrZwu11
-	0Hu0xVZ/0wl3P3VSS2M4p6oN+AHfLIdMpImDTZLXRA49JKD79Q7UQ54TherVqbDKGvid1C
-	dm4w3eHvJSCns3Mg7kqvbfylEJcImJE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793877173;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZHY6y+s2RrJzwaejYRMjR8b7lUTPpigmvDA0dU0XxKE=;
-	b=OIIJR9F30Nqs/C66tmGPlHwJsAZoznWM2UgcVCWZi+3xk/7RQOJOBCyTUNyGtkbOhEzr9X
-	eWIQGVIGQKlqH2DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E9F83134F4;
-	Thu,  5 Nov 2026 11:12:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sAV+L7Rk7GrQVwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 05 Nov 2026 11:12:52 +0000
-Date: Thu, 05 Nov 2026 12:12:52 +0100
-Message-ID: <87ld77sf9n.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Josef Bacik <josef@toxicpanda.com>,
-	linux-fsdevel@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jann Horn <jannh@google.com>,
-	Chris Mason <mason@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	Joel Granados <joel.granados@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jan Kara <jack@suse.com>,
-	linux-kernel@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	linux-sound@vger.kernel.org,
-	linux-mm@kvack.org,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH RFC 0/7] proc: move procfs to what kernfs does
-In-Reply-To: <20261105-erbrechen-unecht-bauformen-0794d3cfb679@brauner>
-References: <20261102-defizit-jobaussicht-kurios-7016c6e67442@brauner>
-	<464ef986eab97abf226791c7e19ad111.josef@toxicpanda.com>
-	<20261105-erbrechen-unecht-bauformen-0794d3cfb679@brauner>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m5Gy0by0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C70451F00919;
+	Thu,  5 Nov 2026 11:29:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793878170;
+	bh=9U9GB3endV6JAjeDDhjtVJSKjAitnI4NRLIWnORLmss=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=m5Gy0by0qIyS3vmpAHkE1nNi5yoQb8cwGg8zu5INgvLVLKXj0bS/7qVchVYXlj5uD
+	 NfdOvs6Yy12YC81HCTasARL76leWLC2wN5/yKWJVSwnZfeXk6/XBKMcfN/sWu8du2X
+	 7BcXnQLEP6KC+9wVNSK6z4AQudjE0diOT6io2MYzucfux2sZ6J+lbkxSoDS1tfjmSt
+	 4jWz3kM8BQ5XyZxY0HMcFC3JFZGyJ00IAWi0nRAdztSF02qz9h1sBjCIqZvJbxgek0
+	 NCTCrvDRkgG3NDwjAbqgUSc9bmi+OCGsvtwbKqCzWRBLQXGvSX3A0vNLhUPGycglfg
+	 Uu3A0Bt1dDStA==
+Message-ID: <sashiko-outbox-198950@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 v2 2/2] soundwire: qcom: Add set_channel_map support
+ to SWR master DAI
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mohammad Rafi Shaik" <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261105-soundwire_channel_map-v2-2-5efe2021552a@oss.qualcomm.com>
+References: <20261105-soundwire_channel_map-v2-0-5efe2021552a@oss.qualcomm.com>
+ <20261105-soundwire_channel_map-v2-2-5efe2021552a@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Nov 2026 11:29:30 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -131,47 +60,188 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.30
-X-Spam-Level: 
-X-Spam-Flag: NO
 
-On Thu, 05 Nov 2026 11:28:56 +0100,
-Christian Brauner wrote:
-> 
-> On Wed, 04 Nov 2026 22:23:51 +0000, Josef Bacik wrote:
-> > - snd_info_text_entry_write() allocates the larger buffer and frees the
-> >   old one without copying what's in it, so a text entry written in
-> >   pieces loses the start once it crosses a page.  It's been like that
-> >   since ffb73b08e794.
-> 
-> Yay, more bugfixes... You share the blame for more mail traffic now.
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
+- [High] soundwire: qcom: lock ordering inversion in qcom_swrm_port_enable()
+- [High] soundwire: qcom: zero slot masks in qcom_swrm_set_channel_map() cl=
+obber ports
+- [High] soundwire: qcom: single-direction qcom_swrm_set_channel_map() clob=
+bers other direction
+--
 
-Indeed it's a real bug (regression by the commit).  Also your fixes
-for old issues should be taken sooner.  Would it make sense to pick up
-those for 7.4-rc, then rebase your rest series for 7.5?
+commit c509f8b3c2506c16cc2d00c47ddc8257189902cf
+Author: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
 
+soundwire: qcom: Add set_channel_map support to SWR master DAI
 
-thanks,
+This commit adds .set_channel_map support to the Qualcomm SoundWire master
+DAI so the ASoC layer can configure per-port TX and RX channel masks used by
+qcom_swrm_port_enable().
 
-Takashi
+> diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
+> index 147e55b7a600b..c411c3628dee4 100644
+> --- a/drivers/soundwire/qcom.c
+> +++ b/drivers/soundwire/qcom.c
+
+[ ... ]
+
+> @@ -1188,12 +1192,28 @@ static int qcom_swrm_port_enable(struct sdw_bus *=
+bus,
+>  {
+>  	u32 reg;
+>  	struct qcom_swrm_ctrl *ctrl =3D to_qcom_sdw(bus);
+> +	struct qcom_swrm_port_config *pcfg;
+>  	u32 val;
+>  	u32 offset =3D ctrl->reg_layout[SWRM_OFFSET_DP_PORT_CTRL_BANK];
+> =20
+>  	reg =3D SWRM_DPn_PORT_CTRL_BANK(offset, enable_ch->port_num, bank);
+> =20
+>  	ctrl->reg_read(ctrl, reg, &val);
+> +	pcfg =3D &ctrl->pconfig[enable_ch->port_num];
+> +
+> +	mutex_lock(&ctrl->port_lock);
+
+[Severity: High]
+Does acquiring ctrl->port_lock inside qcom_swrm_port_enable() cause a lock
+ordering inversion with ctrl->bus.bus_lock?
+
+During hw_params, qcom_swrm_hw_params() -> qcom_swrm_stream_alloc_ports()
+acquires ctrl->port_lock and then calls sdw_stream_add_master(), which locks
+bus->bus_lock:
+
+drivers/soundwire/qcom.c:qcom_swrm_stream_alloc_ports() {
+	guard(mutex)(&ctrl->port_lock);
+	...
+	sdw_stream_add_master(&ctrl->bus, &sconfig, pconfig,
+			      nports, stream);
+}
+
+During stream enable and disable, sdw_enable_stream() and sdw_disable_strea=
+m()
+acquire bus->bus_lock via sdw_acquire_bus_lock() before calling into
+bus->port_ops->dpn_port_enable_ch(), which invokes qcom_swrm_port_enable() =
+and
+acquires ctrl->port_lock in the reverse order (bus->bus_lock ->
+ctrl->port_lock).
+
+> +	if (enable_ch->port_num <=3D ctrl->num_dout_ports) {
+> +		if (pcfg->rx_ch_map_valid)
+> +			enable_ch->ch_mask =3D pcfg->rx_ch_mask;
+> +		else if (pcfg->tx_ch_map_valid)
+> +			enable_ch->ch_mask =3D pcfg->tx_ch_mask;
+> +	} else {
+> +		if (pcfg->tx_ch_map_valid)
+> +			enable_ch->ch_mask =3D pcfg->tx_ch_mask;
+> +		else if (pcfg->rx_ch_map_valid)
+> +			enable_ch->ch_mask =3D pcfg->rx_ch_mask;
+> +	}
+> +	mutex_unlock(&ctrl->port_lock);
+> =20
+>  	if (enable_ch->enable)
+>  		val |=3D (enable_ch->ch_mask << SWRM_DP_PORT_CTRL_EN_CHAN_SHFT);
+> @@ -1413,6 +1433,39 @@ static void *qcom_swrm_get_sdw_stream(struct snd_s=
+oc_dai *dai, int direction)
+>  	return ctrl->sruntime[dai->id];
+>  }
+> =20
+> +static int qcom_swrm_set_channel_map(struct snd_soc_dai *dai,
+> +				     unsigned int tx_num, const unsigned int *tx_slot,
+> +				     unsigned int rx_num, const unsigned int *rx_slot)
+> +{
+> +	struct qcom_swrm_ctrl *ctrl =3D dev_get_drvdata(dai->dev);
+> +	unsigned int max_ports =3D ctrl->nports;
+> +	unsigned int i;
+> +
+> +	if ((tx_num && !tx_slot) || (rx_num && !rx_slot))
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&ctrl->port_lock);
+> +	for (i =3D 1; i <=3D max_ports; i++) {
+> +		ctrl->pconfig[i].tx_ch_map_valid =3D false;
+> +		ctrl->pconfig[i].rx_ch_map_valid =3D false;
+
+[Severity: High]
+As reported by Sashiko on v1 [1], when qcom_swrm_set_channel_map() is called
+for a single stream direction, does unconditionally resetting both
+tx_ch_map_valid and rx_ch_map_valid to false clobber the opposite direction=
+'s
+channel map?
+
+In qcom_snd_sdw_startup(), playback calls snd_soc_dai_set_channel_map() with
+tx_num =3D 0 and rx_num =3D SDW_MAX_PORTS, whereas capture calls it with
+tx_num =3D SDW_MAX_PORTS and rx_num =3D 0. Because all DAIs on the controll=
+er
+share ctrl->pconfig[], starting a playback stream clears tx_ch_map_valid ac=
+ross
+all ports and sets rx_ch_map_valid =3D true, while starting a capture stream
+clears rx_ch_map_valid and sets tx_ch_map_valid =3D true.
+
+In addition, because qcom_swrm_port_enable() falls back to the opposite
+direction's mask when a port's own direction flag is false:
+
+	if (enable_ch->port_num <=3D ctrl->num_dout_ports) {
+		if (pcfg->rx_ch_map_valid)
+			enable_ch->ch_mask =3D pcfg->rx_ch_mask;
+		else if (pcfg->tx_ch_map_valid)
+			enable_ch->ch_mask =3D pcfg->tx_ch_mask;
+	} else {
+		if (pcfg->tx_ch_map_valid)
+			enable_ch->ch_mask =3D pcfg->tx_ch_mask;
+		else if (pcfg->rx_ch_map_valid)
+			enable_ch->ch_mask =3D pcfg->rx_ch_mask;
+	}
+
+won't DIN (TX) ports end up using pcfg->rx_ch_mask after a playback
+set_channel_map() call, and DOUT (RX) ports end up using pcfg->tx_ch_mask
+after a capture set_channel_map() call?
+
+> +
+> +		/* TX setup */
+> +		if (tx_slot && i < tx_num) {
+> +			ctrl->pconfig[i].tx_ch_mask =3D tx_slot[i];
+> +			ctrl->pconfig[i].tx_ch_map_valid =3D true;
+> +		}
+> +
+> +		/* RX setup */
+> +		if (rx_slot && i < rx_num) {
+> +			ctrl->pconfig[i].rx_ch_mask =3D rx_slot[i];
+> +			ctrl->pconfig[i].rx_ch_map_valid =3D true;
+> +		}
+
+[Severity: High]
+As reported by Sashiko on v1 [2], if tx_slot[i] or rx_slot[i] is 0 for an
+unused or unmapped port in the sparse channel map array, will marking
+tx_ch_map_valid or rx_ch_map_valid as true cause qcom_swrm_port_enable() to
+override enable_ch->ch_mask with 0?
+
+Codec callbacks such as wcd937x_get_channel_map() and pm4125_get_channel_ma=
+p()
+populate a 15-element (SDW_MAX_PORTS) sparse array where unmapped or inacti=
+ve
+master ports have slot[i] =3D=3D 0:
+
+sound/soc/codecs/wcd937x.c:wcd937x_get_channel_map() {
+	for (i =3D 0; i < SDW_MAX_PORTS; i++)
+		rx_slot[i] =3D wcd->master_channel_map[i];
+
+	*rx_num =3D i;
+}
+
+Since max_ports <=3D 14 < SDW_MAX_PORTS, i < tx_num or i < rx_num is true f=
+or
+every port 1..max_ports. Any port whose slot entry is 0 gets tx_ch_mask =3D=
+ 0 or
+rx_ch_mask =3D 0 with the valid flag set to true, so qcom_swrm_port_enable(=
+) will
+overwrite the stream-provided enable_ch->ch_mask with 0 instead of falling
+back to the stream's channel mask.
+
+[1] https://lore.kernel.org/r/20260629141633.86657-3-mohammad.rafi.shaik@os=
+s.qualcomm.com
+[2] https://lore.kernel.org/r/20260629141633.86657-3-mohammad.rafi.shaik@os=
+s.qualcomm.com
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261105-soundwire_=
+channel_map-v2-0-5efe2021552a@oss.qualcomm.com?part=3D2
