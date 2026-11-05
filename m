@@ -1,61 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793874544;
-	b=JcHrOfilSn+jy2AJXtvy1PvmiaOnSss29kKKr4PC/a4ZVS4p1iLv4fku93YB3Ez9HsTu
-	 4DJz6x8IdHZ5Lkz0IdP52+WKED49AAAkdFtrwoZ1Zj6mhQClCarja72wdrNefd4jVHmKP
-	 VSw/n3k+9jO9r2HGz9/AwEFuyWzPggjbCdePGYWIf1frnzGCITvzZ2ezpwHkP8tK4y3+v
-	 FaaryV/WdwbPOFUUIcmu+CWSjZf5FejLczlHbGjH5HwunoMyKa7sZXgAKOcijFahRpmNd
-	 CI0nsYJnB7cFWsLvOy8uu/G7sFkQVPPLElnZuJhq09AznYQfLDXJr6JpcErgTXjotXQ==
+	t=1793875050;
+	b=Qkkb4L4tNfkKP8+atKuV8z+sXC/11o6SMyJvgzzbutx4ccTFogN7LZaj/go+VuDMr8SZ
+	 GENTN22sE1HwRGWjBNlGGKbHAAwsTb3YsCjAsf6I46YBUQxVvcsv3AjFV2oqyLiPUr7pc
+	 uUlrSau3QYy5oCMx4HvnxPot36L8alaxSlgUPqeD3mHSPemsEv2HzrrYIsZqmoG/DNPnS
+	 ggA+PexD7d+idX1StGsE5U45nez0CVptzXz7ERXj/hTgPXB34WcXOzDF5FlPNjIs3UYBw
+	 2PowTdQVcEcKu5iSuK8CYRbccRqLHXisHd93WSkem18QO7QC3I26CQcPKmE2e0c/W5g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793874544;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=57E1PfjaDh0LCy68sg+mNNI5f3Z5aUw0wqyBt7zz4T8=;
-	b=v95yTTrRk0DNsIt0X+2B5on0e5iUnmnLdG+cG40Cn6SyxWGaVETH/C7SJImJM1ki7RTn
-	 b2vt7Xt7Qu9NodK8dACgmaYVhOOeyf2sKs7i4KNIKFhlDiA4rRerSuSsa0d/iGo63JnS/
-	 PgWgNsDdm6dE7IzqSlAJd/xjnMatGtVpf+ypQ7HNY9uFcSen6Hq4/jxfDJv5FYJ7dT/6t
-	 0k2mGw3v/26xx0ei4Ev2fE3GcrKT8pe3qrBs2qyxiqwUQHbDo6vNmtjs8XKLV4xlj01Ap
-	 72H6v8BWC8+Hj2d1b/4vmYO2eAgyvk6fQYLpbB+0wNwf7WnjjD/CVsn4zEsn6brqlhw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793875050;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=wKTLV6LjhmAfEMMbSEaJYuctRKoiNgp1BndAcbyARuA=;
+	b=W9M7RZ/i8tjde+5VOHCkeM58Qqu+14JThN0LN/biElAoDpGsouAU2ZKwXtKh+OBXQWyd
+	 ahXavRhI70AQV+NPf7ZwplThYAC+K89yV12Ns07DHAESKsbBpgo64AWss7ct+DxbQ3hUx
+	 +GZShV19Lbg5HAG+77UiM/eOY8XnW6lJh+KomgrzgiF/LlXfxnTQnlwYxPyDTZ1w/AQWG
+	 fOwLJPRRUe9umTHITG1rQn2pgN1ezx4JKHrwY4McRdFe+k1J0+4S8ivwDXF/eUKkU1Aaz
+	 z/MLUjvBE/uSip8kO/z5flnJGA5ER1ApVutTcSbweFV4qPHAFmQdcYDFFQf/8m0t2dA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hmbELvjG;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD953606D801;
-	Thu,  5 Nov 2026 10:29:03 +0000 (UTC)
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=RxzcW3Ud;
+	arc=none smtp.remote-ip=111.22.67.151
+Received: from cmccmta8.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC8FD606A328;
+	Thu,  5 Nov 2026 10:37:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC8FD606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hmbELvjG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 808A91F00919;
-	Thu,  5 Nov 2026 10:28:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793874543;
-	bh=57E1PfjaDh0LCy68sg+mNNI5f3Z5aUw0wqyBt7zz4T8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hmbELvjGRYsr506EAwoJgBAXH0ELDX1EPlqMNbyvDHt92LsnGRKJzHsFbggux76Nr
-	 4VuJW2OLsQiJnl39IQDOul1sCQwt9d8MZevNX4eSh6gNm3ZTG/LGbR7xUU9NM2H7ZB
-	 Zmf/KjAazsfp6p+rrHhAm27ed37eIP7oTh4Gn6f4ESRdGcc5084mcjIlsi7PeEnK/h
-	 ZHrwK8mAJ5fFhNsjwwjPEpQcENFcCs7lLj/i7dd0U+MO//fdk5W/zzCW3ShQTr3BSz
-	 /h7RXevBU6GyHIwpRH9BJat6WAMucpuTZsxKrSRux510prhvj/rjFCVc+HBvyfwWTb
-	 6GBRdXGUL1uJQ==
-Date: Thu, 5 Nov 2026 11:28:56 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, 
-	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, linux-sound@vger.kernel.org, 
-	linux-mm@kvack.org, Chuck Lever <chuck.lever@oracle.com>, 
-	Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH RFC 0/7] proc: move procfs to what kernfs does
-Message-ID: <20261105-erbrechen-unecht-bauformen-0794d3cfb679@brauner>
-References: <20261102-defizit-jobaussicht-kurios-7016c6e67442@brauner>
- <464ef986eab97abf226791c7e19ad111.josef@toxicpanda.com>
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=RxzcW3Ud
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=RxzcW3UdmzmO+qdSdO8BnjOC2EyiVegIgXhDy1N870FZduNzwDpEMI21WyJD2rm9KLO+IdTUAp8fa
+	 p4djEYZS71qfZUzVAzTG7isuCnMIgWanoMsveYpMJRcJwyL20MbmtxU7r2qUTqhhZzcEb7fIbVfpjJ
+	 1Ey0/62+XL6qrdxc=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee66aec5c64eef-73736;
+	Thu, 05 Nov 2026 18:37:24 +0800 (CST)
+X-RM-TRANSID:2ee66aec5c64eef-73736
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from cmss.chinamobile.com (unknown[10.55.1.72])
+	by rmsmtp-syy-appsvr04-12004 (RichMail) with SMTP id 2ee46aec5c62a04-7e186;
+	Thu, 05 Nov 2026 18:37:24 +0800 (CST)
+X-RM-TRANSID:2ee46aec5c62a04-7e186
+From: Yuehong Wu <wuyuehong@cmss.chinamobile.com>
+To: linux-sound@vger.kernel.org
+Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: tlv320adcx140: zero-initialize the GPI configuration array
+Date: Thu, 05 Nov 2026 19:05:00 +0800
+Message-ID: <20261105-tlv320adcx140-gpi-init-1-yuehongwu@cmss.chinamobile.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -65,117 +65,45 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <464ef986eab97abf226791c7e19ad111.josef@toxicpanda.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 8bit
 
-On Wed, 04 Nov 2026 22:23:51 +0000, Josef Bacik wrote:
-> This is a summary of my Claude review of everything.  It didn't find
-> anything wrong with the conversions in parts 3 to 6, the findings are in
-> part 1 and on the procfs side.  1-3 are reproduced in a VM, 4-6 are from
-> reading the code.
+adcx140_codec_probe() accepts any "ti,gpi-config" array with 1 to 4
+entries (the DT binding has minItems: 1, maxItems: 4) but then always
+reads all four elements to build the GPI_CFG0 and GPI_CFG1 register
+values.  With fewer than four entries the remaining elements of the
+on-stack gpi_inputs[] array are uninitialized and the garbage is
+shifted and written into the codec's GPI configuration registers.
 
-Thanks. This is useful. There's some stuff that I already took care in
-v2 fwiw.
+The binding documents a default of <0 0 0 0>, i.e. unspecified GPI pins
+are disabled, so zero-initialize the array and keep accepting short
+arrays.
 
-> 1) bugfixes 19/38 ("proc: resume readdir after the last name it
->    returned")
->
-> proc_readdir_de() now returns 1 instead of 0 when there's nothing left
-> to emit:
-> [...]
-> So at the end of the directory readdir(2) returns 1 without having
-> written a dirent, and keeps doing that.  This is syscall 89 through
+Found by code review with the help of an AI coding assistant.  I do not
+have TLV320ADCX140 hardware, so this was only compile-tested
+(CONFIG_SND_SOC_TLV320ADCX140=m).
 
-Indeed. Fixing that.
+Fixes: 3c35e79cead3 ("ASoC: tlv320adcx140: Add support for configuring GPI pins")
+Signed-off-by: Yuehong Wu <wuyuehong@cmss.chinamobile.com>
+---
+ sound/soc/codecs/tlv320adcx140.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 2) cleanup 5/5 ("proc: drop the _buf suffix from the new methods")
->
-> 4/5 renames the old ->proc_read() so that "A module that sets one of
-> them doesn't build anymore".  5/5 hands the name to the new method, and
-> the old and the new prototype only differ in __user:
-> [...]
-> builds without a warning with W=1.  pde_set_flags() only refuses the
-> release helpers for seq_file entries, which this isn't one of, so it
-> registers too.  With a module that has exactly that loaded on top of the
-> series there's no warning, open() works and every read() fails with
-> [...]
-> there without anybody noticing.  Either the read method keeps a name of
-> its own or pde_set_flags() refuses seq_read, and either way this
+diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
+index c29584d..511d691 100644
+--- a/sound/soc/codecs/tlv320adcx140.c
++++ b/sound/soc/codecs/tlv320adcx140.c
+@@ -1018,7 +1018,7 @@ static int adcx140_codec_probe(struct snd_soc_component *component)
+ 	u32 pdm_edges[ADCX140_NUM_PDM_EDGES];
+ 	u32 pdm_edge_val = 0;
+ 	int gpi_count;
+-	u32 gpi_inputs[ADCX140_NUM_GPI_PINS];
++	u32 gpi_inputs[ADCX140_NUM_GPI_PINS] = {};
+ 	u32 gpi_input_val = 0;
+ 	int i;
+ 	int ret;
+-- 
+2.43.0
 
-Meh, let me think. I think not renaming them back to proc_{read,write}
-at the end is ok. Not my favorite but it will cause the compiler to
-yell.
 
-> 3) bugfixes 38/38 ("selftests/proc: check that a faulting readlink()
->    doesn't hold up removal")
-> [...]
-> own.  The two lines want to move to core 08/16.
 
-Fixed in v2.
-
-> 4) core 04/16 ("proc: let procfs own the seq_file of seq_file entries")
-> [...]
-> return v after pde_seq_stop_pinned() takes care of both.
-
-Gone in v2 as there's a simpler way to do it like kernfs.
-
-> 5) bugfixes 35/38 ("proc: sysctl: don't hold the tables while readdir
->    copies to userspace")
-> [...]
-> lines that get rewritten.  Handling -ENOENT like d.skip would carry on
-> after that name.  -ENOMEM probably wants to be returned instead of
-> turning into EOF.
-
-v2 does both.
-
-> 6) stable tags, bugfixes 34/38 and 37/38
-> [...]
-> table registered.  35/38 applies cleanly without 34/38, so nothing will
-> complain if only the tagged one gets picked up.
-
-Right.
-
-> ->free_inode()"), which went into 6.8.  Before that the inode drops the
-> entry in ->evict_inode() without a grace period, and the pin is what
-> keeps ->data around for a walker that got it from ->get_link().  Which
-
-Right.
-
-> - The cursors in bugfixes 19/38 and 31/38 hang off an open file and
->   anybody can have as many as they have fds, so GFP_KERNEL_ACCOUNT.
-
-That's a generic problem for nearly all of procfs and is another series
-I have but I don't want to get chased with pitchforks.
-
-> - copy_to_user_fromio() has no callers left after drivers 22/23.
-
-I'll kill it.
-
-> - fs 07/27 says ntfs_set_label() refused a label that's too long with
->   -ENAMETOOLONG or -EFBIG.  It doesn't always, cpu_str.len is a u8 and
->   ntfs_nls_to_utf16() is allowed (PATH_MAX - 2) / 2 here, so 300
->   characters come out as 44 and pass the check.  That's an old ntfs3
->   bug, it's only the sentence in the changelog.
-
-Right.
-
-> Two more old ones that you might want in part 1, the series doesn't
-> change either of them:
->
-> - allocinfo can deadlock against a module load.
-
-Yeah, that's in v2 and I think someone else also sent a fix for this.
-
-> - snd_info_text_entry_write() allocates the larger buffer and frees the
->   old one without copying what's in it, so a text entry written in
->   pieces loses the start once it crosses a page.  It's been like that
->   since ffb73b08e794.
-
-Yay, more bugfixes... You share the blame for more mail traffic now.
-
-> This part is me. I have a selftest that my claude wrote to validate #1.
-> If you want I can send it along, but we should probably have a test for
-> that.
-
-Right, I can probably also cook something up.
