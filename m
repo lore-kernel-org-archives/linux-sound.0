@@ -1,102 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793891837;
-	b=qlDsQELRLq5L8frU5j5E//43h8T6FGOoqxPfhqLzwxwrCFT4m8KXnIK4Ip0FdvL4h8te
-	 0yXGEjbz3qlNRpKhd2Winq99+DR/Qeuf8ZaY5dZWosTu+zHAYYFlgxhZSXdj1GKimUZSU
-	 qTPdDLvBAyJdwdpmj5GZxysgF6rBjfU1vt+ds+a6dqzEb7E+55kduc1Lo7lLNo4UptLlK
-	 DHw+nlf5QZp8gLdE3oq+gkRxbrGUm7BoVZZrB94grg3cePI01CSAUpow/NI6B0v42v1LG
-	 xu1SudY8WAB9BHycvRc+fxBdsSiOvPcpl6tXHTH/8tyPLQKPRSTLRTdI2BrwoGgUJVQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793891837;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.47
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793891883;
+	b=dt7JBHzOxGEj8n3flzofVwrZCrSKaqNj2gjp6ZoNDdRiY9R8DhAhDSEWRlGUehI52rLG
+	 ict/b3xey6k7iQQa+4ye60dcEkbuEqhChUxtwwL9/mLWH+ZJGnamH3DB0IZrttDGUoSgW
+	 RisfrdqEc2y5LfTMlIhfom200AbmOWjYa6H+4TgoxEXMvSoYUZPFoOodl0w9FBuseEfvV
+	 RsmU+1/m0sFFzJK4kK5NtaHd5HNoET5DECSDVDBRBEO7fuwT1dRN0MvKnJfFBfU1yJotk
+	 CjnxlT+f228rbU8h/cNZoyCeFJ1S7+AaShgLF3HxIJZq4y+lN6r2Ys9oeuj95MLU33w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793891883;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=hgHpO/GSAfi6i+M1tK7tkY4nBaIZNu/5SYPs94b2CqA=;
-	b=hmGh+/00fb+cJ26goWdumb+bx6PvWP5zyva/nP7uQi0BSyktC9d9WTaIYcpbjvRg9x7K
-	 QXSwo/4mPYhV1c8lmC+kAdQZ1dSaWTO6CPI+i/L4Xa9462BYMsKbThSzG6IXzClbfDttp
-	 QxLTJODma5Qn3uDajO0qIzjwzZm5t5SlmCWtITlefxk3oU1BqZulfWzdK9hnNlxineGYM
-	 65uNFHRJ7BguD2Hm+mivaxRDB8zP8in7F0D9rhGzwsR9AmCZEg3DV9Xo07PC4TuAXaYNH
-	 JiyRR5GiiLW2OTLu5ADViVL64CtGvlqD1M464PQEBvXVohTpQXPKSXunni4nrdCVsQw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=fDDI0ICOXRM+4q2hS4/B6DqJvK+vjUtavhksnftiP9s=;
+	b=pJr3BDS2ZO+BRzZJDoYVwMt74s3mJye8aGydgRUJhMhEmN+VbvtLyiLgTup8K5syxnyk
+	 dtdBxLNXAgfk3tmXCSbDEwTM47Cdow1RqH1Kx2mtvD+oj6jee9w2wyijUhvWrWhaZbyuR
+	 CmXpeC8CZmw3bb0oFUAW/WWLOhjQbcp/ymG3/GksCMVOqV4X3gtQoPAnDYgcNHCejKuoL
+	 4kzXtcTewAxmmD/YwPogHi7ju4at8aQZAcDnJK3Y0SBJ/k7ocXymNyG77yiZF5rJWy9tR
+	 3iWBW5mZ+hpBT4vgnFQhlv13rTXJmbd1DFywOtKE3Vgz0V6wicqfl8j+htcSiL2oLhA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MZ8YEjT8;
-	arc=none smtp.remote-ip=74.125.82.179
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IdriMpsH;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.47
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85AD6606D803
-	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 15:17:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 85AD6606D803
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D09D606A332
+	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 15:18:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D09D606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MZ8YEjT8
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-353804b591eso3793530eec.0
-        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 07:17:16 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IdriMpsH
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-9851592ada1so552722241.0
+        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 07:18:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793891882; cv=none;
+        d=google.com; s=arc-20260327;
+        b=cLHCSVr5oB/6TtK3pbqEKzIw0KmISUv3EENsQapnw7YCB2Uq6nSBLNUypgVLbXx1hE
+         BFZmyobG32pUrRlenpRN1UqhpcYmINO15FcanqCjR7IDZykKqh4tyiXz7VZ59girSyIA
+         FRCbFzogDmt+DCENpAuu4pLkzidzC7IEpBvDecohz9udeooOCIGITopwJcvuOkR2QWSd
+         S6+d9cYZMpbh8H/eKP7NSJFg91XU1IVzOEaRZfB/Eek1jAxwgZznYNeEp4JQZKbdvat+
+         fWEP5mJJfrLu8aQvHH2ktEzzjeIQxrvIWQOtNnfM9icRsE44+En3WGSqRgWmKKgYcMio
+         aD2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=fDDI0ICOXRM+4q2hS4/B6DqJvK+vjUtavhksnftiP9s=;
+        fh=4NCoiD1ZtZ8/p9FTv2ZRkBveXnXkH9PDm/PKW4JDxLU=;
+        b=s0HtbXRNAS8+U48+jd1txGKlAkCLlsBNmrBGnD8xHy0zaDw/S1c7lXABJy0Q0i3Nut
+         XFFO3faaJp8nDPfuaVNkbbhTmqDJPnMehUuJKqsLJyeXRffRC55dH7xpgOeO+uwS7sRI
+         U2Ry8VZzTf/wyhn4Laeyvozws0KPxoC/1qNtS5JAbSw1i6WE0bW7JBfUdj2DreW5RIWd
+         GBdEasYFATQA60MNdvZrPlpVgbLK9Mr4m4ahXmPi7f2N4+RHRFAQB7q6UZW2NZTiY5BR
+         NGyc6OBycR2kGCAXl+m1JSKML1V7xUEuJsVhQALUY8eMh85/d1vs04cAFsvWL1fWre0l
+         RmOA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793891836; x=1794496636; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hgHpO/GSAfi6i+M1tK7tkY4nBaIZNu/5SYPs94b2CqA=;
-        b=MZ8YEjT8s9lIwPcfO2vFEBj9XQ7OnGf/cNQ3/Wl4t7dYXnF5YNhf1A/f1gcbePtG1r
-         Fe8E1I+XkCoD40mV/Ufv2m/4k4TrBPJaVii9I5ZKULb67H01DCTTZv5dXazPokxwm4Dw
-         aJ6ogySWse0Ye0Y95n58V7c4B7iTd5aR12Y49cG0oF52PcJSItf/4/nLSv2nCDQVTOdF
-         cs+gQ4UhxkgZ7hiTue9pqKGbnnht15/s1DVYYd9VlUCyl+gsxrfWEFI/l6xymNR4ZSuV
-         +WNMJLnvTJiZqzeC3pHf8JXSgQQLDCD9dvY+l0be5+bLaOLwFZy9V8zt514I7SsFr3+/
-         HlIg==
+        d=gmail.com; s=20260707; t=1793891882; x=1794496682; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fDDI0ICOXRM+4q2hS4/B6DqJvK+vjUtavhksnftiP9s=;
+        b=IdriMpsHxuXT6e1n2hXKAy4BvSMkSHhAmGPKtbRCltvRmqcwxiqdA+uePXVKKQobfe
+         AfsHcFGmzgW5pE6Ql28BPM9aplN8r1lD8mgQj+vQtTpoQfT9MHYrANwKKv8Sx+ZWsR/K
+         9TvZJQ/uepWFViDBK2YoDmHmjlAM6MbCGz4EVhwkqXyVkoiNuJAj6ZqxiEn0araDTpNh
+         vovzhOAp8CdmSBZy0lTjLhdemdP0xpAXhlS7wkm6V/390dNocngTDRIoJhe04vDMmJtR
+         Zwi5jLIwSEYAOICwdEfdRU4I45NwahTpvuEeg+1MNxUP5VfyjHnnO4s948+aNS9H4XIg
+         ajrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793891836; x=1794496636;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hgHpO/GSAfi6i+M1tK7tkY4nBaIZNu/5SYPs94b2CqA=;
-        b=OBhzY6FmU48rLjZb0r+jyeACg+vR74/cckMgS4BGrgK8L5LQjG16BeDrjqG/7xnGi3
-         bgTlW2xgmI/9vbBuU6kE4gG4GryjHtbEWyp28cQKChqG+lOTJ45tCP0d+GOrXCq3IKjr
-         PwglDe2caFC1dqYwiZ6DENoCCu/mxNsWwKEpE184UVWoay62F7bXrRPDsKeF7Vr5Mbfo
-         E6AiSzQaV6ba5jjrlMDCBqHVFdcgTAT1CPIfJXwHPlytFpJaikQlNJQA/SprNqku4aDL
-         ZX2eMzNIH4l7aB1lWSPscE9z9c0jvSIgHK0xxYFTiAd6fmG2OtAh4lqi5n6zKLetLe8N
-         t5Vw==
-X-Gm-Message-State: APuU4Z8lgCUYH22geQknohmcPjfX/ASXkxGKKtv4Xef51VIvcAOIEZQT
-	CETwzqedoSOnOxir58W8ZcKGfEbU/SI55RHL+ES1Mk+/8++zf7aG+v4bR40P0ssdiw4=
-X-Gm-Gg: AYBFou3qoFRl5hXJr7luHhJujX2GmgTcnADQaiKg6aszyebt7k1L+x0GFg+viObz6Jo
-	tM9DTUH0uFqjdfa5YHkj/aabDyL/5B/D1hAl/A+c+zXaZoMFWWI6jkYJmcpdP+r1l/toOMAzyND
-	pLJqdMv3s4VCkMbsA/HOoye7RTKfhBWsp2gCNnjwtFFwDc0Cp+gLzIJ3MVMNYzJfRHsAqOfldM+
-	P2Qsk5fgaSMBwBNVqTMPHiwBuG0+OYXlpTJcIGf4Yxu6so5wfDZIOjiNleP3MT7K2HQYNqdsvuq
-	6WtjZj/mLNFIx4bHpkYBGggjZcLR4gB6FfukxKJLHuVjvrOlXanktMQySxWdZ+KPUmTqKVfGk7Z
-	LweR5cJqJRxGHJIEc2wT22nLIutg8npxToU3NKNPyaUZ1HcZbrqMDbNUIjXF+8UQAucJ8jJAy16
-	OCld0dcIwhWoaZyjBUD3z3unN5zGBX3MVEeyjQIegDnsEHIWY05pD2HI2YbjJB1EVzZoPnVZtjv
-	/iq/+tzYmbRKu719pkcXY1MrYUg9NdcW6H66qmvkqR3AthMVKTpPuldoIcueTaiQDDj43f450X9
-	H28VVLXAI99St08txJJUPDwlbaY0TMtdSOhk2WYzX5z1fp3Q+RDBFPv8ZTskulFCSauSfjAHIH4
-	9UFc0nIjSYSn1M0zNKLJRAW8YsAaxxK9W+bFavW9apCZDiHz6
-X-Received: by 2002:a05:7301:6193:10b0:369:a162:af96 with SMTP id 5a478bee46e88-36a4238974bmr28721399eec.17.1793891834911;
-        Thu, 05 Nov 2026 07:17:14 -0800 (PST)
-Received: from cachyos (2a01cb0c82caf900a186612f304bfea5.ipv6.abo.wanadoo.fr. [2a01:cb0c:82ca:f900:a186:612f:304b:fea5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca38a6d3dsm21567087eec.7.2026.11.05.07.17.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:17:14 -0800 (PST)
-From: =?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-usb@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	=?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
-Subject: [PATCH v8 8/8] Documentation: sound: add the Babyface Pro proprietary-mode design doc
-Date: Thu,  5 Nov 2026 16:15:53 +0100
-Message-ID: <20261105151553.223722-9-i.bahloul01@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261105151553.223722-1-i.bahloul01@gmail.com>
-References: <20261105151553.223722-1-i.bahloul01@gmail.com>
+        d=1e100.net; s=20260707; t=1793891882; x=1794496682;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=fDDI0ICOXRM+4q2hS4/B6DqJvK+vjUtavhksnftiP9s=;
+        b=m+5lgqJZyoCBNIYGpOpblSjPBh3bsUpNwP++Wh16WASuPatjRaJmmaHcA+QP1GjXOT
+         kjHK4Rh8AKVg18AZ5fBjiDyF+vxuHN0Q9bPS2QrBOwFoBIUJlb1Ps+fQgdNcSI8hbTeI
+         NuJP6eOge8/RazgcmSnYcNaRoCRFAWvAcRqI6L+ktO9UozMLVjsB2E2Kjv93gmgDCAOg
+         2MXE2aypvECdceHK0KwhXZAqikZaaHCwOugIf1tYzkJ6RRGquaUOS9dkkvn530t0roNn
+         bsWelWvZ0mMk4WA44LpvZ/aUJ4ov0LlgYVhIdomFsXscSKo/sJLEtvvTYoEN9hIcLhW3
+         TKiw==
+X-Forwarded-Encrypted: i=1; AKwUvBw54Q25RTYa14cKYhbWaW72lm0F9ve3NLHvPCo5WHxFNGmsauN8UY6ENDmw20z6KmatzGOqatpqCPycHg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z89EWEo/L8RxCqMt6bFFTlY8Ttw8h3YTODwOMYJAFxNbIS+wt5W
+	9QHfCUOyHo5C3Vt+xM5Mg9BPLG9lMsOrrV6amlEqZ/u0a0NbzIjBpWaMJWOwniU67tHRHxgjaMI
+	8pNOITBREUCJV2nMoOz4wpmBC8atklvA=
+X-Gm-Gg: AYBFou3IrOBSlDJc6HNgGsyCnozatWq38vxRl9gr23VXe35rkUOKHQ0jj2aZOQDhe+H
+	+9k9+Rmm0R8QFANo80S8LwMv+z9UvGXo7fbwJCFJa8x8PdmiQDqpqCdq8XAuSbWe8z54zi0qm6P
+	9b17xM1O2v8823HKCfzlyWHKoNyuyGSzBYk9zLGJYN8/7Y2NAK8dyHLDzEg2orslGe+iMrWcVA4
+	iZ/sgPYTgsGNPa5SfbAthaljqUhQ6oTnu96FABbTx2NsnLMCWDPHSaDp1Ey4TX0zBQz5amLqR77
+	9bvcPM59i30algdOgcLter3SVC3y5Ghe4nRyptKQH9mHGqwa25YavNFUeh8LlCocPCboRQYNxEW
+	8l3DyJV81ae+quQh1yG9amJfZIm+XJoieqxS9CXi9LqRgxecPNIfSsNmhMxvZP7IE/Vsrm+EwSC
+	Al7zuhmjkynpjL
+X-Received: by 2002:a05:6102:1483:b0:7cc:1ace:fd06 with SMTP id
+ ada2fe7eead31-7d07264004cmr7537993137.20.1793891881909; Thu, 05 Nov 2026
+ 07:18:01 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -106,262 +102,72 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Krzysztof Wasiucionek <kwasiek@gmail.com>
+Date: Thu, 5 Nov 2026 16:17:50 +0100
+X-Gm-Features: AclHuK90XU4JzRKVq0JJzfUhHT5tXzMsp5UI7nHy2Kz6KnblvwFIoazGN4kpTUc
+Message-ID: <CAMODhBLTBPb5DG_kfjsF2Pj_8F+KFmG6N4vd=8MJM6n07nCC9A@mail.gmail.com>
+Subject: [REGRESSION] rt721-sdca: PCM open fails with -ENODATA on 7.3 (AMD ACP
+ SoundWire, ASUS ProArt PX13)
+To: oder_chiou@realtek.com, Vijendar.Mukunda@amd.com
+Cc: broonie@kernel.org, linux-sound@vger.kernel.org, 
+	regressions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-A big-picture companion to the patch series, for human reviewers:
-why the proprietary mode needs a standalone driver instead of a
-snd-usb-audio quirk, the vendor protocol's write-only/no-readback
-shape and what that forces onto the driver, the stream session
-model, why the mixer state has to be cached and replayed, and why
-the driver has to emulate TotalMix's own role for the front panel.
+Hi,
 
-Requested by Takashi Iwai's v4 review: documentation for reviewers,
-not restating what the code comments already say inline.
+after updating from 7.2 to the 7.3 series, the rt721-sdca jack codec on
+my laptop can no longer be opened at all. Speakers (TAS2783 on the same
+link) keep working at the ALSA level, but userspace loses the UCM HiFi
+profile because of the rt721 failure.
 
-Signed-off-by: Ismaïl Bahloul <i.bahloul01@gmail.com>
----
- Documentation/sound/cards/babyface-pro.rst | 218 +++++++++++++++++++++
- Documentation/sound/cards/index.rst        |   1 +
- 2 files changed, 219 insertions(+)
- create mode 100644 Documentation/sound/cards/babyface-pro.rst
+Hardware
+--------
+Machine : ASUS ProArt PX13 HN7306EAC (Ryzen AI Max, "Strix Halo")
+Card : 1 [amdsoundwire]: amd-soundwire
+ASUSTeKCOMPUTERINC.-ProArtPX13HN7306EAC-1.0-HN7306EAC
+Link 1 : rt721-sdca (sdw:0:1:025d:0721:01)
+2x TAS2783 (sdw:0:1:0102:0000:01:8 / :01:b)
 
-diff --git a/Documentation/sound/cards/babyface-pro.rst b/Documentation/sound/cards/babyface-pro.rst
-new file mode 100644
-index 000000000..2b79a52d9
---- /dev/null
-+++ b/Documentation/sound/cards/babyface-pro.rst
-@@ -0,0 +1,218 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=================================================
-+RME Babyface Pro / Pro FS (snd-usb-babyface-pro)
-+=================================================
-+
-+This document describes the design of the ``snd-usb-babyface-pro``
-+driver - what problem the driver solves, why it is a standalone
-+driver instead of a snd-usb-audio quirk, and the four design
-+decisions (protocol shape, stream model, mixer state across re-probes
-+and resume, front-panel emulation) that shape most of the code.
-+
-+Two USB personalities, one device
-+==================================
-+
-+The RME Babyface Pro and Babyface Pro FS present two different USB
-+configurations depending on a physical/firmware switch: a
-+class-compliant one, already handled by ``snd-usb-audio``, and a
-+proprietary one (USB ID ``2a39:3fc0``) that this driver covers.  The
-+two hardware models share the same USB ID, ``bcdDevice`` and
-+``iProduct`` string shape; nothing in the descriptors tells them
-+apart, and the driver runs unmodified on both.
-+
-+In proprietary mode, interface 5 carries the PCM stream on two
-+INTERRUPT endpoints (``0x01`` OUT, ``0x82`` IN) instead of the
-+isochronous endpoints the USB Audio Class specifies.  Isochronous
-+transfers are rejected there with ``-EINVAL``.  ``snd-usb-audio`` has
-+no interrupt-PCM transport, so this mode cannot be a quirk on top of
-+it; the driver is standalone, modelled on ``snd-usb-caiaq`` (another
-+interrupt-streaming RME/NI-style device).
-+
-+Why interrupt endpoints and not isochronous is a hardware/firmware
-+choice on RME's side, not something this driver can change - the
-+class-compliant mode already exists on the same device for users who
-+want a fully standard, quirk-free path with a subset of the
-+functionality (no mixer, no front panel).  This driver is for users
-+who want the full mixer, routing matrix, and hardware DSP EQ that
-+only the proprietary mode exposes.
-+
-+The vendor protocol: writes only, no readback
-+==============================================
-+
-+Every mixer and clock function is one of a handful of USB vendor
-+control requests (``bmRequestType 0x40``, i.e. host-to-device,
-+vendor, device-recipient), each identified by its request number and
-+a 16-bit value/index pair - there is no larger command structure.
-+The commonly used ones are:
-+
-+======  ========================================
-+0x10    settings word, rate family, stream trigger
-+0x12    16-bit crosspoint and output-master writes
-+0x14    stream session arm
-+0x16    cold-init register clear
-+0x17    front-panel + preamp state (read and write)
-+0x1a    8-bit gain / output-master writes
-+0x1b    varispeed (DDS quad)
-+0x1d    stream session start
-+======  ========================================
-+
-+The full register map, decoded from Windows USB captures and
-+cross-checked against hardware, lives in the driver's own development
-+repository (not shipped in-tree) - the constants and the comments
-+next to each vendor write in the source are the authoritative
-+in-tree reference.
-+
-+The one property that shapes the rest of the driver: **almost nothing
-+here can be read back**.  The 0x17 request returns the front-panel
-+and preamp state, but the crosspoint matrix, the output masters, the
-+routing flags and the clock all have to be tracked host-side - the
-+device will accept a write blindly and never confirm what it actually
-+holds.  Two consequences follow directly from this:
-+
-+* The ``struct snd_usb_babyface`` device state (see
-+  ``babyfacepro.h``) is not a cache in the usual sense of "avoid a
-+  slow read" - it is the *only* record of what the hardware should
-+  currently hold.  Every mixer control's ``.get`` callback reads this
-+  state directly; none of them ever talks to the device.
-+
-+* A full reset of the device's registers - which the cold init at
-+  probe and at resume does - has to be followed by replaying the
-+  *entire* cached state back, in the right order, or the card comes
-+  back silent or at the wrong levels.  This is what
-+  ``babyface_restore_state()`` and ``bf_state_apply_flags()`` do (see
-+  "Mixer-state persistence" below).
-+
-+The stream model
-+================
-+
-+Playback and capture share one physical stream: the device only
-+advances it while both interrupt endpoints have a pending URB, so the
-+IN and OUT URBs are always submitted as a pair, and both directions run
-+at one sample rate.  The driver runs one stream *session* for both
-+substreams:
-+
-+* ``hw_params`` counts a substream as a user of the session;
-+* ``prepare`` starts the session if it is not running - the rate write,
-+  the session trigger pair, the IN/OUT URBs, then the arm - which is
-+  what the RME Windows driver sends at a stream start;
-+* trigger START/STOP only decides whether the URB handlers move that
-+  substream's audio.  The URBs keep running either way, carrying
-+  silence while nothing plays, so an xrun restart does not restart the
-+  session;
-+* ``hw_free`` drops the user, and the last one stops the session.
-+
-+The device keeps its mixer registers between sessions, so a session
-+start writes no mixer state.  A session triggered within about 15 ms of
-+the previous one stopping comes up with the outputs silent, so a
-+session start waits until 50 ms have passed since the last stop.
-+
-+Both directions share one clock, so while another application has the
-+other direction set up, the rate belongs to it: ``open()`` offers that
-+rate alone, and the sound server resamples, rather than the device
-+changing rate under a running stream - as with RME's own drivers, which
-+grey the sample rate out while a stream runs.  The application that
-+holds both directions may change the rate or the buffer size itself, as
-+a DAW does from its settings; the direction it left running then stops
-+with an xrun and is set up again.
-+
-+The size of the URBs follows the period the application asks for, so
-+the latency follows the application's buffer instead of a fixed queue:
-+``hw_params`` splits the period into the fewest URBs of at most
-+``frames_per_urb`` frames, each a whole number of the device's IN
-+packets, and keeps two periods' worth in flight (at most ``nurbs``).
-+The URB handlers copy to and from the ring the core allocates and take
-+the application's position from the shared control page, so the ring can
-+also be mapped by the application, which JACK requires.
-+``runtime->delay`` reports the audio queued in the URBs plus the fixed
-+delay of the converters and of the device, per speed, so that an
-+application that uses ALSA directly can line up what it records.
-+
-+The playback handler copies the ring as it is and moves the pointer on
-+by the whole URB, so the pointer follows the device even for an
-+application that runs the stream free, as dmix does on the hardware PCM
-+it opens; an underrun is the PCM core's to detect and report.
-+
-+Capture exposes the device's twelve input words in the device's own
-+order, one channel per word: AN1-4, AS1/2, then ADAT3-8.  AS1/2 is the
-+first optical pair, so it carries ADAT 1/2 when the input receives ADAT
-+and S/PDIF when it receives S/PDIF.  At 96/192 kHz the frame has fewer
-+words and the channels past them read zero.
-+
-+URB completions run in interrupt context; the work that needs to sleep
-+(stopping the session after repeated URB errors) runs from
-+``stream_work``.
-+
-+Mixer state across re-probes and resume
-+=======================================
-+
-+A userspace client can claim the proprietary interface directly via
-+``usbfs`` (``USBDEVFS_DISCONNECT_CLAIM``) - both PipeWire grabbing the
-+device for a sink and the project's own TuxMix userspace daemon do
-+this via libusb.  That detaches the kernel driver and the ALSA card
-+disappears for the duration; when the client releases the interface,
-+the driver re-probes.  The cold init the probe runs clears the mixer
-+registers, and the driver does not carry its cached state across the
-+re-probe: alsactl restores the settings stored at the last shutdown
-+once the card is registered again, as for any other card.  A resume
-+that follows a device reset goes through ``reset_resume`` instead of a
-+re-probe, so a reset does not lose the state that way.
-+
-+A system suspend does lose the registers.  On resume the driver re-runs
-+the cold init and replays the in-memory state (masters, crosspoints,
-+routing flags, EQ) through the same paths the controls use.  Since
-+almost nothing can be read back (see above), that in-memory state is
-+still the only record of what the hardware should hold.
-+
-+The front-panel SELECT selection is the exception: it is not in the
-+0x17 readback, so the driver has to be told it once and cannot know
-+whether it changed meanwhile.  The driver tracks whether a unit has
-+been probed since the module was loaded.  After a boot it takes the
-+values alsactl restores; a re-probe of an already-seen unit ignores
-+them and leaves the pairs unknown, because SELECT may have been pressed
-+since the last store.  The "Front Panel Selection" controls let
-+software correct the selection (see below).
-+
-+Front-panel emulation: the driver plays TotalMix's role
-+==========================================================
-+
-+The front panel (IN/OUT/SET/MIX/SELECT/DIM buttons, the rotary
-+wheel) has no on-device intelligence of its own for turning a wheel
-+click into a mixer change - on Windows/Mac, RME's TotalMix
-+application polls the same 0x17 status register this driver polls,
-+decodes button/wheel deltas, and performs the resulting mixer writes
-+itself.  Standalone (no host software) mode exists on the hardware,
-+but the proprietary USB mode this driver targets always has a host
-+attached, so this driver has to do what TotalMix does: poll 0x17 on
-+a delayed work item (``panel_poll_ms`` module parameter, default
-+20 ms to match TotalMix's own ~50 Hz), decode the button flash and
-+signed wheel delta, and apply the resulting change (an output level
-+step, a preamp gain step, a monitoring level step, a phantom toggle)
-+exactly like the corresponding ALSA control's ``.put`` would.  A DIM
-+press is only counted, for a mixer application to act on.  The
-+front-panel ALSA
-+controls this driver exposes are the read side of this: a way for
-+userspace (WirePlumber, TuxMix) to observe what the physical panel is
-+doing, not a way to drive the hardware.
-+
-+Some panel state - which channel SELECT currently has chosen, for
-+instance - is not part of the 0x17 readback at all and exists only on
-+the device's own internal state machine, which the driver cannot
-+read.  The unit keeps one such selection for each IN pair, across IN
-+switches and even across a power cycle; its LEDs stay dark until the
-+next SELECT press, which only shows the selection again, and later
-+presses step it.  The driver follows the presses and exposes the
-+selection of each pair as a "Front Panel Selection" control (index 0
-+is Ch 1/2), so that alsactl keeps it across boots like any other
-+mixer setting.  It cannot know what the unit holds before it has been
-+told once, so a pair starts out unknown, and SET and the wheel then do
-+nothing instead of acting on a channel that may not be the lit one;
-+setting the control to what the LEDs show for the pair tells it.  The
-+values alsactl restores right after a probe are the ones of its last
-+store: after a boot that is the newest record there is, but a re-probe
-+of a unit already seen may follow SELECT presses made since, so the
-+driver ignores them then and leaves the pairs unknown.  The stored
-+values can be wrong only if the selection was changed while the driver
-+was not running (the unit used on its own, or with another host).  The relevant code
-+comments (``babyface_panel_start()``, the ``panel_select_armed``
-+handling in ``bf_panel_tick()``) explain the details.
-diff --git a/Documentation/sound/cards/index.rst b/Documentation/sound/cards/index.rst
-index e68bbb13c..31051b7a4 100644
---- a/Documentation/sound/cards/index.rst
-+++ b/Documentation/sound/cards/index.rst
-@@ -12,6 +12,7 @@ Card-Specific Information
-    emu10k1-jack
-    via82xx-mixer
-    audiophile-usb
-+   babyface-pro
-    mixart
-    bt87x
-    maya44
--- 
-2.56.0
+Kernels (CachyOS builds)
+------------------------
+Good: 7.2.7 - UCM HiFi profile available, jack and speakers work,
+no rt721 errors
+Bad : 7.3.1 - see below (7.3.0 was installed in between, not tested
+separately)
 
+Symptoms on 7.3.1
+-----------------
+From boot, every open of the rt721 PCMs (hw:1,0 SimpleJack playback,
+hw:1,1 SimpleJack capture) fails:
+
+rt721-sdca sdw:0:1:025d:0721:01: ASoC error (-61): at
+snd_soc_pcm_component_pm_runtime_get() on sdw:0:1:025d:0721:01
+SDW1-PIN0-PLAYBACK-SimpleJack: ASoC error (-61): at __soc_pcm_open()
+on SDW1-PIN0-PLAYBACK-SimpleJack
+
+$ speaker-test -D hw:1,0 -c 2 -r 48000 -F S16_LE -t wav -l 1
+Playback open error: -61,No data available
+
+The peripheral is enumerated and attached:
+
+/sys/bus/soundwire/devices/sdw:0:1:025d:0721:01/status Attached
+/sys/bus/soundwire/devices/sdw:0:1:025d:0721:01/device_number 3
+/sys/bus/soundwire/devices/sdw:0:1:025d:0721:01/power/runtime_status suspended
+
+Writing "on" to power/control does not help; open still returns -61.
+
+TAS2783 playback on hw:1,2 works on 7.3.1 (speaker-test plays both
+channels).
+
+Userspace impact: PipeWire 1.6.10 / ACP rejects the whole UCM HiFi verb
+("Profile 'HiFi' mapping 'HiFi: Headphones: sink': output PCM open
+failed"), leaving only the pro-audio profile, so the internal speakers
+are not usable in a normal desktop setup. Same userspace on 7.2.7
+gives a working HiFi profile.
+
+I can test patches or provide full dmesg / additional debug output.
+
+#regzbot introduced: v7.2..v7.3
+
+Thanks,
+Krzysztof Wasiucionek
