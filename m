@@ -1,49 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793894562;
-	b=aHt3/C6X+V7runF5iWa8oxJ6jCbCAZo/qZkLRWJJgnK12cukufN1c6E9CxtC+fiQRiFU
-	 BEGOqZB07VR5QvHzKsvmdQjjREvqdSVLnPFmqhZGbmw1HS83ZzHufAAIDohPOtV9CpkCH
-	 vzlH+aOFs4wgClVLrZ5qUbdfxkKlhOVRKGWrIvZxXPaPXmFL+rHV0CKTczTE9dKc+MBk+
-	 L2TbsIDx2320gNg5K84U2QowlgDpcVbLFty8HjOUOe3q/VEbQgwYHzfaq9cjPBaoePI9b
-	 wrh0NRQmKwqiASI6wRAAT47AMjag1Tl5MAx/ATGGvIt5pEh3wtuVPicLct9QCPuJNeg==
+	t=1793894567;
+	b=1xMyqWXidzQfy/GQXqf93iA38uU1syMEE/VRJ3tfzvcbaFs5d/xVbl9M4LDJXQJ/HrnZ
+	 R7JSkzMJclJk2nfRltmIsNr3RLV9wZbJRUs64tljoQYtFAbzs2DEiNa4B1xOWfRVoNp+A
+	 sr5nvNA/JC9+QGeXxYLRhRN22J9SUFCNAAHjQfTXMr3NTR4S5KF4gwJcFDYDJMYpFWqWW
+	 Kd/Mnma+ZCafFle1T/B128BLJbmWQCEGNylAUgWZXnliRbvSm54rD2q3VHvKAfix7ZTkO
+	 Z3Y0YVrf/O/xOzkXhXEV94VFvk5UqVPFxIAjp16iEpQIMFrK6Q065VRkb/ymjBepBUQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793894562;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=8McZG53fBcXV4teIFZd2EGhPvVQUYCcatV8Mq/vETdw=;
-	b=xmRbogp2/P66ZwCVBlfjbUBfu4Lq+v0tXBVl1GBpYzzYOIGhWkqLhpqRBM5xSVJqZR0Z
-	 LF5L1fAgdIL8puv6GayZ6u7CkWufD5YJVYd2mDpsJSJnpb26DR+ANH5CLQWc3HEPqU3tr
-	 ANkqt0x6iupiGmCJ1rBJjjUKy+HM41DMMn938z/mi2khjeJEoSHTkWKwzd0LMKPGnNaRC
-	 5Lv92wyLNhem9Ek+QI0QbAoyfAtNG839qsgrP4icxDxEBEmWwBA+b5GVpPpLdA4b0vshp
-	 GyTRabKBtWMZh7ZYu0uThperQtne5kFjd1T/Vl28IuQIstueif6jLKpxSX+suaSiLFw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793894567;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:
+	 Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-Spam-Info:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=UlwLNv5+tELfF8ZzeIxrYsemrkgdO9m/e3laajhv55c=;
+	b=qRYzIQ0Eeq0bukgx8nDUtPCksyPlKubCpvM/Q+1jljQaQ6jH2pNJ6p/25f3q8N4nwn4v
+	 EM/tzQpKqpMfrl+AbV0Wd92eC+T7pDk4e9/oN/Mdkeq9NBX8CRDwEanT3qABvqjtqyiNy
+	 kGQ89p2BSvJ/q0un1dIqx13qOkJxAq+99iR7LAgRZ27W2SqEd8ep4MsB5NO0yoAsDU/Lp
+	 C+tjZDZq1dVYu6FS+u6CN6eidnKCKwctOs1Iby27kQ3ni8/9I934hlkIYDIDGqGAXh+QW
+	 o2RKhZl8jnQ0Oux1zHMLwPIja8/h96rLxVuepkaAkVLqlcy1bGeI5FkSothooCpX8bw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X63+5jyR;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=eYpfcGXc;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Yk8yUP5H;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A3760707B5;
-	Thu,  5 Nov 2026 16:02:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18DA60707BC
+	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 16:02:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F18DA60707BC
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X63+5jyR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C79051F0093A;
-	Thu,  5 Nov 2026 16:02:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793894561;
-	bh=8McZG53fBcXV4teIFZd2EGhPvVQUYCcatV8Mq/vETdw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=X63+5jyRGQ50JFwEm4cXlywyif5nS1uoR2B9TuBo71uFu50EFQFpM65gJ5cHmLl9Y
-	 8DOOUqPyyIbR/nbCT51zCV97i7HSlNSMZU19a8Dp2+swnrLxWx5X5I8Ee3kcxTYN+f
-	 5gf3j85DpGVH915jaURtVblqeQI4ppL7d8OxRmnLyL9jS9CmbRCgMdQ4sidAM0cdeu
-	 rdGsOXYdPUwzz67o/2FuPnmcFVEtO5OkOpSvRmuXjoqRWVVNg04OHiYdFYU//+cifS
-	 mKkn1SJxnZbdeyexR7MYrTpoTTlI2nys1lYDjesSurdIUai7aazJLza4N6eQ4z3ta6
-	 dh16aR3ttJBUw==
-From: Mark Brown <broonie@kernel.org>
-Date: Thu, 05 Nov 2026 16:00:36 +0000
-Subject: [PATCH v2 9/9] ASoC: wm_adsp: Give the firmware search order KUnit
- cases distinct names
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=eYpfcGXc;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Yk8yUP5H
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A5EQ6QZ1008558
+	for <linux-sound@vger.kernel.org>; Thu, 5 Nov 2026 16:02:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=UlwLNv5+tELfF8ZzeIxrYs
+	emrkgdO9m/e3laajhv55c=; b=eYpfcGXcvBjX9p/cQXrfl4/mW0jEmytl8D5tgh
+	cbeeYJDRwTcv0tIzGkGtJDSSsARjDphRl8nXcfJ/hLTwQnbfzt1pHx73hELelwlS
+	OttjidSVyy9OG0g6CrkQt1SJcrmV+Oq28BBOzToho6a3E3iEDQ365h3nvqFo5fyw
+	rc1aQMUeg5pcN8inDF4lCNyMTYTCV5aHzgO43Ayz5Wzu0Dn4FGiQ64Gq6Dar8nMM
+	Wf6X/D/7wjbva5HifO/A/9uQzNDCXmIRyWoJSjGUKhKJCaPL6/IonMiQYPhYwg8I
+	gnoXdOctM7jJaxeBlfA3GWEDJgwTTupkdN1C25lE3jQsBfRA==
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com [209.85.221.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hrm9v2f8a-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 16:02:46 +0000 (GMT)
+Received: by mail-vk1-f199.google.com with SMTP id 71dfb90a1353d-5eac2cf3905so540530e0c.1
+        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 08:02:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793894565; x=1794499365; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=UlwLNv5+tELfF8ZzeIxrYsemrkgdO9m/e3laajhv55c=;
+        b=Yk8yUP5HJlAzO482gpzPywQNO0Et1+IKOa2C15hmM3YkeVXXxJAjOBTM6hEPsv3Zhz
+         etJjKwAFqjrIcB4r5Dxu2cQEwdr2ZWdMutuYbB3Vzu1p+axYaUXkTj0EbO0YFdlWaAkE
+         lfCO+MiQIzjn01odyS898PPlScclBTqJaSAE7Sy/kmCHoXHpWgshhR67BUO26Ck6aCuN
+         TiUzJzkJ5M6kUwHQXhTaW6fdHxDCBFdIZKEWRZjWtXUWFT0185S3yrTxKWKQtKQQvq0B
+         Rksf2/G7AUHY76JR/PYhgmbxIUhNB8YEJlfHyAL7y2FNcJMVhD4k91bjmiyIzTtWqQ3M
+         1z4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793894565; x=1794499365;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=UlwLNv5+tELfF8ZzeIxrYsemrkgdO9m/e3laajhv55c=;
+        b=epv8TOwUcJFjLkVT1Y5RwuSLfMNgvkQ3eFLPnbN82gO/yGMhTdYBjO8MBP3uvu1TrQ
+         zAu0N/bs+SQxLHSx76M6SD01UoIBvnLLjeOQk5cgY8HT0Sf6PL9P9a1E2uGYNBYHkOHt
+         uHz3JbV0g+uK0a50LEs/owNWp3s6myCP1fkTavBvjy2gaUCLKzqw6FXgCFjiVFHdlU7f
+         cYgC3MFAo24Wljr7wv/NWNm8aYoxnI+oaBHv83XAqPR4rIMJp1fsJkhHz+XZxa248RWK
+         8KDNCf7j92hXI7iM69zGmHYXg9BmrguQlWxJrudVBiEinwjY2pRAZQ+kRHCgSOjX9w8T
+         OSZA==
+X-Forwarded-Encrypted: i=1; AKwUvBxISTVRkorS1AUP0nSBVzT1ljR9ZJ12cY33NYFEsZlTai1DSg8RVW/QeY4/ADBdZ+Dnn9oJSrTsCnZawA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8N/9785DdkRubLslLClAi7qz5JhuzOXd4w0NgV+LAnimboMfJX
+	Fq8VJHnMLtpga50E8Y5TeYj5x+leMMlO9BAGgXB/LopcHN/KgaMFDHWHipvBC/krqAr7AjLamEf
+	FxmC87bEwiCGEMc1oO/thAhxXWdLUFgrfNUcSRWdscu+nyTevQ1c2NbOLgndb8I69oQ==
+X-Gm-Gg: AYBFou3mA4xrx5tATwgmDb/T3zS/KOywMZhkOzpmR/gN53UqyQw1Q1merdCh85cT3jM
+	aglyJeQ2sBuhu7urHrFhPk1Bhd+iw52U+oW+phzLrLgF0fGlWAxHZWkTTEbACN6dZLdZHxOjgpi
+	XCA5sOIHH9xqGiGoXf7UOsB3i+ZgVxxQfUj0PcOPvwkHrMuBUbK3shTaCIlsmUxvghU20I8rGDW
+	RJTNX0parInckqXg0LR/zgYxz+/lbeCKyIBjUIQ7rrN1vxkO2/2AIo0YAx69ILgePldH3IgcOSj
+	rNNCltl/7F0Sa2Saf0BaSQhDLfuMEHfYpqvrnyYS6o3zuyDq4Z9nTYv1xfOFbHJpBmVdQkItUPH
+	eQq5Wox9OkYgVn1lVyc/gkoT9ZkqO8gFtNOZ4YjKbkh7+lMog7Gc7VT4CYw==
+X-Received: by 2002:a05:6122:218b:b0:5ea:a0f0:192f with SMTP id 71dfb90a1353d-5ec6881c31bmr9347127e0c.10.1793894564732;
+        Thu, 05 Nov 2026 08:02:44 -0800 (PST)
+X-Received: by 2002:a05:6122:218b:b0:5ea:a0f0:192f with SMTP id 71dfb90a1353d-5ec6881c31bmr9347058e0c.10.1793894564046;
+        Thu, 05 Nov 2026 08:02:44 -0800 (PST)
+Received: from [127.0.1.1] ([188.27.161.77])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48feda20521sm11065672f8f.53.2026.11.05.08.02.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 08:02:43 -0800 (PST)
+From: Abel Vesa <abel.vesa@oss.qualcomm.com>
+Subject: [PATCH v3 0/3] ASoC: qcom: x1e80100: allow WSA channel map
+ override
+Date: Thu, 05 Nov 2026 18:02:00 +0200
+Message-Id: <20261105-b4-sound-qcom-x1e80100-allow-ucm-channel-map-v3-0-29e06613115f@oss.qualcomm.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -55,94 +117,123 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-kunit-param-names-v2-9-765b3d5275d2@kernel.org>
-References: <20261105-kunit-param-names-v2-0-765b3d5275d2@kernel.org>
-In-Reply-To: <20261105-kunit-param-names-v2-0-765b3d5275d2@kernel.org>
-To: Simon Trimmer <simont@opensource.cirrus.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
- Rae Moar <raemoar63@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Theodore Ts'o <tytso@mit.edu>, 
- Andreas Dilger <adilger.kernel@dilger.ca>, 
- Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>, 
- Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
- "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
- Zhang Yi <yi.zhang@huawei.com>, David Rhodes <david.rhodes@cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org, 
- linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2541; i=broonie@kernel.org;
- h=from:subject:message-id; bh=DtzMeLR01OBhOU9ryO1Ct2VWOckyOBJFtfrKliPQ+gk=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLerEgNEtrzd7b5VLPTrtEq01e7rpuheJVnU9H9TsGKN
- 2++7pi2raOUhUGMi0FWTJElLov7ZX3J6zV8Bxe2wcxhZQIZwsDFKQATucDMyPDlgdJZy4YrU7P/
- LJ6w25pjdY6rq5rKnfnc0ho8n9sbsxsZGX5PPXc3oX3H3g3tvxzSZzbozwzkLT93JPTn/6h7aqe
- 7e/gA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-B4-Tracking: v=1; b=H4sIAHio7GoC/52Oyw6CMBBFf8V07ZChPHXlfxgWpYxS0wdQQAzh3
+ y34B24mOcm998zKPA2KPLueVjbQrLxyNkByPjHZCvskUE1gxpHnWPAU6hS8m2wDvXQGlphKjBF
+ BaO3eMEkDe82SBiM6yOoLyZoXsshzFia7gR5qOXT36sd+ql8kx92xJ1rlRzd8jn9mvuf+VM8cE
+ LgUiYx5hhiXN+d91E9Ch7KJwmHVtm1f+axXQwEBAAA=
+X-Change-ID: 20260724-b4-sound-qcom-x1e80100-allow-ucm-channel-map-5b9ecb27c766
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Abel Vesa <abel.vesa@oss.qualcomm.com>
+X-Mailer: b4 0.15.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2719;
+ i=abel.vesa@oss.qualcomm.com; h=from:subject:message-id;
+ bh=U5piwvNZRG1cHLfWCFnEXueR124Qs/vWofw3DYDWQeA=;
+ b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBq7KieCQbWjnt7KCLcMKHEpza6c7UkOlMSDcyw/
+ TJiBbPkVsyJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCauyongAKCRAbX0TJAJUV
+ VoeMD/9C1oNm6MPOL8S3tCs6Ie9luZxX/08iHLm8pGJru8IdK+kZ7spOKxFO8WACfydGgjN7IZJ
+ P1HQiM9ZDaagFcXlTItq3JRxYXhx6z15rNcFllVuJbKxnj7AxUFIqWEioaWOXQWJx1e5cQlBKNN
+ 0HsnaZ7lDMoqp7V6D7m/y6zZe/2bEA6EY9P92ZmDpBuTWr/pKKYOGORngMB8fJBtrBH8L5vqyIe
+ RhKrjTUGAJkkGpm+SzIX7MSe0fTqcXkAFUKNjOJzetAeUIe/UHmN4g3E1iA7qrs1wg4LOUgBQdC
+ s7Y8sFNTo7HFcJ5q5t0JmV9KGn1LLBjPwqjvpkLBUEhPhPbluTg+y+alY96FW3dgGqPUpaaDhSW
+ a0JMeps6518Mz8p89doKIUELYNC2tOA4NSZPzXtbj8UCOE5U2D1nb3nmfA9OUO2+698bw1bN3Tt
+ o8bXUK1gA7XcgI6Ja/6l/1Yu/LgCixGME+wrx/POGubkIqdX+6uu3enDwznEMT9YpuHW+k5q2aJ
+ 5pEgwINWZCTcTqPKYKbsGFrCZy4XRaQvTyU8epZ7mX6WQDxoW3mieDZodbd1GghTVxb1ALm5QyN
+ 60kzTG6lYuAswdJDpaM32fiA+I370HmjAgu3OcKswmZQy/IDSNbQry+zteVicZQOOxK/3+zoH6m
+ E9TzwOnFMIrOUVA==
+X-Developer-Key: i=abel.vesa@oss.qualcomm.com; a=openpgp;
+ fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA1MDA2MyBTYWx0ZWRfXyGxedUqZyRYv
+ hhwEkO3YXAJnMBw6UJpvQf9Mqj0mBRCn4mXGphkVvfZ0VE0uZ3Da0ZdAk4+qfdpX5LudCCEl90v
+ 1S4Gu0nXc5bx8IhC7mNVRvWW9WWqMdU=
+X-Authority-Analysis: v=2.4 cv=KrHYSmWN c=1 sm=1 tr=0 ts=6aeca8a6 cx=c_pps
+ a=+D9SDfe9YZWTjADjLiQY5g==:117 a=asF+/XNaGoxFafzDDLC1GQ==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=bC-a23v3AAAA:8 a=EUspDBNiAAAA:8 a=SGIR3ObuRCJqBXPODGMA:9 a=QEXdDO2ut3YA:10
+ a=vmgOmaN-Xu0dpDh8OwbV:22 a=FO4_E8m0qiDe52t0p3_H:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA1MDA2MyBTYWx0ZWRfX0+G7nib2jxyt
+ cSRWyfeJjkfFklvEPj/9qjqssUUJujwQo8wzFqmIqpvV7ukCwOQM7zAPNbEyb75rMIND7E56UhT
+ Yz26ZvTydpz043h27ZtEdbMwNRGsgeQl8EiUhmOw6qmjUthTNsV2ZKHdr97bM9jpPRistGXjfS/
+ HNAaEDuro9VMeUrHwqUXOyWdaQEXhptP+imGLTPmB6rtq2sLjWYaEqpNmOMJcFw17PyshWdmNck
+ ukDKHjq5caFZE7EEBuTp6Jw1GDLSwlUg01Ap4JeKj3eNhOAqqeyZiKMaJCvPNAnyHYRD0UIr4h4
+ hpzZ0xLlh2UbEuLOXv3Idh5rMCUijOniK6iK1PUb5xyi1Jj0a2sA8r1Tv0SpGy2POIMHWfWICjP
+ 5Xo4GYdLKBgNlGlh+ohWMY1wyTbyE745P3DgCEZP/bG387l/Q1+2O1cfPjAjhJic6HXC+IhS+OD
+ 0oYJXGVfoFmNEMiC6iA==
+X-Proofpoint-GUID: zpIOrE0bzePviWp13AaJwiZK6RJ7MGjm
+X-Proofpoint-ORIG-GUID: zpIOrE0bzePviWp13AaJwiZK6RJ7MGjm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-05_04,2026-11-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 priorityscore=1501 adultscore=0 bulkscore=0 suspectscore=0
+ spamscore=0 phishscore=0 impostorscore=0 clxscore=1015 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611050063
 
-The wm-adsp-fw-find suite runs wm_adsp_fw_find_test_search_order()
-against six different sets of parameters by listing it six times with
-KUNIT_CASE_PARAM(), which names each case after the function. All six
-cases are therefore called wm_adsp_fw_find_test_search_order, which
-makes the results ambiguous.
+The x1e80100 machine driver currently derives the WSA RX slot map only
+from the runtime channel count and programs that map unconditionally in
+.prepare(). This means userspace cannot override the speaker channel map
+from UCM.
 
-Use KUNIT_CASE_PARAM_UNIQUE() for these entries so that each case is
-also named for the parameter generator it is run with, for example
-wm_adsp_fw_find_test_search_order-wm_adsp_fw_find_full_search_gen_params.
+Add a small ALSA core helper to register channel map controls under a
+custom name (so the WSA maps are not confused with the DP/HDMI
+"Playback Channel Map" controls on the same card), a common helper to
+translate SNDRV_CHMAP_* positions into Q6 PCM_CHANNEL_* slots, and
+writable "WSA Playback Channel Map" / "WSA2 Playback Channel Map"
+controls on the WSA backend PCMs in the x1e80100 machine driver.
 
-Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
 ---
- sound/soc/codecs/wm_adsp_fw_find_test.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+Prepared with help from an LLM-based assistant.
 
-diff --git a/sound/soc/codecs/wm_adsp_fw_find_test.c b/sound/soc/codecs/wm_adsp_fw_find_test.c
-index ae686dc4fa94..0b2b7db3f9f9 100644
---- a/sound/soc/codecs/wm_adsp_fw_find_test.c
-+++ b/sound/soc/codecs/wm_adsp_fw_find_test.c
-@@ -1219,23 +1219,23 @@ KUNIT_ARRAY_PARAM(wm_adsp_fw_find_pick,
- 		  wm_adsp_fw_find_test_param_desc);
- 
- static struct kunit_case wm_adsp_fw_find_test_cases[] = {
--	KUNIT_CASE_PARAM(wm_adsp_fw_find_test_search_order,
--			 wm_adsp_fw_find_full_search_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(wm_adsp_fw_find_test_search_order,
-+				wm_adsp_fw_find_full_search_gen_params),
- 
--	KUNIT_CASE_PARAM(wm_adsp_fw_find_test_search_order,
--			 wm_adsp_fw_find_system_alsaname_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(wm_adsp_fw_find_test_search_order,
-+				wm_adsp_fw_find_system_alsaname_gen_params),
- 
--	KUNIT_CASE_PARAM(wm_adsp_fw_find_test_search_order,
--			 wm_adsp_fw_find_system_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(wm_adsp_fw_find_test_search_order,
-+				wm_adsp_fw_find_system_gen_params),
- 
--	KUNIT_CASE_PARAM(wm_adsp_fw_find_test_search_order,
--			 wm_adsp_fw_find_alsaname_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(wm_adsp_fw_find_test_search_order,
-+				wm_adsp_fw_find_alsaname_gen_params),
- 
--	KUNIT_CASE_PARAM(wm_adsp_fw_find_test_search_order,
--			 wm_adsp_fw_find_noqual_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(wm_adsp_fw_find_test_search_order,
-+				wm_adsp_fw_find_noqual_gen_params),
- 
--	KUNIT_CASE_PARAM(wm_adsp_fw_find_test_search_order,
--			 wm_adsp_fw_find_normalization_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(wm_adsp_fw_find_test_search_order,
-+				wm_adsp_fw_find_normalization_gen_params),
- 
- 	KUNIT_CASE_PARAM(wm_adsp_fw_find_test_pick_file,
- 			 wm_adsp_fw_find_pick_gen_params),
+Changes in v3:
+- Rebased on next-20261105.
+- Switch to the approach suggested by Srini on v1: add
+  snd_pcm_add_named_chmap_ctls() to the ALSA core and register the WSA
+  channel map controls on the backend PCMs from late_probe, instead of
+  card-level mixer controls with a hand-rolled TLV callback. The v2
+  claim that no_pcm backend links have no PCM instance was wrong; they
+  get an internal PCM from soc_new_pcm().
+- Use a per-WSA-port index for the stored channel map instead of
+  indexing by AFE port.
+- Link to v2: https://patch.msgid.link/20260724-b4-sound-qcom-x1e80100-allow-ucm-channel-map-v2-0-2ca3c1250018@oss.qualcomm.com
 
--- 
-2.47.3
+Changes in v2:
+- Rebased on next-20260723.
+- Return 1 from the control put callback when the map changes.
+- Allow up to six WSA channels for Glymur.
+- Use WSA-specific control names.
+- Expose standard ALSA channel maps through TLV data.
+- Move the SNDRV_CHMAP_* to Q6 PCM_CHANNEL_* conversion helper into
+  qcom common code.
+- Register card-level controls because the WSA backend links are no_pcm
+  and have no PCM instance available at card init.
+- Link to v1: https://patch.msgid.link/20260610-sound-qcom-x1e80100-allow-ucm-channel-map-v1-1-9339724994f5@oss.qualcomm.com
+
+---
+Abel Vesa (2):
+      ASoC: qcom: common: Add SNDRV channel map to Q6 slot helper
+      ASoC: qcom: x1e80100: Allow userspace WSA RX chmap override
+
+Srinivas Kandagatla (1):
+      ALSA: pcm: Add snd_pcm_add_named_chmap_ctls() for custom control names
+
+ include/sound/pcm.h       |   6 ++
+ sound/core/pcm_lib.c      |  48 +++++++++---
+ sound/soc/qcom/common.c   |  30 +++++++
+ sound/soc/qcom/common.h   |   1 +
+ sound/soc/qcom/x1e80100.c | 193 +++++++++++++++++++++++++++++++++++++++++++++-
+ 5 files changed, 264 insertions(+), 14 deletions(-)
+---
+base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
+change-id: 20260724-b4-sound-qcom-x1e80100-allow-ucm-channel-map-5b9ecb27c766
+
+Best regards,
+--  
+
+Abel
 
