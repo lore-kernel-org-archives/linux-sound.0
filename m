@@ -1,108 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793894501;
-	b=YCEycd59GQJy5pTvErJsLTeZE6ATn/MkwUFEJbZJaNZW8VbWQar5lAx7/I0uwPe8ha+t
-	 sVsIxYGH5YXHsJ3R5XXml91Wgf//9b03tMIJXT7X6ktTQKX1wRQ+8+iMDl/Iaf6XWgMgj
-	 BghzTmiimfSwS9scW8CpH63LUsRZxbtR661CAk+/xL3MVrdi9AFYTqeoqs5v3+sgaJYWY
-	 PdGkek/WzqdCwi1WPbVkzfpIb1Vc+1si0+q0oy+lphGPci/B+x55KdIz2i9vBR5ujVArn
-	 2yIJo5EgUBa/pQBQk398REsrHRswn3esmZ+wU+RPTOiQpowvjgY5Ya7n7TUvIqYtoAA==
+	t=1793894513;
+	b=16ab9pmczjvQ4MqZeAF4SQ4MSFwAEAuNpsC0bpOChfCAglywy8yufF+W45t50RpF1j/a
+	 +A73pjlH0mlpGHBhIF2tTo3UNnVXhwr9OGV/gnJ7VbYvOushLtcbxmLGhP5atkn5Hjbt5
+	 nXYggtJW0irZJ38W+fKdNBmv7qdmEjtxluyeHQsTZ+pP0FSyKwM8tXbHMfRgHuUjQAj+y
+	 hPs5tqoiRRV3SRPtBFVd0VOvRLnQc2erA40NVLgucTzlZ9SIg0G+KQIkh4bJVfJaS3SA6
+	 MIawVlvDiAF5KFF/omdyU39hkwXToBp939CMRPmfXpHqa1T5Q5yFJ12TsxgLf54wjnA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793894501;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=bCAXsQYTn+ro7wQ3X5+sSRZ5vAY/PJ6i1XVSyLlK874=;
-	b=fR9C0XqaaUVEg5pJZuvnzKpAy2yOOO6WNL4w+x3l7c1QlMYLoJ0GF9QIthAf6obEOn14
-	 dFuh6ZHS1SSzD/kls3s8r6ximIUz3UbuAmUfjSFKeRiVaFeQ5pxOAhuf+Mcu/OE95AHWQ
-	 zhG2AtL6sGVc5kZUrnu8UjYD8xC+fzn6pYWo7BTdWSatl0i07t0pItOHIgVQOxAs8lk1L
-	 eYEAAOVmkzkzc1b6qNK5Wb2z/F7hnDSNB/p3YehqzdJTqDUqc3Sb98XofE0/ov5jsKk/A
-	 pbyjIL83Xgv+ylJMtXo6nYetI95rPHb3wTU6tcIZLC+S6JJH77bt3f8T40LXEuHUrbg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793894513;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=4VelVPMVxE7skvZV+t/dDAKOEE6lwzzBgv28kRT0Ubk=;
+	b=hRnJVr3boxWjnqxTexiU01Swesb02o+XVjm9hF/ToX5UpZG44DXnllhrJv04T+rFEQwB
+	 Ts/Lu40Lbsh/aWY/FPk9eoTCErSxbV1Ai+GthuXI6tE8pgBmcgytNvk8d+MXzJ8UoaNzH
+	 AcR+pYQQhKmsB2wU5+zK1hvD68gph5siiB2k71V2b38Y4sFr7jWs+tf5pHCL52kFMIL6K
+	 SA5OnAuvHLcaQ1NfO3QmKNkZypjPMIMJSrcZPp+ki0C7TIGMsXwrM19VcO9AAJ/DUWDVJ
+	 u4PO5YStTrknw1BkPmgw+HjUBL64rE1Qxj/g2knQdVo9lUobI8EbcvXHk8oTe4EVKow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gGxO0SHx;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HKTQbMwv;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gGxO0SHx;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HKTQbMwv;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DQOm1YJH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9E5606B442
-	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 16:01:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A9E5606B442
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DB6606B45C;
+	Thu,  5 Nov 2026 16:01:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gGxO0SHx;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HKTQbMwv;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gGxO0SHx;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HKTQbMwv
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 74CF81F749;
-	Thu,  5 Nov 2026 16:01:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793894497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bCAXsQYTn+ro7wQ3X5+sSRZ5vAY/PJ6i1XVSyLlK874=;
-	b=gGxO0SHxJ1lggBgMepmGGMhM37Zk6ZbGTZjUGvYd+f5ND44PnkydwOpHOH2EhbF9IV+ZS5
-	Ij1G5YHY8D4iat7e5sSDU1af8bacUr1Supq8MGxYYc+IgY0ayPux1lfzBWEGkMH1PF8KaG
-	Uh+ltF6pcVN89+fAV1jtyIp7+FdYAlg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793894497;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bCAXsQYTn+ro7wQ3X5+sSRZ5vAY/PJ6i1XVSyLlK874=;
-	b=HKTQbMwvEsex35AwmI7QAHHEdbUROjIJdJ3mSKzJ5J1LCujAdlx+JFwYI3lWWLAybS0Bjw
-	wzk6bqu6/5F6WEBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=gGxO0SHx;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HKTQbMwv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793894497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bCAXsQYTn+ro7wQ3X5+sSRZ5vAY/PJ6i1XVSyLlK874=;
-	b=gGxO0SHxJ1lggBgMepmGGMhM37Zk6ZbGTZjUGvYd+f5ND44PnkydwOpHOH2EhbF9IV+ZS5
-	Ij1G5YHY8D4iat7e5sSDU1af8bacUr1Supq8MGxYYc+IgY0ayPux1lfzBWEGkMH1PF8KaG
-	Uh+ltF6pcVN89+fAV1jtyIp7+FdYAlg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793894497;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bCAXsQYTn+ro7wQ3X5+sSRZ5vAY/PJ6i1XVSyLlK874=;
-	b=HKTQbMwvEsex35AwmI7QAHHEdbUROjIJdJ3mSKzJ5J1LCujAdlx+JFwYI3lWWLAybS0Bjw
-	wzk6bqu6/5F6WEBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 354B7134F4;
-	Thu,  5 Nov 2026 16:01:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Yv/wA2Go7Gq9CgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 05 Nov 2026 16:01:37 +0000
-Date: Thu, 05 Nov 2026 17:01:36 +0100
-Message-ID: <87v76bqnbz.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [GIT PULL] ASoC fixes for v7.4-rc1
-In-Reply-To: <e5aded615cb3e714bfe90050876a9f98@kernel.org>
-References: <e5aded615cb3e714bfe90050876a9f98@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DQOm1YJH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A1C01F000C1;
+	Thu,  5 Nov 2026 16:01:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793894513;
+	bh=4VelVPMVxE7skvZV+t/dDAKOEE6lwzzBgv28kRT0Ubk=;
+	h=From:Subject:Date:To:Cc;
+	b=DQOm1YJHfPm0v/dLeX+XAQitvcUgNmsRePnWyLGO6bQ1h7mTPBBwMcAFJ/zylkp6x
+	 JRSvS6x2PxHBQsNb/u8MQKHzOvOm8IIek6H13FQEo5WnomxQtacBL6ZdOTagLV0Us/
+	 8MEjtRHH8GOha7MIaWgrfOnrRSZEDiFYtGzXlfovCOTmzacIhMIFTKXndgH0SaTFOd
+	 l0Bc059PPlKXuS0nuonAXvjDjQjQPb8+m+axQDqp25tJl/70i8yHj7ucErATfhcqvI
+	 1XnJskLP2DXG6TQtrW6C81etXnTtmeAvYcpVQl/e/P8igcYBQaSam4mqrQuYm1C0dr
+	 /ZBkyLilhWMLw==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH v2 0/9] kunit: Add KUNIT_CASE_PARAM_UNIQUE() and
+ KUNIT_CASE_PARAM_WITH_INIT_UNIQUE()
+Date: Thu, 05 Nov 2026 16:00:27 +0000
+Message-Id: <20261105-kunit-param-names-v2-0-765b3d5275d2@kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -111,67 +53,103 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -12.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 74CF81F749
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB2o7GoC/22Nyw6CMBBFf4XM2jFteURd+R+GRVtGqEhLpkA0h
+ H8XMO5cnuTcc2eIxI4iXJIZmCYXXfArqEMCttG+JnTVyqCEKqSQCtvRuwF7zbpDrzuKWBXWyCw
+ XNrUE665nurvX3ryVX46jeZAdttBmNC4Ogd/76SQ379dP//QniQIzoxTZ3Jxyc762xJ6ex8A1l
+ MuyfADbwZgBxQAAAA==
+X-Change-ID: 20261012-kunit-param-names-d6cb1450c3ce
+To: Simon Trimmer <simont@opensource.cirrus.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+ Rae Moar <raemoar63@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Theodore Ts'o <tytso@mit.edu>, 
+ Andreas Dilger <adilger.kernel@dilger.ca>, 
+ Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>, 
+ Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+ "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+ Zhang Yi <yi.zhang@huawei.com>, David Rhodes <david.rhodes@cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org, 
+ linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3315; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=wulIPaLUroDjaKiDD9mihUIfKXwA5W+VsQnKLwr9e6M=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLerEjtOnFs5eQDOeGt5QlfmR8tmV/9tUD6/J6wz7rvb
+ 6+qDPIt7ChlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBE1P4wMtzhSdCSeT1fZMaz
+ 5oO+Zc+69+ySqBI22Wh4nrFCPJujYQIjww7WzdYBaoKuviYqwh/rLBOm2PKnuchINEQcUxYQXMH
+ MBwA=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 05 Nov 2026 16:52:47 +0100,
-Mark Brown wrote:
-> 
-> The following changes since commit 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4:
-> 
->   Linux 7.4-rc1 (2026-11-01 13:26:31 -0800)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.4-rc1
-> 
-> for you to fetch changes up to cf09d02dc0c49593fdd9e0ec2f17251cba39a94e:
-> 
->   ASoC: amd: yc: drop duplicated DMI quirk entries (2026-11-05 00:25:11 +0000)
-> 
-> ----------------------------------------------------------------
-> ASoC: Fixes for v7.4
-> 
-> More fixes that have come in since -rc1, a lot of this is quirks but
-> there's some bug fixes as well.  The bug fixes should mostly be those
-> that seem to be affecting actual users rather than just being pure
-> static analysis work.  I also took some fixes for missing Kconfig
-> dependencies which won't have any runtime impact.
+KUNIT_CASE_PARAM() and KUNIT_CASE_PARAM_WITH_INIT() name the test case
+after the test function. Several suites reuse one test function with
+more than one parameter generator or param_init() function, listing it
+once per set of parameters, which leads to multiple tests being created
+with the same name. Same-named cases cannot be told apart in the results
+and cannot be selected individually with kunit.filter_glob=, so kunit.py
+--run_isolated=test boots a kernel for every entry and each kernel runs
+all of the same-named cases.
 
-Pulled now.  Thanks.
+We could fix this by having the KUNIT_CASE_PARAM() macros always include
+the parameter name but this would not only rename all existing users but
+also result in some awkwardly named tests. Instead introduce some new
+macros for use in cases where we need to disambiguate.
 
+Add KUNIT_CASE_PARAM_UNIQUE() and KUNIT_CASE_PARAM_WITH_INIT_UNIQUE()
+which behave identically to the existing macros but include the name of
+the parameter generator or the param_init() function in the name of
+the case, giving names such as sha1_test-sha1_gen_params. The
+param_init() function is used for the WITH_INIT variant since currently
+all the tests which register parameter arrays from param_init() all
+share the generic kunit_array_gen_params() generator.
 
-Takashi
+The series also includes a fix for what looks like a cut'n'paste
+issue in the cs_dsp code that overlaps with the main set of changes.
+Most of the affected tests are in ASoC, though there are some ext4 tests
+too.
+
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v2:
+- Rebase onto v7.4-rc1.
+- Link to v1: https://patch.msgid.link/20261013-kunit-param-names-v1-0-4b22ec5b85b9@kernel.org
+
+---
+Mark Brown (9):
+      firmware: cs_dsp: Run the wmfw payload error tests with invalid block types
+      kunit: Add KUNIT_CASE_PARAM_UNIQUE() and KUNIT_CASE_PARAM_WITH_INIT_UNIQUE()
+      ext4: Give the extents KUnit cases distinct names
+      firmware: cs_dsp: Give the control read/write KUnit cases distinct names
+      firmware: cs_dsp: Give the control cache KUnit cases distinct names
+      firmware: cs_dsp: Give the wmfw block error KUnit cases distinct names
+      firmware: cs_dsp: Give the bin file KUnit cases distinct names
+      ASoC: cs35l56: Give the speaker ID pad config KUnit cases distinct names
+      ASoC: wm_adsp: Give the firmware search order KUnit cases distinct names
+
+ Documentation/dev-tools/kunit/usage.rst            |   9 +
+ drivers/firmware/cirrus/test/cs_dsp_test_bin.c     | 222 ++++++++++-----------
+ .../cirrus/test/cs_dsp_test_control_cache.c        | 143 ++++++-------
+ .../firmware/cirrus/test/cs_dsp_test_control_rw.c  |  50 ++---
+ .../firmware/cirrus/test/cs_dsp_test_wmfw_error.c  |  72 ++++---
+ fs/ext4/extents-test.c                             |  12 +-
+ include/kunit/test.h                               |  41 ++++
+ sound/soc/codecs/cs35l56-shared-test.c             |   8 +-
+ sound/soc/codecs/wm_adsp_fw_find_test.c            |  24 +--
+ 9 files changed, 329 insertions(+), 252 deletions(-)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm master
+change-id: 20261012-kunit-param-names-d6cb1450c3ce
+
+Best regards,
+--  
+Mark Brown <broonie@kernel.org>
+
