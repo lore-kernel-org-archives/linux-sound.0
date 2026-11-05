@@ -1,68 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793907357;
-	b=mwXLupQynTBfftl+8TbNBXkCJY2nBhuYHS2gzyLqAG8f1WVgT2CYtdPITd/WBGqfZ/4U
-	 YIntsaoMFY5JuMOUIA64Q+N02NAu5ZpGUWG1+tzfW5GzW/n472kyV7hjVZ8R7Itft2uUG
-	 fVJMv/yjkCAGRkkXWc+Uq1Our37yW03BXbyrOnqg3ZKj2xLZqRPJ4t8CfDN5ntfjmlMfv
-	 XR/izJJt91sHkctF+b75ovogBAsw/VIilglf58W1kKy/DaYXekIgysFDB30VaGhszLIG8
-	 B0tDB65flTxIYBIavAn1WQVXoPAJOZNBRFR62DV09psN4zWo93xtxm/wKuzCg9SbGOg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793907357;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=oYzAsF0I+e0CW5z5u7FoosueNiGCXkY4vYyESz+rdRw=;
-	b=huqZLj6+DLoKYR3vR20QqWEUP/Jkbi3CyDKHeWNrtUbuGrTMU6gTIr7M6u+CT4I1iajd
-	 zVbW1Bl2nhrvpGtQc8Hhk7sOVNvRsQkh/J0yVvpiAOZbbRE4Uu8Bys60jZVZAVsDaRAmB
-	 TdaQxZ1jEjm+XZqZnfS4I7rSu9M8pJJr9p/op/aQOHWOKxahzbwmBtVM4xys1iuWUIuDL
-	 koDwnr9onu5b8/0g/cQf2tFik07/k50ExctfsOZ7SUe+0lYsI4TIdxniHGc6LueUVqIyb
-	 71EJO91zJcKzYUsxRG2+zXFxQLNibwdJfZUyZFq9rTA1hwXTDRMHaGTmqrWfPYgfPag==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MNcTfu51;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.43
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793908112;
+	b=ArTEZY2mYcgpj8B2+OvSRgbCJvk8Tr8/Vrwz5GX976eLs++FS6HnRi63GfRyAeo0mWP1
+	 rXxS6rX4itQlQ8BW6jfbZRbf4CtuXCjl+HxWY9ERTSrbYQv316Np4QFRHTkdzkOtaoMbD
+	 xC/PtIS9ErrV2AvytmUhl9FO8ibl/7Otf6sOKbdUmWBjnpLJqUzQT/gMbIK+DEK43GSF8
+	 BfYEIpgisn3bTcVpsh81tH/outj/NjO9JXiyqo6atFpZsUh9bzYHJIrNVZHzSE8Sosmo3
+	 YRLyYg3h3Zq+urfPRGu/jZpv1q0leuJ6pmkJM3XJPjbswb8a0odpalJ+y3B8YcuilqA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793908112;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=OQoB0OyuP6rcMmx5P0Bm/IuwNP6HG0SGa2V0btSj1Jc=;
+	b=VtKOP0Be/OwRe53gGilDL4ZR+zRUarDnIc/Brxa0tGWMh2vt5/b9rzBKlbiJON4wST8z
+	 dxu9nMRg57LBw01TGqwPfCGXwNtDZF4WDZxBHm4iPibcagmS0h0KZe6U9uP+IRtJCpGFZ
+	 DWR5D1OagIUxJ2YfHMEd0NMXT6VyhgwNmh7x/ZdKQE08BMxbi18/Lcq1THcPnGAGrG53X
+	 ayXlEaVRnL0R2WPVV94Hbz1MqbI1WUpmpJUq+YuIIY4Xfb1RxatEnM49GX7DVOb+kDUD3
+	 pzlOuGQ6awrmyw0SRW9i3eN2m1/nue3jGXAORsgVKNdM/M2sK2I640A8X7590/5YXMA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sd+edbLP;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.43
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985A5606F967;
-	Thu,  5 Nov 2026 19:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2B6606A329
+	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 19:48:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E2B6606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MNcTfu51
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CAAA1F0089E;
-	Thu,  5 Nov 2026 19:35:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793907357;
-	bh=oYzAsF0I+e0CW5z5u7FoosueNiGCXkY4vYyESz+rdRw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=MNcTfu51HAjp9arjwyGN1MZppN/dC3Ih6DC5avMnmUZvCl1H8KMvBU/ZZwYPTddlq
-	 8PnPW4CSFGBN1dDKTDcBXSBShP3a2WX5Pp6p0nXP7btknLRFB9PL8Ncjca4QfFR7o6
-	 oieIQ42NP3xLduOm0i3X+wXP5Uc/isojnKGZtzQxRcqeCltZdRDFH+n0KxLYl41RIP
-	 ATkNXn2O63ucMGLH8txRIYQC8ZLHJgxM0FFautSGCwD/y0R1M9Jy2DlUyf0qiqgXBM
-	 VIcI6Y0C/5lhKqfM+6+0N06nY7P1BiHq8y1ifirsgXbr9GMfqL0sos0ji0uQdTtER0
-	 P0SLP3MDfXv8g==
-Message-ID: <sashiko-outbox-199950@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RESEND v2 20/23] selftests/proc: check that a mapped
- entry can be removed
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Christian Brauner" <brauner@kernel.org>
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Jann Horn" <jannh@google.com>, "Josef
- Bacik" <josef@toxicpanda.com>, "Chris Mason" <mason@kernel.org>, "Jeff
- Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>, "Eric Dumazet" <edumazet@kernel.org>, "Thomas
- Gleixner" <tglx@kernel.org>, "Al Viro" <viro@zeniv.linux.org.uk>, "Jonathan
- Corbet" <corbet@lwn.net>, "Christoph Hellwig" <hch@lst.de>, "Greg
- Kroah-Hartman" <gregkh@suse.de>, "Joel Granados" <joel.granados@kernel.org>, "Kees
- Cook" <kees@kernel.org>, "Jan Kara" <jack@suse.cz>, "Jan Kara" <jack@suse.com>, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-serial@vger.kernel.org, "Takashi
- Iwai" <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, "Chuck
- Lever" <cel@kernel.org>, tytso@mit.edu, dmitry.torokhov@gmail.com, "Petr
- Pavlu" <petr.pavlu@suse.com>, "Anna Schumaker" <anna@kernel.org>, yukuai@fygo.io, "Heiko
- Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
- Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261104-work-procfs-core-v2-20-76ace653a773@kernel.org>
-References: <20261104-work-procfs-core-v2-0-76ace653a773@kernel.org>
- <20261104-work-procfs-core-v2-20-76ace653a773@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2026 19:35:54 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sd+edbLP
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5bcb4f23ddeso2147987e87.3
+        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 11:48:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793908110; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Mxqi+auKiF0sPlS8fg+02i/42yfro78dCAiwA0tyaOOw2T2SfJTsj3wHSIgRV4MziH
+         wUfW7xW8S6HBiAsJ/dxSZCnuYjwMuZaz1DnbV5mLrtjdy0ACX0q8XrIy9QpGY3MK9YVF
+         Ypqw92FkjcXRLB5YUVlAxQNvg19wlhR4n7UdEQvi/O/B91/kc3iQh4Nstkn+8psFUMLs
+         yiERc6mKFhKn7xhjre6grLN1ht57VTEpNdMbNp+Fa3oMo3FvjqFbwq2GHJ8QYc6c7shs
+         X0jU1rYskP3ItLp/NQKGp6ZADTTYdE1g7xTapw9DuoPlY48IvSdKrd+iRTLi6c+3sdPs
+         UUmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=OQoB0OyuP6rcMmx5P0Bm/IuwNP6HG0SGa2V0btSj1Jc=;
+        fh=HH+CvPSvMbG1j3/E6iZqCjGlaxEKjuLroGqLyWe9lN4=;
+        b=Yo43gGfPImt/h1XTMHlurjP/j0NAkMtfBL4940bnyjOgLU3KQHedQfOl2jWqnq4Xoa
+         Sw+c9BsajBCfErCnIaDvRr4CNza/NW+auMVM9xESExQESxWkP7io8rDVOkY+p6iASgLx
+         GCPR8JGRZWWDt+pKa4JSx5gtlDWkhkfw0WdGuod0hKYtUYmp1lT2+tj54zciGVbayAfU
+         gMNti5Zr7+/GgHKAATOBaVOLnBtNPlmI29q20Hsh5oHrJoG0O7ntjrkXcwMJGkwmAYfC
+         BB4+8hdm5ziEz+yp+s/tquXIagJUKcTGe9UtekoAsy7kn+rq3UDqIt89rmn/lpbggdCL
+         WGFg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793908110; x=1794512910; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=OQoB0OyuP6rcMmx5P0Bm/IuwNP6HG0SGa2V0btSj1Jc=;
+        b=sd+edbLPfKhvmhrWfjQYzOE1o1+gi+kZWfHAH4c4bI7QtpqrUtnHMIvjWyhEoWk8Tc
+         S5IvQpS/+YzL6oP8IkEpi6Vsi194PYvOnpwxx5SRIt84M4RsE51qU68K97kYwzmqiVDA
+         SgqwZXC2dbZ89mLxJJyKt+LblelLq8M/L7+nW8jfAVX391ytgkoR42Zi+vfRf+O2aptz
+         yp4kkodgXdmSamVQFzJG85QO4QJPqokKAM9JGGKVBhi5E7sk+mScgEK1xAqd+lbwAt8T
+         vB90/KPvv6V3VIYbJDN1A59alLaTNgE56aGdyxYTka6RfN/lqb0F3kBmbkz95xYUJmid
+         TmRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793908110; x=1794512910;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OQoB0OyuP6rcMmx5P0Bm/IuwNP6HG0SGa2V0btSj1Jc=;
+        b=ECg8VuPQdh+RZ0L4DiePie5zkBx8iTdUbIkk8CzcAs78+xLGUK+nRf0c1trrrBBOMB
+         O7jG7B2NIzj6LQdZRfHC/JBgsbSZ8ruR+wpbRAnymD+L5msltMSEpo21n8IUWCijyuFm
+         hLFKYgVARbBNtzXlP93DvhebGyjrIBf5cLkJ6WO85GPnzjQD/IeGXu6xQ6SYLe6rRN12
+         e/xvdXS0csedM8QLiB9F7PIDLsO958LpgvN9A2y+U28hIu67xhIlo+TNKVeBQRlp92RU
+         YGpegSzrK+yLHPGp4azwG/LKMs1H9X8bdUCqTRUCWQ51M7t6zd4YUdsHpNNlPUVlXAUQ
+         5Lgg==
+X-Forwarded-Encrypted: i=1; AKwUvBzTzVsFL13p0p80aueQftudCL7YUxVZzpZhjlMESzZSs3JbxSsmcq5BNY8ZDvef4GiHUf904a/W26xrhQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/2Zwhyr6gwzQ4rfQtrreAdhTiSUYILbXhYIuRsCsXCoh7/K05C
+	4dICwaLcw3+PDrHQx5NflunAnianPR8/SKHgm/1mdKkkoznO9GMkMTHrUr5dDw6UGYmwKoYgOmP
+	lmN4KWd4nVSKTnmVzQlQ6+wlidHuItAU/Ug==
+X-Gm-Gg: AYBFou0X8T6OljlSIjZOpNuWEoBxRNGypzOnnCbNdfX7iPoopgHEgr79fkMKN1ygFO/
+	umwnobGbbN5fqE38qlfBcmwZUdYjDk0oy/WSnUDDPRGG/tQ8cK57q1mRwKsUlT4Zc+0QKkHGrFH
+	k8CEjyKAQ4cho9Pa3ARpCITUdMZGbg0KWWOk3q3DF2Kgr2K8yYLV+1aMnjBOoahYodPvbe+fubi
+	b2fwzJOrz++ewXjfPspUMMh7UWstbZ7Fy6ppTqRHpF/U0QNiC5SS56I6rAOPDX5f2F2IZB4DKlC
+	SPGIBn43Foc9RlfIqNswxJboruYnac5JvQMRMsdrIUP/N2bg28XT12IPinsACvzSQ7kYi7kUZ3D
+	2v/iW/9J+LWLxwiCtiODDEYJ3+MUfKAAQLINKZZRGek2CgDiREUNgcb4Sqj2skjpgq1eWqWchpm
+	pbDLLVZyl3Ii3LlKISeajeLvjP
+X-Received: by 2002:a05:6512:138f:b0:5be:50f5:f789 with SMTP id
+ 2adb3069b0e04-5c003ae8f35mr32146e87.45.1793908110088; Thu, 05 Nov 2026
+ 11:48:30 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -71,117 +104,29 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+References: <20261019222827.131120-1-festevam@gmail.com> <179304399954.199157.12764659560169687388.b4-review@b4>
+In-Reply-To: <179304399954.199157.12764659560169687388.b4-review@b4>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Thu, 5 Nov 2026 16:48:19 -0300
+X-Gm-Features: AclHuK88GEl2j3sJlJ9HDbgp5sJVLx544WtOUUheKfsn3vwqvXVSiM43oIZy_yY
+Message-ID: <CAOMZO5CfhiM_ydnVuyoBFnBcrhk2Ra=S15S7MkzoUZ=DbUhA0Q@mail.gmail.com>
+Subject: Re: [PATCH 1/3] ASoC: fsl_sai: Defer TERE until stream setup
+To: Mark Brown <broonie@kernel.org>
+Cc: shengjiu.wang@gmail.com, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Medium] selftests/proc: 32-bit off_t truncation in proc-remove-mapped mm=
-ap()
-- [Low] selftests/proc: unused len parameter in mem_bar() in proc-remove-ma=
-pped
---
+Hi Mark,
 
-commit df303f424b9a370ffbd0eec6c07ff2a99d0ee4ea
-Author: Christian Brauner <brauner@kernel.org>
+On Mon, Oct 26, 2026 at 4:46=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
+te:
 
-selftests/proc: check that a mapped entry can be removed
+> Has this been tested on wm896x boards like those referenced in the above
+> commit?  If the card tries to configure the PLL to use this MCLK in it's
+> hw_params() that'll fail now.
 
-This commit adds a procfs selftest that maps a PCI device memory BAR via
-/proc/bus/pci and removes the PCI device through sysfs to verify that remov=
-ing
-a mapped procfs entry does not block and leaves the file returning -EIO on
-subsequent reads.
+I'll try to get access to an i.MX board with a WM8962, address your
+comments and send a v2.
 
-> diff --git a/tools/testing/selftests/proc/proc-remove-mapped.c b/tools/te=
-sting/selftests/proc/proc-remove-mapped.c
-> new file mode 100644
-> index 0000000000000..92860fb2a8f40
-> --- /dev/null
-> +++ b/tools/testing/selftests/proc/proc-remove-mapped.c
-
-[ ... ]
-
-> +/* the first memory BAR of @dev */
-> +static int mem_bar(const char *dev, unsigned long long *start,
-> +		   unsigned long long *len)
-> +{
-> +	unsigned long long s, e, flags;
-> +	char path[PATH_MAX];
-> +	int ret =3D -ENODEV;
-> +	FILE *f;
-> +
-> +	snprintf(path, sizeof(path), SYSFS_DEVICES "%s/resource", dev);
-> +	f =3D fopen(path, "r");
-> +	if (!f)
-> +		return -errno;
-> +	while (fscanf(f, "%llx %llx %llx", &s, &e, &flags) =3D=3D 3) {
-> +		if ((flags & IORESOURCE_MEM) && e >=3D s) {
-> +			*start =3D s;
-> +			*len =3D e - s + 1;
-> +			ret =3D 0;
-> +			break;
-> +		}
-> +	}
-> +	fclose(f);
-> +	return ret;
-> +}
-
-[ ... ]
-
-> +TEST_F(pci, remove_while_mapped)
-> +{
-> +	long psz =3D sysconf(_SC_PAGESIZE);
-> +	unsigned long long start =3D 0, len =3D 0;
-> +	char path[PATH_MAX];
-> +	volatile unsigned int *p;
-> +	unsigned int v;
-> +	int fd;
-> +
-> +	if (mem_bar(self->dev, &start, &len))
-> +		SKIP(return, "%s has no memory BAR", self->dev);
-
-[Severity: Low]
-This isn't a bug, but is the len parameter in mem_bar() needed? mem_bar()
-writes *len =3D e - s + 1 and remove_while_mapped() passes &len, but len is
-never read afterward because mmap() maps a single page of size psz.
-
-> +
-> +	fd =3D open(self->path, O_RDONLY | O_CLOEXEC);
-> +	ASSERT_GE(fd, 0);
-> +	if (ioctl(fd, PCIIOC_MMAP_IS_MEM)) {
-> +		/* no PCI mmap on this architecture, or locked down */
-> +		if (errno =3D=3D EINVAL || errno =3D=3D EPERM) {
-> +			close(fd);
-> +			SKIP(return, "PCIIOC_MMAP_IS_MEM: %s", strerror(errno));
-> +		}
-> +		ASSERT_TRUE(false) {
-> +			TH_LOG("PCIIOC_MMAP_IS_MEM: %s", strerror(errno));
-> +		}
-> +	}
-> +	p =3D mmap(NULL, psz, PROT_READ, MAP_SHARED, fd, start);
-> +	if (p =3D=3D MAP_FAILED)
-> +		SKIP(return, "mmap: %s", strerror(errno));
-
-[Severity: Medium]
-On 32-bit architectures, will passing start to mmap() in remove_while_mappe=
-d()
-truncate or sign-extend PCI BAR addresses at or above 0x80000000?
-
-Neither proc-remove-mapped.c nor tools/testing/selftests/proc/Makefile defi=
-nes
-_FILE_OFFSET_BITS to 64, so off_t is a 32-bit signed integer on 32-bit buil=
-ds.
-When mem_bar() parses a BAR physical address >=3D 0x80000000 into unsigned =
-long
-long start, converting start to a 32-bit signed off_t in mmap() either
-truncates bits above 32 or produces a negative offset (which fails with EIN=
-VAL
-in musl, or sign-extends the page offset passed to mmap2 in glibc so
-pci_mmap_fits() in proc_bus_pci_mmap() fails with ENODEV and causes the test
-to skip).
-
-Should proc-remove-mapped.c define _FILE_OFFSET_BITS 64 before including the
-system headers?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104-work-procf=
-s-core-v2-0-76ace653a773@kernel.org?part=3D20
+Thanks
