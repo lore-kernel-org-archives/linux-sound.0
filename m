@@ -1,111 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793975875;
-	b=b16FpbNOE5f3vIP+mRkJFiuFwi+4NX5JkS0BWej/70nbHO33/CczPI0fqHLZwGdoy1IE
-	 Clx558uyT7J9QtiajNdcrOopu1Ud3C9ROhLS7587uHmUeHLgyG7GmOAd4+/qRALG+aQC6
-	 SloGVqsX3dTsR1P+YZkTLtTLjUn3jxHGUSvZxfvDJyY2kKgBORzZOp2XYf/S8OJP/SNeJ
-	 KZsVDApUxKkyJpP8FUPcef2t92chqXXL3Pr9vtrxRcdCn3asHdnmlmYN/3nqHolxfy5LN
-	 LBLxIP4OCmUkudQ9Gp2nvTOkQKH2SdmqPSLQCn3FyOnGT/NSQEZhSVL9e2vHQbkLLVw==
+	t=1793976916;
+	b=E9mXBZy84e6UivSrf9Tf85lv0KbtH2iHEUcj5A/WVws+bU9YY4nypAQ4TxuJ8us24N9p
+	 rYeSigDDKfJQSmAfakAdl/Ggs8Ft4fyZCdYsmivRkp97Kw/DYeXBu53lo2yzqG6d7mSrE
+	 pwes3/TK3nTZRd3W/g/ah43mJpYvbzSP7N8RXDw38aF5TUuxos6qrxlRbqJ433KUUNxcB
+	 cqU7zwkRC74JauUZP7LcJaArV2wCpHaAsSok9RmIBC54HgGp8l6oFF7yrBCTW5DO+ZK3u
+	 x9k72rvSOdA8arjAkx7guYtkL46xtcmi61Mgn8pl11gTcu7BMMTWVP3D08+FzVfy2MA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793975875;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=d6+KqjzGNGhlu9omZdJhETF9JVgg7tU3WIeLoUlP4uU=;
-	b=fyrLhfnlQsxU9hYY2I+bWXdx2KEudFqsQKb2bul1lCLSndqK/qukrHbJsDqNFgFHmIpj
-	 Vg+uFoWLAxfLN1oUO5F8WxAved+6rVrxesLMPYhveANcdv5mu02lwo5UyUrAEt/sgBycp
-	 6UbDvnYdnE+OkMnqyjv1miirH5o/g5mScnMlUFOorVZ+Gmpvfx/sXOeHUpegTCE4MFvbK
-	 J7DxyNQQzYgWBkSHx1gmSCjI3ew0cQLCu7FlU036OJRTf2Rp30HsI2vSEGTq6zORo1R5C
-	 chW1L70Cmunrm0oyFcsaPt+ocUMr6qlJ9f6ORBZVFkNXHnuK2nTKy791Af+ozoPTuLA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793976916;
+	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=+nrK2YFm2tTLcI3fq5wsXDhJRtmhHdtZNvzuXe8Ht+U=;
+	b=BA3F2+emVL1OgKtUuO04SCWTcgEahaOkpnf5TbMTpTuC1t9mZMjXvVvFhjPVnWWVHbbE
+	 BiACKFN/U6k/k7gs+omF7KmpY6MLzmVVgA41APRv2r2U+9MHD/7LiPEmsoWFO3lkYCEEN
+	 lBJb1JvajmDLuVG8Wtawce6AkuGbxceZwzz3zvk8sLl4+CRu3dqqUfY3qpmGdvVOdamuC
+	 u0ZxNtnNrrrGdm7oYAeKlABR56HWBH4YMSt5rlhDJnAkWkv/quUvHDHh5GCTb0vshnqJ6
+	 68E2h9xvxwYkBuJ1zENNwZwqjPlbLdl1+JDkhNiV71sgcE5lZu9SBtzg2jxJo9V8BQg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=l6VgaSSX;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xKNedjWq;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="p9zZNh/F";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hy9vOFIN;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NA2MeEcB;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1055A606D824;
-	Fri,  6 Nov 2026 14:37:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1055A606D824
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A1A606A329;
+	Fri,  6 Nov 2026 14:55:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=l6VgaSSX;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xKNedjWq;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=p9zZNh/F;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hy9vOFIN
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D8E871F78E;
-	Fri,  6 Nov 2026 14:37:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793975873; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d6+KqjzGNGhlu9omZdJhETF9JVgg7tU3WIeLoUlP4uU=;
-	b=l6VgaSSXN0pOdjWc03y9dW8ar12Hq8mR5fN4kp318nDQeZ5p1l8NyOb8tCFmJWh7AmGMwo
-	Rg2h+UHyA0aFOZhE+wAIk//d7JAuMmIq9Or8h+KhdAO83Td/6FyHbExPsejpIqHi22J5ON
-	UGNCliHVPWLza69wv0JoZFIIYLl54Qc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793975873;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d6+KqjzGNGhlu9omZdJhETF9JVgg7tU3WIeLoUlP4uU=;
-	b=xKNedjWqpix5mtgYqluonbCUJAAPUYdHSS3fBiOPvCGAoGhHDOr8PQxDH6OBnsXq3XRbBK
-	YLVeYbnge1maGzDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="p9zZNh/F";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Hy9vOFIN
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793975872; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d6+KqjzGNGhlu9omZdJhETF9JVgg7tU3WIeLoUlP4uU=;
-	b=p9zZNh/FalsqgijGxmxz6z22VYDca4YetgU88g96QJ8U3RYro7zCukbfVK6CavyFENc+gs
-	If07PBsOjZSqlQiBqHP5aKCrHyHtuMnS9Qgk5t0Y4h3KpmlO86OH8wyTeYYfFGTWw1nfL9
-	FEPAS1tiE2aNZsBEDuQWzcrakL15194=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793975872;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d6+KqjzGNGhlu9omZdJhETF9JVgg7tU3WIeLoUlP4uU=;
-	b=Hy9vOFINaMjvLdgMxM/KjigQ42AaTJbRrjcAiPwIpHYaqoeJEWd+3tCaVTRM0CW3W/t0ZO
-	Az3nwZuq3zQnlrCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 834CB132C9;
-	Fri,  6 Nov 2026 14:37:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CS3VFkDm7WrQfAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 06 Nov 2026 14:37:52 +0000
-Date: Fri, 06 Nov 2026 15:37:52 +0100
-Message-ID: <87fqxeowjj.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Deukjung Kim <mentalese@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: usb-audio: Add Arturia AudioFuse 48V/Main mute mixer controls
-In-Reply-To: <20261105112903.536150-1-mentalese@gmail.com>
-References: <87ecd0tt6x.wl-tiwai@suse.de>
-	<20261105112903.536150-1-mentalese@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NA2MeEcB
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2748D1F0089F;
+	Fri,  6 Nov 2026 14:55:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793976915;
+	bh=+nrK2YFm2tTLcI3fq5wsXDhJRtmhHdtZNvzuXe8Ht+U=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=NA2MeEcB05+GcKTGYnziqBEnacs2HijEyO0g5KLtQRWF8X0mSbdxki7/QgbQiS4Z4
+	 CJ1rqUjrgeBBgbPvCNTeQ6pwmN6YWz3EioQTjRdxzIFrX4dOeddxcwJluTVqO7uNlo
+	 8YmCetxpXj2Q5Ry6aUMhznTGbp1AV0IV9uuxDkmmgQE2C0HbaCvHg2JgEYRJzDbDup
+	 h/NY8fU9fH46LjQ19/1v1ynworZ9WklbPuP1Ztg0vRHtCJbHrqKwop4kBdJDVAsitT
+	 FLw6aZtDpPTcx6vGV/+l1VziMRUauy/qIAkoM6azbpOqCPOnqEB72D1GaU8dnrBOSB
+	 VZx7fLJCjRk6w==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 9C8D2289C309;
+	Fri, 06 Nov 2026 14:55:11 +0000 (GMT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -114,56 +51,50 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: D8E871F78E
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.51
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] ASoC: samsung: i2s: Fix runtime PM usage count leak on
+ failed trigger
+From: Mark Brown <broonie@kernel.org>
+To: Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
+Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261103013125.1067-1-laixiangwu@cmss.chinamobile.com>
+References: <20261103013125.1067-1-laixiangwu@cmss.chinamobile.com>
+Date: Fri, 06 Nov 2026 14:55:10 +0000
+Message-Id: <179397691069.3231166.15159234758356297627.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=743; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=tu5PRQfWNSpyDTM9czH1vzhTGHOj9DCZt/mYaemwVMY=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLevvI/LM/preDEqncgP8/kx/Itn/97/zlVau3y9UjH3
+ K0sUaYMHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZhI2C2Gf5b1RwoeaD595mSk
+ Zut35GHVN8F3C3R4JRsVppgudlJ6YcTwV+z8/E+f7k46k/LxnI/KFUkrEXu/b68uv4pX/6BW+o5
+ TmBUA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 05 Nov 2026 12:29:03 +0100,
-Deukjung Kim wrote:
-> 
-> Add mixer quirk controls for Arturia AudioFuse (0x1c75:0xaf02):
->  - Input1 48V LED Switch (wValue 0x0001)
->  - Main Speaker Mute LED Switch (wValue 0x0500)
-> 
-> Values are written with a class MEM request to entity 0x46 and the
-> initial state is read from a 178-byte status block of entity 0x47.
-> Protocol reverse engineered from Arturia AudioFuse Control Center.
-> 
-> Signed-off-by: Deukjung Kim <mentalese@gmail.com>
+> i2s_trigger() calls pm_runtime_get_sync() when the stream is started,
+> but if config_setup() fails it returns -EINVAL directly without
+> dropping the reference.  The matching pm_runtime_put() only runs in
+> the STOP path.
 
-Applied to for-next branch now.  Thanks.
+> @@ -936,7 +936,7 @@ static int i2s_trigger(struct snd_pcm_substream *substream,
+>  
+>  		scoped_guard(spinlock_irqsave, &priv->lock) {
+>  			if (config_setup(i2s))
+> -				return -EINVAL;
+> +				goto err_put;
 
+This mixes scoped_guard and goto, that is prone to breakage.
 
-Takashi
+> +err_put:
+> +	pm_runtime_put(dai->dev);
+
+If the subsream is not linked then the core will unwind th start which
+does actually do the trigger() the commit message said won't happen...
+
+-- 
+Mark Brown <broonie@kernel.org>
