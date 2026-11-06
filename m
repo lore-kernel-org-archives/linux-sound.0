@@ -1,48 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793974697;
-	b=OYcO6TNUHqLTIMxDhbyFQ1KFzPIg4h+/cEWOs/xIvFnlds+taNKQHIKYQbcILkz3PMde
-	 nqnV/jYdgbQdI0Hd+cJ1lBSqAiJPqlS7ZBMGDwnrHyiApzz4guBAfrd2hULR92xJPwfQN
-	 t6K+hkp5m6jdcGWiTd3bY4j8HLLxFyG6lAwCcIZmp1mO242s2eIgPXeLYEinqmAluzGIH
-	 JFC8Fi96DQPVzIGr+Vpe4s7TQzejw+KZKiu2Qma4lu5WNLdEs2b2kXOo9/o5An5FLq3/L
-	 iXJuofwN4r2piSzzrlQ5SmG6y3+uoU7CY8mXKO2RbCw0yoH9vDtMWEXph2NFbZ4Oclg==
+	t=1793974708;
+	b=aa98CGHlIIjb7JUAk69Q0zz6rz3N/e5ktzBsMlwuLaQMMj7ceAjBjx1ZvKIX+Ks9x3su
+	 8zVNiDP9Sl7gsLXNgIlU/ltn1fxYhJNaalY92Zm9862cym/crSQhd3PiYCCGPYnq5dH5z
+	 Wd3borhNGJNrAz8HLdwuOS7KlexvgNqH9wGuizHZRzblhqQurR4kZlK1YJGw2M1vLhzfI
+	 43ee7UdQIwGXovGZrIuWFqow54F91x32DgNfWJYB48gh4xcJM42Sjc3lLLFJ92xnynyou
+	 wmFGihDMrZQC+XOteaUb619ga/8pshoN3BdpUvImvVCj4jrTrRSlKM6CF6j9Fcsh5xw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793974697;
-	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=IhULN3ktpaMu4YatjnUsQ9HCtFmBLfNxCrZootrxffo=;
-	b=kbHMle98BgpO/58j6yin56etglQzPgy6gYhQ2VPtagzZeDHxFktawgDulNRVWvkXKPnh
-	 PttZxaFdgBiSlVuk7Pyifo63fC7gKZyGKvB8vP0Fkk5wJcoqVxhdXmuVnOwbE8EX9ul/g
-	 f+sLftvgdUCK6wMFFA4U7Iyj1pMA/wLo7Vr4g2kGM4a22t3UMPMxb6QgL1NBeU4MmpfXz
-	 udY672lnKou1nfI5Octaa00ZZh9rVGYKi3Ai6sXSiiMMmiPBTIzFX1Ct6p4U7I9fuouqJ
-	 fZr3f5WShjjXr1d980TTvZE1Ma6eWx+GZ/DBZjYkdDuBidCYo2OLU2z7o0clDSLcdMg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793974708;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=7S+9RgY93JvfsmpfMt79G6lnT3XmXxLl1v05pwqLE8Y=;
+	b=hgr4iDSG3Hk/EGLFrN4KNKQAd+E0GnqCH3zlJGtPC638OAi7bUh7QP7BwVFiutelgGOV
+	 LislUo3CEi8cFV79+5SM8R9t96JzLLC1PIHyl2Ble8vLEfteOOFvbXpxamaS4bzrGON+p
+	 oU1upFLvOafvxjKehsmnVT0KVVdgZZoMfCQ+3uOlQ0H/pMADbQP+w7skgfpTSYg/UourC
+	 W/nvfdojsrkUHv24tM3xC2L5H73vBa7FBtnYjdOiMaqwjTJ+xiogyh0mx7Ur4RUs4oq4M
+	 nYodeXNkYXOTFL6APCaVmVEztFqUxk1L64GTLGRr2TdWn068qDIcAfFYoMGcQGDenBw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QTDp2qmk;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EsodKSgY;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="NA/Ksgji";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EsodKSgY;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="NA/Ksgji";
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85028606D801;
-	Fri,  6 Nov 2026 14:18:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B266606A330;
+	Fri,  6 Nov 2026 14:18:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B266606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QTDp2qmk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2000C1F008A5;
-	Fri,  6 Nov 2026 14:18:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793974697;
-	bh=IhULN3ktpaMu4YatjnUsQ9HCtFmBLfNxCrZootrxffo=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=QTDp2qmkVvdQ02SbQ9L8Q5K0DOYMChy/MuiXBJehbjuYnAbu2Z7F4uzxaNCTYW76K
-	 +Bhg33+LKLhb9PNW9mlJxBox8MzloibsMLDvZgHQurRkrBRDObDkT1gJI1MtqRSNDk
-	 Y8khwZL5f4X/kLSlYVtbEZzyTqpmFdatcKwL260aIAP0PX3X2DMfdqCrYIMD5ndCMJ
-	 vOvRFl/mgjEkOszakwROajPAEm63EiEE4B6WyfyyCwyor58xLUxvNaogZQK3JOvaoP
-	 Wz+2fcrmLd5cp7WBbBNu6/+TLlOTZqHLiVbq3eCMiH8/YIVu6QxJurb/BAAxkNKUdv
-	 Xpv7LZLaFfb3g==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 12EA828090D0;
-	Fri, 06 Nov 2026 14:18:03 +0000 (GMT)
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EsodKSgY;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NA/Ksgji;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EsodKSgY;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NA/Ksgji
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CC4CE1F7F5;
+	Fri,  6 Nov 2026 14:18:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793974705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7S+9RgY93JvfsmpfMt79G6lnT3XmXxLl1v05pwqLE8Y=;
+	b=EsodKSgYraLu/WdK9PxKiRL3p1/UgzUbYW+TlwZPukyoNoI5LhPrdFlSN3TWaeGowONLfh
+	vzbG1pdrdKwQZsgPKvc26Gi6gkD/N3sbA7SotuOZGNiioY6CsNKxM/Avw5Jc4NgNQlv9pK
+	sh9XctZ6f5oLHNsszrULmRP5DR13/Q8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793974705;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7S+9RgY93JvfsmpfMt79G6lnT3XmXxLl1v05pwqLE8Y=;
+	b=NA/Ksgjic8y1YYWmVF2sihSmvOvow3yWKcwgM8PviZ/UWBX59oP70Eko+P0gqN7O1qMu9z
+	b0/byRehdUGXKiBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793974705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7S+9RgY93JvfsmpfMt79G6lnT3XmXxLl1v05pwqLE8Y=;
+	b=EsodKSgYraLu/WdK9PxKiRL3p1/UgzUbYW+TlwZPukyoNoI5LhPrdFlSN3TWaeGowONLfh
+	vzbG1pdrdKwQZsgPKvc26Gi6gkD/N3sbA7SotuOZGNiioY6CsNKxM/Avw5Jc4NgNQlv9pK
+	sh9XctZ6f5oLHNsszrULmRP5DR13/Q8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793974705;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7S+9RgY93JvfsmpfMt79G6lnT3XmXxLl1v05pwqLE8Y=;
+	b=NA/Ksgjic8y1YYWmVF2sihSmvOvow3yWKcwgM8PviZ/UWBX59oP70Eko+P0gqN7O1qMu9z
+	b0/byRehdUGXKiBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 57696134F4;
+	Fri,  6 Nov 2026 14:18:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id p/bcDbHh7WqFaAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 06 Nov 2026 14:18:25 +0000
+Date: Fri, 06 Nov 2026 15:18:24 +0100
+Message-ID: <87jymqoxfz.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Cen Zhang <zzzccc427@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	thierry.reding@kernel.org,
+	jonathanh@nvidia.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	tiwai@suse.de,
+	baijiaju1990@gmail.com,
+	jjzuming@gmail.com
+Subject: Re: [PATCH v4 0/5] ALSA: hda: Wait for PCM files on codec teardown
+In-Reply-To: <pm-pmb-a4703edca61d34aa679b-v12-b75145090f6bcd7cf145-0@gmail.com>
+References: <pm-pmb-a4703edca61d34aa679b-v12-b75145090f6bcd7cf145-0@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -51,56 +116,66 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2 06/10] ASoC: fsl_sai: Warn if TE/RE does not clear
- on disable
-From: Mark Brown <broonie@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: Shengjiu Wang <shengjiu.wang@gmail.com>, 
- Shengjiu Wang <shengjiu.wang@nxp.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
- Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261105104237.38542-7-phucduc.bui@gmail.com>
-References: <20261105104237.38542-1-phucduc.bui@gmail.com>
- <20261105104237.38542-7-phucduc.bui@gmail.com>
-Date: Fri, 06 Nov 2026 14:18:01 +0000
-Message-Id: <179397468198.3073895.13432289481715460817.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=833; i=broonie@kernel.org;
- h=from:subject:message-id; bh=/cONIyCvIrg9WSjNsvebqxT2+yWptNc/Khax3J5dOII=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLePpyVLhObx+v7u31ztKiexbw9zIwZd3hnTdiuXehzQ
- 2b59Oj2jlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAExkrg8jw/0jW34riQgb8zrq
- RO8xMNrer7J97a+J56d85RQMssua08vwm13r+t4foo8umJcvPDBvb+fb8PsRGwx2BSTW/eW62v+
- HkxUA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,kernel.org,nvidia.com,vger.kernel.org,suse.de,gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.30
 
-> fsl_sai_config_disable() polls TE/RE with an open-coded loop and
-> continues silently if the bit does not clear within 1ms. Also, if
-> regmap_read() fails, the loop condition evaluates xcsr uninitialized.
+On Sat, 31 Oct 2026 06:14:25 +0100,
+Cen Zhang wrote:
+> 
+> When an HD-audio codec is unbound while the card stays registered, the
+> codec remove frees its PCMs while files can still use them, and the
+> probe and remove of codecs on one bus can run at the same time.
+> 
+> Following Takashi's suggestion on v2, this version fixes both in the
+> HD-audio layer: patch 1 serializes the codec probe and remove and the
+> card registration on a bus, and patch 5 makes the codec teardown wait
+> until the files opened on its PCMs are closed.
+> 
+> Patches 2 and 3 add the file to the card while the PCM minor is looked
+> up, so that the wait does not miss an open between the lookup and
+> snd_card_file_add(), and record the device a file was opened for. The
+> teardown waits only for the files of its own PCMs, because the card
+> files also include the control device, which a sound server keeps open
+> for as long as it runs. Patch 4 makes an open fail once its PCM is
+> disconnected, so that a late open does not get a working stream and
+> hold off the teardown.
+> 
+> Cen Zhang (5):
+>   ALSA: hda: Serialize codec probe and remove on the same bus
+>   ALSA: core: Add the card file while looking up a minor
+>   ALSA: pcm: Add the file to the card while looking up the minor
+>   ALSA: pcm: Refuse to open a disconnected PCM
+>   ALSA: hda: Wait for the files of the codec PCMs before freeing them
 
->  	/* TERE will remain set till the end of current frame */
-> -	do {
-> -		udelay(10);
-> -		regmap_read(sai->regmap, FSL_SAI_xCSR(tx, ofs), &xcsr);
-> -	} while (--count && xcsr & FSL_SAI_CSR_TERE);
-> +	ret = regmap_read_poll_timeout_atomic(sai->regmap, FSL_SAI_xCSR(tx, ofs),
-> +					      xcsr, !(xcsr & FSL_SAI_CSR_TERE),
-> +					      10, 1000);
-> +	if (ret == -ETIMEDOUT)
-> +		dev_warn(&sai->pdev->dev, "%cx not disabled at frame end\n",
+Since it's slightly intensive change, I applied to for-next branch
+(i.e. for 7.5).
 
-There wasn't a warning before...
 
-> +	else if (ret)
-> +		dev_err(&sai->pdev->dev, "failed to read %cSCR : %d\n",
+thanks,
 
-%cCSR.
-
--- 
-Mark Brown <broonie@kernel.org>
+Takashi
