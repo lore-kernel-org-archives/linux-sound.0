@@ -1,148 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793952317;
-	b=eaNvDA9Ae7wd/qlWTNBBeZ51HOfyvX2V7iJAoV+aDm2JYbwl831YI+f1fj/krQXbry5X
-	 RrJCLNhNLGOanSBgcB7CLpBi78ZBorKFRjs98eD6qV+1xWQEBRHUG0zJgX2eSBtSEtjHa
-	 2do3HEhmvHsPd3Cwl/8NQYQkercW3csnLzXUlfqqeOqZ5MZ8HsxYTXoV60mKe5TsNmaup
-	 0DjiX4zi6m7X0IevrVgrGvNYSgkBL5SQvbMJJEsfFYJegFfgdJ+lSWGd+b2R3/F7kMXe1
-	 0ztVJ3p9kkWdAsDTQ1TVsniAkInnBwop6FVE8gdXQ1uuFPGZjE/cp4SLamgJlvDizEw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793952317;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-SRS-Rewrite;
-	bh=x07awLmZl1uGnixljrDMUgu9d0OiWf2Z+sJydT2Lbr0=;
-	b=kK90EZVLQTSrwkKFrGbmMmqDgnougbb6rsjrsuwRR4bQDz3QHyODOlITuadiqtzKqvTT
-	 vutzURAuGDiqDetEp3mhvX+D8txijmGRETEeRi2yoUko0Qy7zvZAGd/h9WkOYMSGusLAt
-	 8sOAJap0TCZ1s/ul2gtdTiYo5Te3noxE8yTdKtTO2Iu9v+MaxIUJzg/GHB0WzQns9BJpY
-	 M7sU6jX1AShAfUqbVPcKhFW9Hn90wQ1ehWHT+VykRoAj+l3HwuHkgOFC2JpGg6QJct+vj
-	 0raXbCpGg6asjsA8GhAooILQr4aBH6hzgglUZmuNN1UwbCiPilj08uoFy/mk4uaLEKw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=none smtp.mailfrom=bombadil.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=oiRMln23;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.181
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793952686;
+	b=iUC4jr9id80gM1WEPakpgFFtVfHX38kvjzHxy7N2gRwQu8xfhzpP/AuNmTaqWdtpaLwN
+	 LfIMkM8IAc9GDJd/nmQXXUlKWxsCu5c5g3udqJwOAsrAPOVyU+15Sds3tvvXeNVJoUnQh
+	 WDwcllLji1k0/nuxitQBHAcftF/isvjAqAJn+7pKbqu0hxdFdIvNyoP9nLyOM7lPg5AKa
+	 It7IqVL1tWEE9o8G+B/vwkugNRrzNnQOEhhazgKThzy057ZWp/uYttzxb1UL6J4ZEYUId
+	 iQdwejuSTpmRYwu7Xpq4MU63L6gsqCNX/6kThYreajCvhiwT3Clmu/60sAZKwDPi5tQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793952686;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=mMPTq2rAWnf/kQ6tPnG6zscZhVPtWF/HNtxE6dpXGF8=;
+	b=aDPdEDhH8UXJx2D8diwpvBB3flwapeWJE5NeQQ5lWAZNzpEil9Xu2yIDFok3hFtEFsWW
+	 gzn5Uy+FBZXtMnbU3/ZCz5KmUufGgNC31zjn84HqCe7yevB9fVQkAF8egOpl9VGIelNf4
+	 aYiey/t/OcJmFlaVl4GY6mY9CeUJy3ry/GMk1Blbt8V0qiKiFMKV45R0tV46ywAUSC3SY
+	 mSl/Y2vMGl9OCoZUcA8lWobg2oBTHaO+dTLzwwIDFz/hVnVvT9+EmMGWHYxzpaM7gwYl/
+	 L/Vd1iszFeRUhyKEL3rV6ESlA1Z6raOX8QG5PqutvuVM/ksAKJg7ZC8SEQUnQn9bRJw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wk6o1G5d;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.181
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1702A606A328;
-	Fri,  6 Nov 2026 08:05:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1702A606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6D9606A326
+	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 08:11:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D6D9606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=oiRMln23
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=x07awLmZl1uGnixljrDMUgu9d0OiWf2Z+sJydT2Lbr0=; b=oiRMln23yl/QBuC0DzwXONkLv5
-	qM+sNI41fnd6ZZdtIdfoPIuUSZHjJllyir3jn5dYul9Hhh11zXahz7DjQNGL6kqFmMxym0kEDtOmD
-	JgIADndDf71VAul280x2lDyIVPe6HFQRskf9qC5NU/8P7kjkPPDBDgNWgZKWzmAJG/fm1BZ3LikI4
-	AJReQOjF2xOHtD0/o6EMEslTbPj3TIA0VVZuOvKHyIPeRI6tauCfHZubFGOzh5ORdNmavj6txE4sb
-	V62/yFS1hM13pH3V2NMo05nu4U1qu41e/vy7J1YKCYoB+vzlPGJYOKDkhh/XndWwFf9Phw2nFy/jN
-	8N6Cktqw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xPEvi-0000000BWDm-0Spo;
-	Fri, 06 Nov 2026 08:04:10 +0000
-Date: Fri, 6 Nov 2026 00:04:10 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Bence Csokas <bence.csokas@arm.com>
-Cc: Chengchang Tang <tangchengchang@huawei.com>,
-	Junxian Huang <huangjunxian6@hisilicon.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-	Jes Sorensen <Jes.Sorensen@gmail.com>,
-	Ping-Ke Shih <pkshih@realtek.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Vineet Gupta <vgupta@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
-	Zack Rusin <zack.rusin@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Selvin Xavier <selvin.xavier@broadcom.com>,
-	Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Nilesh Javali <njavali@marvell.com>,
-	GR-QLogic-Storage-Upstream@marvell.com,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
-	Bharath SM <bharathsm@microsoft.com>,
-	Carlos Maiolino <cem@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Darren Hart <dvhart@infradead.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	David Ahern <dsahern@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	"Geoffrey D. Bennett" <g@b4.vu>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org, linux-wireless@vger.kernel.org,
-	bpf@vger.kernel.org, netdev@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linux-bluetooth@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-	linux-hyperv@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-	linux-xfs@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/3] Add offsetofp() and offsetofendp() for pointer
- arithmetic
-Message-ID: <au2J-lMcEn4p4KGR@infradead.org>
-References: <20261105-offsetof-v1-0-4153f5c10edc@arm.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wk6o1G5d
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8a05da1cc1fso135777b3a.2
+        for <linux-sound@vger.kernel.org>; Fri, 06 Nov 2026 00:11:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793952686; cv=none;
+        d=google.com; s=arc-20260327;
+        b=V9bBmzHnTF0/7bQhWWlzEH+ix1+t47NsKv08FnWA7tE2k/grJu/7VvjqwlZGwdbqhi
+         tQRgCeCHw7q2PiTX/ZPUklZ+DyXR8QUQOJQYEFH+JF/qk8lsdPLVBCmy2MwTpKu1MFbc
+         Nc2XtEjTkyOf+qunzFbje+8+pIzclXyg5x4K+YhPr7m8F6g/YnByIlPAjqYPExmxlLqF
+         yx7Z4m0SqVLgdece1LRBHQs70XFb6kuszfHSyHNNNoaeLRpY0CbtkEowInL9IP1S2b1E
+         T+kUIJ8HI1JU085Bwmh3wUlfnVBN8qydUuan4DXlucjZvSj4i6KRkV7Ka8CU6Afkln82
+         dhZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=mMPTq2rAWnf/kQ6tPnG6zscZhVPtWF/HNtxE6dpXGF8=;
+        fh=3mI+E67aJ6nBxho9ZwMiPoI/62vxY9QJb95ftw8oQxE=;
+        b=aGNkygrpOZJL6XBJmcMEaCWsV2DxTm8+PzECQ3xdH9qNWxukgDfJjGmfiWz1ERofb1
+         1nojzajsM1WN8e3Ak0VziFV7GvlkaczRFn4mIztQfoxD2IsKvBC2i2TYGrv3FJ1MNomb
+         qfcjVmM4ivrm5FSQHmVVGpgtw+NJLPurUZQ6le1FyTBDkr2TWosYog/ZwqB+e0p3hg/O
+         oFrTy9r7mw3e8WpDPxCcp/1pwm6kzDBWDEYYmsQiQgddUwpckt0ad/33wZLdhk3gHkL/
+         q+YONWYmCR9aU0FTb4vLQRdFwQ3JJh+3kOpOMcgy2BEHsDfAexXaM6nhrXTFPJ9ZbGaU
+         dAGg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793952686; x=1794557486; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=mMPTq2rAWnf/kQ6tPnG6zscZhVPtWF/HNtxE6dpXGF8=;
+        b=wk6o1G5dRqsZGiBykrZvfhVD/3L38wSRCVZPGlXG+W3T/4ceBDfXqBSdl1V6qko5Ro
+         WhPwYUGoeeS5R/bX+Zt2lt+URBJmLoEiQP51uxc0CAyYFmcnJx/zcgElf5NW3agqV8V0
+         fuDgeRgvlttQ4/JNcBDcJvSnFkHHQj7GUeZBUOXmxEFnv6ajt/E3iNpL2L+0A+yBw7pH
+         ZQrN+84PHNfH+b0lMztYOI79Hs10E+W0i+VUGnZhAuTewQ3Mt9FIkqNAoQEq7Eu8F6Br
+         JB+aUKS7eNblFSx2qfEARuXi/EgFLkYFFJW8HhN5mPNklu9uy6uN+fR9+9kcG9sG7+pL
+         QvLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793952686; x=1794557486;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mMPTq2rAWnf/kQ6tPnG6zscZhVPtWF/HNtxE6dpXGF8=;
+        b=AYjL1cODIZGuvObkG9AUKP3eazyg+wb3VgVeBNfmkFVudp0kkt/+VaXncZMzq50hpN
+         xEdNEB0WUQQpVwDsaZgcO9sAEoxKP4rcVnhsRBgIBiQpHKUks3vA6cJ+I7/RecWiapal
+         HAzLpFZoNNr0/w1U25MmSTYNa5AjswayG2PppM3o7hS6OFgM/OfcjJ1mnCgjOBrJxb8C
+         OSKrChJi4X7P5AATMtWFxWtT6ef+rMNq9t1oIjKz1/lo8o2wRHTkQVmc9HT9ucgMqecC
+         o3seytra6Y6DWVe+wmWc4xqKtkyF2kXbRug3zG/ygW88jWJIleeHZv8VXhyDWaFmhq2U
+         2ppA==
+X-Forwarded-Encrypted: i=1; AKwUvBwg3YwuV5faGbyZhkf5eV+e7I+FWuiWE8j2WvRHrPDAkAnmgobaYR1LF6VeoepK3pvNMYSe1Yek5pk35A==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+hzzli6rVrDRMq0rltv29u8lS9UZvkBBcP7tRxagjNe2NwLq7h
+	MMPtX09R/2xMggOwlIqpLI9kG6HXnxZ4Q8BIpy1HqUDcWbqHv09YJ779q+tuvliRbBFUIEf73h3
+	GJhoapJBRUT8eOd7CY3vvc+VIjE/bxUqYwvTo7hA=
+X-Gm-Gg: AYBFou1X4s343sv45uSgoesf4YhRWqBMqLu9zkDP6u3h0mFwUuFn9cHGr0/p9DCx6/V
+	ogOP2Ktq84bMX1RAv+sTe6wgP1OWH5gbMP5fcrrr9dbNZ+jMGpqMeTARoXteGbwLqWXpOW11s3l
+	6uAVPN4EcucwMmf7E6UFZtb/O/wP7eS9QSJjdUGBLl1LTgjr2nOBwYsVrqj1qu1rABx9sdKLlqd
+	cqYfr7hs9ZgwbNPJ+wVTezMhPqKRnki2UDrbInfYWe91t45jgeoegoZ68rvoWWfCuR5XrB1r8QN
+	7pEpBVLvV5IY5I4fQKRXWQUD79wbOoJESzgASnrW4zE7+Mm+9/O5sW1VIne0NfVxJOLcH3mUc7Z
+	M5hL5HaLOPr+4wKw+BzuPN7t2wR7InfobaTXN
+X-Received: by 2002:a05:6a20:9e95:b0:3de:79fe:13f with SMTP id
+ adf61e73a8af0-3ebb2a24b32mr1923939637.38.1793952685788; Fri, 06 Nov 2026
+ 00:11:25 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -152,18 +104,68 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261105-offsetof-v1-0-4153f5c10edc@arm.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+References: <20261019222827.131120-1-festevam@gmail.com> <20261019222827.131120-3-festevam@gmail.com>
+In-Reply-To: <20261019222827.131120-3-festevam@gmail.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Fri, 6 Nov 2026 16:10:55 +0800
+X-Gm-Features: AclHuK9BON26jND-T88AH6CfmTcQHmPG90FZSZ9g1z3qdn6lwu_W9UH4o4MKkfk
+Message-ID: <CAA+D8AP0nC15n_VG9izAAC=7-3PoSJzkGW31QsNz9MuSAokVVQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] ASoC: fsl_sai: Select sleep pinctrl state during
+ runtime suspend
+To: Fabio Estevam <festevam@gmail.com>
+Cc: broonie@kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 05, 2026 at 06:16:15PM +0100, Bence Csokas wrote:
-> A common usage pattern for offsetof() is the following:
-> 
->   offsetof(typeof(*ptr), member)
-> 
-> Condense this operation to one macro for a more maintainable code base.
+On Tue, Oct 20, 2026 at 6:29=E2=80=AFAM Fabio Estevam <festevam@gmail.com> =
+wrote:
+>
+> When runtime suspended, the SAI can leave its outputs at their last
+> levels. If a connected device is unpowered, those signals can source
+> current through its input protection circuitry.
+>
+> Select the sleep pinctrl state after gating the clocks, and restore the
+> default state before enabling them on runtime resume. Devices without
+> a sleep state continue to use their existing pin configuration.
+>
+> The pin-state issue was reproduced on a custom i.MX8MP board.
+>
+> Signed-off-by: Fabio Estevam <festevam@gmail.com>
+> ---
+>  sound/soc/fsl/fsl_sai.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
+> index a135b3da37cf..ad21bd3b8a5d 100644
+> --- a/sound/soc/fsl/fsl_sai.c
+> +++ b/sound/soc/fsl/fsl_sai.c
+> @@ -1959,6 +1959,7 @@ static int fsl_sai_runtime_suspend(struct device *d=
+ev)
+>                 cpu_latency_qos_remove_request(&sai->pm_qos_req);
+>
+>         regcache_cache_only(sai->regmap, true);
+> +       pinctrl_pm_select_sleep_state(dev);
 
-What exactly makes non-standard macros with no obvious safety benefit
-more maintainable?
+ASoC core already selects the sleep pinctrl state when a component
+becomes inactive
+in soc_pcm_clean(), and restores the default state in __soc_pcm_open().
+So should this be a duplicate?
 
+Best regards
+Shengjiu Wang
+>
+>         return 0;
+>  }
+> @@ -1969,6 +1970,8 @@ static int fsl_sai_runtime_resume(struct device *de=
+v)
+>         unsigned int ofs =3D sai->soc_data->reg_offset;
+>         int ret;
+>
+> +       pinctrl_pm_select_default_state(dev);
+> +
+>         ret =3D clk_prepare_enable(sai->bus_clk);
+>         if (ret) {
+>                 dev_err(dev, "failed to enable bus clock: %d\n", ret);
+> --
+> 2.43.0
+>
