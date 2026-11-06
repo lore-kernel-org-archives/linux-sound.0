@@ -1,100 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793947455;
-	b=lVzvepx9fwOgGb0hJ9G0j05EdE4aJa05esi5z8noahcXuLvuczkwz7/v98zBn+e53zEl
-	 Yg7pZ5kEFk9UnelC/3+ysqVLhBQfVeATV+FME8/PuVfZoBBhcMoKPyAxisuZrNg9FZ8uF
-	 nV8S8GL1nvfyBihWh7/CKIuncYkEnLIFERUJt9Q/LFI8X9alDTvrGozuWpXtteOjamImS
-	 kXiPvo5X/mDNsrTIwKGedP3kdPfR+6ONXL/jncZ9LBz4qW2ts9AHXfkceggQwyK3ZUvwt
-	 0tmbfMND7j0MGfxT4RESIXbHSUjm8aC+Uc0u2opLOa2W8yTrMJtlezLlHgzV6tnHUMQ==
+	t=1793948857;
+	b=WL84ODAN+xXQ1EuOUEFaCE02p9+XQEChZ8pUUcwM3gKdsgd29xgxLS5ZZT9/UayZMg+m
+	 IOM1fwyLP0L1W7zbJZoKcG9lQOpQMzXWcOIMw26FNMyBSGruwdOVLsQlnnmyc9HIbsPO4
+	 Igt9NbHZlL8CcQgXXqjzjaWI4YW2WMItKqxJlodBkvAYlOg+RxYrGOMpIdhp/0/gpNvXL
+	 euk/STmA3DPED4kXwQ1WSQADedimU/erQe1Z+PK/esNZqYYSlIhfwJDxnZPVmCfw0xdHz
+	 TVsDFKfF9k/tKb0SGeJOZlPpKYLv2j0hS4ivhBFAk1GOHC5mpqC1tvNRSRTtShHhPPQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793947455;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=hVxNmv4NODysBtkUxnOWYZEs/ETH9HFkkGqgOhhLEl4=;
-	b=GOJuDg3f9nI8IzNasTKhVm89WokNzMkVFiAHy8KmXmnucynBPnnr+IWYio7OuWVtRm/D
-	 i82Pa0qg+g9govcQM+yqEecwxQIrQ1AQVLg3Q6j3QYXL0LherNy94w3rWFr05c4xL0iiN
-	 evcGJGm1zA95A5YR8G0cvhbPoe5GP1W/LdM8T2kM0Z4c+wG9C9jEIz7yuUx1w5MMjGjQm
-	 YFuwc6L69DQ7A7tXgbaDKUwEcgevqyWtri1p+mfiOIM+kV69tGErY9OfrYeaGF/DgN1wl
-	 qo+QQd2o5ZL3km6sZza7gcNJ+zlopA8wKg2Oy6igdE4oVFjV3ghvxg3UlNbIGj2e5qQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793948857;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=EXrwylxzcgvsPv8RFpGGyrj5uGc7nrygUcI5IZyk1oc=;
+	b=48KDcTt4rz4x0Tvz4Bj0LM9fXFmcXZQOIWXDqv2scBAYbeiaAbayeibx8PTtaqzEhtrB
+	 T0Phyb4Zo7pKlC8JwGfKwCFhnpU3MezWOe5xvD0WfynulaoQLAJRjxkUzh5bie8fKR3t4
+	 OJjr+AXPrAy8ndEgzYMhDMayUO2KGI2h0caH0Fncz0nIzi2ngTnscWA8aTDvzDwhDbetT
+	 klx+4FLL94EH/nX+WhsXUDKo9J7G5RVyQRNJrc0bgtSED6ZzrgapSUOZBr53pIuoXTO5v
+	 YiE1yETznhR/rphaRAEa+TrpCtsxIUmg0CkjirOdYwY4lHOrPO/McmISzdYoiF/lCmA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="d2Ei/vhj";
-	arc=none smtp.remote-ip=74.125.82.176
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=brh+0Jps;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4E4606A328
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 06:44:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B4E4606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323D5606A326
+	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 07:07:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=d2Ei/vhj
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-33fb4680717so608931eec.1
-        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 22:44:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793947454; x=1794552254; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hVxNmv4NODysBtkUxnOWYZEs/ETH9HFkkGqgOhhLEl4=;
-        b=d2Ei/vhjjILcWqCIc+EPg7V1QI1Aa072t+IMKv9H1uv+f6vQmzqFPsvQGpxVC1/mYZ
-         F0bseLkJs4Bkm0vkXDljfdr5M0dhPwOrZbhvL/ABrQnGZCi3CrNsGxkOZoAfBFQe7tLR
-         yOYOXgMW/DmdPRUbxj4AC2tpxPGyQro4rR7pJOUjRqvQDsHqCJoUuEHCzACZZJExRPUk
-         WgE2Oi7jrw4xnugjrom2jk1HDWIFefzNol88dNnmjyMNvGKfWmTsEkm2LjBb19byN5AW
-         OYNyYKCn+DUN6f4IF7/NNxbtSjQjSAc+xeOXit5cDrkPPSsq8xtBH5RYfXtreDPzdXGt
-         MoTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793947454; x=1794552254;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hVxNmv4NODysBtkUxnOWYZEs/ETH9HFkkGqgOhhLEl4=;
-        b=IypT59+dbSOSYPJttrY0yuXw5bnl2vXacM0p8LC/HUAuKBV90wC8NS8MByxH6zQi6y
-         GwrverN6uJUfd4IVATJRPvMMpJmU0toJar5I/XPI40jXsJaS295osmZEwcDe1ibKyJuQ
-         Pt5CYN61frIYYZQfmlcWlR1fZuOwVRdDFB3onbp8f3mAbk5eojtRrJyWb28RMUR+97sP
-         tNzPafqEmGQrCFg5KbLc4drAT7C6Nj1ldBWWuR8Mu9idbd6zUOBOWok+cqp7MRmSmNgS
-         /J09XyKXnlIk5W4qSSME0YtEQExXaYxQVk+2E+9uPbgPxSX+bW3sC91H1HrviiMth6G3
-         mnbw==
-X-Forwarded-Encrypted: i=1; AL+hErFPvtQ0MWDyQaBKTVbrUUQ/vDjdKMqL47vw/xWzAcs0wBK6uMUj016ubR5x8QKgsWZu+J+6UvR3jS9vug==@vger.kernel.org
-X-Gm-Message-State: APuU4Z97AMrvHff2WyVtbBdmiKAoWces+XVOMwC3Fq9zW9/sw9cBG770
-	ViajSwRp0scvL/nxvJDNGzQfKwDZAm4ZyfejY8ibbPYgqK7mmaE2GlVA
-X-Gm-Gg: AYBFou1OoKPBjKrB2khfMF1BBGG9yZwdpJeyi/QGeJYhNJWILPvu6+7mpg/D5N0YD4k
-	EUNyuB5ZIWTYRWN5YiLitYI5gkzacWDxoD2aq5XbaPbTjOyUxmd20ByAdJ7rPn5MQ8yoO5jf5WB
-	+LQ42ynU8HNzI0/85mfLsM7jDbeWahUadpFugeRFzqwllihW9OBUEj4J1hptPzpHbtJaJ5xbWP8
-	l+3tytcGUJGchLZB+LT1K8cLVdHNUqZbPdKdnZ3cuKoPEZkPG8ow7zH2/+A8AKZ8npLl/iaQ26f
-	mGlc6cpRCb0zISXmiuVDpPifBTWlrL82uCrRJVpcrRbtJNgYW8l0WKV9GENF8Buwa4SH5JZ780n
-	QixzWE7OAU6WS8I0OCXvqpJ/tQopVwe4i4Bjry3KUeDJWsGExdXglxIRq8NfhyhropRoyG1nBIq
-	xe6jc4IJY3jOPsFwmvxkYFXBMY60poO2Lk+BbM4DIWYK+5g8fw8TWxLB8l/Y3XukoAzGOD7o/Xm
-	VymXs27ElFm+yIZpfcEzeiK+1kdNzBANXfTK3CB/xUuGvgWNqxU27uRviWhoaFN6KVHVng+pggz
-	ny8FI9ejrOVIKMB/Jal0RC+RXvBvvTsQqK65U/+SnezOIKLHOnWl8GtRTpzE7TmJls2+bXw/Mpb
-	UtePNN6rj0rlV9mOM2Ws3MLD14gP2pYs2DEW42dSE
-X-Received: by 2002:a05:693c:87c7:10b0:36f:26a7:968e with SMTP id 5a478bee46e88-36f770062cfmr2114771eec.40.1793947454399;
-        Thu, 05 Nov 2026 22:44:14 -0800 (PST)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36fa922c6c7sm4157057eec.10.2026.11.05.22.44.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 22:44:13 -0800 (PST)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>
-Subject: [PATCH] ASoC: Intel: sof_sdw: Add quirk for Dell Latitude 9420
-Date: Fri,  6 Nov 2026 15:44:08 +0900
-Message-ID: <20261106064408.2224910-1-sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=brh+0Jps
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB0CD1F0089F;
+	Fri,  6 Nov 2026 07:07:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793948856;
+	bh=EXrwylxzcgvsPv8RFpGGyrj5uGc7nrygUcI5IZyk1oc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=brh+0JpseT9BKFHgnxo63U429GexxA0H7NonSz9V29/ipZrvM14yt+LO3/BGP2mGe
+	 FyxH86Ta1GSZP/ZbeO4qTc7uqnYlbE0wxxKbmTnw86/W6QkIfY1jZWr7tatKSSHSTA
+	 gIIt1Z4AFSLUesYmgDp3/+9RQqh2/KO4P39F0FuA6AcUln7XTBzgLGdgMGLO0O3Pk0
+	 uluP0HeliHE/sZCkgOZGl3WPjKdskmGxhnKp5GCoQrbYm5rVum8yuMl2Ltw26Biekk
+	 f9YA1EoixsLwNY7R8NfjeXMIBuSue7AIgIziRXQqI3Y8AbZZitMadQApC/OB4skDyJ
+	 ms+S5YbDO6UbQ==
+Message-ID: <27fa30b0-7a32-4d14-ac2b-fb13cdf03f46@kernel.org>
+Date: Fri, 6 Nov 2026 08:07:30 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,56 +51,88 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ASoC: stm32: spdifrx: keep the control DMA channel on
+ config failure
+To: Wentao Liang <vulab@iscas.ac.cn>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org
+References: <179393727482.2060666.9057920361892304525@iscas.ac.cn>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <179393727482.2060666.9057920361892304525@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The Dell Latitude 9420 (SKU 0A5B) is missing from the quirk table, so
-it gets the default RT711_JD1 jack detection source. With JD1 the
-rt711-sdca reports a headset with nothing plugged in, and the
-Headphone Jack and Headset Mic Jack controls stay on.
+On 06/11/2026 04:54, Wentao Liang wrote:
+> When dmaengine_slave_config() fails, stm32_spdifrx_dma_ctrl_register()
+> sets ctrl_chan to NULL and returns the error. The channel obtained from
+> dma_request_chan() is thus lost, and stm32_spdifrx_probe() calls
+> stm32_spdifrx_remove() on the error path, which then passes NULL to
+> dma_release_channel().
+> 
+> Leave ctrl_chan untouched so that the remove path releases the channel.
+> Its IS_ERR() check already handles the case where dma_request_chan()
+> failed.
+> 
+> Fixes: 98c8dc2fd59f ("ASoC: stm32: spdifrx: fix control DMA error management")
+> Cc: stable@vger.kernel.org
+> Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
 
-Add the SKU with the same quirks as the other Dell Tiger Lake SKUs,
-SOF_SDW_TGL_HDMI and RT711_JD2.
+You still do not bother to run checkpatch, even though I pointed this
+many times.
 
-Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
----
-Tested on a Latitude 9420 (BIOS 1.39.1) with this entry on top of
-sound/for-next:
-- with the jack empty, both jack controls read off (on without the
-  entry)
-- a 4-pole headset is reported on insertion and cleared on removal
-- mixer-test and pcm-test give the same results as without the entry
+You truly cannot show more how much you ignore people's comments. The
+reply to me with "apologize" was a joke, right?
 
-Booting a kernel without the entry with snd_soc_sof_sdw.quirk=0x22
-gives the same jack state. With quirk=0x23 (RT711_JD2_100K) a headset
-plug-in is not detected at all, so RT711_JD2 is the setting that works
-on this machine.
-
-Prepared with Claude Code (Claude Opus 5.5). Tested on x86_64.
-
- sound/soc/intel/boards/sof_sdw.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index 72fe013fffe8..41cc0969a428 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -139,6 +139,16 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
- 					RT711_JD2),
- 	},
-+	{
-+		/* Dell Latitude 9420 */
-+		.callback = sof_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0A5B")
-+		},
-+		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
-+					RT711_JD2),
-+	},
- 	{
- 		/* Dell XPS 9710 */
- 		.callback = sof_sdw_quirk_cb,
--- 
-2.43.0
-
+Best regards,
+Krzysztof
