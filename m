@@ -1,101 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.172
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793915804;
-	b=kIjGfvEbGNCYSI/9KeBUHAUT6MNxjIDyo62YjlXENVOHwubPwp2n1UJ5GNTkVQIkeaDo
-	 4Jb6i1zhofGqs4XuCKSwT9L0nYPv7UEiACEk0dvHx18+/pII1TrmSg2IQTvcmIifSWKIC
-	 QnSW7bMfWi/Of9CFX2eU0xMK9wJd5N+b59oeIRJQ+1Wzr+EKQCVG1CjhJOQ6AfVGrtRvz
-	 alFGTeuZmS6ggzP5YxAt2boRZvtRhj6hHSo2jnbIaIQnMu2HBRmsbiX7r2cM1gqxme3zw
-	 tS52MW/KedWUXQG8Lh5y/wqCEakowVuctzNJ0SBjLgsnA0iBNhLVdoywsJNynBNtxLg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793915804;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793923611;
+	b=2Bw5znwvZSfP95DCtcdGl+FCsCSbcktYEW+RKUF3ST1tSkIhdgTvLovGONEY9e5Uo/No
+	 VnEgvCbS+Q13SwfhjKoXa8ZprapXt6iisxdGM6WbQfQOyFmABULtM1QIH8iYcFlYf4Uvh
+	 Zpj15vcGzzeAH+jfWz99/TsqRErsotsN81TvXsIUEbRSw/xkKMrVBF3wa/S7erP7fuClp
+	 hr6Py4gc10pYHY+KK9Tdupt5hZKwulbz4Gk/3302WEIzFBb5v3VBudnoLbzdgnr62IACb
+	 nFpSEK290EzR1zZUhO9GD6Q2OhayvVAdo/BhsXkAyB4nL+fKbE1xll5oLee5TyUAZxA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793923611;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=INhnVhFd4nT7/Uj5uaF+eYQnNc4krDM7hutL2LALWFE=;
-	b=HPhTyKn4UFLCxEs960ebiLLTrtk+pWKBy4r4SmdD12MS69dotO6lFxiutaS+pThnYY3F
-	 IGopDH4E9Pz+pS6sR6XL37BgO2r/tSv02ZBYUZrVsUrmyEQ8l9YMAhb+P3jsHJ6ehpQbs
-	 MAUVCRia/YN9tQKv6k2idQMBAvsgMv6+zgeMQpwnosHREz8U51oCDXxLeVqiZ4+NqZ+iY
-	 Fg75Zr+3C0b3PhgtxBQtuZa+Z50NKuiLq7lH8sm1+ffDuONOuXcl7DMjus4gcziXWlwYz
-	 kPrQy+ZwpTqVQGCG01T+VUWCMdBSCM3P6K4LDwPyWkA9cpdk0Io9Ra+N8VzyV6KGAww==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LTjaWOCa;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.172
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=4ILyx/FBtGKAhRWTc3Crl9uIFFAT89HD4WOeI2dYsjg=;
+	b=RlHMqPzVVY19G0quu8iPlVsz9X7WtTUhzbtPTmPn2sELYU+anaUvaV8kew+xjK6NKofe
+	 oQ7XHaFqmXY6Im1UY5z9zWRX/d4sR/mlDxx8GPtAKZZWqLpe8soGW0Dc5xPvDdy3kUkO/
+	 +DbqTVQpGqHm5NcNQpjQPZp7wNkw6rk6H8NRDP5A6zUlyC77HlrgNnEYSoS+NNe9B8coX
+	 N0JKOE1NHDn76Q9cmraKXDdpyxY/wTx7vFozFNxnl2AhfZgr1AeVAOsGna13OfVyyH8Jg
+	 NZeVFp6bLjafCDe77KEWRTSTXVVv2nMlNirG8otCPAsk4wSpvsnSrmIl+uy8a4l794g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rUzlzjXX;
+	arc=none smtp.remote-ip=74.125.82.171
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE38606A328
-	for <linux-sound@vger.kernel.org>; Thu,  5 Nov 2026 21:56:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBE38606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CE0606A31B
+	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 00:06:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A4CE0606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LTjaWOCa
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2e8d6fcbba0so6635ad.1
-        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 13:56:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793915803; cv=none;
-        d=google.com; s=arc-20260327;
-        b=PhCwDB9aL6CU3tpQH3jJJw3FZc6vdMEQr2XRXitXMmeeLTtd3TQnhdg+YOWxlXRNRW
-         gelcvLd0xOwG+xd2zkpPwksQt1lfImwKKLAufOOtXd3ynhhqRNIkcE7SU8EbPHjS2yrF
-         kylb+SZTRYxcerir4FSxKirJsxo+FNjXAJL8yHlm8eHbDaLg9BCoqxAGhLu0YyaCxZvO
-         j0zhFHkvhxZsUMzNWRZejN6xI7in4o26MUvfKhtVfmNhkUB49FhfDu88ZM2AZ3qX0qD6
-         P2TsP+szxs0+7dS5LFgv4NussIgiCWeSZ/8NbBiobveZOaWyTNUgWgCAY4SNHj2iFRCM
-         n1IA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=INhnVhFd4nT7/Uj5uaF+eYQnNc4krDM7hutL2LALWFE=;
-        fh=W3llEFh8UVvaLHtlCJFDyE/LWqLlVI/lpz1V8FVI2VA=;
-        b=N9rJc34hX98/8s39+jrZPJMSLrFYFUNLfRYA1DKr89Etig9N2tlfK9nBwBKmz3rheZ
-         Rsn/TaV6Di7XKmJgwJgLicJOn/AzMdYqvzizX1Lf4rikkY1HyFv3x9g79kKpvsxpny2B
-         J7YX5bEvx/ODQ3P9Z5zJQvFjbEQh32CJINNWRoz8eia672ZR5h9tRrSzEiBRIhnEjrIj
-         Rq13p7T/bu8c68wOVCGcdGVIeRysZjCHvF4ZiYgQubar1lBPj9Rp5vvx8OOBJsc4b0Jn
-         KoC6bfvgaEsz9nxjSg/5FcU1WSQnNp03hgFnN1VYBcmGB2WoFziXOKtuSdxxVM15Fqlj
-         HlYQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rUzlzjXX
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso207209eec.0
+        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 16:06:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793915803; x=1794520603; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=INhnVhFd4nT7/Uj5uaF+eYQnNc4krDM7hutL2LALWFE=;
-        b=LTjaWOCad7naX2ksiiBJ/btHekFdZApACmal8hPWqhq5JTA4qdSbJMprCg6ugYPYNA
-         J8eA6cx2/mRXlQh0tYfVH5FsHYog9yckNpHPxTA2W7usUF+DXqORKmPcOdBxQaPH04Ec
-         JAabj/UWXm1wD6MTl+JJ6as8ddea4sbRPDknOX4MZZuRL3csCqDo6XE836dLM7/uvi8X
-         n40i3QvH39VcVbV4DVpZUFrePomkRSepPLYWKpVN/vK7BWV3AlvcKBM77Paw6kuPi27P
-         EASG6fnTNNRSs4tGiRCGwV56F221RPTj6p5drVd0yETUkdA5mhmbgKtrTQEPYEgmu6QJ
-         sIQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793915803; x=1794520603;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1793923610; x=1794528410; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=INhnVhFd4nT7/Uj5uaF+eYQnNc4krDM7hutL2LALWFE=;
-        b=uuImOpx55pvBvz2dEXUL1r5AQByAWnbsn/MsRNuhHMO6B/Lde/Hu/py32zillMG+vy
-         DCP+yZc3nvXKPB2wO27xBMF3XNGTr0hGWUd26vKu80E6j6CVkQRTqLn/DDi/WcKyTvIx
-         PQJ+nDZlAxn4647yMvZnbC/yXXSBbBo+L14eK6oOG1soaYXgfS35El23FCzqEnUfwbuG
-         bgOp476GjW8KeVAhoWMm3blPIGJVLWyXR4IcRkPBU/u9ukeBMVZ6D5g178aOOfNYiTxl
-         hFBWRGcBfpdOar/guuz0R1Rj5iePc7POXN7T8ZhGsXqZfYe51yNi513JcaaGKJtCT/c8
-         fvMw==
-X-Forwarded-Encrypted: i=1; AKwUvBwrR3viuMwKCV/AzuDfMZtAMLPc9rz3hB8Y9Q4THCak0Zk7aUNd/GbBBeol0HWGUWN/gjOGxATA6x+2iw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/sjucYnlhekWqlpHPe4eFRD22eDXP3hywU3QzYG233v6kwE0Pm
-	Ql3VJBNSMkkYF5BRI9DaoJsIc7gopSIYs/t0KrvzRVQs29fiiUgtbTzPcgG6u//aI7M9tToLCVB
-	KT/mhavGSDc89iX0fB1XCWc1d1i+y7LztwYOIhT4B
-X-Gm-Gg: AYBFou2tycvw0YfGoiCNC69aAA/di+wDVV0VZXcxOXlbXYNIkjstnHdb1SJ5LFyWEJ3
-	fydluDA4N9AAPaxyeJtn0VKdE1j4tkgigfoS3pYF4e+W+H+Bud8Y07Qd8CLkZV1h+jqthMkeBAH
-	bSAvFcAGb0/G6voryUY7CEJ8TEAKtmoKsD185JfUoIzzdhL9qEp6VggG8CiLvYxi4wNVTUU+XQX
-	HNN9Hed/2u3VZd4on7817j1eEfMLtA4gyY7+t7EcBg22PeUFNCFVHgQDn4kTtAwA1TW+1EoXHrc
-	TECvmi6e86ZnWawvw6U6+XsMvBPvdv2G8XDEQritwQwDLT+o5n3a9giO7Zl2oLT2xr5Ib4vu8wC
-	pbmyn6m0GvZmOhX9cFV3OLjyWjoIyEgQnPfK0lcdmYZdlR0UgGH1zhW1hARfyvv4jALHYk1WUsh
-	YCzpvxBcUVGBUewou08SV7kA==
-X-Received: by 2002:a17:902:e5cb:b0:2e9:73e0:2a6e with SMTP id
- d9443c01a7336-2ed45ce19f5mr502865ad.17.1793915802597; Thu, 05 Nov 2026
- 13:56:42 -0800 (PST)
+        bh=4ILyx/FBtGKAhRWTc3Crl9uIFFAT89HD4WOeI2dYsjg=;
+        b=rUzlzjXXQrgeZVhDtCIi0p2CITRdKKsknqZzQuoRnEyAn7+S4LAkHs5nmX3aDL1P/d
+         0KGgqq4kJw6sr8G8yU9Hj9E9wcG2dYfMLY4lq3snbaOylEyYJ8rn0l1z747y9h+7G7DZ
+         Em8PM2qcC+DGcSyhJWaCZJGafTlWd+WiJTyyjn9wIgVzwhsSzTDnJrzGL3tJGeWGgFQI
+         m4e5XcQBSH2r8eFCQ0mJqxicwdc6+3lxNyhBBsGbYqmDw5KGy+qN+Ezg4LMkCErePYG8
+         tBjDA3aNSf5gkt49Qa0NB/DWIGgVV7bybfYEDX2zwKRcFI2z09QcEmwXx5ddiAOx48c7
+         /xrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793923610; x=1794528410;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4ILyx/FBtGKAhRWTc3Crl9uIFFAT89HD4WOeI2dYsjg=;
+        b=BbugRH9tzqTIMJX1K670/oYNtGX8BPXBf1QcHI7bGwsul+lZiYCI9d95QbnnYgUNOx
+         5R7oIcJ8b0ZDFwEoPmUjxh8Hrekzhgrs1TjhyvjfrbcuiA3063ttBdlBiGTvkCIM5KUs
+         o3aRqDClCWj7ZWbOTYOjj8J7ofZ6MsPtBJpdb8+UTf4UNgupUSxNjQ1NpEDZsF3XoMlH
+         I1ST/4Aog24h6iUvBDxZUrfymJMSi5e7RrU2Z+j4JuyVzGgJtwslBHagSXAyN8x9uOBh
+         rjDNDyihw/p4H8eae4IcN8aTIfTAZvIaXvut6+JNEeZ4zacsrOg44DSEq67FQwT4lYl6
+         cTOA==
+X-Gm-Message-State: APuU4Z/41ywDjr3WUPR5vRCcBPAfeUCt65POAhteh5eK8OMPPLfHRt5l
+	SVP4mIu6xoXkW8rHyGzVOcPecXSBr9u6PJxcqK8e09/k1mItV+HTQ11unk+Jxg==
+X-Gm-Gg: AYBFou14RW/2uQSNx3wT7JxUZIMNLsPKy5uu8nsbHi6GPAE5kuGQo4/cnlEoZCd5GXw
+	7WAb/Z1sEKCSfu6JZpCTUwikuASGOp6EPt958V3FezMB6WBlmQ3qt6h10W6gOQ65Pne5mZOsLLv
+	K19Vieh1dfkFtoAbGiT865Cblh4WgQnB8MgtKRb/bC1dJ1hpHeEw2wViEecOdogWzJPnbTYA1ix
+	ihdt1HyMbxeg+5KpyMYkLLx9fuBvau7QxGlBlpBwAdZyBaduAOblc5F5l2O3ZTzePHAXqSukFu1
+	FEu51Ppv06xfBDxZehmcIpnTI4VbdrHiaGsv2gdpAerV37E8EXmyqM2g1qly1BvvrJpbJJDgjf6
+	JAKOCYbPPXmYsF7KksD2z+b8dPASZIJLebwlo8EltrQnVl5PpTahWfcAPdW1QQo+elJBZ6FSul7
+	8THSX7bT4QtAAfQGvVRstp5ISoxQmufEpV6LwvIMPT2XA6eFWLUvBma6HjHrpyr/etwU+NpbvV7
+	Y8J9fk5qS+S/CwseRHlaZR9Oc0CtlEJZltHeztJBxfGqKlIgb7NpsFOrfJ8fMgOsIxwe4AnQw7G
+	0Rl5g6pkBaiNK33wqLlsRo11ERnZzh+/ns6uPJoZ8nWe60goISK98wL2iDBHT1+nKSKl1h1kZxw
+	56hNvB0qwJjh2XfV4xFKz1OvqmpTngjFjCVir0eUfG+Kux8g=
+X-Received: by 2002:a05:7022:170e:b0:186:3f0c:bd09 with SMTP id a92af1059eb24-1b25d29403dmr804327c88.5.1793923609691;
+        Thu, 05 Nov 2026 16:06:49 -0800 (PST)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b25e4e079esm371165c88.19.2026.11.05.16.06.46
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 05 Nov 2026 16:06:49 -0800 (PST)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v18 00/12] ALSA: virtio: fix capture lifetime and accounting
+Date: Fri,  6 Nov 2026 09:06:32 +0900
+Message-ID: <20261106000644.20460-1-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -105,68 +103,59 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261104-work-procfs-drivers-v2-0-245e54e87116@kernel.org>
- <20261104-work-procfs-drivers-v2-22-245e54e87116@kernel.org> <CAG48ez0CTxGiZ-q73k8bNhoBTW7xZfWwARCKmmM-WKr6GNBbeQ@mail.gmail.com>
-In-Reply-To: <CAG48ez0CTxGiZ-q73k8bNhoBTW7xZfWwARCKmmM-WKr6GNBbeQ@mail.gmail.com>
-From: Jann Horn <jannh@google.com>
-Date: Thu, 5 Nov 2026 22:56:06 +0100
-X-Gm-Features: AclHuK_DIYejrtAv-AIBmnyCAT6PTxuyVU_wOrebkVDOMckVu9fXadnWy_N5Wcc
-Message-ID: <CAG48ez0QVQ32Fi_Hsu5ZAWCdWEXvZFB7hNOswT5Qf_Af7YzxSA@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 22/26] ALSA: info: let procfs own the seq_file
- of text entries
-To: Christian Brauner <brauner@kernel.org>
-Cc: Josef Bacik <josef@toxicpanda.com>, Al Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.de>, 
-	linux-fsdevel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 5, 2026 at 10:52=E2=80=AFPM Jann Horn <jannh@google.com> wrote:
-> On Wed, Nov 4, 2026 at 8:47=E2=80=AFPM Christian Brauner <brauner@kernel.=
-org> wrote:
-> > Declare the show function and let procfs open and free the seq_file.
-> > ->proc_open() only sets up the private data and preallocates the buffer
-> > now and ->proc_release() no longer releases the seq_file. Reading an
-> > entry then no longer holds up its removal when the card goes away.
-> [...]
-> > +                       goto error;
-> > +       }
-> > +       m->private =3D data;
-> >         return 0;
-> >
-> >   error:
-> > @@ -387,7 +388,6 @@ static int snd_info_text_entry_release(struct inode=
- *inode, struct file *file)
-> >         if (data->wbuffer && entry->c.text.write)
-> >                 entry->c.text.write(entry, data->wbuffer);
-> >
-> > -       single_release(inode, file);
-> >         kfree(data->rbuffer);
-> >         if (data->wbuffer) {
-> >                 kvfree(data->wbuffer->buffer);
-> > @@ -401,11 +401,10 @@ static int snd_info_text_entry_release(struct ino=
-de *inode, struct file *file)
-> >
-> >  static const struct proc_ops snd_info_text_entry_ops =3D
-> >  {
-> > +       .proc_show      =3D snd_info_seq_show,
-> >         .proc_open      =3D snd_info_text_entry_open,
-> >         .proc_release   =3D snd_info_text_entry_release,
-> >         .proc_write     =3D snd_info_text_entry_write,
-> > -       .proc_lseek     =3D seq_lseek,
-> > -       .proc_read      =3D seq_read,
-> >  };
->
-> Is this safe? Looking at the work.procfs.cleanup tree, the
-> proc_release handler (snd_info_text_entry_release()) can call
-> `entry->c.text.write(entry, data->wbuffer)`, and the only kind of
-> reference dropped by snd_info_text_entry_release() is a module
-> reference.
->
-> I think the entry could concurrently get freed by snd_info_free_entry()?
+Hi Takashi,
 
-Ah, no, this is fine because ->proc_release still happens at the same
-time as before.
+This cumulative resend keeps the twelve-patch series on the same base,
+a4311e9447bbb219044db38897f95be112f46a8a. It covers PCM stop-threshold
+sampling, locked partial-progress reporting, the optional reset operation,
+VirtIO ACK error propagation and recovery, PCM and control DMA ownership,
+signal-safe teardown, staged capture lifecycle and work prioritization, and
+capture parameter documentation.
 
-Sorry for the noise, should've thought a minute more.
+Relative to v17, patch 4 adds the transfer-failure XRUN latch so later
+completions do not advance PCM accounting after a failed ACK. The existing
+ACK and prepare recovery behavior is retained. Patch 6's partial-restore
+rollback and event-message ownership fixes, and patch 9's wait-result type
+fix, are carried forward unchanged from v17. Patch 7 retains PCM DMA lifetime
+and fixed-slot completion checks, and now reserves the successfully seeded
+ordinary capture ring until userspace advances appl_ptr. Patch 10 retains the
+staged capture lifecycle and paused linked-stream XRUN handling, and restores
+full-ring accounting after active and native paused RESET requeues completed
+requests.
+
+Validation:
+
+- Cumulative stages 04–12 passed incremental ARM64 W=1 builds with KASAN,
+  lockdep, and OSS PCM enabled.
+- The no-hook production candidate passed ordinary and staged RW/MMAP QEMU
+  capture. The 14-capture sequence verifier passed across both modes,
+  including RESET/reopen boundaries.
+- A slow-reader QEMU oracle reproduces unread-period overwrite on upstream
+  a4311e9 and v17. The candidate keeps the ring slice unchanged until
+  appl_ptr advances. Separate active and paused RESET pairs reproduce the
+  same baseline issue and show the candidate preserving the unread slice.
+- Synthetic ACK-failure QEMU probes cover capture, playback, and DRAINING
+  admission. Subsequent virtqueue completions and recovery paths were also
+  exercised.
+- An exact ALSA-helper model covers partial-period capture accounting.
+- MMIO rollback, timeout-width, PCI remove/reprobe, and linked paused-XRUN
+  evidence is inherited from the validated v17 candidate for source paths
+  unchanged by v18; the manifest identifies those inherited checks.
+
+These are guest QEMU and host-model results. ACK failures were injected by
+test-only hooks; the returned VirtIO completions were real QEMU events.
+Physical Virtualization.framework devices and KCSAN were not tested.
+
+Previous version:
+https://lore.kernel.org/linux-sound/20261105070845.6449-1-mynameisjune111@gmail.com/
+
+AI assistance was used for analysis, implementation, and test preparation.
+Assisted-by: LLM
+
+Thanks,
+Joonho
+
+base-commit: a4311e9447bbb219044db38897f95be112f46a8a
