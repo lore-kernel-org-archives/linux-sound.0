@@ -1,54 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.168
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793969748;
-	b=gKwGQiGDXcRI296i7UBHHE6cq02FKpLBtTmEt632QT4SX9+AWHL0nzAxGgKTlMbhdfy8
-	 pEIj9ZYkJPcHNiEgwdJpabxBHPjrT9E4yMl44X7KZherWluPtqU5mVNzvRXzgt0lBTrTG
-	 69a1xSFSWmJDwSUkfLhoVkKomZbifri0Ip8WzqHQKfbJqMq/JaNXgwnpXL+D0Ub533UAA
-	 rp8PsYhXLnwBDLT2pCYpXv1o+bpv8ESa/f9QVBF7ijGqaKmUYsoo2j+9peliX8QyswIF+
-	 R36MZ8kRhKUJYLkSOHpMpqMs3xMhL1wLLuhWjSxTdf6+LlB7bKmPaTMfw9gTa3sBwog==
+	t=1793969760;
+	b=g9wyqhTxoEDtPup3Uy8lZ9Y29UZLJ6Ki2LeAemYEnAEJi01mMcGtmhsAK6Bi4Z7q9Elk
+	 OfDKCQVZHDaz5HVqbMtE0GuXvyXIqd2552tjLgX+9qRLH/dvyIYPPZQI1tm6IGY1Y1lzS
+	 u9Jk4tElKJ6tJHWj0inTMieHzLcKrugvSpmGcHe7ideQmISL7kVs3IF0ZydFZFyiZnQkC
+	 /s3EizcniICOuIR26dE7q8NMqiqncRsu7zdVTbjBW4ZILk2dx2q7lg72rw1qVOpTZ2mQu
+	 Fvx0sz9GcaaVJ5oGDhh/k67O/lqzyAZ3wYqsU0wPNdmS6TaNO7tVZXK3mF68vp+Zw5Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793969748;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=8EmPdC5vWewEi/5asfkXUR4yzn7T9ol+sLCcTMAMAlY=;
-	b=kcS0KSJS8SqdHJrKJr+/cdvZpT0hlm6YcjhhBxXsu9ngx9nd5I8/dO8bQaniImD3xtDT
-	 LgrSY31/KBeMR0Ex6UJNP7o4rpPbdl1k+u2KZnhal6TgWF4a/6aS1w3C0ILDpElACfM6z
-	 zcjL7RWUVuCsmYGULHevhWpqX+snj0hkv0HbQy7QhNDMN8e4wmnNxouL4qdAQ4BeG6mU6
-	 tVDQ7Jv2PiOweHexPV7Qs6pOaXG00BC0yi3TY4CqtXGJ6MRghNuKven/SOvdd2GYOUQEn
-	 wf6+41qZ0WGzP4zEoTB/UDjUdJTMSpRXsNj06o4bP6RoccoqDYqG82tDMh7SyV1WtZg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793969760;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=fjh7pNgYPKGM+B2YLRzXcq6LIbmTxUnRRadThHFSC9Y=;
+	b=BUIkN3Q4Rz6XLzDoUBeqWw+Z+IeEH1sPW4F3Q6SkB4nLCeZ5fi4C89qNNMXAvFfZUQto
+	 0jeCR1oBM1bNOWv4UDj7uRvdTCnpS5FLSGZmSt4rNBNxQhHkBoR2nHQFJM27K+O+OMimN
+	 py8TTNj9MMmZmgHRK6AAPto26vfrHryN//9zZyZ+B5brTrLw20IAF+E6YqiYL180UVO/Z
+	 iBNKJ13iHGGf4BXVdQM3PtB0kWEWjy4BZm/Hb9SLv3ThaCZcMEsnnzI/I98VU0vsHYGU8
+	 3wIr7kH5z4MC3+IaA6I3DCH9JZYelDedx2cZ0Q+LUQHkQg1lBgpVCpNx7uhEK2M+bCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=GRKnl3dQ;
-	arc=none smtp.remote-ip=95.215.58.168
-Received: from mta1.migadu.com (out-168.mta1.migadu.com [95.215.58.168])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="a/0UYIw1";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644DB606A329
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 12:55:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 644DB606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C118C606A326;
+	Fri,  6 Nov 2026 12:55:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=GRKnl3dQ
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=SZeod1/wR3B7byzDkHEF+Alv03HKTEf56jpKSs65qaA=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793969744; v=1; x=1794574544;
- b=GRKnl3dQENpx7OuGWk/zV9zp4FcD+WWMpJWJuRIwt8rzvovFJdz8WwIQl5ihy320R8XuVtQ7
- 1BCgTHuYW4lcfqkPfTvExdGh1SA3xAXz9bPzNK4U72HId3jnxyQ9NgRlc0INbrYVY3Q+VLgGBQ/
- MPatKpjCYA24wB5nMu1FrX9U=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 2338f323af298724;
-	Fri, 06 Nov 2026 12:55:32 +0000
-X-Mizu-Trace-ID: 2338f323af298724
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <fc911031-2367-4bb9-b0eb-f795965e629e@linux.dev>
-Date: Fri, 6 Nov 2026 13:55:31 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a/0UYIw1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2071B1F008A1;
+	Fri,  6 Nov 2026 12:55:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793969759;
+	bh=fjh7pNgYPKGM+B2YLRzXcq6LIbmTxUnRRadThHFSC9Y=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=a/0UYIw1S6XRencqLyQBG+pusWx2MXuydIIj4J4CA5hr3Hgz3VuZyALQpqw1urBo0
+	 P0X2/Jar3ZdlXKr3+UIytiPk1lOQd+IbVe+LjCxXIVsS6bw4k8Lnyt7/YIa8Lskb60
+	 yzUfItnQ6LorcCMhMLgOPZ4RpKl7cq2EzqUr4i5SOk8F82jTWUs9aNHW+KX3NhZ7F5
+	 pf/usjpfnOFtcKzQBU/LeFUcB9QSq8ukmG3T5OpHkjPT7EUBwN07GKC6oYqWBWC6Mv
+	 B1z4X/CL2aZwPF5TTgL33+tZrh2gH7a9/WAPhBZhl8eVsQxbdoHaWGDCxRMuLgGLS9
+	 E5NG2l58ulxOg==
+Message-ID: <sashiko-outbox-201424@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 v6 5/9] ASoC: qcom: lpass-va-macro: Add SoundWire
+ microphone support
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mohammad Rafi Shaik" <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261106-add_shikra_support-v6-5-2cda302237cc@oss.qualcomm.com>
+References: <20261106-add_shikra_support-v6-0-2cda302237cc@oss.qualcomm.com>
+ <20261106-add_shikra_support-v6-5-2cda302237cc@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 06 Nov 2026 12:55:58 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -57,101 +60,162 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 7/7] ASoC: Intel: avs: SoundWire PCM BE operations
-To: Cezary Rojewski <cezary.rojewski@intel.com>, linux-sound@vger.kernel.org
-Cc: broonie@kernel.org, tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
- linux-kernel@vger.kernel.org, yung-chuan.liao@linux.intel.com,
- vkoul@kernel.org
-References: <20261106121557.2338556-1-cezary.rojewski@intel.com>
- <20261106121557.2338556-8-cezary.rojewski@intel.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20261106121557.2338556-8-cezary.rojewski@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-I am afraid this patch needs to be completely re-visited. You mixed dai
-and dailink layers, and that explains most of the misunderstandings in
-the review of the PDI stuff where I mentioned that what matters is how
-the dailink is created.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] ASoC: qcom: lpass-va-macro: missing mux defaults in
+  va_4_1_defaults
+- [Medium] ASoC: qcom: lpass-va-macro: stale ADC_DMIC_SEL on live VA
+  DECn MUX switch
+--
 
-> +static int avs_sdw_dai_startup(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
+commit f5c01e0bfec50d93943d485c6c12559471c5aee6
+Author: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+
+ASoC: qcom: lpass-va-macro: Add SoundWire microphone support
+
+This commit adds DAPM mux widgets, routes, and decimator source selection
+logic to support SoundWire microphone (SMIC) inputs alongside DMIC inputs.
+
+> diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-v=
+a-macro.c
+> index db395674312c8..a113474040587 100644
+> --- a/sound/soc/codecs/lpass-va-macro.c
+> +++ b/sound/soc/codecs/lpass-va-macro.c
+> @@ -754,6 +754,16 @@ static int va_macro_mclk_event(struct snd_soc_dapm_w=
+idget *w,
+>  	return 0;
+>  }
+> =20
+> +static bool is_amic_enabled(struct snd_soc_component *comp, int decimato=
+r)
 > +{
-> +	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-> +	struct sdw_stream_runtime *sdw_stream;
-> +	struct snd_soc_acpi_mach *mach;
-> +	struct snd_soc_dai *codec_dai;
-> +	struct avs_dma_data *data;
-> +	struct sdw_cdns_pdi *pdi;
-> +	struct sdw_slave *codec;
-> +	int dir, ret;
+> +	u16 adc_mux_reg;
 > +
-> +	mach = dev_get_platdata(dai->component->card->dev);
-> +	codec = mach->pdata;
-> +	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
-> +		dir = SDW_DATA_DIR_RX;
-> +	else
-> +		dir = SDW_DATA_DIR_TX;
+> +	adc_mux_reg =3D CDC_VA_INP_MUX_ADC_MUX0_CFG1 +
+> +		      VA_MACRO_ADC_MUX_CFG_OFFSET * decimator;
 > +
-> +	ret = avs_dai_startup(substream, dai);
-> +	if (ret)
-> +		return ret;
-> +
-> +	sdw_stream = sdw_alloc_stream(substream->name, SDW_STREAM_PCM);
-> +	if (!sdw_stream) {
-> +		ret = -ENOMEM;
-> +		goto err_alloc_stream;
-> +	}
-
-This isn't quite the intented use of the SoundWire stream API, which
-provides a sdw_startup_stream() that's supposed to be invoked during the
-dailink creation in the machine driver that binds cpu and codec dais
-
-"
- sdw_alloc_stream should be called only once per stream. Typically
- invoked from ALSA/ASoC machine/platform driver.
-"
-
-
-The dailink maps exactly 1:1 to the SoundWire stream concept, and that's
-what allows us to deal with aggregation - when multiple cpu_dais on
-multiple links are connected to multiple amps. That's the #1 reason why
-SoundWire exists and the #1 difference to other audio interfaces.
-
-BPT/BRA support is the only case where sdw_alloc_stream() is used in the
-Intel platform driver, since there's clearly no concept of cpu_ or codec
-DAI.
-
-> +
-> +	pdi = sdw_cdns_assign_pdi(codec->bus, dir);
-> +	if (!pdi) {
-> +		ret = -EBUSY;
-> +		goto err_assign_pdi;
-> +	}
-> +
-> +	/* Fulfill the codec needs by setting the sdw_stream. */
-> +	codec_dai = snd_soc_rtd_to_codec(rtd, 0);
-> +	snd_soc_dai_set_stream(codec_dai, sdw_stream, substream->stream);
-
-That absolutely does not scale to the case where you have multiple
-cpu_dais and multiple codec_dais.
-
-Please take a look at the sof_sdw machine driver (same solution used by
-AMD), and please use the sdw_utils library to deal with all the stream
-management.
-
-> +	data = snd_soc_dai_get_dma_data(dai, substream);
-> +	data->sdw_stream = sdw_stream;
-> +	data->pdi = pdi;
-> +	return 0;
-> +
-> +err_assign_pdi:
-> +	sdw_release_stream(sdw_stream);
-> +err_alloc_stream:
-> +	avs_dai_shutdown(substream, dai);
-> +	return ret;
+> +	return snd_soc_component_read(comp, adc_mux_reg) & BIT(0);
 > +}
 
+[Severity: High]
+Does this fail when the codec is runtime-suspended on LPASS v4.1 (Shikra)?
 
+va_4_1_regmap_config uses REGCACHE_MAPLE backed by va_4_1_defaults[], which
+unlike va_defaults[] omits CDC_VA_INP_MUX_ADC_MUX0_CFG0 through
+CDC_VA_INP_MUX_ADC_MUX3_CFG1.  Once va_macro_runtime_suspend() enables
+cache-only mode, reading or updating those uncached mux registers returns
+-EBUSY.
+
+When userspace configures va_smic0..3, va_dmic0..3, or va_dec0..3 while the
+codec is idle, snd_soc_component_read() in is_amic_enabled() returns
+(unsigned int)-EBUSY (0xfffffff0, where BIT(0) is 0),
+snd_soc_dapm_put_enum_double() fails with -EBUSY without updating the mux,
+and snd_soc_dapm_get_enum_double() reads 0xfffffff0 and extracts an
+out-of-bounds enum index (15).
+
+Adding CDC_VA_INP_MUX_ADC_MUX0_CFG0..CDC_VA_INP_MUX_ADC_MUX3_CFG1 to
+va_4_1_defaults[] to match va_defaults[] would populate them in the maple
+tree cache.
+
+> +
+>  static int va_macro_put_dec_enum(struct snd_kcontrol *kcontrol,
+>  				 struct snd_ctl_elem_value *ucontrol)
+>  {
+> @@ -763,20 +773,26 @@ static int va_macro_put_dec_enum(struct snd_kcontro=
+l *kcontrol,
+>  	struct soc_enum *e =3D (struct soc_enum *)kcontrol->private_value;
+>  	unsigned int val;
+>  	u16 mic_sel_reg;
+> +	int decimator;
+> +	bool smic_mux;
+> =20
+>  	val =3D ucontrol->value.enumerated.item[0];
+> =20
+>  	switch (e->reg) {
+>  	case CDC_VA_INP_MUX_ADC_MUX0_CFG0:
+> +		decimator =3D 0;
+>  		mic_sel_reg =3D CDC_VA_TX0_TX_PATH_CFG0;
+>  		break;
+>  	case CDC_VA_INP_MUX_ADC_MUX1_CFG0:
+> +		decimator =3D 1;
+>  		mic_sel_reg =3D CDC_VA_TX1_TX_PATH_CFG0;
+>  		break;
+>  	case CDC_VA_INP_MUX_ADC_MUX2_CFG0:
+> +		decimator =3D 2;
+>  		mic_sel_reg =3D CDC_VA_TX2_TX_PATH_CFG0;
+>  		break;
+>  	case CDC_VA_INP_MUX_ADC_MUX3_CFG0:
+> +		decimator =3D 3;
+>  		mic_sel_reg =3D CDC_VA_TX3_TX_PATH_CFG0;
+>  		break;
+>  	default:
+> @@ -785,10 +801,24 @@ static int va_macro_put_dec_enum(struct snd_kcontro=
+l *kcontrol,
+>  		return -EINVAL;
+>  	}
+> =20
+> -	if (val !=3D 0)
+> +	/*
+> +	 * SMIC enums use shift 0 (lower nibble of CFG0), DMIC enums use
+> +	 * shift 4 (upper nibble of CFG0). Use e->shift_l to distinguish them
+> +	 * without relying on widget name comparisons.
+> +	 */
+> +	smic_mux =3D (e->shift_l =3D=3D 0);
+> +
+> +	/*
+> +	 * Both muxes feed the same decimator and share ADC_DMIC_SEL, so only
+> +	 * the one the decimator is routed through may program it. A write to
+> +	 * the mux that is not part of the active path would otherwise switch
+> +	 * the input domain of a running capture.
+> +	 */
+> +	if (val !=3D 0 && smic_mux =3D=3D is_amic_enabled(component, decimator))
+>  		snd_soc_component_update_bits(component, mic_sel_reg,
+>  					      CDC_VA_TX_PATH_ADC_DMIC_SEL_MASK,
+> -					      CDC_VA_TX_PATH_ADC_DMIC_SEL_DMIC);
+> +					      smic_mux ? CDC_VA_TX_PATH_ADC_DMIC_SEL_ADC :
+> +							 CDC_VA_TX_PATH_ADC_DMIC_SEL_DMIC);
+> =20
+>  	return snd_soc_dapm_put_enum_double(kcontrol, ucontrol);
+>  }
+
+[ ... ]
+
+> @@ -995,6 +1024,18 @@ static int va_macro_enable_dec(struct snd_soc_dapm_=
+widget *w,
+> =20
+>  	switch (event) {
+>  	case SND_SOC_DAPM_PRE_PMU:
+> +		/*
+> +		 * ADC_DMIC_SEL is shared by the DMIC and the SoundWire mic
+> +		 * mux, so its value depends on the order in which userspace
+> +		 * restores the two controls. Program it from the resolved
+> +		 * mux state of this decimator, which is what selects the
+> +		 * input domain.
+> +		 */
+> +		snd_soc_component_update_bits(comp, dec_cfg_reg,
+> +					      CDC_VA_TX_PATH_ADC_DMIC_SEL_MASK,
+> +					      is_amic_enabled(comp, decimator) ?
+> +					      CDC_VA_TX_PATH_ADC_DMIC_SEL_ADC :
+> +					      CDC_VA_TX_PATH_ADC_DMIC_SEL_DMIC);
+
+[Severity: Medium]
+Can switching VA DEC0 MUX..VA DEC3 MUX during an active capture leave
+CDC_VA_TX_PATH_ADC_DMIC_SEL_MASK stale?
+
+If capture is running on VA_DMIC (e.g. DMIC0) and userspace pre-selects a
+non-ZERO input on VA SMIC MUXn (e.g. SWR_MIC0), va_macro_put_dec_enum()
+skips updating CDC_VA_TX_PATH_ADC_DMIC_SEL_MASK because smic_mux does not
+match is_amic_enabled().  When userspace then switches VA DECn MUX from
+VA_DMIC to SWR_MIC, both input branches have connected endpoints, so
+VA DECn MUX stays powered and SND_SOC_DAPM_PRE_PMU in va_macro_enable_dec()
+does not fire.
+
+Because va_dec0_mux..va_dec3_mux use plain SOC_DAPM_ENUM() without a custom
+put callback or SND_SOC_DAPM_POST_REG event, CDC_VA_TX_PATH_ADC_DMIC_SEL_MA=
+SK
+remains stuck on the previous input domain for the rest of the stream.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106-add_shikra=
+_support-v6-0-2cda302237cc@oss.qualcomm.com?part=3D5
