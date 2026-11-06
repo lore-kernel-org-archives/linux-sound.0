@@ -1,109 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.168
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793969610;
-	b=N+m7ZubZ8F1LRdefavOZEvzqGAtCMZfgUmG1ovqtp2XJzy602IJEI3UUURKiUIKehqch
-	 Jy5kab/SwvKJwlBBIY9Du02nkiF811MxFBFeniHJzqiarW5ltNX7z3u/nAIXt0Zofcoou
-	 RCy3VfotoUoLC+7HkIhT9ThS7lYFUDod965++qjYWmIdh8D8iOlo8RKvITI78bOtaV5LG
-	 0X2f+TXMw+Hb7WPdz4RQbB/k68LJPx5u2DJtnlWOR3d3BAMOLILrQhN+Tusp0DZJPNt2D
-	 KEnLV4ANDci3C2E7x8dCiWwctqHOA1B6xpti99wz80HGZtluTnmCSaY2Ztqu7Xx1KLA==
+	t=1793969748;
+	b=gKwGQiGDXcRI296i7UBHHE6cq02FKpLBtTmEt632QT4SX9+AWHL0nzAxGgKTlMbhdfy8
+	 pEIj9ZYkJPcHNiEgwdJpabxBHPjrT9E4yMl44X7KZherWluPtqU5mVNzvRXzgt0lBTrTG
+	 69a1xSFSWmJDwSUkfLhoVkKomZbifri0Ip8WzqHQKfbJqMq/JaNXgwnpXL+D0Ub533UAA
+	 rp8PsYhXLnwBDLT2pCYpXv1o+bpv8ESa/f9QVBF7ijGqaKmUYsoo2j+9peliX8QyswIF+
+	 R36MZ8kRhKUJYLkSOHpMpqMs3xMhL1wLLuhWjSxTdf6+LlB7bKmPaTMfw9gTa3sBwog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793969610;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=WeeiiLxgI9wqxSiWZdfjy2k0QNgDJEt42uFprQoiODo=;
-	b=R7zdJxtgDKPcszKX5UJ3DzToTuuU29gQ2McbMImreDb1j/fL2KK07nC9AawtRZXGvNfl
-	 gP0V/hWSpP4gD0ug46wWtQexsy7G5tpcue6p/pfyM3WtsG3l55zpX7rziEtk4ZBH3GoIv
-	 nDl3ySTa7kJu5ODpBXv/5jm21pN/j0a0nVVpG1YIeL3lZrRoWo56kgg3SLwEeif7+0X4r
-	 VST/tCEPzKXeaXkRfOne1oSyQz7P3VsDIEDrl6hsSxPhE0qCARTCT6HBaQ+tAcZv4N5aC
-	 Sa9Mjh02/UIvyV455BFcFzbKemmMOO/JZoMXljq32fW8nQgrabYQUgkH0kXPl+zOSzg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793969748;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=8EmPdC5vWewEi/5asfkXUR4yzn7T9ol+sLCcTMAMAlY=;
+	b=kcS0KSJS8SqdHJrKJr+/cdvZpT0hlm6YcjhhBxXsu9ngx9nd5I8/dO8bQaniImD3xtDT
+	 LgrSY31/KBeMR0Ex6UJNP7o4rpPbdl1k+u2KZnhal6TgWF4a/6aS1w3C0ILDpElACfM6z
+	 zcjL7RWUVuCsmYGULHevhWpqX+snj0hkv0HbQy7QhNDMN8e4wmnNxouL4qdAQ4BeG6mU6
+	 tVDQ7Jv2PiOweHexPV7Qs6pOaXG00BC0yi3TY4CqtXGJ6MRghNuKven/SOvdd2GYOUQEn
+	 wf6+41qZ0WGzP4zEoTB/UDjUdJTMSpRXsNj06o4bP6RoccoqDYqG82tDMh7SyV1WtZg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cgspkxMt;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JUCsSYZV;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cgspkxMt;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JUCsSYZV;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=GRKnl3dQ;
+	arc=none smtp.remote-ip=95.215.58.168
+Received: from mta1.migadu.com (out-168.mta1.migadu.com [95.215.58.168])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C0E606A326;
-	Fri,  6 Nov 2026 12:53:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1C0E606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644DB606A329
+	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 12:55:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 644DB606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cgspkxMt;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JUCsSYZV;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cgspkxMt;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JUCsSYZV
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B05791F7B6;
-	Fri,  6 Nov 2026 12:53:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793969607; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WeeiiLxgI9wqxSiWZdfjy2k0QNgDJEt42uFprQoiODo=;
-	b=cgspkxMtr84onlBYXfV5vpo48jz/D5JJ7KrfiCnMFUJM3+6uFjDLdgZ4J6YBKwocXmsDhH
-	L5nBXqzVMVllFdkSNGr4NeC1MgOmfY8EGcaK0qumNm6F+P1kfMF5Zs5fXLCFFKhuD35GGc
-	LwpoZ3Xk4F84bKPrmmAg0Qqy0aYT7qs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793969607;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WeeiiLxgI9wqxSiWZdfjy2k0QNgDJEt42uFprQoiODo=;
-	b=JUCsSYZVeMZOe9nGdM9B5FmuN8qa//UA5h3PzSyCrYrg6qNkU26sZbDER+VVn5X33yyHnW
-	/NK6m/e0P8Eik4Bw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793969607; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WeeiiLxgI9wqxSiWZdfjy2k0QNgDJEt42uFprQoiODo=;
-	b=cgspkxMtr84onlBYXfV5vpo48jz/D5JJ7KrfiCnMFUJM3+6uFjDLdgZ4J6YBKwocXmsDhH
-	L5nBXqzVMVllFdkSNGr4NeC1MgOmfY8EGcaK0qumNm6F+P1kfMF5Zs5fXLCFFKhuD35GGc
-	LwpoZ3Xk4F84bKPrmmAg0Qqy0aYT7qs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793969607;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WeeiiLxgI9wqxSiWZdfjy2k0QNgDJEt42uFprQoiODo=;
-	b=JUCsSYZVeMZOe9nGdM9B5FmuN8qa//UA5h3PzSyCrYrg6qNkU26sZbDER+VVn5X33yyHnW
-	/NK6m/e0P8Eik4Bw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 62471132C9;
-	Fri,  6 Nov 2026 12:53:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1faYDcfN7WqzDwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 06 Nov 2026 12:53:27 +0000
-Date: Fri, 06 Nov 2026 13:53:26 +0100
-Message-ID: <87qzgyp1dl.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Cc: tiwai@suse.de,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Subject: Re: [PATCH v2] ALSA: linear: Check frame count for all channels
-In-Reply-To: <20261106123750.2981-1-sreekuttan2156239@gmail.com>
-References: <8733tfs4cg.wl-tiwai@suse.de>
-	<20261106123750.2981-1-sreekuttan2156239@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=GRKnl3dQ
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=SZeod1/wR3B7byzDkHEF+Alv03HKTEf56jpKSs65qaA=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793969744; v=1; x=1794574544;
+ b=GRKnl3dQENpx7OuGWk/zV9zp4FcD+WWMpJWJuRIwt8rzvovFJdz8WwIQl5ihy320R8XuVtQ7
+ 1BCgTHuYW4lcfqkPfTvExdGh1SA3xAXz9bPzNK4U72HId3jnxyQ9NgRlc0INbrYVY3Q+VLgGBQ/
+ MPatKpjCYA24wB5nMu1FrX9U=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 2338f323af298724;
+	Fri, 06 Nov 2026 12:55:32 +0000
+X-Mizu-Trace-ID: 2338f323af298724
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <fc911031-2367-4bb9-b0eb-f795965e629e@linux.dev>
+Date: Fri, 6 Nov 2026 13:55:31 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -112,67 +57,101 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 7/7] ASoC: Intel: avs: SoundWire PCM BE operations
+To: Cezary Rojewski <cezary.rojewski@intel.com>, linux-sound@vger.kernel.org
+Cc: broonie@kernel.org, tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
+ linux-kernel@vger.kernel.org, yung-chuan.liao@linux.intel.com,
+ vkoul@kernel.org
+References: <20261106121557.2338556-1-cezary.rojewski@intel.com>
+ <20261106121557.2338556-8-cezary.rojewski@intel.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20261106121557.2338556-8-cezary.rojewski@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, 06 Nov 2026 13:37:50 +0100,
-Sreeraj S Kurup wrote:
-> 
-> Hi Takashi,
-> 
-> Thanks for reviewing.
-> 
-> I added this check because I thought the available frame count could potentially 
-> differ between channels, similar to how the alignment is checked separately for 
-> each channel under CONFIG_SND_DEBUG.
+I am afraid this patch needs to be completely re-visited. You mixed dai
+and dailink layers, and that explains most of the misunderstandings in
+the review of the PDI stuff where I mentioned that what matters is how
+the dailink is created.
 
-Those alignment checks are with snd_BUG_ON(), so it'll give kernel
-warning with stack trace, i.e. the code shouldn't be triggered.
-I believe the checks are superfluous, but it's a sanity check for
-debugging, after all.
+> +static int avs_sdw_dai_startup(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
+> +{
+> +	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+> +	struct sdw_stream_runtime *sdw_stream;
+> +	struct snd_soc_acpi_mach *mach;
+> +	struct snd_soc_dai *codec_dai;
+> +	struct avs_dma_data *data;
+> +	struct sdw_cdns_pdi *pdi;
+> +	struct sdw_slave *codec;
+> +	int dir, ret;
+> +
+> +	mach = dev_get_platdata(dai->component->card->dev);
+> +	codec = mach->pdata;
+> +	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
+> +		dir = SDW_DATA_DIR_RX;
+> +	else
+> +		dir = SDW_DATA_DIR_TX;
+> +
+> +	ret = avs_dai_startup(substream, dai);
+> +	if (ret)
+> +		return ret;
+> +
+> +	sdw_stream = sdw_alloc_stream(substream->name, SDW_STREAM_PCM);
+> +	if (!sdw_stream) {
+> +		ret = -ENOMEM;
+> +		goto err_alloc_stream;
+> +	}
 
-> I understand that the ALSA plugin framework normally keeps the processed frame count 
-> identical across all channels.
-> 
-> Is there any condition or exceptional case where the available frame count could differ 
-> between channels? Or is it guaranteed to be identical by the plugin framework?
+This isn't quite the intented use of the SoundWire stream API, which
+provides a sdw_startup_stream() that's supposed to be invoked during the
+dailink creation in the machine driver that binds cpu and codec dais
 
-The frame count must be identical.  So, if any, such a check should be
-conditionally enabled and trigger a kernel WARNING.  It means, if it
-happens, something must be completely wrong.
+"
+ sdw_alloc_stream should be called only once per stream. Typically
+ invoked from ALSA/ASoC machine/platform driver.
+"
 
 
-thanks,
+The dailink maps exactly 1:1 to the SoundWire stream concept, and that's
+what allows us to deal with aggregation - when multiple cpu_dais on
+multiple links are connected to multiple amps. That's the #1 reason why
+SoundWire exists and the #1 difference to other audio interfaces.
 
-Takashi
+BPT/BRA support is the only case where sdw_alloc_stream() is used in the
+Intel platform driver, since there's clearly no concept of cpu_ or codec
+DAI.
 
-> If it is guaranteed, I agree that this additional check is unnecessary.
-> 
-> Thanks for your guidance.
-> 
-> Best regards,
-> Sreeraj
+> +
+> +	pdi = sdw_cdns_assign_pdi(codec->bus, dir);
+> +	if (!pdi) {
+> +		ret = -EBUSY;
+> +		goto err_assign_pdi;
+> +	}
+> +
+> +	/* Fulfill the codec needs by setting the sdw_stream. */
+> +	codec_dai = snd_soc_rtd_to_codec(rtd, 0);
+> +	snd_soc_dai_set_stream(codec_dai, sdw_stream, substream->stream);
+
+That absolutely does not scale to the case where you have multiple
+cpu_dais and multiple codec_dais.
+
+Please take a look at the sof_sdw machine driver (same solution used by
+AMD), and please use the sdw_utils library to deal with all the stream
+management.
+
+> +	data = snd_soc_dai_get_dma_data(dai, substream);
+> +	data->sdw_stream = sdw_stream;
+> +	data->pdi = pdi;
+> +	return 0;
+> +
+> +err_assign_pdi:
+> +	sdw_release_stream(sdw_stream);
+> +err_alloc_stream:
+> +	avs_dai_shutdown(substream, dai);
+> +	return ret;
+> +}
+
+
