@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793980456;
-	b=HR+HE9SJSJL0LePmxrgCMzukEFWmL8/v9CRyfU/R6Afa74duQ83bmtZSNihY6GUzy70H
-	 H51+AnPn6a/K2SNS1q5WUFTjBU4FDHu7rt2Y+x/mR99eZjnyFMCf5QZYcuIeL0JZMbGlg
-	 UNQ77il4uYgyCpyaMm2XD6AVYybQ7FZ6nHEH3RUTMxHoIMPNBoW5jLpIL8B8UgANYbV7L
-	 /URYb5ujzA02uMHVKXnfcovNE+9uXmqh8C7tM5vsXqGD1QdT3nWCO+C2MEKMr14S4rWj/
-	 U9e8vnCiS8nxsGVe2LvMaZ1zt6xU65aU+iotQxtbqfNPgNGGKJ9BPxaTNV1ktX6IPmA==
+	t=1793980547;
+	b=bZrS9s4GoaExL7KlZZiCv+qqTNsUIo73b72zXx8lfDL/pLcqdfw7FYXTcbTmHMFRa2Gz
+	 choH+lWlgL7rWWya5P1RSsfZJFhfiKoPr3BQNmLiKVz0Ufian13NR787mONNG5qe7Vgvm
+	 Xuy+gVGqamLIk+ewdWk/UIRfFw0UGgM1Wydhdo9sxG0eFcWFihQp43tLH45aM3SYoyJA5
+	 1HRXug397iTySzSA+YCkFhxPo3g8wOwRNMdXjPs95StWuUbF+m8Y3wvt0Z9xIOr/3vWV2
+	 3teOUUsHOO/cdoq+MwOrZz3UITgfPC62vPAjTrLMDuWv5unEXfFeqbq9nTMZln22Hng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793980456;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793980547;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=I8rzm9bWs1s9Rq7fY2phlOH5ZLJJZ3/b97s2LrPmY3I=;
-	b=N3gVp7kiDBh/nJBNLSUp8iweKkdxxaXgPbbOhnOskWbuzwFo9+U255j+Ojl6xzvXxULf
-	 We2DIJDscFo/FnsDPx89QmSJV5QYXmRbGN3tmNZReKZnjdyX5RfvKEkTHI3k4MLHkLrBF
-	 b6iyNPlOyQyPoCMLmPt/FZLOz5tSS7zkTYmIIptMWqjQfkx9Gg6pBnxQyTad1ZILLBznH
-	 bp5oIjb3VQc9ojCwRiggHkXkuSdlIbb0bbOVlCOg8snZaciS0g9AFvr4CbepGWnVtXFXX
-	 FbhylMXP6lHN2rWNTKd1EAaXpFF0I1HYglkDwolpD0hyEL813MEMoCvfv//GcA9DWsw==
+	bh=9RI3QI1rwBUdIa++FPHBJyeRrlPAdNvnGDZD89tirLE=;
+	b=5SM75ambpC848naOKTOBg2MU+TOgv0y8IZF4o4J+NE+Ef9gRHZkC45MyX46EtUJ43gqA
+	 nwrx+0Ruh27F7y9UFDJQG33q79EMG0VvYUgaRzMYVtLu2aUz2RFlpkBUpJAEDg17L3ydF
+	 UkJVbJ93t2hrGVn49FhYE1FvOkTCLhAUZ3tm66LTivJM+5E5a6ZEW4e/8kcevi/i7zCRY
+	 GlHyvJuwG+jXoaEMoxp/tUtMyP9G/Nce426qyR6zHjtVvZrRjwfSDsrAgACOwJ2/9Wvh7
+	 Roryq/Xq0X1HDnvNVW/U2Ckyc4AW4To3qBwgrJXMFPOQraqz4deBufvNWVXlrYa2xfQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Z/T3EbHt";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WDcjGXyM;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E9B606A326
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 15:54:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D64606A329
+	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 15:55:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z/T3EbHt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED8E01F008A1;
-	Fri,  6 Nov 2026 15:54:15 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WDcjGXyM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1B231F0089F;
+	Fri,  6 Nov 2026 15:55:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793980456;
-	bh=I8rzm9bWs1s9Rq7fY2phlOH5ZLJJZ3/b97s2LrPmY3I=;
+	s=k20260515; t=1793980547;
+	bh=9RI3QI1rwBUdIa++FPHBJyeRrlPAdNvnGDZD89tirLE=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Z/T3EbHt+QkVjmLw22yPLrBktlP+oTj5WUNzv7j006QWJk8CJy2ZKEPqOCtgfaGv1
-	 Z24UA30+Xf1sBpKXA7vE/NNMzjHdbW5LJr/3dRo5HOg2AwbiIPKVbO+uyD6Bl55/9+
-	 cxG5UUbn/IUtEbG4Mrpn0pdsvixcfGlsVVrxvRkU9i+8gZ3YwhTb7CfAlQfCfoGQdG
-	 ppQqbGe2VjyRsTjfG/Ho9uC+mTzjjNWywzN2JTPRcfYSHLeJ3YlAqmhRwV/+XFUiB9
-	 7Nrw7Aq8mFpBWuETX6FVcHUDma3juYCBxMQ3jjCoISF32FIYco9VQKXIr/lK1abP/z
-	 TyHz7je12KXag==
-Message-ID: <sashiko-outbox-201744@kernel.org>
+	b=WDcjGXyMtDaYIYX90y5PPnZRSNtg9VYop0t5WbQkpbO6CWnQWWh+pGDRfFpjNvOtv
+	 DSEdIm9JuDydMrcExV6SY4EC/GZfADtQPv5p5R762ARt84TcTOXIdAmNe1k5z/+Qbf
+	 gBRZ0IADRfE0qbHOpSo19LNsi4kwcqe8wpwODXASF4qT+OoMjkoS6fW9LAI4Zcl+c5
+	 zmbUwm/VKjT74yWD3qJEvddre9iGT+Dd02ocSMA0Q0XIsBe5WKWQE4ydvQ/sV2dcXN
+	 HQf6LnQUCKLoEEj7tZUMitAg8RY93dYEiGqBxwYSUR3FjiFImst7LfwrNif9JnXkuN
+	 E5KGGgk8MAh2w==
+Message-ID: <sashiko-outbox-201745@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ALSA: control: Fix parsing of numeric fields
+Subject: Re: [PATCH] ASoC: es9356: fix the capture gain dB scale
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sreeraj S Kurup" <sreekuttan2156239@gmail.com>
+To: "Zachary Huang" <zuzhenhuang365@gmail.com>
 Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261106154545.2973-1-sreekuttan2156239@gmail.com>
-References: <20261106154545.2973-1-sreekuttan2156239@gmail.com>
+In-Reply-To: <179398005797.39773.18432202435074682955@gmail.com>
+References: <179398005797.39773.18432202435074682955@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 15:54:13 +0000
+Date: Fri, 06 Nov 2026 15:55:46 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,40 +61,46 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Low] ALSA: control: missing Fixes trailer for parse_uint() bug fix
+- [Low] ASoC: es9356: missing Fixes trailer for commit 5d9cb740cd38
 --
 
-commit 1bd2d3e81b83fc5553191929745f26253824ba8d
-Author: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+commit 52267100487603f3acb6a660175cdbfe55292773
+Author: Zachary Huang <zuzhenhuang365@gmail.com>
 
-> ALSA: control: Fix parsing of numeric fields
+> ASoC: es9356: fix the capture gain dB scale
 >
-> parse_uint() passes the remaining input string to kstrtoull().
+> The two capture gain controls are declared with a TLV step of 3 (FU33,
+> analog mic) and 6 (FU11, DMIC).  The TLV step is expressed in 0.01 dB
+> units, so this advertises 0.03 dB and 0.06 dB per step: with a value
+> range of 0..10 and 0..3 the whole controls appear to span only 0.30 dB
+> and 0.18 dB.
 >
-> When the input contains comma-separated fields, the string
-> contains both the numeric value and the following fields.
+> The hardware steps are 3 dB and 6 dB, i.e. 0..30 dB and 0..18 dB.
+> Measured on a MECHREVO WUJIE 14SAH (ES9356 on SoundWire link 0) by
+> recording the same signal at all four FU11 settings:
 >
-> For example, with:
+>     FU11=3D0   rms  523  (-35.9 dBFS)
+>     FU11=3D1   rms 1007  (-30.3 dBFS)
+>     FU11=3D2   rms 2011  (-24.2 dBFS)
+>     FU11=3D3   rms 3794  (-18.7 dBFS)
 >
-> device=3D1,subdevice=3D0,name=3DMaster
+> That is about +6 dB per step, matching the hardware definition rather
+> than the advertised 0.06 dB.
 >
-> kstrtoull() receives "1,subdevice=3D0,name=3DMaster" and fails
-> to parse the numeric value.
+> Because userspace (alsamixer, PipeWire/WirePlumber) derives the volume
+> from this TLV, the capture gain currently looks like a control without
+> any usable range, which is also why the default setting seems impossible
+> to raise from the desktop.
 >
-> Stop parsing at the next comma and pass only the numeric
-> field to kstrtouint().
->
-> This allows numeric fields to be parsed correctly in
-> comma-separated input.
->
-> Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+> Assisted-by: LLM
+> Signed-off-by: Zachary Huang <zuzhenhuang365@gmail.com>
 
 [Severity: Low]
-This fixes a bug in the sysfs kcontrol LED parser.  Should it include:
+Should this bug fix include a Fixes: tag for the commit that introduced
+the driver with the wrong TLV step units:
 
-  Fixes: a135dfb5de15 ("ALSA: led control - add sysfs kcontrol LED marking =
-layer")
+  Fixes: 5d9cb740cd38 ("ASoC: es9356-sdca: Add ES9356 SDCA driver")
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106154545.2973=
--1-sreekuttan2156239@gmail.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/179398005797.39773.=
+18432202435074682955@gmail.com?part=3D1
