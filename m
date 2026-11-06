@@ -1,53 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793937280;
-	b=dAYsDt1Y77gQ5qyN6umEy16vUerpBHxY1G/MvFpTCijMLRzL002TuQnqi2C1bn53KAm5
-	 3KPjJOg2Ad+lBulsdRs9JaAC2KtSs9ZYumV9VdrP2opXaZ8dSnPlV54WlvzJJR7x1T3Ak
-	 8cvZhdy12NkL2aFKitth/qOonJmBstwMpOd6XAk5oA4TGdQ9SB4PfGVPlqj2CkhsRHM74
-	 NZ5WTi5FSyJdkrSEVRszqh6eXFM2afP/GVoLwlUrwcivzr+ltYgjuQ6FCbCN8BuA/kaqt
-	 sBXyek2b/cH7MA/4hDpnlsspZbygRzOHdY0kErflDKkTd99BAQqEceuf2EVvps2OcPw==
+	t=1793942584;
+	b=W1wEbTycdPCq3Gpbh54GhzQntcrtGkifnVMa5AVeLP9SSYvWl9qBkjWiuZFXw4VVwXux
+	 Jle1CrhKXTpsTKoBJm65txb7td27DEz3GDIrwewNxG6RRYJgHD7Ecz61hXFU05inVA5ED
+	 CAtx5dwO/+IWU7718QuzLBUJCFQKxxZ+l6SVAPmblJqbibvyMVj1szASnKUNgW2scYlRW
+	 Rz4smy4paTlQRPxNcxps02bcRZDyNaI60mxeTDtFAOjvwcDM1aUHYnQISnjOk3BWBWnIH
+	 HnxPvgITlgjdfgvM/+Fp0kbToPQQonVuGuGbb+pJaDWrIvBL0zxBKKsbxjCbZmY1T8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793937280;
-	h=DMARC-Filter:Received:Subject:From:To:Cc:Date:Message-ID:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version:X-CM-TRANSID:
-	 X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=VBUHk0eb1Jrp0GTokwo7e24MRl3AF5esG7weZxCQEkY=;
-	b=aHQMwd1JHpb6ZqZZ/SklNyfYZU/7du7+cQ3iZaL3Sfi6eLSx4ta0uXI5zzh1lyg1ykNM
-	 D61OH2bwO7rRc0YlIbSgJ2uT0+cCVltWW2Btuk1ar8/53cAIC65S9iQdFtdSW63nqRx+N
-	 yn9xWxJ0VH4L8iPrxruhM2Cb+k5ezScIyFwj7ufeZrHypDa3kuAUsHKgXDf+xAgpCPISX
-	 1587bM1maOZloLIR0yQkFIbFJJ7fZhzc4J8+3ZlLpDdbyA2d9y8vpuV9FPLvlBd4jelXI
-	 AZJTNllf6hf7RXXBrcJexlnbUtRI3GvTMCHCmyzX5Ys+8p7wdA4whH6L2Dq4zw1WBNA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793942584;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=QgjUQIvs3qIFboQ8HXSfJd5nUrq2pq/h3iYL5W7cQ3Q=;
+	b=yWHNVXHQz8NEiDIH/H4wm6iNigLvNTS0ePsxwcyiqh7jt88QEJFniXfkqPJtNjX3MWao
+	 8EBdPbWp6xM73dmVxOcy8ScpQNQZ9YoOFGCcVC6/2RL/qb+cft8aRh+07EsT1NtB8c3kG
+	 /wl08hfzz5x+KV/S67YGEmjbMDjxl30DljobnULLa9LiI55nTsykSy3YEqnhYwPHloCdp
+	 Aly3vzfm5vXL+8HrW/G/TAYB0CUhzLvyBTHPuJwEQHv6ljCf0XtZu8v3Buk+31E9/naMr
+	 kV3IwQgqzbgEZk8JQg4Up7XeUGvVFsPK/DtsSPr6//CEukche4leLhM7Z44vBUyEfew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=iscas.ac.cn;
-	spf=pass smtp.mailfrom=iscas.ac.cn;
-	arc=none smtp.remote-ip=159.226.251.21
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rQ1noQVi;
+	arc=none smtp.remote-ip=209.85.210.169
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9538606A326
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 03:54:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9538606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from [172.100.0.8] (unknown [36.110.52.2])
-	by APP-01 (Coremail) with SMTP id qwCowABnVf9yT+1q4vxeAA--.15002S2;
-	Fri, 06 Nov 2026 11:54:26 +0800 (CST)
-Subject: [PATCH v2] ASoC: stm32: spdifrx: keep the control DMA channel on
- config failure
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: Olivier Moysan <olivier.moysan@foss.st.com>,
- Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org
-Date: Fri, 06 Nov 2026 03:54:34 -0000
-Message-ID: <179393727482.2060666.9057920361892304525@iscas.ac.cn>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A75606A32C
+	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 05:23:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A5A75606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rQ1noQVi
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-89f85edd210so89926b3a.2
+        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 21:23:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793942583; x=1794547383; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QgjUQIvs3qIFboQ8HXSfJd5nUrq2pq/h3iYL5W7cQ3Q=;
+        b=rQ1noQViIAKFIn2+u9hAW+IPrCT/pPog8gbXMLjSr1UICqd/D+9RYpcICDNkBfjJrL
+         iY/IKpPSD+gW7brrB1YMAdFH5CVocoMrjEamfF5yySiiiyrX0g7F8iUfT63obhu3+son
+         IIx9J1FSJ0VfzBBSg8iUxG15/tM40t0ZbumcBE28DUPi2BBuEZ+Yy/AKMJNllmkmmL4v
+         oxLfViUd1oOs7YZqrDZETrmwAbip5jtkL/iJuuKKrJcLyCGOuyaGgP7UhrhmCQcd91As
+         c3KIuqQP3Uehjj5HUtzyR8gc4Roq+hcfFcA6U5MclHrWsT+6T7VMSEMuKUMMsT2RuMXf
+         rK9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793942583; x=1794547383;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QgjUQIvs3qIFboQ8HXSfJd5nUrq2pq/h3iYL5W7cQ3Q=;
+        b=CZw5x+v75YeCddve3h+o9KMI5Zk2eOZlGBlmgPY+F/zDzM3CS8zGfQKvkUy9Zsr0+I
+         V62lqTMN5szjyexFTKPvpSaBjQrZmCvSBWihXMfGdirOLids0DVRpgiuvN64LTTVrLJs
+         ylQ9SEB9me4ErKrqPauLJDfPSi2BgKS1IaRcMb9K2z8aphZTZy3GD9WQ9zVfdlfsPV+S
+         wvwJTWRrM4RvRXyws+/3WaFqRxq9Zr35gndRGx13c4mHvT/F0wYnBg/SKbM19R7IuhaW
+         wmL/hNm5uogS24SOhgFeKI8sh6WwYFuEy8NwzpG8mMNT9EJi/0SeEOzw+rTWFT4rK8mj
+         MVag==
+X-Forwarded-Encrypted: i=1; AKwUvBx6tjcyU0K8P1vOdAT8EdOm4j0phMfrLCf+Axkbk0FQdG/gOd5Ylg2g6kbcs1gD9wj7xjw71maj+RoR2A==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+6pTDZGLcuFWX+fR5JpA6TYjUX6BzZ9ZQ/1YMhHOJkQHYj7gld
+	o9DxhcHkY2kClfRF0/UAoiQado3cLsQ7/eEPt/VGl/bQXD5cOOJYKNkb
+X-Gm-Gg: AYBFou1ZVaFxVKBuPKQ90JSYCSqmUfw60pg/4zEbtG+l9k3EXNA3r25Stb31twcwN2D
+	dJpmVxp7p7qXyTsKbXgYvAHoT02KrhRvX1i6rP739mCpemWVRxvlhG4kL5CiJWdgxirmvz+fLKe
+	MpS3OZ9N43/vHNxecNqdHbo8rEDdDgUDq8PhCUtWCipvuTNgv4tVBfZ/IgegQHa+zPzY3ym4qo7
+	JNhNzE10hRrUtviZQxbByefOL/JXMDzbJNr9DtcL0C5OnLF9kfPoEJx+brC4YY9Too8WtAe0Nvo
+	6qv8qYPoH3zC+f9AJpx9/xW4e2+WcGw8hd/KBLC8PuRxo06SEvWB14eF7BU+udTqg6ND+wRc1EB
+	lXv49qVb8FuSMjic27W7gUwI9PSQmNH78BcDcY8XGkRLbyEfhaRTMikhhCJsnTizE8jtoU+i3vr
+	+wmdXRKpTaCqO3H0wxyUE3rKlNMP7coWRZPqdi2ItQh5Q9Yvq01/GI1vih52qHdsdNxxRAcN/yn
+	ft2jND3YYtGD2PDkKyc2uUmRt+3oRJfE/u2wQ3PBJxIamZkPoJtVQ/ntmYjW40KVfxcQSaqfBNN
+	xF1ySlC6iTk0V5I+r7mjGe52OLNsn6CbEZHVD7K3t4szhzV4Ayk0kuleGaGldyThs6vr5A==
+X-Received: by 2002:a05:6372:a80c:b0:3e2:7c10:d47a with SMTP id adf61e73a8af0-3ebb29acdabmr1525173637.15.1793942582911;
+        Thu, 05 Nov 2026 21:23:02 -0800 (PST)
+Received: from hj.. ([163.239.22.29])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8b35a9a216asm245356b3a.54.2026.11.05.21.23.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 21:23:02 -0800 (PST)
+From: hyunjungg <hj351016@gmail.com>
+To: Srinivas Kandagatla <srini@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hyunjung Ko <hj351016@gmail.com>
+Subject: [PATCH] ASoC: codecs: wcd-mbhc-v2: cancel button long-press work on deinit
+Date: Fri,  6 Nov 2026 14:22:42 +0900
+Message-ID: <20261106052242.2000264-1-hj351016@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -57,70 +97,61 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-CM-TRANSID:qwCowABnVf9yT+1q4vxeAA--.15002S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CF43ZF17Jr4xKw1ktFyfCrg_yoW8Cw4Upr
-	48GFWDt3yYqa15XF42g340ka4v9r93Ar4DKws8Ww1Ivr13Ary0vFZ8Gw4qgr4jyFZ3G3W2
-	9rZ3tFy5u3s5AF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9Sb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
-	AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
-	6r4j6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxV
-	W0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
-	7VC0I7IYx2IY67AKxVWUtVWrXwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7
-	v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI0_
-	Jw0_GFyl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8GFyrJr1UJwCFx2IqxV
-	CFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r10
-	6r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxV
-	WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG
-	6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr
-	1UYxBIdaVFxhVjvjDU0xZFpf9x07befHbUUUUU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAADA2rtTzUAtwAAsG
+Content-Transfer-Encoding: 8bit
 
-When dmaengine_slave_config() fails, stm32_spdifrx_dma_ctrl_register()
-sets ctrl_chan to NULL and returns the error. The channel obtained from
-dma_request_chan() is thus lost, and stm32_spdifrx_probe() calls
-stm32_spdifrx_remove() on the error path, which then passes NULL to
-dma_release_channel().
+From: Hyunjung Ko <hj351016@gmail.com>
 
-Leave ctrl_chan untouched so that the remove path releases the channel.
-Its IS_ERR() check already handles the case where dma_request_chan()
-failed.
+wcd_mbhc_deinit() drains two of the three works embedded in struct
+wcd_mbhc before freeing it - correct_plug_swch (via
+wcd_cancel_hs_detect_plug()) and mbhc_plug_detect_work - but not the
+button long-press delayed work mbhc_btn_dwork:
 
-Fixes: 98c8dc2fd59f ("ASoC: stm32: spdifrx: fix control DMA error management")
-Cc: stable@vger.kernel.org
-Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+	mutex_lock(&mbhc->lock);
+	wcd_cancel_hs_detect_plug(mbhc, &mbhc->correct_plug_swch);
+	cancel_work_sync(&mbhc->mbhc_plug_detect_work);
+	mutex_unlock(&mbhc->lock);
+
+	kfree(mbhc);
+
+mbhc_btn_dwork is armed from the button-press interrupt handler
+wcd_mbhc_btn_press_handler() with a 400 ms delay:
+
+	schedule_delayed_work(&mbhc->mbhc_btn_dwork, msecs_to_jiffies(400));
+
+and its handler wcd_btn_long_press_fn() dereferences @mbhc
+(container_of(), mbhc->current_plug, mbhc->jack).
+
+wcd_mbhc_deinit() frees the MBHC interrupts first, which stops new work
+from being queued, but free_irq() does not cancel a delayed work that was
+already scheduled. If a button was pressed within ~400 ms of component
+removal, mbhc_btn_dwork is still pending when kfree(mbhc) runs, so
+wcd_btn_long_press_fn() later executes against freed memory
+(use-after-free).
+
+The asymmetry dates from the teardown rework in commit (CVE-2023-53842),
+which added the correct_plug_swch/mbhc_plug_detect_work cancellation but
+left mbhc_btn_dwork undrained.
+
+Cancel mbhc_btn_dwork alongside the other works. Its handler does not take
+mbhc->lock, so cancel_delayed_work_sync() is safe to call under the lock.
+
+Found by code review; not runtime-reproduced (requires WCD codec hardware
+and a button-press event racing component removal).
+
+Signed-off-by: Hyunjung Ko <hj351016@gmail.com>
 ---
-Changes in v2:
-- Point the Fixes tag at 98c8dc2fd59f ("ASoC: stm32: spdifrx: fix
-  control DMA error management") rather than at 03e4d5d56fa5
-  ("ASoC: stm32: Add SPDIFRX support"). 03e4d5d56fa5 released the
-  channel inside stm32_spdifrx_dma_ctrl_register() before clearing
-  ctrl_chan; 98c8dc2fd59f dropped that release and left the cleanup to
-  the probe error path, which is where the channel leak on
-  dmaengine_slave_config() failure was introduced. Noticed by Olivier
-  Moysan.
-- Link to v1: https://lore.kernel.org/all/20261104024051.1508703-1-vulab@iscas.ac.cn/
+ sound/soc/codecs/wcd-mbhc-v2.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- sound/soc/stm/stm32_spdifrx.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+diff --git a/sound/soc/codecs/wcd-mbhc-v2.c b/sound/soc/codecs/wcd-mbhc-v2.c
+index 0000000..1111111 100644
+--- a/sound/soc/codecs/wcd-mbhc-v2.c
++++ b/sound/soc/codecs/wcd-mbhc-v2.c
+@@ -1624,6 +1624,7 @@ void wcd_mbhc_deinit(struct wcd_mbhc *mbhc)
+ 	mutex_lock(&mbhc->lock);
+ 	wcd_cancel_hs_detect_plug(mbhc,	&mbhc->correct_plug_swch);
+ 	cancel_work_sync(&mbhc->mbhc_plug_detect_work);
++	cancel_delayed_work_sync(&mbhc->mbhc_btn_dwork);
+ 	mutex_unlock(&mbhc->lock);
 
-diff --git a/sound/soc/stm/stm32_spdifrx.c b/sound/soc/stm/stm32_spdifrx.c
-index 88863dbd05d9..ce75929daf73 100644
---- a/sound/soc/stm/stm32_spdifrx.c
-+++ b/sound/soc/stm/stm32_spdifrx.c
-@@ -425,10 +425,8 @@ static int stm32_spdifrx_dma_ctrl_register(struct device *dev,
- 
- 	ret = dmaengine_slave_config(spdifrx->ctrl_chan,
- 				     &spdifrx->slave_config);
--	if (ret < 0) {
-+	if (ret < 0)
- 		dev_err(dev, "dmaengine_slave_config returned error %d\n", ret);
--		spdifrx->ctrl_chan = NULL;
--	}
- 
- 	return ret;
- };
--- 
-2.34.1
-
+ 	kfree(mbhc);
