@@ -1,56 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793967529;
-	b=HCOnxeRnh3YJ/wgXInbheuQrkKG36gV2rJeVA17i9cSQibfLKt0csZEkCLBsXVTVMtfl
-	 PXSbw+jbSK4O8fGT1vbf4TCpbV0X7ZPlLDB/kkaXuBqpDnrR3dw/PsugDvNbPZ6YKVibO
-	 xFP75nkyyC5S6SpD1gPW10x0rSTSYZBc+or9a6Rj7WF9riGCCuCLgvrckzipp2piBe58z
-	 tkh3BaQrVSLfbO8+vh5/XafsH5GqZl9C+qaKGdoxWPfXlsa6I9aatvS9K78ZzyMxzQOvA
-	 IMIvelQBhEbbjMHEF4EMtMskva+5+u0PSK40knhb5P78WdnQ6zpUNiPVlet3qb7J0RQ==
+	t=1793967568;
+	b=5Vidptk7ldmJ1Wo5HWWgKYAS6t6ZnwqyNvYIs/gXo3pDGGutl6AWnfpwLHjfHyDax0mp
+	 cYl1hRKV11Ay6wxgJ5F7Yv/ctS1Uq6YKGKrude1WF4ppCZwxWohtbqUtug59WY81nTUDF
+	 P427qBGS5q0O8TztckyIsg2241ShgCcgQgkfNulrKKBaAoaCeB8mNV1vmP/p8ANACuyCG
+	 4QbdAiJWR2/nAqpnMkKFhhaXXp3jtujrh8rIwwXLPNJqL/GTghniDSRy6+vQtlb8QdMHX
+	 ViHuL5/WfDOs64QNmbR1PASH0Kg0FU/Rn1XhhyAEWidmoqGMBRlQ/K3TtFJBV63wJgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793967529;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=4qXLI0St8FXAmbLjkN4vDQ7wTcvz2OAJULsfDtRq1Lk=;
-	b=VtOlLANX0Ha2y5hDlNLDaNQf76k7Zh/pz3oTZTcO3u5o+FswxeVM5AJrCGhBmSzcPXdi
-	 V5mLH5d2BfDiFje+Xap8/FLUwTCP67VYdnrXHIujObP62A8AvOC6kOcoJLBfcYhaAV/i/
-	 1z8c6dCBvbeFNqCG3O7GcV+kqC8nc2v4DFhrrMbZY90FNtDawJMrRc+9PgH4tIQ8+1ghn
-	 LC/ltOta1dCr1iwtBh7iADSXVb19rFY8dmkg2EzYTSH2zFs1nOLwqD/s1wv/uAaKhROzS
-	 jWuGH6PuhJ5UhZehI1UWL5fam7TUcLUrdqR8/99xZd0blRgY0oNLXSbBzSoTUb8/sFg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793967568;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=0vUodaVAX93mqin2v1QRnZrq0sGDMtFLDBopNWg3Nj0=;
+	b=bcB0E9KhBSMJ0IvVPJSHhg12mQRqwblIJSiF6A2bCleOilRNQHSqyDqkXmYPRPwzkbgI
+	 hOkHz3M3f4VrlS/M9sYtujjbw4e+2QBmGiVGE6wgdlOBR8LdJKbfpk1IY4IF8UiY+O9lJ
+	 x5Ic2qVSRzcJdfBb/fB6E0Kz2BEMNAc3UQpqpgc7W0p+BRJUE4aZAsOGgY43xmx9Z0Gqa
+	 4TdnTHoCMtwQzOtmQMDxCSd9RDVWYCp13/Kj6eJtk1AcLGe8nshuODh3ULfkAcfCteFPZ
+	 ypO/GcFYIEze1RGQaTjdFRu7XeqTr73yOABKS2g9MxIYOm2XEw34c4AKPJimlLNu1/w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bHj2n2+C;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=V5G0adXI;
+	arc=none smtp.remote-ip=91.218.175.34
+Received: from mta0.migadu.com (out-34.mta0.migadu.com [91.218.175.34])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9603A606A326
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 12:18:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68835606A329
+	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 12:19:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68835606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bHj2n2+C
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18E611F0089F;
-	Fri,  6 Nov 2026 12:18:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793967529;
-	bh=4qXLI0St8FXAmbLjkN4vDQ7wTcvz2OAJULsfDtRq1Lk=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=bHj2n2+CFmRzmYMNaAk994G9fcyXVVbWdGYjKILmTkAEXn/YjV/JD80OwlKOnug01
-	 VEBRaC4HmjPNihmwUmOCzT7HMy8qfszyttMZX94EqrT48LWJraXsarctzZL3SdflbQ
-	 3lur/ZHlkPfAYcPf1h9/V6KfEFKDyNDQAwzI/fbEkyvXTObvM+BxfpP4jLBzR4y+DY
-	 hhW+T2B3hu8FwKf3te0BlekxsHZr/wXLXpm+O1O9osGXgNuR+q5fDOU+h8palf/AIB
-	 9Y9dYh/IUd6cuXaKp92WHe6K+kQ9zSWgCRf9CEnQ4daSx/L7LFbPasu9wIzt7Linq3
-	 XDl8a0x1nRWiQ==
-Message-ID: <sashiko-outbox-201394@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 3/7] soundwire: intel: Split PDIs and DAIs
- initialization
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Cezary Rojewski" <cezary.rojewski@intel.com>, linux-sound@vger.kernel.org
-In-Reply-To: <20261106121557.2338556-4-cezary.rojewski@intel.com>
-References: <20261106121557.2338556-1-cezary.rojewski@intel.com>
- <20261106121557.2338556-4-cezary.rojewski@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 12:18:48 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=V5G0adXI
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=UjpdCFHkVQinke0+LhWk+0IZR4eqn7V48c0aBGCBqmM=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793967564; v=1; x=1794572364;
+ b=V5G0adXIb2lsE3Gshq9LuKJbAg5bI+F8TdF831riiz2dwOtFOnthMGJ1DD8ovycfnsqfJCX/
+ 6U7vCM1JJanEDINxX/xUDk2m1fAsLhqHwJuJSD33bPrkoHvu60W8QGwOWmmq6Bi2/LCzhz0tcjZ
+ Qvt35+skZqDdWbc9VKphXNY0=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id f0b4435a6e72b80c;
+	Fri, 06 Nov 2026 12:19:24 +0000
+X-Mizu-Trace-ID: f0b4435a6e72b80c
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <a6c89fe9-a239-4b97-a912-2b08b9a84e21@linux.dev>
+Date: Fri, 6 Nov 2026 13:19:23 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,60 +57,52 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] ASoC: SDCA: Add port constraints into
+ sdca_asoc_set_constraints()
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@opensource.cirrus.com
+References: <20261105134952.1728147-1-ckeepax@opensource.cirrus.com>
+ <20261105134952.1728147-3-ckeepax@opensource.cirrus.com>
+ <1cae1b17-4c49-4a10-922e-c552e90593c4@linux.dev>
+ <au2dxajs3ua9M61q@opensource.cirrus.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <au2dxajs3ua9M61q@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] soundwire: intel: bypassing intel_register_dai() against
-  maintainer direction
---
 
-commit fd70be11c65e2cabc3b8e75299a0c79a70299383
-Author: Cezary Rojewski <cezary.rojewski@intel.com>
+>>> -	if (entity->type != SDCA_ENTITY_TYPE_IT)
+>>> -		return 0;
+>>> +	/* FIXME: Currently only a single unshared port is supported */
+>>
+>> I must admit I have no idea how we'd handle ports that can be connected
+>> to multiple terminals. It's allowed in the spec, even between Functions
+>> which are then no longer independent, and I was told it was due to
+>> hardware restrictions, but still I hope we never have to deal with this...
+> 
+> lol yeah me too. For now I am mostly just putting these FIXME's
+> in at all the places where this is going to become relevant. I
+> must confess I haven't reviewed this part of the spec in detail.
+> It feels like sharing a couple of ports for a single terminal is
+> probably tractable if a little annoying. But yeah, if we got as
+> far as sharing a port across functions that seems like a total
+> nightmare. We would probably need to do a bit of re-architecting
+> and add a port abstraction at the device level, but hopefully
+> people are wise enough to not build hardware like that.
+I re-read the spec and I think the main usage for the Terminal to ports
+mapping is bandwidth management, possibly across multiple lanes. But
+that's a 1:N terminal to port mapping, not M:1 or M:N. It's complicated
+but not earth-shattering. Also the mapping is supposed to be pre-made in
+DisCo tables, not something that requires much intelligence in drivers -
+until the tables are wrong but that's a different story.
 
-soundwire: intel: Split PDIs and DAIs initialization
-
-This commit splits PDI initialization out of intel_register_dai() into a
-separate init_pdis() callback and makes the register_dai() callback
-optional during link startup.
-
-> diff --git a/drivers/soundwire/intel.h b/drivers/soundwire/intel.h
-> index 7a2e7e73ad632..65f7d53a3d2b4 100644
-> --- a/drivers/soundwire/intel.h
-> +++ b/drivers/soundwire/intel.h
-> @@ -154,11 +154,18 @@ static inline void sdw_intel_debugfs_exit(struct sd=
-w_intel *sdw)
->  		SDW_INTEL_OPS(sdw, debugfs_exit)(sdw);
->  }
-> =20
-> +static inline int sdw_intel_init_pdis(struct sdw_intel *sdw)
-> +{
-> +	if (SDW_INTEL_CHECK_OPS(sdw, init_pdis))
-> +		return SDW_INTEL_OPS(sdw, init_pdis)(sdw);
-> +	return -ENOTSUPP;
-> +}
-> +
->  static inline int sdw_intel_register_dai(struct sdw_intel *sdw)
->  {
->  	if (SDW_INTEL_CHECK_OPS(sdw, register_dai))
->  		return SDW_INTEL_OPS(sdw, register_dai)(sdw);
-> -	return -ENOTSUPP;
-> +	return 0;
->  }
-
-[Severity: Medium]
-As reported by Pierre-Louis Bossart on v2 [1], can the AVS driver reuse
-the existing SoundWire Intel DAI registration and intel_pcm_dai_ops
-rather than making register_dai() optional to bypass them?
-
-Splitting intel_init_pdis() from intel_register_dai() and returning 0 when
-register_dai is NULL is only used so commit "ASoC: Intel: avs: SoundWire
-support" and commit "ASoC: Intel: avs: SoundWire PCM BE operations" can
-clear register_dai and implement a separate DAI registration and dynamic
-PDI assignment path, duplicating the existing SoundWire Intel DAI
-infrastructure.
-
-[1] https://lore.kernel.org/r/bcfe64de-359c-4f16-9014-5d6f8bf30c40@linux.dev
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106121557.2338=
-556-1-cezary.rojewski@intel.com?part=3D3
+I didn't see any wording on sharing ports across functions, I am 100%
+sure this was talked about in the WG but maybe it didn't make it in the
+final 1.0 version. That said it's not described as forbidden either so a
+well-intended creative hardware designer will probably make that
+"optimization" at some point...
