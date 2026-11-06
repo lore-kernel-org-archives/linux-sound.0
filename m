@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793982747;
-	b=sTs2a/LX3Pz9HewSjw+WWRZj57L7IQY8ZSwj+DYKX0d91HprN1KpxBw8+bz0pFpND9NG
-	 B4lAcmD6dyUTDFTfdbEPZXUeEgRhROQMBFaUYNHk4n9M/7n5z21lJjFE+ZvbHiOJzD3iA
-	 qndtSJZ0PbSLrXMuXzBanNT6PeZb/HFAIbRXOP3t97x/1mK8yeh7VSbJZzTuD05W8diu+
-	 DFntEvTcYDRndKGal1eRwPMGPykovGfsYS6C900MWuECXtoO39rkJkEJd4wONQQOrMHPI
-	 5e2sbYpbppdS2NA2zDBCTytDWDTGD6P3YzQCm70UsVQBXu+5Z8+e72Qt9wJNTPj0IYQ==
+	t=1793982753;
+	b=XMC9GYOP/4I1lqTCwvrdsJZH4a5O8MGzgTTgo+S7gPi/6AOz0CE+U0GgDPffehDnkyx6
+	 f0ZiJGwdBPmfnbtDmPzytU6p8mP95LCkYFoawr93gYxJDPrgr3tlTjoN73OOYdtfhRr8j
+	 7qPmsyngtyEjfdCEr5A4qya/Bibf1E0puBIb4rXhVs7VeB1MqZVJxuSLamXGsiHWku9vI
+	 00HlD/419eqVLUGl/CbMgJrrIG4zFq+Y09OZy62pJZoo8cG0tpr0NfzHGHHiQVOz7blGR
+	 85nUB+SCHjtQeGo+YZFbyqkvrgftlMjIf09UzMgP0fddz8fTFRfVIbxiqrhQe5scj3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793982747;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793982753;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=wWFJz4Q8qG2Ws8Hqzbngo5MJbP2uCsetJ4sQG1p1VLc=;
-	b=W+yzJKOoaGbG1AmCxsz1TBDh/bnGb3SwOBhgMJ13qSI4/yn0YiJjUcJWgo+haAjBeODl
-	 f5hYA/XtExZa15S6wldyfAwW4991tDkLwJIRu+f2WGM7Nm/n8WPbTZ5b8IQOZOxjxYBrn
-	 4mpFhSJezF+FbJe+VLI/QxBUG86C3riD8uBVrNrE27oM7IEjOOpTZN2yu4oUww7eIMRk0
-	 dk1O080n9KfLq9VGeVj/zS4sBwN3yCFt/B+WkQZ6uOUvYVq4qGkbRJZYYZh2zM3O6xOHb
-	 fKfWqReYhZ90MORM5oNfWK1tcMX66F3JHxMZPdyobBwH//C1z3ZaKz4VqrgPLyGtGYw==
+	bh=DnSiCHS57/5NeVGNSfvi5weTMPVYKrlFxAEl/9lABc0=;
+	b=bbTBZmGKOoZ/td3F93TB+hs/AyC5oj9jKJQCFFvnHQC2XicNiKBO1veciNg+wlTXLESD
+	 oqpQJe3+qHZz5o8r6rr7P2i/mgsJXihqS/rLS/dGB+LJtNPYnEPzpiBrpzrmms7NarkeC
+	 eh9hQLxJwO4ZEeE4OVJPm8HwQl4SAxO5ZpSC42etRXvhct/7p7KyEubySWoEIiiI3I+Dr
+	 z1mdyKZLnkQwBjq80F4RuIPcLpI0k8OzvQJ7s0ynZO3TMP66guVyCWAtHxfSNCYfyU8Yr
+	 pFpzPNY6OGQT71zuBHDAhsN32Ps9o/JIIXaD4g9lQaOH2EDmd+cqyz+KlA63M+MXMtA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Lh9669dd;
-	arc=none smtp.remote-ip=209.85.210.51
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fKmURR3Y;
+	arc=none smtp.remote-ip=209.85.210.41
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA32606A331
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 16:32:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7DA32606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C144606A335
+	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 16:32:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0C144606A335
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Lh9669dd
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-843b6f8e2c7so1017466a34.1
-        for <linux-sound@vger.kernel.org>; Fri, 06 Nov 2026 08:32:27 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fKmURR3Y
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-843a4ca671eso367631a34.2
+        for <linux-sound@vger.kernel.org>; Fri, 06 Nov 2026 08:32:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793982746; x=1794587546; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793982751; x=1794587551; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wWFJz4Q8qG2Ws8Hqzbngo5MJbP2uCsetJ4sQG1p1VLc=;
-        b=Lh9669ddVbNQ1uvfRlAKudMMS/D6pZJyImP5ALZfde2MZ7l5VVl9ZHAcE/dlLN+QBU
-         kDKXwPrS0/Zm8pwlbofo18KovbucASAuSZPe8h82wEilP9MlspWxRyWsCZYl34jJlubM
-         yMOq4WpKHrzjTssKPHTXtcKSJLReL6bRwYLJXRoL1CEC2QybZETKVTkFau1WfMS/9WDj
-         T0w9on9KItSHFfZkxoMSnxxd7Opwcjl3rE1cYxtiSXBQwH1io2Q1INKNHY4jg7hMHZnS
-         h6a98jbAswD3vxWb4GvR5n5r1VwKhreUSpgFotR/4zs+DzIu6O0GSvIjtPy75g6/rnTQ
-         IBoA==
+        bh=DnSiCHS57/5NeVGNSfvi5weTMPVYKrlFxAEl/9lABc0=;
+        b=fKmURR3Y8bzdTsTHRtYKNCAdRwxxuX2OL1P79AJLyIpUpGnztdb1gPfHVcd/+nAxwk
+         X0bk4fBiCmF7lZNpJ2qk2x0FT8JQno8Z6roFRuIbqWtPkTsLAdGRyJdR3TXPf1Ab0MFx
+         8Pqbu/h23EtfQkyC7prb8IYEpYSN5WS8UmYx/7DE5BOHRfwcAoIFecHrsAB6FqHAm5FC
+         Vnmo2bCn0QrJuk04+DoFmOtBLZ8u3A2ARaLNuSLuSOhEadjTXIZ00FnCPj20OimWREZL
+         9RD3/NQ9PE3cGRXekRfrhbXWDkO53VhvzKXSH2HsXY6zjamarjBRSr8wic4TA1nyhSVP
+         ED+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793982746; x=1794587546;
+        d=1e100.net; s=20260707; t=1793982751; x=1794587551;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wWFJz4Q8qG2Ws8Hqzbngo5MJbP2uCsetJ4sQG1p1VLc=;
-        b=eK54rUjv1zfdfIj55Gf00rb1B/pK368P1O3MJytDh0IO0CcjaKHY7PE2fsPjfrvInn
-         G4O4YElfJ8/W1W5c0jXxChRjaDUUhH8x+b0q+c+DG1taSS0ioz8atdImNuur90thmJlM
-         Ib4SOb8sJjCopkZ+ZOJ4nlO4yRYROaswmySpOslMxHpMkDuu8XLGJU3SMRyMzuv9LcTi
-         I5n86EfMJTIZ2dZwrLEW1FoLwO4C3nV2waPq5T4dQKRbFPtRAL6k/svJiwWJZwusqfr9
-         chcfD3M2AxwRB1P2vbX7/01zzGV091ChcqUiRQEXpbG4IP05F5Etux0CL1gX7zcGe7oy
-         4Y7A==
-X-Forwarded-Encrypted: i=1; AKwUvBwaSfqf1uCa9Ro0DtjEq2srH6s5np2ZVZpt+fylIRQ8b1cTlqdc2mp1x28sOxlrfMCoWa2p9IxkYThx6w==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8r2kgWwHh5Hi6j1X59POZOYJlOZWIE9vTJfCkHZNbgZoIqsA0/
-	OeUFPsafhpb9CBG7UAb5xbq5FeWHw1+x166Vs45RMPMC6la8d1/fFiLa
-X-Gm-Gg: AYBFou0T55ofVNaVnBpZDOfrNbqdbvWFlod38rsTRf8nFXxukF0MnN/awwD0zRfayrf
-	ajsCPv2ATKUaYE+dMoYibKdTF63CvYO7jeZG7BZPJFAa8mCilT77awhLqAHv7pylPE8JK04urJe
-	YEnaSt0aNKyBVfFE1GEXz+1+be6QyUMDb3Vp1zCq8y/aHODkSxdNu6jQVWX/RknfYGiBQxHphcr
-	Rocm5lRmmXXyXlMhcaBA2uS+IJH/bC7tqrcAa4IglwDRugyvlT5R97cpNnmT7hJ2on5rMtCFm0E
-	eTPS5HDRCyawdzkQFvVYAMsNsEtfYHHlOnrqdwtPsHW0Vdo/Ssmo+DlbYtKYt+q704ujGxmlm6R
-	D4OFx+gOJSPVAopMLY+NX7OFJLGWhyquRRX6qHgbcp8P0b0RS8cCzPfsk/rdQOunLUJ6gxVgSvi
-	2DmFy03FVcBFCir3Rl92/cda9be+cP/aFuw0Aj85kY+4NoiY63ygKE40nb2meAR94JADoz/AlOY
-	qY8sV6KalenxuNiImyogi3Z/Sc3zTu4eTHmgIjm66PNVFnw8Jru9VBZeu4ZeEkNm52Tij7NEeQ9
-	qLd/tHt5BnqWwQZ9Np9YHfvYqn2C5A2qCFLNikfwo+qM1DD2eOC+AKNYIVOiyf+hONc=
-X-Received: by 2002:a05:6830:264c:b0:7f4:d1aa:2f32 with SMTP id 46e09a7af769-85f1cfd639dmr3322518a34.11.1793982746449;
-        Fri, 06 Nov 2026 08:32:26 -0800 (PST)
+        bh=DnSiCHS57/5NeVGNSfvi5weTMPVYKrlFxAEl/9lABc0=;
+        b=bBn9OaYIRwWjtLF6O0k2EFF4nT5LQPBNVu99vPJ5KoMiLirxcIEIRdPiRYvm/M5c+F
+         jO7eR8PTXQQGUZNxGqdbCgKjcomsnMzdnLKefLORUC+dfrN2YQmiaggoy+QHhEe0ivTk
+         UBkH8OHgAZS8XQ86ubEKAe6aPUMHZ1hs90OsPcYnpbEHGtPqBURtC07NvdrctQWtTiy4
+         8uD1rTra/hJLKybc6s5mnCm4cc3jdShnSV00Jv8GGg3+EpmIM+d8/huf68OcS7E/j6+l
+         MWTDJC44/6u51WxiszUyZ9AvXye0XjAbfpNseFBI1rOWx5mwSfmCRS9bOEbOewJL+YNQ
+         EN6g==
+X-Forwarded-Encrypted: i=1; AKwUvByKFe5MMfxG4gxOFoVdWjdXtWB57le4j9tOGe22lt9ZR4gsFDf8ydZD4cwQrCG0f5AF/U2fJXE1A7zakA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9nsmJ4dd2DDt0pkp4t/E4yLS2GSOimcMYhg4ZkVnSkcUVUhunz
+	HYVYw/NjryjDZ5B1rpAozwijbMK8ywiNyp2GU47k8X1tDOXITMHVrFsu
+X-Gm-Gg: AYBFou3OhU861KL6Gf9HlCiclzZrLC4bowENghN1SHaA8eZJiQs7kjXeDkV0DPVtdFq
+	CIGm3STrNg/3qpb5TvS+hjktXvZe24NmLpnZsIONRMbQx9VeULIK0hn8ZpCfgwqpzk6kjRMnrk/
+	9Cc8lmz7XoHbAGOJMimdZJUykA1gVYG/+Qgecr/B0UV2IY01o9BMiTX+uIcYHddQ7Kw7E9np0ey
+	xfCHmZZP+UIonx6N8dS+P7XTfKH4lmKkh+p4wxhyn7SR2bCLK2MvAG3KS4uE+WMaGFyC0NknMOb
+	zwIJY/c9QMAgm0HJi/Gwnr9iSa1jLoFgeYb/UBdilSACGdesaz76OI8TzSMFtfWhjKirR4Wz8qB
+	wB76+gFxu/AGwUfrEtLI00VNhh5sEyWh7yGInV9WYDJnRQUcNWdt/6CtC8oQBDsVIV49s9YdNgm
+	y2cpvIWWNPYguPx4XYtcTRNvO3mDoUJKjYm6yZFZ8/dNHT/EfObyBPXsxbq48T6uQ3Mf4F6BrtR
+	BQvxrswVLEQUWEtNbJSRSX5vNpuMPfeTMv7n2REa3g0btQbua1VjXKFmO7PJ0lmPDrZ0+JrbI1U
+	kmRnfzuRKshA0rXbO9nV9N6Jju5ysariwp/C45HhX9BZ57I=
+X-Received: by 2002:a05:6830:82f4:b0:81e:abb6:749f with SMTP id 46e09a7af769-85f1cee7892mr2866810a34.8.1793982751368;
+        Fri, 06 Nov 2026 08:32:31 -0800 (PST)
 Received: from localhost.localdomain ([2600:1702:4ff0:baa0:5054:ff:fe3d:4ddb])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85f1de8f066sm2244780a34.23.2026.11.06.08.32.25
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85f1de8f066sm2244780a34.23.2026.11.06.08.32.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 08:32:25 -0800 (PST)
+        Fri, 06 Nov 2026 08:32:30 -0800 (PST)
 From: Will Porter <mrwillporter@gmail.com>
 To: Christian Ruppert <arc@gmx.li>
 Cc: Takashi Iwai <tiwai@suse.com>,
@@ -85,9 +85,9 @@ Cc: Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Neil Andrews <neil@androos.io>
-Subject: [RFC PATCH 02/16] ALSA: mixer_audient: explicitly define full control names
-Date: Fri,  6 Nov 2026 10:31:15 -0600
-Message-ID: <20261106163129.1006907-3-mrwillporter@gmail.com>
+Subject: [RFC PATCH 07/16] ALSA: mixer_audient: Add integer range checks
+Date: Fri,  6 Nov 2026 10:31:20 -0600
+Message-ID: <20261106163129.1006907-8-mrwillporter@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261106163129.1006907-1-mrwillporter@gmail.com>
 References: <aupn1wwW7w08M3gu@khmer.arcnet>
@@ -105,177 +105,60 @@ Content-Transfer-Encoding: 8bit
 
 From: Christian Ruppert <arc@gmx.li>
 
-Previously, control names were dynamically created depending if the
-control was an input or an output, a volume or a switch. Get rid of this
-logic by simply defining the full name in the control structure.
+Add range checks to integer parameters to improve error management:
+- Reject out-of-range write attempts with -EINVAL
+- Prune out-of-range values returned by the device to the range limits
 
 Signed-off-by: Christian Ruppert <arc@gmx.li>
 Signed-off-by: Will Porter <mrwillporter@gmail.com>
 ---
- sound/usb/mixer_audient.c | 50 +++++++++++----------------------------
- 1 file changed, 14 insertions(+), 36 deletions(-)
+ sound/usb/mixer_audient.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
 diff --git a/sound/usb/mixer_audient.c b/sound/usb/mixer_audient.c
-index e2700b08cf80..2afef52a12d9 100644
+index 4b20db9a82e2..433bb5479d8e 100644
 --- a/sound/usb/mixer_audient.c
 +++ b/sound/usb/mixer_audient.c
-@@ -90,107 +90,92 @@ static const struct snd_audient_ctrl_type {
- 	},
- };
+@@ -44,10 +44,10 @@ static const struct snd_audient_ctrl_type {
+ 	unsigned long flags;
+ 	size_t len;		/* datatype size, can be 1, 2 or 4 bytes */
+ 	union {
+-		int integer;
++		long integer;
+ 	} min;		/* for booleans holds physical int value for false */
+ 	union {
+-		int integer;
++		long integer;
+ 	} max;		/* for booleans holds physical int value for true */
+ 	const unsigned int *tlv;
+ 	u8 unit;
+@@ -425,6 +425,12 @@ static int snd_ctl_audient_integer_get(struct snd_kcontrol *kctl,
+ 		if (ret < 0)
+ 			return ret;
  
--#define SND_AUDIENT_FLAGS_DIRECTION (1L<<0)
--#define SND_AUDIENT_FLAGS_CAPTURE (1L<<0)
--#define SND_AUDIENT_FLAGS_PLAYBACK (0L<<0)
- 
- struct snd_audient_ctrl {
--	char *basename;
-+	char *name;
- 	enum snd_audient_type type;
- 	unsigned int channels;
- 	unsigned int hwchannels;
- 	unsigned int val_offs;
--	unsigned long flags;
- };
- 
- static const struct snd_audient_ctrl snd_audient_evo4_controls[] = {
- 	{
--		.basename = "Master",
-+		.name = "Master Playback Switch",
- 		.type = SND_AUDIENT_TYPE_MUTE_OUT,
- 		.channels = 1,
- 		.hwchannels = 1,
- 		.val_offs = 0,
--		.flags = SND_AUDIENT_FLAGS_PLAYBACK,
- 	},
- 	{
--		.basename = "Mic",
-+		.name = "Mic Playback Switch",
- 		.type = SND_AUDIENT_TYPE_MUTE,
- 		.channels = 4,
- 		.hwchannels = 2,
- 		.val_offs = 0,
--		.flags = SND_AUDIENT_FLAGS_PLAYBACK,
- 	},
- 	{
--		.basename = "Monitor",
-+		.name = "Monitor Playback Volume",
- 		.type = SND_AUDIENT_TYPE_MONITOR,
- 		.channels = 1,
- 		.hwchannels = 1,
- 		.val_offs = 0,
--		.flags = SND_AUDIENT_FLAGS_PLAYBACK,
- 	},
- 	{
--		.basename = "Mic 1",
-+		.name = "Mic 1 Capture Volume",
- 		.type = SND_AUDIENT_TYPE_MIXER,
- 		.channels = 2,
- 		.hwchannels = 2,
- 		.val_offs = 0,
--		.flags = SND_AUDIENT_FLAGS_CAPTURE,
- 	},
- 	{
--		.basename = "Mic 2",
-+		.name = "Mic 2 Capture Volume",
- 		.type = SND_AUDIENT_TYPE_MIXER,
- 		.channels = 2,
- 		.hwchannels = 2,
- 		.val_offs = 2,
--		.flags = SND_AUDIENT_FLAGS_CAPTURE,
- 	},
- 	{
--		.basename = "Master Left",
-+		.name = "Master Left Capture Volume",
- 		.type = SND_AUDIENT_TYPE_MIXER,
- 		.channels = 2,
- 		.hwchannels = 2,
- 		.val_offs = 4,
--		.flags = SND_AUDIENT_FLAGS_CAPTURE,
- 	},
- 	{
--		.basename = "Master Right",
-+		.name = "Master Right Capture Volume",
- 		.type = SND_AUDIENT_TYPE_MIXER,
- 		.channels = 2,
- 		.hwchannels = 2,
- 		.val_offs = 6,
--		.flags = SND_AUDIENT_FLAGS_CAPTURE,
- 	},
- 	{
--		.basename = "Loopback Left",
-+		.name = "Loopback Left Capture Volume",
- 		.type = SND_AUDIENT_TYPE_MIXER,
- 		.channels = 2,
- 		.hwchannels = 2,
- 		.val_offs = 8,
--		.flags = SND_AUDIENT_FLAGS_CAPTURE,
- 	},
- 	{
--		.basename = "Loopback Right",
-+		.name = "Loopback Right Capture Volume",
- 		.type = SND_AUDIENT_TYPE_MIXER,
- 		.channels = 2,
- 		.hwchannels = 2,
- 		.val_offs = 10,
--		.flags = SND_AUDIENT_FLAGS_CAPTURE,
- 	},
- 	{
--		.basename = "Mic 1 Phantom",
-+		.name = "Mic 1 Phantom Capture Switch",
- 		.type = SND_AUDIENT_TYPE_PHANTOM,
- 		.channels = 1,
- 		.hwchannels = 1,
- 		.val_offs = 0,
--		.flags = SND_AUDIENT_FLAGS_CAPTURE,
- 	},
- 	{
--		.basename = "Mic 2 Phantom",
-+		.name = "Mic 2 Phantom Capture Switch",
- 		.type = SND_AUDIENT_TYPE_PHANTOM,
- 		.channels = 1,
- 		.hwchannels = 1,
- 		.val_offs = 1,
--		.flags = SND_AUDIENT_FLAGS_CAPTURE,
- 	},
- 	{ 0 }, /* sentinel */
- };
-@@ -458,13 +443,12 @@ static int snd_audient_add_ctrl(struct usb_mixer_interface *mixer,
- {
- 	const struct snd_audient_ctrl_type *ctype
- 					= &snd_audient_ctypes[ctrl->type];
--	char name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
- 	struct snd_kcontrol_new knew = { 0 };
- 	struct snd_kcontrol *kctl;
- 	struct usb_mixer_elem_info *elem;
- 
- 	knew.iface = SNDRV_CTL_ELEM_IFACE_MIXER;
--	knew.name = name;
-+	knew.name = ctrl->name;
- 	knew.info = snd_ctl_audient_info;
- 	knew.private_value = snd_audient_kctl_priv(ctrl->type, ctrl->val_offs,
- 						   ctrl->hwchannels);
-@@ -486,12 +470,6 @@ static int snd_audient_add_ctrl(struct usb_mixer_interface *mixer,
- 		return -EINVAL;
++		if (val < ctype->min.integer)
++			val = ctype->min.integer;
++
++		if (val > ctype->max.integer)
++			val = ctype->max.integer;
++
+ 		ctl_val->value.integer.value[i] = val;
  	}
  
--	snprintf(name, sizeof(name), "%s %s %s", ctrl->basename,
--		 ((ctrl->flags & SND_AUDIENT_FLAGS_DIRECTION)
--			== SND_AUDIENT_FLAGS_CAPTURE) ? "Capture" : "Playback",
--		 (ctype->type == SNDRV_CTL_ELEM_TYPE_BOOLEAN)
--			? "Switch" : "Volume");
--
- 	elem = kzalloc_obj(*elem);
- 	if (!elem)
- 		return -ENOMEM;
-@@ -524,7 +502,7 @@ int snd_audient_controls_create(struct usb_mixer_interface *mixer)
- 	if (!info->controls)
- 		return -ENODEV;
+@@ -448,6 +454,13 @@ static int snd_ctl_audient_integer_set(struct snd_kcontrol *kctl,
+ 	int changed = 0;
+ 	int i;
  
--	for (ctrl = info->controls; ctrl->basename; ctrl++) {
-+	for (ctrl = info->controls; ctrl->name; ctrl++) {
- 		const int ret = snd_audient_add_ctrl(mixer, ctrl);
- 
- 		if (ret < 0)
++	for (i = 0; i < hwchan; i++) {
++		long val = ctl_val->value.integer.value[i];
++
++		if ((val < ctype->min.integer) || (val > ctype->max.integer))
++			return -EINVAL;
++	}
++
+ 	CLASS(snd_usb_lock, pm)(mixer->chip);
+ 	if (pm.err < 0)
+ 		return pm.err;
 -- 
 2.47.3
 
