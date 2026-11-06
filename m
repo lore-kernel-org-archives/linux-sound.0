@@ -1,66 +1,66 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793966922;
-	b=NrOGwzOm6QNJxoypdebQXjxfDUUyRz9U5Sqo8UjMkXMILYnEzxz5ImxA9QoS2TqoKdk2
-	 QhrfJ5Fc/xTqzKtylCbgejLcDQzE2JVpfE+unzVCyf4xvNgIyZwiU67TfINEKXHK3ZDmL
-	 O+1oL+4U0aRf6cw2Yuxt0ywIbyZeMkxYy2olf/z7X3zpoWxIJLszQ6yjD97PrDEXPvAd8
-	 MVCZ/oU5ovvDkfK4AQu34QwXl6M4NFL7qpIAvqCmiUbGRTBDf9HRnZYY1xQvUiyb0dr/+
-	 GjgFMiLOmxAdo3AgTYFfCg9P/9yo+JG+6XXqCxwddGWHPZq9Vy0vPigWXDYZxpWe23w==
+	t=1793966924;
+	b=jMxS5sWoZD2RAM8EMeWxkNVYgqWxlCibFMEqbWGAPRvEFo5uH6pXK5FOYd7l2J6YF/fN
+	 u6iz4ZtBBXivF9Jugy6rgDk0JeTAL5/CTrxI9eX5/DS3/b/Hy40kXACE9hsrn+uzaZ3Jl
+	 0O/NucoTaDaAxSxFUo+wBmgvV/saJUj4AbQSJ3uPRwpY1A4VTiUGqNVDbiZjZUg6C9d7/
+	 74MI0SHFcYekQB3/xM8Rr0KCSza2V2fGuIWj+sfkyTOecRiQZfiVanyBxHMX4MpV8UdmC
+	 Q3QqddmAh/jDDP2hm5ZVFCdzIdI+EgoEGQnE0mcpH0KjE7TdAF6rszcySVrmD+Cu5jQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793966922;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793966924;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:MIME-Version:Content-Type:
+	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=b5tWzayVpu6Fj5Ac8nT3F14daC8PZngDujl6+MP9Pok=;
-	b=ua0/0MxkhrMFpZXXDMUf9O9TpoCqLjixiunv2fXI4wXsDkSwzKJcQ3AJBC7OzLRGW4yg
-	 rfWSk9iktzCkG3EFRxqWiWIrflJ2FOs+rIfF5H2tYVQIbugU8Fcv/zUbsSY6s/WCPv+VN
-	 UaxrrJl6iLKhrrlrKuFYS/BwlycxrjP/M/ZROeJUe+M4kMYNJidZRrn0DNdYYAcnSQC//
-	 3Y2Br19vZkLiHVoT58zWoC/9ZxyZu7wckfyl+OWSxblKQGlQ3Zg5Ekf5ClXKIKF8gvC7Y
-	 BY68t/kP0c8UB8WdZMxgn/wc5VrnedxMKIKm51NmD2/nMocghxBGq5zgLrZUmy0G83A==
+	bh=jgpyDsSSVMKGkaab/Zb1nX8ouUXZODDbuc5KAyvGBVc=;
+	b=Gb09Rh7bDky7ES+BXy/dq8HcPli8w0DFV2sLygeLDQWFLbWF5zeNOe9NjWO67TjHIFNU
+	 cX7u5qa0miP7dB7ObGXrhRhtzfvUzjZD4HpseF2gBgBoLlO4/GbjpO9wJaLk+HjuTjMsi
+	 A0viK6P1Su98h63u/U2srt+3tCZyVREe9e15ZiHTKhxAgA58mn96wrG8HuwzhYrgGob2d
+	 +LORo9CoNL1I7he1mrHQPiKWbennubJef8weiu+PvPLZXK7dDbrcw0HE6zFNFQnm8SvZZ
+	 QfRsMMUBwrV8DmZdcFhpCY7jNTcOGYkp0w3h7PFMatp+hb4acdFfSZ/Mzf5KjAq+dJQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WFeFRDy4;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=n614MPwS;
 	arc=none smtp.remote-ip=198.175.65.12
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58EE606A32F;
-	Fri,  6 Nov 2026 12:08:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E58EE606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13314606A33C;
+	Fri,  6 Nov 2026 12:08:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13314606A33C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WFeFRDy4
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=n614MPwS
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793966921; x=1825502921;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=d1NMGzh+l9K8MdD/4+8vfx1Q2VKXADYe4GSmX0EgdJw=;
-  b=WFeFRDy4bw/mHcDQ4j2iiGqQRZDoH7/NOX9bZb9ITL2J10yjOpzvA8Rq
-   Xvu1wi3j6V9G3Hc83XvMVZcxVdEsntNTPR3jf+16JZPiYrihfhWnxVFBq
-   wxyoBF10A0d++oJlxJ3fi//VPfXPW7udY48ouEJ7bMJKKmnw0M6PRMEnr
-   QuPMMtxhvZUWZMQ/mAYq4wsnlgmdwZalFvVxuIzQaMLSHlOjreuKRZJ5l
-   Z8qw1wONbfSa6ZH9u4m0iLZwRdXsHWMiImKyBAqRQ1QfvF7g3f8n0Hj2E
-   eRukq4HlJEcDqucDMlwlK5lZaM/iTfIrH0zdYnmNLthYacMCjHlXFZaTV
+  t=1793966923; x=1825502923;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=9ESRYUYS+qJIrWKCET1ZlbTBMATrLLAaIAymN91HDUo=;
+  b=n614MPwSgIKKUfE1asWHhB7LgX5F7COk/0tH/lBSwoOm4ahEy6KeMLg7
+   urrqIlT/t5PLH3D2WjS7ac6SWjJXBZukWelXzgdicMKbPQSA5ognhklM5
+   OcKhT0hye9iFAmCIM2gO6pN09dJUv4HCuaerMvQA81dZFOSHg/u/UIY4r
+   I3CnX1T2T/glIFofqfDwQpJFts9kNyM0xN3DMnRR6w+78H1cfL2flVQb5
+   fPmdOhMzqszC45DxFGwp7AQHBcFOg7b+5s/FJDiVJSJjePQQCR1aW0NuO
+   QDoXXtFlrWe6gkPeVaCLP1iivmuZwSnirv9Sf4RrsJOMudo+58fBVqavN
    w==;
-X-CSE-ConnectionGUID: u/ygUf1PSs2fF93UAbLMKw==
-X-CSE-MsgGUID: Z6ef1a40QSu0W7Rnu4Z3EA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2655347"
+X-CSE-ConnectionGUID: AIrsYR4dTiak4Qn/kNW0RA==
+X-CSE-MsgGUID: HKBBgCi8Q96zSuYwS7Tgow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2655354"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2655347"
+   d="scan'208";a="2655354"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 04:08:41 -0800
-X-CSE-ConnectionGUID: D6BydZe5SHOlcE07eN9BQA==
-X-CSE-MsgGUID: 342kTdweTtu4l7q2V675Ug==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 04:08:43 -0800
+X-CSE-ConnectionGUID: IIkt4CYOQ8yJA14fJtMbPw==
+X-CSE-MsgGUID: IA4eMVZzRgeP2MV0pv7daA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7146604"
+   d="scan'208";a="7146616"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa004.jf.intel.com with ESMTP; 06 Nov 2026 04:08:38 -0800
+  by orviesa004.jf.intel.com with ESMTP; 06 Nov 2026 04:08:41 -0800
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: linux-sound@vger.kernel.org
 Cc: broonie@kernel.org,
@@ -72,10 +72,12 @@ Cc: broonie@kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	vkoul@kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v3 0/7] ASoC: Intel: avs: Soundwire support
-Date: Fri,  6 Nov 2026 13:15:50 +0100
-Message-Id: <20261106121557.2338556-1-cezary.rojewski@intel.com>
+Subject: [PATCH v3 1/7] soundwire: intel: Define stubs when library is disabled
+Date: Fri,  6 Nov 2026 13:15:51 +0100
+Message-Id: <20261106121557.2338556-2-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261106121557.2338556-1-cezary.rojewski@intel.com>
+References: <20261106121557.2338556-1-cezary.rojewski@intel.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -85,122 +87,110 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The RaptorLake-P and RaptorLake-M based platform used in Automotive area
-do utilize SoundWire for streaming audio.  This patchset brings such
-support to the public domain.
+The library defines no stubs when it is disabled so the actual users
+have to do it locally to allow the code to compilte or, guard the code
+that does interact with soundwire with #if(s). Define simple wrappers to
+make the life of soundwire-code users easier.
 
-If possible, I'd like the changes to go through Mark's tree.
+The change allows for a driver to build against SOUNDWIRE_INTEL=n whilst
+still calling the stubs in its common code without compilation failing.
+The driver needs not to flank its soundwire-code with #if(s) either.
 
-As the patchset updates drivers/soundwire, I've decided to strip it off
-any machine-boards and have here just the changes done to the main
-soundwire driver and their user/usage.  Machine boards for RPL-P/M will
-follow in a separate set and do not touch drivers/soundwire stuff.
+Not all sdw_intel_xxx()s are part of drivers/soundwire. Some definitions
+are located within sound/hda/core instead. With the wrappers done,
+update Kconfig for sound/hda/core as currently the ACPI-related function
+are compiled regardless if SOUNDWIRE_INTEL is selected or not. By being
+dependent on SOUNDWIRE_INTEL those functions are compiled only if the
+SoundWire was actually requested.
 
+Cc: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+---
+ include/linux/soundwire/sdw_intel.h | 34 +++++++++++++++++++++++++++++
+ sound/hda/core/Kconfig              |  2 +-
+ sound/hda/core/Makefile             |  3 +++
+ 3 files changed, 38 insertions(+), 1 deletion(-)
 
-The reasoning behind modyfing the soundwire code:
-
-Typically dai->startup() is responsible for checking if all the required
-resources are available whereas dai->hw_params() is responsible for
-configuring such resources.  Existing code does the PDI assignment and
-its configuration within one function - intel_hw_params().  The logical
-split is not possible.  The change provides functions that represent
-such logical blocks: assign, release and config.  Such division exists
-already for the HDAudio interface, see sound/hda/core/stream.c
-
-For the user i.e.: avs-driver (sound/soc/intel/avs) it also makes the
-code very cohesive - aligns with that's done on the HDAudio side as all
-the HDAudio streams are assignment during dai->startup() and configured
-with dai->hw_params().  
-
-Also, the existing code fetches the PDIs based on pre-defined "dai_id".
-That's not the case for the avs-driver.  It simply asks: "is any PDI
-free?" and assigns it for the substream if one is found.
-No predefining.  Again, this aligns with how HDAudio streaming is done.
-
-avs-driver -only patches follow the three soundwire ones.  First, they
-extend the existing code so it can accommodate SDW interface.  With that
-done, laverage existing PCM code (sound/soc/intel/avs/pcm.c) and
-soundwire-intel to implement DAI operations.
-
-
-Changes in v3:
-- sdw_intel_pdi_config() now re-used in the existing code
-- wakests now read as u16 rather than u32
-- dropped superfluous declaration of sdw_intel_init_pdis()
-- avs_sdw_dai_hw_params() now calls sdw_stream_remove_master() when
-  sdw_stream_add_master() fails
-
-Changes in v2:
-- dropped duplicate headers as pointed by Amadeusz
-- fixed PDI initialization for ace2x as pointed by Bard. This is done by
-  introducing ->init_pdis() ops and calling it just before
-  ->register_dais(). The body of the ops is 1:1 with the existing PDI
-  initialization code
-- fixed the error path if init_pdis() fails, as pointed by Bard
-- fixed Amadeusz' email for all the headers
-
-A number of changes pointed by Sashiko:
-- fixed compilation when CONFIG_SND_SOC_INTEL_AVS=y and
-  CONFIG_SOUNDWIRE_INTEL=m. This is done with help of new kconfig:
-  SND_SOC_INTEL_AVS_SOUNDWIRE
-- added missing kernel docs
-- avs_sdw_dai_trigger()/prepare() now rollback sdw_stream state if DSP
-  operations fail
-- avs_sdw_dai_shutdown() now NULLs the sdw_stream context
-- wanted to reserve this for later but since the bot pointed this out,
-  updated hw_params(), hw_free() and prepare() to accommodate for
-  suspend/resume scenario with a SDW stream
-- sdw_intel_acpi_scan() now returns -ENODEV if the library is disabled
-  (previously returned 0)
-- avs_sdw_probe() now exits early if the link_mask is 0
-- disabled SDW probing for avs-driver on ACE2+ platforms
-
-
-Cezary Rojewski (7):
-  soundwire: intel: Define stubs when library is disabled
-  soundwire: intel: Allow for dynamic assignment of PDIs
-  soundwire: intel: Split PDIs and DAIs initialization
-  ASoC: Intel: avs: Pass irq to dsp_interrupt callback
-  ASoC: Intel: avs: SoundWire support
-  ASoC: Intel: avs: Expose common PCM functions
-  ASoC: Intel: avs: SoundWire PCM BE operations
-
- drivers/soundwire/cadence_master.c    |  64 ++++++
- drivers/soundwire/cadence_master.h    |  25 +--
- drivers/soundwire/intel.c             |  49 +++--
- drivers/soundwire/intel.h             |   9 +-
- drivers/soundwire/intel_ace2x.c       |  25 ++-
- drivers/soundwire/intel_auxdevice.c   |   4 +
- include/linux/soundwire/sdw_cadence.h |  35 ++++
- include/linux/soundwire/sdw_intel.h   |  45 +++-
- sound/hda/core/Kconfig                |   2 +-
- sound/hda/core/Makefile               |   3 +
- sound/soc/intel/Kconfig               |   8 +
- sound/soc/intel/avs/Makefile          |   4 +
- sound/soc/intel/avs/apl.c             |   2 +-
- sound/soc/intel/avs/avs.h             |  15 +-
- sound/soc/intel/avs/cnl.c             |  25 ++-
- sound/soc/intel/avs/core.c            |  23 +-
- sound/soc/intel/avs/loader.c          |   3 +
- sound/soc/intel/avs/messages.h        |   2 +
- sound/soc/intel/avs/mtl.c             |   2 +-
- sound/soc/intel/avs/path.c            |   2 +
- sound/soc/intel/avs/pcm.c             |  42 +---
- sound/soc/intel/avs/pcm.h             |  50 +++++
- sound/soc/intel/avs/pcm_sdw.c         | 291 ++++++++++++++++++++++++++
- sound/soc/intel/avs/registers.h       |   4 +
- sound/soc/intel/avs/skl.c             |   2 +-
- sound/soc/intel/avs/soundwire.c       | 112 ++++++++++
- sound/soc/intel/avs/soundwire.h       |  63 ++++++
- 27 files changed, 814 insertions(+), 97 deletions(-)
- create mode 100644 include/linux/soundwire/sdw_cadence.h
- create mode 100644 sound/soc/intel/avs/pcm_sdw.c
- create mode 100644 sound/soc/intel/avs/soundwire.c
- create mode 100644 sound/soc/intel/avs/soundwire.h
-
+diff --git a/include/linux/soundwire/sdw_intel.h b/include/linux/soundwire/sdw_intel.h
+index 9710f2dc04e2..4547dcc710e5 100644
+--- a/include/linux/soundwire/sdw_intel.h
++++ b/include/linux/soundwire/sdw_intel.h
+@@ -358,6 +358,8 @@ struct sdw_intel_res {
+ 	struct mutex *eml_lock;
+ };
+ 
++#if IS_ENABLED(CONFIG_SOUNDWIRE_INTEL)
++
+ /*
+  * On Intel platforms, the SoundWire IP has dependencies on power
+  * rails shared with the DSP, and the initialization steps are split
+@@ -384,6 +386,38 @@ void sdw_intel_exit(struct sdw_intel_ctx *ctx);
+ 
+ irqreturn_t sdw_intel_thread(int irq, void *dev_id);
+ 
++#else
++
++static inline int sdw_intel_acpi_scan(acpi_handle parent_handle, struct sdw_intel_acpi_info *info)
++{
++	return -ENODEV;
++}
++
++static inline void sdw_intel_process_wakeen_event(struct sdw_intel_ctx *ctx)
++{
++}
++
++static inline struct sdw_intel_ctx *sdw_intel_probe(struct sdw_intel_res *res)
++{
++	return NULL;
++}
++
++static inline int sdw_intel_startup(struct sdw_intel_ctx *ctx)
++{
++	return 0;
++}
++
++static inline void sdw_intel_exit(struct sdw_intel_ctx *ctx)
++{
++}
++
++static inline irqreturn_t sdw_intel_thread(int irq, void *dev_id)
++{
++	return 0;
++}
++
++#endif
++
+ #define SDW_INTEL_QUIRK_MASK_BUS_DISABLE      BIT(1)
+ 
+ struct sdw_intel;
+diff --git a/sound/hda/core/Kconfig b/sound/hda/core/Kconfig
+index bfdcf6384c52..6cbcd9e26420 100644
+--- a/sound/hda/core/Kconfig
++++ b/sound/hda/core/Kconfig
+@@ -29,7 +29,7 @@ config SND_INTEL_DSP_CONFIG
+ 	tristate
+ 	select ACPI_NHLT if ACPI
+ 	select SND_INTEL_NHLT if ACPI
+-	select SND_INTEL_SOUNDWIRE_ACPI if ACPI
++	select SND_INTEL_SOUNDWIRE_ACPI if SOUNDWIRE_INTEL != n
+ 	# this config should be selected only for Intel DSP platforms.
+ 	# A fallback is provided so that the code compiles in all cases.
+ 
+diff --git a/sound/hda/core/Makefile b/sound/hda/core/Makefile
+index 89cb46143050..28032ac7bc61 100644
+--- a/sound/hda/core/Makefile
++++ b/sound/hda/core/Makefile
+@@ -18,5 +18,8 @@ snd-intel-dspcfg-y := intel-dsp-config.o
+ snd-intel-dspcfg-$(CONFIG_SND_INTEL_NHLT) += intel-nhlt.o
+ obj-$(CONFIG_SND_INTEL_DSP_CONFIG) += snd-intel-dspcfg.o
+ 
++ifneq ($(CONFIG_SND_INTEL_SOUNDWIRE_ACPI),)
+ snd-intel-sdw-acpi-y := intel-sdw-acpi.o
++endif
++
+ obj-$(CONFIG_SND_INTEL_SOUNDWIRE_ACPI) += snd-intel-sdw-acpi.o
 -- 
 2.34.1
 
