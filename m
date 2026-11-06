@@ -1,92 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.179
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793965611;
-	b=JLMDpLyVYGrlKBUXoMoTbRGKlP92OPhJkkKRnkodETde5qJ4EHJ5Zzd8evDuvM5901CE
-	 XOmUfd2lKlMD55AQiKbOLMbZEw8J+84wVlES1RcjEC0a7qVHW6wVyxYaEgP99VM6hp9Zn
-	 ReP6g+hetDa3gPHTYecXDYmgXFXdFJvy52hA5qMDY5jV/TVKUOkjZthMoN1FxzWfSnZTS
-	 cgUVVprQgP6do1wqhIYH2eDlrmeUtc54UsQMKiwtzU4/7FEK+NGh0I7NxVjvvt00pyenh
-	 nWHTj57HDuNQ6ghPaDqUQllmVCGSa2wkjZeVjbuKCwX5Vdxqbb7oy6phpgsnSusf2ew==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793965611;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=ewbAZCHPYD2+chpQfW+XsvxDzLbZ1NT6epDC+c8eB2U=;
-	b=RjAJYd897hdL6DH4RQ7h79glZOCOQuecLdrK0eqM8IgrJgGff4eR1igt6LkMT+FPiOzy
-	 BSMHyf2W4r671ZLp1djLpGhRSsrzTIhrQsQnK3/QrVK59aq9xZdI82hWv1940hm7T/iCu
-	 x1WWk4UKV+XK66o2zWhWkS6DJpAaDwlpSMWj6JCB/4BKyrPsvHkna4beLp5QXvowGPcRh
-	 Eg6ANO9AlCS/fSICvJWk6eDoehHQuefS18Zj0/Tin1Yxj4hs5QhobNIGwpbYvuO/A1mKC
-	 tWwULTpIrMr4FNc7ViMNWy5ba41FRMX+MckwECKd5Yx1WHxJBIrBuRBAeMsTju2zzHg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=p99OWJ7k;
-	arc=none smtp.remote-ip=209.85.210.179
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.85.53
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793965656;
+	b=j/kTjtdNZayV8XWIHeU5IBEqkNHNCX5bFyo53geASfHoOSm7oEUWR/AecSoe3APTcNW3
+	 Rh0faZ+iWPGjk7jbyXnLNgLivE84fmPIX0NMqkCZ8Z8BMqetK2AkijqV+evepS3OqgfyA
+	 fRDfh8NI6PTahkOHyktRACdDaM4VmkTU2rOmjNzR3U+hmphjpjlD/G7G7YZsCCKTq7QFw
+	 Nsie3ibcZk8fntE0GXIFCIKgk9LNzQ2kFlhcAHkQ4ac8MxZetoiUhZova/Pgw7RKM8eHy
+	 6Owy+a1MoG6ae2HihV7vF8kO5FifBk0+RFFvCdBQoLdhOKiZ6wIFM+6IXM20tUwbcqQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793965656;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 Received:Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
+	 Content-Type:X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=t7+dOZS5NbqctMwj+ML9mmIONS1DqNelMRfbgICKaTo=;
+	b=lxxKkB0W3LTkgGma90TBbFppuscRNlKjSUiL3dCFvEGZwTKvUyywsc6lc/K8Uq4DdWF3
+	 +3cTcOx4q+jIW8cdX4LN3rMtychDE0YgfXs3yNOvJeYal48tJ9o6l49cNgRJqTf/qn3Km
+	 uHn3vsRS4AlbLBX1usm1rmtGr8VcbQx59gdKKC0IPsd7K8eRi0ViDdFISU0wlcfJ9TFBR
+	 gPBp287+lyGBkuAYyVUTKChID3wL+tpcY7kjdvnfmUlf8JoO2pQ/aCJ55GwLJKl4lLCQf
+	 WkWpY7nB8EBuxF/6+X31iHbmyonnhBe1fl+66QssdnXpFri1z1IiE6zwUKFK9oK+meA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=dxnogW7I;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.85.53
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010053.outbound.protection.outlook.com [52.101.85.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9EF2606A32D
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 11:46:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9EF2606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F40606A923;
+	Fri,  6 Nov 2026 11:47:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9F40606A923
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=p99OWJ7k
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8b1a705b88aso330234b3a.2
-        for <linux-sound@vger.kernel.org>; Fri, 06 Nov 2026 03:46:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793965610; x=1794570410; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ewbAZCHPYD2+chpQfW+XsvxDzLbZ1NT6epDC+c8eB2U=;
-        b=p99OWJ7kmAedUPv6+7kfP4cA6i4cIzm0B6jrcYVuOlZbnnvtgMJfTYlzzAeOtbyx+J
-         NyXYVOkUjR/5hVj3g2ZKhH56r1+xXYJWJf9SvHnD3K6oE50aHHHTjVnPIT5vQFo6te1k
-         P1KfnYahJ1I7h7Gd1/NUkCyB/qjZeiuajXMX4WAxroYG2VAvwo+YRAvyzebXjKdRGTHR
-         g70rTX08dm21A3hL1cgnjUtlrvS/m8RSqXVqcrDcpoVvCjW2dy4IVCJa3XnJgFfKx/KQ
-         h4xmg7kA01ckFbrM8cBuxvKunKvhI8+NWzwVKGrc2qprR13tg+MZHxinItmZ+mhpp8Rx
-         OWxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793965610; x=1794570410;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ewbAZCHPYD2+chpQfW+XsvxDzLbZ1NT6epDC+c8eB2U=;
-        b=Pf5FiXcwaqJx585RbEn23mFtFeYJya1UnixdERUpLdkC+6R6HEVZoN4olNP1PwXd0P
-         q0rFTzzgH0rnh/V3HkbznAKfhBXwiWceJIEUzPR37QijOGusBN8jfpLSnR6ClhayTpPK
-         D0FdmhpRgz/om74LZSJW162WIRcU7e2nugAKY0NGojf4ZcALXA9J3PLKRnOQujK2Xj3k
-         0ODESbGH09lDh+yDqEg5WwEuuQuAYawwCHqlrZTec3R5PKKLS/WslgjoSlup+bWvCEu5
-         CJTKNHOCp3xRFsSxhyr37POO/KnMFFbAGO46lf/f1w8f6yATwQiVg8kialKZPta9ud2p
-         TDaQ==
-X-Gm-Message-State: APuU4Z8sGUwF5MFaorjHijvi9PvfJ+G1WdK4JrRjVvU302V/XZd0rpM1
-	VshIOqnrnDXIdJk7vUjw6aq0ZDwbvxnyhpiY14CzGIkCIib+GKU8wqrp
-X-Gm-Gg: AYBFou1mR3f106X1i/VQEo4TsSFFYnh6/PllHvsoynr4mcZ9Ffoa+zxJ97wpVBWY3Yq
-	VTHjx2ObsZ24KjpWGubAcJGjm1mZKIzrCovOY0NhHfEeBgC539rD6cWiKlaOOohyKt1ShjmLEMt
-	isI2kQ4r+PXychNnQET6tOXzCCJRKRF6jRnPpoIbISq2jFvBmxGgRqbk8+SqHUi5ux/WDCBYFMo
-	sT39dknerX1BbMJn1eqxbzBtOBVM3cnPTxU24qkLJx7CybrQEBf+faAK1lw4JHpsMFU+7Bgp3ct
-	JQCnZEYGDU7RyzhwYzjIY/5bxc/TRec4mmD+JLrxyk1xhegkHQ3JjMCYJo0reJZJZGvwQ73d1he
-	0uVmRgW62IhucqjIDDfCVZmaUDf3rDV+9x45piILi6/Sv881uBE+3Ww6biaavqXTa5IF7r1Uzab
-	8ZGAMcrno190fIAZwJZws+d6KApF6rj1LyXJYcM+ww+V5BsDCux3GD1gKvuiOW7rj0UVYbStzhb
-	Go181WnDjtIxn/YiESh+6S1jmA4mTRtNJO5u/872oh/1AIUeckgsvLn5qmHgNMhmnzSCIBKfdM9
-	4nG83jqVzXA+VJx146RlLJB9SIAvSExUDaVklLZMA1NghcUn
-X-Received: by 2002:a05:6a00:2188:b0:8a0:3072:ee9 with SMTP id d2e1a72fcca58-8b37ab9ec04mr2326503b3a.13.1793965609946;
-        Fri, 06 Nov 2026 03:46:49 -0800 (PST)
-Received: from hj.. ([163.239.22.29])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8b35921deb7sm509832b3a.12.2026.11.06.03.46.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 03:46:49 -0800 (PST)
-From: hyunjungg <hj351016@gmail.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Hyunjung Ko <hj351016@gmail.com>
-Subject: [PATCH v3] ASoC: codecs: wcd-mbhc-v2: cancel button long-press work on deinit
-Date: Fri,  6 Nov 2026 20:46:28 +0900
-Message-ID: <20261106114628.2555176-1-hj351016@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=dxnogW7I
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=U2hkrd7t65t+CwqLU+VO0H7RTCPRkhWYUI3B+vEI8MeJG5D8XfqTTmh1WhgCmEMnx9eybrO151BlFAzLV0mBwL7qM3UfAZzgf0Xe6ty3TdWwsjrNpWVh/L1J2XZk7/M7Ty98ZsdvtrzmFaLeOQR7CxK/o9KZWzWEIibtuyJnpwDv1zrSSi3Uf26u5ohUo4RAJSLb6vx31oHCMqbgBBEjhJ9gEg7Ndg1iAYmSOrSQXiQOv7B4U4ak7xpYhH+vyI5/vG12cbrnEDvdAiI6jz9DNKzR9rTDzM4mk/aQ+HPbtRweV5pNVKYFHLsDTSwrSHzI3XQKDYAeQcw4domf2xvhMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t7+dOZS5NbqctMwj+ML9mmIONS1DqNelMRfbgICKaTo=;
+ b=TVKrxbjHCPKIWNkk9cuEeBGwJb929/TGLQ9iFSGQGwp5u5U3b4Nt+VAl+c30/2TXk9scCNQz2jRaB8VosEdevaDfZ9mtHVaDa1IamkPKfPybYkvF24mKO4pIflBu/eOZ0La72yxpetytbXQFy9Kk1geONLN8boVI1zMiuJXn3hidFkbGe7e7tGpIuJimnSYa2Z8cYDFlbWHsak+z9RaLGNU1IvIvjKkSf63PwXcXHWqLUVlZHluBqXsi0m6kQn7HbqD6U70u8jxk/2ClUKuh3m/skliqU2JG2v+/iZw2IcKq7qpyG13FaLQh8t9sGbd37kq0Uw1v/uba9gB4aERAwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t7+dOZS5NbqctMwj+ML9mmIONS1DqNelMRfbgICKaTo=;
+ b=dxnogW7I+1Qx7aVfsYD2BCFyeKGXIyjIm+sVRIWoL5665XJuPsxAT0I5DecWHpOIAYzh6nBBNJnFEW4vtP4fGeEjBJD2U67GUGFfX6Cvb/KrJXxTC53OL1sMUDUUHTf/EaYw5qZEXhrrLraxjyakAM4y9iz3CXYBdRzXTkfEzbM=
+Received: from CH0PR13CA0025.namprd13.prod.outlook.com (2603:10b6:610:b1::30)
+ by LY0PR12MB991423.namprd12.prod.outlook.com (2603:10b6:404:21e::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.11; Fri, 6 Nov
+ 2026 11:47:32 +0000
+Received: from CH2PEPF00000145.namprd02.prod.outlook.com
+ (2603:10b6:610:b1:cafe::1e) by CH0PR13CA0025.outlook.office365.com
+ (2603:10b6:610:b1::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.8 via Frontend Transport; Fri, 6
+ Nov 2026 11:47:32 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ CH2PEPF00000145.mail.protection.outlook.com (10.167.244.102) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.615.4 via Frontend Transport; Fri, 6 Nov 2026 11:47:32 +0000
+Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Fri, 6 Nov
+ 2026 05:47:30 -0600
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb10.amd.com
+ (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Fri, 6 Nov
+ 2026 05:47:30 -0600
+Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
+ satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.53
+ via Frontend Transport; Fri, 6 Nov 2026 05:47:21 -0600
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <pierre-louis.bossart@linux.dev>, <vijendar.mukunda@amd.com>,
+	<Basavaraj.Hiregoudar@amd.com>, <Mario.Limonciello@amd.com>,
+	<Richard.Gong@amd.com>, <Sunil-kumar.Dommati@amd.com>,
+	<Syed.SabaKareem@amd.com>, <alsa-devel@alsa-project.org>,
+	<lgirdwood@gmail.com>, <linux-kernel@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
+	<venkataprasad.potturu@amd.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Subject: [PATCH 0/2] ASoC: amd: acp: supplement patches for ACP7.B/7.F SoundWire machine driver series
+Date: Fri, 6 Nov 2026 17:16:20 +0530
+Message-ID: <20261106114622.219126-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261030094714.1123396-1-Vijendar.Mukunda@amd.com>
+References: <20261030094714.1123396-1-Vijendar.Mukunda@amd.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -97,80 +119,60 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF00000145:EE_|LY0PR12MB991423:EE_
+X-MS-Office365-Filtering-Correlation-Id: 33007868-655c-4da1-94ba-08df3bfbbe24
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|23010399003|1800799024|36860700016|82310400026|11063799006|56012099006|261022113327099003|261022105027099003|261022075727099003|261021123027099003|261021121427099003|261009223027099003|261102123227099003|261026121527099003|261026140227099003|261028144727099003|10067099003|22082099003|18002099003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	ucJaVV7VHEnW3JVZZbcr4blGz2nwCiSg41giOnSu9op+ABl7iOuZTn7pcsTn5ZOjdg8IutfFi22E6ogU2Y18FOw5j60jFqJUx1EfI51GZ0penUZeHEvWuYaQYJ4U4TxKELXqA0soqoH8MUCbmuTXsO4Mx+qkX1oG/1cBZTbBdbbZjan3oNqxUkTkMmBe51GNTGGBgFnCC7zKfH2d5lgyH0kvMXmDQQdd+p/ezadR0lvNIp/0sF+xWe2erlH5PKRLHfU9lZsFT0i/MWPCbCo3ZxCr9igX2fEvID6ChfExpaDQXLft+fNcqDPW42CU3Pu3rfKRIpQOHPF65ikWQaHnepf6i4VfpIP+bItvtqexu/Z8uhVLTIZsg/9d5Jizyus/WwLW5ga5uMmgSw2t7ail4H8G1Xzf+FrKQYT1K2rmYkVRwPTPfioEKUzmTJBtWtyWFWy2WwI7CWvu1P/eJ3SOh1Kt2RexcyKl2CM4vXYGTcEaL+WLaabafHugrvpek0FXv/Lpa1X720XlvU5TgZuVWMJVJQiQtcMBm0PZeodOiIjVkz9LIodmw+LOx07N2AE/1uPSxJ00P6bb/up45xwa6MBmBysvJAoDjah5lX7DJCYGtQKmnI0YmqnifbYPS6eQa8RtDgapBnXVhsXdFS57ZQ==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(36860700016)(82310400026)(11063799006)(56012099006)(261022113327099003)(261022105027099003)(261022075727099003)(261021123027099003)(261021121427099003)(261009223027099003)(261102123227099003)(261026121527099003)(261026140227099003)(261028144727099003)(10067099003)(22082099003)(18002099003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	as2mRYIPPW0pL2SGWPygTf5uLXaroGOnpStVZq8478Kn6nT8aws3I4Ta6F4Lvm2zwRjLSw4qo8RQbc3VP6DwezuFOGBQltzjkfl2r9HzTPvdw6MhrIvIRCzMgI61lex82GPqnx7j8AzsMdUwbnM0XD/heopichLlfHChMhCUZwpVOBzAonB0JgwZY6bOhBnDi+cjIVpo+fYfISOnRDSGPLHUY+9zk99rdsCT/3pZ7klxgL0qXMCE9TekvHByQyBMqJ3rJDT9Cp51u41z539FX5Fr2Gkhh2rt0StkEgwI57KZP4MVbGFMX2/khgH+TqqCf/AzzBiMEhCi8KtSjLdNYN5eDfh0ZfFRmmIbbAllbdU4WzrnzomMZcty8hu7fUykrh1ETYUrWtbrIix7notjfc0mVwHjB+5s9RmZtEzGvXSQDkNd0lOz9b+Slwo4XD9k
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 11:47:32.2247
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33007868-655c-4da1-94ba-08df3bfbbe24
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH2PEPF00000145.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LY0PR12MB991423
 
-From: Hyunjung Ko <hj351016@gmail.com>
+These two patches address nit-picks raised in review of the ACP7.B/7.F
+SoundWire machine driver series posted at:
 
-wcd_mbhc_deinit() drains two of the three works embedded in struct
-wcd_mbhc before freeing it - correct_plug_swch (via
-wcd_cancel_hs_detect_plug()) and mbhc_plug_detect_work - but not the
-button long-press delayed work mbhc_btn_dwork:
+  https://lore.kernel.org/all/20261030094714.1123396-1-Vijendar.Mukunda@amd.com/
 
-	mutex_lock(&mbhc->lock);
-	wcd_cancel_hs_detect_plug(mbhc, &mbhc->correct_plug_swch);
-	cancel_work_sync(&mbhc->mbhc_plug_detect_work);
-	mutex_unlock(&mbhc->lock);
+Patch 1 renames three static adr_device arrays in amd-acp7x-acpi-match.c
+to reflect their endpoint set rather than their structural role, making the
+distinction between jack+dmic (combo with RT1320) and jack+amp+dmic
+(standalone) self-explanatory.
 
-	kfree(mbhc);
+Patch 2 adds a block comment above the ASOC_SDW_ACP_DMIC and
+ASOC_SDW_ACP_DMIC1 quirk bit definitions to document the dual-PDM-
+controller hardware model of ACP7.B/7.F, and annotates each bit with its
+role.  ASOC_SDW_ACP_DMIC is a generic DMIC-enable flag on all ACP
+platforms; on ACP7.B/7.F it additionally identifies the PDM0 controller.
+ASOC_SDW_ACP_DMIC1 is ACP7.B/7.F-specific for PDM1. BIOS wires exactly
+one controller per platform.
 
-mbhc_btn_dwork is armed from the button-press interrupt handler
-wcd_mbhc_btn_press_handler() with a 400 ms delay:
+Vijendar Mukunda (2):
+  ASoC: amd: acp: fix adr_device naming in ACP7.x ACPI match table
+  ASoC: amd: acp: document PDM controller topology for ACP7.B/7.F
 
-	schedule_delayed_work(&mbhc->mbhc_btn_dwork, msecs_to_jiffies(400));
+ sound/soc/amd/acp/amd-acp7x-acpi-match.c | 22 +++++++++++-----------
+ sound/soc/amd/acp/soc_amd_sdw_common.h   | 11 +++++++++--
+ 2 files changed, 20 insertions(+), 13 deletions(-)
 
-and its handler wcd_btn_long_press_fn() dereferences @mbhc
-(container_of(), mbhc->current_plug, mbhc->jack).
-
-wcd_mbhc_deinit() frees the MBHC interrupts first, which stops new work
-from being queued, but free_irq() does not cancel a delayed work that was
-already scheduled. If a button was pressed within ~400 ms of component
-removal, mbhc_btn_dwork is still pending when kfree(mbhc) runs, so
-wcd_btn_long_press_fn() later executes against freed memory
-(use-after-free).
-
-The freeing of mbhc was introduced by commit a5475829adcc ("ASoC: codecs:
-wcd-mbhc-v2: fix resource leaks on component remove"), which switched mbhc
-to kzalloc() and added the kfree(mbhc) above; the deinit path cancels
-correct_plug_swch (added with the multi-button support in 0e5c9e7ff899)
-and, later, mbhc_plug_detect_work (added in 0c105997eefd), but
-mbhc_btn_dwork has never been cancelled there.
-
-Use the existing wcd_mbhc_cancel_pending_work() helper, which cancels
-mbhc_btn_dwork (via wcd_cancel_btn_work()) and then correct_plug_swch,
-matching the other cancellation sites in this file and ensuring
-mbhc_btn_dwork is cancelled before wcd_cancel_hs_detect_plug() briefly
-drops mbhc->lock.
-
-Found by code review; not runtime-reproduced (requires WCD codec hardware
-and a button-press event racing component removal).
-
-Fixes: a5475829adcc ("ASoC: codecs: wcd-mbhc-v2: fix resource leaks on component remove")
-Cc: stable@vger.kernel.org
-Signed-off-by: Hyunjung Ko <hj351016@gmail.com>
----
-v3:
- - Resend as a standalone patch; the previous version was mistakenly
-   sent as a reply to the original posting (per Mark Brown's request).
-   No functional change from v2.
-v2:
- - Use the existing wcd_mbhc_cancel_pending_work() helper instead of an
-   open-coded cancel_delayed_work_sync(), per review - it cancels
-   mbhc_btn_dwork before wcd_cancel_hs_detect_plug() drops the lock and
-   matches the other cancellation sites.
- - Add Fixes: tag and correct the commit history in the changelog (the v1
-   reference to CVE-2023-53842 was inaccurate), per review.
-
- sound/soc/codecs/wcd-mbhc-v2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/codecs/wcd-mbhc-v2.c b/sound/soc/codecs/wcd-mbhc-v2.c
---- a/sound/soc/codecs/wcd-mbhc-v2.c
-+++ b/sound/soc/codecs/wcd-mbhc-v2.c
-@@ -1623,7 +1623,7 @@ void wcd_mbhc_deinit(struct wcd_mbhc *mbhc)
- 	free_irq(mbhc->intr_ids->mbhc_sw_intr, mbhc);
-
- 	mutex_lock(&mbhc->lock);
--	wcd_cancel_hs_detect_plug(mbhc,	&mbhc->correct_plug_swch);
-+	wcd_mbhc_cancel_pending_work(mbhc);
- 	cancel_work_sync(&mbhc->mbhc_plug_detect_work);
- 	mutex_unlock(&mbhc->lock);
+-- 
+2.53.0
 
