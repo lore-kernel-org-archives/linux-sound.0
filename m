@@ -1,54 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793970719;
-	b=HU06aBTy/4fUS4fR0Wg8Zzr+1hZs5gad9sBORCvkh3NHhOYz0UbjtPFDNJnUGVJNRzqu
-	 E5PF+ZxjAbr7+GiKk6dkT4uMBq2uYZT9UlmLJ2Vv7687b9JJ7pSMa6jkUbzgp+Sus79fy
-	 NQS//c4owceM+vf053q31zma3h1JPUXem/Sj1FzyqkC8iOxd3+92kAvM4xbTZkBr1FL69
-	 8TKrhQzia/2y9nbQ/vrbdJb6wJbwCIi8XwPqBV/lmf4lUPh+86GCnYUMirWeT4E3DGMzC
-	 IlOaH1jKaMyTUZemmyEEdO9kLexNS8DxLz2eHR+JfkRs8kbRKGkeCPhZtxzJQCsORWg==
+	t=1793970771;
+	b=y4biBsfedtmyJIi16ZtMaKyql5JEuIO9RYU+EjJKUIdVC/sAmXnUlSGZkiJw8Ceg/GpI
+	 XcAA9deHniOexGyzG7fZvvVF10x9BmpaDSEpS3GfW4KcA9DT5neXmlGuig7B2TChYFTfQ
+	 kiIbnmppVArPvnAe1NdSymvVenxqnaSAZQbx1FiV8hBBEoKKFXYSIdGCCkuRNgMboSnyw
+	 kQO9kpCR3m5fEFZypQWhW6XML7xhuIJvHV8B3E8Iwoki0cbMhpZb35LnFCjGm8ApS14OT
+	 LWVmbCGYIOnrVjCZiTIUULzCrocMm+HjPTGfyPHCSZ4SRM8RodbIO4D2+OtZX7zjRVQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793970719;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=jyoGTrIMGjJ4ap6T6ALDTSlQ2Cu72PJ44sVD5M6sRBg=;
-	b=ABscmZFAQHt09VoD6s6gWBDe/189RBNf95f93UWc/YRhlzYDpDCW91A44XlaGNssf8Fj
-	 O4f84IAA/WS8Zpj1334nxJIexVA1bsYW2EquLeBRixsfftMOmpsiSRH7RzubG1V9ucJ2l
-	 4l8sKsNgu7KG7NhjcM4osHGAuXIDdMvnDPciCl7s64hU04LjqvW/zYjvUfP2s3JCvve9e
-	 XIfDB2iwP7USCGPTNQpj+DOfWJjaaFmoLY7/r0mVjv9wPRbpHpYXQvtGPnDz8JEOesuOX
-	 eHu1asiT7nbEKzTiXz6p8DK6TR3RwIa4aajRNUMXzV5cdyhreiE20zZS5U/1Kf0llig==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793970771;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=nMQFQ8BDOrUT0auvNASy+gGD9i27W8XAjSSZ/gLyZKQ=;
+	b=ENypJJVGerA+tlXogwwfCPN43AKbSUVZa1hUjZ/giXfrHlN9sW+UTksLsxkxApOiml6d
+	 ftDqXbWQ+eAzTJFPCtdgQRlQOALZDAtHRZrO1e3D6BfNv6+d0kQkuPoZT6hkSMIoG70D5
+	 7F3oCIofFZrdQ0ra2U/B2IbWFfeTYnwNKTRjhF/OGPQMRlKHk24r3j6eSwwr46H5ODvhc
+	 2RKYO/gdP+/AYL9uCtAjo2X1olLLeE7sJtLfeuARtL0N3vJleI1fF+SU79wsR8nGwwMK8
+	 duUqmw1f9u/cLF9Y2QbZrmsXXAqhr3ANJ8CDPyytY1cwfFlwI2eNpgjGbkZ2C6aEYIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=lCKlW3HA;
-	arc=none smtp.remote-ip=91.218.175.184
-Received: from mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GNG+uhvQ;
+	arc=none smtp.remote-ip=74.125.82.53
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2916606A336
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 13:11:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D2916606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F51C606A329
+	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 13:12:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0F51C606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=lCKlW3HA
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=M685jcwraRWTO2z5jw7z+IH+CyXCVQlol4ek+READi0=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793970715; v=1; x=1794575515;
- b=lCKlW3HA8s/pAjZZSfd1VHTi3r1fEOx0vPHU+VekO7bw3+bIYEaVEMNyqjyzgfvuyg2X4XSX
- wuPdKxOZIDpYjbLpsWSCfw9kJmfGZdAwcZgQwRk6flrHm9GT9rxCHNdP6zdb/EV4TXqqdrKMTkq
- 8QxF+tGS5dwfeOBgxtK1pBMs=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id b1afb51c95a7749d;
-	Fri, 06 Nov 2026 13:11:55 +0000
-X-Mizu-Trace-ID: b1afb51c95a7749d
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <efd5f1ed-4f45-451b-8ad8-212efebf2d8f@linux.dev>
-Date: Fri, 6 Nov 2026 14:11:54 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GNG+uhvQ
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-14394530ec6so925701c88.1
+        for <linux-sound@vger.kernel.org>; Fri, 06 Nov 2026 05:12:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793970770; x=1794575570; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=nMQFQ8BDOrUT0auvNASy+gGD9i27W8XAjSSZ/gLyZKQ=;
+        b=GNG+uhvQ8wcnxqxp52uVVeM2YEE85v4wCHqopetRjF5IjXW6mPpKCobkTeIUeE5Sto
+         p7OU8K8rt7A2AP7wAL0t6iywwFALw91dHLRyK4Ah7xJhka0QfT5HyVz+DxjfDiTX69+q
+         S72rUgXpHMLmS4UNx0QzSMRSVpW53pmajsfIZmK+/1F1rxy2RTjVheDd+rVI3lFK946n
+         78naGOo/BEcXEip6czzjX/zjdjhrhcH3ABxO8jafbynrilaSQiCcCunVRMrEwG+dyjO+
+         1f/PwPS+20PZpOX4pcA8ugIiGaZifM52JLbv1mcre/rvB2WmZ2gvLJP2UQK4rbhWq5jx
+         3qwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793970770; x=1794575570;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=nMQFQ8BDOrUT0auvNASy+gGD9i27W8XAjSSZ/gLyZKQ=;
+        b=dAF0bI7o2wJqjvkIzINUlxNJHZ/xx2RFnzzbS/W6HjuuLcByUbVMaCv5+JPStwtsII
+         LTN+J/QMy+Uy+EBuvB8iBYdPWHnph2PFVdDLWo2obq3UoZFhvDfdKuyBgf8kg7/SnJDK
+         bBoAijHcbcvNvKcTnnMDWQMIwJ5yoB3SzfEs00cbPyqCtC2miY2z83F7/N/laXuVl3Xo
+         SOJIP9Dpp+rp7cVwrUG1E3mSPPbow6gRsa+cgnCSllOZudiTcOketm9UJM1QcVIBmaNa
+         tuiadW1f05Q3L9plGXglZyAEFCK5bJw+7DfIhw5oqQN+mt5mInhmeRO8VpBPYzCjqvn5
+         x3Pw==
+X-Forwarded-Encrypted: i=1; AKwUvBz9R6/olW7SxZ0gHt2xXMEBkvBbBngD7bc2OBLFbFVhullrAPNjDQi0ZVcWEm7rK3sVuDGjgRnRUFGAzg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+EKLayL4YBWgPzCcW6amTlHB9P821TA3N62TYwYEzzls9HVEw0
+	b5KON3HLkuLKXLUrQ8TZq2DG5dL5ozI3ccys1nKBqdV53iIcfgbY5PbR
+X-Gm-Gg: AYBFou24iPhvoDuHTTiMxyPyUDNhj4jtxpIMN1jrKd5T1MCnQuMo5OwptPuAK/2d0wt
+	YeIyXoPAHtswCVqrO3xYLG5lsQZ0Z9YUyt+xZ0eQwbCrWx28K/+J7dfefe1MYQqg86EezDhekiB
+	1G9/Qxq9z6uHARa3pRywQsQKUuWF9diNkjzvTEu0q9JrDd3891kn2vNDw/VqF9vc/Kv9xDgDCBU
+	V2TgkSrJLbRZPEG0WRcwB6dmUZpF+Gv/ogdduhA5i2zHCqyNZL/79FvIzOBMNypOASxqPlf6mGY
+	cUu/XzVvWPKcoz0nxXimEGbNeZGQnYgMRCgiCKT0pDE75IflH5doZdp8t19Qb0dUMt96OSg/bXM
+	BRAwCLBQlla5Ta6bq5ApqxwVUlQ8yoa3LncEeHqk56Wvdr7s6Ovx5BWxvvNRahm4x9BdGurrNZb
+	n3c3HzpDzyNS6Nvj11j3CguuCzd0PGE49J2JO8PCB2H5Z9OFJMlKQZVsTMxEA5azCFcgZbiKqph
+	gy6w6kmwxORNDkF7PKqwgdk66r0RoPkgl/RdcF5RQBrFmw272OWYxh7jKbpgG42LN1PPJfkmA6j
+	QNrqUgdKt/6uH1f4YdtErLrHoqlYtG604H8Ei2yu0MnGfhTwYS0y
+X-Received: by 2002:a05:701b:4516:10b0:194:f017:5a01 with SMTP id a92af1059eb24-1b25d35a8c4mr2668276c88.42.1793970769934;
+        Fri, 06 Nov 2026 05:12:49 -0800 (PST)
+Received: from localhost.localdomain ([103.178.205.186])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b25e4f03f5sm5756052c88.21.2026.11.06.05.12.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 05:12:49 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: tiwai@suse.de
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	sreekuttan2156239@gmail.com,
+	tiwai@suse.com
+Subject: Re: [PATCH v2] ALSA: linear: Check frame count for all channels
+Date: Fri,  6 Nov 2026 13:12:18 +0000
+Message-ID: <20261106131218.2638-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <87qzgyp1dl.wl-tiwai@suse.de>
+References: <87qzgyp1dl.wl-tiwai@suse.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,56 +100,19 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] ASoC: amd: acp: supplement patches for ACP7.B/7.F
- SoundWire machine driver series
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, broonie@kernel.org
-Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, yung-chuan.liao@linux.intel.com,
- Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
- venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com,
- Mario.Limonciello@amd.com, Richard.Gong@amd.com, Poojitha.N@amd.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261106130801.506026-1-Vijendar.Mukunda@amd.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20261106130801.506026-1-Vijendar.Mukunda@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/6/26 14:07, Vijendar Mukunda wrote:
-> These two patches address nit-picks raised in review of the ACP7.B/7.F
-> SoundWire machine driver series posted at:
-> 
->   https://lore.kernel.org/all/20261030094714.1123396-1-Vijendar.Mukunda@amd.com/
-> 
-> These patches were previously posted as replies to the original
-> series. Posting them now as a standalone series to keep the dependency
-> clear and avoid threading new patches under the existing review.
-> 
-> Patch 1 renames three static adr_device arrays in amd-acp7x-acpi-match.c
-> to reflect their endpoint set rather than their structural role, making the
-> distinction between jack+dmic (combo with RT1320) and jack+amp+dmic
-> (standalone) self-explanatory.
-> 
-> Patch 2 adds a block comment above the ASOC_SDW_ACP_DMIC and
-> ASOC_SDW_ACP_DMIC1 quirk bit definitions to document the dual-PDM-
-> controller hardware model of ACP7.B/7.F, and annotates each bit with its
-> role.  ASOC_SDW_ACP_DMIC is a generic DMIC-enable flag on all ACP
-> platforms; on ACP7.B/7.F it additionally identifies the PDM0 controller.
-> ASOC_SDW_ACP_DMIC1 is ACP7.B/7.F-specific for PDM1.  BIOS wires exactly
-> one controller per platform.
-> 
-> Vijendar Mukunda (2):
->   ASoC: amd: acp: fix adr_device naming in ACP7.x ACPI match table
->   ASoC: amd: acp: document PDM controller topology for ACP7.B/7.F
-> 
->  sound/soc/amd/acp/amd-acp7x-acpi-match.c | 22 +++++++++++-----------
->  sound/soc/amd/acp/soc_amd_sdw_common.h   | 11 +++++++++--
->  2 files changed, 20 insertions(+), 13 deletions(-)
+Hi Takashi,
 
-thanks for the patches
+Thanks for the clarification.
 
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+I understand now. Since the frame count must be identical across all channels, taking 
+the minimum is unnecessary. If they ever differ, it indicates an internal inconsistency 
+that should be caught with a warning rather than silently adjusting the frame count.
 
+I'll drop this patch.
 
+Thanks for your time and explanation.
+
+Best regards,
+Sreeraj
