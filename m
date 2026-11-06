@@ -1,97 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793982281;
-	b=38OCdnjnf2G0Hg62e1AZ75uVd1JWT+FRipr4w/TeXzjWbGwf6+ocBrxip1F70iMcz5Lu
-	 Hyy82bokODcX2BOpHtbWOKIGJJQGWsppe6g4c+riLcrDK80lNWeuVqAEKzEZxbVgmAKQt
-	 a2zTTnWM2CeJ9JLxSuzUEh5OuiaJBqlCxY7qx6XIhvVoPcQieZ55PL/ApXZJmoQHottKQ
-	 y9hvvkn0YzZCrp5nckm6TK77P12NZ0bCWyW07v7BSD8FjOdngie6btlb6Qn6bATCPTXSd
-	 KxckscsHFe5mauwydcKs0EjJ8SjXW35QeQGy1sPSc1gSPfXfDxAtI2bxitjOsHQCDzQ==
+	t=1793982741;
+	b=Q33ryKzapk+DKzdjlQO9w/1+Q0DkpVeSviUOhgeLnrbqRaIyAtT27prncm00mqTwZjLP
+	 rjnuZF4Xos/FYAvBRV7lYxwVNN1rTemYMc0KZ6geab//9uisnQLGtMOK3/TwTwUgHKUuO
+	 Sjo87EZWVUU/ipx4yJl/ZauoPd/zjZT9hGriRcCs7fJalnjpRYY20yWqDGzPVirI8Irm4
+	 CHL0KwnG5ppjsDOYqYk8UgR6dgo3Vrfd+2dqV9IqlfJjTNxMpq6GKInnAB7Q+wjqNQxAj
+	 YlGr6G5D5DUjDL2Bv0vKhlG1G4FkmVhqLX4dshKu/49zoRDp2pZgd2yHxVWXWjhMklQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793982281;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793982741;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=VpCSiUu6XD8MhpAaz4Rza2/2cNV1z+gyRKbp0TBqDxA=;
-	b=IJSA1EGoUfoRT1XRiZRjJkCuCH2N8drv9bJegPtSBYH/SvC6rK5T7vQTxzqvk/xRyDRD
-	 dbW2x884ATquFm+SnOfJLrJOlEnFNZE/YiKzjJummhfpPutzdRGWte76UTgLdEhH70t74
-	 kxDfqUmTAy7kZblLm/wpaqKTwpRVu5M19kypJDJMe7uDcwrZczK/4tt/+3y0B8pmrBAsx
-	 Ci4XaKRBYbYN5rhjRk9uBRKfdguVxqGQ4/voGkPHb2jSRDS6XF74VrSCrTENielZozk4N
-	 4C5Lg9/pR7ElD14aU36yO9/aUgurzI+bO38WT/yn9UqzZTYHGZqL5O3RGiWrIkH+mOw==
+	bh=RChgsve2szNJ3b5mAMnEQC1I71q5nELdLnWCslX6oGg=;
+	b=KqzICLwEG2Bowd/aszebK9YZbbxpFsvmTOmLTiDvwGC5DWK8nXCLXs06XUvgoFx5utxB
+	 x4sIlMA74XLGDiXBLrRCJaNjSYd2pxSraHjI92EhuMfOf3kEVDzv4PR5ulRFxxRZ/ZosV
+	 VZHliEVJ/hTqYEAQRnPp1oJZc+5AWuNiGxThlD+3J2gV3yL+gmEf6FQqLyvK5oCgBJWTd
+	 2NlPzhPxS3UNRDU3XP0WXneFoULmjklEc7u5tR+zBgX4QdPsYkYfmmeJOGOgNPH7hExJa
+	 SpSkf5ZjJvlwxzNKYNXLgP/y8yqI9zUoiwmWmFFQxMakAdIGdPt9isnV27S5yUWWaSg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ho7rc495;
-	arc=none smtp.remote-ip=74.125.82.41
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=H30F4iRA;
+	arc=none smtp.remote-ip=209.85.210.53
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28FCE606A329
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 16:24:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28FCE606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01FB7606A329
+	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 16:32:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01FB7606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ho7rc495
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-170135e43c7so1495640c88.0
-        for <linux-sound@vger.kernel.org>; Fri, 06 Nov 2026 08:24:39 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=H30F4iRA
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-846566246e8so763031a34.1
+        for <linux-sound@vger.kernel.org>; Fri, 06 Nov 2026 08:32:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793982279; x=1794587079; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793982740; x=1794587540; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=VpCSiUu6XD8MhpAaz4Rza2/2cNV1z+gyRKbp0TBqDxA=;
-        b=Ho7rc495MHCfYbk7wHBKEoHA7l1caWmwiri26PQPjAfL/FllBg0xjV/SkONrXq/pjh
-         wI6QRDbPYPZvOQb1uapbRLWTSWRdJsNuOB6A4ZFuIvRXRvDEqQgtUYp9J9w/rS9XlOAy
-         mlceQsdoxBngN/NavCejH23hxFM9V+9FyTcfRexgiX0s9HNYvobTLqpzFKtZ4kCX3NK+
-         T8UyUHvtUl82WNJ098naz201l03upatpYTXL6qCXFUr113dcthiRoil+ewbjOiJjytBD
-         /H8vZwXW3yh5PUafAwMUYusSviNTRrS6haIxSsQRs/asvzxqBeBYMFUUBSKU0YnynT+L
-         AXVQ==
+        bh=RChgsve2szNJ3b5mAMnEQC1I71q5nELdLnWCslX6oGg=;
+        b=H30F4iRAZHRzzH5WqhMuQWK1dOfasDflfDyAkereNzfCXgfkwzOX08//+6E8j0newJ
+         r2IPmpTD0+U+52P178zcJgYo/BV48kw4iFJolgvxzMiUn3IbluFrq3jr4KIEQE7Y3ZxE
+         IBuGc19Y6z51+DyWyW4WY4dGxRof3bkjzbyCrZa7aREFgVqf9uoaegf7IjfUFxg9CAtC
+         cSS5q04HZaIMjjRTGI0JkKdKvPjKi3+bzky/rB4t+AzCjiRdHiDbJqWKuKNKD6qF51jV
+         bYuyW0WwVPbyR3OHmnnf7oXGwUHIe3Mtv96AwRgyCHg2hNWFoHMnYTciyHLbjslTMd5i
+         oeUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793982279; x=1794587079;
+        d=1e100.net; s=20260707; t=1793982740; x=1794587540;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VpCSiUu6XD8MhpAaz4Rza2/2cNV1z+gyRKbp0TBqDxA=;
-        b=FrNNqWzcxJ0Ycf6m80os8LV7arkP2o1iXrXnnfQa0mNVPdi0tSK4PfDNlgwVgthW0h
-         XnQHLs8p/5m5ACS7H4TXDOIMIfLhcOM5+YbqUTl3VUuNBVQyHBCFCyqb837aAmOM3B8j
-         z+mQxpP+qYTqmBKjd9wL+lAdHn4AXXvPJ/yLbasfaRBaVJ0PpK5d4yAMUA2xLBilIjTi
-         bW9MddYRR1W8dS9GWfjIiZ4UphqKOoM/dKBlin6guiGSVTtTmrCdvXkxSu0f2QGxmOvk
-         lpahAtk7Je/CgdIDPTgw4fatVDgjuUY8uH6YVn9bHwtbfdtBkLoMstWt6D7m6fLUtS1Q
-         IKFA==
-X-Forwarded-Encrypted: i=1; AKwUvBzva8hgV3nBkqJwXB7G1mkLVXadBUx3lyuN4HKaSS9VFam+/BuALTZCqsOI4oAfSSxlWVTbPdsgSkifDQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+YqI/3s0HRTJIhCanHkbtafTWW/4Cd09MjhatzBDL21bxLr5Qn
-	R7+yAZ00Q9UyifmSWda4w3XQWvOCMb1ZT/9KQXEjITCfbqFlnXBRbbBb
-X-Gm-Gg: AYBFou0ZFNP/agcilU7UumOYHFagj8W9Y8hnZhG/x4Mo4uwdWlxoZLX4/d3ZKwTrp2v
-	V4tXAX1MTSeNKLRxRUBHFaou5pIwcicR5vPjQd7FyO9XfvLkwgLiC3wjscA8/tm0kWVSGnLxc4j
-	zcufMPIKLl+rF+MTqjwsPB4KUExlcQfbC1h7Tm10LbbDd6kwptgyQ3r8eTjFlbP+UDTZaDHlbId
-	iiVltafw3R7d4Ihw6Id+GTAro2r8W9yOg9gun4O4jiWpcebA5tw5uOnp9e3aa2s5b6S2IYLM1DN
-	1soDZcIfYpH1sO31bcPIZBtNPDx/m6RfJjZJVDAqRkA7Hupri3wX7bzQI3+iVIAM0Wz1Y4FG6ny
-	zd4ZjxqXuEDG2hhWM8cdxM2t5BdacrMQuuD7IPywvyg/Que9Zn60uavpsB9LH8odhZGLOdsVXl2
-	h5X1rZMWvFRncvDOO4xpnPdgW0atVoikU4xm3OfT1SHOrik1riwLds1LzBHGj2A9pPtOwd5zliO
-	R/vGhYUi6esD7iUKcLfSaiXXZ5o9mZu25D0/ua3tC+55t6HTk5BYrh3m9rtEYcZpNbTWJM40Gkh
-	e/OhVttFARtSksAzaZVICJK0JNm8GUqi9M8B+l9HemQhMK65JlUqkr0/1aogRDbhWu0NFei/ZA=
-	=
-X-Received: by 2002:a05:7022:1081:b0:1b0:4272:4282 with SMTP id a92af1059eb24-1b25d318451mr3525212c88.17.1793982279059;
-        Fri, 06 Nov 2026 08:24:39 -0800 (PST)
-Received: from localhost.localdomain ([103.177.253.113])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b25e407bb5sm7109605c88.1.2026.11.06.08.24.36
+        bh=RChgsve2szNJ3b5mAMnEQC1I71q5nELdLnWCslX6oGg=;
+        b=dRDSJBfDOyxgEMfaU9a8wIgDUunfPmPP15qE7p2ax8ugFt6E+70WSRujm7lQ2mgMYr
+         vkZYakb+qT2jV+DOEuU7wv3pP1HR20Ud1h1CHGFjfB682cgVsNsPqgRNX8VgUWcWDMpM
+         5rf9dkm8uMxOIgKAX2bs75uuD0IdeKutj0QIXwE45/AObcrJJ1B68Hg47U/SoQSkizkn
+         4WgrA/xXCd+6H26uUCMEW8lPg2cwaOF8G2WCgkgbqRLHee4EK78Wi33UdDNEcgiK+M7X
+         e6Z2dhpdKZpCdBa6eSh7brm4bEj0YVGZ+nMAPsP/046LT3mFzj0DA/Ox+DEkbcBVab+m
+         JzuA==
+X-Forwarded-Encrypted: i=1; AKwUvBzbSvJunlz0bjhKQw6KL1J4W51z10UVgsEPGE9iOaAwooE1Sz2FATPt62XyPb4YT1B/jTMvJe0ig5YVlw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/jHxidwISgNoDxWYTaz4EUWP55nKltkZhW/2yk7n1X+8jpsysA
+	ao/DGEjGE06+yl9HIuXA33EDGEjNyj4tiwotqX/Q4WqD9hFS4uDKfzxC
+X-Gm-Gg: AYBFou3M3sNIPWJJnCCWy+IaNs75ptOnu2JaMg32NV2N0NK01eCL0lZn4TOe54TpHNd
+	+xUlw5czcdW4qv1bkjh39Vr6TfEpSoXa8JdIVSQa1L1PJ9+WFs/tV9/XrAos+wG91JnrfW1FneC
+	JpobGo7QOcFWWNrHsskef/xf0OpmYkfXeBfrokMUsYgjPjtLJ/SOY7RcMH8GLNNyVVf0V/N98z5
+	mxvFClzM6cDNzko37cDug9+l2xnK/5ieI+mowkkIn865g0Cz0o4RINil7zX3ynELN3qgyGcdWCm
+	QuiIe7MGYcjkVDoNcEmvvz3xjQFwOvBdepgc/fJEj7atHSKD8z2dO+OHvTkGlTAjTJYJCZUloQK
+	q1jB+D3YbprdHvTYQKlCrqnBVe9XNMSQ1HSzy3+R5tqOYJjIItNBhq+ZX9Ig+dD1QxgG1mAF0xC
+	DSmqEtlcGQjBrzGnCeSyWqAHfup2f3MDjhRwTNkGaAFUDWSDVUAJXPWCaC5z1qKgjPfGrYrxzz4
+	5+klXGswJ7kByYBv/bThyZyfgVPkD2DzI4YlK5SdGTJCADNK+XgX7Vkzeoc6XGHWASu9zu1r6Zb
+	QZP6OFo0/yS1oDgmvMcQ54hSlMBKqPjXzMRR+/LNTGC+7A==
+X-Received: by 2002:a05:6830:4487:b0:821:dd7e:330a with SMTP id 46e09a7af769-85f1cf9a329mr1922143a34.8.1793982739784;
+        Fri, 06 Nov 2026 08:32:19 -0800 (PST)
+Received: from localhost.localdomain ([2600:1702:4ff0:baa0:5054:ff:fe3d:4ddb])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85f1de8f066sm2244780a34.23.2026.11.06.08.32.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 08:24:38 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: sreekuttan2156239@gmail.com
-Cc: linux-kernel@vger.kernel.org,
+        Fri, 06 Nov 2026 08:32:19 -0800 (PST)
+From: Will Porter <mrwillporter@gmail.com>
+To: Christian Ruppert <arc@gmx.li>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	tiwai@suse.de
-Subject: [PATCH v2] ALSA: control: Fix parsing of numeric fields
-Date: Fri,  6 Nov 2026 16:23:57 +0000
-Message-ID: <20261106162357.3616-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261106154545.2973-1-sreekuttan2156239@gmail.com>
-References: <20261106154545.2973-1-sreekuttan2156239@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Neil Andrews <neil@androos.io>
+Subject: [RFC PATCH 00/16] ALSA: usb-audio: Audient driver and iD14 MkI support
+Date: Fri,  6 Nov 2026 10:31:13 -0600
+Message-ID: <20261106163129.1006907-1-mrwillporter@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <aupn1wwW7w08M3gu@khmer.arcnet>
+References: <aupn1wwW7w08M3gu@khmer.arcnet>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -103,63 +102,93 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-parse_uint() passes the remaining input string to kstrtoull().
+Hi Christian,
 
-When the input contains comma-separated fields, the string
-contains both the numeric value and the following fields.
+On Wed, Nov 04, 2026 at 12:01:47AM +0100, Christian Ruppert wrote:
+> I guess that depends how we define force_set. In my mind it's literally
+> force set, i.e. for write-only values we must explicitly specify both
+> FORCE_SET and CACHE.
 
-For example, with:
+That definition makes sense to me. With it, the read before the write
+is fine: an uncached FORCE_SET control is one the device can read.
 
-device=1,subdevice=0,name=Master
+I also prefer the current return value. If a put always returned 1,
+the kernel would send a change event even when alsactl restores an
+unchanged value. So I dropped my diff. Patch 10 has only the comment
+typo fixed and the blank line removed.
 
-kstrtoull() receives "1,subdevice=0,name=Master" and fails
-to parse the numeric value.
+> Is there a reason 4, 5 and 6 are separate? They should all be one big
+> update in the device definition tables without any code changes, right?
 
-Stop parsing at the next comma and pass only the numeric
-field to kstrtouint().
+Right, they add only table entries, the device ID and the map lines.
+They are now one patch (15 of this series).
 
-This allows numeric fields to be parsed correctly in
-comma-separated input.
+> Happy to review and test an RFC of the complete series until he's back and
+> takes a decision.
 
-Fixes: a135dfb5de15 ("ALSA: led control - add sysfs kcontrol LED marking layer")
+Thanks, here it is: your 11 RFC V2 patches, then the five iD14
+patches. It sits on top of your four mixer_evo fixes. I can rebase
+it once Takashi decides how those go in.
 
-Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
----
-v2:
- - Add the Fixes trailer.
+Patches 12 to 16:
+- 12 adds a step size to integer controls (the iD14 volumes move in
+  1 dB steps).
+- 13 adds enumerated controls (routing, iD key function, talkback
+  source, digital input mode).
+- 14 gives the iD14 MkI its own mixer map; the MkII keeps the shared
+  one.
+- 15 adds the iD14 MkI controls: monitor section, routing, mixer
+  matrix and the write-only controls.
+- 16 replaces the generic FU 12 control, whose GET returns stale data.
 
- sound/core/control_led.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+Base: sound master 603a4df9e6ae with your four fixes (Patchwork series
+1193966). Each patch builds on its own with W=1 without warnings. On
+an iD14 MkI (7.2.11 stable), the complete series passed the same read
+and write checks as RFC V2, change events included.
 
-diff --git a/sound/core/control_led.c b/sound/core/control_led.c
-index 501387287ae6..3f54af2cb505 100644
---- a/sound/core/control_led.c
-+++ b/sound/core/control_led.c
-@@ -458,11 +458,19 @@ static char *find_eos(char *s)
- 
- static char *parse_uint(char *s, unsigned int *val)
- {
--	unsigned long long res;
--	if (kstrtoull(s, 10, &res))
--		res = 0;
--	*val = res;
--	return find_eos(s);
-+	char *end = s;
-+	char delimiter;
-+
-+	while (*end && *end != ',')
-+		end++;
-+
-+	delimiter = *end;
-+	*end = '\0';
-+	if (kstrtouint(s, 10, val))
-+		*val = 0;
-+	*end = delimiter;
-+
-+	return delimiter ? end + 1 : end;
- }
- 
- static char *parse_string(char *s, char *val, size_t val_size)
+Thanks,
+Will
+
+Christian Ruppert (11):
+  ALSA: rename mixer_evo to mixer_audient
+  ALSA: mixer_audient: explicitly define full control names
+  ALSA: mixer_audient: clarify USB control message definition
+  ALSA: mixer_audient: Add length check to USB transfer
+  ALSA: mixer_audient: make USB control transfer size configurable
+  ALSA: mixer_audient: Allow arbitrary boolean control values
+  ALSA: mixer_audient: Add integer range checks
+  ALSA: mixer_audient: Add control initialization at probe
+  ALSA: mixer_audient: Add readback-free parameter set
+  ALSA: mixer_audient: add control value caching
+  ALSA: mixer_audient: Create matrix programmatically
+
+Will Porter (5):
+  ALSA: mixer_audient: Add a step size to integer controls
+  ALSA: mixer_audient: Add enumerated controls
+  ALSA: usb-audio: Give the Audient iD14 MkI its own mixer map
+  ALSA: mixer_audient: Add Audient iD14 MkI controls
+  ALSA: mixer_audient: Replace the Audient iD14 MkI FU 12 control
+
+ MAINTAINERS               |    7 +-
+ sound/usb/Makefile        |    2 +-
+ sound/usb/mixer_audient.c | 1342 +++++++++++++++++++++++++++++++++++++
+ sound/usb/mixer_audient.h |   13 +
+ sound/usb/mixer_evo.c     |  526 ---------------
+ sound/usb/mixer_evo.h     |   12 -
+ sound/usb/mixer_maps.c    |   10 +-
+ sound/usb/mixer_quirks.c  |    7 +-
+ 8 files changed, 1374 insertions(+), 545 deletions(-)
+ create mode 100644 sound/usb/mixer_audient.c
+ create mode 100644 sound/usb/mixer_audient.h
+ delete mode 100644 sound/usb/mixer_evo.c
+ delete mode 100644 sound/usb/mixer_evo.h
+
+
+base-commit: 603a4df9e6ae60a26adb335fe8d8f6e8f19e5d8e
+prerequisite-patch-id: 522b05214a3c615ec30e50574b2bcc9c6c55dc3c
+prerequisite-patch-id: 4c58588cb3fd46832de61018d60452ad1f5de1f9
+prerequisite-patch-id: e15c90c1732110d25b16d26b4f919715cae7f5be
+prerequisite-patch-id: 02c9ab9c3fd4cc8617060c81eed06affae2da0d2
 -- 
-2.55.0
+2.47.3
 
