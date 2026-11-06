@@ -1,54 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793967568;
-	b=5Vidptk7ldmJ1Wo5HWWgKYAS6t6ZnwqyNvYIs/gXo3pDGGutl6AWnfpwLHjfHyDax0mp
-	 cYl1hRKV11Ay6wxgJ5F7Yv/ctS1Uq6YKGKrude1WF4ppCZwxWohtbqUtug59WY81nTUDF
-	 P427qBGS5q0O8TztckyIsg2241ShgCcgQgkfNulrKKBaAoaCeB8mNV1vmP/p8ANACuyCG
-	 4QbdAiJWR2/nAqpnMkKFhhaXXp3jtujrh8rIwwXLPNJqL/GTghniDSRy6+vQtlb8QdMHX
-	 ViHuL5/WfDOs64QNmbR1PASH0Kg0FU/Rn1XhhyAEWidmoqGMBRlQ/K3TtFJBV63wJgA==
+	t=1793967882;
+	b=t8fSK5pBeEVJlpJaTZR+N+6JzoMahWWXJW+1hccvO7uho3zOVCMsDOBCOwPtLKPhuh3b
+	 mDHRpPTfsHuk+qtS4YWw2MoMJZRJkVsCiplHTfH54KiSl1Ca0fcsxY/5pX0I/LWib9XlO
+	 J9zIreoLExd13HN+SwZIfkQwMw6gzcpUUqVcHoYP3Te5e43YeDE9TGe8sPaVQJB+51xbz
+	 kMD8iQ2rUbM9no58JyaHvBcr36d7xLzCVlhH5HbOs6w9KpT8+QVqvHhuuUKA/qMlyrlNV
+	 GiIhxtk43Z4Lo+GBOGZieHqjpwQQwU3HgVNi8vXj8tb/HMWCe8mudR2bftrkfz4sMyg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793967568;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=0vUodaVAX93mqin2v1QRnZrq0sGDMtFLDBopNWg3Nj0=;
-	b=bcB0E9KhBSMJ0IvVPJSHhg12mQRqwblIJSiF6A2bCleOilRNQHSqyDqkXmYPRPwzkbgI
-	 hOkHz3M3f4VrlS/M9sYtujjbw4e+2QBmGiVGE6wgdlOBR8LdJKbfpk1IY4IF8UiY+O9lJ
-	 x5Ic2qVSRzcJdfBb/fB6E0Kz2BEMNAc3UQpqpgc7W0p+BRJUE4aZAsOGgY43xmx9Z0Gqa
-	 4TdnTHoCMtwQzOtmQMDxCSd9RDVWYCp13/Kj6eJtk1AcLGe8nshuODh3ULfkAcfCteFPZ
-	 ypO/GcFYIEze1RGQaTjdFRu7XeqTr73yOABKS2g9MxIYOm2XEw34c4AKPJimlLNu1/w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793967882;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=gcp3IhERIolgxwFIIfmfPI/w27CHLBf1HSdIWgRYFIU=;
+	b=XlXonvncFcDIyb3dRE1orv4gfJlSJszjS9OhZAqtS0wSlWz1NFBbz9S94PXRD6bO7Dgf
+	 zo62PFlSMTNoc9ugG33ke+kIniLEkI3XGL4sH8GO8svgUDrLBCi9YMN2DKWocLGoYHQry
+	 EGsiyq2liWYFrLV+oNGoXTzOxEd7ls6PpHyfZBt8/PbTSJAsZkmcUMhWtdZ8ElCfLXhP4
+	 0cRhM2ZV/Inc3xmYh1gBWlqtQdlFRf4pzCQ0PDK+ZTYDWJD9TeE6xZzIgHy0nDskALj5U
+	 SHPbc2ASrZLLCzpSYmGJLGnf+asMXZqOr54ABemMQ6NLS5vbkkJ5OGMdzWTo2f+ENjg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=V5G0adXI;
-	arc=none smtp.remote-ip=91.218.175.34
-Received: from mta0.migadu.com (out-34.mta0.migadu.com [91.218.175.34])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ABnzvU9b;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68835606A329
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 12:19:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68835606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421F8606A32F;
+	Fri,  6 Nov 2026 12:24:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=V5G0adXI
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=UjpdCFHkVQinke0+LhWk+0IZR4eqn7V48c0aBGCBqmM=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793967564; v=1; x=1794572364;
- b=V5G0adXIb2lsE3Gshq9LuKJbAg5bI+F8TdF831riiz2dwOtFOnthMGJ1DD8ovycfnsqfJCX/
- 6U7vCM1JJanEDINxX/xUDk2m1fAsLhqHwJuJSD33bPrkoHvu60W8QGwOWmmq6Bi2/LCzhz0tcjZ
- Qvt35+skZqDdWbc9VKphXNY0=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id f0b4435a6e72b80c;
-	Fri, 06 Nov 2026 12:19:24 +0000
-X-Mizu-Trace-ID: f0b4435a6e72b80c
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <a6c89fe9-a239-4b97-a912-2b08b9a84e21@linux.dev>
-Date: Fri, 6 Nov 2026 13:19:23 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ABnzvU9b
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D93A1F008A4;
+	Fri,  6 Nov 2026 12:24:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793967881;
+	bh=gcp3IhERIolgxwFIIfmfPI/w27CHLBf1HSdIWgRYFIU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ABnzvU9baluU2lB7w7dVGXVD4uEQ9nzo7xXPN2K9Im7YvijuTTwZObNv5hOI13ktg
+	 uwlwe/66CzEPC7hAsY5FIQTVM0rzrAe47iFB0Dek2BwqQoWPr+d734MeJXUsMiftzC
+	 DPson5kD4vK9J1ire6r1ZkhoxXkKZj7z4wJWdYLhRoVQ70hCd+1Gi6JBL/B+JR4oNc
+	 z/aYO33umAA6MELW2u6d6jHEcga94AIRnHUN4y4XOOSeDJ/Mw5mLmNOE3efqO0mKxI
+	 Vx1qVQ2U8lQvuHGpsmlopA/SbOdRuYHj/5C6Y02zwPsWcbCUS7sg/tyUJwJ5ldJH3P
+	 ysFvtq5Sg0Sfg==
+Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
+	id 74A3B28067DD; Fri, 06 Nov 2026 12:24:38 +0000 (GMT)
+Date: Fri, 6 Nov 2026 12:24:38 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: pierre-louis.bossart@linux.dev, Basavaraj.Hiregoudar@amd.com,
+	Mario.Limonciello@amd.com, Richard.Gong@amd.com,
+	Sunil-kumar.Dommati@amd.com, Syed.SabaKareem@amd.com,
+	alsa-devel@alsa-project.org, lgirdwood@gmail.com,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	perex@perex.cz, tiwai@suse.com, venkataprasad.potturu@amd.com
+Subject: Re: [PATCH 0/2] ASoC: amd: acp: supplement patches for ACP7.B/7.F
+ SoundWire machine driver series
+Message-ID: <1a75c8e5-975b-4225-9e25-5b6b1148fb50@sirena.org.uk>
+References: <20261030094714.1123396-1-Vijendar.Mukunda@amd.com>
+ <20261106114622.219126-1-Vijendar.Mukunda@amd.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,51 +65,37 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ASoC: SDCA: Add port constraints into
- sdca_asoc_set_constraints()
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20261105134952.1728147-1-ckeepax@opensource.cirrus.com>
- <20261105134952.1728147-3-ckeepax@opensource.cirrus.com>
- <1cae1b17-4c49-4a10-922e-c552e90593c4@linux.dev>
- <au2dxajs3ua9M61q@opensource.cirrus.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <au2dxajs3ua9M61q@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="FH2cet+fmQufu3HQ"
+Content-Disposition: inline
+In-Reply-To: <20261106114622.219126-1-Vijendar.Mukunda@amd.com>
+X-Cookie: Whoever dies with the most toys wins.
 
 
->>> -	if (entity->type != SDCA_ENTITY_TYPE_IT)
->>> -		return 0;
->>> +	/* FIXME: Currently only a single unshared port is supported */
->>
->> I must admit I have no idea how we'd handle ports that can be connected
->> to multiple terminals. It's allowed in the spec, even between Functions
->> which are then no longer independent, and I was told it was due to
->> hardware restrictions, but still I hope we never have to deal with this...
-> 
-> lol yeah me too. For now I am mostly just putting these FIXME's
-> in at all the places where this is going to become relevant. I
-> must confess I haven't reviewed this part of the spec in detail.
-> It feels like sharing a couple of ports for a single terminal is
-> probably tractable if a little annoying. But yeah, if we got as
-> far as sharing a port across functions that seems like a total
-> nightmare. We would probably need to do a bit of re-architecting
-> and add a port abstraction at the device level, but hopefully
-> people are wise enough to not build hardware like that.
-I re-read the spec and I think the main usage for the Terminal to ports
-mapping is bandwidth management, possibly across multiple lanes. But
-that's a 1:N terminal to port mapping, not M:1 or M:N. It's complicated
-but not earth-shattering. Also the mapping is supposed to be pre-made in
-DisCo tables, not something that requires much intelligence in drivers -
-until the tables are wrong but that's a different story.
+--FH2cet+fmQufu3HQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I didn't see any wording on sharing ports across functions, I am 100%
-sure this was talked about in the WG but maybe it didn't make it in the
-final 1.0 version. That said it's not described as forbidden either so a
-well-intended creative hardware designer will probably make that
-"optimization" at some point...
+On Fri, Nov 06, 2026 at 05:16:20PM +0530, Vijendar Mukunda wrote:
+> These two patches address nit-picks raised in review of the ACP7.B/7.F
+> SoundWire machine driver series posted at:
+
+Please don't send new patches in reply to old patches or serieses, this
+makes it harder for both people and tools to understand what is going
+on - it can bury things in mailboxes and make it difficult to keep track
+of what current patches are, both for the new patches and the old ones.
+
+This has really confused my tooling :(
+
+--FH2cet+fmQufu3HQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCau3HBgAKCRAv73Ows9A4
+iXi7AQC07VcxSDE6UbX0pOoDNP8D1f1Jtizz+IeY4X3x0IECPQD/TjXFLaUY9jSB
+kdnhWuXzBerTTocsHg+Nf4FELEip0QM=
+=4+SU
+-----END PGP SIGNATURE-----
+
+--FH2cet+fmQufu3HQ--
