@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793964632;
-	b=AlYwFvJhajQW5MBlIFAwkr30Km501CfpdaBB6Re08IwWno//al0DwR+HbQYdI/LBc7Ab
-	 YqM6utx54R3GbitFVrlKkKw2I5cjsZH8vuZ1n9sXfR/eqOSoBVUSsoKF4P5SR1VpkIUda
-	 5WsK6B97lxjeq+u0dT480m3PpjxEZZ/2FpkU6vvcb8pCN/3+xMWynNCRQoogpL7X2KPEq
-	 EsmW6GxDJkNSXB/nMC9fJyM0gwTLKKO46xqdMfP1dtkAgPpzp2/SFWAkCjolgQ7iiXvb/
-	 LOqPqztbGBljkzfRzLm72fVj5KJKDxItrmNC/60jBichkZvHxv80DJGHTd61R3vHuBQ==
+	t=1793964640;
+	b=B56bpTs9hGHIY76m0WpEkd5yPLmenNioqeGN5lF8Mr/IZMVKgE/T3RlNa0IFVYFMrLiU
+	 PalEDs8ea2YTDNakrr9pbOT4K3O1tmXOWp3eBpGd1/7BG2yE5/nmhT08jfKz6GIISoRKp
+	 8z1x4K7Rc/dFmTgkUF+cLEanQXOarQ3tP+tfUKUy+8XS26PVziIUWA56s+laeq5lRUEk/
+	 FlSW7JQY1nrQNV4II4+53PJk/YZXmnptze9Twk7qwXaQnzFJbAG66iXAcNRetsGUdBmAC
+	 A+rLBryhafxs7TqRjSg3sotM+Q8rayJl/hBHRSIwq2Eh7BjGL7FRiSzG4yQaSC80ktg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793964632;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793964640;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=7QJ0pMD2KSaBCSqKDJ78bUqyjF/YJ29dt4+3JDNLfSo=;
-	b=tKgXljXhxnKO96faf9C5Y7iBBG9wjU3g3a0Zf5bv4G2Tdu9SEMRcPBnbMEh2qwgDewGP
-	 87llcbrv0UGvos3+r+x4nGAYvNrhJKz3rn/IEWkhX3oToz4qvzflyytIiTWOpM0gDnldu
-	 gDjShGAxEAYvgp/0fmnPYup3W1wEXXi+pVUfKm5WzKuDQUb7F28WQ3CnJZohABb1V25Sf
-	 51HBEoK6kSdLjwSDC8VDKxfH/j0SiDqmJNK13AObSVUVzoLQB5fOJu9Kj2CuGmZwgpodA
-	 dKkeoEu2O3vTDkJ+U5MpkrW14UQYIstdiZ2MVzXStCtd0JyqdfoFdNm6zA76ewa5zWQ==
+	bh=q7k3m5nz3BI1gRStNL0YWWjh2c3KEFQhqx9QCZVo4Kg=;
+	b=V4LcSZgtur9/2ODI19duLXWfP4oS/NnE6DszhYy8rP/skebwIVqLH1qD2BtJ/KpGV1FW
+	 7SswQtahYarJw6MXd2PMBrYN/5tiUUcIh0Hq+JEAhI+MFPZh8wPpvKW2e5nzjZyl95nfy
+	 +VufZ9P9NqWtWuEi9tbd0g0tGgdOLJQV5q5jd2lMUNBMfaxDozT6vb++Tm7yJdvbkXjeb
+	 kJFX62Tobb/CMWnEYu44bgKgzHqG24OM36rCG+8HMggVUx9cX02ViX6f9XJQ9y3t/PEjh
+	 TJxmVQRGgvyjFVBc9Ijh+B++SEKyE0mfRBqJLjQ2PmCMwC8IPr8kdhkh9lq1Fh4HKcw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lxFYnAYy;
-	arc=none smtp.remote-ip=209.85.216.44
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SaAPA1UZ;
+	arc=none smtp.remote-ip=209.85.210.178
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80C5606D80D
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 11:30:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A80C5606D80D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1522C6083616
+	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 11:30:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1522C6083616
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lxFYnAYy
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3b09c07b3d2so304882a91.3
-        for <linux-sound@vger.kernel.org>; Fri, 06 Nov 2026 03:30:31 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SaAPA1UZ
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-8a05e3f0d23so229321b3a.0
+        for <linux-sound@vger.kernel.org>; Fri, 06 Nov 2026 03:30:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793964631; x=1794569431; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793964639; x=1794569439; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=7QJ0pMD2KSaBCSqKDJ78bUqyjF/YJ29dt4+3JDNLfSo=;
-        b=lxFYnAYyNDcW3fSzyyCufVKkDdVXqCzjBDNr8z/M254zshsejxv33zEJ+F3HoFchfz
-         4Amh3eMBOdtNyHqHpJEry2UPggAof5Rm6ixdXYjYJEj/QY/WuNx0Mk7uhLGKnoELE3Fh
-         hl60RpqlQNMAesSB1bD9GCUhYREbX5zhB71MPegIvAb4fJeLYclZZZrVQqo3G4NBIghU
-         I/oKtZ4CHFOUTNZj4/aATCR79O6GXE/piw2mTGeJ4d4ac8dlbicBImu//PAZ7q7O/ijI
-         ROjVKiZiVX0O02NO3c+gdpaFaK1l2vPFOB1DdbUAfW55HmneCjAcSrffAZj/5YCdkga7
-         pJjg==
+        bh=q7k3m5nz3BI1gRStNL0YWWjh2c3KEFQhqx9QCZVo4Kg=;
+        b=SaAPA1UZ4yXIBFAk+CH3c9RwW3VMuZIHuUtioT1LOruEtWzloAKykACc+wHkyf5eet
+         ktBtnVVLnfPHg1yrMwZkBzKyUO+WLie9JRmPXYtA6wCmPvj1LcFxUIWVogdzPi3NFk+6
+         JPASrPbEmq+W3r3Hs3IhA6oIeRPEcCdFhaBY0RyZPwHFMHFJwc7YW3bnf1Ay9MmDRo2p
+         p60vdZ5z9v7fp1p765Eu8ZMocXtFzDt4yA7/8fTwZQNVXu8Be3eUaTWQNosoNAWgCSZf
+         LF2JNGIgdcIhbQ+w0MmnxGzgLuOdqkp6E9LI5MXz9gEMbOzgNw6H0TLJOYd8rYIQN8R5
+         ubUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793964631; x=1794569431;
+        d=1e100.net; s=20260707; t=1793964639; x=1794569439;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7QJ0pMD2KSaBCSqKDJ78bUqyjF/YJ29dt4+3JDNLfSo=;
-        b=PTorfpCjAPd7eZUwhGYQ/tMfWzyp6rfw7YtJgn1oZydskOwqQ31yNwFcZG+NKt3IOy
-         Gm4/h/qg3n/IZdJFldC8XsFtbM2D9J+j4M90mmWgR3D5Ycjchp9k0FASgnCFc7jHA6w2
-         vBj7SwP4MkhAtBQ27cxgWjh/FOSb8o2QKXBHScsMDKuL82qqpxEI2/XcMPb2gJye6yaf
-         HJ6y1uQpEcXUNphE+48+UwBmLtOZX4yjN7b3bNNAwoG1zylwWwbDvmdSQ6w0yNx/Njqw
-         lVyqooBI/jMqiwlGuJjxwrb4oK/FByN4P02AbvwBWhFjluc1h4xkmvVpeJNn115ctj+Y
-         NpsA==
-X-Forwarded-Encrypted: i=1; AL+hErF5jQtReAe/AgdAIGcNPJ/rQ4Sx35qkAjBA9nWOxCRwM/zRAw8aWzZuWP3Pam4bjG5lhHWwlmCJVk0hRg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8SIq0qBchzndivToGOEqSYbA7tmXLWiskEG/tYK5GK7dE6Zbor
-	BUr2j69HiaN2HbaxRMV69aELgg+ZnahO/nzgEBUD+TE3acThyDcqtKcl
-X-Gm-Gg: AYBFou16JCxmbvw7ENMDgviDSm06Ogiz0GCiuOqNNPshic5UnJYPXc5s6LBmWRUozLt
-	cxSBgop6T5QnmEjhhdtWyimOdMVvIvMHxybCHYEVRYKQpb5+AM/MyyVX2z3mAQW1683c3PJJ9vl
-	2kZhZAepSHYzYDWDqigAS+Pb/NoLbvQvVC9I7bJYsjPK3R8J/ZL+os2EarvFAfkWmHvFtCrYMOy
-	twtKWLjz8kxltfqJc9HEYrCqvm0blP6vH6+BQoNWgeaG3X/eGtGa+1jAQHMvfbUsQnq0v5AP2TC
-	ZvT5qXlFG/8aK1L1Cvb/do7p5yYCBA9wwqYKXb+5TvqeI8rsqccHU8QXzLSh0oWUl2r6rzxxKb8
-	+Eq5j/u/WOCdN4S11+4XoEy9qMDEiFoFqtcb+NGv7Ft30amFbgTco8XKauy4I/EpSs/C/Rg3GNJ
-	mYQo8lMySZoOdG8lNg/y2cIlN6P7p0EAFzNIeQZsCTcWQGUpz+BJKFj3E83gi5IcWg//qUnkaXY
-	1Cl08/aFcKNKpUB87isWn1jzEDxOA8OKmuT45ug3SRe/jHowz++8rigFWbSvg7JJlfVBF7WTcqM
-	kCPloZfx2qlUbRskgavOO8m00mGFlx899BSGFBGF2+KNR76U/PElWntPuQZbS6oPEmx6BEu7yBO
-	lKHGpIKDqkm6KLyHiFdHOHz2PL1orgdpWy9l3I19W0App
-X-Received: by 2002:a17:90b:1a82:b0:3aa:f875:3385 with SMTP id 98e67ed59e1d1-3b0db6ebd46mr2073524a91.26.1793964630960;
-        Fri, 06 Nov 2026 03:30:30 -0800 (PST)
+        bh=q7k3m5nz3BI1gRStNL0YWWjh2c3KEFQhqx9QCZVo4Kg=;
+        b=NWx/0isLt2OwhR/mwf8yncb7HhYM+yarToGU6cLhYRcC5Zhfa4gmZ98Mrqs7OgkVBR
+         XReBP977l+vvmKBNrJ2MutWEBBPozuKPhuRrmsI8fuOtg3/2hZtJVmFsJOnlKck59hnY
+         7g/+jOMf2bXkIUP34UvZEng9HkTey0Z0v5HQTWbxJC+4+2jwmp5xWz4Fp/eCFSwaQUr8
+         0u6tAyGipNhoX1bUnhc8G3ADk4Wj/FGYqfg6R7UVO763udLesAss1yIH/64/yOwnsd7v
+         eEeqCoCjh0Gl0YkYAvhGfJgsfNNiKXHoqozEl0ojaeQboeLaEepI3V1RWobfL2lJdoWq
+         XXVg==
+X-Forwarded-Encrypted: i=1; AKwUvBy5HOMeOMzFe09v5C5CF944veeb1EExv5cMRSLMT9PPGMcG6An4mdmy68KXOb/IS9EdWD+sr6BEX1+bSw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9b0qiFAv2p+OlG/oSsJzUZHy7oY0VnnwHwiNHiRxOsiW6m2owd
+	S5+GYPrdvN2OHALwfGvmUx8CM8w517tnrFE+3aKDN6QTkE6tZLNWeRuP
+X-Gm-Gg: AYBFou2fg4DNolGTEIWUQG9fOqbMKo8Kk12XZgy9t/PVy7adEZnacirst01D1pm8n6h
+	wFeODoBUxSFNlCpg2U2wTWQIbsqBfXFBNNlDPlq+xOuL+rrPo0a1ZlbxsdN82ImTHST6Qki4ivg
+	NHfyGF/UYe2FWZUl6hNvwmfbGQrU2ms+klsj9wMj6mohw8f68fZ7I6tgDe9p7KHLGSLN6rNdDB9
+	oZWBweewtpAF/Ep9UfYgJ3pjzKGdO3i/mJAXHdatjgL769Fj7kO/Wz44cjCQg/DG2GTg2b1OQfS
+	xUIFRA0+SRmPp1b0u2t2xdntbIS7tMpbokZebo2QA6BzK6mTtyKoFZ5rduZabU27W/fvuvQdM+H
+	NP6cnqqz0GQiAUIHk0Gb5l+lxjNvJRcutHwpLJBuv6t9Qh+f7ZnEclF0zInFbUOQtc34f402eps
+	KQWdE/Pb0xbZaH1jBBZIdCBP9chQEO4Nko3KT781rAQUsQkzaCFph7w+lnzpvt+dXb+CyT4Lrsj
+	OnWkInVot8I5J9VlFuv2NqxWOWTNpIGclwtea21/uq3Gf8mPW40e0qfRgrLTsMWpBR8GoJrCtZX
+	rVDFZdOUyvI6VXXNr6K8uIGG1UV5tlX45DGVQIhuslFBzCI1gyISxKNCUJVJWi37iKRTy1lss9M
+	MsGC8JBBCGuQoWZUTszZWyuLLurPE366lKxT49CKYljzu
+X-Received: by 2002:a05:6a21:7742:b0:3e8:b7fd:6280 with SMTP id adf61e73a8af0-3ebb29e6af0mr2381417637.27.1793964639433;
+        Fri, 06 Nov 2026 03:30:39 -0800 (PST)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb70aa6ab9sm479228a12.27.2026.11.06.03.30.27
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb70aa6ab9sm479228a12.27.2026.11.06.03.30.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 03:30:30 -0800 (PST)
+        Fri, 06 Nov 2026 03:30:39 -0800 (PST)
 From: phucduc.bui@gmail.com
 To: Andrew Jackson <Andrew.Jackson@arm.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -93,9 +93,9 @@ Cc: Tim Bird <tim.bird@sony.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 3/5] ASoC: dwc: Fix channels_max derived from COMP_PARAM_1
-Date: Fri,  6 Nov 2026 18:29:38 +0700
-Message-ID: <20261106112940.53550-4-phucduc.bui@gmail.com>
+Subject: [PATCH 5/5] ASoC: dwc: Remove redundant error messages
+Date: Fri,  6 Nov 2026 18:29:40 +0700
+Message-ID: <20261106112940.53550-6-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261106112940.53550-1-phucduc.bui@gmail.com>
 References: <20261106112940.53550-1-phucduc.bui@gmail.com>
@@ -112,46 +112,61 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-The I2S_TX_CHANNELS (bits 10:9) and I2S_RX_CHANNELS (bits 8:7) fields
-of I2S_COMP_PARAM_1 encode the number of hardware channels minus one,
-i.e. values 0..3 mean 1..4 channels. In I2S mode each hardware channel
-is one serial data line carrying a left/right pair, so the maximum
-number of audio channels is 2 * (N + 1).
+The underlying functions already report these errors deeper in
+the call chain, making the additional dev_err_probe() and
+dev_err() calls unnecessary.
 
-The current code uses 1 << (N + 1), which only produces the correct
-result for N < 2. For N >= 2, it overestimates the maximum number of
-audio channels.
-
-Use 2 * (N + 1) for both playback and capture.
-
-Fixes: b226efe5818b ("ASoC: dwc: Read I2S block configuration from registers")
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/dwc/dwc-i2s.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/dwc/dwc-i2s.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/sound/soc/dwc/dwc-i2s.c b/sound/soc/dwc/dwc-i2s.c
-index 6dc84c55db0f..0de7bcb2d0c5 100644
+index 1ff5b6f8864d..87b47661e469 100644
 --- a/sound/soc/dwc/dwc-i2s.c
 +++ b/sound/soc/dwc/dwc-i2s.c
-@@ -605,7 +605,7 @@ static int dw_configure_dai(struct dw_i2s_dev *dev,
- 			idx = 1;
- 		dw_i2s_dai->playback.channels_min = MIN_CHANNEL_NUM;
- 		dw_i2s_dai->playback.channels_max =
--				1 << (COMP1_TX_CHANNELS(comp1) + 1);
-+				2 * (COMP1_TX_CHANNELS(comp1) + 1);
- 		dw_i2s_dai->playback.formats = formats[idx];
- 		dw_i2s_dai->playback.rates = rates;
+@@ -752,7 +752,7 @@ static int jh7110_i2s_crg_master_init(struct dw_i2s_dev *dev)
+ 
+ 	ret = clk_bulk_get(dev->dev, ARRAY_SIZE(clks), clks);
+ 	if (ret)
+-		return dev_err_probe(dev->dev, ret, "failed to get i2s clocks\n");
++		return ret;
+ 
+ 	mclk = clks[0].clk;
+ 	mclk_ext = clks[1].clk;
+@@ -830,7 +830,7 @@ static int jh7110_i2s_crg_slave_init(struct dw_i2s_dev *dev)
+ 
+ 	ret = clk_bulk_get(dev->dev, ARRAY_SIZE(clks), clks);
+ 	if (ret)
+-		return dev_err_probe(dev->dev, ret, "failed to get i2s clocks\n");
++		return ret;
+ 
+ 	mclk = clks[0].clk;
+ 	mclk_ext = clks[1].clk;
+@@ -966,10 +966,8 @@ static int dw_i2s_probe(struct platform_device *pdev)
+ 	if (irq > 0) {
+ 		ret = devm_request_irq(&pdev->dev, irq, i2s_irq_handler, 0,
+ 				pdev->name, dev);
+-		if (ret < 0) {
+-			dev_err(&pdev->dev, "failed to request irq\n");
++		if (ret < 0)
+ 			goto err_assert_reset;
+-		}
  	}
-@@ -619,7 +619,7 @@ static int dw_configure_dai(struct dw_i2s_dev *dev,
- 			idx = 1;
- 		dw_i2s_dai->capture.channels_min = MIN_CHANNEL_NUM;
- 		dw_i2s_dai->capture.channels_max =
--				1 << (COMP1_RX_CHANNELS(comp1) + 1);
-+				2 * (COMP1_RX_CHANNELS(comp1) + 1);
- 		dw_i2s_dai->capture.formats = formats[idx];
- 		dw_i2s_dai->capture.rates = rates;
- 	}
+ 
+ 	dev->i2s_reg_comp1 = I2S_COMP_PARAM_1;
+@@ -1010,10 +1008,8 @@ static int dw_i2s_probe(struct platform_device *pdev)
+ 	dev_set_drvdata(&pdev->dev, dev);
+ 	ret = devm_snd_soc_register_component(&pdev->dev, &dw_i2s_component,
+ 					 dw_i2s_dai, 1);
+-	if (ret != 0) {
+-		dev_err(&pdev->dev, "not able to register dai\n");
++	if (ret)
+ 		goto err_assert_reset;
+-	}
+ 
+ 	if (!pdata || dev->is_jh7110) {
+ 		if (irq >= 0) {
 -- 
 2.43.0
 
