@@ -1,63 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793971656;
-	b=XmiqxtNgwNTYk+sJ2/OLVsKngNzRH9HeQdO4a2mLLXDIByYQb8q7xe+u2LAJ5PsOOjvN
-	 w8+oUepLHfaRnM6w9DFEG9hKjdlBCo6PoGFvCSPvTFdBBdsLxaLK1+pDxCUmaGne2L33d
-	 2cPSUb0MG7qQkRCWfo7lW1Ht9O7KfM2lk3q0CVAkomb4x9mcxQljdCKQAT3OuBfnMFAJ/
-	 +o1OXVo7CJC1lvd1GSz9e6AZkB46MOfAJA311gXH6c4qFE3n+gc2CH6OqbFgBozPBcB+x
-	 fRmVZ4MMDM+zhkMUjc1iGOAD/b5/bId1BptsRd2g/BoN9U7+C4QNPm38JsigITGqkCg==
+	t=1793971829;
+	b=Y+PuWUjbtT5Xfkm8y8O9TNnM7Kys1GfBc2V9D/PBUd8zAJacc5Hu8qs9zhrZZ6t3eJr0
+	 CaELLKa70Ll54g7SY5CrphyowyMscd8QLgY4/i0xuUVqhtpgx9nP395FSjtNEvy2A5Ffa
+	 RM3ZXaibdOTI3jjrbxkIAnjzuKzYaE8cKsCR/Vb2RfA9ZKFJW+1XiN3dhd5U2CY5F2kjc
+	 UfouCrDqugCBCQZjbdG/O7uyFm4cvsMW3GU47isO3RMyapmCqLqn30bRWdLt0JsN/2kMQ
+	 pXYixz2c7ZHwerR6bRJamlmHkSUY3QWsibRmUrS3kCwD45ckw82eo6UGwROirpwkFjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793971656;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=PN4awULBFGC9ZH9QdrdiAMHRKAA3lcCqKfgTxlypFXc=;
-	b=UNWEj3ouvHo4Gy/sQ6nCEbUNwR8q8Q9TN67FsoTX3+CXYup4M/FR2qaZTAfpwadX8IV3
-	 ZSMJVuErDDQCX1UqKiHTEAK+Tn99xCdi1mbMrIqhNRasmw0IMaPASmTM0J7NtIOd8HncC
-	 B+SoSDqdayrvDRgF6JD5xyRYxFfoPXkx11ciLw7ohTsSuOFhYYyt6LK28VL/O1UEjEWJ9
-	 89D79RaALSLYZtlWME5jNTytAtcwj2jrmm1hSu5L9KUIDH6JkzTKHC6Fg/5KLLT+JSQPK
-	 4aWY4mJB78Ixu6FPyc5rXvTnYeluRlmXYUP9Sn54xTGLZj43FQ20AqWBUkm8qMbXQpQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793971829;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 In-Reply-To:Organization:References:Date:Message-ID:MIME-Version:
+	 Content-Type;
+	bh=SN/6UBtRF9t23k+xh5kIB4pVCw09MPBbP88OI2a0J9Q=;
+	b=yqlC0IMn7+g6+dIbN38BoH3YImmsMksZadgfKiR1FVo1AlasCUzzP+v1xEMbxmq+BmHZ
+	 J4/7GNJ3VHZ2H62eRiDI4J8qp45haK9exTsp+hYv5AJU1tarEQrC0QvcEbDun6qxpc68f
+	 YbHMWfywFupOAHd32IESsYRNqPp0VgJMcIoXijOHtgdhJJ3QViT9y2ybHaNtaJ3sJMKLY
+	 iqhIvx4TH6ks63QpiU0txDHNDZ3/TTv/yE9qUhmwvPp97N4c5yRSUChFZ7Pe22W4L9xcE
+	 vlodzQRu+5RcoP7SfrucdrirO2VhCfAFrjf31fUbPWP1FBOLBZzNMRl+TWu8wZfLuGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S21CMEXt;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EDlVThOT;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59606606A326;
-	Fri,  6 Nov 2026 13:27:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D17A606A32C;
+	Fri,  6 Nov 2026 13:30:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D17A606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S21CMEXt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA6821F0089F;
-	Fri,  6 Nov 2026 13:27:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793971656;
-	bh=PN4awULBFGC9ZH9QdrdiAMHRKAA3lcCqKfgTxlypFXc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=S21CMEXt81WIvcIKyPoFfFmTRFa8ir9+MiOyQJOzj373HqU34J0Rl6QtMlJIkRoJv
-	 qotoYFJKBQu5vOGm6DJ+obJGWRe16YpitShaijeWSzn9LrKYQnyD9hfNKt2gFayC6x
-	 FwS1rNBTIdFOmBF6997HjpxIYtzqps2akAzNmq4Ct2AZXyMdKtWbjgHkQQwVMQPFP4
-	 jmaFS8v1YBpU6xaByvC2y+0OmtNnClfpFgdNGZQf3L7d6enLhZ9GJgpeSZLHyUPcSn
-	 4BzrcO64jjV9H0CRZpWkOMC7wVgq2hfsqI1S1/U66B5daxi6wC0ZVchbSIOOHgaz17
-	 oVLYUJqfZIGTQ==
-Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
-	id 7187528078CB; Fri, 06 Nov 2026 13:27:32 +0000 (GMT)
-Date: Fri, 6 Nov 2026 13:27:32 +0000
-From: Mark Brown <broonie@kernel.org>
-To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-Cc: pierre-louis.bossart@linux.dev, Basavaraj.Hiregoudar@amd.com,
-	Mario.Limonciello@amd.com, Richard.Gong@amd.com,
-	Sunil-kumar.Dommati@amd.com, Syed.SabaKareem@amd.com,
-	alsa-devel@alsa-project.org, lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	perex@perex.cz, tiwai@suse.com, venkataprasad.potturu@amd.com
-Subject: Re: [PATCH 0/2] ASoC: amd: acp: supplement patches for ACP7.B/7.F
- SoundWire machine driver series
-Message-ID: <8d5dfce0-a916-481e-969c-f106f1571084@sirena.org.uk>
-References: <20261030094714.1123396-1-Vijendar.Mukunda@amd.com>
- <20261106114622.219126-1-Vijendar.Mukunda@amd.com>
- <1a75c8e5-975b-4225-9e25-5b6b1148fb50@sirena.org.uk>
- <2d887588-cda6-42a9-bf0b-890b89826b57@amd.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EDlVThOT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793971828; x=1825507828;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=Hg3E2tV8t/r3xvA5nyxI35xq+Jk6OiCkXu5R71On+t8=;
+  b=EDlVThOTAwyzZA4iokKQreh1uTlVDSUxOLa6nVyx4DXf0yFKM+476pUK
+   7Kvet/46H0IpQtK4O6v/fnxGumJ8pt+9e7SWlwevq+08u2uc7Y41BBe1Y
+   Q9FU5Xe9gORRKuVKdQGRn3pFsqqpzZ9XJ/ZoUsuGTwZz/C/gzN6OCaA9g
+   1C2ssdx4tfB9ypHRbszYI4KJK/94BmO3ssMjIFVQQ0en/+N1A/xb3d0JA
+   qmiLVgsoQHv4i+Buku3kFOYGCz+0FeNm1xf8LDY143PpbW+YoSiSewNaJ
+   3x19qXrDl/nvxJxGqv0w1iPcYvXyVGEmfyJUnDP4OrW8duPzVLhE1FDdP
+   A==;
+X-CSE-ConnectionGUID: Ha+jqaGBSPylWYVFATwrmw==
+X-CSE-MsgGUID: Vhv7ckQTQ6aj/jKtkmZF3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2775394"
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="2775394"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 05:30:16 -0800
+X-CSE-ConnectionGUID: X3MEUOGvQgyeCvaHWnjegg==
+X-CSE-MsgGUID: MyRyuK9DTWKlwEdX2DelYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="7159162"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.101])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 05:30:10 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Rodrigo
+ Vivi
+ <rodrigo.vivi@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Takashi Iwai
+ <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
+ linux-sound@vger.kernel.org, Harry Wentland <harry.wentland@amd.com>, Leo
+ Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ amd-gfx@lists.freedesktop.org, Lyude Paul <lyude@redhat.com>, Danilo
+ Krummrich <dakr@kernel.org>, =?utf-8?B?VG9tw6HFoQ==?= Hnyk
+ <tomashnyk@gmail.com>, Wim Taymans
+ <wtaymans@redhat.com>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Subject: Re: [PATCH 0/2] drm: Populate ELD Port_ID to identify audio endpoints
+In-Reply-To: <20261105160240.2850042-1-kai.vehmanen@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20261105160240.2850042-1-kai.vehmanen@linux.intel.com>
+Date: Fri, 06 Nov 2026 15:30:06 +0200
+Message-ID: <e3f0bf049faf6222781eb61e23cdaacc62eccfd7@intel.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -67,42 +96,60 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hmGdR5RgUZctl1XF"
-Content-Disposition: inline
-In-Reply-To: <2d887588-cda6-42a9-bf0b-890b89826b57@amd.com>
-X-Cookie: Whoever dies with the most toys wins.
+Content-Type: text/plain
 
+On Thu, 05 Nov 2026, Kai Vehmanen <kai.vehmanen@linux.intel.com> wrote:
+> The ELD Port_ID field (bytes 8..15 of the baseline block) is typically
+> zero on Linux today: drm_edid_to_eld() leaves it empty and no in-tree driver
+> fills it in. amdgpu, radeon and nouveau pass the raw connector->eld to
+> the audio component. On the amdgpu DC Azalia register path the value
+> is a hardcoded constant, the same for every port.
+> Only closed display drivers fill the value.
+>
+> Pipewire added support for "Port_ID" in merge request:
+> https://gitlab.freedesktop.org/pipewire/pipewire/-/merge_requests/3025
+>
+> As a result, when two identical monitors are connected their ELDs are
+> byte-identical, and userspace (e.g. PipeWire/WirePlumber) cannot
+> passively tell which HDMI/DP PCM belongs to which DRM connector.
+>
+> This series adds a DRM helper that fills Port_ID with a common layout,
+> and uses it in i915:
+>
+>   bits 63:48 - PCI domain of the DRM device
+>   bits 47:32 - PCI bus/device/function of the DRM device
+>   bits 31:0  - DRM connector object ID
+>
+> The upper half follows the layout documented for the AMD Azalia sink
+> info registers (dce_audio.c: "PORT_ID1 = 16bit BDF"). The aim is for
+> this to become a convention other drivers can opt into. For drivers
+> that copy connector->eld to the audio component (amdgpu DM, radeon,
+> nouveau), adopting it would be a one-line change. Comments from the
+> AMD and nouveau folks on whether the layout works for them are very
+> welcome.
+>
+> An alternative would be to fill Port_ID directly in drm_edid_to_eld(),
+> so every driver gets it without changes. I went with an opt-in helper
+> to avoid changing the ELD contents seen by all drivers and existing
+> userspace at once.
+>
+> The value is exposed to userspace via the ALSA ELD control and
+> /proc/asound/cardX/eld#Y.
 
---hmGdR5RgUZctl1XF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+We might want drm_edid_to_eld() to do this automatically for everyone in
+the future, but I think this is a good, cautious first step.
 
-On Fri, Nov 06, 2026 at 06:21:23PM +0530, Mukunda,Vijendar wrote:
-> On 06/11/26 17:54, Mark Brown wrote:
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-> > This has really confused my tooling :(
+>
+> Kai Vehmanen (2):
+>   drm/eld: Add drm_eld_set_port_id() helper
+>   drm/i915/audio: Populate ELD Port_ID
+>
+>  drivers/gpu/drm/drm_eld.c                  | 42 ++++++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_audio.c |  2 ++
+>  include/drm/drm_eld.h                      |  3 ++
+>  3 files changed, 47 insertions(+)
 
-> Understood, and apologies for the confusion.
-> Since the original series is still under review, I sent the supplemental
-> patch as a reply to it instead of starting a separate series with a
-> dependency.
-> Going forward, I will post such changes as a new series and clearly
-> mention any dependencies.
-
-If you want to add something to an existing series post a new version of
-it.  It is not sustainable to manage a mess of interdependencies between
-in flight serieses.
-
---hmGdR5RgUZctl1XF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCau3VxAAKCRAv73Ows9A4
-iZ2CAP46NBtxfL8hCUZOKrEQw42Agi0JhojneAcIGHLfbLMoNQEAjPbfv054xjHa
-j4XKJRgXWFK4ZtAvOFovFUf9WZJWgQU=
-=hmy3
------END PGP SIGNATURE-----
-
---hmGdR5RgUZctl1XF--
+-- 
+Jani Nikula, Intel
