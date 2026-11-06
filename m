@@ -1,105 +1,110 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793975648;
-	b=J9C10XEoRXovFlX49DIetDarPXH5oxGmx6PgthXam+TZlSvLnOKGJtWNsm+MhrL58At/
-	 D5Gp2TuaaE/wTudq6XZ//wmD3LTSgO9mKbgUI3D7uXhkU1Y9ckgCs8Bn0CoWEncDbpidL
-	 dTfWUauJEB2mhEfPSbMBtNwnJiqy+MSeLwQqFSkoDnw52sqny+r1QYw5TZ2H8KURDw0Jp
-	 QQg7WTCnHRdwuGx5I170iFf+AkD3mPhBNLjXMNPhPBP0yM7OFLRf2UQmhTH2mDe2HyCUK
-	 fo2sihLzIoEmdsXCXhUtKloCP6KEbFqlrpsb/YskUs5b7IxuiIBxlSGNBIJ8bcvetIA==
+	t=1793975875;
+	b=b16FpbNOE5f3vIP+mRkJFiuFwi+4NX5JkS0BWej/70nbHO33/CczPI0fqHLZwGdoy1IE
+	 Clx558uyT7J9QtiajNdcrOopu1Ud3C9ROhLS7587uHmUeHLgyG7GmOAd4+/qRALG+aQC6
+	 SloGVqsX3dTsR1P+YZkTLtTLjUn3jxHGUSvZxfvDJyY2kKgBORzZOp2XYf/S8OJP/SNeJ
+	 KZsVDApUxKkyJpP8FUPcef2t92chqXXL3Pr9vtrxRcdCn3asHdnmlmYN/3nqHolxfy5LN
+	 LBLxIP4OCmUkudQ9Gp2nvTOkQKH2SdmqPSLQCn3FyOnGT/NSQEZhSVL9e2vHQbkLLVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793975648;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793975875;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=eT5kW3GqbMNCiTQt7Xx/TzYOBlaxqGWuEdZHuRmY6zU=;
-	b=5gy3Ddh99cry44arI9iIOzkFinnFOplG9FhZQkLL0vl8nsaLnh1zZaNC1sE3aJlUjXX3
-	 UKc513QhvKIsLlDNx7+VpD1LyKncqMkMdFiu49qCAisxRaZdDVVUsQeT92bSuvILfz0mq
-	 kGuulj+Sv4rjCRPKPElupLqGB2PbL9CUm1wnf0lHkOecPjfN5N6/NYzRRQC7peUThTSrX
-	 oNyHtL3koPyFDzuRlfek02nc0ewLmYhACP+u9BLCM/2MIiFEhUEvl5dY0dBL5rjd9GGLd
-	 xIvMzXI5AmJPEGfm5WiwL+WehaKWustD3J7yBMI+tm8y0b051JnzMns48efnLmUjcZA==
+	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=d6+KqjzGNGhlu9omZdJhETF9JVgg7tU3WIeLoUlP4uU=;
+	b=fyrLhfnlQsxU9hYY2I+bWXdx2KEudFqsQKb2bul1lCLSndqK/qukrHbJsDqNFgFHmIpj
+	 Vg+uFoWLAxfLN1oUO5F8WxAved+6rVrxesLMPYhveANcdv5mu02lwo5UyUrAEt/sgBycp
+	 6UbDvnYdnE+OkMnqyjv1miirH5o/g5mScnMlUFOorVZ+Gmpvfx/sXOeHUpegTCE4MFvbK
+	 J7DxyNQQzYgWBkSHx1gmSCjI3ew0cQLCu7FlU036OJRTf2Rp30HsI2vSEGTq6zORo1R5C
+	 chW1L70Cmunrm0oyFcsaPt+ocUMr6qlJ9f6ORBZVFkNXHnuK2nTKy791Af+ozoPTuLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=z7jYrBK6;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="/h5FGc1w";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=z7jYrBK6;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="/h5FGc1w";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=l6VgaSSX;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xKNedjWq;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="p9zZNh/F";
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hy9vOFIN;
 	arc=none smtp.remote-ip=195.135.223.131
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775C3606A33E
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 14:34:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 775C3606A33E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1055A606D824;
+	Fri,  6 Nov 2026 14:37:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1055A606D824
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=z7jYrBK6;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=/h5FGc1w;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=z7jYrBK6;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=/h5FGc1w
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=l6VgaSSX;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=xKNedjWq;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=p9zZNh/F;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hy9vOFIN
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AF3F41F452;
-	Fri,  6 Nov 2026 14:34:05 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D8E871F78E;
+	Fri,  6 Nov 2026 14:37:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793975645; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793975873; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eT5kW3GqbMNCiTQt7Xx/TzYOBlaxqGWuEdZHuRmY6zU=;
-	b=z7jYrBK6mPEwiMVqKHe83g6ffzYnNJNdjKc98JnHrplJ5uxUbq9ZuK7+SgO0L4hJ3Ysao5
-	KULu5zFDLbDAWT6Rcs2P2hgDRT6s9kBIhFPhNrxlM/khTzCSIvqbgblWA1pYgq5BmNaUIH
-	WIFG1dztjuGqrkT72hqFrboCXp1Ovww=
+	bh=d6+KqjzGNGhlu9omZdJhETF9JVgg7tU3WIeLoUlP4uU=;
+	b=l6VgaSSXN0pOdjWc03y9dW8ar12Hq8mR5fN4kp318nDQeZ5p1l8NyOb8tCFmJWh7AmGMwo
+	Rg2h+UHyA0aFOZhE+wAIk//d7JAuMmIq9Or8h+KhdAO83Td/6FyHbExPsejpIqHi22J5ON
+	UGNCliHVPWLza69wv0JoZFIIYLl54Qc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793975645;
+	s=susede2_ed25519; t=1793975873;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eT5kW3GqbMNCiTQt7Xx/TzYOBlaxqGWuEdZHuRmY6zU=;
-	b=/h5FGc1wvVooO2wMG3sTx3lkNj9gIdrm+OMLyrNtWqgXCEGV0SMpCuHiAxNqKzwe3txEwZ
-	+OoZlWEzLiR1mMCA==
+	bh=d6+KqjzGNGhlu9omZdJhETF9JVgg7tU3WIeLoUlP4uU=;
+	b=xKNedjWqpix5mtgYqluonbCUJAAPUYdHSS3fBiOPvCGAoGhHDOr8PQxDH6OBnsXq3XRbBK
+	YLVeYbnge1maGzDA==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="p9zZNh/F";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Hy9vOFIN
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793975645; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1793975872; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eT5kW3GqbMNCiTQt7Xx/TzYOBlaxqGWuEdZHuRmY6zU=;
-	b=z7jYrBK6mPEwiMVqKHe83g6ffzYnNJNdjKc98JnHrplJ5uxUbq9ZuK7+SgO0L4hJ3Ysao5
-	KULu5zFDLbDAWT6Rcs2P2hgDRT6s9kBIhFPhNrxlM/khTzCSIvqbgblWA1pYgq5BmNaUIH
-	WIFG1dztjuGqrkT72hqFrboCXp1Ovww=
+	bh=d6+KqjzGNGhlu9omZdJhETF9JVgg7tU3WIeLoUlP4uU=;
+	b=p9zZNh/FalsqgijGxmxz6z22VYDca4YetgU88g96QJ8U3RYro7zCukbfVK6CavyFENc+gs
+	If07PBsOjZSqlQiBqHP5aKCrHyHtuMnS9Qgk5t0Y4h3KpmlO86OH8wyTeYYfFGTWw1nfL9
+	FEPAS1tiE2aNZsBEDuQWzcrakL15194=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793975645;
+	s=susede2_ed25519; t=1793975872;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eT5kW3GqbMNCiTQt7Xx/TzYOBlaxqGWuEdZHuRmY6zU=;
-	b=/h5FGc1wvVooO2wMG3sTx3lkNj9gIdrm+OMLyrNtWqgXCEGV0SMpCuHiAxNqKzwe3txEwZ
-	+OoZlWEzLiR1mMCA==
+	bh=d6+KqjzGNGhlu9omZdJhETF9JVgg7tU3WIeLoUlP4uU=;
+	b=Hy9vOFINaMjvLdgMxM/KjigQ42AaTJbRrjcAiPwIpHYaqoeJEWd+3tCaVTRM0CW3W/t0ZO
+	Az3nwZuq3zQnlrCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A795132C9;
-	Fri,  6 Nov 2026 14:34:05 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 834CB132C9;
+	Fri,  6 Nov 2026 14:37:52 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xMhkEF3l7WoMeQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 06 Nov 2026 14:34:05 +0000
-Date: Fri, 06 Nov 2026 15:34:04 +0100
-Message-ID: <87h5huowpv.wl-tiwai@suse.de>
+	id CS3VFkDm7WrQfAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 06 Nov 2026 14:37:52 +0000
+Date: Fri, 06 Nov 2026 15:37:52 +0100
+Message-ID: <87fqxeowjj.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Devajith Jijush <devajuice@zohomail.in>
-Cc: linux-sound@vger.kernel.org,
+To: Deukjung Kim <mentalese@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH] ALSA: hda/conexant: Add quirk for Acer TravelLite TL05-41M
-In-Reply-To: <179396062556.127350.15308705935335598574@zohomail.in>
-References: <179396062556.127350.15308705935335598574@zohomail.in>
+	Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ALSA: usb-audio: Add Arturia AudioFuse 48V/Main mute mixer controls
+In-Reply-To: <20261105112903.536150-1-mentalese@gmail.com>
+References: <87ecd0tt6x.wl-tiwai@suse.de>
+	<20261105112903.536150-1-mentalese@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -111,137 +116,54 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.30 / 50.00];
+X-Rspamd-Queue-Id: D8E871F78E
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-12.51 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_FIVE(0.00)[6];
 	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.51
 
-On Fri, 06 Nov 2026 11:23:45 +0100,
-Devajith Jijush wrote:
+On Thu, 05 Nov 2026 12:29:03 +0100,
+Deukjung Kim wrote:
 > 
-> The Acer TravelLite TL05-41M (subsystem 0x1558a600) uses a Conexant
-> CX11880 codec whose analog output amplifier is enabled by codec GPIO
-> bit 1.  The driver has no quirk for this machine, so the line is never
-> raised and both the internal speakers and the 3.5 mm combo jack stay
-> silent, while the microphone on the same jack, USB and Bluetooth audio
-> work normally.
+> Add mixer quirk controls for Arturia AudioFuse (0x1c75:0xaf02):
+>  - Input1 48V LED Switch (wValue 0x0001)
+>  - Main Speaker Mute LED Switch (wValue 0x0500)
 > 
-> Add a fixup that sets GPIO bit 1 on this subsystem ID.  It is applied
-> from the HDA_FIXUP_ACT_INIT hook, since the codec loses the GPIO state
-> on a power transition and the line would otherwise stay off after the
-> first runtime power save.
+> Values are written with a class MEM request to entity 0x46 and the
+> initial state is read from a 178-byte status block of entity 0x47.
+> Protocol reverse engineered from Arturia AudioFuse Control Center.
 > 
-> Note that the existing CXT_FIXUP_GPIO1 fixup raises GPIO bit 0, which
-> has no effect on this board.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=222238
-> Signed-off-by: Devajith Jijush <devajuice@zohomail.in>
-> ---
-> Note for reviewers: the GPIO behaviour was verified on the affected
-> machine with hda-verb; I have not built a kernel with this patch, so the
-> code path itself is untested.  Setting the same three GPIO bits from
-> userspace makes both the internal speakers and the headphone jack work.
-> 
->  sound/hda/codecs/conexant.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
-> index a141c94..623e466 100644
-> --- a/sound/hda/codecs/conexant.c
-> +++ b/sound/hda/codecs/conexant.c
-> @@ -289,6 +289,7 @@ enum {
->  	CXT_FIXUP_HEADPHONE_MIC_PIN,
->  	CXT_FIXUP_HEADPHONE_MIC,
->  	CXT_FIXUP_GPIO1,
-> +	CXT_FIXUP_AMP_GPIO1,
->  	CXT_FIXUP_ASPIRE_DMIC,
->  	CXT_FIXUP_THINKPAD_ACPI,
->  	CXT_FIXUP_LENOVO_XPAD_ACPI,
-> @@ -826,6 +827,17 @@ static void cxt_fixup_hp_a_u(struct hda_codec *codec,
->  		cxt_setup_gpio_unmute(codec, 0x2);
->  }
->  
-> +/* Acer TravelLite TL05-41M: the analog output amplifier is enabled by
-> + * codec GPIO bit 1.  The codec loses the GPIO state on a power
-> + * transition, so this must be applied on every init, not only at probe.
-> + */
-> +static void cxt_fixup_amp_gpio1(struct hda_codec *codec,
-> +				const struct hda_fixup *fix, int action)
-> +{
-> +	if (action == HDA_FIXUP_ACT_INIT)
-> +		snd_hda_codec_set_gpio(codec, 0x02, 0x02, 0x02, 0);
-> +}
-> +
->  /* Huawei MateBook 14 (SN6140): the speaker output follows the headphone
->   * pin's connection select in hardware.  Both pins must be routed to the
->   * shared DAC 0x10, which carries the playback stream; the generic
-> @@ -1001,6 +1013,10 @@ static const struct hda_fixup cxt_fixups[] = {
->  			{ }
->  		},
->  	},
-> +	[CXT_FIXUP_AMP_GPIO1] = {
-> +		.type = HDA_FIXUP_FUNC,
-> +		.v.func = cxt_fixup_amp_gpio1,
-> +	},
+> Signed-off-by: Deukjung Kim <mentalese@gmail.com>
 
-There is already a GPIO bit 0 setup (called gpio1)
+Applied to for-next branch now.  Thanks.
 
-	[CXT_FIXUP_GPIO1] = {
-		.type = HDA_FIXUP_VERBS,
-		.v.verbs = (const struct hda_verb[]) {
-			{ 0x01, AC_VERB_SET_GPIO_MASK, 0x01 },
-			{ 0x01, AC_VERB_SET_GPIO_DIRECTION, 0x01 },
-			{ 0x01, AC_VERB_SET_GPIO_DATA, 0x01 },
-			{ }
-		},
-	},
-
-so you can implement similarly,
-
-	[CXT_FIXUP_GPIO2] = {
-		.type = HDA_FIXUP_VERBS,
-		.v.verbs = (const struct hda_verb[]) {
-			{ 0x01, AC_VERB_SET_GPIO_MASK, 0x02 },
-			{ 0x01, AC_VERB_SET_GPIO_DIRECTION, 0x02 },
-			{ 0x01, AC_VERB_SET_GPIO_DATA, 0x02 },
-			{ }
-		},
-	},
-
-and use this in the quirk, instead.  Then you don't need to create a
-function.
-
-> @@ -1255,6 +1273,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
->  static const struct hda_model_fixup cxt5066_fixup_models[] = {
->  	{ .id = CXT_FIXUP_STEREO_DMIC, .name = "stereo-dmic" },
->  	{ .id = CXT_FIXUP_GPIO1, .name = "gpio1" },
-> +	{ .id = CXT_FIXUP_AMP_GPIO1, .name = "amp-gpio1" },
->  	{ .id = CXT_FIXUP_HEADPHONE_MIC_PIN, .name = "headphone-mic-pin" },
->  	{ .id = CXT_PINCFG_LENOVO_TP410, .name = "tp410" },
->  	{ .id = CXT_FIXUP_THINKPAD_ACPI, .name = "thinkpad" },
-
-Please avoid adding a new model string unless needed inevitably.
-We can apply the existing quirk with the alias (xxxx:yyyy), too.
-
-
-thanks,
 
 Takashi
