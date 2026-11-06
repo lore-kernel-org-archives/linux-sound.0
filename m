@@ -1,77 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.158.83.2
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793987731;
-	b=uF/GrOTGexJyzm5NOTom+pFmnVQSLMdBdh7nhcfvSXmlCCZ2g9ndKBtGOei+3W3fPzt5
-	 3IRSdIHOaRi2OLajeOwzoRYEFabujqJKlwxGAbijDozo06oMXIbz6vzO1pvQGdTRzf7Qb
-	 P9IMGUMC6+CbqNmvclXhATbBvWMuFdd0tG1hSRmYLOKx6p4nfTOgM2zT1ubH/KZCd8d1R
-	 UrFsxEZoCDHcn59l1xJqLC4EInLM88W2BxGts0QLsbSu4eq6XDpUo8HYW8qlbHmTC1g66
-	 jCZMaxKHZLNbdHZTwQcLSCBHtpDAOkmtxnFGG/ulW1/NeL3UejU9sscfAfGyoQ/R30Q==
+	t=1793988581;
+	b=i0E1CPHtapHEgspNUyOH8yvpghNUE1vtjuIDalSc0sw7Z+JvvJ9rxBX2k38HMSNW0EFG
+	 4lzUXFcWr5TF2fTEu2zJZxr1dRA63PGkNjP3msQg9d0UrHm+0N6lV0qpfdYjuGYkXZiV6
+	 tsqmhG1yGrgZcc1yG0rc2BwfS69k46asUGX+1KAhSccPxrebJW43bv4vinwx0Hpf8YAl8
+	 OQoqIcDMn4LSsRtciODmD7glZuy7+3dIM6WnErM4Cwyet6Bd0gejsPwY2PBpZ7FTYgUxl
+	 pXJXEJFXj4794BbfnW5LkFoSGsvPUaOmuEpNXsqbD2EEsYOgIf+E3ByPBFRvr6Tb/2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793987731;
-	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:CFBL-Address:
-	 X-Report-Abuse-To:Received:Feedback-ID:X-Mt-Data:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=w3R4NWkzAVN6bv243bgvKvls0Ew5K6M+j/b7qLFiaX4=;
-	b=pVwREPZ6Nap+4bTe89M28HVmTOsvqIXRRNxu+zM+k6kwoVUPprIzZYXGUe5PlfGY4bk7
-	 ezTPNJ67BcfjKzLH+tifTU72oSCMRicUraKQWulGIPIV4gYayOQPtZlYoKz1qWGO/wOV0
-	 BBDRFkaYfpjvhDlUiGDWLV/fmlRtUyTZpvHx6cTZS+2dtwWrT/cEtJ57UaJIW3Gv6kfA+
-	 UUhi6l3l3b1K6NLjV/rSoNMvd3rrYV8/DZvGruFIbNwoPMGbd3wVxo/5Mfg58ePOFgPjA
-	 5Mkf1iScx8aLbesjtDl8r5KLgAXchkoNbJ4gdc4bjUIbjZGJK1HPRTNu/GItiMDUiEA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793988581;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=XHoNbOiS3kAZn5XDBJFLkRMPTYji5N9SX6DLNdEprPY=;
+	b=wZGh6+q0rQBZ8qzoiH3y5+Ceg7pNqGl38ASG6D7ylhvXDSnBXaTdFaD4Fx3uXFud1GkG
+	 8vv26UhHvkGZfOtbywqZpmK+aF04/QZ5d+tA5+XWi0YX7Os2J+tJWHG0eH+eoB5+I9dFv
+	 370CrsImjtaFADefW+DNfVvzTvJFKRNltzyot09UOFMoCgqlRGBf+ZGBcOk9VzUlkpsle
+	 H+EbFcLLUYXQ0A9EBk2qFbUdcN0Ne10gMNAT/4ooJVrouBOFeQfRYQeOoI9iqvtrPNbMq
+	 472bmc1KpWTQZ23NiFSUHMxKwfO0J30E9i8JqXMKQuz+284uADkqxUK29QU8dRY64SQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=dvsn.net;
-	spf=pass smtp.mailfrom=mt71.dvsn.net;
-	dkim=pass header.d=smtp.mailtrap.live header.i=@smtp.mailtrap.live header.a=rsa-sha256 header.s=rwmt1 header.b=qB2XrUIH;
-	dkim=temperror header.d=dvsn.net header.i=@dvsn.net header.a=rsa-sha256 header.s=rwmt1 header.b=KB+ZoUAJ;
-	arc=none smtp.remote-ip=45.158.83.2
-Received: from smtp-83-2.mailtrap.live (smtp-83-2.mailtrap.live [45.158.83.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="itsVLWh/";
+	arc=none smtp.remote-ip=74.125.82.54
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D0F606A336
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 17:55:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2D0F606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dvsn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt71.dvsn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA40606A330
+	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 18:09:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BAA40606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=smtp.mailtrap.live header.i=@smtp.mailtrap.live header.a=rsa-sha256 header.s=rwmt1 header.b=qB2XrUIH;
-	dkim=temperror header.d=dvsn.net header.i=@dvsn.net header.a=rsa-sha256 header.s=rwmt1 header.b=KB+ZoUAJ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; x=1794333323;
-	d=smtp.mailtrap.live; s=rwmt1;
-	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
-	 feedback-id:cfbl-address:from;
-	bh=w3R4NWkzAVN6bv243bgvKvls0Ew5K6M+j/b7qLFiaX4=;
-	b=qB2XrUIHGaO7PAQa0Ngzi027go59IJ4Sx2aNtydwja/Y6YVWgOjWGKuYzVyPlo/gvncwrz/Oo2k43
-	 9tZU9AWuPNKRhg80Os5j8+o6oxnrHgSXnImqY5hjI0XDeZcBdpw8qk0/Nk0xOlWjW9a2aUu+paAsqM
-	 TSlCP8im59xqPcOK/94UYbP17S5YJBACMXV3rKN3ymNGB8BqFHgKS9ip2axexaZTg4z1UzeE0dhD9m
-	 hEl1AHzlQForFBt2HEHV6IrBI9L8k4ZNI7ts/3VFWjc1ZqoGD4neKotdmdP+oyThuTkBkud3NWTAX4
-	 iTJFRBMndL0y9Gn01QWU18pLL4a3vgg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; x=1794333323;
-	d=dvsn.net; s=rwmt1;
-	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
-	 feedback-id:cfbl-address:from;
-	bh=w3R4NWkzAVN6bv243bgvKvls0Ew5K6M+j/b7qLFiaX4=;
-	b=KB+ZoUAJxqrWiE9w03xEqVXq0CMYGZUgccOml+PCF8Uvk63xDFOIKPn3Q7Abu1Er59bK2UX7wyNzM
-	 WgOfgX7qhl4/kkLB2Q4mUSj334d1Q04QeXQPY5hHvyIC29wRxXGyUSXpCYpl+ThqDIcqaSl5AgkBH/
-	 Kyme4OBYoWD6HEYNvQPaulWocgKiaLF0FOc75KxEmT9EqIW0I4gQNoBl7Kpj5cuOEHN4NXGdFmYXe6
-	 7aZej2FP3/ZyiUfmfwa020EizZuXOjzTizV1hNfwmAv8/g7e0ecJkI6T35CQCDADLuDTE71o6PBfMv
-	 /aGhYrPiSuE/U/w6PRG1SzlwN2LUyig==
-CFBL-Address: fbl@smtp.mailtrap.live; report=arf
-X-Report-Abuse-To: abuse@mailtrap.io
-Received: from dvsn.net by smtp.mailtrap.live with ESMTPSA
- 3bed8736-da0b-11f1-9202-0effe0a7bb05; Fri, Nov 06 2026 17:55:23 GMT
-Feedback-ID: default:529932:transactional:mailtrap.io
-X-Mt-Data: ooHbNoje95qEOIDTPQorIFou0yjPVqCGieCFIVNgK4lIExqA5UKK5hbIOxAzFO_zeis1dMe95DKwGXhZRkjtNgx6dUeY5zpuUzqB5bXMebyNhsbVwzNAIqLCbYkPr6gBxzg2UfKo9wFs994nRqMpFIC7o7da.8dwRzWNI02x9ik.kAf2fYh.MibWZ1mfo_jmkT9nnUesnl_jkuvCsw8F7nRZ0L8FKwVZ83FWP4wXi9iOh80--zyZkfk0.Qb3ef.nV--k.ooMerc7i0zXQHBAjTRRw
-From: Andrew Davison <andy@dvsn.net>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=itsVLWh/
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-19305bcb72cso891260c88.1
+        for <linux-sound@vger.kernel.org>; Fri, 06 Nov 2026 10:09:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793988580; x=1794593380; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=XHoNbOiS3kAZn5XDBJFLkRMPTYji5N9SX6DLNdEprPY=;
+        b=itsVLWh/Udvqv6vleyslRD9ztK0SrnvDCpr4/4N4AlEiOccupSUuKeJV7x8i6E9RLY
+         5FlrDSdTqQZ8taMwCsIyTYJDiYHOBvcPyYuN/8J6raWLl+xxqavsF7L4dEGBjO9xDDFd
+         A4sKOPNzr+dXB6tXwybXrrx88cSkCZHc/KlW2xDqyTwvEzFqsoByNTmzWHWTUYfogt2P
+         VAwjBLZA3O7vYoaiWOO7VMzmPvK2cTZ2qvJUmtfjzTk/gmHJ3f8PA8tVA3s3FOU478FD
+         fcGoDqrA0pGbbUncJLP/ITl9hueaN8gWTdy8LDWQbOM6hGVuK/UMh5onxRF9jp3Orotg
+         pnYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793988580; x=1794593380;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=XHoNbOiS3kAZn5XDBJFLkRMPTYji5N9SX6DLNdEprPY=;
+        b=Ha+o5FmfAv2ZIkcQK1g33ctIRe/tRJXzTu3iENoojycmzrgbXDTy+FRyIWZBLfpYL4
+         8jl7DBW1mmIcRrc5W4lcRhiQ1Jr6C724aXyK/xH0mpFMSA4npCpkvpGFgNXUoNGqTIVB
+         Vze5LCToNkO1MW1pKCEV2ppdRyF9PUZIiiOjIj+Iu2tMy/fDc9+9FLtgvLwCl1tgkUqy
+         /NE5R8KE9hSU9HiqAEMBqs9qJa01UMx78Z921ezuAIGwPtt2SHVsc8AvXnMdW+6L2Vhy
+         7zkxvwVyHtjhG8zho/nKzUPkHfHZHav2L0sx1NZv6zkw02hQhANyH4XwB0unCrJ7Sel9
+         WdOw==
+X-Forwarded-Encrypted: i=1; AKwUvByp6mbdyAWWb71eNr6/eYMnuyZtwgns3Do0AwttEju4P4MwTOKosmINJ5QYEOae2aMnH3c+SCn/xPITow==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+/jn/S/mu0S1fh7uO37zh8Rx9c65kbDw3wPRWU1lUTHRwHMccT
+	BB6KpfGyhs2Qi53rVXCZ/OYmj9Ck3yLvGO8BqVzym6EO3NR0Rt3P+0bO
+X-Gm-Gg: AYBFou3Z2ZOP1nXIxHSUORaXpzQtZU9PgSd8KTd6BcZERuRc03KDPy8pgFM3BsW6Iep
+	xTisv7KMf7CoHU+7arVNBdAeefUW0Ems9H9GtOvHCzGye7qaCzUmDD478FFbd4HO/FICeVjP4nx
+	Q8ZF7MKqDb1vY1l1MfOIuWC9VzHNJosgEtJWzRB54Q6YzeEX6UpzU6Jv5JWYZGVv3Z6LAYIEfDX
+	C7pm3ts3cTqVkU/yFPfYEP8mvPSVgUORcFRIIWaVJOusG2TiqQkrKq7gGkDdKxvz/kPRRci1qBP
+	WqSHdDaahdSUgIZwHgGvZO5i2aHu6Kom+Of7YC4vfLCfyIQKRop6+p7UOneicjbDX3GEzGlPag+
+	f6uyOWUwc2zs0bQopSfwwIvEXPoYZm4v8c8/3ywubfkwUaBpOqNd85kKGjrv94Tgqh5lJixeFed
+	GCqjlD0yNwonwijmZtsdGMkVUKHLthwhVIBkQSc8kYoBl+jmU02mjQnx8QxezTn/hRP5gkjc3KO
+	MJQp4JkQHz4mtX6km7K3dFgI+94ag+NqXsIIkWdClDUWZXPOVd7CaK0nrqAFcxM2tJXbF4vugex
+	j8cVPxuFrVJ3LefKZ3DpG4vp06G2H4HpP6VRdRU/lA7RLlWVer1C
+X-Received: by 2002:a05:7023:a4c:b0:143:7001:7645 with SMTP id a92af1059eb24-1b25d34f9a8mr3634838c88.47.1793988579696;
+        Fri, 06 Nov 2026 10:09:39 -0800 (PST)
+Received: from localhost.localdomain ([103.177.253.113])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b25e4a5628sm8366464c88.10.2026.11.06.10.09.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 10:09:39 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	tiwai@suse.de
+Cc: linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andrew Davison <andy@dvsn.net>,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: hda: Fix [codec] ID matching in patch files for IDs with bit 31 set
-Date: Fri,  6 Nov 2026 17:55:18 +0000
-Message-Id: <20261106175518.18629-1-andy@dvsn.net>
-X-Mailer: Mailtrap/1.0
+	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+Subject: [PATCH] ALSA: control: Synchronize LED mode accesses
+Date: Fri,  6 Nov 2026 18:08:12 +0000
+Message-ID: <20261106180812.5097-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -83,59 +99,58 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-parse_codec_mode() reads the vendor and subsystem IDs of a patch file's
-[codec] line into an int, and skips the check when the value is zero or
-negative, as documented. An ID with bit 31 set, such as SigmaTel's
-0x8384xxxx or Intel's 0x8086xxxx, comes out negative, so it is taken as
-a wildcard and the section is applied to every codec instead of the one
-it names.
+mode_store() updates led->mode while holding
+snd_ctl_led_mutex.
 
-This was seen on an OpenPeak OpenFrame 2 with an IDT 92HD75B2X5
-(0x111d7608). A patch file written for the STAC9202 (0x83847632) in the
-related OpenFrame 1 was applied to it, swapping the headphone and
-speaker pin configurations, so auto-mute never muted the speaker.
+However, snd_ctl_led_set_state() and mode_show() read this
+field without holding the same mutex.
 
-Read the IDs as long long, so real IDs are compared exactly. Values
-written as negative numbers (e.g. -1) still act as wildcards, as
-documented; a hex value such as 0xffffffff is now compared as written.
+This can cause a data race when userspace changes the mode
+while another path reads it.
 
-Tested on 6.18.60 on an OpenFrame 2, with a rebuilt snd-hda-codec and
-the STAC9202 patch file: user_pin_configs stays empty for the IDT codec,
-and the headphone and line-out pins are assigned as the BIOS sets them.
-Not tested on a STAC9202 itself.
+Read the mode under snd_ctl_led_mutex in
+snd_ctl_led_set_state() and use the local value after
+releasing the mutex.
 
-The bug was tracked down and this fix written with an AI coding
-assistant (Claude Code, Claude Opus 5.5), which also ran the tests
-above. I have reviewed the change and the tests.
+Also protect the mode read in mode_show() with the mutex.
 
-Fixes: ef940b0403d4 ("ALSA: hda - Allow patching with any vendor/subsystem ids")
-Cc: stable@vger.kernel.org
-Signed-off-by: Andrew Davison <andy@dvsn.net>
+Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
 ---
- sound/hda/common/sysfs.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ sound/core/control_led.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/sound/hda/common/sysfs.c b/sound/hda/common/sysfs.c
-index bf65223fde10d..b354cbbc3dc91 100644
---- a/sound/hda/common/sysfs.c
-+++ b/sound/hda/common/sysfs.c
-@@ -512,11 +512,12 @@ static inline int strmatch(const char *a, const char *b)
- static void parse_codec_mode(char *buf, struct hda_bus *bus,
- 			     struct hda_codec **codecp)
+diff --git a/sound/core/control_led.c b/sound/core/control_led.c
+index 501387287ae6..044430b2f1a2 100644
+--- a/sound/core/control_led.c
++++ b/sound/core/control_led.c
+@@ -140,6 +140,7 @@ static void snd_ctl_led_set_state(struct snd_card *card, unsigned int access,
  {
--	int vendorid, subid, caddr;
-+	long long vendorid, subid;
-+	int caddr;
- 	struct hda_codec *codec;
+ 	struct snd_ctl_led *led;
+ 	struct snd_ctl_led_ctl *lctl;
++	enum snd_ctl_led_mode mode;
+ 	int route;
+ 	bool found;
  
- 	*codecp = NULL;
--	if (sscanf(buf, "%i %i %i", &vendorid, &subid, &caddr) == 3) {
-+	if (sscanf(buf, "%lli %lli %i", &vendorid, &subid, &caddr) == 3) {
- 		list_for_each_codec(codec, bus) {
- 			if ((vendorid <= 0 || codec->core.vendor_id == vendorid) &&
- 			    (subid <= 0 || codec->core.subsystem_id == subid) &&
-
-base-commit: e0f6c0c60adc73582b40803a5c172077c5a4e84f
+@@ -168,8 +169,9 @@ static void snd_ctl_led_set_state(struct snd_card *card, unsigned int access,
+ 				UPDATE_ROUTE(route, snd_ctl_led_get(lctl));
+ 			}
+ 		}
++		mode = led->mode;
+ 	}
+-	switch (led->mode) {
++	switch (mode) {
+ 	case MODE_OFF:		route = 1; break;
+ 	case MODE_ON:		route = 0; break;
+ 	case MODE_FOLLOW_ROUTE:	if (route >= 0) route ^= 1; break;
+@@ -382,6 +384,8 @@ static ssize_t mode_show(struct device *dev,
+ 	struct snd_ctl_led *led = container_of(dev, struct snd_ctl_led, dev);
+ 	const char *str = NULL;
+ 
++	guard(mutex)(&snd_ctl_led_mutex);
++
+ 	switch (led->mode) {
+ 	case MODE_FOLLOW_MUTE:	str = "follow-mute"; break;
+ 	case MODE_FOLLOW_ROUTE:	str = "follow-route"; break;
 -- 
-2.39.5 (Apple Git-154)
+2.55.0
 
