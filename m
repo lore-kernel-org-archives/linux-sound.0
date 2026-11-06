@@ -1,98 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.13
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793944267;
-	b=dOve05fyVmTX09GynNu7ew0mLr3nyjx/zPrNM7tPSx4zdZIHtrYYYqT+6n18u86Ggegf
-	 tlzvXLedXrnZ44kB7/sQXXSxHjQCtH2qoIi2snFv8zhGiuY9r/8C+Y5sck1BZgy94AXcj
-	 S5GW+d546CtRC8JWKP7wGwXiWvtc1rK2E0qb8OqaHnLi5MzbpkHAo4CKZKXlKWa7g27my
-	 BdsG22AXdFyVzEELJIcUXRuCbAkiRRptNJoUI2XLnne1tDBYWugGD76Z1zxHvCRLZTYuy
-	 Ghu0uBKxa/TZUv5xBU5HKYDd8MJ4huXQsOP6kW6ZJOuWa4S+JlNbPiifKuSuqltCAXQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793944267;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-Exchange-MessageSentRepresentingType:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=BiucHKtr1h+ZZ1tf6PtOaZblGmbEiF+AJeMRFfmixBo=;
-	b=uUgPfylmHBbwOtiKXo/oJcUTrYqClcev8aaoGavbGAZFljyZXDP4o9BKk7kiz1FUzY8v
-	 iyeitL2aO12Cii5qoeEuz3Gyo4BM/LN7cgMxNMGHBf0LHWlURCdMbzujtgFBcyRxJmsCU
-	 AzvwDbUqAQO2tV1B4GdTxgRE0Z6t0flfLlLdLfrDLf0IDQVY0ejfKtGzST3e3kWle0BZR
-	 5vsXbisSwON/lpBSn2lRgks5Nw8WLHMAd2Dn8/9X6SPwODi0vbB3scEOH97Tu1Jig8pDI
-	 oeFaRWmIbajoPUSIUrhfia+rkXCPPaEk4sDQiZdDBp/6OPCcz9rztvq0YF6CXybpPiA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.nxp.com;
-	spf=pass smtp.mailfrom=oss.nxp.com;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b="Hm/ltEzH";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.13
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013013.outbound.protection.outlook.com [40.107.162.13])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793944346;
+	b=mXb2I8zb1BbPwB3kahN4NQ8nl+7IR2+0ihCbLXEfAqlz8FTfh0RR0TCY6/vgEBG1cftg
+	 4SM+CL99sfgmwgJoYEy3N0t8+WwZhYB4ykfhUwvwm+h0mRNSdqvzgU4a1Q+BxPUW1+Oov
+	 42eMyTHPXjeCTHnxjSxyfSTY4CPX7mSzDxuhTUj2qosUFpLrLjstQWFXLlDQdIDGWmjN5
+	 7QsPfB6PVFg0xa8M0jouxyV0Rp7AmRPOfZPE2rgJTf+yLogpus2wXZ8TcK/G1C1H8CXz+
+	 6/+cbHgd+07XoWWv7nC37zEgFFXEBMdV1OMJaMlsznvWeZzGx6Mlua15uGWZdrtWISQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793944346;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=YWpIsmIykPLzSWAxzMFX1XDXfCULtf7neBLXcWYhBQo=;
+	b=IrmODNR5np1ky2ADIhgH71NEM3WTgfraUCVDSqfYXoUC/tyr9hBMAvYM7dHIVYs3VigH
+	 h20WG2eTZnIZeJ+RG4zwNl/4bQg2deJILgVkcgnTl8tsA1BeIQH+xqlox5Xk/U2oN/W+R
+	 PDIR3Uymo3UsbI6pyCgFRyb3b/ImBUafUiaSvPnv9z5exWAWnuVqVTuU9oMPtKTbijrYX
+	 PIyHpcCKqeYvdN22wkvzxS6rTx1wqU1Tx2wdSOn1xi9w+mOyCDfYpcGlu/aAnCZe498Yh
+	 KF4kN+T2x80CTctsXcRt9Qv8WIMUeykAU0+Xh6vn1daftFLUZ7uZxxXWzrLO99xpcJA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AjrwsBbb;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75117606D802;
-	Fri,  6 Nov 2026 05:51:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75117606D802
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51501606A330
+	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 05:52:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=Hm/ltEzH
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fcwRRbd5rPe+m4XsZYZthmdD8uAtLSgY48L0ved9VreYBJ/90CHl1+Iq7oBNfos4P/VzK32nLXVMa6DfVH2+D11eGP6lLG/ae9rvoo4FjvDv9ftTRln2aRWuNrJxU9OMB/U05O/kqLoZEy6dmV8+YmtXRL9/F9+8OpUXM6KtYiC2JkMDBWBLwy1MWNfOfVvLRf9U5hzedBNu1uR+oZsQL6wOT5XCJ/kEwCVBta08qd1cXGdxtv4KbssFJ9o1afC/youVdCAWxMPxVvlIJmrKdPNUm4ieo8eC8BzBli1wjO/dooqjh7eXKRnVUHQgufn4u4CXvKsDlCPsrK3lkkiZwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BiucHKtr1h+ZZ1tf6PtOaZblGmbEiF+AJeMRFfmixBo=;
- b=A62cjHzr+Mf8Xjmx5M9DblQLmbTlA3a9cfpGoEBvRbZj4xidpenu+y/SrSCApd2gN+5uEV4XTvrqSLy4XGdu7Ow2OSGRjcI8zB7tmKBmSql25yvRrr4wjGwEhR9x2edJW/Mdsj8F4Sne509c/Lka5LK97Uxd0JsC80k3VlqYL06XxEN1sKqmL3RzrAtJL7XLMSWBAZu4Z2oard2nasnrDaSZsVtL8WijQs0QaI1OoZ/951dTCqOZl+/QXLMTn0oOB0AqGlmssd5XNV6B5ixMehUuFlXykckYrY3aSansX5/KODzHXWudI3O+4uQWzA0gSOFhwe5Wqem7ae5WXGjBpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BiucHKtr1h+ZZ1tf6PtOaZblGmbEiF+AJeMRFfmixBo=;
- b=Hm/ltEzHRIicTrF5E6m2Vmp/Pl2P524TeKKiB0l0WYR7WUZzyI82ZQ+LxYIDsmkl1dXy7wB8+Ayl0SsdxG1U0gTa+kc63rKyve3qHoiwpHc9ea52bI8lzf//q0R3E0MKhziCf5Yc/soixF+FNYwpLwr0TYUeZbfd3iTyr4Y1V5Zj37gXGTBrSi+9axiAJUOqv0A+I8oJG0sbFNTUMXk5zjk93hITtPxe90hzYcfTRL9wDlBI8BP1g/EfRDbLEH39hGFU9GKehtMIybCsHw0EaAYEWeplfzE7C3JXmF5sHU6S5VaH6MXbR8kSC1uI6Nxrv9DtW8gsI7incvcKX8LY6g==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from DB9PR04MB8364.eurprd04.prod.outlook.com (2603:10a6:10:24c::17)
- by DB8PR04MB7050.eurprd04.prod.outlook.com (2603:10a6:10:129::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Fri, 6 Nov
- 2026 05:50:59 +0000
-Received: from DB9PR04MB8364.eurprd04.prod.outlook.com
- ([fe80::9f8f:d501:88da:538c]) by DB9PR04MB8364.eurprd04.prod.outlook.com
- ([fe80::9f8f:d501:88da:538c%7]) with mapi id 15.21.0592.009; Fri, 6 Nov 2026
- 05:50:58 +0000
-Message-ID: <11ef44f7-e268-438f-8a42-c3bb89e42cfc@oss.nxp.com>
-Date: Fri, 6 Nov 2026 13:50:46 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: fsl_asrc_dma: fix error handling for DMA channel
- retrieval
-To: shengjiu.wang@oss.nxp.com, shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
- festevam@gmail.com, nicoleotsuka@gmail.com, lgirdwood@gmail.com,
- broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
-References: <20261028025921.4155551-1-shengjiu.wang@oss.nxp.com>
-Content-Language: en-US
-From: Chancel Liu <chancel.liu@oss.nxp.com>
-In-Reply-To: <20261028025921.4155551-1-shengjiu.wang@oss.nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2PR01CA0016.apcprd01.prod.exchangelabs.com
- (2603:1096:4:191::20) To DB9PR04MB8364.eurprd04.prod.outlook.com
- (2603:10a6:10:24c::17)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AjrwsBbb
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0EA01F0089F;
+	Fri,  6 Nov 2026 05:52:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793944345;
+	bh=YWpIsmIykPLzSWAxzMFX1XDXfCULtf7neBLXcWYhBQo=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=AjrwsBbb6jn9gUym9UoDoP7XBF5Z6xF3Pg/QxfXO70jIZNwjhMnJV5Z+SNT2fe6LB
+	 Ks1py4NdqTtshwsTexMLUvG1SmM6GYaxYkutFMFyHkP07u9lFBm4QcGaTsMwNUOsWw
+	 7LMiAKEHp8vUKCsAnCTTaSjCWPt47VV5JqqC5NciKzhzIEJ77ahtNSVjrje6EwDlPN
+	 VCUR/ctoH54I+fUC+uWu/8Cm0EBzEmcEjXHLg4hi07rxpoqQtkW3Ori0kx/JS8DQX0
+	 Kny8EgwT5DSMoaE0VVe8XMaURh2q9rOpnZProSoCcvRsymhrNCo5cS0TxSQiaOCp/J
+	 guktI7N1+Prog==
+Message-ID: <sashiko-outbox-200869@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 1/2] ASoC: soc-core: copy the DAI link names into the
+ card
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Tyler Baker" <tyler.baker@oss.qualcomm.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261106054333.2748248-2-tyler.baker@oss.qualcomm.com>
+References: <20261106054333.2748248-1-tyler.baker@oss.qualcomm.com>
+ <20261106054333.2748248-2-tyler.baker@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 06 Nov 2026 05:52:25 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,103 +60,66 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR04MB8364:EE_|DB8PR04MB7050:EE_
-X-MS-Office365-Filtering-Correlation-Id: 27157d02-0bc1-45e3-5d88-08df3bc9ee42
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|7416014|366016|1800799024|19092799006|921020|11063799006|56012099006|261021121427099003|261022105027099003|261021123027099003|261009223027099003|261102123227099003|261026140227099003|261028144727099003|10067099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	hq/jH4Z6DProXHurPsEaF//UB+8cGtxY2o29MNPLVMSBWv3F3gCJ57v6z8MzJv0F7uCmzyBgQrtlcQYX3zsx5HOw9PktlHwJFdbgbnqMOmOcfX9zyOqQ3kWRcUt3hQFgZ04O2MLr7fTEcFffIDZsqxgtBBiukxq49foP3W0ivr8zH/OsBARUfjfFgG2nnzGUKnqw7oelxH/Mp+tQbNBmefK/I+NG5Jv8rtX8nbJcDXKjJ4bRapqwj0jVrr5JdbC4DUpcgcNPg34ygDK7eLjTo9P5zUHzUvLbz5ulaVv/fIQ4Q0+/kZ0GOTBMl2ovSuqkFvrlp7yv4EoZaN2MXUI/LQQ+MTYo91hujz60y/QeDXQ1G5o2PVqCXeBPn92iHliyrM0UPHURNEe+s/4vImFQK4X9/zk5CJIlw8zzfN4g4EhevrXEzf1T8PRQiiBvGKJ4QuwFpTKVir61Swl2ju3OKrI8qZ5TE4QYpmxtGp6zmc9b9CkbFWfYAiebuWks0SJeIIQ5E6R22jEEFIAsT6qzMTlx/EUPcAkYYtbOzMWY6gUtr4MfQ8Z8uU2NctQwyfB0ysxbuy0R8plbx+27YLkw8SDRzI2hkc5b0i9hDb01+Lv5Es3L55QuwLeo6oBzhQf7+PCCDB5ZuQacDUfFWsY/riy/mmGzHpNcKa2vRJgKYu0WZ/Nz2buCR9GbXeO1nQg9m0YtYkK3Vrxs3779jYJmYw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB8364.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(366016)(1800799024)(19092799006)(921020)(11063799006)(56012099006)(261021121427099003)(261022105027099003)(261021123027099003)(261009223027099003)(261102123227099003)(261026140227099003)(261028144727099003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QkhZcURSNDBjYjZEcWxSQUFYcy9YcU9lOE1VaytrY3lndHdQR3gxTjFTUlAv?=
- =?utf-8?B?ZEdpaC9qVUhDQnBSeEwxeTFWNThKbVZaeFJHWWE1MWJ0M2V5a3EwSDBTMkEy?=
- =?utf-8?B?bU5SUjdXRW9nTWpzanh5K0dPYzFzMHU5Z3ZOTUNXcStkcTI5MjJlM2l0QWJR?=
- =?utf-8?B?UE5TM3lGY09kOXJrcnRYK0lwS1hRU3lvaHRVR0Job0psa1VnbU9meVZLZGVX?=
- =?utf-8?B?OWZWNENuZm4vdXVzK2J4RGkvcEtMaTZKM1IvTlZ6RDJDZ0lVZ1V1bkVBNGRM?=
- =?utf-8?B?SWdJZUZiVWY2c0UyVlpnZ09RV21GK3B1N1JBdW84bTFlTE5WL3loSVh1a3dy?=
- =?utf-8?B?Ti94V3Z2eWJJMnhSRWE2ekkvQ0dFSVh4cmt2QTQyK3pEWENQdThERGw4cDFq?=
- =?utf-8?B?YlM0RkRKbU9SWlJ4b25neTlqMG1XRzNxNXJKQ3pzQmcrejR3YWM0VU5UV015?=
- =?utf-8?B?U3Z2djVCS3dNOXUvMFB4QmxzYk85UGZCczdPTHlQdXRvekxrbnU2b0JySEpV?=
- =?utf-8?B?UzdVSU9CeFpFTEMrTktwc3FQMDZHQUt3RXNmZTdMSDhFaHJNTmthaW42cUxu?=
- =?utf-8?B?dXBzbURSVnowdExFSTZuVUIwOTNaVHB0TS81STE2ZDNOcDltRTBQTDlNNW9X?=
- =?utf-8?B?Y29BbWk3bG01V3NLWVhWRmQyM2tvcmFsUSsrU0NpcHc1VWRTZ29BZDFYT3c5?=
- =?utf-8?B?WnpOR3RMWjRFTUNhbXZMY1dqNE1nUDNlT0FUNUNpMWh5ZHljR2tINmVSeGZW?=
- =?utf-8?B?OWJqazMyVG9WUGlOVi9FMHoya0QzRUpwV1BCamhQb0c4bmNvZDlHMmdEZm1T?=
- =?utf-8?B?WllrdktUYWdqcnB6OG95YXZVQU9mMEJoS0hEY0NDSFBkeGhvMStvMzhMdlQ3?=
- =?utf-8?B?SzJ6RXVLa01LcnFNYTdqTWFOZHVzYWN5VzJxRXBRd0VkSFl0U2hHVWl0VmN2?=
- =?utf-8?B?YTNxckswN3VkSnllRi9UTlVzVmE3aGc1ZHRPNDh0NXJsV0xzU053WjhRUzJB?=
- =?utf-8?B?VWcxc3NWanlwR3NjYkxYZ3Z3NUV4SnBDUVJKa09HREptRncrbmV4bW9uSnha?=
- =?utf-8?B?MUVhRXNGQ0FWY2kxZ3lMcFRIaHBiRnU2d2RuQ1RQM0JiQ3drTkVwTmIxM1F2?=
- =?utf-8?B?QnVBdlVoOGxTTjFVK0M4c2piUGxwN1BKcHdQOEE1UDlJb2dJaGRMcm9HTHFD?=
- =?utf-8?B?ZTFScXBEMS9SUHFwcExIUndFRTV1a1BQUlBPSzRVQzM2R0FFd2hmUUJhd09G?=
- =?utf-8?B?MTF6SlBKb2ZFLzJSQ1hZSjNVOStGaU1BSWNhOEFSVVVsMFVwamFZLzRldG40?=
- =?utf-8?B?ZFdJWHUyM0JpczdoVDBPWU9kVlc2WEErTEx5NlhIMTVHL3VXcnVraXhvWDQw?=
- =?utf-8?B?VFA0THBkWFNRSmxsLzVTRGJrVitRVlZzRGJoL2lPOTRKMWVHSytCZTZDVHYr?=
- =?utf-8?B?dCt6RmZhNjhpYzNoTVgxZ1lKMDZUUXBuY0EvZ0ZINFBYNFA2aHVUenQzU3NM?=
- =?utf-8?B?SGliMlJqSnNjSHNEVDZwVDNvVnV3R29VTmYwb3NQSHFIUGdGSk9GNG9sTVBR?=
- =?utf-8?B?dVdOOTd4b3lKelhxVzltMlJtbXJYeFMxVmhod3A3eCt0WENXdEUxcWlNWW1o?=
- =?utf-8?B?blNuM0pxdmY3NjNWekI5b3dPeGVKVW55b0xUQTkwclhuMC9UaDhOM0RFRm1q?=
- =?utf-8?B?TVAvQVhLeWY1c3piZm93NzBsSXlzODg5eEpxUGw5Si96a2ZoY1BCcUlNdDl6?=
- =?utf-8?B?cTczYi9ldVF3dURBK0dlbVZrQkZubHZRenlhMmhTVjZubjJIV05HOWVDa0Rw?=
- =?utf-8?B?aUlhbXN3MFFyR3loeWZ4VmdXUEJVQWVWdHBtUU11YXhaZzUwY2xZUXY4QW15?=
- =?utf-8?B?Rml0VzEralJOQ29ZMUtvK3pnS2o4MkM1Y0ViOFlhejVDcWxwV0pIRHdZcXda?=
- =?utf-8?B?aVRBMjVWZVdzZm5RSTFDOVU2WHJFNmJWNk92SUp0N1Z1VFllSFQrY3l0UkZr?=
- =?utf-8?B?Tkwyb1NHZzRtSUFvc3pwQUMrbW5BcjJiN29RbFpSWWdJMXdXd25qdVF3VFVv?=
- =?utf-8?B?S2xqVnBmdmpiZzR2bHU4Q0k3TXNQaEl6VDZzQVBKV1k5WDJXRThKVG5qbk55?=
- =?utf-8?B?Yk5XdDRxK1oxaGx3K3pOM3pUNzNkRGJXSEFGWjdyd3FCaVFyZ0lJdWVGaFll?=
- =?utf-8?B?YjJtcVJYUTN1YkNQbjhja3pjMDRsamp2aGlCQVFjTHFHbmwxMTdsY2hTeWdx?=
- =?utf-8?B?NDA1cmczTkl1QlpDY1dwa1RRSDF6WklPOVF2MEt2SkphVUw3dW1Eb3VHcTRn?=
- =?utf-8?B?ZVViRTBNdFhqV0dQVEZKY2lySElkNjc5MitQR3J2WUhhWUdhYmk4Zz09?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27157d02-0bc1-45e3-5d88-08df3bc9ee42
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB8364.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 05:50:58.7953
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GCQOPrOD3thyvKcslNUqMsVhxon4b2WZnM6YvK6tCM0Ct2EkZB2wrcfQmbI/aMm/wdNn52H86LPS+qZuZC8DTA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB7050
 
-On 10/28/2026 10:59 AM, shengjiu.wang@oss.nxp.com wrote:
-> From: Shengjiu Wang <shengjiu.wang@nxp.com>
-> 
-> The original check used `if (!tmp_chan)`, which only catches NULL pointers.
-> However `asrc->get_dma_channel()` returns an error pointer. The NULL check
-> will always succeed, so replace it with `IS_ERR(tmp_chan)` to correctly
-> detect errors.
-> 
-> Fixes: b4136c0d69ea ("ASoC: fsl_asrc: check the second front-end DMA channel")
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+Thank you for your contribution! Sashiko AI review found no new issues
+in this patch, but noticed 1 related pre-existing issue it does not
+introduce:
+- [Medium] ASoC: soc-core: memory leak in snd_soc_of_get_dlc() [1]
+--
 
-Reviewed-by: Chancel Liu <chancel.liu@gmail.com>
+commit fe7efa2dfe30cec1a0e194d20cca010f7a414abc
+Author: Tyler Baker <tyler.baker@oss.qualcomm.com>
 
-Regards,
-Chancel Liu
+ASoC: soc-core: copy the DAI link names into the card
 
-> ---
->  sound/soc/fsl/fsl_asrc_dma.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/fsl/fsl_asrc_dma.c b/sound/soc/fsl/fsl_asrc_dma.c
-> index b417de6abebe..b39d3d76d26a 100644
-> --- a/sound/soc/fsl/fsl_asrc_dma.c
-> +++ b/sound/soc/fsl/fsl_asrc_dma.c
-> @@ -251,7 +251,7 @@ static int fsl_asrc_dma_hw_params(struct snd_soc_component *component,
->  
->  		/* Get DMA request of Front-End */
->  		tmp_chan = asrc->get_dma_channel(pair, dir);
-> -		if (!tmp_chan) {
-> +		if (IS_ERR(tmp_chan)) {
->  			dma_release_channel(pair->dma_chan[!dir]);
->  			pair->dma_chan[!dir] = NULL;
->  			return -EINVAL;
+This commit duplicates the component DAI name onto the card device in
+snd_soc_of_get_dai_link_codecs() and snd_soc_of_get_dai_link_cpus() so the
+name remains valid across component unbind and rebind.
+
+> diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+> index f33bece378b61..0e62965e35aaa 100644
+> --- a/sound/soc/soc-core.c
+> +++ b/sound/soc/soc-core.c
+
+[ ... ]
+
+> @@ -3282,6 +3294,8 @@ int snd_soc_of_get_dai_link_codecs(struct device *d=
+ev,
+>  	/* Parse the list */
+>  	for_each_link_codecs(dai_link, index, component) {
+>  		ret =3D snd_soc_of_get_dlc(of_node, NULL, component, index);
+> +		if (!ret)
+> +			ret =3D snd_soc_of_dup_dai_name(dev, component);
+>  		if (ret)
+>  			goto err;
+>  	}
+
+[Severity: Medium]
+This problem wasn't introduced by this patch, but does snd_soc_of_get_dlc()
+[1] leak the device_node reference in args->np when snd_soc_get_dlc()
+fails?
+
+sound/soc/soc-core.c:snd_soc_of_get_dlc() {
+	if (!args)
+		args =3D &__args;
+
+	ret =3D of_parse_phandle_with_args(of_node, "sound-dai",
+					 "#sound-dai-cells", index, args);
+	if (ret)
+		return ret;
+
+	return snd_soc_get_dlc(args, dlc);
+}
+
+of_parse_phandle_with_args() acquires a reference on args->np, which
+snd_soc_get_dlc() only transfers to dlc->of_node on success.  When
+snd_soc_get_dlc() fails (for example with -EPROBE_DEFER) and the caller
+passed a NULL args pointer as done here and in
+snd_soc_of_get_dai_link_cpus(), __args goes out of scope without
+of_node_put() being called.
+
+[1] https://sashiko.dev/#/bug/linux-11ae6ad5-0cce-4928-9290-e7723e9f7638
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106054333.2748=
+248-1-tyler.baker@oss.qualcomm.com?part=3D1
