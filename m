@@ -1,57 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793970054;
-	b=WJDC3CE6Ys2typewGBKf69KupLBYM2mEU8KYj5Zu9cjdDRZQpEZO2l3q6YpN1rW9k8BT
-	 RRYWkGB6CGFVLeGb2sMPIGWwB8+CbLKvwitx45hocikZy+Z9YzeF42JSlWVkf7X+Y3mXY
-	 gYQMYySZIvK+eEkVlYM/TBcm40Vuq4b6Ht/N7YeYyk87A3uzJ8qcZv/c/pHrfC+6DjlIp
-	 7g2ZVUpxx4TzyNOnJUs5LSiL8uFlVPMgF1DdxDmUoXbN0PtAsu0pmtdcvSVv4In10aaGh
-	 hq1i76UkpiVJzwNH1jGEl7o2XeFmtLHwECPl+KokTLvvk0MTeAHMv4RVu6dRDsEwg4g==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793970054;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ahna9oY486CBntf6C8KnmE4+1gd6IrLfCyRHjwYgd+8=;
-	b=Xx4pazdzQv9ZnYiTdq8weIOU5kP9HSEgqmC7vJknzvhqmbqwwJOf3313X3NL2N0C7JmD
-	 dpVbHQFc1gMBZMs/C88lHksoovBS18KzbaOOEWPiklUmLz9HxmfEyY9OroR4oXJNZU0WX
-	 aSMp2Q+suBVM3xsBaAeVP7UQQQSBD2ZiAePKRCoGX/CcFw8LFUCBzaG9+Wcw8uwYjIwbR
-	 txxo9gIPr8cfgMY2zymADFu24x/wehNgTsCN2J+b7OFQ4BJnt37u30UAG25KBeMkoFCle
-	 fTxzU4nhnK2BcF8LBwRIR5jhD99b4RW4udlZzf6fRgxyyoHL9saS8L8Xe5GjeKf1s7A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="a1ZaRf/8";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.196.56
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793970556;
+	b=eQqJd7yJkOhbSL+dyUBso4UinQLzz8WYeyRSlNKTzQwn1wixx5gmOdduGtrgbjJpNryR
+	 153C0gxrrozhWq2+Pdj1t4fYgTeZTYq2HgPNFFgHVbGY9x3ZpGoERt9LneA7/aFLHJB6A
+	 0rZXP0/BOhVka5HigbNKH9efGBVy9c8dkr2G/CqGTqb2E2iSlXZ2Uw8TzZ+bx8zPrGSLu
+	 8TKeq4SOKYObsxiBTxAq/69r9Htw/Pv6reQ+6sLHMppiFkrmMYsTgRc5mGwkZ6RhoeluF
+	 +B43o1Z4UJywB2rGHSbckRD3aCCONUgAO0aPf6p7F6pylK1o+FBaYYp7MZPtW2ocbrA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793970556;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-EOPAttributedMessage:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=LYbu9lNnuufTdNm40NF+BniAE6RjoYtO5APFa2JvuEA=;
+	b=tgncMXvNscwiO6layovoKVaxl10G/YI3Yk7VniZw4Dly1Uy7cFrMFg8ZCYbW8HKor9Gc
+	 muIvLCrqe7J5XqX61vBswfbvrO101xhMpDluZlHDGYEk/e+CYlwu4lDE8qiUflthri/nH
+	 VUlpOKJ49mJ83pPIq/YbUl5ugDLiB7A2CiiDvAAq07xJXrFbuiPtXOWYLx/Jig6lGdSBi
+	 AA7XfwOlL2m9MIOYOvpUvZ7CN8Z7FVEwE4UARrGbG69z9yw9kXHpDFJ1DeEpqWhzQPovq
+	 i4E/Y4ElXTHaSrC61mnXut4Mgbrqqdo6UOj50sdPxoRi4WkIlbeg4ujyU5Stqvc2z4A==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=IqYIAI+5;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.196.56
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013056.outbound.protection.outlook.com [40.93.196.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6692D606A32C;
-	Fri,  6 Nov 2026 13:00:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23813606A326;
+	Fri,  6 Nov 2026 13:09:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 23813606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a1ZaRf/8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F153F1F0089F;
-	Fri,  6 Nov 2026 13:00:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793970054;
-	bh=ahna9oY486CBntf6C8KnmE4+1gd6IrLfCyRHjwYgd+8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=a1ZaRf/8RyWtFcBYtkgbI3/PqLqgGRkFqKn3Dzj28Sva5WbWuo+zzrNSOfgyW2jsZ
-	 DjKPGXuk439euSxssQFSa1o/FSgfzlBcVspBXXL7scUKbY1ErkTp7b26S0XSeUM3HM
-	 nZj3958uvMJ25yeVscJGdNic7UYZ6v1FTLkswkIgaF57JTNHzT35iCseyeVJ3vonKr
-	 qbUvpNcnsPXsSyyZgLJzjiElGu8WH102zn3N+ukE3lFmRCdC93+9odXjO9E5wrXaYx
-	 Tnc+q2s9ffN2VBLyqUpjn/4C9Y6asVQP8QpsyzJrqoAklM5LCo2cDm8eGUzlwV9KUR
-	 kAwSrEDe9z7Ig==
-Message-ID: <sashiko-outbox-201426@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 v6 8/9] ASoC: qcom: lpass-tx-macro: Add support for
- Bolero v4.0
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mohammad Rafi Shaik" <mohammad.rafi.shaik@oss.qualcomm.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261106-add_shikra_support-v6-8-2cda302237cc@oss.qualcomm.com>
-References: <20261106-add_shikra_support-v6-0-2cda302237cc@oss.qualcomm.com>
- <20261106-add_shikra_support-v6-8-2cda302237cc@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 13:00:53 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=IqYIAI+5
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fK7UcBSao5CCvpZvN9UW4M+eZ0rVIqv78p1nnI+AzwVMck/5EtKoL2299i+TERUSiY9xMP1HLqX53yuxbBXZWeEeqwdWWYpld30NkKhsjGb0aHIms9KDAGFLO3T5nj7ifarxUJshScMlmaFahtKBjRbkjnUc5brXh/KCF4pXsoPjV8rBJQ6m1zB6Y5xri6u49VFUeX6AobkQ1J3Y38VLfnYJuAt7biZ9oge56iqa7OLV5H7PM9i+idCgDiRIk6OrFLgICW258rTa0l7E8kyLId+NN7pqAMjzEO9mWtbHuCKpgxTuC1ebngXecNzbQzHgfqBmoGUWieBx0IY87xD5Qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LYbu9lNnuufTdNm40NF+BniAE6RjoYtO5APFa2JvuEA=;
+ b=mNlDtahC+WuT2oFodnXL2yme2LUFxun61H5RfaKPgN6dju3Q2d/PQZ3S0W8GyESgUfzz5prWH3zpg49Le1KA49f4U4O8hRUroH4HolaBpLtxxW2PaOrDdnOhJHkQS0FPtuEHm3z/otFZpPBkndgO7RXpyL9NTMQ9JYkZmLuyNbaRI1L1FQ2LbYlSoto8wRDXfYeLyRG6leaIFfaVkJFRdFqv7lA8AyWVL81rPYfDpfa6cGKXkwRRt4+rp3vimvAeScNrqSaWDu0h8ALsIQrFG3uWR7MyIEHuCVPUxhVTmXUjnNVTL7mRB+dHR+8ULFOLDPd2V+1bJqGQWjeSd9iPxA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LYbu9lNnuufTdNm40NF+BniAE6RjoYtO5APFa2JvuEA=;
+ b=IqYIAI+5znt7CfE7NaUhskIkVlHbdnVpE4TAtRql0siA3bKG7K6MPwn+LPoJOztY8gjAtPws1WPhlJXCdLrmDvMzilGpQyLe+WSbTMMYHsk+8tJD8MzmA95Ub6WhntvIngLyXdASvGDSRJxSC02Js0npfNVLLOsCPfEF0mp45Sw=
+Received: from BN9PR03CA0749.namprd03.prod.outlook.com (2603:10b6:408:110::34)
+ by CHBPR12MB435029.namprd12.prod.outlook.com (2603:10b6:610:33e::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.11; Fri, 6 Nov
+ 2026 13:09:10 +0000
+Received: from BN1PEPF00018547.namprd05.prod.outlook.com
+ (2603:10b6:408:110:cafe::12) by BN9PR03CA0749.outlook.office365.com
+ (2603:10b6:408:110::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.10 via Frontend Transport; Fri, 6
+ Nov 2026 13:09:10 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ BN1PEPF00018547.mail.protection.outlook.com (10.167.248.6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.615.4 via Frontend Transport; Fri, 6 Nov 2026 13:09:10 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Fri, 6 Nov
+ 2026 07:09:09 -0600
+Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
+ satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.53
+ via Frontend Transport; Fri, 6 Nov 2026 07:09:05 -0600
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <pierre-louis.bossart@linux.dev>,
+	<yung-chuan.liao@linux.intel.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
+	<Syed.SabaKareem@amd.com>, <Mario.Limonciello@amd.com>,
+	<Richard.Gong@amd.com>, <Vijendar.Mukunda@amd.com>, <Poojitha.N@amd.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH 0/2] ASoC: amd: acp: supplement patches for ACP7.B/7.F SoundWire machine driver series
+Date: Fri, 6 Nov 2026 18:37:27 +0530
+Message-ID: <20261106130801.506026-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,153 +110,66 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN1PEPF00018547:EE_|CHBPR12MB435029:EE_
+X-MS-Office365-Filtering-Correlation-Id: f0dd3a43-3904-4df1-f21f-08df3c0725aa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|36860700016|82310400026|11063799006|56012099006|261022113327099003|261022105027099003|261021121427099003|261021123027099003|261009223027099003|261022075727099003|261102123227099003|261026140227099003|261026121527099003|261028144727099003|10067099003|18002099003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	y8unwAJxSzKztwMTzTCDmvCW2hI1HpiQdnwz2fvnqO0tWvdv8n8cO2F1GgH8aORL2clFT0ngUDyTY8XoE/ZVzjqirZV6dyDqxOmSmBidIMdRs0V2qx1yshBXstcDFwsRyn3MMBbB9F71VIdwRDntUCAmtpEy37JzKsH2afWgrYs78gIuUhqudCt0mu/sSoFopuIEThgvrip5cB/zZDAXkLFVmgmdARp9BHGn5qpea44v0zRiB6qMry57n+ws4LvrpwX5q9mzeeFLx4VvERnMP6sEThASgS6aL8ACBcOt4o1FE2qGrFq0ZrlZ0b3MTHhYBQI+jNeJ8Nxn2hJFmEMuZuEKEHFULWejt6cCDqJ8CTMjyNElb4TSDcR4aGo1BHfc54LlT58jPEGk8yZF2qAnazBaaBEj2adRLRQzyA/HZnFLntqKVBS8X5hsWfJDqLBu5cD+Y4p3J235xmv+31p1rvRl/hcsQhDccUa4QCqQp5zNUSM1KxnXmtxI/L5wQuxlm1IKltnWJsyu6oB88N+wJ3WAVFc1kMMjx1m6786e31H6/3kCiny9g98ByaHm4a3xzConZJvHgvHhcvP7JY8e5PFqdFqQNcHcSO+gExM2HP8/SXGojtcm0RAbQg2jYjKoyHmY7R4RNmbCDRg9QWUC4wYUM5dJgxrnL0iNchisMaQ=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(36860700016)(82310400026)(11063799006)(56012099006)(261022113327099003)(261022105027099003)(261021121427099003)(261021123027099003)(261009223027099003)(261022075727099003)(261102123227099003)(261026140227099003)(261026121527099003)(261028144727099003)(10067099003)(18002099003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	ShEmz9s9P5pf1P8HO3XX9i11rLHyVqJ+I2p8PGM0yaybZOExJaHYtgy/9R0RvTMlEwrJ+/VxdNbQswyJQyS0Nzrg1o8AHBFFVf0+Rbf/ldKM6mFjQvG3638PcQBN7Wnncsru6mNvHHAqqUNg0XO8oOyhg784ol8cyG/RmzckrEXYCGItNp/STln8KNjsb+SZzlAcuinjmT2yGwLKltvMK0PfAIN9pDcc1pH8FhWgLPC+OvLyBdng5STzmNQK+nJtWLjdCNz696UjkLqQ+fm5VckjF47GtSba/lA+X5qSx2QkXOTXPm9e5hcPuoPV/8ELs0hnh3i89li8Vwgy9K3w11h6FFiMcEq3PrHtlGg9XzI0+5yU/R3tedOT2YWQy2nio3BgK6wweWHrtjvFMXORDv1IDAoDyH9MKMR9HaUbF+2LW3YJ+l2Z3jZdsD1llV4E
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 13:09:10.3868
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0dd3a43-3904-4df1-f21f-08df3c0725aa
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN1PEPF00018547.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CHBPR12MB435029
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issues to consider:
-- [Medium] ASoC: qcom: lpass-tx-macro: no-op ADPT disable in
-  tx_macro_enable_dec()
-- [Medium] ASoC: qcom: lpass-tx-macro: missing DAPM routes for
-  RX_SWR_MIC in v15 map
-- [Low] ASoC: qcom: lpass-tx-macro: mixing __free() with goto in
-  tx_macro_probe()
-- [Low] ASoC: qcom: lpass-tx-macro: stale REGCACHE_MAPLE claim in commit
-  message
---
+These two patches address nit-picks raised in review of the ACP7.B/7.F
+SoundWire machine driver series posted at:
 
-commit 359688a973454b992ccd5b2a57890a5f9b9973cf
-Author: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+  https://lore.kernel.org/all/20261030094714.1123396-1-Vijendar.Mukunda@amd.com/
 
-ASoC: qcom: lpass-tx-macro: Add support for Bolero v4.0
+These patches were previously posted as replies to the original
+series. Posting them now as a standalone series to keep the dependency
+clear and avoid threading new patches under the existing review.
 
-This commit adds Bolero v4.0 TX macro support for Hawi, including register
-defaults, regmap extensions, decimator and port-select DAPM widgets and
-routes, and ADPT control disabling.
+Patch 1 renames three static adr_device arrays in amd-acp7x-acpi-match.c
+to reflect their endpoint set rather than their structural role, making the
+distinction between jack+dmic (combo with RT1320) and jack+amp+dmic
+(standalone) self-explanatory.
 
-> Add the v4.0 register defaults and extend the regmap accessors and
-> maximum register offset only for the v4.0 match data. Use REGCACHE_MAPLE
-> for the TX macro regmap since the register defaults are sparse and the
-> v4.0 layout extends the register range.
+Patch 2 adds a block comment above the ASOC_SDW_ACP_DMIC and
+ASOC_SDW_ACP_DMIC1 quirk bit definitions to document the dual-PDM-
+controller hardware model of ACP7.B/7.F, and annotates each bit with its
+role.  ASOC_SDW_ACP_DMIC is a generic DMIC-enable flag on all ACP
+platforms; on ACP7.B/7.F it additionally identifies the PDM0 controller.
+ASOC_SDW_ACP_DMIC1 is ACP7.B/7.F-specific for PDM1.  BIOS wires exactly
+one controller per platform.
 
-[Severity: Low]
-This isn't a bug, but tx_regmap_config already switched to REGCACHE_MAPLE in
-commit 8ed9306885eb ("ASoC: codecs: lpass-tx-macro: switch cache to
-REGCACHE_MAPLE") and this patch does not change .cache_type.
+Vijendar Mukunda (2):
+  ASoC: amd: acp: fix adr_device naming in ACP7.x ACPI match table
+  ASoC: amd: acp: document PDM controller topology for ACP7.B/7.F
 
-> diff --git a/sound/soc/codecs/lpass-tx-macro.c b/sound/soc/codecs/lpass-t=
-x-macro.c
-> index 6deaaabe43afa..6480a6c9032e3 100644
-> --- a/sound/soc/codecs/lpass-tx-macro.c
-> +++ b/sound/soc/codecs/lpass-tx-macro.c
+ sound/soc/amd/acp/amd-acp7x-acpi-match.c | 22 +++++++++++-----------
+ sound/soc/amd/acp/soc_amd_sdw_common.h   | 11 +++++++++--
+ 2 files changed, 20 insertions(+), 13 deletions(-)
 
-[ ... ]
+-- 
+2.53.0
 
-> @@ -434,6 +458,26 @@ static struct reg_default tx_defaults[] =3D {
->  	{ CDC_TX7_TX_PATH_SEC6, 0x00},
->  };
-> =20
-> +static const struct reg_default tx_4_0_defaults[] =3D {
-> +	{ CDC_TX_INP_MUX_ADC_MUX0_CFG2, 0x00},
-> +	{ CDC_TX_INP_MUX_ADC_MUX1_CFG2, 0x00},
-> +	{ CDC_TX_INP_MUX_ADC_MUX2_CFG2, 0x00},
-> +	{ CDC_TX_INP_MUX_ADC_MUX3_CFG2, 0x00},
-> +	{ CDC_TX_INP_MUX_ADC_MUX4_CFG2, 0x00},
-> +	{ CDC_TX_INP_MUX_ADC_MUX5_CFG2, 0x00},
-> +	{ CDC_TX_INP_MUX_ADC_MUX6_CFG2, 0x00},
-> +	{ CDC_TX_INP_MUX_ADC_MUX7_CFG2, 0x00},
-> +	{ CDC_TX0_TX_PATH_CFG2, 0x03},
-> +	{ CDC_TX1_TX_PATH_CFG2, 0x03},
-> +	{ CDC_TX2_TX_PATH_CFG2, 0x03},
-> +	{ CDC_TX3_TX_PATH_CFG2, 0x03},
-> +	{ CDC_TX4_TX_PATH_CFG2, 0x03},
-> +	{ CDC_TX5_TX_PATH_CFG2, 0x03},
-> +	{ CDC_TX6_TX_PATH_CFG2, 0x03},
-> +	{ CDC_TX7_TX_PATH_CFG2, 0x03},
-> +	{ CDC_ADPT0_ADPT_CTRL, 0x00},
-> +};
-
-[ ... ]
-
-> @@ -929,6 +998,10 @@ static int tx_macro_enable_dec(struct snd_soc_dapm_w=
-idget *w,
-> =20
->  	switch (event) {
->  	case SND_SOC_DAPM_PRE_PMU:
-> +		/* Disable the ADPT block before enabling the decimator */
-> +		if (tx->data->has_adpt)
-> +			snd_soc_component_write_field(component, CDC_ADPT0_ADPT_CTRL,
-> +						      CDC_TX_ADPT_CTRL_EN_MASK, 0x0);
-
-[Severity: Medium]
-Does snd_soc_component_write_field() ever write to CDC_ADPT0_ADPT_CTRL here?
-
-tx_4_0_defaults initializes the non-volatile cache entry for
-CDC_ADPT0_ADPT_CTRL to 0x00, and nothing in the driver ever writes a
-non-zero value to it.  Both snd_soc_component_write_field() and
-regcache_sync() see that the cached value already matches 0x00 and skip the
-register write, leaving the ADPT block in its hardware reset state during
-capture.  Should tx_4_0_defaults record the actual non-zero hardware reset
-value of CDC_ADPT0_ADPT_CTRL (as lpass-va-macro.c does in va_4_1_defaults)?
-
-[ ... ]
-
-> @@ -2027,6 +2103,418 @@ static const struct snd_soc_dapm_route tx_audio_m=
-ap_v9_2[] =3D {
->  	{"TX SMIC MUX7", "SWR_MIC11", "TX SWR_INPUT11"},
->  };
-> =20
-> +static const char * const adc_mux_text_v9_3[] =3D {
-> +	"MSM_DMIC", "SWR_MIC", "ANC_FB_TUNE1", "RX_SWR_MIC"
-> +};
-
-[ ... ]
-
-> +static const struct snd_soc_dapm_route tx_audio_map_v15[] =3D {
-> +	/* DEC0 */
-> +	{"TX DEC0 MUX", "SWR_MIC", "TX SMIC MUX0"},
-
-[Severity: Medium]
-Are DAPM routes missing for the "RX_SWR_MIC" option in tx_audio_map_v15?
-
-adc_mux_text_v9_3 adds "RX_SWR_MIC" to TX DEC0 MUX through TX DEC7 MUX, but
-neither tx_audio_map nor tx_audio_map_v15 defines a route with the
-"RX_SWR_MIC" control for any decimator.  When userspace selects "RX_SWR_MIC"
-on a decimator mux, DAPM finds no connected input path, so the decimator
-widget never powers up and tx_macro_enable_dec() is not called.
-
-[ ... ]
-
-> @@ -2250,6 +2751,9 @@ static int tx_macro_probe(struct platform_device *p=
-dev)
->  	struct device_node *np =3D dev->of_node;
->  	struct tx_macro *tx;
->  	void __iomem *base;
-> +	struct reg_default *reg_defaults __free(kfree) =3D NULL;
-> +	struct regmap_config *reg_config __free(kfree) =3D NULL;
-> +	size_t def_count;
->  	int ret, reg;
-> =20
->  	tx =3D devm_kzalloc(dev, sizeof(*tx), GFP_KERNEL);
-> @@ -2304,7 +2808,40 @@ static int tx_macro_probe(struct platform_device *=
-pdev)
->  		}
->  	}
-> =20
-> -	tx->regmap =3D devm_regmap_init_mmio(dev, base, &tx_regmap_config);
-> +	reg_config =3D kmemdup(&tx_regmap_config, sizeof(*reg_config), GFP_KERN=
-EL);
-> +	if (!reg_config) {
-> +		ret =3D -ENOMEM;
-> +		goto err;
-> +	}
-
-[Severity: Low]
-This isn't a bug, but tx_macro_probe() mixes __free(kfree) variables with
-goto-based error handling and declares reg_config as NULL at the top of the
-function instead of defining and initializing it at kmemdup().  Registering
-lpass_macro_pds_exit_action() via devm_add_action_or_reset() (as
-rx_macro_probe() does in sound/soc/codecs/lpass-rx-macro.c) would avoid
-mixing __free() with goto err.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106-add_shikra=
-_support-v6-0-2cda302237cc@oss.qualcomm.com?part=3D8
