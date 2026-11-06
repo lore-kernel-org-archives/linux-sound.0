@@ -1,98 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.174
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793966479;
-	b=lBsgEtprB6ZhLvAMTRSMNGtv4dkMPNXkVUQKXSAQ3v/5CrSk8viR2qGo1hM9t7lSplMO
-	 HPYyFWeGsmUjoYTgzJGhMcC/FwTt6rKtdZ2CLP9i4oAVPZd28+5lnnfo75UFmGg7pEZ+D
-	 FEXaf82z1LLV59UIvMdlI3URo1wWDByvPVuyklsnOzHFlL/gkRX0VmZZcO7cEofLxVWnx
-	 79EuXqP+c2qWEFm6/cH/GGH22KopaDfKy03g35csG0iaLlJ5T4bP5nlxa8W9WqimuxKq+
-	 an2GTkrzsXX1lmJOIXNlsJlcGB9uILQJZJ2BsFhEElv8w5323YzMsZRyWjDAhoW6u7Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793966479;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=7Atkv8Av9+Ao+eHQuMY+XWjPUUdTG2IMTe5rVcJzpas=;
-	b=CALv/DGwIWU/M48VhOASRb+UWo0NXGfZudoosC6Id/wsp0pHQ/5QN/XUR6YnGOaQGEdY
-	 /T1+0VM07mDL4n/92Q2IuzvArezc1yLVUKUIdxovLimKP/5YaPA09vfBtcegaH33q2nYR
-	 ZxF70utu9cnXW7PKWI8Hfva5KKDSeHAUXAPvXNlbEoiMYwfyEeNN2RFn15N36SD86a5be
-	 C/4+xB8iurHy9RkOquGMzyGBLPvaTbLSASf2cvGxo0N2hDEtWsldTMF4ZHqiXRd/Vklzu
-	 fiYEyE8an+gK4HRW+H81nvLomfu/G617G+ezFduDXCCuwFpNJOeH/bKNL9q3DdsoLAQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=janfabian.cz;
-	spf=none smtp.mailfrom=janfabian.cz;
-	dkim=pass header.d=janfabian-cz.20260707.gappssmtp.com header.i=@janfabian-cz.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=m9WyR+EH;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.174
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793966922;
+	b=NrOGwzOm6QNJxoypdebQXjxfDUUyRz9U5Sqo8UjMkXMILYnEzxz5ImxA9QoS2TqoKdk2
+	 QhrfJ5Fc/xTqzKtylCbgejLcDQzE2JVpfE+unzVCyf4xvNgIyZwiU67TfINEKXHK3ZDmL
+	 O+1oL+4U0aRf6cw2Yuxt0ywIbyZeMkxYy2olf/z7X3zpoWxIJLszQ6yjD97PrDEXPvAd8
+	 MVCZ/oU5ovvDkfK4AQu34QwXl6M4NFL7qpIAvqCmiUbGRTBDf9HRnZYY1xQvUiyb0dr/+
+	 GjgFMiLOmxAdo3AgTYFfCg9P/9yo+JG+6XXqCxwddGWHPZq9Vy0vPigWXDYZxpWe23w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793966922;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 Date:Message-Id:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=b5tWzayVpu6Fj5Ac8nT3F14daC8PZngDujl6+MP9Pok=;
+	b=ua0/0MxkhrMFpZXXDMUf9O9TpoCqLjixiunv2fXI4wXsDkSwzKJcQ3AJBC7OzLRGW4yg
+	 rfWSk9iktzCkG3EFRxqWiWIrflJ2FOs+rIfF5H2tYVQIbugU8Fcv/zUbsSY6s/WCPv+VN
+	 UaxrrJl6iLKhrrlrKuFYS/BwlycxrjP/M/ZROeJUe+M4kMYNJidZRrn0DNdYYAcnSQC//
+	 3Y2Br19vZkLiHVoT58zWoC/9ZxyZu7wckfyl+OWSxblKQGlQ3Zg5Ekf5ClXKIKF8gvC7Y
+	 BY68t/kP0c8UB8WdZMxgn/wc5VrnedxMKIKm51NmD2/nMocghxBGq5zgLrZUmy0G83A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WFeFRDy4;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31B87606A33C
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 12:01:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 31B87606A33C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=janfabian.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=janfabian.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58EE606A32F;
+	Fri,  6 Nov 2026 12:08:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E58EE606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=janfabian-cz.20260707.gappssmtp.com header.i=@janfabian-cz.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=m9WyR+EH
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-9440304604aso62454285a.0
-        for <linux-sound@vger.kernel.org>; Fri, 06 Nov 2026 04:01:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793966473; cv=none;
-        d=google.com; s=arc-20260327;
-        b=GzoHPffl733PqgsYLZsMgwKggATKvvNIHp8W21Bc8u0mMbptV0fbWpw/cO+gfqducv
-         dsgRGtvXm92G4eYpyuo1hNE2NYY0rNW6AlBsQBczf4TneiVJ4nCc5JwfnaDjBRM4FEBa
-         VJb8BR1Xv9kt6LfI3eRMMey+aYcUcCk6FD4MUMVguxGAinfU7fHdQTHYrroinqGt68On
-         B3HclSKFhrWaqlF9W/+O8l20iMMa1ZTBjCjgAZfTigjRZCUpdZ2jHAR6wHFHbZffWm1J
-         AKJzNKEq7DgNBTg4NeTA5N9cs9iR+L3I8zKj9cjY4HzczCcfEyqxjoFZXXGzd+6lhfT7
-         kigg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=7Atkv8Av9+Ao+eHQuMY+XWjPUUdTG2IMTe5rVcJzpas=;
-        fh=XzgVJpB6RXxE0LaeUsp1Ql4KqgxTpJ2x6Dva+oB7h58=;
-        b=R+VUmNqC7TcrnMRuOUPSAy+SQf9BeUDGVmNOxdBXU2IGMWf7nXFhRxRFGpOgarD+Ii
-         YkuVle3O2IxEyVlcpQDH8ryyCGfgOxbcfl0o9v4Fq/ej5V9V3VaFy0iHsLrgUeFDcnHC
-         FIlnXvU/8yU6rp7tUA/Kgr9V6abXTdA9vgB+KibQGR6wCaoZ/QLSvbC6JgZQPlEm6bYV
-         lB9jBXPKBlTBOWThJ4UWHMetQjC2fWq7EbjGDlQ59YYwfWXLHPhIauTa9ADakeWo5zG1
-         Wst4sB/5sAbWv4LOcis56OVArTSCyesIYQO3SHQvLdjtc/W8ZiVjoF1SuOSpCXe4rewr
-         yICA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=janfabian-cz.20260707.gappssmtp.com; s=20260707; t=1793966473; x=1794571273; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7Atkv8Av9+Ao+eHQuMY+XWjPUUdTG2IMTe5rVcJzpas=;
-        b=m9WyR+EHYRDo2JoRU0miwDWW4tloiONj6mV5//vpPrT13wUC2RC07ROw+sj0IXP/kZ
-         gWf70A8DRbiIQgR/LedqAaAD47/bn6N88fwuARqVz1U0dy29akqg9a/IMvPuvo+Wr7hs
-         7VWaEpODH6rzz7ycrPVG7h62avoXiUDejWV4L+uc2LA1BRgoTxmcvChcxGDoIJdaVLNA
-         wIJiXevH9Q9dpwJsQ5h6quAobXG+KKWQUSbVPtCgOucYZpUdT5vV7Uxaaw2/SCIgSu1f
-         u4/tNWB13GzmBY7MUy/Fp2/Q0iI5YQkJvBogtjjrM7i7FK/6UbIlXVBB2OAwwvt7nABT
-         yKYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793966473; x=1794571273;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=7Atkv8Av9+Ao+eHQuMY+XWjPUUdTG2IMTe5rVcJzpas=;
-        b=nuPlRz49prtwN0KKP/FUXsbwEWgc83Zo1HTlk01cPK+9rF0eOEQqN7NSUOtfj5AYAE
-         PdVwaStz0a1dIEnZzUxz9T6bHJ97THQBx1TxfykwOgeG03N3aqZzMj7TbFbIt9IlNzPJ
-         O8OvgbgAkGd9TSCyIaY/TsmyNgLk5AGASCzaB+s+8JK3nCk74mRx0qIJ513asERdpgGf
-         /Unwztc97waR86U4UQilkXZkZX8+rVpY49s1NjZfyHaega0HP+eyZVT4Gmr/xT3qHd8K
-         eAbTTXi3JMwd2rw7LzAapQIVbEDgJXtUxlkEar6dvVTvDFddYotoDJlRhw/onaoHIgMK
-         Pj0A==
-X-Forwarded-Encrypted: i=1; AKwUvBwFLs3C3jlIHf6wTbzagQ7EoqhihQ1RFN/Rs3CSqbRbtuemLakJ6yEbJOkXddHNS4P8Bden8J7vpbiBZA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+OuUt2r40B5G+nTiy3N//U8xD81q5ffLoPYQBBokoaLTpBEcog
-	IfyJKSbmoqcqHkARsgHLWS+6/PyiiUHT7Rma8/HIHYVERb0VDDSsIF/1LQ/eLGBgIjLWUxJ+4Mf
-	diSp0tdNeGLu0vHN2LYRoMmb2vktOWQmHaGRld7J8rA==
-X-Gm-Gg: AYBFou3nL2RWnPepcwe0381ttyn1DyeQ6TH/PQGrK6StOI0NzMLVgX6QWBWZ4jI4Xo3
-	4uxKFEL9OhmhzfqLsorIhGxFYz4apyXJMy34RkV10ofvGbZw0Qx/5Jq6DOJ//AkVg+PtLrb4pKZ
-	N9Jw/RlQQfmdG2CIeOviBacYfS+Ei2955kClfXmsOSgoPgCxvrLRECSGzhn+hSR1+MgYEwxaqX5
-	wfbzas3JOhLSQKYQ/5nI3DpPJGux/oKGqKgb5dd1/9dgtvRk0M/Nf9+r76sMRYGT3BtYzTEng/L
-	9QNDnOaQMoimLl87813vAXqZMcgveNCpn3TUqPhWr5KmCCMtIWsAD7usqMDNM2GDi6iXqsT6f84
-	LRX/Ob3miiwqyd+GqsHSpJNNp78+hpckGSuAPYScOT4SbzTWHpyBXkwKnRXJtXHcispk/n9lHvp
-	lVKAXXUGQbDW7Hf1JFYhk8Jej2oeJz5exnxhsWhXNRuM7AmEAJ9kZDIFP5
-X-Received: by 2002:a05:620a:2794:b0:939:b0c8:b068 with SMTP id
- af79cd13be357-945f34bc0a1mr254496385a.16.1793966472954; Fri, 06 Nov 2026
- 04:01:12 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WFeFRDy4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793966921; x=1825502921;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=d1NMGzh+l9K8MdD/4+8vfx1Q2VKXADYe4GSmX0EgdJw=;
+  b=WFeFRDy4bw/mHcDQ4j2iiGqQRZDoH7/NOX9bZb9ITL2J10yjOpzvA8Rq
+   Xvu1wi3j6V9G3Hc83XvMVZcxVdEsntNTPR3jf+16JZPiYrihfhWnxVFBq
+   wxyoBF10A0d++oJlxJ3fi//VPfXPW7udY48ouEJ7bMJKKmnw0M6PRMEnr
+   QuPMMtxhvZUWZMQ/mAYq4wsnlgmdwZalFvVxuIzQaMLSHlOjreuKRZJ5l
+   Z8qw1wONbfSa6ZH9u4m0iLZwRdXsHWMiImKyBAqRQ1QfvF7g3f8n0Hj2E
+   eRukq4HlJEcDqucDMlwlK5lZaM/iTfIrH0zdYnmNLthYacMCjHlXFZaTV
+   w==;
+X-CSE-ConnectionGUID: u/ygUf1PSs2fF93UAbLMKw==
+X-CSE-MsgGUID: Z6ef1a40QSu0W7Rnu4Z3EA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2655347"
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="2655347"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 04:08:41 -0800
+X-CSE-ConnectionGUID: D6BydZe5SHOlcE07eN9BQA==
+X-CSE-MsgGUID: 342kTdweTtu4l7q2V675Ug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="7146604"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by orviesa004.jf.intel.com with ESMTP; 06 Nov 2026 04:08:38 -0800
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: linux-sound@vger.kernel.org
+Cc: broonie@kernel.org,
+	tiwai@suse.com,
+	perex@perex.cz,
+	amade@asmblr.net,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	yung-chuan.liao@linux.intel.com,
+	vkoul@kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH v3 0/7] ASoC: Intel: avs: Soundwire support
+Date: Fri,  6 Nov 2026 13:15:50 +0100
+Message-Id: <20261106121557.2338556-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -102,76 +85,122 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: Jan Fabian <mail@janfabian.cz>
-Date: Fri, 6 Nov 2026 13:01:01 +0100
-X-Gm-Features: AclHuK9A-2FTFvlKyzhSApeifYzSQH0lEyNG7mAx3QstJCDBSgdJAuxX-NobXGY
-Message-ID: <CAEwhnkgosQd5hnN0qkH_xVrxngfhCpnALR6Gi7M1j-4tnSEKOw@mail.gmail.com>
-Subject: Re: [REGRESSION] Speaker pop/chirp on Meteor Lake ALC287 (17aa:231e)
- -- 6.12.73 to 6.12.85
-To: tiwai@suse.de
-Cc: kailang@realtek.com, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, mikekarcic@protonmail.com, 
-	regressions@lists.linux.dev, sean@starlabs.systems, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-(Reply to https://lore.kernel.org/all/87jysdv4qg.wl-tiwai@suse.de/
-sent from webmail, so it may not thread automatically.)
+The RaptorLake-P and RaptorLake-M based platform used in Automotive area
+do utilize SoundWire for streaming audio.  This patchset brings such
+support to the public domain.
 
-Hi Takashi, Kailang,
+If possible, I'd like the changes to go through Mark's tree.
 
-Another data point from an X1 Carbon Gen 12 with the same codec and
-SSID, which behaves like Mike's: the pop is still there with
-46c862f5419e. Turning AMP silence detection back on at runtime removes
-it, with no kernel rebuild.
+As the patchset updates drivers/soundwire, I've decided to strip it off
+any machine-boards and have here just the changes done to the main
+soundwire driver and their user/usage.  Machine boards for RPL-P/M will
+follow in a separate set and do not touch drivers/soundwire stuff.
 
-Hardware: ThinkPad X1 Carbon Gen 12 (21KC004TGE), BIOS N3YET86W (1.51),
-Core Ultra 7 155U. ALC287, vendor 0x10ec0287, subsystem 0x17aa231e,
-revision 0x100002.
 
-Software: Ubuntu 26.04, kernel 7.0.0-42-generic (based on 7.0.14), SOF
-firmware 2.14.1.1 with sof-hda-generic-2ch.tplg, PipeWire 1.6.2,
-WirePlumber 0.5.13.
+The reasoning behind modyfing the soundwire code:
 
-I checked the compiled module to confirm 46c862f5419e is in effect:
-alc287_alc1318_playback_pcm_hook only calls alc_write_coefex_idx, and
-alc287_fixup_lenovo_thinkpad_with_alc1318 calls alc_process_coef_fw
-twice. So dis_coefs runs once at probe, and en_coefs isn't present.
+Typically dai->startup() is responsible for checking if all the required
+resources are available whereas dai->hw_params() is responsible for
+configuring such resources.  Existing code does the PDI assignment and
+its configuration within one function - intel_hw_params().  The logical
+split is not possible.  The change provides functions that represent
+such logical blocks: assign, release and config.  Such division exists
+already for the HDAudio interface, see sound/hda/core/stream.c
 
-Symptom: a pop about 5 s after any sound. The sink goes from idle to
-suspended exactly 5 s after playback ends, matching WirePlumber's
-default timeout. Setting session.suspend-timeout-seconds = 0 stops the
-pop, but costs roughly 1-2 W at idle on battery (about 4.4 W against
-2.4 W), so it isn't a good workaround here.
+For the user i.e.: avs-driver (sound/soc/intel/avs) it also makes the
+code very cohesive - aligns with that's done on the HDAudio side as all
+the HDAudio streams are assignment during dai->startup() and configured
+with dai->hw_params().  
 
-Runtime test, writing the old en_coefs values:
+Also, the existing code fetches the PDIs based on pre-defined "dai_id".
+That's not the case for the avs-driver.  It simply asks: "is any PDI
+free?" and assigns it for the substream if one is found.
+No predefining.  Again, this aligns with how HDAudio streaming is done.
 
-  for p in "0x24 0x0013" "0x25 0x0000" "0x26 0xC203" \
-           "0x28 0x0084" "0x29 0xb023"; do
-    set -- $p
-    hda-verb /dev/snd/hwC0D0 0x20 SET_COEF_INDEX $1
-    hda-verb /dev/snd/hwC0D0 0x20 SET_PROC_COEF $2
-  done
+avs-driver -only patches follow the three soundwire ones.  First, they
+extend the existing code so it can accommodate SDW interface.  With that
+done, laverage existing PCM code (sound/soc/intel/avs/pcm.c) and
+soundwire-intel to implement DAI operations.
 
-Results, by ear, on one boot:
 
-- Before the write: a pop about 5 s after a bell.
-- After the write: no pop after two bells, with the sink still
-  suspending normally.
-- The 630fbc6e870e scenario: a 13 s all-zero stream from one pw-play,
-  with three bells from a second pw-play starting 7 s in. All three
-  were audible, with no pop afterwards. That was one run, so it says
-  little about the original no-sound bug.
-- The write also works with the sink and codec runtime-suspended: no
-  pop after a bell in a later run.
+Changes in v3:
+- sdw_intel_pdi_config() now re-used in the existing code
+- wakests now read as u16 rather than u32
+- dropped superfluous declaration of sdw_intel_init_pdis()
+- avs_sdw_dai_hw_params() now calls sdw_stream_remove_master() when
+  sdw_stream_add_master() fails
 
-Not tested yet: whether the setting survives system suspend or
-hibernate.
+Changes in v2:
+- dropped duplicate headers as pointed by Amadeusz
+- fixed PDI initialization for ace2x as pointed by Bard. This is done by
+  introducing ->init_pdis() ops and calling it just before
+  ->register_dais(). The body of the ops is 1:1 with the existing PDI
+  initialization code
+- fixed the error path if init_pdis() fails, as pointed by Bard
+- fixed Amadeusz' email for all the headers
 
-Since Kailang confirmed the same SSID shows different behaviour, is
-there something I can read from this machine that would separate the
-two groups, such as an amp revision? I'm also happy to test a patch.
-From a quick look, master still has the probe-time dis_coefs call as
-of late October.
+A number of changes pointed by Sashiko:
+- fixed compilation when CONFIG_SND_SOC_INTEL_AVS=y and
+  CONFIG_SOUNDWIRE_INTEL=m. This is done with help of new kconfig:
+  SND_SOC_INTEL_AVS_SOUNDWIRE
+- added missing kernel docs
+- avs_sdw_dai_trigger()/prepare() now rollback sdw_stream state if DSP
+  operations fail
+- avs_sdw_dai_shutdown() now NULLs the sdw_stream context
+- wanted to reserve this for later but since the bot pointed this out,
+  updated hw_params(), hw_free() and prepare() to accommodate for
+  suspend/resume scenario with a SDW stream
+- sdw_intel_acpi_scan() now returns -ENODEV if the library is disabled
+  (previously returned 0)
+- avs_sdw_probe() now exits early if the link_mask is 0
+- disabled SDW probing for avs-driver on ACE2+ platforms
 
-Thanks,
-JF
+
+Cezary Rojewski (7):
+  soundwire: intel: Define stubs when library is disabled
+  soundwire: intel: Allow for dynamic assignment of PDIs
+  soundwire: intel: Split PDIs and DAIs initialization
+  ASoC: Intel: avs: Pass irq to dsp_interrupt callback
+  ASoC: Intel: avs: SoundWire support
+  ASoC: Intel: avs: Expose common PCM functions
+  ASoC: Intel: avs: SoundWire PCM BE operations
+
+ drivers/soundwire/cadence_master.c    |  64 ++++++
+ drivers/soundwire/cadence_master.h    |  25 +--
+ drivers/soundwire/intel.c             |  49 +++--
+ drivers/soundwire/intel.h             |   9 +-
+ drivers/soundwire/intel_ace2x.c       |  25 ++-
+ drivers/soundwire/intel_auxdevice.c   |   4 +
+ include/linux/soundwire/sdw_cadence.h |  35 ++++
+ include/linux/soundwire/sdw_intel.h   |  45 +++-
+ sound/hda/core/Kconfig                |   2 +-
+ sound/hda/core/Makefile               |   3 +
+ sound/soc/intel/Kconfig               |   8 +
+ sound/soc/intel/avs/Makefile          |   4 +
+ sound/soc/intel/avs/apl.c             |   2 +-
+ sound/soc/intel/avs/avs.h             |  15 +-
+ sound/soc/intel/avs/cnl.c             |  25 ++-
+ sound/soc/intel/avs/core.c            |  23 +-
+ sound/soc/intel/avs/loader.c          |   3 +
+ sound/soc/intel/avs/messages.h        |   2 +
+ sound/soc/intel/avs/mtl.c             |   2 +-
+ sound/soc/intel/avs/path.c            |   2 +
+ sound/soc/intel/avs/pcm.c             |  42 +---
+ sound/soc/intel/avs/pcm.h             |  50 +++++
+ sound/soc/intel/avs/pcm_sdw.c         | 291 ++++++++++++++++++++++++++
+ sound/soc/intel/avs/registers.h       |   4 +
+ sound/soc/intel/avs/skl.c             |   2 +-
+ sound/soc/intel/avs/soundwire.c       | 112 ++++++++++
+ sound/soc/intel/avs/soundwire.h       |  63 ++++++
+ 27 files changed, 814 insertions(+), 97 deletions(-)
+ create mode 100644 include/linux/soundwire/sdw_cadence.h
+ create mode 100644 sound/soc/intel/avs/pcm_sdw.c
+ create mode 100644 sound/soc/intel/avs/soundwire.c
+ create mode 100644 sound/soc/intel/avs/soundwire.h
+
+-- 
+2.34.1
+
