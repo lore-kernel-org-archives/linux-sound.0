@@ -1,83 +1,83 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793923634;
-	b=0zprD2IVaFHRznCmxQUutFDQXi4rddS9rKqtDs1KqzfQRSggcgFjsFfrqBGBNnHrsDCd
-	 GTFs4pp/cxEybv5lcXbCrWU/mBy9JdjxlkUvqK5P0J7js2wbiUqrMRfxPl0ValcxNhUtX
-	 DY8eTel+8ReGxDVAKvI2RDSyWpUr37RD+jvQQ6v9H4NbGg2aRKHXp62LLUedqo7qFcKHr
-	 FhiLwbrwzw9xlHswVwbmexE4hqXwwl9hrkqQnm1HyU4WEk1Osf48+v0gtIp4S9EbOKcIM
-	 p1tN5z5ga6cvqjQ/XTszmL7e3ntc8D4n7XibC6QbQ0cj2UiFBGuc3Or8TUI5VB9e5qw==
+	t=1793923636;
+	b=1Wcs4CBaCi6mYLX0SRT+55a0HqrLjGHcjE35fucsfP8InUkia5C8rt95tS+ZQAyWfX/S
+	 wG2Wp6yp+E3nSva57AkrAFMnjgXO8WZ1iShD7XfZqatGpKKastl12F+1tBgL0+XleU+9H
+	 CJ4zUaZ/FnAd0q0LUzOWiAsi5C3+57wrCLQN0g/3m7thQWmVeexMmA7WPi6dAmCYkFAHL
+	 kPEotXRd8DUd7nHLODW0wQh8ITc7sqG9EXadx6MwSLpYb4kFk//dGp9GQkzW/hzWemP3X
+	 OQNJQ829+PvPBaejcH//YTpB8ZvMiEx9uKOQm4U2JJl/RmFE6ngJJ+8QNEvU2T28QlQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793923634;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793923636;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=OPejMH9zSMz7wJvZmtX0/MV7GNaZNAQoqklyi0Sz5sU=;
-	b=HTkfHAqsnFHxmKiqn7rxbvLXynpTC4n3PB8qTTEVQv9vMMWkZ55H8H4LZ0zxcabBib3U
-	 yAqpHVKANzpqAqgWcA4oVyNdG0DourJpJ9os7U0E7sAFyNaKhR1vJNKCXntUjW/hZyxNQ
-	 Ck/5qgSp/YU1bRt6H8UXMAQbf0xciZtLH+bT2GejKmzxsJHpGj+wkk93uuxmNvh/U6JCp
-	 X/BlQURPdO0cN4MHRRDEtrghP+nl16T7psvJX0bbuPJLtYg773WUMGwo7bo6xzCIfkXf0
-	 w9gsGo/QnVO9VSg77TWts80cabqCG9RRs8sBzqFuFbi8kXmbGQdGXjZp8fAfg12FmDA==
+	bh=hA9whqWWbV6K20gHw6KCXT5xEkMWnuiSkLAw9Y5Ct34=;
+	b=n26sJG2rWuS0rlf6arTdnXWYD53I3vLoeDbn48zzXm3hVTlj2gQpbo921n5smsGz10XX
+	 oiMblV6GoNeyRP7MzYUW5kVMUN3Og9ayCyc3POUGG0DUzTor4kCkLuqeo7qZcrrWInyVI
+	 yuyCvIgxYWX8WwwMtRjsrgm4nsX4mKUqxDjT2yq8dA06EG0iIKNoLW+3TWBeLTL+hufzh
+	 FRU2aky2Bz8eGRbHz/j5AGlWoHOkYKhZcnuZP4DGr+YjiCAllGk6YLAnhBf6d016Vt47A
+	 Fv8ePD1CmGGudaG6PsMwz9HUkI/2W+SN5P2tB7+LA5jZEJNph088BZpW/pyg7ja6Q/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OK91TQKS;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Zanuhn6q;
 	arc=none smtp.remote-ip=74.125.82.181
 Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062C0606A338
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 00:07:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 062C0606A338
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9EF606D802
+	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 00:07:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F9EF606D802
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OK91TQKS
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-3514b90bb89so140184eec.1
-        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 16:07:13 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Zanuhn6q
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso207937eec.0
+        for <linux-sound@vger.kernel.org>; Thu, 05 Nov 2026 16:07:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793923633; x=1794528433; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793923630; x=1794528430; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=OPejMH9zSMz7wJvZmtX0/MV7GNaZNAQoqklyi0Sz5sU=;
-        b=OK91TQKSG5/aBuwFPIA+uH/QSncuL9s6+oTgViOlFQifCdZWD/RDYcx6EZVWBg39mK
-         2+0zRGxlnbLRpoNr5ta7ckWrAZa2UHn9ga5ks7TeKIQZCNCxdq09ddbwRhAyn0mHWUtp
-         9WZG17b9Pj4IIys+TwNdxeCJWgtLz5ZTVJ/jcckoGDgOV8eoJwmixCvWrwWYNsMjeIQn
-         tRr2VNmuKxthJOWTxLdR90kU/11cyZkU2sSynpvLoZw+YounhTFec3mUNN/AXn+brUtx
-         LA8Z35/PSuJhbJwIOtCIPymUaM9yyBUQ7mbJn/6DF1a8tGIbgdjDrk1wDKL+ZSsIEbHG
-         UGxw==
+        bh=hA9whqWWbV6K20gHw6KCXT5xEkMWnuiSkLAw9Y5Ct34=;
+        b=Zanuhn6q0tpJBqqic5m3TdcJSFOgjDICYuQMpJuTItdpFbTBbpes1/uBNSxtjKZ3Rg
+         Yq4EbZX/kYw++WX4Zv2vG+A+xcnAX8Lr9CiQavA/fSEksnEOCJK3Qe3tW1pr9aPXXLPy
+         zRnFC+UQM7q/o/wS318/C5r7QMCrrqUIcpLzaM0Y6MIqNaHxTmJ9OxL6HgxRlzJ5ycSC
+         usiQfmlUSNzsIa7qEh42PTtjT93+A2GGqLbIYgfAOFglnc9A1HQH9lUv8qcZeowG7sVi
+         eWr7tnKzYpzy7vEOBpKKqxSS03tGfXlmx2/AN2GYIglCwna8X0puqHZYZf30PTN3q1i5
+         ORLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793923633; x=1794528433;
+        d=1e100.net; s=20260707; t=1793923630; x=1794528430;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OPejMH9zSMz7wJvZmtX0/MV7GNaZNAQoqklyi0Sz5sU=;
-        b=rYnOixDaeMxOEWbSowfcC/TKwPF/3B2r7PInESNPgdx2sGOkzAZlTEvu7YDQzlm8qa
-         5WO/W653hZAKpO6KYcUApKzgXO1+Lz7fqb3IMJy3sKc353fvlT9xhI6VBKxserK22zBt
-         LCRBJpzwDYbEvKbFmIsNOp+D5cpFzhsmjzcmmDCuVOYXEb3fk7Qu98xIIXFr0dzqo2dt
-         JD9DwAyo8t7/2mc8s4OlhXIWz76AnoihvscjEaDTb+XBTbiXFRrRpJrzVtHuqCUd8Msp
-         QEQZ7hqe9uAJ5kLCoeXgQsZLwGxW97XJsgJXSyziiBI2ddYaBO6cymin/qWiXFGvl7nU
-         pb1A==
-X-Gm-Message-State: APuU4Z/746mfbf4oa8bTVWc1XKSHXKG7OlwUHCFZTe38tSU7/cVPWaKU
-	Zz8zuabnAmslgV1yxFhETMfzIV8XSgREC6AKsr7mcwCOwY7+8ygHAGEBpfEgJg==
-X-Gm-Gg: AYBFou12xuAwyOMa6SWRvvBlyjz1Rteu7Ial7gLqL1YdmLFdNyTRamDy5ZDpt55vOml
-	UGk11fJOK/jfiT/PbVcSJLFH9NzL/ZwPk+5n3KLA0jpku0d4PXlM9Qai1tk18KcEYWTnmCfJZ2t
-	pAFejtH74mE24NJKLNbeX1faF4YaSE8IVeJ3LO0XBjwgaShgK4Sl8GM6NqB+mkTfk19G8UtQuUq
-	XhVy84XogYItpApNAPxtTlRNtS2hLMHzPXIobsjKuaBBzsCPpwl0C77+3odmn8P+DHV03EF6Rf1
-	sv5iUwnGy/hit5M7fy8NzH0iefUUMrC2x/qjsYfAmMSPcYJtKUTiumTPKXrbXsnPl79g3VwGmH1
-	sft7pUqe+/YP8NP29Y4ssttANoMjePbRujaFlZ2aqT2K35TcQOB81hptOA4dgtIc+LB9K61wEVZ
-	hnI6vvIALLNt45wKowZQyOcGukr5Kto4lIZF1yWHKBKIXY8HR8o/UqBMkfaQxRPWKQbWc8gJza+
-	yRL/X/3lEgwLNZBVrxrgMItzfx6TEgx+FYo6uP3CEBWFT7yX1ndFtIGC9UCbY9tX4Ur0gMKPO9F
-	LscL+6piO/KtPwwiQ+478JYU820DPan9nidB1XbssNgl0C//e4/Q8MzuX36qmLoaR21Qqe3fQdn
-	hM3rYYN3khEDr4VOQ4IKIAV/sGEaGFAWo4Kr6BlOBvEkoHX8=
-X-Received: by 2002:a05:7022:1216:b0:1a7:99b9:2eb9 with SMTP id a92af1059eb24-1b25d31ca3bmr737627c88.27.1793923632750;
-        Thu, 05 Nov 2026 16:07:12 -0800 (PST)
+        bh=hA9whqWWbV6K20gHw6KCXT5xEkMWnuiSkLAw9Y5Ct34=;
+        b=OyJbV5IQjj3VZCNDcMei+5mdk+UrcoKxYbe6TQbZPEkKUlfT9SmiFiouWOChOuqt1k
+         b0Z/LE0skzt7AYOlcLxQV8sJUe7nc/wyWC+Xe2zWWtPBTRju0vrUs8YTIIFR/x0/PiTj
+         Uxll4onySTS8C2U/3g7eqCzapbHcci+QCGURzfmiM1QnLhZ2ahdJvFpStIluDKuXQcsz
+         M58ynANj96G9P4iLMzoj3rqpnk4DB9X+mx1hImcc8Z9PBaMI/lN8729XQAMbkos5YLPp
+         i4D/K8/WM4IwZJz+fj1dUxOrPg9Uft6oybGGyaW+D2/h8SdD2icQRNCKj8QNLay/A05J
+         xQww==
+X-Gm-Message-State: APuU4Z+D8qcGAROXNtU7Vs9imEuw1DKuLuqv3sOIIhSMYciH/ffdSWRh
+	zoaNV/WWdSmJd9p/ky5lwqTyNSAagjwo9Jz8rQaxS8srHrgB+z5tjQJl8mL7pA==
+X-Gm-Gg: AYBFou3yE6nD7hYHY9YomyMlZ3xoI7TsS+3eK/lYc/hZBpIT5ufzaN18C7pLKO+9frL
+	YAFzqkTDltgBiT82KIxn+X4VI3dRVPKGRl4WYh3r9PJZLtko3ToU+znMVOVD5nO+4viHS5ZWv3o
+	IQxcb6UdB0G9ZXmHucR3GPTMB67T15JnzOO9dPnEy9E16YANN6LR7uchzM/j6SUAP0LAXl4cmiC
+	A9G/MKf6xqJWdLRwcpdfW3XPW+kyNEaeloBo6Kkz/uR/W0pf6F8K/S8FzAMzAv7cIMzr5VD/0Cz
+	pHgEj2SQIEhk0nbeBGJLPz/9DzOzR5f62DjH2aLYU8A9IFg3m7uK52M/N9Bx/yTziUzuhmv6PkR
+	4PltI734+cdpeFJRuTdQg0DW/w5T/H22cbfJSrRYrDhj9v2wQ9MH5chDaw6G5CPPfpAEvJQn0xs
+	FjE4gwR8Ry7W0nPJNIRJ8p1nplWerfkn5HDwQppxCgthGV0sm4LAMOeH86yxoqvL/3Sch/6BU7t
+	oov+dd2w3cG40rLP0Lx4wiLvrEYdwsEDSOstFHoeIMpowJ2YU1wt4e9IBoz60/TD0JCD20l2pyh
+	KUot+Lbes7kKEQv+yOGi3JPxtcrjXygUES0to6x/dzMvNL0WQzKgnsPhR6V3psDHyErDelxVCsS
+	7BHjvq+2w71QECNbw6iwxKbBkOnJO7NRz8B/uIdHGdM89Dgw=
+X-Received: by 2002:a05:7022:ea46:10b0:152:3812:496a with SMTP id a92af1059eb24-1b25d3769b2mr791820c88.43.1793923629512;
+        Thu, 05 Nov 2026 16:07:09 -0800 (PST)
 Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b25e4e079esm371165c88.19.2026.11.05.16.07.09
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b25e4e079esm371165c88.19.2026.11.05.16.07.06
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 05 Nov 2026 16:07:12 -0800 (PST)
+        Thu, 05 Nov 2026 16:07:08 -0800 (PST)
 From: Joonho Lee <mynameisjune111@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: tiwai@suse.com,
@@ -91,9 +91,9 @@ Cc: tiwai@suse.com,
 	rdunlap@infradead.org,
 	linux-doc@vger.kernel.org,
 	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v18 07/12] ALSA: virtio: retain PCM DMA pages and validate capture ring ownership
-Date: Fri,  6 Nov 2026 09:06:39 +0900
-Message-ID: <20261106000644.20460-8-mynameisjune111@gmail.com>
+Subject: [PATCH v18 06/12] ALSA: virtio: Retain queued messages through device reset
+Date: Fri,  6 Nov 2026 09:06:38 +0900
+Message-ID: <20261106000644.20460-7-mynameisjune111@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261106000644.20460-1-mynameisjune111@gmail.com>
 References: <20261106000644.20460-1-mynameisjune111@gmail.com>
@@ -108,580 +108,504 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Retain references to the pages backing ALSA's vmalloc buffer until its
-queued I/O messages are freed. On NOMMU systems, use driver-owned memory
-for DMA and copy playback data before submission and capture data after
-completion, so ALSA buffer release cannot invalidate an active request.
+Keep the control queue available through snd_card_free() so close-time
+STOP and RELEASE commands can still be submitted. Block new control
+requests and mark pending messages canceled before reset, then release
+their queue references only after reset and queue deletion.
 
-Validate the PCM buffer and each period before building scatterlists.
-Require a successful full-period response for ordinary capture before
-advancing its pointer. Each descriptor targets a fixed ring slice, so a
-short response would expose the unwritten remainder as captured data.
+For PCM queues, detach each remaining virtqueue buffer after the device
+has stopped DMA and retire its message without reporting a normal
+completion. Detach all queues before deleting them so outstanding DMA
+mappings are unmapped and no token remains for a late device completion.
 
-Require whole-byte periods whose total matches the negotiated buffer.
-Check offset, length and the final message index before indexing the
-message array, including empty transfers and arithmetic wraparound.
+Protect event callback admission with the event queue lock. Disabling
+events waits for an active dispatch, and later callbacks see a closed
+gate before ALSA objects are freed. Enable and pending-event draining
+share the same lock.
 
-Seed the ordinary capture ring once per prepare. Native STOP preserves
-queued requests and unread samples, so PAUSE_RELEASE must retain their
-ownership. Re-enqueuing the entire ring adds another period to pending
-message lengths and exposes unread DMA slots to the device. Return
-consumed space through the existing indirect ACK path.
+Reclaim pending event buffers after a failed probe without dispatching
+notifications into ALSA objects that have not been constructed. Record
+the queue's prior enabled state under its lock before closing admission.
 
-Copy valid NOMMU capture payloads while their runtime is still prepared,
-including late non-empty completions after STOP. If the source or
-runtime range is invalid, retire the request and latch XRUN without
-publishing progress for bytes that could not be copied.
+Fixes: 9d45e514da88 ("ALSA: virtio: handling control messages")
 
-Fixes: f40a28679e0b ("ALSA: virtio: handling control and I/O messages for the PCM device")
-
-Keep the fixed ring-slice offset available on MMU and NOMMU builds.
-Accept capture data only when the completed slice matches hw_ptr, and
-retire empty stopped completions without advancing capture state. Once
-an XRUN is latched, later completions only retire queue ownership. An
-out-of-order full completion reports XRUN rather than publishing an
-unwritten ring slice; this path does not reorder completed requests.
-
-Retain PCM DMA pages and validate full fixed-slot completions. Account the successfully seeded RX ring as full so completed capture data stays reserved until appl_ptr consumes it.
+Track virtqueue initialization across partial restore so rollback deletes only queues created by the current attempt. Clear freed event-message ownership before a later remove can reclaim it.
 Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 
 ---
-sound/virtio/virtio_pcm.h     |   13 ++
- sound/virtio/virtio_pcm_msg.c |  303 +++++++++++++++++++++++++++++++++++------
- sound/virtio/virtio_pcm_ops.c |   22 +++
- 3 files changed, 295 insertions(+), 43 deletions(-)
+sound/virtio/virtio_card.c    |  110 ++++++++++++++++++++++++++++++++---------
+ sound/virtio/virtio_card.h    |    6 ++
+ sound/virtio/virtio_ctl_msg.c |   64 +++++++++++++++++++++---
+ sound/virtio/virtio_ctl_msg.h |    4 +
+ sound/virtio/virtio_pcm.h     |    2 +
+ sound/virtio/virtio_pcm_msg.c |   42 ++++++++++++++--
+ 6 files changed, 193 insertions(+), 35 deletions(-)
 
+diff --git a/sound/virtio/virtio_card.c b/sound/virtio/virtio_card.c
+--- a/sound/virtio/virtio_card.c
++++ b/sound/virtio/virtio_card.c
+@@ -70,23 +70,13 @@
+ 	}
+ }
+ 
+-/**
+- * virtsnd_event_notify_cb() - Dispatch all reported events from the event queue.
+- * @vqueue: Underlying event virtqueue.
+- *
+- * This callback function is called upon a vring interrupt request from the
+- * device.
+- *
+- * Context: Interrupt context.
+- */
+-static void virtsnd_event_notify_cb(struct virtqueue *vqueue)
+-{
+-	struct virtio_snd *snd = vqueue->vdev->priv;
+-	struct virtio_snd_queue *queue = virtsnd_event_queue(snd);
++static void virtsnd_event_drain_locked(struct virtio_snd *snd,
++				       struct virtqueue *vqueue)
++{
+ 	struct virtio_snd_event *event;
+ 	u32 length;
+ 
+-	guard(spinlock_irqsave)(&queue->lock);
++	lockdep_assert_held(&virtsnd_event_queue(snd)->lock);
+ 	do {
+ 		virtqueue_disable_cb(vqueue);
+ 		while ((event = virtqueue_get_buf(vqueue, &length))) {
+@@ -94,6 +84,26 @@
+ 			virtsnd_event_send(vqueue, event, true, GFP_ATOMIC);
+ 		}
+ 	} while (!virtqueue_enable_cb(vqueue));
++}
++
++/**
++ * virtsnd_event_notify_cb() - Dispatch all reported events from the event queue.
++ * @vqueue: Underlying event virtqueue.
++ *
++ * This callback function is called upon a vring interrupt request from the
++ * device.
++ *
++ * Context: Interrupt context.
++ */
++static void virtsnd_event_notify_cb(struct virtqueue *vqueue)
++{
++	struct virtio_snd *snd = vqueue->vdev->priv;
++	struct virtio_snd_queue *queue = virtsnd_event_queue(snd);
++
++	guard(spinlock_irqsave)(&queue->lock);
++	if (queue->vqueue != vqueue || !snd->event_vq_enabled)
++		return;
++	virtsnd_event_drain_locked(snd, vqueue);
+ }
+ 
+ /**
+@@ -131,6 +141,7 @@
+ 
+ 	for (i = 0; i < VIRTIO_SND_VQ_MAX; ++i)
+ 		snd->queues[i].vqueue = vqs[i];
++	snd->vqs_initialized = true;
+ 
+ 	/* Allocate events and populate the event queue */
+ 	virtqueue_disable_cb(vqs[VIRTIO_SND_VQ_EVENT]);
+@@ -158,8 +169,12 @@
+ {
+ 	struct virtio_snd_queue *queue = virtsnd_event_queue(snd);
+ 
++	guard(spinlock_irqsave)(&queue->lock);
++	if (!queue->vqueue)
++		return;
++	snd->event_vq_enabled = true;
+ 	if (!virtqueue_enable_cb(queue->vqueue))
+-		virtsnd_event_notify_cb(queue->vqueue);
++		virtsnd_event_drain_locked(snd, queue->vqueue);
+ }
+ 
+ /**
+@@ -172,13 +187,19 @@
+ {
+ 	struct virtio_snd_queue *queue = virtsnd_event_queue(snd);
+ 	struct virtio_snd_event *event;
++	bool dispatch_events;
+ 	u32 length;
+ 
++	guard(spinlock_irqsave)(&queue->lock);
++	dispatch_events = snd->event_vq_enabled;
++	snd->event_vq_enabled = false;
+ 	if (queue->vqueue) {
+-		guard(spinlock_irqsave)(&queue->lock);
+ 		virtqueue_disable_cb(queue->vqueue);
+-		while ((event = virtqueue_get_buf(queue->vqueue, &length)))
+-			virtsnd_event_dispatch(snd, event);
++		while ((event = virtqueue_get_buf(queue->vqueue, &length))) {
++			/* Reclaim used buffers even when failed probe cannot dispatch. */
++			if (dispatch_events)
++				virtsnd_event_dispatch(snd, event);
++		}
+ 	}
+ }
+ 
+@@ -338,6 +359,43 @@
+ }
+ 
+ /**
++ * virtsnd_reset_vqs() - Stop device access and unmap outstanding buffers.
++ * @snd: VirtIO sound device.
++ *
++ * Context: Any context that permits to sleep.
++ */
++static void virtsnd_reset_vqs(struct virtio_snd *snd)
++{
++	struct virtio_device *vdev = snd->vdev;
++	unsigned int i;
++
++	virtio_reset_device(vdev);
++
++	/* Deleting a virtqueue does not unmap its outstanding descriptors. */
++	for (i = 0; i < VIRTIO_SND_VQ_MAX; ++i) {
++		struct virtio_snd_queue *queue = &snd->queues[i];
++		unsigned long flags;
++		void *msg;
++
++		spin_lock_irqsave(&queue->lock, flags);
++		if (queue->vqueue)
++			while ((msg = virtqueue_detach_unused_buf(queue->vqueue)))
++				if (i == VIRTIO_SND_VQ_TX || i == VIRTIO_SND_VQ_RX)
++					virtsnd_pcm_msg_cancel(msg);
++		if (i == VIRTIO_SND_VQ_EVENT)
++			snd->event_vq_enabled = false;
++		/* IRQ callbacks must never see a detached ring as live. */
++		queue->vqueue = NULL;
++		spin_unlock_irqrestore(&queue->lock, flags);
++	}
++
++	if (snd->vqs_initialized) {
++		vdev->config->del_vqs(vdev);
++		snd->vqs_initialized = false;
++	}
++}
++
++/**
+  * virtsnd_remove() - Remove VirtIO and ALSA devices.
+  * @vdev: VirtIO parent device.
+  *
+@@ -349,13 +407,14 @@
+ 	unsigned int i;
+ 
+ 	virtsnd_disable_event_vq(snd);
+-	virtsnd_ctl_msg_cancel_all(snd);
+ 
+ 	if (snd->card)
+ 		snd_card_free(snd->card);
+ 
+-	virtio_reset_device(vdev);
+-	vdev->config->del_vqs(vdev);
++	virtsnd_ctl_msg_cancel_all(snd);
++
++	virtsnd_reset_vqs(snd);
++	virtsnd_ctl_msg_cleanup(snd);
+ 
+ 	for (i = 0; snd->substreams && i < snd->nsubstreams; ++i) {
+ 		struct virtio_pcm_substream *vss = &snd->substreams[i];
+@@ -383,8 +442,8 @@
+ 	virtsnd_disable_event_vq(snd);
+ 	virtsnd_ctl_msg_cancel_all(snd);
+ 
+-	virtio_reset_device(vdev);
+-	vdev->config->del_vqs(vdev);
++	virtsnd_reset_vqs(snd);
++	virtsnd_ctl_msg_cleanup(snd);
+ 
+ 	for (i = 0; i < snd->nsubstreams; ++i)
+ 		cancel_work_sync(&snd->substreams[i].elapsed_period);
+@@ -408,10 +467,13 @@
+ 	int rc;
+ 
+ 	rc = virtsnd_find_vqs(snd);
+-	if (rc)
++	if (rc) {
++		virtsnd_reset_vqs(snd);
+ 		return rc;
++	}
+ 
+ 	virtio_device_ready(vdev);
++	virtsnd_ctl_msg_enable(snd);
+ 
+ 	virtsnd_enable_event_vq(snd);
+ 
+diff --git a/sound/virtio/virtio_card.h b/sound/virtio/virtio_card.h
+--- a/sound/virtio/virtio_card.h
++++ b/sound/virtio/virtio_card.h
+@@ -45,8 +45,11 @@
+  * struct virtio_snd - VirtIO sound card device.
+  * @vdev: Underlying virtio device.
+  * @queues: Virtqueue wrappers.
++ * @vqs_initialized: Virtqueues allocated by virtio_find_vqs().
+  * @card: ALSA sound card.
+  * @ctl_msgs: Pending control request list.
++ * @ctl_msgs_blocked: Control requests are blocked during teardown or suspend.
++ * @event_vq_enabled: Event callbacks may dispatch, protected by the event queue lock.
+  * @event_msgs: Device events.
+  * @pcm_list: VirtIO PCM device list.
+  * @jacks: VirtIO jacks.
+@@ -62,8 +65,11 @@
+ struct virtio_snd {
+ 	struct virtio_device *vdev;
+ 	struct virtio_snd_queue queues[VIRTIO_SND_VQ_MAX];
++	bool vqs_initialized;
+ 	struct snd_card *card;
+ 	struct list_head ctl_msgs;
++	bool ctl_msgs_blocked;
++	bool event_vq_enabled;
+ 	struct virtio_snd_event *event_msgs;
+ 	struct list_head pcm_list;
+ 	struct virtio_jack *jacks;
+diff --git a/sound/virtio/virtio_ctl_msg.c b/sound/virtio/virtio_ctl_msg.c
+--- a/sound/virtio/virtio_ctl_msg.c
++++ b/sound/virtio/virtio_ctl_msg.c
+@@ -15,6 +15,7 @@
+  * @list: Pending message list entry.
+  * @notify: Request completed notification.
+  * @ref_count: Reference count used to manage a message lifetime.
++ * @cancelled: Request canceled during device teardown.
+  */
+ struct virtio_snd_msg {
+ 	struct scatterlist sg_request;
+@@ -22,6 +23,7 @@
+ 	struct list_head list;
+ 	struct completion notify;
+ 	refcount_t ref_count;
++	bool cancelled;
+ };
+ 
+ /**
+@@ -100,7 +102,7 @@
+ 
+ 	INIT_LIST_HEAD(&msg->list);
+ 	init_completion(&msg->notify);
+-	/* This reference is dropped in virtsnd_ctl_msg_complete(). */
++	/* The caller owns this reference; send adds a queue reference. */
+ 	refcount_set(&msg->ref_count, 1);
+ 
+ 	return msg;
+@@ -134,6 +136,7 @@
+ 	int rc;
+ 
+ 	virtsnd_ctl_msg_ref(msg);
++	/* This reference stays with the queue until completion or teardown. */
+ 
+ 	/* Set the default status in case the message was canceled. */
+ 	response->code = cpu_to_le32(VIRTIO_SND_S_IO_ERR);
+@@ -147,12 +150,17 @@
+ 		psgs[nouts + nins++] = in_sgs;
+ 
+ 	scoped_guard(spinlock_irqsave, &queue->lock) {
+-		rc = virtqueue_add_sgs(queue->vqueue, psgs, nouts, nins, msg,
+-				       GFP_ATOMIC);
++		if (snd->ctl_msgs_blocked)
++			rc = -ENODEV;
++		else
++			rc = virtqueue_add_sgs(queue->vqueue, psgs, nouts, nins,
++					       msg, GFP_ATOMIC);
+ 		if (!rc) {
+ 			notify = virtqueue_kick_prepare(queue->vqueue);
+ 
+ 			list_add_tail(&msg->list, &snd->ctl_msgs);
++			if (notify)
++				virtqueue_notify(queue->vqueue);
+ 		}
+ 	}
+ 
+@@ -168,9 +176,6 @@
+ 
+ 		goto on_exit;
+ 	}
+-
+-	if (notify)
+-		virtqueue_notify(queue->vqueue);
+ 
+ 	if (nowait)
+ 		goto on_exit;
+@@ -184,6 +189,11 @@
+ 			rc = -ETIMEDOUT;
+ 		}
+ 
++		goto on_exit;
++	}
++
++	if (READ_ONCE(msg->cancelled)) {
++		rc = -ENODEV;
+ 		goto on_exit;
+ 	}
+ 
+@@ -227,9 +237,33 @@
+  * virtsnd_ctl_msg_cancel_all() - Cancel all pending control messages.
+  * @snd: VirtIO sound device.
+  *
+- * Context: Any context.
++ * Context: Any context. Blocks new senders and marks pending requests canceled.
++ *          Existing senders are woken when their request completes or after
++ *          the device has been reset.
+  */
+ void virtsnd_ctl_msg_cancel_all(struct virtio_snd *snd)
++{
++	struct virtio_snd_queue *queue = virtsnd_control_queue(snd);
++	struct virtio_snd_msg *msg;
++
++	guard(spinlock_irqsave)(&queue->lock);
++	snd->ctl_msgs_blocked = true;
++	list_for_each_entry(msg, &snd->ctl_msgs, list) {
++		WRITE_ONCE(msg->cancelled, true);
++	}
++}
++
++/**
++ * virtsnd_ctl_msg_cleanup() - Release messages left after queue teardown.
++ * @snd: VirtIO sound device.
++ *
++ * This must be called after device reset, buffer detachment, and del_vqs(),
++ * when no queue callback or DMA access can still reach a message. The queue
++ * object and its lock must remain alive until this function returns.
++ *
++ * Context: Any context.
++ */
++void virtsnd_ctl_msg_cleanup(struct virtio_snd *snd)
+ {
+ 	struct virtio_snd_queue *queue = virtsnd_control_queue(snd);
+ 
+@@ -244,6 +278,20 @@
+ }
+ 
+ /**
++ * virtsnd_ctl_msg_enable() - Allow control requests after queue restoration.
++ * @snd: VirtIO sound device.
++ *
++ * Context: Any context.
++ */
++void virtsnd_ctl_msg_enable(struct virtio_snd *snd)
++{
++	struct virtio_snd_queue *queue = virtsnd_control_queue(snd);
++
++	guard(spinlock_irqsave)(&queue->lock);
++	snd->ctl_msgs_blocked = false;
++}
++
++/**
+  * virtsnd_ctl_query_info() - Query the item configuration from the device.
+  * @snd: VirtIO sound device.
+  * @command: Control request code (VIRTIO_SND_R_XXX_INFO).
+@@ -295,6 +343,8 @@
+ 	u32 length;
+ 
+ 	guard(spinlock_irqsave)(&queue->lock);
++	if (queue->vqueue != vqueue)
++		return;
+ 	do {
+ 		virtqueue_disable_cb(vqueue);
+ 		while ((msg = virtqueue_get_buf(vqueue, &length)))
+diff --git a/sound/virtio/virtio_ctl_msg.h b/sound/virtio/virtio_ctl_msg.h
+--- a/sound/virtio/virtio_ctl_msg.h
++++ b/sound/virtio/virtio_ctl_msg.h
+@@ -68,6 +68,10 @@
+ 
+ void virtsnd_ctl_msg_cancel_all(struct virtio_snd *snd);
+ 
++void virtsnd_ctl_msg_cleanup(struct virtio_snd *snd);
++
++void virtsnd_ctl_msg_enable(struct virtio_snd *snd);
++
+ void virtsnd_ctl_msg_complete(struct virtio_snd_msg *msg);
+ 
+ int virtsnd_ctl_query_info(struct virtio_snd *snd, int command, int start_id,
 diff --git a/sound/virtio/virtio_pcm.h b/sound/virtio/virtio_pcm.h
 --- a/sound/virtio/virtio_pcm.h
 +++ b/sound/virtio/virtio_pcm.h
-@@ -13,6 +13,7 @@
+@@ -128,6 +128,8 @@
  
- struct virtio_pcm;
- struct virtio_pcm_msg;
-+struct page;
+ void virtsnd_pcm_msg_reset(struct virtio_pcm_substream *vss);
  
- /**
-  * struct virtio_pcm_substream - VirtIO PCM substream.
-@@ -29,6 +30,7 @@
-  *        substream operators, including @stopped.
-  * @buffer_bytes: Current buffer size in bytes.
-  * @hw_ptr: Substream hardware pointer value in bytes [0 ... buffer_bytes).
-+ * @capture_rx_seeded: Ordinary capture ring was queued since prepare.
-  * @xfer_enabled: Data transfer state (0 - off, 1 - on).
-  * @xfer_xrun: Data underflow/overflow state (0 - no xrun, 1 - xrun).
-  * @stopped: True if the substream is stopped and must be released on the device
-@@ -42,6 +44,10 @@
-  * @msgs: Allocated I/O messages.
-  * @nmsgs: Number of allocated I/O messages.
-  * @msg_count: Number of pending I/O messages in the virtqueue.
-+ * @dma_pages: Pages backing DMA messages, retained until messages are freed.
-+ * @ndma_pages: Number of retained pages.
-+ * @owned_dma_area: Driver-owned PCM buffer backing asynchronous messages.
-+ * @owned_dma_bytes: Size of @owned_dma_area.
-  * @msg_empty: Notify when msg_count is zero.
-  */
- struct virtio_pcm_substream {
-@@ -57,6 +63,7 @@
- 	spinlock_t lock;
- 	size_t buffer_bytes;
- 	size_t hw_ptr;
-+	bool capture_rx_seeded;
- 	bool xfer_enabled;
- 	bool xfer_xrun;
- 	bool stopped;
-@@ -68,6 +75,12 @@
- 	struct virtio_pcm_msg **msgs;
- 	unsigned int nmsgs;
- 	unsigned int msg_count;
-+	struct page **dma_pages;
-+	unsigned int ndma_pages;
-+#ifndef CONFIG_MMU
-+	u8 *owned_dma_area;
-+	size_t owned_dma_bytes;
-+#endif
- 	wait_queue_head_t msg_empty;
- };
++void virtsnd_pcm_msg_cancel(struct virtio_pcm_msg *msg);
++
+ int virtsnd_pcm_msg_send(struct virtio_pcm_substream *vss, unsigned long offset,
+ 			 unsigned long bytes);
  
 diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
 --- a/sound/virtio/virtio_pcm_msg.c
 +++ b/sound/virtio/virtio_pcm_msg.c
-@@ -3,6 +3,9 @@
-  * virtio-snd: Virtio sound device
-  * Copyright (C) 2021 OpenSynergy GmbH
-  */
-+#include <linux/limits.h>
-+#include <linux/mm.h>
-+#include <linux/overflow.h>
- #include <sound/pcm_params.h>
- 
- #include "virtio_card.h"
-@@ -13,6 +16,7 @@
-  * @xfer: Request header payload.
-  * @status: Response header payload.
-  * @length: Data length in bytes.
-+ * @data_offset: Offset of the fixed PCM ring slice for ordinary I/O.
-  * @sgs: Payload scatter-gather table.
-  */
- struct virtio_pcm_msg {
-@@ -20,6 +24,7 @@
- 	struct virtio_snd_pcm_xfer xfer;
- 	struct virtio_snd_pcm_status status;
- 	size_t length;
-+	size_t data_offset;
- 	struct scatterlist sgs[];
- };
- 
-@@ -37,9 +42,8 @@
- };
- 
- /**
-- * virtsnd_pcm_sg_num() - Count the number of sg-elements required to represent
-- *                        vmalloc'ed buffer.
-- * @data: Pointer to vmalloc'ed buffer.
-+ * virtsnd_pcm_sg_num() - Count the sg-elements for a page-backed buffer.
-+ * @data: Pointer to the page-backed buffer.
-  * @length: Buffer size.
-  *
-  * Context: Any context.
-@@ -47,14 +51,18 @@
-  */
- static int virtsnd_pcm_sg_num(u8 *data, unsigned int length)
+@@ -305,6 +305,35 @@
  {
--	phys_addr_t sg_address;
--	unsigned int sg_length;
-+	phys_addr_t sg_address = 0;
-+	unsigned int sg_length = 0;
- 	int num = 0;
- 
- 	while (length) {
- 		struct page *pg = vmalloc_to_page(data);
--		phys_addr_t pg_address = page_to_phys(pg);
-+		phys_addr_t pg_address;
- 		size_t pg_length;
-+
-+		if (!pg)
-+			return -EINVAL;
-+		pg_address = page_to_phys(pg);
- 
- 		pg_length = PAGE_SIZE - offset_in_page(data);
- 		if (pg_length > length)
-@@ -75,11 +83,80 @@
- 	return num;
- }
- 
--/**
-- * virtsnd_pcm_sg_from() - Build sg-list from vmalloc'ed buffer.
-+#ifdef CONFIG_MMU
-+/**
-+ * virtsnd_pcm_dma_pages_put() - Release retained PCM buffer pages.
-+ * @vss: VirtIO PCM substream.
-+ *
-+ * Context: Process context.
-+ */
-+static void virtsnd_pcm_dma_pages_put(struct virtio_pcm_substream *vss)
-+{
-+	while (vss->ndma_pages)
-+		put_page(vss->dma_pages[--vss->ndma_pages]);
-+	kfree(vss->dma_pages);
-+	vss->dma_pages = NULL;
-+}
-+
-+/**
-+ * virtsnd_pcm_dma_pages_get() - Retain the pages backing the PCM buffer.
-+ * @vss: VirtIO PCM substream.
-+ * @data: PCM buffer address.
-+ * @length: PCM buffer size.
-+ *
-+ * Keep the backing pages alive while virtqueue descriptors can still refer to
-+ * them, even if ALSA releases the vmalloc mapping after a failed drain.
-+ *
-+ * Context: Process context.
-+ * Return: 0 on success, -errno on failure.
-+ */
-+static int virtsnd_pcm_dma_pages_get(struct virtio_pcm_substream *vss,
-+				     u8 *data, size_t length)
-+{
-+	size_t i;
-+	size_t npages;
-+	size_t span;
-+
-+	if (!data || !length || !is_vmalloc_addr(data))
-+		return -EINVAL;
-+	if (vss->dma_pages || vss->ndma_pages)
-+		return -EBUSY;
-+
-+	if (check_add_overflow(length, (size_t)offset_in_page(data), &span))
-+		return -EOVERFLOW;
-+
-+	npages = span / PAGE_SIZE + !!(span % PAGE_SIZE);
-+	if (npages > UINT_MAX)
-+		return -EOVERFLOW;
-+
-+	vss->dma_pages = kcalloc(npages, sizeof(*vss->dma_pages), GFP_KERNEL);
-+	if (!vss->dma_pages)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < npages; i++) {
-+		struct page *page = vmalloc_to_page(data + i * PAGE_SIZE);
-+
-+		if (!page)
-+			goto err_put_pages;
-+
-+		get_page(page);
-+		vss->dma_pages[vss->ndma_pages++] = page;
-+	}
-+
-+	return 0;
-+
-+err_put_pages:
-+	virtsnd_pcm_dma_pages_put(vss);
-+
-+	return -EINVAL;
-+}
-+#endif
-+
-+/**
-+ * virtsnd_pcm_sg_from() - Build an sg-list from a page-backed buffer.
-  * @sgs: Preallocated sg-list to populate.
-  * @nsgs: The maximum number of elements in the @sgs.
-- * @data: Pointer to vmalloc'ed buffer.
-+ * @data: Pointer to the page-backed buffer.
-  * @length: Buffer size.
-  *
-  * Splits the buffer into physically contiguous parts and makes an sg-list of
-@@ -132,36 +209,97 @@
- int virtsnd_pcm_msg_alloc(struct virtio_pcm_substream *vss,
- 			  unsigned int periods, unsigned int period_bytes)
- {
--	struct snd_pcm_runtime *runtime = vss->substream->runtime;
-+	struct snd_pcm_runtime *runtime;
-+	size_t buffer_bytes;
- 	unsigned int i;
-+	int rc;
-+
-+	if (vss->msgs || vss->nmsgs || vss->dma_pages || vss->ndma_pages)
-+		return -EBUSY;
-+#ifndef CONFIG_MMU
-+	if (vss->owned_dma_area || vss->owned_dma_bytes)
-+		return -EBUSY;
-+#endif
-+	if (!periods || !period_bytes)
-+		return -EINVAL;
-+
-+	if (check_mul_overflow((size_t)periods, (size_t)period_bytes,
-+			       &buffer_bytes))
-+		return -EOVERFLOW;
-+
-+	if (!vss->substream || !vss->substream->runtime)
-+		return -EINVAL;
-+	runtime = vss->substream->runtime;
-+	if (!runtime->dma_area || buffer_bytes > runtime->dma_bytes)
-+		return -EINVAL;
-+
-+#ifdef CONFIG_MMU
-+	rc = virtsnd_pcm_dma_pages_get(vss, runtime->dma_area, buffer_bytes);
-+	if (rc)
-+		return rc;
-+#else
-+	vss->owned_dma_area = kzalloc(buffer_bytes, GFP_KERNEL);
-+	if (!vss->owned_dma_area)
-+		return -ENOMEM;
-+	vss->owned_dma_bytes = buffer_bytes;
-+#endif
- 
- 	vss->msgs = kzalloc_objs(*vss->msgs, periods);
--	if (!vss->msgs)
--		return -ENOMEM;
-+	if (!vss->msgs) {
-+		rc = -ENOMEM;
-+		goto err_free_pages;
-+	}
- 
- 	vss->nmsgs = periods;
- 
- 	for (i = 0; i < periods; ++i) {
--		u8 *data = runtime->dma_area + period_bytes * i;
--		int sg_num = virtsnd_pcm_sg_num(data, period_bytes);
-+		int sg_num;
- 		struct virtio_pcm_msg *msg;
-+		u8 *data;
-+#ifdef CONFIG_MMU
-+		data = runtime->dma_area + (size_t)period_bytes * i;
-+#else
-+		data = vss->owned_dma_area + (size_t)period_bytes * i;
-+#endif
-+		sg_num = virtsnd_pcm_sg_num(data, period_bytes);
-+		if (sg_num < 0) {
-+			rc = sg_num;
-+			goto err_free_msgs;
-+		}
- 
- 		msg = kzalloc_flex(*msg, sgs, sg_num + 2);
--		if (!msg)
--			return -ENOMEM;
-+		if (!msg) {
-+			rc = -ENOMEM;
-+			goto err_free_msgs;
-+		}
- 
- 		msg->substream = vss;
-+		vss->msgs[i] = msg;
- 		sg_init_one(&msg->sgs[PCM_MSG_SG_XFER], &msg->xfer,
- 			    sizeof(msg->xfer));
- 		sg_init_one(&msg->sgs[PCM_MSG_SG_STATUS], &msg->status,
- 			    sizeof(msg->status));
-+		msg->data_offset = (size_t)period_bytes * i;
- 		virtsnd_pcm_sg_from(&msg->sgs[PCM_MSG_SG_DATA], sg_num, data,
- 				    period_bytes);
--
--		vss->msgs[i] = msg;
- 	}
- 
- 	return 0;
-+
-+err_free_msgs:
-+	virtsnd_pcm_msg_free(vss);
-+	return rc;
-+
-+err_free_pages:
-+#ifdef CONFIG_MMU
-+	virtsnd_pcm_dma_pages_put(vss);
-+#else
-+	kfree(vss->owned_dma_area);
-+	vss->owned_dma_area = NULL;
-+	vss->owned_dma_bytes = 0;
-+#endif
-+
-+	return rc;
- }
- 
- /**
-@@ -177,6 +315,13 @@
- 	for (i = 0; vss->msgs && i < vss->nmsgs; ++i)
- 		kfree(vss->msgs[i]);
- 	kfree(vss->msgs);
-+#ifdef CONFIG_MMU
-+	virtsnd_pcm_dma_pages_put(vss);
-+#else
-+	kfree(vss->owned_dma_area);
-+	vss->owned_dma_area = NULL;
-+	vss->owned_dma_bytes = 0;
-+#endif
- 
- 	vss->msgs = NULL;
- 	vss->nmsgs = 0;
-@@ -199,6 +344,7 @@
  	guard(spinlock_irqsave)(&vss->lock);
- 	for (i = 0; vss->msgs && i < vss->nmsgs; ++i)
- 		vss->msgs[i]->length = 0;
-+	vss->capture_rx_seeded = false;
- }
- 
- /**
-@@ -228,8 +374,15 @@
- 	bool notify = false;
- 	int rc;
- 
-+	if (!bytes)
-+		return 0;
-+	if (!period_bytes || !vss->msgs || offset >= vss->buffer_bytes ||
-+	    bytes > vss->buffer_bytes - offset)
-+		return -EINVAL;
- 	start = offset / period_bytes;
- 	end = (offset + bytes - 1) / period_bytes;
-+	if (end >= vss->nmsgs)
-+		return -EINVAL;
- 
- 	for (i = start; i <= end; i++) {
- 		struct virtio_pcm_msg *msg = vss->msgs[i];
-@@ -248,6 +401,33 @@
- 		if (msg->length == period_bytes) {
- 			msg->xfer.stream_id = cpu_to_le32(vss->sid);
- 			memset(&msg->status, 0, sizeof(msg->status));
+ 	return vss->msg_count;
++}
 +
-+#ifndef CONFIG_MMU
-+		if (vss->direction == SNDRV_PCM_STREAM_PLAYBACK) {
-+			struct snd_pcm_runtime *runtime =
-+				vss->substream ? vss->substream->runtime : NULL;
-+			size_t data_bytes = msg->length;
++/**
++ * virtsnd_pcm_msg_cancel() - Cancel a message detached during device reset.
++ * @msg: Message returned by virtqueue_detach_unused_buf().
++ *
++ * Reset cancellation retires the queue token without treating it as a device
++ * completion. In particular, it does not advance the PCM hardware pointer or
++ * schedule period work.
++ *
++ * Context: Process context with the PCM queue lock held.
++ */
++void virtsnd_pcm_msg_cancel(struct virtio_pcm_msg *msg)
++{
++	struct virtio_pcm_substream *vss = msg->substream;
++	bool wake;
 +
-+			if (!runtime || !runtime->dma_area || !vss->owned_dma_area ||
-+			    msg->data_offset > runtime->dma_bytes ||
-+			    data_bytes > runtime->dma_bytes - msg->data_offset ||
-+			    msg->data_offset > vss->owned_dma_bytes ||
-+			    data_bytes > vss->owned_dma_bytes - msg->data_offset) {
-+				dev_err_ratelimited(&vdev->dev,
-+						    "SID %u: invalid playback buffer for I/O message\n",
-+					vss->sid);
-+				msg->length -= n;
-+				if (msg_count != vss->msg_count &&
-+				    !(vss->features &
-+				      (1U << VIRTIO_SND_PCM_F_MSG_POLLING)) &&
-+				    virtqueue_kick_prepare(vqueue))
-+					virtqueue_notify(vqueue);
-+				return -EINVAL;
-+			}
-+			memcpy(vss->owned_dma_area + msg->data_offset,
-+			       runtime->dma_area + msg->data_offset, data_bytes);
-+		}
-+#endif
- 
- 			if (vss->direction == SNDRV_PCM_STREAM_PLAYBACK)
- 				rc = virtqueue_add_sgs(vqueue, psgs, 2, 1, msg,
-@@ -356,42 +536,81 @@
- 				     size_t written_bytes)
- {
- 	struct virtio_pcm_substream *vss = msg->substream;
-+	bool capture_invalid = false;
- 
- 	/*
--	 * hw_ptr always indicates the buffer position of the first I/O message
--	 * in the virtqueue. Therefore, on each completion of an I/O message,
--	 * the hw_ptr value is unconditionally advanced.
-+	 * Completed requests can return captured data after STOP while the PCM
-+	 * buffer remains prepared. Once preparation ends, completions only retire
-+	 * queue ownership.
- 	 */
- 	guard(spinlock)(&vss->lock);
--	/*
--	 * If the capture substream returned an incorrect status, then just
--	 * increase the hw_ptr by the message size.
--	 */
--	if (vss->direction == SNDRV_PCM_STREAM_PLAYBACK ||
--	    written_bytes <= sizeof(msg->status))
-+	if (vss->direction == SNDRV_PCM_STREAM_CAPTURE &&
-+	    (!vss->prepared || vss->xfer_xrun ||
-+	     (vss->stopped && written_bytes <= sizeof(msg->status)))) {
++	{
++		guard(spinlock)(&vss->lock);
 +		msg->length = 0;
++		vss->xfer_enabled = false;
++		if (WARN_ON_ONCE(!vss->msg_count))
++			return;
 +		vss->msg_count--;
-+		if (!vss->msg_count)
-+			wake_up_all(&vss->msg_empty);
-+		return;
++		wake = !vss->msg_count;
 +	}
 +
-+	/* Only the next complete ring slice can extend captured data. */
-+	if (vss->direction == SNDRV_PCM_STREAM_CAPTURE &&
-+	    (msg->data_offset != vss->hw_ptr ||
-+	     written_bytes < sizeof(msg->status) ||
-+	     le32_to_cpu(msg->status.status) != VIRTIO_SND_S_OK ||
-+	     written_bytes - sizeof(msg->status) != msg->length)) {
-+		dev_err_ratelimited(&vss->snd->vdev->dev,
-+				    "SID %u: invalid capture position, status or length\n",
-+			vss->sid);
-+		vss->xfer_xrun = true;
-+		capture_invalid = true;
-+	}
-+#ifndef CONFIG_MMU
-+	if (vss->direction == SNDRV_PCM_STREAM_CAPTURE &&
-+	    vss->prepared && !capture_invalid &&
-+	    written_bytes > sizeof(msg->status)) {
-+		struct snd_pcm_runtime *runtime =
-+			vss->substream ? vss->substream->runtime : NULL;
-+
-+		if (!runtime || !runtime->dma_area || !vss->owned_dma_area ||
-+		    msg->data_offset > runtime->dma_bytes ||
-+		    msg->length > runtime->dma_bytes - msg->data_offset ||
-+		    msg->data_offset > vss->owned_dma_bytes ||
-+		    msg->length > vss->owned_dma_bytes - msg->data_offset) {
-+			dev_err_ratelimited(&vss->snd->vdev->dev,
-+					    "SID %u: invalid capture buffer for I/O message\n",
-+				vss->sid);
-+			vss->xfer_xrun = true;
-+			capture_invalid = true;
-+		} else {
-+			memcpy(runtime->dma_area + msg->data_offset,
-+			       vss->owned_dma_area + msg->data_offset, msg->length);
-+		}
-+	}
-+#endif
-+	/* Publish pointer progress only for a complete TX or valid RX request. */
-+	if (!capture_invalid) {
- 		vss->hw_ptr += msg->length;
--	else
--		vss->hw_ptr += written_bytes - sizeof(msg->status);
--
--	if (vss->hw_ptr >= vss->buffer_bytes)
--		vss->hw_ptr -= vss->buffer_bytes;
-+		if (vss->hw_ptr >= vss->buffer_bytes)
-+			vss->hw_ptr -= vss->buffer_bytes;
-+	}
- 
- 	msg->length = 0;
--
--	vss->xfer_xrun = false;
- 	vss->msg_count--;
- 
- 	if (vss->xfer_enabled) {
--		struct snd_pcm_runtime *runtime = vss->substream->runtime;
--
--		runtime->delay =
--			bytes_to_frames(runtime,
--					le32_to_cpu(msg->status.latency_bytes));
--
-+		if (!capture_invalid) {
-+			struct snd_pcm_runtime *runtime = vss->substream->runtime;
-+
-+			runtime->delay =
-+				bytes_to_frames(runtime,
-+						le32_to_cpu(msg->status.latency_bytes));
-+		}
- 		schedule_work(&vss->elapsed_period);
--	} else if (!vss->msg_count) {
-+	}
-+	if (!vss->msg_count)
- 		wake_up_all(&vss->msg_empty);
--	}
++	if (wake)
++		wake_up_all(&vss->msg_empty);
  }
  
  /**
-diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
---- a/sound/virtio/virtio_pcm_ops.c
-+++ b/sound/virtio/virtio_pcm_ops.c
-@@ -25,6 +25,8 @@
-  *   signal or due to a timeout. In this case, the device can still access
-  *   messages even after calling ops->hw_free(). It can also issue an interrupt,
-  *   and the interrupt handler will also try to access message structures.
-+ *   The messages retain references to the PCM buffer pages until they are
-+ *   freed, so late DMA does not target pages released by ALSA.
-  *
-  *   Therefore, freeing of already allocated messages occurs:
-  *
-@@ -260,10 +262,21 @@
- 	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
- 	struct virtio_device *vdev = vss->snd->vdev;
- 	unsigned int msg_count;
-+	size_t period_buffer_bytes;
- 	bool stopped;
- 	int rc;
+@@ -367,16 +396,21 @@
  
- 	virtsnd_pcm_close_ack(substream, false);
-+
-+	/* Fixed descriptors require whole-byte periods covering the buffer. */
-+	if (check_mul_overflow((size_t)params_periods(hw_params),
-+			       (size_t)params_period_bytes(hw_params),
-+			       &period_buffer_bytes) ||
-+	    period_buffer_bytes != params_buffer_bytes(hw_params) ||
-+	    (params_period_size(hw_params) *
-+	     (u64)snd_pcm_format_physical_width(params_format(hw_params)) *
-+	     params_channels(hw_params)) % 8)
-+		return -EINVAL;
+ /**
+  * virtsnd_pcm_notify_cb() - Process all completed I/O messages.
+- * @queue: Underlying tx/rx virtqueue.
++ * @queue: Underlying tx/rx queue wrapper.
++ * @vqueue: Queue that raised this callback.
+  *
+  * Context: Interrupt context. Takes and releases the tx/rx queue spinlock.
+  */
+-static inline void virtsnd_pcm_notify_cb(struct virtio_snd_queue *queue)
++static inline void
++virtsnd_pcm_notify_cb(struct virtio_snd_queue *queue, struct virtqueue *vqueue)
+ {
+ 	struct virtio_pcm_msg *msg;
+ 	u32 written_bytes;
  
- 	scoped_guard(spinlock_irqsave, &vss->lock) {
- 		msg_count = vss->msg_count;
-@@ -433,8 +446,15 @@
- 				substream->runtime->stop_operating = true;
- 				return -EBADFD;
- 			}
--			if (vss->direction == SNDRV_PCM_STREAM_CAPTURE)
-+			if (vss->direction == SNDRV_PCM_STREAM_CAPTURE &&
-+			    !vss->capture_rx_seeded) {
- 				rc = virtsnd_pcm_msg_send(vss, 0, vss->buffer_bytes);
-+				if (!rc) {
-+					/* The full RX ring is reserved until userspace reads it. */
-+					vss->pcm_indirect.sw_ready = vss->buffer_bytes;
-+					vss->capture_rx_seeded = true;
-+				}
-+			}
- 			if (rc) {
- 				vss->stopped = true;
- 				substream->runtime->stop_operating = true;
+ 	guard(spinlock_irqsave)(&queue->lock);
++	/* Reset can detach the queue before the transport drains its IRQs. */
++	if (queue->vqueue != vqueue)
++		return;
+ 	do {
+ 		virtqueue_disable_cb(queue->vqueue);
+ 		while ((msg = virtqueue_get_buf(queue->vqueue, &written_bytes)))
+@@ -394,7 +428,7 @@
+ {
+ 	struct virtio_snd *snd = vqueue->vdev->priv;
+ 
+-	virtsnd_pcm_notify_cb(virtsnd_tx_queue(snd));
++	virtsnd_pcm_notify_cb(virtsnd_tx_queue(snd), vqueue);
+ }
+ 
+ /**
+@@ -407,7 +441,7 @@
+ {
+ 	struct virtio_snd *snd = vqueue->vdev->priv;
+ 
+-	virtsnd_pcm_notify_cb(virtsnd_rx_queue(snd));
++	virtsnd_pcm_notify_cb(virtsnd_rx_queue(snd), vqueue);
+ }
+ 
+ /**
