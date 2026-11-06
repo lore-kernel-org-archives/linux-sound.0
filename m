@@ -1,55 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793988989;
-	b=Tz+zFozC6N/q2EOslGd1CbYPb/qdzFujeSdTZCqRuuWJXIvXrhf0DXe5p/Dcl2OOg5t4
-	 paHjUzJsovcU2CLnMxGIsP409AsHz9A5HKwh8qbJlZzBg7TXsDnuh5DTvA/vJQMKUFuyb
-	 d0e6jB0605B2CSZGo3Td9RKQp/OamIXFyjf0Ozvcp0aT/NKneEvK0esOP+6WBZTKbNwpM
-	 lU1p1MgOFIxczdbxQTlHZCCtWvlIZQVI9SbHh1nUAPb3//SxGiOmaCzHGoqNTi3QCZM4p
-	 /cMDaj/Mqa6b3PPpqIA2ay3wPGPQIGwvTg5V7M5WUg0su14njs5vmEvUO3pyMDe8R+w==
+	t=1793989194;
+	b=DWqAOIe1SevqhwXJyMarqIdKGzzlD18AezU1toJbz0EmPqCH51TpwJYw9XTfEblxMutg
+	 aW1rZeaIZksoQC4PJxhd5IehlE9xTHFbDjaBuuQGO47Yc3FeGtiwRG6RIqiINTJGvHuVz
+	 I8nKlgRpQlfR5GVIGjd2tIkWpB4lNdjXZqZupyOPocPhOSZbbS//3zRkeB3EDcrp9mtWX
+	 +XyUo3urMmuk4raguMOjTN9L5hzJqQao/FlP05cdAo+QPZYMHJq9QmEeuhjw0h7/ytpfq
+	 GvtLEUVn26IU88OB9pRCYydMC7KS+wL5LYRcssFvhBTME48ver13yYfeZRAHKcz+dsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793988989;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793989194;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=NjRvdCDmmCIcqtFKftlFJVOaFb6Yvo74ALWk42EEniA=;
-	b=kgrpEXGvlxaDwJmPMg0zxhXxwVl27yrklITUYsAnpqDFJ7LgDxYIOwy3pk92BSJTCzNi
-	 veaxgHLMm8+089u6wESFUzoNXUxFZvejBXQhbet5m3W1vCrmMEjhdLF9xxevsnKvCr5vC
-	 uLw1FJQ+nb+VpzIk22VATUffiZO2xm+XaeRk87/cvTHT6/kVyUK4Y3oILJV/12N1JpnfD
-	 IrvP8v36Cq3KBzjd2G7IXb73Sp/IhGa6hLnqK4jc8ihZa0swmho16VTD2iBSJb0v7C1xz
-	 bvg+EnLaiEKH5Y3NpHPUFQRkAoGDrsWSpzezem2nzCc0Rtb67V4meSvMnQ8nymi0eQA==
+	bh=jgQYr1qO+YBZuGceCNEk1WU0AJEaTAb66XiA3OT4AfM=;
+	b=kNjfo+vnjLiUYmY0cKrtbYbA/yHofBggvz4Bd485oze00+MZ8TgmklaKGiVAIbh+5OxE
+	 q4lvk8hecDEsWdT4zlHKS4+ntLycJ5JSd7+SlV2wZ/LerCeMfkhFm6AKZHD0zDHpuPnMP
+	 ukbMo/6J/3+rXLu+XYs+jppdFJNJbBFm06muhjJ1NBPsuLNHvDQPUKhEVgaB64cGklUhm
+	 GKSmlAxmzORKA8av3EvNkBAJwsYB+M3FcmPtnOVtBSEYH/o0MyHsNF5g64xkrKSieqJ0O
+	 zkdb+OxXVh0/lFYMHr+TbnaxKc5Q+PXPAITeQyfNxPgbGHA5/juMQ18Md96S44e/73Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JEoh+3qo;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yb3VQDIT;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F02606A33B
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 18:16:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D68606A326;
+	Fri,  6 Nov 2026 18:19:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JEoh+3qo
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 901821F008A2;
-	Fri,  6 Nov 2026 18:16:28 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yb3VQDIT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E57591F0089F;
+	Fri,  6 Nov 2026 18:19:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793988988;
-	bh=NjRvdCDmmCIcqtFKftlFJVOaFb6Yvo74ALWk42EEniA=;
+	s=k20260515; t=1793989194;
+	bh=jgQYr1qO+YBZuGceCNEk1WU0AJEaTAb66XiA3OT4AfM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=JEoh+3qofrRYl6hY1iwy1hWWtlljwHE/1YzzPtFXsgLgMlN36Q/I5mmKvyL/MW7NS
-	 5lwfmzjTyR4FA5u+nRPQNVrI86lc1Jz8xPkgNLEVUp0ZclE1IJqr3DAUSwlYb2tW9g
-	 jCpmlEhg2hC9b+WN33t2UGvd6tnFdrq+BwJOGhTUin6IC4AbDlKJyjyL7QL1dBa9y3
-	 PNfIdAffUObZp0lITb9b8SAuLS8/OENsHX3ptK5ZyuvRKdM9H2K/oOZV41FWORA7fO
-	 w7DrAWc54EWL8F8+otNa43DuTouByhj4wmHUSj4ePaT2H7siieYKqt6nvi2yhXGLLI
-	 yNpKowFvpgGwg==
-Message-ID: <sashiko-outbox-202004@kernel.org>
+	b=Yb3VQDITD0UHFPSAVg3UaIKKK9ZF+nRFXfvNMYmrRU2DP2FbkuEzuxmui5HbXygta
+	 TM1dwSRngzZOYmYnUduWHIM/6dcWzzc5ORrFBH8UhZqCtH5u0+XeiLQQKTd8qG4Poh
+	 VKbY5aM28oWQrDFlmtvKXnmBmM0Y0NjUyC1hJpk6NRLowC2Wfdwu4zDlt7YbKYd2j/
+	 O490Hl3GfPx5bX1xxZXg+I/uJYA/PMqrU0m4EI3H//+XG8thUaUbaDblpsEaFLm+jY
+	 7/1LPaAFW8852iUcPhVd/lGzTHildPU7DKLBUejBtwfx1JqRFMvNXwK5eNII0QgwWu
+	 sXzqCGlCuMkcg==
+Message-ID: <sashiko-outbox-202010@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ALSA: control: Synchronize LED mode accesses
+Subject: Re: [PATCH v19 07/12] ALSA: virtio: validate indirect capture
+ appl_ptr accounting
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sreeraj S Kurup" <sreekuttan2156239@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261106180812.5097-1-sreekuttan2156239@gmail.com>
-References: <20261106180812.5097-1-sreekuttan2156239@gmail.com>
+To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
+Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
+ Perez" <eperezma@redhat.com>
+In-Reply-To: <20261106161838.94308-8-mynameisjune111@gmail.com>
+References: <20261106161838.94308-1-mynameisjune111@gmail.com>
+ <20261106161838.94308-8-mynameisjune111@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 18:16:28 +0000
+Date: Fri, 06 Nov 2026 18:19:53 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,79 +64,69 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Low] ALSA: control: missing Fixes trailer for led->mode data race fix
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [Medium] ALSA: control_led: data race in snd_ctl_led_reset() [1]
+- [Medium] ALSA: virtio: sub-byte frame truncation in
+  virtsnd_pcm_capture_ack_validate()
 --
 
-commit 2868f72034945ef393b8a3a1a9c6b9d772455395
-Author: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+commit 6d8079ee9be8b0bc45d98d37834441cf9aa4b749
+Author: Joonho Lee <mynameisjune111@gmail.com>
 
-> ALSA: control: Synchronize LED mode accesses
->
-> mode_store() updates led->mode while holding
-> snd_ctl_led_mutex.
->
-> However, snd_ctl_led_set_state() and mode_show() read this
-> field without holding the same mutex.
->
-> This can cause a data race when userspace changes the mode
-> while another path reads it.
->
-> Read the mode under snd_ctl_led_mutex in
-> snd_ctl_led_set_state() and use the local value after
-> releasing the mutex.
->
-> Also protect the mode read in mode_show() with the mutex.
->
-> Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+ALSA: virtio: validate indirect capture appl_ptr accounting
 
-[Severity: Low]
-Since this fixes the unlocked reads of led->mode introduced when sysfs
-support was added, should this include a Fixes tag?
+This commit retains references to PCM DMA pages (or uses a driver-owned
+buffer on NOMMU), validates full-period capture responses, seeds the RX
+ring once per prepare, and validates capture appl_ptr accounting before
+invoking the indirect transfer helper.
 
-  Fixes: cb17fe0045aa ("ALSA: control - add sysfs support to the LED trigge=
-r module")
-
-> diff --git a/sound/core/control_led.c b/sound/core/control_led.c
-> index 501387287ae69..044430b2f1a22 100644
-> --- a/sound/core/control_led.c
-> +++ b/sound/core/control_led.c
+> diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
+> index 343700ec50476..6a8752997d092 100644
+> --- a/sound/virtio/virtio_pcm_ops.c
+> +++ b/sound/virtio/virtio_pcm_ops.c
 
 [ ... ]
 
-> @@ -382,6 +384,8 @@ static ssize_t mode_show(struct device *dev,
->  	struct snd_ctl_led *led =3D container_of(dev, struct snd_ctl_led, dev);
->  	const char *str =3D NULL;
+> @@ -599,6 +619,69 @@ struct virtsnd_pcm_transfer {
+>  	int error;
+>  };
 > =20
-> +	guard(mutex)(&snd_ctl_led_mutex);
+> +/* Caller holds @vss->lock and the PCM stream lock. */
+> +static int virtsnd_pcm_capture_ack_validate(struct virtio_pcm_substream =
+*vss,
+> +					    struct snd_pcm_runtime *runtime,
+> +					    bool *skip_transfer)
+> +{
+
+[ ... ]
+
+> +	/* The RX ring reserves its full size; only the excess is unread data. =
+*/
+> +	unread_bytes =3D (s64)rec->hw_ready + (s64)rec->sw_ready -
+> +		       (s64)rec->sw_buffer_size;
+> +	if (unread_bytes < 0 || unread_bytes > (s64)hw_queue_size)
+> +		return -EPIPE;
+> +
+> +	appl_bytes =3D frames_to_bytes(runtime, (snd_pcm_uframes_t)appl_diff);
+> +	if ((u64)appl_bytes > (u64)unread_bytes)
+> +		return -EPIPE;
+> +
+> +	return 0;
+> +}
 
 [Severity: Medium]
-This problem wasn't introduced by this patch, but can snd_ctl_led_reset()
-and snd_ctl_led_set_id() race on vd->access [1]?
+Can frames_to_bytes() truncate sub-byte frame deltas here and let an
+unaligned appl_ptr advance bypass validation?
 
-Concurrent sysfs writes to the reset and attach or detach attributes
-modify vd->access under different locks: snd_ctl_led_reset() holds only
-snd_ctl_led_mutex, whereas snd_ctl_led_set_id() holds only
-card->controls_rwsem.
-
-CPU0                                  CPU1
-snd_ctl_led_reset()                   snd_ctl_led_set_id()
-  scoped_guard(mutex,
-               &snd_ctl_led_mutex)
-                                        guard(rwsem_write)(
-                                          &card->controls_rwsem)
-                                        new_access =3D vd->access & ~mask;
-    vd->access &=3D ~group_to_access();
-                                        vd->access =3D new_access;
-                                          <-- overwrites reset
-
-The lost update leaves the control's LED access flags out of sync with the
-LED group's control list.
-
-[1] https://sashiko.dev/#/bug/linux-55c9a300-c6f3-4df1-9060-c4bb4df43d19
+virtsnd_pcm_hw_params() permits sub-byte frame formats such as 1-channel
+SNDRV_PCM_FORMAT_IMA_ADPCM (4-bit frames, runtime->min_align =3D=3D 2) when
+the period size is a whole number of bytes.  If userspace advances
+appl_ptr by an odd number of frames via SNDRV_PCM_IOCTL_SYNC_PTR (for
+example, 1 frame when unread_bytes is 0), frames_to_bytes() truncates
+appl_bytes down, passing the unread_bytes check.
+snd_pcm_indirect_capture_transfer() then sets rec->appl_ptr to the
+unaligned appl_ptr while subtracting the truncated byte count from
+rec->sw_ready, pushing appl_ptr past hw_ptr and permanently leaking
+rec->sw_ready accounting so RX descriptors stop being requeued.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106180812.5097=
--1-sreekuttan2156239@gmail.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106161838.9430=
+8-1-mynameisjune111@gmail.com?part=3D7
