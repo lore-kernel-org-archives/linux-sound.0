@@ -1,82 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793995209;
-	b=jhaG8zU4Ju1qSnflrFfVLwKr+IU/xGAz5Kqk86dZ+seaFUsBcQ7Wcm3Yhmsn+Fb9azI2
-	 p4JQOoITfCzhPCW9Vw16T+aJZ4o3orVysrCePn7lfvfSRNVtKBqHas7DUy2atmKmmuXxT
-	 U/IpFYLczQbfwMoBD0zoIkqGjwJOcI4AcQ30KkfAy4olLFMLdNhxYIdZOiHBaikFfyO1u
-	 cInPMaE/AO0Lr/lmeWk+N2CGimqo52o3HBxsoWBya86Slk7lTZIgc3+5hD1qqQPC+4+du
-	 DQirLSK8tjkft+jR6v33BG7B3gIBGLdNagwZR6Ot40B9FRdxdXz92gT6DvaPmuelkuQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793995209;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=tg+5lTr7WFBIKY9ugixE62sxDt+K5j7rhcZZ0EPAoFc=;
-	b=aCHIE9AQDiZKuwCKM8fcPtDT/x7+7e51LN0A0JdM6ay3mO/ygulH85Qc7CxoTSwFjpNa
-	 t9RfnNqJZm+j059vML+mhrghAAfwl3gSojwJQjTUVonssaW8k75sRG51INwVdwws5lRgN
-	 OenkVso7hIkIUq1snKSM05xytkNgLmd0ZRLxkrH310AaLO6yJBZKa4rjfB5mOtR4d3NfQ
-	 rgt1Ao8RiV/mtVwSDSCH36OFs9HVJDpCr5NPuEOMHyd94J4q/HTaTPlokncdQ0DL6L+WF
-	 kc4xj7PTwtzTTKyw28pFt5/1XWrUImAOhHQsNTCuunnFYu4mb2VvzfopA2f/YDCgMnQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hu99P1DO;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.66.47
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793996045;
+	b=ni9MPKl0LHPEBGVN3MZiT26JYLF4gpLqmSxU2lvSylFQkuon20FdLw3JsnzvRMpXhABi
+	 YVuXl1HN3TtpIG32SF5roOequ07IPX4UXsE4mshujYgvoivDzTv8yyAQbdIIAhoFoDFw1
+	 uY+cnH59cCzEFhVuN1m7C7EDDs0nZ6o17syDNpxZeg0ED6JKwUqhUdLG5vUpID7VgzNGv
+	 JDnnU3GPy6qtcAf4gqEmcgT5nCB8GADSb8QaQ66PVujhipcJJoEKJn+oUZKajSzkgtU1k
+	 Erdj8k7agiL6aGcE6gM4VtpcDLAo5hmnEzAsddj6pVNCoZ+4aOwIQei3hNMZwjvmJfg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793996045;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:Subject:Date:
+	 Message-Id:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=IcKitxzFbdZtipPQYe9PvSfBL/XFMlmnVpB2vCn25vk=;
+	b=euWHp/HK5hz3068sGBDkk5hcoE+vj2ku2g6nMLL9S5uxwTofG/oDMnWf/0sTZ6KE8Kez
+	 +LeXvy71CnVdUb/hKUne7KcmYx1PSfjW8k4qFbRpZV4EunqNeq5QogLKXYcJDsi3YVuJc
+	 qg2isHUfwaMYDuk/7sPTY2c0otPoTNrmfEIXdM3aq9evCnnyGuslP2pLn92b3OTngukB7
+	 woHntVhp7e+2Opkr8OfZJ+JGRyE5s02Ijz8fmfGk61PXuoL1Y2GuJX12++NY+Km2B+7bz
+	 CGl+6ezPmp6vKr20+LNaqADEMH+LhnGDRolMrSjvI+UOumjvK80MHcvRGdbUktJ3L2Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.nxp.com;
+	spf=pass smtp.mailfrom=oss.nxp.com;
+	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=DN6RCXKi;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.66.47
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012047.outbound.protection.outlook.com [52.101.66.47])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860E7606A32E;
-	Fri,  6 Nov 2026 20:00:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 860E7606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C82606A326;
+	Fri,  6 Nov 2026 20:14:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74C82606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hu99P1DO
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793995206; x=1825531206;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZQHCLmRl+5yI2qXtbalMXshMuhdAEpu2Wn4X55iw3i0=;
-  b=hu99P1DOENva3WLSuy9odfLjNdSx4lNR9GbfQS+x8HhFK2wOj+ZJK7Xt
-   ZqOCwcVJeCxgUS/D0CdLXhINpiFfYIQkJi5aDTorKpX1KVQs/QdGlWAVp
-   34R2kRlKvlzwiUtV3oVhycicSV7KJmAo//4LMQmrxq2iRal3lWPPDE5x1
-   sYdtAVYz1Itoco6iYv+8gpODcYN+rAfjHSqfeZ/36LnCFCCPQRGEJkVZ4
-   PTAxjiTTkIglSQnuz4lXKskGfmb8MQfBiUfSSeXFcEVLYMKIfSz0iQrOm
-   OsWEfPeidJAXqDwOPc5SIV7o9bCPejfEiP9u02PcWSITpf+98SkeuBydo
-   w==;
-X-CSE-ConnectionGUID: o6GvTra3SYCWOOLPkR1cFg==
-X-CSE-MsgGUID: 6e7WlBnKRtK17qsjWrdtJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2829793"
-X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
-   d="scan'208";a="2829793"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 12:00:06 -0800
-X-CSE-ConnectionGUID: D1J1jMDwSDeG5ochW/bIkA==
-X-CSE-MsgGUID: bcv/NWadRwmEXhTD7j15UA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
-   d="scan'208";a="7383234"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 06 Nov 2026 12:00:03 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xPQ6S-00000000pqx-2wCw;
-	Fri, 06 Nov 2026 20:00:00 +0000
-Date: Sat, 7 Nov 2026 03:59:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
-	linux-sound@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, broonie@kernel.org, tiwai@suse.com,
-	perex@perex.cz, amade@asmblr.net, linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev, yung-chuan.liao@linux.intel.com,
-	vkoul@kernel.org, Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: Re: [PATCH v3 2/7] soundwire: intel: Allow for dynamic assignment of
- PDIs
-Message-ID: <202611070307.UuD8O6zR-lkp@intel.com>
-References: <20261106121557.2338556-3-cezary.rojewski@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=DN6RCXKi
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YUfJKYkm5sw1oxRChWHEU+31l5D7bhjoSLEff3cjWoQI2cwRYzRwqY8MrSv/VlBaNCBqONrtA0myr58DTt+ggV11yT1MeE31/CCdnZ4e+SIBs1exqlbpY+qudqnaBGVvakOmBT89J4J6dyUDw7eSsYNEdsoKcGxBkS2YRJ0e4iLTPzy+5kLMNaA+eiIQEP545Em2lNnU4h+8CJTGAGsWsYRnEs4c8trnewMyAXU5tTcLzTKaAhlagCkaJCJwFwPv5MCcrqqbtRrI2ZlYjGGJq6xDX4H5D12cM7ljnoynVqk+hE+N+bZBTcFOOjJ7aG2tF3ZuHUvdfGw0SYSBzoIU/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IcKitxzFbdZtipPQYe9PvSfBL/XFMlmnVpB2vCn25vk=;
+ b=taxcvUpu1TH49ZlxBE8wbDKnEl+/At8zJZRuH3SwGTBnrjvOfvVFNENH0cGJd/IaZYTIQTU+z8wZb+CvBuvbH/StB/LaImz9+EsvCj0gYIgXyA0giRINuieoiJFbACmHnz2JMM3j2SOCaUGraU+Gfo9rOATtStKi8fkkiNJ/rzWnBwFEKyuicPbSF/eamluyYgd5kmKJmZshUuSGaEN0UjAGRFwlyqyvoHTsw5kvDTvcGKIx/to9SNMf1gz6Hdp119xI2CFnHl3sbLFRK79E6lgyCzupkb3zEmcVViNjw90HLeZWH2b32PtHpZ8r6IavBg4CPmVLMDj4v9rFm2jeTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IcKitxzFbdZtipPQYe9PvSfBL/XFMlmnVpB2vCn25vk=;
+ b=DN6RCXKiLINUnIUvRbj0zufByDIFgAdEKBI5KaIwW4h8dIR99pGGMf4qZdd7clWGjp1RyPzjAfSFPhM/o201XAqLqWQy1fK7wNI7oKQAG+oWkVDISLVeusDenQ3k29wtM5erYv0yzHbMMxcB8ls4Yj2aonl8nlLxrWDgc7UlhVHOWPc3jxggJs+PV1hr2tKcym+oidP7wB4tKwnmJTMepMFwunQrSRWgewI52CiaB25LU4PMx5OorbFmnvo4iuYbOQUVt001RN3BWEwOJS8Xb157Oi/9bxJuwaVhNCaMqhrWbwepHyZ7Ah01XrQmnC2Ep1A9ugrwFqhUvo7KzEoivA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from MI3PR04MB12438.eurprd04.prod.outlook.com (2603:10a6:290:76::14)
+ by AS8PR04MB8580.eurprd04.prod.outlook.com (2603:10a6:20b:427::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Fri, 6 Nov
+ 2026 20:14:01 +0000
+Received: from MI3PR04MB12438.eurprd04.prod.outlook.com
+ ([fe80::c715:c32:8bb1:b70b]) by MI3PR04MB12438.eurprd04.prod.outlook.com
+ ([fe80::c715:c32:8bb1:b70b%6]) with mapi id 15.21.0592.010; Fri, 6 Nov 2026
+ 20:14:00 +0000
+From: Frank.Li@oss.nxp.com
+Subject: [PATCH 0/4] ASoC: Use dmaengine API instead of chan->device->dev
+Date: Fri, 06 Nov 2026 15:13:44 -0500
+Message-Id: <20261106-dma_sound_cleanup-v1-0-5eb8a7b81e87@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPk07moC/yXMQQqDMBBA0avIrA04KYTiVYpITCZ1RKNkmlIQ7
+ 26qy7f4fwehxCTQVjsk+rLwGguwrsCNNr5JsS8G3WiD2BjlF9vLmqPv3Uw25k15M2gM4WnCA6F
+ 0W6LAv+v56m5LHiZyn/8IjuMECGJSpXUAAAA=
+X-Change-ID: 20261106-dma_sound_cleanup-d6b21ff86f31
+To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Sen Wang <sen@ti.com>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-renesas-soc@vger.kernel.org, imx@lists.linux.dev, vkoul@kernel.org, 
+ Frank Li <Frank.Li@nxp.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793996035; l=1662;
+ i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
+ bh=zChPA7w9TULBn2E1cBohmy8ghhrAYYbSV6Z445wfl/8=;
+ b=pCU+SPc2QGiqzG362oi9zIYtU81vC6ntteLyOyqRfWHwQlKcZ6Y3I8MEpMXgiSsP//EQsGqgl
+ RUFr/EvKbwXD8MD8AHcsQDjaWJ4f/K0Un44bra/ns7I5WbSrRmHz8aF
+X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
+ pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
+X-ClientProxiedBy: PH7PR03CA0009.namprd03.prod.outlook.com
+ (2603:10b6:510:339::33) To MI3PR04MB12438.eurprd04.prod.outlook.com
+ (2603:10a6:290:76::14)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -86,99 +115,109 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261106121557.2338556-3-cezary.rojewski@intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MI3PR04MB12438:EE_|AS8PR04MB8580:EE_
+X-MS-Office365-Filtering-Correlation-Id: f2d5deea-3ccc-4311-585e-08df3c427ee5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|19092799006|1800799024|366016|23010399003|6133799003|18002099003|4133799003|10067099003|921020|11063799006|261022075727099003|261026121527099003|261009223027099003|261026140227099003|261026130827099003|261028144727099003|261021135927099003|261021121427099003|261022113327099003|261021130227099003|261021123027099003|261022115727099003|261102123227099003|261022105027099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	0gXQWFPcaNYoTieYnfFC5j1H447u+exCWbW5hjW+hklr98piEY+jBET8ojEk9Ta8KmJIVNI8Zi94JfALj51rwjCWLMpIypH2lUTdSNmwCdtUzCDFqwbqX2G7lV0kUv2buWTlS5FwpCiR6wxn/iPG3K7oPB+k7j8bnGmETnG4R8g/6oQ7B8a7C/B2ZIuCmw3XKKsOVZuLJgNp1csYBe9biYnPWQdWPdvEnglHKmnIQAvdAuMfeOUM3vUxs+8LinNoc3F2gZx2CvK92Jzg2NPqN+r0i6RNddqFKxBKRYvlSptoNdiE3ZDQMdcefbLy7yXAqZws0411OfWY5C5Ojw9Po5KUfGCC494hP+8vyNW3O15UVHsBXSQlpLHO/bZJb0nSrO5lmJyHNKCxRZ62FdUXNRCbKJMuCxBW/PKyiVp0FfpdEsps4n2lwtr+e6aarIe5nvSjq5N+MzYkx2RCRRno7Py0A5I34vMEx6s3JEmoKlNMV1m9QuD3X4zEKwVPGUDyYGp+JT4uhLhtxl4o1opI5S3p4gY02z9mAP1PsBpHBX4A+DR8u0mn/O7RZDPNvzaBoVUcOcfiZz+UYeYaK4vg26kyagonemExiablTzBNWuIlUQYHUNE6uiovVGGnIbB7foAQSS7w4A7PNCOxNiXQX+wf0E1Lzmfvd/BMAxk9SDw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI3PR04MB12438.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(19092799006)(1800799024)(366016)(23010399003)(6133799003)(18002099003)(4133799003)(10067099003)(921020)(11063799006)(261022075727099003)(261026121527099003)(261009223027099003)(261026140227099003)(261026130827099003)(261028144727099003)(261021135927099003)(261021121427099003)(261022113327099003)(261021130227099003)(261021123027099003)(261022115727099003)(261102123227099003)(261022105027099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ait1dHdBNWlOL3hwZjNXMDFwMG9ZYS95KzlHRnFDR3o0TGRsVlIvSDZkekZS?=
+ =?utf-8?B?MHRUN2JoVDBsN2FHT0krMzN5VFRJTjNtN1l3S24rNEMyNkorSlFYWHMwQm5S?=
+ =?utf-8?B?aFhpR2VxOXlVbDcxOU1aR0E0TTdtblhsTU1yZ1E3MVpNQmN1ZHhKS3FmeVBu?=
+ =?utf-8?B?Z0grVHRwMHVhWTczM2FwZlczcXQ4bUMzOTkzdFJIZHJQak9NV2ZjdVQwNm5W?=
+ =?utf-8?B?akxiTE8xWUgzeE1YTjI5alFIcGZrdUtiQ2hadHRLYmZTZ0xqQ1d3MVpXUUVV?=
+ =?utf-8?B?Y3JZbldBRDBaSkhCVDlsRnd2SERLMmphSjhvQmNGN1ZpVDlUM0tORjlQYlp4?=
+ =?utf-8?B?T1JTR2NFVUxNUzBoZFBwblY4M2RxSU5aYmVsaEIyUFg0NTZHTjV1NzN4V1Ns?=
+ =?utf-8?B?ZjhoMWVLd0RtK09iQ2o0RzFXS1A3dXBlL0pxMjJhem9rNGpOVkNoelhrK2hw?=
+ =?utf-8?B?TEhadHJ0UkJyMDUxRkc3L24rTG9OWUtLTjk2cmZreGkzYVJjWVZDZVpnVzVj?=
+ =?utf-8?B?T3pnVHkxeVdLR1pqTnpxd2g4MmdKc2xFUG53QzlmbWF0bUlJWG5vNHVxZXlX?=
+ =?utf-8?B?QjZsRnVOTklRL3R5QTQ2eDR3RHlEdVNESXpmY1l1TWIvZ0tyeElGdzJ5VEtz?=
+ =?utf-8?B?UHB0aDRUT1M1U2lieDJrTmFsQjlKaTFDNlo3aE9XbUdxdVZJVnptZXJsVTds?=
+ =?utf-8?B?MmJZUXNVTyt0SGZ2d3RWTEJSWXoyTDZQMHdOTXp1SWRTYS95eTB5VVBRaFV3?=
+ =?utf-8?B?K01hUmU3ajcrRFFtVGMwNWdoYzNGdVBXaVkzZXFKcGdpQUZiYjZLTmg5VkNW?=
+ =?utf-8?B?UCtkVmoyVytQcms1cWcvRjRjMDJPWXIyMGRpUmtVeUVwb3k4bHhFNWtjbTgy?=
+ =?utf-8?B?QmNSNnhPU3BNdkdGODk5cVpnMUZGb0tNREdxY2dYMlVDNVk4NE1TRWczKy9J?=
+ =?utf-8?B?N2xoWDJUNEc5bXJ6L3ZSTjRRcG14QUYrQ1NiVmFkWU5kek1Eck15cnBhMjFZ?=
+ =?utf-8?B?MHVHVThPaTJqZkRNaE1sTForR0FJWG9BalFHMnIvUUs3T2pIU3VndytSVHg1?=
+ =?utf-8?B?bnFuQnJuUWFMcnRRMXhkSnpuUzB1OFJkUC9FNDI0TDRPM0o5OG8wUWVRU3Ur?=
+ =?utf-8?B?TUJxYTI3eXJ4R0JwYks5TmJ1Zk1RYzB0aWlzRVRlWkxDazY4L05QZFBuRXNG?=
+ =?utf-8?B?bWo1SHVqcE1GTTc3anZCS2xJM082VVNtQnh4RTY1a05KM1FqNVhDMzZKR094?=
+ =?utf-8?B?Y2lPay9wYWYyZ1FZMDVzc0RSZStoYXhXTXZicTFyNmJqUDA4SXFpOTgyVCtR?=
+ =?utf-8?B?dG5ZWTNzR3d0K1FnNG1KVzhjSWM1Rmx4cHlOenZFL0xXV3VmNzU1bEFJYUE5?=
+ =?utf-8?B?emdoSkJFM2xMVUZEVUxaeFMzSmpibDhyWjB1VXRwUHNQQVE4b25ITW4yTWxN?=
+ =?utf-8?B?MWZhOWxtcUxzUEtaUTE0RXFNNXlWblEyRjVEWnhpU2kyb0lDVjlhb3FXdVNp?=
+ =?utf-8?B?V1VPbVFJUVd3L1M2RmlSMkRQa0xLQm94czlWdktuNHBjRUhiVHdmem9qUjdK?=
+ =?utf-8?B?cUU3d2lTc0Q4RjBPK01Pc1F4UWxoR3dzblhzaDcrd0JpMEZHZFZnRnRqdjg3?=
+ =?utf-8?B?eVN0S1NYRElIRkNhcWRCak5yWHM0cXJJVXNQQXptL3BZNGRBcDF0Nmd0OHNp?=
+ =?utf-8?B?UmJCZHZWcFFxVlVHNmpNQ3pTV3lTemRmQm5IdUZOUnZjUjlzZ3BpMC8zOGdY?=
+ =?utf-8?B?Tkx4SldaaWx0S1VzUlhzZ2hXTm84SmhFMTNHUG9JZ1owR3FTT0tnektyNFl6?=
+ =?utf-8?B?VkNlaVdaYjJrRDFkTE5nYWhNRllCd0JSYzlJMHUram5DWEVVS2NyMkt5aU9R?=
+ =?utf-8?B?dnkwelMzNGRUc3JhQ2NaZEltUjUzSUFEd0ZUdHRyOE03Rm9uWS9XMTViQkwz?=
+ =?utf-8?B?aWxUUDNWOEdnTCtidWlweU9qYmVkdE40OEFmeU1HenFXMk40UWJjaUs4NjI3?=
+ =?utf-8?B?aCtjeHNXdzdOMHpBdEdtMGxrK0QzVWkwL1ljWmpPNkJSVGtqcEh1cFk0VU90?=
+ =?utf-8?B?a2s3Q2gxRWxZS0cydmdiZGc4SUIrRXNUZVl4YjFoTld6cUhzOHVoTmFBN1hE?=
+ =?utf-8?B?dDRyREUxZ0d5MVBDb3Q4Z29DUDJSZ0paUEtGaGR6Q3hIVkJoR2VDejNDbzVw?=
+ =?utf-8?B?T1U0bmxzak5nYWZjZUpqQlBwMmlzWkcyN1pvdUp4ekNxNXFibzZVRzJQMWt2?=
+ =?utf-8?B?N2kyY0IxOWs5ZCtJUmc4Q2RBdnZtdy9ZeXNKTFM5R1RvWWVWdkkvMzh2MUxo?=
+ =?utf-8?B?TlpIUEJqb0x0YTFpelJXWkRVSTN3NlZZWmQyUUtBbkdRaU11VG1mc29wYTdG?=
+ =?utf-8?Q?otvdEGiY0I7gavhqGLzu/n/PEJjB9cAOv4M0G?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2d5deea-3ccc-4311-585e-08df3c427ee5
+X-MS-Exchange-CrossTenant-AuthSource: MI3PR04MB12438.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 20:14:00.7820
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wkt1Ixb6X386w3AzS2VVtY2TAZtFx/VWi0/RCaVzHi8P3OkSW+sUR3wAHAN/1NyWvSKJ5ETeankphKrzfPDo3R3+FZz/wrTGNVQRK3/1aHrBhOaZPFpBFrF1M7cVKu+2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8580
 
-Hi Cezary,
+Replace open-coded chan->device->dev accesses in ASoC drivers with
+the proper dmaengine accessor APIs:
 
-kernel test robot noticed the following build warnings:
+  - dmaengine_get_dma_device(): returns the device used for DMA
+    mappings; may return a per-channel device if the dmaengine
+    supports per-channel IOMMU mapping.
+  - dmaengine_get_provider_device(): returns the dmaengine provider
+    device that carries the of_node, used for device-tree based
+    channel filtering.
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus linus/master v7.4-rc1 next-20261105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This avoids direct access to DMA engine internals and prepares
+for making struct dma_device private.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cezary-Rojewski/soundwire-intel-Define-stubs-when-library-is-disabled/20261106-131551
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20261106121557.2338556-3-cezary.rojewski%40intel.com
-patch subject: [PATCH v3 2/7] soundwire: intel: Allow for dynamic assignment of PDIs
-config: x86_64-randconfig-1015-20261106 (https://download.01.org/0day-ci/archive/20261107/202611070307.UuD8O6zR-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611070307.UuD8O6zR-lkp@intel.com/reproduce)
+After previous post patch
+1: applied https://lore.kernel.org/imx/179396622411.3073895.524075215689851221.b4-ty@b4/
+2: under review https://lore.kernel.org/imx/CAA+D8ANwEqFJYQ39h+1A3zXhcUfpFGzSvVjEzx2htoYxB4sLGg@mail.gmail.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611070307.UuD8O6zR-lkp@intel.com/
+sound directory can pass build with allyesconfig after really move
+struct dma_device to drivers/dmaengine/dmaengine.h
 
-All warnings (new ones prefixed by >>):
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
+---
+Frank Li (4):
+      ASoC: apple: mca: Use dmaengine_get_dma_device() instead of chan->device->dev
+      ASoC: fsl: asrc: Use dmaengine API instead of chan->device->dev
+      ASoC: renesas: rcar: Use dmaengine_get_dma_device() instead of chan->device->dev
+      ASoC: ti: davinci-mcasp: Use dmaengine_get_provider_device() API
 
-   drivers/soundwire/intel.c: In function 'intel_prepare':
->> drivers/soundwire/intel.c:807:17: warning: variable 'dir' set but not used [-Wunused-but-set-variable]
-     807 |         int ch, dir;
-         |                 ^~~
->> drivers/soundwire/intel.c:807:13: warning: variable 'ch' set but not used [-Wunused-but-set-variable]
-     807 |         int ch, dir;
-         |             ^~
+ sound/soc/apple/mca.c        |  4 ++--
+ sound/soc/fsl/fsl_asrc_dma.c |  4 ++--
+ sound/soc/renesas/rcar/dma.c |  2 +-
+ sound/soc/ti/davinci-mcasp.c | 10 ++++------
+ 4 files changed, 9 insertions(+), 11 deletions(-)
+---
+base-commit: 13716421a63a932e09c1f56d78f6055c2fa069c1
+change-id: 20261106-dma_sound_cleanup-d6b21ff86f31
 
+Best regards,
+--  
+Frank Li <Frank.Li@nxp.com>
 
-vim +/dir +807 drivers/soundwire/intel.c
-
-c46302ec554c57 Vinod Koul           2018-04-26  800  
-27b198f409d876 Rander Wang          2020-02-14  801  static int intel_prepare(struct snd_pcm_substream *substream,
-27b198f409d876 Rander Wang          2020-02-14  802  			 struct snd_soc_dai *dai)
-27b198f409d876 Rander Wang          2020-02-14  803  {
-a5a0239c27fe11 Bard Liao            2020-08-17  804  	struct sdw_cdns *cdns = snd_soc_dai_get_drvdata(dai);
-a5a0239c27fe11 Bard Liao            2020-08-17  805  	struct sdw_intel *sdw = cdns_to_intel(cdns);
-e0767e39107968 Pierre-Louis Bossart 2022-11-01  806  	struct sdw_cdns_dai_runtime *dai_runtime;
-a5a0239c27fe11 Bard Liao            2020-08-17 @807  	int ch, dir;
-244eb888f9ab86 Pierre-Louis Bossart 2020-09-04  808  	int ret = 0;
-27b198f409d876 Rander Wang          2020-02-14  809  
-7dddead766c082 Pierre-Louis Bossart 2022-11-01  810  	dai_runtime = cdns->dai_runtime_array[dai->id];
-e0767e39107968 Pierre-Louis Bossart 2022-11-01  811  	if (!dai_runtime) {
-e0767e39107968 Pierre-Louis Bossart 2022-11-01  812  		dev_err(dai->dev, "failed to get dai runtime in %s\n",
-27b198f409d876 Rander Wang          2020-02-14  813  			__func__);
-27b198f409d876 Rander Wang          2020-02-14  814  		return -EIO;
-27b198f409d876 Rander Wang          2020-02-14  815  	}
-27b198f409d876 Rander Wang          2020-02-14  816  
-e0767e39107968 Pierre-Louis Bossart 2022-11-01  817  	if (dai_runtime->suspended) {
-50cd92e0c8d35d Kuninori Morimoto    2023-09-11  818  		struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-0a0d1740bd8fd7 Pierre-Louis Bossart 2023-03-21  819  		struct snd_pcm_hw_params *hw_params;
-0a0d1740bd8fd7 Pierre-Louis Bossart 2023-03-21  820  
-0a0d1740bd8fd7 Pierre-Louis Bossart 2023-03-21  821  		hw_params = &rtd->dpcm[substream->stream].hw_params;
-0a0d1740bd8fd7 Pierre-Louis Bossart 2023-03-21  822  
-e0767e39107968 Pierre-Louis Bossart 2022-11-01  823  		dai_runtime->suspended = false;
-a5a0239c27fe11 Bard Liao            2020-08-17  824  
-a5a0239c27fe11 Bard Liao            2020-08-17  825  		/*
-a5a0239c27fe11 Bard Liao            2020-08-17  826  		 * .prepare() is called after system resume, where we
-a5a0239c27fe11 Bard Liao            2020-08-17  827  		 * need to reinitialize the SHIM/ALH/Cadence IP.
-a5a0239c27fe11 Bard Liao            2020-08-17  828  		 * .prepare() is also called to deal with underflows,
-a5a0239c27fe11 Bard Liao            2020-08-17  829  		 * but in those cases we cannot touch ALH/SHIM
-a5a0239c27fe11 Bard Liao            2020-08-17  830  		 * registers
-a5a0239c27fe11 Bard Liao            2020-08-17  831  		 */
-a5a0239c27fe11 Bard Liao            2020-08-17  832  
-a5a0239c27fe11 Bard Liao            2020-08-17  833  		/* configure stream */
-0a0d1740bd8fd7 Pierre-Louis Bossart 2023-03-21  834  		ch = params_channels(hw_params);
-a5a0239c27fe11 Bard Liao            2020-08-17  835  		if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
-a5a0239c27fe11 Bard Liao            2020-08-17  836  			dir = SDW_DATA_DIR_RX;
-a5a0239c27fe11 Bard Liao            2020-08-17  837  		else
-a5a0239c27fe11 Bard Liao            2020-08-17  838  			dir = SDW_DATA_DIR_TX;
-a5a0239c27fe11 Bard Liao            2020-08-17  839  
-5977f02f8733d2 Cezary Rojewski      2026-11-06  840  		sdw_intel_pdi_config(&cdns->bus, dai_runtime->pdi);
-a5a0239c27fe11 Bard Liao            2020-08-17  841  
-a5a0239c27fe11 Bard Liao            2020-08-17  842  		/* Inform DSP about PDI stream number */
-1d905d355ef329 Pierre-Louis Bossart 2023-05-15  843  		ret = intel_params_stream(sdw, substream, dai,
-0a0d1740bd8fd7 Pierre-Louis Bossart 2023-03-21  844  					  hw_params,
-a5a0239c27fe11 Bard Liao            2020-08-17  845  					  sdw->instance,
-e0767e39107968 Pierre-Louis Bossart 2022-11-01  846  					  dai_runtime->pdi->intel_alh_id);
-a5a0239c27fe11 Bard Liao            2020-08-17  847  	}
-a5a0239c27fe11 Bard Liao            2020-08-17  848  
-a5a0239c27fe11 Bard Liao            2020-08-17  849  	return ret;
-27b198f409d876 Rander Wang          2020-02-14  850  }
-27b198f409d876 Rander Wang          2020-02-14  851  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
