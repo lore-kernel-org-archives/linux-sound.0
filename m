@@ -1,66 +1,66 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793966931;
-	b=sEsKBnydbxXz+hyaEOuZk5zvvNctLuWJOvmxptDHfh7xAzuukySTwWhWmgLiw4NOTfkx
-	 wAOJ6DbR1874GsKNqkeBry+DLvStRz9Ek9BhzIw7BY0141fHeZD3BqCVbEAT6g+wkTTpJ
-	 2eXW3xXqEOUkyzli03ABkAaMproccJbvygKqrMq6Nsk3ixHZeXRscgPHZOAuy/FWHTfdG
-	 CcAlEsUPQvAOsyelWRwqxD6B9Vxh2UCnqVXYV4JlRjbg92aMZ9c1jcppKYmWQ15dhJpBy
-	 pkkyCLDO1siHbpeY55Hqs4TObG2e2uIxiY+58/re4O095/TfNyTVam6gP6D8xd/IylQ==
+	t=1793966939;
+	b=EkH/3+3FI19CLQWFK/c86OWkQzqgIVO2KLOpT9xKj4uCxYkVmkL4n23nvcsX4EC9KGC3
+	 h02lajF07lEISwGtXxruxpCjFIYCTpKb1krt8jFvPy74NfyYw2yyXDWAa7FsHyfmRnrQ/
+	 ELI34vwHbdnG3a9Ptlh52laIasDtw3fv5RnGx76l/fRzFYTqbKsW+udP80nuaArx2P4J+
+	 KSldxWEOjxme/AM11YFuBbvW2HhrHwq/zzcub9oupf7ga9N9isTadZdaJTRE2lBIsJ5CD
+	 kNW0GCYh7yOaD2j/BuvZvie36PR45LHzbuRyxcDziiCXbuwAcPJG7qZFF4zbakTEglw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793966931;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793966939;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
 	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=LBZT1lXwPvoeeYPGJrtFBbjl896cFdaiC8MYzzDlx1M=;
-	b=ru4/nOnPL1txCf1L5XuTQJKdJlhW6pGkmwLDpZfRgxwYdnA+KRh7DlpF2QQMhznjP3p0
-	 8Rtp1pI3RpX6Xz6BaUD6OztpnA9eUIjDff5grV3tIoF8yYDNu54wp8zcd9TlWger5PWyi
-	 AUFL3P5GStbHaFqlow1Z1xzTMN7YGrWbS1FT1TrkVAvuXOJ2TsezukXYeKeq6nSTVPAqo
-	 VGFa4Qu1a7tA+7q4q0KzRDg4J1W91OXFCFGqyz9UGF5QmcXsHBL4IkpgL5iJCfGcaAF8o
-	 lubyNDc2Rq1bVi7KSxtvpFJZfXEoCz/7f7lQEjYaMidYsgoBqBG2k6dCmO+dasXIyyw==
+	 Content-Transfer-Encoding;
+	bh=vXVqNotvPQzBmm+iUfHH/DnovOoTHzB1CQmg9RwH5h4=;
+	b=OEYntCN2YPu0bZrg7kanmt80kLhvr17FQuZQ3roc6HdBd5qnkkKh+SXCSEUGSi0glEjG
+	 4hmIECwy7b7KPdiauvffaQBWxm7y/pfg0NutxPCCSHEZAUkvrc6wHp+tUdo+OoLBBJtuR
+	 3nyA6S+MEBu+ybBONkLCAstdutRqAcrN2BCYIM0YY+ekXQp0HoHt+UMdDKUWJmHVIXxE4
+	 abrmW1G+GsasHrYTQhUxuZ0bJZSO3CLfkH89YE7rsg6cBziO5axQvasz+16F0CCOKMNEc
+	 880mqTX9cCpMFFcU482x/CBXRnkHIXz5+5Gl2zzCzOQ6tjME6Fm9BMC08Sbcbgi/MTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TE3zYAtP;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kWamwKyp;
 	arc=none smtp.remote-ip=198.175.65.12
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913A5606D835;
-	Fri,  6 Nov 2026 12:08:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 913A5606D835
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3A5606D82E;
+	Fri,  6 Nov 2026 12:08:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C3A5606D82E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TE3zYAtP
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kWamwKyp
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793966931; x=1825502931;
+  t=1793966939; x=1825502939;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=J8v0IAgGr9SXVQka7hqpw9c39FB0mh7inFSdj01aDr4=;
-  b=TE3zYAtPDv18fyLLhzByDo0k1Y93HI5iYmV9CTQE4IvdfKzUV7VDJ6dI
-   WGwkTwIukEq2VCh4AzyDct/91tQlrGED3paa1bsVLdkj7Gsu6+pIQ9ep0
-   d2YTohrFvRKdat2T4gBGxFughORjOmH0jE8QqehoSVGZgWDGmk+hPK/pM
-   JQck/IoDTyHaCAYP/GybNMyeEga3OtKfRyujCXesPPO5olFJqn8pm1st+
-   fvxS0GI4RUG/Eh1jbDYNdogs+5nr4xVdlBwAtnZ8P7X0EkIPo4brCmDIP
-   i0eL1hFmXb0kYd7NJseOewVUAs0b4XoMFYLsToAsdkETPjHgHML65Q2hB
+  bh=fzXUxtz9FKvo7L1UM2kPxuUN0yc0I2VYCpziW/m4LOc=;
+  b=kWamwKypipwZsNoX54s2418xDevtEiJCKG16NQnEP5CELxMpy3/TwbqY
+   Py0YMqpHv6eVRnD7KkYs/xyvAmACj+d9Y67GBg2rYx8wFNHSWOVFB1sO5
+   /Cjwp5/Q7WVoNKgZKBjGk/5tQEujfla6VebGJV87PVZxrjPyvo07nvrX5
+   e3dVaKQ4ITRx0s2kpRANSg9bRo+hjwQm2loLu8kq0+WPI2n2nqn0Nb1Wk
+   3nko9c7EO5HQeDge7rYKh47WK6J4PhELL4vp2BQfokIzKOL89okK4zODz
+   lyH4e6FXotfFywXza008DPAZ5dSvFSxIsmNP+Iawm06fyJFHlsh6KxoJu
    w==;
-X-CSE-ConnectionGUID: 2tVSRvhQSxejHPQhVif2PA==
-X-CSE-MsgGUID: 6jYo9ylVSdSiXULk6+aLhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2655376"
+X-CSE-ConnectionGUID: e82cCJjJQw6DJVt74izv5g==
+X-CSE-MsgGUID: ClZyMf9gTkOGGuoF+PFlOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2655406"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2655376"
+   d="scan'208";a="2655406"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 04:08:51 -0800
-X-CSE-ConnectionGUID: wgm34eLgSH2vpHVRZ1T9uA==
-X-CSE-MsgGUID: EaAObOdeS2GcoO7x5bjhbw==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 04:08:59 -0800
+X-CSE-ConnectionGUID: HokVDLavQx+khRZFTjHrWQ==
+X-CSE-MsgGUID: IoOOQ222QdehcJNaFW5Yag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7146632"
+   d="scan'208";a="7146663"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa004.jf.intel.com with ESMTP; 06 Nov 2026 04:08:48 -0800
+  by orviesa004.jf.intel.com with ESMTP; 06 Nov 2026 04:08:56 -0800
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: linux-sound@vger.kernel.org
 Cc: broonie@kernel.org,
@@ -72,9 +72,9 @@ Cc: broonie@kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	vkoul@kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v3 4/7] ASoC: Intel: avs: Pass irq to dsp_interrupt callback
-Date: Fri,  6 Nov 2026 13:15:54 +0100
-Message-Id: <20261106121557.2338556-5-cezary.rojewski@intel.com>
+Subject: [PATCH v3 7/7] ASoC: Intel: avs: SoundWire PCM BE operations
+Date: Fri,  6 Nov 2026 13:15:57 +0100
+Message-Id: <20261106121557.2338556-8-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20261106121557.2338556-1-cezary.rojewski@intel.com>
 References: <20261106121557.2338556-1-cezary.rojewski@intel.com>
@@ -87,113 +87,399 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Soundwire IRQ thread function requires passing irq as one of the
-arguments, as we will want to call it in dsp_interrupt callback, it
-needs to be passed throguh.
+Implement the back-end PCM operations for the SoundWire Link to support
+data transfer over SoundWire interface. Most of the actual job is done
+by the SoundWire library, thus code added here just invokes them in
+correct order.
 
-Signed-off-by: Amadeusz Sławiński <amade@asmblr.net>
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/apl.c  | 2 +-
- sound/soc/intel/avs/avs.h  | 6 +++---
- sound/soc/intel/avs/cnl.c  | 2 +-
- sound/soc/intel/avs/core.c | 2 +-
- sound/soc/intel/avs/mtl.c  | 2 +-
- sound/soc/intel/avs/skl.c  | 2 +-
- 6 files changed, 8 insertions(+), 8 deletions(-)
+ sound/soc/intel/avs/Makefile    |   2 +-
+ sound/soc/intel/avs/messages.h  |   2 +
+ sound/soc/intel/avs/path.c      |   2 +
+ sound/soc/intel/avs/pcm.h       |   3 +
+ sound/soc/intel/avs/pcm_sdw.c   | 291 ++++++++++++++++++++++++++++++++
+ sound/soc/intel/avs/soundwire.h |   7 +
+ 6 files changed, 306 insertions(+), 1 deletion(-)
+ create mode 100644 sound/soc/intel/avs/pcm_sdw.c
 
-diff --git a/sound/soc/intel/avs/apl.c b/sound/soc/intel/avs/apl.c
-index cf600e1c986e..3abcdf062035 100644
---- a/sound/soc/intel/avs/apl.c
-+++ b/sound/soc/intel/avs/apl.c
-@@ -17,7 +17,7 @@
- #include "registers.h"
- #include "topology.h"
+diff --git a/sound/soc/intel/avs/Makefile b/sound/soc/intel/avs/Makefile
+index 042e8dd232f8..fab7e1ba622d 100644
+--- a/sound/soc/intel/avs/Makefile
++++ b/sound/soc/intel/avs/Makefile
+@@ -15,7 +15,7 @@ snd-soc-avs-y += probes.o debugfs.o
+ endif
  
--static irqreturn_t avs_apl_dsp_interrupt(struct avs_dev *adev)
-+static irqreturn_t avs_apl_dsp_interrupt(struct avs_dev *adev, int irq)
- {
- 	u32 adspis = snd_hdac_adsp_readl(adev, AVS_ADSP_REG_ADSPIS);
- 	irqreturn_t ret = IRQ_NONE;
-diff --git a/sound/soc/intel/avs/avs.h b/sound/soc/intel/avs/avs.h
-index b4f9d66d55ad..b3af2c4126be 100644
---- a/sound/soc/intel/avs/avs.h
-+++ b/sound/soc/intel/avs/avs.h
-@@ -45,7 +45,7 @@ struct avs_dsp_ops {
- 	int (* const power)(struct avs_dev *, u32, bool);
- 	int (* const reset)(struct avs_dev *, u32, bool);
- 	int (* const stall)(struct avs_dev *, u32, bool);
--	irqreturn_t (* const dsp_interrupt)(struct avs_dev *);
-+	irqreturn_t (* const dsp_interrupt)(struct avs_dev *, int irq);
- 	void (* const int_control)(struct avs_dev *, bool);
- 	int (* const load_basefw)(struct avs_dev *, struct firmware *);
- 	int (* const load_lib)(struct avs_dev *, struct firmware *, u32);
-@@ -273,8 +273,8 @@ int avs_mtl_core_stall(struct avs_dev *adev, u32 core_mask, bool stall);
- int avs_lnl_core_stall(struct avs_dev *adev, u32 core_mask, bool stall);
- void avs_mtl_interrupt_control(struct avs_dev *adev, bool enable);
- void avs_skl_ipc_interrupt(struct avs_dev *adev);
--irqreturn_t avs_cnl_dsp_interrupt(struct avs_dev *adev);
--irqreturn_t avs_mtl_dsp_interrupt(struct avs_dev *adev);
-+irqreturn_t avs_cnl_dsp_interrupt(struct avs_dev *adev, int irq);
-+irqreturn_t avs_mtl_dsp_interrupt(struct avs_dev *adev, int irq);
- int avs_apl_enable_logs(struct avs_dev *adev, enum avs_log_enable enable, u32 aging_period,
- 			u32 fifo_full_period, unsigned long resource_mask, u32 *priorities);
- int avs_icl_enable_logs(struct avs_dev *adev, enum avs_log_enable enable, u32 aging_period,
-diff --git a/sound/soc/intel/avs/cnl.c b/sound/soc/intel/avs/cnl.c
-index 5b5359e9128b..31fd9f251d6c 100644
---- a/sound/soc/intel/avs/cnl.c
-+++ b/sound/soc/intel/avs/cnl.c
-@@ -58,7 +58,7 @@ static void avs_cnl_ipc_interrupt(struct avs_dev *adev)
- 			      AVS_ADSP_HIPCCTL_DONE | AVS_ADSP_HIPCCTL_BUSY);
+ ifneq ($(CONFIG_SND_SOC_INTEL_AVS_SOUNDWIRE),)
+-snd-soc-avs-y += soundwire.o
++snd-soc-avs-y += soundwire.o pcm_sdw.o
+ endif
+ 
+ obj-$(CONFIG_SND_SOC_INTEL_AVS) += snd-soc-avs.o
+diff --git a/sound/soc/intel/avs/messages.h b/sound/soc/intel/avs/messages.h
+index 55c04b0142ae..d1ffc640dda2 100644
+--- a/sound/soc/intel/avs/messages.h
++++ b/sound/soc/intel/avs/messages.h
+@@ -750,6 +750,8 @@ enum avs_dma_type {
+ 	AVS_DMA_DMIC_LINK_INPUT = 11,
+ 	AVS_DMA_I2S_LINK_OUTPUT = 12,
+ 	AVS_DMA_I2S_LINK_INPUT = 13,
++	AVS_DMA_SDW_LINK_OUTPUT = 16,
++	AVS_DMA_SDW_LINK_INPUT = 17,
+ };
+ 
+ union avs_virtual_index {
+diff --git a/sound/soc/intel/avs/path.c b/sound/soc/intel/avs/path.c
+index a8a2b3484338..60d9245894e7 100644
+--- a/sound/soc/intel/avs/path.c
++++ b/sound/soc/intel/avs/path.c
+@@ -260,6 +260,8 @@ static void avs_init_node_id(union avs_connector_node_id *node_id,
+ 
+ 	case AVS_DMA_HDA_LINK_OUTPUT:
+ 	case AVS_DMA_HDA_LINK_INPUT:
++	case AVS_DMA_SDW_LINK_OUTPUT:
++	case AVS_DMA_SDW_LINK_INPUT:
+ 		node_id->vindex = te->copier.vindex.val | dma_id;
+ 		break;
+ 
+diff --git a/sound/soc/intel/avs/pcm.h b/sound/soc/intel/avs/pcm.h
+index a5093e62da26..f2620d6f3479 100644
+--- a/sound/soc/intel/avs/pcm.h
++++ b/sound/soc/intel/avs/pcm.h
+@@ -35,6 +35,9 @@ struct avs_dma_data {
+ 
+ 	struct work_struct period_elapsed_work;
+ 	struct hdac_ext_link *link;
++	struct sdw_stream_runtime *sdw_stream;
++	struct sdw_cdns_pdi *pdi;
++	bool sdw_suspended;
+ 	struct snd_pcm_substream *substream;
+ };
+ 
+diff --git a/sound/soc/intel/avs/pcm_sdw.c b/sound/soc/intel/avs/pcm_sdw.c
+new file mode 100644
+index 000000000000..578162e9fc4d
+--- /dev/null
++++ b/sound/soc/intel/avs/pcm_sdw.c
+@@ -0,0 +1,291 @@
++// SPDX-License-Identifier: GPL-2.0-only
++//
++// Copyright(c) 2024-2026 Intel Corporation
++//
++// Authors: Cezary Rojewski <cezary.rojewski@intel.com>
++//          Amadeusz Slawinski <amade@asmblr.net>
++//
++
++#include <linux/device.h>
++#include <linux/soundwire/sdw.h>
++#include <linux/soundwire/sdw_intel.h>
++#include <sound/pcm_params.h>
++#include <sound/soc.h>
++#include <sound/soc-acpi.h>
++#include <sound/soc-component.h>
++#include <sound/soc-dai.h>
++#include "avs.h"
++#include "path.h"
++#include "pcm.h"
++#include "soundwire.h"
++#include "topology.h"
++
++static int avs_sdw_dai_startup(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
++{
++	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
++	struct sdw_stream_runtime *sdw_stream;
++	struct snd_soc_acpi_mach *mach;
++	struct snd_soc_dai *codec_dai;
++	struct avs_dma_data *data;
++	struct sdw_cdns_pdi *pdi;
++	struct sdw_slave *codec;
++	int dir, ret;
++
++	mach = dev_get_platdata(dai->component->card->dev);
++	codec = mach->pdata;
++	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
++		dir = SDW_DATA_DIR_RX;
++	else
++		dir = SDW_DATA_DIR_TX;
++
++	ret = avs_dai_startup(substream, dai);
++	if (ret)
++		return ret;
++
++	sdw_stream = sdw_alloc_stream(substream->name, SDW_STREAM_PCM);
++	if (!sdw_stream) {
++		ret = -ENOMEM;
++		goto err_alloc_stream;
++	}
++
++	pdi = sdw_cdns_assign_pdi(codec->bus, dir);
++	if (!pdi) {
++		ret = -EBUSY;
++		goto err_assign_pdi;
++	}
++
++	/* Fulfill the codec needs by setting the sdw_stream. */
++	codec_dai = snd_soc_rtd_to_codec(rtd, 0);
++	snd_soc_dai_set_stream(codec_dai, sdw_stream, substream->stream);
++
++	data = snd_soc_dai_get_dma_data(dai, substream);
++	data->sdw_stream = sdw_stream;
++	data->pdi = pdi;
++	return 0;
++
++err_assign_pdi:
++	sdw_release_stream(sdw_stream);
++err_alloc_stream:
++	avs_dai_shutdown(substream, dai);
++	return ret;
++}
++
++static void avs_sdw_dai_shutdown(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
++{
++	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
++	struct snd_soc_acpi_mach *mach;
++	struct snd_soc_dai *codec_dai;
++	struct avs_dma_data *data;
++	struct sdw_slave *codec;
++
++	codec_dai = snd_soc_rtd_to_codec(rtd, 0);
++	data = snd_soc_dai_get_dma_data(dai, substream);
++	mach = dev_get_platdata(dai->component->card->dev);
++	codec = mach->pdata;
++
++	snd_soc_dai_set_stream(codec_dai, NULL, substream->stream);
++	sdw_cdns_release_pdi(codec->bus, data->pdi);
++	sdw_release_stream(data->sdw_stream);
++	avs_dai_shutdown(substream, dai);
++}
++
++static int avs_sdw_dai_hw_params(struct snd_pcm_substream *substream,
++				 struct snd_pcm_hw_params *hw_params,
++				 struct snd_soc_dai *dai)
++{
++	struct sdw_stream_config sconfig = {0};
++	struct sdw_port_config pconfig = {0};
++	struct snd_soc_acpi_mach *mach;
++	struct avs_dma_data *data;
++	struct sdw_cdns_pdi *pdi;
++	struct sdw_slave *codec;
++	int ret;
++
++	data = snd_soc_dai_get_dma_data(dai, substream);
++	if (data->path)
++		return 0;
++
++	mach = dev_get_platdata(dai->component->card->dev);
++	codec = mach->pdata;
++	pdi = data->pdi;
++	pdi->ch_count = params_channels(hw_params);
++	pdi->h_ch_num = pdi->ch_count - 1;
++	pdi->l_ch_num = 0;
++	sdw_intel_pdi_config(codec->bus, pdi);
++
++	if (data->sdw_suspended)
++		return avs_dai_be_hw_params(substream, hw_params, dai, pdi->intel_alh_id);
++
++	sconfig.direction = pdi->dir;
++	sconfig.ch_count = pdi->ch_count;
++	sconfig.frame_rate = params_rate(hw_params);
++	sconfig.type = SDW_STREAM_PCM;
++	sconfig.bps = snd_pcm_format_width(params_format(hw_params));
++	pconfig.num = pdi->num;
++	pconfig.ch_mask = (1 << pdi->ch_count) - 1;
++
++	ret = sdw_stream_add_master(codec->bus, &sconfig, &pconfig, 1, data->sdw_stream);
++	if (ret) {
++		sdw_stream_remove_master(codec->bus, data->sdw_stream);
++		return ret;
++	}
++
++	ret = avs_dai_be_hw_params(substream, hw_params, dai, pdi->intel_alh_id);
++	if (ret)
++		sdw_stream_remove_master(codec->bus, data->sdw_stream);
++	return ret;
++}
++
++static int avs_sdw_dai_hw_free(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
++{
++	struct snd_soc_acpi_mach *mach;
++	struct avs_dma_data *data;
++	struct sdw_slave *codec;
++
++	data = snd_soc_dai_get_dma_data(dai, substream);
++	if (!data->path)
++		return 0;
++
++	mach = dev_get_platdata(dai->component->card->dev);
++	codec = mach->pdata;
++
++	avs_path_reset(data->path);
++	avs_path_free(data->path);
++	data->path = NULL;
++	sdw_deprepare_stream(data->sdw_stream);
++	if (!data->sdw_suspended)
++		sdw_stream_remove_master(codec->bus, data->sdw_stream);
++
++	return 0;
++}
++
++static int avs_sdw_dai_prepare(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
++{
++	struct avs_dma_data *data;
++	int ret;
++
++	data = snd_soc_dai_get_dma_data(dai, substream);
++
++	/*
++	 * There is no guarantee trigger(RESUME) fires, so reset the flag here.
++	 * Ensures there is no sdw_master leak should hw_free() occur without resuming.
++	 */
++	data->sdw_suspended = false;
++
++	ret = sdw_prepare_stream(data->sdw_stream);
++	if (ret) {
++		dev_err(dai->dev, "sdw stream prepare failed: %d\n", ret);
++		return ret;
++	}
++
++	ret = avs_dai_prepare(substream, dai);
++	if (ret)
++		sdw_deprepare_stream(data->sdw_stream);
++	return ret;
++}
++
++static int avs_sdw_dai_trigger(struct snd_pcm_substream *substream, int cmd,
++			       struct snd_soc_dai *dai)
++{
++	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
++	struct avs_dma_data *data;
++	int ret = 0;
++
++	data = snd_soc_dai_get_dma_data(dai, substream);
++
++	switch (cmd) {
++	case SNDRV_PCM_TRIGGER_RESUME:
++		if (rtd->dai_link->ignore_suspend)
++			break;
++		fallthrough;
++	case SNDRV_PCM_TRIGGER_START:
++	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
++		ret = sdw_enable_stream(data->sdw_stream);
++		if (ret)
++			break;
++
++		ret = avs_path_run(data->path, AVS_TPLG_TRIGGER_AUTO);
++		if (ret)
++			sdw_disable_stream(data->sdw_stream);
++		break;
++
++	case SNDRV_PCM_TRIGGER_SUSPEND:
++		if (rtd->dai_link->ignore_suspend)
++			break;
++		data->sdw_suspended = true;
++		fallthrough;
++	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
++	case SNDRV_PCM_TRIGGER_STOP:
++		avs_path_pause(data->path);
++
++		ret = sdw_disable_stream(data->sdw_stream);
++		if (ret)
++			dev_err(dai->dev, "disable sdw stream failed: %d\n", ret);
++		break;
++
++	default:
++		ret = -EINVAL;
++		break;
++	}
++
++	return ret;
++}
++
++static const struct snd_soc_dai_ops avs_sdw_dai_ops = {
++	.startup = avs_sdw_dai_startup,
++	.shutdown = avs_sdw_dai_shutdown,
++	.hw_params = avs_sdw_dai_hw_params,
++	.hw_free = avs_sdw_dai_hw_free,
++	.prepare = avs_sdw_dai_prepare,
++	.trigger = avs_sdw_dai_trigger,
++};
++
++static const struct snd_soc_dai_driver avs_sdw_dai_template = {
++	.playback = {
++		.channels_min	= 1,
++		.channels_max	= 8,
++		.rates		= SNDRV_PCM_RATE_8000_192000 |
++				  SNDRV_PCM_RATE_KNOT,
++		.formats	= SNDRV_PCM_FMTBIT_S16_LE |
++				  SNDRV_PCM_FMTBIT_S32_LE,
++		.subformats	= SNDRV_PCM_SUBFMTBIT_MSBITS_20 |
++				  SNDRV_PCM_SUBFMTBIT_MSBITS_24 |
++				  SNDRV_PCM_SUBFMTBIT_MSBITS_MAX,
++	},
++	.capture = {
++		.channels_min	= 1,
++		.channels_max	= 8,
++		.rates		= SNDRV_PCM_RATE_8000_192000 |
++				  SNDRV_PCM_RATE_KNOT,
++		.formats	= SNDRV_PCM_FMTBIT_S16_LE |
++				  SNDRV_PCM_FMTBIT_S32_LE,
++		.subformats	= SNDRV_PCM_SUBFMTBIT_MSBITS_20 |
++				  SNDRV_PCM_SUBFMTBIT_MSBITS_24 |
++				  SNDRV_PCM_SUBFMTBIT_MSBITS_MAX,
++	},
++	.ops = &avs_sdw_dai_ops,
++};
++
++int avs_register_sdw_component(struct avs_dev *adev, const char *name, u32 link_id)
++{
++	struct snd_soc_dai_driver *dai;
++	struct device *dev = adev->dev;
++
++	dai = devm_kzalloc(dev, sizeof(*dai), GFP_KERNEL);
++	if (!dai)
++		return -ENOMEM;
++
++	memcpy(dai, &avs_sdw_dai_template, sizeof(*dai));
++
++	dai->name = devm_kasprintf(dev, GFP_KERNEL, "avs-sdw%d-pin", link_id);
++	if (!dai->name)
++		return -ENOMEM;
++
++	dai->playback.stream_name = devm_kasprintf(dev, GFP_KERNEL, "%s Tx", dai->name);
++	dai->capture.stream_name = devm_kasprintf(dev, GFP_KERNEL, "%s Rx", dai->name);
++
++	if (!dai->playback.stream_name || !dai->capture.stream_name)
++		return -ENOMEM;
++
++	return avs_register_component(dev, name, &avs_component_driver, dai, 1);
++}
+diff --git a/sound/soc/intel/avs/soundwire.h b/sound/soc/intel/avs/soundwire.h
+index e57e29ed16bf..b2279613a326 100644
+--- a/sound/soc/intel/avs/soundwire.h
++++ b/sound/soc/intel/avs/soundwire.h
+@@ -22,6 +22,8 @@ void avs_sdw_enable_irq(struct avs_dev *adev, bool enable);
+ void avs_sdw_process_wakeen_event(struct avs_dev *adev);
+ irqreturn_t avs_sdw_thread(int irq, struct avs_dev *adev);
+ 
++int avs_register_sdw_component(struct avs_dev *adev, const char *name, u32 link_id);
++
+ #else
+ 
+ static inline int avs_sdw_probe(struct avs_dev *adev)
+@@ -51,6 +53,11 @@ static inline irqreturn_t avs_sdw_thread(int irq, struct avs_dev *adev)
+ 	return IRQ_HANDLED;
  }
  
--irqreturn_t avs_cnl_dsp_interrupt(struct avs_dev *adev)
-+irqreturn_t avs_cnl_dsp_interrupt(struct avs_dev *adev, int irq)
- {
- 	u32 adspis = snd_hdac_adsp_readl(adev, AVS_ADSP_REG_ADSPIS);
- 	irqreturn_t ret = IRQ_NONE;
-diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
-index 611ae9f034d4..9413027e1e32 100644
---- a/sound/soc/intel/avs/core.c
-+++ b/sound/soc/intel/avs/core.c
-@@ -344,7 +344,7 @@ static irqreturn_t avs_dsp_irq_thread(int irq, void *dev_id)
++static inline int avs_register_sdw_component(struct avs_dev *adev, const char *name, u32 link_id)
++{
++	return 0;
++}
++
+ #endif
  
- 	status = readl(bus->ppcap + AZX_REG_PP_PPSTS);
- 	if (status & AZX_PPCTL_PIE)
--		avs_dsp_op(adev, dsp_interrupt);
-+		avs_dsp_op(adev, dsp_interrupt, irq);
- 
- 	/* Unmask GIE, masked in irq_handler(). */
- 	snd_hdac_chip_updatel(bus, INTCTL, AZX_INT_GLOBAL_EN, AZX_INT_GLOBAL_EN);
-diff --git a/sound/soc/intel/avs/mtl.c b/sound/soc/intel/avs/mtl.c
-index d8bdd03275d7..29f79d6ff0d4 100644
---- a/sound/soc/intel/avs/mtl.c
-+++ b/sound/soc/intel/avs/mtl.c
-@@ -166,7 +166,7 @@ static void avs_mtl_ipc_interrupt(struct avs_dev *adev)
- 			      AVS_ADSP_HIPCCTL_DONE | AVS_ADSP_HIPCCTL_BUSY);
- }
- 
--irqreturn_t avs_mtl_dsp_interrupt(struct avs_dev *adev)
-+irqreturn_t avs_mtl_dsp_interrupt(struct avs_dev *adev, int irq)
- {
- 	u32 adspis = snd_hdac_adsp_readl(adev, MTL_DWICTL_REG_FINALSTATUSL);
- 	irqreturn_t ret = IRQ_NONE;
-diff --git a/sound/soc/intel/avs/skl.c b/sound/soc/intel/avs/skl.c
-index 8fb86f364ff3..54c883658cca 100644
---- a/sound/soc/intel/avs/skl.c
-+++ b/sound/soc/intel/avs/skl.c
-@@ -54,7 +54,7 @@ void avs_skl_ipc_interrupt(struct avs_dev *adev)
- 			      AVS_ADSP_HIPCCTL_DONE | AVS_ADSP_HIPCCTL_BUSY);
- }
- 
--static irqreturn_t avs_skl_dsp_interrupt(struct avs_dev *adev)
-+static irqreturn_t avs_skl_dsp_interrupt(struct avs_dev *adev, int irq)
- {
- 	u32 adspis = snd_hdac_adsp_readl(adev, AVS_ADSP_REG_ADSPIS);
- 	irqreturn_t ret = IRQ_NONE;
+ #endif /* __SOUND_SOC_INTEL_AVS_SOUNDWIRE_H */
 -- 
 2.34.1
 
