@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793982749;
-	b=Y6hiMroTC6e53jza7oyJsaRyaj+wjNLcHtLLAguU7amN73sbBu33urnjn+QGjt0CQQfi
-	 cWblCJAAOyK0C4Wq+xA5qEgv+NoHzSmDap16VM7dGnleBrM8UsmhNfcrSJyg5Bm+An4ea
-	 a6wsWheRmFzAldg6T0YPbZfrZjkohHRc6OWj0YdHEDeZB5GIhi9KHoGDWDdU9Wr5i3wV1
-	 stlwp6FCTMjj+2Eti7V0EgsydQtqiUe98VxG/iGkgrnVtbu/b1hRHNWrmD5psYoJQCT7f
-	 DMLsCkJgFMe2K5OhCWs/ctvot7Fim1PtwP/eD90ID9wWwxOFkKoPYwigHGytyqKJxnw==
+	t=1793982751;
+	b=u+P4G8i//MlvoCZwv83GGZ87+iXuuMZvaAokJOnTuzNBXGrHdyQlB5uzemRIktsHBtMI
+	 tAoQmK07y5izw0uqSnUObR73H4AR4RCRbLfycR3vUjl4eLAizhbYTB8OMYwkMiUzhY1UM
+	 xjVVkC4GQOeC2F6911gKAa2qmnq/IGaHaURwSugYnYHwwhznwPDGW+ik7GGwRh/Sls3cw
+	 6r8v3nxYrIV6OV4Qk+gVmR5ZyBrmLm/5+4ghvJ0pN5GoT+qJyla1dvtw7nF5UyeTCZUsN
+	 59p0J9F8r76gy1+QqUdydDj/IPQH6l2+Ohoz7ZfFFJPMdgFVvpUH85X68ShiwEbDiBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793982749;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793982751;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=NCzSXDrTwTZh9Azl07FsfjRO1j6KBlia1qfvCETTFgU=;
-	b=0mo5yyAWsu3tvZYDB7fT9gM1XO07yLXqYvEFCkqomwCFKveq6ZEYWuPOkcYmPnxRwx20
-	 NmvfPXKiSqfXwBXAzGepFzAtIQciLvDRbNej+BND3NLPdU96rzC7rsChLwTqtDk1m+FDO
-	 8Rdc0jQGacCygPWU085HIs5Tg8UAHZ2OdHDYAzruXhDMFQ9vZJWM5Mx8OE29p6UQs3WUy
-	 32weXkh/MCPC6UMWMzVgUNgvnJsVGXMVQjVDhduNG/lfOvwPbxmT3nybP/44bG1m6IreK
-	 Evf4q9ykMg7jM1v8Nc+iekxdzpGkedMJrMI7phektAyi79rifTfzKIn+JF+dBnzvAyw==
+	bh=ogULZeKBoS9bJBR+xY1nkcv/MSU5DLXAv7RQ492d6Mc=;
+	b=zLQs5Ykszqi1Xd+v3ggcDWEggxRnSW9OiLxwdIJcDDePh24zzAP7SvGLOq9LbmPXLoQS
+	 AIQDK+FpolOpJ/ein7T9Wp4PzPvEFprsmsFi/mA4IGOEe1z4AOYBoHy7ypsFOFIRsmRum
+	 zBCQkJ9W+0yLfDH1/fCfHLTKEJchHU70jjUwnnAuhJdK/Gdf0LUMkAuXTAMiwBmDj6pau
+	 hp6TgB+w8f+9phE9ORInea4ZWmBH3e1uakD9Y84WYIkr1o3jVa+Q5uVow9ubBWOmScatw
+	 /hAS3JYY9l8+8cfvMcCE4FC2FzroOsju5QL/DXtnJCPY92lm7VfcTQ9mzlU8DaI+cyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=U2u5+XrC;
-	arc=none smtp.remote-ip=209.85.210.46
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XWfQ0qij;
+	arc=none smtp.remote-ip=209.85.210.43
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8EA606D804
-	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 16:32:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA8EA606D804
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3D6606D81A
+	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 16:32:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF3D6606D81A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=U2u5+XrC
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-843cf077f10so1208908a34.1
-        for <linux-sound@vger.kernel.org>; Fri, 06 Nov 2026 08:32:28 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XWfQ0qij
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-823b938464fso636920a34.2
+        for <linux-sound@vger.kernel.org>; Fri, 06 Nov 2026 08:32:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793982748; x=1794587548; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793982750; x=1794587550; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=NCzSXDrTwTZh9Azl07FsfjRO1j6KBlia1qfvCETTFgU=;
-        b=U2u5+XrC18CFyT/wX5c6+zflIqXgOjJZMomrmm3VpO8QqZyjFcm4UM7Nd4k2T31W55
-         ioyrsKwa6gBz2fsA/3jckit3L/uSBpK07r5C3bz+KAI+vysOglHLAt6C1PK6nFo9OBsz
-         dKKo/iorXVAVK1kgPQoD67qoU+D1wSxwVSca+OKCKEVs6iaSR3ktM4lsAsd07Zu++awK
-         9vFt+12hNvShRIcNxY+vYNXbAQqLQFG+EGVdHD9iFv/6mtQ0hXkKf7+TN5crRDxyNMIR
-         XD3v0N1u7zT3eQUilDC1lHz3y4LqY7szTJNRve92C7CMCpADbeZYpr0TAoW3dTaYlS+f
-         ePZA==
+        bh=ogULZeKBoS9bJBR+xY1nkcv/MSU5DLXAv7RQ492d6Mc=;
+        b=XWfQ0qijEUU6r3i77dltIp1xpP1PX7rWnJKD7DwgrGVmseb3neS5ZwJ3PewAuqAOIo
+         IQWn9wl9JWf9aXNsWdn94cG41ExL62ycerJZpERBSgzXyKpPPXg/eLsEsgO6EfHqGqsT
+         zxATjs/M5mLsa0L5ZOZmbOTBcpCViz098hmPJDmZB8uDfqmfYD64WVMTjGAy64/QNmos
+         6gE80NvNXg+w+imSsy+r0dX9mT/bIcHmjfAYlUh/ogPMeJQucHMVXXZYSH2sJTKmJ8aU
+         OmWTOBW4sxee2h2G7yu5P9xiFFFf3c4JjBqfZi+IfU2sxx3HkgtHoEYUlu8gh7fjZGPu
+         GR5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793982748; x=1794587548;
+        d=1e100.net; s=20260707; t=1793982750; x=1794587550;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NCzSXDrTwTZh9Azl07FsfjRO1j6KBlia1qfvCETTFgU=;
-        b=KiiOAtLEdO2aQh8cGRnD/KBHIlinpqrtROyBRCIviZNGwc1ENEtvyFFMnIS6q+kGP7
-         HM7dS9BYbRdnCnU0wz+NI2QP+rfpVSD7LkQadWxMtsCVeFphmy3CfpQEnwFpozPcVHAg
-         /pDADE6S/TO4SGcipdjrADar+2t2Ic8ISPdo7uvE6oKD9R5z6VWjHO84/gPfTpXAxVyP
-         SUhQPXkDHY+sdQn3+hiBHZWLECYx6YEEKwa/TgcW6Mu+c8ItSFDbyQPIyjzTQIQ/TdHH
-         uG9DKVHfqbDA8YYxJG5WLkW5pcu0WfS/fhcqF+qf2t5Riizm6qCmdArh6h6Wdb/yJFMz
-         CoZw==
-X-Forwarded-Encrypted: i=1; AKwUvBzxwemjPVHAK1CReYGJyMlirACMol5dd4v7bO5/RCjAQSIu7Wn0pcueVoqlf9YYCf5lR7HhJDVnppue+g==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8GNKRctCq3WHp1NvetcZPoUyyzO3FC0RPMQlriPefqWc2eLW0c
-	Z9hmsdHRMPyqQh2BdBy7raqJCX1UUuRT53rjeeCz50fLxlT28OpXyZEZ
-X-Gm-Gg: AYBFou0XNEYMrbdEg94oP62zAMt0UhhxvHNsvGEQMqrZWWAV8+Ro5jogN0rCAmd/qnu
-	gelLQyRtzzlvsf+xGehrRw9iPTii0UBbYd7fPMFYx5uRri4ZAdQHBipIwgRhdL4eNBDXys1ddZN
-	0QSBUQ2IS8HwtsKL9/wHS0uuxqmI44089AtFnhL9BAxpWE6czUvL/BtvvNXItHrkDL1YD/Sw7UG
-	MwNqOi5f+oHDPmTY2rZd6xfm5PYGFw0jm8X7c/FbqRS8Wr/S8JOM7pHk7fM076qd5VlxziFArBP
-	cePxpyAgp2+VJbaJpORYCXLuIrLAPzRoKdEr7pSWhN6z+MG7HJZGDv/cLVzv9TD9tgScwYhXGTP
-	IKASPBSuq9V1yXdvS3Gj+WgpgIgjUiMsFeZjka1U7jwnmQHUDI8fDlnCABGBVK4Yi1cn98L5Gmf
-	/CmsL6BKtM6347nn6L7kkXwGtbcSqxNbrCrMNBdjgaJVP5ky/ttr/80wl5/YynMFGJqkNbx0JZu
-	SMdiUbp3UYwM+hv2sY3aPK0p3g+JRZ/bnRDqFnRBOHGzqVgowgNnywEhm8Rb6kSNCWNblzQfnxf
-	rqXA50VdiwwXSKzP8aRKRCY2R986yHuSna+pSJCBHXFKaQ==
-X-Received: by 2002:a05:6830:2313:b0:822:40fc:2eaa with SMTP id 46e09a7af769-85f1d0e2e0emr2580047a34.27.1793982747756;
-        Fri, 06 Nov 2026 08:32:27 -0800 (PST)
+        bh=ogULZeKBoS9bJBR+xY1nkcv/MSU5DLXAv7RQ492d6Mc=;
+        b=oVsDNQ4yLwXfDqeeZKslg8lURvdyYN686G3zF0l7kOPl6MjdSxi/DlrZQMIEb8FYZF
+         U3EqxuIQTR1XhtN/ctXxFK3HzuyuwtZ0buR/pxq52AjJfV0uZl2qlFepgxH2OyW49TgT
+         12DUNBGsyK/oYVymPclSNJOxB1/3mh69cskg4vD/ybTexblXZgWBtWThrgIeooTlHigQ
+         JhCDsxwWk5eU+zVyXNJ/IhJex/3BbY737/Av0DKd1eFmwwD/iW7CtZLSADeQrgN0eylb
+         85UYSmLHQutlLAqN3C4IOoJFHZKDU1aNJypIBRyOmZrwnFgM6uCi1iQe6mk1I+8ZsvUw
+         Qk7w==
+X-Forwarded-Encrypted: i=1; AKwUvBwuc1ycFCJ8MCoSk2pcUdfP0v6GiaG53mk4+gu/6Hv4Ts2POdFKM1LqTLl3yfllNdL63V4yAzEUeQ5wVQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+s4RdheBU0Q1uXSL49kaI7k3BENmHORtpi8aGjObXMbhgwB8c1
+	awAAafAtuGkkNQqm6VwgJ6lSn7bn/gpZvoxqIPWwa29PTpjXMZBuFlIo
+X-Gm-Gg: AYBFou2se6PA+HJgmvKL5fYSea9/Xr/sZPs6UEk4zvwzMHRTIKpHJ0n7MpA5o/UhJqZ
+	gh1iTmb4lzwLXdJuZ00Pf3feRpyz/g9v+ReiYuDTkxtS1RSD/ntHMWDHHYwwj5tALqrE83m/8ZL
+	kr2mfNx+QLbldARwxgl4BUJNyqt27RWmJZ/BmurhFWE8P7a+LUXjKTeSiMTE6zvlfOGcJfha1hS
+	YLnXEzEatAP76fbnJvliDtNNBSxZy/apiyxakyBX7JHbs+gPqUitL+XJ9mLU8zle/JEWBYDYRpN
+	nYwVAmkcO2UTPN59QFTTmowiP/Svl4FPWZMELfTUkEiy013q6wQ6twwpvmsUBrsQF88iMIJ0l7Q
+	4GcFB4KN01lutE8fGKauCo0TImIFOTHzUXXgoBpo4AMfhMMTm2Cn9as2B8uph1enR587VMbqz09
+	3PDR5cj4w7fHmcSTvD8Hz4qzxNEZnYQYdj7G2g9IO1lqXjdv61yQ1E38XUx6RwJNCUtG5FWw3JA
+	xNLIAEPLqctWFd2LIukzby8LYxlITkB87I44DOR2cf9L6K8SU697wegApRBGKDJClkj6iXgfb1G
+	afiBnw6PSJ3wdOrPYTWMenDlTUUjOVzVH6xsv+fPT39BCXqTaZHL+QiNJzf0OxHIRi0=
+X-Received: by 2002:a05:6830:310b:b0:829:10c4:2c11 with SMTP id 46e09a7af769-85f1cb65e44mr3643211a34.0.1793982749727;
+        Fri, 06 Nov 2026 08:32:29 -0800 (PST)
 Received: from localhost.localdomain ([2600:1702:4ff0:baa0:5054:ff:fe3d:4ddb])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85f1de8f066sm2244780a34.23.2026.11.06.08.32.26
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85f1de8f066sm2244780a34.23.2026.11.06.08.32.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 08:32:27 -0800 (PST)
+        Fri, 06 Nov 2026 08:32:29 -0800 (PST)
 From: Will Porter <mrwillporter@gmail.com>
 To: Christian Ruppert <arc@gmx.li>
 Cc: Takashi Iwai <tiwai@suse.com>,
@@ -85,9 +85,9 @@ Cc: Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Neil Andrews <neil@androos.io>
-Subject: [RFC PATCH 03/16] ALSA: mixer_audient: clarify USB control message definition
-Date: Fri,  6 Nov 2026 10:31:16 -0600
-Message-ID: <20261106163129.1006907-4-mrwillporter@gmail.com>
+Subject: [RFC PATCH 05/16] ALSA: mixer_audient: make USB control transfer size configurable
+Date: Fri,  6 Nov 2026 10:31:18 -0600
+Message-ID: <20261106163129.1006907-6-mrwillporter@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261106163129.1006907-1-mrwillporter@gmail.com>
 References: <aupn1wwW7w08M3gu@khmer.arcnet>
@@ -105,225 +105,283 @@ Content-Transfer-Encoding: 8bit
 
 From: Christian Ruppert <arc@gmx.li>
 
-Previously, base values for wIndex and wValue were directly given in the
-control type. Construct them from a unit ID and selector for clarity.
+Previously, the USB transfer size was hardcoded in the datatype get/set
+functions. Make it configurable in the ctype structure in preparation of
+new control types for the id14.
 
 Signed-off-by: Christian Ruppert <arc@gmx.li>
 Signed-off-by: Will Porter <mrwillporter@gmail.com>
 ---
- sound/usb/mixer_audient.c | 76 +++++++++++++++++++++------------------
- 1 file changed, 41 insertions(+), 35 deletions(-)
+ sound/usb/mixer_audient.c | 131 ++++++++++++++++++++++++--------------
+ 1 file changed, 84 insertions(+), 47 deletions(-)
 
 diff --git a/sound/usb/mixer_audient.c b/sound/usb/mixer_audient.c
-index 2afef52a12d9..63714d00592c 100644
+index 1f3744a7c10a..57d856d25271 100644
 --- a/sound/usb/mixer_audient.c
 +++ b/sound/usb/mixer_audient.c
-@@ -45,15 +45,15 @@ static const struct snd_audient_ctrl_type {
+@@ -12,6 +12,8 @@
+ #include <linux/usb.h>
+ #include <linux/usb/audio-v2.h>
+ #include <linux/slab.h>
++#include <linux/types.h>
++#include <linux/bitops.h>
+ #include <sound/core.h>
+ #include <sound/control.h>
+ #include <sound/tlv.h>
+@@ -35,8 +37,12 @@ enum snd_audient_type {
+ /* Mixer matrix: -128dB (mute) to +6dB */
+ static const DECLARE_TLV_DB_MINMAX_MUTE(snd_audient_tlv_mixer, -12800, 600);
+ 
++#define SND_AUDIENT_CTYPE_FLAGS_SIGNED		BIT(0)
++
+ static const struct snd_audient_ctrl_type {
+ 	snd_ctl_elem_type_t type;
++	unsigned long flags;
++	size_t len;		/* datatype size, can be 1, 2 or 4 bytes */
+ 	bool invert;
+ 	union {
  		int integer;
- 	} max;
- 	const unsigned int *tlv;
--	u16 wValue;
--	u16 wIndex;
-+	u8 unit;
-+	u8 sel;
+@@ -50,6 +56,7 @@ static const struct snd_audient_ctrl_type {
  } snd_audient_ctypes[SND_AUDIENT_TYPE_NCTYPES] = {
  	[SND_AUDIENT_TYPE_MONITOR] = {
  		.type = SNDRV_CTL_ELEM_TYPE_INTEGER,
++		.len = 2,
  		.min.integer = 0,
  		.max.integer = 127,
--		.wValue = 0x0000,
--		.wIndex = 0x3800,
-+		.unit = 0x38,
-+		.sel = 0x00,
- 		/* no TLV here because we can't describe the cross-fader */
- 	},
+ 		.unit = 0x38,
+@@ -59,6 +66,7 @@ static const struct snd_audient_ctrl_type {
  	[SND_AUDIENT_TYPE_PHANTOM] = {
-@@ -61,31 +61,31 @@ static const struct snd_audient_ctrl_type {
+ 		.type = SNDRV_CTL_ELEM_TYPE_BOOLEAN,
  		.invert = false,
++		.len = 4,
  		.min.integer = 0,
  		.max.integer = 1,
--		.wValue = 0x0000,
--		.wIndex = 0x3A00,
-+		.unit = 0x3A,
-+		.sel = 0x00,
- 	},
+ 		.unit = 0x3A,
+@@ -67,6 +75,7 @@ static const struct snd_audient_ctrl_type {
  	[SND_AUDIENT_TYPE_MUTE] = {
  		.type = SNDRV_CTL_ELEM_TYPE_BOOLEAN,
  		.invert = true,
++		.len = 4,
  		.min.integer = 0,
  		.max.integer = 1,
--		.wValue = 0x0200,
--		.wIndex = 0x3A00,
-+		.unit = 0x3A,
-+		.sel = 0x02,
- 	},
+ 		.unit = 0x3A,
+@@ -75,6 +84,7 @@ static const struct snd_audient_ctrl_type {
  	[SND_AUDIENT_TYPE_MUTE_OUT] = {
  		.type = SNDRV_CTL_ELEM_TYPE_BOOLEAN,
  		.invert = true,
++		.len = 4,
  		.min.integer = 0,
  		.max.integer = 1,
--		.wValue = 0x0100,
--		.wIndex = 0x3B00,
-+		.unit = 0x3B,
-+		.sel = 0x01,
+ 		.unit = 0x3B,
+@@ -82,6 +92,8 @@ static const struct snd_audient_ctrl_type {
  	},
  	[SND_AUDIENT_TYPE_MIXER] = {
  		.type = SNDRV_CTL_ELEM_TYPE_INTEGER,
++		.flags = SND_AUDIENT_CTYPE_FLAGS_SIGNED,
++		.len = 2,
  		.min.integer = -128 * 256,
  		.max.integer = 6 * 256,
--		.wValue = 0x0100,
--		.wIndex = 0x3C00,
-+		.unit = 0x3C,
-+		.sel = 0x01,
- 		.tlv = snd_audient_tlv_mixer,
- 	},
- };
-@@ -209,7 +209,7 @@ const struct snd_audient_ctrl_type *snd_audient_kctl_type(struct snd_kcontrol
- 	return &snd_audient_ctypes[kctl->private_value & 0xFF];
- }
+ 		.unit = 0x3C,
+@@ -236,44 +248,91 @@ static inline u16 snd_audient_kctl_channels(struct snd_kcontrol *kctl)
+ #define U8_U8(HI, LO) ((((u16)(HI)) << 8) | ((LO) & 0xFF))
  
--static __always_inline u16 snd_audient_kctl_valoffs(struct snd_kcontrol *kctl)
-+static __always_inline u16 snd_audient_kctl_cidxoffs(struct snd_kcontrol *kctl)
- {
- 	return (kctl->private_value >> 8) & 0xFF;
- }
-@@ -233,11 +233,16 @@ static inline u16 snd_audient_kctl_channels(struct snd_kcontrol *kctl)
- #define AUDIENT_REQTYPE_GET (USB_DIR_IN  | USB_TYPE_CLASS \
- 					 | USB_RECIP_INTERFACE)
- 
-+#define U8_U8(HI, LO) ((((u16)(HI)) << 8) | ((LO) & 0xFF))
-+
  static inline int snd_audient_get_cur(struct usb_mixer_interface *mixer,
--				      u16 value, u16 index,
--				      void *buf, size_t len)
-+				      const u8 unit, const u8 sel,
-+				      const u8 cidx,
-+				      void *const buf, const size_t len)
+-				      const u8 unit, const u8 sel,
+-				      const u8 cidx,
+-				      void *const buf, const size_t len)
++			const struct snd_audient_ctrl_type *const ctype,
++			const u8 cidx, void *const buf)
  {
  	struct usb_device *const dev = mixer->chip->dev;
-+	const u16 value = U8_U8(sel, cidx);
-+	const u16 index = U8_U8(unit, mixer->hostif->desc.bInterfaceNumber);
+-	const u16 value = U8_U8(sel, cidx);
+-	const u16 index = U8_U8(unit, mixer->hostif->desc.bInterfaceNumber);
++	const u16 value = U8_U8(ctype->sel, cidx);
++	const u16 index = U8_U8(ctype->unit,
++				mixer->hostif->desc.bInterfaceNumber);
  
- 	return snd_usb_ctl_msg(dev, usb_rcvctrlpipe(dev, 0),
- 			       UAC2_CS_CUR, AUDIENT_REQTYPE_GET,
-@@ -245,10 +250,13 @@ static inline int snd_audient_get_cur(struct usb_mixer_interface *mixer,
+ 	const int ret = snd_usb_ctl_msg(dev, usb_rcvctrlpipe(dev, 0),
+ 					UAC2_CS_CUR, AUDIENT_REQTYPE_GET,
+-					value, index, buf, len);
++					value, index, buf, ctype->len);
+ 
+-	if ((ret >= 0) && (ret != len))
++	if ((ret >= 0) && (ret != ctype->len))
+ 		return -EIO;
+ 
+ 	return ret;
  }
  
  static inline int snd_audient_set_cur(struct usb_mixer_interface *mixer,
--				      u16 value, u16 index,
--				      void *buf, size_t len)
-+				      const u8 unit, const u8 sel,
-+				      const u8 cidx,
-+				      void *const buf, const size_t len)
+-				      const u8 unit, const u8 sel,
+-				      const u8 cidx,
+-				      void *const buf, const size_t len)
++			const struct snd_audient_ctrl_type *const ctype,
++			const u8 cidx, void *const buf)
  {
  	struct usb_device *const dev = mixer->chip->dev;
-+	const u16 value = U8_U8(sel, cidx);
-+	const u16 index = U8_U8(unit, mixer->hostif->desc.bInterfaceNumber);
+-	const u16 value = U8_U8(sel, cidx);
+-	const u16 index = U8_U8(unit, mixer->hostif->desc.bInterfaceNumber);
++	const u16 value = U8_U8(ctype->sel, cidx);
++	const u16 index = U8_U8(ctype->unit,
++				mixer->hostif->desc.bInterfaceNumber);
  
- 	return snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
- 			       UAC2_CS_CUR, AUDIENT_REQTYPE_SET,
-@@ -266,8 +274,7 @@ static int snd_ctl_audient_boolean_get(struct snd_kcontrol *kctl,
- 	const unsigned int hwchan = snd_audient_kctl_hwchannels(kctl);
- 	const struct snd_audient_ctrl_type *const ctype
- 						= snd_audient_kctl_type(kctl);
--	const u16 value = ctype->wValue + snd_audient_kctl_valoffs(kctl);
--	const u16 index = ctype->wIndex;
-+	const u8 base = snd_audient_kctl_cidxoffs(kctl);
+ 	const int ret = snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
+ 					UAC2_CS_CUR, AUDIENT_REQTYPE_SET,
+-					value, index, buf, len);
++					value, index, buf, ctype->len);
  
- 	int i;
+-	if ((ret >= 0) && (ret != len))
++	if ((ret >= 0) && (ret != ctype->len))
+ 		return -EIO;
  
-@@ -279,8 +286,8 @@ static int snd_ctl_audient_boolean_get(struct snd_kcontrol *kctl,
+ 	return ret;
+ }
+ 
+ 
++static int snd_audient_raw_get_one(struct usb_mixer_interface *const mixer,
++			const struct snd_audient_ctrl_type *const ctype,
++			const u8 cidx, u32 *const value)
++{
++	int ret;
++	__le32 buf = 0;
++	s32 val;
++
++	ret = snd_audient_get_cur(mixer, ctype, cidx, &buf);
++	if (ret < 0)
++		return ret;
++
++	val = le32_to_cpu(buf);
++
++	if (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_SIGNED)
++		val = sign_extend32(val, 8 * ctype->len - 1);
++
++	*value = val;
++
++	return ret;
++}
++
++static int snd_audient_raw_set_one(struct usb_mixer_interface *const mixer,
++			const struct snd_audient_ctrl_type *const ctype,
++			const u8 cidx, const u32 value)
++{
++	int ret;
++	u32 val;
++
++	ret = snd_audient_raw_get_one(mixer, ctype, cidx, &val);
++	if (ret < 0)
++		return ret;
++
++	if (val != value) {
++		__le32 buf = cpu_to_le32(value);
++
++		ret = snd_audient_set_cur(mixer, ctype, cidx, &buf);
++		if (ret < 0)
++			return ret;
++
++		return 1;
++	}
++
++	return 0;
++}
++
++
+ static int snd_ctl_audient_boolean_get(struct snd_kcontrol *kctl,
+ 				       struct snd_ctl_elem_value *ctl_val)
+ {
+@@ -296,12 +355,11 @@ static int snd_ctl_audient_boolean_get(struct snd_kcontrol *kctl,
  		u32 buf;
  		int ret;
  
--		ret = snd_audient_get_cur(mixer, value + i, index,
--					  &buf, sizeof(buf));
-+		ret = snd_audient_get_cur(mixer, ctype->unit, ctype->sel,
-+					  base + i, &buf, sizeof(buf));
+-		ret = snd_audient_get_cur(mixer, ctype->unit, ctype->sel,
+-					  base + i, &buf, sizeof(buf));
++		ret = snd_audient_raw_get_one(mixer, ctype, base + i, &buf);
  		if (ret < 0)
  			return ret;
  
-@@ -307,8 +314,7 @@ static int snd_ctl_audient_boolean_set(struct snd_kcontrol *kctl,
- 	const unsigned int hwchan = snd_audient_kctl_hwchannels(kctl);
- 	const struct snd_audient_ctrl_type *const ctype
- 						= snd_audient_kctl_type(kctl);
--	const u16 value = ctype->wValue + snd_audient_kctl_valoffs(kctl);
--	const u16 index = ctype->wIndex;
-+	const u8 base = snd_audient_kctl_cidxoffs(kctl);
+-		ctl_val->value.integer.value[i] = le32_to_cpu(buf) ? 1 : 0;
++		ctl_val->value.integer.value[i] = buf ? 1 : 0;
  
- 	int changed = 0;
- 	int i;
-@@ -325,15 +331,16 @@ static int snd_ctl_audient_boolean_set(struct snd_kcontrol *kctl,
  		if (ctype->invert)
- 			buf ^= cpu_to_le32(0x1);
+ 			ctl_val->value.integer.value[i] ^= 0x1;
+@@ -334,27 +392,18 @@ static int snd_ctl_audient_boolean_set(struct snd_kcontrol *kctl,
+ 		return pm.err;
  
--		ret = snd_audient_get_cur(mixer, value + i, index,
--				      &rbuf, sizeof(rbuf));
-+		ret = snd_audient_get_cur(mixer, ctype->unit, ctype->sel,
-+					  base + i, &rbuf, sizeof(rbuf));
- 		if (ret < 0)
- 			return ret;
- 
- 		if (rbuf != buf) {
- 			changed = 1;
- 
--			ret = snd_audient_set_cur(mixer, value + i, index,
-+			ret = snd_audient_set_cur(mixer, ctype->unit,
-+						  ctype->sel, base + i,
- 						  &buf, sizeof(buf));
- 			if (ret < 0)
- 				return ret;
-@@ -353,8 +360,7 @@ static int snd_ctl_audient_integer_get(struct snd_kcontrol *kctl,
- 	const unsigned int hwchan = snd_audient_kctl_hwchannels(kctl);
- 	const struct snd_audient_ctrl_type *const ctype
- 						= snd_audient_kctl_type(kctl);
--	const u16 value = ctype->wValue + snd_audient_kctl_valoffs(kctl);
--	const u16 index = ctype->wIndex;
-+	const u8 base = snd_audient_kctl_cidxoffs(kctl);
- 
- 	int i;
- 
-@@ -367,8 +373,8 @@ static int snd_ctl_audient_integer_get(struct snd_kcontrol *kctl,
- 		s16 val;
+ 	for (i = 0; i < hwchan; i++) {
+-		u32 rbuf;
+-		u32 buf = cpu_to_le32(ctl_val->value.integer.value[i] ? 1 : 0);
++		u32 buf = ctl_val->value.integer.value[i] ? 1 : 0;
  		int ret;
  
--		ret = snd_audient_get_cur(mixer, value + i, index,
--					  &buf, sizeof(buf));
-+		ret = snd_audient_get_cur(mixer, ctype->unit, ctype->sel,
-+					  base + i, &buf, sizeof(buf));
+ 		if (ctype->invert)
+-			buf ^= cpu_to_le32(0x1);
++			buf ^= 0x1;
+ 
+-		ret = snd_audient_get_cur(mixer, ctype->unit, ctype->sel,
+-					  base + i, &rbuf, sizeof(rbuf));
++		ret = snd_audient_raw_set_one(mixer, ctype, base + i, buf);
  		if (ret < 0)
  			return ret;
  
-@@ -391,8 +397,7 @@ static int snd_ctl_audient_integer_set(struct snd_kcontrol *kctl,
- 	const unsigned int hwchan = snd_audient_kctl_hwchannels(kctl);
- 	const struct snd_audient_ctrl_type *const ctype
- 						= snd_audient_kctl_type(kctl);
--	const u16 value = ctype->wValue + snd_audient_kctl_valoffs(kctl);
--	const u16 index = ctype->wIndex;
-+	const u8 base = snd_audient_kctl_cidxoffs(kctl);
+-		if (rbuf != buf) {
++		if (ret)
+ 			changed = 1;
+-
+-			ret = snd_audient_set_cur(mixer, ctype->unit,
+-						  ctype->sel, base + i,
+-						  &buf, sizeof(buf));
+-			if (ret < 0)
+-				return ret;
+-		}
+ 	}
  
- 	int changed = 0;
- 	int i;
-@@ -406,15 +411,16 @@ static int snd_ctl_audient_integer_set(struct snd_kcontrol *kctl,
- 		s16 buf = cpu_to_le16(ctl_val->value.integer.value[i]);
+ 	return changed;
+@@ -379,16 +428,13 @@ static int snd_ctl_audient_integer_get(struct snd_kcontrol *kctl,
+ 		return pm.err;
+ 
+ 	for (i = 0; i < hwchan; i++) {
+-		u16 buf;
+-		s16 val;
++		s32 val;
  		int ret;
  
--		ret = snd_audient_get_cur(mixer, value + i, index,
--					  &rbuf, sizeof(rbuf));
-+		ret = snd_audient_get_cur(mixer, ctype->unit, ctype->sel,
-+					  base + i, &rbuf, sizeof(rbuf));
+-		ret = snd_audient_get_cur(mixer, ctype->unit, ctype->sel,
+-					  base + i, &buf, sizeof(buf));
++		ret = snd_audient_raw_get_one(mixer, ctype, base + i, &val);
  		if (ret < 0)
  			return ret;
  
- 		if (rbuf != buf) {
- 			changed = 1;
+-		val = le16_to_cpu(buf);
+ 		ctl_val->value.integer.value[i] = val;
+ 	}
  
--			ret = snd_audient_set_cur(mixer, value + i, index,
-+			ret = snd_audient_set_cur(mixer, ctype->unit,
-+						  ctype->sel, base + i,
- 						  &buf, sizeof(buf));
- 			if (ret < 0)
- 				return ret;
+@@ -417,24 +463,15 @@ static int snd_ctl_audient_integer_set(struct snd_kcontrol *kctl,
+ 		return pm.err;
+ 
+ 	for (i = 0; i < hwchan; i++) {
+-		s16 rbuf;
+-		s16 buf = cpu_to_le16(ctl_val->value.integer.value[i]);
++		s32 val = ctl_val->value.integer.value[i];
+ 		int ret;
+ 
+-		ret = snd_audient_get_cur(mixer, ctype->unit, ctype->sel,
+-					  base + i, &rbuf, sizeof(rbuf));
++		ret = snd_audient_raw_set_one(mixer, ctype, base + i, val);
+ 		if (ret < 0)
+ 			return ret;
+ 
+-		if (rbuf != buf) {
++		if (ret)
+ 			changed = 1;
+-
+-			ret = snd_audient_set_cur(mixer, ctype->unit,
+-						  ctype->sel, base + i,
+-						  &buf, sizeof(buf));
+-			if (ret < 0)
+-				return ret;
+-		}
+ 	}
+ 
+ 	return changed;
 -- 
 2.47.3
 
