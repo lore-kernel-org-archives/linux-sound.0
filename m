@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793974698;
-	b=3RwxvbIqCvU6GdvlBDvDHr39SR0dOaDhg+skljoFu87YCWoCuBRh2bb2VKkPOg58hYyG
-	 rP6tbjPC8ejPHho2JvtFKCDeFWGPoX2j/ubi/R2kkBCFaZgDBhsiq0AHlg26U2uiE3Ex3
-	 xL09Msf2/u42JGRdyYd3teXj++6aNN+tD+msoB3gjaBnAzjhlqLATlYBSfCtpUZvKbdsB
-	 vCfEF7bn5yZM7csgW37bbU7WzGc+FDs9P0BJ8HZvmJrABsEcrBWQMA1ylv4C2K1nYBkUX
-	 fo94i4u3+54GtcZY3hX2A0uuQaipMIUgKjMQXE2hFDAPJ8YUifK9NCyhtqgeggR7kAA==
+	t=1793974697;
+	b=OYcO6TNUHqLTIMxDhbyFQ1KFzPIg4h+/cEWOs/xIvFnlds+taNKQHIKYQbcILkz3PMde
+	 nqnV/jYdgbQdI0Hd+cJ1lBSqAiJPqlS7ZBMGDwnrHyiApzz4guBAfrd2hULR92xJPwfQN
+	 t6K+hkp5m6jdcGWiTd3bY4j8HLLxFyG6lAwCcIZmp1mO242s2eIgPXeLYEinqmAluzGIH
+	 JFC8Fi96DQPVzIGr+Vpe4s7TQzejw+KZKiu2Qma4lu5WNLdEs2b2kXOo9/o5An5FLq3/L
+	 iXJuofwN4r2piSzzrlQ5SmG6y3+uoU7CY8mXKO2RbCw0yoH9vDtMWEXph2NFbZ4Oclg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793974698;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793974697;
 	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
 	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=NMEUU0nssRZdoXn3hRpYxlPnd+BCkFyCH0PpMWHSR8c=;
-	b=4JkKqwAMVf2ZMK5W0VVCQDStBUc1WblF8zpvH/EUeToPCG4v3dL2Jg8VoYjZkuzvNh14
-	 hse2FXmZ+Bec9JyJcFqHvCPq3Z9GsqjEmA1l4KOluNHIaTk3y3o8cpwNDfWN+K3i7vwb5
-	 C5BQdIR0IJMQHK2/+gKK0D0lpVu7eja0iRQLbBMKjWU118OMYyCggiv9J2Qg3F5IPjf+f
-	 uB7z0g9hf8A5n7UhI+Qs+FxSCvgYd1GJimaeS7sqiITDtrjGIFa/rhBk7rqBa3KcxmzQz
-	 Ms4zITMC9C/J9Ph99AdA6CIEV4nJ7N9P5xCNACrcsyxmHZV3F/UbC4cibCbIdy1qScQ==
+	bh=IhULN3ktpaMu4YatjnUsQ9HCtFmBLfNxCrZootrxffo=;
+	b=kbHMle98BgpO/58j6yin56etglQzPgy6gYhQ2VPtagzZeDHxFktawgDulNRVWvkXKPnh
+	 PttZxaFdgBiSlVuk7Pyifo63fC7gKZyGKvB8vP0Fkk5wJcoqVxhdXmuVnOwbE8EX9ul/g
+	 f+sLftvgdUCK6wMFFA4U7Iyj1pMA/wLo7Vr4g2kGM4a22t3UMPMxb6QgL1NBeU4MmpfXz
+	 udY672lnKou1nfI5Octaa00ZZh9rVGYKi3Ai6sXSiiMMmiPBTIzFX1Ct6p4U7I9fuouqJ
+	 fZr3f5WShjjXr1d980TTvZE1Ma6eWx+GZ/DBZjYkdDuBidCYo2OLU2z7o0clDSLcdMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jrx1tx1p;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QTDp2qmk;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE26606D804;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85028606D801;
 	Fri,  6 Nov 2026 14:18:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jrx1tx1p
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A37D1F008A3;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QTDp2qmk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2000C1F008A5;
 	Fri,  6 Nov 2026 14:18:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1793974697;
-	bh=NMEUU0nssRZdoXn3hRpYxlPnd+BCkFyCH0PpMWHSR8c=;
+	bh=IhULN3ktpaMu4YatjnUsQ9HCtFmBLfNxCrZootrxffo=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=Jrx1tx1pWVylKjvtmCH4+8CQq+BXHkZvb940EOnKARH/rc5R8O/0uwPhbArCWiTdc
-	 UtegVKcUCfDPwLc9wZu1lzqujuIjXRluhjPYPHXG2OZXoNi0K+qLAdS8nmMvvcC4wz
-	 xs/HLqqXhIhNm9xRG0wkSUzP/GIib5IbYH1hZGwrNnKQIJrB/MRTjBjYDbgy0Bfo7H
-	 elt6RMDNpw0LqgElYJWA1FQIdiWGcmbklpX9FF60bEhnQ5kngOJtGkZIv/sBCVpYrB
-	 jnGNJ2YN7RCaNfiiMWirxcLfzOCq0p6WwcOI7s2oZkZ/Ap5dqgoZs6eBKKeKbFwULH
-	 2F+K7ixJnLbaQ==
+	b=QTDp2qmkVvdQ02SbQ9L8Q5K0DOYMChy/MuiXBJehbjuYnAbu2Z7F4uzxaNCTYW76K
+	 +Bhg33+LKLhb9PNW9mlJxBox8MzloibsMLDvZgHQurRkrBRDObDkT1gJI1MtqRSNDk
+	 Y8khwZL5f4X/kLSlYVtbEZzyTqpmFdatcKwL260aIAP0PX3X2DMfdqCrYIMD5ndCMJ
+	 vOvRFl/mgjEkOszakwROajPAEm63EiEE4B6WyfyyCwyor58xLUxvNaogZQK3JOvaoP
+	 Wz+2fcrmLd5cp7WBbBNu6/+TLlOTZqHLiVbq3eCMiH8/YIVu6QxJurb/BAAxkNKUdv
+	 Xpv7LZLaFfb3g==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 100EC28090CF;
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 12EA828090D0;
 	Fri, 06 Nov 2026 14:18:03 +0000 (GMT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,8 +54,8 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2 03/10] ASoC: fsl_sai: Remove redundant error
- messages
+Subject: Re: [PATCH v2 06/10] ASoC: fsl_sai: Warn if TE/RE does not clear
+ on disable
 From: Mark Brown <broonie@kernel.org>
 To: phucduc.bui@gmail.com
 Cc: Shengjiu Wang <shengjiu.wang@gmail.com>, 
@@ -65,47 +65,42 @@ Cc: Shengjiu Wang <shengjiu.wang@gmail.com>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
  linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org, 
  linux-kernel@vger.kernel.org
-In-Reply-To: <20261105104237.38542-4-phucduc.bui@gmail.com>
+In-Reply-To: <20261105104237.38542-7-phucduc.bui@gmail.com>
 References: <20261105104237.38542-1-phucduc.bui@gmail.com>
- <20261105104237.38542-4-phucduc.bui@gmail.com>
+ <20261105104237.38542-7-phucduc.bui@gmail.com>
 Date: Fri, 06 Nov 2026 14:18:01 +0000
-Message-Id: <179397468197.3073895.1522608204443678480.b4-review@b4>
+Message-Id: <179397468198.3073895.13432289481715460817.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=919; i=broonie@kernel.org;
- h=from:subject:message-id; bh=hx8mgggRFuXY0KieYJpuHVL6+8FlwuH5JDHh9FUgOkE=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLePpx16MPf6H3lCwqOt+ZnfsufVy/QZfz93ZqaNbX9K
- 2XE497HdpSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAiJ7sZ/rubf+RXKF7jdfar
- hs5el/gX0etiZp83z9cyfenYF++vy8Dwi/n/fJuJb30Duh6fTZotU66nH3AvrFh8qY3I3wrpzMt
- 17AA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=833; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=/cONIyCvIrg9WSjNsvebqxT2+yWptNc/Khax3J5dOII=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLePpyVLhObx+v7u31ztKiexbw9zIwZd3hnTdiuXehzQ
+ 2b59Oj2jlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAExkrg8jw/0jW34riQgb8zrq
+ RO8xMNrer7J97a+J56d85RQMssua08vwm13r+t4foo8umJcvPDBvb+fb8PsRGwx2BSTW/eW62v+
+ HkxUA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-> The errors are either reported directly by these functions
-> or already reported deeper in the call chain, so additional
-> dev_err() and dev_warn() calls are unnecessary.
+> fsl_sai_config_disable() polls TE/RE with an open-coded loop and
+> continues silently if the bit does not clear within 1ms. Also, if
+> regmap_read() fails, the loop condition evaluates xcsr uninitialized.
 
-> @@ -1698,9 +1696,7 @@ static int fsl_sai_probe(struct platform_device *pdev)
->  	if (ret < 0)
->  		dev_warn(dev, "Error reading SAI version: %d\n", ret);
->  
-> -	ret = fsl_sai_reset_hw(dev);
-> -	if (ret < 0)
-> -		dev_warn(dev, "Failed to reset hardware: %d\n", ret);
-> +	fsl_sai_reset_hw(dev);
+>  	/* TERE will remain set till the end of current frame */
+> -	do {
+> -		udelay(10);
+> -		regmap_read(sai->regmap, FSL_SAI_xCSR(tx, ofs), &xcsr);
+> -	} while (--count && xcsr & FSL_SAI_CSR_TERE);
+> +	ret = regmap_read_poll_timeout_atomic(sai->regmap, FSL_SAI_xCSR(tx, ofs),
+> +					      xcsr, !(xcsr & FSL_SAI_CSR_TERE),
+> +					      10, 1000);
+> +	if (ret == -ETIMEDOUT)
+> +		dev_warn(&sai->pdev->dev, "%cx not disabled at frame end\n",
 
-This is the only caller of fsl_sai_reset_hw(), it could just return void
-now.
+There wasn't a warning before...
 
->  	ret = devm_request_irq(dev, irq, fsl_sai_isr, IRQF_SHARED,
->  			       np->name, sai);
-> -	if (ret) {
-> -		dev_err(dev, "failed to claim irq %u\n", irq);
-> +	if (ret)
->  		goto err_pm_get_sync;
-> -	}
+> +	else if (ret)
+> +		dev_err(&sai->pdev->dev, "failed to read %cSCR : %d\n",
 
-This will only print an error for a subset of errors, things like -EBUSY
-will now silently fail.
+%cCSR.
 
 -- 
 Mark Brown <broonie@kernel.org>
