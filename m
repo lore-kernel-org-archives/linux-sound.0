@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793969760;
-	b=g9wyqhTxoEDtPup3Uy8lZ9Y29UZLJ6Ki2LeAemYEnAEJi01mMcGtmhsAK6Bi4Z7q9Elk
-	 OfDKCQVZHDaz5HVqbMtE0GuXvyXIqd2552tjLgX+9qRLH/dvyIYPPZQI1tm6IGY1Y1lzS
-	 u9Jk4tElKJ6tJHWj0inTMieHzLcKrugvSpmGcHe7ideQmISL7kVs3IF0ZydFZFyiZnQkC
-	 /s3EizcniICOuIR26dE7q8NMqiqncRsu7zdVTbjBW4ZILk2dx2q7lg72rw1qVOpTZ2mQu
-	 Fvx0sz9GcaaVJ5oGDhh/k67O/lqzyAZ3wYqsU0wPNdmS6TaNO7tVZXK3mF68vp+Zw5Q==
+	t=1793970054;
+	b=WJDC3CE6Ys2typewGBKf69KupLBYM2mEU8KYj5Zu9cjdDRZQpEZO2l3q6YpN1rW9k8BT
+	 RRYWkGB6CGFVLeGb2sMPIGWwB8+CbLKvwitx45hocikZy+Z9YzeF42JSlWVkf7X+Y3mXY
+	 gYQMYySZIvK+eEkVlYM/TBcm40Vuq4b6Ht/N7YeYyk87A3uzJ8qcZv/c/pHrfC+6DjlIp
+	 7g2ZVUpxx4TzyNOnJUs5LSiL8uFlVPMgF1DdxDmUoXbN0PtAsu0pmtdcvSVv4In10aaGh
+	 hq1i76UkpiVJzwNH1jGEl7o2XeFmtLHwECPl+KokTLvvk0MTeAHMv4RVu6dRDsEwg4g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793969760;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793970054;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=fjh7pNgYPKGM+B2YLRzXcq6LIbmTxUnRRadThHFSC9Y=;
-	b=BUIkN3Q4Rz6XLzDoUBeqWw+Z+IeEH1sPW4F3Q6SkB4nLCeZ5fi4C89qNNMXAvFfZUQto
-	 0jeCR1oBM1bNOWv4UDj7uRvdTCnpS5FLSGZmSt4rNBNxQhHkBoR2nHQFJM27K+O+OMimN
-	 py8TTNj9MMmZmgHRK6AAPto26vfrHryN//9zZyZ+B5brTrLw20IAF+E6YqiYL180UVO/Z
-	 iBNKJ13iHGGf4BXVdQM3PtB0kWEWjy4BZm/Hb9SLv3ThaCZcMEsnnzI/I98VU0vsHYGU8
-	 3wIr7kH5z4MC3+IaA6I3DCH9JZYelDedx2cZ0Q+LUQHkQg1lBgpVCpNx7uhEK2M+bCg==
+	bh=ahna9oY486CBntf6C8KnmE4+1gd6IrLfCyRHjwYgd+8=;
+	b=Xx4pazdzQv9ZnYiTdq8weIOU5kP9HSEgqmC7vJknzvhqmbqwwJOf3313X3NL2N0C7JmD
+	 dpVbHQFc1gMBZMs/C88lHksoovBS18KzbaOOEWPiklUmLz9HxmfEyY9OroR4oXJNZU0WX
+	 aSMp2Q+suBVM3xsBaAeVP7UQQQSBD2ZiAePKRCoGX/CcFw8LFUCBzaG9+Wcw8uwYjIwbR
+	 txxo9gIPr8cfgMY2zymADFu24x/wehNgTsCN2J+b7OFQ4BJnt37u30UAG25KBeMkoFCle
+	 fTxzU4nhnK2BcF8LBwRIR5jhD99b4RW4udlZzf6fRgxyyoHL9saS8L8Xe5GjeKf1s7A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="a/0UYIw1";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="a1ZaRf/8";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C118C606A326;
-	Fri,  6 Nov 2026 12:55:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6692D606A32C;
+	Fri,  6 Nov 2026 13:00:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a/0UYIw1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2071B1F008A1;
-	Fri,  6 Nov 2026 12:55:59 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a1ZaRf/8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F153F1F0089F;
+	Fri,  6 Nov 2026 13:00:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793969759;
-	bh=fjh7pNgYPKGM+B2YLRzXcq6LIbmTxUnRRadThHFSC9Y=;
+	s=k20260515; t=1793970054;
+	bh=ahna9oY486CBntf6C8KnmE4+1gd6IrLfCyRHjwYgd+8=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=a/0UYIw1S6XRencqLyQBG+pusWx2MXuydIIj4J4CA5hr3Hgz3VuZyALQpqw1urBo0
-	 P0X2/Jar3ZdlXKr3+UIytiPk1lOQd+IbVe+LjCxXIVsS6bw4k8Lnyt7/YIa8Lskb60
-	 yzUfItnQ6LorcCMhMLgOPZ4RpKl7cq2EzqUr4i5SOk8F82jTWUs9aNHW+KX3NhZ7F5
-	 pf/usjpfnOFtcKzQBU/LeFUcB9QSq8ukmG3T5OpHkjPT7EUBwN07GKC6oYqWBWC6Mv
-	 B1z4X/CL2aZwPF5TTgL33+tZrh2gH7a9/WAPhBZhl8eVsQxbdoHaWGDCxRMuLgGLS9
-	 E5NG2l58ulxOg==
-Message-ID: <sashiko-outbox-201424@kernel.org>
+	b=a1ZaRf/8RyWtFcBYtkgbI3/PqLqgGRkFqKn3Dzj28Sva5WbWuo+zzrNSOfgyW2jsZ
+	 DjKPGXuk439euSxssQFSa1o/FSgfzlBcVspBXXL7scUKbY1ErkTp7b26S0XSeUM3HM
+	 nZj3958uvMJ25yeVscJGdNic7UYZ6v1FTLkswkIgaF57JTNHzT35iCseyeVJ3vonKr
+	 qbUvpNcnsPXsSyyZgLJzjiElGu8WH102zn3N+ukE3lFmRCdC93+9odXjO9E5wrXaYx
+	 Tnc+q2s9ffN2VBLyqUpjn/4C9Y6asVQP8QpsyzJrqoAklM5LCo2cDm8eGUzlwV9KUR
+	 kAwSrEDe9z7Ig==
+Message-ID: <sashiko-outbox-201426@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 v6 5/9] ASoC: qcom: lpass-va-macro: Add SoundWire
- microphone support
+Subject: Re: [PATCH v6 v6 8/9] ASoC: qcom: lpass-tx-macro: Add support for
+ Bolero v4.0
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mohammad Rafi Shaik" <mohammad.rafi.shaik@oss.qualcomm.com>
 Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261106-add_shikra_support-v6-5-2cda302237cc@oss.qualcomm.com>
+In-Reply-To: <20261106-add_shikra_support-v6-8-2cda302237cc@oss.qualcomm.com>
 References: <20261106-add_shikra_support-v6-0-2cda302237cc@oss.qualcomm.com>
- <20261106-add_shikra_support-v6-5-2cda302237cc@oss.qualcomm.com>
+ <20261106-add_shikra_support-v6-8-2cda302237cc@oss.qualcomm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 06 Nov 2026 12:55:58 +0000
+Date: Fri, 06 Nov 2026 13:00:53 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,161 +61,152 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 4 potential
 issues to consider:
-- [High] ASoC: qcom: lpass-va-macro: missing mux defaults in
-  va_4_1_defaults
-- [Medium] ASoC: qcom: lpass-va-macro: stale ADC_DMIC_SEL on live VA
-  DECn MUX switch
+- [Medium] ASoC: qcom: lpass-tx-macro: no-op ADPT disable in
+  tx_macro_enable_dec()
+- [Medium] ASoC: qcom: lpass-tx-macro: missing DAPM routes for
+  RX_SWR_MIC in v15 map
+- [Low] ASoC: qcom: lpass-tx-macro: mixing __free() with goto in
+  tx_macro_probe()
+- [Low] ASoC: qcom: lpass-tx-macro: stale REGCACHE_MAPLE claim in commit
+  message
 --
 
-commit f5c01e0bfec50d93943d485c6c12559471c5aee6
-Author: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+commit 359688a973454b992ccd5b2a57890a5f9b9973cf
+Author: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 
-ASoC: qcom: lpass-va-macro: Add SoundWire microphone support
+ASoC: qcom: lpass-tx-macro: Add support for Bolero v4.0
 
-This commit adds DAPM mux widgets, routes, and decimator source selection
-logic to support SoundWire microphone (SMIC) inputs alongside DMIC inputs.
+This commit adds Bolero v4.0 TX macro support for Hawi, including register
+defaults, regmap extensions, decimator and port-select DAPM widgets and
+routes, and ADPT control disabling.
 
-> diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-v=
-a-macro.c
-> index db395674312c8..a113474040587 100644
-> --- a/sound/soc/codecs/lpass-va-macro.c
-> +++ b/sound/soc/codecs/lpass-va-macro.c
-> @@ -754,6 +754,16 @@ static int va_macro_mclk_event(struct snd_soc_dapm_w=
-idget *w,
->  	return 0;
->  }
-> =20
-> +static bool is_amic_enabled(struct snd_soc_component *comp, int decimato=
-r)
-> +{
-> +	u16 adc_mux_reg;
-> +
-> +	adc_mux_reg =3D CDC_VA_INP_MUX_ADC_MUX0_CFG1 +
-> +		      VA_MACRO_ADC_MUX_CFG_OFFSET * decimator;
-> +
-> +	return snd_soc_component_read(comp, adc_mux_reg) & BIT(0);
-> +}
+> Add the v4.0 register defaults and extend the regmap accessors and
+> maximum register offset only for the v4.0 match data. Use REGCACHE_MAPLE
+> for the TX macro regmap since the register defaults are sparse and the
+> v4.0 layout extends the register range.
 
-[Severity: High]
-Does this fail when the codec is runtime-suspended on LPASS v4.1 (Shikra)?
+[Severity: Low]
+This isn't a bug, but tx_regmap_config already switched to REGCACHE_MAPLE in
+commit 8ed9306885eb ("ASoC: codecs: lpass-tx-macro: switch cache to
+REGCACHE_MAPLE") and this patch does not change .cache_type.
 
-va_4_1_regmap_config uses REGCACHE_MAPLE backed by va_4_1_defaults[], which
-unlike va_defaults[] omits CDC_VA_INP_MUX_ADC_MUX0_CFG0 through
-CDC_VA_INP_MUX_ADC_MUX3_CFG1.  Once va_macro_runtime_suspend() enables
-cache-only mode, reading or updating those uncached mux registers returns
--EBUSY.
-
-When userspace configures va_smic0..3, va_dmic0..3, or va_dec0..3 while the
-codec is idle, snd_soc_component_read() in is_amic_enabled() returns
-(unsigned int)-EBUSY (0xfffffff0, where BIT(0) is 0),
-snd_soc_dapm_put_enum_double() fails with -EBUSY without updating the mux,
-and snd_soc_dapm_get_enum_double() reads 0xfffffff0 and extracts an
-out-of-bounds enum index (15).
-
-Adding CDC_VA_INP_MUX_ADC_MUX0_CFG0..CDC_VA_INP_MUX_ADC_MUX3_CFG1 to
-va_4_1_defaults[] to match va_defaults[] would populate them in the maple
-tree cache.
-
-> +
->  static int va_macro_put_dec_enum(struct snd_kcontrol *kcontrol,
->  				 struct snd_ctl_elem_value *ucontrol)
->  {
-> @@ -763,20 +773,26 @@ static int va_macro_put_dec_enum(struct snd_kcontro=
-l *kcontrol,
->  	struct soc_enum *e =3D (struct soc_enum *)kcontrol->private_value;
->  	unsigned int val;
->  	u16 mic_sel_reg;
-> +	int decimator;
-> +	bool smic_mux;
-> =20
->  	val =3D ucontrol->value.enumerated.item[0];
-> =20
->  	switch (e->reg) {
->  	case CDC_VA_INP_MUX_ADC_MUX0_CFG0:
-> +		decimator =3D 0;
->  		mic_sel_reg =3D CDC_VA_TX0_TX_PATH_CFG0;
->  		break;
->  	case CDC_VA_INP_MUX_ADC_MUX1_CFG0:
-> +		decimator =3D 1;
->  		mic_sel_reg =3D CDC_VA_TX1_TX_PATH_CFG0;
->  		break;
->  	case CDC_VA_INP_MUX_ADC_MUX2_CFG0:
-> +		decimator =3D 2;
->  		mic_sel_reg =3D CDC_VA_TX2_TX_PATH_CFG0;
->  		break;
->  	case CDC_VA_INP_MUX_ADC_MUX3_CFG0:
-> +		decimator =3D 3;
->  		mic_sel_reg =3D CDC_VA_TX3_TX_PATH_CFG0;
->  		break;
->  	default:
-> @@ -785,10 +801,24 @@ static int va_macro_put_dec_enum(struct snd_kcontro=
-l *kcontrol,
->  		return -EINVAL;
->  	}
-> =20
-> -	if (val !=3D 0)
-> +	/*
-> +	 * SMIC enums use shift 0 (lower nibble of CFG0), DMIC enums use
-> +	 * shift 4 (upper nibble of CFG0). Use e->shift_l to distinguish them
-> +	 * without relying on widget name comparisons.
-> +	 */
-> +	smic_mux =3D (e->shift_l =3D=3D 0);
-> +
-> +	/*
-> +	 * Both muxes feed the same decimator and share ADC_DMIC_SEL, so only
-> +	 * the one the decimator is routed through may program it. A write to
-> +	 * the mux that is not part of the active path would otherwise switch
-> +	 * the input domain of a running capture.
-> +	 */
-> +	if (val !=3D 0 && smic_mux =3D=3D is_amic_enabled(component, decimator))
->  		snd_soc_component_update_bits(component, mic_sel_reg,
->  					      CDC_VA_TX_PATH_ADC_DMIC_SEL_MASK,
-> -					      CDC_VA_TX_PATH_ADC_DMIC_SEL_DMIC);
-> +					      smic_mux ? CDC_VA_TX_PATH_ADC_DMIC_SEL_ADC :
-> +							 CDC_VA_TX_PATH_ADC_DMIC_SEL_DMIC);
-> =20
->  	return snd_soc_dapm_put_enum_double(kcontrol, ucontrol);
->  }
+> diff --git a/sound/soc/codecs/lpass-tx-macro.c b/sound/soc/codecs/lpass-t=
+x-macro.c
+> index 6deaaabe43afa..6480a6c9032e3 100644
+> --- a/sound/soc/codecs/lpass-tx-macro.c
+> +++ b/sound/soc/codecs/lpass-tx-macro.c
 
 [ ... ]
 
-> @@ -995,6 +1024,18 @@ static int va_macro_enable_dec(struct snd_soc_dapm_=
-widget *w,
+> @@ -434,6 +458,26 @@ static struct reg_default tx_defaults[] =3D {
+>  	{ CDC_TX7_TX_PATH_SEC6, 0x00},
+>  };
+> =20
+> +static const struct reg_default tx_4_0_defaults[] =3D {
+> +	{ CDC_TX_INP_MUX_ADC_MUX0_CFG2, 0x00},
+> +	{ CDC_TX_INP_MUX_ADC_MUX1_CFG2, 0x00},
+> +	{ CDC_TX_INP_MUX_ADC_MUX2_CFG2, 0x00},
+> +	{ CDC_TX_INP_MUX_ADC_MUX3_CFG2, 0x00},
+> +	{ CDC_TX_INP_MUX_ADC_MUX4_CFG2, 0x00},
+> +	{ CDC_TX_INP_MUX_ADC_MUX5_CFG2, 0x00},
+> +	{ CDC_TX_INP_MUX_ADC_MUX6_CFG2, 0x00},
+> +	{ CDC_TX_INP_MUX_ADC_MUX7_CFG2, 0x00},
+> +	{ CDC_TX0_TX_PATH_CFG2, 0x03},
+> +	{ CDC_TX1_TX_PATH_CFG2, 0x03},
+> +	{ CDC_TX2_TX_PATH_CFG2, 0x03},
+> +	{ CDC_TX3_TX_PATH_CFG2, 0x03},
+> +	{ CDC_TX4_TX_PATH_CFG2, 0x03},
+> +	{ CDC_TX5_TX_PATH_CFG2, 0x03},
+> +	{ CDC_TX6_TX_PATH_CFG2, 0x03},
+> +	{ CDC_TX7_TX_PATH_CFG2, 0x03},
+> +	{ CDC_ADPT0_ADPT_CTRL, 0x00},
+> +};
+
+[ ... ]
+
+> @@ -929,6 +998,10 @@ static int tx_macro_enable_dec(struct snd_soc_dapm_w=
+idget *w,
 > =20
 >  	switch (event) {
 >  	case SND_SOC_DAPM_PRE_PMU:
-> +		/*
-> +		 * ADC_DMIC_SEL is shared by the DMIC and the SoundWire mic
-> +		 * mux, so its value depends on the order in which userspace
-> +		 * restores the two controls. Program it from the resolved
-> +		 * mux state of this decimator, which is what selects the
-> +		 * input domain.
-> +		 */
-> +		snd_soc_component_update_bits(comp, dec_cfg_reg,
-> +					      CDC_VA_TX_PATH_ADC_DMIC_SEL_MASK,
-> +					      is_amic_enabled(comp, decimator) ?
-> +					      CDC_VA_TX_PATH_ADC_DMIC_SEL_ADC :
-> +					      CDC_VA_TX_PATH_ADC_DMIC_SEL_DMIC);
+> +		/* Disable the ADPT block before enabling the decimator */
+> +		if (tx->data->has_adpt)
+> +			snd_soc_component_write_field(component, CDC_ADPT0_ADPT_CTRL,
+> +						      CDC_TX_ADPT_CTRL_EN_MASK, 0x0);
 
 [Severity: Medium]
-Can switching VA DEC0 MUX..VA DEC3 MUX during an active capture leave
-CDC_VA_TX_PATH_ADC_DMIC_SEL_MASK stale?
+Does snd_soc_component_write_field() ever write to CDC_ADPT0_ADPT_CTRL here?
 
-If capture is running on VA_DMIC (e.g. DMIC0) and userspace pre-selects a
-non-ZERO input on VA SMIC MUXn (e.g. SWR_MIC0), va_macro_put_dec_enum()
-skips updating CDC_VA_TX_PATH_ADC_DMIC_SEL_MASK because smic_mux does not
-match is_amic_enabled().  When userspace then switches VA DECn MUX from
-VA_DMIC to SWR_MIC, both input branches have connected endpoints, so
-VA DECn MUX stays powered and SND_SOC_DAPM_PRE_PMU in va_macro_enable_dec()
-does not fire.
+tx_4_0_defaults initializes the non-volatile cache entry for
+CDC_ADPT0_ADPT_CTRL to 0x00, and nothing in the driver ever writes a
+non-zero value to it.  Both snd_soc_component_write_field() and
+regcache_sync() see that the cached value already matches 0x00 and skip the
+register write, leaving the ADPT block in its hardware reset state during
+capture.  Should tx_4_0_defaults record the actual non-zero hardware reset
+value of CDC_ADPT0_ADPT_CTRL (as lpass-va-macro.c does in va_4_1_defaults)?
 
-Because va_dec0_mux..va_dec3_mux use plain SOC_DAPM_ENUM() without a custom
-put callback or SND_SOC_DAPM_POST_REG event, CDC_VA_TX_PATH_ADC_DMIC_SEL_MA=
-SK
-remains stuck on the previous input domain for the rest of the stream.
+[ ... ]
+
+> @@ -2027,6 +2103,418 @@ static const struct snd_soc_dapm_route tx_audio_m=
+ap_v9_2[] =3D {
+>  	{"TX SMIC MUX7", "SWR_MIC11", "TX SWR_INPUT11"},
+>  };
+> =20
+> +static const char * const adc_mux_text_v9_3[] =3D {
+> +	"MSM_DMIC", "SWR_MIC", "ANC_FB_TUNE1", "RX_SWR_MIC"
+> +};
+
+[ ... ]
+
+> +static const struct snd_soc_dapm_route tx_audio_map_v15[] =3D {
+> +	/* DEC0 */
+> +	{"TX DEC0 MUX", "SWR_MIC", "TX SMIC MUX0"},
+
+[Severity: Medium]
+Are DAPM routes missing for the "RX_SWR_MIC" option in tx_audio_map_v15?
+
+adc_mux_text_v9_3 adds "RX_SWR_MIC" to TX DEC0 MUX through TX DEC7 MUX, but
+neither tx_audio_map nor tx_audio_map_v15 defines a route with the
+"RX_SWR_MIC" control for any decimator.  When userspace selects "RX_SWR_MIC"
+on a decimator mux, DAPM finds no connected input path, so the decimator
+widget never powers up and tx_macro_enable_dec() is not called.
+
+[ ... ]
+
+> @@ -2250,6 +2751,9 @@ static int tx_macro_probe(struct platform_device *p=
+dev)
+>  	struct device_node *np =3D dev->of_node;
+>  	struct tx_macro *tx;
+>  	void __iomem *base;
+> +	struct reg_default *reg_defaults __free(kfree) =3D NULL;
+> +	struct regmap_config *reg_config __free(kfree) =3D NULL;
+> +	size_t def_count;
+>  	int ret, reg;
+> =20
+>  	tx =3D devm_kzalloc(dev, sizeof(*tx), GFP_KERNEL);
+> @@ -2304,7 +2808,40 @@ static int tx_macro_probe(struct platform_device *=
+pdev)
+>  		}
+>  	}
+> =20
+> -	tx->regmap =3D devm_regmap_init_mmio(dev, base, &tx_regmap_config);
+> +	reg_config =3D kmemdup(&tx_regmap_config, sizeof(*reg_config), GFP_KERN=
+EL);
+> +	if (!reg_config) {
+> +		ret =3D -ENOMEM;
+> +		goto err;
+> +	}
+
+[Severity: Low]
+This isn't a bug, but tx_macro_probe() mixes __free(kfree) variables with
+goto-based error handling and declares reg_config as NULL at the top of the
+function instead of defining and initializing it at kmemdup().  Registering
+lpass_macro_pds_exit_action() via devm_add_action_or_reset() (as
+rx_macro_probe() does in sound/soc/codecs/lpass-rx-macro.c) would avoid
+mixing __free() with goto err.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106-add_shikra=
-_support-v6-0-2cda302237cc@oss.qualcomm.com?part=3D5
+_support-v6-0-2cda302237cc@oss.qualcomm.com?part=3D8
