@@ -1,58 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793964972;
-	b=t3dm2DUSV1xGHvrTuE1jlNF1+O5/5s1GmujwUQER4oAJSr935XkCUM10AIf2aqjGCGpq
-	 UJWuNoKBaMUaxb+gXHYq9UGIqn+JoM7kOXzJL05xveiWXCNGAOFYeQcZgDiM+9HkHqU5a
-	 D1hiZk+rKBpD9VoL8o6XfCeSHRzeu5F5pOLnysTsExnTBHwEvpr7hAksyO/amxjqyqdBr
-	 cz6quG0GgePS+WU7QrIUmEhe0jg2slKnZUc5Ox29x6lSivGvqmiAbzkQVkGI87hiQdcwh
-	 PHcZSB3OL+f+azSFiS/cfGXscdrSIKh+NTWFZCi/J1HTDCUJc+SDcik5rYLTfl7IgjQ==
+	t=1793965146;
+	b=Waky0O4CJkG9ygaOInw+7W3Ll7X7AB5u857MZCoCRTDLk4CdPqZjtg+Sg+Ix4tH+d1L0
+	 bO5pgHwHeG/ti9HE28/GvdT8jAomeNf9VB6BhCsuq/LvHSAfQRPqvtzu3KgwRFWjik+s+
+	 hx7OnuJi2Nxr4A3J9Fz4dH8OCsPCoT8xZ9VI6tbwizKrHTfmQVggZZ7Qw4QLcBA0jdpeU
+	 /MCslb/P+oTmfuJG/TTMMZv87JT26kxuw8NG8c0gBcRQDiq+w/dBwJY5fVxEs0XwilPLv
+	 xQavflxTZrjzlQzBwOL3m/DBDBeXc4HpluUXLnSxYGjj8XqCuBU8uvRBElKThVjew1g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793964972;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=6ELh8iLQH33pk5/3omd9NoBeH6GNzJqOflJ+R3IwKLo=;
-	b=nxFQXqzaRCkwIzuMwGr5cuQXYQNouer07g+lRJ6RwSy4ORIABwTCa2729wLVRL6m0HaP
-	 wqXrenvgg77LiTXNpV7zpKVLPbJPiTFnZfE45h+KoQCTjLJHS8DWKogE2gYeBykYbUP/C
-	 U3Pj5TNgr2r02fCzW/og5mcNjWg7qkpEU1lA4ScSKrpO6Kg6TH7lptXQlkDbpNvUCkUde
-	 LJC3icyA+3BavFRSvg9w4pjKXyBr8CdjXyHukOp0IZf0WwTQWYnKRRciP/oIaE5jVdgta
-	 ntANz/J+AM0CzCUh9QFb910eyS3HxE5mpVtoG/3hjlPhprnBudXk6uqCxVNLV1WAJFg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793965146;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=hd8Q8f+JfkpaKIYNuTXkeFzccPhjB/qLK1c8CmPIB3k=;
+	b=ZYYoXiKu8UJXyXfcKIvOjeq/aGMeD0sGtOMgkQ59vzhz+/SEwwZprW59+twXfR4mbSOt
+	 iRAH4wavNca3WNoOKf02IrbgLZ5IWsqw8NajT3Ds+Sl/bYuetimQe55fUS3J1OR/ljiJy
+	 nPbE4xNKizbyVimDbVYIWu8hV0iyKbKcAsymLZirMcTLYWJoiOuup7JExLZE2xkUIIE1J
+	 O0SiHCSMiFUBfb50GPjqqQpk5f03bWdQKvYbJN1e7TXiAxdnmOeQTC5WGI12UwyFmBxk5
+	 ab10H1AFGZJlnMXyvAHypdI8SwvvETGyFiHarsfXOGAlFVQCgq9U4THpl+SrMfj/hfw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GKebSQq2;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e3flBlFc;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDCB60A2629;
-	Fri,  6 Nov 2026 11:36:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43DCB606A90C
+	for <linux-sound@vger.kernel.org>; Fri,  6 Nov 2026 11:39:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GKebSQq2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 113C81F008A1;
-	Fri,  6 Nov 2026 11:36:11 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e3flBlFc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA3071F0089F;
+	Fri,  6 Nov 2026 11:39:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793964971;
-	bh=6ELh8iLQH33pk5/3omd9NoBeH6GNzJqOflJ+R3IwKLo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GKebSQq2BVuNSVZhArvAoKElid1r+0NZIJbM/TrNg8V+C4/R6W13iyFRXdbmRytjd
-	 CgTX3Y1rkvDmXFNGyaA61UNcD1/9TrW3N8fbfYdkfY8AtQiswkEIFNuTKASwDLkHin
-	 Z9Sz8Iqa5iEiSWoeOSwlHeGYXLQD13Zy+a/CMX4nf3epyEE1JX6OEQ5verZ+SXOH2H
-	 3a4t6QWDiyHL/7EAzNBSQ3JouMyd5sQHwwQ+hOY/9jhKwHjnLs93qr28qpUUQ45qTT
-	 /UGgovlfHOxACHV7E2kZGcZC0dcCIIwLi1OIwINkeG5nGyz4q8FzPNT442Vnu2IkoC
-	 FQUn9IG6GdXhA==
-Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
-	id 759CE27E8A5A; Fri, 06 Nov 2026 11:35:59 +0000 (GMT)
-Date: Fri, 6 Nov 2026 11:35:59 +0000
-From: Mark Brown <broonie@kernel.org>
-To: hyunjungg <hj351016@gmail.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: codecs: wcd-mbhc-v2: cancel button long-press
- work on deinit
-Message-ID: <11820b5b-43a8-4bfa-bde7-11e71f5ff72b@sirena.org.uk>
-References: <20261106052242.2000264-1-hj351016@gmail.com>
- <20261106054447.2019214-1-hj351016@gmail.com>
+	s=k20260515; t=1793965146;
+	bh=hd8Q8f+JfkpaKIYNuTXkeFzccPhjB/qLK1c8CmPIB3k=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=e3flBlFcQYG/rGrluA/DjqEZGQmOZjNRwjf/ZFHZKftNdvyv89u0k0JGU8wJtB8Wq
+	 U5BA0/33BEYuo1H+k+o84rUNwMsPttLtr7u8ZX251ZxnZVBd0RJo7xZWUOgBdWLL/e
+	 IyFzOXs0SRF17vU1K0LLNvNFZBuii331yV5zcImyTMTmk4q4ZPboq1vHZNWzIrOu9v
+	 WO+37zDbhqV8jjLrodpIeXWZhyX2xKLvdNUTKrFq/y9rGpoNr94G0wkXNs5o21b2wK
+	 l/nHr1OH1em6TIiWh66lyqOHfqiLqRzQrOZu3dBcEgOPtuHt5giRYyEHuRNllmP4ae
+	 e1K+oD0CBE4mQ==
+Message-ID: <sashiko-outbox-201325@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 4/5] ASoC: dwc: Fix DMA fifo_size calculation
+Reply-To: sashiko-reviews@lists.linux.dev
+To: phucduc.bui@gmail.com
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261106112940.53550-5-phucduc.bui@gmail.com>
+References: <20261106112940.53550-1-phucduc.bui@gmail.com>
+ <20261106112940.53550-5-phucduc.bui@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 06 Nov 2026 11:39:05 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,41 +59,36 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nxjRkP5C9ziDDxTd"
-Content-Disposition: inline
-In-Reply-To: <20261106054447.2019214-1-hj351016@gmail.com>
-X-Cookie: Whoever dies with the most toys wins.
 
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] ASoC: dwc: missing Fixes trailer for dw_configure_dai_by_dt()
+  fifo_size bug
+--
 
---nxjRkP5C9ziDDxTd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+commit 8358dacf329eafc6bd36da9f372ae4682d156a1c
+Author: bui duc phuc <phucduc.bui@gmail.com>
 
-On Fri, Nov 06, 2026 at 02:44:47PM +0900, hyunjungg wrote:
-> From: Hyunjung Ko <hj351016@gmail.com>
->=20
-> wcd_mbhc_deinit() drains two of the three works embedded in struct
-> wcd_mbhc before freeing it - correct_plug_swch (via
-> wcd_cancel_hs_detect_plug()) and mbhc_plug_detect_work - but not the
-> button long-press delayed work mbhc_btn_dwork:
+> ASoC: dwc: Fix DMA fifo_size calculation
+>
+> fifo_size should be the FIFO size in bytes (depth * width / 8), but
+> the code shifts by 8 instead of 3. For capture the parentheses also
+> make it always 0.
+>
+> Use depth * width / 8 for both directions.
+>
+> Fixes: 52ea7c0543f8 ("ASoC: dwc: i2s: Add StarFive JH7110 SoC support")
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 
-Please don't send new patches in reply to old patches or serieses, this
-makes it harder for both people and tools to understand what is going
-on - it can bury things in mailboxes and make it difficult to keep track
-of what current patches are, both for the new patches and the old ones.
+[Severity: Low]
+52ea7c0543f8 ("ASoC: dwc: i2s: Add StarFive JH7110 SoC support") only
+copied the broken fifo_size calculation into dw_configure_dai_by_pd(),
+whereas the original bug in dw_configure_dai_by_dt() dates back earlier.
+Should this also include:
 
---nxjRkP5C9ziDDxTd
-Content-Type: application/pgp-signature; name="signature.asc"
+  Fixes: 0d274544bfee ("ASoC: dwc: Add devicetree support for Designware I2=
+S")
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCau27nwAKCRAv73Ows9A4
-iTi3AP9E/Q5jlbVckZnOHBP7zxvNogwVxoH9fdxMi/liHxBjbwEAxAfCmLJKVS+7
-sRAZ4f9xZIktl+Sh0RcTY6I0km3XBQ0=
-=3xzU
------END PGP SIGNATURE-----
-
---nxjRkP5C9ziDDxTd--
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106112940.5355=
+0-1-phucduc.bui@gmail.com?part=3D4
