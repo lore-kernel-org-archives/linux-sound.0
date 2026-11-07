@@ -1,62 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794136571;
-	b=196zpax3hC6NQKlO5BSWkOVBJQNopZ4t8edeKZA/CY8oSKBlu+krqQxnrFYCF9Teu+Zp
-	 35Iig+YZN/e8jPuyZpbDj46EBU9MvW70APAbSij+Og+JJ6oPkUVztnWHeirwtBuKiF+Uw
-	 oi+dYYMMRL5lnKhnC+D/0anIslCMPs5Q9um+Pp531V/Mi9U5MsDzsKIX5wHRrt+pFCDJn
-	 qU923EChO2MKTXfrsCsqMN4DO3D7IYksHSl8ZravpqNrL1P+pJKD8cacy2K5YczMbvJsY
-	 9p+Nw2IicDwJhSPh0Wjqb6dNXkq330DWxegAgao9pSqC1muBgWdSKKxnoGNU0L5VErQ==
+	t=1794136573;
+	b=mPKh7UVxxXLXFB6JYnxMSgrRtE+fNfoDVuAEkrAkxu49MHMQV0V1CEVMmhsNv0FDhfxR
+	 GhYrD9nqejgBSo+U17EORxWFhuJZgi79OJru7/mkTni24xUOkuuKjtkve/cJQTSWlKVc2
+	 AbmP7pvIikkFp1MwdmsrJvvjUHvUqBOhRqTA4BnHp7bi8heoCnZpCPkf50N2qA3sih4GM
+	 clRSu0LX2eV+KhdTRB9XlBaWnEyggpBHBedDhXAs4RHDIjXe+dzev03i9OjRNtxb3uGzU
+	 QRxi/yZ5O6NfnwKgiZTZHHBVUBoOlbW6edbkTw3i4pjvkxyQmtV4ZrRivdvNZ55Lhjw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794136571;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794136573;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=bl5cMf5oVLZLpdRHQBsSexs2yAIQ352WYuyU3qzrEtQ=;
-	b=r+ByZ5eRKcbDm+t7WI+9VBwRcBtLK2zLApDxldY3QIdGGwSTguwtSoR3E4XKQjC99u+r
-	 lmCoJWq55Dsw04IY7VRbLNiVXzq2MEipINuuHf2DbdQoouWW27icsADyjVhq0pxvHv46b
-	 jpBTVcfmqkUBmodAk66ybPktTFhatgo777fnePq/V6FsqKUCKjcs1o5BN319v1FTSwKAn
-	 4HkRRKoEDQfamEqo9eLKnWFGR6mNVZbWME5uJZZGcEulBSPfjJaQnRKExuUAPujhdOd20
-	 1njz/8TSK9d23gCkRXOd9IXCeHnfPlkQaB1Bh03vSgQTBK2I9YgElEnDLe8aqRbLm3w==
+	bh=FLkhu3h6fGtG/QE3RWiGSRjGhTmeI8ZHhelZkxFjLT4=;
+	b=nSGn68ACmwAt+VOPIFGb4Q/tXhIsZ1W4BDjoFm6wSIvo/wBHXnKrcuD7StlTsQXBIlp3
+	 HCdAK18DFLKVhJxr7WptLq5tGSxL8rqvF8EOtkTV0QN8lKmaryH1daSCCy23BvTUL08AG
+	 eAWSM3+a3tQS4zQpSw4xxA0eD5SzPGAO6F29t3Am4huprl0r0FLS4PossdldcivU3u/sF
+	 O8H9nLd3psJk7B4HDBZDSxF+2rlzO6QBPMbIyiOSO3R5MNeFEARPyqOiqfrv3hinpg23l
+	 9+TZJm9AOdyi8iHUOd//o3ResxnKFal5suoNeNRgrYns2xeqK7E71U/KYGG6D/63WrA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="NzP8/1yb";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SwYMZLZZ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7052606A31C;
-	Sun,  8 Nov 2026 11:16:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D476A606A330;
+	Sun,  8 Nov 2026 11:16:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NzP8/1yb
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49FA01F0089F;
-	Sun,  8 Nov 2026 11:16:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SwYMZLZZ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 903B51F008A1;
+	Sun,  8 Nov 2026 11:16:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794136570;
-	bh=bl5cMf5oVLZLpdRHQBsSexs2yAIQ352WYuyU3qzrEtQ=;
+	s=k20260515; t=1794136572;
+	bh=FLkhu3h6fGtG/QE3RWiGSRjGhTmeI8ZHhelZkxFjLT4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=NzP8/1ybPNNC63stC3DucCJWIybl+rq/FQ/wL5OSXq34eU8VNUi+Rr2FmZ+7JDfpX
-	 /q/h3GIWv+KGMvni/3YslSsUuSYNA/bibl2oyyk25mDhu1zGypHExPBRsmRdeSKKTL
-	 C18jQdxNPnk4rcbgg3dgiGVaAtX+zWTP/fDn1IVBV3mKnyLEHhFnZTsnVRy5DVXoqF
-	 49smLFhWnF/AWJAkAtP3j97FssR/RK3ZBWokBwVe6Ovqtw7fVwHxIIH0Hq1wGQjpYD
-	 1rkRaNLGmFi8DQ389fQP2shS1zMTkCF1gDH2WStNKSxNMMbDkCZ7QPE3yaOWAR7MQF
-	 s+feziLNjUC/w==
+	b=SwYMZLZZy3d6T49A90gJZg5fCx6I8G0UI5zPo3YZvkF3mRKC/xUY3Zhf5if162ALY
+	 YoROMggYdZ95OVunMDQGLKsihjip4fgmTx3exy3ba7mh7OlKHtcKPxuRFkU8Kj/PkY
+	 TZUpmmDZ31jVbXlOd8edGjxQQEZkB9nUjE4JlyKAh45nPTIjm5y4iOuHJxXKUNdzab
+	 oaqKOJ7zUfhdWMv/ys35U8Mk2N1HgQvWaIXkkohHjGqK/M9KrzCpOcs/8xO2QWiBay
+	 b1JAkaJBAewO6tFihpNmny6dR9xID180pTlW/JuFcOhUxxYG27FlQghVFE4+lQoonN
+	 S9jLAXcMPjABQ==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 65F052BF8FE7;
-	Sun, 08 Nov 2026 11:16:08 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id DDEFE2BF9000;
+	Sun, 08 Nov 2026 11:16:10 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com, p.zabel@pengutronix.de, 
- joakim.zhang@cixtech.com
-Cc: cix-kernel-upstream@cixtech.com, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20261106105208.1246554-1-joakim.zhang@cixtech.com>
-References: <20261106105208.1246554-1-joakim.zhang@cixtech.com>
-Subject: Re: [PATCH v5 0/4] ASoC: cdns: Add Cadence I2S-SC and I2S-MC
- controller support
-Message-Id: <179406285258.3424803.5597609174879659303.b4-ty@b4>
-Date: Sat, 07 Nov 2026 14:47:32 +0000
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Wentao Liang <vulab@iscas.ac.cn>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org
+In-Reply-To: <20261104024047.1508584-1-vulab@iscas.ac.cn>
+References: <20261104024047.1508584-1-vulab@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: qcom: q6apm-dai: close the graph when compress
+ open fails
+Message-Id: <179406092306.3424803.15219850363779867972.b4-ty@b4>
+Date: Sat, 07 Nov 2026 14:15:23 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -69,25 +67,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1710; i=broonie@kernel.org;
- h=from:subject:message-id; bh=uhrYFssuSak78sxGGNOhK5N5ATA6z/IM+mXG+2w/KbE=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+RP6Y7Vrcy+35eMN+5Yr0Z+FStwvjXWa9+trr8fKN+
- k5rnh08HaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZgIewnD/1KOl2V769pP+rzl
- jbgo+DjoXkT0lZ+PppcJhInLxM+JFWT4zaZdbNrtv1cuQZm1J8NZX/3Esmydpzqi631kpC/4rJ7
- BBQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1144; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=0FNhgGV/KxQqmNW+5m3L98GdTtgGryyFButged53mCw=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+RP76csW/kGO+ZXJ5ewzDCuajIS4vZfOkKuN53i5wv
+ jP79dz+jlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAEzk2GaGf3rM00q/LapgWFr2
+ xjrcSiLKeXls9TOdnqWmZZ2T9IWZmBkZ2kLOTVX37Pi2ZcG7D3VqouXW1XYOzskq9w3UOVQCGIy
+ YAQ==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 06 Nov 2026 18:52:04 +0800, joakim.zhang@cixtech.com wrote:
-> ASoC: cdns: Add Cadence I2S-SC and I2S-MC controller support
-> 
-> From: Joakim Zhang <joakim.zhang@cixtech.com>
-> 
-> This series adds support for the Cadence I2S-SC and I2S-MC controllers
-> integrated in the CIX SKY1 audio subsystem, together with their DT
-> bindings.
-> 
-> [...]
+On Wed, 04 Nov 2026 02:40:47 +0000, Wentao Liang wrote:
+> ASoC: qcom: q6apm-dai: close the graph when compress open fails
 
 Applied to
 
@@ -95,14 +85,8 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: dt-bindings: Add Cadence I2S-SC controller
-      https://git.kernel.org/broonie/sound/c/5d2a3da8b792
-[2/4] ASoC: cdns: Add Cadence I2S-SC controller driver
-      https://git.kernel.org/broonie/sound/c/81bb3e5fda49
-[3/4] ASoC: dt-bindings: Add Cadence I2S-MC controller
-      https://git.kernel.org/broonie/sound/c/fe1cecba2f2a
-[4/4] ASoC: cdns: Add Cadence I2S-MC controller driver
-      https://git.kernel.org/broonie/sound/c/a6feafc3bbed
+[1/1] ASoC: qcom: q6apm-dai: close the graph when compress open fails
+      https://git.kernel.org/broonie/sound/c/63364dc9f101
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
