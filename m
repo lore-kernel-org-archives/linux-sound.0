@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794067488;
-	b=T0c6wCjoNXO32vGXj4fxAC8aEiYc6GcnLTwEyWKYy6+rcxejZW8G0XfTkwh3XzkE/CFY
-	 GS8RNLUo86nV23EooO5uiPsAGPWGTwyRiNnH0FvhwwsnItTQ8aP489S9Saav+7hhNmmhH
-	 IUqc+OmuB1XEhzY1tvbMJ+7nOqth0G1gwLX/txFdjRdnLh0nokvrkAR6kkJ0BgJg96Nuy
-	 cpJTBuV3rJvCgO4zRQd9KWXz1jF8AliyRYpQIe1oGVQWu7bJjB8IbQYOQI7yGf7e/IorN
-	 0bQOj6uCH2N6unG55jnYDbI+3ZFUcqWUA7zwH4UdaHB/6TqPtI3Jl8ufTSPnTU/sy9A==
+	t=1794067829;
+	b=BE459dk2ZGuXXe1/+z4Mrq394qUyYipYqOHMquV9gkg7vbx2MEavsXayvWwK7tTIiiBD
+	 zsw5aNoyKKx0i535GhT3AQqewmFkb0iLMQMipjbzy9naO5ooT4W2K8JD+B4190DFur9Xx
+	 RcWkqNwfSb1w4TAmGaYn1PoFnPua0148aDNVWPr+lxL7lv6++l8uG76AmRlAX4tJfjf7E
+	 s3xs/hCuWC6dXSkDOSzt0LbawoumXtgqgbmJ9Noo0oBNC4J2SLlPqv3gS8ei0w1X+0EZS
+	 xgQu6bc5MTaLDVeZssHH2t3hljCB8YBWlu2HFnyGf4i6EZKrz9t8Mi3d6JwbKN0F1PA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794067488;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794067829;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=fFUWjcpzrTkZXjzCQOqjTlJ2t/XawHxTIPLIXJg4i9I=;
-	b=h+SQro7ZOg0dQ1n5o/oBDxzSBPaU8HRoddZOuPCqZihWc1pNf+K9/ZqHsEdSXtBqJAGj
-	 UZnRBfVDNWTYO1hUnfQkqz3o+C1nP1iTPaqYirMScGqP0Zui4GArF1mvUweCzOX5CbzId
-	 K6JXl5YftsxUh9mRj5q10A1XdtfvqY4Bb+1xopASKcyuEZLnIleUbYPCjVGHlaUt0jNrM
-	 Hgl+Adv2Gyf1usu/bEsXtuaeUWUCBPdimFF7kc6FCYsbLYNxvC+X2GBM71L2bsSEq29Zx
-	 4FQX+9lz6M7Hwt1Lwtv8rvEToA2qnn7Il5abfhEVUOOHnIW0ajlFWKtM7mBPjnP0uHg==
+	bh=fzc6Ib98TEJrvRwXyQGWkeyhsxojI+S6zYflX/yJABg=;
+	b=a+Pi5uK48cZBcvXJKKsQd2vhLgxTPPRWPzI3Rm9NTlVNdhQEsrQpAkHwPAHumXu9mYhZ
+	 Y1iLhN4qsmlLFPcEUQ3gtoinHJMiOgW3ruN4qQEqLi+R78YQr7yLTT2gLPIQTYsZvBPcB
+	 r88DngA1VgERcPYPb16f8YQ3v1m6TwjiBuZ7XVRG88DmzYtuWjm8QjLBew03ks06uNlVG
+	 n6LX2Aj5nx5q8RwYegO9ePg2dLo9ifx2p4HiNttokFGtyP4BTrplz/9K943U6wyOpO9OI
+	 frSgkG+4LBqMeC2BGqhKwoLMqlSnUBQwSHutFlIjUFv6d/IIJEpsxrIG+6x1i02/Mug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i0vK+ipT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gpwg5xiE;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48B3606A32C
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 16:04:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46810606A32C
+	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 16:10:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i0vK+ipT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89D471F008A1;
-	Sat,  7 Nov 2026 16:04:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gpwg5xiE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A58BE1F0089F;
+	Sat,  7 Nov 2026 16:10:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794067487;
-	bh=fFUWjcpzrTkZXjzCQOqjTlJ2t/XawHxTIPLIXJg4i9I=;
+	s=k20260515; t=1794067828;
+	bh=fzc6Ib98TEJrvRwXyQGWkeyhsxojI+S6zYflX/yJABg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=i0vK+ipTzBDY2gt3L6vNwyWwupsVsVCKFhog1GweWTvwpN2OyXWHvPFJHIEiWT/qN
-	 6ZSh1eBDQxIZAW3J7so0/c8azy9jj4Lz3ZPw10Gw6NX9CKhn9iO+OgCp8SqaYNeLEI
-	 wzSdN+XUA7v8Z4FoqWVQVVJ/ReZEn3iUjClvZ79D4j+7pM8MdG9DftMRBFK8LXSWbk
-	 XYLpbt6xumMsdVuuty3q1LWzM7pt8ku0wukPcUXKVOaPWeSapiHcbRKchN+9zQqa6U
-	 lDZbaDPHttTl0TGGAq3tLEk0Ly1RHbyg3yX4xonhG35jnknb3XcfeQPaV9bf0JQprj
-	 JM2NuwD1WNUDQ==
-Message-ID: <sashiko-outbox-203016@kernel.org>
+	b=gpwg5xiEVLKXkvChto+k/VQJBh/mtAaWgrJ4N+gxlyZ8visaYDZN/8J/egJ7qHPIZ
+	 3pk2tfM8A0bQcY50TPKAq05yvia5AMUgsszE5qozAq0LYlWX72mz5fdYe6qAgyYRh9
+	 v0XrRa2BtyAG8EdZKhGjGhpc9TQcQp2VcV15GMAZqgcmLMDmvxmCkva+40+2JdW0HM
+	 IZVifefiE0mS27/n+3HMNXg28bYSqRYA0RuGgSe1p+UZpkM5So7hLbfl602jYElwCK
+	 rUIaXpABq6czPKKHqRckovneUVV/1qBSEt+QrhB1sz49DDOzMXSzj1Omc5BsUFD+cj
+	 OCLOeLon+x5jQ==
+Message-ID: <sashiko-outbox-203025@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 10/25] soundwire: amd: return response on IMM status
- cleanup timeout
+Subject: Re: [PATCH v5 16/25] soundwire: amd: pm_runtime guard in remove
+ path
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Vijendar Mukunda" <Vijendar.Mukunda@amd.com>
 Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261107154659.3358223-11-Vijendar.Mukunda@amd.com>
+In-Reply-To: <20261107154659.3358223-17-Vijendar.Mukunda@amd.com>
 References: <20261107154659.3358223-1-Vijendar.Mukunda@amd.com>
- <20261107154659.3358223-11-Vijendar.Mukunda@amd.com>
+ <20261107154659.3358223-17-Vijendar.Mukunda@amd.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 16:04:47 +0000
+Date: Sat, 07 Nov 2026 16:10:28 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,77 +63,46 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [High] soundwire: amd: unpolled IMM_RES_VALID clear in
-  amd_sdw_send_cmd_get_resp()
+- [Low] soundwire: amd: inaccurate Fixes tag in commit message for
+  pm_runtime guard
 --
 
-commit 89df36f0150dc3c96912a2aa097eb2d1d5dc0e6d
+commit 258769b3a1bdd79fbca74cfbf250109e984888bf
 Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
-soundwire: amd: return response on IMM status cleanup timeout
+> soundwire: amd: pm_runtime guard in remove path
+>
+> Guard pm_runtime_disable() so it is only called when runtime PM
+> was actually enabled. amd_sdw_manager_start() calls pm_runtime_enable()
+> only at the very end, after several fallible hardware init steps. If
+> sdw_amd_startup() fails mid-loop (one manager started, the next fails
+> before pm_runtime_enable()), sdw_amd_exit() triggers
+> platform_device_unregister() for all managers. Calling
+> pm_runtime_disable() on the partially-started manager finds
+> disable_depth already at its initial value of 1, silently increments it
+> to 2 and returns without a warning, so a later pm_runtime_enable() would
+> only bring it back to 1 and leave runtime PM disabled. Use
+> pm_runtime_enabled() to skip the call when it was never paired with an
+> enable.
+>
+> Fixes: f93b697ed98e ("soundwire: amd: cancel pending slave status handlin=
+g workqueue during remove sequence")
+> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
-This commit changes amd_sdw_send_cmd_get_resp() to log a warning, write
-*response, and return 0 when polling for AMD_SDW_IMM_RES_VALID to clear
-times out after reading the response registers.
+[Severity: Low]
+Is the Fixes tag pointing to the right commit?
 
-> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_mana=
-ger.c
-> index f2ed0490aa82d..579b12946c0ca 100644
-> --- a/drivers/soundwire/amd_manager.c
-> +++ b/drivers/soundwire/amd_manager.c
-> @@ -384,9 +384,12 @@ static int amd_sdw_send_cmd_get_resp(struct amd_sdw_=
-manager *amd_manager, u32 lo
->  	ret =3D readl_poll_timeout(amd_manager->mmio + ACP_SW_IMM_CMD_STS, sts,
->  				 !(sts & AMD_SDW_IMM_RES_VALID), ACP_DELAY_US, AMD_SDW_TIMEOUT);
->  	if (ret) {
-> -		dev_err(amd_manager->dev, "SDW%x cmd status retry failed\n",
-> -			amd_manager->instance);
-> -		return ret;
-> +		/* Response already latched above; timeout here is non-fatal.
-> +		 * The residual IMM_RES_VALID bit will be cleared by the bad-state
-> +		 * guard on the next invocation, provided IMM_CMD_BUSY is not also stu=
-ck.
-> +		 */
-> +		dev_warn(amd_manager->dev, "SDW%x cmd status retry failed\n",
-> +			 amd_manager->instance);
->  	}
->  	*response =3D ((u64)upper_resp << 32) | lower_resp;
->  	return 0;
-
-[Severity: High]
-Can returning 0 when AMD_SDW_IMM_RES_VALID fails to clear cause the next
-command to read stale response registers from ACP_SW_IMM_RESP_UPPER_WORD
-and ACP_SW_IMM_RESP_LOWER_QWORD?
-
-When a caller such as amd_sdw_xfer_msg() issues back-to-back commands, the
-next call to amd_sdw_send_cmd_get_resp() hits the bad-state guard, which
-writes AMD_SDW_IMM_RES_VALID without polling for it to clear before
-issuing the new command and polling for (sts & AMD_SDW_IMM_RES_VALID):
-
-drivers/soundwire/amd_manager.c:amd_sdw_send_cmd_get_resp() {
-    ...
-	if (sts & AMD_SDW_IMM_RES_VALID) {
-		dev_err(amd_manager->dev, "SDW%x manager is in bad state\n", amd_manager-=
->instance);
-		writel(AMD_SDW_IMM_RES_VALID, amd_manager->mmio + ACP_SW_IMM_CMD_STS);
-	}
-	writel(upper_data, amd_manager->mmio + ACP_SW_IMM_CMD_UPPER_WORD);
-	writel(lower_data, amd_manager->mmio + ACP_SW_IMM_CMD_LOWER_QWORD);
-
-	ret =3D readl_poll_timeout(amd_manager->mmio + ACP_SW_IMM_CMD_STS, sts,
-				 (sts & AMD_SDW_IMM_RES_VALID), ACP_DELAY_US, AMD_SDW_TIMEOUT);
-    ...
-}
-
-Because readl_poll_timeout() reads ACP_SW_IMM_CMD_STS immediately before
-sleeping and the clear handshake is asynchronous, the residual
-AMD_SDW_IMM_RES_VALID bit can still be set on the first read, causing
-amd_sdw_send_cmd_get_resp() to return the previous command's response
-before the new SoundWire frame finishes on the bus.  Follow-up commit
-"soundwire: amd: clarify bad-state guard poll omission in IMM_RES_VALID
-path" documents the missing poll in the bad-state guard, but does not
-prevent the subsequent response poll from matching the un-cleared bit.
+Commit f93b697ed98e ("soundwire: amd: cancel pending slave status handling
+workqueue during remove sequence") only added cancel_work_sync() to
+amd_sdw_manager_remove().  The unconditional pm_runtime_disable() in
+amd_sdw_manager_remove() was introduced in 81ff58ff71ad ("soundwire: amd: a=
+dd
+runtime pm ops for AMD SoundWire manager driver"), and the synchronous
+sdw_amd_startup() / amd_sdw_manager_start() sequence described here was add=
+ed
+in ed5e8741b8db ("soundwire: amd: refactor amd soundwire manager device node
+creation").
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107154659.3358=
-223-1-Vijendar.Mukunda@amd.com?part=3D10
+223-1-Vijendar.Mukunda@amd.com?part=3D16
