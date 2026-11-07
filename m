@@ -1,56 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794073493;
-	b=hyOgTP6rHrkmHRMpcT+Tyj4n6rlycpXbyWdL84NE/Iy65GwVvKjhs+gsY7v1oRt0s1Cf
-	 GC/M3k+t6ATcWXWKoEgtETYnaqD5IburXf7dFnn0ek8dToQQoLJJ3Eye0Ltl2Ij6iUJCh
-	 /mkHIgqPEupnfouMoZ3Z4T1YInFfbfzq9l7epFaflJhtAckI0G4MOIomMLucXWrtG8tBQ
-	 BI0148KmgXc9FGiErmUpL/yrME9SgZUP3Tf0nkKTwzHMR1AMwrxtMQpLVHkRDOih+txWT
-	 BfarVRUuPbdQ1uO/x5aDvSXeZRDtxqtaTgtufyAjVk1AmgxVD0IdMXwa5+GfFw9NH6Q==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794073493;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=3ARCDQbMLFKwgR8chE3SvNExHjxGeN4fB9kDgInzSpA=;
-	b=ZjOlbTh205muQMcJ36LQxvVXqsa+/bgo6V6xwjdgOLEX6qhZpdSbzIvwz4gcwC/hc29W
-	 fsoyYNaDYJqjvdPYhqtRjsOn6xWmTLO6g5xSHmvYGEuWdEbTjCJg38F5lZ9ubXZ5Lyn9A
-	 lRb/SdNCqtvZV2rfSeBRztbLvL3pLlSymwaljV6fuXyY1kJHe8UjAwvFPxs2JZ2dQ0XnE
-	 j3Mq2iL4/UP91fCs8XOJmfy3lmpqvq03EV8nazimKWKkBEszxfTtZhu7qkrxXHPNEWBeU
-	 jqvGV8xy27bnQaWNoQfsBU+20asZJNfDukoY8RBSXtzOBJgtcjhkqC9eb2TQS3NsiWw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="bJp/bkVr";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.60
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794074097;
+	b=K879EO91V6cz3cuJvUcO4JDuk7FsLEcvFwXCrHg5lPWqLkPv3C6p4VAUquIKA/ax3moK
+	 MV0tG/tDQSEHl9YxR9RYQawH64EVrBRoApD+hl+sgCzBpBi3rmfJ7shBenGAWz0WrMQv4
+	 S+P+D4XlSA9QavDYIDX1rAACN4Cxtt3nSfYS6UT7YDvBJ9eMbi3E1QcwWWUemjOf3AjTO
+	 P5kE6kX9NMbf2/WdxEw3z7jt736ghf8f4qnh7pBPW32IYQ5gBvRts8jGRBwokQtbw4QAI
+	 ss9GHx8IHCWVD/qVZAG9+WurxZKvINYV6AmWnGNmwtJp5YFnJnGkH4W4r9+3JtsnXWg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794074097;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-EOPAttributedMessage:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=dBa8GCKv/gbussZ7f/tAHyvHVXCFihcaEv8idEyi97k=;
+	b=i8ForNsoX6yB9N5ZDqA1QFnIVjxj3GzRL2/SgVSJSVgtS5NmMvnUTYOTQsQ19VOCr32O
+	 KOmQGmumaecN7eqv5ria/BBnZH9OX+p/crA7ycfhIsDCQ9quBKz9zDuZQTnwcmhCt1ZbB
+	 scEF7w7IWRvGJ67/a6GXEYVSyITTpaKsWotCVfYpuMRDY5v9rnJTTePtRxhyboe2ug9vO
+	 XQhPZka/JnpwZoD5uAsT3Q66MbAZuGcyz6wNJyorFyLUjJVVdMDv/Ii62R6lnRyyTPGOi
+	 wLTgcnVStuFWaYCFs8nQtaWWypYch3/nB6A2aUxnc98gvrKfATjfUga13w2+PJxtt5w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=lU6JSYbp;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.60
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010060.outbound.protection.outlook.com [52.101.193.60])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9869D606A32D
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 17:44:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 906B0606A326;
+	Sat,  7 Nov 2026 17:54:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 906B0606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bJp/bkVr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08D221F0089F;
-	Sat,  7 Nov 2026 17:44:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794073493;
-	bh=3ARCDQbMLFKwgR8chE3SvNExHjxGeN4fB9kDgInzSpA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=bJp/bkVr1yDNPJQ8u65ED/9G/7oGwGrp7qhPjyEAmBa+ZN0tzIg1XtqnCssf+AUry
-	 ulHaBnV80xruJIIrQKmpgIdYZcMYJBkH92ixfhggMLLGpu4WcffFJ1Srfe4jZcFxDV
-	 Sd2zLv239IIJttu7+AN2CkLTnDnJhUT0RL0f6wunL2hhPci2b+a1NzVqoorG7FUhmt
-	 l67w7sQ6NRdShLReYHtl9IRONKNiHwk0yIC64fkqatXM3xnUz+2tjX2u0lk15vuguu
-	 tIPuugmYA63f8YSz3gZ0n3kF5u6CJYuIisuNXJNTmO7GJUSPrIcuoPIUPipMb9xKFF
-	 YCOMcFasnKErQ==
-Message-ID: <sashiko-outbox-203127@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] ASoC: rt5659: fix teardown order and stale state
- across card rebind
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Tristan Madani" <tristmd@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261107171813.2561973-1-tristmd@gmail.com>
-References: <20261107171813.2561973-1-tristmd@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 17:44:52 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=lU6JSYbp
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ofqmDWBKdDSMqvnCZBY+VIVnTkb+CWLweZJx2YGA8T8C4s4xidslT5NqCtJqOVLDYinjxvU1khWXFJUNLvnQE9Oagr8crZkIXfztu97hBLfHcwdpKvD1zGotTlCk7WHntv/SVs1pH57hABsvMgCVEC3FxLwTTID7rfMb9mCYb/bAjgz87t/PEfuCFrXOz4BOlb36oXXIOjfEu+U6+EzlcQjZM7F8aNOqwcImgGjip6Nl/3Na74ENm0NSaRu8On+JEfsBE1IRiTzZmFeB3Ji25UPZSUCI/TS87YxoDdLK3Cab+/vfARV0ZwuWZVOhPq4+IvTK+THo2hIrIx2/NSqkdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dBa8GCKv/gbussZ7f/tAHyvHVXCFihcaEv8idEyi97k=;
+ b=suIuaLXaHzRhiJShiVJiZFKSlJJTkhr0CLoz62x44oaaw1bw/7LYh2kIN8JwBdFOE+woFCus7w8RtK5jN+iBFxehul/wItK0DOP6fl73xl8YAQojAg13Rl9J3V7/J7Qh735QKV7zN6RnfSAEry4km7mYNnP0Zp3PDFT+LON9noJZCxQ+RHxgsQCIr4bQ1+eYryNJvn1f9wpdCXc0AoCNWhmcV3dXAOO/NAxjxrrlMNtOyfVRrrydY1lbMk7eK7KNXuD/5kvbcdnLmiSdkR7Xuys2fY7zbMNlpz8bk4DrNA8vSSxv8HCZO9uWdBrm9wDyeEfwBOlHX74zu3AfazBjXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dBa8GCKv/gbussZ7f/tAHyvHVXCFihcaEv8idEyi97k=;
+ b=lU6JSYbpT2XtT9+/Yqg5BsdHPcyABCvDQ9p9mV9NyhpmfapDEiOuJToUQnaHT92NUShq6FqhV/NGAcPG4tNaMvcr+J6gWiWSi1RlxjLJRrAxm7B3lXctVnq1U7w+XVSh7VVPIZxKSkthuO3518vI9CLysix9AZPXEnyy3IzJ2+U=
+Received: from CH0PR04CA0044.namprd04.prod.outlook.com (2603:10b6:610:77::19)
+ by SJ0PR12MB6856.namprd12.prod.outlook.com (2603:10b6:a03:47f::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.11; Sat, 7 Nov
+ 2026 17:54:51 +0000
+Received: from CH2PEPF000166C0.namprd04.prod.outlook.com
+ (2603:10b6:610:77:cafe::57) by CH0PR04CA0044.outlook.office365.com
+ (2603:10b6:610:77::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.11 via Frontend Transport; Sat, 7
+ Nov 2026 17:54:51 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ CH2PEPF000166C0.mail.protection.outlook.com (10.167.252.10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.615.4 via Frontend Transport; Sat, 7 Nov 2026 17:54:51 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Sat, 7 Nov
+ 2026 11:54:50 -0600
+Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
+ satlexmb08.amd.com (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.53
+ via Frontend Transport; Sat, 7 Nov 2026 11:54:45 -0600
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <vkoul@kernel.org>, <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>,
+	<perex@perex.cz>, <tiwai@suse.com>, <yung-chuan.liao@linux.intel.com>,
+	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
+	<venkataprasad.potturu@amd.com>, <Syed.SabaKareem@amd.com>,
+	<Mario.Limonciello@amd.com>, <Richard.Gong@amd.com>, <Poojitha.N@amd.com>,
+	<lee@kernel.org>, <Vijendar.Mukunda@amd.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <sound-open-firmware@alsa-project.org>
+Subject: [PATCH 0/4] ASoC: amd: fix IRQ handler races in AMD SoundWire drivers
+Date: Sat, 7 Nov 2026 23:22:25 +0530
+Message-ID: <20261107175339.3547918-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,87 +110,72 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF000166C0:EE_|SJ0PR12MB6856:EE_
+X-MS-Office365-Filtering-Correlation-Id: 97679d8f-97c2-4ffe-3cd1-08df3cf838ea
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|82310400026|376014|23010399003|7416014|1800799024|18002099003|10067099003|13003099007|11063799006|261026140227099003|261026121527099003|261102123227099003|261022075727099003|261021123027099003|261009223027099003|261021121427099003|56012099006|261022105027099003|261028144727099003;
+X-Microsoft-Antispam-Message-Info:
+	Q4FBxSVh9ESya6oZQ3sMI4e0tMEe9DIzkvnPduOZMLxH0jj5RFD7jedy9mdOJhSRzbr/9IyzmYbIPt6c+ohCU2MCbXxZF9tQcrfWeQRxo+q/VEJuSB3GZGtT8h0ewr3cpTvEPJVgFSeIFdmwqqlOL7l84k5sI27HWG3yw7kYlSVuwpfSiwM4j3D0InWThVjBmMEyzsChybEIPdmItbjHnzLTWqHh0mZ/MbaORbJZsv0kA8bn6sRB7Gi0gL5pjXYgCe3n0gjucHPmFw3wVmZxKZFrjlfBPx0EG/H3WG47s0cbvlxKyQhbd/K1P4GDe6Rpje34j0mB0gcPZkMQIWV68HpHt+o4Xs8m95MP8slkMD76I0zjlBKigk36d+s3wZi+AzVCnjCbrzuCMn58k2X4N16yVbjUNq2h6JI/2v/DqkR1QGwz6mFv7hAu+Tn7JXRTRBXR+00OslyrjEg4itjcew/3SDEppZhjOSulvFouDK9Nt0g9T1gHa1WS0jGxNQvLF5aPGkcDapgpR3Fny6YJqSTWzO3PgmWRMhpujLWFSLLav2tDYbTUV7PUj9L/XTQrKD0hXMk/fJL3cknbatBRu6xstrIL/vASOd0SsYaDZHSNAagLmNL1C+rawlhQEjsc6LJcqsQOj6zgT597YkNOh5oDNir/kK0mSJIsXq/kvSo=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(376014)(23010399003)(7416014)(1800799024)(18002099003)(10067099003)(13003099007)(11063799006)(261026140227099003)(261026121527099003)(261102123227099003)(261022075727099003)(261021123027099003)(261009223027099003)(261021121427099003)(56012099006)(261022105027099003)(261028144727099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	NTVkoXj4Ma3++6KcuCj+2LUFlH6l01SupzapNSl+mCM2ugwacsdZLnTIrl3cYSufHKtq5fM5ic1sraeyWKAEtMCkujErwbUa+jcavFCXGB+gsiBBuyypxmYresd1V2u4nj3jhm4nTdtGP0bs6jlgwrIWZQ8epguv4GsTquJIAmYLwM6oLNs4DdlY2GAuOesQccnyqUVgej/PF5UuQb+PDuSvAtyAoaoqoPwp2LlMvBdAxnRalrDDCJnx5WuYlKPf/UDmvvARWamazm5+OaKn8XpWgz+xZwWSaxfq+31npE9N1aCVkZ0YuJFO4ZJlirj6a/kmsKDTyzCqJ7OGSjNrcHaK1W9Ut1pUlrxt+XXHO23mXuS4HVF/vHwSj8yziZLheeLXhGeJxgMOSXUgEkz6HtD+I2rQUAlrnGvaqvZzPP0P7qOastQd1mCpWl3bLBDC
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2026 17:54:51.3776
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97679d8f-97c2-4ffe-3cd1-08df3cf838ea
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH2PEPF000166C0.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6856
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] ASoC: rt5659: missing irq_disabled update and duplicated
-  teardown logic
+These four patches fix two related race conditions in the AMD SoundWire
+IRQ handlers for the PS (ACP63) and SOF platforms.
+
+Patches 1 and 2 guard against a NULL dereference in the ACP external IRQ
+handler.  The handler is registered before sdw_amd_probe() assigns
+adata->sdw, so a stray interrupt in the probe window, or one that fires
+after sdw_amd_exit() frees the context, can reach the adata->sdw->pdev[i]
+dereference with adata->sdw still NULL.
+
+Patches 3 and 4 guard schedule_work() calls with the interrupt_enabled
+flag so that an in-flight IRQ arriving while the SoundWire manager is
+being torn down does not queue new work after amd_disable_sdw_interrupts()
+has cleared the flag.
+
+NOTE: Patches 3 and 4 depend on the following patch which introduces the
+interrupt_enabled field in the AMD SoundWire manager:
+
+  https://lore.kernel.org/linux-sound/20261107154659.3358223-18-Vijendar.Mukunda@amd.com/
+
+Until that patch is merged, patches 3 and 4 should not be picked up
+independently.
+
+Vijendar Mukunda (4):
+  ASoC: amd: ps: guard adata->sdw dereferences with NULL check in IRQ
+    handler
+  ASoC: SOF: amd: guard adata->sdw dereferences with NULL check in IRQ
+    handler
+  ASoC: SOF: amd: guard SDW IRQ work scheduling with interrupt_enabled
+    flag
+  ASoC: amd: ps: guard SDW IRQ work scheduling with interrupt_enabled
+    flag
+
+ sound/soc/amd/ps/pci-ps.c | 32 ++++++++++++++++++++------------
+ sound/soc/sof/amd/acp.c   | 32 ++++++++++++++++++++------------
+ 2 files changed, 40 insertions(+), 24 deletions(-)
+
 --
+2.53.0
 
-commit e0eba74c9cc9267e2d36067980ce5b886fe432a3
-Author: Tristan Madani <tristan@talencesecurity.com>
-
-ASoC: rt5659: fix teardown order and stale state across card rebind
-
-This commit resets jack detection state, HDA IRQ polarity bits, and the
-regmap cache in rt5659_remove(), and registers a devm action to disable the
-IRQ and cancel jack_detect_work during I2C teardown.
-
-> diff --git a/sound/soc/codecs/rt5659.c b/sound/soc/codecs/rt5659.c
-> index 68f7d5673e190..b28804fa15806 100644
-> --- a/sound/soc/codecs/rt5659.c
-> +++ b/sound/soc/codecs/rt5659.c
-> @@ -3660,6 +3660,16 @@ static int rt5659_set_bias_level(struct snd_soc_co=
-mponent *component,
->  	return 0;
->  }
-> =20
-> +static void rt5659_i2c_disable_irq_and_cancel_work(void *data)
-> +{
-> +	struct rt5659_priv *rt5659 =3D data;
-> +
-> +	if (rt5659->irq_acquired && !rt5659->irq_disabled)
-> +		disable_irq(rt5659->i2c->irq);
-> +	if (rt5659->jack_detect_work_inited)
-> +		cancel_delayed_work_sync(&rt5659->jack_detect_work);
-> +}
-
-[ ... ]
-
-> @@ -3689,17 +3701,34 @@ static int rt5659_probe(struct snd_soc_component =
-*component)
->  static void rt5659_remove(struct snd_soc_component *component)
->  {
->  	struct rt5659_priv *rt5659 =3D snd_soc_component_get_drvdata(component);
-> -	struct i2c_client *i2c =3D to_i2c_client(component->dev);
-> =20
->  	if (rt5659->irq_acquired) {
-> -		disable_irq(i2c->irq);
-> +		disable_irq(rt5659->i2c->irq);
->  		rt5659->irq_disabled =3D true;
->  	}
-> =20
->  	if (rt5659->jack_detect_work_inited)
->  		cancel_delayed_work_sync(&rt5659->jack_detect_work);
-
-[ ... ]
-
-> @@ -4337,6 +4373,11 @@ static void rt5659_i2c_shutdown(struct i2c_client =
-*client)
->  {
->  	struct rt5659_priv *rt5659 =3D i2c_get_clientdata(client);
-> =20
-> +	if (rt5659->irq_acquired && !rt5659->irq_disabled)
-> +		disable_irq(client->irq);
-> +	if (rt5659->jack_detect_work_inited)
-> +		cancel_delayed_work_sync(&rt5659->jack_detect_work);
-> +
->  	regmap_write(rt5659->regmap, RT5659_RESET, 0);
->  }
-
-[Severity: Low]
-Should rt5659_i2c_disable_irq_and_cancel_work() set
-rt5659->irq_disabled =3D true and be called from both rt5659_remove() and
-rt5659_i2c_shutdown()?
-
-Currently neither rt5659_i2c_disable_irq_and_cancel_work() nor
-rt5659_i2c_shutdown() sets rt5659->irq_disabled =3D true, and rt5659_remove=
-()
-does not check !rt5659->irq_disabled.  If rt5659_i2c_shutdown() runs before
-an unbind or device removal, rt5659_remove() or the devm action will call
-disable_irq() a second time on the already-disabled IRQ, and the teardown
-sequence is duplicated in all three places.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107171813.2561=
-973-1-tristmd@gmail.com?part=3D1
