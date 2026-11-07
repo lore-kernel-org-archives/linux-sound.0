@@ -1,58 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794064016;
-	b=X3rAAmj/tW9rqR0WXYJnaqeHEgFF6DFaIjotoVj85lnufrTG6LRDwTYZdNQ7Lr/7/lXX
-	 B5fBmhMKlx+CVRQmmko8Vr2PXIIxwdC3FeL7M+quZcDQpWEusUgjchD4gDWxvzCbyYbz9
-	 xI1pJaWC7xwsFXqnk8kAG6ScVYWYqVW/XdbtNkPkws3cJzYO1VpD9n8t4hCWYxoZEgjZj
-	 nncZtpEST4i95eEMuyws7KSSEQnIrbhQVtttM1DyeViM8sizsFDSJ+9hUGGaGOPU4zVrc
-	 zYmO86+icUnvArq5pE68k7VifYLLE/5at+iotQAelohvTedziTMwkBG5xE/fq3SUIjg==
+	t=1794064652;
+	b=ziAm+Q3vysk8sXzdlDr4wc9vmq5CAm9TNA63oNYYHnn3TjcNgp0aDNadANMr43oddiUC
+	 KPg8Pexco8X8E2n3pbrz3/oF5g4Hmn/Vv0EHxaTcGBtQrEoNkJqN4U1VLCv7xb0KCuL1S
+	 5yTFgH9jJdCGgxppAs37QywwjcjibZq2//Zt4DEU7g1ZM5UT4qwqgmAcqy1QFOkPfPbjt
+	 t+KxfYWlvVBXGF2XexItVHl1YXFC+CsNEc2aj4IVqxJ7QitOqowSNjROx4Yi4f0Rz4PBb
+	 4/LpKDoeEvCdWRopiT7lBkgNYOBv8IE5EO4R4xhXSlmNworYVyS0Plg7Pwxafk20zbA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794064016;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=LTWwDK2LasgvhbV1wRe/mLbex3G7WhPtXDFqv7AiTcU=;
-	b=lz4ZlDBNKyek96Ox6wJAWUz0tWUMfcKGk9xm/2v61qqit6zj4FxB2dGikKtx4u7pUfIl
-	 Jjg5EY9NHPu5GXshvYpu0o46ZyLxLyeacH3ISt8LBVfjE5gZSMX8yVwXGJ3S0OP2OAD0n
-	 4BsXfT3LrIe7/PKXhc5ZkzyAfyDXa2hwL5NvLuEkBCZFFV6lLq5UoofkkSdQcWP9j3Cxa
-	 Etfjesy4f5BTEucQineIozic24cLNSdMr2+S+Nrntz1zrpErEkCwsN8gLuRwBOXneA8iB
-	 SChXjNbnxAHs/2pYA7k5k6gxis+hSxhenA+CUhmblOifJW5pEpyeDID+qR/Ix//wjLA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794064652;
+	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
+	 Subject:Message-Id:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=IHcP2zA/1WKtjATy35bTJOAx/MK9QFjmushPyiooQKM=;
+	b=VxdzuX2WePS7qgutPfCzHM95CYmgzYNGIDRRnyMEw9Qi9G4CILcjz3FwuVEjUdWnWBxp
+	 T4hT0K8k9MxFJZNQPVYrNby1YIV9djVNTgyO2snUMKQlRSKb0/lVOePKKaf+xz9ePjwIe
+	 ippBNwNOmS/Cye6RTYh/ue4ZSmXqdH2HWSvTYTZd+xwlTtxiqFcgcTMNz7KZBOYDy8LVO
+	 NZ7Tkq/xAC7Urv3nawQqCNLtO1rqV+ejpCC625N24httdoTgSFvPHvHZyXRd3iGlV/1d2
+	 bd9BUL+0dpq55Ud7K9l+mfKsDTjyxbE2g/aKEc5X/h50NUhS7YT9MnWIEHg51Exq4VA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RVOBIgmh;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mIiTFQEM;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87ECE6082BED;
-	Sat,  7 Nov 2026 15:06:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41E9606C027;
+	Sat,  7 Nov 2026 15:17:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RVOBIgmh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B06B1F0089F;
-	Sat,  7 Nov 2026 15:06:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mIiTFQEM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F7F21F0089F;
+	Sat,  7 Nov 2026 15:17:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794064016;
-	bh=LTWwDK2LasgvhbV1wRe/mLbex3G7WhPtXDFqv7AiTcU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=RVOBIgmh1tB3g0X0+LbJ4w1/EQdfDA0GXJ+Hcl0H4rhMaiVStIxTbIPAyMNRibXnM
-	 W+A/KGWGZK4eilqlb1Dr2k9p/CkiGfGMeCk68Mi757xNrxn4eVYvXuGKCqGXiBWkXd
-	 DenZ9AZU+oQke1ghJNSYQcS8zEQ6HAYCOfBBas6D0O1mN2mQ9T3u65gZbDFJTULbH4
-	 VDalpOdHdxXFnQtNoDnR+fHJRRK/DLD3x+ZlAxwWVCFocXDO0MTvaBEeshONbLcy2m
-	 IRwIJPNKSq3lS6QXbVSJ46zFjIwW0QJ0/94VNzCv19eDAoXS0zsBPFRcSyvtf2YsIw
-	 VdGj5yoBk8zMQ==
-Message-ID: <sashiko-outbox-202983@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v20 10/12] ALSA: virtio: serialize staged capture
- lifecycle and defer paused XRUNs
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
-Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
- Perez" <eperezma@redhat.com>
-In-Reply-To: <20261107143422.29319-11-mynameisjune111@gmail.com>
-References: <20261107143422.29319-1-mynameisjune111@gmail.com>
- <20261107143422.29319-11-mynameisjune111@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 15:06:55 +0000
+	s=k20260515; t=1794064651;
+	bh=IHcP2zA/1WKtjATy35bTJOAx/MK9QFjmushPyiooQKM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=mIiTFQEM0v2NRdhCRHkdy2hg+w14DBRtu9RGSoZdJFgvoiFnypImuv0u6kCy2IDuT
+	 nWuQopx6voUlVtiPDy6YE4v3sDwE9SzZHJkyQjq825KWaNmZHGm2vQsVPCi4iMPzdn
+	 4dH6my6lChCyKIcGthyThV9RfYltZ/3NkB/HPK+Y77lNA8kaAAlvGzovSypxZR+fhC
+	 3JxhLVIgGTkaBcZ7Xn5gV3xMtHWqd1DS9G7gzCaGyKg5fjN69XJH9m1GX01lqMWUNc
+	 Pa4yvCyC2LuKiMNuyQyZx0oAqpS6m9HqpPrE9WxfVG/p4RRI/URwKpYKQgxmTRH9Z5
+	 17gvaWxb2SVeQ==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id C3D4D2AB3133;
+	Sat, 07 Nov 2026 15:17:29 +0000 (GMT)
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Birk Skyum <birk.skyum@pm.me>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261018220857.16819-1-birk.skyum@pm.me>
+References: <20261018220857.16819-1-birk.skyum@pm.me>
+Subject: Re: [PATCH] ASoC: qcom: q6apm-lpass-dais: Reset the codec DMA
+ channel map in hw_params
+Message-Id: <179405428196.3424803.12425958325069301579.b4-ty@b4>
+Date: Sat, 07 Nov 2026 12:24:41 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,183 +65,47 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1164; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=W3qZq+vVv5QaoEW0JZmNEswhu/a3a46gXDbVs0bV6ZM=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLeO3IG5+5fKxXxMF+9Pb+4ccu9a1Fbz/0XvOwW1/VuU
+ Zt3eOfzjlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAEwk9REjw5bsrysevFuZEjbj
+ e7pNCvOsK/zC7x6FPtwkc61I3Io/ooiR4fxV+W28+3zeFTyPC+l4/2XrBREHsa65z6y2LmXUD1o
+ 6iQMA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Medium] ALSA: virtio: start race in virtsnd_pcm_start_queue() while
-  preparing is set
-- [Medium] ALSA: virtio: virtsnd_pcm_sync_stop() drops stop_operating
-  when paused
---
+On Sun, 18 Oct 2026 22:10:41 +0000, Birk Skyum wrote:
+> ASoC: qcom: q6apm-lpass-dais: Reset the codec DMA channel map in hw_params
 
-commit 55539e87ca936ab2bb90a3215a575e0a0a27b88c
-Author: Joonho Lee <mynameisjune111@gmail.com>
+Applied to
 
-ALSA: virtio: serialize staged capture lifecycle and defer paused XRUNs
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
-This commit adds staged capture support using request-owned RX buffers,
-serializes PCM lifecycle operations with lifecycle_lock, and defers
-paused XRUN notifications until stream resume.
+Thanks!
 
-> diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
-> index 8fe6974130270..c7125074f6425 100644
-> --- a/sound/virtio/virtio_pcm_ops.c
-> +++ b/sound/virtio/virtio_pcm_ops.c
+[1/1] ASoC: qcom: q6apm-lpass-dais: Reset the codec DMA channel map in hw_params
+      https://git.kernel.org/broonie/sound/c/347e02073b08
 
-[ ... ]
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-> @@ -323,182 +645,779 @@ static int virtsnd_pcm_hw_params(struct snd_pcm_s=
-ubstream *substream,
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-[ ... ]
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-> +static int virtsnd_pcm_prepare_locked(struct snd_pcm_substream *substrea=
-m)
->  {
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-[ ... ]
+Thanks,
+Mark
 
-> +	scoped_guard(pcm_stream_lock_irqsave, substream) {
-> +		guard(spinlock_irqsave)(&vss->lock);
-> +		if (epoch !=3D vss->reset_epoch || vss->resetting)
-> +			return -ECANCELED;
->  		vss->release_required =3D true;
-> +		vss->buffer_bytes =3D snd_pcm_lib_buffer_bytes(substream);
-> +		vss->hw_ptr =3D 0;
-> +		vss->suspended =3D false;
-> +		vss->msg_count =3D 0;
-> +		virtsnd_pcm_msg_reset(vss);
-> +		memset(&vss->pcm_indirect, 0, sizeof(vss->pcm_indirect));
-> +		vss->pcm_indirect.sw_buffer_size =3D vss->buffer_bytes;
-> +		vss->pcm_indirect.hw_buffer_size =3D vss->buffer_bytes;
-> +		if (vss->capture_staging) {
-> +			vss->capture_boundary =3D substream->runtime->boundary;
-> +			rc =3D virtsnd_pcm_capture_refresh_mode_locked(vss,
-> +							     &free_running);
-> +			if (rc) {
-> +				vss->xfer_xrun =3D true;
-> +				vss->stopped =3D true;
-> +				return rc;
-> +			}
-> +		}
-> +		vss->prepared =3D true;
-> +		vss->stopped =3D false;
-> +		vss->xfer_xrun =3D false;
->  	}
-> +
-> +	return rc;
->  }
-
-[ ... ]
-
-> +static int virtsnd_pcm_start_queue(struct virtio_pcm_substream *vss, u64=
- epoch)
-> +{
-> +	struct virtio_snd_queue *queue =3D virtsnd_pcm_queue(vss);
-> +	int rc =3D 0;
-> +
-> +	guard(spinlock_irqsave)(&queue->lock);
-> +	guard(spinlock)(&vss->lock);
-> +	if (vss->resetting || vss->reset_epoch !=3D epoch)
-> +		return -ECANCELED;
-> +	if (vss->stopped || !vss->prepared || vss->xfer_xrun)
-> +		return vss->xfer_xrun ? -EPIPE : -EBADFD;
-
-[Severity: Medium]
-Can SNDRV_PCM_TRIGGER_START succeed while virtsnd_pcm_prepare() is still
-in progress?
-
-Previously, virtsnd_pcm_prepare_device() kept vss->prepared false until
-virtsnd_pcm_reset() ran, and virtsnd_pcm_trigger() rejected start when
-vss->preparing was set.  Now virtsnd_pcm_prepare_locked() sets
-vss->prepared =3D true before snd_pcm_do_prepare() calls
-snd_pcm_reset_substream(), and neither virtsnd_pcm_start_queue() nor
-virtsnd_pcm_pause_restart_start() checks vss->preparing.
-
-Unlike snd_pcm_pre_start(), snd_pcm_drain() does not take
-runtime->buffer_mutex or check runtime->buffer_accessing.  When a
-prepared playback substream with queued frames (appl_ptr > hw_ptr) is
-re-prepared, a concurrent drain ioctl can start the device before the
-pointer reset finishes:
-
-CPU0                                  CPU1
-snd_pcm_do_prepare()
-  virtsnd_pcm_prepare()
-    vss->preparing =3D true
-    vss->prepared =3D true
-                                      snd_pcm_drain()
-                                        snd_pcm_do_drain_init()
-                                          snd_pcm_do_start()
-                                            virtsnd_pcm_trigger(START)
-                                              vss->device_running =3D true
-                                              vss->xfer_enabled =3D true
-  snd_pcm_reset_substream()
-    virtsnd_pcm_playback_reset()
-      vss->preparing =3D false
-  snd_pcm_post_prepare()
-    state =3D SNDRV_PCM_STATE_PREPARED  <-- device left running in PREPARED
-
-Should virtsnd_pcm_start_queue() and virtsnd_pcm_pause_restart_start()
-also reject start while vss->preparing is true?
-
-[ ... ]
-
-> @@ -808,42 +2060,275 @@ static int virtsnd_pcm_cp_ack(struct snd_pcm_subs=
-tream *substream)
-
-[ ... ]
-
-> +static int virtsnd_pcm_sync_stop(struct snd_pcm_substream *substream)
-> +{
-> +	struct virtio_pcm_substream *vss =3D snd_pcm_substream_chip(substream);
-> +	bool owned;
-> +
-> +	guard(mutex)(&vss->lifecycle_lock);
-> +	scoped_guard(pcm_stream_lock_irqsave, substream) {
-> +		snd_pcm_state_t state =3D substream->runtime->state;
-> +
-> +		/*
-> +		 * Trigger holds the PCM lock through its control requests. Wait
-> +		 * for it, then leave a replacement active generation alone.
-> +		 * lifecycle_lock keeps prepare from replacing an inactive one
-> +		 * until sync_stop_locked has finished its teardown.
-> +		 */
-> +		guard(spinlock_irqsave)(&vss->lock);
-> +		owned =3D vss->prepared || vss->release_required || vss->msg_count ||
-> +			vss->device_running;
-> +		if (state =3D=3D SNDRV_PCM_STATE_RUNNING ||
-> +		    state =3D=3D SNDRV_PCM_STATE_PAUSED ||
-> +		    state =3D=3D SNDRV_PCM_STATE_PREPARED ||
-> +		    (state =3D=3D SNDRV_PCM_STATE_DRAINING &&
-> +		     substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK)) {
-> +			/* Core may consume this marker before a later inactive teardown. */
-> +			if (owned)
-> +				substream->runtime->stop_operating =3D true;
-> +			return 0;
-> +		}
-
-[Severity: Medium]
-Does virtsnd_pcm_sync_stop() drop runtime->stop_operating when a staged
-capture stream with capture_pause_restart enabled is paused?
-
-When SNDRV_PCM_TRIGGER_PAUSE_PUSH runs with capture_pause_restart
-enabled, virtsnd_pcm_pause_restart_pause() sets vss->stopped =3D true and
-calls virtsnd_pcm_release_wait(), which waits for vss->msg_count to reach
-0 and clears vss->prepared and vss->release_required while transitioning
-to VIRTSND_PCM_PAUSE_RESTART_RELEASED (with vss->device_running already
-false).  virtsnd_pcm_trigger() then sets runtime->stop_operating =3D true so
-that a later teardown from SNDRV_PCM_STATE_PAUSED will invoke
-ops->sync_stop.
-
-If snd_pcm_sync_stop() runs while the stream is still in
-SNDRV_PCM_STATE_PAUSED, it clears runtime->stop_operating before calling
-virtsnd_pcm_sync_stop().  Because owned does not include vss->stopped, it
-evaluates to false and runtime->stop_operating stays false.  If the
-paused stream is then torn down without resuming to RUNNING (for example
-via snd_pcm_drop()), snd_pcm_running() is false so ALSA skips
-virtsnd_pcm_sync_stop(), leaving vss->stopped set and vss->elapsed_period
-unquiesced.  Should owned include vss->stopped?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107143422.2931=
-9-1-mynameisjune111@gmail.com?part=3D10
