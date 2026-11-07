@@ -1,57 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=159.226.251.81
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794068753;
-	b=SETRA1UhkxEgx+vE+vudD2KpUE+hzRTJaSgAYnEGwjaK1ZKy7/7qUPLogFUKi3bpF4Jm
-	 CH3P+C5OJ4WTe4A71FPSmStIeDisrrGstxc6ZmK+iPl+ROPsmPN43Lbilmxf1b1Nb4dWP
-	 JAIIKO6lTi61iFmXcEk3ZAfsqWkLzzyKswIeJ7bFGxzoxDK0+2BAYA87gNmz0f4M4UEJV
-	 otm0ZEl92AjSANxtptO4XrJfj0t7NVVKuFxaOH8wSDOKXU7Z/iLzJawHAVY0xE6VbadqW
-	 HBHafapnqz2+TBP6Yy4nzYwDHusGcq7xCG9Sm1Ao2+v74A7kTQPsY8yFmGciMYBSJqQ==
+	t=1794069542;
+	b=L+Al9+ww4KcGux1UERAt++A9j0+OcI5JgDbvhZ+w/cRwQa5UWGPGrZon6DygWpUMM2I0
+	 tSGXNYYOuv4+lQvKpFazccyf9OW5sOr0Dd5vHEwCjdDAlJuVY3KmTJWYuk6NLoRp338Yc
+	 ulh1Sops5Qw59cTKAUYC3EN45+T2EWvxc14H54jZortauBMGlw9DyAm9uYNO9TsEQ5wvm
+	 UuWy6w9ryqiTVUxm9dcWUv+biqmLUcncJaNS9HL52YqMyaSIUCQGRb/mKh/rSHHtjT3XB
+	 fsG5hINfOD/ANA01EbNYzDXqG/bO0jbBf7wX6WBbNAjK9zeEmLUAJfJCo8Sew9WOHfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794068753;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=6KMLII++fl32NzcSkU62ezgtDx+w05FWcj1RRl47k1g=;
-	b=vwQIgkCzZZBapJzj4Lj4duHVHGQKPhuIsgrOHWhp/cdM+j6bKY/BorjAtoH1Wz+CRnrf
-	 J0fcu/etz0AJMOke4kZELwAXlj8KGwISGebZ4arYRmMIiq+ShmSJTfhDUySX4eO6Ly8Ho
-	 PQwrKTl+/T86b2xF4iRF/0tVqfjPgi2vRBCXck9nO8R5bgg0YD0O9ZT7BbsMjMoW/dJfN
-	 L6YZ9gZTmE076hbA3gpABNEpAftfxqDLeyrHfu1je2afD946y0zuMdwd+R8cB+1lCtyZF
-	 /qQ5YnuA7zGDBlX4tGa19SxEIE4G5NnF7SvZSpOHNF/3BlK30HD0LB3uvtavvWSf2EA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794069542;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Date:Message-ID:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
+	bh=lWUiedORJz9iuGG8xvWpfiLUfTiY46+2FOj+Hma4KIU=;
+	b=V9aS5gHfpJ6at0K6nyMetyIpHGpF/NBYVslqP/Al1P1/J3/eS9iALwLZPaviSpCUxzBb
+	 d6ykKXXYlhm8aRpVFYrMojgP/7m8q2XQaq8DpEMiAj3hlaaqNb51h7qrzjyeFiAsxHB3m
+	 15Tn+cFFQakqt4z4HYpHD4YYF2USXk0KzrqWTxmeVnJnR7MQCIvqbFeXdDWqguUSN4ADr
+	 sDbZrWS3j7UAAEbDDPX3gGE2EUHYsYPWVuu75UkMIw8E9stSllW3Fl2OAhP388qLVqtbc
+	 Mcot55Pcf8LpG9pMXc/GhBgSYL5eV5Fnfh1iME3LKlk5f/Vaxy/+5vsHRg5huaQ2ctA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TUbdpw96;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=iscas.ac.cn;
+	spf=pass smtp.mailfrom=iscas.ac.cn;
+	arc=none smtp.remote-ip=159.226.251.81
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65493606A326
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 16:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TUbdpw96
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D2AF1F0089F;
-	Sat,  7 Nov 2026 16:25:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794068752;
-	bh=6KMLII++fl32NzcSkU62ezgtDx+w05FWcj1RRl47k1g=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=TUbdpw96VPzd9FXZlO65q0/talScdvCSqHjBi57b6zsHGn3cl1swODgh3hTeErjNg
-	 rz18P0WJImOKHUYkdlETSEsVN0U3xGoXKo+986Hs4PInOlNBmecMMQ7VpUdOpCsmw2
-	 YqHIyZTXV7ZkiuBs57H3KacaopIl1dwoMzWL/HcW1wL1N5TWGpWWq/KFCrDnuecIjA
-	 11Lxkgktv98UIuI/GQ9hzoq/IrUnMxqINlGdToyO+l0lIwla3U99MAMRuotuYlK8M5
-	 2psPImkWzyeVIOeW2HOzSJvFgGCE6DthuTLWYizm0wbzedPfN3+vwUE5uOsegPAsgE
-	 ddZi5KygjtE5A==
-Message-ID: <sashiko-outbox-203057@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 22/25] soundwire: amd: fix interrupt gate and work
- drain ordering in PM ops
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Vijendar Mukunda" <Vijendar.Mukunda@amd.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261107154659.3358223-23-Vijendar.Mukunda@amd.com>
-References: <20261107154659.3358223-1-Vijendar.Mukunda@amd.com>
- <20261107154659.3358223-23-Vijendar.Mukunda@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 16:25:51 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C41606D80A;
+	Sat,  7 Nov 2026 16:39:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 23C41606D80A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from [172.100.0.8] (unknown [36.110.52.2])
+	by APP-03 (Coremail) with SMTP id rQCowAB3hpccVO9qzfeBAA--.3936S2;
+	Sun, 08 Nov 2026 00:38:52 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: Mark Brown <broonie@kernel.org>
+Cc: Xiubo Li <Xiubo.Lee@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org,
+ Nicolin Chen <nicoleotsuka@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Takashi Iwai <tiwai@suse.com>,
+ vulab@iscas.ac.cn
+Subject: Re: [PATCH] ASoC: fsl-asoc-card: Fix ASRC device leak in
+ fsl_asoc_card_probe()
+In-Reply-To: <1d80b89f-7b33-4036-a450-bf32c603a238@sirena.org.uk>
+References: <20260917165430.2163372-1-vulab@iscas.ac.cn>
+ <1d80b89f-7b33-4036-a450-bf32c603a238@sirena.org.uk>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,128 +59,50 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Date: Sat, 07 Nov 2026 16:38:38 +0000
+Message-ID: <20261107163838.271828-1-vulab@iscas.ac.cn>
+X-CM-TRANSID:rQCowAB3hpccVO9qzfeBAA--.3936S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xw4rJr4kur47Kry3CF1DAwb_yoWfCrgEkw
+	4vkFyjvr1xZFZ8Ww12gFWkZF9F9ayqgryrK348Wa4xuFy5AFyaq3Z3KFn2vw4Iqas8ZF1q
+	qFyqq3yj9w129jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb-kFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+	wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+	vE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280
+	aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzxvE52
+	x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUtVWr
+	XwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4
+	x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AK
+	xVWUtVW8ZwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r48ZrWUJr1UMxC20s
+	026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
+	JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
+	v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xva
+	j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JV
+	W8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbUPEDUUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAMEA2rvPp4fAQAAsz
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Medium] soundwire: amd: unserialized hard IRQ race with work drain in
-  amd_suspend()
-- [Low] soundwire: amd: commit message describes prior patch revision in
-  PM ops
---
+On Thu, Sep 17, 2026 at 11:33:55PM +0100, Mark Brown wrote:
+> This doesn't apply against current code, please check and resend.
 
-commit f3586b88e19b93c1d283c25b97e67e7d9da93bab
-Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Sorry for the very late reply, and for the noise.
 
-> soundwire: amd: fix interrupt gate and work drain ordering in PM ops
->=20
-> The CLK_STOP_MODE branches in amd_suspend() and amd_suspend_runtime()
-> did not close the ACP_EXTERNAL_INTR_CNTL delivery gate before draining
-> amd_sdw_irq_thread and amd_sdw_work. An ISR already running when the
-> drains completed could re-queue work after cancel_work_sync() returned,
-> racing amd_sdw_clock_stop().
->=20
-> In both CLK_STOP_MODE paths, amd_sdw_wake_enable() was also called
-> before amd_enable_sdw_interrupts(). Since amd_enable_sdw_interrupts()
-> writes the interrupt mask unconditionally, it clobbered the wake bit
-> set by amd_sdw_wake_enable().
->=20
-> For both amd_suspend() and amd_suspend_runtime():
->  - CLK_STOP_MODE: add amd_disable_sdw_interrupts() and
->    cancel_work_sync(irq_thread) before the work drain; reopen the gate
->    with amd_enable_sdw_interrupts() after clock stop, then call
->    amd_sdw_wake_enable() so the wake bit is not clobbered.
->  - POWER_OFF_MODE: add amd_disable_sdw_interrupts() and
->    cancel_work_sync(irq_thread) before the work drain; remove the
->    redundant post-clock-stop amd_disable_sdw_interrupts() call.
->=20
-> Fixes: 86a4371b7697 ("soundwire: amd: fix for handling slave alerts after=
- link is down")
-> Reported-by: Lee Jones <lee@kernel.org>
-> Closes: https://sashiko.dev/#/bug/linux-3b774ace-00cf-41e6-82eb-85cd43f5e=
-1d6
-> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+You are right, and it was not a conflict with another fix: the patch was
+generated against a tree predating de27e0cadcce ("ASoC: fsl-asoc-card:
+Move bound-component setup to late_probe"), which removed cpu_pdev and
+the codec_dev[] array from fsl_asoc_card_probe().  The exit path the
+patch was built on no longer exists.
 
-[Severity: Low]
-Does the commit message describe an intermediate revision of this series
-rather than the parent commit?
+The leak itself does: asrc_pdev, taken by of_find_device_by_node(), is
+still never released.  I rebased the fix on current code and resent it
+on Nov 4:
 
-In the parent commit, amd_suspend_runtime() did not drain
-amd_sdw_irq_thread or amd_sdw_work at all (this patch adds both
-cancel_work_sync() calls there), and neither CLK_STOP_MODE path called
-amd_enable_sdw_interrupts() before this patch.
+  https://lore.kernel.org/all/20261104024047.1508601-1-vulab@iscas.ac.cn/
 
-> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_mana=
-ger.c
-> index 2b38b9bf97f50..4e151f7350c96 100644
-> --- a/drivers/soundwire/amd_manager.c
-> +++ b/drivers/soundwire/amd_manager.c
-> @@ -1437,15 +1437,20 @@ static int __maybe_unused amd_suspend(struct devi=
-ce *dev)
->  	}
-> =20
->  	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
-> +		amd_disable_sdw_interrupts(amd_manager);
-> +		cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
->  		cancel_work_sync(&amd_manager->amd_sdw_work);
-> -		amd_sdw_wake_enable(amd_manager, false);
->  		ret =3D amd_sdw_host_wake_enable_by_rev(amd_manager, false);
->  		if (ret)
->  			return ret;
->  		ret =3D amd_sdw_clock_stop(amd_manager);
->  		if (ret)
->  			return ret;
-> +		amd_enable_sdw_interrupts(amd_manager);
-> +		amd_sdw_wake_enable(amd_manager, false);
+It adds put_device(&asrc_pdev->dev) at asrc_fail, applies cleanly to
+310ee4c282a1 (current sound for-next), and builds with arm64 defconfig.
 
-[Severity: Medium]
-Can an in-flight parent ACP hard IRQ handler still queue
-amd_sdw_irq_thread after cancel_work_sync() returns in amd_suspend() and
-amd_suspend_runtime()?
+Thanks,
+Wentao
 
-None of the parent ACP hard IRQ handlers (such as acp63_irq_handler() in
-sound/soc/amd/ps/pci-ps.c) check amd_manager->interrupt_enabled or acquire
-acp_sdw_lock before calling schedule_work(&amd_manager->amd_sdw_irq_thread):
-
-sound/soc/amd/ps/pci-ps.c:acp63_irq_handler() {
-    ...
-	ext_intr_stat =3D readl(adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
-	if (ext_intr_stat & ACP_SDW0_STAT) {
-		writel(ACP_SDW0_STAT, adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
-		amd_manager =3D dev_get_drvdata(&adata->sdw->pdev[0]->dev);
-		if (amd_manager)
-			schedule_work(&amd_manager->amd_sdw_irq_thread);
-    ...
-}
-
-If the hard IRQ fires just before amd_disable_sdw_interrupts() masks
-ACP_EXTERNAL_INTR_CNTL, the two contexts can interleave as follows:
-
-CPU0                                  CPU1 (<hardirq>)
-amd_suspend()
-                                      acp63_irq_handler()
-                                        readl(... + ACP_EXTERNAL_INTR_STAT)
-  amd_disable_sdw_interrupts()
-    interrupt_enabled =3D false
-    amd_updatel(ACP_EXTERNAL_INTR_CNTL, ...)
-  cancel_work_sync(&amd_sdw_irq_thread)
-  cancel_work_sync(&amd_sdw_work)
-  amd_sdw_clock_stop()
-  amd_enable_sdw_interrupts()
-    interrupt_enabled =3D true
-                                        schedule_work(&amd_sdw_irq_thread)
-                                      amd_sdw_irq_thread()
-                                        schedule_work(&amd_sdw_work)
-                                          <-- runs while clock is stopped
-
-Even in AMD_SDW_POWER_OFF_MODE where interrupt_enabled remains false,
-amd_sdw_irq_thread() still reads SoundWire MMIO registers and calls
-amd_sdw_read_and_process_ping_status() without checking interrupt_enabled,
-racing with amd_sdw_clock_stop(), amd_disable_sdw_manager(), and D3 entry.
-In AMD_SDW_CLK_STOP_MODE, calling amd_enable_sdw_interrupts() right after
-amd_sdw_clock_stop() also sets interrupt_enabled back to true while the
-clock is stopped, allowing a late amd_sdw_irq_thread() to schedule
-amd_sdw_work and trigger MIPI command timeouts (-ETIMEDOUT).
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107154659.3358=
-223-1-Vijendar.Mukunda@amd.com?part=3D22
