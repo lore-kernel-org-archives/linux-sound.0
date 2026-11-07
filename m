@@ -1,60 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794145435;
-	b=ixFnH/N7ALtqFK75EjNs80dn9ecyCom+b2bvqONHuoPSiE5EgL2vuTPTcG5cPwyTvysk
-	 cP+FWPrwTUiYL5DCWG4rdyOx87vMeW4W0qf4nU56qt4jlaMs47hZj+dzN/eyn3//ldaG4
-	 y2rsHTVzt4wcUQmlK2bgVnLm/JZURMl48d/t//FMwS8Izh9X+zYqiOW5fiCHKldq+1BWw
-	 QMX+JTTNpx6o5Z5D4X+a+55ju2ebPJrd3MfT1WOmSuvS8CI7LREdSfT+A45GRj48Y+4Tz
-	 Q1bJX3zkw1XB9Hy7IGSH+2COmaxyyKpraKVnQuQeDq/XhBfM04CZPU+VpJBhq9cpfuA==
+	t=1794145436;
+	b=B1WNutiAQhlRUVbJJa4bPDZDfeS7zwGQQuJqRfkiMPGrNoA9HZI+XpMqnwqqYrfiRN0p
+	 5y38eomqkS4jk19FJ0ztHPUKiRyR6gzA1Jhx20oIyz7pYomJiReSJkmqiEyqh2xYEFk96
+	 44LgBdaJr3ODqXR15wVIFGkqw+QwgVznOIRereN8o8+rYHIgHGU0w8H8b86XZKrgP9YAj
+	 42UYeQrrCKutvYH5N4xaVd3I0za/gqECtD4YKxl2T39QYH9T7EEiC/GvddQBjZ3mBQDfR
+	 MkfKJHVyLoizwOjjd3ph2C0p/FKALy/IP1mqjFh0ISkcSYEHJ9OpZmVk54YSPKGHJ/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794145435;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794145436;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=5vYRpUUK0O6cDElajPXUQtxaJSko4S4aSKBOxIdD3tg=;
-	b=C1NKLIJD4es477iuw6/kFRzvky4DEVbU9FdQG3tVHanewBe/YK0T3gQANBxcPHPfapo1
-	 hsSZo+JOfwpB6u5zG9JJU+dyVrkk9WQmJsI1rbAx69m1OVZ0ZpE7WooCYkjYK4snVpRUk
-	 XZec9DCYe1m4lRkDUkIZHqnonHjf2g8wQ8XkXJUHysiQhAWCwOT1055GBoTW/nVp0day6
-	 fqzEH2NwvJVLe8fCIpldfS/FPg+7/fmGasN7LNqLV43Th19z0Guw+KU1KNeUb+PrcAFkU
-	 Q1KmzEhF0kq7S+vkqxV9qm/AJr70ezLvjRA4Gm9X7K8apN5q3B8LE7rOJ2pZKYaRfjQ==
+	bh=J8rQ2S7tI4nVEpVZlhu4LEATGN7xoWxfKuujXV/8V2A=;
+	b=R0NihwWsopHWqHOacWxegamn3IooqvZ8+9e+FtMMBx5QHFdopeyKJ+a24AnnfC4vaN7t
+	 JBQOtSokKeHkyu95axn/BxeA3IM94u4cQwbn/3WZxEY691c7/YJLdQ8K5phF5l1hfvpzV
+	 /CcpzjtsVMyE25Im5TsyYA+J/UMyKiYgr87/UfTor6DxUBCJkXIMNmeocEhPg6A7Dx7cy
+	 gI+x2CjWcJhLfRKaeE/HElChvEgm0I6klQ9srPpLhY15WvXH+e9d2y2yVZp0NC8x3zxhD
+	 MBt0tPl2znVtvZ/xicMxQhtWXqBh+LQlNEy5bOLFr+ieBOZ40ORGyu3+bxEwik9dMHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VMHKst6y;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=owBmbClG;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BBAA606A321
-	for <linux-sound@vger.kernel.org>; Sun,  8 Nov 2026 13:43:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD830606A332;
+	Sun,  8 Nov 2026 13:43:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VMHKst6y
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DCBB1F008A3;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=owBmbClG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 929BA1F008A5;
 	Sun,  8 Nov 2026 13:43:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794145435;
-	bh=5vYRpUUK0O6cDElajPXUQtxaJSko4S4aSKBOxIdD3tg=;
+	bh=J8rQ2S7tI4nVEpVZlhu4LEATGN7xoWxfKuujXV/8V2A=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=VMHKst6y0E0O/1kKG9d/WG8pXUZvELy6xdbScFwRPv7KooTsFAAPZ1Dzd8A1OXJNq
-	 0zis1+6VQmp9LMWIV8uwkfxKW3iDB5C6gaACfxxJlObHVpP8UDe+bHeosWd8oyjGXW
-	 OIiS+tBPPGiRGOPBrlooTJlMxy1y5ydSKK9PXS3nvseh8ZRdLXUlIVNQ4rvg2XE9L4
-	 hKr30CNdIm1u2GIL8oDFxI1RBxGGlUgI0I15vzckH3ELU6GhZreQ6/TdLkdk8Zgsj4
-	 2sFho1KoG7FlC0/iRoBkIEEh7m2cnXgQF5FAqGKkcXHEmF5QI5KiKqXCQQqM73AlYy
-	 3bLBSUTCq9spw==
+	b=owBmbClGUEZ4e/KRX6S9IGZIv30NIXSbCmyjJx8rkADkMsbWumMt24t0kbF2Y44ci
+	 cBDsUDvGNsYiejZSHgR0JoivOdIFZQtCZ1Kv4dE6O4lesKINlXzrMshWGbXSO2JUFn
+	 rT0YHdfUfJu5VOfbW/NCE+QZA+0Re90qXdpdIsoC17Offlit/MpGM32xRTTdKwhw6G
+	 KkJRqbxAzre5JTbTBSJYsfv97zhpoKasgrCGGFqmdrLX40ABqtSE6Y7yNcfUFs3TJr
+	 ZLg74JdIiuU6lZulOJiFC8cLdfwOnfpqrWtwdnL664WoaS8Gg8x1Kaa93KKRAZ2ehw
+	 YqBoaJIc/VHhA==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id E26692C7926E;
-	Sun, 08 Nov 2026 13:43:51 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 8C9D32C79279;
+	Sun, 08 Nov 2026 13:43:52 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: Sylwester Nawrocki <s.nawrocki@samsung.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Wentao Liang <vulab@iscas.ac.cn>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261104024052.1508720-1-vulab@iscas.ac.cn>
-References: <20261104024052.1508720-1-vulab@iscas.ac.cn>
-Subject: Re: [PATCH] ASoC: samsung: snow: release the I2S bus clock if
- registration fails
-Message-Id: <179406790195.3424803.7070445163976155667.b4-ty@b4>
-Date: Sat, 07 Nov 2026 16:11:41 +0000
+To: bo liu <bo.liu@senarytech.com>, 
+ "qianghua . wang" <qianghua.wang@senarytech.com>, 
+ Aryan Sinha <sinha.aryan03@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261104150155.33157-1-sinha.aryan03@gmail.com>
+References: <20261104150155.33157-1-sinha.aryan03@gmail.com>
+Subject: Re: [PATCH] ASoC: sn624x: use dev_err_probe() for the regmap
+ failure
+Message-Id: <179406701581.3424803.11771624607040385269.b4-ty@b4>
+Date: Sat, 07 Nov 2026 15:56:55 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -67,17 +68,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1154; i=broonie@kernel.org;
- h=from:subject:message-id; bh=Dwlk5fuft2lDiz25j2wid4EmBTMIu/3DNywlf3gL+50=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+1Exn0Puqsur/9knLL15+LfGc7dzDJ/kf1n+syij6Z
- JXGKHL7V0cpC4MYF4OsmCJLXBb3y/qS12v4Di5sg5nDygQ2hItTACay2Zfhn16saszMbzcn1GUz
- MWseqm8s6X245/o80We2pqdWRMjKyTMyPJ7uevrM/fbKELPFz5UPpzBwsldP7v6rkz5tmmzJrT3
- 3uQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1129; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=0L0nyRIesVnUPnpWBP3Q+3ZEfxWs7yFQmcko+ar/J10=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+1MywP8xnHJPe72wlaaq8qiq35tYj1rJqWWWj2Yomp
+ aeT9iztKGVhEONikBVTZInL4n5ZX/J6Dd/BhW0wc1iZQIYwcHEKwET4LjEy3CuwmbGZ44lfo9vS
+ Q/+nzJS7/ZKV93LQZT/jeOEq45/zlzH8r3//XqRpie36WwccJdct6hGq5xBe7/xnd3/DryfXvwa
+ r8QIA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 04 Nov 2026 02:40:52 +0000, Wentao Liang wrote:
-> ASoC: samsung: snow: release the I2S bus clock if registration fails
+On Wed, 04 Nov 2026 20:31:54 +0530, Aryan Sinha wrote:
+> ASoC: sn624x: use dev_err_probe() for the regmap failure
 
 Applied to
 
@@ -85,8 +86,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: samsung: snow: release the I2S bus clock if registration fails
-      https://git.kernel.org/broonie/sound/c/9913e4bc5a2f
+[1/1] ASoC: sn624x: use dev_err_probe() for the regmap failure
+      https://git.kernel.org/broonie/sound/c/9d12f5640132
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
