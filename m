@@ -1,48 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794067986;
-	b=Q3TvzFAOOUFjkV6v5AgOt9BtpXGt+y718aMTVUEIiY1GKyHTPh8C86dTZ+Mvu+AGkXgu
-	 AAkricKMpXyXxLL3RpuWsXCNsi7s6nDG9SlmxoNXrXkdT3gaqNvPd2hQ+7zMMGt9f/1tk
-	 aixzMPsPSF1ATi0JAVaQfQGJvb1G82uOJ/wZiIKKK5qfGUrT9WYYrXHFnDvm9f1KWD3lP
-	 WlvcgzeYoNaSSCrbisp9QvFsWoed4ljFvf326VairffERyvSCzZEaDxsUmlhrBgFBv8Uf
-	 l7C/CL7eON2Y+luSmNbNJgezOCiMbiIC326qL3V2n1SjUrba3/ySJbLK5uLriv0oamg==
+	t=1794068021;
+	b=DWuCwYlG+17iVuVAPBANBYUERylQDihdFmuj0MOv8E2Ky4/x6w1/tnPOGlJ+JOJSIM9Z
+	 gn7g55Thn6ZyYpUCXojz4wZ8in6A9obYgnfOAqMB8eq6I/1yySO93mWztC3PobTxjSIat
+	 6wavtHGX3x1oed0Ltp9pU4MWQnSNdGdqEVo0UweoSZTQ54ykxmaomukp7k2uAVReJMi+4
+	 5IXp7t1hnH9kVNN0YLDXGsN1WK7N9D0iLi0pJ8Wwj+X2BRV1rPbpJFRSXirbaN3V8s1J2
+	 n3XP62bVnuNuGELfxgVL59YzhJemFaXb6saS+nEsJsb1D9LmLdu5+9MAtFUbymmzy1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794067986;
-	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=pdG9+w0MOc8yUlaCyokbXaD1pAnFmRfTrOZLZCjfP/4=;
-	b=xtjjOGcDr1Uu3svRwkHfO0jccOEuQrbegSGVvHi62nzhCe7XkxRftcA/SfEdtZ/Eqbda
-	 eq9g0hibnXvSOZizcbXjvCLbnPfGbzewMvrbILOtG1uaNrMFSxv3JtQ4pimSqnB9wdxx+
-	 T907aGX54V+bJ0CTuYpafGlXL/ewTdb2wItjOk30U15yvedUNxOfncPyOIrmbVdSccGGj
-	 1LXSQWq90/T/na6jqAlJBxd/kq2xSRLBwbfp3vivJ+IIauKRXoXUhrT5mQi1iE8PqRWfP
-	 Tp/T5qS3aMaU4bAv62qhmlY8O2dkWKa1Qd/P5GRvhZxehSmfuPFUvJNNgceXhv8A2mw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794068021;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=uY783uy1qr8sHfdP9kEjOufVSVKJHo8En8fQKYPWkDU=;
+	b=1zhkdt+P38xdO2Kt32TOu0ATkRI9iuf5DuJ6SyZfN5aWWpGxHaSOp9fogrieUtBSzv6G
+	 LmO9oxbFjOjVGwBnOxeFnZ0Zf9UnwixSZGDjzGlLkjAmbfZ6b1Cj3VAMKlcfhBKu//d+V
+	 9/2mURWcvTJ6aYCEBbaLF0HLdlFlQ3RbKa1q4YioEt4Bpz94b8h+LP9aSAwNav/FeON2I
+	 0LtJkGpDcs/9DgrcDXZq55sD5Tcw9lWy9vWHpm8o214QDMNJVwWympJanOuLEYOW0gHFy
+	 A/BO3zzBeIpfn+/gDeXw1/4Jf3WPXL1QXhi4kaOVUbnpagA0Ys8qWXyLCzxSs+xrW8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z99EQxYr;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Yedwbp/3";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E5A606AC04;
-	Sat,  7 Nov 2026 16:13:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05669606A32D
+	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 16:13:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z99EQxYr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F09C61F008A7;
-	Sat,  7 Nov 2026 16:13:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yedwbp/3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94DCE1F0089F;
+	Sat,  7 Nov 2026 16:13:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794067986;
-	bh=pdG9+w0MOc8yUlaCyokbXaD1pAnFmRfTrOZLZCjfP/4=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=Z99EQxYrycUoPCuM1IsQe9tJkCN2D5CV8ni6KhKiNkKyGTRPfFYcNKznv7N0TlEWL
-	 GSuVFNbhNdL0Y05iuMow4uLxLp/Olm2e2k9eryOrIcdLU0wiUCusINA+gfHxCZqS9q
-	 DlOXSECwm5rKLqzgFY5ieamxnKl6jRfl/hM4IE6eiVY/JIjXRqIJ8zC3pdSMMzTyUV
-	 28mn1PfCKRyTLbNyL91eu86THlo5J+nOApyk2qCgUIBhcwX0Zq/MYBUVFad7gYj4Qz
-	 Z6MDZM02NVXomr+/fBRrcEj1Pu4WODWIT5PBcoUCx2vhVxF8DETYeUGXcIrXoAmiyF
-	 jg3MvxfyvT15Q==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 9FD002B73E61;
-	Sat, 07 Nov 2026 16:13:03 +0000 (GMT)
+	s=k20260515; t=1794068020;
+	bh=uY783uy1qr8sHfdP9kEjOufVSVKJHo8En8fQKYPWkDU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Yedwbp/3S+g7tkqMeN1F41hAVdTqqUBHFWYAxeQDzp0oYnmSgaGNVXtKbfbMyr5f3
+	 Hsx84woC9kOJSby+tHmzMWRV4YVBM8aNvqyibDmF5FWwXP/BWZwtN4TZBFur9SGP1w
+	 PP0FW0op2T0MdKgAA7CPaayoz6NdZBfNmtMefNOH3t7qnLjmowhCci5Ow0i9nJUewQ
+	 QE9KX0WDZ6jv0foadrWSHXMb9AYjsILeLM24D+pICs6yxuRw2+GhxXh3473Oxsu96y
+	 wisCuD7a6S/nrViqT4iiyJ+XlXGFO78begsKCq3gA1rRpQSmvByEipiCxKMYEuJVV2
+	 DV8I/92OdnF5g==
+Message-ID: <sashiko-outbox-203029@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v5 02/25] soundwire: amd: program pad SCHMEN and OE
+ control for ACP 7.0/7.1/7.2
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Vijendar Mukunda" <Vijendar.Mukunda@amd.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261107154659.3358223-3-Vijendar.Mukunda@amd.com>
+References: <20261107154659.3358223-1-Vijendar.Mukunda@amd.com>
+ <20261107154659.3358223-3-Vijendar.Mukunda@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 07 Nov 2026 16:13:40 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -51,40 +60,124 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 0/3] ASoC: mediatek: fix AFE IRQ registration and
- removal ordering
-From: Mark Brown <broonie@kernel.org>
-To: Myeonghun Pak <mhun512@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Ijae Kim <ae878000@gmail.com>
-In-Reply-To: <20261011222234.2098904-1-mhun512@gmail.com>
-References: <20261011222234.2098904-1-mhun512@gmail.com>
-Date: Sat, 07 Nov 2026 16:13:01 +0000
-Message-Id: <179406798190.3424803.7064068903462702662.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=396; i=broonie@kernel.org;
- h=from:subject:message-id; bh=8Nn3Pa/63F6/6Qms1FObd9lhdC+Vb1g3xLoE+sQ899M=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLe+/FPimdvYtzxdq5VB8/KLR3TZ//snvHwzGbXJ5mh5
- TKpKy6t7yhlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBEzr9k+F9gk+z/S894h3RH
- aubn8hXCU/pDSrlbTnxQ33BmUtHhZZIM/533uueyzLFau+Sc8aRNV3lXzdtXnJD8hsdQu+SfTEH
- POSYA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-> The AFE IRQ handlers access regmap and PCM state. Register each handler
-> after its inputs exist and release it before the final remove callback
-> or managed component teardown releases those inputs. The mt8186 patch
-> also balances IRQ wake settings on probe failure and removal.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Low] soundwire: amd: Fixes tag cites ACP 6.3 refactor instead of ACP
+  7.x commits
+- [Low] soundwire: amd: amd_enable_sdw_pads() writes pad registers
+  before acp_rev check
+--
 
-This doesn't apply against current code, please check and resend.
+commit feea96d1feca02ca2e3cb0b4f0b3f33fab424dca
+Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
--- 
-Mark Brown <broonie@kernel.org>
+> soundwire: amd: program pad SCHMEN and OE control for ACP 7.0/7.1/7.2
+>
+> ACP 7.0/7.1/7.2 hardware requires SCHMEN control and
+> output-enable (OE) registers to be programmed as part of the pad enable
+> sequence, in addition to the existing keeper and pulldown writes.
+>
+> Update amd_enable_sdw_pads() to program ACP_PAD_SCHMEN_CTRL and
+> ACP_PAD_DISABLE_OE_CTRL for active pads. Pass acp_rev to
+> amd_enable_sdw_pads() and restrict these writes to ACP 7.0/7.1/7.2;
+> ACP 6.3 is unaffected.
+>
+> Define per-register masks in amd_init.h replacing generic local defines
+> in amd_init.c.
+>
+> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+> Fixes: cf0ddbc29dfa ("soundwire: amd: refactor soundwire pads enable")
+
+[Severity: Low]
+cf0ddbc29dfa ("soundwire: amd: refactor soundwire pads enable") only
+supported ACP 6.3, which is unaffected by this change, and predates both
+struct sdw_amd_res.acp_rev and the ACP 7.x definitions.  Should this cite
+2c0ae8ef1e5e ("soundwire: amd: add support for ACP7.0 & ACP7.1 platforms")
+and 34b1cb4ec286 ("soundwire: amd: Add support for acp7.2 platform")
+instead so stable tooling does not attempt backports to ACP 6.3-only trees?
+
+> diff --git a/drivers/soundwire/amd_init.c b/drivers/soundwire/amd_init.c
+> index b4f45bdf3c171..032697ea35906 100644
+> --- a/drivers/soundwire/amd_init.c
+> +++ b/drivers/soundwire/amd_init.c
+> @@ -16,37 +16,49 @@
+> =20
+>  #include "amd_init.h"
+> =20
+> -#define AMD_SDW0_PAD_CTRL_MASK				0x60
+> -#define AMD_SDW1_PAD_CTRL_MASK				5
+> -#define AMD_SDW_PAD_CTRL_MASK		(AMD_SDW0_PAD_CTRL_MASK | AMD_SDW1_PAD_CT=
+RL_MASK)
+> -#define AMD_SDW0_PAD_EN					1
+> -#define AMD_SDW1_PAD_EN					0x10
+> -#define AMD_SDW_PAD_EN			(AMD_SDW0_PAD_EN | AMD_SDW1_PAD_EN)
+> -
+> -static int amd_enable_sdw_pads(void __iomem *mmio, u32 link_mask, struct=
+ device *dev)
+> +static int amd_enable_sdw_pads(void __iomem *mmio, u32 link_mask, u32 ac=
+p_rev, struct device *dev)
+>  {
+> -	u32 pad_keeper_en, pad_pulldown_ctrl_mask;
+> +	u32 pad_keeper_mask, pad_pulldown_mask, pad_schmen_mask, pad_oe_mask;
+> =20
+>  	switch (link_mask) {
+>  	case 1:
+> -		pad_keeper_en =3D AMD_SDW0_PAD_EN;
+> -		pad_pulldown_ctrl_mask =3D AMD_SDW0_PAD_CTRL_MASK;
+> +		pad_keeper_mask =3D AMD_SDW0_PAD_KEEPER_EN_MASK;
+> +		pad_pulldown_mask =3D AMD_SDW0_PAD_PULLDOWN_MASK;
+> +		pad_schmen_mask =3D AMD_SDW0_PAD_SCHMEN_MASK;
+> +		pad_oe_mask =3D AMD_SDW0_PAD_OE_CTRL_MASK;
+>  		break;
+>  	case 2:
+> -		pad_keeper_en =3D AMD_SDW1_PAD_EN;
+> -		pad_pulldown_ctrl_mask =3D AMD_SDW1_PAD_CTRL_MASK;
+> +		pad_keeper_mask =3D AMD_SDW1_PAD_KEEPER_EN_MASK;
+> +		pad_pulldown_mask =3D AMD_SDW1_PAD_PULLDOWN_MASK;
+> +		pad_schmen_mask =3D AMD_SDW1_PAD_SCHMEN_MASK;
+> +		pad_oe_mask =3D AMD_SDW1_PAD_OE_CTRL_MASK;
+>  		break;
+>  	case 3:
+> -		pad_keeper_en =3D AMD_SDW_PAD_EN;
+> -		pad_pulldown_ctrl_mask =3D AMD_SDW_PAD_CTRL_MASK;
+> +		pad_keeper_mask =3D AMD_SDW_PAD_KEEPER_EN_MASK;
+> +		pad_pulldown_mask =3D AMD_SDW_PAD_PULLDOWN_MASK;
+> +		pad_schmen_mask =3D AMD_SDW_PAD_SCHMEN_MASK;
+> +		pad_oe_mask =3D AMD_SDW_PAD_OE_CTRL_MASK;
+>  		break;
+>  	default:
+>  		dev_err(dev, "No SDW Links are enabled\n");
+>  		return -ENODEV;
+>  	}
+> =20
+> -	amd_updatel(mmio, ACP_SW_PAD_KEEPER_EN, pad_keeper_mask, pad_keeper_mas=
+k);
+> -	amd_updatel(mmio, ACP_PAD_PULLDOWN_CTRL, pad_pulldown_ctrl_mask, 0);
+> +	amd_updatel(mmio, ACP_SW_PAD_KEEPER_EN, pad_keeper_mask, pad_keeper_mas=
+k);
+> +	amd_updatel(mmio, ACP_PAD_PULLDOWN_CTRL, pad_pulldown_mask, 0);
+> +	switch (acp_rev) {
+> +	case ACP70_PCI_REV_ID:
+> +	case ACP71_PCI_REV_ID:
+> +	case ACP72_PCI_REV_ID:
+> +		amd_updatel(mmio, ACP_PAD_SCHMEN_CTRL, pad_schmen_mask, pad_schmen_mas=
+k);
+> +		amd_updatel(mmio, ACP_PAD_DISABLE_OE_CTRL, pad_oe_mask, 0);
+> +		break;
+> +	case ACP63_PCI_REV_ID:
+> +		break;
+> +	default:
+> +		dev_err(dev, "unsupported ACP revision 0x%x\n", acp_rev);
+> +		return -EINVAL;
+> +	}
+
+[Severity: Low]
+Should acp_rev be checked before programming ACP_SW_PAD_KEEPER_EN and
+ACP_PAD_PULLDOWN_CTRL so that an unsupported acp_rev (such as 0x7b or 0x7f
+from amd_sof_acp7x_probe()) does not modify pad registers before returning
+-EINVAL?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107154659.3358=
+223-1-Vijendar.Mukunda@amd.com?part=3D2
