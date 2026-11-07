@@ -1,73 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794069981;
-	b=LEMpRNpMV01mhNTCTNlc1PLSnb4WwgBU3RexLU1Iyag2Hx02wBnVpdH6uWuRJ8EVZD9o
-	 R3vsKRMqvmHCyw8LVUOBVEpG9/hQq6+VJvtTN8JYrwcP/SM0qi5ZOpQ28Myx0YnSz8qqX
-	 G69luKHXiEpksQvIwhOxKTALMIG5vGPCiHxGSHeh1iaidcTHxCUoj64E27EOkgYZcCVoc
-	 85soF12BADvOdEQkG1EImNyEYOpBJMIGCD7eodZeXug2Oo/dTHN8WSKSh+F+5iWrfeYbo
-	 4EW2jxmOIs/Igl4PYFQH+qHqsNLJGKdvxvx5W7KeggRtaLsaUqXJ1LnD3kCIPK4BxIA==
+	t=1794070106;
+	b=g+ELqs/mveLwhe5ek7zpPjfsQHUzdTmaNmvJlnS/zkdBPqJLMjvhjbfzklejEQG106Nc
+	 lESilcvEbNigmor5VCvkmGnUazvFuY0khKHCPnXAKqB4bh6MG/THF+JzbRbXW2KUGsdTt
+	 mWnn4xxLxO/B9auS35oBxKfKGmhxAzJtewZX1RyVLFC/jeTaz3udHSbStN2fgCYF7NWws
+	 TM+MOErcDLEDo4JSDvVkP/eigfj7OjR5rvJo4PbhOdzKojN9aU/9rbjkIgldMyC89Kkxp
+	 c9Tig3BKB8ppK4s0KzhEZhmpu5Dm0IKTDN1X+DMBRcIzEgRGOowMTw/jlNCelE++rzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794069981;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=iQPFcguwJfJnGIUghj3vW2cnp0ZTKsyoI6OiYKG+trA=;
-	b=hokebillFREeMmp4QQVTiL0oGJteM5peKMyzyiUsEah5N9e4YPEsDf3KZ0sdiJrn+aWr
-	 S14VGhC3BOZU91wZtoQpxF2oufEpFYIh/UrrxGi2R9dScEwlC6nhslQnkhyPMTdg+aFUV
-	 Vr0+i+U7wzZLFu/jtEjVev4bEt98GmiKTyfPbT681kEqULPuj+t4Evj7QSObTZpOhGkqo
-	 Fvuvx/UMj7RGF6uCA+4uMlk9tS/0Vax/3fxOewCtCf8aE+pMGkitiON/fEtpOTfpWEVBx
-	 2gmR16ri4lHUMkpMBYVj7hsN+h4KFfOxjJmGNPup8JNyzVRLDRpvnNULKW50vJLAcsA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794070106;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=H/IZX/OvvpXXqAWNub6rqE5ud5cAoGtBQIfGdTk9PdI=;
+	b=DUaj6XdTSSM+z1sumAevbAMvifa/4JOlmlsbqs1HAUKEiyfnKIwD51UKeklS9kQ0J1ak
+	 j4IgARYrEeNqRDhxB/VgOThdSuSKoK4m9UHI19QtGJ0dXHlnogVprk0kCzTCfH9DUJfC/
+	 ds+lyY1xkzQFwuDUK/IVe+ZoOJbrBeSZkJVjxqRDtWezYWhztO9xQMrOobaAKstD7ry8w
+	 iWqfwiuHsIPuQaTzKJQvQ1C9WYv05M9msyu7sm/wCUHB9b2TQXcchukDwbSgPUsbDaC5J
+	 bV616QV9ZUi0c3V9jIX6Lrnhi83FiqmOR1izu7MUln72dMyY/BP+SYxoIoDENvMXQ7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GdchM4JA;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=idwVmLIc;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B051D606A32E
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 16:46:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904BE606A32D
+	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 16:48:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GdchM4JA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F25A1F0089F
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 16:46:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=idwVmLIc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10C601F0089F;
+	Sat,  7 Nov 2026 16:48:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794069980;
-	bh=iQPFcguwJfJnGIUghj3vW2cnp0ZTKsyoI6OiYKG+trA=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=GdchM4JAcx1qo6towHdQHCgh2tMHo3zzg17T84D+E9tEQ4saStJy8zvHY9EwNQyxR
-	 oK8yaLgqNU37R0MQlKrJvaZTfioOKst375+EE3LbYI7gUQePChwprYDcMtej1nwiGU
-	 dsufOCJUs+IgboNeWUzJfOUvnLV/mLmPPAxP++XxBwWdSvsRbSF91P8JnlzSeymBlh
-	 lEzS0bCVLtim+6ouaGlrDE6fsFvc5qFqfvhCWl64VQwoWxGe8sefwAjw7/I+6jcZC+
-	 /WKSC7uAJb9FKzTFrIsSEdraVR2Eq0psBydCysFViOt9COyNjQJH1jVYaRzZxwoY3u
-	 vZLcyJogV9A/g==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 770BBF40066;
-	Sat,  7 Nov 2026 11:46:19 -0500 (EST)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Sat, 07 Nov 2026 11:46:19 -0500
-X-ME-Sender: <xms:21XvaoI8xVkuzu2ggxmfT2VoL9otHZIhGkdP7sT7nnFaVj7_NCZbgw>
-    <xme:21Xvai9jvswL5aosPOj2sjBdsne--z2Vcw9CybSvH6cV4Z7_VedZPDAPFFm2w_uB1
-    OOHRpQdMcOvh9FQ9jewIohgBu8C0-FJ_t7pVgQmYakS7uvE0DqdnYj1>
-X-ME-Proxy-Cause: dmFkZTFtOlailLA7ZjiNgBTvvRwW+fQs0xcHo5AHr7fRtJrIuFWMuFVGu4oQuCeZ0pr0pC
-    lj/WCGWUBzDoQrKdmeOIOx622PB5FBwnR92PlS1DrVrA5uW0MnsNHEpSCCEISbjWcBNWpd
-    AJGAUrhAP2ixHqxr5ktjqtDZtDRxQ+wxwdXnbM6ymNuxLXWUu5re/DshCdypVN4RJVSYiI
-    pX6xC2OVQ0adGi3NIKU3V3E+k0PR9F5sS1Jrk8VpzWhAMrFUcs3GPG4cWRftcOZ2GaObQm
-    dtFuqB299Yev5WyoldQClGgN+jblV8xsVjLfVWhN2y4yGtMahzOezGLQ8LrNpUxR8dZfbu
-    lIypd5PasUVA/oQYiP1JJjnE0dbtceWFuNu/cXjVcI3peKzIbO94dNfJzf+KPUBbBj6OJs
-    xONTmDWVPcnavfLGnJ9Str1iCXWjLd8n8plei7GhfZ2Yct1Mb36p3Ftpqsy8HiFzlFB6JR
-    vCDf5AqtF24I+Ixh6htHYnxAa1boUFkUM/E/HKAo3rcBd+9kTud3Md2a4DQbfiDrY+cerB
-    BCLBcSU5xi/5AvO8RpQ0ihQUFVAFkvT394aMfNkcrcyvDmaq3pfLyB5Len7h2/bmpF+8sx
-    FrsAUEinhV76Ec3u6Qe9hQY0Pq0UexmL2UqEZd4qhrOC8BGG20S51iSoFmYA
-X-ME-Proxy: <xmx:21Xvatt0Wu0fKbN7TVc00SVx5cl4nBo0Q82lDLMniu-fjrCmVGavWQ>
-    <xmx:21XvauqT1roSxPVbJ__cvWOICXpZBt0Uy7t30skmPBgH4PUxXx1_Kg>
-    <xmx:21XvasX4cyeQOJfObf8n0k85OhQoglMXW2ST001O3cCOWy0j31aVlA>
-    <xmx:21Xvau1v9osh-1HQCt_nNNhBn8zDdcUV3_YpTMTutnfhDXcPKzQcmA>
-    <xmx:21XvapvZRqwLy9j4pgfhYCEDK1_0cwha-81FwJc9sq3a-mW19BlYyiSq>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 5E62D782738; Sat,  7 Nov 2026 11:46:19 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20260515; t=1794070106;
+	bh=H/IZX/OvvpXXqAWNub6rqE5ud5cAoGtBQIfGdTk9PdI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=idwVmLIc6rtzn88rHFBg9SPlQB9IWX1CZ+C7ebzYZY28DgclWtYZNzKYBNJQKClNx
+	 JVsxBDySVsRYakOmBK1majAI5knBG5Eus1VsMcz+RGbA79LFEW+9+cHtzZuzMY4fgh
+	 GJ2B3htK3ETr+2qyNoYR8kmgExvSnqeZMMSffJwi+j8JHEdhwqEiNzWpk2TuMY0HhN
+	 eKsbdTyv22FJfzGEE/Pq2dDnOvSzS/H11xc6dBYF776Vn3svnzCroMLg4fApZNIiQ0
+	 x3YfI4pZ8DzRWLrELcBGjsKqNrlDZEZYweN7CK+4li7RxuGRajkaARweBAABCYl8yy
+	 VDt6w1/lakq8Q==
+Message-ID: <sashiko-outbox-203074@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ASoC: rt5659: fix teardown order and stale state across
+ card rebind
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Tristan Madani" <tristmd@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261107162341.1494240-1-tristmd@gmail.com>
+References: <20261107162341.1494240-1-tristmd@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 07 Nov 2026 16:48:25 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -76,68 +59,111 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-X-ThreadId: AjxZksNfZZQV
-Date: Sat, 07 Nov 2026 11:45:59 -0500
-From: "Chuck Lever" <cel@kernel.org>
-To: "Christian Brauner" <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
- "Jann Horn" <jannh@google.com>, "Josef Bacik" <josef@toxicpanda.com>,
- "Chris Mason" <mason@kernel.org>, "Jeff Layton" <jlayton@kernel.org>,
- NeilBrown <neil@brown.name>, "Eric Dumazet" <edumazet@kernel.org>,
- "Thomas Gleixner" <tglx@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Jonathan Corbet" <corbet@lwn.net>, "Christoph Hellwig" <hch@lst.de>,
- "Greg Kroah-Hartman" <gregkh@suse.de>,
- "Joel Granados" <joel.granados@kernel.org>, "Kees Cook" <kees@kernel.org>,
- "Jan Kara" <jack@suse.cz>, "Jan Kara" <jack@suse.com>,
- linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-s390@vger.kernel.org,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- linux-um@lists.infradead.org, linux-wireless@vger.kernel.org,
- "Linuxppc Dev" <linuxppc-dev@lists.ozlabs.org>, netdev@vger.kernel.org,
- ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org,
- coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org,
- linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net,
- jfs-discussion@lists.sourceforge.net, linux-alpha@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org,
- linux-sh@vger.kernel.org, linux-usb@vger.kernel.org,
- samba-technical@lists.samba.org, sparclinux@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
- "Takashi Iwai" <tiwai@suse.de>, linux-input@vger.kernel.org,
- linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org
-Message-Id: <a1e2d05f-08c6-41ac-a8f9-6985ee00dc97@app.fastmail.com>
-In-Reply-To: <20261104-work-procfs-net-v2-10-221e2437fed1@kernel.org>
-References: <20261104-work-procfs-net-v2-0-221e2437fed1@kernel.org>
- <20261104-work-procfs-net-v2-10-221e2437fed1@kernel.org>
-Subject: Re: [PATCH RESEND v2 10/13] SUNRPC: let procfs own the wait queue of the
- procfs channel files
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
 
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Medium] ASoC: rt5659: rt5659_remove() breaks HDA header mic detect on
+  rebind
+- [Medium] ASoC: rt5659: rt5659_remove() desynchronizes HDA IRQ polarity
+  cache
+--
 
+commit b7c86ad3bd52c1cf96525f2f34febf94cfef4a2d
+Author: Tristan Madani <tristan@talencesecurity.com>
 
-On Wed, Nov 4, 2026, at 4:13 PM, Christian Brauner wrote:
-> cache_poll() sleeps the poller on queue_wait, which went back to being
-> a static queue so that a poll() on a procfs channel file can't be left
-> on the queue of a cache_detail that its network namespace freed. procfs
-> owns the queue poll() uses now and it outlives the file, so the procfs
-> channel files leave the poll_wait() to procfs and an upcall wakes their
-> pollers through proc_poll_notify(). The channel entry is remembered in
-> the cache_detail for that and forgotten before the entries are removed.
-> The rpc_pipefs files keep sleeping on queue_wait, procfs has nothing to
-> do with them.
->
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
+ASoC: rt5659: fix teardown order and stale state across card rebind
 
-Acked-by: Chuck Lever <cel@kernel.org>
+This commit resets component and jack state on removal, marks and resyncs
+the regmap cache across card rebind, and registers a devm action to
+disable the IRQ and cancel jack detection work on I2C teardown.
 
+> diff --git a/sound/soc/codecs/rt5659.c b/sound/soc/codecs/rt5659.c
+> index 68f7d5673e190..14111f40384e5 100644
+> --- a/sound/soc/codecs/rt5659.c
+> +++ b/sound/soc/codecs/rt5659.c
 
--- 
-Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
+[ ... ]
+
+> @@ -3689,17 +3701,26 @@ static int rt5659_probe(struct snd_soc_component =
+*component)
+>  static void rt5659_remove(struct snd_soc_component *component)
+>  {
+>  	struct rt5659_priv *rt5659 =3D snd_soc_component_get_drvdata(component);
+> -	struct i2c_client *i2c =3D to_i2c_client(component->dev);
+> =20
+>  	if (rt5659->irq_acquired) {
+> -		disable_irq(i2c->irq);
+> +		disable_irq(rt5659->i2c->irq);
+>  		rt5659->irq_disabled =3D true;
+>  	}
+> =20
+>  	if (rt5659->jack_detect_work_inited)
+>  		cancel_delayed_work_sync(&rt5659->jack_detect_work);
+> =20
+> +	if (rt5659->jack_type)
+> +		rt5659_headset_detect(component, 0);
+
+[Severity: Medium]
+Should this call to rt5659_headset_detect() be guarded by checking that
+rt5659->pdata.jd_src is RT5659_JD3?
+
+When jd_src is RT5659_JD_HDA_HEADER, rt5659_probe() skips registering
+rt5659_particular_dapm_widgets ("Mic Det Power"), and
+rt5659_intel_hd_header_probe_setup() enables RT5659_4BTN_IL_EN and
+RT5659_IL_IRQ_EN once during I2C probe.  If both headphone and microphone
+are plugged into the HDA header on removal, rt5659->jack_type equals
+SND_JACK_HEADSET, so rt5659_headset_detect(component, 0) logs an unknown
+DAPM pin error for "Mic Det Power" and calls
+rt5659_enable_push_button_irq(component, false), clearing
+RT5659_4BTN_IL_EN and RT5659_IL_IRQ_EN in the regmap cache.  On card
+rebind, regcache_sync() writes those cleared bits to the codec without
+re-running rt5659_intel_hd_header_probe_setup(), leaving HDA header
+microphone detection disabled.
+
+> +
+> +	rt5659->hs_jack =3D NULL;
+> +	rt5659->jack_type =3D 0;
+> +	rt5659->hda_hp_plugged =3D false;
+> +	rt5659->hda_mic_plugged =3D false;
+> +	rt5659->component =3D NULL;
+> +
+>  	regmap_write(rt5659->regmap, RT5659_RESET, 0);
+> +	regcache_mark_dirty(rt5659->regmap);
+>  }
+
+[Severity: Medium]
+Does resetting hda_hp_plugged and hda_mic_plugged to false without
+updating RT5659_IRQ_CTRL_1 and RT5659_IRQ_CTRL_2 leave the cached HDA IRQ
+polarity inverted after rebind?
+
+In rt5659_jack_detect_intel_hd_header(), plugging in a jack flips the IRQ
+polarity bits in RT5659_IRQ_CTRL_1 (bit 0x10 to 0x0) and
+RT5659_IRQ_CTRL_2 (bit 0x2 to 0x2):
+
+sound/soc/codecs/rt5659.c:rt5659_jack_detect_intel_hd_header() {
+	...
+	if (hp_flag !=3D rt5659->hda_hp_plugged) {
+		rt5659->hda_hp_plugged =3D hp_flag;
+
+		if (hp_flag) {
+			regmap_update_bits(rt5659->regmap, RT5659_IRQ_CTRL_1,
+				0x10, 0x0);
+			rt5659->jack_type |=3D SND_JACK_HEADPHONE;
+		} else {
+			regmap_update_bits(rt5659->regmap, RT5659_IRQ_CTRL_1,
+				0x10, 0x10);
+	...
+}
+
+Because the regmap cache retains the plugged-in polarity across
+RT5659_RESET, regcache_sync() in rt5659_probe() restores that plugged-in
+polarity to the hardware while hda_hp_plugged and hda_mic_plugged are
+false.  If a jack is unplugged while the card is unbound,
+hp_flag !=3D rt5659->hda_hp_plugged (or mic_flag !=3D rt5659->hda_mic_plugg=
+ed)
+evaluates to false, so the polarity is never restored to the unplugged
+state and subsequent plug insertions will not generate an interrupt.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107162341.1494=
+240-1-tristmd@gmail.com?part=3D1
