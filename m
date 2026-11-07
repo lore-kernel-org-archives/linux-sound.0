@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794074925;
-	b=FtJZ1EQxQ3jXd2jiQa14Dz8JcBIQ9YMmAz8eaZCrYAzZrALeTdb28hKCa+9+2GzI1nOy
-	 Sk7+/9hoD0odnZl3ITgtnAOjYz55dXiYIVw5NxAqLPoyo/34n+wBRHtwq3Og1XwC0XvGi
-	 2z/vzFYRtciak8Ugkx3qoG9Bu8VQcAw2xOBhHy3Yb0/UIZGoK5WNqe41mi7B8UamxPwXD
-	 l11JzYbYyTvtGPHdKZU0jnJGWPLkZTWnI3MQpv6Zdrf+AtEJm5r4bcUIoTUhI4bTpU1/S
-	 UAu7+NSLKheRNHHJ5TD82Uw9DjdlN+SfK/BcD2niJVcxqWkd01htbMnUhb2MznF5acg==
+	t=1794075099;
+	b=zsHiZaeA9e66aOOdqiBPE88/TqflE7LU59wq8cFTaI/Pzesdub0MA1gY/0aMpIALZSXw
+	 rDuBq1f5PbHXtTIFmYo7/IvAsS2CTAgqKK6S/yNi9lREvp/BqtleUGfvaE+aasSCe5u3F
+	 rLyuXegyh/8uIXteAWEg6mmnQXzb3PQA76jGdouVbYWMo7qXmH6uO9nauG8PjaB/Lkrbt
+	 FLV7fHppOENmLvuACF+UoMrF9cO8GqeJ6Hr7Joo5Bht9H0FI1WLxRq5XmLl+POVoGdLHb
+	 HoiXS1RYbjvH7BWUbpAIdhy6EL0IDy0OhpoVzU4VcXGkPC++TNCvBEDZDvTvQw7TdSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794074925;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794075099;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=sOR1MZfE16HSQtKE30fES85D0v2D0sTOmW6qORl5hLQ=;
-	b=ssZpohZjfu8TAeYsrj+iNTIDnMUUien1RxIj8mnJAtFcgrXTyWe1y1hjnAmdGP1QSPCA
-	 AcbvZuQzW0fhFIk+mszeVlz1CUgNPod6cbys17MO7frWR2cc6dmNBbQMmv/aPxc+3nByH
-	 MjtEZs5xmdtiqV/JYSAvBNNwxLS1w3OCH/4I78hRLLWH0oFeH2abU/NZj5EFw1TDHCcOP
-	 B9D4NJUg39CdlQBAohcUds3jzymyJ/Lu5B9bn/Q8kVDfrbX9cfb/m7zS9EvIinD6eUeM5
-	 cnsjv0VXr00OdG4uhEwFyCdguoI/tvM77wjW10Suy0J81tPMsBV5OvHTmCEpRCaNqxg==
+	bh=qxMkaNXijIcj2xvA+MMhwAbWtRFb58PpfLtuxFQZ9nE=;
+	b=q2Du1yi5qEZ+6gIe2o/lAhLShpEpVVCImTL/1hsFvOERb1WVbiDHR3yyU5k7boQqIUk8
+	 a/7Ltrr2ndUqryXDDO9v+QL6a7/eBmtH7BHpHe9Ys5x9SSD8iMzmCeeyJ6lS65TNpHXBE
+	 ZuQXw0hnedq8Qr4FqAn9xbKHZVDAfZfzoWzf+GdaFAihee4IJCCvbPR78oR0ZU8mNUANv
+	 ezD2XN+nOdbqPyaRZWRyStqvVNsQt4kfsshQcoiE4zrap7qAbC49XX1gVur3cvQirVUkY
+	 kNMddkRGskPQ8GPHpGOGeREbr3tU7APlfUdVV8ZXwftxExK27MB7e06oQXSDXvI9vNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=faGwZJQE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U6r5gCrY;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A290C606A326
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 18:08:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EBDD606A326
+	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 18:11:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=faGwZJQE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1756F1F0089F;
-	Sat,  7 Nov 2026 18:08:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U6r5gCrY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04DCD1F0089F;
+	Sat,  7 Nov 2026 18:11:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794074925;
-	bh=sOR1MZfE16HSQtKE30fES85D0v2D0sTOmW6qORl5hLQ=;
+	s=k20260515; t=1794075099;
+	bh=qxMkaNXijIcj2xvA+MMhwAbWtRFb58PpfLtuxFQZ9nE=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=faGwZJQEQXQO7zxA9g4K76F2izvCwmfyLJ2SZLXLTjKAWRSk8bE7J3J9WBCb1cs+k
-	 PHs8TZEdvIah2d3tX7qFqBqIBllCQtZTO1/y4DJzvrFJrM2PrbnVeNZLtkyRnaTWfb
-	 8WXTmgE9HjzlgHo0qw3WY4+w1kMEBIoqCHPy9k42ql5eRzkpdjQVlao66VzHjpDtSt
-	 RYZC54fZrkLkUD/4zEPwaTnZCCXu2+me41bZuuijTSBskKtRSNtOzbKOK/owA16YPr
-	 QQPX8eMgXCL7LH6t7VJFFeNTYyqeQ8BKK3PiAnU0Tuut0i973tgkk0JhFHVvpT1+uW
-	 ejopGlZNA/WCg==
-Message-ID: <sashiko-outbox-203151@kernel.org>
+	b=U6r5gCrY1NTrnCqCT7svQw4On7OzCKBghtSMhUCCkASGNxwOuNL3aaUoxkNXHQ4tW
+	 VAs6O4DAGJA7M0a1Rqx0KFElJ0lk9/kIgR7RsHUJwozA9jUCVem70CMxA0Y1YlfKp+
+	 snnhLBcsV9vmIkj7KL3zIuI2ygaRSET8yds5PxtiUw7bfJlRiC9sYNx38Lr6RWv+1S
+	 /sPSH3faLdzogSgNtwqoh5w/xESHI02iDFSqdKxsjgQfNL08KveJs9v+vcOku4a8kh
+	 3d/m0HbqNPyzNVs8aXzFf/5QAoWI98TKmh/qwwepCK3HY9UORO8szf801ZCREWfOC/
+	 lEfpP6XP/Suxg==
+Message-ID: <sashiko-outbox-203155@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 3/4] ASoC: SOF: amd: guard SDW IRQ work scheduling with
- interrupt_enabled flag
+Subject: Re: [PATCH 2/4] ASoC: SOF: amd: guard adata->sdw dereferences with
+ NULL check in IRQ handler
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Vijendar Mukunda" <Vijendar.Mukunda@amd.com>
 Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261107175339.3547918-4-Vijendar.Mukunda@amd.com>
+In-Reply-To: <20261107175339.3547918-3-Vijendar.Mukunda@amd.com>
 References: <20261107175339.3547918-1-Vijendar.Mukunda@amd.com>
- <20261107175339.3547918-4-Vijendar.Mukunda@amd.com>
+ <20261107175339.3547918-3-Vijendar.Mukunda@amd.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 18:08:44 +0000
+Date: Sat, 07 Nov 2026 18:11:38 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,72 +63,186 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 2 potential
 issues to consider:
-- [High] ASoC: SOF: amd: build failure in acp_irq_handler() on missing
-  struct member
-- [Medium] ASoC: SOF: amd: unguarded work queue in
-  sof_acp7x_handle_sdw_manager_irq()
+- [Medium] ASoC: SOF: amd: NULL dereference of adata->sdw->pdev[i] in
+  acp_irq_handler()
+- [Low] ASoC: SOF: amd: inaccurate teardown claim and missing Fixes tag
+It also noticed 1 related pre-existing issue this patch does not
+introduce:
+- [Medium] soundwire: amd: memory and platform device leaks in
+  sdw_amd_probe() [1]
 --
 
-commit 84b5998c660c53c97f1f81d73a850a90f66dfb5d
+commit 920e1ff1deb60367eb67bae9d4d4b5880a64d07f
 Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
-ASoC: SOF: amd: guard SDW IRQ work scheduling with interrupt_enabled flag
+> ASoC: SOF: amd: guard adata->sdw dereferences with NULL check in IRQ hand=
+ler
+>
+> The ACP external IRQ handler is registered before sdw_amd_probe() assigns
+> adata->sdw, so a stray interrupt in the probe window could reach the
+> adata->sdw->pdev[i] dereference with adata->sdw still NULL.
+>
+> The same window exists on the teardown side: after sdw_amd_exit() frees
+> the context but before adata->sdw is cleared by the caller.
+>
+> Add NULL checks for adata->sdw in acp_irq_handler() before dereferencing
+> ->pdev[0] and ->pdev[1], and in amd_sof_handle_acp70_sdw_wake_event() for
+> the same reason.  The interrupt-status register write that acknowledges t=
+he
+> IRQ is kept outside the guard so the hardware bit is always cleared
+> regardless of whether the SoundWire context is live.
+>
+> Fixes: 96eb81851012 ("ASoC: SOF: amd: add interrupt handling for SoundWir=
+e manager devices")
+> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
-This commit checks amd_manager->interrupt_enabled before calling
-schedule_work(&amd_manager->amd_sdw_irq_thread) in acp_irq_handler().
+[Severity: Low]
+Is the teardown window description in the second paragraph accurate?  In
+amd_sof_sdw_exit(), sdw_amd_exit(acp_data->sdw) frees the context before
+acp_data->sdw =3D NULL runs, so adata->sdw is still non-NULL during that
+interval and an if (adata->sdw) check cannot guard it; teardown is safe
+instead because callers invoke free_irq(sdev->ipc_irq, sdev) before calling
+amd_sof_sdw_exit().
+
+Also, since the unguarded adata->sdw dereferences in
+amd_sof_handle_acp70_sdw_wake_event() were introduced by a later commit,
+should this include:
+
+  Fixes: 1f41bf67bfe3 ("ASoC: SOF: amd: add soundwire wake irq handling")
 
 > diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
-> index 623e016f38b83..5c4eab0be497c 100644
+> index 86e2402b8ffd2..623e016f38b83 100644
 > --- a/sound/soc/sof/amd/acp.c
 > +++ b/sound/soc/sof/amd/acp.c
-> @@ -586,7 +586,7 @@ static irqreturn_t acp_irq_handler(int irq, void *dev=
-_id)
+> @@ -478,16 +478,20 @@ static void amd_sof_handle_acp70_sdw_wake_event(str=
+uct acp_dev_data *adata)
+>  	struct amd_sdw_manager *amd_manager;
+> =20
+>  	if (adata->acp70_sdw0_wake_event) {
+> -		amd_manager =3D dev_get_drvdata(&adata->sdw->pdev[0]->dev);
+> -		if (amd_manager)
+> -			pm_request_resume(amd_manager->dev);
+> +		if (adata->sdw) {
+> +			amd_manager =3D dev_get_drvdata(&adata->sdw->pdev[0]->dev);
+> +			if (amd_manager)
+> +				pm_request_resume(amd_manager->dev);
+> +		}
+>  		adata->acp70_sdw0_wake_event =3D 0;
+>  	}
+> =20
+>  	if (adata->acp70_sdw1_wake_event) {
+> -		amd_manager =3D dev_get_drvdata(&adata->sdw->pdev[1]->dev);
+> -		if (amd_manager)
+> -			pm_request_resume(amd_manager->dev);
+> +		if (adata->sdw) {
+> +			amd_manager =3D dev_get_drvdata(&adata->sdw->pdev[1]->dev);
+> +			if (amd_manager)
+> +				pm_request_resume(amd_manager->dev);
+> +		}
+>  		adata->acp70_sdw1_wake_event =3D 0;
+>  	}
+>  }
+> @@ -579,10 +583,12 @@ static irqreturn_t acp_irq_handler(int irq, void *d=
+ev_id)
+> =20
+>  	val =3D snd_sof_dsp_read(sdev, ACP_DSP_BAR, desc->ext_intr_stat);
+>  	if (val & ACP_SDW0_IRQ_MASK) {
+> -		amd_manager =3D dev_get_drvdata(&adata->sdw->pdev[0]->dev);
 >  		snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->ext_intr_stat, ACP_SDW0_IRQ=
 _MASK);
->  		if (adata->sdw) {
->  			amd_manager =3D dev_get_drvdata(&adata->sdw->pdev[0]->dev);
-> -			if (amd_manager)
-> +			if (amd_manager && amd_manager->interrupt_enabled)
->  				schedule_work(&amd_manager->amd_sdw_irq_thread);
->  		}
+> -		if (amd_manager)
+> -			schedule_work(&amd_manager->amd_sdw_irq_thread);
+> +		if (adata->sdw) {
+> +			amd_manager =3D dev_get_drvdata(&adata->sdw->pdev[0]->dev);
+> +			if (amd_manager)
+> +				schedule_work(&amd_manager->amd_sdw_irq_thread);
+> +		}
 >  		irq_flag =3D 1;
-> @@ -618,7 +618,7 @@ static irqreturn_t acp_irq_handler(int irq, void *dev=
-_id)
+>  	}
+> =20
+> @@ -608,11 +614,13 @@ static irqreturn_t acp_irq_handler(int irq, void *d=
+ev_id)
+>  	if (desc->ext_intr_stat1) {
+>  		val =3D snd_sof_dsp_read(sdev, ACP_DSP_BAR, desc->ext_intr_stat1);
+>  		if (val & ACP_SDW1_IRQ_MASK) {
+> -			amd_manager =3D dev_get_drvdata(&adata->sdw->pdev[1]->dev);
+>  			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->ext_intr_stat1,
 >  					  ACP_SDW1_IRQ_MASK);
->  			if (adata->sdw) {
->  				amd_manager =3D dev_get_drvdata(&adata->sdw->pdev[1]->dev);
-> -				if (amd_manager)
-> +				if (amd_manager && amd_manager->interrupt_enabled)
->  					schedule_work(&amd_manager->amd_sdw_irq_thread);
->  			}
+> -			if (amd_manager)
+> -				schedule_work(&amd_manager->amd_sdw_irq_thread);
+> +			if (adata->sdw) {
+> +				amd_manager =3D dev_get_drvdata(&adata->sdw->pdev[1]->dev);
+> +				if (amd_manager)
+> +					schedule_work(&amd_manager->amd_sdw_irq_thread);
+> +			}
 >  			irq_flag =3D 1;
-
-[Severity: High]
-Does this break the build when CONFIG_SND_SOC_SOF_AMD_COMMON is enabled?
-struct amd_sdw_manager in include/linux/soundwire/sdw_amd.h has no
-interrupt_enabled member, and amd_enable_sdw_interrupts() and
-amd_disable_sdw_interrupts() in drivers/soundwire/amd_manager.c only update
-hardware interrupt mask registers without setting or clearing any software
-flag.
+>  		}
 
 [Severity: Medium]
-Assuming interrupt_enabled is added to struct amd_sdw_manager, should
-sof_acp7x_handle_sdw_manager_irq() also check amd_manager->interrupt_enabled
-before queuing amd_sdw_irq_thread?
+Can adata->sdw->pdev[0] or adata->sdw->pdev[1] still be NULL here when
+adata->sdw is non-NULL?
 
-sound/soc/sof/amd/acp.c:sof_acp7x_handle_sdw_manager_irq() {
+In sdw_amd_probe_controller(), ctx->pdev[index] is only populated for links
+set in link_mask:
+
+drivers/soundwire/amd_init.c:sdw_amd_probe_controller() {
 	...
-		amd_manager =3D dev_get_drvdata(&adata->sdw->pdev[instance]->dev);
-		if (amd_manager)
-			schedule_work(&amd_manager->amd_sdw_irq_thread);
+	for (index =3D 0; index < count; index++) {
+		if (!(link_mask & BIT(index)))
+			continue;
+		...
+		ctx->pdev[index] =3D platform_device_register_full(&pdevinfo[index]);
+	...
 }
 
-On ACP7x platforms, an in-flight IRQ in acp7x_irq_handler() racing with
-amd_sdw_manager_remove() or amd_deinit_sdw_manager() can still queue
-amd_sdw_irq_thread after interrupts are disabled and pending work is
-cancelled, leading to a use-after-free on amd_manager or register accesses
-to a disabled manager.
+On single-link configurations where only one SoundWire manager is active,
+the unused link's pdev[i] remains NULL while adata->sdw is non-NULL.
+Passing &adata->sdw->pdev[i]->dev to dev_get_drvdata() on a stray interrupt
+or wake event for the unpopulated link will cause a NULL pointer dereference
+in hard IRQ context, unlike the sibling ACP7x handlers in this file (such
+as sof_acp7x_handle_sdw_manager_irq()) which check adata->sdw->pdev[instanc=
+e]
+before calling dev_get_drvdata().
+
+[Severity: Medium]
+This problem wasn't introduced by this patch, but in the same SoundWire
+probe path [1], does a failure in sdw_amd_startup() leak the
+sdw_amd_ctx memory and platform devices allocated by
+sdw_amd_probe_controller(), as well as adata->dmic_dev in
+amd_sof_acp_probe()?
+
+drivers/soundwire/amd_init.c:sdw_amd_probe() {
+	*sdw_ctx =3D sdw_amd_probe_controller(res);
+	if (!*sdw_ctx)
+		return -ENODEV;
+
+	return sdw_amd_startup(*sdw_ctx);
+}
+
+sound/soc/sof/amd/acp.c:amd_sof_acp_probe() {
+	...
+	adata->dmic_dev =3D platform_device_register_data(sdev->dev, "dmic-codec",
+							PLATFORM_DEVID_NONE, NULL, 0);
+	...
+	ret =3D amd_sof_sdw_probe(sdev);
+	if (ret < 0) {
+		dev_err(sdev->dev, "error: SoundWire probe error\n");
+		free_irq(sdev->ipc_irq, sdev);
+		return ret;
+	}
+	...
+unregister_dev:
+	platform_device_unregister(adata->dmic_dev);
+	return ret;
+}
+
+When sdw_amd_startup() fails, sdw_amd_probe() returns without unregistering
+the ctx->pdev[index] devices or freeing ctx, and amd_sof_acp_probe()
+returns directly after free_irq() instead of jumping to unregister_dev to
+unregister adata->dmic_dev.
+
+[1] https://sashiko.dev/#/bug/linux-3af16781-2451-4877-8594-c12800a7bba5
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107175339.3547=
-918-1-Vijendar.Mukunda@amd.com?part=3D3
+918-1-Vijendar.Mukunda@amd.com?part=3D2
