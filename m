@@ -1,97 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794068632;
-	b=ouGJz6NmC3ZOBVGQ8Bpyvqkqx5Yslvj6eRbAORUEHzwTZZYIdWzROEZ64aqwAwXPaNZm
-	 bf2ougjOCfR4ULSE0Ya+jO/UPHHWnJdDtz0sFCrUTUoNhez2+w2sl97X1Ip4hyHgJUURO
-	 0upGZz94nM7e/dDvu4rwbV3nprOFsOaukKFgxgjXQQfjMjR/DikPU6EPWFwD8ijADsooY
-	 GXxTaw1lhwUqIiorF4XB9L3VRqNCRXllcAfTsgLYlDdipkrdt0Hppz4ety8EKbw+ktPp/
-	 QaOFyrSZYwlYeB9UKTx8qqw74UqyvJW/uLDlFa7hQvA1Hr2QI79yNvsw05sdxuGAA4A==
+	t=1794068753;
+	b=SETRA1UhkxEgx+vE+vudD2KpUE+hzRTJaSgAYnEGwjaK1ZKy7/7qUPLogFUKi3bpF4Jm
+	 CH3P+C5OJ4WTe4A71FPSmStIeDisrrGstxc6ZmK+iPl+ROPsmPN43Lbilmxf1b1Nb4dWP
+	 JAIIKO6lTi61iFmXcEk3ZAfsqWkLzzyKswIeJ7bFGxzoxDK0+2BAYA87gNmz0f4M4UEJV
+	 otm0ZEl92AjSANxtptO4XrJfj0t7NVVKuFxaOH8wSDOKXU7Z/iLzJawHAVY0xE6VbadqW
+	 HBHafapnqz2+TBP6Yy4nzYwDHusGcq7xCG9Sm1Ao2+v74A7kTQPsY8yFmGciMYBSJqQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794068632;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=BJxOd6zhjF3M7CCyz6Z10/bR/tIxDr4jHdB+bON0ABU=;
-	b=JQ54j6mkxU70ERsq+PywRLEixsruawEv2d4HifYQFjlOFbNAnVGnhsb58m8xIEThHcKS
-	 dt7d4os9YNs7Q8JjfASsOg2gEe4KmJEu0Gd3NTsbz0IVpRA6JmOwXSFfB1gtxCi2aSpEy
-	 iJomEe9Eczbwg48SKr4BYxk0WgKjXPdFPY/OYlWFfvcxKDF6LqzgQx/RX4eifFMBhXag4
-	 gSRk0Y2tFB88z233C4I8TwB+5wUzGN1T7uZXAptXZQkWA+RwQ82KE+N5PxE9FBiQRSKkE
-	 g2Dpbb0PImFnjab7fIIluMMd9uS4zqtfazYSn6XGFhRhnqM/f7qJG+GRBzkj/5eV9sg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794068753;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=6KMLII++fl32NzcSkU62ezgtDx+w05FWcj1RRl47k1g=;
+	b=vwQIgkCzZZBapJzj4Lj4duHVHGQKPhuIsgrOHWhp/cdM+j6bKY/BorjAtoH1Wz+CRnrf
+	 J0fcu/etz0AJMOke4kZELwAXlj8KGwISGebZ4arYRmMIiq+ShmSJTfhDUySX4eO6Ly8Ho
+	 PQwrKTl+/T86b2xF4iRF/0tVqfjPgi2vRBCXck9nO8R5bgg0YD0O9ZT7BbsMjMoW/dJfN
+	 L6YZ9gZTmE076hbA3gpABNEpAftfxqDLeyrHfu1je2afD946y0zuMdwd+R8cB+1lCtyZF
+	 /qQ5YnuA7zGDBlX4tGa19SxEIE4G5NnF7SvZSpOHNF/3BlK30HD0LB3uvtavvWSf2EA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vhRh4k6U;
-	arc=none smtp.remote-ip=209.85.128.43
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TUbdpw96;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9CF606A32E
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 16:23:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A9CF606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65493606A326
+	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 16:25:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vhRh4k6U
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a5036bbac7so10048835e9.3
-        for <linux-sound@vger.kernel.org>; Sat, 07 Nov 2026 08:23:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794068631; x=1794673431; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BJxOd6zhjF3M7CCyz6Z10/bR/tIxDr4jHdB+bON0ABU=;
-        b=vhRh4k6UdOFLN+vT5tn4sQHilCzwg0NmRbtEbazlnN/bZXHYmHEKvuoiYXfquRrGXh
-         m2fWFz+kLgb6XPU+X74RBoN5ywSIvKY6dKw2quJapA5WFTYUcttdfyy29F5VMkjfcSyF
-         K3QCpb4QE51Jf5lqjk0hFZPizKo4W4FIEiQ8/L+863sc9sYzcAOwjN36YgVduv7AXCXb
-         BTb5JbLLpLfX8DxRQY2iimXKZr23hCtyl5e4/YfgBDEizpJlZU5QD8umP1fF6K/wzqw5
-         ViSpt9gp4weGNd1puQ1OYNe6NPAN89Uxmq5QqT+8thQjdeMB/MFsCsSjRrNauGzgEx41
-         CeMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794068631; x=1794673431;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=BJxOd6zhjF3M7CCyz6Z10/bR/tIxDr4jHdB+bON0ABU=;
-        b=iHCeusc/xqxumw+PjxyjruZ8lcm9sbmdCNdxDDH+nJEiRRjTcdCaOwoEjjWouAwUV+
-         PXz/YpZ63vgCTPpADYkkh7PSaLpuUcNS88G6TXr1OdcNNYqMTf0kjOE7zVWdwjBOmiKJ
-         1O4/e1UdyOHyoSUcLRqNvxtAX3mrW7iLmXsdMILjE7aUIxmkQz2bkyptfVJ1grr4vVVt
-         0IKQkElQJm5yg6rqdTbolW6tl3QbqBMABOGOrkiDpTsg4pGE4XeusR2AXatO/Ve9brmC
-         zKbnqvtacMS28NJMIDVjzaeZ7x/zzcmyOpqC9JYYy6MB9dEuH/DyswFrjWCmO3WQUsNp
-         1//w==
-X-Forwarded-Encrypted: i=1; AKwUvBxdzg3bk+oAkHQRcXxtKlEPhmT64oXQZ5cx6vVbxf0y6hVDynFc0qQbEgPIdz0tHxPsm4rYztefNVHbUQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8vh+V+W2TG8U1zzliteixWhBb6jQwBbU7PpzEZ5+MrLuDYIyUn
-	12iCcJfWn0Qod4jk8JN5nRcAxPpaJ7S4t9uMxRgw3tL/Zw5MF+pUY2I=
-X-Gm-Gg: AYBFou1yGqXHs/VGXX/s7WCcT0ad1cvjQsvS5/FADRSVzdPdLawYw2jP/YJ25do9qrg
-	Iie7W7oGKo9j1+rwYgdKg3EeeaLIpknHbacBsl2ugZAk2Xjt7X/7MkLTAt0DWdt9jnPZHHf5KFO
-	I8p8HUg055rYPuYdhYmtB5SY2rqiMVJJkPF37UVuvQAiMlAgZ2eRBOBNN7gIZc5H+fz6TQcAdJf
-	yCOsuq2ZI9Fq2hp+avYlVhrLinWVzi0m0wYoNs/V5TkjdZdOfvpi/NGmuPvhjLB0vMqTbIKiGaI
-	pZAx9WGDHaT9UcMCIqKrvQyj67iRelcW4Vu0mHwlPpbp9Xp6WLfe9wQZEc7SHyw69pQS2T6peFm
-	bjAdLBHeiQKEM+y5QURT0IqvQljDrF7uNjoJ2fjqzZWlyJgJaAuGUhOUdBkowsXMOPBsBETmOmi
-	y5sZvm8/OQz6tz4AoWyEBZMo2d/L4/XQ4MNrGrgiQoQ8UAe+fKC1rPUmN/7SKHadKVzzO/xLbnW
-	GlpNmjtzhDXjPpCzgVdD7lGE8lqpresUdY8+UyUQVBPJNVaHn7tPjnG9kgYaMCb4EZnm/mwrLKi
-	fX/zs5KnmzP/xDQ=
-X-Received: by 2002:a05:600c:8886:b0:4b7:6a8b:9df2 with SMTP id 5b1f17b1804b1-4b76a8b9e1dmr61230145e9.25.1794068630454;
-        Sat, 07 Nov 2026 08:23:50 -0800 (PST)
-Received: from localhost.localdomain ([2001:41d0:303:db6b::])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b7e32b46a3sm83755155e9.6.2026.11.07.08.23.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 08:23:50 -0800 (PST)
-From: Tristan Madani <tristmd@gmail.com>
-To: Oder Chiou <oder_chiou@realtek.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Bard Liao <bardliao@realtek.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Tristan Madani <tristan@talencesecurity.com>
-Subject: [PATCH] ASoC: rt5659: fix teardown order and stale state across card rebind
-Date: Sat,  7 Nov 2026 16:23:41 +0000
-Message-ID: <20261107162341.1494240-1-tristmd@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TUbdpw96
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D2AF1F0089F;
+	Sat,  7 Nov 2026 16:25:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794068752;
+	bh=6KMLII++fl32NzcSkU62ezgtDx+w05FWcj1RRl47k1g=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=TUbdpw96VPzd9FXZlO65q0/talScdvCSqHjBi57b6zsHGn3cl1swODgh3hTeErjNg
+	 rz18P0WJImOKHUYkdlETSEsVN0U3xGoXKo+986Hs4PInOlNBmecMMQ7VpUdOpCsmw2
+	 YqHIyZTXV7ZkiuBs57H3KacaopIl1dwoMzWL/HcW1wL1N5TWGpWWq/KFCrDnuecIjA
+	 11Lxkgktv98UIuI/GQ9hzoq/IrUnMxqINlGdToyO+l0lIwla3U99MAMRuotuYlK8M5
+	 2psPImkWzyeVIOeW2HOzSJvFgGCE6DthuTLWYizm0wbzedPfN3+vwUE5uOsegPAsgE
+	 ddZi5KygjtE5A==
+Message-ID: <sashiko-outbox-203057@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v5 22/25] soundwire: amd: fix interrupt gate and work
+ drain ordering in PM ops
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Vijendar Mukunda" <Vijendar.Mukunda@amd.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261107154659.3358223-23-Vijendar.Mukunda@amd.com>
+References: <20261107154659.3358223-1-Vijendar.Mukunda@amd.com>
+ <20261107154659.3358223-23-Vijendar.Mukunda@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 07 Nov 2026 16:25:51 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -100,142 +60,128 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Tristan Madani <tristan@talencesecurity.com>
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Medium] soundwire: amd: unserialized hard IRQ race with work drain in
+  amd_suspend()
+- [Low] soundwire: amd: commit message describes prior patch revision in
+  PM ops
+--
 
-The cleanup in rt5659_remove() does not reset hs_jack, jack_type, or
-the component pointer, and does not mark the regmap cache dirty after
-the codec reset.  On card rebind this leaves a dangling hs_jack pointer
-and causes regmap_update_bits() to skip re-programming jack-detection
-registers because the cache still holds the pre-reset values.
+commit f3586b88e19b93c1d283c25b97e67e7d9da93bab
+Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
-Additionally, headset detection registers from a previous session
-remain cached after the hardware reset.  regcache_sync() on rebind
-restores this stale state, which can leave the SAR source on button
-mode or HDA plug flags in an incorrect state.  Clear the headset
-state by calling rt5659_headset_detect(component, 0) before the
-codec reset, and reset the HDA header plug tracking flags.
+> soundwire: amd: fix interrupt gate and work drain ordering in PM ops
+>=20
+> The CLK_STOP_MODE branches in amd_suspend() and amd_suspend_runtime()
+> did not close the ACP_EXTERNAL_INTR_CNTL delivery gate before draining
+> amd_sdw_irq_thread and amd_sdw_work. An ISR already running when the
+> drains completed could re-queue work after cancel_work_sync() returned,
+> racing amd_sdw_clock_stop().
+>=20
+> In both CLK_STOP_MODE paths, amd_sdw_wake_enable() was also called
+> before amd_enable_sdw_interrupts(). Since amd_enable_sdw_interrupts()
+> writes the interrupt mask unconditionally, it clobbered the wake bit
+> set by amd_sdw_wake_enable().
+>=20
+> For both amd_suspend() and amd_suspend_runtime():
+>  - CLK_STOP_MODE: add amd_disable_sdw_interrupts() and
+>    cancel_work_sync(irq_thread) before the work drain; reopen the gate
+>    with amd_enable_sdw_interrupts() after clock stop, then call
+>    amd_sdw_wake_enable() so the wake bit is not clobbered.
+>  - POWER_OFF_MODE: add amd_disable_sdw_interrupts() and
+>    cancel_work_sync(irq_thread) before the work drain; remove the
+>    redundant post-clock-stop amd_disable_sdw_interrupts() call.
+>=20
+> Fixes: 86a4371b7697 ("soundwire: amd: fix for handling slave alerts after=
+ link is down")
+> Reported-by: Lee Jones <lee@kernel.org>
+> Closes: https://sashiko.dev/#/bug/linux-3b774ace-00cf-41e6-82eb-85cd43f5e=
+1d6
+> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
-If the I2C device unbinds without a card bound, rt5659_remove() is
-never called and the IRQ keeps queuing jack_detect_work until devres
-frees the private data.  Register a devm action to disable the IRQ
-and cancel the delayed work on any I2C teardown path.  Guard
-disable_irq() in rt5659_i2c_shutdown() with the irq_disabled flag
-to avoid an unbalanced disable when rt5659_remove() already ran.
+[Severity: Low]
+Does the commit message describe an intermediate revision of this series
+rather than the parent commit?
 
-Store the I2C client pointer in rt5659_priv so all paths can
-reference it directly.
+In the parent commit, amd_suspend_runtime() did not drain
+amd_sdw_irq_thread or amd_sdw_work at all (this patch adds both
+cancel_work_sync() calls there), and neither CLK_STOP_MODE path called
+amd_enable_sdw_interrupts() before this patch.
 
-Fixes: d3cb2de2479b ("ASoC: rt5659: add rt5659 codec driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
----
- sound/soc/codecs/rt5659.c | 39 ++++++++++++++++++++++++++++++++++++---
- sound/soc/codecs/rt5659.h |  1 +
- 2 files changed, 37 insertions(+), 3 deletions(-)
+> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_mana=
+ger.c
+> index 2b38b9bf97f50..4e151f7350c96 100644
+> --- a/drivers/soundwire/amd_manager.c
+> +++ b/drivers/soundwire/amd_manager.c
+> @@ -1437,15 +1437,20 @@ static int __maybe_unused amd_suspend(struct devi=
+ce *dev)
+>  	}
+> =20
+>  	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
+> +		amd_disable_sdw_interrupts(amd_manager);
+> +		cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
+>  		cancel_work_sync(&amd_manager->amd_sdw_work);
+> -		amd_sdw_wake_enable(amd_manager, false);
+>  		ret =3D amd_sdw_host_wake_enable_by_rev(amd_manager, false);
+>  		if (ret)
+>  			return ret;
+>  		ret =3D amd_sdw_clock_stop(amd_manager);
+>  		if (ret)
+>  			return ret;
+> +		amd_enable_sdw_interrupts(amd_manager);
+> +		amd_sdw_wake_enable(amd_manager, false);
 
-diff --git a/sound/soc/codecs/rt5659.c b/sound/soc/codecs/rt5659.c
-index 68f7d5673e190..14111f40384e5 100644
---- a/sound/soc/codecs/rt5659.c
-+++ b/sound/soc/codecs/rt5659.c
-@@ -3660,6 +3660,16 @@ static int rt5659_set_bias_level(struct snd_soc_component *component,
- 	return 0;
- }
- 
-+static void rt5659_i2c_disable_irq_and_cancel_work(void *data)
-+{
-+	struct rt5659_priv *rt5659 = data;
-+
-+	if (rt5659->irq_acquired && !rt5659->irq_disabled)
-+		disable_irq(rt5659->i2c->irq);
-+	if (rt5659->jack_detect_work_inited)
-+		cancel_delayed_work_sync(&rt5659->jack_detect_work);
-+}
-+
- static int rt5659_probe(struct snd_soc_component *component)
- {
- 	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
-@@ -3667,8 +3677,10 @@ static int rt5659_probe(struct snd_soc_component *component)
- 
- 	rt5659->component = component;
- 
-+	regcache_sync(rt5659->regmap);
-+
- 	if (rt5659->irq_disabled) {
--		enable_irq(to_i2c_client(component->dev)->irq);
-+		enable_irq(rt5659->i2c->irq);
- 		rt5659->irq_disabled = false;
- 	}
- 
-@@ -3689,17 +3701,26 @@ static int rt5659_probe(struct snd_soc_component *component)
- static void rt5659_remove(struct snd_soc_component *component)
- {
- 	struct rt5659_priv *rt5659 = snd_soc_component_get_drvdata(component);
--	struct i2c_client *i2c = to_i2c_client(component->dev);
- 
- 	if (rt5659->irq_acquired) {
--		disable_irq(i2c->irq);
-+		disable_irq(rt5659->i2c->irq);
- 		rt5659->irq_disabled = true;
- 	}
- 
- 	if (rt5659->jack_detect_work_inited)
- 		cancel_delayed_work_sync(&rt5659->jack_detect_work);
- 
-+	if (rt5659->jack_type)
-+		rt5659_headset_detect(component, 0);
-+
-+	rt5659->hs_jack = NULL;
-+	rt5659->jack_type = 0;
-+	rt5659->hda_hp_plugged = false;
-+	rt5659->hda_mic_plugged = false;
-+	rt5659->component = NULL;
-+
- 	regmap_write(rt5659->regmap, RT5659_RESET, 0);
-+	regcache_mark_dirty(rt5659->regmap);
- }
- 
- #ifdef CONFIG_PM
-@@ -4328,6 +4349,13 @@ static int rt5659_i2c_probe(struct i2c_client *i2c)
- 				   RT5659_GP1_PIN_MASK, RT5659_GP1_PIN_IRQ);
- 	}
- 
-+	rt5659->i2c = i2c;
-+	ret = devm_add_action_or_reset(&i2c->dev,
-+				      rt5659_i2c_disable_irq_and_cancel_work,
-+				      rt5659);
-+	if (ret)
-+		return ret;
-+
- 	return devm_snd_soc_register_component(&i2c->dev,
- 			&soc_component_dev_rt5659,
- 			rt5659_dai, ARRAY_SIZE(rt5659_dai));
-@@ -4337,6 +4365,11 @@ static void rt5659_i2c_shutdown(struct i2c_client *client)
- {
- 	struct rt5659_priv *rt5659 = i2c_get_clientdata(client);
- 
-+	if (rt5659->irq_acquired && !rt5659->irq_disabled)
-+		disable_irq(client->irq);
-+	if (rt5659->jack_detect_work_inited)
-+		cancel_delayed_work_sync(&rt5659->jack_detect_work);
-+
- 	regmap_write(rt5659->regmap, RT5659_RESET, 0);
- }
- 
-diff --git a/sound/soc/codecs/rt5659.h b/sound/soc/codecs/rt5659.h
-index e10b3844501b9..1118e6ab1887d 100644
---- a/sound/soc/codecs/rt5659.h
-+++ b/sound/soc/codecs/rt5659.h
-@@ -1793,6 +1793,7 @@ struct rt5659_priv {
- 	struct snd_soc_component *component;
- 	struct rt5659_platform_data pdata;
- 	struct regmap *regmap;
-+	struct i2c_client *i2c;
- 	struct gpio_desc *gpiod_ldo1_en;
- 	struct gpio_desc *gpiod_reset;
- 	struct snd_soc_jack *hs_jack;
--- 
-2.47.3
+[Severity: Medium]
+Can an in-flight parent ACP hard IRQ handler still queue
+amd_sdw_irq_thread after cancel_work_sync() returns in amd_suspend() and
+amd_suspend_runtime()?
 
+None of the parent ACP hard IRQ handlers (such as acp63_irq_handler() in
+sound/soc/amd/ps/pci-ps.c) check amd_manager->interrupt_enabled or acquire
+acp_sdw_lock before calling schedule_work(&amd_manager->amd_sdw_irq_thread):
+
+sound/soc/amd/ps/pci-ps.c:acp63_irq_handler() {
+    ...
+	ext_intr_stat =3D readl(adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
+	if (ext_intr_stat & ACP_SDW0_STAT) {
+		writel(ACP_SDW0_STAT, adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
+		amd_manager =3D dev_get_drvdata(&adata->sdw->pdev[0]->dev);
+		if (amd_manager)
+			schedule_work(&amd_manager->amd_sdw_irq_thread);
+    ...
+}
+
+If the hard IRQ fires just before amd_disable_sdw_interrupts() masks
+ACP_EXTERNAL_INTR_CNTL, the two contexts can interleave as follows:
+
+CPU0                                  CPU1 (<hardirq>)
+amd_suspend()
+                                      acp63_irq_handler()
+                                        readl(... + ACP_EXTERNAL_INTR_STAT)
+  amd_disable_sdw_interrupts()
+    interrupt_enabled =3D false
+    amd_updatel(ACP_EXTERNAL_INTR_CNTL, ...)
+  cancel_work_sync(&amd_sdw_irq_thread)
+  cancel_work_sync(&amd_sdw_work)
+  amd_sdw_clock_stop()
+  amd_enable_sdw_interrupts()
+    interrupt_enabled =3D true
+                                        schedule_work(&amd_sdw_irq_thread)
+                                      amd_sdw_irq_thread()
+                                        schedule_work(&amd_sdw_work)
+                                          <-- runs while clock is stopped
+
+Even in AMD_SDW_POWER_OFF_MODE where interrupt_enabled remains false,
+amd_sdw_irq_thread() still reads SoundWire MMIO registers and calls
+amd_sdw_read_and_process_ping_status() without checking interrupt_enabled,
+racing with amd_sdw_clock_stop(), amd_disable_sdw_manager(), and D3 entry.
+In AMD_SDW_CLK_STOP_MODE, calling amd_enable_sdw_interrupts() right after
+amd_sdw_clock_stop() also sets interrupt_enabled back to true while the
+clock is stopped, allowing a late amd_sdw_irq_thread() to schedule
+amd_sdw_work and trigger MIPI command timeouts (-ETIMEDOUT).
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107154659.3358=
+223-1-Vijendar.Mukunda@amd.com?part=3D22
