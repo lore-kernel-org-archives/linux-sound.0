@@ -1,96 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794049894;
-	b=1keIv2H+DHEqyNqmInrepYei4nZzZWxWyG8KWqK58UCgADCxHkSeHOXjVchDZk99hbZz
-	 iCZLxgQyPvKEHarnCJXEVs08ImAAqdDfJML9T3SqLb+bbcB7N6k+DqT+5qNFMiVSUZKQS
-	 2jvBJdD+7suNWlGep1iuAti6Hr75tCjUurzoXbczgBvXWmnQOt8SmUZLPkZtPa7UrpxeK
-	 k4ex8MYErzqJMB7SVG4vRhDU6NufVxM8sqsha7tVaUKkcT84zMLmW3fODoWl0gXeMkKTN
-	 LgiU8vGZ6CkaU/hz7Uha20kbeqWHc45G6BG7Yvs3FhAU8sc+h3XjmKWvKBLR1q2vWsA==
+	t=1794050621;
+	b=IL1tk5fdWp3KeEiJ+K8/GL7sbtA/mLjQJd4XhBLCHjaNohL64uPy+Aew6/2cCuuI+kSN
+	 dtxQpbcGVy1Ey/uXLG0UPpjaF2WMdwdbC68OXfgCZSrm928V9hH+q8mDlYOnMfAn5BV1p
+	 dcxI58wGTA0/QaflPPVLKX6K/fdisz+Edm5r9+ORngiTZ0RRUohDIOU1OhoqD/1jWAhkw
+	 LC/xr0VAwDR2WCFBIQwGFqxZYbxdF2NHx23Z9YbR6KGhw5gohxGgALvQrRhVAfHI13HN1
+	 /kaI7ELV89f5gl9/9eaSbThojobuLuA1ng2GsCxo5IZCnkitnC6nyuRyZC8EQM2//ow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794049894;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794050621;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=zi3Ft++EmvF1UuFuHkyZibsJu2KcBYMw3/CDk2+W75I=;
-	b=bFtmb+SX5l3PD+roT9KfeWRxJ7K1z3JLXPGL95RjfBOJ/Mj5C84vgqluHw5NflFcz+vi
-	 sGmtdbPm3tqRHsjlhQh8anKy1f8UYu3TQDsO/4PfKnKGxiVH1PVj4F2CChgsAmUWzlKAy
-	 DdVJxdvxxuVqcKI+HHKGyK8AAnaimkbcqAsYYna500KiJdKrL5HY+A7IbjSnjKR/xJ4a0
-	 PNKDaQhJUSO+nr6JbXCUyB2ulAsA6KwApCdQMaZ05NiNuZwde0Ya9zan8D3yMvsTvAgCW
-	 WPbDqFJz36pbHnbIUurSZuf8/Bv5Xf98plOhe4tBuPDB29IB2uAQ/+itURoA3gcONtw==
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=+oJdKvf5ACTFVjDlEtyhUTinT8osTOQujRk8hU+DRPU=;
+	b=pLnkgGKGhaXOJF3j1DBNmBCCUgJ0qCo+g5o5Xw3O5j9EtkxedZi79wfXg5VLa4ttx68D
+	 moMfbdrcLYc2Rg04dnETUA3HaYvLi7/aND+nY8181V0rNPWIyc1/RTs9sottMg40lDhKi
+	 SZBlXNKkEKTSQLSpt02kc/iI4AuEbv0FVkGG5NJisvK6B96e/aCFq2xqscGlNlxlovbFc
+	 TZIwOhKlR6q1fBchnk/BKrL8A37eE/QdKzHvEW6lKc2gcQ8ppEWvWET59HI1KhmqXs3B4
+	 ZWObTfQs1P0BxbOSa6/mGHTszXEtWwKE7LebNsosNnZgCFd4OF8oN7fo4J7jVakL8Tw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rB4RTsRW;
-	arc=none smtp.remote-ip=74.125.229.4
-Received: from mail-dy2-f4.google.com (mail-dy2-f4.google.com [74.125.229.4])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jrB4CP0b;
+	arc=none smtp.remote-ip=209.85.221.54
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A33C606A32E
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 11:11:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A33C606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0A0606A32F
+	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 11:23:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB0A0606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rB4RTsRW
-Received: by mail-dy2-f4.google.com with SMTP id 5a478bee46e88-370231dbf90so663511eec.0
-        for <linux-sound@vger.kernel.org>; Sat, 07 Nov 2026 03:11:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jrB4CP0b
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4918c2d727fso762592f8f.3
+        for <linux-sound@vger.kernel.org>; Sat, 07 Nov 2026 03:23:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794049893; x=1794654693; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zi3Ft++EmvF1UuFuHkyZibsJu2KcBYMw3/CDk2+W75I=;
-        b=rB4RTsRWdmRst0Cli6cV9qeat8k/wrn5jp9Zhjjkczrg3bP01JOj3fMtIuqrpauHTX
-         xq4DRdZuIkgo2df48d/wYlWq3CTOuFtytlxLTbwdWrEbJITiT/ZxCtsL5af/+6I3xZVk
-         jVjer1cXhBSCiHMy5VWkE9HK0IWJ659EQj+NHIZkF/JtZKwN9WQYB/CwCqR3zItamYZw
-         UxePbDu+meSsUcqvydI4f10kYqHMsF5XRZ8IRvjApoENq7Qf2ZVbKJAC5tlcp+Kv7Ynh
-         ihGnkPpimwrdjkDr1J4IwNdD1hTCU8/BOFgsPM1VGkqBFA6V5O4GYcw+ZDvp99fza8Fm
-         MYEQ==
+        d=gmail.com; s=20260707; t=1794050619; x=1794655419; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+oJdKvf5ACTFVjDlEtyhUTinT8osTOQujRk8hU+DRPU=;
+        b=jrB4CP0bQ+koHaEjv8DWJ3WdmGF/+AKcrvBl0Q+FuPlbjKm9DyXPfJOoFs9mZzS4Rg
+         +jG2kU2MrHVVlUbBwCtny5fvHHqYQaPPYhzxw5BKiTqpplykYZLrEL0aYRkYvUPHiuyR
+         FKIF6C9JdV0mRBgRKuFSR3BvNeTJzBA5yP95XotKtYxEMMO0yT4MKF1eqE5I38qki5mj
+         XfTsVnxngCrj0PY45KGrydCTX6osmEea67P8Mm//njfZGYuZ3wfAGty5a3DXsoWxy4z1
+         RYkL8apbAHgMW8qOXZ5rNsqx393JytNZqooaMQEBU3u+52eRrsPyURElWPwOAP0RPZwh
+         gFKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794049893; x=1794654693;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zi3Ft++EmvF1UuFuHkyZibsJu2KcBYMw3/CDk2+W75I=;
-        b=nO4w86j2gz+AzIZ1B94SFbw5x+6LUeBpHde/MyKQyT/6SWj+8wlLUrnYPQFWHmyShf
-         ILzKI2QIQsHlMH1s2YX5I0iaRSlmwG32HtJrT95r0PGLUNY2iERQ/okz/0ieYlF/cxbl
-         Dps+XySOSfWvx5v6btxJYVC/hwGv/fy7x/UmFHf1/RFgVhEvl+XHzy4phwipPU2oDInw
-         tops63m+EM2JkD5Xm+2fw4sfHQUw1NCsTMpB1MDZLSGRJ91WvDF9FYMnLOzYSEK0L+TT
-         yyYXgOibK5VBxbm+1Xn4P5BAAotJOHN/2Ht+3fVJ0RxbsduIUlNx4DC9UoV00Zd6jxX9
-         jCEQ==
-X-Forwarded-Encrypted: i=1; AL+hErFLmvQCucEyhtOaRkOn6amjjvF1/mlgg0wEOttloCEa3WFLvRS+oBRKNZm/7qvm4FGmJN5aIY0ktd/FBQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9OcCYW7bvpzyJVRz3pArMQCtv/ofgFZlFIHhyjvUOajwu4w5TL
-	ZFwb2C3m27CUQEqT3G1lFy36czcj1Ea/FqpFA6kpAJqo2ECni0hXGzmy
-X-Gm-Gg: AYBFou2kqKVw2LHi8gdkDILjkTJItbiA7YjEMLrifS7mVzEbjCWkAQocRo2a60lxpqa
-	tiijh9fVLhC6YqTeEDzigskejUOg57RTf98Ewafa+2Y+3Leq3PGjVbJjepJLMdXLxMjugY7BjAY
-	Cq1KqmwApVxRnV6NYsIIYTQqqOMci+7w06XVYLSns58ElF3cEVyNSuLnTLoHY4pqogRYHgx4WBH
-	u7HWSebuCeCCLEIw5X0w2nKeJbiwrXnMRBQwd2i2b87f5/v0ywrOte+cEhqWP+1iJtdh3ACdE7c
-	zkNShbbIWiz/YrZyia+sUAestsbk9+9IfusSfGDjgBokWB4nLi6ewbcP6AiliZwblKPzU7RZl+q
-	Id9tmx9vD4dBjZKSu3EK8G055Kfjqz8QlPOxiyP/gGwHmxRldlp0/iuNAPXklIv1r6u63BqZ+Uq
-	ngw7RMarsyTga9JCnN2yLAqaBC2JtOZij8tH6fglatdkh51bgjKRPPUTF3Q1Uek/AXpWLLb3W3L
-	9S/anjdFltsLJ6u0tEsBmY/xxRE1qTB8/jt9N+l/2KDtqdX5l6/M9dPhNnZRMazTF94rr5N3UVT
-	W5N8fEC9KVCb33aQ3ZvLUHnJRyFabZRBKBM4Oe2RIRYbdFHBefLMy7EIorvbcCkfOHWWcvScyBP
-	a
-X-Received: by 2002:a05:7300:109:b0:36e:c108:90e9 with SMTP id 5a478bee46e88-36f7671a4cfmr8123239eec.39.1794049893163;
-        Sat, 07 Nov 2026 03:11:33 -0800 (PST)
-Received: from WIN-GDFRURIH76O ([45.198.20.201])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36faac86a96sm15105878eec.29.2026.11.07.03.11.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 03:11:32 -0800 (PST)
-From: Alyandra Zahran Nadhir <alyandra5b@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: Alyandra Zahran Nadhir <alyandra5b@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] ALSA: ump: clear stale selectors in sequencer conversion
-Date: Sat,  7 Nov 2026 18:10:55 +0700
-Message-ID: <20261107111056.667-2-alyandra5b@gmail.com>
-X-Mailer: git-send-email 2.55.0.windows.5
-In-Reply-To: <20261107111056.667-1-alyandra5b@gmail.com>
-References: <20261107111056.667-1-alyandra5b@gmail.com>
+        d=1e100.net; s=20260707; t=1794050619; x=1794655419;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+oJdKvf5ACTFVjDlEtyhUTinT8osTOQujRk8hU+DRPU=;
+        b=PDB51uFrlu/DNzAVGWqZpPuct6Y3MnmWEkcl4diiy0TqejBc+SDvFfXbMjupv7PAeD
+         zQdA+dy2SCrb43ULnEip2FG7j9FjjhNfR/Ag1zfqViViXhQcR/T8rVl9cyvjxNatsaj1
+         glfXTfD70NANTxvtcbomtCaxsVNv9lKtH9or2xG8JYWRA4WT1Y0VAPDqkVjt+HJ66lih
+         bkZ2jsd3zF4AxuVDT/ES4GibMRy1FpTO/0Phn3BN6CtGZmKJCwhsid/WqecAQlHoytYB
+         NqmiTnDJZJfa240EmB0d7zsosCMb+3MHbOt1fJ6IBN6tiypyRZx0CgUUMbC7GZlo0ZhU
+         a0nQ==
+X-Forwarded-Encrypted: i=1; AL+hErFpitj11cYCONoajc+VACgfUfzFk8YkTNvVaBfnU7qJ7LFKYes9Y1QdX36odXMX9hC1qrwKAir8+urAnA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+FM13ePciSNsSJcgxFAg9bh6H/sNWiLGI4h7DdQBCvt213Fv3o
+	QdWt57R9M0t+Fw3V9VMz4hxbWKigFjShxgNDDqgDn+0oOJiivcxGpQfP
+X-Gm-Gg: AYBFou0YPtriQmyGEpqQRNrrpFEhdN9vMsTJSgwdbxkI3JxdXlnOahrrbDD8+eP73C7
+	S/tLqXBIAf1oqn4zVwrttENdnQIzzGB38tgK4a/JEPjd//3P7wPlmZ0fPEoNfCo8ycMWqtpMJtK
+	SqFp3lMDG0n+4dTS3COjkKJqfUn0pH0Fkl1QjD2Zk7MbhnuRi4syh32SbJpfyTKQ3K1/LjhGfjm
+	zfAOIR92sJRjmi4BOegY78mCYPxJThtDRs7Bt0eNXsz8liIN3PyqXIqcoxRqCo/MnUyGVEsGVjV
+	EGRYl6G/0N/GFsWVwoQc4DYeWjUxURXG38zGBk5e0uwmM1AOP+PBrgFx4aAiCuZRCvEPVbk+ojW
+	VhscAiD8SEHGK0De+/HmIqgl+8VvADw+a7OfafDB7rqJllNj2oBDkHvk4uDZB/K8sc+YHfgTeV2
+	rxcifAyQ8qtf8Qo9xxAOy21HuwlRuqxm/Sx/oZ57HiqPGAGuiWbNSTMRW4G7MXkOCcCHMoQItcu
+	JYfPRnXCnA7DdM7Va2hYYT1OdojnfJQT4eujDZkd+Wt6k3YvoA9VG7h//AzJO1kfwxivcqLJuWs
+	iBo87QE/HRlcz3A6QkAlfCZIHZi32+3ZvCtxZ90=
+X-Received: by 2002:a05:6000:26c1:b0:48e:10a7:438 with SMTP id ffacd0b85a97d-49275a2721amr10861159f8f.36.1794050618996;
+        Sat, 07 Nov 2026 03:23:38 -0800 (PST)
+Received: from foxbook (bfg124.neoplus.adsl.tpnet.pl. [83.28.44.124])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d6d6385fsm8647480f8f.16.2026.11.07.03.23.38
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sat, 07 Nov 2026 03:23:38 -0800 (PST)
+Date: Sat, 7 Nov 2026 12:23:35 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Hoshino Lina <lina@lina.yt>, Christoph Cheaure <cheaure@gmail.com>,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [BUG] ALSA: usb-audio: RME Digiface USB (2a39:3f8c): corrupted
+ playback on ~20% of stream starts, fixed by quirk_flags 0x100010
+Message-ID: <20261107122335.182f01c2.michal.pecio@gmail.com>
+In-Reply-To: <878q35yp6i.wl-tiwai@suse.de>
+References: <CAJr_eQ4QhhZTqjVRmRWLBMMVhqmx-dS_yC9TiozB8qS-ZCnDTg@mail.gmail.com>
+	<fd618d1b-d4b2-44cc-b08d-7e664938e771@lina.yt>
+	<878q35yp6i.wl-tiwai@suse.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -100,372 +100,80 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The sequencer MIDI 2.0 converter tracks RPN and NRPN selection flags
-separately. When the controller stream switches selector type, the
-previous flag remains set; fill_rpn() checks RPN first and can encode
-subsequent NRPN data as RPN.
+On Sat, 07 Nov 2026 10:19:01 +0100, Takashi Iwai wrote:
+> On Sat, 07 Nov 2026 04:53:37 +0100,
+> Hoshino Lina wrote:
+> >=20
+> > Hi,
+> >=20
+> > On 2026/11/07 8:26, Christoph Cheaure wrote: =20
+> > > Subject: [BUG] ALSA: usb-audio: RME Digiface USB (2a39:3f8c):
+> > > corrupted playback on ~20% of stream starts, fixed by quirk_flags
+> > > 0x100010
+> > >=20
+> > > Hi,
+> > >=20
+> > > I'm seeing intermittently corrupted playback on an RME Digiface
+> > > USB (2a39:3f8c) with the in-kernel support added in 6.12, and
+> > > found a quirk flag combination that fixes it for me.
+> > >=20
+> > > Symptom
+> > > -------
+> > > On roughly 1 in 5 stream starts, the playback output is corrupted:
+> > > any non-zero signal comes out heavily distorted / with clicks, on
+> > > all outputs, including the analog phones output (channels 33/34).
+> > > Digital silence stays silent, which made the problem hard to
+> > > spot. The bad state persists for the whole time the PCM is open;
+> > > after closing and reopening, the next start is usually clean. =20
+> >=20
+> > What you are hearing is what happens when playback falls behind by
+> > one USB frame on the Digiface. This happens mainly due to a bug in
+> > the xHCI kernel driver related to isochronous scheduling when IRQ
+> > latency spikes occur (together with the Digiface handling playback
+> > underruns rather poorly). I no longer contribute to the kernel
+> > directly for personal reasons, so I filed it here on Fedora, but it
+> > was never triaged/forwarded:
+> >=20
+> > https://bugzilla.redhat.com/show_bug.cgi?id=3D2451673
 
-Flush pending parameter data with the old selector, then clear the
-opposite selector before recording new state in both CC and Control14
-event paths. Add KUnit coverage for both transition directions,
-pending flushes, null RPN, channel isolation, and MIDI 1.0 conversion.
+Hi,
 
-Signed-off-by: Alyandra Zahran Nadhir <alyandra5b@gmail.com>
----
- sound/core/seq/Kconfig           |  12 ++
- sound/core/seq/seq_ump_convert.c | 275 +++++++++++++++++++++++++++++++
- 2 files changed, 287 insertions(+)
+These are known problems and things should be improved in 7.3.
 
-diff --git a/sound/core/seq/Kconfig b/sound/core/seq/Kconfig
-index 0d6061591..8c0888890 100644
---- a/sound/core/seq/Kconfig
-+++ b/sound/core/seq/Kconfig
-@@ -76,4 +76,16 @@ config SND_SEQ_UMP
- config SND_SEQ_UMP_CLIENT
- 	def_tristate SND_UMP && SND_SEQ_UMP
- 
-+config SND_SEQ_UMP_KUNIT_TEST
-+	bool "KUnit tests for ALSA sequencer UMP conversion" if !KUNIT_ALL_TESTS
-+	depends on KUNIT
-+	depends on SND_SEQUENCER=y && SND_SEQ_UMP
-+	depends on SND_UMP=y && SND_UMP_LEGACY_RAWMIDI
-+	default KUNIT_ALL_TESTS
-+	help
-+	  Tests RPN/NRPN selector transitions through the Controller and
-+	  Control14 sequencer event paths. It covers pending-data flushes,
-+	  null-RPN reset, per-channel state isolation, and legacy MIDI 1.0
-+	  protocol conversion. The suite requires no MIDI hardware.
-+
- endif # SND_SEQUENCER
-diff --git a/sound/core/seq/seq_ump_convert.c b/sound/core/seq/seq_ump_convert.c
-index ff4ee26ad..5e4071130 100644
---- a/sound/core/seq/seq_ump_convert.c
-+++ b/sound/core/seq/seq_ump_convert.c
-@@ -6,6 +6,10 @@
- #include <linux/init.h>
- #include <linux/errno.h>
- #include <linux/string.h>
-+#if IS_ENABLED(CONFIG_SND_SEQ_UMP_KUNIT_TEST)
-+#include <kunit/test.h>
-+#endif
-+#include <sound/asound.h>
- #include <sound/core.h>
- #include <sound/ump.h>
- #include <sound/ump_msg.h>
-@@ -847,6 +851,7 @@ static int cc_ev_to_ump_midi2(const struct snd_seq_event *event,
- 	switch (index) {
- 	case UMP_CC_RPN_MSB:
- 		ret = fill_rpn(cc, data, channel, true);
-+		cc->nrpn_set = 0;
- 		cc->rpn_set = 1;
- 		cc->cc_rpn_msb = val;
- 		if (cc->cc_rpn_msb == 0x7f && cc->cc_rpn_lsb == 0x7f)
-@@ -854,6 +859,7 @@ static int cc_ev_to_ump_midi2(const struct snd_seq_event *event,
- 		break;
- 	case UMP_CC_RPN_LSB:
- 		ret = fill_rpn(cc, data, channel, true);
-+		cc->nrpn_set = 0;
- 		cc->rpn_set = 1;
- 		cc->cc_rpn_lsb = val;
- 		if (cc->cc_rpn_msb == 0x7f && cc->cc_rpn_lsb == 0x7f)
-@@ -861,11 +867,13 @@ static int cc_ev_to_ump_midi2(const struct snd_seq_event *event,
- 		break;
- 	case UMP_CC_NRPN_MSB:
- 		ret = fill_rpn(cc, data, channel, true);
-+		cc->rpn_set = 0;
- 		cc->nrpn_set = 1;
- 		cc->cc_nrpn_msb = val;
- 		break;
- 	case UMP_CC_NRPN_LSB:
- 		ret = fill_rpn(cc, data, channel, true);
-+		cc->rpn_set = 0;
- 		cc->nrpn_set = 1;
- 		cc->cc_nrpn_lsb = val;
- 		break;
-@@ -975,6 +983,7 @@ static int ctrl14_ev_to_ump_midi2(const struct snd_seq_event *event,
- 	case UMP_CC_RPN_MSB:
- 	case UMP_CC_RPN_LSB:
- 		ret = fill_rpn(cc, data, channel, true);
-+		cc->nrpn_set = 0;
- 		cc->cc_rpn_msb = msb;
- 		cc->cc_rpn_lsb = lsb;
- 		cc->rpn_set = 1;
-@@ -984,6 +993,7 @@ static int ctrl14_ev_to_ump_midi2(const struct snd_seq_event *event,
- 	case UMP_CC_NRPN_MSB:
- 	case UMP_CC_NRPN_LSB:
- 		ret = fill_rpn(cc, data, channel, true);
-+		cc->rpn_set = 0;
- 		cc->cc_nrpn_msb = msb;
- 		cc->nrpn_set = 1;
- 		cc->cc_nrpn_lsb = lsb;
-@@ -1310,3 +1320,268 @@ int snd_seq_ump_group_port(const struct snd_seq_event *event)
- 	/* group-port number starts from 1 */
- 	return ump_message_group(ump_ev->ump[0]) + 1;
- }
-+
-+#if IS_ENABLED(CONFIG_SND_SEQ_UMP_KUNIT_TEST)
-+static void seq_ump_kunit_set_cc(struct snd_seq_event *event,
-+				 unsigned char channel, unsigned char index,
-+				 int value)
-+{
-+	memset(event, 0, sizeof(*event));
-+	event->type = SNDRV_SEQ_EVENT_CONTROLLER;
-+	event->data.control.channel = channel;
-+	event->data.control.param = index;
-+	event->data.control.value = value;
-+}
-+
-+static void seq_ump_kunit_set_ctrl14(struct snd_seq_event *event,
-+				     unsigned char channel,
-+				     unsigned char index, int value)
-+{
-+	memset(event, 0, sizeof(*event));
-+	event->type = SNDRV_SEQ_EVENT_CONTROL14;
-+	event->data.control.channel = channel;
-+	event->data.control.param = index;
-+	event->data.control.value = value;
-+}
-+
-+static void seq_ump_cc_selector_switch_test(struct kunit *test)
-+{
-+	struct snd_seq_client_port *port;
-+	struct snd_seq_event event;
-+	union snd_ump_midi2_msg data = {};
-+
-+	port = kunit_kzalloc(test, sizeof(*port), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, port);
-+
-+	seq_ump_kunit_set_cc(&event, 0, UMP_CC_RPN_MSB, 0x11);
-+	KUNIT_EXPECT_EQ(test, cc_ev_to_ump_midi2(&event, port, &data,
-+						 UMP_MSG_STATUS_CC), 0);
-+	seq_ump_kunit_set_cc(&event, 0, UMP_CC_RPN_LSB, 0x12);
-+	KUNIT_EXPECT_EQ(test, cc_ev_to_ump_midi2(&event, port, &data,
-+						 UMP_MSG_STATUS_CC), 0);
-+	seq_ump_kunit_set_cc(&event, 0, UMP_CC_NRPN_MSB, 0x21);
-+	KUNIT_EXPECT_EQ(test, cc_ev_to_ump_midi2(&event, port, &data,
-+						 UMP_MSG_STATUS_CC), 0);
-+	KUNIT_EXPECT_FALSE(test, port->midi2_bank[0].rpn_set);
-+	KUNIT_EXPECT_TRUE(test, port->midi2_bank[0].nrpn_set);
-+	seq_ump_kunit_set_cc(&event, 0, UMP_CC_NRPN_LSB, 0x22);
-+	KUNIT_EXPECT_EQ(test, cc_ev_to_ump_midi2(&event, port, &data,
-+						 UMP_MSG_STATUS_CC), 0);
-+	seq_ump_kunit_set_cc(&event, 0, UMP_CC_DATA, 0x31);
-+	KUNIT_EXPECT_EQ(test, cc_ev_to_ump_midi2(&event, port, &data,
-+						 UMP_MSG_STATUS_CC), 0);
-+	seq_ump_kunit_set_cc(&event, 0, UMP_CC_DATA_LSB, 0x32);
-+	KUNIT_EXPECT_EQ(test, cc_ev_to_ump_midi2(&event, port, &data,
-+						 UMP_MSG_STATUS_CC), 1);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.status, UMP_MSG_STATUS_NRPN);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.bank, (unsigned char)0x21);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.index, (unsigned char)0x22);
-+
-+	memset(&data, 0, sizeof(data));
-+	seq_ump_kunit_set_cc(&event, 1, UMP_CC_NRPN_MSB, 0x41);
-+	KUNIT_EXPECT_EQ(test, cc_ev_to_ump_midi2(&event, port, &data,
-+						 UMP_MSG_STATUS_CC), 0);
-+	seq_ump_kunit_set_cc(&event, 1, UMP_CC_NRPN_LSB, 0x42);
-+	KUNIT_EXPECT_EQ(test, cc_ev_to_ump_midi2(&event, port, &data,
-+						 UMP_MSG_STATUS_CC), 0);
-+	seq_ump_kunit_set_cc(&event, 1, UMP_CC_RPN_MSB, 0x51);
-+	KUNIT_EXPECT_EQ(test, cc_ev_to_ump_midi2(&event, port, &data,
-+						 UMP_MSG_STATUS_CC), 0);
-+	KUNIT_EXPECT_FALSE(test, port->midi2_bank[1].nrpn_set);
-+	KUNIT_EXPECT_TRUE(test, port->midi2_bank[1].rpn_set);
-+	seq_ump_kunit_set_cc(&event, 1, UMP_CC_RPN_LSB, 0x52);
-+	KUNIT_EXPECT_EQ(test, cc_ev_to_ump_midi2(&event, port, &data,
-+						 UMP_MSG_STATUS_CC), 0);
-+	seq_ump_kunit_set_cc(&event, 1, UMP_CC_DATA, 0x61);
-+	KUNIT_EXPECT_EQ(test, cc_ev_to_ump_midi2(&event, port, &data,
-+						 UMP_MSG_STATUS_CC), 0);
-+	seq_ump_kunit_set_cc(&event, 1, UMP_CC_DATA_LSB, 0x62);
-+	KUNIT_EXPECT_EQ(test, cc_ev_to_ump_midi2(&event, port, &data,
-+						 UMP_MSG_STATUS_CC), 1);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.status, UMP_MSG_STATUS_RPN);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.bank, (unsigned char)0x51);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.index, (unsigned char)0x52);
-+}
-+
-+static void seq_ump_cc_pending_flush_and_channel_test(struct kunit *test)
-+{
-+	struct snd_seq_client_port *port;
-+	struct snd_seq_event event;
-+	union snd_ump_midi2_msg data = {};
-+
-+	port = kunit_kzalloc(test, sizeof(*port), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, port);
-+
-+	seq_ump_kunit_set_cc(&event, 2, UMP_CC_RPN_MSB, 0x09);
-+	cc_ev_to_ump_midi2(&event, port, &data, UMP_MSG_STATUS_CC);
-+	seq_ump_kunit_set_cc(&event, 2, UMP_CC_RPN_LSB, 0x08);
-+	cc_ev_to_ump_midi2(&event, port, &data, UMP_MSG_STATUS_CC);
-+	seq_ump_kunit_set_cc(&event, 3, UMP_CC_NRPN_MSB, 0x17);
-+	cc_ev_to_ump_midi2(&event, port, &data, UMP_MSG_STATUS_CC);
-+	seq_ump_kunit_set_cc(&event, 3, UMP_CC_NRPN_LSB, 0x18);
-+	cc_ev_to_ump_midi2(&event, port, &data, UMP_MSG_STATUS_CC);
-+	seq_ump_kunit_set_cc(&event, 2, UMP_CC_DATA, 0x25);
-+	KUNIT_EXPECT_EQ(test, cc_ev_to_ump_midi2(&event, port, &data,
-+						 UMP_MSG_STATUS_CC), 0);
-+
-+	seq_ump_kunit_set_cc(&event, 2, UMP_CC_NRPN_MSB, 0x29);
-+	KUNIT_EXPECT_EQ(test, cc_ev_to_ump_midi2(&event, port, &data,
-+						 UMP_MSG_STATUS_CC), 1);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.status, UMP_MSG_STATUS_RPN);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.bank, (unsigned char)0x09);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.index, (unsigned char)0x08);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.data, upscale_14_to_32bit(0x25 << 7));
-+	KUNIT_EXPECT_FALSE(test, port->midi2_bank[2].rpn_set);
-+	KUNIT_EXPECT_TRUE(test, port->midi2_bank[2].nrpn_set);
-+	KUNIT_EXPECT_TRUE(test, port->midi2_bank[3].nrpn_set);
-+	KUNIT_EXPECT_EQ(test, port->midi2_bank[3].cc_nrpn_msb,
-+			(unsigned char)0x17);
-+}
-+
-+static void seq_ump_ctrl14_selector_switch_test(struct kunit *test)
-+{
-+	struct snd_seq_client_port *port;
-+	struct snd_seq_event event;
-+	union snd_ump_midi2_msg data = {};
-+
-+	port = kunit_kzalloc(test, sizeof(*port), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, port);
-+
-+	seq_ump_kunit_set_ctrl14(&event, 4, UMP_CC_RPN_MSB, (1 << 7) | 2);
-+	KUNIT_EXPECT_EQ(test, ctrl14_ev_to_ump_midi2(&event, port, &data,
-+						     UMP_MSG_STATUS_CC), 0);
-+	seq_ump_kunit_set_ctrl14(&event, 4, UMP_CC_NRPN_MSB, (3 << 7) | 4);
-+	KUNIT_EXPECT_EQ(test, ctrl14_ev_to_ump_midi2(&event, port, &data,
-+						     UMP_MSG_STATUS_CC), 0);
-+	KUNIT_EXPECT_FALSE(test, port->midi2_bank[4].rpn_set);
-+	KUNIT_EXPECT_TRUE(test, port->midi2_bank[4].nrpn_set);
-+	seq_ump_kunit_set_ctrl14(&event, 4, UMP_CC_DATA, (5 << 7) | 6);
-+	KUNIT_EXPECT_EQ(test, ctrl14_ev_to_ump_midi2(&event, port, &data,
-+						     UMP_MSG_STATUS_CC), 1);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.status, UMP_MSG_STATUS_NRPN);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.bank, (unsigned char)3);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.index, (unsigned char)4);
-+
-+	memset(&data, 0, sizeof(data));
-+	seq_ump_kunit_set_ctrl14(&event, 5, UMP_CC_NRPN_MSB, (7 << 7) | 8);
-+	ctrl14_ev_to_ump_midi2(&event, port, &data, UMP_MSG_STATUS_CC);
-+	seq_ump_kunit_set_ctrl14(&event, 5, UMP_CC_RPN_MSB, (9 << 7) | 10);
-+	KUNIT_EXPECT_EQ(test, ctrl14_ev_to_ump_midi2(&event, port, &data,
-+						     UMP_MSG_STATUS_CC), 0);
-+	KUNIT_EXPECT_FALSE(test, port->midi2_bank[5].nrpn_set);
-+	KUNIT_EXPECT_TRUE(test, port->midi2_bank[5].rpn_set);
-+	seq_ump_kunit_set_ctrl14(&event, 5, UMP_CC_DATA, (11 << 7) | 12);
-+	KUNIT_EXPECT_EQ(test, ctrl14_ev_to_ump_midi2(&event, port, &data,
-+						     UMP_MSG_STATUS_CC), 1);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.status, UMP_MSG_STATUS_RPN);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.bank, (unsigned char)9);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.index, (unsigned char)10);
-+}
-+
-+static void seq_ump_ctrl14_pending_flush_test(struct kunit *test)
-+{
-+	struct snd_seq_client_port *port;
-+	struct snd_seq_event event;
-+	union snd_ump_midi2_msg data = {};
-+
-+	port = kunit_kzalloc(test, sizeof(*port), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, port);
-+
-+	seq_ump_kunit_set_ctrl14(&event, 6, UMP_CC_NRPN_MSB, (2 << 7) | 3);
-+	ctrl14_ev_to_ump_midi2(&event, port, &data, UMP_MSG_STATUS_CC);
-+	seq_ump_kunit_set_cc(&event, 6, UMP_CC_DATA, 0x35);
-+	KUNIT_EXPECT_EQ(test, cc_ev_to_ump_midi2(&event, port, &data,
-+						 UMP_MSG_STATUS_CC), 0);
-+
-+	seq_ump_kunit_set_ctrl14(&event, 6, UMP_CC_RPN_MSB, (4 << 7) | 5);
-+	KUNIT_EXPECT_EQ(test, ctrl14_ev_to_ump_midi2(&event, port, &data,
-+						     UMP_MSG_STATUS_CC), 1);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.status, UMP_MSG_STATUS_NRPN);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.bank, (unsigned char)2);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.index, (unsigned char)3);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)data.rpn.data, upscale_14_to_32bit(0x35 << 7));
-+	KUNIT_EXPECT_FALSE(test, port->midi2_bank[6].nrpn_set);
-+	KUNIT_EXPECT_TRUE(test, port->midi2_bank[6].rpn_set);
-+}
-+
-+static void seq_ump_null_rpn_test(struct kunit *test)
-+{
-+	struct snd_seq_client_port *port;
-+	struct snd_seq_event event;
-+	union snd_ump_midi2_msg data = {};
-+
-+	port = kunit_kzalloc(test, sizeof(*port), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, port);
-+
-+	seq_ump_kunit_set_cc(&event, 7, UMP_CC_NRPN_MSB, 1);
-+	cc_ev_to_ump_midi2(&event, port, &data, UMP_MSG_STATUS_CC);
-+	seq_ump_kunit_set_cc(&event, 7, UMP_CC_NRPN_LSB, 2);
-+	cc_ev_to_ump_midi2(&event, port, &data, UMP_MSG_STATUS_CC);
-+	seq_ump_kunit_set_cc(&event, 7, UMP_CC_RPN_MSB, 0x7f);
-+	cc_ev_to_ump_midi2(&event, port, &data, UMP_MSG_STATUS_CC);
-+	seq_ump_kunit_set_cc(&event, 7, UMP_CC_RPN_LSB, 0x7f);
-+	cc_ev_to_ump_midi2(&event, port, &data, UMP_MSG_STATUS_CC);
-+	KUNIT_EXPECT_FALSE(test, port->midi2_bank[7].rpn_set);
-+	KUNIT_EXPECT_FALSE(test, port->midi2_bank[7].nrpn_set);
-+
-+	seq_ump_kunit_set_ctrl14(&event, 8, UMP_CC_NRPN_MSB, (3 << 7) | 4);
-+	ctrl14_ev_to_ump_midi2(&event, port, &data, UMP_MSG_STATUS_CC);
-+	seq_ump_kunit_set_ctrl14(&event, 8, UMP_CC_RPN_MSB, 0x3fff);
-+	ctrl14_ev_to_ump_midi2(&event, port, &data, UMP_MSG_STATUS_CC);
-+	KUNIT_EXPECT_FALSE(test, port->midi2_bank[8].rpn_set);
-+	KUNIT_EXPECT_FALSE(test, port->midi2_bank[8].nrpn_set);
-+}
-+
-+static void seq_ump_midi1_passthrough_test(struct kunit *test)
-+{
-+	struct snd_seq_client_port *port;
-+	struct snd_seq_event event;
-+	union snd_ump_midi1_msg seq_data = {};
-+	struct ump_cvt_to_ump cvt;
-+	static const unsigned char cc_messages[][3] = {
-+		{ 0xb3, UMP_CC_RPN_MSB, 0x12 },
-+		{ 0xb3, UMP_CC_NRPN_MSB, 0x34 },
-+	};
-+	int i, j;
-+
-+	port = kunit_kzalloc(test, sizeof(*port), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, port);
-+	seq_ump_kunit_set_cc(&event, 9, 0x40, 0x22);
-+	KUNIT_EXPECT_EQ(test, cc_ev_to_ump_midi1(&event, port, &seq_data,
-+						 UMP_MSG_STATUS_CC), 1);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)seq_data.cc.status, UMP_MSG_STATUS_CC);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)seq_data.cc.channel, (unsigned char)9);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)seq_data.cc.index, (unsigned char)0x40);
-+	KUNIT_EXPECT_EQ(test, (unsigned int)seq_data.cc.data, (unsigned char)0x22);
-+
-+	snd_ump_convert_reset(&cvt);
-+	for (i = 0; i < ARRAY_SIZE(cc_messages); i++) {
-+		for (j = 0; j < ARRAY_SIZE(cc_messages[i]); j++)
-+			snd_ump_convert_to_ump(&cvt, 0,
-+					       SNDRV_UMP_EP_INFO_PROTO_MIDI1,
-+					       cc_messages[i][j]);
-+		KUNIT_EXPECT_EQ(test, cvt.ump_bytes, 4);
-+		KUNIT_EXPECT_EQ(test, ump_message_type(cvt.ump[0]),
-+				UMP_MSG_TYPE_MIDI1_CHANNEL_VOICE);
-+		KUNIT_EXPECT_FALSE(test, cvt.bank[3].rpn_set);
-+		KUNIT_EXPECT_FALSE(test, cvt.bank[3].nrpn_set);
-+	}
-+}
-+
-+static struct kunit_case seq_ump_convert_test_cases[] = {
-+	KUNIT_CASE(seq_ump_cc_selector_switch_test),
-+	KUNIT_CASE(seq_ump_cc_pending_flush_and_channel_test),
-+	KUNIT_CASE(seq_ump_ctrl14_selector_switch_test),
-+	KUNIT_CASE(seq_ump_ctrl14_pending_flush_test),
-+	KUNIT_CASE(seq_ump_null_rpn_test),
-+	KUNIT_CASE(seq_ump_midi1_passthrough_test),
-+	{}
-+};
-+
-+static struct kunit_suite seq_ump_convert_test_suite = {
-+	.name = "seq-ump-convert",
-+	.test_cases = seq_ump_convert_test_cases,
-+};
-+
-+kunit_test_suite(seq_ump_convert_test_suite);
-+#endif
+Particularly, if the HC is "hci version 0x110" or newer (see dmesg),
+scheduling is exact in almost all cases.
+
+As for dumping kernel patch suggestions on distro bugtrackers, you
+should have known better what to expect...
+
+> And, yes, if the USB-audio quirk option improves, it's worth to take
+> it as default.  But, it'd be better to be investigated the root cause
+> at first, of course.
+
+It seems to be a common quirk of snd-usb-audio that duplex needs a few
+xruns and restarts to begin running smoothly, not sure why. I guess
+FORCE_IFACE_RESET was helping with that by clearing any xhci-hcd state.
+It shouldn't be necessary anymore, we tried to make this case work.
+
+The driver also has other potential issue: it relies solely on luck
+for synchronization between multiple endpoints and doesn't even look
+at urb->start_frame to check if sync has been achieved.
+
+Regards,
+Michal
+=20
+> > > Results (bad starts / total)
+> > > ----------------------------
+> > > - default, external clock: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A02 / 30
+> > > - default, internal clock: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A07 / 30
+> > > - lowlatency=3D0: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 no improvement
+> > > - keyboard/mouse unplugged (same xHCI): =C2=A0 =C2=A0 no improvement
+> > > - quirk_flags=3D0x100000 (FORCE_IFACE_RESET): 7 / 110 (~6%)
+> > > - quirk_flags=3D0x100010
+> > >  =C2=A0 (FORCE_IFACE_RESET | PLAYBACK_FIRST): =C2=A0 =C2=A0 0 / 90
