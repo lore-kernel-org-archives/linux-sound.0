@@ -1,57 +1,83 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794067829;
-	b=BE459dk2ZGuXXe1/+z4Mrq394qUyYipYqOHMquV9gkg7vbx2MEavsXayvWwK7tTIiiBD
-	 zsw5aNoyKKx0i535GhT3AQqewmFkb0iLMQMipjbzy9naO5ooT4W2K8JD+B4190DFur9Xx
-	 RcWkqNwfSb1w4TAmGaYn1PoFnPua0148aDNVWPr+lxL7lv6++l8uG76AmRlAX4tJfjf7E
-	 s3xs/hCuWC6dXSkDOSzt0LbawoumXtgqgbmJ9Noo0oBNC4J2SLlPqv3gS8ei0w1X+0EZS
-	 xgQu6bc5MTaLDVeZssHH2t3hljCB8YBWlu2HFnyGf4i6EZKrz9t8Mi3d6JwbKN0F1PA==
+	t=1794067831;
+	b=bNxXRcSiB2KxYU6KuGyhC9en7XoDmWzzcR388479PW0tmUdI+RXMzPpDqNWFuhT2sKxn
+	 dLWq5pmZUZ7k+aOtnIgKFa8BY0Ssf8PImSyremihV8AQ4F/jw71e0X3ttZCKWdaRyB0e7
+	 24xda3EoCCMQbDkJ9Iw7drLUImHu1HFDSL58DQq+XezsZ8JM3zDgmR3k8o2biH6kmfLFl
+	 YaUhTWbRCXr+r98GwPddMaTCs+1S1C70pTsY2s4chuqac9GVuCAhtm+txweFz8saksCgs
+	 6ODSdgMtA2tO481B0bGMzf23loTkjhxfwdXLTRUHNGBgyT1eX9bzxyjL6CWG9rpwGVA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794067829;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=fzc6Ib98TEJrvRwXyQGWkeyhsxojI+S6zYflX/yJABg=;
-	b=a+Pi5uK48cZBcvXJKKsQd2vhLgxTPPRWPzI3Rm9NTlVNdhQEsrQpAkHwPAHumXu9mYhZ
-	 Y1iLhN4qsmlLFPcEUQ3gtoinHJMiOgW3ruN4qQEqLi+R78YQr7yLTT2gLPIQTYsZvBPcB
-	 r88DngA1VgERcPYPb16f8YQ3v1m6TwjiBuZ7XVRG88DmzYtuWjm8QjLBew03ks06uNlVG
-	 n6LX2Aj5nx5q8RwYegO9ePg2dLo9ifx2p4HiNttokFGtyP4BTrplz/9K943U6wyOpO9OI
-	 frSgkG+4LBqMeC2BGqhKwoLMqlSnUBQwSHutFlIjUFv6d/IIJEpsxrIG+6x1i02/Mug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794067831;
+	h=Received:DKIM-Signature:Date:From:To:CC:Subject:User-Agent:
+	 In-Reply-To:References:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=yrl1fDgvB8SejpyA+O0u1vRjlm41/COeTHtKBCR1yZ8=;
+	b=d47J0q+aIryhgPNg1v3RSp7XlziOAmnEFxpZGzixZr2xD77Okt9aKdWK7/U2EAw6Sxnd
+	 gnVNkM6Ip3sqMV0NVxuRMglW5I3reCGX+RaBtzSHox0h37bC4Szlf+119hQPDqt7grncw
+	 x4edcJjoLTU85MLqkeORDmWw3CSUjLgw1oD6p0hmhwwWSZLcoAvWsnITKhmfjmCkbrNmH
+	 VkNzq88oXosfg6unlxHTOYHHQs4VoPyc0Vq0UWvkdyeEhtPDnDVyZEo/O9UUjjgV+zU28
+	 2i7i0mUGA4YrXpwMUoPpM3WC8+qaDgMzwrY/U6APzyriQz5YvrhLoLlXJsx2N/4dUsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gpwg5xiE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DudqRbSQ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46810606A32C
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 16:10:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E27606A32C;
+	Sat,  7 Nov 2026 16:10:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gpwg5xiE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A58BE1F0089F;
-	Sat,  7 Nov 2026 16:10:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DudqRbSQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1758C1F0089F;
+	Sat,  7 Nov 2026 16:10:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794067828;
-	bh=fzc6Ib98TEJrvRwXyQGWkeyhsxojI+S6zYflX/yJABg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gpwg5xiEVLKXkvChto+k/VQJBh/mtAaWgrJ4N+gxlyZ8visaYDZN/8J/egJ7qHPIZ
-	 3pk2tfM8A0bQcY50TPKAq05yvia5AMUgsszE5qozAq0LYlWX72mz5fdYe6qAgyYRh9
-	 v0XrRa2BtyAG8EdZKhGjGhpc9TQcQp2VcV15GMAZqgcmLMDmvxmCkva+40+2JdW0HM
-	 IZVifefiE0mS27/n+3HMNXg28bYSqRYA0RuGgSe1p+UZpkM5So7hLbfl602jYElwCK
-	 rUIaXpABq6czPKKHqRckovneUVV/1qBSEt+QrhB1sz49DDOzMXSzj1Omc5BsUFD+cj
-	 OCLOeLon+x5jQ==
-Message-ID: <sashiko-outbox-203025@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 16/25] soundwire: amd: pm_runtime guard in remove
- path
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Vijendar Mukunda" <Vijendar.Mukunda@amd.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261107154659.3358223-17-Vijendar.Mukunda@amd.com>
-References: <20261107154659.3358223-1-Vijendar.Mukunda@amd.com>
- <20261107154659.3358223-17-Vijendar.Mukunda@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 16:10:28 +0000
+	s=k20260515; t=1794067830;
+	bh=yrl1fDgvB8SejpyA+O0u1vRjlm41/COeTHtKBCR1yZ8=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References;
+	b=DudqRbSQXCpr6NhdcgkB28/OJ09fv/xb+ZGVAY2ZZcm0NtXYxKjH24XfLPv1YVH+1
+	 N2Smc+eQQaJmUtmHSjIuIOHPbXtdHkwnaUWqwn18l1Zgme7MhVjd/tmwPXx2sHiZmJ
+	 bVG7HcpDVP0TwBfdMqAH6zxIyHwUkaCeHOVhR2aYppt91bZLwCTiFYtodZA1aRzQhT
+	 JFzXQc4CJvaSMHUeBSzyyst4sJaPobtuTL08pUib1PO2/6JKi1TR0Oc7vVJSOMiTRg
+	 di9pOtOgBcjQKNqN/zgV0r2ojSo7IUXfYme+kVAZvSpJolvZJtmmOXjKLjiXPaiu1m
+	 qPutBKIcKy2tg==
+Date: Sat, 07 Nov 2026 08:10:28 -0800
+From: Kees Cook <kees@kernel.org>
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+CC: Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>,
+ Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>,
+ Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+ Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>,
+ Christoph Hellwig <hch@lst.de>, Greg Kroah-Hartman <gregkh@suse.de>,
+ Joel Granados <joel.granados@kernel.org>, Jan Kara <jack@suse.cz>,
+ Jan Kara <jack@suse.com>, linux-kernel@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ netdev@vger.kernel.org, ntfs3@lists.linux.dev,
+ platform-driver-x86@vger.kernel.org, coreteam@netfilter.org,
+ kexec@lists.infradead.org, linux-pci@vger.kernel.org,
+ linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net,
+ jfs-discussion@lists.sourceforge.net, linux-alpha@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org,
+ linux-sh@vger.kernel.org, linux-usb@vger.kernel.org,
+ samba-technical@lists.samba.org, sparclinux@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
+ Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org,
+ "Christian Brauner (Amutable)" <brauner@kernel.org>,
+ Chuck Lever <cel@kernel.org>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_RESEND_v2_07/23=5D_proc=3A_let_pr?=
+ =?US-ASCII?Q?ocfs_own_the_seq=5Ffile_of_seq=5Ffile_entries?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20261104-work-procfs-core-v2-7-76ace653a773@kernel.org>
+References: <20261104-work-procfs-core-v2-0-76ace653a773@kernel.org> <20261104-work-procfs-core-v2-7-76ace653a773@kernel.org>
+Message-ID: <8A21EE2A-F392-40B7-9152-CBC440FDDA70@kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,49 +86,34 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] soundwire: amd: inaccurate Fixes tag in commit message for
-  pm_runtime guard
---
 
-commit 258769b3a1bdd79fbca74cfbf250109e984888bf
-Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
-> soundwire: amd: pm_runtime guard in remove path
->
-> Guard pm_runtime_disable() so it is only called when runtime PM
-> was actually enabled. amd_sdw_manager_start() calls pm_runtime_enable()
-> only at the very end, after several fallible hardware init steps. If
-> sdw_amd_startup() fails mid-loop (one manager started, the next fails
-> before pm_runtime_enable()), sdw_amd_exit() triggers
-> platform_device_unregister() for all managers. Calling
-> pm_runtime_disable() on the partially-started manager finds
-> disable_depth already at its initial value of 1, silently increments it
-> to 2 and returns without a warning, so a later pm_runtime_enable() would
-> only bring it back to 1 and leave runtime PM disabled. Use
-> pm_runtime_enabled() to skip the call when it was never paired with an
-> enable.
->
-> Fixes: f93b697ed98e ("soundwire: amd: cancel pending slave status handlin=
-g workqueue during remove sequence")
-> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+On November 4, 2026 11:30:58 AM PST, Christian Brauner <brauner@kernel=2Eo=
+rg> wrote:
+> [=2E=2E=2E]
+>+static int pde_init_seq_direct(struct proc_dir_entry *pde)
+>+{
+>+	struct seq_operations *ops;
+>+
+>+	if (!pde_is_seq_file(pde))
+>+		return 0;
+>+	ops =3D kmalloc(sizeof(*ops), GFP_KERNEL);
 
-[Severity: Low]
-Is the Fixes tag pointing to the right commit?
+Please use the new style typed allocation calls for objects:
 
-Commit f93b697ed98e ("soundwire: amd: cancel pending slave status handling
-workqueue during remove sequence") only added cancel_work_sync() to
-amd_sdw_manager_remove().  The unconditional pm_runtime_disable() in
-amd_sdw_manager_remove() was introduced in 81ff58ff71ad ("soundwire: amd: a=
-dd
-runtime pm ops for AMD SoundWire manager driver"), and the synchronous
-sdw_amd_startup() / amd_sdw_manager_start() sequence described here was add=
-ed
-in ed5e8741b8db ("soundwire: amd: refactor amd soundwire manager device node
-creation").
+ops =3D kmalloc_obj(*ops);
+
+(This happened to jump out at me, but please check the other patches for t=
+his pattern=2E)
+
+> 		dp->open =3D kzalloc(sizeof(*dp->open), GFP_KERNEL);
+
+Same, etc=2E
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107154659.3358=
-223-1-Vijendar.Mukunda@amd.com?part=3D16
+Kees Cook
