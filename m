@@ -1,97 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.194.12
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.30
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794078492;
-	b=xMvTJGb7Fw6av3JbEMhaplNWWUxJ6AznFhUqCE3lLMYP0CnbyWdNdxU7AzTPbOtagllT
-	 XQCbcqWEriYfm0LvoV/nhxttj6cboM3tL/Q1pDDw5dV6BA3yVR60eIdW0LQFeUG8h8VFS
-	 rYmcYnCgjnloXKTRjz2Dnbs8wb0hLyfq9loDTi3J0yTOJ9R3zs/2QLoNORxxc4rkWEEEJ
-	 xXKKJrJmDVUsu7Qx67ElKTcb3jc5q4d1CNYNFIRGNCl33zRHVP/c9SW5uhd6D6/LXBtv5
-	 VyjmYcCiHtr0HGATalbWbqfpNlU4bMKvy0lmpvTdv0sDHaB6ECFcN1zH/fW/qHABAwQ==
+	t=1794079693;
+	b=KZi+h0jINW0QbWSu/HibYKO2+eP1hhdoMz4+CefYV+UZ1CwV0cx6p9QNvKuz4zS/1roU
+	 Y/IDVIM3y05tk+ugYsl0sJ8sfgChiHDJCgFA7uP/XyEiTLyQEEAXRnncuofU3hV5hmLyI
+	 t5TOK0R71qxoaPBLXKsBDaW8R6dZIf+G1B3lok9mZQooEyZB9CCohQmhepNaKKeZH4iNE
+	 5jKwbuM+BlqIwl9R4Rw59s51OrQAvm6I0fee6HQ1qFAgMljFM3zDLQ/SDSItrA1s6fiD7
+	 W8fFiGY7ob1liJGuXPE8665QdsyitBdcyDZgJwRSf2QROlsmpKyV/Edr7qKnA878lCg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794078492;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794079693;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:Content-Type:
+	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
 	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
 	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
 	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
 	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=QluwjBNotRS7YJrZly8meccVnM4hBS0H0GLpT99TJbg=;
-	b=5tFSAwIMYcp448425czebFiuZp8K/BowHyEnUdRJ0BWnW/oQaFaJmN8w8gufqFKsv3ZF
-	 fc8gxZ/PaUQYAgCicGG8LTiBQh1EgSN1+zcRvSEGgabs2ObzIXebeAGRgCw3BMPWUOlo5
-	 KvvxWpdFgTHlgycndFzUCE+ztaZekRWGUWGDl58bczhxLn9Qd9HcmFGErvhdr8bOHTuVz
-	 XN8OotV34t1XvZPxzmTPGDlAQN+4dZc6VsXGfbd9r4WQwQWvyVBRvtAJbksFCvCVXyFH2
-	 nucgQVhraTlC/U/UNkBeC0jLEBvYOxY5APPGOIsJfLffVpL33Rlh6Ec8xkUVwS3S8dQ==
+	bh=qGroJEp74r4sGvLuioSQxWbEfojKRACjHkdRd7QxYgs=;
+	b=OeiaBnykfCkNt168HU8P3PXRmyez13Ni0XUsGXMk9HUSmo8okETbuoG1+b+rqNCZD33j
+	 tEoWLdu/gjzEXCrE/F9V6sdMjebgeAA5wHKWff73OS0ewJwq6L9c3/K4WQTCtauyaCx0j
+	 apdU6Hq+8/I6IGtqYf/vV9licN/QKj93Xv2WpxlQMm7Q7464fEb2WttUHn0zoDb9GEVxQ
+	 PYDLZo7WE6HEqgwvkxZgV68x9O/eHzqUbyiBG5jojrwXhJKdNsQGPOij/vs3fu4GCh0yv
+	 1s23cSEw8lVqGxIH9WfF1xoNruU2Bqy4pXKozeDa/OUIEXIXFH0uvki5y09gD+gMAKA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=amd.com;
 	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=xrKmckHE;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.194.12
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011012.outbound.protection.outlook.com [40.93.194.12])
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=e0qs7Fvy;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.30
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010030.outbound.protection.outlook.com [52.101.193.30])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F52C606A326
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 19:08:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F52C606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1A0606A326;
+	Sat,  7 Nov 2026 19:28:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D1A0606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=xrKmckHE
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=e0qs7Fvy
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=g+uKn37PCgz1RW13Cz/fD9tW2uUriYOjTRAuxNwW0vNvfwniyT+t1L61f+x3G+F4LC8e65w6eiZA462CZK/KALMiEHYGV1UoBTd7qEdV5q/2N1JSG9p7gsrIuu0zM1d7v6xQ6kHWY2Wbtgs642xcv6RMJOoWNBGnfINGK/pAZsDloXtCrnn5rvqqvGve33A11d3CzZsZ9UNs+kijbeftY17MiOLq6/oXbQtxPTg2PLt9PHTtZ95A6RWyf4nap4kCuAhkaEqQBRZnIfV4nwnufWXYit1DKol6lUUJYcKtV0yAX8JgKdLnBF3Sb/z+CPUejtIWof9/bEncB0svvtZVqA==
+ b=o66lVmcmAyvvlFbTQ4gr3CEaRy2yG4tMvd6+XhKAr6UneeJVkT74hn69M6735LZv7/WRDQ4LsHv4tsSqbII6+inifz1YDzJoJVkEmuaEZd/Jsd9QALoJXAbN2P4HOtLNB9VXlEYuedou10nrSfMwZAOgBuFWThx51c7FpA7eOiytlePU8SvejYdfZ4lEbgz0OL8KtqvxHIbA/J9QnBvEnAlIVoWpx0Q49FVUhYVBLGVaxoFBv4BNHbbHxsvLwC4gvubBcSg4BEpKQyFQOh+dw92zxxtvAlidXAvKet3vSZ4gHWS0qmn+O1CBJ9YxxpsDQaqVRWaXdi+pSuVyQZDUxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QluwjBNotRS7YJrZly8meccVnM4hBS0H0GLpT99TJbg=;
- b=wIFZWDRNQVIbDUaxpQXF1uefUiUFo/7u6iLRqjzR/m6TYfHyjroshBkVH49FyLDvPeN+SVkBpkTMd7xeDdn3Q0BMsRU7wa5y7jvruKdJeZh1pAQY3YIpidPhYf5kfEg3aAhud9HUsGG3q3oWHGiv9qMWJC/KL8WGi6HaEnlIbxFTDbNKayJ8DGkPc4T1zq2fKJozsogXtof7TJcxFbGRhqgvfQcKo4+5heKzEt5UDDinaMYVTI4qNhUZ/zBsdcTvwjeHW1MStUAH0IwKvMpb660EVeC1+kuYfp8hDUE9vmWxOAYzDay9rXvx647zsH9j6IZIY+XtpnGyieYIMVkFPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+ bh=qGroJEp74r4sGvLuioSQxWbEfojKRACjHkdRd7QxYgs=;
+ b=OSnezgRsWZOhkKdk93/HQTbt3GVMP4GMBwB8qg7ls3lMZnZRq2YGOsjs949jw0o+B3M2Oy7lbu7DZI8XRMAez5gZEgFtP2DGWDnZYBWeFSF7JxJjQ+JpiAlIYbDiRkO/H37NbDhZGWfpILjXpB48DbuQVwdC8BpynfpkvrSSQGgc/vZyCRYKahJX+fGlpJ9GujxGKuORNdMuv+7q9W1v1M/45DvYDdjfkkhv1nEvF3EUoyDvec5v78TnWb9on19RQIShsXDu6h9f+bCe1290+ZhJQi8wFFpWs8lU2Mgo6CifSNp1nl4N5n/tvl1KXAzP3cLat2VHp8UZuWnyXt1/Qg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QluwjBNotRS7YJrZly8meccVnM4hBS0H0GLpT99TJbg=;
- b=xrKmckHE2eCv0s3ZOVddj78EtglZWjpBzwejBm1ngnPEndjnlNtWLutAsSsyHxAhbElt22cP/zpuEXXke6wC4EsEWQ8PDndfcpQpuNYwv5Dbx8fEPeIuqU+Cbi2Ee8xX4Hi/Np2AbhyVoPgtqND/j7Q2+CEpIU1NwQlI+C3cYmQ=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
- by MN0PR12MB6271.namprd12.prod.outlook.com (2603:10b6:208:3c1::18) with
+ bh=qGroJEp74r4sGvLuioSQxWbEfojKRACjHkdRd7QxYgs=;
+ b=e0qs7FvyhYxmTWG4bLSHWyP01A3MdWAx/Ea6TGiriJ6z6LBjsxU47tTzX7R7O0/um8ZvnHQfNRgX5ZtPQXKbKNBLfDWK2O3QvsYptoDDzQhDrWX72j6t5fSlNEoLObySn/Pkao1ypJOemusDOWA5+JoMCLwgkx+k0IZJRdkzLJ0=
+Received: from CY5PR22CA0066.namprd22.prod.outlook.com (2603:10b6:930:80::13)
+ by IA0PPFDC28CEE69.namprd12.prod.outlook.com (2603:10b6:20f:fc04::be8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.11; Sat, 7 Nov
- 2026 19:08:09 +0000
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0592.009; Sat, 7 Nov 2026
- 19:08:09 +0000
-Message-ID: <7dc2472f-4d08-4661-842d-c38427aea0e4@amd.com>
-Date: Sun, 8 Nov 2026 00:37:02 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 14/25] soundwire: amd: fix work drain ordering in
- remove path
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sound@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
- Mario Limonciello <Mario.Limonciello@amd.com>,
- Mark Brown <broonie@kernel.org>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>
-References: <20261107154659.3358223-1-Vijendar.Mukunda@amd.com>
- <20261107154659.3358223-15-Vijendar.Mukunda@amd.com>
- <sashiko-outbox-203033@kernel.org>
-Content-Language: en-US
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <sashiko-outbox-203033@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PNYP287CA0072.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:25a::10) To CY5PR12MB6252.namprd12.prod.outlook.com
- (2603:10b6:930:20::17)
+ 2026 19:28:06 +0000
+Received: from CY5PEPF00000E75.namprd02.prod.outlook.com
+ (2603:10b6:930:80:cafe::79) by CY5PR22CA0066.outlook.office365.com
+ (2603:10b6:930:80::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.11 via Frontend Transport; Sat, 7
+ Nov 2026 19:28:06 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ CY5PEPF00000E75.mail.protection.outlook.com (10.167.247.37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.615.4 via Frontend Transport; Sat, 7 Nov 2026 19:28:06 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Sat, 7 Nov
+ 2026 13:28:05 -0600
+Received: from amd-B550M-DS3H.amd.com (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.53 via Frontend
+ Transport; Sat, 7 Nov 2026 13:27:56 -0600
+From: Syed Saba Kareem <syed.sabakareem@amd.com>
+To: <broonie@kernel.org>
+CC: <Sunil-kumar.Dommati@amd.com>, <vijendar.mukunda@amd.com>,
+	<Mario.Limonciello@amd.com>, <venkataprasad.potturu@amd.com>, "Syed Saba
+ Kareem" <Syed.SabaKareem@amd.com>, kernel test robot <lkp@intel.com>,
+	"Vijendar Mukunda" <Vijendar.Mukunda@amd.com>, Liam Girdwood
+	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, "Pierre-Louis Bossart" <pierre-louis.bossart@linux.dev>,
+	Siva Subramanian Ravi Saravanan <sravisar@amd.com>, "open list:AMD ASoC
+ DRIVERS" <linux-sound@vger.kernel.org>, open list
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 1/6] ASoC: amd: acp: add Cirrus SoundWire configs for ACP7.F
+Date: Sun, 8 Nov 2026 00:56:57 +0530
+Message-ID: <20261107192744.2027264-2-syed.sabakareem@amd.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261107192744.2027264-1-syed.sabakareem@amd.com>
+References: <20261107192744.2027264-1-syed.sabakareem@amd.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,181 +116,516 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|MN0PR12MB6271:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8103059f-676c-411c-6238-08df3d027618
+X-MS-TrafficTypeDiagnostic: CY5PEPF00000E75:EE_|IA0PPFDC28CEE69:EE_
+X-MS-Office365-Filtering-Correlation-Id: aac15d24-80ca-442d-9dd1-08df3d053f93
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|18002099003|22082099003|10067099003|4143699003|11063799006|56012099006|261028144727099003|261026140227099003|261022075727099003|261022105027099003|261021123027099003|261026121527099003|261009223027099003;
+	BCL:0;ARA:13230040|376014|23010399003|1800799024|82310400026|36860700016|11063799006|56012099006|261009223027099003|261021121427099003|261022075727099003|261022113327099003|261102123227099003|22082099003|18002099003|6133799003|10067099003|13003099007;
 X-Microsoft-Antispam-Message-Info:
-	H717wQoPM6GQQEs/4Lt03pyul/Th5zjTiMBE1JV9xneh95m8tx7AmD3+XBPB8xDUe8+UV5VpHLJwXCqNHjhya1zR2ycoW+9B1i6DbIufv2cUbBERr74J2Q2mTa7o03ANl/wedk5d92VxEm4ZNEARZ/Wc+bOv4HMXiUEpoh+XDZKVNWBiETYV4VH7YWkmodMlYFPVHrBDuYEWv+XQip+WF5UntzwVbtkSL/S9AWCWEL6Zn+NFNaCGWGQXUfSjrlTkM3xBuqw7Q4ZhKCPWqdsQBB0cSz0Bt7OR86qk8BdKDrTtD8JMxL5LlqSYiJoTKZ5unIoLoD6LMVEPSXHeLq9GotVhzIiUAtlFsd/LjzxRpKR9adCeaM+pDaqrLCyr6HOOaciF2kR6lsq8TlbO/T/sVj5AD6s57rj5jS9wjIzVpVLFOv/KAAFcdalDPqFvEAaffR90c+ZMajrObDWzPDrIt7ApdAv1UbPJt1buvp6lgD4B+kkHl0UDHUquFPAFtw3xv+A/fKvBGMbbstIEa78uiOXIxVsGRGz0VeNh2TiBa19qqi3il634l+3MOPCgfE1fiHgA7sGV9qFuBW2k0jt6joUIW34lkOiKGXaej+ihOgF9z/DwElZiYbMQzVVXAlSV
+	KQafJBuAj7NYR3FxcafdWcKKVxm4pa3xDmBR9ZE2SNIyXqNArZp6WTVQrCclyLTHGmb4bfwQmZki7lLJ0mTIcXYuNdmh6u/FLlatDbEJf/N1CFnlK51ogF+FrrHxPZOOT4GR3oQIo03IDwNYvxKBO/4z/XK1iXOsC8hXJdI/sxUIza9TUCFLGjS+SDX+0rnKeF1MNomRTV5TTLEXEhGz/FaXsgNRIYKna4fcviPBq3ofPqdAM83tebJzMq+Qj+3dzxzjtpH7ApTKztq37fPxZp/BwNp6I5WnKSm8geSRnZKfjJ3GrGiSrXh1pixNAtKhNx/RiQL7WdkJ+H1qA3KJE9lp6mxMBT30YyT2jOPlBpb8jfPXpyx9tyaDHnHLvbv7SmZ4AHefsHFTMFoiVBgpQhwosjs9V4ufqwnI6Etiy4wf2kKo+D6pN9ZxKGk3GkieqTMXRxq4E4H87a0q6kvRTb2K38bMMxrcbQqjwFjOUV1cuCMJwxf2Nx4U4fa/K/m8hO/Tjm+bYv6PS77PF60s2NunrND9jRWOSrz00WDi7iFUUx0t+retwtvMqQzOh5t5FYLL63GeBio2HCbi3d25hH+g8spIxIV11fnFlq7W1SAb4q8xtIOrnk9X3K6Igqo9lX62jZCroZG9Abz4R/M1+9bz1FdBnpPTPALwz3Y1QTY=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(18002099003)(22082099003)(10067099003)(4143699003)(11063799006)(56012099006)(261028144727099003)(261026140227099003)(261022075727099003)(261022105027099003)(261021123027099003)(261026121527099003)(261009223027099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(82310400026)(36860700016)(11063799006)(56012099006)(261009223027099003)(261021121427099003)(261022075727099003)(261022113327099003)(261102123227099003)(22082099003)(18002099003)(6133799003)(10067099003)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WHBiUzlqajhFZzU0VE1oaVJIKzZFWXhnd242SW5BZFdKNFR2L2ZKQWVQaTFJ?=
- =?utf-8?B?dktsanpDbVpkYVpkZ0p2TnVsRzZQQlBUVGcyaXJ1UDN4NFU4MXlIeHkrcTh4?=
- =?utf-8?B?RmljSXljS25Eck1PQktDMHA3d3lZMkkzcGhNdkwyMzhqcDZEZGdPTzBzTmZF?=
- =?utf-8?B?WFZ2ajdjQWJNK1NwMHRVR290cjZGMHloU2plc00rVjREbldFTDZoeGdWRWp0?=
- =?utf-8?B?TWFnSk5QNkNNczZHenRvN3RHdFg5cklFOGFCdDM2T3hxNjJuQTBiQldwblJo?=
- =?utf-8?B?R1pnUjlFcWVyMW0zc0ozczg0S0dzaG9PSEJGRDR4KytGOHR2NHh0dis2dXRx?=
- =?utf-8?B?QzJEVjNodW1zcG13Ym81RDhJUElmT3IvOVV0OHNwaEdydWtmVlpGaWY2OWsv?=
- =?utf-8?B?WnduNHZHaWR2RlpQV1FZTmFuQWUwcFBIbkRycFlSYy9QNGMrbWwyVUova1Nj?=
- =?utf-8?B?UkhSRGh1UmFjSjYyaWtpUzNQakNHamZVRVowem03VVpGWFVqaDZZS2lpcWNr?=
- =?utf-8?B?QlUzYXFla1lvMzVPWDFLdEMwbFIzRUZxQW5jaDdYQmZrK29VMlY4L0g4Rzdm?=
- =?utf-8?B?bFMvS21TOUFZd3lScjg3dFBhZm9SUlhIaVRnSUFLdjVwMTdYclhoc0N4c0k2?=
- =?utf-8?B?SDl3V3JNV2JxS3laMkNGYlIyL0VqWDJlcVhpRlZnNmRLNUp4RE1SSVlaVG9l?=
- =?utf-8?B?dDU0K1hZTVFXekdsRXpqazVGQTROeEFHTWJkQ3JxdFplOUZ0akpmTUZMeHRY?=
- =?utf-8?B?a2tTNnExVnpqT1RUcXByQWtPaGRJaU5tSXNMSVEyL3J3dGRRNUkwNkJJNFlG?=
- =?utf-8?B?TDQ4NDVZV3Q0WnhFdXFkVWh5Wng0QmVFU1dFenRPbUNWaXU3dzdteGkvSzdj?=
- =?utf-8?B?QU84NEJBaXZaTk9tZGduZWdoZEhVazhxYzRrTmdPdjJGaUt6KzUrV2pTKzNH?=
- =?utf-8?B?SUVDSE9sa0pPN3dSMG1xc2dGTFNNYkFtTVdFUUdheWFOeGx6U0tJUWpJaUor?=
- =?utf-8?B?dE50L29Vc29LOThPSVZxYXJDNGYzdDI4a2g2TDZwVkJUYXc0Z1c4eWYzd0ZF?=
- =?utf-8?B?QjROREp5ZC9zOFpNWlpqelRCVzhQYzZ3ejJSOHk0a3hKZnFHWm51a1Vlb1Ry?=
- =?utf-8?B?NlkvV0hjZEVyWnhvUE9pZXZ3b3lYRGhIc2RoL0lsdlVYcUxjK0tIc2trS0lt?=
- =?utf-8?B?dXcxTXRZZ2FZcjhDN3RZWEQ2ZEUvdVNjL0F3OGs5UE5OaEtYRGpSb0FMcW9C?=
- =?utf-8?B?RllKM09mQ3Z6SzFTcmcyNlIzeVBYUXJNYzFQL1g5YkFzcnpMVUZSN1FnVGxG?=
- =?utf-8?B?c1F3ZDVTWVJUbnFxOGVBeTFsZWZlOFRQMTlJZXMxMExWYVRxSkdNQmVaWkFD?=
- =?utf-8?B?ajB2Qit2OTdOd3ppR29Tc2RqaVpwTW90V1BPaGRyYzNxS2NIWk10Y01VYUFn?=
- =?utf-8?B?VzBSZ0lSeFRXTFRtdGt5bm50MFlTSWdaUUh3UHgyUVUrYTZBYmplelhYVklK?=
- =?utf-8?B?KzdRdEovMi9yUndCUUJjNHliNituTHJYTXZuc3o3bWZMejNCNS90dHpWRzdN?=
- =?utf-8?B?bmNialV1RlBmU2dzVnp5eCt3Q0xqbjI3T3YyK2ZoSEpHbElORVUrZE11ZWNC?=
- =?utf-8?B?Sk5keWQ1OTZnaGdOVnVlZkNCS3loT2MxUlk1OHJpdzY2Y2ZmWGFzdXhiTXJU?=
- =?utf-8?B?RzVnajJGdnVGMUdOaHVXMEd3d1BpNTZRckxhZTQxUHQ0Rmg1UUd3UU9kWWtv?=
- =?utf-8?B?RmF0amptVkNKVVNyWXVoYjQ1eVVsR3ZIZ0NFbTNoSXRNeVJwQ0dmN2NNdEZs?=
- =?utf-8?B?VnVRSU90NGtKUklJL3NHYUxCSlVWbzc1NVk2ZWc3SVVEOHVBNTdUMFZaYURC?=
- =?utf-8?B?RE1tN2NoZ0ZIUzJsUVhqUzl0RktIMGZpVngwbmN3b3ZtSUtlanVEeEdHNU9E?=
- =?utf-8?B?ZktaQ3N1Sm5xVEhjVS9GWXRRUUhPVEdCdVNmNUhkK3dlZm5rSXBibmMxR01a?=
- =?utf-8?B?RnkvcnZOK0d1eGo2S3lkczNJSE1VdExzRHFRa1YvYXBDUm9XUnFuL1NvbmdT?=
- =?utf-8?B?b3NyWk1XQVNIOGlNMncxTkhBVTJVMDNaYjFvTjgxZ3loaTNVbmZXOC9GOHhS?=
- =?utf-8?B?U2pHMmxUeGlyOWRnZjdjN0ZvZjFmUzg4K01rRVhENDFSU0VxcFFXM2tNTGZx?=
- =?utf-8?B?dGt0dkNHU2tNd0RUYlByYVg2ejBoZjlFVlFrZGJWUXhETDNZY21YV2ZETVcv?=
- =?utf-8?B?Mml2cVFzNXRPd1c2ZjRhMmF1bVhHKzh2R2dOQUxQYjJIRzVKYXlERmphQ3l5?=
- =?utf-8?B?c1J1SGsxUVFpWlpmNmVJT01KbnU4TG01eEFjSVpmaUowb0FRVWN4dz09?=
+	SKKWECg23I3aFzrnbYeLIZLZSGiGVvughN5ugKnmnhThhtZKY3njeqjoSdOcDLhXQ9WAzvci9PyJs03T8D5T379boq2L5pquxUd01wc7X0HS/zbStIF6g+UFeC6p0DOc3DayyYA7jGK+0oD6LRsHJ1OVQmM9nmNIp+oKxTAThOBJ5/i/9nZClgKvZK5y6JIhg473/9D0czyX7OMZONP2Zh7x1qZbYD6VIBYtQefuSROxhVhBqZvo9f7GpzXpa5xSHdCnzwylY8k2X/3SsNA+cgtIjnyIsWNo1iw0uXbK/tWeHgynXhmS33qEO9xpzLopicrasfYoh0CmKzcZqHmj7765UCWLqESNr+QnbWZ9uXg7cwakI7A66uVVCqspC7Agaj9M3WUCt8SD8A4x3j8XA0H77AnwhNET5+OhhQGdUPnoTXwX2SYZ6R6VNBUIFP5x
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8103059f-676c-411c-6238-08df3d027618
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2026 19:08:09.3731
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2026 19:28:06.0047
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Network-Message-Id: aac15d24-80ca-442d-9dd1-08df3d053f93
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xPSoMHKTzSVzz2GzStK8ohkTStDnX05YYYqzVpykLeSOmAsTb4T+3t8tta2gCNk4aKedCAI6AFEgguvqJM0j4Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6271
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY5PEPF00000E75.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PPFDC28CEE69
 
+From: Syed Saba Kareem <Syed.SabaKareem@amd.com>
 
+Extend the ACP7.F SoundWire machine table with additional Cirrus Logic
+codec configurations:
+- CS42L43 jack + CS35L56 quad amp (L0+L1, L1)
+- CS42L45 jack + CS35L63 stereo/quad amp (L0+L1 combinations)
+- CS35L56 quad amp standalone (L1)
+- Standalone CS42L43 / CS42L43B / CS42L45 jack (L0)
 
-On 11/7/26 21:44, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue to consider:
-> - [High] soundwire: amd: race with in-flight IRQ handler in
->    amd_sdw_manager_remove()
-> --
->
-> commit 96eb0e85d023d4d06d5fe26f4e91328e3104ebef
-> Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
->
-> soundwire: amd: fix work drain ordering in remove path
->
-> This commit reorders work cancellation in amd_sdw_manager_remove() to disable
-> SoundWire interrupts first and then cancel amd_sdw_irq_thread and amd_sdw_work.
->
->> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
->> index 767bc5510dfef..4083a3f0ec2f8 100644
->> --- a/drivers/soundwire/amd_manager.c
->> +++ b/drivers/soundwire/amd_manager.c
->> @@ -1278,8 +1278,9 @@ static void amd_sdw_manager_remove(struct platform_device *pdev)
->>   	int ret;
->>   
->>   	pm_runtime_disable(&pdev->dev);
->> -	cancel_work_sync(&amd_manager->amd_sdw_work);
->>   	amd_disable_sdw_interrupts(amd_manager);
->> +	cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
->> +	cancel_work_sync(&amd_manager->amd_sdw_work);
->>   	sdw_bus_master_delete(&amd_manager->bus);
->>   	ret = amd_disable_sdw_manager(amd_manager);
->>   	if (ret)
-> [Severity: High]
-> Can an in-flight parent ACP interrupt handler still queue amd_sdw_irq_thread
-> after cancel_work_sync() returns?
->
-> Unlike disable_work_sync(), cancel_work_sync() only drains work that is
-> already queued or running and leaves the work item enabled before returning.
-> Without synchronize_irq() or disable_work_sync(), an interrupt asserted just
-> before amd_disable_sdw_interrupts() masks ACP_EXTERNAL_INTR_CNTL can already
-> be running acp63_irq_handler() on another CPU:
->
-> sound/soc/amd/ps/pci-ps.c:acp63_irq_handler() {
-> 	...
-> 	if (ext_intr_stat & ACP_SDW0_STAT) {
-> 		writel(ACP_SDW0_STAT, adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
-> 		amd_manager = dev_get_drvdata(&adata->sdw->pdev[0]->dev);
-> 		if (amd_manager)
-> 			schedule_work(&amd_manager->amd_sdw_irq_thread);
-> 	...
-> }
-The acp63_irq_handler() code shown above is the pre-patch state.
-The companion ASoC patch posted to alsa-devel adds an
-interrupt_enabled guard in acp63_irq_handler() before the
-schedule_work() call:
+Add the corresponding endpoint, adr_device and link_adr descriptors for
+the CS42L43/CS42L45 jack codecs and the CS35L56/CS35L63 amplifiers, with
+speaker endpoints grouped for aggregated multi-amp playback. The CS42L45
+entries reuse the CS42L43 endpoint array minus the speaker endpoint since
+CS42L45 has no internal speaker path.
 
-   Link: 
-https://lore.kernel.org/alsa-devel/20261107175339.3547918-2-Vijendar.Mukunda@amd.com
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202611071819.8CnKog4h-lkp@intel.com/
+Signed-off-by: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+---
+ sound/soc/amd/acp/amd-acp7x-acpi-match.c | 434 +++++++++++++++++++++++
+ 1 file changed, 434 insertions(+)
 
-amd_disable_sdw_interrupts() clears interrupt_enabled = false before
-writing to ACP_EXTERNAL_INTR_CNTL, so any in-flight IRQ handler
-that reads the flag after that point sees false and skips
-schedule_work(). The delivery gate (ACP_EXTERNAL_INTR_CNTL) then
-prevents any further IRQ deliveries. cancel_work_sync() drains any
-work that was queued before or during the disable, covering the
-remaining in-flight window.
-> This allows schedule_work() to run after both cancel_work_sync() calls finish:
->
-> CPU0                                      CPU1 (<hardirq>)
-> amd_sdw_manager_remove()                  acp63_irq_handler()
->                                              readl(... + ACP_EXTERNAL_INTR_STAT)
->                                              amd_manager = dev_get_drvdata(...)
->    amd_disable_sdw_interrupts()
->    cancel_work_sync(&...->amd_sdw_irq_thread)
->    cancel_work_sync(&...->amd_sdw_work)
->                                              schedule_work(&...->amd_sdw_irq_thread)
->    sdw_bus_master_delete(&amd_manager->bus)
->    ...
->    devres_release_all()
->                                            amd_sdw_irq_thread()
->                                              readl(amd_manager->mmio + ...)
->                                                <-- use-after-free
->
-> Even with commit "soundwire: amd: use interrupt_enabled flag to guard IRQ
-> work scheduling" later in this series, interrupt_enabled is only checked
-> inside amd_sdw_irq_thread() before queueing amd_sdw_work, so the hardirq
-> handler still schedules amd_sdw_irq_thread unconditionally.
->
-> Also, because amd_disable_sdw_interrupts() now runs before
-> cancel_work_sync(&amd_manager->amd_sdw_work), an already running
-> amd_sdw_update_slave_status_work() with status[0] == SDW_SLAVE_ATTACHED can
-> write AMD_SDW_IRQ_MASK_0TO7 and AMD_SDW_IRQ_MASK_8TO11 back to
-> ACP_SW_STATE_CHANGE_STATUS_MASK_0TO7 and ACP_SW_STATE_CHANGE_STATUS_MASK_8TO11,
-> overwriting the 0x00 masks written by amd_disable_sdw_interrupts().
-amd_disable_sdw_interrupts() clears ACP_EXTERNAL_INTR_CNTL, which
-is the delivery gate that forwards the ACP IRQ line to the CPU.
-Even if a concurrently running amd_sdw_work re-enables the
-state-change mask registers (ACP_SW_STATE_CHANGE_STATUS_MASK_*),
-no new SoundWire interrupt can reach the CPU while the delivery
-gate is closed. The state-change masks only control which SoundWire
-events set the pending-interrupt flag in the IP; ACP_EXTERNAL_INTR_CNTL
-controls whether that signal is forwarded. With the gate cleared,
-re-enabling the state-change masks has no effect on interrupt delivery.
-> Using disable_work_sync() instead of cancel_work_sync() (or synchronizing with
-> the parent IRQ after masking) and masking the state-change registers after the
-> work items are drained would prevent both races.
-disable_work_sync() is not used here because it permanently disables
-the work item, preventing re-arming on resume. The ordering
-(disable-gate → drain irq_thread → drain work) combined with the
-interrupt_enabled guard in the companion ASoC patch fully quiesces
-the workqueues without requiring synchronize_irq() or
-disable_work_sync().
->
+diff --git a/sound/soc/amd/acp/amd-acp7x-acpi-match.c b/sound/soc/amd/acp/amd-acp7x-acpi-match.c
+index bf11ceb7478b..217b11f9dfc3 100644
+--- a/sound/soc/amd/acp/amd-acp7x-acpi-match.c
++++ b/sound/soc/amd/acp/amd-acp7x-acpi-match.c
+@@ -16,6 +16,20 @@ static const struct snd_soc_acpi_endpoint single_endpoint = {
+ 	.group_id = 0
+ };
+ 
++static const struct snd_soc_acpi_endpoint spk_l_endpoint = {
++	.num = 0,
++	.aggregated = 1,
++	.group_position = 0,
++	.group_id = 1
++};
++
++static const struct snd_soc_acpi_endpoint spk_r_endpoint = {
++	.num = 0,
++	.aggregated = 1,
++	.group_position = 1,
++	.group_id = 1
++};
++
+ static const struct snd_soc_acpi_endpoint jack_dmic_endpoints[] = {
+ 	/* Jack Endpoint */
+ 	{
+@@ -148,6 +162,350 @@ static const struct snd_soc_acpi_link_adr acp7x_rt721_l0_rt1320_l3[] = {
+ 	{}
+ };
+ 
++static const struct snd_soc_acpi_endpoint spk_2_endpoint = {
++	.num = 0,
++	.aggregated = 1,
++	.group_position = 2,
++	.group_id = 1
++};
++
++static const struct snd_soc_acpi_endpoint spk_3_endpoint = {
++	.num = 0,
++	.aggregated = 1,
++	.group_position = 3,
++	.group_id = 1
++};
++
++static const struct snd_soc_acpi_endpoint cs42l43_endpoints[] = {
++	{ /* Jack Playback Endpoint */
++		.num = 0,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /* DMIC Capture Endpoint */
++		.num = 1,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /* Jack Capture Endpoint */
++		.num = 2,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /* Speaker Playback Endpoint */
++		.num = 3,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++};
++
++static const struct snd_soc_acpi_adr_device cs35l56x4_l1u3210_adr[] = {
++	{
++		.adr = 0x00013301FA355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "AMP1"
++	},
++	{
++		.adr = 0x00013201FA355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "AMP2"
++	},
++	{
++		.adr = 0x00013101FA355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_2_endpoint,
++		.name_prefix = "AMP3"
++	},
++	{
++		.adr = 0x00013001FA355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_3_endpoint,
++		.name_prefix = "AMP4"
++	},
++};
++
++static const struct snd_soc_acpi_adr_device cs35l63x2_l0u01_adr[] = {
++	{
++		.adr = 0x00003001FA356301ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "AMP1"
++	},
++	{
++		.adr = 0x00003101FA356301ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "AMP2"
++	},
++};
++
++static const struct snd_soc_acpi_adr_device cs35l63x2_l1u01_adr[] = {
++	{
++		.adr = 0x00013001FA356301ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "AMP1"
++	},
++	{
++		.adr = 0x00013101FA356301ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "AMP2"
++	},
++};
++
++static const struct snd_soc_acpi_adr_device cs35l63x2_l1u13_adr[] = {
++	{
++		.adr = 0x00013101FA356301ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "AMP1"
++	},
++	{
++		.adr = 0x00013301FA356301ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "AMP2"
++	},
++};
++
++static const struct snd_soc_acpi_adr_device cs35l63x4_l0u0246_adr[] = {
++	{
++		.adr = 0x00003001FA356301ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "AMP1"
++	},
++	{
++		.adr = 0x00003201FA356301ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "AMP2"
++	},
++	{
++		.adr = 0x00003401FA356301ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_2_endpoint,
++		.name_prefix = "AMP3"
++	},
++	{
++		.adr = 0x00003601FA356301ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_3_endpoint,
++		.name_prefix = "AMP4"
++	},
++};
++
++static const struct snd_soc_acpi_adr_device cs42l43_l0u0_adr[] = {
++	{
++		.adr = 0x00003001FA424301ull,
++		.num_endpoints = ARRAY_SIZE(cs42l43_endpoints),
++		.endpoints = cs42l43_endpoints,
++		.name_prefix = "cs42l43"
++	}
++};
++
++static const struct snd_soc_acpi_adr_device cs42l43_l0u1_adr[] = {
++	{
++		.adr = 0x00003101FA424301ull,
++		.num_endpoints = ARRAY_SIZE(cs42l43_endpoints),
++		.endpoints = cs42l43_endpoints,
++		.name_prefix = "cs42l43"
++	}
++};
++
++static const struct snd_soc_acpi_adr_device cs42l43b_l0u1_adr[] = {
++	{
++		.adr = 0x00003101FA2A3B01ull,
++		.num_endpoints = ARRAY_SIZE(cs42l43_endpoints),
++		.endpoints = cs42l43_endpoints,
++		.name_prefix = "cs42l43"
++	}
++};
++
++static const struct snd_soc_acpi_adr_device cs42l43_l1u0_cs35l56x4_l1u0123_adr[] = {
++	{
++		.adr = 0x00013001FA424301ull,
++		.num_endpoints = ARRAY_SIZE(cs42l43_endpoints),
++		.endpoints = cs42l43_endpoints,
++		.name_prefix = "cs42l43"
++	},
++	{
++		.adr = 0x00013001FA355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "AMP1"
++	},
++	{
++		.adr = 0x00013101FA355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "AMP2"
++	},
++	{
++		.adr = 0x00013201FA355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_2_endpoint,
++		.name_prefix = "AMP3"
++	},
++	{
++		.adr = 0x00013301FA355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_3_endpoint,
++		.name_prefix = "AMP4"
++	},
++};
++
++static const struct snd_soc_acpi_adr_device cs42l45_l0u0_adr[] = {
++	{
++		.adr = 0x00003001FA424501ull,
++		/* Re-use endpoints, but cs42l45 has no speaker */
++		.num_endpoints = ARRAY_SIZE(cs42l43_endpoints) - 1,
++		.endpoints = cs42l43_endpoints,
++		.name_prefix = "cs42l45"
++	}
++};
++
++static const struct snd_soc_acpi_adr_device cs42l45_l1u0_adr[] = {
++	{
++		.adr = 0x00013001FA424501ull,
++		/* Re-use endpoints, but cs42l45 has no speaker */
++		.num_endpoints = ARRAY_SIZE(cs42l43_endpoints) - 1,
++		.endpoints = cs42l43_endpoints,
++		.name_prefix = "cs42l45"
++	}
++};
++
++static const struct snd_soc_acpi_link_adr acp7x_cs35l56x4_l1u3210[] = {
++	{
++		.mask = BIT(1),
++		.num_adr = ARRAY_SIZE(cs35l56x4_l1u3210_adr),
++		.adr_d = cs35l56x4_l1u3210_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr acp7x_cs42l43_l0u1[] = {
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(cs42l43_l0u1_adr),
++		.adr_d = cs42l43_l0u1_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr acp7x_cs42l43b_l0u1[] = {
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(cs42l43b_l0u1_adr),
++		.adr_d = cs42l43b_l0u1_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr acp7x_cs42l43_l0u0_cs35l56x4_l1u3210[] = {
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(cs42l43_l0u0_adr),
++		.adr_d = cs42l43_l0u0_adr,
++	},
++	{
++		.mask = BIT(1),
++		.num_adr = ARRAY_SIZE(cs35l56x4_l1u3210_adr),
++		.adr_d = cs35l56x4_l1u3210_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr acp7x_cs42l43_l1u0_cs35l56x4_l1u0123[] = {
++	{
++		.mask = BIT(1),
++		.num_adr = ARRAY_SIZE(cs42l43_l1u0_cs35l56x4_l1u0123_adr),
++		.adr_d = cs42l43_l1u0_cs35l56x4_l1u0123_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr acp7x_cs42l45_l0u0[] = {
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(cs42l45_l0u0_adr),
++		.adr_d = cs42l45_l0u0_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr acp7x_cs42l45_l0u0_cs35l63x2_l1u01[] = {
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(cs42l45_l0u0_adr),
++		.adr_d = cs42l45_l0u0_adr,
++	},
++	{
++		.mask = BIT(1),
++		.num_adr = ARRAY_SIZE(cs35l63x2_l1u01_adr),
++		.adr_d = cs35l63x2_l1u01_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr acp7x_cs42l45_l0u0_cs35l63x2_l1u13[] = {
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(cs42l45_l0u0_adr),
++		.adr_d = cs42l45_l0u0_adr,
++	},
++	{
++		.mask = BIT(1),
++		.num_adr = ARRAY_SIZE(cs35l63x2_l1u13_adr),
++		.adr_d = cs35l63x2_l1u13_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr acp7x_cs42l45_l1u0[] = {
++	{
++		.mask = BIT(1),
++		.num_adr = ARRAY_SIZE(cs42l45_l1u0_adr),
++		.adr_d = cs42l45_l1u0_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr acp7x_cs42l45_l1u0_cs35l63x2_l0u01[] = {
++	{
++		.mask = BIT(1),
++		.num_adr = ARRAY_SIZE(cs42l45_l1u0_adr),
++		.adr_d = cs42l45_l1u0_adr,
++	},
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(cs35l63x2_l0u01_adr),
++		.adr_d = cs35l63x2_l0u01_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr acp7x_cs42l45_l1u0_cs35l63x4_l0u0246[] = {
++	{
++		.mask = BIT(1),
++		.num_adr = ARRAY_SIZE(cs42l45_l1u0_adr),
++		.adr_d = cs42l45_l1u0_adr,
++	},
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(cs35l63x4_l0u0246_adr),
++		.adr_d = cs35l63x4_l0u0246_adr,
++	},
++	{}
++};
++
+ struct snd_soc_acpi_mach snd_soc_acpi_amd_acp7b_sof_sdw_machines[] = {
+ 	{
+ 		.link_mask = BIT(0) | BIT(3),
+@@ -188,6 +546,82 @@ struct snd_soc_acpi_mach snd_soc_acpi_amd_acp7f_sof_sdw_machines[] = {
+ 		.drv_name = "amd_sof_sdw",
+ 		.sof_tplg_filename = "sof-acp7f-rt722-l0.tplg",
+ 		.fw_filename = "sof-acp7f.ri",
++	}, {
++		.link_mask = BIT(0) | BIT(1),
++		.links = acp7x_cs42l43_l0u0_cs35l56x4_l1u3210,
++		.drv_name = "amd_sof_sdw",
++		.sof_tplg_filename = "sof-acp7f-cs42l43-l0u0-cs35l56x4-l1u3210.tplg",
++		.fw_filename = "sof-acp7f.ri",
++	},
++	{
++		.link_mask = BIT(0) | BIT(1),
++		.links = acp7x_cs42l45_l1u0_cs35l63x4_l0u0246,
++		.drv_name = "amd_sof_sdw",
++		.sof_tplg_filename = "sof-acp7f-cs42l45-l1u0-cs35l63x4-l0u0246.tplg",
++		.fw_filename = "sof-acp7f.ri",
++	},
++	{
++		.link_mask = BIT(0) | BIT(1),
++		.links = acp7x_cs42l45_l0u0_cs35l63x2_l1u01,
++		.drv_name = "amd_sof_sdw",
++		.sof_tplg_filename = "sof-acp7f-cs42l45-l0u0-cs35l63x2-l1u01.tplg",
++		.fw_filename = "sof-acp7f.ri",
++	},
++	{
++		.link_mask = BIT(0) | BIT(1),
++		.links = acp7x_cs42l45_l0u0_cs35l63x2_l1u13,
++		.drv_name = "amd_sof_sdw",
++		.sof_tplg_filename = "sof-acp7f-cs42l45-l0u0-cs35l63x2-l1u13.tplg",
++		.fw_filename = "sof-acp7f.ri",
++	},
++	{
++		.link_mask = BIT(0) | BIT(1),
++		.links = acp7x_cs42l45_l1u0_cs35l63x2_l0u01,
++		.drv_name = "amd_sof_sdw",
++		.sof_tplg_filename = "sof-acp7f-cs42l45-l1u0-cs35l63x2-l0u01.tplg",
++		.fw_filename = "sof-acp7f.ri",
++	},
++	{
++		.link_mask = BIT(1),
++		.links = acp7x_cs42l43_l1u0_cs35l56x4_l1u0123,
++		.drv_name = "amd_sof_sdw",
++		.sof_tplg_filename = "sof-acp7f-cs42l43-l1u0-cs35l56x4-l1u0123.tplg",
++		.fw_filename = "sof-acp7f.ri",
++	},
++	{
++		.link_mask = BIT(1),
++		.links = acp7x_cs35l56x4_l1u3210,
++		.drv_name = "amd_sof_sdw",
++		.sof_tplg_filename = "sof-acp7f-cs35l56x4-l1u3210.tplg",
++		.fw_filename = "sof-acp7f.ri",
++	},
++	{
++		.link_mask = BIT(0),
++		.links = acp7x_cs42l43_l0u1,
++		.drv_name = "amd_sof_sdw",
++		.sof_tplg_filename = "sof-acp7f-cs42l43-l0u1.tplg",
++		.fw_filename = "sof-acp7f.ri",
++	},
++	{
++		.link_mask = BIT(0),
++		.links = acp7x_cs42l43b_l0u1,
++		.drv_name = "amd_sof_sdw",
++		.sof_tplg_filename = "sof-acp7f-cs42l43b-l0u1.tplg",
++		.fw_filename = "sof-acp7f.ri",
++	},
++	{
++		.link_mask = BIT(0),
++		.links = acp7x_cs42l45_l0u0,
++		.drv_name = "amd_sof_sdw",
++		.sof_tplg_filename = "sof-acp7f-cs42l45-l0u0.tplg",
++		.fw_filename = "sof-acp7f.ri",
++	},
++	{
++		.link_mask = BIT(1),
++		.links = acp7x_cs42l45_l1u0,
++		.drv_name = "amd_sof_sdw",
++		.sof_tplg_filename = "sof-acp7f-cs42l45-l1u0.tplg",
++		.fw_filename = "sof-acp7f.ri",
+ 	},
+ 	{},
+ };
+-- 
+2.43.0
 
