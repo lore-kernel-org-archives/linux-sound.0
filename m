@@ -1,65 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794137260;
-	b=m6W+DJ7/6TbPUan67VhL3/mYEaHVIjRcNiJRrMoeDrTwEvsWjut8Jp69duEtlFvAdu1c
-	 lqSsGQVMwglAQheQHa32B704FYcMD+l4Hv4UAeAi3pHBfXpoHMnkFOqxLDggh+TTmaznw
-	 at4ZsIPXLjkZZnnbvyOdJJhyppDT/O6D5eRikfKFVFBs8fz8pC1trbvtQBadFMS167Hd1
-	 SGkimrQ5Sp+9di4qm+p5D5zeA9bGVgOdBM15RKjmsTbRp98X2q0AReXOZTNbB/uOpZgQq
-	 qxU0krKu37WEg16z2vPucKunvmhas/aB2hfZpIZmomGtHH0b2s05cJZtS76Q9vbBrSA==
+	t=1794137261;
+	b=BpSuveeAGMP2cQX2bQQIJ9RIr3CO6jHRNBZJz0Uopus8ZJLFZnDGWRLCk7oVehwdwwi5
+	 vywYcybL7ZUiyOZ3kmB6t+D9sHpbzdskgdrZ8JWOxXMhXCgsn3YhkQOqMAmE/xr6Lmfak
+	 z04rZyV/GIw8SESUeyEOk67ykDxlGvRaeS2DYYOUVFEUSP2vhhJR2LhAM77Smayc+Qr+d
+	 vYcSsLLagHFp7VHg5UjhlPS2IzQ15/6nyiVK+yBUFe1giBnkeK8YToB0VvIyjZKf208+d
+	 Y492vHWyTTCHp5OssCcwIZ2N+68cBXyMNt3ugvZiAGISd0xqysTG9cH5IGUc3oeIGXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794137260;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794137261;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=3vEXpbNMGlJGm4BnwQ4lp5jMm8fM/VQdxs6DaJ2GpKw=;
-	b=g700TVleD5YnHKQ8IP7DdvuCewPBD2F2OxYYwf4ojUHac0FhUvgh18AmhcfYdmO0Boc7
-	 gKqb+HvX2ezp1B2hnZ6avvSe3GMvb4ZCBPXIFsNCr14xL8aHkHvSOQOeHvTJFMUuKL9lN
-	 iwMqa1hurLhCq+ZFngxyyPm+Syl64CnN5hgXjk9ZeALySr6o3/078xs7nRzkWGyK7U4Pt
-	 vK6jRypkJGsrVhSvm7bl0lZOuasN79ZrXuX8OGxcMp0d22upF1ma7GjxMS8CRw/ae8hlq
-	 qWvY29NtcpKDaceH+eKKiQcHZyCx4mGdRacrIiwC8CeofvlAAV1mBZcOhkU7ddUIsog==
+	bh=F/fYRrxzJ0MMAethI+PGx3RstYI42wsPbaxQVtjrhxM=;
+	b=bt/9/PMNxB03lP4vk4aQR8a0Ddkx20Lw88mjx2dh8GuCSlmO2RcnEtEY1t8n1X9iKL+o
+	 sWbYzXrDgu9ej5QmOI9mGpR78beRCmpiD3azMjVe17JF/JAdCbVg4YIsOVw7whtc9UZhk
+	 LhAqo7Qx1uaVtDvgw6yA+KhrET6QZFM7ubtShRrwxQCJdsQWlgEEpuCCQx+XHWwuZqktn
+	 r+irH2jg/Kt0t6go3WUAjCB4i+ECVbT8Wacx4/pqS42MrxMrnuM5+4er8/j+93qd8qLsg
+	 0+qQYGy4c/Sw0lAYJbWcuujtKmC85o89/uFyPJ4wnmhbo0WYntj7D67CtnPExq9e2gQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N2pdMRqa;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TxryZMn9;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED4A606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D441C606A322
 	for <linux-sound@vger.kernel.org>; Sun,  8 Nov 2026 11:27:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N2pdMRqa
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D95011F0089F;
-	Sun,  8 Nov 2026 11:27:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TxryZMn9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A7031F008A1;
+	Sun,  8 Nov 2026 11:27:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794137260;
-	bh=3vEXpbNMGlJGm4BnwQ4lp5jMm8fM/VQdxs6DaJ2GpKw=;
+	bh=F/fYRrxzJ0MMAethI+PGx3RstYI42wsPbaxQVtjrhxM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=N2pdMRqaJ5eyme1Os5+I6qOBOENGhh/HOLLnCo/EtNfnxACs3vOQ7qzLazK7JIAkp
-	 uOKF77pTNgDdyjps/XpdDbBEaJH5LAAOWBtMqLJUziuXouSnWk2WMbnzQ0tqb+xb7t
-	 nULCPCavteoPccla/a+itBrK7q2fyZKhfaOm4itudNlF6bQM26+nqXlOzrAWqIZBxd
-	 Nj/XbK5VT1R8WTVoHi1ascJEY12CG9ymhPkcnCiunmyw7zjTWV54S7t99Xn0KNQ/9g
-	 30QIHO0ldt9UpFafkYfEfNfgTdswOJM48a9dEQu4wgB6j7e2+3H1UOiOuPLApoqiVb
-	 w/+fHs5qhL1bg==
+	b=TxryZMn9BwM1M8tckR25+aSVhb6GNO8sDJJKC741frDTNd3emKvWOovMf0/84JW+j
+	 Nebj/8jNcV5GSxEF6BHxbKLDwVQR/dnpAkpX9b4c1LsGI5jcSyH0WxYqXSPFmVCLv3
+	 t/9+NRZjNm4qU+C8YLcjYVEwe8Jo5esAuueS8jBAX/MvG5RufYva6q0X4Q4/10/kV8
+	 3puGG9bai+CtaGjPUYP08EuytRftxLQWQdsSkikZ0Er3+9c7jZM8WKfXiZt4+zxY53
+	 wEFKTyTRGQQXKAye6K/cyKmB9d524HMx2bNoOSXLtcjP3M44oU3PYJscXTGBlf3uaM
+	 51pa13mYxua3g==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id E722C2BF927B;
-	Sun, 08 Nov 2026 11:27:37 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 824422BF9286;
+	Sun, 08 Nov 2026 11:27:38 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Wentao Liang <vulab@iscas.ac.cn>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org
-In-Reply-To: <20261104024054.1508754-1-vulab@iscas.ac.cn>
-References: <20261104024054.1508754-1-vulab@iscas.ac.cn>
-Subject: Re: [PATCH] ASoC: SOF: amd: fix leaks when SoundWire probe fails
-Message-Id: <179406669638.3424803.12705427175548437900.b4-ty@b4>
-Date: Sat, 07 Nov 2026 15:51:36 +0000
+To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Wentao Liang <vulab@iscas.ac.cn>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261104024055.1508788-1-vulab@iscas.ac.cn>
+References: <20261104024055.1508788-1-vulab@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: sti: fix the player clock reference leak
+Message-Id: <179406649796.3424803.5162189053755467444.b4-ty@b4>
+Date: Sat, 07 Nov 2026 15:48:17 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -72,17 +66,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1122; i=broonie@kernel.org;
- h=from:subject:message-id; bh=pFbAjdUy9vAJDiKU2YdNJTPIzIdBEo9gOaR+dfZuk8Q=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+xKzcJDD51p8teYtmHRcNuXPGSnHDVJ+aGT+nbbrIm
- TPzpHiqTUcpC4MYF4OsmCJLXBb3y/qS12v4Di5sg5nDygQyhIGLUwAmsriZkWH9j0me11dZiEfJ
- BE173nE9nkX99YQSt9InGaf/TvJxOZDO8N9RMsJaddPio7/7d6zNaru6hGM6z7IJ9322Pd07a7u
- 570QWAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1110; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=6JxMzpDtFfx0v8j21+nNJi80MMWlzq7P89RSpPJRWSw=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+xKxiT2R/czB3wrH61S/Xr7v/bB3rqQ+f7QRSPhQyV
+ 4fUzI/u6ChlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBN7mVkeF6xZM7ml0tK3W9o
+ feCPmzyh5sxMxcRbvNduNdz9VLmgRpyR4U+m/9aGznbJW3GdW/YuXvLygjaHycPdVbd4bx6e5jQ
+ rmQsA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 04 Nov 2026 02:40:54 +0000, Wentao Liang wrote:
-> ASoC: SOF: amd: fix leaks when SoundWire probe fails
+On Wed, 04 Nov 2026 02:40:55 +0000, Wentao Liang wrote:
+> ASoC: sti: fix the player clock reference leak
 
 Applied to
 
@@ -90,8 +84,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: amd: fix leaks when SoundWire probe fails
-      https://git.kernel.org/broonie/sound/c/f8fff272681b
+[1/1] ASoC: sti: fix the player clock reference leak
+      https://git.kernel.org/broonie/sound/c/304f08895e44
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
