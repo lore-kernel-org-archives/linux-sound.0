@@ -1,108 +1,106 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794042603;
-	b=K4nWa7W9Em3D5cGycas82ItkCoVlJ9xRLIsotxf5IiGHEeR6g6nHxTIZCP0CRKl1sGvJ
-	 YMpZTvzn4SY5yhPVw5ynGdxtzjZrI4lHeqtncqGTFdbCiV4lOSr2h6iK/xf7Upujz3QP4
-	 VQP7WpIVhcilKTwFl01ajEQb4sdp+1tflTBS2+OGvuFU5DxfkJbsnTgoRlTdi797okt9Q
-	 RHoE4QaD3aWf+cH3R609YGRT2VBB8667HZafxT0AU54ZfphY4VxsGK80RUmfhHGOjhF/d
-	 16AmGnXi9IV1QsfdtSvV70daBQl+R9jsoGDRQ4kahANGXjcYo+SOya1jQYpRWumiOBQ==
+	t=1794042692;
+	b=LxCTQQ/ZOmCi5jChIDVWyBsy6ZzdubrFB83atinhI2roUcN1iEK253nVi+zj1+i9SBBu
+	 pNhSnOGg+0fcYDunjDyOE3w3/scBS3duqXd36FLUOGg14eIevptL2z683SKaBAHvlgiGz
+	 dVoyBE+1knDZqYXm4ivbPryb1vCq+Jxolj9BeKRXEJa6FZpbxkLGQOh/ENb4O4j/gozm3
+	 IQ2K82dSGR5hrLbztdR7MhJPNVFS29FK/c74R1Y1fEiuF7wlyqQVxIY1vGn9o0fYaN315
+	 8uhAD/iRPrDObsuxuxnlNQzHPIVCYzLmTKM5KG9jBjtflNsyNlv+0+uaxNX5xxgGKeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794042603;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794042692;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=58xoYRpmyM84qotsXl7y1fIxuq7D7HoXDGO7AOQk7B8=;
-	b=L+uUmdrfKGRlf1SDDUEeUx9EGENKyEr4uemyoWj+hsvNJPwInQnLzTak18Ta5NiZucVJ
-	 dwRLBrM2BZrj3NGMmlUysKssMouWuvWwhCbHj6gE/CfPsEvN49JHZt2khd/4ZpPz5JFUc
-	 LjoOR4nkR1+bc+BWWiVmUmfg79FVmru6OeBizwkcaWbMCBhq00oroyPn5IxLkpq/aFmU/
-	 0j+3sxchu99c+xDm7P5GGHBXvgCOM0ey8AFHO3W7ti5mlUdUoSqaCZu8HpKiwo0xqhHuX
-	 Z1+liKKp2cKJSjUAfMhDxUc/GQicjlPHHlLDbKItuxQCVYi0a4lqxUdCpacj5laLi6w==
+	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=MeEH9YedT5rZOpolu00I7TXvsMkj9ue4IGkxWd5hSNI=;
+	b=mYvKa8iDZLPQfwnd9reOWo+CIJRLmlrYdym5PBr6+OTE/z7Ape3biB6bF2Y8rYZkrLl6
+	 Ly34xBCWKLmrPbkd3pIHHnQVp6e1j0lefiDH3ooudkQzcdYueDJqX2YhYQACzOhH4PP8B
+	 g3MLjqRyb2/zToF2ezeKEjzK52yoTTXYoXjNP31jd6GzAgSmN7OUtL5MA8SqTSyDxVcEN
+	 1FiQ9L18tIsUAN5HBNEAm9C0m63fcmdKopq465RVf2IxOQ+pNpgheCHCAsx55jNDP4EHi
+	 OYClQc1FEa3ujDSzERK8V8y1iknMVxCJY10FsBTySyakRSfZbl7drUU9s3KIkEcPCkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=mJWWyvfY;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3UNC+BYZ;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=mJWWyvfY;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3UNC+BYZ;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=0Cr8CkB4;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CS+UJimn;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=0Cr8CkB4;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CS+UJimn;
 	arc=none smtp.remote-ip=195.135.223.131
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6F6606A326;
-	Sat,  7 Nov 2026 09:10:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A6F6606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FC8606A326;
+	Sat,  7 Nov 2026 09:11:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22FC8606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=mJWWyvfY;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3UNC+BYZ;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=mJWWyvfY;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3UNC+BYZ
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=0Cr8CkB4;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CS+UJimn;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=0Cr8CkB4;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CS+UJimn
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 81FC01F797;
-	Sat,  7 Nov 2026 09:10:00 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 498511F7A0;
+	Sat,  7 Nov 2026 09:11:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794042600; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794042690; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=58xoYRpmyM84qotsXl7y1fIxuq7D7HoXDGO7AOQk7B8=;
-	b=mJWWyvfYsr63/+uPnI1Acj71p9RQDqItb/KG5jpvqpbmFugf5PzzrBGcig3lunfgqJqVIG
-	e68KOnuVeT0vr+RXIBrZl7M0JFEt2uFozf7ZB0wT4b3JuojOHmssh1AMzCFS/3Nx6St0hQ
-	0VJBmHFmjH9wvacbDCpFtJslmoODTtY=
+	bh=MeEH9YedT5rZOpolu00I7TXvsMkj9ue4IGkxWd5hSNI=;
+	b=0Cr8CkB4xrUQJC2c2POMF/AkL5zKAXhIkyScEwzOlbcIEiGnPF/CwLo+S9stvfaowNoGER
+	CmIhQzP5y166V6Wwscz3/6xpHWz8UxSwofWED/N0F5EyhT7x9SpkROHzDAbNRwdQu62C+1
+	hA1tC/+OTJ+uLjLlfx9Qx7QmzX9e8rs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794042600;
+	s=susede2_ed25519; t=1794042690;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=58xoYRpmyM84qotsXl7y1fIxuq7D7HoXDGO7AOQk7B8=;
-	b=3UNC+BYZBhU61l1PZhUR1NOyAM2IQlcUAvIpiM42+u5bwJuCy7HQTPd3ixz+S9OzBmpQg9
-	Z7YGPPPvvDzhugCQ==
+	bh=MeEH9YedT5rZOpolu00I7TXvsMkj9ue4IGkxWd5hSNI=;
+	b=CS+UJimn/RSCRQhxgf3pIXY/lPTvbIlAtIyDRDO7sQ+RJZNZOopGvwr96He1Wu3z6EvTAu
+	xVU55xwwFaDkBLDQ==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794042600; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794042690; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=58xoYRpmyM84qotsXl7y1fIxuq7D7HoXDGO7AOQk7B8=;
-	b=mJWWyvfYsr63/+uPnI1Acj71p9RQDqItb/KG5jpvqpbmFugf5PzzrBGcig3lunfgqJqVIG
-	e68KOnuVeT0vr+RXIBrZl7M0JFEt2uFozf7ZB0wT4b3JuojOHmssh1AMzCFS/3Nx6St0hQ
-	0VJBmHFmjH9wvacbDCpFtJslmoODTtY=
+	bh=MeEH9YedT5rZOpolu00I7TXvsMkj9ue4IGkxWd5hSNI=;
+	b=0Cr8CkB4xrUQJC2c2POMF/AkL5zKAXhIkyScEwzOlbcIEiGnPF/CwLo+S9stvfaowNoGER
+	CmIhQzP5y166V6Wwscz3/6xpHWz8UxSwofWED/N0F5EyhT7x9SpkROHzDAbNRwdQu62C+1
+	hA1tC/+OTJ+uLjLlfx9Qx7QmzX9e8rs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794042600;
+	s=susede2_ed25519; t=1794042690;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=58xoYRpmyM84qotsXl7y1fIxuq7D7HoXDGO7AOQk7B8=;
-	b=3UNC+BYZBhU61l1PZhUR1NOyAM2IQlcUAvIpiM42+u5bwJuCy7HQTPd3ixz+S9OzBmpQg9
-	Z7YGPPPvvDzhugCQ==
+	bh=MeEH9YedT5rZOpolu00I7TXvsMkj9ue4IGkxWd5hSNI=;
+	b=CS+UJimn/RSCRQhxgf3pIXY/lPTvbIlAtIyDRDO7sQ+RJZNZOopGvwr96He1Wu3z6EvTAu
+	xVU55xwwFaDkBLDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 10929132C9;
-	Sat,  7 Nov 2026 09:10:00 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 01791132C9;
+	Sat,  7 Nov 2026 09:11:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id V2RiNOfq7mq7YQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 07 Nov 2026 09:10:00 +0000
-Date: Sat, 07 Nov 2026 10:09:59 +0100
-Message-ID: <87eccxyplk.wl-tiwai@suse.de>
+	id zOpYMkHr7mrDYgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 07 Nov 2026 09:11:29 +0000
+Date: Sat, 07 Nov 2026 10:11:29 +0100
+Message-ID: <87cxshypj2.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
+To: Yifei Gao <gyf161023@gmail.com>
+Cc: tiwai@suse.com,
 	perex@perex.cz,
-	tiwai@suse.com,
-	tiwai@suse.de
-Subject: Re: [PATCH v2] ALSA: control: Synchronize LED mode accesses
-In-Reply-To: <20261106183953.2762-1-sreekuttan2156239@gmail.com>
-References: <20261106180812.5097-1-sreekuttan2156239@gmail.com>
-	<20261106183953.2762-1-sreekuttan2156239@gmail.com>
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] ALSA: hdsp, hdspm: Fix unlocked control_register updates in MIDI paths
+In-Reply-To: <20261106205050.8048-1-gyf161023@gmail.com>
+References: <20261106205050.8048-1-gyf161023@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -114,8 +112,6 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Level: 
 X-Spamd-Result: default: False [-12.30 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
@@ -132,37 +128,38 @@ X-Spamd-Result: default: False [-12.30 / 50.00];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_FIVE(0.00)[5];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	RCVD_TLS_ALL(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-Spam-Score: -12.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Fri, 06 Nov 2026 19:39:53 +0100,
-Sreeraj S Kurup wrote:
+On Fri, 06 Nov 2026 21:50:45 +0100,
+Yifei Gao wrote:
 > 
-> mode_store() updates led->mode while holding
-> snd_ctl_led_mutex.
+> hdsp and hdspm keep a software copy of the card's control register and
+> update it read-modify-write under the card lock, except in some MIDI
+> input paths, where concurrent updates can be lost.
 > 
-> However, snd_ctl_led_set_state() and mode_show() read this
-> field without holding the same mutex.
+> In 2011, commit c0da00145f9a ("ALSA: hdspm - Fix locking in
+> snd_hdspm_midi_input_read") fixed the MIDI work side in hdspm. The
+> interrupt handler side was left unlocked, and hdsp has both problems.
+> Patch 1 fixes hdsp. Patch 2 fixes the remaining interrupt handler side
+> in hdspm.
 > 
-> This can cause a data race when userspace changes the mode
-> while another path reads it.
+> Both issues were found by static analysis. The patches are
+> compile-tested only (W=1). I have no access to this hardware, so tests
+> on a real card would be very welcome.
 > 
-> Read the mode under snd_ctl_led_mutex in
-> snd_ctl_led_set_state() and use the local value after
-> releasing the mutex.
-> 
-> Also protect the mode read in mode_show() with the mutex.
-> 
-> Fixes: cb17fe0045aa ("ALSA: control - add sysfs support to the LED trigger module")
-> Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+> Yifei Gao (2):
+>   ALSA: hdsp: Serialize control_register updates in MIDI input paths
+>   ALSA: hdspm: Take hdspm->lock when masking MIDI interrupts in IRQ
+>     handler
 
-As this sort of data race for a single value has no much impact on the
-actual behavior, it's more or less just for consistency.
-So I applied to for-next branch.  Thanks.
+Applied both patches to for-next branch now.  Thanks.
 
 
 Takashi
