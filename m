@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794044533;
-	b=N8ZrqnVGJvWkrgNHXFjQbNcFKupeqz/QwYqfvwZDxn7b4pyHv+L2fvLj/IVpFQ/cOJOJ
-	 GIA5PGXdJVFa8VQGHlPeUsM8IXJiRgMous4/o+rxgbd9i5yCyhtFV517DDBQOAzj1GL1l
-	 6KBVaAXcyzbfPpJsPECVjPLYKj5swlSiGhK4emOAnX/U1sW0IdL6o5BkvpsMT7X8FMHwi
-	 jixdhhdHXb19gRPBgSRT838nOSHHYRG63gNEswC2stGMTAtVoCk8dJZXmcRb6Glwf7sK0
-	 ocyfp/lbiux0W9XPLuQRgr5XN26J8gERayCwhOiUYn1mx16D/UOUBC7e39/7fWQvhdw==
+	t=1794044539;
+	b=4w183SucmWl9SZUaPCky+vraxnt4hnfbrZH7XrL1s/Ch9ZZ0cvEhfhD44zkyUT+96v6d
+	 TZnYGgnvfGfjsn51dWLm12rVCqBI8FEWA6O6vv7AAAzDgECxI5WbL0l0wRgslPgSaMbQw
+	 8gHNqWW05nNe4ny2El8c+gShJMEbg7DNTLAPWefWdTniJrzGtSZRQRpdJES6ejMPznUXp
+	 fXe4o7orermJBxTm9Zd8RCygLbpqiMlpuaSDa25IX7UftS4FQDA0wseylIsAAVIxzZq6U
+	 lwm2mrqpNglmLJXK50a0ZIWvlu1d1T+CALL+QI+eh3/tq1H4d1zdb5x34/izc7qJ8xQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794044533;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794044539;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
 	bh=4A0utHeqTpPpsQPoK3Sd00TkXNSK6fwIX1scmyIZteA=;
-	b=TDHZ5ZCxD3v5KFEAcCzksoiT31m3Y/a+Wi29UHlkxgQx/4F+4wp76ryMIzD2fctbBn3Q
-	 XUrl0qaT0QsFxCyeauZO52YpOtNc61j4koCkOkqRDbaG0jNg8v9BPOBrhtP5EDf1lpV6Y
-	 iJO10i1XE1p2zvwPs9DaU86h/7sM9epbhHnm3v2S1ggKOUby2jAuo8GobVwbIzXe1YLXp
-	 S2CzBp7GNWeeRnnZ5HoTG3IZZsaGdlSqr8apSqDnCuK/ZGkO+qU0s2BvW2FsuTJEn0S6f
-	 ZMwb4jDpLYW3B0w22eWuRDRI2GvxGIY7TclpetnJ8vE1+KHhOtu68svlvarmnFFrJXA==
+	b=oDXO4P/lAsq+MtacP1UZShcSXdgQcJGrzWCLy3/d45jXGsrJUuGO9T3MMIRwU4nyg08N
+	 +i91OF8H7z4cC6FnnxsrAG3zn62TPvFtnbXkpJUbdR9XmMrXbuW+ksOjrXjL9aL62Ekor
+	 BKZJ/NvTDixphq/kQFbnJs/WrwX9XBL//HgOZVt+k/qS9bvA89vD2WLO30mGnECVXc00C
+	 OuzvLkoBBfziWj+C14n2OHP+WW4UbgRZojQWEsrgUBJKriyzA9x4rWYe6ugHWlZaFfgqQ
+	 mXi6UP1i1E6AVoXDruob/FusbXfY2UVCUezeLy2DtwSFUskWFErpMqAWLLx7tDMy2pQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hKGlUFc4;
-	arc=none smtp.remote-ip=74.125.82.172
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="PTRW/zf3";
+	arc=none smtp.remote-ip=74.125.82.170
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83498606A32C
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 09:42:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 83498606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE310606A326
+	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 09:42:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE310606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hKGlUFc4
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-36ff9c9da34so1906051eec.1
-        for <linux-sound@vger.kernel.org>; Sat, 07 Nov 2026 01:42:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PTRW/zf3
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-36ff9c9da34so1906092eec.1
+        for <linux-sound@vger.kernel.org>; Sat, 07 Nov 2026 01:42:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794044533; x=1794649333; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794044538; x=1794649338; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
         bh=4A0utHeqTpPpsQPoK3Sd00TkXNSK6fwIX1scmyIZteA=;
-        b=hKGlUFc4qgAhuEcENEmaG9xvGFtU6oAhzoWwbgU1bV3XkVQ/4XDEJH4qIhh95aMacp
-         IT7lmMKK1g1eIHQR1jgmlkXJwIi2N8ZOLZIuui3XdVSt/CSNU7q1UCcFoKMCOTzSgVFs
-         J4FkhhR26a6/s5g+idsW29pJNs+oOTMf8OmpkdiCIvz2GMYJix1HWTmwEcXVcHQLwucJ
-         JudQ/g1xggwB5f6A7/DXLv7ILI4oH3Ov+o7G8bluYIF0tSzHL2q8IyBDqJaEmmOrk3Ao
-         O85BpHrVK1+a2whVa+aT9K9RHJmgoapL/2HyZs1PVyVMzd4/l7GMvrq0kLFYAUSPueha
-         IV4g==
+        b=PTRW/zf39QqYqtZSHb2mq3WtdfFKv1KzP5l3RCelUvIIec//xJacm7JjY4gW+N/fMW
+         AQwI3FC2vXQXhTvRrVzfKBDQ812xRGCXASd2isLacrn8ocFsO5pTqZQHRJO9IZnsZcsu
+         ncTkq7L76dQ2putQaFxt/eseUGztTDwdbum0U6S9AzqlYY5sVQk7Ev4XV+zzY8q2B1EC
+         71a8PrSc5lVQhUwadeus7Y8pUTbQqZDC16HCmYdkQ7gyLNOqEvYIfibhFesIPI6QOPuM
+         x4jQBdzaYLgKsUWkzIZ/1GoDElLUkxRq+ffdf6yG/v9EIERo7pXlkjqDyik/5q8GljHw
+         GrzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794044533; x=1794649333;
+        d=1e100.net; s=20260707; t=1794044538; x=1794649338;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
         bh=4A0utHeqTpPpsQPoK3Sd00TkXNSK6fwIX1scmyIZteA=;
-        b=QkmhTSRHXcYuFWRSU0yBblR3JbQ41iBh6K9i/+IW1Ve5xcuWrgMS1bYoVmnoD03gxw
-         mTJb1sMEjCx+854dhihhEpedjwLk6ZHAdrImj0q4up8VSwNYEq/QzE7MtmB5qw2C/S0M
-         M2yq1DFoBmkqjhnZTIYnc6DfQNVnWP2biJF4byzbSm3EiUqEtooulcE6iGvagfLV975u
-         Ssvk9djVI72fbpFunCFOtoHHgiRNhyQiwdOUkUaqsBbSfQQc/hhycdSVaowoFhAjGbjp
-         e7/SP+VEqZaJHIXMnLsJzbj3z63XU+3peA6yGdKNnqDSn7orYxTxFk3A6idX4Az1TuXQ
-         SZjQ==
-X-Forwarded-Encrypted: i=1; AL+hErFK9i51JKOICR2PdoibAQhliMcM8JnFwTu77aGWpw/fuG6eXpXgm6Cjzo883kBPzHG15Ivdow6EPSouug==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9y3dlknYmyOJZhZBUadUTzKzSYFxjPgSrBIgCICCfeZHumzv0w
-	Fxsp0Ver4+/nfAPyu8uJx2CdsWJnjeI6dxE10DyRUXkpWwzpUfJCFHae
-X-Gm-Gg: AYBFou1o9AWRaxgFOXz4Q5isUhpBTmCIRhsuTx2lM8PfnrHXxN4dAArjllddOsXdByM
-	fvsGEf6Q0crdk4KnB+KgO6zsZCL73op9CRSLwP+KFRMTjpBpD96X1UzqbW/Cgeew2bmlQZ9+U21
-	XyG0PDzunI9oCKbrQm/VIB6HJk9mB4OVShJ+RZL6noGe+tc4mRgiUrlnTP5nTRpg+5zvEB2tHKO
-	SbSzq4ZMiHfzVkhrRFSLN82S3/idV/2rNkBtySTaVWST9ZU97jwuEViWF1rB4tLFKAaEP4JgU8R
-	LVWPSRQs4/yp10AhnrTYxpX8uPMyEc547v0pMdK3YOe7BzFuiWXsbuFn7DdNnBRGQHlVBFUsdDu
-	Rbzmv8osINSif1FOwCMbVrqthDH7I61gfbXbXWGtXX45SVAWURL2YjDGFQgFnAZu011i5cUWl/8
-	D3QWXhYgatfgLRUBeE1sV5/CUSeHSw7Og4CL7dNJxs+/V+/8ywoN5v5rAS6bG56qHnNpMPOGkUQ
-	bnvK2USKpUYnzUouJ4SGtkb+IVp7tCioD2seI+SihN52SfztUYsllMMEc9NQU16rFwuJzmzMDDN
-	HfYkO56CGVsIU05XmPkpKWqQg27yNJ7sbmsUXfmS7BiL+gHHxkCy2X16B+pFEj6h0243pDqBo6G
-	letm0ZM5+aRkEzvW6YMZNZ+PPh45u8Wdz2VjPxYIF
-X-Received: by 2002:a05:7300:f58b:b0:35c:f667:8b9a with SMTP id 5a478bee46e88-36f75253776mr7263853eec.6.1794044532550;
-        Sat, 07 Nov 2026 01:42:12 -0800 (PST)
+        b=EwNlGBEySkZ2E4B9Jq/opW/VlDUML3xjcEXT+8/wXJbNXHVullcdeanXla0AwQLqe6
+         o3DSpP9ziCEhaESypv6loIh+gOHe/Gdnp6vI6p75c6ZhKkUNfHIprapjzduTSfji76mW
+         MkFQyCO6y685SQ8HC7F/aOC4urHxnLgcPiABtTXfb38MR2S0DWFpSTb2faY9ZgqMRn+k
+         cj2YCwhCPsRrq4Ob2PPSKoXoFo5jAZiysTihWhmu0x1xPCx6uWMJyO/ueXPKBAqFrsrX
+         jqaKdE5iNnXJ9k36zvMME59y4XfYfy+8fL0L+whNROj2ydPJFnI7J64DbFVRmB5Txg+w
+         oRlA==
+X-Forwarded-Encrypted: i=1; AKwUvBwIeHezOaQCiq2xkPJhZ6QWV4cBSa/CbFppIDmp+ImfFumprQk/5rmYxUchHyN/I594QmUN9QGk3MWWXQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9jnkdWLZ3krJzlT7TyjjZCsxRCi3PfJ6k0QjRRHd2DiCUs5Ihx
+	WpWhp+MD/qpbKMBm+CgWDe688F22qLH7dXm55Fg9vJX9H5SiwUeX6GTd
+X-Gm-Gg: AYBFou0hleBgGOlI/YNOlDoZvuaux5+v7OPRyQJmCaSt86DfmQiNc/XJ9tE/7SBRzei
+	IjuQ1AwCN+uju2tQidIbNdC4IQ7h+O49nLeh2A3gL/91dJIf3eop+PYWqiggjBaW/PIwxymIy19
+	S1EaWXKnI4YwoL+iZwBZeFw790XEHM1KnRktlko9PEwFahtiu5CFwoBzTC3IS7KmR+PFiu64+4a
+	DNZKK+AbSwBXO45F+9RuBzjql6nqI1JruEQv14AmgW66RIQM+/4PbKJwfwZFL9gsY9gUi4VD57l
+	vkDNd9SHdQ5ZCTevzDXIALfF6KQvSPCPl3UdrPDim7MENCPOxb5bJcdK6VcsXBNrsVzaFDJ9ggu
+	RPpmOieTvfd5u1649WC0wvv9if7T+xkKF6IDxhDqpBvhWq8rvl8QybKwF1HtLXmxQnjrFFIQr70
+	yfRAEp1z8o3oHe3lZf0RFyRA+aFQQsTsxjELYM0SQkjiIKg6Hrizl7xhn+zcTWF6sUDfQEPLfGr
+	QiKs5opUnFTDBc/AFB9aHGqObuhRo7mNhQf3N1CVaZ+7VOgrYPlibJ7hzy9giAROy2gaPyyzgqz
+	HjOZeF6IRiv+5hNpfCjcO8eVVSd1Js1DBdqWDudVhhu9++5bLQZvPglH8npo1xm/Yq9ZpcXFxI2
+	Hnlqzefvcw0WlI4iR05hu9i1OHhFKP6Tzt6EHnCTBQnk=
+X-Received: by 2002:a05:7301:6190:20b0:36a:1089:9836 with SMTP id 5a478bee46e88-36f75839295mr6934058eec.15.1794044537919;
+        Sat, 07 Nov 2026 01:42:17 -0800 (PST)
 Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36fa8e3a47esm19185908eec.6.2026.11.07.01.42.10
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36faac86a96sm14392110eec.29.2026.11.07.01.42.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 01:42:12 -0800 (PST)
+        Sat, 07 Nov 2026 01:42:17 -0800 (PST)
 From: HyeongJun An <sammiee5311@gmail.com>
 To: Lee Jones <lee@kernel.org>
 Cc: HyeongJun An <sammiee5311@gmail.com>,
@@ -87,12 +87,12 @@ Cc: HyeongJun An <sammiee5311@gmail.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 02/10] soundwire: sysfs: Use sysfs_emit_at() in array show callbacks
-Date: Sat,  7 Nov 2026 18:42:01 +0900
-Message-ID: <20261107094201.3951903-1-sammiee5311@gmail.com>
+Subject: Re: [PATCH v2 03/10] soundwire: stream: Prevent m_rt_count underflow in sdw_stream_remove_master()
+Date: Sat,  7 Nov 2026 18:42:12 +0900
+Message-ID: <20261107094212.3951983-1-sammiee5311@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261103095445.81414-3-lee@kernel.org>
-References: <20261103095445.81414-1-lee@kernel.org> <20261103095445.81414-3-lee@kernel.org>
+In-Reply-To: <20261103095445.81414-4-lee@kernel.org>
+References: <20261103095445.81414-1-lee@kernel.org> <20261103095445.81414-4-lee@kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
