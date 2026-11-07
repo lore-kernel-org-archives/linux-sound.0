@@ -1,55 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794053411;
-	b=lUl7G/kpgjUj1KG7bmHstHRmzCMQD9sQvPg/mHuH3s1zN87gBQpS64T+xbJ9tmwxZyC4
-	 s3YYdDJGw5S81os3CbOmz8pWjRwCI5SUkz/VK+bKk8B/NMT35iFNvV3k/avK+QALT6/Fz
-	 ynCB6N5JNh1wzMwZ4UXABN5FoEhcso5NKG2TjtOoj0pGBHG2clSUd34UqiQOX2L1q4BFG
-	 caJidhwtGndMBikm7x1lVfAjE2d6cFVx6x2gwkBRaDM+Rkeha5IkftJnLHGAnEcGbg6XQ
-	 pij0jAa4AL80C0Utm9XirMszLSrT703jA3dypMeWfOHe+bWapxe5Z1wxAerTn732Zrg==
+	t=1794053579;
+	b=EKsa0asrHqhJRue3/Cl9pmdBJ3LMXvMOgcNmm1lIWiURnYQEQM4PqJmV6jPgAw0u4mBi
+	 X/K4/iB9X6uw56+WJ839kpN4vJ5D9ApmtyKVE+IkQi58IGheev2/wc36fjtBDjXNbtGdZ
+	 71kTjxazCco74aiaO+PDca6STU5f6lmCsLyOdWBHJJILv58ll3FxqXkSCNwRVW6cnAp4K
+	 Wkfg5LIRALWjv8blIdqjrDnAeDWtEPihCf5Ki5N5HXmai9LAeCTHZE8AibqNGFcN2vzQn
+	 wTQy/+aCtatkiBUo7Sq8nCB6vdCiSmgzkvm/xAMVklxzfBaWUznBsQc08ElOE+U2p9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794053411;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=JPvnS4HnNvFpCdB+fLWvtdZpUVQP5c/sCfJFgiF3AnA=;
-	b=HuMQpkJ2czD1iyylvqRhigj2cuuUDvmk0hxE7fcGVIgt8UjaryTd/7lxUYSbpY/FpDpo
-	 W3Gt9XB0/8ADtoKHZ7t5lwZFvd2pAQ4CFaZ1KaqaCYJDp9aHw8071lUcyIZgYOCxEon/w
-	 IN56FOQsJk8JoBX6dNNp29zDtEAUq6IWckXJJw6diNVAU0lVSLsrffp6vaiXd4XkasdWI
-	 TPT4Co2XuIZ8LSqSjrz+CtErGB1VvGpoW+6PpEsO1bPJoKibCzxg8ZiyfWhYRU/CvM5t7
-	 w+5yIbLnIl5mdVNfFFflLEz6Da1HtLBoS1kVVrSacQjD0/bmajcXQkg75owMZxBQCvw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794053579;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=8AKXFeIePEMVcJ8WcbZFsZCRz/PozvJrUX2BHGSj9aQ=;
+	b=U2OuMDPozuC8gM8FLvJqb/8Oin5QByqaG+GiRM5peMoBnmeGDgj1KP5w/oE1I6gqbXbr
+	 iuhOP8GeXyiIU8xnvW2F2WCGJyazZGTgn9//JdyZZgoYh8ooPQPAddLvNMhHTA+2tNdoy
+	 ThraVBVw5bAgXoIRc0Q9lnYPxpv8KSomNcXbvcZaQRvBNZArstmBQcSKC969XnkUpjyso
+	 AHb7toHikvwWcL/q88kefPTzjon9bEWN0/vHlPbjE4FVo9ZScC8MP0ttHUYNBKIFDLGID
+	 rEWRwuSncQszDK885y8/hvwSO6ExdzFptjwVVOhGn6BxgEbwKVqfqyU8VDT+RpB++7A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iefJ9knp;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=U0s9pvl0;
+	arc=none smtp.remote-ip=74.125.82.173
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948B7606A326
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 12:10:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E84606A32C
+	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 12:12:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C9E84606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iefJ9knp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 157D91F0089F;
-	Sat,  7 Nov 2026 12:10:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794053411;
-	bh=JPvnS4HnNvFpCdB+fLWvtdZpUVQP5c/sCfJFgiF3AnA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iefJ9knp+iuKbO2lI82nX8yML6cOIyFEWoubEVzDdOi/WRBK8/oWQ0vWV5uaaEpIz
-	 d7C3OQ7X1vvlnfrzZMCTKcXxyE12u4wNzro9kbFFS4lUZsS0pg7EWd3EqXtXcsQa3M
-	 oU/4mEskx+BewbrtNN3Ugr+B38ybM9QbHjOHDpf8HuGQUWNIGTs5w2eqaXd4+ob35z
-	 dvK8hWKUC5iWnmgKCOVfvdyS5+IHLFUanNJBKUpTHwziaQJbSycOlwf3Z3fhGrOTZZ
-	 uarsXAV21eotxOURKdkT1RVaQhcYi6y4jMvqR+tq7XyvHV8KENj401GCGdwPKDxpvv
-	 32PuizIjn6G+w==
-Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
-	id 488B228F6C44; Sat, 07 Nov 2026 12:10:08 +0000 (GMT)
-Date: Sat, 7 Nov 2026 12:10:08 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [GIT PULL] ASoC fixes for v7.4-rc1
-Message-ID: <c40c4999-8eb1-4175-a2ec-d82afdf456f9@sirena.org.uk>
-References: <20261107113234.7C6DB28F32EB@traversing.sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=U0s9pvl0
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-33fb4680717so3003443eec.1
+        for <linux-sound@vger.kernel.org>; Sat, 07 Nov 2026 04:12:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794053578; x=1794658378; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8AKXFeIePEMVcJ8WcbZFsZCRz/PozvJrUX2BHGSj9aQ=;
+        b=U0s9pvl0vgg/uCdJfx8ktblDNhNECzkqCf421S6RCOyXCMkCLYCEL4IRXyQZXQ4ZGQ
+         ZT5mNpNLPEwHkBUxKDtcI5vV8HpbNqnvSfwb1OE0uNKjQdXn5Sg+3G/RMTJFfwQTw0jK
+         1DMnZrHMq7xHlxYysWGWph+xQx23R8l6aqxft3CRcrUzybgtz6oPMThxK5qTF2A5GCZx
+         4IfhbR0/+y/IMcvkIblfzHwYTj6E9ODtgfjfussfaN9MTY/t+HuzQBrWyLL4DC1kIuV6
+         WCprWkzMU7i9szSCH6nIraAg6uTOrJZKjR1L8/ttlagsJysHuWGASvV5Qzh3s9Av24+o
+         MMKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794053578; x=1794658378;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8AKXFeIePEMVcJ8WcbZFsZCRz/PozvJrUX2BHGSj9aQ=;
+        b=MdgX0pP9vOgc76rN3bF3Rc3nsTgvCZX+Q1ksNQAh3v/cEeOePjhKTN5LX5gJckf6tM
+         E4ceakDU69TZYnj6G1C130SXnPX1JOzKiGPVlruX141jr9tBsB13kIyoyV7tkZq1QcoW
+         695mRclhRoTTgtegB8R0EfwBfPn7UR1J1RUcri/u6JAXujV41wnmpRRFE6LU3L5ZrFn5
+         kdmpfkoFTVtCI/XOkeiH3Tyf01TOS2jqM+yI0Trcnfwa70hSNJiRdS1+T+2aWm4k7H30
+         LDuURao+vyWQYNxl/c4nSHGyGrtVWkARrcdiitgUte4NJ4NkImpRt9rCRcx/9gOEo62x
+         QMcg==
+X-Forwarded-Encrypted: i=1; AL+hErFoLdYFS1jU2LcjriMstg5M9mQinrcmhzQEacBnQZX1WYnZxOgiKFL1XNFbbJRTIwOhTf7Jq01/St6itg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+HO2uQwNy+jJGJpaVL+ERgfuM6noAJHALz0Urr7p2GV3ZGetg8
+	LN9R4adrGsrQKP2gfdH8AgMT9AHYvPRadM0OlyHAIEFVJctV0yhwm57c
+X-Gm-Gg: AYBFou00sbTFH3faYkrX/T+Nzu+nAAH4+X7uxxGs4xJcJeG+0DO+hyjE6aAZlNd9xax
+	rCa6TsAHNPT9huCUxRUPiMundmY42BD8wjNKRtyTcsIXxb3+9kNW+8G+HfuwihaeQgXiFDsbquR
+	sqxbXHGVUkVOkt7KmU1KLvhy6VxEGoGbI8HBboci86frjW6ylWFjQgH17LpOzLPQvR55I3zWF3t
+	PRVBgB7WX2gnc6E1q8th2W5EA7erDbeVZbCeZg2ntjFJ0HjC10iNla27yq4xY+42uqzuxFUTK6c
+	vvQOXVnnA4srIzMO7GBuDOI8fk06n+Zinxvt/sdOD3DGc939P0EYu2BUYViM9HiRFcROlRyaoEw
+	fk8BmLk4SxQ+KKml79NdoztaTP6MYbzyYiktwJNpKImHGB7/E0c1wJg2fdsHGKL0ita2tl2LN0C
+	UTn4QJNWDAtlriEcEo5BdIHd6DPZ6LF/eMDZaPQUEOehxXLdF8WSkZHW8MYelT9FNO7SBqwTdIN
+	6rYpKxt58vi+PCjJ4Iv9v6u9+ZngUA6ExLoeHHtdHMxbqaAEVIc00I8WvkVbzdSbqsos73UT3K9
+	C5CxNspuRN2gw+tU2rP7JOrNQFdPXPpx6dyNJzoRuh2m+t5cSOqJ
+X-Received: by 2002:a05:7301:4701:b0:369:f0de:259f with SMTP id 5a478bee46e88-36f76c170e7mr6611322eec.35.1794053577701;
+        Sat, 07 Nov 2026 04:12:57 -0800 (PST)
+Received: from localhost.localdomain ([103.177.253.113])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36fa9fce02csm16721778eec.22.2026.11.07.04.12.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Nov 2026 04:12:57 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: tiwai@suse.de
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	sreekuttan2156239@gmail.com,
+	tiwai@suse.com
+Subject: Re: [PATCH v2] ALSA: control: Synchronize LED mode accesses
+Date: Sat,  7 Nov 2026 12:12:35 +0000
+Message-ID: <20261107121235.3521-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <87eccxyplk.wl-tiwai@suse.de>
+References: <87eccxyplk.wl-tiwai@suse.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,40 +100,20 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LhsjUHfp/Oga+bJA"
-Content-Disposition: inline
-In-Reply-To: <20261107113234.7C6DB28F32EB@traversing.sirena.org.uk>
-X-Cookie: Whoever dies with the most toys wins.
+Content-Transfer-Encoding: 8bit
 
+Hi Takashi,
 
---LhsjUHfp/Oga+bJA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I would like to kindly follow up on my first patch.
 
-On Sat, Nov 07, 2026 at 11:32:34AM +0000, Mark Brown wrote:
-> The following changes since commit 6628e7d4c6b25c8d18f1345e3a20d21829aae7=
-e4:
->=20
->   Linux 7.4-rc1 (2026-11-01 13:26:31 -0800)
->=20
-> are available in the Git repository at:
->=20
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/=
-asoc-fix-v7.4-rc1
+Could you please let me know if you have had a chance to review it?
 
-Sorry, my scripts got confused - this is duplicated.
+For reference, here is the patch link:
+https://lore.kernel.org/all/20261106162357.3616-1-sreekuttan2156239@gmail.com/
 
---LhsjUHfp/Oga+bJA
-Content-Type: application/pgp-signature; name="signature.asc"
+I would appreciate your feedback whenever you have time.
 
------BEGIN PGP SIGNATURE-----
+Thank you for your time and consideration.
 
-iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCau8VIAAKCRAv73Ows9A4
-iSreAP0Tm44/1x5KzwiVsJUSyDT4IYYZHC9REQc9AZUVjCMIvAEAp4w8ec/Hwt5z
-CpABLrIXlVAqp775rZ6dpmo0NBVlIQw=
-=hAYN
------END PGP SIGNATURE-----
-
---LhsjUHfp/Oga+bJA--
+Best regards,
+Sreeraj
