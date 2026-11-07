@@ -1,74 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794044930;
-	b=FxN8x0CdoVmuXem/PbyuZoavU79Lrb/y11DkGIRuhpDeJYYbN7ZNLB7eLcnRSl9w9bSe
-	 rYWYwbsuPSUJu1yNcsBJRf7TfIElA7NWyzg3rhe6M4UvIGFwzypQCZBimsXWhuv2uiMUO
-	 yB13Deb9RKSvdZgwpL0A2CgCFVGKmGw5TBxalc+OtpMI8DlwYuIdDt8T+7GWCg7GFwsXG
-	 2cOMmw6L7kyXLbwiRiG6by8jyMWLJolvKwMJcdk+AMI84zGJSXlDtNuaY2FqbXjcgxWny
-	 505wsLusQcyNy03C3qZ0kfdlO+lqZHE7WP1mI5jxNRR0MIitwhk2bkzMmjsn6WbB0xQ==
+	t=1794046352;
+	b=i59WYP43JWSWqUmW5cT9N0EbN8h++jnI0sMpsYfpH4/QwBhnf/j1SINaWlM7NOdrfkB4
+	 NQyVsEZMucQFKCW3IFQu4DsUtVebVJ3Qko6jnFj0rSltWzZICdcCNUr5q/qS48PfrVfTp
+	 f44okIaD+c2pKWec/Xiue8vF+ubnTdmokw+CIcz78sVdnGKYWEXT0Ox3LKhOv36HwULWz
+	 K5tz698yWhldSZpoZlwAs1YbM4EPEGFNbk4C7XeJGDyLpyL87Q3wDg9NE21aB4fH/NIE8
+	 ezJavaXQ2sRmgs1axBF72pIDkyzkzDdz0omaboi39f6MQ3wZ4+GnjsZRuE0Vg+4y6Bw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794044930;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=rorNI1UIic/55wFWIBl0e+Ri75FN+PnMt9WvbEXwkRc=;
-	b=U7/psnXgEAnYQfxcSYHkkcUaBfLtp62nIG71yjEKq9ciYEBylQLa1LRNjfxuI8QXWsQc
-	 I6sGz2e6w6flKpwB3Gi59o/W9xwSWMotfMs8WhV/A4PkVzmRf0kzY6kGLWlBV69TJS6VK
-	 y8RCWYnIQoFkNGesjqgVrUUl9jcFQE9zwooeG9FHN/3/rX2h7/IDeGXJS1IPkU83u/yfm
-	 x/kyM1KupAhNeUhYagHFQ/QuCeoP0LMtpamDdbaNo70nyBMM0xyMQyigE+SjBOXQcCqAj
-	 /9c66oNu7IYlPouJfRw7syEROdKPuzSCD38Uj3D8yBaUJmO/YKo4Bs7G9XBhIToBd2w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794046352;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=Qw5FjnXXfzwpDGlNW2PfeJtFwV+3pUInVwDZZKmI6fY=;
+	b=frhizmAj8uEel3+tfY1QQoofeoeUWY1Z0qc/HB0FOwlIeOlwC8kDFD31T9ntL374GTEg
+	 BcuIz1ppUMCLGqvcmsFob0TW9rwUl6aKOiePOjjnV/o0SrbY8ZGxJWTuleP2zWhbHN5Ux
+	 KHbYdQCUQSkJPoGBrT69t1eWaMChtSzkCrGxu+8RVf+28k6Ki8AD2VxwtJQngz+JXFHcF
+	 aHtKiugaJoIxbI6V++0y9gtSMMteDrLqRuor8bnX1U15ddlasDchgh7Eh8xJv6rbLKsGY
+	 vpKOpvU1uWIsDIw8iMFCryEcB3oDW4LuaOm4ZXLBArFL84b2mwCrTaQ0oojcKFCCcFg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iW02CE60;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=acnxV8t9;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20473606D801;
-	Sat,  7 Nov 2026 09:48:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D14606A331;
+	Sat,  7 Nov 2026 10:12:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67D14606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iW02CE60
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 328FB1F0089F;
-	Sat,  7 Nov 2026 09:48:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794044929;
-	bh=rorNI1UIic/55wFWIBl0e+Ri75FN+PnMt9WvbEXwkRc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iW02CE60RHF02fEuqPqKcJf6i4V3KTjWDHzo9DZbo95gORtH0ZrmCJDxrNOCnD4Id
-	 9WnOBlB++VD4fZIWQsCzrQhJIry0nbljvHblYH3quGITH2PJSiPvwUzFopDT7DZDt2
-	 EHHmNwDws2w9I0dTG1wwVA0PVma1a6Hmr9kUmUnaP/d8oN+oH0kQjwhxNPRQPPwlA4
-	 xw0Rt/uXRWnSdUas9IyJY6YU5S7A3WpR700rHxBipZTWxfOwImozcBkuV3AdARVDwJ
-	 t+x6t7k7LiUG553yMU1QgCJYHr0hUKV7+ybnwND/Tl+BQydELSVgjRpI3YK5OOLnj3
-	 agc3DJMfrldDA==
-Date: Sat, 7 Nov 2026 10:48:35 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
-	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>
-Subject: Re: [PATCH RESEND v2 14/23] proc: let procfs copy in writes before
- pinning the entry
-Message-ID: <20261107-akteur-gemieden-eckdaten-21304d085e35@brauner>
-References: <20261104-work-procfs-core-v2-14-76ace653a773@kernel.org>
- <CAMuHMdVfakapgBK6TBhO1iWX8qzvLDk8jzRS=t2MVa5G=MCUeg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=acnxV8t9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794046348; x=1825582348;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+0bzElMLRQVQdeuAy6k4sQcLdl/lR0vD4aQMswNIzmg=;
+  b=acnxV8t9A6pr2EtyClRwFU+9heG+e8P7ChrBIO1uM1CHMXlrq6IIrxbQ
+   A6OgOzYyq3H5Q6BDyli8xJgQs8mwMqaBr51ZkKZ08b29LvGFLOdN42wcA
+   O/MFwuqmxY17NLbssro5dJtEb9YtAPjMLEd1MW3IzvvH1KilRbnjvu6kg
+   cSLfIE+yj1RGlLJV6XGqGsgwpPEhU36WLWlZUzbYjEFdJJCPuq+cl7iTU
+   RHCskcGthL7RHWm3tlXQ10gZYnm2EYbmWlsZ093PMgLZuKBHJs51lOegA
+   zBxkF0NbpfnLvX1r8wOjbfHwLpG29zwMGP1mNHHYveuvfjnRCeNcwcjTZ
+   g==;
+X-CSE-ConnectionGUID: LJQmv9VERBWSG2fA6tlPlw==
+X-CSE-MsgGUID: HCQZpLSjQyiA1rrPFbr0TA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2892365"
+X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
+   d="scan'208";a="2892365"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 02:12:27 -0800
+X-CSE-ConnectionGUID: 2rjWWHb6QYmHb4j4e90Wlw==
+X-CSE-MsgGUID: 5t5VTdhRQMuVE/6lieGArw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
+   d="scan'208";a="7498928"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 07 Nov 2026 02:12:24 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xPdPK-00000000qhD-02IR;
+	Sat, 07 Nov 2026 10:12:22 +0000
+Date: Sat, 7 Nov 2026 18:11:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Syed Saba Kareem <syed.sabakareem@amd.com>, broonie@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Sunil-kumar.Dommati@amd.com, vijendar.mukunda@amd.com,
+	Mario.Limonciello@amd.com, venkataprasad.potturu@amd.com,
+	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	"open list:AMD ASoC DRIVERS" <linux-sound@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] ASoC: amd: acp: add Cirrus SoundWire configs for
+ ACP7.F
+Message-ID: <202611071819.8CnKog4h-lkp@intel.com>
+References: <20261106191627.1590542-2-syed.sabakareem@amd.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -78,58 +90,55 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVfakapgBK6TBhO1iWX8qzvLDk8jzRS=t2MVa5G=MCUeg@mail.gmail.com>
+In-Reply-To: <20261106191627.1590542-2-syed.sabakareem@amd.com>
 
-On Thu, Nov 05, 2026 at 11:07:32AM +0100, Geert Uytterhoeven wrote:
-> > +       ssize_t (*proc_write_buf)(struct file *, char *, size_t, loff_t *);
-> 
-> "const char *"?
+Hi Syed,
 
-I prototyped this to have a detailed reply. It's not worth it.
+kernel test robot noticed the following build warnings:
 
-* The buffer is the entry's private copy.
-  procfs creates the copy for this specific call and frees it
-  afterwards.
+[auto build test WARNING on broonie-sound/for-next]
+[cannot apply to linus/master v7.4-rc1 next-20261105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-  A bunch of handlers modify the buffer in place and it's documented as
-  allowed:
+url:    https://github.com/intel-lab-lkp/linux/commits/Syed-Saba-Kareem/ASoC-amd-acp-add-SoundWire-speaker-quirks-for-Dell-platforms/20261107-004611
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20261106191627.1590542-2-syed.sabakareem%40amd.com
+patch subject: [PATCH 1/2] ASoC: amd: acp: add Cirrus SoundWire configs for ACP7.F
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261107/202611071819.8CnKog4h-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611071819.8CnKog4h-lkp@intel.com/reproduce)
 
-  - afs_proc_cells_write()
-  - afs_proc_sysname_write
-  - a chunk of the sunrpc cache channel ->cache_parse() implementations
-  - thinkpad_acpi's ->write() methods
-  - SCSI devinfo file
-  - dyndbg
-  - cio_ignore
-  - the pseries ofdt parsers
-  - two more hand the buffer to a char * interface:
-    - the SCSI host ->write_info()
-    - simple_strtoul() in proc_scsi_write()
-  - four strip a trailing newline in place
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611071819.8CnKog4h-lkp@intel.com/
 
-All ways to make that work suck.
+All warnings (new ones prefixed by >>):
 
-(1) Copy in the handler. That means eight kmemdup_nul()s and a
-    kvmemdup() for every nfs downcall.
-    IOW the copy this series just removed comes back as a copy of a
-    copy which is not acceptable.
+>> sound/soc/amd/acp/amd-acp7x-acpi-match.c:394:43: warning: unused variable 'acp7x_cs35l63x4_l0u0246' [-Wunused-const-variable]
+     394 | static const struct snd_soc_acpi_link_adr acp7x_cs35l63x4_l0u0246[] = {
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
-(2) Make the parsers work on spans which also sucks and doesn't solve
-    all of them.
 
-(3) Leave the buffer writable. Costs nothing, nobody else can see it.
+vim +/acp7x_cs35l63x4_l0u0246 +394 sound/soc/amd/acp/amd-acp7x-acpi-match.c
 
-So (3) I think char * stays.
+   393	
+ > 394	static const struct snd_soc_acpi_link_adr acp7x_cs35l63x4_l0u0246[] = {
+   395		{
+   396			.mask = BIT(0),
+   397			.num_adr = ARRAY_SIZE(cs35l63x4_l0u0246_adr),
+   398			.adr_d = cs35l63x4_l0u0246_adr,
+   399		},
+   400		{}
+   401	};
+   402	
 
-> While at it, I think it would be good to use this conversion as an
-> opportunity to replace "char *" by "void *", which will probably let
-> you drop several casts from users.
-
-So I tried that too. The thing is it drops exactly one u8 * cast in
-ntfs3's label write. And to get this done we need to introduce a whole
-range of local char *foo = arg assignments. So I decided against this.
-It just doesn't add value.
-
-Thanks for taking a look!
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
