@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.195.68
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.194.50
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794066528;
-	b=vBENjGni6GvPHYSkjfAC+fN9hdiJQhrtc4dGxktFSiPMkMMSeptpP0aKhJ7IByxDboBL
-	 WTDmL8GwSfPShToN/eIaUubv5YoHmFg6DPkYgaLpBomB8G85W7W65mhdQoXTQmQbllM/k
-	 uUcZxR4UqslwXnssLDBFlVAFhfrIQe3crtGQMB8hihArAc03thSjo3coty88qYAHRFEyn
-	 Zl2MeRm0QzMnBzU4/G/I7UsIcQZpbClhHC+1SbR17G/W/p5C3UAWnbsN1eh3FZa4Sy4jR
-	 F9zbd+z/onAXiiw3CFqh6czSSlPopfKWdlqJeRKF9QvPAZoxmfkYbT1Em9O7jW47V5Q==
+	t=1794066534;
+	b=Lw/HwLHKvWP3W7rHHIrtOf+vmDVmrj/zsYme/Szpkf0exY2jXz87Osx/+au7yp8K0m8l
+	 gLWJx87Hxl8uXBc0p/Hhm7x6BZbUkPPN9VcuHzqL/v3kCV0hq1nCCRaRR8Osc3asvW973
+	 C84Xw9PsPoLFSdwG0BQN5KRMuo/ezTHVS9BvQ6qyTE35GDfhiU7qRA0T6uD51Nik5mG+U
+	 WlSEwaYDto/OoK049hXXoOcGk0kiCPdViaiwKdLRtLjnU8GRIj/YJWZ/PDR2v/dnh+tVP
+	 3eMtg92F3jbOlW5JXIVslXDI8+SI5j9fjnNiN9Ph8nUVOZ0hUppqUo0YAizYl9+2DjQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794066528;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794066534;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:
 	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
 	 Received:Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:
@@ -26,74 +26,74 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
 	 X-MS-Exchange-CrossTenant-FromEntityHeader:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=i5RwIZeeHADc9m7tha0nyd6eN/74ccaXZapot1cWFa4=;
-	b=oY7kgNdTSV6AxVQF94FQsDMJhA7+XgdI3Si0AApGc2MwpeH0M9HnubUK3STxf1gvzPK7
-	 YVgp21MX4qrE8zAHlmauZy3SKAY5Irfgbzhd4gvwS8yoxt0a6grLh8Tkggb4gwRKIT0NW
-	 hvI+zcTUQQWeNND9pMtlctu0P0CIz6J6Ls8sCVkoc8VlsV9XHDyp6F8dbbzhgGWpG9zeG
-	 FSl7yop+w/uCi7F5fEZHgP3Y+Soyzbn/gqjHZrnix7FML88e/mxs1KdyDJvguNNsYhyQy
-	 69uFC7RHzclxal7mZkoWkhZkj7bBvhJq6XqtbT052EegL97pcEf4VnSQ/0m/GzlS1ug==
+	bh=HmKBCmKk7hRUwNt1A1mdws81hJGlC1N2BVaPlnuItqU=;
+	b=BFZptgL6VhYT+mPXJ8ova45gQYKsH42EEeJ8v4lBFHp7tXjaGJYIJyAMPhZZhWBTJuth
+	 ue0PD2g+tjf3d/ZdewhFa1hIZCG7AyFQbD0LTuZn6hWZd0P5nPcNyd9yjyjX/ItGynw8J
+	 gXJBXTWsNR1+j4L/MSYAulTL7XW2hOJ6OGKjHi2C8g5smqi5dkIj7D9d+WsSbLTGVFk5z
+	 Jrt98OnIGOPpbwOe14ihYV5x0jY95zQSkN0rPCSmh7rqd8cYWRwE+x6YPOt46RrYD7YH2
+	 vBry9ATG3etK15WYOY+M3zf3hpu1tjYPVdL2K+F/F+Nh/ySJl/1MWznv5wjBGai79kA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=amd.com;
 	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=igRBaoCN;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.195.68
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012068.outbound.protection.outlook.com [40.93.195.68])
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=Rl4hxD3N;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.194.50
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011050.outbound.protection.outlook.com [40.93.194.50])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A9D6083638;
-	Sat,  7 Nov 2026 15:48:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79A9D6083638
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4786D60A2631;
+	Sat,  7 Nov 2026 15:48:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4786D60A2631
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=igRBaoCN
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=Rl4hxD3N
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fZtSKj9l3Skk83nBjBJ3DFnhYa2xvkBnQYW19RBr4xo81M1uaTHia1VUE82QzY/RMBCttBEBOAQOvATd+edsf/ueUQs5eGYWdxQhlq45Ar7tCGIF2dj50EQaZThfipBxLn4ksU9L9HVW0ckHWAG5S71d3idM2ci4zsOxZbHyXUS46gCoLdcXrN9/SEfoSEkJ4VBZvRE2/gGUuYQQiVIoV+0QqCOI/+1sGqI9n1iHDtP+C281egikBQjPkayq+3PjcMd2GuxqjbMn02mTTF24HCxralL+9/2eftMhubtNXCe6qnetMSyswThwAbsFCkoAD8KlPcH8pBywoEF/azu9Og==
+ b=Feqr+pwysfsux3TQSLHerww6Rmc2QNEoHiKloPECGVtEhQ0HJFN/EfyGLnn4orMfFsDwkqkMFhsTweLMTpWxis1veG1nfVqC1M4Z/u0670FWfh49uiFnXib+Z68Y1naTxX7+yqlWeT15ZBOJRDrM9oW+7Ioa+kwEIZ63YFPR1YuF8rqG/firn+KG8RgXqdQtJHmbkRec61kGCaKKvRuVZPlVIL3QXj2Tqi4mfZEQmY4/EC2iH2m8ilxy8uPVwTZI4UYU+8hm86mLx/w4myK8efArYts39Hr98YnpZMhDrW+/pBJp5VuUc6uy+yD6PXWCdlIUnI6G6f7IpucMAC1Bqw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i5RwIZeeHADc9m7tha0nyd6eN/74ccaXZapot1cWFa4=;
- b=cAz5uzJWvD5Aqhul4bdQfg/Ntrrds3rRSMMsjLWcyZyZbCI0sfOZkjNDueDPNyW77ZFhFuhUS7FYumiS7yl1ye5DHHiAElOeEbPuc2TlC2S+88TeqPWo9kb+bEs/eeApcUdc5iytH2jNcQGoGEopOe2iEZTjqLs5pxATicfF7WNBQZHgxDVOSsDtBIHakRrg4nxpzBP8q3Fl3Q7SuAmoBfxRJo+pxeHWAqL1BylYIVOHeiJfitHD3cM7avuCta6RiRonZtul619rIdLYRQTBnpg2l1IqyuT1S2Fo0MTN7pB2HP8S9kg2r8fTwzm/FRnc+6/uUm3qPjpICHnIN1WqFg==
+ bh=HmKBCmKk7hRUwNt1A1mdws81hJGlC1N2BVaPlnuItqU=;
+ b=pKDLXe0QK4g0iDcIOpYEA6iD6P++U/J4Zo9qnLT9DAv9eATSXdcXNvV/qZKN4nIxyuRgTwKPVZC5qCKVc2b5dqvsfsKUNwTHwdNx2glQELaZkd/q6B0zz5J9rcBKE/rxSNq6y1uN1WTrlI6jW2b5pmwt9khqfYZ/QWGQ8pMWPTooMWhM3ELaigffggkYenk+cZje8a3qvIne0CCbG3Gm3KbKcwTmC+HQdDR/cUzXmei9xWHiW4tVferdX62fB6zdGeiJYArKtjXZjyedQvyayi4P8UwJz5JD7rtCXqYecXpzekHtuir4ORS4dyizFAMbkUpmaKNyf9nQbEoVNnQ4lg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i5RwIZeeHADc9m7tha0nyd6eN/74ccaXZapot1cWFa4=;
- b=igRBaoCN7b7w91BVlqfGE/tcJTbOiRkiAhmbgR3Di0B2xOxLNgnMvXCny0/x03VdHEGn1Y8AShIVqs7Qt71a3xn9PKhuEPkmx7FGf9uICcq65EjRpkJds3+3PX2gnkbUfOEuQrrbPWjP0DBhPnrNdX+ZvakzHu7JV9wpd6W2yIM=
-Received: from PH8PR05CA0008.namprd05.prod.outlook.com (2603:10b6:510:2cc::19)
- by SA6PR12MB999200.namprd12.prod.outlook.com (2603:10b6:806:450::24) with
+ bh=HmKBCmKk7hRUwNt1A1mdws81hJGlC1N2BVaPlnuItqU=;
+ b=Rl4hxD3NVK3t9kHrk6SyyPR+M56734wySeoMgVdpfyzpbcF/bIgDyFgAknwyG5dRNMv9YLjiu8kD0iHcSQGTXspUko5A2kEFg4z91wq0X+edU+mSvzOcu+7KstOZJrx9F68wBNvMTt5obpEm7geNcIjZmWSHI8oWtd0AC9VAN9g=
+Received: from BN1PR12CA0015.namprd12.prod.outlook.com (2603:10b6:408:e1::20)
+ by CH8PR12MB9766.namprd12.prod.outlook.com (2603:10b6:610:2b6::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.11; Sat, 7 Nov
- 2026 15:48:44 +0000
-Received: from BY1PEPF00026965.namprd05.prod.outlook.com
- (2603:10b6:510:2cc:cafe::9) by PH8PR05CA0008.outlook.office365.com
- (2603:10b6:510:2cc::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.6 via Frontend Transport; Sat, 7
- Nov 2026 15:48:44 +0000
+ 2026 15:48:49 +0000
+Received: from BN6PEPF00000072.namprd03.prod.outlook.com
+ (2603:10b6:408:e1:cafe::56) by BN1PR12CA0015.outlook.office365.com
+ (2603:10b6:408:e1::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.11 via Frontend Transport; Sat, 7
+ Nov 2026 15:48:49 +0000
 X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
  is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BY1PEPF00026965.mail.protection.outlook.com (10.167.244.149) with Microsoft
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ BN6PEPF00000072.mail.protection.outlook.com (10.167.248.199) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Sat, 7 Nov 2026 15:48:43 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ 15.21.615.4 via Frontend Transport; Sat, 7 Nov 2026 15:48:49 +0000
+Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Sat, 7 Nov
- 2026 09:48:43 -0600
+ 2026 09:48:47 -0600
 Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb10.amd.com
  (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Sat, 7 Nov
- 2026 09:48:42 -0600
+ 2026 09:48:47 -0600
 Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
  satlexmb08.amd.com (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.53
- via Frontend Transport; Sat, 7 Nov 2026 09:48:38 -0600
+ via Frontend Transport; Sat, 7 Nov 2026 09:48:43 -0600
 From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 To: <vkoul@kernel.org>
 CC: <broonie@kernel.org>, <yung-chuan.liao@linux.intel.com>,
@@ -103,9 +103,9 @@ CC: <broonie@kernel.org>, <yung-chuan.liao@linux.intel.com>,
 	<Richard.Gong@amd.com>, <lee@kernel.org>, <Poojitha.N@amd.com>,
 	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
  Mukunda" <Vijendar.Mukunda@amd.com>
-Subject: [PATCH v5 09/25] soundwire: amd: fix SDW command timeout return value handling
-Date: Sat, 7 Nov 2026 21:15:18 +0530
-Message-ID: <20261107154659.3358223-10-Vijendar.Mukunda@amd.com>
+Subject: [PATCH v5 10/25] soundwire: amd: return response on IMM status cleanup timeout
+Date: Sat, 7 Nov 2026 21:15:19 +0530
+Message-ID: <20261107154659.3358223-11-Vijendar.Mukunda@amd.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261107154659.3358223-1-Vijendar.Mukunda@amd.com>
 References: <20261107154659.3358223-1-Vijendar.Mukunda@amd.com>
@@ -122,164 +122,73 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY1PEPF00026965:EE_|SA6PR12MB999200:EE_
-X-MS-Office365-Filtering-Correlation-Id: f759c3d3-f9fd-4542-dd0f-08df3ce69a5b
+X-MS-TrafficTypeDiagnostic: BN6PEPF00000072:EE_|CH8PR12MB9766:EE_
+X-MS-Office365-Filtering-Correlation-Id: a5e97306-c107-4bec-79e8-08df3ce69d94
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|1800799024|82310400026|36860700016|261026140227099003|11063799006|261022075727099003|261022113327099003|261009223027099003|56012099006|261022105027099003|261021121427099003|261022115727099003|261021133027099003|261021130227099003|261021135927099003|261021123027099003|261102123227099003|261026135527099003|261026121527099003|261028144727099003|261026130827099003|18002099003|22082099003|10067099003|13003099007;
+	BCL:0;ARA:13230040|376014|23010399003|1800799024|82310400026|36860700016|261026140227099003|11063799006|261022075727099003|261009223027099003|56012099006|261022105027099003|261021121427099003|261021123027099003|261102123227099003|261028144727099003|18002099003|22082099003|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	BcWYii4MBtZaDe/qTrhefd6yxtCJuYke2+3R3jnMZ1kKMVI8Dj25ClBDthNv+X+8BMxjMqLlyM7zkbUwuA3VEySnAtlyIBLbLutHcwx44U3A33MIzcZisc4JUu/7ZsMySxouNPq86C74X5vSUtM+RXFfTSI6bE4EdsjMzH6y30auoTYSP+9DbPAzg/tVmygYo5WUThD72opdJ7p43kvxACAoGYhEoTCGnwuqVhKJDp8ueLvmQAc4/cVVUD94RhwKMvBn/RG4/Nl9w9kVf9sW1IS0GEGD6ZIYaArJDw2sDlQrJTz8lcLX2hcLIiHV4c8189N0D/ISunLYIb/NRuHhIUyh84y+W3MqhYunSh/fyltVgYk6A7v2JOjg7VT9V2W5QHzWd31zNSU9cJDoYulqf23rgNKOwXx5bqruCzaiTDWfjsRgoMCYzcZha24rmyM7UnDAKYR2vA9+2RJo+RF+baXotSrW7G9jFNgoeI4Lqmyecod6iVfqQ1V8p+/do9tOlV4KdfB4UMMDplrK3qIcBqLfrm2cYPBIbSzHBe61CdAL3cmiBDOkY3jHF8pqy1SEJGy8bNn8z/pDzTI6u6cZksIrClqS6SGRDCf5BFNNuFylSElCCoF0goUMBlf08l7z0POjNbmzCP4zcqKJAgFMzg==
+	8r8P96ybPxjI1UCMWfOaMtEfahSZAZ6zJZ31cNrYsoCC7tV4wjun3RVvHOvrl/thBuZyLr9D2WANTADWG335rtpZGSyWdd7FMlmdZ+7acNx6i9/I17AOpbmtXDqWSPv8G5rrs52xCAhDyO/Ax21pJZ4EA/Zi5f+bXS6fU6JchXGY5EK/wWJXY3h4hp8ZlnPpDBKN5z+NbHJDHFSvI29zmsC4Xq93RrprP7NNrzU5rfEoyF3AdKChgFTJ2xPnw4lHp2zxnT4NGN2adeanurpnGnnxaEqXVxgNHiWlSJKBdKyOWxkPN0DHYDkvXNx+coSxGbilDxkvtLhOMC+ov/+phnNMDLfZzc7aBP0zfNj3ZqG6YI9jplnfiW6CshAh/4k2mqTmCAAPN2NSlNt+AtpwwZBe4uRiLf5+BrIQfm3aBHcMQVv12+TQL4fifMRr9/Tv4RKO/WPZOiFSPpprbU7Y6mChHv2iMxjxXHkidEjIhZiP2Ly9nTlAV1R225hsR3LwjhH10xKz6XfIHnZA5I7mLAxJswkKzV+rlBN/+HKurLyJKsRrmyHQoMr0R351fQok5XePOZDbGWLYet7S1FCrhBgAZc6flN94Eay9ghKIZGhXiHAITaIlGYUO7wY74n93t63A7ssBdn9lBJnQ0sncbtcJcwTwDTRrC3MgXQ8f55sjfe8O2RgiPcl33x/XbwsKSDhVWajgXxg5ukNcYj1SHw==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(82310400026)(36860700016)(261026140227099003)(11063799006)(261022075727099003)(261022113327099003)(261009223027099003)(56012099006)(261022105027099003)(261021121427099003)(261022115727099003)(261021133027099003)(261021130227099003)(261021135927099003)(261021123027099003)(261102123227099003)(261026135527099003)(261026121527099003)(261028144727099003)(261026130827099003)(18002099003)(22082099003)(10067099003)(13003099007);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(82310400026)(36860700016)(261026140227099003)(11063799006)(261022075727099003)(261009223027099003)(56012099006)(261022105027099003)(261021121427099003)(261021123027099003)(261102123227099003)(261028144727099003)(18002099003)(22082099003)(10067099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	01ZMi/3MdE3SVdDknS3KjvMUexpzSacDyDC61mbOiqj3q5Ql8OZz5sCukhppFlV86w6KgR4k07O5k3sJe8m15Rp8Uv+QYDUJ5N0mgWrO99A+dog+SztXxZKvX5bfqSj4/3oqiIkHnkzJJFE6r+CXR8gICVc/LfuE7K/YhtF36dkU6MYXuaY+yqYZxjB/iartS2opr7yelBw7MBpU7MkDY50757CWIpmvk8FYnVOXRhnXZgitaEuCoqzVLaM+kqcKlHtsDj1VCdAZaN9s3fx0f7RX3hQXH4S1xCRlf7T8tJ5e0Ge6i2yZOEIpkzCMCj5NLZ5trupsANp9gcHR8Kd3cKBji2ehoTpQoEEmhCFt9CmwwcBt0Yh1SyAsaGl8F5RvNOLYFeOTZDb0en00aMO2RfvzqJLG2UGJ9oUHQY9VRrNDg+23nHvf34w/DBA/fsa0
+	b77PUz8DSpekrE8l+p0knuM30JWrCKKPBKkqzVKTTh3A5a2sxQirpuLSzphh3QSQ6Px4DI+s6IGY/d9rD3E/RJ6SgJ39kBQ5BeZS4aKD77eQ6jBeaHoh1Mg/iQy/q7ac38KLLsmwCUgj9Ob8uDoZPFjoiqANy7FhouPliFmTvRXI1FrLJFCeAGGpNDOF1gwjM7CCEOyu1w7Cd8dODi94k6ySkgxpewnGsppy3XoR7nmDJ1Q7tn6PEY2t1ug/dfYA2JaNe/Ra0AKWyaXio3Ct64Spff0zNt1RGVugH9RIoajuVTfh8mcZIC0wFLJzWhgpTYtPkfg56+h+7Qq/1JcQtpfuE+H8rE4kRLnRGh1kcVYfNYP9rhf8snPG/x9nPWnc44GmbD873bgE11ZypOBSPBYfPKLCpI9g0/kn4eKvM0qLZBh1hfuDF1nVM0+hLQNs
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2026 15:48:43.8465
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2026 15:48:49.3361
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f759c3d3-f9fd-4542-dd0f-08df3ce69a5b
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5e97306-c107-4bec-79e8-08df3ce69d94
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	BY1PEPF00026965.namprd05.prod.outlook.com
+	BN6PEPF00000072.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA6PR12MB999200
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH8PR12MB9766
 
-amd_sdw_send_cmd_get_resp() returned u64 but was returning -ETIMEDOUT
-(a negative int) on readl_poll_timeout() failures, which silently
-widens to a large u64 value.
+amd_sdw_send_cmd_get_resp() reads the hardware response after
+IMM_RES_VALID is set, then writes IMM_RES_VALID to acknowledge and
+polls until the bit clears (status cleanup handshake).
 
-Change the return type to int and pass the raw u64 response through an
-out-parameter. Timeout is detected directly from readl_poll_timeout()
-return value.
+When the cleanup poll timed out, the code returned the error without
+writing *response, causing callers to report SDW_CMD_TIMEOUT and
+discard a valid response - upper_resp and lower_resp had already been
+read before the cleanup write.
 
-Update all callers: amd_program_scp_addr(), _amd_sdw_xfer_msg(),
-amd_sdw_read_and_process_ping_status(), and amd_sdw_read_ping_status()
-to check the return value and handle timeout explicitly.
+The cleanup timeout indicates the hardware was slow to acknowledge
+the clear of IMM_RES_VALID, not that the command exchange failed.
+Log the anomaly at warn level, then write *response and return 0 so
+callers receive the valid data. The stuck IMM_RES_VALID bit will be
+cleared at the next invocation by the existing bad-state guard,
+provided IMM_CMD_BUSY is not also stuck at that point.
 
 Fixes: d8f48fbdfd9a ("soundwire: amd: Add support for AMD Manager driver")
-Reported-by: Lee Jones <lee@kernel.org>
-Closes: https://sashiko.dev/#/bug/linux-c3a53ed5-eb8f-4982-a3b6-db189e009b68
 Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 ---
- drivers/soundwire/amd_manager.c | 54 +++++++++++++++++++--------------
- 1 file changed, 32 insertions(+), 22 deletions(-)
+ drivers/soundwire/amd_manager.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
-index 3f3fffbd529a..f2ed0490aa82 100644
+index f2ed0490aa82..579b12946c0c 100644
 --- a/drivers/soundwire/amd_manager.c
 +++ b/drivers/soundwire/amd_manager.c
-@@ -348,10 +348,9 @@ static void amd_sdw_ctl_word_prep(u32 *lower_word, u32 *upper_word, struct sdw_m
- 	*lower_word = lower_data;
- }
- 
--static u64 amd_sdw_send_cmd_get_resp(struct amd_sdw_manager *amd_manager, u32 lower_data,
--				     u32 upper_data)
-+static int amd_sdw_send_cmd_get_resp(struct amd_sdw_manager *amd_manager, u32 lower_data,
-+				     u32 upper_data, u64 *response)
- {
--	u64 resp;
- 	u32 lower_resp, upper_resp;
- 	u32 sts;
- 	int ret;
-@@ -389,9 +388,8 @@ static u64 amd_sdw_send_cmd_get_resp(struct amd_sdw_manager *amd_manager, u32 lo
- 			amd_manager->instance);
- 		return ret;
+@@ -384,9 +384,12 @@ static int amd_sdw_send_cmd_get_resp(struct amd_sdw_manager *amd_manager, u32 lo
+ 	ret = readl_poll_timeout(amd_manager->mmio + ACP_SW_IMM_CMD_STS, sts,
+ 				 !(sts & AMD_SDW_IMM_RES_VALID), ACP_DELAY_US, AMD_SDW_TIMEOUT);
+ 	if (ret) {
+-		dev_err(amd_manager->dev, "SDW%x cmd status retry failed\n",
+-			amd_manager->instance);
+-		return ret;
++		/* Response already latched above; timeout here is non-fatal.
++		 * The residual IMM_RES_VALID bit will be cleared by the bad-state
++		 * guard on the next invocation, provided IMM_CMD_BUSY is not also stuck.
++		 */
++		dev_warn(amd_manager->dev, "SDW%x cmd status retry failed\n",
++			 amd_manager->instance);
  	}
--	resp = upper_resp;
--	resp = (resp << 32) | lower_resp;
--	return resp;
-+	*response = ((u64)upper_resp << 32) | lower_resp;
-+	return 0;
- }
- 
- static enum sdw_command_response
-@@ -407,19 +405,22 @@ amd_program_scp_addr(struct amd_sdw_manager *amd_manager, struct sdw_msg *msg)
- 	scp_msg.buf = &msg->addr_page1;
- 	scp_msg.flags = SDW_MSG_FLAG_WRITE;
- 	amd_sdw_ctl_word_prep(&lower_data, &upper_data, &scp_msg, 0);
--	response_buf[0] = amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data);
-+	if (amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data, &response_buf[0])) {
-+		dev_err_ratelimited(amd_manager->dev,
-+				    "SCP_addrpage command timeout for Slave %d\n", msg->dev_num);
-+		return SDW_CMD_TIMEOUT;
-+	}
- 	scp_msg.addr = SDW_SCP_ADDRPAGE2;
- 	scp_msg.buf = &msg->addr_page2;
- 	amd_sdw_ctl_word_prep(&lower_data, &upper_data, &scp_msg, 0);
--	response_buf[1] = amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data);
-+	if (amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data, &response_buf[1])) {
-+		dev_err_ratelimited(amd_manager->dev,
-+				    "SCP_addrpage command timeout for Slave %d\n", msg->dev_num);
-+		return SDW_CMD_TIMEOUT;
-+	}
- 
- 	for (index = 0; index < 2; index++) {
--		if (response_buf[index] == -ETIMEDOUT) {
--			dev_err_ratelimited(amd_manager->dev,
--					    "SCP_addrpage command timeout for Slave %d\n",
--					    msg->dev_num);
--			return SDW_CMD_TIMEOUT;
--		} else if (!(response_buf[index] & AMD_SDW_MCP_RESP_ACK)) {
-+		if (!(response_buf[index] & AMD_SDW_MCP_RESP_ACK)) {
- 			if (response_buf[index] & AMD_SDW_MCP_RESP_NACK) {
- 				dev_err_ratelimited(amd_manager->dev,
- 						    "SCP_addrpage NACKed for Slave %d\n",
-@@ -464,11 +465,7 @@ static enum sdw_command_response amd_sdw_fill_msg_resp(struct amd_sdw_manager *a
- 		if (msg->flags == SDW_MSG_FLAG_READ)
- 			msg->buf[offset] = FIELD_GET(AMD_SDW_MCP_RESP_RDATA, response);
- 	} else {
--		if (response == -ETIMEDOUT) {
--			dev_err_ratelimited(amd_manager->dev, "command timeout for Slave %d\n",
--					    msg->dev_num);
--			return SDW_CMD_TIMEOUT;
--		} else if (response & AMD_SDW_MCP_RESP_NACK) {
-+		if (response & AMD_SDW_MCP_RESP_NACK) {
- 			dev_err_ratelimited(amd_manager->dev,
- 					    "command response NACK received for Slave %d\n",
- 					    msg->dev_num);
-@@ -488,7 +485,11 @@ static unsigned int _amd_sdw_xfer_msg(struct amd_sdw_manager *amd_manager, struc
- 	u32 upper_data = 0, lower_data = 0;
- 
- 	amd_sdw_ctl_word_prep(&lower_data, &upper_data, msg, cmd_offset);
--	response = amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data);
-+	if (amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data, &response)) {
-+		dev_err_ratelimited(amd_manager->dev, "command timeout for Slave %d\n",
-+				    msg->dev_num);
-+		return SDW_CMD_TIMEOUT;
-+	}
- 	return amd_sdw_fill_msg_resp(amd_manager, msg, response, cmd_offset);
- }
- 
-@@ -544,7 +545,12 @@ static void amd_sdw_read_and_process_ping_status(struct amd_sdw_manager *amd_man
- 	u64 response;
- 
- 	mutex_lock(&amd_manager->bus.msg_lock);
--	response = amd_sdw_send_cmd_get_resp(amd_manager, 0, 0);
-+	if (amd_sdw_send_cmd_get_resp(amd_manager, 0, 0, &response)) {
-+		mutex_unlock(&amd_manager->bus.msg_lock);
-+		dev_err_ratelimited(amd_manager->dev, "SDW%x ping status timeout\n",
-+				    amd_manager->instance);
-+		return;
-+	}
- 	mutex_unlock(&amd_manager->bus.msg_lock);
- 	amd_sdw_process_ping_status(response, amd_manager);
- }
-@@ -555,7 +561,11 @@ static u32 amd_sdw_read_ping_status(struct sdw_bus *bus)
- 	u64 response;
- 	u32 slave_stat;
- 
--	response = amd_sdw_send_cmd_get_resp(amd_manager, 0, 0);
-+	if (amd_sdw_send_cmd_get_resp(amd_manager, 0, 0, &response)) {
-+		dev_err_ratelimited(amd_manager->dev, "SDW%x ping status timeout\n",
-+				    amd_manager->instance);
-+		return 0;
-+	}
- 	/* slave status from ping response */
- 	slave_stat = FIELD_GET(AMD_SDW_MCP_SLAVE_STAT_0_3, response);
- 	slave_stat |= FIELD_GET(AMD_SDW_MCP_SLAVE_STAT_4_11, response) << 8;
+ 	*response = ((u64)upper_resp << 32) | lower_resp;
+ 	return 0;
 -- 
 2.53.0
 
