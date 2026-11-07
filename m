@@ -1,56 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.207
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794023628;
-	b=0PrPI0KmYYSF+fkx4KFsV7RUZbUajTTS0I4tnaooiBqFLxTfbIAv/OQTCZFNTJDE8+Bz
-	 qLCNgdbx0PxP4fVg2UM8I0YWJJKt38uYRUCt9YHXW/l7bJA/WVaL9FzBgBF7rZA9Vm53H
-	 q1woVusHbRZO7DjCyJKULjMtHF4RrUd9ZHD77IxcBefIlbJFsDKKSPBpsLdtC0JkXX74B
-	 6NhZka1ZoZWSQC0i5H7i2kYqa8QOyCPWohSNzjvcZ5+JgsRSVVNSuJ2/7tqHX9GBhz8Gf
-	 Iz9iEDR5a5fDGHU5DLJzPWAy+vG6pi5YwHcqZxRWkLnexW7kmNk/RhROxzA8/0MdR9Q==
+	t=1794025951;
+	b=ZgWzM832D7ZYnj1SJ/ouJbgox1FQDTpAQpyVCgyaqbesWTzFLlyiuUbb+WRPxJHnMwhA
+	 fYpKmswEvEwwfTxoIINvtrrO/WBlSTc0VViUD8TABfSlQxCqsx8TqsdX5Al3N9PaQ/5TT
+	 RBoyfK2o9rQ5uUNwFQS8Z5hR2CoFZHN0gUZKWcZ+m9jWj7UiM5Rf45zCW8Wpza9uYpHaV
+	 fW9PqME/AFYkzeftsxTXEpy8T436jRVsRhR+ND8hzqeSVC87RdTc15ExR44YWi4+/vrrf
+	 WqMkFfIgmoiMAlbVR+fa25Bu9yiqMQujOZX3Ju2QKi55ZSjKTD4+g9Qyo5iT5T4w6nQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794023628;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:References:Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=NpEfv9kgZXTwBdGnW4In2VZOywQE0ScN9nWj1OZGRG8=;
-	b=D7AGKjfRQYL/2azHF+8RhCST9d3wARFDmRTb1EoyYHvakmGOrt/2GomXVs1tRh8Bf57x
-	 tc6zJcNR3PpaAV9L37pT75YxWKnMPYSTZAkYS7Cbc0aJfs4LWyLdAhrFRMchOyH/mUsXQ
-	 mdUigeCYg2AZFQAIcrWHaIb7p/HYV0Rz2duGy/rcMxLgWiiTbLwCU4fkuNvj+pqNH6Qwc
-	 2aczmAChkLTFAsvCZnRWW7uza+19w3kKjVqAhWmuYRisBCTbUJ4bQc7bCIg/EBFGcmPZu
-	 AoFV6/EhobJc4F7HzMiPAVNgcfVulJi2RqpuZWfbCHuxSRK46LqrlverStAQ8kjAuBg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794025951;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=gRSKV6mkRNXym/QuyJGkrsvxD/gyct8zVn3i0QXwaGo=;
+	b=nvhEXn9hGqGW5FeLAv+WM3HH16CqTEgd/THKGaTa7kRKJeug+TqOZ/YXwYh7g2tA0zVA
+	 su/BL57sKyslMsVoTqJX45yNuFvUXyfZ+gmuRT2WmSYtA8nbC+3bdy+pmORWztVzJInri
+	 O+5oAeoOxco4tltL/Ml5kMYHqzP+cXZ69WTKkehy4+xwRLWoDIxuPhCSF4GBYzsZ50XOX
+	 /9xzgqKdUeppSRWNOPuT56E4mPdYG4fImfcKZi8hFt6EAHPGr+8r6Q7+YYzKtzKLR9eaq
+	 PsVNhq4EUGJj2d6ZfPc8yfZ61mMenWNYlfXufkd5YpQAICzhrCFJUBmN1HIImCPQfDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lina.yt;
-	spf=pass smtp.mailfrom=lina.yt;
-	dkim=pass header.d=lina.yt header.i=@lina.yt header.a=rsa-sha256 header.s=key1 header.b=G0qT+yBE;
-	arc=none smtp.remote-ip=95.215.58.207
-Received: from mta1.migadu.com (out-207.mta1.migadu.com [95.215.58.207])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SQNaR3XX;
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3BB6606A33D
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 03:53:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3BB6606A33D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=lina.yt
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lina.yt
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6133E606A32C;
+	Sat,  7 Nov 2026 04:32:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6133E606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lina.yt header.i=@lina.yt header.a=rsa-sha256 header.s=key1 header.b=G0qT+yBE
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Jvpe0BaTMJcnmW3usWyqkU/IB7QG/YJSErMZ+HCdxfs=;
- c=simple/simple; d=lina.yt;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794023624; v=1; x=1794628424;
- b=G0qT+yBEM0poSYMqo4ttw4eoXHJ/FsQFzhiZ7rBkN/TJYMN5nJ4rueDGvR59TmFInpc3R6OX
- EGLe6qvw3/wmlBkz+fydVxrzd2cGr4wqcTuaeFpxST2EkDLl5NIcfeQBBUm4RDjTYB2qF3FdwXK
- bWhij1+F/po1S7cyHHDmqMfPXWJrxx/eJLPlIqgC7OUib2QMcqMaLkng8nnh89j5K2dzgLRMf4y
- 54YxnrpFjm5esXkc3q6LM8WeJI9E/zIk5ljdBmk7yUFRif0+2tsWFE5UKHMPIb2BDU5O2WVbp2c
- z/HCC1iX+qTeXUYHSyHnHDtW9lGSR4aUJIw4TzIMtONTw==
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id c9961d11a865831c;
-	Sat, 07 Nov 2026 03:53:44 +0000
-X-Mizu-Trace-ID: c9961d11a865831c
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <fd618d1b-d4b2-44cc-b08d-7e664938e771@lina.yt>
-Date: Sat, 7 Nov 2026 12:53:37 +0900
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SQNaR3XX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794025950; x=1825561950;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1T53sIhZg9iKg5N1Tv8ETyEt+UFopFJW9SxlBsWHluY=;
+  b=SQNaR3XXF6O6hZ3nvlCsZzKrx29gzVe4Q6GeXwGd3o8w966E/KCvYKcu
+   jVpRreUhssLG35YgbT2kcyS6Z5aPioxbhV818pK0qKjOSMSTUDQOACwL8
+   l0zLfblPNRcI+6MoTGIiZ6DQG0DxZJ+exIZ+uptHsdW5GzCaOTTh9C0uU
+   53Gd515ETdLA5yL91GrTDZuSfVaOQh5y19OxNoTRwpBucLGHrbhCl41mD
+   hwQiELDQUXuaTW+UtPFaldSSsJ2NIMnBZrnrhEBPUB7G3Z029sXO54/JO
+   6Mc0zjveAq0WGsQX4XNc+KrcvkStQvEPxqEiE1DCBvzRZX+2CnlbCNGZe
+   A==;
+X-CSE-ConnectionGUID: ercGPOUsSGKc95JiUoiong==
+X-CSE-MsgGUID: Uc4c/JmgSFK/KFn/vkPj9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2834053"
+X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
+   d="scan'208";a="2834053"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 20:32:29 -0800
+X-CSE-ConnectionGUID: lN9+vu0aS7mdh3U882ioMg==
+X-CSE-MsgGUID: uafI4vHpReeRikmetBX/xw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
+   d="scan'208";a="9289081"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa013.fm.intel.com with ESMTP; 06 Nov 2026 20:32:26 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xPY6J-00000000qKV-0DH4;
+	Sat, 07 Nov 2026 04:32:23 +0000
+Date: Sat, 7 Nov 2026 12:31:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Syed Saba Kareem <syed.sabakareem@amd.com>, broonie@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Sunil-kumar.Dommati@amd.com,
+	vijendar.mukunda@amd.com, Mario.Limonciello@amd.com,
+	venkataprasad.potturu@amd.com,
+	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	"open list:AMD ASoC DRIVERS" <linux-sound@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] ASoC: amd: acp: add Cirrus SoundWire configs for
+ ACP7.F
+Message-ID: <202611071205.FSWUFvJs-lkp@intel.com>
+References: <20261106191627.1590542-2-syed.sabakareem@amd.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,140 +90,53 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG] ALSA: usb-audio: RME Digiface USB (2a39:3f8c): corrupted
- playback on ~20% of stream starts, fixed by quirk_flags 0x100010
-To: Christoph Cheaure <cheaure@gmail.com>, linux-sound@vger.kernel.org,
- tiwai@suse.de
-References: <CAJr_eQ4QhhZTqjVRmRWLBMMVhqmx-dS_yC9TiozB8qS-ZCnDTg@mail.gmail.com>
-Content-Language: en-US
-From: Hoshino Lina <lina@lina.yt>
-In-Reply-To: <CAJr_eQ4QhhZTqjVRmRWLBMMVhqmx-dS_yC9TiozB8qS-ZCnDTg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261106191627.1590542-2-syed.sabakareem@amd.com>
 
-Hi,
+Hi Syed,
 
-On 2026/11/07 8:26, Christoph Cheaure wrote:
-> Subject: [BUG] ALSA: usb-audio: RME Digiface USB (2a39:3f8c): corrupted 
-> playback on ~20% of stream starts, fixed by quirk_flags 0x100010
-> 
-> Hi,
-> 
-> I'm seeing intermittently corrupted playback on an RME Digiface USB
-> (2a39:3f8c) with the in-kernel support added in 6.12, and found a
-> quirk flag combination that fixes it for me.
-> 
-> Symptom
-> -------
-> On roughly 1 in 5 stream starts, the playback output is corrupted:
-> any non-zero signal comes out heavily distorted / with clicks, on all
-> outputs, including the analog phones output (channels 33/34). Digital
-> silence stays silent, which made the problem hard to spot. The bad
-> state persists for the whole time the PCM is open; after closing and
-> reopening, the next start is usually clean.
+kernel test robot noticed the following build warnings:
 
-What you are hearing is what happens when playback falls behind by one 
-USB frame on the Digiface. This happens mainly due to a bug in the xHCI 
-kernel driver related to isochronous scheduling when IRQ latency spikes 
-occur (together with the Digiface handling playback underruns rather 
-poorly). I no longer contribute to the kernel directly for personal 
-reasons, so I filed it here on Fedora, but it was never triaged/forwarded:
+[auto build test WARNING on broonie-sound/for-next]
+[cannot apply to linus/master v7.4-rc1 next-20261105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-https://bugzilla.redhat.com/show_bug.cgi?id=2451673
+url:    https://github.com/intel-lab-lkp/linux/commits/Syed-Saba-Kareem/ASoC-amd-acp-add-SoundWire-speaker-quirks-for-Dell-platforms/20261107-004611
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20261106191627.1590542-2-syed.sabakareem%40amd.com
+patch subject: [PATCH 1/2] ASoC: amd: acp: add Cirrus SoundWire configs for ACP7.F
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20261107/202611071205.FSWUFvJs-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611071205.FSWUFvJs-lkp@intel.com/reproduce)
 
-I mitigated this issue by manually binding IRQ affinity of xHCI 
-controllers used for audio to specific CPU cores, and keeping other IRQs 
-off of those cores. I wrote a tool for this here (which is intended to 
-improve low-latency proaudio stability in general and reduce xruns, 
-mitigating this bug is just a side effect):
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611071205.FSWUFvJs-lkp@intel.com/
 
-https://github.com/hoshinolina/proaudio-setup
+All warnings (new ones prefixed by >>):
 
-The quirk will not fully fix the underlying issue, which can cause this 
-to happen any time a latency spike occurs during playback. However, if 
-you find that it happens often when the device is opened, and the quirk 
-makes that more reliable for you, it sounds like a good idea anyway.
+>> sound/soc/amd/acp/amd-acp7x-acpi-match.c:394:43: warning: 'acp7x_cs35l63x4_l0u0246' defined but not used [-Wunused-const-variable=]
+     394 | static const struct snd_soc_acpi_link_adr acp7x_cs35l63x4_l0u0246[] = {
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
 
-It might be a good idea to take a usbmon log like I did. That might 
-clarify whether what you're seeing is the same latency spike I was 
-seeing happening some of the time early on during PCM open, or truly an 
-issue with playback/capture open order. If it really is a startup order 
-issue causing the offset, then the quirk is correct regardless of the 
-latency problem.
 
-(Note to anyone submitting a patch: I do not receive patch emails or 
-most anything else kernel related these days, nor do I have time to test 
-patches personally on the machine with the Digiface, so please don't 
-expect me to review/reply to anything that comes from this discussion.)
+vim +/acp7x_cs35l63x4_l0u0246 +394 sound/soc/amd/acp/amd-acp7x-acpi-match.c
 
-> 
-> Environment
-> -----------
-> - Kernel: 6.12.95+deb12-amd64 (Debian bookworm-backports), x86_64,
->    Intel NUC (Tiger Lake)
-> - Device: RME Digiface USB, 2a39:3f8c, bcdDevice 3.01, high speed,
->    on xHCI 0000:00:14.0 behind the board's internal VIA USB 2.0 hub
-> - 48 kHz, 34 out / 32 in, S32_LE, period 384
-> - Clock: synced to S/PDIF input 1 (external master clock); the
->    problem also reproduces with internal clock
-> 
-> Reproduction (PipeWire stopped, plain ALSA)
-> -------------------------------------------
-> - 34-channel S32_LE 48 kHz WAV with a 400 Hz tone at -24 dBFS on
->    channels 1/2 and 33/34 (phones)
-> - repeatedly: aplay -D hw:CARD=USB24262729,DEV=0 tone.wav
->    (3 s per run, 1 s pause, each run opens the device fresh)
-> - listen on the phones output: each run is either clean or corrupted
->    for its whole duration
-> 
-> Minimal reproduction (PipeWire/PulseAudio stopped):
-> 
->      python3 - <<'EOF'
->      import wave, struct, math
->      amp = 0.06 * 2147483647
->      frames = b"".join(struct.pack("<34i", *[int(amp * 
-> math.sin(2*math.pi*i/120))
->               if c in (0, 1, 32, 33) else 0 for c in range(34)]) for i 
-> in range(120))
->      w = wave.open("/tmp/tone34.wav", "wb"); w.setnchannels(34); 
-> w.setsampwidth(4)
->      w.setframerate(48000); w.writeframes(frames * 1200); w.close()  # 
-> 400 Hz, 3 s
->      EOF
->      for i in $(seq 30); do
->          aplay -q -D hw:CARD=USB24262729,DEV=0 /tmp/tone34.wav; sleep 1
->      done
-> 
-> Each aplay run is either clean or distorted for its whole duration.
-> 
-> Results (bad starts / total)
-> ----------------------------
-> - default, external clock:                  2 / 30
-> - default, internal clock:                  7 / 30
-> - lowlatency=0:                             no improvement
-> - keyboard/mouse unplugged (same xHCI):     no improvement
-> - quirk_flags=0x100000 (FORCE_IFACE_RESET): 7 / 110 (~6%)
-> - quirk_flags=0x100010
->    (FORCE_IFACE_RESET | PLAYBACK_FIRST):     0 / 90
-> 
-> Exact setting used (/etc/modprobe.d/rme-digiface.conf):
-> 
->      options snd-usb-audio quirk_flags=0x100010
-> 
-> /sys/module/snd_usb_audio/parameters/quirk_flags then reads 1048592
-> (= 0x100010) for the Digiface.
-> 
-> While the output was corrupted, recordings taken on the PipeWire side
-> (sink monitor) were clean, and the problem reproduces with plain aplay,
-> so the corruption seems to happen after the PCM buffer: in the driver,
-> on USB or in the device.
-> 
-> I have not yet tested a kernel newer than 6.12.95
-> 
-> Would it make sense to add QUIRK_FLAG_FORCE_IFACE_RESET |
-> QUIRK_FLAG_PLAYBACK_FIRST to the Digiface quirk entry?
-> 
-> Thanks for the Digiface support!
+   393	
+ > 394	static const struct snd_soc_acpi_link_adr acp7x_cs35l63x4_l0u0246[] = {
+   395		{
+   396			.mask = BIT(0),
+   397			.num_adr = ARRAY_SIZE(cs35l63x4_l0u0246_adr),
+   398			.adr_d = cs35l63x4_l0u0246_adr,
+   399		},
+   400		{}
+   401	};
+   402	
 
-~~ Lina
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
