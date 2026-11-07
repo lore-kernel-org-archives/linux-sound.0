@@ -1,63 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794064650;
-	b=zFtfA8C4K7zu2euBTVy+wN2ltiIa8qTxuRPr8AI1bs6+obsPrMHZUUFNex55WfpD5iPW
-	 hnz/be65ivJ1A10X3I2k9Q0hDQdvF5weurZaM8bHjWfZ/nzIBxBCF7HKCDCmk/05yjPHs
-	 m7SxPn+kSs7/vDnCnqZLqwCjENfwnwza0patNh6ANZyRri1ERZhjDYouqS71GCuqLjXLQ
-	 T8gSAw7BJhoydLbtOXyvkb/38S1LfFCFFDvQ4r/f/4uIkk/hdhkfBd68POx4r9PWQhLVc
-	 yz0iasUHM2GPzLhQ105CiTMFftME9dfGArxr0ckWnHJPyzXsosMpf6EVqABjRBqGdgg==
+	t=1794065033;
+	b=UECeM+85V1mA/n7XVwJexQroVWnRbwBN7HOx+yF9GsJX1WBLFeSarPEJXJFyvBE2z1NH
+	 FIdvvoo2ZSFk3xwTbWvUMvgUL0cJtqwPJLzqiufWyVdrh1AhEuxnYmaGA+jQrudwVqKQR
+	 tdAUdGXy21LEny0AH+hUCAAqDgFyo9kD5mDBuwSdQvybFmavrNTExG83kjMFG7kn6YwjD
+	 v7vwf0Ms1d/Ey9ofgUnSAF6IXZz5hM816m/M2/HRxbyhQnVUIq3CQ1rsJjF22Z2ulLEg7
+	 qVU2Xl788w6xMOVlHEu/2WyS6JGRsiZnFgwh2lSVV5sq1BJUHoNEQpPRlzZ8XZ0ieRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794064650;
-	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
-	 Subject:Message-Id:Date:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key;
-	bh=F6q/MsZ5jDBuuA4szE84/+BxFmPAPx64/M8+UUIYUAE=;
-	b=lGEr0TQNxbF/Aqi1HFlOOoauNdOwx9lZ8kKEgMxccgQQYle266jO6gG2QjPJi4NmMAP6
-	 hEOEgllQDKQi747edy4t5DxRo59Rxmkj5/b0upz3t9torLJ015NGtGvQpioWyL8e6yMa0
-	 zmcWcT0eQcl7vQ3wOsyQK2D4aCdidtifSocIpA+6pvVZTM3iMVkvKXPRQfiLWHzdjXYNs
-	 rD1LdiPaRAvFvF5MaaIjKTTSYKmXtb0fdPjQrzZUwXhCOW+S/tCKO77A9YFyW0Ykrykmq
-	 /HCzAHdFZDXghTxOWQzYevm1a8XcdguFyYw9Gz6Umw8NoC9dpvu2bFi1WXa2fuk0ZBg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794065033;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=yuqPX9cgz/PfFshrpxeS4PIPejVFogW0dOjG9skcWak=;
+	b=KZ+z5hCvrd/CkhJJwQ/OdOBMbG4+fT5dLm5zsDR+QjMVzTcJnDdtB0zdAWg7QNDaNSZ1
+	 9TojTRy46fpxzEOmsJHEV2OOKjbVwEfxGRNZVUi6VrQKfhzUmlKNZ57lQmL2vaidITgXh
+	 F6eBu410eSEIQi/Q+ZJXiEk3GicaXqQnFXLJPmwPFuPyKTjL0cPEXXwY1T0fk1pno7wcP
+	 hwieqhyEzf1rEgyyzwVac5sK+8c79vxgkCxfetHqRwQNPx38PKU4E/5TAVch+HQoafluu
+	 slPY+p+0YQMLzwviTixslSWv8WYBFjrHgIEBGpBFN8gWrYkQAaZUTVcio84DXaIP+DQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CS8qps0P;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RAiFLKnu;
+	arc=none smtp.remote-ip=209.85.208.173
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436AF606C020;
-	Sat,  7 Nov 2026 15:17:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE77606A9C5
+	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 15:23:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0DE77606A9C5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CS8qps0P
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5E7F1F0089F;
-	Sat,  7 Nov 2026 15:17:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794064650;
-	bh=F6q/MsZ5jDBuuA4szE84/+BxFmPAPx64/M8+UUIYUAE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=CS8qps0PV2S7q/9M8Krw90/z0ppwy2RL1OvwvJjd1L9+yqaH9FGDn1WdfckLto179
-	 Qh3VXPpFjXTHMlbGAB61rgnG6wmXT45Ll4HY+m9jqtpYbR4zevkH/h85VHdDkVYYNv
-	 oZVeWeDpwWyT8X56lxzQC37LBZIWsrd6KKxuDSJhs0CbgrcpiDB9SLp3K2qZHRgZQb
-	 otCww9tDSKbtQd7N3AZ/nie8UgaCKPN9MUqAKzkrHqeDiKaGh68bLOJrlr+YAEBQJL
-	 O8okJoKJGTtehRru/KCGNgu9k1YzdM+3Lygm7Dtj1NWG6vHhY3TeC+RZEmlxTme0dN
-	 ljieQ3SFC3i2g==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 1DC9B2AB3127;
-	Sat, 07 Nov 2026 15:17:28 +0000 (GMT)
-From: Mark Brown <broonie@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- phucduc.bui@gmail.com
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260602114437.50324-1-phucduc.bui@gmail.com>
-References: <20260602114437.50324-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH v3 0/3] ASoC: sunxi: sun4i-spdif: Cleanup and runtime
- PM improvements
-Message-Id: <179405444330.3424803.15883456865264287709.b4-ty@b4>
-Date: Sat, 07 Nov 2026 12:27:23 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RAiFLKnu
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3ace2e3a2acso12140381fa.1
+        for <linux-sound@vger.kernel.org>; Sat, 07 Nov 2026 07:23:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794065031; x=1794669831; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=yuqPX9cgz/PfFshrpxeS4PIPejVFogW0dOjG9skcWak=;
+        b=RAiFLKnuPuOTGe1u56r9IzjIMT2IEqQUdwdsUla+D4Y/9XDsA9AfakGEAzZ8r8RkZY
+         fZ47G0vtgINRh2yVIs882gHFQK0uvUdjSz7sU/LcCyGlt0Dmmd6MBoK/f4iDNdyW//pQ
+         UpFjFHUb+paGIo5hZDjzcrhnKnlsqMpj46AgYLoUOi+7eIEFLUDvsAS57AK0Kgc3jXH9
+         Il5Gb7FfkgK/R6lu+84vCyBUaQlvDCLRjRNfcVEOFkrB3Co2cZvni3MRU63tJiW9AxAE
+         28spAjvjhdzqGSeIdNbnSYJTsAYgr2XBOUpjoHwJXiYCA6QOdhF7NantbMnAPjGWj83Y
+         rIPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794065031; x=1794669831;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yuqPX9cgz/PfFshrpxeS4PIPejVFogW0dOjG9skcWak=;
+        b=zn6+V/zChSKHRRB95DMEbbTxjPsoLJv4E4PwPRqO8a9xZdZ1LeRiqMG2r+IWsP5dXO
+         DwxZCeVYKiecErl5kVg3Xcu9R+CXbbEG6n6E75PUvv0M9gTxnYKnTAGOeI3XN6W8qTbI
+         wVAHWLFNGpGVbQMlJ3s+qcvJf8SVPebb0XMoe5oPWFe26V6GpU4SrvdAPS5QDxyBjO15
+         ieq5bqujhkR484zLMLlnK5oeXIYyVQhOUCA77sLkUBDjFFo7gWTLMh9RN3mlQxAA7k9n
+         9MtKHTBgSwWz34CBFlfhvwZXNotMojcaotAG3u+zXflmpMfcyj1Jtcm24SWKWDSlush9
+         bM5A==
+X-Forwarded-Encrypted: i=1; AL+hErEJuzXNpE7a8/Ne0LVEl36NDQYtPDLuoVeKR+3ACPvViPlLzHmTm/Tv/IZBPCvrvrSMGwD6O69fhTRhSQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9cCFAwAaYFqOX1CvrHJhLS8PH18LFE/vu8TPmpO4HZw64vA4qI
+	v1qqj6glLAVwv4ISyv9004AhH5HqIVEurEtHK9PHauFRv3cADGoZ50Jn
+X-Gm-Gg: AYBFou0zrEvotHPBa9KKr53DLDVwDTilz/6VJ5KuSSRy3iE7BrWkXO8Oh4f7rYA07Z5
+	a6rUgm6i3DsFqNmKDabh42bJVdU1rnKhDEDW7J1Q2ewBegGfqCbuVfa44MC1/eT4HIim61/qvxL
+	eCB1GipfNBLPF6ECkOVfp6dH66xB3uI7JnXAxzMa3J8Jyrh6ClHR3rw6xxoi6P2cqY1gJLc8ymV
+	ew16BQtznpMw6MCL2urpvanNGXk7pi8lP8DXyNqJxonrjSVtM9ykAJ3JBxewYog7bMBLIBIOc0u
+	tE6s14pXZE+NAelVwylRXUNasWYRaedI4LwukWYp5LuuL3C9nJDg+hiGv/wC88gJC/9NX5RdObP
+	LuVtqYptT8PYOWDQDNwwbor12iH6O1zPsAHMlxCmjFl2JIL9rOCpPx1wuP5eHi3lgT8jFh07ePC
+	GtCVEaQwjGBPWYfVFxOlmaDPpPqLjhOeK7A3kxbFJIlQrq296+hDjUu9uuySCZW/C1yQFzE74Ne
+	Gs2vimoHa8MdpyVmSqhlVawUHvieFEPatOAE1MrtF/P/4+Eo8AH0FrUHpwPfHdtyzFTkTUl909I
+	+w/wuFHsU6C0Zx7vfPxmrw==
+X-Received: by 2002:a05:651c:a32e:b0:3a9:c840:10fb with SMTP id 38308e7fff4ca-3acf38960fdmr12270901fa.2.1794065031102;
+        Sat, 07 Nov 2026 07:23:51 -0800 (PST)
+Received: from thinkpad ([92.36.72.88])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3acf5fcbea5sm7070411fa.33.2026.11.07.07.23.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Nov 2026 07:23:50 -0800 (PST)
+From: Andrey Zakharov <dedemorow@gmail.com>
+To: broonie@kernel.org,
+	lgirdwood@gmail.com
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: wm_adsp_fw_find_test: Replace strlcat() with seq_buf
+Date: Sat,  7 Nov 2026 18:23:38 +0300
+Message-ID: <20261107152338.77837-1-dedemorow@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -67,60 +98,89 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1670; i=broonie@kernel.org;
- h=from:subject:message-id; bh=YZvUmFfdUmWuzhzoqlmjzL9oD0KOHNnuLRk/oEZ0bfg=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLeO7JneE4oF2d6P/nKVPYdOmemv9/fYPnm5TdPo7/fn
- /feOiYf0lHKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJuK1lZPhhP/PMhbO9dcuO
- xHyePb/48dTnqpsUkq5sz7161OvLAdcHjAzvuB6cZ2ieNbvTzOWm2lHbLyu/yDxTX/qKN/u0+RX
- z/TP4AA==
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Tue, 02 Jun 2026 18:44:34 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: sunxi: sun4i-spdif: Cleanup and runtime PM improvements
-> 
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> Hi,
-> 
-> This series contains a few improvements for the sun4i-spdif driver,
-> including guard() conversions and ensuring the device is resumed
-> via runtime PM before kcontrol register accesses.
-> 
-> [...]
+strlcat() is being removed from the kernel. It runs an unbounded
+strlen() on the destination, and its size argument is not tied to
+the real buffer, see the issue below.
 
-Applied to
+The test builds the searched_fw_files string by appending to a fixed
+size buffer in two places. Use seq_buf_init_append() and
+seq_buf_puts() instead. seq_buf_init_append() keeps the NUL-terminated
+content already in the buffer, and seq_buf_puts() copies as much as
+fits and keeps the buffer NUL-terminated if it overflows.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
+Tested: built with gcc 16.2.1 and ran the wm-adsp-fw-find KUnit suite
+under QEMU (x86_64, kunit.py, REGMAP_BUILD): 90 of 90 tests pass, the
+same as without the patch. As a negative control, changing the
+separator written by the firmware request stub makes the search order
+cases fail. The directory listing in the pick_file test is only used
+in failure messages and is not compared with anything.
 
-Thanks!
+Not tested: other architectures, the case where the 768 byte buffer
+overflows, and any real hardware.
 
-[1/3] ASoC: sunxi: sun4i-spdif: Use guard() for spin locks
-      https://git.kernel.org/broonie/sound/c/c5f9ddc7d2ec
-[2/3] ASoC: sunxi: sun4i-spdif: Resume device before kcontrol register access
-      https://git.kernel.org/broonie/sound/c/f003dfe0842a
-[3/3] ASoC: sunxi: sun4i-spdif: Reorder clock enable sequence
-      https://git.kernel.org/broonie/sound/c/a4a9384fdf2c
+Link: https://github.com/KSPP/linux/issues/370
+Signed-off-by: Andrey Zakharov <dedemorow@gmail.com>
+---
+ sound/soc/codecs/wm_adsp_fw_find_test.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/codecs/wm_adsp_fw_find_test.c b/sound/soc/codecs/wm_adsp_fw_find_test.c
+index ae686dc4fa94..2a44b2670fa9 100644
+--- a/sound/soc/codecs/wm_adsp_fw_find_test.c
++++ b/sound/soc/codecs/wm_adsp_fw_find_test.c
+@@ -8,6 +8,7 @@
+ #include <kunit/device.h>
+ #include <kunit/static_stub.h>
+ #include <kunit/test.h>
++#include <linux/seq_buf.h>
+ #include <linux/slab.h>
+ #include "wm_adsp.h"
+ 
+@@ -104,14 +105,15 @@ static void wm_adsp_fw_find_test_pick_file(struct kunit *test)
+ 	struct wm_adsp_fw_find_test *priv = test->priv;
+ 	const struct wm_adsp_fw_find_test_params *params = test->param_value;
+ 	struct wm_adsp *dsp = &priv->dsp;
++	struct seq_buf sb;
+ 	int i, ret;
+ 
+ 	/* Concatenate string of dir content for error messages */
++	seq_buf_init_append(&sb, priv->searched_fw_files,
++			    sizeof(priv->searched_fw_files));
+ 	for (i = 0; params->dir_files[i]; i++) {
+-		strlcat(priv->searched_fw_files, params->dir_files[i],
+-			sizeof(priv->searched_fw_files));
+-		strlcat(priv->searched_fw_files, ";",
+-			sizeof(priv->searched_fw_files));
++		seq_buf_puts(&sb, params->dir_files[i]);
++		seq_buf_puts(&sb, ";");
+ 	}
+ 
+ 	dsp->cs_dsp.name = params->dsp_name;
+@@ -160,6 +162,7 @@ static int wm_adsp_fw_find_test_firmware_request_stub(const struct firmware **fi
+ 	struct kunit *test = kunit_get_current_test();
+ 	const struct wm_adsp_fw_find_test_params *params = test->param_value;
+ 	struct wm_adsp_fw_find_test *priv = test->priv;
++	struct seq_buf sb;
+ 
+ 	/*
+ 	 * Searches are accumulated as a single string of space-separated names.
+@@ -168,10 +171,12 @@ static int wm_adsp_fw_find_test_firmware_request_stub(const struct firmware **fi
+ 	 * a simple KUNIT_EXPECT_STREQ(), which avoids the risk of bugs in a
+ 	 * more complex custom comparison.
+ 	 */
++	seq_buf_init_append(&sb, priv->searched_fw_files,
++			    sizeof(priv->searched_fw_files));
+ 	if (priv->searched_fw_files[0] != '\0')
+-		strlcat(priv->searched_fw_files, " ", sizeof(priv->searched_fw_files));
++		seq_buf_puts(&sb, " ");
+ 
+-	strlcat(priv->searched_fw_files, filename, sizeof(priv->searched_fw_files));
++	seq_buf_puts(&sb, filename);
+ 
+ 	/* Non-parameterized test? */
+ 	if (!params)
+-- 
+2.56.0
 
