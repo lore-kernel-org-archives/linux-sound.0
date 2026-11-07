@@ -1,96 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794050621;
-	b=IL1tk5fdWp3KeEiJ+K8/GL7sbtA/mLjQJd4XhBLCHjaNohL64uPy+Aew6/2cCuuI+kSN
-	 dtxQpbcGVy1Ey/uXLG0UPpjaF2WMdwdbC68OXfgCZSrm928V9hH+q8mDlYOnMfAn5BV1p
-	 dcxI58wGTA0/QaflPPVLKX6K/fdisz+Edm5r9+ORngiTZ0RRUohDIOU1OhoqD/1jWAhkw
-	 LC/xr0VAwDR2WCFBIQwGFqxZYbxdF2NHx23Z9YbR6KGhw5gohxGgALvQrRhVAfHI13HN1
-	 /kaI7ELV89f5gl9/9eaSbThojobuLuA1ng2GsCxo5IZCnkitnC6nyuRyZC8EQM2//ow==
+	t=1794050664;
+	b=19ygBhRj++BHOH1Tke5GegIG5qVhwx0NbGE/5Nh06tyILkxsCjEklCjMrpE30o8ycEtV
+	 CCirYQwuNubepzc3gfM6Rktx/IVuc+fVBqTZNp7JcO8ycqsNhiOKyKVL7tdK6GHeYuWb+
+	 9TSz4XXqwzyH5RfyBMQcWxOQofR1wiHWCi4ZqTPeI3j6wtT0p7pYKZmcj4POmUkJSpWaq
+	 2C5VHYeJ4PD4dlJgnzyo2GCyf3j+vFGOu7N2OrueZGXlqfuJykZckQyBlLeTZH9BHd3yV
+	 YqNdCluAchGD4zR+JORpsaaWxbjRcuHpfOIEokpgVAf2cw3EOYBJmdjAic09RYLQ4Zg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794050621;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=+oJdKvf5ACTFVjDlEtyhUTinT8osTOQujRk8hU+DRPU=;
-	b=pLnkgGKGhaXOJF3j1DBNmBCCUgJ0qCo+g5o5Xw3O5j9EtkxedZi79wfXg5VLa4ttx68D
-	 moMfbdrcLYc2Rg04dnETUA3HaYvLi7/aND+nY8181V0rNPWIyc1/RTs9sottMg40lDhKi
-	 SZBlXNKkEKTSQLSpt02kc/iI4AuEbv0FVkGG5NJisvK6B96e/aCFq2xqscGlNlxlovbFc
-	 TZIwOhKlR6q1fBchnk/BKrL8A37eE/QdKzHvEW6lKc2gcQ8ppEWvWET59HI1KhmqXs3B4
-	 ZWObTfQs1P0BxbOSa6/mGHTszXEtWwKE7LebNsosNnZgCFd4OF8oN7fo4J7jVakL8Tw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794050664;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=o3FnEpPPeeVN7veQWUCkiyXNbkWvxZrHsqijwgLy9vQ=;
+	b=PeBhxfDSSzFTR7SSMXC7vyQNnlp3ZHVsPLsBExqWtx/kc/Y2lB0VO5mQ369lUxi+rHKp
+	 TRFCNNLLMv/EWl+sxPB+XaqoWll6UuRfok6tSrp5muGA5sNPb0Z3ij7YJMLue0rtaNVIX
+	 L7P5J3AKH2sR2Vrvb19LJ55v14pcyzT4EuyehF31ea51psWcpfrFhnjxKrKIFrzAtlYcO
+	 w0zM3Ad08BtUy4DIj9pYLO81znFBphC7L9U1fIBm0H5Mt2QB+4rVDqFYDm8/sS9fLktJI
+	 HNsfDzDymGjPbWE2o2106TcizhEX9Qerokefpz3I95e4RZiON9taWJVE4MrwNUGQcaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jrB4CP0b;
-	arc=none smtp.remote-ip=209.85.221.54
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PWKrxIg5;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0A0606A32F
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 11:23:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB0A0606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC22606A32E
+	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 11:24:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jrB4CP0b
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4918c2d727fso762592f8f.3
-        for <linux-sound@vger.kernel.org>; Sat, 07 Nov 2026 03:23:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794050619; x=1794655419; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+oJdKvf5ACTFVjDlEtyhUTinT8osTOQujRk8hU+DRPU=;
-        b=jrB4CP0bQ+koHaEjv8DWJ3WdmGF/+AKcrvBl0Q+FuPlbjKm9DyXPfJOoFs9mZzS4Rg
-         +jG2kU2MrHVVlUbBwCtny5fvHHqYQaPPYhzxw5BKiTqpplykYZLrEL0aYRkYvUPHiuyR
-         FKIF6C9JdV0mRBgRKuFSR3BvNeTJzBA5yP95XotKtYxEMMO0yT4MKF1eqE5I38qki5mj
-         XfTsVnxngCrj0PY45KGrydCTX6osmEea67P8Mm//njfZGYuZ3wfAGty5a3DXsoWxy4z1
-         RYkL8apbAHgMW8qOXZ5rNsqx393JytNZqooaMQEBU3u+52eRrsPyURElWPwOAP0RPZwh
-         gFKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794050619; x=1794655419;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+oJdKvf5ACTFVjDlEtyhUTinT8osTOQujRk8hU+DRPU=;
-        b=PDB51uFrlu/DNzAVGWqZpPuct6Y3MnmWEkcl4diiy0TqejBc+SDvFfXbMjupv7PAeD
-         zQdA+dy2SCrb43ULnEip2FG7j9FjjhNfR/Ag1zfqViViXhQcR/T8rVl9cyvjxNatsaj1
-         glfXTfD70NANTxvtcbomtCaxsVNv9lKtH9or2xG8JYWRA4WT1Y0VAPDqkVjt+HJ66lih
-         bkZ2jsd3zF4AxuVDT/ES4GibMRy1FpTO/0Phn3BN6CtGZmKJCwhsid/WqecAQlHoytYB
-         NqmiTnDJZJfa240EmB0d7zsosCMb+3MHbOt1fJ6IBN6tiypyRZx0CgUUMbC7GZlo0ZhU
-         a0nQ==
-X-Forwarded-Encrypted: i=1; AL+hErFpitj11cYCONoajc+VACgfUfzFk8YkTNvVaBfnU7qJ7LFKYes9Y1QdX36odXMX9hC1qrwKAir8+urAnA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+FM13ePciSNsSJcgxFAg9bh6H/sNWiLGI4h7DdQBCvt213Fv3o
-	QdWt57R9M0t+Fw3V9VMz4hxbWKigFjShxgNDDqgDn+0oOJiivcxGpQfP
-X-Gm-Gg: AYBFou0YPtriQmyGEpqQRNrrpFEhdN9vMsTJSgwdbxkI3JxdXlnOahrrbDD8+eP73C7
-	S/tLqXBIAf1oqn4zVwrttENdnQIzzGB38tgK4a/JEPjd//3P7wPlmZ0fPEoNfCo8ycMWqtpMJtK
-	SqFp3lMDG0n+4dTS3COjkKJqfUn0pH0Fkl1QjD2Zk7MbhnuRi4syh32SbJpfyTKQ3K1/LjhGfjm
-	zfAOIR92sJRjmi4BOegY78mCYPxJThtDRs7Bt0eNXsz8liIN3PyqXIqcoxRqCo/MnUyGVEsGVjV
-	EGRYl6G/0N/GFsWVwoQc4DYeWjUxURXG38zGBk5e0uwmM1AOP+PBrgFx4aAiCuZRCvEPVbk+ojW
-	VhscAiD8SEHGK0De+/HmIqgl+8VvADw+a7OfafDB7rqJllNj2oBDkHvk4uDZB/K8sc+YHfgTeV2
-	rxcifAyQ8qtf8Qo9xxAOy21HuwlRuqxm/Sx/oZ57HiqPGAGuiWbNSTMRW4G7MXkOCcCHMoQItcu
-	JYfPRnXCnA7DdM7Va2hYYT1OdojnfJQT4eujDZkd+Wt6k3YvoA9VG7h//AzJO1kfwxivcqLJuWs
-	iBo87QE/HRlcz3A6QkAlfCZIHZi32+3ZvCtxZ90=
-X-Received: by 2002:a05:6000:26c1:b0:48e:10a7:438 with SMTP id ffacd0b85a97d-49275a2721amr10861159f8f.36.1794050618996;
-        Sat, 07 Nov 2026 03:23:38 -0800 (PST)
-Received: from foxbook (bfg124.neoplus.adsl.tpnet.pl. [83.28.44.124])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d6d6385fsm8647480f8f.16.2026.11.07.03.23.38
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sat, 07 Nov 2026 03:23:38 -0800 (PST)
-Date: Sat, 7 Nov 2026 12:23:35 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Hoshino Lina <lina@lina.yt>, Christoph Cheaure <cheaure@gmail.com>,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [BUG] ALSA: usb-audio: RME Digiface USB (2a39:3f8c): corrupted
- playback on ~20% of stream starts, fixed by quirk_flags 0x100010
-Message-ID: <20261107122335.182f01c2.michal.pecio@gmail.com>
-In-Reply-To: <878q35yp6i.wl-tiwai@suse.de>
-References: <CAJr_eQ4QhhZTqjVRmRWLBMMVhqmx-dS_yC9TiozB8qS-ZCnDTg@mail.gmail.com>
-	<fd618d1b-d4b2-44cc-b08d-7e664938e771@lina.yt>
-	<878q35yp6i.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PWKrxIg5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 117371F008A1;
+	Sat,  7 Nov 2026 11:24:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794050664;
+	bh=o3FnEpPPeeVN7veQWUCkiyXNbkWvxZrHsqijwgLy9vQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=PWKrxIg5CYCx8c1SbTvfuPQbzLrlZc14mHgS5Ds1579+/fkO9bT0qKe7YRrofTvdJ
+	 3PzRmngVZ+qQ+rGvOFOL4pa87OOmPcNKwFtglqABDFNWGFvuoPzq8QAR/ffGCNyMLz
+	 Kamjk7ZN+Zl5GCPD30DVdwM8wIJKyApctbjwntfj/iSeUtucJ3ohQy9+8giDhfSCtm
+	 1IpsRTWDD0AYz0dstjhzYCMOGUJBB8/vNjVCBGTj+hXhUvRLtaFgFC1BhlXOCSE5ox
+	 K4/NOIY14dFnk8uK9WUJvuOzhoE6f/bmFrNx4ggD2qXeuPjnI3VnmHqI9MXnjNcvwQ
+	 JU5YGJ3at82+g==
+Message-ID: <sashiko-outbox-202853@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 1/2] ALSA: ump: clear stale RPN selector on NRPN change
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Alyandra Zahran Nadhir" <alyandra5b@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261107111056.667-1-alyandra5b@gmail.com>
+References: <20261107111056.667-1-alyandra5b@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 07 Nov 2026 11:24:23 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,81 +58,65 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, 07 Nov 2026 10:19:01 +0100, Takashi Iwai wrote:
-> On Sat, 07 Nov 2026 04:53:37 +0100,
-> Hoshino Lina wrote:
-> >=20
-> > Hi,
-> >=20
-> > On 2026/11/07 8:26, Christoph Cheaure wrote: =20
-> > > Subject: [BUG] ALSA: usb-audio: RME Digiface USB (2a39:3f8c):
-> > > corrupted playback on ~20% of stream starts, fixed by quirk_flags
-> > > 0x100010
-> > >=20
-> > > Hi,
-> > >=20
-> > > I'm seeing intermittently corrupted playback on an RME Digiface
-> > > USB (2a39:3f8c) with the in-kernel support added in 6.12, and
-> > > found a quirk flag combination that fixes it for me.
-> > >=20
-> > > Symptom
-> > > -------
-> > > On roughly 1 in 5 stream starts, the playback output is corrupted:
-> > > any non-zero signal comes out heavily distorted / with clicks, on
-> > > all outputs, including the analog phones output (channels 33/34).
-> > > Digital silence stays silent, which made the problem hard to
-> > > spot. The bad state persists for the whole time the PCM is open;
-> > > after closing and reopening, the next start is usually clean. =20
-> >=20
-> > What you are hearing is what happens when playback falls behind by
-> > one USB frame on the Digiface. This happens mainly due to a bug in
-> > the xHCI kernel driver related to isochronous scheduling when IRQ
-> > latency spikes occur (together with the Digiface handling playback
-> > underruns rather poorly). I no longer contribute to the kernel
-> > directly for personal reasons, so I filed it here on Fedora, but it
-> > was never triaged/forwarded:
-> >=20
-> > https://bugzilla.redhat.com/show_bug.cgi?id=3D2451673
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] ALSA: ump: missing Fixes trailer in commit message
+It also noticed 1 related pre-existing issue this patch does not
+introduce:
+- [Medium] ALSA: ump: improper RPN/NRPN state reset in reset_rpn() [1]
+--
 
-Hi,
+commit e95e219dab86391e1d43f84e1ce499ca3011380d
+Author: Alyandra Zahran Nadhir <alyandra5b@gmail.com>
 
-These are known problems and things should be improved in 7.3.
+> ALSA: ump: clear stale RPN selector on NRPN change
+>
+> The legacy-to-UMP converter keeps separate RPN and NRPN selector
+> flags. When a stream changes selector type without sending data first,
+> both flags remain set and fill_rpn() gives RPN priority, so subsequent
+> NRPN data is emitted as RPN.
+>
+> Clear the previous selector flag after flushing any pending parameter
+> data and before recording the newly selected parameter type.
+>
+> Signed-off-by: Alyandra Zahran Nadhir <alyandra5b@gmail.com>
 
-Particularly, if the HC is "hci version 0x110" or newer (see dmesg),
-scheduling is exact in almost all cases.
+[Severity: Low]
+This fixes a bug in the legacy MIDI to UMP RPN/NRPN converter.  Should it
+include:
 
-As for dumping kernel patch suggestions on distro bugtrackers, you
-should have known better what to expect...
+  Fixes: 0b5288f5fe63 ("ALSA: ump: Add legacy raw MIDI support")
 
-> And, yes, if the USB-audio quirk option improves, it's worth to take
-> it as default.  But, it'd be better to be investigated the root cause
-> at first, of course.
+> diff --git a/sound/core/ump_convert.c b/sound/core/ump_convert.c
+> index ecbd894f4c83a..fe7d3ee3c6b1f 100644
+> --- a/sound/core/ump_convert.c
+> +++ b/sound/core/ump_convert.c
+> @@ -378,6 +378,7 @@ static int cvt_legacy_cmd_to_ump(struct ump_cvt_to_um=
+p *cvt,
+>  		switch (buf[1]) {
+>  		case UMP_CC_RPN_MSB:
+>  			ret =3D fill_rpn(cc, midi2, true);
+> +			cc->nrpn_set =3D 0;
+>  			cc->rpn_set =3D 1;
+>  			cc->cc_rpn_msb =3D buf[2];
+>  			if (cc->cc_rpn_msb =3D=3D 0x7f && cc->cc_rpn_lsb =3D=3D 0x7f)
 
-It seems to be a common quirk of snd-usb-audio that duplex needs a few
-xruns and restarts to begin running smoothly, not sure why. I guess
-FORCE_IFACE_RESET was helping with that by clearing any xhci-hcd state.
-It shouldn't be necessary anymore, we tried to make this case work.
+[Severity: Medium]
+This problem wasn't introduced by this patch, but does fill_rpn() calling
+reset_rpn() [1] drop consecutive Data Entry updates for the same
+parameter?
 
-The driver also has other potential issue: it relies solely on luck
-for synchronization between multiple endpoints and doesn't even look
-at urb->start_frame to check if sync has been achieved.
+In MIDI 1.0, an RPN or NRPN selection stays active across multiple Data
+Entry messages until a new parameter is selected or RPN Null (0x7f/0x7f)
+is sent.  However, fill_rpn() calls reset_rpn(cc) after emitting the first
+UMP packet, clearing cc->rpn_set, cc->nrpn_set, and cc->cc_rpn_msb/lsb
+along with the data flags.  Any subsequent Data Entry message for that
+same parameter then sees neither rpn_set nor nrpn_set set in fill_rpn()
+and is silently dropped.
 
-Regards,
-Michal
-=20
-> > > Results (bad starts / total)
-> > > ----------------------------
-> > > - default, external clock: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A02 / 30
-> > > - default, internal clock: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A07 / 30
-> > > - lowlatency=3D0: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 no improvement
-> > > - keyboard/mouse unplugged (same xHCI): =C2=A0 =C2=A0 no improvement
-> > > - quirk_flags=3D0x100000 (FORCE_IFACE_RESET): 7 / 110 (~6%)
-> > > - quirk_flags=3D0x100010
-> > >  =C2=A0 (FORCE_IFACE_RESET | PLAYBACK_FIRST): =C2=A0 =C2=A0 0 / 90
+[1] https://sashiko.dev/#/bug/linux-552af5af-5e38-4c5d-9b46-76886460e72d
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107111056.667-=
+1-alyandra5b@gmail.com?part=3D1
