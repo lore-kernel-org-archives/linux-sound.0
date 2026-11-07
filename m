@@ -1,102 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794062107;
-	b=l1ni+A13doXPzmRScFSSrXXV8Dl/97p8vZRK0a+v6QootCK3hhPLGcqUaQ7qP8FMGu66
-	 OtNLcemlmIGSyXg9HMhVdOjpOx64q+sCs5W6pDpWO8dJgqJ9KGBea9mJyc+izlwPkLndg
-	 8IxVzmd+NEhV8LsosE2hlIuGWCrPZYe8G4YES2/pa1OF34FTd+IuGzZH4sF+DeFiKL57L
-	 CKTakdosLhP3NKMGmXHri5BP8cl6Wpw7FuHx0JGqEAgninbfxRw/x1yxGYQ+NMjXZ4x7E
-	 DjPoKVfv5CqSYZ7plcqpi37URBMiqLmS63vV+GP8XOke41iJqMbKks4bWmDFNaytQZw==
+	t=1794062787;
+	b=SBMtRyu42RJsVaf2JfG8jVtycZpbbRh2gPCXQ/DNGtQey3NcyBKCl32DuI7lpebPvgbM
+	 lSQNV4l+xrPCdgABvCyV4sN2SXsTjlnvk4kMwxhHwvcfAayEkfTPTozFPZAGrUbDk1L3H
+	 mjRxIKc5U3+q7U++S8CdDbeCljog5nbiy+4gDa7dOKL0GIYykxR4UWpMJTwdyoI3fRYUm
+	 UdRrUse2iY3eoStu9w5vf+njMr6RqLwv57lV1DYIKELjO3IkMv4Xlo19dSrL4v/SyvJpA
+	 RHY6wYcqDwYvgX/xw1AO0XqypbjxrsRQApgqTKNEH3E35WkKKSJxDpm14xsYb+yv6kw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794062107;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=FnXDhydnb2ccBc+HkqfRuBRFsa8PxXuzWixMqzpGlMU=;
-	b=GOEi2C6UOWDiYhzO9vnLg9z1EWuHEQvkImF3uC2rwdWgbwjzuymAEfyCy1ysgmAiMI36
-	 YPLBGVaggQBxhtSllJqLi3LocdEcJthCi9quwFHqnc4efMFrD1LgcAFt4VBR3keT4Gr9f
-	 gkLeZh2C4qPVfiHVcoq53DzhaEEmPtrFVjKbtuzmi3QgMle6u3eaB0UN6CvPCQHRu6XHT
-	 k2KhIlm0Z5vmNCflZVPalGkICqdm4a/Se/fz5LnV9CVWCAUeG6ZI1l0zhCi9WjT/HY3kN
-	 bUFIWmCqZ77RyjCOgzDaLl9Hsunf7uWTni1hVDEKPqJdB3F+Y0Iyz2NRlI+p0tNi5Gg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794062787;
+	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=Y/U4/Y+c7YCJH2gj37MU9+SaDQx2kcmCGuUGv7p5siI=;
+	b=a3+nMZ1dwz8ITstpfND6CWqMIpWZRsaOvjyclNFN9Q9xAISCWTpAJQ5GidN2Olmzg9rO
+	 shqv9uIdcA29SrFE3lHSziPI7xuqo5+gNNwGt1E6e3ViYYHTAi96kcsrEC36FKgjdZd/Q
+	 1TZq0baxOdUBeZfiXJCuBr58lG1U6zSNVgPjxLfSsqDEGsm9mnz5VpzG7Sl6xFX62JXhg
+	 xrFG4VPXv1nGIAGHhQPOCg1w3n+FWdB39fnvp8RDaJz7+YDOnh3l9uwn6dQyp5NIYODlI
+	 9P69kf10L+KM9OBTy3pMfgM/kjeiibJHo7nBa37PqxXxzww5r0Fj9zPLQPoyqcNkzKA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=It0tjF7X;
-	arc=none smtp.remote-ip=74.125.82.174
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WfFErCpX;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5B3606EE88
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 14:35:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD5B3606EE88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47082606A326;
+	Sat,  7 Nov 2026 14:46:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=It0tjF7X
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-36fc0a3fe93so2584043eec.0
-        for <linux-sound@vger.kernel.org>; Sat, 07 Nov 2026 06:35:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794062106; x=1794666906; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FnXDhydnb2ccBc+HkqfRuBRFsa8PxXuzWixMqzpGlMU=;
-        b=It0tjF7XWj++NO97QlIi+MzWsqv7dS+rLoAjkHiEBDKsdOwkLwXkcxT7Ik7ap4Urjn
-         YI8UTGIEzQo7stz5MHOmV30obduE2A44pHBsRy89yax5YgZPFcZP/I/ZjPM0PbTZ8anh
-         kE3UVi//VVoYYPYw+MD/c0+acOFFpYGqmnRZzHyK+1Ynu5aRuW1Ktirfj5RGHoDSMXcY
-         yx0+sXtBo1Z7Gd6IJoueeJi2Kr8NvRjuMQxx5CfOdnBxdeZ3sDK0qigZEnY94G09p2H2
-         6wG33TspzAHEgFIYLN3nhjmMxdOD9tpWr7Vldo5sroGRSsGU+5fCbivBb7dTslLwANGj
-         GzRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794062106; x=1794666906;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FnXDhydnb2ccBc+HkqfRuBRFsa8PxXuzWixMqzpGlMU=;
-        b=Ru2nFeHGkGFCT27oX0fP3s24l6PMULPd9N2c95s61/uMaU2Hu3ehgf2K0LqLpmCWKD
-         tNcpIGrLBPKYow6TuZ2v3NVZIBHH4ziIJ/Wm53EiOgQLfda6YMgZhbfDVNQoNRzp/VDB
-         4geGW+OsF13s9UFJjbfb87HUT9ojCfA3PwLIFR+bgIVG7K/f72ZZxctlJJ/GdshYv+JM
-         AX0lYncFdRvoCITgyYKI4cBWr3tCNWqb4S5kd1ugHy8JE0PMn9IUcY56YOXq8LdASKQi
-         Uon4IfZ0WwLEZUbzCz3bj/kDMyX4Dr7HITV+blbunj/bfUB+xV3tzodF+7iWHLDwUxo8
-         FhJw==
-X-Gm-Message-State: APuU4Z89NQGSwYXAB5hA86u9rz98ZdYBuu1NW4lHHbIhjYdgdtt1LRHt
-	qRn75SjNOTXDWBH3cnDxXjOVFnUmcaz4LSuzGZ5N4Upb0rNM/HQHdiaYqSJlXagv
-X-Gm-Gg: AYBFou2Cx3TIGPf+b2zqi1l7k8ShJTXBnRbTC15XXE53d0pkvB4m1TeeiRdyPMRrIG/
-	VxbSgz/aJfoFGq76hgGPjDbLL46FsY/Lfc7cdc1uh3sIXAtC22xU4eIQij4dc0ImPORaJr1NeIO
-	CN0bgNG/LHKKa5oZMxPyq/bkBIajY8Lye1jdFkBc33LpZbJRWq0peCTHRD7eakBVb0EZWdePgWi
-	+Kj9iY4BZYsmXWGoladhCouJlFm8KKJRqvrtrf7XLhksAujC1JD6XZTc/OqibULQ0s31XmCHXUD
-	HNBR6yu40DBMCor5naWKKaTaERE7Qvy02VhoEyrzsnoZeJV8/U89HILzmjyXWlqUEDMIwGGE2bt
-	LC5OcwfXqMHK+nIjJJSVFGTxSVFQ1LE6kk2w+f0E5yXTYVBAjSyTk+bChQqUZrunws3I6jqDsjz
-	SlHoRThux1OHLw6GA6Yb3jlknBEiEACIpnugrRbv5Z7HkdlWpOdnZE/f5XTCcqQdxEET8NvfYGu
-	/0DqeqOcs8rZ4oPJMIwt7HN3RzIJW+1iE3OQqntEUKhH5/Xz5yLr/o2Uy+wjuBwHKVh0NphOvn/
-	2tZqHESKeZ6AO6bD2azsQLsHS01CkBHPEsRtmm0BbU8omFeinGO2Njc+ehP56+69YDivp7+DJs9
-	vtraQOXPwI9vsGiBGFEKitTLy9vPZm5kWCOgBuXvcM/D/xw==
-X-Received: by 2002:a05:7301:d805:b0:36b:f09f:924a with SMTP id 5a478bee46e88-36f7592e4d4mr7639013eec.14.1794062106044;
-        Sat, 07 Nov 2026 06:35:06 -0800 (PST)
-Received: from localhost.localdomain ([180.182.24.11])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36fa9aea75fsm27881873eec.15.2026.11.07.06.35.02
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 07 Nov 2026 06:35:05 -0800 (PST)
-From: Joonho Lee <mynameisjune111@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	anton.yakovlev@opensynergy.com,
-	mst@redhat.com,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v20 11/12] ALSA: virtio: prioritize staged capture period work
-Date: Sat,  7 Nov 2026 23:34:21 +0900
-Message-ID: <20261107143422.29319-12-mynameisjune111@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261107143422.29319-1-mynameisjune111@gmail.com>
-References: <20261107143422.29319-1-mynameisjune111@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WfFErCpX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD4851F008A1;
+	Sat,  7 Nov 2026 14:46:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794062787;
+	bh=Y/U4/Y+c7YCJH2gj37MU9+SaDQx2kcmCGuUGv7p5siI=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=WfFErCpX1VeGCOCpYaYsSl0Cr5jlTysRBNrmJvQLMvInGZeEq9NfWCUbnGqRAQJNI
+	 +jUHamn7SAOO5GBFtEIjLGZnN1ZZqmCNZKMEgTv3yXDtFbRAAn4OBksp598rw6lnQw
+	 a9UXMTWfRdjj7/MLv65ljDg6jvH0OythlBq1ToNmFT6MQlEW4p+/U5RfrTyTeUQr+2
+	 eTltb1CL1wsWjcYT1dPBqhG6SQ4qJRnCP7AZRTqde7Q2W3yOcHVUOAXKRfEiUR0PHQ
+	 Y6kLBqcDX4ozHCUfEV2npck49pSiPIhpTXKjBpyAcEXVkVI5Jjk5nnYStnc0+ORlhT
+	 xyqFYnX1Qurww==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 9E02E2A4C628;
+	Sat, 07 Nov 2026 14:46:24 +0000 (GMT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -106,33 +52,74 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v5 2/4] ASoC: cdns: Add Cadence I2S-SC controller
+ driver
+From: Mark Brown <broonie@kernel.org>
+To: joakim.zhang@cixtech.com
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org, 
+ krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com, 
+ p.zabel@pengutronix.de, cix-kernel-upstream@cixtech.com, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20261106105208.1246554-3-joakim.zhang@cixtech.com>
+References: <20261106105208.1246554-1-joakim.zhang@cixtech.com>
+ <20261106105208.1246554-3-joakim.zhang@cixtech.com>
+Date: Sat, 07 Nov 2026 14:46:13 +0000
+Message-Id: <179406277372.3424803.17958802824910186591.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1431; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=v4HdLYm98sCKNpNKmPbLCJ65MizgcuLnPoOUw1rjLew=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLeWx7YyDDRdY2E6mKrrLtcFw2ynjdnK27f2h7QdLBGW
+ Pbfud/WHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZhIYTgjw139u1V1O0VLn9Td
+ e6sz/3mC/B73YD5+OdNr1xpWenPtCGX47+Ej1dof41KR/Du4nfHNQgWGJV/ffLFtNTld8myDcu4
+ uVgA=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Queue staged capture period notifications on system_highpri_wq through
-the common scheduling helper. This allows capture notifications to make
-progress when ordinary workqueue workers are delayed by CPU contention.
-Playback and ordinary capture keep schedule_work().
+> Add support for the Cadence I2S-SC controller found in the CIX SKY1
+> audio subsystem.
 
-This preserves the existing priority proposal without mixing RESET or
-lifecycle changes into it. It provides no hard real-time deadline and
-cannot prevent a userspace reader from overrunning its buffer.
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
+> +static int cdns_i2s_sc_hw_params(struct snd_pcm_substream *substream,
+> +				 struct snd_pcm_hw_params *params,
+> +				 struct snd_soc_dai *cpu_dai)
+> +{
 
----
-sound/virtio/virtio_pcm.h |    4 ++++
- 1 file changed, 4 insertions(+)
+> +	} else {
+> +		/*
+> +		 * I2S mode: mono maps onto the left audio channel, while
+> +		 * the frame still carries two slots.
+> +		 */
+> +		if (slots == 1) {
+> +			i2s_sc_priv->is_mono_in_i2s_mode = true;
+> +			slots = 2;
+> +		} else if (slots == 2) {
+> +			i2s_sc_priv->is_mono_in_i2s_mode = false;
+> +		} else {
+> +			dev_warn(i2s_sc_priv->dev,
+> +				 "I2S mode supports up to two channels\n");
+> +			return -EOPNOTSUPP;
 
-diff --git a/sound/virtio/virtio_pcm.h b/sound/virtio/virtio_pcm.h
---- a/sound/virtio/virtio_pcm.h
-+++ b/sound/virtio/virtio_pcm.h
-@@ -168,6 +168,10 @@
- static inline bool
- virtsnd_pcm_schedule_period_elapsed(struct virtio_pcm_substream *vss)
- {
-+	if (vss->direction == SNDRV_PCM_STREAM_CAPTURE &&
-+	    vss->capture_staging)
-+		return queue_work(system_highpri_wq, &vss->elapsed_period);
-+
- 	return schedule_work(&vss->elapsed_period);
- }
- 
+You should really set constraints in startup() which limits to two
+channels if the DAI is configured in I2S mode, that way userspace won't
+get upset when it tries to do 4 channels..
+
+> +static struct snd_soc_dai_driver cdns_i2s_sc_dai = {
+> +	.name = "i2s-sc-aif",
+> +	.playback = {
+> +		.stream_name = "I2S-SC-Playback",
+> +		.channels_min = 1,
+> +		.channels_max = 16,
+> +		.rates = SNDRV_PCM_RATE_8000_192000,
+> +		.formats = (SNDRV_PCM_FMTBIT_S16_LE |
+> +			    SNDRV_PCM_FMTBIT_S24_LE |
+> +			    SNDRV_PCM_FMTBIT_S32_LE),
+> +	},
+> +	.capture = {
+
+The DT binding allows either TX or RX DMA to be omitted, the driver
+should only register the directions it's got DMA for.
+
+-- 
+Mark Brown <broonie@kernel.org>
