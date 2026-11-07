@@ -1,94 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794065033;
-	b=UECeM+85V1mA/n7XVwJexQroVWnRbwBN7HOx+yF9GsJX1WBLFeSarPEJXJFyvBE2z1NH
-	 FIdvvoo2ZSFk3xwTbWvUMvgUL0cJtqwPJLzqiufWyVdrh1AhEuxnYmaGA+jQrudwVqKQR
-	 tdAUdGXy21LEny0AH+hUCAAqDgFyo9kD5mDBuwSdQvybFmavrNTExG83kjMFG7kn6YwjD
-	 v7vwf0Ms1d/Ey9ofgUnSAF6IXZz5hM816m/M2/HRxbyhQnVUIq3CQ1rsJjF22Z2ulLEg7
-	 qVU2Xl788w6xMOVlHEu/2WyS6JGRsiZnFgwh2lSVV5sq1BJUHoNEQpPRlzZ8XZ0ieRw==
+	t=1794066137;
+	b=3Fd02+3e6XXVO3sKrgh8aC0UAcrlGOTdR+3Sxzz4mQnY+OZ0Rf5WbxCr3blX0lh2T8mW
+	 qpFAr8lDzDpPJ5g/CgYfCdH3APpNHz9Zc13ZILoMbpXCWrc6LQaGLlKYkq9l/0j8Tixm8
+	 /j+8NFOElbJC2+fyegb9nRM3tdR+DlztV4aSLHbw69HYZIrVsPojPph1SVnxYZY4Cdon9
+	 oQtzJ83Bx+CnBZIFmn8MPapUECG6fLNGq+tcqy0sFyXlW9287x6ypk3XmvddvJUWy8aVU
+	 AL5CAoqOyTTI+Ah3WN3BaEnJX8I9Z4vQ8gR+t7rd9CC5Ag+/aNCezecjmXIkEi3iCzw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794065033;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=yuqPX9cgz/PfFshrpxeS4PIPejVFogW0dOjG9skcWak=;
-	b=KZ+z5hCvrd/CkhJJwQ/OdOBMbG4+fT5dLm5zsDR+QjMVzTcJnDdtB0zdAWg7QNDaNSZ1
-	 9TojTRy46fpxzEOmsJHEV2OOKjbVwEfxGRNZVUi6VrQKfhzUmlKNZ57lQmL2vaidITgXh
-	 F6eBu410eSEIQi/Q+ZJXiEk3GicaXqQnFXLJPmwPFuPyKTjL0cPEXXwY1T0fk1pno7wcP
-	 hwieqhyEzf1rEgyyzwVac5sK+8c79vxgkCxfetHqRwQNPx38PKU4E/5TAVch+HQoafluu
-	 slPY+p+0YQMLzwviTixslSWv8WYBFjrHgIEBGpBFN8gWrYkQAaZUTVcio84DXaIP+DQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794066137;
+	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=02RmMrYDuqe1ZwKJfkDpL+ozKnlBKLAvKi1f/ZPO+eM=;
+	b=4zeb2qcfUA8bR2QBG4HyxgJz67DTbSEGv+Dva0avL6vS6z0q1iKZ3/iiNLCm0qJivmyW
+	 T1bIY6eXgVDcJ6kqOuI2V8UbLYBNZBSCqpiMjnms9ecG/LX9GAg02nh8fwx8zB8n0F642
+	 K/iNCHwLq/gD/8WbV03NTe7ff/iwe4wHq7qJs12kZ47tmyt1TIIhNaqMbBKWkJVslnArG
+	 3ZRv2RE+8ikuTF+0166HSRg7jOhiyhHFnYJl0dqTN8luRnNb5jrrmoakrxZzN484raxMo
+	 Aqo4rhUnXYpwinbOMFl9xG2dYuIwQUmeMM5lAgzseNwE5pLW/RhytSA6JXS38AtGS4Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RAiFLKnu;
-	arc=none smtp.remote-ip=209.85.208.173
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bUpMjpsv;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE77606A9C5
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 15:23:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0DE77606A9C5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D992606A326;
+	Sat,  7 Nov 2026 15:42:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RAiFLKnu
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3ace2e3a2acso12140381fa.1
-        for <linux-sound@vger.kernel.org>; Sat, 07 Nov 2026 07:23:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794065031; x=1794669831; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yuqPX9cgz/PfFshrpxeS4PIPejVFogW0dOjG9skcWak=;
-        b=RAiFLKnuPuOTGe1u56r9IzjIMT2IEqQUdwdsUla+D4Y/9XDsA9AfakGEAzZ8r8RkZY
-         fZ47G0vtgINRh2yVIs882gHFQK0uvUdjSz7sU/LcCyGlt0Dmmd6MBoK/f4iDNdyW//pQ
-         UpFjFHUb+paGIo5hZDjzcrhnKnlsqMpj46AgYLoUOi+7eIEFLUDvsAS57AK0Kgc3jXH9
-         Il5Gb7FfkgK/R6lu+84vCyBUaQlvDCLRjRNfcVEOFkrB3Co2cZvni3MRU63tJiW9AxAE
-         28spAjvjhdzqGSeIdNbnSYJTsAYgr2XBOUpjoHwJXiYCA6QOdhF7NantbMnAPjGWj83Y
-         rIPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794065031; x=1794669831;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yuqPX9cgz/PfFshrpxeS4PIPejVFogW0dOjG9skcWak=;
-        b=zn6+V/zChSKHRRB95DMEbbTxjPsoLJv4E4PwPRqO8a9xZdZ1LeRiqMG2r+IWsP5dXO
-         DwxZCeVYKiecErl5kVg3Xcu9R+CXbbEG6n6E75PUvv0M9gTxnYKnTAGOeI3XN6W8qTbI
-         wVAHWLFNGpGVbQMlJ3s+qcvJf8SVPebb0XMoe5oPWFe26V6GpU4SrvdAPS5QDxyBjO15
-         ieq5bqujhkR484zLMLlnK5oeXIYyVQhOUCA77sLkUBDjFFo7gWTLMh9RN3mlQxAA7k9n
-         9MtKHTBgSwWz34CBFlfhvwZXNotMojcaotAG3u+zXflmpMfcyj1Jtcm24SWKWDSlush9
-         bM5A==
-X-Forwarded-Encrypted: i=1; AL+hErEJuzXNpE7a8/Ne0LVEl36NDQYtPDLuoVeKR+3ACPvViPlLzHmTm/Tv/IZBPCvrvrSMGwD6O69fhTRhSQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9cCFAwAaYFqOX1CvrHJhLS8PH18LFE/vu8TPmpO4HZw64vA4qI
-	v1qqj6glLAVwv4ISyv9004AhH5HqIVEurEtHK9PHauFRv3cADGoZ50Jn
-X-Gm-Gg: AYBFou0zrEvotHPBa9KKr53DLDVwDTilz/6VJ5KuSSRy3iE7BrWkXO8Oh4f7rYA07Z5
-	a6rUgm6i3DsFqNmKDabh42bJVdU1rnKhDEDW7J1Q2ewBegGfqCbuVfa44MC1/eT4HIim61/qvxL
-	eCB1GipfNBLPF6ECkOVfp6dH66xB3uI7JnXAxzMa3J8Jyrh6ClHR3rw6xxoi6P2cqY1gJLc8ymV
-	ew16BQtznpMw6MCL2urpvanNGXk7pi8lP8DXyNqJxonrjSVtM9ykAJ3JBxewYog7bMBLIBIOc0u
-	tE6s14pXZE+NAelVwylRXUNasWYRaedI4LwukWYp5LuuL3C9nJDg+hiGv/wC88gJC/9NX5RdObP
-	LuVtqYptT8PYOWDQDNwwbor12iH6O1zPsAHMlxCmjFl2JIL9rOCpPx1wuP5eHi3lgT8jFh07ePC
-	GtCVEaQwjGBPWYfVFxOlmaDPpPqLjhOeK7A3kxbFJIlQrq296+hDjUu9uuySCZW/C1yQFzE74Ne
-	Gs2vimoHa8MdpyVmSqhlVawUHvieFEPatOAE1MrtF/P/4+Eo8AH0FrUHpwPfHdtyzFTkTUl909I
-	+w/wuFHsU6C0Zx7vfPxmrw==
-X-Received: by 2002:a05:651c:a32e:b0:3a9:c840:10fb with SMTP id 38308e7fff4ca-3acf38960fdmr12270901fa.2.1794065031102;
-        Sat, 07 Nov 2026 07:23:51 -0800 (PST)
-Received: from thinkpad ([92.36.72.88])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3acf5fcbea5sm7070411fa.33.2026.11.07.07.23.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 07:23:50 -0800 (PST)
-From: Andrey Zakharov <dedemorow@gmail.com>
-To: broonie@kernel.org,
-	lgirdwood@gmail.com
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: wm_adsp_fw_find_test: Replace strlcat() with seq_buf
-Date: Sat,  7 Nov 2026 18:23:38 +0300
-Message-ID: <20261107152338.77837-1-dedemorow@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bUpMjpsv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A45D91F0089F;
+	Sat,  7 Nov 2026 15:42:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794066137;
+	bh=02RmMrYDuqe1ZwKJfkDpL+ozKnlBKLAvKi1f/ZPO+eM=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=bUpMjpsvKy6zoWTeJK5ROw+PaPQev2GFzhG3yHzZ+c+NRw5wn4jz8dbWU0DOI7YkU
+	 vkDgeuO0hqY9h0Dn7fqZcEwDNmjRHvhRzA8de5jar+Sxa1cpRMt7oQzxRLqJDedr7p
+	 yeIvwL56z2nNP8Hu/WREF5NnHya6lMTWjVHF7GO2nGjIfH6IdUrg63Uye6iJdryNVC
+	 DbSTG3j6gKfD219c5PM1rTLkm7MeOlouNdbpd72L4o45WTRDx/ptmcDMaeSGqKgevF
+	 QnaRIEJWQ+DRS9b2EuHgV+oHHkwORNT7hAi0FXiuYFS+xMABbHvXwdhAZm5/9ksQqy
+	 A5la3nD6zn/WQ==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id D59B02AB3711;
+	Sat, 07 Nov 2026 15:42:13 +0000 (GMT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -98,89 +52,65 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] ASoC: fsl: imx-card: fix DT node reference leak on
+ unbind
+From: Mark Brown <broonie@kernel.org>
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20261104024057.1508822-1-vulab@iscas.ac.cn>
+References: <20261104024057.1508822-1-vulab@iscas.ac.cn>
+Date: Sat, 07 Nov 2026 15:42:12 +0000
+Message-Id: <179406613243.3424803.16218252867759690236.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1211; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=1l5Z1GoGtVhro8Tj5KzjbjIg1LqSe7tU5rSYeviWp0k=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLeu139dPVW4MyTcxTnNCwTn2b6qPHrnsR6VStB060lr
+ 8+JZ65L7ihlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBE8rQZGQ7/SZw2MeB/+t6u
+ L0WmJ/pUZy9p1SuSdLxjdmrxZWHfx48Y/peZdad6n+6fez9KZz6b1eXj626Zv74UmVS0apHC1zK
+ DuwwA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-strlcat() is being removed from the kernel. It runs an unbounded
-strlen() on the destination, and its size argument is not tied to
-the real buffer, see the issue below.
+> imx_card_parse_of() takes references on the CPU and codec device nodes
+> with snd_soc_of_get_dlc() and snd_soc_of_get_dai_link_codecs() and
+> stores them in the link's component arrays. The driver has no remove
+> callback and the ASoC core does not drop these references when the card
+> is unregistered, so unbinding the platform device or unloading the
+> module leaks one device node reference per CPU and codec.
 
-The test builds the searched_fw_files string by appending to a fixed
-size buffer in two places. Use seq_buf_init_append() and
-seq_buf_puts() instead. seq_buf_init_append() keeps the NUL-terminated
-content already in the buffer, and seq_buf_puts() copies as much as
-fits and keeps the buffer NUL-terminated if it overflows.
+> +static void imx_card_remove(struct platform_device *pdev)
+> +{
+> +	struct snd_soc_card *card = dev_get_drvdata(&pdev->dev);
+> +	struct snd_soc_dai_link *link;
+> +	int i;
+> +
+> +	for_each_card_prelinks(card, i, link) {
+> +		snd_soc_of_put_dai_link_cpus(link);
+> +		snd_soc_of_put_dai_link_codecs(link);
+> +	}
+> +}
+> +
+>  static const struct of_device_id imx_card_dt_ids[] = {
+>  	{ .compatible = "fsl,imx-audio-card", },
+>  	{ },
+> @@ -940,6 +952,7 @@ static struct platform_driver imx_card_driver = {
+>  		.of_match_table = imx_card_dt_ids,
+>  	},
+>  	.probe = imx_card_probe,
+> +	.remove = imx_card_remove,
+>  };
 
-Tested: built with gcc 16.2.1 and ran the wm-adsp-fw-find KUnit suite
-under QEMU (x86_64, kunit.py, REGMAP_BUILD): 90 of 90 tests pass, the
-same as without the patch. As a negative control, changing the
-separator written by the firmware request stub makes the search order
-cases fail. The directory listing in the pick_file test is only used
-in failure messages and is not compared with anything.
+This only runs on remove so we've got the same issue if anything goes
+wrong during probe (eg, deferral).
 
-Not tested: other architectures, the case where the 768 byte buffer
-overflows, and any real hardware.
-
-Link: https://github.com/KSPP/linux/issues/370
-Signed-off-by: Andrey Zakharov <dedemorow@gmail.com>
----
- sound/soc/codecs/wm_adsp_fw_find_test.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
-
-diff --git a/sound/soc/codecs/wm_adsp_fw_find_test.c b/sound/soc/codecs/wm_adsp_fw_find_test.c
-index ae686dc4fa94..2a44b2670fa9 100644
---- a/sound/soc/codecs/wm_adsp_fw_find_test.c
-+++ b/sound/soc/codecs/wm_adsp_fw_find_test.c
-@@ -8,6 +8,7 @@
- #include <kunit/device.h>
- #include <kunit/static_stub.h>
- #include <kunit/test.h>
-+#include <linux/seq_buf.h>
- #include <linux/slab.h>
- #include "wm_adsp.h"
- 
-@@ -104,14 +105,15 @@ static void wm_adsp_fw_find_test_pick_file(struct kunit *test)
- 	struct wm_adsp_fw_find_test *priv = test->priv;
- 	const struct wm_adsp_fw_find_test_params *params = test->param_value;
- 	struct wm_adsp *dsp = &priv->dsp;
-+	struct seq_buf sb;
- 	int i, ret;
- 
- 	/* Concatenate string of dir content for error messages */
-+	seq_buf_init_append(&sb, priv->searched_fw_files,
-+			    sizeof(priv->searched_fw_files));
- 	for (i = 0; params->dir_files[i]; i++) {
--		strlcat(priv->searched_fw_files, params->dir_files[i],
--			sizeof(priv->searched_fw_files));
--		strlcat(priv->searched_fw_files, ";",
--			sizeof(priv->searched_fw_files));
-+		seq_buf_puts(&sb, params->dir_files[i]);
-+		seq_buf_puts(&sb, ";");
- 	}
- 
- 	dsp->cs_dsp.name = params->dsp_name;
-@@ -160,6 +162,7 @@ static int wm_adsp_fw_find_test_firmware_request_stub(const struct firmware **fi
- 	struct kunit *test = kunit_get_current_test();
- 	const struct wm_adsp_fw_find_test_params *params = test->param_value;
- 	struct wm_adsp_fw_find_test *priv = test->priv;
-+	struct seq_buf sb;
- 
- 	/*
- 	 * Searches are accumulated as a single string of space-separated names.
-@@ -168,10 +171,12 @@ static int wm_adsp_fw_find_test_firmware_request_stub(const struct firmware **fi
- 	 * a simple KUNIT_EXPECT_STREQ(), which avoids the risk of bugs in a
- 	 * more complex custom comparison.
- 	 */
-+	seq_buf_init_append(&sb, priv->searched_fw_files,
-+			    sizeof(priv->searched_fw_files));
- 	if (priv->searched_fw_files[0] != '\0')
--		strlcat(priv->searched_fw_files, " ", sizeof(priv->searched_fw_files));
-+		seq_buf_puts(&sb, " ");
- 
--	strlcat(priv->searched_fw_files, filename, sizeof(priv->searched_fw_files));
-+	seq_buf_puts(&sb, filename);
- 
- 	/* Non-parameterized test? */
- 	if (!params)
 -- 
-2.56.0
-
+Mark Brown <broonie@kernel.org>
