@@ -1,55 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794050664;
-	b=19ygBhRj++BHOH1Tke5GegIG5qVhwx0NbGE/5Nh06tyILkxsCjEklCjMrpE30o8ycEtV
-	 CCirYQwuNubepzc3gfM6Rktx/IVuc+fVBqTZNp7JcO8ycqsNhiOKyKVL7tdK6GHeYuWb+
-	 9TSz4XXqwzyH5RfyBMQcWxOQofR1wiHWCi4ZqTPeI3j6wtT0p7pYKZmcj4POmUkJSpWaq
-	 2C5VHYeJ4PD4dlJgnzyo2GCyf3j+vFGOu7N2OrueZGXlqfuJykZckQyBlLeTZH9BHd3yV
-	 YqNdCluAchGD4zR+JORpsaaWxbjRcuHpfOIEokpgVAf2cw3EOYBJmdjAic09RYLQ4Zg==
+	t=1794051029;
+	b=yqzqb0hgm2vmqqRwkOnp+8xIQOz06ryHeMKWXbwhGmSDphrlvNwh6vw5RgTWt433p32C
+	 Wm1b4rgIM/W4dOJ+kFEzlzAZMBBzn6InSae1J7mEMMAB6BaIfP1pZLA7tN//1JvG0RJk8
+	 w/bpWcVZxFb1vDshMOnePfKfB2in0nltMYcLFziblLawqFYuXLvUpUpSy+n18BL048lk/
+	 1xsQpQcjkxQThlqavhTwi/6VOHs3VFyW5opRBL/keVnFXKDzDeZVbmTAOqQbmonQ2HQmf
+	 wG36dDkcG/6N7c0qQVguT/gM9Oc09TCp1o4RK1HOI9xJx43My+16prRAueu4x0RypLw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794050664;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794051029;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=o3FnEpPPeeVN7veQWUCkiyXNbkWvxZrHsqijwgLy9vQ=;
-	b=PeBhxfDSSzFTR7SSMXC7vyQNnlp3ZHVsPLsBExqWtx/kc/Y2lB0VO5mQ369lUxi+rHKp
-	 TRFCNNLLMv/EWl+sxPB+XaqoWll6UuRfok6tSrp5muGA5sNPb0Z3ij7YJMLue0rtaNVIX
-	 L7P5J3AKH2sR2Vrvb19LJ55v14pcyzT4EuyehF31ea51psWcpfrFhnjxKrKIFrzAtlYcO
-	 w0zM3Ad08BtUy4DIj9pYLO81znFBphC7L9U1fIBm0H5Mt2QB+4rVDqFYDm8/sS9fLktJI
-	 HNsfDzDymGjPbWE2o2106TcizhEX9Qerokefpz3I95e4RZiON9taWJVE4MrwNUGQcaQ==
+	bh=LVW8QJJzAYiWqg2mJe7i6sVeplqHP06zFBAagEtRabU=;
+	b=acLha2/wBfiJ1sCvjbCml0UtrxaimSdFChbHc6vEf/u9qAtXFxjjKj+hpiuvsyF2pMc4
+	 MvtogwfZtn9y34OrWhgt+ZFgr3eJtCBCF6iPdSzwbn4U8AUdV/pMFZNKe+f3VP1w5QU5k
+	 FumHGDDXwh21jTVGYqWxHYYTEJMfIIl743joPHGU0X5CBYZL+TzJOKX0dEClZ+7vy3jDp
+	 xEG4njUkPz9J/KgfoBHfnpyhZVqila5+95ejNygsXIjw+XeWH1vaD7WZLvnPIua+34HgB
+	 l+Bth9cSKyfB3OiMeiY5ajpEE8xdcFZ9Nig3AZwgbRdhr04dF1klP8+rEoFS/61t2rQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PWKrxIg5;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="cUkwv/A8";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC22606A32E
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 11:24:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FF3606A32C
+	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 11:30:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PWKrxIg5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 117371F008A1;
-	Sat,  7 Nov 2026 11:24:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cUkwv/A8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52C101F0089F;
+	Sat,  7 Nov 2026 11:30:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794050664;
-	bh=o3FnEpPPeeVN7veQWUCkiyXNbkWvxZrHsqijwgLy9vQ=;
+	s=k20260515; t=1794051029;
+	bh=LVW8QJJzAYiWqg2mJe7i6sVeplqHP06zFBAagEtRabU=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=PWKrxIg5CYCx8c1SbTvfuPQbzLrlZc14mHgS5Ds1579+/fkO9bT0qKe7YRrofTvdJ
-	 3PzRmngVZ+qQ+rGvOFOL4pa87OOmPcNKwFtglqABDFNWGFvuoPzq8QAR/ffGCNyMLz
-	 Kamjk7ZN+Zl5GCPD30DVdwM8wIJKyApctbjwntfj/iSeUtucJ3ohQy9+8giDhfSCtm
-	 1IpsRTWDD0AYz0dstjhzYCMOGUJBB8/vNjVCBGTj+hXhUvRLtaFgFC1BhlXOCSE5ox
-	 K4/NOIY14dFnk8uK9WUJvuOzhoE6f/bmFrNx4ggD2qXeuPjnI3VnmHqI9MXnjNcvwQ
-	 JU5YGJ3at82+g==
-Message-ID: <sashiko-outbox-202853@kernel.org>
+	b=cUkwv/A8oiTXgVv07wk0y1PtEjlXWumPBMArsWeNXeoETAjL7AiRqyfLMxYH2dw6H
+	 5/qghbtPWSvejzNMsTOpo6FP1y2WMv/k19lyoek+QspjWL7HXu01SwRisjiHVfBrVB
+	 mFwZpUqZAsort1sDVpQnNFV+eNNMiH/g1n0zsJGW1c+NGhoWzswudkx82nrq9kBYqw
+	 OLklkoxqYi32ESblcBVimR4ngNUi2cL/P5thchDV3Y+n4ghxTi9iDCEWvUKvOUcBTZ
+	 mNceqo7TaM8Wkx4CmzEn4fcmNYCWBAuyghTerfwY6jNYVwxOZ7fKinIYjmMxSsJREG
+	 66e6gbVGQ1NFA==
+Message-ID: <sashiko-outbox-202855@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/2] ALSA: ump: clear stale RPN selector on NRPN change
+Subject: Re: [PATCH 2/2] ALSA: ump: clear stale selectors in sequencer
+ conversion
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Alyandra Zahran Nadhir" <alyandra5b@gmail.com>
 Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261107111056.667-1-alyandra5b@gmail.com>
+In-Reply-To: <20261107111056.667-2-alyandra5b@gmail.com>
 References: <20261107111056.667-1-alyandra5b@gmail.com>
+ <20261107111056.667-2-alyandra5b@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 11:24:23 +0000
+Date: Sat, 07 Nov 2026 11:30:28 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,64 +61,120 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] ALSA: ump: missing Fixes trailer in commit message
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [Medium] ALSA: ump: improper RPN/NRPN state reset in reset_rpn() [1]
+Thank you for your contribution! Sashiko AI review found 3 potential
+issues to consider:
+- [Medium] ALSA: seq: SND_SEQ_UMP_KUNIT_TEST depends on KUNIT instead of
+  KUNIT=3Dy
+- [Medium] ALSA: ump: stale RPN/NRPN MSB/LSB bytes kept on selector
+  switch in cc_ev_to_ump_midi2()
+- [Low] ALSA: seq: missing Fixes trailer for stale RPN/NRPN selector fix
 --
 
-commit e95e219dab86391e1d43f84e1ce499ca3011380d
+commit 7687b62a51dd971356b5f3418762bb460cd2266c
 Author: Alyandra Zahran Nadhir <alyandra5b@gmail.com>
 
-> ALSA: ump: clear stale RPN selector on NRPN change
+> ALSA: ump: clear stale selectors in sequencer conversion
 >
-> The legacy-to-UMP converter keeps separate RPN and NRPN selector
-> flags. When a stream changes selector type without sending data first,
-> both flags remain set and fill_rpn() gives RPN priority, so subsequent
-> NRPN data is emitted as RPN.
+> The sequencer MIDI 2.0 converter tracks RPN and NRPN selection flags
+> separately. When the controller stream switches selector type, the
+> previous flag remains set; fill_rpn() checks RPN first and can encode
+> subsequent NRPN data as RPN.
 >
-> Clear the previous selector flag after flushing any pending parameter
-> data and before recording the newly selected parameter type.
+> Flush pending parameter data with the old selector, then clear the
+> opposite selector before recording new state in both CC and Control14
+> event paths. Add KUnit coverage for both transition directions,
+> pending flushes, null RPN, channel isolation, and MIDI 1.0 conversion.
 >
 > Signed-off-by: Alyandra Zahran Nadhir <alyandra5b@gmail.com>
 
 [Severity: Low]
-This fixes a bug in the legacy MIDI to UMP RPN/NRPN converter.  Should it
-include:
+Should this bug fix include a Fixes tag?
 
-  Fixes: 0b5288f5fe63 ("ALSA: ump: Add legacy raw MIDI support")
+  Fixes: e9e02819a98a ("ALSA: seq: Automatic conversion of UMP events")
 
-> diff --git a/sound/core/ump_convert.c b/sound/core/ump_convert.c
-> index ecbd894f4c83a..fe7d3ee3c6b1f 100644
-> --- a/sound/core/ump_convert.c
-> +++ b/sound/core/ump_convert.c
-> @@ -378,6 +378,7 @@ static int cvt_legacy_cmd_to_ump(struct ump_cvt_to_um=
-p *cvt,
->  		switch (buf[1]) {
->  		case UMP_CC_RPN_MSB:
->  			ret =3D fill_rpn(cc, midi2, true);
-> +			cc->nrpn_set =3D 0;
->  			cc->rpn_set =3D 1;
->  			cc->cc_rpn_msb =3D buf[2];
->  			if (cc->cc_rpn_msb =3D=3D 0x7f && cc->cc_rpn_lsb =3D=3D 0x7f)
+> diff --git a/sound/core/seq/Kconfig b/sound/core/seq/Kconfig
+> index 0d606159103e7..8c08888902a92 100644
+> --- a/sound/core/seq/Kconfig
+> +++ b/sound/core/seq/Kconfig
+> @@ -76,4 +76,16 @@ config SND_SEQ_UMP
+>  config SND_SEQ_UMP_CLIENT
+>  	def_tristate SND_UMP && SND_SEQ_UMP
+> =20
+> +config SND_SEQ_UMP_KUNIT_TEST
+> +	bool "KUnit tests for ALSA sequencer UMP conversion" if !KUNIT_ALL_TESTS
+> +	depends on KUNIT
+> +	depends on SND_SEQUENCER=3Dy && SND_SEQ_UMP
+> +	depends on SND_UMP=3Dy && SND_UMP_LEGACY_RAWMIDI
+> +	default KUNIT_ALL_TESTS
 
 [Severity: Medium]
-This problem wasn't introduced by this patch, but does fill_rpn() calling
-reset_rpn() [1] drop consecutive Data Entry updates for the same
-parameter?
+Does SND_SEQ_UMP_KUNIT_TEST need to depend on KUNIT=3Dy instead of KUNIT?
 
-In MIDI 1.0, an RPN or NRPN selection stays active across multiple Data
-Entry messages until a new parameter is selected or RPN Null (0x7f/0x7f)
-is sent.  However, fill_rpn() calls reset_rpn(cc) after emitting the first
-UMP packet, clearing cc->rpn_set, cc->nrpn_set, and cc->cc_rpn_msb/lsb
-along with the data flags.  Any subsequent Data Entry message for that
-same parameter then sees neither rpn_set nor nrpn_set set in fill_rpn()
-and is silently dropped.
+SND_SEQ_UMP_KUNIT_TEST is a bool option compiled into built-in
+seq_ump_convert.o (since SND_SEQUENCER=3Dy and SND_UMP=3Dy are required).
+When CONFIG_KUNIT=3Dm and CONFIG_SND_SEQ_UMP_KUNIT_TEST=3Dy, linking vmlinux
+fails with undefined references to kunit_kmalloc_array() and the KUnit
+assertion helpers residing in kunit.ko.
 
-[1] https://sashiko.dev/#/bug/linux-552af5af-5e38-4c5d-9b46-76886460e72d
+[ ... ]
+
+> diff --git a/sound/core/seq/seq_ump_convert.c b/sound/core/seq/seq_ump_co=
+nvert.c
+> index ff4ee26adad1f..5e40711303efb 100644
+> --- a/sound/core/seq/seq_ump_convert.c
+> +++ b/sound/core/seq/seq_ump_convert.c
+[ ... ]
+> @@ -847,6 +851,7 @@ static int cc_ev_to_ump_midi2(const struct snd_seq_ev=
+ent *event,
+>  	switch (index) {
+>  	case UMP_CC_RPN_MSB:
+>  		ret =3D fill_rpn(cc, data, channel, true);
+> +		cc->nrpn_set =3D 0;
+>  		cc->rpn_set =3D 1;
+>  		cc->cc_rpn_msb =3D val;
+>  		if (cc->cc_rpn_msb =3D=3D 0x7f && cc->cc_rpn_lsb =3D=3D 0x7f)
+>  			reset_rpn(cc);
+>  		break;
+>  	case UMP_CC_RPN_LSB:
+>  		ret =3D fill_rpn(cc, data, channel, true);
+> +		cc->nrpn_set =3D 0;
+>  		cc->rpn_set =3D 1;
+>  		cc->cc_rpn_lsb =3D val;
+>  		if (cc->cc_rpn_msb =3D=3D 0x7f && cc->cc_rpn_lsb =3D=3D 0x7f)
+>  			reset_rpn(cc);
+>  		break;
+>  	case UMP_CC_NRPN_MSB:
+>  		ret =3D fill_rpn(cc, data, channel, true);
+> +		cc->rpn_set =3D 0;
+>  		cc->nrpn_set =3D 1;
+>  		cc->cc_nrpn_msb =3D val;
+>  		break;
+>  	case UMP_CC_NRPN_LSB:
+>  		ret =3D fill_rpn(cc, data, channel, true);
+> +		cc->rpn_set =3D 0;
+>  		cc->nrpn_set =3D 1;
+>  		cc->cc_nrpn_lsb =3D val;
+>  		break;
+
+[Severity: Medium]
+Can switching between RPN and NRPN in cc_ev_to_ump_midi2() still leave
+stale cc_rpn_msb/cc_rpn_lsb and cc_nrpn_msb/cc_nrpn_lsb values behind?
+
+When no data bytes are pending, fill_rpn() returns early without calling
+reset_rpn(), and clearing only rpn_set or nrpn_set leaves the opposite
+selector's MSB/LSB bytes intact (and reset_rpn() itself never clears
+cc_nrpn_msb or cc_nrpn_lsb).
+
+If a channel sets cc_rpn_lsb =3D 0x7f (such as RPN 0x00:0x7f) without
+sending data, switches to NRPN, and later sends a two-message Null RPN
+(UMP_CC_RPN_MSB =3D 0x7f followed by UMP_CC_RPN_LSB =3D 0x7f), the first
+message sees cc_rpn_msb =3D=3D 0x7f and the stale cc_rpn_lsb =3D=3D 0x7f an=
+d calls
+reset_rpn() prematurely.  The second message (UMP_CC_RPN_LSB =3D 0x7f) then
+sets rpn_set =3D 1 and cc_rpn_lsb =3D 0x7f with cc_rpn_msb =3D=3D 0, leavin=
+g RPN
+0x00:0x7f active instead of deselecting parameters.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107111056.667-=
-1-alyandra5b@gmail.com?part=3D1
+1-alyandra5b@gmail.com?part=3D2
