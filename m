@@ -1,57 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794091418;
-	b=Rer7v8eYkX5mTQFHFI8DUbSJTidanH4Ckc2GQ4P/aq2d3g9xasyIg53AyC+ATg8QVAH0
-	 LlbszJuN5ePiOo3ZBKvK+ZPxxcNFhPdxrmArnztoPkPkJPi2tTsz/QGea91WthseFsoUj
-	 jkyyAlEQECz23mFbjLaDDWNIxGO76ozML7Z6Img/UiRpw2evYfe05+B7Gz1e9tRDsRkmt
-	 8SRq/KJDuLqqbzqpPqsDBw1cWM/xYlQqGs3B6ZkcZQk/JBLHmvmswDjiN45emUAf9kSSi
-	 dboEdh1FqjWQtNnCtDLg1qbAVAfFngfy5XBx6fyRhgMx9rDjJ7IC6/EtU+ry4F3g4HA==
+	t=1794093786;
+	b=OYjYmJqUeKOQ00Py+4Ybn9iUZEmbjf7P3rYgVTv0wCpzL+A5iMBgFg9o65wCIhE6dRkG
+	 IMbV/1iS5rEkk6whIRWgKkeWKBczDzwAMool7LrvAytU1Yt4LYmavYZq8gLJx+qOOBD3+
+	 e+Fm/Z1lM7l6qfz1vNx+MnzV3IPrmBVENVcbzlLCECFHu4beu9zIxeYScDV5PZJZVuwpg
+	 6Gx3grWag72ve4MYJh1Zk/XpVvS8P6UZ0aHTozCflftWrQgT7uoua+o8AOGZPcb4GTuqW
+	 Q30ZgH+L02GTsnJy22vsMi2ST1TwsaV1n9rA015JzorNsAZHvpBR0lzzvIrlSeeg8QQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794091418;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=+hcYI/bpAooFVE+vWiFApfOpXwGF4jtepx4NjpJ1tnQ=;
-	b=NBlV07xlOH1gocQJihCoYaATo6fmOmf5I3qhsId56JPy/vxsmmOxMSrWqxeTRWmgWWuv
-	 U/GW2zSLsD+OAFG1ou13tddk368HiN00gF3RcKFUhbrryxf5jfggnoTTzMJXWQtsB9E99
-	 RaB42i+RkVrqpB2xVobtEod/pAYMm2ZEHa7ltBpom5I4I6x6yUiZMOgVn9uqwu6C1pAHg
-	 SKptOfntkj1CP+ftUBYIhBIjpF+rQWOZIYjJf0mXGO2M6OeNR5w6kSH9k6O9i43H9Qm59
-	 1Qm3bHpipCCYkkKNR43+uzWTuReX6srV5OJ5etPgr5vuO5hd2omx0MAQmIcj8xlqj4g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794093786;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=wjc637b5mR1rWcFoGPlClV34pmy3lLIZ+mkAlzih90I=;
+	b=QEJJJC+IB2fD0eb8nYrAoB2QIVf8bCsEKIz1XR7mlTVPsRXIs4hg8aXzztVohUBAk2oU
+	 6yJMK2BzRaV/76rl3POYd0M0E6EAPqYjCvOoqDm8g3qxivguT8BrONnOjbCjSi2jXwmzw
+	 xlh6v+2wm/XssHNdoDsjqnjx88vz4gXIhzrAibfnIF/VDwD5NVjfhLhYhR2HHpzF0FczZ
+	 C2mAw80e2ys0iUo0IyKf09etKDRE5YKOJyA4qPc+ybsJSXaqY3aPOTdXKoil+J6TRSbKD
+	 Oc+AE8OAaU8iaDzeG+8fSyL1J9EWsb1XOvy8z8TyYq3mn5lY9xwgeHcyl/11+qtybOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yo4DuOmw;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=efvkRhXd;
+	arc=none smtp.remote-ip=209.85.210.46
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F947606A326;
-	Sat,  7 Nov 2026 22:43:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDF1606A326
+	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 23:23:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1CDF1606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yo4DuOmw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9242A1F0089F;
-	Sat,  7 Nov 2026 22:43:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794091417;
-	bh=+hcYI/bpAooFVE+vWiFApfOpXwGF4jtepx4NjpJ1tnQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Yo4DuOmwOxE7M3b947MR03jhsVbuh1IMqH1ca/eyC5F0cUei0HY6wsiR0muI5uNzP
-	 QmqSVxpQ+RS6a0eR2Qd641eGCcquNTo4AtLxEIkYA6CeYsjpjLwXbImhB1AnesBDg6
-	 +tj4cXKaCYrKDXQ2ZtHBfXTCSSKH1u5+oyNx8fHlB1yB72+kRFJRwTuZHsnytt12Bn
-	 CcJ7bvAKE9WZwChjbzJIKCZjSQJUHF3pwiAh7Dg4zJjFuvqeqUdR4bMXT/kDuc+SLA
-	 OOmQO65Cw3fwnuKmZbVjFPRNfrKUhPq4fHvoGsOCK6j330/nCq9qkhCht2uCXacJ1B
-	 JD+sNFeozRZOA==
-Message-ID: <sashiko-outbox-203371@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/3] net: xilinx: axienet: use
- dmaengine_prep_slave_sg_context()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: Frank.Li@oss.nxp.com
-Cc: dmaengine@vger.kernel.org, linux-sound@vger.kernel.org, imx@lists.linux.dev, vkoul@kernel.org, Frank.Li@kernel.org
-In-Reply-To: <20261106-rio_sg-v1-2-bc54b4bd8c95@nxp.com>
-References: <20261106-rio_sg-v1-0-bc54b4bd8c95@nxp.com>
- <20261106-rio_sg-v1-2-bc54b4bd8c95@nxp.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 22:43:37 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=efvkRhXd
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-843b6f8e2c7so95436a34.1
+        for <linux-sound@vger.kernel.org>; Sat, 07 Nov 2026 15:23:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794093785; x=1794698585; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wjc637b5mR1rWcFoGPlClV34pmy3lLIZ+mkAlzih90I=;
+        b=efvkRhXdSfSqtBZv5C8xbgRbpRTnG3wxY9qzpi1f3lBED9RyKEGdkFbfMOff+5MyDT
+         FEkUhpDVD5hVAaS/fNU2jleG4/NQ4Jgc2pCg0tvIbW4FR3wDrTbnJd2NaGxwVK1Tz234
+         ikdtMWMDoblClxpb6TR3JeSKJU2DnvkJUH/T/ZpnvQwDlyz6jk3kPaYOmILXg5s8PvDD
+         h09jwIhTg1oGXp0Dc1pUn2292fOeSsAeNE3E9J1CqHa4PKprF0vOEjYd+7WEVICylEV4
+         zqfGHIOjX+o/iBpMuXv9ntd2FpfrVqQbVXr/1LUzqWDz+itMV7aUZnvgUlfLoddcz1Kl
+         ezkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794093785; x=1794698585;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=wjc637b5mR1rWcFoGPlClV34pmy3lLIZ+mkAlzih90I=;
+        b=qgzGSIeFh8aMVGGbFBJfggITLJunbSOZXAMEUK3Pr3h2zHX5aDG9LA3VB9AXSwJhp/
+         2V7ULRrCLVIfraEy/RV+Fi/eAD/e7JqT3wr+557kXklSchIvNVij9niyEVLewKucZpK9
+         hwaSDSvSQsy/oKiDSoqM2Kdz2o83bvNSw3amfciOILxuKBoo1kSd7g+AvbUGHcyeNbJD
+         w4nQqWTibmnryJOXdp4yKSo5By6u4I1sD3YF6dg9HXG9ZpyZYSysFke+3/sC3NK4XZ5/
+         rvIt2X8TK6GBXG+fwFI9HXkl/IPrHGx+S/9dXqga7yezmqmGN2cTNgQNcAjWjai8z3Ph
+         C1Yg==
+X-Forwarded-Encrypted: i=1; AKwUvBxtZ1bx+kEbW/vFMmol2uAnEpQAwYxssoayuqMZMmgSqPCYwYdRm8qHhU7rdGEl8FLYyk5EHpbb/OtgCQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+txR/pBo3rB7BWZo6QKvf48Rk5mxL/jtmmYKGcKx8VyGphPIXk
+	IjShdbu4mgNz6H+dulrVGvze1Gj2gl1RUeObEx3Z7qwZJAY6aB5DH7Gh
+X-Gm-Gg: AYBFou1mglqHZAtQ+95gIG11zwAs1ELWYUr1BUN3sOk6fFwXwUpNA9dSe9OfGWj12Xj
+	s9zoRqICsLgHLUNexeSpSPZ5wr/jxL5Iom3Fe81PyMoDKUp2AU03XpeMTbSYbx09ykyT2FCo15K
+	s7r1r4UR40G1lYukHF6u5dlzuvHhkHNIsKEehKqw9/JYtEtBh+TU1S8aCQ1CAjSeXCgrtTGAmqi
+	3sqGnl9M1AQT8rf2xGLN0d01qGwN7IhnCNuwUR1iWHpfOKy+R6p4ZfG0azdo7r/vGdAP8RwaTlt
+	+AktMVi1jbde8l/d06KEegah74Ti2MVlBy/0mpexRqfhO3W/kFwWuGV8lU13wAT3V5eURXR7RpZ
+	fDPIDT5pFPMauMLir/rTnE705R+FDNOLTU4btBjX+ljRGF7XCgUWQIHEZ1AcvnMBrCUd5bTcTjQ
+	OpGng1I16WuYhXhcK/EkvmW/0/jYg2AcZnko5OWl51waI/XcQwv3YO8uKd1slqPHFwu88Dqb0SA
+	9oNMlX1hQVMpKDTjuNiZ3Uikojl0uRf8ZUXSHiVx88DdD8oFgVTUuJyIyIHA6o7/hZpZsmPfN6p
+	+bnvYQSa2W1P
+X-Received: by 2002:a05:6830:4494:b0:81c:a8c5:633c with SMTP id 46e09a7af769-85f50724927mr150239a34.17.1794093785105;
+        Sat, 07 Nov 2026 15:23:05 -0800 (PST)
+Received: from huawei-d14 ([2806:104e:25:7de8::2])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85f4f2df8dfsm329315a34.0.2026.11.07.15.23.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Nov 2026 15:23:04 -0800 (PST)
+From: Samuel Leyva <samuelslg03idk@gmail.com>
+To: broonie@kernel.org
+Cc: Vijendar.Mukunda@amd.com,
+	venkataprasad.potturu@amd.com,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Samuel Leyva <samuelslg03idk@gmail.com>
+Subject: [PATCH v2 0/2] ASoC: amd: acp: Support Huawei MateBook D 14 (NBM-WXX9)
+Date: Sat,  7 Nov 2026 17:22:23 -0600
+Message-ID: <20261107232225.3838-1-samuelslg03idk@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,107 +99,40 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] net: xilinx: axienet: unused dma_dev left in
-  axienet_start_xmit_dmaengine()
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [Critical] net: axienet: use-after-free in axienet_stop() [1]
---
+The Huawei MateBook D 14 AMD (NBM-WXX9) has the same ES8336 + ACP3x
+audio layout as the already supported BOM-WXX9, but is missing from
+the DMI tables, so only the DMIC-only driver binds and the speakers
+do not work.
 
-commit b4bb968eb4c8d380631e7d9eb4acd99d61288c16
-Author: Frank Li <Frank.Li@nxp.com>
+Patch 1 adds the DMI quirk.
 
-net: xilinx: axienet: use dmaengine_prep_slave_sg_context()
+Patch 2 greatly reduces a pop heard every time the speaker output powers
+up (a faint one is still audible on this machine):
+the speaker amplifier GPIO was driven from a SUPPLY widget, which DAPM
+enables before the codec output. It is independent of patch 1.
 
-This commit replaces the direct call to dma_dev->device_prep_slave_sg() in
-axienet_start_xmit_dmaengine() with dmaengine_prep_slave_sg_context().
+Both were tested as an out-of-tree DKMS module on the NBM-WXX9.
 
-> diff --git a/drivers/net/ethernet/xilinx/xilinx_axienet_main.c b/drivers/=
-net/ethernet/xilinx/xilinx_axienet_main.c
-> index 8a50cad1c104f..fff3530d9359d 100644
-> --- a/drivers/net/ethernet/xilinx/xilinx_axienet_main.c
-> +++ b/drivers/net/ethernet/xilinx/xilinx_axienet_main.c
-> @@ -1006,9 +1006,10 @@ axienet_start_xmit_dmaengine(struct sk_buff *skb, =
-struct net_device *ndev)
->  		app_metadata[0] |=3D 2; /* Tx Full Checksum Offload Enabled */
->  	}
-> =20
-> -	dma_tx_desc =3D dma_dev->device_prep_slave_sg(lp->tx_chan, skbuf_dma->s=
-gl,
-> -			sg_len, DMA_MEM_TO_DEV,
-> -			DMA_PREP_INTERRUPT, (void *)app_metadata);
-> +	dma_tx_desc =3D dmaengine_prep_slave_sg_context(lp->tx_chan, skbuf_dma-=
->sgl,
-> +						      sg_len, DMA_MEM_TO_DEV,
-> +						      DMA_PREP_INTERRUPT,
-> +						      (void *)app_metadata);
->  	if (!dma_tx_desc)
->  		goto xmit_error_unmap_sg;
+Changes in v2:
+- Patch 2: only move the speaker amplifier to the endpoint widget.
+  The Headphone widget shares its power-up rank with the ES8316 output
+  drivers, so the reordering did not hold for headphones (Sashiko).
+- Patch 2: use braces on both if/else branches (Sashiko).
+- Patch 2: add Fixes tag (Sashiko).
+- Patch 1: unchanged.
 
-[Severity: Low]
-Does replacing dma_dev->device_prep_slave_sg() leave dma_dev unused in
-axienet_start_xmit_dmaengine()?
+Samuel Leyva (2):
+  ASoC: amd: acp: Add DMI quirk for Huawei MateBook D 14 (NBM-WXX9)
+  ASoC: amd: acp: es83xx: Enable speaker amplifier after the codec
+    output
 
-Earlier in axienet_start_xmit_dmaengine(), dma_dev is still declared and
-assigned from lp->tx_chan->device:
+ sound/soc/amd/acp-config.c                    | 14 +++++++++++
+ sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c | 24 +++++++++++++------
+ 2 files changed, 31 insertions(+), 7 deletions(-)
 
-drivers/net/ethernet/xilinx/xilinx_axienet_main.c:axienet_start_xmit_dmaeng=
-ine() {
-	...
-	struct dma_device *dma_dev;
-	...
-	dma_dev =3D lp->tx_chan->device;
-	...
-}
+-- 
+2.56.0
 
-With its only reader removed, this triggers a -Wunused-but-set-variable
-compiler warning and keeps a direct reference to struct dma_device and
-lp->tx_chan->device.
-
-[Severity: Critical]
-This problem wasn't introduced by this patch, but can axienet_stop() cause
-a use-after-free on lp->tx_skb_ring [1] while
-axienet_start_xmit_dmaengine() is running?
-
-When lp->use_dmaengine is enabled, axienet_stop() frees lp->tx_skb_ring and
-its entries without quiescing the transmit path:
-
-drivers/net/ethernet/xilinx/xilinx_axienet_main.c:axienet_stop() {
-	...
-	if (!lp->use_dmaengine) {
-		WRITE_ONCE(lp->stopping, true);
-		flush_work(&lp->dma_err_task);
-
-		napi_disable(&lp->napi_tx);
-		napi_disable(&lp->napi_rx);
-	}
-	...
-		for (i =3D 0; i < TX_BD_NUM_MAX; i++) {
-			skbuf_dma =3D lp->tx_skb_ring[i];
-			...
-			kfree(skbuf_dma);
-		}
-		kfree(lp->tx_skb_ring);
-	...
-}
-
-CPU0                              CPU1
-axienet_stop()
-                                  axienet_start_xmit_dmaengine()
-  kfree(skbuf_dma)
-  kfree(lp->tx_skb_ring)
-                                    axienet_get_tx_desc()
-                                      <-- use-after-free
-
-A concurrent transmit on CPU1 can fetch and use a descriptor from
-lp->tx_skb_ring after CPU0 has freed it, corrupting memory or crashing the
-kernel.
-
-[1] https://sashiko.dev/#/bug/linux-6b22a4e9-355d-4ab5-829f-c56ef38ce667
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261106-rio_sg-v1-=
-0-bc54b4bd8c95@nxp.com?part=3D2
