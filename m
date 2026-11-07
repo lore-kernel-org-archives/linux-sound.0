@@ -1,56 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794069568;
-	b=hogJtX7pFIx4TTOwz8T7EvfF6lSMNkSD4h8OZKtEvxlIBZMzINPeJQh+UjKB2UWuRwHK
-	 6cSq7RlZjYIeJM0Nfjk6ZCRjfvcSQI8yyzABGCnM0pErh/c3V37BXszu6aK3qP9E2LYXX
-	 zTOeOXxa0L6yJ7/2ncXOd4BTYIDx0fGQ/rJrmYLRuuDwUKXiZmULe2V9w5FpgSov7bv+j
-	 ZEupFz/dUngsLmx7u2i0OqGu47uRHPTdYCI1ZBOBrYNxY8NPU6U+4zx+hFsFXDKb5l6P/
-	 Sm+JLjA5oQ7jn75mWhdSWMPWyQxeNh1R/LW+RHpGTLlCfNcCNdqWWBuJ8RB2sJezY6Q==
+	t=1794069812;
+	b=x3twT+44UXQz8E8XjYN+0wrI3Ny5n6zp+jh1TA3xQQYehnd7BjttTF/Wxj8Czsm5QF7A
+	 atJUyiJmekXLqpr3oFDSe1VmE8SuKH6AVUbBYrCOCXmUyEwrEkYbS51lZ+DxvkZloxETJ
+	 1JLDKEsXHOrbWxJHScnvOuGClN5/VRmyKg6a0TJx+YU+TePzPUtHbU4kqtc7K0mdxpwc8
+	 YBCJXsid6MCjgletWhDaDJ7/wylJeZXozMeDQSTEdsnDBRVp9G9DMoBUvcRFf6fX6AWEE
+	 z9846rq7cYcV0BnaN4Ob4RvsZKsI/qqcqKFxJ4hUA8nMLLum2Pl+0iNGm5KNKxWV/FA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794069568;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=EACnyDpcC2Ya2eT9bmi+9MftTVRyfSvaDOKOmOLo7D4=;
-	b=mRIFqw2vrNw/BURYie89zOfokfFbQLwYUOEHaEY7cL00QWNjA9tH5vyC9pC+rZQ2MLX2
-	 asbyl7XHcMspuMXKK+kAQWeAXLiO0+BzS4IEvz90Bv9iab0xOQmCY3iHygQUiKc23nTl5
-	 haCt6NiM0zvs3wrAFKLHR/bXeERFtSfiegG7ivC2Vr8yOiY5lKZaBwW4yALff39sIZ0Q5
-	 7Of2AQPIMHAjtGsK0foFucY8h31iNgvQK9Ll2+NhpJIvFVSxkD+wjCekgEnVZy9NT++8T
-	 MRS3BCetQhAgiAyM2BdcEj8TXYE/XMVbujBJPaDt2lke46sjJUMeXgCSM9Q5xIessYg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794069812;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=vJlfnNqej/LkG6MaOOq3+jKdNMX9ZNsvcUBYJfUwMpw=;
+	b=sWaSbncxlC6c+WpYba+TC8V9urE8nmVdfDEjVeavjbBBv0P5qquJxIhlNN48H6CYTgfH
+	 dCAOW65HI7dziPfP3rnLWa8SVrdTdhzcrnlN3w6FODm72CO/78tLXouyNbyvsMI5j1/2g
+	 T5MfdfUHkx4J9l2AO+3M3WvZ7oZRj0f14kRSUVSorHu3YCDDV3nMjgeo6rAujkR0jiO5p
+	 xW8D8G5x5pg4VQR+DEKbQd/RNLHnfmf8p8zEeTHhY5AgbGa/MxCDWxSDNLayl/8U8vUsY
+	 E8mRvBXMThVElxocwQiU32kihx7s5/9qJlulYcJgxOeWhSE0YQSBHjGYTROxF7WIrBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B5Ba3LuA;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=URn14ZUS;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EADF606A32D
-	for <linux-sound@vger.kernel.org>; Sat,  7 Nov 2026 16:39:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D00D606A32C;
+	Sat,  7 Nov 2026 16:43:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B5Ba3LuA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B7B01F0089F;
-	Sat,  7 Nov 2026 16:39:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=URn14ZUS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D30391F008A1;
+	Sat,  7 Nov 2026 16:43:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794069568;
-	bh=EACnyDpcC2Ya2eT9bmi+9MftTVRyfSvaDOKOmOLo7D4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=B5Ba3LuAKtl+EzQU/zmnUo0iTlswurWv7ca2ruC8Xr1PreWcaB97f+SV1Ly2A3frM
-	 LaF0iIV2qHkKM/bC1juqdX4soG1SrAn9QyVZqH3Lu4LyuH7kWw43g+u6YFBEC9phTS
-	 RzZp8YnUKfCzer8kd1agdKsgv4XViZ7s55Cd01uYkiQL/ACIZ1/P9f4YKFB06SqHiM
-	 TSgoI+g7y90ySZ2pq3KNaRExQZzIvcbugCwCAjZRdJU0cmU8S+n8R4MJGp2vUeIDDb
-	 L8nOWSonuYLW938v529jRvJQm4KUII8VOcxbV2NkP+qY+G5qsFZnGS66XcJYIdf1xT
-	 8wLalUfWYDv4g==
-Message-ID: <sashiko-outbox-203062@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] ASoC: rt5668: fix teardown order and stale state
- across card rebind
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Tristan Madani" <tristmd@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261107161024.1233587-1-tristmd@gmail.com>
-References: <20261107161024.1233587-1-tristmd@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 07 Nov 2026 16:39:27 +0000
+	s=k20260515; t=1794069812;
+	bh=vJlfnNqej/LkG6MaOOq3+jKdNMX9ZNsvcUBYJfUwMpw=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=URn14ZUSHujYsiOHTH1FknpWKhq2JGT/Wcg4NPoKfIXDBsGTX0hpoXCNaDFBdVr3Y
+	 LrUXN/UylwfLTnxmPH2u0snZEEwhvHPpzVvw70oe/+iRCtt8VEEuDNIjAhc5Iv8E+U
+	 iCyEm8dltFsbB/vgqDpFMQ4NbdhjbXWQPVqTvxXaLy4s7TA325vQOoMxR3m+Q78ObZ
+	 5oSZVxqcZXokGSRT+GyvJ5Q8fg/SK/s07P4nFNd5oTjff4Df4j6yR+ezrNUDVYNKkB
+	 YiE5Z4blZBKkQ0H22n8eMlwz2n5MpTB1eCEDffxGe0y5muae+Fm8reshujKqz2LI7N
+	 62+aV9uxm+esg==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 0FF15F40066;
+	Sat,  7 Nov 2026 11:43:31 -0500 (EST)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Sat, 07 Nov 2026 11:43:31 -0500
+X-ME-Sender: <xms:MlXvaricqmdkz4nJjHy6_1-OcNbNjJfOfMZFsMkBLpVfN9O9SJfEeg>
+    <xme:MlXvai3eoFGB8GwhLZn8J4WsYKH4hOu6G3Q7gr8e4fXnWqVmSvgTFa-GpgxyHkOEr
+    L-OQp2xf0vhZpcrfwkQnMqf2SkcZAd4Ack8XK5PBI0cwmyR1HQ7Soue>
+X-ME-Proxy-Cause: dmFkZTFLL677GNytOzk0A+kd9ul4MOhn1Bd8CLtUWXIpAgb7PtsQ0aq95lY8R0bYfU7Q0x
+    n5d0WBpD9FT2nvfoJmzNAgZYYIh2v8uIBqD+3kym1iJwW3NcCGcPRmVKGoEq8HTsd/5dJU
+    2J48TZn04h0Zva9Se+6i0Uayg+tLAEGtZ9JsZJreI+85t81p0qV4OmLXyYVoibKnHGAmU+
+    V84Ank9lExn6nPEXZTe/ek0+CRfDCNpZnvqcUrPRgnLGP7j2ClEUeekRiCJrPe1AdpWK4n
+    iQP0pojNqeWGt6mvrMDgor3WiGAUwUn/0Wc1GIBJUaZVbab5Ly5C4zud+ZZmCdcg78sylA
+    MkAoK/Ct+9LkIkCQHTqEcC7AA8Dm+XyCBSNHm91TdHG2obtXEwkFkvprz41Oubks9Sfcuw
+    r8ZFF7zKrowRVymCMTJ3nHI6+8Zo71jCVuXtvZZ6w9cN8PmSV3Vn1s7VPQ5TgGXqHVraqe
+    u/ZoGJ6QHgPjV17gJtXdfiHt2sN7ZYj6x6HdPkZbk8RpmhwlywyFibfUo2gMexHcNVBZpG
+    rhksTaN91XMy6HTgmkQAu6nrk3lfjM6xIWzBlVuMR4FN3s8+OGMqI6oxye/ZeVnCAvWV7c
+    OcJYn3qIDB/bjeL3B7VhC0AAaQ19NVf7PtpGN7ZfAEzvhDoWuh++9ymg0Qkw
+X-ME-Proxy: <xmx:M1XvanFoWE96jO_B3AbQEY3Fgm7Vdpeg3rVFs0aZ7ZzrVjTy-FVuDA>
+    <xmx:M1XvasgOGD898cTU-y0NCKAJa0gzkkq4FlzZwNZENFphZjNvC_BaFw>
+    <xmx:M1Xvaku9YBTnGUiBAN2j62vBcN4ju9zahN6VGS9E7w_Ad8r8DuHRTg>
+    <xmx:M1XvavuA3oRcXqag5vxh76qUsy08UM9e3UUXDGjXTsGUK7xhzSvxDQ>
+    <xmx:M1XvapGwUANTzGTOxc9uEv1YKFK55EtxiSqeAiq8o-ngr74jUF77oHfW>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id DFD31782738; Sat,  7 Nov 2026 11:43:30 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,83 +76,67 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+X-ThreadId: AE4uiykVHNXw
+Date: Sat, 07 Nov 2026 11:43:10 -0500
+From: "Chuck Lever" <cel@kernel.org>
+To: "Christian Brauner" <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
+ "Jann Horn" <jannh@google.com>, "Josef Bacik" <josef@toxicpanda.com>,
+ "Chris Mason" <mason@kernel.org>, "Jeff Layton" <jlayton@kernel.org>,
+ NeilBrown <neil@brown.name>, "Eric Dumazet" <edumazet@kernel.org>,
+ "Thomas Gleixner" <tglx@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Christoph Hellwig" <hch@lst.de>,
+ "Greg Kroah-Hartman" <gregkh@suse.de>,
+ "Joel Granados" <joel.granados@kernel.org>, "Kees Cook" <kees@kernel.org>,
+ "Jan Kara" <jack@suse.cz>, "Jan Kara" <jack@suse.com>,
+ linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-s390@vger.kernel.org,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ linux-um@lists.infradead.org, linux-wireless@vger.kernel.org,
+ "Linuxppc Dev" <linuxppc-dev@lists.ozlabs.org>, netdev@vger.kernel.org,
+ ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org,
+ coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org,
+ linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net,
+ jfs-discussion@lists.sourceforge.net, linux-alpha@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org,
+ linux-sh@vger.kernel.org, linux-usb@vger.kernel.org,
+ samba-technical@lists.samba.org, sparclinux@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
+ "Takashi Iwai" <tiwai@suse.de>, linux-input@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org
+Message-Id: <39d3364c-d4d1-4919-86c0-695f75946c95@app.fastmail.com>
+In-Reply-To: <20261104-work-procfs-net-v2-7-221e2437fed1@kernel.org>
+References: <20261104-work-procfs-net-v2-0-221e2437fed1@kernel.org>
+ <20261104-work-procfs-net-v2-7-221e2437fed1@kernel.org>
+Subject: Re: [PATCH RESEND v2 07/13] SUNRPC: let procfs copy in writes
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] ASoC: rt5668: duplicate IRQ teardown and missing irq_disabled
-  updates
---
 
-commit db40c33702a3afc67ec1edbbd986308c05f58e4d
-Author: Tristan Madani <tristan@talencesecurity.com>
 
-ASoC: rt5668: fix teardown order and stale state across card rebind
+On Wed, Nov 4, 2026, at 2:59 PM, Christian Brauner wrote:
+> Implement ->proc_write_buf() for the procfs channel, flush and
+> use-gss-proxy files so procfs copies in what is written before it pins
+> the entry. The channel file parses the downcall from that copy and the
+> flush files share the parsing with rpc_pipefs in do_write_flush(). The
+> rpc_pipefs files keep copying in themselves.
+>
+> CACHE_DOWNCALL_MAX and CACHE_FLUSH_MAX name the limits both sides
+> enforce, procfs through ->proc_write_size. The procfs files are removed
+> when the network namespace goes away and that no longer waits for a
+> writer that faults on its buffer.
+>
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-This commit clears headset state and marks the regmap cache dirty on
-component removal, and adds a devres action and shutdown check to disable
-the IRQ and cancel delayed works across teardown paths.
+Acked-by: Chuck Lever <cel@kernel.org>
 
-> diff --git a/sound/soc/codecs/rt5668.c b/sound/soc/codecs/rt5668.c
-> index 29d70802a046a..c8aeaf25a7fd8 100644
-> --- a/sound/soc/codecs/rt5668.c
-> +++ b/sound/soc/codecs/rt5668.c
-[ ... ]
-> @@ -2213,14 +2214,26 @@ static int rt5668_set_bias_level(struct snd_soc_c=
-omponent *component,
->  	return 0;
->  }
-> =20
-> +static void rt5668_i2c_disable_irq_and_cancel_work(void *data)
-> +{
-> +	struct rt5668_priv *rt5668 =3D data;
-> +
-> +	if (rt5668->irq_acquired && !rt5668->irq_disabled)
-> +		disable_irq(rt5668->i2c->irq);
-> +	cancel_delayed_work_sync(&rt5668->jack_detect_work);
-> +	cancel_delayed_work_sync(&rt5668->jd_check_work);
-> +}
-[ ... ]
-> @@ -2230,17 +2243,24 @@ static int rt5668_probe(struct snd_soc_component =
-*component)
->  static void rt5668_remove(struct snd_soc_component *component)
->  {
->  	struct rt5668_priv *rt5668 =3D snd_soc_component_get_drvdata(component);
-> -	struct i2c_client *i2c =3D to_i2c_client(component->dev);
-> =20
->  	if (rt5668->irq_acquired) {
-> -		disable_irq(i2c->irq);
-> +		disable_irq(rt5668->i2c->irq);
->  		rt5668->irq_disabled =3D true;
->  	}
-> =20
->  	cancel_delayed_work_sync(&rt5668->jack_detect_work);
->  	cancel_delayed_work_sync(&rt5668->jd_check_work);
-[ ... ]
-> @@ -2584,6 +2611,11 @@ static void rt5668_i2c_shutdown(struct i2c_client =
-*client)
->  {
->  	struct rt5668_priv *rt5668 =3D i2c_get_clientdata(client);
-> =20
-> +	if (rt5668->irq_acquired && !rt5668->irq_disabled)
-> +		disable_irq(client->irq);
-> +	cancel_delayed_work_sync(&rt5668->jack_detect_work);
-> +	cancel_delayed_work_sync(&rt5668->jd_check_work);
-> +
->  	rt5668_reset(rt5668->regmap);
->  }
 
-[Severity: Low]
-Can this call disable_irq() twice if the device or card is unbound after
-rt5668_i2c_shutdown() runs?
-
-rt5668_i2c_shutdown() and rt5668_i2c_disable_irq_and_cancel_work() do not
-set rt5668->irq_disabled =3D true after disabling the IRQ, and
-rt5668_remove() does not check !rt5668->irq_disabled.  Setting
-rt5668->irq_disabled =3D true inside
-rt5668_i2c_disable_irq_and_cancel_work() and calling that helper from
-both rt5668_remove() and rt5668_i2c_shutdown() would avoid duplicating
-this teardown sequence and keep irq_disabled consistent.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261107161024.1233=
-587-1-tristmd@gmail.com?part=3D1
+-- 
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
