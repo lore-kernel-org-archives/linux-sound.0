@@ -1,96 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.112
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794158800;
-	b=CsYHKmdlizhjtJBYLcBNCAG+3leMUyWvzDwlsZtVisj8Bl+6Xu5ybdlL88sf2yU4TmBH
-	 wlkY1H12mwU5IjY0aRgho90r2n/kQBk8n6bczvO5lxjA8pUI2Ax6KgNclSH7W+IEnG/py
-	 luzHcxX0Cawz0k62N0w7cDpyPV7BJ5BK3ubwzqFhcktq2k4Mz+zKmpenmkEzkpzm6wThq
-	 irCfRJ5VAKU5LNGMUTSAKHKWkJJcOKiGD0aqXEVXtoLNN7YMrkmxAVAl2rS3adcmZ46fA
-	 Gv+BpZujdklmytCg7xtqAAq6LhpJuZhulF2KoTBXYOBW9ownstxVm6VEeAw3ZF/yj8Q==
+	t=1794161062;
+	b=GyfiYSSE43IEZpEfpFwjwgPbPv56xom/SBKaig6ZQF/wwq8fZmdZkCXrhgsyw9PCRnwC
+	 Xl2KS3b3kU3XGITPFHZvIqF0tpQg6ao5x8Oa0uOexoanVDaAcAuYSNKTEe8wEvdQXEpfB
+	 UKPgVEJwQsVvSQulPIgxe3+heDYm324En49o41GotNH3xbt8qi4m4aEnPQs3a3ZDaM+k7
+	 QXKZ9uP4V++m9MHqnLsNQP6dUB8bzBnF7XNLuQYlYmAFc5+BchGtksmNpLtPlZJsfdQNV
+	 kUKqui9bAKx0M3/EPmucQKUG1NwTRVMsrwPb/SCM3sM/KFs4Ja9AiiYu2gT6+9DFtyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794158800;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=GimyCLzTK2kHf3bS68Mh0aWkn78dhGyOUtZ1E39mgiE=;
-	b=07GLpuKTldOowrhMMIkJXhA6E3CI70KnJPGaumZtPoLKuZldlyiHbBDGz65LFbYs5ZbG
-	 fwzcMwUA+BeT4JFCHalDcgxYGQsnftar2JmzScft3ex5J2OUKivrxT1uVTIxKdpiO6Axk
-	 dtStO+GXpSYSLI8i9t6VxJoOYMNXpl6S9x2QTE+MgPcCQ0Ax7UPSEohEzKYl+Q+C4U16t
-	 4i6ExOnn1WUOkayBurBiyEFAESTMUFcd3K/OZP+ei5l6gGnia8f/ZwSDdAXbxKMsTtObv
-	 sQp2RmrCJlgmCUT0nFeJhc3EeiW8pBoaekiqMFUJzo1wKFZH1Y7vFjy2WqbB5988EgQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794161062;
+	h=DMARC-Filter:DKIM-Signature:X-Pm-Submission-Id:From:To:Cc:Date:
+	 Subject:Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=+BO7ggl62Lj+oozFUYv9tkz0XO5F9DqJdq0SI4BgX/c=;
+	b=TxkKzM2FrDJx0CyUOAAeGZJjEID8f1/83Co9TmStKc03nvJEapH3mEp5jVCmdxnD20E1
+	 dVjzz2Vy/JZn2jCauY+EQ+hwOdNZ5TDG/W50cxZnZ1NOfl+EJCDnR+8OnOFKgK0PfUwIp
+	 xDvxDfpIzg9XjfECszRJCkhwyyWoPPrYpK0F00qc5Dohga0jvsWFwF4RAma9zK0YBrEN+
+	 nYJBqgHUds+acYmsbq0Hcyahh/r1f+OhR3rdF7X0s4PaZl2C+BfVKhdk14LhVL+Nq/A20
+	 wKUF+HG5WwEaUN4UYgHxtuwuyAoR5kLkJRh0MkuuviqNaDT+e5H7XvmnuYBiGyE9jAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CaKRpWSV;
-	arc=none smtp.remote-ip=74.125.82.48
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=michaelmcallister.org;
+	spf=pass smtp.mailfrom=michaelmcallister.org;
+	dkim=pass header.d=michaelmcallister.org header.i=@michaelmcallister.org header.a=rsa-sha256 header.s=protonmail2 header.b=3Rimm+Oh;
+	arc=none smtp.remote-ip=79.135.106.112
+Received: from mail-106112.protonmail.ch (mail-106112.protonmail.ch [79.135.106.112])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C5F606A320
-	for <linux-sound@vger.kernel.org>; Sun,  8 Nov 2026 17:26:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D3C5F606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF7D606A31C;
+	Sun,  8 Nov 2026 18:04:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFF7D606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=michaelmcallister.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=michaelmcallister.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CaKRpWSV
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-1a2761c69fbso522328c88.0
-        for <linux-sound@vger.kernel.org>; Sun, 08 Nov 2026 09:26:39 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=michaelmcallister.org header.i=@michaelmcallister.org header.a=rsa-sha256 header.s=protonmail2 header.b=3Rimm+Oh
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794158799; x=1794763599; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GimyCLzTK2kHf3bS68Mh0aWkn78dhGyOUtZ1E39mgiE=;
-        b=CaKRpWSVvqYPS/l1YHqJM3ApnlGCZYw/EbUdYXjRucRHuair+2CqHlTfji8HgPLM9t
-         eGCQsuT2CPMUoVlz6ySCpvfTvUz25Xr/u0vx9ZqCzBRtRrjOOyQPBFJUSkIDXZ6RdNr7
-         JTq4m9PmL1Sqf9g7c/sVZfGfk3E+49hh2xEp88hlKTIdnVi1mvtwS6NPNeFUWmQDtwgK
-         0Mq8yqCED7nq9/U4TfOM0gB0o0+rJRmbcFkBiL+XG+BFJitAQgZ2VCzT1q3/bZOXKb90
-         s8YfznieqLKOx9Rr+5lBXSmtG4MoBhMTFNvnHyp1o8+Znn4nEO3Muu/QQq0aSz/yiwkr
-         pt8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794158799; x=1794763599;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GimyCLzTK2kHf3bS68Mh0aWkn78dhGyOUtZ1E39mgiE=;
-        b=OGXHq8kxAyxf0QKdaeEAEGRZ5I7pIyzfDkwZIwpC0ZhixYTgccjPHoeELebyJ0x4p6
-         xQHKYz+bWDIVCNg9jTSR4eWQ8+npxil7HcY6IO9hTYi8cQ/AcAEONv3jUsO3KnIUEb+L
-         5NjQ1PSeQ/wE56I7gHKziQZScUky5auysFY0+4ronZNHI53VO/G4Dgj2NYRWkIr7tobF
-         qmsn8Q4+xS0v4GDW5Vw0RhlHJxl6PchG1TGUh3cz1uh3IwSu6Pjf+Vxzhu6egSozzkHN
-         5OJk62zFAlu0d9FywzULVrq9kqRxD4ysuYLCk5N6iKI4iZabtrQvnRMu18n08mwTMy/0
-         JiqQ==
-X-Forwarded-Encrypted: i=1; AL+hErGeMQQg7cCfj67But+9EaOI44tHFInIrd0Mws0Ji7s7KgKnLSwv+7Uailhv1avoqDZJ2Q0iXBRfZA61/Q==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9Nrv84/w/f0ZRNI+wFKFxixaHqpwWdJJPMIIUkFjgN1h1AXjRd
-	Ndc2go2MMOzuW9eZNQ3P/o9/fmwzhvA+9QCKrevUiib6E72V2uYCcxXy
-X-Gm-Gg: AYBFou3nosJ9sp+z6RYuMLgrJIysh1azblyQd2NBjYgPnAjIa6po507+JjJUjFoMA3Y
-	MVTtHLYakgvCw4NbuSC/EF/wWYExD8ubEm+2mMUzepS1BvgIgUuOe84hkYPXVNwDjBCffXpoXes
-	CrvhxjFUAbZ45f36IbbRuPcBDmYbiCn9Zfq0jGubiWaW/uz7K9Bo544NPI+yAKCKzI3UKEJCZVq
-	ht/bSYwr0IPaKEmCgV95l3cN50cuPLwETysuUWE0IZAFlMhZ0T8YtVYiVXyzJV0fUEwUpwBWSTm
-	1kyeP2clt+AOG/YKNPruA8xmxK8ZDU7cU+TUor9nvHulcYg14/Y9NQ9HibYdTYx+nGEqnKVQ7o5
-	GnIDAe0+SMNDkBQ+dGR/6vwKiYe7DvaYMl+K2AxX9ivqXzqZH5RAIbv0BFr1asaGU/LkFLqrwPN
-	uWho3IiJ3r/mnVXgBXR33L7ydVqHcw91Hks82zBRnU52YzmvuquiwLJDWVCOM7D7+h1s2KRnIUa
-	XdAH0TFozcl4MxYjO5KUak6zFu0URqy1jJZjyEbtWG8N3U42fu/qmEX/zKnMfvQN4sZIXJ9o9Dm
-	bnJzp5UwUKOGDzwLmL5CwreeDJ8WtJD9yl/QsCenmFmZ3wpsU1o=
-X-Received: by 2002:a05:7022:3b87:b0:177:9a5b:a89 with SMTP id a92af1059eb24-1b39feb70b6mr3229659c88.29.1794158798761;
-        Sun, 08 Nov 2026 09:26:38 -0800 (PST)
-Received: from localhost.localdomain ([103.177.253.80])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3755eb6efsm8095792c88.4.2026.11.08.09.26.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2026 09:26:38 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: sreekuttan2156239@gmail.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	tiwai@suse.de
-Subject: [PATCH v3] ALSA: control: Validate element info in compat ioctl
-Date: Sun,  8 Nov 2026 17:25:01 +0000
-Message-ID: <20261108172501.2887-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261108141219.7655-1-sreekuttan2156239@gmail.com>
-References: <20261108141219.7655-1-sreekuttan2156239@gmail.com>
+	d=michaelmcallister.org; s=protonmail2; t=1794161052; x=1794420252;
+	bh=+BO7ggl62Lj+oozFUYv9tkz0XO5F9DqJdq0SI4BgX/c=;
+	h=From:To:Cc:Date:Subject:Message-ID:In-Reply-To:References:From:To:
+	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=3Rimm+OhVNZ4nKZbGzi96fchiXSVcX33zdEXWjKyBWgLUyAt6mHATgmLei4/An9h2
+	 YQBoskvYZFCsthArQAf5SnMpaHaSm8IUlRy/FLwjVK9VXCMmSkULMrSRxQDv2rHOgU
+	 79mOLS1fiSlVKmj9BQV7NC89TR4r2gUOIMCnhVgr1Aqfmtw7eKjHS31S+tXmJnhFae
+	 5sOKSiAFK/qvS2Yez3fk5rLJV1tv78mILubgpfbXniqCZbKk0fq02qd9/EjShg1ENF
+	 x9MaGxihw+jnqlZ3t/Sd62+zMw9UHJNoOaSKfSnYy6xvSJOpgeFtzqjVImSl/CM/wO
+	 MAinw+L8lX/lA==
+X-Pm-Submission-Id: 4jN1544Vyjz1DFF0
+From: Michael McAllister <me@michaelmcallister.org>
+To: Demeter Barna <me@fromdisposition.org>,
+ Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, me@michaelmcallister.org
+Date: Sun, 08 Nov 2026 18:03:42 +0000
+Subject: [PATCH v2] ASoC: qcom: q6asm: Correct the 24-bit PCM format
+Message-ID: <179416102230.53258.7301268454500974217.q6asm-pcm-format-v2@michaelmcallister.org>
+In-Reply-To: <f3485a790ffdafe635b84b5d68730dad@fromdisposition.org>
+References: <179355993304.51321.11135059681945648585.q6asm-capture-format-v1@michaelmcallister.org>
+ <f3485a790ffdafe635b84b5d68730dad@fromdisposition.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -100,50 +68,173 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The compat ioctl code calls the control's info callback directly
-in get_ctl_type() to get the element type and count.
+Recording in S24_LE on the Moto G10 produces badly scaled samples that
+wrap at full scale. Playback has the same layout problem and comes out
+barely audible. The PCM V2 DSP interface uses bits 31:8 of each 32-bit
+word for 24-bit samples, but ALSA S24_LE expects bits 23:0.
 
-Unlike the normal control info path, it does not validate the
-information returned by the callback.
+Replace S24_LE with S32_LE for playback and capture and constrain it
+to 24 significant bits. Keep the DSP configured for 24-bit samples.
+This matches its native layout without converting samples in the kernel.
 
-The compat read and write handlers use the returned type and
-count to access fixed-size value buffers and calculate copy
-sizes. Invalid values could cause these handlers to access
-memory outside the expected buffer boundaries.
+Translate S32_LE back to S24_LE in the APQ8096 and SC7180 backend
+fixups so that routing and the physical audio ports keep their 24-bit
+width. The other Q6ASM machine drivers already set the backend format.
 
-Use __snd_ctl_elem_info() to get and validate the control
-information before using the type and count. This also applies
-the same element ID handling and access checks as the normal
-control info path.
+Raw S24_LE requests are no longer supported. Applications using that
+format need S32_LE or a converting PCM device such as plughw.
 
-Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+Tested on the Moto G10 with direct ALSA and PipeWire playback/capture
+at 48 kHz, including reopening streams and testing after suspend.
+Direct S32_LE playback now matches the S16_LE level, ALSA reports
+24 significant bits, and S24_LE through plug conversion works.
+
+Fixes: 2a9e92d371db ("ASoC: qdsp6: q6asm: Add q6asm dai driver")
+Reported-by: Demeter Barna <me@fromdisposition.org>
+Closes: https://lore.kernel.org/f3485a790ffdafe635b84b5d68730dad@fromdisposition.org/
+
+Signed-off-by: Michael McAllister <me@michaelmcallister.org>
 ---
-v3:
- - Use __snd_ctl_elem_info() instead of duplicating the
-   element ID handling, access checks, and validation.
-v2:
- - Rebuild the element ID before validation
- - Set the control access flags and respect
-   SNDRV_CTL_ELEM_ACCESS_SKIP_CHECK
+Hi, thanks Demeter! I was able to reproduce this too, and I've included
+a fix for playback in v2.
 
- sound/core/control_compat.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v2:
+- Cover playback as well as capture.
+- Remove the unused S24_LE case and update the backend comments.
+- Add Fixes and Reported-by, and document the raw-format change.
+- Rebase onto sound/for-next.
 
-diff --git a/sound/core/control_compat.c b/sound/core/control_compat.c
-index 87f7ad5ab739..a9ee5ef30c51 100644
---- a/sound/core/control_compat.c
-+++ b/sound/core/control_compat.c
-@@ -181,7 +181,7 @@ static int get_ctl_type(struct snd_card *card, struct snd_ctl_elem_id *id,
- 	if (info == NULL)
- 		return -ENOMEM;
- 	info->id = *id;
--	err = kctl->info(kctl, info);
-+	err = __snd_ctl_elem_info(card, kctl, info, NULL);
- 	if (err >= 0) {
- 		err = info->type;
- 		*countp = info->count;
+v1: https://lore.kernel.org/179355993304.51321.11135059681945648585.q6asm-capture-format-v1@michaelmcallister.org/
+
+ sound/soc/qcom/apq8096.c         |  8 ++++++++
+ sound/soc/qcom/qdsp6/q6asm-dai.c | 15 ++++++++++-----
+ sound/soc/qcom/sc7180.c          |  8 ++++++++
+ 3 files changed, 26 insertions(+), 5 deletions(-)
+
+diff --git a/sound/soc/qcom/apq8096.c b/sound/soc/qcom/apq8096.c
+index cfd6438db..b7030f7ef 100644
+--- a/sound/soc/qcom/apq8096.c
++++ b/sound/soc/qcom/apq8096.c
+@@ -6,6 +6,7 @@
+ #include <sound/soc.h>
+ #include <sound/soc-dapm.h>
+ #include <sound/pcm.h>
++#include <sound/pcm_params.h>
+ #include "common.h"
+ 
+ #define SLIM_MAX_TX_PORTS 16
+@@ -19,10 +20,17 @@ static int apq8096_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+ 					SNDRV_PCM_HW_PARAM_RATE);
+ 	struct snd_interval *channels = hw_param_interval(params,
+ 					SNDRV_PCM_HW_PARAM_CHANNELS);
++	struct snd_mask *fmt = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
+ 
+ 	rate->min = rate->max = 48000;
+ 	channels->min = channels->max = 2;
+ 
++	/* Keep the backend at 24 bits despite the 32-bit PCM container. */
++	if (params_format(params) == SNDRV_PCM_FORMAT_S32_LE) {
++		snd_mask_none(fmt);
++		snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S24_LE);
++	}
++
+ 	return 0;
+ }
+ 
+diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6asm-dai.c
+index 4261c3048..cd97ba2ff 100644
+--- a/sound/soc/qcom/qdsp6/q6asm-dai.c
++++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
+@@ -90,7 +90,7 @@ static const struct snd_pcm_hardware q6asm_dai_hardware_capture = {
+ 				SNDRV_PCM_INFO_INTERLEAVED |
+ 				SNDRV_PCM_INFO_PAUSE | SNDRV_PCM_INFO_RESUME),
+ 	.formats =              (SNDRV_PCM_FMTBIT_S16_LE |
+-				SNDRV_PCM_FMTBIT_S24_LE),
++				SNDRV_PCM_FMTBIT_S32_LE),
+ 	.rates =                SNDRV_PCM_RATE_8000_48000,
+ 	.rate_min =             8000,
+ 	.rate_max =             48000,
+@@ -113,7 +113,7 @@ static const struct snd_pcm_hardware q6asm_dai_hardware_playback = {
+ 				SNDRV_PCM_INFO_INTERLEAVED |
+ 				SNDRV_PCM_INFO_PAUSE | SNDRV_PCM_INFO_RESUME),
+ 	.formats =              (SNDRV_PCM_FMTBIT_S16_LE |
+-				SNDRV_PCM_FMTBIT_S24_LE),
++				SNDRV_PCM_FMTBIT_S32_LE),
+ 	.rates =                SNDRV_PCM_RATE_8000_192000,
+ 	.rate_min =             8000,
+ 	.rate_max =             192000,
+@@ -139,7 +139,7 @@ static const struct snd_pcm_hardware q6asm_dai_hardware_playback = {
+ 				  SNDRV_PCM_RATE_176400 |		\
+ 				  SNDRV_PCM_RATE_192000),		\
+ 			.formats = (SNDRV_PCM_FMTBIT_S16_LE |		\
+-					SNDRV_PCM_FMTBIT_S24_LE),	\
++					SNDRV_PCM_FMTBIT_S32_LE),	\
+ 			.channels_min = 1,				\
+ 			.channels_max = 8,				\
+ 			.rate_min =     8000,				\
+@@ -151,7 +151,7 @@ static const struct snd_pcm_hardware q6asm_dai_hardware_playback = {
+ 				  SNDRV_PCM_RATE_12000 |		\
+ 				  SNDRV_PCM_RATE_24000),		\
+ 			.formats = (SNDRV_PCM_FMTBIT_S16_LE |		\
+-				    SNDRV_PCM_FMTBIT_S24_LE),		\
++				    SNDRV_PCM_FMTBIT_S32_LE),		\
+ 			.channels_min = 1,				\
+ 			.channels_max = 4,				\
+ 			.rate_min =     8000,				\
+@@ -377,6 +377,11 @@ static int q6asm_dai_open(struct snd_soc_component *component,
+ 
+ 	stream_id = cpu_dai->driver->id;
+ 
++	/* The DSP uses the high 24 bits of each 32-bit word. */
++	ret = snd_pcm_hw_constraint_msbits(runtime, 0, 32, 24);
++	if (ret < 0)
++		return ret;
++
+ 	pdata = snd_soc_component_get_drvdata(component);
+ 	if (!pdata) {
+ 		dev_err(dev, "Drv data not found ..\n");
+@@ -505,7 +510,7 @@ static int q6asm_dai_hw_params(struct snd_soc_component *component,
+ 	case SNDRV_PCM_FORMAT_S16_LE:
+ 		prtd->bits_per_sample = 16;
+ 		break;
+-	case SNDRV_PCM_FORMAT_S24_LE:
++	case SNDRV_PCM_FORMAT_S32_LE:
+ 		prtd->bits_per_sample = 24;
+ 		break;
+ 	}
+diff --git a/sound/soc/qcom/sc7180.c b/sound/soc/qcom/sc7180.c
+index bc5a18883..dd0f8eb99 100644
+--- a/sound/soc/qcom/sc7180.c
++++ b/sound/soc/qcom/sc7180.c
+@@ -13,6 +13,7 @@
+ #include <sound/core.h>
+ #include <sound/jack.h>
+ #include <sound/pcm.h>
++#include <sound/pcm_params.h>
+ #include <sound/soc.h>
+ #include <uapi/linux/input-event-codes.h>
+ 
+@@ -425,10 +426,17 @@ static int sc7180_qdsp_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+ 					SNDRV_PCM_HW_PARAM_RATE);
+ 	struct snd_interval *channels = hw_param_interval(params,
+ 					SNDRV_PCM_HW_PARAM_CHANNELS);
++	struct snd_mask *fmt = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
+ 
+ 	rate->min = rate->max = 48000;
+ 	channels->min = channels->max = 2;
+ 
++	/* Keep the backend at 24 bits despite the 32-bit PCM container. */
++	if (params_format(params) == SNDRV_PCM_FORMAT_S32_LE) {
++		snd_mask_none(fmt);
++		snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S24_LE);
++	}
++
+ 	return 0;
+ }
+ 
+
+base-commit: c937f492dd40a8398d955cf0f4f9e11d7268bcb5
 -- 
-2.55.0
+2.39.5
 
