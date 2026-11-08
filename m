@@ -1,59 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794137261;
-	b=BpSuveeAGMP2cQX2bQQIJ9RIr3CO6jHRNBZJz0Uopus8ZJLFZnDGWRLCk7oVehwdwwi5
-	 vywYcybL7ZUiyOZ3kmB6t+D9sHpbzdskgdrZ8JWOxXMhXCgsn3YhkQOqMAmE/xr6Lmfak
-	 z04rZyV/GIw8SESUeyEOk67ykDxlGvRaeS2DYYOUVFEUSP2vhhJR2LhAM77Smayc+Qr+d
-	 vYcSsLLagHFp7VHg5UjhlPS2IzQ15/6nyiVK+yBUFe1giBnkeK8YToB0VvIyjZKf208+d
-	 Y492vHWyTTCHp5OssCcwIZ2N+68cBXyMNt3ugvZiAGISd0xqysTG9cH5IGUc3oeIGXw==
+	t=1794137813;
+	b=bNg8GdNm8rDkLyTDelS0918JC8EU8hGYYue0rKJX0J3pHAwskzFo1xQ5lQcF3ies2mOL
+	 n+tNaozTgeXVr+pOfKF0j8Yisi/o/G44jei3R8WaIq08iz/8+VwQNNdGeXCx393xB2krc
+	 pj8Uu7kxViaEoH/R4UhoCOhPGE3TQzz0yjD6rWhZYaUxJ9jtx05Aq1yYZIEkTEy3TDo7n
+	 QhIFkuXcrXF0DtDVQflQP/JTYyxdE1awu7bIckIvUWEBGcjqzmS5kzjQRmtfI4B2kB6k7
+	 94QZ3mjepJPwUUi7Y+BZG8a6tQu2zb9i60HHIMv/bH83rIOTZuc80OnPqWskVDmv00A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794137261;
-	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
-	 Subject:Message-Id:Date:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key;
-	bh=F/fYRrxzJ0MMAethI+PGx3RstYI42wsPbaxQVtjrhxM=;
-	b=bt/9/PMNxB03lP4vk4aQR8a0Ddkx20Lw88mjx2dh8GuCSlmO2RcnEtEY1t8n1X9iKL+o
-	 sWbYzXrDgu9ej5QmOI9mGpR78beRCmpiD3azMjVe17JF/JAdCbVg4YIsOVw7whtc9UZhk
-	 LhAqo7Qx1uaVtDvgw6yA+KhrET6QZFM7ubtShRrwxQCJdsQWlgEEpuCCQx+XHWwuZqktn
-	 r+irH2jg/Kt0t6go3WUAjCB4i+ECVbT8Wacx4/pqS42MrxMrnuM5+4er8/j+93qd8qLsg
-	 0+qQYGy4c/Sw0lAYJbWcuujtKmC85o89/uFyPJ4wnmhbo0WYntj7D67CtnPExq9e2gQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794137813;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=+oH+HxELo4BGokpx5I2UXN1j4CpGX8mo4PNCadAEpaE=;
+	b=QFlKnrAYvkj93yRXDOurkqHHMhS82wGn90QQ0LMx51rOf0Y56TeVnv5HT05ENdqc1UT3
+	 MO2ZmxK7ru0FBHuagVXrTemvwvVfvLt9P7/y8D2i7P8xJglTGkSBsCjLX8zGhEyqU23sg
+	 FyoV1EksPeuC3EjDZ0ALpc8o2MFe/BwVf5yw42CSz451XjCgotm9ZMhitqM02QaVZf5i4
+	 Z02Bctkd+hVS4CYnFgfD0J9venjo0AqiSu/RphmmGk4Zy7vKOA7oqvDJ1ySrHzg2Gn3Su
+	 gCy7BiN9v2BKlICIpjJ4455H8zv98v/j1oTesSrkOrlUhJTkvExSDqfMQgKFDwJa8dA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TxryZMn9;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wT4DmX5v;
+	arc=none smtp.remote-ip=74.125.82.41
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D441C606A322
-	for <linux-sound@vger.kernel.org>; Sun,  8 Nov 2026 11:27:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA33606A323
+	for <linux-sound@vger.kernel.org>; Sun,  8 Nov 2026 11:36:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BA33606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TxryZMn9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A7031F008A1;
-	Sun,  8 Nov 2026 11:27:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794137260;
-	bh=F/fYRrxzJ0MMAethI+PGx3RstYI42wsPbaxQVtjrhxM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=TxryZMn9BwM1M8tckR25+aSVhb6GNO8sDJJKC741frDTNd3emKvWOovMf0/84JW+j
-	 Nebj/8jNcV5GSxEF6BHxbKLDwVQR/dnpAkpX9b4c1LsGI5jcSyH0WxYqXSPFmVCLv3
-	 t/9+NRZjNm4qU+C8YLcjYVEwe8Jo5esAuueS8jBAX/MvG5RufYva6q0X4Q4/10/kV8
-	 3puGG9bai+CtaGjPUYP08EuytRftxLQWQdsSkikZ0Er3+9c7jZM8WKfXiZt4+zxY53
-	 wEFKTyTRGQQXKAye6K/cyKmB9d524HMx2bNoOSXLtcjP3M44oU3PYJscXTGBlf3uaM
-	 51pa13mYxua3g==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 824422BF9286;
-	Sun, 08 Nov 2026 11:27:38 +0000 (GMT)
-From: Mark Brown <broonie@kernel.org>
-To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Wentao Liang <vulab@iscas.ac.cn>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261104024055.1508788-1-vulab@iscas.ac.cn>
-References: <20261104024055.1508788-1-vulab@iscas.ac.cn>
-Subject: Re: [PATCH] ASoC: sti: fix the player clock reference leak
-Message-Id: <179406649796.3424803.5162189053755467444.b4-ty@b4>
-Date: Sat, 07 Nov 2026 15:48:17 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wT4DmX5v
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-15ea896ddc8so95491c88.0
+        for <linux-sound@vger.kernel.org>; Sun, 08 Nov 2026 03:36:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794137812; x=1794742612; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+oH+HxELo4BGokpx5I2UXN1j4CpGX8mo4PNCadAEpaE=;
+        b=wT4DmX5v6g8ragyrVs1tQyMVQDrbpf0i7mYsKboBOonG44h2jWSwrxD7GEq28ZEule
+         MyIxx1fCdjfa7TqdL2hpGKaLD/wO+8ySVlJdGEYKOc15mno4KK1ZApthumeHomLbD68B
+         3H+4VqtFRT0t+ilLrJ4p8bibw7zXl6YUnNc2Ihv2N6NVNcv8ufuNL+4EQjIRDhIUN3e+
+         JzVi05y1HBp6c3y0ds7yyPhI51PqPMXrYiooQ69WpldDLyrAf69/rW0FPtGUGQQzTRdn
+         aaUuNE8g61FFZWe+zE6lSGI+Zf2iFOIrpnXGPNjmzucC7PkAjPC4OOkK8ko4/fW1hlOp
+         GZNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794137812; x=1794742612;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+oH+HxELo4BGokpx5I2UXN1j4CpGX8mo4PNCadAEpaE=;
+        b=pbHelM4J7PAdeVRTFsjSl0BabA/E4PtUjwmAw9nXrmpKu4soY+4q+gUnm1a7aidEZu
+         xJIMD/WAsU4jdz0OPTbZhBAAMXDaoixfd0LpRzZ6mrgo/gKnBwS0Iu/HxCHmj0P2p8iX
+         bO7U7QCDgFd+0KLTkUOuXiHN12ZRoKynKiZUrL1GQ0O0Lo73fRhcQlrIJzJ72V2CiyLE
+         BmLicoL9mzz1z+GzGuLC5LIW3VgRzT/PINRQJ4RGG9vstij806+XH29t+OZ1fF2mGzf2
+         +HaCigTOm5l1Ryzp4Umk/I5nm32yTHDupdrby8lqTFIqfyiDd2PSf8h10f+/NhDQC7X8
+         pmTA==
+X-Forwarded-Encrypted: i=1; AL+hErHFBVtNG8t0nJm2BwumkEGv6AmIHPe48Sf4UE2GbV0meh188W2cJjLwZBUnIFXGuGNpA9Y+xue6YH1TEQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/geEC3yEK0rYSc6FnwvEXEPKOJcrOBTt73GsF9lhs9GljaTIym
+	NBtKiPsJYfZohJ4VtD5MlKMtMA8Irr1aEXp14WG/m81QyaAGEEx6YSsP
+X-Gm-Gg: AYBFou37XC08210lwVXi/NqHXgPQseyLxJfKdOysUqskgFIyQ4ZSYgg/ekKeLF4jfqn
+	JHJ6lly2Klqin1k5hha3HDCIf807JI5occZLdxJXmXiBl/BkSelIlKuKUcNvvUo09PgCQPOnUSV
+	AndT5qf2YVxhgQUAScjRH1l2+ISriVvH+laxAv8tQJn6s6khhxjlIEdrXsK0rjNutBzO32+5CNA
+	K09zFM+8bOXBabmwkPdOInywWws2wCtEbrIIntG80QYKaUTpXf54J16AK13hjHcPvBIzxl1z21W
+	00Ra5LMWEm6QyhfKeZ8nwwO1Jj1ZfZtYWhr1oxiIX8EeE14beF/zM7MUdGNC1c/pABIfrXsrgwr
+	CvRX5XE5jBbTsjoDGDM6ZKkRGRU6ajUcSntZcTaknN1IvCA8VNoGKvmBsydikjKY6PQL33skWwY
+	GKPgnw3PgXr9A9FlS4Y/wI7uybiZ8pT1jmgldyx6Vz4ibBcZJdw5B9g3zaDYj0sL1nehB3bjVdW
+	c0kfF8A5VSLrWIM1L0ali61cG0V44hKlzrupVHwXRsgqdJEgmcXY84HnXpI83YVsV17ZKKHv0DD
+	TIFr5KmhyQsWbgZTymPrKNG8rAn94ssruLUcpfr9wE2TYKcZDcJJM1JwwEKGHlU/wwyVV6WO8bu
+	KMw7362UPSHxd1bWhApOFpYA1p3Lf800+vO+w28bp
+X-Received: by 2002:a05:7022:4591:b0:144:eaa7:2763 with SMTP id a92af1059eb24-1b39fe8150emr2783771c88.16.1794137812026;
+        Sun, 08 Nov 2026 03:36:52 -0800 (PST)
+Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b375728f8bsm4687161c88.15.2026.11.08.03.36.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Nov 2026 03:36:51 -0800 (PST)
+From: HyeongJun An <sammiee5311@gmail.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: HyeongJun An <sammiee5311@gmail.com>,
+	Alyandra Zahran Nadhir <alyandra5b@gmail.com>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ALSA: ump: clear stale RPN selector on NRPN change
+Date: Sun,  8 Nov 2026 20:36:45 +0900
+Message-ID: <20261108113645.1730429-1-sammiee5311@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <878q33y4z4.wl-tiwai@suse.de>
+References: <20261107111056.667-1-alyandra5b@gmail.com> <87pkwgyck9.wl-tiwai@suse.de> <20261107142950.125901-1-sammiee5311@gmail.com> <CAJYQYHxrpmBPiyMiS2oK8eugUMR=KFmf9D5jwLdoYUYQgKkXjw@mail.gmail.com> <878q33y4z4.wl-tiwai@suse.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,46 +102,18 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1110; i=broonie@kernel.org;
- h=from:subject:message-id; bh=6JxMzpDtFfx0v8j21+nNJi80MMWlzq7P89RSpPJRWSw=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+xKxiT2R/czB3wrH61S/Xr7v/bB3rqQ+f7QRSPhQyV
- 4fUzI/u6ChlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBN7mVkeF6xZM7ml0tK3W9o
- feCPmzyh5sxMxcRbvNduNdz9VLmgRpyR4U+m/9aGznbJW3GdW/YuXvLygjaHycPdVbd4bx6e5jQ
- rmQsA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Wed, 04 Nov 2026 02:40:55 +0000, Wentao Liang wrote:
-> ASoC: sti: fix the player clock reference leak
+Hello Takashi and Alyandra,
 
-Applied to
+Sure. I'll put Alyandra's patches first and mine on top, without the
+KUnit part.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
+For tests, I have a sequencer test that I used for these changes, and
+I can turn it into a selftest as a separate patch, with Alyandra's
+KUnit cases added.
 
-Thanks!
+Alyandra, would that be okay with you?
 
-[1/1] ASoC: sti: fix the player clock reference leak
-      https://git.kernel.org/broonie/sound/c/304f08895e44
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Best regards,
+HyeongJun An
