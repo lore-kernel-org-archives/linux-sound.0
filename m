@@ -1,93 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794147171;
-	b=5WSRD3xJrpaGt2Xm8JNuE4zHYTEdrQHgCBIYdvQj2CLomvjImvAtBct3R6y8siEowKw3
-	 FBpjsry+Qqi1+hTMFGJIJXcIT+6g7O5GBLGCJOwx/UB1sGgjbEfqQgRfJZsDJwJtt8ILi
-	 /78z2FrQqSiPULFTKaJmgFM0ExisbNdEza69c3IKeRnFQKaXEBXvgQXoZgkT6dJXeAYjB
-	 xDYi7NhQ+SLdY23y5nXmsGNie5USV3EhoO3d+GVpBEM/aSXmpwY0+4KBbo3wBZyWv58pB
-	 d1ahMM4SEndLwAeGbQ7DJncb/19iBaaUgA7myMGa3wQa6AvjlPEqPKAAJD8vtwPWdeA==
+	t=1794148361;
+	b=CyCkCiFWLzvgUCGIy5pmwJ2PD/DQhQh2tkuCvnQalI3OibFbPOpvae3+jJW5OM30wDpC
+	 3C+r7NjLvmkRU8IB7P6Tf7xf1i52xbEtvwTvVkZwHuNLWvvnHI+7cRF70RmxFDiOavi6U
+	 P3Nar2TVzqcrV00UpvV+Chlf0ZAmB+1Ynl7qk3wJoniVM2pV5tjWBojA6HqXh4vzn5IUf
+	 UwjzPK16GDibvgiKfvf+done4bCtC4dSYZjHVMDhVHeqRTgXRUB9mBcgK75gZFHGCn4sb
+	 q+39xm3DZtkONpa3iVWA+w2Z1ztCwDg2XDXHgChuVOKvtbaU6XrMWArP7NEtzZ22XYQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794147171;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=uSSk0bKUkcjcG0gJgABgCHhEs7yY+bzoe8xVb1xTnAg=;
-	b=Mpex4BOWS1G4nON2rxlKLuH4KPigwu6IYGzIfj35w13C8sbXM8OT9f0eOtyhzxxOcMg1
-	 oTl6nATSg/GO4J1POn8mFzkKtgx6N4ykOKp8vCyCphl0bn3xIRpsi6HBX4PnhzkjOR/rZ
-	 chDTwwHjNL+r45vRq8rqXf2JtbKQYfKG/LjF7dO7gLTbmiZG8PCq7Xk2kf5lp67Ft7kQl
-	 40kH/sfZCtNtu0ccvDpMCKKLeiBYaKwt173Be9rnPkxf7/4MShhJNBxJuAm4ocew/n73h
-	 H0JKMj3/FGj4O0G+Ldu8I3CU5Svr3mjkb0IGgVaV9Jne6by7Bfbx43lGhniojmp/P5g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794148361;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=oLFLlprcoyh9ZasFAgFJ7Lt1X9B5H76hMWkm0PFdwEU=;
+	b=eeVOUU0oL6rVx3yhI5/kJ0nxJrrsiX7TYNtLuszKOD+7JYoD1OwquESLusZ6abSPWhLw
+	 BPzaf57FwBuDMU1zGcvMYKQ0c0owQXX/2KS3znH3XLDrQCtUYi7a+KQ3Nt7mkRPrP/3RQ
+	 wNC3hcAt3NIYZyY+SPJQ2Eyn3v/PVIs0TzWNNSfAjeyzVBhrGWuFt+h3L6Xh32C7H16Um
+	 znyUkETRUaJeLk4z8t86lslfj3cvOHzTMtsSOHJFOPeyTrtm9YbsGCyDPz5lYjXoJ91Jd
+	 nmx0LCo4UH6BoOuEOhFvQMKsPVxtKOne/eD3ohTPr6//WJSdjZsDFVwxmx1QnapoPww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WEbMSuHE;
-	arc=none smtp.remote-ip=74.125.82.180
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="On2Uj5/T";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9F8606A320
-	for <linux-sound@vger.kernel.org>; Sun,  8 Nov 2026 14:12:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C9F8606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57C0606A320
+	for <linux-sound@vger.kernel.org>; Sun,  8 Nov 2026 14:32:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WEbMSuHE
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-36e99cf7bb3so220768eec.0
-        for <linux-sound@vger.kernel.org>; Sun, 08 Nov 2026 06:12:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794147170; x=1794751970; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uSSk0bKUkcjcG0gJgABgCHhEs7yY+bzoe8xVb1xTnAg=;
-        b=WEbMSuHES09bwoRhQ7hK4a8ZNXV8IyjAhVxVvjLewgR86byiwrTKX4TgxaWo928caa
-         3Gpzhy+gwjrIyMuenvS2DroTwCJM8KoPXsMzbN1jQmgMs+PJzHlxQjnKRja7XcKq5VS4
-         qOzWgc8YJsGWDxB4iPzELXhW8hqDnVYaJGjqObZiJ42ZKFb74yOcPth9PhT8hP0INdlZ
-         cDYVBGmXmLpIqbx5JF6+EDVyYbJ7TzQLx3gBeBgS4CEUZCwHB75rFWvm+G5YZfJwtJRg
-         UN+SWOjTNX8h4JyS2tBWjIKtfDwvcmqLAu9g1+yPg9YWD+9TJ5P8YwOeSMN7RWlxF29i
-         r7TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794147170; x=1794751970;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uSSk0bKUkcjcG0gJgABgCHhEs7yY+bzoe8xVb1xTnAg=;
-        b=ZuTrsAEiLarq19k2md3ARjoY5J31+jX1ryELya2p5S2maWZKvj4WRuQeKTMGYHGLf7
-         cGzGnV724rjqgr026x+MlBUzRaC0jh3FYdIkhqkCoKt9g9OP99TwL2/Ml974x+g5PlDU
-         2XEMqCeKeRu/KZUmRlQQbcc8gh7u5iyk1CtxX+xEFnKV/c+ebIk5Di5NY4NNoqvSskAG
-         dkgrnyNocmUyH2BlfOFjT+zZin6yjU+JA8HB51lz+yjfiQxaoK24XosYfilUmpuUFQnG
-         8BjqQVKLUKV9DuSmPSGg0ScGcxRGcRP4hOZ9Za+CnDX4dslTAiX3vSOxasJ5CX90jLRW
-         YvKA==
-X-Forwarded-Encrypted: i=1; AL+hErG3Z4qH/jYa6f/mUja/EWGzJoJTm7n4xO4yJziZTxs/QyqRuoObpO3Yow+8Lrx4Q++R4yzQGntEeVjtmw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+/MqmnZlpenz54LmaRRr9uLh8RjXKQAQVr1ID/ZBvBtN2eXwQl
-	QrbiaCvDy7s/RWV0tgKr6kLrrcofxh1cEAOeOfWLqAb7kf7QTZhgUTov
-X-Gm-Gg: AYBFou33ZadMVMwFT24mb3LrYsDljeanxtUNt3ls9CQilG8eJEVSAWnpYZzn+fE/BMF
-	oFQh/HWGf2Zns6ixNrsvnieVRmsE3EDxCx32Qmuk+7J//iy2J7ieGa4w23xlzKgnf49tIP2bMpy
-	3JioZEjUYPhIoicMda01144vx+EWH7P1LIxOUkXCpsGeQfNF8hrf02USwqdpP+lAa/xBty7rJmX
-	QkVwI997jnQZPeBh9hpPnNDPf4bHCbwVWVSdMr1Z5OVIAkgbkemxo5thyYeJwrdekkpY8wltgiJ
-	oUyXO3vi33h+p6aOVmUzZSICxSOfTtYnTLRQJpPoWMf8Yq5DMrSiokJRehHFa+FeXt6Xncfw8bv
-	EgU+4o5LVjkZmmzXJTiZNH5/U0pvI2FAAYLX0j/pm9o5GcG75cwghmTrUTLRtLT15BBv/JqKGoA
-	B/xqflUNosd7bthq9lCunUmT6aVo+KuJmjkZyaXLbq1Aj0Zy/z38J/Ry88Hu8vPxT+9E0A6q2aV
-	9BEmQbzGC+gHh/8DlpUSS+QNyKOgJgXnpBQMfrKa+bMNcGmVwqKnDAOhJakq3BVDz44PVLQoLyS
-	A8LJVDCpztZiB8Q0NEnY7lmzziW3+vuR4m9bIaMax1d/LDkKhEc=
-X-Received: by 2002:a05:7301:231e:b0:351:29c8:643 with SMTP id 5a478bee46e88-37256bf5b4amr2999631eec.18.1794147170185;
-        Sun, 08 Nov 2026 06:12:50 -0800 (PST)
-Received: from localhost.localdomain ([103.177.253.80])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37265619774sm6081353eec.8.2026.11.08.06.12.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2026 06:12:49 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: tiwai@suse.de,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Subject: [PATCH] ALSA: control: Validate element info in compat ioctl
-Date: Sun,  8 Nov 2026 14:12:19 +0000
-Message-ID: <20261108141219.7655-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=On2Uj5/T
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3B6D1F0089F;
+	Sun,  8 Nov 2026 14:32:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794148360;
+	bh=oLFLlprcoyh9ZasFAgFJ7Lt1X9B5H76hMWkm0PFdwEU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=On2Uj5/T+XkH6bBq5jPd0SlAjS+fHu+AXFCzfRZL5eFRDK17pw9pv+ra6NgeX7Czp
+	 aX2+mnzypHgoP2by3CnoFHMb0Tsc+DvLLUrFuHfnC3+QyR8curEunXCaIED4z6HL9k
+	 tc91S1T0yJnHr0rRWWhy8CG++Cdj9YtEreB03+5lBGVJJN+GRXLdG1J+/BshG6Ivt3
+	 36iqii36gW/+RoTQ62CQmq9zCi36Gbnfs1y0TR7NIuNZyGOq90BicNjSYgcoJcmlMC
+	 ARwWk6pbY9pcnG5G8lyFCH2yj7FAUnLCUnehOrQWLYezui8cXkJGfDZqup7yom24SV
+	 MGdI89fRg4hog==
+Message-ID: <sashiko-outbox-203810@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ALSA: control: Validate element info in compat ioctl
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Sreeraj S Kurup" <sreekuttan2156239@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261108141219.7655-1-sreekuttan2156239@gmail.com>
+References: <20261108141219.7655-1-sreekuttan2156239@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 08 Nov 2026 14:32:39 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -96,49 +58,72 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The compat ioctl code calls the control's info callback directly
-in get_ctl_type() to get the element type and count.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Medium] ALSA: control: uncanonicalized info->id passed to
+  snd_ctl_check_elem_info()
+- [Low] ALSA: control: get_ctl_type() logs error and returns -EINVAL
+  before access check
+--
 
-Unlike the normal control info path, this code does not validate
-the information returned by the callback.
+commit 9a7d77a704b4390365c1a1e35e66790644d2b85a
+Author: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
 
-The compat read and write handlers use the returned type and
-count to access fixed-size value buffers and calculate copy
-sizes.
+ALSA: control: Validate element info in compat ioctl
 
-An invalid type or an element count larger than the supported
-limit can cause these handlers to access memory outside the
-expected buffer boundaries.
+This commit adds a call to snd_ctl_check_elem_info() in get_ctl_type() to
+validate the element type and count returned by a control's info callback
+in the compat ioctl path.
 
-Call snd_ctl_check_elem_info() after the info callback to
-validate the returned type and count before using them.
+> diff --git a/sound/core/control_compat.c b/sound/core/control_compat.c
+> index 87f7ad5ab7391..cad00d4aa2048 100644
+> --- a/sound/core/control_compat.c
+> +++ b/sound/core/control_compat.c
+> @@ -183,6 +183,10 @@ static int get_ctl_type(struct snd_card *card, struc=
+t snd_ctl_elem_id *id,
+>  	info->id =3D *id;
+>  	err =3D kctl->info(kctl, info);
+>  	if (err >=3D 0) {
+> +		err =3D snd_ctl_check_elem_info(card, info);
+> +		if (err < 0)
+> +			return err;
+> +
+>  		err =3D info->type;
+>  		*countp =3D info->count;
+>  	}
 
-This keeps the compat ioctl path from using invalid control
-metadata when accessing its value buffers.
+[Severity: Medium]
+Can snd_ctl_check_elem_info() read past the end of info->id.name when
+logging an error?
 
-Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
----
- sound/core/control_compat.c | 4 ++++
- 1 file changed, 4 insertions(+)
+copy_ctl_value_from_user() copies id directly from userspace, and when
+id->numid is non-zero, snd_ctl_find_id() resolves the control by numid
+without checking id->name.  Unlike __snd_ctl_elem_info(), which rebuilds
+info->id from kctl->id via snd_ctl_build_ioff() before validating,
+get_ctl_type() passes the raw user-supplied info->id to
+snd_ctl_check_elem_info().  If validation fails and the 44-byte
+info->id.name buffer is not NUL-terminated, the dev_err() %s format reads
+out of bounds into adjacent fields of struct snd_ctl_elem_info.
 
-diff --git a/sound/core/control_compat.c b/sound/core/control_compat.c
-index 87f7ad5ab739..cad00d4aa204 100644
---- a/sound/core/control_compat.c
-+++ b/sound/core/control_compat.c
-@@ -183,6 +183,10 @@ static int get_ctl_type(struct snd_card *card, struct snd_ctl_elem_id *id,
- 	info->id = *id;
- 	err = kctl->info(kctl, info);
- 	if (err >= 0) {
-+		err = snd_ctl_check_elem_info(card, info);
-+		if (err < 0)
-+			return err;
-+
- 		err = info->type;
- 		*countp = info->count;
- 	}
--- 
-2.55.0
+Rebuilding info->id with snd_ctl_build_ioff() before calling
+snd_ctl_check_elem_info() would match the native path.
 
+[Severity: Low]
+Does calling snd_ctl_check_elem_info() here cause compat read and write
+ioctls on large TLV bytes_ext controls to log a spurious error and return
+-EINVAL instead of -EPERM?
+
+Legitimate TLV-only controls such as ASoC bytes_ext controls can have
+info->count > 512 and set SNDRV_CTL_ELEM_ACCESS_SKIP_CHECK.  In the native
+path, snd_ctl_elem_read() and snd_ctl_elem_write() check vd->access first
+and return -EPERM for TLV-only controls, and __snd_ctl_elem_info() skips
+snd_ctl_check_elem_info() when snd_ctl_skip_validation() is true.  Because
+copy_ctl_value_from_user() calls get_ctl_type() before the read/write
+access check and without checking snd_ctl_skip_validation(), a 32-bit
+compat ELEM_READ32 or ELEM_WRITE32 on such a control hits dev_err("invalid
+count") and fails with -EINVAL.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261108141219.7655=
+-1-sreekuttan2156239@gmail.com?part=3D1
