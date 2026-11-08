@@ -1,48 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794142464;
-	b=hMYjRLHYfLAx+6Hp6GsBS7JCni7uQLoeUDYh8zSmQWDvCC+oY3o8RA6/xoOhKVq35MND
-	 Z3hZt9gNthJe5VJPBY3MfKnnuLfsAcr6X7VwI+jnbeI5LdVEUGUd4jHTPTdKK8LYW3Ejo
-	 Jkej2UO26Qjltn+l5D13Ncp8uS8x6MTnPTBck917ZkwavWEupQTx4Spjxg9aoT306aa/g
-	 V4hR3BI7Nxb8rQvD5LSWsm3Yl2oLebv3dF334abZyTeXOrEl3TVbUlRfMwwTEST1Ri1eF
-	 pFiN5VljYP8w8PiIm3h/8Rr9VCQgJg5qVh9unSqUzTkbiRVkkjdASCe2oUV1Jgt4jIQ==
+	t=1794143048;
+	b=ZRJ1V3jSuu/Rm58uRpk5lYrCOncsJJVqnjrSWVi6n6zcNlzWl0/oGBS9/WmVShrpOuBO
+	 F4YWuXv3fEA2AT2NhgV3JwKwj63EqLcurAWlNjtWLJJjGg6MZ+F3GaA+ScjMV7BHxqUSz
+	 y1+rtvjQVLEML/QfXLOeDbgL1lgg+JfsfjTqc71dHusLR9u+T01D5rI3KIZXQAeveDkiT
+	 Er8amrVhMO90ryXUxIYabd1rGMHoLyLcD6ZXJX3aPrfutmx3smZx0XtSKG0UKUbdaxHFH
+	 sQmtoJVqsy6JoS9aASRQehtBymKg4us4CjnmFQJycvoTQ0JdNIKpDXjDw2izrLxbaug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794142464;
-	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=vd+Z3vrrpLkt6u4mXKHz+DlhTxBkA17cRmDQo5h223E=;
-	b=0hKaEMI6JIQOeO/+lPmfn9JqJLce72SwlEL0BUrEclAe2e5LxDSM+qF6VhbQtWKzd2TF
-	 B7FaXEWmzqzRJbR1CF0qcgC+4gSRpo/g7VlAwqiXvl9g1Ryh0tzfP7Y+jvOe5dGChmEVu
-	 gXndYzGBAxB76H+Aq5ROTT2O2o/fijuCQZ+bh4IJUe0ctA3QcWcKkiKzcTI0UGG0LtNdN
-	 1ShsZq91vMBfC1ycKbRM4ZgRhIp2oJBUUTqxmYyL+NqPLCRMr1GZ/UZhbp7MrjxPoQpim
-	 7HXDJY+vA1pnE33JgVpnt0zdg681Zk8eWutdVGbQE0AG+o27CqqMneMCpYbUqcny1Og==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794143048;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=ZapCdoqGqWMAQgXzjcWNscud2Aunl0QfBTjahqyvzOU=;
+	b=WDIv8lUxpZI6StalTCeANzTgFwh9BpGchberK0wu5rawihmv59jT5hRdBMvcc7XWgw9X
+	 5699qGos+sb7evBiNA05DBDj+NpI1pUAolQ91HWMT8x4JO5+fOfnMWYCNqGen+gQQTdSx
+	 n9DPl16/o4wnAc4n8WyY7mNirx8bb5vSwVXEdookhZKXfPwTDvFZMWtdyzh7vdowRRDyJ
+	 acTvGV17P97uwVcqkeJ2Hd3KK1S2MHrru7XqFvBJyfhC7th4Sts1HXaiNOPaRXM3wtKQP
+	 DiwZx4jr9oBjH58fNJdX5Hr3Kx+obf9SG6jGHqfNVwjzplr7mbV05LjQwSTsYmAHtYg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CLPkB7s5;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="LoOB//3I";
+	arc=none smtp.remote-ip=74.125.82.49
+Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBC6606A322;
-	Sun,  8 Nov 2026 12:54:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2621606A320
+	for <linux-sound@vger.kernel.org>; Sun,  8 Nov 2026 13:04:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2621606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CLPkB7s5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA6841F008A1;
-	Sun,  8 Nov 2026 12:54:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794142463;
-	bh=vd+Z3vrrpLkt6u4mXKHz+DlhTxBkA17cRmDQo5h223E=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=CLPkB7s5n7m/gzX8F9ip745FIGgn05IizUp77hyic6NZRR9DKupjmvL58iC06twpj
-	 9wWKbY7OuzAFhy9/mL4P2QA6RE1IIbbz+wiL3VAQatEPoRPMwEF4LPyd2rMumRfvov
-	 a3dxHNQkPXSXhyRGwbAMljXTgkIIouHrxCx5RMKkrlMmhgmhPzNm6IkQ4NHd91lxki
-	 dC1AFxXzpo1fdZTq0KMSmsaI1Goh5JNGppiZF7EfQdlvmjVRFl1xHqnpi5mgTrMBUb
-	 CAPi3PbvnwOwi1r/BeFeRQ+R9N6gqHAQ7IPkslMewvmShVNq6CZHiNSrEj8yQB243T
-	 Q0VKRhZNHC79Q==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 22E292C5FB64;
-	Sun, 08 Nov 2026 12:54:21 +0000 (GMT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LoOB//3I
+Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-1931ff67a29so224799c88.1
+        for <linux-sound@vger.kernel.org>; Sun, 08 Nov 2026 05:04:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794143047; x=1794747847; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZapCdoqGqWMAQgXzjcWNscud2Aunl0QfBTjahqyvzOU=;
+        b=LoOB//3IGLSlepYjPgNYVN2vu2ngY+G0YepOIG+Bh5vgAs9ssOeNJaHpebeEpjltZ4
+         4429wQwagcOC1i228bWCxL3YIsymBg2gKCO5rm4QcWjCspktALrb2rK/T/uNynewjkn4
+         Ry+5WeHjkdFXZBmQg8Jh1CVfAgbk6db4/SGXij0XbmyvMTiDTLS69MqaKCszrtffMLKF
+         rjG5rKH0aCbqXKOKYL8BJhEoRusIPNpNqVrOopMvnAq6rnX612M7eXXDwNJM9cATfUKn
+         33QBz4TQbgahKchkXqHT7DHpVnrHhyowREt+uZWa9oSNKp80Ubr+8qu2tLIpfJydH5f9
+         x4Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794143047; x=1794747847;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZapCdoqGqWMAQgXzjcWNscud2Aunl0QfBTjahqyvzOU=;
+        b=Jlk6EAFKmh5SKT2L6ulSujP5p4PDsXMh/1Bl2IWH9Kubyk9OYHG2xQ/SsgztblJf+e
+         oKLsjtYdsjtI+lgmbVKktKq1QxKq7JiWXIOa/JCshfqyk29iM0r70E6/ldtBl5zsUe/9
+         NhP6X95KQDq9r+t+Ms5uwpItKhKFapgLuMI4xB6S1uWuT+11UQ8vRMagaliE3GW5jaWo
+         xYOgQ31sxoSE8LbxWhFqYERHDsMkzU3dv8FQjUNDw0oTPra9bDKFZm67aN/+bYTlLY53
+         BOghDFwGFBsGwsNdt4zi1ak9aX2odfQ8W7DHpDmYtQZVmWrriftj4KHDOZxm8L+vHax1
+         Ls9g==
+X-Forwarded-Encrypted: i=1; AL+hErFoEnihGkVMh+ITXnejdLlMAsi4v3QFEyUC6mC3y1sm9rT6bO+Ugm3wngK6J2vRXDossMu2fYjl3TMxUw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8SivFOmGXqyKXXPvJFii+8hO0EWLGr2XpmUp9Z1EitVvXtasCu
+	ZNjqFkSbC725rmYa2Az4z4BV0vepgEPdYOIAUtvOGo3Yjbr4Oln73fy86zvlUU3IMDk=
+X-Gm-Gg: AYBFou0HkexdJLINV4j5v9Ya48n4wUJG1zL6O/5Epz3q1y2ZQDg/eTAGzSdhvTuiDhr
+	pKwpLlQt8E1uw4t7d4p8WfrdVyVJ19ZawMmZ/ETJFpB4FmeuQwz+b3VVmbWMnBr8pmRdJelbUCr
+	+vwtRLUMtN+suMNA2m5KylV4Euc+c+54wNEIbr93+d7IPoQvhSHBUAt6CpL4v+tqYUa4n/QAgV8
+	wBgIJwH0dpLFUBiTW9QHEgGohFYZH2Z89JeUcnOBCuIMbn5tuCa1mgNMIvQqrBoTihyng/g5e/c
+	xcpeFLm8Q4BaxPx+RhT7zjCG4ScNAwNjVcpYPijWOvVyKyInZNbsO9ZPcQOEDb90C2aoXUQyv03
+	7utWOGaeGz/9geE9nQXFZfraCEq37JH8TKMp1xbbEBGsQ1q8zg2kns2zLt/AnUXFhSKwEhnVLAA
+	rz88DXTWi4TnyPyDblCbG5p8fRx2rqxeB64Aha4lnz16pRUjiZpMJgTL0K22QCZqcQNgX25f914
+	HEmwNmrDKM13nYTnjoFtS0PyV8hi2uI3ILKEfbv0nJ6wocwA13zsI64PvdDvbkYjPjlVowrPfNA
+	fcTwTD3Wpqa1flZ+4DI4kM8Iz8LSrff/hNCpuFvaywttLwyjiZbN+6k=
+X-Received: by 2002:a05:7022:2209:b0:1b3:2692:2274 with SMTP id a92af1059eb24-1b39ff060a8mr3158032c88.40.1794143046735;
+        Sun, 08 Nov 2026 05:04:06 -0800 (PST)
+Received: from prts ([103.156.242.195])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3755e936bsm6603194c88.6.2026.11.08.05.04.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Nov 2026 05:04:06 -0800 (PST)
+From: Xinyu Wei <xinyuwei1024@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Xinyu Wei <xinyuwei1024@gmail.com>
+Subject: [PATCH 0/2] ALSA: usb-audio: second configuration of the Steinberg UR22C
+Date: Sun,  8 Nov 2026 21:03:01 +0800
+Message-ID: <20261108130303.387288-1-xinyuwei1024@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -52,48 +96,27 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 2/4] ASoC: arizona: always parse device properties
- regardless of platform data
-From: Mark Brown <broonie@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- David Rhodes <david.rhodes@cirrus.com>, Lee Jones <lee@kernel.org>, 
- patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, mfd@lists.linux.dev
-In-Reply-To: <20261105-arizona-asoc-v1-2-25ec7338446e@gmail.com>
-References: <20261105-arizona-asoc-v1-0-25ec7338446e@gmail.com>
- <20261105-arizona-asoc-v1-2-25ec7338446e@gmail.com>
-Date: Sun, 08 Nov 2026 12:54:20 +0000
-Message-Id: <179414246010.3630016.7821414370886873553.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=718; i=broonie@kernel.org;
- h=from:subject:message-id; bh=jratIdgZGKMpYCQ5KW/IK2PJzXOICNrWFYpFpvSpgzk=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+FPyZnbb6u5bIHWfeLyzVTKUqj6Jlfj1x3ZegzPCSY
- 8G75h/BHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZiIxC6Gf4YfHl0RCEji7GmR
- 27fA4GdU7rW1+bdbUib7vNtRsuTBEV5GhoXfhFWUZr4RfCyQ7Nl1ouicRo7mZNvoaMGY/FrvOUw
- fWQE=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-> Always parse device properties in the Arizona jack detection driver and
-> codec drivers even when platform data is provided, allowing DT, ACPI,
-> or software node properties to augment platform data configurations.
+The Steinberg UR22C exposes two USB configurations: configuration 1 is
+class-compliant (2 playback / 4 capture channels), while configuration 2
+is UAC2 behind bInterfaceClass 0xFF (6 playback / 8 capture channels and
+two MIDI interfaces).  Selecting configuration 2 on a stock kernel leaves
+interfaces 0-2 unbound and registers no PCM.
 
-> @@ -1184,7 +1184,7 @@ static int arizona_extcon_device_get_pdata(struct device *dev,
->  					   struct arizona *arizona)
->  {
->  	struct arizona_pdata *pdata = &arizona->pdata;
-> -	unsigned int val = ARIZONA_ACCDET_MODE_HPL;
-> +	unsigned int val = pdata->hpdet_channel ?: ARIZONA_ACCDET_MODE_HPL;
+Patch 1 adds a composite quirk entry for configuration 2's vendor-class
+interfaces.  Patch 2 fixes a bogus bmFormats (0xffffffff) in
+configuration 2's capture descriptor so opening capture as FLOAT_LE does
+not lock out playback via implicit feedback sync.
 
-This changes the default from ARIZONA_ACCDET_MODE_MIC to
-ARIZONA_ACCDET_MODE_HPL, and might be clearer if written using a normal
-logic statement.
+Xinyu Wei (2):
+  ALSA: usb-audio: name the interfaces of the Steinberg UR22C
+  ALSA: usb-audio: fix the format bits of the Steinberg UR22C
+
+ sound/usb/format.c       |  5 +++++
+ sound/usb/quirks-table.h | 14 ++++++++++++++
+ 2 files changed, 19 insertions(+)
 
 -- 
-Mark Brown <broonie@kernel.org>
+2.56.0
+
