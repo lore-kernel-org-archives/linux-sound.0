@@ -1,114 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794134867;
-	b=uK48LYxftBSgFvx5XCX7ErXrTCQb/cz/sznEhpQdKKDq//h4bgd/217IX0HzYuTNH0M4
-	 OecTVg9jlK/srUWwpjfL9rlj2Ljj85k75br2IzFjCHxDcTJoksUcOcH5ilK/5Eg/hrXJ0
-	 /KqhwXqIUzmR8MyFh0QExQGInPhPzzQCRv+/QIbtsMSwU9DXLQR2yLJiy3u6h5xS0J56R
-	 QFKkPYSNB6pZ3/Vg8+AImg0Nh6DQOsUzZi4/mh9bNS7d1oYIoDgwaNjI8DGBrgRN796zC
-	 4ccjtnP3Mq/6rjWX6lPOOvM2AEXk5abSxpG+z97y31ejZpvYk8y4HG4jgFCwPrFLenQ==
+	t=1794136128;
+	b=4eBdVYoLvMmfWBdgRnw64NAVg9ftPPpQcXcd8Ln/tep6OOWhB9vV9Hw9tQjMSbVQG9l5
+	 lHo21e0AN/QOVFGXmWg50sGeuwB5BTVxg2tCi1CxD2myXZMmg7XUNhX9uCpFwj5qrncDT
+	 Kiel4yM6cJLmkMTpLNSooSWFK67DmYg02KwkRpck4A17Mc6uwHQEwO/sOE1pSBNbZBipL
+	 Vhdk6vD4JqPA8qz1BG7F8ClgrqW+SjblwKUvRpGFh0mER/PlcduZT2iBCunG4SDIioXCL
+	 +2whRYq5hWZSV334IMcjlvLi2eg1R55NBuvasdtbhfXzdtTA4VD9nDq0g2qqAAVnR/w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794134867;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=AakKaGbPYpxwT61bjk2Z7U2sybxRQC9at/Cxx1QT/9k=;
-	b=4MWv6ui0XDIdzY2L3qyUTMy+voeTXqhcpgW6A/B6gFAYnMY5brCxFP9p3bhJ9Br7ii/o
-	 ED02OB/dWLSpg46KpJhBrvouq9qCRh0K1xTFFk0TH7w6v0A39MCvVsfibx2owuxxbUuWM
-	 y4EtaBM7tX/NS3uJt0kSa819Av9Kl88QD6Xsmv/WVbu/XTjRnVMumXDsCqvyQ8WLYLBZF
-	 ZSnYc15uEk1Qvu+3ilQC6PQvpYaZ62KLAusPR3aH3V4C8UUzh/yq6JeZjZpu1hfFDmg91
-	 wl3WL3KO1Ohrt4BkeeE03E8mOX4p6Csq2W37itCNGco7zRePgxTqsZ0nG//dwuzLjLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794136128;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=V7Ody8JeXMkzLZHv8olvL0aHefA5IpIC1Vs5enrss/o=;
+	b=TplGH/1l9tmI4mSo+dY72TE6ZSEYQyD8pCpA1ZjbumGqA1dEROW657IvwC6I6xwWIpIE
+	 ViWwtN9KC6hMsvARH691l/BfTVn2yi1y2yDEOC2AsrPyADu9XaGeeXIjFteqAgHtadpme
+	 mazVRKaNDHWFG7LGXbyixcQ0sovGb7Yu3hYIPWCcXA2oTduXo3k4vbm7thmkoQKPr8eBb
+	 TXRgoqo0JgOLVGFxYTnl2y4c4TxwotoMbwnPsdlTAsC0bi6iyD+g+yq51G5sKweL48qwK
+	 i9e3GLX3XjT4UJKULa6v+c052zc4tCkNAho/SM/Kojcj0bvRZ2zdj63QDBit0IVKHig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=ggJsqzxw;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=aWPngGeI;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=ggJsqzxw;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=aWPngGeI;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jdLyfXwi;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1776606A31C;
-	Sun,  8 Nov 2026 10:47:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1776606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B299606A31C;
+	Sun,  8 Nov 2026 11:08:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B299606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=ggJsqzxw;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=aWPngGeI;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=ggJsqzxw;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=aWPngGeI
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8FB941F74C;
-	Sun,  8 Nov 2026 10:47:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794134864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AakKaGbPYpxwT61bjk2Z7U2sybxRQC9at/Cxx1QT/9k=;
-	b=ggJsqzxwG4veQ7dc6bEDfukQX3AKKghWpCcFd6mxAzlwv4f9PpEs/UZ9K42hFqsgPEagy9
-	EeabVXbMJRXeNTvjICYqZc2yNXpzpLbq5qtSaki8A3gjeLxDFHh99/VUFPGz0++MCbHnW8
-	REUvb0L9DK5+dNKYp6hGHp3//UQg8dM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794134864;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AakKaGbPYpxwT61bjk2Z7U2sybxRQC9at/Cxx1QT/9k=;
-	b=aWPngGeItmIPCCMGAW8e5JhMy+M5ZYrmdkN8dGlAUXaOavXwHeJZgUVojXrsVr5Oa09bq0
-	EBDgDDgBAkQmUYAg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ggJsqzxw;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=aWPngGeI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794134864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AakKaGbPYpxwT61bjk2Z7U2sybxRQC9at/Cxx1QT/9k=;
-	b=ggJsqzxwG4veQ7dc6bEDfukQX3AKKghWpCcFd6mxAzlwv4f9PpEs/UZ9K42hFqsgPEagy9
-	EeabVXbMJRXeNTvjICYqZc2yNXpzpLbq5qtSaki8A3gjeLxDFHh99/VUFPGz0++MCbHnW8
-	REUvb0L9DK5+dNKYp6hGHp3//UQg8dM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794134864;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AakKaGbPYpxwT61bjk2Z7U2sybxRQC9at/Cxx1QT/9k=;
-	b=aWPngGeItmIPCCMGAW8e5JhMy+M5ZYrmdkN8dGlAUXaOavXwHeJZgUVojXrsVr5Oa09bq0
-	EBDgDDgBAkQmUYAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 19ED01339B;
-	Sun,  8 Nov 2026 10:47:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4HcyN09T8GpRWAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 08 Nov 2026 10:47:44 +0000
-Date: Sun, 08 Nov 2026 11:47:43 +0100
-Message-ID: <878q33y4z4.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Alyandra SigmabetJir <alyandra5b@gmail.com>
-Cc: HyeongJun An <sammiee5311@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] ALSA: ump: clear stale RPN selector on NRPN change
-In-Reply-To: <CAJYQYHxrpmBPiyMiS2oK8eugUMR=KFmf9D5jwLdoYUYQgKkXjw@mail.gmail.com>
-References: <20261107111056.667-1-alyandra5b@gmail.com>
-	<87pkwgyck9.wl-tiwai@suse.de>
-	<20261107142950.125901-1-sammiee5311@gmail.com>
-	<CAJYQYHxrpmBPiyMiS2oK8eugUMR=KFmf9D5jwLdoYUYQgKkXjw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jdLyfXwi
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794136125; x=1825672125;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zUrwpjHmgX2sQEIOLj74SCTZplyzWE0AapO1fDycG+I=;
+  b=jdLyfXwii19UvnLeA9lyKB5vepgK01dCXzCBTZ4w9MNQVRHAUSibaIqp
+   62RbfMiZktjIKsRnEQTMafNPMW0A2ChyQuWAeOz4XJG33vVhMH5S2yqJ4
+   4cDltidvSa5zHwbGh0HYKK0/GmfTB8QEFXJ7vlNkIowbAuw+ZZZDLqaye
+   +akmkeYuLP/gXV5SVngHlPcG+PkxD+ouO+WJCszCO1kUCLzUJVRpixIuK
+   fALAFGRVW/yc0quLKZzxA4qq5BQNIeqtCZlAufeFGrw1nayLTQV9jGbRL
+   wrBC8e7xgwqCMzOyLuBX8ngjVQWxRzLLNhR0KfLkjmIfjfbycjJJwuxin
+   Q==;
+X-CSE-ConnectionGUID: 5g4huqhORrGcCjDuLJyaRQ==
+X-CSE-MsgGUID: 3DJe66kKRZalHydhALr/fw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2766788"
+X-IronPort-AV: E=Sophos;i="6.27,202,1787036400"; 
+   d="scan'208";a="2766788"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 03:08:45 -0800
+X-CSE-ConnectionGUID: 6fFzp7XqRk67eSIeTVIQLQ==
+X-CSE-MsgGUID: D6Sz5yH7Q3CFYCsZnSwV/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,202,1787036400"; 
+   d="scan'208";a="7540748"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 08 Nov 2026 03:08:41 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xQ0lK-00000000sqN-0FOf;
+	Sun, 08 Nov 2026 11:08:38 +0000
+Date: Sun, 8 Nov 2026 19:08:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, broonie@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, vkoul@kernel.org,
+	alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, yung-chuan.liao@linux.intel.com,
+	Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
+	venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com,
+	Mario.Limonciello@amd.com, Richard.Gong@amd.com, Poojitha.N@amd.com,
+	lee@kernel.org, Vijendar.Mukunda@amd.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	sound-open-firmware@alsa-project.org
+Subject: Re: [PATCH 3/4] ASoC: SOF: amd: guard SDW IRQ work scheduling with
+ interrupt_enabled flag
+Message-ID: <202611081921.O3dE9COW-lkp@intel.com>
+References: <20261107175339.3547918-4-Vijendar.Mukunda@amd.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -117,87 +89,123 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 8FB941F74C
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,suse.de,perex.cz,suse.com,vger.kernel.org];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.51
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261107175339.3547918-4-Vijendar.Mukunda@amd.com>
 
-On Sun, 08 Nov 2026 07:07:08 +0100,
-Alyandra SigmabetJir wrote:
-> 
-> 
-> Hi HyeongJun,
-> 
-> Thank you for bringing up these related cases in the earlier discussion. I
-> also appreciate you taking the time to work on the additional patches.
-> 
-> Thank you for clarifying the situation and sharing the details.I appreciate
-> your help and the work you've already put into this.
+Hi Vijendar,
 
-Could you guys cooperate and organize a single fix series?  That'd be
-nicer at merge.
+kernel test robot noticed the following build errors:
 
-Also, about the unit test: I'm not much against kunit, but my gut
-feeling is that selftest would be more flexible (and less changes in
-the core code itself).  If that's feasible, let's go in that way.
-Otherwise we can take the kunit change.  But maybe it's cleaner to
-move the test code into another file.
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on vkoul-dmaengine/next linus/master v7.4-rc1 next-20261105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vijendar-Mukunda/ASoC-amd-ps-guard-adata-sdw-dereferences-with-NULL-check-in-IRQ-handler/20261107-232226
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20261107175339.3547918-4-Vijendar.Mukunda%40amd.com
+patch subject: [PATCH 3/4] ASoC: SOF: amd: guard SDW IRQ work scheduling with interrupt_enabled flag
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261108/202611081921.O3dE9COW-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611081921.O3dE9COW-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611081921.O3dE9COW-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> sound/soc/sof/amd/acp.c:589:36: error: no member named 'interrupt_enabled' in 'struct amd_sdw_manager'
+     589 |                         if (amd_manager && amd_manager->interrupt_enabled)
+         |                                            ~~~~~~~~~~~  ^
+   sound/soc/sof/amd/acp.c:621:37: error: no member named 'interrupt_enabled' in 'struct amd_sdw_manager'
+     621 |                                 if (amd_manager && amd_manager->interrupt_enabled)
+         |                                                    ~~~~~~~~~~~  ^
+   2 errors generated.
 
 
-thanks,
+vim +589 sound/soc/sof/amd/acp.c
 
-Takashi
+   566	
+   567	static irqreturn_t acp_irq_handler(int irq, void *dev_id)
+   568	{
+   569		struct amd_sdw_manager *amd_manager;
+   570		struct snd_sof_dev *sdev = dev_id;
+   571		const struct sof_amd_acp_desc *desc = get_chip_info(sdev->pdata);
+   572		struct acp_dev_data *adata = sdev->pdata->hw_pdata;
+   573		unsigned int base = desc->dsp_intr_base;
+   574		unsigned int val;
+   575		int irq_flag = 0, wake_irq_flag = 0;
+   576	
+   577		val = snd_sof_dsp_read(sdev, ACP_DSP_BAR, base + DSP_SW_INTR_STAT_OFFSET);
+   578		if (val & ACP_DSP_TO_HOST_IRQ) {
+   579			snd_sof_dsp_write(sdev, ACP_DSP_BAR, base + DSP_SW_INTR_STAT_OFFSET,
+   580					  ACP_DSP_TO_HOST_IRQ);
+   581			return IRQ_WAKE_THREAD;
+   582		}
+   583	
+   584		val = snd_sof_dsp_read(sdev, ACP_DSP_BAR, desc->ext_intr_stat);
+   585		if (val & ACP_SDW0_IRQ_MASK) {
+   586			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->ext_intr_stat, ACP_SDW0_IRQ_MASK);
+   587			if (adata->sdw) {
+   588				amd_manager = dev_get_drvdata(&adata->sdw->pdev[0]->dev);
+ > 589				if (amd_manager && amd_manager->interrupt_enabled)
+   590					schedule_work(&amd_manager->amd_sdw_irq_thread);
+   591			}
+   592			irq_flag = 1;
+   593		}
+   594	
+   595		if (val & ACP_ERROR_IRQ_MASK) {
+   596			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->ext_intr_stat, ACP_ERROR_IRQ_MASK);
+   597			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->acp_sw0_i2s_err_reason, 0);
+   598			/* ACP_SW1_I2S_ERROR_REASON is newly added register from rmb platform onwards */
+   599			switch (adata->pci_rev) {
+   600			case ACP_RMB_PCI_ID:
+   601			case ACP63_PCI_ID:
+   602			case ACP70_PCI_ID:
+   603			case ACP71_PCI_ID:
+   604			case ACP72_PCI_ID:
+   605				snd_sof_dsp_write(sdev, ACP_DSP_BAR, ACP_SW1_I2S_ERROR_REASON, 0);
+   606				break;
+   607			default:
+   608				break;
+   609			}
+   610			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->acp_error_stat, 0);
+   611			irq_flag = 1;
+   612		}
+   613	
+   614		if (desc->ext_intr_stat1) {
+   615			val = snd_sof_dsp_read(sdev, ACP_DSP_BAR, desc->ext_intr_stat1);
+   616			if (val & ACP_SDW1_IRQ_MASK) {
+   617				snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->ext_intr_stat1,
+   618						  ACP_SDW1_IRQ_MASK);
+   619				if (adata->sdw) {
+   620					amd_manager = dev_get_drvdata(&adata->sdw->pdev[1]->dev);
+   621					if (amd_manager && amd_manager->interrupt_enabled)
+   622						schedule_work(&amd_manager->amd_sdw_irq_thread);
+   623				}
+   624				irq_flag = 1;
+   625			}
+   626			switch (adata->pci_rev) {
+   627			case ACP70_PCI_ID:
+   628			case ACP71_PCI_ID:
+   629			case ACP72_PCI_ID:
+   630				wake_irq_flag = amd_sof_check_and_handle_acp70_sdw_wake_irq(sdev);
+   631				break;
+   632			}
+   633		}
+   634		if (irq_flag || wake_irq_flag)
+   635			return IRQ_HANDLED;
+   636		else
+   637			return IRQ_NONE;
+   638	}
+   639	
 
-> 
-> Sincerely,
-> Alyandra
-> 
-> Pada Sab, 7 Nov 2026 21.29, HyeongJun An <sammiee5311@gmail.com> menulis:
-> 
->     Hello Takashi,
->    
->     Thanks for adding me, and thanks Alyandra for the patches. Yes, this is
->     one of the cases from that thread.
->    
->     I have patches for the other cases discussed there. They keep the
->     RPN/NRPN selection after a send and clear only the data, drop data when
->     nothing is selected, and handle a Null NRPN like a Null RPN. They also
->     need the same selector change as this patch.
->    
->     I can send them on top of Alyandra's patches, or as one series that
->     includes the selector change, whichever you prefer.
->    
->     Best regards,
->     HyeongJun An
-> 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
