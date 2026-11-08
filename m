@@ -1,69 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794156504;
-	b=kF6/lwlOj0NfsMwhunPsPdDnekT1zJ+hfP685THddO3d3Y6sczkgtr9EZ3cf1IjYebus
-	 t0lJK3p9zQeN5DGE2fWW16nEqZiveObJY3grT5Jo2co9uSerYHM6Yh3Pwb264738we2q8
-	 UGaKfQn1cJLXCGpl/iIbWn4VVY8GsBgZ75YnUJ3duwGqBVC/xqMVh+Y3WfrLYhPWpj46Z
-	 gMrx4GG+x8NBSTQbpf6QERbP4QyUmr0cB1GRZYw5sbs1bw2GKQZN61hOGbFvwFV9V6bD9
-	 yXKFMct2cImrYBMDVz8UcRku3R4Me28Q9E2tOH8IL82lyiYjiukYv1pIOlU7TV3TSzg==
+	t=1794158800;
+	b=CsYHKmdlizhjtJBYLcBNCAG+3leMUyWvzDwlsZtVisj8Bl+6Xu5ybdlL88sf2yU4TmBH
+	 wlkY1H12mwU5IjY0aRgho90r2n/kQBk8n6bczvO5lxjA8pUI2Ax6KgNclSH7W+IEnG/py
+	 luzHcxX0Cawz0k62N0w7cDpyPV7BJ5BK3ubwzqFhcktq2k4Mz+zKmpenmkEzkpzm6wThq
+	 irCfRJ5VAKU5LNGMUTSAKHKWkJJcOKiGD0aqXEVXtoLNN7YMrkmxAVAl2rS3adcmZ46fA
+	 Gv+BpZujdklmytCg7xtqAAq6LhpJuZhulF2KoTBXYOBW9ownstxVm6VEeAw3ZF/yj8Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794156504;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version:X-MBO-RS-ID:X-MBO-RS-META;
-	bh=tsMiTkV/hqdop5IjaEQ8s8Y6MhRSBVR+eBSGwbhRukM=;
-	b=X66yLRz14eNE1N2nti83+tD/jzBJbUi4FI/QiJYfKiE5mQHjnIrylkudgH5xDm8MYDfC
-	 ur5bvC26TZmucG58YhtcurKlTQ6+q/ViHAqUYInpwhkUwnk8rHwTBiRoZ/zMWT2ZLnRdG
-	 mJMBVyZCkUDhyUITv1ffuheD3bhpem3YpZYxTgEeAbhekCeLKMYx416EGnyVk57oYUIzz
-	 lqo+uj+MrIqKRNbt+5Utwj2+ZfpKNoVXil5RevrY1NignrOPQXb7p9reOHCMT4UjDs1k3
-	 U4q4Mxgj1ANafQa+MUBNZ+GxXc9855WFUTdiaT4YiKZHdItTruKiYQS4iDzs5wB5XsA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794158800;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=GimyCLzTK2kHf3bS68Mh0aWkn78dhGyOUtZ1E39mgiE=;
+	b=07GLpuKTldOowrhMMIkJXhA6E3CI70KnJPGaumZtPoLKuZldlyiHbBDGz65LFbYs5ZbG
+	 fwzcMwUA+BeT4JFCHalDcgxYGQsnftar2JmzScft3ex5J2OUKivrxT1uVTIxKdpiO6Axk
+	 dtStO+GXpSYSLI8i9t6VxJoOYMNXpl6S9x2QTE+MgPcCQ0Ax7UPSEohEzKYl+Q+C4U16t
+	 4i6ExOnn1WUOkayBurBiyEFAESTMUFcd3K/OZP+ei5l6gGnia8f/ZwSDdAXbxKMsTtObv
+	 sQp2RmrCJlgmCUT0nFeJhc3EeiW8pBoaekiqMFUJzo1wKFZH1Y7vFjy2WqbB5988EgQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=FFCFVjtm;
-	arc=none smtp.remote-ip=80.241.56.172
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CaKRpWSV;
+	arc=none smtp.remote-ip=74.125.82.48
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011FF606A31C;
-	Sun,  8 Nov 2026 16:48:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 011FF606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C5F606A320
+	for <linux-sound@vger.kernel.org>; Sun,  8 Nov 2026 17:26:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D3C5F606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=FFCFVjtm
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4jMzPT3ryczMlSC;
-	Sun, 08 Nov 2026 17:48:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1794156493;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tsMiTkV/hqdop5IjaEQ8s8Y6MhRSBVR+eBSGwbhRukM=;
-	b=FFCFVjtmraFCoFTlhD4GirW+JMsUQvwsho/BOPpHsprPqVco50WPO7je+z6gRmCX/7IQSB
-	RE8q6FJEA+zTZiMGENw85QKcsrVKITzNljdNAd8goxu6ubv2dAf2JPBx7ihX6VRt+1sVtO
-	37cOk92lz3+KGEE9Wnxn1n2ShyZOhMYzbN7U9IAXJ+HjId90vJ9xJ4vRNOf4F5YlZaxKpr
-	76zsFqIqsUrpUo1iOJ3P7bJXLzXJLuBHMVqjvJa/nqY81UhaIQa5gJ9vvSdNOaT3QqNJgQ
-	fIkP5hplBhEXifbHLA9xVCftgDcV3aq04yWEwXbKe/mqYBHMLR1a4gGF7iLniQ==
-Message-ID: <eb3ce9e09ea5f06c427247e8c93e6e1649ac77ba.camel@mailbox.org>
-Subject: Re: [PATCH v3] ALSA: control: Fix parsing of numeric fields
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>, tiwai@suse.de
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
- perex@perex.cz, 	tiwai@suse.com
-Date: Sun, 08 Nov 2026 17:48:09 +0100
-In-Reply-To: <20261108124832.3058-1-sreekuttan2156239@gmail.com>
-References: <87zevjwmrf.wl-tiwai@suse.de>
-	 <20261108124832.3058-1-sreekuttan2156239@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.62.1 (3.62.1-1.fc45) 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CaKRpWSV
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-1a2761c69fbso522328c88.0
+        for <linux-sound@vger.kernel.org>; Sun, 08 Nov 2026 09:26:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794158799; x=1794763599; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GimyCLzTK2kHf3bS68Mh0aWkn78dhGyOUtZ1E39mgiE=;
+        b=CaKRpWSVvqYPS/l1YHqJM3ApnlGCZYw/EbUdYXjRucRHuair+2CqHlTfji8HgPLM9t
+         eGCQsuT2CPMUoVlz6ySCpvfTvUz25Xr/u0vx9ZqCzBRtRrjOOyQPBFJUSkIDXZ6RdNr7
+         JTq4m9PmL1Sqf9g7c/sVZfGfk3E+49hh2xEp88hlKTIdnVi1mvtwS6NPNeFUWmQDtwgK
+         0Mq8yqCED7nq9/U4TfOM0gB0o0+rJRmbcFkBiL+XG+BFJitAQgZ2VCzT1q3/bZOXKb90
+         s8YfznieqLKOx9Rr+5lBXSmtG4MoBhMTFNvnHyp1o8+Znn4nEO3Muu/QQq0aSz/yiwkr
+         pt8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794158799; x=1794763599;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GimyCLzTK2kHf3bS68Mh0aWkn78dhGyOUtZ1E39mgiE=;
+        b=OGXHq8kxAyxf0QKdaeEAEGRZ5I7pIyzfDkwZIwpC0ZhixYTgccjPHoeELebyJ0x4p6
+         xQHKYz+bWDIVCNg9jTSR4eWQ8+npxil7HcY6IO9hTYi8cQ/AcAEONv3jUsO3KnIUEb+L
+         5NjQ1PSeQ/wE56I7gHKziQZScUky5auysFY0+4ronZNHI53VO/G4Dgj2NYRWkIr7tobF
+         qmsn8Q4+xS0v4GDW5Vw0RhlHJxl6PchG1TGUh3cz1uh3IwSu6Pjf+Vxzhu6egSozzkHN
+         5OJk62zFAlu0d9FywzULVrq9kqRxD4ysuYLCk5N6iKI4iZabtrQvnRMu18n08mwTMy/0
+         JiqQ==
+X-Forwarded-Encrypted: i=1; AL+hErGeMQQg7cCfj67But+9EaOI44tHFInIrd0Mws0Ji7s7KgKnLSwv+7Uailhv1avoqDZJ2Q0iXBRfZA61/Q==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9Nrv84/w/f0ZRNI+wFKFxixaHqpwWdJJPMIIUkFjgN1h1AXjRd
+	Ndc2go2MMOzuW9eZNQ3P/o9/fmwzhvA+9QCKrevUiib6E72V2uYCcxXy
+X-Gm-Gg: AYBFou3nosJ9sp+z6RYuMLgrJIysh1azblyQd2NBjYgPnAjIa6po507+JjJUjFoMA3Y
+	MVTtHLYakgvCw4NbuSC/EF/wWYExD8ubEm+2mMUzepS1BvgIgUuOe84hkYPXVNwDjBCffXpoXes
+	CrvhxjFUAbZ45f36IbbRuPcBDmYbiCn9Zfq0jGubiWaW/uz7K9Bo544NPI+yAKCKzI3UKEJCZVq
+	ht/bSYwr0IPaKEmCgV95l3cN50cuPLwETysuUWE0IZAFlMhZ0T8YtVYiVXyzJV0fUEwUpwBWSTm
+	1kyeP2clt+AOG/YKNPruA8xmxK8ZDU7cU+TUor9nvHulcYg14/Y9NQ9HibYdTYx+nGEqnKVQ7o5
+	GnIDAe0+SMNDkBQ+dGR/6vwKiYe7DvaYMl+K2AxX9ivqXzqZH5RAIbv0BFr1asaGU/LkFLqrwPN
+	uWho3IiJ3r/mnVXgBXR33L7ydVqHcw91Hks82zBRnU52YzmvuquiwLJDWVCOM7D7+h1s2KRnIUa
+	XdAH0TFozcl4MxYjO5KUak6zFu0URqy1jJZjyEbtWG8N3U42fu/qmEX/zKnMfvQN4sZIXJ9o9Dm
+	bnJzp5UwUKOGDzwLmL5CwreeDJ8WtJD9yl/QsCenmFmZ3wpsU1o=
+X-Received: by 2002:a05:7022:3b87:b0:177:9a5b:a89 with SMTP id a92af1059eb24-1b39feb70b6mr3229659c88.29.1794158798761;
+        Sun, 08 Nov 2026 09:26:38 -0800 (PST)
+Received: from localhost.localdomain ([103.177.253.80])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3755eb6efsm8095792c88.4.2026.11.08.09.26.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Nov 2026 09:26:38 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: sreekuttan2156239@gmail.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	tiwai@suse.de
+Subject: [PATCH v3] ALSA: control: Validate element info in compat ioctl
+Date: Sun,  8 Nov 2026 17:25:01 +0000
+Message-ID: <20261108172501.2887-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261108141219.7655-1-sreekuttan2156239@gmail.com>
+References: <20261108141219.7655-1-sreekuttan2156239@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -73,70 +100,50 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MBO-RS-ID: 0aa481dce6279afd2e0
-X-MBO-RS-META: ychdem9sdqajdwjs5as7run3w4j7u1bb
+Content-Transfer-Encoding: 8bit
 
-On Sun, 2026-11-08 at 12:48 +0000, Sreeraj S Kurup wrote:
-> parse_uint() passes the remaining input string to kstrtoull().
->=20
-> When the input contains comma-separated fields, the string
-> contains both the numeric value and the following fields.
->=20
-> For example, with:
->=20
-> device=3D1,subdevice=3D0,name=3DMaster
->=20
-> kstrtoull() receives "1,subdevice=3D0,name=3DMaster" and fails
-> to parse the numeric value.
->=20
-> Stop parsing at the next comma and pass only the numeric
-> field to kstrtouint().
->=20
-> This allows numeric fields to be parsed correctly in
-> comma-separated input.
->=20
-> Fixes: a135dfb5de15 ("ALSA: led control - add sysfs kcontrol LED marking =
-layer")
-> Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+The compat ioctl code calls the control's info callback directly
+in get_ctl_type() to get the element type and count.
 
-Reviewed-by: Manuel Ebner
+Unlike the normal control info path, it does not validate the
+information returned by the callback.
 
-> ---
-> v3:
-> =C2=A0- No code changes. Retain the v2 implementation after
-> =C2=A0=C2=A0 comparing the alternative approaches.
-> v2:
-> =C2=A0- Add the Fixes trailer.
->=20
-> =C2=A0sound/core/control_led.c | 18 +++++++++++++-----
-> =C2=A01 file changed, 13 insertions(+), 5 deletions(-)
->=20
-> diff --git a/sound/core/control_led.c b/sound/core/control_led.c
-> index 501387287ae6..3f54af2cb505 100644
-> --- a/sound/core/control_led.c
-> +++ b/sound/core/control_led.c
-> @@ -458,11 +458,19 @@ static char *find_eos(char *s)
-> =C2=A0
-> =C2=A0static char *parse_uint(char *s, unsigned int *val)
-> =C2=A0{
-> -=09unsigned long long res;
-> -=09if (kstrtoull(s, 10, &res))
-> -=09=09res =3D 0;
-> -=09*val =3D res;
-> -=09return find_eos(s);
-> +=09char *end =3D s;
-> +=09char delimiter;
-> +
-> +=09while (*end && *end !=3D ',')
-> +=09=09end++;
-> +
-> +=09delimiter =3D *end;
-> +=09*end =3D '\0';
-> +=09if (kstrtouint(s, 10, val))
-> +=09=09*val =3D 0;
-> +=09*end =3D delimiter;
-> +
-> +=09return delimiter ? end + 1 : end;
-> =C2=A0}
-> =C2=A0
-> =C2=A0static char *parse_string(char *s, char *val, size_t val_size)
+The compat read and write handlers use the returned type and
+count to access fixed-size value buffers and calculate copy
+sizes. Invalid values could cause these handlers to access
+memory outside the expected buffer boundaries.
+
+Use __snd_ctl_elem_info() to get and validate the control
+information before using the type and count. This also applies
+the same element ID handling and access checks as the normal
+control info path.
+
+Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+---
+v3:
+ - Use __snd_ctl_elem_info() instead of duplicating the
+   element ID handling, access checks, and validation.
+v2:
+ - Rebuild the element ID before validation
+ - Set the control access flags and respect
+   SNDRV_CTL_ELEM_ACCESS_SKIP_CHECK
+
+ sound/core/control_compat.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/core/control_compat.c b/sound/core/control_compat.c
+index 87f7ad5ab739..a9ee5ef30c51 100644
+--- a/sound/core/control_compat.c
++++ b/sound/core/control_compat.c
+@@ -181,7 +181,7 @@ static int get_ctl_type(struct snd_card *card, struct snd_ctl_elem_id *id,
+ 	if (info == NULL)
+ 		return -ENOMEM;
+ 	info->id = *id;
+-	err = kctl->info(kctl, info);
++	err = __snd_ctl_elem_info(card, kctl, info, NULL);
+ 	if (err >= 0) {
+ 		err = info->type;
+ 		*countp = info->count;
+-- 
+2.55.0
+
