@@ -1,100 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.64
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794111059;
-	b=YoiM99GacY3mnhJ0WsqwcgkvyK4+rAt5BjgZJK7tNFhOVP6zx8ijQmyjvKoZNHhLrffR
-	 7ijSnEwJzRe8EdIoPB1g75bRhs+h/Og2VjIRvTGIuDDJDEtU3s/Dct76nr3bMgiG5kA0J
-	 RYsy05wmk93yQXMOXs3oeK1JoweMjSunvqQfCWOKqjItxVQTQCrwTolqrRGAh6Ke7l9+U
-	 urrAXtJqNMlzJxv8c0jvdGDpx5JREtSK61xj38FUdWf0dQvK11vCozUcKFZu8Nw5tAF3S
-	 DCwSSQXh4GFOz0uKKihMGiv16aqcSF76px6yo/Fxkt50DMMOgmQu6RVa0I3ZipdPetQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794111059;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=VvEtj8P/HUx4xT1hY2Y9ghDPQRlm+nah92Ga0yiwuPw=;
-	b=3k4cN/SsaretQm9kSCOmWlM0FZuJ+VHwLhNpR/wL8JAIZ5zJKSDV6kmZ8OextBvW3x0d
-	 R5sIF4Q2dTmg1BjX1zNIcSARSYmxDFx5hARh/P6QrAd6H+WuThUaHDUebamNgwCin5U1D
-	 orMA8tD0828d6AWZNMGgZg2+J5tndl7VvUjFgUBxosSwSpNe7cR/2CptviG08JZ3f4MYA
-	 sF4B2IxtS0JEThy9Q1xeGynHoFXis+GzP+BMyx8yATm66CA+8do3axIei3PxG503iuydi
-	 7wW1twczgGb/DCoBWbnKYFnUzffol6kAnFSxZ+ufv3JeGAIXB07yhVfuVdUxmMCy2Yg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=CNJKYr5W;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.64
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013064.outbound.protection.outlook.com [40.93.201.64])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794111416;
+	b=ZNvapuOZR8EoEQnsFk9uz2nnaQyiITqtX+roMlRu1iZ8EyogltmlBddlD9BhJFb8nwDh
+	 rcbcF4G19jbl37m866w/zdFGZ0RjVR7fdU297c1TtY91nSAyLkzqzVvhUyEUk4IaA3X67
+	 As/3P3vddexhklZ5sojuuSEW4c+PpDjmICMNCycXHD4wOJZ4PXWwxGrhTisb0jKahvzrg
+	 pFqm252aTBQ2HBfp1Bp8SG6WO7ccWwEyo500N1vWVmPJhsSpN7Jmq34lfnpKrQ++2o3OY
+	 7V5vss2oHT1YcV19qsyE6QyZxAT4PYyDdz/QuvUZg3ilO/YY+fok5hA16jBtticCYkg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794111416;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=GFeo120/e3A7s0AbOXW/TKYVSvyMqvQJzWWKOmH+HEc=;
+	b=Dvv2zSJIwonl7aYBKk3aQMyptofUM6IhAQ+kISzmi9Qvegct2usIQFIh/twPpKlfQb1d
+	 eNNIKggOs+GkJMdzvKkVAHyV5cMyiMznLKpMqSQXyM8ZnIxaf1W8e47gIrF1lMklYULhe
+	 La5Bjgn0d3C03rVtGdrSupuHfPDWeuL6EHm+rP2EIkZM2Ej8zWJCcC6oOeMCKBp/z2+sD
+	 aHqeer8m78QnclSJeGfG0DHAl2VRF2DaAisupKIFG9pzyrOpu+iSl02xzn2Gh0GFmWUNZ
+	 Z4OFKGh8l4kb2H+AhOxXUids/oMAiUEnVfNs8VybSAyKSjT/x0ESuwrf/pfH3cWQ7DQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OeWc0V0m;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B47C606A31A;
-	Sun,  8 Nov 2026 04:10:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B47C606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78FDC606A31A;
+	Sun,  8 Nov 2026 04:16:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78FDC606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=CNJKYr5W
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=P0/gpNpyBVxGuaTS2UJC+h3b5Vsa7JMWBYMAY6mc9VJ0P5zHNylBUVYW//h4jCnFXbPOj+Ybg5KjWSzPDDwKhGPXj4O67pBV7uco3NTG7vAKnEeFG16qIJnGhPiRssGiz54atEZqByCC0lRuaThQR/+EiZbrK/dUgzgy5Zmwjnmxvdk63sEqtqE9I5FJwJTi7L5Ymjkvk7lLOxRdCJrUx4CwDEyIpCbbwMexVUCng+fYNulBXiBm5DRZMVxWVjtnRgakeqhGlE+H56f84OB+EeSNmOvedlKANI04FGQh6AJz5H68u/asSE0SSVJ6iTWS2brUwlFkLKd7jabrRTEHBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VvEtj8P/HUx4xT1hY2Y9ghDPQRlm+nah92Ga0yiwuPw=;
- b=fteA3r/Mj/Uh8e2pwonnseacf51sUZeXPKeQdnq+viC+ww8Qz3u/yV7i7+zI6jgo1eZHQEtcnuOCVugvBKsxCK7Q8m7fszKrO21Tx+x3qAM9ERlK5WhoVEjVYychXu59pwMs7r5JtLPmn/PO5yrNe2bW32w0miSeTAVVmSUKyy2e3qFvkH59B1HFHsdqboGGRucMos2WonKX8ShjgnAJrj2CXQqCkYddaYTyXI0iTxMFJ2CtYcELB5CSA1F2OPwtSzdrGJikbnjwAnGLr8/G7gDklMhTYh81KxvgZJmhduahP1wW3aqa1nKG2WSC9zDZYDE8UqeCLufK8m3oZtkKEQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VvEtj8P/HUx4xT1hY2Y9ghDPQRlm+nah92Ga0yiwuPw=;
- b=CNJKYr5WYwfO5z96gAFjaeO6jVaN7MMvPs/03fWLUA306fjulzxM8ovH6qibufClvhDnjttZJd1YIbRpKC6Cg3QJEOLDmewHK2L/Cnwau6sbwUiO+2R8ElRrd+dL66xJ9mrzWNt5txa+z/WbvGX7RWgXD0VZh51qgO6ZitL3Jvc=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
- by CY5PR12MB6551.namprd12.prod.outlook.com (2603:10b6:930:41::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.12; Sun, 8 Nov
- 2026 04:10:55 +0000
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0592.009; Sun, 8 Nov 2026
- 04:10:55 +0000
-Message-ID: <22ea1b39-b4ab-47e5-8386-c8320ec7c087@amd.com>
-Date: Sun, 8 Nov 2026 09:43:32 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] ASoC: SOF: amd: guard SDW IRQ work scheduling with
- interrupt_enabled flag
-To: kernel test robot <lkp@intel.com>, broonie@kernel.org
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OeWc0V0m
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794111413; x=1825647413;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8Q+VZbenjtYNCan7x5h6v4egymzH94QrLAWhp6uxPaM=;
+  b=OeWc0V0mZt8XM6VBpgN+zBFuettsR1RPeEirJPJzS0d08Rla0ofSv6ak
+   7a8ykUG2U4dpSaXacNaa6fxNXTX8wMi61bFbVnM2QO6LEy38CbTBWKtO3
+   aLZW34T3nWtlcWT5uNwFoKDV7E+8TTVPs0up1zxh85GvXJeuqVrdwpHWc
+   W0sZTS1yElsypzG4qnJHpX+6pHlmgtKykCWiGJGhYBmOscsGr6ODirpvX
+   9P+r3FhZvZVaF5hknYUVMmJ/wph/M+cBeUoLmv9uwGF6B+DckOOMYwORz
+   +pPoIJjP8Fl3o4BIBVMX2inptjTMm7jwpWqlnos141OuLi7zYR0kdq48n
+   w==;
+X-CSE-ConnectionGUID: UZGIcJm5TaGnVIE1LkTDLw==
+X-CSE-MsgGUID: uIdNY2HoQg+x4uLpO5hYfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2775227"
+X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
+   d="scan'208";a="2775227"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 20:16:52 -0800
+X-CSE-ConnectionGUID: cWI89eCdT7uNvkgdyPugyw==
+X-CSE-MsgGUID: hBBQBA72R+a0W3RdhTt7AQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
+   d="scan'208";a="7597346"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 07 Nov 2026 20:16:48 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xPuKj-00000000s2B-20KO;
+	Sun, 08 Nov 2026 04:16:45 +0000
+Date: Sun, 8 Nov 2026 12:16:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, broonie@kernel.org
 Cc: oe-kbuild-all@lists.linux.dev, vkoul@kernel.org,
- alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, yung-chuan.liao@linux.intel.com,
- Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
- venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com,
- Mario.Limonciello@amd.com, Richard.Gong@amd.com, Poojitha.N@amd.com,
- lee@kernel.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- sound-open-firmware@alsa-project.org
-References: <20261107175339.3547918-4-Vijendar.Mukunda@amd.com>
- <202611080910.HG54RIuC-lkp@intel.com>
-Content-Language: en-US
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <202611080910.HG54RIuC-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN4P287CA0047.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:271::10) To CY5PR12MB6252.namprd12.prod.outlook.com
- (2603:10b6:930:20::17)
+	alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, yung-chuan.liao@linux.intel.com,
+	Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
+	venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com,
+	Mario.Limonciello@amd.com, Richard.Gong@amd.com, Poojitha.N@amd.com,
+	lee@kernel.org, Vijendar.Mukunda@amd.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	sound-open-firmware@alsa-project.org
+Subject: Re: [PATCH 4/4] ASoC: amd: ps: guard SDW IRQ work scheduling with
+ interrupt_enabled flag
+Message-ID: <202611081206.vQhseto9-lkp@intel.com>
+References: <20261107175339.3547918-5-Vijendar.Mukunda@amd.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,189 +90,118 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|CY5PR12MB6551:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1adae1bd-7d29-48be-b48a-08df3d4e490b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|23010399003|10067099003|11063799006|4143699003|56012099006|261021135927099003|261021133027099003|261021130227099003|261021123027099003|261021121427099003|261022113327099003|261022105027099003|261022075727099003|261022115727099003|261026130827099003|261009223027099003|261026140227099003|261026135527099003|261026121527099003|261028144727099003|261102123227099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	faonvJV4EcQqIY2BKY/a92fbj740AL1HDZ4b2sNa7UaBC/yVfL8kB/Kt54CTVaftgMmt2AyuaKS1e6gLzKvaI4QF/iFeKmUVpKQaNf/mw9F7eM5DV9jXRWvrQnCpsNLrUo/K1x18cz6ijIb7fjL4FmLPP/2NjNzTHGsCh6nFps/aFFtt8GckAJdatUpGniNW4gZUOsyQwgBkVZUvADfHT00zeI1Uco1PD8qHe67xl8ITLJeLi4BUmFeL/Xaeibz8E0aPTM9m2k9IFqSR1oDoQT81sNKwuwvID+kcjXcnYVrdSYRbmpDo3OX0l19fDTE859fcBZib0ULjp4voLEHPGnkO3vfq8Az9tGZgkssrhju9X/r44GzIycXi4KXgVrSkDTC8/RWZqgW1QqrYIo9Zh+6VmGb33zdUXWH4HGORI+Xn9BKkAERSo+jBwAbmg+2B+3W2khh0QoryqmG4suPp5lEbekgeL/EHjPvzMNSHOOWuIyZu8hT6SxhPSc5yHRyr49AXTe9WhoQk0r73guP8a04+pTdZH4IGHY7NnZquwq8u/T/VnGauv5CgldHOlEMnFiyDJtIovVuLLWnQCeoGzgyVQyzHyFeoD/fXj2R3Lapsq7cQ5rNhMgRW/Expoc4C
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(23010399003)(10067099003)(11063799006)(4143699003)(56012099006)(261021135927099003)(261021133027099003)(261021130227099003)(261021123027099003)(261021121427099003)(261022113327099003)(261022105027099003)(261022075727099003)(261022115727099003)(261026130827099003)(261009223027099003)(261026140227099003)(261026135527099003)(261026121527099003)(261028144727099003)(261102123227099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WG9DQmZKaUNDKzlvemxKVXpTZVNhS3VKRzdCVnd0OGNSdzlzcGFMOG52c3lr?=
- =?utf-8?B?MVVnQytURW92aHJQQ2JUVC9tRGRmNmVwWTYrVGZJdmJMcmhqdkRPb1Q4enl0?=
- =?utf-8?B?ci9oamNrNndObGJHZXBDMHZtS0xOYzd4TlFOZDJnMmRRR3d0VjJGSmovc1Ez?=
- =?utf-8?B?S3NYRTlBY2NOTDFYNlZkaFpWQzdSUklRanNTT1ROK2VVR3czU3RlRXQ1RmhF?=
- =?utf-8?B?S3RPZjh2SnlIdVBLOG9tTjZBZHJYQTBzTGdZN21XZ0xudDFQWjFFdzNsWEl3?=
- =?utf-8?B?bzhCN3V5VGdnb2xJQktkdk94cjVKcy82OEw5cVlrbCtjUjM1cTEyNmNvbnVv?=
- =?utf-8?B?cGFFQkxTQWJPWVdpSENReHdNeEFnME9GbExVb1lYSmRrby9ZZzF0Vzh0S0Y0?=
- =?utf-8?B?bHliSzFORHQ1VDY0eTI5RGJmRkxaT3A4clNoZDEvUTRZRktucjMzTTBkVFZj?=
- =?utf-8?B?SnYvaXE0eEMvNml0cXhpQitncG80YnB4aVBPQVhKSnlDK1RvM1NiVlZUNlVW?=
- =?utf-8?B?M3A1czNRNy9Ba1hReHhiZitZV0pMNXFFUTN6S3ByV2xMWGZWaWRVVkdJb3Yy?=
- =?utf-8?B?eFpxekR5QUlrdC8ybXRkeG8zUisvMW9xZzlzdHVPeVF2akQwRERqQUI1VzNj?=
- =?utf-8?B?ZDRzSExxc2FHTkJiM050K0RLa2JGWEFpa3N5SUo4V1IyLzdZSU4xMkNCNjgv?=
- =?utf-8?B?R2JzdWprck4vZDNmUTFOczhJOWl0bG1vYXRFZ1ZORnY4bGxENnlNZUVod3Ra?=
- =?utf-8?B?MWV2b1F5NlVqSzhSeXM0QkE0K0htN0daUTk5bUxyeDdYWWJ2K09ZWHlQUmxL?=
- =?utf-8?B?NTFieDdCalpFeGR3WmRGNlVGMEFjN1RXT1ZkNC9LZ2gvTndqWFNSVmQ0d2FJ?=
- =?utf-8?B?UXNFeUFqelFmbWZ3VU1uc09IN0hFRWNzcDIrbWtzNEFiTWZxRkVxSm0yU0F2?=
- =?utf-8?B?aGFyc0M0c1kwalMvSzJjWjZ2TzVVcmY1eFRxemVzN3hRbHB3YmZPbzduSU9n?=
- =?utf-8?B?K3E1MjR3WnZweHR4ODRiaURFb1d0WHlJbVhXOWFZWUFMaUgyVmx1akRtS0Y0?=
- =?utf-8?B?eWxmTnVPdE9WUVI2djd5YWdjckd4b04rOUE1R0lWWGpNYkNtMG9Td0dwMDZm?=
- =?utf-8?B?RjhzaUs0WW1kU3N1Q3c3VzhzRkttNVR3MWIxcEdFbjc3bEZ5amFKczA0OFU4?=
- =?utf-8?B?cXZjeGNwQkIyM1AycnhGV21aSFpxbmRwc3pTdXZMNVNLRTdzN3E4L1VKN0hv?=
- =?utf-8?B?aWplN3k5VlZmUTh0bExYYVBrc3JlQ0xab3RzbUJERU5aWUM5QitsZTYvbVVi?=
- =?utf-8?B?L0d1L2crejhFYXNlOEpLZEZmcW1iZUR1T1BzbFpQcXQxSEpJeGtaaVFUVWYz?=
- =?utf-8?B?a2ZEcndzdE1jRTlQOWVDRHpKNENXNThUMElhQXo0NC9UaGhwQ1dyb2hyaHJp?=
- =?utf-8?B?Y3NmU0l3SUlOV09zWHVKbDA5dUtrMDhsYmN5UVdoMi9iYTlBcGZQalZjb21a?=
- =?utf-8?B?VjErZmpSMFBueElOQkoxT1R0KysweDhJQmpBa3gyMzdDVWFQVi9idjVGS2pj?=
- =?utf-8?B?T1ZFQ2tPMkdwM3JlblJCcXhtazlhV1Q3TFoxMnBCbzV2MUZESGRya1doWFFJ?=
- =?utf-8?B?UU05eHoxM2xIQVJtZ0VhTHRoYTVnbCtJVnlFNDU4UE13S29xRFB1WmU4b0g5?=
- =?utf-8?B?blFuS1IrZTErTG1KWm03aTA3T2RuaHkxcW5JcDdyUzhra29Dd1pYR05EdEhj?=
- =?utf-8?B?bzRkS1NSYkY3TWxHUU9Yd2dNQzlHVWNSSmUyRHh5dC9YYS9nazNvOTFUMGFY?=
- =?utf-8?B?WFRVTnJSeUxncEhXN0V0NU5Ga1p3SnlJWmdTT0RqVVlUekxWZTlMQkZGRTcr?=
- =?utf-8?B?YktRVUFWYXhlT0xyOW1YTEdWOVI1QmdrL0FJOVQrOWRWa3hDQ09oRTJsV0pI?=
- =?utf-8?B?SVhidm83S1VTS1Z6d0JxMzIyYjZTTjcwYWp6RWptZGZ0ZlN6bTV0SEpRNzF5?=
- =?utf-8?B?SWhEem9lUWs3ZXV1bjZnVGR4bGdyd09VOVV1bUQrN1lsSnhGMVJCUEZXTDhr?=
- =?utf-8?B?Q3Jqd25qRFZQMGp4QWdyVXc3amNoNWNvVGF6c3RuakNuSWd3QnlWS3pJSHB1?=
- =?utf-8?B?bVNCTlU0RDg1ei9xR1lreTZYVDZsU0NySjlocHg1ZDd5MHhyWTJJb0J3Mmov?=
- =?utf-8?B?eWdjY1Rhand0QWtETTBDSzUvU0lVb25kaENvL25vdThZUW5yRnNjcXdybW1H?=
- =?utf-8?B?VFFoSW9iNzRrTGMyR25qaEE4Z1dXRXhFaTE5S1AxckJGNmhBV1ZQWWVQL0dM?=
- =?utf-8?B?ak50ZHpKQVZCUVVwbEZHTjlXUFpLaHgvUkliMHpUclBjN1hrczZLdz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1adae1bd-7d29-48be-b48a-08df3d4e490b
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2026 04:10:55.5895
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: p9ExFZUFrTp9k1/fEqBBXRZFCe1KjDsOLEamnFiAZMShRR52bkpKEFEFp56XzpABjfgPLwtI2MqFhMOKZg0JEA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6551
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261107175339.3547918-5-Vijendar.Mukunda@amd.com>
 
-On 08/11/26 06:55, kernel test robot wrote:
-> Hi Vijendar,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on broonie-sound/for-next]
-> [also build test ERROR on vkoul-dmaengine/next linus/master v7.4-rc1 next-20261105]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Vijendar-Mukunda/ASoC-amd-ps-guard-adata-sdw-dereferences-with-NULL-check-in-IRQ-handler/20261107-232226
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-> patch link:    https://lore.kernel.org/r/20261107175339.3547918-4-Vijendar.Mukunda%40amd.com
-> patch subject: [PATCH 3/4] ASoC: SOF: amd: guard SDW IRQ work scheduling with interrupt_enabled flag
-> config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20261108/202611080910.HG54RIuC-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611080910.HG54RIuC-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202611080910.HG54RIuC-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    sound/soc/sof/amd/acp.c: In function 'acp_irq_handler':
->>> sound/soc/sof/amd/acp.c:589:55: error: 'struct amd_sdw_manager' has no member named 'interrupt_enabled'
-As mentioned in cover letter, Patch 3/4 & 4/4 has dependency on below
-patch which introduces the interrupt_enabled field in the AMD SoundWire manager:
+Hi Vijendar,
 
-  https://lore.kernel.org/linux-sound/20261107154659.3358223-18-Vijendar.Mukunda@amd.com/
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on vkoul-dmaengine/next linus/master v7.4-rc1 next-20261105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vijendar-Mukunda/ASoC-amd-ps-guard-adata-sdw-dereferences-with-NULL-check-in-IRQ-handler/20261107-232226
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20261107175339.3547918-5-Vijendar.Mukunda%40amd.com
+patch subject: [PATCH 4/4] ASoC: amd: ps: guard SDW IRQ work scheduling with interrupt_enabled flag
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20261108/202611081206.vQhseto9-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611081206.vQhseto9-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611081206.vQhseto9-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   sound/soc/amd/ps/pci-ps.c: In function 'acp63_irq_handler':
+>> sound/soc/amd/ps/pci-ps.c:218:55: error: 'struct amd_sdw_manager' has no member named 'interrupt_enabled'
+     218 |                         if (amd_manager && amd_manager->interrupt_enabled)
+         |                                                       ^~
+   sound/soc/amd/ps/pci-ps.c:229:55: error: 'struct amd_sdw_manager' has no member named 'interrupt_enabled'
+     229 |                         if (amd_manager && amd_manager->interrupt_enabled)
+         |                                                       ^~
 
 
->      589 |                         if (amd_manager && amd_manager->interrupt_enabled)
->          |                                                       ^~
->    sound/soc/sof/amd/acp.c:621:63: error: 'struct amd_sdw_manager' has no member named 'interrupt_enabled'
->      621 |                                 if (amd_manager && amd_manager->interrupt_enabled)
->          |                                                               ^~
->
->
-> vim +589 sound/soc/sof/amd/acp.c
->
->    566	
->    567	static irqreturn_t acp_irq_handler(int irq, void *dev_id)
->    568	{
->    569		struct amd_sdw_manager *amd_manager;
->    570		struct snd_sof_dev *sdev = dev_id;
->    571		const struct sof_amd_acp_desc *desc = get_chip_info(sdev->pdata);
->    572		struct acp_dev_data *adata = sdev->pdata->hw_pdata;
->    573		unsigned int base = desc->dsp_intr_base;
->    574		unsigned int val;
->    575		int irq_flag = 0, wake_irq_flag = 0;
->    576	
->    577		val = snd_sof_dsp_read(sdev, ACP_DSP_BAR, base + DSP_SW_INTR_STAT_OFFSET);
->    578		if (val & ACP_DSP_TO_HOST_IRQ) {
->    579			snd_sof_dsp_write(sdev, ACP_DSP_BAR, base + DSP_SW_INTR_STAT_OFFSET,
->    580					  ACP_DSP_TO_HOST_IRQ);
->    581			return IRQ_WAKE_THREAD;
->    582		}
->    583	
->    584		val = snd_sof_dsp_read(sdev, ACP_DSP_BAR, desc->ext_intr_stat);
->    585		if (val & ACP_SDW0_IRQ_MASK) {
->    586			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->ext_intr_stat, ACP_SDW0_IRQ_MASK);
->    587			if (adata->sdw) {
->    588				amd_manager = dev_get_drvdata(&adata->sdw->pdev[0]->dev);
->  > 589				if (amd_manager && amd_manager->interrupt_enabled)
->    590					schedule_work(&amd_manager->amd_sdw_irq_thread);
->    591			}
->    592			irq_flag = 1;
->    593		}
->    594	
->    595		if (val & ACP_ERROR_IRQ_MASK) {
->    596			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->ext_intr_stat, ACP_ERROR_IRQ_MASK);
->    597			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->acp_sw0_i2s_err_reason, 0);
->    598			/* ACP_SW1_I2S_ERROR_REASON is newly added register from rmb platform onwards */
->    599			switch (adata->pci_rev) {
->    600			case ACP_RMB_PCI_ID:
->    601			case ACP63_PCI_ID:
->    602			case ACP70_PCI_ID:
->    603			case ACP71_PCI_ID:
->    604			case ACP72_PCI_ID:
->    605				snd_sof_dsp_write(sdev, ACP_DSP_BAR, ACP_SW1_I2S_ERROR_REASON, 0);
->    606				break;
->    607			default:
->    608				break;
->    609			}
->    610			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->acp_error_stat, 0);
->    611			irq_flag = 1;
->    612		}
->    613	
->    614		if (desc->ext_intr_stat1) {
->    615			val = snd_sof_dsp_read(sdev, ACP_DSP_BAR, desc->ext_intr_stat1);
->    616			if (val & ACP_SDW1_IRQ_MASK) {
->    617				snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->ext_intr_stat1,
->    618						  ACP_SDW1_IRQ_MASK);
->    619				if (adata->sdw) {
->    620					amd_manager = dev_get_drvdata(&adata->sdw->pdev[1]->dev);
->    621					if (amd_manager && amd_manager->interrupt_enabled)
->    622						schedule_work(&amd_manager->amd_sdw_irq_thread);
->    623				}
->    624				irq_flag = 1;
->    625			}
->    626			switch (adata->pci_rev) {
->    627			case ACP70_PCI_ID:
->    628			case ACP71_PCI_ID:
->    629			case ACP72_PCI_ID:
->    630				wake_irq_flag = amd_sof_check_and_handle_acp70_sdw_wake_irq(sdev);
->    631				break;
->    632			}
->    633		}
->    634		if (irq_flag || wake_irq_flag)
->    635			return IRQ_HANDLED;
->    636		else
->    637			return IRQ_NONE;
->    638	}
->    639	
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +218 sound/soc/amd/ps/pci-ps.c
 
+   194	
+   195	static irqreturn_t acp63_irq_handler(int irq, void *dev_id)
+   196	{
+   197		struct acp63_dev_data *adata;
+   198		struct pdm_dev_data *ps_pdm_data;
+   199		struct amd_sdw_manager *amd_manager;
+   200		u32 ext_intr_stat, ext_intr_stat1;
+   201		u16 irq_flag = 0;
+   202		u16 wake_irq_flag = 0;
+   203		u16 sdw_dma_irq_flag = 0;
+   204	
+   205		adata = dev_id;
+   206		if (!adata)
+   207			return IRQ_NONE;
+   208		/* ACP interrupts will be cleared by reading particular bit and writing
+   209		 * same value to the status register. writing zero's doesn't have any
+   210		 * effect.
+   211		 * Bit by bit checking of IRQ field is implemented.
+   212		 */
+   213		ext_intr_stat = readl(adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
+   214		if (ext_intr_stat & ACP_SDW0_STAT) {
+   215			writel(ACP_SDW0_STAT, adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
+   216			if (adata->sdw) {
+   217				amd_manager = dev_get_drvdata(&adata->sdw->pdev[0]->dev);
+ > 218				if (amd_manager && amd_manager->interrupt_enabled)
+   219					schedule_work(&amd_manager->amd_sdw_irq_thread);
+   220			}
+   221			irq_flag = 1;
+   222		}
+   223	
+   224		ext_intr_stat1 = readl(adata->acp63_base + ACP_EXTERNAL_INTR_STAT1);
+   225		if (ext_intr_stat1 & ACP_SDW1_STAT) {
+   226			writel(ACP_SDW1_STAT, adata->acp63_base + ACP_EXTERNAL_INTR_STAT1);
+   227			if (adata->sdw) {
+   228				amd_manager = dev_get_drvdata(&adata->sdw->pdev[1]->dev);
+   229				if (amd_manager && amd_manager->interrupt_enabled)
+   230					schedule_work(&amd_manager->amd_sdw_irq_thread);
+   231			}
+   232			irq_flag = 1;
+   233		}
+   234	
+   235		if (ext_intr_stat & ACP_ERROR_IRQ) {
+   236			writel(ACP_ERROR_IRQ, adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
+   237			/* TODO: Report SoundWire Manager instance errors */
+   238			writel(0, adata->acp63_base + ACP_SW0_I2S_ERROR_REASON);
+   239			writel(0, adata->acp63_base + ACP_SW1_I2S_ERROR_REASON);
+   240			writel(0, adata->acp63_base + ACP_ERROR_STATUS);
+   241			irq_flag = 1;
+   242		}
+   243	
+   244		if (adata->acp_rev >= ACP70_PCI_REV)
+   245			wake_irq_flag = check_and_handle_acp70_sdw_wake_irq(adata);
+   246	
+   247		if (ext_intr_stat & BIT(PDM_DMA_STAT)) {
+   248			ps_pdm_data = dev_get_drvdata(&adata->pdm_dev->dev);
+   249			writel(BIT(PDM_DMA_STAT), adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
+   250			if (ps_pdm_data->capture_stream)
+   251				snd_pcm_period_elapsed(ps_pdm_data->capture_stream);
+   252			irq_flag = 1;
+   253		}
+   254	
+   255		sdw_dma_irq_flag = check_and_handle_sdw_dma_irq(adata, ext_intr_stat, ext_intr_stat1);
+   256		if (sdw_dma_irq_flag)
+   257			return IRQ_WAKE_THREAD;
+   258	
+   259		if (irq_flag || wake_irq_flag)
+   260			return IRQ_HANDLED;
+   261		else
+   262			return IRQ_NONE;
+   263	}
+   264	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
