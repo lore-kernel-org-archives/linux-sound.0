@@ -1,96 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794154223;
-	b=vdVZ4lMimCNKVSlE2/KeDzaO+Sq821dTiMK0fW4ES+UFjuaW22Hu45qEksdlBhJwFNzs
-	 6BsePPSsmrBX/GyJu0gRMxOjXwqS5vYU1eQQ5qewi8CdfmIplfMHu/k60oyKCm8V6dK88
-	 8giNI7ozsWfpW0mSwz4fG9J87qwUq5rQt+vGqVC7VqvU0L/+boiTZDlVUFAgswKQVXWbn
-	 Su02GO6YhDS4MWssVFWnSZQq7vQuS3/pIIAbKgRQ4Pc9nB4pe24LV2uhYWcSCYdU6U9tU
-	 Q1DMw0k15G/xv8eXkJpdoM7YbrxBeFWgcyHO63z3J+VrYm0xHZxeIFp99+MUv+huoZg==
+	t=1794155054;
+	b=yvfJcSFsBKWJu25Ee64lg40XXxhYGJ6KQ0wvOqsmsDULM3REfqdTmEuC8BlAOVo3NR5v
+	 +/0mpQtIadhhirBJCggmOXLsh/h+5p6E1l/baXwpbviH6LR/icW/yud+Oj0ovSpKTzTdO
+	 TRlfBXwSwih9zdACbB+XHc8blZQpg+igjnTfgPticQFRqqfwh1eZJG3hE7lq9GTtDXJWm
+	 kxc2oj2vOYUoQQD+50met3TH7TI9WEf0OKr/7RlHLaLeWwzIHmfU/TZKIUb8OqIykTQ+t
+	 PuIPDiQOtU1zYZCinnKTxrVCRk8afttH+wFsDIknUr52q1GJdv8FfClH2G1+6zNZV8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794154223;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=fm7/aHIW/1P599V7mhSZ2sKud5lmZUMj6TxkPF73djU=;
-	b=kGvIqrnMleeC/LdUEDLgWndM562dysTjjfVO/bEdaC8wF5WSsQPenzg/uuJe69y6RjE+
-	 sqtQHHdK4CX+rZq6KGV7frFc/fvHOP3qDKCyN0PhHg0I4KEANnVv1Kj38kKIwksXAFbrs
-	 7xQy94vdLF332LofB7FhvcFnRYpH3AMwrDIJdC5trJixvpWsGwuJ/tyLVt9nAi1jegFHG
-	 MHn/aKQztChEsIBgcFt+o8rFl/Nl/vjF7u4LmLxy3eUOvOji6VidQ/qHJ14lxCJwITOHF
-	 H0hpQKGAOEmzpB/1FaBbgsfYbdKiMetq8qp+2e3N7GBDZqo2Lmf6ixi5uqhZVzXE5bw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794155054;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=UngVRw8GQWYdjyr+KULccPn5n4fj0MKRALr0nR9QvcY=;
+	b=WXyIeDAwZAygvgjYUIZuorWfktMVERF9S331qmobp9Y1IqKQ0AFsUCO3vQnnG6De8LKL
+	 r3M8t83MW3Z1F3frmtP6AkeyHiTjBflXh7fFPqbWQ7AyyFuiZVn80RN9W/1MsBuhoVDO3
+	 o5lC4GKP6/+pygnuFZ/AoKvyDs7w87N70iKic62l2qPed4c+BXpyzYtzNXhILalPuP/oC
+	 13IM/+5H5YF4EzixcX4Z8YfncTfW20djwEaSPRH6rFy/AMCor7uqh50SBKrIbOIEc1xNV
+	 xBJ2+q9cTO1Hxy4gnzaxZj1yoW5PqyKvqYQYpQ/zwJ0YnXcegesHxd8V3neZ4hXcCKQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=naiTJOaq;
-	arc=none smtp.remote-ip=74.125.82.48
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WUS2mJSK;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187E8606A31C
-	for <linux-sound@vger.kernel.org>; Sun,  8 Nov 2026 16:10:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 187E8606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B89606A31C;
+	Sun,  8 Nov 2026 16:24:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87B89606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=naiTJOaq
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-1a2af4c8d00so355746c88.0
-        for <linux-sound@vger.kernel.org>; Sun, 08 Nov 2026 08:10:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794154222; x=1794759022; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fm7/aHIW/1P599V7mhSZ2sKud5lmZUMj6TxkPF73djU=;
-        b=naiTJOaqxO1BV5PApiTZjmeYwylCJ00DvaFqQ0bMvB5t7NEKJoRMBOpHWYFXpCh2vv
-         HBPgALcXVWVvO//YWAQ3lTU0IeC9IiCU6ke+s0R4Q3ny+C5fGqUSHZyWdfrbX1gXPXLD
-         JX5ToWRinl5n3d2lE1S5fwjOFPAyhAyOLUXJJlSSwO7eBP1Abz45D9el8154F2huogDa
-         F6Zhter8A1q1S4WUJ6PwTvnJ4auh9WHKhepobPuybfl5xMxA1RiRtFePxqaRDS2adSjD
-         T/IXWK/Qy9xmAnGWVZGQ3Ezsu9CNn7Cm+SnUdueAW0KHFeZqMDzB8DmLizrWbx4bRx0H
-         KTjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794154222; x=1794759022;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fm7/aHIW/1P599V7mhSZ2sKud5lmZUMj6TxkPF73djU=;
-        b=TBQC7pSPZbbKNl2pwKeNkRez6QzM848Zsnh7p5u9tliIwgLg8JNVEQJrQ5qEcnUAVS
-         ldXdgktkGwEEq19+f93ri4Lv/uLZx6xZl0DSnrqX9L5f+NwlHJa4SPgUxgLfrnjIDKW0
-         BCr3ItV7d4Dk/A8pCf6so4VfS+v2oXCaU8xIT/O7u9N/Kz5BuveXb37QY6GEwQLl762/
-         EHjxl9bv/aQ85jMv63dzuGjDZ+ICkxXbaQAr7EXO1fVopJmpZMtbT321+zGn2p1Qw/BW
-         oX+tBpE/zRXXY6OgZzA7DvsC08gswYCx/Jr9hkUZxnLJRIxiVaW7N9fwQ7bsBAdUOgfD
-         PZvQ==
-X-Forwarded-Encrypted: i=1; AL+hErG2Dc3uuvD+/twiBM9kTN8SusViNiKwG5l1aagVrHKcqC8TS/QIeWYWLRap1LOIfVTM6VozLIf9QcD1CA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+VqXX6IxGWtjwdkfuoFjuMIcYnH2R4NifRdwht4O7MbDDBSXoG
-	+t+LAMWcVdzm9Fz3vdlUG+pd/hNEprGiy4ab+uxuZfp5avw6q89mnljr
-X-Gm-Gg: AYBFou13qztCu0bCPkdXSyJYAipOTxLYzyrzVqj8MbBdrqXWKLs+kLXCAnj0YZ+r9Ku
-	A8HJKAOeWlcaJ9c8qdR6mW7phWBdEsMsoytwPO2GqPUP4lqPgqmK3uWboCVfHHIkIG4MHfruvoo
-	xhSf+iy4j9mvmZvxwDvOBck4vSW7cRmo4y7OS0c0Sy6Q4J34h1PbMz+DQAza6C1t/ahugXGgQyA
-	FvniDzVSkHIkmHYOjDqgb/tdhYB2GmVMDUNklfL2XG6Nhh92iiosCw8lZxemZKxS5sP7SiPUMs7
-	VPkQBjjxMG2pTOQuxz+5MAgxbInkWndJYhFP0Qqo040sE5sM9lkdycVM8J/CLaXODDI2mFS5sQ6
-	42e2h+VQU8Dz/u+PMeqTACB1mui1pzxi188FHJ1M0NaCCX5RfuigtirWTVZ4ver9YDRY2f/vd68
-	pD4OJhrsKIQtxC3WRY5aMEkjJzUO7NiH4OzZV2b4pD9Zl7BNgrbAeSZRIEma0IwhCzwgPtfP8sh
-	iQ4S/E6X6SNSweBLpLKhXx1E43i7U59T/RUIp3KgzxIHJfWv+g1N9RdZ/qgLVDmhcsGCb848lGQ
-	mlafgmIw8WCw3spyH5YWF1/RcSi+UhNypVuodgaiAD5FqcQhwRlda4Ft0sxIQnP5jXBtsUuG
-X-Received: by 2002:a05:701b:2816:b0:1b3:a012:2e40 with SMTP id a92af1059eb24-1b3a0123932mr2505396c88.42.1794154222149;
-        Sun, 08 Nov 2026 08:10:22 -0800 (PST)
-Received: from localhost.localdomain ([103.177.253.80])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b372ed839fsm6950278c88.0.2026.11.08.08.10.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2026 08:10:21 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: sreekuttan2156239@gmail.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	tiwai@suse.de
-Subject: [PATCH v2] ALSA: control: Validate element info in compat ioctl
-Date: Sun,  8 Nov 2026 16:09:25 +0000
-Message-ID: <20261108160925.8774-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261108141219.7655-1-sreekuttan2156239@gmail.com>
-References: <20261108141219.7655-1-sreekuttan2156239@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WUS2mJSK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794155053; x=1825691053;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2z7+Kqr4x9FWONKtsCoDgKGuvbSo1KMrBeyVW4Th+1c=;
+  b=WUS2mJSK0ZAJ7wmEywlMdYguLxfVZAEvcmJ4iJP/jdLEgwT24ASNjxDW
+   yqHrcSn5K2HfiR9fxRtiuR37Kuvzt2ZSoj+PB6kn0Js+Mz7KQAE9fNPgM
+   nrgO1Y5unUSq9zCd8X/nn9ZLUkbGwV274AtA/oAa/XYaOUByXGZ4fsGPg
+   arWD6+LJoCTmCYjtJYv+8nNlTrxYvpHEC1Oq1egjXZowMLcTyTQZl7BK9
+   BU77Yo6UbxcDDG+x7QeeRS+mX9fRrDzlqMe2vx/5Oh5rpkNSiEGTwzSb3
+   0ndr2bqHHPPu9/8z+1KeXVgNEHl1oUcBQmxhKpq1e2hRP5dpFMwR4DYiC
+   A==;
+X-CSE-ConnectionGUID: /zG9wqsNQQuFy+75uawj4A==
+X-CSE-MsgGUID: dSCDuU4ER9e3Jk+mroZ6jA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2787682"
+X-IronPort-AV: E=Sophos;i="6.27,202,1787036400"; 
+   d="scan'208";a="2787682"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 08:24:13 -0800
+X-CSE-ConnectionGUID: dK0PerLJSsyMfLXnUiUvhw==
+X-CSE-MsgGUID: TPNNuuA8TkeKE0LZmUiCnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,202,1787036400"; 
+   d="scan'208";a="7724291"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2026 08:24:08 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xQ5gb-00000000tAN-0ZRf;
+	Sun, 08 Nov 2026 16:24:05 +0000
+Date: Mon, 9 Nov 2026 00:23:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Syed Saba Kareem <syed.sabakareem@amd.com>, broonie@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Sunil-kumar.Dommati@amd.com,
+	vijendar.mukunda@amd.com, Mario.Limonciello@amd.com,
+	venkataprasad.potturu@amd.com,
+	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+	Siva Subramanian Ravi Saravanan <sravisar@amd.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 3/6] ASoC: soc-acpi: move common function topology
+ helpers
+Message-ID: <202611090051.8jaT0pb0-lkp@intel.com>
+References: <20261107192744.2027264-4-syed.sabakareem@amd.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -100,69 +95,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261107192744.2027264-4-syed.sabakareem@amd.com>
 
-The compat ioctl code calls the control's info callback directly
-in get_ctl_type() to obtain the element type and count.
+Hi Syed,
 
-Unlike the normal control info path, this code does not validate
-the information returned by the callback.
+kernel test robot noticed the following build errors:
 
-The compat read and write handlers use the returned type and
-count to access fixed-size value buffers and calculate copy
-sizes. Invalid metadata could cause these handlers to access
-memory outside the expected buffer boundaries.
+[auto build test ERROR on broonie-sound/for-next]
+[cannot apply to linus/master v7.4-rc1 next-20261105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Rebuild the element ID and obtain the control's access flags
-before validating the returned information. Respect the
-skip-validation flag to preserve the existing behaviour for
-controls that request it.
+url:    https://github.com/intel-lab-lkp/linux/commits/Syed-Saba-Kareem/ASoC-amd-acp-add-SoundWire-speaker-quirks-for-Dell-platforms/20261108-005658
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20261107192744.2027264-4-syed.sabakareem%40amd.com
+patch subject: [PATCH v2 3/6] ASoC: soc-acpi: move common function topology helpers
+config: csky-randconfig-1001-20261108 (https://download.01.org/0day-ci/archive/20261109/202611090051.8jaT0pb0-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261109/202611090051.8jaT0pb0-lkp@intel.com/reproduce)
 
-Call snd_ctl_check_elem_info() when validation is enabled to
-ensure that invalid element metadata is not used by the compat
-ioctl handlers.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611090051.8jaT0pb0-lkp@intel.com/
 
-Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
----
-v2:
- - Rebuild the element ID before validation.
- - Set the control access flags and respect
-   SNDRV_CTL_ELEM_ACCESS_SKIP_CHECK.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
- sound/core/control_compat.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+>> ERROR: modpost: sound/soc/intel/common/snd-soc-acpi-intel-match.ko: symbol 'snd_soc_acpi_get_platform_name' undefined!
+>> ERROR: modpost: sound/soc/intel/common/snd-soc-acpi-intel-match.ko: symbol 'snd_soc_acpi_tplg_files_exist' undefined!
+>> ERROR: modpost: sound/soc/intel/common/snd-soc-acpi-intel-match.ko: symbol 'snd_soc_acpi_get_tplg_filename' undefined!
 
-diff --git a/sound/core/control_compat.c b/sound/core/control_compat.c
-index 87f7ad5ab739..0c1b80c856f2 100644
---- a/sound/core/control_compat.c
-+++ b/sound/core/control_compat.c
-@@ -169,6 +169,8 @@ static int get_ctl_type(struct snd_card *card, struct snd_ctl_elem_id *id,
- 			int *countp)
- {
- 	struct snd_kcontrol *kctl;
-+	struct snd_kcontrol_volatile *vd;
-+	unsigned int index_offset;
- 	int err;
- 
- 	guard(rwsem_read)(&card->controls_rwsem);
-@@ -183,6 +185,17 @@ static int get_ctl_type(struct snd_card *card, struct snd_ctl_elem_id *id,
- 	info->id = *id;
- 	err = kctl->info(kctl, info);
- 	if (err >= 0) {
-+		index_offset = snd_ctl_get_ioff(kctl, &info->id);
-+		vd = &kctl->vd[index_offset];
-+		snd_ctl_build_ioff(&info->id, kctl, index_offset);
-+		info->access = vd->access;
-+
-+		if (!snd_ctl_skip_validation(info)) {
-+			err = snd_ctl_check_elem_info(card, info);
-+			if (err < 0)
-+				return err;
-+		}
-+
- 		err = info->type;
- 		*countp = info->count;
- 	}
--- 
-2.55.0
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
