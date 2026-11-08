@@ -1,91 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794155054;
-	b=yvfJcSFsBKWJu25Ee64lg40XXxhYGJ6KQ0wvOqsmsDULM3REfqdTmEuC8BlAOVo3NR5v
-	 +/0mpQtIadhhirBJCggmOXLsh/h+5p6E1l/baXwpbviH6LR/icW/yud+Oj0ovSpKTzTdO
-	 TRlfBXwSwih9zdACbB+XHc8blZQpg+igjnTfgPticQFRqqfwh1eZJG3hE7lq9GTtDXJWm
-	 kxc2oj2vOYUoQQD+50met3TH7TI9WEf0OKr/7RlHLaLeWwzIHmfU/TZKIUb8OqIykTQ+t
-	 PuIPDiQOtU1zYZCinnKTxrVCRk8afttH+wFsDIknUr52q1GJdv8FfClH2G1+6zNZV8w==
+	t=1794155138;
+	b=OPmbYYjG0y83bJY32xvRAi44yw+W9eho0gJR6l9ser+dV1tNxR+KlY1ZA1CpfiP6EQgk
+	 dH+Z6HCGfLih3PyFRzKdzxIaJYixQMg5/1Mp4ZHHQKkdBQQZDz6CIZd2Tk9IQCjPhwzBD
+	 qGBDdX+PzFz4PhP6lXtXIdmSKD/q4jzz4z+xgdP1wNzQb6nE8APdnrtgJ45M1uNvgkjRH
+	 9IRhQybdzHRIF3/74yDS9UpzEUPc8Lc8lb0pA2isnlwRGWuPgj9guyKWK0VYoFfa60+Tm
+	 W4DtIoKZTknAnV47ddMk40+mJ6P7/DEmijQHhxf6TGSlY7jlP5KttCW0nksoPMc+98w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794155054;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=UngVRw8GQWYdjyr+KULccPn5n4fj0MKRALr0nR9QvcY=;
-	b=WXyIeDAwZAygvgjYUIZuorWfktMVERF9S331qmobp9Y1IqKQ0AFsUCO3vQnnG6De8LKL
-	 r3M8t83MW3Z1F3frmtP6AkeyHiTjBflXh7fFPqbWQ7AyyFuiZVn80RN9W/1MsBuhoVDO3
-	 o5lC4GKP6/+pygnuFZ/AoKvyDs7w87N70iKic62l2qPed4c+BXpyzYtzNXhILalPuP/oC
-	 13IM/+5H5YF4EzixcX4Z8YfncTfW20djwEaSPRH6rFy/AMCor7uqh50SBKrIbOIEc1xNV
-	 xBJ2+q9cTO1Hxy4gnzaxZj1yoW5PqyKvqYQYpQ/zwJ0YnXcegesHxd8V3neZ4hXcCKQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794155138;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=xcXJKFMytXyhxcez+VJgOeP8Xq//O33Ys6BZCkgqrIg=;
+	b=uH0B/BrMF1c7vaKFsfT+xaQAUjBINtU6f1k6C0poWlkvCZimO5NSrh5GcEAA2TJi0h1z
+	 jOXp9biTyxMKuI0vcQSX3a97QzYolN4/aKGCJG7QHVWRGq5qYDexGQc4Rz6bfzrTEHW2K
+	 wC4PbUbiK9x80fweR+kQwt7djcDSsJFRe/kPjZiDBE9PnFkSfbuEVc4UMaLimmRzafZ9y
+	 y581IHUTs0XCeNZxaxoz+j1XRJtktJNcTIcN58AVOo8oJOvJ/b4Lvl0E28BwH1CvBo+m0
+	 sQXONALKELe7PSyIPgTjdWoVq6l04Po4wu2TJSZcctmAuponHGGkRZktA43vmRUhZCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WUS2mJSK;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="CySbd/2P";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B89606A31C;
-	Sun,  8 Nov 2026 16:24:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87B89606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0670606A320
+	for <linux-sound@vger.kernel.org>; Sun,  8 Nov 2026 16:25:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WUS2mJSK
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794155053; x=1825691053;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2z7+Kqr4x9FWONKtsCoDgKGuvbSo1KMrBeyVW4Th+1c=;
-  b=WUS2mJSK0ZAJ7wmEywlMdYguLxfVZAEvcmJ4iJP/jdLEgwT24ASNjxDW
-   yqHrcSn5K2HfiR9fxRtiuR37Kuvzt2ZSoj+PB6kn0Js+Mz7KQAE9fNPgM
-   nrgO1Y5unUSq9zCd8X/nn9ZLUkbGwV274AtA/oAa/XYaOUByXGZ4fsGPg
-   arWD6+LJoCTmCYjtJYv+8nNlTrxYvpHEC1Oq1egjXZowMLcTyTQZl7BK9
-   BU77Yo6UbxcDDG+x7QeeRS+mX9fRrDzlqMe2vx/5Oh5rpkNSiEGTwzSb3
-   0ndr2bqHHPPu9/8z+1KeXVgNEHl1oUcBQmxhKpq1e2hRP5dpFMwR4DYiC
-   A==;
-X-CSE-ConnectionGUID: /zG9wqsNQQuFy+75uawj4A==
-X-CSE-MsgGUID: dSCDuU4ER9e3Jk+mroZ6jA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2787682"
-X-IronPort-AV: E=Sophos;i="6.27,202,1787036400"; 
-   d="scan'208";a="2787682"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 08:24:13 -0800
-X-CSE-ConnectionGUID: dK0PerLJSsyMfLXnUiUvhw==
-X-CSE-MsgGUID: TPNNuuA8TkeKE0LZmUiCnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,202,1787036400"; 
-   d="scan'208";a="7724291"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2026 08:24:08 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xQ5gb-00000000tAN-0ZRf;
-	Sun, 08 Nov 2026 16:24:05 +0000
-Date: Mon, 9 Nov 2026 00:23:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Syed Saba Kareem <syed.sabakareem@amd.com>, broonie@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Sunil-kumar.Dommati@amd.com,
-	vijendar.mukunda@amd.com, Mario.Limonciello@amd.com,
-	venkataprasad.potturu@amd.com,
-	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
-	Siva Subramanian Ravi Saravanan <sravisar@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 3/6] ASoC: soc-acpi: move common function topology
- helpers
-Message-ID: <202611090051.8jaT0pb0-lkp@intel.com>
-References: <20261107192744.2027264-4-syed.sabakareem@amd.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CySbd/2P
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4124D1F0089F;
+	Sun,  8 Nov 2026 16:25:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794155137;
+	bh=xcXJKFMytXyhxcez+VJgOeP8Xq//O33Ys6BZCkgqrIg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=CySbd/2P4TJH0S7VG88o4LuPxfG9xfHdJcwPwX80Vji6klgVUl1WHJWDf6vox1hBp
+	 bK8nLSXRsLfy3vy1Bh8JAUVh75kO3/McJvQ27QDa5D8xQ+q3fuKtVvYu1Axo/3JAUY
+	 AqXptvo5agfBHcYvNpFRu+0XxmUqaBgU1s7A3wOvqkGZau2tXVYKQXjoKwvZ9q+8SN
+	 G/JxiPzuH++/sFaFtB24q+7L8GQ85XEhhMaulHBHRdDz2d+0N/gVTsQjSw4ahCyizY
+	 22BZTanmaK3x4l5w3AmCCvuiI2zNHKSEronoQBTA0l99Uv8VtEav0PfBr7kDxf2VhT
+	 1k4j6uZ3OpWzg==
+Message-ID: <sashiko-outbox-203877@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] ALSA: control: Validate element info in compat ioctl
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Sreeraj S Kurup" <sreekuttan2156239@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261108160925.8774-1-sreekuttan2156239@gmail.com>
+References: <20261108141219.7655-1-sreekuttan2156239@gmail.com>
+ <20261108160925.8774-1-sreekuttan2156239@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 08 Nov 2026 16:25:36 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -94,40 +59,65 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261107192744.2027264-4-syed.sabakareem@amd.com>
 
-Hi Syed,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on broonie-sound/for-next]
-[cannot apply to linus/master v7.4-rc1 next-20261105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Syed-Saba-Kareem/ASoC-amd-acp-add-SoundWire-speaker-quirks-for-Dell-platforms/20261108-005658
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20261107192744.2027264-4-syed.sabakareem%40amd.com
-patch subject: [PATCH v2 3/6] ASoC: soc-acpi: move common function topology helpers
-config: csky-randconfig-1001-20261108 (https://download.01.org/0day-ci/archive/20261109/202611090051.8jaT0pb0-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261109/202611090051.8jaT0pb0-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611090051.8jaT0pb0-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: sound/soc/intel/common/snd-soc-acpi-intel-match.ko: symbol 'snd_soc_acpi_get_platform_name' undefined!
->> ERROR: modpost: sound/soc/intel/common/snd-soc-acpi-intel-match.ko: symbol 'snd_soc_acpi_tplg_files_exist' undefined!
->> ERROR: modpost: sound/soc/intel/common/snd-soc-acpi-intel-match.ko: symbol 'snd_soc_acpi_get_tplg_filename' undefined!
-
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] ALSA: control: get_ctl_type() duplicates __snd_ctl_elem_info()
 --
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+commit e7c5b72d570147881e5fc3076a50929183e5bf55
+Author: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+
+ALSA: control: Validate element info in compat ioctl
+
+This commit validates control element info in get_ctl_type() for compat
+ioctls by rebuilding the element ID, setting the control access flags,
+and calling snd_ctl_check_elem_info() when validation is not skipped.
+
+> diff --git a/sound/core/control_compat.c b/sound/core/control_compat.c
+> index 87f7ad5ab7391..0c1b80c856f26 100644
+> --- a/sound/core/control_compat.c
+> +++ b/sound/core/control_compat.c
+> @@ -169,6 +169,8 @@ static int get_ctl_type(struct snd_card *card, struct=
+ snd_ctl_elem_id *id,
+>  			int *countp)
+>  {
+>  	struct snd_kcontrol *kctl;
+> +	struct snd_kcontrol_volatile *vd;
+> +	unsigned int index_offset;
+>  	int err;
+> =20
+>  	guard(rwsem_read)(&card->controls_rwsem);
+> @@ -183,6 +185,17 @@ static int get_ctl_type(struct snd_card *card, struc=
+t snd_ctl_elem_id *id,
+>  	info->id =3D *id;
+>  	err =3D kctl->info(kctl, info);
+>  	if (err >=3D 0) {
+> +		index_offset =3D snd_ctl_get_ioff(kctl, &info->id);
+> +		vd =3D &kctl->vd[index_offset];
+> +		snd_ctl_build_ioff(&info->id, kctl, index_offset);
+> +		info->access =3D vd->access;
+> +
+> +		if (!snd_ctl_skip_validation(info)) {
+> +			err =3D snd_ctl_check_elem_info(card, info);
+> +			if (err < 0)
+> +				return err;
+> +		}
+> +
+>  		err =3D info->type;
+>  		*countp =3D info->count;
+>  	}
+
+[Severity: Low]
+Could get_ctl_type() call __snd_ctl_elem_info(card, kctl, info, NULL)
+instead of open-coding this sequence?
+
+sound/core/control_compat.c is included directly by sound/core/control.c,
+where __snd_ctl_elem_info() already invokes kctl->info(), rebuilds
+info->id, sets info->access, and runs snd_ctl_check_elem_info(), just as
+snd_ctl_elem_read() and snd_ctl_elem_write() do when passing a NULL
+snd_ctl_file pointer.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261108160925.8774=
+-1-sreekuttan2156239@gmail.com?part=3D1
