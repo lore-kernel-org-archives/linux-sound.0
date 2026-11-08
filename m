@@ -1,48 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794138550;
-	b=zHMter+i6Z8Br6zHUhz9W+KZ0zpZnrR1jXBgzJGiwM6f4g2NJ1dnlSK5fWci8YFM/1yz
-	 /QYGu9YQLrj8AEdJEPpcmr0mpRI9QNg5BIDqyZKuc9fsJL9IhWVhTTvYpK3K/MEwvp9BS
-	 Zw1a8HMwy6h/szmjJYYK4S8r8Bpip2IvoyvinrsZf59w5UoZzWytAD+NcTJuNnRcDiWAi
-	 v2DEjIqICT48lQ9K8rRM0zWEY/dFwzsxLbZYyz6zMYh5m+fsMpRvy7L6wIS4RkSXmdTpw
-	 BEX6n5cobryq54kyb1TzEG4dEnJUqf8lfYb15wHUmw9m9u1GSVP7o7aIINOWY9tOAvg==
+	t=1794138862;
+	b=l3incIGCwSiu2worI5l/WLufSCPmx3Cua65GRJ8CVs7P4COvC1jl4KcDNroi6Evzau8n
+	 b5d4fZVTsPLL/vbO/6mhvsGxij7X1c6T6JFJ20myotWakenKNexpj5O+kMuj5NQFgqS1f
+	 rSTAyNymsJWnq5zNM5x9Ujgkhu3XzjpvMKDdP3JZsD0JgJgH6/qTfw9cK227qsEjYF1G6
+	 Kv4yZ3noqPRmPrdX65fO3l4YXTnNDOVX4gDjErKEYRsVsq8hfxVli3mHWpX7J0tUVmYNy
+	 0jnaG0EesnechKkZNfworu72tNpZCwBklgQKNNpwf7UNvXki8G8shJ8FVmvX2mDMcig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794138550;
-	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=DSWbuaX0SJuwDI4LQsCoGiLcfjjnNXDBy8qwE7KddlA=;
-	b=s5GjJLGuXfEfwsj+h2UsDiGIdnq1xC7tqGlbhv6zRSbDHJaZBMJu1JVKiGSdD5BchVTD
-	 ekcXyE6NU5/hL5kOT1Hvvj6aDGEFE+LDxswfGI+MJWxnhpeFXOXvFTUyflEAQjWbcdK+t
-	 /tF7deZKrJ2UtjPAF+kQ2SudsiK/xs014gVWgIDJL68zDwJxFj12H4PTZF8eTqNFePPhr
-	 vL11eL1DGAvFpapnv03MNqTnU749M34eLemS6WP2+tVKpguahwOpCPmHwNSqssWblozz8
-	 pOP0oRyRBx1yJap7JfN3HO/Z8GfWVOk4PE0XdwkczlQL+oVSElK4cOAkH9MoUalOp6g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794138862;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=+hSDoeCHV95MTcU0exwJ09QYlst4DO6dsxKv2LnugqM=;
+	b=gjWd5GwA+E4U8ms0xhrGoMo/hu/maOiRmldnaktcrWBgXBmjYoIK4w5Do8RJwCijlGH1
+	 hgytreyr0ez9apKMJZjdNR9CwlQ26FG2vjblDaEqaNz9mysXMWInTSHVNVyChKFnVVird
+	 q7oRtiz6dz5MTrsEXBS4ud2/iMre0ddREptqicDf8Xgf6VdoNNwK3L4g81oIfmAx2ByW2
+	 1cucP3kftlmCbDs1btdHHaiKOnWL8e5BT7k+eo+oPLzt+H4I8iIk8Rxfi12Ac6RLL88+k
+	 tJQ7lNjBIQsfRURRV6kQMixr09rEn7v9m39epsADIUnU/GhoQCD7p28mYKR78ensN8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WMz0X66j;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JoHgcRgQ;
+	arc=none smtp.remote-ip=74.125.229.5
+Received: from mail-dy2-f5.google.com (mail-dy2-f5.google.com [74.125.229.5])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B395606A33E;
-	Sun,  8 Nov 2026 11:49:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0F0606A31C
+	for <linux-sound@vger.kernel.org>; Sun,  8 Nov 2026 11:54:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E0F0606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WMz0X66j
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53A8E1F0089F;
-	Sun,  8 Nov 2026 11:49:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794138550;
-	bh=DSWbuaX0SJuwDI4LQsCoGiLcfjjnNXDBy8qwE7KddlA=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=WMz0X66jbpOohzsjuh9vxcswu8HYEcikxFzY4dXmi1VM8IX8FrDwIjI7tvd/d85/G
-	 t5WPkKOgnDBMk7EesnJ1q3pISxPevscLytTJMTBfNyo7fS4+T/6glOsSRggAkZsOmo
-	 TaTl84edzchzGKPlrys2DoZ7Byu6/PMotPFE+oypk2gRy2M56iQvjagHW+1+Cpgf3e
-	 ZvipXoZyLGKpc+/FN7GgQmLBI4kJf0qsKxDaMe+eB+1V2wH+eRmIKK6FZoiRnwt0gG
-	 tYofxFgjId/uxbnTcW87RYa/uBvsLyFupyIpqJcbm6hJvqYjXW82LbH+xQtzD8tslb
-	 OaRa+9Qh9rUmw==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id F0C312BF95D0;
-	Sun, 08 Nov 2026 11:49:07 +0000 (GMT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JoHgcRgQ
+Received: by mail-dy2-f5.google.com with SMTP id 5a478bee46e88-36caa19b0ffso81100eec.0
+        for <linux-sound@vger.kernel.org>; Sun, 08 Nov 2026 03:54:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794138861; x=1794743661; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+hSDoeCHV95MTcU0exwJ09QYlst4DO6dsxKv2LnugqM=;
+        b=JoHgcRgQpO4mryH5LvbiD1VQN5AbJycvWNP7w5k5/l8/3Zf3lyKstieOp2M2+BcANc
+         RYxfXH977egJuwbFIB49WvOGV/YX8MMTw1wbFFf/iGfKCdKvunfbC2FSlTot4ZqF1DX1
+         oFnRRt/Loezl1hjAZtl2MhRYXtZfj42MPtZedSnZSzzrp3G8XpFwaw9JsyqXqTz+mAXZ
+         QJxgET/pE3W/nsn9snm1CoRmafeQid0r+YjrAJUAPQHmQbC+0fsgM47/zG4nenU8aVRU
+         TCLf59Pl+8g0AL21BO0wbGlhcFljFhwJ6+Tetj035tKC+sGno1bgSkq/U8tKT20ggNxG
+         QBHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794138861; x=1794743661;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+hSDoeCHV95MTcU0exwJ09QYlst4DO6dsxKv2LnugqM=;
+        b=LILlyHD3feLOzQwTeLV6i3sZY7bzYF8LwP7HbhSpOpfFaA35oEaUT4k8wQgPKXwCw0
+         M0IhPU5LKMnVHIqAwL8+wi3dFY4aNk1/Z+Juus9J/4zb6O3udbHlSBi3NPpq62NL6AKY
+         JNCE8CIYZETSM3wKKjsIkrr0ZXilC9VXlyzhkGbjcoQN/HNPoxylHD8sFvQqJ/b5ljRr
+         Da3NvZEjIhFPug/eojBECJ4izYCOjuk8Z1FdhYnmPwa8y6O9r9gFpLcsgGWiom3R89Ut
+         r3N/m6Lij9Ef+ERlRJFnOAnz/GiinqEVLYjFYGt8f9juMooItiPzq8L/KTIIcFZxFsL/
+         /P4Q==
+X-Forwarded-Encrypted: i=1; AL+hErHYABNHFA+bh5kXQnuzp3cFTtDozsKfhSLDH2ekk7ULQbd1380nIJ5xPl67l19fNP7SKfy8PhAhJKVtLw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9ykGpoFhgCAaxhJjg0upOnUQV/ySsVsD6vxSIzK8SCxeZAT07K
+	W9iXzGU9dieAP1iTnjse0HbsqaZ4nxnh8YuoQhptboXFtqB7IohaTHCZP3gLwPjaj/k=
+X-Gm-Gg: AYBFou1O8+iZSNAISDPn5nM9xIhYtQ46uhPGZuTx+UJmifpWli0bvcgZX84vpMjrIZK
+	+ctvejGzpcOEI5yOsxsrdPFBEPaQQSmQtSszKMEKZCALa8yW1dswuHrzyWDPOKMGFG1fVEaLDeT
+	brspEFBkJXAD1ii6VNwyM48Bx1milaUVSkdDEw+jyC3FWxK6HdSSN/cpcmHQvZAh/pcKNswTD7n
+	fp8yCa7XQntntTI+sTCGUfFkUVU4EC7wkU50ojuLh2LrQibC+fTYpvrkrMGmHCuZNwJtaqRSwnI
+	WekAqH4IwBSyUdtsmppMzwEbCwfyDEKirV+q3ezyizSNidJ9HGzddCnWlURzql50Hk0cGfHqdRN
+	1fOdbmel20RuRVAt5xBDHDriQjJwFUDyHlPR7dcqm0To3SXOPRwbRnuEP/BZuTbmwFx3zY4bLVw
+	GuNR20XvpNjeJ8h9Bl+1z/6I8HBdSqNDEX9ujL83Bng9KHZ0UKr3jn//2t2C185XMH9MviIndcm
+	dLsOEn46stXVH2v/GPLOYRC4RSDyWCwowYQn0jMUbMwKDmGMN9fMs3FTvt3MONr4Vws+KnGOQBX
+	S81GTnGUygwZxypZBJ0id0JA33jevFQ=
+X-Received: by 2002:a05:7301:c83:b0:35e:2c6:d46c with SMTP id 5a478bee46e88-372566144c7mr2538503eec.10.1794138860540;
+        Sun, 08 Nov 2026 03:54:20 -0800 (PST)
+Received: from [127.0.0.1] ([45.198.20.201])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37265a179c1sm4715288eec.11.2026.11.08.03.54.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Nov 2026 03:54:19 -0800 (PST)
+Date: Sun, 08 Nov 2026 03:54:19 -0800 (PST)
+From: alyandra5b@gmail.com
+To: sammiee5311@gmail.com
+Cc: tiwai@suse.de, perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ALSA: ump: clear stale RPN selector on NRPN change
+Message-ID: <179413877928.27072.4989388975502966406@localhost>
+In-Reply-To: <20261108113645.1730429-1-sammiee5311@gmail.com>
+References: <20261107111056.667-1-alyandra5b@gmail.com>
+ <87pkwgyck9.wl-tiwai@suse.de>
+ <20261107142950.125901-1-sammiee5311@gmail.com>
+ <CAJYQYHxrpmBPiyMiS2oK8eugUMR=KFmf9D5jwLdoYUYQgKkXjw@mail.gmail.com>
+ <878q33y4z4.wl-tiwai@suse.de>
+ <20261108113645.1730429-1-sammiee5311@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -52,151 +104,16 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2 2/3] ASoC: codecs: rk3308: restore audio and
- headphone support
-From: Mark Brown <broonie@kernel.org>
-To: Xing Zheng <zhengxing@rock-chips.com>
-Cc: broonie@kernel.org, heiko@sntech.de, linux-sound@vger.kernel.org, 
- luca.ceresoli@bootlin.com, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, linux-kernel@vger.kernel.org, robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- huangtao@rock-chips.com, sugar.zhang@rock-chips.com, lxt@rock-chips.com, 
- xing.zheng@rock-chips.com
-In-Reply-To: <20261101044149.2018744-3-zhengxing@rock-chips.com>
-References: <20261101040125.1864141-1-zhengxing@rock-chips.com>
- <20261101044149.2018744-1-zhengxing@rock-chips.com>
- <20261101044149.2018744-3-zhengxing@rock-chips.com>
-Date: Sun, 08 Nov 2026 11:49:06 +0000
-Message-Id: <179413854645.3630016.583220481348524508.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5345; i=broonie@kernel.org;
- h=from:subject:message-id; bh=+YDT/dn4HPJjiVmxqxZl4zbdPOrhe2/fO2TYbbPmE6s=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+JG7OuXHtxJ6vy/a0HpcWWPnpTOEN098lq8UKmb80d
- STefN49oaOUhUGMi0FWTJElLov7ZX3J6zV8Bxe2wcxhZQIZwsDFKQATOS7DyHCjw7O+intRWv3l
- fQ+NQ2NKN+StFNvT+JRh26O0M1duFbsyMtz657SIkyEzQ8NnpTbP3NXcfXn7Fte92lr2Pc/Lunf
- XY34A
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-> Restore the vendor analog enable and disable order and settling delays
-> through shared DAPM supply events for codec revisions A, B and C. Use
-> virtual intermediate widgets to prevent coalesced or repeated analog
-> writes without adding startup, shutdown or hw_free DAI operations.
+Hello HyeongJun and Takashi,
 
-This change is far too big and complex to be a single patch, doing a
-whole bunch of different things with limited overlap.  It's all really
-difficult to follow, please split it up into independent changes.  The
-jack detection should be split out at a minimum, and probably there
-should be multiple refactorings.
+Yes, that sounds good to me.
 
-> +static int rk3308_codec_output_routes(struct rk3308_codec_priv *rk3308)
-> +{
-> +	static const struct snd_soc_dapm_route routes[][2] = {
-> +		{
-> +			{ "L_LINEOUT_EN", NULL, "DAC_L_HPMIX_SEL" },
-> +			{ "R_LINEOUT_EN", NULL, "DAC_R_HPMIX_SEL" },
-> +		}, {
-> +			{ "L_HPOUT_EN", NULL, "DAC_L_HPMIX_SEL" },
-> +			{ "R_HPOUT_EN", NULL, "DAC_R_HPMIX_SEL" },
-> +		},
-> +	};
-> +	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(rk3308->component);
-> +	u32 mask = rk3308->dac_output == 11 ? 3 :
-> +		rk3308->dac_output == 0 ? 1 : 2;
+I'm happy with putting my patches first, followed by yours, and moving the te=
+sts into a separate selftest patch.
 
-Magic numbers...  I have no idea what this is intended to mean.
+Thanks for offering to adapt the sequencer test and incorporate my test cases=
+. I think this would be a cleaner approach.
 
-> +	int i, ret;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(routes); i++) {
-> +		if (!((mask ^ rk3308->output_routes_mask) & BIT(i)))
-> +			continue;
-> +		if (mask & BIT(i))
-> +			ret = snd_soc_dapm_add_routes(dapm, routes[i], ARRAY_SIZE(routes[i]));
-> +		else
-> +			ret = snd_soc_dapm_del_routes(dapm, routes[i], ARRAY_SIZE(routes[i]));
-> +		if (ret)
-> +			return ret;
-> +		rk3308->output_routes_mask ^= BIT(i);
-> +	}
-
-This is dynamically hotpluggin DAPM routes at runtime which is a really
-weird way of doing things.  Why are you doing things this way?  Normally
-routing changes would done through DAPM routing changes in mux and mixer
-widgets.  Why are you doing things this way?  It's a lot of code, and
-the userspace impacts are likely to cause confusion.
-
-> +	if (!ret && rk3308->hpdet_jack)
-> +		snd_soc_jack_report(rk3308->hpdet_jack,
-> +				    output ? SND_JACK_HEADPHONE : 0, SND_JACK_HEADPHONE);
-
-This is going to report that the user has inserted or removed something
-physically based on a control write, this is obviously not something
-that should happen.  The user can physically see if something has been
-plugged and this is going to report something different...
-
-> +static int rk3308_codec_hpdet_init(struct platform_device *pdev,
-> +				   struct rk3308_codec_priv *rk3308)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct device_node *np = dev->of_node;
-> +	int ret;
-> +
-> +	if (rk3308->codec_ver == ACODEC_VERSION_A ||
-> +	    of_property_read_bool(np, "rockchip,no-hp-det") ||
-
-Why do we need this property, the machine driver sets up the jack?
-
-> +	    !of_find_property(np, "rockchip,detect-grf", NULL))
-
-of_property_present()
-
-> +		if (headphone)
-> +			for (gain = 0; gain <= max(gain_l, gain_r); gain++) {
-> +				regmap_update_bits(rk3308->regmap, RK3308_DAC_ANA_CON05,
-> +						   RK3308_DAC_x_HPOUT_GAIN_MSK,
-> +					min_t(unsigned int, gain, gain_l));
-> +				regmap_update_bits(rk3308->regmap, RK3308_DAC_ANA_CON06,
-> +						   RK3308_DAC_x_HPOUT_GAIN_MSK,
-> +					min_t(unsigned int, gain, gain_r));
-> +			}
-> +		rk3308_codec_resync_adcs(rk3308);
-> +	} else {
-> +		/* Vendor DAC disable steps 3-19, after the external amps are off. */
-> +		if (hp & (RK3308_DAC_L_HPOUT_EN | RK3308_DAC_R_HPOUT_EN))
-> +			for (gain = max(gain_l, gain_r); gain >= 0; gain--) {
-> +				regmap_update_bits(rk3308->regmap, RK3308_DAC_ANA_CON05,
-> +						   RK3308_DAC_x_HPOUT_GAIN_MSK,
-> +					min_t(unsigned int, gain, gain_l));
-> +				regmap_update_bits(rk3308->regmap, RK3308_DAC_ANA_CON06,
-> +						   RK3308_DAC_x_HPOUT_GAIN_MSK,
-> +					min_t(unsigned int, gain, gain_r));
-> +				usleep_range(200, 300);
-> +			}
-
-The ramp down has a delay but the ramp up doesn't, is that intentional?
-
-> -	SND_SOC_DAPM_ADC("ADC1_WORK", "Capture", RK3308_ADC_ANA_CON05(0), 2, 0),
-> -	SND_SOC_DAPM_ADC("ADC2_WORK", "Capture", RK3308_ADC_ANA_CON05(0), 6, 0),
-> -	SND_SOC_DAPM_ADC("ADC3_WORK", "Capture", RK3308_ADC_ANA_CON05(1), 2, 0),
-> -	SND_SOC_DAPM_ADC("ADC4_WORK", "Capture", RK3308_ADC_ANA_CON05(1), 6, 0),
-> -	SND_SOC_DAPM_ADC("ADC5_WORK", "Capture", RK3308_ADC_ANA_CON05(2), 2, 0),
-> -	SND_SOC_DAPM_ADC("ADC6_WORK", "Capture", RK3308_ADC_ANA_CON05(2), 6, 0),
-> -	SND_SOC_DAPM_ADC("ADC7_WORK", "Capture", RK3308_ADC_ANA_CON05(3), 2, 0),
-> -	SND_SOC_DAPM_ADC("ADC8_WORK", "Capture", RK3308_ADC_ANA_CON05(3), 6, 0),
-> +	SND_SOC_DAPM_ADC("ADC1_WORK", "HiFi Capture", RK3308_ADC_ANA_CON05(0), 2, 0),
-> +	SND_SOC_DAPM_ADC("ADC2_WORK", "HiFi Capture", RK3308_ADC_ANA_CON05(0), 6, 0),
-> +	SND_SOC_DAPM_ADC("ADC3_WORK", "HiFi Capture", RK3308_ADC_ANA_CON05(1), 2, 0),
-> +	SND_SOC_DAPM_ADC("ADC4_WORK", "HiFi Capture", RK3308_ADC_ANA_CON05(1), 6, 0),
-> +	SND_SOC_DAPM_ADC("ADC5_WORK", "HiFi Capture", RK3308_ADC_ANA_CON05(2), 2, 0),
-> +	SND_SOC_DAPM_ADC("ADC6_WORK", "HiFi Capture", RK3308_ADC_ANA_CON05(2), 6, 0),
-> +	SND_SOC_DAPM_ADC("ADC7_WORK", "HiFi Capture", RK3308_ADC_ANA_CON05(3), 2, 0),
-> +	SND_SOC_DAPM_ADC("ADC8_WORK", "HiFi Capture", RK3308_ADC_ANA_CON05(3), 6, 0),
-
-Why the rename?
-
--- 
-Mark Brown <broonie@kernel.org>
+Best regards,
+Alyandra
