@@ -1,78 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794263600;
-	b=PgQO/JnWPMCxf+SgK0C8m0+xlUzirmqcXLHKKnOSzjTVFsWciajSe550Ye65tVXvUfZi
-	 QY5dLrzznWxepLHZG1ZoXVvD1W/rwtODHrCsTMWPSrTfbA1YbCeXvDVY0P3rUvL1AgGe8
-	 hNqKvaGpAtYrftOO4lUvwabit6EPLe16rwWl9BHW0BLoZPy4sTt81OMdoCU2nRZnLD9aY
-	 SCz6XCjwBKIjPSWXXYhIwwAMyJ8K2kdbqXb/x10yS+VaQ0sPodmX36IynuiuokRpfoyBQ
-	 GZgjRH1MyhSL1SDyyt0sYQG/oQt9gcVZKq0NQUD6EUQtAby2Uxlm2xkzKU8t1q5O30w==
+	t=1794263640;
+	b=dqnjy7e3eJxP3sc9sfEwXLN1DOGQvl7kcQLotu4dKE2Juwk2KYlUU+DaOO4arl6sqz7p
+	 Me4bYIKdjbvbxF3gvgbkBoiO2T2Oe1M5/Y0MF/cgUWULCp6OaTODYRqyTBQkKCMvPwLIL
+	 L8NlGDs8Tx5x5zIv54wkpxnqDVQQg7CfQN48RiIOSiAcl/Rz0PMzN3LMtykjXOm4Ikp4q
+	 WBoVKMC9RVnfVo/Wdk8FK3hpqsVAt9stB2btPQddxTK8A6Agq3I52X4vkRFamQMT8D8Ip
+	 T7QWE2tR3QJP6GmB0W+07R6OFj630sy8fhTNnWcZsVqlktTzZqvAI0AaZI9kPOn8OXg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794263600;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794263640;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=LG/48ljPpajWoijdQ3CRMO0HZ8jX933vYaKrBUflpmg=;
-	b=oSF1MhjRDGUFFY6NJl8SkWmJS66dGaFkj2tFHaJxKqc+0auIq5h6DsXC2eQc6tVBHUUh
-	 lXb39vXaIMltlv4Qy4z7RDo2M+d33inCDAjHuvcl8H2bHAHGxQ7HD647Y3QN04b3cXXqX
-	 ow4GOh56cA/M8PE3YQw407OVz/9nBOEJKsdNVyFXv14kQuXE2jfYY9cZPn7V1/tBoL3Qy
-	 ohGEcj7Ii/dGtU5/vO2is+d8bFXxP6FDUXJ4tlQ65MYYqJc0tJ30gIvOI+eCEu3zKCHjy
-	 yQAkLWioP5kvVoCVZUOgS4XpTyNdCHk7gTCV1/4KXjJ02tg67B8xY8y0hqEEMpmXdEw==
+	bh=1CsRf0YcuKzwMQXsUZyEVhrviRIPm5xpm4F4SF276F4=;
+	b=jdBjonAgBvnAPaYjkLvTrkFh0lURpooA6dEQ+7WSN8TnQycBpRgDwM8wQ5Zy+CTPUZ3/
+	 KN/13z8w4Q93IG035p6Zcr/BH0rkqrRWR4OUIorfP8DEcf89IKb1KeSubyiYOOTgq4L3L
+	 ebm9COklz9MvV2I4kSVvzr4BrfovK6fj2+eH8Mx6bs8gV3U/RzAKVrxDk13je13odlsbi
+	 oTFep/mYJly7AMTPt/q0WmB+G1UHZPeulYHmY0eOOdVOXxP9gX4flDCz6J1CMCZDYqn1O
+	 v55Ki2i4e8H+07NU8TPD0gc3Qu2nvDBHZ5kRssRcJ0YtwgLgbNx2twVmxkoUmFkR9Qw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Wz/up45K";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eOvjwA2y;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0DD2606A31C;
-	Mon,  9 Nov 2026 22:33:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97223606A31C;
+	Mon,  9 Nov 2026 22:34:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Wz/up45K
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eOvjwA2y
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794263599;
-	b=WpWokYFJVrLbm7tAjNPfgC/pFPJgwEy/mSuqaAv9DWnzpXSqMT1WAUOVTRwbn5fFbqjZ
-	 O6bCBGgCWMl6ETDc19ohico2XErztOOxRbiAuw6q/QhLSkXTW3Avo2m2b4c31Xb5D5WWL
-	 ELiN5xE2Um7+SOX6AtJe/VyuoDiDMFVB3h172wROjCZeNg3FgAXzJ6O1PSGhb8EFfdRiY
-	 kpIVBiJZwgnDn1i/ILGKMp34VJ8mOjaSwyg+Vj8E3JxElg/HbCin7x5EdR7rS8PskXMUy
-	 p0NCaVcmjREtq3g+rX1CgMO3QzAs1YPG9Jf6RN3UYtDNuKtthgfmEwzH+aH6cfmEK1Q==
+	t=1794263640;
+	b=D+AUuAM+VjH8V5oL7rCtXphVcys9ox+tZRwpltcVeOR5uJFTSE3UPvclF4+O7dklBjqO
+	 zGquxu0lUflGdS4v3m8/4aWFExq8ByvwUak6S/wi2wXAZ1aD2vuzK3rr5bcjCFFhGjSVS
+	 SSDcZMuEyaByxT6GdDXWKT0PDcGGWhpgesRJRQUjoVGfrYq3ZF4xYmiOiPsWmjPTAbzg4
+	 djd/nxuGG9NO8UpH04qik1d9mQrlh91LFC9T771kpRc/cCACdnkPwl0sYoEHUunS9B4S5
+	 wXUhfmeqMVeIgtoCy6gJkk+4ErVBhRqcpDDZUGLpb5AB2zWM6fhTucdxP7LYGqlN7jw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794263599;
+	c=relaxed/relaxed; t=1794263640;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=LG/48ljPpajWoijdQ3CRMO0HZ8jX933vYaKrBUflpmg=;
-	b=qGwvbuiQIruZL48OVgPschYvRmcNjjzjayjW+FFmykSOX89CaitAMyCBX8n6T7ux/Enp
-	 v1+zJcRevm0UMXe/yuuWtWRMkVmV8k92wPuXQKkGexPEFWfYD2TOtc5lRG2UkN0EQqXoh
-	 nD5US0Y6xUL8nrPjZ5b0cvUL4+PwvCH+oXYP4psw4INuywpTuhJ324GtslSI8/dvW6ZYt
-	 TeXKuwunXPao+IuNiIWyCERPnm1TDkQaBXs1rKYx4vWiITiHd5AlMxrZaLufAV79yV2NG
-	 Uf/dyvu5L1mJk17U2eJCmnFt6MP2p2m/HZeFkvaTz5W1eHK3JQn1lh1cHDfaF1KtZ/w==
+	bh=1CsRf0YcuKzwMQXsUZyEVhrviRIPm5xpm4F4SF276F4=;
+	b=X7XDW+Z07MfGoQ2tlpZXp2ronEIwR7Zr/WjtZWqwsgIwPEfEfduNOd3OPMziF6BwKHAj
+	 8fERHmoD4ZAKWbYwJAROMAET75nHDdDhei/gJVwHNCpVgInGyyJaiKIdwlJ97yjLlWh4Z
+	 NG4El3H0GL2hZ8fN4kLNzumP/ns6hW5M1NoZlrzoLAzX5Q/iNrBUUnDLXSc/AQEBncHwt
+	 LIsbvYfFESMQRFo/tJjIPrjgLAXnzeKJDOm9iLC81PguCcM83ukKXO0DDHNJ91+eC/+iF
+	 /Bos1zRkXq+17zugfezI69wXhXXPy4+cdJrajl1voGR9EnhVZGdxeOdehb+MCkED4YQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 0E1671F0089F;
-	Mon,  9 Nov 2026 22:33:19 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 8EEC71F008BD;
+	Mon,  9 Nov 2026 22:33:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794263599;
-	bh=LG/48ljPpajWoijdQ3CRMO0HZ8jX933vYaKrBUflpmg=;
+	s=k20260515; t=1794263640;
+	bh=1CsRf0YcuKzwMQXsUZyEVhrviRIPm5xpm4F4SF276F4=;
 	h=From:Date:Subject:To:Cc:Reply-To;
-	b=Wz/up45KSlA7r4ODP0zmqiSKMfyiQwX/wGO04zBqNN30zAfZHy0hYCUaxBvqarPdR
-	 rrDrTzp2mBvcMhNu1ZPvCaIgMYPAMWm66i85wH5JG2aS1yznRZTjxRYrmLw3pDpUmo
-	 JohhqH3vrYgB38pGLWmHVSeoX5RRyBkcFVnHCoZuujOspYhrXEwMvmbP2Fg/vJXpyE
-	 xiZ+CT1ieuwNxo38vg0uZtj843pPAByrjxS3yCPXBumwuXYvfuT1i1o7tIyWUI8Ly2
-	 VBwnss8gz2l/ATG6xiDSosWoBUeCWEMDQO8Mf1erF/QChTyMLlzY1TCrNX83zWGZI0
-	 WME5dYQ3WDKRQ==
+	b=eOvjwA2y0CGm1NgBkRiEtZXpLkbJh9d7VvUwBZegauPqUVGd4vf+2mbC5Okt6848M
+	 AWet1hFWPdWp0p2VCaGbJuQmJI4ZiicgrZKipFO6saGJToD+oBYTTIaJaokCy8TilT
+	 NsSxrpfF6oQwfZ7RHRz98OkEXEKDjKrm9QbKp4x4ujhKG+xUvPBJVvGnDrWfl5k0/9
+	 6QJ3rnU3ha6nuIixJOTTjTWbSzfY+VE+UsWXAUOuwdci0LuGHXxbJd75tpozsNVPaX
+	 6Us9AdhBtPPrpsYclo9OAePUS+riQKALblO7fRj7FNYb9I+yCLcm522p+pSjWtLD3S
+	 YiU3udgMy8XlA==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 6340E4869D;
-	Mon,  9 Nov 2026 22:33:18 +0000 (UTC)
-From: Ivan Verbovoy via B4 Relay <devnull+ivanverbovoy.gmail.com@kernel.org>
-Date: Tue, 10 Nov 2026 00:33:18 +0200
-Subject: [PATCH] ASoC: codecs: wcd934x: drop the MCLK on every disable
+	by lkml.kernel.org (Postfix) with ESMTP id 20489486B0;
+	Mon,  9 Nov 2026 22:33:59 +0000 (UTC)
+From: Gaurav Suman via B4 Relay <devnull+gauravsuman007.gmail.com@kernel.org>
+Date: Mon, 09 Nov 2026 22:33:47 +0000
+Subject: [PATCH RFC] ASoC: codecs: wcd934x: keep MCLK enabled so init
+ writes reach the codec
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -83,84 +84,90 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261110-wcd934x-mclk-v1-1-c62956792a3f@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzNDQwNL3fLkFEtjkwrd3OScbF0jQyPDtEQDE3Njw0QloJaCotS0zAqwcdG
- xEH5xaVJWanIJyAyl2loAfQOIoHAAAAA=
-X-Change-ID: 20261109-wcd934x-mclk-2121fa04731a
+Message-Id: <20261109-wcd934x-mclk-v1-1-ab86342e7ead@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAEpK8moC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDQwNL3fLkFEtjkwrd3OScbN2UVFPLVEMzEzMLA3MloJaCotS0zAqwcdF
+ KQW7OSrG1tQDvN9SUYwAAAA==
+X-Change-ID: 20261109-wcd934x-mclk-de59e1646807
 To: Srinivas Kandagatla <srini@kernel.org>, 
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Ivan Verbovoy <ivanverbovoy@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794263597; l=2005;
- i=ivanverbovoy@gmail.com; s=20261103; h=from:subject:message-id;
- bh=+8TND5x7ORkQtuZzYM2DXIkWaXwiQXUX8dcdq40ah4g=;
- b=V/UsTHBZK8oO3woRtBITahsylO2KUvicFIWJMfYn5kV/n4IV0n56VyK40mVg/z7b3hwiZ28Zx
- K4UZcPd8YKCCsPfvgfqYObjxUt6SPl1t2VHew7/ftVgIE6t+sYIi+iI
-X-Developer-Key: i=ivanverbovoy@gmail.com; a=ed25519;
- pk=0AchqTH1hJFToIUeFfQRlVzzuaWQDs4e75SxT2y3s8c=
-X-Endpoint-Received: by B4 Relay for ivanverbovoy@gmail.com/20261103 with
- auth_id=1396
-X-Original-From: Ivan Verbovoy <ivanverbovoy@gmail.com>
-Reply-To: ivanverbovoy@gmail.com
+ linux-kernel@vger.kernel.org, Gaurav Suman <gauravsuman007@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794263638; l=2522;
+ i=gauravsuman007@gmail.com; s=default; h=from:subject:message-id;
+ bh=8u46K9MtmpC/yZH7MaaIGPTHQMOfd8OqvroqTAoIDKw=;
+ b=w+dOp4lUMyGty2jZoxIvNtUcRjLUY05x9zhThT6au4LkhC/wFP6g5GWXIChw8BlQKGNbG0/pF
+ Er7ssv0G9cDDRWxrnPbWM27XRwHOTpM9thMIDASkQgg2xY3u+SAXMii
+X-Developer-Key: i=gauravsuman007@gmail.com; a=ed25519;
+ pk=lnUC0mQfc0KyA0LE73pQ4+QWYVRaCD8Sd3XWxLZO+JY=
+X-Endpoint-Received: by B4 Relay for gauravsuman007@gmail.com/default with
+ auth_id=1467
+X-Original-From: Gaurav Suman <gauravsuman007@gmail.com>
+Reply-To: gauravsuman007@gmail.com
 Content-Transfer-Encoding: 7bit
 
-From: Ivan Verbovoy <ivanverbovoy@gmail.com>
+From: Gaurav Suman <gauravsuman007@gmail.com>
 
-__wcd934x_cdc_mclk_enable() takes a reference on every enable: it
-prepares and enables the external clock and counts a user of the
-analog bias and system clock (sysclk_users). On disable it returns
-early while the SoundWire controller's clock is enabled, so neither is
-dropped. Each DAPM MCLK power-down or MBHC micbias release during
-SoundWire activity therefore leaks one reference, and the MCLK stays on
-for good.
+On an LG G8x (SM8150, WCD9340 over SLIMbus) the microphones record
+digital silence on roughly half of all boots. Register dumps look
+correct because they are served from the regmap cache, but the
+writes never reached the hardware: the WCD934x digital core ignores
+register writes while its MCLK/sysclk is off.
 
-The early return is not needed: wcd934x_swrm_clock() takes its own
-reference before it enables the SoundWire clock and clears that clock
-before it drops the reference, and sysclk_users keeps the bias and the
-system clock on while any user remains. Drop the check.
+wcd934x_comp_init() runs with MCLK off unless the SoundWire master
+happened to probe first and enabled the clock through
+wcd934x_swrm_clock(); __wcd934x_cdc_mclk_enable(false) then leaves it
+running because the SWR clock bit is set. Probe ordering is not
+deterministic, which matches the random good and bad boots.
 
-On a Surface Duo (SM8150, WCD9340) the codec's external clock,
-ln_bb_clk2 (an RPMh XO buffer vote), was found prepared five times at
-suspend, which kept the SoC's XO on. With the check dropped, its enable
-and prepare counts are back to zero once playback stops.
+Enable MCLK before wcd934x_comp_init() and leave it enabled, which is
+what the good boots already do. With this change 8 of 8 boots had a
+working microphone (before: about 3 in 5 silent).
 
-Fixes: a61f3b4f476e ("ASoC: wcd934x: add support to wcd9340/wcd9341 codec")
-Signed-off-by: Ivan Verbovoy <ivanverbovoy@gmail.com>
+Enabling MCLK only around wcd934x_comp_init() (and disabling it
+again afterwards, as wcd934x_enable_efuse_sensing() does) was not
+enough: 2 of 4 boots were silent again, so later writes made while
+the clock is off are lost as well. An alternative would be to mark
+the cache dirty and resync whenever MCLK goes from off to on; this
+patch takes the simpler route at the cost of keeping MCLK running.
+
+The fault was found, the change written and the boot tests run with the
+help of an AI coding assistant (Claude Opus 5.5, Anthropic); I reviewed
+the change and the test results.
+
+Signed-off-by: Gaurav Suman <gauravsuman007@gmail.com>
 ---
- sound/soc/codecs/wcd934x.c | 9 ---------
- 1 file changed, 9 deletions(-)
+Tested on LG G8x ThinQ (SM8150).
+---
+ sound/soc/codecs/wcd934x.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
-index 5cd30a5ed69c..043061558225 100644
+index 0ed24cca088f839263f015778e8281027392e51f..6b6ce5ba5d30da194db1b1570a58f0324956f96f 100644
 --- a/sound/soc/codecs/wcd934x.c
 +++ b/sound/soc/codecs/wcd934x.c
-@@ -1355,15 +1355,6 @@ static int __wcd934x_cdc_mclk_enable(struct wcd934x_codec *wcd, bool enable)
- 		}
- 		ret = wcd934x_enable_ana_bias_and_sysclk(wcd);
- 	} else {
--		int val;
--
--		regmap_read(wcd->regmap, WCD934X_CDC_CLK_RST_CTRL_SWR_CONTROL,
--			    &val);
--
--		/* Don't disable clock if soundwire using it.*/
--		if (val & WCD934X_CDC_SWR_CLK_EN_MASK)
--			return 0;
--
- 		wcd934x_disable_ana_bias_and_syclk(wcd);
- 		clk_disable_unprepare(wcd->extclk);
- 	}
+@@ -2995,6 +2995,12 @@ static int wcd934x_comp_probe(struct snd_soc_component *component)
+ 	/* Default HPH Mode to Class-H Low HiFi */
+ 	wcd->hph_mode = CLS_H_LOHIFI;
+ 
++	/*
++	 * The digital core drops register writes while MCLK is off, but the
++	 * regmap cache still records them. Keep MCLK running so the init
++	 * sequence below and later mixer/DAPM writes actually reach the codec.
++	 */
++	__wcd934x_cdc_mclk_enable(wcd, true);
+ 	wcd934x_comp_init(component);
+ 
+ 	for (i = 0; i < NUM_CODEC_DAIS; i++)
 
 ---
-base-commit: 630059a5a632377b9b7b487baccde92b7ae1dd47
-change-id: 20261109-wcd934x-mclk-2121fa04731a
+base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
+change-id: 20261109-wcd934x-mclk-de59e1646807
 
 Best regards,
---  
-Ivan Verbovoy <ivanverbovoy@gmail.com>
+-- 
+Gaurav Suman <gauravsuman007@gmail.com>
 
 
