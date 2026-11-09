@@ -1,68 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=89.221.237.129
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794207740;
-	b=z3WTcfbwIm896buzpEmTRC8Klkf7lpIJHFUvmtltjiJcqt/CgNDKHHK3iwaCcPP7YzFZ
-	 65e4i78S/eAoj5w6G3wQE9U5LZZYcTQr23i8+oIcTChV0mqWxr9vABBOLUufuV4vRqSD2
-	 uBgeiZH+g8OzQOO3LYIGGPPW+y2ty50o/GJzGW9X9SMiJNMtqH5/ZDzJoKH1J1U/GjQq5
-	 szemY23ZfToaN8WpuHcxtMeGZXo0Is0Ul62dmCG4u+7PQLEfCHjyEMyMgj80/AfIyNKvE
-	 2o4KhElx1l/0m/mbx0dql6EbdvzBflTCh+HKg+XyAyzLKKpRMA4QgslLovb1kL3bfVw==
+	t=1794208309;
+	b=ZXURwGp6LxwGzV/uixBB9V7EJkWt0bI4R8ud+TnFaoWeIC6hBrnQN+iKxI4ZJ5MxJJI6
+	 MKdt75W3RqpdBPlgLPyOGxE3MeaWhKeCYd3/q1v8RuPfef/f2n/nF1hP+eIWO1cKRFOQS
+	 RDON3jbMplqNEvfeqtBC/w+eJpfKpK+lpfSHxRYTYDiMWHXSHlgINABJy+Sh3r11jEme1
+	 xU7iI5sd1iPOckanjL/lcRhtRyiEyF9Lf4PjpiX1TRHqMI3rN3IYKK/fD6SbMs5/eTc+S
+	 rLoT08J9cBn95N4rqHtpJWf7sZMhenfb1vPBcxnevlLATraXKQquZ8UoMdpGRdtCd5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794207740;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=LcyRuhzfqEmKZLcyNf1Ye82CQkHc3k/JCJKVVIHSFjw=;
-	b=fr2/YM9urF3T3S48zkKGGdL1Svf5gBN/+JZ6YZOdXmQ+y6sOIMiCgZTW4CXMVYhAL5us
-	 4JhYfDvJGP8Na8ku1GJGVufBwkgITOfo2O2weHdc0KptUIlH07CtC5VxrQZFujRVNcDlC
-	 LpLcfrvMNejlpGKjxnsjjDonXvXfUIYENBCqPToatBu7HqFF30T7BmvT4X0Cr6tWe+Eh8
-	 zDsjavHXNYUW/HnsFFa8tYCJQ2rSPAqL5M4zc7rRnh4L0YpZ0tp28RlXRMkKjoY0FNOby
-	 mEYkVakKuO3dyp7win3SHvBZCr9yfK/B1/M2r7bHAAqJpGN4zIyMV0BQNgxM2KYrbdQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794208309;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Mailru-Src:X-7564579A:
+	 X-77F55803:X-7FA49CB5:X-87b9d050:X-C1DE0DAB:X-C8649E89:X-D57D3AED:
+	 X-Mailru-Sender:X-Mras;
+	bh=cqkKIidjUyqGzfCNlONH9uVQhSzevwCMMYDL8OBNQ1U=;
+	b=tzLufMR0ZTucDxeV+Ad4WilSn0C77EYL1qEGAiMu5HhJzfh6AYpZw3hoL9F8qfCUSH9u
+	 OLQl07fPxptqQ6MtoizmjL3xKGda1c8rhCjEGJON35pBOygXKJkgwdNLshKdiqSfGIpQ+
+	 ZYUTROUonz/o3aIzoTeaOne1z3b1hdlwD0oHCV/tsbbMFs43Ls7dTQDoqBYxnaRy65exy
+	 x8BZTzQ78kF7BqvQlmhTcEXVQZZlPXtOhxwR6U8FqiFBLWywDA7B9l7WsAK8Io1Dgaqpm
+	 GJmC3cJ5nbKENiUunzk0H80IUDwTgaR3gdMdcy1bWBWe/HZjT/r3LEK9Wk5mJOXTFVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kvT0MJF0;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=inbox.ru;
+	spf=pass smtp.mailfrom=inbox.ru;
+	dkim=pass header.d=inbox.ru header.i=@inbox.ru header.a=rsa-sha256 header.s=mail4 header.b=j86EDJGU;
+	arc=none smtp.remote-ip=89.221.237.129
+Received: from send34.i.mail.ru (send34.i.mail.ru [89.221.237.129])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CA0606A31C;
-	Mon,  9 Nov 2026 07:02:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48CA0606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20530606A31C;
+	Mon,  9 Nov 2026 07:11:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20530606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inbox.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inbox.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kvT0MJF0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794207740; x=1825743740;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=jqjYvSPZdN4womRIoUf+i5XWUpGSoi8nao30F9v+XSg=;
-  b=kvT0MJF0sjQsgcM8YKfFAonASpt78uycKs/33jm2zJJgnJ0AR61NJWn0
-   N6Z5yXmgXH4kxeBwptn/oG8+hCRp0GZ0x16k+0oWniGFTxiO0jzEYS1bE
-   AO6GMv2u93vUGpQf1osByEWpVk/5g7clMadjoW0T+qY9l7Zjh4oicHE0+
-   i7j10UQtRQM1sWAysdLAo9ky0hJvNBIl6ojcO5nUxNPsrQLxvQXYJpZML
-   HdKM9cHMAO1x1Evw9vSX2gmBqjTVaAjiiOQW4FXoqv/+JOzCjPbBgv/+U
-   Wn9QLCkrGLRb/46DNdNCYNvxEju4BxvOdMwX6IL1yzOLSHfMNWzp1t3et
-   A==;
-X-CSE-ConnectionGUID: A0ZEgw30QtmEeV5knMMubw==
-X-CSE-MsgGUID: jryb9GPFT6GZLAKY/xbTLw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2953411"
-X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
-   d="scan'208";a="2953411"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 23:02:19 -0800
-X-CSE-ConnectionGUID: vIH1AQMfRqSt6uHHD23P0Q==
-X-CSE-MsgGUID: Lu4bEVqtSwCNeuKtlIpwzw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
-   d="scan'208";a="8369481"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO [10.245.244.60]) ([10.245.244.60])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 23:02:15 -0800
-Message-ID: <883462b2-1060-4e1d-b344-1a2fe081bc9e@linux.intel.com>
-Date: Mon, 9 Nov 2026 09:02:54 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=inbox.ru header.i=@inbox.ru header.a=rsa-sha256 header.s=mail4 header.b=j86EDJGU
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=inbox.ru;
+	s=mail4; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References
+	:Cc:To:Subject:MIME-Version:Date:Message-ID:From:Sender:Reply-To:To:Cc:
+	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
+	List-Archive:X-Cloud-Ids:Disposition-Notification-To;
+	bh=cqkKIidjUyqGzfCNlONH9uVQhSzevwCMMYDL8OBNQ1U=; t=1794208306; x=1794298306; 
+	b=j86EDJGUVDME4xGG2+etjSvJGIfEZS0MPLYqzDQIge0igW70gQ1hp2N1J7aTC+wGZJRS1RM6b3f
+	yphZsNYm4UVLbLtDE2tYwRqRy97teDHWZg0IAmF7n9ra1FFITLNYEIdA+sXtOBsIiRWFpVZYd/+DL
+	wKscyMAXVnYyMivJdF3/whhfm+umtaymp22v0XWXYWWlFLR2647iQPPvneCq9loEZllb7kXyjomHV
+	08oRsvXVrSYKN4EReTLjWYNS6wkOO91gVXIGZECjjnUpyDwFb7y0aPHu/d1V36gYtctRfWIZ18/Im
+	MC02DKF0X13/CB7yv8dJL63j89tblmk7u8nA==;
+Received: by exim-smtp-5cc8b577fd-sdz9w with esmtpa (envelope-from <fido_max@inbox.ru>)
+	id 1xQJX2-00000000Gf2-41jn; Mon, 09 Nov 2026 10:11:09 +0300
+Message-ID: <f43d21ed-ff7e-40b8-93ff-42808985fac4@inbox.ru>
+Date: Mon, 9 Nov 2026 10:10:39 +0300
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -73,345 +62,62 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/6] ASoC: soc-acpi: move common function topology
- helpers
-To: Syed Saba Kareem <syed.sabakareem@amd.com>, broonie@kernel.org
-Cc: Sunil-kumar.Dommati@amd.com, vijendar.mukunda@amd.com,
- Mario.Limonciello@amd.com, venkataprasad.potturu@amd.com,
- Siva Subramanian Ravi Saravanan <sravisar@amd.com>,
+Subject: Re: [PATCH 1/5] ASoC: dwc: Fix bit clock rate in TDM mode
+To: phucduc.bui@gmail.com, Andrew Jackson <Andrew.Jackson@arm.com>,
+ Mark Brown <broonie@kernel.org>, Xingyu Wu <xingyu.wu@starfivetech.com>
+Cc: Tim Bird <tim.bird@sony.com>, Yuri Zaporozhets <yuriz@vodafonemail.de>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
- <linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-References: <20261107192744.2027264-1-syed.sabakareem@amd.com>
- <20261107192744.2027264-4-syed.sabakareem@amd.com>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261106112940.53550-1-phucduc.bui@gmail.com>
+ <20261106112940.53550-2-phucduc.bui@gmail.com>
 Content-Language: en-US
-In-Reply-To: <20261107192744.2027264-4-syed.sabakareem@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Maxim Kochetkov <fido_max@inbox.ru>
+In-Reply-To: <20261106112940.53550-2-phucduc.bui@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: exim-smtp-5cc8b577fd-sdz9w; auth=pass smtp.auth=fido_max@inbox.ru smtp.mailfrom=fido_max@inbox.ru
+X-Mailru-Src: smtp
+X-7564579A: B8F34718100C35BD
+X-77F55803: 4F1203BC0FB41BD96F2D5E088614A237EBE28A4927C0859248C9DC8516174593182A05F538085040D1FACBB909B664A83DE06ABAFEAF6705339B5F9B5EF935AEA8A0DEF0E8EF60A0AF77107535B39722
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7761387F2F77E9BB1EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637AC83A81C8FD4AD23D82A6BABE6F325AC2E85FA5F3EDFCBAA7353EFBB553375669BFFA6ABF9D5DBB9A0778F6EAC2CD664B3E980DACD3601468FE47211CCD45B0E8EEF46B7454FC60B9742502CCDD46D0DD56D36E97F3F038CF6B57BC7E64490611E7FA7ABCAF51C92176DF2183F8FC7C0ECC8AC47CD0EDEFF8941B15DA834481F9449624AB7ADAF372E808ACE2090B5E14AD6D5ED66289B5259CC434672EE63711DD303D21008E298D5E8D9A59859A8B6B372FE9A2E580EFC725E5C173C3A84C3C9EEE74C166EF7BC35872C767BF85DA2F004C90652538430E4A6367B16DE6309
+X-87b9d050: 1
+X-C1DE0DAB: 0D63561A33F958A5ED7A083D3992AD165002B1117B3ED696AC724201AFE59CF454BB1175C6E7DD94823CB91A9FED034534781492E4B8EEADB73CFAAED92B6E13BDAD6C7F3747799A
+X-C8649E89: 1C3962B70DF3F0AD73CAD6646DEDE191716CD42B3DD1D34C77DD89D51EBB774225B6776AC983F447FC0B9F89525902EE6F57B2FD27647F25E66C117BDB76D6590909B4C30896E5524DF92C69E47110BC72E032835C6171C19CAD86C3BA2CCAD03FB18B62A945CC72B8341EE9D5BE9A0A605601D646424B666877C9C183AFC5333447461E697CDDFB52EE4E5D9E54FDA4F44A2BDFCEC9DBD87F602240D6CCBEE5D3DA9480BB1E7B08C654B4D7A83FC0F143082AE146A756F3
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu53w8ahmwBjZKM/YPHZyZHvz5uv+WouB9+ObcCpyrx6l7KImUglyhkEat/+ysWwi0gdhEs0JGjl6ggRWTy1haxBpVdbIX1nthFXOcIETfglQORZ0zpDET4Zrk3igikrdHlWKUaX6mNrdHCOphDQ8QPJMA=
+X-Mailru-Sender: 689FA8AB762F73937C9FA53A4753B3134297783D07FB116C52A68CBEF21DBD71F1B5F903346742BA90DE4A6105A3658D481B2AED7BCCC0A49AE3A01A4DD0D55C6C99E19F044156F45FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
 
-
-
-On 07/11/2026 21:26, Syed Saba Kareem wrote:
-> From: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+06.11.2026 14:29, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
 > 
-> From: Siva Subramanian Ravi Saravanan <sravisar@amd.com>
+> The bit clock is computed as rate * data_width * 2, which only fits
+> a two-slot I2S frame. Use rate * data_width * tdm_slots in TDM mode.
 > 
-> Move the Intel function topology helpers and the topology device enum
-> to soc-acpi so that they can be shared with other platforms too. The
-> moved helpers are:
->  - get_platform_name() as snd_soc_acpi_get_platform_name()
-
-This function is SOF specific (expetcts the string to be
-sof-<platform>), the generic name after move did not reflect this fack.
-
->  - tplg_files_exist() as snd_soc_acpi_tplg_files_exist()
-
-This only checks for existance of a topology file, probably better off
-in soc-topology.c ?
-and a comment inline for the moved function later.
-
->  - get_tplg_filename() as snd_soc_acpi_get_tplg_filename()
-> 
-> No functional change for Intel.
-
-It looks like there is a build regression according to lkp@intel.com
-
-> Signed-off-by: Siva Subramanian Ravi Saravanan <sravisar@amd.com>
-> Signed-off-by: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+> Fixes: 221acc16aee1 ("ASoC: dwc: Add TDM mode support")
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 > ---
->  include/sound/soc-acpi.h                      | 25 +++++
->  .../intel/common/sof-function-topology-lib.c  | 93 ++-----------------
->  sound/soc/soc-acpi.c                          | 73 +++++++++++++++
->  3 files changed, 106 insertions(+), 85 deletions(-)
+>   sound/soc/dwc/dwc-i2s.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/include/sound/soc-acpi.h b/include/sound/soc-acpi.h
-> index 2ee303b791dc..aea47a42f43d 100644
-> --- a/include/sound/soc-acpi.h
-> +++ b/include/sound/soc-acpi.h
-> @@ -257,4 +257,29 @@ bool snd_soc_acpi_sdw_link_slaves_found(struct device *dev,
->  					const struct snd_soc_acpi_link_adr *link,
->  					struct sdw_peripherals *peripherals);
->  
-> +enum tplg_device_id {
-> +	TPLG_DEVICE_SDCA_JACK,
-> +	TPLG_DEVICE_SDCA_AMP,
-> +	TPLG_DEVICE_SDCA_MIC,
-> +	TPLG_DEVICE_INTEL_PCH_DMIC,
-> +	TPLG_DEVICE_HDMI,
-> +	TPLG_DEVICE_SSP_JACK,
-> +	TPLG_DEVICE_SSP_AMP,
-> +	TPLG_DEVICE_SSP_BT,
-> +	TPLG_DEVICE_SSP_HDMI_IN,
-> +	TPLG_DEVICE_LOOPBACK_VIRTUAL,
-> +	TPLG_DEVICE_ACP_SDW_JACK,
-> +	TPLG_DEVICE_ACP_SDW_AMP,
-> +	TPLG_DEVICE_ACP_SDW_MIC,
-> +	TPLG_DEVICE_ACP_DMIC,
+> diff --git a/sound/soc/dwc/dwc-i2s.c b/sound/soc/dwc/dwc-i2s.c
+> index dbda943cfaf3..9007ba1157ac 100644
+> --- a/sound/soc/dwc/dwc-i2s.c
+> +++ b/sound/soc/dwc/dwc-i2s.c
+> @@ -331,7 +331,10 @@ static int dw_i2s_hw_params(struct snd_pcm_substream *substream,
+>   			}
+>   		} else {
+>   			u32 bitclk = config->sample_rate *
+> -					config->data_width * 2;
+> +				     config->data_width * 2;
 
-this patch does a but  more than just move function which is not
-mentioned in commit title, nor in the message..
+Should the identation be fixed in a separate commit? It is not related 
+to TDM clock rate.
 
-> +	TPLG_DEVICE_MAX
-> +};
-> +
-> +int snd_soc_acpi_get_platform_name(struct snd_soc_card *card,
-> +				   const struct snd_soc_acpi_mach *mach, char *platform);
-> +bool snd_soc_acpi_tplg_files_exist(struct device *dev, const char *tplg_files);
-> +char *snd_soc_acpi_get_tplg_filename(struct device *dev, const char *prefix,
-> +				     const char *platform, const char *tplg_dev_name,
-> +				     int dai_link_id, int tplg_dev);
-> +
->  #endif
-> diff --git a/sound/soc/intel/common/sof-function-topology-lib.c b/sound/soc/intel/common/sof-function-topology-lib.c
-> index 57e089f8e721..413d6f11a00e 100644
-> --- a/sound/soc/intel/common/sof-function-topology-lib.c
-> +++ b/sound/soc/intel/common/sof-function-topology-lib.c
-> @@ -13,88 +13,11 @@
->  #include <sound/soc-acpi.h>
->  #include "sof-function-topology-lib.h"
->  
-> -enum tplg_device_id {
-> -	TPLG_DEVICE_SDCA_JACK,
-> -	TPLG_DEVICE_SDCA_AMP,
-> -	TPLG_DEVICE_SDCA_MIC,
-> -	TPLG_DEVICE_INTEL_PCH_DMIC,
-> -	TPLG_DEVICE_HDMI,
-> -	TPLG_DEVICE_SSP_JACK,
-> -	TPLG_DEVICE_SSP_AMP,
-> -	TPLG_DEVICE_SSP_BT,
-> -	TPLG_DEVICE_SSP_HDMI_IN,
-> -	TPLG_DEVICE_LOOPBACK_VIRTUAL,
-> -	TPLG_DEVICE_MAX
-> -};
-> -
->  #define SDCA_DEVICE_MASK (BIT(TPLG_DEVICE_SDCA_JACK) | BIT(TPLG_DEVICE_SDCA_AMP) | \
->  			  BIT(TPLG_DEVICE_SDCA_MIC))
->  
->  #define SOF_INTEL_PLATFORM_NAME_MAX 4
->  
-> -static int get_platform_name(struct snd_soc_card *card,
-> -			     const struct snd_soc_acpi_mach *mach, char *platform)
-> -{
-> -	int ret;
-> -
-> -	ret = sscanf(mach->sof_tplg_filename, "sof-%3s-*.tplg", platform);
-> -	if (ret != 1) {
-> -		dev_err(card->dev, "Invalid platform name of tplg %s\n",
-> -			mach->sof_tplg_filename);
-> -		return -EINVAL;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
-> -static bool tplg_files_exist(struct device *dev, const char *tplg_files)
-> -{
-> -	const struct firmware *fw;
-> -	int ret;
-> -
-> -	ret = firmware_request_nowarn(&fw, tplg_files, dev);
-> -	if (!ret) {
-> -		release_firmware(fw);
-> -		return true;
-> -	}
-> -
-> -	dev_warn(dev,
-> -		 "Failed to open topology file: %s, you might need to\n",
-> -		 tplg_files);
-> -	dev_warn(dev,
-> -		 "download it from https://github.com/thesofproject/sof-bin/\n");
-> -	return false;
-> -}
-> -
-> -static char *get_tplg_filename(struct device *dev, const char *prefix,
-> -			       const char *platform, const char *tplg_dev_name,
-> -			       int dai_link_id, int tplg_dev)
-> -{
-> -	char *filename = NULL;
-> -
-> -	/*
-> -	 * The tplg file naming rule is sof-<platform>-<function>-id<BE id number>.tplg
-> -	 * where <platform> is required for functions that depend on NHLT blobs (e.g. DMIC/SSP)
-> -	 * as the nhlt blob is platform dependent.
-> -	 */
-> -	switch (tplg_dev) {
-> -	case TPLG_DEVICE_INTEL_PCH_DMIC:
-> -	case TPLG_DEVICE_SSP_JACK:
-> -	case TPLG_DEVICE_SSP_AMP:
-> -	case TPLG_DEVICE_SSP_BT:
-> -	case TPLG_DEVICE_SSP_HDMI_IN:
-> -		filename = devm_kasprintf(dev, GFP_KERNEL, "%s/sof-%s-%s-id%d.tplg",
-> -					  prefix, platform, tplg_dev_name, dai_link_id);
-> -		break;
-> -	default:
-> -		filename = devm_kasprintf(dev, GFP_KERNEL, "%s/sof-%s-id%d.tplg",
-> -					  prefix, tplg_dev_name, dai_link_id);
-> -		break;
-> -	}
-> -
-> -	return filename;
-> -}
-> -
->  static int get_dmic_tplg_dev(struct device *dev, int dmic_num,
->  			     int *tplg_dev, char **tplg_dev_name)
->  {
-> @@ -182,7 +105,7 @@ int sof_sdw_get_tplg_files(struct snd_soc_card *card, const struct snd_soc_acpi_
->  	int ret;
->  	int i;
->  
-> -	ret = get_platform_name(card, mach, platform);
-> +	ret = snd_soc_acpi_get_platform_name(card, mach, platform);
->  	if (ret < 0)
->  		return ret;
->  
-> @@ -235,13 +158,13 @@ int sof_sdw_get_tplg_files(struct snd_soc_card *card, const struct snd_soc_acpi_
->  		if (tplg_mask & BIT(tplg_dev))
->  			continue;
->  
-> -		tplg_file = get_tplg_filename(card->dev, prefix, platform, tplg_dev_name,
-> -					      dai_link->id, tplg_dev);
-> +		tplg_file = snd_soc_acpi_get_tplg_filename(card->dev, prefix, platform,
-> +							   tplg_dev_name, dai_link->id, tplg_dev);
->  		if (!tplg_file)
->  			return -ENOMEM;
->  
->  		/* Check presence of sub-topologies */
-> -		if (!tplg_files_exist(card->dev, tplg_file)) {
-> +		if (!snd_soc_acpi_tplg_files_exist(card->dev, tplg_file)) {
->  			devm_kfree(card->dev, tplg_file);
->  			if (best_effort)
->  				continue;
-> @@ -275,7 +198,7 @@ int sof_i2s_get_tplg_files(struct snd_soc_card *card, const struct snd_soc_acpi_
->  	int ret;
->  	int i;
->  
-> -	ret = get_platform_name(card, mach, platform);
-> +	ret = snd_soc_acpi_get_platform_name(card, mach, platform);
->  	if (ret < 0)
->  		return ret;
->  
-> @@ -307,13 +230,13 @@ int sof_i2s_get_tplg_files(struct snd_soc_card *card, const struct snd_soc_acpi_
->  		if (tplg_mask & BIT(tplg_dev))
->  			continue;
->  
-> -		tplg_file = get_tplg_filename(card->dev, prefix, platform, tplg_dev_name,
-> -					      dai_link->id, tplg_dev);
-> +		tplg_file = snd_soc_acpi_get_tplg_filename(card->dev, prefix, platform,
-> +							   tplg_dev_name, dai_link->id, tplg_dev);
->  		if (!tplg_file)
->  			return -ENOMEM;
->  
->  		/* Check presence of sub-topologies */
-> -		if (!tplg_files_exist(card->dev, tplg_file)) {
-> +		if (!snd_soc_acpi_tplg_files_exist(card->dev, tplg_file)) {
->  			devm_kfree(card->dev, tplg_file);
->  			if (best_effort)
->  				continue;
-> diff --git a/sound/soc/soc-acpi.c b/sound/soc/soc-acpi.c
-> index 270f9777942f..7e9d7b3c6b32 100644
-> --- a/sound/soc/soc-acpi.c
-> +++ b/sound/soc/soc-acpi.c
-> @@ -4,7 +4,9 @@
->  //
->  // Copyright (c) 2013-15, Intel Corporation.
->  
-> +#include <linux/device.h>
->  #include <linux/export.h>
-> +#include <linux/firmware.h>
->  #include <linux/module.h>
->  #include <sound/soc-acpi.h>
->  
-> @@ -200,5 +202,76 @@ bool snd_soc_acpi_sdw_link_slaves_found(struct device *dev,
->  }
->  EXPORT_SYMBOL_GPL(snd_soc_acpi_sdw_link_slaves_found);
->  
-> +int snd_soc_acpi_get_platform_name(struct snd_soc_card *card,
-> +				   const struct snd_soc_acpi_mach *mach, char *platform)
-> +{
-> +	int ret;
-> +
-> +	/* platform must hold at least 8 bytes */
-> +	ret = sscanf(mach->sof_tplg_filename, "sof-%7[^-]-*.tplg", platform);
-> +	if (ret != 1) {
-> +		dev_err(card->dev, "Invalid platform name of tplg %s\n",
-> +			mach->sof_tplg_filename);
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(snd_soc_acpi_get_platform_name);
-> +
-> +bool snd_soc_acpi_tplg_files_exist(struct device *dev, const char *tplg_files)
-> +{
-> +	const struct firmware *fw;
-> +	int ret;
-> +
-> +	ret = firmware_request_nowarn(&fw, tplg_files, dev);
-> +	if (!ret) {
-> +		release_firmware(fw);
-> +		return true;
-> +	}
-> +
-> +	dev_warn(dev,
-> +		 "Failed to open topology file: %s, you might need to\n",
-> +		 tplg_files);
-> +	dev_warn(dev,
-> +		 "download it from https://github.com/thesofproject/sof-bin/\n");
+> +			if (dev->tdm_slots)
+> +				bitclk = config->sample_rate *
+> +					 config->data_width * dev->tdm_slots;
 
-This is certainly true for Intel platforms but the print makes this also
-SOF specific which is not reflected in the function name.
-
-> +	return false;
-> +}
-> +EXPORT_SYMBOL_GPL(snd_soc_acpi_tplg_files_exist);
-> +
-> +char *snd_soc_acpi_get_tplg_filename(struct device *dev, const char *prefix,
-> +				     const char *platform, const char *tplg_dev_name,
-> +				     int dai_link_id, int tplg_dev)
-> +{
-> +	char *filename = NULL;
-> +
-> +	/*
-> +	 * The tplg file naming rule is sof-<platform>-<function>-id<BE id number>.tplg
-> +	 * where <platform> is required for functions that depend on NHLT blobs (e.g. DMIC/SSP)
-> +	 * as the nhlt blob is platform dependent.
-> +	 */
-> +	switch (tplg_dev) {
-> +	case TPLG_DEVICE_INTEL_PCH_DMIC:
-> +	case TPLG_DEVICE_SSP_JACK:
-> +	case TPLG_DEVICE_SSP_AMP:
-> +	case TPLG_DEVICE_SSP_BT:
-> +	case TPLG_DEVICE_SSP_HDMI_IN:
-> +	case TPLG_DEVICE_ACP_SDW_JACK:
-> +	case TPLG_DEVICE_ACP_SDW_AMP:
-> +	case TPLG_DEVICE_ACP_SDW_MIC:
-> +	case TPLG_DEVICE_ACP_DMIC:
-> +		filename = devm_kasprintf(dev, GFP_KERNEL, "%s/sof-%s-%s-id%d.tplg",
-> +					  prefix, platform, tplg_dev_name, dai_link_id);
-> +		break;
-> +	default:
-> +		filename = devm_kasprintf(dev, GFP_KERNEL, "%s/sof-%s-id%d.tplg",
-> +					  prefix, tplg_dev_name, dai_link_id);
-> +		break;
-> +	}
-> +
-> +	return filename;
-
-This will also sonstruct a SOF specific file name, yet the name reads
-generic.
-
-> +}
-> +EXPORT_SYMBOL_GPL(snd_soc_acpi_get_tplg_filename);
-> +
->  MODULE_LICENSE("GPL v2");
->  MODULE_DESCRIPTION("ALSA SoC ACPI module");
-
--- 
-Péter
+Reviewed-by: Maxim Kochetkov <fido_max@inbox.ru>
 
