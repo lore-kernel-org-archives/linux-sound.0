@@ -1,100 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.171
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794193208;
-	b=46bMtuoKYbbTAl24KZ2Xw2UoB9KqLCkffAJ0YdpK7Ee8SHqC85OQ1m6D/t+HD8ImQ74R
-	 El7XkSBVnnvnAncwWa9fRB+KcoGJKeZR2LVMSFdwRdoNf5p31qAMVYtJjgIyL5bTtTMff
-	 26W42rEyBnn2rTCy37q1n4rQ2fRa+j1Flb47Wi8V3972extBwWSCYWn7VLKEKpp7mz3NT
-	 QMOrKNTpV5+Cr40hhjo+nMd+GABgYqAPO4W4u7Sry0y3MnM6yJ365LCMxQ1wY2kOb7ZzA
-	 9R4nPqBb34T7Rf2n//KiqsCRY7jm3vmpv2TIiJfIYSKaSx+IjE+Z3m+iNOvkm19viDQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794193208;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=TlmCUuo4T1P4idhHIQPo0RgjG6MwQs/177OBBGHplIo=;
-	b=4l7/HQ8zYSfujNpj/7aUidEHgFHUzc55yysGkP3tjavoF3THqpicxRaFhDhDbCuJ6Uzt
-	 QHSRSUpOmaKnFZhhdlIQ9HtbxVkCx101Dwmgc1wJLJbJWmNvA8TnU+l3bdZTB9RLujIn5
-	 hv/fGNELasmzBAlh02vbyNlOLKpm0WNPSk3JtI1Kf6v2kZJ/V98HqfHQI/VMJa5t1r9Qd
-	 rL2NvRAkEcvuUwcxrM90/htvvn/396VJz12j+/mSGj5QusQBj5t7d/YDUmcCbZeMnsSkA
-	 4HIabusKrWV6thKuvWFA529pcHzBbuLE2GYD0G3sY1tF/ofkX99uqLy+OyoLyIt3+bQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=y+bxX3ai;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.171
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794194190;
+	b=WiYDJHGhwShDbpkh2xHvGXvtAfkoOoCpudnLGWeA/8axo9GExRb5TS5WIrKbHJhRvcwP
+	 RBuTLS8Kf3jyVFc9A1h3XxEp6yuME8+Zfh71vyV3ChkKiEiDH89/Ogvc8LC9NkOqRBF4h
+	 rfcfvl0kEKW0LJEjgXmYyrnqla/IJD1LMcmQu8txXgCoIc7+7l3CVpMAp1WrpCYD3IGKR
+	 H6YSpiV2UfRDkoQPrtVjicYsmVDULhea4dAp0rYvwJ/HWRZ9Iu48Lg+RihJYRBdjW2UCv
+	 Bh0JMpjjRqnW39//Dq/FzoBCbf5p/eneWciyNABEQSesea1O3BtdnqwQNfkSxSZZAtA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794194190;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=QG/YViCulpD98ruZqL38gu6q9b5BGoW3iloIHaWKka8=;
+	b=4f9R3MjEM+2eFgrrG14seGUTii5kHadIJY7bpTJOnRRXq5elaOnFwb/+rjlaIqBFnxz3
+	 I0z3/h8AE3x3DsvEMIr0b2Y0TF9TfP8v5NJ+utqbzc3G95U3djVXDZ3JviEyLpfroj3hq
+	 yUZVo5u4IrhSaoledAamvAwbmcXr/c87XIUH+4AIlKkx3KPwuRp2BFJMeGYfjUK0YiMl0
+	 dSGsX7xewcV/pODHkVp31zsgTOnv+Dzr6+onIS955qPo3KJ3NyO4Fz4ggeXtdP4p/aAYy
+	 xCOCGq7KAoqRGjQoSrVMnCuS0m+RzWayhQHutKJOjJfB+QcEaBg9z+ArP28t47w8Bbw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EoyjVPHX;
+	arc=none smtp.remote-ip=192.198.163.7
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E553E606A330
-	for <linux-sound@vger.kernel.org>; Mon,  9 Nov 2026 03:00:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E553E606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBA0606A320;
+	Mon,  9 Nov 2026 03:16:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5BBA0606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=y+bxX3ai
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8a0673d9bd2so218823b3a.3
-        for <linux-sound@vger.kernel.org>; Sun, 08 Nov 2026 19:00:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794193207; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QiptKnugyThSVhdJrzVIzDkveyldzEdU83/WMY5BcrX6L0m2xzi7qx2SC03fqLiuSU
-         aFiT5nWt7PgwVnQUDvgVNH0A3v51Sr5waSDqztxHMdkX1lBerPUwwLn1jrifQ3XP1zVb
-         o4INxSbL+l65vlPIrnv3bp6ZgY1DAVizPsWXc3ErzT7agzXvFz2LdAHibg4pOydkwUiW
-         5dq6jCyzmDnpZgXZ5Q2xQ4DA7pECbvAptCamfLedrijyF+/8+7QkI6hYVUVCQTh8RYGB
-         YxqkVTV5TZJ4Qv2UmT42qEw1/am45t6zbxSQqBX+LRwpTN5HGDTYZnVj0s+/ARgKDzO0
-         L2bA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=TlmCUuo4T1P4idhHIQPo0RgjG6MwQs/177OBBGHplIo=;
-        fh=ix5YWTHPksoVKb9ZclaX9hdFFUAcudPFtpmEshdfF0w=;
-        b=YcI4CnGHVoZ0TyS/ix/FACuwB+AAYOnfgKrrNZ3crTGsUlytdkleflbHIZFAT9+DPY
-         yxJjARLKsLwxWwzn+FgshUTncgMf+F/hWbEJ2iP739OqKrj2wb0R7aJKY6r+D81lSIAP
-         Xv4VODxuLyfvMeRDo0EwHOlsL+Rxs3r1Oy39EDq5+6MpAdmP+DS4f96xxvPXFyZ5m/id
-         EAzCB/4vyFvtZIjROlsrZrWFlIdasmpXD9T53VXchzhEg7Am6DgHbhoJrvQMsF8GNku9
-         klsk3UbET+QUiQDW306erKiJP8XeUsS/ivQ1m6JFGKYeAAw3IrQjPl/AfWcfiNymjg3n
-         ileg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794193207; x=1794798007; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TlmCUuo4T1P4idhHIQPo0RgjG6MwQs/177OBBGHplIo=;
-        b=y+bxX3ai8KYCE9IW7qhTIeqvh8yZXrVeP8UrGj46bPBWwcXc5ZOkAUGW0mAPRy+I7e
-         i6Tb4VArI6CNG1olUo1HP/UHqD47hHUSBqYBT8DOyB7XBisnHRN6+A8pD/ZfgvlrkR0B
-         oIWUS4lAdz375d12AlfUja6O6qDKXqIrtehFAnTuax4/FYOvKh1xAzso6556z4DfUeuN
-         QlTKHvim4RVupkWk0FNqFlX5WV5XSkY3KHWxK/5Rs/jHJF9hV+/HQbaBAawwjSINZBlt
-         PFXew8hIfwijS7sXuw/c8MPeph+Wpz6Zx48R28eHeewi7/k8e7eaNksVaOVZZ7lFopp5
-         3nag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794193207; x=1794798007;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=TlmCUuo4T1P4idhHIQPo0RgjG6MwQs/177OBBGHplIo=;
-        b=OZsnUZnGMhvDcLuEpFFJqIXOwuksiyFOVCKPrZ+BKpFuHVrFULYKK0VYLF3Cvd+TcK
-         f2B+HVR96cLY7t90Xlljk+ZXBy0uBD09CeK4E+1huFRjHvy20mFx+3sfJ3tCZ4Xt47aw
-         rXJoo+E1NaCHFW3WYKtYVu3i8btFKmHYcUkezFWryxn8WDWEoQWVufTGb/x/Bv6j8PlY
-         XYGgjBYI4AiJShPsENuwx3Cut32vmiLufHCFVwczdMKog8s9N4SVQGMFARnkILsohnnJ
-         ASouL1sXNarYOiGmsOG5eR/A7O6ScTlx0EHB7MYZx0Yu0iXbDD3tOaxzlhKksolwHHF+
-         UMGg==
-X-Forwarded-Encrypted: i=1; AL+hErFfMVlFhTGxriVQB7lmGGBfv1OFLjrGw2Jmytm1nOR/Ppl75uxeM9EdKBdt+edtjjJcmEUoenEO4QPtiQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8rc6VPPQg3u6VcyteNMMDrHLICozcstajz2I8/4EIgNhCrhHs+
-	yPXO6Fy54C4nVfSeQO76w9OX6n6OjDzwhv2ku5UKmzzPxIXSHXUkpO1Rk8lLY/0AUw/tJgsRe6J
-	xbqqpyPYmNM++QEP8O44dRUevlMqjZ1w=
-X-Gm-Gg: AYBFou0Z9YtwVVzMAtfcF1Iq52JWqPvjzt5OEReSNAkAho+wwObn17NFu4APTZZOdmr
-	AS4QqWMLrhUUUa65Coicf5FVM0mKVlroQVMVADxm9UXSmoH8iy7xAvvcJuLTxNhVZuyU41+4Cwr
-	s6xKYL5plQyHz5RuvN5bj8FMXP3CBp02ZsvHF7fe9qB9d5dg7oDR6piZaOtjpM7PYjqdH45V6+V
-	Jwma3BsYCc3vnjqMC889AVCsw/jlMRcJsA3Q61CSFAjczJIZ7FN3tKu2qG6drPR1v+RAaaRX5Pw
-	BynSWa2/HyiHva0hNZ00CVYgSWzVznRI0eWSyvzcaGxXw7wlCaKAFeD/C2ev9cqBm+hANVUq0Ad
-	O/hZ8h8jgHDL3L1g9xjJ13EVWF14dwqisE3kROOeyEjloH6n7XygH0+hKpYd3FjTr/8y9GeiePE
-	py/ayWGOTZpWDzbNAUYe2GLvqXtxlVnzsSZc6q8H9WNh7F0PO0
-X-Received: by 2002:a05:6a21:4d91:b0:3e8:b7fd:6288 with SMTP id
- adf61e73a8af0-3eed4abf08dmr2669803637.41.1794193207119; Sun, 08 Nov 2026
- 19:00:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EoyjVPHX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794194190; x=1825730190;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LDsJ1RS4OFWocg9FvUohCPmS/HPExmi5n3dL7SUfHpw=;
+  b=EoyjVPHXJIl5M66V5myAu3u9lFIppn/aumf/ADcnhVWeAMR+mu1oHOQZ
+   wS178ybnoGNsQ8BzmxCZvtunjsNNMW7hTqJFkdv1D8I1YIs6hF+namyFO
+   s7vfPM/D9Q0ePW+Pj2eCy6CQUGnZ3PCgKTZbtyTKS86r8cDeu2YZQXh4x
+   DsQB6nq6f5GSyoFJAIdhudX62aTqAtLWtYd8vna1vU+UApWPy3UKi4e4J
+   b8ZgMHX8OiQiO5ijVippsJ3N1454YUt6sqJJ1gNThsr3YDG6iKzDP9o8+
+   UO4d/UDvG6nn1A6AVO95vDkREzSp7cAubSeGEFyGY+wd/QIptnE490f0r
+   Q==;
+X-CSE-ConnectionGUID: gcldZ2E7THWg76l/dI/qwA==
+X-CSE-MsgGUID: XnWuo2VcTJmXSpXKTaUR+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2783750"
+X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
+   d="scan'208";a="2783750"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 19:16:29 -0800
+X-CSE-ConnectionGUID: TVSUkc7ARu2CxnpJwVMtYQ==
+X-CSE-MsgGUID: 27e0+9G9TYOxzG3mRlyEjw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
+   d="scan'208";a="7646984"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 08 Nov 2026 19:16:24 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xQFrp-00000000tmt-0auN;
+	Mon, 09 Nov 2026 03:16:21 +0000
+Date: Mon, 9 Nov 2026 11:15:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Syed Saba Kareem <syed.sabakareem@amd.com>, broonie@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Sunil-kumar.Dommati@amd.com, vijendar.mukunda@amd.com,
+	Mario.Limonciello@amd.com, venkataprasad.potturu@amd.com,
+	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+	Siva Subramanian Ravi Saravanan <sravisar@amd.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 3/6] ASoC: soc-acpi: move common function topology
+ helpers
+Message-ID: <202611091156.3kHcYO5O-lkp@intel.com>
+References: <20261108193119.2308421-4-syed.sabakareem@amd.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,61 +95,125 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261106112940.53550-1-phucduc.bui@gmail.com> <20261106112940.53550-6-phucduc.bui@gmail.com>
- <179414671638.3711751.18312173137946049928.b4-review@b4>
-In-Reply-To: <179414671638.3711751.18312173137946049928.b4-review@b4>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Mon, 9 Nov 2026 09:59:56 +0700
-X-Gm-Features: AclHuK-EvGw9XekZUddhG8nuhu6eLUFFK5k4EYs7hzNBjaDq8KztxIaIawGbN0E
-Message-ID: <CAABR9nHWkQdXi=wN8eADuCPhuwURgJ86CuwNiieJvUOBV6xw0w@mail.gmail.com>
-Subject: Re: [PATCH 5/5] ASoC: dwc: Remove redundant error messages
-To: Mark Brown <broonie@kernel.org>
-Cc: Andrew Jackson <Andrew.Jackson@arm.com>, Xingyu Wu <xingyu.wu@starfivetech.com>, 
-	Tim Bird <tim.bird@sony.com>, Yuri Zaporozhets <yuriz@vodafonemail.de>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Maxim Kochetkov <fido_max@inbox.ru>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261108193119.2308421-4-syed.sabakareem@amd.com>
 
-Hi Mark,
+Hi Syed,
 
-Thank you for your review.
+kernel test robot noticed the following build errors:
 
->
-> > The underlying functions already report these errors deeper in
-> > the call chain, making the additional dev_err_probe() and
-> > dev_err() calls unnecessary.
->
-> >               ret = devm_request_irq(&pdev->dev, irq, i2s_irq_handler, 0,
-> >                               pdev->name, dev);
-> > -             if (ret < 0) {
-> > -                     dev_err(&pdev->dev, "failed to request irq\n");
-> > +             if (ret < 0)
-> >                       goto err_assert_reset;
->
-> request_irq() logs some failures, but not those where the interrupt is
-> just missing.
+[auto build test ERROR on broonie-sound/for-next]
+[cannot apply to linus/master v7.4-rc2 next-20261105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Syed-Saba-Kareem/ASoC-amd-acp-add-SoundWire-speaker-quirks-for-Dell-platforms/20261109-010030
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20261108193119.2308421-4-syed.sabakareem%40amd.com
+patch subject: [PATCH v3 3/6] ASoC: soc-acpi: move common function topology helpers
+config: s390-randconfig-1001-20261109 (https://download.01.org/0day-ci/archive/20261109/202611091156.3kHcYO5O-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261109/202611091156.3kHcYO5O-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611091156.3kHcYO5O-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   sound/soc/soc-acpi.c:36:1: error: redefinition of 'snd_soc_acpi_find_machine'
+      36 | snd_soc_acpi_find_machine(struct snd_soc_acpi_mach *machines)
+         | ^
+   include/sound/soc-acpi.h:40:1: note: previous definition is here
+      40 | snd_soc_acpi_find_machine(struct snd_soc_acpi_mach *machines)
+         | ^
+>> sound/soc/soc-acpi.c:60:29: error: call to undeclared function 'acpi_fetch_acpi_dev'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      60 |         struct acpi_device *adev = acpi_fetch_acpi_dev(handle);
+         |                                    ^
+   sound/soc/soc-acpi.c:60:29: note: did you mean 'acpi_match_acpi_device'?
+   include/linux/acpi.h:1003:44: note: 'acpi_match_acpi_device' declared here
+    1003 | static inline const struct acpi_device_id *acpi_match_acpi_device(
+         |                                            ^
+>> sound/soc/soc-acpi.c:60:22: error: incompatible integer to pointer conversion initializing 'struct acpi_device *' with an expression of type 'int' [-Wint-conversion]
+      60 |         struct acpi_device *adev = acpi_fetch_acpi_dev(handle);
+         |                             ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/soc-acpi.c:66:18: error: incomplete definition of type 'struct acpi_device'
+      66 |         if (adev && adev->status.present && adev->status.functional) {
+         |                     ~~~~^
+   include/linux/device/bus.h:222:8: note: forward declaration of 'struct acpi_device'
+     222 | struct acpi_device;
+         |        ^
+   sound/soc/soc-acpi.c:66:42: error: incomplete definition of type 'struct acpi_device'
+      66 |         if (adev && adev->status.present && adev->status.functional) {
+         |                                             ~~~~^
+   include/linux/device/bus.h:222:8: note: forward declaration of 'struct acpi_device'
+     222 | struct acpi_device;
+         |        ^
+>> sound/soc/soc-acpi.c:82:12: error: call to undeclared function 'acpi_extract_package'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      82 |                 status = acpi_extract_package(myobj,
+         |                          ^
+   sound/soc/soc-acpi.c:97:6: error: redefinition of 'snd_soc_acpi_find_package_from_hid'
+      97 | bool snd_soc_acpi_find_package_from_hid(const u8 hid[ACPI_ID_LEN],
+         |      ^
+   include/sound/soc-acpi.h:46:1: note: previous definition is here
+      46 | snd_soc_acpi_find_package_from_hid(const u8 hid[ACPI_ID_LEN],
+         | ^
+   sound/soc/soc-acpi.c:111:27: error: redefinition of 'snd_soc_acpi_codec_list'
+     111 | struct snd_soc_acpi_mach *snd_soc_acpi_codec_list(void *arg)
+         |                           ^
+   include/sound/soc-acpi.h:53:41: note: previous definition is here
+      53 | static inline struct snd_soc_acpi_mach *snd_soc_acpi_codec_list(void *arg)
+         |                                         ^
+   8 errors generated.
 
 
-I understand.
-With platform_get_irq_optional(), a missing IRQ is not considered an error,
-so no error message is expected in that case.
+vim +/acpi_fetch_acpi_dev +60 sound/soc/soc-acpi.c
 
-To handle other IRQ retrieval errors explicitly, I'll update the code
-as follows:
+8ceffd229f0ef1 sound/soc/intel/common/sst-match-acpi.c Vinod Koul           2016-02-08  56  
+7feb2f786a46d3 sound/soc/soc-acpi.c                    Pierre-Louis Bossart 2017-10-12  57  static acpi_status snd_soc_acpi_find_package(acpi_handle handle, u32 level,
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  58  					     void *context, void **ret)
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  59  {
+ff4865b3c8cd74 sound/soc/soc-acpi.c                    Rafael J. Wysocki    2022-01-26 @60  	struct acpi_device *adev = acpi_fetch_acpi_dev(handle);
+59ce3233a538fc sound/soc/soc-acpi.c                    Pierre-Louis Bossart 2021-04-16  61  	acpi_status status;
+7feb2f786a46d3 sound/soc/soc-acpi.c                    Pierre-Louis Bossart 2017-10-12  62  	struct snd_soc_acpi_package_context *pkg_ctx = context;
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  63  
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  64  	pkg_ctx->data_valid = false;
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  65  
+ff4865b3c8cd74 sound/soc/soc-acpi.c                    Rafael J. Wysocki    2022-01-26 @66  	if (adev && adev->status.present && adev->status.functional) {
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  67  		struct acpi_buffer buffer = {ACPI_ALLOCATE_BUFFER, NULL};
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  68  		union acpi_object  *myobj = NULL;
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  69  
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  70  		status = acpi_evaluate_object_typed(handle, pkg_ctx->name,
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  71  						NULL, &buffer,
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  72  						ACPI_TYPE_PACKAGE);
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  73  		if (ACPI_FAILURE(status))
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  74  			return AE_OK;
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  75  
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  76  		myobj = buffer.pointer;
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  77  		if (!myobj || myobj->package.count != pkg_ctx->length) {
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  78  			kfree(buffer.pointer);
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  79  			return AE_OK;
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  80  		}
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  81  
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12 @82  		status = acpi_extract_package(myobj,
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  83  					pkg_ctx->format, pkg_ctx->state);
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  84  		if (ACPI_FAILURE(status)) {
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  85  			kfree(buffer.pointer);
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  86  			return AE_OK;
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  87  		}
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  88  
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  89  		kfree(buffer.pointer);
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  90  		pkg_ctx->data_valid = true;
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  91  		return AE_CTRL_TERMINATE;
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  92  	}
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  93  
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  94  	return AE_OK;
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  95  }
+3421894765a345 sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  96  
 
-------------------------------------------------------------------------------------------
-irq = platform_get_irq_optional(pdev, 0);
-if (irq < 0 && irq != -ENXIO)
-        return dev_err_probe(&pdev->dev, irq, "failed to get IRQ\n");
-
-if (irq > 0) {
-        ret = devm_request_irq(&pdev->dev, irq, i2s_irq_handler, 0,
-                                               pdev->name, dev);
-        if (ret)
-                goto err_assert_reset;
-}
--------------------------------------------------------------------------------------------
-
-Best regards,
-Phuc
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
