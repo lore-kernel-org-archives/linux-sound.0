@@ -1,60 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794264266;
-	b=LV31yCoLV/FKwdbVl3vn6wpxfUP6b70VZ4wRBkdW6cH5W3z/Fc9hi9+lNPCKnP9UTEUo
-	 NJUTU4hzLn5/tsNAR/vAZsSUR3rfLLxEF1e1d0qbtoZeE4V4aV4Idp6xEwhZVWttw/7He
-	 VJUZmi59w+WhlfPZK5Qe77fZcH2VoGvjxotzdldEkiyfEwAOhdRteiCOLotEN6SkWRAJX
-	 gxArPEm7i+orP5XZUyWsJ60hiHtsaD095Hem+gez0W77YIBWub9Iz/cErdIr7n5KJ0czx
-	 vYtHH2rE7+4yOImcsyVkFiN2J+aDiYibWk3+BviYQ765c4eT+AZFUBYddDIGAJktLqw==
+	t=1794264826;
+	b=ZZcuSRjPHNutQjEJIBQ13QjiY067fVLpLghdG4bVN/pKjX7qUICtiOmnPXsRy4lR6ETi
+	 NlDYWs/GDv8OTsE5PRNkkqx+tiFHAMwesX2ZtQV1nxCfEm0AcYIu/3RyxVh0n8CIwYf2r
+	 /qOWjo/9FXuPFuo4VWZqOTinQTC3XMl/9YcUr8VN3lZfUAz6aJ5pNMerGqA5tjSy+XiLU
+	 MV0QA3oPJiq/WrzB83HHMJx5GTuA6I6hspb0tXHQObts4ILLnEYnrn9nNbekARoxw+NN2
+	 2G+7NON5dSGzM9v6fQwv0a3t/Xh/6Hc5obOsYfvYFRLUSyGRPDuLkaiu4YySkqMrQPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794264266;
-	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
-	 Subject:Message-Id:Date:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key;
-	bh=QJxUI/WtTXybO8bkQejFHPCx+365cePVJAgW82wmkKA=;
-	b=QRtCbnAw8z0coc7YGt7xk6tE2Clp1OYeN2arWtMnD37LSfHAYdJQHYqRBhP4Rxy8oJ9g
-	 CqFP/B9zz7b7+r9X7b49vwJ+fFlYxsL+yayJiViX+H8Y/puP9S8DA4tl546tO9EP0BbiM
-	 t1K6+nPN3w8r3UiECKCCPDtrqXp4Q7LWfakpsgu2AKfYAOMvF4f6mqynBrfgquoSUDwjD
-	 0hGWIKzBtMeI+GrV/iaacJvtcrDkB11qVVwACqu41uiOtlQIqrszsBQcWH7oYX6NyJc5X
-	 oDdMwDf2mHUkvsIh8oCp0nauQL0bLNiptuDkt9c4v2KR08zvQFNeuifU/QTf50WOxBQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794264826;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=q6Ss5mIzc2QJ3f+XZ/yjHD1DQcu/+v2EH9y/wk/DnJA=;
+	b=AhDUw4Cc6iZGyw8IdL0YeSq4nZOKCMWR59yR7A3BYZXojqSA+VfAY1Uqo2aWA/SGhwpP
+	 ZkIShav2QFhq/dwWWTTayx/1MW7ww9KrdSF1Q9sp0I0OXQaoVITWg8jZbDANkK8xIeP+w
+	 sBHDBbYh0Qr8v+p1zsvoIiy6SsWoj9DkSE3TaaR9iFcL3U77WZ52E1fwoJh4EthnLL2uY
+	 HMYzC+bv64YVYqpeTLcQos9njJ0k/0fQQhpYGQ4vw1Sq47LyucqWuN/NRtC8mIIDRgj00
+	 587ZPMLqGfujlv6E31SxQqViuIbbQN71Pa3YRQUfSu/K9Px+/hHw77R4YWTaYnb6IfA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jgWo+XN8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WJ1I8oCV;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E249606A31C
-	for <linux-sound@vger.kernel.org>; Mon,  9 Nov 2026 22:44:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2AD606A321
+	for <linux-sound@vger.kernel.org>; Mon,  9 Nov 2026 22:53:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jgWo+XN8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46C7E1F0089F;
-	Mon,  9 Nov 2026 22:44:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WJ1I8oCV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2A1A1F0089F;
+	Mon,  9 Nov 2026 22:53:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794264266;
-	bh=QJxUI/WtTXybO8bkQejFHPCx+365cePVJAgW82wmkKA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=jgWo+XN8bbd5GjX/q1Y940Lp6p0oe5bQgAw+CyUQBbfNzds+tiR/i8VDJX7TWGmby
-	 j4iM1zz6qIcv7uuspjHXeFOIXxoWPQEm3HuzN+U2kBYik944FHBIK2kv4eKD87KKd4
-	 xscgJsbFgTkcitd88N/spo2Sum1j7NAiEmpviHHD1KfStG0MT0SRfqSB+ZZqzzvcBt
-	 /QXt71Ht1VUxNmKt+7ePctISnXJ2QQYh44vPSPdRZh5nBgoFihF/GOjrf1hJi5YCMR
-	 JROqQCLJvte2PhsF2J34zmleZFrqp56H6nGaClJN0QgwPixPteY8z2T0XsviBMtOd6
-	 VJNn5ZfFjNepw==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 4FB1D303EFEE;
-	Mon, 09 Nov 2026 22:44:22 +0000 (GMT)
-From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, 
- Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
- Liam Girdwood <lgirdwood@gmail.com>, bui duc phuc <phucduc.bui@gmail.com>
-In-Reply-To: <20261002092336.585546-1-m.szyprowski@samsung.com>
-References: <20261002092336.585546-1-m.szyprowski@samsung.com>
-Subject: Re: [PATCH] ASoC: soc-generic-dmaengine: don't request default
- channels from dma_dev
-Message-Id: <179425558998.3711751.13924724066212444798.b4-ty@b4>
-Date: Mon, 09 Nov 2026 20:19:49 +0000
+	s=k20260515; t=1794264825;
+	bh=q6Ss5mIzc2QJ3f+XZ/yjHD1DQcu/+v2EH9y/wk/DnJA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=WJ1I8oCVGhvJ6u85oOO2MR6Cw2cm0X3wy1e42HVtejEwFPVM3q2UbP2B+nvDJs5Jj
+	 lCdP2xuGbpQr96iRW/hc5FK8IEoK1ftZlTCyqZEn9PPEUV+9cN8L+zyTqwBVxWt7sd
+	 q7Oa0a30OiOtulmTTPOdrEMEYBaOI1W/l08b2qKoo2pdzyenZwu2bspjZzET1oEXy0
+	 ayjExrB+s1KAzZgNWQ2IofWgiwbLvSYeny56+JNs7vN97UndeZLmL61iM2wDfKi5aD
+	 IEPY5Bj82efIyviNjNWCGHFH2I3CCYFShQ4FnLukBtQEdu+l0Ag5kqlsZWctJ45LpZ
+	 a8e/a5gaKTg0Q==
+Message-ID: <sashiko-outbox-205773@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RFC] ASoC: codecs: wcd934x: keep MCLK enabled so init
+ writes reach the codec
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Gaurav Suman" <gauravsuman007@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261109-wcd934x-mclk-v1-1-ab86342e7ead@gmail.com>
+References: <20261109-wcd934x-mclk-v1-1-ab86342e7ead@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Nov 2026 22:53:45 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,47 +59,114 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1166; i=broonie@kernel.org;
- h=from:subject:message-id; bh=w9/bM0ILG2utfQFU0nXsR6thX0Dhokx7BPqC3WZetVY=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI++RybfpYnQXef+NWTV24G3Jmx+ED53adWsZm1xz5p3
- hJ551bb01HKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJVF5iZNinLNqwf7Ytq6Fy
- 6vvqqgN8k2sns5c+0uW9MmfbiX/61m6MDHPMWzaxWrwPvasfxOMtsvTt+2MeE7ff0mp/mXExfrb
- 6bm4A
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 02 Oct 2026 11:23:35 +0200, Marek Szyprowski wrote:
-> ASoC: soc-generic-dmaengine: don't request default channels from dma_dev
+Thank you for your contribution! Sashiko AI review found 3 potential
+issues to consider:
+- [Medium] ASoC: wcd934x: unchecked, leaked MCLK in wcd934x_comp_probe()
+  and remove()
+- [Medium] ASoC: wcd934x: always-on MCLK in wcd934x_comp_probe() breaks
+  clock gating
+- [Low] ASoC: wcd934x: missing Fixes trailer on wcd934x_comp_probe()
+  MCLK fix
+--
 
-Applied to
+commit 4995c3fc995e247626bf6a941f670d9b5cfc1f8c
+Author: Gaurav Suman <gauravsuman007@gmail.com>
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
+> ASoC: codecs: wcd934x: keep MCLK enabled so init writes reach the codec
+>
+> On an LG G8x (SM8150, WCD9340 over SLIMbus) the microphones record
+> digital silence on roughly half of all boots. Register dumps look
+> correct because they are served from the regmap cache, but the
+> writes never reached the hardware: the WCD934x digital core ignores
+> register writes while its MCLK/sysclk is off.
+>
+> wcd934x_comp_init() runs with MCLK off unless the SoundWire master
+> happened to probe first and enabled the clock through
+> wcd934x_swrm_clock(); __wcd934x_cdc_mclk_enable(false) then leaves it
+> running because the SWR clock bit is set. Probe ordering is not
+> deterministic, which matches the random good and bad boots.
+>
+> Enable MCLK before wcd934x_comp_init() and leave it enabled, which is
+> what the good boots already do. With this change 8 of 8 boots had a
+> working microphone (before: about 3 in 5 silent).
+>
+> Enabling MCLK only around wcd934x_comp_init() (and disabling it
+> again afterwards, as wcd934x_enable_efuse_sensing() does) was not
+> enough: 2 of 4 boots were silent again, so later writes made while
+> the clock is off are lost as well. An alternative would be to mark
+> the cache dirty and resync whenever MCLK goes from off to on; this
+> patch takes the simpler route at the cost of keeping MCLK running.
+>
+> The fault was found, the change written and the boot tests run with the
+> help of an AI coding assistant (Claude Opus 5.5, Anthropic); I reviewed
+> the change and the test results.
+>
+> Signed-off-by: Gaurav Suman <gauravsuman007@gmail.com>
 
-Thanks!
+[Severity: Low]
+Should this bug fix include a Fixes: tag?
 
-[1/1] ASoC: soc-generic-dmaengine: don't request default channels from dma_dev
-      https://git.kernel.org/broonie/sound/c/953eea4f6b1e
+  Fixes: a61f3b4f476e ("ASoC: wcd934x: add support to wcd9340/wcd9341 codec=
+")
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+> diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
+> index 0ed24cca088f8..6b6ce5ba5d30d 100644
+> --- a/sound/soc/codecs/wcd934x.c
+> +++ b/sound/soc/codecs/wcd934x.c
+> @@ -2995,6 +2995,12 @@ static int wcd934x_comp_probe(struct snd_soc_compo=
+nent *component)
+>  	/* Default HPH Mode to Class-H Low HiFi */
+>  	wcd->hph_mode =3D CLS_H_LOHIFI;
+> =20
+> +	/*
+> +	 * The digital core drops register writes while MCLK is off, but the
+> +	 * regmap cache still records them. Keep MCLK running so the init
+> +	 * sequence below and later mixer/DAPM writes actually reach the codec.
+> +	 */
+> +	__wcd934x_cdc_mclk_enable(wcd, true);
+>  	wcd934x_comp_init(component);
+> =20
+>  	for (i =3D 0; i < NUM_CODEC_DAIS; i++)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+[Severity: Medium]
+Does this leak wcd->extclk and wcd->sysclk_users when wcd934x_init_dmic()
+fails or when wcd934x_comp_remove() runs?
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+__wcd934x_cdc_mclk_enable(wcd, true) prepares and enables wcd->extclk (which
+is acquired via devm_clk_get() in the parent MFD driver) and increments
+wcd->sysclk_users, but neither the wcd934x_init_dmic() error return in
+wcd934x_comp_probe() nor wcd934x_comp_remove() calls
+__wcd934x_cdc_mclk_enable(wcd, false).  Each component probe deferral or
+card unbind leaks a clock prepare/enable count and sysclk_users reference,
+and unbinding the parent MFD device triggers a clock framework WARN_ON for
+freeing a prepared and enabled clock.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+In addition, the return value of __wcd934x_cdc_mclk_enable(wcd, true) is
+not checked, so if clk_prepare_enable(wcd->extclk) fails,
+wcd934x_comp_init() still runs with MCLK disabled.
 
-Thanks,
-Mark
+[Severity: Medium]
+Does holding an unreleased __wcd934x_cdc_mclk_enable(wcd, true) reference
+from wcd934x_comp_probe() prevent the driver from ever gating MCLK or
+analog bias?
 
+Because wcd->sysclk_users stays >=3D 1 for the lifetime of the component,
+wcd934x_disable_ana_bias_and_syclk() can never reach zero when the DAPM
+MCLK supply widget (wcd934x_codec_enable_mclk()), wcd934x_swrm_clock(), or
+wcd934x_mbhc_request_micbias() disable MCLK:
+
+sound/soc/codecs/wcd934x.c:wcd934x_disable_ana_bias_and_syclk() {
+	scoped_guard(mutex, &wcd->sysclk_mutex) {
+		if (--wcd->sysclk_users !=3D 0)
+			return 0;
+	}
+    ...
+}
+
+This keeps WCD934X_CLK_SYS_MCLK_PRG, WCD934X_ANA_BIAS, and wcd->extclk
+active across audio idle and system suspend.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109-wcd934x-mc=
+lk-v1-1-ab86342e7ead@gmail.com?part=3D1
