@@ -1,60 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794247135;
-	b=AgHhdqWB9gVokJHNNHGx2ct6lPiNmHK7wiruX1WUb2tpv+JZ0H8zTPRWwyOE7+UcAhXc
-	 044Ai3OBKCb2kHznAkLnjzXSQ360eFFY729S3R7SG/y+I+84+tijGLrcLSrZ4Jz+owrYW
-	 nhDA5Uhoj8ulO74yI8wLwnVgzSSqkk2YL9QrLR7wup/kw0f70d069LJQatMJsFEeNBOtN
-	 hJtDtVgtKgiHgT/t/ALJkRxVJqvAdmwJfTgw/Cpb3tlojeM4nMfgAkPTx/jDQmhsRhopH
-	 4kjStGWdFfmAjM+0BTGH1mQZdlnOuCyVdQoL6Q2fcTj3goppr5xOV22qhGZKm2zNLEQ==
+	t=1794247871;
+	b=Pua7dZkXDEgLlsUYKhGupA1f4mmTZ+ZgZnW1nAhmfB3qGj475mwTqZs4y32LUu9lSbQS
+	 gMOUXhTREQrFOiKhKT/snQdt9vi+ltievAgvuw3pC4hdu5VABZOBLyYfiLsP2AznTIRXD
+	 J7M4HTmpvpX4FD2uTXIU8mfzfQKZ6a6FjPunzUfvhS6kW/bKL0OzGUg+uXuvtTkF7tMA8
+	 wbfvyCFcALugkcBhjhgjJUkf54SXNdN73nTyMxBGgH/JEMn9nSRJPaBeFpwWvaWad0kU9
+	 bLP3/BQ+CgZATenkmb5FGMRjkl8gweoSmFFIsbgQ5g4vscATpcWf+7AgG2x7L2DLrjw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794247135;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type;
-	bh=Y+fgjkU6Ch+Nq/fZNg56d1mNXfquwFsBnARd47tdQs4=;
-	b=NwNdyjKOCTtodNe+Ddiqhko6k7OsTO5oWN8xwPxg7JZ9cvlA3el12Pr9el6EyyCoLhJb
-	 wTmePSSWof85Onn7r4kvURBH72SYD1SOsH+CirPhb5XprYcS70CR5WpvAxOdgjH+f4txy
-	 ahwRqCiC0522/9McAYkKGipP1iv0WqT1EEtXt3aFrjoTFaJSp0ZP2iGHMlAIOmVLwQPXQ
-	 CLhEJzguGj728Xfqvix77ZscygbEYD4FzBaKzpHtu3p1VVRcHHrNBEoC5U7MuWqomR8Mq
-	 L78WcHPqX9pYYniMs0GMCpTUYQHnGQ/BVm5QVquSrY1RPVGWdaTa6q+9UlI9Wt2zyLw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794247871;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=k5YosKwUS94F1TjDE7+zEX7MPtGv59igbPlvBGqY+oo=;
+	b=3PcU4Kab0ont25SrOaLyJn2hbZgwv2R/OCMm0DAlMmBnkZuiw8upytK/IIz6q2OWm1Wb
+	 9U9JbMBC/BmmfJQWXvQzbfpV/f+0O8Bh51Q/ioWEhG2RSfNgCZFjiworKSvpyKNwl1/Zz
+	 +iS9BqqvRAz4BNX4qp7UnNGNyW0n0JHZR1KHAGi7d5+eTW9VRcu3cZoYB6H+xxOLFZO0V
+	 z0uVTCfOmmvwOhHjQspkrcGR0VzE8Te2/q56wzOUkPZcyAZzRQ5YXwlkws5LYuhQbaYWG
+	 5RIWqkATLDUKssNrjpXQ8CWXbBxJ1d1kzQYQS3xRl14Ra8JRWUd4OwGJAbAfGDASwnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=httpd.dev;
-	spf=pass smtp.mailfrom=httpd.dev;
-	dkim=pass header.d=httpd.dev header.i=@httpd.dev header.a=rsa-sha256 header.s=protonmail3 header.b=Ig9gk3fE;
-	arc=none smtp.remote-ip=185.70.43.17
-Received: from mail-4317.protonmail.ch (mail-4317.protonmail.ch [185.70.43.17])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Xg/gvws5";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76BFA606A331;
-	Mon,  9 Nov 2026 17:58:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76BFA606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=httpd.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=httpd.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C01606A321;
+	Mon,  9 Nov 2026 18:11:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=httpd.dev header.i=@httpd.dev header.a=rsa-sha256 header.s=protonmail3 header.b=Ig9gk3fE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=httpd.dev;
-	s=protonmail3; t=1794247132; x=1794506332;
-	bh=Y+fgjkU6Ch+Nq/fZNg56d1mNXfquwFsBnARd47tdQs4=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=Ig9gk3fEV0CNVvGVb5u+nYFqV+z3CCvrhKU9G4xv0jp7E9bhyEwRabwD+E0VRiFtp
-	 S6E4fFD4XfwQgdeLyWX3/0uEAbTBH2TfKGOM1Kgwjf2Frbo71JDUYA2MReCVfFp8zd
-	 XWqEBghgUUSi6fkMz+IJW3Oz7sOboSmJ19g20cPKz6HrnV4tl8AYEzZAbzgCBU62hf
-	 FDVyGQvr/vkueBH1l4K6xV4VXs6bf0Ixr3qFVCadyyti4lWmWZRyzhY4f6n0ikiMk2
-	 cOi011ff4mbxGUADhwZFbjfWGHezML/iEi1lnGFgLNVejiXqp2WJBa64+Go34nJvKf
-	 vvkmFfshPvhbg==
-Date: Mon, 09 Nov 2026 17:58:47 +0000
-To: Takashi Iwai <tiwai@suse.de>
-From: Angel J <iamanaws@httpd.dev>
-Cc: linux-sound@vger.kernel.org, tiwai@suse.com, perex@perex.cz, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix the Dell XPS 8940 headset microphone
-Message-ID: <5ncUNWXphcObbYD04quaQMbD0tGoekaHB-QQrX5tgC7sSbzoT9jRVrbY9PyT6mRbww0G9-voA6Y98HjvPg7U25kmeybfQALp5NsNKym-3pc=@httpd.dev>
-In-Reply-To: <87wlqtukxh.wl-tiwai@suse.de>
-References: <20261103150336.507675-1-iamanaws@httpd.dev> <87wlqtukxh.wl-tiwai@suse.de>
-Feedback-ID: 163474212:user:proton
-X-Pm-Message-ID: e7ce95f4ff7b34428871c11747fcf23dc5dad867
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xg/gvws5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5972C1F008A2;
+	Mon,  9 Nov 2026 18:11:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794247870;
+	bh=k5YosKwUS94F1TjDE7+zEX7MPtGv59igbPlvBGqY+oo=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Xg/gvws5D7c5D+SKyR/JmJS6eN+IwzJZQWsdKm0fWUkYyJ6W+8zW1CptI5XYFGj57
+	 qM7jv43lZSe/B3k2OllB2sgXglmPhaSsh9kkaykroDS+x/S7gpHguWaZ9DIiR6H/EF
+	 nRE7/uv0khBw9OsWmb0DFnl5h1sln+EIRJjr3SqHAP95G7mCfM9sqL8hTwI/2LGlmm
+	 AfrCTSRxR8XE8N9HbBMr0lMvxa23L7267X5fs2e+LNa3W0Py1r9ixP7LjzaGrj6VR3
+	 s2XOnyqb5Bg1q/ibbKG+CtpKI6LwbOPw2DxgmT8ThQPL0inAvXNLKtzNOOhIGBgAGe
+	 9wtfatMLClPdg==
+Message-ID: <sashiko-outbox-205377@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 2/4] ASoC: cs35l45: Adds support for ABPE feature
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Ricardo Rivera-Matos" <rriveram@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261109-cs35l45-bpe-v1-2-9d7bc95a90a4@opensource.cirrus.com>
+References: <20261109-cs35l45-bpe-v1-0-9d7bc95a90a4@opensource.cirrus.com>
+ <20261109-cs35l45-bpe-v1-2-9d7bc95a90a4@opensource.cirrus.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Nov 2026 18:11:09 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,56 +59,53 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha512; boundary="------feda68883e02afcb08b56f23442a9709fbfedd7e94eca92a69b2698ecd229a21"; charset=utf-8
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------feda68883e02afcb08b56f23442a9709fbfedd7e94eca92a69b2698ecd229a21
-Content-Type: multipart/mixed;boundary=---------------------1063e13f09dfd5db6e016353888b598c
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] ASoC: cs35l45: wrong constant NUM_BPE_MODE used for BPE level
+  calculation
+--
 
------------------------1063e13f09dfd5db6e016353888b598c
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;charset=utf-8
+commit 7442e06bcd39f5fc281e35f2b0834bedc508545e
+Author: Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>
 
-On Tuesday, November 3rd, 2026 at 23:15, Takashi Iwai <tiwai@suse.de> wrot=
-e:
-> The code change looks OK, but could you resubmit with a proper
-> Signed-off-by tag with your full name (also From tag, too)?
-> Signed-off-by is a legal requirement.
+ASoC: cs35l45: Adds support for ABPE feature
 
-Hi Takashi,
+This commit adds boot-time configuration support for the amplifier brownout
+prevention engine (ABPE) via device properties.
 
-Thanks for reviewing. My understanding is that the guidelines require
-a known identity, without necessarily requiring disclosure of a full
-name. I consistently use =E2=80=9CAngel J=E2=80=9D and this email address =
-for kernel
-contributions. My PCI fix, commit 8805840aad73, was merged with the same
-author identity and Signed-off-by.
+> diff --git a/sound/soc/codecs/cs35l45.c b/sound/soc/codecs/cs35l45.c
+> index 064ee612f05ef..72f4ab1b89bed 100644
+> --- a/sound/soc/codecs/cs35l45.c
+> +++ b/sound/soc/codecs/cs35l45.c
+> @@ -1148,6 +1148,225 @@ static void cs35l45_apply_sync_property_config(st=
+ruct cs35l45_private *cs35l45)
+[ ... ]
+> +static int cs35l45_bpe_set_rls_rate(struct cs35l45_private *cs35l45)
+> +{
+> +	u32 values[CS35L45_BPE_NUM_LEVELS];
+> +	u32 packed =3D 0;
+> +	int i, ret;
+> +
+> +	ret =3D cs35l45_bpe_read_array(cs35l45, "cirrus,amplifier-bpe-release-r=
+ates", values,
+> +				     ARRAY_SIZE(values));
+> +	if (ret)
+> +		return ret;
+> +
+> +	for (i =3D 0; i < CS35L45_BPE_NUM_LEVELS; i++) {
+> +		if (values[i] > CS35L45_BPE_INST_RLS_RATE_MAX) {
+> +			dev_err(cs35l45->dev, "invalid ABPE release rate at level %d\n",
+> +				NUM_BPE_MODE - i);
+> +			return -EINVAL;
+> +		}
 
-Is there an additional requirement for this submission that I=E2=80=99m mi=
-ssing?
+[Severity: Low]
+Should this use CS35L45_BPE_NUM_LEVELS - 1 - i instead of NUM_BPE_MODE - i?
+NUM_BPE_MODE is the sentinel for enum bpe_modes (the number of BPE response
+modes) and only happens to equal 3.  The same applies to the error messages
+in cs35l45_bpe_set_atk_rate() and cs35l45_bpe_set_thld().
 
-Thanks,
-Angel J
-
------------------------1063e13f09dfd5db6e016353888b598c--
-
---------feda68883e02afcb08b56f23442a9709fbfedd7e94eca92a69b2698ecd229a21
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wrsEARYKAG0FgmryCckJEBoBbwppzUxnRRQAAAAAABwAIHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmdS8xGq20cmH0vl0FOE4nYbuCgqoDYSGCYfwO9L
-p/QVHRYhBEAFf9htFyVnqZzmVhoBbwppzUxnAAAI0gEA/ZvroE/vomNwnnaV
-+RUa09tAGOXW3NnsEaoXk5qsQasBAKAiFk+6QIySa1U22OP45Q0Gf7PT2vu5
-ZYNsBWX4b5wA
-=pusZ
------END PGP SIGNATURE-----
-
-
---------feda68883e02afcb08b56f23442a9709fbfedd7e94eca92a69b2698ecd229a21--
-
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109-cs35l45-bp=
+e-v1-0-9d7bc95a90a4@opensource.cirrus.com?part=3D2
