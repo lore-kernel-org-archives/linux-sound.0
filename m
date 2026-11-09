@@ -1,56 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794201806;
-	b=nj/AfRf3DF7kxB970PBCTxJjXTABfPnD0+3jkUsBgyT/RdUqoQlNuCk8DGhIKYvZV0p5
-	 XXANsWHE4dy6I+Lq8q7TnD5lDBaLnsWFRuRchutugIrBkpHni97JE/ZEGi417SX1MkEYa
-	 F6xILYFsgAuJSuusnsOQeNintk4yjlmV8GxBMyX40tej+EHDpVfjOww7MhvOjYUiMkdlK
-	 Cj8g3J7f1Bn0WDx3+NLo60KRtbkQlX5xgQ29oUixloaHT0nUP7JoZHFsK0kbh1IucI/T8
-	 giSkDsE7n3/hCfVpvEdKVt/26gMpjQ97JA4f3p7j+TEBZY+V5x3+I46HRv9mjSIwWfQ==
+	t=1794202211;
+	b=FCTJu0gyLpQ2gAbV5KCEHP235U/8RoYyTgwulyKIdm60a5ivD7b+TzADQEMRSlqLRPcc
+	 9djN9/34KAnENJuzQx7hmCThzFOdVxnDJ5L2EZnsJfK3/gktbsdWZ4nV/XQgOde89H1hw
+	 9DgpZ2OXpldCr4W4KEK28+cNvuKB0JbAs81Ujwlvy2mpGZCG4h4aT7ob8At7BQgn0/gmz
+	 9uT7yFmO3RDCOXa5IyRnr6xhqnGp/aFOlE6c6V1zGC1enwi0lBojUScFYEYU80+jq8pw5
+	 5pdt3dpcjcp2zqK03WlcNEPoiHnT1G+wkrU1hmO6ljIz9jhno/PLRRA11SAHHkDphjQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794201806;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794202211;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=NJ7KxDbRPbylmFAPMsRT6r3JxS7V/VdYk7aTcCfsnjk=;
-	b=aRDRTjenk4Ur8bYtsH3PJ5cVv06Oby5J4MOxdTYMZSeiAdj+8k3s8P1RV62+Nge97ExE
-	 z5lZbKjfV16M3Fb0MGl9SSWp9/7oob/5dEiNlCLMjE1lvNj6gZ75OByW35VzSAzGhbbub
-	 +pwinOHLbzaVoOD7gmJ820SshNxO4SNdRbF3pMg/ri66oCtpRz4ou64iqOHAEp883bFTD
-	 eBH00ncS/Ks9bPdPVEb9H9uBOU37T9rpZOKqzd9vQi4bC7peWTngZtdKVQl/MZj7tVKFX
-	 rpmYYClnbQTM5VFszulbRn2uHD65mQaaTNM8Fr4hx/OtGLnI2dWSiZg4Sqe60lyKWvw==
+	bh=+Bw3PuzllwZTI7Oe7Fg4GN3GOklle7Ccocgz2fgi9zs=;
+	b=PTWv3AnaVeYGX2u6zq0Z5TEwjd7nm0usxlP41l8E7nIhOOTViNkZKf+cXMa2RSCM2tOc
+	 EcoJicbkTwAYLfnPyrDJvx+6Wt7yait5KpFG4CNW9Tk1QBBvQrVq+I0lKJZ0DFVYpXV/X
+	 6vKmfqZ6mil4MbT59wwhW5zsSAjAqJ/aJuk3e05fZc3dZxy7smTnDMfs8y2+zGzOK7Ehg
+	 +QFtoTRegmIos8mONJiFN9ybpe94NXPsTkV/aDkKl5mf+J3nb1Br0OdnJONDL2zwjczgA
+	 AtqAzMRVwQfjrkcpd2eciv/uKXGQiuim7/6sF+G02MSNamdVeKTSPsTVw7UN7ZXG/vg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mk+v121V;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="SiOTN/FK";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22CE606A31C;
-	Mon,  9 Nov 2026 05:23:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3DB8606A31C;
+	Mon,  9 Nov 2026 05:30:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mk+v121V
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2817E1F0089F;
-	Mon,  9 Nov 2026 05:23:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SiOTN/FK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B5121F0089F;
+	Mon,  9 Nov 2026 05:30:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794201805;
-	bh=NJ7KxDbRPbylmFAPMsRT6r3JxS7V/VdYk7aTcCfsnjk=;
+	s=k20260515; t=1794202210;
+	bh=+Bw3PuzllwZTI7Oe7Fg4GN3GOklle7Ccocgz2fgi9zs=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Mk+v121VJElULRRsBaYvdeeoAikowRdOr7G1ubaTrlZXMDDudoGOVEd8O+S0KwZuF
-	 ceLBmaOvsGKSDX0/V+IR/8OK8k5hqJ8VOSzT27PY3FYwEPm3G2KV7lSkSsWhBd7ELI
-	 jmQ478BneBjnm7zWz1k9hitOpjXTUerhDa5kGpszXyy1NmPSVSVSnBKUn+toLllFbf
-	 craU9h6jbbieeR1SEMzQSUqQ1KACUarweqoNjSxm7o87oQ+a+topNe18wcQ5pqiWCt
-	 2ifmfJzWaqlCLpDQSD4tLSiZs+EdFG9rAD96uGa0KcAvNz+aKCB5b6rPggxv3sjIAu
-	 DVrpTLCxx2s+A==
-Message-ID: <sashiko-outbox-204432@kernel.org>
+	b=SiOTN/FKAlFCjgPCmryUTqkalSgVH7CtnBeaUJbK0Q/0upG7muCJ+E6YK2KCku67R
+	 mEMHeYEkuMMnLlH6ntOTsXb0HSpzT/Yfpyrk9rye5eqwqPGiYLXzt8Y4QV/ktiSOnD
+	 MiM4tE+VO8dU4e9af3Qf3bnVkg0Vw4RtlXJfdI4YIXBywc3S+vIxHm91W5iZgStTJK
+	 ZIWuuiAOgFi1qdl2WqLCZ3ANm6L72tbjB7aBlpvK/jlG0hXpwzGtxWOhUiE/wf1GiO
+	 6Zygd7Fa0ROtFbiLqOyoIPPjDBCEW17llmJuK3FAMZx7yqJYLVwG5qziq7D40Pd6/e
+	 cgt2aNfoqvPCg==
+Message-ID: <sashiko-outbox-204440@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: nuvoton,nau8310: Add NAU83G10
+Subject: Re: [PATCH v22 04/13] ALSA: pcm: notify drivers after linked
+ prepare completes
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Neo Chang" <YLCHANG2@nuvoton.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261109051251.471879-2-YLCHANG2@nuvoton.com>
-References: <20261109051251.471879-1-YLCHANG2@nuvoton.com>
- <20261109051251.471879-2-YLCHANG2@nuvoton.com>
+To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
+Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
+ Perez" <eperezma@redhat.com>
+In-Reply-To: <20261109051618.22506-5-mynameisjune111@gmail.com>
+References: <20261108235457.12688-1-mynameisjune111@gmail.com>
+ <20261109051618.22506-1-mynameisjune111@gmail.com>
+ <20261109051618.22506-5-mynameisjune111@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2026 05:23:24 +0000
+Date: Mon, 09 Nov 2026 05:30:09 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,219 +63,127 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 3 potential
+Thank you for your contribution! Sashiko AI review found 2 potential
 issues to consider:
-- [Medium] ASoC: dt-bindings: nuvoton,nau8310: inverted
-  clock-det-disable description
-- [Medium] ASoC: dt-bindings: nuvoton,nau8310: raw register values
-  instead of units
-- [Medium] ASoC: dt-bindings: nuvoton,nau8310: unconstrained nau8320
-  variant properties
+- [Medium] ALSA: pcm: spurious MSTOP timer notification in
+  snd_pcm_complete_prepare()
+- [Medium] ALSA: pcm: race window between snd_pcm_post_prepare() and
+  prepare_complete()
 --
 
-commit e187fb8f9c949cae2d11b255f2782d69bf853e02
-Author: Neo Chang <YLCHANG2@nuvoton.com>
+commit 8b0a0bce1c3b8b4ee1000c353fc111291e35293e
+Author: Joonho Lee <mynameisjune111@gmail.com>
 
-ASoC: dt-bindings: nuvoton,nau8310: Add NAU83G10
+ALSA: pcm: notify drivers after linked prepare completes
 
-This commit adds Device Tree binding documentation for the Nuvoton
-NAU83G10 and NAU83G20 mono Class-D audio amplifiers.
+This commit adds an optional prepare_complete callback to struct
+snd_pcm_ops and invokes it under the PCM stream lock after single or
+linked prepare actions complete or fail.
 
-> diff --git a/Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml=
- b/Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml
-> new file mode 100644
-> index 0000000000000..5a5142a583ed1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml
-> @@ -0,0 +1,200 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/nuvoton,nau8310.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Nuvoton NAU83G10/20 Mono Class-D Amplifier with DSP
-> +
-> +description:
-> +  Mono Class-D Amplifier with DSP and I/V-sense.
-> +  This device supports I2C.
-> +
-> +maintainers:
-> +  - Neo Chang <YLCHANG2@nuvoton.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - nuvoton,nau8310
-> +      - nuvoton,nau8320
-
-[Severity: Medium]
-Should the boost converter properties (nuvoton,boost-delay,
-nuvoton,boost-convert-enable, nuvoton,boost-target-limit, and
-nuvoton,boost-target-margin) be disallowed for nuvoton,nau8320 via an
-allOf if/then constraint?
-
-In the driver, nau8310_read_device_properties() only parses those four
-properties when silicon_id is NAU8310_REG_SI_REV_G10, so a nuvoton,nau8320
-node with boost properties will pass schema validation while the driver
-ignores them.  The commit message also only mentions NAU83G10 and omits
-NAU83G20.
+> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+> index e4c2fe70fa705..40ac7fb614567 100644
+> --- a/sound/core/pcm_native.c
+> +++ b/sound/core/pcm_native.c
 
 [ ... ]
 
-> +  nuvoton,vref-impedance:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      VREF Impedance Selection.
-> +    enum:
-> +      - 0 # Open
-> +      - 1 # 25 kOhm
-> +      - 2 # 125 kOhm
-> +      - 3 # 2.5 kOhm
-> +    default: 0
-> +
-> +  nuvoton,dac-vref:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      DAC Reference Voltage Setting.
-> +    enum:
-> +      - 0 # Voltage source directly from VDDA pin
-> +      - 1 # VDDA * 1.5/1.8V
-> +      - 2 # VDDA * 1.6/1.8V
-> +      - 3 # VDDA * 1.7/1.8V
-> +    default: 1
-> +
-> +  nuvoton,sar-voltage:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      SAR Gain Tracking Selection.
-> +    enum:
-> +      - 0 # VDDA
-> +      - 1 # VDDA * 1.0
-> +      - 2 # VDDA * 1.1
-> +      - 3 # VDDA * 1.2
-> +      - 4 # VDDA * 1.3
-> +      - 5 # VDDA * 1.4
-> +      - 6 # VDDA * 1.54
-> +      - 7 # VDDA * 3.12
-> +    default: 0
-> +
-> +  nuvoton,sar-compare-time:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      SAR compare time.
-> +    enum:
-> +      - 0 # 500 ns
-> +      - 1 # 1 us
-> +      - 2 # 2 us
-> +      - 3 # 4 us
-> +    default: 1
-> +
-> +  nuvoton,sar-sampling-time:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      SAR sampling time.
-> +    enum:
-> +      - 0 # 2 us
-> +      - 1 # 4 us
-> +      - 2 # 8 us
-> +      - 3 # 16 us
-> +    default: 1
-> +
-> +  nuvoton,clock-det-disable:
-> +    type: boolean
-> +    description:
-> +      Enable Clock Detection Module.
-> +
-> +  nuvoton,clock-det-data:
-> +    type: boolean
-> +    description:
-> +      Clock detection non-zero samples configuration for power up signal.
+> @@ -1350,6 +1352,13 @@ static int snd_pcm_action_group(const struct actio=
+n_ops *ops,
+>  					ops->undo_action(s1, state);
+>  				}
+>  			}
+> +			if (ops->complete_action) {
+> +				snd_pcm_group_for_each_entry(s1, substream) {
+> +					ops->complete_action(s1, state, false);
+> +					if (s1 =3D=3D s)
+> +						break;
+> +				}
+> +			}
+>  			s =3D NULL; /* unlock all */
+>  			goto _unlock;
+>  		}
+> @@ -1357,6 +1366,10 @@ static int snd_pcm_action_group(const struct actio=
+n_ops *ops,
+>  	snd_pcm_group_for_each_entry(s, substream) {
+>  		ops->post_action(s, state);
+>  	}
+> +	if (ops->complete_action) {
+> +		snd_pcm_group_for_each_entry(s, substream)
+> +			ops->complete_action(s, state, true);
+> +	}
 
 [Severity: Medium]
-Is the description for nuvoton,clock-det-disable inverted relative to its
-name?
+Can another caller observe SNDRV_PCM_STATE_PREPARED and invoke ops->ack()
+or ops->trigger() in the unlocked window between snd_pcm_post_prepare()
+and snd_pcm_complete_prepare()?
 
-In the driver, nau8310_read_device_properties() sets clock_detection to
-!device_property_read_bool(dev, "nuvoton,clock-det-disable") and
-nau8310_init_regs() sets NAU8310_CLKPWRUP_DIS when !clock_detection, so
-this boolean property disables clock detection rather than enabling it.
-The example below also sets both nuvoton,clock-det-disable and
-nuvoton,clock-det-data together.  In addition,
-Documentation/devicetree/bindings/sound/nuvoton,nau8325.yaml already uses
-nuvoton,clock-detection-disable for this feature.
+snd_pcm_post_prepare() calls snd_pcm_set_state(), which acquires
+pcm_stream_lock_irq(substream), publishes SNDRV_PCM_STATE_PREPARED, and
+unlocks before snd_pcm_complete_prepare() re-acquires the stream lock to
+call ops->prepare_complete().
 
+CPU0                              CPU1
+snd_pcm_prepare()
+  ...
+  snd_pcm_post_prepare(s)
+    snd_pcm_set_state(s, PREPARED)
+      lock(s)
+      __snd_pcm_set_state(s, PREPARED)
+      unlock(s)
+                                  snd_pcm_common_ioctl()
+                                    snd_pcm_sync_ptr(s)
+                                      lock(s)
+                                      pcm_lib_apply_appl_ptr(s)
+                                        s->ops->ack(s)  <-- rejected
+  snd_pcm_complete_prepare(s, true)
+    lock(s)
+    s->ops->prepare_complete(s, true)
+    unlock(s)
+
+Because the driver still has admission closed until prepare_complete()
+runs, concurrent SNDRV_PCM_IOCTL_SYNC_PTR or SNDRV_PCM_IOCTL_START calls
+seeing SNDRV_PCM_STATE_PREPARED can fail with -EBADFD.  In addition, if a
+concurrent snd_pcm_drop(), snd_pcm_drain(), or snd_pcm_suspend_all()
+changes runtime->state during the unlocked window,
+snd_pcm_complete_prepare() still calls prepare_complete(substream, true)
+on success, or overwrites SNDRV_PCM_STATE_SUSPENDED with
+SNDRV_PCM_STATE_SETUP on failure.
+
+[ ... ]
+
+> @@ -2099,10 +2118,29 @@ static void snd_pcm_post_prepare(struct snd_pcm_s=
+ubstream *substream,
+>  	snd_pcm_set_state(substream, SNDRV_PCM_STATE_PREPARED);
+>  }
+> =20
+> +static void snd_pcm_complete_prepare(struct snd_pcm_substream *substream,
+> +				     snd_pcm_state_t state, bool success)
+> +{
+> +	if (!substream->ops->prepare_complete)
+> +		return;
 > +
-> +  nuvoton,boost-delay:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Boost Control Hold Timer in decrement (msec).
-> +    enum:
-> +      - 0 # 0 msec
-> +      - 1 # 1 msec
-> +      - 2 # 2 msec
-> +      - 3 # 4 msec
-> +      - 4 # 8 msec
-> +      - 5 # 16 msec
-> +      - 6 # 32 msec
-> +      - 7 # 64 msec
-> +      - 8 # 128 msec
-> +    default: 0
-> +
-> +  nuvoton,boost-convert-enable:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Boost Convert Enable.
-> +    enum:
-> +      - 0 # BOOST CONVERTER disabled
-> +      - 1 # BOOST CONVERTER enable gated by POWERUP signal
-> +      - 2 # BOOST CONVERTER disabled
-> +      - 3 # BOOST CONVERTER enabled
-> +    default: 0
-> +
-> +  nuvoton,boost-target-limit:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Boost Control Target Value Limit.
-> +      The value ranges from 0 to 63, representing 0V to 12V with a 0.19V=
- step.
-> +    minimum: 0
-> +    maximum: 63
-> +    default: 63
-> +
-> +  nuvoton,boost-target-margin:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Boost Margin Value between Boost Target Voltage and peak output le=
-vel.
-> +      The value ranges from 0 to 63, representing 0V to 12V with a 0.19V=
- step.
-> +    minimum: 0
-> +    maximum: 63
-> +    default: 0
+> +	guard(pcm_stream_lock_irq)(substream);
+> +	if (!success && substream->runtime->state !=3D SNDRV_PCM_STATE_DISCONNE=
+CTED) {
+> +		if (substream->runtime->state !=3D SNDRV_PCM_STATE_SETUP) {
+> +			__snd_pcm_set_state(substream->runtime, SNDRV_PCM_STATE_SETUP);
+> +			snd_pcm_timer_notify(substream, SNDRV_TIMER_EVENT_MSTOP);
+> +		}
 
 [Severity: Medium]
-Should these properties use physical units and standard unit suffixes
-instead of raw register selector values?
+Does snd_pcm_complete_prepare() emit a spurious SNDRV_TIMER_EVENT_MSTOP
+notification when prepare fails?
 
-Per Documentation/devicetree/bindings/writing-bindings.rst, properties
-representing physical quantities should use standard unit suffixes (-ohms,
--microvolt, -ns, -us, -ms) rather than raw register encodings.
-Documentation/devicetree/bindings/sound/nuvoton,nau8325.yaml already
-defines nuvoton,vref-impedance-ohms (enum [0, 25000, 125000, 2500]) and
-nuvoton,dac-vref-microvolt.
-
-Here, nuvoton,vref-impedance, nuvoton,dac-vref, nuvoton,sar-compare-time,
-nuvoton,sar-sampling-time, nuvoton,boost-delay, nuvoton,boost-target-limit,
-and nuvoton,boost-target-margin all expose raw register codes or step
-counts.  nuvoton,boost-convert-enable also uses a boolean-style -enable
-name for a 2-bit register field where both 0 and 2 mean disabled, and
-nuvoton,sar-voltage exposes duplicate register values 0 and 1 for 1.0 *
-VDDA.  Finally, the schema defaults for nuvoton,vref-impedance (0),
-nuvoton,boost-delay (0), nuvoton,boost-target-limit (63), and
-nuvoton,boost-target-margin (0) do not match the driver defaults in
-nau8310_read_device_properties() (2, 0x8, 0x32, and 0x2).
+In snd_pcm_prepare(), PAUSED and SUSPENDED streams are already stopped
+via snd_pcm_stop() before snd_pcm_action_prepare runs, and
+snd_pcm_pre_prepare() rejects RUNNING and playback DRAINING streams with
+-EBUSY.  Any substream reaching this path with runtime->state !=3D
+SNDRV_PCM_STATE_SETUP (such as a re-prepare from PREPARED, XRUN, or
+capture DRAINING) does not have an active master timer, so calling
+snd_pcm_timer_notify(substream, SNDRV_TIMER_EVENT_MSTOP) delivers a
+master-stop event with a zero or stale runtime->trigger_tstamp to attached
+slave timers.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109051251.4718=
-79-1-YLCHANG2@nuvoton.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109051618.2250=
+6-1-mynameisjune111@gmail.com?part=3D4
