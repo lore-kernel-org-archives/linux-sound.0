@@ -1,56 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794264826;
-	b=ZZcuSRjPHNutQjEJIBQ13QjiY067fVLpLghdG4bVN/pKjX7qUICtiOmnPXsRy4lR6ETi
-	 NlDYWs/GDv8OTsE5PRNkkqx+tiFHAMwesX2ZtQV1nxCfEm0AcYIu/3RyxVh0n8CIwYf2r
-	 /qOWjo/9FXuPFuo4VWZqOTinQTC3XMl/9YcUr8VN3lZfUAz6aJ5pNMerGqA5tjSy+XiLU
-	 MV0QA3oPJiq/WrzB83HHMJx5GTuA6I6hspb0tXHQObts4ILLnEYnrn9nNbekARoxw+NN2
-	 2G+7NON5dSGzM9v6fQwv0a3t/Xh/6Hc5obOsYfvYFRLUSyGRPDuLkaiu4YySkqMrQPA==
+	t=1794267656;
+	b=DpyYxqwwMPxTj2s1qJ4meA87r7g+RKKWttuyMkSLNndybjKARQoj37ePWc+UqpE8sllw
+	 sJcpMGqx/9FhAX3vKhnV4iBrqAqUFiU4LhTwOwuz4EYDiuRwru2OkPiwoIp4boi32ngJY
+	 WWtkhG2nmk5BaZvOgp1V8gRQkKJVkdXzoVNqKAdjhA9Q2bv57KEdqLMBbn3PDYAM41nml
+	 oH4Ib13z6ynMoFYYYfNf/f3aFOtOIpgYQo3wvs8v1F+xy7ZZkHCyx1ijs2rCLuoHP1w/s
+	 +qtdUwTi/reL6TsWrKHdmw+y4euFuiyckTJeVCRDUzUJM80By9IJIFGtgI09Z3hFulw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794264826;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=q6Ss5mIzc2QJ3f+XZ/yjHD1DQcu/+v2EH9y/wk/DnJA=;
-	b=AhDUw4Cc6iZGyw8IdL0YeSq4nZOKCMWR59yR7A3BYZXojqSA+VfAY1Uqo2aWA/SGhwpP
-	 ZkIShav2QFhq/dwWWTTayx/1MW7ww9KrdSF1Q9sp0I0OXQaoVITWg8jZbDANkK8xIeP+w
-	 sBHDBbYh0Qr8v+p1zsvoIiy6SsWoj9DkSE3TaaR9iFcL3U77WZ52E1fwoJh4EthnLL2uY
-	 HMYzC+bv64YVYqpeTLcQos9njJ0k/0fQQhpYGQ4vw1Sq47LyucqWuN/NRtC8mIIDRgj00
-	 587ZPMLqGfujlv6E31SxQqViuIbbQN71Pa3YRQUfSu/K9Px+/hHw77R4YWTaYnb6IfA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794267656;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=UYh9+NfHPKZajvTz1xi7cTDaycXDIClv3BtU5BxbMAs=;
+	b=xYURK16oPx3vvCaJx/VaoYtfD1XexFIjQP9QXyMYki2E6HrDVYrjL7VDp+5ZMN5XlBzE
+	 XnhFRADffxXW6mjAQU9qEMl6wmndSI5TJGUHzj0SRsXVMcvFBEkOEV6Nq5SJng7pUCffW
+	 amm4WHXU7uuA11an9Mm9ZF+NzfHgEj1iNT+9evMbLwXdMUrUALDg2vwIyKhIyflyjxS6V
+	 e/OlpoQw71a468C2pP0rhaGxT0fpQQKqgx36dCF/Faz6gf34OvtAdbvFilFyWwhpOLwZi
+	 JAt1Jgb8gNSazI2xbVZLBybeJtWopDup57qA2ulnH7MeKUFRnYrgIdk4d+0g7P/UxZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WJ1I8oCV;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qesG04od;
+	arc=none smtp.remote-ip=74.125.82.175
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2AD606A321
-	for <linux-sound@vger.kernel.org>; Mon,  9 Nov 2026 22:53:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5CE606A326
+	for <linux-sound@vger.kernel.org>; Mon,  9 Nov 2026 23:40:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C5CE606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WJ1I8oCV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2A1A1F0089F;
-	Mon,  9 Nov 2026 22:53:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794264825;
-	bh=q6Ss5mIzc2QJ3f+XZ/yjHD1DQcu/+v2EH9y/wk/DnJA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=WJ1I8oCVGhvJ6u85oOO2MR6Cw2cm0X3wy1e42HVtejEwFPVM3q2UbP2B+nvDJs5Jj
-	 lCdP2xuGbpQr96iRW/hc5FK8IEoK1ftZlTCyqZEn9PPEUV+9cN8L+zyTqwBVxWt7sd
-	 q7Oa0a30OiOtulmTTPOdrEMEYBaOI1W/l08b2qKoo2pdzyenZwu2bspjZzET1oEXy0
-	 ayjExrB+s1KAzZgNWQ2IofWgiwbLvSYeny56+JNs7vN97UndeZLmL61iM2wDfKi5aD
-	 IEPY5Bj82efIyviNjNWCGHFH2I3CCYFShQ4FnLukBtQEdu+l0Ag5kqlsZWctJ45LpZ
-	 a8e/a5gaKTg0Q==
-Message-ID: <sashiko-outbox-205773@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC] ASoC: codecs: wcd934x: keep MCLK enabled so init
- writes reach the codec
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Gaurav Suman" <gauravsuman007@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261109-wcd934x-mclk-v1-1-ab86342e7ead@gmail.com>
-References: <20261109-wcd934x-mclk-v1-1-ab86342e7ead@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2026 22:53:45 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qesG04od
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-37000e7234bso2075650eec.1
+        for <linux-sound@vger.kernel.org>; Mon, 09 Nov 2026 15:40:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794267655; x=1794872455; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=UYh9+NfHPKZajvTz1xi7cTDaycXDIClv3BtU5BxbMAs=;
+        b=qesG04odxfpBZtfCMKTdwe/M+Hum56hQAH30/p3gPPawxpDGXutP5N+uUzDKwEYW0Y
+         rLf4J2ajAtjtblJKv3j+F129cLfYIWr6sHzJOztYwi4lM8PlUxulmUBA+U6X6SVsCGnq
+         UCu4icfIP4KFsz/gcIdLL/ib7TqSEh2DGQrGqtr0WJVUBBsKNh8heRQm4Pl9PGnmzxBW
+         80iOyyydUrh7dq2Mf6ZxaEHhBhA3c3+r0Vy30+f3g5W0ETk46QVcfqp4aJhqh91BBbAR
+         qtYSd0ju5yn5XXRZw/q+zUyQO4D6jZPT/VKclbdTkGroxAb8vjgGqc4rbJKAb0y7dmZB
+         0XvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794267655; x=1794872455;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=UYh9+NfHPKZajvTz1xi7cTDaycXDIClv3BtU5BxbMAs=;
+        b=lY0olfEqjagzI3+kZQlyqiR8/Ax9cVo2qI3Z54H2h4oo/ikfAO+xW2qObYSe/EUL3A
+         fHDE0bCXtqHY1xklCP3NKokP7PnfFqLkZumksOtT7yMOl3BrqsUvx1WTX5mj+opwb3ao
+         EnGYA8VlDfj7WzqWTn/oJO4GCBu7oSm/mdd5Bi1kVb2FmJqsJba07onii0wXxhbFbh/q
+         YeX0WVlBaiNpw6KSPYWB4b0G32hRAqFcsrT6ue0Tsc70Ix9dQH5+ECvv5r3JAkHdwUex
+         xEuQNpkM8XU3nPRSL7Yz3UmKakf6V712xDaUF8e87xZkYD+uns6NtE4Awcb7VNJecdCh
+         uc7A==
+X-Gm-Message-State: APuU4Z/2BYhMqYB5aT2pBZCf42KoRqMyTGDsbfW/4IhZGiww/781xyTx
+	J3s5qxPkgLokzHCHgqthNhXQQ9sfUdx1jVcppM/7aSbpbnfR6cbnGHRVtJLazw==
+X-Gm-Gg: AYBFou35QgCSPwjl6UGpE8RAM8BRev0lStndwSXiuxfjt0vaZN6nQKcPIQgFUrcMnOr
+	Gh50iwtm4/fh6Lgk+EyvKzdRJXrwEnb7A5XzwGOKKwR+UpPvVtvLVoajsaity7Ulco6R/YhCVNP
+	xjoO6z6fu/7eIQM1Qt9jc3ktmhKsnBd3X7ufp6oKhk1cZM7t6uJY+j7WnaZfli/s8R1nL6eFUXT
+	shEVzKyHPm6QuMuOWVVYV4Ada7ogFMeF3Ej5PCTMzeZ35AvMiOaZ6Qamk6oyJ8jHHxIfnQPQvog
+	5VBlI7LZEClW2zmQrWG2tNcZa2qcN3VraSgtJ2oqnBYfSR5GWFJykEp8KBcTQ3reeDd5npI+6vx
+	NOpun2K0f5FLJilUfI2DOYmCtl90hV5HsptFsxv71d+w41KG/AKLdmtXqQFqXHh6dPnSTfT5WJZ
+	3UwRMw64emVV0t1kO5Sr79dAj22OXJRCZvc4U3nFEF6Fh8uvfJvuSfjP33xHJdfDkwIWmcYs976
+	eVmFvXAbftJ7n2itlhmLOVphH5nhUmwBTJrfbUA4JlUfKwdHRu2RhS6EXvCx6KTeoxZ9WTTGy18
+	WtUHGxynVaZgK96sLMsG1nJrEqIDSKHH1zU5pbU8m0wi2z319TB7VzzH4hpmaZ5gvE2H9zB9F25
+	xJ6D+6hkpFp3A0Ljztj3HUByAWZO8YUAhAdx48xE/9DQftgsRF32M2UJkUj5ZfBRdrRTK
+X-Received: by 2002:a05:7022:f4e:b0:1a4:c892:b130 with SMTP id a92af1059eb24-1b3b5fccca8mr1420330c88.15.1794267655107;
+        Mon, 09 Nov 2026 15:40:55 -0800 (PST)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751fe2ff5dsm1739049eec.5.2026.11.09.15.40.51
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 09 Nov 2026 15:40:53 -0800 (PST)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v23 00/14] ALSA: virtio: serialize PCM recovery and capture accounting
+Date: Tue, 10 Nov 2026 08:40:35 +0900
+Message-ID: <20261109234049.79534-1-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,114 +100,101 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [Medium] ASoC: wcd934x: unchecked, leaked MCLK in wcd934x_comp_probe()
-  and remove()
-- [Medium] ASoC: wcd934x: always-on MCLK in wcd934x_comp_probe() breaks
-  clock gating
-- [Low] ASoC: wcd934x: missing Fixes trailer on wcd934x_comp_probe()
-  MCLK fix
---
+This series updates PCM error recovery, queue ownership and capture
+accounting in virtio-snd. It also provides opt-in staged capture for
+backends whose completion lengths need explicit compatibility handling.
+The capture compatibility parameters remain disabled by default.
 
-commit 4995c3fc995e247626bf6a941f670d9b5cfc1f8c
-Author: Gaurav Suman <gauravsuman007@gmail.com>
+The previous series is at
+https://lore.kernel.org/linux-sound/20261109051618.22506-1-mynameisjune111@gmail.com/T/.
 
-> ASoC: codecs: wcd934x: keep MCLK enabled so init writes reach the codec
->
-> On an LG G8x (SM8150, WCD9340 over SLIMbus) the microphones record
-> digital silence on roughly half of all boots. Register dumps look
-> correct because they are served from the regmap cache, but the
-> writes never reached the hardware: the WCD934x digital core ignores
-> register writes while its MCLK/sysclk is off.
->
-> wcd934x_comp_init() runs with MCLK off unless the SoundWire master
-> happened to probe first and enabled the clock through
-> wcd934x_swrm_clock(); __wcd934x_cdc_mclk_enable(false) then leaves it
-> running because the SWR clock bit is set. Probe ordering is not
-> deterministic, which matches the random good and bad boots.
->
-> Enable MCLK before wcd934x_comp_init() and leave it enabled, which is
-> what the good boots already do. With this change 8 of 8 boots had a
-> working microphone (before: about 3 in 5 silent).
->
-> Enabling MCLK only around wcd934x_comp_init() (and disabling it
-> again afterwards, as wcd934x_enable_efuse_sensing() does) was not
-> enough: 2 of 4 boots were silent again, so later writes made while
-> the clock is off are lost as well. An alternative would be to mark
-> the cache dirty and resync whenever MCLK goes from off to on; this
-> patch takes the simpler route at the cost of keeping MCLK running.
->
-> The fault was found, the change written and the boot tests run with the
-> help of an AI coding assistant (Claude Opus 5.5, Anthropic); I reviewed
-> the change and the test results.
->
-> Signed-off-by: Gaurav Suman <gauravsuman007@gmail.com>
+The v23 changes address the v22 automated review and a separate existing
+linked-buffer locking problem. Linked prepare now commits member states
+and driver admission under the group and member PCM locks. Suspended or
+disconnected members keep their states, and a canceled successful driver
+prepare returns an error to its caller. Failed prepares notify only the
+attempted prefix and do not generate a stop-timer event.
 
-[Severity: Low]
-Should this bug fix include a Fixes: tag?
+A separate core patch closes every linked member's buffer-access gate
+and takes buffer mutexes in the stable group order. The caller-first
+ordering and caller-only access gate are already present in the upstream
+base; this patch is distinct from the prepare-completion API change.
 
-  Fixes: a61f3b4f476e ("ASoC: wcd934x: add support to wcd9340/wcd9341 codec=
-")
+The failed-start patch owns the direction-independent error latch. The
+later recovery code keeps native pause admission closed when a linked
+resume rollback fails in PAUSED. Paused ordinary capture preserves the
+accounting-error XRUN path. Staged capture rejects unaligned application
+pointer deltas before changing policy or counters. The DMA lifetime and
+staged-capture commit messages now describe their full source changes.
 
-> diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
-> index 0ed24cca088f8..6b6ce5ba5d30d 100644
-> --- a/sound/soc/codecs/wcd934x.c
-> +++ b/sound/soc/codecs/wcd934x.c
-> @@ -2995,6 +2995,12 @@ static int wcd934x_comp_probe(struct snd_soc_compo=
-nent *component)
->  	/* Default HPH Mode to Class-H Low HiFi */
->  	wcd->hph_mode =3D CLS_H_LOHIFI;
-> =20
-> +	/*
-> +	 * The digital core drops register writes while MCLK is off, but the
-> +	 * regmap cache still records them. Keep MCLK running so the init
-> +	 * sequence below and later mixer/DAPM writes actually reach the codec.
-> +	 */
-> +	__wcd934x_cdc_mclk_enable(wcd, true);
->  	wcd934x_comp_init(component);
-> =20
->  	for (i =3D 0; i < NUM_CODEC_DAIS; i++)
+The order separates the ALSA core APIs and existing linked-buffer fix,
+ACK propagation and failed-start recovery, message and control lifetime,
+teardown waits, opt-in capture compatibility, work priority, and option
+documentation. Each patch is represented by an independently checked
+cumulative source stage.
 
-[Severity: Medium]
-Does this leak wcd->extclk and wcd->sysclk_users when wcd934x_init_dmic()
-fails or when wcd934x_comp_remove() runs?
+Validation used ARM64 QEMU with KASAN and lockdep. The eleven changed
+cumulative stages, 04 through 14, built with W=1 without compiler
+warnings or errors. Applying all fourteen patches in order reproduces
+every cumulative source stage and the exact final candidate.
 
-__wcd934x_cdc_mclk_enable(wcd, true) prepares and enables wcd->extclk (which
-is acquired via devm_clk_get() in the parent MFD driver) and increments
-wcd->sysclk_users, but neither the wcd934x_init_dmic() error return in
-wcd934x_comp_probe() nor wcd934x_comp_remove() calls
-__wcd934x_cdc_mclk_enable(wcd, false).  Each component probe deferral or
-card unbind leaks a clock prepare/enable count and sysclk_users reference,
-and unbinding the parent MFD device triggers a clock framework WARN_ON for
-freeing a prepared and enabled clock.
+A test PCM driver passed fourteen core scenarios, including linked
+success and partial failure, atomic and nonatomic locks, suspend and
+disconnect cancellation, overlapping DROP, an active sibling buffer
+access, parallel group actions, and old-generation ACK retirement.
+The stop-timer change was checked by source review; this run did not
+attach a timer client to count timer notifications.
 
-In addition, the return value of __wcd934x_cdc_mclk_enable(wcd, true) is
-not checked, so if clk_prepare_enable(wcd->extclk) fails,
-wcd934x_comp_init() still runs with MCLK disabled.
+The instrumented virtio-snd tests passed definite START and STOP rejection,
+RUNNING pause restoration, failed linked resume rollback, deferred group
+XRUN, DROP, prepare, real playback and capture I/O, and reopen in RW and
+MMAP modes. Actual SYNC_PTR calls checked rejected ACK rollback and
+unaligned ACK policy preservation. The alignment and invalid-accounting
+inputs are synthetic test geometry. A separate stage-07 test verified
+four START failure/recovery cases and failed playback drain termination.
 
-[Severity: Medium]
-Does holding an unreleased __wcd934x_cdc_mclk_enable(wcd, true) reference
-from wcd934x_comp_probe() prevent the driver from ever gating MCLK or
-analog bias?
+The pure final driver passed ordinary and staged RW and MMAP recording.
+Each configuration included a seventy-second capture. RW checked three
+reopen cycles; MMAP checked RESET and a reopened stream. All fourteen
+captured segments matched SHA256 values generated independently on the host from recorded QEMU sequence
+epochs. No KASAN or lockdep diagnostics were reported by the passing runs.
 
-Because wcd->sysclk_users stays >=3D 1 for the lifetime of the component,
-wcd934x_disable_ana_bias_and_syclk() can never reach zero when the DAPM
-MCLK supply widget (wcd934x_codec_enable_mclk()), wcd934x_swrm_clock(), or
-wcd934x_mbhc_request_micbias() disable MCLK:
+Additional tests used the same candidate with strict KCSAN and lockdep.
+The runtime selftest and an isolated positive-control race confirmed
+instrumentation. Fourteen core cases passed at both default and higher
+sampling rates. Twenty-four driver control and accounting assertions
+passed. Ordinary and staged RW/MMAP captures matched all fourteen
+independent signal segments, including RESET and reopen.
 
-sound/soc/codecs/wcd934x.c:wcd934x_disable_ana_bias_and_syclk() {
-	scoped_guard(mutex, &wcd->sysclk_mutex) {
-		if (--wcd->sysclk_users !=3D 0)
-			return 0;
-	}
-    ...
-}
+The KCSAN campaign did report an ARM64 saved-PSTATE race outside ALSA:
+copy_thread() races with spectre_v4_enable_task_mitigation(). I built the
+pristine base with the identical config and ran the same fork workload
+with all sound modules unloaded. It reproduced the original pair; the
+ARM64 source and compiled objects are identical between the two kernels.
+The report remains recorded, so this is not a globally KCSAN-clean result.
+No ARM64 change is included in this series.
 
-This keeps WCD934X_CLK_SYS_MCLK_PRG, WCD934X_ANA_BIAS, and wcd->extclk
-active across audio idle and system suspend.
+Physical tests on macOS VZ used Scarlett 2i2 input 1 at 48 kHz. Direct
+ALSA RW and MMAP each recorded seventy seconds, with signal statistics
+checked against a simultaneous host capture. Pause/RESET, the first open
+after killing a running recorder, and capture after VM restart passed.
+These tests enabled all five compatibility options. They do not establish
+bit-exact physical sample continuity or Docker Desktop microphone support.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109-wcd934x-mc=
-lk-v1-1-ab86342e7ead@gmail.com?part=3D1
+Two test-tool problems were corrected before the final runs: asynchronous
+ACK snapshots could evict a control-error record, and truncating an old
+capture file after START stalled the test client beyond its PCM ring.
+The final MMAP test prepares RAM before START and writes output after
+closing PCM. Source, config and data-oracle acceptance stayed unchanged.
+
+Synthetic alignment checks do not represent an actual sub-byte capture
+device. The stop-timer change remains source-reviewed without an attached
+timer client. One-shot command rejection exercises a definite error path;
+uncertain control timeouts can still require device reset or reprobe.
+Heavy-load TCG scheduling limits remain outside this qualification.
+
+The staged path and its backend compatibility options need maintainer
+review before they can be recommended for a production deployment.
