@@ -1,58 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794184120;
-	b=NWoAT23UHNRxh7j97H9PuIZUb0Nyi+YDZiv76ObSJ+s9YfvAh04KKiA+0u5U43kVD1OW
-	 tGfikYpHkiGa4Nho4LY8PGLgdtjS6UHnZuVmI/+3tbtv8sWnyIKXucZwrDTqAIOlvsbKP
-	 0VQekFnreNlivGCZeW9zKK+VkCxT/dazChA51weM3ex60kl8u/n9Ju1tc+XHea0Rmt181
-	 jKRvQgJXK2wdLB1iKpLKB1MJ96Sab/PSsUOKkiNPf9Eb/2qzQ+HP65q45GlpsckJT0T5t
-	 2GI2Fzb4GNDjC1MinI+1fzNHw3RDA/5A20+amGPbFIZaR38QOFdFxZRAWIqVuy/8GEA==
+	t=1794186403;
+	b=krAxFw7Rra6cNLJVVPMikYnOZHdx38tuzsChDRUfoPwJMuoFcGyN+K0wAke7n5ndlh8z
+	 /T9e8FQ2XXJjMwYKjlsKpYFCzjL3AXZwzVGLjbHE4f6MOyYHON0ep+u+7g6IiHiGh3dF9
+	 g9SyC44m6LmVrh1ZLkdYFoDVg+vNm+xv5808LQEjaLfIubIyequhWbNM8Sdonbv1t1rIX
+	 5EnIZrf18Mv8by3vKJ2eXC9Z1Gb9CzYWY9Wl8aZ4ODCpZoZOoBVV0+noG0pZdJ1wGUWj6
+	 XdqNKkBRCp2qNnPqt2nk7o/veNQi6JlbWXFzjwwIMvY9vtazwPN6wBvPqoHlL17TrxA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794184120;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=bKyWamdEIolnZg07QC6cKycTPopp0OVasiB8UP8Nij4=;
-	b=fmxeT0+0BYP+gIeIS696FjseyBNqCpGxpQIrCFMOHnyWjSbgmNgh1ws1xbbspkxFU9xB
-	 vPCbUrrcNEOuwAQj4Olq+ZCMww0PySVeyvjdXaiKGiaPZbIKeryx0RxDCu2q00KJMwqGQ
-	 o9UeeQ5fX8/Ut5bKUFGa1J2JQs9xMi1OQjeNVnZMe9TA5zRVS6lvYvirKat4E+PZh4kuZ
-	 irXHuB1FlzDFoh83rf+oKX1NYTUNcI6OyQP2/98cvDBk0Z/Kl01z8DDGm88yOZCfrWitk
-	 CTTYbTQ/RxeKDPs/NtmwgFlhJvtQAqVB8OllrTQkYfw9taY3+aMOh2KuLhDkZlP+qZw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794186403;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=I9FjbHD8i24UYJcaFeqQZjgk6FjjYVzkRcFhxcColNY=;
+	b=Si5MrMLerFkCfS2MBqm+0FtuLfH8JNRBzclaQISyh45nogUkunwWX3roSEPeEckrrtgL
+	 1P0QmADMAz0jtSxiw3o3lqix2Q42cOUBPi9XfIRidEwLRIxOZsVYa+3dx4DMjF4CARleI
+	 H7nFMZwMU4xtWOrH5e+LpcV5G3BiWyCN92h27RIlvgJNTbxlybeX9Iy0xdraPMnUe2v4S
+	 Yg7PVfAjeVuOzY0UrAVkrm1b6AP1xsQNgRia9moBOEPYgmHBNU6PLWdfEFCC2d4C4bcze
+	 6DaHLEA+5dPurwJE2Az4+LKbHpim4qREe5LEwY2twbEBudgOVxJ6N319TC9IZNW1bYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=frtTYfzf;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Oz6tZBPL;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA40606A31C;
-	Mon,  9 Nov 2026 00:28:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0938606A31C;
+	Mon,  9 Nov 2026 01:06:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0938606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=frtTYfzf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC2311F008A2;
-	Mon,  9 Nov 2026 00:28:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794184120;
-	bh=bKyWamdEIolnZg07QC6cKycTPopp0OVasiB8UP8Nij4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=frtTYfzfkL7JsIb1JDrAGMGAX59QtWZCE/NKfhD9eWWBCqwRYG3ybKA6YhQ+NA8OB
-	 YmL4XTy9px79mAQLq4iyo7e+oPOtNttgUBmIcz3VooUnEQgQpOZ9Ldd1AWe70yczgB
-	 4f7jMa3RlCq+c0fYncZ2H3P6E4qOXeL/uBCsCdn8PcX4sREmq8f2pVxg4+Cblk4uUo
-	 Vf5IFDoaT3tgX0JRw3t9ajJof3idjJtgGcThaE3m90XUqBK3Ka+WjQhjEIgG/6erFm
-	 snN2ui0d8vqwub/C9h3xT1EIJYTYFVo2dUjhxcCD3FExaemP/HoqB97b1qXOyNyREY
-	 h97qhq22aPKZQ==
-Message-ID: <sashiko-outbox-204211@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v21 04/12] ALSA: virtio: Propagate PCM send failures
- through ACK
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
-Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
- Perez" <eperezma@redhat.com>
-In-Reply-To: <20261108235457.12688-5-mynameisjune111@gmail.com>
-References: <20261108235457.12688-1-mynameisjune111@gmail.com>
- <20261108235457.12688-5-mynameisjune111@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2026 00:28:39 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Oz6tZBPL
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794186402; x=1825722402;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OMzHEikxefzj16Pg9Hb4h3ySqWSCQ1IGc5pHzshqrjE=;
+  b=Oz6tZBPLmFmZR1n+mXkcfbKnHt8tD9PYFKV5r8a5yQ444AS7KO9QZtvK
+   7aes78hCX50wkDRN4ks8gB8x/4j9qabSILDdyNzSuHgcIIEgPKN7G/ZWW
+   ORi30F/8F4oJdv+8SAuzes9nHKuVPRA+QI7tSD0EWth44v3mvtsH1ir5C
+   igHwgSVUP5yIfyrV6Atb3Gv0IgnP1R1JfrwotBU75FwYIDxdHmYqgbIsu
+   +mE9bEVKRxFP/l7g5ABXqBmdddb+EYjtniVWMRWNeusUa/tiAH3RMXLQn
+   /3Evi4f6nXFlPEz/PyZVYHAA43lzShIL5HxJ8xMvmat+nPvFsAotqPQgJ
+   A==;
+X-CSE-ConnectionGUID: Ub5qDLePS7S96+SUhCPcQQ==
+X-CSE-MsgGUID: V4LXYgoZRRqi4/pPohFDzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="3001312"
+X-IronPort-AV: E=Sophos;i="6.27,202,1787036400"; 
+   d="scan'208";a="3001312"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 17:06:41 -0800
+X-CSE-ConnectionGUID: Bh2Rx/AvSqqRfTLWLQ59xw==
+X-CSE-MsgGUID: +lJ+YQlcSCSrXGBZW1QW9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,202,1787036400"; 
+   d="scan'208";a="7904100"
+Received: from emr-371.sh.intel.com ([10.112.106.129])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 17:06:38 -0800
+From: Baoli Zhang <baoli.zhang@linux.intel.com>
+To: andriy.shevchenko@linux.intel.com,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	sound-open-firmware@alsa-project.org (moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS),
+	linux-sound@vger.kernel.org (open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM...),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Baoli Zhang <baoli.zhang@linux.intel.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] ASoC: SOF: ipc4-topology: Fix pin format leak in process widget setup
+Date: Mon,  9 Nov 2026 08:56:04 +0800
+Message-ID: <20261109005604.1004362-1-baoli.zhang@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,197 +90,56 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Medium] ALSA: virtio: premature ACK admission in virtsnd_pcm_reset()
-  during prepare
-- [Low] ALSA: virtio: misplaced Fixes trailer and inaccurate commit
-  message
---
+sof_ipc4_widget_setup_comp_process() allocates the input and output pin
+format arrays via sof_ipc4_get_audio_fmt(). When the following
+sof_ipc4_widget_setup_msg() fails, e.g. because the firmware does not
+provide a module matching the widget UUID, the error path jumps to the
+'err' label, which frees the process struct and clears swidget->private
+but skips sof_ipc4_free_audio_fmt(). The arrays are then unreachable and
+are reported by kmemleak:
 
-commit d7d32fabac0905c34c390dcb86edfd7a2dc6b2c7
-Author: Joonho Lee <mynameisjune111@gmail.com>
+    sof_ipc4_get_audio_fmt+0xc9/0x420 [snd_sof]
+    sof_ipc4_widget_setup_comp_process+0x8e/0x200 [snd_sof]
+    snd_sof_load_topology+0x71a/0x840 [snd_sof]
+    sof_pcm_probe+0x77/0x120 [snd_sof]
+    snd_soc_component_probe+0x21/0x60 [snd_soc_core]
+    ...
 
-> ALSA: virtio: Propagate PCM send failures through ACK
->=20
-> virtsnd_pcm_msg_send() can fail while queueing a transfer. Restore the
-> failed message's length and notify the device about earlier messages
-> queued by the same call, so they do not remain stranded.
->=20
-> Propagate errors through the indirect transfer callback and commit its
-> private cursor only after successful submission. Genuine transfer errors
-> arm stop_operating and return -EPIPE so ALSA can retire the stream.
->=20
-> Close ACK admission under the PCM stream lock before sleeping teardown.
-> Keep the prepared state protected by the substream lock and reject ACK
-> through prepare and parameter changes. Reopen admission in the reset
-> callback while the core holds the PCM lock for its pointer rebase. An
-> ACK racing with teardown returns -EBADFD and preserves stop state.
->=20
-> Keep the polling feature path unchanged.
->=20
-> Fixes: fe981e67568c ("ALSA: virtio: use ack callback")
->=20
-> Reject a stopped playback ACK before the XRUN path can rearm
-> stop_operating. For capture, allow the ordinary stopped tail only during
-> DRAINING and only while no transfer XRUN is latched.
->=20
-> Latch a transfer failure before stopping PCM work. Once core reports the =
-member XRUN, ACK returns -EBADFD to avoid another linked XRUN. ACK during p=
-repare remains rejected until the core state reaches PREPARED.
-> Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
+Jump to 'free_available_fmt' instead, as the other process widget error
+paths after sof_ipc4_get_audio_fmt() already do.
 
-[Severity: Low]
-This isn't a runtime bug, but the Fixes: trailer sits in the middle of the
-commit message rather than in the trailer block above Signed-off-by:, and
-the final paragraph states that ACK returns -EBADFD once the core reports
-XRUN whereas virtsnd_pcm_ack_state() returns -EPIPE for
-SNDRV_PCM_STATE_XRUN in this patch.
+The other IPC4 widget setup functions (pga, mixer, src, asrc) free the
+audio formats in their common error label and are not affected.
 
-> diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
-> index 1091100a4c982..983c6f83d1231 100644
-> --- a/sound/virtio/virtio_pcm_ops.c
-> +++ b/sound/virtio/virtio_pcm_ops.c
+Fixes: f9efae954905 ("ASoC: SOF: ipc4-topology: Add support for base config extension")
+Cc: stable@vger.kernel.org
+Signed-off-by: Baoli Zhang <baoli.zhang@linux.intel.com>
+---
+Changes in v2:
+- Drop the Assisted-by tag.
+- v1: https://lore.kernel.org/linux-sound/20261103021710.3647599-1-baoli.zhang@linux.intel.com/
 
-[ ... ]
+ sound/soc/sof/ipc4-topology.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> @@ -461,41 +530,168 @@ virtsnd_pcm_cp_pointer(struct snd_pcm_substream *s=
-ubstream)
-> =20
-> +/* The caller holds the PCM lock, also used by DROP and state transition=
-s. */
-> +static int virtsnd_pcm_ack_state(struct snd_pcm_substream *substream)
-> +{
-> +	switch (substream->runtime->state) {
-> +	case SNDRV_PCM_STATE_XRUN:
-> +		return -EPIPE;
-> +	case SNDRV_PCM_STATE_PREPARED:
-> +	case SNDRV_PCM_STATE_RUNNING:
-> +	case SNDRV_PCM_STATE_PAUSED:
-> +	case SNDRV_PCM_STATE_DRAINING:
-> +		if (atomic_read(&substream->runtime->buffer_accessing) < 0)
-> +			return -EBADFD;
-> +		return 0;
-> +	default:
-> +		return -EBADFD;
-> +	}
-> +}
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index 8b13c97b34804..de03dc58021a1 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -1313,7 +1313,7 @@ static int sof_ipc4_widget_setup_comp_process(struct snd_sof_widget *swidget)
+ 
+ 	ret = sof_ipc4_widget_setup_msg(swidget, &process->msg);
+ 	if (ret)
+-		goto err;
++		goto free_available_fmt;
+ 
+ 	/* parse process init module payload config type from module info */
+ 	fw_module = swidget->module_info;
 
-[ ... ]
+base-commit: 3ecd14f81434da3b5ff5c44d243715f96d52303d
+-- 
+2.43.0
 
-> +static int virtsnd_pcm_cp_ack(struct snd_pcm_substream *substream)
-> +{
-> +	struct virtio_pcm_substream *vss =3D snd_pcm_substream_chip(substream);
-> +	struct virtio_snd_queue *queue =3D virtsnd_pcm_queue(vss);
-> +	struct virtsnd_pcm_transfer transfer =3D {};
-> +	int rc;
-> +
-> +	rc =3D virtsnd_pcm_ack_state(substream);
-> +	if (rc)
-> +		return rc;
-> +
-> +	scoped_guard(spinlock_irqsave, &queue->lock) {
-> +		guard(spinlock)(&vss->lock);
-> +		if (vss->preparing || !vss->prepared)
-> +			return -EBADFD;
-> +		/* Keep only the post-STOP capture tail available during drain. */
-> +		if (vss->stopped &&
-> +		    (vss->xfer_xrun ||
-> +		     substream->runtime->state !=3D SNDRV_PCM_STATE_DRAINING))
-> +			return -EBADFD;
-> +		if (vss->xfer_xrun) {
-> +			rc =3D -EPIPE;
-> +		} else {
-> +			transfer.indirect =3D vss->pcm_indirect;
-> +			rc =3D snd_pcm_indirect_capture_transfer(substream,
-> +							       &transfer.indirect,
-> +							       virtsnd_pcm_trans_copy);
-> +			if (!rc)
-> +				rc =3D transfer.error;
-> +		}
-> +		if (rc)
-> +			virtsnd_pcm_transfer_failed(vss);
-> +		else
-> +			vss->pcm_indirect =3D transfer.indirect;
-> +	}
-> +	if (rc) {
-> +		dev_err(&vss->snd->vdev->dev,
-> +			"SID %u: capture ACK transfer failed: %d\n",
-> +			vss->sid, rc);
-> +		return -EPIPE;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * virtsnd_pcm_reset() - Reset PCM pointers and complete prepare admissi=
-on.
-> + * @substream: Kernel ALSA substream.
-> + *
-> + * Context: PCM stream lock held.
-> + * Return: 0 on success, -errno on failure.
-> + */
-> +static int virtsnd_pcm_reset(struct snd_pcm_substream *substream)
-> +{
-> +	struct virtio_pcm_substream *vss =3D snd_pcm_substream_chip(substream);
-> +	int rc;
-> +
-> +	rc =3D snd_pcm_lib_reset(substream);
-> +	scoped_guard(spinlock_irqsave, &vss->lock) {
-> +		if (vss->preparing) {
-> +			vss->prepared =3D !rc;
-> +			vss->preparing =3D false;
-> +		}
-> +	}
-> =20
-> -	return snd_pcm_indirect_capture_transfer(substream, &vss->pcm_indirect,
-> -						 virtsnd_pcm_trans_copy);
-> +	return rc;
->  }
-
-[Severity: Medium]
-Can virtsnd_pcm_reset() reopen ACK admission on a substream before
-snd_pcm_post_prepare() transitions the group to SNDRV_PCM_STATE_PREPARED?
-
-CPU0                                  CPU1
-snd_pcm_prepare(s0)
-  snd_pcm_action_nonatomic(...)
-    snd_pcm_do_prepare(s1)
-      virtsnd_pcm_sync_stop(s1)
-        vss1->stopped =3D false
-      virtsnd_pcm_prepare(s1)
-      snd_pcm_reset_substream(s1, ...)
-        virtsnd_pcm_reset(s1)
-          vss1->prepared =3D true
-          vss1->preparing =3D false
-    snd_pcm_do_prepare(s2)
-      ... (sleeps or fails)
-                                      snd_pcm_sync_ptr(s1)
-                                        pcm_lib_apply_appl_ptr(s1, ...)
-                                          virtsnd_pcm_pb_ack(s1) /
-                                          virtsnd_pcm_cp_ack(s1)
-                                            <-- accepted before post_prepare
-
-In snd_pcm_action_group(), snd_pcm_do_prepare() runs sequentially on each
-linked member before snd_pcm_post_prepare() runs on any of them, and
-snd_pcm_action_nonatomic() only sets runtime->buffer_accessing to -1 on
-the ioctl target substream (and snd_pcm_sync_ptr() does not check
-buffer_accessing at all).  If a linked member s1 entered prepare from
-PREPARED, PAUSED, or capture DRAINING, virtsnd_pcm_reset(s1) sets
-vss1->prepared =3D true and vss1->preparing =3D false and releases s1's PCM
-stream lock before s2 completes snd_pcm_do_prepare(s2).
-
-While s2 sleeps in snd_pcm_do_prepare(s2) (or permanently if s2 fails
-prepare, since snd_pcm_action_prepare has no undo_action), playback ACKs
-on s1 queue new TX buffers to the virtqueue before prepare completes.  In
-addition, because virtsnd_pcm_cp_ack() only checks runtime->state !=3D
-SNDRV_PCM_STATE_DRAINING when vss->stopped is true, a capture substream
-re-prepared from DRAINING has vss1->stopped =3D=3D false after
-virtsnd_pcm_sync_stop(s1) and accepts capture ACKs while runtime->state is
-still DRAINING, driving vss1->pcm_indirect.sw_ready negative.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261108235457.1268=
-8-1-mynameisjune111@gmail.com?part=3D4
