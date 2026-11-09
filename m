@@ -1,18 +1,18 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.75.8
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.126.46
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794201181;
-	b=TuAi7IFR4VBPfZd/2K0CzwD2uUgxE0NMGHBfPexxQRml7Ovo72YXOb6U5PCzp8gMcqvT
-	 87MHhttXzUuT+PjRus2pTZNRAIgs1TJvzuwIfHRQU9vbe7GPinYAJOD5hBKRKW5jnss87
-	 0c0hlbzcBbRAIczLuVqelXg8BFJgfCdRjUUIV4TZzeSlzYnBQ0RrRvBaA5hSARF9oMhn1
-	 0h86MNAZfN8n8v5nQJ5B0vqam4pRIQS8cJImqtPOTK6j7I4WWl0Fd8BsOykgPjO7X0FwR
-	 cnDtHenM8Js+Ne0h2yAwef39B7x8yE8AuoefA9Tr1bk4qOlQKXlpmzDHdpOIJAyx3Lw==
+	t=1794201184;
+	b=k6pvIcMs6h78KDVHmbAsjESpFRSZGAEcZnap5KoiyNRUDpTeWmEW+WkOc2fzyhupVipq
+	 1N2fctvMkKn76CXvJwT2m8Dfs/SFMyEpgKa8b3jPTBL6eR+a5eD71T5o0tZi8uKw4oUOp
+	 1m48OkgH4jV+82G/aOoRJtSkyHFPA3l99qMmzPFIQUE4CGmDqada1lyO/utgNlbh1cbNc
+	 yU9bgyCejBytl2xNLVY0Lh5tCc9Eb2/Q8dGD8sk5exqEo8XfERx9wBcN1U8mkPgG35Je9
+	 5TVEc2kowNzaobpVCoHdxWlxWrhR27DhUKWkOx7p2zEs0KFF/x2+sey1Kct74XwcJIA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794201181;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794201184;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:
 	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
-	 Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-NotSetDelaration:
-	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:Content-Type:
+	 X-NotSetDelaration:X-EOPAttributedMessage:X-MS-PublicTrafficType:
 	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
 	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
 	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
@@ -26,35 +26,35 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
 	 X-MS-Exchange-CrossTenant-FromEntityHeader:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=Lqv15ldo8oynBAR3AvwF5E2/9yg1oL7OEXtAU7DaCHI=;
-	b=N0Dl1xC0UpSAW5WcpKDPpQtXYbMTD+gi6RT/VV4Lm4yWXD203/bNuFepJSHAgHU1j8d+
-	 reh1Net9bzJlwAAe6rEcDiNiclT9iVO5XpCx8Ah5qT4Za5ko0ZlOkF74w0g5CD8eAfMtk
-	 wJEykIPnknSJFv4XasJ7BjftEwFzszwW0ntQu9nsF3Vwx2V/FLK5yk6TDW9VHNRuX/+9l
-	 aw0Dc1hF0pMBjIfyARMqAWCuGL9XudfWxs2O3OxSL9GJ08mg2mOhnG/pKC3MDgI+WyHZG
-	 HKoFe/LZCZkQhTrggHRjIGk2R9BQujOTXGWJWoZ1BNLxDVvVlzigaMPQ0PXMQw23TXg==
+	bh=pdm1QdsVbJO3gQaLvQwd57ITuCOqKvaLIN2DJRn93Ss=;
+	b=dfW7SWF1vb3uAtubu+3+IfwU7atXNkty0V9vUmQHSm6B7oKML2n7JfhhAFVvQ4qkXneL
+	 WqAT5nVMpQxA5UxC+DXt9Wqc2YSYFoMOWOds8pJ3ZfewHL2/Hao316NYEDwpbGBGMWQUl
+	 AXQX8cSBE2NloVqzTz1ipWjChix6VdiTS0T/MfwJkBmOWgCXKNKGclj7GBSX4F03gcPWU
+	 rE/75tLSzqNWSKgqaE3P8tfIyZkKt66IZTVu5XuB7VGnZyASZxFNkc1vtLQJDwPsfzP9T
+	 R5oUnhI+GmGsfhht6IrMTXZnpt+YoWqPKmPHP1jr0OCL91N6FsMOxP0s1o3MtmRimqQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=nuvoton.com;
 	spf=pass smtp.mailfrom=nuvoton.com;
-	dkim=pass header.d=nuvoton.com header.i=@nuvoton.com header.a=rsa-sha256 header.s=selector1 header.b=Lw6U0m6c;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.75.8
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11012008.outbound.protection.outlook.com [40.107.75.8])
+	dkim=pass header.d=nuvoton.com header.i=@nuvoton.com header.a=rsa-sha256 header.s=selector1 header.b=OWjYv4xC;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.126.46
+Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11012046.outbound.protection.outlook.com [52.101.126.46])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C84E606A31C;
-	Mon,  9 Nov 2026 05:12:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C84E606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3749606A323;
+	Mon,  9 Nov 2026 05:13:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3749606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuvoton.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=nuvoton.com header.i=@nuvoton.com header.a=rsa-sha256 header.s=selector1 header.b=Lw6U0m6c
+	dkim=pass (2048-bit key, unprotected) header.d=nuvoton.com header.i=@nuvoton.com header.a=rsa-sha256 header.s=selector1 header.b=OWjYv4xC
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Gl27eWOa80G9umD8G4+jWcJzEHy4eGWbMmikkiQgEDzERM0fDRxmsKEPH4R/wevwAYd3mnZP94py/ybeq7DDJk0AvKHKzYd8XboHBOYHPgIScIVbVCeUSW5oQfGcJ8f8rRb+Xy0dgg2rP5J7jatoNjgUc2cgUEedNJ8oi4B+OOSLV8SBW8IeISpZWvRpaswKSK+PiLbusTG14vPrj3T33BqqptK5qu24Fe8nx0SkAzw3q3NFRVCfBeQLygudX8nTUOa8FFhtcbG3bvDFO10AsVver1TcC8A4Ael4A+SIEWEc5OIZq6G33UxlnGg6tVU5l+glUVL+OA1Mj2QpZhKLUA==
+ b=uniTx5fbdQH5UY0TIdQtZ+cMxuY3PwPiqEf8MkEPWfjtH27LXNcs+fyVnlGz+sNysesp8N+AcXgmVDlXqV1X1wyn7xaSYK1kE0zK37GaB/7U03rqKua9By2kXqhigk3sSgQ6TJmrhx2bgDEG19qh4IAhrENS3af3jeCMNuCXsuaQujy36iWgKlod6BJkbpRh+P9KL7W+h/xrwAl5HFadinf+tItmWWLYgQU4An6uPO7uPH4fOECvED3ZtzH2czDN3vNC37DnSzD+oRGBOU8fcmbDHSscevDoyr3sF0iQZcBg0cCM8aPD3hseTaZVRzP4vJbJMfiX6bV1Vw1X2zLntQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Lqv15ldo8oynBAR3AvwF5E2/9yg1oL7OEXtAU7DaCHI=;
- b=fFDME4VWutVqv3l1NauFdWTLcfZbkJZcs4PQGs0QQzzWSvZSSdbvSp4sEYcYLCe/Nec5nw07Q5OQletu/czbSC+GUAF21j583jtdqc2ETRD7v2pNbztuHpstogXZCIZUaLB0raGCZx3ANo3P0iqlP4ca08EXjOSOUqlFFbBq9w95zO0UJSYZ5UEfD2azLPcjIXPDrnaOTbQiwa3nH4OpUSmHVHImrCJkfwDZ3/dREoOMkcvK6q5vfMqV6pVTYLu3XtrBoNZIQNdMCfdH/P72IvoEsQvm4xuCNB1+RMSpRhok1bEFOc/Jf5skBe8rRjZtJRdpA9b9W3NsWaTfOM3Log==
+ bh=pdm1QdsVbJO3gQaLvQwd57ITuCOqKvaLIN2DJRn93Ss=;
+ b=aGT/19wr4eXoBtYNyhsq3zOo1icuzAEKIiGJrTmTUKAwReAr88Ea20xOQlSw8/E205MIs6J92p6OhocvtnyvpnaKvAeDCh834VTo6HfJ9S14t1MzLjBZ+HktG2/TvXJTBGRzR73zfnuvxoeq+B5/O7yA167eUL/6m+Erd08UL7+UH7xDfDe8Bo1SZ709rO4x09H+X4jYYV2o5RCFXtF4+SYhHfjrdTnqWRJ1iZ8t3RMEZsLxzTZ8n+bLbNCB8c58ennvdlqG2oNsTLvjNBWugq1IZphLsNIvl4kFGrkzXANwMZw3WDDuBq1pjea9uYXAwI/URQ1VxvtNHuB0uAe4ZQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  211.75.126.7) smtp.rcpttodomain=kernel.org smtp.mailfrom=nuvoton.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
@@ -62,18 +62,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuvoton.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lqv15ldo8oynBAR3AvwF5E2/9yg1oL7OEXtAU7DaCHI=;
- b=Lw6U0m6c4Yua9EOp0TfEH1fzWrN3Aw8oSEJVorvR3RuwPWBhGz12+zTTCDzCUxv8OTvaZNoC2mt2RDIWIljnNQ897xYLwD/n4K+3cnFZYhq1lpBS3A2GqcUKS7dv5AoEdQ6VvUJ8ZqGPAqLc5UOk5+rs2TZlZZRyCWEWyXtYTeZ1Ig4jxVGyt152ydQiGNNIAV1Oc/TgBhax7cMYgmdtSV93GE1f/i2KBWQxNdHmKChC6sSPQsYwMWs973+T73h1QSoSLAxYDCczAcb9Uw7JwbACEOTX2IDA33Eb+FT0ktqWUmLT2PdsstJL8h1uDk3GLbMmIQzKiIXqo8XAyHATaQ==
-Received: from SG2PR02CA0136.apcprd02.prod.outlook.com (2603:1096:4:188::16)
- by KUXPR03MB10028.apcprd03.prod.outlook.com (2603:1096:d10:9f::7) with
+ bh=pdm1QdsVbJO3gQaLvQwd57ITuCOqKvaLIN2DJRn93Ss=;
+ b=OWjYv4xCMOXi2ZuGkeGTG8geEYiqbo5ip3WVbJPUPBh/o8tkZmlwTZJOuoBcdG3DOoeUp87Czg6FtLf1tGP76zyYI1HIU3ySy2JKGFnDQTCv+KftPBUSm4cV9hMegwWotCQR0nICRNtE3S5ar2wq/lmPd94LxJausKDiVjntm+MWOHuwpquRYySpFaPI9NKrkWDezjjf0COL3xv1L4dqWg9yqOo4X3nfndOX7HhXqULS5Y5m5Cmzye8ciMzfTptUjt3oFN/WkQ8O5w8baYoeUf8U0XE6o00Soa2G9szsVfS//7STqMbm7rksZ5DRekBOSpK02qxlmP5xFHm8dZYbNA==
+Received: from SG2PR02CA0126.apcprd02.prod.outlook.com (2603:1096:4:188::11)
+ by KL1PR03MB7872.apcprd03.prod.outlook.com (2603:1096:820:ef::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.12; Mon, 9 Nov
- 2026 05:12:55 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Mon, 9 Nov
+ 2026 05:12:57 +0000
 Received: from OSA0EPF000000C7.apcprd02.prod.outlook.com
- (2603:1096:4:188:cafe::60) by SG2PR02CA0136.outlook.office365.com
- (2603:1096:4:188::16) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:1096:4:188:cafe::6) by SG2PR02CA0126.outlook.office365.com
+ (2603:1096:4:188::11) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.12 via Frontend Transport; Mon, 9
- Nov 2026 05:12:55 +0000
+ Nov 2026 05:12:57 +0000
 X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
  is 211.75.126.7) smtp.mailfrom=nuvoton.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nuvoton.com;
@@ -83,14 +83,14 @@ Received-SPF: Pass (protection.outlook.com: domain of nuvoton.com designates
 Received: from NTHCCAS01.nuvoton.com (211.75.126.7) by
  OSA0EPF000000C7.mail.protection.outlook.com (10.167.240.53) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Mon, 9 Nov 2026 05:12:55 +0000
+ 15.21.615.4 via Frontend Transport; Mon, 9 Nov 2026 05:12:57 +0000
 Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCCAS01.nuvoton.com
  (10.1.8.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.61; Mon, 9 Nov
- 2026 13:12:52 +0800
+ 2026 13:12:53 +0800
 Received: from localhost.localdomain (10.11.36.27) by NTHCCAS01.nuvoton.com
  (10.1.8.28) with Microsoft SMTP Server id 15.1.2507.61 via Frontend
- Transport; Mon, 9 Nov 2026 13:12:52 +0800
+ Transport; Mon, 9 Nov 2026 13:12:53 +0800
 From: Neo Chang <YLCHANG2@nuvoton.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <perex@perex.cz>, <robh@kernel.org>,
@@ -98,10 +98,12 @@ CC: <lgirdwood@gmail.com>, <perex@perex.cz>, <robh@kernel.org>,
 	<devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
 	<neo.chang70@gmail.com>, <kchsu0@nuvoton.com>, <sjlin0@nuvoton.com>,
 	<lkp@intel.com>, Neo Chang <YLCHANG2@nuvoton.com>
-Subject: [PATCH v2 0/2] ASoC: codecs: nau8310: Add NAU83G10 amplifier
-Date: Mon, 9 Nov 2026 13:12:49 +0800
-Message-ID: <20261109051251.471879-1-YLCHANG2@nuvoton.com>
+Subject: [PATCH v2 1/2] ASoC: dt-bindings: nuvoton,nau8310: Add NAU83G10
+Date: Mon, 9 Nov 2026 13:12:50 +0800
+Message-ID: <20261109051251.471879-2-YLCHANG2@nuvoton.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20261109051251.471879-1-YLCHANG2@nuvoton.com>
+References: <20261109051251.471879-1-YLCHANG2@nuvoton.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -116,82 +118,246 @@ Content-Type: text/plain
 X-NotSetDelaration: True
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OSA0EPF000000C7:EE_|KUXPR03MB10028:EE_
-X-MS-Office365-Filtering-Correlation-Id: 340f8b6e-e57a-41cd-1936-08df3e201cca
+X-MS-TrafficTypeDiagnostic: OSA0EPF000000C7:EE_|KL1PR03MB7872:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0b5c7b6f-8dc1-43b3-1a89-08df3e201e04
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|36860700016|23010399003|376014|7416014|18002099003|6133799003|10067099003|11063799006|261028144727099003|261102123227099003|261022105027099003|261022075727099003|56012099006|261021121427099003|261026121527099003|261026140227099003|261009223027099003;
+	BCL:0;ARA:13230040|23010399003|376014|7416014|1800799024|82310400026|36860700016|11063799006|56012099006|261021123027099003|261021121427099003|261022075727099003|261022105027099003|261009223027099003|261026140227099003|261026121527099003|261028144727099003|261102123227099003|10067099003|18002099003|22082099003|6133799003|13003099007|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	NUQGisnynmAQmSEaFehKkwCATKdT9gwYi+hCRsn/iS7h0FpzroYraI33gK7yMe8ceiUCLkUlVduHcPKZpv5Yohc/iDDGCRUbB6aeN53jzQLE006IqKB45RYc9UmsCqb7j57iNG/TnzY60kbgyM++sXHdgh0enEta3I1z8OfLK6NFrStiWdtoOSld8OpvXo43mYG8JPAGco8sI+FNzO4QP+rcSaCw7o1M6VvhQ+hQXZEM2fi0Ir9pg81yQNg9EKIihPvquPXKmq2LM/DWrrrfYKUdkm9Xa7E53whPda2Oyb3UxXDhAgtCUnCFn5JtFYS42giZZYQbD0VS8xjBFwfllx+udS4o3OShNxg9tXn09/GV3Ej0cvs0Ej6DDwQCRj7uIucOLTu6qbaqGZmnePUxe0qtT+yynSQ5fwYfov5WPoERVhlBKP0EcAoj1jkbZlvPoYcvG49+Dl8ygXZ9e8ZhL9qiaVl8xAXW05oP6hEo0FXxkJJ6E5SLXiyt0wuix8CRzGSyNGYZ+fE2cMtOOMKX50OjjabE1RqJn/6chPiFdtkoZQHKtAx97lmEpjQtVZAB3KlIFoCpRGfelEDXSEi3a1sjaohdoKblAl55tWHjDIhTRchrcQeD75kff5oiJ5AIHXtnwhOXgAeOGEI03Lr6BVBIpJYaKfrz3r0YurXdyp5PGGY0EYZMR90eUUmDOPn98jR+fkMk2qbJHY2X5912ew==
+	lbUhi31dsnkyX3QCY98AwbjRCCJBwzHUSPy9pD6Qxj7MGE1Va4qZrhi/gWO++N+QwWaZ1dX9a4NhoXJwR1iE+9oaec8aOvVAaju9RRUpUSXGanCbumPejnAHmP4sUjFqCfADzVTZxyQNmcSF70nAevTHNJtdwPJ3ost7nl1Vnp0aTi4b+Il56qM5BoBZw1Ql0LYTPxkAfLMALvUA1kmv8tofkLxmOhl1r01+MPCUe2ZH/D3VaLymAgLi762jGP/DpuOkFMzQN3l7Ttu+Cni5bpJCEMqLX87QaqmJLJVls4v/vmw8DLXZ73UvlB5TJCJuWqEKsWrODtcrGPkqXwAmOHIXtrAj4rR5cZuxwtRBBYi+7h8zzAeohl3FL2+o4wWaGJ4W1pCHQDDtp9wXAULyC5Roqv2Z8ep2Cb0KgCUyXEA2uvHlzF5DaGJJlzY4nIZpYgh2MK4LS/rUf17OEz0vbOri53c+i+xziia7+PxX+U7CMQmvwNAGOfNjJK3mlUT046lv7J6BWeT090AAAyhjaVr931QgYk/q06soUWaWoYdif/ui1q2uULcOmFkI7dzg037pVwfotXdrO72Gh3C1NWlISPAqcb/6Ht+kbcOMAHMY8+/ZJTr3Yzw9yR88bvmkHh3KpxkzYooZ9Elfp/C0Yg==
 X-Forefront-Antispam-Report:
-	CIP:211.75.126.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS01.nuvoton.com;PTR:211-75-126-7.hinet-ip.hinet.net;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700016)(23010399003)(376014)(7416014)(18002099003)(6133799003)(10067099003)(11063799006)(261028144727099003)(261102123227099003)(261022105027099003)(261022075727099003)(56012099006)(261021121427099003)(261026121527099003)(261026140227099003)(261009223027099003);DIR:OUT;SFP:1101;
+	CIP:211.75.126.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS01.nuvoton.com;PTR:211-75-126-7.hinet-ip.hinet.net;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(1800799024)(82310400026)(36860700016)(11063799006)(56012099006)(261021123027099003)(261021121427099003)(261022075727099003)(261022105027099003)(261009223027099003)(261026140227099003)(261026121527099003)(261028144727099003)(261102123227099003)(10067099003)(18002099003)(22082099003)(6133799003)(13003099007)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	H/qt+lnA79kvaBXf6yYBKnMvNWo0Nte7K0etsN1DaxcHQEFQZoUrPwMpmOoHAZw/tgJ9pNjHinihhBlVeEF/n60hg//C+bftoyVQtWdG5VrEDumMNPAP2JaEoabhpYw9wiC6u01+62ND7CZ0GwYf1ybMZcZznKvuvf8u0BOddGpfsHOquzgCFdIg8kn+uryfUKoNFpaTuVmzpbFWNHhkdeXFRHulEPh6XTbBU6K+3Wktg1D+B8s+RM41jx+6+7EEerNM8AnU17I3tU4cyXZUhFFvHiiehzAKVnKtSoM1Uh7dNWcQW+BnFVPodifRnqBRwBLkORoLQgjimhUVtKxeuKoNqE5fjuUl46gX+qPUhMW/pkZHBxh1jrhUZLtJwVN7T46opeRevuDU7/9mTMz7rjSanI8uaOAD4pXreV0X9ttnT+J/UWwoYeEKTv5+KoB9
+	JGCfI9pytpsz9099YjfVB91HULEQjDrCORfYPdKgzSD7Vy+qkBMCYHjNPIoi8s2Chimx0N725KWNc9pLOXiYgYsn4VMjY/nX9hoZ+Yo3b5aBH3V1exG07IsiudzdRwUioqmBHYsK+XeafelKTOwyCU5HqbORQe9WSjc4iQM1qTA4xMBVlABOa0G6+3cneK2Q6AfiPbNDZ8pK8vSPscOfUiWtQGPHuMp5eEAWgCUAbEbIwuiTOjgHDbo8iktAHoxo24GiSpf5N2PSMHnqcnKtDcLz71NXeuOSAQTC8J9FgNi8/ndltZd8FEtiEMleLT1+UdahSjN6q3IPQuaMolukmzYQUjYk4qoxJ5xv0eX29fYGrsTWk36SrdKZ/8MMmfbwNffUiMIYXSOzeLw0j0wYBO8tqekCqp15O713dpxt60DMcknWGOVN6o79C/7asFm4
 X-OriginatorOrg: nuvoton.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 05:12:55.1846
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 05:12:57.2156
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 340f8b6e-e57a-41cd-1936-08df3e201cca
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b5c7b6f-8dc1-43b3-1a89-08df3e201e04
 X-MS-Exchange-CrossTenant-Id: a3f24931-d403-4b4a-94f1-7d83ac638e07
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a3f24931-d403-4b4a-94f1-7d83ac638e07;Ip=[211.75.126.7];Helo=[NTHCCAS01.nuvoton.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	OSA0EPF000000C7.apcprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KUXPR03MB10028
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB7872
 
-This patch series adds support for the Nuvoton NAU83G10 audio amplifier.
+Add device tree bindings documentation for the Nuvoton NAU83G10
+audio amplifier.
 
-The NAU83G10 is a mono boost Class-D audio amplifier with
-an integrated DSP and I/V-sense support. The driver supports
-I2C register access through regmap.
-DAPM widgets and routes, TDM interface configuration, and DSP firmware
-loading.
-
-The series is structured asd follows:
-- Patch 1: Adds the YAML device tree bindings documentation.
-- Patch 2: Adds the ASoC audio amplifier driver implementation.
-
+Signed-off-by: Neo Chang <YLCHANG2@nuvoton.com>
 ---
-Changes in v2:
-
-[dt-bindings]
-- No changes since v1.
-
-[codec driver]
-- Sort SND_SOC_NAU8310 alphabetically in Kconfig and Makefile.
-- Fix uninitialized variable 'kcs_setup_comp.set_kcs_offset' warning reported by kernel test robot.
-  Cast 'data[i]' to u32 before bit shifting in payload packing to prevent incorrect sign extension.
-- Replace deprecated SND_SOC_DAIFMT_MASTER_MASK with SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK.
-- Demote DSP ready status log from dev_info to dev_dbg to reduce log spam.
-- Support requesting DSP firmware via 'firmware-name' property defined in device tree.
-- Use snd_soc_kcontrol_component() instead of dapm lookup in standard kcontrol handlers.
-- Make clock configuration stateless by passing 'fs' and 'mclk' directly as arguments.
-  This prevents internal OSC switching from overwriting active user configurations set via set_sysclk(),
-  ensuring stable state management during suspend/resume.
-- Acquire nau8310->lock within the clock event handler to prevent race conditions during
-  DSP command execution and concurrent firmware loading.
-- Add NAU8310_CLK_ID_INT to set_sysclk() to properly handle internal ring oscillator configurations.
-
-Neo Chang (2):
-  ASoC: dt-bindings: nuvoton,nau8310: Add NAU83G10
-  ASoC: codecs: nau8310: Add support for NAU83G10 amplifier
-
- .../bindings/sound/nuvoton,nau8310.yaml       |  200 ++
- sound/soc/codecs/Kconfig                      |   13 +
- sound/soc/codecs/Makefile                     |    2 +
- sound/soc/codecs/nau8310-dsp.c                |  695 +++++++
- sound/soc/codecs/nau8310-dsp.h                |  111 +
- sound/soc/codecs/nau8310.c                    | 1828 +++++++++++++++++
- sound/soc/codecs/nau8310.h                    |  633 ++++++
- 7 files changed, 3482 insertions(+)
+ .../bindings/sound/nuvoton,nau8310.yaml       | 200 ++++++++++++++++++
+ 1 file changed, 200 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml
- create mode 100644 sound/soc/codecs/nau8310-dsp.c
- create mode 100644 sound/soc/codecs/nau8310-dsp.h
- create mode 100644 sound/soc/codecs/nau8310.c
- create mode 100644 sound/soc/codecs/nau8310.h
 
+diff --git a/Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml b/Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml
+new file mode 100644
+index 000000000000..5a5142a583ed
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml
+@@ -0,0 +1,200 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/nuvoton,nau8310.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Nuvoton NAU83G10/20 Mono Class-D Amplifier with DSP
++
++description:
++  Mono Class-D Amplifier with DSP and I/V-sense.
++  This device supports I2C.
++
++maintainers:
++  - Neo Chang <YLCHANG2@nuvoton.com>
++
++properties:
++  compatible:
++    enum:
++      - nuvoton,nau8310
++      - nuvoton,nau8320
++
++  reg:
++    description: The I2C address is determined by the hardware pins.
++    enum: [0x10, 0x11, 0x40, 0x41]
++
++  "#sound-dai-cells":
++    const: 0
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: mclk
++
++  firmware-name:
++    items:
++      - description:
++          DSP core firmware.
++
++  nuvoton,vref-impedance:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      VREF Impedance Selection.
++    enum:
++      - 0 # Open
++      - 1 # 25 kOhm
++      - 2 # 125 kOhm
++      - 3 # 2.5 kOhm
++    default: 0
++
++  nuvoton,dac-vref:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      DAC Reference Voltage Setting.
++    enum:
++      - 0 # Voltage source directly from VDDA pin
++      - 1 # VDDA * 1.5/1.8V
++      - 2 # VDDA * 1.6/1.8V
++      - 3 # VDDA * 1.7/1.8V
++    default: 1
++
++  nuvoton,sar-voltage:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      SAR Gain Tracking Selection.
++    enum:
++      - 0 # VDDA
++      - 1 # VDDA * 1.0
++      - 2 # VDDA * 1.1
++      - 3 # VDDA * 1.2
++      - 4 # VDDA * 1.3
++      - 5 # VDDA * 1.4
++      - 6 # VDDA * 1.54
++      - 7 # VDDA * 3.12
++    default: 0
++
++  nuvoton,sar-compare-time:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      SAR compare time.
++    enum:
++      - 0 # 500 ns
++      - 1 # 1 us
++      - 2 # 2 us
++      - 3 # 4 us
++    default: 1
++
++  nuvoton,sar-sampling-time:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      SAR sampling time.
++    enum:
++      - 0 # 2 us
++      - 1 # 4 us
++      - 2 # 8 us
++      - 3 # 16 us
++    default: 1
++
++  nuvoton,clock-det-disable:
++    type: boolean
++    description:
++      Enable Clock Detection Module.
++
++  nuvoton,clock-det-data:
++    type: boolean
++    description:
++      Clock detection non-zero samples configuration for power up signal.
++
++  nuvoton,boost-delay:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      Boost Control Hold Timer in decrement (msec).
++    enum:
++      - 0 # 0 msec
++      - 1 # 1 msec
++      - 2 # 2 msec
++      - 3 # 4 msec
++      - 4 # 8 msec
++      - 5 # 16 msec
++      - 6 # 32 msec
++      - 7 # 64 msec
++      - 8 # 128 msec
++    default: 0
++
++  nuvoton,boost-convert-enable:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      Boost Convert Enable.
++    enum:
++      - 0 # BOOST CONVERTER disabled
++      - 1 # BOOST CONVERTER enable gated by POWERUP signal
++      - 2 # BOOST CONVERTER disabled
++      - 3 # BOOST CONVERTER enabled
++    default: 0
++
++  nuvoton,boost-target-limit:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      Boost Control Target Value Limit.
++      The value ranges from 0 to 63, representing 0V to 12V with a 0.19V step.
++    minimum: 0
++    maximum: 63
++    default: 63
++
++  nuvoton,boost-target-margin:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      Boost Margin Value between Boost Target Voltage and peak output level.
++      The value ranges from 0 to 63, representing 0V to 12V with a 0.19V step.
++    minimum: 0
++    maximum: 63
++    default: 0
++
++  nuvoton,temp-compensation:
++    type: boolean
++    description:
++      Enable Temperature Compensation.
++
++  nuvoton,normal-iis-data:
++    type: boolean
++    description:
++      Enable Normal I2S Audio Data mode. The I2S interface
++      transmits only audio data without SAR ADC data.
++
++required:
++  - compatible
++  - reg
++  - firmware-name
++
++allOf:
++  - $ref: dai-common.yaml#
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        codec@10 {
++            compatible = "nuvoton,nau8310";
++            reg = <0x10>;
++            #sound-dai-cells = <0>;
++            firmware-name = "NAU83G10.kcs.bin";
++            nuvoton,vref-impedance = <2>;
++            nuvoton,dac-vref = <1>;
++            nuvoton,sar-voltage = <0>;
++            nuvoton,sar-compare-time = <1>;
++            nuvoton,sar-sampling-time = <1>;
++            nuvoton,clock-det-disable;
++            nuvoton,clock-det-data;
++            nuvoton,boost-delay = <0x8>;
++            nuvoton,boost-convert-enable = <1>;
++            nuvoton,boost-target-limit = <0x32>;
++            nuvoton,boost-target-margin = <0x2>;
++            nuvoton,temp-compensation;
++            nuvoton,normal-iis-data;
++        };
++    };
 -- 
 2.25.1
 
