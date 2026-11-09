@@ -1,103 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794201427;
-	b=dIn/0DFZ+wE9+GC9UBnnDCNZkVhlaY5W+Fr9CwhZmfkwejYZaHgwQutPY0kdYDizxDOJ
-	 DpFKfNjgbjAps4FHBHMnKLtR3jCtDucv624j93I1E7cwGa6hV/wCJfJ1SmSCPh8CzjfYc
-	 +ZjL5XygvPxCXDkuCov8yZGTeERxnBlJEoplrkedFJmOJvJ7EsceMbLPWid8744Fxoty0
-	 f1tG67zsBDCcup3HH9fryRHzd7SdLq1RZwwG/EypSQda7qIU5QXfCQALhk+pmaxYHlnlI
-	 8IrfWztd/4QawdMtw6IPrDSwqiN0N4JObNVZs++YtRWH16vDokkVBnqp6dk0wfBM5BQ==
+	t=1794201806;
+	b=nj/AfRf3DF7kxB970PBCTxJjXTABfPnD0+3jkUsBgyT/RdUqoQlNuCk8DGhIKYvZV0p5
+	 XXANsWHE4dy6I+Lq8q7TnD5lDBaLnsWFRuRchutugIrBkpHni97JE/ZEGi417SX1MkEYa
+	 F6xILYFsgAuJSuusnsOQeNintk4yjlmV8GxBMyX40tej+EHDpVfjOww7MhvOjYUiMkdlK
+	 Cj8g3J7f1Bn0WDx3+NLo60KRtbkQlX5xgQ29oUixloaHT0nUP7JoZHFsK0kbh1IucI/T8
+	 giSkDsE7n3/hCfVpvEdKVt/26gMpjQ97JA4f3p7j+TEBZY+V5x3+I46HRv9mjSIwWfQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794201427;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=GCeNfDJOwvZXuY8dgM3rlag3FgqE7583M6Aa4tPPS8I=;
-	b=ndt5DeqqwbbMkhwbHwiL7gvtOkP6goJKcsP1i0hab56BcDOhasUhYZuTUayWDQHQaIWZ
-	 uQFSSLJ5XpVDUm1QdSmlkGMFKUG99wju8buxsryWGalPhqKuXMkDA2tBp05UWKv7Lscaf
-	 GtCfxeLNNtnoN+UMYdz3T3NMfwYnERxA2o+bvKDfqPHrqHLtPbADEMCoqtlAv5yKUXcfU
-	 8Hmg3u68ESOOOJ3V7/ADtyUMbraqnmAPyGHNMd3GVu1CbBnN8C2/OMKR2tfhON/h/wJyk
-	 4qyPV3UC38rPD6O2jmIrD4EV4GDktpE/O489oNwT7tWYJmvWldibjNxpIRLjZHME5dQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794201806;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=NJ7KxDbRPbylmFAPMsRT6r3JxS7V/VdYk7aTcCfsnjk=;
+	b=aRDRTjenk4Ur8bYtsH3PJ5cVv06Oby5J4MOxdTYMZSeiAdj+8k3s8P1RV62+Nge97ExE
+	 z5lZbKjfV16M3Fb0MGl9SSWp9/7oob/5dEiNlCLMjE1lvNj6gZ75OByW35VzSAzGhbbub
+	 +pwinOHLbzaVoOD7gmJ820SshNxO4SNdRbF3pMg/ri66oCtpRz4ou64iqOHAEp883bFTD
+	 eBH00ncS/Ks9bPdPVEb9H9uBOU37T9rpZOKqzd9vQi4bC7peWTngZtdKVQl/MZj7tVKFX
+	 rpmYYClnbQTM5VFszulbRn2uHD65mQaaTNM8Fr4hx/OtGLnI2dWSiZg4Sqe60lyKWvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q3mJ4x6C;
-	arc=none smtp.remote-ip=74.125.82.48
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mk+v121V;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3415606A321
-	for <linux-sound@vger.kernel.org>; Mon,  9 Nov 2026 05:17:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D3415606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22CE606A31C;
+	Mon,  9 Nov 2026 05:23:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q3mJ4x6C
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-1b3ada81853so186584c88.0
-        for <linux-sound@vger.kernel.org>; Sun, 08 Nov 2026 21:17:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794201426; x=1794806226; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GCeNfDJOwvZXuY8dgM3rlag3FgqE7583M6Aa4tPPS8I=;
-        b=Q3mJ4x6CjdPXUqcwGtNivubyVSmg0gI6mNHS61Xaf+FJtWlwyOR1mF8ViLoNIn2fHG
-         gI+u4EJvkIQkEKewtbLLRN4bm0TvXNVGfyeMN6KknSXPFiJLSjjxXKcsJgm3K6jD3FkW
-         Q0kdtQgqdSLOZYH9L2Vm/P3oALgDvR9Nu2eBjd7J/BC4rEH/kEqngubWPvt+KP9ZaaSr
-         ck3lYR9SSgO3VRTBxXBZGO4ZItghIDgI3zpwjuGb3K7TIompqNWa1thbgdduyBvFOhjO
-         OOdFAVZrwUCRhtC3JrGfcIQAnB3/CaimeRfL8bbNxIhOBZFrLRKSU7TNkYxhh7mWFhTz
-         sE1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794201426; x=1794806226;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GCeNfDJOwvZXuY8dgM3rlag3FgqE7583M6Aa4tPPS8I=;
-        b=CCmonsrGWovH0zWPERUoJRl+g3PJsh87ONeTZlIIopgPB2VQrL6LNI5SBsoBsqc3Hm
-         D/rym4aMUPrxWYwp+TLLWf1AbeykcExymLMVGL/jpemXaMWBL9jfrK8p6dYyI5SGBo/c
-         Vymi4HQhjPn2mhBmjvhP0HkAn7C17lZ8M1WFw1zKkgBfONtyYb5MajW7g+RVAFJhfoWi
-         2ujMkkO/IJdzL6ykphZX0EFZSdsk3N+qKW7OU7UXBiZ7Ykam1GUmNN/EmEf2EEmCsK4m
-         F06NvkyT581WVz/Onx0+Qm/kKDIjBR/ALKyZoLAbs7ZZDEKoEBrERzvSzvP3WyFpCwd9
-         LZfw==
-X-Gm-Message-State: APuU4Z/rGiVXONojwmEqZYJORRtJ8z5WB7rGBz4kEDfOmFgxptNeduG6
-	Lko6htmcjSe0UXLWMUwuqYAYwUBsCD5aNjWyMeG0PtdPGgMShqEczl0vZCifTg==
-X-Gm-Gg: AYBFou3zDqe1zpF9efLtSb1GFWnQ8NLbnbvScZ9cs7u7YA9seGESoEKE6b4fTEDcLKM
-	hoi7nlxiZIDoH42BUM2mKyEav4NDUUeqivlcBj8UQ50n3/lZ/+69871USlymbRX1IqoPULOGsCn
-	6XWrVaOgYfaJ8wlenqNsYMiqnjTKWZ29RtiVBI3eP8nzlCkRejsEFNeL76rOkZMz+sqL0vZsfbA
-	Jl2GqW3vaccnUkjp8xtP6Lm3NF1LsPxlejMyNJrNxqYRy0zjN+828x+aYjumPnqASJF/3wj8fR+
-	Q8OMGI279JMbl3PM5i23bxI62JGOw4Dw7AfRk7MPvhdBIUZ7vOwyymrxGmobPeeQtxwl161vkvd
-	uT7heuTJiC5EMeNNMWL8UMQHvbdL7nReW0q79cZ9PqTnrGprhWNwKee2xlEPAkf/cboTxmzvG47
-	u2+1vJmE2p8p3pVfq8ZxBp/3W/8F3h0FRzzPBZm1A8CYMcFBwAkUDSDPyq+bzYw8uJ/uR9+JVog
-	yEavzC8tRtBe7xu+QfIxUDg2ok6XUubibLiX+Kg1p/Z5XRZ7WcoPwJDugiCe3jDnlynSGa7tZ5w
-	R69r17JUKsrbdA0yK++e3C46kaMQZ4SHZNMeP+m3S5wh4pNtENprx21BbHZXmzCVuM3drrs+67s
-	8NPbPIWiIO462im6eh9r/Yf4Rlk8JaH1EhZfOZoDlNR5Kf9fh
-X-Received: by 2002:a05:701b:2905:b0:192:74cf:1db2 with SMTP id a92af1059eb24-1b39fe88736mr4979051c88.11.1794201426111;
-        Sun, 08 Nov 2026 21:17:06 -0800 (PST)
-Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b37314826asm11395635c88.3.2026.11.08.21.17.03
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 08 Nov 2026 21:17:05 -0800 (PST)
-From: Joonho Lee <mynameisjune111@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	anton.yakovlev@opensynergy.com,
-	mst@redhat.com,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v22 13/13] docs: describe virtio-sound capture options
-Date: Mon,  9 Nov 2026 14:16:18 +0900
-Message-ID: <20261109051618.22506-14-mynameisjune111@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261109051618.22506-1-mynameisjune111@gmail.com>
-References: <20261108235457.12688-1-mynameisjune111@gmail.com>
- <20261109051618.22506-1-mynameisjune111@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mk+v121V
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2817E1F0089F;
+	Mon,  9 Nov 2026 05:23:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794201805;
+	bh=NJ7KxDbRPbylmFAPMsRT6r3JxS7V/VdYk7aTcCfsnjk=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Mk+v121VJElULRRsBaYvdeeoAikowRdOr7G1ubaTrlZXMDDudoGOVEd8O+S0KwZuF
+	 ceLBmaOvsGKSDX0/V+IR/8OK8k5hqJ8VOSzT27PY3FYwEPm3G2KV7lSkSsWhBd7ELI
+	 jmQ478BneBjnm7zWz1k9hitOpjXTUerhDa5kGpszXyy1NmPSVSVSnBKUn+toLllFbf
+	 craU9h6jbbieeR1SEMzQSUqQ1KACUarweqoNjSxm7o87oQ+a+topNe18wcQ5pqiWCt
+	 2ifmfJzWaqlCLpDQSD4tLSiZs+EdFG9rAD96uGa0KcAvNz+aKCB5b6rPggxv3sjIAu
+	 DVrpTLCxx2s+A==
+Message-ID: <sashiko-outbox-204432@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: nuvoton,nau8310: Add NAU83G10
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Neo Chang" <YLCHANG2@nuvoton.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261109051251.471879-2-YLCHANG2@nuvoton.com>
+References: <20261109051251.471879-1-YLCHANG2@nuvoton.com>
+ <20261109051251.471879-2-YLCHANG2@nuvoton.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Nov 2026 05:23:24 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -106,57 +59,220 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Document the five opt-in virtio_snd capture module parameters. State
-that capture_allow_empty, capture_allow_short, capture_packed_status and
-capture_pause_restart require capture_staging, and use the ALSA kernel
-parameter restriction tag for each entry.
+Thank you for your contribution! Sashiko AI review found 3 potential
+issues to consider:
+- [Medium] ASoC: dt-bindings: nuvoton,nau8310: inverted
+  clock-det-disable description
+- [Medium] ASoC: dt-bindings: nuvoton,nau8310: raw register values
+  instead of units
+- [Medium] ASoC: dt-bindings: nuvoton,nau8310: unconstrained nau8320
+  variant properties
+--
 
-Assisted-by: LLM
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
+commit e187fb8f9c949cae2d11b255f2782d69bf853e02
+Author: Neo Chang <YLCHANG2@nuvoton.com>
 
----
-Documentation/admin-guide/kernel-parameters.txt |   29 +++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ASoC: dt-bindings: nuvoton,nau8310: Add NAU83G10
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -8344,6 +8344,35 @@
- 
- 			Can be used multiple times for multiple devices.
- 
-+	virtio_snd.capture_allow_empty= [HW,ALSA]
-+			Retry a bounded number of empty startup capture replies
-+			when virtio_snd.capture_staging=1.
-+			Format: <bool>
-+			Default: false. Validate with the target device.
-+
-+	virtio_snd.capture_allow_short= [HW,ALSA]
-+			Accept non-empty, frame-aligned short capture replies
-+			when virtio_snd.capture_staging=1.
-+			Format: <bool>
-+			Default: false. Validate with the target device.
-+
-+	virtio_snd.capture_packed_status= [HW,ALSA]
-+			Read status immediately after the returned capture data
-+			when virtio_snd.capture_staging=1.
-+			Format: <bool>
-+			Default: false. Validate with the target device.
-+
-+	virtio_snd.capture_pause_restart= [HW,ALSA]
-+			Release and reprepare capture streams across pause when
-+			virtio_snd.capture_staging=1.
-+			Format: <bool>
-+			Default: false. Validate with the target device.
-+
-+	virtio_snd.capture_staging= [HW,ALSA]
-+			Enable staged capture using request-owned buffers.
-+			Format: <bool>
-+			Default: false. Validate with the target device.
-+
- 	vga=		[BOOT,X86-32] Select a particular video mode
- 			See Documentation/arch/x86/boot.rst and
- 			Documentation/admin-guide/svga.rst.
+This commit adds Device Tree binding documentation for the Nuvoton
+NAU83G10 and NAU83G20 mono Class-D audio amplifiers.
+
+> diff --git a/Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml=
+ b/Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml
+> new file mode 100644
+> index 0000000000000..5a5142a583ed1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/nuvoton,nau8310.yaml
+> @@ -0,0 +1,200 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/nuvoton,nau8310.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Nuvoton NAU83G10/20 Mono Class-D Amplifier with DSP
+> +
+> +description:
+> +  Mono Class-D Amplifier with DSP and I/V-sense.
+> +  This device supports I2C.
+> +
+> +maintainers:
+> +  - Neo Chang <YLCHANG2@nuvoton.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - nuvoton,nau8310
+> +      - nuvoton,nau8320
+
+[Severity: Medium]
+Should the boost converter properties (nuvoton,boost-delay,
+nuvoton,boost-convert-enable, nuvoton,boost-target-limit, and
+nuvoton,boost-target-margin) be disallowed for nuvoton,nau8320 via an
+allOf if/then constraint?
+
+In the driver, nau8310_read_device_properties() only parses those four
+properties when silicon_id is NAU8310_REG_SI_REV_G10, so a nuvoton,nau8320
+node with boost properties will pass schema validation while the driver
+ignores them.  The commit message also only mentions NAU83G10 and omits
+NAU83G20.
+
+[ ... ]
+
+> +  nuvoton,vref-impedance:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      VREF Impedance Selection.
+> +    enum:
+> +      - 0 # Open
+> +      - 1 # 25 kOhm
+> +      - 2 # 125 kOhm
+> +      - 3 # 2.5 kOhm
+> +    default: 0
+> +
+> +  nuvoton,dac-vref:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      DAC Reference Voltage Setting.
+> +    enum:
+> +      - 0 # Voltage source directly from VDDA pin
+> +      - 1 # VDDA * 1.5/1.8V
+> +      - 2 # VDDA * 1.6/1.8V
+> +      - 3 # VDDA * 1.7/1.8V
+> +    default: 1
+> +
+> +  nuvoton,sar-voltage:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      SAR Gain Tracking Selection.
+> +    enum:
+> +      - 0 # VDDA
+> +      - 1 # VDDA * 1.0
+> +      - 2 # VDDA * 1.1
+> +      - 3 # VDDA * 1.2
+> +      - 4 # VDDA * 1.3
+> +      - 5 # VDDA * 1.4
+> +      - 6 # VDDA * 1.54
+> +      - 7 # VDDA * 3.12
+> +    default: 0
+> +
+> +  nuvoton,sar-compare-time:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      SAR compare time.
+> +    enum:
+> +      - 0 # 500 ns
+> +      - 1 # 1 us
+> +      - 2 # 2 us
+> +      - 3 # 4 us
+> +    default: 1
+> +
+> +  nuvoton,sar-sampling-time:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      SAR sampling time.
+> +    enum:
+> +      - 0 # 2 us
+> +      - 1 # 4 us
+> +      - 2 # 8 us
+> +      - 3 # 16 us
+> +    default: 1
+> +
+> +  nuvoton,clock-det-disable:
+> +    type: boolean
+> +    description:
+> +      Enable Clock Detection Module.
+> +
+> +  nuvoton,clock-det-data:
+> +    type: boolean
+> +    description:
+> +      Clock detection non-zero samples configuration for power up signal.
+
+[Severity: Medium]
+Is the description for nuvoton,clock-det-disable inverted relative to its
+name?
+
+In the driver, nau8310_read_device_properties() sets clock_detection to
+!device_property_read_bool(dev, "nuvoton,clock-det-disable") and
+nau8310_init_regs() sets NAU8310_CLKPWRUP_DIS when !clock_detection, so
+this boolean property disables clock detection rather than enabling it.
+The example below also sets both nuvoton,clock-det-disable and
+nuvoton,clock-det-data together.  In addition,
+Documentation/devicetree/bindings/sound/nuvoton,nau8325.yaml already uses
+nuvoton,clock-detection-disable for this feature.
+
+> +
+> +  nuvoton,boost-delay:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Boost Control Hold Timer in decrement (msec).
+> +    enum:
+> +      - 0 # 0 msec
+> +      - 1 # 1 msec
+> +      - 2 # 2 msec
+> +      - 3 # 4 msec
+> +      - 4 # 8 msec
+> +      - 5 # 16 msec
+> +      - 6 # 32 msec
+> +      - 7 # 64 msec
+> +      - 8 # 128 msec
+> +    default: 0
+> +
+> +  nuvoton,boost-convert-enable:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Boost Convert Enable.
+> +    enum:
+> +      - 0 # BOOST CONVERTER disabled
+> +      - 1 # BOOST CONVERTER enable gated by POWERUP signal
+> +      - 2 # BOOST CONVERTER disabled
+> +      - 3 # BOOST CONVERTER enabled
+> +    default: 0
+> +
+> +  nuvoton,boost-target-limit:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Boost Control Target Value Limit.
+> +      The value ranges from 0 to 63, representing 0V to 12V with a 0.19V=
+ step.
+> +    minimum: 0
+> +    maximum: 63
+> +    default: 63
+> +
+> +  nuvoton,boost-target-margin:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Boost Margin Value between Boost Target Voltage and peak output le=
+vel.
+> +      The value ranges from 0 to 63, representing 0V to 12V with a 0.19V=
+ step.
+> +    minimum: 0
+> +    maximum: 63
+> +    default: 0
+
+[Severity: Medium]
+Should these properties use physical units and standard unit suffixes
+instead of raw register selector values?
+
+Per Documentation/devicetree/bindings/writing-bindings.rst, properties
+representing physical quantities should use standard unit suffixes (-ohms,
+-microvolt, -ns, -us, -ms) rather than raw register encodings.
+Documentation/devicetree/bindings/sound/nuvoton,nau8325.yaml already
+defines nuvoton,vref-impedance-ohms (enum [0, 25000, 125000, 2500]) and
+nuvoton,dac-vref-microvolt.
+
+Here, nuvoton,vref-impedance, nuvoton,dac-vref, nuvoton,sar-compare-time,
+nuvoton,sar-sampling-time, nuvoton,boost-delay, nuvoton,boost-target-limit,
+and nuvoton,boost-target-margin all expose raw register codes or step
+counts.  nuvoton,boost-convert-enable also uses a boolean-style -enable
+name for a 2-bit register field where both 0 and 2 mean disabled, and
+nuvoton,sar-voltage exposes duplicate register values 0 and 1 for 1.0 *
+VDDA.  Finally, the schema defaults for nuvoton,vref-impedance (0),
+nuvoton,boost-delay (0), nuvoton,boost-target-limit (63), and
+nuvoton,boost-target-margin (0) do not match the driver defaults in
+nau8310_read_device_properties() (2, 0x8, 0x32, and 0x2).
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109051251.4718=
+79-1-YLCHANG2@nuvoton.com?part=3D1
