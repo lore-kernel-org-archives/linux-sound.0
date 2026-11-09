@@ -1,64 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794241407;
-	b=to1vZb+Yb5+9qV6/Ul8rTD9/gk7SFdQsahXW1PFLZzom5s52RprWxBRX2TXpJxAIm4ro
-	 PrLxd5F+9YN3hBgkgFXAJuNMWDywxyWNLWWZqjlD/I8FlESBlgME2/7OFqLdvdomINFF4
-	 67+Q0xqOCJ3OPX7hTEQH0t5/SblZcP/w1QVuAaw+ChvE85G/BxywQH6fFC4BX5qy87uCm
-	 3zeHvdVpFdcJjQavq96aP/TfTfpqYkwiwNhsXKx7NP8lIQKwdi8kU42FffkUa1QPyQ+58
-	 22AuE0kFGp8p5Ne3418+rrlou5E35rl6r8gziG7rce/DAfqCApEpz1TdA6r4ztqtkGQ==
+	t=1794242161;
+	b=ToEDZV92vVHf58z4/Lruc+73sbImCBpVyfVtVG2DXNg+ufMAkV1ym7Kci8Bt9z5BPjD1
+	 kZ1jC6DMeovIA0NHzZyDPRg+m931p3hSkbu1asSxEfOYC+9ZdaHrKLDUh+vlXN8AHwP3Q
+	 rI3+nHx6jr/szjbrrPm9PFpFeMWYJXQ8cccjN3EHoz/0UGjfSmlcelZnpSoqLg4oIsrbT
+	 Mg+rFOQBV6pfGHLHpgo1A5upx3HtK0lgo5UijSlYihtWmJ55w3EeifmI2iTKSR7rynrd8
+	 xKF6SYses+hIN16kcnhJzlv7cMs9YXuZ3LmKBIs5X11Q64EarOu0sef5rTFDQ2KNEeA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794241407;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=tG5yEYutI+mpKyTMneJT8rko5YsS33pVwWvh68hLObg=;
-	b=NzSDnx+rjviIei1B62vgCsT8kajjlJc/RTxiez+1riRvvojzhgBafVlaVEirO2Bhp7uN
-	 nB0sRPAFn+wG1+nhICVPDtcnf9mqS5mRX4sBVRHUFYFeFYmwCOWgSNae7img4wGs+/2LP
-	 rV7nFi/Va7Zijk2UaBlNkWlrByEtBvO20DA2J+ARPEa05efvFc3mp7g/cBetmwS5U17mR
-	 8gMIt6T8HGNcGEjDom3YJyFgI0zeF1jWzsWJeDQu90MtAXlmRxORGbUvCPz8DSF+DMM2a
-	 xgWM1NBL+bLFUmGgbNAscz2ZUIM+VQAAx8Lv/4GV9t6gAF9AdUOSlXkqg6XgzA0zjAQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794242161;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=p0Ws7ygKY8Vi+DeyhlAGMxrUOJTmSXqSaf5xFSFj0QA=;
+	b=tOtZPo1ZhN9OFnuk6kyJAzgPPkg3Euz4CY3mon88qFISAAICxsdyS4H+QJgCjIfuvXB2
+	 PnjcYXXbFly7wVfZkoZE4n5lsLBncELnx7MvL4Y+DvQqb3LTL2JSaM8z9ZYej10vn6cby
+	 UGK3ShY+6O7r3VjbT4q6/5g5JtXtMGPfplW/HDlM544V1qGqVTesRxsgIWIgtfPFY1Pvk
+	 eJVK/pLHb378Voo5o11j6Noe5WUy0hGCOOd/liH59kb5U1EIW/1Vm2jtgj+UXKgzASeTu
+	 N/65DvhkmJYoL7AATDezzhI9YwtWPuTUsXL/XkFI6RIRVs74JozwbUelmOExN2NE7/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jz87hB5k;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Xbk/w0/T";
+	arc=none smtp.remote-ip=74.125.82.178
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF45606A338;
-	Mon,  9 Nov 2026 16:23:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FE7606A325
+	for <linux-sound@vger.kernel.org>; Mon,  9 Nov 2026 16:36:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29FE7606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jz87hB5k
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46FFA1F0089F;
-	Mon,  9 Nov 2026 16:23:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794241406;
-	bh=tG5yEYutI+mpKyTMneJT8rko5YsS33pVwWvh68hLObg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jz87hB5k60+uTGtLRku16bW3/e5kRmOxfhlfOyNBjMBL1583P5K2jAVIVtYzdzcZ9
-	 7CXXLkC63CRSsT4iPFW/3FpvyVHcaWcPsSNriFvaQTRBRJIo/udtienq9TqMU66e3E
-	 jt73m0An7Xx4E+5iZgx5EDhnAURvWwf3WhoMSUf38Xn/Lun9ZynV54GVmpZmMia4BF
-	 KO+sa6/Ww+bAAxzvsodLhXI4Rl10eCpp3gvU6SRQDxYEX5V81bLXPd2EN50ivv2kV/
-	 mq9i/fBnhWoYauvqBETQLmCGAeqM9T90Cx43JvuxfAVeG5AqeetPj3grWiSabqB3pm
-	 JQPDYPw6hBVKw==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 361491AC5995; Mon, 09 Nov 2026 16:23:17 +0000 (GMT)
-Date: Mon, 9 Nov 2026 16:23:17 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Bui Duc Phuc <phucduc.bui@gmail.com>
-Cc: Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 03/10] ASoC: fsl_sai: Remove redundant error messages
-Message-ID: <avHzdeplLMGaL3EM@sirena.co.uk>
-References: <20261105104237.38542-1-phucduc.bui@gmail.com>
- <20261105104237.38542-4-phucduc.bui@gmail.com>
- <179397468197.3073895.1522608204443678480.b4-review@b4>
- <CAABR9nE52Rk81oyoM3L5hHRn3n9OCP3PWSxA8nNt+aEPoeRtqA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Xbk/w0/T
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-3712b6d9843so733918eec.1
+        for <linux-sound@vger.kernel.org>; Mon, 09 Nov 2026 08:36:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794242160; x=1794846960; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=p0Ws7ygKY8Vi+DeyhlAGMxrUOJTmSXqSaf5xFSFj0QA=;
+        b=Xbk/w0/TfVH4/UU2zpWwpxr9jQgez0pNvC/PnpIFSJ3eDHqcLKc+tVpsEdD7wq1768
+         mrQP9tdiXn79uZ3nMPLCTA7oP/7ZUdG7iH0l+dmu1HxoweIZvNzQpEc32oUf3D+IkizT
+         t3gad/cu6rOOqxnSdLM8dgDmKnnd4G4C38y73NKGDVFzw8AIvBu225d23QidxR6rfWLA
+         nIET2u/CO9Ysxwfuyt1RvyiPnQuSEASQZIen2DeW07gpJjE4PuRib8HYWTIi5ajqjDSB
+         V5gOxk21Ajt3x7soOx3ZaD63Mt+DvDSBD6nkzsjD1pJTS0jMzz9spMs1x3fEfkbTAWuP
+         9JDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794242160; x=1794846960;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=p0Ws7ygKY8Vi+DeyhlAGMxrUOJTmSXqSaf5xFSFj0QA=;
+        b=RRc1FlC8328t/DznvuiI/kC53m//AeUTDdR3aGmlzumNrmSnq01dn+6k19XEUTNbNT
+         ln6gpcCzkBtbjoCbtx7RFRQIy7bygmTqSEkBBkQioD1lzD9j/tf/7cuD9lE2c164nYm+
+         8RDyy9lYWFm7LTVHsiXv6zXSZ9p2hB0OiS8PyZR3YKisV6+YKPadGpBMHm8nEdTntRTm
+         gf7Sra3v011/53fvjo7VKJ1pw3ukqoP48K2iIytJ2Z/FdDdHSrVpYpgC2XXDzlcoXJm+
+         q18uABD4pqsXL36NCvwkir4/DKC87jCylwhO+fFqxZShLLHdafhtiFMGoi0YhX2K21IY
+         vIEg==
+X-Forwarded-Encrypted: i=1; AL+hErFy10LQ6YuzyZW0hCKLw61Jg/PLRFCsovhDhID+pifIlB/3/AokFPecDs60HVEvrNfZ56oGzDdkjoQlgw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+ozcxMifSfUjSiDCU/ijQqRCYoJSFNbwkLesSvtZKdkHwrMvQl
+	PvfDSTkSK+NQuQP/vcut6MREVwffZ+JHBIYrA0BSDEXKwdqVKxTLS/Nr
+X-Gm-Gg: AYBFou2KJpgJ+L8AkZl3Wj5RV0+FTpUS5TmJJGruiyb1XRCKMa/pWtIx78iJ1yiDSiu
+	+1jarQb/Zc+uh3JegvEo//5lSrBtFErukw8nmcKRvVH+8oqq8AeBikY8JLsGsniXkMkmdFHEbZH
+	xlWnKyklqPecjrjODxk41YmlJjdi5l0X8+OV4uLrzLy0wrf5TwPv92nlTzjZFXfBs7rcaKCbEJR
+	k5hRw1scoe+uJVzMUATA+WuAZ9qpvo1c0KTbpkGIqHYymMgOoKz9sbzrbM0BmmyMG0O02umeDLg
+	sLGyvZE2A5MiY/5oGz20YJWZV5dtQZ0KznwYTv8UB6esf83ILXFJ34YT+3Lb16XwroWtNmXm3Px
+	2CMELbW1zpvIe6dTzUaCQQWEh0OK3H/ykBActcVlrPx1yqwgVmlfKD/LXSJcbHdUKGXBF6xzJwG
+	EHCimZmseoLZyE+1JzX/anqToaiuxISGKjArqJkNA+7lKW0WIXGzKpfmvh5WZi2bDEbDNv/trmV
+	EG+JcoAig7or5tmkXsHkR81uDW8o8NjFc8B22ZKiKM0zy/bt+8rN7Zyip9mrszG942P8IcEj0hl
+	eSuPs7lIK/D+H1HZM9b4QMBjNjdOlWUeL8wIdV8f1d+lHna4yw==
+X-Received: by 2002:a05:693c:88d0:10b0:369:535f:4d12 with SMTP id 5a478bee46e88-37252b4c316mr7879817eec.3.1794242160097;
+        Mon, 09 Nov 2026 08:36:00 -0800 (PST)
+Received: from localhost.localdomain ([103.170.54.70])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3726561851esm14655931eec.4.2026.11.09.08.35.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 08:35:59 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: sreekuttan2156239@gmail.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	tiwai@suse.de
+Subject: [PATCH v5] ALSA: control: Fix parsing of numeric fields
+Date: Mon,  9 Nov 2026 16:35:31 +0000
+Message-ID: <20261109163531.2639-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261108124832.3058-1-sreekuttan2156239@gmail.com>
+References: <20261108124832.3058-1-sreekuttan2156239@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -68,52 +100,107 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ZHui3L9dMLkg4C6t"
-Content-Disposition: inline
-In-Reply-To: <CAABR9nE52Rk81oyoM3L5hHRn3n9OCP3PWSxA8nNt+aEPoeRtqA@mail.gmail.com>
-X-Cookie: Victory or defeat!
+Content-Transfer-Encoding: 8bit
 
+parse_uint() passes the remaining input string to kstrtoull().
 
---ZHui3L9dMLkg4C6t
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+When the input contains comma-separated fields, the string
+contains both the numeric value and the following fields.
 
-On Mon, Nov 09, 2026 at 11:08:05AM +0700, Bui Duc Phuc wrote:
+For example, with:
 
-> > >       ret = devm_request_irq(dev, irq, fsl_sai_isr, IRQF_SHARED,
-> > >                              np->name, sai);
-> > > -     if (ret) {
-> > > -             dev_err(dev, "failed to claim irq %u\n", irq);
-> > > +     if (ret)
-> > >               goto err_pm_get_sync;
-> > > -     }
+device=1,subdevice=0,name=Master
 
-> > This will only print an error for a subset of errors, things like -EBUSY
-> > will now silently fail.
+kstrtoull() receives "1,subdevice=0,name=Master" and fails
+to parse the numeric value.
 
-> From what I can see in the code, devm_request_irq() ->
-> devm_request_threaded_irq() reports every failure via dev_err_probe()
-> in devm_request_result(), so -EBUSY should be printed too.
+Stop parsing at the next comma and pass only the numeric
+field to kstrtouint().
 
-Ah, that's changed since I last looked.
+Make all parse_*() functions return the end of the current
+substring, leaving delimiter handling to set_led_id().
+Temporarily terminate the numeric substring in parse_uint()
+before calling kstrtouint().
 
-> Or did you mean fsl_sai_read_dlcfg()? It does have some silent
-> -EINVAL returns.
-> I'll restore that dev_err() together with the fsl_sai_reset_hw()
-> change I mentioned earlier.
+This allows numeric fields to be parsed correctly in
+comma-separated input.
 
-That too.
+Fixes: a135dfb5de15 ("ALSA: led control - add sysfs kcontrol LED marking layer")
+Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+---
+v5:
+ - Advance past the closing quote in the quoted-string
+   branch of parse_string().
+ - Ensure parse_string() returns the end of the current
+   substring for both quoted and unquoted strings.
+v4:
+ - Make parse_*() functions consistently return the end of
+   the current substring.
+ - Let set_led_id() handle comma advancement.
+ - Use kstrtouint() after temporarily terminating the
+   numeric substring.
+v3:
+ - No code changes. Retain the v2 implementation after
+   comparing the alternative approaches.
+v2:
+ - Add the Fixes trailer.
 
---ZHui3L9dMLkg4C6t
-Content-Type: application/pgp-signature; name="signature.asc"
+ sound/core/control_led.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/sound/core/control_led.c b/sound/core/control_led.c
+index 501387287ae6..1aadacfbd3c4 100644
+--- a/sound/core/control_led.c
++++ b/sound/core/control_led.c
+@@ -447,22 +447,23 @@ static const struct attribute_group *snd_ctl_led_dev_attr_groups[] = {
+ 	NULL,
+ };
+ 
++/* return the end of substring pointing to either comma or NUL */
+ static char *find_eos(char *s)
+ {
+ 	while (*s && *s != ',')
+ 		s++;
+-	if (*s)
+-		s++;
+ 	return s;
+ }
+ 
+ static char *parse_uint(char *s, unsigned int *val)
+ {
+-	unsigned long long res;
+-	if (kstrtoull(s, 10, &res))
+-		res = 0;
+-	*val = res;
+-	return find_eos(s);
++	char *end = find_eos(s);
++	char delimiter = *end;
++	*end = '\0';
++	if (kstrtouint(s, 10, val))
++		*val = 0;
++	*end = delimiter;
++	return end;
+ }
+ 
+ static char *parse_string(char *s, char *val, size_t val_size)
+@@ -477,6 +478,8 @@ static char *parse_string(char *s, char *val, size_t val_size)
+ 			}
+ 			s++;
+ 		}
++		if (*s)
++			s++;
+ 	} else {
+ 		while (*s && *s != ',') {
+ 			if (val_size > 1) {
+@@ -487,8 +490,6 @@ static char *parse_string(char *s, char *val, size_t val_size)
+ 		}
+ 	}
+ 	*val = '\0';
+-	if (*s)
+-		s++;
+ 	return s;
+ }
+ 
+-- 
+2.55.0
 
-iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCavHzdQAKCRAv73Ows9A4
-ifrkAP9gnev+hbGO8ePdT7PHgzH3El9OJEtgV6/8NMCbTzrgSAD/RlZa/FDVWGL6
-B5UGRb7dndjHNJ0rmqfE9Yhe/h0YhwU=
-=fhwP
------END PGP SIGNATURE-----
-
---ZHui3L9dMLkg4C6t--
