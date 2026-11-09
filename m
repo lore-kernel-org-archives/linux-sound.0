@@ -1,67 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794251303;
-	b=fr30XkEcSLomFT2DfIe6WUB498oCwDx8BYXHEggEyvg3MTPJbpopP8trTMkUW1KXa7Wg
-	 lYkkmkoBLSZIQ46lRPyXW7lLcpRCQFhuLRRDgAYBQkapveqmsjrHvDyzMjAr7VrxZ/PlS
-	 qoYneC0Sn+DzucSG5hNLpmfUPjMBKMVqVIOQYndGZRiC9prMW4N6g3JKVTRgmYmOYV8UQ
-	 qMcaryHR79Vp5ieDMdb2rLJV0Zxm84n1z14SEI0d7osRTuxKsczZ9sptgLrednaVOP+6I
-	 Vk69/dC86VsUMmm/EYUHp8E/nBauh3VLMq0xXPwsgc2WRuqdgSKlOZ+zXTvYlpT8lvQ==
+	t=1794251395;
+	b=fyca46AZbPYXrQCzov8l9GLPxxpS/BDyEDvPrJIJUIRKsLCiXNfwVNJEfWfMcfNW8CcJ
+	 acEoC3vzNtmLSq2OaNZciEqfm3ZKGkps1JuCgfdPxmlj15pk+5HE56/ixKUdMmON3lyHw
+	 qERo6Lw74PxCjzxuDclyEgaDgP5tDRKBGqKPp0yt3CvNFD/q/nDYhikq0mxQFujHmVxZz
+	 zNzs4jZeCefJNyD9a1uWtnCXOGIqXa5yE3SH1ldLrC5hCpoHQwrdbX2ikOBtd/corTUCD
+	 3ryO3ikRgoTWPf2pvAz4lYzedqxrQzARXJdZ8zyNvi4u54C+Ikw+0kkJFGYC/Hlc4QQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794251303;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794251395;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=Td/mNMTGyqNop3iBhfVu/oBdBU20/htQYFGTW7D/2Ik=;
-	b=iT1JNZui9NTrQ3Y5xAb4t/CX9SDRh9oQ97fxZRU+PJz7RTeS+wB2XEqdeQAswdtPbwrR
-	 Pp3JF6UUh4rRU8wLSI8WGynqBGihea14znXeXTNwtvD3zsTt6LX4/biYcUtDb5V68UHht
-	 1k5Jftr8+V8hznhlsa7nuc8U1ZMHcHWaWt8rx95KcmRup1DsosK6N86yqi7Ar5tatXCfx
-	 oU5Lo3YBG5Roh1pCET1z/hFskpXSWjd9gHW1ZzLW5USS577nFnUwcGaxUmkUvciMo4zvv
-	 AlADo1iv3BZS/UQYU4g3B3GdF8uWSoCEoGmnhR71gqDUL3wqwV5EwLUxoGP9OtOUnuw==
+	bh=bXeo00zC+Fz/YIEVBhgtInz4Kk8T6T+8sTaeNUk6/H8=;
+	b=kZpu6CaYRIwyDl4Tb/wsRUMyuJE2b/ksZ9XI0yH2i+nfHEF4qsKja780C3Say3f8ZXgP
+	 7YNFKe88OL4Kv2tkh0fjPdFvVYbMmpeCy6bqJ4mjTxz9ObdC9zuzbhHwOcCPL+rHMTxjf
+	 dZD5hWswts6jdEI4aX/4xrI5WaJgYD3EbwNlXFoBvfYROQ7GnVONkmq2UFuWl87zk71/1
+	 3tJdQLoNzjMv5rjcT6QVHongxBUYVhJa6si4rZseXaNfV0+cymjPaLmlcMdiKqHAavb0g
+	 PDS8OXiioYTlqSVY1SxJ3H6c3LpODHlAzu4lIBuHDjAclUFWqI5icN8WS6YMrvtaLhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IoGPdfwE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FY2ih7k7;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E42606A31C;
-	Mon,  9 Nov 2026 19:08:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7379606A31C;
+	Mon,  9 Nov 2026 19:09:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IoGPdfwE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07CCA1F0089F;
-	Mon,  9 Nov 2026 19:08:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FY2ih7k7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 496461F0089F;
+	Mon,  9 Nov 2026 19:09:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794251303;
-	bh=Td/mNMTGyqNop3iBhfVu/oBdBU20/htQYFGTW7D/2Ik=;
+	s=k20260515; t=1794251394;
+	bh=bXeo00zC+Fz/YIEVBhgtInz4Kk8T6T+8sTaeNUk6/H8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=IoGPdfwEeEvgg26OvjfpuPkE3TKiGNdlrlcyNdeOzkn/83p58SLOyKeHeNwEEynuG
-	 +IB4xorOvyvIphSQJ3Fsry2xe7CfalGdZ89W6vSW+/sJ8p4KrazI65O7OWCRCF5IAg
-	 MiQXdv1jXWaIGU/GqIO6FXt9aUZCLqM0ArJRQGBDeiBcVCJ+yOe4Ikiivsr3RI/6Gd
-	 po2VfFTq6/NMPOfBH8uea13T5Mogt5wcTOwwVAiljoBjBxANRo+BbbjBBizXxs7Xl7
-	 7D6XLfwbOypQ1lkGEfWufNrmZcRIGLt+/lBbdozbShMILQ3sotIkMvInLaQXn1TT/I
-	 xHIJbL7QfUYeQ==
+	b=FY2ih7k7jZW05Nq+r2TcqolJl5AWk95Qz+JIpGAwh4gjHH93hf+tWO82G9zEarTg9
+	 CCjmyPFKTLcrDsBVh9B2u800wiH4ryuUaWjJreMIsUSO8fRW8+nHFaUhzsq16KTUM+
+	 OevrxascLS29HAk8qeqx3hzYHOD2+Wm7OJ3yzdR4G2A3Fm7Y+7CeKnGYD5j3CGmme6
+	 bYrfFcqaHPkjUrB/k37cRkH8nep1sno3pAPpor1HpwJkkwYdJT9FlBXDEtEtEZur6B
+	 tzxsb/idzrgsrYbcmLgxpDVv33c/ppsF+Mz3gXiFnsdvC2v2D96zDhevo2FSyZApq6
+	 lJqWnOTfChSsg==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id BC9B92F70750;
-	Mon, 09 Nov 2026 19:08:02 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 1B85B2F707A4;
+	Mon, 09 Nov 2026 19:09:41 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: Matthew Schwartz <matthew.schwartz@linux.dev>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
- Oder Chiou <oder_chiou@realtek.com>, Shenghao Ding <shenghao-ding@ti.com>, 
- Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
- Sen Wang <sen@ti.com>, Cezary Rojewski <cezary.rojewski@intel.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261104225803.1574849-1-matthew.schwartz@linux.dev>
-References: <20261104225803.1574849-1-matthew.schwartz@linux.dev>
-Subject: Re: [PATCH v3 0/4] ASoC: support the ASUS ROG Xbox Ally X20 audio
-Message-Id: <179422721414.3711751.4806424761629006817.b4-ty@b4>
-Date: Mon, 09 Nov 2026 12:26:54 +0000
+To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Wentao Liang <vulab@iscas.ac.cn>
+Cc: linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20261104024045.1508542-1-vulab@iscas.ac.cn>
+References: <20261104024045.1508542-1-vulab@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: fsl: imx-audio-rpmsg: unregister platform
+ devices on probe failure
+Message-Id: <179424330240.3711751.6306163881108747732.b4-ty@b4>
+Date: Mon, 09 Nov 2026 16:55:02 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -74,26 +72,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1977; i=broonie@kernel.org;
- h=from:subject:message-id; bh=SMb6pABjsjLAwOsoTGarVOQ2VZnyUOlkFFcSaM8l0vY=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+SQmlhhtd+huw9uVyFoWw3Q/mr1YxLfFcvPe8RMG1l
- 7K6vtY2HaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZjInQcM/6znrHuzXehV8Jn9
- rnEccyy8/2xek7Raom/n8S0pH/jYFnIy/Pe1MRH/pSSfZsly7uY7z8RevgqJCeu7b14p+7wsvOv
- XEQ4A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1162; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=jg+mpLiVJDLq2jsfv+zC4pV1nIIzTvOIydQhC3VcHjc=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+SZW8+H/+//4LLXvaLs3eKLxjEde+o+822z/YeC70S
+ enkR071XzpKWRjEuBhkxRRZ4rK4X9aXvF7Dd3BhG8wcViaQIQxcnAIwkWN/GRnuPNW+UZ2+gG3T
+ dk9JCTWG479KdZdJPUs48vPR/PuJ6nqxDP+T2coU70SdsJ7x8nXmtS6uJUtTt733SrtsKiauY8U
+ pZccAAA==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 04 Nov 2026 14:57:59 -0800, Matthew Schwartz wrote:
-> ASoC: support the ASUS ROG Xbox Ally X20 audio
-> 
-> The ASUS ROG Xbox Ally X20 (RC74XA) moves from the HDA codec and TAS2781
-> amps of the earlier ROG Ally models to SoundWire on ACP 7.0, with two
-> TAS2783 amps on link 0 and an RT721 on link 1. Its BIOS marks the ACP as
-> legacy DMIC only, no machine table entry matches the link layout, and
-> its TAS2783 firmware in linux-firmware uses the four-field name that
-> carries the BIOS speaker ID, so the speakers do not work today.
-> 
-> [...]
+On Wed, 04 Nov 2026 02:40:45 +0000, Wentao Liang wrote:
+> ASoC: fsl: imx-audio-rpmsg: unregister platform devices on probe failure
 
 Applied to
 
@@ -101,14 +90,8 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: amd: acp-config: force SoundWire probe on ASUS RC74XA
-      https://git.kernel.org/broonie/sound/c/817b86669dce
-[2/4] ASoC: amd: acp: add ACP70 SoundWire machine entry for ASUS RC74XA
-      https://git.kernel.org/broonie/sound/c/88363b2c5f0e
-[3/4] ASoC: tas2783-sdw: use the BIOS speaker ID in the firmware name
-      https://git.kernel.org/broonie/sound/c/9d28c97118d8
-[4/4] ASoC: rt721-sdca: wait for PDEs to reach PS0 after powering them up
-      https://git.kernel.org/broonie/sound/c/ab0fa5d151b5
+[1/1] ASoC: fsl: imx-audio-rpmsg: unregister platform devices on probe failure
+      https://git.kernel.org/broonie/sound/c/a3aa7ec56c14
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
