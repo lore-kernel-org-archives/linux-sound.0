@@ -1,58 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794203674;
-	b=khzJnysKjl/8GT2VdoMqkfVoVDFceIRc658g14r8SypMHKrVIBEZlbBhDvJeppo7nh4X
-	 68Gz1h7e8dJtDBvvOcRUpvg47eHRhN75i+sUNfhsfw2OKqwkzKdFWe3mdvbB0FwGW9nJR
-	 aLkeal97zM1/8vMIbaRN4byy0DmuqJe/UhGyM7dZcVQlhr3wkrTt5FXtBKjLJ7DM4gkPj
-	 lIZ1QaODqmhlD7Y3spNtuE/Jq6LJdzBO5osUWEKr2+tb3jxLnlxvOLR5LJlvhofWndIG+
-	 LhHqjtIdYwn3F1KvPs0/5pm1O1A61l73PqSJBQwZT1aKbZkOv7Q8pb2bHb7RPdQRLNw==
+	t=1794207740;
+	b=z3WTcfbwIm896buzpEmTRC8Klkf7lpIJHFUvmtltjiJcqt/CgNDKHHK3iwaCcPP7YzFZ
+	 65e4i78S/eAoj5w6G3wQE9U5LZZYcTQr23i8+oIcTChV0mqWxr9vABBOLUufuV4vRqSD2
+	 uBgeiZH+g8OzQOO3LYIGGPPW+y2ty50o/GJzGW9X9SMiJNMtqH5/ZDzJoKH1J1U/GjQq5
+	 szemY23ZfToaN8WpuHcxtMeGZXo0Is0Ul62dmCG4u+7PQLEfCHjyEMyMgj80/AfIyNKvE
+	 2o4KhElx1l/0m/mbx0dql6EbdvzBflTCh+HKg+XyAyzLKKpRMA4QgslLovb1kL3bfVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794203674;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=uBOBJ0aM3mjmzffqmN4XXCz6SYzcGrmriPlZl3XzQiI=;
-	b=JJTY9PhtoJ7WIF48mBGAOacGx4OoRNsRJnI3tp1MGp4CghEXVUIORklIOKyWMFvZl3E+
-	 0m4fP0FlW75O35JByNGL8YRuQ1QjHdCBbeI6d1tEpuBsxBvOUaIzG0CnUoBGtTjQRkDDZ
-	 aOiICJvoBtFYNPHaMpuhhskZK9OjkI2yL3Cp99ZP9dZUfPkyQbxMx/AYyClnChJfimicF
-	 j+PsHbxJ3rN0/VyQhsGmeaIIaVT9V4YpX2s9hkmcafbEyJhoXtVBVkcyPLorJTzUMiVjd
-	 5OZvD/zvkJeGxY1zg91wi1Aj5mjNAvxar/R4h3J8Hex18uECSYZkX3fgtzX9tE1N+3w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794207740;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=LcyRuhzfqEmKZLcyNf1Ye82CQkHc3k/JCJKVVIHSFjw=;
+	b=fr2/YM9urF3T3S48zkKGGdL1Svf5gBN/+JZ6YZOdXmQ+y6sOIMiCgZTW4CXMVYhAL5us
+	 4JhYfDvJGP8Na8ku1GJGVufBwkgITOfo2O2weHdc0KptUIlH07CtC5VxrQZFujRVNcDlC
+	 LpLcfrvMNejlpGKjxnsjjDonXvXfUIYENBCqPToatBu7HqFF30T7BmvT4X0Cr6tWe+Eh8
+	 zDsjavHXNYUW/HnsFFa8tYCJQ2rSPAqL5M4zc7rRnh4L0YpZ0tp28RlXRMkKjoY0FNOby
+	 mEYkVakKuO3dyp7win3SHvBZCr9yfK/B1/M2r7bHAAqJpGN4zIyMV0BQNgxM2KYrbdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WHRtGMvh;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kvT0MJF0;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A1C606A31C;
-	Mon,  9 Nov 2026 05:54:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CA0606A31C;
+	Mon,  9 Nov 2026 07:02:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48CA0606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WHRtGMvh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB1481F0089F;
-	Mon,  9 Nov 2026 05:54:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794203674;
-	bh=uBOBJ0aM3mjmzffqmN4XXCz6SYzcGrmriPlZl3XzQiI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=WHRtGMvhqdvhsyPJvAgyTf2YmT7oZrRwhYEEDVfKCQUewaYA5J5phzc/gBeXfCak9
-	 PEpBM0OVBdSvhq4qxMsV5vJQyhOzUDKlhWCw8J32qvE4p9LKPq1wvnG0AkVJCaQy+Z
-	 kd1+mSZhhLX33+x7+wvdEJdyvDeLcWxqD6fBIvSn56DMiQELy0DXjkyr3RbUt9CYPM
-	 LoLl7ghOnaKQss0t1sZnl8aVmNkBFB1bnYVSg5GnKpEveyLoFEM+AIgxnYtDzoQNyx
-	 vkoqQZzv2KUYWHOsrF8BSUoeD5YNL3cgbZ5a6ajO2/jJuSgfSlPHwgsl6nfIUBTS7f
-	 4tGtwm1RkWUxw==
-Message-ID: <sashiko-outbox-204463@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v22 11/13] ALSA: virtio: gate starts during PCM prepare
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
-Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
- Perez" <eperezma@redhat.com>
-In-Reply-To: <20261109051618.22506-12-mynameisjune111@gmail.com>
-References: <20261108235457.12688-1-mynameisjune111@gmail.com>
- <20261109051618.22506-1-mynameisjune111@gmail.com>
- <20261109051618.22506-12-mynameisjune111@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2026 05:54:33 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kvT0MJF0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794207740; x=1825743740;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=jqjYvSPZdN4womRIoUf+i5XWUpGSoi8nao30F9v+XSg=;
+  b=kvT0MJF0sjQsgcM8YKfFAonASpt78uycKs/33jm2zJJgnJ0AR61NJWn0
+   N6Z5yXmgXH4kxeBwptn/oG8+hCRp0GZ0x16k+0oWniGFTxiO0jzEYS1bE
+   AO6GMv2u93vUGpQf1osByEWpVk/5g7clMadjoW0T+qY9l7Zjh4oicHE0+
+   i7j10UQtRQM1sWAysdLAo9ky0hJvNBIl6ojcO5nUxNPsrQLxvQXYJpZML
+   HdKM9cHMAO1x1Evw9vSX2gmBqjTVaAjiiOQW4FXoqv/+JOzCjPbBgv/+U
+   Wn9QLCkrGLRb/46DNdNCYNvxEju4BxvOdMwX6IL1yzOLSHfMNWzp1t3et
+   A==;
+X-CSE-ConnectionGUID: A0ZEgw30QtmEeV5knMMubw==
+X-CSE-MsgGUID: jryb9GPFT6GZLAKY/xbTLw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2953411"
+X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
+   d="scan'208";a="2953411"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 23:02:19 -0800
+X-CSE-ConnectionGUID: vIH1AQMfRqSt6uHHD23P0Q==
+X-CSE-MsgGUID: Lu4bEVqtSwCNeuKtlIpwzw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
+   d="scan'208";a="8369481"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO [10.245.244.60]) ([10.245.244.60])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 23:02:15 -0800
+Message-ID: <883462b2-1060-4e1d-b344-1a2fe081bc9e@linux.intel.com>
+Date: Mon, 9 Nov 2026 09:02:54 +0200
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,264 +71,347 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/6] ASoC: soc-acpi: move common function topology
+ helpers
+To: Syed Saba Kareem <syed.sabakareem@amd.com>, broonie@kernel.org
+Cc: Sunil-kumar.Dommati@amd.com, vijendar.mukunda@amd.com,
+ Mario.Limonciello@amd.com, venkataprasad.potturu@amd.com,
+ Siva Subramanian Ravi Saravanan <sravisar@amd.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
+ <linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+References: <20261107192744.2027264-1-syed.sabakareem@amd.com>
+ <20261107192744.2027264-4-syed.sabakareem@amd.com>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <20261107192744.2027264-4-syed.sabakareem@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 5 potential
-issues to consider:
-- [Medium] ALSA: virtio: missing playback XRUN state in
-  virtsnd_pcm_start_failed()
-- [Medium] ALSA: virtio: PAUSE_PUSH rollback re-enables queue in
-  virtsnd_pcm_trigger_inner()
-- [Medium] ALSA: virtio: paused ACK validation skips XRUN latch in
-  virtsnd_pcm_cp_ack_locked()
-- [Medium] ALSA: virtio: unaligned appl_ptr in
-  virtsnd_pcm_capture_staged_ack() passes hw_ptr
-- [Low] ALSA: virtio: commit message omits staged capture, reset, and
-  param changes
---
 
-commit e0eac3208f73f40e886712be3453157819f1fd9f
-Author: Joonho Lee <mynameisjune111@gmail.com>
 
-> ALSA: virtio: gate starts during PCM prepare
->
-> Use the prepare-completion callback to keep ACK admission closed until
-> every linked member finishes device prepare and the core pointer reset.
-> Clear the gate after success or failure, and keep failed members
-> unprepared so a later ACK cannot use stale accounting.
->
-> Keep START and PAUSE_RELEASE admission checks at the virtio trigger and
-> deferred restart entry points. Preserve the existing capture lifecycle
-> and reset rules.
->
-> Assisted-by: LLM
-> Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
+On 07/11/2026 21:26, Syed Saba Kareem wrote:
+> From: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+> 
+> From: Siva Subramanian Ravi Saravanan <sravisar@amd.com>
+> 
+> Move the Intel function topology helpers and the topology device enum
+> to soc-acpi so that they can be shared with other platforms too. The
+> moved helpers are:
+>  - get_platform_name() as snd_soc_acpi_get_platform_name()
 
-[Severity: Low]
-Does the commit message match the actual changes in this patch?
+This function is SOF specific (expetcts the string to be
+sof-<platform>), the generic name after move did not reflect this fack.
 
-While the changelog describes gating ACK and start admission during
-prepare and claims to preserve the existing capture lifecycle and reset
-rules, the patch adds a request-owned staged capture path, five new
-module parameters (capture_staging, capture_packed_status,
-capture_allow_short, capture_allow_empty, and capture_pause_restart), a
-pause-restart state machine, custom reset callbacks
-(virtsnd_pcm_playback_reset(), virtsnd_pcm_indirect_reset(), and
-virtsnd_pcm_reset()), and manual DMA buffer management replacing
-snd_pcm_set_managed_buffer_all().
+>  - tplg_files_exist() as snd_soc_acpi_tplg_files_exist()
 
-> diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
-> index b9728d04ce608..b2a569866d5c9 100644
-> --- a/sound/virtio/virtio_pcm_ops.c
-> +++ b/sound/virtio/virtio_pcm_ops.c
+This only checks for existance of a topology file, probably better off
+in soc-topology.c ?
+and a comment inline for the moved function later.
 
-[ ... ]
+>  - get_tplg_filename() as snd_soc_acpi_get_tplg_filename()
+> 
+> No functional change for Intel.
 
-> @@ -97,46 +131,265 @@ static const struct virtsnd_a2v_rate g_a2v_rate_map=
-[] =3D {
->  };
-> =20
->  static int virtsnd_pcm_sync_stop(struct snd_pcm_substream *substream);
-> +static int virtsnd_pcm_sync_stop_locked(struct snd_pcm_substream *substr=
-eam);
-> +static int virtsnd_pcm_pause_restart_sync_stop(struct snd_pcm_substream =
-*substream);
-> =20
-> -/**
-> - * virtsnd_pcm_close_ack() - Update PCM prepare admission state.
-> - * @substream: Kernel ALSA substream.
-> - * @preparing: True while driver prepare and the core pointer reset are =
-active.
-> - *
-> - * Context: Process context.
-> - */
-> -static void virtsnd_pcm_close_ack(struct snd_pcm_substream *substream,
-> -				  bool preparing)
-> +static void virtsnd_pcm_start_failed(struct virtio_pcm_substream *vss, u=
-64 epoch)
+It looks like there is a build regression according to lkp@intel.com
+
+> Signed-off-by: Siva Subramanian Ravi Saravanan <sravisar@amd.com>
+> Signed-off-by: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+> ---
+>  include/sound/soc-acpi.h                      | 25 +++++
+>  .../intel/common/sof-function-topology-lib.c  | 93 ++-----------------
+>  sound/soc/soc-acpi.c                          | 73 +++++++++++++++
+>  3 files changed, 106 insertions(+), 85 deletions(-)
+> 
+> diff --git a/include/sound/soc-acpi.h b/include/sound/soc-acpi.h
+> index 2ee303b791dc..aea47a42f43d 100644
+> --- a/include/sound/soc-acpi.h
+> +++ b/include/sound/soc-acpi.h
+> @@ -257,4 +257,29 @@ bool snd_soc_acpi_sdw_link_slaves_found(struct device *dev,
+>  					const struct snd_soc_acpi_link_adr *link,
+>  					struct sdw_peripherals *peripherals);
+>  
+> +enum tplg_device_id {
+> +	TPLG_DEVICE_SDCA_JACK,
+> +	TPLG_DEVICE_SDCA_AMP,
+> +	TPLG_DEVICE_SDCA_MIC,
+> +	TPLG_DEVICE_INTEL_PCH_DMIC,
+> +	TPLG_DEVICE_HDMI,
+> +	TPLG_DEVICE_SSP_JACK,
+> +	TPLG_DEVICE_SSP_AMP,
+> +	TPLG_DEVICE_SSP_BT,
+> +	TPLG_DEVICE_SSP_HDMI_IN,
+> +	TPLG_DEVICE_LOOPBACK_VIRTUAL,
+> +	TPLG_DEVICE_ACP_SDW_JACK,
+> +	TPLG_DEVICE_ACP_SDW_AMP,
+> +	TPLG_DEVICE_ACP_SDW_MIC,
+> +	TPLG_DEVICE_ACP_DMIC,
+
+this patch does a but  more than just move function which is not
+mentioned in commit title, nor in the message..
+
+> +	TPLG_DEVICE_MAX
+> +};
+> +
+> +int snd_soc_acpi_get_platform_name(struct snd_soc_card *card,
+> +				   const struct snd_soc_acpi_mach *mach, char *platform);
+> +bool snd_soc_acpi_tplg_files_exist(struct device *dev, const char *tplg_files);
+> +char *snd_soc_acpi_get_tplg_filename(struct device *dev, const char *prefix,
+> +				     const char *platform, const char *tplg_dev_name,
+> +				     int dai_link_id, int tplg_dev);
+> +
+>  #endif
+> diff --git a/sound/soc/intel/common/sof-function-topology-lib.c b/sound/soc/intel/common/sof-function-topology-lib.c
+> index 57e089f8e721..413d6f11a00e 100644
+> --- a/sound/soc/intel/common/sof-function-topology-lib.c
+> +++ b/sound/soc/intel/common/sof-function-topology-lib.c
+> @@ -13,88 +13,11 @@
+>  #include <sound/soc-acpi.h>
+>  #include "sof-function-topology-lib.h"
+>  
+> -enum tplg_device_id {
+> -	TPLG_DEVICE_SDCA_JACK,
+> -	TPLG_DEVICE_SDCA_AMP,
+> -	TPLG_DEVICE_SDCA_MIC,
+> -	TPLG_DEVICE_INTEL_PCH_DMIC,
+> -	TPLG_DEVICE_HDMI,
+> -	TPLG_DEVICE_SSP_JACK,
+> -	TPLG_DEVICE_SSP_AMP,
+> -	TPLG_DEVICE_SSP_BT,
+> -	TPLG_DEVICE_SSP_HDMI_IN,
+> -	TPLG_DEVICE_LOOPBACK_VIRTUAL,
+> -	TPLG_DEVICE_MAX
+> -};
+> -
+>  #define SDCA_DEVICE_MASK (BIT(TPLG_DEVICE_SDCA_JACK) | BIT(TPLG_DEVICE_SDCA_AMP) | \
+>  			  BIT(TPLG_DEVICE_SDCA_MIC))
+>  
+>  #define SOF_INTEL_PLATFORM_NAME_MAX 4
+>  
+> -static int get_platform_name(struct snd_soc_card *card,
+> -			     const struct snd_soc_acpi_mach *mach, char *platform)
+> -{
+> -	int ret;
+> -
+> -	ret = sscanf(mach->sof_tplg_filename, "sof-%3s-*.tplg", platform);
+> -	if (ret != 1) {
+> -		dev_err(card->dev, "Invalid platform name of tplg %s\n",
+> -			mach->sof_tplg_filename);
+> -		return -EINVAL;
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+> -static bool tplg_files_exist(struct device *dev, const char *tplg_files)
+> -{
+> -	const struct firmware *fw;
+> -	int ret;
+> -
+> -	ret = firmware_request_nowarn(&fw, tplg_files, dev);
+> -	if (!ret) {
+> -		release_firmware(fw);
+> -		return true;
+> -	}
+> -
+> -	dev_warn(dev,
+> -		 "Failed to open topology file: %s, you might need to\n",
+> -		 tplg_files);
+> -	dev_warn(dev,
+> -		 "download it from https://github.com/thesofproject/sof-bin/\n");
+> -	return false;
+> -}
+> -
+> -static char *get_tplg_filename(struct device *dev, const char *prefix,
+> -			       const char *platform, const char *tplg_dev_name,
+> -			       int dai_link_id, int tplg_dev)
+> -{
+> -	char *filename = NULL;
+> -
+> -	/*
+> -	 * The tplg file naming rule is sof-<platform>-<function>-id<BE id number>.tplg
+> -	 * where <platform> is required for functions that depend on NHLT blobs (e.g. DMIC/SSP)
+> -	 * as the nhlt blob is platform dependent.
+> -	 */
+> -	switch (tplg_dev) {
+> -	case TPLG_DEVICE_INTEL_PCH_DMIC:
+> -	case TPLG_DEVICE_SSP_JACK:
+> -	case TPLG_DEVICE_SSP_AMP:
+> -	case TPLG_DEVICE_SSP_BT:
+> -	case TPLG_DEVICE_SSP_HDMI_IN:
+> -		filename = devm_kasprintf(dev, GFP_KERNEL, "%s/sof-%s-%s-id%d.tplg",
+> -					  prefix, platform, tplg_dev_name, dai_link_id);
+> -		break;
+> -	default:
+> -		filename = devm_kasprintf(dev, GFP_KERNEL, "%s/sof-%s-id%d.tplg",
+> -					  prefix, tplg_dev_name, dai_link_id);
+> -		break;
+> -	}
+> -
+> -	return filename;
+> -}
+> -
+>  static int get_dmic_tplg_dev(struct device *dev, int dmic_num,
+>  			     int *tplg_dev, char **tplg_dev_name)
 >  {
-> -	struct virtio_pcm_substream *vss =3D snd_pcm_substream_chip(substream);
-> +	bool notify;
-> =20
-> -	scoped_guard(pcm_stream_lock_irqsave, substream) {
-> -		guard(spinlock_irqsave)(&vss->lock);
-> -		vss->prepared =3D false;
-> +	scoped_guard(spinlock_irqsave, &vss->lock) {
-> +		if (vss->resetting || vss->reset_epoch !=3D epoch)
-> +			return;
->  		vss->xfer_enabled =3D false;
-> -		vss->preparing =3D preparing;
-> +		vss->stopped =3D vss->release_required || vss->msg_count;
-> +		notify =3D vss->direction =3D=3D SNDRV_PCM_STREAM_CAPTURE &&
-> +			 (!vss->capture_staging || vss->runtime_active);
-> +		if (notify)
-> +			vss->xfer_xrun =3D true;
->  	}
-> +	vss->substream->runtime->stop_operating =3D true;
-> +	if (notify)
-> +		virtsnd_pcm_schedule_period_elapsed(vss);
+> @@ -182,7 +105,7 @@ int sof_sdw_get_tplg_files(struct snd_soc_card *card, const struct snd_soc_acpi_
+>  	int ret;
+>  	int i;
+>  
+> -	ret = get_platform_name(card, mach, platform);
+> +	ret = snd_soc_acpi_get_platform_name(card, mach, platform);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> @@ -235,13 +158,13 @@ int sof_sdw_get_tplg_files(struct snd_soc_card *card, const struct snd_soc_acpi_
+>  		if (tplg_mask & BIT(tplg_dev))
+>  			continue;
+>  
+> -		tplg_file = get_tplg_filename(card->dev, prefix, platform, tplg_dev_name,
+> -					      dai_link->id, tplg_dev);
+> +		tplg_file = snd_soc_acpi_get_tplg_filename(card->dev, prefix, platform,
+> +							   tplg_dev_name, dai_link->id, tplg_dev);
+>  		if (!tplg_file)
+>  			return -ENOMEM;
+>  
+>  		/* Check presence of sub-topologies */
+> -		if (!tplg_files_exist(card->dev, tplg_file)) {
+> +		if (!snd_soc_acpi_tplg_files_exist(card->dev, tplg_file)) {
+>  			devm_kfree(card->dev, tplg_file);
+>  			if (best_effort)
+>  				continue;
+> @@ -275,7 +198,7 @@ int sof_i2s_get_tplg_files(struct snd_soc_card *card, const struct snd_soc_acpi_
+>  	int ret;
+>  	int i;
+>  
+> -	ret = get_platform_name(card, mach, platform);
+> +	ret = snd_soc_acpi_get_platform_name(card, mach, platform);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> @@ -307,13 +230,13 @@ int sof_i2s_get_tplg_files(struct snd_soc_card *card, const struct snd_soc_acpi_
+>  		if (tplg_mask & BIT(tplg_dev))
+>  			continue;
+>  
+> -		tplg_file = get_tplg_filename(card->dev, prefix, platform, tplg_dev_name,
+> -					      dai_link->id, tplg_dev);
+> +		tplg_file = snd_soc_acpi_get_tplg_filename(card->dev, prefix, platform,
+> +							   tplg_dev_name, dai_link->id, tplg_dev);
+>  		if (!tplg_file)
+>  			return -ENOMEM;
+>  
+>  		/* Check presence of sub-topologies */
+> -		if (!tplg_files_exist(card->dev, tplg_file)) {
+> +		if (!snd_soc_acpi_tplg_files_exist(card->dev, tplg_file)) {
+>  			devm_kfree(card->dev, tplg_file);
+>  			if (best_effort)
+>  				continue;
+> diff --git a/sound/soc/soc-acpi.c b/sound/soc/soc-acpi.c
+> index 270f9777942f..7e9d7b3c6b32 100644
+> --- a/sound/soc/soc-acpi.c
+> +++ b/sound/soc/soc-acpi.c
+> @@ -4,7 +4,9 @@
+>  //
+>  // Copyright (c) 2013-15, Intel Corporation.
+>  
+> +#include <linux/device.h>
+>  #include <linux/export.h>
+> +#include <linux/firmware.h>
+>  #include <linux/module.h>
+>  #include <sound/soc-acpi.h>
+>  
+> @@ -200,5 +202,76 @@ bool snd_soc_acpi_sdw_link_slaves_found(struct device *dev,
 >  }
-
-[Severity: Medium]
-Should virtsnd_pcm_start_failed() also latch vss->xfer_xrun and schedule
-vss->elapsed_period for playback streams?
-
-When SNDRV_PCM_TRIGGER_START or SNDRV_PCM_TRIGGER_PAUSE_RELEASE fails on
-a playback substream, vss->stopped is set to true while vss->xfer_xrun
-remains false.  A subsequent SNDRV_PCM_TRIGGER_PAUSE_RELEASE (such as
-during snd_pcm_drop() or snd_pcm_prepare() on a paused stream) then skips
-virtsnd_pcm_defer_resume_xrun() and fails in virtsnd_pcm_start_queue()
-with -EBADFD, and a start failure during snd_pcm_do_drain_init() or
-snd_pcm_undo_pause() leaves the stream in RUNNING or DRAINING without
-virtsnd_pcm_pb_pointer() ever reporting SNDRV_PCM_POS_XRUN.
-
-[ ... ]
-
-> +		rc =3D virtsnd_pcm_stop_device(vss, epoch);
-> +		if (rc && command !=3D SNDRV_PCM_TRIGGER_PAUSE_PUSH) {
-> +			guard(spinlock_irqsave)(&vss->lock);
-> =20
-> -		return virtsnd_ctl_msg_send_sync(snd, msg);
-> +			if (vss->reset_epoch =3D=3D epoch && !vss->resetting) {
-> +				vss->xfer_xrun =3D true;
-> +				substream->runtime->stop_operating =3D true;
-> +				if (vss->direction =3D=3D SNDRV_PCM_STREAM_CAPTURE)
-> +					virtsnd_pcm_schedule_period_elapsed(vss);
-> +			}
-> +		}
-> +		if (rc && command =3D=3D SNDRV_PCM_TRIGGER_PAUSE_PUSH) {
-> +			if (virtsnd_pcm_start_queue(vss, epoch)) {
-> +				guard(spinlock_irqsave)(&vss->lock);
-> +				if (vss->reset_epoch =3D=3D epoch && !vss->resetting) {
-> +					vss->xfer_xrun =3D true;
-> +					vss->stopped =3D true;
-> +					substream->runtime->stop_operating =3D true;
-> +					virtsnd_pcm_schedule_period_elapsed(vss);
-> +				}
-> +			} else if (vss->direction =3D=3D SNDRV_PCM_STREAM_CAPTURE) {
-> +				virtsnd_pcm_schedule_period_elapsed(vss);
-> +			}
-> +		}
-> +		return rc;
-
-[Severity: Medium]
-Can a failed SNDRV_PCM_TRIGGER_PAUSE_PUSH re-enable the queue while
-substream->runtime->state is SNDRV_PCM_STATE_PAUSED?
-
-When resuming a linked group from pause fails on a later member,
-snd_pcm_undo_pause() calls trigger(SNDRV_PCM_TRIGGER_PAUSE_PUSH) on
-earlier members while their runtime->state is still
-SNDRV_PCM_STATE_PAUSED and ignores the return value.  If
-virtsnd_pcm_stop_device() fails during that rollback, calling
-virtsnd_pcm_start_queue() leaves vss->xfer_enabled set and capture
-buffers queued on a paused substream instead of latching vss->xfer_xrun
-and vss->stopped.
-
-[ ... ]
-
-> +		appl_ptr =3D runtime->control->appl_ptr;
-> +		diff =3D appl_ptr - vss->pcm_indirect.appl_ptr;
-> +		if (diff < -(snd_pcm_sframes_t)(runtime->boundary / 2))
-> +			diff +=3D runtime->boundary;
-> +		if (diff < 0)
-> +			return virtsnd_pcm_ack_xrun_locked(vss, runtime);
-> +		appl_diff =3D diff;
-> +		ack_frames =3D appl_diff - appl_diff % runtime->min_align;
-> +		if (ack_frames > runtime->buffer_size ||
-> +		    (appl_diff > runtime->buffer_size &&
-> +		     appl_diff - runtime->buffer_size >=3D runtime->min_align)) {
-> +			return virtsnd_pcm_ack_xrun_locked(vss, runtime);
-> +		}
+>  EXPORT_SYMBOL_GPL(snd_soc_acpi_sdw_link_slaves_found);
+>  
+> +int snd_soc_acpi_get_platform_name(struct snd_soc_card *card,
+> +				   const struct snd_soc_acpi_mach *mach, char *platform)
+> +{
+> +	int ret;
 > +
-> +		/* ACK includes any subperiod tail already copied to the ring. */
-> +		bytes =3D frames_to_bytes(runtime, ack_frames);
-> +		outstanding =3D vss->capture_copied_total -
-> +			      vss->capture_acked_total;
-> +		if ((!free_running && bytes > vss->capture_ready) ||
-> +		    (free_running &&
-> +		     (bytes > vss->buffer_bytes || bytes > outstanding)) ||
-> +		    check_add_overflow(vss->capture_acked_total, (u64)bytes,
-> +				       &next_acked_total) ||
-> +		    next_acked_total > vss->capture_pointer_seen_total) {
-> +			return virtsnd_pcm_ack_xrun_locked(vss, runtime);
-> +		}
-> +
-> +		vss->capture_acked_total =3D next_acked_total;
-> +		if (!free_running)
-> +			vss->capture_ready -=3D bytes;
-> +		/* Keep any unaligned frame tail for the next acknowledgment. */
-> +		vss->pcm_indirect.appl_ptr +=3D ack_frames;
-> +		if (vss->pcm_indirect.appl_ptr >=3D runtime->boundary)
-> +			vss->pcm_indirect.appl_ptr -=3D runtime->boundary;
+> +	/* platform must hold at least 8 bytes */
+> +	ret = sscanf(mach->sof_tplg_filename, "sof-%7[^-]-*.tplg", platform);
+> +	if (ret != 1) {
+> +		dev_err(card->dev, "Invalid platform name of tplg %s\n",
+> +			mach->sof_tplg_filename);
+> +		return -EINVAL;
 > +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(snd_soc_acpi_get_platform_name);
+> +
+> +bool snd_soc_acpi_tplg_files_exist(struct device *dev, const char *tplg_files)
+> +{
+> +	const struct firmware *fw;
+> +	int ret;
+> +
+> +	ret = firmware_request_nowarn(&fw, tplg_files, dev);
+> +	if (!ret) {
+> +		release_firmware(fw);
+> +		return true;
+> +	}
+> +
+> +	dev_warn(dev,
+> +		 "Failed to open topology file: %s, you might need to\n",
+> +		 tplg_files);
+> +	dev_warn(dev,
+> +		 "download it from https://github.com/thesofproject/sof-bin/\n");
 
-[Severity: Medium]
-Can an unaligned appl_ptr update in virtsnd_pcm_capture_staged_ack()
-advance runtime->control->appl_ptr past runtime->status->hw_ptr?
+This is certainly true for Intel platforms but the print makes this also
+SOF specific which is not reflected in the function name.
 
-For sub-byte frame formats where runtime->min_align > 1 (such as
-1-channel SNDRV_PCM_FORMAT_IMA_ADPCM), rounding appl_diff down to
-ack_frames and returning 0 lets pcm_lib_apply_appl_ptr() commit the
-unaligned runtime->control->appl_ptr even when bytes =3D=3D
-vss->capture_ready and no unread sample covers the tail frame.  That puts
-appl_ptr ahead of hw_ptr and causes snd_pcm_capture_avail() to underflow
-near runtime->boundary.  Rejecting unaligned appl_diff with -EBADFD, as
-virtsnd_pcm_capture_ack_validate() does, would prevent the partial-frame
-advance.
+> +	return false;
+> +}
+> +EXPORT_SYMBOL_GPL(snd_soc_acpi_tplg_files_exist);
+> +
+> +char *snd_soc_acpi_get_tplg_filename(struct device *dev, const char *prefix,
+> +				     const char *platform, const char *tplg_dev_name,
+> +				     int dai_link_id, int tplg_dev)
+> +{
+> +	char *filename = NULL;
+> +
+> +	/*
+> +	 * The tplg file naming rule is sof-<platform>-<function>-id<BE id number>.tplg
+> +	 * where <platform> is required for functions that depend on NHLT blobs (e.g. DMIC/SSP)
+> +	 * as the nhlt blob is platform dependent.
+> +	 */
+> +	switch (tplg_dev) {
+> +	case TPLG_DEVICE_INTEL_PCH_DMIC:
+> +	case TPLG_DEVICE_SSP_JACK:
+> +	case TPLG_DEVICE_SSP_AMP:
+> +	case TPLG_DEVICE_SSP_BT:
+> +	case TPLG_DEVICE_SSP_HDMI_IN:
+> +	case TPLG_DEVICE_ACP_SDW_JACK:
+> +	case TPLG_DEVICE_ACP_SDW_AMP:
+> +	case TPLG_DEVICE_ACP_SDW_MIC:
+> +	case TPLG_DEVICE_ACP_DMIC:
+> +		filename = devm_kasprintf(dev, GFP_KERNEL, "%s/sof-%s-%s-id%d.tplg",
+> +					  prefix, platform, tplg_dev_name, dai_link_id);
+> +		break;
+> +	default:
+> +		filename = devm_kasprintf(dev, GFP_KERNEL, "%s/sof-%s-id%d.tplg",
+> +					  prefix, tplg_dev_name, dai_link_id);
+> +		break;
+> +	}
+> +
+> +	return filename;
 
-[ ... ]
+This will also sonstruct a SOF specific file name, yet the name reads
+generic.
 
-> +	scoped_guard(spinlock_irqsave, &queue->lock) {
-> +		guard(spinlock)(&vss->lock);
-> +		paused =3D runtime->state =3D=3D SNDRV_PCM_STATE_PAUSED;
-> +		if (vss->preparing)
-> +			return -EBADFD;
-> +		/* A latched XRUN must not re-arm sync_stop once teardown began. */
-> +		if (vss->stopped && vss->xfer_xrun)
-> +			return -EBADFD;
-> +		if (vss->xfer_xrun) {
-> +			rc =3D virtsnd_pcm_ack_xrun_locked(vss, runtime);
-> +		} else {
-> +			if (!vss->prepared ||
-> +			    (vss->stopped &&
-> +			     runtime->state !=3D SNDRV_PCM_STATE_DRAINING))
-> +				return -EBADFD;
-> +			rc =3D virtsnd_pcm_capture_ack_validate(vss, runtime,
-> +							      &skip_transfer);
-> +			if (rc =3D=3D -EBADFD || (rc && paused))
-> +				return -EBADFD;
-> +			if (!rc && skip_transfer)
-> +				return 0;
-> +			if (!rc) {
->  				transfer.indirect =3D vss->pcm_indirect;
->  				rc =3D snd_pcm_indirect_capture_transfer(substream,
->  								       &transfer.indirect,
->  								       virtsnd_pcm_trans_copy);
->  			}
->  		}
->  		if (!rc)
->  			rc =3D transfer.error;
-> -		if (rc)
-> -			virtsnd_pcm_transfer_failed(vss);
-> -		else
-> +		if (rc) {
-> +			if (paused)
-> +				rc =3D virtsnd_pcm_ack_xrun_locked(vss, runtime);
-> +			else
-> +				virtsnd_pcm_transfer_failed(vss);
-> +		} else {
->  			vss->pcm_indirect =3D transfer.indirect;
-> +		}
->  	}
+> +}
+> +EXPORT_SYMBOL_GPL(snd_soc_acpi_get_tplg_filename);
+> +
+>  MODULE_LICENSE("GPL v2");
+>  MODULE_DESCRIPTION("ALSA SoC ACPI module");
 
-[Severity: Medium]
-Does returning -EBADFD on (rc && paused) right after
-virtsnd_pcm_capture_ack_validate() skip latching the paused XRUN?
+-- 
+Péter
 
-When virtsnd_pcm_capture_ack_validate() returns -EPIPE while paused, the
-early return bypasses virtsnd_pcm_ack_xrun_locked() below, so
-vss->xfer_xrun is never latched and the XRUN is not deferred to pause
-release as in virtsnd_pcm_pb_ack_locked().
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109051618.2250=
-6-1-mynameisjune111@gmail.com?part=3D11
