@@ -1,60 +1,69 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794310213;
-	b=p954lKlGJOIfK7Xr/LhptyAVu4qWv2MTRzwGapG+d4QumEIeCcfOksKOuiyPNrMPnVYH
-	 XPWPy3/QYIO0mI1wZ1oVU8DYDhwj5/Wx5rNEipjxpBuy8Z/ZvT/61gG6LCzkB56Qchm+i
-	 tQoECyuO3GRau2puEtBXFFm9Rff/DAi0ZmqfBZQv8e0AKabyWbxVo2V0/TSdRfhX60CwN
-	 FMpCWGV8YinU13aiD7p2HYBMW1VGAnR0ufCnjnXj88HhID53MU7ADhJTX7oRu4CYmYbYY
-	 mSu0B0bDBFKyd4GgwQgVz4QZ/hlXwId+poZ6noK3DHvJ/ipE7+A+WhNE3r2PYUg/xpg==
+	t=1794310689;
+	b=zF2fWyJ54qmzskFPXaRkCj6f6DlwngrgvLhZ8nF3jvc9OAERz2guppmyOSVpc0RFThUU
+	 e/cMvoiRXAJQXxc+Ax1Cr35CQfmW/tuBbmZHp3tY8dsGxo0jn29vqFN7zFXpe7g60kCch
+	 ONk45KjaDbgBpeHAVvzmQhpPWVScygYfwHSe85qO0H2iD4T8hvz4HfkHNHLCdqTxH8DOE
+	 6CEvvPVJVr+5I0q3FIMnNlNRn9cUC8eZRd9E5mMuXLZt/QXPinlZB9WB+tRDho38jkusw
+	 Znen+uuhFcmUcWWEYVZ557rxZpj2fKERTTJYnbrT5Aus2j7nc9K7R06D805OwX24vSw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794310213;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=hNzhzzDWVOicaiHX2YgXwVI6Ivy5qz0qawZZSN4jOOo=;
-	b=BKqtJ7j0/HP8xal9dlyLz/eeNPycODs4MyWFCvhSQYf6xDUoYlhfEfG7EYO1pzkSNmKY
-	 VKOsAM5AXOiIeKg0EOYMSJBidFqRk1k1olWa2cNnrGPZdNFd5xBt2B+8VFynyxyWG+Ns0
-	 mFmUE4UD5OhDbgy0EtihqmR9mkDrC7D2HzD7prxUZ6ukUIof3KRVH/kZ4LFCmTwBkyCJ2
-	 o75o0AdNjsDSkEmkAwF8QKIAbLZkSEqC2LxlkccvUjCGQrK3k3Ho/FuZjOXUGr7RbMr7x
-	 qFtvXI6aNahloNgpGbgFJ6bjkPxbVAT9KmaKu1/Wek5xXguvJzQUl6y6Ul9+ued/yDg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794310689;
+	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
+	 Subject:Message-Id:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=iorjE9z8QyUMJ1RAj7sx526U6HMd38S2kCHhClS7b6g=;
+	b=N9YcCfCepbSs2DvvOPc0iEIsy/aZfupHvLM2+7ILALHd6oHP0gayOrOidFebfc4aTc3b
+	 ewSoPZHfbfgLW66TxrqmTJA6y82dYsQODxni8w2whk3wKYzEoE2GweyCOO1+GrzVc2XcD
+	 c/gHab20Zsej9MBS6ZnxQ72nXW/zT7ZhJwLX5HXab1vsavKidq7cp54bPoYpQTaG9dHa6
+	 OxAXQxh/Ds4c/FEXY1/pFDFoBEnhU2Lkwu03QINvbAYw82vEqks6gF4/M63VGXVxnor2u
+	 hjKjpmVWvJjM9LqkPwWjfQ2m3RVp0Eqpi28Ecknj280K2vkkh7z8s7VWD+wnzU3HkLw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GevCfeUx;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ax6ncekN;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14079606A32A
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 11:30:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5047A60A2602;
+	Tue, 10 Nov 2026 11:38:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GevCfeUx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 342591F0089F;
-	Tue, 10 Nov 2026 11:30:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ax6ncekN
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B267B1F008A5;
+	Tue, 10 Nov 2026 11:38:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794310212;
-	bh=hNzhzzDWVOicaiHX2YgXwVI6Ivy5qz0qawZZSN4jOOo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GevCfeUxLUVJyRx1j0UdF2D+Apbfkg+SAc8s1m1iDrajTFZompTS25cGbnA97hrVW
-	 HOtXH69t9TNs+7/HbxdyqUEXSA/4Oid0ItzhIQROLOwb7Xz2odDpRNBkdPRV2i5Pei
-	 KlMw/VrmJVsFDMDN/KiZxYuIeSpthLoSV1W1Kh8KdNJDdvVlkm7OF2IHyru7MLT4z2
-	 HpSyR/ZEdUaTzMw7j6pjEcURR++26SDz9r1jbBk2qV4Y5UJWHJwR4aAb9B6nZfvlSE
-	 hc+uBN8u7YYKayJPr/4acqBHI6Fy/jG00DvaCIdrcltvdH8ABFnCrvumpECHj9YD5Q
-	 N5MSQA3DL0xMw==
-Date: Tue, 10 Nov 2026 11:30:05 +0000
+	s=k20260515; t=1794310688;
+	bh=iorjE9z8QyUMJ1RAj7sx526U6HMd38S2kCHhClS7b6g=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Ax6ncekNiCm0/WnNpBe+QkJAmkI4oOEbuK1DQjWXxBTCEqs+Zdr8PJVEdRCbQ2/Os
+	 k3ve5AQxcXxUNprkLBWYlkPxNonI1WWsvSpfsesZno+5vEPAN4kmtQioXc0BV7CF7N
+	 dJ9qfoI8VrnE343YvqwStJo7+RtLcXpf1J1OJGxgPz1WfGB0IJjTPeaykorRUY8ZyE
+	 ky8+kRroM9PJhysCoSYiIe+x+VOdcviDs5+8yvlk96SCd/WOR6Lf/86xpTDlf0WRRc
+	 ITPy1m6FlZV+Do87p+giooag+XfwYVkkf/y8Qxkt7mFVhRVq1TNaJocHluzyQ8crZ0
+	 ulUL1ciCT0RVA==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id DD327310B69B;
+	Tue, 10 Nov 2026 11:38:05 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: Qianghua Wang <qianghua.wang@senarytech.com>
-Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	bo liu <bo.liu@senarytech.com>
-Subject: Re: [PATCH v2] ASoC: sn624x: add support for the SN6245 part ID
-Message-ID: <bd49b599-1571-4948-bf8b-3bd507b95834@sirena.org.uk>
-References: <20261110032012.711191-1-qianghua.wang@senarytech.com>
- <20261110034736.742465-1-qianghua.wang@senarytech.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Abdulrasaq Lawani <abdulrasaqolawani@gmail.com>, 
+ Leon Romanovsky <leon@kernel.org>, 
+ Animesh Agarwal <animeshagarwal28@gmail.com>, 
+ Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-tegra@vger.kernel.org
+In-Reply-To: <20261104124057.240288-1-clamor95@gmail.com>
+References: <20261104124057.240288-1-clamor95@gmail.com>
+Subject: Re: (subset) [PATCH v2 0/7] ASoC: dt-bindings: Add/Update
+ #sound-dai-cells to Tegra related codecs
+Message-Id: <179426618773.3711751.13100572621405559085.b4-ty@b4>
+Date: Mon, 09 Nov 2026 23:16:27 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,43 +73,62 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="TjfaQ0cDiex3p2In"
-Content-Disposition: inline
-In-Reply-To: <20261110034736.742465-1-qianghua.wang@senarytech.com>
-X-Cookie: You can't take damsel here now.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2055; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=A+08dPCEhdxswcFtASv+WxHVH5TxmCKisizGltwDYZk=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+M8km/VJniHrW+p9ny5PeO+7p2vtsNz344FYtx6RTw
+ s9nFZzUUcrCIMbFICumyBKXxf2yvuT1Gr6DC9tg5rAygQxh4OIUgInsaWFkmGFb5NbXJjzjkOzK
+ dYxzlN65vLrC2Dztvs4t4cJKsakM6owMtxgurhS816Je0et9kDP5QfHViM3a1mY28hkvFD4vELD
+ nAwA=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Wed, 04 Nov 2026 14:40:50 +0200, Svyatoslav Ryhel wrote:
+> ASoC: dt-bindings: Add/Update #sound-dai-cells to Tegra related codecs
+> 
+> Add/Update #sound-dai-cells to some codecs often used by Tegra devices.
+> Document #sound-dai-cells property for i2s and ac97 nodes of Tegra20
+> and Tegra30 devices since they all provide a single dai cell. Add these
+> properties to SoC level Tegra audio-related nodes. This is required for
+> creating more complex audio paths.
+> 
+> [...]
 
---TjfaQ0cDiex3p2In
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Tue, Nov 10, 2026 at 11:47:36AM +0800, Qianghua Wang wrote:
-> Panther Lake systems such as the MECHREVO YAOSHI report a single Senary
-> codec on SoundWire link 3 (mfg_id 0x0496, part_id 0x6245, version 0x3).
-> The SN624x driver, the sdw_utils codec info table and the ACPI match
-> tables list 0x6242, 0x6244 and 0x6247, but not 0x6245. SOF then logs
-> "part id 0x6245 is not supported" and falls back to the HDMI-only HDA
-> machine driver, so the speakers and the headset jack stay silent.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
-Please don't send new patches in reply to old patches or serieses, this
-makes it harder for both people and tools to understand what is going
-on - it can bury things in mailboxes and make it difficult to keep track
-of what current patches are, both for the new patches and the old ones.
+Thanks!
 
---TjfaQ0cDiex3p2In
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/7] ASoC: dt-bindings: maxim,max98088: Document #sound-dai-cells property
+      https://git.kernel.org/broonie/sound/c/062bf3ac1ff2
+[3/7] ASoC: dt-bindings: realtek,rt5631: Document #sound-dai-cells property
+      https://git.kernel.org/broonie/sound/c/084a4da7eee3
+[4/7] ASoC: dt-bindings: wlf,wm8903: Document #sound-dai-cells property
+      https://git.kernel.org/broonie/sound/c/0f4a5bcb3245
+[5/7] ASoC: dt-bindings: wlf,wm8994: Update #sound-dai-cells property
+      https://git.kernel.org/broonie/sound/c/c90862fdb96e
+[6/7] ASoC: dt-bindings: nvidia,tegra20/tegra30: Document #sound-dai-cells property
+      https://git.kernel.org/broonie/sound/c/6ffb307005e8
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrzAD0ACgkQJNaLcl1U
-h9DDzAf/aUwLn2/fZTes+HkknnRxBL101rhhCNuK8kTVsW9P/v7iRlSkeZdSSEhD
-ul6yQwpn35pdq2RZo46emIaWguyR6XcfjGo33GRf/ZXH1TY9vsAz8qqDi+SI/bxb
-4NJqEaewVCUS+byQoVocbyJRWuFbo9NukfiHr+7Mic6gfXJt4imkD6BA9NS2Z3kk
-Oyzdh4YsRoPwe23zUIFYalz88TgHBoVeZGXhn+sgnQ2TnQa9lwetX14uyo6N5Hsv
-oIa3TAaPwh6DjUGQXoZvR95BuxnL0Be+0VqsHjeVmaBFklLzPb4Ffm4wRaJCCAQl
-BTaj3LiMt3wz8r4lv4n3SsjuIODGxg==
-=FFDV
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---TjfaQ0cDiex3p2In--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
