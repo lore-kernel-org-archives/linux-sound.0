@@ -1,83 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794238902;
-	b=19VkynAcMwWCOgAJ8aGSUhEsNe6ZzqcZRbBDtw+aN3JLK+nkE55M52WaRCAr6zFuQpt+
-	 Z0esST5ljy4HuMhOzRPu4HKr2+Ao7FK+EP4RlWuOF7N08kkb8DrcsniWUpRi6PrzigI/p
-	 kCrVEskifzQ5HYdgSi1ddR6X4dbq4ay9QcEzWH+Q3PeQttfp8LpO5hWgrHJ2snlC0oTgh
-	 VCrrcu7gWwGtrK+22kfJbaoq7OwmwHcxgFCey9/d1TkPvLZJfaw26/ygOpLuJmApMOgRF
-	 mSjc/ZTxjYW7zcJQAKtObeYEf+3t73gohqmeXPljqhgBbhHWvRlglkAF7UptJLXqCAg==
+	b=0BurANPKatEAV3JFXuJTTLtWNWelDGhRnGszcP1bIxoNcw/qU5wxX5mFHwaOeRzPq2NY
+	 Zj28L8sGLKkoCexY0Gj8wcQzUMSatFPBTzi+VUmI8u4zWJOgiGUTaoUPHSepYdR6H4YJA
+	 N4m6sbbrDHPIyPWqhPh+J3Ixt0JELmOIBmIN3UcNfoQOW7Fp98DSZOn6hpIHA8TppwOEZ
+	 vvbNjogzkuEtJTXqlpOg4DzQcxAv431E2wq4xnyk3t+bgTtnkk8l/T0dXrPOAcy1dRYkX
+	 rRRrOGrSvY4C+vtRUvbm5rqng8POAPMsvFXCr9RfKEKewa6MT5JD+YRRJy79nnXMdJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794238902;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=Gmgl4U92sUaeq/fSzBRONwmIvK9ejAxa0Sr1yFZjy/8=;
-	b=djffmWdmjE13Nn5m252LtK3tY8fEEO5C9P1Amv86DS8RH8mgzYXk9CwxuSvl5fO9UumD
-	 p8EfLxHENyEs30P9681iEHaiU94M8CTPdGu43clPAmv8peTtjMUjhrKjZQdllGLQfdlhG
-	 nB8vqoQpP3XIMoWb8GKekXPRe7EmoLZ4RZ0jaB75TZPVpPU08jllplydyIzMmPcgo1zMo
-	 PXanFVVePDe5NEcBPqMn4gmWVHvzNnmDyMQi+XwJTWMEBvBSJUhlLe+c5PlKPRbPAJvJn
-	 D5YNYreUXTmLrn4fSktAocFHL89HQBQEDW8kJV9w83S+fWaSvqFMmt+F6pX2bDNQsVA==
+	bh=585xw9jBGIafN94+2hL8PTvVRoZk2mBN5Pq+TZee7eI=;
+	b=KzSGy3i5hyLbcpXeros5C3bmi3gqlCsx7TgTbO1XhuRIBZ5NkkYi6k9Ef5AIfBtmqJSx
+	 tW45GdT1HyepXWaQpbX6wVakbJTfrWdZ/FPZE9RyjFfaK8oTVJeQGQJYMnQ9FX4TuonY8
+	 yXfQcbJoJ/ebEkWzpVP/+kzabJp9eqnhLzpHe+0OIqMGD+6yqcJTfPntfW7wHBXryBqgT
+	 O3F7fj2VM26I/qg6oWvD95XqfdsrEpbVyvmaRzWOIxzFpvfsneJBt+lunjOoPfHWhOTg4
+	 b2TX8zKUTVL83PWBY0Gg594aQVnI+6H/wEHVYoLWFBwOIv3TlA5/wlpeSHZEDDwlwBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dJzKxBt2;
-	arc=none smtp.remote-ip=209.85.128.46
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZqfXKPnH;
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFAF1606A334
-	for <linux-sound@vger.kernel.org>; Mon,  9 Nov 2026 15:41:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BFAF1606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D237606A338
+	for <linux-sound@vger.kernel.org>; Mon,  9 Nov 2026 15:41:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D237606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dJzKxBt2
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a210470b49so7639545e9.2
-        for <linux-sound@vger.kernel.org>; Mon, 09 Nov 2026 07:41:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZqfXKPnH
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a214af2076so7452045e9.0
+        for <linux-sound@vger.kernel.org>; Mon, 09 Nov 2026 07:41:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794238900; x=1794843700; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794238901; x=1794843701; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Gmgl4U92sUaeq/fSzBRONwmIvK9ejAxa0Sr1yFZjy/8=;
-        b=dJzKxBt2EpLvZoLXHahlVk4GK3hLlY73ohpXBwbX8Q6uDBOFpsYwtmXUz09yPtqkDq
-         dF5toolMezqGdq3JSaBnBEVPbD8R5gwxMgFczOTzKiRupwEFwd66kKbvwvUwKkuoC0PG
-         gNIrlDJpPGqr9/9X/RpNnS9eyo585Vao1l8CmNHk1H5CbBaSYlnwvNhZg2DknaBPHVx2
-         MTcxtVH8IgYiK1MBXbdAsgbTo5DLwWqUX1DfFWxgOUb8T1wLSARFrGUZvhaodQjfuptp
-         M4Pr1yJEgo966psLFJwyKrfSOqBQyqDNeqcUVp9xdo6BLmTi+2peR2zD8RM2Omd+zPeZ
-         BuNw==
+        bh=585xw9jBGIafN94+2hL8PTvVRoZk2mBN5Pq+TZee7eI=;
+        b=ZqfXKPnHKxubWeZmDq5uGQCPUXWAz4pz9eD7KK2RrGmiaerhH/4u6/jHe//xdFrf4F
+         3B79tpi+logTiRZuzmhLaqWQxrPHo0r40sc5bFZUjPpqPhInf9CHv+vOwowIQuhwrabh
+         U7eCZ5cbc2DKkazmHWslXL/OtZ41v0cQBo1pLEtJ3pw6HRlNDWawkAKih16KY+Wu2RT0
+         O/sJlD2tE+PUW3YHd5tXdvYQVGfWhMRWHETBzZIonmo5Ozjwm0dbly+GJ8R2TCUjlZf9
+         DXwy1CUss0x6/0CJw4noQMKh3a2tFEVH2pUi2/gnZvKqWiGTZyhb/65dv0RxM0zbvdXR
+         inNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794238900; x=1794843700;
+        d=1e100.net; s=20260707; t=1794238901; x=1794843701;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Gmgl4U92sUaeq/fSzBRONwmIvK9ejAxa0Sr1yFZjy/8=;
-        b=osJMp4xIkZRKuAiwv7cxexF/dwJ1lokNLP1g4DNZgwz1VztipIg4tqaogxp20xn3rI
-         IbLe3YLIXk+KUPwRr6n+rgKkuOS4gYii2PD7M9xzx6nuKKb1hBiyZWOIQahhAbOEgIki
-         9oCxRjLJ9zAdghj6xsBst2RKQRXFhHDaxol5yDjMsYCWUuCGgas42R6C4cextefKOl/m
-         qdfcG7NheO7Q2Ongi2OjNjBYpbmi8PG1wa4pViOjBXyiqITLnmkGHaZsj3/t1VB+/FK+
-         pR6lsGAbiNiA1nP24E+6LEyhyTEErhW/o3hH7SS4DUuYis4FuQUz6ScwOpZi1oehSO6A
-         +FyQ==
-X-Forwarded-Encrypted: i=1; AL+hErGqdayTnOYfOcnPa1pZ5/fpXKlk0F0pW6ECL+cCTEBeTh1CwLSdz6ifdnzIIhEHxa3vIMXhZOjZqrOYlw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+HuSbfqzHfzQzugPZgTTLIv98XVG2bwYg8w3D0ZBGmWV+Q3cL/
-	QFIaWjL0CaNtIMI3/N6h6ltV1b4OIduVHFCr+Ry423kv04jRAIBAiQ+c
-X-Gm-Gg: AYBFou2JiaCa0yABEFne1AcRfs6zHqfLgumnXsZe/PgPeZorAZyjE+6pGOlc5IGLC/Z
-	bOp6tGt9CxcxOWzIwlFuzdBvNUaMhas0v/WUa+Xy/o4/eVY7rEO1wdnhhafg/EzYAmQh9KNW8Fc
-	Osmkr5j4QqVRR0Tpr1Mwwz/q/M9uGhitw1CXjnNBUhBkNCZxO2R2RJ34CTyvinnQrRX/YdIFN5M
-	Gru3mGuBWCGK3bFkAa58qL9ayloT237hafFr3exR2t+Kp4x/Q1hz3ilhs4Li6oQ320oDnQz2rz7
-	AnK+2/2r4oKgmAP1ZwXs/Or63ph+cXhFlYffu1A9cJJI6M8o5987qerlrJK3OdKdPhdx2+bU6wa
-	L9TgLmLCKmouC36KYOWaL5Si3C4ph2VTM4sQc53P6V+5qEBZkKNpbLd1lVcsqRga15/w3q+wkLM
-	Laep6HGEDZBJY0Ck3nnMk7ourmvtmwDemomcXdRJgjim7oPNY5eeyPS9UcmOYtY+KY1cpz38UIf
-	TEaPoMiW+I/54Yo7GXqfTCjq+sJY8gS4agdE3RidAYVECnz1TvmCYyNEZrYFyF/Bj5CrMm0VuXF
-	UxFefucgauD6xqzvzJ97ptrzDHw7wDhsnGAkRyifY7ZXD5vDuL9xwtteALyrghA=
-X-Received: by 2002:a05:600c:3b87:b0:4a1:a45a:88f with SMTP id 5b1f17b1804b1-4b963c6d630mr91396875e9.20.1794238899925;
-        Mon, 09 Nov 2026 07:41:39 -0800 (PST)
+        bh=585xw9jBGIafN94+2hL8PTvVRoZk2mBN5Pq+TZee7eI=;
+        b=PZoDKzIyeDijJfY1D2NbTWnLmbS4GOzkgz8V6SLLTU7FGw39+R2cE0k4Cr4jba5Or5
+         EVy/1zD2lrQyQzMwytw86orEAiEtnKImzlALuqTN4FexnMH/COy6x753cD33qaL0bcVn
+         oF7d3FRDOcnNhVGx3c3mPzklQ2WEyuTauV8K5122JbeaaS7j93MLoit0Wv8MBefgOS/J
+         gc4Bu7bf6ui9nn/dWTO/tIjxjNSj03I31GoEoDTmo3xJkDiy7jd8RDWq61jHi9G3N6G2
+         pU8d7U19R6TjiedqHkWUHTBD2o65Uws89c587Lmph9B8HfnfdzatrHPuu8J6LtIN/Wx2
+         8mWg==
+X-Forwarded-Encrypted: i=1; AL+hErELNKKwYTjyHZP2ixM5vGK2v2vVJlbIqVy/BwO6sv7SW3MhfPxmYm8AethIRAaOFVxdeMw3LO/Q+4wzzA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z84ywM/K07pdAWwCw+cKNVjcQrxNjKchu2YZPN2U1TgoeY55Nrq
+	xNmIVx8QO8bj0Wcb4DysE90BrH2Ctii3spxOwMMsDqLsZmrejn5UWDwq
+X-Gm-Gg: AYBFou0OnTLsfnR2y46VOMIGILKDzXzmjExHANyJZn8m/ArX+QyoFlBJVGqozh08dmm
+	hlKrnmldz0l8VOhpBy0ooXwP5UGI7Gz8XxeqoIwtSF5Sh4hHQ4Ze2jVm9ugP4nHB2go3pyWwS+Z
+	aF4n+C17UorCeiHBqA0TH5j4cUFNB8/4nbPabWrXHstcsYnNUTcNLPoWE3B0yfMbS33hnFf7uOi
+	SaEYBNgYaTtVrR1Me/TwPlLgptqGJxP5OvfZ3P93alVpVkKT/+pD1JLjYfmOEt4JaIOp2iAvTtF
+	z3CfjfjQAThs4fketV6ZYNgLDU+NOV+CfwQhsubIam3zHVjJyod5R4gNUbnhPampqIEbM8eHJkF
+	IvWfWKN/szmroU/EAIMajpjq6LUJG5kISnwwF1oYwUc3J08a++ppi5PFs8aaEmHwzqa2Y4oyGc+
+	hT+7ajcai70zqtLnhSqJIaZ9LmxOOgoxSDpao1VR6nBbkQevRZjcjbCqUWifcFZ+xUxVALwcBIs
+	ZFa6AnVlF4qKotuEfFuzRylk0XPKIl82AomEwmY6JpSWVxMTFTP/Kz0V9M9uHIz1AJIr2w1Oyp/
+	JcOyL18ty7YrfwKnZeHDe85tTDl0HPNyajT+/0gLJ2HC0CulXKD8XcT/gmEfJQvPfuibgA3nZqB
+	Pzg==
+X-Received: by 2002:a05:600c:4e92:b0:4a8:f2ad:a9e5 with SMTP id 5b1f17b1804b1-4b94d76c213mr90091485e9.3.1794238900743;
+        Mon, 09 Nov 2026 07:41:40 -0800 (PST)
 Received: from kreach.multipass (nat44-21-238.net.ruhr-uni-bochum.de. [134.147.21.238])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b7e32ad610sm561650375e9.3.2026.11.09.07.41.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b7e32ad610sm561650375e9.3.2026.11.09.07.41.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 07:41:39 -0800 (PST)
+        Mon, 09 Nov 2026 07:41:40 -0800 (PST)
 From: Jude Gyimah <jude.gyimah87@gmail.com>
 To: jbrunet@baylibre.com,
 	lgirdwood@gmail.com,
@@ -93,9 +94,9 @@ Cc: neil.armstrong@linaro.org,
 	linux-kernel@vger.kernel.org,
 	Jude Gyimah <jude.gyimah87@gmail.com>,
 	Valerio Setti <vsetti@baylibre.com>
-Subject: [PATCH v2 1/4] ASoC: meson: aiu: select REGMAP_MMIO
-Date: Mon,  9 Nov 2026 16:41:17 +0100
-Message-ID: <20261109154120.592392-2-jude.gyimah87@gmail.com>
+Subject: [PATCH v2 2/4] ASoC: meson: axg-pdm: select REGMAP_MMIO
+Date: Mon,  9 Nov 2026 16:41:18 +0100
+Message-ID: <20261109154120.592392-3-jude.gyimah87@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261109154120.592392-1-jude.gyimah87@gmail.com>
 References: <20261109154120.592392-1-jude.gyimah87@gmail.com>
@@ -110,33 +111,29 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-gx-formatter.o is part of snd-soc-meson-aiu:
+Several stanzas in the same file already select REGMAP_MMIO,
+SND_MESON_G12A_TOACODEC among them.  However, SND_MESON_AXG_PDM does not.
 
-  sound/soc/meson/Makefile:7: snd-soc-meson-aiu-y += gx-formatter.o
-
-so SND_MESON_AIU is the option that decides where its call lands,
-and the error below names gx-formatter.c rather than aiu.c.
-
-aiu calls __devm_regmap_init_mmio_clk, which
+axg-pdm calls __devm_regmap_init_mmio_clk, which
 drivers/base/regmap/regmap-mmio.c provides under REGMAP_MMIO.
 
-  gx-formatter.c:(.text+0x74): undefined reference to
+  axg-pdm.c:(.text+0xc4): undefined reference to
     `__devm_regmap_init_mmio_clk'
 
 The driver can be built into vmlinux while REGMAP_MMIO is a module, in
 which case the symbol is not there at link time.
 
 Select rather than depend on: REGMAP_MMIO has no prompt of its own and is
-only ever enabled by a select, so a depends on would leave SND_MESON_AIU
-unselectable.
+only ever enabled by a select, so a depends on would leave
+SND_MESON_AXG_PDM unselectable.
 
-Reproduced on v7.3, arm64, with CONFIG_SND_MESON_AIU=y and
+Reproduced on v7.3, arm64, with CONFIG_SND_MESON_AXG_PDM=y and
 CONFIG_REGMAP_MMIO=m.
 
 Found with kreach, a static check that compares what Kconfig allows
 against the symbols the compiled objects actually reference.
 
-Fixes: 6ae9ca9ce986 ("ASoC: meson: aiu: add i2s and spdif support")
+Fixes: 2cfc123eea74 ("ASoC: meson: add axg pdm input")
 Signed-off-by: Jude Gyimah <jude.gyimah87@gmail.com>
 Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
 Reviewed-by: Valerio Setti <vsetti@baylibre.com>
@@ -145,17 +142,17 @@ Reviewed-by: Valerio Setti <vsetti@baylibre.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/sound/soc/meson/Kconfig b/sound/soc/meson/Kconfig
-index d9a730994a2a..d0f60f8af2b5 100644
+index d0f60f8af2b5..4b06a9e7c72a 100644
 --- a/sound/soc/meson/Kconfig
 +++ b/sound/soc/meson/Kconfig
-@@ -4,6 +4,7 @@ menu "Amlogic"
+@@ -92,6 +92,7 @@ config SND_MESON_AXG_SPDIFIN
  
- config SND_MESON_AIU
- 	tristate "Amlogic AIU"
+ config SND_MESON_AXG_PDM
+ 	tristate "Amlogic AXG PDM Input Support"
 +	select REGMAP_MMIO
- 	select SND_MESON_CODEC_GLUE
- 	select SND_PCM_IEC958
- 	imply SND_SOC_MESON_T9015
+ 	imply SND_SOC_DMIC
+ 	imply COMMON_CLK_AXG_AUDIO
+ 	help
 -- 
 2.43.0
 
