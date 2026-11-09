@@ -1,60 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794242914;
-	b=3TK4Z0YkkGMSnISWP+b1UfD/RbuffAZaoIQBT5dFKWGvoFRhDeygX1XWVBNVwys8FtWh
-	 DvTBcdbhalEP3TFDcb3d1b+twxBwHNHwDCzGElggmWUcqkhCWKBcLAUetyfc7ZVnyTzqt
-	 4yiUP/I75N2Fahgc6Y6MHJ/FNnH4ODCPV78yCEF8BZ9s+m1fOjGpzlYDlWjAgBAc6aCfq
-	 0QJ+8P2/wy/em979cWaMvEw7ifqaaQPAZowjZ3y1yu5jYzo7WDMQs14eejMT0ZFVlleOt
-	 9d7CC09TDC7rhJjxam2/3vLaubmBMvwIbuAa5wKSS/PbhuTG5NOyt3mgKKShjPFx8xQ==
+	t=1794243336;
+	b=jH1EF27v/sfHJJrzxeikIV7If8GXrPGeUhXbhW9WafUg/w0xwfyZoXCMaq1alCoUFLTI
+	 zPT9FB9WsT48m/I9j7b6Y+wnaDjyj/aod8HjS4US9wAF3gI4970rUIg1KdEkSpwRDdoUz
+	 6Z4PT0vnbHOByf0b5KqDeVOpvxFZo7+A5IppoejgZs2CWJwvEmBHlm3CrOl2KAIKPXZMD
+	 0jM7+WoD3L0vJuQ/W9cDddy5S30T6cWYS+JqbwWzzgHiqsL0r1mwFafHFkwH9rSIhFMiK
+	 latF5GbO6DPXwPD+fDZr1wzQ0KjUWHvVJmaZJU1ZcrOwKH35QqfUw72V1LNHR9UgzZg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794242914;
-	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
-	 Subject:Message-Id:Date:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key;
-	bh=GdDGOAbB/KQU4vtxa83AQst4hcGs21jmt+hYBHudx+4=;
-	b=RTc94lfjdB1iCVdbF615ZVuH/bWsMAr4/aYJMTip0xARDvRhHC8aWUJwC0cA6NnYE8n6
-	 LubKU16sR5FWKZ416fnuP0EBAyiQasztRh5NBl/hVtPewFJ6N8QqwXKU9EW9MicM29Ea+
-	 ohhE0NKRFypAkpynJjCyifpv6lLZjpcylGwZ5hm3Y2d+XJAY3qJvuxgKM3HmHWT4AFVyc
-	 UqDbT/TLfMLMgYrUB6Z+naU5go8Gh1zl7lGHyb6YUr4LPosn0VnMqvQsmAxysXUES8uQE
-	 lxuY9SOCAC1FpS/UDrOZlFyunXs0o8psRkIWwdgkE7gtHuef52RZuE86jQXh6bXyf4A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794243336;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=E+/Qu4BG62Yv3y9M2zB+9eKFlQqUCr0CqLxpIIRMTlc=;
+	b=o9EA4edVlQkcclf5YFKvSeHmOq7waKtd+t6BxeR5QZkSgOa5gXOnnHTGhiX0Nyh/XIPp
+	 HANln/VR2l3TqsDEitIroIM2lzDP8W+RL4lahF55g8LOTHG6TAqASBov7JDrC42IehVae
+	 t01FJb4vJ85Ki4dmeiiesPIShfV5o9+YWmG01TC1gfWpqzWfJyBd3+7sDWf8QTcSPNYml
+	 E3m/ugcCwRMUkF70GasG78y0k6Yvw6FE/r1pQxL3zi1cjUhbGRERJqwpaWJCSLxtL4qKM
+	 pT8ZkRBX/5OUyrWpe6pepnHyxEsX9fdRLJwn+5aYN4ullQoNfWBHBVrNQYntyQ+BPjQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OTYgV68L;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JOrfwyWE;
+	arc=none smtp.remote-ip=209.85.221.46
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE60606EE95;
-	Mon,  9 Nov 2026 16:48:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C14606EE8F
+	for <linux-sound@vger.kernel.org>; Mon,  9 Nov 2026 16:55:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D7C14606EE8F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OTYgV68L
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F1091F008A6;
-	Mon,  9 Nov 2026 16:48:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794242913;
-	bh=GdDGOAbB/KQU4vtxa83AQst4hcGs21jmt+hYBHudx+4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=OTYgV68LQfLSbQrpPuh1WJFfOaf/IkL6cIfXaPKC277+lYfAq5q4qnewysjVcP7r1
-	 l/eJIiGSvXjecpKQEJBhVmTRiFxHr1OSNJJqWeXobLoV/Hr5dszmwwcL789dno8Ozd
-	 Y0RiEQyWoNyrWyaqGBBuXTxnGUl6+wpUyQshldWRaCzRRtCtFpOPscZcMhZGugQ9VX
-	 i5vUYdovs4GsWEHi1IA3thUY0m9o0iQpPOR2zlgAvfkgicUvNwC3XpnnaJgfaKiO32
-	 RuRVNG4Z3DJgdMogZ6CKT3l35xrejvKzJBwvHmvfUpSicJ+mroU7gLMfxPAk6j3F4K
-	 k8xFbkQ8LPU3A==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id DD2B42EE9BB1;
-	Mon, 09 Nov 2026 16:48:25 +0000 (GMT)
-From: Mark Brown <broonie@kernel.org>
-To: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com, 
- lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- Zhang Heng <zhangheng@kylinos.cn>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261105063153.353012-1-zhangheng@kylinos.cn>
-References: <20261105063153.353012-1-zhangheng@kylinos.cn>
-Subject: Re: [PATCH 1/2] ASoC: amd: yc: Fall back to DMI quirk table when
- _WOV returns 0
-Message-Id: <179422737491.3711751.17494017501899617981.b4-ty@b4>
-Date: Mon, 09 Nov 2026 12:29:34 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JOrfwyWE
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-49412eb1474so743082f8f.3
+        for <linux-sound@vger.kernel.org>; Mon, 09 Nov 2026 08:55:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794243334; x=1794848134; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=E+/Qu4BG62Yv3y9M2zB+9eKFlQqUCr0CqLxpIIRMTlc=;
+        b=JOrfwyWEu5DGKVu2Z+gm6dYF7VYMJiVUjHqNcpHtdO8J2Bmk1rRkyS7bJCL7lKZxiq
+         kKWJ2Y0dOHi9hkTY3KptK5DxDpOosKjfwtc7sIA2CgP9g2/w4CJHDHMkVuVkO6HidWxo
+         snX9gLVAowCKgxeotSrD3DwuTJ2153gsKhC9x8+nYWrR0oO0tsEwoFgwzqU7pKOOQAwT
+         1JUM2AmU5FEMGftwvolqCZbdEte17vMkgqxBW+QpXe0Zbjj12YCv4bZTxalBIVLrICcL
+         iGwQS0AHXoTcT3ge6QlIzJsntavOA4lMUXJPaCAuTMvXufp+J9FZ6FNawH6vJWPMnsf5
+         2KZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794243334; x=1794848134;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=E+/Qu4BG62Yv3y9M2zB+9eKFlQqUCr0CqLxpIIRMTlc=;
+        b=tXNSKQiicPJdf2erVOoPFhBOO+VNwMKR9nRlU0PyQoWrF+q9Wru2nprx/0EXcREt4S
+         JambbP9U2+KdaqjjtmfAHMycPaHnDIBHq9hTgzol2ebNqVQgg0se8X8w46IiwLs5QjMH
+         NrSurnQ7fKuGK/Hs0IdApKY00foSCOzbK8to/7Fj3lYNbY6u5/cuupz3hJWc+n41SHTA
+         7aQW4cAC/EAlEOCLZGNDVgFoXM0VMgQD/7e2O4uKf1RuByWxXBpo0inarWZ/AkLyj7KL
+         yWpb5Fys6gaKQWbsHy+Gd980TKvm8RGp1MPQqFY+d945uZRdDf0PsF+j6Gn4bVHBbO1e
+         5f7Q==
+X-Gm-Message-State: APuU4Z8GmTA2Lf+OR9TfU40tbX9G5tb0tiTlqfnisRRX/SMCR6S13GMX
+	9e+RtsoOwP/KEVZSkMH3bUZGKNDqYcbIs4izzyQ1enUmHJuj6RCYL3EA
+X-Gm-Gg: AYBFou102PyoLIf1g2qAxZOeZnXa6zqAuD2w3hVQ/0nzG4Rma3EasXWLbWvTO6wBxuf
+	+2SXZKywUbyRKX8b+nEvqSDQuB4ool8NnJkncudzzUCcbqsXwM8a30XjJ/mOZDk5klKfVCJe6Yw
+	RSJEpx04tOfMjo/FaGERISNsS65SdHWyrPlDx9pacTfu4yh1fIJ1xCMqRD7/boFZjLoHEi28iKY
+	8DqRaCoy8lNI9NpTi/ld2ULFK6LCd3QiBcKxeSAIGA3BFt7NxAzqAkRIhutB6wjvjUeU6qN4IGj
+	UojVSPIFLHfKalrA7WNhNhAbMLcvKjBB3bMlfLIvjyKvSVJB8U1CuAQ6+OtlEEazNv4CPpa2JKs
+	N4NOkmsQbalcD9l33mEyhK/OacvwT3+zGijRCudHmHukQyxG3eCm1KhZfS7gIL+RH+if0v8wuFt
+	5ZUtA6vDRe3YGc3/+sVJLu17q4am8legKj40sjIyIO3yfZL4sWdB+ShMO0vmiAhjzrMNgd/UaDF
+	MnYrEcQFkLB0O+8x1B3ibcEs25z4Uz8K1drmXbsS565iuBn0iwzbry8Xvc0ibOoTxDRSvXp0WCJ
+	wz7cdAtpRYOI23odXo8DufKV203BUJUeIOwtcZi6pY2Dg2Dcww==
+X-Received: by 2002:a05:6000:41dc:b0:491:d3b4:4e42 with SMTP id ffacd0b85a97d-498319f20camr30918f8f.52.1794243333939;
+        Mon, 09 Nov 2026 08:55:33 -0800 (PST)
+Received: from salem.wifi-guest.upb.ro ([141.85.150.210])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-495974660cfsm11492234f8f.38.2026.11.09.08.55.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 08:55:33 -0800 (PST)
+From: Lorena Tanase <tanaselorena3@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lorena Tanase <tanaselorena3@gmail.com>
+Subject: [PATCH v2] ASoC: dt-bindings: wm8741: Convert to DT schema
+Date: Mon,  9 Nov 2026 18:55:22 +0200
+Message-ID: <20261109165522.6663-1-tanaselorena3@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,48 +98,99 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1270; i=broonie@kernel.org;
- h=from:subject:message-id; bh=z2zvrB5Q294z/4N+C9OWqKKhjp4aivE6Z3pnWZa+AIA=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+/ow0SRC9N3+xvHpBQKvQ9uWMB05d3/DNIfSR2e0pa
- 1x89r2b0VHKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJCDxg+O+pXff6c+Cpmd/2
- fVm4Z5vph+06T28c0mN/opW66OS+jnIBRoZZtVHbhTgWzJ0jGbvWPWHdv4/irNsz2Z4nWHy6EMd
- Y95YBAA==
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Thu, 05 Nov 2026 14:31:52 +0800, Zhang Heng wrote:
-> ASoC: amd: yc: Fall back to DMI quirk table when _WOV returns 0
+Convert the WM8741 audio CODEC bindings to DT schema.
 
-Applied to
+Signed-off-by: Lorena Tanase <tanaselorena3@gmail.com>
+---
+ .../devicetree/bindings/sound/wlf,wm8741.yaml | 40 +++++++++++++++++++
+ .../devicetree/bindings/sound/wm8741.txt      | 29 --------------
+ 2 files changed, 40 insertions(+), 29 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/wlf,wm8741.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/wm8741.txt
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
-
-Thanks!
-
-[1/2] ASoC: amd: yc: Fall back to DMI quirk table when _WOV returns 0
-      https://git.kernel.org/broonie/sound/c/cadc502ad7ec
-[2/2] ASoC: amd: yc: Add DMI quirk for ASUS TUF Gaming A16 FA607NUQ
-      https://git.kernel.org/broonie/sound/c/dfab155ecc7b
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8741.yaml b/Documentation/devicetree/bindings/sound/wlf,wm8741.yaml
+new file mode 100644
+index 000000000000..a9a7fc2414bb
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/wlf,wm8741.yaml
+@@ -0,0 +1,40 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/wlf,wm8741.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: WM8741 audio codec
++
++description: |
++  Wolfson Microelectronics WM8741 audio CODEC
++
++maintainers:
++  - patches@opensource.cirrus.com
++
++properties:
++  compatible:
++    const: wlf,wm8741
++
++  reg:
++    maxItems: 1
++
++diff-mode:
++  description: diferential output mode
++  $ref: /schemas/types.yaml#/definitions/uint32
++  enum: [0, 1, 2, 3]
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    wm8903: codec@1a {
++      compatible = "wlf,wm8741";
++      reg = <0x1a>;
++
++      diff-mode = <3>;    
++    };
+diff --git a/Documentation/devicetree/bindings/sound/wm8741.txt b/Documentation/devicetree/bindings/sound/wm8741.txt
+deleted file mode 100644
+index b69e196c741c..000000000000
+--- a/Documentation/devicetree/bindings/sound/wm8741.txt
++++ /dev/null
+@@ -1,29 +0,0 @@
+-WM8741 audio CODEC
+-
+-This device supports both I2C and SPI (configured with pin strapping
+-on the board).
+-
+-Required properties:
+-
+-  - compatible : "wlf,wm8741"
+-
+-  - reg : the I2C address of the device for I2C, the chip select
+-          number for SPI.
+-
+-Optional properties:
+-
+-  - diff-mode: Differential output mode configuration. Default value for field
+-    DIFF in register R8 (MODE_CONTROL_2). If absent, the default is 0, shall be:
+-    0 = stereo
+-    1 = mono left
+-    2 = stereo reversed
+-    3 = mono right
+-
+-Example:
+-
+-wm8741: codec@1a {
+-	compatible = "wlf,wm8741";
+-	reg = <0x1a>;
+-
+-	diff-mode = <3>;
+-};
+-- 
+2.43.0
 
