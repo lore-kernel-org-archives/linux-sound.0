@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794246188;
-	b=ntrY0+3Wo3wXTB5UKJdI+xYa1j186IGTvk+dpCGdad4nGw+JhKBg0gB6QFviYSuqh7n4
-	 rVE23NSCaK0iQQRXfjn2r9MrD+KX4appzm0FPDh3iIijt157yvqOxIl3aqLvkEHbq+vcI
-	 f1nX6X6R0FWUoGAzmAW7I9V0/n9hUDQULbR31XIJP3mzB1D4Qfk0dda1gMppFoyRt24rY
-	 viBayCL4N/lnjLTTxg0uZVzR7nG+Xi6N12sBHcRkGjSLqV5q34Jj3aVBGQM4Jl3qNy6Ym
-	 BMr88guQf28/4uQY7g60jsDIzCH8wqcSFo3tSEsf2kynC7ruD82CCIWKE50D4NgC1dQ==
+	t=1794246313;
+	b=qjrIrK6XWG97JjcBwf0cyCUDO/plkjRPq7v2a5yYiZnph5/o/rq1nURiWdiQuUdvLMBp
+	 KeSxkyaz/GDlnrWKjtORIfsYpqSUa42pFwuxTb2Qinym6vMWuPiDHC0gsfLi7LNleZZfv
+	 KvXBpLk33piuK10xrETMzJ8bWqGrk63208Dxho8gMGsYe4ad8Z1XOtSf1NSDn0AN+Wr31
+	 dbZ0j3Y0f/eavtkD0A4HAFU6AGluyckZ6o2lAwWn5vm1AvMO2mlBAFtVplH6kbPJJTXMp
+	 /XKDQU8EmkDQl9UVoJvghWj+zCZqx5WkHEJycJ93AJYCAdz8xytVyhOFI8VCxbRqDlw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794246188;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794246313;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=0fG/fD+VY+5R9q02A3IlXAR7dA4kKhT6IxXob2BmP2Y=;
-	b=jrz3omAH0Rw/F1SjdSOHj3oucmap/UR5ERnhMp9ZAG+46DUnOxZcw4LDpRrwNyhYRS/3
-	 73uCt2gnrhMaGjKXAy3Zk+U+EN74e3XC42TdCRBC3TYvXkX1UDn7hsoaIIDEaIkG7ctdI
-	 M/Q9wdmASHNJWhrEG2x0SD37kbCOE2+rHDc79q3RKN6DYTxYsvWpFIoy6574+rZLGXdfw
-	 s0mzDlCU+zcR+8NcbrEn7A3aL92m56NCZsyBFj1740SFUtd4eB+mADJsrFT368QtwZ55+
-	 sOn+UYciMwhFS4/I55rctG04eUYCKiZJBV+SddTcKdmz9gSS8ocVC2O7SjvUC4R0ZvQ==
+	bh=6vvE7QyxiuL42dgKeX2zXg1rJT/sobi01Ue74cH+aFM=;
+	b=rp9rdO+FNdB+WeLWzN4SL++C8BS5PF4d5QzPj5kEZbqGLb+h+lWis3+/hnPE/cOGAOhC
+	 CyUJQPPYoTrDwMvJO9Fq3siiCyurQfbe/b9RJQRw+/t54tDhtnIQFD/M+4VDZtVQSsXPD
+	 mS3GJOUCgBR60R05y+Y4gbFLKunQUrDMN6m7FiVCcXzDg8yecJxmDtDEa4sdJe0DzWX+a
+	 FnDe9fQjY1ZunFWS2GUTaWwTXgIydXa9o1xF/Q42qJMnkFpRBU4l/wy9DUF8Fl584l1C5
+	 R/z2sTDLDd3ZnzBO4DOkbFtS0OXGInafryOR67z+nWGsYmfl6ECjqEaSct3MaYUCNdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AMMPFBUG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cakJKd+W;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C8C606A32A
-	for <linux-sound@vger.kernel.org>; Mon,  9 Nov 2026 17:43:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AB3606A33B
+	for <linux-sound@vger.kernel.org>; Mon,  9 Nov 2026 17:45:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AMMPFBUG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 493731F008A6;
-	Mon,  9 Nov 2026 17:43:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cakJKd+W
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B949F1F0089F;
+	Mon,  9 Nov 2026 17:45:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794246187;
-	bh=0fG/fD+VY+5R9q02A3IlXAR7dA4kKhT6IxXob2BmP2Y=;
+	s=k20260515; t=1794246312;
+	bh=6vvE7QyxiuL42dgKeX2zXg1rJT/sobi01Ue74cH+aFM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=AMMPFBUGq5r/CJl6JveL6+j2bY0YC3Sl55X37goFV+1a8S6nG3GL9Gsb29/KRT9UB
-	 LSinDj2qRT+UP2tERNrkeqHSF6bROkVeh78i4E8gzXq0JmHIj1J54ecULBW5Iv6T84
-	 Ptp+JfE6UG5+dgmxPldagXoTSZlbqd7pFTsg9sfVfsJe3cLpdhb5ACKaWvzI06Wenq
-	 UGXkrvUgOBiiKqpeiyWrYebWCrYqXYXbNV/qbqk9Pzx4Am6+/ZDzG13cPLYKpeelVP
-	 eqBmtymWSNvyWp+StYxwmkJwXHZYNcQkVnEMLWCQXbwnVX8/xUYoLQqumYEa20PKhh
-	 Vpg3Ml3rXrUWQ==
-Message-ID: <sashiko-outbox-205326@kernel.org>
+	b=cakJKd+W1kewCLRDeIjbtABI5zUbIYhnkwiQQmouOZ9klkXQu9X1ldqsAcGu6xKLb
+	 SWbWiauD1F2oQpWfRmWjEhZOjMeLA7qeB7wz8DLhK4w36toEA3oRsXil0xIYwF+u5S
+	 8l1FTTP82ARvDgBjA552SaAr8tJ2FsxL1NVQAD1nqKh7c4ECdCNtFG2TMr6hz49gJR
+	 4aUnPFKN390qaf+NyWyyZRfLQr8VnSwgwzPJvsimBCbNOfZIlmV6ve7OFtDFYOkGcr
+	 voOIb5sU6Ue/7g4uPduf8mNecyl0Yk3rUAqckDxEAiRSB7WCm3LLf4kuLS3KJ0SS4J
+	 020e8zhLtEWRA==
+Message-ID: <sashiko-outbox-205332@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ASoC: rt5659: cancel jack detect work on removal to
+Subject: Re: [PATCH] ASoC: rt5665: cancel jack detect work on removal to
  avoid use-after-free
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Hyunjung Ko" <hj351016@gmail.com>
 Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261109172155.1851386-1-hj351016@gmail.com>
-References: <20261109172155.1851386-1-hj351016@gmail.com>
+In-Reply-To: <20261109172144.1851173-1-hj351016@gmail.com>
+References: <20261109172144.1851173-1-hj351016@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 09 Nov 2026 17:43:06 +0000
+Date: Mon, 09 Nov 2026 17:45:12 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,81 +60,124 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 4 potential
 issues to consider:
-- [Medium] ASoC: rt5659: unguarded cancel_delayed_work_sync() in
-  rt5659_i2c_shutdown()
-- [Medium] ASoC: rt5659: unguarded disable_irq() in
-  rt5659_i2c_shutdown()
+- [High] ASoC: rt5665: infinite hang in rt5665_i2c_shutdown() canceling
+  jack_detect_work
+- [High] ASoC: rt5665: uncanceled calibrate_work in
+  rt5665_i2c_shutdown() causes UAF
+- [Medium] ASoC: rt5665: unconditional disable_irq() in
+  rt5665_i2c_shutdown() on IRQ error
+- [Low] ASoC: rt5665: inaccurate handler name and queuing site in commit
+  message
 --
 
-commit cfae689e1e0a124463e941d5a4ef73f9a8712aac
+commit 753d54cd6a5c4d1a6c0962dfc60f96a690d96477
 Author: Hyunjung Ko <hj351016@gmail.com>
 
-ASoC: rt5659: cancel jack detect work on removal to avoid use-after-free
+ASoC: rt5665: cancel jack detect work on removal to avoid use-after-free
 
-This commit disables the client IRQ and cancels jack_detect_work in
-rt5659_i2c_shutdown(), and wires rt5659_i2c_shutdown() into a new i2c
-.remove callback.
+This commit disables the client IRQ and cancels jack_detect_work and
+jd_check_work in rt5665_i2c_shutdown(), and wires up an I2C .remove callback
+that invokes rt5665_i2c_shutdown().
 
-> diff --git a/sound/soc/codecs/rt5659.c b/sound/soc/codecs/rt5659.c
-> index 68f7d5673e190..721c742c0efda 100644
-> --- a/sound/soc/codecs/rt5659.c
-> +++ b/sound/soc/codecs/rt5659.c
-> @@ -4337,9 +4337,18 @@ static void rt5659_i2c_shutdown(struct i2c_client =
+> rt5665_jack_detect_work() runs from the delayed work jack_detect_work,
+> which is queued from the jack IRQ handler and from the jack-detect setup,
+> and the jd_check_work polls button state; both dereference the driver
+> data via container_of().
+
+[Severity: Low]
+In sound/soc/codecs/rt5665.c, the handler for jack_detect_work is named
+rt5665_jack_detect_handler(), and it is only queued from rt5665_irq();
+rt5665_set_jack_detect() only configures registers and stores hs_jack.
+
+> diff --git a/sound/soc/codecs/rt5665.c b/sound/soc/codecs/rt5665.c
+> index 62b21092e352b..bce2fc8c9bc6b 100644
+> --- a/sound/soc/codecs/rt5665.c
+> +++ b/sound/soc/codecs/rt5665.c
+> @@ -4837,9 +4837,19 @@ static void rt5665_i2c_shutdown(struct i2c_client =
 *client)
 >  {
->  	struct rt5659_priv *rt5659 =3D i2c_get_clientdata(client);
+>  	struct rt5665_priv *rt5665 =3D i2c_get_clientdata(client);
 > =20
 > +	if (client->irq)
 > +		disable_irq(client->irq);
 
 [Severity: Medium]
-Can this cause an unbalanced double disable_irq() on client->irq, or
-disable an IRQ that this driver never acquired?
+Can this disable an IRQ that the driver never acquired?
 
-The component remove callback rt5659_remove(), added in ca3efbaa8aeb
-("ASoC: rt5659: cancel jack_detect_work on component removal"), already
-disables the IRQ:
+In rt5665_i2c_probe(), a failure in devm_request_threaded_irq() only logs an
+error and lets probe succeed with client->irq still set:
 
-sound/soc/codecs/rt5659.c:rt5659_remove() {
-	...
-	if (rt5659->irq_acquired) {
-		disable_irq(i2c->irq);
-		rt5659->irq_disabled =3D true;
+sound/soc/codecs/rt5665.c:rt5665_i2c_probe() {
+	if (i2c->irq) {
+		ret =3D devm_request_threaded_irq(&i2c->dev, i2c->irq, NULL,
+			rt5665_irq, IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING
+			| IRQF_ONESHOT, "rt5665", rt5665);
+		if (ret)
+			dev_err(&i2c->dev, "Failed to request IRQ: %d\n", ret);
+
 	}
-	...
 }
 
-When unbinding an i2c device that is bound to a sound card,
-rt5659_i2c_remove() -> rt5659_i2c_shutdown() calls disable_irq(), and
-devres teardown of devm_snd_soc_register_component() then invokes
-rt5659_remove(), calling disable_irq() a second time.  Conversely, if the
-card was already unbound before i2c unbind or system shutdown,
-rt5659_remove() has already set irq_disabled =3D true and
-rt5659_i2c_shutdown() disables client->irq again.
+If that request fails, rt5665_i2c_shutdown() will still call
+disable_irq(client->irq) on remove or shutdown, leaving the IRQ disable dep=
+th
+unbalanced.
 
-In addition, devm_request_threaded_irq() failure in rt5659_i2c_probe() is
-non-fatal, leaving client->irq non-zero while rt5659->irq_acquired is
-false, so checking client->irq alone disables a line the driver does not
-own.
+> +	cancel_delayed_work_sync(&rt5665->jack_detect_work);
 
-> +	cancel_delayed_work_sync(&rt5659->jack_detect_work);
+[Severity: High]
+Will cancel_delayed_work_sync(&rt5665->jack_detect_work) hang forever if the
+device is unbound or shut down before the sound card is instantiated or
+calibrated?
 
-[Severity: Medium]
-Can this call cancel_delayed_work_sync() on an uninitialized
-rt5659->jack_detect_work?
+rt5665_i2c_probe() requests the IRQ before registering the component, and
+rt5665_jack_detect_handler() spins inside the work callback waiting for the
+component, card instantiation, and calibration:
 
-In rt5659_i2c_probe(), INIT_DELAYED_WORK(&rt5659->jack_detect_work, ...)
-and rt5659->jack_detect_work_inited =3D true only run when pdata.jd_src is
-RT5659_JD3 or RT5659_JD_HDA_HEADER.  When pdata.jd_src is RT5659_JD_NULL
-(for example when the optional realtek,jd-src property is omitted),
-jack_detect_work is never initialized and unbinding or shutting down the
-device triggers WARN_ON(!work->func) in __flush_work().
+sound/soc/codecs/rt5665.c:rt5665_jack_detect_handler() {
+	while (!rt5665->component) {
+		pr_debug("%s codec =3D null\n", __func__);
+		usleep_range(10000, 15000);
+	}
 
-Guarding this call with if (rt5659->jack_detect_work_inited), as
-rt5659_remove() does, avoids canceling uninitialized work.
+	while (!snd_soc_card_is_instantiated(rt5665->component->card)) {
+		pr_debug("%s\n", __func__);
+		usleep_range(10000, 15000);
+	}
+
+	while (!rt5665->calibration_done) {
+		pr_debug("%s calibration not ready\n", __func__);
+		usleep_range(10000, 15000);
+	}
+}
+
+If an interrupt schedules jack_detect_work while any of those conditions is
+false and the device is then unbound or shut down, cancel_delayed_work_sync=
+()
+waits indefinitely for a loop that will never make progress.  The sibling
+drivers fixed this by rescheduling the delayed work instead of looping insi=
+de
+the handler; see 4c33de0673ce ("ASoC: rt5682: do not block workqueue if card
+is unbound") and a6d78661dc90 ("ASoC: rt5668: do not block workqueue if card
+is unbound").
+
+> +	cancel_delayed_work_sync(&rt5665->jd_check_work);
+
+[Severity: High]
+Does rt5665->calibrate_work also need to be canceled here?
+
+Unlike rt5682, rt5665_probe() schedules rt5665->calibrate_work with a 100 ms
+delay, and rt5665_calibrate_handler() -> rt5665_calibrate() sleeps across
+polling loops while accessing rt5665, rt5665->component, and rt5665->regmap.
+If the I2C device is unbound while calibrate_work is pending or running,
+devres frees rt5665_priv and the work handler accesses freed memory.  Note
+that rt5665_calibrate_handler() also has an unbounded while
+(!snd_soc_card_is_instantiated(rt5665->component->card)) loop that would bl=
+ock
+cancel_delayed_work_sync() if not converted to reschedule.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109172155.1851=
-386-1-hj351016@gmail.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109172144.1851=
+173-1-hj351016@gmail.com?part=3D1
