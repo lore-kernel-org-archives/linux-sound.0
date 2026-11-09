@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794253714;
-	b=KAfC7dkD3mp3zLHsOkUti5yfSusPPA+P2cnGPCgnO6+cq3uppHNHdobucWF6l7BTXiyM
-	 oLj1ZwQt3RBcVrh01RYGQiaFRfYU5mBVSmIyW1FS/zoPHhExxua3Na217ohvi8/lScGpp
-	 aWmZ+a5u9aXRHty0vBVdqVdj7wkJfvvoeOF3QMVVp9AjXvOicJSVXEFYfEpEhFg8wHEK8
-	 fE//X/iTd6H+3Jazv0HGFl007ixK5tEJZI1r+Julzk5hKVppXUIRnqUyO9waWLJG45Stt
-	 z1WvUZS+obaSnH86uaAmpnaXf2Cc8X8P+VCW2jRTaMh9P03qwHt4quO1IxoQrvP42xA==
+	t=1794258021;
+	b=XLzfZjldPqAxVUGqXgh4Bg9WcTxtLYGXvEoh0vmC9Hvu3guENugzCbhcVoHCYOY61uHr
+	 fhz9kzUH99GpYft4XZ6A5cTJI870JCnKtJiy658zBEsqpm/1iQDv6FWgB3nf9qL4EW0Pw
+	 q+eglijslHuGJMoVVfY4lCL3ZMxvZU7oiNClEXE+MhQXwPUA1Wc+tJOpiUUNCCDnzunUZ
+	 X1wdUg8LJN0Eg+lIkRBcf+eh9/xAAKo7gI8gmPly5idGNXMxNvnOvohJ4HSeJY8xfOLvZ
+	 7HQiuZrwtxmFkbnpZ29fbO76vRyfFQKX5+MapBcLkQ3SBEfai9QVEJzIevMxNYeJZ4g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794253714;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794258021;
 	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
 	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=A8LWwHch8iz5/b23akV80ol5/MMcIgwIVUMrnGv0GxY=;
-	b=zdK4mUhmD7SkWl95WEWRM0umAuOd2pf2BeHzUusKLwbL+4T4+vr+NDOY++/LfEQUnBkI
-	 +bJjOZ49dVratAWwmi9Mo/4f628N4EO923CZA3hnisTMcYLr/InopB7FxA19Tb5dm371q
-	 IlCFKblLNYB1VDU4DlLtJVOpeTuRVFOb9CzrMXKZprINBQv40abBzuRPVotN6qGcmHp06
-	 0M28NhdAsEqhVc31nUknf48YxIWrRDD4q0mLjmRhUGp82hHhm6IH4dkFQKYU1T1EH8uw5
-	 0CBbYxFepqiFPJyNGzFv0nV4dzmz9JPXYWqJAHDSfpb9EdZVfGNW9Ae7XHjo+Od8+DA==
+	bh=eQU4KWpZu4AHbLVPbyS0nA/90up/X89Iryoj5KvLp9s=;
+	b=tk/clhrTdKV+haYwCfZNgSQXi+176nhNs+6QnvetH0pefq93BbXxZaDvscDhyX039arW
+	 if29TZyMGyLLKFcC/FK3f52f71FWMo1GVf9Eczui/r3NCN43/wS5dZO3DuBSieMPh/Dsd
+	 US4NpVeDEXrRKZqMf6UcyaJA1NpQXDSDHnVTFwxb4+E64UEiaqWMYbj7ehsRgnT/spaIT
+	 rb2Nroc28I9FI7dNS+dgRabQCdue3Jpz/me3dGSf1+C3AdFshlDB2tzMMeokKvVnZh8IQ
+	 S5TRSV47bnGrK3EfNYGA2ac9Skw9DB4VI8iDODRnUvAvXlKkkZI5kzX9zmzzsW8w8Sw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fR1wh0z6;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Sderx++f;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14264606A321;
-	Mon,  9 Nov 2026 19:48:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B653606A31C;
+	Mon,  9 Nov 2026 21:00:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fR1wh0z6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D91B1F008A1;
-	Mon,  9 Nov 2026 19:48:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Sderx++f
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 436A71F0089F;
+	Mon,  9 Nov 2026 21:00:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794253713;
-	bh=A8LWwHch8iz5/b23akV80ol5/MMcIgwIVUMrnGv0GxY=;
+	s=k20260515; t=1794258020;
+	bh=eQU4KWpZu4AHbLVPbyS0nA/90up/X89Iryoj5KvLp9s=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=fR1wh0z6oiy/Ntnm9M7hG50ecB143XgeGf/Na/f8N0PyYpFB0al9UwvfSezSP2TEk
-	 KPE9fmMvumfvBTdjDsAkLpH6EbYJXFDg8pcbBNEPyITno6RN2YRLxgSu74ZqZpw+7u
-	 GNRooOuWuZggkLDubkwXOldRt4kWJrxD4aDhMCYwDkzZkzNrPRLqKIeKe/G6k+ygnG
-	 DqMs5DkJQ13wnqLPhOCmk/mRxSkIwQxH/priITQRL1dSAvZXz9GHe23bAyh5gf5Eun
-	 yvhe81A4XQjbYismOTwKaR38kiiZAUi1KiknkdTrrChDwRfG7aqs4hWM+udD5A0CCz
-	 5gcbjoxKXIhsA==
+	b=Sderx++fo/HfdI6QP6KQ65+xMyjra3lMttoQs9e+WUX5dC2lA+uuLEqHNhdlv30CJ
+	 Xha81pxdujOCDp7s3LiHOJjswvZbKPwzqh36Elszp4zKRvajSIMIGjqlak/RUewNzo
+	 /ywr2LVe44T1stvh0RSflW0xpbayAsKbrhR022URmv3kBmSunPqvh8XPZenUvAXrM0
+	 vY5eU9HK5EcIxkvAoQtilZkTEyYP0U+PJmfxZGixLOnTAJjsKLGNZBPOdiFR6fApqA
+	 dpu0Pc5b3AvmqWw2wPN3sYEIuFO7ELudH+lbis4me/RdcF5/71wxSmSpQJudjS/Soz
+	 Hz/W6GxAjgv8g==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 626432FC6C89;
-	Mon, 09 Nov 2026 19:48:20 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id E68EA30217EC;
+	Mon, 09 Nov 2026 20:59:39 +0000 (GMT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -54,100 +54,132 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2 2/2] ASoC: codecs: nau8310: Add support for NAU83G10
- amplifier
+Subject: Re: [PATCH v4 09/22] ASoC: apple: Add macaudio machine driver
 From: Mark Brown <broonie@kernel.org>
-To: Neo Chang <YLCHANG2@nuvoton.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, 
- robh@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, alsa-devel@alsa-project.org, 
- neo.chang70@gmail.com, kchsu0@nuvoton.com, sjlin0@nuvoton.com, 
- lkp@intel.com
-In-Reply-To: <20261109051251.471879-3-YLCHANG2@nuvoton.com>
-References: <20261109051251.471879-1-YLCHANG2@nuvoton.com>
- <20261109051251.471879-3-YLCHANG2@nuvoton.com>
-Date: Mon, 09 Nov 2026 19:48:19 +0000
-Message-Id: <179425369963.3711751.8538085283431158098.b4-review@b4>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+ Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Hector Martin <marcan@marcan.st>, Sasha Finkelstein <k@chaosmail.tech>
+In-Reply-To: <20261103-macaudio-v4-9-637484efe46d@gmail.com>
+References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
+ <20261103-macaudio-v4-9-637484efe46d@gmail.com>
+Date: Mon, 09 Nov 2026 20:59:38 +0000
+Message-Id: <179425797819.3711751.16786276718513108020.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2580; i=broonie@kernel.org;
- h=from:subject:message-id; bh=uz0EEhKFqb2Rh6VAYejYUKzktncm0H9HpNXhrqxvcSA=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+Kbfs7VjTVXgy6tOdgrJNTtdrphdO8NIPnn60+PH8X
- 4auij+sO0pZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRVZ8Y/kfEO3N4Oz5pX2yt
- EHrXcsH7V0HSxSq3Jmyf//pZdywH50mGf0aPBX93brz0f66CW9whhtPGfzg2L/JZsupI0PYVtQ8
- SyvgA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3005; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Dx6ZAvak6FM1JVv55O6fY7vNpn2fIMYkCHcl6jCDEqM=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+mVgbdL7eNKOkoN/SosV+ibDynn1ONYcsNC5KXGrO5
+ 5NVXnyjo5SFQYyLQVZMkSUui/tlfcnrNXwHF7bBzGFlAhnCwMUpABO5v4qRoeeA0mvTY5cez/xu
+ rLb94zGj7LK9vJH3RZSdazMWW1/gt2T4p8M8Q1nHYEWUwmbbBIms39Ypz7S45W4e63bb+M3o2KU
+ ofgA=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-> Add support for the Nuvoton NAU83G10 audio amplifier.
-> The NAU83G10 is a mono boost Class-D audio amplifier with
-> integrated DSP and I/V-sense support.
+> Apple Silicon Macs have a complex audio subsystem consisting
+> of an I2S peripheral (MCA) and multiple codecs of various
+> models and capabilities. Some machines have a basic mono
+> speaker with hardware downmix, while others have a very
+> intricate stereo system consisting of multiple codecs and
+> drivers per L/R channel. Some machines report voice coil
+> voltage and current information back to the SoC, and others
+> do not. All machines have a headset jack.
 
-> +config SND_SOC_NAU8310
-> +	tristate "Nuvoton Technology Corporation NAU83G10 Mono Boosted Amplifier"
+> +#include <sound/simple_card_utils.h>
 
-This handles NAU83G20 as well.
+This is unused.
 
-> +static int nau8310_dsp_idle(struct snd_soc_component *cp)
+> +static void macaudio_vlimit_update(struct macaudio_snd_data *ma, bool take_rwsem)
 > +{
-> +	struct nau8310 *nau8310 = snd_soc_component_get_drvdata(cp);
-> +	struct regmap *regmap = nau8310->regmap;
-> +	unsigned int idle_pattern, timeout = NAU8310_DSP_IDLE_RETRY * USEC_PER_MSEC;
-> +	int ret = 0;
-> +
-> +	ret = regmap_read_poll_timeout(regmap,
-> +		NAU8310_RF000_DSP_COMM, idle_pattern,
-> +		idle_pattern == NAU8310_DSP_COMM_IDLE_WORD, USEC_PER_MSEC, timeout);
-> +	if (ret) {
-> +		dev_err(nau8310->dev, "Timeout waiting for DSP idle state: %d", ret);
-> +		nau8310_sw_reset_chip(regmap);
+> +	bool unlock = true;
+> +	const char *reason;
 
-If you need to reset the chip you should probably also resync the cache,
-and there's some redundancy here with nau8310_software_reset().
+> +	/*
+> +	 * If this has been called from either of the safety interlock
+> +	 * workqueues, the core API has not taken controls_rwsem for us.
+> +	 * Take the write semaphore since macaudio_vlimit_unlock writes
+> +	 * to the kcontrols.
+> +	 */
+> +	if (take_rwsem)
+> +		down_write(&ma->card.snd_card->controls_rwsem);
 
-> +int nau8310_dsp_init(struct snd_soc_component *cp)
+The callers with take_rwsem all have volume_lock_mutex.
+macaudio_slk_put() is called from snd_ctl_elem_write() which has
+controls_rwsem already so we end up with an ABBA deadlock.
+
+> +static int macaudio_parse_of_component(struct device_node *node, int index,
+> +				struct snd_soc_dai_link_component *comp)
 > +{
-> +	struct regmap *regmap = cp->regmap;
+> +	struct of_phandle_args args;
+> +	int ret;
 > +
-> +	nau8310_sw_reset_chip(regmap);
-> +
-> +	/* wait for the power ready */
-> +	msleep(120);
-> +
-> +	regmap_update_bits(regmap, NAU8310_R1A_DSP_CORE_CTRL2,
-> +		NAU8310_DSP_RUNSTALL | NAU8310_DAC_SEL_DSP_OUT, NAU8310_DAC_SEL_DSP_OUT);
-
-NAU8310_DAC_SEL_DSP_OUT is used by DAPM, you might want to solve this
-the way nau8360 does.
-
-> +static int nau8310_biq_coeff_put(struct snd_kcontrol *kcontrol,
-> +	struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_to_dapm(kcontrol);
-> +	struct snd_soc_component *cp = snd_soc_dapm_to_component(dapm);
-
-This is the same issue as was fixed in nau8310_clkdet_put() in this
-version.
-
-> +	/* Boost Control Target Value Limit. 0.16 V per step. */
-> +	SOC_SINGLE("Boost Target Limit", NAU8310_R17_BOOST_CTRL1,
-> +		NAU8310_BSTLIMIT_SFT, NAU8310_BSTLIMIT_MAX, 0),
-
-The binding describes nuvoton,boost-target-limit/-margin as having
-0.19V steps - either that or the comment here is wrong.
-
-> +	ret = nau8310_clock_config(nau8310, fs, nau8310->mclk);
+> +	ret = of_parse_phandle_with_args(node, "sound-dai", "#sound-dai-cells",
+> +						index, &args);
 > +	if (ret)
-> +		return -EINVAL;
+> +		return ret;
+> +	comp->of_node = args.np;
 
-Just return ret in case it's more descriptive.
+This gets cleaned up on failure but not on success.
 
-> +static struct i2c_driver nau8310_i2c_driver = {
-> +	.driver = {
-> +		.name = "nau8310",
-> +		.of_match_table = of_match_ptr(nau8310_of_ids),
-> +		.acpi_match_table = ACPI_PTR(nau8310_acpi_match),
+> +	if (rtd->dai_link->num_codecs == 1) {
+> +		dai = snd_soc_rtd_to_codec(rtd, 0);
+> +		ret = snd_soc_dai_set_tdm_slot(dai, mask, 0, nslots, MACAUDIO_SLOTWIDTH);
 
-We don't need the wrappers for these pointers these days.
+> +		/*
+> +		 * Headphones get a pass on -ENOTSUPP (see the comment
+> +		 * around bclk_ratio value for primary FE).
+> +		 */
+> +		if (ret == -ENOTSUPP && props->is_headphones)
+> +			return 0;
+> +
+
+We don't otherwise check the return value before we start overwriting
+it.
+
+> +	/* Fallback, jack only */
+> +	{ .compatible = "apple,macaudio"},
+
+The cover letter said this was dropped and the binding did so.
+
+> +static void macaudio_devm_release(void *data)
+> +{
+> +	struct macaudio_snd_data *ma = data;
+> +
+> +	cancel_work_sync(&ma->lock_update_work);
+> +	cancel_delayed_work_sync(&ma->lock_timeout_work);
+> +}
+
+This is registered before we register the card with devm but these work
+items use the card, they need to be stopped first.
+
+> +	ret = devm_add_action(dev, macaudio_devm_release, data);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = devm_snd_soc_register_card(dev, &data->card);
+> +	if (ret) {
+> +		for_each_card_prelinks(&data->card, i, link) {
+> +			snd_soc_of_put_dai_link_codecs(link);
+> +			snd_soc_of_put_dai_link_cpus(link);
+> +		}
+> +
+> +		return ret;
+> +	}
+
+The action registration doesn't do the unwind that the card registration
+does.
 
 -- 
 Mark Brown <broonie@kernel.org>
