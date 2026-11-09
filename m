@@ -1,60 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794270855;
-	b=UnGzZMJ34hjbthISj35gOUfwzJ+qcmyZcShkz9RBTaYhBcpJ4ExdU5uThuB6THvyXTb8
-	 lGdiwz2woPAldS5OmvbhUcqXsq9BKMefO06swYfIr29D8fJz/NwIBbk6H+RR5G8ZpX800
-	 ETOWEXcnt8U9heecR98gdxdqGr9/Y04kcHmZg9UEmpDu05IGPnvmD+4DK3GahMK0nk7FY
-	 ws3hCvR4eAkoL+IwRL696WoP3j2zdDjwA9e+SGOso4WDuS8vgvs4gxxCXbC8cNxeAvsuJ
-	 JkLbzwNBND2JSGoD+p/WgvFbIiR+VGR1znyFlB1+C76atTlyPdH+mJdqE3lolLeHtug==
+	t=1794270894;
+	b=qAG7sJN2gIxiwzNVwn+zXBTzxvwlORgznacaXlBeqLDgzwmYTq/tmBkbZyD/nMHZ2ckx
+	 +6DEB9MS5lEsiA4z1EsfWpZnEpx9jTawwZu9dnTQSArSK623//YbWzH4FRaj0uc3t+Gb1
+	 Np+SUfqM+DjNNeDvg690hdTHZegnxZLU8sQx0YQpd8ri5m5p7b/FlMIk9x1R38dBCozNo
+	 vw6FclLJ0MX+RYptkYBwzzgbpNf1rLBKHTsx/KwLtYgfc0OLKzKSYY1iIevzhMydS8gDR
+	 yiw6vLdBZVOEZ95eIALIWn+xsM5nWgVu9XqfrV+X166KBOfQA2SmCuqh2usCb3awAQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794270855;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794270894;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=tnIzvfCqFHwzNQKka03nDrEZbMwnoOvVTPeawrZs+1Y=;
-	b=5FLlxCUmPLMFy9xKppXcF8m7bM+oYLy1yX/fZBW1SAbwKX8ldjvT5KTgXzRcGikUy0Im
-	 RgghGSc1MEx0fCChec04MRf1th3/QfMLB/V2t2dgr4QGkrIFjMO+ws955yXEylXFumnf7
-	 DSSka9SPznIRE+Hyu8EskuMt5I9mq/RKepuUbdabHEjLrhNemulsphJeDAWOmSkCDAGF6
-	 gBdpZRu2mLpt6Bm2KgHB9ji4IITdes+lOsWEnv+qnXDhvLOts+wvQcB+hIDAIulzOWszd
-	 2ajmnbYHmRXsu7LUSBHGzdeIFn2Vi2jiymy7mIqU6DSkj46lYePHiwINNrb2DLp4l9w==
+	bh=GhpzuasWndPMLRSqacM6yezR1B8MC6IofbTz7uVXRuU=;
+	b=JnEgco2z3PLH4yc0xunHEN89SeCo6FdTUn04d37O8xS8RmQlO/EjIT9phUkM8jxI/7w8
+	 aEQ55CfeGL+nZuIH5CQmpBce2tctYW1oW6VWoZGr7GULFqZAhOWIPTcqoxzfVnzbv8nY3
+	 AeO7GGUndjlfcr9QwGFpq62Mmfp/JdmUtWV7sHOa8tbRK+9P2abXcrTKa87Uy89DLQ9Wh
+	 exe4s04aDN58YvhdqtG5tM6bqsY662csLlNKswEJCBaAtV1njdIhf3zfgCaCsyOb3kXML
+	 tKHOqJJfuIu/ItyAI+qyjgIsAlgSWInHTv7zzGlAXQ01x53NrRYVQEAt4b2DkUPEj/g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b5m6RYaM;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HJN9ALe3;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08696606A325
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 00:34:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2C860A2602;
+	Tue, 10 Nov 2026 00:34:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b5m6RYaM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86BA11F008A1;
-	Tue, 10 Nov 2026 00:34:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HJN9ALe3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57E971F008A3;
+	Tue, 10 Nov 2026 00:34:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794270854;
-	bh=tnIzvfCqFHwzNQKka03nDrEZbMwnoOvVTPeawrZs+1Y=;
+	s=k20260515; t=1794270893;
+	bh=GhpzuasWndPMLRSqacM6yezR1B8MC6IofbTz7uVXRuU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=b5m6RYaMrBv/CjMgZdiwM+FVjiQAFCIWv3xElBdgvArvxtRYThbigz8ndk/bE3Zjt
-	 F9JnCz/8Xlc2j7BTOn4F6cyMUrezPefB0q0JteczgH0NKvBpTlOGslaUtZAHCJ40OH
-	 +GFAnoDzxo1cGf0EG6yNtt4tdenCcfCVmFYCEhbXX9IdsAfCE/w+AeH3IgHaWgMucj
-	 Q0bTMrGt0PgzNKyQPa5sXLq23i0eGGyFy5mBJ/XGarKCZnuPVTrWUUdjgHNOdMpHq5
-	 joAMV1nBqIgW/ahwz0Lq10m9yNqKwmDaLzZrKfJCPCBn2tZzn/zSF2fzqf03HMQ1d/
-	 MqUnTPXaLExQA==
+	b=HJN9ALe3bpd/K/UpJDH0cXalvyZr9mR2YVSdXJ43nhUzaQ6UMRxF4G+bQER2ZPIoH
+	 APJSUmRKU2m1331ibMomSvuOccF+cwfqHHjTKVYXDw4zjqNZZFOdPe+6fWhibEVewv
+	 j1TC1pTfyPJjIV0n3CNO1myGa6XOCLj2S6NCLwTEshdPHDetBAm+qpe/bhiR/f7UcY
+	 YOHU7AGEC5MyanxFJE9Amz12uppVZIbqZ4A5DCs7hSm2sqJQ6VB1oM6qvGPckRH7HV
+	 1b5SeEqemg4b8AfXic8iyqu7y5Zcp21LWaRCjVD1GVPTUpV3N8a4iH7AwfdEmDdP1C
+	 u1wTSVI8FxSYA==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id EDC1C30AC5AB;
-	Tue, 10 Nov 2026 00:34:11 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 3942230AC633;
+	Tue, 10 Nov 2026 00:34:51 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: Sylwester Nawrocki <s.nawrocki@samsung.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Wentao Liang <vulab@iscas.ac.cn>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261104024050.1508686-1-vulab@iscas.ac.cn>
-References: <20261104024050.1508686-1-vulab@iscas.ac.cn>
-Subject: Re: [PATCH] ASoC: samsung: i2s: unregister the secondary device
- when attach fails
-Message-Id: <179426364472.3711751.11426592031213468538.b4-ty@b4>
-Date: Mon, 09 Nov 2026 22:34:04 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261105-superm1-lms-sound-v2-1-33327881f4fc@amd.com>
+References: <20261105-superm1-lms-sound-v2-1-33327881f4fc@amd.com>
+Subject: Re: [PATCH v2] ASoC: SOF: amd: Load alternatively signed firmware
+ with an "_l" suffix
+Message-Id: <179426512962.3711751.2986145227493941683.b4-ty@b4>
+Date: Mon, 09 Nov 2026 22:58:49 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -67,26 +74,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1156; i=broonie@kernel.org;
- h=from:subject:message-id; bh=MZ2saOPgMfv9z/2seiSVI21xk3cY83Xw4Un9xVzUyM8=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+pdU72q3OP3Rq9o7mXHehYJN9cmclVMNW7cmxY9aY1
- KJ6JnJNRykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACYS/puR4Rjb3Xi5mOd9T8qW
- NpZ7KbpcFGiyUPnoVLHAXPLRL7Z8I0aGS8KtZlW1TpFqKUJ3nuglvFpk0XRlrYtfnsT+o3Pz/Ph
- ZAQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1163; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=IsRHc3f2R8UD2i0XoGlyVlnoMV8QFcb9O7h/gNZ1KXI=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+pa0W/Gqzh/mj3Z2+ayY/7R/qzfT8py8fVH9nyfILk
+ V8SChYbdZSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAiz+oZ/od+CL7bGnbp/X5/
+ g00LvN6ukXvNtkq88cpRl5MmD4o3ty1g+J94sMr9g891J6/Nr5ZIuT7ecHnxt99573c8v5D1Nnn
+ B4UpWAA==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 04 Nov 2026 02:40:50 +0000, Wentao Liang wrote:
-> ASoC: samsung: i2s: unregister the secondary device when attach fails
+On Thu, 05 Nov 2026 09:23:05 -0600, Mario Limonciello wrote:
+> ASoC: SOF: amd: Load alternatively signed firmware with an "_l" suffix
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
 Thanks!
 
-[1/1] ASoC: samsung: i2s: unregister the secondary device when attach fails
-      https://git.kernel.org/broonie/sound/c/4a2fbfc9acc2
+[1/1] ASoC: SOF: amd: Load alternatively signed firmware with an "_l" suffix
+      https://git.kernel.org/broonie/sound/c/d880c6278839
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
