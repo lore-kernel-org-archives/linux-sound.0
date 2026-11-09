@@ -1,115 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794222465;
-	b=jqyo9AMLab0xKLsM3Yj8ORVnjQSR6U2kFBr3UkcHJhZrky4ztqI7thp9T5Sxa7jqkriZ
-	 m9Z8HjtD/qcjfrMQfiBOIlzq6Y90HXifuOzgxhp2a26xdKJQ4+vvPqBZ1bi1q+7vQyOpt
-	 0djiiCS5pLyWVnBEonIYNOCAvKUFVmDqInoaPcQXYf9CKVEnUcUvxs/DVvoXLtp3W1Pgc
-	 P+WHH+nDv+SB3ns6444J9+1rOK7g0dG0iLktt8Dgc67dNrBGkUJVDV1IwbH0sNozj+kUB
-	 P+EnG5/LMI/esEtWZOvNkcBRLS289mCNq5teBmfPF8GdDbuj9kpiNkGYFcnNlUv8M4A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794222465;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=yJtaga32g0U9vhTGcK00+DLTorW/Gm6WwE87naWfe3A=;
-	b=AG0lq0P/VU2u5ZeXwKn/uSu42sxTCNu0709daatMxiZp9/gBgAIB2z00pz+votlJlQ1W
-	 IBLs2KiIesV6w8S5Fb6qArwdDYDAmaf7GW7/lt48EQM1bSmkQ/OmXf+xoBc5S7Tp8+w8r
-	 CoJfWTVXY04fOer6iddZftUGl0ATUu6C/cxfowPgPJUPnzjaeQBa6ve2Gug5JQLUGRh+U
-	 anq0UkHWNI3uTg+qtUS+hDxpNvhpcYvv6egNIRU8Q6ayZ9RIyQsgd44JAXSXH58GBnkhW
-	 tzRBZeaTAFPFAc5GCo9i7ljN/GVKH00S036KBlz62x9D5aN8wdbiNX2Gk7OGIPVTHkQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=G7ZuuZ7F;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=8DZL15mZ;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=V2lAfJL9;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=dU77csUp;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794222790;
+	b=m+ot9fwhNMVg/66tqpstas279y247C3XKSt5cORHmoSwxmbm1ayoeOU66wK9OlXFo/f8
+	 Fo1BKR2Wq6yhSSK6uy/Mfy5AML/pz0qYtO8bbL0VSKUZQivbMj4yEsClNbW+n6azv+aof
+	 7vwMWxXeyuTnM9QK4YptqWULRbNsKmRRTqTfv/WQ4cOV02XfgXYXJcfcxkW6bSmwyzSm4
+	 67ynaYbpycN2czVfwTWssZdu9Zn6H/WvoLmaobqI32I9QKq5d3yspaQY3tRCpHo9F1oXf
+	 UvLyPIuzs8yWlgAOhp+WMCWUUcuS4NxqMq72ecgWWro8IPMNDIiKh51FNZEy0FMDEsA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794222790;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
+	 Received:Received:Received:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-EOPAttributedMessage:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Info:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Reason;
+	bh=fe9jI/I5NQTv47AndM06YuiUXQbxrzPLf7HsZ4YnlQo=;
+	b=0tBOgCsHInjXhvKjoFQEptg/sjyxh7Tu3DpQHcaoeVtNtUi2CFAB+vOdwzP7g+1q3qOF
+	 j/DqNjO2Pp9jWHKhE0+a73IJH9KD5y69lXPFBt+f3Ap2fWcDORf1UpoDoEsFaWPhl7n8e
+	 qtiLajlJh5d5jm35kwTwdhXZemTbKJIEMSouQTv/yBTMQp+AV/yWn4vgMt4rMyzylhNn4
+	 I8BebiVL55+e4ny36pqaqh25GXrPFjewYhzxvWUg9rgiABsCMHZci8i/fcRCbRf7r2s2z
+	 f+duFiW7A5PLDwMm0MnTLzBDwvLosITV25ysq94OTJs7TAhFE65IyFdgR33oJnmrMvQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=opensource.cirrus.com;
+	spf=pass smtp.mailfrom=opensource.cirrus.com;
+	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b="gD/2csad";
+	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b="b/2sGs4+";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60CA606A32A
-	for <linux-sound@vger.kernel.org>; Mon,  9 Nov 2026 11:07:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B60CA606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F8C606A321;
+	Mon,  9 Nov 2026 11:13:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 90F8C606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=G7ZuuZ7F;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=8DZL15mZ;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=V2lAfJL9;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=dU77csUp
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9B3CE1F7C2;
-	Mon,  9 Nov 2026 11:07:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794222456; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yJtaga32g0U9vhTGcK00+DLTorW/Gm6WwE87naWfe3A=;
-	b=G7ZuuZ7Fn1ck/XvjaPXKVk0h/78G8TeEgpDMeWsTDrNvJg6PJWFLL0gIM6Cw9DCPc9o2ih
-	5ukyxnI9eGptqsV/rG4vUQkutOIYUkwerb6BTsdP1T7KVcqO1sWP/edZqNRAC5lApyE2Vj
-	AmTvrp67Kz0l2a3UqQlsCpPBt599boQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794222456;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yJtaga32g0U9vhTGcK00+DLTorW/Gm6WwE87naWfe3A=;
-	b=8DZL15mZ04yr3tJ0OLXjP3HXd/IqZbK7AdcBvl7AINSdXEt3uDTyOKrPqByB3ihBZXm7nC
-	nyRAHwuREoV0CLCg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=V2lAfJL9;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=dU77csUp
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794222454; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yJtaga32g0U9vhTGcK00+DLTorW/Gm6WwE87naWfe3A=;
-	b=V2lAfJL9VWzQzL+luBdhEbgFQ8l8qNApb9k2VgW/IY1bcjeRILdVEDyrIPal+/Ek2GQKNK
-	T/LkY9XwBxwDeD3i0PG5vOX9/aN5cSHOtGhXvKoEvGHYC1F4VUYN7Ucta7f0cOTQggPQlV
-	UxMXJJBMFkY0+cq6W/q6XMAtV7SAtvs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794222454;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yJtaga32g0U9vhTGcK00+DLTorW/Gm6WwE87naWfe3A=;
-	b=dU77csUpfXQW1WnILoKW+a25yqXqX8jX6JbJo8wIDsAN8sycfcfJ4rBcrftmvjAR0ka/jA
-	b5vzMJkgE8J0itBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F1C6313319;
-	Mon,  9 Nov 2026 11:07:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6kSkL3Wp8Wo0EgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 09 Nov 2026 11:07:33 +0000
-Date: Mon, 09 Nov 2026 12:07:33 +0100
-Message-ID: <87bj7yw9e2.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Emanuele Ghidoli <ghidoliemanuele@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Emanuele Ghidoli <emanuele.ghidoli@toradex.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: soc-core: reset rtd->num_components after allocation
-In-Reply-To: <20261109102536.357134-1-ghidoliemanuele@gmail.com>
-References: <20261109102536.357134-1-ghidoliemanuele@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=gD/2csad;
+	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=b/2sGs4+
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A99wCQs2092928;
+	Mon, 9 Nov 2026 05:12:46 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=fe9jI/I5NQTv47AndM06YuiUXQbxrzPLf7HsZ4YnlQo=; b=
+	gD/2csad1aiew5HyDG18RpN3es09lLFqer5EUkjetwpvKn8V8RS+zDd8GbZG2YhF
+	RbSzpUR9dAKhNserWAKU0FE7YcXaDowQ5G2vpqliUUnq/FGYsjnOcb2YvwQSAMIS
+	P0jYUrrus2ts0vp5CpGfyrlyFMELCetykcz7vc9UZz4cXR02v5HWA5DUxgxHzu3A
+	E1JJSBcaje5XfMI8ZNzPStfVQPsTvPcrY8eLi4MZcXIiC+nn8sx4CMN9MbvyZ2om
+	05O+x/g70mOgh5LiU5r1pvRwRn9GHMgaSsjuCQ70xpv6ZTndsuf6BFAUXjHccTZ6
+	NCdH5eAebux4tqbTLU5FIw==
+Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11020106.outbound.protection.outlook.com [52.101.46.106])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4ht29h9vnw-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 09 Nov 2026 05:12:45 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=r/ZaSvILG0pnFHrNCE+e4rf8WO8/CBgK+HKw5mVa2dsIGpuic9XFYS7zLvuKVJM6zQr05hsSbcLWSzxEerwRdltOB0HTEj2UlTFqt0W4eCyeCxG4iJ3VZAJuv8JZZSWt+3EfHyaETzgPtCpp48bMxMOeyqBTh20yb/zZxEHgq13Yz05BfqzgQh8O0bKHTwob4QU/NfbZNhUD8ml4DBxrW+j3k9qZRmMUbk1zB/1uUoOrhVnHbCs6F3Mj22fHl+W6MwXWLjHenLVHiP4rE7mYAZGuopyQsxJ2zhx4xJNEIftPUI7pp0DblGiHTm3Y/gr13+rCEobxYdvcikKHByGI/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fe9jI/I5NQTv47AndM06YuiUXQbxrzPLf7HsZ4YnlQo=;
+ b=v39q3eqMKn7vSStdnEh4N9wVjcywfKURAoZksvO1ChN8+OQj3pIXlS+yzAl28XPscftigqPc6MxpXigriT2bOEIIWwNxekc481djAv7fBJFq9BkNYhFO3to3TjG8y8j0ZnDZcxbs5aIN0ZRzD3ylvwhYi91G2MyD6UEh2O0ExPuseCVf2xU5ER8LFBJiPk8+gU8W8MRdMUfnrx8l79rLY3d230X9Z353tOrPkJ/3gxAQJ8L8Bejfc87IuqdYBk18bagJA/qXlpVsfFeHntwjiIcslUp5I/aKH+tCuN1Sv9pVVmGaflXKOEm5PH+tbMcla3RVxl6GMFu5euPdmTSDXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fe9jI/I5NQTv47AndM06YuiUXQbxrzPLf7HsZ4YnlQo=;
+ b=b/2sGs4+n1fL2V6F+Rnc7HFOlxdr1IgbD9aYG99Jyzb/RO906KqFywXxNXKZi9CBhlqfnVu9F+SlFf+RGiJZYG68zsshvj0aRnrck+5GkGnQv9FYJPUPwJSaMcY6R/WtjWRtByouYJoY7zr1+tUfbaI7Zq8Uhhw9CiAhX5NqUFg=
+Received: from CH0P220CA0027.NAMP220.PROD.OUTLOOK.COM (2603:10b6:610:ef::21)
+ by PH8PR19MB6738.namprd19.prod.outlook.com (2603:10b6:510:1c9::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.12; Mon, 9 Nov
+ 2026 11:12:41 +0000
+Received: from CH3PEPF0002457E.namprd04.prod.outlook.com
+ (2603:10b6:610:ef:cafe::88) by CH0P220CA0027.outlook.office365.com
+ (2603:10b6:610:ef::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.13 via Frontend Transport; Mon, 9
+ Nov 2026 11:12:41 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH3PEPF0002457E.mail.protection.outlook.com (10.167.252.24) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.4
+ via Frontend Transport; Mon, 9 Nov 2026 11:12:40 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 422B440654E;
+	Mon,  9 Nov 2026 11:12:39 +0000 (UTC)
+Received: from [198.90.208.11] (ediswws06.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 27055820273;
+	Mon,  9 Nov 2026 11:12:39 +0000 (UTC)
+Message-ID: <68f4c2c6-bb73-4610-9975-d093989f9ceb@opensource.cirrus.com>
+Date: Mon, 9 Nov 2026 11:12:38 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -118,201 +123,77 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 9B3CE1F7C2
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,toradex.com,perex.cz,suse.com,vger.kernel.org];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,toradex.com:email]
-X-Spam-Score: -12.51
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: wm_adsp_fw_find_test: Replace strlcat() with
+ seq_buf
+To: Andrey Zakharov <dedemorow@gmail.com>, broonie@kernel.org,
+        lgirdwood@gmail.com
+Cc: perex@perex.cz, tiwai@suse.com, patches@opensource.cirrus.com,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261107152338.77837-1-dedemorow@gmail.com>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20261107152338.77837-1-dedemorow@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PEPF0002457E:EE_|PH8PR19MB6738:EE_
+X-MS-Office365-Filtering-Correlation-Id: 62bc50bc-ad5f-4963-5219-08df3e525e9f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|36860700016|82310400026|61400799027|376014|22082099003|16102099003|18002099003|10067099003|11063799006|56012099006|261102123227099003|261021121427099003;
+X-Microsoft-Antispam-Message-Info:
+	QmmkA7rtQNVqcYDDAKKMjWN822MkMOUmSCHtykyIYaoFUaisvCOvzhUxukt6Vrw+Vr9fvYM3hAtvtpo0wmruPPAA1l7rvg6DVKpahLfqGwE1swmk6sd027EnxV32VNw3gN9UmJD0rnjVi/sDYZRpOynakKWiXXTxeDcxuxDGpUbvI2/CDRnHalMwmA2HwMJDxB15S9sfk0tVUu2dF0cL1Ca1bkz4RYKrQ0wunzlMurwujH2G2hbKwDesDLlX9bvhz3fv0tsbLzZ3HHURdfQa97xIWI3VpNm6lsVDZJNgiKdXTnzE7TDikiWK7vOAaveMM5+5gJNX98PcSJM4v6gM5a35hKiLCcDoYqNR52gsoE4AZS0vLB4OuD9VhWOc1gyq37LGB6sCQDh5SyS5/Dr368AvsQ57dAVGbwVKDtJyG1k5fc2mkSdGgWmDnlVAcGCIKWjYid4rOYl6jnumuREo+Q18g4Mt3ch3UV1a/LokAt91UG1WDhGov+R8sPFqeGq/A9ptbbwSLZoxWFhzNDE50shThNY4f1qsdIdgT4H8oanevNepoQS8/kmO+tvCY39hl1EjjoO3ki+JljLxsBFSOohKu0VZ5sNFlLuwdDhyUJs+F4JxWSqkaclU5AzpaQ6gng5oYP6PUAlVFmpJJTFldseDhjyNlnH8tQ/lyRQh0m+yIZ1dhQ5QetC9FaYvDRyCCoposd9iiXPaQidIrpPB+w==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(82310400026)(61400799027)(376014)(22082099003)(16102099003)(18002099003)(10067099003)(11063799006)(56012099006)(261102123227099003)(261021121427099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	J6RvXXSaw5rYoyEY/UJW31ZcRNx0jT1GTMo5RVxq6/y5fjpUkzZZz97IXrEw4tA/pUxWZgkND6EbYeP28jW+RD8JiKcf4I+4Yrh382fdlzVjkWzcFKJGn45rMejWaCgEdHT8XlHxhXO6LFhp+KIqhY4zfgCRwk7fv15uo9B4WEhktrtKKPhS+pHXpCPPsI7mcbxkfR1VT6HEUApNDi1FBPuKUwWvz86RQpcFRm475Afc32Sye2BswmCZJgA2fo+SAZm8jDGaR5WPoZpslDcyIHfp/fnoe+jTJ2TqsUssleENQ8S1FVmcqQympj66Adsl8QaiHA5bm0fhFWDg0aBP9A3bqckQpYbUyuAj+1H3vdMxpFltPB2F5aySOknF4yMk/Lu2K7Vv3Q2nwk2PxXIYw6ufJQbJbmOZE3UJMXXw/MWeCTf4vaBO3gLUC/OygAeZ
+X-Exchange-RoutingPolicyChecked:
+	IV+OcQeOB/3zF/N1nFIWKmBtyPBfbENzSyNU5ozzc9IKjkeyEssUcFJnmOiC6+zT5ASLWIB5N2U56NW2OlhtHgY3rA6twnNUqPjp39toH2sSSWMaSNrQaW8n9JHv5TPKECObQcivx6C4EEfiaXi6IMueB+RlilRSM8nNZk42x9OouY6Zpi+BbeOBpL8Bgjj1oP5fsMWpHJja0mBL+5oPxskXiwIp+8SgN1LyO5XMX04RI6Yw21+xWUZkxpFv++uEwnWYVzkkAM6xhp4aYxOZ7wyh3YIutxwqug3LB9sGS7DqJJeFIAzvx5zc4xWQVWhBPW4jDC9EeeOfh5egE9+b1g==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 11:12:40.3144
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62bc50bc-ad5f-4963-5219-08df3e525e9f
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH3PEPF0002457E.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR19MB6738
+X-Authority-Analysis: v=2.4 cv=PO2aavqC c=1 sm=1 tr=0 ts=6af1aaad cx=c_pps
+ a=WvD7+ME5cHBMa06ZrkM6Lg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=w1d2syhTAAAA:8 a=hI7SJAwvX4m87Qk9KnMA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA5MDA0NCBTYWx0ZWRfX5QQzeNLyeLiW
+ GWu4kPaWJO/QNMOVNGYA4CiFfEMJsdLtXhZpAI4r1OEqDJF4Kbn4nRJiiMjmGIz2ZJFa/I8JQiy
+ 3kxHTDnA+mDSFRB5Gj8gx2jpVQ0OUXk=
+X-Proofpoint-GUID: PSVQskIkvUMoJZSNg-dYEiAHYYebjE23
+X-Proofpoint-ORIG-GUID: PSVQskIkvUMoJZSNg-dYEiAHYYebjE23
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA5MDA0NCBTYWx0ZWRfX5huG60qIVTA7
+ n0TFtw/ihKdOYNg6/fZgAzw746hepxwD0Dhthk42nIIsDFZmHaIo+ZofR6zaH6vtsQgkM51DiYa
+ krBNME8MvOzNv35Ay1yeFp9y7QfrOCbSRVIz10n5K9q4/O1DFxD+l+fBmLw9MjGAwDvf5UvETjr
+ MRtAApJ6gR/HwEy9BxJkQhJ6UGsfjxAwdGUjNs4pbUfkqAlTLrLDCAZ5ccXchEHzN7jLisugsC+
+ a+2RojhBmfaHnYpf4gtrioymysi4dPjkmmZgVLBvTYXK+lKP1vW80CaeydHLaXsOiFOU79JqO9k
+ 9kW4ZQ+5pTeQ2IsjDEah92eIa5sbKRyCbfObbwnK/2IlDkN93xerSd9kAkZsSEfNkn59e5kMPcU
+ v91q3FyTRFVDYgF+SuWiw6Nen+WMsvOsaTuQkj4wHCqS/zlx+SKbphYzn8+3nOysUqDzv2tLW0w
+ 27knmJOdlBwm+mj5Wwg==
+X-Proofpoint-Spam-Reason: safe
 
-On Mon, 09 Nov 2026 11:25:20 +0100,
-Emanuele Ghidoli wrote:
-On Mon, 09 Nov 2026 11:25:20 +0100,
-Emanuele Ghidoli wrote:
+On 07/11/2026 3:23 pm, Andrey Zakharov wrote:
+> strlcat() is being removed from the kernel. It runs an unbounded
+> strlen() on the destination, and its size argument is not tied to
+> the real buffer, see the issue below.
 > 
-> From: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
-> 
-> 
-> Commit 4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to the
-> devm_kmalloc_obj() family") switched the snd_soc_pcm_runtime allocation
-> in soc_new_pcm_runtime() to devm_kzalloc_flex(). components[] is
-> annotated with __counted_by(num_components), so when the compiler
-> provides __builtin_counted_by_ref() the allocation now also sets
-> rtd->num_components to the number of allocated slots.
-> 
-> snd_soc_rtd_add_component() fills components[] one entry at a time and
-> expects num_components to start at zero. Starting from the allocated
-> size, for_each_rtd_components() stops at the first, still NULL, entry,
-> so the runtime has no components: they are not probed, no controls or
-> user-visible PCM devices are created and the card registers empty,
-> without any error message. In addition, each added component is stored
-> past the end of components[]. On the tested board these stores still
-> land in the slack of the kmalloc bucket that devres rounds the
-> allocation up to, so KASAN does not report them.
-> 
-> Reset num_components after the allocation.
-> 
-> Seen on a Colibri iMX7D (simple-audio-card, fsl-sai, sgtl5000): the card
-> is listed in /proc/asound/cards, but /proc/asound/pcm is empty and
-> 
->   amixer: Unable to find simple control 'Capture Mux',0
->   aplay: main:850: audio open error: No such file or directory
-> 
-> Tested on that board with v7.4-rc2 built with GCC 15.2 (first seen with
-> GCC 16.2): the failure is there without this change; with it, playback,
-> capture and the codec controls work again.
-> 
-> The root cause analysis, this change and the testing were done with the
-> help of an AI coding assistant (Claude Code, Claude Opus 5.5).
-> 
-> Fixes: 4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to the devm_kmalloc_obj() family")
-> Signed-off-by: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
-> ---
-> 4dd10fbbeb9c only reached mainline in v7.4-rc2 (not in broonie/sound yet),
-> so this is based on v7.4-rc2.
-> 
-> The other devm_k[mz]alloc_flex() sites added by 4dd10fbbeb9c were checked
-> too: none of them fills a __counted_by() counter one entry at a time, so
-> this one looks like the only user hit by the preset counter.
+> The test builds the searched_fw_files string by appending to a fixed
+> size buffer in two places. Use seq_buf_init_append() and
+> seq_buf_puts() instead. seq_buf_init_append() keeps the NUL-terminated
+> content already in the buffer, and seq_buf_puts() copies as much as
+> fits and keeps the buffer NUL-terminated if it overflows.
 
-I guess a bugzilla entry that was reported recently is also related
-with this problem.
-  https://bugzilla.kernel.org/show_bug.cgi?id=222249
-
-My first gut feeling was that it might be safer to revert the use of
-devm_kmalloc_flex() in that code, as it has a significant side-effect
-unlike other straight conversions.  But, if this fix covers well, we
-can go with this fix, of course.
-
-
-thanks,
-
-Takashi
-
-
-> 
->  sound/soc/soc-core.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-> index 68b54e509b65..06a1d5718997 100644
-> --- a/sound/soc/soc-core.c
-> +++ b/sound/soc/soc-core.c
-> @@ -387,6 +387,12 @@ static struct snd_soc_pcm_runtime *soc_new_pcm_runtime(
->  		device_unregister(dev);
->  		return NULL;
->  	}
-> +	/*
-> +	 * devm_kzalloc_flex() presets the __counted_by() counter to the
-> +	 * allocated size when the compiler has __builtin_counted_by_ref(),
-> +	 * but snd_soc_rtd_add_component() expects it to start from zero.
-> +	 */
-> +	rtd->num_components = 0;
->  
->  	rtd->dev = dev;
->  	INIT_LIST_HEAD(&rtd->list);
-> 
-> base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
-> -- 
-> 2.53.0
-> 
-> 
-> From: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
-> 
-> 
-> Commit 4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to the
-> devm_kmalloc_obj() family") switched the snd_soc_pcm_runtime allocation
-> in soc_new_pcm_runtime() to devm_kzalloc_flex(). components[] is
-> annotated with __counted_by(num_components), so when the compiler
-> provides __builtin_counted_by_ref() the allocation now also sets
-> rtd->num_components to the number of allocated slots.
-> 
-> snd_soc_rtd_add_component() fills components[] one entry at a time and
-> expects num_components to start at zero. Starting from the allocated
-> size, for_each_rtd_components() stops at the first, still NULL, entry,
-> so the runtime has no components: they are not probed, no controls or
-> user-visible PCM devices are created and the card registers empty,
-> without any error message. In addition, each added component is stored
-> past the end of components[]. On the tested board these stores still
-> land in the slack of the kmalloc bucket that devres rounds the
-> allocation up to, so KASAN does not report them.
-> 
-> Reset num_components after the allocation.
-> 
-> Seen on a Colibri iMX7D (simple-audio-card, fsl-sai, sgtl5000): the card
-> is listed in /proc/asound/cards, but /proc/asound/pcm is empty and
-> 
->   amixer: Unable to find simple control 'Capture Mux',0
->   aplay: main:850: audio open error: No such file or directory
-> 
-> Tested on that board with v7.4-rc2 built with GCC 15.2 (first seen with
-> GCC 16.2): the failure is there without this change; with it, playback,
-> capture and the codec controls work again.
-> 
-> The root cause analysis, this change and the testing were done with the
-> help of an AI coding assistant (Claude Code, Claude Opus 5.5).
-> 
-> Fixes: 4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to the devm_kmalloc_obj() family")
-> Signed-off-by: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
-> ---
-> 4dd10fbbeb9c only reached mainline in v7.4-rc2 (not in broonie/sound yet),
-> so this is based on v7.4-rc2.
-> 
-> The other devm_k[mz]alloc_flex() sites added by 4dd10fbbeb9c were checked
-> too: none of them fills a __counted_by() counter one entry at a time, so
-> this one looks like the only user hit by the preset counter.
-> 
->  sound/soc/soc-core.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-> index 68b54e509b65..06a1d5718997 100644
-> --- a/sound/soc/soc-core.c
-> +++ b/sound/soc/soc-core.c
-> @@ -387,6 +387,12 @@ static struct snd_soc_pcm_runtime *soc_new_pcm_runtime(
->  		device_unregister(dev);
->  		return NULL;
->  	}
-> +	/*
-> +	 * devm_kzalloc_flex() presets the __counted_by() counter to the
-> +	 * allocated size when the compiler has __builtin_counted_by_ref(),
-> +	 * but snd_soc_rtd_add_component() expects it to start from zero.
-> +	 */
-> +	rtd->num_components = 0;
->  
->  	rtd->dev = dev;
->  	INIT_LIST_HEAD(&rtd->list);
-> 
-> base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
-> -- 
-> 2.53.0
-> 
+Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
