@@ -1,68 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794208355;
-	b=JCyAjvrbUHza+Xa1hho7k0O+tmXs8WCRAOo0FaT/A7eV4OKZhwL1QAXa3q75m2x+hu4v
-	 irCuOkZDRbI/sgPSRAwS60mkLiJNtSjATQxUjS6Wa+7q9k6uJUILXVWfFoSQLwidpGmOG
-	 ma5YXFU/LitlskaGCrRj1kanYoAg0VgrGwHKhuVRGjsCYDgj0Ff0qA+BuGwcSCN7fDTbN
-	 gAkZ/jGAX6dYOFujKnQF3p/GImbRgVOadvBb3T6ULTlxLp7I2MCWgT9BM4fCaD/QoMBPJ
-	 vOSSr9l+5jgqkT+G+ZVj2+jHNYspYxJ8eP4E/Inno1u3AvaM1CXhTm6ZfkEBHELMKug==
+	t=1794208779;
+	b=WiHWlXkQb7C+hkHVQwc7y7COSphT6yaucbPDQR3vZzpfxvy6m4LYf13oMfKQz7fl2oEf
+	 7QZJEgBm0d5C6imtxKoyqlfUPAW/9eAWvY+4L4GvOX1T40ZYV6g95oPrFpRaS7TKDl73V
+	 wRXy0wPN3xYrCjQl4Zx1NBGae/aY4fHzEiv3UApcIHM5PruXqC21wuBsMN+ju7ZH8gN/K
+	 RiEkMnH+iO4tlQLnI//gN6R/KRVprAhJOGT2dqYnaZrKpTIZMzxDkPMH8FS2Mrj6VntJk
+	 AUz9A0D7ngs+L8drrvasVoCt4UR6bTA6vtK70+Oa6eK1f7znlZnEYU0mretwkgdZ9bQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794208355;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=jm9engSfdWPrS9dt7pF9UwSBMVA4d9S2cMVwCkkiwKQ=;
-	b=RDNTrXvH4XloAmRKUT0uM+dpvmVmY9D7BNoJU1SouQq0Wa40vyHgSN+TtE1Un9J6lc6C
-	 HEtT2pftqeRUf0FjO57HbgdLCY1XOEm/qAv2jugdH4Xpcr4okc6Tf1tgWZXwlQe1iW1Yw
-	 Cg2WlJr+OQWOY671gr4Ma2nsqJrGFgU4KNiG/ps/pPY9q4sEE50F8LPPJUgsDrDeW70QJ
-	 p86X1RvWKG/V72eWaZd3I3R9j9QyCMBS0C7XZo7ttvkXWOdVvPEOWyDrJ2CAx83pOewUS
-	 kyY2bcJTHbm2nm7JycuadUEZXQnKVEvQL/fj9pEp3BIPdmJWspxRVwAYmzb2wWCOuFw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794208779;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=8ydp81PhWBeDe+y/drRykNqWaIlTe3ynaRB67lhWitU=;
+	b=WwDfJborVdtjOQny5k+kER/12/2PNzdJtZiTIoKfo3IKKojdVfPbJXODbdq5Baq3S/us
+	 gLXaGrRJg92Gnumae/eQyFa9vyhkJKpDeKdYBr+A4rqKzh+FYPngO/qSeEaVXCCpWek1B
+	 9YgE9UKzR67jCNdKRID/VWmOqzqrJxuM2jN9SilQaIeUeUSzyYXaIx7qlEC3NITIm1uw0
+	 mtZOjLTh9k3hI2gjv+Q/NRo708GR72QcZ0YC5pvlRhJ/OyAiLf+efDMDr6Ag8gXaSq8mW
+	 QFXAaBw8KcEKv2kTOdqyMNfbsr2y5g4ISZbqvq4175fng2kx/DU2PuKQsRvOQDPh6ig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dSSbULsB;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=g1tw19Dc;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="jn/mAM7g";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=g1tw19Dc;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="jn/mAM7g";
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7B0606A31C;
-	Mon,  9 Nov 2026 07:12:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD7B0606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95ADC606A31C
+	for <linux-sound@vger.kernel.org>; Mon,  9 Nov 2026 07:19:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95ADC606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dSSbULsB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794208355; x=1825744355;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=vuCWaIlGUKXXEN2eAbbUtujZ8yy68AEkaUI0O7EyVNs=;
-  b=dSSbULsBQWCmEu9/95U1Mh1FqxcjVetyqt9c9pDguXhXBVppDtdrL4I0
-   y0hmTSvgILu8k84g43Myvphs5Phpq6qN8fqBDatf/qeCSi4uCrnmA69b+
-   MJdOzWK8Z0jwmx+bF0F+PDOss5zE6hcRK8rkcCY2Zpf5w1Nni7FzT+6hj
-   nZcp+1vVYpSM4of5IxzjzrXb7wMOZ8s3cj+hIRm+5r0/Q3E/esqI7s2R9
-   HUSXx+Od07yfAaoONLZp6fEZcPhOjHOCnxhnHr1l70TdUx7L7tTVusYwM
-   1FiNOmnhJk4G+L1nqxz4KDekYc7jHlAgz/BYYbS32xmriHh5Dj+601Mrb
-   w==;
-X-CSE-ConnectionGUID: 5CM3MMqxTbSt9bwF+nXnKg==
-X-CSE-MsgGUID: usgmnsTeTsm5t/DUaZjeVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2953950"
-X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
-   d="scan'208";a="2953950"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 23:12:34 -0800
-X-CSE-ConnectionGUID: cg/ksszfRaWB7nuvOkH03w==
-X-CSE-MsgGUID: jS8vn2vhQOqV6LVelN0C4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
-   d="scan'208";a="8370954"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO [10.245.244.60]) ([10.245.244.60])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 23:12:31 -0800
-Message-ID: <3fabe6b3-1285-4edb-abaa-bedf406b4926@linux.intel.com>
-Date: Mon, 9 Nov 2026 09:13:10 +0200
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=g1tw19Dc;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jn/mAM7g;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=g1tw19Dc;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jn/mAM7g
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 63458220AA;
+	Mon,  9 Nov 2026 07:19:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794208776; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8ydp81PhWBeDe+y/drRykNqWaIlTe3ynaRB67lhWitU=;
+	b=g1tw19DcIEC8aNG1IdeC3rJwTKuMA+NICc3hLd4P7Bc2VGdv8dkSwfmrESM7lr+hVzvoGM
+	R4ctnL1b3lqvg/AmATVJoB4mfEA27Z3Wm7YQITk2ogyCQTIh31+ucq5L+we96Cl8s/qlp6
+	twkq6pHXvdO4Kt0JHfR5WtXL0LUlhxc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794208776;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8ydp81PhWBeDe+y/drRykNqWaIlTe3ynaRB67lhWitU=;
+	b=jn/mAM7gBMBhy34glunlQNdabYHe7OYRWYOUCIrUa2fI1VFvuYM9g0mJF8i79KqWG/EWGG
+	5U4NmRCQbsmoxgBw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=g1tw19Dc;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="jn/mAM7g"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794208776; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8ydp81PhWBeDe+y/drRykNqWaIlTe3ynaRB67lhWitU=;
+	b=g1tw19DcIEC8aNG1IdeC3rJwTKuMA+NICc3hLd4P7Bc2VGdv8dkSwfmrESM7lr+hVzvoGM
+	R4ctnL1b3lqvg/AmATVJoB4mfEA27Z3Wm7YQITk2ogyCQTIh31+ucq5L+we96Cl8s/qlp6
+	twkq6pHXvdO4Kt0JHfR5WtXL0LUlhxc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794208776;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8ydp81PhWBeDe+y/drRykNqWaIlTe3ynaRB67lhWitU=;
+	b=jn/mAM7gBMBhy34glunlQNdabYHe7OYRWYOUCIrUa2fI1VFvuYM9g0mJF8i79KqWG/EWGG
+	5U4NmRCQbsmoxgBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1B19213302;
+	Mon,  9 Nov 2026 07:19:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id aXieOAd08Wo6IwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 09 Nov 2026 07:19:36 +0000
+Date: Mon, 09 Nov 2026 08:19:35 +0100
+Message-ID: <87qzguwjy0.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: James Barnette <calmasacow@gmail.com>
+Cc: tiwai@suse.de,
+	linux-sound@vger.kernel.org,
+	tiwai@suse.com,
+	perex@perex.cz
+Subject: Re: [BUG] snd-usb-audio: Elgato XLR Dock 0fd9:00a6 capture silent when playback starts first
+In-Reply-To: <CAOUQ8cqRBXwhrQRN1ASgNZGrAFk=JXv9zNyrYg67a7U7Ng0QDQ@mail.gmail.com>
+References: <CAOUQ8cou-i0qNmFRsMxrjuGNKaBii1ggwGS-pjMuuexNJfBCWA@mail.gmail.com>
+	<87bj81yph4.wl-tiwai@suse.de>
+	<CAOUQ8cqRBXwhrQRN1ASgNZGrAFk=JXv9zNyrYg67a7U7Ng0QDQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -71,85 +114,94 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: SOF: ipc4-topology: Fix pin format leak in
- process widget setup
-To: Baoli Zhang <baoli.zhang@linux.intel.com>,
- andriy.shevchenko@linux.intel.com, Liam Girdwood <lgirdwood@gmail.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- "moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS"
- <sound-open-firmware@alsa-project.org>,
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
- <linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Cc: stable@vger.kernel.org
-References: <20261109005604.1004362-1-baoli.zhang@linux.intel.com>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <20261109005604.1004362-1-baoli.zhang@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -12.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 63458220AA
+
+On Sun, 08 Nov 2026 22:04:05 +0100,
+James Barnette wrote:
+> 
+> Hi Takashi,
+> 
+> Thank you for the suggestion. Yes, enforcing implicit feedback made
+> playback-first capture work in these tests.
+> 
+> I tested on kernel 7.2.15-1-omarchy with the same Elgato XLR Dock
+> (0fd9:00a6, bcdDevice 2.10), ALSA card 4 / hw:4,0. The direct ALSA
+> trials used 48 kHz, S24_3LE, stereo zero playback and two-second mono
+> capture. Hardware gain remained 49.50 dB, unmuted; PCM remained -23.50
+> dB, unmuted.
+> 
+> The named flag was rejected with:
+> snd_usb_audio: unknown flag generic_implicit_fb while parsing param quirk_flags
+> 
+> I instead applied quirk_flags=0fd9:00a6:20000 (bit 17,
+> QUIRK_FLAG_GENERIC_IMPLICIT_FB) and rebound only the Dock. I did not
+> unload/reload snd_usb_audio or create a modprobe.d configuration. The
+> read-only (0444) sysfs implicit_fb parameter stayed N and was not used
+> to enable this. I verified the active stream configuration changed
+> from explicit sync endpoint 0x81 to capture endpoint 0x82, with
+> "Implicit Feedback Mode: Yes".
+> 
+> Results (nonzero samples out of 96000; peak):
+> 
+> Setting Start order Nonzero/96000 Peak
+> Baseline playback-first 0/96000 0
+> Baseline capture-first 95697/96000 0.0308
+> Baseline playback-first 0/96000 0
+> Baseline capture-first 95708/96000 0.0294
+> 20000 playback-first 95993/96000 0.0326
+> 20000 capture-first 95705/96000 0.0375
+> 20000 playback-first 95990/96000 0.0343
+> 20000 capture-first 95706/96000 0.0380
+> 
+> At baseline, playback-first failed in 2/2 trials and capture-first
+> worked in 2/2. With the flag, both orders worked in 2/2 trials each.
+> 
+> After testing, I cleared quirk_flags and rebound only the Dock. The
+> stream configuration returned to "Implicit Feedback Mode: No", sync
+> endpoint 0x81 and Feedback Format 18.14. I restored the PipeWire
+> duplex profile output:analog-stereo+input:mono-fallback; mixer
+> settings were unchanged. Card mappings remained Dock 4 and Guermok 3.
+> No persistent configuration was left behind.
+> 
+> Does this warrant a device-specific generic implicit feedback quirk
+> for 0fd9:00a6? I can test a proposed patch on the physical device.
+
+Yes, feel free to submit a patch to add the quirk entry.
 
 
+thanks,
 
-On 09/11/2026 02:56, Baoli Zhang wrote:
-> sof_ipc4_widget_setup_comp_process() allocates the input and output pin
-> format arrays via sof_ipc4_get_audio_fmt(). When the following
-> sof_ipc4_widget_setup_msg() fails, e.g. because the firmware does not
-> provide a module matching the widget UUID, the error path jumps to the
-> 'err' label, which frees the process struct and clears swidget->private
-> but skips sof_ipc4_free_audio_fmt(). The arrays are then unreachable and
-> are reported by kmemleak:
-> 
->     sof_ipc4_get_audio_fmt+0xc9/0x420 [snd_sof]
->     sof_ipc4_widget_setup_comp_process+0x8e/0x200 [snd_sof]
->     snd_sof_load_topology+0x71a/0x840 [snd_sof]
->     sof_pcm_probe+0x77/0x120 [snd_sof]
->     snd_soc_component_probe+0x21/0x60 [snd_soc_core]
->     ...
-> 
-> Jump to 'free_available_fmt' instead, as the other process widget error
-> paths after sof_ipc4_get_audio_fmt() already do.
-> 
-> The other IPC4 widget setup functions (pga, mixer, src, asrc) free the
-> audio formats in their common error label and are not affected.
-> 
-> Fixes: f9efae954905 ("ASoC: SOF: ipc4-topology: Add support for base config extension")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Baoli Zhang <baoli.zhang@linux.intel.com>
-
-Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.linte.com>
-
-> ---
-> Changes in v2:
-> - Drop the Assisted-by tag.
-> - v1: https://lore.kernel.org/linux-sound/20261103021710.3647599-1-baoli.zhang@linux.intel.com/
-> 
->  sound/soc/sof/ipc4-topology.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-> index 8b13c97b34804..de03dc58021a1 100644
-> --- a/sound/soc/sof/ipc4-topology.c
-> +++ b/sound/soc/sof/ipc4-topology.c
-> @@ -1313,7 +1313,7 @@ static int sof_ipc4_widget_setup_comp_process(struct snd_sof_widget *swidget)
->  
->  	ret = sof_ipc4_widget_setup_msg(swidget, &process->msg);
->  	if (ret)
-> -		goto err;
-> +		goto free_available_fmt;
->  
->  	/* parse process init module payload config type from module info */
->  	fw_module = swidget->module_info;
-> 
-> base-commit: 3ecd14f81434da3b5ff5c44d243715f96d52303d
-
--- 
-Péter
-
+Takashi
