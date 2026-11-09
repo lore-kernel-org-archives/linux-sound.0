@@ -1,60 +1,127 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.26
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794259957;
-	b=ft7wHJrRznyprHP3iycYw0fCBRhFlhU5gyaJi6t2AqmOM6W2W0aZMphVt2b9p95SogPw
-	 9sQthB4UlPRnZGdiK1Bki48eJJumRimaRro2Rma9uq+hTK8Kk0dSPPLxbkP3g87TYo7h/
-	 qE00ZbSCO8H/iYkD61WeIq1pX76Cmd13X5x5NTKfdrV/LXLA2c6O8pN/81Z8YaCSU4FIK
-	 v4w9ORlsTftBit36ZJD7HI3TisKX2xbsgeGd2Z2vukjQVAg3DCfJJV5o3EWQgX1g/MPru
-	 /cBN/RfaQFSB8GMCtzX9XAcZybWoUXOeOkXL72RamYErOGdUYcYYFwEL0PJcAI9ozjg==
+	t=1794260763;
+	b=DI2/uob2+y+LgC9FmTIJkYrUGMrBlNzMOW7ww3cWkQvCPI3e7/53gx2gzBw5eUOBt4o2
+	 l5e4n38Mzkx5qHHX4QE3RXLm1byPvfidoA5C7QUqUas7bd/FrQkyhdKhY5TJTL1mb7Gsb
+	 DpSBQqTtI1EK1hrjuNcDJUU17Tgx5exAo6GaW3z1+wEwQ6h5v6bjUcOiBwGEx28cqZ4i1
+	 r6Tl+H4kpce2Q2kEUo6r5ybdVbRZNcerY0YVGDYh62tjmA5FoKfQoTrNdtiY+aVV3ZtVB
+	 cAuXqPyKOgCIKCvin/XasQoyd9K/x4JiTqT48CmCFw4FEi0CASTu88pml3CHKgxdEuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794259957;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=KfP+qP/zROxfDnz3mzR6nvfhebyC+h9GAWIwcwDWEVo=;
-	b=EVAs9M+flUEfToS/C44KmHjYPAfYH9cSLrkZdhofQFkCvCw/np/L4tpZA2K+TbooH12B
-	 iYfBwTBzFaXMu6iwqYxe1W1qk9Kmucau52l6hjdPllJJi4adVpyMKAzFrdJjbB0Q9XBwZ
-	 y1y/N5JwbHMRMUSSanBhXiY/5D0thqMuRlZB8TcdUP3+pwWR1oSAAJr+rSNLkc6nKrm2g
-	 ocAnpacyn0z9G0Eo7AcMf2NW0+O2A3QPZn5frMbMDxeI8e3F/97jBdbppe/WrKboLbjsG
-	 cHlX2qJ+31vV+f3yS2+Yrhyi3pdfnRQfVAqhtjJF/plO3Z+2tWllakNczQX681Xijbw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794260763;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=874yjmK9ypxK94+nKOJ/uR1d6HpqK0owgIThZQA8ZUA=;
+	b=dpQGNj8iPYZfm4Kmfp6hHECV7RZpgshbAkL3R44PprebLY4HuROV0py/4y/61x3v1sQU
+	 gH90NDJ3W/L9XGA+jas3yaBfpY7g0XYSKWDKFAhkwppW0U48S62mytsZmZT7PFeL3DFFp
+	 n6zeFKfo6eXlDZzjUmYix5iiVKh/sy8ZTma2SNQBNkM3zjNU6m0iOXnoPFZNroYiePCYi
+	 qJoYKHh3ou1DHAN9hIVLBqd7v9ZA/14sXYHTZ/McuY4jEsebdkioohIDasYaPoBoc3QQQ
+	 k3lNumn12wOFAmVq6SYSov4A82HPEyK42un3sQ0N3AVDhVQkQ/V9kH7QjXQAip/C8xw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=proton.me;
-	spf=pass smtp.mailfrom=proton.me;
-	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=hj5ie5nebbepzpwhzol23eyzpm.protonmail2 header.b=bEZR+mCs;
-	arc=none smtp.remote-ip=109.224.244.26
-Received: from mail-24426.protonmail.ch (mail-24426.protonmail.ch [109.224.244.26])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LaZ0qPv5;
+	arc=none smtp.remote-ip=209.85.221.41
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674C2606A31C
-	for <linux-sound@vger.kernel.org>; Mon,  9 Nov 2026 21:32:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 674C2606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A917606A33C
+	for <linux-sound@vger.kernel.org>; Mon,  9 Nov 2026 21:46:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A917606A33C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=hj5ie5nebbepzpwhzol23eyzpm.protonmail2 header.b=bEZR+mCs
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=hj5ie5nebbepzpwhzol23eyzpm.protonmail2; t=1794259948;
-	x=1794519148; bh=KfP+qP/zROxfDnz3mzR6nvfhebyC+h9GAWIwcwDWEVo=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=bEZR+mCsAh76GDhN5xEP9TMwPCtg8SskVpynDVfHgVReASG5L2Lekk7ATrSm1RuJD
-	 AfqHYTCC8A9vVF7WHUB8JFo8udqIvIgwgx9+zTVR+FGM8iGMlM6/ENYYse8kxMV0f6
-	 sBZBG1eTl9PSi30NkVUVTIKGGtGTZiEFiHuqDIv6hSuNaLjqxSynY/TMLnNZ1TK2Vm
-	 Re75yyjC8obx2vpSO0chQFLRzBc7tj+VzoxOsIPUeoAjFVOMASPzpSyK6SWM9LBUg9
-	 FisIvTQOExI3ST4YZe0MXUM1hm8yhe/lPf7ETlc7ijTkZvFcmYxi+GiZ/XRSKsG4Dc
-	 s7qhiD+tbcCOw==
-Date: Mon, 09 Nov 2026 21:32:20 +0000
-To: Thorsten Leemhuis <regressions@leemhuis.info>
-From: Rujbin <rujbin@proton.me>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>, Liam Girdwood <liam.r.girdwood@linux.intel.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, Alain Cousinie <alain.cousinie@laposte.net>, Linux Sound System <linux-sound@vger.kernel.org>, regressions@lists.linux.dev
-Subject: Re: [REGRESSION] Linux 7.4-rc2: Intel Meteor Lake SOF/HDA audio fails with ASoC route errors (-19)
-Message-ID: <mSuMDKuVQS8ZjTjivGVr3SMDUYuxZDrlG8aM0vLajVxIN8eq7OJTwAtWLWgMGypqzNolhoAsat_-nBy0wAq09eap6nIDkUvCES32gFvZ7ng=@proton.me>
-In-Reply-To: <A2lXWpWj7wjBwPNTvCOh2-bCqRbX0Pb7od1dICr4c6SegAilwp8dERHk6riu7tj1b3XUMgcLnDDSP_8AoZAyj9VHm3NUkBB1NW2YPQfZLYY=@proton.me>
-References: <mAZY9HZuXAXUf7zv8tqXquMtquf7iW2CIZB7WhU-SnwWp-Rpr0e8yixTsb3lAeQsO64PwwWlOao8aMjQ4hTKOQ6grCiNmaWZmFRXMdPICD8=@proton.me> <318f1745-acd7-430f-818b-c961987fe108@laposte.net> <1c28b5e3-7ddb-4e3d-a61b-a96aedd6eb50@leemhuis.info> <A2lXWpWj7wjBwPNTvCOh2-bCqRbX0Pb7od1dICr4c6SegAilwp8dERHk6riu7tj1b3XUMgcLnDDSP_8AoZAyj9VHm3NUkBB1NW2YPQfZLYY=@proton.me>
-Feedback-ID: 45446246:user:proton
-X-Pm-Message-ID: c72daf21872648188bd673d87f591abbb9fea2d8
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LaZ0qPv5
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48e47347279so893310f8f.1
+        for <linux-sound@vger.kernel.org>; Mon, 09 Nov 2026 13:46:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794260761; x=1794865561; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=874yjmK9ypxK94+nKOJ/uR1d6HpqK0owgIThZQA8ZUA=;
+        b=LaZ0qPv5+whTFQHjIA7oYo021SUS2QeXnWN8ii9Y4im7Ue68o46nz2xh/hHMwIUfQ/
+         ICad5fyoXePYl6/8nNVhZk6UxBKiDwJbHcHq6QklDSJskt7Ox2MaUqpcgklbAASOb1WD
+         7U13gt1MK2zXHTSuMFiAfjmE40I4QhfpTIR2Mc6nMOBQW6Dg/mqe6U/h69Hyf/QnrKae
+         CyKIviPRPYc2tnG0IM8qOylYYY2PKnrUJzf833wY0ZcFYDbyZdAS7ekVESO+FaUUNtdA
+         WzN6sPDUCv7pE3hPSGmxzNcqgZM1jmpktE+mpPCXGo9ukB9qCsiBySNit7DIM51G+Ivt
+         K68Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794260761; x=1794865561;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=874yjmK9ypxK94+nKOJ/uR1d6HpqK0owgIThZQA8ZUA=;
+        b=zM4Nqh7jcssTcjCSdtWB3zWqAxRh1Y4V4ZagFxONmv19mkYhi1J1tpzAFdGOoqKaow
+         P3SdABStXjlO0o+k5/g9DyWacGsuCxxRkEJPfC1NTctarC7LiIt0w1yMMnvWgdOSobj6
+         3X4rIRRRgQCKI32LhAjz1j1BSGK9fB3nVjNdZyjM5M3vSHzgS6o621YgSH5CgpEXlMAa
+         ef9HeMPH91Uv9j1gW2TgOrYArvPo3Mt12rHBIGsy0koR3lZmkAwx+BZNtpeflpjBhlGb
+         M9aYS0OqfCmpGZri1AQsUeqRA0wGr7I0fZfJIPKNIXbx0LHetuExB5sdaRQXxLci2RHJ
+         hPfA==
+X-Forwarded-Encrypted: i=1; AL+hErEiXZjJuRCa9duyo4J54V4m5L+V79z0zPwWDfVm5ahjqx5JmQHu5UGqCQ3DUzi+r/0AT0dHHjv2tw1+mQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8Fs3ofKvnUnfUgPzg/Ig3s/l88rnM6lWNS8WO1VrPpdDy3iB7f
+	5ZRG3pQo/G6FnXdPAiTGLnvtGwKm7ttscfGh+ewr34K3/1fqxfOSb6D8
+X-Gm-Gg: AYBFou2E28UdZz9c2utAOZIZFEZPuFYo3lZV0v2TOmViKQkmF3N9+qNSGpTcUvX7jKD
+	ZxUeNQAMkNZ1rZUORtpDPZzhRW3z435nrDI+76waXZ7oBt1jznca1xw5eQvrn7ZqaFSJ4CXIaLz
+	eVUO8inguqrQydQg1XBDolZT2nn51O4EyJ7P6Y+jQ0ZT0mpXIImPofgsj3q97StgCbiGd8Yboio
+	wKVd2O6B18v5R5OGE9K+UB+Hl4y7RRtfK2cyPJIx4O6xCSEJYZbq1OoAfiJc3Kv8rAJN650ZAiy
+	IbbZUdRLqYmrPntqXmrQlDxyA3IA3brKsa8Mozf7YQCz6vZk7ftwTnsM8pcVU8ua2TWLC9QyxOo
+	hdz5HM0o3UhKdYziX/fotXtK5kQIkFuJArHEAtBS9mWfusxlyVxYOTNrnMYV8iSlDWHG20bATAX
+	0D5DNDNXhA4KmR11fbcfe4g6eTONGfVdQkwZAlA5J/v++sSPoIUaVOYZkJjCadZ98FW6gz31Q7O
+	AY9ILq6I55vfmRs+0Tl74pO++uc+3pIPdbwDRom2c4SZlxWdP5p3rsGYQhvOC+GlzIdGR9mTKmo
+	u78f3dY4bWPUakfsrliZH08JLevhqjuK/UNqBQqjoCzGziMGMteLUVMOEMSvKP/wWw==
+X-Received: by 2002:a05:6000:288d:b0:48e:25e1:5eb8 with SMTP id ffacd0b85a97d-4982b28aa42mr1487213f8f.3.1794260760763;
+        Mon, 09 Nov 2026 13:46:00 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4983585c4fdsm1213644f8f.10.2026.11.09.13.45.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 13:46:00 -0800 (PST)
+Date: Mon, 9 Nov 2026 21:45:58 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: Christian Brauner <brauner@kernel.org>, Geert Uytterhoeven
+ <geert@linux-m68k.org>, linux-fsdevel@vger.kernel.org, Linus Torvalds
+ <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik
+ <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, Jeff Layton
+ <jlayton@kernel.org>, NeilBrown <neil@brown.name>, Eric Dumazet
+ <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Al Viro
+ <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph
+ Hellwig <hch@lst.de>, Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados
+ <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, Jan Kara
+ <jack@suse.cz>, Jan Kara <jack@suse.com>, linux-kernel@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ netdev@vger.kernel.org, ntfs3@lists.linux.dev,
+ platform-driver-x86@vger.kernel.org, coreteam@netfilter.org,
+ kexec@lists.infradead.org, linux-pci@vger.kernel.org,
+ linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net,
+ jfs-discussion@lists.sourceforge.net, linux-alpha@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-mm@kvack.org, linux-sh@vger.kernel.org, linux-usb@vger.kernel.org,
+ samba-technical@lists.samba.org, sparclinux@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
+ Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, Chuck Lever
+ <cel@kernel.org>
+Subject: Re: [PATCH RESEND v2 14/23] proc: let procfs copy in writes before
+ pinning the entry
+Message-ID: <20261109214558.0d9d5228@pumpkin>
+In-Reply-To: <alpine.DEB.2.21.2611090504170.17804@angie.orcam.me.uk>
+References: <20261104-work-procfs-core-v2-14-76ace653a773@kernel.org>
+	<CAMuHMdVfakapgBK6TBhO1iWX8qzvLDk8jzRS=t2MVa5G=MCUeg@mail.gmail.com>
+	<20261107-akteur-gemieden-eckdaten-21304d085e35@brauner>
+	<20261108185953.28054fb3@pumpkin>
+	<alpine.DEB.2.21.2611090504170.17804@angie.orcam.me.uk>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,197 +131,34 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi all,
+On Mon, 9 Nov 2026 05:05:57 +0000 (GMT)
+"Maciej W. Rozycki" <macro@orcam.me.uk> wrote:
 
-I checked the disassembly of the installed v7.4-rc2 kernel and found furthe=
-r evidence supporting the suspected root cause.
+> On Sun, 8 Nov 2026, David Laight wrote:
+> 
+> > > > While at it, I think it would be good to use this conversion as an
+> > > > opportunity to replace "char *" by "void *", which will probably let
+> > > > you drop several casts from users.    
+> > > 
+> > > So I tried that too. The thing is it drops exactly one u8 * cast in
+> > > ntfs3's label write.   
+> > 
+> > Since char is now unsigned that one isn't even needed...  
+> 
+>  Please excuse me missing the context, but what circumstances does your 
+> claim refer to?
 
-In soc_new_pcm_runtime(), the generated code initializes rtd->num_component=
-s to the allocated array capacity. For the failing Analog Playback and Capt=
-ure link, that value is 3.
+Just that the cast would have to be:
+	u8 *foo = (u8 *)bar;
+where 'bar' is 'char *', and I don't think you need a cast there when
+char is unsigned.
 
-The subsequent snd_soc_rtd_add_component() calls then write the component p=
-ointers at indices 3, 4 and 5 instead of 0, 1 and 2.
+David
+ 
+> 
+>   Maciej
+> 
 
-This explains why the component array remains empty during iteration and wh=
-y ASoC route initialization fails.
-
-The installed kernel was built with GCC 16.2.1, with counted_by support ena=
-bled.
-
-I have prepared a minimal patch that resets rtd->num_components to zero aft=
-er allocation. It compiles in my initial check, but I have not yet boot-tes=
-ted the fix.
-
-I'll test the patched kernel on the affected hardware before submitting the=
- patch separately.
-
-Thanks,
-Rujbin Nassereslam / zerox80
-
-
-
-
-On Monday, November 9th, 2026 at 20:17, Rujbin <rujbin@proton.me> wrote:
-
-> Hi Thorsten, Alain, and everyone,
->=20
-> I investigated the regression further with the help of Codex.
->=20
-> Source analysis points strongly to commit 4dd10fbbeb9c ("treewide: Conver=
-t devm_kmalloc() family to the devm_kmalloc_obj() family").
->=20
-> In soc_new_pcm_runtime(), devm_kzalloc_flex() appears to initialize rtd->=
-num_components to the allocated array capacity, while ASoC expects this fie=
-ld to count the number of populated components.
->=20
-> Consequently, snd_soc_rtd_add_component() may write beyond the allocated =
-array, while component iteration encounters an empty first entry. This woul=
-d explain the missing SOF/HDA component probes and subsequent ASoC route fa=
-ilures.
->=20
-> A proposed minimal fix is to reset rtd->num_components to zero immediatel=
-y after allocation in sound/soc/soc-core.c.
->=20
-> The modified source compiled successfully against the installed 7.4-rc2 b=
-uild headers.
->=20
-> **This is not yet hardware-confirmed.** I have not booted a patched kerne=
-l.
->=20
-> Would this explanation match what the ASoC maintainers expect?
->=20
->=20
->=20
->=20
-> Sent with Proton Mail secure email.
->=20
-> On Monday, November 9th, 2026 at 19:49, Thorsten Leemhuis <regressions@le=
-emhuis.info> wrote:
->=20
-> > Lo! Sending this just to add the skl_hda_dsp_generic maintainers to thi=
-s
-> > discussion below -- maybe they have an idea what's wrong here. Alain,
-> > Rujbin: if not, one of you will most likely have to run a git bisection
-> > to identify the culprit. Ciao, Thorsten
-> >
-> > On 11/9/26 19:22, Alain Cousinie wrote:
-> > > On 11/9/26 17:57, Rujbin wrote:
-> > >>
-> > >> I'm reporting an audio regression between Linux 7.4-rc1 and 7.4-rc2 =
-on a Lenovo laptop running Fedora 44.
-> > >>
-> > >> Last known good kernel:
-> > >> 7.4.0-rc1.vanilla.fc44.20261103210439475307
-> > >>
-> > >> First known bad kernel:
-> > >> 7.4.0-rc2.vanilla.fc44.20261109132241085802
-> > >>
-> > >> Hardware:
-> > >>
-> > >> -   Intel Meteor Lake-P HD Audio Controller (8086:7e28)
-> > >>
-> > >> -   Lenovo subsystem (17aa:50e6)
-> > >>
-> > >> -   SOF driver: sof-audio-pci-intel-mtl
-> > >>
-> > >> -   Conexant SN6140 codec
-> > >>
-> > >>
-> > >> Regression:
-> > >>
-> > >> With 7.4-rc1, audio works normally and ALSA registers the `sof-hda-d=
-sp` sound card.
-> > >>
-> > >> With 7.4-rc2, ALSA reports no sound cards and PipeWire exposes only =
-a dummy output.
-> > >>
-> > >> The SOF firmware boots successfully in both versions (2.14.1.1), but=
- 7.4-rc2 fails during ASoC route initialization.
-> > >>
-> > >> Relevant kernel errors:
-> > >>
-> > >>     skl_hda_dsp_generic: ASoC: Failed to add route Analog In -> Code=
-c Input Pin1(*)
-> > >>     skl_hda_dsp_generic: ASoC: Failed to add route Analog CPU Playba=
-ck(*) -> Analog Codec Playback(*)
-> > >>     Analog Playback and Capture: fail to add hda routes, ret -19
-> > >>     Analog Playback and Capture: ASoC error (-19): at snd_soc_link_i=
-nit()
-> > >>
-> > >> On 7.4-rc1, the kernel successfully loads `sof-hda-generic-2ch.tplg`=
-, initializes the Conexant SN6140 codec, and registers the audio devices.
-> > >>
-> > >> On 7.4-rc2, this initialization does not complete.
-> > >>
-> > >> Steps to reproduce:
-> > >>
-> > >> 1.  Boot Linux 7.4-rc2 on the affected machine.
-> > >>
-> > >> 2.  Run `aplay -l`.
-> > >>
-> > >> 3.  Observe that no sound cards are available.
-> > >>
-> > >> 4.  Reboot into 7.4-rc1 and confirm audio works.
-> > >>
-> > >>
-> > >> This appears to be a regression in the SOF/HDA or ASoC initializatio=
-n path. The responsible commit has not yet been identified.
-> > >>
-> > >> Full kernel logs from both the working 7.4-rc1 and broken 7.4-rc2 bo=
-ot sessions are attached.
-> > >>
-> > >> Thanks!
-> > >
-> > >
-> > > I can confirm the same regression in 7.4-rc2 on:
-> > > HP Spectre x360 2-in-1 Laptop 14-eu0xxx/8C15, BIOS F.17 04/20/2026 (i=
-7 155h)
-> > >
-> > > [    6.737799] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route Analog In -> Codec Input Pin1(*)
-> > > [    6.737802] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route Digital In -> Codec Input Pin2(*)
-> > > [    6.737803] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route Alt Analog In -> Codec Input Pin3(*)
-> > > [    6.737804] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route Codec Output Pin1(*) -> Analog Out
-> > > [    6.737805] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route Codec Output Pin2(*) -> Digital Out
-> > > [    6.737806] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route Codec Output Pin3(*) -> Alt Analog Out
-> > > [    6.737806] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route Analog CPU Capture(*) -> codec0_in(*)
-> > > [    6.737807] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route Analog Codec Capture(*) -> Analog CPU Capture(*)
-> > > [    6.737808] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route Digital CPU Capture(*) -> codec1_in(*)
-> > > [    6.737809] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route Digital Codec Capture(*) -> Digital CPU Capture(*)
-> > > [    6.737809] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route Alt Analog CPU Capture(*) -> codec2_in(*)
-> > > [    6.737810] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route Alt Analog Codec Capture(*) -> Alt Analog CPU Capture(*)
-> > > [    6.737811] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route Analog CPU Playback(*) -> Analog Codec Playback(*)
-> > > [    6.737811] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route codec0_out(*) -> Analog CPU Playback(*)
-> > > [    6.737812] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route Digital CPU Playback(*) -> Digital Codec Playback(*)
-> > > [    6.737813] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route codec1_out(*) -> Digital CPU Playback(*)
-> > > [    6.737813] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route Alt Analog CPU Playback(*) -> Alt Analog Codec Playback(*)
-> > > [    6.737814] skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed =
-to add route codec2_out(*) -> Alt Analog CPU Playback(*)
-> > > [    6.737815]  Analog Playback and Capture: fail to add hda routes, =
-ret -19
-> > > [    6.737815]  Analog Playback and Capture: ASoC error (-19): at snd=
-_soc_link_init() on Analog Playback and Capture
-> >
-> >
-> >
-> >
