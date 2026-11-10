@@ -1,60 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794317785;
-	b=U2MTanyuxlpzvegBh/dv3qiaWbQjg163MjpNET3LyHIOWPBjvAu8oiu2kpOHivbe+uxD
-	 RJ3jfw2VP+uFxm7jQy3/S/FZXQzOY2cQ2kd7ZCdiSK0hsyIQMdlmoiWKSAbtLyizAl0O6
-	 wohYh057XXQcKbD/NIoCl4eWlQRSFaYiN7kfa1nJTc351pp5GQmwlDQ51AsZyOxFrL1ac
-	 zlhwvIqyasS2gpVrmAluq8yZfg43Gm74mJjUDAF3BOClU/dkZqg0vLVZNdLg0bk5bzQfs
-	 b9cgr8HFUfED78ip2Q9TaSIoPnwpx7gg+IwnLZwWjL6QO0LnoUbrULPVzyDu9oyIGkg==
+	t=1794318643;
+	b=j/8/0J+odkZDU2TH35Hn7RvGrTy5To4Z3qVK2cunCM7aOUPRAzRugyAwiNvL3h71pytF
+	 yqYkjCzCkhlmPnH6QpXUGKpMJr/l58VhQmMo1a16QCF8Jo/aS9yXgUhqOqR3B81wQg01Q
+	 GS4ScmIdGoCNvrasnDkDSTp7i+D8lQoHfBHCpL6ofSOQXM2mgKHUM045p+4V7vl4wcFAv
+	 SGPgernuHrw3EJ8x/+5t7WoNDulI7lC0Z0JiUU7pOHyeWtgiP9FQ2zM1G4eEKtDsWSCD4
+	 RhjyqDl8C0G91yfc8E4Abs7q8Yb/LodunDmf7Urx00MhjSGLkOtPPYDI2LA5kIEVp1g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794317785;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type;
-	bh=LP5DUahL5hEGeUCAmx9TodRjN6W7SnWiOWsPXfAnq20=;
-	b=L29UyHFNeN64TgRuhqu5gxgwODvlb2vU5UD7TezOmpMyVNsu2RhxX9xlF6E0fTrtKQah
-	 QbgND3E2CKomZRMokgRvXm88FD+qEep4FlivUHSr5SMAivKzldSOcq/lWQX1l7u0IAvqW
-	 VqMBT8SG9aBw/Z6gwPuDwzvIOwwApMPs0zSBDYUngwdlKBTWzHvoTPTPT7IeoDmMauK9V
-	 h6PsBuh/pmHzm9qoYB35LdRTdu0lgMlHU4sgFP9EskxGY1bai6I3Vx/MIUcxihM0j8Tkz
-	 s9+3Zkt3mluqqdm5by/uhhRF5f2gSR91whOiqUtLrbd25E082dZaDvE0Ti5VJfNQmjw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794318643;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=bkk99GpB+onYPxsrtaHgbhEvyTIZqHozrmoJcM8fpi8=;
+	b=5th1HBBC2s3/eSHcCCFP0WZ6Wi2QVMO3JfKB5jk5mMIlrK7ofZ4RFb5nv8hEL/mH2Rtg
+	 Nwrtr2YpLk9HTHhIaetVNK5x33PV48iX7py1StBfGV7JnL47xW8INsYlVLr40f0KYnxsW
+	 syv9+xZ1FvuVHKDOUrpcSYAZLOhJ7kinX8eG4SdtE3K7A9wZfTfvdIIC31r9qHDOKMKDb
+	 7uA/42i0BWmwod3agRaSwUc/byFQe0UjpMpmXH+RXpcpEYf4Yol/MT+q8ZpcIqHxvhe7F
+	 6wp/bha5Hw+yCC/VDLRwkGua0a6QRZWHNkxH0Xc+9VjXod6UYDE0xO3c4sK2YobhNYw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=httpd.dev;
-	spf=pass smtp.mailfrom=httpd.dev;
-	dkim=pass header.d=httpd.dev header.i=@httpd.dev header.a=rsa-sha256 header.s=protonmail3 header.b=SuuMi19m;
-	arc=none smtp.remote-ip=185.70.43.17
-Received: from mail-4317.protonmail.ch (mail-4317.protonmail.ch [185.70.43.17])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ARQaY0hk;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837F5606A750
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 13:36:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 837F5606A750
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=httpd.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=httpd.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746CC606A321;
+	Tue, 10 Nov 2026 13:50:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=httpd.dev header.i=@httpd.dev header.a=rsa-sha256 header.s=protonmail3 header.b=SuuMi19m
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=httpd.dev;
-	s=protonmail3; t=1794317782; x=1794576982;
-	bh=LP5DUahL5hEGeUCAmx9TodRjN6W7SnWiOWsPXfAnq20=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=SuuMi19mExpWvO7BEz/aPH6x1ZAuQZOPnnFssHLJi59zQMy9ErfM7KW2cA/mxdO7V
-	 HsgN8s4EggKFypJWKQsCJVt1rgZUv9hz0IZCYkTtPQziufTx3PDtCoc+YFMrsUaHNI
-	 0wM6ciO+ndLzNyOaC630hNyOgXkd0vOulXxUGO4iWQpeh51AI9qXCB/8jgAt6mNTX/
-	 zHj6xAXKxjXdNAJQtpav9BlS+uQ6ZoI58DFhEz0P5el5X8M78KvCWtKRNQ+Qu06iid
-	 J+YcacGnyHksCtAa+ftIWkM2Uq0M1I6YyPrI1Aag81HncLcN6XfLV14r1cImGvnDj+
-	 lJwrvriMpiy3Q==
-Date: Tue, 10 Nov 2026 13:36:18 +0000
-To: Takashi Iwai <tiwai@suse.de>
-From: Angel J <iamanaws@httpd.dev>
-Cc: linux-sound@vger.kernel.org, tiwai@suse.com, perex@perex.cz, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix the Dell XPS 8940 headset microphone
-Message-ID: <57Kgu-Pdq28OE2JHZjO7YEuS6RCOZLFiDoZO8uqMUieYwA58mHOkRbbZADWKNQsocsNCzH1GkU4pSEhpi-l3mZenIkWdjdNsOHVlbAxGsXQ=@httpd.dev>
-In-Reply-To: <877bilusui.wl-tiwai@suse.de>
-References: <20261103150336.507675-1-iamanaws@httpd.dev> <87wlqtukxh.wl-tiwai@suse.de> <5ncUNWXphcObbYD04quaQMbD0tGoekaHB-QQrX5tgC7sSbzoT9jRVrbY9PyT6mRbww0G9-voA6Y98HjvPg7U25kmeybfQALp5NsNKym-3pc=@httpd.dev> <877bilusui.wl-tiwai@suse.de>
-Feedback-ID: 163474212:user:proton
-X-Pm-Message-ID: d2ae0ac7342a2d4a561fe2c0c999f1679f4bb8c7
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ARQaY0hk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B797F1F0089F;
+	Tue, 10 Nov 2026 13:50:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794318643;
+	bh=bkk99GpB+onYPxsrtaHgbhEvyTIZqHozrmoJcM8fpi8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ARQaY0hkEu2mlYmzoDeCsETqRL70Rruf/IlDQMb8CRngH3xEQjbeKz+rJn/0MWFwx
+	 GnFk/07ysVGmgEmqyg3PntGLWDCFLnLCxGGE38F9vwSzToqlUNaapzJfSHDW1sRn5p
+	 12NYEd7Wno45uL6UBj91BsWCKVtD/CUiuNRAj2ObH943zdagznikm/PUpTmf0KSaEe
+	 20sUGuB0L0BzmpA0KRDHyo9v1Ujg4WrPmuvcNSXzv+Oef3wgcp2PMindf9iQ9tZTKx
+	 /WkBEJev9r8B3auYA1WRvdODvWQdIr5Jz39XqTOvyRsI/IiHRBqiGOSTGlgBa2aQqk
+	 HSJK14RYiPGcw==
+Date: Tue, 10 Nov 2026 13:50:37 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Hyun-Uk Son <hyunuk.son@irondevice.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Ki-Seok Jo <kiseok.jo@irondevice.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] ASoC: codecs: Add driver for Iron Device MA5311
+Message-ID: <40646ae6-f6be-4408-aefe-521fb0ea9bee@sirena.org.uk>
+References: <20261027093232.859755-1-hyunuk.son@irondevice.com>
+ <20261027093232.859755-3-hyunuk.son@irondevice.com>
+ <179318672062.199157.7461931531075403104.b4-review@b4>
+ <SE2P216MB24230E7B98CD3F438E23E869FF722@SE2P216MB2423.KORP216.PROD.OUTLOOK.COM>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,66 +67,117 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha512; boundary="------51db2c8cd588198dac492970fd6cbb821e3868a5e08392649e89ef17f38b4b8d"; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wBWp4atyzpScsPlD"
+Content-Disposition: inline
+In-Reply-To: <SE2P216MB24230E7B98CD3F438E23E869FF722@SE2P216MB2423.KORP216.PROD.OUTLOOK.COM>
+X-Cookie: You can't take damsel here now.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------51db2c8cd588198dac492970fd6cbb821e3868a5e08392649e89ef17f38b4b8d
-Content-Type: multipart/mixed;boundary=---------------------a59ac8069a939afc0c30510d3cf1c046
 
------------------------a59ac8069a939afc0c30510d3cf1c046
+--wBWp4atyzpScsPlD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;charset=utf-8
 
-On Monday, November 9th, 2026 at 22:02, Takashi Iwai <tiwai@suse.de> wrote=
-:
-> On Mon, 09 Nov 2026 18:58:47 +0100,
-> Angel J wrote:
-> > Thanks for reviewing. My understanding is that the guidelines require
-> > a known identity, without necessarily requiring disclosure of a full
-> > name. I consistently use =E2=80=9CAngel J=E2=80=9D and this email addr=
-ess for kernel
-> > contributions. My PCI fix, commit 8805840aad73, was merged with the sa=
-me
-> > author identity and Signed-off-by.
->
-> Is your identity really already widely known in the kernel community?
-> I see only one recent commit in the past, and I can't see it's really
-> "known".
+On Tue, Nov 10, 2026 at 08:41:57AM +0000, Hyun-Uk Son wrote:
 
-Hi Takashi,
+> > > +	ma5311->adc4_pga_left =3D 0x10;
+> > > +	ma5311->adc4_pga_right =3D 0x10;
 
-No, I'm a new contributor and not widely known, and a full name would
-not change that. I don't read "known identity" as requiring it, though.
-Documentation/process/submitting-patches.rst asks for "a known identity
-(sorry, no anonymous contributions.)", which I understand as excluding
-anonymous contributions rather than requiring a full name.
+> > Like I said on v1 we usually leave the device with the hardware defaults
+> > to avoid having to decide on a specific use case in the kernel -
+> > presumably the defaults in the hardware were chosen for a reason.
 
-"Angel J" is the name I use consistently for my public work, and I can
-be reached at this address.
+> I added a register initialization function because the factory-default
+> register settings are not suitable for practical use.
 
-Let me know if you read the guideline differently.
+They rarely are, but they tend to be safe and what is suitable for
+practical use will vary depending on the system.  A gain that makes
+sense for a line output will be unsuitable for headphones, and vice
+versa.  There are a few things, like zero cross for example, which are
+pretty much universally sensible and we do change those but for things
+that are likely to vary with use case we just go with what's in the
+hardware since that gives us consistency without us making decisions
+that might favour some users over others.
 
-Thanks,
-Angel J
+> static int ma5311_rx_tdm_slot_put(struct snd_kcontrol *kcontrol,
+> 				  struct snd_ctl_elem_value *ucontrol)
+> {
 
------------------------a59ac8069a939afc0c30510d3cf1c046--
+=2E..
 
---------51db2c8cd588198dac492970fd6cbb821e3868a5e08392649e89ef17f38b4b8d
+> Also, this control is essential because it allows the speaker output=20
+> channels to be dynamically assigned to different playback channels=20
+> during PCM playback.=20
+
+This would be better represented with DAPM routes directing playback
+=66rom the audio interface rather than a custom control.
+
+> > > +static int ma5311_reset_control_put(struct snd_kcontrol *kcontrol,
+> > > +				    struct snd_ctl_elem_value *ucontrol) {
+> >=20
+> > > +	ret =3D ma5311_reset(component);
+
+> > This might break the machine driver if it's relying on setting the DAI =
+up
+> > during probe()...
+
+> With internal verification, I figured out that synchronizing
+> private data to reset hardware register setting is enough,
+> because The driver does not rely on probe() for any essential=20
+> configuration and dai_ops callback functions always set
+> the essential settings including PLL, TDM slot, etc..
+
+The issue is that machine drivers often only reconfigure things during
+probe() (including the generic ones) so the dai_ops might not get called
+again after a reset.
+
+> On our target platform, the required DAI settings,=20
+> including PLL and TDM slot  configuration, are reapplied=20
+> when the PCM streams are reconfigured after a reset.
+
+Sure, it'll work for some systems but not in general.
+
+> > > +	default:
+> > > +		dev_err(component->dev, "%s: unsupported PCM format: %d\n",
+> > > +			__func__, params_format(params));
+> > > +		return -EINVAL;
+> > > +	}
+
+> > Don't we need to configure anything in the hardware for clock provider
+> > mode here?
+
+> Since the frame size is already calculated in ma5311_dai_set_tdm_slot(),
+> I don't think we need to configure the clock provider mode here.
+
+You shouldn't rely on set_tdm_slot() having been called, generally
+things should work by default.  Usually the result is the equivalent of
+a set_tdm_slot() based on the hw_params channels and widths.
+
+> Lastly, do I need to address all feedback from the Sashiko bot, or are on=
+ly=20
+> the "High Priority" and "Medium Priority" comments mandatory, with the=20
+> remaining comments serving as recommendations?
+
+If it's pointing out something valid/useful then of course update for
+that but there's no requirement to update for everything.  Your other
+suggestions look OK from reviewing them here, though I might spot
+something in context - in general it's a lot easier to just send the new
+version, especially if it's just implementing the requested changes.
+
+--wBWp4atyzpScsPlD
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
-Version: ProtonMail
 
-wrsEARYKAG0FgmrzHcEJEBoBbwppzUxnRRQAAAAAABwAIHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmf0dLddnTK8HGBE4Npk/vY90vg40LeKPLdPciT8
-AJ0pHxYhBEAFf9htFyVnqZzmVhoBbwppzUxnAACQiAD/bOvZ2DvPjy/t0gvI
-+drzxU829S+5ui2U3m1AmudLRu4BANNsNJnQDb3oMeOJVnlaW+kL4GErTZ7V
-WvJmyhZJ4LAO
-=O1tT
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrzIS0ACgkQJNaLcl1U
+h9Da1wf/bgkQCHFqKUYSzIoHpxGeMZXf+w8h+CHd5ZTxYCvfLl9ySXYFUDHgakxz
+nI4Wn1QFxeyaj/XuNMqnnSzZxFDaFDj4mNTwvOxLf1atQecJb3mZCGPqnNoC423W
+a/uUhWOUQq2z1/5qVNLyiQQ8BvWWn00cc96zst3cTQXPeJwry2CWpq5J8OTD50KM
+OZXR6g4AAeEJTqJIp4uFBqMPLQy8p3NaeJhe3toXjyB+3cDNjVKodkwjXdK0qCN/
+u3C6p04IUf+czG2/QMoexte6gjH6qyXdyLca2W9PdaVp/XVw5i+V6KBMzJaPnuVx
+z/g8aGOV9fwTq+Q5fXGK1e5L7Fonbw==
+=q/0p
 -----END PGP SIGNATURE-----
 
-
---------51db2c8cd588198dac492970fd6cbb821e3868a5e08392649e89ef17f38b4b8d--
-
+--wBWp4atyzpScsPlD--
