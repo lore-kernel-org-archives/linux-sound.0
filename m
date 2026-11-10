@@ -1,108 +1,106 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794307086;
-	b=mJFdz5U0Dyvd1uVb+ulr64L8EcSDKE9D7rOoWpd0tOL+zoaUTDP6aWqM1Kx1ENqNvlca
-	 9Fmy8zvTN6cNCEQnbAoQP+kGjCtHNtC/rJBKtf5pKleQw6noTLZagguxus++P/+BuNVY3
-	 JuddgpzvWozealOW15hxTxxw+Kgx/0K/J/UUGCfQn2BnFmc7IeMZ+BwfAamlCq4+ysjdF
-	 R6fVWG9nVrYvCi2KbGXTLc0IjStJnDF6RXHRyq2FPguULIisCRHIN7RdYHQd5mJGer9jN
-	 iJiSM57lId4rPNeCr0K2CwJNhIYPE/EQTwO8zIWM5AxyBOEhSt6MP0FCOmSrfRkGx9w==
+	t=1794307402;
+	b=vPBmem5bpjT+z5VLFfwkXuQkJpaZKVmyT8eHrogescmWaPWD4Y9XVjerERLzoVZF3ax9
+	 55EoKF5nGQ0YHvTwCEzckDoxeGHu8S1V7Ndxi4ZdG9WuawK00w1Ml1/CA5/S5Zz5THNym
+	 6mBzWnyZKQDjcijrruW2MxuZHuBukAP6b4OQO4KtZ9eYL9jS1N8gbhc2On+J3fqDVco0M
+	 9QKymLYkdPD4UhcyBomoNHuVBA63B4Ay78szaDn6xUHvRKPSqaYO3XLXdDh+SBsQAifH0
+	 bXkWL/qWS//auTmU1edVyWWdjjIglA/hogUlpJcocjokMiphHeIVx34iSFm5krnc/yw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794307086;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794307402;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=aOc+2+AxSa/K+9V3Xgafch0lyGqrduHf8O4mo8k1R7E=;
-	b=hTNk4aVonsbBaqwMYEMQlIlA5QnsfeIAPDHJR0o3u4ucklClxq+KhQevx3gEShXMmfxf
-	 r5Hv3yQjBlWKaPEROGrAlzD94tRNdvvCSKhS7mAsOuuxyZiQTRHWQlWvs3FENARgYwdq6
-	 FMq+G/nE37fK2ajWJkxOgNWsbHPglV+oekMG2d5Ymlrhblic6ymJwaVbiGRjvmKOYO8bb
-	 TYZ/u5babvBwECOEoNWAxDkHpzqwrMl7f+eIvktSWIf+T8D7RUWr0Tqph9Al6jE5rtEFA
-	 IYXsIu1xZ7ibOUSnUgMnzhLvftsBaerOspfZhAnUMM/dFeMt9o+mFMWVaK25n5SQy5g==
+	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=jZT15QFSU79UxfWu9z0yMR9lsEE91WwJL2m3Lacw+cc=;
+	b=3Lgrn+p/tqSHIUuff56rzD1ktJZpXPBav9qqmhEu/36mALYSd5P5EyTWJl3cFQMuF3Kg
+	 opJD9/SBlGWfjd6hm5H1VM1Q3jaDGdzrFwCU+LHNFu2E6aShG/qUGAKoH/+Zp1h0OkFAL
+	 HDFsresCsjdmwlVSn4nfHkpELUiWGTJ0+yavQw4XlGQnWTXEKKLK3wqIqA5j88rE33Z4u
+	 IbRBhCu1qK1T8PcHic/EOW/iYTiGAcngihf/OLuwlYzkt7MNr8IgSxCkjl1bAFgtEP/CC
+	 mAJeJ8/TNQI06VrtpEoNVIWZJNkiSwFo2PB3eJV60ZdFmdoVNysg7Nl6jpt/u6H+bbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Xng7AEHq;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Q8XUPgde;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cjUv6VbP;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=aAHNpq3w;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=CNw2NH2y;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WESoGiJE;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=CNw2NH2y;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WESoGiJE;
 	arc=none smtp.remote-ip=195.135.223.130
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9AC8606A333;
-	Tue, 10 Nov 2026 10:38:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C9AC8606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C000606A31C;
+	Tue, 10 Nov 2026 10:43:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C000606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Xng7AEHq;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Q8XUPgde;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cjUv6VbP;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=aAHNpq3w
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=CNw2NH2y;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WESoGiJE;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=CNw2NH2y;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WESoGiJE
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0026421E04;
-	Tue, 10 Nov 2026 10:38:03 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9FDFA21EDF;
+	Tue, 10 Nov 2026 10:43:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794307084; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794307399; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aOc+2+AxSa/K+9V3Xgafch0lyGqrduHf8O4mo8k1R7E=;
-	b=Xng7AEHqFLeYbEBGNDEo4LltTXuqHotTxmut/go1LQg0JmPll8BgajEwf6+KeDPC3J7kv2
-	3Do9+9IZiQyso7Zgr/VHffkaD9pVRTKu+RGRiRw8ASOnipx5PE9M0SDasL3uaNyCv2c7Yc
-	gs4WM+rg1PK5nILmCNSNqSM9xbQazuE=
+	bh=jZT15QFSU79UxfWu9z0yMR9lsEE91WwJL2m3Lacw+cc=;
+	b=CNw2NH2y3265uY+UwLgh8agnTnnZRU+Shu6hmZ6VwRYmWFFAqGLpYwkfV6mPwPGiPdcGU3
+	nUt61fvLmJl3u7phUIHFluxINhfRqt+D4roYNGsFyc6TzupRUeCLEMArDKRiV+mItBV5ZH
+	hcr/PROzA8XurwDX5p+YLZNDgCHOpKY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794307084;
+	s=susede2_ed25519; t=1794307399;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aOc+2+AxSa/K+9V3Xgafch0lyGqrduHf8O4mo8k1R7E=;
-	b=Q8XUPgdeyFkcRsD3bd8HM2XXcXx4tPCo7pWagOy2OgMFYkjuwtXeMxkwj6Fm4pEqG2hi8+
-	xihMJIiAKv+41KAA==
+	bh=jZT15QFSU79UxfWu9z0yMR9lsEE91WwJL2m3Lacw+cc=;
+	b=WESoGiJEg8iJcL0Y9gZiD51gcxEEb6/uyRgenqSIIwCh8Fi/S/1YxdntNRLffCiWZs06Dj
+	R4IeiCiyYC6a7HCg==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794307083; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794307399; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aOc+2+AxSa/K+9V3Xgafch0lyGqrduHf8O4mo8k1R7E=;
-	b=cjUv6VbPOzKDZbMAeGxjcR4BcnSAZ3s9Txrh4wOaFKrgvrjpbert+oUHmgg3ycR/EmvdzI
-	sOrXAjUmQD8L89SFxNubniY2u/ZyIRQP5IzwK0shbj+hUl646yPV9jGD6ZM6jrUE0jwH/P
-	+pdhc/t5TlVzo5Zm3Vadu0VdoXWaRAc=
+	bh=jZT15QFSU79UxfWu9z0yMR9lsEE91WwJL2m3Lacw+cc=;
+	b=CNw2NH2y3265uY+UwLgh8agnTnnZRU+Shu6hmZ6VwRYmWFFAqGLpYwkfV6mPwPGiPdcGU3
+	nUt61fvLmJl3u7phUIHFluxINhfRqt+D4roYNGsFyc6TzupRUeCLEMArDKRiV+mItBV5ZH
+	hcr/PROzA8XurwDX5p+YLZNDgCHOpKY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794307083;
+	s=susede2_ed25519; t=1794307399;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aOc+2+AxSa/K+9V3Xgafch0lyGqrduHf8O4mo8k1R7E=;
-	b=aAHNpq3wx7TZ868LHJwKhbn8YZd+NOycMQ4DcjsFHQhVSTaRuxB/jx30qDeWI4bdEMFhGf
-	zcdqtWnUCT8W4VDQ==
+	bh=jZT15QFSU79UxfWu9z0yMR9lsEE91WwJL2m3Lacw+cc=;
+	b=WESoGiJEg8iJcL0Y9gZiD51gcxEEb6/uyRgenqSIIwCh8Fi/S/1YxdntNRLffCiWZs06Dj
+	R4IeiCiyYC6a7HCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BDDC71339F;
-	Tue, 10 Nov 2026 10:38:02 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6252E1339F;
+	Tue, 10 Nov 2026 10:43:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id P/eFJQr08mokNQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 10 Nov 2026 10:38:02 +0000
-Date: Tue, 10 Nov 2026 11:38:02 +0100
-Message-ID: <87y0b1ug39.wl-tiwai@suse.de>
+	id Aj8GD0f18mpcOgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 10 Nov 2026 10:43:19 +0000
+Date: Tue, 10 Nov 2026 11:43:14 +0100
+Message-ID: <87tslpuful.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
+To: Lianqin Hu <hulianqin@vivo.com>
+Cc: perex@perex.cz,
 	tiwai@suse.com,
-	tiwai@suse.de
-Subject: Re: [PATCH v3] ALSA: control: Validate element info in compat ioctl
-In-Reply-To: <20261108172501.2887-1-sreekuttan2156239@gmail.com>
-References: <20261108141219.7655-1-sreekuttan2156239@gmail.com>
-	<20261108172501.2887-1-sreekuttan2156239@gmail.com>
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Add iface reset and delay quirk for RYDZ Technology Piva AC20
+In-Reply-To: <20261110020058.31037-1-hulianqin@vivo.com>
+References: <20261110020058.31037-1-hulianqin@vivo.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -114,6 +112,8 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-Spamd-Result: default: False [-12.30 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
@@ -122,77 +122,34 @@ X-Spamd-Result: default: False [-12.30 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	TO_DN_SOME(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-Spam-Score: -12.30
-X-Spam-Level: 
-X-Spam-Flag: NO
 
-On Sun, 08 Nov 2026 18:25:01 +0100,
-Sreeraj S Kurup wrote:
+On Tue, 10 Nov 2026 03:00:58 +0100,
+Lianqin Hu wrote:
 > 
-> The compat ioctl code calls the control's info callback directly
-> in get_ctl_type() to get the element type and count.
+> Setting up the interface when suspended/resuming fails on this card.
+> Adding a reset and delay quirk will eliminate this problem.
 > 
-> Unlike the normal control info path, it does not validate the
-> information returned by the callback.
+> usb 1-1.4.1: New USB device found, idVendor=0bda, idProduct=8808
+> usb 1-1.4.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+> usb 1-1.4.1: Product: Piva AC20.
+> usb 1-1.4.1: Manufacturer: RYDZ Technology
+> usb 1-1.4.1: SerialNumber: 202511241125
 > 
-> The compat read and write handlers use the returned type and
-> count to access fixed-size value buffers and calculate copy
-> sizes. Invalid values could cause these handlers to access
-> memory outside the expected buffer boundaries.
-> 
-> Use __snd_ctl_elem_info() to get and validate the control
-> information before using the type and count. This also applies
-> the same element ID handling and access checks as the normal
-> control info path.
-> 
-> Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-> ---
-> v3:
->  - Use __snd_ctl_elem_info() instead of duplicating the
->    element ID handling, access checks, and validation.
-> v2:
->  - Rebuild the element ID before validation
->  - Set the control access flags and respect
->    SNDRV_CTL_ELEM_ACCESS_SKIP_CHECK
-> 
->  sound/core/control_compat.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/core/control_compat.c b/sound/core/control_compat.c
-> index 87f7ad5ab739..a9ee5ef30c51 100644
-> --- a/sound/core/control_compat.c
-> +++ b/sound/core/control_compat.c
-> @@ -181,7 +181,7 @@ static int get_ctl_type(struct snd_card *card, struct snd_ctl_elem_id *id,
->  	if (info == NULL)
->  		return -ENOMEM;
->  	info->id = *id;
-> -	err = kctl->info(kctl, info);
-> +	err = __snd_ctl_elem_info(card, kctl, info, NULL);
->  	if (err >= 0) {
->  		err = info->type;
->  		*countp = info->count;
+> Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
 
-Isn't such a sanity check done in anyway at snd_ctl_elem_write() call?
-The OOB copy from/to user-space would be just -EFAULT as expected.
+Applied now.  Thanks.
 
-It's not too bad to call __snd_ctl_elem_info(), but I'd like to be
-sure whether it's really needed.
-
-
-thanks,
 
 Takashi
