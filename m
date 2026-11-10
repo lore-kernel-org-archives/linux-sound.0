@@ -1,57 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794289331;
-	b=seCz3MBMgOvxb6FAr1YybefT3oepG3wiPptTyUN6o3UuiICA8pHIXdmZreHeQtjwPist
-	 4B9gSqU32uJjX68lEKg5uEI/oGdLGosJE6eXHY36qsHaygazvp7m2gXBV8ZONBZaltTGV
-	 kXUD6rmZcVjYq/ew90OMRFxpBKz2eHRqHDiP7GWehDc3Iao4RHF0sepCv9yHGb5oXw/c5
-	 SrvYHnpUOekp4vGL4ns7KNi8oArsbazF5qohiUkfdVKbcDxTddHFj5B/VMBLjrLbRQ/Ej
-	 pzdV7HETiuj5aUnIPHpe8O/JaSwqmovP32Zrd9uhTHUKRHAKLjGe89J0TxoyDc9Pl4w==
+	t=1794289512;
+	b=nyBSA4n/UxhHBvmTQWXgVTIvjo+z+5om/FQvmoEeuNWTlBxkgTo6EgvWW1DT3ur+j7lA
+	 UmLDNyagYFFpY/ZxnKB+8Ql37joKt2kmoH7KF5BX5rp7i4vtE8ps+QdYFGjMm/aB9G/ko
+	 HpiEjAkvaqzFjfPxe1PGCK6JFcgGt/7Alrbuxs7UwQOSPSSMiMuy98FXgOxoXeXMX0LPS
+	 3K3S4/k/Smu7ztBDNh7fSetpiwVYfHRjyOGIswI7G3teytsjgYJypRBtdUVSRE0qqR76j
+	 vcgEqhKADavz5nq3TpMAhpSczo5+7Jw+UIE55d5Mr8+RAQ3N6lfe8g4kjGxC/e5uxjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794289331;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=oKvO+wnbUwCVqw57l9Gs6oNTEOuIeEIal+kDIoWrZfo=;
-	b=I6v2gD4IHIQzEt83APIfAlgoupilVlEe+b6Sjw7iBBACJEQdUmYT2E6pgjf54QdHyQ8p
-	 c7PGA2Old0F2zkZOsYUAKFh3/GyH0JSf13K5NE4njpLglVrCi9zSp5RpKt8MJ45fwblma
-	 yijL7ZzydoowNTKIkzfEG14NlI3BNSAPJqoBhW7Om4fGv5pVvySz09qYqnZbrSV0eaZdn
-	 3VRhyvZV02G2yUZjY+DFlMI7UswWHTx6Cz4Z9QNKQtUSocLYW1R2LwUHzdkRpcL1cfl0E
-	 pMDUqnywx/92TzoHuTvj9oza/4uwSXX0pAtYOQxHCGp1tR7ILBkkrRsVxO5NfGz5InA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794289512;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Et+Zb5EdR7iyJthKkThJ4eFs29yWr3uUx0op6Z4LpU4=;
+	b=ApzHvuR3VKow0ovsx5efkN9Ruv2Kf3M7HekOm6ocS2Fd4ccKM/7plvPhycI4xrRcpnbz
+	 17DMFtn1BxHb55ZrN+Dl+hdw+XmlDeXh2TyxvBpOhRVKG3Eg/3m11zBRK+65yNwAJySqJ
+	 VNQWBNYo7RUBWVFN+gqjj/edli9Q+r3xs1oQOqbhBSJpz3ComBmtnJNbLpz78+2xN1cPn
+	 0u7dH+ceYbrz87oxfWqsDAIATKl/CuQZLusQlT8JAqcxfcMhb2RXoPPv7zaWrvBIW35V7
+	 jPmdjB8/XuRFHxWekVWH+XVnUzM4xvnQOBeU3IfOhxOzoyyvVPql19jQUQ1W3XiDY4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WSCcHOql;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wjxUazJX;
+	arc=none smtp.remote-ip=74.125.82.172
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E8B606A31C
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 05:42:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B91606A325
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 05:45:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13B91606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WSCcHOql
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D12391F008A2;
-	Tue, 10 Nov 2026 05:42:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794289331;
-	bh=oKvO+wnbUwCVqw57l9Gs6oNTEOuIeEIal+kDIoWrZfo=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=WSCcHOqleytooTolKDCp8BAx39aGhKCPbUUD2Gr4Qbab8gIkjrhgg9NWu5G3awxcB
-	 LtguKNp1Umwz+r5bomqt0vBABR68kvXNXvsyTJVdVPrcX8+gosQLlydVclN4DymLbg
-	 eRTvA7WS68d7l/Y+7/KwT2YN6ewwOhI2BpgOr1If8v2Y8O6QHYBu9NOHfiqLsC4dDY
-	 tDyy3Oxhtg967dQ7xC9ro1X4buaQv5CmjgN+0XQISk2obhtmoKQR4esA8j4y+/8vJs
-	 qCwJNxRvrUDVicSCVB2Y/FBzEViVLiwj3gZp3dVA4Z+NlJPx5kfA4Fk4WFvN0T6i6L
-	 mdNfk4iwHYleA==
-Message-ID: <sashiko-outbox-206330@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 12/20] ASoC: soc-component: add
- snd_soc_component_to_regmap()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Kuninori Morimoto" <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87qzgtmf70.wl-kuninori.morimoto.gx@renesas.com>
-References: <878q31nttj.wl-kuninori.morimoto.gx@renesas.com>
- <87qzgtmf70.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 05:42:10 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wjxUazJX
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-36ff9c9da34so2826312eec.1
+        for <linux-sound@vger.kernel.org>; Mon, 09 Nov 2026 21:45:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794289511; x=1794894311; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Et+Zb5EdR7iyJthKkThJ4eFs29yWr3uUx0op6Z4LpU4=;
+        b=wjxUazJX3FsrAGCWTXLFOUZlYc92KL2tlO9GPsGNDKzm21dwnGGJFJTPdTkzrhE1Da
+         O7yVhekIWNpO5UxKE4+PYt1sEetjA0Wbrl3Bkn69NBMIwjUCyi3SFnmZksThjK/imLqG
+         L6kVu87FDOmftCamupWn0CnIAa4EhaSsQoOg5oEKHXbV626ag/XrZE+qiO5ANBEdzMYM
+         Yz69Zsrcsk1kyL4hkgKvMMGMbxhswuNwgVxmfUyMoiZw0Io1erp0suJVBoO0QnsTiRmU
+         o5Z5yjfjLkq+ZfMNxgJEarEQ2F6LamJjqCQsGwEvmArjyvaYcwLUb7qrA08ZJQtRdrKl
+         svYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794289511; x=1794894311;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Et+Zb5EdR7iyJthKkThJ4eFs29yWr3uUx0op6Z4LpU4=;
+        b=u9JwRUzC3cq9i7azKRv2u6KK+yS8y7c0SckPl6KWdcnTIsouPN412O9S+BhX85NyRe
+         TqdOcdBxqd5ASCXfZoBRug4B/IbbzZVecgCkfYLPIiRYuRkiDFgoYjysjwmUrc2jQhfZ
+         JXVZJMAoxG2gruen2UwbRF9GFfI9D7KgSjP0nftYIMIOEajftR6ESPPoVOE/U/6qb8Bn
+         PkIQHGWIXVOfiNaLcoopV+T2jc9BvFUdK+WQlJeNBydfSTb/FYJi6joL4ioW1ssduyqk
+         ywyCFWI1Q5LWTU7qkbf+S1HLCIClXzvTH6QxJMK2Gglnr2nqiYjztWZH3vA3lhKysk+v
+         Ecrg==
+X-Forwarded-Encrypted: i=1; AL+hErFnb/rUbfwzVSf4jbxY44Z/bQNl+Khhx0dBETYuIpNMM9Rr2/TKsUMFpponOxhj7GLbAIBi2yIHRfeYrQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8ePBDJeB/PxMAQCA/613C57WT+5fJN91yYppYYFrMHZv8FcR2Y
+	MFEGNsfsbfgq4IhsGL/TUlcjjYwe86jzSHpbhY2tHeiN2lavJOObfrA/
+X-Gm-Gg: AYBFou15Rs2JdrJvCkc5eOKWpVAnSaLjsq/h+7DKA6yG4mwWYME2RqKzHvFp9ucW+s/
+	vRjJphvseTKVKmbp41p5aN1G237rBPF8sq7E+UoYwhaQqFVNFXtjn8yg0YV4NN+dcELJnIKLdg2
+	C5eh64BIMhSXpPae/ct8ZNi2BzEzZBfGH9pmM2gqS3eyN0rpOx/4HAvmjkgL4TJzdL5UqEKIm5f
+	hQ4xmkazBeoc5LQ0nk9ZdBYqwygSrCgZZOR+JC+D2QJ56wqlugOjYALSsjYW1Wy7WyJvGwnTYg6
+	VR/1lNgaqJmkUv+OFvWV7ZC7aO8j4/84cd3hGL6C8C3z1em0/aw2pmzTGZuXYf3h3vKr3WZ/aVW
+	kYTay0x0ZV8us114FMmjFwdk4Bs3kWCX0KE/edIgOMyb7iSOc1TNRYczgn7JR4hfZbFm97ouVRD
+	uhXMmpERGa8D3EvjnrjveithN6d1rBN/XxQRANk2hsQgLFB6ccBHX+Aw9jyCI7y7HZCdLf5eyKC
+	BhsRW1ok/Sp2yfJ1r4Cpym3J0+TiGXIYN2bhDVQoqzR8WECsl9nwTq+x1U3atvtgGvQE9o5BVsM
+	PvRAPfmNRW7IjrMis7kQy5NhzJipjaWmScxlWSJdXNeWV15H
+X-Received: by 2002:a05:7022:1701:b0:1a8:9857:2102 with SMTP id a92af1059eb24-1b3b6185abamr1807080c88.30.1794289511064;
+        Mon, 09 Nov 2026 21:45:11 -0800 (PST)
+Received: from hj.. ([163.239.22.29])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751ad6f11csm3466120eec.0.2026.11.09.21.45.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 21:45:10 -0800 (PST)
+From: Hyunjung Ko <hj351016@gmail.com>
+To: Mark Brown <broonie@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Hyunjung Ko <hj351016@gmail.com>
+Subject: [PATCH] ASoC: ak4613: cancel dummy write work on component removal
+Date: Tue, 10 Nov 2026 14:44:53 +0900
+Message-ID: <20261110054453.2286414-1-hj351016@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,63 +99,47 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] ASoC: soc-component: snd_soc_component_to_regmap() ordered
-  after its callers
+ak4613_dai_trigger() schedules priv->dummy_write_work on playback start
+to issue the PW_MGMT1/PW_MGMT3 dummy writes from a non-atomic context.
+The worker dereferences ak4613_priv and accesses the component over I2C.
+
+priv is allocated with devm_kzalloc() and the component driver has no
+remove callback, so nothing cancels the work on unbind. If the device is
+unbound while the work is still pending, the worker runs after priv has
+been freed by devres, resulting in a use-after-free.
+
+Cancel the work from a component remove callback, which runs while priv
+and the component are still valid.
+
+Fixes: 03bbf9f5e4eb ("ASoC: ak4613: call dummy write for PW_MGMT1/3 when Playback")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hyunjung Ko <hj351016@gmail.com>
+---
+ sound/soc/codecs/ak4613.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/sound/soc/codecs/ak4613.c b/sound/soc/codecs/ak4613.c
+index 0000000..0000000 100644
+--- a/sound/soc/codecs/ak4613.c
++++ b/sound/soc/codecs/ak4613.c
+@@ -807,7 +807,15 @@ static int ak4613_resume(struct snd_soc_component *component)
+ 	return regcache_sync(regmap);
+ }
+
++static void ak4613_remove(struct snd_soc_component *component)
++{
++	struct ak4613_priv *priv = snd_soc_component_get_drvdata(component);
++
++	cancel_work_sync(&priv->dummy_write_work);
++}
++
+ static const struct snd_soc_component_driver soc_component_dev_ak4613 = {
++	.remove			= ak4613_remove,
+ 	.suspend		= ak4613_suspend,
+ 	.resume			= ak4613_resume,
+ 	.set_bias_level		= ak4613_set_bias_level,
 --
-
-commit 1b181762257030814f72c0850502aed04e2f536a
-Author: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-
-ASoC: soc-component: add snd_soc_component_to_regmap()
-
-This commit adds the snd_soc_component_to_regmap() helper function to
-retrieve the regmap pointer from struct snd_soc_component.
-
-> diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
-> index 3ba4e2c84e4b4..4a72cfb5401a9 100644
-> --- a/include/sound/soc-component.h
-> +++ b/include/sound/soc-component.h
-> @@ -278,6 +278,7 @@ const struct snd_soc_component_driver
->  *snd_soc_component_to_driver(struct snd_soc_component *component);
->  struct snd_soc_card *snd_soc_component_to_card(struct snd_soc_component =
-*component);
->  struct dentry *snd_soc_component_to_debugfs_root(struct snd_soc_componen=
-t *component);
-> +struct regmap *snd_soc_component_to_regmap(struct snd_soc_component *com=
-ponent);
->  struct snd_soc_component *snd_soc_component_new(struct device *dev, cons=
-t char *name,
->  						const struct snd_soc_component_driver *driver);
->  int snd_soc_component_register(struct snd_soc_component *component,
-> diff --git a/sound/soc/soc-component.c b/sound/soc/soc-component.c
-> index ebeac81355901..d8274273bb013 100644
-> --- a/sound/soc/soc-component.c
-> +++ b/sound/soc/soc-component.c
-> @@ -92,6 +92,12 @@ struct dentry *snd_soc_component_to_debugfs_root(struc=
-t snd_soc_component *compo
->  }
->  EXPORT_SYMBOL_GPL(snd_soc_component_to_debugfs_root);
-> =20
-> +struct regmap *snd_soc_component_to_regmap(struct snd_soc_component *com=
-ponent)
-> +{
-> +	return component->regmap;
-> +}
-> +EXPORT_SYMBOL_GPL(snd_soc_component_to_regmap);
-
-[Severity: Medium]
-Should this patch be ordered before commit "ASoC: soc-component: makes
-regmap function to inline macro" in the series?
-
-That earlier commit converts snd_soc_component_regmap_get_val_bytes() and
-related helpers in include/sound/soc-component.h into static inline
-functions that call snd_soc_component_to_regmap(), so the six intermediate
-commits fail to compile with an implicit function declaration error and
-break git bisect.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/878q31nttj.wl-kunin=
-ori.morimoto.gx@renesas.com?part=3D12
+2.43.0
