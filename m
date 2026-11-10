@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794304981;
-	b=KW6rueKDWPLGRmmSKvmd+72/U9Y2yI0GSvuN90IEyBGSJAFyS3fvRNnyJSEAVb60M6EU
-	 nk0JJgmQfbWjZsGlVrUAqz09x6TVHgwrVHxI1BzqCeLCk8P0/ShjEfrv+thRp4elz6cp8
-	 mrEe/xCA2xb2x4p7bMitvFYCVND4YtoldEdBywi2hjUJOxrbDl0uDA/5JhmWNkpMNN1W1
-	 cvwT8irlWgOxfycPbhA4thhIGpypDK4VX4FC1E/sCMSJrxZQB4eDXjgojznHMcUkmqOVk
-	 3DXUwHv0gT2eZmTYzCWCPIpVc90I4JvkqviwYfWwh/olQ/iOKYfQM2SnOBYJ2A1uRcA==
+	t=1794305191;
+	b=p9uQejzepOZ8dKomdm0CwcplTDvagOVlSjCwu8z4s8uUiLRrdXaPDb93+NGdhFVzMU/i
+	 C1F3tQAem7CyOCAfsSZTACeM7kpK9MS0Xy6YnjwZaFEXjzEQBNAXnDjlIrvTpQ85hwbPR
+	 p1FyRGyLmwzAcuqqDetRcft9MPD1dArXXsH9+7nKVuFRaa0NBsvX7iwCyDfL7M+Pmomda
+	 ckjW55S600wYEJGbu8viRUrNlTwxACWcxyrahlcWhHBP4MSD2qrUx7ACCjubFlxMI/gnV
+	 mZZn1t7rIlQhZ/bWm9gH8K1WNQOLEPNrcLzxysJHIOyRC/oVs3G0TQ6ccZrz4Se6uaQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794304981;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794305191;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=fEita7AedzyVMi6g2D+675Wv4/CkkrLDqluuh9SYGQQ=;
-	b=1xSiujdFVdjrX+VWMLC49y088ip3Cn6tBWUQirXjr1e4I71jXdxrMxQfwIVANaEipn4a
-	 Qwe9IGZAeyR4W/2fQw/xfxeyvN26B1WjxzjvhIOlz3bAOBX8o0vQvrz5sbO9t4dGhI3DN
-	 ycnmTr/2hJtR9QctYvGAnlAYTA/VZTIEmsw5iNTgLr+uBq7E6OKjX6Fo99JHOviW4pA6Q
-	 TSWAM+0SyVa/gjTgrhIEZq2wDckDoq9E+sMEl1xb+0CbCJpVMtymCXnV4RCAUwuaxfbxC
-	 4wFLyliQxNhW059cQnWeuOFz9zIUSlZqKzr+8e4MBQO1O9/1oKQhcRc0ULkMfR1Y1PA==
+	bh=5HfpYIP010NGD2qYUaCwp7lBLRv4lPVbyoTLZ0rNZg4=;
+	b=up5p3Vrw8wy/fZ/zw7DqvYAILWQ0VJqQBV/DB8jVeVhdboDrpO+ZVDxS/mTQveTxL9Ev
+	 Jlf2Cq7ccevpxibw77en+pCrfjlqZPtsrZxecjLj011TKAgHXMRgm99PFdgh4KFZG8QDg
+	 jzi7/xyPM7mxBvhNf7Be+UrUP1icuoq+xxvIPWWVfUJtEGGC2Cn30/gIPg2yvT/F7qNwi
+	 2je/EszEtSdSkV6Br4533GCpFQQcacCYmxvUW06t7iJbJbSnHdET/SQkioGzleWnASiJx
+	 G6NIL+mT5mEFGjhlozIKUHeDIC2wUB1FsbWk4Y0apSK+6dxhlZuNXIdRZ+UjtSgCLdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MzAGuLWw;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cTw+Mj93;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCC2606A330
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 10:03:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB00606A330
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 10:06:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MzAGuLWw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 757211F0089F;
-	Tue, 10 Nov 2026 10:03:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cTw+Mj93
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 161BA1F0089F;
+	Tue, 10 Nov 2026 10:06:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794304980;
-	bh=fEita7AedzyVMi6g2D+675Wv4/CkkrLDqluuh9SYGQQ=;
+	s=k20260515; t=1794305190;
+	bh=5HfpYIP010NGD2qYUaCwp7lBLRv4lPVbyoTLZ0rNZg4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=MzAGuLWwaXUc9g81SivD2QBpT4TbO7cLKGZW/pG1eMN4+iAa4C642j2V+mcHGDkdj
-	 q+SG6YHLYGgADSjBlpFHuHUu+sJskvANJnIYft3rVnaJkbyJimDwQg+Ioq9zhMiQCG
-	 KOAr3sdJF6xMXPAa72pso2SSLQ1OsJuC37R+kN8B73kFza1StHNYr0/PhzJfY2HMKY
-	 22ElSHrsI2r+ztzp35PZBzY0vS298R+/+Qxwn1edzlEY/FNFlLgUKrPXZnZF+pvU3b
-	 wWa0HFnkJGYaftaqZ2hZRkhsYty1ZNCU1s2n7rdEdhgErYWMDRQIPE9d0n/wonVjaz
-	 aTvZqeGnJbRuQ==
-Message-ID: <sashiko-outbox-206828@kernel.org>
+	b=cTw+Mj93xJvL0neSsdJKvqd7CJ368y4AeVrg3cv86GsItZyi8+ePyrdnIfMtOrJ71
+	 XNlRcLwluOdmU/7XUixe3edPmJF6V3oJoTuPPiFiolHfwuJuOh4b47UwxKg/x3EyMc
+	 dBuH61SnSrUvtzb5OBbl6PJT+5nL7EaqULTXdnnIFoqWXwaIhghwNAG25x8Jsxghsf
+	 /Y114n6ca+nq5/jgkXyaU6OiY7qFPxZS/o6+++oivmK7vPrW0/sp9XVXiXw/RIP9bB
+	 ojU3TEt2HL7qAAqjqjsGrac3MGo6tewiOu9xVLKWya4edEcDuirruJWLfd7qSAcbzm
+	 Qw51w5rqX5/4w==
+Message-ID: <sashiko-outbox-206833@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 4/6] ASoC: dwc: Fix DMA fifo_size calculation
+Subject: Re: [PATCH v2 5/6] ASoC: dwc: Propagate optional IRQ lookup errors
 Reply-To: sashiko-reviews@lists.linux.dev
 To: phucduc.bui@gmail.com
 Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261110095525.504660-5-phucduc.bui@gmail.com>
+In-Reply-To: <20261110095525.504660-6-phucduc.bui@gmail.com>
 References: <20261110095525.504660-1-phucduc.bui@gmail.com>
- <20261110095525.504660-5-phucduc.bui@gmail.com>
+ <20261110095525.504660-6-phucduc.bui@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 10:02:59 +0000
+Date: Tue, 10 Nov 2026 10:06:29 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,33 +62,41 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Low] ASoC: dwc: missing Fixes trailer for dw_configure_dai_by_dt()
-  fifo_size bug
+- [Medium] ASoC: dwc: unbalanced reset deassert in dw_i2s_probe() on IRQ
+  error
 --
 
-commit 7aa9b7e8f65aeb4b8c0e3324d72ada2ec12b9b6b
+commit f22e35683fe4bb23831ac84cbbbb8c5cfc290ae0
 Author: bui duc phuc <phucduc.bui@gmail.com>
 
-> ASoC: dwc: Fix DMA fifo_size calculation
->
-> fifo_size should be the FIFO size in bytes (depth * width / 8), but
-> the code shifts by 8 instead of 3. For capture the parentheses also
-> make it always 0.
->
-> Use depth * width / 8 for both directions.
->
-> Fixes: 52ea7c0543f8 ("ASoC: dwc: i2s: Add StarFive JH7110 SoC support")
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+ASoC: dwc: Propagate optional IRQ lookup errors
 
-[Severity: Low]
-While 52ea7c0543f8 ("ASoC: dwc: i2s: Add StarFive JH7110 SoC support")
-added the calculation in dw_configure_dai_by_pd(), the broken fifo_size
-calculation in dw_configure_dai_by_dt() was introduced earlier. Should
-this also include:
+This commit updates dw_i2s_probe() to propagate errors other than -ENXIO
+from platform_get_irq_optional() using dev_err_probe().
 
-  Fixes: 0d274544bfee ("ASoC: dwc: Add devicetree support for Designware I2=
-S")
+> diff --git a/sound/soc/dwc/dwc-i2s.c b/sound/soc/dwc/dwc-i2s.c
+> index b0d3413c27d2b..0d2be2d8d31ae 100644
+> --- a/sound/soc/dwc/dwc-i2s.c
+> +++ b/sound/soc/dwc/dwc-i2s.c
+> @@ -961,8 +961,8 @@ static int dw_i2s_probe(struct platform_device *pdev)
+>  	}
+> =20
+>  	irq =3D platform_get_irq_optional(pdev, 0);
+> -	if (irq =3D=3D -EPROBE_DEFER)
+> -		return irq;
+> +	if (irq < 0 && irq !=3D -ENXIO)
+> +		return dev_err_probe(&pdev->dev, irq, "failed to get IRQ\n");
+
+[Severity: Medium]
+Does returning directly here leave dev->reset deasserted when
+platform_get_irq_optional() fails?
+
+Just before the IRQ lookup, dw_i2s_probe() manually deasserts the shared
+reset control via reset_control_deassert(dev->reset), and later failure
+paths jump to err_assert_reset to call reset_control_assert(dev->reset).
+Bypassing err_assert_reset leaves the hardware reset line deasserted and
+leaks a deassert reference on the shared reset control.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110095525.5046=
-60-1-phucduc.bui@gmail.com?part=3D4
+60-1-phucduc.bui@gmail.com?part=3D5
