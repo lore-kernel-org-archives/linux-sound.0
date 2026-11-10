@@ -1,99 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794284606;
-	b=Qv4l6VVXnGWUfUaG8ggmGjLWed2zXJqY61mT7woogy1eVfblagJi+UOkmNd2Dw7c5FSH
-	 JFJCB5U5SUfh4LeeUkczawWodbXDCm8lwkYtETwzPVu2x37NZpyIG68fqcQhhfQx6gkV/
-	 ihEwkU91krdwosORUMy9rI8ezBSb6obkbyo4rQ+MDWPlqBLYz0HqJTU1louW+e7G4pmvU
-	 5TX9IwPK5klydSUp9oTQEWzeaDqr1+y7/xjzRopA2X2pzMVyxPZOo02hWph4izkdwNo9j
-	 6a8HxvjNAOvruU4Ct1RCB8NeVBtrAETvy/u6TZdo0tb69L1cRcroBq9jB9+fBEyaihQ==
+	t=1794285018;
+	b=QtWS7T7DC7UWuKfsmlhPRcBgNxdeuU53aNOJigSDnQZE1k3NiWKlV507IEyRehkPBc4s
+	 qECJ8t/wthKDU8LbwH810uNnjAY8VaLcl/87W568eWkyR+Cj50apqRH1493M+QEDDyxEm
+	 uj8vVM+RCJFfL1KtDDxRzAGgaK61iE9TewUab+6QiDQNKuvnw2lUHhCHCOLDXRCQB1ol7
+	 FZW3jRYHtRvwMvZAyhtH0CCh+n3gHWQb7oLff3iVJE04jZMGfkK/6FV0zTs4fwjbYQyvE
+	 9pwRoxXWUyc2EVWxY+No/gzQuYSFcE4++bLZOywnL0OjmjbEJLqGWKhpEpmKkabCJDg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794284606;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794285018;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=3KmBFIU1iR/HTXXXArEC7zokn13fH3rMiHXgEuMLclw=;
-	b=O/SueToSqSVnToHUsMx3HoGNqVxnFc5cHevTQ7c2wrxoWerJFRCqmfomtj4kq/ZG59pg
-	 1Vy4HoRM+4ufjo5w5ILc3iLBWLDpJ3Ov7viQfjox+B7hFt6tn+J9FJynjA2QyOuzVL0gZ
-	 2D7qKkL4tDhns96Kzfks2kvKLp2FdSIv2R3IjaMIVu3t0QwLnnpm+dTVl1NCVwYLkXu5r
-	 hgVVjlLPqwNOD1GQJx6G4edpzMGTMTzLh4KrkkwGHT11BARL17tM5CTgdii12b3fE+chz
-	 gXxIiRjYzjOAA5+XbMOHZ+U5RIjItjRC1O1ANJ34hKaoldoOLKV2Wms4Z0zyfLLMOcQ==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=m9ZiqV3STCrg3BhaNCa8Qlk+MJM+GYUBrMPf7KJLgGU=;
+	b=fg10aBcdc2EoQgeJhJVxkq7Fn0VsQ0/HbjA7p1LPZ/IyQMy23mmIpFEA0YYvKX/H42Dy
+	 8W8zJwNAgEdSrB1TqGEDGoG+obsgm1e7VFPO3GvO3qwV3i0L77ZBGesekmtKUsUBysNmu
+	 64ZeiU0QowXkPdJtrh35qQ3b4K8iUaGDkeEAoKXKySnqdPE1ge7ISE/o9LA2mgjCBZwds
+	 VFmMDHFKTsNcSUw7Dfv+C5B8wI3n2XTIfMayjmcSnPjO3Wb7GbgqnKSj0CMtU7kT5ZQbq
+	 9zxmn1vFY/3ehknimNC8VRmrU0u50eUbOzQFcSTaVpMuh4M5Xa767HyjMhHoEGexD1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=amxcvFZ+;
-	arc=none smtp.remote-ip=209.85.222.177
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="I/BfnfVJ";
+	arc=none smtp.remote-ip=209.85.160.172
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D439B606A9D0
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 04:23:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D439B606A9D0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6DC606A334
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 04:30:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A6DC606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=amxcvFZ+
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-93e7ad9f78dso195722585a.1
-        for <linux-sound@vger.kernel.org>; Mon, 09 Nov 2026 20:23:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=I/BfnfVJ
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5430f70c827so16637411cf.2
+        for <linux-sound@vger.kernel.org>; Mon, 09 Nov 2026 20:30:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794284605; x=1794889405; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3KmBFIU1iR/HTXXXArEC7zokn13fH3rMiHXgEuMLclw=;
-        b=amxcvFZ+yYIuOdKwkN2xnglpeYEzUceWfDk0sXsZWfi4Tgk7U4Y94J3BirlGkoodk3
-         OtCVY1xD8ZejCQa6T+WtTSvOumR0yx4AAtVRwQavvTt9lPcJZFd626jGe9T9K3jDIO6X
-         nFYv7dEA/yLCQ1KmdI/l/LAiriaD1Lu32bzp6okQ04iviXkMxdD8T5MNhThcf/l8Fg1s
-         RjTYJWw5RItGLOXnfHwgS10cpdTUMMHWL5i4YLb2dpZqfuxehsMhb7AAYfekCrl/tFT0
-         GpzD8rTfE48nQr6X5i2whvkK52jnEHJH/rsJErtDeMAeIJ/S/aRYLL4UPG919liPLVw5
-         b/ng==
+        d=gmail.com; s=20260707; t=1794285016; x=1794889816; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=m9ZiqV3STCrg3BhaNCa8Qlk+MJM+GYUBrMPf7KJLgGU=;
+        b=I/BfnfVJEqNAcIncWiFEIEy0CQgE8VyTmVPyGTEK9+2XgrwtAyUnpxVxpxY92ZjhyX
+         BmtrZe6nKvuI7XLyxZopfOU9phHDG8Xviv2Q2F39ASFwCmIysXw01oylmpU9ez85AcvK
+         m+PkqK747ScC6FvPS7Pz8zLV5HvdxcevK4yUERburF5YekQ8PL6STG7yc2QHA63vr0er
+         67Tube1HToUSX3RGCqO67FfnDJpqxN9oVoI72yTCY1EU573b2zyOcksy7GcP8hL6gmrv
+         JmZ4rmtwX6CsfcbOQM67UstmBvZZorZHwz14M/egE1IZ/IhGYFC8hv/wkxAXYIWkk71H
+         ghtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794284605; x=1794889405;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3KmBFIU1iR/HTXXXArEC7zokn13fH3rMiHXgEuMLclw=;
-        b=wcCX3+VYwwBuukQf/3Ua1UvwS5vG8KpKNHLcFO9z2ijWEqVZvsRPLH9MZ3+KX08fXD
-         hgMv0fIGt/4TI9svpNdTWjByWM7osnyhsDaW91IIpviSMIZoRpmIaZNK6gLapGNEYqHI
-         eu3SyXVm9GUwIquLDVS/pR+23nCBvs28qx35gAMYQHn3Cjq2cuBcrrUiOe6XAKBrG/PU
-         fH3dlWx6R+UCRTl9X5hE1gblPQLnOr4/FrrSgrSUIdU9MtO0Tf65uXe55tKG8hcRcLdW
-         clNBgIQasVSKiTcw9bwLY43YFwa+GlSGflnmQuOO6/ZPIbgAP/9wMceu+Zl4jqb7I3iH
-         pIJw==
-X-Forwarded-Encrypted: i=1; AL+hErEAHvz8gYsQNL9uZJqIFGKqwvyAZRPbeqA6ok4MYH20U4qDr9VSPV1WTtH7wGLlTbl2awCtOTYGyWWWzA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/3b59Z60rSXBzpQYLRYdIuj1H5SoajeGPwQaV7T9w5ZKyb4zem
-	RO9EVCsgHafiLe+Tr0I5WJ5s/6Lqmyi2gy/4yWWYvpohDJD+5fO1WS4=
-X-Gm-Gg: AYBFou3v2AP3rHwv9p9i553T+DWPdOw/bFLE5YxH/ZrAERqYY87a7XaBdMPhuMLIvrg
-	CukdjT0qXLDDZAO1y+AwRE9qgiskYTqfqd+qSld1R+WwDg79j124tR/LHheLpNugA+xXwwdGWY5
-	WLTH2xSJo3lMFF0kK/0xykObCyVa//WXDo4k81F0RgeuahgdLmVh+NNZCIPEuF/CwrjYQJ5FQ+6
-	HbRaWZGA1c9ioXFpzGe5mHecp8rixF524RD5yfI2431uMSYJUVcoIEAyEPglcaIlkCBRE2hHxbf
-	PVjYEeVSZZumUONWG4GYpHshZRKfG+TmCKqOaO7gRuaOczjb4Zq1pEsZwS4QaZiEXL0wJDbNvW6
-	XjRvsPXIYam7HdKfflx54Abf6939Uj32OtRq0Wg/RWUpBdt+rbpydP0svTHwkoKAEbjOXBfZBxm
-	xpdibGCrSLXFwKkEkjEWWNhmmq5GZr6FYHT3E4DCqnT2/9WJ4m1JMJoxiIt3zJ8xIWh7IFYzw8W
-	UuNqW84YV3eLhGSSPgSdyDr8E6+/sR/XII8tOnSpcncjbBiJKy+cZ5N+mBsd06oljxKeliVjMH2
-	TzR8Q9tFRO6LPoYz+x7yBgNsHAUg6q8ayoTFc+cz/H82rPeiwWFvnsAPfMEJrh6RIBIeRhT/Xw4
-	lJoUQY7ghWsAB5TyCnXCN/OPqz6oF2XsnxmoBYm3Py6mJQrMndM5hgYTJ1mPHVJAl
-X-Received: by 2002:a05:620a:28d6:b0:93f:35fc:5253 with SMTP id af79cd13be357-9479f34274fmr240626485a.31.1794284604776;
-        Mon, 09 Nov 2026 20:23:24 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794285016; x=1794889816;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=m9ZiqV3STCrg3BhaNCa8Qlk+MJM+GYUBrMPf7KJLgGU=;
+        b=oeTyvor6MHqTsSxqTkQtz68BKsz+M4hx+ghIEvZRvFXh9V5hJUhPgQODTpNKzutbbE
+         J7jQpywkomO9MXqIPtQnCA4IxYklElb/NUbM43CLEmvYEWMQ+My1F5zwvGzvhCW/Tkpp
+         w/zBV3lCkZkgOBq1xNnoz8Myfx0MXeetsmxkEsw4QREsC0H59rxwsM3DwtH4+1sKp9Bo
+         HPJcX6fpoDuieSXgIZkT+4QSsWgwqIeeeMMJuRmFX3J87CRBfXPP8IBIwIb+BUsVa77E
+         /lM6saGBF0Tl4KXLbSLexaX2qkTAMGtbd2WK4WOFxzU/L+u5pAUOqF+2bmh9b4XgyaI8
+         sFRg==
+X-Gm-Message-State: APuU4Z8ohFwV7sU39REx/cBv+6xbxJDvoxFDBhjdlZZeKJoRxEofdzIk
+	b8yy5cQvXCtgQ43QBXxYFPN48w7h9Q71XNXUhd1arI3u+c6wiiQNEwg=
+X-Gm-Gg: AYBFou0mX1jxdYXhhkoxp1SbCz3dUiAFF7V9qsMn+WOh6+jHDmhWcjUGKEDUPNflJde
+	90rFa/7SB8q2rKOXA4aS6bQ4dYHabkdT2dca0bppDpW3QWECaf1kiErqeB3KEv8ilJII5ItO2n6
+	yyxFd0iQu4+keHWP0ERCyEIZUjp8yVRd4O0moICBxVhh+1UkqdSaxFFxPh84OZ2qeo8vqnJjlbS
+	d1uQBwI0w3zDwMrPySZYWX7N4f9wHBhUBWibH04DCh++Z2O75lYG+y4x8dVwV1oX7pme3zQ7Ymy
+	Qiu0xZLr5gFHJglDFe6RM+d4mYUILn80c6e2sQFQve5WWoDH9FJDGGLHJ/sXPaXjcLOd2iLev0p
+	bCRMjdnBBShlIz1Vy180xDMFgqEhY4Q4vTGPKa46TybXEwDQBMRaYE/40nvvGbqJQImUkAjWoR9
+	wTHp6at4U2+R2EtWTyuG18UZSf5ulA8R78JWpPNPS8sZEhq0esof6/yj4pNZjdfJ1FJ4KXHFlrA
+	Km/dwGsL7bjKLZYTD2/pMC4Fnx9/8F4bl+ieTNAsdB2qYh3pG1qCCQg5WUuVtLIvuvCBXbJkR1+
+	cObC454NFrUnz8t5ytd4rI8nBJMBMvfB2CUwDI/vo6EDjhJu5rZALoDm7PC/x4pXNrd60KgccK1
+	CHnnProunTzPUiNjjrIIluIphvsr1PgExu0ophZr2a/STmIe+aqJwe0Yb7Qk2zf4I
+X-Received: by 2002:ac8:5a51:0:b0:535:1b18:202 with SMTP id d75a77b69052e-55527f0f4f9mr20274411cf.16.1794285016367;
+        Mon, 09 Nov 2026 20:30:16 -0800 (PST)
 Received: from localhost.localdomain ([104.39.152.7])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e61b8f8sm136682085a.1.2026.11.09.20.23.23
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-555093d9c3fsm14579281cf.3.2026.11.09.20.30.14
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 09 Nov 2026 20:23:24 -0800 (PST)
+        Mon, 09 Nov 2026 20:30:15 -0800 (PST)
 From: Myeonghun Pak <mhun512@gmail.com>
-To: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-sound@vger.kernel.org,
+To: Oder Chiou <oder_chiou@realtek.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
+	stable@vger.kernel.org,
 	Ijae Kim <ae878000@gmail.com>
-Subject: [PATCH v2] ASoC: mediatek: mt2701: initialize IRQ dependencies before requesting it
-Date: Mon,  9 Nov 2026 23:23:21 -0500
-Message-ID: <179428456134.51374.1588994696516825613.mt2701-v2@gmail.com>
+Subject: [PATCH] ASoC: rt5682: disable jack detection works on shutdown
+Date: Mon,  9 Nov 2026 23:30:13 -0500
+Message-ID: <20261110043013.56937-1-mhun512@gmail.com>
 X-Mailer: git-send-email 2.47.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -104,106 +99,48 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The ASYS IRQ is registered before the regmap, memif arrays and clocks
-are initialized. It also remains registered while remove and probe
-unwind disable those clocks, allowing the handler to run without its
-dependencies.
+rt5682_i2c_shutdown(), which is also the remove path, cancels
+jack_detect_work before jd_check_work. With a headset button held,
+jd_check_work can observe jack removal and queue jack_detect_work
+after the first cancel. That work can then run after the codec is
+reset or, on remove, after the driver data is freed.
 
-Request the IRQ after initializing handler state and successfully
-resuming the device. Release it before PM and clock teardown on component
-registration failure and remove. Check runtime resume errors and avoid
-running clock cleanup twice if the manual resume path has already
-unwound a failed clock enable.
+Use disable_delayed_work_sync() for both works, which can queue each
+other, to drain them and prevent requeueing. Probe initializes fresh
+work on rebind.
 
-This issue was found by our static analysis tool under development.
+Found by a static analysis tool under development.
 
-Fixes: 43a6a7e71063 ("ASoC: mediatek: add mt2701 platform driver implementation.")
+Fixes: 45a2702ce109 ("ASoC: rt5682: Fix panic in rt5682_jack_detect_handler happening during system shutdown")
+Cc: stable@vger.kernel.org # v6.10+
 Co-developed-by: Ijae Kim <ae878000@gmail.com>
 Signed-off-by: Ijae Kim <ae878000@gmail.com>
 Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+
 ---
-No hardware testing.
 
-Changes in v2:
-- Rebase onto current code.
-- Replace devres actions with explicit IRQ release.
-- Check resume errors and preserve CONFIG_PM-disabled unwind.
+ sound/soc/codecs/rt5682-i2c.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- sound/soc/mediatek/mt2701/mt2701-afe-pcm.c |   27 ++++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
-
-diff --git a/sound/soc/mediatek/mt2701/mt2701-afe-pcm.c b/sound/soc/mediatek/mt2701/mt2701-afe-pcm.c
-index 3c5a76591..4054083e3 100644
---- a/sound/soc/mediatek/mt2701/mt2701-afe-pcm.c
-+++ b/sound/soc/mediatek/mt2701/mt2701-afe-pcm.c
-@@ -1620,11 +1620,6 @@ static int mt2701_afe_pcm_dev_probe(struct platform_device *pdev)
- 	if (irq_id < 0)
- 		return irq_id;
+diff --git a/sound/soc/codecs/rt5682-i2c.c b/sound/soc/codecs/rt5682-i2c.c
+index 43132943f6a7..db820cd9acba 100644
+--- a/sound/soc/codecs/rt5682-i2c.c
++++ b/sound/soc/codecs/rt5682-i2c.c
+@@ -299,8 +299,8 @@ static void rt5682_i2c_shutdown(struct i2c_client *client)
+ 	struct rt5682_priv *rt5682 = i2c_get_clientdata(client);
  
--	ret = devm_request_irq(dev, irq_id, mt2701_asys_isr,
--			       IRQF_TRIGGER_NONE, "asys-isr", (void *)afe);
--	if (ret)
--		return ret;
--
- 	afe->regmap = syscon_node_to_regmap(dev->parent->of_node);
- 	if (IS_ERR(afe->regmap)) {
- 		dev_err(dev, "could not get regmap from parent\n");
-@@ -1684,15 +1679,22 @@ static int mt2701_afe_pcm_dev_probe(struct platform_device *pdev)
- 	if (!pm_runtime_enabled(dev)) {
- 		ret = mt2701_afe_runtime_resume(dev);
- 		if (ret)
--			goto err_pm_disable;
-+			return ret;
- 	}
--	pm_runtime_get_sync(dev);
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret < 0)
-+		goto err_pm_disable;
-+
-+	ret = devm_request_irq(dev, irq_id, mt2701_asys_isr,
-+			       IRQF_TRIGGER_NONE, "asys-isr", (void *)afe);
-+	if (ret)
-+		goto err_platform;
+ 	disable_irq(client->irq);
+-	cancel_delayed_work_sync(&rt5682->jack_detect_work);
+-	cancel_delayed_work_sync(&rt5682->jd_check_work);
++	disable_delayed_work_sync(&rt5682->jack_detect_work);
++	disable_delayed_work_sync(&rt5682->jd_check_work);
  
- 	ret = devm_snd_soc_register_component(&pdev->dev, &mtk_afe_pcm_platform,
- 					      NULL, 0);
- 	if (ret) {
- 		dev_warn(dev, "err_platform\n");
--		goto err_platform;
-+		goto err_free_irq;
- 	}
- 
- 	ret = devm_snd_soc_register_component(&pdev->dev,
-@@ -1701,21 +1703,28 @@ static int mt2701_afe_pcm_dev_probe(struct platform_device *pdev)
- 					 ARRAY_SIZE(mt2701_afe_pcm_dais));
- 	if (ret) {
- 		dev_warn(dev, "err_dai_component\n");
--		goto err_platform;
-+		goto err_free_irq;
- 	}
- 
- 	return 0;
- 
-+err_free_irq:
-+	devm_free_irq(dev, irq_id, afe);
- err_platform:
- 	pm_runtime_put_sync(dev);
- err_pm_disable:
- 	pm_runtime_disable(dev);
-+	if (!pm_runtime_status_suspended(dev))
-+		mt2701_afe_runtime_suspend(dev);
- 
- 	return ret;
+ 	rt5682_reset(rt5682);
  }
- 
- static void mt2701_afe_pcm_dev_remove(struct platform_device *pdev)
- {
-+	struct mtk_base_afe *afe = platform_get_drvdata(pdev);
-+
-+	devm_free_irq(&pdev->dev, platform_get_irq_byname(pdev, "asys"), afe);
- 	pm_runtime_put_sync(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
- 	if (!pm_runtime_status_suspended(&pdev->dev))
+
+base-commit: 630059a5a632377b9b7b487baccde92b7ae1dd47
+-- 
+2.43.0
+
