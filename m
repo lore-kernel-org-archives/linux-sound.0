@@ -1,107 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794304642;
-	b=vo9z32m8U2M2XMMVYK8pL3fHX41EJBmZkrdzVVqQeJG4RizvxlUqgmil/M9I1e1A2PCu
-	 +c9DOw1+iMQDBJSU5s0FsZAja43roPYWcjEIwJZnONHdMGlWnlo2kRpsgC9mB+ONg0gJg
-	 ikB5yf6533pRHkLL/+b5o+/zL5LGLSe+AB8nqA7GxU1tqVnZY+j09T4fTz6p+s0EDPc8N
-	 if4vMks38IONvc8lIjp08123FtIHjx2MeF6fQ0EqZ+Bsil+77Q+gXBMqOL9HtGmHERRHG
-	 Jij4hu8FOZDOukhqyk2AwF4w12iFZ9xyI4n1OPNvCFH15mQ8ezSu1az5Xo/n9qWskHA==
+	t=1794304643;
+	b=NK0sTTibytJNXpyYh0vT9ULtYfe8WTEZvx2Nmf44c7V7W53X9lOMXc0kYZNqx5nKXXMh
+	 kWDIh03G/Gyp/LT8esiXzmtkyeghct+rn6SmDCW4c3z7KFvvIkIlDDF2sMmkyu5K4d1+F
+	 FxoqNA0dm2TXGjuVMiFsDoLc87wrbJ44Oq6WmU59jSe08OCTxrKS1zK5v57VJ0f9ZEhN3
+	 h+/+WeLyp+070Ka3KP3+SCt0sH6NUqlRtNDadk1TFRCG/Rfkzqv72zU52JNjcZwyhjnn1
+	 309NSkmB3P7IdYiey0x3DTBcNK0XYTw6Ux+LT07aT/E0CfkIQc/jLfjL0Er0jsmDr3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794304642;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794304643;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:Mail-Followup-To:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=tTHR38mY11B/5icwsExskzuyoZfY2wPwkj1B1V6Dev0=;
-	b=luVPp4ljXKnSQsI40sgH2i9wCWdJSsL3RhNppej8f0Kk+G6gStXZczncb8WxTNo9zsfb
-	 RplRU8+ywazrkUPIoUc6r5cb8UFuAq9vC4j2hFjBg0E0I0aFsa2/We+2VyqAvBqSekcOq
-	 AHTTmC2AGIooEgXzC8ASJmKYfzyZ16WlZPe9VY29u8Z9fo0SBRMW544u2KoKYWGwKypEw
-	 fazhWP7xPorQxVhIFccTDyE+sMdNtdrF9ksY58uvAJXw06kIt+SLiEDBGXGmP+crhKCKq
-	 8uF6f5P/Cio8+8Vx2FAeqbx3AeJAtEz6bIWfC47+dgqpJuiE81rMhe0DYq5vjdHI0dA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=+Prg47iXD919tYCgVMOQ6+zwqLgIY/fyOVcPOF91tfY=;
+	b=imJqp3M0Zex4LHq0yZ+xCU7qeWEcua8EfjKBvi44gWtfLhKOEFRStxDG16jS1VRFU307
+	 XqTOprUTvo/qyjk2+mTW+xoDeatHnCr+H1ju3JXkRxdYP5W0mxk2uH26sgVY1ofmdBYAe
+	 kvFleUbqGdDTq/O1GmeOxSclS98Ld4VMcFrt9NEeVWy5YUEnlBnzOOXRtcOX60ueOLOAs
+	 pNkxhIcruOZIMDKduUUzwRWq2/YEmn1IUsjUkUKzlJlddfV2g+KAGdqFjpEQ7ekjGXaJE
+	 GDlmnfzDtWk3qB3CljnSU5YkH+qR825nBSqKFscIY/LRp2UYeZTwUPl2ZgTwoCiK4qg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vFgJWNQR;
-	arc=none smtp.remote-ip=209.85.221.51
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=edWE7KND;
+	arc=none smtp.remote-ip=74.125.82.47
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CAFD606A913
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 09:57:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CAFD606A913
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4E2606A929
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 09:57:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD4E2606A929
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vFgJWNQR
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48e3b22e971so948538f8f.0
-        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 01:57:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=edWE7KND
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-15dd124bbe7so2174020c88.1
+        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 01:57:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794304640; x=1794909440; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:mail-followup-to:message-id:subject:cc:to:from:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tTHR38mY11B/5icwsExskzuyoZfY2wPwkj1B1V6Dev0=;
-        b=vFgJWNQRpY00BTiiT2wohK496Dl7MoSkYIsP3zKGk4yjycuur59e6oLavf43ykes8u
-         ToLxr0/upin1AoCisw5nZTRQ1xutanrTyJyY2sBbJvYCaBmf46He36lIDdz5sE8xmWxp
-         Mi8KqptNWHLf82kxBk/xG75ofy8BvA+ZjjxUrpV4DGSPMKTyjVtJv6UI8ASO2Jag54Ok
-         HEmjUIG25liwvNWd1/zC3wDgK5ViE2myFVFvkvHKg12U0wa+I2aCaQQboH1V8sXhlOUP
-         eyVNvn8lqgsTM/4xmk+Alx3Xbhp3FdkDMaU9kixCSSCwLuGqyJ/wYcEFRNEo3i+tqvZb
-         iEEw==
+        d=gmail.com; s=20260707; t=1794304642; x=1794909442; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+Prg47iXD919tYCgVMOQ6+zwqLgIY/fyOVcPOF91tfY=;
+        b=edWE7KND3B6QGpko8/W3B9RsuOX87YlGKLwatgFylw5xfU5EF65tCuzv+vSR7zFL64
+         MsJEknrCUvoSDPYFS+c3uSG7f4PsAIR5FgsYbAkM38I73UOfpfh8nULxehU+UbUECFXy
+         Xd5maBC5kbjrKUpIG3q3ZpQ1aLVr0mPlqv7HTDow/w3nHstjV2JgribRIuo+QCjHPq/i
+         XDzGhM9kuIaKc1Bfq7+4hjrQKwUKZ9aMoUnYCcNWzGbdM1dMT5i2xNdMMlKYIjACFGI+
+         7eIS796E9IqwMCkc6Zt6uid/AzoLM4tdF39bDdl11oBRqJpV7m/urWs2D1ShzFHovfgE
+         Ba5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794304640; x=1794909440;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=tTHR38mY11B/5icwsExskzuyoZfY2wPwkj1B1V6Dev0=;
-        b=0oUAfHlO1kTwfGxhAB3IrJWpX4x18sO44bI9wiJAsjAlM7N1885V8VoGMqRhsl8GJt
-         LZxOp/w/RWt6/scsNK+/iwNRpCsHZ166Z0rch7Fq1q9Jc/B34d9JoCqcFbE407AFU/2i
-         Ibmj5CtNgjh7b6MeCobw3TzvybAspPU5YwibvId8DKZjqP2XxhZzCCXDbC2fjVuxQbF9
-         klpaNDxEXV2Dvd8ONUpbQnOkdevUBFm4yscV4mdRwDkyxTZrUsv+AHjqATc2yy0mDpUB
-         aKAD8LxYiwd+G/0jYPGBQR/JlOavx6C8LCkXKUJYISmu+qgOIaKIm2YJvKspebSDCbOK
-         FvPA==
-X-Forwarded-Encrypted: i=1; AL+hErFgzowF8bd2wEiNh3QJDpJuYnKiX6kZkYyFsjqoB6RewYQ6JF6dtr9JbkfqJnShc5fsGCi1ze/9C0aAOA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/1F9iknMeWTrrm3dVG+Uvz5jPAYPRd6sQDn3JyaUEZuD9xX+Ha
-	JXDFmqgSxvynshGV7Jyy/exMuZPLzGhlHnJs99Pyx/2Agab0/HcX0G6l
-X-Gm-Gg: AYBFou2Qypn35LSkiMmVqElDNZFGmOakCvd2Q/OjVbP+dZ7GUXn3xBnbu5xTWR25HeC
-	gw4VCNXBhgWyNSpjRYv+zYSI0QUWnXjBLzp9MOZ8tieFyZYI2eVnREIw0oQeoGrZ3mNKIRbZI0r
-	kPd/Ei1CS8z05cG6iu1SH4hwVRGpfBLAlkHjX6BTJtY4KpJMhpuVhp5rVOi3AAJx0HaxeDladX1
-	dGrMALF3asSvG6zzIVh0h7d4ZVFy0cCIS3AROaqiKR+TSIvM4JoNUhFi7crfUTZSmMvKZumvyfb
-	AbONJCpzIfFh9UB4LFtE/RoqxodFn7LFAWWJNGALrzPM3a0tz/oEnzmi1m1LRK19v2CNOVC8xiy
-	t8bRFnlQif43e+qlDu8AfE5wUJbi4gze7MVzk14sppqky6JuN5nwR1A5pSmTm6+SIDfpQnNvmTE
-	VhFqYRFmLgm8Uw7o5mg0iqJL5fH3Yuubhz4CTvCkDX6XZS9AcxC9aiI7gOR0jDuLiidvtArQSAe
-	fUxQ0MdQd25iPp6SiiB5w4ItIXGlgM4t+D6MmCi7Q8D/cDNIqdURKl7uOdHVSfcYtvm95vTjV09
-	4uzRtZLJBKNw+4xyiSwFVi4Uu+zxYRNv/2qAySMZZfVNX0FqvVCf7s0vn4eVEg==
-X-Received: by 2002:a05:6000:4b06:b0:495:5c83:51bc with SMTP id ffacd0b85a97d-4982d13022fmr3778167f8f.5.1794304639745;
-        Tue, 10 Nov 2026 01:57:19 -0800 (PST)
-Received: from localhost (ip-94-113-240-150.net.vodafone.cz. [94.113.240.150])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4983600bc9asm3841475f8f.29.2026.11.10.01.57.19
+        d=1e100.net; s=20260707; t=1794304642; x=1794909442;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+Prg47iXD919tYCgVMOQ6+zwqLgIY/fyOVcPOF91tfY=;
+        b=Wo+GB//xkgpeEe+VhYnqxsiYaDvouRFc3TW4K8jv6Po7smif0BhDT9Nf1om1pCDcPy
+         9zet+QI+V6/XBcUFPzkIUzQvtPmbyO+cmR7aTZnqukGirFkkBQi+wf3jtgU4rBqPTPTz
+         ZGYDLsDjen/gUrLV46ctBvHa0fifM6KuirW3XyUdPrQgEoNmzlry3OqwS4+j7bgBCLjM
+         nUkaRC4ti/NOT1rb1yypkQAM45CbAfmjPWpw7nLJerigNqD+5mhTMmQhi6Pl+g2523ww
+         3ZhF0xWXCsJkoQrHBBK9endES8igPFAIyT+XEUV7SmmypughBEu562OE5v828LnsdJwS
+         5qMw==
+X-Forwarded-Encrypted: i=1; AL+hErEk0VfVHXBy7yA5cdV92UxVA0CwO/DH1O/g/9aTqWFq6QVTYoGX428lG4yWrC5LNeeOSX6nzo4PyQb6gw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9n6NWDMWrIQSbkqJFsBFIfDBURch34zenzUlmGw7SHynuGxd6X
+	eFHVttq6pzLcH8YYCDMiE5eR1kEsD5oCRL7xAtyfYo0ei7r/RH21kxjX
+X-Gm-Gg: AYBFou2u1vgWN2E8+TzdCei9tvY+uSeV3Z9cE6jMspPrk/SJUFzvHly6XtZq5i2fzHV
+	/yJDQfGLA1WlXRDDXUwpi+wc5NcDcxxMouFno4m/6D451Lwz93Hg4x8swFbgC3aOd/he/yAGOqj
+	i8HrIJ4NZ5r88/2UmbuzwegHRxTA+P/gfwKXaHK3K9fhogIE0AoLvrC94n2rk0wZ3CmPvRI/vCN
+	cED1KJgeZyR3K/VPUZvSdMYstALIGtzUNr49aGP5jIVIPyKDhR5/amKCVC9T9FQsLs9pBvvCh8l
+	fvWC07hPrZlu4m1TEXgX0DoQkLmKnOEI1HukZrRhEWJ6f4KDIXE0C86IXRH/fny1sJYLeCzdcjm
+	CbnMY8fR/JFSYJE8PVO9olLUfQ7nCJRw8INsc0XIJRX1BGPVaVL6zypI8gLm91uEB3UCgrl4UFj
+	KApFRbQ/8HPRnmPFSHj+cuMPwZNsSicooG/0SuGMBaURi7No6waqVPdn/FfeV316suUZfyWgYCW
+	r/x7+zaOWVidxToB14vKqzMvV/Db94nYL2GnYUaU4cMREsY3VWRGRmQwDOpiWHFNstOnYlhvRSi
+	lwKajxoCNHPDRw5kY+yfQeRaAWomzL4rMnd8Y+exJgoqyZsmC1rC9EJPScpB1m5KIfbwsMR6qSy
+	xBMmXm94oOYoWJm/rJw/JW13h8pqglCO4vukEDFNsGSQb
+X-Received: by 2002:a05:701b:291b:b0:13e:5a50:1e17 with SMTP id a92af1059eb24-1b3b5fa8f4amr2584323c88.3.1794304641806;
+        Tue, 10 Nov 2026 01:57:21 -0800 (PST)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b75d42sm5203801c88.20.2026.11.10.01.57.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 01:57:19 -0800 (PST)
-Date: Tue, 10 Nov 2026 10:57:18 +0100
-From: Jan Remes <ciakval@gmail.com>
-To: Emanuele Ghidoli <ghidoliemanuele@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Emanuele Ghidoli <emanuele.ghidoli@toradex.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: soc-core: reset rtd->num_components after
- allocation
-Message-ID: <avLqfsCe0eXV1hFe@mm-ntb-00805>
-Mail-Followup-To: Emanuele Ghidoli <ghidoliemanuele@gmail.com>,
+        Tue, 10 Nov 2026 01:57:21 -0800 (PST)
+From: phucduc.bui@gmail.com
+To: Maxim Kochetkov <fido_max@inbox.ru>,
+	Andrew Jackson <Andrew.Jackson@arm.com>,
 	Mark Brown <broonie@kernel.org>,
+	Xingyu Wu <xingyu.wu@starfivetech.com>
+Cc: Tim Bird <tim.bird@sony.com>,
+	Yuri Zaporozhets <yuriz@vodafonemail.de>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Emanuele Ghidoli <emanuele.ghidoli@toradex.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-References: <20261109102536.357134-1-ghidoliemanuele@gmail.com>
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v2 6/6] ASoC: dwc: Remove redundant error messages
+Date: Tue, 10 Nov 2026 16:55:25 +0700
+Message-ID: <20261110095525.504660-7-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261110095525.504660-1-phucduc.bui@gmail.com>
+References: <20261110095525.504660-1-phucduc.bui@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -111,28 +108,90 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261109102536.357134-1-ghidoliemanuele@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, 09 Nov 2026 11:25:20 +0100, Emanuele Ghidoli wrote:
-> Reset num_components after the allocation.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-The same regression hits Intel SOF/HDA: on a ThinkPad E16 Gen3 (Arrow
-Lake, Core Ultra 7 255H, Conexant SN6140) no internal card is registered
-on v7.4-rc2, with
+The underlying functions already report these errors deeper in
+the call chain, making the additional dev_err_probe() and
+dev_err() calls unnecessary.
 
-  skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed to add route ...
-  Analog Playback and Capture: fail to add hda routes, ret -19
+Also fix the indentation of the affected code and correct a typo
+in the DAI format error message.
 
-This also looks like the regression reported for Meteor Lake here:
-https://lore.kernel.org/all/mAZY9HZuXAXUf7zv8tqXquMtquf7iW2CIZB7WhU-SnwWp-Rpr0e8yixTsb3lAeQsO64PwwWlOao8aMjQ4hTKOQ6grCiNmaWZmFRXMdPICD8=@proton.me/
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
 
-With this patch on top of v7.4-rc2 the card is registered again: the
-topology loads, and speaker, mics and HDMI outputs are back, with no
-warnings in the log.
+Changes in v2:
+ - Add the indentation and typo fixes to this commit.
 
-Tested-by: Jan Remes <ciakval@gmail.com>
+ sound/soc/dwc/dwc-i2s.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-Best regards,
-  Jan
+diff --git a/sound/soc/dwc/dwc-i2s.c b/sound/soc/dwc/dwc-i2s.c
+index 0d2be2d8d31a..d09cf1cd07f4 100644
+--- a/sound/soc/dwc/dwc-i2s.c
++++ b/sound/soc/dwc/dwc-i2s.c
+@@ -331,7 +331,7 @@ static int dw_i2s_hw_params(struct snd_pcm_substream *substream,
+ 			}
+ 		} else {
+ 			u32 bitclk = config->sample_rate *
+-					config->data_width * 2;
++				     config->data_width * 2;
+ 			if (dev->tdm_slots)
+ 				bitclk = config->sample_rate *
+ 					 config->data_width * dev->tdm_slots;
+@@ -417,7 +417,7 @@ static int dw_i2s_set_fmt(struct snd_soc_dai *cpu_dai, unsigned int fmt)
+ 		dev->frame_offset = 0;
+ 		break;
+ 	default:
+-		dev_err(dev->dev, "DAI format unsupported");
++		dev_err(dev->dev, "DAI format unsupported\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -752,7 +752,7 @@ static int jh7110_i2s_crg_master_init(struct dw_i2s_dev *dev)
+ 
+ 	ret = clk_bulk_get(dev->dev, ARRAY_SIZE(clks), clks);
+ 	if (ret)
+-		return dev_err_probe(dev->dev, ret, "failed to get i2s clocks\n");
++		return ret;
+ 
+ 	mclk = clks[0].clk;
+ 	mclk_ext = clks[1].clk;
+@@ -830,7 +830,7 @@ static int jh7110_i2s_crg_slave_init(struct dw_i2s_dev *dev)
+ 
+ 	ret = clk_bulk_get(dev->dev, ARRAY_SIZE(clks), clks);
+ 	if (ret)
+-		return dev_err_probe(dev->dev, ret, "failed to get i2s clocks\n");
++		return ret;
+ 
+ 	mclk = clks[0].clk;
+ 	mclk_ext = clks[1].clk;
+@@ -966,10 +966,8 @@ static int dw_i2s_probe(struct platform_device *pdev)
+ 	if (irq > 0) {
+ 		ret = devm_request_irq(&pdev->dev, irq, i2s_irq_handler, 0,
+ 				pdev->name, dev);
+-		if (ret < 0) {
+-			dev_err(&pdev->dev, "failed to request irq\n");
++		if (ret < 0)
+ 			goto err_assert_reset;
+-		}
+ 	}
+ 
+ 	dev->i2s_reg_comp1 = I2S_COMP_PARAM_1;
+@@ -1010,10 +1008,8 @@ static int dw_i2s_probe(struct platform_device *pdev)
+ 	dev_set_drvdata(&pdev->dev, dev);
+ 	ret = devm_snd_soc_register_component(&pdev->dev, &dw_i2s_component,
+ 					 dw_i2s_dai, 1);
+-	if (ret != 0) {
+-		dev_err(&pdev->dev, "not able to register dai\n");
++	if (ret)
+ 		goto err_assert_reset;
+-	}
+ 
+ 	if (!pdata || dev->is_jh7110) {
+ 		if (irq >= 0) {
+-- 
+2.43.0
+
