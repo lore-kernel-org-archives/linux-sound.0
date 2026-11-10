@@ -1,58 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794310690;
-	b=dqICRzJtfLqoT93jGhu2cCnQzytk+B89uWzTVaXxj9lGnjBvqMo4BsxX7ccC4eBun/d5
-	 NDUHSULkMS65vhGg7wVj5FKRlS2jvF8KQdmAbPus7yw2AFBjO2hxYB7kNj9SJ61psQIBy
-	 VYffQQOXB5f7E71nnlKa1M4rlKkTWkRxSN/3wSkQgxMKtO9WKDqq2QMDwKDjsjkzvwgG5
-	 sxHzyKB9M8v6uW6zpI5JHRChA/U9UbpZ+y/BEb/V6FmXjJJ7DUxgtTbioV2uM4v5r9LEH
-	 u6dBFxjPJPb8z3PMG9OQoXnn8B4H9me7DFbX03wXNberwy7PbvREudfbKmGBdFxdQTg==
+	t=1794310691;
+	b=DBiVviEAvdQkNxw4qSTNwmFIC6YNeuYyQtrMqgJcxFu+2BqtBM33PukPlx1h3FUuZzr/
+	 p5wCWUnDKepbBcMn8/PDRWWOXOu1seL0uCzF99X8zxzyxWR3GpTy8IixCkrrR2k42sqCs
+	 RiwfJER0FbhEEBAD93wIhHhdHUtWaPA7HW1sm4cx1o4H48xBvlbNzE6aA6ZcKBxFuUDEy
+	 I9OZxdChgOPl7gij9PVD7NrGFbPEIx5IyEcJuI7qrDVE4OHBdHGRiqCjOektCTry+CtQR
+	 T9uPDk5soeaZkbnItlOkc0C125LCBIH2axIoOULzp93SgcPa9CdnFUQoI6Zt+bHyB2Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794310690;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794310691;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=CudUFuj5dClosZBdK9MwstSvNU6VLseFnLJU28vtse0=;
-	b=N/BA+X8FBBu0suE1fWeWh36FLNtA5dLpRPngBDTJeP4dhjXQrBFqqXDT5TjIJXnMiKZP
-	 6vunq0AkyTidPvcp8ftafb1XGxOxwOqbRnLVcca59wi/CqH+b/4Y+FeV+VE9tS7DTuySw
-	 MPED6V7PevnoeehydZTBt6cA7GHFBjt5CjhdnABFFhcxhdt2gErozbiMnP8MyD3BOMG1h
-	 +fdSE9JeSFWGFJaaELPO82r8wVIot9ZC2RgtET7hoj9WmCRBU3oac/1lvicS8VCf/CUyg
-	 dDwmKGcWrUm0gS2tniXp7K4Jk6V9srPN4VnhlVpJq7qYOvvP1eaAjvxJ0OQwxqpITBg==
+	bh=T2P/GAEk2otkWq/GcV9uWXOrUgzcWGATJfy8p7qWBJg=;
+	b=s9VfJOlmV0ve1IOB7V6wHDLQrsFsH8fxTN2nn4fT6eWL+MkwUAvk+llpG7+V1lMo9BVY
+	 IEP35bZdKnatkTg2aMhXsn+uRgX3P1dWyPg7r01ay8HHUEMwtqnMiOWRKFq8nFDfCxw7v
+	 fP3EeaJlQVhbOJfsGqRjr5i2F+mfWfwiz7dAk0p7crO/XkOTvfNqRncEza7FLMMMqF9uY
+	 2g9PgOiGo7Y0OW7VxA3G9jfkHQpKryPWFelugYAIRxxoVvANW6ydlkOHlFG1QzG03y2Ne
+	 1+SN8xI7iICZ78bl6w+YBVivSFO7kDAVlMSsnieow44QmJmi7FtDerA41Qys1SEzGUw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="IoDS/s4Z";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=birImCg0;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D72260A2606;
-	Tue, 10 Nov 2026 11:38:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F67C606A32E;
+	Tue, 10 Nov 2026 11:38:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IoDS/s4Z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF5FA1F008AB;
-	Tue, 10 Nov 2026 11:38:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=birImCg0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9D351F008A1;
+	Tue, 10 Nov 2026 11:38:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794310690;
-	bh=CudUFuj5dClosZBdK9MwstSvNU6VLseFnLJU28vtse0=;
+	s=k20260515; t=1794310691;
+	bh=T2P/GAEk2otkWq/GcV9uWXOrUgzcWGATJfy8p7qWBJg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=IoDS/s4ZUFxv74o04r/l3DwIZcfSjhlpYf6eYeiphVyjZ3q0IydI8lg7hmiUDnPr7
-	 ZFVTbhjl7b/GF5QnlaVcAk6CbqmgWSOOb03cFeIi2cPTUR42nB3E9R2EDoXNffCBOt
-	 QcHLLu6nvRIEkPhI6Ybs0Vk06mnGF+pHEkt87wC/Hfehk1Xz0BIT4ccNrNZ9IGSR/W
-	 Dz9m5clYaQABojlPFFRa4mCzYQB8cvMJYvFehs28qZQcxk1ne1jlyPDwBTz3j0CHyp
-	 WWQYIig2/enkxk/M6qFUGBimWVcVnjVsTD7zqBuGHu3iDTXVCNMGT950lLs2R5lhMC
-	 MPhtJpcs4E7Cw==
+	b=birImCg0ikfZlgymBPG1EQOVl8T4PvzPBJE3IkYSwyCAjX6vQwI65u9dOTVAFVIVt
+	 Jr4PKTv7nmKwXrj12EPxjnX54EDhza++N11jzeedzWLJV9phNHoC61SgwtI5RgdSk4
+	 IfpcIAJO3N+NPz4LziHzOcsznefoB07i+3jUEPXTN5G4V1f9MsFSrznT9QDgUE7DuQ
+	 3V+rvquAaKTbafZOKdinMDkCmmpo8zf65hLVbPMJFgHEVANzwn2/5aCC29En6T6hn7
+	 CMdn/xwxsklmImZWNlFx/SHbbnF8177DN3zJaSqolLxcAVpcgCeE2wzIZnqICN9XBt
+	 tR3aHyt/+QvvQ==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id E689C310B6AC;
-	Tue, 10 Nov 2026 11:38:07 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 8F31C310B6B7;
+	Tue, 10 Nov 2026 11:38:08 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: Zhang Heng <zhangheng@kylinos.cn>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261109022621.56376-1-zhangheng@kylinos.cn>
-References: <20261109022621.56376-1-zhangheng@kylinos.cn>
-Subject: Re: [PATCH] ASoC: amd: acp: Add Lenovo Legion 5 15AGP11 to ACP70
- override table
-Message-Id: <179427225317.3711751.17308143655014772269.b4-ty@b4>
-Date: Tue, 10 Nov 2026 00:57:33 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Cyril Chao <Cyril.Chao@mediatek.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ llvm@lists.linux.dev, Cyril Chao <cyril.chao@mediatek.com>, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+In-Reply-To: <20261109032424.625004-1-Cyril.Chao@mediatek.com>
+References: <20261109032424.625004-1-Cyril.Chao@mediatek.com>
+Subject: Re: [PATCH v1 0/1] ASoC: mediatek: mt8189: Use AVOUT for DP and
+ HDMI jacks
+Message-Id: <179427281919.3711751.4669554819271995706.b4-ty@b4>
+Date: Tue, 10 Nov 2026 01:06:59 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -65,26 +74,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1150; i=broonie@kernel.org;
- h=from:subject:message-id; bh=CccUSSTIUwDWy5xBOIHUmZ4ol4nT2UQH+pDuptRb884=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+M8mf73ouF+trOeu5usjqcwt7ODe1eF2x4vK3fmR27
- vxV0Uy+jlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAEwkwJ2R4dKV0FVu9xk1J/ga
- vDyQF+3Gwvb+753lzdrdd0LT1jC9OczIMM1CKoezWUZ5iaLP7sxte9ZcknJk6Euy/z5Z4t+/tXM
- 7GQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1493; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=xSnEnBaKwOzWyBQ2Svyhe7l3mZBvUNDHRGh0ZFk7WrQ=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+Mym8lqtfYThp6fRXYmfMzI33fDycuu0Jk+H0d9lhQ
+ XmlDznWd5SyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAiJY0M/2sPbpk47aLHqofX
+ W4U25uY2l8zgm/+B5dSUBZefJKR5/xNg+KddJX8xILc3a89Rkedl/yJ3G1wVVzfiML2b9s9fYdN
+ CEX4A
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 09 Nov 2026 10:26:21 +0800, Zhang Heng wrote:
-> ASoC: amd: acp: Add Lenovo Legion 5 15AGP11 to ACP70 override table
+On Mon, 09 Nov 2026 11:24:08 +0800, Cyril Chao wrote:
+> ASoC: mediatek: mt8189: Use AVOUT for DP and HDMI jacks
+> 
+> This single-patch series declares the MT8189 DP and HDMI jacks as AV
+> outputs, matching the status reported by the HDMI codec and exposing
+> the video-output input switch when jack input devices are enabled.
+> 
+> It is based on ASoC for-next at:
+>   c937f492dd40a8398d955cf0f4f9e11d7268bcb5
+> No additional patch dependencies are required.
+> 
+> [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
 Thanks!
 
-[1/1] ASoC: amd: acp: Add Lenovo Legion 5 15AGP11 to ACP70 override table
-      https://git.kernel.org/broonie/sound/c/8f356232d0d5
+[1/1] ASoC: mediatek: mt8189: Use AVOUT for DP and HDMI jacks
+      https://git.kernel.org/broonie/sound/c/1ab0585e7609
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
