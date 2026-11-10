@@ -1,60 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.23
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.153
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794327866;
-	b=02L1QsU4LTRMWtK06jDGGYF/nvf5qhapjRX4e9jrzSsdVTkIwKu9qhr5Xs+FeCjjhFZy
-	 dk8TjvxkxWovSzBR47lmEDsIBwZiPLgNHP7zEMp6dgCwKBwy+foe83oKlRex1XxVHS8V7
-	 DFSKlrSjU6fqrP08zH65DtfXEGZ1ZnCx8uNHUNLEnS3T6Qd5met7RLmQtI7b33AxMPeeF
-	 PB2P5nvnmin0AvgCdwVvtLlGidFt68fWG5cWJUTt7lV90WA0e/U00MCxs3oiTkftRn34G
-	 9ypsYyYO36aDVgoFJitEyUvK4Lj6erL4Xuz8Vw/bE/TjtvkJovKQCttfuy6UJrjwSHQ==
+	t=1794329216;
+	b=DX0FGLe2kWVuMononjWGW+B4AaBX9AesH2kdiClsitGPad7QPwGfaDdf03CjFCVdjd9E
+	 +n6kt/eamx8503XwP4y0nhzyD+umbEg13B3Rmuquf8+2eehSx4nQMe0aJEzsNPJO7h0LX
+	 Cs73xDfERmAS5iSCW5VlHQPtU43kh7DjISKbY7YU8G8oCWus2aV8yNfx4eb9CVnDAZGhu
+	 aHV8sFxZVgRv/rwMNi1EQN6c6q+UGMC9t8i3LgnoE1Zx+SchE661txGzzc0mSGh7UGdZo
+	 BnSRc+g52kDsy+6FJZLtAE7VH1itQB76zZUrXRmf62LD+kT5xOA8XMm44zvMCwIILTw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794327866;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type;
-	bh=pDdTABx3T9L3A4M2IU0CHP8viN7CigwBznfT0Rkl8K0=;
-	b=jb6MWKke6u6Bprwi24lR3SJNlw4BvxUayN6ZRrJMh9f+zQXtTrFwqJuP9+t9ntHxF8Pc
-	 crMaKvr0Cy6UIPiZsrp5TxCjtSMieq+JCTaQvYy6bUmGjKadX6pvs3H40zdO9k4dKMPHI
-	 pfRDkttwgkcOReQ62/SDoG/xPzfVDeLCVV9Lm0hCZp9NNw6ooW5JXATFB6T27Tx3RWuJU
-	 JDgDtMy0EC85W9E/L1MiEbw6lwxzg7l1e2CF4wInXbtzdF3g8wn98kIYOMXEi6ZZ/J+Zt
-	 vSW5eWZN088q0KJzTQt/Azngyscxg/7n9HqT3lB8pePbXMgDhvP8uu4gAouPpHPVufQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794329216;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=rU+xzOknJq0zAItZwFEgG+rOiipQ+A4n6Y7JItCDQ6M=;
+	b=IycO8Z3Ok2nt23p1nsq/jdCsj7WWYiz8VHXU2JDCmxiqVwjeu9yABtC74EuYGftGQJ51
+	 f8+HxqIPpDv2WbMtOEQ9EUYNAwICaXbNZPwwlH7Fy6d5QYfRHE5nkQH4GKXHWjH38i3Gv
+	 vIQRgybtKTLAD+9wOhbZhSmYPm/Q4VBg3I5842QohdmBYOoxF1DaLZwfCg0is9cQjMNrz
+	 e2o88WkW9UNSmO2vWZ92QfNU/Q5kB9OJVvP2qYj1QNZ4XPIg/aek+SEj7JVWSb6uUkyYJ
+	 czNCaIj19WCjLjkB7oAD39B0wGL/Vesqx0njZJVRaV8x8ApYquP5iTJOhrtn6Hg/p6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=httpd.dev;
-	spf=pass smtp.mailfrom=httpd.dev;
-	dkim=pass header.d=httpd.dev header.i=@httpd.dev header.a=rsa-sha256 header.s=protonmail3 header.b=WmtNBzXF;
-	arc=none smtp.remote-ip=185.70.43.23
-Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
+	dmarc=none header.from=jannau.net;
+	spf=pass smtp.mailfrom=jannau.net;
+	dkim=pass header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=nUlyMveg;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=VKJosJQd;
+	arc=none smtp.remote-ip=202.12.124.153
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E68660A5BC6
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 16:24:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E68660A5BC6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=httpd.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=httpd.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9372606A33F
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 16:46:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9372606A33F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=httpd.dev header.i=@httpd.dev header.a=rsa-sha256 header.s=protonmail3 header.b=WmtNBzXF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=httpd.dev;
-	s=protonmail3; t=1794327862; x=1794587062;
-	bh=pDdTABx3T9L3A4M2IU0CHP8viN7CigwBznfT0Rkl8K0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=WmtNBzXFZztRWX+7bSNvZSF8McXRQAR3FvqDpwehtjTzQuXoGHS0dMQpF6vNMkOSt
-	 XIwBjSA0eLYxQQhB5xYsY1/DboPXxjhjn2sPMMJ1MoOt3bM7t6oXV/eTTxzyP6jbyw
-	 nxrkqFiJE5c6EsZEGgN9hWmkBV8l/ZHt/yKRRVsvFTR8fYq7wUm1bXzeq8eg3msfHh
-	 RRK8xZf3KvK44X3ZNDskvFqt2U2L8wQkcq5q365hldfef7+SklpeatOxAtwsBWoMKi
-	 p/UoheIPCGrQ3fPXflu1m8IAu3fSKm62hkbLsiU0uBpdH2YA/+lMLHmKtlXljrT3kO
-	 v9IonsNWWQVyQ==
-Date: Tue, 10 Nov 2026 16:24:15 +0000
-To: Takashi Iwai <tiwai@suse.de>
-From: Angel J <iamanaws@httpd.dev>
-Cc: linux-sound@vger.kernel.org, tiwai@suse.com, perex@perex.cz, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix the Dell XPS 8940 headset microphone
-Message-ID: <TDT6b_7cMUkRNo88Xj3i3Ji--f4WdAmawcBXuT3TmHzVrxy0Xhr6il-PPdh6dbodGGrapwWjGx1KWruC5fAjw0cV27lhGzJ0HRWJmLgfwrY=@httpd.dev>
-In-Reply-To: <87bj7wvkpx.wl-tiwai@suse.de>
-References: <20261103150336.507675-1-iamanaws@httpd.dev> <87wlqtukxh.wl-tiwai@suse.de> <5ncUNWXphcObbYD04quaQMbD0tGoekaHB-QQrX5tgC7sSbzoT9jRVrbY9PyT6mRbww0G9-voA6Y98HjvPg7U25kmeybfQALp5NsNKym-3pc=@httpd.dev> <877bilusui.wl-tiwai@suse.de> <57Kgu-Pdq28OE2JHZjO7YEuS6RCOZLFiDoZO8uqMUieYwA58mHOkRbbZADWKNQsocsNCzH1GkU4pSEhpi-l3mZenIkWdjdNsOHVlbAxGsXQ=@httpd.dev> <87bj7wvkpx.wl-tiwai@suse.de>
-Feedback-ID: 163474212:user:proton
-X-Pm-Message-ID: 6a0eb3ba420884c476877f2c956daa61bc06efde
+	dkim=pass (2048-bit key, unprotected) header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=nUlyMveg;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=VKJosJQd
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 397E27A02DA
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 11:46:55 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Tue, 10 Nov 2026 11:46:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1794329215; x=1794415615; bh=rU
+	+xzOknJq0zAItZwFEgG+rOiipQ+A4n6Y7JItCDQ6M=; b=nUlyMvegnGhgPtx0TL
+	DP3VDE0HgrQZ/vnK/BHUetvJtw+1aGOSgMfMXujwt0s2Bqs/8L58G/Qa1tSMAMie
+	Gx+ehAd2Nl9A+QjUSvRpun7XHHT264z2cV+MsMrTBICttMQSLbele0GK+1bZQjFf
+	gSywAIsErFNR4IHD8OcMeN/Cr+HhKtYnurpMmeZY/fhaDOyY4PbktFhTShBQUVOT
+	Pm1DQCG68SbXpBPG36IACAKLg6XtVzY2hAidPh7WXHxRZwH0ZGM+dCJb0VxpUZTq
+	TAr4Nh7HBLSnEC8/3T5I1Sf267TDziDSl5kGX4KKY0INKUWdEHTYjxZ1jyHr5eXb
+	G82w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1794329215; x=1794415615; bh=rU+xzOknJq0zAItZwFEgG+rOiipQ
+	+A4n6Y7JItCDQ6M=; b=VKJosJQdJp+2KBnUGUt4AMPIagYAJTUZQa7DUivYtq4w
+	sIFYK30LpYy/npOAskZKHL5hpRktZII6cN/32jQbuqBYr1e0u6VD/YG6QDyxXLtG
+	GRTgjT9S4gIVskcpPx8brcm34eAVmoLiHqOi7sZvXdZyQSBvszdwsbDJsgpm2huK
+	5ro8yGqT06IVne2zN82Z+7XmpCj7EBdb3AdqIKEbxzlh0T5+M1zAiG9yKBYm7AxY
+	B0oLRzw6B7vcZsF0ISUM+O4gWN7cLpRCVtaPmTfZl/fpBuQo9HfXLgeKhSpsCQmK
+	RMf5NXJw3Eo/LJerdQLYzoy3hysuK3eG6U7UCnDXHQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=jannau.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794329215; d=jannau.net;
+	mf=PGpAamFubmF1Lm5ldD4=;
+	rt=PGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZz4=;
+	s=fm1:rsa-sha256:ATjcZWAngRHLUo7KQ9ktJxaf2fgOoPKaiY93/45xatx4Z5y
+	6XaZqP/3lLKpz4HQS4OCPTy7RT1GIcssFej++u8JX2cv0v4WrgUGVkTldXPUQA+L
+	DjOrDnHSapIxcx6rhSLfGo+Y9zWR8fMPz31LSi4FU0ohzzaiON63d1++5MaGBiRF
+	8BAfJZYznELQzG+RXgTZ9YzKL6HIGf3nvdxXjtHfZXwq2P95Z89jeLb/pUCYLoP6
+	eYg2A7aBDxrP5s5pEdlapaRBgufoWV0rubOP1XmKMkEMN+uKvvH3CNSu7x+82eyn
+	NLHavGIxjtqr9N8ri+5iBAfzDgrrY6AWebR5DqQ==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=10;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,message-id,mime-version,subject,to;
+Message-Instance: m=1; h=sha256:35UdO+sdZhhvJT5i03Cri8LNT3N13uOTI4sW4YOm/gU=:v3V8WC4+9yuA4pSF/x5r5AC0oByH8YOkSpvtvw3FZX8=;
+X-ME-Sender: <xms:fkrzajrSiHa9prD7S-JpiPx8wmTljsHD5hKfw3cwkXXwLLNnlWXS6Q>
+    <xme:fkrzajoWnFcxGMMgMCrhSEOaz17HtL_3_ozBn_lE0qrPJZy_zPs9AljiL7yQjSwEt
+    -in71asgPi5FI5kQ5EaEUgI0kk1wgZArYpylYMnLVZMQRa31q1lqMc>
+X-ME-Received: <xmr:fkrzarD7pebKhqV3oVpsVmF9qimWGdzsc4DqifzxIpm1w44HrxGPZeZLbBzzqk4OAW8ZBSs-I_aRN1yXE90iwyzSnUnMzY0k-sYeIA>
+X-ME-Proxy-Cause: dmFkZTGkMoNYIGIESfraO/0wvb6EFswweUTDOEsTCLdPS1mG2124pEvHT5pQ0qNDLP2aJf
+    b6BbmEF3geHKAdMQ+MxwMSw5Qno7d5PJwQix/bH2k1WC5zmUBk6B6b7letCnWZPKiXNlI6
+    vjoUBmeJZnWUWIq1Ro3la9Uy+xxM+bOmSwOGpG9qsU/CXprQ4U7vNPg/MAkiEzO5OVJ/+8
+    WT7nLbAx0XCIWriK1J8/yrUxM3QZXONieGcQHpwZKIm86iesmejPjJ2+OgVwbcTruaYH/1
+    PKmNC7O1dN0kVOPY38bt1usRjamQSU+c3dWiJMeog5Okx8sls7C0hD41RVaxkM6HUwI1Zy
+    X8jbc/3vRN1G2iYlwq2bVPhwsbjUH2ro4hyS0rRapUeGua+z5dpfdAu+eSPMu/StqAG1h4
+    FgRDCZxaSDhtkqh2/omvB+wjRueAEgzxg/ju00lIVdnJcVG7F9S0h/HDZhLy+YimGA7era
+    Tt84/F3N+nUa+9psN05QmrjRRTKkoK4eMDnYycFOZbYjWyb1antb2ixYJe5IC9vvTom8Uh
+    cX3018hrC8kE8vjEjvR1p+WnMSMxwgl0dWyH8AC7X++oZa1xs3WwmUKCXoi/vOx3PYhwBf
+    IvJ2/NNOW7gvchXc8auDukNm/qt4HSRr3nm8nhTadeue06ijs/LXRjv2V0lg
+X-ME-Proxy: <xmx:fkrzaptafr1k-ttkUfSZfdPyaOiaZedseH4Fsw_yaWhMOKfJ6nB_Aw>
+    <xmx:fkrzaiKYkq4rF1M6zZGaKgunK68v99Y7MmwL0sb83OreBKCbL3I6LQ>
+    <xmx:fkrzaobY6SahZpw-5ZcYy2Gbi23YYksJJfBQX9tyC2HvvaIIk48dbQ>
+    <xmx:fkrzasDY73Dx662ItJnIQSGQWfI225mG1nkMbmz-Rl7R6FA2vg6fmQ>
+    <xmx:f0rzajqjqalkaPZ2joKwfD3yLwggGSfhG9Kmm-P6zac4WGwchRwdZpcz>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 10 Nov 2026 11:46:53 -0500 (EST)
+From: Janne Grunau <j@jannau.net>
+Date: Tue, 10 Nov 2026 17:46:46 +0100
+Subject: [PATCH] ASoC: apple: mca: Fix clock selection for clock consumer
+ FEs
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,58 +119,99 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha512; boundary="------c1a5a18981a95f461b8163f6fef4387adfd31006cd16a00e8b527679dc6215c0"; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261110-snd-soc-apple-mca-capture-multiple-be-v1-1-d9569a8374c5@jannau.net>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2NywqDMBBFf0Vm7UAeVUp/pbiIyaQdsDFkVATx3
+ xvdnXMW9x4gVJgEXs0BhTYWnlMV3Tbgvy59CDlUB6NMr7VWKCmgzB5dzhPhzzv0Li9rqbxOC19
+ xJHzah+272JkwWqhbuVDk/f55D+f5B2OA4sp3AAAA
+X-Change-ID: 20261110-snd-soc-apple-mca-capture-multiple-be-834365f52db3
+To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ James Calligeros <jcalligeros99@gmail.com>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2914; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=v3V8WC4+9yuA4pSF/x5r5AC0oByH8YOkSpvtvw3FZX8=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqzPXtVVskYvPxRayhjX1e/4sI+v/old4Nk7Eqd3/1l1f
+ ZtO+NLFHaUsDGJcDLJiiixJ2i87GFbXKMbUPgiDmcPKBDKEgYtTACbyN4Xhr+jcrDDptcu3xIjU
+ LQvacIKJS6x6LfPpzSknHEy8PF9s/cjwP27KznUVbyWmGH/yKsmOX5X/RV408ZvMn18t9kKV10/
+ ZMgMA
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------c1a5a18981a95f461b8163f6fef4387adfd31006cd16a00e8b527679dc6215c0
-Content-Type: multipart/mixed;boundary=---------------------7aa714084f0becf8be45852e1bddebf3
+In commit 00309bfb1f54 ("ASoC: apple: mca: Support FEs being clock
+consumers") the syncgen clock selection was misunderstood resulting in
+selecting a random clock. In the capture on multiple BEs for IV sense
+data use case the configuration worked partially by sheer luck. On
+Macbook Pro's with 6 speakers it could result in desync IV sense data
+triggered likely by sample rate changes.
+When the FE is a clock consumer select the clock of first used BE as
+SYNCGEN_MCLK.
+Add function like macros to determine the clock index based on the FE or
+BE number.
+This is functionally equivalent to the state sent in v2 of "ASoC: apple:
+mca: support simultaneous I2S capture on the frontend" in [1].
 
------------------------7aa714084f0becf8be45852e1bddebf3
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;charset=utf-8
+Link: https://lore.kernel.org/all/20260628-apple-audio-redux-v2-4-6328269c9652@gmail.com/ [1]
+Fixes: 00309bfb1f54 ("ASoC: apple: mca: Support FEs being clock consumers")
+Fixes: 108a14b20f95 ("ASoC: apple: mca: Support capture on multiples BEs")
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+ sound/soc/apple/mca.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-On Tuesday, November 10th, 2026 at ..., Takashi Iwai <tiwai@suse.de> wrote=
-:
-> Honestly speaking, the problem is that I don't know you, so I can't
-> trust.  If you have been involved with the kernel development long
-> enough, e.g. already appearing with "Angel J" in many threads or
-> commits, then it could be a good sign that it's a trustable known
-> identity.  But it doesn't look like that for now...
+diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
+index 26022a42a95e..5e644b596854 100644
+--- a/sound/soc/apple/mca.c
++++ b/sound/soc/apple/mca.c
+@@ -53,6 +53,8 @@
+ #define SYNCGEN_STATUS_EN	BIT(0)
+ #define REG_SYNCGEN_MCLK_SEL	0x104
+ #define SYNCGEN_MCLK_SEL	GENMASK(3, 0)
++#define SYNCGEN_MCLK_FE_CLK(n)	((n) + 1)
++#define SYNCGEN_MCLK_BE_CLK(n)	((n) + 7)
+ #define REG_SYNCGEN_HI_PERIOD	0x108
+ #define REG_SYNCGEN_LO_PERIOD	0x10c
+ 
+@@ -313,7 +315,8 @@ static int mca_fe_enable_clocks(struct mca_cluster *cl)
+ 		return -EINVAL;
+ 	}
+ 
+-	writel_relaxed(cl->no + 1, cl->base + REG_SYNCGEN_MCLK_SEL);
++	writel_relaxed(SYNCGEN_MCLK_FE_CLK(cl->no),
++		       cl->base + REG_SYNCGEN_MCLK_SEL);
+ 	mca_modify(cl, REG_SYNCGEN_STATUS, SYNCGEN_STATUS_EN,
+ 		   SYNCGEN_STATUS_EN);
+ 	mca_modify(cl, REG_STATUS, STATUS_MCLK_EN, STATUS_MCLK_EN);
+@@ -390,7 +393,7 @@ static int mca_fe_prepare(struct snd_pcm_substream *substream,
+ 
+ 	/* Turn on the cluster power domain if not already in use */
+ 	if (!cl->syncgen_in_use) {
+-		int port = ffs(mca_fe_get_portmask(substream));
++		int port = ffs(mca_fe_get_portmask(substream)) - 1;
+ 
+ 		cl->pd_link = device_link_add(mca->dev, cl->pd_dev,
+ 					      DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME |
+@@ -401,7 +404,8 @@ static int mca_fe_prepare(struct snd_pcm_substream *substream,
+ 			return -EINVAL;
+ 		}
+ 
+-		mca_modify(cl, REG_SYNCGEN_MCLK_SEL, SYNCGEN_MCLK_SEL, BIT(port));
++		mca_modify(cl, REG_SYNCGEN_MCLK_SEL, SYNCGEN_MCLK_SEL,
++			   SYNCGEN_MCLK_BE_CLK(port));
+ 		mca_modify(cl, REG_SYNCGEN_STATUS, SYNCGEN_STATUS_EN,
+ 			   SYNCGEN_STATUS_EN);
+ 	}
 
-Hi Takashi,
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261110-snd-soc-apple-mca-capture-multiple-be-834365f52db3
 
-That is fair, I am new to kernel development. Outside the kernel I am
-an active open source contributor, mostly to NixOS, with over 100
-merged changes in nixpkgs and contributions to other projects from
-this account:
-
-https://github.com/iamanaws
-
-I am not comfortable publishing my full name in a public archive. If
-the above is not enough, is there another way I could establish the
-identity that would work for you?
-
-Thanks,
-Angel J
-
------------------------7aa714084f0becf8be45852e1bddebf3--
-
---------c1a5a18981a95f461b8163f6fef4387adfd31006cd16a00e8b527679dc6215c0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wrsEARYKAG0FgmrzRRoJEBoBbwppzUxnRRQAAAAAABwAIHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmcFC9L4lcIpKc4ABRb6aOhLuLc0vTnBkN4Emt2Z
-2n5TWRYhBEAFf9htFyVnqZzmVhoBbwppzUxnAADXgAEA6adpJ2RmoNQhEY4X
-czYLXGU7qXwiZCPlKt+dA6+xBRUBAMXJ9MDM0rYC/7ABVX5F2XiPDweURXa9
-N/3UBcY04CUH
-=VYFg
------END PGP SIGNATURE-----
-
-
---------c1a5a18981a95f461b8163f6fef4387adfd31006cd16a00e8b527679dc6215c0--
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
 
