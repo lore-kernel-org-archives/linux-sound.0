@@ -1,58 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=154.81.10.210
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794280827;
-	b=wQKJLOztJsAmEXCPI3XqwmCDob5yQMgW0TzUVQKSIVE9MVVqdqYLfPgdzVPL6Mgco7O/
-	 S5guibGaVyfsP9k9qgkqXDG/oDX0jCbpMWZDbsvIx7zntN6MKwPkBXAoFHzLu0rhrW0Da
-	 AV7S5BzangrH8n/Ag/pUyP2rgFuoa4GlYMCEKNniXQObVIkCPBxCFpr1WR/Z8t7VYREvE
-	 f+oasj+/PneuruB2R/ofofuANqig8mBEQKSgjy9tc470g1p6oDc/kva9b5DFZ/zhQjpqj
-	 gj44oOVZMnxHvLZYkPBzUwHgZ28UF3+qJNQsuQMuIMMmMcxPQauvENy7SBpp01jvB9Q==
+	t=1794281586;
+	b=Ki30nll4bRwceBs4H1nIYzNW0NFjQEQU+fW21WUACi3EBZQ++aa0O3daiQks+2biWQ3o
+	 UALC6fwypg7Va9sGy6vdhoK9azHCdDmsiVRIjGwhDf9T6CtN4JCQ8OJIS0HBI47Fi7WjU
+	 FuOLmW3JOz7teqYtGrvHVPR5RTkppgFhLXhGbzBfsXbLWLMNI9ZRmWXDZmjlH3x66KUTt
+	 xuTEaLJQiN3YhEMA1vvmQtL0YqGuZMGMe5IbIwiGvPjz/jC0BxO5HKAGEzmWhBuvFPFeP
+	 uZxglZyqn+y50gCGnk42+pvDGUgAgU8qfoVPVsh21eNokCyp7/PpHwH88vHb7W6KC3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794280827;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding:X-HM-Tid:X-HM-MType:
-	 X-HM-Spam-Status:DKIM-Signature;
-	bh=A5WswjkGGYw1Dw5faaGIeyqDL8BtErw2Hw9qk0QrREQ=;
-	b=nyDQ/vPCYl3xtORgSNvBP5nsGRZLsJEYzLNofa8vL2o4+LclGKPFccFGlNYXG5fb9jTx
-	 2vj/jM/XmyhEdzsS08K8PL+EWZ3fpqmpimBOG5JlU40ZrsnfPpUCWfNahMu+fJfUiZYNK
-	 ViXLLNpS9FLtuStAMmsarF3qN9EMZSeo1//NdT1emI8MsiKwnxB8cMcePHsyTyvL62g/Q
-	 Nd+VAIO2PECVailkXx+pKKfWiQITt1LBFwxDmeFyiVE7Dy3XC9riFvfd1avHTXKxA7uG8
-	 TzpkFyEzRw3FJh4TIM8t8Xbh//70ajE5rUwqSJZ8TINBT9c29FYHQlXf6FPcp/bjn8g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794281586;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=fla3tBx0iJu+wOdBCs7QKIpeUnp82Wz8cb4dIrVQ5eY=;
+	b=5ZRcNyyn57YG6Vh3y0gu5Zdy/KrWb+PLGh4BKSHLlNAfemec0lQ3jhyra2BZAN86LTjy
+	 jsltkPSCuZ7i2d9RCeyYb+56yPmWuqTRIIXZD9E1wjEm37NTtrgzw2K8EQ5kVUrFqZFJo
+	 sxwOV6pZLuwLEbvfr1EGIk46ANXC4hgOQU+YjMuR7yvs+3tvHES3sjkilCS74+TJlwC6w
+	 2Ef3Gi7+66orOrH2KDMXEPm33wcsk5Ncbj5Lplft2HYSOThY92PkgGH+ayNTRYiy58Agd
+	 V92mcXw8104py3diNyJ3pDTMKpUpNDGsKnC5Z242IMK47TNsL9N5z+jqho+5GoInqzg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=senarytech.com;
-	spf=pass smtp.mailfrom=senarytech.com;
-	dkim=pass header.d=senarytech.com header.i=@senarytech.com header.a=rsa-sha256 header.s=default header.b=EKjmFUSX;
-	arc=none smtp.remote-ip=154.81.10.210
-Received: from mail-m10210.netease.com (mail-m10210.netease.com [154.81.10.210])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NimtSMMd;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E349A606A336
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 03:20:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E349A606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74ECD606A321
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 03:33:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=senarytech.com header.i=@senarytech.com header.a=rsa-sha256 header.s=default header.b=EKjmFUSX
-Received: from Wangqianghua.localdomain (unknown [101.207.32.251])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 541859e59;
-	Tue, 10 Nov 2026 11:20:15 +0800 (GMT+08:00)
-From: Qianghua Wang <qianghua.wang@senarytech.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	bo liu <bo.liu@senarytech.com>,
-	Qianghua Wang <qianghua.wang@senarytech.com>
-Subject: [PATCH] ASoC: sn624x: add support for the SN6245 part ID
-Date: Tue, 10 Nov 2026 11:20:12 +0800
-Message-ID: <20261110032012.711191-1-qianghua.wang@senarytech.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NimtSMMd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA0B31F008A1;
+	Tue, 10 Nov 2026 03:33:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794281586;
+	bh=fla3tBx0iJu+wOdBCs7QKIpeUnp82Wz8cb4dIrVQ5eY=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=NimtSMMdwgrUoVQGKvlJoBPVJ00fuzEiNJVF3ux2GcKEGmf1xKj1oF0xd4xLDXYN5
+	 eCoq7+LEWv+S6GaAJVaIP+c11iV9ZnRkVZSInZU9e+kLO3PDE42npUEwrJuVGFHT1h
+	 4GZCAcBPWUcSQlN9FCVgfnC3Ouj4NTcBlBZWaPLWMr9y2D2UcrbtYnSed61UyhOlOD
+	 Irl4MyHm3lt40dXD0BRMD3qIcIlMS9hlboTAAMABO7j5EKcnoDtUTstRpmpv3izIPh
+	 Sv9n77+pc49AysJcxmPDWApbYgV3o8cQcjoiHfK8w849Oe/0M1ARh1UYirzOkGSWNP
+	 WkB4Wy1ybwdEQ==
+Message-ID: <sashiko-outbox-206121@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ASoC: sn624x: add support for the SN6245 part ID
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Qianghua Wang" <qianghua.wang@senarytech.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261110032012.711191-1-qianghua.wang@senarytech.com>
+References: <20261110032012.711191-1-qianghua.wang@senarytech.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2026 03:33:05 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,252 +58,106 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa1c378798809d8kunmba4d3a193083a1
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDTh5IVh9NSENCTxpPGB9LTVYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlKS0pVSUtMVUhJVUlOSllXWRYaDxIVHRRZQVlPS0hVSk
-	tJT09PSFVKS0tVSkJLS1kG
-DKIM-Signature: a=rsa-sha256;
-	b=EKjmFUSXIl5UNLTS/7Jmd+XUJ7ocJXL8vlhvEpiDaWXpF9WXE/RjPKpJNg+G0sJ0zlpNiwrqelB/ZiVTJE0CeglL2bEJVy7CSpkwc2yVATwtiOr8QHqp+fkzBPTb37KuUCD2byd+DKN2Gz3QILBf2BcApIPjW9XfC+kh4akzy+U=; s=default; c=relaxed/relaxed; d=senarytech.com; v=1;
-	bh=A5WswjkGGYw1Dw5faaGIeyqDL8BtErw2Hw9qk0QrREQ=;
-	h=date:mime-version:subject:message-id:from;
 
-Panther Lake systems such as the MECHREVO YAOSHI report a single Senary
-codec on SoundWire link 3 (mfg_id 0x0496, part_id 0x6245, version 0x3).
-The SN624x driver, the sdw_utils codec info table and the ACPI match
-tables list 0x6242, 0x6244 and 0x6247, but not 0x6245. SOF then logs
-"part id 0x6245 is not supported" and falls back to the HDMI-only HDA
-machine driver, so the speakers and the headset jack stay silent.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] ASoC: Intel: soc-acpi: wrong SoundWire version 0x0 for SN6245
+  on ARL/LNL/MTL
+--
 
-SN6245 is register-compatible with SN6244 for jack, amp and DMIC. Add
-the part ID to the SDW driver ID table and the codec info table, and
-add MTL, ARL, LNL and PTL match entries. The new entries use
-sof-<platform>-dummy.tplg plus function topologies, the same as the
-other SN624x parts. PTL matches link 3 / version 3; MTL, ARL and LNL
-match link 0, following the existing SN6242/SN6244 entries.
+commit b10667bc93275c45d1fc140d10749355be52e7d6
+Author: Qianghua Wang <qianghua.wang@senarytech.com>
+
+ASoC: sn624x: add support for the SN6245 part ID
+
+This commit adds the SN6245 part ID (0x6245) to the SN624x SoundWire
+driver ID table, the sdw_utils codec info table, and the Intel SoundWire
+ACPI match tables for Arrow Lake, Lunar Lake, Meteor Lake, and Panther
+Lake.
 
 Link: https://github.com/thesofproject/linux/issues/6012
-Signed-off-by: Qianghua Wang <qianghua.wang@senarytech.com>
----
- sound/soc/codecs/sn624x-sdca-sdw.c            |  2 +
- .../intel/common/soc-acpi-intel-arl-match.c   |  9 +++
- .../intel/common/soc-acpi-intel-lnl-match.c   |  9 +++
- .../intel/common/soc-acpi-intel-mtl-match.c   |  9 +++
- .../intel/common/soc-acpi-intel-ptl-match.c   |  9 +++
- sound/soc/sdw_utils/soc_sdw_utils.c           | 56 ++++++++++++++++++-
- 6 files changed, 92 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/sn624x-sdca-sdw.c b/sound/soc/codecs/sn624x-sdca-sdw.c
-index c9e690482..1d4e5f27a 100644
---- a/sound/soc/codecs/sn624x-sdca-sdw.c
-+++ b/sound/soc/codecs/sn624x-sdca-sdw.c
-@@ -1771,6 +1771,8 @@ static void sn624x_sdca_sdw_remove(struct sdw_slave *slave)
- static const struct sdw_device_id sn624x_sdca_id[] = {
- 	SDW_SLAVE_ENTRY_EXT(0x0496, 0x6242, 0x3, 0x1, 0),
- 	SDW_SLAVE_ENTRY_EXT(0x0496, 0x6244, 0x3, 0x1, 0),
-+	/* SN6245 is register-compatible with SN6244 (jack/amp/dmic). */
-+	SDW_SLAVE_ENTRY_EXT(0x0496, 0x6245, 0x3, 0x1, 0),
- 	SDW_SLAVE_ENTRY_EXT(0x0496, 0x6247, 0x3, 0x1, 0),
- 	{ }
- };
-diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-index 1d5f6677b..2fe33280b 100644
---- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-@@ -653,9 +653,11 @@ static const struct snd_soc_acpi_link_adr _sym[] = {			\
- 
- SN624X_ARL_SINGLE_ADR(sn6242_single_adr, 0x0000000496624201ull);
- SN624X_ARL_SINGLE_ADR(sn6244_single_adr, 0x0000000496624401ull);
-+SN624X_ARL_SINGLE_ADR(sn6245_single_adr, 0x0000000496624501ull);
- 
- SN624X_ARL_LINK(arl_link_sn6242, sn6242_single_adr);
- SN624X_ARL_LINK(arl_link_sn6244, sn6244_single_adr);
-+SN624X_ARL_LINK(arl_link_sn6245, sn6245_single_adr);
- 
- struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
- 	{
-@@ -779,6 +781,13 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
- 		.sof_tplg_filename = "sof-arl-dummy.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = arl_link_sn6245,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-arl-dummy.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
-+	},
- 	{},
- };
- EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_arl_sdw_machines);
-diff --git a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-index a9fef394f..5e90e17a9 100644
---- a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-@@ -738,9 +738,11 @@ static const struct snd_soc_acpi_link_adr _sym[] = {			\
- 
- SN624X_LNL_SINGLE_ADR(sn6242_single_adr, 0x0000000496624201ull);
- SN624X_LNL_SINGLE_ADR(sn6244_single_adr, 0x0000000496624401ull);
-+SN624X_LNL_SINGLE_ADR(sn6245_single_adr, 0x0000000496624501ull);
- 
- SN624X_LNL_LINK(lnl_link_sn6242, sn6242_single_adr);
- SN624X_LNL_LINK(lnl_link_sn6244, sn6244_single_adr);
-+SN624X_LNL_LINK(lnl_link_sn6245, sn6245_single_adr);
- 
- /* this table is used when there is no I2S codec present */
- struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
-@@ -877,6 +879,13 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
- 		.sof_tplg_filename = "sof-lnl-dummy.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = lnl_link_sn6245,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-lnl-dummy.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
-+	},
- 	{},
- };
- EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_lnl_sdw_machines);
-diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-index 704b4e0d2..10c38bc4f 100644
---- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-@@ -1349,9 +1349,11 @@ static const struct snd_soc_acpi_link_adr _sym[] = {			\
- 
- SN624X_MTL_SINGLE_ADR(sn6242_single_adr, 0x0000000496624201ull);
- SN624X_MTL_SINGLE_ADR(sn6244_single_adr, 0x0000000496624401ull);
-+SN624X_MTL_SINGLE_ADR(sn6245_single_adr, 0x0000000496624501ull);
- 
- SN624X_MTL_LINK(mtl_link_sn6242, sn6242_single_adr);
- SN624X_MTL_LINK(mtl_link_sn6244, sn6244_single_adr);
-+SN624X_MTL_LINK(mtl_link_sn6245, sn6245_single_adr);
- 
- struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 	/* mockup tests need to be first */
-@@ -1574,6 +1576,13 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 		.sof_tplg_filename = "sof-mtl-dummy.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = mtl_link_sn6245,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-mtl-dummy.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
-+	},
- 	{},
- };
- EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_mtl_sdw_machines);
-diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-index a5896796a..467709def 100644
---- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-@@ -495,10 +495,12 @@ static const struct snd_soc_acpi_link_adr _sym[] = {			\
- 
- SN624X_PTL_SINGLE_ADR(sn6242_single_adr, 0x0003300496624201ull);
- SN624X_PTL_SINGLE_ADR(sn6244_single_adr, 0x0003300496624401ull);
-+SN624X_PTL_SINGLE_ADR(sn6245_single_adr, 0x0003300496624501ull);
- SN624X_PTL_SINGLE_ADR(sn6247_single_adr, 0x0003300496624701ull);
- 
- SN624X_PTL_LINK(ptl_link_sn6242, sn6242_single_adr);
- SN624X_PTL_LINK(ptl_link_sn6244, sn6244_single_adr);
-+SN624X_PTL_LINK(ptl_link_sn6245, sn6245_single_adr);
- SN624X_PTL_LINK(ptl_link_sn6247, sn6247_single_adr);
- 
- struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
-@@ -609,6 +611,13 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
- 		.sof_tplg_filename = "sof-ptl-dummy.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
-+	{
-+		.link_mask = BIT(3),
-+		.links = ptl_link_sn6245,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-ptl-dummy.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
-+	},
- 	{
- 		.link_mask = BIT(3),
- 		.links = ptl_link_sn6247,
-diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-index 7a19de75f..fefc4d7f5 100644
---- a/sound/soc/sdw_utils/soc_sdw_utils.c
-+++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-@@ -1492,8 +1492,9 @@ struct asoc_sdw_codec_info codec_info_list[] = {
- 		.dai_num = 1,
- 	},
- 	/*
--	 * Senary SN6242/6244/6247: same SDCA jack/amp/mic topology; only part_id
--	 * differs. name_prefix stays "sn624x" for UCM/DAI naming.
-+	 * Senary SN6242/6244/6245/6247: same SDCA jack/amp/mic topology; only
-+	 * part_id differs. SN6245 is register-compatible with SN6244.
-+	 * name_prefix stays "sn624x" for UCM/DAI naming.
- 	 */
- 	{
- 		.vendor_id = 0x0496,
-@@ -1546,6 +1547,57 @@ struct asoc_sdw_codec_info codec_info_list[] = {
- 		},
- 		.dai_num = 3,
- 	},
-+	{
-+		.vendor_id = 0x0496,
-+		.part_id = 0x6245,
-+		.name_prefix = "sn624x",
-+		.ignore_internal_dmic = true,
-+		.dais = {
-+			{
-+				.direction = {true, true},
-+				.dai_name = "sn624x-sdca-aif",
-+				.dai_type = SOC_SDW_DAI_TYPE_JACK,
-+				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
-+				.init = asoc_sdw_senary_sdca_jack_init,
-+				.exit = asoc_sdw_senary_sdca_jack_exit,
-+				.rtd_init = asoc_sdw_senary_sdca_jack_rtd_init,
-+				.controls = generic_jack_controls,
-+				.num_controls = ARRAY_SIZE(generic_jack_controls),
-+				.widgets = generic_jack_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
-+			},
-+			{
-+				.direction = {true, false},
-+				.dai_name = "sn624x-sdca-aif2",
-+				.component_name = "sn624x",
-+				.dai_type = SOC_SDW_DAI_TYPE_AMP,
-+				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
-+				.init = asoc_sdw_senary_amp_init,
-+				.exit = asoc_sdw_senary_amp_exit,
-+				.rtd_init = asoc_sdw_senary_sdca_spk_rtd_init,
-+				.controls = generic_spk_controls,
-+				.num_controls = ARRAY_SIZE(generic_spk_controls),
-+				.widgets = generic_spk_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
-+				.quirk = SOC_SDW_CODEC_SPKR,
-+				.quirk_exclude = true,
-+			},
-+			{
-+				.direction = {false, true},
-+				.dai_name = "sn624x-sdca-aif3",
-+				.dai_type = SOC_SDW_DAI_TYPE_MIC,
-+				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
-+				.rtd_init = asoc_sdw_senary_dmic_rtd_init,
-+				.widgets = sn624x_dmic_widgets,
-+				.num_widgets = ARRAY_SIZE(sn624x_dmic_widgets),
-+				.controls = sn624x_dmic_controls,
-+				.num_controls = ARRAY_SIZE(sn624x_dmic_controls),
-+				.quirk = SOC_SDW_CODEC_MIC,
-+				.quirk_exclude = true,
-+			},
-+		},
-+		.dai_num = 3,
-+	},
- 	{
- 		.vendor_id = 0x0496,
- 		.part_id = 0x6247,
--- 
-2.43.0
+> diff --git a/sound/soc/codecs/sn624x-sdca-sdw.c b/sound/soc/codecs/sn624x=
+-sdca-sdw.c
+> index 65ea90e440008..079a96bce94e7 100644
+> --- a/sound/soc/codecs/sn624x-sdca-sdw.c
+> +++ b/sound/soc/codecs/sn624x-sdca-sdw.c
+> @@ -1769,6 +1769,8 @@ static void sn624x_sdca_sdw_remove(struct sdw_slave=
+ *slave)
+>  static const struct sdw_device_id sn624x_sdca_id[] =3D {
+>  	SDW_SLAVE_ENTRY_EXT(0x0496, 0x6242, 0x3, 0x1, 0),
+>  	SDW_SLAVE_ENTRY_EXT(0x0496, 0x6244, 0x3, 0x1, 0),
+> +	/* SN6245 is register-compatible with SN6244 (jack/amp/dmic). */
+> +	SDW_SLAVE_ENTRY_EXT(0x0496, 0x6245, 0x3, 0x1, 0),
+>  	SDW_SLAVE_ENTRY_EXT(0x0496, 0x6247, 0x3, 0x1, 0),
+>  	{ }
+>  };
+> diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/so=
+c/intel/common/soc-acpi-intel-arl-match.c
+> index 1d5f6677bfd87..2fe33280baad0 100644
+> --- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
+> +++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
+> @@ -653,9 +653,11 @@ static const struct snd_soc_acpi_link_adr _sym[] =3D=
+ {			\
+> =20
+>  SN624X_ARL_SINGLE_ADR(sn6242_single_adr, 0x0000000496624201ull);
+>  SN624X_ARL_SINGLE_ADR(sn6244_single_adr, 0x0000000496624401ull);
+> +SN624X_ARL_SINGLE_ADR(sn6245_single_adr, 0x0000000496624501ull);
 
+[ ... ]
+
+> diff --git a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c b/sound/so=
+c/intel/common/soc-acpi-intel-lnl-match.c
+> index a9fef394f176f..5e90e17a97969 100644
+> --- a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
+> +++ b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
+> @@ -738,9 +738,11 @@ static const struct snd_soc_acpi_link_adr _sym[] =3D=
+ {			\
+> =20
+>  SN624X_LNL_SINGLE_ADR(sn6242_single_adr, 0x0000000496624201ull);
+>  SN624X_LNL_SINGLE_ADR(sn6244_single_adr, 0x0000000496624401ull);
+> +SN624X_LNL_SINGLE_ADR(sn6245_single_adr, 0x0000000496624501ull);
+
+[ ... ]
+
+> diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/so=
+c/intel/common/soc-acpi-intel-mtl-match.c
+> index 704b4e0d205e2..10c38bc4fb9d6 100644
+> --- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
+> +++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
+> @@ -1349,9 +1349,11 @@ static const struct snd_soc_acpi_link_adr _sym[] =
+=3D {			\
+> =20
+>  SN624X_MTL_SINGLE_ADR(sn6242_single_adr, 0x0000000496624201ull);
+>  SN624X_MTL_SINGLE_ADR(sn6244_single_adr, 0x0000000496624401ull);
+> +SN624X_MTL_SINGLE_ADR(sn6245_single_adr, 0x0000000496624501ull);
+
+[Severity: Medium]
+Should sn6245_single_adr on ARL, LNL, and MTL encode SoundWire version
+0x3 (0x0000300496624501ull) instead of 0x0 (0x0000000496624501ull)?
+
+sn624x_sdca_id[] registers SN6245 with sdw_version 0x3, which
+sdw_get_device_id() requires in bits 47:44 of the ACPI _ADR before binding
+the codec driver.  During machine selection, hda_sdw_machine_select() ->
+snd_soc_acpi_sdw_link_slaves_found() compares peripheral->id.sdw_version
+against SDW_VERSION(adr) without treating 0 as a wildcard:
+
+sound/soc/soc-acpi.c:snd_soc_acpi_sdw_link_slaves_found() {
+	...
+		version =3D SDW_VERSION(adr);
+	...
+			if (peripheral->bus->link_id =3D=3D link_id &&
+			    peripheral->id.part_id =3D=3D part_id &&
+			    peripheral->id.mfg_id =3D=3D mfg_id &&
+			    peripheral->id.sdw_version =3D=3D version)
+				reported_part_count++;
+	...
+}
+
+Because 0x0 !=3D 0x3, these ARL, LNL, and MTL entries cannot match an active
+SN6245 codec, causing ARL and MTL systems to fail machine selection and
+fall back to the HDMI-only HDA machine driver.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110032012.7111=
+91-1-qianghua.wang@senarytech.com?part=3D1
