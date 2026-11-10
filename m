@@ -1,97 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794273745;
-	b=VX06OfGXo2x2+RF39pJjFGSB9f/fwK3Q3V3EW9TCnv0QrP5kCD/CyJFVOHLEvNL4Qhrd
-	 bSWuTnbXABPiwph/M4qv+DtBmqP4eBC2zByVJnoRI+agFLO2QLOQxIDhHMIRUXUK7fL7F
-	 c1jTdjqf82FDSpAwyl6ePqIF+OMT30GOiHHv5ajnvH7pPJKeuKZsu11GZxy0QzVEitnYT
-	 muBw50nhjgB9ZfOWWv5+9x1fFm79TzL0iMqpfwQupdWWFSYvlFEWzC44g01wMp6LkY+Nv
-	 M71nvBcjiSqfSk1gIOIyg83mKN7nnEZUoxdVakfA1T+b64S78gyGUkV3lXuzIpfjU0g==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794273745;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=dXbw32FyqwWtnmBn1lXG7BN0TCQUjpx07xM/44+T2L0=;
-	b=124llRpcsUZ2YdlFJ8rOoOJ5T+mSHjIyw3I0PfKsGMZkc15kjXfNW9IHF3pieo+gHx4N
-	 Ge9t0TUedOH76FZzH24sryGxZkc1bX3t0hWK7dq2IZF2fzlUcaT1Y/JRl1w6dNrVYhjPM
-	 KxN6w17itAZG9wN5hQbpBKU2rQC21+i84M6Ic5fwq3xMp1XVePp2HszB2NW/xxjzQ0w8U
-	 M/dC3By8CPgHfcFdCnyj+STercDZTuouAkCZPX1uqT9Zn9MIlIwkxmIu5YAEk3T9lBvbS
-	 MZJ0edleYB9CDeDARRLPgfLaKZ8zz9eZdGKbC8xALGZv1MuGpr0+NtoaavF1sjx5Kvg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xa51ZiR+;
-	arc=none smtp.remote-ip=74.125.82.171
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.126.22
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794276094;
+	b=ikJBoEz0aKOJ5U5kSUq2/HzI/mNAQilYIP35Gy3boWRDyoW4el/svN/5s386BAAUxaFf
+	 ZEK3Hj8voU9DB95jtop1ZbXKgcgI38cxHyOWfdQdUtY7Ura3Ns0mHFPV2vj9TORgIYbyd
+	 tDnftJ4vBtTfSQRvUPkqObj7OXCxJL19A1BUB6ZgiKJJ0kY6UKc63P0lZMAOKk7FrWsDM
+	 xDPprCzLd1IH2B4KUOYO63+POG5779QtB9EhU6UqWjAgpOGpd24jm6vy+sxrqVBqeiXt8
+	 c3/yXCU7uczfS9yc55KZxy67z06v4mhRCXJJLlpAmU2AJ3cdlaOBXXpoI3PDDqA2tzQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794276094;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
+	 Date:Message-Id:X-Mailer:Content-Transfer-Encoding:Content-Type:
+	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=URx6t+J2tDA2n1dVKXp/aYpnigozI9ng96OOPGOsLRc=;
+	b=fgz0BFmt//LAP2oTOPhceImRbJPGC+SyVlgv2at7tAVBQmt2fNlrUbHt2+cGY4/GrZ9S
+	 GM11mJVwwlL5f6W/sB2mZTCDJxWFFvImQsamE3xIv/GQJFkWzjRzAuXyu9SbsCsBhYsam
+	 whkzc9TDj4jTKfMCxPfTbC468lvLasojiraGCYDk7clFsO7co17TF8y1lTqpVg9HyJA6u
+	 3H7HaBHoAXPpaDONvL231Ezjdisd8o3xa/25TzsrWDYhZSLHcTzoGJLInCys2yzXvHS++
+	 gHP6fIPW6RrnprD5hrGC+1LapQIEfxKJvyUH5+tyecVGs14TrRJ1E2yPw7bGvoh8y4w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=vivo.com;
+	spf=pass smtp.mailfrom=vivo.com;
+	dkim=pass header.d=vivo.com header.i=@vivo.com header.a=rsa-sha256 header.s=selector2 header.b=lY6Bgf4A;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.126.22
+Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11012022.outbound.protection.outlook.com [52.101.126.22])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB5260A262C
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 01:22:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FB5260A262C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BBB606A9E1;
+	Tue, 10 Nov 2026 02:01:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6BBB606A9E1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xa51ZiR+
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-36a315ed211so1741907eec.0
-        for <linux-sound@vger.kernel.org>; Mon, 09 Nov 2026 17:22:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794273743; x=1794878543; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dXbw32FyqwWtnmBn1lXG7BN0TCQUjpx07xM/44+T2L0=;
-        b=xa51ZiR+d9zKwyv9egIbRnoOsRjx67xbEZvVEDd+5NGGhTzdr8qY5VLeGjwhim8FLt
-         JNR3vNI+HPnkGd01uHIsjNX5hKj+hTTI6kb7HoJFDotA4xjgMlZsAhOSR2lmZa4syohc
-         mFlcNdXHRtbAjTAoTv5MoBYVrGpWgPmZzLBNWGBpygOpMorwsiIGFFv1FxKNU8a9gyVC
-         mHyYcJRLHAP9HGmPmD+movR3SMy6XBK6Y68eodn7Dqptj/huHue02V5E4Wxg4qjeYONZ
-         kzlslydtC6ah/PXy0x6u9e5e9jfi5NLYwHZeLfTLgRUfATgBQWYW8gmLz+uigznPlIOk
-         cutw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794273743; x=1794878543;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dXbw32FyqwWtnmBn1lXG7BN0TCQUjpx07xM/44+T2L0=;
-        b=VV0lIxH5q+r0v+V3SNgdAmmMg1pSvtodPGJOIJDa0B/3ucFWv2+knnZBl7GYY/WN5K
-         S7LnZ/T6O0Mtb+Jf1eA196J90dNtCi/pTDtUuuj7xo5aq6D/OXv1jxTIiGlp9RZl2sUj
-         KTOqLAxMEzro9K+4RxLT+5Rj5ZdjQYVUDWWsmQ4SPKOtgNWhxZ8yxKblpUNWyUxbv3je
-         zgAESLxx8DZlF5Y5EnQncGt4JeZ5tebm+mXtXdnJgno0rn68wqh/UFnmmDUmzQ7Ms18e
-         w/YFANK1FzxZE6JNQwHaYsJWXWl30dlDOMkq9QALoXtIH9NTcbMJFhe6CMDje1C8vhSF
-         8PpA==
-X-Forwarded-Encrypted: i=1; AL+hErFbu5XkGsv8rjMgwM/ScZEYU1NM9+WXNgrKour7Um3qffw7rKUz0HJqZS+fTJ1hp7dOyOh+oMruyJh57A==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9ZBmFOZP8i5aN6hpbF/9eEx1TnIqnGlYlg5fNnxLDhVWc/Vqcb
-	oGd8qfhD7seX+ZUnYikqRqpOKO+zlGKbJ6WP2PqxFfXd3XGFg31cBCZq
-X-Gm-Gg: AYBFou2Al4ajwr201mvVLOypbvBsV+HgvxfwimjAHhDLx7mSbFegykfabj1hr4OYM+H
-	IOUTuodZLBqd3lcSXDVmc6n8JrGvqRCmjQzjbBnZbhcRihU/Io0+mHDupfqiN/y+EpbNn18TMX7
-	PbQAVaRIx/AHxwgazhLlAcR9dPtiKaGJyHv9aYf5qhbetfJ4o6zyWuJNGJGJJ4qSIO/peVgfNv2
-	CB8pSiAdYmOznj5Ev+3TTZUB9mWfOv2gXOT3w5YioKcDCB9YUg1I6b10oQKE5gmduFA7lHn/DzW
-	vjLXZ2xVJB+IIGEcOE6filRatjBw+ul5x2xfFLdfJeKv6XrihABvHCGaYVzMcNpTOww4Y18fijI
-	knFhxukcDY/opQixkYRJlugGF0D5hIx/kyqd2JZMpsOXvqfVdj7pObVY+plSm34C0szTZ5BTzE+
-	I+yoozPPLTxk5VnvbdZ+X1+Com5MRtCxU6bvB8z2klC7kS7cOOXVS7SqugM6SVkFVkdIrq3XR34
-	WVihMLLfIBZouDDejE0MsdMJyBAHgttbJLpq70VUWuOOTCSgLFpOIFfAHr1putwl1PlW9LqnD7n
-	0H4e1j4okZZVged0PKTP/neb7M+MDSY37zLSIAxioSj/0KCQMUzW6SR+b0ZgModEyqhgECM/z1d
-	awzn0I8XhJlPbpuLkG0dBseiXCZmG11hf7cJLKWmBaimNFU5i6Sm6LqBq9GCULax1
-X-Received: by 2002:a05:7301:791:b0:358:c5c9:2661 with SMTP id 5a478bee46e88-3751f563675mr1249907eec.10.1794273742996;
-        Mon, 09 Nov 2026 17:22:22 -0800 (PST)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751ff2ab59sm2139981eec.6.2026.11.09.17.22.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 17:22:22 -0800 (PST)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: tiwai@suse.com,
-	broonie@kernel.org
-Cc: perex@perex.cz,
-	shuah@kernel.org,
-	alyandra5b@gmail.com,
+	dkim=pass (2048-bit key, unprotected) header.d=vivo.com header.i=@vivo.com header.a=rsa-sha256 header.s=selector2 header.b=lY6Bgf4A
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GXVUm6wk5VnNNVIxoT1Zl0EuogKFVL4q7lNHuc+eyxO3Ov3XwIyNzi2LUdBURHEpJLS1Qoh87OuI/9k7UbYKpkHxGBi9VAo7ubkgp7NdeDdBwI9F/JXxU2PGILIpSWYbOgUzqwO/gWj9jW+ZWAI9XbAxyEwTlejnGD4DkLQcs8zcdwS1+GI9R2cO//6T9OmZczR6hOJl9IG0BudMYkUqChe6jZLRcVY3R3KNXCFSL0UejJ+S0kDhcT0lzXVYaexxn9BQVQklNuCoOV09wnGtBm7Mk6tKM4PkX/XaaZVhiSP+T9Noj/5wiGe52EqRFEtWdwoxTqrerYDHSao21QRunw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=URx6t+J2tDA2n1dVKXp/aYpnigozI9ng96OOPGOsLRc=;
+ b=mGoy5vm05sjiEfbd3TcPFCcNZjm/uKGaEGR6kHNKcR2LRv3e8NT3aqbqSrkVY8XxY0v93xne7TJ3Jbdem0zeRRzOq6lholrJ+l2XGtUsf2JW1+N5lS6sORVYC1jWuvRV1xfpEJo9O31X3yteu+uiJQOwnr69G81QNofOC8G7GUj9tpJbJahlxiVNZOw8/ZTpmLWJUw5tj82uP6Kyl66mYDh4unovf+kOkTmmDQhcaT3HR1OwEKILHHP0dVyrJXj5YEiDYygwf++q/Rh2fGeJGCYdQbtAtilrhlkMuWEr1FQuPPJTQWwW6nBYi3i4vIFoLFkNDi6+xRddebcMNQu+rA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=URx6t+J2tDA2n1dVKXp/aYpnigozI9ng96OOPGOsLRc=;
+ b=lY6Bgf4AP6EB6ydXQoIHsmzGdUMYrJgJq4cmNCPoZE8FiDDoE+StBqbcUSHitm7DxEvr/Ag8ZHkziUluqAlWYiCGOK+qjviYLP2RantXuswVYyw9VrCf4zDdxvHKVIDNB3iBg2A+6F2nCvf4o/GUCNyHeiaKAeCi2fWgNN3NIL7qvwYqCdivWO8KBqQzOMynhi3zcFSdy1KWDX4Keyp8EfKiJWl5iMF42kermeyOyouXBIzWOZFSUsGjDQchVaLSJYutzZPVSa5dehb1YhLzPdjOMbrDa0VLGKhujZuuTFApd/OJZMK2wERfedcmOJxLEsy1aI6Bc/GJcZt2bm0HcA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from TYUPR06MB6217.apcprd06.prod.outlook.com (2603:1096:400:358::7)
+ by SI2PR06MB108866.apcprd06.prod.outlook.com (2603:1096:4:18a::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Tue, 10 Nov
+ 2026 02:01:30 +0000
+Received: from TYUPR06MB6217.apcprd06.prod.outlook.com
+ ([fe80::8d51:58c7:42f3:ecc]) by TYUPR06MB6217.apcprd06.prod.outlook.com
+ ([fe80::8d51:58c7:42f3:ecc%4]) with mapi id 15.21.0615.004; Tue, 10 Nov 2026
+ 02:01:30 +0000
+From: Lianqin Hu <hulianqin@vivo.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>
-Subject: [PATCH] selftests/alsa: Add a test for the sequencer UMP conversion of RPN/NRPN
-Date: Tue, 10 Nov 2026 10:22:13 +0900
-Message-ID: <20261110012213.740288-1-sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	hulianqin@vivo.com
+Subject: [PATCH] ALSA: usb-audio: Add iface reset and delay quirk for RYDZ Technology Piva AC20
+Date: Tue, 10 Nov 2026 10:00:58 +0800
+Message-Id: <20261110020058.31037-1-hulianqin@vivo.com>
+X-Mailer: git-send-email 2.39.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI1PR02CA0021.apcprd02.prod.outlook.com
+ (2603:1096:4:1f4::14) To TYUPR06MB6217.apcprd06.prod.outlook.com
+ (2603:1096:400:358::7)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,521 +95,88 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYUPR06MB6217:EE_|SI2PR06MB108866:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e515184-498a-4709-1e74-08df3ece8925
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|23010399003|38350700014|56012099006|11063799006|261021121427099003|261021123027099003|261022105027099003|261022075727099003|261026140227099003|261009223027099003|261026121527099003|261102123227099003|261028144727099003|10067099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	bYolcnvvhzs0pSrKhvO+AIAultceHuGZwIbvJPqjR8m21cziir55GWLSOKshzXrcgkrY1mgBYScpBv3d4bxAl/NnyA/QvaYyi9kT2QI+z9VOwVDApl7Iz9qbhmy4UEsryUeKugvKQwa7tRJiHRcU7yUDw1s/TgwkL6y9DYTDwUS8YZejSt+t/8ah34b97Zby2FHDls7xMEsyuy6YSQBGF57unpvSmXG4Z0IHBCcp+HBOZc4qCLC/f/26tRwCh2NSY4ShWsu3yq4omDAzjgAiS4Zagsh3vkywroLrbFWg+nU9GPtXn6uJIizLvqlTzIH0bx2lbGdjmtvsEmtojen9unCb2OdnLPwXrvBQDXPDV6u9mZ66HziSDLqOnuauz7EeKLK5AmR/HgUoXzGU2ugxDNUCL329bpYzU1/uduOyqTGGxvoyj3gmwicxk0UvUVoQcvom5HleDZjuHpcoeXiop1b7vMUbWq6JFB01qJpOZLLri2eaxyfJM3fuy9l3I5bZntIdLiARJI//zWDvdPxSuT0TCAXJBrqMtXVfigiljzU9BIxqmXxtUPe3EEOt0Cg7ph3COlhrru3zqGxYwP+zCMTtZgu8B4i4YNWPaLMmPQo2QBMGI34ooywBLI6D+lb35qatSAwlVgT1M4dsc1x1ERhHzfLZonyZ0C7FoH2qo2vEaorf4iylGo+RCT9PuyhIhUJGc7wXF6RCoyQ2Xszg9k1ag0hbFQuMAMYrJ5HaiI8=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYUPR06MB6217.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(23010399003)(38350700014)(56012099006)(11063799006)(261021121427099003)(261021123027099003)(261022105027099003)(261022075727099003)(261026140227099003)(261009223027099003)(261026121527099003)(261102123227099003)(261028144727099003)(10067099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?HSMhRQyQ1YQTW0a38dHRcrYjrV6FgfBCALYAYK74JSVo+7LBY2M5JBCcUwBm?=
+ =?us-ascii?Q?iTYkA+M3OOmsks/1J25QzcCdsDlzJI/+0hW600wHeaUT3Ol8dpjiPvVXYmUf?=
+ =?us-ascii?Q?RoG9l2notFS6O4AfGB8h4rKQ7YXoLiu795vWHFWtCsWSul/0th9r3beTHR+L?=
+ =?us-ascii?Q?Gq12TBZ/LtEHinkFqn6W0ONUx+jq5lAjowyAR/k+YlIRqoJhKQMNdyWoPZ79?=
+ =?us-ascii?Q?Y4qOougF9IS0EAXhb6VQwW+tjmvqFalfegR3cnLh7EbwWem1u0UBGNuBGTZ7?=
+ =?us-ascii?Q?mnYv/ekUSs0fpYCkhAocQN9g/B1kA1dWM+tGsjgD25maMOoXFuqZcaZ6tFrx?=
+ =?us-ascii?Q?C9luRIjWShGhxqn030Wany3LrpsqX5EXiQoEgGyzT0wM4mgGwDd7GHnOYDrn?=
+ =?us-ascii?Q?/N8r2iauz4l/3kOlZcGb1cxibCYRNDm5A/nAZs9uA4WQ7tduRwuvgiTaeBwP?=
+ =?us-ascii?Q?UxxYrW2DLU/D/pxAXw3exnZy3I+GXz16LkZLYmidkAObGjo3t8FMq3xml28S?=
+ =?us-ascii?Q?NUydXzLrPxlBjKOU+yNrfRj7fFxHmxEqtWdsxPCK3l4ftlwPamlswYso/Z+F?=
+ =?us-ascii?Q?XIHATD5eEQKPCa1rvdf+Hzpg4ezW8pWdEnUjdSkk9hvR/7447Yqnedu2hLQR?=
+ =?us-ascii?Q?riF2U8GaQ+KzOXYJjjUHRviwvEv8GehSvA8vci9sMa8loE/yIciJ6A1fIxEp?=
+ =?us-ascii?Q?v2POQHD4dlscXoFx1Hlo95UpAhxwIradREtL8yYArVchnd6Cu8CieTsESdlL?=
+ =?us-ascii?Q?BsTZw9VY+Pychm/pxXNv21gMmbLhzzqoC7c8Ut2F+evGs2dd0AT5HBdyU6LY?=
+ =?us-ascii?Q?DZDPj3HXKWpcLpOUfu9g+z0cqD/PV91HYBGD/WJ3Xe0HyVYMNwa5/CBbqhOg?=
+ =?us-ascii?Q?I28arNSf1gijGX+DZB6Zp6ussi1nup16M7q+A0+ae1/Irc2n3D94n9dFhlHt?=
+ =?us-ascii?Q?vClkZqWphP9Y6N26DE+U7d6QviET1XsSnYybrt697wopZVxkK38EBhKLwKCW?=
+ =?us-ascii?Q?H8V5sRjs68hPdsOtlZ/OqBOyOsrY+mVmaNRqYPAgQ3S5SYsjGPJS3p1yOwn5?=
+ =?us-ascii?Q?V1ZXnUQRQNNWpPH/4KqM3ARtWvHSH+pjbA+cqExbzXD8t9iP8qYQO/VSL4L8?=
+ =?us-ascii?Q?ovB5lgvXyqqH6S4W99Xo9umNIzSVEq1oz2XLsLdVcPZDN+47y9AM4rxBrsgz?=
+ =?us-ascii?Q?BWodyHbOHYEhgXvylke8n7aVpwDbZhUqPqExPTM0yTwIJcw1x3ZozFDzprBj?=
+ =?us-ascii?Q?X8hQ20yWS4RTcGCyWdHCk3L5cLMenmmHwTKST2xwoz5RagFU83tdDIFJpbLl?=
+ =?us-ascii?Q?4E+t6lGAXsyeJ4cZBtbnZScyNOlxxqQgtlSwnjFsAMR6OuyZNS8ViHu8H7l+?=
+ =?us-ascii?Q?ifnJfZyBz363ocsooOaDfvf5IlTzYfBLfoBPVQOCCZtH1mewQpe0wYyZuK/z?=
+ =?us-ascii?Q?z3RJ8u+hzNEZFxZP8t6tXnjZTfIyP1VyJGhodhcLBrF0JMy6k6TcDzqyVkMs?=
+ =?us-ascii?Q?AILwHi0MsSD8UeHqGq0vFRJ/KovnkJKsRIJtGhqW2+j070L0njGURp5XhpR6?=
+ =?us-ascii?Q?rSBuSNCS1CS+dd7yiQ3t8qYqMNhtWkNadFn+fbvKlMRdW+dRdjOXCYT5QWTa?=
+ =?us-ascii?Q?fuvunzueMAoyzOWiwZkVokUfoXCge17Rt5BkYjakeoKjcJ54TF3v8llKqS4h?=
+ =?us-ascii?Q?N/PNTBVM0r5F3FscHyaHaLg7GatG8vMZeCwzXodKvPsNfwWHezvCUbJvR6U3?=
+ =?us-ascii?Q?NTQEkr/uHw=3D=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e515184-498a-4709-1e74-08df3ece8925
+X-MS-Exchange-CrossTenant-AuthSource: TYUPR06MB6217.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 02:01:29.9608
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0O/FgOXdlOsxV41xSsi2G3VW32YgLsG+3355tkXOHlhcB9aExfOGAhImUOpWaFruV0VjxuKFjwc/Rx1YDJgm6g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB108866
 
-The sequencer converts MIDI 1.0 CC and CONTROL14 events to UMP for
-UMP clients. Add a test that sends such events from a legacy client to
-a UMP MIDI 2.0 client and checks the RPN/NRPN packets it receives, and
-one that checks that a UMP MIDI 1.0 client gets the CCs as they are.
+Setting up the interface when suspended/resuming fails on this card.
+Adding a reset and delay quirk will eliminate this problem.
 
-The cases cover switching between RPN and NRPN, Data Entry sent with
-nothing selected, repeated Data Entry, Null RPN and NRPN, and the
-CONTROL14 path. Some of them come from the KUnit test in Alyandra
-Zahran Nadhir's patch.
+usb 1-1.4.1: New USB device found, idVendor=0bda, idProduct=8808
+usb 1-1.4.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+usb 1-1.4.1: Product: Piva AC20.
+usb 1-1.4.1: Manufacturer: RYDZ Technology
+usb 1-1.4.1: SerialNumber: 202511241125
 
-The test skips when /dev/snd/seq can't be opened or the kernel has no
-UMP support in the sequencer.
-
-Link: https://lore.kernel.org/all/20261107111056.667-1-alyandra5b@gmail.com/
-Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
+Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
 ---
-This depends on the RPN/NRPN series [1]. Without it, 11 of the 22
-tests fail.
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-[1] https://lore.kernel.org/all/cover.1794141913.git.sammiee5311@gmail.com/
-
-Prepared with Claude Code (Claude Opus 5.5). Tested on x86_64 under
-qemu: 22/22 pass with the series applied.
-
- tools/testing/selftests/alsa/.gitignore     |   1 +
- tools/testing/selftests/alsa/Makefile       |   3 +-
- tools/testing/selftests/alsa/seq-ump-test.c | 452 ++++++++++++++++++++
- 3 files changed, 455 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/alsa/seq-ump-test.c
-
-diff --git a/tools/testing/selftests/alsa/.gitignore b/tools/testing/selftests/alsa/.gitignore
-index 7b0e1e9ebf1b..a0762c3c52e6 100644
---- a/tools/testing/selftests/alsa/.gitignore
-+++ b/tools/testing/selftests/alsa/.gitignore
-@@ -2,5 +2,6 @@ aloop-test
- global-timer
- mixer-test
- pcm-test
-+seq-ump-test
- test-pcmtest-driver
- utimer-test
-diff --git a/tools/testing/selftests/alsa/Makefile b/tools/testing/selftests/alsa/Makefile
-index afd64a679dc1..92de58287e77 100644
---- a/tools/testing/selftests/alsa/Makefile
-+++ b/tools/testing/selftests/alsa/Makefile
-@@ -16,7 +16,8 @@ LDLIBS+=-lpthread
- 
- OVERRIDE_TARGETS = 1
- 
--TEST_GEN_PROGS := aloop-test mixer-test pcm-test test-pcmtest-driver utimer-test
-+TEST_GEN_PROGS := aloop-test mixer-test pcm-test seq-ump-test test-pcmtest-driver \
-+		  utimer-test
- 
- TEST_GEN_PROGS_EXTENDED := libatest.so global-timer
- 
-diff --git a/tools/testing/selftests/alsa/seq-ump-test.c b/tools/testing/selftests/alsa/seq-ump-test.c
-new file mode 100644
-index 000000000000..d1eca920cfc8
---- /dev/null
-+++ b/tools/testing/selftests/alsa/seq-ump-test.c
-@@ -0,0 +1,452 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Test the conversion of MIDI 1.0 sequencer events to UMP.
-+ *
-+ * A legacy client sends CC and CONTROL14 events to a UMP client, and the
-+ * test checks the packets that the UMP client receives. The converter keeps
-+ * its RPN/NRPN state per destination port and channel, so each test uses
-+ * new clients.
-+ */
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <poll.h>
-+#include <string.h>
-+#include <sys/ioctl.h>
-+#include <unistd.h>
-+#include <sound/asequencer.h>
-+
-+#include "kselftest_harness.h"
-+
-+#define MAX_PACKETS	8
-+#define CAP_IN	(SNDRV_SEQ_PORT_CAP_WRITE | SNDRV_SEQ_PORT_CAP_SUBS_WRITE)
-+#define CAP_OUT	(SNDRV_SEQ_PORT_CAP_READ | SNDRV_SEQ_PORT_CAP_SUBS_READ)
-+#define READ_TIMEOUT_MS	100
-+
-+/* first word of a MIDI 2.0 RPN/NRPN packet on group 0 */
-+#define RPN(ch, bank, index) \
-+	(0x40200000u | ((ch) << 16) | ((bank) << 8) | (index))
-+#define NRPN(ch, bank, index) \
-+	(0x40300000u | ((ch) << 16) | ((bank) << 8) | (index))
-+
-+struct packet {
-+	unsigned int w0;
-+	unsigned int w1;
-+};
-+
-+struct seq_client {
-+	int fd;
-+	int id;
-+	int port;
-+};
-+
-+/* the same scaling as the kernel's upscale_14_to_32bit() */
-+static unsigned int data14(unsigned int msb, unsigned int lsb)
-+{
-+	unsigned int src = (msb << 7) | lsb;
-+	unsigned int val = src << 18;
-+	unsigned int repeat;
-+
-+	if (src <= 0x2000)
-+		return val;
-+	repeat = src & 0x1fff;
-+	return val | (repeat << 5) | (repeat >> 8);
-+}
-+
-+/* returns 0, or a negative errno with *skip set when UMP is unavailable */
-+static int open_client(struct seq_client *c, int midi_version,
-+		       unsigned int cap, int *skip)
-+{
-+	struct snd_seq_client_info info;
-+	struct snd_seq_port_info port;
-+	int ver = SNDRV_SEQ_VERSION;
-+
-+	c->fd = open("/dev/snd/seq", O_RDWR | O_NONBLOCK);
-+	if (c->fd < 0) {
-+		*skip = 1;
-+		return -errno;
-+	}
-+	if (ioctl(c->fd, SNDRV_SEQ_IOCTL_CLIENT_ID, &c->id) < 0)
-+		return -errno;
-+
-+	if (midi_version) {
-+		if (ioctl(c->fd, SNDRV_SEQ_IOCTL_USER_PVERSION, &ver) < 0) {
-+			*skip = 1;
-+			return -errno;
-+		}
-+		memset(&info, 0, sizeof(info));
-+		info.client = c->id;
-+		if (ioctl(c->fd, SNDRV_SEQ_IOCTL_GET_CLIENT_INFO, &info) < 0)
-+			return -errno;
-+		info.midi_version = midi_version;
-+		if (ioctl(c->fd, SNDRV_SEQ_IOCTL_SET_CLIENT_INFO, &info) < 0) {
-+			*skip = 1;
-+			return -errno;
-+		}
-+	}
-+
-+	memset(&port, 0, sizeof(port));
-+	port.addr.client = c->id;
-+	strcpy(port.name, "seq-ump-test");
-+	port.capability = cap;
-+	port.type = SNDRV_SEQ_PORT_TYPE_MIDI_GENERIC |
-+		    SNDRV_SEQ_PORT_TYPE_APPLICATION;
-+	if (ioctl(c->fd, SNDRV_SEQ_IOCTL_CREATE_PORT, &port) < 0)
-+		return -errno;
-+	c->port = port.addr.port;
-+	return 0;
-+}
-+
-+static void close_client(struct seq_client *c)
-+{
-+	if (c->fd >= 0)
-+		close(c->fd);
-+	c->fd = -1;
-+}
-+
-+static int send_event(struct seq_client *src, struct seq_client *dst,
-+		      int type, int ch, int param, int value)
-+{
-+	struct snd_seq_event ev;
-+
-+	memset(&ev, 0, sizeof(ev));
-+	ev.type = type;
-+	ev.flags = SNDRV_SEQ_TIME_STAMP_TICK | SNDRV_SEQ_EVENT_LENGTH_FIXED;
-+	ev.queue = SNDRV_SEQ_QUEUE_DIRECT;
-+	ev.source.client = src->id;
-+	ev.source.port = src->port;
-+	ev.dest.client = dst->id;
-+	ev.dest.port = dst->port;
-+	ev.data.control.channel = ch;
-+	ev.data.control.param = param;
-+	ev.data.control.value = value;
-+	if (write(src->fd, &ev, sizeof(ev)) != sizeof(ev))
-+		return -errno;
-+	return 0;
-+}
-+
-+/*
-+ * Read what the UMP client received until it is quiet, and keep the
-+ * packets of message type @mt. Returns the number of packets kept.
-+ */
-+static int read_packets(struct seq_client *dst, unsigned int mt,
-+			struct packet *out)
-+{
-+	struct pollfd pfd = { .fd = dst->fd, .events = POLLIN };
-+	struct snd_seq_ump_event ev;
-+	int n = 0;
-+
-+	while (poll(&pfd, 1, READ_TIMEOUT_MS) > 0) {
-+		if (read(dst->fd, &ev, sizeof(ev)) != sizeof(ev))
-+			break;
-+		if (!(ev.flags & SNDRV_SEQ_EVENT_UMP) || ev.ump[0] >> 28 != mt)
-+			continue;
-+		if (n < MAX_PACKETS) {
-+			out[n].w0 = ev.ump[0];
-+			out[n].w1 = ev.ump[1];
-+		}
-+		n++;
-+	}
-+	return n;
-+}
-+
-+FIXTURE(seq_ump) {
-+	struct seq_client src;
-+	struct seq_client dst;
-+};
-+
-+FIXTURE_SETUP(seq_ump)
-+{
-+	int skip = 0;
-+	int err;
-+
-+	self->src.fd = -1;
-+	self->dst.fd = -1;
-+
-+	err = open_client(&self->dst, SNDRV_SEQ_CLIENT_UMP_MIDI_2_0,
-+			  CAP_IN, &skip);
-+	if (skip)
-+		SKIP(return, "UMP sequencer client unavailable: %s",
-+		     strerror(-err));
-+	ASSERT_EQ(0, err);
-+
-+	err = open_client(&self->src, 0, CAP_OUT, &skip);
-+	ASSERT_EQ(0, err);
-+}
-+
-+FIXTURE_TEARDOWN(seq_ump)
-+{
-+	close_client(&self->src);
-+	close_client(&self->dst);
-+}
-+
-+struct event {
-+	int type;
-+	int ch;
-+	int param;
-+	int value;
-+};
-+
-+#define CC(ch, param, value) \
-+	{ SNDRV_SEQ_EVENT_CONTROLLER, ch, param, value }
-+#define C14(ch, param, value) \
-+	{ SNDRV_SEQ_EVENT_CONTROL14, ch, param, value }
-+
-+static int send_events(struct seq_client *src, struct seq_client *dst,
-+		       const struct event *ev, int n)
-+{
-+	int i, err;
-+
-+	for (i = 0; i < n; i++) {
-+		err = send_event(src, dst, ev[i].type, ev[i].ch,
-+				 ev[i].param, ev[i].value);
-+		if (err)
-+			return err;
-+	}
-+	return 0;
-+}
-+
-+#define SEND(...) do {							\
-+	const struct event ev[] = { __VA_ARGS__ };			\
-+									\
-+	ASSERT_EQ(0, send_events(&self->src, &self->dst, ev,		\
-+				 ARRAY_SIZE(ev)));			\
-+} while (0)
-+
-+/* compare the RPN/NRPN packets received with the expected ones */
-+#define EXPECT_PACKETS(...) do {					\
-+	const struct packet want[] = { __VA_ARGS__ };			\
-+	struct packet got[MAX_PACKETS];					\
-+	int n = read_packets(&self->dst, 4, got);			\
-+	int i;								\
-+									\
-+	ASSERT_EQ((int)ARRAY_SIZE(want), n);				\
-+	for (i = 0; i < n; i++) {					\
-+		EXPECT_EQ(want[i].w0, got[i].w0);			\
-+		EXPECT_EQ(want[i].w1, got[i].w1);			\
-+	}								\
-+} while (0)
-+
-+#define EXPECT_NO_PACKETS() do {					\
-+	struct packet got[MAX_PACKETS];					\
-+									\
-+	EXPECT_EQ(0, read_packets(&self->dst, 4, got));			\
-+} while (0)
-+
-+/* RPN 0/1 with Data Entry */
-+TEST_F(seq_ump, rpn)
-+{
-+	SEND(CC(0, 101, 0), CC(0, 100, 1), CC(0, 6, 0x40), CC(0, 38, 0));
-+	EXPECT_PACKETS({ RPN(0, 0, 1), data14(0x40, 0) });
-+}
-+
-+/* Data Entry after a Null RPN is not sent at the next selection */
-+TEST_F(seq_ump, data_after_null_rpn)
-+{
-+	SEND(CC(0, 101, 0x7f), CC(0, 100, 0x7f), CC(0, 6, 0x40), CC(0, 38, 0));
-+	SEND(CC(0, 101, 0), CC(0, 100, 1));
-+	EXPECT_NO_PACKETS();
-+}
-+
-+/* Data Entry before any selection is not sent at the next selection */
-+TEST_F(seq_ump, data_before_selection)
-+{
-+	SEND(CC(0, 6, 0x40), CC(0, 38, 0), CC(0, 101, 0), CC(0, 100, 1));
-+	EXPECT_NO_PACKETS();
-+}
-+
-+/* the same for an NRPN selected after a Null RPN */
-+TEST_F(seq_ump, data_after_null_rpn_to_nrpn)
-+{
-+	SEND(CC(0, 101, 0x7f), CC(0, 100, 0x7f), CC(0, 6, 0x40), CC(0, 38, 0));
-+	SEND(CC(0, 99, 0), CC(0, 98, 5));
-+	EXPECT_NO_PACKETS();
-+}
-+
-+/* a repeated Data Entry goes to the selected RPN */
-+TEST_F(seq_ump, repeated_data)
-+{
-+	SEND(CC(0, 101, 0), CC(0, 100, 2), CC(0, 6, 0x40), CC(0, 38, 0));
-+	SEND(CC(0, 6, 0x10), CC(0, 38, 0), CC(0, 101, 0), CC(0, 100, 1));
-+	EXPECT_PACKETS({ RPN(0, 0, 2), data14(0x40, 0) },
-+		       { RPN(0, 0, 2), data14(0x10, 0) });
-+}
-+
-+/* two values for one RPN, then another RPN */
-+TEST_F(seq_ump, two_rpns)
-+{
-+	SEND(CC(0, 101, 0), CC(0, 100, 0), CC(0, 6, 2), CC(0, 38, 0));
-+	SEND(CC(0, 6, 12), CC(0, 38, 0));
-+	SEND(CC(0, 101, 0), CC(0, 100, 1), CC(0, 6, 0x40), CC(0, 38, 0));
-+	EXPECT_PACKETS({ RPN(0, 0, 0), data14(2, 0) },
-+		       { RPN(0, 0, 0), data14(12, 0) },
-+		       { RPN(0, 0, 1), data14(0x40, 0) });
-+}
-+
-+/* the RPN number is held after a send, like the NRPN number */
-+TEST_F(seq_ump, rpn_msb_held)
-+{
-+	SEND(CC(0, 101, 1), CC(0, 100, 1), CC(0, 6, 0x40), CC(0, 38, 0));
-+	SEND(CC(0, 100, 2), CC(0, 6, 0x10), CC(0, 38, 0));
-+	EXPECT_PACKETS({ RPN(0, 1, 1), data14(0x40, 0) },
-+		       { RPN(0, 1, 2), data14(0x10, 0) });
-+}
-+
-+/* selecting an NRPN replaces an RPN selection, and the reverse */
-+TEST_F(seq_ump, selector_switch)
-+{
-+	SEND(CC(0, 101, 0x11), CC(0, 100, 0x12), CC(0, 99, 0x21),
-+	     CC(0, 98, 0x22));
-+	SEND(CC(0, 6, 0x31), CC(0, 38, 0x32));
-+	SEND(CC(1, 99, 0x41), CC(1, 98, 0x42), CC(1, 101, 0x51),
-+	     CC(1, 100, 0x52));
-+	SEND(CC(1, 6, 0x61), CC(1, 38, 0x62));
-+	EXPECT_PACKETS({ NRPN(0, 0x21, 0x22), data14(0x31, 0x32) },
-+		       { RPN(1, 0x51, 0x52), data14(0x61, 0x62) });
-+}
-+
-+/*
-+ * A pending Data Entry MSB is sent for the old selection when another
-+ * one is made. Other channels keep their own selection.
-+ */
-+TEST_F(seq_ump, pending_flush_and_channels)
-+{
-+	SEND(CC(2, 101, 0x09), CC(2, 100, 0x08));
-+	SEND(CC(3, 99, 0x17), CC(3, 98, 0x18));
-+	SEND(CC(2, 6, 0x25), CC(2, 99, 0x29));
-+	SEND(CC(3, 6, 0x33), CC(3, 38, 0));
-+	EXPECT_PACKETS({ RPN(2, 0x09, 0x08), data14(0x25, 0) },
-+		       { NRPN(3, 0x17, 0x18), data14(0x33, 0) });
-+}
-+
-+/* a Null NRPN deselects, and its data is not sent */
-+TEST_F(seq_ump, null_nrpn)
-+{
-+	SEND(CC(0, 99, 0x7f), CC(0, 98, 0x7f), CC(0, 6, 0x40), CC(0, 38, 0));
-+	EXPECT_NO_PACKETS();
-+}
-+
-+/* a Null RPN also deselects an NRPN */
-+TEST_F(seq_ump, null_rpn_after_nrpn)
-+{
-+	SEND(CC(0, 99, 1), CC(0, 98, 2), CC(0, 101, 0x7f), CC(0, 100, 0x7f));
-+	SEND(CC(0, 6, 0x10), CC(0, 38, 0));
-+	EXPECT_NO_PACKETS();
-+}
-+
-+/* a Null NRPN does not touch the RPN number */
-+TEST_F(seq_ump, null_nrpn_keeps_rpn_number)
-+{
-+	SEND(CC(0, 100, 1), CC(0, 99, 0x7f), CC(0, 98, 0x7f), CC(0, 101, 0));
-+	SEND(CC(0, 6, 0x10), CC(0, 38, 0));
-+	EXPECT_PACKETS({ RPN(0, 0, 1), data14(0x10, 0) });
-+}
-+
-+/* a Null RPN sent around a Null NRPN still deselects */
-+TEST_F(seq_ump, null_rpn_split_by_null_nrpn)
-+{
-+	SEND(CC(0, 100, 0x7f), CC(0, 99, 0x7f), CC(0, 98, 0x7f),
-+	     CC(0, 101, 0x7f));
-+	SEND(CC(0, 6, 0x10), CC(0, 38, 0));
-+	EXPECT_NO_PACKETS();
-+}
-+
-+/* a Null RPN after an RPN with LSB 127 does not select RPN 0/127 */
-+TEST_F(seq_ump, null_rpn_after_lsb_127)
-+{
-+	SEND(CC(0, 101, 0), CC(0, 100, 0x7f), CC(0, 6, 0x40), CC(0, 38, 0));
-+	SEND(CC(0, 101, 0x7f), CC(0, 100, 0x7f), CC(0, 6, 0x10), CC(0, 38, 0));
-+	EXPECT_PACKETS({ RPN(0, 0, 0x7f), data14(0x40, 0) });
-+}
-+
-+/* CONTROL14: RPN 0/1 with Data Entry */
-+TEST_F(seq_ump, c14_rpn)
-+{
-+	SEND(C14(0, 101, 1), C14(0, 6, 0x40 << 7));
-+	EXPECT_PACKETS({ RPN(0, 0, 1), data14(0x40, 0) });
-+}
-+
-+/* CONTROL14: Data Entry before any selection is not sent */
-+TEST_F(seq_ump, c14_data_before_selection)
-+{
-+	SEND(C14(0, 6, 0x40 << 7), C14(0, 101, 1), C14(0, 101, 2));
-+	EXPECT_NO_PACKETS();
-+}
-+
-+/* CONTROL14: a repeated Data Entry goes to the selected RPN */
-+TEST_F(seq_ump, c14_repeated_data)
-+{
-+	SEND(C14(0, 101, 1), C14(0, 6, 0x40 << 7), C14(0, 6, 0x10 << 7));
-+	EXPECT_PACKETS({ RPN(0, 0, 1), data14(0x40, 0) },
-+		       { RPN(0, 0, 1), data14(0x10, 0) });
-+}
-+
-+/* CONTROL14: selecting an NRPN replaces an RPN selection, and the reverse */
-+TEST_F(seq_ump, c14_selector_switch)
-+{
-+	SEND(C14(4, 101, (1 << 7) | 2), C14(4, 99, (3 << 7) | 4));
-+	SEND(C14(4, 6, (5 << 7) | 6));
-+	SEND(C14(5, 99, (7 << 7) | 8), C14(5, 101, (9 << 7) | 10));
-+	SEND(C14(5, 6, (11 << 7) | 12));
-+	EXPECT_PACKETS({ NRPN(4, 3, 4), data14(5, 6) },
-+		       { RPN(5, 9, 10), data14(11, 12) });
-+}
-+
-+/* CONTROL14: a pending Data Entry is sent for the old selection */
-+TEST_F(seq_ump, c14_pending_flush)
-+{
-+	SEND(C14(6, 99, (2 << 7) | 3), CC(6, 6, 0x35),
-+	     C14(6, 101, (4 << 7) | 5));
-+	EXPECT_PACKETS({ NRPN(6, 2, 3), data14(0x35, 0) });
-+}
-+
-+/* CONTROL14: a Null RPN deselects an NRPN, and so does a Null NRPN */
-+TEST_F(seq_ump, c14_null)
-+{
-+	SEND(C14(0, 99, (3 << 7) | 4), C14(0, 101, 0x3fff));
-+	SEND(C14(0, 6, 0x10 << 7));
-+	SEND(C14(1, 101, 1), C14(1, 99, 0x3fff), C14(1, 6, 0x10 << 7));
-+	EXPECT_NO_PACKETS();
-+}
-+
-+/* CONTROL14: a Null NRPN does not touch the RPN number */
-+TEST_F(seq_ump, c14_null_nrpn_keeps_rpn_number)
-+{
-+	SEND(CC(0, 100, 1), C14(0, 99, 0x3fff), CC(0, 101, 0));
-+	SEND(C14(0, 6, 0x10 << 7));
-+	EXPECT_PACKETS({ RPN(0, 0, 1), data14(0x10, 0) });
-+}
-+
-+/* a UMP MIDI 1.0 client gets the CCs as they are, RPN selection included */
-+TEST(midi1_passthrough)
-+{
-+	struct seq_client src = { .fd = -1 }, dst = { .fd = -1 };
-+	struct packet got[MAX_PACKETS];
-+	int skip = 0;
-+	int err;
-+
-+	err = open_client(&dst, SNDRV_SEQ_CLIENT_UMP_MIDI_1_0,
-+			  CAP_IN, &skip);
-+	if (skip) {
-+		close_client(&dst);
-+		SKIP(return, "UMP sequencer client unavailable: %s",
-+		     strerror(-err));
-+	}
-+	ASSERT_EQ(0, err);
-+	ASSERT_EQ(0, open_client(&src, 0, CAP_OUT, &skip));
-+
-+	ASSERT_EQ(0, send_event(&src, &dst, SNDRV_SEQ_EVENT_CONTROLLER,
-+				9, 0x40, 0x22));
-+	ASSERT_EQ(0, send_event(&src, &dst, SNDRV_SEQ_EVENT_CONTROLLER,
-+				3, 101, 0x12));
-+	ASSERT_EQ(0, send_event(&src, &dst, SNDRV_SEQ_EVENT_CONTROLLER,
-+				3, 99, 0x34));
-+	ASSERT_EQ(3, read_packets(&dst, 2, got));
-+	EXPECT_EQ(0x20b94022u, got[0].w0);
-+	EXPECT_EQ(0x20b36512u, got[1].w0);
-+	EXPECT_EQ(0x20b36334u, got[2].w0);
-+
-+	close_client(&src);
-+	close_client(&dst);
-+}
-+
-+TEST_HARNESS_MAIN
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 7c581e283903..744cb31c0b9f 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2651,6 +2651,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
+ 	DEVICE_FLG(0x0bda, 0x498a, /* Realtek Semiconductor Corp. */
+ 		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE | QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE),
++	DEVICE_FLG(0x0bda, 0x8808, /* RYDZ Technology Piva AC20 */
++		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
+ 	DEVICE_FLG(0x0c45, 0x6340, /* Sonix HD USB Camera */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x0c45, 0x636b, /* Microdia JP001 USB Camera */
 -- 
-2.43.0
+2.39.0
 
