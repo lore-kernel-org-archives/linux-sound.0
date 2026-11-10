@@ -1,104 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794304637;
-	b=hO9xaVtGPbfr/HoT7wCKyVg9iS2vPNB5csCOOBIafy1xyaG4vEqvhxlHmRa6bfJseYvW
-	 9Qyhe2hrgtVcTHvQT6tgQj5fwDK0Q4U53OH0tg6MjWoVORcu2ITTmsr38wFvuobgG1uLI
-	 AUoMwiy9hjABv4IydiihIXGmeofJ43U5OLyd15C1ZEXnjUqVhDTJahpRhW9+ifu9F1l+y
-	 VQULjdcqBB8LQUHIKGHIspPMKHKDkAHpZN9SYqNSaNLbouXRWizEQtL04v+KpI5q07CeB
-	 iAmj3oNIQWL72TqZp46OpjWwAt8XRVfrPps31WTIIa3bCWKFDKunJY02vOE433goJiw==
+	t=1794304642;
+	b=vo9z32m8U2M2XMMVYK8pL3fHX41EJBmZkrdzVVqQeJG4RizvxlUqgmil/M9I1e1A2PCu
+	 +c9DOw1+iMQDBJSU5s0FsZAja43roPYWcjEIwJZnONHdMGlWnlo2kRpsgC9mB+ONg0gJg
+	 ikB5yf6533pRHkLL/+b5o+/zL5LGLSe+AB8nqA7GxU1tqVnZY+j09T4fTz6p+s0EDPc8N
+	 if4vMks38IONvc8lIjp08123FtIHjx2MeF6fQ0EqZ+Bsil+77Q+gXBMqOL9HtGmHERRHG
+	 Jij4hu8FOZDOukhqyk2AwF4w12iFZ9xyI4n1OPNvCFH15mQ8ezSu1az5Xo/n9qWskHA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794304637;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794304642;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=cr1HltizvWayFo41XNkNxw+fGqlfdV0vW0QjzKRC/tY=;
-	b=4zTJLlvfUglI0f7rpfHCoKwGkpIDlh+kbPLStcokgSgVXu3rkzT+p2iusuJrBNFCDwKY
-	 Ox0Powkej6kBR81Mqa8AKVS6uMsOoCcsxtnWkDlGbAkTQJLTZ3lFY7117BFfaWA2HIoIh
-	 pC8hFKaPou22d4S9jzKemdnmxvZ/eClx/GjxzLKt0/cINl6ei105FvT0no6kUMOvAWGeA
-	 WudMTyCqwYwIztCWK99D9C24p+yn9F2KgoTgFKAvVpHHvd+Zhn0ayHCECGBXeVDuV/Z1s
-	 R4eW6Ds4mnuGJ1K2k5qNoQdBJUA72uENf1Q4+xD+46BS+YAXu0bmJvnL3WMYYV3SHcQ==
+	 Date:From:To:Cc:Subject:Message-ID:Mail-Followup-To:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=tTHR38mY11B/5icwsExskzuyoZfY2wPwkj1B1V6Dev0=;
+	b=luVPp4ljXKnSQsI40sgH2i9wCWdJSsL3RhNppej8f0Kk+G6gStXZczncb8WxTNo9zsfb
+	 RplRU8+ywazrkUPIoUc6r5cb8UFuAq9vC4j2hFjBg0E0I0aFsa2/We+2VyqAvBqSekcOq
+	 AHTTmC2AGIooEgXzC8ASJmKYfzyZ16WlZPe9VY29u8Z9fo0SBRMW544u2KoKYWGwKypEw
+	 fazhWP7xPorQxVhIFccTDyE+sMdNtdrF9ksY58uvAJXw06kIt+SLiEDBGXGmP+crhKCKq
+	 8uF6f5P/Cio8+8Vx2FAeqbx3AeJAtEz6bIWfC47+dgqpJuiE81rMhe0DYq5vjdHI0dA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aCYdfsfA;
-	arc=none smtp.remote-ip=74.125.82.44
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vFgJWNQR;
+	arc=none smtp.remote-ip=209.85.221.51
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80257606A902
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 09:57:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80257606A902
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CAFD606A913
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 09:57:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CAFD606A913
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aCYdfsfA
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-15dd124bbe7so2173857c88.1
-        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 01:57:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vFgJWNQR
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48e3b22e971so948538f8f.0
+        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 01:57:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794304636; x=1794909436; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cr1HltizvWayFo41XNkNxw+fGqlfdV0vW0QjzKRC/tY=;
-        b=aCYdfsfAXj3vohBdQYRudfCUIdjPEyILDtym05OSKtEwd0jXMpavlqauHhDA+pKctU
-         OProCkm8DPgk6iUW+SOa3Sd5NjlogFzBUvRWew/U6LtsZ0U29pfqgIg8bgJl2OF/M1Qy
-         GNJ1meuzJ492VoKYC4bEkHtz5rJJ/DF9RgLTrLLT5ra9nkEU58y3ECFa9FbkV37ZOkBa
-         SXgnmbr/l/kG8yZqkL1u6ZQ8H2H6nj1um+BYSHI9+73O4mZXuzfrq4NGunBaQGHVrJ5A
-         vrLjKcr27NvRuiXl3rhN2i/BzzsT/P+CGThWKqMJ1X6koOYUsjTTIDHTjIk0UC/MZrjX
-         Yj4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794304636; x=1794909436;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=gmail.com; s=20260707; t=1794304640; x=1794909440; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:from:date:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cr1HltizvWayFo41XNkNxw+fGqlfdV0vW0QjzKRC/tY=;
-        b=GmuVOL1PLVeFvc2yQaVI9yVC3XbVD+8lIyU3pWZablXXtg0Hk/FzFxAted3NYrQAcC
-         LZL/tJO8tw8h5p/go4aZoJkA4hSmrHe7KsvpMKR4jcH9DDgibHEL8vhhxbA4s141EI4a
-         JQRZ+/Wg1nQg1n7f1oGXLWneWz7Ikpt0XgKxJauVFQkOgrK45KGVhuj5W9goEIz7Doec
-         A8ihTxSgMf1l+IUnwV1q6Xiyi7ooQehnu5T1M4Jmb8krUiMhaaPh51DrZ0w1g8ePNf9C
-         oQObn89yo8nUFs+HCjwLndZKPz7ySG1XMAZ4yqkGUEXilejKE92z9LdH1uSio+jlBJb/
-         mu5g==
-X-Forwarded-Encrypted: i=1; AL+hErFiTQ+8NqJTBvTPmn9IAB/IbmpevWVRN5IQ1zuyq0aXD46rfXI+jDt3bH1DNEsjZMrxp60CnjDWYLnvJQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/nhOPtwqtIDUejOdADHPV3BoB6otbflhp2BSOIKh7EBiAFs3CB
-	JyaljYMZjLCtb8EeHTDMQ8NrR5rCIW25wTpVuv0JEjpDF1Su627b28OP1h2Hwg==
-X-Gm-Gg: AYBFou0yQgHm9eBlgCboA+vl6mTgPjMj3QiEYYRZoOSd0j2uCunksbTMnoPSoj+otJp
-	Xs1J9J0X/2Et/qEuQUTfBNc0YKfOE8HF0ASvsWHy8BN5kHzWjSJYemftCGxH+Go8MktaBCcYf1I
-	BNDuTBjCd40d3Yj7lBLetbYAuPo/AKs/Gs+U6E9ozBbV+HYaATd+hNQ9cWIAELUhG6hGWOLo9yz
-	u1iBSNr7OaidzQLvGkQpalplkhg7JSHteucF48+05atV3Cg+EdJcdkaqNhyp7jMByfX+00hFnEH
-	A3WY0DQDZXBNTxT4Ojh67QWdkFB45HeFUUTf8H5SvsJSjX8Szbe3iNmN2mp/MhkHAADL/m7W8aX
-	4jQt5J6OcFYuvJT68+LpyaXcjAvLJ+xoMo248znc4sq9N/NBTdinvC88wCFiO9zTVEOnrlYzsFi
-	42b18UUegBwJ3NQAgSWL7DRkiWHw9mctdg1hQixaRph+0damYNlPbFpgZ9gbunPkTNIWsBBBSJT
-	dJwO5iNTUUquXZ8Tcg1GgeCOpuuD9Vrw+PhFogx1Al+/5FZVX3+N8BWZUskvQ6maxXrXQR3MnXu
-	siETYbD7XD4lAutWuDvzr6S824aW7/m5ddR597SglKYRSE7BdFyzQCTKxZJA1pumUlLDDDNiFOE
-	0yMueDVBxjBubXlxsaQoh0ZgTFpDdJNgUnSSaHG4RSbiHPA==
-X-Received: by 2002:a05:7022:f503:b0:1ac:91b6:8dfd with SMTP id a92af1059eb24-1b3b6180311mr2664542c88.31.1794304635203;
-        Tue, 10 Nov 2026 01:57:15 -0800 (PST)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b75d42sm5203801c88.20.2026.11.10.01.57.06
+        bh=tTHR38mY11B/5icwsExskzuyoZfY2wPwkj1B1V6Dev0=;
+        b=vFgJWNQRpY00BTiiT2wohK496Dl7MoSkYIsP3zKGk4yjycuur59e6oLavf43ykes8u
+         ToLxr0/upin1AoCisw5nZTRQ1xutanrTyJyY2sBbJvYCaBmf46He36lIDdz5sE8xmWxp
+         Mi8KqptNWHLf82kxBk/xG75ofy8BvA+ZjjxUrpV4DGSPMKTyjVtJv6UI8ASO2Jag54Ok
+         HEmjUIG25liwvNWd1/zC3wDgK5ViE2myFVFvkvHKg12U0wa+I2aCaQQboH1V8sXhlOUP
+         eyVNvn8lqgsTM/4xmk+Alx3Xbhp3FdkDMaU9kixCSSCwLuGqyJ/wYcEFRNEo3i+tqvZb
+         iEEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794304640; x=1794909440;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=tTHR38mY11B/5icwsExskzuyoZfY2wPwkj1B1V6Dev0=;
+        b=0oUAfHlO1kTwfGxhAB3IrJWpX4x18sO44bI9wiJAsjAlM7N1885V8VoGMqRhsl8GJt
+         LZxOp/w/RWt6/scsNK+/iwNRpCsHZ166Z0rch7Fq1q9Jc/B34d9JoCqcFbE407AFU/2i
+         Ibmj5CtNgjh7b6MeCobw3TzvybAspPU5YwibvId8DKZjqP2XxhZzCCXDbC2fjVuxQbF9
+         klpaNDxEXV2Dvd8ONUpbQnOkdevUBFm4yscV4mdRwDkyxTZrUsv+AHjqATc2yy0mDpUB
+         aKAD8LxYiwd+G/0jYPGBQR/JlOavx6C8LCkXKUJYISmu+qgOIaKIm2YJvKspebSDCbOK
+         FvPA==
+X-Forwarded-Encrypted: i=1; AL+hErFgzowF8bd2wEiNh3QJDpJuYnKiX6kZkYyFsjqoB6RewYQ6JF6dtr9JbkfqJnShc5fsGCi1ze/9C0aAOA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/1F9iknMeWTrrm3dVG+Uvz5jPAYPRd6sQDn3JyaUEZuD9xX+Ha
+	JXDFmqgSxvynshGV7Jyy/exMuZPLzGhlHnJs99Pyx/2Agab0/HcX0G6l
+X-Gm-Gg: AYBFou2Qypn35LSkiMmVqElDNZFGmOakCvd2Q/OjVbP+dZ7GUXn3xBnbu5xTWR25HeC
+	gw4VCNXBhgWyNSpjRYv+zYSI0QUWnXjBLzp9MOZ8tieFyZYI2eVnREIw0oQeoGrZ3mNKIRbZI0r
+	kPd/Ei1CS8z05cG6iu1SH4hwVRGpfBLAlkHjX6BTJtY4KpJMhpuVhp5rVOi3AAJx0HaxeDladX1
+	dGrMALF3asSvG6zzIVh0h7d4ZVFy0cCIS3AROaqiKR+TSIvM4JoNUhFi7crfUTZSmMvKZumvyfb
+	AbONJCpzIfFh9UB4LFtE/RoqxodFn7LFAWWJNGALrzPM3a0tz/oEnzmi1m1LRK19v2CNOVC8xiy
+	t8bRFnlQif43e+qlDu8AfE5wUJbi4gze7MVzk14sppqky6JuN5nwR1A5pSmTm6+SIDfpQnNvmTE
+	VhFqYRFmLgm8Uw7o5mg0iqJL5fH3Yuubhz4CTvCkDX6XZS9AcxC9aiI7gOR0jDuLiidvtArQSAe
+	fUxQ0MdQd25iPp6SiiB5w4ItIXGlgM4t+D6MmCi7Q8D/cDNIqdURKl7uOdHVSfcYtvm95vTjV09
+	4uzRtZLJBKNw+4xyiSwFVi4Uu+zxYRNv/2qAySMZZfVNX0FqvVCf7s0vn4eVEg==
+X-Received: by 2002:a05:6000:4b06:b0:495:5c83:51bc with SMTP id ffacd0b85a97d-4982d13022fmr3778167f8f.5.1794304639745;
+        Tue, 10 Nov 2026 01:57:19 -0800 (PST)
+Received: from localhost (ip-94-113-240-150.net.vodafone.cz. [94.113.240.150])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4983600bc9asm3841475f8f.29.2026.11.10.01.57.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 01:57:08 -0800 (PST)
-From: phucduc.bui@gmail.com
-To: Maxim Kochetkov <fido_max@inbox.ru>,
-	Andrew Jackson <Andrew.Jackson@arm.com>,
+        Tue, 10 Nov 2026 01:57:19 -0800 (PST)
+Date: Tue, 10 Nov 2026 10:57:18 +0100
+From: Jan Remes <ciakval@gmail.com>
+To: Emanuele Ghidoli <ghidoliemanuele@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Emanuele Ghidoli <emanuele.ghidoli@toradex.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: soc-core: reset rtd->num_components after
+ allocation
+Message-ID: <avLqfsCe0eXV1hFe@mm-ntb-00805>
+Mail-Followup-To: Emanuele Ghidoli <ghidoliemanuele@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
-	Xingyu Wu <xingyu.wu@starfivetech.com>
-Cc: Tim Bird <tim.bird@sony.com>,
-	Yuri Zaporozhets <yuriz@vodafonemail.de>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 5/6] ASoC: dwc: Propagate optional IRQ lookup errors
-Date: Tue, 10 Nov 2026 16:55:24 +0700
-Message-ID: <20261110095525.504660-6-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261110095525.504660-1-phucduc.bui@gmail.com>
-References: <20261110095525.504660-1-phucduc.bui@gmail.com>
+	Emanuele Ghidoli <emanuele.ghidoli@toradex.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+References: <20261109102536.357134-1-ghidoliemanuele@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -108,36 +111,28 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109102536.357134-1-ghidoliemanuele@gmail.com>
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On Mon, 09 Nov 2026 11:25:20 +0100, Emanuele Ghidoli wrote:
+> Reset num_components after the allocation.
 
-platform_get_irq_optional() can return errors other than
--EPROBE_DEFER. Propagate these errors instead of silently
-continuing, while treating -ENXIO as the absence of an IRQ.
+The same regression hits Intel SOF/HDA: on a ThinkPad E16 Gen3 (Arrow
+Lake, Core Ultra 7 255H, Conexant SN6140) no internal card is registered
+on v7.4-rc2, with
 
-Use dev_err_probe() to report IRQ lookup failures.
+  skl_hda_dsp_generic skl_hda_dsp_generic: ASoC: Failed to add route ...
+  Analog Playback and Capture: fail to add hda routes, ret -19
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/dwc/dwc-i2s.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This also looks like the regression reported for Meteor Lake here:
+https://lore.kernel.org/all/mAZY9HZuXAXUf7zv8tqXquMtquf7iW2CIZB7WhU-SnwWp-Rpr0e8yixTsb3lAeQsO64PwwWlOao8aMjQ4hTKOQ6grCiNmaWZmFRXMdPICD8=@proton.me/
 
-diff --git a/sound/soc/dwc/dwc-i2s.c b/sound/soc/dwc/dwc-i2s.c
-index b0d3413c27d2..0d2be2d8d31a 100644
---- a/sound/soc/dwc/dwc-i2s.c
-+++ b/sound/soc/dwc/dwc-i2s.c
-@@ -961,8 +961,8 @@ static int dw_i2s_probe(struct platform_device *pdev)
- 	}
- 
- 	irq = platform_get_irq_optional(pdev, 0);
--	if (irq == -EPROBE_DEFER)
--		return irq;
-+	if (irq < 0 && irq != -ENXIO)
-+		return dev_err_probe(&pdev->dev, irq, "failed to get IRQ\n");
- 	if (irq > 0) {
- 		ret = devm_request_irq(&pdev->dev, irq, i2s_irq_handler, 0,
- 				pdev->name, dev);
--- 
-2.43.0
+With this patch on top of v7.4-rc2 the card is registered again: the
+topology loads, and speaker, mics and HDMI outputs are back, with no
+warnings in the log.
 
+Tested-by: Jan Remes <ciakval@gmail.com>
+
+Best regards,
+  Jan
