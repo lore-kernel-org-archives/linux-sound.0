@@ -1,53 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794298183;
-	b=POIW5mbzEGs9hTDJpij0FY5LFRdc+M78nW9H/1FfQ9x0NcXsB5aZbM1LbiqMadScIpc4
-	 FV80+RYPaSvZJ7qGVmGtjZCe2m8rA1JVFl8R60qZN393f3qUzQU03lJTrdutRPJH6i3Na
-	 TZu49kb5zbPgu9DBtPGCiULrK7f47vBSgLAABkYIYsKlPnhU80rzjATCFY5VStOSqECYt
-	 1TTP1P0rbbZHi/Pp1yw4YCySFyNQrrELBnqex5ESjSV71nx9dAaIrDCyOvUXge/hmA8/N
-	 X7DRNOHjQBzFatfaLnltS/4FoQUMoFL+R+TD+acG+nuQ4mz9mpfSeT5Aatx9WVFdFFQ==
+	t=1794299170;
+	b=ltiQDfEFshSNb/TxWWPHbRWz9B3XSLj1gxAkb9N8SwzXfv1fLnzfwdsLp0w4ROO4JZU7
+	 9e3Bu3wYmpsKDAATyFnRUoPbtizC26Sv68ZxV6c/LjstdsTtCGuFkC4jPa1n/vGY7d+SR
+	 zCRmywcPHCQ0gUuvmZ8U+59Cwbpj9vyuNWztCJp3A44IB15o63sIw9xjH9dqpNICAOYVO
+	 abGu7FSuqxNtYMr9Gi+NCtmD/s1Bl39AL5b5pdl4q4Jc6ypReZIGuRWqbUg+qOxAuk0vm
+	 Nkl9zXh+yXuMmUMV0ZUXjXoGCj/0Q871l9uGKNVCHSrtAWD2SQexVJeFkG14PCz+k2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794298183;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794299170;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=CogJqsez+MNCvBU+ZLa877ZQMGqVZctnGDmIr7fz2AA=;
-	b=IkViXzXiFXookVSkkIb6AZEyBkfvd/pLZvEi9O6JQ/7JLgKAQPzjxVPJQ11/z2xXLq3v
-	 1Cc5E+mHrS/+Uhs1lTXzK8pE6PpETw5bwzQvXG7V6y794Vnj2J5bGO65kJRUi9T3/nxZt
-	 wMmPD5p7KTOOkxwHkbp6WLVhg4zArsbnE9T09zfzRFzI22ybRzGcIeQmh5vlkiVHtJXbw
-	 nA0TSQLYp1pRfuSA5+ZWmnZoSgldXnf8HAfq+tasWO1/uQEGbzGR/zNqUMGY246rMQK7j
-	 dDRXvgUIHF4eMZ2nng6G4YIsw7ekOz/HDbjW+UicESY5kt5w1pF1AUK89MgbHDe06RA==
+	bh=KGB9UbUuUIBLuGWbVi5rtXFYasd5PhFrkHNVfvzg7ao=;
+	b=OY3OHFCk0zjUO/oVfh4U3Qf7Ve0OsZ84Vvr4u/VCJ93fW8HDHaKUIabm/y5mJMveJX1i
+	 dp+K0rdQ8YegmVGos1kKoS3sNKSjimFBY051LEDy6AfDCk3Ms45f4HgrkO1WShJgoMIAs
+	 SZzljDXkVb9ZsC130UriYi81AWRR1Q9oatgzTWr1mlq9y8x+OtTW8HkKzkBf120G0gGvt
+	 XPpDrr6Ul19xTgnlNypB9Vf0jTrS58hKAv0yQri2ZJ38eIgYor3EZ4+5yr3aK8a77W2h9
+	 0N5BmXd6kHD+FeaTWlweR++FGgo9UeRF3dQc6iYnq+gRYrsjvC9AOuRCQYbRVq3dKOA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FSQjdqgg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vy3sNs4B;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892E6606A331;
-	Tue, 10 Nov 2026 08:09:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41923606A332;
+	Tue, 10 Nov 2026 08:26:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FSQjdqgg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C68AB1F008A3;
-	Tue, 10 Nov 2026 08:09:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vy3sNs4B
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBF9C1F008A1;
+	Tue, 10 Nov 2026 08:26:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794298183;
-	bh=CogJqsez+MNCvBU+ZLa877ZQMGqVZctnGDmIr7fz2AA=;
+	s=k20260515; t=1794299169;
+	bh=KGB9UbUuUIBLuGWbVi5rtXFYasd5PhFrkHNVfvzg7ao=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FSQjdqgg86Kk/8pEpAprGzSXuGH80UsVHxHR/2t5ZfToer9oCxRmNOS52UUh4su1g
-	 sQ4S/PkOhA77FM/rKYNuO7sLi0QtVjYQYYF66n0fB6VgS4FZxNg+u82Vy7ecie43T0
-	 xnBPIgZMK1QG31JUO3pcxEPFIsEj26JUfWo10SxPA7npYGfkgPg6xWlc/TWIBqFy8A
-	 BlFNyeufTupg2SRin/h7boWrbvTfap5CUtZNO1qLShS42FVkDb2I/VNfgYDJsEi8HO
-	 HbjQu9+eaHhHFMsSZ7wMPWzOJ6GatIspprpE6VGGNC312R9FF6/tA27OwSrbz/UbnM
-	 Z1UhDTRDGnv3Q==
-Date: Tue, 10 Nov 2026 09:09:40 +0100
+	b=Vy3sNs4Bee6tkGrdkKtqDQq1tpYCsigpN8wMAJ8/mw3580gNYKQAY2vsi1qmA8RHq
+	 05sC8wY6Vq7zO51quYwNuXtIQ6q6jQcXMNsmT3APEwmoiJBIfMmlU2A6GTy4OnbKoW
+	 j0jZIJyRYCsN8Un8fK9m79sq8Cy8rGBhCVDjwfTL3fSkzhWTKTiQOT+CijysuikkC4
+	 oi2vd0TVyOyU046uHp3JQ2TWzKHKPZ4KlnqKBmZigAJeYING07/ANcJAB15HoMwK3U
+	 EWzhImAkrWenIWitw+rx7362zlnGga9dbpmm3fE2I3oVGXyaR8cJ3EF4TH82noWw13
+	 5MSNiFgIGh5pw==
+Date: Tue, 10 Nov 2026 09:26:06 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Lorena Tanase <tanaselorena3@gmail.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: dt-bindings: wm8741: Convert to DT schema
-Message-ID: <20261110-international-evasive-oxpecker-aaaedf@quoll>
-References: <20261109165522.6663-1-tanaselorena3@gmail.com>
+To: Jiebing Chen <jiebing.chen@amlogic.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, jian.xu@amlogic.com, 
+	shuai.li@amlogic.com, zhe.wang@amlogic.com
+Subject: Re: [PATCH v8 1/5] dt-bindings: clock: meson: Add audio power domain
+ for S4 soc
+Message-ID: <20261110-puzzling-holistic-firefly-acea4a@quoll>
+References: <20261110-audio_drvier-v8-0-1489241e4c83@amlogic.com>
+ <20261110-audio_drvier-v8-1-1489241e4c83@amlogic.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,15 +68,18 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261109165522.6663-1-tanaselorena3@gmail.com>
+In-Reply-To: <20261110-audio_drvier-v8-1-1489241e4c83@amlogic.com>
 
-On Mon, Nov 09, 2026 at 06:55:22PM +0200, Lorena Tanase wrote:
-> Convert the WM8741 audio CODEC bindings to DT schema.
+On Tue, Nov 10, 2026 at 10:28:24AM +0800, Jiebing Chen wrote:
+> The audio power domain has been found on S4 device.
+> It must be enabled prior to audio operations.
 > 
-> Signed-off-by: Lorena Tanase <tanaselorena3@gmail.com>
+> Signed-off-by: Jiebing Chen <jiebing.chen@amlogic.com>
 > ---
+>  .../bindings/clock/amlogic,axg-audio-clkc.yaml          | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
 
-Where is the changelog for v2?
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
