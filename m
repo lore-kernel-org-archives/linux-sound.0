@@ -1,51 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.207
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794330715;
-	b=hEXMCGC44dO/xKxbGgliTmwtrDuurYNFYl9KM70TeASVFhbxiwxDF1/kCCdnFNI0N1b3
-	 psHsxdVBejBNfheuruJJ24gMzYn0WQXt+dCEugW6Yau9cHjtk3AnhmOQEkhPfi2brLp0M
-	 rRQbfUqb5V2iH5enfwU45iJtMD6V51JPzC+BDsKDe8o4DarRYznlpbm5UMXCrwRzpu6A4
-	 dlVXR0J2bmS7nrAuiiU9soIPbVDtE0xcMeiCzISaUEpp4ZJOp5+bJC7poDGM4pz8I4YWx
-	 3vm9hTZplRw9Phwzb0IOL5uE5253YwXtXJ+TDXuXlLUxE5QQpYQ3zifVTecNXBV7VLg==
+	t=1794333263;
+	b=OW7jvT2eICNKg18EYg+gSaNM15eCcdTRz3Wjh26sT9nslqSgIDQBR9y5uLt6AbA4aRpP
+	 R7fomvh4tEPPQ73Nonq695pd0nRrlXsZoJYJOHSlKKkc0wP8Li3y1c8tt0A0SniXav6qm
+	 fX2/9UI2Dy9MTw89IUexNqsa8ddhezRWSf1DZoPWPQ3W5yhmNxfcMqEOL0tkCLl2zExSs
+	 7v2byjdLLIRR67/aAjiMbIzg0694Yvz0hEnhxrtoyJJtp7YGnos+Rk0CXK0/CXrvTurJY
+	 Wod43cFSCqLVqLnjt9QRJlVzwnhcu60cBoByRN8YM3+s/qrFE/aq4XetDbseCfxammg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794330715;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=LTPySxtRP1mhuGtp2d44lAr7HZtRbwcpZz5yzjK7Fyo=;
-	b=EcZ5uDYRubDTwxr5fXpOiwyjoaNrkmw3eP9EquiOJ3eNrQJni19t7A8d6Ouq3clPNnjz
-	 di2fSE+m3Ik9yxiThMHaYj9iGx5gGkjj0U3nlhkChiDqwfJ55jJHYhyX7qB8/Y/tleh4S
-	 6vd124C8ZXy8rcOwI8UsBmuBSG7hDaxhBIk6wDIjPhAF+Va6ImkWGeICbi7TqOFcRnQxe
-	 jpd5eYqfZl09cZKGqOLi4M/oZpzZOMi9S8Cyv+udW2jgkBfiD4dRpGFqHiiHag+jFUZjg
-	 FtGF2crnQFhU9jwVp9AhVq96ZLL9NS02TkhhJgPSc4RKTVRpkA9LiQY95mRNf72BPyw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794333263;
+	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
+	 Subject:Message-Id:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=oUTVKVZBrwxGxt0Mr4xJN3r31IUaa+CBW4hgSfVG54A=;
+	b=XAkFu8papU1pH4Arl4UvAceJeyT5Xka2vCXALMAj+NpNDTZzJ6qEzN0njjbX71492iZa
+	 SAmRPCQ7FBD4otx9CZBxeVhgkKLlbzG5ZIn1qU5LSlA9NBCVoQW4L/Gus5KzzU3FEttpV
+	 eTSYiAfobEs9HCwH+W4HXktpvQYIVdkycYx8FYHd5PJyJJsGhogLO9JQh1JrSL4gftEru
+	 6NyWpZPUe6rge/n9PZJePh3Y/yldqFgFJ6LAo20ArMZBxEfeLABsshXl+Z8emEn0YIQ6o
+	 TeeYcgyKZZ8v1ItGgyj9qbPntBN3qM6xheo84sVObauzH6ml3qUwFx/goMvY/VfOW+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	arc=none smtp.remote-ip=91.218.175.207
-Received: from mta0.migadu.com (out-207.mta0.migadu.com [91.218.175.207])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fKhTajo8;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C00A606A320
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 17:11:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C00A606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=X4P8M2eL1l7eNC5yn66sPQqhZZRuCsoALzO5XvMzrMc=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794330702; v=1; x=1794935502;
- b=cRd+TMqixPjos+3x/CzF5ONymZR3b06vCkzI7IGn8mSxTU0vI2tFTYdvKsj8LHGYA1RRs7W+
- JbXVTmZpxpVXDcKRquVcL48bWm9UqAfH1nhCLDizvLJW/9nejuyxc4nVlLnm+1e2zerePQthuIA
- chE+DPkPNlG+jRdBwObfjBsY=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id b2a74a0ee3b8deb9;
-	Tue, 10 Nov 2026 17:11:42 +0000
-X-Mizu-Trace-ID: b2a74a0ee3b8deb9
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <c477aed9-6b9c-4db1-8549-e1a407f55e43@linux.dev>
-Date: Tue, 10 Nov 2026 18:11:13 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC5060A2603;
+	Tue, 10 Nov 2026 17:54:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fKhTajo8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B4651F008A1;
+	Tue, 10 Nov 2026 17:54:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794333262;
+	bh=oUTVKVZBrwxGxt0Mr4xJN3r31IUaa+CBW4hgSfVG54A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=fKhTajo8WXUqGCLW8q4TmupMrrdSW99JyEHi5u2/zChi/465iqqbFnpLrWa0rSl73
+	 5Qm+Fv9IGLr2TdbWCkQDYJ0+jkl26SuEc0LPVQT5+1ySzfDuE2lARnkP1wsrs/+7jB
+	 4HN4s7lioiW+OCTyiHXVXfcohfYZ8ZvFdjPx2HLw0ij2PuQpGxyL8sfCEpwEtwrk2C
+	 v/YSZmzDabdICh4GNUIJfOLtjGchhXhzf/Ax7dVcstkMmZnc2NqmUp9wMmcLx6p6Ej
+	 oxtKYLm18aSTMBLadUOciVDxP9rrpN96BsA/CJXTAqCy6X0CfCqGe2KsyeQnZgDMBF
+	 tFaPhrDXcenRA==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 553D831676A1;
+	Tue, 10 Nov 2026 17:54:20 +0000 (GMT)
+From: Mark Brown <broonie@kernel.org>
+To: andriy.shevchenko@linux.intel.com, Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Baoli Zhang <baoli.zhang@linux.intel.com>
+Cc: stable@vger.kernel.org
+In-Reply-To: <20261109005604.1004362-1-baoli.zhang@linux.intel.com>
+References: <20261109005604.1004362-1-baoli.zhang@linux.intel.com>
+Subject: Re: [PATCH v2] ASoC: SOF: ipc4-topology: Fix pin format leak in
+ process widget setup
+Message-Id: <179431595505.125181.14472070728673514959.b4-ty@b4>
+Date: Tue, 10 Nov 2026 13:05:55 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -55,60 +72,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] soundwire: Assume default maximum valid channel if
- not specified
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20261110113842.347883-1-ckeepax@opensource.cirrus.com>
- <20261110113842.347883-3-ckeepax@opensource.cirrus.com>
- <105b2b77-7eb6-4b96-821d-51af94a2e21d@linux.dev>
- <avMziZ9tYT5lg0Oa@opensource.cirrus.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <avMziZ9tYT5lg0Oa@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1155; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=achqlWaFsdegsGaImWfH+pTbm+LYUgzJoODLhHgcboM=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+R/n8l972z9vr3iy+EM4PZ11ba/eezXh/KPBpIk+yn
+ VkG33S2jlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAEzkWC7DH55PAhlHA6vvBK6q
+ fZjUFsgXfqzb7/bn3ReesR94bj3nQBsjwyft4rne/s2frPSrrTJKizN0Yv+WiSw0CNve9qhmxnQ
+ DHgA=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On 11/10/26 16:08, Charles Keepax wrote:
-> On Tue, Nov 10, 2026 at 03:30:43PM +0100, Pierre-Louis Bossart wrote:
->> On 11/10/26 12:38, Charles Keepax wrote:
->>> +		fwnode_property_read_u32(node, "mipi-sdw-min-channel-number",
->>> +					 &dpn[i].min_ch);
->>> +
->>> +		ret = fwnode_property_read_u32(node, "mipi-sdw-max-channel-number",
->>> +					       &dpn[i].max_ch);
->>> +		if (ret && !dpn[i].num_channels)
->>> +			dpn[i].max_ch = 7;
->>> +
->>
->> this works, maybe with one possible improvement: in theory if
->> "mipi-sdw-channel-number-list" is defined one can ignore the min/max,
->> the two approaches with the list or min/max are mutually exclusive.
->>
->> Something like this:
->>
->> if (!dpn[i].num_channels) {
->> 	fwnode_property_read_u32(node, "mipi-sdw-min-channel-number",
->> 				 &dpn[i].min_ch);
->> 	ret = fwnode_property_read_u32(node, "mipi-sdw-max-channel-number",
->> 					       &dpn[i].max_ch);
->> 	if (ret)
->> 		dpn[i].max_ch = 7;
->> }
-> 
-> I am happy to do so if you feel strongly. However, the spec
-> doesn't really appear to rule out both being present, it does
-> imply that the channel list takes precedence. But given it
-> doesn't rule out having both, I quite like parsing both and
-> allowing the driver to make a decision about what to do with
-> that information.
-humm, the wording "Conditions: If Property mipi-sdw-channel-number-list
-is present, then this [mipi-sdw-max-channel-number ]Property shall not
-be present" is pretty strong.
+On Mon, 09 Nov 2026 08:56:04 +0800, Baoli Zhang wrote:
+> ASoC: SOF: ipc4-topology: Fix pin format leak in process widget setup
 
-I don't mind keeping your existing code but then we'd need to add a
-comment to say that we discarded the 'shall' to cover potentially broken
-cases.
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+
+Thanks!
+
+[1/1] ASoC: SOF: ipc4-topology: Fix pin format leak in process widget setup
+      https://git.kernel.org/broonie/sound/c/e5c09fe3f9c8
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
