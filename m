@@ -1,66 +1,180 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794344272;
-	b=YIgr1NjdQu8IsJgdWeSFtTwSuPnalUgWj+XYRblx30kUkID/fRWbVFoKftg9sVjZckb6
-	 tvi6P/LFP17LltgRBapmFzbGOwthv8NhDJPpeHLZHfB0JD7s1pnLEkIyjhhbLaRwyN5do
-	 dKxcMZb9Qhl75+09mk+nqw4BX8VBSjQ+a5Lu2AhEMCEkXywG30H29IfrSn5x1H1ue5r0r
-	 GYteXskaG8Z41Ouwdqb1StRjUVzl2ace6/p4ikZxoEJvQ/XH16Wc1f6AEaijqYWjodgt+
-	 +FfJt2cpBqEGO9bfBRFaWCkt+J6laLFty/dUKM8R8S+AQl6O0c/TTImM4/r+Bd9RWjw==
+	t=1794347748;
+	b=2Vq1TJOn76kWWktSmJSDoSLm8YS8aB2NHErjR/yq8XlurJ591sBea6WEoIQEuGgoXbcZ
+	 zhXqwL5snEdJormcSXC/z5rKCq/ft/AdkenDyM0iR7QgxwELa3KvDhM4W8k4MW3ZFnVDc
+	 7tUG2bVZ4Btf4CZQpRsrB+9IVw0D4PJ7kFcgz90c7587x3ufNWWpwvehWVblc9KWUoqjr
+	 DYLu5Ct4cqPkwZ6AJvdDU/yge2uxbTgdymDCxnnpDG5Y6Y9ULZ9V/yrpc1ll9E8q2v5yb
+	 6yj87odb7GDjK5F2F4uO4DbKTwxHvKwCBRmRbOnTWKvpOgyGJb26ABtj7Mwivlx81jA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794344272;
-	h=DMARC-Filter:DKIM-Signature:X-UI-Sender-Class:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Provags-ID:X-Spam-Flag:
-	 UI-OutboundReport;
-	bh=sFieDbfR1RHHjL+MJDwSmb3F8dVj3KJJFZ1lRtNd45w=;
-	b=3tGe9oXdoggvEB/jxXoFFS2Id4g35RXkj7B8qk3T9NjKoilj6MrTbH6CISERCHJeY+My
-	 FCzerrucLtTcYn81sjbGXKvxpn0yDZZ3w1MkdKHscIoUEY+l9FFd9Xd7nV/DSKKt02gRf
-	 +NoSfQq7yLAaU+2YOQaGirg2UFaT2OLFA5zU9LiEXCIaJBMeiBtjfriAtH46vM7Wl4gye
-	 Bxapw6ovH8/WlLkF+SHVJi5D4bbz4/GQGeofR4Mbq/LkqXQSJXVPGIwygt6LzodJuiF7i
-	 6S09Qwmo09CUPeoBDs2PGQ8rKv+vopXtfzmvbZExJnee4hBgsO2yu8iIe9YS38Lr0EQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794347748;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
+	bh=3345ZdTcCQuGdtmZiQjZoFFUO3mxUE5t23pzXVkSu9U=;
+	b=nkOB96uwXCaoOdwpu5gNnVf1emEqG8lj9jPydR1sl82SlTn/EymnMQcaQusuVW6EUw83
+	 L3n8jFKEieXvLKazC9WtkU7eGQIWd7Wgf7qnCTc8wAeuUpC+aqJqHoWTa+CGkQ4TY+bTD
+	 OywkrOWCScYYYYFst8kSzkYQvlGXCtBt22dVcorji+fxCjyApXGV8CZLafHhauGiubPnT
+	 BEW5QhbyYmG8V37OLp5fsLQ6TwyEM9he75LFtYyiMpxKl5RwkeS3RTgS7zBL2dy2KzibG
+	 F1vsGMK2qwwx9gmbekat0MgiP1bsbLMSJS2Rpqke8tYmEAXQn2tBEWYihosN1/8TPwQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmx.li;
-	spf=pass smtp.mailfrom=gmx.li;
-	dkim=pass header.d=gmx.li header.i=arc@gmx.li header.a=rsa-sha256 header.s=s31663417 header.b=Im2LDE5w;
-	arc=none smtp.remote-ip=212.227.17.22
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=KvypUAiB;
+	arc=none smtp.remote-ip=209.85.128.42
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E34606A31C;
-	Tue, 10 Nov 2026 20:57:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5E34606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.li
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.li
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07092606A320
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 21:55:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07092606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.li header.i=arc@gmx.li header.a=rsa-sha256 header.s=s31663417 header.b=Im2LDE5w
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.li;
-	s=s31663417; t=1794344260; x=1794949060; i=arc@gmx.li;
-	bh=sFieDbfR1RHHjL+MJDwSmb3F8dVj3KJJFZ1lRtNd45w=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Im2LDE5wbqcgJPBBgYa+yZRHdG2hxYflGW8Or3qYEUbERG6KLW6WfIX2eJVyLddz
-	 pEBAg+Um5UrpvZD49tchkc99dluIxvj1qeIjSGR8i8U11OlIRDQ36bCLljepCulBC
-	 XbO1FzEwnqX2DWRpREC4QT6eEokEy51K7qDyokAyIon1R//aPkMbyGKhNJV9+hwD9
-	 xXUyMTPdW3IyR4dixuIxvikR5DVhV8u9CPUeMYPUgA+sYGW/mFRuejIpthUnW/0FO
-	 BLV/kw+ED9M6J5IlSUz4SiGt9MLlGZ2+RJhNriEy2t0droEfrtVspn7uosdUTSRKN
-	 6TFcFkvltnSAAQO1XA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mnpnm-1wg3yw2dg2-00bGP5; Tue, 10
- Nov 2026 21:57:40 +0100
-Date: Tue, 10 Nov 2026 21:57:40 +0100
-From: Christian Ruppert <arc@gmx.li>
-To: Will Porter <mrwillporter@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Neil Andrews <neil@androos.io>
-Subject: Re: [RFC PATCH 13/16] ALSA: mixer_audient: Add enumerated controls
-Message-ID: <avOFQAGTVkCXgs2l@khmer.arcnet>
-References: <avJJgGbAVnVrUlPM@khmer.arcnet>
- <20261110021302.1077745-1-mrwillporter@gmail.com>
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=KvypUAiB
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a35d5d4a20so31006325e9.2
+        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 13:55:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1794347745; x=1794952545; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3345ZdTcCQuGdtmZiQjZoFFUO3mxUE5t23pzXVkSu9U=;
+        b=KvypUAiB8rVF9mJ2Q/A3LGYetj/s5bWsSPtiZeJr0RV7HR+smX9544Q9OWOIbMibOI
+         mzIUJErXfqNXRsMYItX+Swc9BwF4to7VgeGO06BECU5dzR5CYSrMe6T6ilreyCMM839f
+         KIxmhXgZz3hJj06Nx/OnJRhRMGn2EpRg7bXztSrAs1nG+AWI/f97bt/N1riyxJl2sCsM
+         GOm2tAZNCp7Bv8ukVW30qNGUxsfDp/BxldOxNxR3pK2NW4kCpOa/yXbK2+0s8bJdlVU6
+         5Xj31vcGiDI+dXuUbDSNXnaFbI1+saeqmO8LSe+cb5I4H6gJQwSVolsjotYAzK0ptm+Z
+         +mLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794347745; x=1794952545;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3345ZdTcCQuGdtmZiQjZoFFUO3mxUE5t23pzXVkSu9U=;
+        b=YWCSqk5QGNJdSxi1vec8ITTlkmzhSCoUJZjVz/meEU43oROleXrANqoBtIl5ErNz9n
+         QZZwaruBXQZAUg+sV+56n83l4MnyKrcK1/F+mzXrGrquSxSxsEC7bQpHpTuKsH1opjPh
+         1JbTyK5FADTvdjM+2RFIxcBdsqCMrwUwh4SaRhyhpOYufTdpRmgRZQ9uuLYI9nkJ0Imx
+         NAh2Sope7kZWR00njV1Q6lUuuU6DGsVc8gNWoEcc0zOmL8pZNbRfJChf2V0LQ6KXpTCY
+         RaUq/KUN1p7AfEMOPVhHk96Ogy/rAHDf3UcCRvKDpODT+RU4EYXve5prfRt/ZzHFE+qu
+         mrDQ==
+X-Forwarded-Encrypted: i=1; AL+hErE1jNhnFq/BxywdgvLFPbJsUi4TIGBcqcxDxuOwFokGO1X8VYMOOYlIUMgS3uUu6emp8SWG5LkcRQf/nw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+1L3kPaeiP9Y3WazMVDPBEivfO4EBY+MNemNtieqibwfiR3/uW
+	R+x+wNmSGa0Nax1htMUMjUh5qfUVHKC5jYxVwIcoeXp9zovIRYYE5anv75mTUiVv+Ec=
+X-Gm-Gg: AYBFou1MKjzxfjnWGzaXgS43o344hwDeRz+xcFepn9OZNgedp4tb3XO2Apa3S1H1yXe
+	kBObzuWk5w3hrxZc/i8LusZn5i1QQ3r4OStNv9PXqGVYvc/GLP8oNMBIwFrZqYPbGXkkNgJ1Jwi
+	Pr7mNZhMuI+xAw+nBfw9LbbayZDUGzraPFEem7FyGWIdM83gco/NnvneX/BGVe4dW/MnpyWazww
+	RzrzCvrFUaciPwvmZvanz5tNFycDz9PvUtrG7/kIuozltAcXHuTRvO9N60Y2o5ITpdLxJpOqB+j
+	jgKKXt3y1XO+RwNrRObdx612WUELjkAXPz4VwO7thGrt2yUmtx1/Cw0saFtD2HvtwYFIffSlO7q
+	PVjv+DOGMvG71QSbWuymWTrgwT/2k/yseQ32IITZTCz1dugJLJlnoUqlyi6kFPDntI91bMCVmIu
+	8Odx6e26a19hiuDuB5ZzSKUB1q54Y/8UVtzVtanrv53nBg/U345JGH7VkdPQdwtXHfkMHrOUUVj
+	n3HY3+dnD/u7lPzXGiVLe5P2oRS5D49XonMxBotqgLpZX43+6bTk6C613EMhZUR6K97mdZZFGpN
+	iAA9rKElrgZovjkXNjq5uje674hCCK18/w==
+X-Received: by 2002:a05:600c:6089:b0:4a2:1612:637a with SMTP id 5b1f17b1804b1-4ba09376ccfmr6522835e9.16.1794347745017;
+        Tue, 10 Nov 2026 13:55:45 -0800 (PST)
+Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4ba09517bc7sm5065775e9.3.2026.11.10.13.55.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 13:55:43 -0800 (PST)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Lee Jones <lee@kernel.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	mfd@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-mediatek@lists.infradead.org,
+	Qunqin Zhao <zhaoqunqin@loongson.cn>,
+	linux-crypto@vger.kernel.org,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	chrome-platform@lists.linux.dev,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Zha Qipeng <qipeng.zha@intel.com>,
+	Thomas Richard <thomas.richard@bootlin.com>,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	James Ogletree <jogletre@opensource.cirrus.com>,
+	Fred Treven <fred.treven@cirrus.com>,
+	Ben Bright <ben.bright@cirrus.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	=?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Tony Lindgren <tony@atomide.com>,
+	Andreas Werner <andreas.werner@men.de>,
+	Samuel Kayode <samkay014@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Linus Walleij <linusw@kernel.org>,
+	linux@ew.tq-group.com,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Tim Harvey <tharvey@gateworks.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Saravanan Sekar <sravanhome@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	=?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	linux-samsung-soc@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	asahi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-rockchip@lists.infradead.org,
+	Peter Tyser <ptyser@xes-inc.com>
+Subject: [PATCH v4 00/20] mfd: Use named initializers for arrays of *_device_data
+Date: Tue, 10 Nov 2026 22:54:25 +0100
+Message-ID: <cover.1794347059.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.56.0.rc1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -70,209 +184,218 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Ak5+jUCIXsrNjz9p"
-Content-Disposition: inline
-In-Reply-To: <20261110021302.1077745-1-mrwillporter@gmail.com>
-X-Provags-ID: V03:K1:h8fPdAnfeegXZQMXzgMiOWczZbYaT+wXI3pJblSCnF15SsSGGzi
- EkxcT2J987pJFOu/bpZrGfB6v1+yQtM/WPTCg6ztWMDL5wQUni3wpNVXtn+2eLMvyz++3hB
- QSA+0aPDYYQbgTkxM5cRnUjyYBPJjkhWVgyGuloD/06bTZunGGTaatwqJmOz29Am2rem4Uz
- XynC8jmrcyiRm9PtF3hCw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:UIlEfEUoiak=;q5XIRH6Fw7ZwudfQ8Sv9XsDDXKw
- 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
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9750; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=nD5jT2yhNB7skZ7+gOkejPp/Wep1AkKN4ZTmIkt/V1M=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBq85KSYpZBXE6fsJl5QLOE/ydM/argSy8UX4DhB Rza76iDzVyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCavOSkgAKCRCPgPtYfRL+ TuNaCAC78WLpLILW6ABKU7KqzJvFY0LrLydKcc+7mVF5DZGE1H9PiVhV+zCn2RH8/TcPXnVUltJ RGb5tfzAK7cpAKTzjGKcxlZ0SDmvVwrJ1+vQoLx/g3Gt4Ib9L6ZZpBk2Bn7K0o3nWT+0S4ng8bx I1X3dRIgIBs2RhbOzYC96WmCWPWkk7nLmF2mKbjJOh8h4WCjEFtVNt6GQYWomV6FeHtO1WgdIaI LU5D20ltbHXzEMOxuqnsltnkD/MJeGdpKx+Y3e7PizV3ko3MvxrjboMjxkEAgpOCrs0aaDVkEch DULuZ/BeLolvyvOZtfbWNuvOsCnlAnHDeGoIcb4lQRCmL2Vg
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
---Ak5+jUCIXsrNjz9p
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-Hi Will,
+the objective for this series is to prepare mfd for changing
+of_device_id and the others to make driver_data a union, see
+https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre.com/
+for the idea behind it.
 
-On Mon, Nov 09, 2026 at 08:13:02PM -0600, Will Porter wrote:
-> [...]
-> > - Not sure if this is relevant for the iD14 but we might want to
-> >   apply something like DIFF 2 to make update events work on the
-> >   replaced controls 11 and possibly 60 [...]
->=20
-> I left DIFF 2 out of my patches. I have no objection to it, but I
-> cannot test it. The audio control interface of the iD14 MkI has no
-> interrupt endpoint (bNumEndpoints is 0), so
-> snd_usb_mixer_status_create() returns before it creates the URB. The
-> device sends no status interrupts, and a knob change shows only by a
-> read. On the iD14 the diff only moves the table-created controls from
-> id 0 to their unit in id_elems and in the usbmixer proc file.
->=20
-> Two things in sound/usb/mixer.c may matter for your EVO4 events:
->=20
-> - snd_usb_mixer_interrupt_v2() skips an element when the unit has more
->   than one element and info->control differs from the control selector
->   in the message. Our elements leave control at 0. Would the event
->   reach them?
-> - The notify paths clear info->cached of the generic mixer, not the
->   mixer_audient cache. Would a cached control report its old value
->   after the event?
->=20
-> Could you carry DIFF 2 with your EVO4 event change?
+Changes since v3
+(https://lore.kernel.org/cover.1783615311.git.u.kleine-koenig@baylibre.com):
 
-OK, thanks for the hints, I'll keep them in mind when I start working on
-this. I haven't tested the diff either, for the moment it was only a
-sketch so it's most probably incomplete. This is actually only required
-for the EVO if I decide to replace generic controls - which I might
-eventually to keep the philosophy of the driver consistent:
-Until now I tried not to touch what was working, even if it's quirky but
-as you cleaned up comparable controls for the iD I might just as well do
-so for the EVO, too. A higher priority will be to figure out if and how I
-can get events for controls not supported by the generic driver, though,
-but that will require a few hours on a rainy day...
+ - Rebase to v7.4-rc1
+ - add various R-b tags
+ - Fix a bug in patch 3 found by sashiko where I accidentally deleted a
+   * in sizeof(*pdata).
+ - Drop patches about spi_device_id that were sent separately initially
+   and applied in the meantime
 
-> [...]
-> With these changes each of the five patches builds with W=3D1 without
-> warnings, and checkpatch --strict reports nothing new.
-> On the iD14 (stable 7.2.15) the read and write checks of the controls
-> pass with the new version.
->=20
-> For the next version: unless you would like another RFC round, I
-> would send it as a normal series, on top of your four mixer_evo fixes
-> as before. Does that work for you?
+These patches are a pain to track and forward port and they are mostly
+orthogonal, so I'm happy about a partial application of this series if
+only some patches are considered ready.
 
-Actually... I was just about to propose the same but when looking at the
-code in mixer.c you refer to above (interrupts and cache invalidation) I
-realized that usb_mixer_elem_info already contains an integer array for
-caching we could use instead of our manually allocated cache. I suspect we
-should rework patch 10 accordingly. The positive side-effect of this would
-be that info->cached management in the standard notify path would work
-should we decide to use it one day.
+Best regards
+Uwe
 
-I'll prepare a new patch 10 but won't be able to test before the week-end.
-I'll send a new RFC after that. Do you think it makes sense to refactor
-FU12 caching as well?
+Uwe Kleine-König (The Capable Hub) (20):
+  mfd: bcm2835-pm: Remove member of struct bcm2835_pm that is only used
+    locally
+  mfd: bcm2835-pm: Drop unused header
+  mfd: kempld: Simplify device abstraction
+  mfd: lp87565: Explicitly set driver data for the generic dt compatible
+  mfd: mt6360: Drop irrelevant __maybe_unused
+  mfd: rt4831: Drop irrelevant __maybe_unused
+  mfd: loongson-se: Drop unused assignment of acpi_device_id driver data
+  mfd: Drop unused assignment of i2c_device_id driver data
+  mfd: Drop unused assignment of platform_device_id driver data
+  mfd: Use named initializers for acpi_device_id arrays
+  mfd: intel-m10-bmc-pmci: Use named initializers for dfl_device_id
+    array
+  mfd: Use named initializers for arrays of i2c_device_id
+  mfd: twl6030: Use named initializers for of_device_id
+  mfd: Use PCI_DEVICE* macros to initialize pci_device_id arrays
+  mfd: Use named initializers for platform_device_id array
+  mfd: Unify style of acpi_device_id arrays
+  mfd: Unify style of dmi_system_id arrays
+  mfd: Unify style of i2c_device_id arrays
+  mfd: Unify style of of_device_id arrays
+  mfd: Unify style of pci_device_id arrays
 
-Cheers,
-  Christian
+ drivers/mfd/88pm800.c                 |  4 +-
+ drivers/mfd/88pm805.c                 |  4 +-
+ drivers/mfd/88pm860x-core.c           |  8 ++--
+ drivers/mfd/aat2870-core.c            |  2 +-
+ drivers/mfd/ab8500-core.c             |  8 ++--
+ drivers/mfd/ab8500-sysctrl.c          |  4 +-
+ drivers/mfd/ac100.c                   |  2 +-
+ drivers/mfd/act8945a.c                |  8 ++--
+ drivers/mfd/adp5520.c                 |  4 +-
+ drivers/mfd/altera-a10sr.c            |  2 +-
+ drivers/mfd/altera-sysmgr.c           |  2 +-
+ drivers/mfd/arizona-i2c.c             | 14 +++---
+ drivers/mfd/arizona-spi.c             |  2 +-
+ drivers/mfd/as3711.c                  |  8 ++--
+ drivers/mfd/as3722.c                  |  8 ++--
+ drivers/mfd/atmel-hlcdc.c             |  2 +-
+ drivers/mfd/atmel-smc.c               |  2 +-
+ drivers/mfd/axp20x-i2c.c              | 26 +++++-----
+ drivers/mfd/axp20x-rsb.c              |  2 +-
+ drivers/mfd/bcm2835-pm.c              | 15 ++++--
+ drivers/mfd/bcm590xx.c                |  4 +-
+ drivers/mfd/bd9571mwv.c               |  6 +--
+ drivers/mfd/bq257xx.c                 |  8 ++--
+ drivers/mfd/cgbc-core.c               |  2 +-
+ drivers/mfd/cros_ec_dev.c             |  2 +-
+ drivers/mfd/cs40l50-i2c.c             |  6 +--
+ drivers/mfd/cs40l50-spi.c             |  2 +-
+ drivers/mfd/cs42l43-i2c.c             | 10 ++--
+ drivers/mfd/cs5535-mfd.c              |  2 +-
+ drivers/mfd/da903x.c                  |  6 +--
+ drivers/mfd/da9052-i2c.c              | 12 ++---
+ drivers/mfd/da9055-i2c.c              |  4 +-
+ drivers/mfd/da9062-core.c             |  4 +-
+ drivers/mfd/da9063-i2c.c              | 11 +++--
+ drivers/mfd/da9150-core.c             |  4 +-
+ drivers/mfd/db8500-prcmu.c            |  4 +-
+ drivers/mfd/exynos-lpass.c            |  2 +-
+ drivers/mfd/gateworks-gsc.c           |  2 +-
+ drivers/mfd/hi6421-pmic-core.c        |  6 +--
+ drivers/mfd/hi655x-pmic.c             |  4 +-
+ drivers/mfd/intel-lpss-acpi.c         | 58 +++++++++++------------
+ drivers/mfd/intel-m10-bmc-pmci.c      |  2 +-
+ drivers/mfd/intel_pmc_bxt.c           |  2 +-
+ drivers/mfd/intel_quark_i2c_gpio.c    |  6 +--
+ drivers/mfd/intel_soc_pmic_bxtwc.c    |  2 +-
+ drivers/mfd/intel_soc_pmic_chtdc_ti.c |  4 +-
+ drivers/mfd/intel_soc_pmic_chtwc.c    |  2 +-
+ drivers/mfd/intel_soc_pmic_crc.c      |  6 +--
+ drivers/mfd/intel_soc_pmic_mrfld.c    |  4 +-
+ drivers/mfd/ioc3.c                    |  4 +-
+ drivers/mfd/janz-cmodio.c             | 14 +++---
+ drivers/mfd/kempld-core.c             | 68 +++++++--------------------
+ drivers/mfd/khadas-mcu.c              |  2 +-
+ drivers/mfd/lm3533-core.c             |  2 +-
+ drivers/mfd/lochnagar-i2c.c           |  2 +-
+ drivers/mfd/loongson-se.c             |  2 +-
+ drivers/mfd/lp3943.c                  |  4 +-
+ drivers/mfd/lp873x.c                  |  8 ++--
+ drivers/mfd/lp87565.c                 |  9 ++--
+ drivers/mfd/lp8788.c                  |  2 +-
+ drivers/mfd/lpc_ich.c                 |  2 +-
+ drivers/mfd/macsmc.c                  |  2 +-
+ drivers/mfd/madera-core.c             |  2 +-
+ drivers/mfd/madera-i2c.c              | 18 +++----
+ drivers/mfd/max14577.c                |  6 +--
+ drivers/mfd/max7360.c                 |  2 +-
+ drivers/mfd/max77541.c                |  4 +-
+ drivers/mfd/max77620.c                |  8 ++--
+ drivers/mfd/max77686.c                |  2 +-
+ drivers/mfd/max77693.c                |  4 +-
+ drivers/mfd/max77714.c                |  2 +-
+ drivers/mfd/max77759.c                |  4 +-
+ drivers/mfd/max77843.c                |  8 ++--
+ drivers/mfd/max8907.c                 |  6 +--
+ drivers/mfd/max8925-i2c.c             |  6 +--
+ drivers/mfd/max8997.c                 |  6 +--
+ drivers/mfd/max8998.c                 |  6 +--
+ drivers/mfd/mc13xxx-spi.c             |  6 +--
+ drivers/mfd/menelaus.c                |  2 +-
+ drivers/mfd/menf21bmc.c               |  2 +-
+ drivers/mfd/mp2629.c                  |  2 +-
+ drivers/mfd/mt6360-core.c             |  6 +--
+ drivers/mfd/mt6370.c                  |  2 +-
+ drivers/mfd/mt6397-core.c             |  4 +-
+ drivers/mfd/mxs-lradc.c               |  4 +-
+ drivers/mfd/ntxec.c                   |  4 +-
+ drivers/mfd/omap-usb-host.c           |  4 +-
+ drivers/mfd/palmas.c                  |  8 ++--
+ drivers/mfd/pf1550.c                  |  2 +-
+ drivers/mfd/qcom-pm8008.c             |  4 +-
+ drivers/mfd/qcom-pm8xxx.c             |  6 +--
+ drivers/mfd/rave-sp.c                 |  4 +-
+ drivers/mfd/rc5t583.c                 |  4 +-
+ drivers/mfd/rdc321x-southbridge.c     |  2 +-
+ drivers/mfd/retu-mfd.c                |  4 +-
+ drivers/mfd/rk8xx-i2c.c               |  2 +-
+ drivers/mfd/rk8xx-spi.c               |  2 +-
+ drivers/mfd/rohm-bd71828.c            |  4 +-
+ drivers/mfd/rohm-bd9576.c             |  6 +--
+ drivers/mfd/rsmu_i2c.c                | 18 +++----
+ drivers/mfd/rsmu_spi.c                |  2 +-
+ drivers/mfd/rt4831.c                  |  6 +--
+ drivers/mfd/rt5033.c                  |  4 +-
+ drivers/mfd/rt5120.c                  |  2 +-
+ drivers/mfd/rz-mtu3.c                 |  2 +-
+ drivers/mfd/sec-acpm.c                |  6 +--
+ drivers/mfd/sec-i2c.c                 | 22 ++++-----
+ drivers/mfd/si476x-i2c.c              |  8 ++--
+ drivers/mfd/simple-mfd-i2c.c          |  2 +-
+ drivers/mfd/sky81452.c                |  4 +-
+ drivers/mfd/sm501.c                   |  4 +-
+ drivers/mfd/smpro-core.c              |  2 +-
+ drivers/mfd/sprd-sc27xx-spi.c         |  2 +-
+ drivers/mfd/ssbi.c                    |  2 +-
+ drivers/mfd/stm32-lptimer.c           |  4 +-
+ drivers/mfd/stm32-timers.c            |  4 +-
+ drivers/mfd/stmfx.c                   |  4 +-
+ drivers/mfd/stmpe-i2c.c               | 34 +++++++-------
+ drivers/mfd/stmpe-spi.c               | 14 +++---
+ drivers/mfd/stpmic1.c                 |  4 +-
+ drivers/mfd/stw481x.c                 |  8 ++--
+ drivers/mfd/sun6i-prcm.c              |  2 +-
+ drivers/mfd/tc3589x.c                 | 14 +++---
+ drivers/mfd/ti-lmu.c                  | 10 ++--
+ drivers/mfd/timberdale.c              |  2 +-
+ drivers/mfd/tps6105x.c                |  6 +--
+ drivers/mfd/tps65010.c                | 10 ++--
+ drivers/mfd/tps6507x.c                |  6 +--
+ drivers/mfd/tps65086.c                |  4 +-
+ drivers/mfd/tps65090.c                |  6 +--
+ drivers/mfd/tps65217.c                |  6 +--
+ drivers/mfd/tps65218.c                |  8 ++--
+ drivers/mfd/tps65219.c                |  8 ++--
+ drivers/mfd/tps6586x.c                |  6 +--
+ drivers/mfd/tps65910.c                | 12 ++---
+ drivers/mfd/tps65912-i2c.c            |  4 +-
+ drivers/mfd/tps65912-spi.c            |  2 +-
+ drivers/mfd/tps6594-i2c.c             | 12 ++---
+ drivers/mfd/tps6594-spi.c             | 12 ++---
+ drivers/mfd/tqmx86.c                  |  2 +-
+ drivers/mfd/twl-core.c                | 22 ++++-----
+ drivers/mfd/twl4030-audio.c           |  4 +-
+ drivers/mfd/twl4030-power.c           |  2 +-
+ drivers/mfd/twl6030-irq.c             |  6 +--
+ drivers/mfd/twl6040.c                 |  4 +-
+ drivers/mfd/upboard-fpga.c            |  6 +--
+ drivers/mfd/vexpress-sysreg.c         |  4 +-
+ drivers/mfd/vx855.c                   |  2 +-
+ drivers/mfd/wm831x-core.c             |  2 +-
+ drivers/mfd/wm831x-i2c.c              | 14 +++---
+ drivers/mfd/wm8350-i2c.c              |  6 +--
+ drivers/mfd/wm8400-core.c             |  4 +-
+ drivers/mfd/wm8994-core.c             |  8 ++--
+ include/linux/mfd/bcm2835-pm.h        |  9 ----
+ include/linux/mfd/kempld.h            | 12 -----
+ 155 files changed, 478 insertions(+), 520 deletions(-)
 
---Ak5+jUCIXsrNjz9p
-Content-Type: application/pgp-signature; name=signature.asc
 
------BEGIN PGP SIGNATURE-----
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+-- 
+2.56.0.rc1
 
-iQJPBAEBCAA5FiEERJIhlnXw6qCYHrZhFHbxepdfWHsFAmrzhUAbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTIsMiwyAAoJEBR28XqXX1h7cusQAMQop6vpYonseKQV2jBf
-Ozg33+FtszvlC8Uyt+zvyntEec4rJfNcrd3pAcLaMws7untR//J1OIrSWgLYSHPs
-jfaAaWR8p6nNjuspc/+rOv89M3G6IH5VKAjS4Sx1540rANUopZ7pstXssp79vIAM
-/1V9Hnuiieh2sGRDGo+D19e+gUUNZp6a8PTWgh+e2F7rqwWv7KEPDaSEQ6w43Jx4
-ThffmoPHxJXZfiN0B/30S/scRRN5MlPDUlsSaS8HctcmCUQ9J0t5gD1BReu/UrIZ
-hnRyqPIA84dVVE4D7zzAJPjJAdCjfQqNbDuOVkk0pwmlOh/N7T4wMlWcb7vAP3DZ
-kI9fZC4t4LdcCCNWYvLK9VbIe4nOMJ66MGsN6w5upyTU8dr3fh2U30Ng4cjTL0Ar
-IsoTZ8y5CDJXH8R65OW4JWmt6czKErr0RM+jMbH2YTtt7rikNjGHuBvGBBwbhsgS
-/MOrZyYcWiXeYJwmzeMqo4qGMGYErTY50DiE4AJx+OmxcXQ4hoLg3L+RdPs12QHR
-Bft0xlRCkp60++uG61Lo5oXbURwDjzExGb3JPt60drND0fyysAHn3G5ls28ovvHD
-c4/UGuJWIvtLP8oiLf1oXzFezPKnNjPZ5eZ8VWUv7LjvI50nlW98tYfacI11rqhX
-nD9+ph3jnPf9ybFOV6Mra8Xw
-=B4N8
------END PGP SIGNATURE-----
-
---Ak5+jUCIXsrNjz9p--
