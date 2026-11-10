@@ -1,61 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794337325;
-	b=JbL2KKwoT3/GH0YDz7FBiaSwIHrAV6W1fAdjHm1ExWZNbnTOrk/cPBv59rC9iexcyLQe
-	 1OZ4zq01NoyVKqVS6L6CuNeSp97AJ/gjvYnhATKwwA22aqfm5i03hC/8BWwgLxOivz7/1
-	 maILz1neW6/VKE6SvisCFnE1vs70ZxwptT7b7R2G3WAT1l1wadUiM6S7lRLkcOkctslPw
-	 40f2i3ilTKbyH2CuX5/Ie5etArJjLUemJHj+QkBA5WLOmuzBY+3v/P33M+0Ow+r75ES+f
-	 Q0aPhr46fFgh9nXOQUryYSByK9ryJM/Q8m9d1/Lr6bxX1st9vkofEzkTm0pQdDUz8Bw==
+	t=1794337416;
+	b=itKVDGfXSwIfDe1AO8gW0Q/lZ/7HdpwxOAs+Q44CEOBsEkNV8MM2mtla56DOtIv/ZG2F
+	 qc603J+lqSlBvRjLqNhZoKhkTvHr+eqE6pKSHphZ19OdA6NjPH44pxaIha5DhIU+f0PPQ
+	 gzK6WzY6W977PZHYLwHF1jZ/PGx5BNqDvBThaiMaQcHK2KdvzOGNrSUt3EnJtqsyNrjjD
+	 IAQxE4sG6TWAyrCoxddV6sd+wJtyndhebde4xJiPmUztY5gnvdDRITtMxbTwK4m09gW3/
+	 2aLQuIL46xXcQRt/2M8bs09R00WED6lmnVuOvpsEyvg8YCQBsNRSD8SPtFjjUHOS7/Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794337325;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794337416;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
 	 X-Cookie;
-	bh=m+Mg2pmSN+BG2xokzdSJfneMVVdXbskQcyg2u8EG8MU=;
-	b=XCYHzj8MlYc96kJj5QB6r+5t28GYbWWhGCodzea8P3QF9xGMw1JkMCo7EJHbAS3LZykd
-	 FnhUY21A7W6KPD9xYrIKJJt2bW1wxV2APBY5qLI5JMC2Ozc6O5VHJHPdbtXBik2CUChu8
-	 6QzbleUEwsyMrifBClKFyMRKM5ln20lKze3fxKk5pvWv15OtLGfPbSrEiE1EXuoDPRJRJ
-	 T6LJBx4ZFk1MxxH05CN1k/Aog/NNX9ZVnK/icvcRQSuzFPAbnqpF6hY8HViGjhXAN4BQj
-	 f0X4VRjH0M2iOAXpmgFbwbJkTo2hqoLzufXZH9Kfsw/mHd04+QrdJZq4kVf56gtlblA==
+	bh=katvvgwRpczq24t38tRUc6ZdV3qjt1G9MAIwEzQdqio=;
+	b=JLLaRk6xWv+oKJ4LOSkAV4pUC75o8rQ81rOb5ac3WvjwsVM3N2Kn6QEu6ddVNeEUwrNP
+	 KsM9oYXiXSudMamhV5muhvDOgxX93mSnin2rDtldVja3O13B9bR5AEjUgDpmY8otQk8ke
+	 /3unQgfNFISUIpkQp8umbRyg2nCrfrZOnRUCGY7vLdUyyRPmVhsd+wz/eDP4SmBeUesZ2
+	 3pHUz+I5zqJkDhjCsYgtMmjg8oyN7spNDUwzRMU1hftkYYRwoXS7uCW7EuOA11HV2IspR
+	 g0PjFR74GkCYzjyW41hySifa4YhAJ2apc+g2+Aw5cIKUuNyQeuSw0H3oaLeSXwCYiGg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EbEQZYms;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S5PyyGOp;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA25606A33B;
-	Tue, 10 Nov 2026 19:02:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3ADE606A31C;
+	Tue, 10 Nov 2026 19:03:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EbEQZYms
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AB301F008A1;
-	Tue, 10 Nov 2026 19:02:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S5PyyGOp
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAAD11F0089F;
+	Tue, 10 Nov 2026 19:03:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794337324;
-	bh=m+Mg2pmSN+BG2xokzdSJfneMVVdXbskQcyg2u8EG8MU=;
+	s=k20260515; t=1794337415;
+	bh=katvvgwRpczq24t38tRUc6ZdV3qjt1G9MAIwEzQdqio=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EbEQZYmsiV+CwZPSKhwsGVnIZd75BetlSFkt7NHcBffbaKVP2/TkY23QXNN3Clolo
-	 abc7ybU7CMsSYFnt8xNr9d/UySv4qAwypcO5LtrrusJib1wz+egSYqq8ueaQC57FtJ
-	 tAkGDIja4G1AbC+nbwUByLb3kNBi7UEYCzlW3YgGlyU30PYMQmyyMkdBGdWFjjXPoz
-	 OthuZlSPkoC3SbxAT7LruVAzF6G/HxJqlGb+UgiBOUZQEeDR/f/QO7d7ChWlxioCUe
-	 /obJwbUHcL01lXtXbJiKnNjaGW3MKtcedGJOrQEStsAidjoUSKyKHskaN6eNyUt4L6
-	 4JSF6bjDCosdg==
-Date: Tue, 10 Nov 2026 19:01:59 +0000
+	b=S5PyyGOpXKPMj2JGV8SZpgp67KUZqZ0G+Hu+ZDAHXkfJIUcBv7EnmTXiPYFaMnS6L
+	 KfBt3BJtISTJ+ZvUUCnPSQEZwLeOgS8ZZVyMQGbXykSHFJD3k+6BQWcM83LcTzQKu7
+	 03EoXhKHGm78+VT+5fZJMZUvknn2Ai88tvayfQg1TDwgPxybi0CvhJeqwD5NIHiA48
+	 I5C5OYCpH7sCWwXq4uz6upvp7SPIGAvBQUwKmpRaWSQEVcBaX/6ENAgSxYgvMnFJFD
+	 1kiQo5arXQpGoNFAubDKF54P030uhdYs0hQAYhKfPIZDmxj4WIDctwgrY5/FYeIG3s
+	 CrPycbs3j6LCQ==
+Date: Tue, 10 Nov 2026 19:03:31 +0000
 From: Mark Brown <broonie@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Andrei Simion <andrei.simion@microchip.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
-	Cyrille Pitchen <cyrille.pitchen@atmel.com>,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/5] ASoC: atmel-i2s: fix clock error handling
-Message-ID: <a236085e-5ccb-40f4-ac59-75e0249267bf@sirena.org.uk>
-References: <20261002043856.97295-1-phucduc.bui@gmail.com>
+To: Rujbin <rujbin@proton.me>
+Cc: Linux Sound System <linux-sound@vger.kernel.org>,
+	"lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+	"kees@kernel.org" <kees@kernel.org>,
+	"regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+	"linux@leemhuis.info" <linux@leemhuis.info>
+Subject: Re: [PATCH] ASoC: soc-core: reset num_components after flex alloc
+Message-ID: <31f1209c-5729-4226-a52a-dbf107d7a09e@sirena.org.uk>
+References: <GkiJToEzZhJCPGLofG5evJYV9SQ_rihb4enHtttMHWBS2rm3CBbL1IUumkGqnP3FNceQ0k6MIX2GWUtgmJWOTFp-bPCae4XiTB4Lrsz-Pd8=@proton.me>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -66,41 +61,38 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jx4O88Jzwpr7VcWr"
+	protocol="application/pgp-signature"; boundary="SSwi/SHYJ3+YYo/m"
 Content-Disposition: inline
-In-Reply-To: <20261002043856.97295-1-phucduc.bui@gmail.com>
+In-Reply-To: <GkiJToEzZhJCPGLofG5evJYV9SQ_rihb4enHtttMHWBS2rm3CBbL1IUumkGqnP3FNceQ0k6MIX2GWUtgmJWOTFp-bPCae4XiTB4Lrsz-Pd8=@proton.me>
 X-Cookie: You can't take damsel here now.
 
 
---jx4O88Jzwpr7VcWr
+--SSwi/SHYJ3+YYo/m
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 02, 2026 at 11:38:51AM +0700, phucduc.bui@gmail.com wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
->=20
-> Hi all,
->=20
-> This series fixes clock error handling in the Atmel I2S driver by
-> propagating errors, using optional clock APIs, and simplifying probe
-> error reporting.
+On Mon, Nov 09, 2026 at 10:08:34PM +0000, Rujbin wrote:
+> devm_kzalloc_flex() calls __set_flex_counter(), which sets the
+> __counted_by() counter of a flexible array member to the number of
+> allocated elements. In soc_new_pcm_runtime() that counter is
+> rtd->num_components, but ASoC uses it as the number of populated
+> components, not as the allocation size.
 
-This doesn't apply against current code, please check and resend.
+Thanks, this was already fixed so your patch doesn't apply.
 
---jx4O88Jzwpr7VcWr
+--SSwi/SHYJ3+YYo/m
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrzaiYACgkQJNaLcl1U
-h9Djlgf/V/gElCZDZ2VSQGSm5CRyeWp1zE0bW51v2sBWGhM3Oxkt2yTcCnIENuWj
-L+TEeDNt2hiwRTsd1U3OOluIqWJXy9HTdqVDfvn5mLlKDl33vrEbFwrx3O3Oet36
-p2oEONoOjq+GD0Cu46z1rZeMXQZn0F5wJg/YxDgQGO88pxsR7R1AxcFj5GSILNGu
-mqR6t9sBzEdVOpqPhoFoy8Xo0VFrILtZJdjUU1JItMpaxa8RQilIyXvP2/CU8Fd2
-v80iKAI4CUY/1z0a1ASZNCQMCCOVbLPwop7Ys+zDQlxZOByMCR816d/hNG8RGx6d
-D1ISdJata6AvCyRqC20n6d1v/o5joQ==
-=4SwU
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrzaoIACgkQJNaLcl1U
+h9DbnAf+MvAnsKePDCaO/H0lUXSLsVFw++D93pE7dOLjLxRIwDMlGDUybcG97Y7l
+36v8TMsfYjlgJhPZJ9ojWJKqgT64N6VetQyI0ilQ6jNV3dOzE3c+vAmy7T1jwQnB
+sDqUsbPumUF1CVxH4qC5JJebOKGGjwLUdwx0Zq5kINwfEVdq657r0uXBPN1lYkmg
+df+idrC8jpzbdfXpy7FIKnO0y5D5lTn6QUhTFEjG6zIaihp8XBSV0SoH021yJuhw
+EF73D6TvgzwFDaTSbkXoQWEGgamMUXrYtIZlGQFs9vCPOwfBoAj8wf0d7S38l77V
+D0F1Gv6ZGO1FS7zXFhYgTeFvBBysRQ==
+=55ej
 -----END PGP SIGNATURE-----
 
---jx4O88Jzwpr7VcWr--
+--SSwi/SHYJ3+YYo/m--
