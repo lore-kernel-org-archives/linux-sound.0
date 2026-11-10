@@ -1,96 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.125.16
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794351715;
-	b=yaI1N4i7MO2GF2aRF5dCr0khqj16fao9nEXAGr+QqnZy3kI40ho8igBoIJM2rnfd9uyf
-	 sz0ZNHI8T42rRQONsm/b3dxCY766U3wJ0tCeRp20PLvdohjm6ekYq71GfSMq3m/QRKFk+
-	 djaOIRbwp4x5RecoyUo+7o0ODYJdBKchskMtqhR0lnbj4pGPygLGDCGtQQ4r9XmKkZtYO
-	 YU9OtVaM0XVfekOHRgywLkhT/NHVtwJqQ5sWsq41pLQOiLQjXVFSFnyipEfopwZ9rA0EC
-	 iB/jH6QfII3NDSg43nWh/+7M3frZ4Py8UD3HlDionUwokN9L/fj1QR+mxbSwiom5qVQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794351715;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:From:To:Cc:
-	 Subject:In-Reply-To:References:User-Agent:Content-Type:Date:
-	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=pZee+KzChQw/h9ewmpwQaoj+eV3S7ffC1hCMvrWt4Ms=;
-	b=mQnpRsRwwDXsCpW4oIEuWvo0XsGeKtaqLZiDSaXw3FBj5+YusZEmqwWUTT7uXAB9govI
-	 AD7t3608QJKhdHUxPwJK/dT6148c/17Wz5ekdCZJJfrAWcJp9tliwkBKPolIHZgJntgPJ
-	 4RMAx0T+LdLE/h4nx9b7k93t4xRQVSkfA15ullgFxw8WQfR5YbXSxYDw8DcSE8xXywZ+f
-	 ZgVyeEbgbkMGlUj+EDFL5CoMlTZE7VrtmJWgqafnZg+aws0o/jLFWw7WDvUC5k3698mlT
-	 qzgX9oQKEHdADA3jDRc09/ohPV8KJj2ZFpvy3OTtdcSFz8UhZX5uVygjpEu8iRWWaEw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=renesas.com;
-	spf=pass smtp.mailfrom=renesas.com;
-	dkim=pass header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=k2Vtas+S;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.125.16
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011016.outbound.protection.outlook.com [52.101.125.16])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.47
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794351974;
+	b=CY13PZitIvT+P8TIIyAnJHTLlTn5lqMMVDE11uh+pTEMV0mTniRX/RTN5qcFNlJqWWRI
+	 j+2l1o/u1cmezAqTVxj9gVugcJCuHRUpR87Fsf0Q5SqSlpA6X54Y9FiqVgP9FQQZ3RiLU
+	 D7/mMIR2Lz676c9XwzDm5jtjxRrE5pHe4kOP6aUXTKrm4vbtkqDuohUJ2GEe0dSMRjMl8
+	 lzzkASiAt8eRog7syWAb7k+CVhLYGSl9j8jCxXbjEmTiJsXIqx/zA1hvqdtz0roWIKbtd
+	 7l3IeMrsCQpnXXhnoMC+qmcGdsCDFi3YaG9e45YD+hLbHderS2NFnMrImDPoYi/bslQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794351974;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:
+	 X-Google-Original-From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=x/pvyTEDDINaCH2/Plef7rmiayj2JRdx93dQs90JIcQ=;
+	b=Z2qf9XAN7S4daogM1hyDL8m173c8r1ET4wcw6KhJhDONYZv1zQIhngf4qJK13x8ntqhW
+	 LQCSaU8h+jd7raufhWmRXL6XzVZ3WZBcB7TVoO8XPuOCQL10gU/7sstAqMbTOCZci9zS1
+	 Xd/QmaAGJXdSvaeBXy0cfzXXXC20C5Mm/7T/bdsS9b6+ITndAkw9fEuwc1rh6IEooKC7n
+	 EUCaRt9lCmxnsLNtzRyACEUp8TfYkK58n4yyUwQTJhsmHkHcYAXnXjS21frnK9zC/jVbY
+	 h5uOUaxe+iHNjg91EtUFXdQtvAWSF6w24fCWYXL1jY41iGPuKuTJtHvZi293E1nXKXQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JYtpHh50;
+	arc=none smtp.remote-ip=209.85.221.47
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB3F606A31C;
-	Tue, 10 Nov 2026 23:01:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EBB3F606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0490D606A320
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 23:06:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0490D606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=k2Vtas+S
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YbIuiidzXE/gyPEPgY5qzdflRjzjfMnEUIOB5mqUi6Erza4UqJQ9S8UKYqcvwMINqg2Kn5j13Z/hSfHGnXWPZkJlx3GBReuGrxc4swKMxBEOrNXPCm0jOdM+VciqjqewWfnUCx2JTDJi+oiVxJ4Sye1GM/vcVm0yRlzfjxDyCldiEn/Vka7c+6IzX3gqHquoTMo26MSDlk8oC7wn7IAfge70psPyo47MNEW/QIY10cFDm4DnL8Qmin7aRbCKVQ6ZezKt9n27qUMae/0FkyoKMio/kderkaWC5i06oTqZ1UJHKOraqvr8mAJcXP9Cn0Abe9TCo0F9KvuxRAfcXnDr2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pZee+KzChQw/h9ewmpwQaoj+eV3S7ffC1hCMvrWt4Ms=;
- b=hPPdSK4FFXLP4K/t6F0iFjXP0Uqf6B6xACAPFpU9iB4SFKoRq/MYqMijjqHdSmzCXvV8IJS7OfEBdDyWNGamgxRDGfvqjYQ3EfUyLELxgjZR3P+fNwHnwse8R9yTc0JB9J4pqhTASVA5/pF27pTSJo5ssekkzmTDVa0sLsdjIO3oIF5PqJNoHBywKkqrg3X0zsjoTvUXBLyB1xxZHxNDNuRIOU4SMueZmoBo2Y23i0q/uMYewHslAVn/yh1cNQiiScrbZdI4hKZ1pBjydzCpTlxL3MmtFmJWZcQOwmejHrt1eE0rjNK/4tN4nZsoP35YfPWJtlgrWyAnjpxOa+rxzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pZee+KzChQw/h9ewmpwQaoj+eV3S7ffC1hCMvrWt4Ms=;
- b=k2Vtas+SUMi13FeKbDKHcgAp9KQvd07dF4uZkr771KIS76zEuugR38PNPDf1wZwf6lArHudVTMWCrWFtJu+3kQl/rWJ49oywHKH37DPNoC/HStu26XzgNQZPciM9Yb1xQzzw61127x7Kbxt4KoKNdNSNIN0MKSJf57s5GPKuTCY=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYYPR01MB15175.jpnprd01.prod.outlook.com (2603:1096:405:27d::8)
- by TYYPR01MB7877.jpnprd01.prod.outlook.com (2603:1096:400:117::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Tue, 10 Nov
- 2026 23:01:52 +0000
-Received: from TYYPR01MB15175.jpnprd01.prod.outlook.com
- ([fe80::9bfd:a110:68f1:134d]) by TYYPR01MB15175.jpnprd01.prod.outlook.com
- ([fe80::9bfd:a110:68f1:134d%6]) with mapi id 15.21.0615.007; Tue, 10 Nov 2026
- 23:01:37 +0000
-Message-ID: <877bik2svk.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Hyunjung Ko <hj351016@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JYtpHh50
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-491aaed7565so1604033f8f.2
+        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 15:06:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794351972; x=1794956772; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=x/pvyTEDDINaCH2/Plef7rmiayj2JRdx93dQs90JIcQ=;
+        b=JYtpHh50jVlNZ9WITT6KjHyD/eQCT43momtC/hJgRqDwFDaAX+OGK5oMi9xNeIRoC6
+         5bjceO/QaqrQLty+BBADLbWKm3Zju53S5bq0HNQAL1EQCud+F3fOlhEe9BfNJxHJoZ4P
+         iC0yaQyA1i/ywWyryYlECV3EgXIsyvFxwr/FXMmxEocDRhQngdViK/wMkVXIFm0QWtBu
+         cslXVq/IbzZL3cKVNfne+CO4KxKWzQAxgiF89wFxR5g1ApSka0Wj4HQxHwCeH1Caul9o
+         P6LR8hIZV2Ov4sqhTRjGGmPp6qK3IX3pe0SJ/6z1LAbNl4z2QNfXTnojhxbtpA97ZOqZ
+         7HYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794351972; x=1794956772;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=x/pvyTEDDINaCH2/Plef7rmiayj2JRdx93dQs90JIcQ=;
+        b=uo7nA9FHHLFuIJJ5tXDnHemyx+/hcoVxOCxfSBUIadxLCFwNZsIXDYERTMCDJO2XI5
+         vVp7M/G/D8M4R62clZVdr6+my3z5J73rspYGOCkRDZYym9Cv+0aJmGn88Fcv7gqI6cg1
+         GUYzJmDr4y7TVC8ABaEXzLnTJ5WHSRgGZuYp5qgkPqlsHB60vPpDr2Xgx2LiVt1leEtq
+         rT8BuA7j3uJiG2jsIxlIBsK/A7+oPhoIRhOjDcjTdDIZU4uCr46Q8ncBe+w/CrFfzgHd
+         UtqZMQE6SQhCf8NIqF17Wu744e/FwJn4cv78aoe6YZqVUgpKO+zwyErDaeXX3cCu+J6i
+         NbDA==
+X-Gm-Message-State: APuU4Z+Unmi9zb8aT3y8ITP4n5pnsO5FeFflm5Nuo/kB6I5NPOvutCKv
+	8AFn0TGKwPI/jSkA/s+ruhEvyFlifqwVCl/F3xJhJv5+uNSdRFVRAM4=
+X-Gm-Gg: AYBFou3FHAUtIWVs52Fg0L9rKrDXVr+QBRAWLeB8kEqORCkueg3kRL81p/dfUcvOBjJ
+	BvNIlcdU/Zy1LiLXNPPwS0xTcyNwT+oMBcaxVwRgO9sUle+/bayxaFhAfMOkkul8CdAhzveucLr
+	X+a2ZwfFbCBeoe0j+K3sqRsnlo4phMGo+0ifmYapMI6B3yMWP/uPLyLobv3mzgRmnPA/SWfrIg8
+	/gGrC/0I7UI4VdBB5zK+gepim4TFvJWmjiLrGp85umUK84X2Y8VuRAJuideEV/vIw9V1YHsysXG
+	Oh59Dm7+HQWMErYMLRczXYJpBj7V7RcwDdXlaPv4XtSG3wkCxxvXsCVogv/dYXAHosL9mB3oYbd
+	wNbo7qeLVbm31Dqm6GEpWQ42dxCq2Hti7Xp1N7jtYNWu0nrlkDjmbKkMSOFaijAetKBaDaq33Sg
+	eXPzeseaKSuQhxOuIBOjJqEc0NC6vXuw4pUhpotdq5KqmvgARTyMoh/9zVUxVFPBfz8mSzzMzk5
+	gHZoNb35jSX1icMZSCDyaapicB9DDNJJIkpNiq+C28mxdlOVr2tOQX2ZN3zq5hDrWvbYRlgT5oc
+	VJPVxS/EzVnHPryvrAV2vInMW9dJ
+X-Received: by 2002:a05:6000:4013:b0:48e:d27:bef2 with SMTP id ffacd0b85a97d-499c77414eemr523745f8f.21.1794351972234;
+        Tue, 10 Nov 2026 15:06:12 -0800 (PST)
+Received: from localhost.localdomain ([2001:41d0:303:db6b::])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49842f2a1f9sm7568795f8f.15.2026.11.10.15.06.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 15:06:11 -0800 (PST)
+From: Tristan Madani <tristmd@gmail.com>
+X-Google-Original-From: Tristan Madani <tristan@talencesecurity.com>
+To: Oder Chiou <oder_chiou@realtek.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	stable@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ASoC: ak4613: cancel dummy write work on component removal
-In-Reply-To: <20261110054453.2286414-1-hj351016@gmail.com>
-References: <20261110054453.2286414-1-hj351016@gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 10 Nov 2026 23:01:36 +0000
-X-ClientProxiedBy: TYCP286CA0369.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:79::13) To TYYPR01MB15175.jpnprd01.prod.outlook.com
- (2603:1096:405:27d::8)
+	Tristan Madani <tristan@talencesecurity.com>
+Subject: [PATCH v3] ASoC: rt5659: fix teardown order and stale state across card rebind
+Date: Tue, 10 Nov 2026 23:06:03 +0000
+Message-ID: <20261110230603.2110759-1-tristan@talencesecurity.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -100,86 +100,165 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYYPR01MB15175:EE_|TYYPR01MB7877:EE_
-X-MS-Office365-Filtering-Correlation-Id: 730cb563-eda2-42a2-0d46-08df3f7e9287
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|23010399003|5023799004|11063799006|56012099006|38350700014|18002099003|22082099003|6133799003|10067099003|261022105027099003|261022075727099003|261021121427099003|261026140227099003|261028144727099003|261102123227099003;
-X-Microsoft-Antispam-Message-Info:
-	hA69dsXzaLXHubXuoMMdrqdKVCdQOfwckNV0J6S/hWAdZgroCe3PB5vbQx/3ujZfYMwJXm+MkXjaonPs1a7ncauKulOLfKBbf6TM+Jr2bPE+b4ASrN1to4/6Ftqz5BSHU0xwC4iL3d5kWCCHhHZaBpiyod50/8SSspEXV4UEBmn8evD5hw1trsml/WZYfnGPf264xYhbnY3SbWYIa6qbiyCLf+6UqCgNJnsdXnEAoncELjquQBbWOOpOHtF62B4mleNnfV/+rWtqFeDRRqmzJtIWuNLdWcVYT51S2+N74keHiULoJnNOIilqEp8rFgypqZTxtuFRU9JTjM/UWXaed4uI4PVtBSo1xPK5zcRpJzmkAEpGS1ZGjXGVpqp7C7X4sLt2vXsgBUBpGr3btyxuWQyd2ML+MU0Doq6P1pEPwsDmF+OiSx/+k13AFjCKfcjpnlEqsbuIFZ2AEpWVwkBuMRGoX6XNfs9ZMWImq6/wdkKBappMQolzU/v6sPJMiVDRheSJo1QZCnZ1w8jWoXGX9Ys0mW6fYTAU9ykj7Z5qx+cwV7SpLPQynQpvXCIE+fvhW8hsw2q3qfN6GxBcQjwfbFmQxI1CJwd01QH3BfwTZXqErqPdoVSo1vSmXTyImM0/ANlASkuhqHkAk9pNi56YqflqVoLpnki+CYd4Zh/G+WnEFQ+0+5Bo+wYIfRwX6bS13RU3fawU5AustQEzhtlUz9cdJDizWnG/SpYqPOK6oxA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB15175.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(23010399003)(5023799004)(11063799006)(56012099006)(38350700014)(18002099003)(22082099003)(6133799003)(10067099003)(261022105027099003)(261022075727099003)(261021121427099003)(261026140227099003)(261028144727099003)(261102123227099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?jqhK0nmQOm5P5Npfc+ql3Ej8QEHNwm54DqhsymMT0TPY+Y3n1bjC3qqfBMa2?=
- =?us-ascii?Q?7b31/dOEvPnk65SIsa5K+ttpy50c49tVE1b/PP0U0mavoHGsoN4Gcyoz7E/v?=
- =?us-ascii?Q?mRe1QBS476f207STsMECXmVuDMDSMpEo7xBcHGaDAskeOKLRvbXZEPVjVGt0?=
- =?us-ascii?Q?BRWxx0BXRvdZ6lGLz4tYv0qr7VsyQgUEzpd4iMfYs+nt+3/fg7YgkSCrTVP4?=
- =?us-ascii?Q?jYRbnqp8qCBC2aZPFzeEXjACMgvgSYdzu7tmQVrOvC6RTltdt8uw2LQ3dcMC?=
- =?us-ascii?Q?07OP8RHQifpF25wBExmdtFajIory5cnZ1uLWSZ55b1fNob8xU2zXS+HLLjjQ?=
- =?us-ascii?Q?b5+jOQR7zWm67WeUlgmQOdG0EUMTJnLawX9NtGh1BCQcm5mfRIA0MMHeS6Ft?=
- =?us-ascii?Q?BHia3ZOAE0jrgB6hNNKcap4jMaUW4kANca4WYtjNXgv51dkFaL6Wme51Hu2J?=
- =?us-ascii?Q?ywdVgmCLMdfFLLtz6gMkpSeLwRS0zHTmjuDudeaIoTqunGF5EzhDlurkf66g?=
- =?us-ascii?Q?R1dZ6e/wY3jzTMCccBDqlOSkMTK+qICCE6MuotTcv4kJqiVtFWdlMdOfdv1G?=
- =?us-ascii?Q?Y0NrjIyhaWaoOYqJrGW8qx0bEPQZzTrNY4Xlzqrf75I+y6ksVbntNto6c6tW?=
- =?us-ascii?Q?boCIhSvDAYkYYEoBiPeT/mK0WZlZKVt7KAAD0WU123ee46/YYGaN4QMjFItX?=
- =?us-ascii?Q?mx1N/ki6oXnm0pcirDvzOAagoJjjZ2ggnNagxUG3RnDJfU+UD4hakAK1+H8R?=
- =?us-ascii?Q?vg1lyNV78DIaQCq8dOvOK/b1sxq8pDO6RxonPj6mzNlNXxC9uDH1sUP2/Jlg?=
- =?us-ascii?Q?Xyvv/EBqTucV9BzTI3krluD4/Qz0m3RqdZFvD1S2qHXVqkJ39h1wRLKDfBp/?=
- =?us-ascii?Q?g8ZBGNFyXoH7yxL8g392hvuqgu6nztG05VSYM+olcosynMYudEgU4XZimVGN?=
- =?us-ascii?Q?jeQBT9SklxEoh7hSPqGf0tK1StOYCxtfuHL8jI5Gie2barlyQrnwPRBHFLoz?=
- =?us-ascii?Q?NSvTSkDQ/Afk/CvSvLjpeyUGAqs6QulI5udsa6umxNZLOTTFngTwXfeMYMTB?=
- =?us-ascii?Q?QJK91IN5AdpOHJj86LOUsYbgJLgKFdUq0oVL6GtbpE1WCPl8XdYro93iqDFk?=
- =?us-ascii?Q?OpIkU8Ouef2MjhtdESko8jX6Sq9DmXCbcbw1hY9RmtC8U/rLy8f6G1UXT8Ys?=
- =?us-ascii?Q?8tpLKiRs/dunC4+dx6m9Wu412O0av37daagzRmvVPoBDb8ekC6ZIYtmtIos2?=
- =?us-ascii?Q?plXBNhq0P+fDKe7JNHtJsVSYVBO9UhVYs/NvM+hhCl+wqes4CSgr1BvdvE4N?=
- =?us-ascii?Q?iWfNzHfxQkVYqo/vTtwLeOMl8xTnUSEtAX7M3LC4ZnMs9OuFyxKZXmHExEE+?=
- =?us-ascii?Q?oFlSOV3MfjZciO8Zj4P9Iv8dj/sVLrk5oSCj1jzJYP6NkuatyfcLEc+QSJTD?=
- =?us-ascii?Q?5xOKzVy24xoa6YgrrSzsvpmWKz1Hoo8r/SwxfiLg/G7ZGbeuCle417V9GTxa?=
- =?us-ascii?Q?oA4N+y5YFXG/m4LC+qIhfW8ehk0lOi7TbiBh5lBV4+5etn5g5pnqJmF/3ETs?=
- =?us-ascii?Q?xlxVto+DkZiaPWSDaY/2dV+oeyCGCAOi4WRhnH2NvwQiP66Qqard5O7YVHfw?=
- =?us-ascii?Q?GZO84gt1o95THZ0z9oZGRUVI8YuoC7Q82ezYbxG6l8AepzP9gqlZ3o1+ZC2y?=
- =?us-ascii?Q?KgdiVKLdieBR1eb/ruPi7/bmo6ykvlK0Z+4U3AnbV/LkfF4Gey3QMnondV28?=
- =?us-ascii?Q?H3BuVh2cxMjmYfU47LPLISF2ISgW1R3OHjO3gcqWugDwyAL4+uov?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 730cb563-eda2-42a2-0d46-08df3f7e9287
-X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB15175.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 23:01:36.9973
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h3XrJ2tyVmP63GF04/OQgIC7AiAYPhhpWGarEFSbNtNAAjlmSw0Bli6klLK7sf6UdOJ392pouXG8sT8ALu3BNMjDUgVr8tpZSTcWQ5eOwVSM7yEIyrOQPXYDpu3swnAQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB7877
+Content-Transfer-Encoding: 8bit
 
+The cleanup in rt5659_remove() does not reset hs_jack, jack_type, or
+the component pointer, and does not mark the regmap cache dirty after
+the codec reset.  On card rebind this leaves a dangling hs_jack pointer
+and causes regmap_update_bits() to skip re-programming jack-detection
+registers because the cache still holds the pre-reset values.
 
-Hi Hyunjung
+Only clear headset detection state via rt5659_headset_detect() for
+JD3-mode jacks.  In HDA header mode the SAR, 4BTN_IL, and IL_IRQ
+registers are set up once during I2C probe by
+rt5659_intel_hd_header_probe_setup() and are not re-enabled on card
+rebind, so clearing them in remove would leave mic detection disabled
+after the next bind.
 
-> ak4613_dai_trigger() schedules priv->dummy_write_work on playback start
-> to issue the PW_MGMT1/PW_MGMT3 dummy writes from a non-atomic context.
-> The worker dereferences ak4613_priv and accesses the component over I2C.
-> 
-> priv is allocated with devm_kzalloc() and the component driver has no
-> remove callback, so nothing cancels the work on unbind. If the device is
-> unbound while the work is still pending, the worker runs after priv has
-> been freed by devres, resulting in a use-after-free.
-> 
-> Cancel the work from a component remove callback, which runs while priv
-> and the component are still valid.
-> 
-> Fixes: 03bbf9f5e4eb ("ASoC: ak4613: call dummy write for PW_MGMT1/3 when Playback")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hyunjung Ko <hj351016@gmail.com>
-> ---
+Reset the HDA IRQ polarity bits in RT5659_IRQ_CTRL_1 and
+RT5659_IRQ_CTRL_2 to their unplugged defaults before marking the
+regmap cache dirty.  Without this, regcache_sync() on rebind restores
+plugged-in polarity while hda_hp_plugged and hda_mic_plugged are
+false, so the polarity-flip logic in
+rt5659_jack_detect_intel_hd_header() never fires and subsequent
+plug/unplug events do not generate an interrupt.
 
-Yes, indeed.
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+If the I2C device unbinds without a card bound, rt5659_remove() is
+never called and the IRQ keeps queuing jack_detect_work until devres
+frees the private data.  Register a devm action to disable the IRQ
+and cancel the delayed work on any I2C teardown path.
 
-Thank you for your help !!
+Consolidate the IRQ disable and work cancellation into a shared helper
+that always sets irq_disabled, so that rt5659_remove(),
+rt5659_i2c_shutdown(), and the devm action all follow the same path
+and cannot double-disable the interrupt line.
 
-Best regards
+Store the I2C client pointer in rt5659_priv so all paths can
+reference it directly.
+
+Fixes: d3cb2de2479b ("ASoC: rt5659: add rt5659 codec driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
 ---
-Kuninori Morimoto
+v3: Consolidate IRQ disable and work cancellation into a shared helper
+    (rt5659_disable_irq_and_cancel_work) called from all three teardown
+    paths (remove, shutdown, devm action).  The helper sets irq_disabled
+    in every path, preventing a double disable_irq if shutdown fires
+    before the devm action.  Add regcache_sync in probe so the cache is
+    resynchronised on card rebind.
+v2: https://lore.kernel.org/linux-sound/20261107153543.6912-1-tristan@talencesecurity.com/
+v1: https://lore.kernel.org/linux-sound/20261105145204.5614-1-tristan@talencesecurity.com/
+ sound/soc/codecs/rt5659.c | 50 +++++++++++++++++++++++++++++++++------
+ sound/soc/codecs/rt5659.h |  1 +
+ 2 files changed, 44 insertions(+), 7 deletions(-)
+
+diff --git a/sound/soc/codecs/rt5659.c b/sound/soc/codecs/rt5659.c
+index 68f7d5673e190..1b61323fc7ed6 100644
+--- a/sound/soc/codecs/rt5659.c
++++ b/sound/soc/codecs/rt5659.c
+@@ -3660,6 +3660,21 @@ static int rt5659_set_bias_level(struct snd_soc_component *component,
+ 	return 0;
+ }
+ 
++static void rt5659_disable_irq_and_cancel_work(struct rt5659_priv *rt5659)
++{
++	if (rt5659->irq_acquired && !rt5659->irq_disabled) {
++		disable_irq(rt5659->i2c->irq);
++		rt5659->irq_disabled = true;
++	}
++	if (rt5659->jack_detect_work_inited)
++		cancel_delayed_work_sync(&rt5659->jack_detect_work);
++}
++
++static void rt5659_i2c_disable_irq_and_cancel_work(void *data)
++{
++	rt5659_disable_irq_and_cancel_work(data);
++}
++
+ static int rt5659_probe(struct snd_soc_component *component)
+ {
+ 	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
+@@ -3667,8 +3682,10 @@ static int rt5659_probe(struct snd_soc_component *component)
+ 
+ 	rt5659->component = component;
+ 
++	regcache_sync(rt5659->regmap);
++
+ 	if (rt5659->irq_disabled) {
+-		enable_irq(to_i2c_client(component->dev)->irq);
++		enable_irq(rt5659->i2c->irq);
+ 		rt5659->irq_disabled = false;
+ 	}
+ 
+@@ -3689,17 +3706,28 @@ static int rt5659_probe(struct snd_soc_component *component)
+ static void rt5659_remove(struct snd_soc_component *component)
+ {
+ 	struct rt5659_priv *rt5659 = snd_soc_component_get_drvdata(component);
+-	struct i2c_client *i2c = to_i2c_client(component->dev);
+ 
+-	if (rt5659->irq_acquired) {
+-		disable_irq(i2c->irq);
+-		rt5659->irq_disabled = true;
++	rt5659_disable_irq_and_cancel_work(rt5659);
++
++	if (rt5659->jack_type && rt5659->pdata.jd_src == RT5659_JD3)
++		rt5659_headset_detect(component, 0);
++
++	rt5659->hs_jack = NULL;
++	rt5659->jack_type = 0;
++	rt5659->hda_hp_plugged = false;
++	rt5659->hda_mic_plugged = false;
++
++	if (rt5659->pdata.jd_src == RT5659_JD_HDA_HEADER) {
++		regmap_update_bits(rt5659->regmap, RT5659_IRQ_CTRL_1,
++				   0x10, 0x10);
++		regmap_update_bits(rt5659->regmap, RT5659_IRQ_CTRL_2,
++				   0x2, 0x0);
+ 	}
+ 
+-	if (rt5659->jack_detect_work_inited)
+-		cancel_delayed_work_sync(&rt5659->jack_detect_work);
++	rt5659->component = NULL;
+ 
+ 	regmap_write(rt5659->regmap, RT5659_RESET, 0);
++	regcache_mark_dirty(rt5659->regmap);
+ }
+ 
+ #ifdef CONFIG_PM
+@@ -4328,6 +4356,13 @@ static int rt5659_i2c_probe(struct i2c_client *i2c)
+ 				   RT5659_GP1_PIN_MASK, RT5659_GP1_PIN_IRQ);
+ 	}
+ 
++	rt5659->i2c = i2c;
++	ret = devm_add_action_or_reset(&i2c->dev,
++				      rt5659_i2c_disable_irq_and_cancel_work,
++				      rt5659);
++	if (ret)
++		return ret;
++
+ 	return devm_snd_soc_register_component(&i2c->dev,
+ 			&soc_component_dev_rt5659,
+ 			rt5659_dai, ARRAY_SIZE(rt5659_dai));
+@@ -4337,6 +4372,7 @@ static void rt5659_i2c_shutdown(struct i2c_client *client)
+ {
+ 	struct rt5659_priv *rt5659 = i2c_get_clientdata(client);
+ 
++	rt5659_disable_irq_and_cancel_work(rt5659);
+ 	regmap_write(rt5659->regmap, RT5659_RESET, 0);
+ }
+ 
+diff --git a/sound/soc/codecs/rt5659.h b/sound/soc/codecs/rt5659.h
+index e10b3844501b9..1118e6ab1887d 100644
+--- a/sound/soc/codecs/rt5659.h
++++ b/sound/soc/codecs/rt5659.h
+@@ -1793,6 +1793,7 @@ struct rt5659_priv {
+ 	struct snd_soc_component *component;
+ 	struct rt5659_platform_data pdata;
+ 	struct regmap *regmap;
++	struct i2c_client *i2c;
+ 	struct gpio_desc *gpiod_ldo1_en;
+ 	struct gpio_desc *gpiod_reset;
+ 	struct snd_soc_jack *hs_jack;
+-- 
+2.47.3
+
