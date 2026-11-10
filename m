@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.229.14
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.229.45
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794288220;
-	b=xajqqoIelYz/CAQj9vRKFENTku+h88VsQIegSqYgoD0+LgvyRKXmapu1xlb8SehOoeHL
-	 riDho7XT5Hr9WFpI6CWDqMUiw/CuWn+7x7N9BJa6m0FrW/C28u3l+CcUVIYmRZFWyK6mj
-	 mwKZHGrBAiMoZCvK3RAsvFlY8+p3LNVH2Qgom03m+iNKpNuq0BMAZRcAp/7M5bwQy5Sum
-	 kxecaLikW/Q4EWDG09eXguMilGwynjgSkSHG0o6SrjGayjHdRvQNXFcIYNoopQz37OVPz
-	 QGPp2329FZ1URVMCcITUZ0peg4jCygYCj1eG5dtLr5xk1S8iF8+NGiqV3wPNIuStMZw==
+	t=1794288226;
+	b=NFDUN83IbWTx++SOtdGyRCXumfYbmKR2nYhF6HQaRay6Spzgqx4Cza4G4G497STXglkn
+	 oDfUIQWyP9VX5bHX6Jhle9sf3wM1xwJWCLTxwDkH2C87dm631lXe2WcTWPPD0+CuNI4he
+	 ypmRDbT34Ag/A21DZH3067GpYqMTrl7gqN8pBVgVy6v1Z8goxu5Au8b6Ql9FX81zqWfrX
+	 sa1852QV2VtzpRhMmniW0t+LM71hdenn/P9H+xsd2M9LHDXriZqMxsU30shaGoL3ZpBK2
+	 9kUEKzwg+wjjdTAo4rTR6NB8IZf7it6DRpcr/UDtCqDxyZqTG71eI5eaOVO8Vfg4VFw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794288220;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794288226;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:From:
 	 Subject:User-Agent:To:Cc:In-Reply-To:References:Content-Type:Date:
 	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
@@ -24,66 +24,66 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=hlURryOyNGNO3OHwMfLZ7ePsQgWyiAtFW1k3l1ze5Xc=;
-	b=ebxDIkez+OddqLnSzjtyirEpeYg93d3rucyiNctRO/Ni55kmOMA5CgDUsyoTzGW+mt89
-	 sbj2OLsLxfF4BlQ97HouRAQl4T5MLJ2jZz5hfkjvslqJ0rYtr/Plg9UaSGo7oujFmiuTW
-	 pyXSvHDOmJmsTKE3ZEQWygRJJw2L6hgRsxONcg2PmJqZNCravzEeMrJImxj7J6gKIBT9X
-	 XJlpEKB7S+oCDXOXO7ZBlBiB0CoxDgl7bymopz4T5vUOz6eM9emGFdanuj5AHaSB5Mv6B
-	 c+SD2lCQvGRDFr73Jt7rlMZ6TIG4j3e8B6W3JRQYfqtmoyQFACvTewSn4a+gLekL17g==
+	bh=7qCqi/FXE/ho0HgNB0O4dpJ5ynXBwVhO8N/UmjP58cQ=;
+	b=MWpVDuTB91K+DWO5uZSRFFfOVj7nikcXcX8Q9iWgr1S3/KiJFCMCYzAbqrtmYfj+MS7b
+	 jRFUyk3U6L9nRS0w24xDqi/Xskz3h5bUcLKIqnwKoPQT2bTpGAA9UNugIYNUOoXvJEx2P
+	 7gisFtkxObpan1ThA+cIeGJxC6f5aBF8qplge5dAUlOay//ihWdiLgcUrlT/5zAL9iuPa
+	 OvOeBPtNYAk2Vm4Xq5IConYyQjRCUqn8dw/iEIK8g2kX9HqG1FWoo+8E3oaXhF1LOjVF/
+	 N6Ecsdq9VbcqfQVBmngWb/mGJUqFvOg8YkXRO3t7468Rdfh7F9t7Gs1VE5VRKbGWr6w==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=renesas.com;
 	spf=pass smtp.mailfrom=renesas.com;
-	dkim=pass header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=TWd9vXSB;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.229.14
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010014.outbound.protection.outlook.com [52.101.229.14])
+	dkim=pass header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=bKPXosMN;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.229.45
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010045.outbound.protection.outlook.com [52.101.229.45])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31813606A32A
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 05:23:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 31813606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2E0606A31C
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 05:23:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F2E0606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=TWd9vXSB
+	dkim=pass (1024-bit key, unprotected) header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=bKPXosMN
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e+OaAtfchPO43eoThw5n8+7wNfAxAbAgWGSQ+1xE+xLPwotisxlLgN/nXS0lZsv1h+gjjy1WQxaRAkKzge0kXiAwLqT9C2P0XtBU3AFBZRXkKZ+K+v5CXnYsXtcjowFVtURKsOAHjvWhkBKdnr/zBXDmawUcc9QWBE1paGDF3E5ncl1A73XczZGamDxUVrxngF1GzeLrv4gCS+R+m6DkMtehvZpgEaXJuCITdaAZYcQzFqDLxZPxGGC/D8ns0U+UlFddE+hfnNQVcluEsrDebWqMOOdlwnMh/uBgUmJzdt3yKm4dgUGOfbNoCEP7r/wWoUFByMWoISCd+UVNDkGQLA==
+ b=FI6t4AN3G0/U3Wfz4g7k/LJJLUnlmVHZJU8fk+IoDwk80gxj3D/5oO+Fs7j+f7LFCyDDPjllUDZgEBX3K9QlJKLXKpfTMAvcQykZlHf8bGBQon4t5ExFi2+lJXxqKWmaEdQ1u0mMmaYrb7BcUFffK5EqUi0Djxl8HL5CczrO5F8SSEspIe5dDbajrYOowRtNxKfMdyIY9EfgU7wAtQi2f3UK+gtMf0UZveizOCt3+qQnKEgzBKJjGQ2W/sM8t2VnbHutM84XNzOMjXfyVz/Jx2oHWzIB/KJRkFdA950M5u8HdyR30HhXaumfwpQt6c0Rwr0EC0zKaJprPJyYxNDQlA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hlURryOyNGNO3OHwMfLZ7ePsQgWyiAtFW1k3l1ze5Xc=;
- b=gGfsjYO9sn/8j7gkXJFuZsZX7CNryQc+kVLXblk+KDubEH4BZBvBXWXUYF39usyAtWiE6qP7rEnCeFjahZFaLbMi37vIbwyAxfdJK6Ow60nUMAoBB/LGRgKsPWGjYflL4/Aj7yQ1vKgzC2IJ40Y0VneR7fEb1nPr9BiFXCSldlZ4C6monmXdGwxK2Qh/Jquc6evs7a2mB4oxVQ6lLLgFS+JywugZdIuW1vvY7Fvr3ZtPWsD3l10suPEjz18o2TdXmgnQ93IqggyYApGYqRqxM6V13qQm6NHDD/tgRiOJX+erQfkCNYeA6z5fIDE3UUlMJdhtqSDNOIEpr1XqhNwdiw==
+ bh=7qCqi/FXE/ho0HgNB0O4dpJ5ynXBwVhO8N/UmjP58cQ=;
+ b=fMvyzlcIjQ570ZxqKhEVWhKk1rE1CDK4n7wf8XStmIedS204gKODQUH/aWQU/JThY1qgACuUQikw7XO1EgcE4Q+hkzFni1AVsRehCrXAwfu7XeaLDszBRasbM7mhGYRY0XsWBoFrcTgrSHmQ8ZfpKiDTU86krOtZZMxR8JsqRXOjctwiddwyqyq99GT8kvQ6hsccS36eXpu9u/jwjZtsjbTNEI2wA+BlYoiRBWjO7ii9N07PQCnbiG8i6M1YLGJZkggALOZdUQbEiQb2QfURRUJ665BR1WB88cBdV+87bgTo21joiIDn/7J+T1V1IcQkE3MeoXIYmT2mC4m8IXLuSA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hlURryOyNGNO3OHwMfLZ7ePsQgWyiAtFW1k3l1ze5Xc=;
- b=TWd9vXSBVfCO0iHQVpr7sTDU6zQP+mjXr6VBLwHqIgj7RAFKhF7DpNUlsKTl0E4paVUhSDVS0Rc8tVZ5UsdaiAKnqXlzyMDmGAvATHVgnshWwaD80f74cr9XX1P0hWKfNFrvUS6RlqlOsYzuSTFLuGUmwspusRUQIh6G1SI0+Vs=
+ bh=7qCqi/FXE/ho0HgNB0O4dpJ5ynXBwVhO8N/UmjP58cQ=;
+ b=bKPXosMN+lgHHQkZtHe66aW6YV98aGAOw/APAvOTOEg7fcsMqH09+7vfaaMzXiJeN1tyQ54jwWlR5kfEzFhZxwqESnz2/xcXym69uY2ta4qbmNwGasUpxa1mgA6aWAK80UwD3ZqO4Onu5HXV7unVFeNvl+NZE9uERmkAFQR+cGk=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYYPR01MB15175.jpnprd01.prod.outlook.com (2603:1096:405:27d::8)
  by OSCPR01MB12483.jpnprd01.prod.outlook.com (2603:1096:604:32b::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Tue, 10 Nov
- 2026 05:23:38 +0000
+ 2026 05:23:43 +0000
 Received: from TYYPR01MB15175.jpnprd01.prod.outlook.com
  ([fe80::9bfd:a110:68f1:134d]) by TYYPR01MB15175.jpnprd01.prod.outlook.com
  ([fe80::9bfd:a110:68f1:134d%6]) with mapi id 15.21.0592.012; Tue, 10 Nov 2026
- 05:23:38 +0000
-Message-ID: <875wy5ntt2.wl-kuninori.morimoto.gx@renesas.com>
+ 05:23:43 +0000
+Message-ID: <874idpntsx.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 02/20] ASoC: soc-component: rename snd_soc_component_{init/exit}_regmap() to snd_soc_component_regmap_{init/exit}()
+Subject: [PATCH 03/20] ASoC: soc-component: move snd_soc_register_[un]component() to soc-component.c
 User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org
 In-Reply-To: <878q31nttj.wl-kuninori.morimoto.gx@renesas.com>
 References: <878q31nttj.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 10 Nov 2026 05:23:38 +0000
-X-ClientProxiedBy: OS7PR01CA0312.jpnprd01.prod.outlook.com
- (2603:1096:604:26f::10) To TYYPR01MB15175.jpnprd01.prod.outlook.com
+Date: Tue, 10 Nov 2026 05:23:42 +0000
+X-ClientProxiedBy: OS7PR01CA0102.jpnprd01.prod.outlook.com
+ (2603:1096:604:256::14) To TYYPR01MB15175.jpnprd01.prod.outlook.com
  (2603:1096:405:27d::8)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -96,158 +96,560 @@ Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYYPR01MB15175:EE_|OSCPR01MB12483:EE_
-X-MS-Office365-Filtering-Correlation-Id: 77e9f193-4c55-470a-4538-08df3eeac671
+X-MS-Office365-Filtering-Correlation-Id: ab5a3cf8-c2ea-49fb-7332-08df3eeac91d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|23010399003|52116014|366016|18002099003|22082099003|6133799003|10067099003|11063799006|261102130727099003|261102123227099003|261026121527099003|261009223027099003|56012099006|261021123027099003|261021121427099003|38350700014;
+	BCL:0;ARA:13230040|1800799024|376014|23010399003|52116014|366016|18002099003|22082099003|10067099003|11063799006|261022105027099003|261102130727099003|261102123227099003|261028144727099003|261026121527099003|261009223027099003|261022075727099003|261026140227099003|56012099006|261021123027099003|261021121427099003|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	gvdnfNXDyIdJUUtvnm0iojUte6LyUUP/kMQz0OKUt81Wqki/CZR5UQDwmTq3SA/8XUlDpfu5Nzb1jiDUoGttP79t7STuoCgxZt3R/c19FEJpJRXqU4jZi5+bcF2HYGLu6dsFh28rgDsnAnb37TljJzpr7C+leFbmxRV8BpZr8bESEreQb5R0GOGyPyGgvDCRSJNaJ1YkEjjH2hCxm5RyOR7EL6knn9iVLRc7o9cRkaTFkDea2ka61Hpnrt5eURf1Vo+QjNDart/H1ItIR/zcfXFQZ4rv4ywLvfljs3RVHal5V8fJ/KQr2q/rywxorhCdLrqpl853qPZ+mspqbVXTApvmeK9q2YF+Uxsu+DQNZLz38GeEvBOXVgV58TNK5GSRBup5pWnijukrzg81y5JPQArDon5SHYqBF1QMht33UETwYb8HGFNbs93bOE64AxAHvKOBkBK36WJG7gk4WK06N3XVT12ttqkNvIfSdJ+k9SmlK2YX2V3b9wtNDR4QWSLRh+WWXGOgZ78drifdYRXwrEhYAtwtaBJsxePtjVFVb4B8Ytjiphw++i7yGfFRuq7zseU5vhAIPJuFIjLUKUejafnnZn0bwKNxTVV/t2bKxXWMGMtZkmLiaKdOIGh5oCiWVkjOVwlDzDD5PpNg0IgT1mjUWzHZXDjRH0ImDYD5YbgTQLXsZdsfISBBuxeRmYId8AcxmFlqpRu6hjKxPlpMHduhsJuGKPIa0LW6fM1evuM=
+	BmRaVWF/p4iz0tt4vUns0i1wt4PXzCuwmXgyGyS/kUdy+cl1uCwl1m9B8dBRdw3nL9qZ60RkTJRN1OpF8V2bkV3Sq39PmHp+rux8iD0CGDnJSxx+29R4knN3W+PyxXiVqbDak95rcTjwHf8CrMKSlEqKf3oP9DO5/cmm42ECHG93+/+FgNttQng/1EKnr5MnsjE9IKQVxlwBIivZzgShhBYfGvwEYRsJMjqhfSX8uqZ57sW/YWy3UPuMh5vex8cU6RALRyLK0q8k3tAvBS34kBRDlFi4YolZY9o/i9pTOG4HCDgOGSJAla2i1p9IB08DNkpSS6vxPbQASRV4eWPVPMM9XkpRY5oF1aQHwNFHN/4SI570PUYLpiDd+X7Wv5PoNeSJ0RiK/MA2lxnADvYnz6yMv5Zb1i2G2/hHgdQsm7e8Mn2+cmriFHWb2HbmSveXIBLfcD5XewkTQBrrwpMkJLYmNa1OeeI9FkkTz7ICYjxsdwfujiaW0QINIdZQtBShSchCVZNf/FEkk2R5iRSrSM9bxdbI00IN+agiOrHZRaXsSzdNCApoD57RpfzVlM2WnLy1s367VZT2qrhR+AuX1h3h7iWHmZaFEErOTjQmKNIIB50K/aXUQNjLLP2YUC60L88Dg3mWtkb5lUUgiv9STlyUkscJOjIjDEcrTxvkzAqJukIQ7KgTRlqnRCflQwCxrFEqbp/IAv8PFvC7zjGjtI0TFrXigT9O8D8aIVTsmss=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB15175.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(52116014)(366016)(18002099003)(22082099003)(6133799003)(10067099003)(11063799006)(261102130727099003)(261102123227099003)(261026121527099003)(261009223027099003)(56012099006)(261021123027099003)(261021121427099003)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB15175.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(52116014)(366016)(18002099003)(22082099003)(10067099003)(11063799006)(261022105027099003)(261102130727099003)(261102123227099003)(261028144727099003)(261026121527099003)(261009223027099003)(261022075727099003)(261026140227099003)(56012099006)(261021123027099003)(261021121427099003)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?jIbyzrmTOj2pce9JJUfu0FmC5sM4nzBPkJHZkdS016j78bOj7sfcr13OElGU?=
- =?us-ascii?Q?LihugdeV8KkX+iCWaQUAojU+tyLYAjOVr58Kve7luwED9mddj5MCrTUnJHZW?=
- =?us-ascii?Q?bcqMiiapLgSk0c1/L4ezOdg0rIiB1cHeyHOxj+V/N6CllvFBk/5FBwNycVL/?=
- =?us-ascii?Q?phgsP1y+KSyWy2lHFW8tN+nJxVBu8Nu5eYlGEWMYK7/HmGU5Xgt+lTmiQ4c3?=
- =?us-ascii?Q?HL2A2WeeMY4Xs9SZsz90wG06MG8X8e+Y4yT/+o8xQKv74rI8hKcPkGt3BjDl?=
- =?us-ascii?Q?g9rKdF+DGRuq4u16nnPiEfoJEfvgFACfvDlTvYsr2HjSCrQWtJjFyMgnMwgk?=
- =?us-ascii?Q?yy09ITezg8B8eDHl1ftx3ZEeoEzk7JbPiv2uPvk3A83Cp7lG3XvM20GRXJ+l?=
- =?us-ascii?Q?gl+G2L2Ythgf0vL5Y7Lyu4k5Yun6MBOK919VdaXMP7+dw78R23csBydvLroU?=
- =?us-ascii?Q?3QeVZ0O3rzCzNo3b/47PrMRBJ/fT8lIZ1PPw9xIv0ZzPVUtEUxTCnIH1fLO+?=
- =?us-ascii?Q?XZIrHZOaOKD42DOzDbyDvBYqV2Df8/UHWllg/xb4PzFSRWqc22YeqS4BjsLz?=
- =?us-ascii?Q?3mlmtFcoL1m20OuV4nKo0wC2hEizi95tP+Ymwjxcwd+VBYSQDJTsS6GQtjDr?=
- =?us-ascii?Q?onb2j3uZlB4fvbfj1zbqwJniAksaf+0tYvsDNWUtttUGy7uLXkxWCw3gxcdk?=
- =?us-ascii?Q?Te242KJBwk3VN4Plgioc0v7u/o9ZkZhqg/7dtnw2neVXlZ9cVM2W/EldY9GO?=
- =?us-ascii?Q?KqUuX/HfKvM+dVd/cHAAchjjlzlLX6tRkmqOFkpPvOwWEiJ2mTwKd2OcX4G7?=
- =?us-ascii?Q?o9uKTmI4PUrJYXMeAkTbD6KxsFoDrKiaOKilb3CeumGSiCdc5zE7LCx/LKW1?=
- =?us-ascii?Q?XRmwgjWkqtVV6j6lkAl+WxW6CsbY+a6K+vrJWIOc90BG7mrcJewBeg+3bPMS?=
- =?us-ascii?Q?Kxc+TcCgrE6A+89WQtnbRgKq1zEINR9SokOlaynUgfj9sqGmlHsX7eFZyDHM?=
- =?us-ascii?Q?RvzIt5NDJbeThLW5JgbeMdAI3w2OQYiUI1W9v6kU0bI2QDfb1sM7PrcYICmp?=
- =?us-ascii?Q?DwT2iFovdEpfWzlb55ZHyCjX1CpXPURF+dpFtG8tBkT8r4rs5ysk2MUZJZ5F?=
- =?us-ascii?Q?Uk/bqBrWb1rDd4Qnv//jz5hASjZKhv+8joR0ewK4Q9MV1DA7Ktkybw4KQMz1?=
- =?us-ascii?Q?n0QBOZx8b8HMVwl/PjlW/MXU1t6rFQEWhyADJ/cpD+8ckDzMM4PGbCPdeTXF?=
- =?us-ascii?Q?ly0r1dF5mBFPgyq7JT7g2UOOuh1gBO7Zb8rrH1J262qsH5begkgppaMFMnrF?=
- =?us-ascii?Q?+uwzwkGa5EWCiuZYwKyCIauNnRBB0LFk7SL0hG69+8FIrcDGDXB4tKTrrzXz?=
- =?us-ascii?Q?GQAqcnIZRGudhqv2KmyIcsgWMLvLcO2YO71C76Hr/HDhMUGHh+0iUPf1ScyN?=
- =?us-ascii?Q?LCWgK50yPCQouskInkGbV9tl/JRKxBT+iykw2Flm+PZPcZmNfv/xCdGV/iHi?=
- =?us-ascii?Q?T7/sA0a+U3/8UN7rW45WJB+uiBtms/HfVdEeRKNka1h+nIkEcmYWakLc1vSq?=
- =?us-ascii?Q?pGgP8/GbiRr963jgWJgKW2TnHAeW7z304BG/qrL4ay9PR6WNeg++RoUgcWIa?=
- =?us-ascii?Q?DNOaG9vQ//Je5uTLZSEMcvfS/KoH4vzxW7nesyTlalnPG3n0A5Nt1aUFtXPC?=
- =?us-ascii?Q?oS+5wEouDnXeLR1Tuzl0kafuzQWzUKFO7a335Mgra1/r+3kxCJCG8AdINvRS?=
- =?us-ascii?Q?ha5Hfizvwx9DrVzTqIzTbT2hOouGJQc=3D?=
+	=?us-ascii?Q?Fr+3aJWrrwygps0MU8gWymOC/Al38PZ5eeXXFm8/OgeKQ1g6tdliguqfOrdm?=
+ =?us-ascii?Q?X0EB3Nn8vwbt6InfeX6+FLvR2uHmnoeo/h0qN8EsJIv6y4+PkPwH2Ahi+Zn2?=
+ =?us-ascii?Q?o6UHUZx1aq8C+EbepUBOXazvT6L7Ye1FF71mnqbjPrEjfvixjy5vsUsrPDCQ?=
+ =?us-ascii?Q?jAfzRR32rH2HDR0M6lCTSvz518LzKJnQXVTXWCLvr6htN7xHMeCULBlttTSN?=
+ =?us-ascii?Q?rCD4u9Cl945gf4ZYNNwbxyoBrBHAN6nCbt8cCQEH3R+TAgLsKP4juQFchin8?=
+ =?us-ascii?Q?ZYodzvCKa6pIKLXdEXNoRMKp+xZAttjXchRryCfldQUeEKNlo+VEoFUXZxYr?=
+ =?us-ascii?Q?L2Iz07LP+/BBQkEz8G323dLaUWrzFivp0ifNCMKejZMC7+CnUjuu6zP0mt34?=
+ =?us-ascii?Q?qD1onXxy/aqh6qdLuLf+ar4Mi4SS3DDcX55n6aqgCwYrDBM9hU438M4wmYKs?=
+ =?us-ascii?Q?YkXTbeOkVxgEaDV8aQxI8XWD/R26M8NCCt9ucPwqm/n9ngv6gX8VKD8o0v9+?=
+ =?us-ascii?Q?LMDCbUJbUcJVVOcL2E1nyvtI+N1vWC0mjTOQxNeEFU56bh1gW1t+9kwu2FOP?=
+ =?us-ascii?Q?n1PoFSGEfLErUe0p3SX3gShCMPagQr+V5s9mCkO9M4QXc6qC6qFtAuvaNCIL?=
+ =?us-ascii?Q?m+KJ4xSynt8ZgGhh73PbEot9gPkmQs63GfP+bZYdljZw1COaJNrNJL43CRCu?=
+ =?us-ascii?Q?RXn/e8GeA8iCk6+wufMk58lOECtdmCM7UrFZ1H+TkqLecvmJbQZ0CtKpu0Vn?=
+ =?us-ascii?Q?OpjJHSjijuij29urXK0zEo6rIAPC26e0KYyofC3sHxfcExLN0B6ig73IkcWt?=
+ =?us-ascii?Q?XOdE0n0Dh40FCC68koKP40s/ojVtAAB6ZgkE7O11ctY/Yhrcdsue6sB5P5qs?=
+ =?us-ascii?Q?uaGBe1n5qEhWlAWHLAYSrH9KXD/y0pTGJmJP6wsJ7os5gZXJbz+l9T5iPhyh?=
+ =?us-ascii?Q?t8d+zrrbeGSAJiRVQBCIh0ZgmAuX0L206yyETWfpXsSI7PUi+sU8/WGKpR8a?=
+ =?us-ascii?Q?Xjm98ybwmDO4LZf93FFZy9FIawwS/iCSSawCqCGSifE0NAa75X7yxf0tQhdv?=
+ =?us-ascii?Q?MNM+GoVufvcxuAnyxQxaEGXl7FBIftH3Q7zj/yDkql/n8S4qVr65GIxJ4QdF?=
+ =?us-ascii?Q?L7TAqTHLiVjIz+E3fNtEriI7sW/J4E2ztCQW65gcC9dt6NFdfIBloT0WAl0n?=
+ =?us-ascii?Q?fObhXPdnxfYqQjGC06uC8qL+0iVpwDk969gsm78/aYVrNSKXZfdJ9xnxX1lh?=
+ =?us-ascii?Q?uOBFQTc8x6HEJG4Fr+YQKZzmLpjazldmRCMr1j5q1DzuTQrwkYkH35ALWjY/?=
+ =?us-ascii?Q?cIHOVA9pUFpZdZuT8tOEZj3VzDP2fylg6An+vn2hT69M0vL9A3JO1YuD7P11?=
+ =?us-ascii?Q?Lg+dwEvHMZVo3jmGwean23MzBU/7+ftWRWJKCYICvqBucPCN2x5vb4a5V145?=
+ =?us-ascii?Q?h9f65ucTKUWRwhPw3eaBBjQlgGArtYVUFg2cXFe58nSN6pzr+aX6XRcHiZuk?=
+ =?us-ascii?Q?G/yaKPE7YuzwrL5ZvW1J8X8pU+3/eaUF1RbE4WSt+Igd3kqAPFNkEYFvVkc0?=
+ =?us-ascii?Q?Pp9UAm3NEaVE9H/B65YfQLgnJgIrLzPYdcLxflhSGhm39Vym7nAxw+NIMbaF?=
+ =?us-ascii?Q?p8OsX5ElvDJ5lyWxzh931FozU8fRyZY7SEcNjtgDtzWQR0Vda8elBC0O7vmW?=
+ =?us-ascii?Q?G78awz+BNUF4YGLGMRO6AUw2ZpA6ofgV/yzrKeuSl2elfTM0lKJQJqJl3x45?=
+ =?us-ascii?Q?8T+fO7RHO2Ann7sLwWOoqiOk1BM+HLM=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77e9f193-4c55-470a-4538-08df3eeac671
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab5a3cf8-c2ea-49fb-7332-08df3eeac91d
 X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB15175.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 05:23:38.4016
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 05:23:42.9141
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0duPEMJtu58Inbk18MwrBbHoo3zPL2hEiDNKazrxRAOx6EBdvg1RbLf2g8HqqdTqyFGP0uCccLUnI2PqkskkKNZuskXlqIzv1cNOufzfnxCG0Sm3kum0HaLnifoM7V1L
+X-MS-Exchange-CrossTenant-UserPrincipalName: GeFYe50onn+6axROYH9EUAW3QKQdjp46WRJflr2BHXlivZw0b2F5MjDiflRcqI/K8TebEg7hb2pk5mkrkObNdOVQpl9+hrYZcONINNwxxbH5rUNyNuD8J8XN0pe+8pf2
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB12483
 
 struct snd_soc_component will be capsuled soon, its member will not be
 able to access from non soc-component.c.
 
-We already have snd_soc_component_regmap_xxx() functions.
-Let's standardize the function names.
-	- snd_soc_component_{init/exit}_regmap()
-	+ snd_soc_component_regmap_{init/exit}()
-
-And no need to have CONFIG_REGMAP, remove #if-#endif
+move snd_soc_register_[un]component() to soc-component.c
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- include/sound/soc-component.h | 10 +++++-----
- sound/soc/soc-component.c     | 16 ++++++----------
- 2 files changed, 11 insertions(+), 15 deletions(-)
+ include/sound/soc-component.h |  10 ++
+ include/sound/soc.h           |  11 --
+ sound/soc/soc-component.c     | 214 ++++++++++++++++++++++++++++++++++
+ sound/soc/soc-core.c          | 212 ---------------------------------
+ 4 files changed, 224 insertions(+), 223 deletions(-)
 
 diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
-index 73d66c9766944..0d565b6c1f611 100644
+index 0d565b6c1f611..009e0140a15cb 100644
 --- a/include/sound/soc-component.h
 +++ b/include/sound/soc-component.h
-@@ -333,14 +333,12 @@ int snd_soc_component_stream_event(struct snd_soc_component *component,
- int snd_soc_component_set_bias_level(struct snd_soc_component *component,
- 				     enum snd_soc_bias_level level);
+@@ -278,6 +278,16 @@ struct snd_soc_component *snd_soc_component_new(struct device *dev, const char *
+ int snd_soc_component_register(struct snd_soc_component *component,
+ 			       struct snd_soc_dai_driver *dai_drv,
+ 			       int num_dai);
++int snd_soc_register_component(struct device *dev,
++			       const struct snd_soc_component_driver *component_driver,
++			       struct snd_soc_dai_driver *dai_drv, int num_dai);
++
++int devm_snd_soc_register_component(struct device *dev,
++				    const struct snd_soc_component_driver *component_driver,
++				    struct snd_soc_dai_driver *dai_drv, int num_dai);
++#define snd_soc_unregister_component(dev) snd_soc_unregister_component_by_driver(dev, NULL)
++void snd_soc_unregister_component_by_driver(struct device *dev,
++					const struct snd_soc_component_driver *component_driver);
  
-+void snd_soc_component_regmap_init(struct snd_soc_component *component,
-+				   struct regmap *regmap);
-+void snd_soc_component_regmap_exit(struct snd_soc_component *component);
- int snd_soc_component_regmap_val_bytes(struct snd_soc_component *component);
- int snd_soc_component_regmap_cache_sync(struct snd_soc_component *component);
- void snd_soc_component_regmap_async_complete(struct snd_soc_component *component);
--#ifdef CONFIG_REGMAP
--void snd_soc_component_init_regmap(struct snd_soc_component *component,
--				   struct regmap *regmap);
--void snd_soc_component_exit_regmap(struct snd_soc_component *component);
--#endif
+ const char *snd_soc_component_name(struct snd_soc_component *component);
  
- int snd_soc_component_fixup_controls(struct snd_soc_component *component);
- int snd_soc_component_add_controls(struct snd_soc_component *component,
-@@ -445,6 +443,8 @@ void snd_soc_pcm_component_delay(struct snd_pcm_substream *substream,
- 				 snd_pcm_sframes_t *cpu_delay, snd_pcm_sframes_t *codec_delay);
- 
- /* REMOVE ME */
-+#define snd_soc_component_init_regmap			snd_soc_component_regmap_init
-+#define snd_soc_component_exit_regmap			snd_soc_component_regmap_exit
- #define snd_soc_component_cache_sync			snd_soc_component_regmap_cache_sync
- #define snd_soc_component_async_complete		snd_soc_component_regmap_async_complete
- #define snd_soc_lookup_component_nolocked		snd_soc_component_lookup_nolock
+diff --git a/include/sound/soc.h b/include/sound/soc.h
+index 338662645b42f..338ba5cf85fb3 100644
+--- a/include/sound/soc.h
++++ b/include/sound/soc.h
+@@ -447,17 +447,6 @@ static inline int snd_soc_resume(struct device *dev)
+ }
+ #endif
+ int snd_soc_poweroff(struct device *dev);
+-int snd_soc_register_component(struct device *dev,
+-			       const struct snd_soc_component_driver *component_driver,
+-			       struct snd_soc_dai_driver *dai_drv, int num_dai);
+-
+-int devm_snd_soc_register_component(struct device *dev,
+-			 const struct snd_soc_component_driver *component_driver,
+-			 struct snd_soc_dai_driver *dai_drv, int num_dai);
+-#define snd_soc_unregister_component(dev) snd_soc_unregister_component_by_driver(dev, NULL)
+-void snd_soc_unregister_component_by_driver(struct device *dev,
+-			 const struct snd_soc_component_driver *component_driver);
+-
+ int soc_new_pcm(struct snd_soc_pcm_runtime *rtd);
+ #ifdef CONFIG_SND_SOC_COMPRESS
+ int snd_soc_new_compress(struct snd_soc_pcm_runtime *rtd);
 diff --git a/sound/soc/soc-component.c b/sound/soc/soc-component.c
-index a6e280c798f3d..6dad994009bdb 100644
+index 6dad994009bdb..a2f079cd8aae2 100644
 --- a/sound/soc/soc-component.c
 +++ b/sound/soc/soc-component.c
-@@ -432,10 +432,8 @@ void snd_soc_component_regmap_async_complete(struct snd_soc_component *component
+@@ -1549,3 +1549,217 @@ struct snd_soc_component *snd_soc_component_lookup_by_name(const char *component
+ 	return NULL;
  }
- EXPORT_SYMBOL_GPL(snd_soc_component_regmap_async_complete);
+ EXPORT_SYMBOL_GPL(snd_soc_component_lookup_by_name);
++
++/**
++ * snd_soc_unregister_dais - Unregister DAIs from the ASoC core
++ *
++ * @component: The component for which the DAIs should be unregistered
++ */
++static void snd_soc_unregister_dais(struct snd_soc_component *component)
++{
++	struct snd_soc_dai *dai, *_dai;
++
++	for_each_component_dais_safe(component, dai, _dai)
++		snd_soc_unregister_dai(dai);
++}
++
++/**
++ * snd_soc_register_dais - Register a DAI with the ASoC core
++ *
++ * @component: The component the DAIs are registered for
++ * @dai_drv: DAI driver to use for the DAIs
++ * @count: Number of DAIs
++ */
++static int snd_soc_register_dais(struct snd_soc_component *component,
++				 struct snd_soc_dai_driver *dai_drv,
++				 size_t count)
++{
++	struct snd_soc_dai *dai;
++	unsigned int i;
++	int ret;
++
++	for (i = 0; i < count; i++) {
++		dai = snd_soc_register_dai(component, dai_drv + i, count == 1 &&
++					   component->driver->legacy_dai_naming);
++		if (dai == NULL) {
++			ret = -ENOMEM;
++			goto err;
++		}
++	}
++
++	return 0;
++
++err:
++	snd_soc_unregister_dais(component);
++
++	return ret;
++}
++
++#define ENDIANNESS_MAP(name)						\
++	(SNDRV_PCM_FMTBIT_##name##LE | SNDRV_PCM_FMTBIT_##name##BE)
++static u64 endianness_format_map[] = {
++	ENDIANNESS_MAP(S16_),
++	ENDIANNESS_MAP(U16_),
++	ENDIANNESS_MAP(S24_),
++	ENDIANNESS_MAP(U24_),
++	ENDIANNESS_MAP(S32_),
++	ENDIANNESS_MAP(U32_),
++	ENDIANNESS_MAP(S24_3),
++	ENDIANNESS_MAP(U24_3),
++	ENDIANNESS_MAP(S20_3),
++	ENDIANNESS_MAP(U20_3),
++	ENDIANNESS_MAP(S18_3),
++	ENDIANNESS_MAP(U18_3),
++	ENDIANNESS_MAP(FLOAT_),
++	ENDIANNESS_MAP(FLOAT64_),
++	ENDIANNESS_MAP(IEC958_SUBFRAME_),
++};
++
++/*
++ * Fix up the DAI formats for endianness: codecs don't actually see
++ * the endianness of the data but we're using the CPU format
++ * definitions which do need to include endianness so we ensure that
++ * codec DAIs always have both big and little endian variants set.
++ */
++static void convert_endianness_formats(struct snd_soc_pcm_stream *stream)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(endianness_format_map); i++)
++		if (stream->formats & endianness_format_map[i])
++			stream->formats |= endianness_format_map[i];
++}
++
++static void snd_soc_del_component_unlocked(struct snd_soc_component *component)
++{
++	struct snd_soc_card *card = component->card;
++
++	snd_soc_unregister_dais(component);
++
++	if (card)
++		snd_soc_card_unbind(card, true);
++
++	list_del(&component->list);
++}
++
++struct snd_soc_component *snd_soc_component_new(struct device *dev, const char *name,
++						const struct snd_soc_component_driver *driver)
++{
++	struct snd_soc_component *component;
++
++	component = devm_kzalloc(dev, sizeof(*component), GFP_KERNEL);
++	if (!component)
++		return ERR_PTR(-ENOMEM);
++
++	component->dapm = snd_soc_dapm_alloc(dev);
++	if (!component->dapm)
++		return ERR_PTR(-ENOMEM);
++
++	if (!name) {
++		name = snd_soc_fmt_single_name(dev, NULL);
++		if (!name) {
++			dev_err(dev, "ASoC: Failed to allocate name\n");
++			return ERR_PTR(-ENOMEM);
++		}
++	}
++
++	component->dev = dev;
++	component->name = name;
++	component->driver = driver;
++
++	INIT_LIST_HEAD(&component->dai_list);
++	INIT_LIST_HEAD(&component->dobj_list);
++	INIT_LIST_HEAD(&component->card_list);
++	INIT_LIST_HEAD(&component->list);
++	INIT_LIST_HEAD(&component->card_aux_list);
++	mutex_init(&component->io_mutex);
++
++	return component;
++}
++EXPORT_SYMBOL_GPL(snd_soc_component_new);
++
++int snd_soc_component_register(struct snd_soc_component *component,
++			       struct snd_soc_dai_driver *dai_drv,
++			       int num_dai)
++{
++	int ret;
++	int i;
++
++	guard(mutex)(&client_mutex);
++
++	if (component->driver->endianness) {
++		for (i = 0; i < num_dai; i++) {
++			convert_endianness_formats(&dai_drv[i].playback);
++			convert_endianness_formats(&dai_drv[i].capture);
++		}
++	}
++
++	ret = snd_soc_register_dais(component, dai_drv, num_dai);
++	if (ret < 0) {
++		dev_err(component->dev, "ASoC: Failed to register DAIs: %d\n",
++			ret);
++		goto err_cleanup;
++	}
++
++	if (!component->driver->write && !component->driver->read) {
++		if (!component->regmap)
++			component->regmap = dev_get_regmap(component->dev,
++							   NULL);
++	}
++
++	/* see for_each_component */
++	list_add(&component->list, snd_soc_component_get_list_head());
++
++	snd_soc_card_rebind();
++
++err_cleanup:
++	if (ret < 0)
++		snd_soc_del_component_unlocked(component);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(snd_soc_component_register);
++
++int snd_soc_register_component(struct device *dev,
++			       const struct snd_soc_component_driver *component_driver,
++			       struct snd_soc_dai_driver *dai_drv,
++			       int num_dai)
++{
++	struct snd_soc_component *component;
++
++	component = snd_soc_component_new(dev, NULL, component_driver);
++	if (IS_ERR(component))
++		return PTR_ERR(component);
++
++	return snd_soc_component_register(component, dai_drv, num_dai);
++}
++EXPORT_SYMBOL_GPL(snd_soc_register_component);
++
++/**
++ * snd_soc_unregister_component_by_driver - Unregister component using a given driver
++ * from the ASoC core
++ *
++ * @dev: The device to unregister
++ * @component_driver: The component driver to unregister
++ */
++void snd_soc_unregister_component_by_driver(struct device *dev,
++					    const struct snd_soc_component_driver *component_driver)
++{
++	const char *driver_name = NULL;
++
++	if (component_driver)
++		driver_name = component_driver->name;
++
++	guard(mutex)(&client_mutex);
++
++	while (1) {
++		struct snd_soc_component *component;
++
++		component = snd_soc_lookup_component_nolocked(dev, driver_name);
++		if (!component)
++			break;
++
++		snd_soc_del_component_unlocked(component);
++	}
++}
++EXPORT_SYMBOL_GPL(snd_soc_unregister_component_by_driver);
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index ac72d9357840a..b0dfdfe8d4a29 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -1376,218 +1376,6 @@ char *snd_soc_fmt_multiple_name(struct device *dev, struct snd_soc_dai_driver *d
+ 	return devm_kstrdup(dev, dai_drv->name, GFP_KERNEL);
+ }
  
--#ifdef CONFIG_REGMAP
+-/**
+- * snd_soc_unregister_dais - Unregister DAIs from the ASoC core
+- *
+- * @component: The component for which the DAIs should be unregistered
+- */
+-static void snd_soc_unregister_dais(struct snd_soc_component *component)
+-{
+-	struct snd_soc_dai *dai, *_dai;
 -
- /**
-- * snd_soc_component_init_regmap() - Initialize regmap instance for the
-+ * snd_soc_component_regmap_init() - Initialize regmap instance for the
-  *                                   component
-  * @component: The component for which to initialize the regmap instance
-  * @regmap: The regmap instance that should be used by the component
-@@ -445,15 +443,15 @@ EXPORT_SYMBOL_GPL(snd_soc_component_regmap_async_complete);
-  * yet ready when the component is registered. The function must also be called
-  * before the first IO attempt of the component.
-  */
--void snd_soc_component_init_regmap(struct snd_soc_component *component,
-+void snd_soc_component_regmap_init(struct snd_soc_component *component,
- 				   struct regmap *regmap)
- {
- 	component->regmap = regmap;
- }
--EXPORT_SYMBOL_GPL(snd_soc_component_init_regmap);
-+EXPORT_SYMBOL_GPL(snd_soc_component_regmap_init);
- 
- /**
-- * snd_soc_component_exit_regmap() - De-initialize regmap instance for the
-+ * snd_soc_component_regmap_exit() - De-initialize regmap instance for the
-  *                                   component
-  * @component: The component for which to de-initialize the regmap instance
-  *
-@@ -463,14 +461,12 @@ EXPORT_SYMBOL_GPL(snd_soc_component_init_regmap);
-  * This function should only be used if snd_soc_component_init_regmap() was used
-  * to initialize the regmap instance.
-  */
--void snd_soc_component_exit_regmap(struct snd_soc_component *component)
-+void snd_soc_component_regmap_exit(struct snd_soc_component *component)
- {
- 	regmap_exit(component->regmap);
- 	component->regmap = NULL;
- }
--EXPORT_SYMBOL_GPL(snd_soc_component_exit_regmap);
+-	for_each_component_dais_safe(component, dai, _dai)
+-		snd_soc_unregister_dai(dai);
+-}
 -
--#endif
-+EXPORT_SYMBOL_GPL(snd_soc_component_regmap_exit);
- 
- int snd_soc_component_compr_open(struct snd_soc_component *component,
- 				 struct snd_compr_stream *cstream)
+-/**
+- * snd_soc_register_dais - Register a DAI with the ASoC core
+- *
+- * @component: The component the DAIs are registered for
+- * @dai_drv: DAI driver to use for the DAIs
+- * @count: Number of DAIs
+- */
+-static int snd_soc_register_dais(struct snd_soc_component *component,
+-				 struct snd_soc_dai_driver *dai_drv,
+-				 size_t count)
+-{
+-	struct snd_soc_dai *dai;
+-	unsigned int i;
+-	int ret;
+-
+-	for (i = 0; i < count; i++) {
+-		dai = snd_soc_register_dai(component, dai_drv + i, count == 1 &&
+-					   component->driver->legacy_dai_naming);
+-		if (dai == NULL) {
+-			ret = -ENOMEM;
+-			goto err;
+-		}
+-	}
+-
+-	return 0;
+-
+-err:
+-	snd_soc_unregister_dais(component);
+-
+-	return ret;
+-}
+-
+-#define ENDIANNESS_MAP(name) \
+-	(SNDRV_PCM_FMTBIT_##name##LE | SNDRV_PCM_FMTBIT_##name##BE)
+-static u64 endianness_format_map[] = {
+-	ENDIANNESS_MAP(S16_),
+-	ENDIANNESS_MAP(U16_),
+-	ENDIANNESS_MAP(S24_),
+-	ENDIANNESS_MAP(U24_),
+-	ENDIANNESS_MAP(S32_),
+-	ENDIANNESS_MAP(U32_),
+-	ENDIANNESS_MAP(S24_3),
+-	ENDIANNESS_MAP(U24_3),
+-	ENDIANNESS_MAP(S20_3),
+-	ENDIANNESS_MAP(U20_3),
+-	ENDIANNESS_MAP(S18_3),
+-	ENDIANNESS_MAP(U18_3),
+-	ENDIANNESS_MAP(FLOAT_),
+-	ENDIANNESS_MAP(FLOAT64_),
+-	ENDIANNESS_MAP(IEC958_SUBFRAME_),
+-};
+-
+-/*
+- * Fix up the DAI formats for endianness: codecs don't actually see
+- * the endianness of the data but we're using the CPU format
+- * definitions which do need to include endianness so we ensure that
+- * codec DAIs always have both big and little endian variants set.
+- */
+-static void convert_endianness_formats(struct snd_soc_pcm_stream *stream)
+-{
+-	int i;
+-
+-	for (i = 0; i < ARRAY_SIZE(endianness_format_map); i++)
+-		if (stream->formats & endianness_format_map[i])
+-			stream->formats |= endianness_format_map[i];
+-}
+-
+-static void snd_soc_del_component_unlocked(struct snd_soc_component *component)
+-{
+-	struct snd_soc_card *card = component->card;
+-
+-	snd_soc_unregister_dais(component);
+-
+-	if (card)
+-		snd_soc_card_unbind(card, true);
+-
+-	list_del(&component->list);
+-}
+-
+-struct snd_soc_component *snd_soc_component_new(struct device *dev, const char *name,
+-						const struct snd_soc_component_driver *driver)
+-{
+-	struct snd_soc_component *component;
+-
+-	component = devm_kzalloc(dev, sizeof(*component), GFP_KERNEL);
+-	if (!component)
+-		return ERR_PTR(-ENOMEM);
+-
+-	component->dapm = snd_soc_dapm_alloc(dev);
+-	if (!component->dapm)
+-		return ERR_PTR(-ENOMEM);
+-
+-	if (!name) {
+-		name = snd_soc_fmt_single_name(dev, NULL);
+-		if (!name) {
+-			dev_err(dev, "ASoC: Failed to allocate name\n");
+-			return ERR_PTR(-ENOMEM);
+-		}
+-	}
+-
+-	component->dev = dev;
+-	component->name = name;
+-	component->driver = driver;
+-
+-	INIT_LIST_HEAD(&component->dai_list);
+-	INIT_LIST_HEAD(&component->dobj_list);
+-	INIT_LIST_HEAD(&component->card_list);
+-	INIT_LIST_HEAD(&component->list);
+-	INIT_LIST_HEAD(&component->card_aux_list);
+-	mutex_init(&component->io_mutex);
+-
+-	return component;
+-}
+-EXPORT_SYMBOL_GPL(snd_soc_component_new);
+-
+-int snd_soc_component_register(struct snd_soc_component *component,
+-			       struct snd_soc_dai_driver *dai_drv,
+-			       int num_dai)
+-{
+-	int ret;
+-	int i;
+-	guard(mutex)(&client_mutex);
+-
+-	if (component->driver->endianness) {
+-		for (i = 0; i < num_dai; i++) {
+-			convert_endianness_formats(&dai_drv[i].playback);
+-			convert_endianness_formats(&dai_drv[i].capture);
+-		}
+-	}
+-
+-	ret = snd_soc_register_dais(component, dai_drv, num_dai);
+-	if (ret < 0) {
+-		dev_err(component->dev, "ASoC: Failed to register DAIs: %d\n",
+-			ret);
+-		goto err_cleanup;
+-	}
+-
+-	if (!component->driver->write && !component->driver->read) {
+-		if (!component->regmap)
+-			component->regmap = dev_get_regmap(component->dev,
+-							   NULL);
+-	}
+-
+-	/* see for_each_component */
+-	list_add(&component->list, snd_soc_component_get_list_head());
+-
+-	snd_soc_card_rebind();
+-
+-err_cleanup:
+-	if (ret < 0)
+-		snd_soc_del_component_unlocked(component);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL_GPL(snd_soc_component_register);
+-
+-int snd_soc_register_component(struct device *dev,
+-			       const struct snd_soc_component_driver *component_driver,
+-			       struct snd_soc_dai_driver *dai_drv,
+-			       int num_dai)
+-{
+-	struct snd_soc_component *component;
+-
+-	component = snd_soc_component_new(dev, NULL, component_driver);
+-	if (IS_ERR(component))
+-		return PTR_ERR(component);
+-
+-	return snd_soc_component_register(component, dai_drv, num_dai);
+-}
+-EXPORT_SYMBOL_GPL(snd_soc_register_component);
+-
+-/**
+- * snd_soc_unregister_component_by_driver - Unregister component using a given driver
+- * from the ASoC core
+- *
+- * @dev: The device to unregister
+- * @component_driver: The component driver to unregister
+- */
+-void snd_soc_unregister_component_by_driver(struct device *dev,
+-					    const struct snd_soc_component_driver *component_driver)
+-{
+-	const char *driver_name = NULL;
+-
+-	if (component_driver)
+-		driver_name = component_driver->name;
+-
+-	guard(mutex)(&client_mutex);
+-
+-	while (1) {
+-		struct snd_soc_component *component = snd_soc_lookup_component_nolocked(dev, driver_name);
+-
+-		if (!component)
+-			break;
+-
+-		snd_soc_del_component_unlocked(component);
+-	}
+-}
+-EXPORT_SYMBOL_GPL(snd_soc_unregister_component_by_driver);
+-
+ /* Retrieve a card's name from device tree */
+ int snd_soc_of_parse_card_name(struct snd_soc_card *card,
+ 			       const char *propname)
 -- 
 2.53.0
 
