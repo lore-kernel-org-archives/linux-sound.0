@@ -1,75 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794290438;
-	b=FzKooyIkH86DN7EVr4PaYwOEJZj/lHxDaoc7nM+XcDLULclutxbeZejQtsOidWTv7SHi
-	 /FmNR1/jHS41FBqpg2HD73aOPyJ7qFWplDp+yrFgIA2MP1dV4HxBxoMlTSkCL73ccBucS
-	 eruvGEBegwh7XH8M3QPk9rUEad/Eol0TTlrHwElJa2jVxylNnm1lztcGxrYGTtK60DRSJ
-	 YXs18eJ3Wxpe60YlSfESnkUcoTEnUw++ESoP7X7ArpRBEG8FgvO/a21R9HVtK7hOJNtLu
-	 Ad01U8GC1tZ4a2aViw5DjuL+po1z5n6rnD23mFB31HaqgDY8a0WUjdFM6RNlnL8Bi5w==
+	t=1794290558;
+	b=0ciqZjt1plt04GHHQZ89qSn2/O7wR14ncbXjbe+jhpLCjXsd0+ve7A6vP8yJOc3fcubp
+	 QvR7ta5um/pLbRdykTdiZBVtxn6XiBRphG3e1U/l53e1rWV1ss1ysfzP1jy15l4ICXy6q
+	 2sObSw3K9ig8am7ruMOEbQjdWbOXo6T+07s9zisY8TYpZmHOXCRByWEFcsPBwB0S388z9
+	 yqOpAFbhCipFyyHPPKfMQDBZjPGi7uX+r7wqB0TtU6E179ZfuLotuLj4xfQfq0ibK1kO6
+	 iSR/3JFLkicN2itQmXM0pwZ0Xl9JNe/qM/1h7bie4xrucRdco2sO4PLxAbmO8ylLBRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794290438;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
-	 Received:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding:X-CMS-MailID:X-Msg-Generator:
-	 Content-Type:CMS-TYPE:cpgsPolicy:X-CFilter-Loop:X-CMS-RootMailID:
-	 References;
-	bh=HRSkNBNCGQP3+WWuKL4PepJWaawJY/A9pCIWUz3AJ1k=;
-	b=LhJsyNzN419hC9nGz7818015UnVkYGg/BJz6ePotichp5iTKDyokTw9UNN0OUC/J8RAR
-	 H+d3kSI07PvcSIvEMBT26yI63dcwtB65GaxiDHDqs8e92DByZQ95UPllm9U/fVyhKW/XP
-	 pL2zi1F5Kz6Onla/Qk3hpjMR53V1n03ab3zvv3vAp0UDVlfPVCHG4pmd0y9U3nEu1votj
-	 AuhK8g4O8JkTXA7FaFXN6ByhaGNgAVxMtqSiXhMaZHtVL4oNCVPaQKRNIcvfr95WM91Ut
-	 3oFyLsRcP+T5GO8K8e5EbnF5mYz2WkcYS0UH2S8WAjwa3NZdbCeD/P/9ErGoTmHP0ig==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794290558;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=hlKSwbDaSVH7Fcw2T/jklK3nMnUgIQIhV1V2VLCXGFM=;
+	b=EPI9CWRvpd/8keUQhwsn95pgD0pciDykuVmAUsWl07VeqqviOjwkqtVw15Mcb8tURJI8
+	 2WyrvIXQLgyqVS/ck1BWB8KMU/KeyRQEyliMHKhSY65B5AiOAg1Oi50TNoZ0d3Y97FdtU
+	 Y/dv3QFJlb5IBszp7w4BB6ZuZxEmkCkzn4wppCHXBXANJ+eMl+IPbZwIlLtDMDktZgMkO
+	 k9XLryQNZPd9D+2TrcBK04+iXgMh6zIZmTykOrpZ2eG+Tq1jk0rGiIl3JmoDEFmA/qUAA
+	 Wje5j0Wt9A8YjgVi7O4XVPt14W+2nLMuw/ooxifcsL2Z8HMA9htjsRnl194pt892o0A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=samsung.com;
-	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=kzBdfRfG;
-	arc=none smtp.remote-ip=203.254.224.33
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="S3/EIgPs";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FqoQYn5G;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="S3/EIgPs";
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FqoQYn5G;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C8A606A32A
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 06:00:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3C8A606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E390606A325;
+	Tue, 10 Nov 2026 06:02:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E390606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=kzBdfRfG
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20261110060033epoutp030295655e7ea6c7b14b02dd9ae05a71c8~mmaSIBIh90852908529epoutp03k
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 06:00:33 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20261110060033epoutp030295655e7ea6c7b14b02dd9ae05a71c8~mmaSIBIh90852908529epoutp03k
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1794290433;
-	bh=HRSkNBNCGQP3+WWuKL4PepJWaawJY/A9pCIWUz3AJ1k=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=kzBdfRfGjn+JPeC1M9qDbAcZFOw+yh3EcWn6wRzN4HfuL9YQ19KW1EA14DA1qoiPl
-	 AhyMIg1LXtwIVZ1R85Fbix3Uc7hhwsoYH+2B3IIa901iNf1lX1cSK+5BS9C418oVCD
-	 Kqk6fW7HjtPjRhQ1q1G90XmSTvFWjNvEpFV9MXDo=
-Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
-	epcas1p3.samsung.com (KnoxPortal) with ESMTPS id
-	20261110060033epcas1p3f16322cf7597964bea512dd529242333~mmaRrbJwt1479314793epcas1p3C;
-	Tue, 10 Nov 2026 06:00:33 +0000 (GMT)
-Received: from epcas1p4.samsung.com (unknown [182.195.38.116]) by
-	epsnrtp04.localdomain (Postfix) with ESMTP id 4jNwxD49W4z6B9mQ; Tue, 10 Nov
-	2026 06:00:32 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20261110060032epcas1p1a4de057d86d384387d0b8004d63ef331~mmaQzxQ980234802348epcas1p1F;
-	Tue, 10 Nov 2026 06:00:32 +0000 (GMT)
-Received: from VDBS1420.vd.sec.samsung.net (unknown [168.219.244.32]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20261110060032epsmtip2a880c20583abe50f7ea0aa2017e23612~mmaQwqyF30109101091epsmtip2e;
-	Tue, 10 Nov 2026 06:00:32 +0000 (GMT)
-From: Gichoon Han <gichoon.han@samsung.com>
-To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Cc: Sinan Turunc <enscrpt@pm.me>, Edward Adam Davis <eadavis@qq.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, Gichoon Han
-	<gichoon.han@samsung.com>, stable@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Drop capture packets with bogus
- actual_length
-Date: Tue, 10 Nov 2026 15:00:21 +0900
-Message-Id: <20261110060021.2146383-1-gichoon.han@samsung.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=S3/EIgPs;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FqoQYn5G;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=S3/EIgPs;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FqoQYn5G
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6A89C1F441;
+	Tue, 10 Nov 2026 06:02:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794290550; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hlKSwbDaSVH7Fcw2T/jklK3nMnUgIQIhV1V2VLCXGFM=;
+	b=S3/EIgPsJ9kX+yOdzUiPuKUBuOl6GUgUxc0WF0Zr1y9+60kVdegZOg6g+/APHN0uBblfk9
+	HTfQnNMLIAXvyAYXjdRLsivNuiRCgZDRc+wjDWH5+mjP2mkbLZjrSzAhPRlWoWXyY7oezO
+	4AAUtNzXAZ0sWCY6ZiXnZG2TMyRXzbg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794290550;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hlKSwbDaSVH7Fcw2T/jklK3nMnUgIQIhV1V2VLCXGFM=;
+	b=FqoQYn5GHhY0liT1iBzPl2O6QUsuk43C5BWnrnLj4YnG5l2jM2aG9UlXenY8KksvQlSvTm
+	fhUnhXHxXuLkrSBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794290550; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hlKSwbDaSVH7Fcw2T/jklK3nMnUgIQIhV1V2VLCXGFM=;
+	b=S3/EIgPsJ9kX+yOdzUiPuKUBuOl6GUgUxc0WF0Zr1y9+60kVdegZOg6g+/APHN0uBblfk9
+	HTfQnNMLIAXvyAYXjdRLsivNuiRCgZDRc+wjDWH5+mjP2mkbLZjrSzAhPRlWoWXyY7oezO
+	4AAUtNzXAZ0sWCY6ZiXnZG2TMyRXzbg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794290550;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hlKSwbDaSVH7Fcw2T/jklK3nMnUgIQIhV1V2VLCXGFM=;
+	b=FqoQYn5GHhY0liT1iBzPl2O6QUsuk43C5BWnrnLj4YnG5l2jM2aG9UlXenY8KksvQlSvTm
+	fhUnhXHxXuLkrSBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F0FAD13479;
+	Tue, 10 Nov 2026 06:02:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id oxNbMHWz8mpXGwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 10 Nov 2026 06:02:29 +0000
+Date: Tue, 10 Nov 2026 07:02:29 +0100
+Message-ID: <877bilusui.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Angel J <iamanaws@httpd.dev>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	tiwai@suse.com,
+	perex@perex.cz,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Fix the Dell XPS 8940 headset microphone
+In-Reply-To: <5ncUNWXphcObbYD04quaQMbD0tGoekaHB-QQrX5tgC7sSbzoT9jRVrbY9PyT6mRbww0G9-voA6Y98HjvPg7U25kmeybfQALp5NsNKym-3pc=@httpd.dev>
+References: <20261103150336.507675-1-iamanaws@httpd.dev>
+	<87wlqtukxh.wl-tiwai@suse.de>
+	<5ncUNWXphcObbYD04quaQMbD0tGoekaHB-QQrX5tgC7sSbzoT9jRVrbY9PyT6mRbww0G9-voA6Y98HjvPg7U25kmeybfQALp5NsNKym-3pc=@httpd.dev>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -78,74 +113,52 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20261110060032epcas1p1a4de057d86d384387d0b8004d63ef331
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 101P
-cpgsPolicy: CPGSC10-702,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261110060032epcas1p1a4de057d86d384387d0b8004d63ef331
-References: <CGME20261110060032epcas1p1a4de057d86d384387d0b8004d63ef331@epcas1p1.samsung.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-2022-JP
+X-Spamd-Result: default: False [-12.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
+X-Spam-Score: -12.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-retire_capture_urb() copies urb->iso_frame_desc[i].actual_length bytes
-out of urb->transfer_buffer at the packet's offset, but never checks
-that value against the requested packet length.  A host controller
-reporting more data than requested makes memcpy() read past the end
-of the URB transfer buffer.
+On Mon, 09 Nov 2026 18:58:47 +0100,
+Angel J wrote:
+> 
+> On Tuesday, November 3rd, 2026 at 23:15, Takashi Iwai <tiwai@suse.de> wrote:
+> > The code change looks OK, but could you resubmit with a proper
+> > Signed-off-by tag with your full name (also From tag, too)?
+> > Signed-off-by is a legal requirement.
+> 
+> Hi Takashi,
+> 
+> Thanks for reviewing. My understanding is that the guidelines require
+> a known identity, without necessarily requiring disclosure of a full
+> name. I consistently use “Angel J” and this email address for kernel
+> contributions. My PCI fix, commit 8805840aad73, was merged with the same
+> author identity and Signed-off-by.
 
-Commit 06be918062ad ("ALSA: usb-audio: Bound packet copies by the PCM
-buffer size") clamps the count to the PCM ring buffer size, which
-protects the destination.  The source slot is only ep->curpacksize
-bytes per packet, though, so the over-read remains.
+Is your identity really already widely known in the kernel community?
+I see only one recent commit in the past, and I can't see it's really
+"known".
 
-This was hit on an ARM32 system (vendor 5.4 kernel; the code path is
-unchanged in mainline) with a full-speed UAC1 microphone behind a
-high-speed hub, i.e. the EHCI siTD path.  sitd_complete() computes
-actual_length as desc->length - SITD_LENGTH(t); the controller
-reported a remaining length larger than the programmed one, the value
-wrapped to ~4G, and the capture copy faulted on the first unmapped
-page after the URB buffer:
 
-  Unable to handle kernel paging request at virtual address e8756000
-  Internal error: Oops: 7 [#1] PREEMPT SMP ARM
-  r3 : 00000000  r2 : 0001e700  r1 : e8756000  r0 : e878fc80
-  Code: ba000002 f5d1f03c f5d1f05c f5d1f07c (e8b151f8)
+thanks,
 
-A packet can never legitimately carry more than its requested length,
-so warn and skip it instead of copying.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Gichoon Han <gichoon.han@samsung.com>
----
-Compile-tested only on linux-next.  The crash was observed in the
-field on a vendor 5.4-based ARM32 kernel with the same code path;
-I don't have a setup to reproduce the bogus siTD length on mainline.
-
- sound/usb/pcm.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
-index c2f7b08607ac..57a26492dd61 100644
---- a/sound/usb/pcm.c
-+++ b/sound/usb/pcm.c
-@@ -1337,6 +1337,12 @@ static void retire_capture_urb(struct snd_usb_substream *subs,
- 					    "frame %d active: %d\n", i,
- 					    urb->iso_frame_desc[i].status);
- 		bytes = urb->iso_frame_desc[i].actual_length;
-+		if (unlikely(bytes > urb->iso_frame_desc[i].length)) {
-+			dev_warn_ratelimited(&subs->dev->dev,
-+					     "packet %d: actual_length %u exceeds length %u, dropping\n",
-+					     i, bytes, urb->iso_frame_desc[i].length);
-+			continue;
-+		}
- 		if (subs->stream_offset_adj > 0) {
- 			unsigned int adj = min(subs->stream_offset_adj, bytes);
- 			cp += adj;
-
-base-commit: 630059a5a632377b9b7b487baccde92b7ae1dd47
--- 
-2.25.1
-
+Takashi
