@@ -1,104 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794304643;
-	b=NK0sTTibytJNXpyYh0vT9ULtYfe8WTEZvx2Nmf44c7V7W53X9lOMXc0kYZNqx5nKXXMh
-	 kWDIh03G/Gyp/LT8esiXzmtkyeghct+rn6SmDCW4c3z7KFvvIkIlDDF2sMmkyu5K4d1+F
-	 FxoqNA0dm2TXGjuVMiFsDoLc87wrbJ44Oq6WmU59jSe08OCTxrKS1zK5v57VJ0f9ZEhN3
-	 h+/+WeLyp+070Ka3KP3+SCt0sH6NUqlRtNDadk1TFRCG/Rfkzqv72zU52JNjcZwyhjnn1
-	 309NSkmB3P7IdYiey0x3DTBcNK0XYTw6Ux+LT07aT/E0CfkIQc/jLfjL0Er0jsmDr3w==
+	t=1794304981;
+	b=KW6rueKDWPLGRmmSKvmd+72/U9Y2yI0GSvuN90IEyBGSJAFyS3fvRNnyJSEAVb60M6EU
+	 nk0JJgmQfbWjZsGlVrUAqz09x6TVHgwrVHxI1BzqCeLCk8P0/ShjEfrv+thRp4elz6cp8
+	 mrEe/xCA2xb2x4p7bMitvFYCVND4YtoldEdBywi2hjUJOxrbDl0uDA/5JhmWNkpMNN1W1
+	 cvwT8irlWgOxfycPbhA4thhIGpypDK4VX4FC1E/sCMSJrxZQB4eDXjgojznHMcUkmqOVk
+	 3DXUwHv0gT2eZmTYzCWCPIpVc90I4JvkqviwYfWwh/olQ/iOKYfQM2SnOBYJ2A1uRcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794304643;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=+Prg47iXD919tYCgVMOQ6+zwqLgIY/fyOVcPOF91tfY=;
-	b=imJqp3M0Zex4LHq0yZ+xCU7qeWEcua8EfjKBvi44gWtfLhKOEFRStxDG16jS1VRFU307
-	 XqTOprUTvo/qyjk2+mTW+xoDeatHnCr+H1ju3JXkRxdYP5W0mxk2uH26sgVY1ofmdBYAe
-	 kvFleUbqGdDTq/O1GmeOxSclS98Ld4VMcFrt9NEeVWy5YUEnlBnzOOXRtcOX60ueOLOAs
-	 pNkxhIcruOZIMDKduUUzwRWq2/YEmn1IUsjUkUKzlJlddfV2g+KAGdqFjpEQ7ekjGXaJE
-	 GDlmnfzDtWk3qB3CljnSU5YkH+qR825nBSqKFscIY/LRp2UYeZTwUPl2ZgTwoCiK4qg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794304981;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=fEita7AedzyVMi6g2D+675Wv4/CkkrLDqluuh9SYGQQ=;
+	b=1xSiujdFVdjrX+VWMLC49y088ip3Cn6tBWUQirXjr1e4I71jXdxrMxQfwIVANaEipn4a
+	 Qwe9IGZAeyR4W/2fQw/xfxeyvN26B1WjxzjvhIOlz3bAOBX8o0vQvrz5sbO9t4dGhI3DN
+	 ycnmTr/2hJtR9QctYvGAnlAYTA/VZTIEmsw5iNTgLr+uBq7E6OKjX6Fo99JHOviW4pA6Q
+	 TSWAM+0SyVa/gjTgrhIEZq2wDckDoq9E+sMEl1xb+0CbCJpVMtymCXnV4RCAUwuaxfbxC
+	 4wFLyliQxNhW059cQnWeuOFz9zIUSlZqKzr+8e4MBQO1O9/1oKQhcRc0ULkMfR1Y1PA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=edWE7KND;
-	arc=none smtp.remote-ip=74.125.82.47
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MzAGuLWw;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4E2606A929
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 09:57:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD4E2606A929
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCC2606A330
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 10:03:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=edWE7KND
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-15dd124bbe7so2174020c88.1
-        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 01:57:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794304642; x=1794909442; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=+Prg47iXD919tYCgVMOQ6+zwqLgIY/fyOVcPOF91tfY=;
-        b=edWE7KND3B6QGpko8/W3B9RsuOX87YlGKLwatgFylw5xfU5EF65tCuzv+vSR7zFL64
-         MsJEknrCUvoSDPYFS+c3uSG7f4PsAIR5FgsYbAkM38I73UOfpfh8nULxehU+UbUECFXy
-         Xd5maBC5kbjrKUpIG3q3ZpQ1aLVr0mPlqv7HTDow/w3nHstjV2JgribRIuo+QCjHPq/i
-         XDzGhM9kuIaKc1Bfq7+4hjrQKwUKZ9aMoUnYCcNWzGbdM1dMT5i2xNdMMlKYIjACFGI+
-         7eIS796E9IqwMCkc6Zt6uid/AzoLM4tdF39bDdl11oBRqJpV7m/urWs2D1ShzFHovfgE
-         Ba5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794304642; x=1794909442;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+Prg47iXD919tYCgVMOQ6+zwqLgIY/fyOVcPOF91tfY=;
-        b=Wo+GB//xkgpeEe+VhYnqxsiYaDvouRFc3TW4K8jv6Po7smif0BhDT9Nf1om1pCDcPy
-         9zet+QI+V6/XBcUFPzkIUzQvtPmbyO+cmR7aTZnqukGirFkkBQi+wf3jtgU4rBqPTPTz
-         ZGYDLsDjen/gUrLV46ctBvHa0fifM6KuirW3XyUdPrQgEoNmzlry3OqwS4+j7bgBCLjM
-         nUkaRC4ti/NOT1rb1yypkQAM45CbAfmjPWpw7nLJerigNqD+5mhTMmQhi6Pl+g2523ww
-         3ZhF0xWXCsJkoQrHBBK9endES8igPFAIyT+XEUV7SmmypughBEu562OE5v828LnsdJwS
-         5qMw==
-X-Forwarded-Encrypted: i=1; AL+hErEk0VfVHXBy7yA5cdV92UxVA0CwO/DH1O/g/9aTqWFq6QVTYoGX428lG4yWrC5LNeeOSX6nzo4PyQb6gw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9n6NWDMWrIQSbkqJFsBFIfDBURch34zenzUlmGw7SHynuGxd6X
-	eFHVttq6pzLcH8YYCDMiE5eR1kEsD5oCRL7xAtyfYo0ei7r/RH21kxjX
-X-Gm-Gg: AYBFou2u1vgWN2E8+TzdCei9tvY+uSeV3Z9cE6jMspPrk/SJUFzvHly6XtZq5i2fzHV
-	/yJDQfGLA1WlXRDDXUwpi+wc5NcDcxxMouFno4m/6D451Lwz93Hg4x8swFbgC3aOd/he/yAGOqj
-	i8HrIJ4NZ5r88/2UmbuzwegHRxTA+P/gfwKXaHK3K9fhogIE0AoLvrC94n2rk0wZ3CmPvRI/vCN
-	cED1KJgeZyR3K/VPUZvSdMYstALIGtzUNr49aGP5jIVIPyKDhR5/amKCVC9T9FQsLs9pBvvCh8l
-	fvWC07hPrZlu4m1TEXgX0DoQkLmKnOEI1HukZrRhEWJ6f4KDIXE0C86IXRH/fny1sJYLeCzdcjm
-	CbnMY8fR/JFSYJE8PVO9olLUfQ7nCJRw8INsc0XIJRX1BGPVaVL6zypI8gLm91uEB3UCgrl4UFj
-	KApFRbQ/8HPRnmPFSHj+cuMPwZNsSicooG/0SuGMBaURi7No6waqVPdn/FfeV316suUZfyWgYCW
-	r/x7+zaOWVidxToB14vKqzMvV/Db94nYL2GnYUaU4cMREsY3VWRGRmQwDOpiWHFNstOnYlhvRSi
-	lwKajxoCNHPDRw5kY+yfQeRaAWomzL4rMnd8Y+exJgoqyZsmC1rC9EJPScpB1m5KIfbwsMR6qSy
-	xBMmXm94oOYoWJm/rJw/JW13h8pqglCO4vukEDFNsGSQb
-X-Received: by 2002:a05:701b:291b:b0:13e:5a50:1e17 with SMTP id a92af1059eb24-1b3b5fa8f4amr2584323c88.3.1794304641806;
-        Tue, 10 Nov 2026 01:57:21 -0800 (PST)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b75d42sm5203801c88.20.2026.11.10.01.57.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 01:57:21 -0800 (PST)
-From: phucduc.bui@gmail.com
-To: Maxim Kochetkov <fido_max@inbox.ru>,
-	Andrew Jackson <Andrew.Jackson@arm.com>,
-	Mark Brown <broonie@kernel.org>,
-	Xingyu Wu <xingyu.wu@starfivetech.com>
-Cc: Tim Bird <tim.bird@sony.com>,
-	Yuri Zaporozhets <yuriz@vodafonemail.de>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 6/6] ASoC: dwc: Remove redundant error messages
-Date: Tue, 10 Nov 2026 16:55:25 +0700
-Message-ID: <20261110095525.504660-7-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261110095525.504660-1-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MzAGuLWw
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 757211F0089F;
+	Tue, 10 Nov 2026 10:03:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794304980;
+	bh=fEita7AedzyVMi6g2D+675Wv4/CkkrLDqluuh9SYGQQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=MzAGuLWwaXUc9g81SivD2QBpT4TbO7cLKGZW/pG1eMN4+iAa4C642j2V+mcHGDkdj
+	 q+SG6YHLYGgADSjBlpFHuHUu+sJskvANJnIYft3rVnaJkbyJimDwQg+Ioq9zhMiQCG
+	 KOAr3sdJF6xMXPAa72pso2SSLQ1OsJuC37R+kN8B73kFza1StHNYr0/PhzJfY2HMKY
+	 22ElSHrsI2r+ztzp35PZBzY0vS298R+/+Qxwn1edzlEY/FNFlLgUKrPXZnZF+pvU3b
+	 wWa0HFnkJGYaftaqZ2hZRkhsYty1ZNCU1s2n7rdEdhgErYWMDRQIPE9d0n/wonVjaz
+	 aTvZqeGnJbRuQ==
+Message-ID: <sashiko-outbox-206828@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 4/6] ASoC: dwc: Fix DMA fifo_size calculation
+Reply-To: sashiko-reviews@lists.linux.dev
+To: phucduc.bui@gmail.com
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261110095525.504660-5-phucduc.bui@gmail.com>
 References: <20261110095525.504660-1-phucduc.bui@gmail.com>
+ <20261110095525.504660-5-phucduc.bui@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2026 10:02:59 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -107,91 +59,36 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] ASoC: dwc: missing Fixes trailer for dw_configure_dai_by_dt()
+  fifo_size bug
+--
 
-The underlying functions already report these errors deeper in
-the call chain, making the additional dev_err_probe() and
-dev_err() calls unnecessary.
+commit 7aa9b7e8f65aeb4b8c0e3324d72ada2ec12b9b6b
+Author: bui duc phuc <phucduc.bui@gmail.com>
 
-Also fix the indentation of the affected code and correct a typo
-in the DAI format error message.
+> ASoC: dwc: Fix DMA fifo_size calculation
+>
+> fifo_size should be the FIFO size in bytes (depth * width / 8), but
+> the code shifts by 8 instead of 3. For capture the parentheses also
+> make it always 0.
+>
+> Use depth * width / 8 for both directions.
+>
+> Fixes: 52ea7c0543f8 ("ASoC: dwc: i2s: Add StarFive JH7110 SoC support")
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
+[Severity: Low]
+While 52ea7c0543f8 ("ASoC: dwc: i2s: Add StarFive JH7110 SoC support")
+added the calculation in dw_configure_dai_by_pd(), the broken fifo_size
+calculation in dw_configure_dai_by_dt() was introduced earlier. Should
+this also include:
 
-Changes in v2:
- - Add the indentation and typo fixes to this commit.
+  Fixes: 0d274544bfee ("ASoC: dwc: Add devicetree support for Designware I2=
+S")
 
- sound/soc/dwc/dwc-i2s.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
-
-diff --git a/sound/soc/dwc/dwc-i2s.c b/sound/soc/dwc/dwc-i2s.c
-index 0d2be2d8d31a..d09cf1cd07f4 100644
---- a/sound/soc/dwc/dwc-i2s.c
-+++ b/sound/soc/dwc/dwc-i2s.c
-@@ -331,7 +331,7 @@ static int dw_i2s_hw_params(struct snd_pcm_substream *substream,
- 			}
- 		} else {
- 			u32 bitclk = config->sample_rate *
--					config->data_width * 2;
-+				     config->data_width * 2;
- 			if (dev->tdm_slots)
- 				bitclk = config->sample_rate *
- 					 config->data_width * dev->tdm_slots;
-@@ -417,7 +417,7 @@ static int dw_i2s_set_fmt(struct snd_soc_dai *cpu_dai, unsigned int fmt)
- 		dev->frame_offset = 0;
- 		break;
- 	default:
--		dev_err(dev->dev, "DAI format unsupported");
-+		dev_err(dev->dev, "DAI format unsupported\n");
- 		return -EINVAL;
- 	}
- 
-@@ -752,7 +752,7 @@ static int jh7110_i2s_crg_master_init(struct dw_i2s_dev *dev)
- 
- 	ret = clk_bulk_get(dev->dev, ARRAY_SIZE(clks), clks);
- 	if (ret)
--		return dev_err_probe(dev->dev, ret, "failed to get i2s clocks\n");
-+		return ret;
- 
- 	mclk = clks[0].clk;
- 	mclk_ext = clks[1].clk;
-@@ -830,7 +830,7 @@ static int jh7110_i2s_crg_slave_init(struct dw_i2s_dev *dev)
- 
- 	ret = clk_bulk_get(dev->dev, ARRAY_SIZE(clks), clks);
- 	if (ret)
--		return dev_err_probe(dev->dev, ret, "failed to get i2s clocks\n");
-+		return ret;
- 
- 	mclk = clks[0].clk;
- 	mclk_ext = clks[1].clk;
-@@ -966,10 +966,8 @@ static int dw_i2s_probe(struct platform_device *pdev)
- 	if (irq > 0) {
- 		ret = devm_request_irq(&pdev->dev, irq, i2s_irq_handler, 0,
- 				pdev->name, dev);
--		if (ret < 0) {
--			dev_err(&pdev->dev, "failed to request irq\n");
-+		if (ret < 0)
- 			goto err_assert_reset;
--		}
- 	}
- 
- 	dev->i2s_reg_comp1 = I2S_COMP_PARAM_1;
-@@ -1010,10 +1008,8 @@ static int dw_i2s_probe(struct platform_device *pdev)
- 	dev_set_drvdata(&pdev->dev, dev);
- 	ret = devm_snd_soc_register_component(&pdev->dev, &dw_i2s_component,
- 					 dw_i2s_dai, 1);
--	if (ret != 0) {
--		dev_err(&pdev->dev, "not able to register dai\n");
-+	if (ret)
- 		goto err_assert_reset;
--	}
- 
- 	if (!pdata || dev->is_jh7110) {
- 		if (irq >= 0) {
--- 
-2.43.0
-
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110095525.5046=
+60-1-phucduc.bui@gmail.com?part=3D4
