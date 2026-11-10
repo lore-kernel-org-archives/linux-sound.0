@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794278865;
-	b=zak/iAPxH6aIwlfj9aejjw+FQC9MLWQwU1/sNZO18C7us2G/TTHs3ZQpPSZ5QTA9FyLV
-	 aSg4QG75f4FR0awkY/VA0pbb9uqs2D9HgFGwt+bo/ZWrNlB/Y7Z73Zx6qmO0PnxgBQay6
-	 PFZKBl7MqePUAJHnI1sr8kQdm8WqhOSK/ahnZBEJhqp3ul/Qer/nSZw21j8RplwoEodJk
-	 Q0f+wdDgGAcB9rS4oPjUgwAqLlHu3P66YGuNrHfAJdP7E4JPf77pehg3YKEIa8Ab+eQxp
-	 Dtz8JJeEu+ZuAjBZk7VS0ctJJUHMBBuNIUmVMdqv0vHrDQfhxrnmp1EHJeNug/UOiTQ==
+	t=1794278947;
+	b=egq4sM5BZmex2T1xAjofjt81G/qJZSpO4n8lZSD4WXnELEsxoAKXsGXLjqhf3pU91h7K
+	 wop2OxM4USc/YGhjB8BN8WlfPklzYf8uDJMCLtk1NEOlUA+EZBybszyUexkzb+0IM+nBd
+	 8MO2BDYhdYtJa66vW5brWHG9d7AxtuHdnth/5fbwXWJM+AhcLD59V3qZ1x9pMWeocucMv
+	 qPtLF1AssXQSro/1NuyY5mXRYYz/Lt4Z6WXXivizQApRnqua17wPfmcifMBNqklouspgM
+	 450/lazuu+v4rw5QrVtnmk36fVCVEam6svxDMGqOfyHM/XNZHjedrSwZDCSItc/GSow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794278865;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794278947;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=cRFVotjwxyEnUFwAioisC41iSDmtFTz7CO2s4CRCYB8=;
-	b=QxrJpKJYjj5oiUGn3zKQlHbZpnzh08aTJ+ZJd4+Y++p6Ll8oVxrCuf0OfUy/AaTNpza6
-	 9kfnsmGL2Och/SrnmeixhGf7Z7FQS+8yiqSwVb4GCg2ZqJYWk4nzwlpGX4vtAvogVXuDz
-	 Ke1O9k3X4z0Rrnw1JlX5mIJRDbKi3zO1RjMegvycAv2rw1sjBwBt1RNk/XShDqTsSkYtd
-	 DkmcWxYbBwQjAGwHhTcwNvZPz3BL7CLZyaE56r0ohVh/LF0zn7VtX0YDS3RcM39SCPqR4
-	 99Ycn2LgGow/01FKi38hNS4mIatdHX9FPPVEun33pywmdO0AD8a7gPBt6pWxPHiMrwA==
+	bh=BWKvH/OjHWbKXA6A9HL2uzCDLGobFi9XpMtJ+4XFWG8=;
+	b=F6hTieAIRepHXZKYAVLxkrlmEANTHKeyHXUVOuf94H+mSUrKiVEXPZ9VainqDyjk2qFZ
+	 39orO8FEmsdpGsw87eHLHCM3sLn+aebaT1yNQp7AY7IAIrX9mNi8rNqL1J8UDPHWH0w8x
+	 +3/xrb5s3Q0JuKuUCoygE659RpbtC2ksYUgl4w5nUgc2qYLZsXMKffxDYHHN1EzM0jiV9
+	 zhK5f3FlFA3uT5sHFLOITw8dL/CoJlOMwaAoMLrhYJj5yUafyLkLAuUshpFZlplQOQq4k
+	 hS7rU/ZdAT9MRUgoWUNyVKMWpS95KBUNj5ffuGxQWfP18l1LWZOJRgnwtGh8kkarljg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=koCifuVO;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ExmSTTIC;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEA9606A31C;
-	Tue, 10 Nov 2026 02:47:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC73606A325;
+	Tue, 10 Nov 2026 02:49:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=koCifuVO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5125D1F008A5;
-	Tue, 10 Nov 2026 02:47:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ExmSTTIC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61CF11F0089F;
+	Tue, 10 Nov 2026 02:49:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794278865;
-	bh=cRFVotjwxyEnUFwAioisC41iSDmtFTz7CO2s4CRCYB8=;
+	s=k20260515; t=1794278946;
+	bh=BWKvH/OjHWbKXA6A9HL2uzCDLGobFi9XpMtJ+4XFWG8=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=koCifuVO5onqqUk8z+gfmINZzJYBgBU10DdvKfIu+onI80rrzRd7QtRnM1qyrck65
-	 qZfPCpyYITeG1u5k+1e//Z0B6Lev7AS2IWfRQrhICntzwcQfgH5Si0Hu9h6aXSIPLE
-	 pgezl8H/V7MnRkK4TnD/0d4muvQFCLy02fyvUG6+VzBM1Vjzkc1Vz6KNtvg3Qf8Sju
-	 2ifiw9Au7qFKWFmmN0k4PnKv9bAi59DKCrMyTpHaqXzvs9NRTrhsKoPnDE1q84Z/jm
-	 eQZp4milIoOfFzio2Od179Tinq1VrroMAKReM4vXXwNRcx+6AA4b4q6gUH+VEOKIP2
-	 adHmzBwi0PjZw==
-Message-ID: <sashiko-outbox-206067@kernel.org>
+	b=ExmSTTICFqGUvQ/013AEAixSsbQRgn9rwwIkbZ4cDbwMvm0ajSeDtxYW28ZGIAU9P
+	 3B1V28iEmJbZSukUTXmx8ZZUGxtDeOyrv/BGxBTVZBZ9zZH8tJ8jC3rF7fTv2cpMHf
+	 vjRX3GOxf1SXNKRu9Z4qvghZ7zxXQhQAx6AQhbwqq3qPRJgffT8ia2d2NWGR/aPBek
+	 umG4/6LBhsuQFLjEfGRFndLvzevgdXSIxadq1X3nPPj0hq3vDrwxnBH2EJcpDQGAcD
+	 6wgHvhvtfaBa5vEg88IGh57YAxbLmHtPphPw5nKMPiwTGUg5PIMYevACq7J0E8Rl1V
+	 10IbQgifEI6Fw==
+Message-ID: <sashiko-outbox-206068@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 1/4] usb: xhci: sideband: fix ring sg table for
- sub-page TRB segments
+Subject: Re: [PATCH v8 5/5] arm64: dts: amlogic: Add Amlogic S4 Audio
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Wesley Cheng" <wesley.cheng@oss.qualcomm.com>
-Cc: linux-usb@vger.kernel.org, linux-sound@vger.kernel.org
-In-Reply-To: <20261109-16k_offload_v1_b4-v6-1-858c6e0e007d@oss.qualcomm.com>
-References: <20261109-16k_offload_v1_b4-v6-0-858c6e0e007d@oss.qualcomm.com>
- <20261109-16k_offload_v1_b4-v6-1-858c6e0e007d@oss.qualcomm.com>
+To: "Jiebing Chen" <jiebing.chen@amlogic.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, neil.armstrong@linaro.org
+In-Reply-To: <20261110-audio_drvier-v8-5-1489241e4c83@amlogic.com>
+References: <20261110-audio_drvier-v8-0-1489241e4c83@amlogic.com>
+ <20261110-audio_drvier-v8-5-1489241e4c83@amlogic.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 02:47:44 +0000
+Date: Tue, 10 Nov 2026 02:49:05 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,40 +60,166 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] usb: xhci: sideband: missing Fixes trailer in
-  xhci_ring_to_sgtable() fix
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Medium] arm64: dts: amlogic: wrong spdifin interrupt number in
+  meson-s4.dtsi
+- [Medium] arm64: dts: amlogic: missing pinctrl configuration for
+  spdifin on AQ222
 --
 
-commit daeb30414f41a889c527fcde183d2b47baf749d5
-Author: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+commit ba863296d8a1f9c2893c9c4c64db87474f58e6e7
+Author: Jiebing Chen <jiebing.chen@amlogic.com>
 
-> usb: xhci: sideband: fix ring sg table for sub-page TRB segments
->
-> xhci_ring_to_sgtable() populated its sg_table via dma_get_sgtable()
-> per segment and sg_alloc_table_from_pages(), both of which only
-> operate at whole PAGE_SIZE granularity. Since TRB_SEGMENT_SIZE (4096)
-> can be smaller than PAGE_SIZE, these helpers describe a full page for
-> each ring segment on larger-PAGE_SIZE kernels (16K/64K), and cannot
-> correctly represent segments that share the same physical page.
->
-> Build the sg_table directly instead: allocate one sg entry per ring
-> segment with sg_alloc_table(), and fill each entry explicitly with
-> sg_set_page() using the segment's own page, TRB_SEGMENT_SIZE as the
-> length, and offset_in_page() for the exact intra-page offset. Walk the
-> table with for_each_sg() so this also works for chained sg tables.
->
-> Assisted-by: Claude:claude-opus-5-5
-> Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+arm64: dts: amlogic: Add Amlogic S4 Audio
 
-[Severity: Low]
-Since this fixes xhci_ring_to_sgtable() on kernels with PAGE_SIZE larger
-than TRB_SEGMENT_SIZE, should it include a Fixes tag?
+This commit adds audio controller device tree nodes for the Amlogic S4 SoC
+and enables the sound card and audio peripherals on the AQ222 board.
 
-  Fixes: de66754e9f80 ("xhci: sideband: add initial api to register a secon=
-dary interrupter entity")
+> diff --git a/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts b/arch=
+/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
+> index 0a3f81ea0fb0a..334b57bde4def 100644
+> --- a/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
+> +++ b/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
+
+[ ... ]
+
+> @@ -129,6 +140,207 @@ vddcpu: regulator-vddcpu {
+>  				<699000 98>,
+>  				<689000 100>;
+>  	};
+
+[ ... ]
+
+> +		/* spdif coax input */
+> +		dai-link-11 {
+> +			sound-dai =3D <&spdifin>;
+> +
+> +			codec {
+> +				sound-dai =3D <&spdif_dir>;
+> +			};
+> +		};
+
+[ ... ]
+
+> @@ -235,3 +447,102 @@ &ethmac {
+>  	phy-handle =3D <&internal_ephy>;
+>  	phy-mode =3D "rmii";
+>  };
+
+[ ... ]
+
+> +&spdifin {
+> +	status =3D "okay";
+> +};
+> +
+> +&spdifout_a {
+> +	pinctrl-0 =3D <&spdif_out_h_pins>;
+> +	pinctrl-names =3D "default";
+> +	status =3D "okay";
+> +};
+
+[Severity: Medium]
+Is &spdifin missing pinctrl-0 and pinctrl-names properties to mux the
+spdif_in pin (and a corresponding spdif_in pinmux node in meson-s4.dtsi)?
+
+dai-link-11 wires &spdifin to the external coaxial receiver &spdif_dir,
+and pinctrl-meson-s4.c defines the spdif_in function on the pad next to
+spdif_out_h, but unlike &spdifout_a, &spdifin has no pinctrl configuration
+and will not receive an external input signal unless the pin was already
+muxed by firmware.
+
+> diff --git a/arch/arm64/boot/dts/amlogic/meson-s4.dtsi b/arch/arm64/boot/=
+dts/amlogic/meson-s4.dtsi
+> index dfc0a30a6e61b..98ac01c5d6adb 100644
+> --- a/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
+> +++ b/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
+
+[ ... ]
+
+> @@ -863,4 +878,385 @@ emmc: mmc@fe08c000 {
+
+[ ... ]
+
+> +	toddr_a: audio-controller@330100 {
+> +		compatible =3D "amlogic,sm1-toddr",
+> +				 "amlogic,axg-toddr";
+> +		reg =3D <0x0 0x330100 0x0 0x2c>;
+> +		#sound-dai-cells =3D <0>;
+> +		sound-name-prefix =3D "TODDR_A";
+> +		interrupts =3D <GIC_SPI 32 IRQ_TYPE_EDGE_RISING>;
+> +		clocks =3D <&clkc_audio AUD_CLKID_TODDR_A>;
+> +		resets =3D <&arb AXG_ARB_TODDR_A>,
+> +			 <&clkc_audio AUD_RESET_TODDR_A>;
+> +		reset-names =3D "arb", "rst";
+> +		amlogic,fifo-depth =3D <8192>;
+> +		status =3D "disabled";
+> +	};
+> +
+> +	toddr_b: audio-controller@330140 {
+> +		compatible =3D "amlogic,sm1-toddr",
+> +				 "amlogic,axg-toddr";
+> +		reg =3D <0x0 0x330140 0x0 0x2c>;
+> +		#sound-dai-cells =3D <0>;
+> +		sound-name-prefix =3D "TODDR_B";
+> +		interrupts =3D <GIC_SPI 33 IRQ_TYPE_EDGE_RISING>;
+> +		clocks =3D <&clkc_audio AUD_CLKID_TODDR_B>;
+> +		resets =3D <&arb AXG_ARB_TODDR_B>,
+> +			 <&clkc_audio AUD_RESET_TODDR_B>;
+> +		reset-names =3D "arb", "rst";
+> +		amlogic,fifo-depth =3D <256>;
+> +		status =3D "disabled";
+> +	};
+> +
+> +	toddr_c: audio-controller@330180 {
+> +		compatible =3D "amlogic,sm1-toddr",
+> +				 "amlogic,axg-toddr";
+> +		reg =3D <0x0 0x330180 0x0 0x2c>;
+> +		#sound-dai-cells =3D <0>;
+> +		sound-name-prefix =3D "TODDR_C";
+> +		interrupts =3D <GIC_SPI 34 IRQ_TYPE_EDGE_RISING>;
+> +		clocks =3D <&clkc_audio AUD_CLKID_TODDR_C>;
+> +		resets =3D <&arb AXG_ARB_TODDR_C>,
+> +			 <&clkc_audio AUD_RESET_TODDR_C>;
+> +		reset-names =3D "arb", "rst";
+> +		amlogic,fifo-depth =3D <256>;
+> +		status =3D "disabled";
+> +	};
+> +
+> +	frddr_a: audio-controller@3301c0 {
+> +		compatible =3D "amlogic,sm1-frddr",
+> +				 "amlogic,axg-frddr";
+> +		reg =3D <0x0 0x3301c0 0x0 0x2c>;
+> +		#sound-dai-cells =3D <0>;
+> +		sound-name-prefix =3D "FRDDR_A";
+> +		interrupts =3D <GIC_SPI 36 IRQ_TYPE_EDGE_RISING>;
+
+[ ... ]
+
+> +	spdifin: audio-controller@330400 {
+> +		compatible =3D "amlogic,g12a-spdifin",
+> +				 "amlogic,axg-spdifin";
+> +		reg =3D <0x0 0x330400 0x0 0x30>;
+> +		#sound-dai-cells =3D <0>;
+> +		sound-name-prefix =3D "SPDIFIN";
+> +		interrupts =3D <GIC_SPI 151 IRQ_TYPE_EDGE_RISING>;
+> +		clocks =3D <&clkc_audio AUD_CLKID_SPDIFIN>,
+> +		<&clkc_audio AUD_CLKID_SPDIFIN_CLK>;
+> +		clock-names =3D "pclk", "refclk";
+> +		resets =3D <&clkc_audio AUD_RESET_SPDIFIN>;
+> +		status =3D "disabled";
+> +	};
+
+[Severity: Medium]
+Should the spdifin interrupt be 35 instead of 151?
+
+On Amlogic SoCs (such as meson-g12.dtsi and meson-sm1.dtsi, which use
+148..154), the interrupts for toddr_a..toddr_c, spdifin, and
+frddr_a..frddr_c form a contiguous block.  Here toddr_a..toddr_c are at
+32..34 and frddr_a..frddr_c are at 36..38, while spdifin still has 151
+from G12A/SM1, so any consumer of the spdifin interrupt will bind to the
+wrong line.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109-16k_offloa=
-d_v1_b4-v6-0-858c6e0e007d@oss.qualcomm.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110-audio_drvi=
+er-v8-0-1489241e4c83@amlogic.com?part=3D5
