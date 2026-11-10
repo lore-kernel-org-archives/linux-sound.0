@@ -1,64 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794279170;
-	b=UJiSc4xw/JWAqHPW06zN1qOayxTINfCD/aUo3JJ59oFZRZe5IulGCdEwtVPQ2Dd8mSJN
-	 /dpNF+WL+ltne4WhhlPy2cpmhvBwV27t9ySz+fCcXBQQFyLojNllS+Effnl/iDJgzghSn
-	 bYxkzmAHhJKoDZHjjyPOXWyOK3tCnkFHiqMWO3UIIl5V1EiKKDwNOfjkEe4lm/lSSyiHe
-	 F3+IBJthslMuOX/zYLQrM9Z9Tyms9fEsK2FchLgQCJoqNrJTrCMG+7zaIIThyslgEN2qQ
-	 04Z79F5NtSJuETFccuJiLXSIb2PUc+v4QpoENGPICKdKizL0ga/4fu90xGvC3SDN8Dw==
+	t=1794279748;
+	b=YiSjJ2rr305Hnmv3ftiwo9/r8i6R258QReHMb1nmhCf7WCOD5d5Cbd27AEnucqc6z8wv
+	 KVZMPQB//Ob9KQFxl1f4NFNhSkoHhhh0vAatYOifPtBl1WAjHqVbtACJupieSGwzH0aVu
+	 iwqEDwt/jVO/4fkO/Rh27v8ywo11EdlI+ww4TzNLc8ytTXMw3apJjRnqvpyBUceJBwd3f
+	 Igq2NH0jCLziL5fm353QbzWtz44B+RPRBt6MZrUl7nhv1io8YXGfqqnp3fn245lycYNNZ
+	 pVtEbVnXBibi6hUHVcUJjNE/f66Cy7lkkJQlmj009Hub2PItw30pxqqPE6RBSn34QEQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794279170;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
-	 Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=/OEyTMCovgqBPEWFhNHogwKOonGrCtBiqR8NpYfRMdo=;
-	b=F3RuSYeL58YQrpMbT6DRjFZy5JVVraUbRhcHMhPJISRPvsQbobYwEnARwOIiNhz6nYJq
-	 4yFWcyF83jDI4HL4SHfLixJkmUFgQhKQCA/Q/MZSEAv0jx/r+nfYa7SIPTKimAai1RiOx
-	 l+f7eLZHnfbYQGD4t8xagLUEOEcApNZP6mtNUcQf/wacs27cCrLLVEhhfC9qrWpwxshLv
-	 dxKtix2eOtqcogg4tXnTKCed/3OqNqb+x/XbtUFwUb32f4nWXXOwT6UB158iuTobV7Xrx
-	 XNO3fic1nIUK4tO2QU5i0Y1/p21tTVH0Lj3zW8ZSSHuXOMwxe4DJU10YLyxJEg8VsNA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794279748;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=+Q2yFQ0jpFHT210w7KITsvkNPZAi5rAPLGOmObO+h/s=;
+	b=3nXc2jPR1NJINapvHgZQzkHibconucN3XIkCUSZ6xXNLc7uP4+EmHMZY5I2X5BA4vYuI
+	 q5guSHSvUz6ARYEAE2niuz4qlkMabGubIOUmsYSAWWAELYldF/eYdE4YDfpIOVe7sARXt
+	 GmHCvjv1vkQUEeKwKilP+4wGkGBmsZjt00KIPCkega2eVKiOmAqL6GYajq3rqHHFfjYnI
+	 psCZeu7TDnWALOi0qtVrkVnewhi7rQPiHaf4ojmyf8mwBEkwOHF21v0VYgAnaODDDkbWb
+	 3amY0OFNGF1p8PHtBzFwjSZl9CP1REQrvgZdX1e1cBEYiAA5k84XOOhCQ8AbMkkcSdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LHw0Mk3P;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3195D60A2608;
-	Tue, 10 Nov 2026 02:52:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3195D60A2608
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: cb7dd956dcb111f19a56ed5b684f684d-20261110
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:cb760835-4813-425a-b558-c00962044b5c,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:7db8b62,CLOUDID:048ee0ca726674d8bea87591866013a8,BulkI
-	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50|99,EDM:5,IP
-	:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: cb7dd956dcb111f19a56ed5b684f684d-20261110
-X-User: zhangheng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1999451693; Tue, 10 Nov 2026 10:52:40 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>
-Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for Acer Nitro AN515-46
-Date: Tue, 10 Nov 2026 10:52:36 +0800
-Message-Id: <20261110025236.206625-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47C6606A33A;
+	Tue, 10 Nov 2026 03:02:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LHw0Mk3P
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1262D1F008A6;
+	Tue, 10 Nov 2026 03:02:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794279747;
+	bh=+Q2yFQ0jpFHT210w7KITsvkNPZAi5rAPLGOmObO+h/s=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=LHw0Mk3Pi1it4YrDz/Qk/jH9FnJGuRo72hI50PJYyipg/0abMBzKsUwAehZwXOoV6
+	 ZxDUWSK/zvnJYq0ydAj37djcr+F2/3BWvq3TKg7cvAQEofQ5uyqjtOyHWXnQsT7xPp
+	 FdM0zQazzcI5qaoaBn59TKeGTq6DnsctM9/igwxhhdflM3Ly7h6DCMYDXfkNmaaR4r
+	 TjHweheLre54rIjZ2mGIzBPQq+KPNERidh0g/UYyYzZ/WZNNTrr6lf9zz+53tZ6QIP
+	 2NsqCQyTekZ2BFEHuDg0LeBsYonq4wadxpSe/aSjSqnF65VQ1qjT344eMsIcngYlj7
+	 F77m2OG0rKSjQ==
+Message-ID: <sashiko-outbox-206090@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 4/4] ALSA: usb-audio: qcom: fix xfer ring IOMMU unmap
+ on 16K+ page kernels
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Wesley Cheng" <wesley.cheng@oss.qualcomm.com>
+Cc: linux-usb@vger.kernel.org, linux-sound@vger.kernel.org
+In-Reply-To: <20261109-16k_offload_v1_b4-v6-4-858c6e0e007d@oss.qualcomm.com>
+References: <20261109-16k_offload_v1_b4-v6-0-858c6e0e007d@oss.qualcomm.com>
+ <20261109-16k_offload_v1_b4-v6-4-858c6e0e007d@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2026 03:02:26 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -67,35 +60,49 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Add a DMI match entry so the ACP6x sound card is selected on the
-Acer Nitro AN515-46.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] ALSA: usb-audio: qcom: missing Fixes trailer for 16K+ page ring
+  fix
+--
 
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=222239
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+commit 7088c3c3566e5837438b6b83c5b7547812406f63
+Author: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 7ab48e3629be..667a49a1c642 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -661,6 +661,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Swift SFA16-41"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "RB"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Nitro AN515-46"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
--- 
-2.25.1
+> ALSA: usb-audio: qcom: fix xfer ring IOMMU unmap on 16K+ page kernels
+>
+> TRB_SEGMENT_SIZE is hardcoded to 4096 bytes, but on kernels built with
+> a larger PAGE_SIZE (e.g. 16K or 64K page arches) the IOMMU still maps
+> and unmaps in units of PAGE_SIZE. The driver maps the page containing
+> the ring segment, but reports the start of that page as the ring
+> address and PAGE_SIZE as its size. This is only correct if the segment
+> starts at offset 0 in its page.
+>
+> For both the transfer rings and the event ring, add that offset to the
+> mapped iova before sending it to the ADSP over QMI, so the reported
+> address points at the start of the segment rather than the start of
+> its page. Also report the sg entry length (TRB_SEGMENT_SIZE) instead of
+> PAGE_SIZE as the ring size. The offset is taken from the sg entry
+> rather than from the ring's DMA address, because when xHCI is behind an
+> IOMMU that address is an IOVA, and its low bits need not match the
+> offset within the page.
+>
+> With the offset added, IOVA_MASK() on the reported iova no longer gives
+> the page-aligned iova that was mapped. Have uaudio_endpoint_setup() pass
+> back the mapped iova, and use it for the cached data/sync_xfer_ring_va
+> and the drop_sync_ep/drop_data_ep unmaps.
+>
+> Assisted-by: Claude:claude-opus-5-5
+> Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+
+[Severity: Low]
+Since this fixes a bug in the transfer and event ring IOVA setup and
+unmapping, should it include a Fixes tag?
+
+  Fixes: 326bbc348298 ("ALSA: usb-audio: qcom: Introduce QC USB SND offload=
+ing support")
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109-16k_offloa=
+d_v1_b4-v6-0-858c6e0e007d@oss.qualcomm.com?part=3D4
