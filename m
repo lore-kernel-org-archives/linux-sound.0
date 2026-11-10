@@ -1,54 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.103
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794299375;
-	b=RGhzBdlWP8RwQJ/b+Or4ep4w3967RLGayGP42SKBLD9QK86zpEM+c8Q3bS2kNXVOq7rq
-	 vpw1sP3YUepZd/MX+ke/EbVtCJNDe/2LsS0ZFJU62jlCqNBjPf5p7RLhukWniTy0+iE9c
-	 isrA+OrNj8OYXLUCJtZEjnFA6kvrFJ+LizEzx4JVVhZ5zj/q0Yi6DcnhSJYo/C/nmB7GY
-	 blzMtyOYfIGJR43NQVYzyUTMZmJEU7ekfqwUemDO0r+oUpaG/1yDw7IHSlmh8OlLiK0Fd
-	 q88adAe/qTSUBSWs3luV1am4AYXahATNzyuG42NRv2FD7vmxNVZjovsL/IUuA3IRRJw==
+	t=1794299376;
+	b=oJZgTetqNvkE65m3WFbSUT8tAIFdOsuCR0ZLzC3ZJHd2W0+wh3YDzIwkpopz4Dru6rWX
+	 zyZf5PbWd5Y+4f05hRZ8YLKObKYTzC7HqgJ5DSFvIV+6QhiCeeviyEYg4egglVJlq1tT+
+	 fBOu7lPdYQxp/ova0JjEiB+9K0/TDxcMTEnw2rS0cJa9vCkiVMLM+Ypcj5cDZL0DOnZdn
+	 qvB2Maqdjq5w8r7laZK6CIpT8mNzy0VHy4volkVTn4vKaTe1nDUgXoeC1ZCm2CPBRQuaO
+	 v/tTPYj+lYoVfDbgZ3kMxF7w7Zuy22Qi35yKmzqzY+C8HHORyFFiJoEYexz1xeMVdhg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794299375;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794299376;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=szVNT0grwG3mTP35gATUs8Ippqwk85souxdiSFEcKGM=;
-	b=P7YXqC5CA0w+v9s3VlYzDG6Z1ZGUcxLRE7aNEgPLiffYi0IwJpjIwads0QV8qE7OXw4t
-	 ed9+ciqDcmDUjpea5WWu+FsDA4CWp9KvTDUZcxpTvYv/8dZG9GpZqUxX8rOiRWs/mAfsg
-	 vFPyvrw/IXEx11/Sb7gBgV2C1JcQgYtXZeTdta4LqAlcZ374KzCwAu+7gHabw0YDk2oTM
-	 G8U2faAl4RjPu6V2bbCvZivdlLndkF0q41Qf5mqDvtfYawp772Att0z6hZlxfJ2KjGLk3
-	 RXU6yn8UHS/h/6/wrR2yYxxC5gtVfoUlEjO9cZyP+Sy+J4AHO7TyO+JRZE+JVA+5BvA==
+	bh=59mCIyqgzplgCfH637KwGYXkKPKZEjLf+njuYYkkxxs=;
+	b=oxAHDlVDRLH/wkkVGCZBgeDksYXC4hSeT9l3NFE9vXtNi/FfqiCOgqqDiKuCV9fx8zzU
+	 81EAWPjXlyYtrMBjNoUC/kwN2Qgr0kGURYnrfJcS1kZ68dR1kxwi7sxH3GBNSbHFvjhF1
+	 rIvIhsLthFFFGtgMGrIOcTue6B5Rl6vPKB0nB37BNobSg/36sQSduCi3xVTjzA2N3HnrC
+	 0YGnZRm1+vyMjeOt7k9rfEMHC8StTyKL8hDOK1dOl/sSVFYXoLcrS07IbqI0fZ7zXGIIV
+	 4QcPw5ONJngclZXGPxORk9rwzQf/dbZOobTw7EzJgz7wiZEZJg9GulicXeGRuxNCYgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=WK+p6kww;
-	arc=none smtp.remote-ip=91.218.175.232
-Received: from mta0.migadu.com (out-232.mta0.migadu.com [91.218.175.232])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b="Cm/FvJb8";
+	arc=none smtp.remote-ip=95.215.58.103
+Received: from mta1.migadu.com (out-103.mta1.migadu.com [95.215.58.103])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDCC5606A33F
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 08:29:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDCC5606A33F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D210160A262E
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 08:29:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D210160A262E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=WK+p6kww
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Cm/FvJb8
 X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=K//5Ik7wskKatJRGJ9iF9SEC4Ckl+uH7I1j64ytvQA8=;
+DKIM-Signature: a=rsa-sha256; bh=GWcT2EPC1sMeUtNkzbslb0fqDYQEU9ePmyP+FxmAtjk=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794299373; v=1; x=1794904173;
- b=WK+p6kwwntpzxxncg4KMVBC1zPN3wYaT5mXIVflTth/Clczz8KW6MizKYl5mcJnlqjcT0wxi
- QKoqFgDbU2qAc9eWvFGzzf3epBIfit89Vg6lw8M7/VCJ+3BjFBQyvnMQejqkqSYJdLiimLxGE8z
- eexAlGWg6Pg2OL0733TetIt4=
+ t=1794299374; v=1; x=1794904174;
+ b=Cm/FvJb8rbjThIJSfi4qHx683h5xTSjOCV8xzp7IL91eYFOrfNZaFW9R92dnQRAYjn3TKuK3
+ KQIhdUp3nwdaIqxplJja7LeLvQwbI9atMbiM+s5OrHzlZyLq05b/yFC+h7QzHTum6KcIuMzZmEN
+ Z+hRKGfj0PQTgE+pazRpj1Pw=
 X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id a92e251f632d5e1a;
-	Tue, 10 Nov 2026 08:29:32 +0000
-X-Mizu-Trace-ID: a92e251f632d5e1a
+Received: by smtp.migadu.com with ESMTPS id 7f9c5af96b043bd7;
+	Tue, 10 Nov 2026 08:29:33 +0000
+X-Mizu-Trace-ID: 7f9c5af96b043bd7
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <68fe056b-7351-4033-81ac-3dd346154842@linux.dev>
-Date: Tue, 10 Nov 2026 09:02:41 +0100
+Message-ID: <da201f07-1385-47cf-ad71-8f01ee5ca124@linux.dev>
+Date: Tue, 10 Nov 2026 09:09:23 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,61 +59,55 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 7/7] ASoC: Intel: avs: SoundWire PCM BE operations
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: broonie@kernel.org, tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
- linux-kernel@vger.kernel.org, yung-chuan.liao@linux.intel.com,
- vkoul@kernel.org, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-References: <20261106121557.2338556-1-cezary.rojewski@intel.com>
- <20261106121557.2338556-8-cezary.rojewski@intel.com>
- <fc911031-2367-4bb9-b0eb-f795965e629e@linux.dev>
- <5fa0ba39-cd95-4644-8b7c-8327a3e75f7e@intel.com>
+Subject: Re: [PATCH v4 0/3] Add SoundWire port constraints into SDCA stream
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@opensource.cirrus.com
+References: <20261109172604.4077312-1-ckeepax@opensource.cirrus.com>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <5fa0ba39-cd95-4644-8b7c-8327a3e75f7e@intel.com>
+In-Reply-To: <20261109172604.4077312-1-ckeepax@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
->>> +
->>> +	pdi = sdw_cdns_assign_pdi(codec->bus, dir);
->>> +	if (!pdi) {
->>> +		ret = -EBUSY;
->>> +		goto err_assign_pdi;
->>> +	}
->>> +
->>> +	/* Fulfill the codec needs by setting the sdw_stream. */
->>> +	codec_dai = snd_soc_rtd_to_codec(rtd, 0);
->>> +	snd_soc_dai_set_stream(codec_dai, sdw_stream, substream->stream);
->>
->> That absolutely does not scale to the case where you have multiple
->> cpu_dais and multiple codec_dais.
->>
->> Please take a look at the sof_sdw machine driver (same solution used by
->> AMD), and please use the sdw_utils library to deal with all the stream
->> management.
+On 11/9/26 18:26, Charles Keepax wrote:
+> SDCA adds constraints onto the DAI based on the DisCo properties for the
+> Input/Output Terminal. As the SoundWire port for a Terminal can be
+> selected it is possible for the SoundWire port to support fewer options
+> than the Terminal. These patches add the SoundWire port properties into
+> the constraints for the DAI startup to cover these situations.
 > 
+> Changes since v3:
+>  - Added defaults for the word length min/max
+>  - Removed unused static_assert
 > 
-> I believe you are talking about aggregation.  No intention to support
-> that with this code.
+> Changes since v2:
+>  - Add check for ending up with a zero mask for channels
+>  - Switch to using SNDRV_PCM_HW_PARAM_FORMAT, rather than SAMPLE_BITS
 > 
-> After reading the read I have an impression that the expectation of this
-> patchset is: full brown SoundWire support.  I wish I could agree with
-> you.  The reality is: standard PCM over codecs with and without SDCA.
-> If I get a user and an external release on top of that, I'll come back
-> and revisit.  The code present here provides simple implementation of
-> the goal, basically mirroring what's done for HDA in pcm.c nicely making
-> it easy to follow.
-well, I find it interesting that you are suggesting changes that impact
-existing to SoundWire *products* for what appears to be an experimental
-setup that will have to be changed *again* if and when there's a user.
+> Changes since v1:
+>  - Move constraint allocation to DAI probe/remove
+>  - Use BIT macro where appropriate
+>  - Correct GENMASK usage
+>  - Add missing array indexing
+>  - Correct channel masking
+>  - Reorder the priority of SDCA properties
+>  - Handle the case of the word length not being specified
+>  - Add a static_assert to check the constraint array is large enough for
+>    the word length mask
+> 
+> Charles Keepax (3):
+>   ASoC: SDCA: Move DAI constraint allocation
+>   ASoC: SDCA: Factor out helper for creating mask of Cluster channels
+>   ASoC: SDCA: Add port constraints into sdca_asoc_set_constraints()
+> 
+>  include/sound/sdca_asoc.h            |   9 +-
+>  sound/soc/sdca/sdca_asoc.c           | 246 +++++++++++++++++++++------
+>  sound/soc/sdca/sdca_class_function.c |   6 +-
+>  3 files changed, 206 insertions(+), 55 deletions(-)
 
-It's ok to push background changes ahead of time to prepare the future.
-I am not sure what to think of your approach.
+LGTM
 
-a) Mirroring HDaudio is not the goal, if that comes with a substandard
-way of using the SoundWire subsystem and capabilities does all this
-belong in the mainline? My take is that support for two amps is a
-standard feature, be they on the same link or not.
-b) At the very least you should have disclosed your goals, limitations
-of your approach, and be mindful of reviewer time.
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+
