@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794278704;
-	b=NuTc4X++SyHZwWGUBwtn2JzBmmOioisHP1ww7sw/oQK9K6DtgMrO+vWk7k2i/PSX3EZO
-	 8XHnkMilXpJ+0H/Jql9uei6uwTErkt12QxnbzzozSvJJWGVMLE00wX6Gmjlm8IQMRRAvM
-	 cOn6l6xg7BnoKW/Z9mUDTgExLRB9Wa20d3lWXxa2SoZOBd+UBnnKBL3lPm7JJS7mlMX/O
-	 taV57WaODVLL3ZL2Ck9UxfoMgLXkMXTjtUmUmgDZ5tjLBZcaPJ6hpFs0Uu7O4Wst/UXkM
-	 kGNUhRcd1YvD/fieHO95LeW63PgeRw4gd+rwg/uTKflUCSKpkOmkz9P5+hSI/PaG5eg==
+	t=1794278865;
+	b=zak/iAPxH6aIwlfj9aejjw+FQC9MLWQwU1/sNZO18C7us2G/TTHs3ZQpPSZ5QTA9FyLV
+	 aSg4QG75f4FR0awkY/VA0pbb9uqs2D9HgFGwt+bo/ZWrNlB/Y7Z73Zx6qmO0PnxgBQay6
+	 PFZKBl7MqePUAJHnI1sr8kQdm8WqhOSK/ahnZBEJhqp3ul/Qer/nSZw21j8RplwoEodJk
+	 Q0f+wdDgGAcB9rS4oPjUgwAqLlHu3P66YGuNrHfAJdP7E4JPf77pehg3YKEIa8Ab+eQxp
+	 Dtz8JJeEu+ZuAjBZk7VS0ctJJUHMBBuNIUmVMdqv0vHrDQfhxrnmp1EHJeNug/UOiTQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794278704;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794278865;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=2dj621xlnc36AtUmapMH8WKqOt2OTF5gOx5Yx+nRFE8=;
-	b=DVxhZk59i0lbmN9PyR8qoXIY44/LG+3HW+hlJPZCUlEKBZInZUcGXSreV/EZByosUB13
-	 gZKZvAhLExogR0RUYQXk/TBREUt1RHOIQZpIzaQsSNpApoBeQNxmtfD9C7AS2t6nCQpDM
-	 ZeEwly67pXAMmucNOaUUxhK3qSsTsJQCYXQbumfT9NWlQrGEVU4w7BrM9HK5vMbiio6jB
-	 TfrPHwbkTFpW27Z1k7aJVO7LEDcGQdGgzKLSNguADgsE0m1E+PXbqixim1b8SSvS0nVse
-	 Q6vUItECp8DJt/EdTwKZZYCndAnV4JWUpT1NS8Bu0p7nvdExz+xDFrKVMq71UVj3p+Q==
+	bh=cRFVotjwxyEnUFwAioisC41iSDmtFTz7CO2s4CRCYB8=;
+	b=QxrJpKJYjj5oiUGn3zKQlHbZpnzh08aTJ+ZJd4+Y++p6Ll8oVxrCuf0OfUy/AaTNpza6
+	 9kfnsmGL2Och/SrnmeixhGf7Z7FQS+8yiqSwVb4GCg2ZqJYWk4nzwlpGX4vtAvogVXuDz
+	 Ke1O9k3X4z0Rrnw1JlX5mIJRDbKi3zO1RjMegvycAv2rw1sjBwBt1RNk/XShDqTsSkYtd
+	 DkmcWxYbBwQjAGwHhTcwNvZPz3BL7CLZyaE56r0ohVh/LF0zn7VtX0YDS3RcM39SCPqR4
+	 99Ycn2LgGow/01FKi38hNS4mIatdHX9FPPVEun33pywmdO0AD8a7gPBt6pWxPHiMrwA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oTsbMwkg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=koCifuVO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABFE606A331;
-	Tue, 10 Nov 2026 02:45:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEA9606A31C;
+	Tue, 10 Nov 2026 02:47:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oTsbMwkg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7976F1F0089F;
-	Tue, 10 Nov 2026 02:45:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=koCifuVO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5125D1F008A5;
+	Tue, 10 Nov 2026 02:47:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794278703;
-	bh=2dj621xlnc36AtUmapMH8WKqOt2OTF5gOx5Yx+nRFE8=;
+	s=k20260515; t=1794278865;
+	bh=cRFVotjwxyEnUFwAioisC41iSDmtFTz7CO2s4CRCYB8=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=oTsbMwkgclRaoLjDGoY9wp4zJdT/iULkUi/nzf1/byrsKnCWYgg86nR6/7hKdiGaF
-	 JeY+fbr67xX79T1/qczSsYkZTOHJI2+q928DkgVExf7f+NisBYBE72ZXhz3RCsPqTn
-	 t+mBTGUXvQve2Q9jLzBN1mvxXvX6oIJR+vEIA1/o6TBV5xLs0K0sf88ObnXMI5q1a0
-	 DQUIYaS85tLdrztq4vlXmNdyPi8q6gm1IE7lY4vLa2rMrrC1VvnEJyyuWSHfY8o+aS
-	 9ZElSvR9plZZhXNgcUcb7UccbbFdFznjlQAqEdpG1EStM4TimInXv/cMuZFG/3y5js
-	 ADMwPoL7JzQyA==
-Message-ID: <sashiko-outbox-206063@kernel.org>
+	b=koCifuVO5onqqUk8z+gfmINZzJYBgBU10DdvKfIu+onI80rrzRd7QtRnM1qyrck65
+	 qZfPCpyYITeG1u5k+1e//Z0B6Lev7AS2IWfRQrhICntzwcQfgH5Si0Hu9h6aXSIPLE
+	 pgezl8H/V7MnRkK4TnD/0d4muvQFCLy02fyvUG6+VzBM1Vjzkc1Vz6KNtvg3Qf8Sju
+	 2ifiw9Au7qFKWFmmN0k4PnKv9bAi59DKCrMyTpHaqXzvs9NRTrhsKoPnDE1q84Z/jm
+	 eQZp4milIoOfFzio2Od179Tinq1VrroMAKReM4vXXwNRcx+6AA4b4q6gUH+VEOKIP2
+	 adHmzBwi0PjZw==
+Message-ID: <sashiko-outbox-206067@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v8 1/5] dt-bindings: clock: meson: Add audio power
- domain for S4 soc
+Subject: Re: [PATCH v6 1/4] usb: xhci: sideband: fix ring sg table for
+ sub-page TRB segments
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jiebing Chen" <jiebing.chen@amlogic.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, neil.armstrong@linaro.org
-In-Reply-To: <20261110-audio_drvier-v8-1-1489241e4c83@amlogic.com>
-References: <20261110-audio_drvier-v8-0-1489241e4c83@amlogic.com>
- <20261110-audio_drvier-v8-1-1489241e4c83@amlogic.com>
+To: "Wesley Cheng" <wesley.cheng@oss.qualcomm.com>
+Cc: linux-usb@vger.kernel.org, linux-sound@vger.kernel.org
+In-Reply-To: <20261109-16k_offload_v1_b4-v6-1-858c6e0e007d@oss.qualcomm.com>
+References: <20261109-16k_offload_v1_b4-v6-0-858c6e0e007d@oss.qualcomm.com>
+ <20261109-16k_offload_v1_b4-v6-1-858c6e0e007d@oss.qualcomm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 02:45:03 +0000
+Date: Tue, 10 Nov 2026 02:47:44 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,106 +61,40 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [Low] dt-bindings: clock: meson: commit message omits s4-audio-clkc
-  compatible
-- [Low] dt-bindings: clock: meson: power-domains forbidden on AXG and
-  SM1 variants
-- [Low] dt-bindings: clock: meson: unwieldy per-compatible conditionals
-  in allOf
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] usb: xhci: sideband: missing Fixes trailer in
+  xhci_ring_to_sgtable() fix
 --
 
-commit 3f9534e5b3c2551a42b1642e1cc62923e9975fcc
-Author: Jiebing Chen <jiebing.chen@amlogic.com>
+commit daeb30414f41a889c527fcde183d2b47baf749d5
+Author: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
 
-> dt-bindings: clock: meson: Add audio power domain for S4 soc
+> usb: xhci: sideband: fix ring sg table for sub-page TRB segments
 >
-> The audio power domain has been found on S4 device.
-> It must be enabled prior to audio operations.
+> xhci_ring_to_sgtable() populated its sg_table via dma_get_sgtable()
+> per segment and sg_alloc_table_from_pages(), both of which only
+> operate at whole PAGE_SIZE granularity. Since TRB_SEGMENT_SIZE (4096)
+> can be smaller than PAGE_SIZE, these helpers describe a full page for
+> each ring segment on larger-PAGE_SIZE kernels (16K/64K), and cannot
+> correctly represent segments that share the same physical page.
 >
-> Signed-off-by: Jiebing Chen <jiebing.chen@amlogic.com>
+> Build the sg_table directly instead: allocate one sg entry per ring
+> segment with sg_alloc_table(), and fill each entry explicitly with
+> sg_set_page() using the segment's own page, TRB_SEGMENT_SIZE as the
+> length, and offset_in_page() for the exact intra-page offset. Walk the
+> table with for_each_sg() so this also works for chained sg tables.
+>
+> Assisted-by: Claude:claude-opus-5-5
+> Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
 
 [Severity: Low]
-Does the commit message omit that this patch introduces the
-amlogic,s4-audio-clkc compatible string and its #reset-cells requirement?
-The title and changelog only mention adding the audio power domain for S4,
-but amlogic,s4-audio-clkc was not present in this binding before.
+Since this fixes xhci_ring_to_sgtable() on kernels with PAGE_SIZE larger
+than TRB_SEGMENT_SIZE, should it include a Fixes tag?
 
-> diff --git a/Documentation/devicetree/bindings/clock/amlogic,axg-audio-cl=
-kc.yaml b/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.ya=
-ml
-> index fd7982dd4ceab..75ddaf8d80917 100644
-> --- a/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml
-> +++ b/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml
-> @@ -20,6 +20,7 @@ properties:
->      enum:
->        - amlogic,axg-audio-clkc
->        - amlogic,g12a-audio-clkc
-> +      - amlogic,s4-audio-clkc
->        - amlogic,sm1-audio-clkc
-> =20
->    '#clock-cells':
-> @@ -100,6 +101,9 @@ properties:
->    resets:
->      description: internal reset line
-> =20
-> +  power-domains:
-> +    maxItems: 1
-> +
->  required:
->    - compatible
->    - '#clock-cells'
-> @@ -115,6 +119,7 @@ allOf:
->            contains:
->              enum:
->                - amlogic,g12a-audio-clkc
-> +              - amlogic,s4-audio-clkc
->                - amlogic,sm1-audio-clkc
->      then:
->        required:
-> @@ -122,6 +127,18 @@ allOf:
->      else:
->        properties:
->          '#reset-cells': false
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - amlogic,s4-audio-clkc
-> +    then:
-> +      required:
-> +        - power-domains
-> +    else:
-> +      properties:
-> +        power-domains: false
-
-[Severity: Low]
-Should power-domains be set to false for the other compatibles here?  Both
-AXG and SM1 also have dedicated audio power domains in hardware, so
-disallowing power-domains in the else branch causes dtbs_check failures if
-amlogic,axg-audio-clkc or amlogic,sm1-audio-clkc nodes reference them:
-
-drivers/pmdomain/amlogic/meson-ee-pwrc.c:axg_pwrc_domains[] {
-    ...
-	[PWRC_AXG_AUDIO_ID] =3D MEM_PD("AUDIO", axg_pwrc_mem_audio),
-};
-
-drivers/pmdomain/amlogic/meson-ee-pwrc.c:sm1_pwrc_domains[] {
-    ...
-	[PWRC_SM1_AUDIO_ID] =3D MEM_PD("AUDIO", sm1_pwrc_mem_audio),
-    ...
-};
-
-[Severity: Low]
-This isn't a bug, but adding another per-compatible if-then-else block to
-amlogic,axg-audio-clkc.yaml makes the shared schema harder to maintain,
-especially since S4 also diverges from AXG, G12A, and SM1 by not using the
-slv_sclk0..9 and slv_lrclk0..9 clock inputs.  Would it be cleaner to split
-amlogic,s4-audio-clkc into its own binding schema, similar to
-amlogic,s4-peripherals-clkc.yaml and amlogic,s4-pll-clkc.yaml?
+  Fixes: de66754e9f80 ("xhci: sideband: add initial api to register a secon=
+dary interrupter entity")
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110-audio_drvi=
-er-v8-0-1489241e4c83@amlogic.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261109-16k_offloa=
+d_v1_b4-v6-0-858c6e0e007d@oss.qualcomm.com?part=3D1
