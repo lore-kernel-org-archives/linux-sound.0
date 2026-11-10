@@ -1,57 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794296209;
-	b=NguBU4lhqOYu5kE6eLynAURSx6vFnhItEzcHTt9mVzMcErDL6XB3iESpfwX5J+sM/mDU
-	 XT7jnE8a3J35qjToH3iLho82UVz7wuISstItzm+gymqk7UP1HyvAyX4UsuE9+No8g1Bsr
-	 kRx7ELdTZdW8IWdwo2D6KNfmf+66yNzqk0TLgll6aNKbtYydcx09+D8LIaokFWJrrTFYt
-	 nQsxHkshuDy6p53q6XLKb5vhnaMO1jKeNwmZjuywlp5fAyik8zLqBOIOlTlaVoQ9zdJ8e
-	 rSY/HuilMPaAa/wFamndaWBzxPl6W8y5Kwo2GSR2Y/VeicBb/m5QURtHxWmd7u0hSWg==
+	t=1794296694;
+	b=1KZb1ZlDtuGR4CRdQYpzf/fnsiaAvMFtxKCUW2ZqXHeJ9krKjbeEvMwlhbX0fvLtHo/K
+	 7ZzdftPYHCchdaqRtzny4QTD9W+EvQaESBnnh5DDoDbhKs8X4b7lLx0hl2WViUB7YTLa1
+	 IY3M1cu9IEf3ADjzru856ZvTk0gKtu2NwO+QZm8eNVdpXXBI71a7ubHwjF40dxHO66rSD
+	 ygrjZkrTfYuT+PpOuH0VIjS9wI7ntdDlVvuH1LIXevnTOFj60IuI02jYMRIqfIuPGopgz
+	 Pw+hakaZFV1kWNqlyAZZNf0qumur8gF28tcmryKrj+d7DQQr0eEC7gK6pOaQdCWswSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794296209;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794296694;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Vdyywx4KkNXGPQ2MmtWyZby9dJLd737J4rdywfryQcA=;
-	b=IVmNL8luppzklmDZdnzIZ59JKWHdbljcCseeCukAu918qdL5Bwk4JxQ8c9IFdDwX8hpi
-	 nZV9R8ivwLQ+f44SjYZMo3JhvbC/6EmuBeGy3V7c3YaLTFsKuRMp5jZX9g0I1OduBYigR
-	 Pn/v5/HRDvjKOFjHq3e8lwTZ2yYLKLx1mGf3ROrcia69W1e0R9WZKJ5v65f1OYEKuaJWp
-	 eUVWe+jhHk4dzKX9LLHQzLhp6G4oGijm2wye2nSMatu+qgisgN0C1i9yYR13o9bRmLo16
-	 k8hp1bfotBE5oFvZuy+v7r2vKgbO5IOf0037H4HAWGrKKDaGpvujjDdF87BqtmsNOjQ==
+	bh=93Yp0mOoQjajd5b9JPpUp/WswstNFmRJz6zO3e3RDvA=;
+	b=cUWVE8qy1ycOPGjcF5YmfMR6fVZiMd3K3D2l3152C8ubBMrKfUHJKhWJ+LbKE66I6NYz
+	 3CJm2EnW4iu0FRKIFdSdiTkM2yhMJPt6U0T0jsCBlKfJ6xTM01wIGeKDKpF/6qCRX7gOB
+	 IGoGa2k1Ni3SLZThkdvvMXIZyD+vx51DsDvAl1nn88oTkVi3KpHzQgZfYzzCP9XYrUL4R
+	 LA8l/Tqn4K1nRpLsMqwWf7e5wkMtWKCCFdhJjK4TI57YluZmOtux5XHJG94aWXRa2vRr+
+	 4AzsnqWD22a6Lt/tGJsCcn7xM6m5BmZAbilZT0HqiCpQM2cWcoIjjb/cxkDaQi11NzQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iU8cuVL0;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QObXu0Ah;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E42A60A2627
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 07:36:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CBA606C63C
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 07:44:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iU8cuVL0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A18F21F0089F;
-	Tue, 10 Nov 2026 07:36:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QObXu0Ah
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D7131F008A7;
+	Tue, 10 Nov 2026 07:44:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794296208;
-	bh=Vdyywx4KkNXGPQ2MmtWyZby9dJLd737J4rdywfryQcA=;
+	s=k20260515; t=1794296693;
+	bh=93Yp0mOoQjajd5b9JPpUp/WswstNFmRJz6zO3e3RDvA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=iU8cuVL0ub/fT6TrjMZjQBVCT4kriTAlxM5/hQ3DXMsdksETuObgC0GApPr/MTKcw
-	 prqkuq2Qr5Td7Tu1/Wdq0H/NiZ9ozJYxG9U4MReZr0niOitCs+HFhwFShUOZCpe0Dy
-	 IT7hhnYK4E+ajix31RAZ4qTU/HS0CQN41IpBPf5UfcOAAgWS+zibuwB0+ZBVrGu8LO
-	 xblM+wVMF0Ct1X98vcQrCi8i+4mMiwX8p/ldNFkGjPyKj5z98A3DeyXWWcuX+eFaoW
-	 oKK0JMDdVBBPjer/Y4gYeztlebW6VK668r8gmEAC4pJXe0W+K/SnsWMEdav16FmVCx
-	 1UIA2obu64hJg==
-Message-ID: <sashiko-outbox-206522@kernel.org>
+	b=QObXu0AhoNflA2Byf677kDlmeitNeko/X/JW2zdBtjtYY/Yrvw8XHHZey8Ibq4Jrf
+	 WTJZLttZexgOxyN5bdIIFFfG+Oug95dxBq3hTvyXY9/0QHy9zkw/AYafOgO4u0VBRi
+	 Wn0ghoEPi8eSI/ZXZ6MmyogCByG0IUKoiBKrvQAooKDSDGhyb/BY3M2nbgz6CoUIu3
+	 67Gem3ujgt8FKsUkrVNzQ8WBOCxpbY3amDiZoI6/NYRiwYqROsyDoFVUaE4k8jrWbA
+	 t4oivJgcteqmyy9aVcNeFR+4Ii6kBdzV3auV2HEfOtnzVqmlgVMj17abQ2W5ftjUJX
+	 dqaI3yagbphxg==
+Message-ID: <sashiko-outbox-206531@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/2] ASoC: rockchip: i2s-tdm: add the reset value of
- XFER to the regmap defaults
+Subject: Re: [PATCH] ASoC: sdw_utils: senary: handle a missing name_prefix
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Arun Iyengar" <aiyengar1990@gmail.com>
+To: "Qianghua Wang" <qianghua.wang@senarytech.com>
 Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261110-asoc-rockchip-i2s-tdm-v1-2-f32951b3c527@gmail.com>
-References: <20261110-asoc-rockchip-i2s-tdm-v1-0-f32951b3c527@gmail.com>
- <20261110-asoc-rockchip-i2s-tdm-v1-2-f32951b3c527@gmail.com>
+In-Reply-To: <20261110073420.842175-1-qianghua.wang@senarytech.com>
+References: <20261110073420.842175-1-qianghua.wang@senarytech.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 07:36:48 +0000
+Date: Tue, 10 Nov 2026 07:44:52 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,41 +61,33 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Low] ASoC: rockchip: i2s-tdm: missing Fixes trailer for I2S_XFER
-  reg_default
+- [Low] ASoC: sdw_utils: senary: missing Fixes trailer for NULL
+  name_prefix fix
 --
 
-commit fcc3b955539c797b954dd2c22348b8e552e615ec
-Author: Arun Iyengar <aiyengar1990@gmail.com>
+commit 845de21a0dee73033616aab7b25b28f57952951d
+Author: Qianghua Wang <qianghua.wang@senarytech.com>
 
-> ASoC: rockchip: i2s-tdm: add the reset value of XFER to the regmap defaul=
-ts
+> ASoC: sdw_utils: senary: handle a missing name_prefix
 >
-> I2S_XFER (0x1c) is writeable and not volatile, so it is cached, but it
-> has no entry in rockchip_i2s_tdm_reg_defaults[]. The flat cache then
-> treats it as uninitialised, and the first cached access of it -- the
-> regmap_update_bits() in the trigger and stop paths, or regcache_sync()
-> after a runtime suspend -- warns
+> asoc_sdw_senary_sdca_jack_rtd_init() passes component->name_prefix to
+> strstr(). When codec_conf does not apply the prefix, name_prefix is
+> NULL and card registration oopses.
 >
->   rockchip-i2s-tdm fddf0000.i2s: using zero-initialized flat cache, this =
-may cause unexpected behavior
+> DAPM widgets then keep the bare names from the codec driver (HP, MIC2,
+> SPK, DMIC). Keep the existing "sn624x ..." routes when name_prefix is
+> set, and connect those bare widgets when it is missing. card->components
+> still reports hs:sn624x-sdca and mic:sn624x-dmic.
 >
-> It is the only cached register without a default: TXFIFOLR, INTSR, CLR,
-> TXDR, RXDR and RXFIFOLR are volatile and all other registers have one.
->
-> Add XFER with its reset value of 0 (TX and RX stopped), which is also
-> what the zero-initialised cache assumed so far, so no register value
-> written to the hardware changes.
->
-> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+> Signed-off-by: Qianghua Wang <qianghua.wang@senarytech.com>
 
 [Severity: Low]
-Since I2S_XFER (0x1c) was omitted from rockchip_i2s_tdm_reg_defaults[]
-when the driver was added, should this include a Fixes: tag so stable
-trees can pick it up?
+Since this fixes a NULL pointer dereference in the SN624x helpers, should
+the commit message include:
 
-  Fixes: 081068fd6414 ("ASoC: rockchip: add support for i2s-tdm controller")
+  Fixes: 77272ecd96d7 ("ASoC: sdw_utils: add Senary SN624x helpers and code=
+c_info")
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110-asoc-rockc=
-hip-i2s-tdm-v1-0-f32951b3c527@gmail.com?part=3D2
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110073420.8421=
+75-1-qianghua.wang@senarytech.com?part=3D1
