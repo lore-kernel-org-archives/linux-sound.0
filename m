@@ -1,68 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794305432;
-	b=j4B5SvV43Ft2cdA6GdMI+VnTBBcKwxn1DssaLMw4zQuJO5JmEf+CigRYkgHqhlMcPvpL
-	 cIESSBgul8wZHb3zi1QOlDaDVq/SMOEk0eqHzk04XuDom5IBeZ/qOpIdYdFBHAE5TM4Qg
-	 CsckbZ8gBpV509WXdzWoFii+QMShbZ58yJe0mmqF0wST3pPATVgSFOhyQOk47WR0B4kH3
-	 DdXHrk+54+J6nLzg0ZCqaTs4GhO+7F4DFW5ItkF+fHfEkGE2XWOrmM0wGpvdARYMZnjLk
-	 bClek6Amm0xT8U2Fa57969HfTOgQLfcWmma7g+HTNPN5ZsXy/vljAhvjqgV0R0M8RCw==
+	t=1794306467;
+	b=u/M03B4HKtYoDGRys/T0uru5CGhLG7j5Qb0K4BVnbjL4DAJCjUQPmF4vxlZfO+ttILnQ
+	 xs51qtTkRhyXMVPwYZzukPAvOfjnFzWfJo0SwhPWlgRITk4ufFTuZJcqlMueCe9b029zo
+	 8fq1k+XNzPp+54QCralMkg9pAr0nT8VEQAsGDa87yyzmfupS1AWycZzCccZlwWkCozjjs
+	 rclUc/s7lxG2gb8ngt65mIiJCc38pnUDEJ/arHHf769NIydaz2rV2bYCtBCvvOWKjvIWK
+	 m7qM7H4U1rGK/MmzXHn7zCNE2T9Z2HaKnxHI6uqxu+R1p8IagZBYLddjbszbvNLaByQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794305432;
-	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
-	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
-	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=nmJ+yroF4ww/8wTOXK7PVlwTh9fDAL59Srn6/a7QLuk=;
-	b=rqDZGiwVxyzYFGGfjZPePkBK8o1G1fnxEXtWX4NmVyNAJqQasV+rj78+l5kmBrDj9AJ5
-	 qyaQw0qBJeWH+9uU3p2MGP3EzUmxCOU18xVw1jzCh/jZf1YERIF1dy0kayvKgs+EcGnrr
-	 /ch0cQRJnsyJiLp8kNtLoQrazGGEZqj+IlwIMVwJcO25vBfhjoFpA6PRWxwZ/dSD34jbm
-	 Bcn9BWLa2iG37W43E0x1IV8foCcjS6m4BbK4S525K31gl/za8TfXdZapz2DV/6Kr8zgn8
-	 oLhrsVCq7OeZnE1grGNPJhYt0RJthWO8nGyVWDu+/1Ldc/gULn0wo8VO6JYOtGzgE3A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794306467;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=TCc4V/L2P6UjCCK1GR1LVjIGB2BZY7iLpT/Bq6XIgZk=;
+	b=xcZBJ9Bm6ONttv+tLZLsQSLNondN30OEdvEteHiK2iiRdX/1n6IYY7bru6uYPB64GSqh
+	 bcBjHYyUm0kabp8HG2CN3Ngu7wumbc8vyEGvnmkL1ZFGu7rQsL2dIq0m5wcBNX5tNWYq7
+	 VH2vEZge0bsjcq6jDXx9g7hlBqNZeLYC4IbGTgcsK6DPz/nJ+UJ1taChNsRR9IS2FoVOr
+	 wVl8R6r3aFr8haETn93nuvKH+MFQ30Vd/wryfwYECm2+GBnI50s2aZ5xLVT7I1oPhHBU3
+	 KJd0E6C7d2+8v5Wh3Vb06AN9nYqh0HafTfcU187dZotrn/zw65NnGgOAwuh5uAKKxPg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmss.chinamobile.com;
-	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=pVHGerA9;
-	arc=none smtp.remote-ip=111.22.67.139
-Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C71B606B505;
-	Tue, 10 Nov 2026 10:10:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C71B606B505
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=LCUzBzzy;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=VHrvle2g;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=LCUzBzzy;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=VHrvle2g;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C99C606A321;
+	Tue, 10 Nov 2026 10:27:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C99C606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=pVHGerA9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cmss.chinamobile.com; s=default; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=pVHGerA9rDpseqz9DHOWt93I0FYzEygND7/biOt9F4SBa2D1hwHgsFgX8k8320qGGZne2YfWP9CVV
-	 JvxXkRHPaBd5PEc61eA1d4/whcX1fWCKK0lL9COdgxKprb0WhZXiYCQXVkSkfNRHESgwHhNis5u+Uf
-	 TNqXamZKoY7r1ijU=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee16af2ed93f09-aa308;
-	Tue, 10 Nov 2026 18:10:29 +0800 (CST)
-X-RM-TRANSID:2ee16af2ed93f09-aa308
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from Z04181456177947 (unknown[10.55.1.71])
-	by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee86af2ed92867-b1643;
-	Tue, 10 Nov 2026 18:10:28 +0800 (CST)
-X-RM-TRANSID:2ee86af2ed92867-b1643
-From: zhaofeng2 <zhaofeng2@cmss.chinamobile.com>
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: Zhao Feng <zhaofeng2@cmss.chinamobile.com>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Selby Mashiki <mashikiselby@gmail.com>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=LCUzBzzy;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=VHrvle2g;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=LCUzBzzy;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=VHrvle2g
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5D2A61F7BE;
+	Tue, 10 Nov 2026 10:27:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794306465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TCc4V/L2P6UjCCK1GR1LVjIGB2BZY7iLpT/Bq6XIgZk=;
+	b=LCUzBzzytejC4+Tq04FwJmAt9TT6yrc72QrnGnLvyzLRMbTInlyidZhXS2jDUMHvTh9A6E
+	w+owwft0CYxORUzNkR8WVrbkocqBKbPPiXYQyYcNg8L2jDZZ1LP2Xu2gOFE3m8oezHGdPy
+	TedtQCXfg3NH/q714YQODxmwCVhamdw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794306465;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TCc4V/L2P6UjCCK1GR1LVjIGB2BZY7iLpT/Bq6XIgZk=;
+	b=VHrvle2gzNMcqHh2anztYMMckYOx2Nibne04AYq/Eeoh1QTXRFFewNp9DyLfPoj1jw4e6M
+	79d4W8IUfSyZ4TBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794306465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TCc4V/L2P6UjCCK1GR1LVjIGB2BZY7iLpT/Bq6XIgZk=;
+	b=LCUzBzzytejC4+Tq04FwJmAt9TT6yrc72QrnGnLvyzLRMbTInlyidZhXS2jDUMHvTh9A6E
+	w+owwft0CYxORUzNkR8WVrbkocqBKbPPiXYQyYcNg8L2jDZZ1LP2Xu2gOFE3m8oezHGdPy
+	TedtQCXfg3NH/q714YQODxmwCVhamdw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794306465;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TCc4V/L2P6UjCCK1GR1LVjIGB2BZY7iLpT/Bq6XIgZk=;
+	b=VHrvle2gzNMcqHh2anztYMMckYOx2Nibne04AYq/Eeoh1QTXRFFewNp9DyLfPoj1jw4e6M
+	79d4W8IUfSyZ4TBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 256FC1339F;
+	Tue, 10 Nov 2026 10:27:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id yubUOqDx8mrfKgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 10 Nov 2026 10:27:45 +0000
+Date: Tue, 10 Nov 2026 11:27:40 +0100
+Message-ID: <871p8tvv4z.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: qcom: qdsp6: Fix device node leaks when parsing "iommus" phandle
-Date: Tue, 10 Nov 2026 18:10:26 +0800
-Message-ID: <20261110101026.1154-1-zhaofeng2@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.55.0.windows.5
+	perex@perex.cz,
+	tiwai@suse.com,
+	tiwai@suse.de
+Subject: Re: [PATCH v5] ALSA: control: Fix parsing of numeric fields
+In-Reply-To: <20261109163531.2639-1-sreekuttan2156239@gmail.com>
+References: <20261108124832.3058-1-sreekuttan2156239@gmail.com>
+	<20261109163531.2639-1-sreekuttan2156239@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -71,79 +112,63 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.30
 
-From: Zhao Feng <zhaofeng2@cmss.chinamobile.com>
+On Mon, 09 Nov 2026 17:35:31 +0100,
+Sreeraj S Kurup wrote:
+> 
+> parse_uint() passes the remaining input string to kstrtoull().
+> 
+> When the input contains comma-separated fields, the string
+> contains both the numeric value and the following fields.
+> 
+> For example, with:
+> 
+> device=1,subdevice=0,name=Master
+> 
+> kstrtoull() receives "1,subdevice=0,name=Master" and fails
+> to parse the numeric value.
+> 
+> Stop parsing at the next comma and pass only the numeric
+> field to kstrtouint().
+> 
+> Make all parse_*() functions return the end of the current
+> substring, leaving delimiter handling to set_led_id().
+> Temporarily terminate the numeric substring in parse_uint()
+> before calling kstrtouint().
+> 
+> This allows numeric fields to be parsed correctly in
+> comma-separated input.
+> 
+> Fixes: a135dfb5de15 ("ALSA: led control - add sysfs kcontrol LED marking layer")
+> Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
 
-q6asm_dai_probe(), q6apm_dai_probe() and q6usb_dai_dev_probe() parse
-the "iommus" phandle with of_parse_phandle_with_fixed_args(), which
-takes a reference on the iommu device node, but none of them drops
-the reference after the stream ID has been read from args.args[0],
-so the iommu node is leaked on every probe.
-
-Drop the reference with of_node_put() after reading args.args[0].
-
-This is a refreshed version of the fix posted by Selby Mashiki [1],
-which no longer applies because the context in q6apm_dai_probe() has
-changed since; the leaks are still present in all three functions.
-
-Originally-by: Selby Mashiki <mashikiselby@gmail.com>
-Link: https://lore.kernel.org/linux-sound/20261025190340.449613-1-mashikiselby@gmail.com/ [1]
-Fixes: 2a9e92d371db ("ASoC: qdsp6: q6asm: Add q6asm dai driver")
-Fixes: 9b4fe0f1cd79 ("ASoC: qdsp6: audioreach: add q6apm-dai support")
-Fixes: 72b0b8b29980 ("ASoC: qcom: qdsp6: Add USB backend ASoC driver for Q6")
-Signed-off-by: Zhao Feng <zhaofeng2@cmss.chinamobile.com>
----
- sound/soc/qcom/qdsp6/q6apm-dai.c | 4 +++-
- sound/soc/qcom/qdsp6/q6asm-dai.c | 4 +++-
- sound/soc/qcom/qdsp6/q6usb.c | 4 +++-
- 3 files changed, 9 insertions(+), 3 deletions(-)
-
-diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
---- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-@@ -1203,8 +1203,10 @@
- 	rc = of_parse_phandle_with_fixed_args(node, "iommus", 1, 0, &args);
- 	if (rc < 0)
- 		pdata->sid = -1;
--	else
-+	else {
- 		pdata->sid = args.args[0] & SID_MASK_DEFAULT;
-+		of_node_put(args.np);
-+	}
- 
- 	if (apm && apm->gdev &&
- 	    apm->gdev->domain_id == GPR_DOMAIN_ID_MODEM) {
-diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6asm-dai.c
---- a/sound/soc/qcom/qdsp6/q6asm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
-@@ -1309,8 +1309,10 @@
- 	rc = of_parse_phandle_with_fixed_args(node, "iommus", 1, 0, &args);
- 	if (rc < 0)
- 		pdata->sid = -1;
--	else
-+	else {
- 		pdata->sid = args.args[0] & SID_MASK_DEFAULT;
-+		of_node_put(args.np);
-+	}
- 
- 	dev_set_drvdata(dev, pdata);
- 
-diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
---- a/sound/soc/qcom/qdsp6/q6usb.c
-+++ b/sound/soc/qcom/qdsp6/q6usb.c
-@@ -382,8 +382,10 @@
- 	}
- 
- 	ret = of_parse_phandle_with_fixed_args(node, "iommus", 1, 0, &args);
--	if (!ret)
-+	if (!ret) {
- 		data->priv.sid = args.args[0] & Q6_USB_SID_MASK;
-+		of_node_put(args.np);
-+	}
- 
- 	ret = devm_mutex_init(dev, &data->mutex);
- 	if (ret < 0)
+Applied to for-next branch now.  Thanks.
 
 
+Takashi
