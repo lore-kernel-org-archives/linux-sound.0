@@ -1,100 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794293754;
-	b=XIjqrHfa5WXVLxwdSqBKb/gv5AOuypwOqTIbkkJAS672nQjsLvZlGY+1K1N9EdzB7XTV
-	 VOjWohzeOHH0MRB6snfWle46bOs3Vh8KfJNRk5R4qKUClCj3WzZlC4oFXov+hAqOTrt5X
-	 Q6Kg4xVD1H35F8eTUg+m/zdSliVyk6PFdRC7VN4ikZY6mIMjeT3B9qL6EaqJ0eYKQFONj
-	 1BHWBfKsXm0pUdtA9Fw/gY6Vsnus7G3J8mvGKV9GPk7SkRAPnErVzGGbTDltANzMTg0bm
-	 rZT4XC5o9cDmLRBALPT4F/KNSBTpTgnXVNRShX+mHMZiV1nMzyrrOhGQf+AtAEi4hDQ==
+	t=1794295020;
+	b=bicR4ZQRP9P2f9U8G0uj3F4NqZGZYFSWBDrvj5UBVzJpyqrrNZPUmGDkMA8U54pXH87M
+	 y9yAcge9oFwjnmx+dAnv2SfShsZKBCafRU02KhRz1iERLlsQnCcjkDz9bCYqqSPCYFvDL
+	 0MXLX9kONvcMdE2rqxeyA7bi8WUlAu6dFh6xk6WAqYliGLsmygeaoogqVUgzl7mfvyX3g
+	 47jlvkaS3jWNJG4ct5dWS4BPv/NH7cSd9MwJhQC463dS05PRFSqvsbL1HKs5O83f6vJyM
+	 fVAnYO3kknVjVm0Zl+Dr14IGpCwB1Et80VUSZqCcLJqTgyNly2WbWu4HPzqXL7XM6fg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794293754;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=3aTmEw1cmKfvZxOC/KfyfgUg+Qvb/ZBdPdJ3Gf6JPiA=;
-	b=KGAeMr42p0F2ADhpRcXdiMXp6s9X7ajgOaCmEEPzXpvPg3q5K7frFr7Sv6QDBxjSthsX
-	 MHYeSvMI70suz0rl5Y0bNWX0xD/uPwRrv/mehpYFleAQCsFpRjjMfgnInNYahoS30hSnm
-	 QY98tHVBXhEFu8tKU9nbue595XVNHfRyrTmKSuoSElw9PSx1inFkPM/sGWsAGlZY/gqQr
-	 yfkaf3Nx7ciPsF5YDKkD6bEWyPAyyLF2ejC3xxe46DXCg9CW77buS7xDNCJ0VQzXwhE0/
-	 eLiCfN8HTXxQZCmQv9WF9+qb2eDCNizqKRmjZRlmcgfs6Okr2DAvkIEGeQs5pUUEOZg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794295020;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=4ftw/tqrcxx9i8NF1YbxSWaStdrbSjcLJBYRu56rtjU=;
+	b=ORbnCoyWvNU9LxBqccpXCyE718UuSqWUqcKyCvKLvHwmQwLa8Hsq88T9m/1vIorvmp8H
+	 ktJBTDm/DO6TYNHs8vFVUVgvUuV66iqOgEn2ZqbAHYMWbhRrgGC/ie4UMucx+bnrtBWiU
+	 HK0/lkHNgRGL2UuFHqATi70H4hlCv6fSTvoth0kfMYo/1CdaPnEO4ca5pNORniKACQAFv
+	 Df9P5uvwsTpTPXtMasbno2OlM+T+0NIGAIPrOVHuhfcvvsCMHBOR/I9Is30Mb2jiqK4MN
+	 JiJlEcz4Ju9LjvA2iO4qiyf+JjOJwntGoUuN3RkHaWkzRqAnFjfiyMynYyQH22KDtPg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nwIEfiq5;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.169
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h7fWdCx1;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB83606A32A;
+	Tue, 10 Nov 2026 07:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=h7fWdCx1
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794295019;
+	b=wupRT88DsqM74MQ8sNnoIZ6T3rxVo824Lk2PO51Q8fden/Hf8mAc0HVI4/JsT8goG73w
+	 kLnRupvLqvnY4cGr394Ed6JIGokRQsBwsaYRUDieOnpDtGqkH7MKe925HvXGXiQp3MneR
+	 ntJagMJLVnqyTHgTpE9aTnPwqhWUHWhBEKKB2SQojaC6cOZT6YNAvxYNiz9sZDSzF0Rfm
+	 ktqewbKC2+sshZ4K3iTuieWehPZznR/9Xg974uvS3Yo+mV0ouofr/XuhotywEfCTp2NLo
+	 8XYid/yZrQe2Hd7BI+udWMtj3k2XR6QXEK6Jq/VY/KE5vVMaZ/GvoRkSeL14qqxHqdg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794295019;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=4ftw/tqrcxx9i8NF1YbxSWaStdrbSjcLJBYRu56rtjU=;
+	b=crYNEzHcUDFFp2GnJVra2CSNwz5Hh5GMgHpNbXfpj0ikyrLJUA9XnQsbi9TGfbnW1rJK
+	 +uaU1gtKJBEAWSW9WdwRfyfLMnLkNmbyZ5LU0E2M/HZuSq+crZWsRnxwezB5TpjNibCYX
+	 hcIE2GTaet1/vuVuvAx7Z3h2AouZl9fFPEHy/MFts7rOo7LX6fNCFMKCafwwJnEddKGGA
+	 fngYzduZhgh/GRubH7Z4NHmHmPeG6UFtMGtsJXgPu5HSzl4Jw5AUNPcp6betbPRoruIT+
+	 vrSx7uPHP1OyNCICbREML4QrcBXVwB3x7yqOfItYpn3XGedfG4SrV5BJ8idGwTDYNLQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF23606A325
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 06:55:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EFF23606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nwIEfiq5
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-cdaefe02d5dso1011639a12.1
-        for <linux-sound@vger.kernel.org>; Mon, 09 Nov 2026 22:55:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794293753; cv=none;
-        d=google.com; s=arc-20260327;
-        b=MdlzuASy8oYAfF6r+BID5Lar2c84pe2AbKRUxr02VA6jLrYm/nGBQnDuItqKPaCbbt
-         GxAPvAW3+ykCKCZQxbzslHrQwug5Mit2uI34t9DNPTG0mizeMYZCFENBVJfnn1xF66pM
-         95cq+H94HLDSi4G7n2vMYlOe/de9BqKrLjQU0tq/cD6z2bfnv5Vt/96Je5niLDPuN/wQ
-         oKrtF21ZjX3a0Jpw3hbsRS0z4BEXNyuYsQK3NRPe/xHY3eQNn7pllDRIm1GYVQJhvZNt
-         jMmfxU4MKh1vOBPAnc9MhpI7Z8lA4JHtd5ViJOwrzK1gCP1l54R7i+s2jFnTpT/Pf6+K
-         vqrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=3aTmEw1cmKfvZxOC/KfyfgUg+Qvb/ZBdPdJ3Gf6JPiA=;
-        fh=G9xlrRA56ZZmqBdawW7ItGnw06SxVQOpmycZEWEhv2g=;
-        b=MGPILVH5aotK4tM2TobSFDjb2BVWOc9+3eqM3P2J1VYUK9ieaEil7FpULPEsGalgaD
-         oDNIU4Y0NLQtw66XJ2DtaWFdPQXFB7P8QZn686IcbN9hI5xUHPTgSm4XNfapkz156xqN
-         Do/6Xk1gVFuPhriKtszLQboNZmBQ7jsViUkAVv6TO0IvaodTyDeEsWz8yJkkS7PVdqTu
-         LUYtSmjvxDvcdcsN3PCwFnHljyR1qCnoRJ0aohHKE0k2QKEJpETh/XbpvJLgRwKV2UZ/
-         UzFhVTfetFfVgCYtq85ccS2/0EA5l5lq/vtg8MrqSpg/wjnc/4uJhEZid8sYEY3nIMZv
-         +YDw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794293753; x=1794898553; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3aTmEw1cmKfvZxOC/KfyfgUg+Qvb/ZBdPdJ3Gf6JPiA=;
-        b=nwIEfiq5SmYNbB/BtyPVYzVZpcpfKpqzwyDrpMhQb5Lw36MxfwSncZCBn3aZWyGPu7
-         BbtlByHVjCSMr8SsAE+ozfLFF7UdHigLmHrsgHeeXFMRxolnLuIC1b/toZy1Z2o3LDgu
-         Dw7VhQWwT6GqtpCOU8CoWoHVwmH5Co6Y7Wz8mFqTtbOyCmF7I7mL9C/7XBVXnM5PK6u8
-         1FWHw+pBrIF9JyuCXNRcn1IOM/UYLIpx40yLDuClmWGIiNI9k4ZVfpSMOpXAcoHEJ9of
-         2Cy7eZXqXz8E4Ksssh6ShRN0wGreKsuITQ8fEtvTWQLKWgsf9QLpNiU7AJY8m1hm4wV2
-         NBOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794293753; x=1794898553;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=3aTmEw1cmKfvZxOC/KfyfgUg+Qvb/ZBdPdJ3Gf6JPiA=;
-        b=JNl5vjDwW0q22JdQ9Hli7GN217rEleOPzIHpqSFjzBpK2uZiSkt8Wt8nV8BtuKyhG4
-         FXBsDTFH+4TcnZS0JlHcea4cBDV/hPARwU/NHn7aoMTo4aPvXYuOWA+62HdHMLv21oRG
-         afSerB8CLeW1qnhRTpkh1r5D7aVveGEZtY43BhfX2HWgUnqBl7bg01EzZrctK8FfxSdM
-         fCxCgB41wZNmjQej4VgfIBLHverDAP0kEeWU8QzZ/H5bF/KuGpIIgTIDDaDecTK/h0zw
-         1MTSHIabAi3qzwlm233vFX7plyCZ8hEaBgX0b7JTCdMkzb9TEzXii1AWszeUscAw/45l
-         UuoQ==
-X-Forwarded-Encrypted: i=1; AL+hErGeCO4AgHjrlA7KT2i4e9ZTHEX2o1TbCWB87gDATEtfxmLvlpumNgWcTYxrtpQvmFE3j2ZnuFDWtc6VXg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+C+FiEsWvtCvHsIleoL3Cy3+bhmikGmo0Z/z5/4w+8hVIKZERU
-	MDBgr+QyDuCbC8s+K0mXEOiHlodbP6WXj04KtBEdEiqVFIyhEziHOdh56idJ7VJr+2MaqeDdcJz
-	j38fntg+BkxCFoxXaix/5/41jqgxUf8Q=
-X-Gm-Gg: AYBFou25L5vwybXvO3987WidSG/wwTOvAfvkcEb4v74YGqK7t8SB8/9/QGkehCRYpGU
-	NXFYNh+mwhnFbX97RsR7Jn6qVwVmMBA8dsJVNCj5x4ajyynLeaMPOAx0NhmU4wabPa1H1BRKh5y
-	DrUDr3Y+mz5zyFc8dyMOanZOZB+0OdXGSQ0knzG/vj3QRXx31bGhk0zGhMiieDJmFQ+SADXktFc
-	aOrapnd+mTCGFU8+w6mp/QyJodoLXS/asKm5JXQvHoyfvU4DDFjMfcVcpSdtqsfcBignMXoIgac
-	KNYFO86ZV7qUMSJimwm/Q78zkRYDTv+xamJrHNZWekMHlipuG3vojMqeL2fzgdsY3OhNMMQJPpW
-	mLYcXUll270W9z4TCI6zmqHR8kPQ99vB3JHgxldrVmwlA3JT8YrLNibLfQzcA/tcmIM8C7Wd35Q
-	oIV43jq06Zh/TXw13rCFeH6YgfPbATSWeC+2I5zm6ohc+ZaeZU1w==
-X-Received: by 2002:a17:90b:2810:b0:3ad:eb4c:26fb with SMTP id
- 98e67ed59e1d1-3b166c84fccmr2048262a91.23.1794293753109; Mon, 09 Nov 2026
- 22:55:53 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id BED501F008A1;
+	Tue, 10 Nov 2026 07:16:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794295019;
+	bh=4ftw/tqrcxx9i8NF1YbxSWaStdrbSjcLJBYRu56rtjU=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=h7fWdCx1EeHpALn34KiekM8ArG5NzmVVxvIDz4XvyqlXbHo5TnNOKldOwveBpU2kS
+	 nPetamxERlGxs1fFCENMnebjb526sg7+5EVgvKm7t4A12beCAEVC2ANbNvgrrFDjAm
+	 W5/nr1dw+hb16Qn1Lw+Z4vABD2Qgpwmiwk4gNxKzCP3/cPdJq0BQbR3xlRdZoReXd3
+	 blM4YnmW2t483+oDrglaunF5mBOg8gwyJsF0ou5LE9FZegwRUPR9wdoakjdYy1GYD8
+	 3qU2vMsXJEzIoldM8WhjOy9YBYIwbnExPxRUlZ/rW9NI/H07cU4Kp8OoaeM0EAhHWO
+	 RE+xxMLGOhqLQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 4EC71488E6;
+	Tue, 10 Nov 2026 07:16:58 +0000 (UTC)
+From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
+Subject: [PATCH 0/2] ASoC: rockchip: i2s-tdm: register the PCM before the
+ DAI
+Date: Tue, 10 Nov 2026 07:16:57 +0000
+Message-Id: <20261110-asoc-rockchip-i2s-tdm-v1-0-f32951b3c527@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,35 +84,75 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261106112940.53550-1-phucduc.bui@gmail.com> <20261106112940.53550-3-phucduc.bui@gmail.com>
- <3be09e84-f36b-4718-aa83-176bce5752c1@inbox.ru>
-In-Reply-To: <3be09e84-f36b-4718-aa83-176bce5752c1@inbox.ru>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 10 Nov 2026 13:55:42 +0700
-X-Gm-Features: AclHuK8Idky8GO8hJSzXW1aBKXpxIRe-zJ31F5xwaXf6ppIwq9lG0SK6KiOcHBQ
-Message-ID: <CAABR9nH6WbA+XzubhqS5=1KkRxhq2aqV7R9iJ6-j0S3OCYZ0gg@mail.gmail.com>
-Subject: Re: [PATCH 2/5] ASoC: dwc: Fix error handling in dw_i2s_set_fmt()
-To: Maxim Kochetkov <fido_max@inbox.ru>
-Cc: Andrew Jackson <Andrew.Jackson@arm.com>, Mark Brown <broonie@kernel.org>, 
-	Xingyu Wu <xingyu.wu@starfivetech.com>, Tim Bird <tim.bird@sony.com>, 
-	Yuri Zaporozhets <yuriz@vodafonemail.de>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMMQ6DMAxA0asgz7WEM0TAVaoOqWPAVCUoBoSEu
+ HvTdnzD/yeYZBWDrjohy66maS6gWwU8hnkQ1FgMrnaeiGoMlhhz4hePuqA6wzW+Mfrg+8ZLQ6G
+ F0i5Zej1+3/vjb9uek/D6ncF1fQCxBFb3eQAAAA==
+X-Change-ID: 20261110-asoc-rockchip-i2s-tdm-d6a6f86e81a9
+To: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Heiko Stuebner <heiko@sntech.de>
+Cc: linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794295018; l=2133;
+ i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
+ bh=fwtymsovofR1O3F9W5rqYLeo/TK8Hr6MiEo7/hJuKEE=;
+ b=Eoei1XstvuoctnMT5F4uX9OmuONHsAC3pwbJT55sfLRkBX/FP2npyYSgUi8pCG8GBa5ap4vSV
+ tX2RMrltZWSAXGsWglSG6yXbav1QNF1YAW3u9vbBLrHe9ogyuLn3o5+
+X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
+ pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
+X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
+ auth_id=1480
+X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
+Reply-To: aiyengar1990@gmail.com
 
-Hi Maxim,
+The Rockchip I2S-TDM driver registers its DAI component before the
+dmaengine PCM component. A sound card that was registered earlier and
+waits for the CPU DAI is bound by snd_soc_component_register() as soon
+as the DAI component appears, which also satisfies the DAI link's
+platform (it defaults to the CPU of_node), so the card binds without the
+PCM component. Every open of the PCM then fails with -EINVAL from
+snd_pcm_hw_constraints_complete(), silently. On RK3588 this happens to
+the HDMI sound card whenever the HDMI codec probes before the I2S
+controller. Patch 1 registers the PCM first, as rockchip_spdif already
+does.
 
-Thank you for your review.
+Patch 2 adds the missing regmap default for I2S_XFER, which otherwise
+warns "using zero-initialized flat cache" on its first cached access.
 
-> > -             dev_err(dev->dev, "DAI format unsupported");
-> > +             dev_err(dev->dev, "DAI format unsupported\n");
->
->
-> Should the typo be fixed in a separate commit?
->
+The non-TDM rockchip_i2s driver has the same registration order; the
+same change for it will follow once it is tested on a board that uses
+that controller (the RK3588 board here only has I2S-TDM instances).
 
-OK, I'll move the typo fix into a separate commit as well.
+Tested on an Orange Pi 5 (RK3588S): with patch 1 the HDMI card has its
+dma:fddf0000.i2s component (debugfs asoc/hdmi0), speaker-test on
+plughw:CARD=hdmi0 plays, and "aplay -D hw:<hdmi>,0" no longer fails
+with "Invalid argument" (traced before the fix to
+snd_pcm_hw_constraint_mask returning -22 with no dmaengine component on
+the runtime). With patch 2 the flat-cache warning for fddf0000.i2s is
+gone and HDMI playback is unchanged.
+
+This series was developed with Claude (Anthropic) as a coding assistant:
+it wrote the code and the commit messages, and I reviewed and tested
+every change as described above.
+
+Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+---
+Arun Iyengar (2):
+      ASoC: rockchip: i2s-tdm: Register the PCM before the DAI
+      ASoC: rockchip: i2s-tdm: add the reset value of XFER to the regmap defaults
+
+ sound/soc/rockchip/rockchip_i2s_tdm.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+---
+base-commit: cde5523c75f1320a55ac1d55a717ccbb566557f0
+change-id: 20261110-asoc-rockchip-i2s-tdm-d6a6f86e81a9
 
 Best regards,
-Phuc
+--  
+Arun Iyengar <aiyengar1990@gmail.com>
+
+
