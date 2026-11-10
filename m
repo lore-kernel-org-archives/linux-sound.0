@@ -1,83 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794304552;
-	b=iG9UEP6Ijnyp9v8bpt98T6KS68viZXgy45cA4oSRdJygwCW88Vy6e2U1eJpmRIey1XHf
-	 Hz2hht5JkjEmXMTyNfi8vJMkDNXFD6GsNWiWVQ6k9+RfABd4a5X3cbHAtLGgd3hmQBuXH
-	 OzbNIyONkoncldUoMlbV/NVdOin6AhyDDEnH7uxGnYQfVAY/EidRFje3lOxkxgs4dLiJo
-	 Q2be21pu2vA5zjzx9q90UOZJD31h607KHIOpnlK/34fkidz2AguecdtjVGPOosQljqNV1
-	 BYgu4fXXLow1bWgDmDrHcSldMYt1FSM0uwXChw0GvwGDJMGvilog/mKeGDbshP0WdUw==
+	t=1794304571;
+	b=kQP2RTVuIXR8ixrMwe3QtipJDZ0IK4hIZY9mrO/wRPPc3+7Y6RMSOLJOzbTUTKWD7LjQ
+	 KPF93UFYFiPV5/AgsSbDI2KfxrPEQymWpimVJNpIDr10lt1Twf79U3w54YZo85BWD3QjH
+	 r+0vhBVxzKZ/hJ1KpINxpHH+wHYz761O8FOtbOzZqRrZ4ReAk662FulAn4KWPt7bKuaIl
+	 Vxjkf52p16zrTu9+I+oHH1v8WAiPYPT0NWWRWWVWJXmSqtHPZBzTF4VDVkUGDX/zofVdP
+	 pzX4raCRDrzoHs4LaNJcGIpk0jeWJmvGGxwrTf1nI3VssObel4LNyR7jJbkk5tlfZlw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794304552;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794304571;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=vkfhQhYqxqsCmC3P45GomLdqX19iHipfex8irFmVNrs=;
-	b=N2VE66j6qhk7Ih0bQ125qPYv4R76IWfXAJ7PcXo4jX/MVRUlCv1TPv0fY4CwDFq2W9Ao
-	 dU88lToRZ0dWnjja2avry9wymUvXjexIRFWNm88ZJf5W7Ak0SYsMPLA6Pid7jCLESfsAu
-	 8MHadtNibxliiIMMU590uFW4QEQCEoym4MfxgTD3jfbTTDnCvg/e91/16ux4rkmlpH5gN
-	 hLTXNu153lWOtKwdSO90DtqgQg3UUom0K0UecDi7+qbVCcPCEQrSxtleJD5aP+IPGVGbE
-	 nZf3YaC46hmmshti6IIiormikgWxj488Cn2PE4G4hxHRiPAY9rLh4Kl72jF052JB3XA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=k7ESrloobDv7SNdQrKyuiHBRBGJ/v+HpoIq/NFIvBiY=;
+	b=nrUKDerUSuZnu5aNLI3cjzB4K/4ft9cea/ETrzt9VM880YD/D/AfsX/543WHyxyzWOO/
+	 B+n0KpbpOu3A9EZpBrH57ke2WtluXSN39UuJAkBmvaiXJNcn2usWnxQXVbyhz/x+zZPla
+	 m/22Zg2r3uRM4MFqHIFBSUlq02X9hDZMLD22AyXN3/AK/2w3zFN5P1mddebuMgbBR+8z7
+	 ZS3zjmbWZa0/JaVfhrNaMBIf4pZh0ze4XxhW5bylbsEWI/TbBqfWas2aDvWO3VMgL0mwU
+	 Vb9ullNhxNkdC+V952QS/5IxXFsNkeC9o7H1cBS3AtQxds95Ye2EpUcjtl7U0K7f/Cg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KM6vE6ll;
-	arc=none smtp.remote-ip=74.125.82.178
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HipcaoUQ;
+	arc=none smtp.remote-ip=74.125.82.49
+Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB338606A32A
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 09:55:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB338606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E41606A32E
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 09:56:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9E41606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KM6vE6ll
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-3645f0f3fcdso3687461eec.0
-        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 01:55:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HipcaoUQ
+Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-1b3ada81853so1549500c88.0
+        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 01:56:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794304551; x=1794909351; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vkfhQhYqxqsCmC3P45GomLdqX19iHipfex8irFmVNrs=;
-        b=KM6vE6llTuRQYCxLWxxCDbfiXe1bNG283m9WyNS7EquaKX+PfKwGnah93ceCB/kIqT
-         +gbXd6xNMAOlwYExsyACVU/fD3qmQG8UvZIj1AzhG+fjPXqDKWerTGaJmDSfw84zTmsj
-         d95NV7Hjwxwp20m1dWrclYCqTV9JkuT6NgbUE2i52ZhiFLREjnmY53mldZO6bIPeFAcX
-         lP/dDcoviJZ9Vb2iE2EEuO9sNVPO8CLfE/vmPux02YAE+DTUpRHE1vJQuu0I9VwnKpsz
-         ADpUFBfISytimwY1qblRxuVvPLGXSuhaVPWmG87rdnkz0qgvn+qOsevEx57XWN1MBFq7
-         fwNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794304551; x=1794909351;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794304570; x=1794909370; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=vkfhQhYqxqsCmC3P45GomLdqX19iHipfex8irFmVNrs=;
-        b=yFUhxbxlh4OYPU/D78VCBnZbCKeEnWzTX+7QKgnGBCApj1/xhJERB8nEWLmMqeTxXu
-         jrM6woRsBnDSRNlreA/VmGNsX8nwmJENAlv9gDl733FO9UvVKZABNOpA+4FeecjSFwmQ
-         AggkBRW+h/welNPnq4xOST2yfwer+UfJyump8dLmAlwEd5TW/Gv9/DgzS2J+3ChGjJnV
-         JqkBn1ZOVwRF3WMXumw1zB/RxMQPadkpa2YeAVCEUdhOPo3JXHP07fzDL/93nipQmSHD
-         mW6t91hslxpShwAyT6CvwQ4puZTwUgKDsdGVUnRsXe41qEVF4KKyvttlKsMAY7ZsrUEe
-         Cm8Q==
-X-Forwarded-Encrypted: i=1; AL+hErGPRJ7hxq8n/rA7hoiHmFv4G7WE+sPIpLFOtrQIZqAe9amwTHT1DPnohVzENhoNzS3PkOVcvuXUz6Ksvg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9yRh7r5eNwI2jHfyO8e2pskCvfRrInEmzJfAuSS/m4uDMmcYEO
-	tjIAXgArX91tH3jj+TajDa6B7Qs6f296yPvA9zFMC2EakNUj/sHWjGjp
-X-Gm-Gg: AYBFou1EzNrIxH+7s5LvQJtfQ+4jFBx61ny+F2zhl3xVHPRx+eDpY9dIisGalYIFXpi
-	ClCOV35gcW6/+nI0tP3AHELK4DCMbNr3fhTbDIhdIfTOyTCuytWepSDyFdJPA37ToEnII+IiQUV
-	eopcEgVvsDfdi5U3lHdSDsK1fTHA9/1EAmxpjFKcac8xNRi3pJS+JX3OtVw0FK6juACe+D+WMoe
-	ogUa+qdG2i5JmtcUDm4oGdFsiFK8oarfp3DgyDcfmD4eXuPp7JUpiU1MVtWLn1s0gVISnvisnII
-	h29UbzwqZzNME8pjTFFExL/PscMEdkfrXeNpzL4TkMQMcoNKtXhpZS7XoZHMQUVo0p14kuELQFc
-	2mBZhqYWKGGx7V/EbG9jH7dkdziBWGz9wJOMtDzNtm4jY0Z0E1rPpJTpcV5X+7yhWRMhQ/9Z8wo
-	41WGADgcQcg4RtrlyRb+ezbMambuEY5yD4spdEM2sIHHmO6Appzmg3sfgIhV3dSc/8AtAGxKmPY
-	JjrlRqcTxtV9ctj3gD1CPhsHWHiPvARTF/cxzY+wiNOktDA4iGkkVyoJB0KXZqLUcpUf4N7+77M
-	E27riqvObofBf6wewiLePRezqYp0AJCv4LKfcZHBdqOG4VAdI4SLn3xc98CVKu/XHBT0ytKrr7s
-	jY80bZPueZQirc2rr6VgC6kxqYekGa4RqzC2CSoXSf+qH
-X-Received: by 2002:a05:7022:286:20b0:185:fd0c:4585 with SMTP id a92af1059eb24-1b3b61874demr2722263c88.33.1794304550708;
-        Tue, 10 Nov 2026 01:55:50 -0800 (PST)
+        bh=k7ESrloobDv7SNdQrKyuiHBRBGJ/v+HpoIq/NFIvBiY=;
+        b=HipcaoUQg0pdDvcbtAXJBoPA32Fo2G+7P+Qt9wzwiOElVHvFFn4SltuB/XsXbCe6//
+         Efb2bL/d7cEDCPkoovWwVLnbdDQUsVFkh+k0Mwe7KSKL+3AqwN2pHc7m7fpCOj65ZNzf
+         +eCW7i9YbK1dilJwdSBnX9VHeIcSM5CKyRWoYy1m9h0K7OTJ+KykVz+TU6RwX4MGCKEn
+         9FzIZQ3UNTJJ+Qj/k1rvzHCxYyo862hWqQOv3MnjMFwl7TQDZ7oIFImgoaiybqliYHnu
+         LnDfCywsmj5txM6hfVUM2aTERhQWgD7TkVhSda2feVR+Qlnur4Nc5yJWR3NLn8LHsui2
+         UxKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794304570; x=1794909370;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=k7ESrloobDv7SNdQrKyuiHBRBGJ/v+HpoIq/NFIvBiY=;
+        b=0iMoftJSU/8zI036nfxVD3CGtlKRY+jD0W6Khc3T5Np0hg2WE9ddlRlhBW9nxiJjEA
+         bX7jCPffRfrmkgAP7S4U6srnTmeuInFTvboCEy6d6IS6HGySJojl/z48HWkuzXOSXEeN
+         e+LDKIxVSVnF6dOS0mpgsTlx8nLEZUh1c/fi7UxOibG2TJPeqGknYQAl3icOWeExOSwj
+         0dJXhdVg0BpeK0aCUqM7dfQb877xy1nNXld/PChDzIcrDDHFUZmbtYZljiO1rYGE/kOC
+         oVQxLxE0mG1O+ZwNDEb7NajZxN8XGYZ5Qfo/eOrjqu1H2IfP0HHjg3Y7+Wy2uvCPJI4O
+         up/A==
+X-Forwarded-Encrypted: i=1; AL+hErFJRpq/vbrWU/sAnN1mYsOcrIPQOuxTkOBQyQ+N3nEV1T4aGjfiCN3JBpJzR0zYBq2e1ewCTxV0JWcvCw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8Vo1H/Ltvuuk5gmkBwKcBridsZxo+3hN6Ce/Teh+6GiqSFRyCb
+	fmu0xcwmQjy2ilR8vjUB1L21A3xuC1qSQqXQSp/LMciJj8qmwnX6BANE
+X-Gm-Gg: AYBFou3iDp+3kRgSfWg0xSVz2usYT5ziI9h0rvnUB5LoVuIzDajk2W+AD7uv965UJyR
+	4UBlX8KVXfoCWUHVlv5jxb6K8IZfPF0RdM8dehLAqJ60wq8mk6j0LyV0F2Dl4IpnS68UH6Qca3M
+	9zMQ+AlNjjizHSzfFU6/xcbkt7PowQkIUgBAF1ck/HhipmohvFNQJy2lbWe2QCsFryno4/zawms
+	F9z0Sw/oSisv4RjW5WQhlHxC/jQmut7chExXrKrTIEow3Re+hh80jEzNgUtiBfO6aYQzTTbtjFE
+	JvjYX+Kjth/08LoQ6KCfBP1l+St4tyXGwMp7FLY5ROffS77p4CsqofGJLM7hNWUm7xJs0YbTUo9
+	wIk5Y0/nypO85JQraO3buOdxrO0vgnM98NQ+PO3EzsPBSr0EnVCENEqo7zvDvWd6PLSJ/doD37N
+	rN56x79bPFX+xvT1da0D9r3GXuwyWr9FVAVlH/LCfL135mzuJfQE1b8acnphgAbHAx0gtVx94wy
+	ppq8t3nNLSUyp2ikDGilQmOAXmMHLraP7BjzRwoTDNYKsvt5cxwM+Pe4L/l+1pn63wepvFq54ZJ
+	TX3hltwmiEXRnC9Po3/vL3k3cgbj8ZNX+mSdQ4kXhtmo5J+RMZdfbHx7iQUIrAaWKwQf1BX/3W+
+	gcY0WFca0Io2xEA0BLJVzIbAVoHqExt/tcCVlPevn/bRmUsNCywBDhV17gPwOdfU7qw==
+X-Received: by 2002:a05:7022:7f01:b0:1b0:c224:5bdc with SMTP id a92af1059eb24-1b3b5fd1a6bmr2337472c88.14.1794304569837;
+        Tue, 10 Nov 2026 01:56:09 -0800 (PST)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b75d42sm5203801c88.20.2026.11.10.01.55.39
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b75d42sm5203801c88.20.2026.11.10.01.55.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 01:55:42 -0800 (PST)
+        Tue, 10 Nov 2026 01:55:55 -0800 (PST)
 From: phucduc.bui@gmail.com
 To: Maxim Kochetkov <fido_max@inbox.ru>,
 	Andrew Jackson <Andrew.Jackson@arm.com>,
@@ -92,10 +93,12 @@ Cc: Tim Bird <tim.bird@sony.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 0/6] ASoC: dwc: Fix several issues in the I2S driver
-Date: Tue, 10 Nov 2026 16:55:19 +0700
-Message-ID: <20261110095525.504660-1-phucduc.bui@gmail.com>
+Subject: [PATCH v2 1/6] ASoC: dwc: Fix bit clock rate in TDM mode
+Date: Tue, 10 Nov 2026 16:55:20 +0700
+Message-ID: <20261110095525.504660-2-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261110095525.504660-1-phucduc.bui@gmail.com>
+References: <20261110095525.504660-1-phucduc.bui@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -109,36 +112,35 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hi all,
+The bit clock is computed as rate * data_width * 2, which only fits
+a two-slot I2S frame. Use rate * data_width * tdm_slots in TDM mode.
 
-This series addresses several issues in the DesignWare I2S driver,
-including clock rate calculation, DAI configuration, channel limits,
-DMA FIFO sizing, and error handling.
+Fixes: 221acc16aee1 ("ASoC: dwc: Add TDM mode support")
+Reviewed-by: Maxim Kochetkov <fido_max@inbox.ru>
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
 
 Changes in v2:
- - Move the indentation and typo fixes into a separate commit.
- - Add a separate patch to propagate optional IRQ lookup errors.
+ - Move the indentation fixes into a separate commit.
  - Add Maxim Kochetkov's Reviewed-by tag.
 
-Link v1: 
-https://lore.kernel.org/all/20261106112940.53550-1-phucduc.bui@gmail.com/
+ sound/soc/dwc/dwc-i2s.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Compile-tested only.
-
-Best regards,
-Phuc
-
-bui duc phuc (6):
-  ASoC: dwc: Fix bit clock rate in TDM mode
-  ASoC: dwc: Fix error handling in dw_i2s_set_fmt()
-  ASoC: dwc: Fix channels_max derived from COMP_PARAM_1
-  ASoC: dwc: Fix DMA fifo_size calculation
-  ASoC: dwc: Propagate optional IRQ lookup errors
-  ASoC: dwc: Remove redundant error messages
-
- sound/soc/dwc/dwc-i2s.c | 57 +++++++++++++++++------------------------
- 1 file changed, 23 insertions(+), 34 deletions(-)
-
+diff --git a/sound/soc/dwc/dwc-i2s.c b/sound/soc/dwc/dwc-i2s.c
+index dbda943cfaf3..1f4d06a82333 100644
+--- a/sound/soc/dwc/dwc-i2s.c
++++ b/sound/soc/dwc/dwc-i2s.c
+@@ -332,6 +332,9 @@ static int dw_i2s_hw_params(struct snd_pcm_substream *substream,
+ 		} else {
+ 			u32 bitclk = config->sample_rate *
+ 					config->data_width * 2;
++			if (dev->tdm_slots)
++				bitclk = config->sample_rate *
++					 config->data_width * dev->tdm_slots;
+ 
+ 			ret = clk_set_rate(dev->clk, bitclk);
+ 			if (ret) {
 -- 
 2.43.0
 
