@@ -1,58 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=160.92.124.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794337763;
-	b=HAh97PH4oUO5P/zEdKX/NHpOYGJtfh06hCmp/drPLRfe4BHexM8hvnm6i6atjFUMOJ0D
-	 PsQjQIcpHrhDElDDSmxLNfVA+IUTE2Kv7aQJ9NNhUy5VYNMRnmS4pyxZ4sKVuwLCZj8Ne
-	 yB2h3Bnf65rxiqW5/BtTn0r7UM+SIKVStMIObpTCrtEQ333s4DpF0i2PxVnrnDwhvylUF
-	 nWm++jOk9nTjHb3vbWQtazNNvSm0EJ2SmRs/2E7rJ5+KgHYUuGoz08ktwKlZBEUn2GglW
-	 qjmDGXYgwH81VA4pXE58K4VNHqfjM35+XW8zc2JjsvsFVr+xWVZPXkADtDyOy3YPDuA==
+	t=1794337882;
+	b=bG2CsBjTYp4Qydwi33IOgbAJ26zoCMlUKzVPFJ5McSkwgDi8xK/aMz6Ns1ReS7gxlGBY
+	 e8JU9YamLKUQS/2hYuL5VCezt9/CzlcvMOBB0bGXt0RmgT668wtXsgsiJfZUhgBc3W36R
+	 LvHGhlVIydoj+uqZgFGuZaUo07pOCDFOTrwcGoCwFXT2S2dFhraG8qtLrfQccubQAEgpH
+	 XKwvlE+HC5HmcRqtNQbm7GX7ZeF/4FJjMRt7/3g4PsaeK7pSCvfO84EXCTIujQGxWnkoD
+	 TBw9qt0fneZjusC4V+RsaKq875zx06wqalsW1/emTKEpaACExut/iuvj8yA3fR3S4oQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794337763;
-	h=DMARC-Filter:X-mail-filterd:Received:X-mail-filterd:X-lpn-mailing:
-	 X-lpn-spamrating:X-lpn-spamlevel:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:To:Cc:References:Subject:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 DKIM-Signature;
-	bh=WGZJnIXaQTHHyWQvMA6spMYXr8LqVNnU93YEdu6wYwU=;
-	b=xY2srAiDmmEgyNzo4SvedlXgOl848kUOg3NpDiPWSTfJcsFQvJ4ryoGbhK+jbKTEGdYL
-	 sOxGnNFzUMagUgjStsSyGUmxYtlpqyWDf4F6m/8Usaz+Yijv25mH5WvLrdDfm2uW1M0+S
-	 dtcbA4MXyyqzHUf5lc1ONhXczVjCx9vDC1m58RKiBQoeQnsgJg1Y/Vj0MNlhLs4U2jN1b
-	 UGVJcHbkzKE+Qm1DkojBzkXgmoAeXS15HHwW9hv21SPOjS8DpF/5jO2zcxvxY3bGZhDY1
-	 0mUWfR8CHBGyO+RtBvdxySfcu6iP8QjtDt3hYe5e7OPexBeQZ0uEDYfr1mhtHLyPIxA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794337882;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=XIGm2kAAxpVHsgl8rLVGtSNefegxgi/Yap4OiVfb9jQ=;
+	b=XQ4SnV/iWGsblQFN+0UYfhZ6Q5fAaA62gie+QIFQuQ21LHYJ38hUvzGksID2PzoouPJD
+	 UNvI7CDQ7rnSXa2wnKVa2vMg212iofyCWFAy54zxrd4CLRT0OIYSmxgbC0vecyJzPRkG1
+	 al+v+Pc7h2RbHC/UvaFr3dAgomgE0Wmb93l8Il7M27gETcjxW5zu/jlTyoGqjEMqlc1Hf
+	 rOhqSdtzHzhb4v3AlkQ82rhglyTiNB6y0/j4AMWkyt+eG2a1Zf1Bul6xFPm2DqENvKDB8
+	 cleFtDjtXwHP9E5wEB8m+5V9B83FbTYFIv7cFSbKIrTIo621aNbQjl3z9/z/Fyd+O7g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=laposte.net;
-	spf=pass smtp.mailfrom=laposte.net;
-	dkim=pass header.d=laposte.net header.i=@laposte.net header.a=rsa-sha256 header.s=lpn-wlmd header.b=jOEU6yPr;
-	arc=none smtp.remote-ip=160.92.124.108
-Received: from smtp-outgoing-2001.laposte.net (smtp-outgoing-2001.laposte.net [160.92.124.108])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PymGmf2m;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A43EA606A327
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 19:09:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A43EA606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=laposte.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=laposte.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674E4606A321;
+	Tue, 10 Nov 2026 19:11:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=laposte.net header.i=@laposte.net header.a=rsa-sha256 header.s=lpn-wlmd header.b=jOEU6yPr
-X-mail-filterd: {"version":"1.9.7","queueID":"4jPGRD02LZzWf0T","contextId":
- "4ebba964-9afa-4289-a513-b93dd67dd20f"}
-Received: from outgoing-mail.laposte.net (localhost.localdomain [127.0.0.1])
-	by mlpnf0107.laposte.net (SMTP Server) with ESMTP id 4jPGRD02LZzWf0T;
-	Tue, 10 Nov 2026 20:09:12 +0100 (CET)
-X-mail-filterd: {"version":"1.9.7","queueID":"4jPGRC0QqWzWf0M","contextId":
- "0265c011-5ee2-455c-b348-22e8045951a3"}
-X-lpn-mailing: LEGIT
-X-lpn-spamrating: 40
-X-lpn-spamlevel: not-spam
-Received: from [10.10.191.53] (unknown [185.234.140.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mlpnf0107.laposte.net (SMTP Server) with ESMTPSA id 4jPGRC0QqWzWf0M;
-	Tue, 10 Nov 2026 20:09:10 +0100 (CET)
-Message-ID: <cd6b07b3-f50c-410c-b230-43889ef7a455@laposte.net>
-Date: Tue, 10 Nov 2026 20:09:09 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PymGmf2m
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB2CB1F008A1;
+	Tue, 10 Nov 2026 19:11:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794337882;
+	bh=XIGm2kAAxpVHsgl8rLVGtSNefegxgi/Yap4OiVfb9jQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PymGmf2mVPhJhqctWsPveAOhOEV9X65I+mS9VirXqxW4+XOogKbW3x60Q1MDPuLuD
+	 BBBkjK61t61k8l4f62sLzPXJg33M6iaAbI31wECJJleBC8wxcoLg1qJtkh+kLAa2y7
+	 xDJnaGUWMMRGA7Jk9B20RL63VZO8OJHPvORq6i8Tki4j9TAx6kUFq2GlQhRxWNi1WP
+	 SzJ6dFH895jVtFIbZrdXcW2J6oODS7G1ERypFC8P62C8P7dIFStASbZNXNKUBasHUZ
+	 RFr2JIStRF9Uf1m1NCxfJMByKjJe/9E4+G9ycRi+tKPvkymGc+BVJ4kh7oBvBJ7MbD
+	 z2SKORsQ0qB+g==
+Date: Tue, 10 Nov 2026 19:11:18 +0000
+From: Mark Brown <broonie@kernel.org>
+To: fixca <jaehoon1744@dankook.ac.kr>
+Cc: Vijendar.Mukunda@amd.com, shumingf@realtek.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 0/2] ASoC: amd: SoundWire audio for LG gram 16Z95U
+ (rt713 + rt1320), speaker still silent
+Message-ID: <14e136c1-431a-40d3-b9a0-a4b5f41f726e@sirena.org.uk>
+References: <20261110125459.3924-1-jaehoon1744@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,38 +58,41 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: regressions@leemhuis.info
-Cc: alain.cousinie@laposte.net, cezary.rojewski@intel.com,
- kai.vehmanen@linux.intel.com, liam.r.girdwood@linux.intel.com,
- linux-sound@vger.kernel.org, peter.ujfalusi@linux.intel.com,
- regressions@lists.linux.dev, rujbin@proton.me,
- yung-chuan.liao@linux.intel.com
-References: <1c28b5e3-7ddb-4e3d-a61b-a96aedd6eb50@leemhuis.info>
-Subject: Re: [REGRESSION] Linux 7.4-rc2: Intel Meteor Lake SOF/HDA audio fails
- with ASoC route errors (-19)
-Content-Language: fr
-From: Alain Cousinie <alain.cousinie@laposte.net>
-In-Reply-To: <1c28b5e3-7ddb-4e3d-a61b-a96aedd6eb50@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=laposte.net; s=lpn-wlmd; t=1794337754; bh=Ggn9M5FHXjMwPj2eKHmLanYF59svyOw6n4unnJUT+VY=; h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:Content-Language:From:In-Reply-To:Content-Type:Content-Transfer-Encoding; b=jOEU6yPrMYJRKM4qz/69nsmIpHLNEmT5vztHLyiTcVidRpMdrk029AaM9tNU7w+1/a44G2c0HRdzEDjVO8TWvEECnuU/he5pJwTJoD5sjhkofosMxedLmNam2YU6ZodbaU4gamM1H7EiEmxJjC1JxW+WxvZLeR4jDi5jbxbGJ69CcHwEY7pWMQGmGiSSXt4KVBVHcYk5I5LLNiKP99NFLuJKz4Ka09OE9rok43/F37utW4CcA955/Dt/qUmdShLOXm1nhuGuZrfd1bUSulql2rOgQVrCHW055FzQR4pJOzULVCbnhjU0UhHb70xqNaM2Ra5yWrnRJnqA86u5oCefmA==;
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="YYKW+HT9jAMWw2dC"
+Content-Disposition: inline
+In-Reply-To: <20261110125459.3924-1-jaehoon1744@gmail.com>
+X-Cookie: You can't take damsel here now.
 
-Hi,
-Hi,
 
-After upgrading from Linux 7.4-rc1 to 7.4-rc2 on an HP Spectre (Intel Meteor
-Lake), internal audio fails to initialize with repeated DAPM route errors.
+--YYKW+HT9jAMWw2dC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I bisected the issue between v7.4-rc1 and v7.4-rc2, and git bisect identified:
+On Tue, Nov 10, 2026 at 09:54:27PM +0900, fixca wrote:
+> Hi,
+>=20
+> The 2026 LG gram 16 with AMD Ryzen AI 400 (16Z95U, ACP rev 0x72,
+> PCI SSID 1854:056c) has no internal audio on mainline: no sound card is
+> created. The same generation 15Z95U has been reported with identical
+> symptoms (https://github.com/CachyOS/distribution/issues/516).
 
-  4dd10fbbeb9c33709edc89916e19c03c780a0751 ("treewide: Convert devm_kmalloc() family to the devm_kmalloc_obj() family")
+This doesn't apply against current code, please check and resend.
 
-I also verified that reverting only the sound/ portion of 4dd10fbbeb9c33709edc89916e19c03c780a0751
-(`git show 4dd10fbbeb9c33709edc89916e19c03c780a0751 -- sound/ | git apply -R`)
-restores audio completely without any route errors.
+--YYKW+HT9jAMWw2dC
+Content-Type: application/pgp-signature; name="signature.asc"
 
-#regzbot introduced: 4dd10fbbeb9c33709edc89916e19c03c780a0751
+-----BEGIN PGP SIGNATURE-----
 
-Best regards,
-Alain
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrzbFUACgkQJNaLcl1U
+h9DgDgf5Aa48Ft2q8qW1SLCSPyNkc3HfSYCKIpyNaumSDn2Eirln9GBZgvgAOoSG
+Q3HqR/V4LQuISArHFZ2i2wbYL6zTPVQ6ORaReCqsKh+5RDiluPUqFDKLDch/svT5
+zWG398rkRhmezmjoUX5HIYocmAVT0pW/te6A8Q1ITxz4Hm3ftrr1IOLTrOKQ22Hz
+tDfy4HHL+EW0QRk9lPRaUjEaC5a6DFA7VybhYoQVNvH6hOp+dc96ryOeqFOyjJl7
+4zyt14L4bgx5alqb0gHQVJbHEQQrSshZfITEoV7LT3jWg8L0dsexOzQCbhlaECiz
+Cjn+poS3xPRMzqOBikdeMZiKyR5npw==
+=GPm0
+-----END PGP SIGNATURE-----
+
+--YYKW+HT9jAMWw2dC--
