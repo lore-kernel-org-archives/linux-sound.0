@@ -1,116 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794311278;
-	b=d4I2zgVl1SdwlRebt3YYdSWqqteujB9Lxnm01ohZZGmHaQ5CSLBsu3xX5XcfBncJMyvr
-	 a+OrescJiwPNEFhqqN8N8GUQCE9uSXlf1TB5aIm7Qpju4fLwZ1CRu/jjmAbUVogZ3opXO
-	 aTnC5AKqFcbkJt2tHmxWI6UBhrQb2pprlG9ialEeCVyaXAdnLvRvmjE395lqmlWgec8jA
-	 Lu2iFdvB4oL55a7liIRLC20NcvMPLxeuDymjFDohuvXtl8yMfvUJSSp5dsrGvD1SIrp5c
-	 saTBrzYA9uV57DMY5rdea7JeWHlYG6m+RfKbqwgMig/eTgsIcqFESuZ1435UZYHzSVw==
+	t=1794311478;
+	b=KZzRdIaA6yQ4yBgx6V/R0RSuBNMI77V3rAtkzH+UZr1/8lwExxLW9R88nlRd91xwt20R
+	 bQfhh3LVuA7Ebotvt86G9I9dak74rmQQUY9eYejnt/S5FZXVdKmKhXWgwySCcDg6R0Oqd
+	 SV7nP+Pet8oISH3Dcx7R+mCgBBTlL2/8NKr9Q8U18Oci+xzkDiAX+cJp0WCMb7nT6LDe8
+	 dwTbAef9Mgh6wf00sQRIp4VzNbp4nI9I9azsOr3m9TzKUV2qP493eMaKxaMfb1NADRml6
+	 xPWqxlncziIdY/rDpNomj1sjU1k9gBbInS2UH+LsGprd90TPNjwMMjsrpblp6PwKdEQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794311278;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=qGURqmXpzK2RLNXVuRSk2BdtnPUh0Q968Z0BGF6BGuk=;
-	b=CLx/QNs+fzg1cOkJa9hFkDolX2F7tTU8Rn/1OF/yaaAvQ/hKlH1ATjQkSUzThnUEtQUl
-	 CeQwfsCO2nNaV3f6AQCA9JnTQGp5u8BYE3zMgTfMSMKO03jZ4WYBJ0OrkJU2lnzNfJyBU
-	 4kLX4B0YInSXZpDFMvaoPj0FgJWBi4sWVp6k4my/FjNeFkrLvetxgLjU/oEV5sjbSRYYB
-	 7RKEK4+z1g77gcihEzpsfoS1oXRP6oRC/YQS63ZejtSkpwxZSVU4/awJDri9bMDyEvq7p
-	 fNeFznvufwWUxWhM0n060Uc3x/Pt+9rGL9ULLy5S62z3V5EEoRnIxkrHJFuThWuZ8gA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794311478;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=CMqiiywlLSX/magk1AgnOQL9lgKVlf5mAM1veg6/n8A=;
+	b=OFnNAqBIEip39n9a8ECFwkMtwJsrI4TZ/g2Zd/RVmJaDxpWXKTA1tLsq+B8ZFtB4TbYV
+	 SOIBJ9cUdYeXMTGgaV517n14NxsLrMndDud1oISaJ/lOc8L0xhtcUF7yqO819tWw5FICp
+	 CtG4hqCjbh6gnTqXnetAyVZN3hc8sSyGTNksE2zezQZcWy00DMMgAWZ3l65HjW6jNbexO
+	 gsVa01fVcMMprT5SxZKm/6xjyKiBA2ZLUqA5HETyrZMQfC1w9zfAnOe8iw91i67DjEyg/
+	 TV0vYcHTV4E4PYHtB9C94ODZYOUS5WB4B3siSdZ27eqBnf6OURK7GMpVNHVzGcdKnnQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=U6qQmIOe;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WIwzEQN8;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=U6qQmIOe;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WIwzEQN8;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gmgVolmI;
+	arc=none smtp.remote-ip=209.85.128.41
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5019A606A32E;
-	Tue, 10 Nov 2026 11:47:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5019A606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A540606A338
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 11:51:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A540606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=U6qQmIOe;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WIwzEQN8;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=U6qQmIOe;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WIwzEQN8
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3C00E21ECD;
-	Tue, 10 Nov 2026 11:47:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794311275; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qGURqmXpzK2RLNXVuRSk2BdtnPUh0Q968Z0BGF6BGuk=;
-	b=U6qQmIOe4LvIJA+DVbIM/USCgGP3Cvm2/v13Ni2PC8EpzU10lX24ukr0eO9SFWetRwpSBd
-	esprniFiFGj+wf3Xk/G4UbA6Lf2T57d4d+XkbCxTKmVUMLfk7rEVyxnFzCgFsdXRbpJ0CS
-	JAvVo6oLslQd+JKTA/j0KzsfOvNvp30=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794311275;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qGURqmXpzK2RLNXVuRSk2BdtnPUh0Q968Z0BGF6BGuk=;
-	b=WIwzEQN8OeUdjpJtUl13rh/DMUycjp1FwDjrGfpA8v7bpJTaRmUDjKMG7dEeXGBRYXsfji
-	NfmQfnBsPoDaCXAQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=U6qQmIOe;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=WIwzEQN8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794311275; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qGURqmXpzK2RLNXVuRSk2BdtnPUh0Q968Z0BGF6BGuk=;
-	b=U6qQmIOe4LvIJA+DVbIM/USCgGP3Cvm2/v13Ni2PC8EpzU10lX24ukr0eO9SFWetRwpSBd
-	esprniFiFGj+wf3Xk/G4UbA6Lf2T57d4d+XkbCxTKmVUMLfk7rEVyxnFzCgFsdXRbpJ0CS
-	JAvVo6oLslQd+JKTA/j0KzsfOvNvp30=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794311275;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qGURqmXpzK2RLNXVuRSk2BdtnPUh0Q968Z0BGF6BGuk=;
-	b=WIwzEQN8OeUdjpJtUl13rh/DMUycjp1FwDjrGfpA8v7bpJTaRmUDjKMG7dEeXGBRYXsfji
-	NfmQfnBsPoDaCXAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C3F4E13479;
-	Tue, 10 Nov 2026 11:47:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CJDRJWoE82rwewAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 10 Nov 2026 11:47:54 +0000
-Date: Tue, 10 Nov 2026 12:47:54 +0100
-Message-ID: <87pkwcvrf9.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Emanuele Ghidoli <ghidoliemanuele@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Emanuele Ghidoli <emanuele.ghidoli@toradex.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: soc-core: reset rtd->num_components after allocation
-In-Reply-To: <87bj7yw9e2.wl-tiwai@suse.de>
-References: <20261109102536.357134-1-ghidoliemanuele@gmail.com>
-	<87bj7yw9e2.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gmgVolmI
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a5087a5348so16190465e9.0
+        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 03:51:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794311476; x=1794916276; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CMqiiywlLSX/magk1AgnOQL9lgKVlf5mAM1veg6/n8A=;
+        b=gmgVolmIo9iohlu7DnOcjpNJ24aroHo3ALlnPDCuoV8YxGLx8MVuS+QCdp0c6XhLv7
+         fYhmn3fJYbSfFGeAd/fVd8K1lfgH0ZxsgjCXkBqG2OnOjtBtE0O7tx6AQA+cyuYYltcc
+         lTt92qYkFMBKS6nWwZ9G608ILAtcImY16iZsIoh2Xkx3/j8qdz2l3E0+6k/U3z04EJ1q
+         N3bDNJcTd+5KIFqPqUqZcMOjpJ2+skkbsE2mFHmy9tBKhG4ArD7/+UCIxVt0vDdxVeZV
+         lBOEC4FTKOoUi9bLsiOYrmtNOpRyDAcx33wmKvD33ySgjNWlV7T44aYGCMEEplE6j8c8
+         BpZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794311476; x=1794916276;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CMqiiywlLSX/magk1AgnOQL9lgKVlf5mAM1veg6/n8A=;
+        b=Z3TjkJmcOf9dUbL0uM7laGxu9dm4cR+F0Dre/pq2ocW02lNnCKyRdYOrFc8xyfsQgq
+         aerSmzjRqvr6lAjK+nUWXUNi5dD2dlOJWu48l1UN7T7INylaoAYa9q+qGrSNRUy9lxps
+         /Xir/+XrDToCfpn9w/QoGHpBVmivd5Of1ZbGG+nHePmX1YW+SQYWJ9PlSijLiJtDzztQ
+         xLQrkk+iPPJX81cSMaUBx0HtfbiMS8ulrcIWbQEQ1+Hl8HMyOl402rEfrXd3Mzef2iVL
+         pospovegINzXkcg1l4+WbjJFYnpWTExVrKXEHLQADdj8giRGeCCztgJJobdxrdzsp/D/
+         ISmg==
+X-Forwarded-Encrypted: i=1; AL+hErE05Rp0InLnfWsrQ23uE600ImvjZmnjFs8vuxMxpeM2McRVlTi4p+424dyNoKfAlk1mRo7XrFjA469iyg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/kAq0l11MaCVT4fUg7VBdWUPhTvk0RxzMU1n1Oy39GDjhiK4XC
+	dNMuY2b9dYjAf1LQtECg04Mkoba8xbakrc0O4Q05Wa4R1F5YMqx+D++3
+X-Gm-Gg: AYBFou284FqQzo1fnIbEIqLalFL7KRH0wac+g0GULi6+MeAh41f78njqr6ezGhfrUQY
+	tlrMItASBs9HAxEksFJB1YH89QdySvGgWPE+C1+iJZlw6I48Bl1RQP3zAJVh5Amin2SsvQtaBQr
+	uzrtFEluTxYpA6oCYA3pbyeVCyoHfctahijhwW9Rn5wTQOuBT5kke+3fBuw1o7Q2BxOlgIlctuu
+	7pB7vE5tBBJvisxWPkhE0K3ml9+ETr+fZq8C6ur71I/wP2dFRg43Wp9x78b5QTNLlt8IJTjYq5r
+	mgw6+eyKkUpJ3OVdNVxCv1BVEqq0YpQiLUH87qHp9Bv7SBFaTscOs5US64bj9YFFBnnkjCeKByl
+	Y4DqF4FytvZoSPq1htPsgT9VZqNpPF2Lh52gulCTQuDFCDNKsN9+OejC08nM8qEJgejgI/YzWD3
+	yVYrVodSThW/1ruqwj1Z8g/OWcMxMAvNQDcBynCkWJs+2kHIUXKvR1EFX8MT40Ln8H+/Syf3Doi
+	ZybpV0TfanlKJjS1g/GAizTwO/aPHSyX+GOawdrRFbXqlrAPFluXsCB9xI7WI9oviK1ygCSczcw
+	gZltQ+m6yPG9fU0rEm8PfMRZk5AR3gRMSMpNvSTJ8yU7nLErN+fi6SCqQqvTT+gLdA3uzU/joMY
+	UDi7Bc/Y=
+X-Received: by 2002:a05:600c:3b11:b0:4a2:677:ad8e with SMTP id 5b1f17b1804b1-4ba02357922mr35599775e9.34.1794311476364;
+        Tue, 10 Nov 2026 03:51:16 -0800 (PST)
+Received: from [192.168.68.73] (host-87-4-46-207.retail.telecomitalia.it. [87.4.46.207])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ba01feee1asm76370685e9.12.2026.11.10.03.51.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Nov 2026 03:51:15 -0800 (PST)
+Message-ID: <59c8fa03-3ff1-4dd6-887b-d3c9044f2052@gmail.com>
+Date: Tue, 10 Nov 2026 12:51:15 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -119,112 +92,87 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,toradex.com,kernel.org,perex.cz,suse.com,vger.kernel.org];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,toradex.com:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -12.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 3C00E21ECD
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] Linux 7.4-rc2: Intel Meteor Lake SOF/HDA audio fails
+ with ASoC route errors (-19)
+To: Rujbin <rujbin@proton.me>, Thorsten Leemhuis <regressions@leemhuis.info>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Alain Cousinie <alain.cousinie@laposte.net>,
+ Linux Sound System <linux-sound@vger.kernel.org>,
+ regressions@lists.linux.dev, Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
+References: <mAZY9HZuXAXUf7zv8tqXquMtquf7iW2CIZB7WhU-SnwWp-Rpr0e8yixTsb3lAeQsO64PwwWlOao8aMjQ4hTKOQ6grCiNmaWZmFRXMdPICD8=@proton.me>
+ <318f1745-acd7-430f-818b-c961987fe108@laposte.net>
+ <1c28b5e3-7ddb-4e3d-a61b-a96aedd6eb50@leemhuis.info>
+ <A2lXWpWj7wjBwPNTvCOh2-bCqRbX0Pb7od1dICr4c6SegAilwp8dERHk6riu7tj1b3XUMgcLnDDSP_8AoZAyj9VHm3NUkBB1NW2YPQfZLYY=@proton.me>
+ <mSuMDKuVQS8ZjTjivGVr3SMDUYuxZDrlG8aM0vLajVxIN8eq7OJTwAtWLWgMGypqzNolhoAsat_-nBy0wAq09eap6nIDkUvCES32gFvZ7ng=@proton.me>
+ <bC5e1B4L-OemXflaxyhu6hZVqEyiiGQ9_Q3cejRNYI2EMBnD6LC7sgT6bskk8FjeIwsbZviJBOmIGiz5t9xgfwAm9czm8ihYLGsqyVLHyjk=@proton.me>
+Content-Language: en-US
+From: Emanuele Ghidoli <ghidoliemanuele@gmail.com>
+In-Reply-To: <bC5e1B4L-OemXflaxyhu6hZVqEyiiGQ9_Q3cejRNYI2EMBnD6LC7sgT6bskk8FjeIwsbZviJBOmIGiz5t9xgfwAm9czm8ihYLGsqyVLHyjk=@proton.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 09 Nov 2026 12:07:33 +0100,
-Takashi Iwai wrote:
+
+
+On 11/9/26 23:02, Rujbin wrote:
+> Hi all,
 > 
-> On Mon, 09 Nov 2026 11:25:20 +0100,
-> Emanuele Ghidoli wrote:
-> On Mon, 09 Nov 2026 11:25:20 +0100,
-> Emanuele Ghidoli wrote:
-> > 
-> > From: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
-> > 
-> > 
-> > Commit 4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to the
-> > devm_kmalloc_obj() family") switched the snd_soc_pcm_runtime allocation
-> > in soc_new_pcm_runtime() to devm_kzalloc_flex(). components[] is
-> > annotated with __counted_by(num_components), so when the compiler
-> > provides __builtin_counted_by_ref() the allocation now also sets
-> > rtd->num_components to the number of allocated slots.
-> > 
-> > snd_soc_rtd_add_component() fills components[] one entry at a time and
-> > expects num_components to start at zero. Starting from the allocated
-> > size, for_each_rtd_components() stops at the first, still NULL, entry,
-> > so the runtime has no components: they are not probed, no controls or
-> > user-visible PCM devices are created and the card registers empty,
-> > without any error message. In addition, each added component is stored
-> > past the end of components[]. On the tested board these stores still
-> > land in the slack of the kmalloc bucket that devres rounds the
-> > allocation up to, so KASAN does not report them.
-> > 
-> > Reset num_components after the allocation.
-> > 
-> > Seen on a Colibri iMX7D (simple-audio-card, fsl-sai, sgtl5000): the card
-> > is listed in /proc/asound/cards, but /proc/asound/pcm is empty and
-> > 
-> >   amixer: Unable to find simple control 'Capture Mux',0
-> >   aplay: main:850: audio open error: No such file or directory
-> > 
-> > Tested on that board with v7.4-rc2 built with GCC 15.2 (first seen with
-> > GCC 16.2): the failure is there without this change; with it, playback,
-> > capture and the codec controls work again.
-> > 
-> > The root cause analysis, this change and the testing were done with the
-> > help of an AI coding assistant (Claude Code, Claude Opus 5.5).
-> > 
-> > Fixes: 4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to the devm_kmalloc_obj() family")
-> > Signed-off-by: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
-> > ---
-> > 4dd10fbbeb9c only reached mainline in v7.4-rc2 (not in broonie/sound yet),
-> > so this is based on v7.4-rc2.
-> > 
-> > The other devm_k[mz]alloc_flex() sites added by 4dd10fbbeb9c were checked
-> > too: none of them fills a __counted_by() counter one entry at a time, so
-> > this one looks like the only user hit by the preset counter.
+> Short update: the num_components explanation is now confirmed on
+> hardware.
 > 
-> I guess a bugzilla entry that was reported recently is also related
-> with this problem.
->   https://bugzilla.kernel.org/show_bug.cgi?id=222249
+> 4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to the
+> devm_kmalloc_obj() family") switched soc_new_pcm_runtime() to
+> devm_kzalloc_flex(). __set_flex_counter() then sets the __counted_by()
+> counter rtd->num_components to the allocated array size, but ASoC uses
+> it as the number of populated components. With GCC >= 15 it therefore
+> starts at 3 for "Analog Playback and Capture" instead of 0:
+> snd_soc_rtd_add_component() writes past the array and
+> for_each_rtd_components() stops at the first empty entry, so the routes
+> fail with -ENODEV and no card is registered.
 > 
-> My first gut feeling was that it might be safer to revert the use of
-> devm_kmalloc_flex() in that code, as it has a significant side-effect
-> unlike other straight conversions.  But, if this fix covers well, we
-> can go with this fix, of course.
+> The fix is one line right after the allocation:
+> 
+>     rtd->num_components = 0;
+> 
+> A separate [PATCH] follows with the Fixes: tag.
+> 
+> Verified on v7.4-rc2 (commit 7475ea8b58616), same kernel build and
+> machine, with only snd-soc-core.ko replaced:
+> 
+>                                unpatched     patched
+>     ASoC: Failed to add route       18           0
+>     fail to add hda routes           1           0
+>     aplay -l                   no cards    sof-hda-dsp, card 0
+> 
+> card0 is registered, SOF firmware 2.14.1.1 boots, and there is no
+> UBSAN, KASAN, oops or WARN in that boot. The loaded module's GNU
+> build-id (ccb6a039...) is the rebuilt one, not the original
+> (daa875d8...).
+> 
+> Caveats: the module was built as an external module, so the test kernel
+> is tainted 0x3000 (OOT + unsigned); Secure Boot is off and
+> CONFIG_MODULE_SIG_FORCE is not set, so this did not affect loading.
+> CONFIG_KASAN was not enabled, so the out-of-bounds write itself remains
+> a static finding. Tested on one machine (ThinkPad L16 Gen1,
+> Meteor Lake-P, Conexant SN6140).
+> 
+> Thanks,
+> Rujbin Nassereslam / zerox80
+> rujbin@proton.me
 
-And it seems working for the bugzilla issue above, too.
+Hi Rujbin, all,
 
-Mark, could you pick this up quickly?  It looks like a severe
-regression.
+I ran into the same issue and sent a fix here:
+https://lore.kernel.org/all/20261109102536.357134-1-ghidoliemanuele@gmail.com/
 
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=222249
+I only noticed your report after posting it. Could you reply with your Tested-by?
+
+Thanks,
+Emanuele
 
 
-thanks,
-
-Takashi
