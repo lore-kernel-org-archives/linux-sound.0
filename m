@@ -1,111 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.142
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.23
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794327198;
-	b=b71fXoVD6kANiYMIbEdtW9IIQyeqGlNiGdAu9uPV6Min3d1xilzpl3zUwHm+zQ2IMuKb
-	 nVyskS3u2STQJY6tWt4dfwywXMR+7OAiQsMQoFrCP5fYlZVe2jAxjXVZPKIlCClXsVX5B
-	 B2Va4rDFHUIvxbhP7pLRt9K864953ZAysNfFhr4tfmOPeNw76KMyXVJHJLG1sDRrgJfKL
-	 re4ovgcrhtoInkWbMUemgaa7lXw2nnfl9bfRBgfItC1cErVSvvxkUizkTyWEgN5Fyux8z
-	 FgfvP5FELnsl3S8oDipNsswxuePmqXNIlNfgzeZxud3/7y40nvrEetxINrH9FMjVm8Q==
+	t=1794327866;
+	b=02L1QsU4LTRMWtK06jDGGYF/nvf5qhapjRX4e9jrzSsdVTkIwKu9qhr5Xs+FeCjjhFZy
+	 dk8TjvxkxWovSzBR47lmEDsIBwZiPLgNHP7zEMp6dgCwKBwy+foe83oKlRex1XxVHS8V7
+	 DFSKlrSjU6fqrP08zH65DtfXEGZ1ZnCx8uNHUNLEnS3T6Qd5met7RLmQtI7b33AxMPeeF
+	 PB2P5nvnmin0AvgCdwVvtLlGidFt68fWG5cWJUTt7lV90WA0e/U00MCxs3oiTkftRn34G
+	 9ypsYyYO36aDVgoFJitEyUvK4Lj6erL4Xuz8Vw/bE/TjtvkJovKQCttfuy6UJrjwSHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794327198;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=4stWdQp7BpJLS0676322fsmeG4ymFjAT9IbMRkPmpp0=;
-	b=Y1GXJ+zzprEBaTpgLzQuXn96oQ00+hZXRB+zZ+9P4veuzY4VaGPRUnpuDgLGTWmAhGBu
-	 JzFvJ8o6vYKm2EDBLeTqDQ+SWnIdZdKnOahIS97h+Zj0bVLD/4N1CjBkbyQpAF3prxw70
-	 C3aFTl5RiLKg4S5Rm+VSjHgyrt+YSsajwRy6Sr83G8uf17mRbsn8cxCgR5w41fWVDMOiz
-	 pV7Xck6ZAY9PueSVAYjpk+Jr/DOLUGsVGjToy5RXaZATAZCp2Qgi7HV4O1P16NcO8E29M
-	 67EdYLJfvnymtRj36zkq38rU5LVyPGn9scm0o1gvMt1AyIkjnqwNgsonaNCmD+0qwYA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794327866;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
+	 Content-Type;
+	bh=pDdTABx3T9L3A4M2IU0CHP8viN7CigwBznfT0Rkl8K0=;
+	b=jb6MWKke6u6Bprwi24lR3SJNlw4BvxUayN6ZRrJMh9f+zQXtTrFwqJuP9+t9ntHxF8Pc
+	 crMaKvr0Cy6UIPiZsrp5TxCjtSMieq+JCTaQvYy6bUmGjKadX6pvs3H40zdO9k4dKMPHI
+	 pfRDkttwgkcOReQ62/SDoG/xPzfVDeLCVV9Lm0hCZp9NNw6ooW5JXATFB6T27Tx3RWuJU
+	 JDgDtMy0EC85W9E/L1MiEbw6lwxzg7l1e2CF4wInXbtzdF3g8wn98kIYOMXEi6ZZ/J+Zt
+	 vSW5eWZN088q0KJzTQt/Azngyscxg/7n9HqT3lB8pePbXMgDhvP8uu4gAouPpHPVufQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arndb.de;
-	spf=pass smtp.mailfrom=arndb.de;
-	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=asQC+qHD;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=pjDZKFBW;
-	arc=none smtp.remote-ip=103.168.172.142
-Received: from flow-a7-smtp.messagingengine.com (flow-a7-smtp.messagingengine.com [103.168.172.142])
+	dmarc=pass header.from=httpd.dev;
+	spf=pass smtp.mailfrom=httpd.dev;
+	dkim=pass header.d=httpd.dev header.i=@httpd.dev header.a=rsa-sha256 header.s=protonmail3 header.b=WmtNBzXF;
+	arc=none smtp.remote-ip=185.70.43.23
+Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C93060A2615
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 16:13:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5C93060A2615
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E68660A5BC6
+	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 16:24:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E68660A5BC6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=httpd.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=httpd.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=asQC+qHD;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=pjDZKFBW
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailflow.phl.internal (Postfix) with ESMTP id 77A961381356
-	for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 11:13:17 -0500 (EST)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Tue, 10 Nov 2026 11:13:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1794327177;
-	 x=1794334377; bh=4stWdQp7BpJLS0676322fsmeG4ymFjAT9IbMRkPmpp0=; b=
-	asQC+qHDAv/I83EYngLJ0bkBe+uuEnPcLg0jrc2OX9kVtaPYAd/md3quox9jqmy4
-	S/jELTpXjA2k1IxJWtdK3HZW4IriVAHis0xufJR256BBPAzbfZ5QsGw2eqYq1k/I
-	S4qzaUtb3Ob4GAV2mxThnKp0r/zG0TfcXAK+eUmyQOHhHqtyGONG7gkgzRBQG2d0
-	/gzJT11LHsGNvLKSZnn9JL3iytYjrT3V7KZt2FZsHfjjQeZHywjaesrjJhD0e7vN
-	Y6/iN3Jg7w8xS8OVdYMBSUZOfxDnVhVfPJGqKe/oSxsAZXPn7y2e4GOOItdMLZ2R
-	LLVckhHoSzC+MGE1iJu5eg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794327177; x=
-	1794334377; bh=4stWdQp7BpJLS0676322fsmeG4ymFjAT9IbMRkPmpp0=; b=p
-	jDZKFBWlX484yfO06iZThedU7MnSaqyMkXKHKaXomC5/xVavgZU65SsCjokZJWML
-	GjeTj8Lq4+LWeI1CWzzxuQj2m4isbVa0ssa9g7eZhXilCypVINe5kxTBiobUF6uZ
-	Gtle0jaTmJtlAyGlrtNmbTTDPt9uAjbADo1dgbyzsDA47ykOoKjYt1o87LKBSqHb
-	mP2YIbspjWDiF2EJOgZRHTKT7VhzsY0TtBEN2nWcPAnRSw5Q7HRlPmorpTONvfpP
-	auvP37j94bGeH1y2GQ4LwX12DjFEZi+3xGQave3kINRA2PBRPI5FXxcFzbhhhvXR
-	Tsc8Y3Jb1FgwsS6Y0dcjg==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=arndb.de a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1794327177; d=arndb.de;
-	mf=PGFybmRAYXJuZGIuZGU+;
-	rt=PGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZz4=;
-	s=fm2:rsa-sha256:NWHi5cFZ2/1U0r2XfjeD+qjymhhzTf9gzg5Y04eHcDQt05u
-	wHipjgb/S+UBBXGwyWfYlOXT2SVW/qqRcjLF4U1mLaVEDYzmWts9irg2TAKdgA4O
-	emB116G0CoBliRvALtTzt4CONAq1C6u6RjDdfOynxFkYUJs/nRMfQxtXSTL+vwyH
-	PmrexL6oSSwcrxME/isba7sBHSkuGCn6Rfjrm95JD9+a3vMl4HPpDCMArtmxUW5C
-	HYNcOLOaxJIiQuRX+nZQkWRDRy+n+gWMJmxA5jy02SckeayAFRzyixv+OU49sVta
-	aT7oiFitRyHCh4ZqSSmPenkGTNfONSLZc0ijKTg==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:NY+qH6VFe1gb9eaYka4u3Pju9dQg6z2rB5jHAxzea+M=:YUoKa4y1cAE3r8AhMFawDzVW7orX9AEZ4cmB97mmTGA=;
-X-ME-Sender: <xms:gELzat-KhdG49YOXD28knxP-wmxhvouurLuqg65ijoK_1PztTiM67w>
-    <xme:gELzashOw3MORHNRaj5VZYoHPjgRatChT2__Hps4-a7QS4ExIju8qL8_9B3SiDtB2
-    sGKQug7JFF_lfIFqrxv09JzfzrzZWKrRlvdLjWPWqavJafwb6XI9q0tBA>
-X-ME-Proxy-Cause: dmFkZTEwJqmeu88i0D1P4NSr1o0RdeyL0ncQrpwlZpsRiyH4mGhKK76jqiY9/AURvmAyKQ
-    Xh2LjT8fovpOgpIQnvH5QYWZs5UCg8lDhPsbwXo4GfEZeWp/aOvfLOYPWjqnmAFI1BwG/q
-    XyZG43p0HoLIgnysLFo6MzsLlgysOWgB08DJdha5yxDuEjeXR7MU6VvvNb4tgDJLpz9WaL
-    DOmlUn0Mje4CQssJm+pxYVCWPCE7uxZNBjliBSIc14Pa1+Q+euFKNdLxxVitjY9vJ+1g1T
-    +rig9iVkFuoti3t+qEcHMM2vh4+G+ag1IzrG3We9+FcQnC6cOfB1bItA6vAPi6A+u1KULf
-    wxoJ36bIqa+kM9OWApvgKo4MId3H8RRe0FCkMwp8Cj2i2hPzQqFijO+zALFklT7XBp4yQ4
-    D0Bsmvzif3sMMCJY2OSk1bwCPIIRPEFuJI4Mi/vpw7sfUa+jfrhN159tiieQQE7aztSV43
-    DlSawBFw+hJYm5oAPkD2NlBoL/gRh3vgmwf+Y/GbihlHM/o3EcsWCertLTOcD6iStWXR7G
-    LAS2aVSdVtxoGSiZj2/kYUSfLhEBFCn05KpxcrFYCW/FmzT2YT72YPVx3p0wR8sMiJ3lAW
-    x+8+3z8XttowLJjfinG9ew4R0xJsilSkEkmhmN5AqofFDl0uTCDo7P0ixMQQ
-X-ME-Proxy: <xmx:hkLzak2BPEyGi10FxxkrY3byRVHSjq_0wLclV2jUuSmkyRE3xcj4fw>
-    <xmx:hkLzakkySXPgYGwh_r1Ql-VHDAdYXcQ3p0tjVOV29OCOWQo8MbFMmw>
-    <xmx:hkLzavloJp1yUj6WriMMnPneQ8pVgU9Ew-sH84r-kdZ-OdXPheHDYw>
-    <xmx:hkLzarPnZB-B1EOixQtLefzjQeDp3wnHNrTbJ3SPpTKyjOvpO-EsFA>
-    <xmx:iULzajThipr-UxTyuQQEJ7jWDCsE73KlfzXTf41eZRpd8Rpi4a2MNCT2>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id AC32432A0097; Tue, 10 Nov 2026 11:12:48 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key, unprotected) header.d=httpd.dev header.i=@httpd.dev header.a=rsa-sha256 header.s=protonmail3 header.b=WmtNBzXF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=httpd.dev;
+	s=protonmail3; t=1794327862; x=1794587062;
+	bh=pDdTABx3T9L3A4M2IU0CHP8viN7CigwBznfT0Rkl8K0=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=WmtNBzXFZztRWX+7bSNvZSF8McXRQAR3FvqDpwehtjTzQuXoGHS0dMQpF6vNMkOSt
+	 XIwBjSA0eLYxQQhB5xYsY1/DboPXxjhjn2sPMMJ1MoOt3bM7t6oXV/eTTxzyP6jbyw
+	 nxrkqFiJE5c6EsZEGgN9hWmkBV8l/ZHt/yKRRVsvFTR8fYq7wUm1bXzeq8eg3msfHh
+	 RRK8xZf3KvK44X3ZNDskvFqt2U2L8wQkcq5q365hldfef7+SklpeatOxAtwsBWoMKi
+	 p/UoheIPCGrQ3fPXflu1m8IAu3fSKm62hkbLsiU0uBpdH2YA/+lMLHmKtlXljrT3kO
+	 v9IonsNWWQVyQ==
+Date: Tue, 10 Nov 2026 16:24:15 +0000
+To: Takashi Iwai <tiwai@suse.de>
+From: Angel J <iamanaws@httpd.dev>
+Cc: linux-sound@vger.kernel.org, tiwai@suse.com, perex@perex.cz, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Fix the Dell XPS 8940 headset microphone
+Message-ID: <TDT6b_7cMUkRNo88Xj3i3Ji--f4WdAmawcBXuT3TmHzVrxy0Xhr6il-PPdh6dbodGGrapwWjGx1KWruC5fAjw0cV27lhGzJ0HRWJmLgfwrY=@httpd.dev>
+In-Reply-To: <87bj7wvkpx.wl-tiwai@suse.de>
+References: <20261103150336.507675-1-iamanaws@httpd.dev> <87wlqtukxh.wl-tiwai@suse.de> <5ncUNWXphcObbYD04quaQMbD0tGoekaHB-QQrX5tgC7sSbzoT9jRVrbY9PyT6mRbww0G9-voA6Y98HjvPg7U25kmeybfQALp5NsNKym-3pc=@httpd.dev> <877bilusui.wl-tiwai@suse.de> <57Kgu-Pdq28OE2JHZjO7YEuS6RCOZLFiDoZO8uqMUieYwA58mHOkRbbZADWKNQsocsNCzH1GkU4pSEhpi-l3mZenIkWdjdNsOHVlbAxGsXQ=@httpd.dev> <87bj7wvkpx.wl-tiwai@suse.de>
+Feedback-ID: 163474212:user:proton
+X-Pm-Message-ID: 6a0eb3ba420884c476877f2c956daa61bc06efde
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -115,97 +64,58 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-ThreadId: AK-jVwBtQCQR
-Date: Tue, 10 Nov 2026 17:12:28 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- "Jonathan Cameron" <jic23@kernel.org>
-Cc: "Svyatoslav Ryhel" <clamor95@gmail.com>,
- "Arnd Bergmann" <arnd@kernel.org>,
- "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
- "Bartosz Golaszewski" <brgl@kernel.org>, "Mark Brown" <broonie@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Daniel Thompson" <danielt@kernel.org>,
- "Helge Deller" <deller@gmx.de>, devicetree@vger.kernel.org,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- dri-devel@lists.freedesktop.org, "Jingoo Han" <jingoohan1@gmail.com>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Lee Jones" <lee@kernel.org>,
- "Liam Girdwood" <lgirdwood@gmail.com>, "Linus Walleij" <linusw@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-fbdev@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-watchdog@vger.kernel.org,
- "Guenter Roeck" <linux@roeck-us.net>, linuxppc-dev@lists.ozlabs.org,
- llvm@lists.linux.dev, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
- mfd@lists.linux.dev, "Michael Hennerich" <michael.hennerich@analog.com>,
- patches@opensource.cirrus.com, "Pavel Machek" <pavel@kernel.org>,
- "Rob Herring" <robh@kernel.org>, "Sebastian Reichel" <sre@kernel.org>,
- "Support Opensource" <support.opensource@diasemi.com>
-Message-Id: <991009b6-e62b-46bd-9a0b-43c3b7a6d10a@app.fastmail.com>
-In-Reply-To: <avM5EnC9yujUZcCO@nsa>
-References: 
- <CAPVz0n0ryOns2sCJE_jFana9MVzwEj1QZuPEa8FNhGbHXnMB+A@mail.gmail.com>
- <11652e5e-053e-45b0-98a0-0c1cb2aeedc4@app.fastmail.com>
- <20260912232047.19c4cb10@jic23-hlaptop> <avM5EnC9yujUZcCO@nsa>
-Subject: Re: [PATCH 08/14] mfd: remove unused aat2870 driver
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha512; boundary="------c1a5a18981a95f461b8163f6fef4387adfd31006cd16a00e8b527679dc6215c0"; charset=utf-8
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------c1a5a18981a95f461b8163f6fef4387adfd31006cd16a00e8b527679dc6215c0
+Content-Type: multipart/mixed;boundary=---------------------7aa714084f0becf8be45852e1bddebf3
+
+-----------------------7aa714084f0becf8be45852e1bddebf3
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;charset=utf-8
 
-On Tue, Nov 10, 2026, at 16:39, Nuno S=C3=A1 wrote:
-> On Sat, Sep 12, 2026 at 11:20:47PM +0100, Jonathan Cameron wrote:
->> On Thu, 10 Sep 2026 20:14:15 +0200 "Arnd Bergmann" <arnd@arndb.de> wr=
-ote:
+On Tuesday, November 10th, 2026 at ..., Takashi Iwai <tiwai@suse.de> wrote=
+:
+> Honestly speaking, the problem is that I don't know you, so I can't
+> trust.  If you have been involved with the kernel development long
+> enough, e.g. already appearing with "Angel J" in many threads or
+> commits, then it could be a good sign that it's a trustable known
+> identity.  But it doesn't look like that for now...
 
->> > drivers/iio/adc/ad7793.c
->> Maybe. Analog devices ack needed.
->>=20
->> Production part but this one indeed fails to probe.  Analog
->> folk, do you want to fix this one up?
->
-> Given it's production we should fix. Looking at platdata seems to nice=
-ly
-> fir in DT. Issue is that I don't have HW with me to test. So I'll maybe
-> just remove platdata and assume some defaults.
+Hi Takashi,
 
-Sounds good. I already dropped my removal patch for this one.
+That is fair, I am new to kernel development. Outside the kernel I am
+an active open source contributor, mostly to NixOS, with over 100
+merged changes in nixpkgs and contributions to other projects from
+this account:
 
->> > drivers/iio/frequency/ad9523.c
->> Maybe. Analog Devices ack needed.
->>=20
->
-> Hmm we definitely use this one and we have OF support out of tree with
-> likely some DT abuse of what can be in DT or not. Not sure if I have
-> some HW around but we'll need to fix it.
->
-> In general for ADI parts, I think we can drop the ones that are not
-> recommended for new designs. All the others I tempted to say we should
-> keep. Naturally we need to fix all the drivers that do not compile
-> without platdata. And for the ones with defaults we can also just remo=
-ve
-> platdata and use the plain defaults.
+https://github.com/iamanaws
 
-Ok, I'll leave it alone as well now.
-
-I currently still have patches to remove adp8860/8870 (backlight), ad7877
-(touchscreen), ad714x (touch) and adxl34x (input, not the iio one), which
-are currently unusable with DT but are all listed as in production.
-
-I assume you want to fix all of these and keep them in the kernel,
-but possibly still remove the adxl34x and only keep the IIO driver for
-that part?
-
-I also have patches to remove platform_data probing from ad5761, adf4350,
-ad5791, ad5421 and ad5504, these all have DT support.
-
-See=20
-https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/=
-?h=3Dboard-remove-7.4
-for the updated series. I hope to slowly get through that. Let
-me know if you want me to skip any more of those patches.
+I am not comfortable publishing my full name in a public archive. If
+the above is not enough, is there another way I could establish the
+identity that would work for you?
 
 Thanks,
+Angel J
 
-    Arnd
+-----------------------7aa714084f0becf8be45852e1bddebf3--
+
+--------c1a5a18981a95f461b8163f6fef4387adfd31006cd16a00e8b527679dc6215c0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: ProtonMail
+
+wrsEARYKAG0FgmrzRRoJEBoBbwppzUxnRRQAAAAAABwAIHNhbHRAbm90YXRp
+b25zLm9wZW5wZ3Bqcy5vcmcFC9L4lcIpKc4ABRb6aOhLuLc0vTnBkN4Emt2Z
+2n5TWRYhBEAFf9htFyVnqZzmVhoBbwppzUxnAADXgAEA6adpJ2RmoNQhEY4X
+czYLXGU7qXwiZCPlKt+dA6+xBRUBAMXJ9MDM0rYC/7ABVX5F2XiPDweURXa9
+N/3UBcY04CUH
+=VYFg
+-----END PGP SIGNATURE-----
+
+
+--------c1a5a18981a95f461b8163f6fef4387adfd31006cd16a00e8b527679dc6215c0--
+
