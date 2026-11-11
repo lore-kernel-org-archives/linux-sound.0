@@ -1,57 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794395359;
-	b=CRlMdsXzSpI9wR1Olpz/+v+9rCuGiyD1y+4+4jgMpMkuT0ZoJkp8yUsrsLmFOkaTvJxG
-	 Iw2vICu5Tnmrk817rjNALO+J08p8EuqnyWxeAGEObm9r1GwbH8DO84WyRMmljUSd7Tp03
-	 urOkg6Rs/zZfmnFIp24eNfhDlbMHMgMhmoExTEOReIICwM9K5w1W+NBNOQXa72R+hvt4v
-	 uobHqaeyKzow4yIILEIc9rPZSdUtoMU9/fL56lKqRg9IsD+3aB6Kke2ut/bXG/7SjUD3X
-	 50BBr6T5ooX3CrHcs2CqRfdzO4Dtoe3TmQQAFY7s+/1nf8ma/IAWB57Db2xKtnjUeVA==
+	t=1794397786;
+	b=1JHl4KUwC4zC8O/z1GWhvwUnzlZjBZz5yjB/nJOqSvYXf8XJP1si+s4SwQXkCJllY3sn
+	 W3dRhPcsbeY2lusuc+DKTESuA2Y0OUnZzQekgUXTakz6ErVQZyzoALhZwbmSEKzCMulln
+	 eebFeF6eza7+ImrQFvHqwHm0DevspnUt4Hhzl+lIJTMJfGzVS9s6D7HNtJdgguRHPDPh1
+	 UG+LMZHrCnLPyNcX173bvHDCTbv/o7WD0qDyRKK4LCVD6uZ5oCTjAbiHjnXonsS96Y3SM
+	 fHfkAqsMC6AOCJGbXxuigImRvLe9V+I/Q9qaHlBA+PzpT+Wgs71Rp/L/K5c5cb9R4gA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794395359;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=KiFnn/KByRC6NQAd3sXlrVRN8NYCmQwYmfBEaqlqXmY=;
-	b=J70z4avyQTEqjk3ORxQ12IWvBdVxDcRQue5++2GhdNYWrzSwvl4IgJZE79trAlzG26PE
-	 UAnrNwitTwjDpvdFe+jWEKS5pHStvPHwHVmmXCxzaQp+lvEeuk+89E2+0dCj0EYFDZHpu
-	 bresPxtJ13k9RG2ktrLgckxZLMmrBxrQVsMVtYk8R4U9NrXRkirp46jLpod/04As5Rr5E
-	 4O7QPrn2Pvb4NpPtJJbA+SOwz7EcF+zptoO4zkZLmhST7GOCkLQaveMYjo6RhXjZWASqn
-	 yLblWA7v0f5ol7IEcCCwAjRlW3stXOdTXN96velfgRQCCqyjlUoEOjGxJTO4symskEQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794397786;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=jO0VjvUkoXke5VYihliU8dcf5tAfDK0cqhQxSUbr4I4=;
+	b=K9f+gAAbFYDk8/ShOBEuSioOy56ln8Nk/zInvoRpafCR2EVZ6EIG24N4yHA38g1Ios4T
+	 kHRyXaSETSMXwlLkVx147oFqMX7HMYrUbqhBUy8LzW3sKQ13wR9Ks+bx3uxgHuZaaEi5Y
+	 yXOirjKs6nxiMiSUc+pUAN2ZrdC+74yo4fGEbefRbwNalaqczjN61X8pvjuW0ZY7OOKk7
+	 ra3U6pZV7p9C2EB2nog5f/oSKxA0j19ht53IM6MGcFqeWQLcSXgw/9/+lJs6cfdsciIW2
+	 GxENLfJeLyXUnC8IY7Hc5LFUXsFLDdihWz7h5P202rcemVV3uikZMpeoVLNTNPRUPTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZSQTEscr;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CI5THnCx;
+	arc=none smtp.remote-ip=209.85.221.51
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84A9606A331
-	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 11:09:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A22B606A31C
+	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 11:49:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A22B606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZSQTEscr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E93F1F00A08;
-	Wed, 11 Nov 2026 11:09:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794395359;
-	bh=KiFnn/KByRC6NQAd3sXlrVRN8NYCmQwYmfBEaqlqXmY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ZSQTEscrIQ/cM1k3uxbCwyZcQfKLB7QQw4f3aih2VicaDQtoudXlrn4q/k6duzRYm
-	 B72G5UWbd192VzqzWc4Fpxeic2hL6ytJHcc2OaOdgAp47D6rE6EIYkLD9T6uT+r6A5
-	 MB67cS1nMvwDER4gPgw9qQNTq46aomqe4gTPS8TLPukF/3a4X6a9vTwBKwSOIgjhHo
-	 ZK9k+geJJF1+9kj/weT8ZkhR0NU1Qqyyq/HVHrA8bIwTNAjJiqnF/+LjHXYsuYv5e6
-	 GU9OtM1FUhYpB5bs2We2M60KIiV3iUWHHQ0fF8xJYWNtvDEB+JrwaAxjDUf/y6NXwE
-	 SYo5LL2QHnNGQ==
-Message-ID: <sashiko-outbox-208851@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/2] ASoC: qcom: audioreach: only disconnect the route a
- mixer control owns
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Marc Herrero" <marcht@proton.me>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261111-q6apm-fixes-v1-2-1beb5702b372@proton.me>
-References: <20261111-q6apm-fixes-v1-0-1beb5702b372@proton.me>
- <20261111-q6apm-fixes-v1-2-1beb5702b372@proton.me>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 11:09:18 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CI5THnCx
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-490585eddfcso2402194f8f.0
+        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 03:49:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794397784; x=1795002584; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jO0VjvUkoXke5VYihliU8dcf5tAfDK0cqhQxSUbr4I4=;
+        b=CI5THnCx9XHPclhLPwF+qhxFNve7iO55qXN6ZeydaXGA7rrp4RHQPgx0ZTCGaL22CU
+         dTjyYelltz9wk6HtVEIsn0OA2ruDBC+XDnxoyg6vRxET9ZH8ILgBrGyWrguecPkxKzvD
+         bL9JlXWROMq4CDaKThyGwLsg98zk2F4HwpNvFXyhpFp3tAWBX7mPogFw3ubbn2YP8qyI
+         kaQaMrU9ztB55Zt01SyeeF0qi7IteQgWldgKVTV1l7aZ5+dKVGsWtDRxSNBMccgf6C6L
+         LOcmjz//kyFCQtn/RrO9BJbeLVYTPofalS02+CFzdRgbwCPRsbKk4yBw7WfdOHG0E3Ps
+         crkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794397784; x=1795002584;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jO0VjvUkoXke5VYihliU8dcf5tAfDK0cqhQxSUbr4I4=;
+        b=TxAVRmXz3tm2WWlqNR3wOa6QUVddJU4/jz0FAYIQUElJ3Gopp118vgnsgmeKfLasuq
+         JVb5gHAaTBNIJFtwF83/bRofHObdR1wjFWmEy9sgKWIheaebzHnqbaI+ZMCv0Ot7TCTH
+         MYKpYDBndCqMvIFIkX4wFiFaH47uEHWnOFO8XxkjTbhtXLHTikc8Map4bfQ4ZOdUCF0I
+         MmsDosM91dDm5tRqu8O6WE8NhmKEYi90JzhJVlRUn53DplmXpSggnB8w40PxRB96YWGV
+         qQf9Y+VyprvT9UVMXdc2QKg/ewRYQSqgvykJl9HrWT5NuESP187chCnR8trKIaPQEIy9
+         wjew==
+X-Forwarded-Encrypted: i=1; AL+hErH4MjdfL2y+5xV8ddstA58jFNdmtoa24KAKegc+ZKvKC6N0+0HYLDTVCgtlrpXiCsqPot9NtwY4x38XDA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z97XEhW4pDE3shAUXydB1LFaTBq6hmzsuRX8DPob4Lxlif0wyTd
+	T5iMo+rzzwU5kKnyw2zST2m+wjmghUDdfRp0BmaLIiREFHSFv+Mw+ns=
+X-Gm-Gg: AYBFou1OIToJVyHzOQkZU/o5ClVsqrFs4dTBBZ/kT6SMYXjsbOz8feeI+1q2siHAKt1
+	pffKfepFsR85ANTcuE16XXg8DOq1ooXv7+n+OucQY+O/Q19cOsHHgMCtV/90QHTSFiPkVW25fSZ
+	03P3ztopnsgwEzEPPdG5RaxGFNSCtrWQspdo04qWY3MvHqeVh8qrIAeK2LfQJmWQm/6zJZ6BfAW
+	bDNXFLo7O8Y/wUThR+69GJIgQLsUAIotV6up0sG/G5sHDEMekp3zFX8/a1hTb9k63CxD+fys/sq
+	2QX6Ohwu9tB8MLT7VdNf8G1uHnrIhVMq4oMRfZ0fPtGA1Vps2eE88Oflo7LslfmLDlzz4OlyFhc
+	bbvAdAc8hHzYfBI7HnQlFSKMkCHVPpGMY/v+s19pFjV0bmVRTdkL9kMqEPzInS0ceoDRZX7iU3b
+	VlSvq1lx0a2Osz0JYfrtAGU/bAjP69ZcL/FvhibloVz7VZYdnbsaVeRVE3QrYij+ve5VWQORNl2
+	fVdXeuja9Ah6I6jOS1sLLWcIyK0V6nmozQSH/RizBfiRrR73aZ3FaUQ3vBh7Ns+Q0fDgQSTFd3O
+	vXLxij/2wl3IPKrSM4TA2CbKhCDlEm8OaXns
+X-Received: by 2002:a05:6000:387:b0:490:6e0f:a02e with SMTP id ffacd0b85a97d-499c69cae59mr3687287f8f.17.1794397783745;
+        Wed, 11 Nov 2026 03:49:43 -0800 (PST)
+Received: from localhost.localdomain ([2001:41d0:303:db6b::])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4982eedfb36sm10789106f8f.0.2026.11.11.03.49.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 03:49:43 -0800 (PST)
+From: Tristan Madani <tristmd@gmail.com>
+To: Oder Chiou <oder_chiou@realtek.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Tristan Madani <tristan@talencesecurity.com>
+Subject: [PATCH] ASoC: rt5668: initialize calibrate_mutex before first use
+Date: Wed, 11 Nov 2026 11:49:19 +0000
+Message-ID: <20261111114919.95639-1-tristmd@gmail.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,58 +99,52 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [High] ASoC: qcom: audioreach: stale DAPM path in
-  audioreach_put_audio_mixer()
---
+From: Tristan Madani <tristan@talencesecurity.com>
 
-commit 1fff20ab243038af732f562aca3ace62e5fdcdb9
-Author: Marc Herrero <marcht@proton.me>
+rt5668_calibrate() is called during i2c_probe() and takes
+calibrate_mutex. However, mutex_init() for that mutex is not called
+until later in the probe sequence, after the INIT_DELAYED_WORK calls.
+This means the first calibration locks an uninitialized mutex.
 
-ASoC: qcom: audioreach: only disconnect the route a mixer control owns
+While this works by accident because devm_kzalloc zeroes the struct
+memory, it is incorrect and triggers warnings with
+CONFIG_DEBUG_MUTEXES=y.
 
-This commit checks audioreach_is_vmixer_connected() before disconnecting
-a virtual mixer route when 0 is written to an AudioReach mixer control.
+Move the mutex_init() call to before rt5668_calibrate() so the mutex
+is properly initialized before its first use.
 
-> diff --git a/sound/soc/qcom/qdsp6/topology.c b/sound/soc/qcom/qdsp6/topol=
-ogy.c
-> index 612d8f03e6e98..e92408e09bac6 100644
-> --- a/sound/soc/qcom/qdsp6/topology.c
-> +++ b/sound/soc/qcom/qdsp6/topology.c
-> @@ -1300,7 +1300,7 @@ static int audioreach_put_audio_mixer(struct snd_kc=
-ontrol *kcontrol,
->  	if (ucontrol->value.integer.value[0]) {
->  		audioreach_connect_sub_graphs(data, scontrol, dapm_scontrol, true);
->  		snd_soc_dapm_mixer_update_power(dapm, kcontrol, 1, NULL);
-> -	} else {
-> +	} else if (audioreach_is_vmixer_connected(data, scontrol, dapm_scontrol=
-)) {
->  		audioreach_connect_sub_graphs(data, scontrol, dapm_scontrol, false);
->  		snd_soc_dapm_mixer_update_power(dapm, kcontrol, 0, NULL);
->  	}
+Fixes: d59fb2856223 ("ASoC: rt5668: add rt5668B codec driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
+---
+ sound/soc/codecs/rt5668.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-[Severity: High]
-Does gating snd_soc_dapm_mixer_update_power(dapm, kcontrol, 0, NULL) on
-audioreach_is_vmixer_connected() leave kcontrol's DAPM path stuck
-connected when switching front ends?
+diff --git a/sound/soc/codecs/rt5668.c b/sound/soc/codecs/rt5668.c
+index cd6245d6b91af..6748bcc63ac39 100644
+--- a/sound/soc/codecs/rt5668.c
++++ b/sound/soc/codecs/rt5668.c
+@@ -2490,6 +2490,8 @@ static int rt5668_i2c_probe(struct i2c_client *i2c)
+ 
+ 	rt5668_reset(rt5668->regmap);
+ 
++	mutex_init(&rt5668->calibrate_mutex);
++
+ 	rt5668_calibrate(rt5668);
+ 
+ 	regmap_write(rt5668->regmap, RT5668_DEPOP_1, 0x0000);
+@@ -2547,8 +2549,6 @@ static int rt5668_i2c_probe(struct i2c_client *i2c)
+ 	INIT_DELAYED_WORK(&rt5668->jd_check_work,
+ 				rt5668_jd_check_handler);
+ 
+-	mutex_init(&rt5668->calibrate_mutex);
+-
+ 	if (i2c->irq) {
+ 		ret = devm_request_threaded_irq(&i2c->dev, i2c->irq, NULL,
+ 			rt5668_irq, IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING
+-- 
+2.47.3
 
-All front-end kcontrols on the same virtual mixer widget share one back-end
-audioreach_graph_info->src_mod_inst_id, whereas each kcontrol owns its own
-struct snd_soc_dapm_path in DAPM.  If front end 1 is enabled (setting
-path_1->connect =3D 1) and front end 2 is then enabled before front end 1 is
-cleared, audioreach_connect_sub_graphs() overwrites info->src_mod_inst_id
-with front end 2's module instance ID.  When 0 is subsequently written to
-front end 1's kcontrol, audioreach_is_vmixer_connected() returns false and
-skips snd_soc_dapm_mixer_update_power(), leaving path_1->connect set to 1
-so DPCM continues to treat the back end as connected to front end 1.
-
-Only audioreach_connect_sub_graphs(data, scontrol, dapm_scontrol, false)
-should be guarded by audioreach_is_vmixer_connected(), while
-snd_soc_dapm_mixer_update_power(dapm, kcontrol, 0, NULL) is still called in
-the else branch.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111-q6apm-fixe=
-s-v1-0-1beb5702b372@proton.me?part=3D2
