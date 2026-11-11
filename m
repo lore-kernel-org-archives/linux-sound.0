@@ -1,89 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=160.236.53.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794378658;
-	b=CJEihwyGahHJacCxP10Xy6sa20wnBe7E20Zfc5ybow5V+VPNrr2V+mWPdtXzbVTW0UDi
-	 gku2sAgcH2EVPVnsBeIO3WjNGsRWVXmVJVpKmggmCtQoo79TAVeRGvBMtUfEoA1R2v4su
-	 oFRGPp1DFV4UFCXpHoEY741bQgkbwa11lvHiuXIMt3EVbRkPH7Bn0D2Ev+UQliDmYL+Ft
-	 Jovf7uXV9FxOH1FXVUKw7/n1H6br48hsYUwVeh/T117vphVWUkVDFHCYdiH0m3zHXRqUD
-	 eTX2MizCARJO7xyIbb9hrIN2kLd6U8KOmvk1IuV5n8/aCqTfBQirOudWi2b9TcrR3gA==
+	t=1794379028;
+	b=z/TDuKPtBH7kilK9JtDjWj0EUtbUtwAG+tyT3LK40/6uLPBZ3d5wuCRp/Njb2xHTMTC8
+	 9p/tFe3TABzE4DszgkU9GVC6zdOPh7ueiidVwB9fScPb9lGg8cwZEtJpUBMLeLOUblWWk
+	 fu2B+Jhr3sHjB27J3jivFz5Ijov3giO+T3SyUaqxZ37MJC69/HIcj0d50sbZDAcPh6z74
+	 Uf2zvGuBJ699sPryUVviFvTxyZJMInARjdmyMZjioG5uKm/At+M950G8n5NNk1zwrVJqp
+	 UxVf/i2+CoMPZMlMu8GBxqZynV26ZDf1SsGr4BdRZHefdBP5RC4ziNnWacv+E5/tzKQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794378658;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=UkJcxjLHhm0Y+CDL9JRRl5rrZMoXUbMeNekZv0BizMY=;
-	b=HU++f/hJvHGs1LH0GKkNfxpWv8KOdNEY6NiRku4htL6PQ9VjjihmuGnNzojbtRDWt2Il
-	 iSVATysUuDZBDaXdJ9OfPcAxaE34rrOjpAAWEfs/ZE2bBWqq6TD2+eiwePL61cj7SORQp
-	 GVtARbrYNN/oHPZvG/MaQDIP1pdLTCC8SB3rMxKqO3tq5WPCrXL7hKyq4Gmq+Rje74932
-	 nr+lwZLD7cSaXD9iWqpB3bbQJuEEuo9g6XAXrDLVIoJURB766CVtU8niBVe5o012gY1rV
-	 +x6Rw0aTn/pSjpvxyxA6g+9+Qz9MmWfQPZqk5o8/H0OkeCVkopFbbSGvkFOWLlp6FuA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794379028;
+	h=DMARC-Filter:Received:From:To:Cc:References:In-Reply-To:Subject:Date:
+	 Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:Thread-Index:Content-Language:X-HM-Tid:X-HM-MType:
+	 X-HM-Spam-Status:DKIM-Signature;
+	bh=Bvs8GpZh4moZyvyVr97Ot7SRLclEDegi/LB1EMSseN8=;
+	b=sj943eO6Ni5DW09tBYmmGdwrH6udf5Yhxd1ex2rI+RKwPFDAoCC89SLCPyVCf8HknSdJ
+	 ifuF6PH2UuOvCSxIbklMlwZWidY1SaxAKPKNiP5qEq9Ax3LItfthAS3yQ7wKNbgRs+vQ+
+	 FeuTDamc3XGzdJ5MOZDKZpzzBdvRDCpxgpbyyQeLwx34md4rtU9+NTZsznygvDyE+EeJk
+	 iEud6Tw2XWDn1usE29fzNWG0fsQoagyBBi1tFb3cuBWesH8aL1XQTjkocnZcGXLdOKWzK
+	 YWhRJudCT86Tajm1YAbggEw6idM9Nw5Sf5V3yzg4M9Lng+6fIm2F7oLxMzw0kuax05A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=q8MfenWJ;
-	arc=none smtp.remote-ip=209.85.167.54
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=senarytech.com;
+	spf=pass smtp.mailfrom=senarytech.com;
+	dkim=pass header.d=senarytech.com header.i=@senarytech.com header.a=rsa-sha256 header.s=default header.b="es/hf0ZA";
+	arc=none smtp.remote-ip=160.236.53.11
+Received: from mail-m1602365311.xmail.ntesmail.com (mail-m1602365311.xmail.ntesmail.com [160.236.53.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD64606A334
-	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 06:30:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9BD64606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED1F606A31C
+	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 06:37:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0ED1F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=q8MfenWJ
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5c126fa1e3aso1849543e87.2
-        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 22:30:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794378656; x=1794983456; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UkJcxjLHhm0Y+CDL9JRRl5rrZMoXUbMeNekZv0BizMY=;
-        b=q8MfenWJx5XY+TGwTQqOMA9IioS/+jQFrJaSOqEj2B2Nw0EST+CsNCV/0H0YPfNEL9
-         nHqE3QYt1KORTKw1S86eT58Z4jXoa6fAXerpgL7M43F/OOJwDBM3pGqrF83epX2NtvOj
-         /cghsAKcKAg75f47lM8eZWkNHCzqBzn8OusFM26vIo8157GDB336VSbC3kqoOOx21AG6
-         65Hkl3s/ajLT/mG1GuuyfqGwlxPeqbPCPKN3Q9u+Biz5EinXSwBWEdeBuzsmiYfa0juK
-         SiwD/4+l1X+DWBP5foJhYz73lqI0X0pkWnNvgjIe9fM5na0OecKldRa7exDPBQvTZr0d
-         GswQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794378656; x=1794983456;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UkJcxjLHhm0Y+CDL9JRRl5rrZMoXUbMeNekZv0BizMY=;
-        b=CJ63osPbT9758QMMBu6B0qZaU92zuBqlJET+iUJmBlzp9HAWDVx30pXMqNK2/FPhqq
-         OGVEK1GxzvNqRA6MLf7FCms4iq/gl8qPN2skpFle3fyOfvLFKoTrPUJPXfd4n/ykA57v
-         b6n6mbH0t/+/ZmqDnyRyYbk+Cv77MMwLDASJUzjOPUznoSV4aXZrMwsLe8BWVwXqhPeB
-         RrZ8nf29/R08mJb/Wwv0FDAx6l4y3jQmM/Ro9UduEHJek1Gxpfc+WrI6qrAqn5Yxr23k
-         uvlBOWwZKFjb9VRLp3HIb+Y9ZRNbuJ3MZe56aeIhmH9pDqYiPjBJ1LKghpRzoO7YCddU
-         O+LQ==
-X-Forwarded-Encrypted: i=1; AL+hErEpW40hAYZpJ8YTj8IIflFHvZFtWT6hpYZX7yyOo9eKc0jXSTDN/g1IS3EDQG/Vg/LYXdv/mcBnQUo5KQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z87dm+lHyNonGlzyD1mNLVJn+go3XAL/VgPO1/4yXjGOc4NL47L
-	xOM5E0+2bORlftfObGzonYkeR1mBvYRjUm1KmHBd3yZ90sDHrxb2SjzH
-X-Gm-Gg: AYBFou1hgfZkktOVkFTLLElZFK0cnGUaI428J86GuQj5glA6h1aqhL+bINvdGy6iFfY
-	6wuesGXdBl4KhFCdEFpLVdiZ7vwlE5OJ5W1/8rsyXwbXptNUw1UyrLsCQDafeF08N+lMHrkCb0t
-	svKGCEvrPMlY7xV9bwzP6XZatycMrQXplJTJMyDQTs/n5YpVVNp/my/LTmyDxJNb7hx6oBq4ABK
-	6EbmqvQkyvqSGzzUZy9s/9m0MDK3qbgETQnE3QnQh3sewH/L9150yYOulVB8orTGVo2QyqriMM5
-	EU58Xw8vUkLLIXauFbTwnMaE1JtN4aHB4Idv2sVhpxMLKP/71R3S6/95sxuWESti0yX2olproY3
-	F8J2+A1ySQbzRukYE/SbYCyVUkfO2xQL7KQjz/7swTSVriSHM/5oAhSlPvsFh3Kn3zzv4BBJrv9
-	YTLjv41iARTyPXT4weK4q+5use7QJgNtuyviuzAsIIxRKqsMR8rLJ5diXbrsSOMBX538sq0UMUi
-	z8uviXzriK154nOHqV1wsT94z9kTxsbioE2LMnnyXg1uLvJPOLDZ2nPigEAwYdE3oNhEJl6jTIa
-	Qg89Tkfzc/z0dUOvMqwrOuiyQSSca4UkCPc/RzaS0oPp+DqHsNj1H8RnlIA4OodDfkmMxf0z2SP
-	yCGyZdEGnTA==
-X-Received: by 2002:ac2:51ce:0:b0:5c1:5974:8a54 with SMTP id 2adb3069b0e04-5c15d545536mr529421e87.5.1794378655623;
-        Tue, 10 Nov 2026 22:30:55 -0800 (PST)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5c157bb7529sm811767e87.66.2026.11.10.22.30.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2026 22:30:54 -0800 (PST)
-Message-ID: <0a520efd-ac3a-47bc-b37b-11df8263fb5f@gmail.com>
-Date: Wed, 11 Nov 2026 08:30:51 +0200
+	dkim=pass (1024-bit key, unprotected) header.d=senarytech.com header.i=@senarytech.com header.a=rsa-sha256 header.s=default header.b=es/hf0ZA
+Received: from Wangqianghua (unknown [27.38.136.138])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 54449bcc9;
+	Wed, 11 Nov 2026 14:36:53 +0800 (GMT+08:00)
+From: <qianghua.wang@senarytech.com>
+To: "'Liao, Bard'" <bard.liao@intel.com>,
+	"'Mark Brown'" <broonie@kernel.org>
+Cc: <linux-sound@vger.kernel.org>,
+	"'Liam Girdwood'" <lgirdwood@gmail.com>,
+	"'Jaroslav Kysela'" <perex@perex.cz>,
+	"'Takashi Iwai'" <tiwai@suse.com>,
+	"'Rojewski, Cezary'" <cezary.rojewski@intel.com>,
+	"'Peter Ujfalusi'" <peter.ujfalusi@linux.intel.com>,
+	"'Bard Liao'" <yung-chuan.liao@linux.intel.com>,
+	"'Kai Vehmanen'" <kai.vehmanen@linux.intel.com>,
+	"'Pierre-Louis Bossart'" <pierre-louis.bossart@linux.dev>,
+	"'bo liu'" <bo.liu@senarytech.com>
+References: <20261110073420.842175-1-qianghua.wang@senarytech.com> <20261110080535.870596-1-qianghua.wang@senarytech.com> <SJ2PR11MB8424FE5B64FEDEDA5F947D30FF722@SJ2PR11MB8424.namprd11.prod.outlook.com>
+In-Reply-To: <SJ2PR11MB8424FE5B64FEDEDA5F947D30FF722@SJ2PR11MB8424.namprd11.prod.outlook.com>
+Subject: reply [PATCH v2] ASoC: sdw_utils: senary: handle a missing name_prefix
+Date: Wed, 11 Nov 2026 14:36:53 +0800
+Message-ID: <004501dd71a7$0b2e3e40$218abac0$@senarytech.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -93,98 +64,77 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 19/20] mfd: Unify style of of_device_id arrays
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
- <u.kleine-koenig@baylibre.com>, Lee Jones <lee@kernel.org>
-Cc: Linus Walleij <linusw@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Chen-Yu Tsai <wens@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Marek Vasut <marek.vasut+renesas@gmail.com>,
- James Ogletree <jogletre@opensource.cirrus.com>,
- Fred Treven <fred.treven@cirrus.com>, Ben Bright <ben.bright@cirrus.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Support Opensource <support.opensource@diasemi.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Peter Griffin <peter.griffin@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Tim Harvey <tharvey@gateworks.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>, Sven Peter
- <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
- Saravanan Sekar <sravanhome@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade
- <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>,
- Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Liviu Dudau <liviu.dudau@arm.com>,
- Sudeep Holla <sudeep.holla@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
- mfd@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com,
- linux-rpi-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-amlogic@lists.infradead.org, asahi@lists.linux.dev,
- linux-mediatek@lists.infradead.org, imx@lists.linux.dev,
- linux-omap@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-rockchip@lists.infradead.org
-References: <cover.1794347059.git.u.kleine-koenig@baylibre.com>
- <2cd7c4695edff6b711f8c77ae468d295bb910cdb.1794347059.git.u.kleine-koenig@baylibre.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <2cd7c4695edff6b711f8c77ae468d295bb910cdb.1794347059.git.u.kleine-koenig@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+	charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: Ad1xpwbbXoQoBkwERyWYEldO4sjEyw==
+Content-Language: zh-cn
+X-HM-Tid: 0aa1c952dd4609d8kunm031195853daddf
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZQx8ZVh5OTBkaTR5ITE9KH1YVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJTFVIQ1VKSE1VSkhDWVdZFhoPEhUdFFlBWU9LSFVCQk
+	lOS1VKS0tVSkJLQlkG
+DKIM-Signature: a=rsa-sha256;
+	b=es/hf0ZAA9ti2w8Zz+0BOr7pG3rYHaVK/0ls/+9eSLfVZRkNDOCh4R3bH9jVMvx/sejqIe4QqM0SlY33WfxIsgeMCHs3nW4RRb5gXF97u3Cl78rhPPj3iMxEaVUjb6hoF4WGgDQOzG6JtBvy/T2JfaIL3gb9FIvvxwHmBDxs5Ig=; s=default; c=relaxed/relaxed; d=senarytech.com; v=1;
+	bh=Bvs8GpZh4moZyvyVr97Ot7SRLclEDegi/LB1EMSseN8=;
+	h=date:mime-version:subject:message-id:from;
 
-On 10/11/2026 23:54, Uwe Kleine-König (The Capable Hub) wrote:
-> These arrays already mostly match the most used and generally
-> recommended coding style. That is:
-> 
->   - no comma after the list terminator;
->   - a comma after an initializer if (and only if) the closing } is not
->     directly following;
->   - no explicit zeros in the list terminator;
->   - a space after an opening { and before a closing }, a single space in
->     the list terminator;
-> 
-> Adapt the offenders accordingly.
-> 
-> Reviewed-by: André Draszik <andre.draszik@linaro.org> # for Maxim MAX77759
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
-> Reviewed-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com> # max7360
-> Reviewed-by: Linus Walleij <linusw@kernel.org>
-> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+Hi Bard,
+	Thanks for the review. I agree the right fix is to ensure
+name_prefix is set via codec_conf / component probe, not to paper over =
+NULL
+in sdw_utils.
+The v2 follow-up was based on debug logs and instrumentation from =
+jfdnet, a
+community contributor on GitHub issue #6012. We have not reproduced this =
+on
+SN6245 hardware ourselves yet (SN6244 only in our lab).
+Please hold off on reviewing or merging
+[PATCH v2] ASoC: sdw_utils: senary: handle a missing name_prefix until =
+we
+have the same hardware and can test and align the fix locally.=20
+I will follow up after that.
+Thanks,
+Qianghua Wang
 
-Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+From: Liao, Bard <bard.liao@intel.com>=20
+Sent: 2026=C4=EA11=D4=C210=C8=D5 22:45
+To: Qianghua Wang <qianghua.wang@senarytech.com>; Mark Brown
+<broonie@kernel.org>
+cc: linux-sound@vger.kernel.org; Liam Girdwood <lgirdwood@gmail.com>;
+Jaroslav Kysela <perex@perex.cz>; Takashi Iwai <tiwai@suse.com>; =
+Rojewski,
+Cezary <cezary.rojewski@intel.com>; Peter Ujfalusi
+<peter.ujfalusi@linux.intel.com>; Bard Liao
+<yung-chuan.liao@linux.intel.com>; Kai Vehmanen
+<kai.vehmanen@linux.intel.com>; Pierre-Louis Bossart
+<pierre-louis.bossart@linux.dev>; bo liu <bo.liu@senarytech.com>
+Subject: RE: [PATCH v2] ASoC: sdw_utils: senary: handle a missing
+name_prefix
+
+> -----Original Message-----
+> From: Qianghua Wang <qianghua.wang@senarytech.com>
+> Sent: Tuesday, November 10, 2026 4:06 PM
+> To: Mark Brown <broonie@kernel.org>
+> Cc: linux-sound@vger.kernel.org; Liam Girdwood <lgirdwood@gmail.com>;=20
+> Jaroslav Kysela <perex@perex.cz>; Takashi Iwai <tiwai@suse.com>;=20
+> Rojewski, Cezary <cezary.rojewski@intel.com>; Peter Ujfalusi=20
+> <peter.ujfalusi@linux.intel.com>; Bard Liao=20
+> <yung-chuan.liao@linux.intel.com>;
+> Kai Vehmanen <kai.vehmanen@linux.intel.com>; Pierre-Louis Bossart=20
+> <pierre- louis.bossart@linux.dev>; bo liu <bo.liu@senarytech.com>;=20
+> Qianghua Wang <qianghua.wang@senarytech.com>
+> Subject: [PATCH v2] ASoC: sdw_utils: senary: handle a missing=20
+> name_prefix
+>=20
+> asoc_sdw_senary_sdca_jack_rtd_init() passes component->name_prefix to=20
+> strstr(). When codec_conf does not apply the prefix, name_prefix is=20
+> NULL and card registration oopses.
+
+In what case will codec_conf not apply the prefix?
+Won't it be better to ensure that the name_prefix is always set?
 
 
--- 
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
 
-~~ When things go utterly wrong vim users can always type :help! ~~
