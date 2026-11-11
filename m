@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794364121;
-	b=gD2sg0zzqBm0QAN0NZRSl7tKSpCoSZuKJhO5aSSlAQlxYcNJmgGsxMBhJgO0BmESsek/
-	 5l4LA2IYNmHRVTVpNsNH/XVvBbedVSnYapJePw/uVtexjbqmA/K8WS14N/Bjzhjy/yJBd
-	 LaaoUSt/kNGwTQTIoQ2LJRuUoW6RbzCxfP5Z/Z9kX/lgs41dYDhDOnGOXxmvpHgtLaxPs
-	 xAJ5G8xp0EuG6eWV+WjjE8yx38DrdkCZ0ylbI8/4SwQpKa86t1yKAvo3QSt8pvfkKO0yN
-	 +S/rLpLkXgfixSNM+MJL1og8askzaz8Q5PWhKZ9pmKGNYodJ1ykn7UlKjX4HomaqB5w==
+	t=1794364125;
+	b=kz9Q3kHg/BYUbuIVuZXBZGy7CBN4Q2RxzQUso8EUwEfoPCZWqWlpAmY/u3laBIt6X5e+
+	 DJ/unIKP6gORL2jsLiOa2AlgDCKQ4+wZz59OKjQjbsiMquROU5TForXgtr7Judfd5qsrX
+	 qGr5jyFOKrJpSQ7lzpwOnVAn6TUyEqf2VsyxsN4AE6yXBKNFzwaje1h2ApTVvdSmegSVY
+	 IGne9BFlI7We3fDMujr4x+H1AIC/4K9vR07dNSpQxA194ka5W2LHCoTreVljCWEIi2+EX
+	 HNOgsdHVFT33SsPdPIYivTobQD5KJ8acclbIQc/WI9w1My9qvqZFa7SsICQT7PUtqSA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794364121;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794364125;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=8hAoTzujMAoXvy2lacWOTMG7M6I/5TyxiDP8VviDZ2Y=;
-	b=tj0eDjdb3Yq/tRMVZJYrrzik/fJZ1vJqjbFRrZ4te3HCSls9hM/A01PCGDIRc/88m7r7
-	 opCHpjxU3Rlhidd1PqBfQnTk46ThIPBQR78/432CKYLgfUn+96JqegUj9EE5qYi8HS89t
-	 IHVWmPD7b1aqWg3kqCh1EzWq754hlftwKWAYGRbOJ51yuN1ZuDjCHXZUlcjPC9QRbuo2t
-	 9GeSCgNAxULzq2YO4rfA/dn38+H0CqYJo+U0MGGv6SHuT8ILw1zmUr8jZVIN1I09rsR0B
-	 /y/GP02K3KIE0K46YIhbIdWB9HEpS8AJ9dlhCeGzLEnR3dFzvJVHnQNGHspNFtSwPZw==
+	bh=RO0TWmyr4SlK4vnJ9oWPCyNZsIrR50vQnWfFlV2WEBE=;
+	b=e/ccy1vrPL7RLvCVa4VQ52lsUQjvxws+LiGiWa3rGPQcAHWGx4q/fWxVEgLdy7rzCNEe
+	 lM+Ovssx1kBTiiD84NVq0K4ToyAYOOqKB9hKM7pBnGS4jeCwAJwfyAr7VakvX9oaiszDN
+	 206RkmseWzklsDqmBOSPU/Q/0JJXdaco0KdlYi6k/ChBh79W+GRQOSiRjiJr9XNSi4iFe
+	 iB8kvMaD5rsA5ZN7u5rcwtPNRTzSOA/Uf0nUt++zVyLSP4o5kSDlgrF/6ZQQP2f+J3PVD
+	 nX5AejdKzgUBkWXi/NRZxNGkiENwRNEslwElpHlIi+QAcbiBRVUrlPawZF8TFhqVVUA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AzhvCc6c;
-	arc=none smtp.remote-ip=74.125.82.47
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="ubOKQ2/D";
+	arc=none smtp.remote-ip=74.125.82.50
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04D260A2606
-	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 02:28:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B04D260A2606
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA495606A31C
+	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 02:28:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA495606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AzhvCc6c
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1a8cc11ac42so2702783c88.0
-        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 18:28:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ubOKQ2/D
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-1a2761c69fbso4440008c88.0
+        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 18:28:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794364120; x=1794968920; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794364124; x=1794968924; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8hAoTzujMAoXvy2lacWOTMG7M6I/5TyxiDP8VviDZ2Y=;
-        b=AzhvCc6clxW9pb1IJ/kr8Wwbh6mehd11/IwXOI2FxbEdV3wU7y68gg0VINI7hLYMF3
-         DDNAXSjJqvc8TiNh7j9yZqpO9Sgbf74qE7eRRpvfLUP0Y9Bkcb9C2XTfT8n7AGCfKORE
-         T11ZmgCQZvOQskXe1EjCPCqjDZ5A7i2u6Xia1jYVQ14urtNonL1wiweDYn0aO8BkHVln
-         HjZ7I2fkbrkp5cim5flWbtJYKitkhzjEN8SPq57vVs3UiWUUY2W7NbGGaxfaV7lNW8uk
-         /+zQL5zshSI2VEm+C4luzl0IgUMtpPyhC/2+mzuPW0ccpIbaBDL88zg+ofKD6KLdB2qq
-         9X8w==
+        bh=RO0TWmyr4SlK4vnJ9oWPCyNZsIrR50vQnWfFlV2WEBE=;
+        b=ubOKQ2/DOarFo+yXs3ZdYkKzOayNrnSS+hm6eZWzlAYlMdSo5AMumLxOJhztgJLxzr
+         GQg7MYBhySHxasGAWdPP9Flcmxy0xkATn3kloXOJn8/VNN+3J/r6+VArTgmy7xPha91M
+         JPGbufTQ4RqqXiPnPQeZg4EK0iHEveoZxS2LlUWHPsPWqhpW9pbgAVP1BBsN9ypFYGpv
+         CXzNhxCCsmrN5DM66c0XCjr6IGQp98rB3sVUjc8QV2mSjqnNdsUKiQeYdRroTax51Zbf
+         1bIXtVNrCv239NAkCc9lJ8gULxN3j81dpYgsbajGn7s7QfKx7r0IGRXBSWYTA7hps9Ig
+         D9vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794364120; x=1794968920;
+        d=1e100.net; s=20260707; t=1794364124; x=1794968924;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8hAoTzujMAoXvy2lacWOTMG7M6I/5TyxiDP8VviDZ2Y=;
-        b=0izeKmyiVVrqOGMZNUZSEs37DyFsWw2Ku+g4mRMn8GZ8BYcTH/qNXB4Qr+qiQm/HWh
-         +OwO42pmLBpUO2cOVzzJCHh9pcfmUBJ7A6ITWlYeEv9JgnB5ZPN1x8uvTOym/SN5ovG/
-         pitxcf8TCil3dgLYaHm6+g6PyYJwALMIhzjRkiDarphmMpz/q64+M/9lhOOtFKJXdjVd
-         qJQiSEHOfPBHzs3Hjo/+QERCPZR8xhFLsCCERHytNOJrD0gECcV+sKNuigzJG01tPCDJ
-         yr477GvCEajvHNN+ObDMSGIjhiuXgwYN2HNv/LcYH6z0HXq5f6m9tQNNROrPp5IPta1E
-         MrwA==
-X-Forwarded-Encrypted: i=1; AL+hErGXqXJhmGmy4n5Vi+7LwhPDjQW93atwD+/f0gTMPRGUYp5MnYUvgdiM4ocKLATFU4xxDbrHgqOJPY29Xw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/CyLKbiNL+C3Z4ZajnEsBBF+ZgRBE1z7PEhAB8pn+OkrF9d3G7
-	AIFR51uIEGf9IC+DBBYw3xCPvOTexqxlD9Hucll6sQoDvQTG2sYKiKB8
-X-Gm-Gg: AYBFou17SdYoxd4q2p3juyBdrHKL8JW1KepOJD9rjXLC31mT+lKbt1+GQ7wUvHYV6YH
-	FreoRbsVjcU5eNzzr9o10v7vx+WXDPnOnM3o0HP2ZMDxUELXFCxIMlfPSmRYLHiegjhNPM3cKd/
-	PEhRBWn5ewtKU8oxv10NcR6UTpn4b+varMdUmEB2hlWzHC7LKIfPNiHl/C2pAtX4yGfcxIJBQaR
-	cj9OKeeJ+qmEDyNLx0SO+zPxsXI5d61XtbnymRK4vMZSMZsqwIsNV+gMqIi0gmId047xFkRwP75
-	UFuCvysF7mqFMmaonmdKeehRQCz1PrLR0d/vUxJaw9tqYbCCyrjFu92/DNGlh5NeMcmn7TsHuX4
-	9XHp0Q2Al9626UmYI4t6neITie2e29R4oW0Jz9zRgLd0XnQPo5j8LCtaqz2/KWoPdQUA5EcbAAm
-	KNN7srlJNXhjK50ajIWWf+0qEWVPVeNK+dCE5S6n7TQPfN8W+eG/z5dA7Cw37j6i2vA0Isp9IQn
-	/bmQZ1t5VCW3zv6RLSlTvRAUrJI67qF0AAKNW3Ovyc1TcdJCVAXmFNp4UET0/M6CFfYSQxbVjMF
-	eGwPYTTrvgkrOnkIeNFC8X/uIdpI2CNa5s64e9+acGzWw+y00XKJP9XBXC39nl+l8/U89OZX+10
-	MgyHr9ih8EwCWUBaSswgcyE3BAnk83h7a/xrmb0Naw2iJ
-X-Received: by 2002:a05:701b:4508:10b0:192:fd91:c567 with SMTP id a92af1059eb24-1b3c02fdb39mr1062793c88.11.1794364119815;
-        Tue, 10 Nov 2026 18:28:39 -0800 (PST)
+        bh=RO0TWmyr4SlK4vnJ9oWPCyNZsIrR50vQnWfFlV2WEBE=;
+        b=NpuVRgO5Nj4RTCciKFUMV/jopuGS7scfOIkOFihyOJ3dEwqqCOXE6ikHnO4IS2K291
+         ro+8NpGD4SXo26ZPOME9xY2wD7ThyM/Zjo+ts+CLD2jQuBIu/OTXpUNNtCY5qmcwPQF8
+         SQqGXNyLGhk6BbSUG7v3cCsjWkZKN6iItyv36qpH1wKprgLESqoyTiTpzunRjHXsYcUz
+         5hyyIF/o8eKNHaB7y72ItvrWjohxOWNMOqnMGZmqjNdThC1DRfQtF/KYGetFb42bnYXR
+         KRGCpRtwIFAfnGKJPBPRah+E7Frd/zs0t6vWBB3aJIj6gMwa2Ttz83yZorVpLE+oeJUC
+         FBsw==
+X-Forwarded-Encrypted: i=1; AL+hErHXT2YWfDOgcRLT3jW/obfygpriKhOn8rVf+UTBOI1U/BHe5SWQwzLtSMVCSDzPKRlMgjdRfUAgQ3JUsw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/zILvkGHNOZKPBwu2KEA4M0rfS1Z8hLfr179SmVVsC8F4dkFNy
+	mc+4T45kI49i7T/AqYdbdrSWgw1SFn25Rgl0HtQh3d8KrSmNQgpDx9J8
+X-Gm-Gg: AYBFou3zdtfEb2TxnFZDlQNF2GE1hGJ8nY8ZdC+pIcG+HR+RHAIEjbYpl9opQTct3QN
+	myqSDXjX6iR1EILUCoc1rzpG5SH/RQIrRAlvnbDcUbi44a/5N1pOdRRkA12GI1Y5bB7Qo3Si8g1
+	Incqjyg4tN3IV7rLqT9I3UN0hE6vVm0H+QFm7uoxgiR+3Fl12A1u41apD2JJKux7xS/PR6H2G16
+	Ap1kigkmGdaWRk1We4petvurIuxBfDcJy6mtKbO1VuLBA26UzILxYSLhPbK/lZDGMg4jPcE6VrY
+	U5xFpNZUNj80F0pcalI929XNVeALOkILm5uI9/9zOd2dWWS6I7n3RJ28sd7SjJ9P5G45NRl8Dr1
+	YJxXA6oaISobAgB5Bv85DVkFcB/0oPae5MwUDIPNec2XIbFdQUHjoprOewT+m4m4xS/SOzODu+z
+	bgObovryfM+s7rXGGrfZuUJBtxrKr1WTf4otXqBTKaPh7TGl17iYL2CP29wK+MUPTw1/o1MDpOK
+	x5mfPRIQ4c7vgmZY/YnHXqslGk9rDtZ3vdzrvKRPjt/KXN1068DMpZnYEUS+bj3uJSVp4GMA4DV
+	wTIuLc6rAmUvzS7ndd0PtGDy8/wKuiotNQhfxEVuQYduHLrz9xsRmBdxOPDMeJPzeG0V3SfTtjq
+	WGGfcW+tvKbCsPGNbc/+3MtElAr2Sk4Ap8Uo9qF0M62T5zWCgptDavubWOrWn9cjMIqQ=
+X-Received: by 2002:a05:701b:2219:b0:1b2:4378:3545 with SMTP id a92af1059eb24-1b3c0304417mr926808c88.21.1794364123831;
+        Tue, 10 Nov 2026 18:28:43 -0800 (PST)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b4b90csm10054285c88.14.2026.11.10.18.28.36
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b4b90csm10054285c88.14.2026.11.10.18.28.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 18:28:39 -0800 (PST)
+        Tue, 10 Nov 2026 18:28:43 -0800 (PST)
 From: phucduc.bui@gmail.com
 To: Maxim Kochetkov <fido_max@inbox.ru>,
 	Andrew Jackson <Andrew.Jackson@arm.com>,
@@ -93,9 +93,9 @@ Cc: Tim Bird <tim.bird@sony.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 4/6] ASoC: dwc: Fix DMA fifo_size calculation
-Date: Wed, 11 Nov 2026 09:27:29 +0700
-Message-ID: <20261111022731.8243-5-phucduc.bui@gmail.com>
+Subject: [PATCH v3 5/6] ASoC: dwc: Propagate optional IRQ lookup errors
+Date: Wed, 11 Nov 2026 09:27:30 +0700
+Message-ID: <20261111022731.8243-6-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261111022731.8243-1-phucduc.bui@gmail.com>
 References: <20261111022731.8243-1-phucduc.bui@gmail.com>
@@ -112,62 +112,42 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-fifo_size should be the FIFO size in bytes (depth * width / 8), but
-the code shifts by 8 instead of 3. For capture the parentheses also
-make it always 0.
+platform_get_irq_optional() can return errors other than
+-EPROBE_DEFER. Propagate these errors instead of silently
+continuing, while treating -ENXIO as the absence of an IRQ.
 
-Use depth * width / 8 for both directions.
+Use dev_err_probe() to report IRQ lookup failures and ensure
+the reset is asserted when IRQ lookup fails.
 
-Fixes: 0d274544bfee ("ASoC: dwc: Add devicetree support for Designware I2S")
-Fixes: 52ea7c0543f8 ("ASoC: dwc: i2s: Add StarFive JH7110 SoC support")
+Fixes: 564db8b8da8d ("ASoC: dwc: Propagate -EPROBE_DEFER from IRQ lookup")
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
 
 Changes in v3:
- - Add a Fixes tag, as suggested by Sashiko.
+ - Ensure the reset is asserted when IRQ lookup fails, 
+   as suggested by Sashiko.
+ - Add a Fixes tag
 
- sound/soc/dwc/dwc-i2s.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ sound/soc/dwc/dwc-i2s.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/dwc/dwc-i2s.c b/sound/soc/dwc/dwc-i2s.c
-index c5773f191db7..b0d3413c27d2 100644
+index b0d3413c27d2..55a5dca7b79f 100644
 --- a/sound/soc/dwc/dwc-i2s.c
 +++ b/sound/soc/dwc/dwc-i2s.c
-@@ -664,14 +664,14 @@ static int dw_configure_dai_by_pd(struct dw_i2s_dev *dev,
- 			idx2 = COMP1_TX_WORDSIZE_0(comp1);
- 			dev->play_dma_data.dt.addr = res->start + I2S_TXDMA;
- 			dev->play_dma_data.dt.fifo_size = dev->fifo_th * 2 *
--				(fifo_width[idx2]) >> 8;
-+							  fifo_width[idx2] / 8;
- 			dev->play_dma_data.dt.maxburst = 16;
- 		}
- 		if (COMP1_RX_ENABLED(comp1)) {
- 			idx2 = COMP2_RX_WORDSIZE_0(comp2);
- 			dev->capture_dma_data.dt.addr = res->start + I2S_RXDMA;
- 			dev->capture_dma_data.dt.fifo_size = dev->fifo_th * 2 *
--				(fifo_width[idx2] >> 8);
-+							     fifo_width[idx2] / 8;
- 			dev->capture_dma_data.dt.maxburst = 16;
- 		}
- 	} else {
-@@ -711,7 +711,7 @@ static int dw_configure_dai_by_dt(struct dw_i2s_dev *dev,
- 		dev->capability |= DWC_I2S_PLAY;
- 		dev->play_dma_data.dt.addr = res->start + I2S_TXDMA;
- 		dev->play_dma_data.dt.fifo_size = fifo_depth *
--			(fifo_width[idx2]) >> 8;
-+						  fifo_width[idx2] / 8;
- 		dev->play_dma_data.dt.maxburst = 16;
- 	}
- 	if (COMP1_RX_ENABLED(comp1)) {
-@@ -720,7 +720,7 @@ static int dw_configure_dai_by_dt(struct dw_i2s_dev *dev,
- 		dev->capability |= DWC_I2S_RECORD;
- 		dev->capture_dma_data.dt.addr = res->start + I2S_RXDMA;
- 		dev->capture_dma_data.dt.fifo_size = fifo_depth *
--			(fifo_width[idx2] >> 8);
-+						     fifo_width[idx2] / 8;
- 		dev->capture_dma_data.dt.maxburst = 16;
+@@ -961,8 +961,10 @@ static int dw_i2s_probe(struct platform_device *pdev)
  	}
  
+ 	irq = platform_get_irq_optional(pdev, 0);
+-	if (irq == -EPROBE_DEFER)
+-		return irq;
++	if (irq < 0 && irq != -ENXIO) {
++		ret = dev_err_probe(&pdev->dev, irq, "failed to get IRQ\n");
++		goto err_assert_reset;
++	}
+ 	if (irq > 0) {
+ 		ret = devm_request_irq(&pdev->dev, irq, i2s_irq_handler, 0,
+ 				pdev->name, dev);
 -- 
 2.43.0
 
