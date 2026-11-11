@@ -1,55 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794390642;
-	b=LPhcbqe8QH9SmSyBciZsY2qjg1wXaBBiVoU6D6xtYymB2afWCqk/6UPgZNIUgahBLhU/
-	 SizN539/09sdq4+UhSFv9mUX24ge6D2bqv/RI7N/CWLAcFr/H/+UW/VFblWSOCT6QQZfB
-	 wwPjuC/tIbuCdZ5MR5mAu4OPoZOMf9ej6KR0hLfky9eBSPHArVbyVMpV6A42n8qk763ib
-	 MCO6BpqrPXWOEJCxC1cpud7bkz92EMh2XfXheDLS4yMg9unBrBsA1s+OR326NkwOfMeJb
-	 fA8CsjX9UWjXApDJJbJRPKTvBeTmLYawWuWQ4d8/F4i3+fvV+ECLN5cdnuqgBPb9/Xg==
+	t=1794390938;
+	b=UHdg5Fz3VuK/cRuKZsWTWovi0oRgj5vtLsZ8NlpKIXXSk5dupuLOHxt34KmmdMQip188
+	 tdw0GGEvn7eKyCOuvWTRz/281BKZNPzTGRmFA0WbUgXpDKGAzvNeA51vaixfGCoFfa7xp
+	 aW5couDU7yJB/+fGz0mCrlAoebnfBOj6j0gsCI5dRufp8XveahYRvrQ3Dw8frtxkUa0q6
+	 4bjk9QhVKrnQIbCpv+d00E5+vCi2WHBFntrkYSjPAsMNtQ/F/J22c7iXu3loLw59e6eq/
+	 GZY4ZN39BrkrcX0P6sbFgCRGK6bvARHCjT+LHPAtrDlcGLDdNBSJ0cK/JqYVZfw0ngg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794390642;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=UuTW1wIHE930IedGGJPmwK9akOOFSOK80wTV8k0f68M=;
-	b=hQpEaYIP3kfy1RrlWS1p1GNblOaOuDmQM7wV+A8zva9e2o3yL4SHc+Zad31LSDUGdpkL
-	 aJp/00tFj583lwUwq5Xp/MumJMebbk7ii7slOL2GLMFvVKcnJ/bJ/I5bZpNOtjvdmhzN1
-	 apFsafS9lam3uHfBgeX28qfYzgHhZyWa2NlOeBg3xoc1mZ0lle20tJH2uTpnbnkDSv++A
-	 rM9BetUvIuyUaU+xMCmvT/3UfQ9mJvUOgOhUBU8fXaDbmGa6ujUJz75SPFeP/G6M4Ng9N
-	 cU+KEe7y88X0R2ZAc7yWmPusPmTOUbBu5mK1K8LA/BbP87abDRrJAZXOLEpspiiv+ZA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794390938;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=1oZ46qbfzK1kC56ugvfDKIKqDBjZaNHDclt7g8ZJTBk=;
+	b=4CuUmgp61gR7efmWMcCNYvoK7Ko1Soj6X7Ce9+UUWQH1ckAHOQULMq4RfeROPBrbLMRU
+	 RdsZw7iFQLGDs4FYfX1NG+KCshCNIFhjb+w7Tq/90cOoXUu5cJRGUx//zrm4A5NIA2zNy
+	 yvyvFTcjBgyY6vBs3CeYys17pKOrC//l11paoX04ul3xjJZxxs2yLw60XldfBJCGoPr65
+	 1hmFZYYUKm3tzJuJOWkq461REUQwbRaoZorS9Tgy6ixY+7l//7/Vi9W9dgVpWJzw6GcsU
+	 AwjSu17fUKh6RRCDsMpyKr390RyOpgZLbYWcTSnK43g2x5kw1IxLk3VyYKgZaEwssaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Fbf/+/QM";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=ByvdQeCW;
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EDF7606A324
-	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 09:50:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B00E6606A326
+	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 09:55:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B00E6606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Fbf/+/QM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B09D21F00A06;
-	Wed, 11 Nov 2026 09:50:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794390641;
-	bh=UuTW1wIHE930IedGGJPmwK9akOOFSOK80wTV8k0f68M=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Fbf/+/QMm9mNXdLem+xU/kI3hhqXYTgydw6GxQKjtR1Dr7bUL3qADRmXX7XUvxAQv
-	 kVAoFt/N2vRyFhjOa+J3ZD/dUu2/kcfiW4k2QF5Pf2NXHWfaO1qVC5ytQ9JwrgHz+O
-	 ZLITZBSPfRhXgNvxKaYUDYBNp+KlKlldlbFtUi0z1oKlY09cdFw6CGCuIaPiapL+MT
-	 u38f9MCsf46G/kfW9y1HBT1SAaFPRpzTpt531KkfEImPKgTc5rVlqUJ0BmyuyOkT6t
-	 XyQ7GqE4uC4Xz7GsnsLBxd4+6wO6zlpgo6cnIFQM4MtGVdrCmLO9dM3y4wZuA7iUhE
-	 GC5+Al0tUsc+Q==
-Message-ID: <sashiko-outbox-208724@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC v2] ALSA: pci: add analog support for ESI MAYA44e
-Reply-To: sashiko-reviews@lists.linux.dev
-To: Nordschamane <nordschamane1@proton.me>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261111-codex-alsa-maya44e-v2-1-c5f94d722b54@proton.me>
-References: <20261111-codex-alsa-maya44e-v2-1-c5f94d722b54@proton.me>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 09:50:41 +0000
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=ByvdQeCW
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a9a8d6cea8so36162425e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 01:55:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1794390936; x=1794995736; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=1oZ46qbfzK1kC56ugvfDKIKqDBjZaNHDclt7g8ZJTBk=;
+        b=ByvdQeCW97xpSfcywMgPEu3DP4l6m75jFToER/s6KG1w+8ssAoQnPmSm57oSzHn5tI
+         ELjceSIB+TCPO8pi5TX0CIIVX7c6D8BbZlkwNDnfPDxq3LsBxF9HgJEEjTcFRraPDmV0
+         ZcJmKGSnRSQ+zjBi3rGryGI7LrkHAJq0J4PK/yab6XEqA+GM/LLi6jmIDYQOy+dA8I2g
+         kqzNwqz1o9UScfI18ESZ2XxEsQlZe9eIbXvVQdY5gVIGcyO7DOpa2aRA+tEUyidpzHuD
+         t8yuHY5e6B24caunJCU+D71G6P/moCeidVFRvkBAMGO1V37deG8+6CMKhtMyXsVOSteq
+         b7mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794390936; x=1794995736;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1oZ46qbfzK1kC56ugvfDKIKqDBjZaNHDclt7g8ZJTBk=;
+        b=Z9bk3R6vmwrxPQZirQSZ3I7d5+9ANYFyM/yZweJjJZxkjS73XJ7SSxbJo0gfUYTm0O
+         LBw784it5yK/yHhYMvQz6KMMVFdkmLofZJazj4RFV8JXgSBxewyR1jm5Y1LFcx3LdOpo
+         ylK4qDoahiNYY4oVmZY2mHVSB97qGw6lVyJDSY09f4pKz6nXNMyzlRt9BLcU9QZOhvUA
+         kJIP8WEC5xu68zwbq0vK7NFMcQw5DNUCns0OCOhWgQok6t2THYVyVSDpItY9n4jUGFUs
+         GuynPeRw7ywaonYdSiD+6gmJSqiqFVc2rJ7wVY56Oonyl4wKf+sA+ZfqUrjs0UOWzcSl
+         7REg==
+X-Forwarded-Encrypted: i=1; AL+hErF161mo1DEDysTcP4vg95VbXNpIXu7OcWthyVlkwNOqBc6t/EIqzTn57WAjwzzQr9jPQqo8CIvCSR2iwg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/5ynZDaSAsOmJMLk+soE6oBCaBvCWG0Vd9Aplv5c7YZpDKxwnz
+	6A1DinMSGS4rNLrNdCoh1TjoW5JSC9fAefWuOW10WVdTo6su0qjQ6eWayr6twCPSU0c=
+X-Gm-Gg: AYBFou0WKWATPUgQnlOi0SkQ1mB1ICfXIshp9smtEV0/IsTn2kR1cMZyDy5elEAyB4N
+	bhUCQIApOCgpM434NHgnHHatp5ljTjtNBV/Gvu6KJE327MPiqatMWY2Ut5fW0V6Osbww9FOCqF+
+	Js3A/LiJ/EO0GgTQn2rLh3q/uR8Jn6iTTYlT6H2wd7l26w/Ct+l738Jfg56r0g1l6Vn4D3QPsH3
+	7zPaOKa+ssokx0fdVMT5h6Qr803iIpESklMMxBTPi5TMAg8YISaPWn4DvEOz5LSTuZmdqaavn3j
+	15KE0PoQ0g2+vrbnoguuUot92f5/l3Cx5FhtMXFUdU/qcaLTzZP37gGRVC2D4lWl4qaqj6EVs8K
+	MHDRh2O2HIDK96Zj04U8sZ9bvOijBjmliXQdeY2D5RfNCzw1k+N3zB5k9BiRqdurwcTh0oF1RAz
+	tsPfYE1BqfRvHzvf9WVofwEJx8KiD52+IVOINgblC9Y6VjHFJnPh50NqtEigsr150/Y/pOL4i22
+	gQy84pzWYTUiDjpry4pDjyvnBd3YjQQtOwc1NnVkX8cEOSEbbcOnO7XGqcPQuh2gTUs4R18YnH+
+	nD1LlmxWYjmFbCfVIhy6HcvMlod064WQVwecENC1VtROT40VNOCjV5n7vJgVm3289ba9bsjODhM
+	IlFXaR7VLWEQ5dA==
+X-Received: by 2002:a05:600c:8b83:b0:49e:65f2:db64 with SMTP id 5b1f17b1804b1-4ba0935bde1mr34105275e9.5.1794390936037;
+        Wed, 11 Nov 2026 01:55:36 -0800 (PST)
+Received: from localhost (p200300f65f19a90460510dd506fc51af.dip0.t-ipconnect.de. [2003:f6:5f19:a904:6051:dd5:6fc:51af])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4ba01fea9eesm204694395e9.11.2026.11.11.01.55.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 01:55:35 -0800 (PST)
+Date: Wed, 11 Nov 2026 10:55:34 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Lee Jones <lee@kernel.org>, David Rhodes <david.rhodes@cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	Zha Qipeng <qipeng.zha@intel.com>, Qunqin Zhao <zhaoqunqin@loongson.cn>, 
+	Thomas Richard <thomas.richard@bootlin.com>, linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+	mfd@lists.linux.dev, linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Linus Walleij <linusw@kernel.org>, 
+	Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+Subject: Re: [PATCH v4 10/20] mfd: Use named initializers for acpi_device_id
+ arrays
+Message-ID: <avQ19KBnQ2mnhZa-@monoceros>
+References: <cover.1794347059.git.u.kleine-koenig@baylibre.com>
+ <39fc883cf1c7077bce8f16719cca59060a395b02.1794347059.git.u.kleine-koenig@baylibre.com>
+ <avQrO4etMgpOhvwF@ashevche-desk.local>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,125 +104,84 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="h4cbpzud5ptt3x2g"
+Content-Disposition: inline
+In-Reply-To: <avQrO4etMgpOhvwF@ashevche-desk.local>
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] ALSA: maya44e: pseudonymous Signed-off-by trailer and
-  MODULE_AUTHOR
-- [Medium] ALSA: maya44e: race between maya_prepare() and
-  maya_pcm_reset()
---
 
-commit f092453d5ece85565f1b326e6596d2a12340f871
-Author: Nordschamane <nordschamane1@proton.me>
+--h4cbpzud5ptt3x2g
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 10/20] mfd: Use named initializers for acpi_device_id
+ arrays
+MIME-Version: 1.0
 
-> ALSA: pci: add analog support for ESI MAYA44e
->
-> Add four-channel analog playback and capture for the ESI MAYA44e PCIe
-> card (19fe:7000, subsystem 0e51:0001). Playback and capture share the
-> sample clock and can use independent period sizes. Expose analog source,
-> gain, direct monitoring, DAC and crossmix controls.
->
-> The ES7010L register sequence comes from observed PCI transactions and
-> analysis of the ESI Windows driver. The existing ALSA PCI MAYA44 driver
-> was a reference for the WM8776 command format.
->
-> OpenAI Codex assisted with PCI trace analysis, driver implementation,
-> test tooling and the changelog. The requests covered analog playback,
-> capture, mixer controls and suspend/resume. For v2, Sashiko flagged
-> potential issues. Codex checked the report against the driver and ALSA
-> core and prepared the changes below.
->
-> Signed-off-by: Nordschamane <nordschamane1@proton.me>
+[adding Pawel to Cc:]
 
-[Severity: High]
-The Author header and Signed-off-by trailer use the handle "Nordschamane"
-rather than a real full name as required by the Developer's Certificate of
-Origin, and MODULE_AUTHOR() at the bottom of the driver uses the generic
-placeholder "MAYA44e Linux reverse-engineering project".
+Hello Andy,
 
-Also, the sentences at the end of the commit message ("For v2, ... prepared
-the changes below.") refer to the notes below the "---" separator and
-should be moved out of the permanent changelog.
+On Wed, Nov 11, 2026 at 10:45:47AM +0200, Andy Shevchenko wrote:
+> On Tue, Nov 10, 2026 at 10:54:35PM +0100, Uwe Kleine-K=F6nig (The Capable=
+ Hub) wrote:
+> > While being less compact, using named initializers allows to more easily
+> > see which members of the structs are assigned which value without having
+> > to lookup the declaration of the struct. And it's also more robust
+> > against changes to the struct definition.
+> >=20
+> > The mentioned robustness is relevant for a planned change to struct
+> > acpi_device_id that replaces .driver_data by an anonymous union.
+> >=20
+> > This patch doesn't modify the compiled arrays, only their representation
+> > in source form benefits.
+>=20
+> I don't know who is the first, you, guys, collaborate together and come u=
+p with
+> a solution, but I have reviewed already this
+> https://lore.kernel.org/lkml/20261104-acpi-mfd-v2-0-64b9dee3baaf@thegoodp=
+enguin.co.uk/
 
-> diff --git a/sound/pci/maya44e.c b/sound/pci/maya44e.c
-> new file mode 100644
-> index 0000000000000..961dbde73219e
-> --- /dev/null
-> +++ b/sound/pci/maya44e.c
+Oh, I wasn't aware that Pawel is still on that. Initially we had a list
+where Pawel indeed was assigned for acpi_device_id. Since then I went on
+to do these changes per subsystem for several *_device_id at once
+(instead of per *_device_id and subsystem) and stopped looking after the
+initial list. I might have mentioned that in our internal chat, but I
+take the blame on the lack of coordination.
 
-[ ... ]
+Looking through the differences I found:
 
-> +static int maya_pcm_reset(struct snd_pcm_substream *s)
-> +{
-> +	struct maya *m =3D snd_pcm_substream_chip(s);
-> +	int err;
-> +
-> +	/* ALSA rebases appl_ptr from this hw_ptr under the same stream lock. */
-> +	err =3D snd_pcm_lib_reset(s);
-> +	if (err < 0)
-> +		return err;
-> +	m->last_appl =3D s->runtime->status->hw_ptr;
-> +	return 0;
-> +}
-> +
-> +static int maya_prepare(struct snd_pcm_substream *s)
-> +{
-> +	struct maya *m =3D snd_pcm_substream_chip(s);
-> +	unsigned long flags;
-> +	int err;
+ - different commit log
+ - I have a cleanup to drivers/mfd/kempld-core.c which conflicts with
+   Pawel's series
 
-[ ... ]
+@Lee: If you take Pawel's series, I can rebase and resend. Most of my
+patches still apply just fine on top of Pawel's series, so you can
+preempt parts of my rebase using
 
-> +	/* A linked prepare can leave the playback buffer open to ack. */
-> +	snd_pcm_stream_lock_irqsave(s, flags);
-> +	memset(m->ring[0], 0, m->buffer_frames * 8);
-> +	memset(m->ring[1], 0, m->buffer_frames * 8);
-> +	memset(s->runtime->dma_area, 0,
-> +	       s->runtime->buffer_size * maya_sample_bytes(s->runtime->format) =
-* 4);
-> +	dma_wmb();
-> +	snd_pcm_stream_unlock_irqrestore(s, flags);
-> +	return 0;
-> +}
+	b4 am -P 1,2,4-6,8,9,11-15,17-20 cover.1794347059.git.u.kleine-koenig@bayl=
+ibre.com
 
-[Severity: Medium]
-Can a concurrent maya_ack() on a linked playback substream race between
-maya_prepare() and maya_pcm_reset() when SNDRV_PCM_IOCTL_PREPARE is called
-on the capture substream?
+Just give me a poke when you made up your mind how to proceed and sorry
+for missing that conflict.
 
-When playback and capture are linked and playback is in
-SNDRV_PCM_STATE_PREPARED or SNDRV_PCM_STATE_XRUN with a non-zero
-m->last_appl, preparing the capture substream only sets
-buffer_accessing =3D -1 on the capture runtime while leaving playback's
-buffer_accessing at 0.  snd_pcm_do_prepare() calls ops->prepare() without
-the stream lock, then updates PM QoS, and only then takes the stream lock
-to call snd_pcm_reset_substream() -> maya_pcm_reset():
+Best regards
+Uwe
 
-CPU0 (capture PREPARE)            CPU1 (playback SYNC_PTR)
-snd_pcm_do_prepare(playback)
-  maya_prepare(playback)
-    snd_pcm_stream_lock_irqsave()
-    memset(m->ring[0..1], 0, ...)
-    snd_pcm_stream_unlock_irqrestore()
-                                  snd_pcm_sync_ptr(playback)
-                                    snd_pcm_stream_lock_irq()
-                                    maya_ack(playback)
-                                      writes m->ring[0..1] at old last_appl
-                                      m->last_appl =3D appl
-                                    snd_pcm_stream_unlock_irq()
-  pcm_qos_req_update()
-  snd_pcm_reset_substream(playback)
-    maya_pcm_reset(playback)
-      snd_pcm_lib_reset(playback)
-      m->last_appl =3D 0;           <-- ring[0..1] retains stale samples
+--h4cbpzud5ptt3x2g
+Content-Type: application/pgp-signature; name="signature.asc"
 
-This leaves non-zero samples from the pre-reset appl_ptr offset in
-m->ring[0] and m->ring[1] and discards the acknowledged pointer update.
-Zeroing m->ring[0..1] and runtime->dma_area inside maya_pcm_reset() under
-the same stream lock acquisition that resets appl_ptr and m->last_appl
-would close this window.
+-----BEGIN PGP SIGNATURE-----
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111-codex-alsa=
--maya44e-v2-1-c5f94d722b54@proton.me?part=3D1
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmr0O5MACgkQj4D7WH0S
+/k5a3Af/bShGrqVRN2amCZ3YsA8JwcyDvTbN7ekxEzRPDe3bdsK6O+VNVq3fu6+A
+rXE/yf27jSePTzpLzVN5UjaJUtgdLpi8JIUz8tFpWvLxcQ7XJGC09ZljCzmR9D1+
+wCj7azL1dvdk+jjz7tZ+RnsUPK6bvSWhgvEV2mbVfggFIU/YqhySmIhYBhrc50mN
+1GRlU5cIuEyXVwwmIk9BRNv9drjXrFZfkJTd+H4hbRAFOfVq1QmIjHDUl6qi3Rbz
+ubQBpDM96XgUe5HUTXgG0Ho9KdASNlB+OVv+iwb32nfc2PZjPPmSKFjK7bKTV1Lh
+3u6/0xqIvwenZeWxe7CkONoCcve8kw==
+=t/3h
+-----END PGP SIGNATURE-----
+
+--h4cbpzud5ptt3x2g--
