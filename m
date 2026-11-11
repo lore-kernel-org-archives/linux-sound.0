@@ -1,45 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794422057;
-	b=o3zTPjq7ZvRaQz1yFDmLZAcpolQuBQDDBglmZvTpYQRz+qgn/1/HqbE+WO6qwWMvbS3x
-	 +vxoG4dTIjbI4mkcdp2DKuMKPJmmRikjZhN4wupOZ1aoo1bCyOpq5jp/ikgWVi0sYy8vR
-	 zEiNtH5ijrQWw2UMT1NZPLeQbWwZSDxcZiPhNuZtIwsfXeqfBuP8i4wb2trUsIyoPE6tz
-	 aKPNcvIanDBV5b24JVP+9PhJfO6fxMOHNLfUMx6aRt26TZoUDe6ZK6bvaq5WOnq5Qwnx/
-	 OCJwRk887Fe6/Oit2Ujwz5XCbkufCF4jnBMw+hvbeRTPZxsY3M5lEZmbSA85ZCDIsGQ==
+	t=1794428255;
+	b=E7IIOGvJmufL8uL9DmYZK8HtLmbupvag2cFU+1KQbj2Qu2auTNf0YEsGl4g29YdJ8mFD
+	 3tKXf2tBKgyv4IJlgFbvBmUvuRisfNY9OvmkzqdbXV+zfrBQdipGrWpFKzqb9BFZa0ew7
+	 cK8CJF5gTkXNdZJp6pqeSh6nHpShH2R3I3OswAcCEq5wSPwK6B+/iSwa3+xnw89yRXjWM
+	 QrntfjYFTJdttpI+K1S8teIIA8YLWOmkD/VgRpCODEDgPCb5QxJc5K9pH+6nMzNGejaJR
+	 9fBVRHaBEXIRcFXCr8U28e+f6nuJDFSkyWKVTX9NxhCMIJtBO9xZrHd7U+ixeJ9DYjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794422057;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=YMc/YldEbzl8PQxcS39NWhbEp7wlqnxUy5n/VNFbcwc=;
-	b=hpRKbVr8q4VOuyiN7r+w27sRGmP5B1CLxqbMRRYbKGUuN4U6hJ8nFwjIpUR80cvDG3vM
-	 ca/qCCjRSBLOGLz4dwGBTMDELhylNQEMjhvG19gMhfFrF2R+gVNY7T5uoNCM009VVaDAK
-	 WAdEvLiGkH3XpiyxH5RKBxQGt6gfCL6eb72Nng0zcaOoJYA8ShrsjKzg7zAicF6c9PyDL
-	 L+4/oQ26Bz45p/pgBsw+0H3aUm6BDavWLufuVZ2y2BMoPSKEwpeUM4N9Zrfx9VW7XpN+4
-	 hViToqCmlLHhMVLB9ZMpnOA7cnNX2IDWpqwxAUThDPlwqEA3DUDfRehk5oz5Iaw43rg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794428255;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=PwBL61PJ01ugV2zKaAESuvCkb0ROmr9+qKjPxuNeOAk=;
+	b=BwSyERCPSAftnz1NzUVqWm5UsKAVClp7hcf/F+5vxLYiX58w2nMRPwpvj7bu6gHIHYXq
+	 5tQ1bLTfMwDGInuTeRl1PTx/GpFj8ubsSHyi47QwrFgilIR/DFDy0XF2BjO8pu7buAn3E
+	 htbW35P8DxLp1poeikrZRFW2d6ekOApY4dfKWXmvfndwksV+LEeXNQD27IOegsD0qGxR2
+	 MVSiC3tGSJi0QAPAotFTkCkSX81+NvohnDLQRsd1pdfSSq+pu3vxiLYM+FxUdgjnk6Hax
+	 lh53MvW3CWiUBipsPNAoIfSW6ePVBp55I6A+w/VDy5BfgvqQ5juCjA250qTBnMhxkxQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eV9Twa93;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SWrhXLge;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F73606A31C;
-	Wed, 11 Nov 2026 18:34:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89FB606A31C;
+	Wed, 11 Nov 2026 20:17:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eV9Twa93
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 091541F00A05;
-	Wed, 11 Nov 2026 18:34:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SWrhXLge
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AC8E1F00A05;
+	Wed, 11 Nov 2026 20:17:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794422057;
-	bh=YMc/YldEbzl8PQxcS39NWhbEp7wlqnxUy5n/VNFbcwc=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=eV9Twa93jLQr/9/0MI2C860TI2Kqzoo1cD2Oi2LBLlVl357/8yWYAXuRf6qEHvzTM
-	 Syxf9ZFS+/KhtkjlDwhjsZ984SAQOKhtOIKG19a1Edm54X18lxwTIH3tICNj/MiX2D
-	 lBabGOgt/eH8GHHJF07UsUpMqpVk+zVAVYjlRETjscKb/razQO0SsEKcDz3du+aXAU
-	 rQb6qRKQIoVDq0JVR/e9cizVlYM6sUvpW3/7KJC4Qjgw3xp2KYFYZJduOL1lsIIY/Q
-	 TkjWSNwNiUoPH4txvTR5GVJCvCS7Q9ePagG12dlehU390Qe4sqtASA4F4ayW+nId+O
-	 XyP9NTxMHg18g==
+	s=k20260515; t=1794428254;
+	bh=PwBL61PJ01ugV2zKaAESuvCkb0ROmr9+qKjPxuNeOAk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=SWrhXLgeE+FrYfKyBsU6DYfAGhooVIPFk0Co+iwIkOeGT/88SfGOB02fVpdK9iUjo
+	 tJsV9YYKyzWDY2jK3xyqXS5TB307Y0uInW+s8x7Ioo+wyxMghlRV3zHskqD23gIDZG
+	 kzgP60EQYbLlih0sGhbaz8HtNn/+n+w/WRFdxC9Iyt9f3UIRvKvXPTqa9miFdOv8iu
+	 4CtN8IfNoY3ur55pVxSvWHSUR7cFSa/F12+C82TySfelWjIUPg0PjjH/6VeZsv1BVC
+	 qWwkTshb/bpDj9T8xXAIHZ5rSETLBO9Xp+JjGoDwdqC3VQsKzDvsndGse2T4pVnZRT
+	 VlgpTiyHcZr2w==
+From: Mark Brown <broonie@kernel.org>
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261109-cs35l45-bpe-v1-0-9d7bc95a90a4@opensource.cirrus.com>
+References: <20261109-cs35l45-bpe-v1-0-9d7bc95a90a4@opensource.cirrus.com>
+Subject: Re: [PATCH 0/4] ASoC: cs35l45: Adds support for brownout
+ prevention engines
+Message-Id: <179441367703.393238.15653744808554406033.b4-ty@b4>
+Date: Wed, 11 Nov 2026 16:14:37 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -51,77 +67,62 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v3 3/6] ASoC: soc-acpi: move common function topology
- helpers
-From: Mark Brown <broonie@kernel.org>
-To: Syed Saba Kareem <syed.sabakareem@amd.com>
-Cc: broonie@kernel.org, Sunil-kumar.Dommati@amd.com, 
- vijendar.mukunda@amd.com, Mario.Limonciello@amd.com, 
- venkataprasad.potturu@amd.com, 
- Siva Subramanian Ravi Saravanan <sravisar@amd.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Cezary Rojewski <cezary.rojewski@intel.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>
-In-Reply-To: <20261108193119.2308421-4-syed.sabakareem@amd.com>
-References: <20261108193119.2308421-1-syed.sabakareem@amd.com>
- <20261108193119.2308421-4-syed.sabakareem@amd.com>
-Date: Wed, 11 Nov 2026 18:34:11 +0000
-Message-Id: <179442205142.484483.13609312009662203150.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1344; i=broonie@kernel.org;
- h=from:subject:message-id; bh=xc2X2TKpMwnE88lVaAv6UGKfYzk19cda0V2IvGrdEpU=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLK+bFV5uulRYpx93nIZpg2qSgb7LA3q446FrJJcHBuqX
- bRWSyaoo5SFQYyLQVZMkSUui/tlfcnrNXwHF7bBzGFlAhnCwMUpABPZuYuRYRe79eawKUmsft9M
- 9vk8397EbxCe/jVfZK6tQqJav3b1FYZ/pqsmvBBfxJs7JepOsfGCuapnDbpSqpqP/T2cx/wv/M5
- JRgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2019; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=drDyoQTvnZT8AmPzGgIiJUyY5+pOkn1FRpCvNmmWt7A=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLK+nI3KfLh39glxx8WzOLiNWU1XxF4L5vhxpNhRRHZH3
+ Z/7/6V1O0pZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRA7oM/+NMzTXurMkw8ewr
+ y968Qy9tTf5ODSGBChVBz+ePPwhyNDEyXFFoy13Tei3RsZ/bj3H3Qu+LdyJePdr02PD71bDlbtr
+ /eQE=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-> Move the Intel function topology helpers and the topology device enum
-> to soc-acpi so that they can be shared with other platforms too. The
-> moved helpers are:
+On Mon, 09 Nov 2026 11:57:02 -0600, Ricardo Rivera-Matos wrote:
+> ASoC: cs35l45: Adds support for brownout prevention engines
+> 
+> The CS35L45 amplifier has two independent brownout prevention engines
+> used to prevent system brownout events induced by transient audio peaks.
+> 
+> The amplifier brownount prevention engine (ABPE) monitors the battery
+> voltage and applies attenuation to audio output in terms of either
+> decibles, voltage, or wattage. The ABPE response is configured across
+> four thresholds with four corresponding attenuation values. The attack,
+> hold, and release parameters of the associated limiter are also
+> configurable.
+> 
+> [...]
 
-> index 2ee303b791dc..aea47a42f43d 100644
-> --- a/include/sound/soc-acpi.h
-> +++ b/include/sound/soc-acpi.h
-> @@ -257,4 +257,29 @@ bool snd_soc_acpi_sdw_link_slaves_found(struct device *dev,
->  					const struct snd_soc_acpi_link_adr *link,
->  					struct sdw_peripherals *peripherals);
->  
-> +enum tplg_device_id {
-> +	TPLG_DEVICE_SDCA_JACK,
-> +	TPLG_DEVICE_SDCA_AMP,
-> +	TPLG_DEVICE_SDCA_MIC,
-> +	TPLG_DEVICE_INTEL_PCH_DMIC,
-> +	TPLG_DEVICE_HDMI,
-> +	TPLG_DEVICE_SSP_JACK,
-> +	TPLG_DEVICE_SSP_AMP,
-> +	TPLG_DEVICE_SSP_BT,
-> +	TPLG_DEVICE_SSP_HDMI_IN,
-> +	TPLG_DEVICE_LOOPBACK_VIRTUAL,
-> +	TPLG_DEVICE_ACP_SDW_JACK,
-> +	TPLG_DEVICE_ACP_SDW_AMP,
-> +	TPLG_DEVICE_ACP_SDW_MIC,
-> +	TPLG_DEVICE_ACP_DMIC,
-> +	TPLG_DEVICE_MAX
-> +};
+Applied to
 
-Might be sensible to have some namespacing as part of this move (eg,
-adding an ACPI prefix).
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
->  config SND_SOC_ACPI_INTEL_MATCH
->  	tristate
-> -	select SND_SOC_ACPI if ACPI
-> +	select SND_SOC_ACPI
+Thanks!
 
-This seems likely to cause issues on systems without ACPI, perhaps this
-should just depend on ACPI?  !ACPI builds are pure coverage testing for
-x86, they're not practical.
+[1/4] ASoC: dt-bindings: cs35l45: Adds ABPE properties
+      https://git.kernel.org/broonie/sound/c/58439294499f
+[2/4] ASoC: cs35l45: Adds support for ABPE feature
+      https://git.kernel.org/broonie/sound/c/4b261eaa7e58
+[3/4] ASoC: dt-bindings: cs35l45: Adds Boost BPE properties
+      https://git.kernel.org/broonie/sound/c/65aa9fa9afbf
+[4/4] ASoC: cs35l45: Adds Boost BPE configuration
+      https://git.kernel.org/broonie/sound/c/ac474574e54a
 
--- 
-Mark Brown <broonie@kernel.org>
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
