@@ -1,56 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794365306;
-	b=uf2FEHnrSpP+U5JdyLcP7jBk/m7yEbxaz369YT0u5L2MJO+6fdZGixb5xf8TflK7ukuV
-	 NZNZBgIAnCsFej185ZHqR8lFnfq6gYjfPoG/Fjoa1QuXQPu+hd3gDmwHNGNRooCjfDWrI
-	 434h09Na0jZE+JYshKqQCS3RvBiXfluY7ZOzLb6Xqs5iUKoOYT5Pf0W3cZFamIrTnkY2j
-	 5rM/zS0gPNOKlaGIws+Zt8vHqhDZRaRoA+zsbCoIbki5K/6J5vvoz5KYo1U4weTbvjDAy
-	 lgSJEHvgIkjP3j9EFYBKsfTn4ymY4M9D74s8EX1QBz28SwKgB33h0Z6dw214rc2gPmQ==
+	t=1794365823;
+	b=h0aBYZUXWJnESvAu5ddP7cwpgJYXaU+wnoAqC+PCD369GbZKq8JFX3NwQF8ZvsUy51nN
+	 yxiwGaFOc3buOcLpK/8yjrLM7VGJKOATaIwtheDim81oEPwSQ2rUeRUM/mN8rKPrMyJSR
+	 Bf4PVkzOAFM9eSKuOSfYrA99QMQeFhHiEdAEsJuhrF1JXeDSSOOX8663UeG6JVyoC79zb
+	 P6ISh9OPhbRsZIRSfF00OnID1WTRhLGyrF02yk479CNonpoAz3Qi2JsmeFcA729RWpFmi
+	 DV7H99udyjgxKgaWtrbRk4VqsWvxyg2MntBh+mNV7pVu7SN2YILdF7tJAxVx8YAZ82g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794365306;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=+0HHaiRa8oYCUlh0y9kKel6nVox0BtWueDPV87FxHE4=;
-	b=MUjBsyMrEOzV33puSJy0EP4XfGBuYpy6LeGFsCzkK2bEISJVLVIxyCWthwl6wPdkDoTa
-	 SNPv5jTjJUvv/ezeiXfCNlZESF2qFjVF+1jhR6cG5GHYZnKAFb+hEYvSeObNS7f2nrCbv
-	 zTVyhnGS1WLvf4K1t+zExtxtipLse9poD7liRh5wzqqJyNLFQsJZi1qW7h2NPL43ZeL5Z
-	 oAEtnpzlOk4WY9PUC+A56vJ8Sr8XS50/ZYzCY8VyXmr7ce72Z7W2pC3JFYBDEB4Orjrc1
-	 I0dzqE/iKFfaq4H2lu8BLBdKyCiXPwx+C3IvSXj93TGaCn0S636R1wBFlU8Gy50vInA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794365823;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=qp80d0Wb9ndtvBEt6iVPc1UqtP2sqVWAkNfJ3zdnMcI=;
+	b=TKVDDkaohVgjvbafqfjW2zLsODQ4N2Dfc2zTyWRmzLdTjjJj48Q4dWGw0znIk3Ylzi6H
+	 qf4VsJzQgLbhm/E0S41PMsPfhRj2b3HiaprwXud68TXhLU7p6psZQwqeJOIVo49HWdS72
+	 GeBaHGnLWT+yQnR92UL8bQw9nkrp7qmfuihXL4qhQs/IrutPdDG0Pck7+KxCvXWWo9Gc6
+	 EpgjNjZ8Es9MANPF8Q5vNT6SF51HtYyCaGCYfxPqlWarykqjt6nTF8S5i9nB8Fx+hpE0n
+	 KuQZ9b0FCfZdYJ8UvT7kwnQUomo9bDiPtFSuKLwrrkK1SBBJguNT4Rb8HuFUfBCqt/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gVKVspx2;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nRnwyNK4;
+	arc=none smtp.remote-ip=74.125.82.178
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8778606A320
-	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 02:48:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84CB606A31C
+	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 02:57:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E84CB606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gVKVspx2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B9531F0089F;
-	Wed, 11 Nov 2026 02:48:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794365306;
-	bh=+0HHaiRa8oYCUlh0y9kKel6nVox0BtWueDPV87FxHE4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gVKVspx22pJaG6Z3rjalxnm142uki45l37b7seHfOyOvEhq6Z7rLcvSAqf0mrl+RL
-	 R2xkEqWT5RhFystt6SVnk44bvjU8lbLlz21VwOtwgPvB21mlotIuhpkvLtkRf2QA/X
-	 JRJf3gO584ZXoYSeB/8JZmO1lg+QQTmHFzglDStOzcK5IFp8VKwloOkdlU9NRECKyi
-	 sFL6Og/i3XyMKymhQICVRlRgeqJLSSsa9zmf9Cqt90SYCrNlZgwgWeYf2jRRbPTrLl
-	 WqcA1B/5lW7pmKGLKMHwed3RP5+2f2XoqokTFiNVoymeWSZkGYBFOlbsOudzqcBx6J
-	 oF3m773JrkhSw==
-Message-ID: <sashiko-outbox-208117@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: add micmute LED quirk for Acer
- Predator PHN16-72
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Fa-Iz Faadhillah Ibrahim" <faiz.faadhillah@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261111021328.16153-1-faiz.faadhillah@gmail.com>
-References: <20261111021328.16153-1-faiz.faadhillah@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 02:48:25 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nRnwyNK4
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-36eb1cb7aabso4190244eec.0
+        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 18:57:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794365822; x=1794970622; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qp80d0Wb9ndtvBEt6iVPc1UqtP2sqVWAkNfJ3zdnMcI=;
+        b=nRnwyNK4+QgxDLZzdUu9b73ahM2d1sl08rYnO+5mpeJnI+ijjzki+f+1wpSUL761PG
+         X08xPA8vR8t6+HjDpo6t/3TsOwlJfgO++OlIxFdQKzVrx3R45DnjXdl1HSeODB/K2JS6
+         OPnaR7Z4Bssb/aveSf6xD+p0pVrgqGVvdi9ELDhTb+ny7//QIXQZDX5/4Jqj3mvpsaPY
+         Jfk+cNqvhJ1jGZtvloRIaZsWi690zZi92IhlzA4EXMj3/1ITfdNk+O29nKxM7sTlJ3cx
+         ozPVl/u/cXtkcJLYfwLaR3QinTV0TjGLVhuv3K2Xw1uEBsQbeyviiJiRo+2t55bXj0SJ
+         UgCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794365822; x=1794970622;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qp80d0Wb9ndtvBEt6iVPc1UqtP2sqVWAkNfJ3zdnMcI=;
+        b=HKKMkBP3Idhwabk/6h4TNj9oJIFTPs5xJOtW8ifUNUlbt58asoYZdOl02zaR/glPi1
+         F2wOM3liPI3ZEYFuP3biNVuRS7aI65Ohi7huwdBu9v2UdzC2dFRwVLrf/bdXTz/yiiQu
+         VAzKEXEeKRuvz9r/9i1ABQFBkvBNHzdB5VUM/MQoS4zGmqymZkmWTetIm13UdzXiX1Uc
+         vSa96+itDp3EN2ztTIY0fmn7S1QOuBfYKLSKFthZZBSUHF/IGtG9Box9zu8sSmaDnvcF
+         MFi2LFZiko9e0j2w8sqUJE2HwY0kuGQ5vNPqTDudcSLxr2np4P94Frur5y6r4uAmjv4K
+         yXPw==
+X-Gm-Message-State: APuU4Z+N1QQE2Aljdvf1r7YQtzKh333LOxww8chmWs1Ab3IiK5i0vxJB
+	Gg+EZ2wGXY4+3Wdd0E6izQXMLxsZzc9luxJG6baTNEl4Ma7T4++5dEOgubSVOg==
+X-Gm-Gg: AYBFou0kTX/1vYFAr+Gna9Y0tcWqWbzcyn8/EMtElePnAOsptV1Zi3sYRXa1U4yzdx9
+	Scg4YytjjHuF7dC97oTEvLKlf8jfqnOhV02EMsfS7tD8OEuF/eFEPY+XdmffHylQhxtUsjjFugz
+	/sLtaWBIv8tjBG0BL4Gk5X2hNh+6SFSsWWRJ4RrmBx8iTHmA6mFeJw607fUlgRKKg40/YPQmJP6
+	m5iv3mYmZsePobV/K4lQkk8/MW+rePh+Su3qXi7TtOtqKxQNfkIDHVLZ6HMWmVQzg3CsV/L5jsM
+	T4vHXT2DlohWnvFChmrXTGlq5gyLQiNiX1mIMIHveYCARkoJgvcoWkUt3NIbO/YJnZSDnj5y5GH
+	lnb20UnQc4MBVT/ow6u3NuFvSdMl1Lt9kpEXCLrMPpTTW9HqOeZykw/P95zmHElr6Ism18YgZVc
+	VRj2qk3mc43uboAVVfb74WiB5hlzlMbj51tJvlTOYZsSX+EQOdMEVVfVYJhtUDwNzMwyyaFJJxB
+	ZE0lykvLO0NcHTUU6DebkdfW+jYrGn76JNSH2B1Zj/SSsgJu+d4+89jp0CS/jGBV1rKVtXLNm5J
+	+9CfSdG+udGFVXije3smlCNoaNTpd7OIbK0JiqKQzP6cKIdTHTuEGbYva75yvIWmq/y3m0knNU0
+	GUnmiv3kCviuAEeNPY1dljaCWPzgW8XnPpGMOK/gILBz4EdDxDfcOLbXN5/YTqB+7Hxo+Wg==
+X-Received: by 2002:a05:693c:808b:b0:36c:a390:8907 with SMTP id 5a478bee46e88-3768646897amr1766149eec.21.1794365821641;
+        Tue, 10 Nov 2026 18:57:01 -0800 (PST)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37520cfdfc6sm12390018eec.17.2026.11.10.18.56.58
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 10 Nov 2026 18:57:01 -0800 (PST)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v25 00/16] ALSA: virtio: serialize PCM recovery and preserve capture and playback progress
+Date: Wed, 11 Nov 2026 11:56:39 +0900
+Message-ID: <20261111025655.63951-1-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,55 +100,77 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Low] ALSA: hda/realtek: duplicate 0x1025:0x1731 quirk entry in
-  alc269_fixup_tbl
-- [Low] ALSA: hda/realtek: missing Fixes trailer for commit 34e08ad3a8da
---
+This series updates ALSA PCM recovery and virtio-snd request ownership.
+Capture receives into request-owned buffers so valid short completions
+can be appended to the ALSA ring without leaving a gap.
 
-commit 5bafc10ed11e5fc65c61bd076960d71905ca3545
-Author: Fa-Iz Faadhillah Ibrahim <faiz.faadhillah@gmail.com>
+This replaces v24 in full. Apply all sixteen patches to the base commit
+below. The previous version is at:
 
-> ALSA: hda/realtek: add micmute LED quirk for Acer Predator PHN16-72
->=20
-> fix micmute LED for Acer Predator PHN16-72.
->=20
-> Signed-off-by: Fa-Iz Faadhillah Ibrahim <faiz.faadhillah@gmail.com>
+https://lore.kernel.org/linux-sound/20261111000543.28550-1-mynameisjune111@gmail.com/T/
 
-[Severity: Low]
-Since this updates the incomplete quirk added in 34e08ad3a8da ("ALSA:
-hda/realtek: Add quirk for Acer Predator PHN16-72"), should this include:
+Changes since v24:
 
-  Fixes: 34e08ad3a8da ("ALSA: hda/realtek: Add quirk for Acer Predator PHN1=
-6-72")
+Capture DRAINING keeps a full buffer readable and reports progress
+beyond capacity as XRUN. The read loop refreshes availability after an
+unlocked copy so a tail published during that copy is included before
+EOF. Playback drain completion is unchanged.
 
-> diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek=
-/alc269.c
-> index a756e0076021a..fa78a36bba5ff 100644
-> --- a/sound/hda/codecs/realtek/alc269.c
-> +++ b/sound/hda/codecs/realtek/alc269.c
-> @@ -7553,6 +7553,7 @@ static const struct hda_quirk alc269_fixup_tbl[] =
-=3D {
->  	SND_PCI_QUIRK(0x1025, 0x170f, "Acer Predator PHN16-71", ALC2XX_FIXUP_HE=
-ADSET_MIC),
->  	SND_PCI_QUIRK(0x1025, 0x171e, "Acer Nitro ANV15-51", ALC245_FIXUP_ACER_=
-MICMUTE_LED),
->  	SND_PCI_QUIRK(0x1025, 0x172c, "Acer Nitro ANV16-41", ALC2XX_FIXUP_HEADS=
-ET_MIC),
-> +	SND_PCI_QUIRK(0x1025, 0x1731, "Acer Predator PHN16-72", ALC245_FIXUP_AC=
-ER_MICMUTE_LED),
->  	SND_PCI_QUIRK(0x1025, 0x1731, "Acer Predator PHN16-72", ALC2XX_FIXUP_HE=
-ADSET_MIC),
+ACK checks the core buffer-access gate before entering the transfer
+path. The existing PCM lock barriers in prepare, RESET, hw_params and
+hw_free wait for ACKs already admitted before the gate closes. Internal
+RESET pointer observation retains its separate bypass.
 
-[Severity: Low]
-Should this replace the existing 0x1025:0x1731 entry in alc269_fixup_tbl
-rather than adding a second entry above it?  snd_hda_pick_fixup() stops at
-the first matching SSID, and ALC245_FIXUP_ACER_MICMUTE_LED already chains
-ALC2XX_FIXUP_HEADSET_MIC, leaving the second 0x1025:0x1731 entry
-unreachable.
+Playback period work checks for new progress or a latched error under
+the PCM stream lock. This prevents work queued before a paused RESET
+from publishing a duplicate period after resume. Prepare and RESET clear
+both the cached device latency and runtime delay.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111021328.1615=
-3-1-faiz.faadhillah@gmail.com?part=3D1
+The capture allocation and copy description now lives in the ALSA
+configuration guide. On MMU systems, per-period page rounding can make
+additional memory exceed the ALSA ring size; the request buffers remain
+allocated from hw_params until hw_free. Pause documentation now
+describes STOP/RELEASE followed by PREPARE/START. The ACK
+error-propagation and teardown wait patches carry Fixes tags. Patch
+descriptions state their changes against the pinned base.
+
+Validation:
+
+The pinned v24 baseline was rebuilt with the saved KASAN and lockdep
+configuration and the same builder. Fresh cumulative W=1 builds cover
+stages 2, 12 and 16. Each passed with no new warning lines in the
+changed audio builds. The full baseline build retains 517 warnings in
+unchanged ARM64 files; other intermediate stages were not rebuilt.
+
+Matched synthetic ALSA PCM tests compared baseline and integrated
+candidate. The candidate preserved and read all 8192 frames in a full
+capture buffer, returned EOF on the next read, reported 8193 unread
+frames as XRUN, and returned both a 1024-frame prefix and the 512-frame
+tail published during an unlocked read before reaching EOF. Playback
+drain still completes. These fixtures exercise PCM core behavior, not
+virtio transport or physical device DMA.
+
+ACK probes on baseline, isolated candidate and integrated candidate
+verified the baseline admitted a gated ACK and queued TX; both
+candidates rejected ACK with -EBADFD and queued no TX. All three also
+verified completion of a pre-gate ACK before linked prepare crossed its
+lock barrier, and the internal RESET bypass. The integrated playback
+probes verified stale work across PAUSED RESET/resume and clearing of a
+synthetic 256-frame device delay after RESET and PREPARE. Clean
+integrated RW and MMAP capture runs each lasted 70 seconds; all seven
+segments totaling 7,104,000 frames matched the unchanged independent
+oracle. These QEMU runs reported no KASAN or lockdep diagnostics. KCSAN
+was not run.
+
+The default RX path adds request-owned memory and an IRQ-path copy.
+Packed status and RELEASE/reprepare pause are opt-in and disabled by
+default. CPU and worst-case IRQ lock-hold time remain unqualified. The
+playback queue cap reduces buffering tolerance, especially with two
+periods. This revision has no new physical VZ or KCSAN qualification.
+Uncertain control timeouts can still require device reset or reprobe.
+The deterministic review fixtures are local and have not been published.
+
+base-commit: a4311e9447bbb219044db38897f95be112f46a8a
