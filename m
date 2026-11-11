@@ -1,93 +1,135 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.16
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=148.163.150.75
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794361995;
-	b=Sj6hrx1OV8CT6PjAo2Nd5Ju5eOHA3NfHS5crxWGxKENstSUuLQLGX1RzKXwkJlCtl81t
-	 13FfCMe3DQi5WQ8xd+Oz4BIqWcYF9XHHF3JRfh15QYouu+w1zZCkcRAAa3JUYQ39ExjzW
-	 lcDXArAo4ivqcpxNCIxgJMpqVQPzWGVIu7bDyTAcgML4Cj6f9SEy8xyGIkYw0ej5CDHbf
-	 OAEs1hEP1HFkVyRnmBw3w6H1iidid2de8zNCywDAlN2pwPsA7KZC8ifC9uy/L3s+CpoON
-	 TT8LAwJ426NjPKm/Zyj8cHVepYju8Xeu5XtFv6WtpvjKLXORSOO4CBXK6g3WaWgSpUA==
+	t=1794362013;
+	b=rLDg/mvgNyY5BHY1F7IF+PDZ8cQWnnesMpqIXE4UoVX4LU5lYn7r5Ip+sVhqhgR2jT/U
+	 jCFAj/TQm5SVsYp9SvOfal1Ydhg3MaUuAMjA9RJNT8lt8yVLRFBUCAPxCPfguuoLUbqP4
+	 UZtkjP1EvKrMTGBfBtDnl89kveHSFcnh3boObWosAjI2mO1BtWOSz+GyUKGG1zGm9TA+E
+	 2H0p8gNOiN612xMQeVWZYGCackv/6VKDbVNuAjv3IHRI/i+RqOhR6RynlSFpNQBSsFP9X
+	 T4ilirmtaSxVVR7ZSgbL03sNXQXrjGpd0FK+axRdEIoG2do4NrEEjUAb/OdQZX0Jx3g==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794361995;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794362013;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
+	 Received:Received:Received:Received:Received:From:To:CC:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 Content-Type:X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
 	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
 	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
 	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
 	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=MOwL9D5rZ9Dx+kqszqU9gQRHYPWhblKW8vLGj38zbac=;
-	b=awKk4xtqEd4TitoMZgWLrBwo+lq8ZKyahCmDZn0p6TFfiLQ982LkWzJ0bcV5PFSrB6lI
-	 1mzfrUMo5CmutIUOUC9Hj1O815mTdiEaIRez2QsihR7DDda5Zr9UoV5zVC3+Sm9pQdSeG
-	 P0G/r7ugWHSqRqABKEGB33wbVdPqZJFcg6F4y1++8y3nnc9OUlygiF2KQgxxsu+5dfj3+
-	 glJEjQZmKQ0gc1QvS3Pr12OIRS18nHSn8hUP5xfchLUF71SfvzPGn93V1BOP4T/voou8t
-	 x+ef+24s/U5etfgOe6A4gvoufQhMSNvl82GDacVw6raNa2/C18V4Lnzc36DUSP4IAAQ==
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=hgaGmZzHWnYxSlWnx5ivJGd84guFgqYqv++oGXlt+wU=;
+	b=AfIfzJasyRBxv+C/ITq6D8bWlYWvyVRS5nuc3+Wf1SRXnQPTvlfxmO9mdTt48aYf2iNv
+	 p5Xnr3pAG8WMAmaX0hQJGXtdgv2e4o1ImU+EZ2HLATuHZEVZ0bn3Mw67zUif0OUamQQP6
+	 9t4EtcrPlnUp8s9bq6f+18l5EfEW/XompxJerGC4+Tak8dBXTDySwMwocVoQwdIrZTJ1M
+	 7b7zjVfz/c3+lchDBl+h+Kf2X7WqhC4noTHh8p8PHPo+IHCFua1+AL45A9ZqtFQJ2zKTT
+	 zPTU2+myhjn5spSdhC4Cib45i7ujWQeVOpDbrCCft1N5mXfUmbV48uZqKruEv+aBwOA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=AerZDqEK;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.16
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010016.outbound.protection.outlook.com [52.101.201.16])
+	dmarc=pass header.from=ti.com;
+	spf=pass smtp.mailfrom=ti.com;
+	dkim=pass header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=proofpoint-05-2026 header.b=h15TGZ2J;
+	dkim=pass header.d=ticloud.onmicrosoft.com header.i=@ticloud.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-ticloud-onmicrosoft-com header.b=pV0FyrqB;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=148.163.150.75
+Received: from mx0a-0002e601.pphosted.com (mx0a-0002e601.pphosted.com [148.163.150.75])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9842D606A321;
-	Wed, 11 Nov 2026 01:53:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9842D606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A82606A31C
+	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 01:53:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5A82606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=AerZDqEK
+	dkim=pass (2048-bit key, unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=proofpoint-05-2026 header.b=h15TGZ2J;
+	dkim=pass (1024-bit key, unprotected) header.d=ticloud.onmicrosoft.com header.i=@ticloud.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-ticloud-onmicrosoft-com header.b=pV0FyrqB
+Received: from pps.filterd (m0384305.ppops.net [127.0.0.1])
+	by m0384305.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 6AB1icms309600;
+	Tue, 10 Nov 2026 19:53:12 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=proofpoint-05-2026; bh=hgaGmZzHWnYxS
+	lWnx5ivJGd84guFgqYqv++oGXlt+wU=; b=h15TGZ2JnwwsV4V9rxJQAotODTd90
+	ZhvDAh2konqXcxMlMyNWgTHRo6z2+TSRk3u9IatauDs/LdEfOnE7zRpJhKJd7aHC
+	bqY4zhGI+Dn8ym73LpyVy2HqDYdYKrN6KWRU4D3iJhjlSFKxk7IRa+qn59dcEy9G
+	X7RGuYcNXyqtObgyGemGasyF5/jGCyDNWBETmKkundrvjJgPDwqMIj7tZuf+Kags
+	BXFwiJkwx2J9QgkE1PijSZl3drU7Ee1a/03DU3j7062OC9U0NbistumVwKMtV8wF
+	egZJiAAEnvqfsFvMttwBs62WAVG8ea7Css6noMfotfagJa+ciw+xEQo7w==
+Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010066.outbound.protection.outlook.com [52.101.46.66])
+	by m0384305.ppops.net (PPS) with ESMTPS id 4hveygr1ed-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 10 Nov 2026 19:53:12 -0600 (CST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BJ/4M+W3EAeSlThASspiL2E3Cpn0DvjyfRR+Tr4KvNErUV14ylvZN8SznJI3xjNhZ3nQr4KtxGHflC03/9Ok7kNoTc/zWeSzCL/Ugb5rjSHjFnkAvhlq2Cj89Cxl22JzWqmcEDrAqjxI16pBgvLVKaUqWVyR5mwlmC+V4oggMp2N30TCMuj7WpZz3PA1cWDTYTtDTg/d1vOyI9M0X1ARfRLQ67tvKRBJU7k9ZueRpOo3LNCPVYEC/rwcw3j62LXadIEOBO71hc2OBM3sJX3fKVc5TUW9oW+sZzePNRHUQr1PZFZ1l9AMrPsGeBmxnofvJ2tpM+IfiSReTw5hYx0kMA==
+ b=O7CHzXJxOaBzZEvQFZkF5ZnMmvOMHgSUGF1Wn5LFtJ3xGPHLf7By+x+KkZ3ZtHDakONcZeg/QxycMHEOIPIaE6zFcRSK1HKdvRY/8bVQEtzMjgpmiiAbTloeG8PhB9TB8on4bc6BVEHc9MRfLGmwekKafkmOQtBbq09BJyvUwBtQWMnBP2dh5SqIsnPTRf3pKZbovB9FqgMbko2DpiQXzExoI1nWYOICSXBC69mewWbUCoROAN4gMVe7VKcIgnGOIIMNfGk1tL5Yb9tmoP3YsPPUPwVfHZEzgbGKaiqFEBmFLmeXSE4EVxhYYjEN0BVQjrTN7QzHi+nGHmatO2PbUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MOwL9D5rZ9Dx+kqszqU9gQRHYPWhblKW8vLGj38zbac=;
- b=dHCXwnlDn7JdFdZm6J9Lpi0wlYbJDrfKmsy7lGOA+Y3XSUrAxclF3w1lGN7xB2F2TKOw6GPSON0POg2yRGk5edb/pQjkwmNFLmAAEEbW1d6FuW4Dzioh0qsWgJ+rh49TPFX1CXjzldGTmIxamojea/aqz8+7Pt1hIFVNgrG/62Dt7N04YpUyi2RGaXDlIUtWatCPC1kNQr5HVKKDBZAe7JSSjRKHIO5SEiqlwv9gEpdMh9Y5QmbxqyymFL4DG1VjFMCY5bs5smK6p3DNsMhlGi5sqz4n+tvddOajQw8xspSslMRMZU34TvEr2UbWFSgBcMuOiB6MiPAwItoYGQvxBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=hgaGmZzHWnYxSlWnx5ivJGd84guFgqYqv++oGXlt+wU=;
+ b=eLeEe/ia+Jo+biuoTrSHNZ3dXzYC8k/A8yymLyD9N2CL5Ci7uKR/M0lWVE3j1qOJ9Ml+H4sDvO9ABq9HqAMSsHib27AQzmBly+AUTU+Ui0Bbc1mepGVDDrJ6ZSkD5wBgOevMCfbq8PmQ1RRSVHgVbhUL/mmWmz9LTkPwqk5x+J+Y3PxGX1bdnLa7k0YC8ZSq1lGvSB/mMNspMG6vLCdqKqWdvdU7x2cabeXHO0JUhFLFDGNGpJ8Hz/dN41klzejMtixdbDXKVrygilgz4n/c4Fy3cYacOakkwkXLjHyZ2WDMuJxjjzqgmZQFQmCJAuLhBw3uOx75TDwYzHlhRLbZAA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ticloud.onmicrosoft.com; s=selector1-ticloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MOwL9D5rZ9Dx+kqszqU9gQRHYPWhblKW8vLGj38zbac=;
- b=AerZDqEKzIWYd37z7FkaDk6N+s4CVetGbbth3siN76mNHhtvtGbgARHxz7vrRxcsDTK4BhvUwgv8PNYI3Ze2zR2jxvLQURF1ZuAf+864synVnIkniIcJnMK0Yfy+Ys2siutMPmbGYmZBfuqJokP2WNcek8uOubE0kVgR2FZzRY8=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
- by PH7PR12MB5853.namprd12.prod.outlook.com (2603:10b6:510:1d4::15) with
+ bh=hgaGmZzHWnYxSlWnx5ivJGd84guFgqYqv++oGXlt+wU=;
+ b=pV0FyrqBvLarylhm/UtSDujQOPmSypXkHK7STo9L/2pAGQ1qacoTH1gsVGtNmmNkFl6hF3Uq5V3y855Zi56A97IUud5MAalmvcF7NC0Xi7lHl0Jd8Aq2a2tYePkXeUy+wrCrVzxusMQbjN/lqZQJhJSHn8OM8Sy+kq0i6PXMbJ4=
+Received: from CH5PR04CA0003.namprd04.prod.outlook.com (2603:10b6:610:1f4::12)
+ by MN6PR10MB7443.namprd10.prod.outlook.com (2603:10b6:208:46f::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Wed, 11 Nov
- 2026 01:53:11 +0000
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0592.012; Wed, 11 Nov 2026
- 01:53:11 +0000
-Message-ID: <dddc324c-254c-4bc3-ad77-916f079a7301@amd.com>
-Date: Wed, 11 Nov 2026 07:25:48 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 0/2] ASoC: amd: SoundWire audio for LG gram 16Z95U
- (rt713 + rt1320), speaker still silent
-To: fixca <jaehoon1744@dankook.ac.kr>, broonie@kernel.org,
- shumingf@realtek.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261111013953.4011-1-jaehoon1744@gmail.com>
-Content-Language: en-US
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <20261111013953.4011-1-jaehoon1744@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN5P287CA0016.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:265::17) To CY5PR12MB6252.namprd12.prod.outlook.com
- (2603:10b6:930:20::17)
+ 2026 01:53:09 +0000
+Received: from DS4PEPF000001BE.namprd21.prod.outlook.com
+ (2603:10b6:610:1f4:cafe::4d) by CH5PR04CA0003.outlook.office365.com
+ (2603:10b6:610:1f4::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.9 via Frontend Transport; Wed, 11
+ Nov 2026 01:53:09 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 198.47.23.194) smtp.mailfrom=ti.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ DS4PEPF000001BE.mail.protection.outlook.com (10.167.23.164) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.639.0 via Frontend Transport; Wed, 11 Nov 2026 01:53:09 +0000
+Received: from DLEE214.ent.ti.com (157.170.170.117) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 10 Nov
+ 2026 19:52:55 -0600
+Received: from DLEE209.ent.ti.com (157.170.170.98) by DLEE214.ent.ti.com
+ (157.170.170.117) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 10 Nov
+ 2026 19:52:55 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE209.ent.ti.com
+ (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45 via Frontend
+ Transport; Tue, 10 Nov 2026 19:52:55 -0600
+Received: from LT5CG31242FY.dhcp.ti.com ([10.250.161.194])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6AB1qpsM2956980;
+	Tue, 10 Nov 2026 19:52:52 -0600
+From: Shenghao Ding <shenghao-ding@ti.com>
+To: <broonie@kernel.org>
+CC: <tiwai@suse.de>, <13916275206@139.com>, <perex@perex.cz>,
+        <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
+        <baojun.xu@ti.com>, <k-lu@ti.com>,
+        Shenghao Ding <shenghao-ding@ti.com>
+Subject: [PATCH v1] ASoC: tas2781: add TAS2573 register definitions header
+Date: Wed, 11 Nov 2026 09:52:47 +0800
+Message-ID: <20261111015247.139-1-shenghao-ding@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -97,189 +139,188 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|PH7PR12MB5853:EE_
-X-MS-Office365-Filtering-Correlation-Id: 428d8d89-c57e-4949-817b-08df3f968a54
+X-MS-TrafficTypeDiagnostic: DS4PEPF000001BE:EE_|MN6PR10MB7443:EE_
+X-MS-Office365-Filtering-Correlation-Id: beb2ee20-f226-4eb8-afa1-08df3f96897b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|6133799003|261009223027099003|10067099003|3023799007|261022105027099003|261026140227099003|261026121527099003|261022075727099003|261028144727099003|261021121427099003|261102123227099003|11063799006|5023799004|56012099006|18002099003|22082099003;
+	BCL:0;ARA:13230040|376014|23010399003|82310400026|1800799024|36860700016|3023799007|13003099007|261021121427099003|261026121527099003|261028144727099003|261026140227099003|261102123227099003|261009223027099003|261022113327099003|261022105027099003|261021123027099003|10067099003|56012099006|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	ohBlEHF4a7e/1egXHsR0X6qwnBe4pc9fPjTE/rbTP7rjNtRMb9sRzHNjrNbzISvZyfP2s+qs1NQV2gr1FOwJ371Nd3SKdQKwkv5EZv4KVRe4fJip9AWnrjsctT+EnHVUFdJVTiWGQVJl9WumWyn23nr0s74ee0th8GbT8iwP0uXHu2900M6Sk7KzMMbptSNfEKzSvWsdDZoJsfWip5FoLPkasbpczkkrj+m9SrINTMBbSpD0Tfuu2gF7cFZAt91Qhgi+gWvi4oQS3nFsZDQjwRsEnRSYIE+uNwK9iGkwyRK4vX1tWj4KI5EkTnOjtQwPZMR5oco0cq3qm+fKCszb4PYZhATRDe6aXJzv9XiR/fBR0sfBWi5GdMUEfczZu1dVrloacvigebVkVjCK4SPD2t7+SIVdZELyDZ4w5qi1YUOn5MutlZyaLzZqf1SOSBUdKasaYINecy8JttRlGYU1Es6iEckwl2LYCPPGhXyBmVvCk3r+DpeQ8p8oejYptoNC/gyniM90oF1W4B+OMGDwAfFqTvBFpgxHcyTfKg2wolo3+3t9gu7g+3QMLRfVSWojoeWd/Jx+/A50Z+OiO5sKNDIXOlJ6Xo8b6PB4DKgAVQjZcQnQAIzmqUrukFX3kpG0BCYvjWY9aEyBlo9mJFxnOPKega0fQUZAUzr0k4vq6rI=
+	laJ7gtntyR8wI5FD/tAnegEz9iGxksw8eLzBzCxflJjTVSnk0FouGvbyLXTq413ho10SiyBP6tkKXLxlVTzuoWwoj6T57Z13BqXgz+REOv9qV3CXE8vnMpe7YesSf3gIb6XrGP/Ki/hiOMnwFzCOIdvw8K+G3x4CXrXQgBftrSVAShRsyG7wY2EXVHcpAJetLErnI6ZMsdoJNQqA1eq1rBqaxAh2XQzisEEQMuViaVqK8/8DEW9cvfNLkfnQqjeCXQAd3kaJ28RUjmaKieKzk4gJUIGW7FYDZxMA22WaZPNW35Y6OgajRoBqttFpuE8NWl904hULTGxoAH8eo8cV16kbjC2seo7R4/kEuvKgmshre+8e9TQEbONOzQKpSLKMHG3bXK5upY56SxMbFjLKm+YulINpJ4w8ylhRWX5O6na5sLbixi279n5TQiHg0RGAw7Qxy2DmCC9VUyKrg3F+Ss/6p5k7zv8442bD5VUslFeKeRewZj0p0nb71gzbHhqMaUbovy6ggZzw3XchRlqjSVXeOHE6CdedK1/1GcQLc7miwaAx/PxscQNtrs+swPXaerz29TOzhDabwOcyOVsvQad11nF3gLGnX4UhIuBqb9KAyXDNQfT9U0nTE7zUFnHG+JsOO6DV2S3mnVaeFUMTaA==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(6133799003)(261009223027099003)(10067099003)(3023799007)(261022105027099003)(261026140227099003)(261026121527099003)(261022075727099003)(261028144727099003)(261021121427099003)(261102123227099003)(11063799006)(5023799004)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(82310400026)(1800799024)(36860700016)(3023799007)(13003099007)(261021121427099003)(261026121527099003)(261028144727099003)(261026140227099003)(261102123227099003)(261009223027099003)(261022113327099003)(261022105027099003)(261021123027099003)(10067099003)(56012099006)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SXhneEc4cXlEU3ZORUVzVm9sajFoY3F5dHJEbTM5Q2h0a1hsenJXU3FaNzh1?=
- =?utf-8?B?WVhOWkh4UHpvc2VJRFRIQVhRdDluak40RzJqVzFlOXE1ZDYxNk5vT3V3TXJ5?=
- =?utf-8?B?eHZmU1NjenV5eWo4WVlRWVNhWjhpdTRtQ0Fpakt0ZVRhZGVPZDlGRXBaSjEx?=
- =?utf-8?B?SCsvN1pJSlR3V3I3M3drblE4a3RHeWRPcDdqMTRqdHNvWkNzQTJNR25YWnpx?=
- =?utf-8?B?NWFXUU9mQzVkaTNXSkllV0xOZ09MUC8vNFZoYkIwUGI4bktnRzhNUW1teDN4?=
- =?utf-8?B?ZnlBWUZndURpbVdEWnJQaG9Ddnl0MDlFQ3ZMK2Job012UHJpeFdDbUc0aVFp?=
- =?utf-8?B?akJXZ0tEaTJ3VjZFMlNkZWFxeDMrT0Q3R3Fra2RyMWtWbkZpaThpSVZLVDhH?=
- =?utf-8?B?RUdpam9lSk94b3FadDh2NzFGaTNSWFhSQ2owWjJvaHlWYk5UZkpDNnUrMG05?=
- =?utf-8?B?Z0w1VkxhZkFhUUo2dk52bitrZFlXMWljcWdKa2hTWTRNTkxidU9GTzVsaFho?=
- =?utf-8?B?R1NyYmQvSnhUKzNjdTByQlZUTWlnbmN1Wi9sQ1daWGNNYVFkUTk3d0NNb0dV?=
- =?utf-8?B?OU5RMUYzbDdqdUxQbWR4ZUxRSFZmUG9Ka2tVQ0F6L0NraTZpUEdpYllvaUpP?=
- =?utf-8?B?dVd4ZWFwR1JHK3cvejc0TjA1VkdLZkE3a2NMajFvUDZYTEwyc3piazVVSklm?=
- =?utf-8?B?a0lMU0lyZlkyZ3ZUaEN1UTdWYjcvTmlwZ2xEQ3FPaG0yREt3citLb0RnYUtw?=
- =?utf-8?B?MUxrWDJkY29KUGZ0UjJNM1JCRWE5eHFlQ3F3dmtIeENkWnl2NVdmUGlVcXQv?=
- =?utf-8?B?UTJDVFpmbGZmRGZlcWpHZGhxY0V6NmIzTDQ5cy9nU0tLbGdVaThldC9YWE1D?=
- =?utf-8?B?K2dBc3hqWitBZ0RtUURqNG1HMTA2US85bTZpVFNyUGt3c0RFcEtwNjJxaGwy?=
- =?utf-8?B?SXBmWjlOQWtkS0ZHMXQyZ2J6STZ2OVVrck5BcUNUODdhd29VQlkzZHAzTjc0?=
- =?utf-8?B?cCtLTEtEbXpRUzVRUTJwZTdkWHhRQi81aEdJSmhaMmdieXZQUlFGeWgzWHMv?=
- =?utf-8?B?S21ZYnNZR2tMZzBJVjJxR0FncUdDN215S2NoTDJDYlQrMnFzRWcxUXY0eE84?=
- =?utf-8?B?QXFON0czNTFEcndrbWZzdXF2NVhPbTB6aS9IWG1xb1NFTytjNDg3YjA4NlNi?=
- =?utf-8?B?bHNvMC85Wk50OG0yNEZLcjh6MnBRWmdTTm9FMUF6eUFhdExRbTFNZVA2V2dR?=
- =?utf-8?B?NVFmRjVwaGpQT2Q4TkxWcXdheFlmaXEzNHUrazc2clNPb2licFVyQkNHU0Ns?=
- =?utf-8?B?TDFjT05VOVBHT2wrWTVYMm54dkVKMFpqWHQyeXpaVGcva1VFT3RvTUFFMjdv?=
- =?utf-8?B?MCs5U2xLMDlyYVl1aldEVzI5TnRzb3BLQ0xCQ280MDhoRWtjS01CbXArNkVl?=
- =?utf-8?B?WWNKeUdQVkNvZktSQUdNTVZXT3dQeGNuUkpTZGJYZ1JUTDA4RzBUOEh4NjlW?=
- =?utf-8?B?V2FSblhvV2RqV25sVmV3MTlkQlRQNlgxaXFoeEdWVDNMQW9FRGI1dUtXaHdm?=
- =?utf-8?B?L1V5aVgzZjRtaE1Wam5NUGl5d1BrYWloMzVRRGIwczBuY3AyK0VnZEMwVjZD?=
- =?utf-8?B?S1hlV0VKTGVKbXd3SWlpazRlMXZRL3BQY2RrMTdTWThiTjRMZGR3dTJ0bXoz?=
- =?utf-8?B?WFBVUVpoWXNwUGtGQjIydXYvTEVWWnNSajlob3hnVFBWSDFwSzBMOWZtTjRD?=
- =?utf-8?B?RDFMTDlSTXFRZTZlby9PYVRESXNRL3pPVFRNNGlUN1BhQkZmZUZ4cDBSb01Z?=
- =?utf-8?B?bWYrbDEvaVFiY2lET1VUak5oU3hDMktFQ3N6dW9qU2d5cGx0MXBZc1BRU2JG?=
- =?utf-8?B?WS93QlV1ZklDZUpsSVF2RUxwMUJDVGtoWFVqWm8zbmRUR2lRQlNXWVA4NXpx?=
- =?utf-8?B?UlpxYm5QU1BLc1RuU3FKVURZMlMvNWRQUm1KZ21FVVV2UGErZzVTcSttUVhK?=
- =?utf-8?B?R0ZhalBXZDJPc3hhM2l0NHZ5aWhmRkg1V0szb1dzNTZvWUI5VStUZVN5WkFC?=
- =?utf-8?B?UWZyQlJDWDRKRHAwOWpCaUtJTFJqSkJodXUyTkJqaU9Dd21RT1F3NzRCbnky?=
- =?utf-8?B?aTVkYU1IYi9WZnVWQUthL0VJb01oVlF1M2g0RjZtYlFET2ljMS84bUNRU3E4?=
- =?utf-8?B?TE9MMjV6blh2THdIQ1lsQnFFVWNsdVBabERIVXVFTi9oUHo2UHRFWjMyTHdx?=
- =?utf-8?B?cFBFTlRnR3ZOWVUrNTdya01lMjlybU9waUdRSzllcjQ4SWN6YVNKTWVacDB0?=
- =?utf-8?B?YTNySWVnS3NhdnBaRVcrZlNYZXdIdzJRYzZER0dudnh1VXo2OFd2UT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 428d8d89-c57e-4949-817b-08df3f968a54
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 01:53:11.1940
+	wQGcOe6E2smchiei0lmNXN4A1D+z5df3X/G9QhvDNj3EonSplPSivep8Z/h9EZXJuisv9g0S5zITWKskRRSmW/ljxzBdFN5AugRwMTL7X1SjpGWdAOvyLUjb1XegXzNnsYC8Mm27lmS3wpEVvpVa4u9yvvNF6XPl3Ct8b6qzB+DGRQ7p3rr9gat2oVZelJGe+0D5ohMxSzVPFo8L07u5B+OhMOEbAC7znC491vLNaRaVivlbxmrWB3382hKxSPQX4QJp1RGrsPtT9//0oLfDy8iXMHitjv+kePss+9YImP+CqD/YDXiezx48IBXRDDAtu/N/mTSoAjm5c0G/Ze9QE0smG860iYBz2QhJh6SISR1kpP4WOpScaBVLx003w5nucS+v6Ef2z0LeGyodXu1m38FYVPFEflTMQcukwi04xw7CA3rq5VA8nwvegQnvVcxt
+X-Exchange-RoutingPolicyChecked:
+	J5lGTuC5RTHHXrXN3L/ayNFuJ2orgSOpTcvLahWJlsn9KGAyuoPEBsB4lvx180+Tn94tv6dMsIRLUMX3SWVfLmV7ce0LC9F1yusGMFC4XnN0wEp3v76YYzAvjoLWBJQ2hKld2jbLlg5LmRxU0uZ50BSslYcg55RYIyelqKDoIuCGKvSOnviBdPO+uDuO1eDh2Rs+TuV6PjVFmjtzbbyGPdCAeKOD4H40QUi/y7+ccNLlEw1fu+k/eGni0C8QvpxUh6n4912NXPF5A2JzYqlbupPUl3ot/jnqcNLC6ocEl5fdrPN+B3Cx4Basf0o6an6738ZgF8ecOT1AjHSzYhljLw==
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 01:53:09.3285
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uuL6ZqWMU0WXqW/Y6Orh++I79/1rTT1wEjxvhyxDhknIEU8GOy+syhf/ktdvrczKkoRXLbolPyypuVEVDx7M1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5853
+X-MS-Exchange-CrossTenant-Network-Message-Id: beb2ee20-f226-4eb8-afa1-08df3f96897b
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS4PEPF000001BE.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR10MB7443
+X-Proofpoint-GUID: ZcT0GBfhDZrEW4CrX1yQf5yznz9hrCJj
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTExMDAwNyBTYWx0ZWRfX7ni7R8EN7FEN
+ iuWCjmxL5vhAap9KH5FHM8dDWzmWNesADoK4vfcmngB5lQAJFBYXdC5vHbbiauV8+BRmhZnCkXi
+ ZHsookpuaRTatVnEOEhFJUj97SEOHrg=
+X-Proofpoint-ORIG-GUID: ZcT0GBfhDZrEW4CrX1yQf5yznz9hrCJj
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTExMDAwNyBTYWx0ZWRfX34kBYBZ71eNU
+ C82S1N5cvLURPsiW8Tl33jToap06KXY8Vz8NfkBGSRP+04Ih40B4dSPJVqjlx4TpA05YErhVcps
+ m8lU7qfZSA1V9VRQCh9qsN9krALXvMtVlrEQNWKC/Srm+lpH2cs8fhrMUxqaB0gQe3mt9vxPkyo
+ FvihIqo/TuDdQZ0/2tkY4dm/Dhl3IDZ5XQoekLOXMFrBdqXwKxOa7d5UxQnhcL2OXxC8RnFWmD+
+ U1k1rrSeasYXOKIe/KZ/4MI9r9hH3WIjdYskWokZkOwVxsEALMO+f2/yAyk9eVVfjoYM/0rxvMc
+ FKLq48WKgVF4uFspJorXQUBoOYqxhKGZP/GhA2cybx8Fn9UpgZUXZe+VPHQduWXx2EWNhMxPUPn
+ rPaiUDTLyPYalMpEqGR5LFIMHCKq+gsYXkJ5koQnSVo8bTg6aN2P4h3wzbJ5I06ZsKDklEhRd2p
+ XirzVFav8rMx9/fyfnQ==
+X-Authority-Analysis: v=2.4 cv=FpaQbGrq c=1 sm=1 tr=0 ts=6af3ca88 cx=c_pps
+ a=IF27h1RdCV0SK+IF5nJR9Q==:117 a=WotqVVQAdb04rnGuttW3Kw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=zJRp6_cAMcgA:10 a=s63m1ICgrNkA:10
+ a=AlMIdn_sM9wA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22
+ a=taLDd7a_hP9WKsMzeGRc:22 a=sozttTNsAAAA:8 a=ad0uDRrTnvQxy5z28i8A:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-10_07,2026-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 bulkscore=0 adultscore=0 impostorscore=0 suspectscore=0
+ priorityscore=1501 malwarescore=0 spamscore=0 phishscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611110007
 
-On 11/11/26 07:09, fixca wrote:
-> [You don't often get email from jaehoon1744@dankook.ac.kr. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->
-> The 2026 LG gram 16 with AMD Ryzen AI 400 (16Z95U, ACP rev 0x72,
-> PCI SSID 1854:056c) has no internal audio on mainline: no sound card is
-> created. The same generation 15Z95U has been reported with identical
-> symptoms (https://github.com/CachyOS/distribution/issues/516).
->
-> These two patches create the card. With them, headphone playback and
-> internal microphone capture work. Speaker playback through the RT1320
-> is still silent, and I would appreciate advice on that part (details
-> below). I am sending the series as RFC for that reason.
->
-> Changes in v2:
->  - Rebased onto broonie/sound for-next; v1 was against v7.2.14 and did
->    not apply. No functional change.
->  - Patch 2: use a dedicated rt713 jack + DMIC endpoint array; the new
->    jack_dmic_endpoints maps the DMIC to endpoint #2 (rt721), whereas
->    the rt713 SmartMic DAI is endpoint #1.
->  - Cover letter: added what the Windows driver loads for the RT1320.
->
-> Hardware, from the ACPI tables (ACP node \_SB.PCI0.GPPA.ACP):
->
->   acp-audio-config-flag = 0x10 (FLAG_AMD_LEGACY_ONLY_DMIC)
->   SDWC (_ADR 5): mipi-sdw-manager-list = 0x3
->     link 0: SW36 _ADR 0x000030025D071301  RT713
->             SDCA functions: UAJ (type 6) at 0x1, SmartMic (type 3) at 0x2
->     link 1: SW23 _ADR 0x000131025D132001  RT1320
->             SDCA function: SmartAmp (type 1) at 0x4
->
-> Patch 1 adds the machine to acp70_acpi_flag_override_table. Without it
-> snd_pci_ps returns -ENODEV because of the BIOS flag, snd_acp_pci binds
-> and reports "No matching ASoC machine driver found".
->
-> Patch 2 adds rt713 (link 0) + rt1320 (link 1, unique ID 1) entries to
-> snd_soc_acpi_amd_acp70_sdw_machines[].
->
-> Result with both patches (tested on 7.2.14, Arch Linux,
-> alsa-ucm-conf 1.2.16.1):
->
->   card: amd-soundwire, components " cfg-amp:1 hs:rt713-sdca mic:rt713 spk:rt1320"
->   SDW0-PIN0-PLAYBACK-SimpleJack  rt712-sdca-aif1   works
->   SDW0-PIN3-CAPTURE-SimpleJack   rt712-sdca-aif1   not tested
->   SDW0-PIN5-CAPTURE-SmartMic     rt712-sdca-aif3   works
->   SDW1-PIN1-PLAYBACK-SmartAmp    rt1320-aif1       silent
->
-> Open problem: RT1320 speaker output is silent
->
-> The playback stream starts and runs without any error:
->
->   rt1320-sdca sdw:0:1:025d:1320:01: rt1320_io_init amp func_status=0x41
->   rt1320-sdca sdw:0:1:025d:1320:01: rt1320_vc_preset, RT1320_KR0_INT_READY=0x1f
->   rt1320-sdca sdw:0:1:025d:1320:01: rt1320_io_init version_id=2, dev_id=0x6981
->   rt1320-sdca sdw:0:1:025d:1320:01: rt1320_io_init hw_init complete
->   ...
->   soundwire sdw-master-0-1: Port=1 hstart=1 hstop=9 port_bo=65 slots=32 max_ports=6
->   rt1320-sdca sdw:0:1:025d:1320:01: rt1320_sdw_hw_params rt1320-aif1
->
-> What I checked:
->
->  - Mixer: "Speaker Switch" on, "rt1320-1 OT23 L/R Switch" on,
->    "rt1320-1 FU21 Playback Volume" 87 (0 dB), "RX Channel Select" L,R.
->  - Direct ALSA playback (speaker-test -D plughw:amdsoundwire,2) and
->    playback through PipeWire both run to completion with no sound.
->  - Runtime PM: forcing power/control=on for the RT1320, so io_init runs
->    only once at boot, does not change the result.
->  - rt1320-patch-code-vc.bin is installed and loads without error.
->  - No DSP firmware is loaded: there is no "realtek,dspfw-name" property,
->    and linux-firmware has no realtek/rt1320/rt1320_<vendor>_<product>_<sku>.dat
->    or rt1320_RAE_<vendor>_<product>_<sku>.dat for this machine.
->
-> On Windows, Realtek's SDCA XU extension driver (RtkSdcaXuLG.inf,
-> 10.0.297.1) binds to this amplifier:
->
->   SOUNDWIRE\SDCA_10&MAN_025D&FUNC_1320&TYPE_01&VER_01&ADR_04&LID_01&UID_01&SUBSYS_056C1854
->
-> It ships RTKDAT_1854.dat and RTKDAT_GENERAL.dat and references per-SSID
-> ALC1320 DSP firmware / preset files (ALC1320\FWFiles.txt,
-> FWFiles_LG_1854_*.txt, alc1320fw_preset_*\alc1320_afx1_*.dat.bin,
-> RAE_XU). So on Windows a DSP firmware and RAE preset are loaded for this
-> amplifier, while on Linux none is.
->
-> In addition, the ACPI SmartAmp function carries a 5627-entry
-> "mipi-sdca-function-initialization-table" that differs from
-> rt1320_vc_blind_write[] in a number of registers (full list was attached
-> to v1), for example:
->
->   register   ACPI   driver
->   0xc900     0xd0   0x73
->   0xc901     0x09   0x04
->   0xd471     0xba   0x3a
->   0xd479     0x40   0x20
->   0xdb08     0xe7   0x7a
->
-> Questions:
->
->  1. Shuming: is the missing DSP firmware / RAE preset the reason the
->     amplifier stays silent on this design? If so, could Realtek provide
->     RT1320 DSP and RAE files for the LG gram 16Z95U (SSID 1854:056c) to
->     linux-firmware? I can test them.
->  2. Vijendar: is SDW1 / ACP70_SW_AUDIO1_TX the right pin for an
->     amplifier on link 1 with ACP rev 0x72, as used by the existing
->     rt722 (link 0) + rt1320 (link 1) entry?
-Yes, Speaker endpoint should use AUDIO1_TX pin.
->
-> I can provide the full acpidump, dmesg and alsa-info output.
->
-> Disclosure: the analysis and both patches were prepared with the help of
-> an AI assistant (Claude); I built and tested them on the hardware.
->
-> Thanks,
-> Jaehoon Kim
->
-> body content if you don't wish to send a summary.
-> From: fixca <jaehoon1744@gmail.com>
-> To: broonie@kernel.org,Vijendar.Mukunda@amd.com,shumingf@realtek.com
-> Cc: linux-sound@vger.kernel.org,linux-kernel@vger.kernel.org
-> Bcc:
-> Reply-To:
-> Subject: [PATCH RFC v2 0/2] ASoC: amd: SoundWire audio for LG gram 16Z95U (rt713 + rt1320), speaker still silent
-> In-Reply-To:
+The TAS2573 register definitions are currently mixed into
+include/sound/tas2781.h together with the TAS2781 and TAS2563 definitions,
+which makes it difficult to tell which amplifier a given register belongs
+to and causes the header to grow with every new device.
+
+Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
+---
+v1:
+ - Move the TAS2573 specific registers into a dedicated
+   include/sound/tas2573-reg.h
+ - Add the registers required by speaker calibration (FCT) and real time
+   speaker protection: TDM detection, coil temperature, excursion and
+   thermal gain, and the A1/A2 output registers.
+---
+ include/sound/tas2573-reg.h    | 52 ++++++++++++++++++++++++++++++++++
+ include/sound/tas2781.h        | 24 ----------------
+ sound/soc/codecs/tas2781-i2c.c |  1 +
+ 3 files changed, 53 insertions(+), 24 deletions(-)
+ create mode 100644 include/sound/tas2573-reg.h
+
+diff --git a/include/sound/tas2573-reg.h b/include/sound/tas2573-reg.h
+new file mode 100644
+index 000000000..02c9a2fcc
+--- /dev/null
++++ b/include/sound/tas2573-reg.h
+@@ -0,0 +1,52 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++//
++// ALSA SoC Texas Instruments TAS2781 Audio Smart Amplifier
++//
++// Copyright (C) 2026 Texas Instruments Incorporated
++// https://www.ti.com
++//
++// Register definitions for the TAS2573 Audio Smart Amplifier, used by the
++// speaker calibration (FCT) and real-time speaker protection data.
++//
++// Author: Shenghao Ding <shenghao-ding@ti.com>
++//
++
++#ifndef __TAS2573_REG_H__
++#define __TAS2573_REG_H__
++
++#define TAS2573_TDM_DET_REG		TASDEVICE_REG(0x00, 0x00, 0x14)
++#define TAS2573_FCT_INT_LATCH		TASDEVICE_REG(0x00, 0x00, 0x67)
++/* YM57 */
++#define TAS2573_FCT_OUTPUT_R0		TASDEVICE_REG(0x00, 0x65, 0x74)
++/* YM58 */
++#define TAS2573_FCT_OUTPUT_R0_LOW	TASDEVICE_REG(0x00, 0x65, 0x78)
++/* YM59 */
++#define TAS2573_FCT_OUTPUT_INV_R0	TASDEVICE_REG(0x00, 0x65, 0x7C)
++/* YM61 */
++#define TAS2573_FCT_OUTPUT_POWERTOT	TASDEVICE_REG(0x00, 0x66, 0x0C)
++/* YM64 */
++#define TAS2573_FCT_OUTPUT_F0		TASDEVICE_REG(0x00, 0x65, 0x18)
++/* YM147 */
++#define TAS2573_FCT_STATUS_CTRL		TASDEVICE_REG(0x00, 0x68, 0x74)
++/* YM148 */
++#define TAS2573_FCT_STATUS_BINNING	TASDEVICE_REG(0x00, 0x68, 0x78)
++/* YM510 */
++#define TAS2573_SPK_COIL_TEMPERATURE	TASDEVICE_REG(0x00, 0x75, 0x08)
++/* YM664 */
++#define TAS2573_RE_OUT			TASDEVICE_REG(0x00, 0x7A, 0x18)
++/* YM694 */
++#define TAS2573_A1_OUT			TASDEVICE_REG(0x00, 0x7B, 0x18)
++/* YM695 */
++#define TAS2573_A2_OUT			TASDEVICE_REG(0x00, 0x7B, 0x1C)
++/* YM793 */
++#define TAS2573_EXCURSION_GAIN		TASDEVICE_REG(0x00, 0x7E, 0x3C)
++/* YM800 */
++#define TAS2573_THERMAL_GAIN		TASDEVICE_REG(0x00, 0x7E, 0x58)
++/* YM952 */
++#define TAS2573_SILENCE_DETECTED	TASDEVICE_REG(0x00, 0x83, 0x60)
++/* YM954 */
++#define TAS2573_OPEN_CIRCUIT		TASDEVICE_REG(0x00, 0x83, 0x68)
++/* YM955 */
++#define TAS2573_SHORTCKT		TASDEVICE_REG(0x00, 0x83, 0x6C)
++
++#endif
+diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
+index f42752263..8d2621f9d 100644
+--- a/include/sound/tas2781.h
++++ b/include/sound/tas2781.h
+@@ -98,30 +98,6 @@
+ /* prm_TE_1_Beta1 */
+ #define TAS2563_TE_DT_REG		TASDEVICE_REG(0x00, 0x0f, 0x70)
+ 
+-#define TAS2573_FCT_INT_LATCH		TASDEVICE_REG(0x00, 0x00, 0x67)
+-/* YM57 */
+-#define TAS2573_FCT_OUTPUT_R0		TASDEVICE_REG(0x00, 0x65, 0x74)
+-/* YM58 */
+-#define TAS2573_FCT_OUTPUT_R0_LOW	TASDEVICE_REG(0x00, 0x65, 0x78)
+-/* YM59 */
+-#define TAS2573_FCT_OUTPUT_INV_R0	TASDEVICE_REG(0x00, 0x65, 0x7C)
+-/* YM61 */
+-#define TAS2573_FCT_OUTPUT_POWERTOT	TASDEVICE_REG(0x00, 0x66, 0x0C)
+-/* YM64 */
+-#define TAS2573_FCT_OUTPUT_F0		TASDEVICE_REG(0x00, 0x65, 0x18)
+-/* YM147 */
+-#define TAS2573_FCT_STATUS_CTRL		TASDEVICE_REG(0x00, 0x68, 0x74)
+-/* YM148 */
+-#define TAS2573_FCT_STATUS_BINNING	TASDEVICE_REG(0x00, 0x68, 0x78)
+-/* YM664 */
+-#define TAS2573_RE_OUT			TASDEVICE_REG(0x00, 0x7A, 0x18)
+-/* YM952 */
+-#define TAS2573_SILENCE_DETECTED	TASDEVICE_REG(0x00, 0x83, 0x60)
+-/* YM954 */
+-#define TAS2573_OPEN_CIRCUIT		TASDEVICE_REG(0x00, 0x83, 0x68)
+-/* YM955 */
+-#define TAS2573_SHORTCKT		TASDEVICE_REG(0x00, 0x83, 0x6C)
+-
+ #define TAS2781_PRM_INT_MASK_REG	TASDEVICE_REG(0x00, 0x00, 0x3b)
+ #define TAS2781_PRM_CLK_CFG_REG		TASDEVICE_REG(0x00, 0x00, 0x5c)
+ #define TAS2781_PRM_RSVD_REG		TASDEVICE_REG(0x00, 0x01, 0x19)
+diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
+index 995bfd52f..2c8a03bb8 100644
+--- a/sound/soc/codecs/tas2781-i2c.c
++++ b/sound/soc/codecs/tas2781-i2c.c
+@@ -33,6 +33,7 @@
+ #include <sound/tlv.h>
+ #include <sound/tas2x20-tlv.h>
+ #include <sound/tas2563-tlv.h>
++#include <sound/tas2573-reg.h>
+ #include <sound/tas2781-tlv.h>
+ #include <sound/tas5825-tlv.h>
+ #include <linux/unaligned.h>
+-- 
+2.53.0
 
