@@ -1,47 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794399168;
-	b=vRIQ8NLXatNrduJK7sHKG/VksciBbLdKOXb12hfwP04w04LTeXD+kXWYRu1eoJtFAfHC
-	 73caBROMUvOkl0HJ26/S5gaXp9voSqDE0bnweP2iTyYYKwX/EB63g7PqnN0sBqwuNgXVW
-	 ImSJR1QQrHHMwc0OiqmKVh6uU6iJ0KuRY917g2A3RIYia5ZCyx3Uehq9YDyxTTRtbM4Z6
-	 K2kSTw269zolnB0Nu5/hjD5JOQ0ULxNdJ3+eZkSxfDKoxpcMBHda7faxvuHt1H2BmuR5A
-	 VWPWiz53zaK9M65o6AS3iLHxD6VBOsTRmfBVlBN9f4E9mS8G3Zp1XDJKwnCEKKYZAyg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794399168;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:From:
-	 Subject:To:Cc:References:Content-Language:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=DndahKbHHVFbP+dR7mo1vACUgPmW4clx8WQ8XgvyXe4=;
-	b=PmaJQFNYaTCiDZ13l2bEffNwV/OG1TQcN+ILjSFBfvOpP4tNeGejWTGCOxUdKVtrhHsF
-	 uSHz371zbV4chKV0lwVIZvSMliqoVQPJE1Bbwv4qI4rBFFd6sSzx5H1aubYjhwrs1tq4H
-	 XKIcrtUb63fZamhjJEh2/Rnf7UNQ+C/ltSG9RSREKZkMR3ZTD3JHBOmDeyWQ8pOHZVrL1
-	 dP1hoXf4U6A+2XXPeNg1NN8xhL4Ldz4wXbm8Kv6L6C8DW++yS512AguEqWroaqcb505fA
-	 a+y5OSMrADmhn3Mr89BkqxYMsXoTZ8Ak9K1mDVbXV4JHB0gUNQ4K80k9CkfRStSo7UA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CFRhYsNO;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794399305;
+	b=yaa9LLYJTkpUrfybOy11FRaE39c4YHtKOA7LiM+6+GgarKy/HAIO1sdsZP2OSCJB4wSa
+	 BknGN+JBVIJqvoz1xEbG4DKbI4ubk5K7u824Dd29VLhfPOiKf5spXbV02/impUvGQZoKk
+	 DRnBsRXxc7213ugkC3BcK+Tl8Yvifn/Pj+l8SVnuGSHvbnUOoJx5Q2QifkrEsWH/cWjqp
+	 lucokEZcyI912w7cOAvHQgrreDDzc7iwOD29eAI+T0n0ZsoN3M68r2+EigrBYxWmrYelS
+	 ZE5rrw0uU93tHqqJSZutPnbdVuJUMnZquRjoSz9n3giTPGSq7CvaH2YN5UWBRuy59iw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794399305;
+	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
+	 MIME-Version:Content-Transfer-Encoding:X-Mailer:Content-Type:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=JWfkyhHpPTW5ODMzl2UFinUGGw1EY62cr6e/prnGWSs=;
+	b=k1+PmxKuBM5JNxNJYTv4hE+heTcVOrpd3VuKY8YXvqyQDsdZC6ZkN2O2Be3D0i8Foe0N
+	 3oaEtPeoi+fbpfF3ynotxed9kRP7oQqJjKvpe1rTpfjc5QdTeQbvUG6pHGfm3hAZMmNtE
+	 VLPnphCaoVDxcIjlXuYf8ltIZC00rK8vV3Ngb1935tJItpMtWRL1ImbnjNetGmNccEiUC
+	 ndo/P5+gfV7fDliIR4li2idMHoeoK8yBo1liCLFuy402PsvGaOjF+kkBZudeGFcToD+I5
+	 CEVo+GT0Tch6n4iNnvET1ShTffI+E1WenBlgKChWfN5JQDMSg8NR+5gzR2XpI1RyuKg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d2+GhZTD;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D227D606A31C;
-	Wed, 11 Nov 2026 12:12:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6271B606A8BD;
+	Wed, 11 Nov 2026 12:15:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CFRhYsNO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19BFA1F00A06;
-	Wed, 11 Nov 2026 12:12:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d2+GhZTD
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794399305;
+	b=sPQ0DyMlhEsqs8szQqLfzCKGmnrXC/VTauWJGBAGILzsArTwaG0fPg2qe3R2bm9yt8lZ
+	 RSZb0C33sTCyf/DIb83NEnj3lt38+PJ7LPL9+UvYAKCl1Zuy9r+XHrHfUzWnI9cblDSgL
+	 FTm3uZSrWhcYLxbtZXgrzuaCm0QxIxO7hgiAU+/CbxqK/C4WDxmvf9kSBV/gI5D4OsUTy
+	 DBpQNnSIshn6oqiFdbqKC7GBYpUqOm0NKsu9t5y5hvzAvuTZGp43B6WuxIFYJyfyx6qPG
+	 BuzaKrPLQa1oAEgBIp9thpDAVHjYiMXNECXFoMBikLrF2pCDeHiUEWD09Zk3W4ARbhw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794399305;
+	h=DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
+	 MIME-Version:Content-Transfer-Encoding:X-Mailer:Content-Type:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=JWfkyhHpPTW5ODMzl2UFinUGGw1EY62cr6e/prnGWSs=;
+	b=uqFSoEx51XflqDIYeY/3mqW7HNsy0lzDz3+Y5m9K5C3DW2BYqUwqQ2dkzJHXPcvK6sFw
+	 Sadl4S/a+etBG5JjmlEWauCULW4Pgs2OKy9TdJF8rJiIi49iVngAJvkwyBCc/qHQXnCGr
+	 Ux+U5LqqUNhNzKsxgoKzqXQRU2OTNTIR7BDIUipvix3cJRtFKb2zXM36kW+wrRUbaG9JT
+	 qiZB/sxUW+auwCDLvk0uJAn7Er36+ibFE7sR7wTbHvH/N72U8MmxNlMcNsRxwLnKar8R6
+	 eC1mPuKuZBQqEhfrO2n6ohCnF4iaZ2yE46bJX4nXbz2v1paBWPR5Zm+xmWbOM2BPdFQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 9B30F1F00A07;
+	Wed, 11 Nov 2026 12:15:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794399168;
-	bh=DndahKbHHVFbP+dR7mo1vACUgPmW4clx8WQ8XgvyXe4=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=CFRhYsNOzUMwH4d7PXd+CmRWLW36G8MGdZpsDQBVkpdp3HNoJunwy1m+wDKiGyCOC
-	 vFV7ltzJOjC+t4Uo5vgZs8qPNbxToq7F3eAuKSnBcS4mfLyZCvY/wsI+d0dlwoKvPt
-	 6DsT4OqRjNiVAQGITysmwK0gn94ghxMWYLYd/2qWgwmWWEqHJZl/GLgbiqP4QSL/ep
-	 ZnFOCRKnXZKyOm/MPE2DCv8zwqJI/BLRJ2s5oTPerzRiP9aEAkM6KL77+bzc9Byp+/
-	 o6Cnv9Dtx6rQG6KzUL4mqRtJfa+kWM3X8VRhmCCL4i7mU0nUaa/AmmPtLKHDo2GWB7
-	 mgKOzG3HqL2eA==
-Message-ID: <a554e557-3d10-465e-ad3b-90d8357b60f2@kernel.org>
-Date: Wed, 11 Nov 2026 13:12:44 +0100
+	s=k20260515; t=1794399305;
+	bh=JWfkyhHpPTW5ODMzl2UFinUGGw1EY62cr6e/prnGWSs=;
+	h=From:To:Cc:Subject:Date:Reply-To;
+	b=d2+GhZTD0fAugDIfukcJcrWVvamfprc+827RWDS+ieMhAXf43ltAKY/8GMUtu8I0E
+	 VUDhMX5z5SxdbWF0lBBuvOBLvtkWMnoNdvo8PFyfR8ovCLdeMbLxvxYcENfoN4EMLJ
+	 xhAWHu3sZPRzqDZCq5KAtxokW9hPM+fDBipnjGmo8FfHcziYryz4vjE49JRX/SFzpL
+	 6LeDOotGWaTHRzPl3/avANDa21nUwlEX05quU/ecMkWtSBZAyLTp68MIjPtULhOMHl
+	 5rIujs3RAl/EdeY2av/zeQ804ayNtJgdxSDllVKgCz0m4zvERFJdtBFDKmZ+ghEpyJ
+	 OBaedxKZ8+YxQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 1B9A048F8E;
+	Wed, 11 Nov 2026 12:15:04 +0000 (UTC)
+From: Mizuno Miotsuki via B4 Relay <devnull+founder.crepuse.com@kernel.org>
+To: heiko@sntech.de
+Cc: broonie@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, 
+ krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-sound@vger.kernel.org, luca.ceresoli@bootlin.com, robh@kernel.org
+Subject: [PATCH v2 RESEND 0/1] Enable audio on UNIHIKER M10 V1.2
+Date: Wed, 11 Nov 2026 12:14:34 +0000
+Message-ID: <179439927463.86676.9537625579963969157.audio-v2-resend-0@crepuse.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -51,123 +88,41 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH 2/5] media: Documentation: it6625: document the audio
- controls
-To: Hermes.wu@ite.com.tw, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
- linux-api@vger.kernel.org
-References: <20261103-upstream-it6625-alsa-i2s-v1-0-bb91e2879b01@ite.com.tw>
- <20261103-upstream-it6625-alsa-i2s-v1-2-bb91e2879b01@ite.com.tw>
-Content-Language: en-US, nl
-In-Reply-To: <20261103-upstream-it6625-alsa-i2s-v1-2-bb91e2879b01@ite.com.tw>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.16.0
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=697; i=founder@crepuse.com;
+ s=20261012; h=from:subject:message-id;
+ bh=prh6HXem3h6+JFP/qvS34mf59BBbBWZZMrWI0bgKzRM=;
+ b=owGbwMvMwCUmds2G2fVJ/hLG02pJDFlfYrSK49on9Uw/vaZo7sM386Vi+vfLfznst+t+XVxut
+ JtaRKtlx0QWBjEuBksxRZbZouzlh5pXXJs7ockOZg4rE8gQaZEGBiBgYeDLTcwrNdIx0jPVNtQz
+ NNIx0DFm4OIUgKn+vpqR4d32aRd1vFj/RlZ9NmfZLK3JGnjCQ+OqFsuDiTv7rjydMoWR4b19w4K
+ K7rXaa+eGaqmdvG99jeuaU1/Ia3fu4nupN1/ZswIA
+X-Developer-Key: i=founder@crepuse.com; a=openpgp;
+ fpr=9B150777C283A8D69D90823E16D63C0345E46FA4
+X-Endpoint-Received: by B4 Relay for founder@crepuse.com/20261012 with
+ auth_id=1166
+X-Original-From: Mizuno Miotsuki <founder@crepuse.com>
+Reply-To: founder@crepuse.com
 
-Hi Hermes,
+Enable the internal codec, I2S2 and onboard microphone route. The board
+uses codec revision B; that driver support is already accepted in the
+ASoC for-7.4 tree as commit 157f7cba77a9. It is a runtime dependency,
+not a change to the existing codec binding.
 
-On 03/11/2026 07:50, Hermes Wu via B4 Relay wrote:
-> From: Hermes Wu <Hermes.wu@ite.com.tw>
-> 
-> The IT6625 driver exposes two read-only driver-specific controls,
-> V4L2_CID_IT6625_AUDIO_SAMPLING_RATE and V4L2_CID_IT6625_AUDIO_PRESENT,
-> which so far are described only in the uAPI header.
-> 
-> Add a page for the driver to the V4L2 driver-specific documentation that
-> describes both controls, and list it in MAINTAINERS.
-> 
-> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
-> ---
->  Documentation/userspace-api/media/drivers/index.rst  |  1 +
->  Documentation/userspace-api/media/drivers/it6625.rst | 18 ++++++++++++++++++
->  MAINTAINERS                                          |  1 +
->  3 files changed, 20 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
-> index 8d2c489b8453e11b8e15ef9d9c1c0312f3da06af..57be8dd5749d7f5aa6e0e21c7e3d89d377a209d0 100644
-> --- a/Documentation/userspace-api/media/drivers/index.rst
-> +++ b/Documentation/userspace-api/media/drivers/index.rst
-> @@ -33,6 +33,7 @@ For more details see the file COPYING in the source distribution of Linux.
->  	dcmipp
->  	dw100
->  	imx-uapi
-> +	it6625
->  	mali-c55
->  	max2175
->  	npcm-video
-> diff --git a/Documentation/userspace-api/media/drivers/it6625.rst b/Documentation/userspace-api/media/drivers/it6625.rst
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..efd970e8124979abffb6f9ba3ea1e1bc193820b3
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/drivers/it6625.rst
-> @@ -0,0 +1,18 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +ITE IT6625/IT6626 HDMI to MIPI bridge driver
-> +============================================
-> +
-> +The IT6625 driver implements the following driver-specific controls. All of
-> +them are read-only and describe the audio of the HDMI input.
-> +
-> +``V4L2_CID_IT6625_AUDIO_SAMPLING_RATE (integer)``
-> +-------------------------------------------------
-> +    The sampling rate of the HDMI audio stream, in Hz. 0 means that the rate
-> +    is not available: there is no stable input signal or no audio, the bridge
-> +    reported a rate code that the driver does not recognize, or reading the
-> +    audio status failed.
-> +
-> +``V4L2_CID_IT6625_AUDIO_PRESENT (boolean)``
-> +-------------------------------------------
-> +    Whether the bridge currently receives HDMI audio.
+Changes since v1:
+- Normalize author/sender identity and preserve it in the patch body.
+- Recheck ordinary and strict checkpatch in the actual Git repository.
 
-Mention in the documentation that these controls are read-only.
+Mizuno Miotsuki (1):
+  arm64: dts: rockchip: Enable audio on DFRobot UNIHIKER M10 V1.2
 
-We need to make standard controls for the audio sampling rate and presence.
-They are also used by the tc358743 driver, and are in fact common for all
-HDMI receiver drivers (I know of a bunch of out-of-tree drivers that use the
-same controls).
+ .../dts/rockchip/rk3308-unihiker-m10-v1.2.dts | 30 +++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-So rather than creating driver-specific controls, can you add standard
-controls for this? They belong to the V4L2_CID_DV_CLASS control class.
 
-So the defines become:
+base-commit: ae965b9856f033145e292b0c29082a26bcc45efd
+-- 
+2.56.0
 
-V4L2_CID_DV_RX_AUDIO_SAMPLING_RATE and V4L2_CID_DV_RX_AUDIO_PRESENT.
-
-This also means that there is no need for a separate it6625.rst.
-
-The tc358743 driver should be extended to also support the new standard
-controls. So tc358743_s_ctrl_audio_sampling_rate/_present set both the
-custom and the standard control.
-
-Sorry for this, it is a bit more work but it makes userspace easier since
-there is a standard control for this instead of having driver-specific
-controls.
-
-Make sure that the patches adding support to the v4l2 core for these
-two new standard controls are not mixed with the it656 changes. So
-first add it to the core, then use it in this driver.
-
-Regards,
-
-	Hans
-
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 760791e3635f3c306e7fed7240b948d29b45ae66..1d6de374d86d3046d993bf220195b1a75049fa8a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13972,6 +13972,7 @@ M:	Hermes Wu <Hermes.Wu@ite.com.tw>
->  S:	Maintained
->  T:	git git://linuxtv.org/media.git
->  F:	Documentation/devicetree/bindings/media/i2c/ite,it6625.yaml
-> +F:	Documentation/userspace-api/media/drivers/it6625.rst
->  F:	drivers/media/i2c/it6625.c
->  F:	include/uapi/linux/it6625.h
->  
-> 
 
