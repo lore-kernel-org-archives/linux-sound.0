@@ -1,96 +1,126 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.175
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794394767;
-	b=26fzEg5POP8SSMpHgYSYGgd4YRLAXNPhRpOiKAlycvvAjxG5KDshS5actvcV3X8faCtc
-	 9nAPqQBeObs8JVjT+FCM2Tw0qeUtTWPNxSBS39ffIFwQqjoY13i8N4gOXDCD8RK8r4z3g
-	 woyAc2LXnxFqN7EHCGebBTRd6bs5aKq0SGMxaJ1mwqhwr+O8UEL23MYAZgq5DT86iYEFs
-	 sfED2MhehUtHrIDNJNczItVbabJ0rAx//6dlB3Qe51vM5lUL85ywizUczq9hEZA81OzgQ
-	 q+AlcJKtoZidQ2dQUrqoREhDmxC/y0wUOWamOUQuNdUmvgcGfaIg//VYZ2s4V07OBWg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794394767;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-	b=oVpkRJVWW4wqxHumuNL99oRUdIe3CoafoVHbNJfURFFyXgwzOFTYnoGtBPy5Uv1jjslj
-	 T0oG4/JYt6PdYo0FInq26EiPbTpXXc+tn+3ZnPuv85fV6J8PZbDoGQd5OTN8f3mOMgw9q
-	 ZBnanTV0u8YgYdFneVKnm/kYn6DweswmkLhx2qamO1idw+SWIeBQY50L8l1tr6b3U//BV
-	 rMqM79L3OsmHBPm4VB7Sr2qG15uVyXLBV3pXcNaCr5hT1AR+LuqoR6d2miPvs3f0ZZvZc
-	 gwfDu/iLA7HuA1bayxtP07cbqGspJ1UYk9z08MDaXjqBngLu+VPMORom/5ZuUnIhyQA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jzgJ50o2;
-	arc=none smtp.remote-ip=74.125.82.175
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.152.168
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794394886;
+	b=1L+D+iPxsB/M+RqjVs5WE4p2S12HeICLyzKTJQ6zqXWv+ZzcSf61Rbny1EieV9DPF9SZ
+	 AEar81OGIXN3AFaX39rdXomeoFRvKgg2jy/oUy/2Oq5zJQlNmnBjZwnO8kofwVbtZ5HWo
+	 KZzUdRU8jCOoZMo/k3wLnEVqR+kxOWkmC2r5YKGcaqUQRCAek0eSjS2pxuY0l6Va94gxh
+	 gzkTmMbyIHXo6YHLIWUPbPQ2Jr5QaQmOMIkt8bvQnQrcDYfWxw/4LzvxKJarCX+vL6QEM
+	 ZyJDkuZ3gyrWDq3shn76oR2dmpTvxlR2YqnU6WCs1IRPNJkhU5s4i1OmfRhKTjPaiAQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794394886;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
+	 Received:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Reason;
+	bh=b2ujhpezfv713AkHipE7RprQnY9NnqzjNzgnd102prQ=;
+	b=5AJcUMjHY++I34ZFxuOcLiH7eao4hT4IUJxo5zbjPWYIfBFopU0UkrFzhxjuvYF05F1o
+	 BRXc4iT3LFyUj2u+r6WWnQz2ZfGW/JQtkdO571/h0nIH2JNqmyyxaEftHTOUYCzSadoi3
+	 kjSwYrvS+9aZJc4BCxqWUIG36wFA5tbQhkDv9EW3B63crVSJqlg1urqWB/Jbn805udA4D
+	 +KttcZ9VMmEmSoWNFBESg5dTVBj8/n44xuwbJf/i3lKvuG2Bxel4XnG7FNjp+SMdUcQ3u
+	 ZpcvL4VvuqTGmGhDEDE8M/PBZ8CbesBiM6h/z44lSezuenqW4z8GeQcz/0NGLPBVG8A==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=opensource.cirrus.com;
+	spf=pass smtp.mailfrom=opensource.cirrus.com;
+	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=k0ywQICF;
+	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=gmgYNYjj;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.152.168
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EBE5606A326
-	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 10:59:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3EBE5606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42102606A321;
+	Wed, 11 Nov 2026 11:01:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42102606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jzgJ50o2
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-36fc0a3fe93so5963898eec.0
-        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 02:59:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=k0ywQICF;
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=gmgYNYjj
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ABAxxdB3568065;
+	Wed, 11 Nov 2026 05:01:22 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=b2ujhpezfv713AkHip
+	E7RprQnY9NnqzjNzgnd102prQ=; b=k0ywQICFNjwKlBPevjZKUBmQm/mGWXOOTs
+	++TgjYBjKcCBuiXkGqc7cO4Lrg4yqZPxn0r/4+regw26lkzDhgUMSHdbMGgqz+Ak
+	QBclGdVb75BL6jWE1VaOeP141m7mX3jeBbGgKUB4CyNIez4IXorWyTo4H9tA7QXX
+	DI0wt9j7SOCg2aU6sIoBrd+dDfn1Hlu7qCBEykReMupiahiYWTy4/f6GKjnHRhDC
+	MAC/T/gGaG55ANZqYlpz/DUG9+sWbkyyk/8N6My8xs/fmn0xwnBtS9g1wNyaxrfz
+	qxm3leejweXDZ/4BxvzDbP9DoC3t7WflNgpL5pmVGgEEQzoPOfYg==
+Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11021142.outbound.protection.outlook.com [40.107.208.142])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4hv7ursb0v-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 11 Nov 2026 05:01:21 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=anZU04E15swk+IeO3Vx8jLHMPjNRQfFBdKBpayZGfZW30hRdHE6JfweR+gNwJSDrMMErHrswqWKd2eBYRvRC4ntDjUkpCUjZFhLTwsI6d4PioIaAeC2itKKmzQD1hRs1iJyGHCpmd0VYWbTTqUkpSUTpvbGYgum01mEi0cq4wYpVA+dOahyi35THAwNBnLG32k2BUSpK5ZkiR4vCtSYzP9OcjBKup4eXKFwn5PEa08ROqLMTvmvT/NckGiJSlnp1z3GoG8hC/+SQklvC6PcECzM2Zr7beXnPRSZHyaVudFIyLDxSoZFrDQ2H9P/XwVUHnXzio9qaVP0NhaNZlQc3bw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=b2ujhpezfv713AkHipE7RprQnY9NnqzjNzgnd102prQ=;
+ b=ax4R+sOHjuBTP+d9rvpUc6X6fH2/wjJMQbkjwBr1WBpolJnfsMaiZ3g9do0dqVDy/buqrYRc4mJnBOCnJ/BNRhXbMVUFejfeVZ6IhxjwvaNfjL9zGSrRmCbDi78yFs0qNYkvBfferIU9J/V6cKgjePCzwrrk/SLuxfZSnz18U6gRwpxO2uMFpYdsLXcxchNqmjSGOk4CJp5kB7t+2ZrCK8Jqw4Bfacq2t453qJ6YQghmRIlWvrynncH31Zw5kaXDpNFuLmxhbFF3Zthi6tKN3IlbZIQooeYVCZMerFo0JYjeReTEwyHLHIvRczo79YnednmRfOZthSynu8lpkS+iRg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794394766; x=1794999566; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-        b=jzgJ50o2ITwSxxgDaLwhe9bWux9JjZB0ky0fdJgTV8MPlZSI6BvT8RWM/D5Y2Cvrjw
-         zTUcVE0qM8i6YiJ407eD9cbPC2rOAVeUgk2AwaMHcCSRh/Bi2twfEaG21xlovSMrSHmR
-         BeqjPW3UYLWv0lWappN+SgtRs/yznVjY3y1Tbf1FF+360BGSoD+Jf8dVTKb9IuH16jeb
-         srXj6/681BBaHaTA7jYQHg7SgwJYl7IqdcBWrGFq6FeSQKJqDcE0zbuS/C+DKYUw/2Kt
-         ixZCSYxcTvMNrwlTeHU/OsLRoQ38o8EHJyiVhkDz3YNLgjV6ZLAursqaffEvur8+rI6n
-         zLyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794394766; x=1794999566;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-        b=CcM91ZY4gZkyTrYy9dMVh+pILRV8TV1gcEKHHnGXVtkLZmTHpdpX84IMMxvK6XjtBW
-         ZDD4ocL0ybMwG0PX3Q1mFrAHJ3YetFNtE2hB91Mf9ncVVSq8Fh0aBO6Inv42YGt3kOUR
-         B05hHAhqZQuZMQ/x/z+vxve22HTpH4ahMMjHjNaLSav2IDJQxjWPzjT454AB6Bh1o+bw
-         x6RDZrVa4t3i7GZY+5mANQgIlKUkt7g15/MCvlIYlIL6MEk2bMgw/sbYeyYWuLHk2/bS
-         9Twkzquy7L26Sp9WGwLcD2Lgj8qtPaM0po1TSHUbfVci7emWmeT1hCqLG8gF1vy+gDoY
-         BY1Q==
-X-Forwarded-Encrypted: i=1; AL+hErFO3jjTmA85VwyymCbXZZVOUYOaHhaa0VDpPJrQqLw/FaJWaFxgrXGrGFBj/MEBt/V7eP8G9t9P+xD2sg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+sP1etxrT19ImncmrdPStAv1KSgQrFOSyJN53ID4U/pAKZ38gP
-	cTtwgM6qzYNSc8cvkbPfdpPG+y7VKpQE6v1QbwEXojz0Lxpb2DIZCPtIcOfe8abr
-X-Gm-Gg: AYBFou00ndUq7wmEQT1WFP9FAD3yJn17tj2u2aT9Ft6JGoPewJqoAB7YuHQWd8Qwxd4
-	GudpKFKG5HSSloj0c8xVQmNyFOQb/c8hOuF6NIOX4FgDU7agXOrVBT0XkzvmO7sazgF25Vv5l3T
-	D+eNUz7MniFtvBHnK3NAv34094ob48p3zswu+rGiPD0m7QV/RV8rvHFIYTlKaHId9hJ2h2UJuhl
-	rizyryP0MOaRPrtarRnZ6NwULwkqirLa1/pKpEWQyhkaXpiPfTc9oqH4JsJD4RszkMu7ojQD0pi
-	qFIfX3RWmAqUvqLWb28EEpNK+62Vi+NOrv9fOMUDUFMCsiB2k1pxKFW/i9ySUgIfB4b5JUxPf4W
-	8OUpBQrHZCL9ZSOkZ2FG7SAlEEVY8iyHICE8M16CHqK/BpRz6I6LBpVMMIiBUei4qDETvpFJON0
-	oBBhXnIVvGHovM3/8DzJeRCtxN2EAwKtI1eUwwwegn9YSiLStoa+Vz+jTrF9mKJNZ39EtsrDPjl
-	HF/mrA3jgdQFZo7tLHpIwfr6jXncy03CbNMjdmGd+nuCkgMP1qy1De3r4tKz+4/yoPOVQiYg29J
-	drfnnxEi9esBbN6ZQf8ukaBQ7WAprLtoiokjuYpua5+eb3Zv4m4=
-X-Received: by 2002:a05:693c:69d5:b0:36c:d1fe:84ce with SMTP id 5a478bee46e88-37686d34204mr3123191eec.33.1794394766119;
-        Wed, 11 Nov 2026 02:59:26 -0800 (PST)
-Received: from localhost.localdomain ([103.178.205.70])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751fe306e3sm15880508eec.7.2026.11.11.02.59.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 02:59:25 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: tiwai@suse.de
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	sreekuttan2156239@gmail.com,
-	tiwai@suse.com
-Subject: Re: [PATCH v3] ALSA: control: Validate element info in compat ioctl
-Date: Wed, 11 Nov 2026 10:58:58 +0000
-Message-ID: <20261111105858.2619-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <87ld6zu4oa.wl-tiwai@suse.de>
-References: <87ld6zu4oa.wl-tiwai@suse.de>
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b2ujhpezfv713AkHipE7RprQnY9NnqzjNzgnd102prQ=;
+ b=gmgYNYjj2EPabLuEyxV+9vgsQCW8LS4jId6lWhqDSsJVVwOJ/m3Ri98jIn8MUrAgmwWzkwH9lyhu+k6WAlbHd2pIjiDMKfleXcEz+ImpXZ93EMjbwFogDZkBtskpdxJEWQxTotgrKXq0vrc9AMbgOb8mE8hACDdcOAyFVrbBPDk=
+Received: from PH8P221CA0044.NAMP221.PROD.OUTLOOK.COM (2603:10b6:510:346::22)
+ by IA1PR19MB7277.namprd19.prod.outlook.com (2603:10b6:208:42a::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Wed, 11 Nov
+ 2026 11:01:17 +0000
+Received: from PH1PEPF00062F24.namprd02.prod.outlook.com
+ (2603:10b6:510:346:cafe::ab) by PH8P221CA0044.outlook.office365.com
+ (2603:10b6:510:346::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.9 via Frontend Transport; Wed, 11
+ Nov 2026 11:01:16 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ PH1PEPF00062F24.mail.protection.outlook.com (10.167.243.53) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.4
+ via Frontend Transport; Wed, 11 Nov 2026 11:01:15 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 4910D406566;
+	Wed, 11 Nov 2026 11:01:14 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 2763E820273;
+	Wed, 11 Nov 2026 11:01:14 +0000 (UTC)
+Date: Wed, 11 Nov 2026 11:01:12 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Maciej Strozek <mstrozek@opensource.cirrus.com>
+Cc: linusw@kernel.org, brgl@kernel.org, patches@opensource.cirrus.com,
+        linux-gpio@vger.kernel.org, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] pinctrl: cs42l43: Add GPIO controlled mic/spk mute LEDs
+Message-ID: <avRK+M3AO5dXL1Dv@opensource.cirrus.com>
+References: <20261110142058.354518-1-mstrozek@opensource.cirrus.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -100,11 +130,68 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261110142058.354518-1-mstrozek@opensource.cirrus.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH1PEPF00062F24:EE_|IA1PR19MB7277:EE_
+X-MS-Office365-Filtering-Correlation-Id: 35e59ae5-1484-4ac3-149d-08df3fe31b65
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|61400799027|376014|23010399003|82310400026|36860700016|10067099003|11063799006|56012099006|261022105027099003|261026140227099003|261028144727099003|16102099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	sz6m/HAme63XJPWQgjxEIWINn1snkRjdrf0n+90O2eJLX743wxHfJrdnIUUCtmxLcuLTTfeNQKreSF5YSKWH0lqGjCJ75RWX4QAEC+vh+8e1qeLDV6jBf316KsvREHUHO7SSMpsWCumKc+7Rgt3MK3nX0dfXgBZdJOL7tDWpjLQG2g9HwoKjTAOI52JuwW7WJcAqKOhKYUSEigkRLiKVNvXeKPUaL8sV1pzr0jI+7vOlQ3M+Sx1E40RCYp6DsDp2UJ/3oBUNLiUvn6vZlWTGvIoiVp2bcUbQnBE5hZ/CUWcksv+AZraO/sfVu0QDGvWUrLKi0tCwbCp4X7ZW+1ofnKr9w26hbKy8kCnY4nTXUNGY/1cpNUYa1JC4W+nkEjJhkfJrHXx+/KpRLJQR344YXSO68PsANNFf3WyflnJob7agwA2dZ8APF+VQd1gFnnGyuQt79BxZQ9eBEMCXFpsED8yOfAS3n1MfpQlsohV68OqAwCQR2/C6Y1QPRjRFYnrqo8kHfn8Z6H+m5LKBKJZbMrF5i6a7BqYU4tSak0tWJfsXYIOogybyGfv4rMtNJzZsZVroS8qpoxeG+jWhiCMblFV36Qe+iu7Peq8RgDC99pKMozS1R/jmy2BLMDuHwBkq4Crp1II9KMUwLr5oNTBMZRJ4T/K9WxetnUI6zwt9oqNHNDfx6BaoHJORS/+H4jWNuAb7Cu1fXThdwOHmAEvUiw==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(61400799027)(376014)(23010399003)(82310400026)(36860700016)(10067099003)(11063799006)(56012099006)(261022105027099003)(261026140227099003)(261028144727099003)(16102099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	UPaW3dtjZSumMmdUD0YYTB/312OfPTtidZ04bdzj1ED1oZR4b+bFok2x6MMcQ4ylDD5DBx3DeT7Gh54c6+9g/+lmwQ45F4fSyecJdk2FbBDOBUvgTE+ZR85J/QWVKJXLJOryW793nGeAH5ScX4yxaajjfAgFCcGfzgtbwVR1khYq9ekE3epUxD2Y/EBTl2/qPeco8VCB4OUFU9rISOzwxzEPh0v13PFg6GAJ9jDqb3N1bIRKvbcir36TVulM9wL3tdzvo60nCfvtLpoakaHyDlzbS0NfEfFAvCJgZZgh09Q7uiKtoiREJ9o2e3QfAlGdTnVSE8uBIS/GMHfI4+534ObHRQP4OdUZvDgLuFZp5dEoPknWUmxk+aNp5BdLb14XPvdLIDkc95hDWpXTf4k9T+rgAzw7x/AWXeaqgZJ1E7dXaZx9cQpC9iKkUBpvBJ3D
+X-Exchange-RoutingPolicyChecked:
+	COkz+9TX7s2YRL6OABbA7KaY4zz2U0RJyik6bxsIb2TOSMDAtyobiKtmDAVgQyX1HpGHgE5xrzeXRjGg7OBR1yCfOpYU2HnYi2y473qffL6AIKohgxzrMdbkOKVlbZlZlOAYfgII9sq9om5oR/kftF11h700GKpXXlLtT/1LKhEMJVLPeSEH7L7NJHQRs7FxZUW2oooXHru8jZ5pnmJJ9NQ5kyS4uPH7FMt029+LRLGkN3n40+VciHwoeUajFIKE1f8iw959m/OLrnwmERCoyES9FjAnaczFwmuK9LzMPA3QGCtx3l8RHvURmBdz6BHZKqATUoj09ehHGf3w0okQeQ==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 11:01:15.6577
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35e59ae5-1484-4ac3-149d-08df3fe31b65
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-PH1PEPF00062F24.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR19MB7277
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTExMDA0MyBTYWx0ZWRfX7uxpQQwOoTrI
+ l6UJiB8lAgepcoACfI/psCGb49rNbio8pXOZi0tqlZMbnvx1tzYq7URhMXiWk5ie+zKk84jXkjH
+ jnjYHK9nnEbXRkfMP6AMN6CDmTH5m1zWX+FzyImg5Dc3CCCaIRjJzXWvHa8vEz8IZiae5NWD4kD
+ IwMA0doph/OTqfHivITY4R8WtvvFufYk/XKUYDG9rzSlW+TINRSXx7/+Giue6WPxvBzGNfRPz6Z
+ xxq6iPDJCl13LABJ/+fHkJsTA/BqPJJgcO5BwlNJpWoWZWFNpeSwVcebsIzXjA4p78dsZb+8Y6W
+ mljpYawyspl6hQLveHQcttvq/bTC20030s6QnfCuO8QLyeZz8ltHjLN5SSTx3NorecEUsvbm95t
+ I7fL4Z6ul07heYbP9n/Ccn3JwsZd8YiE4KeuWwXw5pv/YFxoKurqc4OR1oKluO8UHfvyDWuQwqZ
+ Lum/V9Eyl8kWzOR2ZBA==
+X-Proofpoint-ORIG-GUID: LlflBkNdSRneJgsTzB49pQXyTip2J3pp
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTExMDA0MyBTYWx0ZWRfX1OlASTu43KaQ
+ rxKSiWzmaPLi67MRgzB7GeOIeoswdmPkwMsX59W2/PaRzTPcTuSpj4FfK7ZJTkKMTWH5ManrNnh
+ 8kTyjysPaRkmnfsCIfq259XFj2fDeC4=
+X-Proofpoint-GUID: LlflBkNdSRneJgsTzB49pQXyTip2J3pp
+X-Authority-Analysis: v=2.4 cv=JagpPkKV c=1 sm=1 tr=0 ts=6af44b01 cx=c_pps
+ a=s+5vLJ1poW1T9bNDw6yRNw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=w1d2syhTAAAA:8 a=2L2IZ_fT2_NVQbZiCfsA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Reason: safe
 
-Hi,
+On Tue, Nov 10, 2026 at 02:20:58PM +0000, Maciej Strozek wrote:
+> Add ability to use cs42l43's GPIOs to drive speaker and microphone mute
+> LEDs. The LEDs must be described using
+> 01fa-global-mute-led-(spk|mic)-mute-gpio ACPI property, which tells
+> which of the 3 available cs42l43's GPIOs to use for the respective
+> function.
+> 
+> Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
+> ---
 
-Thanks for applying the patch!
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Best regards,
-Sreeraj
+Thanks,
+Charles
