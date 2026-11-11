@@ -1,47 +1,146 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794399413;
-	b=Suhl+ugXOvcmMcuzDEv7kJCP9wiJQ1zvsnptV9s6xSatN/u3XtqR0HsP1zscLwC8kpnz
-	 Fz5wJbkmldSTpHYv17vN30Qoh9KSofJ8+fm5atpuIzxO4xaSUFM9M3uTE0G/faIv5QQ65
-	 F1rPssg94pR7i31/OyCoKTHAlE/2SAjIFaFKv0+yTrmhigz1I5cuSc1jv0qt6izADRqX4
-	 QBBEDW8InQP1ch6zTvvYEQe7J9HwCUGSwN/Qqrn4NBvFkkGBQCbXU2vYZ/8HVJIL8Kwn/
-	 Wp8DaIeIADZ+aDOP09J7czzuDflMVqzQJOysdmQi7B+0SxCr1Vvw2N2NeHyuxxWWThQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794399413;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:From:
-	 Subject:To:Cc:References:Content-Language:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=toXYVHFsQoupESzefAh9im258cK3fvprVw5/ZiZgXO8=;
-	b=BIIKkMlPFVnyEjNiztqo4WKSC0U3+Qzne3G3+T1sqDMn485/ovIycaxFurBqcLH4+WOV
-	 ZFckJS9TYDPGpEs53ZDus9eJEy+s5qzClBeE/EZQiemuT3s2eFXdDvZ+vdjZ/uwZ5ta8B
-	 EmD9LdhUn2ZRXxeHnjHNBDEZdo5hzmgsQzvGuGv4i7Mb7LUQbOn2CYkG7n4njJPogJZ45
-	 5pMeojDQvsBbdQHADB0vn3Lph4Mki6lox+Pi3URe25rErLHyO8jKJ8aMw8c3T9w0K9tuj
-	 3iTVpD6o73LZULhUNGWa5NtZdB9GmQ50TORbsxinBPZ5947y/S2W6zETsR4lHk9EVLQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="TwV/YYxH";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.125.28
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794399987;
+	b=eg8gAGLnAyRrRU+jkhNJFHQ3Ralx3x4MxRTx9S4vhyOOLoMR8Xuwz9a1k/3Tb7I0Dfq7
+	 W7qg7oy4DZI1nlbUi/P8Nb2x4dHN+8nXfEEG4m71OL+qzWqFys1FeIf6p0WUsVJ07SwLf
+	 z/Rcs5wK1gguA2Lx+TEcW/19fGhWDo/160gq0qJsANHiGh2wTtlQABTFP87l9LTTvA1YU
+	 nYINZ/bq79FPWZX6nnMOqAZACR5XBnLBAD7sZyi3lZwDmf9xAWO9nv1fRfHeFYJpQKNcb
+	 dQElMVfWPvFliMAIQbHNLCEBAFls7r7Ka0+iqd5hCXnjq+bNfUqXnF8Adj+ge+fh87A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794399987;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
+	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
+	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
+	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+	 X-MS-Exchange-CrossTenant-userprincipalname:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=7OEJCbfxrUbcODrSRv5dsl+pF68ImpksWA67+DmswZo=;
+	b=w1wn9As9qAkFIxXRZx6HR3giFOKbaV0hnrH2dhhHy7a5JsS4bAmKlllWs1i/6CwRYuxp
+	 oo6eMujY5pY5UbPEiZS4Ts2fA1HVS7y0SQKKvuBEAp2V/GRJ/RFlVaRq1NVsERdeGHFwj
+	 UjcSAT8bQh+O0V+jhH7Ug4Fqp4YpnZeFBh5ZNhv/rAuvKUiDiVhbRbBpLTB7R8QDP9ncG
+	 xOuyV86BZU71kfql7hKD6LhcG7dV+3twTeSN8QwuJeKiMJMbSLGcBxhHSW+x7f8jyKN6I
+	 MJMw/iI4xnyOVlA5Vf+fSNFIzHuPpSbjdKFipgI/+Fl9YnCtuwKVbEsmEEKBaquuKTw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=renesas.com;
+	spf=pass smtp.mailfrom=renesas.com;
+	dkim=pass header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=KlTkS8vn;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.125.28
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011028.outbound.protection.outlook.com [52.101.125.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34DE606A33A;
-	Wed, 11 Nov 2026 12:16:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6D4606A321;
+	Wed, 11 Nov 2026 12:26:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B6D4606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TwV/YYxH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE3A01F00A05;
-	Wed, 11 Nov 2026 12:16:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794399413;
-	bh=toXYVHFsQoupESzefAh9im258cK3fvprVw5/ZiZgXO8=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=TwV/YYxHKlZAZX7Z+iiidNB1r4Azhihbl0hzccPDuKfv4g0OY4hYYluenVdrPLqMD
-	 JUtObW/2UuQf0bUL6HN4CuhOuXYN5JC5LpGePcco5FxQ0TKRMe26WaMY4PNk+e5rHg
-	 3EMpbmhG1hcG8/Fus4Y1I/C4mFVRvqYwlhL8/vA+tz3wZG2Yd8w1q/GdEx3acRiwTr
-	 SLhOLcSVUKdVWX5skLUpXeZpGd5kis3GgRHdc4S1/ngsQZR/Ohj0we1wZYUPDxKJFJ
-	 F+OV5IL9bNUSbvvVcIeVn21EzE6j0iMXeH5zBdK213a4HONFF9eeVKnPm/vA0XWx44
-	 hD4zeu2qFs0pQ==
-Message-ID: <38706010-b949-4f70-b45c-6800f7fcf942@kernel.org>
-Date: Wed, 11 Nov 2026 13:16:38 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=KlTkS8vn
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xfoyZH7jVdCUj8M7nUsd4z97QWFA0UPZAbRSGVpPSWcO10HjbkFl3SR5yTiXlEldxfBR+Ylnff7Fgmt96sGbg7eYUt0MJJkcYpI3xTmAMl6kP+jlxlbsYA+dqtDMU2puINBfgg24MvWOTpkTAWy1AXQHIisys0LuqLJGtethe3+IAe+sLaMDdf76OkwxEwUvLabCSXcPfcerAsQFqpLsspPVPk2aEPKy3KH/tfqu9PoWBOhy6fkPH+3PnAGtFYCkfg+ffyKinj79LorkxvRqm/Rqs7JI6QkLCR1zrAH6LYOTFRcy9wOms1GLyD8CkwvTSjv8x5acllmn3Gndc69IEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7OEJCbfxrUbcODrSRv5dsl+pF68ImpksWA67+DmswZo=;
+ b=lBR9It8QU+c6rgQ1JwW1dmbKYlKtBnrgypOzSh1+Yo6JT/OrcnmyXPA2X2LBD11JCy8iIEuVPXWrEmnZtebfls/JZ5m8auJM9V3oQIbqbPWZbvKskApAopGSMmHqfvFs5rv8qXIEJdH6y1An7x/TjSaIu7iowZ+g/eRYixE/XUmR5Jow+zivGBzcqIzWD2ndtpP/0mMPG/oagLJs6wxAST5IkNSu1k1pIJTl6tAZ2NQ+7dit1ZCJHzj6ZpTm3KDYAitdfbJtgh9RzQT8iMrioiDhRA6Ynr2200omtXuBLWYDIRImoRCCl2uD18HNGQ/Luokvty8hsMFVSN8yj4O1iA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7OEJCbfxrUbcODrSRv5dsl+pF68ImpksWA67+DmswZo=;
+ b=KlTkS8vn2WXQSTCeXlZmgFBhJIWwrnAUfvh/OitQZMisvUxwJEfew3ghwy86MGnAKcOt30ZvpYC4NCIReKZhxFhIYwFaa/5rwmmTfswj7/+8lQMa0FzIIV4YLNUj5BHEyxYKda3Enl0I0Bt4gY+h17DYu0dnh7TBrQFWe/Dh2CA=
+Received: from OS3PR01MB8667.jpnprd01.prod.outlook.com (2603:1096:604:19b::10)
+ by TYWPR01MB8448.jpnprd01.prod.outlook.com (2603:1096:400:173::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Wed, 11 Nov
+ 2026 12:26:23 +0000
+Received: from OS3PR01MB8667.jpnprd01.prod.outlook.com
+ ([fe80::a7ca:1a29:beab:1921]) by OS3PR01MB8667.jpnprd01.prod.outlook.com
+ ([fe80::a7ca:1a29:beab:1921%6]) with mapi id 15.21.0615.008; Wed, 11 Nov 2026
+ 12:26:22 +0000
+From: Cosmin-Gabriel Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+To: Emanuele Ghidoli <ghidoliemanuele@gmail.com>, Mark Brown
+	<broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
+CC: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>, Kees Cook
+	<kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Jaroslav
+ Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] ASoC: soc-core: reset rtd->num_components after
+ allocation
+Thread-Topic: [PATCH] ASoC: soc-core: reset rtd->num_components after
+ allocation
+Thread-Index: AQHdccuOsAA6locRR066fyQ4tpayTrcozB/A
+Date: Wed, 11 Nov 2026 12:26:22 +0000
+Message-ID:
+ <OS3PR01MB8667A9EE17B225F351946D6D85712@OS3PR01MB8667.jpnprd01.prod.outlook.com>
+References: <20261109102536.357134-1-ghidoliemanuele@gmail.com>
+In-Reply-To: <20261109102536.357134-1-ghidoliemanuele@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS3PR01MB8667:EE_|TYWPR01MB8448:EE_
+x-ms-office365-filtering-correlation-id: 52433a69-a772-42ac-2806-08df3feeff5c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|23010399003|7416014|376014|366016|1800799024|38070700021|10067099003|5023799004|11063799006|56012099006|261022105027099003|261026121527099003|261026140227099003|261021121427099003|261028144727099003|261102123227099003|261009223027099003|18002099003|22082099003;
+x-microsoft-antispam-message-info:
+ SUTHuWCFK5HAYTH4uJvPu9+ddVzXl8vr4wGJcko3AKHcl5ZAqbY3q2kHwPQHu2HyvWJuPqNijnuVKpknRWKcOltn9FyFvzxCMitAplOlYpdELwh00ToL4dy2br3A9YP2s9zC8pLrGvHp/1gHrCvD9NoLQ4C77mxHiuRzO62mEa7ZbxNFRF3PQ+m8lGqdhqAa4jMQUbE+Xz4NRCNHI/lYuQwYpn7YufQolPB8f3vhbgOZ24quNn9ZCPowGZFx58QBn22EQra7I/927z6EX4kX58aINSrlLuBiukaU8h+JCIqohxDc5iPhQK5zWUDhJOLlNufDyiDDuDMiWTTOuOPMnzyedPL2HlrL840nk4UQ97pm6/CJkzP4wCFcccg8J1T9r7wk/UDfgV3zXpRcvmWJIYIDG3FjQTnYRBqiLZlHlMYAegvvs1udm4IkrJ2ap/qYFjBSA7gx4n76Yff2ravQaclwA69r6QTx8BopfGI/274paC3sLHwwz/dtzoxQp4hHkbZLdHqQ2WwyCInDaUlTY2dOS2YbsEZxFas+/eOuElzcNynrOlvxPWtULsBIl2ho9v/V5LY4eflzO955vSNrF4NchNPoDXGNJ5IWNImkSMvnfzN5wV/VU2pAHWEU1G7TyabPZBorFme1Bf7Foif/4r038bjjYX/g1KWDP52i4+iE2Eylgq1BB2317tGUSDe/PFsJy0EXvTZuFym1YVHwgp2HozX62OsgWdoJ/guNxn8=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8667.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(366016)(1800799024)(38070700021)(10067099003)(5023799004)(11063799006)(56012099006)(261022105027099003)(261026121527099003)(261026140227099003)(261021121427099003)(261028144727099003)(261102123227099003)(261009223027099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?t2Ty9+cQM1uMWQuVlScK4QlqzBEjGKQkuS55BaLRtDWdB0wMJfXyZddK6LNx?=
+ =?us-ascii?Q?g2vVXWuN7kVTr6VZJMhQWlgwhru0LHCKEGPpdqFhBwhUJcWbpjHhK7BLRBq0?=
+ =?us-ascii?Q?r/hRdrY2WPQK6yolg3HZYTW10rK0Ng10Y3fbhurA2Eh7y/vDsiHXe83O3W/e?=
+ =?us-ascii?Q?UDXt86RyzvH3fXWf5+YcryVHz5VoSGv3pRJfcdIQNULXGUL3N+K1V/k4jDtH?=
+ =?us-ascii?Q?Rcw+Ui8rveMseyIF2jwQT4wxgBOwFVVeW1usgvgwBL7euQq67OZp+li/2N52?=
+ =?us-ascii?Q?CqyX96mqfDJlfqRCOyJvMne1uMfzggS246AKsDyFQeNx7stsmCTA64lTUk7X?=
+ =?us-ascii?Q?g3cfiVNOJhV5UXTUbwS0GUf8TdzH3XK3jH93rApSM9BRhlcdXiOBjzbGLgV9?=
+ =?us-ascii?Q?aiM5+jNvHU+3hinALkDi41L1aUqzqUruW7ewKIowWfp2E5AwZ16KI4oU8GjD?=
+ =?us-ascii?Q?CqL8SLeGc6l5mOGx2zXxcLCArt/z515ByHzyNOQSR2wmHO7ZLz5/BuajFc5P?=
+ =?us-ascii?Q?Lg45ib42yGcL+YMKjYL8Nf0O1I//OPpIMIepVCKL0d2jCogva7NyzXRoSILc?=
+ =?us-ascii?Q?IgE2oHVzFd2v8uw+1g8yPG2K+JY/z98EV84x1NIhmTGwqXGzz/Px4qVMy14g?=
+ =?us-ascii?Q?gBZuJjiAeVAYheqt7wcYbyjV6l7EfzYSWlOFoalvgJCAjDhba+ussw4qbWna?=
+ =?us-ascii?Q?aIGf2rWuNMRIRCzNGsXuq6b1Q2aBm2nKjlBLODtTvQWzX0I7gLCRUwLPu+pL?=
+ =?us-ascii?Q?d+W26mx0QzvW7nAOE/f4CSn0sJUScLBfX4mS8DvVF9BSdFkqqbeRzU6wMIUt?=
+ =?us-ascii?Q?ZltNafOIAqqF3tQdUtg+cg3j7GpxkCrl0qZOlJlENm1uueyc8cDHl9tOLAoh?=
+ =?us-ascii?Q?FlY69rqMrxIaobuEqqU6dnvn7ABHBDMGt6LK1n8CBP3Ba9UYlwsnvSaASVtY?=
+ =?us-ascii?Q?iVgW1ACAN9rgzE5k/9sSx34nW/f5l9tR0o8Dve1WHtPGQpbYazG3ZYrx+BSE?=
+ =?us-ascii?Q?5xVBslm0obVJ8QYuzuzIy2saPeWvd/cxsY2xEp/YSxBHmBW8GvlIVfDx/F98?=
+ =?us-ascii?Q?GL1JbG/2tGZhUUd/Gy3STQccNx9bshBEcI40dCKB47+6wPJpTLIZ6MvK8KWe?=
+ =?us-ascii?Q?bNd9dv7aw91nWDeDc7UtTL520cGd2gXDBBfHyeyazgSppDngfgZmymY2V/pc?=
+ =?us-ascii?Q?iss5Z3gXrb7bUXFLTYHjR7gC37eogTzWEGEiYiNnke1sVcUE9gUkRHDbQhrp?=
+ =?us-ascii?Q?7+obfcit+7IlcBCh0iT8Oun0JfPuFYw7xUNojFLtmsbuhV8RyBincjYxI3wQ?=
+ =?us-ascii?Q?qr4LP3V9asroL3o2BVmlg2RIdVn08z6hIy3sp0Kfp5D5tOkXK1tnfYDrCaXl?=
+ =?us-ascii?Q?mtOXi31BE5eqCjnqRTN++d02ZojjEE7gMgtzuP3JPl6p1vgx2y34qujREKqG?=
+ =?us-ascii?Q?Tdc1o8XkJZ8N6jeeRwt7pD4L85/fqmNduSw6z2Pr8DmHQr3JHr+q2OU4p+4O?=
+ =?us-ascii?Q?RHWlP4kOlj2ReJfyiuAU80D5ZJ+c7l45TIpJTd16OwxF7mMWexG7FwRImt8K?=
+ =?us-ascii?Q?upT1GD2mHmfiSP941stZDAOutCnpH4qc71KrWGzeHvMS8qwsR2CdeqgngUTh?=
+ =?us-ascii?Q?prcyet8O3B/LHn7pUkQqwApzDWGsVWTbcUlsbKaYFT1apviccTHUPukbh/Nc?=
+ =?us-ascii?Q?iyM1ulRnsD8G+WEnSQl0B1rlCDFmwJ5afQbN35u4RLv5ip6PNFguO7qu28j7?=
+ =?us-ascii?Q?0AhU8DO7/FjdanK2j0GyzaA6DeVUtyYEaD5PMfHUp2qc0oTNmvrA?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -51,362 +150,80 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH 5/5] media: i2c: it6625: capture compressed and HBR audio,
- not just LPCM
-To: Hermes.wu@ite.com.tw, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
- linux-api@vger.kernel.org
-References: <20261103-upstream-it6625-alsa-i2s-v1-0-bb91e2879b01@ite.com.tw>
- <20261103-upstream-it6625-alsa-i2s-v1-5-bb91e2879b01@ite.com.tw>
-Content-Language: en-US, nl
-In-Reply-To: <20261103-upstream-it6625-alsa-i2s-v1-5-bb91e2879b01@ite.com.tw>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8667.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52433a69-a772-42ac-2806-08df3feeff5c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Nov 2026 12:26:22.8237
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4MY5t6cTAZzoCqhxRuqWCkycKi6m/NHJxVPA/PcVr9H874sIZlYF4pl7Gr3FH0xX8bQ57PLDCvjoaCdGoW3bLN2KthhRzG8xu4nmZFGDeB4QF93z9+qUJYR02jpeXSCl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8448
 
-On 03/11/2026 07:50, Hermes Wu via B4 Relay wrote:
-> From: Hermes Wu <Hermes.wu@ite.com.tw>
-> 
-> The capture DAI accepts only LPCM. The bridge also outputs compressed
-> IEC 61937 streams (AC-3, DTS, ...) and high bit rate (HBR) streams
-> (Dolby TrueHD/MAT, DTS-HD Master Audio) on the same I2S interface, but
-> these are rejected.
-> 
-> Add it6625_audio_xport(), which derives the I2S frame rate and slot
-> count from the stream's coding type and sampling rate. LPCM is
-> unchanged. A compressed stream is carried in 2 slots at its own
-> sampling rate, except at the HBR rates of 768 kHz and 705.6 kHz, where
-> one IEC 61937 stream is spread over 8 slots on 4 data lines at a quarter
-> of that rate. The bridge firmware also reports the HBR coding type for
-> some compressed streams at ordinary rates, such as 48 kHz DTS, so the
-> sampling rate, not the coding type, selects the layout. A compressed
-> stream at 768 kHz or 705.6 kHz is rejected when fewer than 4 data lines
-> are connected.
-> 
-> Use the derived rate and channel count in the eligibility check, the
-> startup constraints and the hw_params comparison. DSD is still
-> rejected. The driver does not parse the compressed data: userspace
-> receives the IEC 61937 words as they are.
-> 
-> Add a read-only "Audio Type" menu control, V4L2_CID_IT6625_AUDIO_TYPE,
-> so that userspace can tell LPCM, compressed, HBR and DSD streams apart
-> without parsing the audio InfoFrame, and document it.
-> 
-> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
-> ---
->  .../userspace-api/media/drivers/it6625.rst         |  30 ++++++
->  drivers/media/i2c/it6625.c                         | 118 ++++++++++++++++++---
->  include/uapi/linux/it6625.h                        |  25 +++++
->  3 files changed, 157 insertions(+), 16 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/media/drivers/it6625.rst b/Documentation/userspace-api/media/drivers/it6625.rst
-> index efd970e8124979abffb6f9ba3ea1e1bc193820b3..1c4d319f88946ef79e0d847ba0f8adf5b2132210 100644
-> --- a/Documentation/userspace-api/media/drivers/it6625.rst
-> +++ b/Documentation/userspace-api/media/drivers/it6625.rst
-> @@ -16,3 +16,33 @@ them are read-only and describe the audio of the HDMI input.
->  ``V4L2_CID_IT6625_AUDIO_PRESENT (boolean)``
->  -------------------------------------------
->      Whether the bridge currently receives HDMI audio.
-> +
-> +``V4L2_CID_IT6625_AUDIO_TYPE (menu)``
-> +-------------------------------------
-> +    The coding type of the HDMI audio stream, as last read successfully from
-> +    the bridge. The value is kept when audio goes away or reading the audio
-> +    status fails, so it describes the current stream only while
-> +    ``V4L2_CID_IT6625_AUDIO_PRESENT`` is set and
-> +    ``V4L2_CID_IT6625_AUDIO_SAMPLING_RATE`` is not 0.
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 4
-> +
-> +    * - ``V4L2_IT6625_AUDIO_TYPE_LPCM``
-> +      - Linear PCM.
-> +    * - ``V4L2_IT6625_AUDIO_TYPE_NLPCM``
-> +      - Compressed audio in IEC 61937 format.
-> +    * - ``V4L2_IT6625_AUDIO_TYPE_HBR``
-> +      - High bit rate compressed audio in IEC 61937 format. The bridge also
-> +        reports this type for some compressed streams at ordinary sampling
-> +        rates.
-> +    * - ``V4L2_IT6625_AUDIO_TYPE_DSD``
-> +      - One-bit audio. It cannot be captured.
+> From: Emanuele Ghidoli <ghidoliemanuele@gmail.com>
+> Sent: Monday, November 9, 2026 12:25 PM=20
+>=20
+> Commit 4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to the
+> devm_kmalloc_obj() family") switched the snd_soc_pcm_runtime allocation
+> in soc_new_pcm_runtime() to devm_kzalloc_flex(). components[] is
+> annotated with __counted_by(num_components), so when the compiler
+> provides __builtin_counted_by_ref() the allocation now also sets
+> rtd->num_components to the number of allocated slots.
+>=20
+> snd_soc_rtd_add_component() fills components[] one entry at a time and
+> expects num_components to start at zero. Starting from the allocated
+> size, for_each_rtd_components() stops at the first, still NULL, entry,
+> so the runtime has no components: they are not probed, no controls or
+> user-visible PCM devices are created and the card registers empty,
+> without any error message. In addition, each added component is stored
+> past the end of components[]. On the tested board these stores still
+> land in the slack of the kmalloc bucket that devres rounds the
+> allocation up to, so KASAN does not report them.
+>=20
+> Reset num_components after the allocation.
+>=20
+> Seen on a Colibri iMX7D (simple-audio-card, fsl-sai, sgtl5000): the card
+> is listed in /proc/asound/cards, but /proc/asound/pcm is empty and
+>=20
+>   amixer: Unable to find simple control 'Capture Mux',0
+>   aplay: main:850: audio open error: No such file or directory
+>=20
+> Tested on that board with v7.4-rc2 built with GCC 15.2 (first seen with
+> GCC 16.2): the failure is there without this change; with it, playback,
+> capture and the codec controls work again.
+>=20
+> The root cause analysis, this change and the testing were done with the
+> help of an AI coding assistant (Claude Code, Claude Opus 5.5).
+>=20
+> Fixes: 4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to the devm=
+_kmalloc_obj() family")
+> Signed-off-by: Emanuele Ghidoli <emanuele.ghidoli@toradex.com>
 
-This too should become a standard DV audio control.
+We also hit the same bug on several of our SoCs, although with different
+symptoms.
 
-Regards,
+Unable to handle kernel NULL pointer dereference at virtual address 0000000=
+000000060
+Hardware name: HopeRun HiHope RZ/G2H with sub board (DT)
+Workqueue: events_unbound deferred_probe_work_func
+pc : mutex_lock+0x20/0x4c
+lr : snd_soc_dapm_add_routes+0x28/0xa0
+Call trace:
+ mutex_lock+0x20/0x4c (P)
+ hdmi_dai_probe+0xa4/0x1d0
+ snd_soc_pcm_dai_probe+0x64/0xdc
+ snd_soc_card_bind+0x568/0xb60
+ snd_soc_card_bind_call+0x64/0xd0
+ snd_soc_register_card+0xcc/0x100
+ devm_snd_soc_register_card+0x14/0x20
+ audio_graph_parse_of+0x228/0x2dc
+ graph_probe+0x7c/0x94
 
-	Hans
+With this patch applied on top of next-20261110, RZ/G2H, RZ/G2M, RZ/G2N,
+RZ/G2L and RZ/V2L no longer hit a NULL pointer dereference in
+hdmi_dai_probe() and the sound cards now register properly.
 
-> +
-> +Compressed and high bit rate streams are captured as raw IEC 61937 data. The
-> +capture layout follows the sampling rate, not the coding type: at 768 kHz and
-> +705.6 kHz the stream is captured as 8 channels at a quarter of that rate,
-> +which needs 4 connected I2S data lines; at other rates it is captured as 2
-> +channels at the sampling rate.
-> diff --git a/drivers/media/i2c/it6625.c b/drivers/media/i2c/it6625.c
-> index f1bd42ad15eda1a2bd22dac00ba11a5b1c790e71..f9cd15dc24960cf2caf98576ecccd3f803dbfd86 100644
-> --- a/drivers/media/i2c/it6625.c
-> +++ b/drivers/media/i2c/it6625.c
-> @@ -101,6 +101,9 @@ MODULE_PARM_DESC(debug, "debug level (0-3)");
->  #define REG_HDMI_AUDIO_INFO3 0x6D
->  #define M_AUD_TYPE  GENMASK(1, 0)
->  #define AUD_TYPE_LPCM 0
-> +#define AUD_TYPE_NLPCM 1
-> +#define AUD_TYPE_HBR 2
-> +#define AUD_TYPE_DSD 3
->  #define B_AUD_MS  BIT(2)
->  #define B_AUD_3D  BIT(3)
->  
-> @@ -119,6 +122,9 @@ MODULE_PARM_DESC(debug, "debug level (0-3)");
->  #define IT6625_AUDIO_MAX_LANES 8
->  #define IT6625_AUDIO_MAX_CHANNELS 8
->  #define IT6625_AUDIO_MAX_RATE 192000
-> +/* HBR: one IEC 61937 stream spread over 4 lanes (8 slots) per frame */
-> +#define IT6625_AUDIO_HBR_LANES 4
-> +#define IT6625_AUDIO_HBR_CHANNELS 8
->  /* status re-check period while a capture stream is open */
->  #define IT6625_AUDIO_REFRESH_MS 200
->  /* re-checks after an event that left present audio without a valid rate */
-> @@ -322,6 +328,7 @@ struct it6625 {
->  	struct v4l2_ctrl *ctrl_5v_detect;
->  	struct v4l2_ctrl *ctrl_audio_sampling_rate;
->  	struct v4l2_ctrl *ctrl_audio_present;
-> +	struct v4l2_ctrl *ctrl_audio_type;
->  	struct v4l2_ctrl *ctrl_link_freq;
->  
->  	struct delayed_work hpd_delayed_work;
-> @@ -1069,6 +1076,9 @@ static int it6625_audio_update_ctrls(struct it6625 *it6625)
->  	if (!ret)
->  		ret = __v4l2_ctrl_s_ctrl(it6625->ctrl_audio_present,
->  					 info.present);
-> +	if (!ret)
-> +		ret = __v4l2_ctrl_s_ctrl(it6625->ctrl_audio_type,
-> +					 info.stream.type);
->  
->  	v4l2_ctrl_unlock(it6625->ctrl_audio_present);
->  
-> @@ -2124,6 +2134,25 @@ static const struct v4l2_ctrl_config it6625_ctrl_audio_present = {
->  	.flags = V4L2_CTRL_FLAG_READ_ONLY,
->  };
->  
-> +static const char * const it6625_audio_type_menu[] = {
-> +	[V4L2_IT6625_AUDIO_TYPE_LPCM] = "LPCM",
-> +	[V4L2_IT6625_AUDIO_TYPE_NLPCM] = "NLPCM",
-> +	[V4L2_IT6625_AUDIO_TYPE_HBR] = "HBR",
-> +	[V4L2_IT6625_AUDIO_TYPE_DSD] = "DSD",
-> +	NULL,
-> +};
-> +
-> +static const struct v4l2_ctrl_config it6625_ctrl_audio_type = {
-> +	.id = V4L2_CID_IT6625_AUDIO_TYPE,
-> +	.name = "Audio Type",
-> +	.type = V4L2_CTRL_TYPE_MENU,
-> +	.min = V4L2_IT6625_AUDIO_TYPE_LPCM,
-> +	.max = V4L2_IT6625_AUDIO_TYPE_DSD,
-> +	.def = V4L2_IT6625_AUDIO_TYPE_LPCM,
-> +	.qmenu = it6625_audio_type_menu,
-> +	.flags = V4L2_CTRL_FLAG_READ_ONLY,
-> +};
-> +
->  static int it6625_v4l2_init_controls(struct v4l2_subdev *sd)
->  {
->  	struct it6625 *it6625 = sd_to_6625(sd);
-> @@ -2131,7 +2160,7 @@ static int it6625_v4l2_init_controls(struct v4l2_subdev *sd)
->  	bool cphy_3trio = it6625->bus_type == V4L2_MBUS_CSI2_CPHY &&
->  			   it6625->csi_lanes == 3;
->  
-> -	v4l2_ctrl_handler_init(hdl, 4);
-> +	v4l2_ctrl_handler_init(hdl, 5);
->  
->  	it6625->ctrl_5v_detect =
->  		v4l2_ctrl_new_std(hdl, NULL, V4L2_CID_DV_RX_POWER_PRESENT,
-> @@ -2143,6 +2172,8 @@ static int it6625_v4l2_init_controls(struct v4l2_subdev *sd)
->  				     NULL);
->  	it6625->ctrl_audio_present =
->  		v4l2_ctrl_new_custom(hdl, &it6625_ctrl_audio_present, NULL);
-> +	it6625->ctrl_audio_type =
-> +		v4l2_ctrl_new_custom(hdl, &it6625_ctrl_audio_type, NULL);
->  	it6625->ctrl_link_freq =
->  		v4l2_ctrl_new_int_menu(hdl, NULL, V4L2_CID_LINK_FREQ, 0, 0,
->  				       cphy_3trio ? it6626_cphy_3trio_link_freq :
-> @@ -2186,26 +2217,74 @@ static unsigned int it6625_audio_max_channels(const struct it6625 *it6625)
->  	return min(2U * it6625->audio_lanes, IT6625_AUDIO_MAX_CHANNELS);
->  }
->  
-> +/*
-> + * I2S frame rate and slot count that carry this stream. Pure, callable in
-> + * atomic context; returns -ENODEV for a stream the I2S output can't carry.
-> + *
-> + * LPCM goes out as is. A compressed IEC 61937 stream at up to 192 kHz
-> + * takes 2 slots at its own sampling rate, whatever channel count the
-> + * source signals. An HBR stream (AUD_FS 768 or 705.6 kHz) is one IEC 61937
-> + * stream at 4x the frame rate spread over 4 lanes: 8 slots at a quarter of
-> + * that rate.
-> + *
-> + * The firmware doesn't keep AUD_TYPE to its documented meaning: it reports
-> + * HBR for a plain 48 kHz DTS stream too. So the rate, not NLPCM vs. HBR,
-> + * selects the layout of a compressed stream.
-> + */
-> +static int it6625_audio_xport(const struct it6625 *it6625,
-> +			      const struct it6625_audio_stream *s,
-> +			      u32 *rate, unsigned int *channels)
-> +{
-> +	u32 fs = it6625_audio_fs_to_rate(s->fs_code);
-> +
-> +	if (!fs)
-> +		return -ENODEV;
-> +
-> +	switch (s->type) {
-> +	case AUD_TYPE_LPCM:
-> +		*rate = fs;
-> +		*channels = s->channels;
-> +		break;
-> +	case AUD_TYPE_NLPCM:
-> +	case AUD_TYPE_HBR:
-> +		if (fs == 768000 || fs == 705600) {
-> +			*rate = fs / IT6625_AUDIO_HBR_LANES;
-> +			*channels = IT6625_AUDIO_HBR_CHANNELS;
-> +		} else {
-> +			*rate = fs;
-> +			*channels = 2;
-> +		}
-> +		break;
-> +	default:
-> +		return -ENODEV;
-> +	}
-> +
-> +	if (*rate > IT6625_AUDIO_MAX_RATE)
-> +		return -ENODEV;
-> +
-> +	if (*channels < 2 || *channels % 2 ||
-> +	    *channels > it6625_audio_max_channels(it6625))
-> +		return -ENODEV;
-> +
-> +	return 0;
-> +}
-> +
->  /* can this audio status be captured? Pure check, callable in atomic context. */
->  static int it6625_audio_check(const struct it6625 *it6625,
->  			      const struct it6625_audio_info *info)
->  {
->  	const struct it6625_audio_stream *s = &info->stream;
-> -	u32 rate = it6625_audio_fs_to_rate(s->fs_code);
-> +	unsigned int channels;
-> +	u32 rate;
->  
->  	if (!info->read_ok || !info->vid_stable || !info->present ||
->  	    info->avmute)
->  		return -ENODEV;
->  
-> -	if (s->out_if != AUD_OUT_IF_I2S || s->type != AUD_TYPE_LPCM ||
-> -	    s->multi_stream || s->is_3d)
-> -		return -ENODEV;
-> -
-> -	if (!rate || rate > IT6625_AUDIO_MAX_RATE)
-> +	if (s->out_if != AUD_OUT_IF_I2S || s->multi_stream || s->is_3d)
->  		return -ENODEV;
->  
-> -	if (s->channels < 2 || s->channels % 2 ||
-> -	    s->channels > it6625_audio_max_channels(it6625))
-> +	if (it6625_audio_xport(it6625, s, &rate, &channels))
->  		return -ENODEV;
->  
->  	if (!it6625_audio_wl_bits(s->i2s_wl))
-> @@ -2281,8 +2360,9 @@ static int it6625_dai_startup(struct snd_pcm_substream *substream,
->  	struct it6625 *it6625 = dai_to_6625(dai);
->  	struct snd_pcm_runtime *runtime = substream->runtime;
->  	struct it6625_audio_info info;
-> +	unsigned int channels;
->  	unsigned long flags;
-> -	u32 gen;
-> +	u32 gen, rate;
->  	int ret;
->  
->  	it6625_audio_refresh(it6625);
-> @@ -2298,13 +2378,16 @@ static int it6625_dai_startup(struct snd_pcm_substream *substream,
->  	if (ret)
->  		return ret;
->  
-> +	/* the check above passed, so this can't fail */
-> +	it6625_audio_xport(it6625, &info.stream, &rate, &channels);
-> +
->  	ret = snd_pcm_hw_constraint_single(runtime, SNDRV_PCM_HW_PARAM_RATE,
-> -					   it6625_audio_fs_to_rate(info.stream.fs_code));
-> +					   rate);
->  	if (ret < 0)
->  		return ret;
->  
->  	ret = snd_pcm_hw_constraint_single(runtime, SNDRV_PCM_HW_PARAM_CHANNELS,
-> -					   info.stream.channels);
-> +					   channels);
->  	if (ret < 0)
->  		return ret;
->  
-> @@ -2378,18 +2461,21 @@ static int it6625_dai_hw_params(struct snd_pcm_substream *substream,
->  				struct snd_soc_dai *dai)
->  {
->  	struct it6625 *it6625 = dai_to_6625(dai);
-> -	const struct it6625_audio_stream *s;
-> +	unsigned int channels;
->  	unsigned long flags;
-> +	u32 rate;
->  	int ret;
->  
->  	it6625_audio_refresh(it6625);
->  
->  	spin_lock_irqsave(&it6625->audio_lock, flags);
->  	ret = it6625_audio_validate_locked(it6625);
-> -	s = &it6625->audio_accepted;
-> +	if (!ret)
-> +		ret = it6625_audio_xport(it6625, &it6625->audio_accepted,
-> +					 &rate, &channels);
->  	if (!ret &&
-> -	    (params_rate(params) != it6625_audio_fs_to_rate(s->fs_code) ||
-> -	     params_channels(params) != s->channels ||
-> +	    (params_rate(params) != rate ||
-> +	     params_channels(params) != channels ||
->  	     params_format(params) != SNDRV_PCM_FORMAT_S32_LE))
->  		ret = -EINVAL;
->  	spin_unlock_irqrestore(&it6625->audio_lock, flags);
-> diff --git a/include/uapi/linux/it6625.h b/include/uapi/linux/it6625.h
-> index a895658aaf6a80d3fb624cdece33c5135161c72d..9ab85378ac77d1e06bc87964c1066d35ad177c15 100644
-> --- a/include/uapi/linux/it6625.h
-> +++ b/include/uapi/linux/it6625.h
-> @@ -22,4 +22,29 @@
->   */
->  #define V4L2_CID_IT6625_AUDIO_PRESENT		(V4L2_CID_USER_IT6625_BASE + 1)
->  
-> +/*
-> + * Coding type of the HDMI audio stream, as last successfully read from the
-> + * bridge. Read-only menu. It is kept, not cleared, when audio goes away or
-> + * a status read fails, so it describes the current stream only while
-> + * V4L2_CID_IT6625_AUDIO_PRESENT is set and
-> + * V4L2_CID_IT6625_AUDIO_SAMPLING_RATE is non-zero.
-> + *
-> + * LPCM:  linear PCM, captured as is.
-> + * NLPCM, HBR: IEC 61937 compressed stream, as reported by the bridge
-> + *        firmware (which also reports HBR for plain 48 kHz DTS). The
-> + *        capture layout follows V4L2_CID_IT6625_AUDIO_SAMPLING_RATE: at
-> + *        768/705.6 kHz (TrueHD/MAT, DTS-HD MA) 8 channels on 4 I2S lanes
-> + *        at a quarter of that rate, otherwise (AC-3, DTS, ...) 2 channels
-> + *        at that rate.
-> + * DSD:   one-bit audio; not capturable.
-> + */
-> +#define V4L2_CID_IT6625_AUDIO_TYPE		(V4L2_CID_USER_IT6625_BASE + 2)
-> +
-> +enum v4l2_it6625_audio_type {
-> +	V4L2_IT6625_AUDIO_TYPE_LPCM = 0,
-> +	V4L2_IT6625_AUDIO_TYPE_NLPCM = 1,
-> +	V4L2_IT6625_AUDIO_TYPE_HBR = 2,
-> +	V4L2_IT6625_AUDIO_TYPE_DSD = 3,
-> +};
-> +
->  #endif /* _UAPI_LINUX_IT6625_H */
-> 
+Tested-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
 
