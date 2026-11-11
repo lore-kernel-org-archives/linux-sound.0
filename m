@@ -1,58 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=84.42.129.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794418073;
-	b=oWfvLA/2ciZRA1k2V+LK4b5jxK8Q9z+FD4Au+6cWf/rsMgyxhlrP4Xk3XostHV5nqy21
-	 4fVAIAj5Cmr7DecN7c6NmCH3gjkm7elXNrmMQYjQt7WA2FF1KveuGlJJU0j7XypNp+Gnl
-	 VZkiSLHZ3Jj+9Xk/QRHIRw7eecKJjj0eu4yUq/4dlUKE00iBnQLe+gsX01calArlBymOw
-	 C4OETi45TWFkdsQ+pi9M0Oqr3JLxvDaKPqpVplPE0HMfY6ExvRVZMSbnXbhd/5B4PaCOa
-	 h85jf74jTgKNn/i75p0a8O4Y42GqpFuCUZpT69l45KaqXPPdw+Eh30VkW6MOLOGQpnQ==
+	t=1794418190;
+	b=hnFdVz8X1bUtXIOkG6GfZtnvTN3888BG1nmFbbDas6WxC5Xo53SFyZF8cGKE96rr97+f
+	 CMiUOtkH8lN/zBHklt17QaZ4wYQJiqVGFrr26gNHZQ5z0rKklG75T+LqXLqCqX1BaLd88
+	 Bw4QixlXol5EW1bmK85O8iRE8DsbtwbwHlfjFmmk6lWaphUPYKm6IUEwUgoA4skkuNr6+
+	 BQL4AtrcHTYVFlf9npXbOJayxr9NJA80/GGXz50QiBu0mApuISYsr7b0YLowezwFHXIoW
+	 XlVpP9ZMOm+gNTBIJeO9uJA4ILdKU7OhhMGmU/MNqcHsSzvXl94Lvr1D84pV8/80Tog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794418073;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=De0T4JTIAdwMnBuYojLax6+08mzoMSsAcjhYpoJvGE8=;
-	b=E6Lko6UOolXUWjuX60hp/KfPrMAN5Tgwt9ESTPNvCa12Y17C4see3SXwmT6QFcplih1m
-	 l/AQ3buzfVJx2x0MqZ6qWulopb+3zTj3NIqhDRBCUmny3rav98zcS7vaD9Es+mp7AxHHi
-	 wFNX+bae69P61awochOeF1lRLSnqhKGHHcrvuncQfC+XHlSmRciKKgXA8S/+jIKSuqVeV
-	 u2ml4vGceTogAAGa7sjFWqqKJq8KYIjLYm5vWvyo36n79bsxEs64H+a8VmYC1yKK/Y7WE
-	 dN0Yu0XkDd5v+6pUOeH/2hzArJjsNxqlz9nNXwZr3tSC40huVNhOAJflsbPU3k9B9rQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794418190;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=k3MMiiyrE2/vmmPniubC6NRjrxdD0IHNvZtfdmL4CEY=;
+	b=HOT+Ni6vyvKKf49x/u3TZXNwYulcJWTKr5YPx4AurHfLqb92ZOugHe8cewKZ/GXLL5uY
+	 DY8VrzD1g19i/WeysN8zB4KbWUQjLfuNoxl0FNEhlvWAHeOGaHpuPAFltAYSEbpWqiC0n
+	 MBf3EIp7p9USzNFrdG367k9PR07teZbToekYLOrW5x/zaAcLxalc2nwuLWjY00YO7QtMo
+	 hsCNtYJJ+J0wczqf9iQNK6NQe+8kAmfueRArGoAFmAXA8gJmr7i2KCoQt1k9qxJ4zqCK3
+	 2V+3lLkNSPeQKn6PGm/1n7DMVdssVGox6nJ7w7QktuVwdgWPMQdawOrSQ1k7r2AilXQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RRxYElrG;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=ixit.cz;
+	spf=pass smtp.mailfrom=ixit.cz;
+	dkim=pass header.d=ixit.cz header.i=@ixit.cz header.a=rsa-sha256 header.s=dkim header.b=fGHQHaS9;
+	arc=none smtp.remote-ip=84.42.129.46
+Received: from ixit.cz (ixit.cz [84.42.129.46])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C419606A888;
-	Wed, 11 Nov 2026 17:27:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5A3606A324;
+	Wed, 11 Nov 2026 17:29:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F5A3606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RRxYElrG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B9591F00A07;
-	Wed, 11 Nov 2026 17:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794418073;
-	bh=De0T4JTIAdwMnBuYojLax6+08mzoMSsAcjhYpoJvGE8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=RRxYElrGuO5Tg7+j5Rdvth+0QnNbQuNk37rfKf4GbsVttADxNwkxXlGXlfHGastu6
-	 dRvhC0kcWa80937VCsQDpsiwoAlFApLGW9Hw17n0iehjT5QAYbVHJjvcEOaCw+t/49
-	 /+ODY1/VYITljrw8AHaVMS1Ex/NfF+0RJWhycjPXOZBBF4MVKQ8xnZtJSqEwxouCAI
-	 HHCyYXnxDimvgpCX8UeGrmh59h2euOazG416cgo2VU4W76K2T9hRR+jeXFowxeWdHk
-	 x7rZ0D+m8mWHUoZ0VMISKmeUEmCQC4oeogMKkEtK2NR2BExxCOFwLxWuHRtoKPgmCN
-	 8msLgGQNpSlMA==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261104123249.227920-1-clamor95@gmail.com>
-References: <20261104123249.227920-1-clamor95@gmail.com>
-Subject: Re: [PATCH v4 0/2] ASoC: codecs: Add support for Fortemedia FM34NE
- DSP
-Message-Id: <179436234627.926575.5617855708868297025.b4-ty@b4>
-Date: Wed, 11 Nov 2026 01:59:06 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=ixit.cz header.i=@ixit.cz header.a=rsa-sha256 header.s=dkim header.b=fGHQHaS9
+Received: from [IPV6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e] (unknown [IPv6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id D0B5E53402D8;
+	Wed, 11 Nov 2026 18:29:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1794418181;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=k3MMiiyrE2/vmmPniubC6NRjrxdD0IHNvZtfdmL4CEY=;
+	b=fGHQHaS9F7ZFVd+364/66JcZ8oed39njITFaTgv8CWSWFywsOTCOeWz5N8oGYEx+jR4x5C
+	Jm99AyjoofTdqXi47GeQeA8XmseBWbZoNXe0OWjvXz8kgZI82XBrVQBv/bw77Vx0kXdSDD
+	oeH9wm/Xwdwbf2pghpAgD1SQPbruuoY=
+Message-ID: <792a95df-af0c-42ee-8b30-f5f71b0f4b53@ixit.cz>
+Date: Wed, 11 Nov 2026 18:29:40 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,51 +60,105 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 7/7] arm64: dts: qcom: sdm845-google: Add WCD9340 codec
+ and microphone capture
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Srinivas Kandagatla <srini@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ David Rhodes <drhodes@opensource.cirrus.com>,
+ Conor Dooley <conor+dt@kernel.org>, Abel Vesa <abelvesa@kernel.org>
+Cc: Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>,
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
+ devicetree@vger.kernel.org, phone-devel@vger.kernel.org
+References: <20260925-pixel3-audio-v5-0-7ffb32c980bf@ixit.cz>
+ <20260925-pixel3-audio-v5-7-7ffb32c980bf@ixit.cz>
+ <b1570552-958b-4cce-977d-f04e03fdb4bd@oss.qualcomm.com>
+Content-Language: en-US, cs-CZ
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <b1570552-958b-4cce-977d-f04e03fdb4bd@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1357; i=broonie@kernel.org;
- h=from:subject:message-id; bh=PJ4OFwRDYK5Te6wSfrGGpdJVoYB+pxoIvLp7kPvtzmY=;
- b=kA0DAAoWL+9zsLPQOIkByyZiAGr0pZXId6AtDYe3qptEw1CG/exVmqUBQo8QJ5kF1wgbICUft
- oh1BAAWCgAdFiEEXmoL6X9066wOwaGGL+9zsLPQOIkFAmr0pZUACgkQL+9zsLPQOIkRpAEAqv+/
- zNMqGyCGLYR0OSxj8xwIOylTsH4MUMf7QVrAn3ABAJTf4e1Oku2mrt53tGlLJLsVi0BMljySUNO
- N5EHMkvkH
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 04 Nov 2026 14:32:45 +0200, Svyatoslav Ryhel wrote:
-> ASoC: codecs: Add support for Fortemedia FM34NE DSP
+On 15/10/2026 13:08, Konrad Dybcio wrote:
+> On 9/25/26 5:28 PM, David Heidelberg via B4 Relay wrote:
+>> From: David Heidelberg <david@ixit.cz>
+>>
+>> The Pixel 3 sound card so far only drove the two CS35L36 speaker
+>> amplifiers. Wire in the WCD9340 codec , add a SLIMbus capture link
+>> for it and route the three digital microphones
 > 
-> The Fortemedia FM34NE is digital sound processing chip used for
-> active noise suppression mainly on ASUS Transformers.
+> [...]
+> 
+>> +&swm {
+>> +	/*
+>> +	 * Nothing hangs off the codec's SoundWire bus on this board: the
+>> +	 * speakers are CS35L36 amplifiers on QUAT_TDM. With an empty bus the
+>> +	 * controller reports port mismatches and frame-generator timeouts on
+>> +	 * every boot.
+>> +	 */
+>> +	status = "disabled";
+>>   };
+> 
+> Does our driver need fixes?
 
-Applied to
+it's possible, out of scope of this change-set thou.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
+I changed comment in v7 to just state it's unused, so we disable it.
 
-Thanks!
+David
 
-[1/2] ASoC: dt-bindings: Document FM34NE DSP
-      https://git.kernel.org/broonie/sound/c/72c167d8e3a7
-[2/2] ASoC: codecs: Add support for Fortemedia FM34NE DSP
-      https://git.kernel.org/broonie/sound/c/2488b6a08b88
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+> 
+> Konrad
 
