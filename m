@@ -1,83 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794387879;
-	b=P6wmD1SWMaKUdzxkgO69TIAFuqITYLi+gZRnyICTqLbup5ZmLxsTkip55i1JfHetGPJj
-	 tIeOJAHYX4C86z/LkojcmqU4Uomp7UWpHiBUtaiTA/sQSmWFkoPMymQzcl/RcWMHGaj61
-	 a6jHkWWEUfNKJOBYmBxdDCtyDPDy5RVD2jDz92bMMo7LpbGYVuIJEKftRk/EiyDnj97EZ
-	 eKqj/VfCp6LWhh67VkZJcnEMD6uic9LCBwU9tmQGyz/W/6yvf+AU5RwsQBvqauCA1anXY
-	 ZqYV+2HmIhQsNiTFGj4NCPy57YN8QzSycCjay3KcvWE4+n90X0bVqmHPnFSNWBnM10w==
+	t=1794387886;
+	b=XS8jfYRRwJjaJV1UL7gbraX/YosnnO4P7YKZNxoBedXD3V9+K8hVrMFlVD7Pz+EudG9j
+	 Pxrwv71DYqx66o8KqtvT4zVwt5xZwFplbvKZyFVkYQZ9lNIY5AzM8rjwju+j0UPKtkp/H
+	 LXE++qhz9fUCDCP6KrGz6520g4LkN0UbNc//Pr80/MtTq/FkUmJU97JKf2oFMgzU8PKWI
+	 Lu4WsBtResD7G4Ltxowct+/pJmeLq0AqaUg+HNDdJp2R3FnNtW+Q5N2dIbJ9Rnvhxe/JY
+	 qDsEjYdI8RfsIfzJuGZNzyq1I3IMzZX/zqds6EKIsx3ahMkk89LO8KXEummTfx02TQw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794387879;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794387886;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=4NSXIHHAlrlnWpquuqYJcuGA/ysXonzJiU11gCiOoV0=;
-	b=apiVIjM4FL4DZt5zBpleAcIaswFAeqTbv+Nm9v/HiyvTIlxjPNRUzP7jtSV55wu1le3T
-	 KSNvox2P6hsbg3HsDDbTHKnEesn3FpnqsaPBFGi3ouy6SlQpZWxZTKhVNQmUoNv6bJuhl
-	 BGCe07JmI+LEnkvptC48bJMhE/jnLGajvuUQiEKUctQe2AxBnsH9jZ/Y0NXX3qm0oidDI
-	 LHBmUzb8eKfShIjgGergIhdp8FsgvkfX/feA5JwroL0mdDlrxbTlnke6hfjc7KCITboCO
-	 Hot/yDu5UADdOTNV2rod4MaWGKJtVnaQXOuLgix+xfBM6UohDDM4/hcD3oOMNpwrLnw==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=iopuf+0CPJ1prxbi5e5LK6HB0bPSt5qJvXq2KBBjS3Q=;
+	b=d1hthSl9jXr4D2PbjOjKJOm2zJYWw7Ja62ycfHxpCM8JxOezFdKlLJLRIEt5KXFi/DPC
+	 vF3YYjsaxeEVem/NGzeCtFGPJo5Oyg1vPEPD13sRirqjyyDWwioaThu+GwurWDpxMh4tj
+	 lB6bySAYTSG6BwiphJUdXRq++3ATDhSoFMvDmDvlx56HJ4JT2M6DXJtmiKtl8iSWrLZPX
+	 3qVqQk3egKn48VARvuE7W+uuM3wPuRRfT883Ul1mEM3kBlfW4zVK0IDAUBepcMrFM2zCF
+	 gVNdNItjaMvQlwHxeo3zWKvQNSu4BJs+bLEsDwX8jvq2xBqLNs31bs6sehXgglPbWqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IkIseqOq;
-	arc=none smtp.remote-ip=209.85.215.173
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=D11pQqVL;
+	arc=none smtp.remote-ip=209.85.210.177
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4758060A260E
-	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 09:04:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4758060A260E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7D2606A32A
+	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 09:04:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB7D2606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IkIseqOq
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cc4aa18f9afso1231502a12.3
-        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 01:04:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=D11pQqVL
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8b8ecfa886bso1388005b3a.0
+        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 01:04:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794387878; x=1794992678; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4NSXIHHAlrlnWpquuqYJcuGA/ysXonzJiU11gCiOoV0=;
-        b=IkIseqOqTOh3WorZtKvcSXdkAWviUdNa/2w+WVJ0aaVWd47QTEgB69MkdRXndYImEz
-         66vLSOnif29aFvOTWsBI/c34lf9PalGndEq+FGKEM+L4gDWHtZmmbi0nusuxLCW4yEHx
-         P7/Xr9C1xxZyA2lxn3408YkpQOdglt3kQsgM1Zoi640LX2YSYJAQePy1PQaP2G7j5JU3
-         gRC4z16EpzgTMbFtwOOcEXB92pyJo9yhcx2O5WOLDCYCncOn9nBrgLySkc/RkZ9SedUk
-         Ia2Y5KWTIx+du+gNz03ZnEewCpoAIt5F3N5xqf5CI6WTo+QJs+d7OUrp2ODn9v1Zu9Ax
-         nzKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794387878; x=1794992678;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794387885; x=1794992685; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=4NSXIHHAlrlnWpquuqYJcuGA/ysXonzJiU11gCiOoV0=;
-        b=mcl7+2ZlFmY+yZdD/ypNGMkJeIw1TKF2r1cCcBWrp2RA14ann7D2HohemcQJTSmQEh
-         oYJ62fUQXy7Gb7jlbAGU5yYkKurADSJ6CvJntLIu22fphO/q4OB2iS1mQli88IO0Vpw8
-         BbIZfXmmadWwT7bruZs/ETVlh18zBQnHITavAZBNj7o7dn7NfDR5MtaiJcQ0trhC6k5h
-         93ODt/DCk4IyfI+0zgs5X4qbA12Glo0lEJnguji2Ig2tbyj8ekdMGvYtKrspx2QWuJ2+
-         mVJMwDNIzLvnPEE2hXgn7cQO34StBuF28fOb0A2e6Z9PGzox/9CPoBpwR7toWJBavFuR
-         eR4g==
-X-Forwarded-Encrypted: i=1; AL+hErHVJOj7L7ab223Swd5nPAI9PA2XjENO3cgkGoy5lnaEUwbbabJqjZX4IvBZea+Y9usBVsIBoxo4gYeFlQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8qhiF0THrmEzPP/5iRi1R9aSZhZUoVOShy26esHRpftwhvJJLl
-	KsU/fB9Jugp9oEjIDmQK6h290x2aBCxCpEU3S9eHl2nSqhW129iC2yrE
-X-Gm-Gg: AYBFou0WTDXJziQ0YQSJxOhWKWNo2+N6Wmh3rO5+ResjmBB/5V2rfqI45151xTFAyWx
-	Lvq7MPvFjIArQPfMlpQHGvrcb1P5BGiDTpnYAbdckep9hccbE4ohiXRjDgYtlhZxCo6ZmkbXEKP
-	r1yzrVWUrCC03XLGvhox0NQIflRRA3yAcHB7ziqgCeWvDUwTJoTHSTX7k3pmx0EZeGjvMZY6Q5L
-	gMeRFt6kdFnvYo8VQ/AxYSN+7MEq9va8nXW8Nc4Wm2UM5DfK51e+uJWvE4GgGR/gPq8ci7Z3Bi6
-	X11cb62aexM6QDzsCp6bQC5IyaQiSLjrR9tgKenStqCtedXfcmHULtXMQ2CJWKyqqHPKJ5p5Mvb
-	UZjaqStsW6S0iiCku1L2q2vszyMBOYSQ3luFbxgEonzOCyzalywF88kkntbfiZPi4qLWj+7Ap7t
-	DDf2q/HgPuzgSMcDdoQ1gdut0UUpKOE5BaGPW6l1fg+ji5K7MYyBIyVA13JVqOj6N9zMotHcNod
-	h8UCXXCmFkbPmwEMJmAlk4B/e9/a59SWwNStPfpHCin8q7HrdVD2N2M+BEJ8vjteNwTWPB3ml0f
-	Id58ezlUGz8h61bgqrNl1NJai15UdRI8qWwVAY8XoCYn2u2dY4rM1btqZfuAHDM8YWIHFZSNOee
-	bC/h955fst34OZBij55a58saHjAHjL2AopawW6mHAu/0=
-X-Received: by 2002:a05:6a20:a106:b0:3d4:52bd:b89d with SMTP id adf61e73a8af0-3f2fc99fc04mr2159073637.23.1794387878436;
-        Wed, 11 Nov 2026 01:04:38 -0800 (PST)
+        bh=iopuf+0CPJ1prxbi5e5LK6HB0bPSt5qJvXq2KBBjS3Q=;
+        b=D11pQqVLxduA2HiDS9kaLe4YqBelzGoE/SDyLf6kxKBLQDF9C2rBRssaQoZoSzQt7X
+         KLLjr8DL359uabODoinxTgWguCexJ8rmXUHxIAlmRcv6YnJm32LjC3rwevowjnr1supR
+         bILDTTctpU8VgbELeRcea/4+RJGNAx80V8hXvnJ8lPUCDOklhiA49lbWP4O7LTLE8yvr
+         i4FBS3NxqYl26HukRI7uOQKstJeqi0XHr3Qdv5JT1MwWNVeac5oVz2EDjS6QmA+kVXu/
+         llk0PDa6L5Q0MrL0KalB++Uef1C5uOcuo1As9tGv5ROY9NLTjFCjajeANUuJCFO9oWiQ
+         Q2hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794387885; x=1794992685;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=iopuf+0CPJ1prxbi5e5LK6HB0bPSt5qJvXq2KBBjS3Q=;
+        b=U7Fwmp2oCSiUX1Tk5ju3jANb6mHGCxYPTyhFuk0LmoKmP1Z2zH2C8i8A4SLSf9PkS9
+         veQ2V4BMVvcV2FML7fF37VNPU0OuqyXXwJ0A8z9NsWtmiDJhG37wD115WfUp52ctpnp2
+         0fM4fOimqq4vekeJep2NYIjIA10A8enMzsdOxASjmcwoDOShbkG7rUpwJcBHkDjoZFaM
+         YJ3hy62+ENd0/4wGc0l4Yb1H0q6GzLnLnM38CFPtvRjwMI3iqUVxiukgyJxhV0wFpr9m
+         VAKnd6XtxVBvCGcZ4jedK1gYIWUDvRg8aofPBD0IpcDNdK0MW6ufJiC4dQ5PDnUTEW6q
+         QnzA==
+X-Forwarded-Encrypted: i=1; AL+hErEXHUVQDDfvp/09cdCfEfl2ChPFf039XVT3KAFQMIC0sU1TXKtfTi6EBUmRKNnVIElJ0XBPjhE/xFDOSw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9y/MVmCjiMfN6FJ+JkE4NqHvCyKpWVEDlZ0JO/7JgJCS4D71pF
+	hargK585V+fw7nfqmxKxzJcV+RUOua64dYsNv25uoD9SGQU8XunzX4z7vriTvmkx
+X-Gm-Gg: AYBFou1BNNrLi4szaNcScPwjnuHOIA0iPWJUUXvy256nSJP+Edo0FMaszpIZ/11AdcS
+	xJvBVk8Go73cLFc98uMYJfxeDAxyYpiKbRcncU5cBB+1H4dBLZeVBs3mkZsHoJyTegWuLg1Di3Z
+	tzTsXstl7BQp7+G4cOn49KZU3yC9EL+gmlpgyCbTEVnzSQQhgxB6E/rcSFzn387V9ZpsbFoM2Yk
+	KwjNfiNv0YvqJscikdPA3DP4Bl41rLMgz6FqZ5qZ/Pxc04nhXVP3fS+bdpgeBxzB0LT2IZZo35c
+	D84WR7eYGOCYxIT+wprOrK7d4NWP0ZW6+yGomgR3aH/r/HTJ83VsGah3S3kwaTIxq643yZ+udzK
+	lf9LyzLOwTHDsOw6YblyGB0/Y8WjcKWCUvVlM3Eswf+G56XSMJYVuNtQ5dv/L4UsGgAQmog4EYp
+	onHPqy/kaGP15IY/7kkldnKSEWbRi0ak3bszAhWZNIdcgJrKZ5hv+VAAV2GlME/lIW+5QD8DypR
+	Mowks89sKfHy2gQXhARowgm1NMffjELSsN29WMx8tE1tVjei+37zGRI4VAplIPkg5A1zhBVfVtU
+	najX9iZGum3zxuo7lfmdKIeUUZkyiHXNbntcNigRr5bR2b1NcvnwYuwp22BZezCwt0IPztoOZ8h
+	PYwPKzXbxjMhNKhKG8S/pxCTQIFDJFK1YOEyb0/Ct
+X-Received: by 2002:a05:6a21:610c:b0:3de:3f4d:f2bd with SMTP id adf61e73a8af0-3f2fa39112bmr1401992637.6.1794387885274;
+        Wed, 11 Nov 2026 01:04:45 -0800 (PST)
 Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8baa7cede06sm1929924b3a.7.2026.11.11.01.04.36
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8baa7cede06sm1929924b3a.7.2026.11.11.01.04.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 01:04:37 -0800 (PST)
+        Wed, 11 Nov 2026 01:04:44 -0800 (PST)
 From: HyeongJun An <sammiee5311@gmail.com>
 To: tiwai@suse.com
 Cc: perex@perex.cz,
@@ -86,10 +87,12 @@ Cc: perex@perex.cz,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	HyeongJun An <sammiee5311@gmail.com>
-Subject: [PATCH v2 0/2] ALSA: pcmtest: Add a volume control with event fault injection
-Date: Wed, 11 Nov 2026 18:04:27 +0900
-Message-ID: <cover.1794386073.git.sammiee5311@gmail.com>
+Subject: [PATCH v2 1/2] ALSA: doc: pcmtest: Update to match the driver
+Date: Wed, 11 Nov 2026 18:04:28 +0900
+Message-ID: <683abc21677cc2fea5e00d1b620b9722dc98fad0.1794386073.git.sammiee5311@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1794386073.git.sammiee5311@gmail.com>
+References: <cover.1794386073.git.sammiee5311@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,44 +104,62 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello Takashi,
+The documentation does not match the driver in a few places.
 
-This is the non-RFC version of [1], which Mark found reasonable [2].
+The inject_open_err parameter is missing from the parameter list and
+from the list of callbacks that can return an error. The fill_mode
+parameter is a short, not a bool. The selftest is
+alsa/test-pcmtest-driver.c, not alsa/pcmtest-test.sh. Pause support is
+not listed.
 
-Patch 1 fixes the places where pcmtest.rst does not match the driver.
-Patch 2 adds the volume control and its two fault parameters, and
-documents them.
+Fix these.
 
-mixer-test results on the new control, under qemu on sound/for-next:
+Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
+---
+ Documentation/sound/cards/pcmtest.rst | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-  no fault                    all 8 checks pass
-  inject_ctl_no_event=1       only event_missing fails
-  inject_ctl_spurious_event=1 only event_spurious fails
-
-The pcmtest selftest still passes all 10 tests.
-
-Changes since the RFC:
-- document the new parameters
-- rename the control to "Test Playback Volume", which the OSS mixer
-  emulation does not map
-- add the documentation fix as patch 1
-
-[1] https://lore.kernel.org/all/20261103011000.1012035-1-sammiee5311@gmail.com/
-[2] https://lore.kernel.org/all/61df01a7-10ee-407e-879f-d9c1085a5d43@sirena.org.uk/
-
-Prepared with Claude Code (Claude Opus 5.5). Tested on x86_64 under qemu.
-
-Best regards,
-HyeongJun An
-
-HyeongJun An (2):
-  ALSA: doc: pcmtest: Update to match the driver
-  ALSA: pcmtest: Add a volume control with event fault injection
-
- Documentation/sound/cards/pcmtest.rst | 25 ++++++++--
- sound/drivers/pcmtest.c               | 68 +++++++++++++++++++++++++++
- 2 files changed, 89 insertions(+), 4 deletions(-)
-
+diff --git a/Documentation/sound/cards/pcmtest.rst b/Documentation/sound/cards/pcmtest.rst
+index e163522f3205..ed0b57f583b7 100644
+--- a/Documentation/sound/cards/pcmtest.rst
++++ b/Documentation/sound/cards/pcmtest.rst
+@@ -16,22 +16,24 @@ At this moment the driver can do the following things:
+ 	* Generate random or pattern-based capturing data
+ 	* Inject delays into the playback and capturing processes
+ 	* Inject errors during the PCM callbacks
++	* Pause the streams
+ 
+ It supports up to 8 substreams and 4 channels. Also it supports both interleaved and
+ non-interleaved access modes.
+ 
+ Also, this driver can check the playback stream for containing the predefined pattern,
+-which is used in the corresponding selftest (alsa/pcmtest-test.sh) to check the PCM middle
+-layer data transferring functionality. Additionally, this driver redefines the default
+-RESET ioctl, and the selftest covers this PCM API functionality as well.
++which is used in the corresponding selftest (alsa/test-pcmtest-driver.c) to check the PCM
++middle layer data transferring functionality. Additionally, this driver redefines the
++default RESET ioctl, and the selftest covers this PCM API functionality as well.
+ 
+ Configuration
+ -------------
+ 
+ The driver has several parameters besides the common ALSA module parameters:
+ 
+-	* fill_mode (bool) - Buffer fill mode (see below)
++	* fill_mode (short) - Buffer fill mode (see below)
+ 	* inject_delay (int)
++	* inject_open_err (bool)
+ 	* inject_hwpars_err (bool)
+ 	* inject_prepare_err (bool)
+ 	* inject_trigger_err (bool)
+@@ -93,6 +95,7 @@ writing '1' to the 'inject_hwpars_err' module parameter:
+ 
+ Errors can be injected into the following PCM callbacks:
+ 
++	* open (EBUSY)
+ 	* hw_params (EBUSY)
+ 	* prepare (EINVAL)
+ 	* trigger (EINVAL)
 -- 
 2.43.0
 
