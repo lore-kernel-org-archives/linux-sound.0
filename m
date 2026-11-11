@@ -1,58 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.99
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794408064;
-	b=NNNRBhIF7b1kEnzh1gHjz9HwFqWfquYVCy+v/KPGB/5PBbDFTKwOVgHlTzdh+1S5wo3G
-	 HAH5EGfWpvC6hNCKEa5jO0pQXba8dE6H721nB/LYMZiQV7aBypvPiD4+PunCaLDwg8AyK
-	 m3VsUpCOz1SI84hiFnyXLIO80/50ERbbdgOaUEg9FgxWQa7suz7Ba03E6/VrQobLdfFfk
-	 Pb+Gdrb25TOS6y6CT4GwsF3bzoK7YNNABSckVBRlZgSYWiE90O6dxuIXzl2WsE/EfUCdu
-	 ta8QEk987VP9MmYZ+D2daQUkagGs/bmZthSzB7vNrm0q5s/oo6e9s49Qj16laEk+RzA==
+	t=1794410275;
+	b=A1b2chrCX4v3coRqv342A6/X2ixWnwv4vQ0Q1rcY+tngmhVqMZJQh5wZpR3T9c7qYZ3/
+	 RScHC1yowfXN3fLypil9iuS1VWyQ/eHOmwgpp821+495xFstEfBthxVqURF3SeHgeeTyh
+	 zFwzZtbRmNoxfwRaIhzz/eezVc0H2IzhgJyjJK+RQeXErJcJWi7R4ip0zknqV0lf3SYCp
+	 Dv7QXNSlZS8Bs5zTg0CHwC8iOn8YpqLTslPj7vxdKmeQyd5h39ZA/zXa7gZ/BV8s+j3JB
+	 tEaJXCQr1NMMgDW6SuObLJiiMiSciSw0R3NiQo+4CU+197tpPczz74tIjcoKU5bjh5g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794408064;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=wLuYVG31aOuvXm5nXyw+VGAFyrApPMdjAgSKGv1aXp8=;
-	b=ykrZ6fKGAglg2Hrn/I6QVepkcgeR5/gyhe7NVbZY2V0WYtK+FxmcaqigFBddIVrKykB1
-	 gYMslCOqLggNF9cpypJ+jPncp8/6eObyhv8+OfS0ZYppz+FR5m0FOjezsnoEq+auaYzln
-	 VfC8ftGyvSmp4c/Y8huS7cHEKZAKTRgeu4NBnUbtW1RpjEnCOSAcp7uflTNZT5dK4KwiY
-	 OW3UKmbkgHdS3jsXE6OaVh7bqmKd8ddzN3RhtmYYktsnSTvUot9F5N2g0/eQ9IiBukG98
-	 44oMrPma7qTeqeyiaR01EqCYoGpwgpvzP1kiVERfYuJPLWwJCTlJ5lJJLS+97zoPSGw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794410275;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=Mi0v1lmmEqzU5bB2WTOYLc+GgpnTUYzvYcIj9//zMpM=;
+	b=BMO6cyBQ/aQr2cMoZPRROw5yQYP4Rdf5xNReLrzbLAHUJfCSwEm8xEIgQoAGKJX5YHCY
+	 KtcRDUeGhNeDokjoGCSBJXjrp+bm1DIhqpkQ6BgZi12OaAkLuqg1OerujlbYWm06/FuG+
+	 LjUWDyR4gLM2JAaNCTt2Us9d4bFxFW0J/eDuitRl6Y6lk3vLIH/qXVEkTk3CXkJdDWE8N
+	 fIjOVTBMTz7fzepII43wRdeIID1vQSpHnEgNYjIrDQAT/oHb0B9vGMEyumU42AL3df+Hm
+	 LDtiOHApb/tbeROsbUn/yP/UBmHXzShk4X0izrSOgG6hKTkBtAW7IYk0YbuMO7Vyrtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y1X9V2LK;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=proton.me;
+	spf=pass smtp.mailfrom=proton.me;
+	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=y7D3424g;
+	arc=none smtp.remote-ip=79.135.106.99
+Received: from mail-10699.protonmail.ch (mail-10699.protonmail.ch [79.135.106.99])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71B4606A324;
-	Wed, 11 Nov 2026 14:41:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B375A606A326
+	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 15:17:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B375A606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y1X9V2LK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 937301F00A05;
-	Wed, 11 Nov 2026 14:41:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794408064;
-	bh=wLuYVG31aOuvXm5nXyw+VGAFyrApPMdjAgSKGv1aXp8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Y1X9V2LK3dCb0pqF39TJSEoU/PRTHMftqIAM5VpHe0HMRj3ne7who9235lgDlixKY
-	 OBsjzdWWnCWzROosSAeej4jFm0JT5izZRH5kOuE+VghkI88CXBtM9ujIEBs00+xdjq
-	 ddeXgksczPd+iCxD32JsrlRc7w4MTgj+Lpd5lIvDB1zGn/CQMhz6onGtkJ0UnIhHHu
-	 wrCkxlorRRAqBlvyekXet9PX27VTeUnTMouGbqa5p4eJytHDTVL+78WSQlmiT/WzOG
-	 IzHxc6c4pbM6GtsX7UxfYHxqCYa4oyjkmxZZOBOJM+fFWuAPCKoDtxv2BS+9Q53Xz0
-	 Bx2M0/G20k47w==
-From: Mark Brown <broonie@kernel.org>
-To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, James Calligeros <jcalligeros99@gmail.com>, 
- Janne Grunau <j@jannau.net>
-Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261110-snd-soc-apple-mca-capture-multiple-be-v1-1-d9569a8374c5@jannau.net>
-References: <20261110-snd-soc-apple-mca-capture-multiple-be-v1-1-d9569a8374c5@jannau.net>
-Subject: Re: [PATCH] ASoC: apple: mca: Fix clock selection for clock
- consumer FEs
-Message-Id: <179436215179.926575.1549688408471335738.b4-ty@b4>
-Date: Wed, 11 Nov 2026 01:55:51 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=y7D3424g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail2; t=1794410271; x=1794669471;
+	bh=Mi0v1lmmEqzU5bB2WTOYLc+GgpnTUYzvYcIj9//zMpM=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=y7D3424g3Z9N1Y8iLYWHFGw4KfoJ3ny7oKXZF8hLtvdBefL0KfXffzzwJ86lrTstj
+	 oc8HS0T1sx92vU4vWe6YTjjcY95DjwaOpjHR+uV/iEGIYfIOiJdVneGOG59CiThOjo
+	 E4YRZAtk/V0Q1bYUNdr55feAXdKIE01uyJw/3kEwyda4/J9pbJDwImPOhAhW4h0Ttz
+	 hSSfVe463CAHtz9qlsPiTMT/vtyaxs+nmeFjkcbUJVIuZONF2sj0kfi542HL3qZ7oU
+	 qGQYhuiORklpYLmBKasBtRO3IbPGlKI5zIg1kyYK7DDIkKhG2k6dbSu48MjHTSPUQY
+	 qXOe8M/qf9fUw==
+Date: Wed, 11 Nov 2026 15:17:49 +0000
+To: sashiko-reviews@lists.linux.dev
+From: Nordschamane <nordschamane1@proton.me>
+Cc: linux-sound@vger.kernel.org
+Subject: Re: [PATCH RFC v2] ALSA: pci: add analog support for ESI MAYA44e
+Message-ID: <UcT-nUWewZGHvjh7Ra2vOtMNCP8r2Ak9fGDeH47-EtQWRT0vC__sp2norUyN7cFUjOwnVM8t8k-_XNrDfYFV6jwxRP-TEWuUzP2gSYuryLo=@proton.me>
+In-Reply-To: <sashiko-outbox-208724@kernel.org>
+References: <20261111-codex-alsa-maya44e-v2-1-c5f94d722b54@proton.me> <sashiko-outbox-208724@kernel.org>
+Feedback-ID: 234176850:user:proton
+X-Pm-Message-ID: c77acffb4c6e53623573068f2ed3ed23b28806ef
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,46 +64,36 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1138; i=broonie@kernel.org;
- h=from:subject:message-id; bh=RK6gBITWLHLecOXMvHd6YAysIFJ6kV3/lMHfI2gv+gQ=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLK+1NUEJ6WvZn9Ssrr40jHtrTbXt/ye9djCKzT574Fns
- gmL59+M7ShlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBEJgowMnwJqLtz/9aCLg2f
- Sd2p+/3yL20s7XTnf7XTftatu0oWGYcYGdZGRs2+l1EQlrWgatUllc4NTQJ+oUtZ/33XrEnUr8z
- gZQcA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 10 Nov 2026 17:46:46 +0100, Janne Grunau wrote:
-> ASoC: apple: mca: Fix clock selection for clock consumer FEs
+Thanks for the follow-up.
 
-Applied to
+> Pseudonymous Signed-off-by trailer and MODULE_AUTHOR
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+Nordschamane is my public identity for this project, and this address
+is how to reach me. The current DCO instructions ask for a known
+identity. The kernel documentation change explicitly confirms that
+nicknames are accepted:
+https://github.com/torvalds/linux/commit/d4563201f33a022fc0353033d9dfeb1606=
+a88330
 
-Thanks!
+I kept MODULE_AUTHOR as the project name and moved the revision notes
+about the review below the patch separator.
 
-[1/1] ASoC: apple: mca: Fix clock selection for clock consumer FEs
-      https://git.kernel.org/broonie/sound/c/d9bcb20e4039
+> Race between maya_prepare() and maya_pcm_reset()
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+In RFC v3, the reset that completes PREPARE clears both playback DMA
+rings and the ALSA staging buffer. The clear and the pointer rebase
+now run under the same PCM stream lock, so ACK cannot insert samples
+between them. The prepare-time clear is skipped for explicit RESET of
+a running stream, and START is rejected while prepare is in progress.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+On a physical MAYA44e, I checked the kernel playback pointers after
+repeated capture-initiated linked PREPARE, refreshed the ALSA-lib
+playback handle, and completed three linked mmap playback and capture
+cycles at 48 kHz. I also exercised explicit RESET while running and
+verified both stereo outputs after S3. The capture inputs were undriven.
 
 Thanks,
-Mark
-
+Nordschamane
