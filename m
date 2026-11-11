@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794364117;
-	b=Aizd7L0SCpvUJ6/0ktx6Ujz/K1XlR9LVHUBPZaRa3h7A0SoyqMC5vxh8KnSf4GNYwcrb
-	 UhXOsci9uPYGyXoHPKB8FEvTKULjw9U4LvQ8Y2BDmCeVaEeYwVA9ws5ZLNJAx82DNzU38
-	 Aq90WTRzL7l7rG2eEvG+JGZDEoZrMdnf5fITIdGkZPqP86KUid0U/Aae2uyQrtvW/KBDe
-	 4qYyVhs41SCNB7RpJhUEmBMguxiT33/ygKZnH8xndbkApgGbk6b1deiOzZg0ULqk8E+MM
-	 fweC6KnbX6UiF5YP62kYEWpNOP0yCoeSvF0i4N/JwDFXR4XOpnjz/OShRxCgVwN7gng==
+	t=1794364121;
+	b=gD2sg0zzqBm0QAN0NZRSl7tKSpCoSZuKJhO5aSSlAQlxYcNJmgGsxMBhJgO0BmESsek/
+	 5l4LA2IYNmHRVTVpNsNH/XVvBbedVSnYapJePw/uVtexjbqmA/K8WS14N/Bjzhjy/yJBd
+	 LaaoUSt/kNGwTQTIoQ2LJRuUoW6RbzCxfP5Z/Z9kX/lgs41dYDhDOnGOXxmvpHgtLaxPs
+	 xAJ5G8xp0EuG6eWV+WjjE8yx38DrdkCZ0ylbI8/4SwQpKa86t1yKAvo3QSt8pvfkKO0yN
+	 +S/rLpLkXgfixSNM+MJL1og8askzaz8Q5PWhKZ9pmKGNYodJ1ykn7UlKjX4HomaqB5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794364117;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794364121;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=IvOvMCi4CpsDXeK5KUPd/ai6uKkI9PBafZrGZuMgzXA=;
-	b=Cbu+MHXwbaLQTbTbQLUa15I1cXk8cegY6gArKZStHaXZdlWAttHpe/3FSLF/FFHn097y
-	 1lwHw+WlCcLDoQWGyr4md4uOHJoUchI7TUZUaJ0K0/ySl4+i2nAmggmKZi0/bOAG6kEcJ
-	 PyLsXY95aw2aVsm16JqLIdEAxFz3euGT5pgeTTfFEFfxKIg0bPyzC0RN+Pr/gNU8oKOgN
-	 1bEPjGgVIfhvUmqV/9iYKNXE0QsfBBP1cSiDwAnibwbb0Fdw/a1YfLti/qlF1zZ6h/7Ec
-	 eDRZ60/cKpaZUSw9e2OGSXLbhIM1HHPjzx9BDcuwfr+j3qu+gZsJHUOooXjJbuZAluA==
+	bh=8hAoTzujMAoXvy2lacWOTMG7M6I/5TyxiDP8VviDZ2Y=;
+	b=tj0eDjdb3Yq/tRMVZJYrrzik/fJZ1vJqjbFRrZ4te3HCSls9hM/A01PCGDIRc/88m7r7
+	 opCHpjxU3Rlhidd1PqBfQnTk46ThIPBQR78/432CKYLgfUn+96JqegUj9EE5qYi8HS89t
+	 IHVWmPD7b1aqWg3kqCh1EzWq754hlftwKWAYGRbOJ51yuN1ZuDjCHXZUlcjPC9QRbuo2t
+	 9GeSCgNAxULzq2YO4rfA/dn38+H0CqYJo+U0MGGv6SHuT8ILw1zmUr8jZVIN1I09rsR0B
+	 /y/GP02K3KIE0K46YIhbIdWB9HEpS8AJ9dlhCeGzLEnR3dFzvJVHnQNGHspNFtSwPZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TbnuFGMP;
-	arc=none smtp.remote-ip=74.125.82.41
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AzhvCc6c;
+	arc=none smtp.remote-ip=74.125.82.47
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4CB8606A321
-	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 02:28:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4CB8606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04D260A2606
+	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 02:28:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B04D260A2606
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TbnuFGMP
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1b3acec6677so4226644c88.1
-        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 18:28:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AzhvCc6c
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1a8cc11ac42so2702783c88.0
+        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 18:28:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794364116; x=1794968916; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794364120; x=1794968920; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IvOvMCi4CpsDXeK5KUPd/ai6uKkI9PBafZrGZuMgzXA=;
-        b=TbnuFGMP4qOfQBQjC9PkLNLe8ZPMuTZ5AJPeotGBSDrNILXneU8XRGGTRNiHGulTdi
-         gkQXTzv1UzjTiDQZfW9mvdy3xMBlnbEU/Sbw+6Fuo498ngp5iL4W2MJiIbEQCknf8zRv
-         H6S9dkqSiAeincJfjUcU9siif9/hp+JeTt085LKnCqqOJSW+FJQPYHGJ0dNGYzffBz6v
-         94GRY69idkudXl5zJYcEwNBRhGanQk56DncY2y2ml8Pn1JQKVP4DinmR6jXDR+tcZgYz
-         FFLr6hWunqYDIKOfKlwhZdx4UhpUetUU5rt+VML9NeWMeVNvewYY1ud8/dem6Q/m6CbB
-         Rf5A==
+        bh=8hAoTzujMAoXvy2lacWOTMG7M6I/5TyxiDP8VviDZ2Y=;
+        b=AzhvCc6clxW9pb1IJ/kr8Wwbh6mehd11/IwXOI2FxbEdV3wU7y68gg0VINI7hLYMF3
+         DDNAXSjJqvc8TiNh7j9yZqpO9Sgbf74qE7eRRpvfLUP0Y9Bkcb9C2XTfT8n7AGCfKORE
+         T11ZmgCQZvOQskXe1EjCPCqjDZ5A7i2u6Xia1jYVQ14urtNonL1wiweDYn0aO8BkHVln
+         HjZ7I2fkbrkp5cim5flWbtJYKitkhzjEN8SPq57vVs3UiWUUY2W7NbGGaxfaV7lNW8uk
+         /+zQL5zshSI2VEm+C4luzl0IgUMtpPyhC/2+mzuPW0ccpIbaBDL88zg+ofKD6KLdB2qq
+         9X8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794364116; x=1794968916;
+        d=1e100.net; s=20260707; t=1794364120; x=1794968920;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IvOvMCi4CpsDXeK5KUPd/ai6uKkI9PBafZrGZuMgzXA=;
-        b=QWGwlKhl0nRb1J/FGWGfJbZ7aFMJ+CNAgmeU9Be5lkmeF4qzKd+PvsBBBMW2mhbhsb
-         T6AdIUgYVTSMRdddKAAw7SThpK0hOLWDXzQL7NMegZgl3TQwUmwBlez5f56DbHNoqTXK
-         3PNsJ8MNuzpTUUm7qFpl4ULPdPgovsZ/nH81ackWUPAW48xmo/ZnlWFXhcxQcBWleDIv
-         Ex0qjPtOlK0jv6NON4vF0kbsoXUd9C8Ry0vnkItnCN3W9RwTFAb/e2ZVz/h+oSKnY6Vd
-         pG27W7tyCJU3sU3C9ug4lp4X3Lu5UJGH4TyarIHaqMsbzjDxsTTuIUBIielGsCSRKMlg
-         0hig==
-X-Forwarded-Encrypted: i=1; AL+hErGvGDn8bz4r8k2Ht4A2XAnT7eN4cE3ERFn3epuWOKogxHAzzbr7R4XcNKfaopyH7OgKtH0jlJrzt8CNUg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z97KUIBrOmOil5ancA3Ntu8Nxm+75HoL+bJwbzVluxqaAGwVs/J
-	Ym5qwgGsZNGvDlcPFtPeCSltpx/ss0VfVGmI1xxvNVYyvkvgL4c/BepU
-X-Gm-Gg: AYBFou0nwHLipHt2hpNItZA0Nu9GLRW4Qmja2KFsGKoHNijmmRKts9Y89/UaUUgByYX
-	WQrjkz43y5n5/xN5bM8wJOq5EJdMabNBwt1rX+NcB0OJmA/8Am1UloLsIkuaBLzSQlKC/ldIfZB
-	LizDYmWxuvVV4cBeNIxXP2GryTRzFMTePSvK0KxqgRzBo0XC1kr33rmuQiU/UY12koup+49DiLq
-	BX6L8J4xbSNK/PR1Py57pa8ebYhIOOwd8KbqhakctoMvau/2r9kbCJCih7bShLuulAPm63wF2CE
-	Cxd5vV58PVrNfFcaMOvvQ0pr7Xa0Wt0tw5ao1VBpx7SnNJfgmF04SFVYuk9+a2gnYDps10rW0IB
-	elPfX1lrMp/6tqijcKyEi28XpjWyc6kycK2xlS2+xRaAz2hmCqA6RUHbKKIa+50Vn6KxEfNzgw6
-	zy8MVti9o7wNWIoGl3RvBt8tGu4QI1mY01OvP3AoQX4vudqxWpFJ4Oary014yFx1uHkyCZfoivO
-	fpfrx1EoVTTxShctDmYLuEu6DqYHUSYoquA1/CdqrdMzOB5LHOVD8rjBOX+rdYS2a4MJhStEOcV
-	g2Wl7WIuVACAzZ3WqNspWRfT9+OkJp1P5A1i+VnELfWdD1G3n3cT6fmmX4i1bnddhXbQcUqhoge
-	Xs/K4g83QY0n0ESXM5iq0PN6au/cSzKqinMVpLAh+AIHirw==
-X-Received: by 2002:a05:7022:3a0c:b0:144:fd7c:84fe with SMTP id a92af1059eb24-1b3c0342ac7mr1035433c88.35.1794364115796;
-        Tue, 10 Nov 2026 18:28:35 -0800 (PST)
+        bh=8hAoTzujMAoXvy2lacWOTMG7M6I/5TyxiDP8VviDZ2Y=;
+        b=0izeKmyiVVrqOGMZNUZSEs37DyFsWw2Ku+g4mRMn8GZ8BYcTH/qNXB4Qr+qiQm/HWh
+         +OwO42pmLBpUO2cOVzzJCHh9pcfmUBJ7A6ITWlYeEv9JgnB5ZPN1x8uvTOym/SN5ovG/
+         pitxcf8TCil3dgLYaHm6+g6PyYJwALMIhzjRkiDarphmMpz/q64+M/9lhOOtFKJXdjVd
+         qJQiSEHOfPBHzs3Hjo/+QERCPZR8xhFLsCCERHytNOJrD0gECcV+sKNuigzJG01tPCDJ
+         yr477GvCEajvHNN+ObDMSGIjhiuXgwYN2HNv/LcYH6z0HXq5f6m9tQNNROrPp5IPta1E
+         MrwA==
+X-Forwarded-Encrypted: i=1; AL+hErGXqXJhmGmy4n5Vi+7LwhPDjQW93atwD+/f0gTMPRGUYp5MnYUvgdiM4ocKLATFU4xxDbrHgqOJPY29Xw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/CyLKbiNL+C3Z4ZajnEsBBF+ZgRBE1z7PEhAB8pn+OkrF9d3G7
+	AIFR51uIEGf9IC+DBBYw3xCPvOTexqxlD9Hucll6sQoDvQTG2sYKiKB8
+X-Gm-Gg: AYBFou17SdYoxd4q2p3juyBdrHKL8JW1KepOJD9rjXLC31mT+lKbt1+GQ7wUvHYV6YH
+	FreoRbsVjcU5eNzzr9o10v7vx+WXDPnOnM3o0HP2ZMDxUELXFCxIMlfPSmRYLHiegjhNPM3cKd/
+	PEhRBWn5ewtKU8oxv10NcR6UTpn4b+varMdUmEB2hlWzHC7LKIfPNiHl/C2pAtX4yGfcxIJBQaR
+	cj9OKeeJ+qmEDyNLx0SO+zPxsXI5d61XtbnymRK4vMZSMZsqwIsNV+gMqIi0gmId047xFkRwP75
+	UFuCvysF7mqFMmaonmdKeehRQCz1PrLR0d/vUxJaw9tqYbCCyrjFu92/DNGlh5NeMcmn7TsHuX4
+	9XHp0Q2Al9626UmYI4t6neITie2e29R4oW0Jz9zRgLd0XnQPo5j8LCtaqz2/KWoPdQUA5EcbAAm
+	KNN7srlJNXhjK50ajIWWf+0qEWVPVeNK+dCE5S6n7TQPfN8W+eG/z5dA7Cw37j6i2vA0Isp9IQn
+	/bmQZ1t5VCW3zv6RLSlTvRAUrJI67qF0AAKNW3Ovyc1TcdJCVAXmFNp4UET0/M6CFfYSQxbVjMF
+	eGwPYTTrvgkrOnkIeNFC8X/uIdpI2CNa5s64e9+acGzWw+y00XKJP9XBXC39nl+l8/U89OZX+10
+	MgyHr9ih8EwCWUBaSswgcyE3BAnk83h7a/xrmb0Naw2iJ
+X-Received: by 2002:a05:701b:4508:10b0:192:fd91:c567 with SMTP id a92af1059eb24-1b3c02fdb39mr1062793c88.11.1794364119815;
+        Tue, 10 Nov 2026 18:28:39 -0800 (PST)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b4b90csm10054285c88.14.2026.11.10.18.28.32
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b4b90csm10054285c88.14.2026.11.10.18.28.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 18:28:35 -0800 (PST)
+        Tue, 10 Nov 2026 18:28:39 -0800 (PST)
 From: phucduc.bui@gmail.com
 To: Maxim Kochetkov <fido_max@inbox.ru>,
 	Andrew Jackson <Andrew.Jackson@arm.com>,
@@ -93,9 +93,9 @@ Cc: Tim Bird <tim.bird@sony.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 3/6] ASoC: dwc: Fix channels_max derived from COMP_PARAM_1
-Date: Wed, 11 Nov 2026 09:27:28 +0700
-Message-ID: <20261111022731.8243-4-phucduc.bui@gmail.com>
+Subject: [PATCH v3 4/6] ASoC: dwc: Fix DMA fifo_size calculation
+Date: Wed, 11 Nov 2026 09:27:29 +0700
+Message-ID: <20261111022731.8243-5-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261111022731.8243-1-phucduc.bui@gmail.com>
 References: <20261111022731.8243-1-phucduc.bui@gmail.com>
@@ -112,51 +112,62 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-The I2S_TX_CHANNELS (bits 10:9) and I2S_RX_CHANNELS (bits 8:7) fields
-of I2S_COMP_PARAM_1 encode the number of hardware channels minus one,
-i.e. values 0..3 mean 1..4 channels. In I2S mode each hardware channel
-is one serial data line carrying a left/right pair, so the maximum
-number of audio channels is 2 * (N + 1).
+fifo_size should be the FIFO size in bytes (depth * width / 8), but
+the code shifts by 8 instead of 3. For capture the parentheses also
+make it always 0.
 
-The current code uses 1 << (N + 1), which only produces the correct
-result for N < 2. For N >= 2, it overestimates the maximum number of
-audio channels.
+Use depth * width / 8 for both directions.
 
-Use 2 * (N + 1) for both playback and capture.
-
-Fixes: b226efe5818b ("ASoC: dwc: Read I2S block configuration from registers")
-Reviewed-by: Maxim Kochetkov <fido_max@inbox.ru>
+Fixes: 0d274544bfee ("ASoC: dwc: Add devicetree support for Designware I2S")
+Fixes: 52ea7c0543f8 ("ASoC: dwc: i2s: Add StarFive JH7110 SoC support")
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
 
-Changes in v2:
- - Add Maxim Kochetkov's Reviewed-by tag.
+Changes in v3:
+ - Add a Fixes tag, as suggested by Sashiko.
 
- sound/soc/dwc/dwc-i2s.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/dwc/dwc-i2s.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/sound/soc/dwc/dwc-i2s.c b/sound/soc/dwc/dwc-i2s.c
-index 6a25d2a69ea7..c5773f191db7 100644
+index c5773f191db7..b0d3413c27d2 100644
 --- a/sound/soc/dwc/dwc-i2s.c
 +++ b/sound/soc/dwc/dwc-i2s.c
-@@ -605,7 +605,7 @@ static int dw_configure_dai(struct dw_i2s_dev *dev,
- 			idx = 1;
- 		dw_i2s_dai->playback.channels_min = MIN_CHANNEL_NUM;
- 		dw_i2s_dai->playback.channels_max =
--				1 << (COMP1_TX_CHANNELS(comp1) + 1);
-+				2 * (COMP1_TX_CHANNELS(comp1) + 1);
- 		dw_i2s_dai->playback.formats = formats[idx];
- 		dw_i2s_dai->playback.rates = rates;
+@@ -664,14 +664,14 @@ static int dw_configure_dai_by_pd(struct dw_i2s_dev *dev,
+ 			idx2 = COMP1_TX_WORDSIZE_0(comp1);
+ 			dev->play_dma_data.dt.addr = res->start + I2S_TXDMA;
+ 			dev->play_dma_data.dt.fifo_size = dev->fifo_th * 2 *
+-				(fifo_width[idx2]) >> 8;
++							  fifo_width[idx2] / 8;
+ 			dev->play_dma_data.dt.maxburst = 16;
+ 		}
+ 		if (COMP1_RX_ENABLED(comp1)) {
+ 			idx2 = COMP2_RX_WORDSIZE_0(comp2);
+ 			dev->capture_dma_data.dt.addr = res->start + I2S_RXDMA;
+ 			dev->capture_dma_data.dt.fifo_size = dev->fifo_th * 2 *
+-				(fifo_width[idx2] >> 8);
++							     fifo_width[idx2] / 8;
+ 			dev->capture_dma_data.dt.maxburst = 16;
+ 		}
+ 	} else {
+@@ -711,7 +711,7 @@ static int dw_configure_dai_by_dt(struct dw_i2s_dev *dev,
+ 		dev->capability |= DWC_I2S_PLAY;
+ 		dev->play_dma_data.dt.addr = res->start + I2S_TXDMA;
+ 		dev->play_dma_data.dt.fifo_size = fifo_depth *
+-			(fifo_width[idx2]) >> 8;
++						  fifo_width[idx2] / 8;
+ 		dev->play_dma_data.dt.maxburst = 16;
  	}
-@@ -619,7 +619,7 @@ static int dw_configure_dai(struct dw_i2s_dev *dev,
- 			idx = 1;
- 		dw_i2s_dai->capture.channels_min = MIN_CHANNEL_NUM;
- 		dw_i2s_dai->capture.channels_max =
--				1 << (COMP1_RX_CHANNELS(comp1) + 1);
-+				2 * (COMP1_RX_CHANNELS(comp1) + 1);
- 		dw_i2s_dai->capture.formats = formats[idx];
- 		dw_i2s_dai->capture.rates = rates;
+ 	if (COMP1_RX_ENABLED(comp1)) {
+@@ -720,7 +720,7 @@ static int dw_configure_dai_by_dt(struct dw_i2s_dev *dev,
+ 		dev->capability |= DWC_I2S_RECORD;
+ 		dev->capture_dma_data.dt.addr = res->start + I2S_RXDMA;
+ 		dev->capture_dma_data.dt.fifo_size = fifo_depth *
+-			(fifo_width[idx2] >> 8);
++						     fifo_width[idx2] / 8;
+ 		dev->capture_dma_data.dt.maxburst = 16;
  	}
+ 
 -- 
 2.43.0
 
