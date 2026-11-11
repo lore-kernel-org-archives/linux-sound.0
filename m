@@ -1,88 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.231.72
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794366440;
-	b=IWSTpu+vewEBU5ZXZpAHi6dUOvnN6DERE9CaSI3CXHGIO/29vs/P/ij/Tl/2jTwfLhEG
-	 9rQhOPamuxRLy7WaPcnPBRkq6I2LqHIqGCdr9pYJgl5dupUsnjZuK5dFuw2zFBi4V+xRu
-	 YuwWGZAXCtEKKRUSGcnVJ6OicemacDGceBXt2fQ7AfAp+C7LFWYHU4vL4Ks0b+wiDEJU7
-	 9vdqmqBQrnBZDxtVERijQro1JdQJEEQAk4VSyUS+Km7A3Q7bBbW8gpQtm5DhS1aON2w9B
-	 GK3PWMfBdcR/8999rJTBejrk6xA7RoT6ejMNdjzIbeaRD/aaDSR1r15Rk7Y3Auq48fA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794366440;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.171
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794368947;
+	b=yk08XleS+5vtFVhP34QgrGgdIIXBys/lZE2weUM0Wbjkiu/Wy4rGlt5Zs6i6ZL88SDpd
+	 4VXvMWUlK4I2j0Cn2NFxgkW6oEegr3NYsU6o/I7lzEHSSpqhqbjCHOHCklsDD9PNAc+t7
+	 DXW0i7rjbji5Zv1rnz6ODLss5E13NSWinU2f3K6mGbFmAplQbIgu65W0wmKxAp5QyPMh/
+	 yi+jNKPJkS04bApnBA/VwDPZFnJ70AGCjP35bImHUyYaXlrkI6a2cAmkTJaXusRNVRB3D
+	 krbMNl9iq0kI9Rr00vkz73uqDm6cRlyMPhtlqQM6GeCIsHf9cTGVrHBDGmHokkSoR4w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794368947;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=5QQB/zl+ns/aEZiAq2k5y3MnGVp0J7ISkxT4POasMWE=;
-	b=qWKwxbWYv06uVApHFLT7nj/wXkso+JexysFhTL1LA1ZyZ6fVaoz+utBlXIbXBj+WUb9u
-	 7vwfaPL6cWui5S+UEVQeHWf5iUbpw9P1KpQUheIuzAd3USTi1VrLBZiu49G0/EWYoCIyp
-	 VeJEN1DZ8s4Jli2yrTs+xmqHbcsdolRcioN5MAjYIVeI/yus7hZrcMGDqRLFfVk+2WnkW
-	 ce12vJjk1tE+SWbepBsQiaguR7F4+/c4l4R9NcQHTOZZef0v8uUT7U7qI9iImNhK88JAi
-	 kpEPT6uMTTqlDQTuLjU+vmx5ZQeK2FPBdtR3yOY0KHX/rAOgk9pYXkOQiH10/GlQvLw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=2YMF3SlM0rXsvzXJewcfKGam1OgjAg5d+kC6XMSfugQ=;
+	b=1GuQTY7Y9oHirEuCow8gUR7s6vO0pKqxyHC1z5c4kUOMW8U0CpKW2epn0ZhTKH1OzKMy
+	 q1qOkM9bVSBg6OW7nE3dUAmpZ93q2GZKdegVSG4CUQCOHOdK+yKL4UvylLjnB4GH+AkHl
+	 MWrCcO64AlpKyQWvL8a5FJUh7Gb989E6RXeHiHulltIdOMz52KjTurL3CN3fALgJ+/dyM
+	 hBJCBYasKhUqOkTici1PKOgH/CGXXJWbhGUGyegd9dT5wBu9ikA6bZc4w5VaoRlCovqOL
+	 CDQkF3DzYelonrJzRcKLPaLbjM7j/Gs//BuIMPigWrdI2kUMm1ASLrz9wHWxMD0VUtA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=e56FUdgG;
-	arc=none smtp.remote-ip=74.125.231.72
-Received: from mail-oa2-f8.google.com (mail-oa2-f8.google.com [74.125.231.72])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uLpyvzuU;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.171
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F058D606A320
-	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 03:07:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F058D606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54BF606A320
+	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 03:49:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C54BF606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=e56FUdgG
-Received: by mail-oa2-f8.google.com with SMTP id 586e51a60fabf-4ad827109b4so535435fac.0
-        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 19:07:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uLpyvzuU
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2ed08b07213so11441405ad.2
+        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 19:49:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794368946; cv=none;
+        d=google.com; s=arc-20260327;
+        b=HnCRj2HVfPWejz2vZ5kXeCqRc2KgZMSfq8nXel70Wm8En+Ms6dPtFWgTB/HuaP4d04
+         MoEqv79CpGhq7ZeSDqek3Q9jOf7EHQ5FSBH5qfWyTGhx2MP4PThaDBCbW3dGA0vrbCxT
+         b8knN4+P78NakG/10eaQkM+g8tXXQO+ph3zZ0thKzV5Vbr0TF/94ec6b9a7qrlZ4cKVR
+         tcSe9tjQ54YieT7ucDYxJLqchBwc0WCeOXqfHbIX+yOlZbebBPzeIoUI4NNugo5J5703
+         qKlMXJ0Rg8OV7JFJtD7o3Do9JY9qAN3Ou4oAm8SHUUY4mNS6BgWgJRadYrYHGTN3Wk/f
+         Hmzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=2YMF3SlM0rXsvzXJewcfKGam1OgjAg5d+kC6XMSfugQ=;
+        fh=Y0NG9j6z+yxENHwO+Ai3L6CT8GXRHfVOm1LedGawBA0=;
+        b=KLmE/qzuxd+0emUeiIYjOoHZ1dDpIhLBILh4zngzgZNeKUdaMAmYN5J6gYnoOHdMHG
+         wds6m4qWrppwVp5gRbZfm/b8OgUcbMb2q2ORi7zJqQkN4IJLsn3qhIqHr55iVE3umiQW
+         su306xdQsKE0xXv7DVMq5JQPkRwaKD+hgyMqIicvJZhgOa0j+jVpXrp5sqn2PHZfoNUF
+         Ao/y4y7z79+lg4ZwBntJpEn48j1jm3O4t9u7JnO59gVgZTGw4BanrzB7A2T3OlLGILjv
+         5fbKL+VEtEm3gDwoWUF4xB/1cWRScdvzJuVBwyT95i1cKWQaOVVq9josX/09pAyYvSeK
+         VdgQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794366439; x=1794971239; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1794368946; x=1794973746; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5QQB/zl+ns/aEZiAq2k5y3MnGVp0J7ISkxT4POasMWE=;
-        b=e56FUdgGsEKYl1Kqx3ObrvBbDAlwQ9Q8aHhTrJnGOs5DLITNBVk36Z3HCbLnRtlb7M
-         Dd6N3liklod9yAVSXLbogiHPSve8y9RroeL/QI2pHn+wsaeOLUY8hZkezNbl5NBGrSsW
-         ZkSfjcFfi6QbLafbCEgd9qLWyufAVsdbRpJbM0MqAzCvGaMp1rJ7RkaaivL7i8dfJO3J
-         q+FFivwf7ffqFtCYbrkBeXcEs4iSR9OSzmELX/2e5DoRDLhqCtcM9/TS3R1CMmj2JhwY
-         mGaODyeZKs5Q4XuDrVzfDtTtMNQqs+2I3usFFbJdeB5DZukcSsNABr7sNykk04R2/Nba
-         m/6A==
+        bh=2YMF3SlM0rXsvzXJewcfKGam1OgjAg5d+kC6XMSfugQ=;
+        b=uLpyvzuUjOziycscbYMwqyMtydI/pMiEeQzEAFxqpcdSU05lFxRuKipfJeuyu2ZKvS
+         9AtFUnY1vM4SkKmQegXJNp5nq7LUYs3ozLpKoyMc0DoRM67NE40qmtaFGD0jMy4sgMOb
+         M3LXKOU4A8HLGzg8maCeY9CnYhru/vgSghVj6mBpxWvCACe0Y/3TH1tqNUoLYUlw1IR/
+         ubphfLWcHt1xvUmC4U3VqFdVWeD39w12lDXm6lmWKtF6k62vgyDri4w366tdB7DzCL83
+         RRejL3gcsE0g115mySOJsv5BulPveTiz+vJl2xmq3s2J2+8XDkq55pPWrYPIbHl0pAT0
+         9Jig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794366439; x=1794971239;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5QQB/zl+ns/aEZiAq2k5y3MnGVp0J7ISkxT4POasMWE=;
-        b=OG8GqOEMmYNPezH4iI8hX29M3PasstHBRtgRtS1+2X49sOvKJuq/YQ+VE8xp8YoejY
-         FV7CULux9oPo+tuq5JCwgknZ+fZtXBTxtE0F8rsz0W0KE4Hddy2I58kzQf0feR4eHNy2
-         kpeu3Zbv2ENwk6BI+7fDoJWBLiBaU9UwRvaGT2Zva1UtTWPYoqsmJAp2W0rh51dpLY3f
-         7MUHmxclMLQOp8CPfV9gtMjbzic4ptGIVOx04/mLpR8D63P1BWdWLBkgshWqJBS9Xm1a
-         /xGkWz751/Ft09TkfkoQMvxDJI48OBb+kMgArHR5y8W8nFi+pKS51ai5Ef0AP0DwvyJ4
-         NxMg==
-X-Forwarded-Encrypted: i=1; AL+hErHeLHtl5OeI2ggWEvXJX9q04rJUfnYUlZObfV62bLzoBXUxISwItnWMFe18PfDr3VBWU64QXwCw1M8DMg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+8NYiIhCwcgQRR1U0KNTb9w2DPNpPSWHGu0It6Odo0T8FWXAs3
-	Wu0apjqT8KxuMiZtriuP/yO7H9g4ilCyO0gs282Ojr/DfHJE+vmPN3R5Rg/D+4pOfnQe3w==
-X-Gm-Gg: AYBFou16/z/eoBkjrcUARL/m7FibFCgS6ZBk2PLPmevBCA6nH7numffmeGZ7nns25pp
-	jZLdG2jlTrwFPO3/aTMfufJGnU5dkdfVoeuVCu9qH4JO1cHa/PR2M14ey7b6yyiFa8ogoCJNbJX
-	Y/36rTVYnlRZ/HQ4e95O8X+5In/miu13VornYrTXAGCweQ9KSLkci86ce25L4CYxKRIHFsBFpQD
-	VE3ck6wi0/X/Jlh+Z8opp0lefZVjsbgNBbeM8AghThSeKAjdqE1/r+7KzEwaRBqmp7MUP1sg2Ez
-	tQQHBbctutzwsaM/eG/YDMYusOj0OIAVKAl0YNgj5+vA74tiIKTWeJKsHr29Z0+T4d2DPRIsHrg
-	XzA2CJSXgwzjeHyvAv6LueW4cdlYLu58WcYR44ahfkfaxyvnZA0w6+XSSTPhHvOd7mLkbyq2WE7
-	wIfe+KGvbqQGRclsFLRKNYtc7uvhIqVlmpZfq8hU+r73NECL9mdeJqTQEmCRyYVB1IZedjpoIm3
-	9T7TRESMF+0iJOfwfQ14A2pIDZrUWBC3wOsPXmGqhSGFzXdtodI17nqhtKKn8R3rQTWrZy5cyWD
-	xLVbIppdT7z1j6hTNtdkJumJkAog4W6wmnym+X9KWiMlk3J9Vby9lHbboGBfKMyawMM=
-X-Received: by 2002:a05:6871:e406:b0:4ad:9471:aaf9 with SMTP id 586e51a60fabf-4ae46d0a820mr1035744fac.62.1794366438834;
-        Tue, 10 Nov 2026 19:07:18 -0800 (PST)
-Received: from ?IPV6:2600:8804:5716:d800::f01a? ([2600:8804:5716:d800::f01a])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4ae23095c5csm2712810fac.16.2026.11.10.19.07.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2026 19:07:17 -0800 (PST)
-Message-ID: <2eb7d236-5fc8-4a38-9a30-d45e6cb1c1ef@gmail.com>
-Date: Tue, 10 Nov 2026 21:07:15 -0600
+        d=1e100.net; s=20260707; t=1794368946; x=1794973746;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=2YMF3SlM0rXsvzXJewcfKGam1OgjAg5d+kC6XMSfugQ=;
+        b=XmexyoZv3oqP1/Fnor4fDeIEbHlEgBvNd0mdsEKeaNMonf63VCgg342xxtwVVcnR5i
+         FfzHkYMXJG+2azzafSGQsls6mtH0A/7mxNht553aqC2OenBYBaQYXPVqJ697DAeycvqe
+         1HlH5Jbq4597kMXHq2qjeNZIfkaZIStxN8GeZtC3UfB4E/zwc5x1KYA5MiOIVi9cL/Eg
+         cMHCanrAcdfifbbvA7OCWPX/e+nDkELrtLEeXeNlp60UGzKhEXuaAYN0McjU8GoZcME0
+         8ZaZBGb1AAMW2NrE1CZrVfwO6fKUC3QVC+gv2aht23faOKqiFoeKoPPahL4f1uWTzHEf
+         ponA==
+X-Forwarded-Encrypted: i=1; AL+hErHAxKZBlRmzF55t4b701R5Mv95Y7Wk5P/CvCIFXI9PhgrB0O39FIyfncNBGZlzMKsaV196cKsUM9i2gGw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+AFOSIJM2TLxaZY5hLTgc6YQlI/K8n0UqyP5fbvtwu+vdpb09w
+	2edoPYNT0WvoQhExXLArWs9/v5FuJMfAvQ1+xWnS2eH8rpwy4ukHy9R5hudmW7w0G/wrqVNNjxe
+	n9tVuqgmzPAfzD28CsE9+P0ECRQT3q2M=
+X-Gm-Gg: AYBFou0xR1EOqqX1DIZxO79XlmcO8Y0TWDzweJbr+Q2IE5fe+jyq8vZVgwIrVqBY4Gk
+	kxTdACFjCstZufunfIPggLH4KYJ3HhZ2jQ+m+6KxGr1AJ6ZYkKy8QxQVfGbVkQhVeBHG92bRKuS
+	10C+Q0qh/l+4rHmNeYgMvRZiWBfmnLnRNedCGEt+hQVmvO1JbemFBbopF/qLAgaO27iDaCDGDJE
+	wWSpR0frt+UB6PP6PrG6iqnfeyCmHpU3Z1JSg6QJGHMmVTvTzn/QZvmsI6BbZVaSD5ECQqfyQWy
+	RX1KIJZuaiCxpJPOW6dvDETJRpoRguHtxV+dWg0FcIcuoIDyZJ9SBUqa0rI4VyreRPF0BFu2cpV
+	O/TcYDPHKr2xL2JL7gy57+26Go+e9qlLK4NQBCK3JAyWzf8rhIDWPqjB5fR3400tnzScXIbOUeo
+	7iRLwZEGEAA+HBpxutl1fNx4FLHzWWZZmw6PCcUtCTk0Bn17Lc
+X-Received: by 2002:a17:902:f690:b0:2ed:acb:aa95 with SMTP id
+ d9443c01a7336-2edd7b397cfmr13754315ad.32.1794368945939; Tue, 10 Nov 2026
+ 19:49:05 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -92,43 +104,31 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: soc-core: start the runtime's component count at
- zero
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Kees Cook <kees+treewide@kernel.org>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20261110-rbrue-asoc-rtd-num-components-v1-1-fa0c9e0cb361@gmail.com>
-Content-Language: en-US
-From: Ryan Brue <ryanbrue.dev@gmail.com>
-In-Reply-To: <20261110-rbrue-asoc-rtd-num-components-v1-1-fa0c9e0cb361@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20261002043856.97295-1-phucduc.bui@gmail.com> <a236085e-5ccb-40f4-ac59-75e0249267bf@sirena.org.uk>
+In-Reply-To: <a236085e-5ccb-40f4-ac59-75e0249267bf@sirena.org.uk>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Wed, 11 Nov 2026 10:48:54 +0700
+X-Gm-Features: AclHuK-_fA7OAuqiopVuFE8fqK_zpoIlrFShcyl-AqkfmWeSwLjfc9AT1zIS0jU
+Message-ID: <CAABR9nE8Xo7z0Yg4AKPmqV9+Fjs3bnH+8pYykpFWOcq+3SG92A@mail.gmail.com>
+Subject: Re: [PATCH 0/5] ASoC: atmel-i2s: fix clock error handling
+To: Mark Brown <broonie@kernel.org>
+Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andrei Simion <andrei.simion@microchip.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, 
+	Cyrille Pitchen <cyrille.pitchen@atmel.com>, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 11/10/26 7:18 PM, Ryan Brue wrote:
-> Since commit 4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to
-> the devm_kmalloc_obj() family"), soc_new_pcm_runtime() allocates the
-> runtime with devm_kzalloc_flex(). Since components[] is
-> __counted_by(num_components), that also sets num_components to the array's
-> capacity, but snd_soc_rtd_add_component() treats num_components as the
-> number of components added so far and appends after it.
->
-> Every component is therefore written past the end of the allocation, and
-> for_each_rtd_components() stops at the first, still NULL, entry, so a
-> link's components are never found. On an MT8173 board the RT5514 link's
-> init can no longer route to the codec's AMICL widget and the card fails
-> to register:
->
->    mt8173-mt6391 sound: ASoC: Failed to add route Int Mic -> AMICL(*)
->    RT5514 Codec: ASoC error (-19): at snd_soc_link_init() on RT5514 Codec
->
-> Reset the count after the allocation.
+Hi Mark,
 
-Please disregard this, I didn't see Emanuele's fix for the same bug in 
-for-7.4 as d00ba321499c ("ASoC: soc-core: reset rtd->num_components 
-after allocation").
+>
+> This doesn't apply against current code, please check and resend.
 
-Apologies,
-Ryan
+I believe this series has already been applied to the for-7.4 branch.
+I've also taken another look at the driver and plan to submit a few
+more patches for it.
+
+Best regards,
+Phuc
