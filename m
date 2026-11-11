@@ -1,100 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.180
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794397862;
-	b=i3ipM82boD9mRfJLgNVnnngi0prrgH4D0srnZEM9elcCfIH7y1Xgx8VNhAZ9+J97aTc/
-	 XA3zQbmka/UJDzKYi1KE2w0jKruVDydiHmYK2+as1ysGypdHzA3We72BKrdBTTZQWC0Lp
-	 QH1xWDeXm1wK0dJ+vphDR7RPOGFPFYu0S7JJ4Qxr4cKaAdFkQv6h6Wu6gauBkkFamOspm
-	 a3hqVTVBIk8W1XSC+EDvnJ5CqR1WBEZ+8pU+ZJCeXHgMBXEHGX7LyTtej3wW0kvnV0HQC
-	 mtIOmVWN0lTKhziImVJqn3fE+8XLeDEEw00oSHKm+GzFLYZUJnoXYHTFPDQMbBCd7Mg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794397862;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=SvJ/yakFDduNn4r/1BAeP9p8qTqGeWwQTRNwHFqESl4=;
-	b=y2ofQbljub8emtex2oEur9vPjJpsdZgfUPYtZ6UgKU2ob+J6X6mYpw3C7RAxTDHXfgDu
-	 HK1f1TjDydo1R5veA2dV0hEzST2osAhoyqq6YRbSPFA1nshHdLXEtR5gAzlZZtw5whgMU
-	 8WWbmYgg5buHeO4XtBJuDfLTHi9Gisos7566tXIR1hraq1KkrYWRyFHVpr028QOL12QqF
-	 LP21j+/WGFyUnPka10YBmIJNomHw6dbloA4jkwgvOcWVxA1tz+VGLQHFGrsXVwdfr9Nwx
-	 RFgZDhh8w2vrIsyqMHR4P4yw+zcBqoTJCZmX27dGzICHR4IfUMlgs+9oSyPJ35FmspQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=thegoodpenguin.co.uk;
-	spf=pass smtp.mailfrom=thegoodpenguin.co.uk;
-	dkim=pass header.d=thegoodpenguin-co-uk.20260707.gappssmtp.com header.i=@thegoodpenguin-co-uk.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=V5b2CttP;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.180
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794398064;
+	b=eBaSdccKQpBHGgvYilgSk5nY1nsrRJApqPHXTfJqLhJbAXt6oWRDVwg2DIna5NpEJxFx
+	 3PjRg2F53FP/ohb3jalNgRok/rLnQsc66QQA6Y3nchx7q2odXZ1sjSGdGvTlvvuzGIfoH
+	 pAvhCYUPKpxYBXYkzJKJhcUXtZlqjT1cvy8TZJFspFZnnT84yEmOkVavMvvWca7aUKN3j
+	 5SDwW/Zk9ZM6n2XxKNu2NgoujIBAwl5c7ZXpvP2rNVQaiwo4QfdsOnjqFk684yzx6qpii
+	 93eE1ac5INl/0t0Qy8DbyVy9UUgiH4i/uZ5FBkWpsT+pPSPipJ20xZOGXq5Lm43r0Gw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794398064;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Debian-User;
+	bh=Ep5AJlsUvRo/Sl9Rg+NwP6D7Lq/wQPVEaLy1Gie9QQ4=;
+	b=kSLfRzPZ+UKsasYkIbpqJ/vITapkU0elP5o0JXeuaDjOpN+g3TP59lLBg2hg5PXjNGJt
+	 vwgPYlXZR1d9ZvixRGmUHeOkWt+tsdyV0qBn9ZAY5xzYVzXf7hmuGyTFX6S57GOTnpIzF
+	 AcnCBHNlTmWJ5edE+ZyX1yJLTuL6ve8DMStbkxWbSK+bfFfRnr8+kFgNTssE4l4ykYMFS
+	 M6LTGpqnK4ylkmAdd9kx7/CPXQ14EKwSdB/OAXpAMzpoK7U+2i6ZyeY1r7zS9k45HxshI
+	 LG6WpR1UQ4lYITagxJN5ayExy30UWYFegZa4g5E4JZiBEI2ZpVK+KshwtMpXC/95joA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=vV5nh+mu;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBC6606A32A
-	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 11:51:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DBBC6606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E310B606A321;
+	Wed, 11 Nov 2026 11:54:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E310B606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20260707.gappssmtp.com header.i=@thegoodpenguin-co-uk.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=V5b2CttP
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-93f36c18b75so184404685a.1
-        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 03:51:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794397861; cv=none;
-        d=google.com; s=arc-20260327;
-        b=giwzpphnL8MIiKm0dQSjoRsXV++odQ96rnhiDR0UxRp/k/6VMD4Q+nOpD1dvwYI084
-         IoLq3HbB0j0Zv5FeZSptiz4YpnPNWdwOOqkmN181h+1spSlmcEMgPoLRfUBk3thanvrU
-         rgqY6OjwPkP2AolEi9sYyHzZj6PNjXstldcmBZBQzwkUtPiT9syGUfXLx4EyxuRLlLgF
-         X4hsLwkq4C3C6E4DdB4lcB48RlWQsrD7gfwFfOZhMBiTisO4qXks4/xKePPM8u04GwqN
-         0i2jRmVmfZTOpPeoZ52K7Dedhdu2UwOwL7X0yahO0H+ztINqBykANrTuMLN73oN56vZG
-         R6wA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=SvJ/yakFDduNn4r/1BAeP9p8qTqGeWwQTRNwHFqESl4=;
-        fh=tQyyDIwayy6R5EfdV6T6gBobBTcGNvoON6g+E9FMiZg=;
-        b=ZQL4anTA93QxZ5pDegv6Zcpt0jPIAxu8MQR4I9voLQSCuWe2IbbkBXY0jxGpO9VsqX
-         Q6KzxKwzsWPNPIx2i97bt6XFlrxP+n4S/c7O7HD5OI44LbRDsfIEQz8CYCPY9L9yAKM/
-         9D3X3wf8A0y/3GTqDDjKiybKzjnHKk9NquSxnEt4KmzT1EseocQVjGycHPNGjp1dirZm
-         iIKBgTXJsWpFUJlPqzY0KxMBfEm1P2nRP0o3A9S/DwH/hNYsDPz8zMjcbChLjuf/PLA/
-         YJGAYWWwPJfst6xD3S6tyISjxmaDKav5+W6h/8Gf6gs3VOWJeTlXcG5KTLPw6jI/F8zK
-         nLZA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20260707.gappssmtp.com; s=20260707; t=1794397861; x=1795002661; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SvJ/yakFDduNn4r/1BAeP9p8qTqGeWwQTRNwHFqESl4=;
-        b=V5b2CttPgbaVLOVj6ShAbHXi4p9RJT87mHYSQ2huFLF0TIid3B0OYYsH+S43C8BZV9
-         9D+7K5VTtq4qrX6bb+aRmpJWX4OF3zJh324PqWGT1mn5sCmaEY/mlYE8QO/HSeLnzz+S
-         Lp5LcjvplpXXuqRUqb9o/5LhjixxkPgMhPUxWDdl19PZhejlNgF6B0vLWL7IRsNblZRL
-         BQF+ayRBoIUIE0r+npXYv2+V5xhmi6ou+bwi8JU7E72bKUJFC8OLdfnbRUYt/bpm8v/P
-         EDD6hi9UaGnRnghqrhZhKUn1jl9/ZIH1mZCsmv3gyaT7BSi3sRQsQ+sbLT+M9LY+qzqb
-         qpvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794397861; x=1795002661;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=SvJ/yakFDduNn4r/1BAeP9p8qTqGeWwQTRNwHFqESl4=;
-        b=n7OPUCBgf/23SarcPmFPnNwYDBxA+zjhs7PYkpnhBEYoW9c9aAesN75sMWXtgxJcet
-         oXLdfIpuKp/0VreDIjx+lYZAxrrkdUaowwOas5+DF/ncBRlZTdWGVlnFlNpvuX/WTzuP
-         6Nd3WOaLmtMh6wWK8ouCBpm+tmAg2zWhTg6ShZAUl1cd45GtdRbMMjNsK39zBhQChnFF
-         UV4ye18SXpePGgoXfZVimPX4Q3tHjDsPYZ2jZjL9fJF+/BfmMy+7cDtmKbaS5CsJUqw3
-         Cs+Hj4JzgVKCOZDpdnG7/Q/+v2fQjlCYO5/QwJSsOV8meO+RBZwqcHkNWUZ7CSn+jlh9
-         J3xQ==
-X-Forwarded-Encrypted: i=1; AL+hErH9M4Vy+nTW+yQ9VEP6h6fAKJqxx9SPX31a6T3ZhqJOeqnYa1GJWm805A8Go6Y1fahvWzOMqelUnKhWxg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9Rbs9FZb7mV49WP09r5Eqo2MqcNqpPbqcMwGcY1iqQ+0+8OUhm
-	xQV+SFZQ+67xG3wkb0zIimompk1oOmciUkIDNGCh9y7FpIQsPx3g60u9+RRfTK9By41RvAmiOz8
-	9Pz3GLstPwzQkakwGowmcIdUBT/Udeo3WwZbArmu+RA==
-X-Gm-Gg: AYBFou1+1Fj7sU23G1FLj/FxTZkoeJMuazKYuUG+yivO5T3NpOTlFuNYg2gbrFa3brF
-	gdgu8/rc+aMH2CVuAShqXvML27obmVHuHCAvZKLv1O+Fyeo2tuKX1uA2uT67lcwsrAcy1LctvzW
-	yfEsGfXccLrKddZRciJvT0FGmvkJHroGqcv26Ucc+2hIICjv7ap2LChKBruZ+bhiL92wtnlDO5G
-	XRpwRAEpmDKaL08cYtq4T837FhHWoW604BvdA9pP25ACJL92pjjX4sxLalM8HKMUvpJ34RXFokt
-	Sjr05fmlTBH/0HM3bS5iTFNYThlo4zaWmb4M07FNQ5hqnf5wh/SwPOU8ToEDbVOGqzdf99ugeOZ
-	MmLy+zeTV75PnWhtB3VZUoaDCgNVbIfh7Hpyg+TgqrVQJwJLuE+sgvWsaBgb9pG9Aegm0aihzRX
-	M5yoWw9pQ7TRAY0G/9
-X-Received: by 2002:a05:620a:8908:b0:93f:34c9:9259 with SMTP id
- af79cd13be357-947affef9aamr308328285a.50.1794397860820; Wed, 11 Nov 2026
- 03:51:00 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=vV5nh+mu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Ep5AJlsUvRo/Sl9Rg+NwP6D7Lq/wQPVEaLy1Gie9QQ4=; b=vV5nh+muii9KUwMXfoK65C9FPK
+	aNSl0OiG0j4I+LFXc7WeA74kYOFf834TBtI7qS+ZEF0cf7hSHSrnoI47iOSAXQPCAXQU9fne6O/8R
+	G2wk/XluU5ugbAZ7f5jU4JBscAk6nd/VyyPFhAk65/tq7U9wZjt9SJD8a8A/m2R6Cxj7l7C76kg9H
+	1KIPLAQYQ/Fv+JWvD04uouKwGYT/8gu4uHiCPUf9Bg4PxVdqeWdNvrfltP4AIW+MdO1/5WBfOmizl
+	DellelcAiKmJM9KaaC82wP83/72jAdgWurCb/I4tMo/beG16KgajqNT/PO+VCT1shIIGmoQlyuzr0
+	Arg3hVEA==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xR6u3-00DA6f-37;
+	Wed, 11 Nov 2026 11:54:12 +0000
+Date: Wed, 11 Nov 2026 03:54:00 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
+	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH RFC 25/38] powerpc/crash_dump: check ioremap_cache() in
+ copy_oldmem_page()
+Message-ID: <avRXHYDKemkiDvoj@gmail.com>
+References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
+ <20261102-work-procfs-bugfixes-v1-25-59422ed3e465@kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,33 +88,24 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <cover.1794347059.git.u.kleine-koenig@baylibre.com>
- <39fc883cf1c7077bce8f16719cca59060a395b02.1794347059.git.u.kleine-koenig@baylibre.com>
- <avQrO4etMgpOhvwF@ashevche-desk.local> <avQ19KBnQ2mnhZa-@monoceros>
-In-Reply-To: <avQ19KBnQ2mnhZa-@monoceros>
-From: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-Date: Wed, 11 Nov 2026 11:50:48 +0000
-X-Gm-Features: AclHuK9yXImPSOD4H34XxYmcqqFrOLj5GBNrtIWsMZD69B4vZ4xDk3_xNWS8s7s
-Message-ID: <CAA6zWZJd7Leaytnf-BfHu5ujAnEhTwSB2007KXnV=eE=pvpz4g@mail.gmail.com>
-Subject: Re: [PATCH v4 10/20] mfd: Use named initializers for acpi_device_id arrays
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Lee Jones <lee@kernel.org>, 
-	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, Zha Qipeng <qipeng.zha@intel.com>, 
-	Qunqin Zhao <zhaoqunqin@loongson.cn>, Thomas Richard <thomas.richard@bootlin.com>, 
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
-	mfd@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Linus Walleij <linusw@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102-work-procfs-bugfixes-v1-25-59422ed3e465@kernel.org>
+X-Debian-User: leitao
 
-> Oh, I wasn't aware that Pawel is still on that. Initially we had a list
-> where Pawel indeed was assigned for acpi_device_id. Since then I went on
-> to do these changes per subsystem for several *_device_id at once
-> (instead of per *_device_id and subsystem) and stopped looking after the
-> initial list. I might have mentioned that in our internal chat, but I
-> take the blame on the lack of coordination.
+On Mon, Nov 02, 2026 at 03:21:40PM +0100, Christian Brauner wrote:
+> copy_oldmem_page() maps a page of the old kernel that isn't in the
+> linear mapping with ioremap_cache() and copies from it without checking
+> whether the mapping worked. If it didn't, the copy reads from an offset
+> into the NULL page. That oopses unless the copy happens to be a user
+> copy, whose exception table entries turn the fault into a short copy.
+> 
+> Return -ENOMEM like the other architectures do. read_from_oldmem()
+> turns that into -EFAULT like any other short copy.
+> 
+> Reported-by: Chris Mason <mason@kernel.org>
+> Fixes: 54c32021eb6f ("[PATCH] powerpc: Add arch-dependent copy_oldmem_page")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-Hi Uwe! My bad as well! We just had a chat and now agreed to proceed
-in a coordinated way and do all *device_id changes per subsystem in
-one sweep to reduce the amount of churn.
+Reviewed-by: Breno Leitao <leitao@debian.org>
