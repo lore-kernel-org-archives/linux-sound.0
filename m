@@ -1,78 +1,131 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.152.168
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794389163;
-	b=m1KDGCVakfqPbyE52xw0TYwukwdF8LiDUUOUzXB5RcthqLLNYibl4Fmd3b2shOhT1GnT
-	 xWjhhiAO2Z81rgSQgUu2YbpCxSK354IifW0a0yl5T04I8RMs2l2UXUXVEqJjSQTpnx2K1
-	 LFBtcacpEd05UpCudSMQfksxgK35WRv3QOrgJWDhu77nTgHQSj+B1en1ezrT5tBlsRoCp
-	 2gfJvAVyv21zCZY4EXbAQWE8CxAVsj4IkA9EbeS1qjn8lgDAX7xNVHx13AVf0tZ+TDuCp
-	 OvLfYQBl5suXLBxI/oaz2CSKQiwlUhWhL/LEyXxrvsrq93qSqTKXlfE6y1FB6qGObHw==
+	t=1794389397;
+	b=rxgOUW2/0Okl0vjPadtwn76zPooxor3IfK5xfjoUgL7pJMQnet8WBf8WQ1a3ouu5T27U
+	 nsymSNpe+wD18GQGd4lQYGvtYAaHvHVu76BUfAQvIVKufJGCFlpXq56jgKL5yfrWn+Luv
+	 VeLC1yNtoW7FCbYZg2W5KIMQkkWCz3aiQk/eQHFb9995DKg+f+fGvXf7EZen5e1EmTtwi
+	 t7lnxYFOMLYQN+T00QJwJBPVKnBMM+Q0AN44JiFCb8/T+kSyYIzK0ThMQ+iX2D8lKbtRU
+	 STmDr6awQDpdRQvC6G0Ud8W1cEOTjL1Iy2b+87rqmugX2OHIx99M+PWBQuwp0FQWLow==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794389163;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=mToJYxgxg+bonltADzE4r2h/cr4kTP84r/BzE8TQ1p4=;
-	b=V4DjLlZoO+Y3ZTiwnPaf22rghPwhWiN5lYc6gFcsuI9Yy4SmxfoHbWiblHwAWbDt66Of
-	 uq4W7sDdYw2/u5d8Pv1seuj5PUoLUsMk+SCZ3+U1M1njXqMf41T2diuRgZ+tVKki8WdEN
-	 bxCjaZWED9D65y827VaZZZznMFowibBVKMJgux5BXMufjaiSfJwYM61x89FkLqa3h9Is1
-	 wx4++1wYk4z6twUlvAHK3E31MMpIfyZAEZV+pSCza36i1SG+D5eK7BTp4Qa0mZbhlDmTo
-	 3TJ/a0CbowtvD5TRxeQX+3WEvvjFqJSQTBjHctv6O7gk0UX7AXQ1OdbIucNdPRxk5WA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794389397;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
+	 Received:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Reason;
+	bh=sV0Tc8/+t9d2UKdTv0+KDyGV9Lv2eFT61QEtLhMXr9A=;
+	b=BJ7PArtr9TGmeAJ0a5LnD6SLvNfUeDxHzypwiUmRgZQoagCrh5eZxLUC5mwqRtkot6rA
+	 vMMtJ0aYxVOtieMqY5aDHFUGqHvI0U41RtQ0XVb8BFEqI1cK5kP4Dvm1/5RXBfLYDkXnT
+	 10/myQi9zvGAer8U6tyZa9VPGigIVpqjWD3ZuDWaGmRLyQIh66J5tMawWMDfXAkfxvXp5
+	 LKANck8vcGLqb48LfWccjL9evXhcgz9G0upZmoh8+9sbbrYXgousJm0d5UWIVmcYZO2+b
+	 N65x7FnuR4rkF8vKwMsiqsYooMo/6d2t8nRYrX29j+MmjbHE6j5gtzjhm28FHasdKPw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l5BhOruS;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C31606A31C;
-	Wed, 11 Nov 2026 09:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l5BhOruS
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794389162;
-	b=BEkAq40V42yBarj+R5xNDTkZ598IkT5aruaKLVKDtgkrtuTOMVXAMF/vhpxIW/wU7+SO
-	 RWrFFQO9cmIagXxdJJAuOzhr1aJ7lRrWd6biWBMi9he2IAslqTHN6M3QoeaODypbsKAj3
-	 7c3mFiQsUB4SWxnHsQ1cNVzjLiItaKfUfmaLRgpsYIqCJn6SAtBSx1mhcCXJiA9VbwKtr
-	 IHiEeAjnvw4RZZM+L5tyjR7gYNVnOBMLQ9GRg2CNUETX1I5xZqmdd4IY8v5giLwDxO5ul
-	 XHKf9ZUg+evqhv0pB06EwJzXMftAH7QdVKeQrEZc1k+4vS5jXJXYkQdRjOqr5YUNlWg==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794389162;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=mToJYxgxg+bonltADzE4r2h/cr4kTP84r/BzE8TQ1p4=;
-	b=sSsrK85SSBKzs9Nt2uwbCZ9VgzTHpYLuoXaqmeB2MMaT5Vu1m7PJaGOmHcUCFEnEBz99
-	 LENJ1aNmBJMTUzY+bQz/h9vJXTYNDak7qLlc1D4s9CIdFcbWHWlidu7bhjD55jYsTOV8R
-	 5eCYJ0d5y1dhHd2tDMwevPirAQdKy5I6DsVMYwfjPcQ2wafhTDe3mpSmmy6v5IFrLwR8o
-	 xX8yd4kzBHiiocf8gldLOOJFUtohBTxfNY/PAmKmYcOL7BzelS1xVxr/Srohk9uzSlyyJ
-	 gQvfnsKKvKhukq+zNyRA784yut7O2t8IetKiRy/esWZYkOITDzz4yzO/QqztRKIOdAw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	dmarc=pass header.from=opensource.cirrus.com;
+	spf=pass smtp.mailfrom=opensource.cirrus.com;
+	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=J7CqR18k;
+	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=s6Wl+Ae+;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.152.168
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id E02321F00A05;
-	Wed, 11 Nov 2026 09:25:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794389162;
-	bh=mToJYxgxg+bonltADzE4r2h/cr4kTP84r/BzE8TQ1p4=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=l5BhOruSj5nIm3WZHqnqq2NXJ31YZkMT8J5d3ICu101aVzYsmYBUqCFWaIxQMk/1s
-	 4Xa8CnhQLfjdMnRExwsmrZu8pOGFoqS38PVkx8xYt9Pk1S7odngqJ15GrBza2ZlEd8
-	 X9Etuy5EIquXzGhEigEbs4+V+TFADJUMUChblEQn8bHcPf1Ic5sG8na3zFBvJAg3Vs
-	 rua2MDw4/ci+XGK/Hivg6FY9Oh3Mv2mX2tzqmCStuuMOZge72S2JwcB2Va6yDG4gK+
-	 pePwaM5DmF461XO8rqUXnYVZr4bi9Jdewr/ZxGEmQ7UgzFmnSAT3Tfip5E4nXVyG9N
-	 LJ7q3fgEpFeDg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 3CEE248F08;
-	Wed, 11 Nov 2026 09:25:59 +0000 (UTC)
-From: Nordschamane via B4 Relay <devnull+nordschamane1.proton.me@kernel.org>
-Date: Wed, 11 Nov 2026 17:25:48 +0800
-Subject: [PATCH RFC v2] ALSA: pci: add analog support for ESI MAYA44e
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C338606A324;
+	Wed, 11 Nov 2026 09:29:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0C338606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=J7CqR18k;
+	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=s6Wl+Ae+
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AB9TjZF3414213;
+	Wed, 11 Nov 2026 03:29:50 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=sV0Tc8/+t9d2UKdTv0
+	+KDyGV9Lv2eFT61QEtLhMXr9A=; b=J7CqR18kA5q8OJpejfboXH0RNv7yCKjjcB
+	+/NPL7ULNqb/HUfkVjmYs1aIupwof6hqdmCKGmcvhQn7FzZKKX5NFq0tPy7n6eOf
+	dCrpArUo/PVRyubBzP8kW10sAVqCc30/Nig/o1dx+rC8KpLAKY2a6tETxjGt8ZLE
+	4zpvflPiCBM/XBwQzoOMQ4+yyZ4/zn3nDjSPI0KNHQ5c9DsLmfk5y1kxyaTkBBoQ
+	0eiSYvR9RIU+tKrUk5xJmYNMknmSscm4KIaKOVVURqVQhZV9UPBLEpDXA/j2TDIr
+	m/277HQbu2chiP1vh4LO2w1M+lWYkMZFyLsp6w0IV7FUJuREUweQ==
+Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11020133.outbound.protection.outlook.com [52.101.56.133])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4hv7urs75j-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 11 Nov 2026 03:29:50 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cZAS1f+lx3MHLgHOmGwDNmLRCtRtO14tqh5E3HVJRWFjh9HE4Sp0y9YlHlgGH7z0Iclw/AfrAZkXD4VupwGUzSI4JAG0rTDgFk1ycU7P9rTTF6PWK3wRKc3w6qrOVAUxRRoBhNOfUpUQMMi5mxPnvkcDw2+J2HaFjEJHw06rEIDkTI8M2jPQqS8JvrAXPi7h8jFRztuS43igN9oDZANOvf/bR2S0UjjT1voE70pGqgDWoFQe2Dn1BwOZqwShT1ou902LVZskQK+/jyEtDQ6ktGxeGH1l4OjY1KJilBiV7tevVsXQR7py/zQo6XQUspYsKTA5b4g90EkYsdnWWBhvYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sV0Tc8/+t9d2UKdTv0+KDyGV9Lv2eFT61QEtLhMXr9A=;
+ b=wopz4aeyRZK7hHAvI4hCia3vPdgh2u9HQQxMeW1SQaNeerFXFIVzWV7j9Rzz0tqQfqhlxU5+eU/Bb6Z9HpCWcA9tcz+/0J3veoCWJykb127YlxkcUjXpHjz5e9SsYBvjm1cNATuDfORF/y1TWXmryCI3iIzr+D0Pz1iZVfDRmQnZk1dUi9QhMomegCDC2KsbjMZmInV0dzrqi5ZnskBov+nVrsnqXa0al+mATkBbtH8Pyx+uI+Z0iuF46fYcqg7x6uQO7OBSGRYxOFonj8e9FMwCztaWQUEvLlclarIDf3ceyAbTLiAKNuqnz0YRPo0oRZ6ZPpHrXoy7cQ3iwLWcEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sV0Tc8/+t9d2UKdTv0+KDyGV9Lv2eFT61QEtLhMXr9A=;
+ b=s6Wl+Ae+RtZpO6hkWBhPltON/9SrcK9o/DyskimRhXJam5T9JXTwRaW/bd1AlmoWEgWl9nRXZtg24UZoKJTrqO7vb0B8BS8fKGHgdpwAKxNTMpiNFuqQeR3DAnahsT0RZZZLtK/WqXYs3npOIC14yQ65RlAVrRC1ne++GRoh9Ps=
+Received: from DS7PR03CA0153.namprd03.prod.outlook.com (2603:10b6:5:3b2::8) by
+ SJ0PR19MB4398.namprd19.prod.outlook.com (2603:10b6:a03:286::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Wed, 11 Nov
+ 2026 09:26:48 +0000
+Received: from DS2PEPF00006E21.namprd05.prod.outlook.com
+ (2603:10b6:5:3b2:cafe::22) by DS7PR03CA0153.outlook.office365.com
+ (2603:10b6:5:3b2::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.9 via Frontend Transport; Wed, 11
+ Nov 2026 09:26:48 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ DS2PEPF00006E21.mail.protection.outlook.com (10.167.23.214) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.4
+ via Frontend Transport; Wed, 11 Nov 2026 09:26:46 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 55810406559;
+	Wed, 11 Nov 2026 09:26:45 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 3B582820273;
+	Wed, 11 Nov 2026 09:26:45 +0000 (UTC)
+Date: Wed, 11 Nov 2026 09:26:43 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com
+Subject: Re: [PATCH v2 2/2] soundwire: Assume default maximum valid channel
+ if not specified
+Message-ID: <avQ009LpCFfgDfBl@opensource.cirrus.com>
+References: <20261110113842.347883-1-ckeepax@opensource.cirrus.com>
+ <20261110113842.347883-3-ckeepax@opensource.cirrus.com>
+ <105b2b77-7eb6-4b96-821d-51af94a2e21d@linux.dev>
+ <avMziZ9tYT5lg0Oa@opensource.cirrus.com>
+ <c477aed9-6b9c-4db1-8549-e1a407f55e43@linux.dev>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -82,1946 +135,101 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261111-codex-alsa-maya44e-v2-1-c5f94d722b54@proton.me>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32QzW7DIBCEX8XiXFr+DLZPlSr1AXqtclhgiZFiS
- DG1EkV59xK35+5tVprZb/ZGViwRVzJ1N1Jwi2vMqQnx1BE3Qzoijb5pIpjQvA112eOFwmkFusA
- VlEIqnOKGD8awYEkznguGeNlDP8nH+xs5tKWFFaktkNz8yMslHmN6CbnQhJf6sM1xrblcd5SN7
- +b/rm6ccuqDZhCUkjjK13PJNafnBcnh/otR8Ou7Vap/LDuDy8sS69ShG0XvpVGM92NQVlkvrdG
- KWew988IqrRVnem8E1c3tE1MHSoq+x8F6LgJzbgDJjECA0cA4aPAGWoARDeH+A81U9y1dAQAA
-X-Change-ID: 20261111-codex-alsa-maya44e-2c41718770fb
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794389158; l=59679;
- i=nordschamane1@proton.me; s=maya44e-20261111; h=from:subject:message-id;
- bh=bFRoXLjowg7AGhQWZUIRHmycuWYFYMUA685mvMQkZjw=;
- b=V6udG+FpgdAR68jOCqVOBrsocJTMLuWFpll/tn1sPHZDOFz8I7NATX2QCywZjovKklXTRBKWw
- 0KBMTuOHxrnDwbgHZE81dZEbHlPpq8eZu+tYCLH864D4mES5hXgwj9p
-X-Developer-Key: i=nordschamane1@proton.me; a=ed25519;
- pk=DElwTnUfIzIJIRAscDi0+onWjXgpAyci+ZuDPLv2veQ=
-X-Endpoint-Received: by B4 Relay for
- nordschamane1@proton.me/maya44e-20261111 with auth_id=1488
-X-Original-From: Nordschamane <nordschamane1@proton.me>
-Reply-To: nordschamane1@proton.me
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c477aed9-6b9c-4db1-8549-e1a407f55e43@linux.dev>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PEPF00006E21:EE_|SJ0PR19MB4398:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0d2e1637-2477-4ae9-268a-08df3fd5e84f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|61400799027|376014|36860700016|23010399003|16102099003|18002099003|22082099003|261009223027099003|261026121527099003|56012099006|10067099003|4143699003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	T+mD6d/8SSNcRyRCdBnwANScEAMYrsmA3axG8cNXRy+SbrFxRfE6ArGyN7Db/0t//7mu+xmSh6NM/wa3RVAtzNOYApnFdMjdKqa7+gBhMfF0X1yLLTzsD4FIJKmtv7xQXzRnGAQGumdptQ7Tw5p3Y8H56VKrXO3CbnZASJvHlTklcoMC9XBUbYNPjrxhRObjilhlif2/gRiyzHQuX0eiP2uNYmP1rXvIpWZa1pQBErWZarPf2e2+S0aaa34euZZKiYrNn0tmJWYY1OXJCOlaitIFVnjc2Nd9wR0weMhVB4iS2AXFWAZdtd/7OLWovNwqtj0VBJCy7iZdPDopIXedh6IBul5c3MCWo4G3PgrB/mm0FEH0wOFbqREor29bC8GuykzPPw6JNcXxNC+kQEBQwTYsDiBBCxwAawGYSVglkBUA6eFCGLd26t2tbfi8x08aK2VmdSm77k8WPmE/XHrXJ07SyWLPYlfXuKrkK+V6FiPHcvGuRNDdD6hKMDTAGBMG9lJDPXurS8PxfqJWsiIbmqCE8h05H7zq1+r1RnZmUVxAmHgpEcZ2iCQHE7NTRw36nCanu3Aa7YAV3NulmWryXk1XHSi7o20/ECBwvzDl2VfQgjJm0r7GSVxsypeus35PKCSr/GmuLNrgPSpwrJP576g4t3vwarbS/WRjr7k9uwiw/taJAlFWSKpGu6M4O4ANwEL7U0NHbhJ47ZKb83YXfg==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(376014)(36860700016)(23010399003)(16102099003)(18002099003)(22082099003)(261009223027099003)(261026121527099003)(56012099006)(10067099003)(4143699003)(11063799006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	OIoQpg97/UKCD7iwnmy1arqOmIitvIUnaIyTa8eQ+o1lE4z+vXPTPENa/rfp9/Tb58Kxxr3FQfMrNW06wuYZI/4XfvMlasG7XW9/n9EoNugoGZkLtO90mVywx6sUTRfTa0aWWceEnEtl0+8Udmd3STuFoRg2qBblyqkcFxmrptaIYH0Ejst+iSuIPo0eBeJruRgQGrXS22w3eeU2s5va+qyUnXWPNhJJSyXVRMuHFz/MmldEps8XRd6suSxu06YMkDk3inyVMBAXxZdIIwQ16s3oy4AWzdO5XZLOgsIN/ByLt4hG77MsI/3z9NT11nxLplJwIbCt7qlM4VUJUjGy4qSZZ7C3oSMuZjnkgTTouOzKSMa7rzriWaYNdRpfYATM90+BZnIJaF72kyGzEmKrgi+XiI54I+YS1xpwVgCy8DY2JJxSmseqwVN9ZkUPvDXH
+X-Exchange-RoutingPolicyChecked:
+	5SjJLWBEITul+ILHTaCBFRdIY1mRoG+gNgPnzihOnXRBESTMC3vmSynyLT/7Y4/NDIINmKBlT31KD3djWnRI/UT0lMC2DQQT0Kb2dQronU2sXqBzuA/3hlmFZ/90WScCMnpOHsNG4GABzxTcGrCM/OAmU/GCKox4LBkLvNUS1RIs/uAw/wHdsCDaBgRKb/bxNPZIMDNpKqCeqm59C9FaPyw0Zoyi37XuBnx2Udhlq5veSvcdXnGJTR4Ni3J7L2VlrI8K1YDTbF6C/TswtDgDSfp2XhTkljkqX6vhrKL/UCyLVtRbOroEeVEyx8CfrG4n+F4I5x9nBE0/q8OXbK62Sw==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 09:26:46.5109
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d2e1637-2477-4ae9-268a-08df3fd5e84f
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS2PEPF00006E21.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR19MB4398
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTExMDAzNyBTYWx0ZWRfXyftHEv2xiwWF
+ pXpQJw9XeKhWMve9LaUkedodB8lJTL9xsJDehVXKERwBfzhShOTm8n8DX/BxdV7d5bn4odFbN6x
+ gKnuod5PSJeV6d9BzoKA4t8+HEtxWNDa3M5h20FFSU6+lbJlDNs23mDjuL8Ims3md3VXAqNZmKh
+ EdADDTOZ57Zrn6TCf43NZSI3l/eIKUhXqJ33T94psbTa2g8Tbf3rdLmgeD2sRXPUUnqQPRt2M9A
+ 6bsXvRk11qJGSrzhrql2+9bBmkWtvGD2x0mI5WCOB6URwoglpCS9wvvDAAoky546d7x51nUUMfg
+ wDRfv0ZoiQiH8uK3I6BSTYWt1eL7eZVqGskaxE359oHqefCSkfLQ0GxKRTFodzfMfWn6xg0WSET
+ +II5ZvNP9VuoLCMvVMZqBKbwSWXXLjh9B0eTV7Jqifx2dUcOUG1aCFSByNYGk6aSp4rlpg9ZEOF
+ fgjoXykzskYNDN/LO5A==
+X-Proofpoint-ORIG-GUID: 4ATo2VcC35h1mnsEuN4vguSK4AzglvnF
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTExMDAzNyBTYWx0ZWRfX3X+2L5PnVdqz
+ xmo2FuxuhDqqF20Z/7GxZigcwBaKumCgWma5tsicjfKXtXBskFxdQ8t5oL6NFTCz5IR/xEIrN5J
+ pfS+XG6z5Xy0bobmpZCRoLOz2CtYxiI=
+X-Proofpoint-GUID: 4ATo2VcC35h1mnsEuN4vguSK4AzglvnF
+X-Authority-Analysis: v=2.4 cv=JagpPkKV c=1 sm=1 tr=0 ts=6af4358e cx=c_pps
+ a=q7ul7JX4f8a5wKXmg0eXeg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=3-cu2pGj93GlbvPsAm4A:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Reason: safe
 
-From: Nordschamane <nordschamane1@proton.me>
+On Tue, Nov 10, 2026 at 06:11:13PM +0100, Pierre-Louis Bossart wrote:
+> On 11/10/26 16:08, Charles Keepax wrote:
+> > On Tue, Nov 10, 2026 at 03:30:43PM +0100, Pierre-Louis Bossart wrote:
+> >> On 11/10/26 12:38, Charles Keepax wrote:
+> >>> +		fwnode_property_read_u32(node, "mipi-sdw-min-channel-number",
+> >>> +					 &dpn[i].min_ch);
+> >>> +
+> >>> +		ret = fwnode_property_read_u32(node, "mipi-sdw-max-channel-number",
+> >>> +					       &dpn[i].max_ch);
+> >>> +		if (ret && !dpn[i].num_channels)
+> >>> +			dpn[i].max_ch = 7;
+> >>> +
+> >>
+> >> this works, maybe with one possible improvement: in theory if
+> >> "mipi-sdw-channel-number-list" is defined one can ignore the min/max,
+> >> the two approaches with the list or min/max are mutually exclusive.
+> >>
+> >> Something like this:
+> >>
+> >> if (!dpn[i].num_channels) {
+> >> 	fwnode_property_read_u32(node, "mipi-sdw-min-channel-number",
+> >> 				 &dpn[i].min_ch);
+> >> 	ret = fwnode_property_read_u32(node, "mipi-sdw-max-channel-number",
+> >> 					       &dpn[i].max_ch);
+> >> 	if (ret)
+> >> 		dpn[i].max_ch = 7;
+> >> }
+> > 
+> > I am happy to do so if you feel strongly. However, the spec
+> > doesn't really appear to rule out both being present, it does
+> > imply that the channel list takes precedence. But given it
+> > doesn't rule out having both, I quite like parsing both and
+> > allowing the driver to make a decision about what to do with
+> > that information.
+> humm, the wording "Conditions: If Property mipi-sdw-channel-number-list
+> is present, then this [mipi-sdw-max-channel-number ]Property shall not
+> be present" is pretty strong.
+> 
+> I don't mind keeping your existing code but then we'd need to add a
+> comment to say that we discarded the 'shall' to cover potentially broken
+> cases.
 
-Add four-channel analog playback and capture for the ESI MAYA44e PCIe
-card (19fe:7000, subsystem 0e51:0001). Playback and capture share the
-sample clock and can use independent period sizes. Expose analog source,
-gain, direct monitoring, DAC and crossmix controls.
+Nah, its cool I will update the code as you suggest. Should be
+able to get a spin out later today.
 
-The ES7010L register sequence comes from observed PCI transactions and
-analysis of the ESI Windows driver. The existing ALSA PCI MAYA44 driver
-was a reference for the WM8776 command format.
-
-OpenAI Codex assisted with PCI trace analysis, driver implementation,
-test tooling and the changelog. The requests covered analog playback,
-capture, mixer controls and suspend/resume. For v2, Sashiko flagged
-potential issues. Codex checked the report against the driver and ALSA
-core and prepared the changes below.
-
-Signed-off-by: Nordschamane <nordschamane1@proton.me>
----
-Prerequisite: Joonho Lee's ALSA PCM reset callback under the stream
-lock, v25 03/16. The diff matches the v23 version used for validation
-(the hunk line numbers changed). Apply this patch before the driver:
-https://lore.kernel.org/r/20261111025655.63951-4-mynameisjune111@gmail.com
-
-Changes in v2:
-- Pin the managed playback buffer while processing an ACK.
-- Rebase playback pointers in the ALSA reset callback and advertise
-  the shared sample clock when negotiating duplex rates.
-- Stop all four DMA slots and disable phantom power on failed resume
-  when the card is accessible in PCI D0. Disconnect the failed card so
-  control operations waiting for D0 can return.
-- Mute the analog monitor per channel at minimum capture volume and
-  restore the saved PGA gain across codec reset.
-
-Testing:
-- Both patches apply to the ALSA for-next base listed below.
-- Linux 7.0 x86-64 built with W=1 and CONFIG_PM_SLEEP enabled, with a
-  context adjustment to the prerequisite for Linux 7.0.
-- Host fixtures passed for RESET/prepare, DMA shutdown on failed
-  resume, and per-channel analog monitor mute.
-- An earlier v2 build passed four-channel playback, capture with
-  undriven inputs, and duplex on a physical MAYA44e. The installed
-  alpha.2 driver separately resumed from S3 with audible playback.
-  The final v2 still needs hardware testing.
-
-Link to v1:
-https://lore.kernel.org/r/20261111-codex-alsa-maya44e-v1-1-df60af443e93@proton.me
----
- sound/pci/Kconfig   |   10 +
- sound/pci/Makefile  |    2 +
- sound/pci/maya44e.c | 1808 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 1820 insertions(+)
-
-diff --git a/sound/pci/Kconfig b/sound/pci/Kconfig
-index 6366f72..cb69fb9 100644
---- a/sound/pci/Kconfig
-+++ b/sound/pci/Kconfig
-@@ -746,6 +746,16 @@ config SND_MAESTRO3_INPUT
- 	  If you say N the buttons will directly control the master volume.
- 	  It is recommended to say Y.
- 
-+config SND_MAYA44E
-+	tristate "ESI MAYA44e"
-+	select SND_PCM
-+	help
-+	  Enable four-channel analog playback and capture on the ESI MAYA44e
-+	  PCIe audio interface.
-+
-+	  To compile this driver as a module, choose M here. The module
-+	  will be called snd-maya44e.
-+
- config SND_MIXART
- 	tristate "Digigram miXart"
- 	select FW_LOADER
-diff --git a/sound/pci/Makefile b/sound/pci/Makefile
-index 9d5e8e1..aea2fef 100644
---- a/sound/pci/Makefile
-+++ b/sound/pci/Makefile
-@@ -22,6 +22,7 @@ snd-fm801-y := fm801.o
- snd-intel8x0-y := intel8x0.o
- snd-intel8x0m-y := intel8x0m.o
- snd-maestro3-y := maestro3.o
-+snd-maya44e-y := maya44e.o
- snd-rme32-y := rme32.o
- snd-rme96-y := rme96.o
- snd-sis7019-y := sis7019.o
-@@ -48,6 +49,7 @@ obj-$(CONFIG_SND_FM801) += snd-fm801.o
- obj-$(CONFIG_SND_INTEL8X0) += snd-intel8x0.o
- obj-$(CONFIG_SND_INTEL8X0M) += snd-intel8x0m.o
- obj-$(CONFIG_SND_MAESTRO3) += snd-maestro3.o
-+obj-$(CONFIG_SND_MAYA44E) += snd-maya44e.o
- obj-$(CONFIG_SND_RME32) += snd-rme32.o
- obj-$(CONFIG_SND_RME96) += snd-rme96.o
- obj-$(CONFIG_SND_SIS7019) += snd-sis7019.o
-diff --git a/sound/pci/maya44e.c b/sound/pci/maya44e.c
-new file mode 100644
-index 0000000..961dbde
---- /dev/null
-+++ b/sound/pci/maya44e.c
-@@ -0,0 +1,1808 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * ESI MAYA44e PCIe analog audio driver
-+ *
-+ * The controller has one DMA engine per stereo pair and direction.
-+ * ALSA exposes four interleaved channels with a shared sample clock.
-+ * Register behavior was reconstructed from observed transactions and
-+ * analysis of the vendor Windows driver.
-+ */
-+#include <linux/delay.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
-+#include <linux/jiffies.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/pci.h>
-+#include <linux/pm.h>
-+#include <linux/slab.h>
-+#include <linux/unaligned.h>
-+#include <linux/workqueue.h>
-+#include <sound/control.h>
-+#include <sound/core.h>
-+#include <sound/pcm.h>
-+#include <sound/pcm_params.h>
-+#include <sound/tlv.h>
-+
-+#define MAYA_MIN_PERIOD 128
-+#define MAYA_DEFAULT_PERIOD 256
-+#define MAYA_MAX_PERIOD 1024
-+#define MAYA_MAX_FRAMES (MAYA_MAX_PERIOD * 2)
-+#define MAYA_PAIR_BYTES_MAX (MAYA_MAX_FRAMES * 8)
-+#define MAYA_PCM_BYTES_MAX (MAYA_MAX_FRAMES * 16)
-+/* Preserve the original driver's full descriptor/service allocation span. */
-+#define MAYA_DESC_BYTES 0x10100
-+#define MAYA_POLL_LIMIT 100
-+
-+static const unsigned int maya_period_sizes[] = {128, 256, 512, 1024};
-+static const struct snd_pcm_hw_constraint_list maya_period_constraints = {
-+	.count = ARRAY_SIZE(maya_period_sizes),
-+	.list = maya_period_sizes,
-+};
-+
-+static bool maya_valid_period(snd_pcm_uframes_t period)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(maya_period_sizes); ++i)
-+		if (maya_period_sizes[i] == period)
-+			return true;
-+	return false;
-+}
-+
-+struct maya_rate_config {
-+	unsigned int rate;
-+	u16 word;
-+	u8 nibble, gpio;
-+};
-+
-+/* Recovered from Windows 0x14610. No 12/64/176.4/192 kHz branch exists there. */
-+static const struct maya_rate_config maya_rates[] = {
-+	{8000,  0x0531,  9, 0},
-+	{11025, 0x4331,  5, 0},
-+	{16000, 0x0231,  7, 0},
-+	{22050, 0x4131,  4, 0},
-+	{24000, 0x0131,  6, 0},
-+	{32000, 0x0a31,  3, 0},
-+	{44100, 0x4031,  0, 0},
-+	{48000, 0x0031,  2, 0},
-+	{88200, 0x4831, 10, 5},
-+	{96000, 0x0831, 10, 5},
-+};
-+
-+static const struct maya_rate_config *maya_find_rate(unsigned int rate)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(maya_rates); ++i)
-+		if (maya_rates[i].rate == rate)
-+			return &maya_rates[i];
-+	return NULL;
-+}
-+
-+static unsigned int maya_sample_bytes(snd_pcm_format_t format)
-+{
-+	switch (format) {
-+	case SNDRV_PCM_FORMAT_S16_LE:
-+		return 2;
-+	case SNDRV_PCM_FORMAT_S24_3LE:
-+		return 3;
-+	case SNDRV_PCM_FORMAT_S24_LE:
-+	case SNDRV_PCM_FORMAT_S32_LE:
-+		return 4;
-+	default:
-+		return 0;
-+	}
-+}
-+
-+/* The controller always uses left-aligned 24-bit samples in LE32 words.
-+ * S24_LE instead stores its 24 significant bits in the low three bytes.
-+ * Unsigned shifts avoid signed overflow; widening adds zeros, not precision.
-+ * S32_LE retains the established DMA path; only its top 24 bits reach I2S.
-+ */
-+static inline u32 maya_unpack_sample(const u8 *source, snd_pcm_format_t format)
-+{
-+	switch (format) {
-+	case SNDRV_PCM_FORMAT_S16_LE:
-+		return (u32)get_unaligned_le16(source) << 16;
-+	case SNDRV_PCM_FORMAT_S24_3LE:
-+		return get_unaligned_le24(source) << 8;
-+	case SNDRV_PCM_FORMAT_S24_LE:
-+		return get_unaligned_le32(source) << 8;
-+	case SNDRV_PCM_FORMAT_S32_LE:
-+		return get_unaligned_le32(source);
-+	default:
-+		return 0;
-+	}
-+}
-+
-+/* Narrowing discards low bits without dither. Applications can dither before
-+ * submitting playback or request 24-bit capture and dither in userspace.
-+ */
-+static inline void maya_pack_sample(u8 *target, u32 sample, snd_pcm_format_t format)
-+{
-+	switch (format) {
-+	case SNDRV_PCM_FORMAT_S16_LE:
-+		put_unaligned_le16(sample >> 16, target);
-+		break;
-+	case SNDRV_PCM_FORMAT_S24_3LE:
-+		put_unaligned_le24(sample >> 8, target);
-+		break;
-+	case SNDRV_PCM_FORMAT_S24_LE:
-+		/* Sign-extend the nominal 24-bit value into its 32-bit container. */
-+		put_unaligned_le32((s32)sample >> 8, target);
-+		break;
-+	case SNDRV_PCM_FORMAT_S32_LE:
-+		put_unaligned_le32(sample, target);
-+		break;
-+	default:
-+		break;
-+	}
-+}
-+
-+struct maya_desc {
-+	__le32 address, address_high, bytes, reserved;
-+};
-+
-+struct maya_capture {
-+	struct snd_pcm_substream *substream;
-+	void *ring[2];
-+	dma_addr_t dma[2];
-+	bool running;
-+	unsigned int period, frames, position;
-+};
-+
-+struct maya {
-+	struct pci_dev *pci;
-+	struct snd_pcm *pcm;
-+	struct snd_pcm_substream *substream;
-+	struct maya_capture capture;
-+	unsigned int reserved_rate[2];
-+	u8 input_volume[2][2], input_gain[2], input_source[2];
-+	u8 input_pga_volume[2][2];
-+	bool input_enabled[2], monitor[2];
-+	struct work_struct fault_work;
-+	void __iomem *io;
-+	/* Protects IRQ/DMA state; may be nested inside codec_lock. */
-+	spinlock_t lock;
-+	/* Serializes codec/control operations; never taken under lock. */
-+	struct mutex codec_lock;
-+	void *ring[2], *desc_allocation, *table;
-+	dma_addr_t ring_dma[2], desc_dma, table_dma;
-+	bool enabled, regions, irq_requested, running, fault, removing, suspended;
-+	unsigned int suspend_rate;
-+	unsigned int rate, period_frames, buffer_frames;
-+	snd_pcm_uframes_t last_appl; /* Protected by the PCM stream lock. */
-+	u8 dac[2][2], mix[2];
-+	bool mix_enabled[2], dac_enabled[2];
-+	unsigned long irq_window;
-+	u32 irq_window_handled, irq_unexpected;
-+};
-+
-+static u8 mr8(struct maya *m, unsigned int reg)
-+{
-+	udelay(1);
-+	return readb(m->io + reg);
-+}
-+
-+static u32 mr32(struct maya *m, unsigned int reg)
-+{
-+	udelay(1);
-+	return readl(m->io + reg);
-+}
-+
-+static void mw8(struct maya *m, unsigned int reg, u8 value)
-+{
-+	writeb(value, m->io + reg);
-+	udelay(1);
-+}
-+
-+static void mw16(struct maya *m, unsigned int reg, u16 value)
-+{
-+	writew(value, m->io + reg);
-+	udelay(1);
-+}
-+
-+static void mw32(struct maya *m, unsigned int reg, u32 value)
-+{
-+	writel(value, m->io + reg);
-+	udelay(1);
-+}
-+
-+/* Caller holds m->lock, or probe/free has exclusive ownership. */
-+static void maya_quiesce(struct maya *m, bool mmio_active)
-+{
-+	unsigned int slot;
-+
-+	m->running = false;
-+	m->capture.running = false;
-+	pci_intx(m->pci, 0);
-+	pci_clear_master(m->pci);
-+	if (m->io && mmio_active) {
-+		for (slot = 0; slot < 4; ++slot) {
-+			mw8(m, 0x192 + slot * 4, 2);
-+			mw8(m, 0x80 + slot * 0x20, 0);
-+		}
-+		mw8(m, 0x481, mr8(m, 0x481) & ~BIT(6));
-+		/* Flush the posted stop and GPIO writes before leaving D0. */
-+		mr8(m, 0x481);
-+	}
-+}
-+
-+static void maya_fatal(struct maya *m)
-+{
-+	bool notify = !m->fault && !m->removing && !m->suspended && m->pcm;
-+
-+	m->fault = true;
-+	maya_quiesce(m, !m->suspended);
-+	/* Fatal callers can hold stream/device locks. Notify ALSA elsewhere. */
-+	if (notify)
-+		schedule_work(&m->fault_work);
-+}
-+
-+/* Each close clears its pointer under lock, then flushes this work before
-+ * its runtime can disappear. Flushing rather than cancelling also preserves
-+ * notification of a still-open peer. No driver lock is held while calling ALSA.
-+ */
-+static void maya_fault_work(struct work_struct *work)
-+{
-+	struct maya *m = container_of(work, struct maya, fault_work);
-+	struct snd_pcm_substream *playback, *capture;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&m->lock, flags);
-+	playback = m->substream;
-+	capture = m->capture.substream;
-+	spin_unlock_irqrestore(&m->lock, flags);
-+	if (playback)
-+		snd_pcm_stop_xrun(playback);
-+	if (capture)
-+		snd_pcm_stop_xrun(capture);
-+}
-+
-+/* DMA must already be stopped, or probe must have exclusive ownership with
-+ * bus mastering disabled. Allocation sizes remain constant; only the active
-+ * ring changes. Both stereo pairs always use the same period and ring size.
-+ */
-+static void maya_configure_buffer(struct maya *m, unsigned int period)
-+{
-+	unsigned int pair, half;
-+
-+	m->period_frames = period;
-+	m->buffer_frames = period * 2;
-+	for (pair = 0; pair < 2; ++pair) {
-+		struct maya_desc *descriptors = m->table + 0x200 + pair * 0x100;
-+
-+		for (half = 0; half < 2; ++half) {
-+			descriptors[half].address =
-+				cpu_to_le32(lower_32_bits(m->ring_dma[pair] + half * period * 8));
-+			descriptors[half].address_high = 0;
-+			descriptors[half].bytes = cpu_to_le32(period * 8);
-+			descriptors[half].reserved = 0;
-+		}
-+	}
-+	dma_wmb();
-+}
-+
-+/* This is the original reset/rearm sequence, with an explicit timeout error.
-+ * It never starts DMA. A failed reset cuts off bus mastering before any free.
-+ */
-+static int maya_rearm(struct maya *m, unsigned int pair)
-+{
-+	unsigned int b = 0xc0 + pair * 0x20;
-+	unsigned int irq = 0x198 + pair * 4;
-+	unsigned int i;
-+
-+	mw32(m, b, 0xff000000);
-+	mw8(m, irq + 2, 2);
-+	mw8(m, b, 1);
-+	for (i = 0; i < MAYA_POLL_LIMIT; ++i) {
-+		if (mr32(m, b) & 1)
-+			break;
-+		/* Reset callers may hold m->lock, so this wait must not sleep. */
-+		udelay(10);
-+	}
-+	if (i == MAYA_POLL_LIMIT) {
-+		maya_fatal(m);
-+		return -ETIMEDOUT;
-+	}
-+	mw8(m, b, 0);
-+	mw32(m, b + 0x18, lower_32_bits(m->table_dma + 0x200 + pair * 0x100));
-+	mw32(m, b + 0x1c, 0);
-+	mw16(m, b + 0x10, 0xbf);
-+	mw16(m, b + 0x0e, 4);
-+	mw8(m, b + 0x0c, 1);
-+	mw32(m, b + 8, m->buffer_frames * 8);
-+	mw16(m, irq, m->period_frames);
-+	return 0;
-+}
-+
-+static void maya_start_pair(struct maya *m, unsigned int pair)
-+{
-+	unsigned int b = 0xc0 + pair * 0x20;
-+
-+	mw8(m, b + 3, 0xff);
-+	mw8(m, 0x19a + pair * 4, pair ? 3 : 7);
-+	if (!(mr32(m, b) & 2))
-+		mw8(m, b, 2);
-+}
-+
-+static int maya_stop(struct maya *m)
-+{
-+	unsigned int pair;
-+
-+	m->running = false;
-+	if (m->fault)
-+		return -EIO;
-+	/* Preserve a running capture peer: reset is deferred to prepare. */
-+	for (pair = 0; pair < 2; ++pair) {
-+		mw8(m, 0x19a + pair * 4, 2);
-+		mw8(m, 0xc0 + pair * 0x20, 0);
-+	}
-+	return 0;
-+}
-+
-+/* The codec command interface may sleep and is serialized by codec_lock. */
-+static int maya_codec_ready(struct maya *m)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < 200; ++i) {
-+		if (!(mr32(m, 0x4c4) & 0x80))
-+			return 0;
-+		usleep_range(100, 200);
-+	}
-+
-+	return -ETIMEDOUT;
-+}
-+
-+static int maya_codec_write(struct maya *m, unsigned int codec,
-+			    unsigned int reg, u16 value)
-+{
-+	unsigned int command = (reg << 1) | ((value >> 8) & 1);
-+	int err = maya_codec_ready(m);
-+
-+	if (err)
-+		return err;
-+	udelay(1);
-+	mw8(m, 0x4c0, codec ? 0x36 : 0x34);
-+	udelay(1);
-+	mw8(m, 0x4c1, command);
-+	udelay(1);
-+	mw8(m, 0x4c2, command >> 8);
-+	udelay(1);
-+	mw8(m, 0x4c3, 1);
-+	mw32(m, 0x4c4, 0xe0000010);
-+	mw8(m, 0x4d0, value);
-+	mw8(m, 0x4c4, 0x90);
-+	/* Unlike the original, propagate a timeout from the last command too. */
-+	return maya_codec_ready(m);
-+}
-+
-+static int maya_codec_init(struct maya *m)
-+{
-+	static const struct { u8 reg; u16 value; } init[] = {
-+		{0, 0x1f9}, {1, 0x1f9}, {2, 0x100},
-+		{3, 0x100}, {4, 0x100}, {5, 0x100},
-+		{6, 0}, {7, 0x95}, {8, 0}, {9, 0}, {10, 0x22},
-+		{11, 0x22}, {12, 0x22}, {13, 0}, {14, 0x1cf},
-+		{15, 0x1cf}, {16, 0x7a}, {17, 0}, {18, 0x32},
-+		{19, 0}, {20, 0xbc}, {21, 2}, {22, 1},
-+	};
-+	unsigned int pass, codec, i;
-+	int err;
-+
-+	mw8(m, 0x480, 0xff);
-+	mw8(m, 0x481, 0xaa);
-+	usleep_range(1000, 1500);
-+	for (pass = 0; pass < 5; ++pass) {
-+		for (codec = 0; codec < 2; ++codec) {
-+			for (i = 0; i < ARRAY_SIZE(init); ++i) {
-+				err = maya_codec_write(m, codec, init[i].reg,
-+						       init[i].value);
-+				if (err)
-+					return err;
-+				udelay(2);
-+			}
-+		}
-+		usleep_range(1000, 1500);
-+	}
-+	mw8(m, 0x481, 0x2a);
-+	for (codec = 0; codec < 2; ++codec) {
-+		/* R5 is master: set it before restoring independently cached L/R. */
-+		err = maya_codec_write(m, codec, 5, 0x1c3);
-+		if (err)
-+			return err;
-+		for (i = 0; i < 2; ++i) {
-+			err = maya_codec_write(m, codec, 3 + i, 0x100 | m->dac[codec][i]);
-+			if (err)
-+				return err;
-+		}
-+		err = maya_codec_write(m, codec, 2, 0x100);
-+		if (err)
-+			return err;
-+	}
-+	return 0;
-+}
-+
-+/* Caller holds codec_lock then lock, or probe has exclusive ownership.
-+ * This only touches clock-selection registers, never mixer levels/routes or
-+ * DMA start bits. Keep the Windows access order, widths and bit-preserving masks.
-+ */
-+static int maya_set_rate(struct maya *m, unsigned int rate)
-+{
-+	const struct maya_rate_config *config = maya_find_rate(rate);
-+	u32 value;
-+	u8 old481;
-+	unsigned int i;
-+
-+	if (!config)
-+		return -EINVAL;
-+	if (m->fault || m->removing)
-+		return -EIO;
-+	if (m->rate == rate)
-+		return 0;
-+	if (m->running || m->capture.running)
-+		return -EBUSY;
-+	old481 = mr8(m, 0x481);
-+	for (i = 0; i < 4; ++i)
-+		mw16(m, 0x92 + i * 0x20, config->word);
-+	udelay(1);
-+	mw8(m, 0x481, (old481 & 0xfa) | config->gpio);
-+	value = mr8(m, 0x18a);
-+	if (value & 15)
-+		mw8(m, 0x18a, value & 0xf0);
-+	value = mr32(m, 0x1a0);
-+	mw32(m, 0x1a0, (value & 0xffff0fff) | (config->nibble << 12));
-+	WRITE_ONCE(m->rate, rate);
-+	return 0;
-+}
-+
-+static int maya_controller_init(struct maya *m)
-+{
-+	u32 value;
-+	unsigned int i;
-+	int err;
-+
-+	value = mr32(m, 8) & ~BIT(31);
-+	mw32(m, 8, value);
-+	msleep(200);
-+	mw32(m, 8, value | BIT(31));
-+	msleep(200);
-+	mw32(m, 0x4e4, 0x38000);
-+	value = mr32(m, 0x4e0);
-+	for (i = 0; i < 20; ++i) {
-+		mw32(m, 0x4e0, value | BIT(22));
-+		mw32(m, 0x4e0, value & ~BIT(22));
-+	}
-+	mw8(m, 0x188, mr8(m, 0x188) & 0xf8);
-+	mw8(m, 0x189, mr8(m, 0x189) & 0x98);
-+	/* Disable digital output and select the external receive path. */
-+	mw32(m, 0x1a0, 0);
-+	mw32(m, 0x1b0, BIT(31));
-+	/* Preserve the Windows initial 44.1 kHz-family setting during codec init. */
-+	for (i = 0; i < 4; ++i)
-+		mw16(m, 0x92 + i * 0x20, 0x4031);
-+	err = maya_codec_init(m);
-+	if (err)
-+		return err;
-+	/* Use 48 kHz until a PCM stream selects its clock. */
-+	err = maya_set_rate(m, 48000);
-+	if (err)
-+		return err;
-+	mw32(m, 0x70, lower_32_bits(m->table_dma + 0xa00));
-+	err = maya_rearm(m, 0);
-+	return err ? err : maya_rearm(m, 1);
-+}
-+
-+/* Input DMA has the same two-descriptor layout as output, but format 0x77.
-+ * Only the input engines are reset here; active playback is never touched.
-+ */
-+static int maya_capture_rearm(struct maya *m, unsigned int pair)
-+{
-+	unsigned int b = 0x80 + pair * 0x20, ir = 0x190 + pair * 4, i;
-+
-+	mw32(m, b, 0xff000000);
-+	mw8(m, ir + 2, 2);
-+	mw8(m, b, 1);
-+	for (i = 0; i < MAYA_POLL_LIMIT; ++i) {
-+		if (mr32(m, b) & 1)
-+			break;
-+		/* Reset callers may hold m->lock, so this wait must not sleep. */
-+		udelay(10);
-+	}
-+	if (i == MAYA_POLL_LIMIT) {
-+		maya_fatal(m);
-+		return -ETIMEDOUT;
-+	}
-+	mw8(m, b, 0);
-+	mw32(m, b + 0x18, lower_32_bits(m->table_dma + pair * 0x100));
-+	mw32(m, b + 0x1c, 0);
-+	mw16(m, b + 0x10, 0x77);
-+	mw16(m, b + 0x0e, 4);
-+	mw8(m, b + 0x0c, 1);
-+	mw32(m, b + 8, m->capture.frames * 8);
-+	mw16(m, ir, m->capture.period);
-+	return 0;
-+}
-+
-+static int maya_capture_stop(struct maya *m)
-+{
-+	unsigned int pair;
-+
-+	m->capture.running = false;
-+	if (m->fault)
-+		return -EIO;
-+	/* Stop promptly. Full reset belongs to prepare, not the IRQ-disabled
-+	 * STOP path: resetting both engines here can starve the playback peer.
-+	 */
-+	for (pair = 0; pair < 2; ++pair) {
-+		mw8(m, 0x192 + pair * 4, 2);
-+		mw8(m, 0x80 + pair * 0x20, 0);
-+	}
-+	return 0;
-+}
-+
-+/* The 3/4 engine starts first. At a 1/2 boundary both completed stereo
-+ * halves can be combined. Expose only the half copied to ALSA, never the
-+ * still-being-written half. Coarse period pointers are intentional.
-+ */
-+static void maya_capture_period(struct maya *m)
-+{
-+	struct maya_capture *c = &m->capture;
-+	struct snd_pcm_runtime *runtime = c->substream->runtime;
-+	unsigned int sample_bytes = maya_sample_bytes(runtime->format);
-+	u8 *dst = runtime->dma_area;
-+	__le32 *left = c->ring[0], *right = c->ring[1];
-+	unsigned int pos = (mr32(m, 0x84) >> 3) % c->frames;
-+	unsigned int start = (pos / c->period ^ 1) * c->period, i;
-+	bool pass[4];
-+
-+	/* R21 mutes the analogue PGA input; ADC noise/settling can remain.
-+	 * Guarantee exact digital silence for Capture Switch off and -infinity.
-+	 * Snapshot once per completed period, preserving independent L/R.
-+	 */
-+	for (i = 0; i < 4; ++i)
-+		pass[i] = READ_ONCE(m->input_enabled[i / 2]) &&
-+			READ_ONCE(m->input_volume[i / 2][i % 2]) != 0;
-+
-+	dma_rmb();
-+	for (i = start; i < start + c->period; ++i) {
-+		u8 *frame = dst + i * sample_bytes * 4;
-+
-+		maya_pack_sample(frame, pass[0] ? le32_to_cpu(left[i * 2]) : 0,
-+				 runtime->format);
-+		maya_pack_sample(frame + sample_bytes,
-+				 pass[1] ? le32_to_cpu(left[i * 2 + 1]) : 0,
-+				 runtime->format);
-+		maya_pack_sample(frame + sample_bytes * 2,
-+				 pass[2] ? le32_to_cpu(right[i * 2]) : 0,
-+				 runtime->format);
-+		maya_pack_sample(frame + sample_bytes * 3,
-+				 pass[3] ? le32_to_cpu(right[i * 2 + 1]) : 0,
-+				 runtime->format);
-+	}
-+	c->position = (start + c->period) % c->frames;
-+}
-+
-+static irqreturn_t maya_irq(int irq, void *opaque)
-+{
-+	struct maya *m = opaque;
-+	struct snd_pcm_substream *substream = NULL, *capture = NULL;
-+	unsigned long flags;
-+	u32 summary, extra;
-+	u8 status;
-+	unsigned int pair;
-+	bool tick = false, capture_tick = false, failed = false;
-+
-+	spin_lock_irqsave(&m->lock, flags);
-+
-+	if (m->fault || m->removing || m->suspended) {
-+		spin_unlock_irqrestore(&m->lock, flags);
-+		return IRQ_NONE;
-+	}
-+	summary = mr32(m, 0x4b0);
-+
-+	if (!summary) {
-+		spin_unlock_irqrestore(&m->lock, flags);
-+		return IRQ_NONE;
-+	}
-+
-+	if (time_after(jiffies, m->irq_window + HZ)) {
-+		m->irq_window = jiffies;
-+		m->irq_window_handled = 0;
-+	}
-+	/* Count only this device's asserted sources, not shared IRQ_NONE calls. */
-+	if (++m->irq_window_handled > 8192) {
-+		failed = true;
-+		goto fatal;
-+	}
-+	for (pair = 0; pair < 4; ++pair) {
-+		unsigned int b = 0x80 + pair * 0x20;
-+		unsigned int ir = 0x190 + pair * 4;
-+		bool pending;
-+
-+		if (!(summary & BIT(pair)))
-+			continue;
-+		status = mr8(m, b + 3);
-+		extra = mr32(m, ir);
-+		pending = (extra & 0x20000) || (status & 4);
-+		if (extra & 0x20000)
-+			mw8(m, ir + 2, extra >> 16);
-+		if (status & 4)
-+			mw8(m, b + 3, status);
-+		if (pair == 2 && pending)
-+			tick = true;
-+		if (pair == 0 && pending)
-+			capture_tick = true;
-+	}
-+	if (summary & ~0x0f) {
-+		m->irq_unexpected++;
-+		if (m->irq_unexpected >= 16) {
-+			failed = true;
-+			goto fatal;
-+		}
-+	}
-+	if (capture_tick && m->capture.running && m->capture.substream) {
-+		maya_capture_period(m);
-+		capture = m->capture.substream;
-+	}
-+	if (tick && m->running)
-+		substream = m->substream;
-+	goto unlock;
-+fatal:
-+	maya_fatal(m);
-+unlock:
-+	spin_unlock_irqrestore(&m->lock, flags);
-+	if (failed) {
-+		dev_err_ratelimited(&m->pci->dev,
-+				    "interrupt fault: summary=%#x; bus mastering and INTx disabled\n",
-+				    summary);
-+	} else {
-+		if (substream)
-+			snd_pcm_period_elapsed(substream);
-+		if (capture)
-+			snd_pcm_period_elapsed(capture);
-+	}
-+	return IRQ_HANDLED;
-+}
-+
-+static const struct snd_pcm_hardware maya_pcm_hardware = {
-+	.info = SNDRV_PCM_INFO_INTERLEAVED | SNDRV_PCM_INFO_BLOCK_TRANSFER |
-+		SNDRV_PCM_INFO_MMAP | SNDRV_PCM_INFO_MMAP_VALID |
-+		SNDRV_PCM_INFO_SYNC_APPLPTR | SNDRV_PCM_INFO_NO_REWINDS |
-+		SNDRV_PCM_INFO_JOINT_DUPLEX,
-+	.formats = SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_3LE |
-+		SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S32_LE,
-+	.rates = SNDRV_PCM_RATE_8000_48000 | SNDRV_PCM_RATE_24000 |
-+		SNDRV_PCM_RATE_88200 | SNDRV_PCM_RATE_96000,
-+	.rate_min = 8000, .rate_max = 96000,
-+	.channels_min = 4, .channels_max = 4,
-+	.buffer_bytes_max = MAYA_PCM_BYTES_MAX,
-+	.period_bytes_min = MAYA_MIN_PERIOD * 8,
-+	.period_bytes_max = MAYA_MAX_PERIOD * 16,
-+	.periods_min = 2, .periods_max = 2,
-+};
-+
-+/* Full duplex shares one clock, but each direction may use its own period.
-+ * Reserve at hw_params, not just while running, to protect prepared peers.
-+ */
-+static int maya_hw_params(struct snd_pcm_substream *s, struct snd_pcm_hw_params *p)
-+{
-+	struct maya *m = snd_pcm_substream_chip(s);
-+	unsigned int direction = s->stream;
-+	int err = 0;
-+
-+	mutex_lock(&m->codec_lock);
-+	if (m->reserved_rate[1 - direction] &&
-+	    m->reserved_rate[1 - direction] != params_rate(p))
-+		err = -EBUSY;
-+	else
-+		m->reserved_rate[direction] = params_rate(p);
-+	mutex_unlock(&m->codec_lock);
-+	return err;
-+}
-+
-+static int maya_hw_free(struct snd_pcm_substream *s)
-+{
-+	struct maya *m = snd_pcm_substream_chip(s);
-+
-+	mutex_lock(&m->codec_lock);
-+	m->reserved_rate[s->stream] = 0;
-+	mutex_unlock(&m->codec_lock);
-+	return 0;
-+}
-+
-+static int maya_rate_rule(struct snd_pcm_hw_params *params,
-+			  struct snd_pcm_hw_rule *rule)
-+{
-+	struct snd_pcm_substream *s = rule->private;
-+	struct maya *m = snd_pcm_substream_chip(s);
-+	struct snd_interval limit = { .integer = 1 };
-+	unsigned int rate;
-+
-+	mutex_lock(&m->codec_lock);
-+	rate = m->reserved_rate[1 - s->stream];
-+	mutex_unlock(&m->codec_lock);
-+	if (!rate)
-+		return 0;
-+
-+	limit.min = rate;
-+	limit.max = rate;
-+	return snd_interval_refine(hw_param_interval(params, SNDRV_PCM_HW_PARAM_RATE),
-+				   &limit);
-+}
-+
-+static int maya_pcm_constraints(struct snd_pcm_substream *s)
-+{
-+	struct snd_pcm_runtime *r = s->runtime;
-+	int err;
-+
-+	err = snd_pcm_hw_constraint_integer(r, SNDRV_PCM_HW_PARAM_PERIODS);
-+	if (err < 0)
-+		return err;
-+	err = snd_pcm_hw_constraint_list(r, 0, SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
-+					 &maya_period_constraints);
-+	if (err < 0)
-+		return err;
-+	/* S32_LE carries 24 significant MSBs. */
-+	err = snd_pcm_hw_constraint_msbits(r, 0, 32, 24);
-+	if (err < 0)
-+		return err;
-+	return snd_pcm_hw_rule_add(r, 0, SNDRV_PCM_HW_PARAM_RATE, maya_rate_rule,
-+				   s, SNDRV_PCM_HW_PARAM_RATE, -1);
-+}
-+
-+static int maya_open(struct snd_pcm_substream *s)
-+{
-+	struct maya *m = snd_pcm_substream_chip(s);
-+	unsigned long flags;
-+	int err;
-+
-+	if (READ_ONCE(m->fault) || READ_ONCE(m->removing) || READ_ONCE(m->suspended))
-+		return -EIO;
-+	s->runtime->hw = maya_pcm_hardware;
-+	err = maya_pcm_constraints(s);
-+	if (err < 0)
-+		return err;
-+	spin_lock_irqsave(&m->lock, flags);
-+	m->substream = s;
-+	spin_unlock_irqrestore(&m->lock, flags);
-+	return 0;
-+}
-+
-+static int maya_close(struct snd_pcm_substream *s)
-+{
-+	struct maya *m = snd_pcm_substream_chip(s);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&m->lock, flags);
-+	if (m->running)
-+		maya_stop(m);
-+	m->substream = NULL;
-+	spin_unlock_irqrestore(&m->lock, flags);
-+	flush_work(&m->fault_work);
-+	synchronize_irq(m->pci->irq);
-+	return 0;
-+}
-+
-+static int maya_pcm_reset(struct snd_pcm_substream *s)
-+{
-+	struct maya *m = snd_pcm_substream_chip(s);
-+	int err;
-+
-+	/* ALSA rebases appl_ptr from this hw_ptr under the same stream lock. */
-+	err = snd_pcm_lib_reset(s);
-+	if (err < 0)
-+		return err;
-+	m->last_appl = s->runtime->status->hw_ptr;
-+	return 0;
-+}
-+
-+static int maya_prepare(struct snd_pcm_substream *s)
-+{
-+	struct maya *m = snd_pcm_substream_chip(s);
-+	unsigned long flags;
-+	int err;
-+
-+	if (!maya_sample_bytes(s->runtime->format) ||
-+	    !maya_valid_period(s->runtime->period_size) ||
-+	    s->runtime->buffer_size != s->runtime->period_size * 2 ||
-+	    !maya_find_rate(s->runtime->rate))
-+		return -EINVAL;
-+	mutex_lock(&m->codec_lock);
-+	spin_lock_irqsave(&m->lock, flags);
-+	if (m->fault || m->removing || m->suspended)
-+		err = -EIO;
-+	else if (m->running)
-+		err = -EBUSY;
-+	else
-+		err = maya_stop(m);
-+	spin_unlock_irqrestore(&m->lock, flags);
-+	if (!err) {
-+		unsigned int pair, pass;
-+
-+		/* Reset the old layout first: a failed reset must not replace
-+		 * descriptors or the cached geometry. Each reset releases IRQs.
-+		 */
-+		for (pass = 0; pass < 2 && !err; ++pass) {
-+			if (pass) {
-+				if (m->period_frames == s->runtime->period_size)
-+					break;
-+				maya_configure_buffer(m, s->runtime->period_size);
-+			}
-+			for (pair = 0; pair < 2; ++pair) {
-+				spin_lock_irqsave(&m->lock, flags);
-+				err = m->fault || m->removing || m->suspended ?
-+					-EIO : maya_rearm(m, pair);
-+				spin_unlock_irqrestore(&m->lock, flags);
-+				if (err)
-+					break;
-+			}
-+		}
-+		if (!err) {
-+			spin_lock_irqsave(&m->lock, flags);
-+			err = maya_set_rate(m, s->runtime->rate);
-+			spin_unlock_irqrestore(&m->lock, flags);
-+		}
-+	}
-+	mutex_unlock(&m->codec_lock);
-+	if (err)
-+		return err;
-+	/* A linked prepare can leave the playback buffer open to ack. */
-+	snd_pcm_stream_lock_irqsave(s, flags);
-+	memset(m->ring[0], 0, m->buffer_frames * 8);
-+	memset(m->ring[1], 0, m->buffer_frames * 8);
-+	memset(s->runtime->dma_area, 0,
-+	       s->runtime->buffer_size * maya_sample_bytes(s->runtime->format) * 4);
-+	dma_wmb();
-+	snd_pcm_stream_unlock_irqrestore(s, flags);
-+	return 0;
-+}
-+
-+static int maya_trigger(struct snd_pcm_substream *s, int command)
-+{
-+	struct maya *m = snd_pcm_substream_chip(s);
-+	unsigned long flags;
-+	int err = 0;
-+
-+	spin_lock_irqsave(&m->lock, flags);
-+	if (m->fault || m->removing || m->suspended) {
-+		spin_unlock_irqrestore(&m->lock, flags);
-+		return -EIO;
-+	}
-+	switch (command) {
-+	case SNDRV_PCM_TRIGGER_START:
-+		dma_wmb();
-+		maya_start_pair(m, 1);
-+		maya_start_pair(m, 0);
-+		m->running = true;
-+		break;
-+	case SNDRV_PCM_TRIGGER_STOP:
-+	case SNDRV_PCM_TRIGGER_SUSPEND:
-+		err = maya_stop(m);
-+		break;
-+	default:
-+		err = -EINVAL;
-+	}
-+	/* Flush posted PCI writes before returning to the PCM core. */
-+	if (!err)
-+		mr32(m, 0xc0);
-+	spin_unlock_irqrestore(&m->lock, flags);
-+	return err;
-+}
-+
-+static int maya_sync_stop(struct snd_pcm_substream *s)
-+{
-+	struct maya *m = snd_pcm_substream_chip(s);
-+
-+	synchronize_irq(m->pci->irq);
-+	return 0;
-+}
-+
-+static snd_pcm_uframes_t maya_pointer(struct snd_pcm_substream *s)
-+{
-+	struct maya *m = snd_pcm_substream_chip(s);
-+	unsigned long flags;
-+	u32 position, frames;
-+
-+	spin_lock_irqsave(&m->lock, flags);
-+	position = m->fault || m->removing || m->suspended ? 0 : mr32(m, 0xc4);
-+	frames = m->buffer_frames;
-+	spin_unlock_irqrestore(&m->lock, flags);
-+	return (position >> 3) % frames;
-+}
-+
-+/* ALSA calls ack after committing appl_ptr, under its stream lock. Explicit
-+ * appl_ptr synchronization is mandatory because the mmap staging buffer is
-+ * not the controller's pair-interleaved DMA layout. Rewinds are disabled.
-+ */
-+static int maya_ack(struct snd_pcm_substream *s)
-+{
-+	struct maya *m = snd_pcm_substream_chip(s);
-+	struct snd_pcm_runtime *r = s->runtime;
-+	__le32 *out12 = m->ring[0], *out34 = m->ring[1];
-+	snd_pcm_uframes_t appl, frame;
-+	snd_pcm_sframes_t count;
-+	unsigned int sample_bytes;
-+	int err = 0;
-+
-+	if (READ_ONCE(m->fault) || READ_ONCE(m->removing) || READ_ONCE(m->suspended))
-+		return -EIO;
-+	/* SYNC_PTR can call ack without pinning the managed PCM buffer. */
-+	if (!atomic_inc_unless_negative(&r->buffer_accessing))
-+		return -EBUSY;
-+	if (!r->dma_area || !r->buffer_size || r->state == SNDRV_PCM_STATE_SETUP) {
-+		err = -EBADFD;
-+		goto out;
-+	}
-+	sample_bytes = maya_sample_bytes(r->format);
-+	if (!sample_bytes) {
-+		err = -EINVAL;
-+		goto out;
-+	}
-+	appl = READ_ONCE(r->control->appl_ptr);
-+	count = appl - m->last_appl;
-+	if (count < 0)
-+		count += r->boundary;
-+	if (count < 0 || count > (snd_pcm_sframes_t)r->buffer_size) {
-+		dev_err_ratelimited(&m->pci->dev,
-+				    "invalid appl_ptr delta=%ld old=%lu new=%lu boundary=%lu\n",
-+				    count, m->last_appl, appl, r->boundary);
-+		err = -EINVAL;
-+		goto out;
-+	}
-+	for (frame = 0; frame < (snd_pcm_uframes_t)count; ++frame) {
-+		unsigned int slot = (m->last_appl + frame) % r->buffer_size;
-+		const u8 *source = r->dma_area + slot * sample_bytes * 4;
-+
-+		out12[slot * 2] = cpu_to_le32(maya_unpack_sample(source, r->format));
-+		out12[slot * 2 + 1] =
-+			cpu_to_le32(maya_unpack_sample(source + sample_bytes, r->format));
-+		out34[slot * 2] =
-+			cpu_to_le32(maya_unpack_sample(source + sample_bytes * 2, r->format));
-+		out34[slot * 2 + 1] =
-+			cpu_to_le32(maya_unpack_sample(source + sample_bytes * 3, r->format));
-+	}
-+	dma_wmb();
-+	m->last_appl = appl;
-+out:
-+	atomic_dec(&r->buffer_accessing);
-+	return err;
-+}
-+
-+static int maya_fill_silence(struct snd_pcm_substream *s, int channel,
-+			     unsigned long position, unsigned long bytes)
-+{
-+	struct maya *m = snd_pcm_substream_chip(s);
-+	unsigned int frame_bytes = maya_sample_bytes(s->runtime->format) * 4;
-+	unsigned long ring_bytes = s->runtime->buffer_size * frame_bytes;
-+	unsigned long dma_position, dma_bytes;
-+
-+	(void)channel; /* Only four-channel interleaved PCM is exposed. */
-+	/* The ALSA core splits the request at the logical ring end. */
-+	if (!frame_bytes || position % frame_bytes || bytes % frame_bytes ||
-+	    position > ring_bytes ||
-+	    bytes > ring_bytes - position)
-+		return -EINVAL;
-+	dma_position = position / frame_bytes * 8;
-+	dma_bytes = bytes / frame_bytes * 8;
-+	memset(s->runtime->dma_area + position, 0, bytes);
-+	memset(m->ring[0] + dma_position, 0, dma_bytes);
-+	memset(m->ring[1] + dma_position, 0, dma_bytes);
-+	dma_wmb();
-+
-+	return 0;
-+}
-+
-+static const struct snd_pcm_ops maya_pcm_ops = {
-+	.open = maya_open,
-+	.close = maya_close,
-+	.ioctl = snd_pcm_lib_ioctl,
-+	.hw_params = maya_hw_params,
-+	.hw_free = maya_hw_free,
-+	.prepare = maya_prepare,
-+	.trigger = maya_trigger,
-+	.sync_stop = maya_sync_stop,
-+	.pointer = maya_pointer,
-+	.ack = maya_ack,
-+	.reset = maya_pcm_reset,
-+	.fill_silence = maya_fill_silence,
-+};
-+
-+static int maya_capture_open(struct snd_pcm_substream *s)
-+{
-+	struct maya *m = snd_pcm_substream_chip(s);
-+	unsigned long flags;
-+	int err;
-+
-+	if (READ_ONCE(m->fault) || READ_ONCE(m->removing) || READ_ONCE(m->suspended))
-+		return -EIO;
-+	s->runtime->hw = maya_pcm_hardware;
-+	/* ADC datasheet rates start at 32 kHz; lower controller rates are not
-+	 * yet validated for capture. Do not advertise unsupported ADC clocks.
-+	 */
-+	s->runtime->hw.rates = SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_44100 |
-+		SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_88200 | SNDRV_PCM_RATE_96000;
-+	s->runtime->hw.rate_min = 32000;
-+	err = maya_pcm_constraints(s);
-+	if (err < 0)
-+		return err;
-+	spin_lock_irqsave(&m->lock, flags);
-+	m->capture.substream = s;
-+	spin_unlock_irqrestore(&m->lock, flags);
-+	return 0;
-+}
-+
-+static int maya_capture_close(struct snd_pcm_substream *s)
-+{
-+	struct maya *m = snd_pcm_substream_chip(s);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&m->lock, flags);
-+	if (m->capture.running)
-+		maya_capture_stop(m);
-+	m->capture.substream = NULL;
-+	spin_unlock_irqrestore(&m->lock, flags);
-+	flush_work(&m->fault_work);
-+	synchronize_irq(m->pci->irq);
-+	return 0;
-+}
-+
-+static int maya_capture_prepare(struct snd_pcm_substream *s)
-+{
-+	struct maya *m = snd_pcm_substream_chip(s);
-+	struct maya_capture *c = &m->capture;
-+	unsigned long flags;
-+	unsigned int pair, half, period = s->runtime->period_size;
-+	int err = 0;
-+
-+	if (!maya_sample_bytes(s->runtime->format) ||
-+	    !maya_valid_period(period) || s->runtime->buffer_size != period * 2 ||
-+	    s->runtime->rate < 32000 || !maya_find_rate(s->runtime->rate))
-+		return -EINVAL;
-+	mutex_lock(&m->codec_lock);
-+	spin_lock_irqsave(&m->lock, flags);
-+	if (m->fault || m->removing || m->suspended)
-+		err = -EIO;
-+	else if (c->running)
-+		err = -EBUSY;
-+	else
-+		err = maya_set_rate(m, s->runtime->rate);
-+	if (!err)
-+		err = maya_capture_stop(m);
-+	spin_unlock_irqrestore(&m->lock, flags);
-+	if (!err) {
-+		c->period = period;
-+		c->frames = period * 2;
-+		c->position = 0;
-+		for (pair = 0; pair < 2; ++pair) {
-+			struct maya_desc *descriptors = m->table + pair * 0x100;
-+
-+			for (half = 0; half < 2; ++half) {
-+				descriptors[half].address =
-+					cpu_to_le32(lower_32_bits(c->dma[pair] +
-+								  half * period * 8));
-+				descriptors[half].address_high = 0;
-+				descriptors[half].bytes = cpu_to_le32(period * 8);
-+				descriptors[half].reserved = 0;
-+			}
-+			memset(c->ring[pair], 0, c->frames * 8);
-+		}
-+		memset(s->runtime->dma_area, 0,
-+		       c->frames * maya_sample_bytes(s->runtime->format) * 4);
-+		dma_wmb();
-+		/* Give playback IRQs a scheduling point between input resets. */
-+		for (pair = 0; pair < 2; ++pair) {
-+			spin_lock_irqsave(&m->lock, flags);
-+			err = m->fault || m->removing || m->suspended ?
-+				-EIO : maya_capture_rearm(m, pair);
-+			spin_unlock_irqrestore(&m->lock, flags);
-+			if (err)
-+				break;
-+		}
-+	}
-+	mutex_unlock(&m->codec_lock);
-+	return err;
-+}
-+
-+static int maya_capture_trigger(struct snd_pcm_substream *s, int cmd)
-+{
-+	struct maya *m = snd_pcm_substream_chip(s);
-+	unsigned long flags;
-+	int err = 0, pair;
-+
-+	spin_lock_irqsave(&m->lock, flags);
-+	if (m->fault || m->removing || m->suspended) {
-+		err = -EIO;
-+		goto out;
-+	}
-+	switch (cmd) {
-+	case SNDRV_PCM_TRIGGER_START:
-+		for (pair = 1; pair >= 0; --pair) {
-+			unsigned int b = 0x80 + pair * 0x20;
-+
-+			mw8(m, b + 3, 0xff);
-+			/* Independent capture needs its own period IRQ source. */
-+			mw8(m, 0x192 + pair * 4, pair ? 3 : 7);
-+			if (!(mr32(m, b) & 2))
-+				mw8(m, b, 2);
-+		}
-+		m->capture.running = true;
-+
-+		break;
-+	case SNDRV_PCM_TRIGGER_STOP:
-+	case SNDRV_PCM_TRIGGER_SUSPEND:
-+		err = maya_capture_stop(m);
-+		break;
-+	default:
-+		err = -EINVAL;
-+	}
-+out:
-+	spin_unlock_irqrestore(&m->lock, flags);
-+	return err;
-+}
-+
-+static snd_pcm_uframes_t maya_capture_pointer(struct snd_pcm_substream *s)
-+{
-+	struct maya *m = snd_pcm_substream_chip(s);
-+
-+	return READ_ONCE(m->capture.position);
-+}
-+
-+static const struct snd_pcm_ops maya_capture_ops = {
-+	.open = maya_capture_open,
-+	.close = maya_capture_close,
-+	.ioctl = snd_pcm_lib_ioctl,
-+	.hw_params = maya_hw_params,
-+	.hw_free = maya_hw_free,
-+	.prepare = maya_capture_prepare,
-+	.trigger = maya_capture_trigger,
-+	.sync_stop = maya_sync_stop,
-+	.pointer = maya_capture_pointer,
-+};
-+
-+enum { CTL_DAC, CTL_MIX_VOLUME, CTL_MIX_SWITCH, CTL_DAC_SWITCH };
-+
-+static int maya_ctl_info(struct snd_kcontrol *k, struct snd_ctl_elem_info *info)
-+{
-+	unsigned int kind = k->private_value >> 8;
-+
-+	if (kind == CTL_MIX_SWITCH || kind == CTL_DAC_SWITCH)
-+		return snd_ctl_boolean_mono_info(k, info);
-+	info->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	info->count = kind == CTL_DAC ? 2 : 1;
-+	info->value.integer.min = 0;
-+	info->value.integer.max = kind == CTL_DAC ? 255 : 48;
-+	return 0;
-+}
-+
-+static int maya_ctl_get(struct snd_kcontrol *k, struct snd_ctl_elem_value *v)
-+{
-+	struct maya *m = snd_kcontrol_chip(k);
-+	unsigned int pair = k->private_value & 1;
-+	unsigned int kind = k->private_value >> 8;
-+
-+	mutex_lock(&m->codec_lock);
-+	if (kind == CTL_DAC) {
-+		v->value.integer.value[0] = m->dac[pair][0];
-+		v->value.integer.value[1] = m->dac[pair][1];
-+	} else if (kind == CTL_DAC_SWITCH) {
-+		v->value.integer.value[0] = m->dac_enabled[pair];
-+	} else {
-+		v->value.integer.value[0] = kind == CTL_MIX_VOLUME ?
-+			m->mix[pair] : m->mix_enabled[pair];
-+	}
-+	mutex_unlock(&m->codec_lock);
-+	return 0;
-+}
-+
-+static int maya_ctl_put(struct snd_kcontrol *k, struct snd_ctl_elem_value *v)
-+{
-+	struct maya *m = snd_kcontrol_chip(k);
-+	unsigned int pair = k->private_value & 1;
-+	unsigned int kind = k->private_value >> 8;
-+	long a = v->value.integer.value[0], b = v->value.integer.value[1];
-+	unsigned int level;
-+	bool enabled;
-+	int err = 0, changed = 0;
-+
-+	if (a < 0 || a > (kind == CTL_DAC ? 255 : kind == CTL_MIX_VOLUME ? 48 : 1) ||
-+	    (kind == CTL_DAC && (b < 0 || b > 255)))
-+		return -EINVAL;
-+	mutex_lock(&m->codec_lock);
-+	if (READ_ONCE(m->fault) || READ_ONCE(m->removing) || READ_ONCE(m->suspended)) {
-+		err = -EIO;
-+		goto out;
-+	}
-+	if (kind == CTL_DAC) {
-+		if (m->dac[pair][0] != a) {
-+			err = maya_codec_write(m, pair, 3, 0x100 | a);
-+			if (err)
-+				goto out;
-+			m->dac[pair][0] = a;
-+			changed = 1;
-+		}
-+		if (m->dac[pair][1] != b) {
-+			err = maya_codec_write(m, pair, 4, 0x100 | b);
-+			if (err)
-+				goto out;
-+			m->dac[pair][1] = b;
-+			changed = 1;
-+		}
-+	} else if (kind == CTL_DAC_SWITCH) {
-+		changed = m->dac_enabled[pair] != a;
-+		if (changed) {
-+			/* R22 gates this DAC's direct and outgoing crossmix paths.
-+			 * Preserve the separately controlled analogue input monitor path.
-+			 */
-+			err = maya_codec_write(m, pair, 22, (a ? 1 : 0) |
-+					       (m->monitor[pair] &&
-+						m->input_enabled[pair] ? 4 : 0));
-+			if (err)
-+				goto out;
-+			m->dac_enabled[pair] = a;
-+		}
-+	} else {
-+		level = kind == CTL_MIX_VOLUME ? a : m->mix[pair];
-+		enabled = kind == CTL_MIX_SWITCH ? a : m->mix_enabled[pair];
-+		changed = level != m->mix[pair] || enabled != m->mix_enabled[pair];
-+		if (changed) {
-+			err = maya_codec_write(m, 1 - pair, 2,
-+					       0x100 | (enabled ? level + 0x49 : 0));
-+			if (err)
-+				goto out;
-+			m->mix[pair] = level;
-+			m->mix_enabled[pair] = enabled;
-+		}
-+	}
-+out:
-+	mutex_unlock(&m->codec_lock);
-+	return err ? err : changed;
-+}
-+
-+static const DECLARE_TLV_DB_SCALE(dac_db, -12750, 50, 1);
-+static const DECLARE_TLV_DB_SCALE(mix_db, -4800, 100, 0);
-+
-+#define MAYA_CONTROL(label, kind, pair, scale) { \
-+	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = label, \
-+	.access = SNDRV_CTL_ELEM_ACCESS_READWRITE | \
-+		((kind) == CTL_MIX_SWITCH || (kind) == CTL_DAC_SWITCH ? \
-+		 0 : SNDRV_CTL_ELEM_ACCESS_TLV_READ), \
-+	.info = maya_ctl_info, .get = maya_ctl_get, .put = maya_ctl_put, \
-+	.private_value = ((kind) << 8) | (pair), .tlv.p = scale }
-+
-+static const struct snd_kcontrol_new maya_controls[] = {
-+	MAYA_CONTROL("Output 1-2 Playback Volume", CTL_DAC, 0, dac_db),
-+	MAYA_CONTROL("Output 3-4 Playback Volume", CTL_DAC, 1, dac_db),
-+	MAYA_CONTROL("DAC 1-2 Playback Switch", CTL_DAC_SWITCH, 0, NULL),
-+	MAYA_CONTROL("DAC 3-4 Playback Switch", CTL_DAC_SWITCH, 1, NULL),
-+	MAYA_CONTROL("Output 1-2 Crossmix Playback Volume", CTL_MIX_VOLUME, 0, mix_db),
-+	MAYA_CONTROL("Output 1-2 Crossmix Playback Switch", CTL_MIX_SWITCH, 0, NULL),
-+	MAYA_CONTROL("Output 3-4 Crossmix Playback Volume", CTL_MIX_VOLUME, 1, mix_db),
-+	MAYA_CONTROL("Output 3-4 Crossmix Playback Switch", CTL_MIX_SWITCH, 1, NULL),
-+};
-+
-+/* Input register facts checked against original 0x144d0/0x14580/0x15c00
-+ * and WM8776 rev4.1. No mono/LRBOTH (R21 bit8), ALC or AUX routing.
-+ */
-+enum { INPUT_VOLUME, INPUT_GAIN, INPUT_SWITCH, INPUT_SOURCE, INPUT_MONITOR };
-+
-+static u16 maya_input_mux(struct maya *m, unsigned int pair)
-+{
-+	u16 mux = m->input_source[pair] ? 8 : 2;
-+
-+	/* The WM8776 input PGA mute also gates the analog monitor path. */
-+	if (!m->input_enabled[pair] || !m->input_volume[pair][0])
-+		mux |= BIT(7);
-+	if (!m->input_enabled[pair] || !m->input_volume[pair][1])
-+		mux |= BIT(6);
-+	return mux;
-+}
-+
-+static int maya_input_levels(struct maya *m, unsigned int pair)
-+{
-+	unsigned int ch;
-+	int err;
-+
-+	for (ch = 0; ch < 2; ++ch) {
-+		unsigned int raw = 62 + m->input_pga_volume[pair][ch] + m->input_gain[pair];
-+
-+		err = maya_codec_write(m, pair, 14 + ch, 0x100 | raw);
-+		if (err)
-+			return err;
-+	}
-+	return 0;
-+}
-+
-+static int maya_input_info(struct snd_kcontrol *k, struct snd_ctl_elem_info *info)
-+{
-+	unsigned int kind = k->private_value >> 8, pair = k->private_value & 1;
-+	static const char * const sources12[] = {"Line", "Mic"};
-+	static const char * const sources34[] = {"Line", "Hi-Z"};
-+
-+	if (kind == INPUT_SOURCE)
-+		return snd_ctl_enum_info(info, 1, 2, pair ? sources34 : sources12);
-+	if (kind >= INPUT_SWITCH && kind != INPUT_SOURCE)
-+		return snd_ctl_boolean_mono_info(k, info);
-+	info->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	info->count = kind == INPUT_VOLUME ? 2 : 1;
-+	info->value.integer.min = 0;
-+	info->value.integer.max = kind == INPUT_VOLUME ? 145 : 48;
-+	return 0;
-+}
-+
-+static int maya_input_get(struct snd_kcontrol *k, struct snd_ctl_elem_value *v)
-+{
-+	struct maya *m = snd_kcontrol_chip(k);
-+	unsigned int pair = k->private_value & 1, kind = k->private_value >> 8;
-+
-+	mutex_lock(&m->codec_lock);
-+	switch (kind) {
-+	case INPUT_VOLUME:
-+		v->value.integer.value[0] = m->input_volume[pair][0];
-+		v->value.integer.value[1] = m->input_volume[pair][1];
-+		break;
-+	case INPUT_GAIN:
-+		v->value.integer.value[0] = m->input_gain[pair];
-+		break;
-+	case INPUT_SOURCE:
-+		v->value.enumerated.item[0] = m->input_source[pair];
-+		break;
-+	case INPUT_SWITCH:
-+		v->value.integer.value[0] = m->input_enabled[pair];
-+		break;
-+	case INPUT_MONITOR:
-+		v->value.integer.value[0] = m->monitor[pair];
-+		break;
-+	}
-+	mutex_unlock(&m->codec_lock);
-+	return 0;
-+}
-+
-+static int maya_input_put(struct snd_kcontrol *k, struct snd_ctl_elem_value *v)
-+{
-+	struct maya *m = snd_kcontrol_chip(k);
-+	unsigned int pair = k->private_value & 1, kind = k->private_value >> 8;
-+	long a = kind == INPUT_SOURCE ? v->value.enumerated.item[0] : v->value.integer.value[0];
-+	long b = v->value.integer.value[1];
-+	unsigned long flags;
-+	u8 gpio;
-+	int err = 0, changed = 0;
-+
-+	if (a < 0 || a > (kind == INPUT_VOLUME ? 145 : kind == INPUT_GAIN ? 48 : 1) ||
-+	    (kind == INPUT_VOLUME && (b < 0 || b > 145)))
-+		return -EINVAL;
-+	mutex_lock(&m->codec_lock);
-+	if (READ_ONCE(m->fault) || READ_ONCE(m->removing) || READ_ONCE(m->suspended)) {
-+		err = -EIO;
-+		goto out;
-+	}
-+	switch (kind) {
-+	case INPUT_VOLUME:
-+		changed = m->input_volume[pair][0] != a || m->input_volume[pair][1] != b;
-+		if (changed) {
-+			u16 old_mux = maya_input_mux(m, pair);
-+			u16 mux;
-+
-+			/* Retain the last nonzero PGA level across mute and resume. */
-+			if (a)
-+				m->input_pga_volume[pair][0] = a;
-+			if (b)
-+				m->input_pga_volume[pair][1] = b;
-+			WRITE_ONCE(m->input_volume[pair][0], a);
-+			WRITE_ONCE(m->input_volume[pair][1], b);
-+			err = maya_input_levels(m, pair);
-+			mux = maya_input_mux(m, pair);
-+			if (!err && mux != old_mux)
-+				err = maya_codec_write(m, pair, 21, mux);
-+		}
-+		break;
-+	case INPUT_GAIN:
-+		changed = m->input_gain[pair] != a;
-+		if (changed) {
-+			m->input_gain[pair] = a;
-+			err = maya_input_levels(m, pair);
-+		}
-+		break;
-+	case INPUT_SWITCH:
-+		changed = m->input_enabled[pair] != a;
-+		if (changed) {
-+			m->input_enabled[pair] = a;
-+			err = maya_codec_write(m, pair, 21, maya_input_mux(m, pair));
-+			if (!err)
-+				err = maya_codec_write(m, pair, 22, (m->dac_enabled[pair] ? 1 : 0) |
-+					(m->monitor[pair] && a ? 4 : 0));
-+		}
-+		break;
-+	case INPUT_MONITOR:
-+		changed = m->monitor[pair] != a;
-+		if (changed) {
-+			err = maya_codec_write(m, pair, 22,
-+					       (m->dac_enabled[pair] ? 1 : 0) |
-+					       (a && m->input_enabled[pair] ? 4 : 0));
-+			if (!err)
-+				m->monitor[pair] = a;
-+		}
-+		break;
-+	case INPUT_SOURCE:
-+		changed = m->input_source[pair] != a;
-+		if (!changed)
-+			break;
-+		/* Disconnect bypass during the switch and keep phantom off. */
-+		err = maya_codec_write(m, pair, 22, m->dac_enabled[pair] ? 1 : 0);
-+		if (err)
-+			break;
-+		gpio = mr8(m, 0x481);
-+		if (!pair)
-+			gpio = (gpio & ~0x50) | (a ? 0x10 : 0);
-+		else
-+			gpio = (gpio & ~0x20) | (a ? 0 : 0x20);
-+		mw8(m, 0x481, gpio);
-+		m->input_source[pair] = a;
-+		err = maya_codec_write(m, pair, 21, maya_input_mux(m, pair));
-+		if (!err)
-+			err = maya_codec_write(m, pair, 22,
-+					       (m->dac_enabled[pair] ? 1 : 0) |
-+				(m->monitor[pair] &&
-+						m->input_enabled[pair] ? 4 : 0));
-+		break;
-+	}
-+	if (err) {
-+		/* A partial codec transaction leaves the actual state uncertain.
-+		 * Fail closed: phantom off, all DMA stopped, require module reload.
-+		 */
-+		spin_lock_irqsave(&m->lock, flags);
-+		maya_fatal(m);
-+		spin_unlock_irqrestore(&m->lock, flags);
-+	}
-+out:
-+	mutex_unlock(&m->codec_lock);
-+	return err ? err : changed;
-+}
-+
-+static const DECLARE_TLV_DB_SCALE(input_volume_db, -7250, 50, 1);
-+static const DECLARE_TLV_DB_SCALE(input_gain_db, 0, 50, 0);
-+#define MAYA_INPUT(label, kind, pair, scale) { \
-+	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = label, \
-+	.access = SNDRV_CTL_ELEM_ACCESS_READWRITE | \
-+		((kind) <= INPUT_GAIN ? SNDRV_CTL_ELEM_ACCESS_TLV_READ : 0), \
-+	.info = maya_input_info, .get = maya_input_get, .put = maya_input_put, \
-+	.private_value = ((kind) << 8) | (pair), .tlv.p = scale }
-+static const struct snd_kcontrol_new maya_input_controls[] = {
-+	MAYA_INPUT("Input 1-2 Capture Volume", INPUT_VOLUME, 0, input_volume_db),
-+	MAYA_INPUT("Input 3-4 Capture Volume", INPUT_VOLUME, 1, input_volume_db),
-+	MAYA_INPUT("Input 1-2 Capture Gain", INPUT_GAIN, 0, input_gain_db),
-+	MAYA_INPUT("Input 3-4 Capture Gain", INPUT_GAIN, 1, input_gain_db),
-+	MAYA_INPUT("Input 1-2 Capture Switch", INPUT_SWITCH, 0, NULL),
-+	MAYA_INPUT("Input 3-4 Capture Switch", INPUT_SWITCH, 1, NULL),
-+	MAYA_INPUT("Input 1-2 Capture Source", INPUT_SOURCE, 0, NULL),
-+	MAYA_INPUT("Input 3-4 Capture Source", INPUT_SOURCE, 1, NULL),
-+	MAYA_INPUT("Input 1-2 Monitor Playback Switch", INPUT_MONITOR, 0, NULL),
-+	MAYA_INPUT("Input 3-4 Monitor Playback Switch", INPUT_MONITOR, 1, NULL),
-+};
-+
-+static void maya_free(struct snd_card *card)
-+{
-+	struct maya *m = card->private_data;
-+	unsigned long flags;
-+	unsigned int pair;
-+
-+	spin_lock_irqsave(&m->lock, flags);
-+	m->removing = true;
-+	if (m->enabled)
-+		maya_fatal(m);
-+	spin_unlock_irqrestore(&m->lock, flags);
-+	cancel_work_sync(&m->fault_work);
-+	if (m->irq_requested)
-+		free_irq(m->pci->irq, m);
-+	if (m->enabled)
-+		pci_wait_for_pending_transaction(m->pci);
-+	for (pair = 0; pair < 2; ++pair)
-+		if (m->capture.ring[pair])
-+			dma_free_coherent(&m->pci->dev, MAYA_PAIR_BYTES_MAX,
-+					  m->capture.ring[pair], m->capture.dma[pair]);
-+	for (pair = 0; pair < 2; ++pair)
-+		if (m->ring[pair])
-+			dma_free_coherent(&m->pci->dev, MAYA_PAIR_BYTES_MAX,
-+					  m->ring[pair], m->ring_dma[pair]);
-+	if (m->desc_allocation)
-+		dma_free_coherent(&m->pci->dev, MAYA_DESC_BYTES,
-+				  m->desc_allocation, m->desc_dma);
-+	if (m->io)
-+		pci_iounmap(m->pci, m->io);
-+	if (m->regions)
-+		pci_release_regions(m->pci);
-+	if (m->enabled)
-+		pci_disable_device(m->pci);
-+}
-+
-+static int maya_probe(struct pci_dev *pci, const struct pci_device_id *id)
-+{
-+	struct snd_card *card;
-+	struct maya *m;
-+	unsigned int pair, offset;
-+	int err;
-+
-+	err = snd_card_new(&pci->dev, -1, "MAYA44e", THIS_MODULE, sizeof(*m), &card);
-+	if (err)
-+		return err;
-+	m = card->private_data;
-+	m->pci = pci;
-+	m->period_frames = MAYA_DEFAULT_PERIOD;
-+	m->buffer_frames = MAYA_DEFAULT_PERIOD * 2;
-+	INIT_WORK(&m->fault_work, maya_fault_work);
-+	spin_lock_init(&m->lock);
-+	mutex_init(&m->codec_lock);
-+	card->private_free = maya_free;
-+	err = pci_enable_device_mem(pci);
-+	if (err)
-+		goto fail;
-+	m->enabled = true;
-+	pci_clear_master(pci);
-+	pci_intx(pci, 0);
-+	err = pci_request_regions(pci, "snd-maya44e");
-+	if (err)
-+		goto fail;
-+	m->regions = true;
-+	if (!(pci_resource_flags(pci, 0) & IORESOURCE_MEM) || pci_resource_len(pci, 0) < 0x500) {
-+		err = -ENODEV;
-+		goto fail;
-+	}
-+	err = dma_set_mask_and_coherent(&pci->dev, DMA_BIT_MASK(32));
-+	if (err)
-+		goto fail;
-+	m->io = pci_iomap(pci, 0, 0);
-+	if (!m->io) {
-+		err = -ENOMEM;
-+		goto fail;
-+	}
-+	m->desc_allocation = dma_alloc_coherent(&pci->dev, MAYA_DESC_BYTES,
-+						&m->desc_dma, GFP_KERNEL);
-+	if (!m->desc_allocation) {
-+		err = -ENOMEM;
-+		goto fail;
-+	}
-+	memset(m->desc_allocation, 0, MAYA_DESC_BYTES);
-+	m->table_dma = (m->desc_dma + 0x100) & ~((dma_addr_t)0xff);
-+	offset = m->table_dma - m->desc_dma;
-+	m->table = m->desc_allocation + offset;
-+	for (pair = 0; pair < 2; ++pair) {
-+		m->ring[pair] = dma_alloc_coherent(&pci->dev, MAYA_PAIR_BYTES_MAX,
-+						   &m->ring_dma[pair], GFP_KERNEL);
-+		if (!m->ring[pair]) {
-+			err = -ENOMEM;
-+			goto fail;
-+		}
-+		memset(m->ring[pair], 0, MAYA_PAIR_BYTES_MAX);
-+		m->dac[pair][1] = 0xc3;
-+		m->dac[pair][0] = 0xc3;
-+		m->dac_enabled[pair] = true; /* Matches the initial R22=1. */
-+		m->capture.ring[pair] = dma_alloc_coherent(&pci->dev, MAYA_PAIR_BYTES_MAX,
-+							   &m->capture.dma[pair], GFP_KERNEL);
-+		if (!m->capture.ring[pair]) {
-+			err = -ENOMEM;
-+			goto fail;
-+		}
-+		memset(m->capture.ring[pair], 0, MAYA_PAIR_BYTES_MAX);
-+		m->input_volume[pair][1] = 145;
-+		m->input_volume[pair][0] = 145;
-+		m->input_pga_volume[pair][1] = m->input_volume[pair][1];
-+		m->input_pga_volume[pair][0] = m->input_volume[pair][0];
-+		m->input_enabled[pair] = true;
-+		m->mix[pair] = 18; /* -30 dB when explicitly enabled later. */
-+	}
-+	maya_configure_buffer(m, MAYA_DEFAULT_PERIOD);
-+	err = maya_controller_init(m);
-+	if (err) {
-+		dev_err(&pci->dev, "controller initialization failed: %d\n", err);
-+		goto fail;
-+	}
-+	err = request_irq(pci->irq, maya_irq, IRQF_SHARED, "snd-maya44e", m);
-+	if (err)
-+		goto fail;
-+	m->irq_requested = true;
-+	err = snd_pcm_new(card, "MAYA44e", 0, 1, 1, &m->pcm);
-+	if (err)
-+		goto fail;
-+	m->pcm->private_data = m;
-+	strscpy(m->pcm->name, "MAYA44e Analog");
-+	snd_pcm_set_ops(m->pcm, SNDRV_PCM_STREAM_PLAYBACK, &maya_pcm_ops);
-+	snd_pcm_set_ops(m->pcm, SNDRV_PCM_STREAM_CAPTURE, &maya_capture_ops);
-+	err = snd_pcm_set_managed_buffer_all(m->pcm, SNDRV_DMA_TYPE_VMALLOC,
-+					     NULL, MAYA_PCM_BYTES_MAX, MAYA_PCM_BYTES_MAX);
-+	if (err)
-+		goto fail;
-+	for (pair = 0; pair < ARRAY_SIZE(maya_controls); ++pair) {
-+		err = snd_ctl_add(card, snd_ctl_new1(&maya_controls[pair], m));
-+		if (err)
-+			goto fail;
-+	}
-+	for (pair = 0; pair < ARRAY_SIZE(maya_input_controls); ++pair) {
-+		err = snd_ctl_add(card, snd_ctl_new1(&maya_input_controls[pair], m));
-+		if (err)
-+			goto fail;
-+	}
-+	strscpy(card->driver, "MAYA44e");
-+	strscpy(card->shortname, "ESI MAYA44e");
-+	snprintf(card->longname, sizeof(card->longname),
-+		 "ESI MAYA44e at %s irq %d", pci_name(pci), pci->irq);
-+	pci_set_drvdata(pci, card);
-+	m->irq_window = jiffies;
-+	pci_set_master(pci);
-+	pci_intx(pci, 1);
-+	err = snd_card_register(card);
-+	if (err)
-+		goto fail;
-+	return 0;
-+fail:
-+	pci_set_drvdata(pci, NULL);
-+	snd_card_free(card);
-+	return err;
-+}
-+
-+static void maya_remove(struct pci_dev *pci)
-+{
-+	struct snd_card *card = pci_get_drvdata(pci);
-+
-+	if (card) {
-+		snd_card_disconnect(card);
-+		snd_card_free(card);
-+		pci_set_drvdata(pci, NULL);
-+	}
-+}
-+
-+/* codec_lock held; IRQ and all PCM/controls/MMIO readers remain gated by
-+ * suspended until the complete board state is restored. PCI core restores
-+ * power/config space before calling resume; DMA stays disabled here.
-+ */
-+static int maya_restore_after_sleep(struct maya *m)
-+{
-+	unsigned int pair;
-+	u8 gpio;
-+	int err;
-+
-+	memset(m->ring[0], 0, MAYA_PAIR_BYTES_MAX);
-+	memset(m->ring[1], 0, MAYA_PAIR_BYTES_MAX);
-+	memset(m->capture.ring[0], 0, MAYA_PAIR_BYTES_MAX);
-+	memset(m->capture.ring[1], 0, MAYA_PAIR_BYTES_MAX);
-+	maya_configure_buffer(m, m->period_frames);
-+	m->capture.position = 0;
-+
-+	/* A retained rate cache must not suppress clock programming after S3. */
-+	m->rate = 0;
-+	err = maya_controller_init(m);
-+	if (err)
-+		return err;
-+	err = maya_set_rate(m, m->suspend_rate);
-+	if (err)
-+		return err;
-+	gpio = mr8(m, 0x481) & ~0x70;
-+	gpio |= (m->input_source[0] == 1 ? 0x10 : 0) |
-+		(m->input_source[1] ? 0 : 0x20);
-+	mw8(m, 0x481, gpio);
-+	for (pair = 0; pair < 2; ++pair) {
-+		err = maya_input_levels(m, pair);
-+		if (err)
-+			return err;
-+		err = maya_codec_write(m, pair, 21, maya_input_mux(m, pair));
-+		if (err)
-+			return err;
-+		err = maya_codec_write(m, pair, 22, (m->dac_enabled[pair] ? 1 : 0) |
-+			(m->monitor[pair] &&
-+						m->input_enabled[pair] ? 4 : 0));
-+		if (err)
-+			return err;
-+		err = maya_codec_write(m, 1 - pair, 2,
-+				       0x100 | (m->mix_enabled[pair] ? m->mix[pair] + 0x49 : 0));
-+		if (err)
-+			return err;
-+	}
-+	if (maya_valid_period(m->capture.period)) {
-+		for (pair = 0; pair < 2; ++pair) {
-+			err = maya_capture_rearm(m, pair);
-+			if (err)
-+				return err;
-+		}
-+	}
-+	dma_wmb();
-+	return 0;
-+}
-+
-+static int maya_suspend(struct device *dev)
-+{
-+	struct snd_card *card = dev_get_drvdata(dev);
-+	struct maya *m = card->private_data;
-+	unsigned long flags;
-+
-+	snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
-+	/* ALSA stream locks must be acquired before our register/codec locks. */
-+	snd_pcm_suspend_all(m->pcm);
-+	mutex_lock(&m->codec_lock);
-+	spin_lock_irqsave(&m->lock, flags);
-+	if (!m->suspended) {
-+		m->suspend_rate = m->rate;
-+		maya_quiesce(m, true);
-+		m->suspended = true;
-+	}
-+	spin_unlock_irqrestore(&m->lock, flags);
-+	synchronize_irq(m->pci->irq);
-+	mutex_unlock(&m->codec_lock);
-+	/* The gate prevents new work; complete any pending peer notification. */
-+	flush_work(&m->fault_work);
-+	return 0;
-+}
-+
-+static int maya_resume(struct device *dev)
-+{
-+	struct snd_card *card = dev_get_drvdata(dev);
-+	struct maya *m = card->private_data;
-+	unsigned long flags;
-+	bool mmio_active;
-+	int err;
-+
-+	mutex_lock(&m->codec_lock);
-+	if (!m->suspended) {
-+		mutex_unlock(&m->codec_lock);
-+		return 0;
-+	}
-+	mmio_active = m->pci->current_state == PCI_D0 &&
-+		!pci_channel_offline(m->pci) && pci_device_is_present(m->pci);
-+	if (!mmio_active) {
-+		err = -ENODEV;
-+		goto fail;
-+	}
-+	if (m->fault || m->removing) {
-+		err = -EIO;
-+		goto fail;
-+	}
-+	pci_intx(m->pci, 0);
-+	pci_clear_master(m->pci);
-+	err = maya_restore_after_sleep(m);
-+	if (err)
-+		goto fail;
-+	spin_lock_irqsave(&m->lock, flags);
-+	m->irq_window = jiffies;
-+	m->irq_window_handled = 0;
-+
-+	m->suspended = false;
-+	pci_set_master(m->pci);
-+	pci_intx(m->pci, 1);
-+	spin_unlock_irqrestore(&m->lock, flags);
-+	mutex_unlock(&m->codec_lock);
-+	snd_power_change_state(card, SNDRV_CTL_POWER_D0);
-+	return 0;
-+fail:
-+	spin_lock_irqsave(&m->lock, flags);
-+	m->fault = true;
-+	/* PCI may be back in D0 even while the software suspend gate is set. */
-+	maya_quiesce(m, mmio_active && !m->removing && !pci_channel_offline(m->pci));
-+	spin_unlock_irqrestore(&m->lock, flags);
-+	mutex_unlock(&m->codec_lock);
-+	/* Wake control operations waiting for D0 on the failed card. */
-+	snd_card_disconnect(card);
-+	dev_err(dev, "resume failed: %d; DMA and interrupts disabled\n", err);
-+	return err;
-+}
-+
-+static DEFINE_SIMPLE_DEV_PM_OPS(maya_pm_ops, maya_suspend, maya_resume);
-+
-+static const struct pci_device_id maya_ids[] = {
-+	{ PCI_DEVICE_SUB(0x19fe, 0x7000, 0x0e51, 0x0001) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(pci, maya_ids);
-+
-+static struct pci_driver maya_driver = {
-+	.name = "snd-maya44e",
-+	.id_table = maya_ids,
-+	.probe = maya_probe,
-+	.remove = maya_remove,
-+	.driver.pm = pm_sleep_ptr(&maya_pm_ops),
-+};
-+module_pci_driver(maya_driver);
-+
-+MODULE_AUTHOR("MAYA44e Linux reverse-engineering project");
-+MODULE_DESCRIPTION("ESI MAYA44e analog audio driver");
-+MODULE_LICENSE("GPL");
-
----
-base-commit: ec925d3740159f4b4bd3b7640be5d0d2b4664106
-change-id: 20261111-codex-alsa-maya44e-2c41718770fb
-prerequisite-patch-id: a43255e8bd12f0cc8a3072eaa97a986ad7a0be72
-
-Best regards,
--- 
-Nordschamane <nordschamane1@proton.me>
-
-
+Thanks,
+Charles
