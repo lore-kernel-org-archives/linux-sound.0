@@ -1,88 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.231.73
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794359940;
-	b=sEHRUM01su6tIyC3T08UCzjsSjsM3W59cCEE8PZvWodoer/zkhLhr35DHxTTNs9G8oQw
-	 2E0rpyQPKzhbnLHAJFcF3BGv/owjgRRME9VqRyji2La1YUHHFOFhN5ZXH/bYOYwQoEN7a
-	 QQa2HOs628kNFHu7DiIDRV3SrXhYJXovEfffiS/dTzvFrPWbG4C04VJq6JYEQQMK6EiG5
-	 qbMqi9UYmFbk2CAXkHF3s2zLZq13bYbXZukoiStZWXlwQwBwXKozdAGmV5PpuIYy/LSsE
-	 KQaXdETsVmwx4qDhdKAjJA4udMqDuA37e1MKm3qlENq4WHmbs7tqSqd8xa4raLJYVBg==
+	t=1794360064;
+	b=Q+wJo+o64rwzF+foTTFN59+Vt9UmocSE3Q6jOzgitgbR4ggqUFpojBYtYX6Wx66X7ZIA
+	 Sj7oLaM3/foDGgyk8L+bc+1GVUcYxq49T//bZZ3ZUVjVVH8WxMlpdVf1zM/6n9h52iPZS
+	 SNTu8shTXB6N4haHnIO+c1qTIYUN5IN3WD04lFemxLd88JjfEvyIOOVQgH/YHMZWfPrzY
+	 Ih2TLBBy9tUqu0edDwN9o1UErgppLrY6INQ8tssyGTyYnIvbWld3uOs8ML1mvhrdwkPB2
+	 /AghWHKjN7hTj4fJkrb7DxnLgLHRmrl6+xwMUe7K50zxkT9tin8/yHv6MlCQ6B05VpA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794359940;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=gNyPl8hvDz2s418waBm5wB0iV5wzq1cuI+c5xRhCVXE=;
-	b=ASRvnHDFI6dAyUyQiFopBEEQ9kw4LO/FSgx3D98eHnjBo++CdChUtUIDu2+Sc7jvEAiI
-	 sK6zdg9yvUQu2DUc0xOiLdb7nnz6BpxGOEnR1B81Y/l/oD4RKwE5LhNsxf4bt4hoN13Iv
-	 +3zD/o9ok5iBiiKrAaSejkwJbhJOrXJUTrtMUtYuEZOubh9XyAn+Z5zFsMTEgnm8Z06b8
-	 17mjDdvRltb4NGFuRXYfR4DjTLUlJ7qPVjwheDqKFCbPhMNGH0QFxfkTJxVBAxEkld9iG
-	 3hD4rgQfLWOP3iKt7Isr66Zq1TSTUlHJFgRA1ctzsJN3pxHZnUFW+OPX43XfPTu+Y3A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794360064;
+	h=Received:DKIM-Signature:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=Z+3aaARNhJNSZx1sgj4z/xG7a50sQNkRuw0fkTaafrw=;
+	b=Hbn8VBc4dX7B5iGNnr24TaOd0OuUagq3JY3aaClSqeej8H4YKPKpFqzurfnhwke7qZC8
+	 xergW+QaE7M4go57CLiZv6hGXCPwHtsQ/eqzBdSay32Q6hQqhjFCsIW4FkVcFuq7uMdVG
+	 QPOibKqTzJCq1miZ2MiQW7cwFS17dwMSezuZYGBKheshGA7c/Rq1M+L1mrRS/mrNZv8aZ
+	 J6dmth16soHnhHX0m/ImVKl/1YJX7/M6KJ5Fg0HtiASCDwUAVSeIRjIZPJqLAVvPxzZ8K
+	 7uRr4n/g4ro+R0d/lciIptoM6UYfqGSfpQ0RswtVFWnOfuuMG3zUVvdyPwlAYfRpZxQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ixHBnGoN;
-	arc=none smtp.remote-ip=74.125.231.73
-Received: from mail-oa2-f9.google.com (mail-oa2-f9.google.com [74.125.231.73])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NcWOAidH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBBB606A31C
-	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 01:18:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9EBBB606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E831606A321;
+	Wed, 11 Nov 2026 01:21:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ixHBnGoN
-Received: by mail-oa2-f9.google.com with SMTP id 586e51a60fabf-4abbe52a747so1239861fac.1
-        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 17:18:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794359938; x=1794964738; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=gNyPl8hvDz2s418waBm5wB0iV5wzq1cuI+c5xRhCVXE=;
-        b=ixHBnGoNmKLHQjnp1EcyhfIGBb4m/7l4WLpuZeHvcXjjRCFSyz6DiGp+CUUuZyL+ni
-         sc7rZxVGjrXwtLjtapYWMxcVvz4WZXQhUqirQ0embkyJvK80VU2yv0WPJa/LWjjvJr09
-         AiP+81YK5M0TG7Z1djmSyh0qoTsF+q/HU5yYIWBHl0wxl7BwrdqfXfmNg7Nyqvti88E1
-         pKd/OISxGMwBdHXLr+6vH6utbPQ/DGkbOtVYU0JO3mtOLHJEAddsSZuLvqsfU5AX5/GO
-         NUDrOPTHrgyX/zlKuTDRhkbNiNlKLPWEN/DSBXJXV4RUgC5ymdOXq6DbNfVeEqVclr/w
-         /juA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794359938; x=1794964738;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=gNyPl8hvDz2s418waBm5wB0iV5wzq1cuI+c5xRhCVXE=;
-        b=Z4Z2AglP5I/QKTvuC1BIDI/TgICt8z11pzVa0PqTQAFrNVEgRzHQ5WE3JJ3I5g5HhJ
-         tZl+1qAen+oDulJGFgyfKuaU1q9JVcR3o7l7CzMv4/ZzwaJS6vzx4kMDFbWc3xARYSaw
-         FO/rZglVurhTJCc1cMGKHX1WMakaMruO5VdiX4K9AxAtZao0Wlo+PX/5pbvHZnvuSl5g
-         GTlyXXUlVxBf7X4PoRm/2TsDG1EGKrB/376BK/pYbLxfdnqefqzqu7xo7gKrMtEOKx9M
-         xo0oztVduMrSUbYRQZNBI6cx+F1oOgmUt9s1nCeTO1oI89iN4ey79x6B71VPIDaAqwxb
-         Wneg==
-X-Forwarded-Encrypted: i=1; AL+hErEkst1D2icstVzPRtMKe6kqBwxrdHvLcLFi1Qa140ZoBs2p8CXFKm9GKSubSdeDuKZmj8PvG6zZBX6OVQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8/M1y5sirct42sWfw3lCkidfjcJUEOoSb7p2PrZdyCHHeLPOMo
-	12gtqsYaEVK0HKZBIYKyaLZFn8PZnKrga8Zye2m1Qd9yHSzMOUwgF/p1
-X-Gm-Gg: AYBFou3xIwCdFbBY8micx/y8voWP3k1K3KBGRUSmUofTUwzuHw5kp4ta4COIa5ZaCNo
-	lTTuYaNXgA5uM3hFftD8h+DxDKJ8gFsiyVtpehex2iQmncu8Q38XRC2CvvFIl3eCxoEhrcklxZ0
-	DANg9h+dNVtCrXHKOYBsXnL1RnjRhjSwbGhtRaFwh0CEmpahb1dgcuzs1A7uOX+sm7BzB/m163J
-	pVGQ4BIVvzpJ7BqgoEoKrTK/7pByW8uwRkQXS6oZefI03Zp46GGQ2QMfPqTf1C1OK9gS0v98W1D
-	xIoOZl95oKPbvzAgXICBxeHqsf2EyObFwlnofMXoZx0rAcLuSKyLkwgtGqwhSqEdfJpjsnqIrLd
-	br1MHIY8nPEq6Blom92N6cYP9a9yWXlTrq4aJCUDc5MyVNSh/0uoxqevR/T4l3LkF1eOHDHj0ez
-	4SvWzipxTvUl5oy4DZI/1N1HGlOGfyHvGOTef4NGYzEKMgKD7D2Yw4/ilpkLkefnHeW0031xq1P
-	I9zS5W2eKNBEhTwU+pR6PS7UJOm15uVakBW6Dnq9QU1vayDRVs9EOf+K2k9RhDMkEGMB/jf+pgL
-	sQQNB1l8InPTrdNKRPeHFqaz
-X-Received: by 2002:a05:6870:f61d:b0:485:d1ab:793c with SMTP id 586e51a60fabf-4ae46b8c334mr1051565fac.29.1794359938319;
-        Tue, 10 Nov 2026 17:18:58 -0800 (PST)
-Received: from [192.168.18.164] ([2600:8804:5716:d800::f01a])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4ae23095c16sm2489357fac.17.2026.11.10.17.18.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 17:18:56 -0800 (PST)
-From: Ryan Brue <ryanbrue.dev@gmail.com>
-Date: Tue, 10 Nov 2026 19:18:53 -0600
-Subject: [PATCH] ASoC: soc-core: start the runtime's component count at
- zero
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NcWOAidH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4E441F0089F;
+	Wed, 11 Nov 2026 01:21:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794360063;
+	bh=Z+3aaARNhJNSZx1sgj4z/xG7a50sQNkRuw0fkTaafrw=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=NcWOAidHCmXMLQmtTzlrOmZshCrz3VGShZl6JjKwWSD8Vp7FS45wtqkQGK2/wdwIP
+	 1/QZFPHvzoMCc+BqkoFwxTG+VP1iZtlV9IuVLTjnKP2UIYXellitmT8bYXsy59N03y
+	 /d+q3aDEYlV9i9waseR0pqA/gP9WWn/H6uHT+7gX430qD+OUEcmdcOWABTxIRs0fTd
+	 VJXOjI3DfntAb5Yi1TPOhyEVDLnyJ8ULffPj46mtzNbkY0PfP45tQa9TelDoDsrHyE
+	 sMoUcqvOyHCs5/QmfR2DUembrUryp0vFjr7ggtD/opv+YpXc/C6tB+0KOPDoLusNjn
+	 HS96IqDXmBmIg==
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -94,77 +51,69 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-rbrue-asoc-rtd-num-components-v1-1-fa0c9e0cb361@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAA/x3MQQqDQAwAwK+EnA0YW0T3K6WHdU3bHMxKolIQ/
- 17oPGBODHGVwAQnuhwaWg0TcANYPtneQjpjAuzarmfmlnzyXShHLeTbTLYvVOqyVhPbgsZb5om
- H4d6Pgg3g6vLS7/9/PK/rB3kgbNJvAAAA
-X-Change-ID: 20261110-rbrue-asoc-rtd-num-components-93a1b188469e
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Kees Cook <kees+treewide@kernel.org>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
- Ryan Brue <ryanbrue.dev@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794359935; l=2050;
- i=ryanbrue.dev@gmail.com; s=20260906; h=from:subject:message-id;
- bh=ISg7w++wXHyL53KnX6PWd5Fq+DoqRxUq2YHTwfGGjcg=;
- b=wbo217doE1MovnyyC6sTYiw+dP+3D+mWK2mBBMyznqJSZf1dme7lbFHchWw868o9OFxhx2Ggp
- PP6G+cKDim7AjA3kswBmP0IQsZkiRCi7R8woGpbbXASTnjxZ1KB/DIl
-X-Developer-Key: i=ryanbrue.dev@gmail.com; a=ed25519;
- pk=KsUvVaP//v/2q+ZBuacc7cLbsyEYn+AD71Sn28oZWKo=
+Subject: Re: [PATCH v6 v6 4/9] ASoC: qcom: lpass-va-macro: Add shikra
+ compatible
+From: Mark Brown <broonie@kernel.org>
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261106-add_shikra_support-v6-4-2cda302237cc@oss.qualcomm.com>
+References: <20261106-add_shikra_support-v6-0-2cda302237cc@oss.qualcomm.com>
+ <20261106-add_shikra_support-v6-4-2cda302237cc@oss.qualcomm.com>
+Date: Wed, 11 Nov 2026 01:20:55 +0000
+Message-Id: <179436005594.790675.8837636459182556844.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1448; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=bbk7fL7emhP9IstEXzcyzZztjki3vN2kbzdbzY3kklw=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+H/r1SdRErVW1pn71qXgbtWIHxeqQiwcFhQyn8dX/j
+ jqwOYm/o5SFQYyLQVZMkSUui/tlfcnrNXwHF7bBzGFlAhnCwMUpABM5tJ/hn/LBluArTRen/vIN
+ nTuZYxLTr3cKzasX/j7YsUr7yhr3viRGhrNin1MEdu2v3bMuWqTh4otzsa/Etreuq7l5lT3vtv+
+ zI1wA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Since commit 4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to
-the devm_kmalloc_obj() family"), soc_new_pcm_runtime() allocates the
-runtime with devm_kzalloc_flex(). Since components[] is
-__counted_by(num_components), that also sets num_components to the array's
-capacity, but snd_soc_rtd_add_component() treats num_components as the
-number of components added so far and appends after it.
+> Add shikra specific VA macro data and register programming needed by
+> the LPASS codec v4.1 implementation.
 
-Every component is therefore written past the end of the allocation, and
-for_each_rtd_components() stops at the first, still NULL, entry, so a
-link's components are never found. On an MT8173 board the RT5514 link's
-init can no longer route to the codec's AMICL widget and the card fails
-to register:
+> +/* LPASS codec v4.1 adaptive filter (ADPT) blocks */
+> +#define CDC_VA_CDC_ADPT0_ADPT_CTRL		0x0800
+> +#define CDC_VA_ADPT_CTRL_EN_MASK		GENMASK(7, 0)
 
-  mt8173-mt6391 sound: ASoC: Failed to add route Int Mic -> AMICL(*)
-  RT5514 Codec: ASoC error (-19): at snd_soc_link_init() on RT5514 Codec
+Is the enable mask really 8 bits wide?
 
-Reset the count after the allocation.
+> +static const struct reg_default va_4_1_defaults[] = {
+> +	/* VA macro */
+> +	{ CDC_VA_CLK_RST_CTRL_MCLK_CONTROL, 0x00},
+> +	{ CDC_VA_CLK_RST_CTRL_FS_CNT_CONTROL, 0x00},
+> +	{ CDC_VA_CLK_RST_CTRL_SWR_CONTROL, 0x00},
+> +	{ CDC_VA_TOP_CSR_TOP_CFG0, 0x00},
+> +	{ CDC_VA_TOP_CSR_DMIC0_CTL, 0x00},
+> +	{ CDC_VA_TOP_CSR_DMIC1_CTL, 0x00},
+> +	{ CDC_VA_TOP_CSR_DMIC2_CTL, 0x00},
+> +	{ CDC_VA_TOP_CSR_DMIC3_CTL, 0x00},
+> +	{ CDC_VA_TOP_CSR_DMIC_CFG, 0x80},
+> +	{ CDC_VA_TOP_CSR_DEBUG_BUS, 0x00},
+> +	{ CDC_VA_TOP_CSR_DEBUG_EN, 0x00},
+> +	{ CDC_VA_TOP_CSR_TX_I2S_CTL, 0x0C},
+> +	{ CDC_VA_TOP_CSR_I2S_CLK, 0x00},
+> +	{ CDC_VA_TOP_CSR_I2S_RESET, 0x00},
+> +	{ CDC_VA_TOP_CSR_CORE_ID_0, 0x00},
+> +	{ CDC_VA_TOP_CSR_CORE_ID_1, 0x00},
+> +	{ CDC_VA_TOP_CSR_CORE_ID_2, 0x00},
+> +	{ CDC_VA_TOP_CSR_CORE_ID_3, 0x00},
+> +	{ CDC_VA_TOP_CSR_SWR_MIC_CTL0, 0xEE},
+> +	{ CDC_VA_TOP_CSR_SWR_MIC_CTL1, 0xEE},
+> +	{ CDC_VA_TOP_CSR_SWR_MIC_CTL2, 0xEE},
+> +	{ CDC_VA_TOP_CSR_SWR_CTRL, 0x06},
+> +	/* VA core */
+> +	{ CDC_VA_TX0_TX_PATH_CTL, 0x04},
 
-Fixes: 4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to the devm_kmalloc_obj() family")
-Signed-off-by: Ryan Brue <ryanbrue.dev@gmail.com>
----
-Since v7.4-rc2, every ASoC card writes its runtimes' components past the
-end of their allocation, because devm_kzalloc_flex() now sets the
-__counted_by counter that snd_soc_rtd_add_component() expects to start at
-zero. On an MT8173 tablet (amazon-suez) this left the card unregistered.
-This fix brings it back.
+Are we missing defaults for the mux registers?
 
-This patch was developed with the help of an LLM.
----
- sound/soc/soc-core.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 68b54e509b65..7b3d980ef10d 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -388,6 +388,8 @@ static struct snd_soc_pcm_runtime *soc_new_pcm_runtime(
- 		return NULL;
- 	}
- 
-+	rtd->num_components = 0;
-+
- 	rtd->dev = dev;
- 	INIT_LIST_HEAD(&rtd->list);
- 	for_each_pcm_streams(stream) {
-
----
-base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
-change-id: 20261110-rbrue-asoc-rtd-num-components-93a1b188469e
-
-Best regards,
 -- 
-Ryan Brue <ryanbrue.dev@gmail.com>
-
+Mark Brown <broonie@kernel.org>
