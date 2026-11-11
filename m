@@ -1,84 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794398342;
-	b=0tyZQwbuiy42oxCDaVhOZzFjT7aC/WSLR2SlOoaWuvS62YqCniej84tplEepbvPSlRKd
-	 1xsqOjVh/35KuwmC09naKQbkkulbMst9tNuXnSZqlhH8e2ZLjd0FtGfVJBO0VVujzvbYl
-	 x3DQlnuZLnxxehKy9CtxCnyy7vQUPAldID4mJ6meVgsr+rXYxHQC4c66bLZ30JEi01Wbu
-	 5/LlzZn2MF5v2N5KKTkqXAstrlKSeiBeLuWOK03ZdK5c3Z3U1GDW5dy9ijMKXkwUoVG/i
-	 Xfozy+6rWG6NkG5PO2yVwfbP1MDtQ3a9r2WuqMUg15T+DS9Tmmw2FIgDbvKHuQALPmA==
+	t=1794399168;
+	b=vRIQ8NLXatNrduJK7sHKG/VksciBbLdKOXb12hfwP04w04LTeXD+kXWYRu1eoJtFAfHC
+	 73caBROMUvOkl0HJ26/S5gaXp9voSqDE0bnweP2iTyYYKwX/EB63g7PqnN0sBqwuNgXVW
+	 ImSJR1QQrHHMwc0OiqmKVh6uU6iJ0KuRY917g2A3RIYia5ZCyx3Uehq9YDyxTTRtbM4Z6
+	 K2kSTw269zolnB0Nu5/hjD5JOQ0ULxNdJ3+eZkSxfDKoxpcMBHda7faxvuHt1H2BmuR5A
+	 VWPWiz53zaK9M65o6AS3iLHxD6VBOsTRmfBVlBN9f4E9mS8G3Zp1XDJKwnCEKKYZAyg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794398342;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Debian-User;
-	bh=6+DIIko/jddTALojzUdCwqYFD7qAVSieeB13vaTbTZ4=;
-	b=3ZRUCpDbmpEIqJg6asZuWCc8fZxzo6lXaaSCZ0QAxP95vLI7LAQKcX9iohx0TsIgU1va
-	 QTCQH6UO/prTdzSOxtGty+PEHCFS9gxfcgdDwUDTIDO+KF2UrMC+hIfrKbno6sAIIHCHX
-	 Pnt/VW+p7jrXC6xEZ+yX7nTykz7R5OhdVuFCPQBEvrcsnB5UL4etyyEpvKyffZ/B5JHfC
-	 rPeAdPgYjX4Ox0IBDUvQ0dmGh9A/d4tlouZAkjgs3eoZcLbblxEvT4fsiU26tlsbBU3yd
-	 4YMi9mRgAwMd7CawaTdNiNWpC2QZimU59ww6viAdoJL39aN3SflSSlyy2qCaOHa2AcQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794399168;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:From:
+	 Subject:To:Cc:References:Content-Language:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=DndahKbHHVFbP+dR7mo1vACUgPmW4clx8WQ8XgvyXe4=;
+	b=PmaJQFNYaTCiDZ13l2bEffNwV/OG1TQcN+ILjSFBfvOpP4tNeGejWTGCOxUdKVtrhHsF
+	 uSHz371zbV4chKV0lwVIZvSMliqoVQPJE1Bbwv4qI4rBFFd6sSzx5H1aubYjhwrs1tq4H
+	 XKIcrtUb63fZamhjJEh2/Rnf7UNQ+C/ltSG9RSREKZkMR3ZTD3JHBOmDeyWQ8pOHZVrL1
+	 dP1hoXf4U6A+2XXPeNg1NN8xhL4Ldz4wXbm8Kv6L6C8DW++yS512AguEqWroaqcb505fA
+	 a+y5OSMrADmhn3Mr89BkqxYMsXoTZ8Ak9K1mDVbXV4JHB0gUNQ4K80k9CkfRStSo7UA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=debian.org;
-	spf=pass smtp.mailfrom=debian.org;
-	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=R5XxGFbM;
-	arc=none smtp.remote-ip=82.195.75.108
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CFRhYsNO;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579BC606A324;
-	Wed, 11 Nov 2026 11:59:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 579BC606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D227D606A31C;
+	Wed, 11 Nov 2026 12:12:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=R5XxGFbM
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=6+DIIko/jddTALojzUdCwqYFD7qAVSieeB13vaTbTZ4=; b=R5XxGFbM6TZRqhT0SXxuzcMt1x
-	LUNRh7V8lAnKwChToktKXZ/BvtFiWDBfAUJ9dLKtb2UHW2064KOlAZ6KUeSJJgWg/hPASfykHm9lb
-	dvvgSD9ejQiiI+LIrAd6gbPGs/9xZWqr0yWBdHoCClUgJD2Bg1YMupaoC/QOZRmfVPSCT6MpDMhbS
-	246KM0GzqcBbc4E2580QxhluNnyoa2vW19Sk2kqFlCkeQ6ViS/yest6rZWy5lPKlR+T/Ay7hDfWGq
-	IJLMSEFD0EmRJ6D4dVOiq+0BkJb7lfNarlib+MyMxjNYvepLWzR3xSOakoCQkMgy3TimUB70/p52t
-	iE2dAMXA==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1xR6yh-00DAF9-2o;
-	Wed, 11 Nov 2026 11:59:00 +0000
-Date: Wed, 11 Nov 2026 03:58:49 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
-	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH RESEND v2 39/51] powerpc/crash_dump: recover from a
- machine check in copy_oldmem_page()
-Message-ID: <avRXzzCSzT9Qj2FC@gmail.com>
-References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
- <20261104-work-procfs-bugfixes-v2-39-021c84d852e0@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CFRhYsNO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19BFA1F00A06;
+	Wed, 11 Nov 2026 12:12:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794399168;
+	bh=DndahKbHHVFbP+dR7mo1vACUgPmW4clx8WQ8XgvyXe4=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To;
+	b=CFRhYsNOzUMwH4d7PXd+CmRWLW36G8MGdZpsDQBVkpdp3HNoJunwy1m+wDKiGyCOC
+	 vFV7ltzJOjC+t4Uo5vgZs8qPNbxToq7F3eAuKSnBcS4mfLyZCvY/wsI+d0dlwoKvPt
+	 6DsT4OqRjNiVAQGITysmwK0gn94ghxMWYLYd/2qWgwmWWEqHJZl/GLgbiqP4QSL/ep
+	 ZnFOCRKnXZKyOm/MPE2DCv8zwqJI/BLRJ2s5oTPerzRiP9aEAkM6KL77+bzc9Byp+/
+	 o6Cnv9Dtx6rQG6KzUL4mqRtJfa+kWM3X8VRhmCCL4i7mU0nUaa/AmmPtLKHDo2GWB7
+	 mgKOzG3HqL2eA==
+Message-ID: <a554e557-3d10-465e-ad3b-90d8357b60f2@kernel.org>
+Date: Wed, 11 Nov 2026 13:12:44 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -88,52 +51,123 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104-work-procfs-bugfixes-v2-39-021c84d852e0@kernel.org>
-X-Debian-User: leitao
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH 2/5] media: Documentation: it6625: document the audio
+ controls
+To: Hermes.wu@ite.com.tw, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
+ linux-api@vger.kernel.org
+References: <20261103-upstream-it6625-alsa-i2s-v1-0-bb91e2879b01@ite.com.tw>
+ <20261103-upstream-it6625-alsa-i2s-v1-2-bb91e2879b01@ite.com.tw>
+Content-Language: en-US, nl
+In-Reply-To: <20261103-upstream-it6625-alsa-i2s-v1-2-bb91e2879b01@ite.com.tw>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 04, 2026 at 08:25:32PM +0100, Christian Brauner wrote:
-> A capture kernel reads the memory of the crashed kernel, and that memory
-> may well have uncorrectable errors. On powerpc a machine check in the
-> kernel is only recovered from if the instruction that took it has an
-> exception table entry (cf. mce_common_process_ue()). copy_oldmem_page()
-> copies with copy_to_iter(). For a read() of /proc/vmcore that is a user
-> copy, all of whose loads have exception table entries, so the machine
-> check turns into a short copy and read_from_oldmem() returns -EFAULT.
+Hi Hermes,
+
+On 03/11/2026 07:50, Hermes Wu via B4 Relay wrote:
+> From: Hermes Wu <Hermes.wu@ite.com.tw>
 > 
-> But since commit 4a22fd20379c ("vmcore: convert __read_vmcore to use an
-> iov_iter") /proc/vmcore can be spliced too, and splice(), sendfile()
-> and copy_file_range() copy into kernel pages with memcpy(), which has
-> no exception table entries. A machine check there panics the capture
-> kernel. The same goes for the reads of the ELF headers and notes that
-> vmcore does itself, and those have been memcpy() for as long as
-> copy_oldmem_page() has had its kernel buffer branch, since commit
-> 54c32021eb6f ("[PATCH] powerpc: Add arch-dependent copy_oldmem_page").
+> The IT6625 driver exposes two read-only driver-specific controls,
+> V4L2_CID_IT6625_AUDIO_SAMPLING_RATE and V4L2_CID_IT6625_AUDIO_PRESENT,
+> which so far are described only in the uAPI header.
 > 
-> Copy with _copy_mc_to_iter() instead. PPC64 selects ARCH_HAS_COPY_MC
-> and there it uses copy_mc_generic() for kernel and user destinations
-> alike, which has the exception table entries. Everywhere else it is
-> _copy_to_iter().
+> Add a page for the driver to the V4L2 driver-specific documentation that
+> describes both controls, and list it in MAINTAINERS.
 > 
-> Reported-by: Chris Mason <mason@kernel.org>
-> Fixes: 54c32021eb6f ("[PATCH] powerpc: Add arch-dependent copy_oldmem_page")
-> Fixes: 4a22fd20379c ("vmcore: convert __read_vmcore to use an iov_iter")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
+> ---
+>  Documentation/userspace-api/media/drivers/index.rst  |  1 +
+>  Documentation/userspace-api/media/drivers/it6625.rst | 18 ++++++++++++++++++
+>  MAINTAINERS                                          |  1 +
+>  3 files changed, 20 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+> index 8d2c489b8453e11b8e15ef9d9c1c0312f3da06af..57be8dd5749d7f5aa6e0e21c7e3d89d377a209d0 100644
+> --- a/Documentation/userspace-api/media/drivers/index.rst
+> +++ b/Documentation/userspace-api/media/drivers/index.rst
+> @@ -33,6 +33,7 @@ For more details see the file COPYING in the source distribution of Linux.
+>  	dcmipp
+>  	dw100
+>  	imx-uapi
+> +	it6625
+>  	mali-c55
+>  	max2175
+>  	npcm-video
+> diff --git a/Documentation/userspace-api/media/drivers/it6625.rst b/Documentation/userspace-api/media/drivers/it6625.rst
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..efd970e8124979abffb6f9ba3ea1e1bc193820b3
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/drivers/it6625.rst
+> @@ -0,0 +1,18 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +ITE IT6625/IT6626 HDMI to MIPI bridge driver
+> +============================================
+> +
+> +The IT6625 driver implements the following driver-specific controls. All of
+> +them are read-only and describe the audio of the HDMI input.
+> +
+> +``V4L2_CID_IT6625_AUDIO_SAMPLING_RATE (integer)``
+> +-------------------------------------------------
+> +    The sampling rate of the HDMI audio stream, in Hz. 0 means that the rate
+> +    is not available: there is no stable input signal or no audio, the bridge
+> +    reported a rate code that the driver does not recognize, or reading the
+> +    audio status failed.
+> +
+> +``V4L2_CID_IT6625_AUDIO_PRESENT (boolean)``
+> +-------------------------------------------
+> +    Whether the bridge currently receives HDMI audio.
 
-Reviewed-by: Breno Leitao <leitao@debian.org>
+Mention in the documentation that these controls are read-only.
 
-The change is the right direction, and x86_64 has the same gap.
+We need to make standard controls for the audio sampling rate and presence.
+They are also used by the tc358743 driver, and are in fact common for all
+HDMI receiver drivers (I know of a bunch of out-of-tree drivers that use the
+same controls).
 
-arch/x86/kernel/crash_dump_64.c:__copy_oldmem_page() copies with
-copy_to_iter(), the same as the powerpc code this patch changes. x86_64
-selects ARCH_HAS_COPY_MC, and _copy_mc_to_iter() is already available,
-with the _copy_to_iter() fallback in include/linux/uio.h for arches
-without it. The plain and encrypted paths share __copy_oldmem_page(), so
-one conversion there covers both.
+So rather than creating driver-specific controls, can you add standard
+controls for this? They belong to the V4L2_CID_DV_CLASS control class.
 
-PS: I found this because I am looking at x856 production fleet  kdump
-success rate , where first kernel died of an MCE very often produce no
-usable vmcore at all, and makedumpfile never finishes due to this type
-of problem.
+So the defines become:
+
+V4L2_CID_DV_RX_AUDIO_SAMPLING_RATE and V4L2_CID_DV_RX_AUDIO_PRESENT.
+
+This also means that there is no need for a separate it6625.rst.
+
+The tc358743 driver should be extended to also support the new standard
+controls. So tc358743_s_ctrl_audio_sampling_rate/_present set both the
+custom and the standard control.
+
+Sorry for this, it is a bit more work but it makes userspace easier since
+there is a standard control for this instead of having driver-specific
+controls.
+
+Make sure that the patches adding support to the v4l2 core for these
+two new standard controls are not mixed with the it656 changes. So
+first add it to the core, then use it in this driver.
+
+Regards,
+
+	Hans
+
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 760791e3635f3c306e7fed7240b948d29b45ae66..1d6de374d86d3046d993bf220195b1a75049fa8a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13972,6 +13972,7 @@ M:	Hermes Wu <Hermes.Wu@ite.com.tw>
+>  S:	Maintained
+>  T:	git git://linuxtv.org/media.git
+>  F:	Documentation/devicetree/bindings/media/i2c/ite,it6625.yaml
+> +F:	Documentation/userspace-api/media/drivers/it6625.rst
+>  F:	drivers/media/i2c/it6625.c
+>  F:	include/uapi/linux/it6625.h
+>  
+> 
+
