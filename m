@@ -1,55 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.194
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794371761;
-	b=Pg7/KFlLBIPHw5Fd8qwTxBLiz6q/pMmyWrX2YSWUjtyaDeYvMkoGkTaYO1ord7Uc8qpm
-	 yvw12V63RfC2E7zEW+3zNxX48pjiXcnsoUnSCDasO9OxnbByjBj/Bf+C0O4H7NJHX7mIe
-	 5iMM5+1XHsXrL7K+DAlCaqErh8TiPFNvrsRIpJ2lnEVBCoBmSfOR4IapJUaMSGH8hMCX2
-	 298TM5xMfnY1wCqh5j3hhRqacV7yE0AhVXWaQLCwMD+vstR0Ws/XNxt3zRewRfz0zStaZ
-	 AjTa0T69LV4cWAhHeN02fq5gkQPinNMl+k/Y/nZDSfxoH0Mckk0DoiaefYyBhKxs0WQ==
+	t=1794371794;
+	b=JgiLmCIuq+zuEtW7BLB6a8U+JfCdQYztt/J/7tC/7aw67JgnJ5q9sUmX3Q6gmK5dxMjD
+	 UfGkQ+Z7TYnn5YH+26Krq2q9XhnBWnYhaCUTlCCa3CXSkWgvtFHfcsylv25mUHD8nGe3c
+	 QXkUpcFBJrDef9Iu5u2f5F+NMoukuSnPpWmldiJIpx0qzlD0DXUNDNbESmSSAtHwyHG/u
+	 YqMTscdFim1syEVbeDbqSu1tX1qLL36iVNty2L3ZiyouuS3Nh64yHCZSXHSeVUby6gHlK
+	 r7VRReeiZVaOX5I5Ll22t/q+ZABV4UOwxSwlH9dubS6pqskkXv7kmIWEn9kHzh+NXbw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794371761;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=JzRWvp9iglYgt4INj5Kec7JLaZ8xJsIGbhkL7FJ9QAA=;
-	b=o/ufdxjcyhkGFgjcXxIET7ACwimxDZjJff4b++UiQ/mf8d92+GUCwCnnnoVFqbsBYs7c
-	 9EgpxDmA8eBhXSIUYdGGKfHmf5IQi28O4dqs6dCn2OVed8LOllb3vvBoUo/1iPq5W//x2
-	 rFkezii99R3xY5LNKt6burB8oDwOana7jhsHF1ET3u2ywrOVrTY8x6RwUjrUL9wKp0Q6i
-	 EpSj5DyB4YvjfgB/gvwC/MGjJIPzfQAmVsAAz+69OiXtiCuJ+SVCmJ+AmenJFMhEdl1uk
-	 tG5SURkrm3hkRzpZWQ0q2zSFYvWm9N8Ume1fXpbsVyQ5x/CuklWFGYMN27gfFYc0bOA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794371794;
+	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:From:To:Cc:
+	 Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=tuHTKQ6XJfRj9XZS8UAd8XjaJ/YdnRYwK8Ob8sqCJRA=;
+	b=uEqvhtJvrfL2/iQCupxBOSBaCVr1FPcElhTDwYgWCdW9C9qM4lySKho2qjZrDgjTAfHq
+	 PhaaKKeQAGM+E+zjutD6VV3P/0HB2JiD20hj56tFrxcRFO5x40XnikWqB4HRHn0xMDTzu
+	 bs42gNI524FBCdsrViiT8mORA/OZWzcI9zEDHrPv2F7shmAa6Dv4AQ6IHKMqijZerSOTD
+	 WGz454sb86dm7NKJXvzeRrtmusUYE4b5w69qjrC05IDaxAz19Xw4R0W3nFsZd8RFYovu+
+	 mCzzHLme2naGWO7D10Jjn9yVPmNIToOcl8ZdnL4dAcR0wSiZSRprIMHwS878JBdxH2w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QeZspO+s;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=awinic.com;
+	spf=pass smtp.mailfrom=awinic.com;
+	dkim=pass header.d=awinic.com header.i=@awinic.com header.a=rsa-sha256 header.s=default header.b=VNm2sDi3;
+	arc=none smtp.remote-ip=115.124.28.194
+Received: from out28-194.mail.aliyun.com (out28-194.mail.aliyun.com [115.124.28.194])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE79A606A31C
-	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 04:36:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54010606A326;
+	Wed, 11 Nov 2026 04:36:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54010606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QeZspO+s
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BE931F00A00;
-	Wed, 11 Nov 2026 04:36:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794371760;
-	bh=JzRWvp9iglYgt4INj5Kec7JLaZ8xJsIGbhkL7FJ9QAA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=QeZspO+sCO85c38V8CH49hHaFeWHT/h+2LHYL6MKnOIAlAlcudgmN86UEbiFxTfgr
-	 aRMeZAxEDY/AyJcRWAk4VjU5Nd+OGsELBpCkUx36z4oPDiVIqkHdW+0HKbmOJNzQde
-	 2fyrslosyynpqVavXkJn+wqiD8TuhnOsZHhuW5zMFAC1sPsnULMHWqGpRm1B3Xhfwq
-	 cVR78DZ+Al9tHGnpLYuOg1rpdYEg5ApN7juO9FTQCU16Pt75eYzoNtPAmA3U59zGlG
-	 tvlfMFXfQbwPCHbnXk534D/UGnf3zP1TWXKn2N+h/bXwtSXw8ej8lt5ZDVywuC7uXl
-	 BIPpMQruo3ltg==
-Message-ID: <sashiko-outbox-208300@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ASoC: atmel-i2s: Use devm_clk_get_enabled() for pclk
-Reply-To: sashiko-reviews@lists.linux.dev
-To: phucduc.bui@gmail.com
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261111042746.14714-1-phucduc.bui@gmail.com>
-References: <20261111042746.14714-1-phucduc.bui@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 04:35:59 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=awinic.com header.i=@awinic.com header.a=rsa-sha256 header.s=default header.b=VNm2sDi3
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=awinic.com; s=default;
+	t=1794371783; h=From:To:Subject:Date:Message-Id:MIME-Version;
+	bh=tuHTKQ6XJfRj9XZS8UAd8XjaJ/YdnRYwK8Ob8sqCJRA=;
+	b=VNm2sDi3UOYFj5htokXVyfeGIAiRZ0IH8ANmd5s1vu2t6akPNiLfivLtK0kRGExgl4F1x+0xtGI28DtOS9H1U+FhlP7MNsJUlXcMy8yJPFZFde2+TtUO7kAsm3xANmIkjzli/QABZ/ELQZB+aBtE8c13D2eB35jMXg55wx+fvOsBIuUsctdvSCpegeLRwzEg3ALKzPHrvqOf1KZQO8aJJECJPYv+WJ0pU0H60PBSqsW/KMfYQjRn4vKl+z2AFQ8FmlM27/Vf4gYY8W0M7Hycj9MN0mFsbfCuRhPgGYzFuZUAb5wva4ZdVsObGkAVnJA5/KY27g8qSK3+WXzIiHpfCg==
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07551184|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0292529-0.00012361-0.970623;FP=931226329642735460|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam011083032240;MF=guanlan@awinic.com;NM=1;PH=DS;RN=6;RT=6;SR=0;TI=SMTPD_---.k.OzD4W_1794371763;
+Received: from ChromeBook..(mailfrom:guanlan@awinic.com fp:SMTPD_---.k.OzD4W_1794371763 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Wed, 11 Nov 2026 12:36:22 +0800
+From: guanlan@awinic.com
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Marco Giunta <marco_giunta@outlook.it>,
+	linux-sound@vger.kernel.org (open list:SOUND),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Tao Xiao <guanlan@awinic.com>
+Subject: [PATCH] ASoC: hda/realtek: Add support for Lenovo Hudson
+Date: Wed, 11 Nov 2026 12:36:01 +0800
+Message-Id: <20261111043601.306427-1-guanlan@awinic.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,81 +61,57 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] ASoC: atmel-i2s: wrong IRQ and pclk ordering in
-  atmel_i2s_probe()
---
+From: Tao Xiao <guanlan@awinic.com>
 
-commit 722d5e2f3add0fa840d1f0e68c8baa8331615c85
-Author: bui duc phuc <phucduc.bui@gmail.com>
+The Lenovo Hudson (SSID 17aa:3814) uses the same ALC287 codec with two
+AW88399 HDA side-codec amplifiers as the existing Legion models, so it
+needs the same speaker setup.
 
-ASoC: atmel-i2s: Use devm_clk_get_enabled() for pclk
+Apply ALC287_FIXUP_LENOVO_LEGION_AW88399 for this machine and add the
+matching entry to the aw88399_prop_model_table so that the reversed I2C
+wiring is corrected in the same way.
 
-This commit replaces devm_clk_get() and clk_prepare_enable() for the
-peripheral clock with devm_clk_get_enabled(), removing the manual clock
-cleanup paths and the driver remove callback.
+Without this, the internal speakers do not work correctly. Tested on a
+Lenovo Hudson laptop.
 
-> diff --git a/sound/soc/atmel/atmel-i2s.c b/sound/soc/atmel/atmel-i2s.c
-> index e1d8af0562341..a3aeb8e607f61 100644
-> --- a/sound/soc/atmel/atmel-i2s.c
-> +++ b/sound/soc/atmel/atmel-i2s.c
-> @@ -660,8 +660,8 @@ static int atmel_i2s_probe(struct platform_device *pd=
-ev)
->  	if (err)
->  		return err;
-> =20
-> -	/* Get the peripheral clock. */
-> -	dev->pclk =3D devm_clk_get(&pdev->dev, "pclk");
-> +	/* Get and enable the peripheral clock. */
-> +	dev->pclk =3D devm_clk_get_enabled(&pdev->dev, "pclk");
->  	if (IS_ERR(dev->pclk))
->  		return dev_err_probe(&pdev->dev, PTR_ERR(dev->pclk),
->  				     "failed to get the peripheral clock\n");
+Signed-off-by: Tao Xiao <guanlan@awinic.com>
+---
+ sound/hda/codecs/realtek/alc269.c          | 2 ++
+ sound/hda/codecs/side-codecs/aw88399_hda.c | 1 +
+ 2 files changed, 3 insertions(+)
 
-[Severity: Medium]
-Can enabling dev->pclk here cause atmel_i2s_interrupt() to dereference a
-NULL dev->regmap or access registers while dev->pclk is disabled during
-teardown?
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index a756e0076021..b33bd4efb51c 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -8664,8 +8664,10 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	HDA_CODEC_QUIRK(0x17aa, 0x3937, "Legion R9000P ADR10H", ALC287_FIXUP_LENOVO_LEGION_AW88399),
+ 	HDA_CODEC_QUIRK(0x17aa, 0x3938, "Legion Pro 7 16AFR10H", ALC287_FIXUP_LENOVO_LEGION_AW88399),
+ 	HDA_CODEC_QUIRK(0x17aa, 0x3939, "Legion Pro 7 16AFR10H", ALC287_FIXUP_LENOVO_LEGION_AW88399),
++	HDA_CODEC_QUIRK(0x17aa, 0x3814, "Lenovo Hudson", ALC287_FIXUP_LENOVO_LEGION_AW88399),
+ 	SND_PCI_QUIRK(0x17aa, 0x393e, "Lenovo ThinkBook 14 G8+ IPH", ALC287_FIXUP_LENOVO_XPAD_HEADSET_JACK),
+ 	HDA_CODEC_QUIRK(0x17aa, 0x394c, "Lenovo Yoga Slim 7 14AGP11", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
++	SND_PCI_QUIRK(0x17aa, 0x3814, "Lenovo Hudson", ALC287_FIXUP_LENOVO_LEGION_AW88399),
+ 	SND_PCI_QUIRK(0x17aa, 0x3977, "IdeaPad S210", ALC283_FIXUP_INT_MIC),
+ 	SND_PCI_QUIRK(0x17aa, 0x3978, "Lenovo B50-70", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
+ 	SND_PCI_QUIRK(0x17aa, 0x3bf8, "Quanta FL1", ALC269_FIXUP_PCM_44K),
+diff --git a/sound/hda/codecs/side-codecs/aw88399_hda.c b/sound/hda/codecs/side-codecs/aw88399_hda.c
+index 81ee8a3987fd..b204aabc5572 100644
+--- a/sound/hda/codecs/side-codecs/aw88399_hda.c
++++ b/sound/hda/codecs/side-codecs/aw88399_hda.c
+@@ -168,6 +168,7 @@ struct aw88399_prop_model {
+ };
+ 
+ static const struct aw88399_prop_model aw88399_prop_model_table[] = {
++	{ "17AA3814", aw88399_swap_channels },
+ 	{ "17AA3906", aw88399_swap_channels },
+ 	{ "17AA3907", aw88399_swap_channels },
+ 	{ "17AA3927", aw88399_swap_channels },
 
-atmel_i2s_probe() registers atmel_i2s_interrupt() via devm_request_irq()
-just before this call, while dev->regmap and dev->dev are only assigned
-after devm_clk_get_optional():
+base-commit: 067c5c24cef23d913b67eaaf71ae67e7169a6620
+-- 
+2.34.1
 
-sound/soc/atmel/atmel-i2s.c:atmel_i2s_probe() {
-	...
-	err =3D devm_request_irq(&pdev->dev, irq, atmel_i2s_interrupt, 0,
-			       dev_name(&pdev->dev), dev);
-	if (err)
-		return err;
-
-	/* Get and enable the peripheral clock. */
-	dev->pclk =3D devm_clk_get_enabled(&pdev->dev, "pclk");
-	...
-	dev->gclk =3D devm_clk_get_optional(&pdev->dev, "gclk");
-	if (IS_ERR(dev->gclk))
-		return PTR_ERR(dev->gclk);
-
-	dev->dev =3D &pdev->dev;
-	dev->regmap =3D regmap;
-	...
-}
-
-Previously, clk_prepare_enable(dev->pclk) was called after dev->regmap
-and dev->dev were initialized.  With devm_clk_get_enabled(), the
-peripheral clock is enabled while dev->regmap is still NULL, so a pending
-interrupt (for example across a driver rebind, as ATMEL_I2SC_IER is never
-masked on unbind) will hit a NULL pointer dereference in
-regmap_read(dev->regmap, ATMEL_I2SC_SR, &sr).
-
-In addition, because devm_clk_get_enabled() is registered after
-devm_request_irq(), devres teardown on probe failure or driver unbind now
-disables dev->pclk before freeing the IRQ, leaving a window where
-atmel_i2s_interrupt() can read I2S registers while the peripheral clock
-is gated.  Initializing dev->dev and dev->regmap and calling
-devm_clk_get_enabled() before devm_request_irq() would avoid both issues.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111042746.1471=
-4-1-phucduc.bui@gmail.com?part=3D1
