@@ -1,100 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.171
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794368947;
-	b=yk08XleS+5vtFVhP34QgrGgdIIXBys/lZE2weUM0Wbjkiu/Wy4rGlt5Zs6i6ZL88SDpd
-	 4VXvMWUlK4I2j0Cn2NFxgkW6oEegr3NYsU6o/I7lzEHSSpqhqbjCHOHCklsDD9PNAc+t7
-	 DXW0i7rjbji5Zv1rnz6ODLss5E13NSWinU2f3K6mGbFmAplQbIgu65W0wmKxAp5QyPMh/
-	 yi+jNKPJkS04bApnBA/VwDPZFnJ70AGCjP35bImHUyYaXlrkI6a2cAmkTJaXusRNVRB3D
-	 krbMNl9iq0kI9Rr00vkz73uqDm6cRlyMPhtlqQM6GeCIsHf9cTGVrHBDGmHokkSoR4w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794368947;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=2YMF3SlM0rXsvzXJewcfKGam1OgjAg5d+kC6XMSfugQ=;
-	b=1GuQTY7Y9oHirEuCow8gUR7s6vO0pKqxyHC1z5c4kUOMW8U0CpKW2epn0ZhTKH1OzKMy
-	 q1qOkM9bVSBg6OW7nE3dUAmpZ93q2GZKdegVSG4CUQCOHOdK+yKL4UvylLjnB4GH+AkHl
-	 MWrCcO64AlpKyQWvL8a5FJUh7Gb989E6RXeHiHulltIdOMz52KjTurL3CN3fALgJ+/dyM
-	 hBJCBYasKhUqOkTici1PKOgH/CGXXJWbhGUGyegd9dT5wBu9ikA6bZc4w5VaoRlCovqOL
-	 CDQkF3DzYelonrJzRcKLPaLbjM7j/Gs//BuIMPigWrdI2kUMm1ASLrz9wHWxMD0VUtA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uLpyvzuU;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.171
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794369657;
+	b=zgQxn2IB5Peb+6OWGeDEX2q1/etOuLD/C0hI7rPkyYkQPBORfJc2z/+V1a2kILTdm/Qw
+	 ulkSv8zcuxqnl/rlQ39tQ2dOE8qJNriqJinEmkd7maXf7hAEHkx1zPsZsuq8aE8m8jrCu
+	 054x6t2VjUeTAHgeGAJzg0vZpXW4llDSjVDxJ4CBBM+wxNA6+H8m9yrYtfXb+SlXPCwLg
+	 EM4zTmSeQzRFDgfZStyn6sBVmpe096U+SxL2N0KTgmOn9V/NotKE9fSIuobJP+Ml3WzrY
+	 chQZX+zLz3bCis6412tkmrvstfFPOsecZqUIY9iuzQBavYxgv7RgjUbgSHqwr6tAjOA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794369657;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=K9ldJI6Sc3140zxVlPO/JQPZGBufuU0MVqGHMP2kssE=;
+	b=Y4v8laPgUNN4FTeP0KiPT2oa1fD5Qym8eZZt6rlo06P+Zf63oSK5PqvEYqdLOokH+H9o
+	 OitrHQKb5CWzWUi577Q6kp2nq1O3pUKhL+aPQZNomldEEkIA2eYgj4PZwB65DafJXcDf8
+	 Pe8/nrulnhzJpd84mfRm55uxZQtOyxgvBusDcKESamPUZ8Vgsg/NlNpqGs+OT+s1W0kpz
+	 5ny9rcMWgTefwDtlk4Z4LJiGZ4Eo4xU5z6iO7xsvbzsxB7015esqlOUDkkJLYQlQP6Wt/
+	 XB/6STMeeQhSFmglnOdHucZVLQtoDW7fTsezyAxwWKYPvRZcV49ca9/6gsMvYU5yTXw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="iQw/60W2";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54BF606A320
-	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 03:49:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C54BF606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505EC606A324;
+	Wed, 11 Nov 2026 04:00:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uLpyvzuU
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2ed08b07213so11441405ad.2
-        for <linux-sound@vger.kernel.org>; Tue, 10 Nov 2026 19:49:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794368946; cv=none;
-        d=google.com; s=arc-20260327;
-        b=HnCRj2HVfPWejz2vZ5kXeCqRc2KgZMSfq8nXel70Wm8En+Ms6dPtFWgTB/HuaP4d04
-         MoEqv79CpGhq7ZeSDqek3Q9jOf7EHQ5FSBH5qfWyTGhx2MP4PThaDBCbW3dGA0vrbCxT
-         b8knN4+P78NakG/10eaQkM+g8tXXQO+ph3zZ0thKzV5Vbr0TF/94ec6b9a7qrlZ4cKVR
-         tcSe9tjQ54YieT7ucDYxJLqchBwc0WCeOXqfHbIX+yOlZbebBPzeIoUI4NNugo5J5703
-         qKlMXJ0Rg8OV7JFJtD7o3Do9JY9qAN3Ou4oAm8SHUUY4mNS6BgWgJRadYrYHGTN3Wk/f
-         Hmzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=2YMF3SlM0rXsvzXJewcfKGam1OgjAg5d+kC6XMSfugQ=;
-        fh=Y0NG9j6z+yxENHwO+Ai3L6CT8GXRHfVOm1LedGawBA0=;
-        b=KLmE/qzuxd+0emUeiIYjOoHZ1dDpIhLBILh4zngzgZNeKUdaMAmYN5J6gYnoOHdMHG
-         wds6m4qWrppwVp5gRbZfm/b8OgUcbMb2q2ORi7zJqQkN4IJLsn3qhIqHr55iVE3umiQW
-         su306xdQsKE0xXv7DVMq5JQPkRwaKD+hgyMqIicvJZhgOa0j+jVpXrp5sqn2PHZfoNUF
-         Ao/y4y7z79+lg4ZwBntJpEn48j1jm3O4t9u7JnO59gVgZTGw4BanrzB7A2T3OlLGILjv
-         5fbKL+VEtEm3gDwoWUF4xB/1cWRScdvzJuVBwyT95i1cKWQaOVVq9josX/09pAyYvSeK
-         VdgQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794368946; x=1794973746; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2YMF3SlM0rXsvzXJewcfKGam1OgjAg5d+kC6XMSfugQ=;
-        b=uLpyvzuUjOziycscbYMwqyMtydI/pMiEeQzEAFxqpcdSU05lFxRuKipfJeuyu2ZKvS
-         9AtFUnY1vM4SkKmQegXJNp5nq7LUYs3ozLpKoyMc0DoRM67NE40qmtaFGD0jMy4sgMOb
-         M3LXKOU4A8HLGzg8maCeY9CnYhru/vgSghVj6mBpxWvCACe0Y/3TH1tqNUoLYUlw1IR/
-         ubphfLWcHt1xvUmC4U3VqFdVWeD39w12lDXm6lmWKtF6k62vgyDri4w366tdB7DzCL83
-         RRejL3gcsE0g115mySOJsv5BulPveTiz+vJl2xmq3s2J2+8XDkq55pPWrYPIbHl0pAT0
-         9Jig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794368946; x=1794973746;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=2YMF3SlM0rXsvzXJewcfKGam1OgjAg5d+kC6XMSfugQ=;
-        b=XmexyoZv3oqP1/Fnor4fDeIEbHlEgBvNd0mdsEKeaNMonf63VCgg342xxtwVVcnR5i
-         FfzHkYMXJG+2azzafSGQsls6mtH0A/7mxNht553aqC2OenBYBaQYXPVqJ697DAeycvqe
-         1HlH5Jbq4597kMXHq2qjeNZIfkaZIStxN8GeZtC3UfB4E/zwc5x1KYA5MiOIVi9cL/Eg
-         cMHCanrAcdfifbbvA7OCWPX/e+nDkELrtLEeXeNlp60UGzKhEXuaAYN0McjU8GoZcME0
-         8ZaZBGb1AAMW2NrE1CZrVfwO6fKUC3QVC+gv2aht23faOKqiFoeKoPPahL4f1uWTzHEf
-         ponA==
-X-Forwarded-Encrypted: i=1; AL+hErHAxKZBlRmzF55t4b701R5Mv95Y7Wk5P/CvCIFXI9PhgrB0O39FIyfncNBGZlzMKsaV196cKsUM9i2gGw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+AFOSIJM2TLxaZY5hLTgc6YQlI/K8n0UqyP5fbvtwu+vdpb09w
-	2edoPYNT0WvoQhExXLArWs9/v5FuJMfAvQ1+xWnS2eH8rpwy4ukHy9R5hudmW7w0G/wrqVNNjxe
-	n9tVuqgmzPAfzD28CsE9+P0ECRQT3q2M=
-X-Gm-Gg: AYBFou0xR1EOqqX1DIZxO79XlmcO8Y0TWDzweJbr+Q2IE5fe+jyq8vZVgwIrVqBY4Gk
-	kxTdACFjCstZufunfIPggLH4KYJ3HhZ2jQ+m+6KxGr1AJ6ZYkKy8QxQVfGbVkQhVeBHG92bRKuS
-	10C+Q0qh/l+4rHmNeYgMvRZiWBfmnLnRNedCGEt+hQVmvO1JbemFBbopF/qLAgaO27iDaCDGDJE
-	wWSpR0frt+UB6PP6PrG6iqnfeyCmHpU3Z1JSg6QJGHMmVTvTzn/QZvmsI6BbZVaSD5ECQqfyQWy
-	RX1KIJZuaiCxpJPOW6dvDETJRpoRguHtxV+dWg0FcIcuoIDyZJ9SBUqa0rI4VyreRPF0BFu2cpV
-	O/TcYDPHKr2xL2JL7gy57+26Go+e9qlLK4NQBCK3JAyWzf8rhIDWPqjB5fR3400tnzScXIbOUeo
-	7iRLwZEGEAA+HBpxutl1fNx4FLHzWWZZmw6PCcUtCTk0Bn17Lc
-X-Received: by 2002:a17:902:f690:b0:2ed:acb:aa95 with SMTP id
- d9443c01a7336-2edd7b397cfmr13754315ad.32.1794368945939; Tue, 10 Nov 2026
- 19:49:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iQw/60W2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A35AA1F0089F;
+	Wed, 11 Nov 2026 04:00:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794369656;
+	bh=K9ldJI6Sc3140zxVlPO/JQPZGBufuU0MVqGHMP2kssE=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=iQw/60W2zh/NXGngHPpikbsji4fqt4IlowstSTCXZ4IuRE/fXBpksiO41qx1y4nBe
+	 +EqlYFf7O+zA24WwqGHZc5Oxa6BnnJ7CzIjRDvMrKY62h2+PqJJo/lzp3aRJhwzrGd
+	 1le0pHurTY3J38/fu0fziFB3ptbSbN+aUmIxsjoeTEhWMwBS5UYtKAxwcm5F5Cl6QL
+	 CdcDvw4mexubnXyvWMeHAtyzx9hdVE+0qt046LsUyVbBcD6OEiTHUx+/p1Gz1UKRVH
+	 wIyHg1OPYbmtPF7mxRE1k6ak2tzPqV4o+CNAX3T1GgxaINVU5YOg0NkQc0Sz94MxDN
+	 CWtcQqz1QFj9A==
+Message-ID: <sashiko-outbox-208251@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v25 04/16] ALSA: pcm: notify drivers after linked
+ prepare completes
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
+Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
+ Perez" <eperezma@redhat.com>
+In-Reply-To: <20261111025655.63951-5-mynameisjune111@gmail.com>
+References: <20261111025655.63951-1-mynameisjune111@gmail.com>
+ <20261111025655.63951-5-mynameisjune111@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 11 Nov 2026 04:00:56 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -103,32 +61,119 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-References: <20261002043856.97295-1-phucduc.bui@gmail.com> <a236085e-5ccb-40f4-ac59-75e0249267bf@sirena.org.uk>
-In-Reply-To: <a236085e-5ccb-40f4-ac59-75e0249267bf@sirena.org.uk>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Wed, 11 Nov 2026 10:48:54 +0700
-X-Gm-Features: AclHuK-_fA7OAuqiopVuFE8fqK_zpoIlrFShcyl-AqkfmWeSwLjfc9AT1zIS0jU
-Message-ID: <CAABR9nE8Xo7z0Yg4AKPmqV9+Fjs3bnH+8pYykpFWOcq+3SG92A@mail.gmail.com>
-Subject: Re: [PATCH 0/5] ASoC: atmel-i2s: fix clock error handling
-To: Mark Brown <broonie@kernel.org>
-Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andrei Simion <andrei.simion@microchip.com>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, 
-	Cyrille Pitchen <cyrille.pitchen@atmel.com>, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-Hi Mark,
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] ALSA: pcm: state desync on opted-in streams in
+  snd_pcm_finish_prepare()
+--
 
->
-> This doesn't apply against current code, please check and resend.
+commit a91218e64a7e783b333a467d7102781bb84f7f64
+Author: Joonho Lee <mynameisjune111@gmail.com>
 
-I believe this series has already been applied to the for-7.4 branch.
-I've also taken another look at the driver and plan to submit a few
-more patches for it.
+ALSA: pcm: notify drivers after linked prepare completes
 
-Best regards,
-Phuc
+This commit adds an optional prepare_complete callback to snd_pcm_ops and
+defers publishing SNDRV_PCM_STATE_PREPARED until all linked prepare and
+reset actions finish under the stream locks.
+
+> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+> index a547ac720b518..f98eb3329f2de 100644
+> --- a/sound/core/pcm_native.c
+> +++ b/sound/core/pcm_native.c
+[ ... ]
+> @@ -2089,20 +2113,108 @@ static int snd_pcm_do_prepare(struct snd_pcm_sub=
+stream *substream,
+>  	return snd_pcm_reset_substream(substream, true);
+>  }
+> =20
+> -static void snd_pcm_post_prepare(struct snd_pcm_substream *substream,
+> -				 snd_pcm_state_t state)
+> +static int snd_pcm_finish_prepare(struct snd_pcm_substream *substream,
+> +				  snd_pcm_state_t state, bool success,
+> +				  struct snd_pcm_substream *failed_substream,
+> +				  bool stream_lock)
+>  {
+[ ... ]
+> +	/* Preserve terminal states instead of publishing a partial group commi=
+t. */
+> +	snd_pcm_group_for_each_entry(s, substream) {
+> +		struct snd_pcm_runtime *runtime =3D s->runtime;
+> +
+> +		if (runtime->state =3D=3D SNDRV_PCM_STATE_DISCONNECTED) {
+> +			cancel =3D true;
+> +			cancel_err =3D -EBADFD;
+> +		} else if (runtime->state =3D=3D SNDRV_PCM_STATE_SUSPENDED) {
+> +			cancel =3D true;
+> +			if (!cancel_err)
+> +				cancel_err =3D -ESTRPIPE;
+> +		}
+> +		if (!success && s =3D=3D failed_substream)
+> +			break;
+> +	}
+> +
+> +	if (success && !cancel) {
+> +		snd_pcm_group_for_each_entry(s, substream) {
+> +			struct snd_pcm_runtime *runtime =3D s->runtime;
+> +
+> +			/* The reset callback path already completed this rebase. */
+> +			if (!s->ops->reset)
+> +				runtime->control->appl_ptr =3D runtime->status->hw_ptr;
+> +			__snd_pcm_set_state(runtime, SNDRV_PCM_STATE_PREPARED);
+> +		}
+> +	} else if (!success && !cancel) {
+> +		snd_pcm_group_for_each_entry(s, substream) {
+> +			struct snd_pcm_runtime *runtime =3D s->runtime;
+> +
+> +			if (s->ops->prepare_complete &&
+> +			    runtime->state !=3D SNDRV_PCM_STATE_SETUP)
+> +				__snd_pcm_set_state(runtime, SNDRV_PCM_STATE_SETUP);
+> +			if (s =3D=3D failed_substream)
+> +				break;
+> +		}
+> +	}
+> +
+> +	if (!success || cancel) {
+> +		snd_pcm_group_for_each_entry(s, substream) {
+> +			wake_up(&s->runtime->sleep);
+> +			wake_up(&s->runtime->tsleep);
+> +			if (!success && s =3D=3D failed_substream)
+> +				break;
+> +		}
+> +	}
+> +
+> +	/* Publish all states before any driver observes completion. */
+> +	snd_pcm_group_for_each_entry(s, substream) {
+> +		if (s->ops->prepare_complete)
+> +			s->ops->prepare_complete(s, success && !cancel);
+> +		if (!success && s =3D=3D failed_substream)
+> +			break;
+> +	}
+
+[Severity: Medium]
+Can gating the SNDRV_PCM_STATE_SETUP rollback on !cancel leave healthy
+opted-in streams in SNDRV_PCM_STATE_PREPARED after calling
+prepare_complete(s, false)?
+
+When a linked group is re-prepared from SNDRV_PCM_STATE_PREPARED and one
+member's PCM device disconnects during snd_pcm_do_prepare(),
+snd_pcm_dev_disconnect() marks only that device's substreams as
+SNDRV_PCM_STATE_DISCONNECTED because the streams are not running.
+snd_pcm_finish_prepare() then sets cancel =3D true, skips resetting the oth=
+er
+opted-in members to SNDRV_PCM_STATE_SETUP, and still calls
+s->ops->prepare_complete(s, false) on them.
+
+That revokes driver preparation while runtime->state (or
+runtime->suspended_state if the stream was suspended during
+snd_pcm_do_prepare()) remains SNDRV_PCM_STATE_PREPARED in the ALSA core,
+so once the disconnected sibling is unlinked or closed, later START or ACK
+calls pass core state checks and fail in the driver.  Should each opted-in
+member in the affected group or prefix that is not itself DISCONNECTED or
+SUSPENDED be reset to SNDRV_PCM_STATE_SETUP whenever !success || cancel
+(and have runtime->suspended_state updated to SNDRV_PCM_STATE_SETUP if
+suspended)?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111025655.6395=
+1-1-mynameisjune111@gmail.com?part=3D4
