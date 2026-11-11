@@ -1,79 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794418885;
-	b=oFELRqj7BCTZ5CfbywHPPkaY6OraCkU2AedchYoHk93ny0t9wwfYQ0XpviCe1AHFz7iQ
-	 OT+VT9wZWumChAi0NXvR9zEKP7p9boFZlAgbkqNf7pbjSbEw8HOT0rpi3lfv4U9RYKdYW
-	 mYtZkrIqBf3Y5lr8mU+k1SM3fQjcg10DeUs+SF75bQ0tOSTM1qXC0s4Zw5r7SfaRnKotn
-	 INQEIKkU+aAZfQsyuUPSGFiiZLxIDaPQXZbdK/sMsEltn/qteE1JkMmzB1mbgo+JyaQsB
-	 QdaL5ws+fEBYYwkqmBhDEcb19qMDfFfj/hP88MlWd39WCY6fyHUjBL6LLD9b7OAFZIA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794418885;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=UzhG6eWlPwxpX167+QaDtZKGhL6hJQsFTV1UXHY4BGM=;
-	b=JjggefIMfNC/IF0wZHAiyKUCppE2IYGxxBF5yYVa97Q5o0x29a/APbB5WvwABFgl0Ofc
-	 QyDHMTXDN+i5aoO6NFz3RyIq+fRIqbJu4kPIbCRvEyZj9CR8JmSscymhhheSzouhOqHLa
-	 nyf8js+VaU9rAw1ckIEUNLXnpa89hEOejeQ3WTVLMRnlDUcYT30PCTyPcCQOp/L+Nep8s
-	 G/SMfYpesX6uBQGqUYCY4VL4/bhAdzG/LWqbkGn+mxFTsFPmHkfGGTITrwlaVeyB/JOcy
-	 fq+t74L0r3NwHQt8xEUA8pZM/308v5uFbSx2YsmnEoQTSPiGnivdeTKCkJsG3L5vL6w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RHybwEoC;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794419267;
+	b=cjLQxGr+arASDEFVMwM5NAJW9Y4MaTU+3oqzoZe6acAaZiolp3jae0L6n5i3Eyxxx7F2
+	 WIhZf3ExCKO8fsDf0bcrXqV3XuZg8LvC3rKVgA4vsdJTyFUZvLoCM1MqB1WmYH3EzS6Ag
+	 EaVHyfDN1kACTwyWtBxYTz0wPSNDqPyGI0llS9Qns4b6JgwUv2isAYh7WeWTdNU3hveJ9
+	 6XrocGkH5goYUNXvV4SXTgxegDePUEhvx/4IP8sdwW/wm9GdpeK7tBa9KiXqZ29Ot941z
+	 8ZacuaDb+C0asVeJKG5Ya1zJgM8bu9GxRArTP7OtWSyv1KIa8+/MIHajygU3WIE9i0w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794419267;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=YEF+3XQuh6CioDWZgE6K4DJfsOU1qsu3awZ/trTV0mI=;
+	b=aoRk+54OI3SHcSJgWepQsSaslgiEAjNpEzZ1j0eNYVNgXuRTyEsu7AL0x/O0u+An9Xjw
+	 sU4UU7nRhUCH3yu6zpG4tYvY3aWJvtU6So9SiEIjz6bPXTVgLK8bw+tefZEbvdotiWe5Y
+	 DmVTfcVhUD8sq/Dax9MpnlVw3BNgG9qzL8Fpe4jjiIYO9OxRsL84kcYT42GBo493xqkQ9
+	 JtHSHi22JquA37n5nGzZ8P41JIwrYbSgHVyb88AkIalNdJ7n7g2wW9Uggx9u6e363ig/0
+	 ffTF3CVb3lkytuV0fEDc/pfZWNBYtv/qTlyGa3bwNZXSMSEQtBSWSXFeZ4HP2IMfaqA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fb+mq6sc;
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001A4606A884;
-	Wed, 11 Nov 2026 17:41:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD533606A326;
+	Wed, 11 Nov 2026 17:47:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RHybwEoC
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794418884;
-	b=J/0S5Na75+IanZc9l6CQ/Yt9a8r646NV6x9GjwcroRpMOpxbZLD+gFJ25fYlXxpoackr
-	 3Xvq/oQzhjqGYPVyAXf2cVjuEnTsjVIYjCwxlFHJJpDM1YanURErSfgAdbZLEa9Lf8IVl
-	 8am/Fhm5l6TNKEVq8oGNayKRC0nNVUy2M242r6ItgEhbXgbogk5tRQCTdtvhNcrdU48zo
-	 Cjt6KyuS3CqbxcycmTlqW3zg+NoU7A+re8i4+8Lj0tb0/C4ilBR8jzt4SfKpHtt0Ke1Ta
-	 lh3Z0tuC79mx1qY2U6ARBA8egV6Huy0V2GAWja8WRTQPwezQWkzmSPWTfcHN7JX5rCg==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794418884;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=UzhG6eWlPwxpX167+QaDtZKGhL6hJQsFTV1UXHY4BGM=;
-	b=Q6ouK/xDQVBpUXQ6pTfAXEgSYoXaxjxWyf9AqVcsM9jaD5VHX5zoplYNk9XZ9LOJA6nu
-	 Lj/D4Fx9GiGo47G7n0UIaiP1ltSXWp4Hj9qaz0AyhZmlf0WNcsREUtbGDhvaD1uG5PDKe
-	 f20j9qWBMCb5lmgEwoUJjhMGIM6dBOISzVI+2P6fbcZtORdcoZhgMcMmYLdM3MjfXIEcm
-	 b3AyyPFMrU2GaMJA5PerqkWMWQsUYuJtuOIRrkIjnMiNYQH9TrcL96MB2KxM+r79BCFss
-	 l1jhEgJi5JpQLhxikxbc5LV4f28R/LyZJBbG8O5QhdyTQAtmof+yF8AliBh0AsYeUTg==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 760191F00A0C;
-	Wed, 11 Nov 2026 17:41:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fb+mq6sc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE05B1F00A05;
+	Wed, 11 Nov 2026 17:47:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794418884;
-	bh=UzhG6eWlPwxpX167+QaDtZKGhL6hJQsFTV1UXHY4BGM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=RHybwEoC/oyv/zDLKEY3YMs2R7GQYh8LQWK//yrkJ2M7sObYWQ+F+yP1Av6JNwElP
-	 KI+ggHBEZTKu7AXxmNWWDTk3EVSQKJWuVycZDsnqQHeTb2O4tQcvPl5VO47f9Z63fR
-	 qOe4TMn6T+0K6dPFWbJ7vyY33dcYZc83WbTenOox05Z5UlP4U3bpNqpt5vqAj+mSq4
-	 dXn98Z8j6aYcsV367uNBpZAiv8NiD0UvjEOtNNSVX85GahvAt8hVMG4Vi8iNrWfQX6
-	 iyRGYoCMA4jrJBFqutWxJLrKmM3rGfk9VrViPj6EsJ2otK6j6lzurVAOFP7xfQWhpN
-	 foliYneElR24w==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id EECEB49065;
-	Wed, 11 Nov 2026 17:41:22 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Wed, 11 Nov 2026 18:41:21 +0100
-Subject: [PATCH v7 2/2] arm64: dts: qcom: sdm845-google: Add WCD9340 codec
- and microphone capture
+	s=k20260515; t=1794419267;
+	bh=YEF+3XQuh6CioDWZgE6K4DJfsOU1qsu3awZ/trTV0mI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=fb+mq6scb293KyuROgecG+KC6M+VW9ykL+OzGdG2SRJZ2DLWh7VwccGnSUJlhVbbA
+	 KnrDeoh/tohDYX1x81R8Zv5O0CWcjpn5RYQpwUEog8z1J9d6HdGCE/84SDB8wZhx9P
+	 e5L8gxyC+knuKu8UmJt42w0GU36DdDQ/luddipAZN7QOF5CxhHgrwwU77HadUyBesC
+	 Ot5oidnr0CZ5KvVq08PbAteUR3fOOZE6j79ShiKdOmhXgq6vHmptt5QcRztzJ9dgoX
+	 quGeVypwkQRxDg/N4jSJX/1ZGnv90NrxPn9FThIMRNCRXtJUcCX2jodSD6rvnZ4Crx
+	 cYl20L1WKc/wA==
+Message-ID: <sashiko-outbox-209438@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 2/2] ASoC: cs42l43: Update load detect procedure for
+ cs42l43b
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Charles Keepax" <ckeepax@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, mfd@lists.linux.dev, lee@kernel.org
+In-Reply-To: <20261111171032.1491717-3-ckeepax@opensource.cirrus.com>
+References: <20261111171032.1491717-1-ckeepax@opensource.cirrus.com>
+ <20261111171032.1491717-3-ckeepax@opensource.cirrus.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 11 Nov 2026 17:47:46 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -82,219 +60,169 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261111-pixel3-audio-v7-2-ecf28efc5c33@ixit.cz>
-References: <20261111-pixel3-audio-v7-0-ecf28efc5c33@ixit.cz>
-In-Reply-To: <20261111-pixel3-audio-v7-0-ecf28efc5c33@ixit.cz>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- David Rhodes <drhodes@opensource.cirrus.com>, 
- Conor Dooley <conor+dt@kernel.org>, Abel Vesa <abelvesa@kernel.org>
-Cc: Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
- devicetree@vger.kernel.org, phone-devel@vger.kernel.org, 
- David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4077; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=uuakIZu6Wy/NrugWd1DLRLYP2J4loRYGwzYovA75Huc=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBq9KjBE6O2BocYEO+M7shiFBskLapAfjCKS9MYF
- QuxhcjixPyJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCavSowQAKCRBgAj/E00kg
- cnN3EADA25mhVpQJMStudgdTqNBMfDMGsD47VSdLZmJkOnZNpKJ9WHRWPVsgpHNExpZNyi7PMoG
- VE2vcIDgfN51It3Dn3roS81kyOsu3V/L/GFHJ03jwfQ6UbTU3nw53TQh5V1LTH5F6gHx02Dp0sA
- u4GcZwaeNSA9+EL1oopde46oatPuIDV/7xP0TVhiMmKptt/Hjb6aaPtPN4PQ4OfumQhOPr/34cJ
- YmLcw0HxcKmU7z1uJWWkCTES78/ofNuRZHROxQrI/HcesNRv8bCam9s2hRSZOpUHkLJkwbQUBsX
- /lfkzMtnrXaIOqwDXYS/E5+WVq812O983RkGynOvXaj7nxvmf2wabiWOFA0tfW24943TkBvNyr4
- /WgOSqitN1S13Vyd98dXmXXBH55RlmIBbcpiekuAeLMFTwzO6ms6oVFAHRe/SgyQ0Jwx6p05HZe
- cQsR4nKHkBNTVYOiu6VI0woFElfImpQ1enr1a2+PNsfxBoe3JkjlB/OQHzxtQMLm+D4tb92VcLt
- cOUKhd9gkCiO/da4/0G4HjTAQnBwEobxX12Xik66D12VOGaoGojytcxZ3IY4hGTZr1XgFJXZf7P
- qRf1X6Mv9BZIUrg6C5S1GykYwD6+4P8wVyfSCPMAkcs6waAdJEB0wXeoMg8IlZQadp6wAmeGabi
- MzQPUeewHYDl5wg==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
-Content-Transfer-Encoding: 7bit
 
-From: David Heidelberg <david@ixit.cz>
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Medium] ASoC: cs42l43: cs42l43_run_type_detect() treats invalid
+  status as headset
+- [Medium] ASoC: cs42l43: CS42L43B_LOAD_DET_SEL cached due to unread
+  regmap_write()
+--
 
-The Pixel 3 sound card so far only drove the two CS35L36 speaker
-amplifiers. Wire in the WCD9340 codec, add a SLIMbus capture link
-for it and route the three digital microphones
+commit 2f8a25cd3cc97db982b37853fb39365ad8d29795
+Author: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Based on work done by Casey Tunturi.
+ASoC: cs42l43: Update load detect procedure for cs42l43b
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi | 56 ++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+This commit updates the headphone load detection procedure to pass the
+detected jack type into load detection and configure CS42L43B_LOAD_DET_SEL
+on newer chip variants.
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi
-index fa327ff156b86..7020bbddbcff2 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi
-@@ -4,18 +4,20 @@
- 
- #include <dt-bindings/arm/qcom,ids.h>
- #include <dt-bindings/dma/qcom-gpi.h>
- #include <dt-bindings/input/linux-event-codes.h>
- #include <dt-bindings/interrupt-controller/irq.h>
- #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
- #include <dt-bindings/sound/qcom,q6afe.h>
- #include <dt-bindings/sound/qcom,q6asm.h>
-+#include <dt-bindings/sound/qcom,wcd934x.h>
- 
- #include "sdm845.dtsi"
-+#include "sdm845-wcd9340.dtsi"
- #include "pm8998.dtsi"
- #include "pmi8998.dtsi"
- 
- /delete-node/ &mpss_region;
- /delete-node/ &venus_mem;
- /delete-node/ &cdsp_mem;
- /delete-node/ &mba_region;
- /delete-node/ &slpi_mem;
-@@ -512,16 +514,20 @@ dai@72 {
- 		qcom,tdm-data-align = <0>;
- 	};
- };
- 
- &q6asmdai {
- 	dai@0 {
- 		reg = <MSM_FRONTEND_DAI_MULTIMEDIA1>;
- 	};
-+
-+	dai@1 {
-+		reg = <MSM_FRONTEND_DAI_MULTIMEDIA2>;
-+	};
- };
- 
- &qupv3_id_0 {
- 	status = "okay";
- };
- 
- &qupv3_id_1 {
- 	status = "okay";
-@@ -544,40 +550,79 @@ &qup_uart9_tx {
- 
- &sound {
- 	compatible = "qcom,sdm845-sndcard";
- 	model = "Pixel 3";
- 	pinctrl-0 = <&quat_mi2s_active>, <&quat_mi2s_sd0_active>,
- 		    <&quat_mi2s_sd1_active>;
- 	pinctrl-names = "default";
- 
-+	audio-routing = "DMIC0", "MCLK", /* Top mic */
-+			"DMIC0", "MIC BIAS1",
-+			"DMIC3", "MCLK", /* Top-edge mic */
-+			"DMIC3", "MIC BIAS3",
-+			"DMIC4", "MCLK", /* Bottom mic */
-+			"DMIC4", "MIC BIAS4";
-+
- 	/* mm[0-9]-dai-link nodes must be positioned first regardless of sorting */
- 	mm1-dai-link {
- 		link-name = "MultiMedia1";
- 
- 		cpu {
- 			sound-dai = <&q6asmdai MSM_FRONTEND_DAI_MULTIMEDIA1>;
- 		};
- 	};
- 
-+	mm2-dai-link {
-+		link-name = "MultiMedia2";
-+
-+		cpu {
-+			sound-dai = <&q6asmdai MSM_FRONTEND_DAI_MULTIMEDIA2>;
-+		};
-+	};
-+
- 	cs35l36-dai-link {
- 		link-name = "Speaker Playback";
- 
- 		codec {
- 			sound-dai = <&cs35l36_bottom>, <&cs35l36_top>;
- 		};
- 
- 		cpu {
- 			sound-dai = <&q6afedai QUATERNARY_TDM_RX_0>;
- 		};
- 
- 		platform {
- 			sound-dai = <&q6routing>;
- 		};
- 	};
-+
-+	slimcap-dai-link {
-+		link-name = "SLIM Capture 1";
-+
-+		codec {
-+			sound-dai = <&wcd9340 AIF1_CAP>;
-+		};
-+
-+		cpu {
-+			sound-dai = <&q6afedai SLIMBUS_0_TX>;
-+		};
-+
-+		platform {
-+			sound-dai = <&q6routing>;
-+		};
-+	};
-+};
-+
-+&swm {
-+	/*
-+	 * Nothing hangs off the codec's SoundWire bus on this board: the
-+	 * speakers are CS35L36 amplifiers on QUAT_TDM.
-+	 */
-+	status = "disabled";
- };
- 
- &tlmm {
- 	gpio-reserved-ranges = < 0 4>, /* SPI (Intel MNH Pixel Visual Core) */
- 			       <81 4>; /* SPI (most likely Fingerprint Cards FPC1075) */
- 
- 	panel_default: panel-default-state {
- 		reset-pins {
-@@ -732,16 +777,27 @@ &usb_1_qmpphy {
- };
- 
- &venus {
- 	firmware-name = "qcom/sdm845/Google/blueline/venus.mbn";
- 
- 	status = "okay";
- };
- 
-+&wcd9340 {
-+	/* PM8998 LN_BB_CLK2 feeds the Pixel Visual Core on this board */
-+	clocks = <&rpmhcc RPMH_LN_BB_CLK3>;
-+	reset-gpios = <&tlmm 64 GPIO_ACTIVE_HIGH>;
-+	vdd-buck-supply = <&vreg_s4a_1p8>;
-+	vdd-buck-sido-supply = <&vreg_s4a_1p8>;
-+	vdd-tx-supply = <&vreg_s4a_1p8>;
-+	vdd-rx-supply = <&vreg_s4a_1p8>;
-+	vdd-io-supply = <&vreg_s4a_1p8>;
-+};
-+
- &wifi {
- 	vdd-0.8-cx-mx-supply = <&vreg_l5a_0p8>;
- 	vdd-1.8-xo-supply = <&vreg_pmu_xo>;
- 	vdd-1.3-rfa-supply = <&vreg_pmu_rf>;
- 	vdd-3.3-ch0-supply = <&vreg_pmu_ch0>;
- 
- 	qcom,snoc-host-cap-8bit-quirk;
- 
+> diff --git a/sound/soc/codecs/cs42l43-jack.c b/sound/soc/codecs/cs42l43-j=
+ack.c
+> index a2555dd9229e3..b3f89c712ed93 100644
+> --- a/sound/soc/codecs/cs42l43-jack.c
+> +++ b/sound/soc/codecs/cs42l43-jack.c
 
--- 
-2.55.0
+[ ... ]
 
+> @@ -526,14 +533,36 @@ static void cs42l43_start_load_detect(struct cs42l4=
+3_codec *priv, bool mic)
+>  			dev_err(priv->dev, "Load detect HP power down timed out\n");
+>  	}
+> =20
+> -	if (mic)
+> -		regmap_multi_reg_write_bypassed(cs42l43->regmap,
+> -						cs42l43_4pole_patch,
+> -						ARRAY_SIZE(cs42l43_4pole_patch));
+> -	else
+> -		regmap_multi_reg_write_bypassed(cs42l43->regmap,
+> -						cs42l43_3pole_patch,
+> -						ARRAY_SIZE(cs42l43_3pole_patch));
+> +	switch (cs42l43->variant_id) {
+> +	case CS42L43_DEVID_VAL:
+> +		switch (type) {
+> +		case CS42L43_TYPE_3POLE:
+> +		case CS42L43_TYPE_OPEN:
+> +			patch =3D cs42l43_3pole_patch;
+> +			size =3D ARRAY_SIZE(cs42l43_3pole_patch);
+> +			break;
+> +		default:
+> +			patch =3D cs42l43_4pole_patch;
+> +			size =3D ARRAY_SIZE(cs42l43_4pole_patch);
+> +			break;
+> +		}
+> +		break;
+> +	default:
+> +		patch =3D cs42l43_4pole_patch;
+> +		size =3D ARRAY_SIZE(cs42l43_4pole_patch);
+> +
+> +		switch (type) {
+> +		case CS42L43_TYPE_OMTP:
+> +			regmap_write(cs42l43->regmap, CS42L43B_LOAD_DET_SEL, 0x89);
+> +			break;
+> +		default:
+> +			regmap_write(cs42l43->regmap, CS42L43B_LOAD_DET_SEL, 0x98);
+> +			break;
+> +		}
+> +		break;
+> +	}
 
+[Severity: Medium]
+Does writing CS42L43B_LOAD_DET_SEL via regmap_write() here and in
+cs42l43_stop_load_detect() cache the register in REGCACHE_MAPLE and cause
+every subsequent regcache_sync() in cs42l43_runtime_resume() to re-write
+it to hardware?
+
+Commit "mfd: cs42l43: Add load detection register needed for cs42l43b"
+added CS42L43B_LOAD_DET_SEL to cs42l43_precious_register() (which
+cs42l43_volatile_register() also consults), but did not add it to
+cs42l43_readable_register().  Because regmap_volatile() returns false for
+non-readable registers when format_write is NULL, regmap treats
+CS42L43B_LOAD_DET_SEL as cacheable, and with no entry in
+cs42l43_reg_default[] it is synced back on every resume unless it is marked
+readable or written with cache bypass.
+
+[ ... ]
+
+> @@ -629,23 +666,25 @@ static int cs42l43_run_load_detect(struct cs42l43_c=
+odec *priv, bool mic)
+>  	if (!cs42l43_jack_present(priv))
+>  		return -ENODEV;
+> =20
+> -	if (mic) {
+> +	switch (type) {
+> +	case CS42L43_TYPE_3POLE:
+> +	case CS42L43_TYPE_OPEN:
+> +		switch (val & CS42L43_AMP3_RES_DET_MASK) {
+> +		case 0x0: // < 22 Ohm impedance
+> +		case 0x1: // < 150 Ohm impedance
+> +		case 0x2: // < 1000 Ohm impedance
+> +			return CS42L43_JACK_HEADPHONE;
+> +		case 0x3: // > 1000 Ohm impedance
+> +			return CS42L43_JACK_LINEOUT;
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +	default:
+>  		cs42l43_start_hs_bias(priv, false);
+>  		cs42l43_start_button_detect(priv);
+> =20
+>  		return CS42L43_JACK_HEADSET;
+>  	}
+> -
+> -	switch (val & CS42L43_AMP3_RES_DET_MASK) {
+> -	case 0x0: // < 22 Ohm impedance
+> -	case 0x1: // < 150 Ohm impedance
+> -	case 0x2: // < 1000 Ohm impedance
+> -		return CS42L43_JACK_HEADPHONE;
+> -	case 0x3: // > 1000 Ohm impedance
+> -		return CS42L43_JACK_LINEOUT;
+> -	default:
+> -		return -EINVAL;
+> -	}
+>  }
+> =20
+>  static int cs42l43_run_type_detect(struct cs42l43_codec *priv)
+> @@ -686,18 +725,12 @@ static int cs42l43_run_type_detect(struct cs42l43_c=
+odec *priv)
+>  	if (!cs42l43_jack_present(priv))
+>  		return -ENODEV;
+> =20
+> -	switch (type & CS42L43_HSDET_TYPE_STS_MASK) {
+> -	case 0x0: // CTIA
+> -	case 0x1: // OMTP
+> -	case 0x4:
+> -		return cs42l43_run_load_detect(priv, true);
+> -	case 0x2: // 3-pole
+> -		return cs42l43_run_load_detect(priv, false);
+> -	case 0x3: // Open-circuit
+> +	type &=3D CS42L43_HSDET_TYPE_STS_MASK;
+> +
+> +	if (type =3D=3D CS42L43_TYPE_OPEN)
+>  		return CS42L43_JACK_EXTENSION;
+> -	default:
+> -		return -EINVAL;
+> -	}
+> +	else
+> +		return cs42l43_run_load_detect(priv, type);
+>  }
+
+[Severity: Medium]
+Does replacing the switch in cs42l43_run_type_detect() cause invalid
+CS42L43_HS_STAT values (0x5..0x7) to be misclassified as a 4-pole headset
+instead of returning -EINVAL?
+
+In cs42l43_run_type_detect(), type is initialized to 0xff and
+regmap_read(cs42l43->regmap, CS42L43_HS_STAT, &type) is not checked for
+errors; if that read fails or hardware reports 0x5..0x7, type &
+CS42L43_HSDET_TYPE_STS_MASK is passed to cs42l43_run_load_detect(), which
+now hits the default branch, enables headset bias and button detection,
+and reports CS42L43_JACK_HEADSET.  In addition, the CS42L43_TYPE_OPEN
+cases in cs42l43_start_load_detect() and cs42l43_run_load_detect() are
+unreachable because cs42l43_run_type_detect() returns
+CS42L43_JACK_EXTENSION when type =3D=3D CS42L43_TYPE_OPEN.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111171032.1491=
+717-1-ckeepax@opensource.cirrus.com?part=3D2
