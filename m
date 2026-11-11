@@ -1,55 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794376503;
-	b=TxARNOFsCqGj2NoFfAhDUW5AbOgIQ0IIVbYW89vFeDu0AXsrWqRr3CeaxaA9q4bzsIF8
-	 /bWL0Ax/v88ASl/zmVLhYJ1a9H+5J67Rx4aIDdgqDxcpLFothGdTGQ95CC2FQd1sgSjpp
-	 zHOigoip974WhIkuq78HolD7D6Qc8M+G57DuGRRqY0CorlIIihlNlAGavz6H83AZ185WT
-	 iIE6sZtSwfLK0/HjiVgKgSTyFikXB9GttHh2IFi5fdfsFcFRzUheBPRgy+Fv2zGCG/cI4
-	 ieWj3HBEqlY08xsU6S05qxzd+pH9TX3N2U7lprSly16BtVqBfe7RhX8ZxrVr98V5gKQ==
+	t=1794376753;
+	b=2mQkRcTKZ9rxEb0at2hUGdMQlcLPnK5n1AyPUaOKOWlJt7VsPjJyCY7SAPEC0v1FpwZ6
+	 mu+uMM9hGK4tf+SGNUWWDMa4aB3vAM37SGSbrK0nFuY+mww7fb11PXpnvwUjIMocA4K6B
+	 cFMna5NqSL3PPMWXDVZfFLbhvmXhiLshPIeTPQlgNuwCDuVlpYHeMYXixFIByTLFX6MV7
+	 bp+H0Tv0ZA2LeAKG2icBx800Xq3zvy77ApJuQB6g4iSVBmoLvOJfmfpIYdFmSletZKYco
+	 EnwW6CDB5p0dJjHAHsheTvS2r8Kjni2mgOkXGJ0K3ijyXGUfnZAhpodhfz85+eF4WpA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794376503;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Mime-Version:
-	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:To:From:
-	 Subject:X-Mailer:References:In-Reply-To:X-Last-TLS-Session-Version;
-	bh=pfbacooIO8f3wisdaRiyyaGqgo+54PzHGy2pQaUsY+c=;
-	b=FH+DLemYAr8oIYr/FchCRcMgUxW92IrW2QINWXRFKEykqfhryq1H7g/km5gIiqti4xp2
-	 ighC+dNrf9EI3XmUO9e/+HIkoeMRZHzwfy5tMtC20M0w0b9JF1QOS5vyBjW4dmn3+YVKJ
-	 d8LAvAEOgaw7YXfuInuaVRFBM6aY9TnfO4VbWunxCRQKDAWaKy6I4W5eLFc3ohTOGt8dA
-	 JypIpSlI3b0T03vN+Q4cGdmxCtLFHFVUfbMCfSwnXXZWTex6f3pLjDV+3UQxxKmhKtgmL
-	 0SMzEIu8PsPYPWLIF1DWhfUbauJk9oibC481aRpJ4AgoVVTIktNhHMerjFvCkxwB9AQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794376753;
+	h=Received:DKIM-Signature:Date:From:To:CC:Subject:User-Agent:
+	 In-Reply-To:References:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Ka4FTyAvq+CRe6XZnT1kLUAzyaBuWwyZF5WfvkgSxxA=;
+	b=lACoCYoCFqbf2krZRstoLFXM6nD62R+A6K3B4iIKC4iBHZluX6PA+qbmQEoEtw+lf1+G
+	 8Ry86t2y/BPT3R3M18bRlF4rec1K5BBEkv0uleXvXydquH1vu5+uLv342Nh76nUhA1b0a
+	 SIG+qqiQrD0kAkyHZcS58TcJdVIGC23ZKLKTJj2MqxBFlKPZfbCtSRJErNe7t5/mjSCTs
+	 Oo0JJZOOPeHGOjISZBnjT5lfxJkMN1Rkjl4TcCsRb2tZlnU7rasSXEcIPBYSH8eMwFFWS
+	 X6UvTayeNc+FyJIIb+phaHf4pt3uGIF3XfCbZ4bLiHFat2LBxYemFoxwIbwRcEJeL1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=yNbP9gNq;
-	arc=none smtp.remote-ip=185.246.84.56
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NjRUcyAn;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6342B606A326;
-	Wed, 11 Nov 2026 05:55:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6342B606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A686D606A31C;
+	Wed, 11 Nov 2026 05:59:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=yNbP9gNq
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 061011A161B;
-	Wed, 11 Nov 2026 05:54:55 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B7121601AD;
-	Wed, 11 Nov 2026 05:54:54 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CA75111BC0758;
-	Wed, 11 Nov 2026 06:54:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1794376491; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=pfbacooIO8f3wisdaRiyyaGqgo+54PzHGy2pQaUsY+c=;
-	b=yNbP9gNqUTcBluDPTUGVBT9Sv+/GUwXc/OVvJz1InwCOkT3SDXmol6kIyZj6kX3Yq1NzGH
-	m+7vDJygTh4Aeo6ekK8CD2u9W7d6Fobhkef2pBoshtjxbvwZhaFK264cj/tLT7fgNV6x78
-	ZUPWtjg+/hKGnEpqW3ry2LwfenlL1Vnpfsx+Duk2T3/ZhtgEL63TIp90jEpCcqg3mwkQte
-	XvhXHpQreSW8ZhjjAEgEfPu3744zKJ6yYUnEtxerbgkrN+nhLUAP2VnK8ZqLwE40Hqa9Gw
-	2IyI3JXe2VizQhauO617rdUjCPI8djrehwuV7EPN2sl1qfiuh+n75Opl2PpZow==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NjRUcyAn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 322FB1F00A05;
+	Wed, 11 Nov 2026 05:59:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794376753;
+	bh=Ka4FTyAvq+CRe6XZnT1kLUAzyaBuWwyZF5WfvkgSxxA=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References;
+	b=NjRUcyAnf0nDdP1XtWMTwDn4X7UCndnE4FIOFCIu7Vgvjear0YLvHU0Kf4+YFmaIn
+	 kJBZNYOLEx7AgSEWwvIiRl5yJ24J6qink2vjWt7UP8KBBqmaXM9L7CFvYwwcDFljn3
+	 eqb/N4F6lcUW1Lrh4DYVt7HiXlXt2c59ZXOt0u1myAgiS9wrWGzO+Tq79GCYYwp1oF
+	 jWecZ9IFEyWSgCOWk8poR0c2fIYT9jabBcF5nBbDQcJzm7d35uo0X0jaCwirggSpc9
+	 MiIwtA/yzNsDokwHYMad51NO2ZkWOFlJ6aYJv4Z/roYaZPJQSEDRVpYDWtOb0O5gcD
+	 6cUiv/Ox9V8hA==
+Date: Tue, 10 Nov 2026 21:59:12 -0800
+From: Kees Cook <kees@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>, Emanuele Ghidoli <ghidoliemanuele@gmail.com>
+CC: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Emanuele Ghidoli <emanuele.ghidoli@toradex.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, linux-hardening@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_ASoC=3A_soc-core=3A_reset_r?=
+ =?US-ASCII?Q?td-=3Enum=5Fcomponents_after_allocation?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <87FF4A7B-853C-466A-AB01-2D9137DEE6CC@kernel.org>
+References: <20261109102536.357134-1-ghidoliemanuele@gmail.com> <87bj7yw9e2.wl-tiwai@suse.de> <87FF4A7B-853C-466A-AB01-2D9137DEE6CC@kernel.org>
+Message-ID: <EAAF07EF-6B11-4EA5-A5AF-A7787CA2F196@kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,96 +63,97 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 11 Nov 2026 06:54:25 +0100
-Message-Id: <DMS5DC411M21.387583J8N08R0@bootlin.com>
-Cc: "Linus Walleij" <linusw@kernel.org>, "Nicolas Ferre"
- <nicolas.ferre@microchip.com>, "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>, "Claudiu Beznea"
- <claudiu.beznea@tuxon.dev>, "Chen-Yu Tsai" <wens@kernel.org>, "Florian
- Fainelli" <florian.fainelli@broadcom.com>, "Broadcom internal kernel review
- list" <bcm-kernel-feedback-list@broadcom.com>, "Ray Jui"
- <rjui@broadcom.com>, "Scott Branden" <sbranden@broadcom.com>, "Marek Vasut"
- <marek.vasut+renesas@gmail.com>, "James Ogletree"
- <jogletre@opensource.cirrus.com>, "Fred Treven" <fred.treven@cirrus.com>,
- "Ben Bright" <ben.bright@cirrus.com>, "David Rhodes"
- <david.rhodes@cirrus.com>, "Richard Fitzgerald" <rf@opensource.cirrus.com>,
- "Support Opensource" <support.opensource@diasemi.com>, "Krzysztof
- Kozlowski" <krzk@kernel.org>, "Peter Griffin" <peter.griffin@linaro.org>,
- "Alim Akhtar" <alim.akhtar@samsung.com>, "Tim Harvey"
- <tharvey@gateworks.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Charles Keepax" <ckeepax@opensource.cirrus.com>, "Sven Peter"
- <sven@kernel.org>, "Janne Grunau" <j@jannau.net>, "Neal Gompa"
- <neal@gompa.dev>, "Chanwoo Choi" <cw00.choi@samsung.com>, "Mathieu
- Dubois-Briand" <mathieu.dubois-briand@bootlin.com>, "Luca Ceresoli"
- <luca.ceresoli@bootlin.com>, =?utf-8?q?Andr=C3=A9_Draszik?=
- <andre.draszik@linaro.org>, "Saravanan Sekar" <sravanhome@gmail.com>,
- "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
- <angelogioacchino.delregno@collabora.com>, "Frank Li" <Frank.Li@nxp.com>,
- "Sascha Hauer" <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
- <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>,
- =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, "Aaro
- Koskinen" <aaro.koskinen@iki.fi>, "Andreas Kemnade" <andreas@kemnade.info>,
- "Kevin Hilman" <khilman@baylibre.com>, "Roger Quadros" <rogerq@kernel.org>,
- "Tony Lindgren" <tony@atomide.com>, "Matti Vaittinen"
- <mazziesaccount@gmail.com>, "Orson Zhai" <orsonzhai@gmail.com>, "Baolin
- Wang" <baolin.wang@linux.alibaba.com>, "Chunyan Zhang"
- <zhang.lyra@gmail.com>, "Fabrice Gasnier" <fabrice.gasnier@foss.st.com>,
- "Maxime Coquelin" <mcoquelin.stm32@gmail.com>, "Alexandre Torgue"
- <alexandre.torgue@foss.st.com>, "Jernej Skrabec"
- <jernej.skrabec@gmail.com>, "Samuel Holland" <samuel@sholland.org>, "Liviu
- Dudau" <liviu.dudau@arm.com>, "Sudeep Holla" <sudeep.holla@kernel.org>,
- "Lorenzo Pieralisi" <lpieralisi@kernel.org>, "Geert Uytterhoeven"
- <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Heiko
- Stuebner" <heiko@sntech.de>, <mfd@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <patches@opensource.cirrus.com>, <linux-rpi-kernel@lists.infradead.org>,
- <linux-renesas-soc@vger.kernel.org>, <linux-sound@vger.kernel.org>,
- <linux-samsung-soc@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
- <asahi@lists.linux.dev>, <linux-mediatek@lists.infradead.org>,
- <imx@lists.linux.dev>, <linux-omap@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>,
- <linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>,
- <linux-rockchip@lists.infradead.org>
-To: =?utf-8?b?VXdlIEtsZWluZS1Lw7ZuaWcgKFRoZSBDYXBhYmxlIEh1Yik=?=
- <u.kleine-koenig@baylibre.com>, "Lee Jones" <lee@kernel.org>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v4 19/20] mfd: Unify style of of_device_id arrays
-X-Mailer: aerc 0.22.0
-References: <cover.1794347059.git.u.kleine-koenig@baylibre.com>
- <2cd7c4695edff6b711f8c77ae468d295bb910cdb.1794347059.git.u.kleine-koenig@baylibre.com>
-In-Reply-To: <2cd7c4695edff6b711f8c77ae468d295bb910cdb.1794347059.git.u.kleine-koenig@baylibre.com>
-X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue Nov 10, 2026 at 10:54 PM CET, Uwe Kleine-K=C3=B6nig (The Capable Hub=
-) wrote:
-> These arrays already mostly match the most used and generally
-> recommended coding style. That is:
->
->  - no comma after the list terminator;
->  - a comma after an initializer if (and only if) the closing } is not
->    directly following;
->  - no explicit zeros in the list terminator;
->  - a space after an opening { and before a closing }, a single space in
->    the list terminator;
->
-> Adapt the offenders accordingly.
->
-> Reviewed-by: Andr=C3=A9 Draszik <andre.draszik@linaro.org> # for Maxim MA=
-X77759
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
-> Reviewed-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com> # =
-max7360
-> Reviewed-by: Linus Walleij <linusw@kernel.org>
-> Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@b=
-aylibre.com>
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # max*
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+On November 10, 2026 9:50:08 PM PST, Kees Cook <kees@kernel=2Eorg> wrote:
+>
+>
+>On November 9, 2026 3:07:33 AM PST, Takashi Iwai <tiwai@suse=2Ede> wrote:
+>>On Mon, 09 Nov 2026 11:25:20 +0100,
+>>Emanuele Ghidoli wrote:
+>>On Mon, 09 Nov 2026 11:25:20 +0100,
+>>Emanuele Ghidoli wrote:
+>>>=20
+>>> From: Emanuele Ghidoli <emanuele=2Eghidoli@toradex=2Ecom>
+>>>=20
+>>>=20
+>>> Commit 4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to the
+>>> devm_kmalloc_obj() family") switched the snd_soc_pcm_runtime allocatio=
+n
+>>> in soc_new_pcm_runtime() to devm_kzalloc_flex()=2E components[] is
+>>> annotated with __counted_by(num_components), so when the compiler
+>>> provides __builtin_counted_by_ref() the allocation now also sets
+>>> rtd->num_components to the number of allocated slots=2E
+>>>=20
+>>> snd_soc_rtd_add_component() fills components[] one entry at a time and
+>>> expects num_components to start at zero=2E Starting from the allocated
+>>> size, for_each_rtd_components() stops at the first, still NULL, entry,
+>>> so the runtime has no components: they are not probed, no controls or
+>>> user-visible PCM devices are created and the card registers empty,
+>>> without any error message=2E In addition, each added component is stor=
+ed
+>>> past the end of components[]=2E On the tested board these stores still
+>>> land in the slack of the kmalloc bucket that devres rounds the
+>>> allocation up to, so KASAN does not report them=2E
+>>>=20
+>>> Reset num_components after the allocation=2E
+>>>=20
+>>> Seen on a Colibri iMX7D (simple-audio-card, fsl-sai, sgtl5000): the ca=
+rd
+>>> is listed in /proc/asound/cards, but /proc/asound/pcm is empty and
+>>>=20
+>>>   amixer: Unable to find simple control 'Capture Mux',0
+>>>   aplay: main:850: audio open error: No such file or directory
+>>>=20
+>>> Tested on that board with v7=2E4-rc2 built with GCC 15=2E2 (first seen=
+ with
+>>> GCC 16=2E2): the failure is there without this change; with it, playba=
+ck,
+>>> capture and the codec controls work again=2E
+>>>=20
+>>> The root cause analysis, this change and the testing were done with th=
+e
+>>> help of an AI coding assistant (Claude Code, Claude Opus 5=2E5)=2E
+>>>=20
+>>> Fixes: 4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to the d=
+evm_kmalloc_obj() family")
+>>> Signed-off-by: Emanuele Ghidoli <emanuele=2Eghidoli@toradex=2Ecom>
+>>> ---
+>>> 4dd10fbbeb9c only reached mainline in v7=2E4-rc2 (not in broonie/sound=
+ yet),
+>>> so this is based on v7=2E4-rc2=2E
+>>>=20
+>>> The other devm_k[mz]alloc_flex() sites added by 4dd10fbbeb9c were chec=
+ked
+>>> too: none of them fills a __counted_by() counter one entry at a time, =
+so
+>>> this one looks like the only user hit by the preset counter=2E
+>
+>Aggh, sorry for the problem, and thanks for checking the other cases=2E
+>
+>>
+>>I guess a bugzilla entry that was reported recently is also related
+>>with this problem=2E
+>>  https://bugzilla=2Ekernel=2Eorg/show_bug=2Ecgi?id=3D222249
+>>
+>>My first gut feeling was that it might be safer to revert the use of
+>>devm_kmalloc_flex() in that code, as it has a significant side-effect
+>>unlike other straight conversions=2E  But, if this fix covers well, we
+>>can go with this fix, of course=2E
+>
+>The problem is the annotation, IMO, as the counter member doesn't track a=
+llocation size, it tracks usage=2E
+
+For example, what keeps snd_soc_rtd_add_component() from overflowing that =
+array? If you want to protect the array, add another member, say max_compon=
+ent, and use that for the counter, which gets set at allocation time and pr=
+otects the array from indexing beyond the actual allocation size=2E
+
+
+--=20
+Kees Cook
