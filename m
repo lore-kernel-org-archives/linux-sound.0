@@ -1,106 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794387579;
-	b=IrRMQWoSh9o8ZpShz2Mc5NlvO9onT9UtiUXqx2JCh7boJYIgE4J6ssMUDxb74Q/AK7dn
-	 aZC7WGgUhNPcUTu6JWfVEHB7kTUqdzYv1TBqGi9sPSY7IFsibJW5J4sN6IRHORmJ8Zre2
-	 dUpdkkDv+Ii3YPqSSybHGbEaL8YdAcvnoaVCrTevclQKYCTwBpMDIBy3+KC3UqfpsTMf4
-	 zu22YsV3ZS7EaOHEkYyrahV1hgwCvMpFZCWrFe7naDxeFK+kd5RG1xS+XnVTLXvEiKI0D
-	 CaWiHEhpMyan1qznxTfVrcvy2a97Su0pRYGj1oV+uPGoovygr9oN9QHug2oYhGsTEIQ==
+	t=1794387879;
+	b=P6wmD1SWMaKUdzxkgO69TIAFuqITYLi+gZRnyICTqLbup5ZmLxsTkip55i1JfHetGPJj
+	 tIeOJAHYX4C86z/LkojcmqU4Uomp7UWpHiBUtaiTA/sQSmWFkoPMymQzcl/RcWMHGaj61
+	 a6jHkWWEUfNKJOBYmBxdDCtyDPDy5RVD2jDz92bMMo7LpbGYVuIJEKftRk/EiyDnj97EZ
+	 eKqj/VfCp6LWhh67VkZJcnEMD6uic9LCBwU9tmQGyz/W/6yvf+AU5RwsQBvqauCA1anXY
+	 ZqYV+2HmIhQsNiTFGj4NCPy57YN8QzSycCjay3KcvWE4+n90X0bVqmHPnFSNWBnM10w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794387579;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=LDQuyOiuHxekSjqWrNCpSKW40pMKnmZ88mrAqiygNuc=;
-	b=dafYr/9sz5jRB9x18qxxEqYBiL34bXzOf5Wy6eNrJU18m/ZdxfZ4ADDpkCb3a+bMPfXW
-	 UE3aeI7CIjaVMEUqE137xD4n0HaaKNnKlKWYDjVyBnfHcOwHqKj6uWITp96UqvB2B+Dk7
-	 Pee3UUOBMfmVodKEO5nkQwRpBzn/AaM8NQv6ljEC1w8k5CCsweJOxe0hrcmS8EWMzkeLo
-	 Er7M21AK04GGMoPEGzzPAGubJxKUa27Z/xwfmW3cxA5UIuWMjoh5N7rli4Ph0nbONP8+M
-	 vMd/Bl0Rz8BcOfii5s7QVtu0B3LwcU6dDrNcd1HiwEaBFr8SVAGWi+AqH4UjQdVGl/w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794387879;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=4NSXIHHAlrlnWpquuqYJcuGA/ysXonzJiU11gCiOoV0=;
+	b=apiVIjM4FL4DZt5zBpleAcIaswFAeqTbv+Nm9v/HiyvTIlxjPNRUzP7jtSV55wu1le3T
+	 KSNvox2P6hsbg3HsDDbTHKnEesn3FpnqsaPBFGi3ouy6SlQpZWxZTKhVNQmUoNv6bJuhl
+	 BGCe07JmI+LEnkvptC48bJMhE/jnLGajvuUQiEKUctQe2AxBnsH9jZ/Y0NXX3qm0oidDI
+	 LHBmUzb8eKfShIjgGergIhdp8FsgvkfX/feA5JwroL0mdDlrxbTlnke6hfjc7KCITboCO
+	 Hot/yDu5UADdOTNV2rod4MaWGKJtVnaQXOuLgix+xfBM6UohDDM4/hcD3oOMNpwrLnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=C3jsijRf;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ZGDlRBPI;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=C3jsijRf;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ZGDlRBPI;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IkIseqOq;
+	arc=none smtp.remote-ip=209.85.215.173
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22320606A324;
-	Wed, 11 Nov 2026 08:59:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22320606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4758060A260E
+	for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 09:04:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4758060A260E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=C3jsijRf;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ZGDlRBPI;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=C3jsijRf;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ZGDlRBPI
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5FA721F793;
-	Wed, 11 Nov 2026 08:59:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794387577; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LDQuyOiuHxekSjqWrNCpSKW40pMKnmZ88mrAqiygNuc=;
-	b=C3jsijRfFCXU5Ujn7wqdPF+tvtV3pSI92aVsvmoOaDEy66GtWxjqMZ+lDqatQDx4eltEA9
-	1jcSj1PEo9BGyWStodVYcpXGTQzQWCO6Rp6wuYConTbohuIStsZ1MzwoVIC58NSK6PMBHa
-	2hpC9csdH5AiyL2tpCVjSdDX9Auv55I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794387577;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LDQuyOiuHxekSjqWrNCpSKW40pMKnmZ88mrAqiygNuc=;
-	b=ZGDlRBPIVzH8nXaWT0seKB5vlZX06gpbwYzr7MH1MCq5fYd4XAj+bjhYz8+CO4ezxAqOYD
-	CzO2pa21lmAZ8FCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794387577; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LDQuyOiuHxekSjqWrNCpSKW40pMKnmZ88mrAqiygNuc=;
-	b=C3jsijRfFCXU5Ujn7wqdPF+tvtV3pSI92aVsvmoOaDEy66GtWxjqMZ+lDqatQDx4eltEA9
-	1jcSj1PEo9BGyWStodVYcpXGTQzQWCO6Rp6wuYConTbohuIStsZ1MzwoVIC58NSK6PMBHa
-	2hpC9csdH5AiyL2tpCVjSdDX9Auv55I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794387577;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LDQuyOiuHxekSjqWrNCpSKW40pMKnmZ88mrAqiygNuc=;
-	b=ZGDlRBPIVzH8nXaWT0seKB5vlZX06gpbwYzr7MH1MCq5fYd4XAj+bjhYz8+CO4ezxAqOYD
-	CzO2pa21lmAZ8FCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1D9741339F;
-	Wed, 11 Nov 2026 08:59:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pWYDOXgu9GrANQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 11 Nov 2026 08:59:37 +0000
-Date: Wed, 11 Nov 2026 09:59:36 +0100
-Message-ID: <87jymju4jr.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Fa-Iz Faadhillah Ibrahim <faiz.faadhillah@gmail.com>
-Cc: tiwai@suse.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IkIseqOq
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cc4aa18f9afso1231502a12.3
+        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 01:04:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794387878; x=1794992678; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4NSXIHHAlrlnWpquuqYJcuGA/ysXonzJiU11gCiOoV0=;
+        b=IkIseqOqTOh3WorZtKvcSXdkAWviUdNa/2w+WVJ0aaVWd47QTEgB69MkdRXndYImEz
+         66vLSOnif29aFvOTWsBI/c34lf9PalGndEq+FGKEM+L4gDWHtZmmbi0nusuxLCW4yEHx
+         P7/Xr9C1xxZyA2lxn3408YkpQOdglt3kQsgM1Zoi640LX2YSYJAQePy1PQaP2G7j5JU3
+         gRC4z16EpzgTMbFtwOOcEXB92pyJo9yhcx2O5WOLDCYCncOn9nBrgLySkc/RkZ9SedUk
+         Ia2Y5KWTIx+du+gNz03ZnEewCpoAIt5F3N5xqf5CI6WTo+QJs+d7OUrp2ODn9v1Zu9Ax
+         nzKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794387878; x=1794992678;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4NSXIHHAlrlnWpquuqYJcuGA/ysXonzJiU11gCiOoV0=;
+        b=mcl7+2ZlFmY+yZdD/ypNGMkJeIw1TKF2r1cCcBWrp2RA14ann7D2HohemcQJTSmQEh
+         oYJ62fUQXy7Gb7jlbAGU5yYkKurADSJ6CvJntLIu22fphO/q4OB2iS1mQli88IO0Vpw8
+         BbIZfXmmadWwT7bruZs/ETVlh18zBQnHITavAZBNj7o7dn7NfDR5MtaiJcQ0trhC6k5h
+         93ODt/DCk4IyfI+0zgs5X4qbA12Glo0lEJnguji2Ig2tbyj8ekdMGvYtKrspx2QWuJ2+
+         mVJMwDNIzLvnPEE2hXgn7cQO34StBuF28fOb0A2e6Z9PGzox/9CPoBpwR7toWJBavFuR
+         eR4g==
+X-Forwarded-Encrypted: i=1; AL+hErHVJOj7L7ab223Swd5nPAI9PA2XjENO3cgkGoy5lnaEUwbbabJqjZX4IvBZea+Y9usBVsIBoxo4gYeFlQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8qhiF0THrmEzPP/5iRi1R9aSZhZUoVOShy26esHRpftwhvJJLl
+	KsU/fB9Jugp9oEjIDmQK6h290x2aBCxCpEU3S9eHl2nSqhW129iC2yrE
+X-Gm-Gg: AYBFou0WTDXJziQ0YQSJxOhWKWNo2+N6Wmh3rO5+ResjmBB/5V2rfqI45151xTFAyWx
+	Lvq7MPvFjIArQPfMlpQHGvrcb1P5BGiDTpnYAbdckep9hccbE4ohiXRjDgYtlhZxCo6ZmkbXEKP
+	r1yzrVWUrCC03XLGvhox0NQIflRRA3yAcHB7ziqgCeWvDUwTJoTHSTX7k3pmx0EZeGjvMZY6Q5L
+	gMeRFt6kdFnvYo8VQ/AxYSN+7MEq9va8nXW8Nc4Wm2UM5DfK51e+uJWvE4GgGR/gPq8ci7Z3Bi6
+	X11cb62aexM6QDzsCp6bQC5IyaQiSLjrR9tgKenStqCtedXfcmHULtXMQ2CJWKyqqHPKJ5p5Mvb
+	UZjaqStsW6S0iiCku1L2q2vszyMBOYSQ3luFbxgEonzOCyzalywF88kkntbfiZPi4qLWj+7Ap7t
+	DDf2q/HgPuzgSMcDdoQ1gdut0UUpKOE5BaGPW6l1fg+ji5K7MYyBIyVA13JVqOj6N9zMotHcNod
+	h8UCXXCmFkbPmwEMJmAlk4B/e9/a59SWwNStPfpHCin8q7HrdVD2N2M+BEJ8vjteNwTWPB3ml0f
+	Id58ezlUGz8h61bgqrNl1NJai15UdRI8qWwVAY8XoCYn2u2dY4rM1btqZfuAHDM8YWIHFZSNOee
+	bC/h955fst34OZBij55a58saHjAHjL2AopawW6mHAu/0=
+X-Received: by 2002:a05:6a20:a106:b0:3d4:52bd:b89d with SMTP id adf61e73a8af0-3f2fc99fc04mr2159073637.23.1794387878436;
+        Wed, 11 Nov 2026 01:04:38 -0800 (PST)
+Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8baa7cede06sm1929924b3a.7.2026.11.11.01.04.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 01:04:37 -0800 (PST)
+From: HyeongJun An <sammiee5311@gmail.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	ivan.orlov0322@gmail.com,
+	broonie@kernel.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: add micmute LED quirk for Acer Predator PHN16-72
-In-Reply-To: <20261111021328.16153-1-faiz.faadhillah@gmail.com>
-References: <20261111021328.16153-1-faiz.faadhillah@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	linux-kernel@vger.kernel.org,
+	HyeongJun An <sammiee5311@gmail.com>
+Subject: [PATCH v2 0/2] ALSA: pcmtest: Add a volume control with event fault injection
+Date: Wed, 11 Nov 2026 18:04:27 +0900
+Message-ID: <cover.1794386073.git.sammiee5311@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -109,63 +98,47 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 11 Nov 2026 03:13:28 +0100,
-Fa-Iz Faadhillah Ibrahim wrote:
-> 
-> fix micmute LED for Acer Predator PHN16-72.
-> 
-> Signed-off-by: Fa-Iz Faadhillah Ibrahim <faiz.faadhillah@gmail.com>
-> ---
->  sound/hda/codecs/realtek/alc269.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-> index a756e0076021..fa78a36bba5f 100644
-> --- a/sound/hda/codecs/realtek/alc269.c
-> +++ b/sound/hda/codecs/realtek/alc269.c
-> @@ -7553,6 +7553,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x1025, 0x170f, "Acer Predator PHN16-71", ALC2XX_FIXUP_HEADSET_MIC),
->  	SND_PCI_QUIRK(0x1025, 0x171e, "Acer Nitro ANV15-51", ALC245_FIXUP_ACER_MICMUTE_LED),
->  	SND_PCI_QUIRK(0x1025, 0x172c, "Acer Nitro ANV16-41", ALC2XX_FIXUP_HEADSET_MIC),
-> +	SND_PCI_QUIRK(0x1025, 0x1731, "Acer Predator PHN16-72", ALC245_FIXUP_ACER_MICMUTE_LED),
->  	SND_PCI_QUIRK(0x1025, 0x1731, "Acer Predator PHN16-72", ALC2XX_FIXUP_HEADSET_MIC),
+Hello Takashi,
 
-You see that there is already an entry for 1025:1731.
-You should replace it with the new quirk instead of appending yet
-another.
+This is the non-RFC version of [1], which Mark found reasonable [2].
 
-And, please elaborate a bit more.  You're changing the existing quirk,
-so you'd need to show that there is no regression by your change.
+Patch 1 fixes the places where pcmtest.rst does not match the driver.
+Patch 2 adds the volume control and its two fault parameters, and
+documents them.
 
+mixer-test results on the new control, under qemu on sound/for-next:
 
-thanks,
+  no fault                    all 8 checks pass
+  inject_ctl_no_event=1       only event_missing fails
+  inject_ctl_spurious_event=1 only event_spurious fails
 
-Takashi
+The pcmtest selftest still passes all 10 tests.
+
+Changes since the RFC:
+- document the new parameters
+- rename the control to "Test Playback Volume", which the OSS mixer
+  emulation does not map
+- add the documentation fix as patch 1
+
+[1] https://lore.kernel.org/all/20261103011000.1012035-1-sammiee5311@gmail.com/
+[2] https://lore.kernel.org/all/61df01a7-10ee-407e-879f-d9c1085a5d43@sirena.org.uk/
+
+Prepared with Claude Code (Claude Opus 5.5). Tested on x86_64 under qemu.
+
+Best regards,
+HyeongJun An
+
+HyeongJun An (2):
+  ALSA: doc: pcmtest: Update to match the driver
+  ALSA: pcmtest: Add a volume control with event fault injection
+
+ Documentation/sound/cards/pcmtest.rst | 25 ++++++++--
+ sound/drivers/pcmtest.c               | 68 +++++++++++++++++++++++++++
+ 2 files changed, 89 insertions(+), 4 deletions(-)
+
+-- 
+2.43.0
+
