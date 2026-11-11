@@ -1,58 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794356710;
-	b=Cr6TeSBfA/aPy1iH25V/9eXPiTAFh72Li5JksxnGlu/YF6QZxUE+USl0MvbSro90pGVf
-	 /pMbjbiy3YMDqgjPk02rfm7SresRwmRobYsZdF/yaR7VabnnlrCDuzSAHsNlyfT7Nh+GM
-	 u+2ZOLqqX4TPLhdjazjPBTglKhcSYmRRcvgqT1LupXoupk4Nnlb8VwfCpbeYvCUoipjYB
-	 uXimWw446NM3B17WeFo/x+1FtTzM4aj6bGp0KDTpDNJImEUv+v1VRlN+u0Oddq7rpXdot
-	 uLSRsP9rzLvTYWeAuikZ2lMJ1iVKUa0RIMPO64ik3gQXXTfXk7WbeTUzAAo5ztUQLoA==
+	t=1794356909;
+	b=dRgo4crNJnLWahGnlC+2qa9Bvzzdb7AFJUOdc61n+869sNf5K6UGQiztA/+3lRoVBkpe
+	 QgKLGaevkbTVlW3s+heLbk1ed9rvLjxl90avK/k2kxyjqmu1QqFBJFa3x91hL1z0eM22+
+	 ck8tNz+a5dlohflmGkJ3rZbHzRa+PF99FtYgh9IlqSsZG6arJkHyspKCTmgB9AMPW17/K
+	 NhE4JvigQBw23F+0zvyeRDsyt7yvSAgSBjAgTVcepTwLWfw9Mq7/3uFg17K/kKC6WWPFV
+	 /+qYp67V3UY1PKWUvw5lN+raE2J5WEQ7Mc059G/3Zgg0sTvtIDlKJhU1z/OTcAE+nhQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794356710;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794356909;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=hY3G4rqZxw1Ffeo470oFjQR46jceljq58OMbZiW+9O4=;
-	b=c5UasNKeVGKZ3Tx6JgnKQDyVATbdIG8FWrKXjyRbckAXW42L4SxB7LLynj+S45kmrTl9
-	 0fK3RjYsiqFDiFiFyTkTSXRsomTgrf75y0qMTyDtPM+pgu+WrrjWjXazT0V5i4CmvCAAf
-	 a1yeoYhqyuAoyuHdQXwv1s6Lsq3Qz225hlCl7rw7TXoTONcBlc5Is/ywNg0ihPIPHUYPj
-	 ZwNFRQKZQ6Jz0MzTGOXwgtabfH1Aq/Cj8+XOPmqssBjp+9P/zx227mACsK9GZSKCdLyeX
-	 xk/YQTFtjyzWU4z+Nt59v1MhJ7I8ECecSst5+NxekBnVjom43sbM3ZBBr9uEMdE+9NQ==
+	bh=0xXES2y2gctr9qr+JLOk1o/CVzBdjPmgMOXwoqks8AM=;
+	b=IS1Tq7Jd0rroe0VSdoZ3n+Q9D073IxL4SeN35xsHmesSxgFfbLkWbeDzV5e8qDUdkr9a
+	 jNP1h5AIe9De8sWAR2kOuEeiF4KjRzzN7Uo0JE92jZ/S3Qbhd7fbTdF3wgBLh4oxmUu8+
+	 KWm4LR0IIDvxRn0rr7dFt6EufrIK6p7Hst28yNj6uf9tp3RcOq/evyfN5DQcWPNgBrOXf
+	 mLINxBu1WyN3YcpkAhWby0JHIhsYkSRfdcBGAH3xOhrHMF6oQdLrwtKZ6FD2ZROlu50Sx
+	 666gEABuFeTqNmuRCaOLL2+ewfkOCrkookO5YCpF4ZRYWkcoJsqkumkrpsAIT8IufsA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I6NAmQBN;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PPfnw07B;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF3C606A33D;
-	Wed, 11 Nov 2026 00:25:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2AF606A31C;
+	Wed, 11 Nov 2026 00:28:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I6NAmQBN
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 330341F00A0C;
-	Wed, 11 Nov 2026 00:25:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PPfnw07B
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39BCA1F0089F;
+	Wed, 11 Nov 2026 00:28:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794356710;
-	bh=hY3G4rqZxw1Ffeo470oFjQR46jceljq58OMbZiW+9O4=;
+	s=k20260515; t=1794356909;
+	bh=0xXES2y2gctr9qr+JLOk1o/CVzBdjPmgMOXwoqks8AM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=I6NAmQBN8PX170lTAHdCwecE9nmhn8zoF8rmRQ3OJvwiBi1h7g8mFXCQByRl9XCvC
-	 C2ygz2+Um7WiNc9z4HVqZT858S25m/Y04t2vmfGUtOADIJTosEOEh3IIaBGQbWNFEP
-	 w0Em3XzshsBmwCw09klU8xYfN/WK3/++utyWDqxMibsTXNq8RmFdWGVaVUBRLcmkhN
-	 ZtBeED61yBx49pQ+KnGwjH0PdAJj/dWUxrw+UqNhQMgYlJjHQhzkrXJ+BqZ9vjiNwq
-	 tXgJUkz2lEoF8XlQexscui80c7vvxsSzvJsp6qIVtcJc1BHZBWnr6B55LTj9bCtB1S
-	 83IzSOw5TL3jw==
-Message-ID: <sashiko-outbox-208016@kernel.org>
+	b=PPfnw07BGjhAtXX07HINzeFhn48RLpvVWSgi8PjlyBiTY3IhqNZCmpxUrLG+HJGEO
+	 YCs/WjxJ9c4QtyGnbQ6VVqEIS9+9+9zhbhAm2uqCYA9P1NIl3CNR+fcYEyEtW7BO3B
+	 o6aMfzMvjCynOSADavunFptN7r978xKlV7SbGYr2cdA6TUleP2YGTMoN61O6//Ft+k
+	 ocXQxNYsq0b/PJeDL5rVsdqsbBC2Or/fkCw5MSUe2k0rQ2wZ2sR5HJprK3EnNdTCmM
+	 IieZGypqEVKZBZ3sf8PnG695KGKx4m9wJDLHT+29muosMwaq+6Eti/22V59CkMr1bB
+	 gIoQtv8blJlPA==
+Message-ID: <sashiko-outbox-208022@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v24 02/16] ALSA: pcm: report partial progress under the
- stream lock
+Subject: Re: [PATCH v24 11/16] ALSA: virtio: wait through signals for PCM
+ teardown
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
 Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
  Perez" <eperezma@redhat.com>
-In-Reply-To: <20261111000543.28550-3-mynameisjune111@gmail.com>
+In-Reply-To: <20261111000543.28550-12-mynameisjune111@gmail.com>
 References: <20261111000543.28550-1-mynameisjune111@gmail.com>
- <20261111000543.28550-3-mynameisjune111@gmail.com>
+ <20261111000543.28550-12-mynameisjune111@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 11 Nov 2026 00:25:09 +0000
+Date: Wed, 11 Nov 2026 00:28:28 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,124 +62,37 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] ALSA: pcm: premature drain done on capture in
-  snd_pcm_update_state()
-- [Medium] ALSA: pcm: stale avail in __snd_pcm_lib_xfer() drops capture
-  drain tail
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] ALSA: virtio: missing Fixes trailer for control message
+  completion wait fix
 --
 
-commit 729bfce97b1180fb1f0b36f0f5fb43c69406d7d3
+commit e4fff26b024a131c706193108ab28e9413a49ca2
 Author: Joonho Lee <mynameisjune111@gmail.com>
 
-ALSA: pcm: report partial progress under the stream lock
+> ALSA: virtio: wait through signals for PCM teardown
+>
+> A signal can end the interruptible wait while a STOP or RELEASE request
+> is still pending. A later teardown may then submit another RELEASE
+> before the first request completes.
+>
+> Keep both waits non-interruptible and use the existing message timeout.
+> Other control requests remain interruptible. Device reset still cancels
+> the pending request and wakes the waiter.
+>
+> Keep timeout and wait results in the types returned by the kernel wait
+> APIs.
+>
+> Assisted-by: LLM
+> Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 
-This commit introduces snd_pcm_progress_under_stream_lock() so drivers can
-publish partial-period progress and final capture drain tails under the PCM
-stream lock without ticking the PCM period timer.
+[Severity: Low]
+This fixes a bug in the completion wait for PCM teardown control messages.
+Should it include a Fixes: tag?
 
-> diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
-> index bb16738bb5919..a5665bb2b0705 100644
-> --- a/sound/core/pcm_lib.c
-> +++ b/sound/core/pcm_lib.c
-> @@ -1918,6 +1918,30 @@ void snd_pcm_period_elapsed_under_stream_lock(stru=
-ct snd_pcm_substream *substrea
->  }
->  EXPORT_SYMBOL(snd_pcm_period_elapsed_under_stream_lock);
-> =20
-> +/**
-> + * snd_pcm_progress_under_stream_lock - Report progress without a period=
- IRQ
-> + * @substream: PCM substream
-> + *
-> + * Context: PCM stream lock held, with no driver pointer or trigger lock=
-s held.
-> + * Updates the pointer and wakes readers for partial-period transfers. C=
-apture
-> + * streams may report their final tail while DRAINING. Unlike a period
-> + * notification, this does not imply an elapsed period or tick the PCM t=
-imer.
-> + * The same pointer, trigger and timestamp callbacks may be invoked.
-> + */
-> +void snd_pcm_progress_under_stream_lock(struct snd_pcm_substream *substr=
-eam)
-> +{
-> +	if (PCM_RUNTIME_CHECK(substream))
-> +		return;
-> +	if (!snd_pcm_running(substream) &&
-> +	    !(substream->stream =3D=3D SNDRV_PCM_STREAM_CAPTURE &&
-> +	      substream->runtime->state =3D=3D SNDRV_PCM_STATE_DRAINING))
-> +		return;
-> +	snd_pcm_update_hw_ptr(substream);
-
-[Severity: High]
-Does calling snd_pcm_update_hw_ptr() on a capture substream in
-SNDRV_PCM_STATE_DRAINING cause snd_pcm_update_state() to prematurely finish
-draining when the capture buffer fills up?
-
-Previously, snd_pcm_update_hw_ptr() was only called when snd_pcm_running()
-was true, which includes SNDRV_PCM_STATE_DRAINING only for playback.  In
-snd_pcm_update_state(), the draining check assumes playback semantics where
-avail >=3D runtime->buffer_size means the playback buffer has emptied:
-
-sound/core/pcm_lib.c:snd_pcm_update_state() {
-	avail =3D snd_pcm_avail(substream);
-	if (avail > runtime->avail_max)
-		runtime->avail_max =3D avail;
-	if (runtime->state =3D=3D SNDRV_PCM_STATE_DRAINING) {
-		if (avail >=3D runtime->buffer_size) {
-			snd_pcm_drain_done(substream);
-			return -EPIPE;
-		}
-	} else {
-		if (avail >=3D runtime->stop_threshold) {
-			__snd_pcm_xrun(substream);
-			return -EPIPE;
-		}
-	}
-
-For capture, avail is the number of unread frames in the buffer.  If a
-capture stream in SNDRV_PCM_STATE_DRAINING reaches a full buffer (avail >=3D
-runtime->buffer_size) when snd_pcm_progress_under_stream_lock() updates
-hw_ptr, snd_pcm_update_state() calls snd_pcm_drain_done() and moves the
-stream to SNDRV_PCM_STATE_SETUP, causing subsequent reads to fail with
--EBADFD and losing the buffered capture audio (as well as bypassing the
-stop_threshold overrun check).
-
-[Severity: Medium]
-Can a capture tail published via snd_pcm_progress_under_stream_lock() be
-discarded if it arrives while __snd_pcm_lib_xfer() is copying frames to
-userspace?
-
-CPU0                                    CPU1
-__snd_pcm_lib_xfer()
-  snd_pcm_stream_lock_irq()
-  avail =3D snd_pcm_avail(substream)
-  /* size > avail */
-  frames =3D avail
-  snd_pcm_stream_unlock_irq()
-  writer(...)
-                                        snd_pcm_stream_lock_irq()
-                                        snd_pcm_progress_under_stream_lock()
-                                          snd_pcm_update_hw_ptr()
-                                        snd_pcm_stream_unlock_irq()
-  snd_pcm_stream_lock_irq()
-  ...
-  avail -=3D frames; /* avail =3D=3D 0 */
-  /* next loop iteration */
-  if (!avail)
-    snd_pcm_drain_done(substream)  <-- drops newly published tail
-
-Previously, hw_ptr did not advance once a capture stream entered
-SNDRV_PCM_STATE_DRAINING, so tracking avail locally across the unlocked
-writer() call via avail -=3D frames was exact.  When
-snd_pcm_progress_under_stream_lock() advances hw_ptr during that window,
-the cached avail reaches 0 on the next iteration and __snd_pcm_lib_xfer()
-calls snd_pcm_drain_done() without re-checking snd_pcm_avail(substream),
-transitioning the stream to SNDRV_PCM_STATE_SETUP and dropping the final
-tail.
+  Fixes: 9d45e514da88 ("ALSA: virtio: handling control messages")
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261111000543.2855=
-0-1-mynameisjune111@gmail.com?part=3D2
+0-1-mynameisjune111@gmail.com?part=3D11
