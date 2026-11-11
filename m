@@ -1,114 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794417926;
-	b=lxN7oXhmKzhqC3yucfzJbE6zZCagiZ8cN4uCpsCBmsWGTx2xk2XGFV9Su6N0jCvTUAjT
-	 jSYuAvZKKO9RSJdfFP5QJPlAH/Nc1PtFtVYFta3//k8wM4b50ydlFwdu69G3XbTnwI81G
-	 lZewfLIlEffUTQeXjC9K3pnPPLEXQ/8ZPNW1tvxByO2c+++nf3Vr/e06cw2iI5jYuF4GB
-	 OVMPUV38/rMUbybAy5nbiSkZxCOD7rrBFrCoEIkiXglulCJd4XFTw7UkwxzdtGuceGxJE
-	 zceEXECA0ekWldaWRsQ8QRIeKqXxJs+DZwPR3T0saA9m/rD5BTk77NJik5JUC0AJDig==
+	t=1794418073;
+	b=oWfvLA/2ciZRA1k2V+LK4b5jxK8Q9z+FD4Au+6cWf/rsMgyxhlrP4Xk3XostHV5nqy21
+	 4fVAIAj5Cmr7DecN7c6NmCH3gjkm7elXNrmMQYjQt7WA2FF1KveuGlJJU0j7XypNp+Gnl
+	 VZkiSLHZ3Jj+9Xk/QRHIRw7eecKJjj0eu4yUq/4dlUKE00iBnQLe+gsX01calArlBymOw
+	 C4OETi45TWFkdsQ+pi9M0Oqr3JLxvDaKPqpVplPE0HMfY6ExvRVZMSbnXbhd/5B4PaCOa
+	 h85jf74jTgKNn/i75p0a8O4Y42GqpFuCUZpT69l45KaqXPPdw+Eh30VkW6MOLOGQpnQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794417926;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=JYIEpsAfOdGDX699CIxDE/GjPtBB2UQcKfD70Im8YM0=;
-	b=mKhwvtHTsNX90R5Usz8xcFFsLHuj3e5PXjjDpDY5B+Fk0uZSO7QFNEU9i8z3TVEorZQu
-	 cA7bCKwpxELxWPfWBBJzRVPaD4tj+BdkLokhBOCsdRlCiHf7rkjWd5cM0j9v+TE46YnGu
-	 HaS5T7qijJF6XPjWFfDcii2frYzbDh/qzqDjWLT79QMCzUVKxU3vzBIWJXIVtsWFodsq/
-	 14VfopCfSdXEtS9idqGTTr+M5rlLVG3kmRB0Z/pTrm+a1TclyxKJLAs4yTEkvmZda0UCn
-	 OhjR8lI6tIlTmInfeTYhPNDmijr7Sx8EE2IOxglX2fVO+PUsdvxZgS1WJTqaw6XezEA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794418073;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=De0T4JTIAdwMnBuYojLax6+08mzoMSsAcjhYpoJvGE8=;
+	b=E6Lko6UOolXUWjuX60hp/KfPrMAN5Tgwt9ESTPNvCa12Y17C4see3SXwmT6QFcplih1m
+	 l/AQ3buzfVJx2x0MqZ6qWulopb+3zTj3NIqhDRBCUmny3rav98zcS7vaD9Es+mp7AxHHi
+	 wFNX+bae69P61awochOeF1lRLSnqhKGHHcrvuncQfC+XHlSmRciKKgXA8S/+jIKSuqVeV
+	 u2ml4vGceTogAAGa7sjFWqqKJq8KYIjLYm5vWvyo36n79bsxEs64H+a8VmYC1yKK/Y7WE
+	 dN0Yu0XkDd5v+6pUOeH/2hzArJjsNxqlz9nNXwZr3tSC40huVNhOAJflsbPU3k9B9rQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Eo22Cq+R;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hp7MHyZD;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Eo22Cq+R;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hp7MHyZD;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RRxYElrG;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB965606A884;
-	Wed, 11 Nov 2026 17:25:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB965606A884
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C419606A888;
+	Wed, 11 Nov 2026 17:27:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Eo22Cq+R;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hp7MHyZD;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Eo22Cq+R;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Hp7MHyZD
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1BF6521E87;
-	Wed, 11 Nov 2026 17:25:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794417924; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JYIEpsAfOdGDX699CIxDE/GjPtBB2UQcKfD70Im8YM0=;
-	b=Eo22Cq+RulkIas5FHRLN+PCvZMOQq/Fc9A94VPO8zOYzfYotuytLyUEkidQecvrVwpvInp
-	Jizm6aLpDLTHGjK/62IP6a+WjATONHbjaqaSoi79VCJQvqFduy0M1tjRNijwNQw4sqHUno
-	jMaPU4kVHhaTUHFeznP8JutLIDctAwM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794417924;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JYIEpsAfOdGDX699CIxDE/GjPtBB2UQcKfD70Im8YM0=;
-	b=Hp7MHyZDNLzfZ/GM3+9WM0XKrUBoWpXilqS+1it1ALBh5HhWVyes9EBIxweAR7g6O0KhMK
-	hjYQF/rNNTCRIeDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794417924; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JYIEpsAfOdGDX699CIxDE/GjPtBB2UQcKfD70Im8YM0=;
-	b=Eo22Cq+RulkIas5FHRLN+PCvZMOQq/Fc9A94VPO8zOYzfYotuytLyUEkidQecvrVwpvInp
-	Jizm6aLpDLTHGjK/62IP6a+WjATONHbjaqaSoi79VCJQvqFduy0M1tjRNijwNQw4sqHUno
-	jMaPU4kVHhaTUHFeznP8JutLIDctAwM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794417924;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JYIEpsAfOdGDX699CIxDE/GjPtBB2UQcKfD70Im8YM0=;
-	b=Hp7MHyZDNLzfZ/GM3+9WM0XKrUBoWpXilqS+1it1ALBh5HhWVyes9EBIxweAR7g6O0KhMK
-	hjYQF/rNNTCRIeDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 990C71339F;
-	Wed, 11 Nov 2026 17:25:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id l/HcGgOl9GoLRAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 11 Nov 2026 17:25:23 +0000
-Date: Wed, 11 Nov 2026 18:25:23 +0100
-Message-ID: <87y0azs2kc.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Angel J <iamanaws@httpd.dev>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	tiwai@suse.com,
-	perex@perex.cz,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix the Dell XPS 8940 headset microphone
-In-Reply-To: <TDT6b_7cMUkRNo88Xj3i3Ji--f4WdAmawcBXuT3TmHzVrxy0Xhr6il-PPdh6dbodGGrapwWjGx1KWruC5fAjw0cV27lhGzJ0HRWJmLgfwrY=@httpd.dev>
-References: <20261103150336.507675-1-iamanaws@httpd.dev>
-	<87wlqtukxh.wl-tiwai@suse.de>
-	<5ncUNWXphcObbYD04quaQMbD0tGoekaHB-QQrX5tgC7sSbzoT9jRVrbY9PyT6mRbww0G9-voA6Y98HjvPg7U25kmeybfQALp5NsNKym-3pc=@httpd.dev>
-	<877bilusui.wl-tiwai@suse.de>
-	<57Kgu-Pdq28OE2JHZjO7YEuS6RCOZLFiDoZO8uqMUieYwA58mHOkRbbZADWKNQsocsNCzH1GkU4pSEhpi-l3mZenIkWdjdNsOHVlbAxGsXQ=@httpd.dev>
-	<87bj7wvkpx.wl-tiwai@suse.de>
-	<TDT6b_7cMUkRNo88Xj3i3Ji--f4WdAmawcBXuT3TmHzVrxy0Xhr6il-PPdh6dbodGGrapwWjGx1KWruC5fAjw0cV27lhGzJ0HRWJmLgfwrY=@httpd.dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RRxYElrG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B9591F00A07;
+	Wed, 11 Nov 2026 17:27:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794418073;
+	bh=De0T4JTIAdwMnBuYojLax6+08mzoMSsAcjhYpoJvGE8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=RRxYElrGuO5Tg7+j5Rdvth+0QnNbQuNk37rfKf4GbsVttADxNwkxXlGXlfHGastu6
+	 dRvhC0kcWa80937VCsQDpsiwoAlFApLGW9Hw17n0iehjT5QAYbVHJjvcEOaCw+t/49
+	 /+ODY1/VYITljrw8AHaVMS1Ex/NfF+0RJWhycjPXOZBBF4MVKQ8xnZtJSqEwxouCAI
+	 HHCyYXnxDimvgpCX8UeGrmh59h2euOazG416cgo2VU4W76K2T9hRR+jeXFowxeWdHk
+	 x7rZ0D+m8mWHUoZ0VMISKmeUEmCQC4oeogMKkEtK2NR2BExxCOFwLxWuHRtoKPgmCN
+	 8msLgGQNpSlMA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261104123249.227920-1-clamor95@gmail.com>
+References: <20261104123249.227920-1-clamor95@gmail.com>
+Subject: Re: [PATCH v4 0/2] ASoC: codecs: Add support for Fortemedia FM34NE
+ DSP
+Message-Id: <179436234627.926575.5617855708868297025.b4-ty@b4>
+Date: Wed, 11 Nov 2026 01:59:06 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -117,59 +61,52 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
-X-Spam-Score: -12.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1357; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=PJ4OFwRDYK5Te6wSfrGGpdJVoYB+pxoIvLp7kPvtzmY=;
+ b=kA0DAAoWL+9zsLPQOIkByyZiAGr0pZXId6AtDYe3qptEw1CG/exVmqUBQo8QJ5kF1wgbICUft
+ oh1BAAWCgAdFiEEXmoL6X9066wOwaGGL+9zsLPQOIkFAmr0pZUACgkQL+9zsLPQOIkRpAEAqv+/
+ zNMqGyCGLYR0OSxj8xwIOylTsH4MUMf7QVrAn3ABAJTf4e1Oku2mrt53tGlLJLsVi0BMljySUNO
+ N5EHMkvkH
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 10 Nov 2026 17:24:15 +0100,
-Angel J wrote:
+On Wed, 04 Nov 2026 14:32:45 +0200, Svyatoslav Ryhel wrote:
+> ASoC: codecs: Add support for Fortemedia FM34NE DSP
 > 
-> On Tuesday, November 10th, 2026 at ..., Takashi Iwai <tiwai@suse.de> wrote:
-> > Honestly speaking, the problem is that I don't know you, so I can't
-> > trust.  If you have been involved with the kernel development long
-> > enough, e.g. already appearing with "Angel J" in many threads or
-> > commits, then it could be a good sign that it's a trustable known
-> > identity.  But it doesn't look like that for now...
-> 
-> Hi Takashi,
-> 
-> That is fair, I am new to kernel development. Outside the kernel I am
-> an active open source contributor, mostly to NixOS, with over 100
-> merged changes in nixpkgs and contributions to other projects from
-> this account:
-> 
-> https://github.com/iamanaws
-> 
-> I am not comfortable publishing my full name in a public archive. If
-> the above is not enough, is there another way I could establish the
-> identity that would work for you?
+> The Fortemedia FM34NE is digital sound processing chip used for
+> active noise suppression mainly on ASUS Transformers.
 
-Well, although I'm not comfortable with the situation, the code change
-itself is so trivial and can't do anything seriously wrong -- so it's
-not wise to delay it just because of that, and I took as is now.
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
-thanks,
+Thanks!
 
-Takashi
+[1/2] ASoC: dt-bindings: Document FM34NE DSP
+      https://git.kernel.org/broonie/sound/c/72c167d8e3a7
+[2/2] ASoC: codecs: Add support for Fortemedia FM34NE DSP
+      https://git.kernel.org/broonie/sound/c/2488b6a08b88
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
