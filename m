@@ -1,106 +1,112 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794487183;
-	b=Q9AD+b2Bb8AirlecpvPPFL1RfqNz9ZEqRPzU01MTqX7IfS6e3GCHwIoEq3X/xwrxTgSD
-	 i/AwaVFCTTif6BzJ0r2WjSDGSAZLhJ0NWxBDf1nPLiRpnFIwwaT/vVTdwDN/L6F/7NS+R
-	 44hwQHgFxe+dW7dd5HqjnY9Hgh/3ZQmdZ+U7QfR5jc9VqDiLpiEgFsrJRiUH6CKiZFd6b
-	 3/KFcZg50v8QwJwrUlzQ/O6Ncx15eJ+A2FD8YN+daK2aeqI6KUqNngVw1RfqbZzpXEm5q
-	 Oy+khttOAVw5fevsIsn9iMc22AVdymtTrTWo3sxQ9LFvVEhjg5+ay3EwWG0KXL8XZRA==
+	t=1794487482;
+	b=NBtNoapqlMuDBkJPj/CZXhL5pCg+HRYo6zukmt8dV/emy3+oU7lu7HTXnFHiDp3fgKwL
+	 ESea2bmU/chV5tM71UCLBQa8jyDbS7ifrCQPjc6+EBoPfMXD7YpWcNFdkViY2H6OsQStq
+	 Iy0NVRKzti/eLt3FW7RYqU3OolzXvn6wQJs5RY5hSYpr6bJT+MnlVld3fQHinwhfS/S2d
+	 g2euIL56bngnI1G0TnuScIm1ZgtNuzm6qJQJ2vdM63s3rcRX253oCsVBIZOMCXkHagrFL
+	 U3geQRB4AdjKALEF5F/CYyZ6jUbGemCRxPUuTiL91VlNP1fYMsOrCEFE348lM6vitGA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794487183;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794487482;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=8kiwSirOigF/qJvwquSbpNG7fgBeF8dwYpmmK5AWpf0=;
-	b=bleb3fSi2rwPh8dSqXTRk+h5D8kHoIW7MH3M12yHiKllk1iXdZKTNQqw93IkpjZUSmcW
-	 LVIECMmbRsNkvZmiOZqaZ+JQrGA/+rmyaJlVoBVpMYTmcWXIAHL1FvsWRLzgd/MKn1gFz
-	 u5BN+Dhs/2hYp0bOQavHMFJ/gk1XO49RHakKH7wEWleiUzrLsnkrRTVFZrBykeZZk/bAc
-	 5D21PYQ48LKnCd5nSuR/Ppama2OCFZ6Q5EfH4Vj+qbndsPaeNzjx2akzn4QJI7Cfnl06h
-	 gt9LX6allLY26ZM8lYSEFFSBZXqOwktjtCt1WsSVx8kVyAed0yrUoHVBamu5FA2N68w==
+	 Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:
+	 X-Spam-Score;
+	bh=ZmedOBpFWlguWwm50e53kgM+K/VJlbhEzbjheBRegzs=;
+	b=MeXELHRtE3HONhCHN6rTa5l8EMG4KhoZ7qfisrkByjaP6F7C/8V3G6+n8rS9hG4K9c3K
+	 ngWCHZLoIStCHUWJITSp9alAI4bWmmT3D0PNGHddpXHHGXALkvVoH2lB+WEjoGsQBPsLT
+	 Q8TgOl7nCuWOapPPEsjuEwIlma6iuhlIoyCNpG0QmQm/ZDb/amhKEhjY5caHMBu97xFWB
+	 2UrJ/sSo1kep9+VEjE0f8eRuszktRB/Z/qvdTR3kwA75bjRnx8NaHFj5TtnUkFz1E2PAq
+	 0qmBcTDdKTt+lDTUiSvkGEqdNXHzI4rhIeEeqVP8Slm0eJ7FTOzPkLwBZcDxss6oIWQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=z0cH6vr3;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IzWHx5my;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EHyjbC6m;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=qpXHmoM8;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=1M0F2sVN;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0E+5I6ra;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=ncvtFGNA;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IJvaIqAa;
 	arc=none smtp.remote-ip=195.135.223.131
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02DB606A895
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 12:39:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F02DB606A895
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A45606A31C
+	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 12:44:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4A45606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=z0cH6vr3;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IzWHx5my;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EHyjbC6m;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=qpXHmoM8
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=1M0F2sVN;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=0E+5I6ra;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=ncvtFGNA;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IJvaIqAa
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D5C451F388;
-	Thu, 12 Nov 2026 12:39:40 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EC6D81F388;
+	Thu, 12 Nov 2026 12:44:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794487181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794487480; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8kiwSirOigF/qJvwquSbpNG7fgBeF8dwYpmmK5AWpf0=;
-	b=z0cH6vr3S1IkK37jprtC0FQQgCKTnSNWRndG9RSkWambM5BBi0a5sHBhgftRAli793oY0R
-	fOTYID3XTKGtZ7T0ljy4XHcxfw/JTKIJ6xqsvnVXs2GWx8k5RcQzF80M0pUj/ylgH2tf4h
-	yduA2wvRp/6aftrE5fhCG/NzYR6oMVk=
+	bh=ZmedOBpFWlguWwm50e53kgM+K/VJlbhEzbjheBRegzs=;
+	b=1M0F2sVNeTf/WoDHtghm1iTghf1SsD/ImjPPMAUoZOv3ohVHkzSL2tLV26JwWoUW/y4S9M
+	4GDos0B7wd60MKk2nggWyT42J3k13nkp2N78R6IpJmIoX9EnlYdUL8aB6BDbTAA/2o5HaW
+	myNC9Imzg9EKMCLKcbJ4D8dB4AKwQ5o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794487181;
+	s=susede2_ed25519; t=1794487480;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8kiwSirOigF/qJvwquSbpNG7fgBeF8dwYpmmK5AWpf0=;
-	b=IzWHx5myU8g4iOqmQYQho6FMRa+qAJX8MDzODdWwEgIL3bGNfBHfTRfAD2jP1GtTxAViB9
-	ztuY8tjQnuqsUFAw==
+	bh=ZmedOBpFWlguWwm50e53kgM+K/VJlbhEzbjheBRegzs=;
+	b=0E+5I6raqV7hCGy6gcaog8dMzzkRRVNJNZAmmNzsilgQNgJGXH1ohY6EtebmDqulXscn1b
+	oCzaQPVfXB7yoXBg==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EHyjbC6m;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qpXHmoM8
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794487180; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794487479; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8kiwSirOigF/qJvwquSbpNG7fgBeF8dwYpmmK5AWpf0=;
-	b=EHyjbC6mJfVsJBLRQ45FpJeZD37cuKi3OfZyQ0xQK889uqHQpiGygzmiJeXQhQ7xziLcuC
-	Fxj+pLSB56huJINZsmGeXsxZFySQxdxiMlY2Z5R6HQaZqognE50XNlczikpFUgdmf2UyjA
-	mRDU2bd/JvmuGjv8p4E9ye27w2pvaoU=
+	bh=ZmedOBpFWlguWwm50e53kgM+K/VJlbhEzbjheBRegzs=;
+	b=ncvtFGNAU5FU3OlO3ifqYb9WlKZ/Rsx8g0sM3GcZrM2gSFwNYskZP10ryl2yCDrfnu8oym
+	7s0if9nejEsoXl9fuUuI0/KZWHUvns6YHSlbtaoB36ALW0CU9RNa15nAff93V9Jl58VpZk
+	iZz2r+R8tv16ig7CbKIxOGghstNzSeM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794487180;
+	s=susede2_ed25519; t=1794487479;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8kiwSirOigF/qJvwquSbpNG7fgBeF8dwYpmmK5AWpf0=;
-	b=qpXHmoM8AQ9klj3QPsG64zGQsmNHCN5FebGSv/AY2UeOKKqbwSQYzVAr7ZSa5J6SeyRuoS
-	vBh3rbKPw5v5b9DQ==
+	bh=ZmedOBpFWlguWwm50e53kgM+K/VJlbhEzbjheBRegzs=;
+	b=IJvaIqAa24aXnNXVO5K2sQWB8zpR0n7l1g3YXT2FdltyuduOisVLjm4TEoLnshnH1ggMwc
+	CjO6FRNdTAqQ4qCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9755D13432;
-	Thu, 12 Nov 2026 12:39:40 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C90F13432;
+	Thu, 12 Nov 2026 12:44:39 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zZ/BG4yz9WodTwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 12 Nov 2026 12:39:40 +0000
-Date: Thu, 12 Nov 2026 13:39:40 +0100
-Message-ID: <87jymirzoz.wl-tiwai@suse.de>
+	id qhePHLe09WoCVAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 12 Nov 2026 12:44:39 +0000
+Date: Thu, 12 Nov 2026 13:44:39 +0100
+Message-ID: <87ik22rzgo.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Kailang <kailang@realtek.com>
-Cc: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: Re: Remove Headphone MIC support
-In-Reply-To: <3c8129fbfa6d4ee2b464735f2f31dffa@realtek.com>
-References: <3c8129fbfa6d4ee2b464735f2f31dffa@realtek.com>
+To: Jonne Vuorela <jonne.vuorela@proton.me>
+Cc: William MacKinnon <wh6cyy@gmail.com>,
+	linux-sound@vger.kernel.org,
+	regressions@lists.linux.dev,
+	Jaroslav Kysela <perex@perex.cz>,
+	Arlou Kier Motas <motasarloukier@icloud.com>
+Subject: Re: [REGRESSION] ALSA: hda/cs420x: MacBookPro11,3 internal speaker half-disabled by 8086:7270 quirk (82cfab6a5262)
+In-Reply-To: <CABWzDrqrskmtb7MVFgJ54k4WNSqby7Qo3R1XeoVBaJ+djaO1ew@mail.gmail.com>
+References: <CABWzDrqrskmtb7MVFgJ54k4WNSqby7Qo3R1XeoVBaJ+djaO1ew@mail.gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -111,50 +117,134 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.51 / 50.00];
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.30 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[99.99%];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,icloud.com];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,lists.linux.dev,perex.cz,icloud.com];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -12.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: D5C451F388
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.30
 
-On Thu, 12 Nov 2026 08:59:14 +0100,
-Kailang wrote:
+On Thu, 12 Nov 2026 01:04:29 +0100,
+William MacKinnon wrote:
 > 
-> Hi Takashi,
 > 
-> Dell QC DT unit don't support Headphone MIC.
-> This patch was changed model to NO Headphone MIC model.
-> This modify also fixed headphone popping noise issue.
+> Hi,
+> 
+> Since v7.3, the internal speakers on a MacBookPro11,3 (CS4208) sound quiet
+> and thin, with no bass. Headphones are fine. Bisected by inspection to:
+> 
+>   82cfab6a5262 ("ALSA: hda/cs420x: Add CS4208 fixup for MacBookAir 7,2")
+> 
+> #regzbot introduced: 82cfab6a5262
+> 
+> That commit maps PCI SSID 8086:7270 to CS4208_MAC_AUTO and, in
+> cs4208_mac_fixup_tbl, to CS4208_MBA6. 8086:7270 is a generic Intel
+> subsystem ID, not unique to the MacBookAir 7,2. This MacBookPro11,3 reports
+> the same PCI SSID on its HDA controller, so it now gets mba6_pincfgs:
+> 
+>   DMI:     MacBookPro11,3 (board Mac-2BD1B31983FE1663, firmware 478.0.0.0.0)
+>   00:1b.0  Intel 8 Series HDA [8086:8c20], Subsystem [8086:7270]
+>   Codec:   CS4208, vendor 0x10134208, subsystem 0x106b5e00, rev 0x100300
+> 
+> v7.2.15 (correct):
+>   CS4208: picked fixup  for codec SSID 106b:0000
+>   CS4208: picked fixup  for codec SSID 106b:5e00
+>   autoconfig for CS4208: line_outs=2 (0x12/0x13/0x0/0x0/0x0) type:speaker
+>   (plus Mic=0x18, Internal Mic=0x1c, dig-out=0x21)
+> 
+> v7.3.3 (Fedora 7.3.3-200.fc44):
+>   CS4208: picked fixup  for PCI SSID 8086:7270
+>   CS4208: picked fixup  for PCI SSID 8086:7270
+>   autoconfig for CS4208: line_outs=1 (0x12/0x0/0x0/0x0/0x0) type:speaker
+>   (only Internal Mic=0x1c; no 0x18, no dig-out)
+> 
+> On this machine the speaker uses two pins (0x12 + 0x13, assoc 1, seq 0/2).
+> The MBA6 table sets 0x13 to 0x500000f0, so half of the speaker path
+> (including the bass) is never driven. It also disables the external mic
+> jack and SPDIF:
+> 
+>   pin   init (BIOS)   driver (MBA6)
+>   0x13  0x90100112    0x500000f0
+>   0x18  0x00ab9040    0x43ab9030
+>   0x21  0x004be030    0x430000f0
+>   (0x10, 0x12 and 0x1c also differ; full tables below)
+> 
+> Forcing model=106b:5e00 or model=mbp11 via hwC0D0/modelname + reconfig did
+> not help: the Mac sub-table lookup still ends at PCI SSID 8086:7270.
+> 
+> Workaround confirmed: restoring the BIOS pins as user pin configs (HDA patch
+> file [pincfg] = init_pin_configs) brings back line_outs=2 and the speaker
+> sounds normal again.
+> 
+> Matching the MacBookAir 7,2 by something unique to it would avoid catching
+> other Macs that share 8086:7270. That could be its codec SSID (if it isn't
+> 0x106b5e00), its DMI product name, or a check that only falls back to the PCI
+> SSID when the codec SSID is not an Apple one. This MBP's codec SSID
+> (106b:5e00) is Apple's, and before this commit it was matched by that.
+> Jonne, could you share the codec subsystem ID of the MacBookAir 7,2
+> (cat /sys/class/sound/hwC0D0/subsystem_id)?
+> 
+> I can test patches on the MacBookPro11,3.
+> 
+> Full pin configs on v7.3.3:
+> 
+> init_pin_configs     driver_pin_configs
+> 0x10 0x002b4020      0x10 0x032120f0
+> 0x11 0x400000f0      0x11 0x500000f0
+> 0x12 0x90100110      0x12 0x90100010
+> 0x13 0x90100112      0x13 0x500000f0
+> 0x14 0x400000f0      0x14 0x500000f0
+> 0x15 0x400000f0      0x15 0x770000f0
+> 0x16 0x400000f0      0x16 0x770000f0
+> 0x17 0x400000f0      0x17 0x430000f0
+> 0x18 0x00ab9040      0x18 0x43ab9030
+> 0x19 0x400000f0      0x19 0x770000f0
+> 0x1a 0x400000f0      0x1a 0x770000f0
+> 0x1b 0x400000f0      0x1b 0x770000f0
+> 0x1c 0x90a60100      0x1c 0x90a00090
+> 0x1d 0x400000f0      0x1d 0x500000f0
+> 0x1e 0x400000f0      0x1e 0x500000f0
+> 0x1f 0x400000f0      0x1f 0x500000f0
+> 0x20 0x400000f0      0x20 0x500000f0
+> 0x21 0x004be030      0x21 0x430000f0
+> 0x22 0x400000f0      0x22 0x430000f0
+> 
+> Thanks,
+> Will MacKinnon
 
-Applied now.  Thanks.
+Thanks for the report.
+Also there is another report about the same regression
+  https://lore.kernel.org/71fb1e29-60e1-4522-a071-c53557cea39b@icloud.com
+(now putting the reporter here to Cc, too)
 
+I'm going to revert the change for now, as it seems hitting multiple
+different models.
+
+Jonne, could you rather check the HD-audio codec SSID, instead of the
+PCI SSID?  The codec SSID should be more unique to each model, and we
+can apply it via HDA_CODEC_QUIRK() instead of SND_PCI_QUIRK().
+
+
+thanks,
 
 Takashi
