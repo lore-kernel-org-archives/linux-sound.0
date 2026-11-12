@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794451060;
-	b=MeYB3t093gqk4PdFA32JieeFQpImTT12OJWQqkM3KwyNto/OZQuqN0AcmCeRfj6gNo2T
-	 oYFt1Yc3nAScF2x1H0SnZYwNqkYvtTnkNstd+zHFxokPAGjjijaVAGYJjRx0LZrKlrmiL
-	 bBX+8Yr3PoKqFMZelCf1TdKvlu62lOEXrfqdlsqt10HU/GJJX0lbC2F3pcUe8qs2gTgxm
-	 FbXTfCN7nw9fMj8ZYLkYcDAvMxhO+sKxh7HncaSR4Bm3ddoW+WpsOCe6LX5syFXEUFUvm
-	 M4CBI+pIY2m3hmtKCq300+FF0qUPgAfFJl4TTF6dUVptMIjujQB/roCWzYM/cym+1Yw==
+	t=1794451063;
+	b=DCCCrMfzIWaOyOfw1cHFAttki29MNR0k11LVZzoPgQFlE1stSBvNMkEO68FrR/xVNf/B
+	 +EkgzEfvOnRbxMjg3qXIp+HIp7roeVU/nU4ph4bqw4jd1vLnoV4hzz1z4nMUV3W+bUwnv
+	 6lBS/6KAi1Ntwl8j5z6P+l5uLuHW2zYo2eBWR8bUxg7MyspbhhoD+KWieB+vaOGtkL5Lp
+	 JY4fuGXCMZEue4zuk9prS/kQkwte27sksf+kaykPOCl+KjWo7hX9zs0qh8iN5j9luxAMk
+	 igZfliECIO+I5+GKTbLabA42Fu/oSbCi6LLFcFEq7u2dpujgO7Zuex5OwFVkFJR4baA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794451060;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794451063;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=4LGltwQ3Kf8DkYrU7swKYOQk0fsRi67eRsuvppsb45E=;
-	b=LA6L27u29qODOjY44ZPtpd+gJAXQjSBWGRba91lgNG/0G1RFXv84dVpWieRBrnHTcmrI
-	 11OecklVOhUgt2bTN14ozN7ceJcoMRKD2/HX0ShfmWBzYVOamL14RwwdcHHxIG0OFaXQG
-	 7c0SaPlXBC2jgnSs4hjv6hcg09IddVqWpzwGdSRE8tYP6W6hr2ztYtlujHHRy4Sj4uyhO
-	 taQSFfO0SyPEzrwQf94HDxNmGBHkIG59LEjBXFd59htMBjUp9zlDT9WbVPt73zsaf/diZ
-	 G4NPyNy6Zb8OdjRI1i9dnklQ1mEl69u4vO/ZLffnBw0Wzq6d6/Q0U/Pf0PaLHaTeiWw==
+	bh=0klULBeGwEXi6KGEhap05nYgaZ4KtkuN8mxtS+61Oyg=;
+	b=eHjRqKVjCRfjsZ1ToDg631sJAV6IcMW73z2DdUeQuGePE0z1rSvHnZg8WLudOjBle/lU
+	 WJrqpW5DJiyVlnLM8HN8gvDNrVHWeQ3j6uv7+qCBAStvBqGqyTtOelEf/AH1qIYmfgYH3
+	 8u6jgD+jfyJY0JI1ULBY+DycxaJ2WsTWd88Lu5B7qlRTwkl1PSybHrRFDxjvJKmmLnI3i
+	 Kh0We6jGowv2788ePh6Pl8/Wy85Y6voRZNZN9dtG/xeL0c0nPNRX02GOvw8S7e2Ie58if
+	 FoNBFLd6eIW90cA8Q/eFdTa6DS/aDMWR4FE3rS8JMdaBZJj/YJyEzyMJdIdt4XYWDww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mj5xkh4T;
-	arc=none smtp.remote-ip=209.85.210.53
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZF8+uiqU;
+	arc=none smtp.remote-ip=209.85.160.44
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB70F606A88D
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 02:37:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB70F606A88D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C383F606A33D
+	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 02:37:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C383F606A33D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mj5xkh4T
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-85a5455bd3cso2121289a34.3
-        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 18:37:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZF8+uiqU
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-49429181ce9so2243618fac.0
+        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 18:37:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794451058; x=1795055858; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794451062; x=1795055862; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=4LGltwQ3Kf8DkYrU7swKYOQk0fsRi67eRsuvppsb45E=;
-        b=mj5xkh4T6RqD6GDvHyQl55SV4gBgq/24mN3Nv1xMtiLLI0xe/fN9nBVvuoqMfIvHn7
-         UXB6At2xQrs9rrlsq+zyuidgpmHPC5/5KZQqPtFOe+XSeu17h3OTHbgKzUDso9nhQcXY
-         AxdcxDdtWO9r4oivVWF8V/Pdgayhb1WvliC36aSFnhx1k9B6mfrifblnPqlp3L6PbhXd
-         qkCHUGiBLPNXs12U0s++2ZNlY42CJ8ysjTIKLfHkEDdxpBqHsxJjLuPZgtMXhAU3Mrtc
-         F9pWz82dtLL/LPIHL/AdDoMkUY/islXuMt0yXyo9QGXcSNIpR+RA/xdoyb8tiikbnoht
-         8DyA==
+        bh=0klULBeGwEXi6KGEhap05nYgaZ4KtkuN8mxtS+61Oyg=;
+        b=ZF8+uiqUaUQBvw66vOpM4hLJZ1mYe7AQ05Zfa8iOQ6USx+CXozBaBqvaq3IZ7SA+5h
+         caPTl++oJB5dzZC9R8GR7nZR6T6lPdZaoPOkReiKnD9cmMCLbVg56qg1LniMwwt1Payr
+         Bgo0JcuYcMbN+CZCmbKxblR9dWtwclO58+50uD1UumlsGUvBRuoNEqMMypv9DMDZoccy
+         t6cWu+vPQdqwO0R+crid+Dx1PgCz2wFvJIQaryP8leFWK/L3EB3viY/O3kVm01dlNRr1
+         XLYaJfkIMH1av+ylE4b6C09SmspDefhML61UQr8xE7oA4WJBSpOiWQxpmNj7j/RvoTEv
+         MAZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794451058; x=1795055858;
+        d=1e100.net; s=20260707; t=1794451062; x=1795055862;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4LGltwQ3Kf8DkYrU7swKYOQk0fsRi67eRsuvppsb45E=;
-        b=x5Cdxo8nqBn4IUrfbkpmaxaoe3Sn6SLSNJotseiUoXPGgsnNUvggr0sN9jC3Rzpxgh
-         AwGe8mYbn1m4s2YHQfaDmtRJqcbj4ITkfoKXO1qldZNUo7Lj/eSn1VxA397VqxgRH3uE
-         aUR8dVYoEBDGf5Oqe0A6PGukYy97q+cW6TRfoJSKUT8u+GK983jfqxN2faIni5OlWrbn
-         xTctFszzZEFeHevJNuavC5OXGwhvPrViRjYOwoSkCyZIOVsovq4aTrntW1r6VDebTT/J
-         9cRgHX0hh5406s85I6KnnOGZKHqPHZM/MwERWjzglTZWD4k42Q0GnKoRf4MF8ctSuiI/
-         NiMQ==
-X-Forwarded-Encrypted: i=1; AL+hErG5rYHecXvGkgxOfxzov174t3aH3El+hN81Kc/BlKIQL0TwvwX3ai+j9xBFby0CNBrgvz9In3Ty0TUK1w==@vger.kernel.org
-X-Gm-Message-State: APuU4Z95ZAAdOWCb5CFzCz77/RCZmzZ5aKn+xi50PyEKP0vagwm5rDMO
-	DMNltg4zyzbaIFTe7msatCIIoRa/oUiqLLo3GY8SDLC6MZIfbYaxmSQW
-X-Gm-Gg: AYBFou2noKNvZ8eo9xwbHLCqtKYYCS46QCh3DLUgd+lCxgREN3ZvrN6wuTXP5JV9Q+A
-	vqetuqZW6FUzKK+dshrnmNsCGILrL8QE2BLM9/EJ1wZ8uDHnNxmgn9DPpQKGhsRm2snudALudiR
-	ZYmeRz5R3y29qH8Yotq5ULlGhmbiJDvEylw23HMq+wB6dsGm2hFz6Mo1VnAXqIrMdrAtTudWNoS
-	kEdQyfazumjTijoWFGfe5jHNsxxm6Qpy7x7RlkVwBwK5Kn2ie8ZUNrlSOXcKi4G9UmbuqKRn/MQ
-	4xStgZEk/OrvNWJ/JRKiq2Z9r8SJK/WUeHbv2NQ/ascLP6zhVMMltZ51z2oq6UAe6bM76bj1SBE
-	glFleBtrN56a6ARLGYluEj7De4XIAWIM+v84Avgybt8yuEj7gNYUi+MpBKmdnPUIhTUrkzlGxQP
-	n2nARnk72O+YXjFt6c9nxdBuilEY8YQFlEzlBOBWtZB8fcvvNNnUHeNkqUa/rfXwlwiwtswxXGE
-	XW4mRELOcJsfyhcUVyd6b4d7kuNQ3jfSic0BYlf4yrZrwKKeBml6sHlanL/BTkZ+mhE8O+QfvWN
-	uC8Ez7FXdE58y15FAM6DGXNF8tkjCrmJ241fL7gkYBhgn3N6UC8qEyQp9Df44I/sIng=
-X-Received: by 2002:a05:6820:858a:20b0:717:da:ba41 with SMTP id 006d021491bc7-719178602cbmr2115739eaf.28.1794451058360;
-        Wed, 11 Nov 2026 18:37:38 -0800 (PST)
+        bh=0klULBeGwEXi6KGEhap05nYgaZ4KtkuN8mxtS+61Oyg=;
+        b=RCVNlD7onMfBviDFUuxSsdfh8Ehy+XpnxMeKEkkEcX2gp1L1gvE9l1z+3ZVUgO8tZr
+         fcuwkGCEgtZeZLPYoylm5fARjF7J7kv7sUfzhberok6qePClpZPP3QwPKuzBhEU+FpS5
+         Erdv3kXHzMrRzOuFH+jPIIBUyxlZWyzmq9FHIHdPCa6D+lMKGG5qL2KxlWU35nk460sw
+         m7Uw0z5O5AqdQ85vhGGlVZNCPIk/nMyTxcGC0lzjV4Tv9LSneOF/B8IA61xW37KkaEo3
+         3LnWmvUIpnMir0O4b2H9+9fSXQrjX7u3aFtIaybtUZc9526H4EoGZhDXE2KrLYVR4jtB
+         16nQ==
+X-Forwarded-Encrypted: i=1; AL+hErEDvEwhtlA3wuuA3FkXV1MZrIumTiR6zX64KRyDBJ1lRlFWNxWMTaYO/GMCRMHJ/F1Umxw3zLYQTCcl0A==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8NOKBSXWPyIVwHRmhZhvUz12S5eoKCsg57DfMua4yjqnQeI/ZW
+	r6yvHLcgcp0255zBGCgRIuqNUQblr3suUA7g/PgLMwMjdkx6V906uNCB
+X-Gm-Gg: AYBFou0BkUMivUQ8HrAiEbDeI3d1LRWCHZpCsl2xtpxV99ixZLRXo/hntex9gpm+6cz
+	EUQG6c+/LBeFBngN0Aww9dpe14ONctO2aTnFgisR1UiCajQtOFZKHkgQnS17fCn/qnDxZILmSHP
+	F1IzDnTTDX9bY8Qk5meelkc5gnCt+hbGeNAT/TOtftU3KdddgwRhleyasnoA4zTv1r0m3lXyTTy
+	IyiSZtLcX0mh34eE9KSrDBKpDcQ+Z3PXivR4wVJ2yiVcRv6BpX3V6Ms2t7EcGspAARtUwdtNZ8v
+	mPGEgULl5odXcTkfhqqvxnvDTXVgwQZrTBrluPVaLVh9/eLue21aPRBe3XqJ1gfaJmuhfcM4+vS
+	T7jge5QNqa5GzLr4ILRWQVJ9qrLlFcetTPD+KIdLg4yEHQhw/Wko06tGp7CJMTrE+uY1PgL9/Un
+	FlZMQ736nLkwqk9zB5AJojHYUxa5IF+Dp7lt917qZuPtXjEpX/2RcECA5p5ey3WW327DpmxA6hh
+	OyGbjOVn56aKKKhMMdO6RaJvqwj0TqKjxdqbga3gswsppA/33TGqaLrX8MZOw6jj4RIztuQTgqR
+	/a5ZbLGBbySzEla+6MjaO5mddo9Jnnbi3IpDTVb5wQmzPw==
+X-Received: by 2002:a05:6871:5825:b0:48f:e3f5:c419 with SMTP id 586e51a60fabf-4ae46cb13a6mr3949691fac.58.1794451061574;
+        Wed, 11 Nov 2026 18:37:41 -0800 (PST)
 Received: from localhost.localdomain ([2600:1702:4ff0:baa0:5054:ff:fe3d:4ddb])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4ae22f6a1c7sm4327310fac.6.2026.11.11.18.37.36
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4ae22f6a1c7sm4327310fac.6.2026.11.11.18.37.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 18:37:37 -0800 (PST)
+        Wed, 11 Nov 2026 18:37:39 -0800 (PST)
 From: Will Porter <mrwillporter@gmail.com>
 To: Christian Ruppert <arc@gmx.li>
 Cc: Takashi Iwai <tiwai@suse.com>,
@@ -85,9 +85,9 @@ Cc: Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Neil Andrews <neil@androos.io>
-Subject: [RFC PATCH 3/6] ALSA: mixer_audient: Replace three flags with an access mode
-Date: Wed, 11 Nov 2026 20:37:17 -0600
-Message-ID: <20261112023720.1503814-4-mrwillporter@gmail.com>
+Subject: [RFC PATCH 4/6] ALSA: mixer_audient: Fill the cache on first use
+Date: Wed, 11 Nov 2026 20:37:18 -0600
+Message-ID: <20261112023720.1503814-5-mrwillporter@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261112023720.1503814-1-mrwillporter@gmail.com>
 References: <avOFQAGTVkCXgs2l@khmer.arcnet>
@@ -103,383 +103,69 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The INIT_HW, FORCE_SET and CACHE flags allow eight combinations. The
-control tables use three: no flag, CACHE alone, and all three together
-(ID14_WO). Name these three with an enum in a new field, access:
+The probe reads every channel of a cached control. That is not
+necessary: a get or put of a channel whose cache bit is clear already
+reads the device and fills the cache.
 
-  READBACK:   every get reads the device
-  CACHED:     read once, then use the cache
-  WRITE_ONLY: never read; show the last write
+Remove the probe read of cached controls. A failed first read returns
+its error to the caller and leaves the cache bit clear, so the next
+call reads again.
 
-The SIGNED flag stays.
+This changes behaviour. The probe sends no GET for a cached control:
+that is 12 fewer requests on the EVO4 and 56 fewer on the iD14 MkI. A
+failed read no longer logs "cannot read channel" at probe. A put to a
+channel whose cache bit is clear first sends a GET, then sends a SET
+only if the value differs.
 
-With a mode, the set helper decides "is it a change" and "send it"
-separately. It no longer needs the force argument, or a compare value
-that is made different to force a write. The probe write of a
-write-only control calls the send helper directly.
-
-The mode also decides the VOLATILE access bit and get_cur_broken.
-Remove the ID14_WO macro and the code for the combinations that no
-table uses.
-
-No functional change for the controls in the tables.
+The probe write of the init value of write-only controls stays.
 
 Assisted-by: Claude:claude-fable-5-2
 Assisted-by: Claude:claude-sonnet-5-5
 Signed-off-by: Will Porter <mrwillporter@gmail.com>
 ---
- sound/usb/mixer_audient.c | 172 ++++++++++++++++++++------------------
- 1 file changed, 90 insertions(+), 82 deletions(-)
+ sound/usb/mixer_audient.c | 22 ++++------------------
+ 1 file changed, 4 insertions(+), 18 deletions(-)
 
 diff --git a/sound/usb/mixer_audient.c b/sound/usb/mixer_audient.c
-index 35b562b3aac51..1bc6b4bbd2910 100644
+index 1bc6b4bbd2910..ff7bf518743ee 100644
 --- a/sound/usb/mixer_audient.c
 +++ b/sound/usb/mixer_audient.c
-@@ -62,9 +62,23 @@ enum snd_audient_type {
- static const DECLARE_TLV_DB_MINMAX_MUTE(snd_audient_tlv_mixer, -12800, 600);
- 
- #define SND_AUDIENT_CTYPE_FLAGS_SIGNED		BIT(0)
--#define SND_AUDIENT_CTYPE_FLAGS_INIT_HW		BIT(1)
--#define SND_AUDIENT_CTYPE_FLAGS_FORCE_SET	BIT(2)
--#define SND_AUDIENT_CTYPE_FLAGS_CACHE		BIT(3)
-+
-+/*
-+ * How a control reaches the device.
-+ *
-+ * A cached value is valid once a transfer confirmed it. A read or a write
-+ * that succeeds records the value and sets its cache bit. A transfer that
-+ * fails leaves the cached value and the bit unchanged.
-+ *
-+ * WRITE_ONLY: GET stalls or does not report writes. The driver writes the
-+ * init value at probe and sends every put. A get shows the last value
-+ * written, or an unknown value while none was.
-+ */
-+enum snd_audient_access {
-+	SND_AUDIENT_ACCESS_READBACK = 0,	/* every get reads the device */
-+	SND_AUDIENT_ACCESS_CACHED,		/* read once, then use the cache */
-+	SND_AUDIENT_ACCESS_WRITE_ONLY,		/* never read; show the last write */
-+};
- 
- /*
-  * An enumerated control: item i sends values[i]. A get of a device value
-@@ -177,14 +191,6 @@ static const char *const snd_audient_id14_optical_texts[] = {
- SND_AUDIENT_ENUM(snd_audient_id14_optical, snd_audient_id14_optical_texts,
- 		 0, 1);
- 
--/*
-- * Write-only: GET stalls or does not report writes. Show the last value
-- * written, write the init value at probe, and send every put.
-- */
--#define ID14_WO	(SND_AUDIENT_CTYPE_FLAGS_CACHE		\
--		 | SND_AUDIENT_CTYPE_FLAGS_FORCE_SET	\
--		 | SND_AUDIENT_CTYPE_FLAGS_INIT_HW)
--
- #define ID14_BOOL(unit_, sel_)				\
- 	{						\
- 		.type = SNDRV_CTL_ELEM_TYPE_BOOLEAN,	\
-@@ -220,9 +226,9 @@ SND_AUDIENT_ENUM(snd_audient_id14_optical, snd_audient_id14_optical_texts,
- 	}
- 
- /*
-- * A readable enum. It has no cache entry, so a get always reads the device
-- * and never uses init. Write-only enums set .init and .flags without this
-- * macro.
-+ * A readable enum. Its access mode is READBACK, so a get always reads the
-+ * device and never uses init. Write-only enums set .init and .access
-+ * without this macro.
-  */
- #define ID14_ENUM(unit_, sel_, len_, enum_)		\
- 	{						\
-@@ -235,6 +241,7 @@ SND_AUDIENT_ENUM(snd_audient_id14_optical, snd_audient_id14_optical_texts,
- 
- static const struct snd_audient_ctrl_type {
- 	snd_ctl_elem_type_t type;
-+	enum snd_audient_access access;
- 	unsigned long flags;
- 	size_t len;		/* datatype size, can be 1, 2 or 4 bytes */
- 	union {
-@@ -285,8 +292,8 @@ static const struct snd_audient_ctrl_type {
- 	},
- 	[SND_AUDIENT_TYPE_MIXER] = {
- 		.type = SNDRV_CTL_ELEM_TYPE_INTEGER,
--		.flags = SND_AUDIENT_CTYPE_FLAGS_SIGNED
--			 | SND_AUDIENT_CTYPE_FLAGS_CACHE,
-+		.access = SND_AUDIENT_ACCESS_CACHED,
-+		.flags = SND_AUDIENT_CTYPE_FLAGS_SIGNED,
- 		.len = 2,
- 		.min.integer = -128 * 256,
- 		.max.integer = 6 * 256,
-@@ -330,7 +337,7 @@ static const struct snd_audient_ctrl_type {
- 	/* the documented boost is a fixed +10 dB */
- 	[SND_AUDIENT_TYPE_ID14_IN_BOOST] = {
- 		.type = SNDRV_CTL_ELEM_TYPE_BOOLEAN,
--		.flags = ID14_WO,
-+		.access = SND_AUDIENT_ACCESS_WRITE_ONLY,
- 		.len = 2,
- 		.min.integer = 0,
- 		.max.integer = 10 * 256,
-@@ -340,7 +347,7 @@ static const struct snd_audient_ctrl_type {
- 	},
- 	[SND_AUDIENT_TYPE_ID14_IN_POLARITY] = {
- 		.type = SNDRV_CTL_ELEM_TYPE_BOOLEAN,
--		.flags = ID14_WO,
-+		.access = SND_AUDIENT_ACCESS_WRITE_ONLY,
- 		.len = 1,
- 		.min.integer = 0,
- 		.max.integer = 1,
-@@ -350,7 +357,7 @@ static const struct snd_audient_ctrl_type {
- 	},
- 	[SND_AUDIENT_TYPE_ID14_MON_ID_KEY] = {
- 		.type = SNDRV_CTL_ELEM_TYPE_ENUMERATED,
--		.flags = ID14_WO,
-+		.access = SND_AUDIENT_ACCESS_WRITE_ONLY,
- 		.len = 2,
- 		.init = 0xffff,		/* ScrollControl */
- 		.enumeration = &snd_audient_id14_id_key,
-@@ -359,7 +366,7 @@ static const struct snd_audient_ctrl_type {
- 	},
- 	[SND_AUDIENT_TYPE_ID14_MON_TALKBACK_SRC] = {
- 		.type = SNDRV_CTL_ELEM_TYPE_ENUMERATED,
--		.flags = ID14_WO,
-+		.access = SND_AUDIENT_ACCESS_WRITE_ONLY,
- 		.len = 1,
- 		.init = 0xff,		/* None */
- 		.enumeration = &snd_audient_id14_talkback,
-@@ -369,7 +376,7 @@ static const struct snd_audient_ctrl_type {
- 	/* the power-on mode is S/PDIF */
- 	[SND_AUDIENT_TYPE_ID14_OPTICAL_MODE] = {
- 		.type = SNDRV_CTL_ELEM_TYPE_ENUMERATED,
--		.flags = ID14_WO,
-+		.access = SND_AUDIENT_ACCESS_WRITE_ONLY,
- 		.len = 4,
- 		.init = 1,		/* S/PDIF */
- 		.enumeration = &snd_audient_id14_optical,
-@@ -557,10 +564,7 @@ static inline u16 snd_audient_kctl_channels(struct snd_kcontrol *kctl)
- /*
-  * A cached control keeps its values in the cache of struct
-  * usb_mixer_elem_info: bit i of elem->cached and elem->cache_val[i] for
-- * element channel i. The bit is set once a transfer confirmed the value: a
-- * read, or a write that succeeded. A probe transfer that fails leaves it
-- * clear. CACHE | FORCE_SET without INIT_HW keeps the earlier behaviour: the
-- * init value is assumed, without a transfer.
-+ * element channel i. See enum snd_audient_access for when the bit is set.
-  */
- 
- 
-@@ -611,27 +615,24 @@ static inline int snd_audient_set_cur(struct usb_mixer_interface *mixer,
- 
- 
- static int snd_audient_raw_get_one(struct usb_mixer_elem_info *const elem,
--			const struct snd_audient_ctrl_type *const ctype,
--			const unsigned int ch, const u8 cidx,
--			u32 *const value)
-+				   const struct snd_audient_ctrl_type *const ctype,
-+				   const unsigned int ch, const u8 cidx,
-+				   u32 *const value)
- {
- 	struct usb_mixer_interface *const mixer = elem->head.mixer;
--	const bool cache = ctype->flags & SND_AUDIENT_CTYPE_FLAGS_CACHE;
- 	int ret;
- 	__le32 buf = 0;
- 	s32 val;
- 
--	if (cache && test_bit(ch, elem->cached)) {
-+	if (ctype->access != SND_AUDIENT_ACCESS_READBACK &&
-+	    test_bit(ch, elem->cached)) {
- 		*value = elem->cache_val[ch];
- 
- 		return ctype->len;
- 	}
- 
--	/*
--	 * Cached FORCE_SET controls are treated as write-only: a clear
--	 * cache bit does not trigger a GET.
--	 */
--	if (cache && (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_FORCE_SET))
-+	/* A write-only control never sends a GET: its value is unknown. */
-+	if (ctype->access == SND_AUDIENT_ACCESS_WRITE_ONLY)
- 		return -ENODATA;
- 
- 	ret = snd_audient_get_cur(mixer, ctype, cidx, &buf);
-@@ -645,7 +646,7 @@ static int snd_audient_raw_get_one(struct usb_mixer_elem_info *const elem,
- 
- 	*value = val;
- 
--	if (cache) {
-+	if (ctype->access == SND_AUDIENT_ACCESS_CACHED) {
- 		elem->cache_val[ch] = val;
- 		set_bit(ch, elem->cached);
- 	}
-@@ -653,41 +654,55 @@ static int snd_audient_raw_get_one(struct usb_mixer_elem_info *const elem,
- 	return ret;
- }
- 
--static int snd_audient_raw_set_one(struct usb_mixer_elem_info *const elem,
--			const struct snd_audient_ctrl_type *const ctype,
--			const unsigned int ch, const u8 cidx,
--			const u32 value, bool force)
-+/* Send a value and, for a cached control, record that the device has it. */
-+static int snd_audient_raw_send_one(struct usb_mixer_elem_info *const elem,
-+				    const struct snd_audient_ctrl_type *const ctype,
-+				    const unsigned int ch, const u8 cidx,
-+				    const u32 value)
- {
--	struct usb_mixer_interface *const mixer = elem->head.mixer;
-+	__le32 buf = cpu_to_le32(value);
- 	int ret;
--	u32 val;
--
--	if (force) {
--		val = !value;		/* just make it different */
--	} else {
--		ret = snd_audient_raw_get_one(elem, ctype, ch, cidx, &val);
--		if (ret == -ENODATA)	/* FORCE_SET and not cached yet */
--			val = !value;	/* just make it different */
--		else if (ret < 0)
--			return ret;
-+
-+	ret = snd_audient_set_cur(elem->head.mixer, ctype, cidx, &buf);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (ctype->access != SND_AUDIENT_ACCESS_READBACK) {
-+		elem->cache_val[ch] = value;
-+		set_bit(ch, elem->cached);
- 	}
- 
--	force = force || (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_FORCE_SET);
-+	return 0;
-+}
-+
-+/*
-+ * Set one channel. Returns 1 if the value changed, 0 if not, or a negative
-+ * error. A write-only control sends every value; the others send only a
-+ * changed one.
-+ */
-+static int snd_audient_raw_set_one(struct usb_mixer_elem_info *const elem,
-+				   const struct snd_audient_ctrl_type *const ctype,
-+				   const unsigned int ch, const u8 cidx,
-+				   const u32 value)
-+{
-+	bool changed;
-+	u32 cur = 0;
-+	int ret;
-+
-+	ret = snd_audient_raw_get_one(elem, ctype, ch, cidx, &cur);
-+	if (ret < 0 && ret != -ENODATA)
-+		return ret;
- 
--	if (force || (val != value)) {
--		__le32 buf = cpu_to_le32(value);
-+	/* -ENODATA: write-only and not cached yet */
-+	changed = ret == -ENODATA || cur != value;
- 
--		ret = snd_audient_set_cur(mixer, ctype, cidx, &buf);
-+	if (changed || ctype->access == SND_AUDIENT_ACCESS_WRITE_ONLY) {
-+		ret = snd_audient_raw_send_one(elem, ctype, ch, cidx, value);
- 		if (ret < 0)
- 			return ret;
--
--		if (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_CACHE) {
--			elem->cache_val[ch] = value;
--			set_bit(ch, elem->cached);
--		}
- 	}
- 
--	return val != value;
-+	return changed;
- }
- 
- 
-@@ -758,7 +773,7 @@ static int snd_ctl_audient_boolean_set(struct snd_kcontrol *kctl,
- 		int ret;
- 
- 		ret = snd_audient_raw_set_one(elem, ctype, i, base + i,
--					      buf, false);
-+					      buf);
- 		if (ret < 0)
- 			return ret;
- 
-@@ -879,7 +894,7 @@ static int snd_ctl_audient_integer_set(struct snd_kcontrol *kctl,
- 		int ret;
- 
- 		ret = snd_audient_raw_set_one(elem, ctype, i, base + i,
--					      val, false);
-+					      val);
- 		if (ret < 0)
- 			return ret;
- 
-@@ -977,7 +992,7 @@ static int snd_ctl_audient_enum_set(struct snd_kcontrol *kctl,
- 		int ret;
- 
- 		ret = snd_audient_raw_set_one(elem, ctype, i, base + i,
--					      e->values[item], false);
-+					      e->values[item]);
- 		if (ret < 0)
- 			return ret;
- 
-@@ -1035,9 +1050,9 @@ static int snd_audient_add_ctrl(struct usb_mixer_interface *mixer,
- 						   ctrl->hwchannels);
- 	knew.tlv.p = ctype->tlv;
- 	knew.access = SNDRV_CTL_ELEM_ACCESS_READWRITE
--			| ((ctype->flags & SND_AUDIENT_CTYPE_FLAGS_CACHE)
--			   ? 0
--			   : SNDRV_CTL_ELEM_ACCESS_VOLATILE)
-+			| ((ctype->access == SND_AUDIENT_ACCESS_READBACK)
-+			   ? SNDRV_CTL_ELEM_ACCESS_VOLATILE
-+			   : 0)
- 			| (ctype->tlv ? SNDRV_CTL_ELEM_ACCESS_TLV_READ : 0);
- 
- 	switch (ctype->type) {
-@@ -1072,40 +1087,33 @@ static int snd_audient_add_ctrl(struct usb_mixer_interface *mixer,
- 	 * get_cur_broken is set. A write-only control cannot read its value
- 	 * back after that.
- 	 */
--	if ((ctype->flags & SND_AUDIENT_CTYPE_FLAGS_CACHE) &&
--	    (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_FORCE_SET))
-+	if (ctype->access == SND_AUDIENT_ACCESS_WRITE_ONLY)
+@@ -1091,10 +1091,10 @@ static int snd_audient_add_ctrl(struct usb_mixer_interface *mixer,
  		elem->get_cur_broken = 1;
  
  	/*
- 	 * A failed probe transfer must not fail the card: warn and keep the
--	 * control. Its cache bit stays clear, so a readable control reads
--	 * the device again on its next get, and a write-only control shows an
-+	 * control. Its cache bit stays clear, so a cached control reads the
-+	 * device again on its next get, and a write-only control shows an
- 	 * unknown value until a put succeeds.
+-	 * A failed probe transfer must not fail the card: warn and keep the
+-	 * control. Its cache bit stays clear, so a cached control reads the
+-	 * device again on its next get, and a write-only control shows an
+-	 * unknown value until a put succeeds.
++	 * A cached control reads the device on its first get or put. A
++	 * write-only control is written once at probe. A failed probe write
++	 * must not fail the card: warn and keep the control. Its cache bit
++	 * stays clear, so it shows an unknown value until a put succeeds.
  	 */
--	if (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_INIT_HW) {
-+	if (ctype->access == SND_AUDIENT_ACCESS_WRITE_ONLY) {
+ 	if (ctype->access == SND_AUDIENT_ACCESS_WRITE_ONLY) {
  		int i;
- 
- 		for (i = 0; i < ctrl->hwchannels; i++) {
--			ret = snd_audient_raw_set_one(elem, ctype, i,
--						      ctrl->val_offs + i,
--						      ctype->init, true);
-+			ret = snd_audient_raw_send_one(elem, ctype, i,
-+						       ctrl->val_offs + i,
-+						       ctype->init);
- 			if (ret < 0)
- 				usb_audio_warn(mixer->chip,
+@@ -1108,20 +1108,6 @@ static int snd_audient_add_ctrl(struct usb_mixer_interface *mixer,
  					       "%s: cannot set channel %d (%d)\n",
  					       ctrl->name, i, ret);
  		}
--	} else if (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_CACHE) {
-+	} else if (ctype->access == SND_AUDIENT_ACCESS_CACHED) {
- 		int i;
- 
- 		for (i = 0; i < ctrl->hwchannels; i++) {
- 			u32 val;
- 
--			if (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_FORCE_SET) {
--				elem->cache_val[i] = ctype->init;
--				set_bit(i, elem->cached);
--				continue;
--			}
+-	} else if (ctype->access == SND_AUDIENT_ACCESS_CACHED) {
+-		int i;
 -
- 			ret = snd_audient_raw_get_one(elem, ctype, i,
- 						      ctrl->val_offs + i,
- 						      &val);
+-		for (i = 0; i < ctrl->hwchannels; i++) {
+-			u32 val;
+-
+-			ret = snd_audient_raw_get_one(elem, ctype, i,
+-						      ctrl->val_offs + i,
+-						      &val);
+-			if (ret < 0)
+-				usb_audio_warn(mixer->chip,
+-					       "%s: cannot read channel %d (%d)\n",
+-					       ctrl->name, i, ret);
+-		}
+ 	}
+ 
+ 	kctl = snd_ctl_new1(&knew, elem);
 -- 
 2.47.3
 
