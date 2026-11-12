@@ -1,87 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794476801;
-	b=Xet2pgEQUMFaf+9Fx60GVrqKJmfnDbZGMlj1zenALL2aaNQp3pGZcSaO0znYFkDLXxo5
-	 7ZA1hjOsYOuo8gv3scSIWQJ1ZwKXlXG5e7P9ppNn/nliGogFWYQnfXgT+BSyZRz08YF0H
-	 BWu0I9Ny1dUwBMgaRL4YE43Os5TGpUakdWQe2sonRuFq21gmS+TWluOBcLO3GgidF4Ayw
-	 eBDRKG77NzRyVxiZz0nZ7rZroRlz30SzkEw4Pykg8X/m455Qq+RsudGFOujqpdJzPXBd1
-	 CgSfZlO30jBsI3zrql0Tn5l5nlL/NmfuurEY/N7nhFGuZ99Z4GsoFK+sT0FXijXN+ug==
+	t=1794476963;
+	b=Z1oMWUNNJ75Se3KHQMN/EZ2uRWx8hMwnY24JxRWadU4dgKz0ckFfswdN9jXy7lrjOqOK
+	 AD+DZLqnfF2obpVmzjPFaBItZ0JoudzhYw6SnrVQRGj19YSyUH48rOcFENGL3hL6Q7+AU
+	 JiFnlYcENDXE0r6i6Eh0WWeUSIL5fH9hTODBieFiiAeFbC8PY2/mtCEdZpMEE+3z1wcXX
+	 7ohFauGPtBLSzkljXjUCJRK+CHf9e5G/GVnTAtFp6X8ZqyzxsZ78sETwQ0YpKsNfNnXMb
+	 lgGJ5q/nAb6gGZk73P1B+jLt4w9EJAr6hVe5/guEzWGQVeMUAVTW1wmkIM+UlhGs2oQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794476801;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794476963;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=dYd2NNAvqk4TskR6myFn2rxGUljRU+4C/GW4zVnLWec=;
-	b=XFbtR3w3lNz4gYSWTtOC0xyuMhbywpZHvMect1JR49v5pG9No2chouynJNaROchV91ml
-	 6fhS0iPFFYrm/kHQHpo/fjuShrd2wOAdLS5RA1HlqwEJtILXhkQT4SuaGaBxINxvABCvW
-	 47yj8LIxSEJp+rNf63tJd+ujlGDIT4DzBtD376aIvU5gutV4zHZR3cmnPEKItFocmaQrC
-	 X5WFz90Q22+WfH88XF5A5HkkRroqwXYIt2oSbAz/qJmBv7I+g6Sxh/zIo+dzCQktEel/5
-	 4HPRDZS5EUfMN1bNihyPC5Lzcnad0bX8HjPXJFTELmZB2IYfMCfD6v9jtqPo42wKpHg==
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=rNaQ9UR1U1l9ZI56X9pvqj6p0Mr/iO7Q1f6fdA5PWJc=;
+	b=nthQuXpubAM+qq28af0ud3B1ahP2xW9CK2QirupSQ1l22+ex1RjGytjVszgJqpls3LDu
+	 6Yu4l8mFI13VFkLJN3c2XTKaa3RlgEBrnwUhuUnwV02/rMkbi9DpyD6wCF8fQ+93nMA6T
+	 2TPKbUcwC7x7uImHId6RSkQpNJq0xDDBfztGdz7dXHrLN+awaB7ls49AeIT8542chQKET
+	 Jkvvxp2AcFilK3PbyqGf9yQv1eBCb/oXaAyXE72UFrRw7W/I3T2WGsGsECHcWFiWOxSsF
+	 WcQ9w9rpIOJrBNwH6cRC5++CCLVKJAlWH1kovRhWrOI88zps01BgL/eJXPJIHYN4XrQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LzA0CLPk;
-	arc=none smtp.remote-ip=209.85.218.42
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	dmarc=pass header.from=cloudlinux.com;
+	spf=pass smtp.mailfrom=cloudlinux.com;
+	dkim=pass header.d=cloudlinux.com header.i=@cloudlinux.com header.a=rsa-sha256 header.s=google header.b=cOI1nLBE;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD42606A321
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 09:46:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ECD42606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D51A606A32D
+	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 09:49:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D51A606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cloudlinux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudlinux.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LzA0CLPk
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c50715c2757so37299066b.3
-        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 01:46:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cloudlinux.com header.i=@cloudlinux.com header.a=rsa-sha256 header.s=google header.b=cOI1nLBE
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a208d93758so43374455e9.3
+        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 01:49:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794476799; x=1795081599; darn=vger.kernel.org;
+        d=cloudlinux.com; s=google; t=1794476961; x=1795081761; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dYd2NNAvqk4TskR6myFn2rxGUljRU+4C/GW4zVnLWec=;
-        b=LzA0CLPkEE1dWSIQnN2dPn9ZmFmpJvMXM28EdBwHimqfxFtd6+7EgflRA5j07nxNWJ
-         rj19KU6ncHZtYxOffsSMRAQUDTsjhfHZZD6ysHMjox1ZytQrIVlqHZSteuAXFHPU0GXo
-         p8287Q4YpxU/nueEva7jRt3roLN+t5kSSdGVCoxZlfWlO/of+LhsORyM98f1j1RxO5nY
-         iNpxIREjfOv5/3LnSdBUXxpbxDintAIicA7rzSJJvCE9bppHrRav1dN0K7OwsEwwo03G
-         xZWOvXJjBF/9ERLoSvKUrBW6BILa8h/BpPQcnGNruae6u/3oUlKS6y+AkQHc0jzaAIBB
-         htmQ==
+        bh=rNaQ9UR1U1l9ZI56X9pvqj6p0Mr/iO7Q1f6fdA5PWJc=;
+        b=cOI1nLBELaMJdSZw1/DxuLYZY3iC+9XRoweG0s/js51fVpuaA+3LaECAg9CQa4tLOC
+         /zvHnq8aijpyFZracBEU3Z/YuRPQeyqAnOI+JmURwy5bohIVW3+SJz8eq6LfGDSTVKhp
+         IPaDEiTSuTMyvV9LTIXlHOaiyCP3GK21yHWQxgnf79SccN0MAJXvk96S4D4iPDQXiRPc
+         ay15saU9OfbL8Rp2t1eTBMu/RiacsrCyXNHRH3Cs5L0qC0Zh8ItuNNb9JF+JNQJ/0hG5
+         zJ6VAZCNneQ6U3epAMzWEZI5PTgat1Sc+p30GlYoYDQ5vbnRXJ1Vut8o6LMfkcgMYm+k
+         HQ6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794476799; x=1795081599;
+        d=1e100.net; s=20260707; t=1794476961; x=1795081761;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=dYd2NNAvqk4TskR6myFn2rxGUljRU+4C/GW4zVnLWec=;
-        b=ODQ0MfNs03oMTebC4IVkKP1dLj3vEI0SO3AaAsbCNDYLsIqYw2oJ23QFFCDhl+vVtH
-         BRJh1zNbWIXo1MAW1ZhM4PJ+BPsmIfaZFNSK1IeG2ojk0aFnNg3rdAr0yIxW43RV/Nmd
-         TXL0OUe6nd9SZMcUnAZ+NI/jYvFRCEgdE+dPmSuD0YiFMCYVZdubwrFIuVq1snS9bN4e
-         qUzpfQ1jb1Z/mfUHmQMPrLIzJNCaLPLcWvQfgHL1Xi0L0qsJlvQ5KYvE762d0jOyc2Hf
-         /OPGK/lU92TAHuPR+hef7Nitg2qFr1hEh3Vh0gYuIv6YBq6T8AvWu6/XyASn8goOwFOl
-         yIPQ==
-X-Gm-Message-State: APuU4Z8Qz8Ciu0+ewyXvI7Skfu1u/CDRLsx+kPygMLS+aZ3tqTrYbspU
-	PYi78DF8zPamEK2Y4WRZB7V3M2GvN+5oIZdU3lZwLm7fuVHf2Oc2q/V3zcNKDQ==
-X-Gm-Gg: AYBFou1qzKN/K1Qr+GsRDp1EaUQCyFExY4sm9MUiluM2roM9AoBNKFr+VQbucai0lar
-	IMnh6sSZ5RKv8oYUcAuIV9wm6WMEKyDzV8ezozVOj6JCRU8rKN7grTEHZ9Kx3mWVRUma+EC28BL
-	zutx+Wja0D8hCHZcOMV6rXvZ1Gu8AEweZ8gNytnu0FavHHLMBxeeCe3/V5LyxItvrROWC23/hLQ
-	XQ+puXfc+zCenFQp3u6CXHw/QwGJfH9FtkqZCgEAf+AA+YG5ybJIKGUHEeqW+PwhQ+Q46GsIchU
-	z5Hbo0jLVya9h2bDC5QL1/MoEI+hyoR0FLGiP7lG0v3huF+VdJ7bjh6JsSc2ytFDPMlukFi9D4b
-	5oL2E6pWJwhNjbMxSy8Xocp+QLXqij6HW5AjKjPKeD47BvE6DKZ6EkPCaqKeT/bTqqM2EmR30oB
-	8A9eVcsPgf1rtwnbwv1KIJamP0V3x0R9lttV/+oOq8sbUWxytmZwt+y1TcTOKIoa3xkfKJRpNNt
-	hZIVbcK70JowZuBYT/RlPySpXdeyUo5SEgtCqTRRQ113V2tcLxgrYX191jxVsWG+1m9PxYUlZvD
-	bYBOtLwDRLltRtg7Pky9lwbCUEk3wvRQt9RBdOjX0cyw6BTdhUDy1g==
-X-Received: by 2002:a17:907:96a2:b0:c2e:317e:d711 with SMTP id a640c23a62f3a-c5066b1d786mr340502966b.27.1794476798945;
-        Thu, 12 Nov 2026 01:46:38 -0800 (PST)
-Received: from localhost.localdomain (h-94-254-94-11.A230.priv.bahnhof.se. [94.254.94.11])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b7578be3e5sm3201418a12.8.2026.11.12.01.46.37
+        bh=rNaQ9UR1U1l9ZI56X9pvqj6p0Mr/iO7Q1f6fdA5PWJc=;
+        b=xy8A+FHA+KsEDIP7X6nRIEcc6WRMdeqnPOq1wC5vit6FpelrkRBU52M7VdV+S0na4Y
+         +8dB/l5bcB3hz4GnNKAhCz23cWu1Bsl7cyXSKNzL0lYWSN6mZJsxmIczYFytTBCtQZ5C
+         GqAzBsRRtPsF+P5ypYCk7OwrHOSKAVUKb3Ravmh4NK/A7dJCnEYQCRVQ9l+F7TjjLVPB
+         gjHhGP6D9XQr9O6Cgn/HTBpsdevzWg5haWpNoWELonbblKoM18GQCQl1aUnPQxPU9fmJ
+         Ouak+DcPwHBn2CKC+YUwGfa9nl1C5zh7waHP8LLBH/JQp8+4db5uzcWm58MI5QvLrq10
+         IgSQ==
+X-Gm-Message-State: APuU4Z+i5qowlS08cW0+lzfi7OXFx60/V8DZp79pvgB6p7SS3EVMj0vX
+	We5zSDPy1D0LlgP2xPEUWGgEg/BeeLWN6/3mZGgVk8u5IZCNa14PVWqlLuxLMqkzVWw=
+X-Gm-Gg: AYBFou3yA9gqNEBfOX4YHV46nvOFWh+vkrCDbYGmXepvEjTdlEgtZ5pKtGaPfYqoLs/
+	K/NwMqjYrFB/5vMQLeizPOEDlpEr3fvn2avj753YVocWlA2Gz/8QugJVONAGvD8Nla5wQX72eSf
+	KszhozqYeRByKSMbxddl+KyWL9CDDntREqpCy3H1m7AH2bRK3UhHV4buFyU4UP6AyhDtD5R4zU6
+	LMIUMWgx/7TkE0p7iFlb5BCsRnkPptQ1okDDyBah67dIi+HVOOajXDmeuSwGEzw6ucHhZ4CuBG9
+	QGLpmYGFX2JWfMXtYxDQJ1308FpRlzcHxFy9b7GVonnUC0hu+aTPwGyet3iNVVsxI1rhvIYsgLL
+	GrvcFdKl7xie1il2dCf3dmpY6KolH+zO/60zUkuOZ227T4Am8PDfm9n88+afd4/o3W1kqlmdg8W
+	e8K+NGkn/t7Z+5WEBb5WL6WGYedclmZdngIa9Q7sZnsy8pVyfEsZlcGbmBjyVuA8oJWFUE+7YCQ
+	+sBZbiEQGqAheCcA+vNSUQChfvFR7tMNBmk7r/TCj/hXQ8ptzlShXwfDAu35rB1yAVExlTR3zLI
+	xFfRGfNWwpFF+2TQrI64kuuDS+ijk0QVZJsw1w==
+X-Received: by 2002:a05:600c:8b78:b0:4a7:462c:6b9e with SMTP id 5b1f17b1804b1-4ba0939162dmr85782365e9.32.1794476961026;
+        Thu, 12 Nov 2026 01:49:21 -0800 (PST)
+Received: from winnie.home.arpa ([62.4.45.73])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2969e7sm50816695e9.10.2026.11.12.01.49.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 01:46:37 -0800 (PST)
-From: Mikael Magnusson <mikachu@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v2] ALSA: pcm: update state after xrun
-Date: Thu, 12 Nov 2026 10:46:36 +0100
-Message-Id: <20261112094636.13671-1-mikachu@gmail.com>
-X-Mailer: git-send-email 2.38.1
+        Thu, 12 Nov 2026 01:49:20 -0800 (PST)
+From: Sergei Nizovtsev <snizovtsev@cloudlinux.com>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Daniel Mack <zonque@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sergei Nizovtsev <snizovtsev@cloudlinux.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: caiaq: Kill EP1 URB before unregistering the input device
+Date: Thu, 12 Nov 2026 10:48:54 +0100
+Message-ID: <20261112094904.2430318-1-snizovtsev@cloudlinux.com>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -93,47 +98,120 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If the snd_pcm_update_hw_ptr call from snd_pcm_status is what triggers
-the xrun state (eg, as opposed to an IRQ), the returned status->state
-was stale and told userspace the device was still playing, so they could
-get confused about device state and hang indefinitely.
+snd_disconnect() unregisters the input device via
+snd_usb_caiaq_input_disconnect() and only afterwards kills the EP1
+command URB (cdev->ep1_in_urb). The EP1 completion handler
+usb_ep1_command_reply_dispatch() feeds snd_usb_caiaq_input_dispatch()
+for EP1_CMD_READ_{ERP,ANALOG,IO} replies, which report into
+cdev->input_dev. Since commit b04dcbb7f7b1 ("ALSA: caiaq: Use
+snd_card_free_when_closed() at disconnection") the input device is
+unregistered from snd_usb_caiaq_input_disconnect() but cdev->input_dev
+is cleared only later, in snd_usb_caiaq_input_free() from the card
+destructor. As the dispatch guard only tests cdev->input_dev for NULL,
+an EP1 reply that completes after input_unregister_device() but before
+cdev->ep1_in_urb is killed reports into an input device that has
+already been unregistered and, with no evdev client holding it open,
+freed.
 
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=222201
-Signed-off-by: Mikael Magnusson <mikachu@gmail.com>
+Normally the window is closed by the USB core: usb_unbind_interface()
+calls usb_disable_interface() before ->disconnect(), which flushes the
+EP1 URB as long as endpoint 0x81 belongs to the interface being
+unbound. But caiaq addresses EP1 through the device-wide pipe
+usb_rcvbulkpipe(usb_dev, 0x1) without checking which interface owns
+the endpoint. If a device declares it in another interface, the URB
+stays live across snd_disconnect() of the interface that owns the card.
+
+This needs a crafted device descriptor; a device that has EP1 in the
+interface caiaq is bound to is not affected.
+
+Kill cdev->ep1_in_urb (and the paired midi_out_urb) before the input
+and audio disconnect helpers, so no EP1 completion can run once the
+input device has been unregistered.
+
+Reproduced under KASAN with raw-gadget + dummy_hcd emulating an Audio
+Kontrol 1 (17cc:0815) with the EP1 bulk pair in interface 1: only
+interface 0 was bound to snd-usb-caiaq and then unbound through sysfs
+while the gadget flooded EP1 with EP1_CMD_READ_ERP replies. With no PCM
+stream running the window is very short and was only hit by stalling
+the unbinding CPU with a kgdb breakpoint at
+snd_usb_caiaq_audio_disconnect(). With the fix applied, the same test
+runs clean.
+
+  BUG: KASAN: slab-use-after-free in input_event+0x3a/0xc0
+  Read of size 8 at addr ffff8880151a4028 by task sh/118
+
+  Call Trace:
+   <IRQ>
+   input_event+0x3a/0xc0
+   snd_usb_caiaq_input_dispatch+0xab2/0xf00
+   usb_ep1_command_reply_dispatch+0x1f3/0x580
+   __usb_hcd_giveback_urb+0x246/0x400
+   dummy_timer+0x1415/0x3380
+   __hrtimer_run_queues+0x39d/0x800
+   hrtimer_run_softirq+0x187/0x2d0
+   handle_softirqs+0x1ff/0x930
+   __irq_exit_rcu+0x15b/0x210
+   irq_exit_rcu+0xe/0x20
+   sysvec_apic_timer_interrupt+0x81/0xb0
+   </IRQ>
+   <TASK>
+   asm_sysvec_apic_timer_interrupt+0x1a/0x20
+  RIP: 0010:snd_usb_caiaq_audio_disconnect+0x0/0x70
+   snd_disconnect+0x81/0x110
+   usb_unbind_interface+0x1a0/0x860
+   device_release_driver_internal+0x2c5/0x470
+   unbind_store+0xde/0x100
+   </TASK>
+
+  Allocated by task 80:
+   input_allocate_device+0x47/0x340
+   snd_usb_caiaq_input_init+0x4c/0x1ac0
+   snd_probe+0xab3/0x1160
+   usb_probe_interface+0x2ea/0x810
+
+  Freed by task 118:
+   kfree+0x1ea/0x5c0
+   input_dev_release+0xab/0xd0
+   device_release+0xcf/0x250
+   kobject_put+0x169/0x320
+   snd_disconnect+0x79/0x110
+   usb_unbind_interface+0x1a0/0x860
+
+Fixes: b04dcbb7f7b1 ("ALSA: caiaq: Use snd_card_free_when_closed() at disconnection")
+Cc: stable@vger.kernel.org
+Signed-off-by: Sergei Nizovtsev <snizovtsev@cloudlinux.com>
+Assisted-by: Claude:claude-opus-4-8
 ---
+ sound/usb/caiaq/device.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-Changes from v1:
-incorporate feedback from Sashiko and Takashi:
- also set the trigger_tstamp since it can change in this scenario.
- check return value to determine if we need to update the status fields.
-
-
-PS Sorry it took a while to send the respin, I don't have a dedicated
-testing machine, and I didn't have an opportunity to reboot to test it
-until now.
-
- sound/core/pcm_native.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 1f5ebfd288..5d80b56449 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -1127,7 +1127,13 @@ int snd_pcm_status64(struct snd_pcm_substream *substream,
- 	status->trigger_tstamp_sec = runtime->trigger_tstamp.tv_sec;
- 	status->trigger_tstamp_nsec = runtime->trigger_tstamp.tv_nsec;
- 	if (snd_pcm_running(substream)) {
--		snd_pcm_update_hw_ptr(substream);
-+		if (snd_pcm_update_hw_ptr(substream) < 0) {
-+			/* update_hw_ptr may have put us in xrun state, update state */
-+			status->state = runtime->state;
-+			status->suspended_state = runtime->suspended_state;
-+			status->trigger_tstamp_sec = runtime->trigger_tstamp.tv_sec;
-+			status->trigger_tstamp_nsec = runtime->trigger_tstamp.tv_nsec;
-+		}
- 		if (runtime->tstamp_mode == SNDRV_PCM_TSTAMP_ENABLE) {
- 			status->tstamp_sec = runtime->status->tstamp.tv_sec;
- 			status->tstamp_nsec =
+diff --git a/sound/usb/caiaq/device.c b/sound/usb/caiaq/device.c
+index 634dc36f2eade..d28465e916df2 100644
+--- a/sound/usb/caiaq/device.c
++++ b/sound/usb/caiaq/device.c
+@@ -600,14 +600,19 @@ static void snd_disconnect(struct usb_interface *intf)
+ 
+ 	snd_card_disconnect(card);
+ 
++	/*
++	 * Kill the EP1 URB before disconnecting the input device: its
++	 * completion reports into cdev->input_dev, which input_disconnect()
++	 * frees without clearing the pointer.
++	 */
++	usb_kill_urb(cdev->ep1_in_urb);
++	usb_kill_urb(cdev->midi_out_urb);
++
+ #ifdef CONFIG_SND_USB_CAIAQ_INPUT
+ 	snd_usb_caiaq_input_disconnect(cdev);
+ #endif
+ 	snd_usb_caiaq_audio_disconnect(cdev);
+ 
+-	usb_kill_urb(cdev->ep1_in_urb);
+-	usb_kill_urb(cdev->midi_out_urb);
+-
+ 	snd_card_free_when_closed(card);
+ }
+ 
 -- 
-2.38.1
+2.56.1
 
