@@ -1,65 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.97
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794512265;
-	b=1pDQ5ApmXsaqrO6ze98iltXF6N3gVQ07UNA1ud5zGhoFnm4Vow2r+CuCBYD4whXZj85d
-	 U4qlqHaXEu3G5iobeUFjiyTelViUHSXuhr2AltA1jgPCZL6YVhC8fsxRDwNqI43qYyicp
-	 A+jsVnnJRi+siIMwbnQWQapQVkXaCl3jWEN2zTJ27RY59umLVFO0mSZzC9Q7PPH7TeoBJ
-	 S0kaPpWeGCUmvZTHLk2qcCrsxWaYOcMGm5Go20YWYmSfNQwxAlcEgew0u5RN2nvN8veBu
-	 ZzR0agCOXn+YC5W4XyzWpz77+0xcCID6rc1/s+rukqf3MXR7M8AHd4uUWLC1R/uoAGQ==
+	t=1794512509;
+	b=NPiCEqJllBlnDHl3Ij2x2ZKzYcpUtvKLcKWP93t8zTaxdBZCLgjvFiHKzmY5ulbKrOey
+	 7Uhlc+H/VD5X3tW1J42XVtJ0izDo+2poTrOy1ylCvbGAZuwXbMA54F/obzWXGnVqfBPht
+	 8BtkyzkW/IKEQhr64yTcmf5u8D5wKdvSIi/sLrqkp3gLH9VfaObuTv/ntzfyoHWkI7tzI
+	 /M8j6Rzb984t6ZILVRvwxDO9A4+DR0SJXRIN+D4WVVr9RYP2Mj6KZlCPgoSJ+DCieXmEm
+	 70NYqXrRb1aslqhQlERc0LylaPqV542S5McdXKuUctG43kSyflmor22JaoX9y5kUHEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794512265;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=Xw7OSUh2w83UTN7ygfu0imF/eRjtsz6mXxVB9EedeBg=;
-	b=aV3FZqPzunEMxXFsbwwM6YZEQsddlhFnXTWIK0Z2fe0C9SS2Y1SNmrlk2Oh3W3hv0D/B
-	 oQ3c2c9mZb05EhO75UqlL0bi/ewAjjdoFtCktYBBpXc+bue5y9ia33HAQwaQeSBYNbr1o
-	 M3Bf6dKntw528EAIsqvMNjlYNKwL0g3ZkGLx74OSbX4dmSOAnsD3JOHGis9Tah1xDlmXO
-	 rsMJhRioUNxdM6blsqdTrUJfMQ0hLkZmU3goN1IDi/Ffv2YylqHnqTDanjTewvK+wCttO
-	 /dDHosWZJPUfKnmRdvOGZcc6kFhhigbuseiVIYhy5vJhLmQvs+1Q58zq2ex4gsxLDeA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794512509;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:From:To:Cc:References:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=4uNXaejfERDIf6iNoxMcV9y0qmil4W/vM9VU0z8C1D0=;
+	b=zYvb6C3clZY6WrAW5jq1fUkjHKBfeSrSDtQOazujAnW3Ssck4waUlCRUX6dL1yz6LHY7
+	 VFNV4uXI6iG2WTHuYRA96McbhPVPXPllhuysNbHR/Hr7igW90GOzRlZY29vbvvvnHll9x
+	 /ie9LThdCb29okBu1wAASD+U8TAnrBXrs30uyAp0pbRHMrOD+FlDNWsQG+MtvDpO2Ei0Z
+	 QINNsfZUkFPtQBlddai8nYGqgSO20O0rmlOU4A3mKqw19R1iJpSLIabQcSjlleS/QttqH
+	 Kabd29hOIcAo1QOzG0eKjQSnKqMLKO9OtpRcbNMSXimhlUm0qw9x4l4C4Dh3486y4Bg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JCBb2xaW;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=packett.cool;
+	spf=pass smtp.mailfrom=packett.cool;
+	dkim=pass header.d=packett.cool header.i=@packett.cool header.a=rsa-sha256 header.s=key1 header.b=b+Ct7ir1;
+	arc=none smtp.remote-ip=91.218.175.97
+Received: from mta0.migadu.com (out-97.mta0.migadu.com [91.218.175.97])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D307606A31C;
-	Thu, 12 Nov 2026 19:37:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE89606A321
+	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 19:41:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6EE89606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JCBb2xaW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA58D1F000C4;
-	Thu, 12 Nov 2026 19:37:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794512265;
-	bh=Xw7OSUh2w83UTN7ygfu0imF/eRjtsz6mXxVB9EedeBg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JCBb2xaW+G02fPlF2gh7XAdojU++AflWUH/8sA5jEolILEYpBUkzsvm1v/7QNtgKJ
-	 9QJx8t9ZhYhUQ575frhByOkB/Ceg0z2STdPz5LRRBjx9oLpeWV0O6SxXUckTK62kiD
-	 LES/sIO3T4/h5QGtNVNwUeAybI3pH55QueiGzO/H4gCSglQjXbQYocqw98GybYV+nc
-	 9Wspkn+nyYrDcjj8HBCIGvvzWiKKu5afoIaflIq36hItYoZUu7cv51JeQ9T5ANj/+l
-	 wo64Fhkj+64lGohiqj9dT3wnWKIJACcfPjAKPlzdWwLnfe85EakjCe60uJ52Wb7szs
-	 //0Y0JVK1iIJA==
-Date: Thu, 12 Nov 2026 19:37:40 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Hyun-Uk Son <hyunuk.son@irondevice.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Ki-Seok Jo <kiseok.jo@irondevice.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] ASoC: codecs: Add driver for Iron Device MA5311
-Message-ID: <2c7d503c-935b-4408-a5b6-bfdf5ba86933@sirena.org.uk>
-References: <20261027093232.859755-1-hyunuk.son@irondevice.com>
- <20261027093232.859755-3-hyunuk.son@irondevice.com>
- <179318672062.199157.7461931531075403104.b4-review@b4>
- <SE2P216MB24230E7B98CD3F438E23E869FF722@SE2P216MB2423.KORP216.PROD.OUTLOOK.COM>
- <40646ae6-f6be-4408-aefe-521fb0ea9bee@sirena.org.uk>
- <SE2P216MB24238E5F5EEA95FCEABCDAF4FF702@SE2P216MB2423.KORP216.PROD.OUTLOOK.COM>
+	dkim=pass (2048-bit key, unprotected) header.d=packett.cool header.i=@packett.cool header.a=rsa-sha256 header.s=key1 header.b=b+Ct7ir1
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=rr0TW2nNjiF4bqOfPyBn7gkwROj7qWJNv4CzkbPzABo=;
+ c=simple/simple; d=packett.cool;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794512506; v=1; x=1795117306;
+ b=b+Ct7ir1123pWMakxfTJoHXXJizvMH67xprm/KGDyjhC4yWWQGy9dOhdyYUXwVwOEy608uIa
+ 3W4B8GJInoWTZrnk0aPuOu0bqG2vZk5BTecCbxUIW+RXDwY7kIJ6eZzJ44SV/rvWkEQPEXrjq8b
+ ni73ZnZDJBni1GuVCTAvtQk60aDA+TTC4vDij6I9/3sQUrZaTomG0qMOywvXqUFV/YyURYDH+pq
+ G6RCX3GCPsMthX/7QGDOzS6npDIlVLDTbNaLhWYVvxpooMr0mukIg5F5Fta3NaHs8XE3IMCHBqH
+ jcF7PMKrnrrJ4KPU2CnE6RSbUhQQq1pBpFGkrZIzLX37A==
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 6316a82e08607db1;
+	Thu, 12 Nov 2026 19:41:46 +0000
+X-Mizu-Trace-ID: 6316a82e08607db1
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <ac7e2bb3-90bf-49e9-9282-cd276b60b612@packett.cool>
+Date: Thu, 12 Nov 2026 16:41:43 -0300
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -69,63 +60,72 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="F3Q4j8jm9OIKXmmN"
-Content-Disposition: inline
-In-Reply-To: <SE2P216MB24238E5F5EEA95FCEABCDAF4FF702@SE2P216MB2423.KORP216.PROD.OUTLOOK.COM>
-X-Cookie: Baby On Board.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/15] ASoC: soc-card: move snd_soc_card_xxx() to
+ soc-card.c
+From: Val Packett <val@packett.cool>
+To: Mark Brown <broonie@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+References: <87bj8etuj5.wl-kuninori.morimoto.gx@renesas.com>
+ <179406327208.3424803.13117419976586053782.b4-ty@b4>
+ <4dcf8dcb-bab0-43f7-8fc8-d2eba609ec10@packett.cool>
+Content-Language: en-US
+In-Reply-To: <4dcf8dcb-bab0-43f7-8fc8-d2eba609ec10@packett.cool>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
---F3Q4j8jm9OIKXmmN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/12/26 3:41 PM, Val Packett wrote:
+> Hi,
+>
+> On 11/7/26 11:54 AM, Mark Brown wrote:
+>> On Wed, 28 Oct 2026 02:42:55 +0000, Kuninori Morimoto wrote:
+>>> ASoC: soc-card: move snd_soc_card_xxx() to soc-card.c
+>>>
+>>> Hi Mark
+>>>
+>>> I'm now posting ASoC Capsuling patches.
+>>> Current status, and this patch-set postion is below.
+>>> This patch-set moves Card related functions to soc-card.c
+>>>
+>>> [...]
+>> Applied to
+>>
+>> https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git 
+>> for-7.5
+>>
+>> Thanks!
+>> [..]
+>
+> Looks like this (or some other very recent change on -next but I'm 
+> pretty sure it must be this) caused a regression on Qualcomm Elite DSP 
+> devices (those that use sound/soc/qcom/sm8250.c at least)
+>
+> kernel: Unable to handle kernel NULL pointer dereference at virtual 
+> address 0000000000000038 [..]
+> kernel:  sm8250_platform_probe+0x114/0x120 [snd_soc_sm8250]
+>
+>
+> And without the USB one,
+>
+> [   23.892669] wcd937x_codec audio-codec: ASoC error (-22): at 
+> snd_soc_component_set_jack() on audio-codec
+> [   23.892691] snd-sm8250 sound: Failed to set jack: -22
+> [   23.892696]  WCD Capture: ASoC error (-22): at snd_soc_link_init() 
+> on WCD Capture
+> [   23.894243] snd-sm8250 sound: probe with driver snd-sm8250 failed 
+> with error -22
+>
+>
+> Maybe the sndcard driver wasn't supposed to do all that in the init 
+> callback in the first place but well, it does.. so that's a regression
 
-On Thu, Nov 12, 2026 at 12:40:57AM +0000, Hyun-Uk Son wrote:
 
-> > They rarely are, but they tend to be safe and what is suitable for
-> > practical use will vary depending on the system.  A gain that makes sen=
-se
-> > for a line output will be unsuitable for headphones, and vice versa.
-> > There are a few things, like zero cross for example, which are pretty m=
-uch
-> > universally sensible and we do change those but for things that are lik=
-ely
-> > to vary with use case we just go with what's in the hardware since that
-> > gives us consistency without us making decisions that might favour some
-> > users over others.
+Sorry. Not so sure it's related to *this* now, it still happens with a 
+revert of this series..
 
-> I'd like to provide some additional context regarding the rationale behind
-> the initialization values defined in reg_defaults.
 
-> The purpose of this initialization is to configure the data path and outp=
-ut=20
-> format for practical use, rather than to change sensitive parameters such=
- as
-> speaker volume, ADC gain, or PGA gain.
-
-The trouble is that these parameters tend to be both sensitive and
-platform specific - they'll depend on plastics, or the components in a
-given system.
-
-> The values of these parameters in reg_defaults match the hardware factory=
- defaults.
-
-Right, those are what the driver should nromally use.
-
---F3Q4j8jm9OIKXmmN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmr2FYMACgkQJNaLcl1U
-h9A+Awf/TH5ErYriU+kh++S+aAXWBqi9ng7Jq5s3zTQnHBzOaLZ/a42Llj+7uEJb
-T7GHRUpFkLN9vsU/8UHqffROjahHuAdGbZwM8dqgPWwwJ83dlI5JH+gcGwrkPgTB
-3m+ZB0UQGVz25FTMeYZZU5eSecFcJ/UzMzzfw8Rm21MoWL5MJYt+NNmh0Lko+Q5Q
-2ByqoVm4uNdc7uMeNYpjLkVPFJ3JOiEw/OsQXTE/L2gnOIibEPz7I84EviaNGFe7
-+9COeDUOVBNA65zTX64m6apP/Ks+30u3uF5AW71+z+VzoP2T3u8/1hRXxGJMVHLe
-/NkDVthRKd9ty1ScYhWcEe+KXsFWpw==
-=PaD/
------END PGP SIGNATURE-----
-
---F3Q4j8jm9OIKXmmN--
+> Thanks,
+> ~val
+>
