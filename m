@@ -1,100 +1,100 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.181
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794474541;
-	b=cw2W8n7bH2Jba8qUsCCjLFeHqRqZ4MjAo8YG60MkebtXU6NO9EMY2423Ecb5rjWIj8l3
-	 +dLqhUopNKCnvLB61y7PFYSNPNFB7tB6cbGcePrH50p2NRMapSKt7OX0UNUUckHMU0ZYG
-	 PQ2IbOVnj3trMIuGHSUAseRb1gR98FN3an0SLdhbj2j/5FAmE6jAJ/76soVoPgQQUyEze
-	 XfnjdmQD+TkCiOtUhgNKF2UqcmKg+RelpzqBsyopHEWgkhiGhv2j1a7wzt7djPcsOrWXx
-	 JQw9xDHGrUlTFnp9ouok/2RauDxeMHfoHAHmeexY/1+Ywehkt+dxEejEZbJop4CuDTQ==
+	t=1794474569;
+	b=CSZw3QoQ16dQKqCZo/GjwfmrDv0BEmjpYG3Ra9De8FA21EMz/NcGt6d/kgdwt/5Orn6n
+	 QEgTAyLFzJUe4cdxgLiXezKC4wjlU9y41qk1f/oJXLhNJvs0p2RyC+OplzyrH7sz4nliz
+	 rMImWT+UF3M0dmMoz8hN8OrFv9E2aodLcs17b4Kt2d20uRl9DW+TjG8cX3inZtE+CEgx0
+	 QYNeRPsF9t2ygkA7aYCxhFIkO2RourHNBaOiuNbKoBacSDaHMThn6+obaC9g0aPptuHta
+	 N8KEtL6pdswkLsqy8+MmiWWeIk3jcu9P+oIT/RvhV9Gc5uY6MJW1vZGdDZz5sFDW4aQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794474541;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794474569;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=eRXv+o3xd/LwrjX3vtstrFSK4BcwlWxEyWog/B0Pb2A=;
-	b=S0jX/RseP+A2nmpTpqrRbP9BM0Wf3MlLO24t13e/x3UCj5llOjPAv2wZyavGTyjKH++f
-	 6NA6w4JxhozOhxgZrwPIhMjUPQ57Wp9IcBjiS9Cv64rbzwFI+cIhrndAzYqhKPJnpd0fJ
-	 HKq41EMCXDqSvuRzD6EDIEAWVrsdObRp5K4c3PAt8CxrsE3Chi1+BaxXKmekK+d1c+eBf
-	 gst/XUEkLU1yHNqSb8X6BATCogGG3hz8EuJ87MGGDc0uyu7hiOKKXC0ghqghyb8fLC1yz
-	 tKDN/cjFdOYrhfR5Z6rQ2MQ5W1bZTVqs6xSupT7xR1R0bP7AR8esuRuRfrZDtVsx+pg==
+	bh=UC1VFMCdsJy8HJueFJ4vPvh9lfR0tlzAuULdL6Oym6I=;
+	b=UTfL4ADDv1GDy73E7PnON1vqDk/I0GKBwe9IlYPpBjqgAPAZt+Owg3w1JA3qYejQ+K2w
+	 aCU8Ny617AH0TlmaySOefDKFCXZrwiqJ0AWXK1O+HBm75jcob7YLKU0mLM2bk00Jq59Y0
+	 DhFhbcPc0R9V7vusYeTK47pss8KxLwfccJw71cmQwhSMyaYKtQr2FoDlHtibmIURl3PEl
+	 A/9ttaPDA6A8wjn2u0VxectRfbejuPEDGiLFm5uSVott0PECg/og7ZKOM9x0sgLmlmhiO
+	 oWQqNzc0cPz7YsbPGChhNoOEQv9Svg+2W+3GzK6u1XDIgiV/+NoO1TZtJM4gh2MvFMw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MlHC5Pbf;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BTQ70lWv;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.181
 Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85B7606A31C
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 09:09:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B85B7606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E8A606A323
+	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 09:09:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 59E8A606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MlHC5Pbf
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-cc4aa0246b7so1655397a12.3
-        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 01:09:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794474540; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BTQ70lWv
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-cdb9d5c1c8eso2094120a12.0
+        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 01:09:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794474569; cv=none;
         d=google.com; s=arc-20260327;
-        b=leBkB710pLUfSxs68ZlufOfMgDmQefoBRzIEu+x5uKRh678q2cKserEXyEGcBKOlzg
-         GAa8m2I6N5exhFoR8kUrBo6XpQ0vJnNG0kpv97FvD7wonb3lkIDiccP0fFMag5ytSZI0
-         e7mNZ6Kh8uY08oodPMZ6G97jVsLCuFH+menFykI64JM+eOB83Z/TnFajbFkimjkaOGIY
-         ss1GzPK4I8Dp2JOrQzZQ4C97mC289aChp55dDh0uZUSNdePAum7NPsfKUGphe/VwAu5u
-         09s60aX0CxAHvtDljHLqEA2pHOGrFBf5qr9y9ntArMO1udqm/fLNhRBiYVTNBWEnSuti
-         I+mg==
+        b=e0r1y/Tx6UIrc+dqn0C8AcA/PRYtPRItNl1rpLHHIUHhASnL/HtkgVOWjr4N7sp+oE
+         sRLCqa+3H1w7yLG7X9GQfR35bQxeuyVJFFpcqZYOTOiKIstgkNgTa4UsJVjXI5P1+QCZ
+         yndPwtXI3NgnT5e6KTLKQD0mwUOjIcTcuGDNPvUsKsC1XI6+XF1ueTr+XK9BUhKu8zdP
+         l4WNULam3BxRifEZpepXKxsvIh10yjXJ9FCaEXheYsPWT/GqgjedC38dSq75I1Ql0cko
+         SkeCvqYlOhbzwK9qzqfqrMhLQypUQKhiInmMM7K9ETZKTogs6emS1KMstwI4LJ/TGoxE
+         Lg4A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=eRXv+o3xd/LwrjX3vtstrFSK4BcwlWxEyWog/B0Pb2A=;
-        fh=m7ByFld2TkTZRVbx9OcvHgKROoXpJQh148RaWGCNlS8=;
-        b=fVIQx3l5EsknDJdzc0VbIB+TKFBxX/dBqEKKFYx3NJJ9JHHEshZ5HMdWkH0O6iIwHS
-         W290OOP/D+oU4VWtXuJf2euBA2pI86J6DvCr7U37z6Zq4uupUjtzh8QeJUCQ7SytkNq8
-         le4zcnPPhMinbzGcyzxxjVJQEhlRDL0JqbfAMLRMcJgvQfsP+L/hAkO553Aqhyc2C/la
-         FOuG9GqCm3iDH3j36rDNxG2ZRAZ3z2Dmy3eqcvZ2wHEYKrgVjU50DlxGfgDuFjyO1EsF
-         xZ+V1H3AA6TigljSiWxLj4Vu0Yg6QqyVTteo38GoM9LE6rHSHf0auosJ0yLlQTbKW9sv
-         1kcA==;
+        bh=UC1VFMCdsJy8HJueFJ4vPvh9lfR0tlzAuULdL6Oym6I=;
+        fh=YyCCBSW+3fuiXe3qdWDzYGkL2CnZhqxue3m2m1fBhl8=;
+        b=XVbmfTh59xzciBW1Int+82JUUNICgChTgXfbjE3E17y/OFBFyDipiLgad+Z4/YwCrT
+         BBX/Ljh1QCcW2Nemzxx4baX+69O4QhB6O8DseaySEJhAf4T8Ek9N9BQ8mNqGydyRP2ju
+         0q0GnBSCCjVPubGOi+WE2CkV3uE9OX0sM3lmcEOHRDIKWJyfxeMje7AdXYhjv56wLafs
+         1q7pFDuHHT6GUbSocZTNBycP1lao+mn8/y7B3e3Ss7Wq3wS/csK8Yfu0y0NGL6pcq/v4
+         BWFAl/AZ+ChVmhWc6FGXAtSJz3u7Hf4X1zt3lAFs+4/YJjNJL2r5QtM+RJzsIY89GBN3
+         0y3A==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794474540; x=1795079340; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794474569; x=1795079369; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=eRXv+o3xd/LwrjX3vtstrFSK4BcwlWxEyWog/B0Pb2A=;
-        b=MlHC5PbfWnOapYhAS4wOV78OaA1SqQCzI8HRDtOqzxhf8Xfx3UDr7AAXCS+Yrb+tjE
-         bLhc9iD4yqeTNyAB+UVpkCuGJOpt5uMYDCHmwWjiqKhiybdMHk5VITQrBM9EGqezRhs/
-         IXfQ1Tjnx2a+X4XhyPTO8bKZU7g9rPmmfsP8Ff+xAS341flSdQWMNXuBydmJ+XIUS6z0
-         r9EgvozlZ8nvOD9K+e4zr5P0P2Zwu/oPvKIfGzer8/DsD1yvLw2dMeXRd3LFPJXTNZLq
-         NSUEtHhhLCxcveIh0um6OOdBFYWRznulJ4wQRLqFEbPfKu8PsZqxy1rcJ39j+nV3zluu
-         C95w==
+        bh=UC1VFMCdsJy8HJueFJ4vPvh9lfR0tlzAuULdL6Oym6I=;
+        b=BTQ70lWvFNuSLgFt7TPP8jO7aRQrgictIqaJkvYVwxfCVKt94For0Em5dIM/T3/e/p
+         V3tO8e4apQBUPqw+fNkqfOMMAQRk+F6xwfdaVn901eAf+L+eOonhxH/VgTK8CcPJIFAM
+         Z0HJdPZ+MKtUEl5umuWI+EkUbm6v8B4SqUcJ8BzRPxmucMckwRTPebfdrLdyz/Ve+hOI
+         ajAbO+N7jrU8puNH19kdDLtbc4c8W2Zry03S0GUU6w/DmKp50jUV40rsuI2/mJoo2NBn
+         p3b29SfKb+puP3zEWpuirRYH3Ru4PUdboUxq/GEWhIHNl8S7OT01TOYwCvEJYT02rvJv
+         u/CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794474540; x=1795079340;
+        d=1e100.net; s=20260707; t=1794474569; x=1795079369;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=eRXv+o3xd/LwrjX3vtstrFSK4BcwlWxEyWog/B0Pb2A=;
-        b=Y3OFb3kI0lF9IviYKaYAtWxvUePKj5a9mFuDC5xxy2202yGjr3NomUSyirWsvrIBCc
-         tN4VTmlc527wX5tcygYk2krRRMKLIv4XqfFdxZUiHyX9btfZwUQ+5ETbApUVcr+GO0+b
-         4giAKAKXNIQfAO1j5GfygJJtw2OuLKR+3fEkZ7tbak1sw7wBMAHUQA5M0/Zu/GiLDcJW
-         wJl1KsDsDM56AecFaCA7ApoXD49jIFjpa6+ydsw1UVeRCS5Wq2X2SrOz+YgtY/hx+lV+
-         PTf+XPNrnh4C0zUsQ/qvWVsVdwVQK7Zo/5jTvU2VXPljEIGsxavE+E1EiS+97cWLi70L
-         twGQ==
-X-Forwarded-Encrypted: i=1; AL+hErGSyGdVuUJL8eRDcJUIHT98FtbVdVyqJJmw4o7AxE3NsE5iYJ0wY48MNkcm11Zy3uJkMg5Yut2DENZjew==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/dPdHTTg8GkZL+aYzjUcjoQqX8u7DcoiQMdi82ICanQWrqztX5
-	Vi8DHSmAHhK0fSTN4So1nRteU5ydv0T3GwawS2vN5xyzYLvbDehFHNZd7K7H2MEsARF5eL2MYuu
-	W50LTq4cSHDFq6AX0S5c6MB0EnWhsUTg=
-X-Gm-Gg: AYBFou0gWCqfbCXUS9J1Wv2Bxwa1e0Vctgby/DuNLvBUSSl6edv6NJdqEScJqTZ1DRF
-	5NUUKZfGWRvB/k5KEn6ZcxzLO+a6nOWENiRQCUgoNGhe1rl6hPl0HlT8tZPMWETAW9G8rbOG4ob
-	5eiC9kMwmB0DXucrh1TTW2DktWlBESdWO0L2Ls0Xx4r+MPVh17/uNQGVUHwmM797KdyZWubGWLA
-	Y+cTwrryzeoCAdKWQB5NQUe5dSftj9khEkzLAYA0oqnZuuB12but6U/QlEhGjV7S/9PwGZR1yDH
-	yUqXwgFy+t9zDo4mi5lp27cIAC2SeYL0r5HKkb34fYplJU6CnzB8Y1+gXwhdAB5ENftl1xuVEm4
-	3tsco4FO7kQLak3kD0e3NLom52eDTXaXygaOk
-X-Received: by 2002:a17:90b:1c0b:b0:3ac:9599:a689 with SMTP id
- 98e67ed59e1d1-3b182f235d9mr3994012a91.34.1794474539722; Thu, 12 Nov 2026
- 01:08:59 -0800 (PST)
+        bh=UC1VFMCdsJy8HJueFJ4vPvh9lfR0tlzAuULdL6Oym6I=;
+        b=NOYYnjYdNrAJNBWd3lz1gjdYBv5+TUhzLeT1qcd4U8iuiOI1NoUxcCGTSdAt5HVcBK
+         /j/4DoWgMbCdUzddP+r9Ngx+IMSWdbcBepiMofvv2dX9INYsJ1MYWtEKzOpOurLjR3ua
+         TEwj9KHurmzNgAngsri+IYJYLi0td+OBg4zoAF0QSJgmNWKuAyp1hvGesott7rzfOpl1
+         3lMCc/riGl16XbnnsLo6K25KtGlJA4c1LecvIdeWfVAjAtGAFuFl7G/DVkPc6bH0p/03
+         pR87YI3PMHsrL+qiOGD/4E0lWHUBP1jRT9m58gdwXso6QhJdbCmnHA013J+To3sljEM0
+         ajdg==
+X-Forwarded-Encrypted: i=1; AL+hErFGYzV624l/p0AYDyhM+cNvI25aKgrdUXjd6/DZYKbeCPpjjCQKwjMxRdzT8BvlNH2MZorH5AWI4JlvmA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9B8NZrGK075QKAGlfUTf4V8jQDuUY6WYSJNTdd2bU8P1pFPEmH
+	SI8LaIivinYuZyJ3vDM/2Yi1G6WNm1Q6ig9RzvwqnOn5kgNwZB5Xtgn/qxUS/BMkcdJyNQWr3vd
+	SC1IDOhl57dpkSRNda8w/Te2Z9V36IUA=
+X-Gm-Gg: AYBFou2GK/ERKm2UgOOGz+LnVsagRfSR/uVEzrlojorOZ5++UIeeoxEOl+td+aItvqI
+	gyDjGHlp1wpsU+Fru3b69g9hzEAPj1DQAv/GUR/3TWKKcmPQ6sEgV4lBDJK2fig6TbPZqVh1gmL
+	fo6Yc6zHUVrOt6OOiDGz5vblPEjb4xXk7ubaL1X6XDWx7yqE2Ds61AWrimeOsQIIBKMMCPXvDCg
+	z6BjZrsOiMukZ7HPiUtYh+7iN9FZskE6UD55odp9GoAgZq7jxWo7fzO6hGLouK2wOM4NJrDf61p
+	uhCiBODypQ7n9MoFSQPehZ/7tHY4gCFCj5Bj/+FhU0Fw18D3nmXuM4zs/G7s5IszPu7NhJSwlH3
+	A+gXmdly7j8O6/Uig3og1ofUeBygTplLpPSMIqskEMKlScEPVPwp0JsiLUA==
+X-Received: by 2002:a17:90b:2d8b:b0:3ab:be66:ddbe with SMTP id
+ 98e67ed59e1d1-3b182edaee6mr4922233a91.28.1794474568658; Thu, 12 Nov 2026
+ 01:09:28 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,13 +104,13 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110120743.6301-1-stefan.ghetu@nxp.com> <20261110120743.6301-4-stefan.ghetu@nxp.com>
-In-Reply-To: <20261110120743.6301-4-stefan.ghetu@nxp.com>
+References: <20261110120743.6301-1-stefan.ghetu@nxp.com> <20261110120743.6301-5-stefan.ghetu@nxp.com>
+In-Reply-To: <20261110120743.6301-5-stefan.ghetu@nxp.com>
 From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Thu, 12 Nov 2026 17:08:44 +0800
-X-Gm-Features: AclHuK-xo5sqQ1bv9bDSXOSJ-L9KATXVxPodrhMZvWrhDua3HJ3hpSCY1aITLMY
-Message-ID: <CAA+D8AMqXdSK98qrsecZBk7_=ZVX91PjqejyN-xD0R6b-cqAqQ@mail.gmail.com>
-Subject: Re: [PATCH 3/5] ASoC: fsl_asrc_dma: release DMA channels on repeated
+Date: Thu, 12 Nov 2026 17:09:13 +0800
+X-Gm-Features: AclHuK-JKdWd-ygPOBooCSX9cuJhp4rfiioKNxZzndhr2LBJ_ZnCQJKwcXGP6Go
+Message-ID: <CAA+D8APshfNo5Ubooq=DnETHeUsAm35Z=LaHUa2hh-p6S5L3xA@mail.gmail.com>
+Subject: Re: [PATCH 4/5] ASoC: fsl_easrc: fix context ownership on repeated
 To: Stefan Ghetu <stefan.ghetu@nxp.com>
 Cc: Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org, daniel.baluta@nxp.com, 
 	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
@@ -123,19 +123,17 @@ Content-Transfer-Encoding: quoted-printable
 On Tue, Nov 10, 2026 at 8:08=E2=80=AFPM Stefan Ghetu <stefan.ghetu@nxp.com>=
  wrote:
 >
-> fsl_asrc_dma_hw_params() requests new DMA channels on every call and
-> overwrites the previous ones, which are leaked when hw_params() is
-> called again without hw_free(). Its Back-End error path also releases a
-> channel without clearing the pointer, so the following hw_free()
-> releases it a second time.
+> hw_params() can be called again without hw_free() in between.
+> fsl_easrc_hw_params() then requests a second context while the stream
+> still owns the first one, which is never released. After close, that
+> easrc->pair[] entry points to freed memory and is dereferenced by
+> fsl_easrc_runtime_resume() on the next open.
 >
-> Release the channels of a previous call first, and clear the pointer in
-> the error path.
+> The EASRC slots depend on the number of channels, so release the owned
+> context before requesting a new one, and make
+> fsl_easrc_release_context() ignore a context it does not own.
 >
-> Fixes: 3117bb3109dc ("ASoC: fsl_asrc: Add ASRC ASoC CPU DAI and platform =
-drivers")
-> Fixes: 36124fb19f1a ("ASoC: fsl_asrc_dma: Fix dma_chan leak when config D=
-MA channel failed")
+> Fixes: 955ac624058f ("ASoC: fsl_easrc: Add EASRC ASoC CPU DAI drivers")
 > Signed-off-by: Stefan Ghetu <stefan.ghetu@nxp.com>
 
 Reviewed-by: Shengjiu Wang <shengjiu.wang@gmail.com>
@@ -143,78 +141,40 @@ Reviewed-by: Shengjiu Wang <shengjiu.wang@gmail.com>
 best regards
 shengjiu Wang
 > ---
->  sound/soc/fsl/fsl_asrc_dma.c | 27 ++++++++++++++++++---------
->  1 file changed, 18 insertions(+), 9 deletions(-)
+>  sound/soc/fsl/fsl_easrc.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 >
-> diff --git a/sound/soc/fsl/fsl_asrc_dma.c b/sound/soc/fsl/fsl_asrc_dma.c
-> index b417de6abebe..5ba4bdeff019 100644
-> --- a/sound/soc/fsl/fsl_asrc_dma.c
-> +++ b/sound/soc/fsl/fsl_asrc_dma.c
-> @@ -124,6 +124,19 @@ static int fsl_asrc_dma_trigger(struct snd_soc_compo=
-nent *component,
->         return 0;
->  }
+> diff --git a/sound/soc/fsl/fsl_easrc.c b/sound/soc/fsl/fsl_easrc.c
+> index 5d715bc07357..ae0fbf6c316b 100644
+> --- a/sound/soc/fsl/fsl_easrc.c
+> +++ b/sound/soc/fsl/fsl_easrc.c
+> @@ -1347,6 +1347,10 @@ static void fsl_easrc_release_context(struct fsl_a=
+src_pair *ctx)
 >
-> +static void fsl_asrc_dma_release_chans(struct fsl_asrc_pair *pair, u8 di=
-r)
-> +{
-> +       if (pair->dma_chan[!dir])
-> +               dma_release_channel(pair->dma_chan[!dir]);
+>         guard(spinlock_irqsave)(&easrc->lock);
+>
+> +       /* Nothing to release if the context is not owned by @ctx */
+> +       if (easrc->pair[ctx->index] !=3D ctx)
+> +               return;
 > +
-> +       /* release dev_to_dev chan if we aren't reusing the Back-End one =
-*/
-> +       if (pair->dma_chan[dir] && pair->req_dma_chan)
-> +               dma_release_channel(pair->dma_chan[dir]);
-> +
-> +       pair->dma_chan[!dir] =3D NULL;
-> +       pair->dma_chan[dir] =3D NULL;
-> +}
-> +
->  static int fsl_asrc_dma_hw_params(struct snd_soc_component *component,
->                                   struct snd_pcm_substream *substream,
->                                   struct snd_pcm_hw_params *params)
-> @@ -190,6 +203,9 @@ static int fsl_asrc_dma_hw_params(struct snd_soc_comp=
-onent *component,
->         dma_params_fe->addr =3D asrc->paddr + asrc->get_fifo_addr(!dir, i=
-ndex);
->         dma_params_fe->maxburst =3D dma_params_be->maxburst;
+>         fsl_easrc_release_slot(easrc, ctx->index);
+>
+>         easrc->channel_avail +=3D ctx->channels;
+> @@ -1500,6 +1504,12 @@ static int fsl_easrc_hw_params(struct snd_pcm_subs=
+tream *substream,
+>         snd_pcm_format_t format =3D params_format(params);
+>         int ret;
 >
 > +       /* hw_params() may be called again without hw_free() in between *=
 /
-> +       fsl_asrc_dma_release_chans(pair, dir);
+> +       if (ctx_priv->ctx_streams & BIT(substream->stream)) {
+> +               ctx_priv->ctx_streams &=3D ~BIT(substream->stream);
+> +               fsl_easrc_release_context(ctx);
+> +       }
 > +
->         tmp_chan =3D asrc->get_dma_channel(pair, !dir);
->         if (IS_ERR(tmp_chan)) {
->                 dev_err(dev, "failed to request DMA channel\n");
-> @@ -342,6 +358,7 @@ static int fsl_asrc_dma_hw_params(struct snd_soc_comp=
-onent *component,
->                 dev_err(dev, "failed to config DMA channel for Back-End\n=
-");
->                 if (pair->req_dma_chan)
->                         dma_release_channel(pair->dma_chan[dir]);
-> +               pair->dma_chan[dir] =3D NULL;
->                 return ret;
->         }
->
-> @@ -356,15 +373,7 @@ static int fsl_asrc_dma_hw_free(struct snd_soc_compo=
-nent *component,
->         struct fsl_asrc_pair *pair =3D runtime->private_data;
->         u8 dir =3D tx ? OUT : IN;
->
-> -       if (pair->dma_chan[!dir])
-> -               dma_release_channel(pair->dma_chan[!dir]);
-> -
-> -       /* release dev_to_dev chan if we aren't reusing the Back-End one =
-*/
-> -       if (pair->dma_chan[dir] && pair->req_dma_chan)
-> -               dma_release_channel(pair->dma_chan[dir]);
-> -
-> -       pair->dma_chan[!dir] =3D NULL;
-> -       pair->dma_chan[dir] =3D NULL;
-> +       fsl_asrc_dma_release_chans(pair, dir);
->
->         return 0;
->  }
+>         ret =3D fsl_easrc_request_context(channels, ctx);
+>         if (ret) {
+>                 dev_err(dev, "failed to request context\n");
 > --
 > 2.53.0
 >
