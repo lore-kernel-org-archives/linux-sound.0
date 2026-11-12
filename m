@@ -1,83 +1,83 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794466236;
-	b=EG7XDFxfIvB2bThk2wCBpZLW6kaBXbqPUugCU5LlJhUNOIObX0ph7J2Cg5ooM3Zvyntq
-	 EXrsqQ/y6K+wJ5NLdWjvrCUUsGHsyJyqMculggJYOooNWz3oNFx7FZ+jRywpbm/y51SUu
-	 Diduawi09G/vZWYroQ8keDk5bOCfS+I4PZnydPqpiQ+zrDAxp71ruh0o0MFL3OT3kfKoh
-	 Kegxjii/HrnqPIWbhWvpnsclRvmRQYcvErmhyAqpYAVJ75zAAWx+H08UbD/mjd9bcRAFY
-	 5seE7M4tJlxP5Fq6HGLMSUW0dDq5tfkK1z5P24aj6vku1sPvZ/EQD9/sGUtl1voA3Eg==
+	t=1794466240;
+	b=ud91J6U5/hfZUKfzr8a4o49nXHGiPzx+jEfRBY2FsrwfZq/7U+pi2vVaFSmqihUbpdkh
+	 pwelFIzcf7W0zEv0rnGMpNkrozt7RTPnMucvOdvxNZkZ2mHAmynltdpUr+qC58r5f1R8E
+	 777kvyEaRWnen0f6Yt+Rz7HGwnyT65EfHZeCdE3iZErlVTeqMzdDZijdfSoVnsv6lLpHf
+	 y6NPdGCxB+Mh2eICwmeqitGJWGz9yyLEecxew3Gh0wzxGhwNbs2O9a2WJgtSq4JwsWQjK
+	 LyTV794eJrT+Fj5pyIfKi8qmiGUN3c2U9Qfx0R71EEYMAy0koZsDO+UG9D5JBIkD/9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794466236;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794466240;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=AY2XF6wXATByYZO2AFbKnYp3v7psceGk44pj0mt46hI=;
-	b=1In7GemodWOYICLOeI9FtjsSP9SnjfsDGiixpanIV6PY3ilrF97E3WqJkTsDbidSfyJk
-	 PuuMcT1hoakLbEGDeBpywcoGJbLvqVHEoaIXy94wruWS1QdW8bMt/ZXMU5V624kN974E5
-	 4MBCC+16QAoAAJALzypSAGPDLa/iDyDiyuQwowlr9YxojZyUYgGyBbNT3Ixy+bRIj1A2c
-	 ibcwfpBX+NFuGd+dh7/g7vlw5WNA998NMb7FgC024J6x5Yy3jnqbYeBrjH2QMOVN1YkOT
-	 AomXeso6CvqKqRrO4w3M3FLX5oH8d8RzHvAdF+UOmwR17r3MvObIx8+9a9n0OGkqmDw==
+	bh=0Lrn8/IzG4OPTLUo+SJwEmycT247APyWguHaVOjjaKQ=;
+	b=vej7ZBUYtsqYlRskafqBghZwNcXiBFynwHVbuq1piNMMZF0Ne5FL1gWmlbMLIBLtjMXY
+	 Xb9t4byF6NcZqc7GYtnwsE7AeVBaqrWVO6V3aCl/NbZEmxn2pZckSvb2mUyxKqdp7Iyjr
+	 nW7gNQX3T1eShslaz2bvSpwRHaU2nJPfHmtMXebuTfMoGccNSW0zgRZmTIBX3wMXSMAl1
+	 HRuSW6qw/tFyc+oVpeX84VHoG+oWBML6r7htzFfhSxUgC8Z9gcNbPWHGWKk0OHQtMVC9X
+	 UnPNcuxMP/tcVSS1SKPuq8kVYFLjh4eEJjDp66hMK8HHE7qY0F//mSiT/vDkzsS+Gsg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Re5eZ50X;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=j3omvLeD;
 	arc=none smtp.remote-ip=209.85.210.174
 Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0A0606AE44
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 06:50:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F0A0606AE44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409FE606A8A5
+	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 06:50:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 409FE606A8A5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Re5eZ50X
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8a9f9473029so3205347b3a.2
-        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 22:50:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=j3omvLeD
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8b904d10882so1766867b3a.0
+        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 22:50:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794466236; x=1795071036; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794466240; x=1795071040; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=AY2XF6wXATByYZO2AFbKnYp3v7psceGk44pj0mt46hI=;
-        b=Re5eZ50XOIHjXAjO+dOkeKxBiLyJrId9sTxxacONgvjzdn3YlBHqF5aH86aCI24vjP
-         dAj5VywG+OE4wLv5GJdfFnmSJUVw6ScJBl4uhAnUU7SHyQC15iN1VYf0vsmtluhHg1Ld
-         NhxpWGONyRbGqK6ACLzHDJsFerewOD0Zy6YQAPvjUZOe7UilC0nvi3pifQExLCNhfVz7
-         al1z2+OX/x6rO4rcziaqcOk5gox/xhzrasBaW0jyk0xwsfn6PrO8LAOMFeZpqxgWTsFU
-         G/6fTxvNNYMLdS65ca5YHZr85YjMPJY9JiLti1zuPvD8jaNCu4vsj9xfjEhLmVh8aRaM
-         tACQ==
+        bh=0Lrn8/IzG4OPTLUo+SJwEmycT247APyWguHaVOjjaKQ=;
+        b=j3omvLeDtUJWcuC+cFDj3ei/lnsIk21zbKKMIBrSpX1TY8r2J5rhpPHtvJEib8JYRc
+         Z+TYiRjY2kgryd543lCAOCznusf34q7NZWNVoArQg6ZnTdAVBvoEHU55xZ9HpY0hKK1U
+         GLmOFz+s2doQNQ2fL1S0WvqhyIY9WTtnCExWgQJ1kTUng4mtR6aNuZmXsGcs+VHHD0tj
+         b/31GSFnTGGV36wL+CNXnO6eFrtNe1D7hO/IEVxm2r4opKTV0G2qs0iDJNmpjiT773pZ
+         xb8O+GfNiLpZm3Un2mAAsfh+oeWEXGiIbbm38SWPrNj8zo1IQqDxPLEXB7wKK3BIiPjl
+         X6dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794466236; x=1795071036;
+        d=1e100.net; s=20260707; t=1794466240; x=1795071040;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=AY2XF6wXATByYZO2AFbKnYp3v7psceGk44pj0mt46hI=;
-        b=j2/Js38QnZZf3Aw8fdqKNUgcvx9OMxGFG6+3T4rHQbYMoBzjOR/EtF1w8pr4cdcA+Q
-         uY6yHi/4I1aFQH/Ri6AUebPLq3Vw1iZcpRNC/5/Npl4I9PvgMy3N1WdR1LdPK3S7uXMY
-         1hxGuce6YUFexKRkKqMz3HNHlWM8ocNWgA+GBNBmeAKRvy0snDtLdEBMH06HY3auFALm
-         MJKmDmu2QF1GDHuY5+SZdO3U0EdQpRkrCoWc9H4QCN23El5suw3+tFb5O5FJnHDz0P7Z
-         gc1cOuXy0kGcdeY5ljBfuYI/+Yn7AEScwTmJm+b65sSByJPotCfzZachTofoa7HMnPMQ
-         0qTg==
-X-Gm-Message-State: APuU4Z8FDGEse/YJJNAcTda+RWdpFFBpyly9i8VZ3iVWUwkvxT6PN906
-	QHp0YATxfB0/3juITwkS8+gSwOqM0lV8WCBOMgbuxXpK6nMBBEddVKWzfLkjBw==
-X-Gm-Gg: AYBFou0q2NvQJHGUQOkRr4dhckZTyx4ASGov8AqNDCpd4Hn91QTG8wbjLd4rU1dFDle
-	7DETcIhJkXb7LmWJrq/5mK0phWG1DPqfbO4HLmm/kKiBhSbafLuxwMlQ4VKauH/9b3RDLS0Yl46
-	l6VJtB2hevl7eAFNDUL3OgjfMKdcQTxAnXM395E9OcmXEIutPTCekj3ekGOUAJ1GUY8hvnl0353
-	1tx/+OS0ji4LC7LiLss8D7mL46pi4IanFZV/JEMaEV4RRYXfpscEmudS7SYVp0c0+d5rCO2NtAB
-	CLbZ42AiEPMjnZv393+z76Yx9pqV5Z7XtKukqfzdNDl5ghUf6GRBPzEuD8poNI3tVBwF0O004Ni
-	r2H+CS5lpahEoBhVhUCnySirGNplfSaqYMI8g5c94cjDaTVACmzKQ/LgyPTP6K2ydXLFHS1xF/l
-	aVUe5HuFekRaG/UxO9DJmQ/CY228tQCPEhQapisOjgusQDFsJhiN7wveY5588DKIguD1nFdTp52
-	QTGouRLclC7gVYa5dIUulnvCpAeMC5z1hC/4gEBhEJAzXYB9hWiTiu2rTwM4Mv5daipFcgVZYob
-	W00NXqM0H63pBvmZ47QSYUhQTRVSzaW2txCQ2uZY4JjiObXXYDe1rsW6klObQn1l217jVxx92RN
-	JjJos1Pcs5kFRVJh0LW/7efD5VS3cls+5i5xYbeNkqxZR5tY=
-X-Received: by 2002:a05:6a20:2583:b0:3e1:8563:2a2c with SMTP id adf61e73a8af0-3f2fdd9da05mr5074381637.40.1794466235997;
-        Wed, 11 Nov 2026 22:50:35 -0800 (PST)
+        bh=0Lrn8/IzG4OPTLUo+SJwEmycT247APyWguHaVOjjaKQ=;
+        b=H1zXSEyuTNKCZVtkA5jRNSrI/qMtq8ghX8jj0bxAo5or++J5qBtAHZ3RcDpeegIBUA
+         uJ0plLQNEwz0NkUURxFLzWQcAzUIW1+DlB5ADhdlhv4LvbutH2IDT76L7yFKxvfgTtra
+         o3uBdZzFyva85ycHrQVAtPHF70Dw9SglvkAVXNZM2PilMMv1vHUGY7ejlJbqrWY9BrnY
+         oZNgHRoR75xwjGt3XUdcL40lFJsOGmDw+BHFJybfvs9cz3qcE22bMcXyvEpS7z0axKjG
+         2O87YcPhB6GH9Ne17JEWsHgyFXXBurbP0/xUi65jLSli7V72CKkKpfDKjUHmONRfvPRe
+         pa9w==
+X-Gm-Message-State: APuU4Z+szMnhr5PEQ7JrqSHXRezNhFgr1tWH+MiDxhjmH6CC3zjAD1/D
+	pCAkHsjYoqJwF+g0sX4+E6qL6U6w2cX++YLcs5ZsYSOVMfPBJicfd6AmrB382g==
+X-Gm-Gg: AYBFou07sD8o/ydUpyEQf2M5u11dhMi3YlVjP+ULRlTnr9bYfK+1wlvynuJn5dEDpeU
+	OP9cLdHGIoq7qiP+lRjeBA7UxTUTq5Gfhds1EA3me6noJgtv2TbfM6aTYqvdGUUfQEydHNkgkaX
+	bE4QyXqEspO6CSnCqgLSjAUgHg0IwZkwk8egRdM08YbPWInf8zJOGaDkS6LKcEVTJSchqin179Z
+	vD792XdYzPd7L/qXztPh50EEZDENRsw00jniZ64DvWFGJd042UQm/6u+zxRlq0VRtnZm7dJJZHQ
+	lpldvLrA0QXPwnHCfHPVqmBI3aT/tb/6/kqDmAVCldLwvv1sZpQjyF2gaQICzBQCx6fncvI7904
+	FXwCmLXAe62PFpYpUR+SDz2XyTE47hkLqGjBd+pBg8RK3vcDDZ3xbbjrglPM4ZybWS0cwKNpa0T
+	yI2aohU2vDPJbKng0o2/JiuitBR138d7p6a1tD0kD5MDPNepHyMK3bkVPRaVFhPwJDB0Gh41Iws
+	QBWyaJZzFo1Bo2MrNjheNW+vZKANtV2DzZlcIJlNwdzWHwXAUgwiRGn1SjbxVXrb/DrP0nrkveX
+	ajnLo4P2IYOj3Iy6NxbpfrH+Q1hA9S45YoII0j2Y+OK6ikovfjMT9LdWgWdY2KQLLI/teo1haqr
+	55YScV4AG5S+o95eFc57bj0DSN8//TiQ7AplMzfXZ2GS+ItB9
+X-Received: by 2002:a05:6a00:390b:b0:8a0:7677:c8c9 with SMTP id d2e1a72fcca58-8bc1d81d092mr5076970b3a.51.1794466239616;
+        Wed, 11 Nov 2026 22:50:39 -0800 (PST)
 Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8baab1228e2sm3097511b3a.41.2026.11.11.22.50.32
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8baab1228e2sm3097511b3a.41.2026.11.11.22.50.36
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 11 Nov 2026 22:50:35 -0800 (PST)
+        Wed, 11 Nov 2026 22:50:39 -0800 (PST)
 From: Joonho Lee <mynameisjune111@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: tiwai@suse.com,
@@ -91,9 +91,9 @@ Cc: tiwai@suse.com,
 	rdunlap@infradead.org,
 	linux-doc@vger.kernel.org,
 	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v31 16/17] ALSA: pcm: add an explicit application pointer to indirect playback transfer
-Date: Thu, 12 Nov 2026 15:49:28 +0900
-Message-ID: <20261112064929.11211-17-mynameisjune111@gmail.com>
+Subject: [PATCH v31 17/17] ALSA: virtio: preserve playback progress across pause and buffer access
+Date: Thu, 12 Nov 2026 15:49:29 +0900
+Message-ID: <20261112064929.11211-18-mynameisjune111@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261112064929.11211-1-mynameisjune111@gmail.com>
 References: <20261112064929.11211-1-mynameisjune111@gmail.com>
@@ -108,68 +108,341 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The indirect playback transfer helper samples runtime->control->appl_ptr
-internally. A driver that needs to refill already committed data from a
-pointer callback cannot pass the application-pointer snapshot used for
-ACK validation.
+TX completions can arrive after PAUSE closes transfer admission.
+Preserve that progress and schedule catch-up when the stream resumes or
+a rejected pause restores RUNNING. Cache device latency in stream-owned
+state so a late completion does not need to dereference the ALSA
+runtime. Clear both the cache and runtime delay on prepare and before
+RESET observes the hardware pointer.
 
-Add snd_pcm_indirect_playback_transfer_appl_ptr() so callers can supply
-that snapshot. Keep snd_pcm_indirect_playback_transfer() as a wrapper
-that samples the runtime pointer as before, preserving existing callers.
+A playback pointer callback can also invoke ACK while the core has
+closed buffer-access admission, after the pointer helper has already
+accounted for completed hardware bytes. Track that callback context and
+refill only previously committed data using pcm_indirect.appl_ptr. Keep
+rejecting other ACKs while the gate is closed, and use the
+snd_pcm_indirect_playback_transfer_appl_ptr() for the refill. If
+runtime->control is absent, route the condition through the common
+playback validator and XRUN error path rather than returning before
+transfer failure handling.
 
-The explicit-pointer form lets virtio refill accepted data without
-accepting new application progress while the ALSA buffer-access gate is
-closed.
+Use the existing indirect hw_queue_size to keep outstanding TX below one
+physical ring: buffer_bytes - period_bytes. Equal modulo cursors then
+mean no unobserved completion, and a non-interrupt HWSYNC cannot consume
+a hidden full-ring wrap before deferred period work. Continue using the
+ordinary ALSA pointer update for silence, drain, stop-threshold and
+wakeup policy.
+
+Check for pending progress or a latched transfer error again in the
+period worker under the PCM stream lock. A queued notification can
+outlive a paused RESET or an earlier pointer observation. Calling the
+period helper without new progress after resume can turn equal cursors
+into a false wrap when the core has backdated its pointer timestamp.
+
+This reduces queued buffering by one period. With two periods, only one
+period can be queued.
+
+The final candidate was tested on ARM64 QEMU with KASAN and lockdep.
+RW/MMAP boundary pause, release, HWSYNC/poll, drop and reopen passed
+with two- and eight-period rings. RW/MMAP also passed accepted RESET
+from PREPARED followed by DRAIN and reopen, and accepted RESET while
+RUNNING after the full 2,048-frame buffer became available.
+
+A separate paired RW/MMAP gate fixture reproduced the baseline failure.
+The generic ALSA indirect helper invokes ACK for each pointer callback
+but masks its internal -EBADFD. Once hw_ptr == hw_io with no completion
+outstanding, virtio period-work progress suppresses further callbacks,
+so there is no ACK to retry the refill. Baseline stopped after 3,072
+completed bytes with 1,024 bytes in sw_ready. The candidate drained
+sw_ready and completed 4,096 bytes without any further client ACK. A
+test-only hook changed appl_ptr to 2,560 while only 2,048 frames were
+committed; the candidate refilled only committed data. The hostile
+mutation used a test-only kernel hook because ARM64 control-page mmap is
+unsupported. KASAN and lockdep reported no diagnostics.
 
 Assisted-by: LLM
 Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 
 ---
-include/sound/pcm-indirect.h |   24 +++++++++++++++++++-----
- 1 file changed, 19 insertions(+), 5 deletions(-)
+sound/virtio/virtio_pcm.c     |    3 ++
+ sound/virtio/virtio_pcm.h     |   13 ++++++++
+ sound/virtio/virtio_pcm_msg.c |    8 ++---
+ sound/virtio/virtio_pcm_ops.c |   69 ++++++++++++++++++++++++++++++-----------
+ 4 files changed, 70 insertions(+), 23 deletions(-)
 
-diff --git a/include/sound/pcm-indirect.h b/include/sound/pcm-indirect.h
---- a/include/sound/pcm-indirect.h
-+++ b/include/sound/pcm-indirect.h
-@@ -28,15 +28,17 @@
- 					struct snd_pcm_indirect *rec, size_t bytes);
- 
- /*
-- * helper function for playback ack callback
-+ * Playback transfer using a caller-supplied application pointer snapshot.
-+ * Passing rec->appl_ptr refills previously accepted data without accepting
-+ * additional application progress.
-  */
- static inline int
--snd_pcm_indirect_playback_transfer(struct snd_pcm_substream *substream,
--				   struct snd_pcm_indirect *rec,
--				   snd_pcm_indirect_copy_t copy)
-+snd_pcm_indirect_playback_transfer_appl_ptr(struct snd_pcm_substream *substream,
-+					    struct snd_pcm_indirect *rec,
-+					    snd_pcm_indirect_copy_t copy,
-+					    snd_pcm_uframes_t appl_ptr)
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
--	snd_pcm_uframes_t appl_ptr = runtime->control->appl_ptr;
- 	snd_pcm_sframes_t diff = appl_ptr - rec->appl_ptr;
- 	int qsize;
- 
-@@ -72,6 +74,18 @@
- 		rec->sw_ready -= bytes;
+diff --git a/sound/virtio/virtio_pcm.c b/sound/virtio/virtio_pcm.c
+--- a/sound/virtio/virtio_pcm.c
++++ b/sound/virtio/virtio_pcm.c
+@@ -338,6 +338,9 @@
  	}
- 	return 0;
-+}
-+
-+/* Preserve the application pointer sampling of the ordinary ACK helper. */
-+static inline int
-+snd_pcm_indirect_playback_transfer(struct snd_pcm_substream *substream,
-+				   struct snd_pcm_indirect *rec,
-+				   snd_pcm_indirect_copy_t copy)
-+{
-+	snd_pcm_uframes_t appl_ptr = substream->runtime->control->appl_ptr;
-+
-+	return snd_pcm_indirect_playback_transfer_appl_ptr(substream, rec, copy,
-+							  appl_ptr);
+ 
+ 	if (vss->direction != SNDRV_PCM_STREAM_CAPTURE) {
++		/* Ignore stale work after RESET rebases the playback cursors. */
++		if (!virtsnd_pcm_playback_progress_pending(vss))
++			return;
+ 		snd_pcm_period_elapsed_under_stream_lock(substream);
+ 		return;
+ 	}
+diff --git a/sound/virtio/virtio_pcm.h b/sound/virtio/virtio_pcm.h
+--- a/sound/virtio/virtio_pcm.h
++++ b/sound/virtio/virtio_pcm.h
+@@ -53,6 +53,7 @@
+  *        substream operators, including @stopped.
+  * @buffer_bytes: Current buffer size in bytes.
+  * @hw_ptr: Substream hardware pointer value in bytes [0 ... buffer_bytes).
++ * @playback_latency_bytes: Device delay cached independently of the ALSA runtime.
+  * @capture_ready: Managed-mode bytes copied but not yet acknowledged by ALSA;
+  *                 always zero in free-running mode.
+  * @capture_boundary: ALSA boundary captured for this prepared epoch.
+@@ -84,6 +85,8 @@
+  * @capture_reset_observing: Reclaim staged samples during RESET pointer capture.
+  * @indirect_reset_observing: Suppress ordinary ACK refill during RESET pointer
+  *                            capture; protected by the PCM stream lock.
++ * @playback_pointer_active: Internal playback ACK context; protected by the
++ *                           PCM stream lock.
+  * @suspended: True if the substream is suspended and must be reconfigured on
+  *             the device side at resume.
+  * @pause_restart_state: Device-side state for opt-in pause compatibility.
+@@ -113,6 +116,7 @@
+ 	bool resetting;
+ 	size_t buffer_bytes;
+ 	size_t hw_ptr;
++	u32 playback_latency_bytes;
+ 	size_t capture_ready;
+ 	snd_pcm_uframes_t capture_boundary;
+ 	u64 capture_copied_total;
+@@ -140,6 +144,7 @@
+ 	bool control_uncertain;
+ 	bool capture_reset_observing;
+ 	bool indirect_reset_observing;
++	bool playback_pointer_active;
+ 	bool suspended;
+ 	enum virtio_pcm_pause_restart_state pause_restart_state;
+ 	struct virtio_pcm_msg **msgs;
+@@ -179,6 +184,14 @@
+ 	return schedule_work(&vss->elapsed_period);
  }
  
++/* Caller holds the PCM stream lock so RESET cannot rebase these cursors. */
++static inline bool
++virtsnd_pcm_playback_progress_pending(struct virtio_pcm_substream *vss)
++{
++	guard(spinlock_irqsave)(&vss->lock);
++	return vss->xfer_xrun || vss->hw_ptr != vss->pcm_indirect.hw_io;
++}
++
  /*
+  * ALSA may observe a subperiod tail before its period callback. Keep actual
+  * unread occupancy separate from pointer observations and notification state;
+diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
+--- a/sound/virtio/virtio_pcm_msg.c
++++ b/sound/virtio/virtio_pcm_msg.c
+@@ -1033,12 +1033,10 @@
+ 	/* Keep latched errors until prepare establishes a fresh epoch. */
+ 	vss->msg_count--;
+ 
+-	if (vss->xfer_enabled) {
+-		struct snd_pcm_runtime *runtime = vss->substream->runtime;
+-
+-		runtime->delay = bytes_to_frames(runtime, latency_bytes);
++	/* A queued request can outlive the ALSA runtime after hw_free. */
++	vss->playback_latency_bytes = latency_bytes;
++	if (vss->prepared && !vss->preparing)
+ 		virtsnd_pcm_schedule_period_elapsed(vss);
+-	}
+ 	if (!vss->msg_count)
+ 		wake_up_all(&vss->msg_empty);
+ }
+diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
+--- a/sound/virtio/virtio_pcm_ops.c
++++ b/sound/virtio/virtio_pcm_ops.c
+@@ -770,6 +770,13 @@
+ 		memset(&vss->pcm_indirect, 0, sizeof(vss->pcm_indirect));
+ 		vss->pcm_indirect.sw_buffer_size = vss->buffer_bytes;
+ 		vss->pcm_indirect.hw_buffer_size = vss->buffer_bytes;
++		if (vss->direction == SNDRV_PCM_STREAM_PLAYBACK) {
++			/* Keep unobserved completions below one physical ring. */
++			vss->pcm_indirect.hw_queue_size = vss->buffer_bytes -
++				snd_pcm_lib_period_bytes(substream);
++			vss->playback_latency_bytes = 0;
++			substream->runtime->delay = 0;
++		}
+ 		if (vss->direction == SNDRV_PCM_STREAM_CAPTURE) {
+ 			vss->capture_boundary = substream->runtime->boundary;
+ 			rc = virtsnd_pcm_capture_refresh_mode_locked(vss,
+@@ -1200,7 +1207,8 @@
+ 		}
+ 
+ 		if (running) {
+-			if (vss->direction == SNDRV_PCM_STREAM_CAPTURE)
++			if (vss->direction == SNDRV_PCM_STREAM_CAPTURE ||
++			    virtsnd_pcm_playback_progress_pending(vss))
+ 				virtsnd_pcm_schedule_period_elapsed(vss);
+ 			return 0;
+ 		}
+@@ -1222,7 +1230,8 @@
+ 				return -ECANCELED;
+ 			vss->device_running = true;
+ 		}
+-		if (!rc && (vss->direction == SNDRV_PCM_STREAM_CAPTURE))
++		if (!rc && (vss->direction == SNDRV_PCM_STREAM_CAPTURE ||
++			    virtsnd_pcm_playback_progress_pending(vss)))
+ 			virtsnd_pcm_schedule_period_elapsed(vss);
+ 		return rc;
+ 	case SNDRV_PCM_TRIGGER_SUSPEND:
+@@ -1272,7 +1281,8 @@
+ 				virtsnd_pcm_trigger_failed(vss, epoch);
+ 			} else if (virtsnd_pcm_start_queue(vss, epoch)) {
+ 				virtsnd_pcm_trigger_failed(vss, epoch);
+-			} else if (vss->direction == SNDRV_PCM_STREAM_CAPTURE) {
++			} else if (vss->direction == SNDRV_PCM_STREAM_CAPTURE ||
++				   virtsnd_pcm_playback_progress_pending(vss)) {
+ 				virtsnd_pcm_schedule_period_elapsed(vss);
+ 			}
+ 		}
+@@ -1605,6 +1615,7 @@
+ {
+ 	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
++	snd_pcm_uframes_t position;
+ 	size_t hw_ptr;
+ 	bool paused_pointer = false;
+ 	bool defer_work = false;
+@@ -1622,6 +1633,7 @@
+ 		}
+ 		if (!paused_pointer)
+ 			hw_ptr = vss->hw_ptr;
++		runtime->delay = bytes_to_frames(runtime, vss->playback_latency_bytes);
+ 	}
+ 	if (paused_pointer) {
+ 		if (defer_work)
+@@ -1629,8 +1641,11 @@
+ 		return virtsnd_pcm_cached_pointer(runtime);
+ 	}
+ 
+-	return snd_pcm_indirect_playback_pointer(substream,
+-		&vss->pcm_indirect, hw_ptr);
++	vss->playback_pointer_active = true;
++	position = snd_pcm_indirect_playback_pointer(substream,
++						     &vss->pcm_indirect, hw_ptr);
++	vss->playback_pointer_active = false;
++	return position;
+ }
+ 
+ /* Caller holds vss->lock. */
+@@ -1745,9 +1760,9 @@
+ /* Caller holds @vss->lock and the PCM stream lock. */
+ static int virtsnd_pcm_playback_ack_validate(struct virtio_pcm_substream *vss,
+ 					     struct snd_pcm_runtime *runtime,
+-					     const struct snd_pcm_indirect *rec)
+-{
+-	snd_pcm_uframes_t appl_ptr;
++					     const struct snd_pcm_indirect *rec,
++					     snd_pcm_uframes_t appl_ptr)
++{
+ 	snd_pcm_uframes_t appl_diff;
+ 	snd_pcm_uframes_t signed_max;
+ 	snd_pcm_uframes_t back;
+@@ -1761,7 +1776,7 @@
+ 	unsigned int hw_queue_size;
+ 
+ 	if (!runtime->control || !runtime->boundary ||
+-	    runtime->control->appl_ptr >= runtime->boundary ||
++	    appl_ptr >= runtime->boundary ||
+ 	    rec->appl_ptr >= runtime->boundary)
+ 		return -EPIPE;
+ 
+@@ -1776,7 +1791,6 @@
+ 		return -EPIPE;
+ 
+ 	/* Match the indirect helper's appl_ptr boundary-wrap calculation. */
+-	appl_ptr = runtime->control->appl_ptr;
+ 	if (appl_ptr >= rec->appl_ptr) {
+ 		appl_diff = appl_ptr - rec->appl_ptr;
+ 	} else {
+@@ -1868,7 +1882,8 @@
+ 	return -EPIPE;
+ }
+ 
+-static int virtsnd_pcm_pb_ack_locked(struct snd_pcm_substream *substream)
++static int virtsnd_pcm_pb_ack_locked(struct snd_pcm_substream *substream,
++				     snd_pcm_uframes_t appl_ptr)
+ {
+ 	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+@@ -1892,13 +1907,13 @@
+ 				return -EBADFD;
+ 			transfer.indirect = vss->pcm_indirect;
+ 			rc = virtsnd_pcm_playback_ack_validate(vss, runtime,
+-							       &transfer.indirect);
++							       &transfer.indirect, appl_ptr);
+ 			if (rc == -EBADFD)
+ 				return -EBADFD;
+ 			if (!rc)
+-				rc = snd_pcm_indirect_playback_transfer(substream,
+-									&transfer.indirect,
+-									virtsnd_pcm_trans_copy);
++				rc = snd_pcm_indirect_playback_transfer_appl_ptr(
++					substream, &transfer.indirect,
++					virtsnd_pcm_trans_copy, appl_ptr);
+ 		}
+ 		if (!rc)
+ 			rc = transfer.error;
+@@ -1937,8 +1952,6 @@
+ 	case SNDRV_PCM_STATE_RUNNING:
+ 	case SNDRV_PCM_STATE_PAUSED:
+ 	case SNDRV_PCM_STATE_DRAINING:
+-		if (atomic_read(&substream->runtime->buffer_accessing) < 0)
+-			return -EBADFD;
+ 		return 0;
+ 	default:
+ 		return -EBADFD;
+@@ -1949,6 +1962,8 @@
+ static int virtsnd_pcm_pb_ack(struct snd_pcm_substream *substream)
+ {
+ 	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
++	struct snd_pcm_runtime *runtime = substream->runtime;
++	snd_pcm_uframes_t appl_ptr;
+ 	int rc;
+ 
+ 	if (vss->indirect_reset_observing)
+@@ -1956,7 +1971,21 @@
+ 	rc = virtsnd_pcm_ack_state(substream);
+ 	if (rc)
+ 		return rc;
+-	return virtsnd_pcm_pb_ack_locked(substream);
++	if (atomic_read(&runtime->buffer_accessing) < 0) {
++		if (!vss->playback_pointer_active)
++			return -EBADFD;
++		/*
++		 * Pointer accounting already consumed completed hardware bytes.
++		 * Refill committed data without admitting a new application
++		 * pointer while a buffer operation has closed ACK admission.
++		 */
++		appl_ptr = vss->pcm_indirect.appl_ptr;
++	} else if (runtime->control) {
++		appl_ptr = READ_ONCE(runtime->control->appl_ptr);
++	} else {
++		appl_ptr = 0;
++	}
++	return virtsnd_pcm_pb_ack_locked(substream, appl_ptr);
+ }
+ 
+ static int virtsnd_pcm_capture_ack(struct virtio_pcm_substream *vss,
+@@ -2087,6 +2116,8 @@
+ 	rc = virtsnd_pcm_ack_state(substream);
+ 	if (rc)
+ 		return rc;
++	if (atomic_read(&substream->runtime->buffer_accessing) < 0)
++		return -EBADFD;
+ 	return virtsnd_pcm_cp_ack_locked(substream);
+ }
+ 
+@@ -2229,6 +2260,8 @@
+ 		guard(spinlock)(&vss->lock);
+ 		if (vss->msg_count)
+ 			return -EBUSY;
++		vss->playback_latency_bytes = 0;
++		runtime->delay = 0;
+ 	}
+ 	vss->indirect_reset_observing = true;
+ 	rc = snd_pcm_lib_reset(substream);
