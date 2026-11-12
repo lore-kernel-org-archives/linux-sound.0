@@ -1,97 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794458801;
-	b=QxkPzQclRpwL352MyOFdUV1TPGGTGX1J5FdJTtB5Tp8FZtI6xlvdM6VbvPaXsofcPH3p
-	 jZn8NNXMDvJG3uUiAW758JO15UNNTz8/dLmcMCKnAEeRhYJp4dmCE3B1NXD6Be/ymZUNa
-	 mzDt5tqSEp1P+BZs4AwrxszjKqq69vwlBKwKjWyzvhsnRZmbzi248Op/kDBbPwOcRRIKp
-	 W736thTs8aTkOu9d21+KQmLaT0iXGG/xlzFD2uqMchZMpHxlKkUfINzrIvxWPCqddd6KK
-	 nebm9P5Q7Vci/EXVAeQ5LdL7HRMLVtC6ZgXNNrj6wlz68EL7vxpomNvToz/Y3uNhc4Q==
+	t=1794460736;
+	b=fCiLHlmET1+WT/hyeGWdd0v41aezUargs4B2EaTkLmDATqypGuMCuHA6iwFwwhdCRmSk
+	 K3XgDO6X7JnC7HhBR22Oy58Af9+WncavRF42aGJmSy+QatrgrXSTdYlGsoSpjuOq9V8eG
+	 AlbRSG9kNGIe53A+7XvuARg+80rKR6GfS3urDrQ8cfFCfpy1+5rr+Q7v3qpihwqMqj4u2
+	 5hU4f6cAnfAo+SrQaSDMKzY/LP8+ZyeWyQVgV/uJriW/DDXmfLc7HOa/A6zK83K5P88Kl
+	 KVMDDJdOgVmYjrL6k5nhr2I6b2ga0OG0DzI3yBjmRyc68zbi/NfyXPd1RPBR/fev1oQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794458801;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794460736;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:X-Google-Original-From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=zDvPfFRo3Pr4rD5hC81MDhK2cGrLFWLL5uDGpA+teSE=;
-	b=dRsAWMiPGxGXQJrsjzQKtCkF++g+rrZqp8prQQPWgOw8OvUMPQ+e0uZbO6sRTkwdMKby
-	 GncKVDF3z6v/w7MDDoBCau1uNfKpViWlF1MIvLtQZLj/ENdMIVFSvjG2Xb0Ov5tPy/1XX
-	 ufeWHnARFVyr4UO4vpvdnwbiNgzqkC9KFdn849+XohDsbu+XDIQXVN25+97a4/u9tJ720
-	 V37LEG2Br4LZMLtsj01nyZRIxHW1zr2hNvoSxLkd//wLh05eL1t4ejMwdf7FhzP0IrWu1
-	 ao0/2V1UZcrxpx9DJpfxsKs5zzxpAnoY3OzhoS9xFJXg6K9GvLjNUe3XRZwGO4hHpgg==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Reply-To:To:Cc:
+	 Subject:Date:Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=PeZmCzba2M5Jt4hjT2xigzRftMQa1cn3KQXiYi9CbsM=;
+	b=3hyaAMY4J1nblmj/sduioRhG6yItiWzG77/D7IPtGkOtIRr8z2r3Fp+MHtpcvcCiR4jI
+	 B5ik0TJJGfg9YWLAWUVmjXFbOug5gK8kq+RjxTkiiNH/dB1w4cJfaglv7JqCDL9qbpOQ7
+	 +PriAv/MiXI4SA4C6CnY5nxrQTvd2dmjr7ITfhDQW+cdkdYf3jJZwmE9pusumkEBq5g8N
+	 8RxnGJw6dCq/GHNZk3nOUj5/qTntDZz2Ig+4V5O7MD5oEWL7MfRuIvmNOkM2/9s4ZSpta
+	 mxKVNHl+uWTRk/rp6v5SuZBCyMYe7UDAYd12Kp/5KyboTbrznOjv2wexyqew4G7+msg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=dankook.ac.kr;
-	spf=pass smtp.mailfrom=dankook.ac.kr;
-	dkim=pass header.d=dankook-ac-kr.20260707.gappssmtp.com header.i=@dankook-ac-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=pgKCVaYM;
-	arc=none smtp.remote-ip=209.85.128.178
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	dmarc=none header.from=deeply.co.kr;
+	spf=pass smtp.mailfrom=deeply.co.kr;
+	dkim=pass header.d=deeply-co-kr.20260707.gappssmtp.com header.i=@deeply-co-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="c0u/NX8S";
+	arc=none smtp.remote-ip=74.125.82.182
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB83606A31C
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 04:46:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8DB83606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dankook.ac.kr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dankook.ac.kr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A47B606A332
+	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 05:18:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A47B606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deeply.co.kr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deeply.co.kr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dankook-ac-kr.20260707.gappssmtp.com header.i=@dankook-ac-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=pgKCVaYM
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-8b0cf2c0785so41286727b3.3
-        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 20:46:41 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=deeply-co-kr.20260707.gappssmtp.com header.i=@deeply-co-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=c0u/NX8S
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-3645f0f3fcdso8225637eec.0
+        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 21:18:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dankook-ac-kr.20260707.gappssmtp.com; s=20260707; t=1794458800; x=1795063600; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zDvPfFRo3Pr4rD5hC81MDhK2cGrLFWLL5uDGpA+teSE=;
-        b=pgKCVaYMmSN9Q0Pcz54NxSU6NNeEydxafVy5qI4A5GsCJD0sP6S2CdBDZCo4DgZmlH
-         qKM6Xbh0+05zNkgEeA+JD2f8ZIL00aIW6AjRES7bvoImI9d/if4KjahdLDh3zfp0fhf5
-         3Qew3wrmf4nPjXAaRA6CQI9kAv2ouCglE6kgFq/cgVGLUMLDD7IZFUD7ZID6qsLr38H9
-         k4xarX1JWekftUl2dX/3XvCcJ4dLN4NxDY4JehCU/uapuNH6FFYyYcZyUBq/JtW5YFjd
-         CZzmTvfUTWkrty4BBwSl7AgiQbOmXWIucACqsQ0VB7MUtfUr/mB6YKGV2nzQx3Fx0h32
-         mGGQ==
+        d=deeply-co-kr.20260707.gappssmtp.com; s=20260707; t=1794460734; x=1795065534; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:reply-to:from:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=PeZmCzba2M5Jt4hjT2xigzRftMQa1cn3KQXiYi9CbsM=;
+        b=c0u/NX8SiRs8e1+N3Ad4VnS3ir7oMnQ2hHdX/cFoPNmEt79EEYN2ctR4xlJPe3O/qu
+         SVxqaVrxSKxOq2Dm4GmGG0hKbcri8SzGDmN1TMiPTFjFimgPeJ34b578EXgSWxIMLUKQ
+         GT6yLwCEkOJvg1D2rWyGuUYO8fhvPSUwQYGVlKDdYqJUyoXk0t4xhxeh383vW21dEDtZ
+         DBaSYlbMrJ9S7miRkyBelEynVNR90OjXXKEw8jwOmB35Z+ctVC0AUBU7VEvUTg17AbLn
+         1NhUy54sDw9QbrEjm9o1AuYSbEYN+wniDcZqDfcyEvRM28qcMT9xpnLgZlgweV/g4Tlr
+         md3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794458800; x=1795063600;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zDvPfFRo3Pr4rD5hC81MDhK2cGrLFWLL5uDGpA+teSE=;
-        b=RqBNtHcisecojTH/Va+oVkO94f4dZy/LNFd93554Tx+PA8A83dLfTcM37C9u2JGxd7
-         EWi+JWyqp7J6YYqhIT+rfhqtfKGzB2I1GcAutwbci05AsLvXiUcHc6uFrUyAhmYMngQo
-         JOT9xRCPnnX/U66WAAlqUtswuY3gMXch8wKxJ7tfarroMlVVUIGKZQ7nLSoR/F8t6hzB
-         2dzmBiri8ys4FQEcqccqSF++aXvygTTg0elUyPBTwuw3Hwmbai8TW+j19wFPVQG82o8m
-         SVESFTfnkaxs+XEoQSm9hZx81OBUbJj0czmslJZGNmndyqt0MtVwd5OOxUHenZ5hYtth
-         vc9A==
-X-Forwarded-Encrypted: i=1; AL+hErGsHUgd4HT2qdLQjfya4MsjPrWK4qmj5j4lCQxItVRw3ZCVszEovoKFN8dFV+silKxeMVwWwLst540WqA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z80ao4RtUE0vgW4au8w+iipbZFiIVQ4o2/UCzs54SRtHqt8l8zh
-	0FJ6RMHSVuBiWQvcY67hk2rSJ4MVu1tQW6HgXV3HX/3N0/OgAW5D1NdgHE7WRWzfruw=
-X-Gm-Gg: AYBFou3yIiqCHmqyGFCaprun7PVupv9ONZm6yV68syrm3kb7s7PN9LjrZwseIEwRTKe
-	0ei6fU8DJKp5LwQkpQqdZoyrJr1UVvbzoMjIgJFlRXxm2EZzduQgOO5XkNdYFeaG8SuIPAftryM
-	4Dgjhb94ORoYS93lU87AqJdWcdkh5jJ8IV1crQfthAQGpw7V6ZvFQwP5XE2tHupeepPCprfa3T3
-	rDdCKwUfJMQKiasSspad7Z1LIfFzVXWODZ4g9yzeS1VuCC7NpSdJOdByUt4VOU4mohfrPXqeV2n
-	R/y6SSRkq8NsdlXxi8k0yncdARmjH5L6gzwSDI0tnVM4y6doeexrYMW+3yogFP2y4UvgMABbpyT
-	ZChmeSlyplYmCnUfY1+hL5xo6WeRgGYOEs4ZMjZD8IbzXM65mQgst5FDjhko3DhxsCvvF4tL1zl
-	6RA8r7yNCSYc5sLHo6ZON8XDpXX0FoZB7b0nnF8e89Za3TLIxBXfB2+6oSRhP+Kjtm0Q5cjm1mx
-	f9d8S4gwwKLOTC+Z1J13oce6jwp3o9//QtjaEmvPI1c3AL1mOX7OktsXKsGFqa5RAfUfCeyfUch
-	yIbc8A7ySxVLR4Hxhz9ARYoXcsPARLapjdI3NjbdoCHWXw==
-X-Received: by 2002:a05:690c:f95:b0:8b3:4a7a:599d with SMTP id 00721157ae682-8b3a81c2304mr30059597b3.86.1794458800536;
-        Wed, 11 Nov 2026 20:46:40 -0800 (PST)
-Received: from myarch ([220.149.255.19])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b3933e0d01sm61919277b3.22.2026.11.11.20.46.36
+        d=1e100.net; s=20260707; t=1794460734; x=1795065534;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:reply-to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PeZmCzba2M5Jt4hjT2xigzRftMQa1cn3KQXiYi9CbsM=;
+        b=b7kIsIyA49coYdPKiKEFitPAXHog96ZWPDbJrCD8YWrt2KonlgvbnX1azni40ujbrX
+         aVDj6FwwbmtK2xQkQUpLcX0Zi3xX1rlbfNWVILYwLaMKnRM+1v1j6ep3n9mGITlwM3d9
+         a4bC5uAPtr8JtXcH7mibwDq5lp6TRlaymvpolaWmjWQNsx21wNUBn1vndGDpzaN6i0j9
+         IqsyQ4+cjXfMxQhv/tetx8tIuzEhrDNIe2G77tQM+0cyE6wSfgEoi2bWiYtmGVpGKOTy
+         dDXazMeUs3TijDiR/KS+dF0Z8zJ1rG55aW+lzIFNykmW+hzkbPUKjXfeelcZyawyroA6
+         m4Og==
+X-Gm-Message-State: APuU4Z+DzZ7HJlSyQKnrOal6oY50EPG48KvTMTYLjOo2XStgrs2VSaOm
+	82LUl3VXDCT9c1Pqe2lCFqupqcvouIkjjBsaMqfzf/xdryvzmLkopSNPFwm7qV4g2HCX/dk5ZG5
+	azFvuoC7CxA==
+X-Gm-Gg: AYBFou21HSN/dtgBeZTdswEyDXkBZdRGuS+WpawQlO05o7BajWQNuSBLcCZtE/X90+y
+	c2sx1sFU3x+/8TaWi5NQcrOeoEpN6WZC/UPTqGg+cncJ1rcejDXNz1foI846pAvuHMzFiCMyMtk
+	4ssVuVA5wLvxZlSCiyX9bzymIyH4OmImGu+PN1WsS+IFuUia82YnpW2Rtn/2BoBY/PZR2eSa9Id
+	XEoyXK8Pr5DEXlwTTjPf6PVU2lGYGnT3Mt/+bEptyg74HR6Dtc/HBTazhDZKrgfhCRv0RdO+Ltq
+	afO2vFxGp40UIsf7phFEcpT+mjbloCs/AkoiAxXDbXfazZi0FpmN69AUj8Wfs6xKe4ACKiaX9r8
+	PnLJj/oDwCpNLmzLycpv+NuwBKT9QmWLrWtqrNOh54ktyvHyu7FiXFKR360Cutxd7XCi5gDZayE
+	5bEKzz5BOuJAex1C5WmJWfyGzAcoJwI+7LHlAt8AuuI7L+BN06S8sWGW+nx9+13GbBt1Zeq1ipX
+	18FmHmUWpk6HgneJ23IJgBe7TjAoLTfKcFIdQarPLBJihG39wp0so9VivOx1NWzlFD3TMZEgYK8
+	txwjjfB6VLpr0UckLaJrfk8S3slVQ8aChaL+dRpP2UKQHIhKsI1fJ+2kDZIgBOUEGrewFaLm74H
+	Op6cINNukSXi/Hx6tw8h5WR1b4Q1tguM8FEEyEH+alrspIR4=
+X-Received: by 2002:a05:701a:844d:20b0:163:c5eb:d42f with SMTP id a92af1059eb24-1b3c024ad18mr4159915c88.5.1794460733817;
+        Wed, 11 Nov 2026 21:18:53 -0800 (PST)
+Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b4b90csm19764527c88.14.2026.11.11.21.18.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 20:46:39 -0800 (PST)
-From: fixca <jaehoon1744@dankook.ac.kr>
-X-Google-Original-From: fixca <jaehoon1744@gmail.com>
-To: shumingf@realtek.com
-Cc: broonie@kernel.org,
-	Vijendar.Mukunda@amd.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	JaeHoon Kim <jaehoon1744@dankook.ac.kr>
-Subject: Re: [PATCH RFC 0/1] ASoC: rt1320: LG gram 16Z95U speaker works with the BIOS init values
-Date: Thu, 12 Nov 2026 13:46:24 +0900
-Message-ID: <20261112044624.4395-1-jaehoon1744@gmail.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261112040143.6945-1-jaehoon1744@gmail.com>
-References: <20261112040143.6945-1-jaehoon1744@gmail.com>
+        Wed, 11 Nov 2026 21:18:52 -0800 (PST)
+From: Joonho Lee <joon@deeply.co.kr>
+Reply-To: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com, perex@perex.cz, anton.yakovlev@opensynergy.com,
+ mst@redhat.com, virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ linux-doc@vger.kernel.org, mynameisjune111@gmail.com
+Subject: [PATCH v28 14/17] docs: describe virtio-sound capture options
+Date: Thu, 12 Nov 2026 05:18:44 -0000
+Message-ID: <20261112043516.37010-15-mynameisjune111@gmail.com>
+In-Reply-To: <20261112043516.37010-1-mynameisjune111@gmail.com>
+References: <20261112043516.37010-1-mynameisjune111@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,41 +103,88 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: JaeHoon Kim <jaehoon1744@dankook.ac.kr>
+From: Joonho Lee <mynameisjune111@gmail.com>
 
-Hi Shuming,
+Document request-owned capture in the ALSA configuration guide. Describe
+`capture_packed_status` as default-off, reading a packed trailer after
+returned data while the fixed status scatterlist remains the default.
+Describe default-off `capture_pause_restart`: pause uses STOP and
+RELEASE, then resume uses PREPARE and START; disabled mode uses STOP and
+START while retaining the prepared stream.
 
-Please disregard this RFC. The BIOS init values are not needed: the
-stock rt1320 driver works on this machine.
+Note that on MMU systems request buffers are vmalloc-backed and
+page-rounded individually. They remain allocated from hw_params through
+hw_free, and capture data is copied into the ALSA ring.
 
-While narrowing the register groups down (after the Sashiko review,
-which correctly pointed out that my table dropped the two PDE23 entries
-and that 0x1000db15-0x1000db23 is the same command list in a different
-order, not an L/R swap), the baseline with no BIOS values also played
-sound. I then retested the unmodified v7.2.15 rt1320 driver, with only
-the two ACP patches Mark applied, in three boot scenarios:
+Assisted-by: LLM
+Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 
-  boot                                   amp func_status   speaker
-  cold boot (power fully removed)        0x61              works
-  warm reboot Linux -> Linux             0x41              works
-  Windows (speaker used) -> warm reboot  0x43              works
+---
+Documentation/admin-guide/kernel-parameters.txt |   14 +++++++++++++
+ Documentation/sound/alsa-configuration.rst      |   25 +++++++++++++++++++++=
+++
+ 2 files changed, 39 insertions(+)
 
-v7.2.15 has no audio related changes compared to v7.2.14, so I cannot
-explain the silence I saw earlier on v7.2.14. It is no longer
-reproducible; it may have been a stale amplifier state left over from
-my earlier experiments. Once (also no longer reproducible) the RT1320
-read back 0x81 for every register after a warm reboot, which only a
-full power removal cleared. I will report back if either problem shows
-up again.
-
-The remaining open point is the one from before: no DSP firmware / RAE
-files are loaded for this machine, so the speaker protection set up on
-Windows is not active on Linux. If Realtek can provide those files for
-the LG gram 16Z95U (SSID 1854:056c), I am happy to test them.
-
-Sorry for the noise.
-
-Thanks,
-JaeHoon Kim
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/=
+admin-guide/kernel-parameters.txt
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -8344,6 +8344,20 @@
+=20
+ 			Can be used multiple times for multiple devices.
+=20
++	virtio_snd.capture_packed_status=3D [HW,ALSA]
++			Read an explicitly enabled packed status trailer after
++			the returned capture data. The fixed status scatterlist is
++			used by default.
++			Format: <bool>
++			Default: false.
++
++	virtio_snd.capture_pause_restart=3D [HW,ALSA]
++			Stop and release the stream when pausing capture. On
++			resume, send PREPARE and START. If disabled, pause uses
++			STOP and START while retaining the prepared stream.
++			Format: <bool>
++			Default: false.
++
+ 	vga=3D		[BOOT,X86-32] Select a particular video mode
+ 			See Documentation/arch/x86/boot.rst and
+ 			Documentation/admin-guide/svga.rst.
+diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound=
+/alsa-configuration.rst
+--- a/Documentation/sound/alsa-configuration.rst
++++ b/Documentation/sound/alsa-configuration.rst
+@@ -2537,6 +2537,31 @@
+=20
+ This module supports multiple cards.
+=20
++Module virtio-snd
++-----------------
++
++Virtio-sound capture receives data into a separate request buffer for each
++PCM period. The driver validates the responses and appends frame-aligned aud=
+io
++to the ALSA ring in request order. Valid short responses are retained. Empty
++responses are accepted only during bounded startup or for requests already in
++flight at STOP or PAUSE.
++
++capture_packed_status
++    Read an explicitly enabled packed status trailer after returned capture
++    data. The fixed status scatterlist is used by default.
++    (default =3D false)
++
++capture_pause_restart
++    Stop and release capture on pause. Resume with PREPARE and START. When
++    disabled, pause uses STOP and START while retaining the prepared stream.
++    (default =3D false)
++
++On MMU systems, the request buffers are vmalloc-backed and page-rounded
++individually. Allocator rounding can make total additional memory exceed the
++ALSA ring size, especially with small periods. The request buffers remain
++allocated from hw_params until hw_free.
++Captured audio is copied from each request buffer into the ALSA ring.
++
+ Module snd-virtuoso
+ -------------------
+=20
