@@ -1,78 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794480481;
-	b=nR1RC6Nru4XvNq0O4Pzx4NtO+KErGHLlvRYw/O0/PigsQSp6Vlva7SNX0VAJ4+NE0I/v
-	 724RYmes9WDuW4JpDo3972r/ZJQH7VqzGQpJWX1OxFNpv/XgO0TRpGvQmHq3f8Q//tjuY
-	 an8cyrzQf9bIqPUv7BWG67XvYbcxEqmgwSQPi8I0jpaCgN4+RkYjUhmdmvIgDOrPXzTSz
-	 rr8i80BNFVBn2E9APO7Uz729y2lQKDevumXNWdj1SNlUE18HaH9oHacndq3iobiBqBdgP
-	 /05DNR3LW/kYZR/hZ/nLkUdXktMoJyeXbE6DSm0PU/7CalU8Zs7vkRKnVZAdecVRPVQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794480481;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=HI0lbFjaY/6Hi3z+bpQdk80+xCXsHYJtMP2Ovuw7Uq0=;
-	b=0lTzeWVtFK5dKurmP1JCcppAGpbKL4aNOmLmGCfOQhlr8DYTf4mzwnKvliRAm6gTwAID
-	 O37ES9NhsVVTDlQbnP+uNsbf3JL/9tNjqNtqYJZ3IVpquOpCnbETLzSIpDFi/hdWv81xM
-	 6Bl4ZfPKH3rHDhz7GTsjUMRyJhZ4uCUKBSlXuDRWJmg7VzKMBfSzHiKUcRLyhgdUJNHJA
-	 FlQOUu30VZXamN6zHtVLFQcYJT95MD7BS7aconB/Qi7rX6wnoPx+o83Rjnw/gsZFeelvl
-	 02nVjcU374dCukvPog+IPA6DOTrRselTYmkS5lNMDXYC0iB1QLRC1A7r4CLX3KeDULQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k5TMLUy1;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C921E606A321;
-	Thu, 12 Nov 2026 10:48:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k5TMLUy1
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794480481;
-	b=DGBsMggxx4ZptZHwWOqWY7gj6Il35TH9Pi60WU/f2l6HGPtJ9TcxALAFXMNEEfFp7/tf
-	 q4MsWx/KPF6tb7tLTcIRldHAPRRHgrmXXqAiklOvSjRA+h1XcbdvMZpcR2Ye36rypskGC
-	 8U3AwGMB2GfhLkl46ElC3Rr9QIV825fbp4WRQEt56cLMJ8LwBwwUPHaMU8g0V0MAXsolU
-	 6WOLCTF/5qxN8ea7gLpwZzH3HzcU1ZpToZdOsE+CJgodIYxRi47MUrxpHkbrQ6uMCBNxI
-	 HcFCDLQ7wTgD6H+MPIcdAIdswT1t4zP0TCPm96cBm68geXN+5ce/koeW3vpNFk4mQsg==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794480481;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:To:Cc:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.174
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794480691;
+	b=jzOYuEK/x8uGxcxbxiB9M1uXuocuhir+BtthB0T95izb/TpR5PCXx8pcytPHx03j64YN
+	 ASyMEdS/guJFpk+xjan7tWbwGIu9de2Xw86DQkhlfK5pJClt6sjaaU2lDbFP8nI7PtPRK
+	 7YRL4fsg9vAwVCg1FQQSYHIfcGVVt8MuTK21VzSQhcTqGyD6hNWif5mZjFLCZN9axiqNZ
+	 cW42o+y8qIbqCpyJ1yYL/zBGe6D6yHgeTcs0LCkkDnVqni9phK2y+QTr7H1Et1ZrOx85c
+	 eu4KfLn41/6GwAHq13jpo7mde4f70euY2TAGl/SXVcZ+NUzFKaxrlCQ4+uR2LewYG+Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794480691;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=HI0lbFjaY/6Hi3z+bpQdk80+xCXsHYJtMP2Ovuw7Uq0=;
-	b=f9GO2/t5oGykj/SHlapU9x4uf20lmWh0d/ZUxgDkvidibwna9Eq+gaRhF5cR4+lWD5Mr
-	 +351HRt//5oKwAcPGKiJipJGBWrx2Cq7CeGm+lj2lUZRgu8RZwV6qYMcIkh92Zh7zlfm9
-	 QjGCMfI3V1SKMV9aA8Xz6xNrjG0R9c9myhUJPZXsaekgqJ4czO2pqGpK4Xj98kBx0leEP
-	 cyxqVKmom30i5pnKJ+xweayvD5O9CtRS11YBAulEivaJ4q65tiRKOGVW0wxFYoJgr9ZOw
-	 4Qe6ZKsmcCl8kPioarAZnVejYga09pFirEGC0TCsiSZKZn6o8fAjL7jEVFDKn4jZuFA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	bh=Ei7oe26oYP1pIuCcwgZ+hnh5XI2lMWOHH8yz8N46X6Y=;
+	b=dM9obpByzs9LgVPwEvEYKdiXwSlmhTjVqKlaRO3ZwsOqnV/MRjZRGVlkXxOhi7DSoRJz
+	 r3UsFE86ws93C2FoVy7S/YF0ymu/CzDjQOt1GFWMK1gIywW7xkqGUlWYWeO7Wd6TQ1FR4
+	 /1UhWpjGv1XJT7GD6pOwVvYpNZeLtz50tOsTVDf7E49TqZeZjtZTfQClweQNbR8oxgqE9
+	 sDoHWO/jZKQZ2miYo8RhqyexKAuYvllTCR8xj/ewVCXajNJWLsUnQofCRrf0fAkYxkTRx
+	 mqSFa68H0o2NK1aR1dZfOXomHjHnioa//cg7/1gTfrOteBGLWIAyPS21jeANc9xgVbQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XFy5xjcZ;
+	arc=none smtp.remote-ip=74.125.82.174
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 1AB931F00A05;
-	Thu, 12 Nov 2026 10:48:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794480481;
-	bh=HI0lbFjaY/6Hi3z+bpQdk80+xCXsHYJtMP2Ovuw7Uq0=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=k5TMLUy1NNs3uASrSObLRHHLlr8M3JRszsjRmlRI2KoZCDpnF0XP95Nlk9U54rPYE
-	 vUotJes3R5mNClnWM6HFqjmbIHbRecVTTzOTc8Ea74f8KONIzf1/cbSBJCjdElhQW1
-	 D6Qti6N6JlXWqzD0shcTGm20eKX9EYtLAmLuuy/x5eT+Cv+f8jIKGpAX0PCxXEzZFT
-	 2nfwUz1KiNXzkkVLV+tVBsJZ5gM1GvsP+D1Lm//nTNSahgTeeGBlj0YzYWN1nrEVKt
-	 ou6moraJAqBBfQtnRYAv8bSHaLvnPd+6xkOK6tX2poBTAIwpsx8AqpnFyhXj/1cuhy
-	 N7ObVJc1CqUDw==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 79C424946D;
-	Thu, 12 Nov 2026 10:47:59 +0000 (UTC)
-From: Gopi Chandra Sekhar Reddy Kanala via B4 Relay <devnull+gopi.kanala.oss.qualcomm.com@kernel.org>
-Date: Thu, 12 Nov 2026 16:17:42 +0530
-Subject: [PATCH] soundwire: qcom: force runtime suspend across system sleep
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26F5606A31C
+	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 10:51:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A26F5606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XFy5xjcZ
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-36e99cf7bb3so6197380eec.0
+        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 02:51:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794480690; x=1795085490; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Ei7oe26oYP1pIuCcwgZ+hnh5XI2lMWOHH8yz8N46X6Y=;
+        b=XFy5xjcZMqEFdcI3AzendICQp0IX8KlL1UsJyQ4U4XEnPM4S/EQG4GDL/kJGndJoPY
+         8gg4trQBY4YkH2Lh2ydAaHD+drX/dFXm83B2UHXRer4DsvKN9gLgHtwXc5MvRjBH0oY+
+         3hy2RjoVcVAxusv2rxbM8yPBvZzZwlIjxDNhZiat54vDJlPvY93MNJGyDyK7VTGiy/BR
+         uKPBctIBqAuZ1KLmximC9Rh+yNfBnLycm/e6IBg4Gla0l1Bzv2Y3TwXQqEfpbAnarV7x
+         GtopKcFexOkD7n8dQMqEiiKiAQ8oxC2de7+7VAVi+xSju8JwMQdF5Kgh3xLtr6Ld1xJy
+         +NjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794480690; x=1795085490;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Ei7oe26oYP1pIuCcwgZ+hnh5XI2lMWOHH8yz8N46X6Y=;
+        b=Tq3MndH6IO5bH2IUrhdUUJf13jN/UtalBaVQ0ewIm69JITZ9BqZGvGwYtVJOX1x1YZ
+         XbopxFfLAkCWzEGB9tS+ziBg5Imhqw2PWTljwZUtdg76KM5q4Lmzmj48sY9Bj/YdXMYY
+         9UlWVygAwg1TEmaYiT7uUyEzp5zs7FrrwBgo7ZgM6QI0Lzg0QjkirHOrLbUI8+2+FqNd
+         SQU2dR5YiG6JNgUz/yH9ll1DCiyHEogtdLLRzX6eHrt5p1ymKEwDMFZKVsQYA+WlpZbZ
+         z9gVrDboolHigwaas2TjetkfUeVD67ayxjxPRAAfvye2j2QzocQUrRr2jG69YqQQwyjg
+         LYGQ==
+X-Forwarded-Encrypted: i=1; AL+hErH/ym+/B1mwdLVh02hqEFOA/PwFgpznr8svY3nnVePZS/3VGJzjnMLCW4r35/OvLK7UnlR1hMrTsgSf6A==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+GXEW0rOFV33quPvgzK+vSqqd4D26nK02Lu24l2poirOB6VJPp
+	E47qiU3YT++/uNUlJp+Q7orbYUNDMuwsldGGw/NHmgaToVhPNq66idR/
+X-Gm-Gg: AYBFou2m4Z2GBUJ8pR4GAA7iu2CUfpa9imggklfunpeaPzW2B6LiqX6eE8n5L6/vo/x
+	UcwZmDo0qMXCf0HHjBVMBHQQcIluIfB+/jaJ42IrbIkhlCxHz9UFP3SbvcZ0b4V0VoEF8FY5O26
+	Ed8lEf4TY4obASxy0qqsH9Kn4mC+fkiuhQpR0nSipu84PuhCnJWWNZxTi0jZF2Hea6r5eYh+F8w
+	RwLVJ2bkQrV7ol5WxdoC4UNLkU7ZP+Xw7Rcen3kPPnnXHIWcbZ/1WksFN2eu0dTqJ1bMfKnBJH7
+	6C2oS7X/RJgLlcGVwX5Ie4rV+ndaez0ISGEmkxTS6kPZ1sv22J81zfnAbhhfTzXja5zfV4Pfg7O
+	sNF640Xl7UHIr90sIz5NczKS+JBbc6X5lzGld/TilL4bFBA6mfPB/0TFQUE/tQ4s25DdkJTLGCv
+	nUrPJ3CZc92WzRtdzpR7hm5jS7zSUfdFjtBJy96cmV7D94XvLNjSHjONZyGUxUQ2jh31LB352O4
+	vdSekVgdO1luMt9Tqqpv+AFNQz87ocMSZUZQaysDuRQ/8xcORqRVHebIiVf5DG4QxmamY4k7yuG
+	yfSjY5I4q3xirsq7qTC2Up+bMcxUvIH5BOeJWin8+/35kxlLemZtMxPvNbXUQhsMVnkBHiQ10G7
+	CNTaXks5zmwX/7HaH09Px/llhdipOsoXOjXhWRWCshAyx
+X-Received: by 2002:a05:7301:5f01:b0:35e:2c6:d46c with SMTP id 5a478bee46e88-37685b80487mr7982100eec.10.1794480689606;
+        Thu, 12 Nov 2026 02:51:29 -0800 (PST)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751fe306casm23047232eec.9.2026.11.12.02.51.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 02:51:29 -0800 (PST)
+From: phucduc.bui@gmail.com
+To: Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 0/5] ASoC: fsl_asrc: Fix probe and resource management issues
+Date: Thu, 12 Nov 2026 17:51:11 +0700
+Message-ID: <20261112105116.32274-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -82,82 +105,32 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261112-qcom-swr-system-sleep-v1-1-a61a83f6475d@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIAE2Z9WoC/x2MSwqDQBAFryK9ToM9DIJeJWRhxqc2+J0OfhDv7
- pBd1aLqIkNUGFXZRRGbms5TEnllFPp66sDaJCeXu0JEHK9hHtn2yHbaDwkHYGF4J943RYnwpdQ
- uEa0e/+/7c98Pjrm7s2cAAAA=
-To: Srinivas Kandagatla <srini@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Gopi Chandra Sekhar Reddy Kanala <gopi.kanala@oss.qualcomm.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794480478; l=2222;
- i=gopi.kanala@oss.qualcomm.com; s=default; h=from:subject:message-id;
- bh=PuQRJiq95loOQNMnfaO3Q8ngHy49cFz9em3LNzvhvDU=;
- b=KOc2VRthYaO2bun1MamwCsbJdgIeg4y9kZf9evD3HS8vfA2KlKz14lKS9JjT8zJmkmkL/h5AG
- CTPp69Lf6QyDFnhROwDofNz8IkKZ20XkJsQscEBSqM5dowRWzaLjHEk
-X-Developer-Key: i=gopi.kanala@oss.qualcomm.com; a=ed25519;
- pk=4bCmbkbT6dfZt13k29qAL6yx8zUQ6p+yOdkRBH8lzXQ=
-X-Endpoint-Received: by B4 Relay for gopi.kanala@oss.qualcomm.com/default
- with auth_id=1499
-X-Original-From: Gopi Chandra Sekhar Reddy Kanala <gopi.kanala@oss.qualcomm.com>
-Reply-To: gopi.kanala@oss.qualcomm.com
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-From: Gopi Chandra Sekhar Reddy Kanala <gopi.kanala@oss.qualcomm.com>
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-The controller only implements runtime PM callbacks and relies on
-runtime suspend to stop the bus clock, gate hclk and arm the wake IRQ.
-That is not enough across system suspend: from the prepare phase until
-the complete phase the PM core holds a runtime PM usage count on every
-device, so a controller that is runtime active at that point stays
-active until the system resumes. This happens when suspend is entered
-within the 3 second autosuspend delay after bus activity, or when a
-peripheral driver resumes its device from its own system suspend
-callback, as the SDCA class function driver does to quiesce its
-interrupts.
+Hi all,
 
-The bus clock then keeps running and hclk stays enabled for the whole
-suspend. On Qualcomm platforms the LPASS clock votes behind it are held
-as well, which keeps CX and DDR from collapsing in s2idle.
+This series improves error handling and resource management in
+the fsl_asrc probe function. It fixes deferred clock handling and
+runtime PM usage count, ensures the IRQ is requested after device
+initialization, and moves runtime PM cleanup to devm.
 
-Use pm_runtime_force_suspend() and pm_runtime_force_resume() as the
-system sleep callbacks, so the runtime suspend path always runs at
-system suspend and is undone on resume. Peripherals are children of the
-bus, so they are suspended before the controller and resumed after it.
-
-Signed-off-by: Gopi Chandra Sekhar Reddy Kanala <gopi.kanala@oss.qualcomm.com>
----
-Tested on Glymur CRD (WSA884x speakers on two controllers) with
-next-20261110. When s2idle is entered within the autosuspend delay
-after playback, both controllers now stop the bus clock and gate hclk
-during suspend, and playback works after resume.
----
- drivers/soundwire/qcom.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-index a4cb62897192..6884ddbe69b3 100644
---- a/drivers/soundwire/qcom.c
-+++ b/drivers/soundwire/qcom.c
-@@ -1902,6 +1902,7 @@ static int __maybe_unused swrm_runtime_suspend(struct device *dev)
- }
- 
- static const struct dev_pm_ops swrm_dev_pm_ops = {
-+	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
- 	SET_RUNTIME_PM_OPS(swrm_runtime_suspend, swrm_runtime_resume, NULL)
- };
- 
-
----
-base-commit: 793807ca13bf3072fc6d16ce6d90e9ab9beff2a5
-change-id: 20261112-qcom-swr-system-sleep-e42144d69ecb
+Compile-tested only.
 
 Best regards,
--- 
-Gopi Chandra Sekhar Reddy Kanala <gopi.kanala@oss.qualcomm.com>
+Phuc
 
+bui duc phuc (5):
+  ASoC: fsl_asrc: Improve probe error handling
+  ASoC: fsl_asrc: Fix handling of deferred spba clock
+  ASoC: fsl_asrc: Fix runtime PM usage count on init failure
+  ASoC: fsl_asrc: Request the IRQ after the device is initialized
+  ASoC: fsl_asrc: Use devm for runtime PM cleanup
+
+ sound/soc/fsl/fsl_asrc.c | 92 ++++++++++++++++++++++------------------
+ 1 file changed, 51 insertions(+), 41 deletions(-)
+
+-- 
+2.43.0
 
