@@ -1,56 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.85.9.111
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794494522;
-	b=qbdYMKLCriYNJdKZqYm+n5Dkt2NHIxlpdDoVw3+Hifnwhm5Ld/5yoPb7GqVWRo+YccoU
-	 ZLg9NDcN3ehYO2sCxky1RWXzbcTYy8PM1tX4ZSeihrpDRSfSUHAoeMqTufP1/Npf0TZA1
-	 yZQJYtHFGPZqaIOs9CVOekNHuWJ9DSwJFktqwYcCROdDWxZODHvjJgfdrezUDwh4UtPKB
-	 BaHw3dm0TWfj3tfapCrhONyZ9CIotv440L3V20GjX6COvFCjxhMsh8+vzknF2NfCNcHnF
-	 hSy572PWJdfV7TOaoN718BmfwFy4v82MH4gENvskpwtbJ24Duy73s4B6lVclmQi8aTg==
+	t=1794494619;
+	b=P5FMa0q3fY2OfI39rkyJ6aa65Ipnw8P+EeAkX5OyYz2AR5jmuHexZwbWcNVpPqOUCEfk
+	 /V0QIE7ADmzCV5vBK3gcY3eZyFOZgjdgFl9W9S2hF5Noc/tmu/HH0nFBJVN+D0VLOn/xt
+	 6SFq4rt7XaTJZ1tF7fPrXhKUitJRFhajk+cIAXTkTr5dS5O8r8KuQ3ef7OzDJKtD9eexZ
+	 X7u1wN2pMCBb9K3B/+JRaXsQCgNdweeQrwlAtNtWgEJkUfoWpSim2RBjGKyuIZMVVzFlU
+	 H23jxlTILMZhsxy70p0+ADG7CUVOFaCJf10MGTXUzJS7R06Zo7XA3A9a/YVRgk89QtQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794494522;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=R0CqHJ3E1M5zOPyZcc8y+C+cyk/oqXDvh7U3m6MEEkM=;
-	b=TpjbcSBwHGxGkXoUZvobAageeL0+VzbRpfkvS3KIGTP5cpvZP176j1RsS5anNsTp9Qnh
-	 V/2+su0dMaXukeKDjEjxC/5p8IJ7/ZndJ6qp1+4Pw2wG14AumaDx+gDT2wGDIGd/wB/ru
-	 Q2P88Ssf6UF3/B2iSwL/COWeC5tjzFPyJjpmAXKdoo6WRdSw+aZkD0x+7pfI0613x9GTW
-	 Yft2T7tj+MsM/YdR7hnm+rwD6imtp6aBUv5DOgzR6Nn/iov5K2J31k7EJdLVPs/bK9scQ
-	 nGeyh7UDpv4AGLrl/cfZp0pgcl77MCbMb+AYZL9cgJswSsRbnSyOx5TjBf61wuVCYnw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794494619;
+	h=DMARC-Filter:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+	 References:Content-Type:Content-Transfer-Encoding:User-Agent:
+	 MIME-Version;
+	bh=BmLmIRXTRT6cun9WV23K9Y6TFiMIhvIIl7/j6XtjqH0=;
+	b=FdC0SS8jX2nD9NRXb0FK0ZXpyK6l2ADN0036iOl+sqdMx96miPIA5cOgc/NpO1ELpcpP
+	 +XsoDz5/K94PWuuZDssI6WEKCY7TMqm9UvKwxCgdw+BlF83DoHVsmd31RdpDT1gtbseuW
+	 yyfShoEXFGiewxskpYbDwTTQwoU7ghJypKBwmZEVGXx/75av+1dHQAh32ehLW5H2JE+qu
+	 qLPz/HLSq2d537TTFURXW+8GAWMAVy6CLahAOcWZuuaU55R138BlErUqXRE7HjOApxj4U
+	 36mJyH8RpsJJ174zH0EDW77kAQRgmwPvkio1kFN9aMitxBwPzzPwnatIXV6eXFRfNqw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KNBeUwS7;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=irl.hu;
+	spf=pass smtp.mailfrom=irl.hu;
+	arc=none smtp.remote-ip=95.85.9.111
+Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24AB606A331
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 14:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KNBeUwS7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F1BE1F00A05;
-	Thu, 12 Nov 2026 14:42:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794494521;
-	bh=R0CqHJ3E1M5zOPyZcc8y+C+cyk/oqXDvh7U3m6MEEkM=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=KNBeUwS7Ttu45F5Dq/wXM9kQhAo9EmmmnkmoVelGGHOqmNrJi+tttW9GgHp8UEtSg
-	 VUwbj5pO18QuvRlFHm75zqxAhpvZF3ETWssfHbMJCgEF8a8bIGTK+ZYN18TTvqTjEK
-	 JqnEwg1pvJaBiTQqo/ZAzjlZ/zkJy+uoLfHIkTM+pXwX/4Z7rB4lcmxRVg8/xnz2kx
-	 o4AUn61DI+VXcgSgOrs2g3l1ry8VFLIKEbHqcVn70UQBDETDdTp+y/M2V5PfBIu7sL
-	 1Mkf/h8NZL/eXTTgKZfoVOJ0Rty6s6HBX2MPZPjadSyxF6UYfdMg++x/JwJFCEA2ro
-	 ldp2l/hkjQ1/A==
-Message-ID: <sashiko-outbox-211366@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 4/5] soundwire: Include the current stream when
- preparing again
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Bard Liao" <yung-chuan.liao@linux.intel.com>, linux-sound@vger.kernel.org
-In-Reply-To: <20261112141905.1372770-5-yung-chuan.liao@linux.intel.com>
-References: <20261112141905.1372770-1-yung-chuan.liao@linux.intel.com>
- <20261112141905.1372770-5-yung-chuan.liao@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id ECDF3606A321;
+	Thu, 12 Nov 2026 14:43:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ECDF3606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from [192.168.2.4] (51b6855e.dsl.pool.telekom.hu [::ffff:81.182.133.94])
+  (AUTH: CRAM-MD5 soyer@irl.hu, SSL: TLS1.3,256bits,ECDHE_RSA_AES_256_GCM_SHA384)
+  by irl.hu with ESMTPSA
+  id 00000000000C60CB.000000006AF5D092.000045AF; Thu, 12 Nov 2026 15:43:30 +0100
+Message-ID: <504167422048bb8197a1ca3fac079cec9dea1ae7.camel@irl.hu>
+Subject: Re: [PATCH] ALSA: hda/tas2781: Only accept CRC-less V1 data if all
+ entries are valid
+From: Gergo Koteles <soyer@irl.hu>
+To: regressions@lists.linux.dev
+Cc: med.jebabli@gmail.com,
+  Cristian Castellano <cristian.castellano@icloud.com>,
+  stable@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+  Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
+  linux-kernel@vger.kernel.org,
+  Thorsten Leemhuis <regressions@leemhuis.info>,
+  Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+  Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>
+Date: Thu, 12 Nov 2026 15:43:20 +0100
+In-Reply-To: <7cd4c010f13ee085e3aa4396705b6b06ed58f7e1.camel@irl.hu>
+References: <20261103-tas2781-v1-nocrc-fix-v1-1-a769c27f21ce@gmail.com>
+	 <7cd4c010f13ee085e3aa4396705b6b06ed58f7e1.camel@irl.hu>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2026 14:42:00 +0000
+User-Agent: Evolution 3.60.2 (3.60.2-3.fc44) 
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,50 +62,46 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] soundwire: missing Fixes trailers for DEPREPARED stream filter
-  commits
---
+Hi,
 
-commit 0e099f6ac5f748061c8ae06b3d0b581ba6e28f1f
-Author: Bard Liao <yung-chuan.liao@linux.intel.com>
+On Wed, 2026-11-04 at 16:55 +0100, Gergo Koteles wrote:
+> Hi Mohamed,
+>=20
+> On Tue, 2026-11-03 at 10:27 +0100, Mohamed Yassine Jebabli via B4 Relay
+> wrote:
+> > From: Mohamed Yassine Jebabli <med.jebabli@gmail.com>
+> >=20
+> > Commit 408249089c48 ("ALSA: hda/tas2781: Accept V1 calibration data
+> > without CRC") only checked the first device entry. On machines where
+> > the BIOS populates fewer entries than p->ndev, the remaining all-zero
+> > entries are applied and tas2781_cali_preproc() divides by zero on
+> > playback open.
+> >=20
+> > Accept CRC-less V1 data only if every expected entry is non-zero and
+> > self-consistent (R0 * 1/R0 close to 1.0), otherwise reject it as
+> > before.
+> >=20
+>=20
+> ...
+>=20
+> > =20
+> > +/*
+> > + * V1 data without CRC is only trusted if every expected device has a
+> > + * populated, self-consistent entry: R0 (Q27) * 1/R0 (Q31) must be
+> > + * close to 1.0 in Q58.
+> > + */
+>=20
+> Just out of curiosity, where do Q27, Q31, Q58 come from?
+> I couldn't find anything about these.
+>=20
+>=20
 
-> soundwire: Include the current stream when preparing again
->
-> sdw_prepare_stream() accepts a stream in the DEPREPARED state without
-> changing its state before parameter computation. However, the generic
-> allocator excludes DEPREPARED streams from rate groups and port
-> computation, and only includes a CONFIGURED current stream in group
-> payload calculations.
->
-> Consequently, preparing an existing stream again can reserve bandwidth
-> without computing the corresponding transport parameters. The filters
-> need to distinguish preparing that stream again from depreparing it.
->
-> Pass the prepare context through the group and port helpers. Include
-> the current stream during prepare even when it is still DEPREPARED,
-> while preserving the filtering of all other runtimes and the behavior
-> during deprepare. This supports preparing again without temporarily
-> changing stream state.
->
-> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Reviewed-by: P=C3=A9ter Ujfalusi <peter.ujfalusi@linux.intel.com>
+I think it would be good to be able to see which commits were generated
+by an LLM. This way, people wouldn't have to scour the internet trying
+to verify hallucinations. Furthermore, it would be possible to see what
+percentage of the kernel consists of public domain/LLM code.
 
-[Severity: Low]
-This fixes a bug where re-preparing a DEPREPARED stream skips transport and
-port parameter computation due to state filters introduced in earlier
-commits.  Should this include Fixes tags for the commits that added those
-checks:
-
-  Fixes: fdd1faeeec14 ("soundwire: generic_bandwidth_allocation: skip DEPRE=
-PARED streams")
-  Fixes: 25befdf32aa4 ("soundwire: generic_bandwidth_allocation: count the =
-bandwidth of active streams only")
-  Fixes: 62ada17a6217 ("soundwire: only compute port params in specific str=
-eam states")
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261112141905.1372=
-770-1-yung-chuan.liao@linux.intel.com?part=3D4
+Best regards,
+Gergo
