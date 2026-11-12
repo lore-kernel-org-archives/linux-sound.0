@@ -1,59 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794516349;
-	b=3eFdxuf4A8p6Je9DgCa/gBFAumj0DoT83wHCOXzi3DCBcgJm9UW+wYj7szA/rkU55M8E
-	 Sx6mHZ+5apu7nsyovfpHnliKopfNr/haTRaOsgwgyjsKU1f8XX3saPhXSoWNjn0v9kja2
-	 LJ5UX121/EaCwvjfRpQGNNSqPj17HoO85eKskPjCN8fL9IuVWwIDw0TMxsqjxyZs8A4rO
-	 D+22Ab672tXedK3XvUV2viseHZZqeq2KjQIa+2nocRyIepCTMP4PLyVy8Cu2MDoT+A5P8
-	 SZQ/W6G8W6LNsvCLQOmRsN9EZu4EISz/qqV5JUoWMTIFfneQpRRaJ9VAGCNVXvez3Yw==
+	t=1794516599;
+	b=ZdGhdHAV/njpVqQ+jlHjaA7lwFf53hsXugnvnzP8wYUCUHzgqN5t6F8PFXnabzfVxfVO
+	 YVdwTgx8QSv3W+i74d6WUA+9nNMRyBtI6326hO+Xa59IgbHv+DH6jjrPzQNxekDte2jiM
+	 Z+HvGljH7GxTbKBdzWAPVQYC1zXBwNeskdfwBK9nwLg/ELS6NZs/1n++IH5r2poVlH+ek
+	 Rq5a81EpZbqAm17hrI6S0QA6oAr0lGUlG4huSSGvsolvCGx1x9HX6efbp2bwlDMezOMp3
+	 mUV7kgvvYr8Q/3rFFr/gmMYR6JdA/paJR3WPnEcTHzENEYZZDDAkFtRunyPtayzuNHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794516349;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=vExIF6BLPxilcEzmeQ44C3+EI0WD/Najy1w9BlH7ZrA=;
-	b=yXUnJY7rbpSrIkxvAFcAScLDAiK1QE3e+HbnCGjVcFmT+AfxtZlXZ8gaf9KNZdz28SmX
-	 g/gUiCXApmfBqAa75aq4rw4okfk3XDsGFqbFxoQlpmPd6y1szA69bw27H76OC3x3U/Ljp
-	 5zYOBojFgW/KHdAa6ZT43t2bIinS1DIwyx4QoorfeEOy5ayE25J4QnijUDmrFwZdrXwYg
-	 i2RREFj2ruNxaxQwS9EAXMM5o8DzCDK0Pv5uxxyRaElMM+X70zWd1nOGHrHC7g4Xs/itg
-	 epqZOf1R7Q6YPEm656tlKPnO3ssNpN/Gatnb8ABfV1B6EiO6VDWNfHUga4at1LB4QxQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794516599;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=2TcM7gJItqmzX57vcv0yrrIp8yPM33+nlhWoGrV6TnQ=;
+	b=KCwV6TMKzOXgwlKbYrjCvPEkrdJKrZ7Wsblmbg+Yzu5tx0PQLaOI07+laVgT9yRrGLsD
+	 Xg4MBZCBPRBfEfuNJwo0NBX15xgR7e+vVyS8MLf7KEd/ABdVUiih720ZCWz53SI59gk5Y
+	 jTvuaTYDJYedKQa9tgvX3VNPnRAG1YmXp060Z2aNPCE2PRrxsXt7d+gYWeWGEq2oL9SIw
+	 z+ilLSA2kjh+VwU8WP1dAW1NIGAjlcqTsb/eQxWo2GJVqJW0UcuMGI/dyFly1qvpwaEcO
+	 sltTdl+/eRodInm3iQYReZf1dJzgwHEMFs3xcIJJe4bss8SJG2JOisMr1XX+9rrbykg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bnTlgR2z;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EkvetxvP;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D779660A2622;
-	Thu, 12 Nov 2026 20:45:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FB5606A32D
+	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 20:49:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bnTlgR2z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75F951F000C5;
-	Thu, 12 Nov 2026 20:45:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EkvetxvP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A0061F000C4;
+	Thu, 12 Nov 2026 20:49:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794516349;
-	bh=vExIF6BLPxilcEzmeQ44C3+EI0WD/Najy1w9BlH7ZrA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bnTlgR2zNej1/jMfIJfET7Ftvcp5O+JbEvwTIwChPZ7SkRsHdUJD58A3YopMYrBR5
-	 3RmSFO7z9CLI/6CVeJasToJu2h0SYlnwUiHxwTq3pG17mSvsTcBw69kzs+EdqippEF
-	 qPgrYDTbUlic/c4NWH45S05EPBgVslRBBN9JBfa4iABnBtHQ5kMR6HbdkCp8j5FHPb
-	 ryKntZW2dO2BE5fyp5NexcrghC/k12C+XV1K3FWOUg+CwdZJMUcSu+Z/siXVOAIv0e
-	 3W3gOdiHREXzjNBqXIcJjB3tDoNjpBbFQaBhqaJQEppmuZGD9ZVcIoJAlMxYoKZpC5
-	 WmHSWNDLxlDCw==
-Date: Thu, 12 Nov 2026 12:45:49 -0800
-From: Kees Cook <kees@kernel.org>
-To: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Cc: Mark Brown <broonie@kernel.org>, Dennis Gilmore <dennis@ausil.us>,
-	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	gustavoars@kernel.org, linux-sound@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
-	michael.hennerich@analog.com, nuno.sa@analog.com,
-	dlechner@baylibre.com, linux-spi@vger.kernel.org,
-	miriam.rachel.korenblit@intel.com, linux-wireless@vger.kernel.org
-Subject: Re: [PATCH] ASoC: soc-core: start rtd->num_components at zero
-Message-ID: <202611121234.8619E8D182@keescook>
-References: <20261112025252.71375-1-dennis@ausil.us>
- <179448342405.66517.5463730214277229760.b4-review@b4>
- <f55dddf1-d745-471a-8001-8f9e5768d97d@oss.qualcomm.com>
+	s=k20260515; t=1794516599;
+	bh=2TcM7gJItqmzX57vcv0yrrIp8yPM33+nlhWoGrV6TnQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=EkvetxvPP97mha0VK5xHZW2sFtx+Ds8aAjKBudFPojwJzBz+d5kOTKflN3wHTVoJv
+	 tcSmwxvcNgiiFH205/WNwQe0vTYNnVzjC4ejN5aY2mmEFDJoIFOlhRNl5Zy7dWbN9/
+	 0H4G9tj3thOU43NLh5vCFxQGsFAux5jwK5hTWMJs1sxogiNVkdzl2UiZ4N3jptBJBL
+	 +gEvrz+S0UZOcoP1NsbKztpmcMEejj78EMamVbiHWC5N3tVFwKnXqhBHYQWzxoJsVH
+	 QaBRo70nzeB9H5Fpul1DhFrcckft/AkpNf4HOPOSTWhjsQJ7D7vCzlJHTg/uGHP7V/
+	 t3Td+ibzCubaQ==
+Message-ID: <sashiko-outbox-211822@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ASoC: amd: acp: Add ACP70 ACPI flag override for LG
+ gram 16U55U
+Reply-To: sashiko-reviews@lists.linux.dev
+To: suso <gmsuso@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261112204325.4696-1-gmsuso@gmail.com>
+References: <20261112204325.4696-1-gmsuso@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 12 Nov 2026 20:49:58 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,46 +59,32 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f55dddf1-d745-471a-8001-8f9e5768d97d@oss.qualcomm.com>
 
-On Thu, Nov 12, 2026 at 02:34:17PM +0100, Hans de Goede wrote:
-> @Kees, have you seen Dennis' remark about the same problem with
-> devm_kzalloc_flex() changing the semantics with the num-components
-> counter now no longer being initialized to zero in at least 2 other
-> places? :
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [High] ASoC: amd: acp: Signed-off-by trailer uses handle instead of
+  real name
+--
 
-Eek, thank you. I will go look at these!
+commit 3113b97838256e779d5449f2721a7603f1495617
+Author: suso <gmsuso@gmail.com>
 
-> 
-> """
-> Kees, the same pattern (a *_flex() allocation followed by code that uses
-> the counter as a fill index starting from zero) looks to be present in
-> two places converted by 69050f8d6d07 ("treewide: Replace kmalloc with
-> kmalloc_obj for non-scalar types"). I have only read the code for these.
-> I have no hardware for either and have not reproduced them, so please
-> treat them as possible issues rather than confirmed bugs:
-> 
->  - drivers/spi/spi-axi-spi-engine.c: spi_engine_optimize_message()
->    allocates p with kzalloc_flex(*p, instructions, p_dry.length + 1),
->    which presets p->length, and spi_engine_compile_message() then
->    appends with p->length++ through spi_engine_program_add_cmd().
+> ASoC: amd: acp: Add ACP70 ACPI flag override for LG gram 16U55U
+>
+> The LG gram 16 (16U55U, AMD Ryzen AI 400 series, ACP rev 0x72) shares
+> the same SoundWire audio hardware (RT713 + RT1320) as the 16Z95U and
+> requires the same ACPI flag override.
+>
+> Tested on LG gram 16U55U-G.AU85BN (PCI SSID 1854:057c).
+>
+> Signed-off-by: suso <gmsuso@gmail.com>
 
-Oh, this was from before:
-69050f8d6d07 ("treewide: Replace kmalloc with kmalloc_obj for non-scalar types")
+[Severity: High]
+The Author header and Signed-off-by trailer use a single-word handle
+("suso") instead of a full real name, which does not meet the Developer
+Certificate of Origin requirements in
+Documentation/process/submitting-patches.rst.
 
->  - drivers/net/wireless/intel/iwlwifi/mld/d3.c:
->    iwl_mld_process_netdetect_res() allocates netdetect_info with
->    kzalloc_flex(..., matches, n_matches), presetting n_matches, and
->    iwl_mld_set_netdetect_info() stores at matches[n_matches] and then
->    increments it. The per-match kzalloc_flex(..., channels, n_channels)
->    has the same issue with match->n_channels.
-
-Same.
-
-I'll send fixes.
-
--- 
-Kees Cook
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261112204325.4696=
+-1-gmsuso@gmail.com?part=3D1
