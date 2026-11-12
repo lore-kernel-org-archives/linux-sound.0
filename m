@@ -1,55 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794500844;
-	b=KEma4ggxgBGvCrK0DLJdVCx8FT/vQIHqnfT4kmfVlBNzdtKzAz4XKFONI9kQTLjL/ccP
-	 DKLUgWXKyq8IjAUKeIF60n3OiWUNMI+D27UMRJ5irg+sc+wG648ghdZLOPkbQdM7Fuahc
-	 uf9lbbyvvvHypK5IlIYfP6DZsNlZqDZnKdUUntohMZp2g6HxBDSLTilwM8MKaVCLd+eLj
-	 YMkx6LNv3BqAERD0teh409UbFp5Lak4PRLEHf2bRuHEHJJs5zbfS69Gqwymb/QHR5ATi7
-	 EJlHgjmw1Dle+X+fX7nOzvahr7GyvXrkT4RQVDS+I9+lzYEPQKDc3UJ62kEfXZmdZfQ==
+	t=1794500877;
+	b=WU+aqz8FQp6wMwZS0g+QeHaOAL9mPxeN10I1Rro7WE3P/vUbBFyiue4wJ/WHWBFt6kvm
+	 wJNywEvm4BsjuMXMWwRIhVWX8yZxZRrvDkyfKoynV5vmr9eWLAYouusyGWV/mueQeDCUE
+	 1sq8Uv7nN3Oj8rDEVeFZ3FqyN17BO+upwrcjKKrCG2w6wU66pifl+v02Fe59VbhmyFUqY
+	 IWZ3MgQffHGl5c7afuPTGVp0df497++GKB1tatvzJ0fu/kjSnvtqyPBYHPuwtebM3yTUT
+	 FFenqMKRe1wHVnXbvg0EYXJL0g6xvtWiQKAhH+gOJUg70doA5jRw/KMYtY8jBOS2hdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794500844;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794500877;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=1o33SyUmKjRRYyYa9Y0SKcJBjNIH35zQHJeTKCYP8D8=;
-	b=nKyYph0P/NPK7tleCyG9D3If/qNsE5C2ukaFBOdkauRY9MjT1htC6oJkIkMb542sh17f
-	 jt+xOO+aDC3c+r7di5usuvsBS0TbkCTLbsJjR6pqLIbrMe2tFyW3r13ctNfYLu6BunsV3
-	 qZ4wKztAt18WxDUHwG8A6k31+pGAPfURkypuLG478wdRFxT+EASbrxYIBZua8zfSp2cuY
-	 UId0mFt4T1pjm5U+Q/Qaf5S43AS5TSeUKpbUdHbrcrPUJlQEQBEP8clPY4WEq4d7qk5kx
-	 Z+QZyHwFOagiQIN3hzLf06HaWIaMvVtz1AAI7Tp7OWu2tNxpMWQB/RJjywHl/FDtnow==
+	bh=9rS5+m6C+TeApzuk+M1sIajivZD5dZU1iOAPQkbHwaE=;
+	b=dKt2q88/iC/C12Fb+p/tGV7ID6cLXX8fnGwGu2DLzkRrBFU+5CvyGammvwB1xbm/hfab
+	 icrqNlfUBi4jUnGs/5MWoC3RrmgHHdzVqlNZZNuoQC6pcgPd7Q+q0qKAWNbOKEeAe0cpp
+	 nqSzxnvHfBahG+/TWx7TcDBHxtUdVgVulcc3Hyv8rgrVwLVboeyDL/bPJm/9Vslgi59lq
+	 QWhBYPXf927LTsskxj/nF34cguc8LqyoRnrEko57pw8UKaQd7V8aGR3c5J/ArYUE2Kf4O
+	 O1DcmdvgfHZ62iOmtRegSuvVTt5wnyAyLlbT+7mW4q9lALgP4f0q5e7yOe5Hbeg2v1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DO6iuE2F;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hz36fHv0;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8FB606A323
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 16:27:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A4D606A33B;
+	Thu, 12 Nov 2026 16:27:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DO6iuE2F
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DC921F000C4;
-	Thu, 12 Nov 2026 16:27:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hz36fHv0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3DAD1F000C4;
+	Thu, 12 Nov 2026 16:27:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794500843;
-	bh=1o33SyUmKjRRYyYa9Y0SKcJBjNIH35zQHJeTKCYP8D8=;
+	s=k20260515; t=1794500876;
+	bh=9rS5+m6C+TeApzuk+M1sIajivZD5dZU1iOAPQkbHwaE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=DO6iuE2FEbDOl1VNGxc2A/pEX1D3BKA+WaxKi292O+AsgDRbIaOjr61kO1J/2cNzd
-	 EUKJEF56oE/NoAK5+Gb8Bq+5E5085zQhmYCtHda2HSthfMQsh3el9BOEUoIbW9HGSy
-	 RgH7icprxA1gp5Hj4S19oNJkkSQ0QsAK1+dzU2R16W5stZ/UcqAe7RsJkXguvbBlOq
-	 FcrnPxJQ7SiNyTI9PNVa+UwsvVKyPnCYrE0kZxZvYi4wpbqp+7Co06EdAvukYDRfen
-	 AF/rk6NvRYEN5fyiwqoUoJ+NY/a6erxtFtvR9t1uuGvj3aLU3XEdgpRMpSi2qC9Nee
-	 EF2nESERTeKKQ==
+	b=hz36fHv0utvgdYiLJqrUezgfP6OdrDNmJR2G6ITxe/hFWB9qWDhkalxx50vzg3cJ+
+	 HwFxmYaLmG1M4FKF9g5R4HTpFOG0WYd+Szz/hnLZU++2BhtKJcvGOWyhxs8IEgLMzY
+	 yRnVVjhzyzV+zwrgTQkn9uxDDB4AZBhW4HHb1F2mAXdcE6hCIH5aOwiJWPuwdqOlKY
+	 +FC+6CjpcFhCZmW7wG9sEjt7NmPLdPuUShlUx4+sbIfTCF9KqjfIgZfGm2Jz/9avMf
+	 m232Y7PVb7lxCtG5IslsFIAWHFvQ16Bgdj+L7psky1AwSmO1xzlnf1IEeuNO7ny5Ut
+	 haK/b9dqcL5CA==
 From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>
-Cc: tiwai@suse.de, 13916275206@139.com, perex@perex.cz, lgirdwood@gmail.com, 
- linux-sound@vger.kernel.org, baojun.xu@ti.com, k-lu@ti.com
-In-Reply-To: <20261111015247.139-1-shenghao-ding@ti.com>
-References: <20261111015247.139-1-shenghao-ding@ti.com>
-Subject: Re: [PATCH v1] ASoC: tas2781: add TAS2573 register definitions
- header
-Message-Id: <179442175525.484483.219302524305749165.b4-ty@b4>
-Date: Wed, 11 Nov 2026 18:29:15 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Sheetal <sheetal@nvidia.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Mohan Kumar <mkumard@nvidia.com>, 
+ Sameer Pujar <spujar@nvidia.com>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261104112055.1101243-1-sheetal@nvidia.com>
+References: <20261104112055.1101243-1-sheetal@nvidia.com>
+Subject: Re: [PATCH 0/2] ASoC: tegra: Add Tegra268 AHUB support
+Message-Id: <179449098998.66517.7468449297091354263.b4-ty@b4>
+Date: Thu, 12 Nov 2026 13:43:09 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,17 +67,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1127; i=broonie@kernel.org;
- h=from:subject:message-id; bh=dWPq1sXKPjZrsSkZg7Ad/HJVeNDSb96XyuxgCBEkaH0=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLK+vnhxOMNerKvIdA7rZe0+xqPS5qyX9lsor3PYndm4R
- UcvjKWso5SFQYyLQVZMkSUui/tlfcnrNXwHF7bBzGFlAhnCwMUpABNhkmL4H5jl8F9r3ZvZMhNj
- /nndCTZ8LnROSTVtl92kmEVvV+/5f52R4fhU28+Kmnz39rZZLT1bO78zXIDHUaN+7aJ/sZLx113
- 28AMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1607; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=XFDmM2Nqh88W2fbIJryW0+QnQhHbeITBFmfjBhlgxL0=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLK+vmTXuluR+0W3tVozKPK7uEFFbM6NC2sqHX6+XLjms
+ 6SXwrnlHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZjIslWMDDuf7nrBt/eD4Jez
+ klM3VQrVGdbx7mnMUrxYvFsielZ+wTZGhvMy+XYlE71/a77Ir9RQWJoSv3TSge6djo5H9L5tu3F
+ XiQkA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 11 Nov 2026 09:52:47 +0800, Shenghao Ding wrote:
-> ASoC: tas2781: add TAS2573 register definitions header
+On Wed, 04 Nov 2026 11:20:53 +0000, Sheetal wrote:
+> ASoC: tegra: Add Tegra268 AHUB support
+> 
+> Tegra268 has fewer AHUB interfaces than Tegra264: five RX and five TX
+> ADMAIF interfaces, five I2S instances, two MVC instances, and one each
+> of AMX, ADX, MIXER and ASRC.
+> 
+> Add the binding and SoC data with DAI, widget, route and mux tables
+> matching this topology, so the driver exposes the supported audio paths
+> and uses the Tegra268 register ranges and source masks.
+> 
+> [...]
 
 Applied to
 
@@ -80,8 +95,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: tas2781: add TAS2573 register definitions header
-      https://git.kernel.org/broonie/sound/c/ce50ca8992db
+[1/2] dt-bindings: sound: Add Tegra268 AHUB support
+      https://git.kernel.org/broonie/sound/c/14b58324fe16
+[2/2] ASoC: tegra: AHUB: Add Tegra268 support
+      https://git.kernel.org/broonie/sound/c/d796155972bb
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
