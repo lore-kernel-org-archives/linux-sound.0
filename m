@@ -1,92 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.229.45
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794453610;
-	b=YLxQnlmxzqpuIvGpXDw8A72GcDsfIh3bXLGc7iSqsO2tiaM1ZjhX4uUAexBeEP5qKvpF
-	 2myWe/I/yzVZfqXnT++VFx/ITTybeB1XqMH6K74gQwT3I1nIlTd1/Ti/5fFE+4DHpRmwg
-	 iK08F5VABBDJB5E67uWwB6OmIF7YBHwLJMkGnHrc5vbwhYbMOy8JxvIRy7oNi8ov+N5B6
-	 /3Rk5i3/5+ztNFJkeqqcY9GZrc1OUCQ2eS4V2qxzoc/KhaexRMBTYGOAvoKHPrlbfm1Uv
-	 VgAwPaZXiXv2dnlG+AMytToknLp9XlTXmdsfyBvl1X5z6+EC5px8O1CHTfcQ5tp/ELQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794453610;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:From:To:Cc:
-	 Subject:In-Reply-To:References:User-Agent:Content-Type:Date:
-	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=rxARY0OkXlDmA9IS+e/TgiLSFsCaXaMoYzj4W9AepGo=;
-	b=HM9HpDPW1DHshDP0t7OpIZKWr+TDv3TdwekoDSNr0yqinNBCb9Rr0Xckvo+vEippLkYQ
-	 V+LjfELoAQqk2I/0n7Palum53BYiAkh6SJQdIPN6cg956KIzMd/FHA81ajugD8NwqhCQE
-	 hP+AWExNRcDceLnnqJYrzCny8b5CwU2L52DGDYjHZ9EhPRK3UOv6PNQEmsP9F7mhac+cw
-	 tt7f0bwP3oYqiqBu1djEyNrKTQYz8+HAquwUtOjVHGDYJ2WteBGa5xRdH94JGPPUweVbp
-	 01oIkbWzsTc0WuoWIe6MaJZVOYk++mH0Ip3KDWwxVWugso4jNeyyfopWC4YQ9gjmncQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=renesas.com;
-	spf=pass smtp.mailfrom=renesas.com;
-	dkim=pass header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=oVldV2Jo;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.229.45
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010045.outbound.protection.outlook.com [52.101.229.45])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.50
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794456120;
+	b=zzI9Isjagjg67Cacv2ZtHUDq8to65TQkfs95zwiDHbW42cqrXCiZm9QfhdEPw2rTl9pu
+	 L8tDj9s9H3jX/xjiD0OrJJ1zJgRFYIywws6AGoE4Jhwx1xhst0cMjvcVeNAkYH12SD69t
+	 88GaH2s3dp5YU+n1dejjmqUK7WJAJ9MqikLeX0I7R/Y7vqT/GZ2+9lXVwN0ALQoO9rItP
+	 atx2zRk9DcmCuy1ik9Yd5yA5g1Vew8PqNiN++gJ+ZUEndSemJx/vmLz2Di8G8uE6HSopf
+	 +cy+30BqthSa9tx6yaJbXj0ga0CY6zfE+Cp5jTL1AXuCp0EbhYRc13au/siPdlfCjEA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794456120;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:X-Google-Original-From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=N2LLM4DBtKMrmpo5mqaQsURV/pMMXl4CIcJIhacgRMA=;
+	b=xYoqX9ARnZrJOcfn3sHWeB6ehRbClLlPvFvv6kDe6oxPl0LiATZLt9n78jfugJDBOC9E
+	 V6xD7MoDgRHCptZ+Padpt8TZumsVrcvIrJ30/xx+8VIvfhhHdNjAZHk3AlfVXK4UgZVNL
+	 b32LgpGL4KsYxOy1v1vsgywFwmriGlsYIZtb9mPGuNq5m5ZaUNJLuAmzk38CG4dTFTMIb
+	 6nrafHWx8t4vpD5xz+ikA2QVQfHF54ig9xhuRPgAfBWBZrx9ftLgIzSwfJIWvtO1ILd+b
+	 v6LRTO6BDFLLB/ZuCUkckRmy5YQuLGgLQZ+41caUwBKuITKHawp0AnrURErowbXHvhA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=dankook.ac.kr;
+	spf=pass smtp.mailfrom=dankook.ac.kr;
+	dkim=pass header.d=dankook-ac-kr.20260707.gappssmtp.com header.i=@dankook-ac-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=p6rzSpGT;
+	arc=none smtp.remote-ip=74.125.224.50
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C452360A260D
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 03:20:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C452360A260D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25848606A337
+	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 04:02:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 25848606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dankook.ac.kr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dankook.ac.kr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=oVldV2Jo
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vDbaUO1IAv7vaLXI48jf8WEEszeb9gSIzC5L40HBpcz6XdXIe3D3a7ZG4fuUjGRcT/qDiAW2pUPSksVLD5k7WE7LUeIWJGGPPTWSgfnkl6V17cixhsEzf264wslJMsvkig54414MDLWzSUnACL+VYqDU6erGkWJNeyw0DgK3jfo5kuMGHzZgRih0ZmP9mxi0DM35hTNU7i76116c9Wts9Qu97PkBp59NHF9iYSrvUjj2hWbhh0uDH3P8+9PvCJ8h4An4jOWkW1RsOY/E2/ubYjA8Q+/Swu2HlagNY4kGiD7BwdFoNbCNRKlyeJvtnX8buds0bLYjMu3VlrvdbM09fA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rxARY0OkXlDmA9IS+e/TgiLSFsCaXaMoYzj4W9AepGo=;
- b=kl9U/yhm7u2TtW33uCPFC03PQyj2tKIvi0DBwIuTNjvGqKNzydlfV/4F3WhL+TU1iz2L8N+60sDV97frUnuoPi1CGjLj5RaHJSrn9LKf7A8WgpVMs6tBkE12YkTnqoKCzoeH8QkMUMg3KKEvdVIA4qcKxjCNbqDGLu5t9lNj0cKsDP2u+rsgB8aBx8UdIL+/Y+p+HGrUcF/oG45/udgWuIgT6tLg/qLdB+3pxe8M/LbX44HuxP03aKMNjtub+MWiJzBhBT1elYJq7g1fWDy3YkhDip8ebKNzVzoh0I0sj59w8kGYYZh+EUi+3qHeKQrVl3mlXv7iAryWvMrnTfpAPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rxARY0OkXlDmA9IS+e/TgiLSFsCaXaMoYzj4W9AepGo=;
- b=oVldV2Jo7WGUFo3mv097VYHcpBJHum7Cf+DRwf+Ihkb1DUT/+HLbCv/JutYjTDPbw6pYnlE1muX2E36Of8xk68vpFfTkcelkbywKZrh1qcLEiJ72RR34cwiguUOrg5pC5ivgrvpQUHJ/phSt3TVNwndaLhyRfeVCv51ijUpt/vc=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYYPR01MB15175.jpnprd01.prod.outlook.com (2603:1096:405:27d::8)
- by TYCPR01MB9617.jpnprd01.prod.outlook.com (2603:1096:400:194::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.9; Thu, 12 Nov
- 2026 03:20:03 +0000
-Received: from TYYPR01MB15175.jpnprd01.prod.outlook.com
- ([fe80::9bfd:a110:68f1:134d]) by TYYPR01MB15175.jpnprd01.prod.outlook.com
- ([fe80::9bfd:a110:68f1:134d%6]) with mapi id 15.21.0615.008; Thu, 12 Nov 2026
- 03:20:03 +0000
-Message-ID: <87ik22zqfx.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 09/27] ASoC: soc-devres: use snd_soc_component_unregister() for devm_snd_soc_register_component()
-In-Reply-To: <sashiko-outbox-210088@kernel.org>
-References: <87zeve28ol.wl-kuninori.morimoto.gx@renesas.com>
-	<87mrre28kj.wl-kuninori.morimoto.gx@renesas.com>
-	<sashiko-outbox-210088@kernel.org>
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 12 Nov 2026 03:20:03 +0000
-X-ClientProxiedBy: OS7PR01CA0173.jpnprd01.prod.outlook.com
- (2603:1096:604:24c::16) To TYYPR01MB15175.jpnprd01.prod.outlook.com
- (2603:1096:405:27d::8)
+	dkim=pass (2048-bit key) header.d=dankook-ac-kr.20260707.gappssmtp.com header.i=@dankook-ac-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=p6rzSpGT
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-67be6030c9fso3361836d50.3
+        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 20:02:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dankook-ac-kr.20260707.gappssmtp.com; s=20260707; t=1794456119; x=1795060919; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=N2LLM4DBtKMrmpo5mqaQsURV/pMMXl4CIcJIhacgRMA=;
+        b=p6rzSpGTWjDKZ5kW7CKjycwevukvA1AatisbmTOSXHIfaxwHXooaIOzxVqinLZoHUg
+         Z/m0bvPwkvrTrngcSjB15O7QToMN/D+DfVedWOdvADX/uuVQgRsKiIXuL+8vzcV7QVL+
+         w0qgkHsh7nrWVkhL4d5GOVs+Q5x6kufe48ag2l8iavzrGmDl/4lDupGl98UJ8NdP4IG+
+         QC7lz2Rv3NhE9HJkX2bF3jlQsziOy1I4lMefS4AnJigxUwMwOSioDPApyvVEjACETMQN
+         kQYfwX+EpT3iRr0HYViFCCzJYeKQiSbWnzOWpnLpFPSubuOkhjMrbMum6nmrfmMbS6n5
+         Lacw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794456119; x=1795060919;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=N2LLM4DBtKMrmpo5mqaQsURV/pMMXl4CIcJIhacgRMA=;
+        b=l2c3ANbXLY3L+AQMSA7BvUi8SM4DTfaSp3JXcYGYoayOvz77FdMzlnGZvUdOf46WCI
+         pSS11rh6esJb8JwQnEl5f8BYZQeLpu/XviLAQurwpjIr2ccXnXOEiXAFVA931+OQTbkI
+         CEhxhRn7gSAJs/qzncOvu5tv1IKg4cZh/o5N94cqHwv+ynyPENfV5++xBkFS4DcpcIra
+         k06PCgsS1T3btJilW1Dk22D8xWeJO9qPBHXmMNROquslfZdXEoemqEp7m6pENl9nZj/H
+         AX0YEuCy/R/npkcqUZlDzwaOLEP7ecPrBv26kHhEbH+HWUePUU5JOZh4XN8JI8E1yISV
+         H9zg==
+X-Forwarded-Encrypted: i=1; AL+hErEB14mIDjVg3oJrNb3bSwsMJPuLiW3i5DfZzn9pHkB/4pq40lcrh0FF4yDXq4tQI8bz/8g8LFuA6GVvbg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8SzufPVkwtdpJGFNXwnydYidzt4KBBRYlM64QcgyIjIIR+irZp
+	a0HFmYH2ZYgVIj+zj/d+fT34Pkd1OkZQk5SKXYw5zANEtKBmtoQZZAQNTQo/VUQ5sHnOBjgxJiI
+	c2wde4bObFQ==
+X-Gm-Gg: AYBFou3DLV8SgDvww8M+WZQ/ALNCIWaCAfLyrBCHWNIHE4vud49xGsvWFnSmKO0jOWv
+	Bh3NLHYC1NKYMZm3F4CZKDEsCTzA24mTemG3egTaJyeM8PYH6enqSGgw7bnJDQy+xXCGJ9xW3S4
+	HCmZPIDkGvUQZCIfTwRjHgEi6IbCoqGr7ihu/KoeX3BjeYiupjR5jQHUvI9A1HC97upqZckbb+m
+	XqQLJF8BlMECeUWpn9WlNsQYtn617Po+jJG0v5COJp5d8wPpNDxPJQLmoVNQ5tyElQKtkfUaRs+
+	hDCXSqicBb7ueLMHfQaFd4xqHkg+cWApcPZi2Nq9rDYkQ5T6peGINS7/hX72OQTE9V/LxOsZ1zg
+	kZCh2FvcYyNUx4V+NKu/EXgazgOdYunkHlj5mpegn9/2CVjCbKlOggWqBj1U2+7rIVVlKZrFC43
+	xHWrawufZRss7MDFkH+GK5jd8yfR6uEtXBIIlcupVr4OJ7FyF29womz3Ub6C29lQfasRU3XtAl2
+	1akkO7wh6XH2+IuGs669cEDnyoAnoPyatYA2NzkFEJfWx3GewwLD/AnKgrKUiqqFGCMc+CCEUK8
+	D8pJoIUegaoBhew/FMvRts9ofsXJPLqwVvEGsDquWuJr+A==
+X-Received: by 2002:a05:690e:4196:b0:675:6228:2fdd with SMTP id 956f58d0204a3-67c67c9274amr3017796d50.4.1794456119201;
+        Wed, 11 Nov 2026 20:01:59 -0800 (PST)
+Received: from myarch ([220.149.255.19])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67c589cf1fcsm6209654d50.13.2026.11.11.20.01.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 20:01:58 -0800 (PST)
+From: fixca <jaehoon1744@dankook.ac.kr>
+X-Google-Original-From: fixca <jaehoon1744@gmail.com>
+To: shumingf@realtek.com
+Cc: broonie@kernel.org,
+	Vijendar.Mukunda@amd.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	JaeHoon Kim <jaehoon1744@dankook.ac.kr>
+Subject: [PATCH RFC 1/1] ASoC: rt1320: Use the BIOS init values on LG gram 16Z95U
+Date: Thu, 12 Nov 2026 13:01:43 +0900
+Message-ID: <20261112040143.6945-2-jaehoon1744@gmail.com>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261112040143.6945-1-jaehoon1744@gmail.com>
+References: <20261111013953.4011-1-jaehoon1744@gmail.com>
+ <20261112040143.6945-1-jaehoon1744@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -96,82 +103,272 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYYPR01MB15175:EE_|TYCPR01MB9617:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6251b16c-c879-4f90-d181-08df406bd7a1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|52116014|18002099003|22082099003|6133799003|261009223027099003|5023799004|11063799006|56012099006|4143699003|261021121427099003|261102123227099003|10067099003|261021123027099003|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	T60O6kz6KGBMhsetLNBOcpvrOZ6gsNpyMMZGsAvwbvBqrIAl4rlN5u5dATfa6p6f4plTAh2T0qgIW4reSJK7lz5Gcsk8CJTfoEAYEiCKFNVUeYmWGJ7t6iiNO/QgddsP4slV0rElyQzeJOxxUUQaZ2ZT82oqmTeV9Mfpp8JGerPvUFh3oFflkQKk1q6SsFy86T7gkHqieJkzKS/vDljygZ6XdjOcEqMswAcFUB7efa2SsGflF0zFJcTterD5xSXaL00UnbcR3Sts8VoB/FIWTjMWW9O1JZrsllXpijS5jusBS5Ze5F7zzJMD1gDIAkXq4pCgd/xBUC2fvdRWlj5A6mKVO65oum0VdCVAiOnpD1nrDQWPhV+wS3LQAET0zTTfpBxz2O6NoJctWJuBdXPp/b5+3tO04nBryP5m/SBksxRhLmDFU0CGZtyLl/Xm6lnqSjRdPkpnwfnT01sTqMD7yjk+GAXmQ/e++W2bw2IbchC4XO9qfITUgLE6JLh9oBNInRt8srbxJ2/AQFQJ+Kb220g5WDgenwNDHwSLfl9RTb/Kxc+Kmucoqi9QUizuCOr1s2c/TLpREz69WGGbynuiDY0RdXqlkgVTX42Q4iscAS7MmxyrYT1ubBN5b2lcnyhAmstZoVNkNcvDO1sffNWDrcVqey0LQfV6qOFCAZo+TAV7Uy55DqDGndPzhG99UV6UUK4PZDdDQ5aCcMEyN1JRN4y4+JU2OyanFgxjTCF6P1k=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB15175.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(52116014)(18002099003)(22082099003)(6133799003)(261009223027099003)(5023799004)(11063799006)(56012099006)(4143699003)(261021121427099003)(261102123227099003)(10067099003)(261021123027099003)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?1Lj6KTsyG02zeQxyK5A9aLZgUWpmDvW47gWPcwuoWKZlHV0GKIBs09MlB9QE?=
- =?us-ascii?Q?zt9/JYV36y30+7XYCVBqxIsiXUnMeC+uNDe9MLgeaaxJff+BpaAypy6Q+sfV?=
- =?us-ascii?Q?eG/RwOntXzSPfgyBUlSmExokvZ/DmxDU2aYJC5/ez9yV9FDGMPQmrkdWGgq7?=
- =?us-ascii?Q?FDKXL5/HoydcW1jY/6E4JwkGUPS0IXFaGJq1O4IcGZzg8EBEahKgMhYADqJZ?=
- =?us-ascii?Q?cdvssC4LXua7oO8HVklMC6JFxW0MUM13J5120wJv9/dcS3X6TXZIeL0DcbVN?=
- =?us-ascii?Q?jYSEg6Gj7Mcx73A/XcUPTHJJ0W8cgcvCyK8Jc/2Di38f7bqsgVzw05fMH/H+?=
- =?us-ascii?Q?4uYmpitzF9xRoFOZjwmxPteQlCf8w+Z2iGM1rMiVME0eyoBwDgTKLlymPJ64?=
- =?us-ascii?Q?o/5WvIXBYK4twxIfNJEvVZAQI/za8fSFkgoT+ndjfFLvscC4EnDyriJCtDwW?=
- =?us-ascii?Q?TKEbvBb8bLGE5lMO9t/obkr5t+Vq4SXaqPZG4ij2YhEskZobU8Qzb2dQcv7o?=
- =?us-ascii?Q?T2OyRgkQ9RKo3fu5nv5kNgHBw3d4h6txu++gTF4csSdnVv01szUfgjsp+1nm?=
- =?us-ascii?Q?49KMXdzQ7C1y9hzF8JSqs2Wx8usX5BKVZQRzHrhLOAIXdTqBU2nhuFGbTp/h?=
- =?us-ascii?Q?LFJ8J7OF6FNSA/x6mTtcfMQSY2h6Ps/sdegsX/MDMBoc90guA4k3QgkRf5m/?=
- =?us-ascii?Q?0vqmuhukZkq7liBc+6Dm5upDe/vSp17LHiwtdQnyhRwh0X2fxANSG0xD9B0M?=
- =?us-ascii?Q?4O+Y0Hpd2AUujvWAxQOQkdOIFBV+IUukDrB0GypCUH9CZJ53LYcqY00qDRaI?=
- =?us-ascii?Q?8iub9JbvtG4uesFuTtRs9jAzJQD0DRXQTq2F9OH3jjsNYdGYRYHUm/oHoO47?=
- =?us-ascii?Q?qsnay5UwMmL59RjgFiBFQyBVZkThBM1hFLC0kphD7qbaWnbsnR9qK393YZIv?=
- =?us-ascii?Q?3xIUEM6pKCf3sRys5HyI5unzTgye7VvJwONXpupUw6t50f+pR51Uyzj+2YfO?=
- =?us-ascii?Q?aWr7SMx9KbnH2Y1rNL3itFQqG3y4WQjU6guB6lpvEXDpbinTlePqreH2l+cg?=
- =?us-ascii?Q?NsLb2K/0cECbYH31bo0PL6Jm94aKeVLA1OSXlps7yTJggoiJPFgyHZRLacqn?=
- =?us-ascii?Q?HKu4K4mMkxKO1DBpBR3goWDPIU6ubjRPMjJg0pxRJVsG9fvJ46DtLeysTKrP?=
- =?us-ascii?Q?e0iBgb/a33MxFsu3bUwU85oDaHdbCmFUTPN8NZpoI/5dLEo+C57FFOSZN9NI?=
- =?us-ascii?Q?sTk6q+RJ1FMkYFK7CoTsUPhGxSGypWVnK2ykGgfUYj4hhY/yzPCgUkcFbeja?=
- =?us-ascii?Q?5jFHeggLQ5Rb2trar3TA+zXadxzPf2J3SikZwK/i84KFyYKA1em7YV6G09Ww?=
- =?us-ascii?Q?/P5p02UScvup7DZ2L6+6+U/yh8LBoOP5GptLDI4Em4XYcc7BLQoLY6nEaJmv?=
- =?us-ascii?Q?v1ZaIFj91i1Oghi2iSV4pkfgz8aJVM0cYQ5De38R71h9cR73oG78rLAbm94J?=
- =?us-ascii?Q?/2T2nUom/wzkD99X5Kp40Cybztx4/ArlTWtCc/Do2bFD3/fEULHlvG7g7Q+1?=
- =?us-ascii?Q?AdhvZDoIVHS5l6ZrEVq9tLOg1AynyLkyHZ6PZ3RVMB4KSbzYZ7Vp08MbIrS2?=
- =?us-ascii?Q?OC5WYxuYORNlA2nzWCZAN/8KmfJ9HEzpQcykT7AEUL99b9GauuqHgowEPKU5?=
- =?us-ascii?Q?a56H7SJr4JWEXhwZ3UL/qe6d46J40SUQ30u+fMuE6Dn4WoCcgIdd/GPvRNvF?=
- =?us-ascii?Q?14f7LwyP2gZBe37MlYR+oU+J+jBCygYZ7f6m35bE8FZNnf7gstBq?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6251b16c-c879-4f90-d181-08df406bd7a1
-X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB15175.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2026 03:20:03.5002
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XsBao/92O3LJvvYtDYilc0lp0V7fDKW4CHhiyrT1+0caHhoq14g3cY5Q5acEx3EqSoVtD4nTzKcZ26zQt6M8Yk9SnBdCKB2sHgBkpND97nU8iQ++jurhVLlBL2d8s248
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9617
+Content-Transfer-Encoding: 8bit
 
+From: JaeHoon Kim <jaehoon1744@dankook.ac.kr>
 
-Hi ALSA ML
+On the LG gram 16 (16Z95U, AMD ACP 7.2, SSID 1854:056c) the RT1320
+speaker amplifier on SoundWire link 1 accepts the playback stream
+without any error but stays completely silent with
+rt1320_vc_blind_write[], even at 0 dB.
 
-> [Severity: High]
-> Can devm_component_release() call list_del(&component->list) a second
-> time if the driver already called snd_soc_unregister_component(dev)?
-> 
-> Previously, snd_soc_unregister_component_by_driver() looked up the
-> component on component_list first, making devm_component_release() a
-> no-op if it had already been removed.  Now, calling
-> snd_soc_component_unregister(*component) directly invokes
-> snd_soc_component_unregister_unlocked(), which unconditionally runs
-> list_del(&component->list) without checking whether the component is
-> still linked.
+The BIOS describes a board specific "mipi-sdca-function-initialization-table"
+for the SmartAmp function (SW23, function 4, 5627 writes). It follows
+the same sequence as rt1320_vc_blind_write[] but differs in about 50
+registers: clock setup (0xc5c2-0xc5d0), 0xc050-0xc063, 0xc582, 0xc60b,
+0xc682, 0xdc20, 0xcd00, 0xcf02, 0xc900/0xc901, 0xce1b-0xce44,
+0xd471/0xd479, the L/R mapping in 0x1000db15-0x1000db23 (swapped
+compared to the driver) and the final 0xdb00-0xdb1b values.
 
-Ah, good cache.
-I will fixup it in v3
+Use that sequence on this machine, without the table's bulk areas
+(0xe000-0xe7ff, 0x10007000-, 0x1000d000-, 0x2000xxxx). The MCU patch is
+still loaded from linux-firmware at 0x3fc2bf83, and registers the table
+does not touch but rt1320_vc_blind_write[] does are kept.
 
+With this change the internal speakers work: normal music playback at
+0 dB amplifier gain and 50% system volume, correct left/right, no
+distortion or noticeable heating.
 
-Thank you for your help !!
+Not intended for merging as is: it changes ~50 registers at once and I
+do not know which of them are actually required. DSP firmware / RAE
+files are still not loaded on this machine.
 
-Best regards
+Assisted-by: Claude:claude-opus-5-5
+Signed-off-by: JaeHoon Kim <jaehoon1744@dankook.ac.kr>
 ---
-Kuninori Morimoto
+ sound/soc/codecs/rt1320-sdw.c | 214 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 210 insertions(+), 4 deletions(-)
+
+diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
+index 42acb6c..14d07c6 100644
+--- a/sound/soc/codecs/rt1320-sdw.c
++++ b/sound/soc/codecs/rt1320-sdw.c
+@@ -1805,15 +1805,221 @@ static void rt1320_load_dspfw_work(struct work_struct *work)
+ 	rt1320_dspfw_load_code(rt1320);
+ }
+ 
++/*
++ * LG gram 16 16Z95U: the BIOS provides a board specific SDCA function
++ * initialization table for the RT1320 SmartAmp (SW23 AF04). This is that
++ * table without its bulk RAM/patch areas (0xe000-0xe7ff, 0x10007000-,
++ * 0x1000d000-, 0x2000xxxx); the MCU patch is still loaded from
++ * linux-firmware at 0x3fc2bf83 as in rt1320_vc_blind_write[]. Registers
++ * that the table does not touch but rt1320_vc_blind_write[] does are kept
++ * and marked "drv".
++ */
++static const struct reg_sequence rt1320_vc_lg_16z95u_blind_write[] = {
++	{ 0xc003, 0xe0 },
++	{ 0xe80a, 0x01 },
++	{ 0xc01b, 0xfc },
++	{ 0xc5c3, 0xf2 },
++	{ 0xc5c2, 0x00 },
++	{ 0xc5c6, 0x10 },
++	{ 0xc5c4, 0x12 },
++	{ 0xc5c8, 0x03 },
++	{ 0xc5d8, 0x0a },
++	{ 0xc5d0, 0x09 },
++	{ 0xc5d1, 0x89 },
++	{ 0xdc20, 0x30 },
++	{ 0xc582, 0x01 },
++	{ 0xc60b, 0xb1 },
++	{ 0xc682, 0x60 },
++	{ 0xc057, 0x51 },
++	{ 0xc054, 0x35 },
++	{ 0xc053, 0x55 },
++	{ 0xc052, 0x55 },
++	{ 0xc051, 0x13 },
++	{ 0xc050, 0x15 },
++	{ 0xc060, 0x99 },
++	{ 0xc061, 0x55 },
++	{ 0xc063, 0x55 },
++	{ 0xc065, 0xa5 },
++	{ 0xc06b, 0x0a },
++	{ 0xca05, 0xd6 },
++	{ 0xca07, 0x07 },
++	{ 0xca25, 0xd6 },
++	{ 0xca27, 0x07 },
++	{ 0xcd00, 0x05 },
++	{ 0xcf02, 0x0f },
++	{ 0xc604, 0x40 },
++	{ 0xc609, 0x40 },
++	{ 0xc046, 0xff },
++	{ 0xc045, 0xff },
++	{ 0xc044, 0xff },
++	{ 0xc043, 0xff },
++	{ 0xc042, 0xff },
++	{ 0xc041, 0x7f },
++	{ 0xc040, 0xff },
++	{ 0xcc10, 0x01 },
++	{ 0xc700, 0xf0 },
++	{ 0xc701, 0x13 },
++	{ 0xc901, 0x09 },
++	{ 0xc900, 0xd0 },
++	{ 0xce44, 0x1c },
++	{ 0xce1b, 0x88 },
++	{ 0xce31, 0x0d },
++	{ 0xce30, 0xae },
++	{ 0xce37, 0x0b },
++	{ 0xce36, 0xd2 },
++	{ 0xce39, 0x04 },
++	{ 0xce38, 0x80 },
++	{ 0xce3f, 0x00 },
++	{ 0xce3e, 0x00 },
++	{ 0xde03, 0x05 },
++	{ 0xc570, 0x08 },
++	{ 0xc086, 0x02 },
++	{ 0xc085, 0x7f },
++	{ 0xc084, 0x00 },
++	{ 0xc081, 0xfe },
++	{ 0xf084, 0x0f },
++	{ 0xf083, 0xff },
++	{ 0xf082, 0xff },
++	{ 0xf081, 0xff },
++	{ 0xf080, 0xff },
++	{ 0xe801, 0x01 },
++	{ 0xe802, 0xf8 },
++	{ 0xe803, 0xbe },
++	{ 0xc003, 0xc0 },
++	{ 0xd470, 0xec },
++	{ 0xd471, 0xba },
++	{ 0xd474, 0x11 },
++	{ 0xd475, 0x32 },
++	{ 0xd478, 0xff },
++	{ 0xd479, 0x40 },
++	{ 0xd47a, 0x10 },
++	{ 0xd47c, 0xff },	/* drv */
++	{ 0xc019, 0x10 },
++	{ 0xd487, 0x0b },
++	{ 0xd487, 0x3b },
++	{ 0xd486, 0xc3 },
++	{ 0xc598, 0x04 },	/* drv */
++	{ 0xd500, 0x00 },	/* drv */
++	{ 0xd500, 0x17 },	/* drv */
++	{ 0xd600, 0x01 },	/* drv */
++	{ 0xd601, 0x02 },	/* drv */
++	{ 0xd602, 0x03 },	/* drv */
++	{ 0xd603, 0x04 },	/* drv */
++	{ 0xd64c, 0x03 },	/* drv */
++	{ 0xd64d, 0x03 },	/* drv */
++	{ 0xd64e, 0x03 },	/* drv */
++	{ 0xd64f, 0x03 },	/* drv */
++	{ 0xd650, 0x03 },	/* drv */
++	{ 0xd651, 0x03 },	/* drv */
++	{ 0xd652, 0x03 },	/* drv */
++	{ 0xd610, 0x01 },	/* drv */
++	{ 0xd608, 0x03 },	/* drv */
++	{ 0xd609, 0x00 },	/* drv */
++	{ 0x3fc2bf83, 0x00 },
++	{ 0x3fc2bf82, 0x00 },
++	{ 0x3fc2bf81, 0x00 },
++	{ 0x3fc2bf80, 0x00 },
++	{ 0x3fc2bfc7, 0x00 },
++	{ 0x3fc2bfc6, 0x00 },
++	{ 0x3fc2bfc5, 0x00 },
++	{ 0x3fc2bfc4, 0x00 },
++	{ 0x3fc2bfc3, 0x00 },
++	{ 0x3fc2bfc2, 0x00 },
++	{ 0x3fc2bfc1, 0x00 },
++	{ 0x3fc2bfc0, 0x07 },
++	{ 0x1000cc46, 0x00 },
++	{ 0xd486, 0x43 },
++	{ 0x1000db00, 0x07 },
++	{ 0x1000db01, 0x00 },
++	{ 0x1000db02, 0x11 },
++	{ 0x1000db03, 0x00 },
++	{ 0x1000db04, 0x00 },
++	{ 0x1000db05, 0x82 },
++	{ 0x1000db06, 0x04 },
++	{ 0x1000db07, 0xf1 },
++	{ 0x1000db08, 0x00 },
++	{ 0x1000db09, 0x00 },
++	{ 0x1000db0a, 0x40 },
++	{ 0x1000db0b, 0x02 },
++	{ 0x1000db0c, 0xf2 },
++	{ 0x1000db0d, 0x00 },
++	{ 0x1000db0e, 0x00 },
++	{ 0x1000db0f, 0xe0 },
++	{ 0x1000db10, 0x00 },
++	{ 0x1000db11, 0x10 },
++	{ 0x1000db12, 0x00 },
++	{ 0x1000db13, 0x00 },
++	{ 0x1000db14, 0x45 },
++	{ 0x1000db15, 0x12 },
++	{ 0x1000db16, 0x09 },
++	{ 0x1000db17, 0x00 },
++	{ 0x1000db18, 0x00 },
++	{ 0x1000db19, 0x00 },
++	{ 0x1000db1a, 0x13 },
++	{ 0x1000db1b, 0x09 },
++	{ 0x1000db1c, 0x00 },
++	{ 0x1000db1d, 0x00 },
++	{ 0x1000db1e, 0x00 },
++	{ 0x1000db1f, 0x0d },
++	{ 0x1000db20, 0x01 },
++	{ 0x1000db21, 0x00 },
++	{ 0x1000db22, 0x00 },
++	{ 0x1000db23, 0xbf },
++	{ 0xd540, 0x21 },
++	{ 0xc5c3, 0xf2 },
++	{ 0xc5c8, 0x03 },
++	{ 0xd471, 0xba },
++	{ 0xdd0b, 0x0d },
++	{ 0xdd0a, 0xff },
++	{ 0xdd09, 0x0d },
++	{ 0xdd08, 0xff },
++	{ 0xdb03, 0xf0 },
++	{ 0xdb08, 0xe7 },
++	{ 0xdb09, 0x00 },
++	{ 0xdb19, 0x02 },
++	{ 0xdb02, 0x73 },
++	{ 0xdb01, 0x00 },
++	{ 0xdb04, 0x00 },
++	{ 0xdb07, 0x00 },
++	{ 0xdb00, 0x00 },
++	{ 0xdb05, 0x00 },
++	{ 0xdb06, 0x00 },
++	{ 0xdb1a, 0x00 },
++	{ 0xdb1b, 0x00 },
++	{ 0xc5f7, 0x22 },	/* drv */
++	{ 0xc5f6, 0x22 },	/* drv */
++	{ 0xd172, 0x2a },	/* drv */
++	{ 0xc5d6, 0x01 },	/* drv */
++};
++
++static const struct dmi_system_id rt1320_lg_16z95u_dmi[] = {
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LG Electronics"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "16Z95U"),
++		},
++	},
++	{}
++};
++
+ static void rt1320_vc_preset(struct rt1320_sdw_priv *rt1320)
+ {
+ 	struct sdw_slave *slave = rt1320->sdw_slave;
++	const struct reg_sequence *seq = rt1320_vc_blind_write;
++	unsigned int num = ARRAY_SIZE(rt1320_vc_blind_write);
+ 	unsigned int i, reg, val, delay, retry, tmp;
+ 
+-	for (i = 0; i < ARRAY_SIZE(rt1320_vc_blind_write); i++) {
+-		reg = rt1320_vc_blind_write[i].reg;
+-		val = rt1320_vc_blind_write[i].def;
+-		delay = rt1320_vc_blind_write[i].delay_us;
++	if (dmi_check_system(rt1320_lg_16z95u_dmi)) {
++		seq = rt1320_vc_lg_16z95u_blind_write;
++		num = ARRAY_SIZE(rt1320_vc_lg_16z95u_blind_write);
++		dev_info(&slave->dev, "%s: using LG 16Z95U init sequence (%u writes)\n",
++			 __func__, num);
++	}
++
++	for (i = 0; i < num; i++) {
++		reg = seq[i].reg;
++		val = seq[i].def;
++		delay = seq[i].delay_us;
+ 
+ 		if (reg == 0x3fc2bf83)
+ 			rt1320_load_mcu_patch(rt1320);
+-- 
+2.43.0
+
