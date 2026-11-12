@@ -1,57 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.167
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.85.9.111
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794495386;
-	b=miZLkPszQA9O0ESUQgCw96iokvT2VQ/zjBq4ZiwRvcgkDMR34nhxUgDpGckf15IeUtlc
-	 30M7Ci4aiw7QCZKEe7iWGm/uotzw/zTSQDogBE0yEXi9dhbACounpQUJ/Io1ZjntnWujD
-	 uo3dH+HlfWB5JqwMq/KLbxXvk1ZVP/7aWhhPIpI9rMG0XB8EuJI1+ZCd5da7H4WHGGATV
-	 FyoFormvkYc4dhaJVXyL4PofEIg7hLbNtb8nkD4/QhM5FaKvAygmTHIA1J7V9oktAOw24
-	 4/X+rtwbe5UYBubb3A+dia7FlYGHpNH8VqTtJR8Ef+OKvSAWxW+9YgY0s4b1XOeVtSQ==
+	t=1794496696;
+	b=FuBVw00CpymvV0jS7/EYavsH/9fnfn5uF1j53CoKBL9L7QJTB+ucLC00C7eK9ZTtaItV
+	 Q8SwBwczY4AKt8//Ny3hLRwDwmA846dki1If+h6XxlZQt68XRUQCJp8TbFW0jOA5xmLfj
+	 EGPKu2XneI+tHah9r8MRAW/r2tcxjFqaEudKRIAsRNNxmqJsj7Fcn14dbxw5Y+usPYQFr
+	 buuRtddgEb9hXaLXQdw6uSALuJT9eokFtzYv1mIoPi5NqwcAM1rNVjATjViycdyF+DPYL
+	 DbSCCthfonIh5M+MCinyGqRziCBapPaChNVADfkKUVI+E4+az/VhPbEKx1/2m2rvVCQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794495386;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=GsQRcCft6Z382GN6+jPlmqlkzghZue3ReBUd5vPL7zQ=;
-	b=WWv5hjM1IdxxWpUN3EwEt3UAcqXkCFTzGgxi9aoFvvw7TLJn1Ze1VGyKu6H9XnmoiniS
-	 NsqfyyDf/eUzhEhyS8SMp/UgTl+FhhnQYSuVkawh6PfAenDadVSsZnFwX3n9MjHy8ml+0
-	 d25/TAlKyJ3KyG8NjnbJcLCsSU6ltAfAj9ii27WSVW+C9huq8A0Xt0GpPZIft9S5fKnl1
-	 pVV/PabAeQjOTMqd489APTyUnFdxYDDrziQEJrYwZXawMcchUq+LGarkiVpd5ZBm3Gddk
-	 Gmj6LVtEg1RUeb7mglSqF+JvL/LbMUPdKN3hNshzDHkwJDKtqlruV9Sv8+xKa7C4Ktg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794496696;
+	h=DMARC-Filter:Received:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+	 References:Content-Type:Content-Transfer-Encoding:User-Agent:
+	 MIME-Version;
+	bh=r+yQthmGpU4dLS0axjn4IZvfIRlCVOqVLewaA/Ebjsk=;
+	b=HOwKldXGBVmhE1JDFgmHZA4zHtREBlUzsWIE0+7OA9huUmchBOwXAISKe+52QRb/Wom6
+	 ijMF6mp3PzA9q/aI7f5bIpJoofrj5O/4kD0g6WHdkSNY2gtpzmug/B2nfela145w/dwn5
+	 mnOPlf/HWo/sl7abC65XWqV8fdmUTTRDlvhyOZStS3lZlacndVlwk9dmw5BBTh2pmIfMf
+	 Cl52nGAJEjNGwVyI/egfArLNV6jsrbxkVVGzzFoTqvRw775HW6JrSOP9hrfcf3cOof8hu
+	 IwSZD7BXLHDwwUbwYbm8flSSDP8hYIFXV92v/+K9Zq425dtN7xSZXPmCpXLBlITkvKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=protonmail.com;
-	spf=pass smtp.mailfrom=protonmail.com;
-	dkim=pass header.d=protonmail.com header.i=@protonmail.com header.a=rsa-sha256 header.s=protonmail3 header.b=kd6nQL9F;
-	arc=none smtp.remote-ip=185.70.43.167
-Received: from mail-43167.protonmail.ch (mail-43167.protonmail.ch [185.70.43.167])
+	dmarc=pass header.from=irl.hu;
+	spf=pass smtp.mailfrom=irl.hu;
+	arc=none smtp.remote-ip=95.85.9.111
+Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452A8606A31C
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 14:56:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 452A8606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=protonmail.com header.i=@protonmail.com header.a=rsa-sha256 header.s=protonmail3 header.b=kd6nQL9F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1794495383; x=1794754583;
-	bh=GsQRcCft6Z382GN6+jPlmqlkzghZue3ReBUd5vPL7zQ=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=kd6nQL9FdEJ2KF3kbsgZbN/jqDwX61GMVml0JVfkdi/O5KTGn73TEVXHUWTl3Ky8L
-	 Y6p5dhNkuPYBO6mZLj9uXHldyIE5Nv+rAZcrPfJSjM4c5vhaiMClwRcCJVDgJcLlsF
-	 3qOoLRlhHndqTiR0GaQoAPr5OdpB1xVDZLS1CAtUie+ObPXd441PNFdGhw+F/mDGRY
-	 ZsZjIrzcV4uo4/FsVKGPqPfx2m+8iO7FCGrA6EIsuO8Bqxe2RKdZ816KKdJfFfxsOq
-	 3zyCE7+nYsf4a3YJ9vAuROuNSENsgS2I9kGwNQs90QdGfaViXsYUrcfVhsRtDV95Vf
-	 t/jtThvoGp7uw==
-Date: Thu, 12 Nov 2026 14:56:20 +0000
-To: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-From: H7628h <H7628h@protonmail.com>
-Cc: "tiwai@suse.de" <tiwai@suse.de>, "perex@perex.cz" <perex@perex.cz>
-Subject: ALSA: hda/realtek: LG 22V280 (ALC256, 1854:0308) internal speakers intermittently silent, needs coef 0x10 bits 13-14
-Message-ID: <h93ftv1OWd4nQb9SwejOqSmxahololqmoRffInUDsPCeFG1jYfxSETU6k7TcvDBXUjgaDgXPU3MymdJ9iNwijUPYhOAURt53jU7ChHVa544=@protonmail.com>
-Feedback-ID: 30170416:user:proton
-X-Pm-Message-ID: 769c70810666dbd2269c051e80965f3d7e067508
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id BDD3B60A262E;
+	Thu, 12 Nov 2026 15:18:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDD3B60A262E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from [192.168.2.4] (51b6855e.dsl.pool.telekom.hu [::ffff:81.182.133.94])
+  (AUTH: CRAM-MD5 soyer@irl.hu, SSL: TLS1.3,256bits,ECDHE_RSA_AES_256_GCM_SHA384)
+  by irl.hu with ESMTPSA
+  id 00000000000C60CB.000000006AF5D8B5.00004720; Thu, 12 Nov 2026 16:18:13 +0100
+Message-ID: <0c5d5163d292c238a27a77eda2690d8cec025b77.camel@irl.hu>
+Subject: Re: [PATCH] ALSA: hda/tas2781: Only accept CRC-less V1 data if all
+ entries are valid
+From: Gergo Koteles <soyer@irl.hu>
+To: Mohamed Yassine JEBABLI <med.jebabli@gmail.com>
+Cc: regressions@lists.linux.dev,
+  Cristian Castellano <cristian.castellano@icloud.com>,
+  stable@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+  Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
+  linux-kernel@vger.kernel.org,
+  Thorsten Leemhuis <regressions@leemhuis.info>,
+  Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+  Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>
+Date: Thu, 12 Nov 2026 16:18:03 +0100
+In-Reply-To: <CAN6p6iiFz-JXOt9iFUPa3x4Aqu2c96=ERf0AMZ6pPVWspd=jLw@mail.gmail.com>
+References: <20261103-tas2781-v1-nocrc-fix-v1-1-a769c27f21ce@gmail.com>
+	 <7cd4c010f13ee085e3aa4396705b6b06ed58f7e1.camel@irl.hu>
+	 <504167422048bb8197a1ca3fac079cec9dea1ae7.camel@irl.hu>
+	 <CAN6p6iiFz-JXOt9iFUPa3x4Aqu2c96=ERf0AMZ6pPVWspd=jLw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-3.fc44) 
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,116 +65,34 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Hi Mohamed,
 
-On the LG 22V280 All-in-One (Realtek ALC256, codec SSID 0x18540308), the
-internal speakers are silent from boot on some boots. It looks random. When
-that happens, headphones on the same codec work perfectly. The machine neve=
-r
-had this problem with the vendor's Windows driver. There is currently no qu=
-irk
-for 1854:0308 in sound/hda/codecs/realtek/alc269.c.
-
-Hardware / software
-  System:     LG Electronics 22V280 (All-in-One)
-  BIOS:       Phoenix 22VC0332 (2021-03-04)
-  Controller: Intel Celeron/Pentium Silver (Gemini Lake) HDA [8086:3198],
-              subsystem 1854:0308, snd_hda_intel (dsp_driver=3D1)
-  Codec:      Realtek ALC256, Vendor Id 0x10ec0256, Subsystem Id 0x18540308=
+On Thu, 2026-11-12 at 16:09 +0100, Mohamed Yassine JEBABLI wrote:
+> Hi Gergo,
+>=20
+> Regarding the Q27/Q31/Q58 formats: they are not from any documentation; I
+> inferred them from the data. Reading the first word of each entry as Q27
+> gives a plausible speaker resistance (3.82 ohm on my Legion Pro 7, 3.64 o=
+hm
+> on Cristian's Yoga Pro 9), and reading the second word as Q31 gives exact=
+ly
+> its reciprocal, within 1e-4, on both machines. So, for a consistent entry=
 ,
-              Revision Id 0x100002
-  Pins:       speaker on 0x1b (pincfg 0x90170110, fixed internal speaker),
-              headphone on 0x21 (0x03211020), 0x14 unused (0x411111f0)
-  Kernel:     6.12.116 (Debian 13); no relevant kernel messages in either s=
-tate
+> R0 =C3=97 InvR0 ~=3D 2^27 =C3=97 2^31 =3D 2^58.
+>=20
+> The V2 dump from the ASUS ROG Xbox Ally X thread (with a valid CRC) fits
+> the same pattern: r0 =3D 0x3c5f7222 (~7.55 ohm in Q27) and invr0 =3D 0x10=
+f615d5
+> (~0.1325 in Q31, i.e. 1/7.55).
+>=20
+> My guess is Q5.27 and Q1.31, but I have no TI reference to confirm it.
+>=20
+> Finally, all testing was done on my own hardware: the original patch was
+> tested on my Legion Pro 7 16IRX9H, and I reviewed and own the changes.
+>=20
 
-Symptoms in the failing state
-  - The PCM is RUNNING and data is flowing. A tone played directly on plugh=
-w:0,0
-    (with no sound server running) is still silent on the speakers.
-  - The mixer is identical to a working boot: Speaker switch on, volume at =
-max,
-    Master on.
-  - Pin 0x1b is OUT (Pin-ctls 0x40), EAPD is set on 0x14/0x1b/0x21, connect=
-ion
-    select and power state are D0, and GPIO data/mask/direction are 0. All =
-of
-    this is identical to a working boot.
-  - Toggling EAPD, re-writing pin controls, and driving GPIO0-2 do not help=
-.
-  - Neither does a full unbind/bind of snd_hda_intel.
-  - A reboot fixes it until the next bad boot.
+Ah okey, these are TI fixed point formats.
 
-Root cause
-I dumped all ALC256 processing coefficients (node 0x20, index 0x00-0x7f) in
-a failing boot and in a working boot, both with headphones plugged in so
-that jack-dependent coefs match. Only two coefficients differ:
-
-            failing   working
-  0x10      0x1820    0x7820    (bits 13 and 14)
-  0x35      0x0d6a    0x8d6a    (bit 15)
-
-Then, in a working boot:
-  - clearing bits 13-14 of coef 0x10 (0x7820 -> 0x1820) silences the
-    speakers immediately, and setting them again restores sound;
-  - clearing bit 15 of coef 0x35 has no audible effect.
-
-So it looks like the firmware sometimes leaves coef 0x10 bits 13-14 cleared=
-,
-and the driver never sets them. The kernel already touches coef 0x10 on ALC=
-256
-for a speaker issue on the Xiaomi Mi Laptop Pro 15 (alc256_fixup_xiaomi_pro=
-15_resume,
-bit 9), so this seems to be the same kind of problem.
-
-Workaround (tested)
-The HDA patch loader with the following file, loaded via
-"options snd-hda-intel patch=3D<file>", makes the speakers work on every bo=
-ot so far:
-
-  [codec]
-  0x10ec0256 0x18540308 0
-
-  [verb]
-  0x20 0x500 0x10
-  0x20 0x400 0x7820
-
-After boot, /sys/class/sound/hwC0D0/init_verbs shows the two verbs applied.
-
-Suggested quirk (untested as a kernel patch; only the equivalent verbs abov=
-e
-were tested)
-
-  static void alc256_fixup_lg_speaker_coef(struct hda_codec *codec,
-                                           const struct hda_fixup *fix,
-                                           int action)
-  {
-          /*
-           * LG 22V280 (1854:0308): the firmware sometimes leaves ALC256
-           * coef 0x10 bits 13-14 cleared, which silences the internal
-           * speakers. Set them on every init (boot and resume).
-           */
-          if (action =3D=3D HDA_FIXUP_ACT_INIT)
-                  alc_update_coef_idx(codec, 0x10, 0x6000, 0x6000);
-  }
-
-  [ALC256_FIXUP_LG_SPEAKER_COEF] =3D {
-          .type =3D HDA_FIXUP_FUNC,
-          .v.func =3D alc256_fixup_lg_speaker_coef,
-  },
-
-  SND_PCI_QUIRK(0x1854, 0x0308, "LG 22V280", ALC256_FIXUP_LG_SPEAKER_COEF),
-
-I don't know what coef 0x10 bits 13-14 mean internally. If Realtek
-documentation suggests a different or more appropriate fix, I'm happy to te=
-st
-patches on this machine.
-
-More details and the scripts used for the test:
-https://github.com/librarianBR/alc256-lg-speaker-fix
-
-Thanks!
-
+Thanks,
+Gergo
