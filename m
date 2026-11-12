@@ -1,58 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794463443;
-	b=T+WmRtk0gKpnwEbjOAc3mPX1GLWNPTruDs6I/IEr0uZHythTQSQVE7/ezMJI1hJVdE9Z
-	 rW9yxEV3NMCGVXQxkydhfK6NUZlo697iqaNVUJCwz4TBuOTcWzfMY6EeeJG2ha4D+ED7t
-	 AyI1PDmqLOtIS0VKtBcoZNcICxUDUQ2JlfRiAhpKpznWusA4evPEizwhyupIZN5R4kARu
-	 lQwbTqOniqHWzWWA9V7c7MgULGYVwUzE01zGhUGe4g574kyb3XfLz4P8rFZN9uiojL2EH
-	 tARRE1wHQSM0mzq9SgcniD/SfpRvpwrTstszGVVyQtwJfqKWHf9IeKcU90g+DNsV8Qg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794463443;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=8B+7bgNSJzuv/eI62YnmIyuOnqT9cVeVeA+y8N+Tk9Y=;
-	b=Ug23fRpYCqhaM4CgBoLbG0OIy63o9ym11va1mR9qs27qhpozAjd+k6CTPJOq6VzK6fGd
-	 Zv5Dk7wcFsiVfqSCHxDMOaaWmP4tDwWm53VV4ZABDZy2bQNQiPucH1zPdw+8jNfdcTiOs
-	 EHPaNaefVAweSDKkvOTf++7qr85MlJ96Uxpz6FdmAF22HqfbvWn+pelSxKw+i9ccf6pqy
-	 uRTQyXnZ+3Y+oCnCyuyx8D+ieTMXgU/ZtEtP4JeacK7UVKR7/Gx1lPEtJxzPMqPGEXT6I
-	 Ul16Lqw9Y60XzSUzHlIPpqUKKWhxqmTs8i8IFARpZA8P+XwPeFhXT1pq0lVQ5BDQsOQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ABwcr2u7;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794463461;
+	b=muR5UXsG3kA3uo/4WGkxrngfYgXQL3eG9DiNc+i2l/MpADDILy5pAE1MAUkZ0HQZMlJG
+	 1I6ZY4YzozPGHaCWDGG3BMiulw4HO1RIu8w9jDB5BGatL8JnIoXM48ilplPcXPvgKYmBe
+	 x9UpkCSwjUygL0LmvFlLq5pWU+n36QXk+SFPPD7TIza1lihaXjjWTaG3UvjNYBc8q1Ntp
+	 slcHcwLFjBl5y1s3rZAvNbFr/fx7W34ZtT2mqe1n+FZXvmQYZdmO+v547A1uXTrCaX5xb
+	 4NLu42WeiIwC4coKcu7lZVAUKYxWEfOh1k2PCXD+vleHIIdc1c6u3azGSoirsgzBNvQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794463461;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=BYfqjoYslJofAtcQPFySqHDOp2vBAxC8H47ZU7wkw3A=;
+	b=GPk97LkY3LBgo0hrslel2UMtqgB/9ZuG+Js+5umVgKh5GoAF+EaDBrIGfD3PDZRRG1Ok
+	 f45yOpSU1tBwEHNhSt7p89degGW9OOY2QTaTgjQDetyPO8JkyWKi41hz2sV1KfBQzKw4K
+	 Nhut0ElZrV4T0jitLzSVB/JfSd1WrgIuM/OINtOnBjSxDlP+JNgiRKvFESR+/ADrSns9D
+	 E21glYNHLsEP1PDiqc3liMCM+tPFTYonqrxcyn43xvVBEdf+pFJQfCQwGZhEOI7hHUxTW
+	 rDrj5BGcvOktfi+7vIqqRkkKSy34/DXNB5coiv2kJ4x9C2xVupU3chV1WlklWn/i/Yg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=MG56SeWY;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.18
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010018.outbound.protection.outlook.com [52.101.201.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C39D9606A321;
-	Thu, 12 Nov 2026 06:04:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E4C606A323;
+	Thu, 12 Nov 2026 06:04:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03E4C606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ABwcr2u7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 208B41F00A05;
-	Thu, 12 Nov 2026 06:04:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794463443;
-	bh=8B+7bgNSJzuv/eI62YnmIyuOnqT9cVeVeA+y8N+Tk9Y=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ABwcr2u7OtEkvuPOkgOMQhUotooZKO3/MDaprvOJpMLtuOjwxh7b90t5QvBos9BGt
-	 6fBcvoS/7Vwnh/lMbS5q945OqH7kWDUhK9G9OCHhp25JLzTHsAr/qYMh2jjJJ6VCk7
-	 SS9CvvDKvlrtVhOyu0dtTyEXONIjUT+BIDqK8FleuG29MmKSMn1SoKRTSjldvcxWM2
-	 w0jZvnBGmxgpMSiR2L4zSLBOrfdxY1nZFYwz7AkUQrMi8IJLLSbX6PTE6CsyIPr5Q1
-	 KmEy0ZrJPObl9BZBdhXF+QZQqkEIhBpp41yAyAanX7y+XR/nn8NoDte8ibTZEy5c94
-	 GuIfZzu8EOg4A==
-Message-ID: <sashiko-outbox-210494@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v29 17/17] ALSA: virtio: preserve playback progress
- across pause and buffer access
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
-Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
- Perez" <eperezma@redhat.com>
-In-Reply-To: <20261112053446.73504-18-mynameisjune111@gmail.com>
-References: <20261112053446.73504-1-mynameisjune111@gmail.com>
- <20261112053446.73504-18-mynameisjune111@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 12 Nov 2026 06:04:02 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=MG56SeWY
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AMdUeL2/BO0q+7Bp/NkJNLT0hytkAGCaFBh1p0oKhoUiWpg2g336rFUnHwjjk1fuLjHVCtsVCC69dNmJpCBkmqOgoR5ruEHK447LfaoWvHGfh/ltxE97f6skaK0L4yFV7D0rYuuzoc5fNrqf5rzfuSlN55ytYwWPGHtOecfHOAtkFyexlZ+xDVj+sBVkXmVctENIcGsENT6xKZ4ySLRz4aGWj1iKj+xrG7k4dJZcNF3xQIWZXUJeUZZ3tvEj2QrBIrbGSBonKCzigROLXMYnhLOItFCgPFAMhBLYgEDzKRx+noLcjuOj1qvoFhjxhspEqR8ET4Y59t9CboVV2Aqp2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BYfqjoYslJofAtcQPFySqHDOp2vBAxC8H47ZU7wkw3A=;
+ b=NbaaLuP33wOGM7UE3HD2cJRumdCVzodtWrrSFiy/T9hBnrflY/kHsw77hre8X9TkhTA+2XT4+fMJmeBdR1W6fS85Ge2nfRofDpO3u5Nf6mO2rUHiDKaUp0sbcJStnm4uzj0Mv/5jb9jzY2d+IQYZeVg/crEgtoaOUPZvokQFKEaOQdOP6bAzvsaRXXj35xnF7Lu7E2aeUVIlxiotZUrbcW6GBKBv3JaQ76/T6b9zPXWI51ltNzjnuQrBikLt7b4ALbiz655RmhJrKOrXMQRe0eCAwweG4LpEK4zZrR0zcGZSNDyxMpliydUyVE2EOGe4bm6+khMbWacIoXsoZQ7Bfg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BYfqjoYslJofAtcQPFySqHDOp2vBAxC8H47ZU7wkw3A=;
+ b=MG56SeWYgBhZvfDmvx+MEP1ncZmUPwhCeCNASlLqyyCA+5wF0LKxlCMC9eR6PpdF/aYoEiDUkGjXXlyTRbvopWkKPlaiVLsVFbzC3kMFTOXRXHKLZUcP61lAKbXrMNDQQ+5ZTVkgTu56U/RVeEYy8Nxzxk6NYzSNef02Hku3eW8=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5356.namprd12.prod.outlook.com (2603:10b6:408:105::23)
+ by DS5PPFA33D606F8.namprd12.prod.outlook.com (2603:10b6:f:fc00::65b) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Thu, 12 Nov
+ 2026 06:04:18 +0000
+Received: from BN9PR12MB5356.namprd12.prod.outlook.com
+ ([fe80::8e9c:2f3d:9679:942e]) by BN9PR12MB5356.namprd12.prod.outlook.com
+ ([fe80::8e9c:2f3d:9679:942e%5]) with mapi id 15.21.0615.008; Thu, 12 Nov 2026
+ 06:04:17 +0000
+Message-ID: <e00546d1-38ad-4aa5-b0e9-6609b2796a3e@amd.com>
+Date: Thu, 12 Nov 2026 11:34:07 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/6] ASoC: soc-acpi: move common function topology
+ helpers
+To: Mark Brown <broonie@kernel.org>
+Cc: Sunil-kumar.Dommati@amd.com, vijendar.mukunda@amd.com,
+ Mario.Limonciello@amd.com, venkataprasad.potturu@amd.com,
+ Siva Subramanian Ravi Saravanan <sravisar@amd.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
+ <linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+References: <20261108193119.2308421-1-syed.sabakareem@amd.com>
+ <20261108193119.2308421-4-syed.sabakareem@amd.com>
+ <179442205142.484483.13609312009662203150.b4-review@b4>
+Content-Language: en-US
+From: Syed Saba Kareem <syed.sabakareem@amd.com>
+In-Reply-To: <179442205142.484483.13609312009662203150.b4-review@b4>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PNYPR01CA0028.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:23f::35) To BN9PR12MB5356.namprd12.prod.outlook.com
+ (2603:10b6:408:105::23)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,87 +107,108 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5356:EE_|DS5PPFA33D606F8:EE_
+X-MS-Office365-Filtering-Correlation-Id: 35b20cc1-7072-4124-e049-08df4082c8e3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|23010399003|366016|1800799024|11063799006|10067099003|4143699003|261009223027099003|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	vnSGXN/s3yYlcobkfLjBmE7N099jEqg0CUArCF9RtbHvyZZsEqSVIeq8bp9RSFwwPzDQFfecCeQiz9gCZk2dz4m/kn1qraXyJXP/GUIcoBH8qqDdNA1lNJQ5ApD3ZdwjpaI8c27hMkygUwolQpLQOLECd2IAOPY47eIAdYrOLf9fPvXwnvijjWHyULokff94sE3MN0QzDb21KH5S090lKhwUP5I8iXil1pThLgW2FecccONEjsdTADJfl5V0p83RqXkWWjWwecrPt4rPQ9wG5zO+OgYrgcse6oIN1aTOX7K81tIoR66he0vInsOx4L0ApviCO712uenZXxP7XgTIr1a8Bk7WtTC0OogM8X7pF163lIiKrZQpHGPqef823SRxTT4xXJwr3FnD2Q8brNYOmq5SPS4fmI75wDtD2MxT4Rful8ac/CW1ooRrIVd08wHspHGGEVrgsQZLB6UF1r3a5GmGVxlhfIOX+Wnvgy9XnAppcyPSpTQAUfhEIJhNluk+UVCf6XP/KY2MichHyQR1xpN1Wz5NksOxnoWtp+ltor8yLe8ZTkFgO+B+dpOsP+QsXF+Uj/uLB6nNSnO0d/cZBASJS0HMIpjbhrylrI6IMUniEjLtcZtMR8Ur4D1sxw2GSrCa8Xx1w2f+mTC2rTycOJQMmJMfVz40l6c2sx7ALxo=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(366016)(1800799024)(11063799006)(10067099003)(4143699003)(261009223027099003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VDFSVFJVT2JhZmkxNVFGamkzNzM0ZFIwWFZiYVU2a2ZoMFQyWXV2V2hPaVNs?=
+ =?utf-8?B?TmRPbUxmMURKNXVQMzVDYzBoVmVVMExGR2EzdGRudjh6dmt5enQrS1hybGRz?=
+ =?utf-8?B?a0VBUmZnNzJvOHdaQ0xGTHg4bWU0eklVVzhpRXpXUTJPcmJrWEdqN3Q1R09R?=
+ =?utf-8?B?QkphMVlPdTJlNituaEhjaDVucjZkdTFFVlhpN2VIRUl4bzVhMFQrRFIxVUVZ?=
+ =?utf-8?B?NnhEeFF6a0lMbzFkQWZJR3J2cjliVVZNTHFJOFE3dnEzc05lSS80ZjdTZnpM?=
+ =?utf-8?B?N1BMZEJKbWUrU3ZsNndjSVlGb1FDeUsyZ2Ezd0h5OGV3cHdjSVdGUjJNeW0z?=
+ =?utf-8?B?OXp2aWxkZUhsMzVicmZoTFc1OHZVOWlQbDRPYzJkeTJNd2phc1hhNzJKSm1t?=
+ =?utf-8?B?YTdKZTE5eFdMbWZiTE5Ld0ZnWThsczJUNy9HL25mSlFtaVQraklVVjBGRENp?=
+ =?utf-8?B?dDJyKzZTV0d5dzB4R0paKzgycEhvL0dLZEN0RlVZSFllZy9uQkVlR1M0QUcr?=
+ =?utf-8?B?K3U2RlZKZ0EyZjNycGhBOG5jeFQ2TEJWMTRiaExROUNXWXJiNzJEbjZwZDVy?=
+ =?utf-8?B?Mm90T1F0a3R1MElLbUNzNUlRbkp0emhVSWlxMjVBTHRHWS9aamZhWERJakRJ?=
+ =?utf-8?B?RC80OS8vV1Y4WXpyNGwwVmZBY21oZXdoOSt6WTliNkNRM0thbG42OS9rbG42?=
+ =?utf-8?B?M1JjZS9ramkvYTFEa1BnOXhPaUVJdEhzZ0Y0d2FGQTN1OGU2ekFZM2ZLL1pO?=
+ =?utf-8?B?WUt2QlFlbXQ3RHJNY2N6cHMzN3R5YXRCVTI2TnZjTTJZWkFnSjdBRmVCN2h2?=
+ =?utf-8?B?aEdyckZDS2h5UzQ4c3RaL3p0UHloaisxdVd3VVMvR1VsNHBBL3UwQ2FxYWEr?=
+ =?utf-8?B?THBzMnZHMVpoby91b1FzOEI3VUd0ajhJTjh6VzljSVVZYnJ0T1laSFhRb216?=
+ =?utf-8?B?M2VVQXdrZjFnZXBJUWh6eFA2VFdKTnZnQU8vNE1xYjEyeTlSa2ZWWWlQL0RC?=
+ =?utf-8?B?V1lnZjJnbUhucW9STjRXMXFvTTFON09SdmNPakI3dElFMXA5dEhNaHY3TzZj?=
+ =?utf-8?B?eTVnQVRhejJ6Y09ZV1lLaTF3bkxyQm9xY0ZBUDFRTlh0T3VmTUxoQUQ0NXRk?=
+ =?utf-8?B?bEZ3bXZhanMzTFU2NjB0QzBaUC91ZFFwS3lpbE5iclZROHFEdHFmNVNqMmo4?=
+ =?utf-8?B?OFBSaEpURS83cWxSZXkzTVVTRGdWaE5EdzhTSE84c1k2NjdLb2hXR3V0WGNS?=
+ =?utf-8?B?YjBTL2x4VEZaOHM0VlF4YWJaeERsWmhWbzByVFlBZ2cyajhtTGdaTS9GRUNZ?=
+ =?utf-8?B?KzBwMVkxRWZzZ2VhaVdWZW5Kam5NcUIzbW1IYXpNTkswSEkra3dScHkzNXlQ?=
+ =?utf-8?B?V05NZXhBR0ViTmc1ZGJlUENRREFFbmlBYkxYWWtpbFM0SFd5THo3VTFVck9J?=
+ =?utf-8?B?WmR4OTM1N1pJUGYwNGtCbTRJNHhXaUVURGthMXJyaDlLbmNMby9OZk9VOVlq?=
+ =?utf-8?B?R2NxM1AyZ3JxYWhtNjhuTW5KNjJNUEN4N2xHVi81ZVpacTNsK3Bibjk0aDJ1?=
+ =?utf-8?B?RlpmUlQ3Zmp5OGxSMFR3Y0k1aXd2VzdCRnBTb0NpOWVDWGd3NXNoZWRTdHRh?=
+ =?utf-8?B?cGp6NWhVUCtRQU9pVCtzRFNaQ3dwdFRNbTZhdjJGa2EvZlBsSlBtUWtHMVRU?=
+ =?utf-8?B?UXRQSmw0bllQVDlScFNCMFFwbmh5SHFDOTdUT2hLZitWeDFtNlR3bVhwUmk4?=
+ =?utf-8?B?bTJLaW9XTDZ4SE1FbVlaNng0eXpNL1NSeE10UzB0Yk1wSHNjRXdWelBOT1Jt?=
+ =?utf-8?B?TXBIWkJER0RhNzVsR2lSOWhhWTM1SEx0THNIaXR2NVliNWpwL3BzOG1zdDU2?=
+ =?utf-8?B?L3hNM3pJMjFwZ092T3d5TGdDbUFJc0MvUCtxNEV6ZTc4cXUzLzhQeGNnRVkx?=
+ =?utf-8?B?U0lhR2NERFFIUThGdkdzOVBCWm5VVXAxZkpOdm1RR3hJdkxxaUZvcld0VGxD?=
+ =?utf-8?B?TVRkQWFZTFUrODdNVWx6TVNZNXdYVWFaY1pXb3pBOUUwOWFPVDdCcjFZYkJh?=
+ =?utf-8?B?czRIZmJOVE9SMzRhUm9KdXl2NExOTFh5bjVwSlJZUjlQdmVkOUxOTXliSCtE?=
+ =?utf-8?B?MXdVS2V6ZFdpTkZmSFQ1aXRzMC9obVNmd1lJRmlZMEYzcCtwQ0FCdmwraWxE?=
+ =?utf-8?B?c1dSUU9sTUp3WHk3WHl3KzRZa2VaZCs5YmErcStMaWRKUFVxNnhUTXoyWC9K?=
+ =?utf-8?B?V0xCK0dYelAxZkJQNTIwbmJUNjc0ZlpmaW0zaUJHQzhkOVJ6dkdjbTRSeDZV?=
+ =?utf-8?B?YmlZZkpvVzdydzRPOEJpYStuQWxkOTRxcDlQSXZuVDBmRm9vUzVmZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35b20cc1-7072-4124-e049-08df4082c8e3
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2026 06:04:17.3619
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HMK54EzauW2Lzwqf6HBLFgP4vuamo5AoJBdrl96mU/7aGMZemPBVF7YuOUfavAzrZqXo5/Mip/APlPzvLvoDxA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPFA33D606F8
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] ALSA: virtio: ephemeral patch numbers and test notes in commit
-  message
---
 
-commit 828a40dca88211506643733b87d449d53fefdce3
-Author: Joonho Lee <mynameisjune111@gmail.com>
-
-> ALSA: virtio: preserve playback progress across pause and buffer access
->
-> TX completions can arrive after PAUSE closes transfer admission.
-> Preserve that progress and schedule catch-up when the stream resumes or
-> a rejected pause restores RUNNING. Cache device latency in stream-owned
-> state so a late completion does not need to dereference the ALSA
-> runtime. Clear both the cache and runtime delay on prepare and before
-> RESET observes the hardware pointer.
->
-> A playback pointer callback can also invoke ACK while the core has
-> closed buffer-access admission, after the pointer helper has already
-> accounted for completed hardware bytes. Track that callback context and
-> refill only previously committed data using pcm_indirect.appl_ptr. Keep
-> rejecting other ACKs while the gate is closed, and use the
-> explicit-pointer helper from patch 16 for the refill. If
-> runtime->control is absent, route the condition through the common
-> playback validator and XRUN error path rather than returning before
-> transfer failure handling.
->
-> Use the existing indirect hw_queue_size to keep outstanding TX below one
-> physical ring: buffer_bytes - period_bytes. Equal modulo cursors then
-> mean no unobserved completion, and a non-interrupt HWSYNC cannot consume
-> a hidden full-ring wrap before deferred period work. Continue using the
-> ordinary ALSA pointer update for silence, drain, stop-threshold and
-> wakeup policy.
->
-> Check for pending progress or a latched transfer error again in the
-> period worker under the PCM stream lock. A queued notification can
-> outlive a paused RESET or an earlier pointer observation. Calling the
-> period helper without new progress after resume can turn equal cursors
-> into a false wrap when the core has backdated its pointer timestamp.
->
-> This reduces queued buffering by one period. With two periods, only one
-> period can be queued. Worst-case scheduling tolerance needs
-> qualification.
->
-> The final candidate was tested on ARM64 QEMU with KASAN and lockdep.
-> RW/MMAP boundary pause, release, HWSYNC/poll, drop and reopen passed
-> with two- and eight-period rings. RW/MMAP also passed accepted RESET
-> from PREPARED followed by DRAIN and reopen, and accepted RESET while
-> RUNNING after the full 2,048-frame buffer became available.
->
-> A separate paired RW/MMAP gate fixture reproduced the baseline failure.
-> The generic ALSA indirect helper invokes ACK for each pointer callback
-> but masks its internal -EBADFD. Once hw_ptr =3D=3D hw_io with no completi=
-on
-> outstanding, virtio period-work progress suppresses further callbacks,
-> so there is no ACK to retry the refill. Baseline stopped after 3,072
-> completed bytes with 1,024 bytes in sw_ready. The candidate drained
-> sw_ready and completed 4,096 bytes without any further client ACK. A
-> test-only hook changed appl_ptr to 2,560 while only 2,048 frames were
-> committed; the candidate refilled only committed data. The hostile
-> mutation used a test-only kernel hook because ARM64 control-page mmap is
-> unsupported. KASAN and lockdep had no diagnostics. KCSAN and physical
-> audio were not tested. The tree through patch 15 was inspected but was
-> not run as a separate control. Full-series runtime is not claimed here.
->
-> Assisted-by: LLM
-> Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
-
-[Severity: Low]
-This isn't a bug, but the commit message refers to mailing-list series
-numbers ("patch 15" and "patch 16"), which lose their meaning once the
-commits are applied to git history; naming
-snd_pcm_indirect_playback_transfer_appl_ptr() or the prior commit subject
-directly would be clearer.  Also, the open-ended note ("Worst-case
-scheduling tolerance needs qualification") and test-runner disclaimers
-("The tree through patch 15 was inspected...", "Full-series runtime is not
-claimed here.") belong in the cover letter or below the --- separator
-rather than the permanent changelog.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261112053446.7350=
-4-1-mynameisjune111@gmail.com?part=3D17
+On 11/12/26 00:04, Mark Brown wrote:
+>> Move the Intel function topology helpers and the topology device enum
+>> to soc-acpi so that they can be shared with other platforms too. The
+>> moved helpers are:
+>> index 2ee303b791dc..aea47a42f43d 100644
+>> --- a/include/sound/soc-acpi.h
+>> +++ b/include/sound/soc-acpi.h
+>> @@ -257,4 +257,29 @@ bool snd_soc_acpi_sdw_link_slaves_found(struct device *dev,
+>>   					const struct snd_soc_acpi_link_adr *link,
+>>   					struct sdw_peripherals *peripherals);
+>>   
+>> +enum tplg_device_id {
+>> +	TPLG_DEVICE_SDCA_JACK,
+>> +	TPLG_DEVICE_SDCA_AMP,
+>> +	TPLG_DEVICE_SDCA_MIC,
+>> +	TPLG_DEVICE_INTEL_PCH_DMIC,
+>> +	TPLG_DEVICE_HDMI,
+>> +	TPLG_DEVICE_SSP_JACK,
+>> +	TPLG_DEVICE_SSP_AMP,
+>> +	TPLG_DEVICE_SSP_BT,
+>> +	TPLG_DEVICE_SSP_HDMI_IN,
+>> +	TPLG_DEVICE_LOOPBACK_VIRTUAL,
+>> +	TPLG_DEVICE_ACP_SDW_JACK,
+>> +	TPLG_DEVICE_ACP_SDW_AMP,
+>> +	TPLG_DEVICE_ACP_SDW_MIC,
+>> +	TPLG_DEVICE_ACP_DMIC,
+>> +	TPLG_DEVICE_MAX
+>> +};
+> Might be sensible to have some namespacing as part of this move (eg,
+> adding an ACPI prefix).
+Noted will add.
+>>   config SND_SOC_ACPI_INTEL_MATCH
+>>   	tristate
+>> -	select SND_SOC_ACPI if ACPI
+>> +	select SND_SOC_ACPI
+> This seems likely to cause issues on systems without ACPI, perhaps this
+> should just depend on ACPI?  !ACPI builds are pure coverage testing for
+> x86, they're not practical.
+Agreed , we will fix and re-spin the patch series.
