@@ -1,80 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794493167;
-	b=M3wfiz4Hqfzr08bWlNAK9+83o5mgk4a6MUxbZMKHfTmWk4tdpOAMY2KgSuFBqTSs3ez3
-	 NZZB3mahNmUqR4vjHKPrz1LAQssYj8MReiFweXftPwD0YtUm/yRbH+Hycjjk3vGtIpxn4
-	 O0+OgnaxbTlRKEA0OSFA1s+U+6QTD3jrf2stSi+y28hr1jcNwP1gDoh9E/nXALFkLOcBq
-	 MMEekhTM05n0LIo7hzIuBd30kvKJ77URKs/NEeKgyrBnBq1qZSVOYrClot1xMliiJN2X5
-	 HGw0lw1WDlZ9A9KlR7I3ndaiLmhSjOxt5vXEggbZRgHar+FNQ/vd+yB6aGkRRSZix+w==
+	t=1794493213;
+	b=2QZuNGBUjRzyqUtDriya390US+pje46YF02xcCE+WCNzI3dkYkmspJN1Ls4tN3I4WxdR
+	 bS9tQDi+cvolL4nPqSE6O9PDOIvfwLxKz/kTEVrTefqkSYNIiv90BrDNSqRHCb4Qw9V3s
+	 bKZX7ycejyU36L85vVd1nBX/5Rk/5i3xRSP7OTFbNwChf6+hTY0FisQEhrK0zdeJztcj+
+	 U07ef2Oo6RhNwwpxV4M6YQFdzptEZZrbHqAs6hPlMZfbo/kXFV+ZFpTfNwrFNbSvbX+p2
+	 qIgKBf770fB7CnEpCtwhsSm6zTA0mY6dcWQyK8DDjIqqR/YZj9lg/UwTlL9EzR3bIzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794493167;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=wbsxR481pCrvxHGQEQ3zdwNuMuY6RhmxchmgjYRuRZo=;
-	b=MFfYHiMlPU946//pkHdMPiiIk+A63HcbSurABKopP5uBwyUgiX79h4r5YuHYlRupb6bT
-	 De7yvjbJgzyInMSF21z/fEUL2JTZ/u7/RQDwCQJ5daCTspTAjUaAiEnHgpUbVqM/Okgr7
-	 nYjzl4R0L9wIdlmR+zbd2Lbh2r+HfqMzkgmEwDUjVeYX0//b4kO5yMbyPhlJADsZz3RID
-	 iHj74/RBJWMKpibBgxeFH90LcOyuvJsEipB0UAIAXdYqkHIJIkQrjI1ySeE9ou1wEh7i9
-	 hC6R4yoPDR4iWf+hDxyuWoNfrNvqdekUoquD/DkpKkBlTb4Yx6gbDrof2csEI85srRw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794493213;
+	h=Received:DKIM-Signature:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=E1CsLVh6aynACJFDOzaOC9Rn3V3RjM9yRgBiUsH2gk0=;
+	b=o7M3TmnfJOwtmLoQhKj5i7Awm7MUdUAEZqrKHQ1M04wTXpfK3T1RX2iVtU59Ek9Z0TcZ
+	 HmcF2mNX0dXSdp017aBiWQ+LSmk6q9SM41DKsh0onD+G4as9olLESf8Vjq58uAsIaEa5d
+	 1cS2ASLxLdVArTOa27DgAk2TMr/is1D86hyy1KcPpwcr6tAmLsnFtOM4i2ZuBxWzT96+Z
+	 IQZje6KCXxsRJEPZKHr/EkZS2zmKZaIk8avdtYmyhruQbK2LwPL5sJLWTW3Scp6q8E1n6
+	 XNFtL5TQwijmXqebNneI3XiyyRkUkMJuUb3RvXY/3qKM0KGTw7wC+karvdo3itkUxiQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=carDYvEj;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SoARwHnd;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E382606A8AF;
-	Thu, 12 Nov 2026 14:19:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E382606A8AF
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35065606B2CF;
+	Thu, 12 Nov 2026 14:20:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=carDYvEj
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794493167; x=1826029167;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=RX8Tk3LqR8rE6OuMIyTxAv5wN2o3UMpiKuJ03JYmYlA=;
-  b=carDYvEjoNn2ROot1+lzyaEDdZpzrJKbS/j8bsxuLSCPRPgAS5+0PH+p
-   /hvs7gr51KCnKkc4/BcvpFev1rlnf4ySEs/eB5Ci9lRlE79D8a8eZjX8u
-   ub1qDxEwXWnrjGQktzjtYRuymI91r5cE8Z3MTX/f5+RAykYvg9hGcZb82
-   BH5Pqj7ihyIO6sNUMQoLZguQ3ZVI0FMsdyvdvqtd1v0wFmxXf/K6I3/R2
-   RcmRTtlrdOlNah5Ms+uoMRB/I3V97FkuwOAwW6cTICMNsL/igVsHsD2SE
-   dH7ReKQA9E2vyto50pyf/gRQgiO9l8B3ZcaYQoiNZSP0pSYieojmCFuVY
-   g==;
-X-CSE-ConnectionGUID: 1bbfCJn0TOK/mA377GeWlg==
-X-CSE-MsgGUID: l0kNlV8/TrqFcwyovKRNLw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3377836"
-X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="3377836"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 06:19:27 -0800
-X-CSE-ConnectionGUID: RjstRJoyQuySAR+8sViA+A==
-X-CSE-MsgGUID: 7BbXvJlpRnOOPOcf0ybLuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="8668780"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 06:19:26 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	peter.ujfalusi@linux.intel.com,
-	bard.liao@intel.com
-Subject: [PATCH v3 3/5] soundwire: Select the correct runtime for lane allocation
-Date: Thu, 12 Nov 2026 22:19:03 +0800
-Message-ID: <20261112141905.1372770-4-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261112141905.1372770-1-yung-chuan.liao@linux.intel.com>
-References: <20261112141905.1372770-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SoARwHnd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 030D71F00ACB;
+	Thu, 12 Nov 2026 14:20:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794493213;
+	bh=E1CsLVh6aynACJFDOzaOC9Rn3V3RjM9yRgBiUsH2gk0=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=SoARwHnd2sroBBu3klAxmtwaHRx6rgBP/YSXGFybfTkihjpZJjk62hgOqEtgIxvNy
+	 eZ7FpI3k9TCb+KEqIKpbqZdXfz9Kq75/0kXOmEDynVuLW5nxk7iGvnlLrtmAjvHnzn
+	 g+gH02R8EVWyH5V7Mpy3eSe1saPhuUJrkE93EtcTS7sM91NPiNr7zd3Q0dPTlxz26f
+	 l/D1r6KKduUj7C78o/Bf3KlVgOVeNitREf63LNeaF2PCYCj+kOwq3EQtKpg6r4IijT
+	 W2vugE2Z4eoDf8tK/2fpl+mXccQmLXzpX4Es0sftGaiy0G+rOVYDxLpjGlTR6PgCh3
+	 PbICow32k2IXg==
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -84,86 +49,57 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 2/2] ASoC: tegra: ADMAIF: Add Tegra268 support
+From: Mark Brown <broonie@kernel.org>
+To: Sheetal <sheetal@nvidia.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Mohan Kumar <mkumard@nvidia.com>, 
+ Sameer Pujar <spujar@nvidia.com>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Anupama Kunkulagunta <akunkulagunt@nvidia.com>
+In-Reply-To: <20261104111836.1100527-3-sheetal@nvidia.com>
+References: <20261104111836.1100527-1-sheetal@nvidia.com>
+ <20261104111836.1100527-3-sheetal@nvidia.com>
+Date: Thu, 12 Nov 2026 14:20:07 +0000
+Message-Id: <179449320746.339049.259253313248679941.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1163; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=33wr+nkv3EGi4Mh6rJ/otBChAadoJv9WSingu+n+VFU=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLK+npaoZZzu9//wedWwpHZn9TO/F10PU43+f94j+uaqc
+ 78EAj/N7ihlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBEouYwMuzYeP7p4vsm2TYJ
+ zVx1l57KhO0zf6B8Pz7yUfwN1eCXnwQZGV4XX+I+5Ck4b9qHenbjMCHlKRcimm5l/uURtZltMkF
+ wEgcA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-When multiple master runtimes exist on the same bus,
-sdw_compute_bus_params() selects the first runtime for which an
-additional lane is available. This can select an already running stream
-instead of the stream being prepared.
+> Tegra268 reuses the Tegra264 ADMAIF register layout but provides only
+> five RX and five TX interfaces. Add the compatible and SoC data for
+> this configuration.
+> 
+> Add register defaults and five-entry DAI and control tables. Retain
+> the Tegra264 32-channel per-stream limit and use Tegra268 FIFO defaults.
+> 
+> Set the register bound one stride past the final global TX enable
+> status register so the access callbacks mark it readable and volatile.
 
-Changing that runtime's port lanes accounts for its bandwidth again.
-If preparing the new stream fails, restoring the bus parameters leaves
-the active stream's lanes inconsistent with its bandwidth reservation.
-Depreparing the active stream can then underflow the lane bandwidth and
-leave lane 0 bandwidth reserved.
+> +/* Tegra268 specific */
+> +#define TEGRA268_ADMAIF_CHANNEL_COUNT			5
+> +#define TEGRA268_ADMAIF_RX_BASE				TEGRA264_ADMAIF_RX_BASE
+> +#define TEGRA268_ADMAIF_TX_BASE				TEGRA264_ADMAIF_TX_BASE
+> +#define TEGRA268_ADMAIF_GLOBAL_BASE			TEGRA264_ADMAIF_GLOBAL_BASE
+> +#define TEGRA268_ADMAIF_LAST_REG			(TEGRA268_ADMAIF_GLOBAL_BASE + \
+> +							 TEGRA_ADMAIF_GLOBAL_TX_ENABLE_STATUS + 4)
 
-Pass the current stream and prepare context to sdw_compute_bus_params()
-and restrict lane allocation to that stream's runtime during prepare.
-Skip lane allocation during deprepare, when its bandwidth reservation
-has already been released. Keep clock recomputation and the existing
-group and port filtering unchanged.
+This is the one stride beyond thing from the changelog, I've got to say
+I don't follow the reasoning there.  Why do we need an address one
+beyond the last one that exists to be readable and volatile, and why is
+this different to the other Tegra devices?
 
-Fixes: 7a30292ffa2a ("soundwire: generic_bandwidth_allocation: select data lane")
-Cc: stable@vger.kernel.org
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- .../soundwire/generic_bandwidth_allocation.c  | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/soundwire/generic_bandwidth_allocation.c b/drivers/soundwire/generic_bandwidth_allocation.c
-index 1250fe21a3ff..e8e68dbe180b 100644
---- a/drivers/soundwire/generic_bandwidth_allocation.c
-+++ b/drivers/soundwire/generic_bandwidth_allocation.c
-@@ -536,8 +536,11 @@ static int get_manager_lane(struct sdw_bus *bus, struct sdw_master_runtime *m_rt
-  * sdw_compute_bus_params: Compute bus parameters
-  *
-  * @bus: SDW Bus instance
-+ * @stream: SoundWire stream being prepared or deprepared
-+ * @prepare: True when preparing, false when depreparing
-  */
--static int sdw_compute_bus_params(struct sdw_bus *bus)
-+static int sdw_compute_bus_params(struct sdw_bus *bus,
-+				  struct sdw_stream_runtime *stream, bool prepare)
- {
- 	struct sdw_master_prop *mstr_prop = &bus->prop;
- 	struct sdw_slave_prop *slave_prop;
-@@ -580,6 +583,14 @@ static int sdw_compute_bus_params(struct sdw_bus *bus)
- 			break;
- 
- 		list_for_each_entry(m_rt, &bus->m_rt_list, bus_node) {
-+			/*
-+			 * Select only the current stream's runtime. Check prepare
-+			 * to avoid computing m_lane during deprepare, when the
-+			 * stream's bandwidth reservation has already been released.
-+			 */
-+			if (m_rt->stream != stream || !prepare)
-+				continue;
-+
- 			/*
- 			 * Get the first s_rt that will be used to find the available lane that
- 			 * can be used. No need to check all Peripherals because we can't use
-@@ -627,8 +638,8 @@ static int sdw_compute_bus_params(struct sdw_bus *bus)
- 			}
- 		}
- 		/*
--		 * Set Manager lanes. Configure the last m_rt in bus->m_rt_list only since
--		 * we don't want to touch other m_rts that are already working.
-+		 * Set Manager lanes for the stream being prepared without changing
-+		 * other runtimes that are already working.
- 		 */
- 		list_for_each_entry(m_p_rt, &m_rt->port_list, port_node) {
- 			m_p_rt->lane = m_lane;
-@@ -665,7 +676,7 @@ int sdw_compute_params(struct sdw_bus *bus, struct sdw_stream_runtime *stream,
- 	int ret;
- 
- 	/* Computes clock frequency, frame shape and frame frequency */
--	ret = sdw_compute_bus_params(bus);
-+	ret = sdw_compute_bus_params(bus, stream, prepare);
- 	if (ret < 0)
- 		return ret;
- 
 -- 
-2.43.0
-
+Mark Brown <broonie@kernel.org>
