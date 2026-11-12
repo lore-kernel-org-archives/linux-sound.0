@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.70.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.171
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794473670;
-	b=WDPrZcg9/fd5arfhLXbCkxF28hS5Og7sfXXHiQr+8Z4qQc5qBS/5i8Tzb6QL08hfDYeX
-	 vOxgKMTvOzPuHAyGiqKV5kTQIh0TSYT6T6X6ypJD6l9MNUQ9V9mAAmwEHew2tWmoVsGsP
-	 FqjjJu6Gj0VwwXhuAQDPVcn+/GWq7+oc8OiNPkBgxEHLT5MzLo/5IvwoCem70uryT6PKx
-	 SZvAIMeAALfOtug30Ks9bDQ86iw3d6lMcKObX/yWmQyXg+BJdb87A5fSqwreAjf9j2/cz
-	 q2sYczPwevEEo4ZTynZ8dJkMRI5axM1ZFkm4MYL0Y5O6GHGDH1T2IKL58bCXPvQxzfw==
+	t=1794474500;
+	b=4inDfdAPs9dVvw2JRYfFXJkP+5r4Zk7Rle1DJ6gp2TZHnmDziXqcIYjKDujMXc6zl/rv
+	 RIzVEiRUcJhsVFwIpw9zp4q6wuzMIMQjP+kAXk1kBSHChoKZK3X/4cMugmFBBqG8GBN2Y
+	 2Dn230sdo73ereS6++L2+NZwRZnqJlTrIJYdu/2vvP2VfC35ZO3CLwyHH/WAdNJ9/Giyn
+	 WXNmI90juMBZs3/sgOnO9WZhMtau6t2EbAbks7tM7a3qn8i46onRPvkfjpeNjJ+LtVyFG
+	 owyBY3QcZTfxHhs8U4ckoMC4cyQ5idPk9zBh5hNEa2Ac8OZvPOuZ5uQwINoFubxYGmg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794473670;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:CC:
-	 References:Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy:
-	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=3hSdrree7mkalBMSQXh5OGUB6ltIwr1aZ72PHT628eI=;
-	b=K/DfzXVyj8/kP009te0KTGrzGajjfyc9brbsQRCUZZorJ0wZ86H3DIE3nvWFcgd8fOec
-	 c8iZ9WJFwDvsuh1g+7wSX519P+qHqCiZLLWrM88waRRBaF1cTFnkON3hl3Z2EEZ8W6t9i
-	 cxmvkju9SSsfckgeHVDOjwOncjHTtcyJcdb37ky9BuEOT9uYNBy3qg4AeX7q1FZPyNfKZ
-	 4d5FunkDeopEQNu+1ROStKuFNT3FwJZVyYFIEo5LMcfHp9Wg0ePdYyhDStKapiMxGWYjq
-	 taGEJJvxGzAJaBwBH2PUnpal+bH/snd3QSFfJ3JJw3677dFjewxRnOPi7L8DQccJFlg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794474500;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=5uxsE6PqmpKFZd5WTCPldAkadxtOwm9bHGSoZKmkpDY=;
+	b=Dkz15dk7SKW7En/rlcMwr3HWg43XmEuB1qK5sF3Jq2FUyUosJ+qvISbJPcBSSB7OBCi0
+	 Dyz0207G68a+90X7CjjqSgSchTxMB8tFfZqimdUHMGIh/KboU0JuhfS3U5szcMpm4zpvi
+	 MTutLEgmx91qxI8KIGkmGXHRHf1XC4qrStkhAIaY0QGvnPPzqcOWIDpmGy3YcJGV2Vvcm
+	 G0zrGW5lTf+fF/T4Jexq8cYNEvPN1Trxnj3ZaterxofaFmS5w/o88xqFocj6Hb7/T38Hz
+	 ooY6zTat1KC9wJAim1R4Pz3gu7gCeX7tzWQu1JGbtAqoqZ5q5w4vlSz9XHhBWeFUFrA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=foss.st.com;
-	spf=pass smtp.mailfrom=foss.st.com;
-	dkim=pass header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b="a/xjiQMj";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.70.18
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011018.outbound.protection.outlook.com [52.101.70.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Pzu5I8Ww;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.171
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F88606A323;
-	Thu, 12 Nov 2026 08:54:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1F88606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A04A606A31C
+	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 09:08:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A04A606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=a/xjiQMj
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GKEBIVC8vg5v5KclcvbFRvz2/JBW8MNzvvgBGNnbISAe2btp1ohRPNLGyWo+7Y3IhYROcyJX3pyvxeptAA54Ng+Xy5wxmE6fgQA6McTE6/DS3nqIgEOcqWABfOzWJVnERgIrMTExCOwjnu98K40Z5J2pRbzYiTURlFvKnpRYL4TSQV3B4d5Gs86+7TtNy+MdAbcBy9ACeLXItC0MGMPaKE7C3NcTTzEdEI/BLUnv2UaDWyA3TdeOCnf1fKTPi3ta1yvkcDJUydCIH+ZWmTB7zYpS/INcEeue2xzf/W+RyY6PB0NTuMA1zj3pbHlSX9WwGb+gjiuLAWIIUeECj2rtiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3hSdrree7mkalBMSQXh5OGUB6ltIwr1aZ72PHT628eI=;
- b=YNSE5jA0VtchYQYBS4fKXYacu2PENt7zJSdzjEQmAsg0KNLCL9GjEH4D/Qex4pJvi0Zfl4qi5jpq34Xi5KtjXJ8VQRC10rwyZtZmv9sDbNrqeYC+CW5TbDsQhTCom/lSZlwzbBUPhjaz/WlLMM02yWN5LTJbEqn9YgMT3BD9Ptb1wyEa8QmLVTVBpgwOnzAqCsJ1qRmZrHYtC+VjxIAo2LBSXxJZUveb1RWTmaC+AdHxUxnDfgKipE9tjLfR9M3njvtIiCL1MySciYQ5Zlx8R1HM05I/ABwkEsbyT92FwDsFv3xySPan3u05AiqirhvirHo9QEcZDoS/ERLOK441CQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.59) smtp.rcpttodomain=kernel.org smtp.mailfrom=foss.st.com;
- dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3hSdrree7mkalBMSQXh5OGUB6ltIwr1aZ72PHT628eI=;
- b=a/xjiQMjju6DLxOMjkYDilsA2AwGQ/+N3s/Z2oZM+XWS59CXfPlR2ssUlBFvLfH6L+bW8epbeOm9YCf3wiPQNnRsfmXrKIueZeMlbhqCzScRxKyQynCyxKciQxcBoCm+wowD6N2xtlWv39bOt2u6YJeb+F0TZy5VqgSTvClrR13Paex3MYoBSyrEY14wLozv/WOSd3PvCxyK1qPyEX9QvChpdMZF3qIJ8ZHxeF9xbEby/8DUnsSgmoKdnlmWMSQODRm4kNTWY3kfR/H5ac7KDs8TaC8Kt3lE1cF7yWKhmjGL9e6QpVs6MEHO+D3UeVaDI3ScmnEISl1g9Q8no7j06g==
-Received: from DU7P251CA0014.EURP251.PROD.OUTLOOK.COM (2603:10a6:10:551::17)
- by AS2PR10MB7603.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:546::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Thu, 12 Nov
- 2026 08:54:22 +0000
-Received: from DB1PEPF000509FD.eurprd03.prod.outlook.com
- (2603:10a6:10:551:cafe::83) by DU7P251CA0014.outlook.office365.com
- (2603:10a6:10:551::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.10 via Frontend Transport; Thu,
- 12 Nov 2026 08:54:22 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
- is 164.130.1.59) smtp.mailfrom=foss.st.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=foss.st.com;
-Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.59; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.59) by
- DB1PEPF000509FD.mail.protection.outlook.com (10.167.242.39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Thu, 12 Nov 2026 08:54:22 +0000
-Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
- (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56; Thu, 12 Nov
- 2026 09:54:55 +0100
-Received: from [10.48.86.251] (10.48.86.251) by STKDAG1NODE2.st.com
- (10.75.128.133) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Thu, 12 Nov
- 2026 09:54:09 +0100
-Message-ID: <9dd9b3fe-11b3-4a40-8681-8bbc0f35bd30@foss.st.com>
-Date: Thu, 12 Nov 2026 09:54:08 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Pzu5I8Ww
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8b2f59de176so3049469b3a.2
+        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 01:08:20 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794474499; cv=none;
+        d=google.com; s=arc-20260327;
+        b=MUQI1mNsD5tT41rdyprhmwrnmLBBYN8VISWJbhSWf523sBZatr8TbCQOABN25o/45Z
+         enhMNRXpLkkXCjaN1mAWcfqYaXFLLbMD+h4ATvRXNNkQOeITnASk4/ux1Res2huOZqSA
+         mj2YnqlEWuy27vaPt8OzSTYG05h3pBpkJ3AUSHQ6tZtPF+q5PrnSgQJjQNtCqK2lfL/J
+         v53Tga1KroosKwblEZmdQigNap/wJyZZarMv5E2/nFeaxlIwL2BWzJXqSrAy7UrimLHF
+         o8DL/6bah0L9O5gfX5Brp8livYr5JtXtiKj6HBZ3aRdNzaOpOu9QPJ/5ZuYha1loyLG5
+         lY5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5uxsE6PqmpKFZd5WTCPldAkadxtOwm9bHGSoZKmkpDY=;
+        fh=RXqpkckxI+PDEZREAEKz/eF5Xd9GK5uS4E+YT4/Eft0=;
+        b=SyeRccSXjckTbOB/fKAspM7boXlpbMjf2iBVlsoa5IA9sveiTVWfd5lck3yk9Kpe6U
+         a5GDB0QsgLAjbpgN4xoIPvpSuv3Bm33FiRRn9aiXJU51T919HtzxzWPonbRt2l9j/+XN
+         aRUr/w9fASQxlQc9AKWD1Nne5pwAH1h2ljudCs/1bdZNybfB8oOlhlu1sE3QKvrwH2Dw
+         4PzYdPSwEqMEgCGF6e8nzMj+NrhTxRzgT1Qo2x43RXl+RYMCeFP/B+6TZfUdk/t4vwIb
+         ezXmxAkjZBLNHrQ8q3rdo3KHmer5AKOi5YIU7Sd3hIML03O13h+Dk3i7lg+tv4/EzuZd
+         B7TA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794474499; x=1795079299; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5uxsE6PqmpKFZd5WTCPldAkadxtOwm9bHGSoZKmkpDY=;
+        b=Pzu5I8WwfxebKK/7XUQN1OGkBPv/e2nHjUvWDEE9+hQLs6DhWWtdjkAMW7H27UrSSp
+         sWr6KGDpYyJIZ29blg7Ujn2N1YsJcaLxcUgBLPzFag0sGhsWSjq89BYyMX0WmbMUnngA
+         rL6rCDxYB6ya69fULB1N2xaPouPWrxOzd/ZjbN0396jLWUP11Sybv1db6OWipkc7Z7LC
+         dzWi9BxZGGAMDLmbMFTZByNkHsKBcm4XpF9/MFyuazwOd7xdzwf2DeUagIdPs2FNsCCY
+         pXreL4hwbnOSxsvWacY0x1PbQ1SxZeK2G8zHhXAdsOfhJ07pNlWlnHJnOU6Tox3PlAaC
+         xv/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794474499; x=1795079299;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5uxsE6PqmpKFZd5WTCPldAkadxtOwm9bHGSoZKmkpDY=;
+        b=vmnjFjUez+b9M8KTEeOJYDeQUOjU6IoCehffgcy9xTOCqwZtogO6n2nAQ1McaU++ED
+         nS+cTjEzVx/dykJ0W0ILdYZzUrpnaWq5U7vOIT5iraRDYJrNLWBjsStlbsbjps2zv9YI
+         NUREoVnTCWv1q7yxY3uBNs96DAdN0taiz0nH2x5DFR7B8VkF4YlrjEiPkhQOd36Rl++u
+         PlqLguLOY1fdEZhLvBOaP7Rg3lwMrEaIO2qQ1kfvTZtGZjXbc48EXPbWJdCjOda+zeTS
+         UsEgIIKFC9fx7SEbqK+CZHneBbGTscn+k0u1/PBmr9SZoFo8nE9UvEeWBw3wkrsXTXYy
+         nByw==
+X-Forwarded-Encrypted: i=1; AL+hErHKx6UNkXzTUzgob4iMLIhAe1WTBbedxHNX+Xmgji/JrW928flLar6V26MIHk3zV5mzqMh2NRyowm/90w==@vger.kernel.org
+X-Gm-Message-State: APuU4Z81jub4w4EJz67bMK0lr2RRBDNdj6aFSRPe8SuLqVFbO84RAYBh
+	+R9wqBocIAjAavJuJwZN/qYK56OaV1AInO+nqnm1olUOD5qPluGWmN9OWGatUQEF//C/Pfk/+0J
+	y1zY8eIbj8TJfOz3bCLO6dIx+awxvh9s=
+X-Gm-Gg: AYBFou1CyZVC7SwqgQO87WjIjOnFi2Q1o5ch7e0d2IUv4jcJFhTQ9Lmh2hCd176X99e
+	G0qlPnHsbuJSAdw7/WsBTX5fFr7KehcbsixCZAF06UjSFyuzD3VPfMpwALJ87HbZqP0FOnElnZm
+	zPhbR0yX1Qh9KnI2iW29BgTnak/BijfNbKPyuIE8tUzv1UdduIh62V4MHcIXHDfmlBFPEf09FKQ
+	UzXJmGHqK3x7I0HuQI1xG9u1o0WYTfCVvoHV+dbiIQh24ozeRvGhBWMXcfr3BrTLqzxshDF2Wmr
+	R8h741v2TnfVQCdofj0tjyRTCQyNBUYumd6kOZhpNN2YxTMxEtYuCQpoTjk4WpPaFaMbjP1qaax
+	CXPEhVz2ixYdTjxhhc/PbDs8HVXkdr6UcBLvLZnjf4vb2VUC9ZWJAZDqCpA==
+X-Received: by 2002:a05:6a00:982:b0:886:3827:c4a2 with SMTP id
+ d2e1a72fcca58-8bc19503fc2mr5293685b3a.3.1794474499419; Thu, 12 Nov 2026
+ 01:08:19 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,108 +104,110 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: Use hex unit address patterns
-To: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Vadim Fedorenko
-	<vadim.fedorenko@linux.dev>, Arkadiusz Kubalewski
-	<arkadiusz.kubalewski@intel.com>, Jiri Pirko <jiri@resnulli.us>, Ivan Vecera
-	<ivecera@redhat.com>, Benson Leung <bleung@chromium.org>, Guenter Roeck
-	<groeck@chromium.org>, Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski
-	<brgl@kernel.org>, Frank Li <Frank.Li@nxp.com>, Sascha Hauer
-	<s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
-	<nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Maxime Coquelin
-	<mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Olivier Moysan <olivier.moysan@foss.st.com>, Arnaud Pouliquen
-	<arnaud.pouliquen@foss.st.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter
-	<jonathanh@nvidia.com>, Lee Jones <lee@kernel.org>, Srinivas Kandagatla
-	<srini@kernel.org>, Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, Ulf Hansson
-	<ulfh@kernel.org>, Hans Ulli Kroll <ulli.kroll@googlemail.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, Neil Armstrong
-	<neil.armstrong@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, Ray Jui
-	<rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, "Broadcom
- internal kernel review list" <bcm-kernel-feedback-list@broadcom.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu
-	<mhiramat@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano
-	<daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Lukasz Luba
-	<lukasz.luba@arm.com>, "Orson Zhai" <orsonzhai@gmail.com>, Baolin Wang
-	<baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, Paul
- Kocialkowski <paul.kocialkowski@bootlin.com>, Shawn Guo
-	<shawnguo@kernel.org>, "Chanh Nguyen" <chanh@os.amperecomputing.com>,
-	Alistair Francis <alistair@alistair23.me>, Julius Werner
-	<jwerner@chromium.org>, Paul Cercueil <paul@crapouillou.net>, Dmitry Osipenko
-	<digetx@gmail.com>, Florian Fainelli <f.fainelli@gmail.com>, Thierry Reding
-	<thierry.reding@gmail.com>, Ray Jui <ray.jui@broadcom.com>, Scott Branden
-	<scott.branden@broadcom.com>, "Krzysztof Kozlowski" <krzk@kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<chrome-platform@lists.linux.dev>, <linux-gpio@vger.kernel.org>,
-	<imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-hwmon@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>, <linux-sound@vger.kernel.org>,
-	<linux-input@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-	<mfd@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
-	<linux-mmc@vger.kernel.org>, <linux-phy@lists.infradead.org>,
-	<linux-pm@vger.kernel.org>
-References: <20261102135330.2493332-1-robh@kernel.org>
-Content-Language: en-US
-From: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-In-Reply-To: <20261102135330.2493332-1-robh@kernel.org>
+References: <20261110120743.6301-1-stefan.ghetu@nxp.com> <20261110120743.6301-3-stefan.ghetu@nxp.com>
+In-Reply-To: <20261110120743.6301-3-stefan.ghetu@nxp.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Thu, 12 Nov 2026 17:08:03 +0800
+X-Gm-Features: AclHuK8OFan-61VHpWDbQwD5GQhW_fgRO4OvBxXWkrMrWUfYeFa8VUbGfv5vQOs
+Message-ID: <CAA+D8ANdJCkf1i7MUJVh7z7tk3Ka6gWZ0ynMys_Qt70ZfaN0=g@mail.gmail.com>
+Subject: Re: [PATCH 2/5] ASoC: fsl_asrc: fix pair ownership on repeated or failed
+To: Stefan Ghetu <stefan.ghetu@nxp.com>
+Cc: Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org, daniel.baluta@nxp.com, 
+	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
+	Nicolin Chen <nicoleotsuka@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linuxppc-dev@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ENXCAS1NODE2.st.com (10.75.128.138) To STKDAG1NODE2.st.com
- (10.75.128.133)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF000509FD:EE_|AS2PR10MB7603:EE_
-X-MS-Office365-Filtering-Correlation-Id: 42aedc12-75f3-44a9-0348-08df409a8bc9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|23010399003|376014|1800799024|7416014|22082099003|18002099003|10067099003|56012099006|261009223027099003|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	E3Hn9+91PYLiCPy6iewOxcJGn0xmrf27E7xqACr0TwJZxexYfCYXZP3zeajQW/D7mm2lK63uLtbDAcn6E6jAydIN02RKTt85fs/gR3+yDDQo0Qequ7NDRM1sA+w5f8yzjNCrE7StrwU8cya3uwjzZqDVA5d/n27eG6IQFj01/DJNs/xfbR0xibmQjPjRAwu7NESA8qzz12uNdLWtof+zOkPN/Y6dLZCBSj46hqLktwXfGndpL1UKMkOtjOrwMgST/Zicoonkg++KJk5jqUuHnNOU66S3HFJjqlEY8znI7RXoEDpRKM+0lRXiX7JYj4Ii+ea09kh0Axb8GRpMMztQ3JlUYhafHoDaQC5GH/0mBQmZeZzCV4zW+LtHTMrB68j+FRebzN1i3xmEkOwlI1ghoRoTYp6qQHovWBs/yOLRI6wdr9hehceG9YWDiAuErXjcZSi/ZT04fciHqigmdnZIGAoXxXoRrfMbRax1hyeCUFL+Yx7k2Z62tEfF69h94bbjm/q9FmDq2VxOFOBAhI5D0iTC++kbAiTgMcVsjO9nRkqiWxz9g8amPxlo3UMtJtrtaEyFLOJhtEVs+IBxj6U4mEntk8vHl86A99Wp/jcoZLSnUmGr2DskMKXCXNSskYqMu0GplufZsBK+8OmaiZmHR6YlmodqIZCooyXyp26XdWrK/AslAkfqm7+2gSKt19/4
-X-Forefront-Antispam-Report:
-	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(23010399003)(376014)(1800799024)(7416014)(22082099003)(18002099003)(10067099003)(56012099006)(261009223027099003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	1CfsLkQBhd/S+iSj0Mgc8J74IQv8uaa5snYPLkuAdma36tpat9k8Ec+j22MYZ3RIiTRvPozFbu0Url9kjQgaBy0ay4my7NTuigYGL5wuSfa7gi/iES6M6IKUwynUr+NYB66tjwvLjF3BBmeSLqRV+G5Z44Te8ZkBYfq/NUqW/b5NMq+q+Ec1Bjzjv+gaWu9yuPqAOTgy79AseiiQnBPj6uRruofVy8OjDGwOV0w5aBw8s5r2ouFOKiUSjcppKrpZHDca9x21R308QwYQWwjCnT6GYvURGZ4XjvDgjEDzT91NgiJ82G6PqSZBM78KwheSKmYuVZkawsi0rkhJi8CGDtV0T66/6QHmh0SE9TJVbDiIbg1n7AevAC1GoxYPrlhBR4KKWHy5aNF+yELl1XktrvtD+w8D0YhVg+h4MUGp07fFRqfo7eOFqvDTgdii6Vgg
-X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2026 08:54:22.3476
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42aedc12-75f3-44a9-0348-08df409a8bc9
-X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DB1PEPF000509FD.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB7603
+Content-Transfer-Encoding: quoted-printable
 
-On 11/2/26 14:53, Rob Herring (Arm) wrote:
-> Unit-addresses by default (and most commonly) are hexadecimal. There's a
-> number of cases using decimal patterns. Fix all of them, limiting the
-> pattern to match the 'reg' limits if there are any.
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+On Tue, Nov 10, 2026 at 8:08=E2=80=AFPM Stefan Ghetu <stefan.ghetu@nxp.com>=
+ wrote:
+>
+> hw_params() can be called again without hw_free() in between, and
+> hw_free() is also called after a failed hw_params().
+>
+> fsl_asrc_request_pair() always takes a new pair, so a second hw_params()
+> leaves the stream in two asrc->pair[] entries. Only one is released, and
+> after close the other points to freed memory, which is dereferenced by
+> fsl_asrc_isr() and fsl_asrc_m2m_suspend(). After a failed hw_params(),
+> fsl_asrc_release_pair() releases a stale index that may belong to
+> another running stream.
+>
+> Keep the owned pair and only update its channels when it is requested
+> again, and ignore a pair the stream does not own on release.
+>
+> Fixes: 3117bb3109dc ("ASoC: fsl_asrc: Add ASRC ASoC CPU DAI and platform =
+drivers")
+> Signed-off-by: Stefan Ghetu <stefan.ghetu@nxp.com>
+
+Reviewed-by: Shengjiu Wang <shengjiu.wang@gmail.com>
+
+best regards
+shengjiu Wang
 > ---
-
-[snip]
-
->  .../devicetree/bindings/iio/adc/st,stm32-adc.yaml    |  2 +-
->  .../bindings/iio/adc/st,stm32-dfsdm-adc.yaml         |  6 +++---
-
-[snip]
-
->  .../devicetree/bindings/mfd/st,stm32-lptimer.yaml    |  2 +-
->  .../devicetree/bindings/mfd/st,stm32-timers.yaml     |  2 +-
-Acked-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com> # stm32
+>  sound/soc/fsl/fsl_asrc.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+>
+> diff --git a/sound/soc/fsl/fsl_asrc.c b/sound/soc/fsl/fsl_asrc.c
+> index faf348dd582d..5d97789b5c36 100644
+> --- a/sound/soc/fsl/fsl_asrc.c
+> +++ b/sound/soc/fsl/fsl_asrc.c
+> @@ -216,6 +216,8 @@ static void fsl_asrc_sel_proc(int inrate, int outrate=
+,
+>   * It assigns pair by the order of A->C->B because allocation of pair B,
+>   * within range [ANCA, ANCA+ANCB-1], depends on the channels of pair A
+>   * while pair A and pair C are comparatively independent.
+> + *
+> + * If @pair already owns a pair, it is kept and only its channels are up=
+dated.
+>   */
+>  static int fsl_asrc_request_pair(int channels, struct fsl_asrc_pair *pai=
+r)
+>  {
+> @@ -226,6 +228,19 @@ static int fsl_asrc_request_pair(int channels, struc=
+t fsl_asrc_pair *pair)
+>
+>         guard(spinlock_irqsave)(&asrc->lock);
+>
+> +       if (asrc->pair[pair->index] =3D=3D pair) {
+> +               if (asrc->channel_avail + pair->channels < channels) {
+> +                       dev_err(dev, "can't afford required channels: %d\=
+n", channels);
+> +                       return -EINVAL;
+> +               }
+> +
+> +               asrc->channel_avail +=3D pair->channels;
+> +               asrc->channel_avail -=3D channels;
+> +               pair->channels =3D channels;
+> +
+> +               return 0;
+> +       }
+> +
+>         for (i =3D ASRC_PAIR_A; i < ASRC_PAIR_MAX_NUM; i++) {
+>                 if (asrc->pair[i] !=3D NULL)
+>                         continue;
+> @@ -257,12 +272,19 @@ static int fsl_asrc_request_pair(int channels, stru=
+ct fsl_asrc_pair *pair)
+>   * @pair: pair to release
+>   *
+>   * It clears the resource from asrc and releases the occupied channels.
+> + * Nothing is done if @pair does not own a pair.
+>   */
+>  static void fsl_asrc_release_pair(struct fsl_asrc_pair *pair)
+>  {
+>         struct fsl_asrc *asrc =3D pair->asrc;
+>         enum asrc_pair_index index =3D pair->index;
+>
+> +       /* Only the owner clears its entry, so it cannot change after thi=
+s check */
+> +       scoped_guard(spinlock_irqsave, &asrc->lock) {
+> +               if (asrc->pair[index] !=3D pair)
+> +                       return;
+> +       }
+> +
+>         /* Make sure the pair is disabled */
+>         regmap_update_bits(asrc->regmap, REG_ASRCTR,
+>                            ASRCTR_ASRCEi_MASK(index), 0);
+> --
+> 2.53.0
+>
