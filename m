@@ -1,66 +1,66 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794493166;
-	b=07IxyA0EaPnLaFdNKbsRGt4HPiCMnlQ6eLSTIQCdsoJBqme3inCcGjVmqus3Z82Em3Zr
-	 S6F8UqjoG6xv9WbtAdLfwMRWHG9AkzaY0dUb99zyd5BAQA0sVxThTL56YwNZJOhbAj3Xc
-	 ZSd/2bQ4dLlfKECVDlwbAQvcYSsre5t5Em2Glg1laNK3yfhvJ7Mpv5I+HJjkkLZc0giOB
-	 S4WA99lO2vFX/Z9l2l9Cs4JCyENcRmBjjF2COflHxp8tooF9Q1BRhdZEejHbYMTL8gP0h
-	 zzVNns9QVzm96cni1XDgWVVGNyfde6C2aNznapRXyXpjbgwxgbDQz7MISKG5P3N2jmQ==
+	t=1794493169;
+	b=G+mr50qeI5islKtD9GjoWba53wZ2/chbRYobAcrAC8xhhNscTNDhioqe/wuhEOnFM9UR
+	 FhY/JiHldxWkK9vY4Ofsbb/r+V/XdPNCO25ZAAWuVnii/Kr24omVU09E+KclJ3yxqGj/V
+	 0WKBKD87LO+WFe7FZ9BnWbfQcPIqetEZIaFTedFeBlNelYrKh7+Ik5KVECIHBFzRZZppc
+	 QyJKwcccgfqc1Dq90qUugdRigOpkU96dNvNH+t8/HHfIEE/8MW6SHtLyP/fLQz8Zvafit
+	 /NL81zAiBkoJdX8C6cZhIx/D6MPQEn2dbZog0eCRt9t+/i3aYtDD4AMT3qR2okNmFwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794493166;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794493169;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=vVEw64Qgn+N8CLDRHbBJ3vSYbgbA6PZt+q/2f0iYTnk=;
-	b=CJKCx/watAvrOc1cnx/E+5q+pXA8Mv4LsSGi/9Ag6UgKDUt436E83/5wt3Tx4EeO2Z39
-	 PY6RrRh6D/DxgUlwu+xhOLaxYht2qtoCFEclBsJ+ep0f992VmXP++PxezBwz/Rjf7mevs
-	 FhAxtqzE3nAWytcVSSm6+8kltHnGQwV4tibCSAS5pk0K4DF4Dd2kuE0i5jgltcdFyNYZK
-	 7s/D+38X9FLiZXrUCeBrGqxmYhEokN/230a+yy06ONJdZwimqBSyetD9BBfVFI3t3pLyT
-	 iyX1atX1B3xN9TOYgLgKcdUoeHR/RqPBcGySNnHdxijF+w6MwUe84Sv1r6vdfFyAH+g==
+	bh=Qrab5ZFjFMYytZiJyGN3w/QXHi/fU6bhjvwr0O2dHGw=;
+	b=Itrip7Qln5uSo0VWZPsXhsbHSe1SK4VBUcQ03uVeMAt1rLSeSkzc09vSlS/C9xOx6PKa
+	 m4QHpMG/QU7MC+NFT2igsC+5JftPPcrtI8mVw6Uqnsj2OkOnQel3oYnN47jsejyHgrUgB
+	 8g2THaRwDLrtSrvX81tiK1NOtDMflzNwV02fnUslvWozi2R3qozNMG2LitJqBn3kUXLTy
+	 PKXMXSxR5nwQVS1MdH4SjjZuZc0hPXbmSB1JKjtBU+WIKcO06IlxXQTMQ7UZqx2udW6pE
+	 Abqj3k+Lpf5hYo9hlnhsO8/lWSD6aGuN0Couy58kJnrWRBLHU4wlThuzSpcbIiNl4zA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cHacF3ux;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Vb6kv3uC;
 	arc=none smtp.remote-ip=192.198.163.19
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B37606AE19;
-	Thu, 12 Nov 2026 14:19:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C9B37606AE19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCCC6071143;
+	Thu, 12 Nov 2026 14:19:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1BCCC6071143
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cHacF3ux
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Vb6kv3uC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794493166; x=1826029166;
+  t=1794493169; x=1826029169;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=DTFswADvEmWeLCiAMLXdJKa6z2juxV0AkQ0SMqeudkk=;
-  b=cHacF3uxxiQW71YxRTwOpvM93WM+Q1htMMar3ynYgIn38r63vC8WUmSp
-   FpXwHbQtsMkwGZ44auI3DiVWLUIdVwQ1uWTmSHFiBtYH9IT6POiTI/LUM
-   k+dT2klyGle4G6IGquJHdAgTZg0VWpPj3KGx572LBn3kBaVWCQpl9cdGz
-   8qXyMh9ItL8xI9y42cbLVqbO+d3dfgi9D2et9KGfRCi2c7Qb6BzXdENjR
-   TKMLWvFuiIhpoNcJu07CVbee9m1s6x0UeTP8/QPTBaC1+YKwYjctRUs7p
-   /k46H98VkTiqQ/QR7aAUqeEiGsPPII+dObp7H7sfZfFJROBC9FwO34SVc
-   A==;
-X-CSE-ConnectionGUID: dc2HrRYsRPWoBT2vxcsnwQ==
-X-CSE-MsgGUID: 3m043YkPTSGXrV6bFs4OSw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3377828"
+  bh=By5QVjAwVUI1AeWsBe/qA6d0stQBpsl90fAMtId96As=;
+  b=Vb6kv3uC7mUzZI2rKKZLlEhjHdCLbfuvhoFfr3ZRyqr/CKMz6oN2iDZh
+   zuZ+KNh28V8HlFZI8iE5mYRNaj+/C/RXHJq7UKGmJdLaFr8fekbzfZnIS
+   xQNiTVicWePxxG6hsRfvxbbkXaNwqt7T/XEjKc9ieiTQZd5oOLF6T0MIH
+   fFNcuxc+293baWVLhIL+Cph/OTf4MNVTo2CKsICUsfSVxvKVCc5m3EAFp
+   4N+/x0sAksLZL9VVfOFxX0CAFJe5rFKLebPb1NQxN9yo8CRmKNZQIuVL4
+   5a/o6MecvfYogrKFnt+iwcK8Wq1KlOuPn9bg1RmBJ8Ugq0fXb2VRatPYt
+   w==;
+X-CSE-ConnectionGUID: CqhbW+cqRrKh28g43tpjzA==
+X-CSE-MsgGUID: r+LtvyPoSpib9mRjMsEdmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3377848"
 X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="3377828"
+   d="scan'208";a="3377848"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 06:19:25 -0800
-X-CSE-ConnectionGUID: O9DYl+ONQ4eWI/jHJ8551g==
-X-CSE-MsgGUID: hUtgbYltQkyyqIuaYJzQ+g==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 06:19:29 -0800
+X-CSE-ConnectionGUID: Qe45rsQ7Q1WEaMghipPW3A==
+X-CSE-MsgGUID: vCCqcE7kS/uNbUUXfP2A5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="8668768"
+   d="scan'208";a="8668793"
 Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 06:19:24 -0800
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 06:19:28 -0800
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: linux-sound@vger.kernel.org,
 	vkoul@kernel.org
@@ -69,9 +69,9 @@ Cc: vinod.koul@linaro.org,
 	pierre-louis.bossart@linux.dev,
 	peter.ujfalusi@linux.intel.com,
 	bard.liao@intel.com
-Subject: [PATCH v3 2/5] soundwire: Pass prepare context to parameter computation
-Date: Thu, 12 Nov 2026 22:19:02 +0800
-Message-ID: <20261112141905.1372770-3-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH v3 4/5] soundwire: Include the current stream when preparing again
+Date: Thu, 12 Nov 2026 22:19:04 +0800
+Message-ID: <20261112141905.1372770-5-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261112141905.1372770-1-yung-chuan.liao@linux.intel.com>
 References: <20261112141905.1372770-1-yung-chuan.liao@linux.intel.com>
@@ -87,122 +87,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The compute_params callback is called from both stream prepare and
-deprepare. A followup commit will make it perform different actions
-depending on which operation invokes it.
+sdw_prepare_stream() accepts a stream in the DEPREPARED state without
+changing its state before parameter computation. However, the generic
+allocator excludes DEPREPARED streams from rate groups and port
+computation, and only includes a CONFIGURED current stream in group
+payload calculations.
 
-No functional change.
+Consequently, preparing an existing stream again can reserve bandwidth
+without computing the corresponding transport parameters. The filters
+need to distinguish preparing that stream again from depreparing it.
+
+Pass the prepare context through the group and port helpers. Include
+the current stream during prepare even when it is still DEPREPARED,
+while preserving the filtering of all other runtimes and the behavior
+during deprepare. This supports preparing again without temporarily
+changing stream state.
 
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- drivers/soundwire/amd_manager.c                  | 3 ++-
- drivers/soundwire/generic_bandwidth_allocation.c | 4 +++-
- drivers/soundwire/qcom.c                         | 3 ++-
- drivers/soundwire/stream.c                       | 4 ++--
- include/linux/soundwire/sdw.h                    | 9 ++++++---
- 5 files changed, 15 insertions(+), 8 deletions(-)
+ .../soundwire/generic_bandwidth_allocation.c  | 36 ++++++++++++-------
+ 1 file changed, 24 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
-index a3316efdf8ac..f40a3af4351f 100644
---- a/drivers/soundwire/amd_manager.c
-+++ b/drivers/soundwire/amd_manager.c
-@@ -465,7 +465,8 @@ static u32 amd_sdw_read_ping_status(struct sdw_bus *bus)
- 	return slave_stat;
- }
- 
--static int amd_sdw_compute_params(struct sdw_bus *bus, struct sdw_stream_runtime *stream)
-+static int amd_sdw_compute_params(struct sdw_bus *bus, struct sdw_stream_runtime *stream,
-+				  bool prepare)
- {
- 	struct amd_sdw_manager *amd_manager = to_amd_sdw(bus);
- 	struct sdw_transport_data t_data = {0};
 diff --git a/drivers/soundwire/generic_bandwidth_allocation.c b/drivers/soundwire/generic_bandwidth_allocation.c
-index 3d6b9c895e46..1250fe21a3ff 100644
+index e8e68dbe180b..9bacde2c67a1 100644
 --- a/drivers/soundwire/generic_bandwidth_allocation.c
 +++ b/drivers/soundwire/generic_bandwidth_allocation.c
-@@ -657,8 +657,10 @@ static int sdw_compute_bus_params(struct sdw_bus *bus)
+@@ -188,7 +188,8 @@ static void sdw_compute_master_ports(struct sdw_master_runtime *m_rt,
+ }
+ 
+ static void _sdw_compute_port_params(struct sdw_bus *bus,
+-				     struct sdw_group_params *params, int count)
++				     struct sdw_group_params *params, int count,
++				     struct sdw_stream_runtime *stream, bool prepare)
+ {
+ 	struct sdw_master_runtime *m_rt;
+ 	int port_bo, i, l;
+@@ -209,9 +210,12 @@ static void _sdw_compute_port_params(struct sdw_bus *bus,
+ 				/*
+ 				 * Only runtimes with CONFIGURED, PREPARED, ENABLED, and DISABLED
+ 				 * states should be included in the bandwidth calculation.
++				 * Include the current stream during prepare even if it is
++				 * still in the DEPREPARED state.
+ 				 */
+-				if (m_rt->stream->state > SDW_STREAM_DISABLED ||
+-				    m_rt->stream->state < SDW_STREAM_CONFIGURED)
++				if (!(prepare && m_rt->stream == stream) &&
++				    (m_rt->stream->state > SDW_STREAM_DISABLED ||
++				     m_rt->stream->state < SDW_STREAM_CONFIGURED))
+ 					continue;
+ 				sdw_compute_master_ports(m_rt, &params[i], &port_bo, hstop);
+ 			}
+@@ -224,7 +228,7 @@ static void _sdw_compute_port_params(struct sdw_bus *bus,
+ static int sdw_compute_group_params(struct sdw_bus *bus,
+ 				    struct sdw_stream_runtime *stream,
+ 				    struct sdw_group_params *params,
+-				    struct sdw_group *group)
++				    struct sdw_group *group, bool prepare)
+ {
+ 	struct sdw_master_runtime *m_rt;
+ 	struct sdw_port_runtime *p_rt;
+@@ -242,7 +246,7 @@ static int sdw_compute_group_params(struct sdw_bus *bus,
+ 	list_for_each_entry(m_rt, &bus->m_rt_list, bus_node) {
+ 		if (m_rt->stream == stream) {
+ 			/* Only runtime during prepare should be added */
+-			if (stream->state != SDW_STREAM_CONFIGURED)
++			if (!prepare)
+ 				continue;
+ 		} else {
+ 			/*
+@@ -331,7 +335,8 @@ static int sdw_add_element_group_count(struct sdw_group *group,
+ }
+ 
+ static int sdw_get_group_count(struct sdw_bus *bus,
+-			       struct sdw_group *group)
++			       struct sdw_group *group,
++			       struct sdw_stream_runtime *stream, bool prepare)
+ {
+ 	struct sdw_master_runtime *m_rt;
+ 	struct sdw_port_runtime *p_rt;
+@@ -352,7 +357,12 @@ static int sdw_get_group_count(struct sdw_bus *bus,
+ 	}
+ 
+ 	list_for_each_entry(m_rt, &bus->m_rt_list, bus_node) {
+-		if (m_rt->stream->state == SDW_STREAM_DEPREPARED)
++		/*
++		 * Include the current stream during prepare even if it is still
++		 * in the DEPREPARED state.
++		 */
++		if (!(prepare && m_rt->stream == stream) &&
++		    m_rt->stream->state == SDW_STREAM_DEPREPARED)
+ 			continue;
+ 
+ 		rate = m_rt->stream->params.rate;
+@@ -383,14 +393,16 @@ static int sdw_get_group_count(struct sdw_bus *bus,
   *
   * @bus: SDW Bus instance
   * @stream: Soundwire stream
 + * @prepare: True when preparing, false when depreparing
   */
--int sdw_compute_params(struct sdw_bus *bus, struct sdw_stream_runtime *stream)
-+int sdw_compute_params(struct sdw_bus *bus, struct sdw_stream_runtime *stream,
-+		       bool prepare)
+-static int sdw_compute_port_params(struct sdw_bus *bus, struct sdw_stream_runtime *stream)
++static int sdw_compute_port_params(struct sdw_bus *bus, struct sdw_stream_runtime *stream,
++				   bool prepare)
  {
+ 	struct sdw_group_params *params = NULL;
+ 	struct sdw_group group;
  	int ret;
  
-diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-index 6e0c5fb10efa..73d3bdc4afc2 100644
---- a/drivers/soundwire/qcom.c
-+++ b/drivers/soundwire/qcom.c
-@@ -1215,7 +1215,8 @@ static const struct sdw_master_ops qcom_swrm_ops = {
- 	.pre_bank_switch = qcom_swrm_pre_bank_switch,
- };
+-	ret = sdw_get_group_count(bus, &group);
++	ret = sdw_get_group_count(bus, &group, stream, prepare);
+ 	if (ret < 0)
+ 		return ret;
  
--static int qcom_swrm_compute_params(struct sdw_bus *bus, struct sdw_stream_runtime *stream)
-+static int qcom_swrm_compute_params(struct sdw_bus *bus, struct sdw_stream_runtime *stream,
-+				    bool prepare)
- {
- 	struct qcom_swrm_ctrl *ctrl = to_qcom_sdw(bus);
- 	struct sdw_master_runtime *m_rt;
-diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
-index 1d74aa982a4c..06f051f03a21 100644
---- a/drivers/soundwire/stream.c
-+++ b/drivers/soundwire/stream.c
-@@ -1502,7 +1502,7 @@ static int _sdw_prepare_stream(struct sdw_stream_runtime *stream,
+@@ -404,11 +416,11 @@ static int sdw_compute_port_params(struct sdw_bus *bus, struct sdw_stream_runtim
+ 	}
  
- 			/* Compute params */
- 			if (bus->compute_params) {
--				ret = bus->compute_params(bus, stream);
-+				ret = bus->compute_params(bus, stream, true);
- 				if (ret < 0) {
- 					dev_err(bus->dev, "Compute params failed: %d\n",
- 						ret);
-@@ -1804,7 +1804,7 @@ static int _sdw_deprepare_stream(struct sdw_stream_runtime *stream)
+ 	/* Compute transport parameters for grouped streams */
+-	ret = sdw_compute_group_params(bus, stream, params, &group);
++	ret = sdw_compute_group_params(bus, stream, params, &group, prepare);
+ 	if (ret < 0)
+ 		goto free_params;
  
- 		/* Compute params */
- 		if (bus->compute_params) {
--			ret = bus->compute_params(bus, stream);
-+			ret = bus->compute_params(bus, stream, false);
- 			if (ret < 0) {
- 				dev_err(bus->dev, "Compute params failed: %d\n",
- 					ret);
-diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
-index fff30bb2d9ed..0e37b7d5ec48 100644
---- a/include/linux/soundwire/sdw.h
-+++ b/include/linux/soundwire/sdw.h
-@@ -1019,7 +1019,8 @@ struct sdw_stream_runtime {
-  * @controller_id: system-unique controller ID. If set to -1, the bus @id will be used.
-  * @link_id: Link id number, can be 0 to N, unique for each Controller
-  * @id: bus system-wide unique id
-- * @compute_params: points to Bus resource management implementation
-+ * @compute_params: points to Bus resource management implementation; the prepare
-+ * argument is true when preparing a stream and false when depreparing it
-  * @assigned: Bitmap for Slave device numbers.
-  * Bit set implies used number, bit clear implies unused number.
-  * @clk_stop_timeout: Clock stop timeout computed
-@@ -1054,7 +1055,8 @@ struct sdw_bus {
- 	int controller_id;
- 	unsigned int link_id;
- 	int id;
--	int (*compute_params)(struct sdw_bus *bus, struct sdw_stream_runtime *stream);
-+	int (*compute_params)(struct sdw_bus *bus, struct sdw_stream_runtime *stream,
-+			      bool prepare);
- 	DECLARE_BITMAP(assigned, SDW_MAX_DEVICES);
- 	unsigned int clk_stop_timeout;
- 	u32 bank_switch_timeout;
-@@ -1069,7 +1071,8 @@ struct sdw_bus {
- struct sdw_stream_runtime *sdw_alloc_stream(const char *stream_name, enum sdw_stream_type type);
- void sdw_release_stream(struct sdw_stream_runtime *stream);
+-	_sdw_compute_port_params(bus, params, group.count);
++	_sdw_compute_port_params(bus, params, group.count, stream, prepare);
  
--int sdw_compute_params(struct sdw_bus *bus, struct sdw_stream_runtime *stream);
-+int sdw_compute_params(struct sdw_bus *bus, struct sdw_stream_runtime *stream,
-+		       bool prepare);
+ free_params:
+ 	kfree(params);
+@@ -686,7 +698,7 @@ int sdw_compute_params(struct sdw_bus *bus, struct sdw_stream_runtime *stream,
+ 	}
  
- int sdw_stream_add_master(struct sdw_bus *bus,
- 			  struct sdw_stream_config *stream_config,
+ 	/* Compute transport and port params */
+-	ret = sdw_compute_port_params(bus, stream);
++	ret = sdw_compute_port_params(bus, stream, prepare);
+ 	if (ret < 0) {
+ 		dev_err(bus->dev, "Compute transport params failed: %d\n", ret);
+ 		return ret;
 -- 
 2.43.0
 
