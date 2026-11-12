@@ -1,80 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794468089;
-	b=UbzwGjtx4TmcNk3GyCbubnLmRoDRSNIhsn61XZcso+5ymP0RiPezVPELAePpuqg/AYS2
-	 qmjpFZiZaijnZd1kcRtjtt9W9EJGzjeWO64VLWKxtughS4J7R9dV6Q9N5WvImu9Z0iGoe
-	 kq51OcOSHiOyqQ8NGAd5zlAzTEb1Ih/JnmB2NsTT8ctFQnNx7x3I8a0ZXXomEqUE41nLJ
-	 Wy9ee9+tPnFGo+Lw2wUuopjsCVy6yPkcTMMmhEJaE5rT3rAufLv7+/goM6c66JEsLQl0x
-	 4pzS4bglGvzoAGzsRwci6WRaLC7HpRd/VtO2wIODpaapMDipzZObl979day5q6+5eFg==
+	t=1794469047;
+	b=ZtGprjc8btHqWT1Fpzj6RQQuUsU6rGjhbWumxJYu2DCys6AMoI1GTLnKeD2ax8cCU42a
+	 +Powq5AA8grHkLb76BlDJ8Z1vqK54Dd77nAfOMs8pNRgfusO78HRYRKfy3BmWtrUPf7nU
+	 Sm2eNnYec3jEv9sgYADYt+yUlG+vycehGHpEcC5C8Iq8SraS1//yIpweTDdptj7ZZgoyO
+	 p3aWxEVjfPj4xLh90XVXNmGo+QeEtVUrXlQ3uVJdp1fu1R7NdOV5c0W4WIG9w96d/okIG
+	 xr+gbirepy3nFxKqdqYMn2hry4Nyx+rBLTmWt7KZEMBbbUSJFU1o6O8/ay1jzQpdh5g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794468089;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=b9hMPbpYy1Bo+raN1VtZjNXSpTP2CppG2/pJDYdMMT8=;
-	b=cRinXIcQZUdGlnW6uIXvBNRaiDyi/4H/vidgC5qfLII1OuUbw76OaheGLujIDrpO/0zX
-	 HcdbOHqrgdjHZ3UCupkw6aL428bbZpfTpsPlzQzNpQ7yOyRNIkV/tnf7z8N8LlMOvfc50
-	 ruVox1kvOhhzOzy0g01g4o27mC+O6TjA4F6ObIqSEXYZJQ6yr0E6I63AJZ2B2CI4aTFb4
-	 i9z0xhs7dfSC+eJLrN8NAhpicw233CCcHwTC05rocIF6i/0PMouJ0tCGqYezXM4a8Sngl
-	 vSM7GwEgZYBlo3K59qvrfCJlVupYl0V1vZJz5PUbAoySj2Pr3LRXKlVohz4UvydBYPQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794469047;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=AJreelrWgE6OQjhrAXSiWqvk+KF1HYeIlFhlURaPUB8=;
+	b=3iNOjMxZtPc2TdjLZMT9tZ1ucsiqxStXTEYlWlKWiOlVqzsKiHWfoUpxHx6eycyzdbxS
+	 kTQIrTswsUmw53Bdt4/4OEDodlp1dUJlCffmc9AC6z+m1CDkTG0zbbLwCNc0kq3ixXSST
+	 JQE0MzXNVMyTdAwA/RfsvrhYo7Jx74hIjcoB5NrKK1ErhGgUDFcmISnUPR7BAAWygAzUD
+	 yLdFpzAneTH6h3PKPHVDiaNl92Vk+7mHIDCjaCfJgyU1ASYGu2g00JHSU41p9MXsVBHv9
+	 eFnBS64GNE+bGf4F+n5wMNMLAHV7tmi0k3fGBIpY7us6Yy3SgN2awPoOQIG8l/k01KQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="L/dq1hqb";
-	arc=none smtp.remote-ip=198.175.65.14
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mqHJX2Jv;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A95D60A3819;
-	Thu, 12 Nov 2026 07:21:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A95D60A3819
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9F9606A32A
+	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 07:37:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L/dq1hqb
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794468089; x=1826004089;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=9pIw0EkGyIybt0AIDft2y1To9nOqBwl1nlcVq+8X8Hg=;
-  b=L/dq1hqbcp/pzquiYlSrjJBHopCrLo18v8+kRarNmcBbrYwc2fx501Bn
-   laln0+DcVRkgyqX+LYo+mKxsIcHBGeyDDaDp0VnYA5Bi6vAiE0jZZYFnw
-   OpN/twnp8sjRftClHuOmeG0DzSzEg8n2oxWB72DyxEZP0Ijduv1mFiUbb
-   bQdcsPwrAIvlXmAc1R+KLkgOl6VFOJSJEEJAjtN4O4ur7Zr9HaBQXlMAS
-   jFtc6A+Vua6O81xkYG/FVl+aSAJufNLcXNPD4+r7I99403e4VRJYIhgJV
-   fFlEU3rWwuXEOZvKkgpBOURKUPK3s8G2Y7+AaFBw5+4UZCOCoeVOs6OFz
-   Q==;
-X-CSE-ConnectionGUID: NMvPvHXHTPKA8B3mpiHxiw==
-X-CSE-MsgGUID: p2N0P83oQnqmVIwsMNvWWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3142267"
-X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="3142267"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 23:21:29 -0800
-X-CSE-ConnectionGUID: DftPxhlhTReRFEOeCm3b/Q==
-X-CSE-MsgGUID: wtthGgguR4urkhZzLfVE2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="10318080"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 23:21:27 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	peter.ujfalusi@linux.intel.com,
-	bard.liao@intel.com
-Subject: [PATCH v2 5/5] soundwire: stream: Fix bandwidth leak in multi-link aggregation failure
-Date: Thu, 12 Nov 2026 15:21:05 +0800
-Message-ID: <20261112072105.1296515-6-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261112072105.1296515-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mqHJX2Jv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA9981F00A05;
+	Thu, 12 Nov 2026 07:37:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794469047;
+	bh=AJreelrWgE6OQjhrAXSiWqvk+KF1HYeIlFhlURaPUB8=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=mqHJX2Jv2IXSAkvNQZKJidsQGFvkqDA4CJdiVh4+HFe+BPAICnLJKfhZzGz7kX+hr
+	 RKNez21TafR+aK4H3c+J4XqF8t7nAQAJMtCZcpf/73yxAZz/1xeBi5Dvj0EcuhOBfX
+	 RSXWBFR4uVGcpf1kt8OuduT0bqbB8UShs450xC8LLsj2qQMVJfDvoL8AauCgoFnfrz
+	 Wb9IWPjh3DMBd7dvAhWL+J2nzzyt5Vo+EJm444a+0OvQbs6/FBJPAY5x3/IXPNxZdN
+	 qXoQgM6CDH8/cAlosMITxUfc2uH5lfQvUPmy0+ml3rSszrHXd9SzwNqRrq0NndeSST
+	 llXB63Z9h+CcQ==
+Message-ID: <sashiko-outbox-210619@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 5/5] soundwire: stream: Fix bandwidth leak in
+ multi-link aggregation failure
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Bard Liao" <yung-chuan.liao@linux.intel.com>, linux-sound@vger.kernel.org
+In-Reply-To: <20261112072105.1296515-6-yung-chuan.liao@linux.intel.com>
 References: <20261112072105.1296515-1-yung-chuan.liao@linux.intel.com>
+ <20261112072105.1296515-6-yung-chuan.liao@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 12 Nov 2026 07:37:26 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -83,133 +59,154 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-From: David Lin <david.lin@intel.com>
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] soundwire: incomplete port lane and transport rollback in
+  _sdw_prepare_stream()
+- [High] soundwire: stream: bank state desync in _sdw_prepare_stream()
+  rollback
+--
 
-When preparing a multi-link aggregation stream, a failure on a subsequent
-link during _sdw_prepare_stream() causes the stream preparation to fail.
-However, the bandwidth allocated on the preceding successful links is never
-released, causing a cumulative bandwidth leak.
+commit f77415deadf5285d82da231d58b3652a2ff280ce
+Author: David Lin <david.lin@intel.com>
 
-Fix this by saving a snapshot of each bus's parameters before making any
-modifications. In case of failure, we iterate through the stream's master
-list and restore each bus to its original parameter state, ensuring an
-atomic rollback and preventing any bandwidth leaks.
+soundwire: stream: Fix bandwidth leak in multi-link aggregation failure
 
-The rollback only restores bus->params, while the lane assignments of the
-port runtimes are left untouched. Since _sdw_deprepare_stream() resets
-p_rt->lane only when the lane's used bandwidth drops to zero, a stream can
-also carry a stale lane from a previous prepare or from a failed prepare
-that was rolled back. Reset the lane of the stream being prepared to 0 in
-sdw_compute_bus_params() when no multi-lane is selected, so that the lane
-assignment matches the restored lane_used_bandwidth.
+This commit snapshots bus->params into m_rt->params_backup for each master
+before stream preparation and restores them on failure, while clearing
+port lane assignments in sdw_compute_bus_params() when preparing on lane 0.
 
-Fixes: 7a30292ffa2a ("soundwire: generic_bandwidth_allocation: select data lane")
-Cc: stable@vger.kernel.org
-Signed-off-by: David Lin <david.lin@intel.com>
-Co-developed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- drivers/soundwire/bus.h                         |  3 +++
- .../soundwire/generic_bandwidth_allocation.c    | 14 ++++++++++++++
- drivers/soundwire/stream.c                      | 17 +++++++++++++----
- 3 files changed, 30 insertions(+), 4 deletions(-)
+> diff --git a/drivers/soundwire/generic_bandwidth_allocation.c b/drivers/s=
+oundwire/generic_bandwidth_allocation.c
+> index 9bacde2c67a11..214a1be6c33e0 100644
+> --- a/drivers/soundwire/generic_bandwidth_allocation.c
+> +++ b/drivers/soundwire/generic_bandwidth_allocation.c
+> @@ -656,6 +656,20 @@ static int sdw_compute_bus_params(struct sdw_bus *bu=
+s,
+>  		list_for_each_entry(m_p_rt, &m_rt->port_list, port_node) {
+>  			m_p_rt->lane =3D m_lane;
+>  		}
+> +	} else if (prepare) {
+> +		/* Clear stale lane assignments when preparing on lane 0. */
+> +		list_for_each_entry(m_rt, &bus->m_rt_list, bus_node) {
+> +			if (m_rt->stream !=3D stream)
+> +				continue;
+> +
+> +			list_for_each_entry(m_p_rt, &m_rt->port_list, port_node)
+> +				m_p_rt->lane =3D 0;
+> +
+> +			list_for_each_entry(s_rt, &m_rt->slave_rt_list, m_rt_node)
+> +				list_for_each_entry(s_p_rt, &s_rt->port_list, port_node)
+> +					s_p_rt->lane =3D 0;
+> +			break;
+> +		}
+>  	}
 
-diff --git a/drivers/soundwire/bus.h b/drivers/soundwire/bus.h
-index 44e4f5193917..476387b70472 100644
---- a/drivers/soundwire/bus.h
-+++ b/drivers/soundwire/bus.h
-@@ -155,6 +155,8 @@ struct sdw_slave_runtime {
-  *
-  * @bus: Bus handle
-  * @stream: Stream runtime handle
-+ * @params_backup: Snapshot of original bus parameters saved before stream
-+ * preparation, used for rollback recovery on failure.
-  * @direction: Data direction for Master
-  * @ch_count: Number of channels handled by the Master for
-  * this stream, can be zero.
-@@ -166,6 +168,7 @@ struct sdw_slave_runtime {
- struct sdw_master_runtime {
- 	struct sdw_bus *bus;
- 	struct sdw_stream_runtime *stream;
-+	struct sdw_bus_params params_backup;
- 	enum sdw_data_direction direction;
- 	unsigned int ch_count;
- 	struct list_head slave_rt_list;
-diff --git a/drivers/soundwire/generic_bandwidth_allocation.c b/drivers/soundwire/generic_bandwidth_allocation.c
-index 9bacde2c67a1..214a1be6c33e 100644
---- a/drivers/soundwire/generic_bandwidth_allocation.c
-+++ b/drivers/soundwire/generic_bandwidth_allocation.c
-@@ -656,6 +656,20 @@ static int sdw_compute_bus_params(struct sdw_bus *bus,
- 		list_for_each_entry(m_p_rt, &m_rt->port_list, port_node) {
- 			m_p_rt->lane = m_lane;
- 		}
-+	} else if (prepare) {
-+		/* Clear stale lane assignments when preparing on lane 0. */
-+		list_for_each_entry(m_rt, &bus->m_rt_list, bus_node) {
-+			if (m_rt->stream != stream)
-+				continue;
-+
-+			list_for_each_entry(m_p_rt, &m_rt->port_list, port_node)
-+				m_p_rt->lane = 0;
-+
-+			list_for_each_entry(s_rt, &m_rt->slave_rt_list, m_rt_node)
-+				list_for_each_entry(s_p_rt, &s_rt->port_list, port_node)
-+					s_p_rt->lane = 0;
-+			break;
-+		}
- 	}
- 
- 	if (!mstr_prop->default_frame_rate || !mstr_prop->default_row)
-diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
-index 06f051f03a21..7c748ba84767 100644
---- a/drivers/soundwire/stream.c
-+++ b/drivers/soundwire/stream.c
-@@ -1479,19 +1479,22 @@ static int _sdw_prepare_stream(struct sdw_stream_runtime *stream,
- 	struct sdw_master_runtime *m_rt;
- 	struct sdw_bus *bus;
- 	struct sdw_master_prop *prop;
--	struct sdw_bus_params params;
- 	int ret;
- 
-+	/* Pre-pass: snapshot original bus parameters for all masters */
-+	list_for_each_entry(m_rt, &stream->master_list, stream_node)
-+		m_rt->params_backup = m_rt->bus->params;
-+
- 	/* Prepare  Master(s) and Slave(s) port(s) associated with stream */
- 	list_for_each_entry(m_rt, &stream->master_list, stream_node) {
- 		bus = m_rt->bus;
- 		prop = &bus->prop;
--		memcpy(&params, &bus->params, sizeof(params));
- 
- 		/* TODO: Support Asynchronous mode */
- 		if ((prop->max_clk_freq % stream->params.rate) != 0) {
- 			dev_err(bus->dev, "Async mode not supported\n");
--			return -EINVAL;
-+			ret = -EINVAL;
-+			goto restore_params;
- 		}
- 
- 		if (update_params) {
-@@ -1542,7 +1545,13 @@ static int _sdw_prepare_stream(struct sdw_stream_runtime *stream,
- 	return ret;
- 
- restore_params:
--	memcpy(&bus->params, &params, sizeof(params));
-+	/*
-+	 * Revert all masters to their snapshotted original parameters.
-+	 * Any master that was not modified will safely revert to its own original state.
-+	 */
-+	list_for_each_entry(m_rt, &stream->master_list, stream_node)
-+		m_rt->bus->params = m_rt->params_backup;
-+
- 	return ret;
- }
- 
--- 
-2.43.0
+[Severity: High]
+Does clearing m_p_rt->lane and s_p_rt->lane only for the stream currently
+being prepared leave stale non-zero lanes on a rolled-back stream when
+another stream on the same bus is later prepared or deprepared?
 
+When _sdw_prepare_stream() fails on a later link after bus->compute_params()
+has selected m_lane > 0 and recomputed port transport parameters on an
+earlier link, restore_params reverts bus->params (including
+lane_used_bandwidth[] and curr_dr_freq) while the failed stream remains in
+SDW_STREAM_CONFIGURED with its non-zero lane assignments.  If a second
+stream on that bus is then prepared or deprepared before the failed stream
+is re-prepared on lane 0, sdw_compute_group_params() excludes the
+SDW_STREAM_CONFIGURED stream from payload_bw and hwidth, but
+_sdw_compute_port_params() still includes it:
+
+drivers/soundwire/generic_bandwidth_allocation.c:_sdw_compute_port_params()=
+ {
+    ...
+				if (!(prepare && m_rt->stream =3D=3D stream) &&
+				    (m_rt->stream->state > SDW_STREAM_DISABLED ||
+				     m_rt->stream->state < SDW_STREAM_CONFIGURED))
+					continue;
+				sdw_compute_master_ports(m_rt, &params[i], &port_bo, hstop);
+    ...
+}
+
+When an active stream uses that same non-zero lane and sample rate,
+sdw_compute_master_ports() matches the failed stream's stale p_rt->lane and
+advances port_bo without allocated hwidth, shifting active streams' transpo=
+rt
+block offsets out of bounds.
+
+In addition, bus->compute_params() on the preceding link has already updated
+mstr_prop->default_col and recomputed p_rt->transport_params and
+p_rt->port_params across existing streams on that bus; if an already
+PREPARED or DISABLED stream on that link is later enabled or disabled,
+sdw_program_params(bus, false) programs those un-reverted transport
+parameters into hardware without recomputing them for the restored
+bus->params.
+
+> diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
+> index 06f051f03a218..7c748ba847672 100644
+> --- a/drivers/soundwire/stream.c
+> +++ b/drivers/soundwire/stream.c
+> @@ -1479,19 +1479,22 @@ static int _sdw_prepare_stream(struct sdw_stream_=
+runtime *stream,
+>  	struct sdw_master_runtime *m_rt;
+>  	struct sdw_bus *bus;
+>  	struct sdw_master_prop *prop;
+> -	struct sdw_bus_params params;
+>  	int ret;
+> =20
+> +	/* Pre-pass: snapshot original bus parameters for all masters */
+> +	list_for_each_entry(m_rt, &stream->master_list, stream_node)
+> +		m_rt->params_backup =3D m_rt->bus->params;
+> +
+>  	/* Prepare  Master(s) and Slave(s) port(s) associated with stream */
+>  	list_for_each_entry(m_rt, &stream->master_list, stream_node) {
+>  		bus =3D m_rt->bus;
+>  		prop =3D &bus->prop;
+> -		memcpy(&params, &bus->params, sizeof(params));
+> =20
+>  		/* TODO: Support Asynchronous mode */
+>  		if ((prop->max_clk_freq % stream->params.rate) !=3D 0) {
+>  			dev_err(bus->dev, "Async mode not supported\n");
+> -			return -EINVAL;
+> +			ret =3D -EINVAL;
+> +			goto restore_params;
+>  		}
+> =20
+>  		if (update_params) {
+> @@ -1542,7 +1545,13 @@ static int _sdw_prepare_stream(struct sdw_stream_r=
+untime *stream,
+>  	return ret;
+> =20
+>  restore_params:
+> -	memcpy(&bus->params, &params, sizeof(params));
+> +	/*
+> +	 * Revert all masters to their snapshotted original parameters.
+> +	 * Any master that was not modified will safely revert to its own origi=
+nal state.
+> +	 */
+> +	list_for_each_entry(m_rt, &stream->master_list, stream_node)
+> +		m_rt->bus->params =3D m_rt->params_backup;
+> +
+>  	return ret;
+>  }
+
+[Severity: High]
+Can restoring m_rt->params_backup across all masters desynchronize
+bus->params.curr_bank and bus->params.next_bank from hardware when
+_sdw_prepare_stream() fails during or after do_bank_switch()?
+
+m_rt->params_backup snapshots curr_bank and next_bank before
+do_bank_switch() switches the active register bank in hardware and inverts
+those fields.  If sdw_prep_deprep_ports(m_rt, true) subsequently fails on
+any master (or if do_bank_switch() fails after an earlier master in
+stream->master_list has already switched banks), jumping to restore_params
+overwrites curr_bank and next_bank on every master with their pre-switch
+values and leaves ports prepared on earlier masters in the loop without
+depreparing them.  Later stream operations on those buses will then program
+banked registers into the currently active hardware bank and attempt to
+switch to the bank already in use.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261112072105.1296=
+515-1-yung-chuan.liao@linux.intel.com?part=3D5
