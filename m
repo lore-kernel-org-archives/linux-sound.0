@@ -1,101 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.43
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794464451;
-	b=JJk/yP2VevnU/RnP8U/PElGyoDiTufJ5VjGvLFDhnlMhHzsDotpGWLVIeZacJsohzKEN
-	 zgHBvpd/RPlw2rXyLsBABwgZD5S2qn3MlUsK2V8kat0zv8QUgsShd7vTrx16/1+9o37kN
-	 FivuGuAx7HoBjygn9caz6QK6iDIvcv0ehhTNCDrRmjzYdXb44s+IwAaI6EfAvAAY62fO1
-	 5UWRkMbUa3y+4U9yrFuVFzvO68IjwomDGhtj3PMNSxX7DiDMPS5RiZsFaDjQzTlNTI2vs
-	 fk6zzyYN7CkvXA1pMA5Ng9t8h925RnkvFDtY4TBELbNkeNMkcvB7l1iRB5JBC1dlrlA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794464451;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.178
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794464693;
+	b=YmgWADaZULEHyBfO0Wkb8PcCNapAagZfQYzJyERfTItOZca5JjBKjCaYl0KaGs1TR2Vk
+	 Cw41XUuxzkeBz3gmUm1ZOjbMNq17u5ZbqfH0aBUMwCGprHvWMLMwZW6I5E6EZ+aJKWYUe
+	 AgyQw/Nv87FrbwIruXDvDKFS9HQb3yYPVysfzFxlXWjuwBUR9qz8iLjQkGtbghzrSBi88
+	 ivFucb6V2EFSo/sxy1tDVtJOrVVDdfyQSl+/fYfqWxEMrJT3a61CbBUT2/aXxxN8EX8sL
+	 KdrjAaPtWh9dxBELvpur8rcid3JtZKwurXg86RvuAXpHSSOfHP/zfRYZ31WDgcVN4EA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794464693;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=GmUggzBwh054ycyLcdU256fZfq9HoFB8UcP89KTzYog=;
-	b=GWP0XDMKlivfEgSz1e3w0m1UfPTzN7LrapZNUEtGhnvzkEsB5Wfin753EsbNgWswbimP
-	 +pT1470mMoAZX+/ZIKN4MO9B57wK2Ca+P0fkITDvnCHZdH0comubY2gJNXCZ/eWlxkjEf
-	 y7J9xc6z49QRIAGunmE20f04I78Zs3wa//JMCGZhRbtM94vWDToCJ+QNTsvr/D1xYoZlD
-	 eBrQ5UI3oTMWI7QNzxmaZ4iEfwZS/2yoFWGxk3ar07U3dkTmjQdJF1bg9E7uIOXW3MGxR
-	 2HuPM4+Svb4oLXisgvPLEYbGIBHHk1Cnh9gSnh+R/ypOd4HICXR6NkLx6JLXSIpb6rA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=q37qpXEwMyyzIQB5U811Z5lpryLHK/HfdcL3ssQu8Qo=;
+	b=Z0cmW7N5CCgUTLEEZKlFqTefdQkUrs9TD3zhv0dpgXKswyj+8AfX1/wVvO6zUN7nd2A/
+	 +rUZIPwRQCsJbguXubfctZxyAseZ0dtjGpgVIAVFYcwZO96EgsfV1rcpkEBkeENUauVqq
+	 8rAJuBi0SdBX3lrWl0DtcKqacuP6GkmOEYVrLzZrYVEIXMghWIBtavPSeg+i7rQE1HcAK
+	 D0FCP0srhz55AgKWfHwQ6CgVF0wHgea5vEaonuWz5mAlqCSvPry2U+aMq5hREJwkvkd4a
+	 7OgF0xgwQR4LX4l7VpwAfXNTLzGndKHQ/gxoNcmq8Nfs0Zw4YFy/5tFQq0g1FRft+sw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mfB5hIVN;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.43
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YaPUHdyE;
+	arc=none smtp.remote-ip=209.85.214.178
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8388606A323
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 06:20:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8388606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DFA606A321
+	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 06:24:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38DFA606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mfB5hIVN
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6b581b6b0e9so2783432a12.2
-        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 22:20:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794464449; cv=none;
-        d=google.com; s=arc-20260327;
-        b=MEVsA2EU8P7vzxl+7Q7osiTJNDl+4K7BzzlECQCanDT6++FgyyY1uIHUf2nE3Di6Q1
-         r0Ga7gjLWdNgvJP2ChsWFKfSTveJca/ipMJ3wt45Tab68jQLIfjeZlMvBUXhzC+zjbP2
-         /Tqu8fIoVZap3PPHcflob3KTuNj+2Hh2p2nrQsDM4ruRm1WZjCbVKvVlgKgHk1lhEavh
-         70xkzM9S/3b00z6o21RUOaNkZGDNXmOz4P7c7qhc7Noh6rYaRUM51txb560NfS9Id9K2
-         yUnwCw2xYt0xntKAWWWdJhQkc1i6zPaCX2CeZWcRt27S7z/Kga61jfcNfhKqfMNVaUtm
-         0idQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=GmUggzBwh054ycyLcdU256fZfq9HoFB8UcP89KTzYog=;
-        fh=oMSn4vZIPjWwOakLAxZXTcRHzZXMDD8WqgdDv5IMvQU=;
-        b=c+eXUAkJovAZRdxp7setNqkzxXU0B/ahfoqPLdGF3FYW1/3QgFeWH9KIDH/QgQVOxk
-         J5UePBwwFfQQArTS9BQ7UnuNoqOetWa6r9OaSj72557fzXCWQ2st7gnpYYYuwTKTePxs
-         Xq+X0TXUKUMIyMuqDHj8pBPehxE7HP2M4mD3+ww/0perO0Tc/GBwrhnGrGdnjRBhizfH
-         QxUPVHTrcAoN0+wT+1/c9kfBeztyQwn/z5VuBAHUl3Mu41tiN0o836OQlO+f4ZsocItA
-         Smvuyo87NAu7V+Y+W4Ysk3TfQhZUFVqN8RLcjU5g3yU2Jv44LRjDD/RogB+/Tj0R2lar
-         erCw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YaPUHdyE
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ed0e2015aaso16704785ad.3
+        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 22:24:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794464449; x=1795069249; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GmUggzBwh054ycyLcdU256fZfq9HoFB8UcP89KTzYog=;
-        b=mfB5hIVNWoDc0eoZue/HOZ4HTeEVeg6PgM4Kxapc7zgauJNbm3Z2s3yfmse/uf1jA6
-         7EyIjfUUrCS8j/ErOGcMpU56GwoPk5T7GaOMB/PSDa5zmu2k+JMb9l+DwJOCt3AlNMHY
-         8w2iIjN56mQqDaUzU8JoDk6axWRaPSvo35mZ7KOhNQ/6TRMA5VpXTuj+g05XrdHGvYHT
-         uAdDIk+FNr893kh2DXjOEz8s4ldN0KCQXku1Cfrjhvg0HSDq4ZvB9PWVbRv9e2MqijRR
-         Y5RhpXs75aPeGNFaI69337V80axoszmUBNJiLINmkCgBqwfl6OqQyHv8+IlKxeoOJk+H
-         fSEg==
+        d=gmail.com; s=20260707; t=1794464692; x=1795069492; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=q37qpXEwMyyzIQB5U811Z5lpryLHK/HfdcL3ssQu8Qo=;
+        b=YaPUHdyEhUEkOcR6aPnH+zXrYeNOPl/EbbDIJNEAh8SJMCPUXOIo+ikMQJQfH9zp7h
+         GXErPCmTGuP8DpP82P7tdRliwFgcwVcqsNS++xYzyNjketv4tqDWRkDnVhJeeS6GjqKP
+         TAISUyVmXsJO0/Xouf1WotFCU95eSPJjeyZi+7GvTLgNWXViHPjCF5Qj7ERNTOVz+UAs
+         hjQf8MsCuD7gNyHPESmt+Uqz7G4ZloiUZYB2pOGl3zcCrnFntv2ngTPZcUEwvzlsqP6m
+         ArwvOjjSlwIf7rh/99g7c91QcJIBtS3w8pobGnmAsE6abKlSKKJS49SFfeq2XYFXV+hs
+         XADA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794464449; x=1795069249;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GmUggzBwh054ycyLcdU256fZfq9HoFB8UcP89KTzYog=;
-        b=Fi5EkHwSB2Pvjwq9rE1AwZVy2xrC729pAeaKPxvVMIEOIfRfIY7uqbkMNWyHabf3o5
-         s+todRg2bJATVYMv+sLimm+B9u+QJOA03OJRLcfZgEPlu0+l59wIjwqK7bqJJRmHBAL5
-         UCJaX4C/3swnyYSVBf5fXcx3BEwkNUXqSXs6q06het6kGKrLtm9LMCROqy2fSzw5zsay
-         cqOmxVa+Kpo2kkNrUBfx19MKj5BkiwJDRnOfF98GXxOPXX+KqrK6uLHzXyPa2gEGI4V8
-         1Ejesf8zN7FadJGvxVsFlARmLDQC4AM9ArTO9uXJefPboiHUbUZfFu5U0mOGaoIdqt0Q
-         FTMw==
-X-Forwarded-Encrypted: i=1; AL+hErHs4s5N040+LjtbVNBkwdMKmF93Csum89PPjf/uzoeUV5awRxB91rcYPDjT+/h459AsVzrhwHF3q7TW7w==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9V53PTpmeNucD4aXHhm06lVDlG9mBlrYmEdQ/pAKMmSYywnr5I
-	o+vTR8blP5XxqBU5FS2egkeV8vJOc7mQlXt0DgYvriyIehAJJE2w4an1wjAaxDTJAoz0JRPXKCq
-	HcoDdc2PHFuoW2lwN+QTqG72NtazE2g==
-X-Gm-Gg: AYBFou2FNY234oVw0Pl/fGwefLSz6g6HicInbKS8r4mnzJhNI0+I3kr2TX5ZssB7F5N
-	ya3pDSrFcJe4PHvv+NZB5x0d3nUO/yJK81xRzjCYrfIVhWydIHGkJ3goo+Q3QkLLbhGBAQfbrIW
-	ru1MNYOAy3XJaG/QBneJtnsT+rnR86YhImyXgtFUi/eYg11AUYlon3oCkzQsGAH7KMilHqHRY6H
-	XnrQXB6xxRV8RPoOVCmz3gqFe40zqAMfx7rIAQwzlrFVTjB90bpj4mrmqZwiYTUlTqdFcSDrJQv
-	+iAiSIcpxEbzdUgAaXp68ryaMBP5xB0Q6HYb9HtHUMQO9rCIhXNydBUMkyY2p2Fe0Bv83gLY9M7
-	fKrt+XBkqpHF4IwhXC7fNpSxqHhGaI2bT6WvZ3y20BGOUfMVSlUNG6aALn3iAoyyoxRxIIlmqj7
-	tzYUHklojXUpUmZJG5bDyGs3Etf5xHc/BdJEv47/SRv8tsEtY=
-X-Received: by 2002:a05:6402:2809:b0:6b4:21c1:21a9 with SMTP id
- 4fb4d7f45d1cf-6b7778159cbmr3839503a12.31.1794464448878; Wed, 11 Nov 2026
- 22:20:48 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794464692; x=1795069492;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=q37qpXEwMyyzIQB5U811Z5lpryLHK/HfdcL3ssQu8Qo=;
+        b=fnYG74yX7szZXVDAP1wcfv4bdSDJq/GZNn82HrPLdwVrSUFki6rdJjSMj24bHsKpal
+         ValVBFUVIu7lX3cxgYNoccFGN7zScr/JKxinO32JuGSNR4d0erna+syhxnsd85fGe8ul
+         0Vo/LRx3IU+qVg9dKX/03s1khEHcz8EETW/x1cu6oJcF5T+Rnk3tHM2JU7wrQXgNuEiR
+         Z5qqGjuu6EKzC+cP6sL7Vf2wKR4OBOAnafNEn7tXQznDPgQjrBr0182kLYMiU7APLt1K
+         WCr0tQFeNcNPqSlcweFPjdMlj8xf2ZLP1X03/jq5muJ8+uCeVFah1Xs8qPAv+QIs+vyb
+         CSCg==
+X-Gm-Message-State: APuU4Z+rMjqurBLe21P+UIIeE4QWl7oRTrmpT+PGwJTUAn8AfBn8WJ8I
+	nv0kt4gLjG9WyU1Ova6Eb/3FqtR+tnffP9hhk7UeFLaGZHzS/u1DRImDdwMx+w==
+X-Gm-Gg: AYBFou2gQfoT+Fx2MmW/5LqVvyf3IgaYdoDxq5AMeN+z6B3q5Pg4lE45goGhHH3TaSI
+	Clv2R4kqKWdUE0U0fhxKDhallnq57lp778jd1DOtvHfbT8cw9oaJOKKvQEV2gRmEAlT9Miui/Lw
+	SViaoQ9djw0quIAnBIaV+r+VeEc5EomX4EGHlvQ5blv+3wEseF/rzGrTmg253yfjPfgNUBWKsFI
+	TKZNY0u0vtqZHMpxbSaHsy0dTn5XTq1sF7J6fGXE1GKpdUmUYmGuDSYn903ijiuPG0445olnW5g
+	JIFSfezah1l+WXdKJBMpTZRJ2yVPwsA8gNXReao6AUpge+xMDrRWR9D1NJK8eD9GT13QrnpTobL
+	iqOKalGG67X1DFjRBNUYnijV7fNANz6ZTUFsYSb16SkyU/7ZAl2Bjabt5agRlNXL+nOEd6l5ft9
+	bdx9a7JIyTIaxwBHkGtV72hu/a7Ez+ayBGwC9n8elnb0wDnPc9DySBn8titCxxX3T7XcFJwzbFf
+	FPz+RurAACa24yqLkXnshH5z8jei/DkWkcrEFcek/zPQc3GMLCHeKrd6PKsOTPVfw6VlDvg7JzX
+	zAjZLv8ZYrCNAkOf06rlCxBDnHg8qO5EvJkSb9G/MFg4rwERF/nZ9xcJ+O8BYlM7KFzuRqUBxWO
+	Z3BHF4iOZmOU21YQxaTImTJJp6r8nYUCaccWP5lYEMpCh9/8=
+X-Received: by 2002:a17:903:1a26:b0:2e9:4e83:1969 with SMTP id d9443c01a7336-2edd7b394cbmr42229315ad.34.1794464692369;
+        Wed, 11 Nov 2026 22:24:52 -0800 (PST)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2edb6a3e61bsm26979965ad.11.2026.11.11.22.24.48
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 11 Nov 2026 22:24:51 -0800 (PST)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v30 00/17] ALSA: virtio: preserve PCM progress
+Date: Thu, 12 Nov 2026 15:24:29 +0900
+Message-ID: <20261112062446.159-1-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -105,34 +101,98 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261011222234.2098904-1-mhun512@gmail.com> <179406798190.3424803.7064068903462702662.b4-review@b4>
-In-Reply-To: <179406798190.3424803.7064068903462702662.b4-review@b4>
-From: Myeonghun Pak <mhun512@gmail.com>
-Date: Thu, 12 Nov 2026 01:20:36 -0500
-X-Gm-Features: AclHuK8iacxlbWVlhHrmZf4nXYKveYZX5zn-UdiKOJPEhizJAmxWAuRAURZ4Y8g
-Message-ID: <CAGEsz8FAOrkf7AzjfJS+ZXnU5eZdTbSjYtVtceBimH=RyMz7YQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] ASoC: mediatek: fix AFE IRQ registration and removal ordering
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, Ijae Kim <ae878000@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Thanks. I've rebased the series onto your for-next branch and resent
-it as v2 in a new thread.
+This v30 revision resends v29 with no code changes. Patch 17 clarifies
+the commit description and moves qualification limits to this cover
+letter, following the review. The other patch messages and code are
+unchanged.
 
-2026=EB=85=84 11=EC=9B=94 7=EC=9D=BC (=ED=86=A0) =EC=98=A4=EC=A0=84 11:13, =
-Mark Brown <broonie@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> > The AFE IRQ handlers access regmap and PCM state. Register each handler
-> > after its inputs exist and release it before the final remove callback
-> > or managed component teardown releases those inputs. The mt8186 patch
-> > also balances IRQ wake settings on probe failure and removal.
->
-> This doesn't apply against current code, please check and resend.
->
-> --
-> Mark Brown <broonie@kernel.org>
+Previous version:
+
+https://lore.kernel.org/linux-sound/20261112053446.73504-1-mynameisjune111@gmail.com/T/
+
+This resends v28 in full using mynameisjune111@gmail.com for every
+message. There are no code or patch-description changes from v28; the
+existing human DCO trailers are retained.
+
+The v28 documentation patch 14 was rejected by Gmail. Sending that
+message through my Workspace account made it available on Lore, but
+Sashiko grouped it separately from the other sixteen patches. This
+revision sends the complete series with one From address.
+
+Previous version:
+
+https://lore.kernel.org/linux-sound/20261112043516.37010-1-mynameisjune111@gmail.com/T/
+
+The following describes the changes and validation already included in
+v28.
+
+This replaces v27 in full. Apply all seventeen patches directly to base
+commit a4311e9447bbb219044db38897f95be112f46a8a. The previous public
+version is at:
+
+https://lore.kernel.org/linux-sound/20261112004704.49758-1-mynameisjune111@gmail.com/T/
+
+Changes since v27 are confined to patch 12. The other patch diffs are
+unchanged.
+
+I reproduced both capture findings from the Sashiko review. If request
+N+1 completed before N, RESET could leave N+1's already completed
+payload eligible for later delivery. After an external XRUN, rejecting N
+also left N+1 buffered until generation cleanup. PREPARE cleared that
+state in the control test, so this does not establish a permanent
+recovery failure.
+
+RESET now marks valid completed payloads present at the pointer
+observation as discarded while retaining their ordered placeholders.
+This lets the commit sequence advance when older requests return.
+Transport-owned requests and data arriving after the observation remain
+eligible to commit. Repeated RESET preserves the discard, and invalid
+response status still reports XRUN. Rejected completions also release
+returned buffered entries without resetting the sequence of requests
+still owned by the transport.
+
+The failed native PAUSE path previously reopened the queue with the STOP
+quiet boundary and capture_stopping flag still set. A running stream
+could then accept an empty completion without the normal XRUN check.
+Rollback now restores the prior flags under the substream lock and
+checks the reset epoch before reopening admission.
+
+ARM64 QEMU tests use the actual driver functions with test-only request
+ordering and STOP allocation-failure injection. The v27 baseline fails
+eight affected assertions; the candidate passes all thirteen assertions,
+including normal reordering, post-observation delivery, invalid status,
+and STOP empty-tail controls. The running-observation test invokes the
+actual pointer-observation helper. Full RUNNING RESET ioctls are covered
+separately by the production regression.
+
+The production driver module was built separately without those hooks.
+Its ARM64 W=1 build and eight QEMU regression runs passed with the
+matching v27 KASAN/lockdep kernel and core modules. These cover RW/MMAP
+capture, PREPARED RESET with DRAIN/reopen, RUNNING RESET, and playback
+PAUSE/RELEASE, HWSYNC/poll, DROP and reopen. Capture includes 70-second
+RW and resumed MMAP phases. The independent backend-sequence oracle
+matched 7,104,000 frames across seven capture phases. No KASAN or
+lockdep diagnostic appeared.
+
+The kernel image and core were reused unchanged; the modified driver was
+rebuilt. Fresh KCSAN and physical VZ tests were not run for this
+revision. The earlier v27 KCSAN and Scarlett results describe that
+earlier build. The controlled tests use synthetic requests and a known
+STOP failure before submission; they do not qualify transport
+timeout/uncertainty or demonstrate out-of-order completions on physical
+hardware. Intermediate patch stages are application-checked; the fresh
+runtime tests cover the final candidate.
+
+Review addressed:
+
+https://lore.kernel.org/linux-sound/sashiko-outbox-210240@kernel.org/
+
+Playback validation limits: The one-period reduction in the TX queue
+has not been qualified for worst-case scheduling tolerance. The tree
+through the preceding playback-completion change was inspected but not
+run separately. The playback gate tests used ARM64 QEMU; they did not
+include KCSAN or physical audio. They do not qualify the full series.
+
+base-commit: a4311e9447bbb219044db38897f95be112f46a8a
