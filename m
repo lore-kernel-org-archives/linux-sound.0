@@ -1,108 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794502554;
-	b=W+/FN/ls0XnXMYvMQa3WvdngXsObZPmlzrIHh3KxYdFYBI+03Pr8f0VYbFGj/GBockuC
-	 BPEx/RJMcstuTl+m6MJ9s736PDNC/hUI2rWJU6AQg83rU9jrYm4c6FoFzL+i2NfpdZisB
-	 0MfkDQn/ZFjbilMT+gUP+TIpYc0KQ7MvwmbsTNiYfE61G6FO/ckM9LqShInRaOP7yrCua
-	 mmcb+qxvSFhyIODXY01otWW6zmOUAbRxekXt4EIidjHY392dPV4N14OI5J93GzFAJY6fG
-	 rZSjjBEBwteCm0SBHJjiItu1UrnP/QZkigtRNoM8O1e47n2FjPBIlUGpfqlHmCCr5ng==
+	t=1794504427;
+	b=pdnYlF1PTSb07ZI94E7KCMdzabn6wVUS5BshTngGTwUp91r86WirVT46D1QDUjc0N4vE
+	 Xzo4t0iM/x3IB1IjEYHvjCXe+baPdHi68CjXYdtejlCtU4IcllmTWHYv0BFG2/WRxd586
+	 13ewVJPHtkhMifUCk5bVIz5rr9Y3OiXhfv2AQSopwKe3INgeg/GQLiigAi+eciR4tTDwQ
+	 ICjef+ZCwjnnzhFdVP7WV+CYkuKtahNiznt0QUXVOo2vsvTHhvpZJwN6x6N0SRV68xcrv
+	 LFol2f3qmPm8hzKvSshnvNXcObRQKYtoqVx/3NlNsIIU5uK3dUSWtS6VrMPqB32XQhA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794502554;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=nvBQSyyOqSRXv7/f5yKicoOyU+Ht+VLIPusGOHMy888=;
-	b=sTtQjSS2sMEBavD/DDQOheUX+3QqthuJwOX4XGygYAYzTbWtoZX1DrNbI41Zy2vb7ob/
-	 JJWxVbN2FtQ9vleHDRddmutQ338y6CSt1YH4ClUveIqZsTaumrlK0qZlfWInimSy1Bplp
-	 R2nzhR9h3d9RQ2TAD9lfW0fdx7G6wRxWyNttucETk1YrYnIKSRIPGrYCRxotTWjK3mHOF
-	 SNzkz9sjYooDqY6D/aPR51NmkYKiMsdEOjY61ZAYYTc8vJmBwfPIVIY2q1CEN1qpkz1dB
-	 VkDMFefjAF7o4M94gMJxmMN82Sq62dEmbk3OAuREskD0kX0jetXY4F9ggzSE4tx8b4g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794504427;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=Glvz53zLbLbW8bLhJ7jWkgAZpG3+a8zrKk+EYR0fOlo=;
+	b=yQIgA2vF1BTXflOGKgO5SrCFhgSXk15wTIjQcOPnbQcioZJymuZO9PlhfUZQSiMlbAfw
+	 B7oyvd8tJKV4GZDGyOU377tJarUAn0j9RQe0tWHkkqW5HwjbWXPSc+F+LSFW6RFCRVOS4
+	 1LHlBbb5iBpTDRG2mAYc0TcRJIdsEsihS1hyYIGLLKjcuVPqxXK0KH/JL/tBG3+Oka6nM
+	 9fy37de1KDrJg/yh9Lqv2e4HLFADcYCR/pq8oD1rGf4Qq3ixTZNDmFVR9NpmTaH7O/kaq
+	 fW6g1LlHrGQ7uQKdXCE5JNBWQ/zm0k5h938JHB88DtqC+HYpZpjH2eT5kC7bEZ8ccvg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=PN4vYuwE;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="VjABWD//";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="Iam7/2Is";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tBNJVEzm;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hGVxhXwB;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4952D606A323
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 16:55:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4952D606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C96606A32D;
+	Thu, 12 Nov 2026 17:27:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=PN4vYuwE;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=VjABWD//;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Iam7/2Is;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tBNJVEzm
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E76BD1F7C6;
-	Thu, 12 Nov 2026 16:55:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794502552; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nvBQSyyOqSRXv7/f5yKicoOyU+Ht+VLIPusGOHMy888=;
-	b=PN4vYuwEtkCY2mMQWnra+XWXc954Ac2EvCiGHsflxHMXAiWzmDoo8RJyET6C8Xr24CFjwW
-	l40y1nTwxMLZ7w6DNEV8Jg71QpkoVoP0SZPGBbH8WIBgzFdCTnzO6D3CBHwSg5Y0SPLMK8
-	TsFs6aGlmG8uCJPNy4Qfd2E8IFEc52E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794502552;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nvBQSyyOqSRXv7/f5yKicoOyU+Ht+VLIPusGOHMy888=;
-	b=VjABWD//9bW1V+OJkuag76bVTsXXAunmnd47X7HnKOMqApwGEz1a9t577ATRrXVqGiOkOA
-	bSaPv5+fdJJfXbBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Iam7/2Is";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tBNJVEzm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794502551; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nvBQSyyOqSRXv7/f5yKicoOyU+Ht+VLIPusGOHMy888=;
-	b=Iam7/2Is4uafEgnKkd7g0GqshjDTGFyOzIpQNTFy8NxwxvQzjlZk1bzPZRoV2JHPnqlKfY
-	lJFuWfwet4aQh3zyfFa3XNHgP2oWHvHDE8KhWBD9ERxtP2+yHaj7FdHJQBstuSsxGV+SdU
-	N1AGqWKe5fG9wEe9xS+ZS6uZnnZ25V0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794502551;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nvBQSyyOqSRXv7/f5yKicoOyU+Ht+VLIPusGOHMy888=;
-	b=tBNJVEzmkWCD8qNpwRwHXsOdBmJpqJrXpiEBHExETb9CDDojaxqRWS7l+LPXEqg4OyIrSO
-	EeQwgqg374msJBAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A3A3C13432;
-	Thu, 12 Nov 2026 16:55:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id phScHpfv9WrDXAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 12 Nov 2026 16:55:51 +0000
-Date: Thu, 12 Nov 2026 17:55:51 +0100
-Message-ID: <87se16q99k.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: ferringb@gmail.com
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/2] Subject: [PATCH 0/2] ALSA: usb-audio: Mixer quirks for ASRock X870E Taichi
-In-Reply-To: <20261108-alc4082-taichi-v1-0-942558088157@gmail.com>
-References: <20261108-alc4082-taichi-v1-0-942558088157@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hGVxhXwB
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 741471F000C6;
+	Thu, 12 Nov 2026 17:27:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794504426;
+	bh=Glvz53zLbLbW8bLhJ7jWkgAZpG3+a8zrKk+EYR0fOlo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hGVxhXwB/EN0+UEepRhMiIUwZF3NTeqJdbcF2aWDAYIUv/z44L/8ZpvnuXDYd+RFc
+	 4GwHY1ml311TymQ3n5RLQfQYpU7LnGUQcm9HOjkwUNjzSHP+jSlZ0aDvxUDUj6IwgO
+	 LaNnjasMf8r60oqCditXg23z+ImYJqCpf871ryVTghPUjgaKW6favdiUStEeWgnB5c
+	 AAu6YMgq/oYnWOoZHEdAXDUQQPxREuRM+LMMhnFXtDLE4+UPox/aRkD22cJsTIRSgz
+	 XdsVcZBy/qDo17bX2NxgCxqcW/ovpPmDUo6SIdDDfapLI7DuTKQAthNx1FWK1jZe9Y
+	 AZXuDSWZPcvOA==
+Date: Thu, 12 Nov 2026 09:27:06 -0800
+From: Kees Cook <kees@kernel.org>
+To: Emanuele Ghidoli <ghidoliemanuele@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>, Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Emanuele Ghidoli <emanuele.ghidoli@toradex.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org, wenst@chromium.org,
+	angelogioacchino.delregno@collabora.com
+Subject: Re: [PATCH] ASoC: soc-core: reset rtd->num_components after
+ allocation
+Message-ID: <202611120924.2058DD59@keescook>
+References: <20261109102536.357134-1-ghidoliemanuele@gmail.com>
+ <87bj7yw9e2.wl-tiwai@suse.de>
+ <87FF4A7B-853C-466A-AB01-2D9137DEE6CC@kernel.org>
+ <EAAF07EF-6B11-4EA5-A5AF-A7787CA2F196@kernel.org>
+ <a64e2fa1-6670-4018-80b8-b6856709ad5f@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -111,84 +66,53 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: E76BD1F7C6
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.51
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a64e2fa1-6670-4018-80b8-b6856709ad5f@gmail.com>
 
-On Sun, 08 Nov 2026 19:58:36 +0100,
-Brian Harring via B4 Relay wrote:
+On Wed, Nov 11, 2026 at 11:28:52AM +0100, Emanuele Ghidoli wrote:
 > 
-> The ASRock X870E Taichi / Taichi Lite onboard audio (26ce:0a0b, Realtek
-> ALC4082) has its headphone volume control misassigned to the rear
-> output, resulting in the rear output being full volume and only
-> mutable, and the headphones falling back to software control.
 > 
-> Patch 1 uses the existing ALC4080 map to correct the assignment. This is
-> a fix: the headphones get their actual hardware control, and the rear
-> output falls back to software.
+> On 11/11/26 06:59, Kees Cook wrote:
+> > 
+> > 
+> > On November 10, 2026 9:50:08 PM PST, Kees Cook <kees@kernel.org> wrote:
+> > 
+> > For example, what keeps snd_soc_rtd_add_component() from overflowing
+> > that array? If you want to protect the array, add another member,
+> > say max_component, and use that for the counter, which gets set at
+> > allocation time and protects the array from indexing beyond the actual
+> > allocation size.
 > 
-> Patch 2 adds a hardware volume control for the rear output through the
-> ESS ES9219 DAC behind it.
+> Hello Kees,
 > 
-> Validation was against alsa-ucm-conf 1.2.16 and a 7.3.3 kernel. The
-> resultant changes to the PipeWire sinks are below:
-> 
-> 7.3.3:
->   SPDIF       HARDWARE HW_MUTE_CTRL DECIBEL_VOLUME LATENCY
->   Speaker     HARDWARE HW_MUTE_CTRL HW_VOLUME_CTRL DECIBEL_VOLUME LATENCY
->   Headphones  HARDWARE DECIBEL_VOLUME LATENCY
-> 
-> with remap:
->   SPDIF       HARDWARE HW_MUTE_CTRL DECIBEL_VOLUME LATENCY
->   Speaker     HARDWARE HW_MUTE_CTRL DECIBEL_VOLUME LATENCY
->   Headphones  HARDWARE HW_MUTE_CTRL HW_VOLUME_CTRL DECIBEL_VOLUME LATENCY
-> 
-> with remap + ES9219:
->   SPDIF       HARDWARE HW_MUTE_CTRL DECIBEL_VOLUME LATENCY
->   Speaker     HARDWARE HW_MUTE_CTRL HW_VOLUME_CTRL DECIBEL_VOLUME LATENCY
->   Headphones  HARDWARE HW_MUTE_CTRL HW_VOLUME_CTRL DECIBEL_VOLUME LATENCY
-> 
-> Signed-off-by: Brian Harring <ferringb@gmail.com>
-> ---
-> Brian Harring (2):
->       ALSA: usb-audio: Use ALC4080 mixer map for ASRock X870E Taichi
->       ALSA: usb-audio: Add ES9219 speaker volume for ASRock X870E Taichi
+> Mark has already applied the fix to for-7.4 (d00ba321499c). I agree that
+> your proposal is far better, but the applied patch was meant as the
+> minimal change to fix the regression.
 
-There have been a couple of issues reported by Sashiko.
-Could you take a look?
+Yes, totally correct. :) I was just looking at it from a root-cause
+perspective. Each time we hit issues with counted_by I try to understand
+what the problem was, since the goal is to make it "easy to use". :P
 
+> On your question about what keeps snd_soc_rtd_add_component() from
+> overflowing the array: nothing, and it already seems possible today.
+> 
+> From an LLM-assisted review of the code: the platform loop in
+> snd_soc_add_pcm_runtime() adds every component that matches the platform
+> dai_link_component, while components[] has one entry per
+> platform. On mt8173, for example, the AFE registers three components on the
+> same device and the front-end links use it as platform, so four components go
+> into three entries. The extra store has gone unnoticed in the slab slack, but
+> with max_components as the counter UBSAN_BOUNDS would report it.
+> 
+> I can't work on a follow-up. If someone picks it up, components[] probably
+> needs to be sized by the matching components before the counter is switched to
+> max_components.
 
-thanks,
+Yeah, I think we need some better documentation about best practices for
+counted_by, as there is clearly 2 very distinct cases it's getting
+applied to, and the "usage count" case is the most fragile.
 
-Takashi
+-- 
+Kees Cook
