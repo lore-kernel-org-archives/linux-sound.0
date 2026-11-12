@@ -1,99 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794460736;
-	b=fCiLHlmET1+WT/hyeGWdd0v41aezUargs4B2EaTkLmDATqypGuMCuHA6iwFwwhdCRmSk
-	 K3XgDO6X7JnC7HhBR22Oy58Af9+WncavRF42aGJmSy+QatrgrXSTdYlGsoSpjuOq9V8eG
-	 AlbRSG9kNGIe53A+7XvuARg+80rKR6GfS3urDrQ8cfFCfpy1+5rr+Q7v3qpihwqMqj4u2
-	 5hU4f6cAnfAo+SrQaSDMKzY/LP8+ZyeWyQVgV/uJriW/DDXmfLc7HOa/A6zK83K5P88Kl
-	 KVMDDJdOgVmYjrL6k5nhr2I6b2ga0OG0DzI3yBjmRyc68zbi/NfyXPd1RPBR/fev1oQ==
+	t=1794461693;
+	b=lOey60KZrIxNoZfSke6dSSYZfqLUUaJUFBk4GLGFituG3Tt4hRsYjkwZEx3wS1kchJ3s
+	 r71aOoShJGtI212qqo07apk+TxsDPgTZpDe4oLBe2GpmpIcdxxLoYY9NnYzSNfZfWAZnG
+	 3oLx8ppL2XswfPZzZVxB/EDZjQdHc9lxEYdvf71PPZe9kMlZifsaHdxymcQ3aCetJVxMH
+	 rAy9wygGLdWkdxOT7OSe49fTdO44lE8eFXEHa1vbRy6LsGTB8/d67aUzz+9zjRB0+Sn3j
+	 EVHsJPJmeY0YJBm2uio3kA5JYoUgsXZaqE/nFVmPnVER74N/aTBd1s2R97IE2GgfedQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794460736;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794461693;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Reply-To:To:Cc:
-	 Subject:Date:Message-ID:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=PeZmCzba2M5Jt4hjT2xigzRftMQa1cn3KQXiYi9CbsM=;
-	b=3hyaAMY4J1nblmj/sduioRhG6yItiWzG77/D7IPtGkOtIRr8z2r3Fp+MHtpcvcCiR4jI
-	 B5ik0TJJGfg9YWLAWUVmjXFbOug5gK8kq+RjxTkiiNH/dB1w4cJfaglv7JqCDL9qbpOQ7
-	 +PriAv/MiXI4SA4C6CnY5nxrQTvd2dmjr7ITfhDQW+cdkdYf3jJZwmE9pusumkEBq5g8N
-	 8RxnGJw6dCq/GHNZk3nOUj5/qTntDZz2Ig+4V5O7MD5oEWL7MfRuIvmNOkM2/9s4ZSpta
-	 mxKVNHl+uWTRk/rp6v5SuZBCyMYe7UDAYd12Kp/5KyboTbrznOjv2wexyqew4G7+msg==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=ZBzb0jWFuu4WC1vXCF6cW6GE7gHM+sCU4Tmo420Ip/c=;
+	b=u+N4ph/FA+LunTNsjd7TOn9Pb5s6wlPD0Os38M4AStGzGuZXgqYamrphAWzlsvCvKm4o
+	 5AvIv4yNXoV83EjEbHBdsL9ePSxz/nBk8Kwpe5qY8UxXjZsM+k/YEIXh0Pt0D908kt8l7
+	 QDTzEZBSBn4FcVmBPDo3g678v2l/G15KWZegmxntAjZ/DHcvwElNnvUGgMwAouLUWNLxm
+	 eb+O4oZR6X2OICd1tRxsT4QARn1hNCLrlgL34Bv1hgADTPL/A8JJPHxCDvstqKXXHwdjs
+	 e+p5Nfy8zs9OwtTcbeD/DQCkn1MPj2+VIf/wS/Gla8Uql/xZViIqiGYM8UAFFl9fxJw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=deeply.co.kr;
-	spf=pass smtp.mailfrom=deeply.co.kr;
-	dkim=pass header.d=deeply-co-kr.20260707.gappssmtp.com header.i=@deeply-co-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="c0u/NX8S";
-	arc=none smtp.remote-ip=74.125.82.182
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EKLyEyvl;
+	arc=none smtp.remote-ip=74.125.82.50
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A47B606A332
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 05:18:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A47B606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deeply.co.kr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deeply.co.kr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CAFD606A31C
+	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 05:34:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1CAFD606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=deeply-co-kr.20260707.gappssmtp.com header.i=@deeply-co-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=c0u/NX8S
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-3645f0f3fcdso8225637eec.0
-        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 21:18:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EKLyEyvl
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-15ea896ddc8so5941731c88.0
+        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 21:34:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=deeply-co-kr.20260707.gappssmtp.com; s=20260707; t=1794460734; x=1795065534; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:reply-to:from:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=PeZmCzba2M5Jt4hjT2xigzRftMQa1cn3KQXiYi9CbsM=;
-        b=c0u/NX8SiRs8e1+N3Ad4VnS3ir7oMnQ2hHdX/cFoPNmEt79EEYN2ctR4xlJPe3O/qu
-         SVxqaVrxSKxOq2Dm4GmGG0hKbcri8SzGDmN1TMiPTFjFimgPeJ34b578EXgSWxIMLUKQ
-         GT6yLwCEkOJvg1D2rWyGuUYO8fhvPSUwQYGVlKDdYqJUyoXk0t4xhxeh383vW21dEDtZ
-         DBaSYlbMrJ9S7miRkyBelEynVNR90OjXXKEw8jwOmB35Z+ctVC0AUBU7VEvUTg17AbLn
-         1NhUy54sDw9QbrEjm9o1AuYSbEYN+wniDcZqDfcyEvRM28qcMT9xpnLgZlgweV/g4Tlr
-         md3g==
+        d=gmail.com; s=20260707; t=1794461692; x=1795066492; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZBzb0jWFuu4WC1vXCF6cW6GE7gHM+sCU4Tmo420Ip/c=;
+        b=EKLyEyvlzMKSq6OEIIQREfxshLeZnru40IjQZm2aIj1zYNJZARALaU5lfOvdaOuQ/+
+         s3D4BNuqsfUo7HUW1p/H93MshLd+ofXu/Onr/ckGkw/DkFWziumdVNwFrf/Mwyp9B871
+         vXdGkZVtI936EzjXpH9JPe3TLoz+PioUyyA0kNdfhK9I+9vrSTbPPI1OeJQR6yIYrmbR
+         Q/Kut/BV0+GvsD9JHH/7O6UeGnR484jCWrKwFxGK8zYz5Uc4fq5RNkDuQ7a39uHSukh7
+         5PQ6kTV0j+VGp5VFkErFaAGEKAq4jul6YcthGobHE11aDzOq/zxk1EP8TjrCddivdi8x
+         fHDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794460734; x=1795065534;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:reply-to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PeZmCzba2M5Jt4hjT2xigzRftMQa1cn3KQXiYi9CbsM=;
-        b=b7kIsIyA49coYdPKiKEFitPAXHog96ZWPDbJrCD8YWrt2KonlgvbnX1azni40ujbrX
-         aVDj6FwwbmtK2xQkQUpLcX0Zi3xX1rlbfNWVILYwLaMKnRM+1v1j6ep3n9mGITlwM3d9
-         a4bC5uAPtr8JtXcH7mibwDq5lp6TRlaymvpolaWmjWQNsx21wNUBn1vndGDpzaN6i0j9
-         IqsyQ4+cjXfMxQhv/tetx8tIuzEhrDNIe2G77tQM+0cyE6wSfgEoi2bWiYtmGVpGKOTy
-         dDXazMeUs3TijDiR/KS+dF0Z8zJ1rG55aW+lzIFNykmW+hzkbPUKjXfeelcZyawyroA6
-         m4Og==
-X-Gm-Message-State: APuU4Z+DzZ7HJlSyQKnrOal6oY50EPG48KvTMTYLjOo2XStgrs2VSaOm
-	82LUl3VXDCT9c1Pqe2lCFqupqcvouIkjjBsaMqfzf/xdryvzmLkopSNPFwm7qV4g2HCX/dk5ZG5
-	azFvuoC7CxA==
-X-Gm-Gg: AYBFou21HSN/dtgBeZTdswEyDXkBZdRGuS+WpawQlO05o7BajWQNuSBLcCZtE/X90+y
-	c2sx1sFU3x+/8TaWi5NQcrOeoEpN6WZC/UPTqGg+cncJ1rcejDXNz1foI846pAvuHMzFiCMyMtk
-	4ssVuVA5wLvxZlSCiyX9bzymIyH4OmImGu+PN1WsS+IFuUia82YnpW2Rtn/2BoBY/PZR2eSa9Id
-	XEoyXK8Pr5DEXlwTTjPf6PVU2lGYGnT3Mt/+bEptyg74HR6Dtc/HBTazhDZKrgfhCRv0RdO+Ltq
-	afO2vFxGp40UIsf7phFEcpT+mjbloCs/AkoiAxXDbXfazZi0FpmN69AUj8Wfs6xKe4ACKiaX9r8
-	PnLJj/oDwCpNLmzLycpv+NuwBKT9QmWLrWtqrNOh54ktyvHyu7FiXFKR360Cutxd7XCi5gDZayE
-	5bEKzz5BOuJAex1C5WmJWfyGzAcoJwI+7LHlAt8AuuI7L+BN06S8sWGW+nx9+13GbBt1Zeq1ipX
-	18FmHmUWpk6HgneJ23IJgBe7TjAoLTfKcFIdQarPLBJihG39wp0so9VivOx1NWzlFD3TMZEgYK8
-	txwjjfB6VLpr0UckLaJrfk8S3slVQ8aChaL+dRpP2UKQHIhKsI1fJ+2kDZIgBOUEGrewFaLm74H
-	Op6cINNukSXi/Hx6tw8h5WR1b4Q1tguM8FEEyEH+alrspIR4=
-X-Received: by 2002:a05:701a:844d:20b0:163:c5eb:d42f with SMTP id a92af1059eb24-1b3c024ad18mr4159915c88.5.1794460733817;
-        Wed, 11 Nov 2026 21:18:53 -0800 (PST)
-Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b4b90csm19764527c88.14.2026.11.11.21.18.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 21:18:52 -0800 (PST)
-From: Joonho Lee <joon@deeply.co.kr>
-Reply-To: Joonho Lee <mynameisjune111@gmail.com>
+        d=1e100.net; s=20260707; t=1794461692; x=1795066492;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZBzb0jWFuu4WC1vXCF6cW6GE7gHM+sCU4Tmo420Ip/c=;
+        b=m5IhFcEs0bAArJckxEMQfSGxeeoPysZHa6YYB1vgSpa2wcWeM1P5GS92SV7nfWjbEy
+         TnRdFa1ounSZiSvwtqoF00PnSjnlebb0ROYkOXtkEt9cc1PXa84Q1GF3KpolUmJFqV6E
+         q8YWCzj8k2eMEhU+xaauzxCC6PpT4Vm21+UKVX1XjHUUbUXSAUp/8d2MdWjVRrt6HL4A
+         IUgi2WWrRZKrBnCYJ4YHyw+e1ZTsw54uN6bYbcT0yAX9V3Pf/nmLEQmVGEAOJbV4RDjv
+         oEI/WUaxVir36HhF03ZrATk8OTiQNTzTeuVzU50kpjExcUxus0jlisrkjhLp4kO4VN3n
+         Q+Ow==
+X-Gm-Message-State: APuU4Z/moovKbB4aBux7ulkE/3ejX+4bjNKhY5fBYs6lTApCCBjHkO+m
+	bG6Wor5HJw367GDSYvLl5RRMwyRg16sP+MKFLfTaicFVqBh0aUTeNzWL/4A40A==
+X-Gm-Gg: AYBFou0I6TspxF8n0nyS6NykvoFQervY2QB47PGezgYbqtExWbwpcqSNRpo164nlRBw
+	8op1UBWq6XKmKnS37YTGuZFl30MkJ1xGZoQZETe5HPzbcILjjOK+cnJCxJKX/6KlPI+e6tKZT2L
+	GdSDtGjbngtzXpe8GpsTd7nP5tuYURgz50gMhPOqsrhuwETIkd7yDbOqCo4KOGdKcHOR/ip+qbO
+	6qQGlHY42RQcIZ8toJjgJfUAjISV+QD8hcoveNFIuf3KwX4vOcH0cSJC4Yp+ukOaNlm5e7GPkWU
+	Iar63XExbnTf9O74tHSvWDKZba/Aa7blGFUXbsoHzFy4y8bzIff1cujYWFVtGFsFSaDpdVvA85a
+	RGlcvW5cFZANFFPBQs4DCU41mc2D/l/G/TM3KfxQo2uZigaPkErU/3wLqTx+kyKY63dc3yIvMds
+	E4nOh/BchvgE0AsTDh+9CzyNi8N3UCo5FjC69oCRA9IPL0qiM2TfBsX2hAzRqd2WrekFb2s6e2N
+	y226IUNGd+TIn51Dmb7HAk5jJ3SnxraRbcYhPtNrnj4w58C7igAEp9OODf9X8VmCz8qsTH6yotS
+	Vj/KctaG8b8H4TqVW73nNPpi72NdYZG2rS5XWeA2VLsjIv8KEV5prZ5l/YLFhy53ereNPrZPBki
+	iWmhf2K3WwXXF88NIU3KJjiLiR1iA55YxO6KXn1Dq6cENgYC/RgWCiGl2h+Er1/oKmFNV
+X-Received: by 2002:a05:7022:b0c5:b0:1a7:7160:ffc8 with SMTP id a92af1059eb24-1b3c27a7bc3mr2652841c88.10.1794461692054;
+        Wed, 11 Nov 2026 21:34:52 -0800 (PST)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5890c0esm21953240c88.1.2026.11.11.21.34.48
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 11 Nov 2026 21:34:51 -0800 (PST)
+From: Joonho Lee <mynameisjune111@gmail.com>
 To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.com, perex@perex.cz, anton.yakovlev@opensynergy.com,
- mst@redhat.com, virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
- corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- linux-doc@vger.kernel.org, mynameisjune111@gmail.com
-Subject: [PATCH v28 14/17] docs: describe virtio-sound capture options
-Date: Thu, 12 Nov 2026 05:18:44 -0000
-Message-ID: <20261112043516.37010-15-mynameisjune111@gmail.com>
-In-Reply-To: <20261112043516.37010-1-mynameisjune111@gmail.com>
-References: <20261112043516.37010-1-mynameisjune111@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v29 00/17] ALSA: virtio: preserve PCM progress
+Date: Thu, 12 Nov 2026 14:34:29 +0900
+Message-ID: <20261112053446.73504-1-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -103,88 +101,83 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Joonho Lee <mynameisjune111@gmail.com>
+This resends v28 in full using mynameisjune111@gmail.com for every
+message. There are no code or patch-description changes from v28; the
+existing human DCO trailers are retained.
 
-Document request-owned capture in the ALSA configuration guide. Describe
-`capture_packed_status` as default-off, reading a packed trailer after
-returned data while the fixed status scatterlist remains the default.
-Describe default-off `capture_pause_restart`: pause uses STOP and
-RELEASE, then resume uses PREPARE and START; disabled mode uses STOP and
-START while retaining the prepared stream.
+The v28 documentation patch 14 was rejected by Gmail. Sending that
+message through my Workspace account made it available on Lore, but
+Sashiko grouped it separately from the other sixteen patches. This
+revision sends the complete series with one From address.
 
-Note that on MMU systems request buffers are vmalloc-backed and
-page-rounded individually. They remain allocated from hw_params through
-hw_free, and capture data is copied into the ALSA ring.
+Previous version:
 
-Assisted-by: LLM
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
+https://lore.kernel.org/linux-sound/20261112043516.37010-1-mynameisjune111@gmail.com/T/
 
----
-Documentation/admin-guide/kernel-parameters.txt |   14 +++++++++++++
- Documentation/sound/alsa-configuration.rst      |   25 +++++++++++++++++++++=
-++
- 2 files changed, 39 insertions(+)
+The following describes the changes and validation already included in
+v28.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/=
-admin-guide/kernel-parameters.txt
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -8344,6 +8344,20 @@
-=20
- 			Can be used multiple times for multiple devices.
-=20
-+	virtio_snd.capture_packed_status=3D [HW,ALSA]
-+			Read an explicitly enabled packed status trailer after
-+			the returned capture data. The fixed status scatterlist is
-+			used by default.
-+			Format: <bool>
-+			Default: false.
-+
-+	virtio_snd.capture_pause_restart=3D [HW,ALSA]
-+			Stop and release the stream when pausing capture. On
-+			resume, send PREPARE and START. If disabled, pause uses
-+			STOP and START while retaining the prepared stream.
-+			Format: <bool>
-+			Default: false.
-+
- 	vga=3D		[BOOT,X86-32] Select a particular video mode
- 			See Documentation/arch/x86/boot.rst and
- 			Documentation/admin-guide/svga.rst.
-diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound=
-/alsa-configuration.rst
---- a/Documentation/sound/alsa-configuration.rst
-+++ b/Documentation/sound/alsa-configuration.rst
-@@ -2537,6 +2537,31 @@
-=20
- This module supports multiple cards.
-=20
-+Module virtio-snd
-+-----------------
-+
-+Virtio-sound capture receives data into a separate request buffer for each
-+PCM period. The driver validates the responses and appends frame-aligned aud=
-io
-+to the ALSA ring in request order. Valid short responses are retained. Empty
-+responses are accepted only during bounded startup or for requests already in
-+flight at STOP or PAUSE.
-+
-+capture_packed_status
-+    Read an explicitly enabled packed status trailer after returned capture
-+    data. The fixed status scatterlist is used by default.
-+    (default =3D false)
-+
-+capture_pause_restart
-+    Stop and release capture on pause. Resume with PREPARE and START. When
-+    disabled, pause uses STOP and START while retaining the prepared stream.
-+    (default =3D false)
-+
-+On MMU systems, the request buffers are vmalloc-backed and page-rounded
-+individually. Allocator rounding can make total additional memory exceed the
-+ALSA ring size, especially with small periods. The request buffers remain
-+allocated from hw_params until hw_free.
-+Captured audio is copied from each request buffer into the ALSA ring.
-+
- Module snd-virtuoso
- -------------------
-=20
+This replaces v27 in full. Apply all seventeen patches directly to base
+commit a4311e9447bbb219044db38897f95be112f46a8a. The previous public
+version is at:
+
+https://lore.kernel.org/linux-sound/20261112004704.49758-1-mynameisjune111@gmail.com/T/
+
+Changes since v27 are confined to patch 12. The other patch diffs are
+unchanged.
+
+I reproduced both capture findings from the Sashiko review. If request
+N+1 completed before N, RESET could leave N+1's already completed
+payload eligible for later delivery. After an external XRUN, rejecting N
+also left N+1 buffered until generation cleanup. PREPARE cleared that
+state in the control test, so this does not establish a permanent
+recovery failure.
+
+RESET now marks valid completed payloads present at the pointer
+observation as discarded while retaining their ordered placeholders.
+This lets the commit sequence advance when older requests return.
+Transport-owned requests and data arriving after the observation remain
+eligible to commit. Repeated RESET preserves the discard, and invalid
+response status still reports XRUN. Rejected completions also release
+returned buffered entries without resetting the sequence of requests
+still owned by the transport.
+
+The failed native PAUSE path previously reopened the queue with the STOP
+quiet boundary and capture_stopping flag still set. A running stream
+could then accept an empty completion without the normal XRUN check.
+Rollback now restores the prior flags under the substream lock and
+checks the reset epoch before reopening admission.
+
+ARM64 QEMU tests use the actual driver functions with test-only request
+ordering and STOP allocation-failure injection. The v27 baseline fails
+eight affected assertions; the candidate passes all thirteen assertions,
+including normal reordering, post-observation delivery, invalid status,
+and STOP empty-tail controls. The running-observation test invokes the
+actual pointer-observation helper. Full RUNNING RESET ioctls are covered
+separately by the production regression.
+
+The production driver module was built separately without those hooks.
+Its ARM64 W=1 build and eight QEMU regression runs passed with the
+matching v27 KASAN/lockdep kernel and core modules. These cover RW/MMAP
+capture, PREPARED RESET with DRAIN/reopen, RUNNING RESET, and playback
+PAUSE/RELEASE, HWSYNC/poll, DROP and reopen. Capture includes 70-second
+RW and resumed MMAP phases. The independent backend-sequence oracle
+matched 7,104,000 frames across seven capture phases. No KASAN or
+lockdep diagnostic appeared.
+
+The kernel image and core were reused unchanged; the modified driver was
+rebuilt. Fresh KCSAN and physical VZ tests were not run for this
+revision. The earlier v27 KCSAN and Scarlett results describe that
+earlier build. The controlled tests use synthetic requests and a known
+STOP failure before submission; they do not qualify transport
+timeout/uncertainty or demonstrate out-of-order completions on physical
+hardware. Intermediate patch stages are application-checked; the fresh
+runtime tests cover the final candidate.
+
+Review addressed:
+
+https://lore.kernel.org/linux-sound/sashiko-outbox-210240@kernel.org/
+
+base-commit: a4311e9447bbb219044db38897f95be112f46a8a
