@@ -1,92 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794476963;
-	b=Z1oMWUNNJ75Se3KHQMN/EZ2uRWx8hMwnY24JxRWadU4dgKz0ckFfswdN9jXy7lrjOqOK
-	 AD+DZLqnfF2obpVmzjPFaBItZ0JoudzhYw6SnrVQRGj19YSyUH48rOcFENGL3hL6Q7+AU
-	 JiFnlYcENDXE0r6i6Eh0WWeUSIL5fH9hTODBieFiiAeFbC8PY2/mtCEdZpMEE+3z1wcXX
-	 7ohFauGPtBLSzkljXjUCJRK+CHf9e5G/GVnTAtFp6X8ZqyzxsZ78sETwQ0YpKsNfNnXMb
-	 lgGJ5q/nAb6gGZk73P1B+jLt4w9EJAr6hVe5/guEzWGQVeMUAVTW1wmkIM+UlhGs2oQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794476963;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=rNaQ9UR1U1l9ZI56X9pvqj6p0Mr/iO7Q1f6fdA5PWJc=;
-	b=nthQuXpubAM+qq28af0ud3B1ahP2xW9CK2QirupSQ1l22+ex1RjGytjVszgJqpls3LDu
-	 6Yu4l8mFI13VFkLJN3c2XTKaa3RlgEBrnwUhuUnwV02/rMkbi9DpyD6wCF8fQ+93nMA6T
-	 2TPKbUcwC7x7uImHId6RSkQpNJq0xDDBfztGdz7dXHrLN+awaB7ls49AeIT8542chQKET
-	 Jkvvxp2AcFilK3PbyqGf9yQv1eBCb/oXaAyXE72UFrRw7W/I3T2WGsGsECHcWFiWOxSsF
-	 WcQ9w9rpIOJrBNwH6cRC5++CCLVKJAlWH1kovRhWrOI88zps01BgL/eJXPJIHYN4XrQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cloudlinux.com;
-	spf=pass smtp.mailfrom=cloudlinux.com;
-	dkim=pass header.d=cloudlinux.com header.i=@cloudlinux.com header.a=rsa-sha256 header.s=google header.b=cOI1nLBE;
-	arc=none smtp.remote-ip=209.85.128.46
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.70.4
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794478027;
+	b=aLKE9TC1x86LQe71EJNUEKX89lg2rFstvAU2ovik+aLuXdZOgbeLfxeDRvxMCiN6K1Sk
+	 Y/TO51ABEN6n4buwYufO9pl2m0Cds/r06YKIRoD1R74QcEfpAdQX2D4Y7TiStdjciiveJ
+	 bxZXfaHAWthbQTuMsm0ha5374b+CDWDryckCfD/RiXVn7JIqp4yWl1Xly+gIbO6gCUO8A
+	 0SaPV2AnPXC/b7xnVtp0xyAqhlNmshmDQm7SJKmJnoDy6dvYQP73owg1RGql84rlsCn5O
+	 G0U/FjnGJ0+qd2qpNlVFgToTYcIBUT1aOGOW5tkAh3dXTGzuoxTd4OKnLbYw4HT05SA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794478027;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
+	 Date:Message-Id:X-Mailer:Content-Transfer-Encoding:Content-Type:
+	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=H4bAaTrCqmctSADeFqQQX+kGXr4lncxWKiQe5n9FcE4=;
+	b=V8YMzebopJ51q+DU4kb6fUr6YcWtPpXv6DvnfuX9OHisUajRO3+71ZO4aju3tNR6LL1h
+	 RQY8KYhKV92pW4tIYfZyZsuE2xCOPhzHlLZ5+xwY2GP65LDdyOEbD/BYwTNthc7zjTC86
+	 XK3y09/CJnfpA6faxAXfn+tjsV4rDqm0znm4jmybEDpd67OoiHEOYwIkLrT186TGWgLVY
+	 vRlc7cljQbM7s3nuxuRDG49lV155vqJ9ze93FnkCq6TyzOces4zmLLPCm7ogsVy3tkkka
+	 DpnZcAtQWdBFj553Xr4DGrILumE+A6+sf1gHCVxFN5lnZZbGEpy3rIB4HTDbs/gRgNA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nxp.com;
+	spf=pass smtp.mailfrom=nxp.com;
+	dkim=pass header.d=nxp.com header.i=@nxp.com header.a=rsa-sha256 header.s=selector1 header.b=CEVCSt52;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.70.4
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011004.outbound.protection.outlook.com [52.101.70.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D51A606A32D
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 09:49:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D51A606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cloudlinux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudlinux.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19804606A323;
+	Thu, 12 Nov 2026 10:07:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 19804606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cloudlinux.com header.i=@cloudlinux.com header.a=rsa-sha256 header.s=google header.b=cOI1nLBE
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a208d93758so43374455e9.3
-        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 01:49:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudlinux.com; s=google; t=1794476961; x=1795081761; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rNaQ9UR1U1l9ZI56X9pvqj6p0Mr/iO7Q1f6fdA5PWJc=;
-        b=cOI1nLBELaMJdSZw1/DxuLYZY3iC+9XRoweG0s/js51fVpuaA+3LaECAg9CQa4tLOC
-         /zvHnq8aijpyFZracBEU3Z/YuRPQeyqAnOI+JmURwy5bohIVW3+SJz8eq6LfGDSTVKhp
-         IPaDEiTSuTMyvV9LTIXlHOaiyCP3GK21yHWQxgnf79SccN0MAJXvk96S4D4iPDQXiRPc
-         ay15saU9OfbL8Rp2t1eTBMu/RiacsrCyXNHRH3Cs5L0qC0Zh8ItuNNb9JF+JNQJ/0hG5
-         zJ6VAZCNneQ6U3epAMzWEZI5PTgat1Sc+p30GlYoYDQ5vbnRXJ1Vut8o6LMfkcgMYm+k
-         HQ6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794476961; x=1795081761;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rNaQ9UR1U1l9ZI56X9pvqj6p0Mr/iO7Q1f6fdA5PWJc=;
-        b=xy8A+FHA+KsEDIP7X6nRIEcc6WRMdeqnPOq1wC5vit6FpelrkRBU52M7VdV+S0na4Y
-         +8dB/l5bcB3hz4GnNKAhCz23cWu1Bsl7cyXSKNzL0lYWSN6mZJsxmIczYFytTBCtQZ5C
-         GqAzBsRRtPsF+P5ypYCk7OwrHOSKAVUKb3Ravmh4NK/A7dJCnEYQCRVQ9l+F7TjjLVPB
-         gjHhGP6D9XQr9O6Cgn/HTBpsdevzWg5haWpNoWELonbblKoM18GQCQl1aUnPQxPU9fmJ
-         Ouak+DcPwHBn2CKC+YUwGfa9nl1C5zh7waHP8LLBH/JQp8+4db5uzcWm58MI5QvLrq10
-         IgSQ==
-X-Gm-Message-State: APuU4Z+i5qowlS08cW0+lzfi7OXFx60/V8DZp79pvgB6p7SS3EVMj0vX
-	We5zSDPy1D0LlgP2xPEUWGgEg/BeeLWN6/3mZGgVk8u5IZCNa14PVWqlLuxLMqkzVWw=
-X-Gm-Gg: AYBFou3yA9gqNEBfOX4YHV46nvOFWh+vkrCDbYGmXepvEjTdlEgtZ5pKtGaPfYqoLs/
-	K/NwMqjYrFB/5vMQLeizPOEDlpEr3fvn2avj753YVocWlA2Gz/8QugJVONAGvD8Nla5wQX72eSf
-	KszhozqYeRByKSMbxddl+KyWL9CDDntREqpCy3H1m7AH2bRK3UhHV4buFyU4UP6AyhDtD5R4zU6
-	LMIUMWgx/7TkE0p7iFlb5BCsRnkPptQ1okDDyBah67dIi+HVOOajXDmeuSwGEzw6ucHhZ4CuBG9
-	QGLpmYGFX2JWfMXtYxDQJ1308FpRlzcHxFy9b7GVonnUC0hu+aTPwGyet3iNVVsxI1rhvIYsgLL
-	GrvcFdKl7xie1il2dCf3dmpY6KolH+zO/60zUkuOZ227T4Am8PDfm9n88+afd4/o3W1kqlmdg8W
-	e8K+NGkn/t7Z+5WEBb5WL6WGYedclmZdngIa9Q7sZnsy8pVyfEsZlcGbmBjyVuA8oJWFUE+7YCQ
-	+sBZbiEQGqAheCcA+vNSUQChfvFR7tMNBmk7r/TCj/hXQ8ptzlShXwfDAu35rB1yAVExlTR3zLI
-	xFfRGfNWwpFF+2TQrI64kuuDS+ijk0QVZJsw1w==
-X-Received: by 2002:a05:600c:8b78:b0:4a7:462c:6b9e with SMTP id 5b1f17b1804b1-4ba0939162dmr85782365e9.32.1794476961026;
-        Thu, 12 Nov 2026 01:49:21 -0800 (PST)
-Received: from winnie.home.arpa ([62.4.45.73])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2969e7sm50816695e9.10.2026.11.12.01.49.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 01:49:20 -0800 (PST)
-From: Sergei Nizovtsev <snizovtsev@cloudlinux.com>
-To: Takashi Iwai <tiwai@suse.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=nxp.com header.i=@nxp.com header.a=rsa-sha256 header.s=selector1 header.b=CEVCSt52
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aqWbAD7nEoMXpFOO5RWD3j8ACtrf8j1SS/YPrJblLyGnswgziV0pXva58cL8rOb7XXS/z5za2dabXr/0K5DbqLEbhMsHsrINV9MTraqEKj/gZgW4Sgmj9daCabg6QgXuyydmma5nCkTH5LOAyU8Zxk1UQq8e+yUxxZiVrQbrRFaHBE0gwYeeFA3yUudCJJUsELqQdfYPyIFRxLdgeoBMtPBpN1OIzR4bSuT8wD3mCMwkTPbCFyvDNbU37HLa+9csvZqo8/MduK3H2chOivjPfN6TnwRbPV1jvcOj9lq7bRZ0kaZVy3Juaw3H2ahQz+ytonhKJ95dJ/vve2KYYzfkuA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=H4bAaTrCqmctSADeFqQQX+kGXr4lncxWKiQe5n9FcE4=;
+ b=ACcL8aUs+o2NyFA+37rq6Wr5PZE5VUPZTJ7/4ph74l/UZBPp9yVFzR9N8erWQ+pu0hngBYGNbIW+3828HxN3a3v0KyhInm87RoA/kvH7+vjXuCnKRDCiG2+dZ/6WoRS6GMD5VUwyDnxY8aFzQ4xXIFSdFQTePAOWZwYcofw+AR+Zpqz3945CZCe7qoNVsQq0ZG69yZ9kWMzBXYo2MuWydWFbCs34z03eU4kQV2Iq1wiaYqT+hEzRCX2avOQup63wi8A4TpOoeyA0zVx4NErt3ivsioizVT+L5D9+b4WHMcAbEcMfWYpJUxC54ymmhOGofeY9T1/EY3qC91YJISsEqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H4bAaTrCqmctSADeFqQQX+kGXr4lncxWKiQe5n9FcE4=;
+ b=CEVCSt52akwimUvq7ADgNOHRcXKt+sbxLb1oTDO8WxTWL7eD3DMaqblmQYFe1bVQKEUCQDXP5cloE0kx/2cM1MzPIr1SeAC81fkwBdOQzc0TwYFT66Z+lO4XipMMvD1fmjo9JCxHiRIBTVNP5FoARxgpZQfO0lOuMFpAe4ur53zRqCmoOIQQ6c/TT3EaH6dqj2/tx2y1gDV+6TPlls6ifM8u5Gnn88NBQVGWOpjJABlX5TFhH6EJtRLrluofmgV83wEjAnoQUeFXlHWeaVvCJ4aHXjGvZ9pFanmivLPsmRAMHJ+EaQu5rtbcgCzoF/L/bVpUoE6MxkUcjMDP25rQkw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB4472.eurprd04.prod.outlook.com (2603:10a6:20b:23::20)
+ by PA4PR04MB7998.eurprd04.prod.outlook.com (2603:10a6:102:c5::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.10; Thu, 12 Nov
+ 2026 10:07:03 +0000
+Received: from AM6PR04MB4472.eurprd04.prod.outlook.com
+ ([fe80::aed9:e8b9:c352:9ba0]) by AM6PR04MB4472.eurprd04.prod.outlook.com
+ ([fe80::aed9:e8b9:c352:9ba0%6]) with mapi id 15.21.0615.007; Thu, 12 Nov 2026
+ 10:06:27 +0000
+From: Stefan Ghetu <stefan.ghetu@nxp.com>
+To: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>
+Cc: Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Daniel Mack <zonque@gmail.com>
-Cc: linux-sound@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org,
-	Sergei Nizovtsev <snizovtsev@cloudlinux.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: caiaq: Kill EP1 URB before unregistering the input device
-Date: Thu, 12 Nov 2026 10:48:54 +0100
-Message-ID: <20261112094904.2430318-1-snizovtsev@cloudlinux.com>
-X-Mailer: git-send-email 2.56.1
+	Stefan Ghetu <stefan.ghetu@nxp.com>
+Subject: [PATCH v2 0/5] ASoC: fsl_asrc/fsl_easrc: fix memory safety issues
+Date: Thu, 12 Nov 2026 12:01:00 +0200
+Message-Id: <20261112100105.123845-1-stefan.ghetu@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: AS8PR04CA0133.eurprd04.prod.outlook.com
+ (2603:10a6:20b:127::18) To AM6PR04MB4472.eurprd04.prod.outlook.com
+ (2603:10a6:20b:23::20)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -96,122 +103,104 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6PR04MB4472:EE_|PA4PR04MB7998:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6763a21e-4807-4ccd-3e8e-08df40a469c8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|23010399003|19092799006|10067099003|11063799006|260925021311599003|260925022911599003|260925021911599003|56012099006|261022105027099003|261022075727099003|261028144727099003|261026121527099003|261026140227099003|261021123027099003|261021121427099003|261102123227099003|261009223327099003|261009223027099003|261009221727099003|261009221227099003|261009220027099003|18002099003|6133799003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	G8ektGFkcl2RXMwlAMzlWEXRJs/oKQXqvhd0G3QVhDDZSH0k9W0lgUK+S4L83OSeCu8R/B5HsPifDIOekTdZU0j/e0el4g2bt2TrQF/7Ny3ChL95q6Cxjdi/uV11h0MujJ7M1VF2WP+h5tfC3f+PrxglyhebmV8dgo+RpNiCI6Z/UIEViML/nw7QG1ozSu7r3H1l8JUenmaItd+Spwn+Paaf97qw8mQt001EWSa0OhT9ckfSbwMPMd0ddt6/n8x0fxvqVRUvlMV0CwJFRt/GLQ6mYpxf8cKQsCsPeOuPgYjPHHCgyOC4wAQpcBeA1lXCLJuT2GH6by/ucm0RC5qgyxfnHq/VesqRfx1bMMsiz2VQpRloHDzYkW1lXoN9juKVMoOQ7ckUKchX7MwlBozNxB0piH1iVIUIDmdrZXppVwuguLlwgZQWYTh/zqcRnXfLLy3mUgIuhxOvr9I8gbH6iqo11Qfk714TFVYu+WJyrqK/WiCOR9p/4i3mSgjjKidJCjePKc+KhHUqzGAqsyFGNufccSKwj+u3TyoKDtllVxvmU11zc9ZHqWZJXOOQL7DkZlFY/xPVBbZUfBv3RvsAFhQlqLU+0y/7r5ToQHyDFXvtA4KHBrWfOP4DDYLcBirF
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB4472.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(23010399003)(19092799006)(10067099003)(11063799006)(260925021311599003)(260925022911599003)(260925021911599003)(56012099006)(261022105027099003)(261022075727099003)(261028144727099003)(261026121527099003)(261026140227099003)(261021123027099003)(261021121427099003)(261102123227099003)(261009223327099003)(261009223027099003)(261009221727099003)(261009221227099003)(261009220027099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?IGphgyIYDe1o7/i/+86hEfYUIIU8L6VmfIlmSPLyanA3cGzLFMU8zKW9NNgg?=
+ =?us-ascii?Q?gW/1nYXbAyiODZlAu1n5LGUv3V5qrp2zrzbKnCLz4Y0b84Y4jne6QIuRLvVA?=
+ =?us-ascii?Q?pshYMGvDaeQKpleRsFiEVRSDKz/YEqfXMU1zcE+QWzi46AxtuTf46UM0px69?=
+ =?us-ascii?Q?2rz+hY3R45N+8NIY5uclcYf2RBU+ZVjHHd5IXKSO4hBaJhXcd0OPUwN+efWY?=
+ =?us-ascii?Q?zeStef1K62DcwXVhzRjxmzJ4cbRzTOlASWsYBaoIPtPcoSz8XFG3+qZaLKgL?=
+ =?us-ascii?Q?YK4f1aeS71JiDwF0vDrM4xqVce75b23ijbasayDlvZ46qMKOyPmuj3UvFthd?=
+ =?us-ascii?Q?icUjmW+v6yiZZnNR7VTyNHIHjoEgPAZ4S7fD73VkXQrZR35LpW5FZIGKLZm/?=
+ =?us-ascii?Q?tos7pF2P47b+OITTTX7UnldUoMiTS/Pwj0D96dJn2jUxw8d523Ms6sgvOq07?=
+ =?us-ascii?Q?FxVjPFpHO+n94y3mon1wDrTTQncCj8ExaC8eQo/WAaGSVXpYfd8DVeBeTtGz?=
+ =?us-ascii?Q?rkh8P4N3Lvq6Uyv0n+vMbOjIu43J/S8OldKB3LH4fnHrFNpWk4LxBT2Dms3B?=
+ =?us-ascii?Q?PbsYxNVGQuVTPQ81pm6qf5pwj0oYEXtbvGpJLD9dmjMnjhCrL7esQmNCdDgW?=
+ =?us-ascii?Q?sB0B41S5GxkMoFJqo3ymnjrno58TJoAhl8r2JniDq/oJyGiaUMHWFCS/jF3n?=
+ =?us-ascii?Q?KDbBGyB5QQnug+1sJJKQjLDDs5ZX+gkIauUWqRmseW7q8y8GsL3hnSHioY2g?=
+ =?us-ascii?Q?5Xe24xYsl2oSDo7WRBuDCKvWj1Hv45MH4R6Ph8hPjJkN8IMaH9R8OCWR7/ts?=
+ =?us-ascii?Q?l+sR6JhW9xF17Rhr3aeWpd3xQER/wzFXtUumG6+R0quvauFKTpxxmDacy328?=
+ =?us-ascii?Q?bvGzgG3ByxISZLxPhCrWsPh390GEyAq6sD8u9jkdc00Lg8+2rlFPHSQrAZgc?=
+ =?us-ascii?Q?ClNr+C5NhHi6VZzhN1d2LG5yM4sdUyeXBE+qG7EWuagFvzprvx7esenbEwGk?=
+ =?us-ascii?Q?pycReadjpTfflHO4FxxHZ4sttOqMbp3wCQdoXEb9mNWo9aNTbQvyn811yD3b?=
+ =?us-ascii?Q?z5HmkT0mMPpwbsAKsZoiX2YXC+HGN+R6yc5clBm2xRz0JRPTTY9whAWMZ/1F?=
+ =?us-ascii?Q?olDgMng7taIx1aOkmk43nAl7o90BeWJeOS7n9G2ItRPfvdZ2seAn4V3kTdMH?=
+ =?us-ascii?Q?F5BFZ4Cw5b+j1ipgDy9v/HsveGMH4zM/wY9VQ4eLAvsfbx8THV/tJXyjPV3r?=
+ =?us-ascii?Q?XQoSNO7jUOL/wU/Awgcrzr0f0bs4SuF/FeeDJO6bta5xw2j9Qp+hJKq8GK88?=
+ =?us-ascii?Q?XlxrfS/Jol11nRApB8tPoyorjR8/I5L0XR+9+6TPuFMTjXwcRfASrfJOH1oh?=
+ =?us-ascii?Q?cpz9qnrCfCQ+OnAaCi8CBv/gwgC0J+QTiMJG3TScRH0vkguFlzJGzDuVUmQ1?=
+ =?us-ascii?Q?j94ZvhBFHgSgrjoXNYBx3Ql/l/gucs+t7j//kRdUVQHb4nDzVCn6JCj0fS4W?=
+ =?us-ascii?Q?A5H7BqMWqjMaPhSqyGY4mhcUZijBHveJQpsXlzAqyQq+8KfVV+I/NbqxRCmd?=
+ =?us-ascii?Q?sTNX37pROiS8UQJL2NlAhkkb7LBxzJLZgYoxLTRljjheisLW3vIxe/7L8jiA?=
+ =?us-ascii?Q?HlUHjp1Gla3m0UcjDR+ZzoyCzdbR3RKwPWBp3uaSfMuyNfw5YcrkZyBY+dag?=
+ =?us-ascii?Q?3DZSUyRVIQERSDaEyozO0A7l9piwBuujVOMTOImLIHu0bThNZLmHJ9d2aZOv?=
+ =?us-ascii?Q?eV1AWjh06g=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6763a21e-4807-4ccd-3e8e-08df40a469c8
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB4472.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2026 10:06:26.7617
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: w+sCYKlCzmGMI+EUey3GzNYYVta/g/NZ/35RmKawPlgSfQJTHPWDKF6mFxKzcqrGeIisMKFJg9KZwzORsI7Ndg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7998
 
-snd_disconnect() unregisters the input device via
-snd_usb_caiaq_input_disconnect() and only afterwards kills the EP1
-command URB (cdev->ep1_in_urb). The EP1 completion handler
-usb_ep1_command_reply_dispatch() feeds snd_usb_caiaq_input_dispatch()
-for EP1_CMD_READ_{ERP,ANALOG,IO} replies, which report into
-cdev->input_dev. Since commit b04dcbb7f7b1 ("ALSA: caiaq: Use
-snd_card_free_when_closed() at disconnection") the input device is
-unregistered from snd_usb_caiaq_input_disconnect() but cdev->input_dev
-is cleared only later, in snd_usb_caiaq_input_free() from the card
-destructor. As the dispatch guard only tests cdev->input_dev for NULL,
-an EP1 reply that completes after input_unregister_device() but before
-cdev->ep1_in_urb is killed reports into an input device that has
-already been unregistered and, with no evdev client holding it open,
-freed.
+This series fixes memory safety issues in the ASRC and EASRC drivers
+that can be triggered by a user with access to their PCM or compress
+devices:
 
-Normally the window is closed by the USB core: usb_unbind_interface()
-calls usb_disable_interface() before ->disconnect(), which flushes the
-EP1 URB as long as endpoint 0x81 belongs to the interface being
-unbound. But caiaq addresses EP1 through the device-wide pipe
-usb_rcvbulkpipe(usb_dev, 0x1) without checking which interface owns
-the endpoint. If a device declares it in another interface, the URB
-stays live across snd_disconnect() of the interface that owns the card.
+1. fsl_asrc_m2m: the output FIFO drain can write past the end of the
+   output buffer.
+2. fsl_asrc: a repeated hw_params() leaves a stale asrc->pair[] entry
+   that points to freed memory after close, and hw_free() after a
+   failed hw_params() can release the pair of another stream.
+3. fsl_asrc_dma: DMA channels are leaked on a repeated hw_params(), and
+   released twice after a Back-End configuration error.
+4. fsl_easrc: the same repeated hw_params() issue for EASRC contexts.
+5. fsl_asrc_m2m: more than one task per compress stream leads to double
+   DMA channel release and a stale pair entry.
 
-This needs a crafted device descriptor; a device that has EP1 in the
-interface caiaq is bound to is not affected.
+Patches 2 and 4 make the pair/context release ownership-checked; patch
+5 relies on them. Please apply in order.
 
-Kill cdev->ep1_in_urb (and the paired midi_out_urb) before the input
-and audio disconnect helpers, so no EP1 completion can run once the
-input device has been unregistered.
+Validated on i.MX8MP (EASRC) and i.MX8QM (ASRC).
 
-Reproduced under KASAN with raw-gadget + dummy_hcd emulating an Audio
-Kontrol 1 (17cc:0815) with the EP1 bulk pair in interface 1: only
-interface 0 was bound to snd-usb-caiaq and then unbound through sysfs
-while the gadget flooded EP1 with EP1_CMD_READ_ERP replies. With no PCM
-stream running the window is very short and was only hit by stalling
-the unbinding CPU with a kgdb breakpoint at
-snd_usb_caiaq_audio_disconnect(). With the fix applied, the same test
-runs clean.
+Changes since v1:
+- Patch 1: drop the 8-bit output path, ASRC does not support 8-bit
+  output (Shengjiu Wang).
+- Patches 2-5: add Reviewed-by tags, no code changes.
 
-  BUG: KASAN: slab-use-after-free in input_event+0x3a/0xc0
-  Read of size 8 at addr ffff8880151a4028 by task sh/118
+v1: https://lore.kernel.org/linux-sound/20261110120743.6301-1-stefan.ghetu@nxp.com/T/
 
-  Call Trace:
-   <IRQ>
-   input_event+0x3a/0xc0
-   snd_usb_caiaq_input_dispatch+0xab2/0xf00
-   usb_ep1_command_reply_dispatch+0x1f3/0x580
-   __usb_hcd_giveback_urb+0x246/0x400
-   dummy_timer+0x1415/0x3380
-   __hrtimer_run_queues+0x39d/0x800
-   hrtimer_run_softirq+0x187/0x2d0
-   handle_softirqs+0x1ff/0x930
-   __irq_exit_rcu+0x15b/0x210
-   irq_exit_rcu+0xe/0x20
-   sysvec_apic_timer_interrupt+0x81/0xb0
-   </IRQ>
-   <TASK>
-   asm_sysvec_apic_timer_interrupt+0x1a/0x20
-  RIP: 0010:snd_usb_caiaq_audio_disconnect+0x0/0x70
-   snd_disconnect+0x81/0x110
-   usb_unbind_interface+0x1a0/0x860
-   device_release_driver_internal+0x2c5/0x470
-   unbind_store+0xde/0x100
-   </TASK>
+Stefan Ghetu (5):
+  ASoC: fsl_asrc_m2m: fix out-of-bounds write when draining the output
+    FIFO
+  ASoC: fsl_asrc: fix pair ownership on repeated or failed hw_params
+  ASoC: fsl_asrc_dma: release DMA channels on repeated hw_params
+  ASoC: fsl_easrc: fix context ownership on repeated hw_params
+  ASoC: fsl_asrc_m2m: allow only one task at a time per stream
 
-  Allocated by task 80:
-   input_allocate_device+0x47/0x340
-   snd_usb_caiaq_input_init+0x4c/0x1ac0
-   snd_probe+0xab3/0x1160
-   usb_probe_interface+0x2ea/0x810
+ sound/soc/fsl/fsl_asrc.c     | 22 ++++++++++++++++++++++
+ sound/soc/fsl/fsl_asrc_dma.c | 27 ++++++++++++++++++---------
+ sound/soc/fsl/fsl_asrc_m2m.c | 30 +++++++++++++++++++-----------
+ sound/soc/fsl/fsl_easrc.c    | 10 ++++++++++
+ 4 files changed, 69 insertions(+), 20 deletions(-)
 
-  Freed by task 118:
-   kfree+0x1ea/0x5c0
-   input_dev_release+0xab/0xd0
-   device_release+0xcf/0x250
-   kobject_put+0x169/0x320
-   snd_disconnect+0x79/0x110
-   usb_unbind_interface+0x1a0/0x860
 
-Fixes: b04dcbb7f7b1 ("ALSA: caiaq: Use snd_card_free_when_closed() at disconnection")
-Cc: stable@vger.kernel.org
-Signed-off-by: Sergei Nizovtsev <snizovtsev@cloudlinux.com>
-Assisted-by: Claude:claude-opus-4-8
----
- sound/usb/caiaq/device.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/sound/usb/caiaq/device.c b/sound/usb/caiaq/device.c
-index 634dc36f2eade..d28465e916df2 100644
---- a/sound/usb/caiaq/device.c
-+++ b/sound/usb/caiaq/device.c
-@@ -600,14 +600,19 @@ static void snd_disconnect(struct usb_interface *intf)
- 
- 	snd_card_disconnect(card);
- 
-+	/*
-+	 * Kill the EP1 URB before disconnecting the input device: its
-+	 * completion reports into cdev->input_dev, which input_disconnect()
-+	 * frees without clearing the pointer.
-+	 */
-+	usb_kill_urb(cdev->ep1_in_urb);
-+	usb_kill_urb(cdev->midi_out_urb);
-+
- #ifdef CONFIG_SND_USB_CAIAQ_INPUT
- 	snd_usb_caiaq_input_disconnect(cdev);
- #endif
- 	snd_usb_caiaq_audio_disconnect(cdev);
- 
--	usb_kill_urb(cdev->ep1_in_urb);
--	usb_kill_urb(cdev->midi_out_urb);
--
- 	snd_card_free_when_closed(card);
- }
- 
+base-commit: b810335a0699d1810683796b0e3ffe8827ddfe6c
 -- 
-2.56.1
+2.34.1
 
