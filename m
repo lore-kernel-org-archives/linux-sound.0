@@ -1,97 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.225
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794451069;
-	b=j7afHXy164ZhHlwbkguDsT9uXrvh7tv4lVAvLnlVuq3zNVq+CdsCoMpx/Daz+mVPflJO
-	 Bm8xAqKF2caSfrtIXeNHVec/749Zh6pTRQS9tp64Ip40276wNE6apDySQ0Z1LB6WcNYNt
-	 TXlae+2ozn1o+4GwwvJFoMcwVjtmRff9PpWVSRNMtacSYYqRxfZs8fJ/EYb88Xvz+ACkB
-	 1JorWMZd+AAEe85A2b7fqAXcRgiDT4lB/Kcw3/rEbHG4ktRaenTFoGewmrLXnqZUmuPCd
-	 N1x+fmiG4UwBwkgqbO5DMILK0+I2/+4ugKm4/vwnbSAK1/g8SrE/x+OM8edo7qEBjmA==
+	t=1794452009;
+	b=yYCy9xuP8Nv0fqQxFP9rJy0gqOk0gj96os9JeMF/H56Znjl49QTj3bu3pT8Y92dw2zM0
+	 KQsXlu1cTKIJfbw48aQz6+1Eg2LQiYvhsJ5nLwlLbw0/KxWRqhj8csDl5QokwgxH6/toJ
+	 z/KfvmQAexrMQOAnuvCBuaDy5y/pFFZd2y9sIDWnGuHPOXt847v4KY9fXWFJu3Mc0kG32
+	 eqgt8DKl7dHRg3wQUbY34x6+EaBAaHtqMSiBLxiKm3R+dXzmVC2EHypbfyxXR7OC9Anhe
+	 Y5l85ncaWJBctMWtKWN3BlvvOEGqdgMxOnyOpaa7o7Ib1WCCMcOa69jxp5xV8W0wl0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794451069;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794452009;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 X-Relaying-Domain:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=79q4i5uE12BZeM3IYhfo+w3TCZBPmWuPri2dNCkJtd8=;
-	b=IPU1hvvg9mTPlkYn6pmOStN3w39GFH0Zi8thvqU62vxD6818AloaNA1czD2HNeGIlckB
-	 TBNKUSM+USlpin1dIVNe+o2msGxkU6V+9n8kWk0uvlo70at93vT8GMSrwLWmqgHeaE0Rq
-	 agVE3P4/GgCHuckf2R/nGIpqV3wYwZCgtye0KOGXuIMhhERJk8SEVCPSzcTOu3j21MZS1
-	 r4AgAGfCAZLyboqnzrD0/XEng1zvTP4evDVAPjBPGIkB7M3sMJWKucjVED40jmQNevmqx
-	 npC6BpdUB3nBFJ3dL7Gbx7e68iEpoJYWkHvrsbyilOj8yaEuma7D6JhcLvwV5Ukdo6Q==
+	bh=Nc4XLNPToEMaydN4Y5LPmHECaS4FBVXGXKRGT4Pu6v8=;
+	b=etOtC5RsIaFrE3ctpvPtZjKWdzf+bh8dmgTvJ/0EX4/SkyitVnVBmg8y+DJCQku5LTje
+	 x5yLtcmQxPUhyXtc5bfr2zvde1hT8AB3MWE+3OvCcic1hR2aJtsb/+cpgdkpafYFSbE15
+	 wSEw9ca4TzaYOle5o6+RMAg1IFglhxv//2UfNbTULT8ZY0qYxH0SMSbrA88oKUAVzsz6W
+	 cBvitvqik9egQxc44CttmKUkv3lzSup+f1FGQQmfYd8b6ZdYVmZWSyS6RNaBcN4KbjTKP
+	 OFAT7iuqC8+Kcedt6bK8OVXNwTOTMUphBE429RLZwHDe23aUtSfrXPMWOD3bc8f3Zsg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mZ9rSslR;
-	arc=none smtp.remote-ip=209.85.210.53
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	dmarc=pass header.from=ausil.us;
+	spf=pass smtp.mailfrom=ausil.us;
+	dkim=pass header.d=ausil.us header.i=@ausil.us header.a=rsa-sha256 header.s=google header.b=akEjgfZW;
+	arc=none smtp.remote-ip=209.85.215.225
+Received: from mail-pg1-f225.google.com (mail-pg1-f225.google.com [209.85.215.225])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6270C60A2626
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 02:37:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6270C60A2626
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1742606A326
+	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 02:53:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1742606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ausil.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ausil.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mZ9rSslR
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-82380b0f55dso1705474a34.1
-        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 18:37:48 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=ausil.us header.i=@ausil.us header.a=rsa-sha256 header.s=google header.b=akEjgfZW
+Received: by mail-pg1-f225.google.com with SMTP id 41be03b00d2f7-cdb628232d2so2236162a12.0
+        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 18:53:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794451067; x=1795055867; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=79q4i5uE12BZeM3IYhfo+w3TCZBPmWuPri2dNCkJtd8=;
-        b=mZ9rSslRRU7ZiMDyR2qMWSrOBOuciYf9z7+Yp2PCXBKHk05OCiRdRFgZwrmaKOcsv4
-         0NWfviP3xyB5ik6nYJb7OgKxyebTzBOaexPrNGu4IiqPaBCOt4lSXsupHbTJ68zpo82s
-         wNM87WHhqRQgqockvCLWNngnoX8gtC+ExLQvu3+Q/wmXJpIYmMmNph/4rQEjgPDNHunP
-         FtYt2HN8twOpmpy+Ir6iFgiRgswcwmFnuzwaOTSrLooHagK4zgxnNmQPEdyENiEfxKBq
-         KjulqOXqDh/qhL2DNezx5+TMMTWFpa75KlJQft5cLvABdNbbyMMHJ86QSbnQaEQJRGIW
-         U+Vg==
+        d=ausil.us; s=google; t=1794452008; x=1795056808; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Nc4XLNPToEMaydN4Y5LPmHECaS4FBVXGXKRGT4Pu6v8=;
+        b=akEjgfZW2c9l/EHMTj/y8UJnf+VdnqxXROFLwwnOpgzYiaNGygiB1U1QeTFjG6S2Xo
+         wpcBhe3O0zcUjSOBL1aRk7UhVwVaDEqLifEJmjCtDYAlbZXSxKUSouFA6gTXOxaHP/8Y
+         22sbMMh5kr4mw2em4P75pXVFJx9MiFfXqZOlSCX/qD/aJWinzPygNUnLg7daruJADX2p
+         WEa2vGDwelccNRzRpDe79u7EIsn88utl2Q0je09uBSB5ykH1Q9uj82S6TO5JVK7yCWiP
+         2qD1lR7HrgJ+7D22rqNT10s5vr0/O5aiveqgPC3VSnxOHai4yEtQ+Q0SryW3R/LwM/Df
+         DD8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794451067; x=1795055867;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=79q4i5uE12BZeM3IYhfo+w3TCZBPmWuPri2dNCkJtd8=;
-        b=aP2tvqTsD3izvnWIDqH7mW0k1I4yg1fTN75cz4l1vbFTKdfoZ4GmvEsE4FwBt5tL1W
-         ewwyqE2hj/71yNaIEX0GA5pXDYGWD2E5p0pHU/5PGDcf4XUbFjIjaTphBAZAFKrVtPuk
-         UoXBxHatfkE6Fc55Cpa3vPkqI9zmCjwAlgVa75Q2qPktizbWJxHbKg9SuSR9MQStpnd9
-         VQYwrjfGXEi63dI2ZTxZ78N5krINmeScGGoTdNPkpM7SV+rpaCe1vnEcsXbz7kXH0+WZ
-         pBBPYf6+yJfs8z4OBeizHE6rOKdGhxe3lJMRvWk+3FdqLDKxl40MnVonRKxhAOLUlfDd
-         sXOA==
-X-Forwarded-Encrypted: i=1; AL+hErGb8IL75T3MRDp5FR45qwYuzFeK+C6RlG2ye+88ZCLSOeMwaYc3fJ1gMCpMJyHcNrj1d5l9FJqUWbj+hA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+3onj7vguyVQJJgMtiqNyfJOpHdk3i8+Y+6uFVQjHwzxuavn9a
-	BO6x730q3i7gn+hqNHXrJ3x2B7EhqUOJCkWMUfaiHSSL//fvKNqBYVlI
-X-Gm-Gg: AYBFou0Lg6EiHlBNLgwAiM7z+RPJS1eB4qFaRMwkNrXoSImPXl7/wQhSTWSj1vJRQUp
-	v8RSzbCRaa/kkK6PoApBbiJ+WYg6DDyp7fPn0Vhql4Qc2x+RbKBtGLJToJ7BclAKIhRqoulvBUn
-	ljBIuz0WFfmJ2F0zKWEDCc4Coqw6RAWiwJMfI7kEYk17i8mu+RwH3F1Ffmgloen1jyLyVv4quC6
-	1h4roL5RnbxXEI7FgJBpPWV7WYPfGLrK7IU1Oqs6VUzADhwrWBbUVgKucrvowTHOk8mGbI2JjQK
-	I7KYv7gqShfl11THeCuftPkNertyj3OvPTtsr6QPgBOYijoj28h4dfnIg9wy43Alkwddl4jh8U6
-	6D8OQ1b5y5YW5hpwycT/yY6DgzNGSkOHBtGMKpC7ytiqgjTbph4qcDmWWaLvsQVa7O3cZvRxPri
-	+jJ+5yyA3UMcFM4RfnLjYDsw8TwCsnBR9ECqHchgm2oOE78GEYUcwEsG8Igi7xCQcpM8ag+9ijA
-	XjPCKKEofECk4inVvyKuQFtY8RwxRr8ikC86S2BlFFPVEMY40nL8TgKqcNNnEvyI7u/rOfwsLu2
-	f3nhdqbmWrx3wa/cOymzixv5bPRyjEnV4n77ehPBmxwimsM7KaURM3cjXJMnh+3j3Z0=
-X-Received: by 2002:a05:6820:1341:b0:6dd:1d43:8cd0 with SMTP id 006d021491bc7-719179ad6dfmr2801124eaf.80.1794451067098;
-        Wed, 11 Nov 2026 18:37:47 -0800 (PST)
-Received: from localhost.localdomain ([2600:1702:4ff0:baa0:5054:ff:fe3d:4ddb])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4ae22f6a1c7sm4327310fac.6.2026.11.11.18.37.45
+        d=1e100.net; s=20260707; t=1794452008; x=1795056808;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Nc4XLNPToEMaydN4Y5LPmHECaS4FBVXGXKRGT4Pu6v8=;
+        b=EYi4OsrAMis4yvmXQpJaq04bp3KEZCguOyLM39/N78CZxfmNYnPqLZ2idmK0uqTp/k
+         KXAbLiA9zfeMJ3rWDSLXjHCTOvRnc4hJkyGE/ByM2xcuV7lQW2GSB+/Abpu3kAVajUfA
+         MPgMytaEWaceeFNRCmLP02jHNJaf1+4FtnFa++MMNEyKHYM/8AwWlIJipj1E22YbFWBs
+         ZcOp9Z3BzoAcFL3d9TMohsO+hr8hK82oY5u+6QvYF9dXZoBncrKTeHAGmCYFQ7CNLY9M
+         hYfpHmgAwW80/xryTR09Z3MK11X8Dku59sr226Humggiou4kOlzdmocmszO09DwOSlxM
+         ja8w==
+X-Forwarded-Encrypted: i=1; AL+hErE68EPJXTCHZYQ8u/tCDLcTR0CQ0ID68EyGsSxBO3jka7ZTxhGpzclrH3ufPl57R8sCVmcGP+JrwArIGA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/XnniskwgCggqma3MLsfHNBcV6TPdsifOAQTNihRE9gOeK9wrM
+	UNLJyrNNaKVismaD3q7D/pHnE62urjGDedp0mW7LjgHhE22Hxs9Nfp5h5vSPLJmxLzwcfn7ZKpj
+	iOn7oalXiyBVD01mLEzNnD8DNLqg3VYuUgjt9
+X-Gm-Gg: AYBFou1rFa2569aXgXLSQ4GhWhsHZ5MgGE9LFfmjNA37CWXYe1fTtnY6MBed0MGDgeh
+	gH090QehT50AxV/eBuJPwr/ptI5lJD8I3FoH/meL5kLljuohVavlIr2rp4vlIre54z/3Wf20/C5
+	FY/7SKXJkT3MVtSfjNx0yTzv2N9iIdr5oZX4XUk3UIAAoRSS8Q1I/2yuRWGJpO2m/6bb6ESu2IJ
+	rQq+7h6A8DR7TwO4SD2h516GFzfFaAFeYMjAf6jYv8lMHD0RjejAABH+MFSmntJa3sCHg5ibOQB
+	tQ6fg+yYyuqPHsayDc2BIjPEWQBfxbUMT30TdCMf1T5+/0f1o0h2WG9DI567lzWob4p9oXfcF2/
+	gy789hTkDYhAkek3c7kneEuM=
+X-Received: by 2002:a17:90b:590f:b0:3ab:2c2b:1026 with SMTP id 98e67ed59e1d1-3b182eec413mr4274267a91.34.1794452007867;
+        Wed, 11 Nov 2026 18:53:27 -0800 (PST)
+Received: from thor.ausil.us (207-179-239-100.mtco.net. [207.179.239.100])
+        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3b181c053cdsm1542175a91.0.2026.11.11.18.53.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 18:37:45 -0800 (PST)
-From: Will Porter <mrwillporter@gmail.com>
-To: Christian Ruppert <arc@gmx.li>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
+        Wed, 11 Nov 2026 18:53:27 -0800 (PST)
+X-Relaying-Domain: ausil.us
+From: Dennis Gilmore <dennis@ausil.us>
+To: broonie@kernel.org,
+	lgirdwood@gmail.com
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	kees@kernel.org,
+	gustavoars@kernel.org,
 	linux-sound@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Neil Andrews <neil@androos.io>
-Subject: [RFC PATCH 6/6] ALSA: mixer_audient: Use the same cache for the iD14 MkI FU 12 control
-Date: Wed, 11 Nov 2026 20:37:20 -0600
-Message-ID: <20261112023720.1503814-7-mrwillporter@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261112023720.1503814-1-mrwillporter@gmail.com>
-References: <avOFQAGTVkCXgs2l@khmer.arcnet>
- <20261112023720.1503814-1-mrwillporter@gmail.com>
+	michael.hennerich@analog.com,
+	nuno.sa@analog.com,
+	dlechner@baylibre.com,
+	linux-spi@vger.kernel.org,
+	miriam.rachel.korenblit@intel.com,
+	linux-wireless@vger.kernel.org,
+	Dennis Gilmore <dennis@ausil.us>
+Subject: [PATCH] ASoC: soc-core: start rtd->num_components at zero
+Date: Wed, 11 Nov 2026 20:52:51 -0600
+Message-ID: <20261112025252.71375-1-dennis@ausil.us>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -103,161 +108,102 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The FU 12 control keeps its own value array and valid mask on a
-struct usb_mixer_elem_list. Make it a struct usb_mixer_elem_info, and
-use cache_val[ch] and bit ch of cached as the other controls do. Set
-channels and get_cur_broken. Remove the private struct.
+Since the conversion to devm_kzalloc_flex(), the allocator sets the
+__counted_by() counter num_components to the allocated length
+(num_cpus + num_codecs + num_platforms). This only happens when the
+compiler supports __builtin_counted_by_ref() (GCC 16 here). With
+older compilers the counter stays zero, as before.
 
-The list head is the first member of struct usb_mixer_elem_info, so
-snd_usb_mixer_elem_free() still frees the right pointer. The control
-is still registered with is_std_info false, so the generic notify
-paths do not touch it.
+snd_soc_rtd_add_component() treats num_components as the number of
+components added so far: it increments the counter and stores the
+new component at num_components - 1. Starting from the preset
+length, every component is written past the end of the allocation.
+On a link with one CPU, one codec and one platform, entries 3 to 5
+of a 3-entry array are written, and components[0] stays NULL.
 
-No functional change.
+for_each_rtd_components() stops at that NULL entry, so
+soc_probe_link_components() probes no component, and
+component->card stays NULL for every component on the card. The
+first DAI .probe callback that uses its component's card then
+dereferences NULL. On an HP OmniBook X 14 (MediaTek MT8901
+SoundWire with CS42L43 and CS35L56 codecs) binding the card
+crashes in cs42l43_dai_probe():
 
-Assisted-by: Claude:claude-fable-5-2
-Assisted-by: Claude:claude-sonnet-5-5
-Signed-off-by: Will Porter <mrwillporter@gmail.com>
+  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000038
+  Internal error: Oops: 0000000096000004 [#1]  SMP
+  pc : snd_soc_card_get_kcontrol+0x18/0x40 [snd_soc_core]
+  lr : snd_soc_component_get_kcontrol+0x6c/0xc0 [snd_soc_core]
+  Call trace:
+   snd_soc_card_get_kcontrol+0x18/0x40 [snd_soc_core] (P)
+   snd_soc_component_get_kcontrol+0x6c/0xc0 [snd_soc_core]
+   cs42l43_dai_probe+0xb0/0x148 [snd_soc_cs42l43]
+   snd_soc_pcm_dai_probe+0x70/0xf8 [snd_soc_core]
+   snd_soc_bind_card+0x4d4/0x8c0 [snd_soc_core]
+   call_soc_bind_card+0x70/0xf0 [snd_soc_core]
+   snd_soc_register_card+0xd8/0x110 [snd_soc_core]
+   devm_snd_soc_register_card+0x20/0x38 [snd_soc_core]
+   mt8901_card_probe+0x258/0x5c8 [mt8901_acp_sdw_legacy_mach]
+   platform_probe+0x88/0xc0
+
+Reset the counter after allocation, so components are added from
+index 0 again as they were before the conversion.
+
+The bug was found, and this fix written, with the help of an AI
+coding assistant (Claude). Tested on the HP OmniBook X 14: the card
+binds and playback and capture work.
+
+Fixes: 4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to the devm_kmalloc_obj() family")
+Signed-off-by: Dennis Gilmore <dennis@ausil.us>
 ---
- sound/usb/mixer_audient.c | 54 ++++++++++++++++++++-------------------
- 1 file changed, 28 insertions(+), 26 deletions(-)
+An alternative fix would be to keep num_components as the array size
+and have snd_soc_rtd_add_component() fill the first NULL slot. The
+counter would still need to be set explicitly, because the preset does
+not happen on compilers without __builtin_counted_by_ref(). Resetting it
+keeps the original design and the tighter __counted_by() bounds.
 
-diff --git a/sound/usb/mixer_audient.c b/sound/usb/mixer_audient.c
-index edc568830366c..8c81a4c05995f 100644
---- a/sound/usb/mixer_audient.c
-+++ b/sound/usb/mixer_audient.c
-@@ -1074,26 +1074,26 @@ static const struct snd_audient_ctrl_type snd_audient_id14_fu12_type = {
- 	.sel = UAC_FU_VOLUME,
- };
- 
--struct snd_audient_id14_fu12 {
--	struct usb_mixer_elem_list list;	/* first: snd_usb_mixer_elem_free */
--	long val[ID14_FU12_CHANNELS];
--	u8 valid;				/* bit per channel */
--};
--
--static int snd_audient_id14_fu12_write(struct snd_audient_id14_fu12 *f,
-+/*
-+ * The control is a struct usb_mixer_elem_info whose list head is registered
-+ * with is_std_info false. The head is the first member, as
-+ * snd_usb_mixer_elem_free needs. cache_val[ch] and bit ch of cached hold
-+ * the last value the device accepted.
-+ */
-+static int snd_audient_id14_fu12_write(struct usb_mixer_elem_info *elem,
- 				       unsigned int ch, long val)
- {
- 	__le16 buf = cpu_to_le16(val == ID14_FU12_MUTE ? -128 * 256
- 				 : (val - ID14_FU12_MAX) * 256);
- 	int ret;
- 
--	ret = snd_audient_set_cur(f->list.mixer, &snd_audient_id14_fu12_type,
-+	ret = snd_audient_set_cur(elem->head.mixer, &snd_audient_id14_fu12_type,
- 				  ch + 1, &buf);
- 	if (ret < 0)
- 		return ret;
- 
--	f->val[ch] = val;
--	f->valid |= BIT(ch);
-+	elem->cache_val[ch] = val;
-+	set_bit(ch, elem->cached);
- 
- 	return 0;
- }
-@@ -1112,13 +1112,13 @@ static int snd_ctl_audient_id14_fu12_info(struct snd_kcontrol *kctl,
- static int snd_ctl_audient_id14_fu12_get(struct snd_kcontrol *kctl,
- 					 struct snd_ctl_elem_value *ctl_val)
- {
--	struct snd_audient_id14_fu12 *f = snd_kcontrol_chip(kctl);
-+	struct usb_mixer_elem_info *elem = snd_kcontrol_chip(kctl);
- 	unsigned int ch;
- 
- 	/* a channel that was never written reads as mute */
- 	for (ch = 0; ch < ID14_FU12_CHANNELS; ch++)
--		ctl_val->value.integer.value[ch] = (f->valid & BIT(ch))
--						   ? f->val[ch]
-+		ctl_val->value.integer.value[ch] = test_bit(ch, elem->cached)
-+						   ? elem->cache_val[ch]
- 						   : ID14_FU12_MUTE;
- 
- 	return 0;
-@@ -1127,7 +1127,7 @@ static int snd_ctl_audient_id14_fu12_get(struct snd_kcontrol *kctl,
- static int snd_ctl_audient_id14_fu12_set(struct snd_kcontrol *kctl,
- 					 struct snd_ctl_elem_value *ctl_val)
- {
--	struct snd_audient_id14_fu12 *f = snd_kcontrol_chip(kctl);
-+	struct usb_mixer_elem_info *elem = snd_kcontrol_chip(kctl);
- 	long *const v = ctl_val->value.integer.value;
- 	unsigned int ch;
- 	int changed = 0;
-@@ -1136,7 +1136,7 @@ static int snd_ctl_audient_id14_fu12_set(struct snd_kcontrol *kctl,
- 		if (v[ch] < 0 || v[ch] > ID14_FU12_MAX)
- 			return -EINVAL;
- 
--	CLASS(snd_usb_lock, pm)(f->list.mixer->chip);
-+	CLASS(snd_usb_lock, pm)(elem->head.mixer->chip);
- 	if (pm.err < 0)
- 		return pm.err;
- 
-@@ -1147,10 +1147,10 @@ static int snd_ctl_audient_id14_fu12_set(struct snd_kcontrol *kctl,
- 	for (ch = 0; ch < ID14_FU12_CHANNELS; ch++) {
- 		int ret;
- 
--		if (!(f->valid & BIT(ch)) || f->val[ch] != v[ch])
-+		if (!test_bit(ch, elem->cached) || elem->cache_val[ch] != v[ch])
- 			changed = 1;
- 
--		ret = snd_audient_id14_fu12_write(f, ch, v[ch]);
-+		ret = snd_audient_id14_fu12_write(elem, ch, v[ch]);
- 		if (ret < 0)
- 			return ret;
- 	}
-@@ -1171,19 +1171,21 @@ static int snd_audient_id14_mk1_create(struct usb_mixer_interface *mixer)
- 		.put = snd_ctl_audient_id14_fu12_set,
- 		.tlv.p = snd_audient_tlv_id14_fu12,
- 	};
--	struct snd_audient_id14_fu12 *f;
-+	struct usb_mixer_elem_info *elem;
- 	struct snd_kcontrol *kctl;
- 	unsigned int ch;
- 
--	f = kzalloc_obj(*f);
--	if (!f)
-+	elem = kzalloc_obj(*elem);
-+	if (!elem)
- 		return -ENOMEM;
- 
--	f->list.mixer = mixer;
--	f->list.id = ID14_FU_MIX;
-+	elem->head.mixer = mixer;
-+	elem->head.id = ID14_FU_MIX;
-+	elem->channels = ID14_FU12_CHANNELS;
-+	elem->get_cur_broken = 1;
- 
- 	for (ch = 0; ch < ID14_FU12_CHANNELS; ch++) {
--		const int ret = snd_audient_id14_fu12_write(f, ch,
-+		const int ret = snd_audient_id14_fu12_write(elem, ch,
- 				ch < ID14_FU12_MAIN_CHANNELS ? ID14_FU12_MAX
- 							     : ID14_FU12_MUTE);
- 
-@@ -1193,15 +1195,15 @@ static int snd_audient_id14_mk1_create(struct usb_mixer_interface *mixer)
- 				       ch + 1, ret);
+Kees, the same pattern (a *_flex() allocation followed by code that uses
+the counter as a fill index starting from zero) looks to be present in
+two places converted by 69050f8d6d07 ("treewide: Replace kmalloc with
+kmalloc_obj for non-scalar types"). I have only read the code for these.
+I have no hardware for either and have not reproduced them, so please
+treat them as possible issues rather than confirmed bugs:
+
+ - drivers/spi/spi-axi-spi-engine.c: spi_engine_optimize_message()
+   allocates p with kzalloc_flex(*p, instructions, p_dry.length + 1),
+   which presets p->length, and spi_engine_compile_message() then
+   appends with p->length++ through spi_engine_program_add_cmd().
+
+ - drivers/net/wireless/intel/iwlwifi/mld/d3.c:
+   iwl_mld_process_netdetect_res() allocates netdetect_info with
+   kzalloc_flex(..., matches, n_matches), presetting n_matches, and
+   iwl_mld_set_netdetect_info() stores at matches[n_matches] and then
+   increments it. The per-match kzalloc_flex(..., channels, n_channels)
+   has the same issue with match->n_channels.
+
+If they are real, the fix would be the same as here. I'm happy to send
+patches. It may also be worth a Coccinelle check for this pattern.
+
+ sound/soc/soc-core.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index 68b54e509b65..e4d911577c5f 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -388,6 +388,13 @@ static struct snd_soc_pcm_runtime *soc_new_pcm_runtime(
+ 		return NULL;
  	}
  
--	kctl = snd_ctl_new1(&knew, f);
-+	kctl = snd_ctl_new1(&knew, elem);
- 	if (!kctl) {
--		kfree(f);
-+		kfree(elem);
- 		return -ENOMEM;
- 	}
- 
- 	kctl->private_free = snd_usb_mixer_elem_free;
- 
--	return snd_usb_mixer_add_list(&f->list, kctl, false, true);
-+	return snd_usb_mixer_add_list(&elem->head, kctl, false, true);
- }
- 
- /* called from mixer_quirks.c */
++	/*
++	 * devm_kzalloc_flex() presets the __counted_by() counter to the
++	 * allocated size, but snd_soc_rtd_add_component() uses
++	 * num_components as the number of components added so far.
++	 */
++	rtd->num_components = 0;
++
+ 	rtd->dev = dev;
+ 	INIT_LIST_HEAD(&rtd->list);
+ 	for_each_pcm_streams(stream) {
 -- 
-2.47.3
+2.56.0
 
