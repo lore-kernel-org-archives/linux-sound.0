@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794444480;
-	b=PfGsi3YYjbCII089ImFS6pYAA4rQxRaLc3JGtZHFso18fY0H+YQgBBPQqyo+kto8yIbg
-	 q4Ur0Hg/6dAnuySGpcwcESI6Qqq0Te5Z1fu3kWDcNJAaPF4M5eq899E/hnf48svmBNH+B
-	 /MWYI/vPVR6pyze93gXR+0CiTFusdK2wMmU+e/HPC7cXKolzUHLzrNeUhjBDmiFaHiWAf
-	 BjpjS+jMg7AqAtV0o8Me4PU8K0JGvsS3StQ7A6HH+BHdh+xL9ZOcPJh+X2lBgUgKNuT2D
-	 9LU0CTiZwVdbOPljvzlSOKv31nNeoTexKRamRVZ8URP5PwuU60x3+4OaAmmEDHpF1Eg==
+	t=1794444484;
+	b=JM5MU93haa2okn85EowoVqjC/w7yw1cH/c4ecvYh/g+zk5OovVTvqijFZ8waGuVVpCSC
+	 138m7IPcmM0Mvs7bgz+5LUriczMkiSMMiKD0APdGNELrRQjV75ypiQL7DdZjXj/cR1PMD
+	 Cf98HDoZdYbZCaRUP0GbF99UayaHtW4CnuukPdXpKTsQB4F9mketTMrkJWEKCdEwX3mxC
+	 j2UaD+/n2FDSKnHNTXFogIaXn4e3I4Dl+BZ/P62Uo9nUGnmtBMdvhXvI+57viwySuonEW
+	 4TpKvZ5e6YvVTNav15LHdP5ogqGA8+D7A7AU+xAI3vLEndMoQOV6U0dC0vil8g8h4PQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794444480;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794444484;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=KO6ffwCtdr8RA7k8Fc5roNJODB8/sxhF5kvv5Zygm2k=;
-	b=HIymV9IfBXFmMXmqanyiNG1BnAt9GkMIgvnVovUCfwgujTzHNvhoAm7O1j7XNsnrX/b8
-	 48mJHq756Yi8Z9ldq6hOFlVLw1UgGd+LWbvuBElmUzSQW4IUd4Tek58tbC9ty61LNJeHh
-	 nOrEh0cctPGXKZXEQk+F9V+E+NC+OUBjVkFRIZifyWH1a0/o4cIAIDROnaGH8dGK9Vlvb
-	 S0NaPf3UfzDvD8Q3LlRU2ufxXJXnnO+QW/GpPPQAuQp2hnwCVttuzQrmTMipAm9zq77PP
-	 tdzycB/Js0syJ/4ybUg3RQiRODy2o9Kx+FWmnou6BSItrq2WXilGGxwqpxlNjakOSvA==
+	bh=cedV0+mBiOhhOlmQFuEFj3GrQxb4hXlX2OGeB7wX9RQ=;
+	b=LM2BytcCvLg9LJonqquCP+6nWTVRBm/8wrqlOem4kMWchzFffpXzhKzLtNoUS9hTRLOY
+	 1ujG4SKgrE/RIEh5hxRm/LCeE7fvTOJX4WvsmINzMLGUGZmtuKGmUYgcjqcJV1bPhh8hj
+	 cpQsAUYrRGkCfm7/uKWacY0lvtZoYSgx1IpoVaFlV8LW6jOO5maoeJo17qobqRvuuykc+
+	 lD6wnc1wCONxAtzMp2irAXDZ1UqU98aohMGGfJj5fkIMNwu+j/T736eRPkQe9/ZRnnyOm
+	 fnLUgsixGhnrPeMpNcc9zMrrS1yth4l6/Qz243J8wrf9JC3ZFtSvknE8SwvZUK1xNqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Y+VXBbty;
-	arc=none smtp.remote-ip=74.125.82.54
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HzqTg4+t;
+	arc=none smtp.remote-ip=74.125.82.41
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2E7606C755
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 00:47:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1E2E7606C755
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F39606C769
+	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 00:48:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6F39606C769
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Y+VXBbty
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1b244fb7fffso4666983c88.1
-        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 16:47:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HzqTg4+t
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1a2af4c8d00so3700435c88.0
+        for <linux-sound@vger.kernel.org>; Wed, 11 Nov 2026 16:48:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794444479; x=1795049279; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794444483; x=1795049283; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KO6ffwCtdr8RA7k8Fc5roNJODB8/sxhF5kvv5Zygm2k=;
-        b=Y+VXBbtyba/o8p17YNdkkSV9mEM1J75oGmZwRUmbkNWoxRQ7YByN/2aYFI+8jR+xQR
-         IMdXfrShXu3ta3fyVguDAHQWC+9mWfmvmQvSWYTedf4cy3p5755K/2Gg8p7k16Ny7IB4
-         axrZWUbiPfIGcg/wF8SHM1QkzwYapNYjLF4CQZO7d0lYZk+M474XHT0cnmXB55VTTKOb
-         KRFtrUUYVRpMswA04/Mm9rAyJiVnMf7Jktl517EZNwixDFEi4frZ6sS+QK8ny77NaU+1
-         YM6hK6f8zeYcvXiN95UZGd0+6QCG2ady1rkfuUdjaZGvOKbZU0CNQPV6tEPNA4gtXkiq
-         obHg==
+        bh=cedV0+mBiOhhOlmQFuEFj3GrQxb4hXlX2OGeB7wX9RQ=;
+        b=HzqTg4+twpA8lDsegIEbvtSBpr03NTvCLivNU5L3xONBpBEQtRvcW8xM3WKsr6muWN
+         QKdtzb0IPs90xKV0eEz1qinAzmwhnTsu0WWCJWsqX0cDBZ57J+WR6u2QWNqR8nH/T1IG
+         Qi5zhVfQLDfRU7zFsscrhL/EauUpHuG4XqubL2blZx7/tHDUXoa14381n5cHUOcx7bac
+         +KdvLwrH6GkRaNhXJJzXmlKacBPL8WVknPMQfbq2T1CTZbGHHMz90yYrky810Dh6/2Kv
+         dIo/ZYMMbe+cRufkbWybT1vkvdXi8L6p47/XpZZh4ZwgqrJnT19kp+5DDx6r15pd0x2h
+         H2jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794444479; x=1795049279;
+        d=1e100.net; s=20260707; t=1794444483; x=1795049283;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KO6ffwCtdr8RA7k8Fc5roNJODB8/sxhF5kvv5Zygm2k=;
-        b=pyQjb6W88ZuAa/+vCzyEh6BXzfmy2H4fQjOzDRkgN/L4wNB0wu4Dwl1YSLa9FFVCMa
-         12Et8iCzMmx1b0dnBe1XeMsRm1I2FwZTr4sS+hIkSt6jTWz78e6K2pi1VArthBzGpFr2
-         KHy4DqFL7i+K8Zzbbt10Nre31hZN3UOhwv663LfkmWa0GqUSt94EeZSjcIc2MHlqMY/1
-         a1MFXLIfClWxSb1gH2F+W9U9xhXidYnEh3Lo4ai/W9EhIeRmqxfs6WYHhGYVEHt7UHBR
-         LOMYJxr1on1uqrcH4aFYS7V8VFzIAmeD2kxJlrFPNrTSGUJcHYTT3JsJDhVRGqeLqfSs
-         Qrsg==
-X-Gm-Message-State: APuU4Z+R9j1Ez1N4JzZ6WTN0MZWdluXAfH5R5BdKAMCAn4iWYtQQ4dxT
-	vDNxnGVd0kH4pNby/x1xQd3zeWd1sdVku8+kOa2aKMYeaBJwvuiBArLFdm6PuA==
-X-Gm-Gg: AYBFou1sc0Ahyea1nf4qFO245Dz61goOGbbNta0ea9sXTpCfVYM9LmSKMY/w9CoojD/
-	X3svwa+Cg/qJ9nYhnpbA428dyW5H/O4RXWqFn0VrYn8cpRoIH5veh9k/g8fwCicEhV5EdkFPuWl
-	Fmso4YZ4/SyhUU34eEJ56417E2pVZjKR+Zpc1NKXV3zedeEI4cN+9/PZjg7dvFtnvbMNnWla2d7
-	BeXvZ3YDt3jpOzkhRMyKCdDZzBudwa0d2SJO9XhAtCLvsff4PJPuPPPOuD7D56Y1nKAws/IqmkL
-	phywXvVDvCp91C+mdpb4ALxgHOj6RydsIEy6o+a68ASmx2Bampvd+unRX8zVlVq//h7jQTlxhTO
-	p15SsUdMWUh9sV26k8J9fT9XomIeKXxw11PqndCnOEyCd6saJNnjOeU+o4CldDcoYXxg+pXeqhG
-	vmzk1quc7WURVB4s4Epkinkh+V8oonmql1QFdlpNj2pQ4UNuV1sALfVTPSqKx281+ToIiBbQupQ
-	YoqAhzQCf804mvk4K10owYGmdsIPC+vmv/qSnCqOtd74KHPt27VrpINu/3wgGCLaY4nByKeYV65
-	PzfnR5JTrcp/324W83KH5JsiofW+Bou49oXnkOekU0Lg7twVBQq1zsXZ9fqqsjKW1klgm2DIzVh
-	DGhCwSoRU50mqXu6OXNpVoqzVEM7aDwl1+16piM7//hB7rqI=
-X-Received: by 2002:a05:701b:2906:b0:160:a80f:3ed2 with SMTP id a92af1059eb24-1b3c02f039amr3321754c88.10.1794444479106;
-        Wed, 11 Nov 2026 16:47:59 -0800 (PST)
+        bh=cedV0+mBiOhhOlmQFuEFj3GrQxb4hXlX2OGeB7wX9RQ=;
+        b=rcVPwDYL+0o4QjPgjQnTzs18vLKTBgkJLohCDx02rAyo75z4if1kXADSOzftOXpOJ8
+         3aRZ13QlzS6eU7Sui4uSJaUgReBxv/AubqLxA9WaD7jeIzXHTe6YvRGTno9EELCJzcA5
+         y4pwODsNO6VQwHLVPqiZ6hrOOg6jB357rTaT6b1RMXTFQrSuJcy2qE4cglSZ0EKzBQan
+         14f7Xzlkr5Jp2m0KwzdjEpBet117Z4ZaugTOR/ed4cToM9XR9K6FW7A1eUES6e+PZJNi
+         f79Wmy6QO+4gIjtm4TxIuzUR/1YLvdL+JxWdsSU54a8WB7lan8eaol27xshXq+sw8YMO
+         dRBg==
+X-Gm-Message-State: APuU4Z/O7Y0PiFJlCG2AFEHwyAv0mf2SiHEl7LBWkWx/S2sWy4xoc2eu
+	kJAmZTCI6VyZDquoFIrcP8Mu8TDTyu1Goyp6cOjlxzsp3EQeexsWiTRTVfRwrg==
+X-Gm-Gg: AYBFou0c7o/zXNgSLXrxnzHk4bZ/RVvfFM0Ku7xG+5SJB5DTN+AekeZJj6/ntBTBYeg
+	QWeC3XwtH5TLtJV8ZTINVSoQe4FpktpSUzhI3vRBlHmRjENXCLXCUQEBtBFeI2UvrgkqjS+wRQf
+	KnL7uj78LWRw1bXxRqF5fvdbDj3W2gteAIQXqV56iB+sSkHedk5aujl1MVHSRXiGzm8FZbuUcLY
+	48ur8LZpde1RdQ2cJ43DGsZHK2J4DSvD/Mmdhe9hkV5cLNM9ufPiEmkFLaKydX4j3hdZRPtKzfH
+	JNV96FdS+U+8xDt0jWToJgnxth0RlzqUekjYlz2VofWOIcp21y+KALEhK8nmI2a2rY3djCm980U
+	GNAYT7h1ywZ9v5Txnzp/JMmi48SHWXu3bwN+55t16B5Zhj1f55h0GSPFBYEAXK74i1AyMBeRmiZ
+	k5Cu39525bUhsmzwwqHJJqDadu7xwtGubv0azsKkx+2A4NNMJQXY1JrhSyaiI+Uvjd65KNgxD5G
+	nvYDMxBCVA0D60lKlHPl+5UgCgq8fjYhO1SxZAcNtxzaQczusyaZcyZJPPhY8Yuh8VklQiXzD2j
+	c0kwtqyGdVnlEp/QUHN9DOviLkDHVcTAaKiFW4W5ygJxKrayZxY6HoG5SvnkGRcMfjyuI8DJGJR
+	nbj9eX852Dh45ZJM80oSYhsQ8VsVOzzfO2xGiE0EgisqnxFo=
+X-Received: by 2002:a05:7022:1706:b0:1b3:bdd9:cc6d with SMTP id a92af1059eb24-1b3c034619amr3483867c88.32.1794444482628;
+        Wed, 11 Nov 2026 16:48:02 -0800 (PST)
 Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b2eeffsm20672163c88.9.2026.11.11.16.47.56
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b2eeffsm20672163c88.9.2026.11.11.16.47.59
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 11 Nov 2026 16:47:58 -0800 (PST)
+        Wed, 11 Nov 2026 16:48:02 -0800 (PST)
 From: Joonho Lee <mynameisjune111@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: tiwai@suse.com,
@@ -91,9 +91,9 @@ Cc: tiwai@suse.com,
 	rdunlap@infradead.org,
 	linux-doc@vger.kernel.org,
 	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v27 14/17] docs: describe virtio-sound capture options
-Date: Thu, 12 Nov 2026 09:47:01 +0900
-Message-ID: <20261112004704.49758-15-mynameisjune111@gmail.com>
+Subject: [PATCH v27 15/17] ALSA: virtio: reject invalid playback completions
+Date: Thu, 12 Nov 2026 09:47:02 +0900
+Message-ID: <20261112004704.49758-16-mynameisjune111@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261112004704.49758-1-mynameisjune111@gmail.com>
 References: <20261112004704.49758-1-mynameisjune111@gmail.com>
@@ -108,81 +108,38 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document request-owned capture in the ALSA configuration guide. Describe
-`capture_packed_status` as default-off, reading a packed trailer after
-returned data while the fixed status scatterlist remains the default.
-Describe default-off `capture_pause_restart`: pause uses STOP and
-RELEASE, then resume uses PREPARE and START; disabled mode uses STOP and
-START while retaining the prepared stream.
-
-Note that on MMU systems request buffers are vmalloc-backed and
-page-rounded individually. They remain allocated from hw_params through
-hw_free, and capture data is copied into the ALSA ring.
+A TX completion currently advances the hardware position even when the
+used length is malformed or the device reports an error. Validate the
+fixed status response before publishing progress. Retire the request
+once, latch XRUN and schedule error delivery while preparation is
+active. Keep malformed or failed transfers out of successful playback
+byte accounting.
 
 Assisted-by: LLM
 Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 
 ---
-Documentation/admin-guide/kernel-parameters.txt |   14 +++++++++++++
- Documentation/sound/alsa-configuration.rst      |   25 +++++++++++++++++++++++
- 2 files changed, 39 insertions(+)
+sound/virtio/virtio_pcm_msg.c |   11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -8344,6 +8344,20 @@
+diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
+--- a/sound/virtio/virtio_pcm_msg.c
++++ b/sound/virtio/virtio_pcm_msg.c
+@@ -980,6 +980,17 @@
  
- 			Can be used multiple times for multiple devices.
- 
-+	virtio_snd.capture_packed_status= [HW,ALSA]
-+			Read an explicitly enabled packed status trailer after
-+			the returned capture data. The fixed status scatterlist is
-+			used by default.
-+			Format: <bool>
-+			Default: false.
-+
-+	virtio_snd.capture_pause_restart= [HW,ALSA]
-+			Stop and release the stream when pausing capture. On
-+			resume, send PREPARE and START. If disabled, pause uses
-+			STOP and START while retaining the prepared stream.
-+			Format: <bool>
-+			Default: false.
-+
- 	vga=		[BOOT,X86-32] Select a particular video mode
- 			See Documentation/arch/x86/boot.rst and
- 			Documentation/admin-guide/svga.rst.
-diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
---- a/Documentation/sound/alsa-configuration.rst
-+++ b/Documentation/sound/alsa-configuration.rst
-@@ -2537,6 +2537,31 @@
- 
- This module supports multiple cards.
- 
-+Module virtio-snd
-+-----------------
-+
-+Virtio-sound capture receives data into a separate request buffer for each
-+PCM period. The driver validates the responses and appends frame-aligned audio
-+to the ALSA ring in request order. Valid short responses are retained. Empty
-+responses are accepted only during bounded startup or for requests already in
-+flight at STOP or PAUSE.
-+
-+capture_packed_status
-+    Read an explicitly enabled packed status trailer after returned capture
-+    data. The fixed status scatterlist is used by default.
-+    (default = false)
-+
-+capture_pause_restart
-+    Stop and release capture on pause. Resume with PREPARE and START. When
-+    disabled, pause uses STOP and START while retaining the prepared stream.
-+    (default = false)
-+
-+On MMU systems, the request buffers are vmalloc-backed and page-rounded
-+individually. Allocator rounding can make total additional memory exceed the
-+ALSA ring size, especially with small periods. The request buffers remain
-+allocated from hw_params until hw_free.
-+Captured audio is copied from each request buffer into the ALSA ring.
-+
- Module snd-virtuoso
- -------------------
- 
+ 	/* Playback requests point directly at the ALSA ring. */
+ 	guard(spinlock)(&vss->lock);
++	if (written_bytes != sizeof(*msg->status) ||
++	    le32_to_cpu(msg->status->status) != VIRTIO_SND_S_OK) {
++		vss->xfer_xrun = true;
++		msg->length = 0;
++		vss->msg_count--;
++		if (!vss->msg_count)
++			wake_up_all(&vss->msg_empty);
++		if (vss->prepared && !vss->preparing)
++			virtsnd_pcm_schedule_period_elapsed(vss);
++		return;
++	}
+ 	completed_bytes = msg->length;
+ 	latency_bytes = le32_to_cpu(msg->status->latency_bytes);
+ 	vss->hw_ptr += completed_bytes;
