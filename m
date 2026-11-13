@@ -1,83 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794566270;
-	b=AWF1w/FEI+M0mRwE3BmcpYCzkoTA9MS6Co8OWjAUOyOSnu1yCydrH26fvW6YcT2aibqA
-	 9KLQD1Ck60qTIlwZ/xzFugN2B4WP3E0ptqnPe87Rm0x2i4PX4hlwaYNprXlFg/D/zzOCs
-	 iU+MJa7IbKEbQwkvaBDfXgyJV9NybJmhg38v4gg6zDPf1AN5ak4drV3tcj1n3UY55+1P7
-	 D5nRhTbldd/UcCa4lLgGXvBEeoJIPXy6zu8p9QB7TjgzV57dzqfFv3UFCD04SL0kTFkGf
-	 +y1emj67lzmBWTF/6N8D50pbk1ThjeglcTk9UnD1/7U9LW0OiJSSv8f4og7PUAcB1QA==
+	t=1794566277;
+	b=Jl7djLjrCCnNcSp/C0Hsqbav8Z94EepGD/ZWSDBf0S6BXsnBEse9xsgNnf9vm8BqlYkp
+	 UkMOACsSiB7FQZIDwYiiadLf9B0YKWpZrhKAkAik0sgYIicVrw4ufJN2LhcDnhkW0UKWu
+	 vaU8vImdII0+V5Tf1ZB+0iC7BnSdxykI6enZOHy1daPrfBfyhHXKdyoqR3uUNBQiOE1ub
+	 uEkFJW0q7Fp/7SPOVgkOmwRqVe4d69q1re93WuRLb/tPHFgg3Py+BIby2YbwRcfrp+zEd
+	 vXk2E4AtvykjSHEj8fZJPuXodPRL36VjCeKO0hBtou+IZKzAXm3Y4KbmgF3ANX1Bw8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794566270;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794566277;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=GxRULr6L2s7oj4WrEQj1sjF+5Owee4KxswausHCyuXQ=;
-	b=Ix4x+ECWxSnXphI1Z9yqwNmzHhxJr35Mcg/8SFkk7qPUAdfm0wOzmzHCV4Wi5Q892bsL
-	 YQquujXxnWsyr4yoK/JJK5PFxbAkji63FjjyuEEfrgrVPXJkeRxsUC0EA3Ci8jDZeGdit
-	 gin/vPQq0m7ARvoZgKYa7KTbKuFuWPkJbaTu4OtXCcrC+UPJOejAaBJBPjboMgqeRyrzu
-	 h8Q+piJ9R+tLUdDH6+DHJhw9JY63O/vhQpL5RgG0vR1VBJjYCdg3xT3YcRb535CdXCiAX
-	 NFo5XCixjVAB0/KdPKQRUglUiO+e4RxzjDt7DZsMY5FYUCzqUiEILMV2rUTSnFcpYYQ==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=0q3RmALjF/bvDrFsLW6GlXC44FE9KFMVqpsZYQovitI=;
+	b=Tb/GL4seYr1PEI5rDNQaTOUUpPgeYou10yEDShwGtGul1e8aEL6DPzYdQ9PY53Qo9AaX
+	 yGnfoE9YHQz9jB63LPWe/Toyj8zTm+Zge4sGH6dx+jkCB9/cX2WdSSNtMNirgdktU+2vW
+	 bdhkjDHXC+/KMm0vVXGuGDbDuBsTm4+8A6+LWoTgolB6DzxlyXuT8JITrs0QdfXyvabEq
+	 JaFzjKddYk4IHJVm5Pp/rGUlH8WOutAfPLmdUhZnBww6M82fIa+WdpPhOn8DAmaX4zHN8
+	 8z3FOFinfyBozihktMOxkQ4IQUGUyKYTaKXxScdWvo2GmhTqYYiNBf+Xu6j6I+oGD4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0Lphmjvs;
-	arc=none smtp.remote-ip=209.85.210.176
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=e2WnIjX0;
+	arc=none smtp.remote-ip=209.85.210.177
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929A6606A321
-	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 10:37:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 929A6606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161CF606A32E
+	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 10:37:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 161CF606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0Lphmjvs
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8a39e5161c1so1466336b3a.3
-        for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 02:37:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=e2WnIjX0
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8b8ecfa886bso920117b3a.0
+        for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 02:37:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794566270; x=1795171070; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GxRULr6L2s7oj4WrEQj1sjF+5Owee4KxswausHCyuXQ=;
-        b=0Lphmjvsr9loP6mt8/CKzEGO52ITAc3bPbxQxcD9q9O/gIDzxKpfjnERU5rU5JOPAy
-         K3PYeIrfxUkO+02I5bceCf0m23iw4YQ+d6BxOCQqvfL3wVD/6Iii0bEX/Wj+BFTKW61r
-         LHAhfT/lRTMtd0UXuzp4gXTs8WvGTIF76/ILkrzul72UZGyPR7hM63BPtC+XDca15chD
-         Q90adJw+XTlaxPDUkwbnzovHtv/7Xnmb7DqWWHJiUtdh0PGu1ukisxVFEsgrSSWh2ghg
-         bdmo3W2sY9coGJHS4xCnJS9SB0Ej8wqcWfTmzynzRLgFkg0AYqsRwP2f+knELwB3G42J
-         aGoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794566270; x=1795171070;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794566276; x=1795171076; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=GxRULr6L2s7oj4WrEQj1sjF+5Owee4KxswausHCyuXQ=;
-        b=TcCw+Brmd19JncsSevZH8G0YjP1Hjg8Y5yzIIEHdE5/wZZPqmUX1dgRRvcXJUBRthG
-         5VJBFLoz0OF+g8oT+MfrR7eUzqFeAwhfZ2lzmuFXRv6B5joDQsoOx2pec26l1ta14VJW
-         dwi6JuDoGIx+Cg9Xy5Ynl0JgM48Vbtc548Bi4kNT60iMOH8EDubSDOZufAx/jq/1Tpbk
-         RIRzCcW7IamL+qp5UXK7GgmOPSukwiqhdUemsSgCIdSn8aBGGnAOA9Cnab92SldFtPOp
-         ySfV/Qs+qSk4XvSxJ/5X6WjQjkNjsW7SxnTDFCHTGwb7zYr7VNSn+41zWM/mH3LhliAQ
-         3QLw==
-X-Forwarded-Encrypted: i=1; AL+hErFLIFRUd8MiXdh8Zph7oeKBL0lhHmoQqw8UUqbNkQNJ1g4qEZQyLv+ZlLY4H7jBwZK+xD4Jgtg/5HT6aQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8PO8717vDzwPUKWWmJvci0+lxaQh1zNJuFnfrBbBRBi81/1agP
-	MXN2yOhD96c9fqYMM1oMfT50LyVaR1Krk1dcFtrhCSMGXkvywOfbTuXO
-X-Gm-Gg: AYBFou3wOjRdNzH0jrBJF8DqTlTLV2kTO8ofniZTMunKk1N5BkqI8BUTVYRs+Pd5zSL
-	VWHpK/6BJR7mKOU59wti85Cm08fUfgpXaiIFrEUolV4qYzFQzdZsy5nbA4fBN+gsx6fqn5GtfdE
-	pL/emHLLZCHULckZR9rBNIr6fuGM2c56bE4QwA34mmGQmWJqVGHQiqI9izZIPIHiT6YkKXUXBqt
-	HqWZWkb9wT6bc4GfBC0n7CciMbWecrytnNDuQ9Tp55NjjagW2y6zjI9Orsyvv7DWriLNmqSySRX
-	0CV2TeZxIKR5qZcdaLX3H6RsJkr9QDJhP+DZuuEBEcUcfcAtGCeecNCOL9dlisHatwaVHMEGKno
-	PoT+d+SAwXYxiL3Uxn8Xwi/yNPjxl9nNHDtmI+TQ6lRbW1TsmF0/zJbeWtuumN4SPrsknX7YpPY
-	lLMksKmeoLGYw3H3v1O0sENyrtNWGyI4pm3FOiz0OO1JovW6qrcY14yOi/j2Tb/pPMl8/mUxqrD
-	LZGgxwPe2IdIeOJ9zHhBpr/BGHtKjoIX650WbuTFpvhoG54ddI5IsBhjztoywF8mQ42HNXFxw/a
-	HDYGgJ4FAkM7d2ZiqpcndNtD8Jozrv0VQC4rBUFEfA/K+hWz1D6Y/yhy2Js8oNlZoOc6Uwudsvh
-	Czqjktk0V9/9S8cndutPmBk33fJgjRY6oI/wc6kKw7QNL6w==
-X-Received: by 2002:a05:6a00:929c:b0:89f:1b32:29a5 with SMTP id d2e1a72fcca58-8beb20cec32mr2220289b3a.7.1794566269836;
-        Fri, 13 Nov 2026 02:37:49 -0800 (PST)
+        bh=0q3RmALjF/bvDrFsLW6GlXC44FE9KFMVqpsZYQovitI=;
+        b=e2WnIjX0L/uaDrA8lDs4m5wrhQjwIodzFg1NmphQM+jxOjr5jw0+fy5OcxlP/Vku8/
+         wspc5rQNLXOBVwnhS4pKHBzEGPXHO0N/Bi1zOtPNCYBScjw5SRgqNhsh+I2TDKPKWOzb
+         qmo00VSHrrE8znHmzMclufDTKDPl7ScPaVYnRzd378HcUQK/cjBW0vbCGgijuMrnNocg
+         Qv/Dau/iqQd7om001B6rSUKIzVSpnjtaUMb77W7c6ex0NVMlW3LHxF2Yjl2LeSaWkPLb
+         rTwOq7c3bZiRn+KaVaRtM+x4WxqeO+wS/yfOWK5muuEbz7EdrN0ywzr3hH09/CXEiBgU
+         0AHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794566276; x=1795171076;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=0q3RmALjF/bvDrFsLW6GlXC44FE9KFMVqpsZYQovitI=;
+        b=PYFbg97zbYvvxIf/kPPvu0oYzdTkjGqkq8lf+kDAicliU18tWMTXKi8AQI2s04uGLL
+         tz10kz+EE6W3vjKK79WgniN43+rbMZPfZF++1t7WRhMLLhm+mlpF19IxXl4+4JiVA7E4
+         5W2zUjzWX3056j+G6d217e6BwNHu2ozbDbQ3ejkQRXd+dbg8XQ/njvLMfRQXzOKfLwFs
+         abxKFRjn4nVWe2LxkycoNaeK4aKLC8jC8gU3eV3J+4fZMdgeJTt69OE0j9dCuWGwSNMF
+         98u3cYFeSHna3TJ3rMOtvh73II/D83PfXAL825/eQGIUzVyH0RMrDeOSlZuob1oR/I/N
+         PF/A==
+X-Forwarded-Encrypted: i=1; AL+hErG3Xhg7yUTF7eTotN3yc+FoCIvMtrLR6HmcTFWpPoJKvwMBf5VDAMTxppWoqzLb3BA6uEY7ANxMHt6jow==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8X7Byn9Riaud1x0+iaopGV4A90wfh/1cBTTBcWZpQa6cbyCQIk
+	XMNTWebbp9vXeD7MclXYLX5gQYZWESzaqTMrNUWfzF9bYa5KVnnIFHuX
+X-Gm-Gg: AYBFou3En7rg1j0zrQW3RFPKq26QQaiVJGcX+4D7BtGmBEepYfZdEDt1yGhPV9820JL
+	FRzvL13TnR+YP44lTuU4lnwlApIIq/bE6zHeYeWtYOo/pXh9Ihd6Jv0dFdqt2Oj5y2jmpGl9X/K
+	gEMsSmYtVrYtWpuXsxK3RaHQ4LOyqf/Me7PWEQo/cx6yeV6be13aJQX4rR6JiKYV0yxoT8a0hAz
+	ictZUwMFI9X24PZSv1NjmvPkzdT9Hhugj4EoUw/YZcZ4CKstsNUEwdDVmyEtfChptFvb1KE4xbI
+	+W97/bQh8xRyOm7Q8ycY2xLN91jquuN+rNfjV6FGx8zdi6VGtRrj9ugjUAuiGBk9TgISf+I+GbD
+	TBlzSC+bZx9TOJGKlciuFkiiNPxMkJHGT2KvDVPzhExUcIYs0/a7/vtrFadVtADb9jOU8jOtLha
+	TIFsQ9UzUinGiS95Vo+mRRucbcntC7a9FnQYXGV3Kh02IwlZs6NhW/NjS8zm8MqjnRDHD/qM7a0
+	6j81vARETGAbi88VtoBtDnk/332nD6OmrsjZiZ/M3/191FFDb4fm2ojIeYFk7C3O3MhxEPU79+2
+	at6tM///uh//gPqGlJitcwJbvtNe2AHiAb/uwxSDs4y+SRzl2rSZp19Z/0GZFv85WlC/5uDOS+Y
+	o4//+BvlgXUZMea+UKtz29da5KtvoziAMJMbPZdOxz/aa
+X-Received: by 2002:a05:6a00:886:b0:8a0:2d72:17c3 with SMTP id d2e1a72fcca58-8beb619fbe8mr1640146b3a.15.1794566276302;
+        Fri, 13 Nov 2026 02:37:56 -0800 (PST)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed12a8682sm890955b3a.10.2026.11.13.02.37.45
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed12a8682sm890955b3a.10.2026.11.13.02.37.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 02:37:48 -0800 (PST)
+        Fri, 13 Nov 2026 02:37:54 -0800 (PST)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
@@ -91,10 +92,12 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 0/2] ASoC: atmel-classd: Improve clock and probe handling
-Date: Fri, 13 Nov 2026 17:37:25 +0700
-Message-ID: <20261113103727.30449-1-phucduc.bui@gmail.com>
+Subject: [PATCH 1/2] ASoC: atmel-classd: Simplify probe error handling
+Date: Fri, 13 Nov 2026 17:37:26 +0700
+Message-ID: <20261113103727.30449-2-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261113103727.30449-1-phucduc.bui@gmail.com>
+References: <20261113103727.30449-1-phucduc.bui@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -108,23 +111,78 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hi all,
+Use dev_err_probe() for clock acquisition to suppress probe deferral
+logs and remove the unnecessary cleanup label, as all resources are
+managed by devm.
 
-This series simplifies probe error handling and fixes the 
-peripheral clock lifecycle management in the Atmel CLASSD driver.
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/atmel/atmel-classd.c | 29 ++++++++++-------------------
+ 1 file changed, 10 insertions(+), 19 deletions(-)
 
-Compile-tested only.
-
-Best regards,
-Phuc
-
-bui duc phuc (2):
-  ASoC: atmel-classd: Simplify probe error handling
-  ASoC: atmel-classd: Enable pclk during probe
-
- sound/soc/atmel/atmel-classd.c | 42 ++++++++++------------------------
- 1 file changed, 12 insertions(+), 30 deletions(-)
-
+diff --git a/sound/soc/atmel/atmel-classd.c b/sound/soc/atmel/atmel-classd.c
+index 6693bdcbb8f5..117c8e400184 100644
+--- a/sound/soc/atmel/atmel-classd.c
++++ b/sound/soc/atmel/atmel-classd.c
+@@ -547,18 +547,14 @@ static int atmel_classd_probe(struct platform_device *pdev)
+ 		return dd->irq;
+ 
+ 	dd->pclk = devm_clk_get(dev, "pclk");
+-	if (IS_ERR(dd->pclk)) {
+-		ret = PTR_ERR(dd->pclk);
+-		dev_err(dev, "failed to get peripheral clock: %d\n", ret);
+-		return ret;
+-	}
++	if (IS_ERR(dd->pclk))
++		return dev_err_probe(dev, PTR_ERR(dd->pclk),
++				     "failed to get peripheral clock\n");
+ 
+ 	dd->gclk = devm_clk_get(dev, "gclk");
+-	if (IS_ERR(dd->gclk)) {
+-		ret = PTR_ERR(dd->gclk);
+-		dev_err(dev, "failed to get GCK clock: %d\n", ret);
+-		return ret;
+-	}
++	if (IS_ERR(dd->gclk))
++		return dev_err_probe(dev, PTR_ERR(dd->gclk),
++				     "failed to get GCK clock\n");
+ 
+ 	io_base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+ 	if (IS_ERR(io_base))
+@@ -593,29 +589,24 @@ static int atmel_classd_probe(struct platform_device *pdev)
+ 
+ 	/* register sound card */
+ 	card = devm_kzalloc(dev, sizeof(*card), GFP_KERNEL);
+-	if (!card) {
+-		ret = -ENOMEM;
+-		goto unregister_codec;
+-	}
++	if (!card)
++		return -ENOMEM;
+ 
+ 	snd_soc_card_set_drvdata(card, dd);
+ 
+ 	ret = atmel_classd_asoc_card_init(dev, card);
+ 	if (ret) {
+ 		dev_err(dev, "failed to init sound card\n");
+-		goto unregister_codec;
++		return ret;
+ 	}
+ 
+ 	ret = devm_snd_soc_register_card(dev, card);
+ 	if (ret) {
+ 		dev_err(dev, "failed to register sound card: %d\n", ret);
+-		goto unregister_codec;
++		return ret;
+ 	}
+ 
+ 	return 0;
+-
+-unregister_codec:
+-	return ret;
+ }
+ 
+ static struct platform_driver atmel_classd_driver = {
 -- 
 2.43.0
 
