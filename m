@@ -1,66 +1,66 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.11.138.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794604095;
-	b=ql33cfzUPOW6GVBtu7411Y3mOUq+wnfMeEmlso+/jopSuxcRru6jEiuniHm5SInNU/Nx
-	 r2aXwHTOX2zgZumOBx1G32BbaSMj687zdJChBaZN9E9sRYc/F7giTJv9DXFsR51/HRRQf
-	 IfLd948sMRF73ZI1Y9pTQUFCNRejLMrxvhtQBtBLJmtD+MV6HJ33R8fq2GdKVxPUVVNxH
-	 DC6tTi27IZBT/e/57MQ6tuV674gJabHO1u/tLKuIkBzBQkMnjLjInikOggGai93klKTfk
-	 jjYaGbbZjTFP4rrmkBTcFHeOBoAEEFD775xVY7O0SI0/9sl8G8w7YmruyaZhyZYU6qQ==
+	t=1794604096;
+	b=r8g3gVHQBawy5lJOwJdXLzkQ2NbbeGNWcB2ykZv8445oBrSSVR+0ANpVbX/S1U77qZJx
+	 0ewohmzyU3ijydcRFeiEn5P2qIoIuzFGAyUNR581Gd+ZYvgOA4TwaBfFamdu1NDQB76Cj
+	 XyXFBZZYkS+hPVafSuVJ+uU+drCPfxDiJjygEkJvnVckZRev7gbm0ugFizxPYq3BZv+ew
+	 hokp3Ai89XGyZm+tLOnqrJcAG4joRW5CAuClQ6RdkJqF28wy5RB8MB4gbZua+xG15lMhO
+	 zqGXNJ5zR13uGdceaknnL6l9z1TvfeDwPhgGstcMrBfbW6HTTRhglCI96hwMyGZ09kA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794604095;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794604096;
 	h=DMARC-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=KL61sUxGGXBLoXiDN/MT8f5YU0XPMLUvi7kW1YNxd5w=;
-	b=D6/1PImAEAaNV/hCjZbw4OadqCaL93XhyqKFtN8IEpB2h981fTyM7D7emV1FeNg8QQ9O
-	 PCLqo406jDciILSZtVCrHv+5zQrh/qqaVf/wxaxAhRG8rLJKNYQSrurZDuAn6SK5tgTyI
-	 h0V7iEQ2BSzig9auMxu5QZyNx2kxzPQiDDcoJkigRFi4oHYZ3vYZpSeJOjOk3B5eMf4RO
-	 6rn2wD4GkO1yg2gxadGkwrWYnhutdSmk4OivqQOiNRl6pA2+kiU1l7pztrvx0hbofYzS9
-	 wlqPCfF/gkCdbvLClEizKeOnC1SkULR3lS23zeTmJYvvegGkDQyVXVCHszn6qcIwMvQ==
+	bh=r2gkPj5kQuz9YqUKX4TJeW3u1cPMLY58iyNWLASDipA=;
+	b=3gggC68cShevvXlu70HW2mh9UcM8C1ZcXd60rRGTkgL1E2ChThfe/eoaub7Id62/LU79
+	 6dpztkwM3N6zAOEvvTgC/IYF+CWm99WI6c8db0LBRIap67DsyUYT7V87GlpxMPpQ9Msyz
+	 j36CtIbpNq+lj7jvH4khzFniLk5YxXsRQAWmXFvuNko8u/hB37FBUFp3zsc/+KXJx/rmc
+	 nYFHb1N1VHkgaQ8PSq/Wc1LaOjw62Gwic9TUkWfyLVGi+wuwG3H0Ip5fZEptcYDKK7QzZ
+	 ToSwvE8DRGV9CtBdFu+XogOWLJkzhVsX4L1ZQQgEzHEPZpv/BHIeaCntpKkkCnL8POg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=sntech.de;
 	spf=pass smtp.mailfrom=sntech.de;
-	dkim=pass header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=Fq6FkOsr;
+	dkim=pass header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=p5fVi0mu;
 	arc=none smtp.remote-ip=185.11.138.130
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28BC606A334;
-	Fri, 13 Nov 2026 21:08:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E28BC606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474A3606A331;
+	Fri, 13 Nov 2026 21:08:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 474A3606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=Fq6FkOsr
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=p5fVi0mu
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
 	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=KL61sUxGGXBLoXiDN/MT8f5YU0XPMLUvi7kW1YNxd5w=; b=Fq6FkOsrggmsp8mQ2lX6leF3JL
-	G2Xu+3xGCgwVm/HxXjIZr1p46QA4Y0DNs9L5+eh/pMO9xPa00hg34VjICP6NT+nePRGSSGtcKlQtQ
-	Ezue9u3CwCzQ2GnRVquBzdp2q14X1kxeDvPeGKdxF0gOpn14xzH3kq80S2XXQgUBPGPBTPxU1m6O2
-	nE9AXoEwNgr6ryO5EzDx3MVXBQWAfyC1ZOGlSH3tRU/heDHuPVAo2UzQbpdO321aRVJNjr/6NbOPS
-	pSHVdP8WjpwznDkCCqwl99mp4RHIzy8Rgo7XrVMUPeCKoENGtkl7CTMEmQwYhjOL2YExxymHUIE07
-	K0QsAYWQ==;
+	bh=r2gkPj5kQuz9YqUKX4TJeW3u1cPMLY58iyNWLASDipA=; b=p5fVi0muYoS+ENLYrw5ud36LFT
+	zNplE/CmOFckyyUm2RutQKe3KeivclMTP411SN74kLmPsSZyrRnXVzj5lhcNODYBQnLs9gEWfnJGT
+	vs9U47u3fqEnX7AKgU9o8Dinud+QKqrMI4w7Db0U1IURk9Bf/QEdn7d0mDTnXp2cIWrV5UN2THIWx
+	wZXE8+k3phwgqIqyZVeEZOwh50ez2GUQcPEXs7Lr0TS5uF0VZYf7oThAaYjEGy4XI7aj+7/p/LHF8
+	7DUetwlOmWmNhtfzHxD3xlvmyKknn6zRwyd6/leWm/QRYGe7TGJBRYARx5TG/s8kgBXcVhjOSSIeG
+	hdM2yO2w==;
 From: Heiko Stuebner <heiko@sntech.de>
-To: Igor Velkov <iav@iav.lv>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Igor Velkov <iav@iav.lv>
 Cc: Heiko Stuebner <heiko@sntech.de>,
 	broonie@kernel.org,
-	conor+dt@kernel.org,
 	devicetree@vger.kernel.org,
-	krzk+dt@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-sound@vger.kernel.org,
-	luca.ceresoli@bootlin.com,
-	robh@kernel.org
-Subject: Re: [PATCH v2] arm64: dts: rockchip: Describe more of the power tree on Kobol Helios64
-Date: Fri, 13 Nov 2026 22:08:03 +0100
-Message-ID: <179460406460.1165597.4015563597141303036.b4-ty@b4>
+	luca.ceresoli@bootlin.com
+Subject: Re: [PATCH] arm64: dts: rockchip: Enable all CPU OPPs on Kobol Helios64
+Date: Fri, 13 Nov 2026 22:08:01 +0100
+Message-ID: <179460406461.1165597.1626712698379788020.b4-ty@b4>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261108-helios64-power-tree-v2-1-639ac2fc5ad7@iav.lv>
-References: <20261108-helios64-power-tree-v2-1-639ac2fc5ad7@iav.lv>
+In-Reply-To: <20261108-helios64-cpu-opps-v1-1-31aa4afb7eb8@iav.lv>
+References: <20261108-helios64-cpu-opps-v1-1-31aa4afb7eb8@iav.lv>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -74,22 +74,21 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
 
-On Sun, 08 Nov 2026 23:00:18 +0000, Igor Velkov wrote:
-> Add the regulators that the Helios64 schematic shows and the device
-> tree does not describe yet:
+On Sun, 08 Nov 2026 22:02:51 +0000, Igor Velkov wrote:
+> The Helios64 device tree deletes the lower OPPs of both CPU clusters
+> because the board was not stable with cpufreq.
 > 
-> - RK808 DCDC_REG3 vcc_ddr_s3, LDO_REG6 vcc1v5_s3 and SWITCH_REG1
->   vcc3v3_sys_s0 (sheet 6),
-> - the fixed 0.9 V regulator vcc0v9_s3, fed from vcc3v3_sys_s3 (sheet 8),
-> - the hard disk supplies vcc5v0_hdd and vcc12v_hdd, fed from
->   vcc12v_dcin_bkup (sheets 4 and 9).
+> With all OPPs and regulator-ramp-delay = <1000> on vdd_cpu_b, the board
+> hung about 9.5 s into boot both times we tried. With 40000 it ran 40
+> boots and three one-hour DVFS runs under load without errors. We did not
+> find out why the slower ramp hangs.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/1] arm64: dts: rockchip: Describe more of the power tree on Kobol Helios64
-      commit: 6c9bd34d299ccf3cd1374a79749f9509059f5bd7
+[1/1] arm64: dts: rockchip: Enable all CPU OPPs on Kobol Helios64
+      commit: 30eb5fd93649928b9e4149d24fa182c8521fdc20
 
 Best regards,
 -- 
