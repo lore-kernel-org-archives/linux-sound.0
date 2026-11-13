@@ -1,87 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.225.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794574075;
-	b=rAsdrtFxqhTUrgmLdcxo4QRAeTMVcQkEaqjNqypAZvTzQeRIdJTD6p0lxRr31d/Zo+2o
-	 /+p702Bh680D/EsEuJhTfYyBoUXfxCf7/ORNAw+7Yv83yv/K3ub/ELmI52zIzzll4cwF7
-	 9sH+UwjboXCkm2MGyjwdCAmDnIX9varz7t1RljqAtoql8DD9313JMWklWSKEeiJEsk4L4
-	 n1NvdzFE4W8lFlTK2NaYqirAh65Gy5wmcvD3/HERuLSnSQLvhccHUJzrJpwWYzp8LZAhi
-	 KOae672PMfTPnJHBS4M32wbKlbrEAAdgMtMdSLz9SwNHsFMh0TOuBv4F7dIRQKSeCvQ==
+	t=1794576267;
+	b=bSM4kQrYSu/QA0M4YlFe6UOArAcv7bd6ZCMuR5HoMuet+PPqHxPpa0r+wNmOHVmvqE6j
+	 8hScIZ6qrS7B0+9HRk83PiKulrVJ5sp+xk7q/4H2Lg9X9wn5MpoMogdA3CD0qswHAUM1c
+	 nwlZr8Uo7SsFoWQmcIhjItAGx5dfJCOvd+6YF3K7XgtHSL4mu6Szo3TpWSxIM83P/uKFp
+	 ooCwB1sLHwLS4T/76dfWcd4Uyh+NxHAFrkR296KN4O2aQJEhh8MlXjrS44bfBbjdNBEmq
+	 sdOqaPhAyfc3lT3P6t81nYptuP6sz4W/CDeSR7gDhUwWLORmOLRLQthFKevluJmbcqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794574075;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794576267;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:Content-Language:To:
-	 Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=dmx7lZXkcixTl+10Zvhm8UM2FpQt4AXP/0UX1bcGrY0=;
-	b=ylcLlxIK1jPsPAAkLuO8JCm/bNhe4H1Xqjovkh04fcgk1Ai7X9zzenFKBZhQZjRQN0lP
-	 0RIk8kh7dYs6vr+VRFgLYj1vZo/Y3Ise4gK1Bx6R/dF0YicF2omrxDPZIgXBRYDtheSFL
-	 PT3ZCw5qrvLs0ZwACUiO02s5ySmGvXehn2xlrClNucZMcDxMk6EW+Scl6Pwrfz8a0ifxx
-	 drxfL55nGhbmer3QluFleYyek3z9/zBd+CulIU41sM4tzUKotiPF6NmMbSnW49u6QwrES
-	 kPfmAVQengPcx1cfXqnaYm+yULDU57VagGuQ2dckPDLwvZv2PKRZWQcMf2BDvNEPFTA==
+	 Content-Type:MIME-Version:Content-Transfer-Encoding:From:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Type:Content-Disposition:To:
+	 Cc;
+	bh=4bnNobTZYbRq5oUNwxT7VLNd05i6sn/OWm1B32EXBKE=;
+	b=pIIL66sh24U9+R5ZGwb0K7WbMId1zrde8ifPIQ4cxv55Wpz+/PBW/QH9VtO1PRScXp1u
+	 ChQNP7k4X3zsW4RE6TnlN5kKJppMawgY30riNnKr+eWe8sRxTiAiTJ4p/4pPBVusYXrXo
+	 B/cwmmqO0Q9WbkHP9HHi7+Z76Czvu9BLBtLKva+8KYftfKz6ShLl2rAiGk19WvLQommZG
+	 +CbfLc6CSICttIZPuIVjWTQvV1uBQO76bEJvB1zRWpV9jRnADZQ8ekwkPjcVLBnN77LsL
+	 mul1Nztos9zPTCz3Oo/cBl7oEZPtZhn1YFeHVrpkglfvBlMcztrNqWzmZVIOzdvJtkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=ll2dmfz3;
-	arc=none smtp.remote-ip=209.85.128.45
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MXsmNfMk;
+	arc=none smtp.remote-ip=74.125.225.72
+Received: from mail-wr2-f8.google.com (mail-wr2-f8.google.com [74.125.225.72])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4225606A32D
-	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 12:47:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4225606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2534C606ABB6
+	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 13:24:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2534C606ABB6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=ll2dmfz3
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a20bde60a0so7110545e9.3
-        for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 04:47:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MXsmNfMk
+Received: by mail-wr2-f8.google.com with SMTP id ffacd0b85a97d-48df4afd489so168861f8f.0
+        for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 05:24:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1794574072; x=1795178872; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dmx7lZXkcixTl+10Zvhm8UM2FpQt4AXP/0UX1bcGrY0=;
-        b=ll2dmfz3ZZQqM8p9tvh/cMBW3KmZXtaganop9u8ZdwqRMpn0T+Y7xApwcrpQTwjQ/c
-         xsVOA9R5CVimLyPj0nWN1BuvpZbvwc5ypvcVDJdCdKWhJMHWjJvJ5s+zbFUpCkWc/9xf
-         kmTuDx0xWFwDvxtFw6Qh1G7JESctUQNORHgPgcrmqWl4DrC8QWliGpdy55ZbmcwhVXe8
-         0Ue1Ttey5jf10xnSu4WF9Nwrz5CxU9vokIaxutOI/uPGcuma7oSkCwU4ZCx6hyMofs6S
-         /Y1vw4WnWEwY4106ORp3BYUdd9+ioJRodbW8Uww+cEBDOcBgW67QXwT8cS9QLuKWymfO
-         ljOw==
+        d=gmail.com; s=20260707; t=1794576265; x=1795181065; darn=vger.kernel.org;
+        h=cc:to:content-disposition:content-type:mime-version:message-id:date
+         :subject:from:content-transfer-encoding:mime-version:content-type
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4bnNobTZYbRq5oUNwxT7VLNd05i6sn/OWm1B32EXBKE=;
+        b=MXsmNfMkwmrtzH5QjA2Wxfle+/oOPLkWAIi6ePOk/jbUkUf8919leGBOnEaDEKyqUF
+         63XyT4w2k54VUgxbkgF87CmSk4kBwa7mGWNgsu37iC7SdvqLPNVm148QmlA/lVLyZLBk
+         5ecd6w/ciPaYgxpW3VU6mRTOSwEyripecZW++PkhfXPQouAY6vUlLpy3dZII/WgBSyzV
+         MLuqoZNff+l8SDfNOvkSsOZrU49UGiTb3RhlWr2Sk/7LBh00bwFjWInjB3OjyetRvrY3
+         u3yhSqV1yi/w+7jrqSo9Ia7xHTRR94OM3faplZg9BwBuaCaY8sbI3VFyaudztnDV1b/j
+         EW4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794574072; x=1795178872;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dmx7lZXkcixTl+10Zvhm8UM2FpQt4AXP/0UX1bcGrY0=;
-        b=PHpjTu0AuaxtBjuvvpw3dsw07Py65xrI2hQXeHLYR7dtig0YyELlfkmw/k/DfcjiUR
-         8yHu0Po426QoIjTn5/Ahr7TC3ukJOOaMkDLFLq2AVsC/9Kyc6s2a+EuIUuCLvg3/tfeM
-         H7wUeSRzUAgLTdVRxHQFsnn5Vr8aor48ALaluo9GzJvdiDIFAoZ3opO4P1TXc9q2HlH/
-         1pmRuKymJJORIsrAKks1IeetOEM7kHcueuQJ1YqG+auzUKg0ZkKFuUKhDfMUs9BtnBQB
-         8f7s6okF+UORdfjbbA74ndrhct8UxwqzZnItR8xp1kFNZmQwagdm3NlI7yzdN3QM9kiu
-         Nvhw==
-X-Forwarded-Encrypted: i=1; AL+hErGzvFo2NTCmQig6GiOQ0PSIgOuLWpouBHcm2tb/uYP4PyZZTjgOCAlsMGxt7E3OKX+EwdcIyHqJOkt0pw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8OK7rekNEbRdTyyJ7V/yFmvruxT3FXJWPcvYey7D7OV1cjyUfz
-	QDC0Qz9TsCpXzO5DyjMCTzIpsAyzMoeR+oe44w2gcCFfoBuET2zF90HdtxgkN1+uuVg=
-X-Gm-Gg: AYBFou2/yWtXhFoD5tO3cdK0EBetcDK+Jpk26zGHlkTpfv5MeRSiKb+sntnlUgWMt43
-	naXAi2tvaj2pBD8J7ReL75os3Ld7qCoFeCRh/fFOM80Bdyiu+U4IzUcJDSSEQSvMvsUz61871Vq
-	q4TKPLLLT3CE/eaHlqv/HtsqjpdKMCpD2StJQdd50vR/6UvyJzvL6Cor4OdEF2tYIHi74u4KTDT
-	hZWrVvGBu3gwKsHNHyhIWsqeJZFUzseeqUBkI872cO0uiJNtPo9bgMT+7XGb9gTt0LA+XuQURbq
-	NLuX0F8N1bqtZ38v7v1nNh5WQnds4x8OimECeuzugozMdSyNKvkNbkP5GNEtBqhygNao+D/4efi
-	LYLyWZgMlMDYnwD4J1KVE29sEDFTKlu+5HmgOwE/i3Sib33Y2zrqzLFvvSvczSgwKXZ0YMhOB3g
-	WKCVueX+om4uEgnVAQDCipPfxxm3t1k//ZABEf7iLY8bfX/aHlbnYA/PF88B/gcUSor71mEr67k
-	Pc5FHxKem7aCZzHUIsj4GDbwzpqv8SmhZ/44CHsGMO8R/nN5ineupkRz6o55vE9QlnkWbFaYl7v
-	BzPsb7VYeOqF5jN/+f4aq/++Kf/EmMeS
-X-Received: by 2002:a05:600c:1c0d:b0:4ba:59f7:9032 with SMTP id 5b1f17b1804b1-4bb55c5f60dmr58910305e9.10.1794574072378;
-        Fri, 13 Nov 2026 04:47:52 -0800 (PST)
-Received: from [192.168.3.100] ([151.61.248.197])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e252f7fsm161390445e9.2.2026.11.13.04.47.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Nov 2026 04:47:51 -0800 (PST)
-Message-ID: <7a268a4a-692b-4aa4-82b3-a13006e9a3e3@baylibre.com>
-Date: Fri, 13 Nov 2026 13:47:50 +0100
+        d=1e100.net; s=20260707; t=1794576265; x=1795181065;
+        h=cc:to:content-disposition:content-type:mime-version:message-id:date
+         :subject:from:content-transfer-encoding:mime-version:content-type
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=4bnNobTZYbRq5oUNwxT7VLNd05i6sn/OWm1B32EXBKE=;
+        b=DeSPmvBG28NcTJIlIHnBXkaPWsNIWIYGboCXJGkroykE1e2pbelaREPsRUVbtLbyjS
+         ZUZhh7tIYw068sBqvlvrNgU3CTIylF5PKdFYs3NQHu/wJWrysls4fgQXWLnANt/H/f2r
+         w0NqYZYSAFqUrLEyDvhCw3c5XeNPAnsNCNcB8Gbpkp7Lp7wWMtDZun6YmuuwZ2miNQzv
+         GyVIE3fQpTY4pzbZol2ubdbVB06ksudjXrW+7Zv5t9l7SB0Dlqx0P8wjXbgk0G/a2lhg
+         4YUBySEHhQLteTRtzTvujwoOshZRy9WWjYQKiSZMugGsQ9bkia6SYYEZsHTSBQ320vXC
+         w38g==
+X-Forwarded-Encrypted: i=1; AL+hErHPGH6j1l6sKy38nY2nvgSi6iXB/7tkEbTUz1CkH9QzLKkx5zM5nRXrE4/UVrnY2++C2HEOGuvW48r1BQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8ciPD79KALYtsKCt2QUo3fLeDmusb5RzpzKJlK8MfwHMGq1MEt
+	uTovmyaUgBRfY/IfMQyjg4uYWMVMO8x7927+pkicgr0gri47qmnL5vE/
+X-Gm-Gg: AYBFou2/T/a/5DMtzfZMQJQMp7FZWeURoBKEMHU3U+DThe0QvUR/1wZEpu3MVCfnv7v
+	TlSMwuqVSVLllMeHtQEy+ODu72cVyYvJ3ixocy1feDuEN6HW3FTffsUd2fGz8X/faLKVgyo8xDb
+	kn/BP1kRw8EzDGmcra+xwT1b6BVcIIpfnncfglBAFWiY1p+iRRz92Sd6hEPaSivrw5wJJnW4MyB
+	8vdjWlxQOxhDL5yowwuuLkKNsFLahsKKN7tWW7OlaN5OYJgDdjWBI3TxbOBnxHrLqGNqOjstsjZ
+	Slfn4OHccktSzenAP5bfe00yJjdQUT3cLvdjWJ3zKEELe5RtJAqI/apvoFEc6Cqz/miC8J69ZYt
+	GYXf+/jI4/BxU5DlKaVOi4s7swJdip2ECp7kPegKWq3xGbz5vapsSp+gbFZLiwmCbAC1or7QZFw
+	XYAEyBleeNb3tYZaTX7zuWhsiKgxSjRfIqdoUcX+UD27MM4ojRD3EToCySSx4rvjyaHLFPiac8y
+	vxeI++JUEtkn72dkPR7w+muC6YNTQ86fjYPDcbLJ0lBahC7srtMw/yddLmuw780S+t5TsOsWFTW
+	9NYjYt6fTN3Xx6XE/dxBN00zHHO09w==
+X-Received: by 2002:a05:6000:161d:b0:48d:b940:af7a with SMTP id ffacd0b85a97d-49c74d2daa2mr4041400f8f.55.1794576265256;
+        Fri, 13 Nov 2026 05:24:25 -0800 (PST)
+Received: from [127.0.1.1] ([196.237.238.203])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c60d9fff8sm5377498f8f.52.2026.11.13.05.24.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 05:24:24 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -91,65 +90,41 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: meson: aiu-fifo: prevent sleeping when spinlock is
- held
-Content-Language: en-US
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Christian Hewitt <christianshewitt@gmail.com>, linux-sound@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20261111-aiu-fifo-fix-sleep-on-spinlock-v1-1-dc9ee401a7cf@baylibre.com>
- <CAFBinCBLK3Ok7QpKUVT5XtOqDafVzGP2Tn1oBj3f=PUQ_DgnwQ@mail.gmail.com>
-From: Valerio Setti <vsetti@baylibre.com>
-In-Reply-To: <CAFBinCBLK3Ok7QpKUVT5XtOqDafVzGP2Tn1oBj3f=PUQ_DgnwQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: base64
+From: yass27106 <yass27106@gmail.com>
+Subject: [PATCH 0/2] qcom: add Asus Vivobook 16 X1607QA DT + LPASS audio clock
+ retry
+Date: Fri, 13 Nov 2026 13:24:21 -0000
+Message-ID: <01b2c920412848ab85493acc2d4f5fc1@gmail.com>
+X-Mailer: git-send-email 2.45
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Disposition: inline
+To: andersson@kernel.org, broonie@kernel.org, srini@kernel.org,
+ konradybcio@kernel.org
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ vkoul@kernel.org, tiwai@suse.com, perex@perex.cz, lgirdwood@gmail.com,
+ pierre-louis.bossart@linux.dev, yung-chuan.liao@linux.intel.com,
+ abelvesa@kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, yass27106@gmail.com
 
-Hi Martin
-
-On 11/13/26 12:05 AM, Martin Blumenstingl wrote:
-> On Wed, Nov 11, 2026 at 11:09 AM Valerio Setti <vsetti@baylibre.com> wrote:
-> [...]
->> @@ -37,8 +38,11 @@ snd_pcm_uframes_t aiu_fifo_pointer(struct snd_soc_component *component,
->>          struct aiu_fifo *fifo = snd_soc_dai_dma_data_get_playback(dai);
->>          struct snd_pcm_runtime *runtime = substream->runtime;
->>          unsigned int addr;
->> +       int ret;
->>
->> -       addr = snd_soc_component_read(component, fifo->mem_offset + AIU_MEM_RD);
->> +       ret = regmap_read(component->regmap, fifo->mem_offset + AIU_MEM_RD, &addr);
->> +       if (ret < 0)
->> +               return snd_soc_ret(component->dev, ret, "Failed to read FIFO pointer");
-> As far as I understand:
-> - snd_pcm_uframes_t is "unsigned long"
-> - snd_soc_ret() returns a (signed) int
-> 
-> Doesn't that lead to a signed to unsigned conversion error (highest
-> bit set -> large value)?
-
-That's something that made me thinking a bit as well and the reason why 
-I implemented it this way is the following.
-'snd_soc_component_read' internally goes into 
-'soc_component_read_no_lock' and then to 'regmap_read'. If the latter 
-fails then 'return soc_component_ret_reg_rw()' is called and that calls 
-'return snd_soc_ret()' internally.
-
-So my goal was to keep the same return value in case of errors.
-
-> axg-fifo simply discards regmap_read's return value.
-> That seems odd at first, but knowing that its regmap is MMIO backed
-> (same as for AIU) means there can't ever be any error.
-
-That's a good point indeed. I will follow this design then.
-Thanks for pointing this out.
-
--- 
-Valerio
-
+SGksCgpUd28gcGF0Y2hlcyBhZ2FpbnN0IHY3LjQtcmMxIChhbHNvIHNlbnQgYXMgcHVsbCByZXF1
+ZXN0IDE0MzkgdG8KcXVhbGNvbW0tbGludXgva2VybmVsLCBhbmQgdG8gdGhlIFVidW50dSBrZXJu
+ZWwgdGVhbSk6CgpbUEFUQ0ggMS8yXSBhcm02NDogZHRzOiBxY29tOiBhZGQgZGV2aWNlIHRyZWUg
+Zm9yIEFzdXMgVml2b2Jvb2sgMTYgWDE2MDdRQQogIEluaXRpYWwgRFQgZm9yIHRoaXMgU25hcGRy
+YWdvbiBYIFgxUC00Mi0xMDAgKHB1cndhKSBsYXB0b3AsIGluY2x1ZGluZwogIHNvdW5kIG5vZGVz
+IChXU0E4ODQ1IHNwZWFrZXJzLCBXQ0Q5Mzh4IGNvZGVjIHZpYSBTb3VuZFdpcmUpLgoKW1BBVENI
+IDIvMl0gQVNvQzogcWNvbTogbHBhc3MgbWFjcm8gLyBzb3VuZHdpcmU6IHJldHJ5IGRlZmVycmVk
+IGNsb2NrIGFjcXVpc2l0aW9uCiAgVGhlIExQQVNTIFdTQS9SWC9UWC9WQSBtYWNybyBhbmQgUXVh
+bGNvbW0gU291bmRXaXJlIGRyaXZlcnMgcmVxdWVzdAogIGNsb2NrcyB3aG9zZSBwcm92aWRlcnMg
+KHZhLW1hY3JvIGZzZ2VuLCBxNnBybSBjbG9jayBjb250cm9sbGVyIHVuZGVyCiAgdGhlIEFEU1Ag
+R1BSIHNlcnZpY2UpIGNhbiByZWdpc3RlciBhZnRlciB0aGUgY29uc3VtZXJzIHByb2JlLgogIENs
+b2NrLXByb3ZpZGVyIHJlZ2lzdHJhdGlvbiBkb2VzIG5vdCB0cmlnZ2VyIGRlZmVycmVkLXByb2Jl
+IHJldHJpZXMsCiAgc28gY29uc3VtZXJzIHN0YXkgZGVmZXJyZWQgaW5kZWZpbml0ZWx5LiBBZGRz
+IGEgYm91bmRlZCByZXRyeQogICg2MCB4IDUwMCBtcykgYXJvdW5kIHRoZSBkZXZtX2Nsa19nZXQg
+Y2FsbHMgaW4gdGhlc2UgZHJpdmVycy4KCkJvdGggcGFzcyBzY3JpcHRzL2NoZWNrcGF0Y2gucGwg
+d2l0aCBubyBlcnJvcnM7IHRoZSBEVEIgYnVpbGRzIGNsZWFubHkuClRoZSBEVCBhZGRpdGlvbiBp
+cyBmb3IgdGhlIHY3LjUgbWVyZ2Ugd2luZG93OyBwYXRjaCAyIGlzIGEgZml4IHRoYXQgY291bGQK
+Z28gaW50byB2Ny40LXJjIGlmIHRoZSBtYWludGFpbmVycyBzZWUgZml0LgoKU2lnbmVkLW9mZi1i
+eTogeWFzczI3MTA2LWh1ZSA8eWFzczI3MTA2QHVzZXJzLm5vcmVwbHkuZ2l0aHViLmNvbT4K
