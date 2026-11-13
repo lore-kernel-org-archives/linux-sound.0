@@ -1,61 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794743020;
-	b=akPDGCKjPv4vgGLpsJMTb0c84ekWYWvBs1moe1tJFV7fAOrMYL3UcQgaD0sFvtMgGdvc
-	 2OHickpbs8sLnU4m6NH6HAfhHdoQPj56Mq06FwgGX/PL3zSWt+Cbxm2LBA89MIJWtXxkQ
-	 ZcOUeJmuy+CEvr+Wpg/pP4mU1XI6lRS8iOTdevl2uDI/OT1CU1swOFaaboNX4qH7JYDRl
-	 ex49RPbJETujxHt23eBmm/KX1+0nsYzzptJ9Y9HcmPm6nUKvNi3bDeK3OpZY/cUM6+sUG
-	 2VwZGVvfgy2U4exVaq2nF0SK82rJurPCR6RnCRmds953do58Ur0AjXnWJbbwjx6kjMw==
+	b=ev5fjiby86XqwtcfJ0h60ktkXHCgHY2wbi7CdP4BHGhZoOKm5c/zSumUBFpQsl5VGmaT
+	 bqBi0N78AoWuGAjvbzdns77KLkjlImA/gDMWHuUVULfXM+xH7gLcgqI0rEymU6xE+WV42
+	 opMV2dmFD5cE3OQ1yL0frpwVjhZ34p1c+6EZ1Ms+FPU0tQrAyN5HnvgGooDY6lJC0Vj4d
+	 5M3DiRiniEmM05YawwHHvXg222gsafH/E1EjMx9vodksq3Q5TIeEEaw8jXAY9S1u2kRm8
+	 FWy223+evJFXllHpl4lv0EkSpsWIWZYHwbgs7VDOjfCPcJk+i1bnv8KTW/Ovi/Y/0og==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794743020;
 	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
 	 Subject:Message-Id:Date:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=HORPT2+OKhUQX/c+w9CEyiHuwbVnQXzU8FvgGpEczmg=;
-	b=a2gSNiDDDhu7IqxSViqdSN5bMdp7fYY8sxfXy7R3VNsr9pB/y31kLF2BLfHZgUuGneuN
-	 b7+j40RKZumeLk0jGtgB+s6aLTxxM+s4FynzJbHAxdUfbKGR40PAZkbjdOFf7GOgcsk97
-	 9hXlil6C9dkKZsPQGfGAP0V1TvnMWNW3uEwib2xKIMFvX+qi5wr95lvEqVzZ9PpeITBm5
-	 K4WExkb7QDTRCn9o9rVaw+h+g5tQVn1L2UdrpZXocNkGPCoTZf7+BOJUXxRpRS0D0YZME
-	 nmwPtBIIBKc+BoRiW5aiVhPUNyL6v/1LLGvqneEV6OO2K6q5bxw+GmgOgso2oZqKfOQ==
+	bh=ox2hY5QH3jmgosgum8+KLHMofQ09oXBIrh5AAI9umjs=;
+	b=EyW27dbIrI13aHKScKQsgvu4CmAOmk5CpqH8R5335XfcgMCiTxClYmHyjEer7CIgwPCu
+	 WZDL8xknasa8TTKtzlrZI9LCn+yb9UbJY9QcmBGVlbGGt4nRqGtANuqs+FV63zSKHqGNy
+	 Mb8HW07nXgi73qEhXMVCzifpsztPcrbFEEBOLil7U8sf1X/iuwgYgPfF1kwTGorJUGgWT
+	 zT7E5JH0nV5dltwRpXoDqMddUG/aKl2CyYYMwNBa2Rerz9XHYuXjdre8SDAfq56aU3Zon
+	 K2PEkurvGxx5GvMTVj2TZoxPe+njLp/hNf2Acj8vt3QZjxyzGJo8YV8YHhj9phGQXcA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hhRTarOg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DhVWqplR;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288B7606A32F;
-	Sun, 15 Nov 2026 11:43:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F990606A339;
+	Sun, 15 Nov 2026 11:43:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hhRTarOg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9CB91F000C6;
-	Sun, 15 Nov 2026 11:43:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DhVWqplR
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D75A1F000C7;
+	Sun, 15 Nov 2026 11:43:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794743019;
-	bh=HORPT2+OKhUQX/c+w9CEyiHuwbVnQXzU8FvgGpEczmg=;
+	s=k20260515; t=1794743020;
+	bh=ox2hY5QH3jmgosgum8+KLHMofQ09oXBIrh5AAI9umjs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=hhRTarOgvtkcvoHQCponhnC43YrzXZb9k8hBYH9WUgbOguss8fkqRRwLtcwPgUMz8
-	 qmxre8bRPxJvw7QKepZd9G7XAxDHhb5fIi1FtsJIKy+epPBjwlUrFUM2xEoP1n82xH
-	 9fjoujxjm7VeBE9HZ7x86JRqj/+48Dv1tpfOTnLNv0t5RSop+P8JLm9YpXETQqEiZY
-	 l/ypqv9PXA+WOkC/ax2ry01IlWmQKrYyzLx+O4ohBPiCnQcSS8kCp+2PTNc41uJ/np
-	 YcLyvA/QTkcJTR+BWQKwjRbDRgtj6F19cYcnvkGx22qKS8IRf+BgOF3NXZqog+EqkJ
-	 WIDf15WrJdW+g==
+	b=DhVWqplRc+i7a6wdBHIvf95NOR5h8jw8MQl2lhLwBwQX1dEXAJwipsf/63/MLyHPX
+	 BZ+B/gcK40oNdm0Lh6k6exCp+SX0WEcukedmCta/oB3ZOglV6jeZ5Iz7G/2kV58fAx
+	 fkuA23zdFd1HTS151C7xhPWdpBhbcGW19EBSGmwV7r6ncvPf6H/9qGVEskZYkK7tJw
+	 zpokrk2Fy+SjsNrlUF9RXhJM8uk2xUCgj2MUbPKOf4IDHbYbjGMvCS3lQKYmTO99ib
+	 GIWx+1z/GKu+SsCwRuB+GPcQo4VJIWM7SUYr3TyRUox28oNKEdgV45z82pw5ESDCRD
+	 cDjQYSmLR3XYQ==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id D87813366C0C;
-	Sun, 15 Nov 2026 11:43:37 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 62DFC3366C17;
+	Sun, 15 Nov 2026 11:43:38 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: Oder Chiou <oder_chiou@realtek.com>, Tristan Madani <tristmd@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- Tristan Madani <tristan@talencesecurity.com>
-In-Reply-To: <20261111114919.95639-1-tristmd@gmail.com>
-References: <20261111114919.95639-1-tristmd@gmail.com>
-Subject: Re: [PATCH] ASoC: rt5668: initialize calibrate_mutex before first
- use
-Message-Id: <179460731193.448985.18161081326814436601.b4-ty@b4>
-Date: Fri, 13 Nov 2026 22:01:51 +0000
+To: Zhu Jun <zhujun2@cmss.chinamobile.com>
+Cc: daniel@zonque.org, haojian.zhuang@gmail.com, robert.jarzmik@free.fr, 
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261112071757.154652-1-zhujun2@cmss.chinamobile.com>
+References: <20261112071757.154652-1-zhujun2@cmss.chinamobile.com>
+Subject: Re: [PATCH] ASoC: pxa-ssp: Release the SSP port when clock lookup
+ fails
+Message-Id: <179460578277.448985.9924511056534604173.b4-ty@b4>
+Date: Fri, 13 Nov 2026 21:36:22 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -68,17 +68,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1134; i=broonie@kernel.org;
- h=from:subject:message-id; bh=kfDqLVqtfwV5YnDdru5bhXRI8M2REBjYV5be8X44nAk=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+znp5lO8vR2zDkU/9G9m4FNWVfP58+/NxT18ye+BD3
- c2zJ51r7ChlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBEXl1n+O99X2DX6yfWmz/L
- LUnW101Z+lpMn3tK/+TLz6dp/3VSNNnM8D/htEW0VWFbm93srXaGE6coq/RsyfbWXcM+PWQaa/v
- y7RwA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1131; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=gtSTmb7rNo9CHbbtSfMn4Vd2lX/MEhlHdywA0vrj8cs=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+znq18m/mWXudbSx+h6QWyKX9l8jgOhSlnmV+P/fef
+ JOkJ/tWdpSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAizyQZGS4LJ/7ZsvpGdJte
+ dMgcxX8z73CwrBTfZVOoMoFTK9P3gT/D/+KIAqaS2fG5hsGa1u4G2pOsLPeHFyc4n157+9eBRTb
+ +rAA=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 11 Nov 2026 11:49:19 +0000, Tristan Madani wrote:
-> ASoC: rt5668: initialize calibrate_mutex before first use
+On Thu, 12 Nov 2026 15:17:57 +0800, Zhu Jun wrote:
+> ASoC: pxa-ssp: Release the SSP port when clock lookup fails
 
 Applied to
 
@@ -86,8 +86,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: rt5668: initialize calibrate_mutex before first use
-      https://git.kernel.org/broonie/sound/c/00e80a5f6dcd
+[1/1] ASoC: pxa-ssp: Release the SSP port when clock lookup fails
+      https://git.kernel.org/broonie/sound/c/7072cf805de6
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
