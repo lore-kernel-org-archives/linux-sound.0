@@ -1,58 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794742972;
-	b=YTLIQau86Th7hgy6SAiqvp6T1Bey25amnEsd605Y0smkgtDBAtX53RExqUIJEzBmeu47
-	 srDBf2qKnY0wNFeZvAqkTs5htJSPMViuWvt1rAl4jxDw+McW8wtRODuITfFn+j6yD7j1s
-	 QMkUR+1QITfuuNSCjJ52D5CLbIrWo5zbs/NZWMhZLbsyWeLZ50V1Xl7umJgwyL+jpMgJJ
-	 bQP6+31Cq95ok8NW/LxDyAjsW9H9vwdbUhN6sIjRTI8x7a7Bw0g5u9jwmZ8nGUE3iVu7p
-	 134RKgDEjIJWeU13BZQz2jnubwF1blOBLsMzpvPoLqBOxBfeFccE2v8i1m3nLXfcHsA==
+	t=1794743018;
+	b=p8cyG1gzfB7h6ouRcYOyvafmaYqAKgIc7bYXIbwvO1qMeGSekoXzbbE77nBj/JEHaBxJ
+	 92r735ix+eJFElxI6uYuDwezSEv0fHyl6hKFqB7WivrLIDWVFrGzeSHiIiv1jHmtSaBoU
+	 kp/KpXQEBPRHQ/aup33igsEMLjTGpLkgViI21GwBCts0Ej7TmvGokV0pYkxJQL3GI6GEY
+	 5tJniJx6Rnt+FpXMqTYvmRpyoWVKcpjfJdkol6gj/aBtTTfg9lKGAtGAZFvwx+nASbq20
+	 tDv5BFzmnD0+n0+LnPDba+AeiPtHSZo3f02eEiIj8HAjJy7AfBxNtyPzOhdZXdgwH5Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794742972;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=/Pb2rm86Z8dTLV90lB9da4AnCMNOyeDccCrdupE3WAs=;
-	b=KrBzVxwiFrEg8kR+QlBDZndOpfB6S6/cSgpYYCMvprG9ugKqyvlEP5OkeQU2TL3DBxao
-	 DSDXB25RvLECUkcBBLDoBpCKMZdyDYawfq3n4TCbONFseo/MxFb9gJYzcd+wO0lnZabAh
-	 QpvvM21SAz07K9wEDcUI2XCgsIcvLziKQurycyoweN4fKo3eCg+sqSPti/SwyvfHT3a0D
-	 7sWbvxfwBtXPWnmlJdbVGdaRNIihMlwhu5guXhEtEf6Q3asbWRWw15BkXZoO3YZ0rOk3M
-	 wQ85YNwGhiNoXt3RAP/9N4M9BIFuQSLQHP/7tHHWg0Kkxy+7jGxmz+roJI2LNTldeDg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794743018;
+	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
+	 Subject:Message-Id:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=IDJZnOK3vJIvUBVAsm4+nAHt9LxvFnq9d2VS6waLUKw=;
+	b=IJyOmgBv5W0drtouBUzT/DXb/mFagi/NY9QI0C9KJ/dJ1WPh91IcrBJEBycf7p5HRyJB
+	 WMp8U/JyCwUDXRFCdXeaTkIf0eDgvV2dJnBwxRj9liCwqMhkVaqN4MR73bVdqZKG1vis/
+	 teAEXXkA7j6dFFd+j8u+SDdRAjfKEZDyD8L6hC2BT/CdKJiEPo0LO14rKdP6xGK9SqySd
+	 tL5Bs5d4UiWomp70nageIQXxbLBP47l+47rDCargRTHLuu8j0Q6FgOHgFuXjuSglm5Dr1
+	 dYLWsznnVmCYPKF/zeAgcztkrMS2NA8L2WCb0RmpNclHwicu3uN7XDzecgmsslgWvoQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mpJwxAFJ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n4zRGnXs;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A220606A31A;
-	Sun, 15 Nov 2026 11:42:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDF3606A323;
+	Sun, 15 Nov 2026 11:43:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mpJwxAFJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD7FC1F000C6;
-	Sun, 15 Nov 2026 11:42:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n4zRGnXs
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3ECA1F000C5;
+	Sun, 15 Nov 2026 11:43:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794742971;
-	bh=/Pb2rm86Z8dTLV90lB9da4AnCMNOyeDccCrdupE3WAs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mpJwxAFJx9dBr+AAsj5KTWoz5VBADDZQAtjzx7ym8yd3EU+YzVcP18NNoKzgPHiy4
-	 3vdeeCK0XqNKSAAq0Y7Ai4lOe+nnmnIHXyZBA9tQQVTS1XsyXrkEMgs7UCO+V4Zk4H
-	 jSL8hC9Zvlf+HjxyLrwN8j4XS3RUITAMdrlUAfd/5aDSBF52EGBoACrLtB5qjIa5RY
-	 N3foc8vL7UqXz8y6BTaFK0RSyt1wZJCPKi61Wjo94UPFRdJneBlV0PqxI9wYfeezs8
-	 voNyhPQiFEew+Z4Cj3x97yfKr8L+GeC8pcRqduhQMXewwIB2sUFVDtZSpV2ArA68Jo
-	 j2uVqkziZC+GQ==
-Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
-	id 8EFBD334D554; Sun, 15 Nov 2026 11:42:49 +0000 (GMT)
-Date: Sun, 15 Nov 2026 11:42:49 +0000
+	s=k20260515; t=1794743017;
+	bh=IDJZnOK3vJIvUBVAsm4+nAHt9LxvFnq9d2VS6waLUKw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=n4zRGnXsD5P0kob+1C3053DbdoCZM0vPyIV4LS3m2rJvYB0AqVLtBmeRvxS9/5I3H
+	 tOqpiQTKhLtZRceh71kPrhdpAyFLM0vX9rMVzT71VeHayLWPiOHPTwXrfbYQ7uKj2Q
+	 HVACaybOZdQkuqbdnLyXcG7MvzOf2JBwnnNDFJJC7DJ6aJo2WLp4cpNPpyop9Tav/r
+	 02MWs3W5Fa2lLkKun66UWBVR4S4N2ErkNX958qoC9zKSw1ItbTerchlMElYP1Uazlw
+	 VU4sjwgxyn8LVGP4ztLGMkJZHrchNXmguq/ldy0vw2EGY1X/P4Ds522oxoBBmT6ZUj
+	 HchRXLDSCTvrg==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 04EA03366BF3;
+	Sun, 15 Nov 2026 11:43:36 +0000 (GMT)
 From: Mark Brown <broonie@kernel.org>
-To: Shawn Guo <shengchao.guo@oss.qualcomm.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Kees Cook <kees@kernel.org>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: soc-core: reset rtd->num_components after
- allocation
-Message-ID: <74114cb4-7ea8-4563-b4d2-a1174790804e@sirena.org.uk>
-References: <20261114083806.905386-1-shengchao.guo@oss.qualcomm.com>
+To: cezary.rojewski@intel.com, liam.r.girdwood@linux.intel.com, 
+ peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ kai.vehmanen@linux.intel.com, Jude Gyimah <jude.gyimah87@gmail.com>
+Cc: pierre-louis.bossart@linux.dev, perex@perex.cz, tiwai@suse.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261104135142.3723042-1-jude.gyimah87@gmail.com>
+References: <20261104135142.3723042-1-jude.gyimah87@gmail.com>
+Subject: Re: [PATCH] ASoC: Intel: kmb_platform: select BITREVERSE
+Message-Id: <179460491917.448985.14839714163958999777.b4-ty@b4>
+Date: Fri, 13 Nov 2026 21:21:59 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,34 +64,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="PEZxz+K2PLRzqr91"
-Content-Disposition: inline
-In-Reply-To: <20261114083806.905386-1-shengchao.guo@oss.qualcomm.com>
-X-Cookie: A watched clock never boils.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1105; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=8sAnkIpgW/EySCqNp8v5gaRusRx3+qfgeXz9uO2jDJ4=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+znp+8GZh1pWO/1UT5zv2W6y9056xMmz26eW3j9WUy
+ dQxlf7n6ChlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBEdoUwMrzsy3+4fVOxiGl4
+ 47R2B/b4bbGdMcfe1WnuOHA27s+L08EM/ytDHz26mHLjJ6NC6L/D5682f++PlZT/cEqs5eN8lmp
+ +aQ4A
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Wed, 04 Nov 2026 14:51:42 +0100, Jude Gyimah wrote:
+> ASoC: Intel: kmb_platform: select BITREVERSE
 
---PEZxz+K2PLRzqr91
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Sat, Nov 14, 2026 at 04:38:06PM +0800, Shawn Guo wrote:
-> Since commit 4dd10fbbeb9c ("treewide: Convert devm_kmalloc() family to
-> the devm_kmalloc_obj() family"), the rtd is allocated with
-> devm_kzalloc_flex(). On compilers supporting __builtin_counted_by_ref()
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
-This was already fixed, please check that your patches apply against
-current code.
+Thanks!
 
---PEZxz+K2PLRzqr91
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/1] ASoC: Intel: kmb_platform: select BITREVERSE
+      https://git.kernel.org/broonie/sound/c/098ca46ed476
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCavmauQAKCRAv73Ows9A4
-iZrVAQDBVLHsJemrgP8rF7+izwAPBgS+v6OauUsQ+ACVVJ8PrgD9FNI5GyJney3X
-ju7yEaN0ToAyf5IHa22OYjm4Qwa57AM=
-=BB9f
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---PEZxz+K2PLRzqr91--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
