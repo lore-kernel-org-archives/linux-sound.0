@@ -1,89 +1,89 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794595135;
-	b=y57AZDWDNcd9YLchlAyiq7SUN2KDxKnjc/0Rt7rVrrS94avESjX4jBMC1mc4uE+GiGdp
-	 I9SIXXC+zzIfG1nyOqzD5vFk02mD5xCICN/gSjTOWYFXNXlUckASXWIwUY02jHSF5SeQE
-	 3LfYNTgu006nVRdIK49e6X/Fx5Hvgv8kDotdZ5KnHPLXLKdHouVJwbUMZxXuUfJ9U7bAZ
-	 kZ+PlGeC2Y3iUqHvX6N9eaoVLp4ufsBVhZJgsPJY3GIKFur7khwcO05ybbEC8ZDXLcFwo
-	 KqRe1kNvHS3xU7tvYIqtw4/AocPuYlersc9F/3IQo3xjiZgFWXOXIqqKzMxY0nIgq/g==
+	t=1794595136;
+	b=blrVH8ELdG5FxLGCYS/yObXHg3ng3i1Zx7SNw89d06L+dGGv2YO9JY5gY9yUweVuvU8Z
+	 j8w+hWaapfa5fMuk73IjcVd5vW68Y0/Hv7XSJvQWrMhsQUoIgdfkhSm11ieDpUPU5feQ2
+	 9GFb7/EmLplsT5QILxEwb/ATJ70MLh5DTs3khpJc7A54mnGWoyKPZRNFn15AOQp4sOh6p
+	 xTkaaehSe7F//Xdda31zaIdqdprbD9nDnChKpaMrrDRBhUvw+es71RM8WE2YpUGWBFZGe
+	 tuwI2x9vSNB5nwHDKH9f23kOczuSjLWvOem5H/6RHBr5huCC5SnzSE3WYGqilPQChkQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794595135;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794595136;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key;
-	bh=Sw3VY4venJF1atVhTvwXrtNj2D+3nkqTBFYZ/2XS42A=;
-	b=dB/P/CD0hAkJgJhsupNx8j0tsg/oHx+F3znvY7WJQYkNgP9bO7tCB+N3hh5fjSG09A1E
-	 B1NrDNZQQ5JVBaHDBp/XCfVn4LH3Vzh42S3V3hq3rZQ6nwdBLI3fsi/Y6NOycAE61U+Br
-	 dlymXe3OwYyEzH0wD4qvV/iDe6/GaPN2IRhTFJSLEvk1yNDad76Qn5E0fgtI2vU01sRXY
-	 Wtkl/hPBv+407pNMv8vwOF6oSiUjZqfFxqq/Bb0hgNipn7AMH9vTCrSWPFB6EWPNyO1RN
-	 PV2PtrFhqDR/YPK20pbF0/UzaFay6RmI7WY/lC9wsoND8gHCPJcqHpekJezuKCtheHw==
+	bh=p+fB/+3zgCM7NxjMth5ofyDAxapd4dJV3e25SOIGyn0=;
+	b=YvOGP/RkGRgvL9PYeBO7nYjtKD70AL2thNCOiJk/33vhIOkTz4meXcRQXln+cbrpK8/m
+	 oTctxXQwByhfjRvm8jqox8ytz5+dGlF5E53HZLHwKS40awcmw0yA8oobFW+JuFcQ1zzox
+	 xighT+/WNmYCqrjQ5BDma0yHMYPKfrOylScX71QiIZHPKd3i+7LLJjotBF4df997VDvk/
+	 vTP4jNZ3OSJX4OSYw+wLKbq5izUQRDRdc2GTVgfhEfr6mw5mAEZvX2L1pVoOh+U9ni3Bm
+	 gMewgQSkbSveeWvstc5ae1DjP29An+OnFiSIGI4IiHlo8PiDXoWW0i29+PQF5qK2FvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linaro.org;
 	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Vst6mE5C;
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b="tBk0/V2x";
 	arc=none smtp.remote-ip=209.85.221.46
 Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EDA560A6F47
-	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 18:38:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7EDA560A6F47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7278960A6F4C
+	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 18:38:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7278960A6F4C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Vst6mE5C
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-492f0a1b685so1227195f8f.0
-        for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 10:38:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=tBk0/V2x
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-49a92144733so523409f8f.0
+        for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 10:38:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1794595133; x=1795199933; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1794595134; x=1795199934; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Sw3VY4venJF1atVhTvwXrtNj2D+3nkqTBFYZ/2XS42A=;
-        b=Vst6mE5CjGatO1s/tIDQnK+/RmECvL3pLINuwWu7fejldmM1RN2fbX3bDKYbEKSb1N
-         4HIYHlR3/59twf3HofB9WP5ewsvIMbLT1d5Qe1MiiwsLxz3Gd2qBmocuBq9Th6y9+yNh
-         yHzOBMz5fhk+ArEEhCuft/eO1MD3fG74SlrxWFThxFyBaHF6X89WkOWVLZQPtTncED1f
-         2P8GJgZ1S9YIbultkrMUQOXE1wzMW/pSJF8PKahffnIbfhKPZQ+Om768stynWX1tM2MQ
-         jxJ4XuW7T5xLUnbOrGKOE5Omaon37WoDVyXkzxDUpPbsHBxpAwcRW3usjwnAvPLlobcF
-         fVIQ==
+        bh=p+fB/+3zgCM7NxjMth5ofyDAxapd4dJV3e25SOIGyn0=;
+        b=tBk0/V2x/FD5MN56oTYx+Rbel7KWO8vro7J0ZSYNlzGWncmWjcdCYrP0aso9ltZTom
+         BLEVDChuemhZi5CJhLitt/JeIMoi10UZ0iJQw9Olu85GPRltUnFs6SoaW90opVgHshKn
+         5Oadp6vHgV3D3jmDN/Y0OZHk7K5+bCeMtRw14O4Oj7HTGQ1CSrr2TsObgSad6rpC2cNd
+         Bij9M5YBqj17F/3PwhLSFE2dpdPWvkpJe+8amGGxji+MGwiKLi4eA/7Wohk/dOQUtext
+         uEQVwuA+9RiJ/PZES6uW337oXRaivPhD4Gz9+f34Ajh+9MGfxPgZAssjLLs7EItmo5uP
+         oRmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794595133; x=1795199933;
+        d=1e100.net; s=20260707; t=1794595134; x=1795199934;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Sw3VY4venJF1atVhTvwXrtNj2D+3nkqTBFYZ/2XS42A=;
-        b=gIIC4BFPNCwEQLVUeZsJnrpQoE4YVn0cANKBbElnLglNTMBON+1Ui1q1CYAkZokLb3
-         4fwAor40uGWzLPOaqiA2Rvl/Di1Xbee1+NFJEn4R4KCoddTZYkHk0U+pSBsuP/wcJwE/
-         9J9hMAGzKClzDtCuH3EONEpu5Nvv+7e7l/2EN6Gg6SAt6m18xOAN1QGL45gqs3xiPH7X
-         tyZkS+FsZywKul9f1ee6sqvm1Vc2orgoZfDVWY7xb+mi6rSUMEDuKVQIwkqkjo71r2N+
-         gj74RHxn6I9h+I0rI1D4YxbnAhxe+jq9597zSWTseH69s0a7O/gT80xjcO5v+fSwKdNq
-         ZGoQ==
-X-Forwarded-Encrypted: i=1; AL+hErGlZOVKr5VJQ2KXZGcoEmjOEtrMCmEBAbcVYHp/GUYYXuBDq3re0sjivx92TOLjQe2BL+Bn93X6XyHWrQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+G/F57mjKGrh5O3SXQBJHyhRGvBn0N4oags9LgfAWANgGZs6yj
-	jhTotCLUWQ8+RWiof0B6/fzuMqeqafYo67t1ND7I7u52hIrAFxyRwd21pCGTqBy/f+c=
-X-Gm-Gg: AYBFou3kbr13bvx6ybES/Aa6StY5CBo4CZfsDnsBBmQX16G0zl7K9yCRF4uES7Tsz5d
-	1ubFldnqrZeqzNoTO42MFheJrYZwI1M63Vdapax5IQsArVWCTR8OwX0MnOJqT8FcRNHfu8ZKdKN
-	mICWaxtRSzmRTGzF/fzoavmUuJcOc2vhc4nk/h1V74zsnDFOmLGpY0dGTnoDrIKo6a2Pww4wWcX
-	oDgmJNr67U0WjAk3w8Yzcl4Fkovs6JuaEhr57ctt7Bs+S23zyUnNGNExClflGfNmZKFNcv5jkBI
-	0mRRUEVWna2S1XFACFBxkr38htvO03dvEXJ+3PHYgSpQpj4Gc4AVQ2ZL5SkrEm52K+cTr/cso24
-	37Y0qNb/Ag1wbC9a+ydkyVDsk1sEtitelErWvgBZnd2xgKQlMp19wsPHN1O6osrT6JFNrA8ZCRD
-	H//ScrTE5u6ZpYMZNgcce38UW735IRj0Z/2bDADuLjPLUbmHWlmXWhTwZ8ZRAptO+idAPBkG0lU
-	RzqxQx1kYeVDAWbxfbzL1BFv1fkHAjRiT5cgF5+itQ3Q2FsjQ3cOjAycRs2jB1CnL3NVf1DFsFC
-	IL4IC/TcTLy2uDuEwUoK1t8Ross/KC3Z/G4o3N/K4LU=
-X-Received: by 2002:a05:6000:4917:b0:48e:2114:8ab9 with SMTP id ffacd0b85a97d-49c71d47601mr7429673f8f.31.1794595132716;
-        Fri, 13 Nov 2026 10:38:52 -0800 (PST)
+        bh=p+fB/+3zgCM7NxjMth5ofyDAxapd4dJV3e25SOIGyn0=;
+        b=ZhSEy/4g6vq+h9Qb7vpcrMUXI86+JHnJG5AmFfq9CsmZEobp+A+RS3r7p4yjDvk1xX
+         A2VVaKdaqndmj+etdwu0LxHFtF8l38T9NG5qIPi1HuPJVLmBMT9Gpf6Xdjdlg6JNUcoe
+         oHyh7C3k+tQ9wB51EOdSml5ZABbdyWOhy1iPkD0pqc1nXmGhnnQmxkw8WwM/hATRSHFD
+         HCvX/LJdFqR4FGJQfrhOxeF4h+dmUGk+uYaLE5JvPQS0z+2rW42ljOumzt5uj2CW0UVH
+         JEuTiBG378pgTAo38bQk5kh4rSYbrBjAmYMqwsYX9DKZ7sRuEJJ3R4/lOL2HSZl8pjti
+         Huxg==
+X-Forwarded-Encrypted: i=1; AL+hErE43LZ/gNgxwYw4LcgFa7zkD3OT6jdhnKq9mExGDsaI2UkDgpw0QR20hK4qGOwi9F8YVwyqpyVtFFkbRA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+HlOcEPwT66VMZnEz7KLnBEPzyATQX78soez/BRm4dJr/zbap2
+	7wOASiVEAXwFxB5fB1VoRql7QImdoi3ewcMDFepZOJTY9YXUGMMgHn1PoZOu9pl2JOA=
+X-Gm-Gg: AYBFou2hpNGPgcvsrWG0Wtwd8FsF4iYl9WAwSdZPnI8Blnn+gnVyuXaNCdEgPeJ59fQ
+	n9SrchTXse3ZCbBUu/L6dXXPP7y6tZUnpMwQjyBGMsKc8bGpdCtOpv4Lb5ctJ6MRBlB0SDSJR0g
+	KIXa+DuQTMSw7Ko093z72JxLC5Vwgz8k3RNvgYafOHXKKK8ddT1a8x6fTfW6+beou/UyL6vLpHg
+	Fx/WC0bzofVs6887pXyfImSzbQEptdWtTYQc4HRGu/qZ+teP0VVZEWI3LbPax8jXJjd6HYB23a4
+	GUzvx0XNy+JNNxZsQqohiFLNEYDKgv4MNTSkMokfKuCIPZ9L9vDyLgWkTgBEWGEEkqFIhGf/CMw
+	Oh1nr0nWBu8S8n9HCVM7e2IFK2HPl+nmkI9SmlEabhCUjLkxM8x/Dt75Xbg4TJtYdytMjg+Lryq
+	z05XXX2lGXgD5G7XhVKuwly5/dHMWbqSg4BRmUkcddfpWCelg/E1PQNTB5uK0g189B2hulpns5w
+	rsoX9nNHAfI7kse10tCbAGmdW0luAsmTA5ZkQ4yuVeIG3UgmlYPRYHbQqmoENVue2S8AqJc/mmS
+	NbVW21sKlWg4knRg96iP8E+kNP70cTXh62KpI2UBPgw=
+X-Received: by 2002:adf:e19b:0:b0:498:b92a:2f7 with SMTP id ffacd0b85a97d-49c71d49040mr6762889f8f.30.1794595133762;
+        Fri, 13 Nov 2026 10:38:53 -0800 (PST)
 Received: from arrakeen-2.home ([2a01:e0a:106d:1080:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5f7828a4sm6865870f8f.23.2026.11.13.10.38.51
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5f7828a4sm6865870f8f.23.2026.11.13.10.38.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 10:38:52 -0800 (PST)
+        Fri, 13 Nov 2026 10:38:53 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Fri, 13 Nov 2026 19:38:28 +0100
-Subject: [PATCH RFC 14/23] ASoC: qcom: lpass: support LPM memory type for
- I2S LPAIFs
+Date: Fri, 13 Nov 2026 19:38:29 +0100
+Subject: [PATCH RFC 15/23] ASoC: qcom: lpass: allocate LPM buffer memory to
+ DAIs
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -95,7 +95,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261113-topic-sm8650-el2-v1-14-5183f6aab9fc@linaro.org>
+Message-Id: <20261113-topic-sm8650-el2-v1-15-5183f6aab9fc@linaro.org>
 References: <20261113-topic-sm8650-el2-v1-0-5183f6aab9fc@linaro.org>
 In-Reply-To: <20261113-topic-sm8650-el2-v1-0-5183f6aab9fc@linaro.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -113,97 +113,359 @@ Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
  linux-clk@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
  linux-gpio@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2400;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13010;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=Ljj85Dp8JvF1fw+pe+TLNZeTPrQAVHIWnxs2Ep+dAq4=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBq91kkA6T1QInfYxpV+J6J4XvHw8MCzkvvytuSsgeM
- e44ofF+JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCavdZJAAKCRB33NvayMhJ0Qh8D/
- 9WMceRzL3eQ/W8wKH4CkoeeshIjXKdSlQzr03bF3qhKpiqfzXNwhS7HNpGGkBcT37Nr9FWJCd12oTs
- 5mXCQMbqrLt5VbiYRSZGNRQyBjw5iG+1BIJEU+2D3lX+r8DlO4SWgb8i3YYVqQff+GEXDJ8dyGEV0m
- hzg5AX6+wqZaQ2h0+ZhiHWLLTJw2Mw+pF9CI6PpjVD+/gS53pzHmOd7/AxHJ7AGzmNfX/tkLiOVfQI
- JE6tqRZLugt9ygkO0i4eWFEcGQuCCvGfEEDPtbyRZzynrGTQN0gpUzQWp4JQzZn+cnHmpI6trIWEUX
- Jd9DzBExJdptqIifOcqoAVrTuhLjV+phPw49PxC0s825CqXui9IWTdxX6qrs2MxxoPVYW1nJ/hezkv
- 7FFgVf8gEG/dfwqYgg0BMHX4tEf6Py3lIFNFkH0LnLLVdNiD+7XY0XzrzcyxXS29/ZPw177ig+H4st
- 80frG8xG1ep+pLz9q3doJ3q8BN5DJa1C1xk6j0tHF+jctAPxgsHRn048IukPtCciRdvwDT2KJIEAQs
- ZxRssU+jIwKM4uYIAcguh1QkH38KmyH8C7HVfcuOey9rac3kpryCQ4EJbppVRbfIYF+yGwrnbyUqQm
- 6kS7N4OEBQPmxu56Y6da6yXXL6DGYzdO0GjgAxwLlaXfnt4jyNlbiiP/z6eA==
+ bh=gWz/GkhE/wFLqkiHW5rRxhQg0uwe4tBnjLj5sOHaHrQ=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBq91klQDgcb8lgV2D9XmRJ2nG4O+mslZwXc0voWgts
+ k2zKdNKJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCavdZJQAKCRB33NvayMhJ0YsLD/
+ 9Lu935tBPx3m9w1khGDO6MoDWG94vw90VKShraCttAqQHMdi1IM1ftOZp5ardSFlWqhTqyawejWRZV
+ lDofwZHr+tWpy3BeEY5mamGhOrRrra532GeMSipmu41NkP1uNMiTGCwZRF7OSqVZPQfhAfnjU0d5fk
+ MErnt2dmfYnlOt4jBoEEK841LswTzJIPJqvoVepulDYi0Drf3EVcexP0h+ELmGH+eIIbBuIT939GSo
+ z9exV1DZkJeRmJUyqEp58VXbLA1yCqdl1CxcrL6gaLLcZDQvHxSUk+SIf0FuyrMdzLMYyiTM4G6ejI
+ 6AokjvJkLmL6t7cIwpOo5DmTwTyUT5VTlCmdfn7PN+pJXh6GmNk4/pjFrb5fp4ED8Orf+Ecd+mr+XG
+ G/k/FRK9mxLnSzYOFz+my6kw5gPjNJYpOoh4UFYqt2z3U+5AUb1QA1pSM4uCzifecIjWzEce82Fbty
+ LjRK48M+vD+GIvZ5bjtJY7SBjEbNhu6KDMFlyATA106jGrXI/LUjcmOajotos9hcovwFGV1fMh46PT
+ UCVxLDr1/7WWoOVeSIu65K95967aTBLarPT+GVL7mAeDCLz9zgu6tha8WswJOzophiB088Hon1lRtK
+ OJd1OaJiIBdocQ7EdT6zyk/u1fU3zDAGXAFo2UZBnirdrvztXjgYlVq0lZAg==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
 When using MI2S on non-core LPAIFs, the hardware can only
 fetch data from the LPM buffers and not from DDR memory,
-like the RXTX/VA/WSA codec handlers, so add a way to describe
-which LPM memory is used for each LPAIF in the MI2S
-descriptor.
+allocate the DMA buffers in each LPM memory for all users
+and drop the static allocation.
 
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- sound/soc/qcom/lpass-cpu.c |  1 +
- sound/soc/qcom/lpass.h     | 21 +++++++++++++++++++++
- 2 files changed, 22 insertions(+)
+ sound/soc/qcom/lpass-cpu.c      |  27 ++++---
+ sound/soc/qcom/lpass-platform.c | 152 ++++++++++++++++++++++++++++++++++++----
+ sound/soc/qcom/lpass.h          |   9 +++
+ 3 files changed, 165 insertions(+), 23 deletions(-)
 
 diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
-index 411eecd9cbb9..9ebbc422c63c 100644
+index 9ebbc422c63c..4bbcd59ebd60 100644
 --- a/sound/soc/qcom/lpass-cpu.c
 +++ b/sound/soc/qcom/lpass-cpu.c
-@@ -1338,6 +1338,7 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
- 						&drvdata->lpaif[lpaif_idx];
- 					drvdata->mi2s_intf[port_id] =
- 						desc->port_desc[lpaif_port].intf;
-+					drvdata->mi2s_lpm[port_id] = desc->lpm_type;
- 				}
- 			}
- 		} else {
-diff --git a/sound/soc/qcom/lpass.h b/sound/soc/qcom/lpass.h
-index 70d64bf3f073..71f1274dfa89 100644
---- a/sound/soc/qcom/lpass.h
-+++ b/sound/soc/qcom/lpass.h
-@@ -153,10 +153,17 @@ struct mi2s_port_desc {
- 	unsigned int id;	/* DAI ID */
+@@ -1258,16 +1258,6 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
+ 			dev_err(dev, "failed to get cdc dma clocks %d\n", ret);
+ 			return ret;
+ 		}
+-
+-		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "lpass-rxtx-cdc-dma-lpm");
+-		if (!res)
+-			return -EINVAL;
+-		drvdata->rxtx_cdc_dma_lpm_buf = res->start;
+-
+-		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "lpass-va-cdc-dma-lpm");
+-		if (!res)
+-			return -EINVAL;
+-		drvdata->va_cdc_dma_lpm_buf = res->start;
+ 	}
+ 
+ 	if (variant->mi2s_desc) {
+@@ -1281,6 +1271,9 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
+ 						   variant->mi2s_desc[i].reg_name);
+ 			if (ret)
+ 				return ret;
++
++			if (variant->mi2s_desc[i].lpm_type != LPASS_LPM_NONE)
++				drvdata->mi2s_lpm_enable = true;
+ 		}
+ 	} else {
+ 		drvdata->num_lpaif = 1;
+@@ -1290,6 +1283,20 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
+ 			return ret;
+ 	}
+ 
++	if (drvdata->codec_dma_enable || drvdata->mi2s_lpm_enable) {
++		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "lpass-rxtx-cdc-dma-lpm");
++		if (!res)
++			return -EINVAL;
++		drvdata->rxtx_cdc_dma_lpm_buf = res->start;
++		drvdata->rxtx_cdc_dma_lpm_size = resource_size(res);
++
++		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "lpass-va-cdc-dma-lpm");
++		if (!res)
++			return -EINVAL;
++		drvdata->va_cdc_dma_lpm_buf = res->start;
++		drvdata->va_cdc_dma_lpm_size = resource_size(res);
++	}
++
+ 	if (drvdata->hdmi_port_enable) {
+ 		drvdata->hdmiif = devm_platform_ioremap_resource_byname(pdev, "lpass-hdmiif");
+ 		if (IS_ERR(drvdata->hdmiif))
+diff --git a/sound/soc/qcom/lpass-platform.c b/sound/soc/qcom/lpass-platform.c
+index a953db262aa0..75d2c872f512 100644
+--- a/sound/soc/qcom/lpass-platform.c
++++ b/sound/soc/qcom/lpass-platform.c
+@@ -49,6 +49,31 @@ static const struct snd_pcm_hardware lpass_platform_pcm_hardware = {
+ 	.fifo_size		=	0,
  };
  
-+enum lpass_lpm {
-+	LPASS_LPM_NONE = 0,	/* DMA buffer in DDR */
-+	LPASS_RXTX_CDC_LPM,	/* CODEC LPM */
-+	LPASS_VA_CDC_LPM,	/* VA LPM */
++/* MI2S ports with their DMA buffer in a LPM block */
++static const struct snd_pcm_hardware lpass_platform_lpm_mi2s_hardware = {
++	.info			=	SNDRV_PCM_INFO_MMAP |
++					SNDRV_PCM_INFO_MMAP_VALID |
++					SNDRV_PCM_INFO_INTERLEAVED |
++					SNDRV_PCM_INFO_PAUSE |
++					SNDRV_PCM_INFO_RESUME,
++	.formats		=	SNDRV_PCM_FMTBIT_S16 |
++					SNDRV_PCM_FMTBIT_S24 |
++					SNDRV_PCM_FMTBIT_S32,
++	.rates			=	SNDRV_PCM_RATE_8000_192000,
++	.rate_min		=	8000,
++	.rate_max		=	192000,
++	.channels_min		=	1,
++	.channels_max		=	8,
++	.buffer_bytes_max	=	LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE,
++	.period_bytes_max	=	LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE /
++						LPASS_PLATFORM_PERIODS,
++	.period_bytes_min	=	LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE /
++						LPASS_PLATFORM_PERIODS,
++	.periods_min		=	LPASS_PLATFORM_PERIODS,
++	.periods_max		=	LPASS_PLATFORM_PERIODS,
++	.fifo_size		=	0,
 +};
 +
- /* Extended LPAIF MI2S layout */
- struct lpaif_mi2s_desc {
- 	const char *reg_name;
- 	const char *irq_name;
-+	enum lpass_lpm lpm_type;
- 	struct mi2s_port_desc *port_desc;
- 	unsigned int port_desc_count;
- };
-@@ -197,6 +204,7 @@ struct lpass_data {
- 	/* LPAIF instance and interface index of each MI2S port */
- 	struct lpass_lpaif *mi2s_lpaif[LPASS_MAX_MI2S_PORTS];
- 	unsigned int mi2s_intf[LPASS_MAX_MI2S_PORTS];
-+	enum lpass_lpm mi2s_lpm[LPASS_MAX_MI2S_PORTS];
- 	unsigned long lpaif_port_enable;
+ static const struct snd_pcm_hardware lpass_platform_rxtx_hardware = {
+ 	.info			=	SNDRV_PCM_INFO_MMAP |
+ 					SNDRV_PCM_INFO_MMAP_VALID |
+@@ -312,6 +337,13 @@ static int lpass_platform_pcmops_open(struct snd_soc_component *component,
+ 			dev_err(soc_runtime->dev, "error writing to rdmactl reg: %d\n", ret);
+ 			return ret;
+ 		}
++		if (is_lpm_mi2s_port(drvdata, dai_id)) {
++			snd_soc_set_runtime_hwparams(substream,
++						     &lpass_platform_lpm_mi2s_hardware);
++			runtime->dma_bytes = lpass_platform_lpm_mi2s_hardware.buffer_bytes_max;
++			snd_pcm_set_runtime_buffer(substream, &substream->dma_buffer);
++			break;
++		}
+ 		snd_soc_set_runtime_hwparams(substream, &lpass_platform_pcm_hardware);
+ 		runtime->dma_bytes = lpass_platform_pcm_hardware.buffer_bytes_max;
+ 		break;
+@@ -1047,9 +1079,10 @@ static int lpass_platform_pcmops_mmap(struct snd_soc_component *component,
+ {
+ 	struct snd_soc_pcm_runtime *soc_runtime = snd_soc_substream_to_rtd(substream);
+ 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(soc_runtime, 0);
++	struct lpass_data *drvdata = snd_soc_component_get_drvdata(component);
+ 	unsigned int dai_id = cpu_dai->driver->id;
  
- 	/* low-power audio interface (LPAIF) registers */
-@@ -261,6 +269,19 @@ struct lpass_data {
- 	struct lpass_sstream_ctl *sstream_ctl;
- };
+-	if (is_cdc_dma_port(dai_id))
++	if (is_cdc_dma_port(dai_id) || is_lpm_mi2s_port(drvdata, dai_id))
+ 		return lpass_platform_cdc_dma_mmap(substream, vma);
  
-+static inline bool is_lpm_mi2s_port(struct lpass_data *drvdata, unsigned int dai_id)
-+{
-+	unsigned int port_id;
-+
-+	switch (dai_id) {
+ 	return snd_pcm_lib_default_mmap(substream, vma);
+@@ -1315,23 +1348,55 @@ static int lpass_platform_prealloc_cdc_dma_buffer(struct snd_soc_component *comp
+ 	switch (dai_id) {
+ 	case LPASS_CDC_DMA_RX0 ... LPASS_CDC_DMA_RX9:
+ 		buf->bytes = lpass_platform_rxtx_hardware.buffer_bytes_max;
+-		buf->addr = drvdata->rxtx_cdc_dma_lpm_buf;
++		buf->addr = drvdata->rxtx_cdc_dma_lpm_buf + drvdata->va_lpm_offset;
+ 		break;
+ 	case LPASS_CDC_DMA_TX0 ... LPASS_CDC_DMA_TX8:
+ 		buf->bytes = lpass_platform_rxtx_hardware.buffer_bytes_max;
+-		buf->addr = drvdata->rxtx_cdc_dma_lpm_buf + LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE;
++		buf->addr = drvdata->rxtx_cdc_dma_lpm_buf +
++				drvdata->va_lpm_offset + LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE;
+ 		break;
+ 	case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX8:
+ 		buf->bytes = lpass_platform_va_hardware.buffer_bytes_max;
+-		buf->addr = drvdata->va_cdc_dma_lpm_buf;
++		buf->addr = drvdata->va_cdc_dma_lpm_buf + drvdata->va_lpm_offset;
+ 		break;
+ 	case LPASS_CDC_DMA_WSA_RX0 ... LPASS_CDC_DMA_WSA_RX9:
+ 		buf->bytes = lpass_platform_wsa_hardware.buffer_bytes_max;
+-		buf->addr = drvdata->rxtx_cdc_dma_lpm_buf + LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE * 2;
++		buf->addr = drvdata->rxtx_cdc_dma_lpm_buf + drvdata->wsa_lpm_offset;
+ 		break;
+ 	case LPASS_CDC_DMA_WSA_TX0 ... LPASS_CDC_DMA_WSA_TX8:
+ 		buf->bytes = lpass_platform_wsa_hardware.buffer_bytes_max;
+-		buf->addr = drvdata->rxtx_cdc_dma_lpm_buf + LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE * 3;
++		buf->addr = drvdata->rxtx_cdc_dma_lpm_buf +
++				drvdata->wsa_lpm_offset + LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE;
++		break;
 +	case MI2S_PRIMARY ... MI2S_QUINARY:
 +	case MI2S_SENARY ... MI2S_SEPTENARY:
-+		port_id = mi2s_port_id(dai_id);
-+		return drvdata->mi2s_lpm[port_id] != LPASS_LPM_NONE;
++		if (is_lpm_mi2s_port(drvdata, dai_id)) {
++			unsigned int port_id = mi2s_port_id(dai_id);
++
++			buf->bytes = lpass_platform_lpm_mi2s_hardware.buffer_bytes_max;
++			switch (drvdata->mi2s_lpm[port_id]) {
++			case LPASS_RXTX_CDC_LPM:
++				if (pcm->streams[SNDRV_PCM_STREAM_PLAYBACK].substream)
++					buf->addr = drvdata->rxtx_cdc_dma_lpm_buf +
++						    drvdata->mi2s_lpm_offset[port_id];
++				else
++					buf->addr = drvdata->rxtx_cdc_dma_lpm_buf +
++						    drvdata->mi2s_lpm_offset[port_id] +
++						    LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE;
++				break;
++			case LPASS_VA_CDC_LPM:
++				if (pcm->streams[SNDRV_PCM_STREAM_PLAYBACK].substream)
++					buf->addr = drvdata->va_cdc_dma_lpm_buf +
++						    drvdata->mi2s_lpm_offset[port_id];
++				else
++					buf->addr = drvdata->va_cdc_dma_lpm_buf +
++						    drvdata->mi2s_lpm_offset[port_id] +
++						    LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE;
++				break;
++			default:
++				break;
++			}
++		}
+ 		break;
+ 	default:
+ 		break;
+@@ -1347,15 +1412,12 @@ static int lpass_platform_pcm_new(struct snd_soc_component *component,
+ {
+ 	struct snd_pcm *pcm = soc_runtime->pcm;
+ 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(soc_runtime, 0);
++	struct lpass_data *drvdata = snd_soc_component_get_drvdata(component);
+ 	unsigned int dai_id = cpu_dai->driver->id;
+ 
+ 	size_t size = lpass_platform_pcm_hardware.buffer_bytes_max;
+ 
+-	/*
+-	 * Lpass codec dma can access only lpass lpm hardware memory.
+-	 * ioremap is for HLOS to access hardware memory.
+-	 */
+-	if (is_cdc_dma_port(dai_id))
++	if (is_cdc_dma_port(dai_id) || is_lpm_mi2s_port(drvdata, dai_id))
+ 		return lpass_platform_prealloc_cdc_dma_buffer(component, pcm, dai_id);
+ 
+ 	return snd_pcm_set_fixed_buffer_all(pcm, SNDRV_DMA_TYPE_NONCOHERENT,
+@@ -1417,6 +1479,7 @@ static int lpass_platform_copy(struct snd_soc_component *component,
+ 			       unsigned long pos, struct iov_iter *buf,
+ 			       unsigned long bytes)
+ {
++	struct lpass_data *drvdata = snd_soc_component_get_drvdata(component);
+ 	struct snd_pcm_runtime *rt = substream->runtime;
+ 	struct snd_soc_pcm_runtime *soc_runtime = snd_soc_substream_to_rtd(substream);
+ 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(soc_runtime, 0);
+@@ -1427,7 +1490,7 @@ static int lpass_platform_copy(struct snd_soc_component *component,
+ 				channel * (rt->dma_bytes / rt->channels));
+ 
+ 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+-		if (is_cdc_dma_port(dai_id)) {
++		if (is_cdc_dma_port(dai_id) || is_lpm_mi2s_port(drvdata, dai_id)) {
+ 			if (copy_from_iter_toio(dma_buf, bytes, buf) != bytes)
+ 				ret = -EFAULT;
+ 		} else {
+@@ -1435,7 +1498,7 @@ static int lpass_platform_copy(struct snd_soc_component *component,
+ 				ret = -EFAULT;
+ 		}
+ 	} else if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
+-		if (is_cdc_dma_port(dai_id)) {
++		if (is_cdc_dma_port(dai_id) || is_lpm_mi2s_port(drvdata, dai_id)) {
+ 			if (copy_to_iter_fromio(dma_buf, bytes, buf) != bytes)
+ 				ret = -EFAULT;
+ 		} else {
+@@ -1464,6 +1527,64 @@ static const struct snd_soc_component_driver lpass_component_driver = {
+ 
+ };
+ 
++static int lpass_platform_allocate_lpm(struct lpass_data *drvdata)
++{
++	u32 rxtx_cdc_dma_lpm_remain = drvdata->rxtx_cdc_dma_lpm_size;
++	u32 va_cdc_dma_lpm_remain = drvdata->va_cdc_dma_lpm_size;
++	u32 rxtx_cdc_dma_lpm_offset = 0;
++	u32 va_cdc_dma_lpm_offset = 0;
++	int port_id;
++
++	if (drvdata->codec_dma_enable) {
++		drvdata->rxtx_lpm_offset = rxtx_cdc_dma_lpm_offset;
++		rxtx_cdc_dma_lpm_offset += LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE * 2;
++		rxtx_cdc_dma_lpm_remain -= LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE * 2;
++
++		drvdata->va_lpm_offset = va_cdc_dma_lpm_offset;
++		va_cdc_dma_lpm_offset += LPASS_VA_CDC_DMA_LPM_BUFF_SIZE;
++		va_cdc_dma_lpm_remain -= LPASS_VA_CDC_DMA_LPM_BUFF_SIZE;
++
++		if (drvdata->wsa_enable) {
++			drvdata->wsa_lpm_offset = rxtx_cdc_dma_lpm_offset;
++			rxtx_cdc_dma_lpm_offset += LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE * 2;
++			rxtx_cdc_dma_lpm_remain -= LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE * 2;
++		}
 +	}
-+	return false;
++
++	if (!drvdata->mi2s_lpm_enable)
++		return 0;
++
++	for (port_id = 0; port_id < LPASS_MAX_MI2S_PORTS; port_id++) {
++		if (!test_bit(port_id, &drvdata->lpaif_port_enable))
++			continue;
++
++		switch (drvdata->mi2s_lpm[port_id]) {
++		case LPASS_RXTX_CDC_LPM:
++			if (rxtx_cdc_dma_lpm_remain < LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE)
++				return -EINVAL;
++			drvdata->mi2s_lpm_offset[port_id] = rxtx_cdc_dma_lpm_offset;
++			rxtx_cdc_dma_lpm_offset += LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE * 2;
++			rxtx_cdc_dma_lpm_remain -= LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE * 2;
++			break;
++		case LPASS_VA_CDC_LPM:
++			/*
++			 * VA Codec uses 12KiB, but MI2S uses 8KiB
++			 * Meaning only VA _or_ a single MI2S can be enabled
++			 */
++			if (va_cdc_dma_lpm_remain < LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE)
++				return -EINVAL;
++			drvdata->mi2s_lpm_offset[port_id] = va_cdc_dma_lpm_offset;
++			va_cdc_dma_lpm_offset += LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE * 2;
++			va_cdc_dma_lpm_remain -= LPASS_RXTX_CDC_DMA_LPM_BUFF_SIZE * 2;
++			break;
++		default:
++			break;
++		}
++	}
++
++	return 0;
 +}
 +
- /* Vairant data per each SOC */
- struct lpass_variant {
- 	u32	irq_reg_base;
+ static int lpass_platform_init_lpaif(struct platform_device *pdev, int idx,
+ 				     const char *irq_name, unsigned long irqflags)
+ {
+@@ -1629,6 +1750,11 @@ int asoc_qcom_lpass_platform_register(struct platform_device *pdev)
+ 			return ret;
+ 		}
+ 	}
++
++	ret = lpass_platform_allocate_lpm(drvdata);
++	if (ret)
++		return ret;
++
+ 	return devm_snd_soc_register_component(&pdev->dev,
+ 			&lpass_component_driver, NULL, 0);
+ }
+diff --git a/sound/soc/qcom/lpass.h b/sound/soc/qcom/lpass.h
+index 71f1274dfa89..8f361f2808ca 100644
+--- a/sound/soc/qcom/lpass.h
++++ b/sound/soc/qcom/lpass.h
+@@ -196,6 +196,7 @@ struct lpass_data {
+ 	int hdmi_port_enable;
+ 	int codec_dma_enable;
+ 	int wsa_enable;
++	int mi2s_lpm_enable;
+ 
+ 	/* LPAIF instances, 0 is the core "lpass-lpaif" one */
+ 	struct lpass_lpaif lpaif[LPASS_MAX_LPAIF];
+@@ -214,7 +215,15 @@ struct lpass_data {
+ 	void __iomem *wsa_lpaif;
+ 
+ 	u32 rxtx_cdc_dma_lpm_buf;
++	u32 rxtx_cdc_dma_lpm_size;
+ 	u32 va_cdc_dma_lpm_buf;
++	u32 va_cdc_dma_lpm_size;
++
++	/* LPM buffer assignment */
++	u32 rxtx_lpm_offset;
++	u32 va_lpm_offset;
++	u32 wsa_lpm_offset;
++	u32 mi2s_lpm_offset[LPASS_MAX_MI2S_PORTS];
+ 
+ 	/* regmap backed by the low-power audio interface (LPAIF) registers */
+ 	struct regmap *hdmiif_map;
 
 -- 
 2.34.1
