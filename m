@@ -1,56 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794606872;
-	b=vqKVxtkGu79HilOvc3/HdvNYgLt1Xzjy/9VJfE8sm1gVsCQE+m67BFsEbE9gZv3Y+a2I
-	 Kwq861kHJYJMgC99I9jqxceg3nGJNPcQoEbvedfVr6XAXk+5ySZGB/69VOAyTevmCCbUn
-	 2wpyG5NfRJ1hh37fEPqNF1CJ+Gr5mGqaem4X76DXnx34D4KegQMlgLMBq448tZx0Z+Jxz
-	 syDItd8NCrCPg6msGnFHpERAVNuuL9nYV2E3Xpaejyz7Cu9OeFabH4D2Qa9K3rSzQxwwZ
-	 TMImn5AjqOekB4M1OjdiBhD6Lo/gEZJsk9SgUnjJK2FHfdzTdfKBJJA2Cf3oL9JyhVw==
+	t=1794610672;
+	b=ufBT2nMOT0jpZZTxwgD5BVnUxTqCuHvOVxj/aMWpeuwKZxfC5b+wX80xJ1f6jkpTZMmq
+	 i/dWoQ/+EcY++kIaTjDkHL7A7oIu7HEemVzCaxNYi2Pk2YNzRMv9/r14W2SpR3UOtp9zW
+	 RBzUJ/YusOy+SaoLArWb/hguqO3lTbiQIRJWeY0XHauuXSid++7xr4cUJa+Iz7EWcS5t2
+	 Yf24vzNBu2aUoOyAh9bmw3IbmCK6lWZU9yJYD1sojvcIr8npom+BIfHMZIOzq5mXP1J/c
+	 jcJjDFCSqKn2izjyZDaECURRA2QZMZEM/yD6eGsznosCOLlZ/9WcCLsx4X3K/e/1jhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794606872;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=XGsFRYVHXIs6MecNwTbHpazlETwbMjixLYkKs24qIsU=;
-	b=hH/ZtO5xv56VyrBcIdk2NLwS6kXkoKo5G2PDEwMbGA8Wzn4MuycIDC2AynQyduQTxNVq
-	 1YDK37go3x/pezAdtzcgwaOb3d+k7NGWUyGYXZVCe8DVPYZqr9BxchtuGwn95qlSsCQEf
-	 43/qxrGXZef9RbhaueewnIYgi+yPJuIkmXxMob0k5OzTl7O4D8iVG/k69TEQZxG29DHc3
-	 GaCmO/ueoqk75CWS2UoDrUdHIrW21OfzEkGvpUAADfduaOSL2Q8ZU1lYaHS6eLmC+yH+D
-	 fHfLiwt7jnlxd1KwTBFBfcCVNO1hfvthcynOlqFn3Bx3jWGzfy6rRZfPmmP36FRkfhQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794610672;
+	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=bVjai6LLNarFx4zAm4mT7O1O9wWtA74SjHQ0do3jQHw=;
+	b=mLUD/fBUeJYhMwpg0yOQYQM8NFZzc+n3mcuS47qcyu3KxPY9dEL4gAwMqIEQZUdAgyMR
+	 2IJam4KHRqgqOaxClSxCDdvbG8w/HQXogaPYN3inhOoZNAE8O8y9Onxa/tc5t+sICvoOf
+	 DQKn/X+lkadAfyVpnfhW5Eoz3uk4rOniopn8L64Q3ftI1wZjK6ggIs3uz/heEENDLEkcq
+	 IU/QrkYjLV0WZCQBqy/uZ2fMGjthZW4p9D4s99FDXZN6avyKCU6rKnau4fFxnLs6Zw41N
+	 6iOZqZXPKmzSpyr0ZXhy0r4Rr/qHTu5nJaKORGqjl+udBWW5eSZ7xHxMaqkzMl1aoMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JW8ZPsB9;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RA+fK3Rn;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1C9606A323
-	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 21:54:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B815606A330;
+	Fri, 13 Nov 2026 22:57:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JW8ZPsB9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 551B61F000C4;
-	Fri, 13 Nov 2026 21:54:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RA+fK3Rn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FB071F000C4;
+	Fri, 13 Nov 2026 22:57:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794606872;
-	bh=XGsFRYVHXIs6MecNwTbHpazlETwbMjixLYkKs24qIsU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=JW8ZPsB9Xp9m6of+htr510nRFYDcrQygS9HLl64snWbP5hrlqvjC0DZQs3d9B9KKN
-	 CqDEAvoDsd1yyc4FTBAUAwr7RBrZiIcxL5+ujXOemTn705vLje6tMTpGNKMzW1IEFF
-	 VC5AfBDL3kibP4IWq4FHQ4KxGyc12ZC9PtZ7FatlG8sL9rwz894IzqJue5SYvFxkQa
-	 SaZyoumeAr8dle/5izOOFM5QeARgpw0QzOaY9K0p3liD7X4ZlYCYdsKt5X+0x93hsc
-	 DGA9uI6Ch6U6mra9cWrNRBHN9osfKuthzMH500Ff/vvNovJyuj003tGwk4Qpk9CJVA
-	 jRZWFU3kd7brw==
-Message-ID: <sashiko-outbox-213743@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ASoC: qcom: common: report line-out plugs on the
- Headphone Jack pin
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Ingo A. Kubbilun" <ingo.kubbilun@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261113214544.232836-1-ingo.kubbilun@gmail.com>
-References: <20261113214544.232836-1-ingo.kubbilun@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2026 21:54:31 +0000
+	s=k20260515; t=1794610671;
+	bh=bVjai6LLNarFx4zAm4mT7O1O9wWtA74SjHQ0do3jQHw=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=RA+fK3RnOz5pKae2Gt+V1eUv8iLmqCGYaGFCSvcy0Wecqjq08FmJ+8uqrVBImUtZ0
+	 GsArh4WPUccH9BmXvcTTdj6RdZgmx/85lPawLod5S/qP46c8aQRIrnFE6fRBcn0mYb
+	 ydtkUk6KczDgDX5sZGB8PNr81PNCcBYJVsZGjbeqBlBPswokDyWZb0pYsA4bojU1/2
+	 1pQNLSX6rGCMqqltwHmrpWbaUI4kBvKOM7Q9QaGvzaBmgPKEyPPgNbzNLNVllAjhBc
+	 QObXjQjLpV5zF54Vbr4vCFSkRdZRpdUHb32q43AlhiaFxh+ILpkfjziu0rX95SrgvI
+	 kIHS/kvU1zhog==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id C9CB7327EB4C;
+	Fri, 13 Nov 2026 22:57:44 +0000 (GMT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,41 +51,106 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v1] ASoC: tas2783-sdw: Add basic BPT support
+From: Mark Brown <broonie@kernel.org>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: broonie@kernel.org, tiwai@suse.de, andriy.shevchenko@linux.intel.com, 
+ 13916275206@139.com, alsa-devel@alsa-project.org, shenghao-ding@ti.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, k-yi@ti.com, 
+ henry.lo@ti.com, robinchen@ti.com, niranjan.hy@ti.com, pin-hao.huang@hp.com, 
+ Syed.SabaKareem@amd.com
+In-Reply-To: <20261103133853.1612-1-baojun.xu@ti.com>
+References: <20261103133853.1612-1-baojun.xu@ti.com>
+Date: Fri, 13 Nov 2026 22:57:43 +0000
+Message-Id: <179461066380.590303.4284235915024640231.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2367; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=CZGWgKoiOb0WZzX9tkDAcCd5qrNdKR7L4JdHq86Y1VE=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLK+T30xj8d66vFmwXmMNVkHPn+1nb32zNKtJ8+uO7Oov
+ X/Nd1WdEx2lLAxiXAyyYooscVncL+tLXq/hO7iwDWYOKxPIEAYuTgGYyEYpRoZLM+ytd72rCghm
+ 4vt16uNejUOHzE4sUvyu/VtvUhsn55Fwhv/JypWB0mwMGzeoq7pectVSlHq/9IX0+YznVy4LHdi
+ 6oooBAA==
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] ASoC: qcom: common: missing Fixes trailer for
-  qcom_headset_jack_pins
---
+> Add for BPT supported.
 
-commit 0fd555bd073d8d5bb7f8b16e45526f52c4eac77a
-Author: Ingo A. Kubbilun <ingo.kubbilun@gmail.com>
+It might help to expand the acronym here, it's not at all obvious to me
+what this is intended to do.
 
-> ASoC: qcom: common: report line-out plugs on the Headphone Jack pin
->
-> The WCD MBHC classifies high-impedance loads (above linein_th, 5 kOhm
-> on wcd938x) such as active speakers as SND_JACK_LINEOUT. The
-> "Headphone Jack" pin only matched SND_JACK_HEADPHONE, so the jack
-> control stayed off and userspace (UCM JackControl) never switched to
-> the headphone output for those loads.
->
-> Seen on ASUS Vivobook S16 S3607QA (X1P42100, WCD9385): active
-> speakers measured at ~20 kOhm per channel were reported as LINEOUT only.
->
-> Developed with the help of an AI coding assistant (Anthropic Claude),
-> which drafted the changes from the Windows ACPI tables, existing device
-> trees and test logs; reviewed, built and tested on the device by the
-> submitter.
->
-> Signed-off-by: Ingo A. Kubbilun <ingo.kubbilun@gmail.com>
+> +enum {
+> +	SDW_MSG_FLAG_READ = 0,
+> +	SDW_MSG_FLAG_WRITE,
+> +};
+> +
+> +struct sdw_bpt_section {
+> +	u32 addr;
+> +	u32 len;
+> +	u8 *buf;
+> +};
+> +
+> +struct sdw_bpt_msg {
+> +	struct sdw_bpt_section *sec;
+> +	int sections;
+> +	u8 dev_num;
+> +	u8 flags;
+> +};
 
-[Severity: Low]
-This fixes the "Headphone Jack" pin mask in qcom_headset_jack_pins[],
-which omitted SND_JACK_LINEOUT when jack pins were added.  Should the
-commit message include:
+These look like generic SoundWire definitons, they should come from
+SoundWire headers.
 
-  Fixes: 4c2c935a278e ("ASoC: qcom: common: add kcontrol to jack pins")
+> +static int tas2783_fw_download_bpt(struct tas2783_prv *tas_dev,
+> +				   const struct firmware *fmw)
+> +{
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113214544.2328=
-36-1-ingo.kubbilun@gmail.com?part=3D1
+> +	ret = sdw_bpt_send_sync(bus, slave, &msg);
+
+Can we call this while tas_fw_load() is waiting for the load to
+complete?  That gets called from Soundwire callbacks.  There's some
+Sashiko reports about the issue (and quite a bit of other stuff).
+
+> +static bool tas2783_bpt_supported(struct tas2783_prv *tas_dev)
+> +{
+> +	struct sdw_slave *slave = tas_dev->sdw_peripheral;
+> +	struct sdw_bus *bus = slave->bus;
+> +
+> +	return bus && bus->ops && bus->ops->bpt_send_async;
+
+Does that guarantee that the bus actually has BPT, how strict is
+Soundwire about not registering the same ops struct for everything and
+returning an error if the hardware doesn't have the feature?
+
+> @@ -761,7 +877,7 @@ static void tas2783_fw_ready(const struct firmware *fmw, void *context)
+>  	if (!fmw || !fmw->data) {
+>  		if (!tas_dev->fw_use_fallback) {
+>  			tas_dev->fw_use_fallback = true;
+> -			dev_info(tas_dev->dev,
+> +			dev_dbg(tas_dev->dev,
+>  				"Failed to read preferred fw binary: %s, attempting fallback binary load\n",
+>  				tas_dev->rca_binaryname);
+
+Separate patch please.
+
+> @@ -1216,25 +1358,32 @@ static s32 tas_fw_load(struct tas2783_prv *tas_dev, struct sdw_slave *slave)
+>  static s32 tas_io_init(struct device *dev, struct sdw_slave *slave)
+>  {
+>  	struct tas2783_prv *tas_dev = dev_get_drvdata(dev);
+> +	uint val;
+>  	s32 ret;
+>  
+>  	if (tas_dev->hw_init)
+>  		return 0;
+>  
+> -	tas_dev->fw_dl_success = false;
+> -
+> -	ret = regmap_write(tas_dev->regmap, TAS2783_SW_RESET, 0x1);
+> +	regmap_read(tas_dev->regmap, TASDEV_REG_SDW(0, 0, 7), &val);
+> +	dev_dbg(dev, "Got B0P0R7 = %02X with %d.", val, ret);
+
+We removed the assignment to ret but we're logging it?
+
+-- 
+Mark Brown <broonie@kernel.org>
