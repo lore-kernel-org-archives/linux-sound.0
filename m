@@ -1,99 +1,115 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794585553;
-	b=r+qAKcWrbvtmUGWjICGYUTPED5ViYlhFzQAc98bZ2IZ/9hhpU1fqG+jkho2wkocNQZ5k
-	 jq3BqDhFqxGGppn2TcwCRCUrDFAxyB2P1wAGTAMf3h2CokXw++8YMMXpy5mplm08PNVyQ
-	 phJ0fIViEo/eKw4dsY1baNWq50sF1VCmjFND8O/S9u0thRjrozBSO+6dYXUU3sRyFCg2a
-	 c3WIoFBWdHxLbjHhjF7uZMIDVEufO/xBrm52XJi4CQaFXPr6KxRYvW4pSjUhpNeAUyFER
-	 mCuhWzhYvJRUcTOi1LUUQ0BryLoI9m6S+HcSdl6oGSJR1tVyEA1pygECKeI1DFP0Q5g==
+	t=1794587457;
+	b=au3fyWpoS/9L1rx+4fu0ymgzHEG10Un4YxcwC9JuFrvXW0/qAAK/gch5hGErzV71Dmt8
+	 tzvvOZ/QBZ/CS5bJeYYzF3n9IShxLD4ppLW8HaRdTc5A/b2kx+n9lJc8KX2ewK9CRA9PK
+	 PulwGKk8CnHSpBQWMXitPD4qJFQmfk4BPbn0z5FfzMZWZFJwK2dyslBlpP02X3sxQKWx7
+	 jCsGQPY7Tg8Nbpk9ZL/tXjheXPfKhPUb2GQrDz3ionMixAyamkJEpyRfw0CFUyVMW76Sn
+	 3izJK5DMprZsszJcd/G28OqYVRJ8v2StccI4sDRIoNIXW8Rba/a4lJD68Fmq8whh+aA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794585553;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794587457;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 User-Agent:MIME-Version:Content-Type:X-Spam-Flag:X-Spam-Level:
-	 X-Spamd-Result:X-Spam-Score;
-	bh=Gx7M6jt6z9Omn/e+tHtHZM2LLzdH97mZcDmy9T8YAF0=;
-	b=3YuatQmT5OelFmwuyC3gquNOCpr8FSCEYFe1RfyGZHa6iJwhTvdWnrF+Vh+pYfI3WN2z
-	 cAInBpydEWV3418uJ6qqJ1msyKAf0zXGP2Hcryk0a5Lr2G6LSs51Ejhaz5t1vG8FFpS9Z
-	 44EJEThTQCPDBrcEQx/VVTixEujiwQmebCexJfy7jMVr68WF82APpeFt0Tf9pn2O7ych2
-	 fv3WcoXb4tAQtuIJFAmUAXui7iSZJA7gLe1vN/53oCba2EgCCyj+CzUNHvODEi0YgmwfB
-	 DTe3qE0KyjWeWnfb4Mkww4XAF3iJI8eI/Atmj2gnBVWmgDROA8GeiBmAU6E1rQ4JBUw==
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Spamd-Result:X-Rspamd-Server:
+	 X-Rspamd-Action:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
+	 X-Rspamd-Queue-Id;
+	bh=WX/unREMWHH3328d9roC1pYnSGZP1D9EWEBhaNhK3t0=;
+	b=sdmWH8CSjgwgsi4IaNgmtQNMYWcxKJcXZcBM5oIwGf9RERR7o72Ghwao9VuU4G6cZ3zR
+	 rYBIbAEqAhl1u1thBup81VrlrvHLnar8KklEeQpsbmgkgzdyzieYZFFhVLnRiUOOPAuIi
+	 9rwF3qwnQtwS/PrcOLV4to2uu/EIXvS0TsxGz0OKwczEXrjLxfIf/pj/p4B6XOIT7+Bk5
+	 WHdhgPK4jNcGppr6TjBLSFlZ0Ur3/Rmn+lDlqB0ChNZw27u/yNXvHbnEWGk68GhUcv1Kz
+	 VPrl7BOGkissyDmIqz7jUYv+xlXF2Y0PjxCZkTt1HVHzM0eeXBLFmw/gHJCdbdoVu2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Fz8lVVzq;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=hpTMlQ0C;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Fz8lVVzq;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=hpTMlQ0C;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VKTpUn12;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HQTWMhNF;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VKTpUn12;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HQTWMhNF;
 	arc=none smtp.remote-ip=195.135.223.131
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98056606BA8A;
-	Fri, 13 Nov 2026 15:59:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98056606BA8A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13676606A33D;
+	Fri, 13 Nov 2026 16:30:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13676606A33D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Fz8lVVzq;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=hpTMlQ0C;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Fz8lVVzq;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=hpTMlQ0C
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VKTpUn12;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HQTWMhNF;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VKTpUn12;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HQTWMhNF
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BF0FF1F79B;
-	Fri, 13 Nov 2026 15:59:10 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 47FFD1F79B;
+	Fri, 13 Nov 2026 16:30:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794585550; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Gx7M6jt6z9Omn/e+tHtHZM2LLzdH97mZcDmy9T8YAF0=;
-	b=Fz8lVVzqif0Z9k567b4F0Xqe+BA0Am+LsemDnSZ2aotLBU5EYD/5fAIEGMJG/Bm+xTjpjL
-	TmFW6RW4zUKs8uW0IBAcPrArQOLezsGPpDV6QduxQttNevXG6iTysjTiWBJYfJnVSs7DyF
-	nBZh02UgaUz2YX/6PzazX6OvxABRPQE=
+	t=1794587455; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WX/unREMWHH3328d9roC1pYnSGZP1D9EWEBhaNhK3t0=;
+	b=VKTpUn12sAqkcIYtgCWBw+fR1RF4SoNHGRo53UgQe+PxypRET3UFIhPDMa0EyxdOy8hFiP
+	QCzrKE5blmrV8ebPo6NunTxMGm/3uKEzH0UQIfhz5V7E58zRZSKxBJYQtQhYzJD6mdXZ3m
+	JYtAM6fW4H3uxsULR0g4VyiWG2vChqs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794585550;
+	s=susede2_ed25519; t=1794587455;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Gx7M6jt6z9Omn/e+tHtHZM2LLzdH97mZcDmy9T8YAF0=;
-	b=hpTMlQ0CDiVMjFEbmaj1fKLwRV59PilYfNJD9CRWGIITLs0FOf6uwY7Fr+pRy/ZYDBtjVj
-	H6RIQzhWpoNBXYAA==
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WX/unREMWHH3328d9roC1pYnSGZP1D9EWEBhaNhK3t0=;
+	b=HQTWMhNF45xhT7sfCyI5OgqM4WhUltr86L7Qfn52fnxXymxxLFwiMhS8VYJ9+jDToeHuvj
+	/cOa8NibeiA3nVAQ==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VKTpUn12;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HQTWMhNF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794585550; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Gx7M6jt6z9Omn/e+tHtHZM2LLzdH97mZcDmy9T8YAF0=;
-	b=Fz8lVVzqif0Z9k567b4F0Xqe+BA0Am+LsemDnSZ2aotLBU5EYD/5fAIEGMJG/Bm+xTjpjL
-	TmFW6RW4zUKs8uW0IBAcPrArQOLezsGPpDV6QduxQttNevXG6iTysjTiWBJYfJnVSs7DyF
-	nBZh02UgaUz2YX/6PzazX6OvxABRPQE=
+	t=1794587455; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WX/unREMWHH3328d9roC1pYnSGZP1D9EWEBhaNhK3t0=;
+	b=VKTpUn12sAqkcIYtgCWBw+fR1RF4SoNHGRo53UgQe+PxypRET3UFIhPDMa0EyxdOy8hFiP
+	QCzrKE5blmrV8ebPo6NunTxMGm/3uKEzH0UQIfhz5V7E58zRZSKxBJYQtQhYzJD6mdXZ3m
+	JYtAM6fW4H3uxsULR0g4VyiWG2vChqs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794585550;
+	s=susede2_ed25519; t=1794587455;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=Gx7M6jt6z9Omn/e+tHtHZM2LLzdH97mZcDmy9T8YAF0=;
-	b=hpTMlQ0CDiVMjFEbmaj1fKLwRV59PilYfNJD9CRWGIITLs0FOf6uwY7Fr+pRy/ZYDBtjVj
-	H6RIQzhWpoNBXYAA==
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WX/unREMWHH3328d9roC1pYnSGZP1D9EWEBhaNhK3t0=;
+	b=HQTWMhNF45xhT7sfCyI5OgqM4WhUltr86L7Qfn52fnxXymxxLFwiMhS8VYJ9+jDToeHuvj
+	/cOa8NibeiA3nVAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6BDDC1344A;
-	Fri, 13 Nov 2026 15:59:10 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 05C52134C3;
+	Fri, 13 Nov 2026 16:30:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id //VwEs4z92rLVgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 13 Nov 2026 15:59:10 +0000
-Date: Fri, 13 Nov 2026 16:59:09 +0100
-Message-ID: <87pkw8pvsi.wl-tiwai@suse.de>
+	id 60z0ND4792rodgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 13 Nov 2026 16:30:54 +0000
+Date: Fri, 13 Nov 2026 17:30:54 +0100
+Message-ID: <87ik20publ.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 7.4-rc3
+To: =?GB2312?B?0Ozqz8/o?= <xuhx@hust.edu.cn>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: ALSA: ctxfi: free atimer only after the timer IRQ is quiesced
+In-Reply-To: <57529fbf.262c8.1a1d4c65987.Coremail.xuhx@hust.edu.cn>
+References: <4c7f9772.192e1.1a17d5c2ed5.Coremail.xuhx@hust.edu.cn>
+	<2026102727-data-sequel-ce41@gregkh>
+	<57529fbf.262c8.1a1d4c65987.Coremail.xuhx@hust.edu.cn>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -104,199 +120,134 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.30 / 50.00];
+Content-Type: text/plain; charset=GB2312
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-12.51 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[5];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.30
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -12.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 47FFD1F79B
 
-Linus,
+On Fri, 13 Nov 2026 12:58:51 +0100,
+ÐìêÏÏè wrote:
+> 
+> `ct_timer_free()` frees `struct ct_timer` while the ctxfi timer IRQ handler can
+> still be executing, or can start after `snd_card_disconnect()` has already done
+> its single `synchronize_irq()`.  A handler that has passed the non-atomic
+> `hw->irq_callback` check then calls `ct_timer_interrupt()` with the freed
+> `atimer`; `free_irq()` only runs later, inside `ct_atc_destroy()` ->
+> `destroy_hw_obj()`.  This is a use-after-free on the timer object and can crash
+> or wedge the device during PCI removal/unbind.
+> 
+> The detailed description:
+> 
+> * Test environment / affected version
+> 
+>   Linux 7.3.0 source tree under review.  This report is source-level only: no
+>   ctxfi hardware was available and QEMU has no ctxfi device model, so no
+>   driver-specific reproducer was run.  The source paths/line numbers below are
+>   from 7.3.
+> 
+> * Mechanism
+> 
+>   `ct_timer_new()` (`sound/pci/ctxfi/cttimer.c:388-411`) installs the native
+>   timer callback by default when `!use_system_timer && hw->set_timer_irq`:
+> 
+>     hw->irq_callback_data = atimer;
+>     hw->irq_callback      = ct_timer_interrupt;
+> 
+>   The PCI IRQ handlers `ct_20k1_interrupt()` (`cthw20k1.c:1878-1891`) and
+>   `ct_20k2_interrupt()` (`cthw20k2.c:2045-2059`) do:
+> 
+>     if (hw->irq_callback)
+>         hw->irq_callback(hw->irq_callback_data, status);
+> 
+>   `ct_timer_interrupt()` (`cttimer.c:379-386`) then reads
+>   `timer->ops->interrupt` and calls it with `timer`.  Neither the check nor
+>   the two loads is atomic.
+> 
+>   `ct_timer_free()` (`cttimer.c:414-421`) does:
+> 
+>     struct hw *hw = atimer->atc->hw;
+>     hw->irq_callback = NULL;
+>     if (atimer->ops->free_global)
+>         atimer->ops->free_global(atimer);
+>     kfree(atimer);
+> 
+>   `ct_xfitimer_free_global()` only calls `ct_xfitimer_irq_stop()`; that helper
+>   stops the hardware only if `atimer->running` is set (`cttimer.c:137-145`).
+>   It does not wait for an in-flight IRQ handler.
+> 
+>   `ct_atc_destroy()` (`ctatc.c:1250-1286`) then calls `ct_timer_free()` at
+>   1257-1260, calls `destroy_hw_obj(atc->hw)` at 1274-1275, and only after that
+>   `kfree(atc)` at 1283.  `destroy_hw_obj()` -> `hw_card_shutdown()` ->
+>   `free_irq()` at `cthw20k1.c:1969` / `cthw20k2.c:2140`.  So `atc` itself is
+>   not the freed object in this window; `atimer` is freed before `free_irq()`.
+> 
+> * Why the existing synchronization does not close the window
+> 
+>   ctxfi does set `card->sync_irq` at `cthw20k1.c:1937` / `cthw20k2.c:2104`,
+>   and `snd_card_disconnect()` (`sound/core/init.c:495-562`) calls
+>   `synchronize_irq(card->sync_irq)` once at 540-541.  But that call happens
+>   before `ct_timer_free()`, only waits handlers that are running at that
+>   instant, and does not disable the IRQ line.  A new handler can enter after
+>   the one-time sync and before `free_irq()`.
+> 
+>   The `hw->irq_callback = NULL` store does not close the race either: a
+>   handler that loaded the callback pointer before the store can still call it.
+> 
+> * Trigger model
+> 
+>   Open a ctxfi device (native timer path, the default), then remove/unbind the
+>   PCI device while an interrupt is pending or arrives during teardown.  The
+>   window is between `ct_timer_free()` and `free_irq()`.  Consequence: UAF read
+>   of `atimer->ops` and timer fields in IRQ context; crash, stall, or potential
+>   control-flow corruption.
+> 
+> * Suggested direction
+> 
+>   After clearing `hw->irq_callback` and calling `free_global()`, but before
+>   `kfree(atimer)`, do:
+> 
+>     if (hw->irq >= 0)
+>         synchronize_irq(hw->irq);
+> 
+>   Alternatively, move `free_irq()` earlier so it precedes the timer free.
+>   Keep the existing `hw->irq == -1` initialization contract.
+> 
+> 
+> Please keep me in Cc; I am not subscribed to the lists.
 
-please pull sound fixes for v7.4-rc3 from:
+Could you rather submit a fix patch (with a proper patch description)
+for each your reported issue?  You can put Link: tag to pointing to
+the earlier reports.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.4-rc3
 
-The topmost commit is bca568589ad118a9b0bac086760baee2a41976a5
+thanks,
 
-----------------------------------------------------------------
-
-sound fixes for 7.4-rc3
-
-A collection of small fixes as usual.  A couple of regression fixes
-are included in addition to the various quirks and device-specific
-fixes.
-
-* ALSA Core:
-- PCM: Fix potential inconsistent PCM state reporting after XRUN
-
-* HD-audio:
-- Fix sysfs hint parser
-- Revert CS4208 fixup for MacBookAir 7,2 due to regressions
-- ACPI _DSD fixes for CS35L41 side-codec on various HP laptops
-- Device quirks for Acer (Predator, TravelLite) and Dell (Pro QC1255,
-  XPS 8940)
-
-* USB-audio:
-- Fix for USB controller bugs reporting oversized packets
-- Fix UAF on disconnect in caiaq
-- Quirks for NiceHCK Octave DAC and RYDZ Technology Piva AC20
-
-* ASoC:
-- Fix a regression due to the conversion to devm_kzalloc_flex() that
-  initialized the counter unexpectedly
-- Copy DAI link names into card device to survive component rebind
-- SOF: Fix pin format memory leak in IPC4 process widget setup,
-- SOF: Support alternatively signed firmware loading on AMD platforms
-- AMD: Guard SoundWire context with NULL checks in IRQ handlers
-- AMD: SoundWire support on LG gram 16Z95U,  fix speaker pop noise on
-  ACP3x with ES83xx codecs, quirks for Acer, ASUS, Huawei, and Lenovo
-- Qualcomm: Fix headset jack at card rebind, PCM position fix on q6asm
-- Apple: Fix clock selection for clock consumer FEs in MCA driver
-- Intel: SoundWire jack-detection quirk for Dell Latitude 9420
-- Codecs: Fixes for CS43130 (power down on close), ES9356 (gain dB
-  scale), and MAX98090 (preserve mic boost)
-
-----------------------------------------------------------------
-
-Andrew Davison (1):
-      ALSA: hda: Fix [codec] ID matching in patch files for IDs with bit 31 set
-
-Angel J (1):
-      ALSA: hda/realtek: Fix the Dell XPS 8940 headset microphone
-
-Baoli Zhang (1):
-      ASoC: SOF: ipc4-topology: Fix pin format leak in process widget setup
-
-Devajith Jijush (1):
-      ALSA: hda/conexant: Add quirk for Acer TravelLite TL05-41M
-
-Emanuele Ghidoli (1):
-      ASoC: soc-core: reset rtd->num_components after allocation
-
-Fa-Iz Faadhillah Ibrahim (1):
-      ALSA: hda/realtek: Update quirk for Acer Predator PHN16-72
-
-Gichoon Han (1):
-      ALSA: usb-audio: Drop capture packets with bogus actual_length
-
-HyeongJun An (1):
-      ASoC: Intel: sof_sdw: Add quirk for Dell Latitude 9420
-
-Jaehoon Kim (2):
-      ASoC: amd: acp: Add ACP70 ACPI flag override for LG gram 16Z95U
-      ASoC: amd: acp70: Add rt713 + rt1320 SoundWire machine for LG gram 16Z95U
-
-Janne Grunau (1):
-      ASoC: apple: mca: Fix clock selection for clock consumer FEs
-
-Jude Gyimah (1):
-      ALSA: aw2-alsa: select SND_PCM
-
-Kailang Yang (1):
-      ALSA: hda/realtek - remove headphone MIC support for Dell Pro QC1255
-
-LiangCheng Wang (1):
-      ASoC: max98090: keep the MIC boost across mic input power-up
-
-Lianqin Hu (1):
-      ALSA: usb-audio: Add iface reset and delay quirk for RYDZ Technology Piva AC20
-
-Mario Limonciello (1):
-      ASoC: SOF: amd: Load alternatively signed firmware with an "_l" suffix
-
-Michael McAllister (1):
-      ASoC: qcom: q6asm: Reset PCM positions when preparing a stream
-
-Mikael Magnusson (1):
-      ALSA: pcm: update state after xrun
-
-Olivier Louvignes (1):
-      ASoC: cs43130: Power the playback path down when the stream closes
-
-Samuel Leyva (2):
-      ASoC: amd: acp: Add DMI quirk for Huawei MateBook D 14 (NBM-WXX9)
-      ASoC: amd: acp: es83xx: Enable speaker amplifier after the codec output
-
-Sergei Nizovtsev (1):
-      ALSA: caiaq: Kill EP1 URB before unregistering the input device
-
-Shengyu Qu (1):
-      ALSA: usb-audio: Add native DSD support for NiceHCK Octave
-
-Stefan Binding (1):
-      ALSA: hda: cs35l41: Override malformed _DSD properties for various laptops
-
-Takashi Iwai (1):
-      Revert "ALSA: hda/cs420x: Add CS4208 fixup for MacBookAir 7,2"
-
-Tyler Baker (2):
-      ASoC: soc-core: copy the DAI link names into the card
-      ASoC: qcom: x1e80100: recreate the headset jack on card rebind
-
-Viacheslav-Illia Detsyk (1):
-      ASoC: amd: yc: Add DMI quirk for Acer Nitro AN16-41
-
-Vijendar Mukunda (2):
-      ASoC: amd: ps: guard adata->sdw dereferences with NULL check in IRQ handler
-      ASoC: SOF: amd: guard adata->sdw dereferences with NULL check in IRQ handler
-
-Zachary Huang (1):
-      ASoC: es9356: fix the capture gain dB scale
-
-Zhang Heng (3):
-      ASoC: amd: yc: Fall back to DMI quirk table when _WOV returns 0
-      ASoC: amd: yc: Add DMI quirk for ASUS TUF Gaming A16 FA607NUQ
-      ASoC: amd: acp: Add Lenovo Legion 5 15AGP11 to ACP70 override table
-
----
- sound/core/pcm_native.c                            |  8 ++-
- sound/hda/codecs/cirrus/cs420x.c                   |  2 -
- sound/hda/codecs/conexant.c                        | 12 ++++
- sound/hda/codecs/realtek/alc269.c                  | 21 ++----
- sound/hda/codecs/realtek/alc882.c                  | 10 +++
- .../hda/codecs/side-codecs/cs35l41_hda_property.c  | 22 +++++-
- sound/hda/common/sysfs.c                           |  5 +-
- sound/pci/Kconfig                                  |  1 +
- sound/soc/amd/acp-config.c                         | 28 ++++++++
- sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c      | 24 +++++--
- sound/soc/amd/acp/amd-acp70-acpi-match.c           | 83 ++++++++++++++++++++++
- sound/soc/amd/ps/pci-ps.c                          | 32 +++++----
- sound/soc/amd/yc/acp6x-mach.c                      | 16 ++++-
- sound/soc/apple/mca.c                              | 10 ++-
- sound/soc/codecs/cs43130.c                         |  2 -
- sound/soc/codecs/es9356.c                          |  4 +-
- sound/soc/codecs/max98090.c                        | 22 +++---
- sound/soc/intel/boards/sof_sdw.c                   | 10 +++
- sound/soc/qcom/qdsp6/q6asm-dai.c                   |  3 +
- sound/soc/qcom/qdsp6/q6asm.c                       |  2 +
- sound/soc/qcom/x1e80100.c                          | 18 +++++
- sound/soc/soc-core.c                               | 22 ++++++
- sound/soc/sof/amd/acp.c                            | 61 ++++++++++++----
- sound/soc/sof/amd/acp.h                            |  2 +
- sound/soc/sof/ipc4-topology.c                      |  2 +-
- sound/usb/caiaq/device.c                           | 11 ++-
- sound/usb/pcm.c                                    |  6 ++
- sound/usb/quirks.c                                 |  4 ++
- 28 files changed, 367 insertions(+), 76 deletions(-)
-
+Takashi
