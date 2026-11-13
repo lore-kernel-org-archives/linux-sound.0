@@ -1,101 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.180
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794525841;
-	b=kUNkp+Zp6bl6qZy1eiDgI+1Wdo1NdQha5NhmptUYqmExbdxrLfx/ryC7VKG1n9pnl/5b
-	 A1fA3ENjUMAdNAu8pQk/DkK2DvM/Mb4LC+YhxFpLQ3ox5/rhWA2tVeOQRzwX7Ma5fNiDQ
-	 6rwy7/gCFHm97++7hOrWj/5ko3k8vglYIcLnGn61aVc5yaPQ6+wME8FNXAEt3/wmRxVcR
-	 KL8cbi2pQ+LjKaJCgwOKxm8XECAQPHKZzTOogRNv+YUT50uIMw39eJkQ/t1xU78eDmOJ5
-	 VpziXeCACxbGNhT7vVUYkL4J33CRfgS6t3BgLFyAzdA3soU97LmwkGxFygrSKBKgHlA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794525841;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=drls+PXlcGZoLfnoPObObwbc1/HPzgky5rGb/FCeY3w=;
-	b=h1Y7BqoywNn6uaUsEqcDom46gU10jewk8sRXIWAlmNjsM94B0Xjv0iUWmoGXu+4q1Pim
-	 +BALGEHHkHElvUIsRdSPATyFMnxiYvRIAkNy6UpfD2BKR2G1QLdTsfQQO8UytOVuAOuWe
-	 XA2zTXJGdyAlimImTcwuVCRpTKW9oGOmG0YP1FZFIGP93R9yqBemhRksg3c48mJ7VCGbT
-	 1BRcmCXIjr/u5fyZDJpzLipjwIMJI6JY2ZsevkXzGXlP+t5uN+pYmXejnz7No2ohxHaI1
-	 8rC42Ftpnqgf6aq0OW6FQ24a2TXAeMlN7cHILCyyV1ZPbNosYUlErP/yoCl8YkYmqIg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ausil.us;
-	spf=pass smtp.mailfrom=gilmore.net.au;
-	dkim=pass header.d=ausil.us header.i=@ausil.us header.a=rsa-sha256 header.s=google header.b=focqTQf7;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.180
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.193
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794537694;
+	b=RZod40M9HlLCX/SAzr9O+g5mBkndY1DtC5FIzwC619DtIwntfdjWDm+hhXQzuu9pAHfs
+	 RiqTBdm/OjvUgezLupW6VIZYRlBuCc7OW2ZQKQx5vO+oxAjaDcXqTtAJExyrbXV2P2U8V
+	 56YregubvXMZ/hf3U965CUmDie5rTLHwbSCLEEcD9nD8d58LvQkAI0KUXZEb6OS43rnp3
+	 20EQZKYyoEqccbSHv8CbfaZ2skZG/ekLqRBXAXu279Q4QoubVJjjQFaIfNFZCJxkvpzZs
+	 0VX5kc/cSRUMur3jEvsV+murYMAqTQVi0JJhuqlvZQe8w8aGFcutdZntNOST6sDr92g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794537694;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:From:To:Cc:References:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=Wtk4FcMHtUD7AzBOaGVvW1HF8HnAVAmvMhgIvgz/LCI=;
+	b=Ou4ErVTgUOHbP3VbQogLkAZWWn2XEK6AzwsgcAia17/k3YI64gLU9qWZier3Dx37utyo
+	 CGz/7x9kVswgk+f2vU0C6H1lgdXQPrRL/tNVkEiOgiGeWGHR0JcJFPGcDutcc45DJ/3VN
+	 yxMgHSA00Q1GXc2EA6gDfieBn7wunW8HZAuHLxTWHj1LjHtjL40Zl7bdMSeHgTH4dsXI3
+	 Iqt8sWogyDjwB/vjnAR0WuwmeDTDvPfDNklw4FN/Tjbmyb8sX4y1s+eoczCNGiL/C4eCP
+	 xW6sai+SX9o9W/QiGuqokimslNtuyWe35d8XrsXu7Og2nzmM/mn8ELS1lexuqteXZMQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=packett.cool;
+	spf=pass smtp.mailfrom=packett.cool;
+	dkim=pass header.d=packett.cool header.i=@packett.cool header.a=rsa-sha256 header.s=key1 header.b=FjDjWryj;
+	arc=none smtp.remote-ip=91.218.175.193
+Received: from mta0.migadu.com (out-193.mta0.migadu.com [91.218.175.193])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40802606A327
-	for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 23:24:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40802606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ausil.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gilmore.net.au
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFB560A261C
+	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 02:41:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CCFB560A261C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ausil.us header.i=@ausil.us header.a=rsa-sha256 header.s=google header.b=focqTQf7
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-93e6eb77f0bso46360285a.3
-        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 15:24:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794525840; cv=none;
-        d=google.com; s=arc-20260327;
-        b=GlDRKG7ygq9l3eRLgoLC/68qt1K6JRxYhWQymjlM//k5lSCBO3ngPaDlDbs522SFOb
-         UQGrMBTLl2hmdd0gse2Zx5yIFiLSUif1LCeAlTYfrHIjFEFGSkK6bZG8GCKMTfu4rzwf
-         E2dfAfuMlvGJACmNCrpDrWDE4pQEb4goG5yC/Jk1K+9kKZ8ippJLMnjA4TQdY8kn05hi
-         kMIC1Y3fE4rqpq4A0N6wLVqJVSFbxXCJme9146+gIWENeYO7ynkD0GLXAwbgXQ8oapMW
-         qOVkAiZrL0tnwjDlY1iQkNyEX9V1PqIjLN8cvPqvU7YHpcTwZSt1DMcHcxKELfb4JrWx
-         NulA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=drls+PXlcGZoLfnoPObObwbc1/HPzgky5rGb/FCeY3w=;
-        fh=OQPLY/F62930Xuuo+KMAZKEWiEkJBI3QqQpLmooyIu0=;
-        b=SPwyauNVh1d7yS2M8WRPeFVbtO1lgANgdJitYNtc1FkG3TmAe9PpMPF39ovFEsTYwB
-         n+JccoZjxyoIPGzIbYPL4aHpbn38fzFMw1Lv+EksOu7lpLjp3oT26MoDbO9HsiYzGTEB
-         l9I4tvokYT23rvLCt+631tCjCyqAhXdmfRyM3sQc4TO4LdnRxWVOQ8QM+ARLoe0FCFJn
-         RH7G+cT9H3F93WOKO2Rbuvjcxqg7uzaF48U7gjpWSFUvwJw9/Wtx+jHF3q4eN87/FWps
-         Ga8pMuowPHqcJe3VIwSu9TTWhjI5K+UaAj20XTDp66Ez1+7c3gPXSWHUwG9skivnsD/p
-         QZQw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ausil.us; s=google; t=1794525840; x=1795130640; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=drls+PXlcGZoLfnoPObObwbc1/HPzgky5rGb/FCeY3w=;
-        b=focqTQf7naFVCGV/My2d+xpcLS+yKtintmrypuRzht8YS8h99AlJDL/3AsFgqMzzSq
-         LiYGDn8kpDU+Vupp3Eklu4tet98WA+Gg98hsss9HKVRYsSKcuOWLgCqfGsfC9WtJjhFv
-         LVwgrg9eok9OlzpqlzH2V2tb6xEKnyNGK9EIbw7aYhPvoo9CRZELkbf0uLrIc2cGVhxU
-         6S4QL30WvyiEW8bbRF9PJYgUnokd8ZbLUVvW9iSO395H8jdjvkvbCelBuukjOeNCOIvm
-         Fgkyz48jdUU8emc2E0zd2TfHJq+ABdg8by9UYtuG/i481sA94eZ4XT8IFqFFLbKcla+Y
-         4srQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794525840; x=1795130640;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=drls+PXlcGZoLfnoPObObwbc1/HPzgky5rGb/FCeY3w=;
-        b=HrH7Gs9cY9OUorSaYiHvDdXt1UPdwIs7Hjpad/S5IYlpYSic3zbixqvjH1z2ShTi/x
-         YMg9D7KXq8H2nHdtvPsg+GOJv85A3J5lDM0kbJvI9j4GnBl07nbF7KfoOuE8FXWL/sWe
-         aOHLD3ieefDP6yp0tkp+UUHjH7JmFerwfef84GfwWWZ0JYHyYsexluF5mvvDyeza6MHf
-         0+DVOZTxNi5LdedXed0qdCUrzRPCrUTgWLIS/5aMvKWuuDkmElyzeQ/5oAWpK6DOUEUs
-         MCW8l4fWIbKC7igeDmPlI/4Rk+/X/o4ULCcICGYFriSz3Lm5pHzcPjT+10fIykBwCuvN
-         qJFw==
-X-Forwarded-Encrypted: i=1; AL+hErGIHIcz5hIyASz7gD8yx4NrJwMkgdFSl+ZoB9W+K3lz7EBFTF5iEokoPrBMFpH3HsoHcQZzJO3jxarwDQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/dCbr0GuxHRgobFkraSSo+GYyZ4rw0brYZO1kYrG58/XeDn1I5
-	njNaxeNAouyWfFaiMdfQIq9ZxKLHYFXchVG7+w6IkFhhnute/ZWpSye0vzYatz1iiZHIwNNiC5L
-	KJQS8uDH7c4UqWPxnQxUeZyC7Ahxl1BvMMPQU9vhuRA==
-X-Gm-Gg: AYBFou2ClnTLggw7CnYaxA1Ryn4b9JXesIbZ36yxQ2B3nU+J1DSITxHtmlMGPsUbSgx
-	5m8o9xI0+TbdtV5lUC/SUPSGCa+a7In++ax3PKeYGgSLBRYQRu/Ecww8eXZUcUO4Q5rBRX5f3nj
-	jjsfhrhm3qVerqQOU30zCQjh3URgD5PlvxZ5kRu3JaHOdkN57QVBX7AqJriyXcsrOlTJigVg86L
-	O6CcKkrpZHXiUNVVuzjcRc1rSnXA6t3m5VHx0OfjtwL9U9a+Y6HysBgKCFR+/bYyRzpTnPkaADj
-	p2wjAtwBPiBsEmpbWEOkf6eqrWtBLEqlceN3lm3pKWg98Q/skjPomspxlmj9JiBTkpYyZk8Pfs/
-	wkLFlyuieLKciZaYTCPBCbr+f7fX3qNHcJt1ADpsW7AGhP4nZF05MGcQnSh/rFAfbx6zCw8lZam
-	s1Mk6+harKf6+kuAfdwm7IZzxS
-X-Received: by 2002:a05:620a:371b:b0:93f:43a4:a48c with SMTP id
- af79cd13be357-9494bc3a400mr175911185a.45.1794525840268; Thu, 12 Nov 2026
- 15:24:00 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=packett.cool header.i=@packett.cool header.a=rsa-sha256 header.s=key1 header.b=FjDjWryj
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=OuV+KXjTlGo6gERsN5eVbgt/3oFQq9KuPzlVELLELdQ=;
+ c=simple/simple; d=packett.cool;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794537691; v=1; x=1795142491;
+ b=FjDjWryjHT62fmJS8P2Ab4v6mNnp+03vlWechxdN2pNJHjjYFH2pvMGAslxs2TRFUd1iZw2V
+ yjE4h1mmWV3iKkOF9zJk03Pds2TMwJnej5es5Joo4ThqdlVenxHfkmH54uf3Y+13CXovk82HJ9D
+ a/V+OIXee5pf0G8qyE2f7kpJhSy2CWC4pqfAATKjeAiW6nzrTIt8FgNzzLfcACqqzM4hOS8Yp8z
+ gZWI/M42cmHazY5dJVqoiZJrAncbGmWbYVMPDlzU+RQSrJiHsTfzCN//rWmi1XrsvNoRtxQIsNB
+ cjm1qBA2BaB+NOgYyzZt28oSsHhQoRd+TTrMK53ZIUarg==
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 69fc8a9c846866b3;
+	Fri, 13 Nov 2026 02:41:31 +0000
+X-Mizu-Trace-ID: 69fc8a9c846866b3
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <76a4cf2e-2444-4e21-82f2-e4e08682980c@packett.cool>
+Date: Thu, 12 Nov 2026 23:41:25 -0300
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -105,39 +60,79 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261112025252.71375-1-dennis@ausil.us> <179448342405.66517.5463730214277229760.b4-review@b4>
-In-Reply-To: <179448342405.66517.5463730214277229760.b4-review@b4>
-From: Dennis Gilmore <dennis@ausil.us>
-Date: Thu, 12 Nov 2026 17:23:47 -0600
-X-Gm-Features: AclHuK84GnsbCUnbGFWAfzcRIsf9sLCdYOCcLTFaLBRnNzS4e4KBe3sc65us-XE
-Message-ID: <CAABkxwsn9bkx37C1oEuMC1o+5Jtf+EnJgw5o7pso8hGxxJx34w@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: soc-core: start rtd->num_components at zero
-To: Mark Brown <broonie@kernel.org>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, kees@kernel.org, 
-	gustavoars@kernel.org, linux-sound@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	michael.hennerich@analog.com, nuno.sa@analog.com, dlechner@baylibre.com, 
-	linux-spi@vger.kernel.org, miriam.rachel.korenblit@intel.com, 
-	linux-wireless@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/15] ASoC: soc-card: move snd_soc_card_xxx() to
+ soc-card.c
+From: Val Packett <val@packett.cool>
+To: Mark Brown <broonie@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+References: <87bj8etuj5.wl-kuninori.morimoto.gx@renesas.com>
+ <179406327208.3424803.13117419976586053782.b4-ty@b4>
+ <4dcf8dcb-bab0-43f7-8fc8-d2eba609ec10@packett.cool>
+ <ac7e2bb3-90bf-49e9-9282-cd276b60b612@packett.cool>
+Content-Language: en-US
+In-Reply-To: <ac7e2bb3-90bf-49e9-9282-cd276b60b612@packett.cool>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 12, 2026 at 5:37=E2=80=AFAM Mark Brown <broonie@kernel.org> wro=
-te:
+On 11/12/26 4:41 PM, Val Packett wrote:
+
 >
-> > Since the conversion to devm_kzalloc_flex(), the allocator sets the
-> > __counted_by() counter num_components to the allocated length
-> > (num_cpus + num_codecs + num_platforms). This only happens when the
-> > compiler supports __builtin_counted_by_ref() (GCC 16 here). With
-> > older compilers the counter stays zero, as before.
+> On 11/12/26 3:41 PM, Val Packett wrote:
+>> Hi,
+>>
+>> On 11/7/26 11:54 AM, Mark Brown wrote:
+>>> On Wed, 28 Oct 2026 02:42:55 +0000, Kuninori Morimoto wrote:
+>>>> ASoC: soc-card: move snd_soc_card_xxx() to soc-card.c
+>>>>
+>>>> Hi Mark
+>>>>
+>>>> I'm now posting ASoC Capsuling patches.
+>>>> Current status, and this patch-set postion is below.
+>>>> This patch-set moves Card related functions to soc-card.c
+>>>>
+>>>> [...]
+>>> Applied to
+>>>
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git 
+>>> for-7.5
+>>>
+>>> Thanks!
+>>> [..]
+>>
+>> Looks like this (or some other very recent change on -next but I'm 
+>> pretty sure it must be this) caused a regression on Qualcomm Elite 
+>> DSP devices (those that use sound/soc/qcom/sm8250.c at least)
+>>
+>> kernel: Unable to handle kernel NULL pointer dereference at virtual 
+>> address 0000000000000038 [..]
+>> kernel:  sm8250_platform_probe+0x114/0x120 [snd_soc_sm8250]
+>>
+>>
+>> And without the USB one,
+>>
+>> [   23.892669] wcd937x_codec audio-codec: ASoC error (-22): at 
+>> snd_soc_component_set_jack() on audio-codec
+>> [   23.892691] snd-sm8250 sound: Failed to set jack: -22
+>> [   23.892696]  WCD Capture: ASoC error (-22): at snd_soc_link_init() 
+>> on WCD Capture
+>> [   23.894243] snd-sm8250 sound: probe with driver snd-sm8250 failed 
+>> with error -22
+>>
+>>
+>> Maybe the sndcard driver wasn't supposed to do all that in the init 
+>> callback in the first place but well, it does.. so that's a regression
 >
-> This doesn't apply against current code, I think this is an issue that
-> was already fixed.  Please check and resend if it's still needed.
+>
+> Sorry. Not so sure it's related to *this* now, it still happens with a 
+> revert of this series.. 
 
-Looks like it was already fixed in
-https://lore.kernel.org/all/20261109102536.357134-1-ghidoliemanuele@gmail.c=
-om/
-I missed that when looking.
 
-> --
-> Mark Brown <broonie@kernel.org>
+Actually more related to the new devm_kzalloc_flex usage in 
+soc_new_pcm_runtime. I'll try to get a fix submitted
+
+
+>> Thanks,
+>> ~val
+>>
