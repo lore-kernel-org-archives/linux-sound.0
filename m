@@ -1,104 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794573853;
-	b=ZuJFw9FT8ZKcE1FtVdIBa9J511cb38BEHOeEPb5WTpoXR8C7NMUqRmWH93AihPrY7z2S
-	 SqbRq+XuuUvGnvk8CesxEs3zFJg8kAs595B3Veqrlm46PhZzSXs5Gac6mcvHhwCwe6FZJ
-	 QWPeNI2Xb6qLFv7acn1gBbT2UkdCPZ5lQIK3HjfcD/jd5tjJh2a865B4G0/9S4094MUs0
-	 MlF81gJ1llwEJLMbyp/lQ2qnUMOdy/Dhim12+Sm+ivBCEuBSxmUsPdUwlTDPO7y8+GjJo
-	 Hrx8FK3gHtvvq/c5lQKtjAsjvZrpqwBelKoqKid/SfS2zNBfPuamOrURoMwFTTejhWg==
+	t=1794574075;
+	b=rAsdrtFxqhTUrgmLdcxo4QRAeTMVcQkEaqjNqypAZvTzQeRIdJTD6p0lxRr31d/Zo+2o
+	 /+p702Bh680D/EsEuJhTfYyBoUXfxCf7/ORNAw+7Yv83yv/K3ub/ELmI52zIzzll4cwF7
+	 9sH+UwjboXCkm2MGyjwdCAmDnIX9varz7t1RljqAtoql8DD9313JMWklWSKEeiJEsk4L4
+	 n1NvdzFE4W8lFlTK2NaYqirAh65Gy5wmcvD3/HERuLSnSQLvhccHUJzrJpwWYzp8LZAhi
+	 KOae672PMfTPnJHBS4M32wbKlbrEAAdgMtMdSLz9SwNHsFMh0TOuBv4F7dIRQKSeCvQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794573853;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794574075;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=pMOUnEce+C5mclnZmcyWz+KKwfqvAMI7phNLC7162fs=;
-	b=BxBaXedNnJYG1t93By+LjukEkTXw0JQeiV3gGw7IcL1idx09GyEXIpoJyF09twCpM6Sy
-	 71Cb0YjqO0nlG1pchUAEp5E+oL7R8yj04RxhpjzbCsVNFqp+1Z6/tUP5XcQ3Mz+OMiA7r
-	 W4S2bXLGRF0dmTBnlxfCiqvm9pMzHEPVxTdBvy924ebjgeyrpFsESNmUzg0V8JnqwMBaW
-	 +w71kzKXNiiyA1HGPT81kZYlr3qWOwhpFXBiZQik4mpUh0DzoF70sVG7dt+/AGaCNZDaA
-	 SxckbUqVByb5dA6w+TWvEThrQHgtl/owhgjvQc68ebrsrp2HqJlyEF1MDvv6ZqvEsNA==
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:Content-Language:To:
+	 Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=dmx7lZXkcixTl+10Zvhm8UM2FpQt4AXP/0UX1bcGrY0=;
+	b=ylcLlxIK1jPsPAAkLuO8JCm/bNhe4H1Xqjovkh04fcgk1Ai7X9zzenFKBZhQZjRQN0lP
+	 0RIk8kh7dYs6vr+VRFgLYj1vZo/Y3Ise4gK1Bx6R/dF0YicF2omrxDPZIgXBRYDtheSFL
+	 PT3ZCw5qrvLs0ZwACUiO02s5ySmGvXehn2xlrClNucZMcDxMk6EW+Scl6Pwrfz8a0ifxx
+	 drxfL55nGhbmer3QluFleYyek3z9/zBd+CulIU41sM4tzUKotiPF6NmMbSnW49u6QwrES
+	 kPfmAVQengPcx1cfXqnaYm+yULDU57VagGuQ2dckPDLwvZv2PKRZWQcMf2BDvNEPFTA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SqouujRm;
-	arc=none smtp.remote-ip=209.85.221.53
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	dmarc=pass header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=ll2dmfz3;
+	arc=none smtp.remote-ip=209.85.128.45
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D133606A332
-	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 12:44:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D133606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4225606A32D
+	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 12:47:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4225606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SqouujRm
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4922523d1afso411742f8f.0
-        for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 04:44:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=ll2dmfz3
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a20bde60a0so7110545e9.3
+        for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 04:47:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794573851; x=1795178651; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pMOUnEce+C5mclnZmcyWz+KKwfqvAMI7phNLC7162fs=;
-        b=SqouujRmOp6mwjQSswLm8pvzzUZucHxJtA+PHlOCjU9EYVxdFJ4GBTtmi1y7BoR/9O
-         7dA9gOaZ9SehAi3LoG5f/bP/s5udoq2vOQRU5aTYc0HEd8eZQRymcQ5ACmdG8asiH0hT
-         q+1pWmfbrOSJ41zaKc5DlLRALIK94B85kO7vzO/E1zQGZLDmH9pdQvE83j1C4rzGXqPa
-         pwxIZy5/qBJSJwRqs7lF48tohTKt5pNplkCmlq8g74+4Gvd9JHnCP14rIXkhYK3htIIF
-         ZiLPNV4R6OvL9vAfgzRDRLqZV4fWzVXZ0MideCpsdHBs+em/PluWuoslmmx411xo7GEI
-         +Xug==
+        d=baylibre.com; s=google; t=1794574072; x=1795178872; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=dmx7lZXkcixTl+10Zvhm8UM2FpQt4AXP/0UX1bcGrY0=;
+        b=ll2dmfz3ZZQqM8p9tvh/cMBW3KmZXtaganop9u8ZdwqRMpn0T+Y7xApwcrpQTwjQ/c
+         xsVOA9R5CVimLyPj0nWN1BuvpZbvwc5ypvcVDJdCdKWhJMHWjJvJ5s+zbFUpCkWc/9xf
+         kmTuDx0xWFwDvxtFw6Qh1G7JESctUQNORHgPgcrmqWl4DrC8QWliGpdy55ZbmcwhVXe8
+         0Ue1Ttey5jf10xnSu4WF9Nwrz5CxU9vokIaxutOI/uPGcuma7oSkCwU4ZCx6hyMofs6S
+         /Y1vw4WnWEwY4106ORp3BYUdd9+ioJRodbW8Uww+cEBDOcBgW67QXwT8cS9QLuKWymfO
+         ljOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794573851; x=1795178651;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pMOUnEce+C5mclnZmcyWz+KKwfqvAMI7phNLC7162fs=;
-        b=gYF2TabeMg+2vFdp7HMrDucHVPRf3g4Sxh0+Ov0Iqszzb58GCAYdbhAKjpYfMyWVj4
-         RVSJnLLHFeiv34hJhECg9TuZMP0RjeI1HJAVjKDAIvf1T9yfixhsG7lJp6ktmAFO3nTy
-         /OjyPYI/cOHjmLM8frlCN1HojNvoAEYsM4iq10LiMG0pRbvh1bKyZRXYVn1VgdcfwGyd
-         2se5Hf8lZQSY9OKzRsOTm4fh7WiFjhBFZ8G23pk1vmSa8HSKYDC3at9ozVtcDRv/CrGM
-         oaBz5W3u5NAFFq52YTXWWGz8Ppnk/1aISR9M6pGT1ZuyY3okWjvRlQZfuRSeaYU2lXIo
-         OWQA==
-X-Forwarded-Encrypted: i=1; AL+hErFkNHK7HGRZ1VzU9eP6JlLCFAJkwXzDp4iUM/VYiQ5+80BseeQKHIFKNdYpiF56jQB8JU5mMJG2qv3oGw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z++s5ugCfMSGC0sP+ERvCs/HO6IO7SOsATD/BILlKkHoNeGhiz+
-	uHTxkFeKXLmKLBWCZH50DXq9iYXgucJemiGx0VT/rLSofQM/QpPwlQU8
-X-Gm-Gg: AYBFou1dk6UDueeDY/GqWjSXUQqXVuRsTN2DRngnmEiSDTlzOB8naUw/JwJhyMjzA0e
-	a2jUeO6J1hwEsbQyvp7au8RxZyvQ8YUnZYETSCINEbSvtyyyRoU4Ob3OzMIwkmSi9kegt8ylXAW
-	h0SwF5U3XRW28fzDae4uy5aTbE+vfMQ+/GUS4oxcZxr+RftB8zWq2ZY2mdrlQSCG1zjfp52Pj7H
-	/pIcNtuik0M29MCE0aaq34eFkkX91Ekr3SCwmTzpaDgzoQN5GbfWTao3HCRg0BTibC0F0ee0LKp
-	ecmdVVIiLYNz0tqmyPEnCr6mA5766slx8voZXp0Oy5cZsLh4A9Gu9zw3hpa/E2zfep7zK+adYLS
-	j1jcE/CcMLhFtWlyTF2BcOVB4upLekVmCWbrFlRCA+V9GutZhtBE9VwL91Tv0hJqiVyDx8ai/0c
-	lnvev4Ur6haav4xKtguXMJG0jRYjZjqOqMqF//ju+1oriz7eC4MOS1ereClDtDkVRDQL4GI4Smn
-	IvlGLqge4bczglq58yqW18iRFZ0ZpzhHOEDtCrXCtluzrnuX3XxFt5cVs8QTDIwqd+1jMROR8U0
-	qy6q9NfdwtJqoebu0/zYbUnW1xol4Zs3yxEm7+aDZCASlMjDWI3i+PNq7I/aT1jQSMp8CfSX4fz
-	UtFUtBbuZfo6skB/622Fiojj0Rfx20Hg0n9fUTC4QWsY6qf28pKTDKZ/mB7UHaxpL4qlt8XjA71
-	tyXHkiWut3AhVu9WC2pgEK0HHVvypxzfPyqQ3TS9aiccFmnQaSri04kQxseZ4ZJHz3uTT5EqvKv
-	4EWs317qDxmHzjU+qpRA1ove19s8gvyl5T9CssE
-X-Received: by 2002:a5d:5d07:0:b0:492:905a:8b22 with SMTP id ffacd0b85a97d-49c6fc9dc00mr5932250f8f.2.1794573850456;
-        Fri, 13 Nov 2026 04:44:10 -0800 (PST)
-Received: from px13.tail3a7e86.ts.net (91-201-160-62.ip4.as24916.net. [91.201.160.62])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5f1c0e0dsm5037179f8f.15.2026.11.13.04.44.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 04:44:09 -0800 (PST)
-From: Lee Mann <leepaulmann@gmail.com>
-To: regressions@leemhuis.info,
-	baojun.xu@ti.com,
-	broonie@kernel.org
-Cc: shenghao-ding@ti.com,
-	niranjan.hy@ti.com,
-	antoine@montane.tech,
-	andrey.golovko@gmail.com,
-	pierre-louis.bossart@linux.dev,
-	matthew.schwartz@linux.dev,
-	linux-sound@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: [PATCH v7] ASoC: tas2783-sdw: add firmware download status check
-Date: Fri, 13 Nov 2026 12:43:58 +0000
-Message-ID: <20261113124358.11823-1-leepaulmann@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <4d940e83-a3cc-4b2c-8f1f-9a4ce67c1f89@leemhuis.info>
-References: <4d940e83-a3cc-4b2c-8f1f-9a4ce67c1f89@leemhuis.info>
+        d=1e100.net; s=20260707; t=1794574072; x=1795178872;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=dmx7lZXkcixTl+10Zvhm8UM2FpQt4AXP/0UX1bcGrY0=;
+        b=PHpjTu0AuaxtBjuvvpw3dsw07Py65xrI2hQXeHLYR7dtig0YyELlfkmw/k/DfcjiUR
+         8yHu0Po426QoIjTn5/Ahr7TC3ukJOOaMkDLFLq2AVsC/9Kyc6s2a+EuIUuCLvg3/tfeM
+         H7wUeSRzUAgLTdVRxHQFsnn5Vr8aor48ALaluo9GzJvdiDIFAoZ3opO4P1TXc9q2HlH/
+         1pmRuKymJJORIsrAKks1IeetOEM7kHcueuQJ1YqG+auzUKg0ZkKFuUKhDfMUs9BtnBQB
+         8f7s6okF+UORdfjbbA74ndrhct8UxwqzZnItR8xp1kFNZmQwagdm3NlI7yzdN3QM9kiu
+         Nvhw==
+X-Forwarded-Encrypted: i=1; AL+hErGzvFo2NTCmQig6GiOQ0PSIgOuLWpouBHcm2tb/uYP4PyZZTjgOCAlsMGxt7E3OKX+EwdcIyHqJOkt0pw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8OK7rekNEbRdTyyJ7V/yFmvruxT3FXJWPcvYey7D7OV1cjyUfz
+	QDC0Qz9TsCpXzO5DyjMCTzIpsAyzMoeR+oe44w2gcCFfoBuET2zF90HdtxgkN1+uuVg=
+X-Gm-Gg: AYBFou2/yWtXhFoD5tO3cdK0EBetcDK+Jpk26zGHlkTpfv5MeRSiKb+sntnlUgWMt43
+	naXAi2tvaj2pBD8J7ReL75os3Ld7qCoFeCRh/fFOM80Bdyiu+U4IzUcJDSSEQSvMvsUz61871Vq
+	q4TKPLLLT3CE/eaHlqv/HtsqjpdKMCpD2StJQdd50vR/6UvyJzvL6Cor4OdEF2tYIHi74u4KTDT
+	hZWrVvGBu3gwKsHNHyhIWsqeJZFUzseeqUBkI872cO0uiJNtPo9bgMT+7XGb9gTt0LA+XuQURbq
+	NLuX0F8N1bqtZ38v7v1nNh5WQnds4x8OimECeuzugozMdSyNKvkNbkP5GNEtBqhygNao+D/4efi
+	LYLyWZgMlMDYnwD4J1KVE29sEDFTKlu+5HmgOwE/i3Sib33Y2zrqzLFvvSvczSgwKXZ0YMhOB3g
+	WKCVueX+om4uEgnVAQDCipPfxxm3t1k//ZABEf7iLY8bfX/aHlbnYA/PF88B/gcUSor71mEr67k
+	Pc5FHxKem7aCZzHUIsj4GDbwzpqv8SmhZ/44CHsGMO8R/nN5ineupkRz6o55vE9QlnkWbFaYl7v
+	BzPsb7VYeOqF5jN/+f4aq/++Kf/EmMeS
+X-Received: by 2002:a05:600c:1c0d:b0:4ba:59f7:9032 with SMTP id 5b1f17b1804b1-4bb55c5f60dmr58910305e9.10.1794574072378;
+        Fri, 13 Nov 2026 04:47:52 -0800 (PST)
+Received: from [192.168.3.100] ([151.61.248.197])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e252f7fsm161390445e9.2.2026.11.13.04.47.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Nov 2026 04:47:51 -0800 (PST)
+Message-ID: <7a268a4a-692b-4aa4-82b3-a13006e9a3e3@baylibre.com>
+Date: Fri, 13 Nov 2026 13:47:50 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -108,38 +91,65 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: meson: aiu-fifo: prevent sleeping when spinlock is
+ held
+Content-Language: en-US
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Christian Hewitt <christianshewitt@gmail.com>, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20261111-aiu-fifo-fix-sleep-on-spinlock-v1-1-dc9ee401a7cf@baylibre.com>
+ <CAFBinCBLK3Ok7QpKUVT5XtOqDafVzGP2Tn1oBj3f=PUQ_DgnwQ@mail.gmail.com>
+From: Valerio Setti <vsetti@baylibre.com>
+In-Reply-To: <CAFBinCBLK3Ok7QpKUVT5XtOqDafVzGP2Tn1oBj3f=PUQ_DgnwQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 11/13/26 13:07, Thorsten Leemhuis wrote:
-> /me is not sure what "this patch" exactly means (the culprit?)
+Hi Martin
 
-Yes, sorry: I meant the culprit's approach of leaving channel selection
-to the DisCo table.
+On 11/13/26 12:05 AM, Martin Blumenstingl wrote:
+> On Wed, Nov 11, 2026 at 11:09 AM Valerio Setti <vsetti@baylibre.com> wrote:
+> [...]
+>> @@ -37,8 +38,11 @@ snd_pcm_uframes_t aiu_fifo_pointer(struct snd_soc_component *component,
+>>          struct aiu_fifo *fifo = snd_soc_dai_dma_data_get_playback(dai);
+>>          struct snd_pcm_runtime *runtime = substream->runtime;
+>>          unsigned int addr;
+>> +       int ret;
+>>
+>> -       addr = snd_soc_component_read(component, fifo->mem_offset + AIU_MEM_RD);
+>> +       ret = regmap_read(component->regmap, fifo->mem_offset + AIU_MEM_RD, &addr);
+>> +       if (ret < 0)
+>> +               return snd_soc_ret(component->dev, ret, "Failed to read FIFO pointer");
+> As far as I understand:
+> - snd_pcm_uframes_t is "unsigned long"
+> - snd_soc_ret() returns a (signed) int
+> 
+> Doesn't that lead to a signed to unsigned conversion error (highest
+> bit set -> large value)?
 
-> But if not: Lee, does a revert of the culprit fix this?
+That's something that made me thinking a bit as well and the reason why 
+I implemented it this way is the following.
+'snd_soc_component_read' internally goes into 
+'soc_component_read_no_lock' and then to 'regmap_read'. If the latter 
+fails then 'return soc_component_ret_reg_rw()' is called and that calls 
+'return snd_soc_ret()' internally.
 
-Yes. Kernel 7.3.4 with only snd-soc-tas2783-sdw swapped for the
-v7.4-rc1 tas2783-sdw.c with f42fbd560cd8 reverted (the revert applies
-cleanly), stock snd-soc-sdca, no fallback:
+So my goal was to keep the same return value in case of errors.
 
-  speaker-test -c2 -t wav: Front Left from the left speaker, Front
-  Right from the right speaker.
+> axg-fifo simply discards regmap_read's return value.
+> That seems odd at first, but knowing that its regmap is MMIO backed
+> (same as for AIU) means there can't ever be any error.
 
-The kernel log still shows "function type only supported as DisCo
-constant" for both amps, so stereo there comes from the restored
-split, not from the ACPI table.
+That's a good point indeed. I will follow this design then.
+Thanks for pointing this out.
 
-To sum up on the PX13:
+-- 
+Valerio
 
-  v7.4-rc1 driver                          : right speaker silent
-  v7.4-rc1 driver, f42fbd560cd8 reverted   : stereo
-  v7.4-rc1 driver + PR #5904 SDCA fallback : stereo
-
-> Or do you want to maybe open a separate bug in
-> https://github.com/thesofproject/linux/ and see if that gets things
-> rolling
-
-Done: https://github.com/thesofproject/linux/issues/6037
-
-Thanks,
-Lee Mann
