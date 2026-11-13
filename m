@@ -1,96 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794582629;
-	b=O45l87ukWW0wdmsmPASb4TdeNug3iu3RiDwvf5aKyDh1tX68wV5faIt+GO4D3pdqXFhu
-	 u/qhNjt+ahIqOD2AUHI1YVkSM4bcz3g3xCzE9H8Z44EinOu2LCu64IS6NXQ4in+xuZThG
-	 X//zcu+nAekS0nbH6bwWRDfnHD14kIVmGgxpoukeypUluNsG920zRyDvMaRhMfZPWuhnE
-	 ir8gMDhLSlfRvXjx+drpR7n9JX0rJDbtCPmV0q2A6sioH7rZS1xX1MU5TvaBfb7/zSFwe
-	 wNn2yUoFcZvXamsxHRQ4xDHNKvHsZRg1/Ymk4U1hhKmIxryzRj8eoKKZHgv+hGFBftw==
+	t=1794584678;
+	b=Hb3+zozKsrkgvEf9xr2TaxO7ZlAODnRsBSeO0ZnoOMShPMO2DLyEBCULilM/EYmLtbfr
+	 o4TQG6nMqU5u5xJ/NccfOqQC8j+UpQ6bSCaCf7/Vw+WYbYalOEivDuJcl8/E7bDmlGh8v
+	 hdP6U4zG8LHIc/mBW3d7tY4qHBicxR/Iojqep/r0O8eLKNwxMG8vbNArL6tweIWcnBesZ
+	 TiWovhxHVd19DMX3Ol483HIKlM7pOdXvRlBNWTsnKKhfVACRO2WxzkQs7eA7N8PltRbg7
+	 b+NKLruvwajg7WQcbff/V0/S0hp1W00W5j3Xd2iwUwIt/E2PTbMdj3tQ6bdR4gENNwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794582629;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=/bOZaKuWDgzdIBtnYxUiBUDvqzx9ophFtd7ONrx4yPs=;
-	b=hw3jezkWgh444DLR3nK14+8yQkVIIiNrsy3k8l8wDUXuBvkvR0HWKlvoWmmXEO0er1Rf
-	 2BRli+i3uHHX1tVk1P54Nq50Rjx/hzViplCpr1roVh1gupVdn/Rj6HhEWBJmfTg+HZqD0
-	 xpxcD7+VFXiWq9WuH86PH/hGmrTLH05p5mezNamcfnry7kMHfwEOehwbkOmLH696bmh5B
-	 AKaDncpsAauYXLOeFJlHni2r0Oky+LjgBpsengC27TMyEKaWoK2Ht8FJQi/2FbMHYCVu0
-	 7GGS0P9KDrxgq8NzpJCI+vzRtLjBzbODGy7xYFYZ9T5diAmwuR1Txbhuks6Z27/t90Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794584678;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=PbD4AtMB8bc+XYwJsGjxS6XrtV8DXvidAzLVTNW7qq0=;
+	b=GBr/gQYvlwSx54HZUFWSVCnCUkJOVWe9a09bit5qWUwnUClVdeAZlvGaVIN0owB3P0Qw
+	 w5nfq2xZjjF9O71g8RAFOISPjOx8XFFXJ6TEfwzyIFX69XwWyxItciOXouhenv/vTxC0A
+	 2DW/nv6oVyu2HA2kz3ev0G7CEl/XNcKnacw1XHX5U8475g6EqCCnmrw0dIAzGva/coGKf
+	 VZ0xHRGP+KD304CzeGnmfWP3ci1yR4WfClJWppBZtnHrO209s0vvl2bV/2n7Egscy4+cD
+	 DjMqI5ycCyZsC0Al6pNBYokLo6poZTnQW1dtOO63yWWW9U5eAzjaj4pSJM5f5xASIlQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b="aI9uD/VL";
-	arc=none smtp.remote-ip=209.85.221.52
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D+6TskSy;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28111606A331
-	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 15:10:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28111606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A9D606A327;
+	Fri, 13 Nov 2026 15:44:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=aI9uD/VL
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-490f38e9688so766049f8f.0
-        for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 07:10:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1794582627; x=1795187427; darn=vger.kernel.org;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/bOZaKuWDgzdIBtnYxUiBUDvqzx9ophFtd7ONrx4yPs=;
-        b=aI9uD/VL3MFl/YTVFubfpHc2gfhbaGha11xUKjpX78I3nhL8QQ0L33UQ8NLfTFQChN
-         /akBeYMMP8N+/hOod74W5o2ZulzkVlbzN6CJZrYgpRqpm5n3Y7kQ6otNETxOr/WI5B5E
-         XSIuCLVEY+Q1FevbN8CS6dDtFGysIJiv3tiXK0cvRDnJlM9Cmt7uS99Y6rm34ynNlaNZ
-         G+MPdTtTqM6XPsWU/UoVDtkFP6lDXbGCLcN4qXfHh23sEyUei8IJoY3YOfc2jA4uv8AP
-         IVGDcfvEUaIookJwPZ3uFWqxuwVnEaRdNZPg+bt3YdWyFIObxT2Wa9L7lVnEpE0Gjs9y
-         AQrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794582627; x=1795187427;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=/bOZaKuWDgzdIBtnYxUiBUDvqzx9ophFtd7ONrx4yPs=;
-        b=DRml4Fh7Vi2vuj/i1dnlHmNMKkoPwfG6dqif1F39xRv7IfrxUY8tNt8sXBj4A8w7xX
-         0hXrzVdzWzvhGQLwX9fhut1hKz8o91s/DEqQVQEzFoAx8l02ObSDlfl8x5E6TLjlgC+S
-         MvFdj5AvBJ+/JPW+9LOsMt1J0xgTKB7OuEV77y3T3eaX2WEy2TKosncOsI9NZli4LG4Z
-         0UM7GrXokCklH2rIvy1AfceklE+qWBvhynK1bNY1C0mxlH4DgJPb/y1YvZFuwRKM7aQj
-         cj5hQBuE3eB17z2nUDr3vpYSdWtfoKAdWWT8AtBqNcNj1Z04TmkuT9TcPtfCuLlyWM09
-         opRA==
-X-Gm-Message-State: APuU4Z8mSTBjz/9lVUl1hPej4wcrEgOROuEhaxq4So8K6chU7ATRRmcW
-	3Jy93bKV2Y/fUPpt5sEbqkbAYrGaytxe965dzhxH8UkOg6Phg1LmBw4OVbKMBi80Qio=
-X-Gm-Gg: AYBFou0ia57Bb5SPWDKSyZUcAit+pvrHWCnipdxgq+9FAMw8kT4XdRgbCkdY4S01qLf
-	hWQmj45FXm1H/zrV5rlnP/iCVkZC8rPoeq8HumkKL3GUbMpwuZSlgq8eGaaft61tQ6RQmzPJJfZ
-	EyHNzoQtZCaGIyNSZiWq/5jjEbzfcKVpfPa21MDAz9g/j8pHQCVN7CshC43lXH7rijeKAGMOv0Z
-	xXaaZdKoaNOzaw2L0X6CgWbLlJ3h20xGr8a+PFJB/03kks3lZERk0Bc1CCOsrZNEdj1/vLsR52b
-	v8YAXy/eG0Gh4677hkI0K1ZyNNN7yV7YwOrsR5u3SfXOg1sokULqMGsorUMwE5jsH1mKv7ivmyQ
-	BS7zYUwujv4EUXf0dZxvcq4ahSTlMKz2Mo3z4Pl2L1NFEeoqrDnGSs7T5qCJSjZyEY2vsQBkSKa
-	KFodzLlSNCTDGHaH51jdlkSGmLSUMjzAPLgDo+EM7D86v0IcRpkhJI+WjkW3Tni23pPTZQZw96a
-	w4tnKMbLz7ojY/1yD50ENgGvcUYyBBVSuQzaZwFvVWQCB9kElHZDLFov2pp/5Faw5qkfP93eiaD
-	VUUy961T3rX9Fn/l6QXnAWAGiivFhjJ+30/qGPHiGulmRN7A
-X-Received: by 2002:a05:6000:27d3:b0:492:aff5:da60 with SMTP id ffacd0b85a97d-49b01cf341fmr9163986f8f.13.1794582627273;
-        Fri, 13 Nov 2026 07:10:27 -0800 (PST)
-Received: from localhost (82-67-6-57.subs.proxad.net. [82.67.6.57])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c60f8d615sm5879282f8f.56.2026.11.13.07.10.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 07:10:26 -0800 (PST)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Valerio Setti <vsetti@baylibre.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org, Valerio
- Setti <vsetti@baylibre.com>
-Subject: Re: [PATCH v2 0/2] ASoC: meson: gx-formatter: change stream lock
- from mutex to spinlock
-In-Reply-To: <20261111-gx-formatter-use-spinlock-v2-0-763241aeca52@baylibre.com>
-References: <20261111-gx-formatter-use-spinlock-v2-0-763241aeca52@baylibre.com>
-Date: Fri, 13 Nov 2026 16:10:26 +0100
-Message-ID: <1jzevczs0t.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D+6TskSy
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 446111F000C4;
+	Fri, 13 Nov 2026 15:44:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794584678;
+	bh=PbD4AtMB8bc+XYwJsGjxS6XrtV8DXvidAzLVTNW7qq0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=D+6TskSyn0FKpFu5tg/C7jAmpR5r/CKULYkdn4H71AEu0ZAs9GFKfxg7OI7ZpOVRP
+	 PjKWss5sth0A9kyeIT+Xw650IetB4HFv44Fcbc83BAOBuG1CEUizlfVq7hXMptDdkB
+	 S6LonQFgC5YlwuVsEcMamNf0FmLS4x11t3ePv6T4BrvdqlMLSlSITqks+AX2DUR/tU
+	 Uaew2SvQbL8Ifz3lxo+XwVuecy1lCOsirWJbbk3MonDPJ7ApEh4AyKuSE/HLjy0dRx
+	 5C/kV1s5GzQMpBi4muWFF3VXOCHh7qpkf9DC1XD4lh8bHu2DNMIXtl3hSBBmOZDHoA
+	 HdVlrjdk+Kb5Q==
+Message-ID: <5a61c395-9eef-4c97-99a5-30f434ad2c7e@kernel.org>
+Date: Fri, 13 Nov 2026 16:44:29 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -100,20 +51,120 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] arm64: dts: qcom: add device tree for Asus Vivobook
+ 16 X1607QA
+To: yass27106 <yass27106@gmail.com>, andersson@kernel.org,
+ broonie@kernel.org, srini@kernel.org, konradybcio@kernel.org
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ vkoul@kernel.org, tiwai@suse.com, perex@perex.cz, lgirdwood@gmail.com,
+ pierre-louis.bossart@linux.dev, yung-chuan.liao@linux.intel.com,
+ abelvesa@kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <01b2c920412848ab85493acc2d4f5fc1@gmail.com>
+ <5cfd0705da5845b88ffe6d9e8bfeb966@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGPBBMBCgA5AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJp2mE8AAoJEBuTQ307QWKbeaIP
+ /ihHTkTW4KsN/DQ945JJbyu5tI0J80Wue7QyyLPglyKfhgb5cLLNPpOC8cCIJsc7+W3i2P38
+ s2c1cOH6CYGE7E9ur3Vfme8NW2S2I/Z8VC7bZnzyS23wT17LrsdS/qCpx4o8U+pt/xdXDKph
+ EGRYrIEmMpUWvyYzyYKGIe25FtaayIIKpq8eZYyFcp2f/sG5IkOW5uZzHPMPdcm87jU7fyuQ
+ rAU2vx9r+ulUfQ/q9Z2roC/ode3l7t2pN7BCBCsUDp6JCrUyZrtT1e7EbA0ZRP3aOBNk2P2E
+ DQOgJGjGdO5Yx2Y9LFtltu6JbsBJHi1syGRX3AtQYOMc4Y1WGoeZJmMlvKj2ZqqXNkcWi2DS
+ IQEWB0uW6CqFsBBIMGDa+6OzdaVO/uAVXWDWml02Men3CILdI1MbVjoh8ECqYUY7OQ+JJvNN
+ vnliuq5WM3Ghd3jg/LZZrxXjdIginRHFQCjIJYLKpLZWm1/iDFedcfzqRNYmTtqscdCNHW41
+ oT3Z7BmO9xwdjuwBS6nmS6JJwkbf5Ot2QR4pB/DRU7ZwjT1qHe+9r9gF32wXVQatHNGK/VVu
+ sfwOnkdxCWkp/qb2gdQRmZh+SedStWshigH6sNfuHBloF/q+hjMRc8b2m326OZdrbSHwY1Sz
+ vti8Hn7n8NjdHO9LKB7BIdjkA9DA5WsqOuVCzsFNBFVDXDQBEADNkrQYSREUL4D3Gws46JEo
+ Z9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLueMNsWLJBv
+ BaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6eiOMheesVS
+ 5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wAGldWsRxb
+ f3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA6z6lBZn0
+ WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9YegxWKvX
+ XHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt91pFzBSO
+ IpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gUBLHFTg2h
+ YnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/JoFzZ4B0
+ p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu4vXVFBYI
+ GmpyNPYzRm0QPwARAQABwsF2BBgBCgAgAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmna
+ YUkACgkQG5NDfTtBYptX+BAApg32CkxwNucNEi8WfWA8oKkW0y8YDuY6ORMo9FWNGiT/OTy0
+ vyJrLocrpn86zwfjVp+eCrssPYh8eqJfnWqmYv6ACQtHPYzPZQ3mSo8H97Z01oUxITzCxpXm
+ ZkLgPIqtDPcC2E3dPM/fVxcyowM8XsaMA9wcsaUYrta8toOq2b9tKcjleKMfMrm0gQ9u7wUc
+ QbLkwj6TCLOwucb07GXzLTNF9PZmaDUpKAZjMjmrW+le+SFvQbhamx0rxLWPR0NWntXpbCn+
+ +ACch03p/JyTBVktxFsFyCt7pTPE1kEaeuXBTe/a2D9iQvRxRW19LvuO2e59/u1wYUiH/orz
+ wbIC2S4dBsPAPihL3ztOU1yE86GPyQtSE0kU+/7snnLt4QGi6PChf3t5gnNjAzjUUovO8rgI
+ c+5yN5heq5loYHgK6OQ9OlHzsPHO9e9MOQcKlFycs1pyijFGzDwdNUm/SchK8iWT2QApTx4A
+ K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
+ n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
+ qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
+In-Reply-To: <5cfd0705da5845b88ffe6d9e8bfeb966@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On mer. 11 nov. 2026 at 11:12, Valerio Setti <vsetti@baylibre.com> wrote:
+On 13/11/2026 14:24, yass27106 wrote:
+> arch/arm64/boot/dts/qcom/Makefile             |   1 +
 
-> Patch 1 fixes a pre-existing bugs, present since v7.3, reported by
-> Sashiko [1] while reviewing the series adding I2S input support for
-> Amlogic GX SoCs [2].
-> [2] depends on patch 1 to address Sashiko's comment.
->
-> Patch 2 adds a hardening check suggested by Martin while reviewing v1.
->
-> [1] https://lore.kernel.org/all/sashiko-outbox-176054@kernel.org/
-> [2] https://lore.kernel.org/all/20261018-audin-v5-0-4b8cc13a1b22@baylibre.com/
->
-> Signed-off-by: Valerio Setti <vsetti@baylibre.com>
+Please run scripts/checkpatch.pl on the patches and fix reported
+warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
+patches and (probably) fix more warnings. Some warnings can be ignored,
+especially from --strict run, but the code here looks like it needs a
+fix. Feel free to get in touch if the warning is not clear.
 
-Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
+Please read submitting patches document to understand DCO.
+
+Looks like completely corrupted anonymous patch.
+
+>  .../x1p42100-asus-vivobook-16-x1607qa.dts     | 239 ++++++++++++++++++
+>  2 files changed, 240 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/qcom/x1p42100-asus-vivobook-16-x1607qa.dts
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+> index 88230c4e00e..7332a73dbac 100644
+> --- a/arch/arm64/boot/dts/qcom/Makefile
+> +++ b/arch/arm64/boot/dts/qcom/Makefile
+> @@ -509,6 +509,7 @@ x1e80100-qcp-el2-dtbs	:= x1e80100-qcp.dtb x1-el2.dtbo
+>  dtb-$(CONFIG_ARCH_QCOM)	+= x1e80100-qcp.dtb x1e80100-qcp-el2.dtb
+>  x1p42100-asus-vivobook-s15-el2-dtbs	:= x1p42100-asus-vivobook-s15.dtb x1-el2.dtbo
+>  dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-asus-vivobook-s15.dtb x1p42100-asus-vivobook-s15-el2.dtb
+> +dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-asus-vivobook-16-x1607qa.dtb
+>  x1p42100-asus-zenbook-a14-el2-dtbs	:= x1p42100-asus-zenbook-a14.dtb x1-el2.dtbo
+>  dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-asus-zenbook-a14.dtb x1p42100-asus-zenbook-a14-el2.dtb
+>  x1p42100-asus-zenbook-a14-lcd-el2-dtbs	:= x1p42100-asus-zenbook-a14-lcd.dtb x1-el2.dtbo
+> diff --git a/arch/arm64/boot/dts/qcom/x1p42100-asus-vivobook-16-x1607qa.dts b/arch/arm64/boot/dts/qcom/x1p42100-asus-vivobook-16-x1607qa.dts
+> new file mode 100644
+> index 00000000000..fc572d779b3
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/qcom/x1p42100-asus-vivobook-16-x1607qa.dts
+> @@ -0,0 +1,239 @@
+> +// SPDX-License-Identifier: BSD-3-Clause
+> +/* Hybrid device tree for ASUS Vivobook 16 X1607QA (X1P-42-100).
+> + * Base: proven x1p42100-asus-vivobook-s15 (panel, USB, boot path).
+> + * Transplanted from x126100-asus-vivobook-16: audio stack
+> + * (WCD9385 codec, WSA8845 speakers, soundwire, sndcard) + firmware paths.
+> + */
+> +
+> +/dts-v1/;
+> +
+> +#include "purwa.dtsi"
+> +#include "x1-asus-vivobook-s15.dtsi"
+> +
+> +/ {
+> +	model = "ASUS Vivobook 16 (X1607QA)";
+> +	compatible = "asus,vivobook-16-x1607qa", "qcom,x1p42100";
+
+Missing bindings.
+
+Best regards,
+Krzysztof
