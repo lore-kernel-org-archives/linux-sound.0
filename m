@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794604781;
-	b=y82Mm0DJ3WTDH//8o+GRQaiyW9oG9KQtHpnE6ZNODxsIZjg2uFoSV/Bv282CJHgIqgBd
-	 5CB+cKLk7kW7QSCI+MemxfHRvsVUo41xyzN+S09FXcvFPCZc/rRaoodjiXAqqM8M93C4z
-	 Q5VhG7ZOirqRyhFQkH1k7QdLu99YCN5hesBhJc/1Zj41hMK0tyjCCYBqqDtUdT31tz6f+
-	 qpmtysdj5ZlQvip1uw0ei6Vv/SkIaS0Z/Yjr9/P3epRkJG6ZHKqaY/deGyAUtHWruEBNK
-	 NOMHecMGouFwIRUamAPE6+PvwDx5DOIJrm1vN8o95UGk9Yjtw2s32fPTgAjYax/y/AQ==
+	t=1794604792;
+	b=qfquu/7pPVs9+XJkLm1uinn7MHFuRyCnEmDVpFTWp3Ju2RQnW7oM/WeKuOqkCYruDDRe
+	 9XtBzdowvDo/xpo9hQqc+vDnmeBwB3YBag3Mep+Bs1U6QKyA/ZwpPP5G0FycI9ov4lvhn
+	 /maVjKiCGfI/FeCzcnLclTm9HXIzm5G4mm/4jmB3qTz7qFMLtmzZ9o3bTkYF95zre+xBB
+	 gDs6mj0AtS1XoktxzMjn7gIW3kJfLQmgohUBpUbIV9uxB8O+cChyPYUHe+X4wYILPhbT8
+	 8r2MI6myF5fSeNubdczZDFDvhLmDqeSrFoY6VluWZ1qWlUrlKvbQUVaycT799WWmvRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794604781;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794604792;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=1q9/87dCkNcrWUcKcRnVrZsMfPY6KNxh8jRH/nD0exA=;
-	b=ch9gdwrowyU0050GatVlx8/yZOZIM4aQMOW8+TefSFv7blgzX4fLkC6Eoc32E4a85Xxh
-	 fImVOZ/fK5o07FCljREkQrTnM6fbWhroXIkqXl/H6KT6QeYuWlI55pZ/qtleNCzC8hCTh
-	 +qewrFPI9WsLcGs7HO6fzJ2MO6l7s2vbLIPOInfonSd939bU6Nj9j7BZmc9KX+dnkexnE
-	 1MV5bjAVM+nDzdr6ol7kjgZrH0qJZeOH7nnnBIMeiGQ76fCeHnuiRSffwnym0SK3bTzi8
-	 0bR3XDDzp6iUxKbnstK/m1Ni/JS5aADKiGEc8/7l2ldPR9d3jo71KwG3aq7lv+qRwpA==
+	bh=qpcuZoI7rti9L/s8LCfZ61Hovkq23X2BEPvpIYDdA3c=;
+	b=zk0e4nOy++Zl8PBegXVz14Fy/hBG/j1XwGgXcHkU2ybswp6lyFs51FxtEBfe7b5eafDX
+	 MJ9Zo6qSoui+ExC3HUbCB4hdI03bO9Szqlvcmd5IVAiputHex+t+i0BF7T0LDTCW4rw5h
+	 jcsOXEC4VdnP52IzhPCAAjV8Klt3aAOVOEQ+/EG194CxKfKvPQ5VZwbEclr+wfqPSe6Sk
+	 Qa06UurjnAkDgPusI3Zdr8mJZ521XunSeumBs/JJFFJ2x22nL/b5pb/ykA+TmCY+bLvSJ
+	 SdggmuGB3lI8BERLxE/gWwPRhbLOlRuW8r9xW9LbXIRVGdopyTCyi29mM84PmOGFJ0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AkK1Xl+P;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BMn0PkOh;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24282606A327;
-	Fri, 13 Nov 2026 21:19:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAA9606A323;
+	Fri, 13 Nov 2026 21:19:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AkK1Xl+P
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2CC61F000C4;
-	Fri, 13 Nov 2026 21:19:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BMn0PkOh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C16E1F000C4;
+	Fri, 13 Nov 2026 21:19:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794604781;
-	bh=1q9/87dCkNcrWUcKcRnVrZsMfPY6KNxh8jRH/nD0exA=;
+	s=k20260515; t=1794604791;
+	bh=qpcuZoI7rti9L/s8LCfZ61Hovkq23X2BEPvpIYDdA3c=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=AkK1Xl+PspJT7uZoUP+KjFATstQ4ZvIffd5bBlaD789JVhHCg5vBJb5FwUj5saG1B
-	 F/D/ibS1HZdYWzmDKXcNZ/emoJhNhWJn9ighFonD+eiwjaOLnKkFngzWYSKNQuw6Vh
-	 iPX5BQkSbtjjK9/PqOH5ZM4kfrJyqziuN8ql2xcFOTDBNlbSBLXEY38uSv5MQ9Skpz
-	 2GPV09toi2Lhce5g2fVLJyIkwnPQMpGihoGx8JZ3LP8oM7EHYvn5ewUgucINETcU1K
-	 OL4ZwBtOE7JVCoe8jGFHbt2cXS7X/oSlHu27tPrLEfbzNIZp7h6lm/NaQr9q8kHk1D
-	 lm/2UUco/xOKg==
-Message-ID: <sashiko-outbox-213708@kernel.org>
+	b=BMn0PkOhPm7hJhU/qfS1Dj7xU8UPbl3T4ugsQpIt2KXtCxaXg23d9ZM/AGs9wLTVv
+	 3RgrdMzwfodKU8KpUoeaJ69h5TXJ1tu6JSBNhUpHjSb4ffR/wt4wQGqsu1Rsh+KDtL
+	 F50jjII45DyI19AeY13JW8nl0jmUhM3Qm8zcuwYG5W5+Urtp96QWYdeooA1t290O95
+	 MJmlZj63AcxOMX7aZLeQgNaGqkqaKSepy+jHdvYNx/G8M2k56EIR10KCAYDeoCjkpj
+	 /c9fOusWS6lB/BHieWNb5t6KXv+TbONU+QOXdSZfeEHC/Q3g5w0Cxp7LH6qZ47nwQG
+	 QHwC79uOfCjmQ==
+Message-ID: <sashiko-outbox-213709@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 4/4] soundwire: qcom: check clk_prepare_enable()
- return values
+Subject: Re: [PATCH v3 3/4] ASoC: qcom: lpass macro / soundwire:
+ asynchronous probe with clock retry
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Daniel Carter" <yass27106@gmail.com>
 Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <cc928d726ea34f5cb37fa140ca791e58@gmail.com>
+In-Reply-To: <4aaa766cace2455ab6c75ab801df357f@gmail.com>
 References: <9032798812284dd2842cbf003c75cc0b@gmail.com>
- <cc928d726ea34f5cb37fa140ca791e58@gmail.com>
+ <4aaa766cace2455ab6c75ab801df357f@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2026 21:19:40 +0000
+Date: Fri, 13 Nov 2026 21:19:51 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,109 +61,126 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 3 potential
+Thank you for your contribution! Sashiko AI review found 2 potential
 issues to consider:
-- [Medium] soundwire: qcom: enable_irq() in swrm_runtime_resume() causes
-  wake IRQ storm
-- [Low] soundwire: qcom: missing Fixes trailers for clk_prepare_enable()
-  check
-- [Low] soundwire: qcom: qcom_swrm_irq_handler() returns IRQ_HANDLED on
-  clk error
+- [High] soundwire: qcom: infinite recursion in clk_get_retry()
+- [Medium] ASoC: qcom: 30s msleep() polling on -EPROBE_DEFER in
+  lpass_macro_clk_get_retry()
 --
 
-commit 5c5235a561fc40c30680eee11304261327eab6cc
+commit 6bd2e1b16c32b85c538fe58be015563a596b1d7d
 Author: Daniel Carter <yass27106@gmail.com>
 
-> soundwire: qcom: check clk_prepare_enable() return values
->
-> clk_prepare_enable() can fail; unchecked, the driver proceeds to
-> touch registers with the interface clock off, which aborts on arm64.
-> Check the return value in the interrupt handler, in probe and in the
-> runtime resume path, re-enabling the wake IRQ on the resume error
-> path.
->
-> Signed-off-by: Daniel Carter <yass27106@gmail.com>
+ASoC: qcom: lpass macro / soundwire: asynchronous probe with clock retry
 
-[Severity: Low]
-Since this fixes unchecked clk_prepare_enable() calls introduced in two
-earlier commits, should this include Fixes: tags?
-
-  Fixes: 02efb49aa805 ("soundwire: qcom: add support for SoundWire controll=
-er")
-  Fixes: 74e79da9fd46 ("soundwire: qcom: add runtime pm support")
+This commit adds 30-second polling retry helpers around clock acquisition
+and sets PROBE_PREFER_ASYNCHRONOUS in the Qualcomm SoundWire and LPASS
+macro drivers.
 
 > diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-> index 0bdeb076a2e0e..ec510809766bb 100644
+> index c31d921f679f9..0bdeb076a2e0e 100644
 > --- a/drivers/soundwire/qcom.c
 > +++ b/drivers/soundwire/qcom.c
-> @@ -799,7 +799,9 @@ static irqreturn_t qcom_swrm_irq_handler(int irq, voi=
-d *dev_id)
->  	u32 i;
->  	int devnum;
->  	int ret =3D IRQ_HANDLED;
-> -	clk_prepare_enable(ctrl->hclk);
+> @@ -21,6 +21,27 @@
+>  #include <sound/pcm_params.h>
+>  #include <sound/soc.h>
+>  #include "bus.h"
+> +#include <linux/delay.h>
 > +
-> +	if (clk_prepare_enable(ctrl->hclk))
-> +		return IRQ_HANDLED;
-
-[Severity: Low]
-Should this return IRQ_NONE instead of IRQ_HANDLED when
-clk_prepare_enable() fails?  The interrupt status is neither read nor
-cleared, and returning IRQ_HANDLED causes irq_thread_fn() to mark the
-interrupt as handled, preventing the genirq spurious interrupt detector
-from disabling a stuck line.
-
-[ ... ]
-
-> @@ -1821,7 +1827,14 @@ static int __maybe_unused swrm_runtime_resume(stru=
-ct device *dev)
->  			disable_irq_nosync(ctrl->wake_irq);
->  	}
-> =20
-> -	clk_prepare_enable(ctrl->hclk);
-> +	ret =3D clk_prepare_enable(ctrl->hclk);
-> +	if (ret) {
-> +		if (ctrl->wake_irq > 0) {
-> +			if (irqd_irq_disabled(irq_get_irq_data(ctrl->wake_irq)))
-> +				enable_irq(ctrl->wake_irq);
-> +		}
-> +		return ret;
+> +/*
+> + * Bounded retry for deferred clock providers. Clock-provider
+> + * registration does not trigger deferred-probe retries, so a consumer
+> + * that loses the probe-order race stays deferred forever. Wait up to
+> + * 30 s for providers that are registered milliseconds later.
+> + */
+> +static struct clk *clk_get_retry(struct device *dev, const char *id)
+> +{
+> +	struct clk *c;
+> +	int i;
+> +
+> +	for (i =3D 0; i < 60; i++) {
+> +		c =3D clk_get_retry(dev, id);
+> +		if (!IS_ERR(c) || PTR_ERR(c) !=3D -EPROBE_DEFER)
+> +			return c;
+> +		msleep(500);
 > +	}
+> +	return c;
+> +}
+
+[Severity: High]
+Does clk_get_retry() call itself instead of devm_clk_get(dev, id) here?
+When qcom_swrm_probe() calls clk_get_retry(dev, "iface"), this recurses
+infinitely and overflows the kernel stack.  Also, the commit message says
+the retry helpers are shared through lpass-macro-common.h, whereas a
+separate copy is defined here.
+
+> diff --git a/sound/soc/codecs/lpass-macro-common.h b/sound/soc/codecs/lpa=
+ss-macro-common.h
+> index 10ad682019fa7..83bc7075a281c 100644
+> --- a/sound/soc/codecs/lpass-macro-common.h
+> +++ b/sound/soc/codecs/lpass-macro-common.h
+[ ... ]
+> @@ -74,4 +77,41 @@ static inline const char *lpass_macro_get_codec_versio=
+n_string(int version)
+>  	return "NA";
+>  }
+> =20
+> +
+> +/*
+> + * Bounded retry for deferred clock providers. Clock-provider
+> + * registration does not trigger deferred-probe retries, so a consumer
+> + * that loses the probe-order race stays deferred forever. Wait up to
+> + * 30 s for providers that are registered milliseconds later.
+> + */
+> +static inline struct clk *
+> +lpass_macro_clk_get_retry(struct device *dev, const char *id)
+> +{
+> +	struct clk *c;
+> +	int i;
+> +
+> +	for (i =3D 0; i < 60; i++) {
+> +		c =3D devm_clk_get(dev, id);
+> +		if (!IS_ERR(c) || PTR_ERR(c) !=3D -EPROBE_DEFER)
+> +			return c;
+> +		msleep(500);
+> +	}
+> +	return c;
+> +}
+> +
+> +static inline struct clk *
+> +lpass_macro_clk_get_retry_optional(struct device *dev, const char *id)
+> +{
+> +	struct clk *c;
+> +	int i;
+> +
+> +	for (i =3D 0; i < 60; i++) {
+> +		c =3D devm_clk_get_optional(dev, id);
+> +		if (!IS_ERR(c) || PTR_ERR(c) !=3D -EPROBE_DEFER)
+> +			return c;
+> +		msleep(500);
+> +	}
+> +	return c;
+> +}
+> +
+>  #endif /* __LPASS_MACRO_COMMON_H__ */
 
 [Severity: Medium]
-Can calling enable_irq(ctrl->wake_irq) here cause a level-high wake IRQ
-storm when swrm_runtime_resume() is invoked from
-qcom_swrm_wake_irq_handler()?
+Why poll with msleep(500) for up to 30 seconds on -EPROBE_DEFER instead of
+returning -EPROBE_DEFER to the driver core?
 
-ctrl->wake_irq is registered with IRQF_TRIGGER_HIGH | IRQF_ONESHOT.  During
-an in-band wakeup, the slave holds the line high until the bus exits clock
-stop, and qcom_swrm_wake_irq_handler() synchronously runs
-swrm_runtime_resume() via pm_runtime_get_sync():
-
-drivers/soundwire/qcom.c:qcom_swrm_wake_irq_handler() {
-	ret =3D pm_runtime_get_sync(ctrl->dev);
-	if (ret < 0 && ret !=3D -EACCES) {
-		dev_err_ratelimited(ctrl->dev,
-				    "pm_runtime_get_sync failed in %s, ret %d\n",
-				    __func__, ret);
-		pm_runtime_put_noidle(ctrl->dev);
-		return ret;
-	}
-
-	if (ctrl->wake_irq > 0) {
-		if (!irqd_irq_disabled(irq_get_irq_data(ctrl->wake_irq)))
-			disable_irq_nosync(ctrl->wake_irq);
-	}
-    ...
-}
-
-When clk_prepare_enable() fails, enable_irq() unmasks ctrl->wake_irq at the
-irqchip (even while the oneshot threaded handler is running), and
-qcom_swrm_wake_irq_handler() returns early before its own
-disable_irq_nosync(ctrl->wake_irq).  Because the bus never resumed to clear
-the wakeup condition, the slave continues driving the level-high line and
-ctrl->wake_irq immediately re-fires in a loop.
+Both suppliers mentioned in the commit message (q6dsp_clock_dev_probe() and
+va_macro_register_fsgen_output()) register their clock providers inside
+platform_driver probe callbacks, which trigger driver_deferred_probe_trigge=
+r()
+through really_probe() -> driver_bound() once bound.  Even with
+PROBE_PREFER_ASYNCHRONOUS, sleeping for 30 seconds inside probe while holdi=
+ng
+device_lock(dev) stalls async_synchronize_full() and wait_for_device_probe()
+callers (such as do_init_module() and kernel_init()) whenever a clock suppl=
+ier
+is delayed, missing firmware, or disabled in DT, and repeats the 30-second
+stall on subsequent deferred-probe passes.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/1ce6d7664e48413d9a5=
-a8b11a986f746@gmail.com?part=3D4
+a8b11a986f746@gmail.com?part=3D3
