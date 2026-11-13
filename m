@@ -1,85 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.225.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794604655;
-	b=SrTVKsm3iaAxZOFeUvFH0hJglrzstRuu9X4g7hmi7DZI3FM7UHhrpNoM5xgAx7y5Wbxe
-	 yC2IzNsmOjdWoGMHtcKhVFJ4z7YkmHXdZ0N4m++D5KrEQNPkSHajNniUc9oyMGwVUkAZl
-	 U2oQUrVCiPkJ20kkc8c8Cj85d3ElzdFz8EsX1BXdb5n4ihSeCDoguPbj5E/W5yq91S/To
-	 r+KZoU/A7K5GPsdeRgF1iVSzxzSFW1mhpqZU2JkknTTYH3Bq2B2WZt7AHN5et3T8Yk9NM
-	 bH/pik2O9DWNumtK0f1z1mLs1XoP74XMpnl4TFOcFgQmeiAWzuvRvH7s4a7r8661lgA==
+	t=1794604781;
+	b=y82Mm0DJ3WTDH//8o+GRQaiyW9oG9KQtHpnE6ZNODxsIZjg2uFoSV/Bv282CJHgIqgBd
+	 5CB+cKLk7kW7QSCI+MemxfHRvsVUo41xyzN+S09FXcvFPCZc/rRaoodjiXAqqM8M93C4z
+	 Q5VhG7ZOirqRyhFQkH1k7QdLu99YCN5hesBhJc/1Zj41hMK0tyjCCYBqqDtUdT31tz6f+
+	 qpmtysdj5ZlQvip1uw0ei6Vv/SkIaS0Z/Yjr9/P3epRkJG6ZHKqaY/deGyAUtHWruEBNK
+	 NOMHecMGouFwIRUamAPE6+PvwDx5DOIJrm1vN8o95UGk9Yjtw2s32fPTgAjYax/y/AQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794604655;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:Content-Type:MIME-Version:Content-Transfer-Encoding:From:To:Cc:
-	 Subject:In-Reply-To:References:Message-ID;
-	bh=g6aPUW+7oKXPB34EDeB5hJ9aJz7OSIPu7ZV/Lj6Y/8o=;
-	b=ot59hMePgRITY0LvVUXohpd4aBJBNkquT3f3zzF/Gb3UCwlpQNiuTGLqdnCj23tqKEC+
-	 HE/uTOBQgjua8nTIXfhBFCIjLyhVgYFe5BJlXt41BHLQ+msYEJI0PyKBi+uYYFogkAdNh
-	 z0K6mWAE2QCz6VCjj6OMTTBkQ74h+OQDdg7QvcP/IY5PvfRXevGNQLXBHC2Gq6Q8TVJRk
-	 2YN/iQvJfqDOrXcHUnT7/4fUwunLKY5rdmZbK7iahB7c48NLBEVweiQ4OW/29UN3e2Kk1
-	 Rnh7si5gqgPzH21AqjSjPatJoxfCzqcyyGjjK/M9EpUCod5b2qyPf3Ap9YqzEAq/GzA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794604781;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=1q9/87dCkNcrWUcKcRnVrZsMfPY6KNxh8jRH/nD0exA=;
+	b=ch9gdwrowyU0050GatVlx8/yZOZIM4aQMOW8+TefSFv7blgzX4fLkC6Eoc32E4a85Xxh
+	 fImVOZ/fK5o07FCljREkQrTnM6fbWhroXIkqXl/H6KT6QeYuWlI55pZ/qtleNCzC8hCTh
+	 +qewrFPI9WsLcGs7HO6fzJ2MO6l7s2vbLIPOInfonSd939bU6Nj9j7BZmc9KX+dnkexnE
+	 1MV5bjAVM+nDzdr6ol7kjgZrH0qJZeOH7nnnBIMeiGQ76fCeHnuiRSffwnym0SK3bTzi8
+	 0bR3XDDzp6iUxKbnstK/m1Ni/JS5aADKiGEc8/7l2ldPR9d3jo71KwG3aq7lv+qRwpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=O2WBBlH+;
-	arc=none smtp.remote-ip=74.125.225.133
-Received: from mail-wm2-f5.google.com (mail-wm2-f5.google.com [74.125.225.133])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AkK1Xl+P;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFF4606A32E
-	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 21:17:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1AFF4606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24282606A327;
+	Fri, 13 Nov 2026 21:19:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=O2WBBlH+
-Received: by mail-wm2-f5.google.com with SMTP id 5b1f17b1804b1-49e7b06acb8so4819845e9.1
-        for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 13:17:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794604653; x=1795209453; darn=vger.kernel.org;
-        h=message-id:references:in-reply-to:subject:cc:to:from
-         :content-transfer-encoding:mime-version:content-type:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=g6aPUW+7oKXPB34EDeB5hJ9aJz7OSIPu7ZV/Lj6Y/8o=;
-        b=O2WBBlH+sEuEaGq8nMhpEC31wLP5cHyACfvnWFyo+t8kE7jALCAQIcPTk/4iKYTfCi
-         SfM6XAr5s6RuqMydSXxsKsgAPnzincklnEBKZZv0jfEbpykjUvXHA+yOhQv+lzPXtdUx
-         oS0/tszRxuDMJDIFP3cw91zaMXEOlyOqFoXUTIN7DtElV5HM9S1+nDhwKTXSaU7QN+NV
-         kXOBmQC9QvP7wXJh6f7jXHnDOHHzbL+0nWAreDq+qIZCy+eh1p2cK2rBX/bqo9KCJRCc
-         +O/8Pq4LXYXiliUbyO8HyNs9N9bFKWwvgXjEjCqlSo6UBTxo6c+/+sUb72QA8+7gec9k
-         a/XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794604653; x=1795209453;
-        h=message-id:references:in-reply-to:subject:cc:to:from
-         :content-transfer-encoding:mime-version:content-type:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=g6aPUW+7oKXPB34EDeB5hJ9aJz7OSIPu7ZV/Lj6Y/8o=;
-        b=1PmEkjKzBAHQgycKUx823NyUFnt6tY32egW7AgP9drqiIdQGZ/HwGWG3dG9iqFe8WY
-         p7binNsxa9gpWmqfUfefAQyB0Qg6rMNmM1QBDyuXmKTWfoy4+ii4ynY0Bp+oOJa2kqee
-         Ud5fJ4bj41RbwOj0eb9CH4fx5yd7KJJw0fyj8AJUsDd94xSDJKd/dxKSmmInoIKYPlne
-         1hJ8NhS9lRYHgW6Dtf8PVxvGaAhgOEAjs60LQrqgx58tWZQe2BLdJYBFQFeZZ0rAenzf
-         vp/+bpQrzTHOKMwQiP1ccgiqdObgGJN4QTjymMuNF5wgMJ4ubMEqEB5tohJMUYq4nH8O
-         6MCA==
-X-Forwarded-Encrypted: i=1; AL+hErHCPNOd5/mm/8kpB4EH3fI5cLXLgjh9OOZbTr8TWVUYZW9Ofh9Mll/7Vh+QL6tnaCRCv1Xc9R5ET1hjXw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/osgtSPQbmiHRiNRht/RIzVFAG9FVScMxAs95f/9WK9fIQUCx3
-	XtVITs0prLkwdHCo7fxcIbdmxViEVFrSsIzpPMKEodiA882vY5WKyi/7
-X-Gm-Gg: AYBFou0Ey3+mF3GNi7AGifYZR5pZsDO9q7MfRJ26IenfEMwyh7ZXP2GSgAmENhvbw2F
-	BJQKjIef9wY+UtSUacoiQuWuEggjz0uFYzK8bXkbAouNchgTv2fOZPskXe/CMgdjq7cJk0p0qAL
-	sO8sqWFf/FhK1wxGkCY/cLBUb+f/fQLtl+P+w6WoLPaYFlYiTc8wZKhKWaPAbz/QeiUyCCLeYHx
-	LsCo7ryUY+UQ1gZ3WoSTpZmjQyf092upV5hnWQHyoKB09CnDPAmujoQdUga07phtbxoQYSTZQEa
-	exqesFZ2qtNTupoGEZ5idXnflTZh7rtopj+LbpPoQUtSksWboJnqWjjhhrR3VW+xVFbmepIHL6P
-	4J+Jl8hsGggxmi800scxWLaLUXAavmZZQstdpjM9PHdD+PgfBrysM2narDBY59qbMBtSi9Q+qf0
-	YGl+dnGHwpS1lUKHCkNSgI/C2gnvHcUBuYUftidJNl3DgUATxErQf1qul+5SqKULqGRLlvANRzH
-	dxq6b7FwbsZ0m0YZ9RwWhYM/sTwisXlHqt5BpPAo+3n5p8AO1LY
-X-Received: by 2002:a05:600c:470a:b0:4a1:db17:c7e6 with SMTP id 5b1f17b1804b1-4bb55a01bf3mr80266735e9.2.1794604653483;
-        Fri, 13 Nov 2026 13:17:33 -0800 (PST)
-Received: from [127.0.1.1] ([165.50.16.69])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb571f6a40sm30939805e9.2.2026.11.13.13.17.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 13:17:32 -0800 (PST)
-Date: Fri, 13 Nov 2026 13:17:32 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AkK1Xl+P
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2CC61F000C4;
+	Fri, 13 Nov 2026 21:19:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794604781;
+	bh=1q9/87dCkNcrWUcKcRnVrZsMfPY6KNxh8jRH/nD0exA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=AkK1Xl+PspJT7uZoUP+KjFATstQ4ZvIffd5bBlaD789JVhHCg5vBJb5FwUj5saG1B
+	 F/D/ibS1HZdYWzmDKXcNZ/emoJhNhWJn9ighFonD+eiwjaOLnKkFngzWYSKNQuw6Vh
+	 iPX5BQkSbtjjK9/PqOH5ZM4kfrJyqziuN8ql2xcFOTDBNlbSBLXEY38uSv5MQ9Skpz
+	 2GPV09toi2Lhce5g2fVLJyIkwnPQMpGihoGx8JZ3LP8oM7EHYvn5ewUgucINETcU1K
+	 OL4ZwBtOE7JVCoe8jGFHbt2cXS7X/oSlHu27tPrLEfbzNIZp7h6lm/NaQr9q8kHk1D
+	 lm/2UUco/xOKg==
+Message-ID: <sashiko-outbox-213708@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 4/4] soundwire: qcom: check clk_prepare_enable()
+ return values
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Daniel Carter" <yass27106@gmail.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <cc928d726ea34f5cb37fa140ca791e58@gmail.com>
+References: <9032798812284dd2842cbf003c75cc0b@gmail.com>
+ <cc928d726ea34f5cb37fa140ca791e58@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 13 Nov 2026 21:19:40 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -88,33 +60,110 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-From: Daniel Carter <yass27106@gmail.com>
-To: broonie@kernel.org
-Cc: srini@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, yass27106@gmail.com
-Subject: Re: [PATCH v3 1/4] dt-bindings: qcom: document Asus Vivobook 16
- X1607QA
-In-Reply-To: <d7b0ac39-f204-46ec-9614-460611a7ae38@sirena.org.uk>
-References: <d7b0ac39-f204-46ec-9614-460611a7ae38@sirena.org.uk>
-Message-ID: <cb70e9d4bc154a52ba5d9351baa57191@gmail.com>
 
-SGkgTWFyaywKClRoYW5rcyBmb3IgdGhlIHJldmlldy4KClVuZGVyc3Rvb2Qgb24gdGhyZWFkaW5n
-IC0gdGhpcyB3YXMgYSByZXBseSBpbiB0aGUgb2xkIHRocmVhZCByYXRoZXIKdGhhbiBhIGZyZXNo
-IG9uZTsgdGhlIG5leHQgcmV2aXNpb24gd2lsbCBnbyBvdXQgYXMgYSBuZXcgdGhyZWFkLiBJJ2xs
-CnNldCB1cCBiNCBiZWZvcmUgdGhlbi4KCk9uIHRoZSBjbG9jayByZXRyeSBpdHNlbGY6IGFncmVl
-ZCB0aGF0IHRoZSByaWdodCBmaXggaXMgaW4gdGhlIGRyaXZlcgpjb3JlIC8gY2xvY2sgQVBJIHNv
-IHRoYXQgZGVmZXJyZWQtcHJvYmUgcnVucyBhcmUgcmV0cmlnZ2VyZWQgd2hlbiBuZXcKcmVzb3Vy
-Y2VzIGFwcGVhciwgcmF0aGVyIHRoYW4gb3Blbi1jb2RpbmcgYm91bmRlZCByZXRyaWVzIGluIGRy
-aXZlcnMuClRoYXQgaXMgYSBtdWNoIGxhcmdlciBjaGFuZ2UgdGhhbiBJIGNhbiBtYWtlIGFsb25l
-LCBzbyBteSBpbnRlbnRpb24Kd2l0aCB0aGlzIHNlcmllcyB3YXMgYSBzdG9wZ2FwIGZvciB0aGlz
-IGxhcHRvcDogd2l0aG91dCB0aGUgcmV0cnkgdGhlCm1hY3JvIGFuZCBTb3VuZFdpcmUgZHJpdmVy
-cyBzdGF5IGRlZmVycmVkIGZvcmV2ZXIgb24gWDFQNDIxMDAgYmVjYXVzZQp0aGVpciBjbG9jayBw
-cm92aWRlcnMgcmVnaXN0ZXIgbGF0ZS4KCldvdWxkIHlvdSBwcmVmZXIgdGhhdCBwYXRjaCBiZSBk
-cm9wcGVkIGZyb20gdGhpcyBzZXJpZXMgdW50aWwgdGhlIGNvcmUKc2lkZSBpcyBzb3J0ZWQsIG9y
-IGlzIGEgYm91bmRlZCByZXRyeSBhY2NlcHRhYmxlIGluIHRoZSBpbnRlcmltPyBIYXBweQp0byBm
-b2xsb3cgZWl0aGVyIGRpcmVjdGlvbiAtIHRoZSBkZXZpY2UgdHJlZSBwYXRjaGVzICgxLzQgYW5k
-IDIvNCkgYXJlCmluZGVwZW5kZW50IG9mIGl0LgoKQmVzdCByZWdhcmRzLApEYW5pZWwgQ2FydGVy
-Cg==
+Thank you for your contribution! Sashiko AI review found 3 potential
+issues to consider:
+- [Medium] soundwire: qcom: enable_irq() in swrm_runtime_resume() causes
+  wake IRQ storm
+- [Low] soundwire: qcom: missing Fixes trailers for clk_prepare_enable()
+  check
+- [Low] soundwire: qcom: qcom_swrm_irq_handler() returns IRQ_HANDLED on
+  clk error
+--
+
+commit 5c5235a561fc40c30680eee11304261327eab6cc
+Author: Daniel Carter <yass27106@gmail.com>
+
+> soundwire: qcom: check clk_prepare_enable() return values
+>
+> clk_prepare_enable() can fail; unchecked, the driver proceeds to
+> touch registers with the interface clock off, which aborts on arm64.
+> Check the return value in the interrupt handler, in probe and in the
+> runtime resume path, re-enabling the wake IRQ on the resume error
+> path.
+>
+> Signed-off-by: Daniel Carter <yass27106@gmail.com>
+
+[Severity: Low]
+Since this fixes unchecked clk_prepare_enable() calls introduced in two
+earlier commits, should this include Fixes: tags?
+
+  Fixes: 02efb49aa805 ("soundwire: qcom: add support for SoundWire controll=
+er")
+  Fixes: 74e79da9fd46 ("soundwire: qcom: add runtime pm support")
+
+> diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
+> index 0bdeb076a2e0e..ec510809766bb 100644
+> --- a/drivers/soundwire/qcom.c
+> +++ b/drivers/soundwire/qcom.c
+> @@ -799,7 +799,9 @@ static irqreturn_t qcom_swrm_irq_handler(int irq, voi=
+d *dev_id)
+>  	u32 i;
+>  	int devnum;
+>  	int ret =3D IRQ_HANDLED;
+> -	clk_prepare_enable(ctrl->hclk);
+> +
+> +	if (clk_prepare_enable(ctrl->hclk))
+> +		return IRQ_HANDLED;
+
+[Severity: Low]
+Should this return IRQ_NONE instead of IRQ_HANDLED when
+clk_prepare_enable() fails?  The interrupt status is neither read nor
+cleared, and returning IRQ_HANDLED causes irq_thread_fn() to mark the
+interrupt as handled, preventing the genirq spurious interrupt detector
+from disabling a stuck line.
+
+[ ... ]
+
+> @@ -1821,7 +1827,14 @@ static int __maybe_unused swrm_runtime_resume(stru=
+ct device *dev)
+>  			disable_irq_nosync(ctrl->wake_irq);
+>  	}
+> =20
+> -	clk_prepare_enable(ctrl->hclk);
+> +	ret =3D clk_prepare_enable(ctrl->hclk);
+> +	if (ret) {
+> +		if (ctrl->wake_irq > 0) {
+> +			if (irqd_irq_disabled(irq_get_irq_data(ctrl->wake_irq)))
+> +				enable_irq(ctrl->wake_irq);
+> +		}
+> +		return ret;
+> +	}
+
+[Severity: Medium]
+Can calling enable_irq(ctrl->wake_irq) here cause a level-high wake IRQ
+storm when swrm_runtime_resume() is invoked from
+qcom_swrm_wake_irq_handler()?
+
+ctrl->wake_irq is registered with IRQF_TRIGGER_HIGH | IRQF_ONESHOT.  During
+an in-band wakeup, the slave holds the line high until the bus exits clock
+stop, and qcom_swrm_wake_irq_handler() synchronously runs
+swrm_runtime_resume() via pm_runtime_get_sync():
+
+drivers/soundwire/qcom.c:qcom_swrm_wake_irq_handler() {
+	ret =3D pm_runtime_get_sync(ctrl->dev);
+	if (ret < 0 && ret !=3D -EACCES) {
+		dev_err_ratelimited(ctrl->dev,
+				    "pm_runtime_get_sync failed in %s, ret %d\n",
+				    __func__, ret);
+		pm_runtime_put_noidle(ctrl->dev);
+		return ret;
+	}
+
+	if (ctrl->wake_irq > 0) {
+		if (!irqd_irq_disabled(irq_get_irq_data(ctrl->wake_irq)))
+			disable_irq_nosync(ctrl->wake_irq);
+	}
+    ...
+}
+
+When clk_prepare_enable() fails, enable_irq() unmasks ctrl->wake_irq at the
+irqchip (even while the oneshot threaded handler is running), and
+qcom_swrm_wake_irq_handler() returns early before its own
+disable_irq_nosync(ctrl->wake_irq).  Because the bus never resumed to clear
+the wakeup condition, the slave continues driving the level-high line and
+ctrl->wake_irq immediately re-fires in a loop.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/1ce6d7664e48413d9a5=
+a8b11a986f746@gmail.com?part=3D4
