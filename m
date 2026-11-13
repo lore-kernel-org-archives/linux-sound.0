@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794561699;
-	b=OmG6T7spk2CkhGQm7SSVpWI/MMmfqMh8W7Xv49HKaqbGMQQXcnaCkQsCy/cssIUCg352
-	 ci+Xu1mwCc8dtQDqpobSKtI76t7Qbo4pGHfbE2KGkmTIE/CYUDlWRuuTy1pB94inzF98t
-	 bVFBeg87AFuKOgzScDMrEHBHRukkRwdk/w5yC5rEhTNZ9ih8UVUHwbPYJcxR5IareQgL7
-	 G/GpH7mgj6YkG9KwLtIbPQt8sIoZxXdZmi9xHnYqz//5egxafCOC27X8ewRLjDQBvZwTc
-	 qWqnFyhqo3yqqMu9td156ennkME8RGAK0FufSlLWRDW5A4g7Qwk/wKpZ15gB9i6cJ9w==
+	t=1794561695;
+	b=cSSVM6Z5gbrNOa7tS9YlVceouGGyoFjH0mp7HcGYKokZN6OEQXAr0hkNLfKeKIR9c1ch
+	 P4sryXnRG5dtRFbQcY6R7OlEu3ZyWW4/mFtM07tafHK/Kbzsukf7NVD70i7fy/Hdrbm+p
+	 IgpWnPYVthzfxktKbMsFXnsUz7Yu7qEWFsfAmlFTEC9OU32pF1qvjXjLMyaz31K0TtYIr
+	 WCHii/LrJfIrOwls1+XooOlhgZOe9u32LP4UTYCx+pI5HHs1WsUA9zcaSaZjY+OTBymCf
+	 kTmNLnB53CjFSnz/nznRSeuI88xphnMl21jBYgovvWy82ycY0q2kdtkxlRqqxTSdb3w==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794561699;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794561695;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=m7mrPlKLdsgB1ebZ53UgPolKWenYjsNodqkdXpnYjd4=;
-	b=Bo5ZczaazH7zdZxA63IS8FhUt3DIqvqEuMzoScEoiege+Z9UwCsYzQV8oBfgEyxt3QwW
-	 9MZAiNJQD3dO54pVZmK4DAsIuyDM4K7PwHQqyJjIIJtm8p2eI0HkDjt2EI1Ou2Dvwifyw
-	 z21dHa6cIe0Qvt2VKRehNq/rxs2UEVJM2pOEckH4oSb22T/2pl00RyXdNDyBy/zv4+NQs
-	 cHtJsNfgRlGDW3cO6oTzE960nCucXDxBSRvUdFu2l+z7EIb9h6ZCRBD5pSe1DH5VFGbgO
-	 I1yAj2uZneV+vmQdHXXmCE9orm2Q7p3geQIynx1rmBaMxzqUWHEwF5ksadIHvxVEmLg==
+	bh=NHJElEYhzPKL0ys2ZiR5cxyE9AcCTseoCtokf+Q5+VE=;
+	b=nY3HArogocc05L0PeC2TsM0e4OjxM0PsrvEgo568rZ5rnM1d1Ka1uUHzd58A7iNmru7X
+	 N92xYjw7lT8PNdUdhrflSby0/Fm77h0TBA2npWDOeqmz2co9c1D4wN20Lonv3W096XftC
+	 iYSdJUSribiL2ZsljBY8zN+FUkytixcUbEs8ywI++3FeOUypYyeIMQ7xOtTlm9m6FWuju
+	 5b5/gG1BKdE4Ru2T9ZAtdv/J9TjFk9CNZnINMS8ULCJ2UvsFW5DCUNbgnkAhl+J5+Ydgv
+	 4ZEXtqG6Npzj3s1L/kzyRm+nf01LFYR5oXhuo2VWsfeDRmB/0n0EQcnKaj/CF85Gc1A==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aVq5jA1R;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lb5ZwB0O;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E0C60A382A;
-	Fri, 13 Nov 2026 09:21:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0780606A88D;
+	Fri, 13 Nov 2026 09:21:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aVq5jA1R
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lb5ZwB0O
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794561699;
-	b=cNlNQs+EGK0QOoC+Ba6L1F/PVkB9NT1gChVM6Qqnq60NDQDFFUkyyuKksDIxXsYvqJRF
-	 bOw2FzrQjttRIIS5VA3eLs4IH/hBOUih+nklbI7ZXaKSsMc07WqfP2GY5ZDAg0MrNhVng
-	 pl0IeqrOhQIaZA6YP+JBwKn5tmSSfiaCg/UrKdL3tg5lL6KplH26om46v0uO0kw7Ft21B
-	 BTxSAlltt5t/jU4k5dfMPLWPocUX1kH/jx3I8WqfpYJvy9I6hvsuO4ZgQ5TNYEInHV5nK
-	 /Hq2ir1P3eRmSigQpkvZbl9bqsgCl+ImRy3tYRIvHn9gBgJe3U2BBP3jRW8ZNALtz1g==
+	t=1794561694;
+	b=RiN54NKQhpcnDn2CGdrR6JC/EIx2oHEFwnV17ZecS54giu1lvMEmhGkbmhj6dm7a2xjV
+	 KjydxoprpS8pjODQ5c07yJNLFzriiR+TUcfudFtZFRngvPvT/wVJeDTV9BO9CkBGN3qqb
+	 t+g7G8iX7bkv/sP+QIjA/BrGBimBjZnLG6O0h0LzSi4ZwS1GZ11fOY9xRKdMb+Gfwmnzb
+	 leo8yoLVifLxnn6QGmSc60rEM88MrXZbqcs9ba4G/Dyf7dwFwDZxXZRn6IXO6D7XKmZ9W
+	 tS5rOPqjUEMkDXL1Fu5NCwKY+Ez5FdeQ9kwaLF0h+vZ23/zfzb/LApifMhwFuB21nlA==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794561699;
+	c=relaxed/relaxed; t=1794561694;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=m7mrPlKLdsgB1ebZ53UgPolKWenYjsNodqkdXpnYjd4=;
-	b=y7CXXbQzcba4s51gCXAKv7BeD+WH4rfAJJm7ix2H1uFDrVUbu5rfeTwQMH1lBJi5pVKn
-	 4hP4R7TBtUSM6R57FjE9OmFBggfgSHThtnO4FbRSWQuwNi5IPwWJSWXwKeFKdZPom9agi
-	 /iESTm38vBEiFF3T6q0MnWq+gy45HMUJBD8t6es9ngrH0Av9KKaxmsBTQwab3k1kuopM3
-	 jlUAK4fvWpAef7h2ePdTGeX5yIReZPUbe3Q3HJxG7CTb0ZkuKqeClq5YNJtNtoSN9wAVG
-	 Ec3GJySjRs2M342P7zbbV2XAwlcOL92qM25+6PWbHOdUbhaJYDTG2m0ERLABn76kcYQ==
+	bh=NHJElEYhzPKL0ys2ZiR5cxyE9AcCTseoCtokf+Q5+VE=;
+	b=xlNgWQ0J0gDNUhve3MO1OdA48fZTF1PEyGSxPDPhIFmvMYRaMxiUrjf2D9ms6yZa0I5V
+	 gcGt/yaMQ/Y1lsUBpwNsGqwOpxJ+Lqucz5IjwW0KyIDQLZ+DttyLHKuf/r4VPK65a+3QT
+	 AygTOQX+Y5AtPgRDa4FU+YA84uInqYii5ZiDfDa8Ltxus2iWrwczzOh3Ln3PQ+8c0gImd
+	 1uhUBVz7CGi6JlwHvRXNdsZkrE6rVeDUAA+Lau8DK637pAXC/gz1lfnYwSgYYx6u8AbwN
+	 0fgmxGGIUUUxTVJwkyhR3bDbVLCB4zhtN35yLzUiWiebkSGHQGYEbyuaeXVu4kZT2CQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 17D291F000D1;
-	Fri, 13 Nov 2026 09:21:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794561699;
-	bh=m7mrPlKLdsgB1ebZ53UgPolKWenYjsNodqkdXpnYjd4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=aVq5jA1Rnbd3bvMjKjCYdFn3ejTJjebbr7d9AYybakG4PZgXpgseRAgqufU3dS5YT
-	 oSvUMKPL1CylhGWeIflw/AkUkoj0UaKnoJPnE3CjfFAAYMAOoYfXQ8mDu/9OslKXHn
-	 2wiu33HH54/tPGPSIUzWyPKNSdIAVnRLBwDw2vSmdambPgyX1+qX2D2YCg/Qy7o681
-	 /ooT3EnYgW+4B+AVj8c0kE9vOme6FOwcUYdF1kKvbnrdOmf2s/1Drhxq67RahNYIsd
-	 D0J+Hin9FpG/tqzZ9Y9EOhvGzo8tm41RI3LJ1k0ALGRdtwanRZm74deoKm7xspBPdF
-	 CaIJLTRI6I5Bg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 94F7047744;
+	by smtp.kernel.org (Postfix) with ESMTPS id 0C3131F000C8;
 	Fri, 13 Nov 2026 09:21:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794561694;
+	bh=NHJElEYhzPKL0ys2ZiR5cxyE9AcCTseoCtokf+Q5+VE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=lb5ZwB0Oc2CU4x2P/YUw0Q2wHyhx1sgWExxTBHElduelaM0SuORh0wsVFxdmA38Ro
+	 vUeekx9Jv96dLqS50oZ+DWkNlR+dAm5TYb6l7+ZpZuX/Hdz1gQ7cMY4GrV1QgGWw6J
+	 CXRHVe2bG7yQ7RiWP9JoqyVLaX9gAJRyLiaM+rwUpa1M5/3YzGuuKQ84Te7Rh3JG0S
+	 zJY5D/XRe71FfwPq+IAvColgNEVpHSjtAiq9GubKmedkkqckXEi0Ckxk1YzCa+tOWw
+	 kgbeeCfjdnIuwwnVqzQR6naD3qcU2u8ZGb3uq6XiELCAZ47ntOHk5zvJaKKFd3dUbG
+	 mt3KVv2BHl6kw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 8F37E47714;
+	Fri, 13 Nov 2026 09:21:32 +0000 (UTC)
 From: Joonho Lee via B4 Relay <devnull+mynameisjune111.gmail.com@kernel.org>
-Date: Fri, 13 Nov 2026 18:21:40 +0900
-Subject: [PATCH v33 16/18] ALSA: pcm: add an explicit application pointer
- to indirect playback transfer
+Date: Fri, 13 Nov 2026 18:21:28 +0900
+Subject: [PATCH v33 04/18] ALSA: pcm: notify drivers after linked prepare
+ completes
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261113-fix-virtio-snd-recovery-final-v33-16-13a934ad5ece@gmail.com>
+Message-Id: <20261113-fix-virtio-snd-recovery-final-v33-4-13a934ad5ece@gmail.com>
 References: <20261113-fix-virtio-snd-recovery-final-v33-0-13a934ad5ece@gmail.com>
 In-Reply-To: <20261113-fix-virtio-snd-recovery-final-v33-0-13a934ad5ece@gmail.com>
 To: linux-sound@vger.kernel.org, 
@@ -96,11 +96,11 @@ Cc: tiwai@suse.com, perex@perex.cz, mst@redhat.com,
  linux-doc@vger.kernel.org, Takashi Iwai <tiwai@suse.de>, 
  Joonho Lee <mynameisjune111@gmail.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794561688; l=2611;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794561687; l=11044;
  i=mynameisjune111@gmail.com; s=default; h=from:subject:message-id;
- bh=v6jytlFKn0liAYZD+sb6fcXHPlu1wdJ34Mi8Ld8kynM=;
- b=4hECvXQb6S6pwQHBgWa1e74CQDq/g9/iqyt9feVX6toeOhwFDBib5ckoo0dMo/2h13ZaF366K
- /aMbE3N2f79B6lfiOzhFRnNGn3sNjIjfZWubbrFBqdMM/3VuYbgB1qb
+ bh=xePvbpXDDodiVD5BngqVi0Lix4k4DYQFDnnhKo2nlCM=;
+ b=WscUV8kGLKtRznknFWwOW4fJdlHRgNCFh/NjPYf9hnegNB38ut0RgVkBPqj5ZnP2W+E+gxrdt
+ x3ZkBxfVgOcAiNfB/wPnvf9zwLXmzvpWNf1COsrmYqoKABB6ShDrRxv
 X-Developer-Key: i=mynameisjune111@gmail.com; a=ed25519;
  pk=wqkZdvfcC8g8fDi6f0Y58LlaXIo+ubf6Y/9Lr9yhshc=
 X-Endpoint-Received: by B4 Relay for mynameisjune111@gmail.com/default with
@@ -111,71 +111,309 @@ Content-Transfer-Encoding: 7bit
 
 From: Joonho Lee <mynameisjune111@gmail.com>
 
-The indirect playback transfer helper samples runtime->control->appl_ptr
-internally. A driver that needs to refill already committed data from a
-pointer callback cannot pass the application-pointer snapshot used for
-ACK validation.
+A linked prepare can finish one member before another member's driver
+prepare or reset fails. Drivers that admit transfers after their own
+prepare callback can then accept an ACK while the group action is still
+incomplete.
 
-Add snd_pcm_indirect_playback_transfer_appl_ptr() so callers can supply
-that snapshot. Keep snd_pcm_indirect_playback_transfer() as a wrapper
-that samples the runtime pointer as before, preserving existing callers.
+Add an optional prepare_complete callback. After all sleeping prepare
+and reset actions have succeeded, take the group and member PCM locks,
+publish every PREPARED state, and notify opted-in drivers before
+releasing those locks. Keep the buffer locks and access gates held
+throughout the operation. A concurrent DROP observes the group before or
+after this commit point.
 
-The explicit-pointer form lets virtio refill accepted data without
-accepting new application progress while the ALSA buffer-access gate is
-closed.
+On a driver error, notify only the attempted prefix, including the
+failing member. On any revoked prepare, opted-in members in the affected
+prefix or group return to SETUP. Preserve DISCONNECTED members and keep
+SUSPENDED members suspended, but set both saved suspended-state fields
+to SETUP so a later prepare can recover. Leave unreached members
+untouched after a driver error. Preflight failures have no completion
+callback. A successful driver action canceled by a terminal state
+returns -ESTRPIPE or -EBADFD, respectively. A driver error keeps its
+original return value. DISCONNECTED takes precedence when a linked group
+contains both terminal states.
+
+Do not generate a stop-timer event while closing prepare admission.
+Ordinary legacy drivers keep their existing successful preparation and
+pointer rebasing. The new callback runs with the group and member locks
+held and must neither sleep nor acquire another PCM stream lock.
 
 Assisted-by: LLM
 Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 ---
- include/sound/pcm-indirect.h | 24 +++++++++++++++++++-----
- 1 file changed, 19 insertions(+), 5 deletions(-)
+ include/sound/pcm.h     |  18 ++++++
+ sound/core/pcm_native.c | 160 ++++++++++++++++++++++++++++++++++++++++++------
+ 2 files changed, 159 insertions(+), 19 deletions(-)
 
-diff --git a/include/sound/pcm-indirect.h b/include/sound/pcm-indirect.h
-index 98e06ea73b2b..ed73bf8ef423 100644
---- a/include/sound/pcm-indirect.h
-+++ b/include/sound/pcm-indirect.h
-@@ -28,15 +28,17 @@ typedef void (*snd_pcm_indirect_copy_t)(struct snd_pcm_substream *substream,
- 					struct snd_pcm_indirect *rec, size_t bytes);
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index 6c386d576841..7150f8356dc8 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -77,6 +77,24 @@ struct snd_pcm_ops {
+ 			     unsigned long offset);
+ 	int (*mmap)(struct snd_pcm_substream *substream, struct vm_area_struct *vma);
+ 	int (*ack)(struct snd_pcm_substream *substream);
++	/*
++	 * Optional prepare completion notification. Called while the core holds
++	 * all linked PCM stream locks, after prepare/reset actions succeed or stop
++	 * at the first error. On success, the core publishes PREPARED for every
++	 * member before calling this with true. If any member is DISCONNECTED or
++	 * SUSPENDED, opted-in members in the affected group receive false.
++	 * Nonterminal opted-in members become SETUP. DISCONNECTED members remain
++	 * DISCONNECTED. SUSPENDED members remain SUSPENDED with both saved
++	 * suspended-state fields set to SETUP. On a driver failure, called with false
++	 * for opted-in members whose action ran, including the failing member.
++	 * Members not reached and pre-action failures receive no callback. Standalone
++	 * RESET does not call this callback. It must not sleep or acquire another PCM
++	 * stream lock.
++	 * A terminal-state cancellation returns -EBADFD for DISCONNECTED or
++	 * -ESTRPIPE for SUSPENDED.
++	 */
++	void (*prepare_complete)(struct snd_pcm_substream *substream,
++				 bool success);
+ 	/*
+ 	 * Optional RESET operation, also used after a successful prepare.
+ 	 * Called with this substream's PCM lock held; atomic streams must not
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index a547ac720b51..0a8dd1bbc4c9 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -1310,6 +1310,10 @@ struct action_ops {
+ 			    snd_pcm_state_t state);
+ 	void (*post_action)(struct snd_pcm_substream *substream,
+ 			    snd_pcm_state_t state);
++	int (*finish_action)(struct snd_pcm_substream *substream,
++			     snd_pcm_state_t state, bool success,
++			     struct snd_pcm_substream *failed_substream,
++			     bool stream_lock);
+ };
  
  /*
-- * helper function for playback ack callback
-+ * Playback transfer using a caller-supplied application pointer snapshot.
-+ * Passing rec->appl_ptr refills previously accepted data without accepting
-+ * additional application progress.
+@@ -1350,12 +1354,19 @@ static int snd_pcm_action_group(const struct action_ops *ops,
+ 					ops->undo_action(s1, state);
+ 				}
+ 			}
++			if (ops->finish_action) {
++				ops->finish_action(substream, state, false, s,
++						   stream_lock);
++			}
+ 			s = NULL; /* unlock all */
+ 			goto _unlock;
+ 		}
+ 	}
+-	snd_pcm_group_for_each_entry(s, substream) {
+-		ops->post_action(s, state);
++	if (ops->finish_action) {
++		res = ops->finish_action(substream, state, true, NULL, stream_lock);
++	} else {
++		snd_pcm_group_for_each_entry(s, substream)
++			ops->post_action(s, state);
+ 	}
+  _unlock:
+ 	/* unlock streams */
+@@ -1379,7 +1390,8 @@ static int snd_pcm_action_group(const struct action_ops *ops,
   */
- static inline int
--snd_pcm_indirect_playback_transfer(struct snd_pcm_substream *substream,
--				   struct snd_pcm_indirect *rec,
--				   snd_pcm_indirect_copy_t copy)
-+snd_pcm_indirect_playback_transfer_appl_ptr(struct snd_pcm_substream *substream,
-+					    struct snd_pcm_indirect *rec,
-+					    snd_pcm_indirect_copy_t copy,
-+					    snd_pcm_uframes_t appl_ptr)
+ static int snd_pcm_action_single(const struct action_ops *ops,
+ 				 struct snd_pcm_substream *substream,
+-				 snd_pcm_state_t state)
++				 snd_pcm_state_t state,
++				 bool stream_lock)
  {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
--	snd_pcm_uframes_t appl_ptr = runtime->control->appl_ptr;
- 	snd_pcm_sframes_t diff = appl_ptr - rec->appl_ptr;
- 	int qsize;
- 
-@@ -74,6 +76,18 @@ snd_pcm_indirect_playback_transfer(struct snd_pcm_substream *substream,
- 	return 0;
+ 	int res;
+ 	
+@@ -1387,10 +1399,19 @@ static int snd_pcm_action_single(const struct action_ops *ops,
+ 	if (res < 0)
+ 		return res;
+ 	res = ops->do_action(substream, state);
+-	if (res == 0)
+-		ops->post_action(substream, state);
+-	else if (ops->undo_action)
+-		ops->undo_action(substream, state);
++	if (res == 0) {
++		if (ops->finish_action)
++			res = ops->finish_action(substream, state, true, NULL,
++						 stream_lock);
++		else
++			ops->post_action(substream, state);
++	} else {
++		if (ops->undo_action)
++			ops->undo_action(substream, state);
++		if (ops->finish_action)
++			ops->finish_action(substream, state, false, substream,
++					   stream_lock);
++	}
+ 	return res;
  }
  
-+/* Preserve the application pointer sampling of the ordinary ACK helper. */
-+static inline int
-+snd_pcm_indirect_playback_transfer(struct snd_pcm_substream *substream,
-+				   struct snd_pcm_indirect *rec,
-+				   snd_pcm_indirect_copy_t copy)
-+{
-+	snd_pcm_uframes_t appl_ptr = substream->runtime->control->appl_ptr;
+@@ -1469,7 +1490,7 @@ static int snd_pcm_action(const struct action_ops *ops,
+ 	if (group)
+ 		res = snd_pcm_action_group(ops, substream, state, true);
+ 	else
+-		res = snd_pcm_action_single(ops, substream, state);
++		res = snd_pcm_action_single(ops, substream, state, true);
+ 	snd_pcm_group_unref(group, substream);
+ 	return res;
+ }
+@@ -1501,7 +1522,7 @@ static int snd_pcm_action_nonatomic(const struct action_ops *ops,
+ 	if (snd_pcm_stream_linked(substream))
+ 		res = snd_pcm_action_group(ops, substream, state, false);
+ 	else
+-		res = snd_pcm_action_single(ops, substream, state);
++		res = snd_pcm_action_single(ops, substream, state, false);
+ 	snd_pcm_buffer_access_unlock(substream->runtime);
+ 	return res;
+ }
+@@ -1660,7 +1681,7 @@ EXPORT_SYMBOL(snd_pcm_stop);
+ int snd_pcm_drain_done(struct snd_pcm_substream *substream)
+ {
+ 	return snd_pcm_action_single(&snd_pcm_action_stop, substream,
+-				     SNDRV_PCM_STATE_SETUP);
++				     SNDRV_PCM_STATE_SETUP, true);
+ }
+ 
+ /**
+@@ -2063,9 +2084,12 @@ static int snd_pcm_reset(struct snd_pcm_substream *substream)
+ static int snd_pcm_pre_prepare(struct snd_pcm_substream *substream,
+ 			       snd_pcm_state_t state)
+ {
+-	snd_pcm_state_t cur_state = snd_pcm_get_state(substream);
++	struct snd_pcm_runtime *runtime = substream->runtime;
++	snd_pcm_state_t cur_state;
+ 	int f_flags = state;
+ 
++	guard(pcm_stream_lock_irq)(substream);
++	cur_state = runtime->state;
+ 	if (cur_state == SNDRV_PCM_STATE_OPEN ||
+ 	    cur_state == SNDRV_PCM_STATE_DISCONNECTED)
+ 		return -EBADFD;
+@@ -2089,20 +2113,118 @@ static int snd_pcm_do_prepare(struct snd_pcm_substream *substream,
+ 	return snd_pcm_reset_substream(substream, true);
+ }
+ 
+-static void snd_pcm_post_prepare(struct snd_pcm_substream *substream,
+-				 snd_pcm_state_t state)
++static int snd_pcm_finish_prepare(struct snd_pcm_substream *substream,
++				  snd_pcm_state_t state, bool success,
++				  struct snd_pcm_substream *failed_substream,
++				  bool stream_lock)
+ {
+-	struct snd_pcm_runtime *runtime = substream->runtime;
+-	/* The reset callback path already completed this rebase under the lock. */
+-	if (!substream->ops->reset)
+-		runtime->control->appl_ptr = runtime->status->hw_ptr;
+-	snd_pcm_set_state(substream, SNDRV_PCM_STATE_PREPARED);
++	struct snd_pcm_substream *s;
++	struct snd_pcm_group *group = NULL;
++	bool cancel = false;
++	int cancel_err = 0;
++	int depth = 1;
 +
-+	return snd_pcm_indirect_playback_transfer_appl_ptr(substream, rec, copy,
-+							  appl_ptr);
-+}
++	if (!stream_lock) {
++		snd_pcm_stream_lock_irq(substream);
++		group = snd_pcm_stream_group_ref(substream);
++		if (group) {
++			snd_pcm_group_for_each_entry(s, substream) {
++				if (s == substream)
++					continue;
++				if (s->pcm->nonatomic)
++					mutex_lock_nested(&s->self_group.mutex, depth);
++				else
++					spin_lock_nested(&s->self_group.lock, depth);
++				depth++;
++			}
++		}
++	}
 +
- /*
-  * helper function for playback pointer callback
-  * ptr = current byte pointer
++	/* Preserve terminal states instead of publishing a partial group commit. */
++	snd_pcm_group_for_each_entry(s, substream) {
++		struct snd_pcm_runtime *runtime = s->runtime;
++
++		if (runtime->state == SNDRV_PCM_STATE_DISCONNECTED) {
++			cancel = true;
++			cancel_err = -EBADFD;
++		} else if (runtime->state == SNDRV_PCM_STATE_SUSPENDED) {
++			cancel = true;
++			if (!cancel_err)
++				cancel_err = -ESTRPIPE;
++		}
++		if (!success && s == failed_substream)
++			break;
++	}
++
++	if (success && !cancel) {
++		snd_pcm_group_for_each_entry(s, substream) {
++			struct snd_pcm_runtime *runtime = s->runtime;
++
++			/* The reset callback path already completed this rebase. */
++			if (!s->ops->reset)
++				runtime->control->appl_ptr = runtime->status->hw_ptr;
++			__snd_pcm_set_state(runtime, SNDRV_PCM_STATE_PREPARED);
++		}
++	} else if (!success || cancel) {
++		snd_pcm_group_for_each_entry(s, substream) {
++			struct snd_pcm_runtime *runtime = s->runtime;
++
++			if (s->ops->prepare_complete) {
++				if (runtime->state == SNDRV_PCM_STATE_SUSPENDED) {
++					runtime->suspended_state =
++						SNDRV_PCM_STATE_SETUP;
++					runtime->status->suspended_state =
++						SNDRV_PCM_STATE_SETUP;
++				} else if (runtime->state !=
++					   SNDRV_PCM_STATE_DISCONNECTED &&
++					   runtime->state != SNDRV_PCM_STATE_SETUP) {
++					__snd_pcm_set_state(runtime,
++							    SNDRV_PCM_STATE_SETUP);
++				}
++			}
++			if (!success && s == failed_substream)
++				break;
++		}
++	}
++
++	if (!success || cancel) {
++		snd_pcm_group_for_each_entry(s, substream) {
++			wake_up(&s->runtime->sleep);
++			wake_up(&s->runtime->tsleep);
++			if (!success && s == failed_substream)
++				break;
++		}
++	}
++
++	/* Publish all states before any driver observes completion. */
++	snd_pcm_group_for_each_entry(s, substream) {
++		if (s->ops->prepare_complete)
++			s->ops->prepare_complete(s, success && !cancel);
++		if (!success && s == failed_substream)
++			break;
++	}
++
++	if (!stream_lock) {
++		if (group) {
++			snd_pcm_group_for_each_entry(s, substream) {
++				if (s == substream)
++					continue;
++				if (s->pcm->nonatomic)
++					mutex_unlock(&s->self_group.mutex);
++				else
++					spin_unlock(&s->self_group.lock);
++			}
++			snd_pcm_group_unref(group, substream);
++		}
++		snd_pcm_stream_unlock_irq(substream);
++	}
++	return success && cancel ? cancel_err : 0;
+ }
+ 
+ static const struct action_ops snd_pcm_action_prepare = {
+ 	.pre_action = snd_pcm_pre_prepare,
+ 	.do_action = snd_pcm_do_prepare,
+-	.post_action = snd_pcm_post_prepare
++	.finish_action = snd_pcm_finish_prepare
+ };
+ 
+ /**
 
 -- 
 Git-157)
