@@ -1,99 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.176
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794543153;
-	b=TonWAlEL0WgR6q7rxle3gFyz+VaI6FlB0VTkTK/OKB5JZz6ObVioerHzGVvLDiaJRIa0
-	 XapVGNwEcqXKJ002wJ6dz47OUTFPvohGssTLXvx3nsYFNSw7l4cRoSwymZPAJllldN2qb
-	 Kr7tZjH+Ao3EJtW6bdesjrPzMRL4p6E0Ngx7IsVEDZPdWxmUF+/dm4eQ4B4RlJ13RYC7g
-	 BzHFBOaGAMMPK9oiQmAoimzTq/aXx5yYB3a6L2weem1ok4p2Z7bI2020YS4jArbrjeo7Y
-	 Be+7hfe0mSgZoE634L9Vb2P9Z4vVDVwemesnmdfLebn5x1G+Ae67eIj406XdV1AfLIA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794543153;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.169
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794546479;
+	b=vwjnDyXC6REQU7OdnznEeeSPaxqwlSHLdWsoZa6nhRJXEt4sWJCjOFjwOsFk+5UfHTFj
+	 epfnaPk+TEmEpozzn2Rs/1dG4LYeotn8xcMNX6rdOEFD/qUMvPCu+lPv7D0xQ6j7XrOiV
+	 7x7ZRXQGhPKKmx8AdwetWqhQCM4eUoAQqVQVOnt1k2nrAbOZrZVH7Yw2HTjCp3pd7FHoP
+	 rwNanur1gNPH6s5gLdGDZfxf1W2+CM6DegNYkAT7Lnp/3YKgZ2wha1mrB6GwMLkJwoXXS
+	 7DGObsXgYMf9J5M5UqJ+CuUDp0tmOCUXUUcgGFWs2PxBWVXBoOA/GcXlSByKDtPjgzQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794546479;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=nCgmRaYxEgo+SI8l55N+Zi055vVLjhQIc00v9kfFU80=;
-	b=2Zop5nwuLa/6PoJMt69ktVhxEvwTxJcY3cTwgirhNvzdAl+avz/5xMYlSKOR2niWHNzo
-	 6Annt9v2CNJPv7XA+Jya8MwrX3oDja7PjBvnyrSDLi2V6oj+ZuGftWgT0BInWwXTK4RxA
-	 ZACfSjrZbDG8cMFKrEit0Q0rtFtWoE/1VlnOZYwxUATMBPxOsQBzhwfCfMVV5n/J53NAk
-	 4Igj5q1sHZ/XTU7jr8ow30AVdNiO+vhgVV2ypbBojvEYnChyJ2kXhMBA0kyKUACSN1hzb
-	 jxQj+PrPNx9gYLnuFFMPIxrgQgKVMqlI8UkYG2si+HKxe7SYL62e0YoN6FoXmwpsboA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=W2Yp9Za6L9hqRc0w40QLKrtVSVZ2CNI9cglsNjGbvpA=;
+	b=uPLHLiI2ILj3hgQNNyOKUmhKc/UqlsbEPkUZuSLF65QBCOtVvB1NXyGSKFefmIIF2sGS
+	 0f+NV3+4Itu7hsn8PrevRD4Qfjmrp0fBaTR0JCKLfwWqz4o3I20nKvRcIl6/faHcF2eQA
+	 e32tM/IbKf5g5tdMPlhvEJWOyPPdfPJQMykAexcoOp0r1tj5HPW5qeb73xFz2KmSGn7ON
+	 c1uEslWxVZ/OKFfri8Eooag6sjV6atxrjGSzweLZ11rjxofj2BPEKsC8G0i7OOgvBfYJk
+	 GsN6dqmsVFgYBVNoSCjfyjENhfP8agk0B4g/2avpYi4Gx7YXhFZRE+hyRfcjqDItsrQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zrx4nJVz;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.176
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ISwb+DzL;
+	arc=none smtp.remote-ip=209.85.214.169
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA03606A321
-	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 04:12:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBA03606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B950E606A323
+	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 05:07:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B950E606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zrx4nJVz
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ed1e9ae5a8so1611865ad.1
-        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 20:12:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794543152; cv=none;
-        d=google.com; s=arc-20260327;
-        b=C5FSVNGKPcgG1M/rR3u1l+CDscDKp+yUqvVb70x2oI1uxPrrnZIdsAmnOtPIbBrTv7
-         Y/mJCeOdiIOblL5fhwfgp2oh/1o7GoZvsl3JBCyaqN/xAaS7DNbI9a+IF+edwxkhSIbf
-         9yALhsCsnmUoMQvDRa19g6zzz27ypyjJQAHcUN/lMLd3sculKchsVNvBNvm4hl4LlWt4
-         R12Yhbly+3pa1NlhF2wiCnHyjUXmKarOHz9xg4POhOqjTD7XWScWhs0nShS4U4OnKz46
-         51Vy6flSyV3nCSnNwhLMyaKDeCAIf+86KHbP4unnqgyZf9Z2kcR4j8S5meJkmfzfuWIm
-         ljkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=nCgmRaYxEgo+SI8l55N+Zi055vVLjhQIc00v9kfFU80=;
-        fh=j7qE0RlvzNR5Qm6xA4ehUDBqPqcz09gsE3Wa6zaxdUU=;
-        b=BWLIfHiHzxjrI7i6Bwd7XPAtoyinCnb1EU4ni9TkmhR9yKv8xm93b/FYyVWHKavL3h
-         FvkvHnq4kqn2fdntt76q2mo1HtNlPkPZqcKBkBnpvGGU7dq4Wfz6je3hbSJRhQ6jc+OZ
-         p8MvBxPKDB1/QORXvKnQ4wIrwuODaef8YLM2D0rTiTDwlPsgqq3GyU0a+Cu3rzddFnJG
-         hH08dDGyl6Ad5rQxEUyNK1pSVyPzKdlhjsbMOwADf4hFarJDNOJ++K47LsmDiu2sB9Gl
-         Rns2AfwJGgdui/W1NU2yR4wOXo+x5cRKvrGpSdSrmTdAgLUJ/9IsD2HS8+v+ES64fSDJ
-         mN6w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ISwb+DzL
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2ed06b725fdso11904555ad.0
+        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 21:07:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794543152; x=1795147952; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nCgmRaYxEgo+SI8l55N+Zi055vVLjhQIc00v9kfFU80=;
-        b=zrx4nJVzJ2HGYb2L6cVswF/ZMAXuBnbe9rokAt/Yb/R5+5UEdg35BvbqJ9jJsO1BQ0
-         nz2hgM+/WFTiPt/50xPn7QeNavkfpcqxtmyc+MncV42COJOcNOopCsOb0ZqtA3hdgiT7
-         OqQsFG7nwhFaq0kqh50O0cGFScgqTrIh6K8EMzNLsLJrCXhz3aJuoe13K05UIRIxdGEA
-         Pq/lIndZPo4RQizGG/bsNxwXlhDa6pBsem0WbG/CG+/SfoP2sB1LC+aT/iCVD6bZPPg2
-         i3RNc+EKfz2itXWtxnrIRDVO6p6QUWZ4PFKXhswbhFsRmsPokd5vGVEgroPJNYt0gDAP
-         QRPw==
+        d=gmail.com; s=20260707; t=1794546478; x=1795151278; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=W2Yp9Za6L9hqRc0w40QLKrtVSVZ2CNI9cglsNjGbvpA=;
+        b=ISwb+DzLyEuCNr+1kReUrfZE6bN/JMey2seUdZy/T6q82QDdE50nkrshvbU8t7Z6VH
+         4RuX34WAhu/YCsOzGp1RORwqe5NGypbf9Xdm58uZP1WafrJUKM3zz3OxOjdvFetDuAr1
+         P+/0kj68+k+dg3cYW2Dzj5Bot1IwQk2odxKpDpvvHyLn9CtsGJwbu1tTmtriRnKJhgTL
+         p0Fo0L86R7uvxlSB/ytc1RFQ85xKu8MlgZwvSOprI5Xoeto7s8i81fCqPkpP3fPyUw5D
+         Qk5k/vXQDxOgp8UIF2R6nS7ZZjkvOldzpQCu6RGyHlEcMw1fXpWKUtM54ZrWzf+Z6G7N
+         GbIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794543152; x=1795147952;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=nCgmRaYxEgo+SI8l55N+Zi055vVLjhQIc00v9kfFU80=;
-        b=QqbaI5o2BFpEjojuXowWhE+UKFkwL5Mmn8DocNirbELQP37v5oYgJUv4lShEUr6ltY
-         iqmHcexfbsB5RvPZDQWliPtUfpPESG3UUaa1XqqI27JXGQe4Ijn8AfY1dweYSahzzXpf
-         R58ZIU0hl18d+msBXgoOUb8s436QVz524ZmESZ10hh5w9Y/ELP5WJPL5eo4vDE8BUjk8
-         O7/EP+NUa2K8PuFF/UqOtmsInwgALVuj20GBTOz2bmPQHaX2ix/umI/kRyFUV/xlLAYC
-         7TauoOWhcCXfjVvwzn6Uvsch1Zi1DVIwJSrYU5egQcEiHL2q48PZXpfl9hCL6mU+iqYZ
-         7tJQ==
-X-Gm-Message-State: APuU4Z8BKDlAW1Vp0CArbINoIz+zSSnuRPIxfASmb5BS4BmZNXP0uQZt
-	7yqKowkNr6BeQCWjfdETegZhITGbrSHOEVBMfHHfrOFBMIT4Oaeu4FjT10dDDgYaixtQXNmTBuM
-	plrmpwHWcJS1anUZFSWWKgBhnL2DIsX4GeSri
-X-Gm-Gg: AYBFou39ZheysZu+ZLW94Y77a/FD1BdiRcEU1kZIqaKJnwTiGJ3H35lWK/G26gCfsmh
-	ffybhNTMG7NgeFDvlQHeZ/rhqDF311dFVTFlImbFJVSiZvEaXPtryBQFUfDF7Yu29mbW9R1IDWT
-	qsE2zwu5k3y1zb4CttdMOd7Z/FgayPijPMFlKQUcQUZQCxOhIpxLmXaMP/ORUhlgC/pCwhPwhH1
-	2H575dHmLp64a15ZGxF7l873WCXvP106IfWrUyNPub6tx+EL8Jx6s+BFAzjuBQG3v6xfgmQWnYt
-	DPwoExwjdDSAHodiKex2Vxr1rgEpE9XIE+XLhw4ESuz9uTB4gqcv+if2O8508W3MLMiBATMTBqr
-	V/5ykTDwvG3Q5voeqWiUTx+OEycK4xwfW5Na0uyB+YulUYmmPqBVmAwtJ41104TjKK1Nom9DVBn
-	cDgHbltchrttS2wbo5Z9s3b2/n+X67gKctJDkBADnYry/QEX85
-X-Received: by 2002:a17:903:1c6:b0:2ed:2e3a:1faf with SMTP id
- d9443c01a7336-2ee0dc772cbmr13160465ad.47.1794543151902; Thu, 12 Nov 2026
- 20:12:31 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794546478; x=1795151278;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=W2Yp9Za6L9hqRc0w40QLKrtVSVZ2CNI9cglsNjGbvpA=;
+        b=DXbCoIOQCXCO9oQ/8PdICkRqn5fuAmSMWHcslXZGQOlTSurdiCQhsKbxxBc5cPpNf/
+         o0szjbFztnqJ5BqiSTe30yOvpwul8CclkJMSwaR9bcI6z4HfGnX6fYbPrb5IF5gwkw6U
+         gIaVzJIYAHLRaGLOLuARlyGUK6yqg/2OXMyF3CPOtl1vjuJfmCBx3PhZaJNZPgDkJYeo
+         aeNeVTR9l7U5/Cww8AVnkSeCJPyqe+R0Ji54mWbVPWqBGuMxzJKIDhHM8L6/f2/g4QTe
+         rIWuT6mD7fiI5pr/QNpqYAEM22hSdMxzmh9ycLCLysJfLPb/5pUnfiJi/Yf24PvQwbW3
+         ZzAA==
+X-Forwarded-Encrypted: i=1; AL+hErFisjWJWt3V48MZJigMJHIE/0tf89+EGmxUe03kHZGu/HG5UW7kFeOBaFM8EvgSEzwTSXZ45aq8Lz1a3g==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9avM5+gqUn0gkJThwHzAgGX1IgO26PbOEsR9AMMadETzwVGbMV
+	3b26yylreU3nMf+mool2czpANpuozSOuSnC62VjA+Ts2JoM/5M7noIpV
+X-Gm-Gg: AYBFou1U0qvTt6bgKSvllC8Qhgeo0fHsggS0TQMqiWo2ITkrKP72+nkp20RbLoOvcbR
+	gXpdVmxCqAshRgHkRjuvA8mxgG+yI0V6zTvW1Plimq10jE4CeEmdoNa6pomhiYgOIeAkJwibs5r
+	O8hDrwePG5ZYFZpX8I9WysIdPjI58/hrblmtHqTy3fQvxH47TB0dWzSC4PjUmeC/Cow5fAFnyld
+	Im84mcpkksZgD2ychU0EaeukSb2yAUCRxDgotCTzbCIDaccFvd8kN4p6Og+t1/JfZTnK29oLDn+
+	ADAqqW0r2H1Z2otQWZ5jY6Acs4YE+YoE9G9jDFGQaGUVe3A0IMNgRYULTT7akb6mXV6JFJ2hEay
+	uumr6Qv9f+oYJ7eYMB4TE8HrZiQQkK4P4ACpaZUisO5rs1vr3JuhHllKAtxq3LbqmWMNbK4C26/
+	PRhL3gZ0mDCZlchLorCLshHs3FD59H6zd3jLdKJeIoLiBDwRo5cjw/977fX34HzQW9VOxV9+DVY
+	aCsjbfmURdp8sNEh2jGoTtauo3wNfBigM0L0Um1a3Mo9SZxHdIKgoEX8/ieFtTHqZyrli16A7dk
+	arvpXA1ywfmzwqkulYZn9mDci4UMeZ03M+YHvp2rRu+FhcIY5UP4mTZk42q2e3SdQWheWrwesl6
+	ERvHPO/03pC1EoaWsBLuz5Snng19kNxn5UlDXcanbWfzU
+X-Received: by 2002:a17:90a:d60e:b0:3ad:677f:567f with SMTP id 98e67ed59e1d1-3b1b0d7622bmr689241a91.40.1794546477658;
+        Thu, 12 Nov 2026 21:07:57 -0800 (PST)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b197d35525sm7643420a91.16.2026.11.12.21.07.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 21:07:56 -0800 (PST)
+From: phucduc.bui@gmail.com
+To: Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v2 0/6] ASoC: fsl_asrc: Fix probe and resource management issues
+Date: Fri, 13 Nov 2026 12:07:21 +0700
+Message-ID: <20261113050727.14053-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -103,43 +105,41 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261112105116.32274-1-phucduc.bui@gmail.com> <20261112105116.32274-6-phucduc.bui@gmail.com>
- <sashiko-outbox-210986@kernel.org>
-In-Reply-To: <sashiko-outbox-210986@kernel.org>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 13 Nov 2026 11:12:20 +0700
-X-Gm-Features: AclHuK-EzYz6_0u6Yz6Hrxu43cxUaT0UCJf819xej1Ox7hyEl1KMsad9G04Ad8A
-Message-ID: <CAABR9nHy59D=zQwQbLP6eVT6bsZ3Db8vo2-cKHDCdqkS42TiJQ@mail.gmail.com>
-Subject: Re: [PATCH 5/5] ASoC: fsl_asrc: Use devm for runtime PM cleanup
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-> [Severity: Medium]
-> If CONFIG_PM is disabled and fsl_asrc_runtime_resume() fails here, does
-> devres unwind end up calling fsl_asrc_runtime_suspend() while the clocks are
-> still disabled?
->
-> When CONFIG_PM is disabled, pm_runtime_enabled() and
-> pm_runtime_status_suspended() both return false.  If
-> fsl_asrc_runtime_resume() fails, it cleans up any clocks it enabled and
-> returns an error, which now triggers fsl_asrc_runtime_suspend_action().
-> fsl_asrc_runtime_suspend() then reads the volatile REG_ASRCFG register over
-> MMIO with all ASRC clocks gated (which can cause an external abort or bus
-> hang on i.MX) and calls clk_disable_unprepare() on clocks that were never
-> enabled.
->
-> Registering fsl_asrc_runtime_suspend_action() after the !pm_runtime_enabled()
-> block (or using devm_add_action_or_reset() after devm_pm_runtime_enable()
-> with the !pm_runtime_enabled() resume handled first) would avoid suspending
-> an unresumed device.
->
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Good catch, thanks. With CONFIG_PM disabled, a failed
-fsl_asrc_runtime_resume() would indeed run the action on a
-device that is not powered.
+Hi all,
 
-I'd like to keep the action registered before
-devm_pm_runtime_enable(), so it still runs after runtime PM is
-disabled. In v2 I'll drop it with devm_remove_action() in that
-error path instead.
+This series improves error handling and resource management in
+the fsl_asrc probe function. It fixes deferred clock handling and
+runtime PM usage count, ensures the IRQ is requested after device
+initialization, and moves runtime PM cleanup to devm.
+
+Link v1: 
+https://lore.kernel.org/all/20261112105116.32274-1-phucduc.bui@gmail.com/
+
+Change in v2:
+ - Update the commit based on Sashiko's review.
+ - Add handling for CONFIG_PM being disabled.
+ - Add a patch to use devm for M2M cleanup.
+
+Compile-tested only.
+
+Best regards,
+Phuc
+
+bui duc phuc (6):
+  ASoC: fsl_asrc: Improve probe error handling
+  ASoC: fsl_asrc: Fix handling of deferred spba clock
+  ASoC: fsl_asrc: Fix runtime PM usage count on init failure
+  ASoC: fsl_asrc: Request the IRQ after the device is initialized
+  ASoC: fsl_asrc: Use devm for runtime PM cleanup
+  ASoC: fsl_asrc: Use devm for m2m cleanup
+
+ sound/soc/fsl/fsl_asrc.c | 113 +++++++++++++++++++++------------------
+ 1 file changed, 62 insertions(+), 51 deletions(-)
+
+-- 
+2.43.0
+
