@@ -1,62 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.11.138.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794603973;
-	b=Hz68l3vN6TlEbMAvP7aKh9UZ9XshbL1Zy8xDkn/Q9qHcQI3qsFcPqB2ceE4BGPw6SwfN
-	 8T98Eu7PgyDkqK9AFCAjSRsvuprYeq9Ge7TrK0lwzbPKEo/z94xs0SjQkMAmTX1Q6c2pI
-	 9XDtqyvJNxwxJgkA7Tqm588cX6hk3yBHNU7EKIJAiFqIzrL6Netk+89tT/s2UritmaTOV
-	 2t4km/pN7HRuvAP6k5ODE+cK0eWWbwQVN5Ec9KCDAyk4NSYguWFcY9ZYHPHy2CYa8JCDC
-	 chytEanIrQGMRSuAwqR76OJhlEAGTPbtbocJf+cuTZgJHWhV50dBta7+CBlfUZCXA8g==
+	t=1794604095;
+	b=ql33cfzUPOW6GVBtu7411Y3mOUq+wnfMeEmlso+/jopSuxcRru6jEiuniHm5SInNU/Nx
+	 r2aXwHTOX2zgZumOBx1G32BbaSMj687zdJChBaZN9E9sRYc/F7giTJv9DXFsR51/HRRQf
+	 IfLd948sMRF73ZI1Y9pTQUFCNRejLMrxvhtQBtBLJmtD+MV6HJ33R8fq2GdKVxPUVVNxH
+	 DC6tTi27IZBT/e/57MQ6tuV674gJabHO1u/tLKuIkBzBQkMnjLjInikOggGai93klKTfk
+	 jjYaGbbZjTFP4rrmkBTcFHeOBoAEEFD775xVY7O0SI0/9sl8G8w7YmruyaZhyZYU6qQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794603973;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=/l2BNci3Cf9HeoDE6HY6XAwN4GIVkcON+ovNV/ZiaKk=;
-	b=csROHeJ4iMmytBS+kYSD4hzbn7U/uN6Xp2mkuDK+QpsquD/zkT7Ymjj5myWMSc5+IhYR
-	 u7Fwaap1Iaz7Uia6+M9AAeCUmtyFypFmlZH20Fh9XrUkIfpkdTsVbI/tI9h+EDyVfn0uW
-	 OljunSLvMs2JljK9JjT7Gu8v3FpPTyQR6DVKsPkLjDjVBfNvknWg8uaENvY5vtVjtQxJs
-	 dVdBu68UeuEJGDbFkrrHIQU5vDvlNIjo/6s1aklZolIycA5ce4JVKMMEARAe4FDTOmRxk
-	 jtlVvRAxFmdn4dtDfzQD3vEfqu+GHW9cCR0IJF1vmbmJHtZ5hnWXZ77umRocieVFeiA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794604095;
+	h=DMARC-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=KL61sUxGGXBLoXiDN/MT8f5YU0XPMLUvi7kW1YNxd5w=;
+	b=D6/1PImAEAaNV/hCjZbw4OadqCaL93XhyqKFtN8IEpB2h981fTyM7D7emV1FeNg8QQ9O
+	 PCLqo406jDciILSZtVCrHv+5zQrh/qqaVf/wxaxAhRG8rLJKNYQSrurZDuAn6SK5tgTyI
+	 h0V7iEQ2BSzig9auMxu5QZyNx2kxzPQiDDcoJkigRFi4oHYZ3vYZpSeJOjOk3B5eMf4RO
+	 6rn2wD4GkO1yg2gxadGkwrWYnhutdSmk4OivqQOiNRl6pA2+kiU1l7pztrvx0hbofYzS9
+	 wlqPCfF/gkCdbvLClEizKeOnC1SkULR3lS23zeTmJYvvegGkDQyVXVCHszn6qcIwMvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XKZCc74H;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=sntech.de;
+	spf=pass smtp.mailfrom=sntech.de;
+	dkim=pass header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=Fq6FkOsr;
+	arc=none smtp.remote-ip=185.11.138.130
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9419606A88A;
-	Fri, 13 Nov 2026 21:06:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28BC606A334;
+	Fri, 13 Nov 2026 21:08:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E28BC606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XKZCc74H
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19F501F000C4;
-	Fri, 13 Nov 2026 21:06:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794603972;
-	bh=/l2BNci3Cf9HeoDE6HY6XAwN4GIVkcON+ovNV/ZiaKk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XKZCc74H33Cu1XhPqQIGS9zpzaLozY3DpqJw9mCjFEeAdTzJ3EPh+2h8J1xuhjopI
-	 RJOgbQQas61wrl9GniueMLE1mKOiBtMXiVbaOoL7gj5y7cn603+LptEx2zUCuZAh9J
-	 jYTENUc8RSOGPYHlm/vlEEFRqQgV1BRGLRDnjM29PIw/75eKeEIBOb0yOddlP946vC
-	 f/sgduhPZ2jWdmrZXf42Z+faDs4LO/ymtbdLdlZmvMdN5O4D0HaO3FulwOvWaR1dwv
-	 J2/pgLHcA+5LiJMbGZE+6Iqc/WBj/QO8e2dZAueaulUz57/mGw36Leq6NApDOZ3jAS
-	 4RARqzNpb5aCA==
-Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
-	id 9101731BCC91; Fri, 13 Nov 2026 21:06:02 +0000 (GMT)
-Date: Fri, 13 Nov 2026 21:06:02 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Daniel Carter <yass27106@gmail.com>
-Cc: krzk@kernel.org, andersson@kernel.org, srini@kernel.org,
-	konradybcio@kernel.org, robh@kernel.org, conor+dt@kernel.org,
-	vkoul@kernel.org, tiwai@suse.com, perex@perex.cz,
-	lgirdwood@gmail.com, pierre-louis.bossart@linux.dev,
-	yung-chuan.liao@linux.intel.com, abelvesa@kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] dt-bindings: qcom: document Asus Vivobook 16
- X1607QA
-Message-ID: <d7b0ac39-f204-46ec-9614-460611a7ae38@sirena.org.uk>
-References: <9032798812284dd2842cbf003c75cc0b@gmail.com>
- <1ce6d7664e48413d9a5a8b11a986f746@gmail.com>
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=Fq6FkOsr
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=KL61sUxGGXBLoXiDN/MT8f5YU0XPMLUvi7kW1YNxd5w=; b=Fq6FkOsrggmsp8mQ2lX6leF3JL
+	G2Xu+3xGCgwVm/HxXjIZr1p46QA4Y0DNs9L5+eh/pMO9xPa00hg34VjICP6NT+nePRGSSGtcKlQtQ
+	Ezue9u3CwCzQ2GnRVquBzdp2q14X1kxeDvPeGKdxF0gOpn14xzH3kq80S2XXQgUBPGPBTPxU1m6O2
+	nE9AXoEwNgr6ryO5EzDx3MVXBQWAfyC1ZOGlSH3tRU/heDHuPVAo2UzQbpdO321aRVJNjr/6NbOPS
+	pSHVdP8WjpwznDkCCqwl99mp4RHIzy8Rgo7XrVMUPeCKoENGtkl7CTMEmQwYhjOL2YExxymHUIE07
+	K0QsAYWQ==;
+From: Heiko Stuebner <heiko@sntech.de>
+To: Igor Velkov <iav@iav.lv>
+Cc: Heiko Stuebner <heiko@sntech.de>,
+	broonie@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	krzk+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-sound@vger.kernel.org,
+	luca.ceresoli@bootlin.com,
+	robh@kernel.org
+Subject: Re: [PATCH v2] arm64: dts: rockchip: Describe more of the power tree on Kobol Helios64
+Date: Fri, 13 Nov 2026 22:08:03 +0100
+Message-ID: <179460406460.1165597.4015563597141303036.b4-ty@b4>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261108-helios64-power-tree-v2-1-639ac2fc5ad7@iav.lv>
+References: <20261108-helios64-power-tree-v2-1-639ac2fc5ad7@iav.lv>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -66,41 +70,27 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="YzSVgOqsbmCzfzx+"
-Content-Disposition: inline
-In-Reply-To: <1ce6d7664e48413d9a5a8b11a986f746@gmail.com>
-X-Cookie: When in doubt, lead trump.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
 
---YzSVgOqsbmCzfzx+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Sun, 08 Nov 2026 23:00:18 +0000, Igor Velkov wrote:
+> Add the regulators that the Helios64 schematic shows and the device
+> tree does not describe yet:
+> 
+> - RK808 DCDC_REG3 vcc_ddr_s3, LDO_REG6 vcc1v5_s3 and SWITCH_REG1
+>   vcc3v3_sys_s0 (sheet 6),
+> - the fixed 0.9 V regulator vcc0v9_s3, fed from vcc3v3_sys_s3 (sheet 8),
+> - the hard disk supplies vcc5v0_hdd and vcc12v_hdd, fed from
+>   vcc12v_dcin_bkup (sheets 4 and 9).
+> 
+> [...]
 
-On Fri, Nov 13, 2026 at 01:02:39PM -0800, Daniel Carter wrote:
-> Document the compatible for the Asus Vivobook 16 X1607QA laptop,
-> based on the Qualcomm X1P42100 (purwa) SoC.
+Applied, thanks!
 
-Please don't send new patches in reply to old patches or serieses, this
-makes it harder for both people and tools to understand what is going
-on - it can bury things in mailboxes and make it difficult to keep track
-of what current patches are, both for the new patches and the old ones.
+[1/1] arm64: dts: rockchip: Describe more of the power tree on Kobol Helios64
+      commit: 6c9bd34d299ccf3cd1374a79749f9509059f5bd7
 
-You might want to look at b4 to send the patches, especially it's web
-submission endpoint which avoids having to configure mail:
-
-   https://b4.docs.kernel.org/en/latest/contributor/overview.html
-
-
---YzSVgOqsbmCzfzx+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCavd7ugAKCRAv73Ows9A4
-ibzHAP9sN/q2DyJ/6kQWe2d0a8ULIqgi9a3ujUBNvN2D/5hMMQD/TuzN542hYfaF
-SghEiAMS0awWz0LImGwWe0LHPqaVHAk=
-=Hb5z
------END PGP SIGNATURE-----
-
---YzSVgOqsbmCzfzx+--
+Best regards,
+-- 
+Heiko Stuebner <heiko@sntech.de>
