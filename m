@@ -1,89 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794595122;
-	b=A9CALw3+qj/eG8ZqlWadXWj1Z1NsnESKSTRN2HKdYrKqU/8ifIXht2dTYrp241/W2gNU
-	 sKgjHiVLGGWtFHYVsqWSq74UfUo+/AK4Xn5L41eW7WpZubqaTCJiYujWSfg7+uaZly6Bv
-	 J/tdMiYbf/mdMWGxz00uI0Ks8Pdlw3jFny8q2T6LPkBS4hEtEYl7D+dym+Y+BhrjTJHNK
-	 CNpkiivDZfFW/4DkAgyyVpWfxBczH2hmqAHQ4fJQCvpox5VSTq1F21UYLS7dh98q1sA9c
-	 9G1XZDlT8Pc/0kwlO5OJlmW+vIJ3WTkrPGRszenQpuEwhuAauY8bz463cPLHv2gwVbQ==
+	t=1794595123;
+	b=hk0T1HWkmdX2eWskf46NnxFqtvgwL/TZBNmJ1YHJ+8X+IBagAspPhf+db4nJ2XhD7Eh1
+	 VAf7hZ9SpDxQ8k9dITWOE5OcmmYs0Bl4AGu5Pgfne/Aj7fpM0qSZL6vcie/bsr0DxZDFw
+	 EglTWvssk/dDU/42gRlgpbTW0wj1HbWQ0qIFAvxkfXxhrQd1weCQiFu62FZWaIGUU1hbc
+	 90f9kEuMtlbun3pIes6hc43W//GUVGGy85YdpTK0fUlZgiNh82V6DSrpGluVyrE3Z4SMk
+	 qw0jcbT5vNBwvct8qyqs7fhUjsrAQhm4JEnWNL+aO4T3RqhQlf+KzFexnu/02jrfHpA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794595122;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794595123;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key;
-	bh=11NepBsLD6QCYXRO1YRbk90ME/+rEshWAA4QA5dD6tY=;
-	b=aPyHQdsGjknMs+vwghmazrg0J/41YShQBNDgD7tQMhEolse0jYD9GuxDvw/XZuIE1Gud
-	 abZ9vMjOUdCsPctv0CDhvA8KH2LPgTNxMOC0GfXKQhwqkI64dVM7zdbdwIoYTcmyz5g2J
-	 gvy5+W3Wxi5wC9HA51PEZlOpGD77yyMl1OIH7gzesVSjyEwrCTlIDLDF8T6dM+gJ67nqw
-	 1KhdHKGb0orfsC4GOSW9V+UWkqqgDCfdjG8Vlp9wKGKUMMi3G7jP9JLjF1/q/ZYN3EXzn
-	 8585OMYznA+0aMEQ7LpJnJZQtidW4CtiZ9f2X4SQDcRngrl/FCeGd3e57KNHYZ4ufWA==
+	bh=aQPrSDUxid3hTnblfq2igQmpuDYP0lgjM0zpbR4xQUg=;
+	b=TezcCDdtqZLI0AZH+GcwYUi4tddJ4BqkDEZEbd9lVbijCkL0dv1hlUTcXsvzXozOWqGl
+	 BnX+z8NPkwv6yQq9i5PKX55Rhrne63u3pzG0ugfUQzQwh0jS4M3L50SlZIyA4l/i7g6+2
+	 cmSLgKCFj4IolH2Cbx4j4C5Ud9bhkE29u2kbjzXBZoH6+6hPeYtJHMld9lLx0CMN76pkv
+	 HZeG4NjuPiPPezPZL1m7CeYsqnClFZnwbJ1UXmFXYJociez7zn11Dv3PujpeYqsaKYG+1
+	 9AIKHn9rDRTgkql7GkoC0prMEncDbDxUWoobIjU/GTs9eWfkcJtEjk17ceqbsL39VPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linaro.org;
 	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=QfH0ehjX;
-	arc=none smtp.remote-ip=209.85.221.52
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=kNvNHTUg;
+	arc=none smtp.remote-ip=209.85.221.45
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC6E606BDDD
-	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 18:38:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7BC6E606BDDD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 199E0606BDFB
+	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 18:38:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 199E0606BDFB
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=QfH0ehjX
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-490f38e9688so927679f8f.0
-        for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 10:38:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=kNvNHTUg
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-49a92144733so523331f8f.0
+        for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 10:38:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1794595120; x=1795199920; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1794595121; x=1795199921; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=11NepBsLD6QCYXRO1YRbk90ME/+rEshWAA4QA5dD6tY=;
-        b=QfH0ehjXHqW3RbDEYcseLDXqpLq6FD1dMyf7sU6bNoXQKXwN/xDTvcfl6mFDxqmATg
-         UGsiezj1N0tKYPNerDK1XWcYibI5KWeC2b+yDtMRM7DqIaIu/3uKX6s09KKjt+ggeu/8
-         936DM76VuvRMnzFg1WtJgRZQvV6JOLlgz8mYD6HHZ88jfutGMFjC/C6yFa3NP2dNw55w
-         bhSUeIRoDD58icf+Gpsss2zXbLbi1Jt1SHOssOYC+M7FLIC840IIWoPmdYYNT7NOyxaM
-         6doWi5uwfByGKcfVpZp23paHmcuNkuokRM7Wx4kSFqmoiUFePpYDfWhlynu4VgBt9Yx6
-         pZeQ==
+        bh=aQPrSDUxid3hTnblfq2igQmpuDYP0lgjM0zpbR4xQUg=;
+        b=kNvNHTUgRjtH3mON9M91rXL1bm5mOnrWnMSeu1K73fYuLMy8EvA/ZS83+hjpvyJ4Yy
+         2aprL0xs0PB40OQ6Dhhpugd6YRCMj33GDsubh7LMFUt3yVSSZQDZV9l5LxVVcm7EHhY0
+         pjTO/mSguDcs4kyewWd9euNoJJdqA61YNmA1VwXvwD88303OTCnLnVca0Uf9X+LVbijM
+         kyjoLiViBevsmqMY1+WOYgCanH6OrT+rqXkDdJS7IOaOERJ0THv7oqUVQAQ6jLoLHu1s
+         EIa2/zQG+mdhkF1n+BHNbgY8K1grM+O1yTMHkZA0I5ebtHQBqxdMYuDHw3VcUUhJRxlj
+         wE/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794595120; x=1795199920;
+        d=1e100.net; s=20260707; t=1794595121; x=1795199921;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=11NepBsLD6QCYXRO1YRbk90ME/+rEshWAA4QA5dD6tY=;
-        b=WpF37Niy90Vvc5U965l3cn9FPQTnSAN/z3T5Bw6Qn5O2A9dNJigF97R7b5ErtDEpWZ
-         f5H47cRj4TZ4r9qpdLeTyLsNcqRqa8nzJHbuWr6US1YzSchO21xVBSlMLRlGjvmECcCf
-         +HWOdbM7qgCvXO7YDu5TueVvbIlNc/Zh1jnVurGdFxysRLOnC2+QR8FJ1my2cJ4dYdyT
-         oJYk1R4YJJ8BokL1WbaQXLC5jbzk3rVy0GmHxZgsowTDZ45vwmWoozYW/waNBeSh5wiI
-         jOZZ/lczGNlmKy1TVdy3dgOKe2lkAMe1mJXynt8RlgZE5wbBL4AfFhBLdCbbiZ1J5t8I
-         wwFg==
-X-Forwarded-Encrypted: i=1; AL+hErFUT01f5vwSME76DsXW63PUywuCaVcE1e6qHnftxNJkM/BHc2fgm4WqhhX1iQ8hXZTIlY36voHdtYH+fQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+S1G5WlJczN/+62mfcH4nAXcR1YAaIX2ixcuNVAQQjGAj5B2dm
-	FzszR3RISpil3pGI1Cu5Ah0nrDA0yDMqQoP4i3vMA7WP6d8cFlL/4bhgU7b4viOyZI8=
-X-Gm-Gg: AYBFou18DrHmhkg3FgvylMC9rQ2S49gQeHfwEe/z50RdnUblIEMB/bDwyixuI6gdbvd
-	474MMyDt0irQs3yjbEsmoNDfupr0zLS+WLC9on0MjTNvlZyObgs14kvBaMZWiJTN5RRIn+oB87K
-	D11BVNNjkos4Au3pxbXsOhqWQ7QwDNhqj+geW8WSJ+ATUQmlNwErfGt0HD+HX13DKs/4+GJWHwl
-	FbfxQtz7YxfF5Tz3oZGJjf9BspWBOZeJrL5Te2fMzN4Oo/sah5w/SmXRuUWjp1FSwx4FnxeyT22
-	iEdGNA3ZOntti2nmnO4UudgbXCx6JcmdZjy3eMTxqBt0+AieyKQJx5PnEbngzcXgbwewVjjVz0z
-	kaZhCv0r+BRDNzfBjfP/jeHSc6H3nD62dxhXMdk9mcJovtA9xYbpZ57DuF7GIyZyItM0L67HGl7
-	jacYP+2ZUCZFfbSMZNI8rMkbyJsigsZIafFgNwfSoO/9ErKEcPlYg8i5fafjX5k6B1/xEvazMcg
-	D1gdEVFeIipF+pgs6/S1WfgNO1ARfABldpnccluDuW62VTkbesszMI9+ae/m03eUlkZA6O1MfSr
-	TpKFkG66vcWNZIDpknXN7hJaTOYVjQrS95CSNVnspQg=
-X-Received: by 2002:a5d:5f05:0:b0:48e:76ab:78f3 with SMTP id ffacd0b85a97d-49c7026072fmr7211783f8f.15.1794595119797;
-        Fri, 13 Nov 2026 10:38:39 -0800 (PST)
+        bh=aQPrSDUxid3hTnblfq2igQmpuDYP0lgjM0zpbR4xQUg=;
+        b=iBQd6kqQVY/MWO3g7bDMqfRL3vc69dPzpj3zgG2hYOYRmMpHZ+9f4pGEUQ54aGsLXP
+         zrMnwXI47+k2K/2MEpyHEgd4IILT4WRSdZXWEg3DpA64vEkar1zCi17YzYWqAxdMxcKz
+         BPehfBneqmovLuyBqJTfFzJK4hSXWtHkJIDeeDXr55SMyvJBPUk6Ro9g/33P3ehcY5Bs
+         Rk01UJErVEOID4ovtPPQMhK3AFPWbl5PpZOFk8Uev3N/KzCZlDyqiS8Ywzeh244xPVsG
+         hrWFZA4omN8wKfIv6tVf41LXBXhoTOIpWT3QMX+rhYCcc6JgaAJNo2R1NQ6YLvJ1l7tR
+         DKhg==
+X-Forwarded-Encrypted: i=1; AL+hErEoje2w5mPaRqBhlWV8POCm1Jtfz1NHS9dwM6UAtOZkt+3Fn+9eV3BsI8r6yJk5j4Zd/lLyMyGUCRt6UA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/LhVW1yLDBMFlRjIPGfl+YxRWl6U8WpF3I+PF9Y/t4ieprLKz9
+	7Qf2duGmxM1eCq1YfOWKo/2yO9JkVDW6alEe965pduwacwfnZWlkUgwR6o5A9qHBBL0=
+X-Gm-Gg: AYBFou1W9xN2FNJGOROxmh333G7UqSEyrnYcKerCjx1eXLeebHwT3Q+sLz60pYhAsoY
+	5K0xrfDABUyZFVAN54KJ5IVoAvg3l1df7OIjToRDcyfC+UGY3kCgyMIYibBavEX4e7+WsB+Klql
+	7wc+FfSgxATo3DR//y0EoROWf/QDC/Dpuk5XcPvA+C/H+/3iktW9UAIKRUp5QlD4OaMdMXBZODl
+	vPwGizS0fVguwbOYTzpAMBAilMcQyHFIXzb3GyFsmWFcckM/lKhj+k6g9YxWLI4ZBPHXyU+GfSW
+	C4IM6FYTYTVAtX9Ejsr0zrghy3HC7oT+IJ5Pl6sU83tUtlyUdn9HoawZK++ikP6uEesGPmY3n6b
+	a1XorW+tbWBTvwoIzglvpgmcNfXiBSvsL29q6jZP3d192kN9F3i5m+xaqaQfEYcAwGrllNxU7Qg
+	1TXpAtxfT8I5/LN1MN75sQANCY5qhYab0ae/ZxSM2i6By+lacJlVWThRGuhUkEtZw0s5X4PjjTr
+	yg8vel6ytjrJAtFPG56wphdMPCiTtN/tJq3pDF1hN0xD0MDGj5R4YnP1nPR/2ZvcSqUACFhqADo
+	KEAuk3LWC2oUh7VfhBsz7hVGYYtlEPmk6zHKV4Urfic=
+X-Received: by 2002:a05:6000:29cf:b0:48d:f9dd:e3df with SMTP id ffacd0b85a97d-49c712ac8edmr4249814f8f.18.1794595121078;
+        Fri, 13 Nov 2026 10:38:41 -0800 (PST)
 Received: from arrakeen-2.home ([2a01:e0a:106d:1080:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5f7828a4sm6865870f8f.23.2026.11.13.10.38.38
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5f7828a4sm6865870f8f.23.2026.11.13.10.38.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 10:38:39 -0800 (PST)
+        Fri, 13 Nov 2026 10:38:40 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Fri, 13 Nov 2026 19:38:18 +0100
-Subject: [PATCH RFC 04/23] ASoC: dt-bindings: qcom,lpass: add Senary &
- Septenary MI2S ids
+Date: Fri, 13 Nov 2026 19:38:19 +0100
+Subject: [PATCH RFC 05/23] ASoC: dt-bindings: qcom,lpass: add WSA RX and TX
+ channels ids
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -95,7 +95,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261113-topic-sm8650-el2-v1-4-5183f6aab9fc@linaro.org>
+Message-Id: <20261113-topic-sm8650-el2-v1-5-5183f6aab9fc@linaro.org>
 References: <20261113-topic-sm8650-el2-v1-0-5183f6aab9fc@linaro.org>
 In-Reply-To: <20261113-topic-sm8650-el2-v1-0-5183f6aab9fc@linaro.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -113,43 +113,58 @@ Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
  linux-clk@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
  linux-gpio@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=765;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1281;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=5I6Gvg7c3l0nKuQTPTMB1qG4Gtu3tCn1ElSv/OYu2fU=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBq91kfqRZ2T6Z/jRwXFApPsrgFTTTzef56ip9JaZcu
- +0RFu7mJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCavdZHwAKCRB33NvayMhJ0dVDEA
- CrHH7+4jU5ts96QV3jDNTfBIUS1jHasG0nj1eLihY/bmo6lA1tKVBl4/2atO1ONh9tdjvUbmnpWBLM
- f7NytOP/qR1Kv1DZ7Mypt9D0MFqCnU4enVQCHQl955hVJCYASUt87jCrZ52jevQwErwAEPYZZePXXZ
- agAc7p0d3Lhb44CizoL6rUCESDojCCmCq1xBo0MoarmZnxQuH7idX2uEOhnganXamYFVBIh9NdlxpP
- xz3k9hm/ppyrfbNx3FpP/IFJiCEr4aT3KP1i36r76b28wQpyo1++DnJAsoji9whgeTHwa5U6D2DoJR
- pyNoeiR264LZOspMBnCH8mri1gEajI1txnxkF2b5C4lpZh9+PSGfxVaTRhx4ksgJUaEVnZY+dLIb4T
- GiJs9ZwFLHXrKhcun09tfitGRCzqNEmE297jqlBQdsj3GeVoPMz245w55nz8NU2G8THZbLt4J18xTG
- k/+pUC15LpJ3kF4PDd1dhmsRloUCXrpmUcNXUTKU8Ua8tY8qrEGc5PEtmXsQJ/5KamgnVJGVknvWKF
- TmRb0eY6n1b9wgs8WMuRLq0C3XFXFLLz2tb0q35pnda0748n4rkc5ISPamXUo0r5hQ/PpAzlFoL+bf
- b6PnGHrK6/7aQW0AVOpfJgIuoi2DFtRYR+UeBRZQBLczS/0GMCjyZCXdSRqQ==
+ bh=7B0HLPkz/JmSein0hlLzb+UyX+3YoDiyYBasK2j51sI=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBq91kfPhvTXeMs73QmE5NQsahYZG9H830cDEBY6m9o
+ UEhCBleJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCavdZHwAKCRB33NvayMhJ0VCjD/
+ 9N0CE7ZXY2semuBrhYN0RyvNDEYoK7WutoyBIX5xdZDi43Z4J3tQePDZTIgp8ZFCYT9aiv6iW+vjmB
+ Lf9Yo9oJ66bHsV1hoAeXLrXicmkYA2NGEckDOE6g2tdkKXaIAJ8lFri+9GnGPOmeu+V21fWgKg10MX
+ TgUf4zSTk0mtjwhOgAX5H2EfWQmg0eubO5w4aEmLPfn4vJBx9y6eqbo3H5sFIvStYXxniE6jargFkS
+ fImd31BCwFKxStoRZJrbfUZDK1DlqyaSJfOV719LYbkYewTqbE8yh1sJHOYS8KwxBiNqUXPOtl6UH5
+ F2nPJNyuL7PGUKadHNl4hJ7v32XmAfQ43twMGR/vDOdmCy700unX5t9Y57nQL7tHjTCiesr7RPxzzE
+ gaDLBZ0IHe50oUdmjMoWImbsr3iZjLkrXPUwtg45m0i3uAJsyLY3D8JzgbewybuCv9nVcld/PV73EF
+ VfklXWvriz7PNi3AjEN+z9X7+3SjIOmCewotFOQQMgKDWiLx5cju3UfzuuGl6V15fVxORUnV+JdhCG
+ AAiSPsKru+jO0WEzQ8x5Rb+2ywsk+vdXIqAP+tODE2TUNe5gklfawC/OPSzdvCDhrWPm5um/xMIpFf
+ liQuTT+BHUy6GBVORrke3b9xJAz9GqO5UKYjwiCt4RKagd+C+Z5bzmIR5Bzw==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-Some SoCs like SM8650 have Senary & Septenary MI2S interfaces, which can't
-be referenced by the LPASS CPU DAI ids.
-
-Add the MI2S_SENARY & MI2S_SEPTENARY DAI ids.
+Add the bindings to connect to the Qualcomm WSA interfaces.
 
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- include/dt-bindings/sound/qcom,lpass.h | 3 +++
- 1 file changed, 3 insertions(+)
+ include/dt-bindings/sound/qcom,lpass.h | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
 diff --git a/include/dt-bindings/sound/qcom,lpass.h b/include/dt-bindings/sound/qcom,lpass.h
-index a9404c3b8884..22f5e1fcc8a6 100644
+index 22f5e1fcc8a6..5d8db5195dad 100644
 --- a/include/dt-bindings/sound/qcom,lpass.h
 +++ b/include/dt-bindings/sound/qcom,lpass.h
-@@ -41,6 +41,9 @@
- #define LPASS_CDC_DMA_VA_TX7 32
- #define LPASS_CDC_DMA_VA_TX8 33
+@@ -44,6 +44,27 @@
+ #define MI2S_SENARY	34
+ #define MI2S_SEPTENARY	35
  
-+#define MI2S_SENARY	34
-+#define MI2S_SEPTENARY	35
++#define LPASS_CDC_DMA_WSA_RX0 36
++#define LPASS_CDC_DMA_WSA_RX1 37
++#define LPASS_CDC_DMA_WSA_RX2 38
++#define LPASS_CDC_DMA_WSA_RX3 39
++#define LPASS_CDC_DMA_WSA_RX4 40
++#define LPASS_CDC_DMA_WSA_RX5 41
++#define LPASS_CDC_DMA_WSA_RX6 42
++#define LPASS_CDC_DMA_WSA_RX7 43
++#define LPASS_CDC_DMA_WSA_RX8 44
++#define LPASS_CDC_DMA_WSA_RX9 45
++
++#define LPASS_CDC_DMA_WSA_TX0 46
++#define LPASS_CDC_DMA_WSA_TX1 47
++#define LPASS_CDC_DMA_WSA_TX2 48
++#define LPASS_CDC_DMA_WSA_TX3 49
++#define LPASS_CDC_DMA_WSA_TX4 50
++#define LPASS_CDC_DMA_WSA_TX5 51
++#define LPASS_CDC_DMA_WSA_TX6 52
++#define LPASS_CDC_DMA_WSA_TX7 53
++#define LPASS_CDC_DMA_WSA_TX8 54
 +
  #define LPASS_MCLK0	0
  
