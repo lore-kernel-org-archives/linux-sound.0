@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.182
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794554280;
-	b=Wx2Sf2c+DAPQuAXp61ALwgnfZPt9m/PIHJh4CpHAMJREwQ5pg315I2dDeYct8YbI36Uo
-	 GVRuLsODhFJW/j11HWPZRrzrE5f2/SD7WQwbQkHEHnQIVZWMgPFBNFHH0MjPgfRckIrWf
-	 qKt+VFElunv1nwVFnYdTGfj8DvDd6pTHGHKSZDjFkoZmdUOxc1eHfsKjDU3xtAx7OhNp5
-	 046NWrTn8bH2IZwGAL38tf0C8700zN6h+8t51mcHyZkCWKx6b4P7eODe7bkjxUJ+XU/tB
-	 wGqPzjemYnCh8Qad1g3RNPfCoaYXqB75ExerwYznqCS4XjiJ+searPL1z/d82Lycryg==
+	t=1794554314;
+	b=4B6+hTsbrs8zFPcgylRmwXUeIStrcsugU2R64BU6dJLS9g5wOvsv9Pys1Yo14SapU6iX
+	 bM0Lsay3l5JnJeTgvdLTc73Uwjvw0COh+IdSRTF1TDVHcqgOvnoubcTsuyvnAojsI3F3f
+	 oh4Ac0p5GPKe8vDXMKowqKVBOnjizam9Lgtkm/pGGo1SVJ8bCbz4XIpztVLG2TxfUKeiI
+	 8ca80caM+rf20fr44geUHYRMfnkQm2Ib6Vk44HVfJ+82AABEPc28VYrKwui6PHo7OLugS
+	 rGvmka3/gcu6aQ3RdjmumcGS2O/4T9frQzZnqzQjIPBYDxbz6rfM3lLlrJGjMVu41fw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794554280;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794554314;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=jbKSRLmz7AprKYWxSmdsCwUxL3t+E9S5Fb7xZH5aS6w=;
-	b=cDTN2NuXMJuvg9YM9ev882yIkmv0mmGptwpCvZNetbXVmGB26qumDIqLKDalBcvOPkIr
-	 PT3nP6AWC49Nj19KwAE26SMU3j5XiuxF/QcOpjG5YsycBQZK3G8VFuAl3CIs6kigkff0I
-	 pyf91k5OU8N7YiZispSNUNLvUAZUVZApemz0PP+iT99IGXrYVnyVmmIpTL0zRPH05B4WW
-	 U82hz0qQpbU9v7O9fnifCjLj/KbFgQpVMYRhoxJTqBA1iGIqsk3o6db46MAsX8/Wmg+ff
-	 OHkGEMIH/sLY36Ri9Xe4meHd92GBgVW2ciwEBMvF/CNgUGFlp2L6rsk+6+1ROOowMTg==
+	bh=Z0+5b90eI0XV3LtvO+5dJ8DLir8th8z4fv/7Ku1cttA=;
+	b=g3SoBJadf49A2E0omEB3NnjH94PpWYRsa656gxhg81lLEREcGGh9zaK+Vns6GMurfhWN
+	 kJ95bxJPr+VT99m9GMJH5YctYtt8v9VIcTx5aWG/2G7Z8elSPqKcYgd1sthe//VO37Rma
+	 uhJqP1uA9HMPsdeLGZwpUu2fhB1qxWK3e+MiTScNwIxtSk0R8ZX2TsnDLF1jDXUGnTYoR
+	 Ooue/D4GD5wNRsgxTXYu3sq8TrjdsJhCRnmAR6DYUoLBtf/+Ahm5hIyPZCVR85bsp/9Zn
+	 NdBiS3DITdXLUOoNLLah6nHV6OsGWcyBNugrLj6a7+pzVmL4JEvVSCgFwF1XqTxc0eg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Sh33LIHe;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.173
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WZ9FO35Y;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.182
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0721C606A333
-	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 07:17:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0721C606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46976606A887
+	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 07:18:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46976606A887
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Sh33LIHe
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2e9ae391a05so3316655ad.1
-        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 23:17:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794554279; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WZ9FO35Y
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-cdab9e9761cso664071a12.2
+        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 23:18:34 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794554313; cv=none;
         d=google.com; s=arc-20260327;
-        b=gI7iOiMD5gOy8Y+TfKBupu8pha0+dLUyfbHCqgbCMR6yY7urz+NmsPdbOGjXa34YhG
-         nJkfQ+6ukk0W3wIzkHATEvLtlnnwXTRKOF55QQmqU45htLgQF4EeMB6fekQm6FD0IECP
-         E/kX4TUexTXcUPQTKZcGAHB9e0sNAGf8CXMYKaOEiifE3uzpKCly2ru2qG6B4La1EXb1
-         jMFLQPKOJswy5LfZD1huDDLusj2noMgjFCiGs1tzVJStlk0zqBIKCH59rvvUUt0x5dbj
-         nHpMSTkC4q2z3ONe1Y9mhrX0sO0jGCWaNRa1xyPt0C3cQSHokGFWzo94A2VluWNJmvxG
-         RKVg==
+        b=LhigeRuEkmqiblO6KLt9YdgQQqilSnPl7/fi4jhrGvZbROYU0O/WTLzEozH2trw7iM
+         IgjXmt/wUBZ0/gKKP3CuGDmjQAjhTwp1i55ysXqUaPAGoqAR+CFIrb7o+T30s/swxIR/
+         mhm6pjBXIwvOPyxTaC3hTELINB+GjSEsrgE3MUksOQI4df03ZwLwRlT7pf7j65fLX2Uh
+         5Lr6MSXxfSjlCwA59eGX9W6mK8id3+fH1u/+Ux2iPMWoTR4WzwyEbch06Yrcb9aZnYa4
+         OIPMcuqFKujfhe2l7QEX3BQJqx2bSbKGxOcIhfpKxvOqsjaJsk5Ege2dcESS/ENHDtZ2
+         YxpA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=jbKSRLmz7AprKYWxSmdsCwUxL3t+E9S5Fb7xZH5aS6w=;
-        fh=NHX24zQkWCJVZyoKzuM8ZIzz5Y9xzHf5/oKeqTwTHFE=;
-        b=Jk7QY7YpGWYfJoyEdc2FJ/7dkn0HdwRAeJOzExbeAvaMKNoiIgks8aNsgQ1EVXVK1S
-         LR6nhnVKxJXwQW1kAdCP6WV9zOH5K9NBVeUgHzWXygoxgNJha8s6uj35rK+/DrZUOJJX
-         JRVAC106NZdKq31u+MwN2wTMuGiA0eFrOp3QjMENodaKpAF/Gr9Ra0zray2YPCMAQdnO
-         bKgTqOXNIjBWDANjvZFrywWS0hSg9mSrzk7zzgOzJDzivGeoRiYam8OKoZ9IsZt+W7Ov
-         CMSia3368bSctuOykN7kf5JDnpLjv/ysJQz40jicUHjgssDjYqM10U85/aDECGq/hSHX
-         3H9Q==;
+        bh=Z0+5b90eI0XV3LtvO+5dJ8DLir8th8z4fv/7Ku1cttA=;
+        fh=RPXlrIhphW0ejLO+ICD8IUkRFjWe2goTmxanotP6ssE=;
+        b=X6Ut/vd0gPklbLMRuMaYejXYjYueTnIYWsFbR6lyVj21YLQhnjiLiqj26eQIm6Tnxu
+         ieUGGFj0MUiO6ioIYy38WC3FKSFcaocToUs5P1mw89hajnsx6kD50h6+soh+Fg4AHmDu
+         VKqP6mRlTcVnIaWE21378bWV8/MAcADRCzVyJfzEu2i/CRAvZQlRMVDys7Yn8iXulKpu
+         pzvwWH883Y2bdxWs35m0gz9wwndhEKhKtleqkbHbPMnYxqZU9GleNpZTsU9frzLmTWZO
+         M5C2wXxY1z0yCCuQ/Aivb9HZUpMRYoRaBKfxid6x/S7nRU623XNqhy3ZQIg4jye62LrM
+         Fhvg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794554279; x=1795159079; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794554313; x=1795159113; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=jbKSRLmz7AprKYWxSmdsCwUxL3t+E9S5Fb7xZH5aS6w=;
-        b=Sh33LIHeO5IhWI+6vT9hMrMHZ2MY8ie+WnxuedyB8mSsNnfXN6G1T4IK5+j3wTRxbG
-         Z2rPaIFuMYYXNa5LUbPzizDQhsLc3lhABqmg+rNBEZFXJ+Qc11BV2p0/vp2gCRi0mjES
-         S6dFXmAV1McmhOWTMSBHu30g6HJ2Z1erAH2LsY4DzJSPa+PJ6ixLsHTyyCQE6JozUIU0
-         HtrMkf2ZFiUNaDtaWecK/8RdOL1wPmvQ4H9wHv+rpLQT/4wWFjHqKVmlT4ZXR65sfl2E
-         Bi2YhL1A8IhzGBSrvdkB3ioyxIdEWwYIUwQLi0Cac5g3Udpoj2mL/2Qanpwb1yFsbgx4
-         y3pQ==
+        bh=Z0+5b90eI0XV3LtvO+5dJ8DLir8th8z4fv/7Ku1cttA=;
+        b=WZ9FO35Yj2EGZ3glSIiD7E702fDDmutFYe/FV68QwbfJ0wErGMDSFndeI7bUHZDuzH
+         1fsYwRhy01PCTAZ53snqly4ETL177Q6fAb1zukxr9mnZIqSUxcUmJ71uejWVdqHG0Nq7
+         /lpQDQLbShA3vJ1VnMKScc+4zSGJUWM3NDuVI88nxRKAjjGUFPZL1QK7AcFAmxsbmum3
+         bdsoNqk9m3VURMpsXuePx39UEpio5rM5gGzf05GSyI5ikPaaK5Dyrp1jKBbilKZGvNIW
+         24fxaCAL+apzDOsnsYWvvsYflSmJzykcU3Ek4ElMPIZX4i1hmfsL2ZgemilttfVUcSuA
+         shCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794554279; x=1795159079;
+        d=1e100.net; s=20260707; t=1794554313; x=1795159113;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=jbKSRLmz7AprKYWxSmdsCwUxL3t+E9S5Fb7xZH5aS6w=;
-        b=GEHY7lXrtclkh2nFns12LB6Rvmesw6hDfcPS2Yr2ffs+g6QFJWZaO4x/39xVtmtFAc
-         QD+n530WlGDxnGyKfSuZL53WL4C7TWnoe2JyAeYo5WV6I2M3gHezkPxPHgrcQKUelt2f
-         2MxZuve5XoFqeVXjoFOqT7utpEpfK/N02THZpCXJKJ/f5IIG87fnGGEb9qzROAQ3WGR5
-         4PHc2qG+cn6QP8KXquhQeSQkKSC2K356g20xn2AlPpxKJB5O+0aFwRmQbmuM54hdnO9p
-         G81YGZnxQxKheuXbQToaIW+UMdYoPW0uQ/yYcKp/i7I6OCsqa1C4ZdcXEzIoU9MD0Ki1
-         IqqQ==
-X-Forwarded-Encrypted: i=1; AL+hErGnbhrbQVP3oLUz+RmQxVABUpeiCOQ+o4qrfWOfdfQ5AcGPj5zNNW+kWiIX7WtnehY3JpiakZMRzKVYeg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/P03zBa9gVWtKJX+bTXnjtwev0EwXAgIpd77QCnmIIuUHEz4Im
-	XiPWbJ7VsomXA7G+D09njZe8/O/KJmmUVwOYG6RUpabV1yuzTl6v3FJdZfM5A4aReGij+mzkPeK
-	BOQ9GVRc05ehx30TExAJ4yApRgozG/vY=
-X-Gm-Gg: AYBFou0+V4PaaaF/n2C7Jo+hZEgGlzbR/AcPaOJ5I+RyiBvB7epc4h9jfYyxRqYrfmi
-	HkoQVZS2jC8hB470ObnoaDsi/GsBPz59iqAdYtHwyCa2wLhNuWq576PbZuA91kEFlJf31y2fl2c
-	Fkny1HWOF08oNGiaAQhxGrrsZ07vFUHsqzuug6a4KLoxVPmLdUnxRBDtHnhlfWo2WBnywxx3ilZ
-	u8ukyGnybhKrweekzYnhB/BSuRtjBN/ciHuCsfU8QRvXWauyAcGTf29v6LkLpKLoInIA6b+xab3
-	+HAwcrvDmICKgEJ6uWz39f2uU4Xv/0I0hG/tSGGT9sXadYJlvhHkryUabdab4ojoR9dRa20k8ha
-	mOt9D4ICB6WhKXrp8a9r+pCp6Qeslo9T8SwdxgA==
-X-Received: by 2002:a17:903:3b8d:b0:2ed:fb0:bfd6 with SMTP id
- d9443c01a7336-2edf1e7b485mr31047135ad.11.1794554279295; Thu, 12 Nov 2026
- 23:17:59 -0800 (PST)
+        bh=Z0+5b90eI0XV3LtvO+5dJ8DLir8th8z4fv/7Ku1cttA=;
+        b=oEJOkcP76WhGvJDcmQ3eP3jEmLGUBa/WnyWU1y5oAZ9dxERbvb+ZBfy5XYPc7/gJCy
+         Jvycubg9UkSKc2SSk+3lJCqkZ6rr69TqqUO2IlQg1I/VxcFFKcOr5X6w6hfsWyo8hWQV
+         E4wNu1MyvnhhQiAOpr8oyztmHyVYok1FGMbjDMkW3FGbcHfzEk9G/dSSF7MHKBagA0Ae
+         kaKbjrSRpLF976P0DMsZ6vS+nzae8a71wdGcxjQPsP8YGjQagtA8aAwUNzmg8uX0N5wd
+         UcLTBiGOVAU6LvXAmNTelavJChJRSEVPOAlBN3W8HFVVEt7Jh5x7PRk+YEflVe6UrGej
+         528g==
+X-Forwarded-Encrypted: i=1; AL+hErHJLp9GhzSfO+ZCCboz/DCXmex3Wa0m5REUP9sueotfN3aKd+nJALNwrikwRnLkb7If8weATm6Ou+pX3Q==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8RGt1TdeQFyoUEZ3V1jGwYFcT7hOI3bfnoWPWHlkdNRZqmQbQ7
+	9xmGtAqLOl0aeDSwMbbJxBKruc9YJLBXQ4A3k40ui+aWUxZtQPaqve+mO26IVRQKGyXtRv6msO+
+	Bps5+oipws35NaFqz8BK6gbx+LRh2TUY=
+X-Gm-Gg: AYBFou0Xwud+Vh4rmVeaprpDP71Ompe6Vq+LPporTFN6OrW4wzBRtL8vMZBJevgjQE4
+	ZabPfIjJ9PZxvvjXXpI8CkeqRjMlk2QX27M1GkqaL4b4X7vppYVyeN+8slrrIfrzlJK/MqAY7Q/
+	eOgNpibzzGaNbfH3WC5mzJ91rMaOKqLK/EVQ1IAOqR/s29dRHvwnR8z7iYtGw92F4aU+JCHXyzu
+	VstXnHdj4KEAbtOmwjAtS8vOPrWWyTNdU+z104CkGgJ4w/3tF9TekD5lwl39EacIRnf/h+3A+7G
+	F5dOlbG9m91BzKTR/Vu/7zX3zSB/Nr7uarTo4xpBBDNqB4KpufipLrCHVplxlVr2CfE04eElklw
+	dGswLnZG8XPP1fsBJ/tzhrKjq9M7WVmV5BMS0
+X-Received: by 2002:a05:6a20:430c:b0:3e0:f8f3:ac70 with SMTP id
+ adf61e73a8af0-3f7a7fc6dc2mr1584952637.61.1794554313512; Thu, 12 Nov 2026
+ 23:18:33 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,13 +104,13 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110075841.12104-1-phucduc.bui@gmail.com> <20261110075841.12104-2-phucduc.bui@gmail.com>
-In-Reply-To: <20261110075841.12104-2-phucduc.bui@gmail.com>
+References: <20261110075841.12104-1-phucduc.bui@gmail.com> <20261110075841.12104-3-phucduc.bui@gmail.com>
+In-Reply-To: <20261110075841.12104-3-phucduc.bui@gmail.com>
 From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Fri, 13 Nov 2026 15:17:43 +0800
-X-Gm-Features: AclHuK8Qa8UhTmu61wA20WzrbFp-wCX63PxUgDbDHkpoSTkKO8stJMNsRt0tw2w
-Message-ID: <CAA+D8ANZB6jviDGAdLTc9K1ZGmmfRCSXrkpqLCuy3DVqcB8uNg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ASoC: fsl_sai: Make fsl_sai_reset_hw() return void
+Date: Fri, 13 Nov 2026 15:18:16 +0800
+X-Gm-Features: AclHuK_pBW-2Dpv2BcGIOJH5pev5KvmpGX7HHdiyRgy9dTc9bXL9f134N_0U2VU
+Message-ID: <CAA+D8AMP=4jc-_Nwog5vqw6nsxjpniy_Rt0xy6ca8d7ko8MQtA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ASoC: fsl_sai: Report dataline configuration read errors
 To: phucduc.bui@gmail.com
 Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
 	Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
@@ -124,58 +124,39 @@ On Tue, Nov 10, 2026 at 3:59=E2=80=AFPM <phucduc.bui@gmail.com> wrote:
 >
 > From: bui duc phuc <phucduc.bui@gmail.com>
 >
-> fsl_sai_reset_hw() has a single caller, which does not need to
-> handle its return value. The function already reports register
-> write failures through dev_err().
+> fsl_sai_read_dlcfg() returns errors from of_property_read_u32_index()
+> without reporting them.
 >
-> Change the return type to void and continue clearing RCSR even
-> if clearing TCSR fails.
+> Add a dev_err() call in fsl_sai_probe() to report failures returned
+> by fsl_sai_read_dlcfg().
 >
 > Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 
 Reviewed-by: Shengjiu Wang <shengjiu.wang@gmail.com>
 
-best regards
-shengjiu Wang
+Best regards
+Shengjiu Wang
 > ---
->  sound/soc/fsl/fsl_sai.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
+>  sound/soc/fsl/fsl_sai.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
 > diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
-> index 430e896d064e..59c9b8c28133 100644
+> index 59c9b8c28133..16197f9ac2d8 100644
 > --- a/sound/soc/fsl/fsl_sai.c
 > +++ b/sound/soc/fsl/fsl_sai.c
-> @@ -1410,7 +1410,7 @@ static int fsl_sai_check_version(struct device *dev=
-)
->         return 0;
->  }
+> @@ -1621,8 +1621,10 @@ static int fsl_sai_probe(struct platform_device *p=
+dev)
 >
-> -static int fsl_sai_reset_hw(struct device *dev)
-> +static void fsl_sai_reset_hw(struct device *dev)
->  {
->         struct fsl_sai *sai =3D dev_get_drvdata(dev);
->         unsigned char ofs =3D sai->soc_data->reg_offset;
-> @@ -1421,18 +1421,12 @@ static int fsl_sai_reset_hw(struct device *dev)
->          * Bootloader may leave SAI running causing interrupt storm.
->          */
->         ret =3D regmap_write(sai->regmap, FSL_SAI_TCSR(ofs), 0);
-> -       if (ret) {
-> +       if (ret)
->                 dev_err(dev, "Failed to clear TCSR: %d\n", ret);
-> -               return ret;
-> -       }
+>         /* read dataline mask for rx and tx*/
+>         ret =3D fsl_sai_read_dlcfg(sai);
+> -       if (ret < 0)
+> +       if (ret < 0) {
+> +               dev_err(dev, "failed to read dlcfg %d\n", ret);
+>                 return ret;
+> +       }
 >
->         ret =3D regmap_write(sai->regmap, FSL_SAI_RCSR(ofs), 0);
-> -       if (ret) {
-> +       if (ret)
->                 dev_err(dev, "Failed to clear RCSR: %d\n", ret);
-> -               return ret;
-> -       }
-> -
-> -       return 0;
->  }
->
->  /*
+>         irq =3D platform_get_irq(pdev, 0);
+>         if (irq < 0)
 > --
 > 2.43.0
 >
