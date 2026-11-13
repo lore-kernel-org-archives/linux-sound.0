@@ -1,90 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794552411;
-	b=GHdRoG1IzqHxdPoVcOt64mCj9BnClClRRMRTrVJJswW9umicdmd6Brs0CENcqAh1K9Q7
-	 Jf6O+biQkq3Lmbxt/5bEPz12ZlTOQe5H9EVERbO4eZ1/W/tNL+rda+z0DLc19F+JN56PJ
-	 vM7FIIpoPObWXJQukKWmcu0svyjXLCLImPEwvrEe/GPmx2knXRcwzx/2226reo2jLfOn1
-	 Ckw/1s0eqmuaCfIFsfotQXfCEf1DGqXRzgVMzdUtTMzDDcK6CRfBu5cxaICSBlx7EVYUY
-	 rWnBb5NP2viALLzKvUTFqlknWV/ykshN9tV2OWaj0I4h2gQXsCllaiJxpkDT/fz95KQ==
+	t=1794553448;
+	b=zo0LlZ3ytIAjbMrhB9GDTyHIrzRA3v+Hdovqj8WfwE4ZSEXnAc3CiZLd+Sts8Mk5wGDZ
+	 SpDHdGp9IFYL6HR1yy6wAcJ9C32xPkhVP2qrgBuwZklM+BmI/JAu335sUBAWH4+D0d+lD
+	 VcWMkHfftXq4+lOlupEPmmmAjW5sfvkGe6m68SVgt98leZqycuagxkkJTrj0vZNBRTggj
+	 qn5JbBBhrkKfYs5N2CBv+Rr/pdHv8ludA3Tz6rhn0kqfUDq9JEXPo78e2D0zXT2ECdqe7
+	 tYkfaul1Yoxi+J7ziSymK4aLoh2Cn7G99mL+yxL3m5SH0asPCiymCLbNsOy04fms6yA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794552411;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794553448;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=GTUBLPeqm9O6jPD8kLy/taX+gmnNGDm5WEYH9XnBy0M=;
-	b=r7CUvRp5lX8P5G6zIxBu+QwyTfBoOp0YNEgGL40ufNNxH8h76qdL9CDWI2nXYS70U2ig
-	 dHkuMSBIXBK8g0LBna3B0uszAOKkrfyNmlaBZ8PavCwRQwPIUpiNr3j3r0Rer9Jb1kSCV
-	 Q2qO/OT4rgtX+cHhuvfGAUDPXHKCJ4jcEefZ1X4I+oIVayt+px2a7JrSn0J7Ltk4Yj4wj
-	 L+atYgcrDmJ31VM1Q9AaAJJ3XjDg/hiFiNA6x5frSdgJavmYKhMJkzTodw/KqQvs9aIGk
-	 NliBc+5RyACEmU2/uW5kHtFam0/sFhjwCb4eq4yUBxThnZECUUmHlsB9EGtNvGsmaMw==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=yJI/AwvWw9ZtcVwYBN7RmHmHmpfI8JmDi9ntIdzMotk=;
+	b=lmzx1A35Q3qODsJADbAwgHqGAT+Ql0utvsb/cElekIkeZIAvyIXCwYWuZaWbepx3adAC
+	 WUlG3kdqhhQrn+fe09KWjAmF1sI7v1E2DskJSZP8j6fWR6t+a0EznaSPN0DEWqPaaW+fJ
+	 h+X+6pKywPlxzRW3LyQ7kLgs6s4JdXGabk/z45sjWCp6xKdPF8dARmXpWuKFFqTJBSGy2
+	 TbKFCmipitVemb8Sw2yS1vAVoCffC8iGuPUUphKWXm8d3bRheCs6nfuLhZH/oWvvGn+Zx
+	 j1mWuNNHP6JEFXUg3PrsFk7oN35/DXF/OCMWI86A29oEM3ohwqAdmsv6LwCwm4bw78Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="WT++/oA0";
-	arc=none smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FQgkAmWW;
+	arc=none smtp.remote-ip=74.125.82.178
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0746606A338
-	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 06:46:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0746606A338
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDAB6606A323
+	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 07:04:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDAB6606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WT++/oA0
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a5036bbac7so2697125e9.3
-        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 22:46:50 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FQgkAmWW
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-37628596783so1178094eec.1
+        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 23:04:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794552409; x=1795157209; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794553442; x=1795158242; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GTUBLPeqm9O6jPD8kLy/taX+gmnNGDm5WEYH9XnBy0M=;
-        b=WT++/oA0vxnctUW92478QUirej1tXwpX3z2mO4oGFC/lk9QdCKVL71ewazttEdstdz
-         DisQtY+tSVq39VuVseV9i591FItGuFQnWR3ojwY2xN75+WB88fReanrjvTcQ4F46Qj3B
-         MKgyloNwwjBAILm6KqWQoNSEgobuhfegs+Kf0tr/V5gFiP8RtSKLtMjEmvFlJRqodZW5
-         81Lz4Qjt8Rn4WizeCeHOtlnb0ZYjUmi3LBx/AojsSkjP8oW6Iu4nb7LyZClpt8WGvIYA
-         0fFSKBtVJaDAcc1wgz/6p1oV4gL5s8b0sDXuQDPocJ0QHJasrBq8ZtM937YMlYHrklFb
-         BtQg==
+        bh=yJI/AwvWw9ZtcVwYBN7RmHmHmpfI8JmDi9ntIdzMotk=;
+        b=FQgkAmWW4/I0W4K20CURutWBmGJObO1eojobdvW1efUvVPMdcVdAAW4wrWVb1VSPRc
+         Xb18tS1oPeyJILsOogzZd1xWKkODzM1onNrq6oMlpDYNffgwhAyPOJ/TpFVTXSOzSwf5
+         hzN2sQXNW2e8zqmgE1FMUMxPnTcXIkqlu3H0X1aOimK5Od7A11b0SoyD2fK3BGcFT1OE
+         Uo4sDqn+YSIAihI84sFCgf5Wz5hiw557M/NrtnYf+VS50UMzR2NcG6AQLzNsP5C5us7H
+         BvT1WtWfZM01uGrhc4w9vpamf7w7LfJvPabaYZ/2VQeQzjl7xI+UfzyWCt1mnbBGbuKm
+         eFGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794552409; x=1795157209;
+        d=1e100.net; s=20260707; t=1794553442; x=1795158242;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=GTUBLPeqm9O6jPD8kLy/taX+gmnNGDm5WEYH9XnBy0M=;
-        b=UqE0s2LXpph57BzKSdyKDWLnlhxDGKfG0IC2JPx0UA+HLjpAYApl12/qAjf5/jevcl
-         6CqWHDF3xZ/cKHWkjyy/wNS1nzAxHsk4oOoMcIA1/TWTqgre+TZ9V6bUBrd1bQhkX6pf
-         9+agGO1MQi82dmnqDid5tMlvW1OpqjpXqqyLFipiTWZjE9RrbuJC52k7TErUMppgoIdV
-         c4e4C30UwwcUSX9/0fGJVwH3VhMATtIr0v2/+oEpR+sE2W5pAwHUnznrf1tQr+SMCTL2
-         DYHIzk/sWCyWcS3XnlIu5/q4uEhP6T2mXnGrzZqVy9bE1AwG2aXCihSODkEGF1oeXtxp
-         0okQ==
-X-Gm-Message-State: APuU4Z9K9DrVTf3eSNIrs/vFweTmGrZQlw+23Q9vuxPGBG8J5V4Pwz26
-	/wgBBlbSLh9uKhIaKfQ9rBnlka/DV4xPcVAmAkXk00MupFx+B69zXOs+/1QwDsMx
-X-Gm-Gg: AYBFou2p72m2jGsJ/AoNIaFDsstDQhYbKNjR8P+pMTaNTbdpFFCibikhdIQ+rmlEWAR
-	B2D1zIV+XdKJdgXO1CgfDV5+p4FjaN7ySzFcb++81N8nk7xr+Mpj3nnjw59eAFv2+wHveNwBW5S
-	lmHRPbJU+xqI98SFNPTAoLCxFKW8XyNa1sM5aWjUYxsop6b1q1//1p1U8iTQ3Hkv2k1sCwF+eLW
-	OVAKh9vdTQBUcn3hYPRokcryywasNleOV2LcYmBCNkCQlqLsvfaqjNLdO7zew0kFBCgWv18Ejpu
-	uOt/EKBYJweyx5MWcSv6+AAhyjtrasxP5Ni1W03rYcO7GJHgo/NQzodEBUbfu9nvA/p8q0TyEFE
-	0rThL8hAtDMBXd7+G+NTDpbk8H+vxdSO9d78+UC8UW8+RTuhqna/qIuckkMY9gWwSDWVOV5sR39
-	IX+n3b5Z8QyAIqJKSGBLYz9n3VdYSUp6q8Q6o/yK5nNUDgi+BgGV3z0Ic1qTeFg2XR7yCaHfDV6
-	4jud5bj0KxoELUqxnIX3QqXf1vLwxlGXNkIHHxr537iGZtMAFWo+T+/37L+jGs1bDTdpPkbjgR8
-	l0k3ets6B8uyhRilcv1XATqfnMJnlE/oCQ==
-X-Received: by 2002:a05:600c:548b:b0:4a2:1364:252b with SMTP id 5b1f17b1804b1-4bb55ab07c6mr30002985e9.35.1794552408980;
-        Thu, 12 Nov 2026 22:46:48 -0800 (PST)
-Received: from kreach.multipass ([77.37.5.67])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e252f7fsm136496525e9.2.2026.11.12.22.46.47
+        bh=yJI/AwvWw9ZtcVwYBN7RmHmHmpfI8JmDi9ntIdzMotk=;
+        b=P3OQ7KsTMiuHR67XlY/yqqAFzJGlSarWwQaQ5IgZxknSMwT4wRV+yLGXuEAcqEn6pb
+         l4F52WzZ8doNf9FdM8oL15OFqPU5IOMZZxckm39YlvUYSlrJ8vDicfzOsaDiGWD+XOd3
+         wDprNcoPEhc96lEfZakmTZBqXoMX6T/tozmHbILmJ68vd8aDwg3him1MOxPZMpHY+Knk
+         x05cCjVY7o2uwLTu60EHPXhbduhmTVrYTs1PtY7m9BKAeMteHjMPUW7ugXSxGsa1pWue
+         LxFtI1hjJBsEdTj5AmJMrho4/l+ntYpwbeKxNNY8bcmEg+zDJwR+iKUWfAeGNXBctkHP
+         bpRw==
+X-Forwarded-Encrypted: i=1; AL+hErGqaDlVlxbXUOk458V6F04+VyRkB7X6WrPoLgYSlyHOzACKCHZXZFShPuO2SQjdzDUGjSCAz/IBRH9+8Q==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8tNuF00aEbp7iiYs6gjYti9JY5NrhIifIz2yNvGXWtsGNlAphK
+	T7pW21wfxQRv2AG97c4OA9NYnZYedgeo9+N1tTmjRmscpYQXEDXMBOJDy6mj9ddk
+X-Gm-Gg: AYBFou2OEC+IWWStiV5P8OlrOoHm1G9jAsy1+6tMSChbxI955jDjed8zTx4jrBaGlnn
+	W/5r54BGM30+m1fK9QVsP3vJi5kF8IafhPbH2s2pefIXfsfWpHeSrCHLXU2FQJXoH59s4PMeiDi
+	bCnpHJOx80xcugLrFJ35uq66O61FA11uLhvDaJZAvO/ayHcHIFEVHnzdQnPDBAVkchcQM9Jbvo5
+	5LS1V4HNzG8RH9pSqIE+evaUJa0vNvnsox4gt+8FJLGUHsWVXtbP7hgJz7C1WHqhfUptdkP1wcA
+	VqUu4LeczOq2WWIbAlnN7BP1vAVTYGuINULyPVNPEy0WUYbCqoKLLgrLLuLo5HpjjynhY9jdn1t
+	lLuI9lA8aXV55ujy/Qt1MvRb5hIqcEm6N+qvTJqxLc8x1gR8iIQ0so0Fwx0WWz7/mIQjpRyVwOF
+	tCE57LLmHCGETpe03NqpBbCkoYGQBK+kKQEo6NhYKAw0JLgjauxeNndkYbiQDVIvdZElOxfB+R9
+	bJ949Q5ByTZDjiP6pzpr3AKR2sRsThAgyQpbr/1CDBKKsRRbtq58Ya/KmPZitKL/Odje1gbLGhL
+	+phLqSwlO9gD2yI/Zhax+VvKDOl4RIZy1okppJtsYfGMfQDcC4l5
+X-Received: by 2002:a05:7300:d80c:b0:376:682d:bf1c with SMTP id 5a478bee46e88-379679e4a36mr1513614eec.41.1794553441845;
+        Thu, 12 Nov 2026 23:04:01 -0800 (PST)
+Received: from localhost.localdomain ([103.149.158.176])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37955f01d68sm4487778eec.17.2026.11.12.23.03.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 22:46:48 -0800 (PST)
-From: Jude Gyimah <jude.gyimah87@gmail.com>
+        Thu, 12 Nov 2026 23:04:01 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
 To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jude Gyimah <jude.gyimah87@gmail.com>
-Subject: [PATCH] ALSA: aw2-alsa: select SND_PCM
-Date: Fri, 13 Nov 2026 07:46:14 +0100
-Message-ID: <20261113064614.15045-1-jude.gyimah87@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	tiwai@suse.de
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Gentle Reminder: Pending Patch Review
+Date: Fri, 13 Nov 2026 07:03:39 +0000
+Message-ID: <20261113070339.2750-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -96,45 +97,15 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Several stanzas in sound/pci/Kconfig select SND_PCM.
-SND_AW2 selects nothing at all.
+Hi Takashi,
 
-aw2-alsa calls snd_pcm_new, which sound/core/pcm.c provides under SND_PCM.
+I noticed that my other patch has been received, but this patch is still pending review.
 
-  aw2-alsa.c:(.text+0x554): undefined reference to `snd_pcm_new'
+Patch: https://lore.kernel.org/lkml/20261109092249.3559-1-sreekuttan2156239@gmail.com/
 
-4 symbols are undefined in all.
+Could you please take a look when you get a chance?
 
-The driver can be built into vmlinux while SND_PCM is a module, in which
-case the symbols are not there at link time.
+Thank you!
 
-Select rather than depend on: SND_PCM has no prompt of its own and is only
-ever enabled by a select, so a depends on would leave SND_AW2
-unselectable.
-
-Reproduced on v7.3, arm64, with CONFIG_SND_AW2=y and CONFIG_SND_PCM=m.
-
-Found with kreach, a static check that compares what Kconfig allows
-against the symbols the compiled objects actually reference.
-
-Fixes: 98f2a97f207a ("[ALSA] Emagic Audiowerk 2 ALSA driver.")
-Signed-off-by: Jude Gyimah <jude.gyimah87@gmail.com>
----
- sound/pci/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/pci/Kconfig b/sound/pci/Kconfig
-index 6366f72b3667..9c192d51ff44 100644
---- a/sound/pci/Kconfig
-+++ b/sound/pci/Kconfig
-@@ -141,6 +141,7 @@ config SND_AU8830
- 
- config SND_AW2
- 	tristate "Emagic Audiowerk 2"
-+	select SND_PCM
- 	help
- 	  Say Y here to include support for Emagic Audiowerk 2 soundcards.
- 
--- 
-2.43.0
-
+Best regards,
+Sreeraj
