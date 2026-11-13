@@ -1,91 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794553448;
-	b=zo0LlZ3ytIAjbMrhB9GDTyHIrzRA3v+Hdovqj8WfwE4ZSEXnAc3CiZLd+Sts8Mk5wGDZ
-	 SpDHdGp9IFYL6HR1yy6wAcJ9C32xPkhVP2qrgBuwZklM+BmI/JAu335sUBAWH4+D0d+lD
-	 VcWMkHfftXq4+lOlupEPmmmAjW5sfvkGe6m68SVgt98leZqycuagxkkJTrj0vZNBRTggj
-	 qn5JbBBhrkKfYs5N2CBv+Rr/pdHv8ludA3Tz6rhn0kqfUDq9JEXPo78e2D0zXT2ECdqe7
-	 tYkfaul1Yoxi+J7ziSymK4aLoh2Cn7G99mL+yxL3m5SH0asPCiymCLbNsOy04fms6yA==
+	t=1794553844;
+	b=0rz3apggqsZPC7DnGTUY5SpcVhRN7UiDcsUySCnnDhwzKRdwUZ1k86uE4Bt4iDBA0WRH
+	 HZLCElCyptkmAjZaufMKwPZ8jnczNdJnwFpeTYj3yRANL4e8NbDd3hvrwbNtGRR3/Ex9L
+	 /v7uYYU1mAghPmnlT7d4bW7iV2VErNo2DVHbER7c4+49j9W8Z6NPAlBk5nFzwwXxZ4X0Z
+	 l4Cezk1HzPNcZKFPc2uPiRw8vPK0IzeJwtLNEUUeJEQq2L3F7sjg6L/L0/HvDbxoIyZmx
+	 enFUY13X4jpD97F2BGIFJ86HlUMzlbTMuPPJg4rUIdV9qeUMt/Qm0vHQYhmZPQUmI5A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794553448;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=yJI/AwvWw9ZtcVwYBN7RmHmHmpfI8JmDi9ntIdzMotk=;
-	b=lmzx1A35Q3qODsJADbAwgHqGAT+Ql0utvsb/cElekIkeZIAvyIXCwYWuZaWbepx3adAC
-	 WUlG3kdqhhQrn+fe09KWjAmF1sI7v1E2DskJSZP8j6fWR6t+a0EznaSPN0DEWqPaaW+fJ
-	 h+X+6pKywPlxzRW3LyQ7kLgs6s4JdXGabk/z45sjWCp6xKdPF8dARmXpWuKFFqTJBSGy2
-	 TbKFCmipitVemb8Sw2yS1vAVoCffC8iGuPUUphKWXm8d3bRheCs6nfuLhZH/oWvvGn+Zx
-	 j1mWuNNHP6JEFXUg3PrsFk7oN35/DXF/OCMWI86A29oEM3ohwqAdmsv6LwCwm4bw78Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794553844;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=vqeQyaGd9xzwSm9PKCpt1vNaIQUQQtuZgmUR3yIDAmw=;
+	b=kzkJVSuF/NINinf1bc8jFRp+MTlf/uKHp1LYiOltYu0qv/b+GXYkt60rKjRqMcT7mdti
+	 Calob0Qsilq3bSnyTbd9TiNoWhXGPZchD2WDOCyJG2u24FKmWC1MGOyurGDrn3X9Eg9LS
+	 hs2KPa4pT0b9E1uDgKt8qFMZDF2WHoWVvN36ZLEVBS6pmPx5482fD08RDBefhhuY6XFvo
+	 JS7qq0hRNAwe3Opmy0/FzA0AVbOlJopyJF4YFo6pOLzG1o4Wpe2uDlKRDt15bbgO+r1pH
+	 LSFpeXpQudFjYDOkFfPoFSPWCGVAbvvpCI753EWBTJhjdlgnsCI2Fowia97AoYOEJcQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FQgkAmWW;
-	arc=none smtp.remote-ip=74.125.82.178
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lWyePUXh;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDAB6606A323
-	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 07:04:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDAB6606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992CF606A321;
+	Fri, 13 Nov 2026 07:10:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FQgkAmWW
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-37628596783so1178094eec.1
-        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 23:04:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794553442; x=1795158242; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yJI/AwvWw9ZtcVwYBN7RmHmHmpfI8JmDi9ntIdzMotk=;
-        b=FQgkAmWW4/I0W4K20CURutWBmGJObO1eojobdvW1efUvVPMdcVdAAW4wrWVb1VSPRc
-         Xb18tS1oPeyJILsOogzZd1xWKkODzM1onNrq6oMlpDYNffgwhAyPOJ/TpFVTXSOzSwf5
-         hzN2sQXNW2e8zqmgE1FMUMxPnTcXIkqlu3H0X1aOimK5Od7A11b0SoyD2fK3BGcFT1OE
-         Uo4sDqn+YSIAihI84sFCgf5Wz5hiw557M/NrtnYf+VS50UMzR2NcG6AQLzNsP5C5us7H
-         BvT1WtWfZM01uGrhc4w9vpamf7w7LfJvPabaYZ/2VQeQzjl7xI+UfzyWCt1mnbBGbuKm
-         eFGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794553442; x=1795158242;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yJI/AwvWw9ZtcVwYBN7RmHmHmpfI8JmDi9ntIdzMotk=;
-        b=P3OQ7KsTMiuHR67XlY/yqqAFzJGlSarWwQaQ5IgZxknSMwT4wRV+yLGXuEAcqEn6pb
-         l4F52WzZ8doNf9FdM8oL15OFqPU5IOMZZxckm39YlvUYSlrJ8vDicfzOsaDiGWD+XOd3
-         wDprNcoPEhc96lEfZakmTZBqXoMX6T/tozmHbILmJ68vd8aDwg3him1MOxPZMpHY+Knk
-         x05cCjVY7o2uwLTu60EHPXhbduhmTVrYTs1PtY7m9BKAeMteHjMPUW7ugXSxGsa1pWue
-         LxFtI1hjJBsEdTj5AmJMrho4/l+ntYpwbeKxNNY8bcmEg+zDJwR+iKUWfAeGNXBctkHP
-         bpRw==
-X-Forwarded-Encrypted: i=1; AL+hErGqaDlVlxbXUOk458V6F04+VyRkB7X6WrPoLgYSlyHOzACKCHZXZFShPuO2SQjdzDUGjSCAz/IBRH9+8Q==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8tNuF00aEbp7iiYs6gjYti9JY5NrhIifIz2yNvGXWtsGNlAphK
-	T7pW21wfxQRv2AG97c4OA9NYnZYedgeo9+N1tTmjRmscpYQXEDXMBOJDy6mj9ddk
-X-Gm-Gg: AYBFou2OEC+IWWStiV5P8OlrOoHm1G9jAsy1+6tMSChbxI955jDjed8zTx4jrBaGlnn
-	W/5r54BGM30+m1fK9QVsP3vJi5kF8IafhPbH2s2pefIXfsfWpHeSrCHLXU2FQJXoH59s4PMeiDi
-	bCnpHJOx80xcugLrFJ35uq66O61FA11uLhvDaJZAvO/ayHcHIFEVHnzdQnPDBAVkchcQM9Jbvo5
-	5LS1V4HNzG8RH9pSqIE+evaUJa0vNvnsox4gt+8FJLGUHsWVXtbP7hgJz7C1WHqhfUptdkP1wcA
-	VqUu4LeczOq2WWIbAlnN7BP1vAVTYGuINULyPVNPEy0WUYbCqoKLLgrLLuLo5HpjjynhY9jdn1t
-	lLuI9lA8aXV55ujy/Qt1MvRb5hIqcEm6N+qvTJqxLc8x1gR8iIQ0so0Fwx0WWz7/mIQjpRyVwOF
-	tCE57LLmHCGETpe03NqpBbCkoYGQBK+kKQEo6NhYKAw0JLgjauxeNndkYbiQDVIvdZElOxfB+R9
-	bJ949Q5ByTZDjiP6pzpr3AKR2sRsThAgyQpbr/1CDBKKsRRbtq58Ya/KmPZitKL/Odje1gbLGhL
-	+phLqSwlO9gD2yI/Zhax+VvKDOl4RIZy1okppJtsYfGMfQDcC4l5
-X-Received: by 2002:a05:7300:d80c:b0:376:682d:bf1c with SMTP id 5a478bee46e88-379679e4a36mr1513614eec.41.1794553441845;
-        Thu, 12 Nov 2026 23:04:01 -0800 (PST)
-Received: from localhost.localdomain ([103.149.158.176])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37955f01d68sm4487778eec.17.2026.11.12.23.03.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 23:04:01 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.de
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Gentle Reminder: Pending Patch Review
-Date: Fri, 13 Nov 2026 07:03:39 +0000
-Message-ID: <20261113070339.2750-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lWyePUXh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 964D31F000C4;
+	Fri, 13 Nov 2026 07:10:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794553843;
+	bh=vqeQyaGd9xzwSm9PKCpt1vNaIQUQQtuZgmUR3yIDAmw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=lWyePUXhwZdlMYJt8PjXfL6L68kRLZsAuStS0pXDUeVKDX0sKs4Yi2ugeJizSfrjq
+	 4mKXL4S1F1mgr+8mPL5uTRTDDfj1KzByj6k3OXu5PjJPyCJy77mGPkHGZ8J/H7ADTm
+	 BV0GrhN/3yOYP4Eo0x8bLu4kpx1FLUGzZSU4PoC3OhbbEw0Z5Z2uemHoDYYvMZcaiy
+	 KdDeHypeYib2zI2ftccPmfaoqvxjJFZ3FBobm5Rq6cpTbEocwbsc4d7giZEHAi1Ni4
+	 LzUXP8u1VsA1imsWeehfsm+A0A87Vzyhh6u3mjSsnow2OIR8hFClCx6UCtX/D+wNRB
+	 lHaa/BLbTYMfg==
+Message-ID: <sashiko-outbox-212324@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v32 12/20] ALSA: virtio: use request-owned capture and
+ serialize recovery
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
+Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
+ Perez" <eperezma@redhat.com>
+In-Reply-To: <20261113-fix-virtio-snd-recovery-final-v32-12-4e95979e312c@gmail.com>
+References: <20261113-fix-virtio-snd-recovery-final-v32-0-4e95979e312c@gmail.com>
+ <20261113-fix-virtio-snd-recovery-final-v32-12-4e95979e312c@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 13 Nov 2026 07:10:43 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -94,18 +61,101 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Hi Takashi,
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] ALSA: virtio: premature capture drain teardown in
+  virtsnd_pcm_sync_stop()
+--
 
-I noticed that my other patch has been received, but this patch is still pending review.
+commit 9ad9852068461024197debdd2bd36f84e60f028e
+Author: Joonho Lee <mynameisjune111@gmail.com>
 
-Patch: https://lore.kernel.org/lkml/20261109092249.3559-1-sreekuttan2156239@gmail.com/
+ALSA: virtio: use request-owned capture and serialize recovery
 
-Could you please take a look when you get a chance?
+This commit switches VirtIO ALSA capture to request-owned buffers with
+in-order completion commits and serializes PCM control transitions, reset
+handling, and error recovery across substream generations.
 
-Thank you!
+Link: https://lore.kernel.org/linux-sound/sashiko-outbox-210240@kernel.org/
 
-Best regards,
-Sreeraj
+> diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
+> index a5a682534acf7..442169a516676 100644
+> --- a/sound/virtio/virtio_pcm_ops.c
+> +++ b/sound/virtio/virtio_pcm_ops.c
+
+[ ... ]
+
+> +static int virtsnd_pcm_sync_stop(struct snd_pcm_substream *substream)
+> +{
+> +	struct virtio_pcm_substream *vss =3D snd_pcm_substream_chip(substream);
+> +	bool teardown_pending;
+> +
+> +	guard(mutex)(&vss->lifecycle_lock);
+> +	scoped_guard(pcm_stream_lock_irqsave, substream) {
+> +		snd_pcm_state_t state =3D substream->runtime->state;
+> +
+> +		/*
+> +		 * Trigger holds the PCM lock through its control requests. Wait
+> +		 * for it, then leave a replacement active generation alone.
+> +		 * lifecycle_lock keeps prepare from replacing an inactive one
+> +		 * until sync_stop_locked has finished its teardown.
+> +		 */
+> +		guard(spinlock_irqsave)(&vss->lock);
+> +		teardown_pending =3D vss->prepared || vss->release_required ||
+> +			vss->msg_count || vss->device_running || vss->stopped;
+> +		if (state =3D=3D SNDRV_PCM_STATE_RUNNING ||
+> +		    state =3D=3D SNDRV_PCM_STATE_PAUSED ||
+> +		    state =3D=3D SNDRV_PCM_STATE_PREPARED ||
+> +		    (state =3D=3D SNDRV_PCM_STATE_DRAINING &&
+> +		     substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK)) {
+> +			/* Core may consume this marker before a later inactive teardown. */
+> +			if (teardown_pending)
+> +				substream->runtime->stop_operating =3D true;
+> +			return 0;
+> +		}
+
+[Severity: Medium]
+Can a delayed virtsnd_pcm_sync_stop() tear down a replacement capture
+generation while it is in SNDRV_PCM_STATE_DRAINING?
+
+snd_pcm_drop() unlocks the PCM stream lock before calling
+snd_pcm_sync_stop().  If another thread prepares, starts, and drains a
+capture substream with unread frames before the first thread acquires
+vss->lifecycle_lock, snd_pcm_drain() leaves the substream in
+SNDRV_PCM_STATE_DRAINING with vss->prepared set so userspace can read the
+remaining buffered frames and in-flight STOP tail completions:
+
+CPU0                                  CPU1
+snd_pcm_drop()
+  runtime->stop_operating =3D true
+  snd_pcm_stream_unlock_irq()
+  snd_pcm_sync_stop()
+    runtime->stop_operating =3D false
+                                      snd_pcm_prepare()
+                                        virtsnd_pcm_prepare_locked()
+                                          virtsnd_pcm_sync_stop_locked()
+                                          ...
+                                          vss->prepared =3D true
+                                      snd_pcm_start()
+                                      snd_pcm_drain()
+                                        /* state =3D SNDRV_PCM_STATE_DRAINI=
+NG */
+    virtsnd_pcm_sync_stop()
+      /* DRAINING capture not skipped */
+      virtsnd_pcm_sync_stop_locked()
+        vss->prepared =3D false         <-- aborts active capture drain
+
+Because the active-generation check only exempts SNDRV_PCM_STATE_DRAINING
+for playback, virtsnd_pcm_sync_stop_locked() sends VIRTIO_SND_R_PCM_RELEASE,
+disables vss->elapsed_period, and clears vss->prepared.  Subsequent reads
+and pointer updates during capture drain then see !vss->prepared in
+virtsnd_pcm_capture_ack() and virtsnd_pcm_cp_pointer(), failing with -EBADFD
+or SNDRV_PCM_POS_XRUN and discarding the unread capture data.
+
+Allowing SNDRV_PCM_STATE_DRAINING for capture in the active-generation check
+as well would keep the draining generation intact until its final teardown.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113-fix-virtio=
+-snd-recovery-final-v32-0-4e95979e312c@gmail.com?part=3D12
