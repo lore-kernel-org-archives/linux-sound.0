@@ -1,57 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794603111;
-	b=CV4S2+1wkTkfESGcVtoy2intd+mc6imF2EuUQVxbll6aHUk9lM7DU+bZIf9nw8q5bzHm
-	 NT+FqAfIPoBRWh4/K6qTtLAIJ16kan/r5bvj5hD0QUlx2AIAFkeBlV0GJkmAw1wjKPnWM
-	 2cmjTSPKYD1FJaBa4MRG3/gZH7LhniT8tNQoOrEmRn+vI+b7flvzpRlnt/Y6ag0d6H1t6
-	 QuP3YU78F3FLU5nZk+TmLCGvKrUUAZh9QUnFUw0RV8Urj+G0OgodUUdy3VrKazvocyZw7
-	 r6PObGavMP9BIbHpVtSs3pHe/aKcMbxitfMflVD2URDhoaLxb5eAv11+RZLk9PaPUHQ==
+	t=1794603755;
+	b=jD3ny9hLHQKaPjYJNY8kHlxgsjvs6z1orHeOGMk2Z2MBw2aBoq3MOvg9nkgUb5TzoBJ3
+	 Z7Ca9b+mEKW4WalhSfQUjzqPFzQFUFMxQLRDDmisuQS15lGludWIidod4EYykU2mzHJYW
+	 X+TtJhrSGR5tz8GUc0HkIfNF6LQNMGoFT2qKkPyxGk4efgFnIXPQGEoZ074/wA5SjbUXq
+	 UovAZaKx+35XoYrKOYf2rTkoqa4L7yuBvEmDUsYhl7HJM84i1xLjHQ76A1DpksMiJwijD
+	 KuaPrvYySkGxDo0Quj7si4HhJjodQDCzzgOfeQeal4qjHCOo7VEg2l7c3ypuqN/vu9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794603111;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=TxDR5uoVi29IYdzO/SmccK9SUSlSLp5OZsh0EFtgquc=;
-	b=2eDddn4SvJtV0hGENE0imrMcCEI8TAPpB/f2mAVnHHDuhe2HOqL/uR5NuwZLvsTGDCBd
-	 lZ0PKojiD8d6nZNMnY4jQpaprQ6ikazDqMM/vFaHrvBVSX7t/VNdwBBTp3kfx3JN+WE+3
-	 5k3p7eyIQNSZNE3caI+iCgQD1QwEQdZCtRNZNwlFwM82FkD3N7kyF9nFV5QbM+DIp/CId
-	 /DNoPIGmqghtHfD4v8zuOHM6iYHuORRCFhNXedFc7ljaUnwe5PODEgNLLL8LRhvNnmPu7
-	 0KoPYkwb1opzLVLUAdbsoCYQb7HQmU0jwMEt0yNighl8xw/ybd7Zf64SI4/ZqrwhJQA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794603755;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:Content-Type:MIME-Version:Content-Transfer-Encoding:From:To:Cc:
+	 Subject:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Disposition;
+	bh=WPkgnC5e+WeNq2AKDa7fMC7l8b9olE8X2nbtjw6g9OA=;
+	b=YYibyLK/KnVkBqJNF5KRW54Z5JBIZHPB6vLAawgRETJsUudSGViKfXfYwBsB/9frqZyR
+	 tuW+729TEBLWBZYai9P8295e6NaEW8hQxwZdITG1d4qYeZ1Xx3J+juAM0idLKCX1XbUs8
+	 9VOVL8DPL0IlmgAlybus/7u7/hyPnojj/jYU3nMc5qZ8vx4/I676ONgtrunyigj/hVZVb
+	 i/i5kkPjkqxuHrvF75iLc8MvkaOzT6AroTX8TMyfwgUqq3Cjvh1TSD87dOp6Q2Sombgvo
+	 5JFs/nE7nMCtIn8y1UtokUq9F9nuCXdwbTmQkyF3S69voIBvfuUCfAORCKO+4Ho696g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SxiVF640;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0S20X9Bz;
+	arc=none smtp.remote-ip=209.85.128.47
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708F4606A331;
-	Fri, 13 Nov 2026 20:51:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C665606A331
+	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 21:02:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C665606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SxiVF640
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B26131F000C4;
-	Fri, 13 Nov 2026 20:51:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794603111;
-	bh=TxDR5uoVi29IYdzO/SmccK9SUSlSLp5OZsh0EFtgquc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=SxiVF640ylULF2WKIumdrchh2J1L+dI9WDixWgGUorjS85Te3ckTcOynVKoDpVvdX
-	 EdwSS27P38NrkYcT4QNO4yBe19tgTO1ILU6xFHdQWurHWkhEJ0VJizi/HNCkjToJGV
-	 5pLEROzf7euUgmAL9kSTzCyZT6JdorI7SFtXYl/8t65yAjLHrD7xclb58EvalblTXQ
-	 Rb+bFzDanbD/4dOZ14tMJ+aFFduuKL4x4j8gcWzWOBsgC0y7vdSSCaAn8MIfN9ZtHL
-	 E3NRXxM5CZVmgXs0bowpJOVj4nFXPqwZt8VPtCKilNCG0tl5476iahvLKI58Y2Rw7E
-	 uxWlekBVlpOPw==
-Message-ID: <sashiko-outbox-213684@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 2/3] arm64: dts: qcom: add device tree for Asus
- Vivobook 16 X1607QA
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Daniel Carter" <yass27106@gmail.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <bee078b697b74da694b5f9e6f518c0fb@gmail.com>
-References: <2c4a807496c04047b6d5735e3946dd16@gmail.com>
- <bee078b697b74da694b5f9e6f518c0fb@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2026 20:51:50 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0S20X9Bz
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a1b07c3c5fso19508775e9.1
+        for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 13:02:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794603754; x=1795208554; darn=vger.kernel.org;
+        h=content-disposition:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:content-transfer-encoding
+         :mime-version:content-type:date:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=WPkgnC5e+WeNq2AKDa7fMC7l8b9olE8X2nbtjw6g9OA=;
+        b=0S20X9Bzah2+Tfz2ZQZw1RqrYJZoCU9ymtgMPp6uzL8ErAT7IJhcPcjTW62UYeCDR2
+         tKfBYXayDMZmeIzcu001CRANf/r0KwcFunyPz9WusvFx7EBIlRSQMGj6LM1BgqCUguO2
+         SAVSd0/U8H4U0XTIVhOwG2aiq8jNrQ70Vj5HtxtBJ0YqXz7q9qGQN5oeqnAfnNAvZVhg
+         TR0MsIdEueeVx97MS/+trojKIKAnvpsn6deSKdRtUqiR2TEPre+hN5cRvp4oFdGnTyZr
+         e0028uedLhvG271P78vpW2+1KWYpsNLpWtKC67NWDeUSCewzmQsCnB5dx5rOzn5rQiBn
+         hIxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794603754; x=1795208554;
+        h=content-disposition:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:content-transfer-encoding
+         :mime-version:content-type:date:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=WPkgnC5e+WeNq2AKDa7fMC7l8b9olE8X2nbtjw6g9OA=;
+        b=y93Zp8VqZ/NIXnOIS90uEmfs7hmzTvSzKdqNlAutomsBs7md7mXAtakGxqfecSkleH
+         JK+zFw09runPXaIyQa6cPRPizk2rJgdN1NdQQpYeEl05RvmJLA8cAs14fNu8uGb0BBNS
+         DRV7yrPtk12LMuScoXXeyZELV1zjINzic1GMUgBjELr8q6nXo6GcjpFefyB0I61Vif4P
+         wziqgD0sSYpFYYZp4/3fK2yXcR2Cuq5OOiSHtHuXeo+x2lDs8b1fssaFcU4SFGKzUlDD
+         ZG/mDaaqgmKxrdus3gohlUKUj3cwtloG3toBwQHEDfwPWQTIV9aPw6BzMKWCmluJMBNf
+         Fvdw==
+X-Forwarded-Encrypted: i=1; AL+hErGNx23QHRQRBAWttmzar0pysbbL/pzNLKCfpBChPuuCm+xogGK/kNeNCeOIHGLo8jOZJa5+gkDVSv85nw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9bdgT/ss9un0gCQLfrHpaYF1iH1/pLWpslU1Mf0UR98X9Ua56w
+	xnwZeJ1dIZiQAKvKONNHTHp/7WyM5tsEbvgRs+NEHS6Ixc53YzAbAc0C
+X-Gm-Gg: AYBFou28AaIZl6T7F3ofCBc7aKRilwLzpcGIuQc3P3rlnIh9g0XvUfMYOw7Y9QkJxm2
+	kGx9Cosn4MHnj5H0A8AJZ1X7aLj1lPv3FckziVn8YOqz2cPBVVS9+vzGpIqUeJO2K2fCusUU7jJ
+	bGjQlSsHU/zUwaRFdUuLHYEaYFiK4Nq9DDIE74UHEWd0v74qPETGmViv0fKfM291NlIMPK4d2P9
+	Vt371vmHhSb7S8BVCauQZdy7cipqvZ1CadIEYs8Omus0KnUxJysZRJlmqOI4VtfgIPWfq+57iXL
+	GB7dwA6kzZ7QxmSVpRP7UDk+Us8+VGuPiAHVa5H1AQeWJ/3rOF/vihzuS62jhqBZ+egZVmEbFZ+
+	nrzxAuCgiyYPKL9hPC/+to6/XY/s016s9Bghp0zUs8DNyvbzbY/ZgB1eSWcnGgDLnB1LjgSC/A5
+	xs3obeUGFQegU9kzXl+gK5NJJbSTyIV16yZOuJUSm4RT/xPXdRzptq+wvdc6Fr1hsikpaaJ83+k
+	HCYKGo98qfX6FCeGUShVhrcVRmEwVEcY7QAeAdjsoctNPIw4zLu
+X-Received: by 2002:a05:600c:4313:b0:4a1:f377:5c68 with SMTP id 5b1f17b1804b1-4bb55a83305mr53419345e9.34.1794603753909;
+        Fri, 13 Nov 2026 13:02:33 -0800 (PST)
+Received: from [127.0.1.1] ([165.50.16.69])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb62d5ec30sm4635295e9.15.2026.11.13.13.02.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 13:02:32 -0800 (PST)
+Date: Fri, 13 Nov 2026 13:02:32 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,179 +90,47 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+From: Daniel Carter <yass27106@gmail.com>
+To: krzk@kernel.org, andersson@kernel.org, broonie@kernel.org,
+ srini@kernel.org, konradybcio@kernel.org
+Cc: robh@kernel.org, conor+dt@kernel.org, vkoul@kernel.org, tiwai@suse.com,
+ perex@perex.cz, lgirdwood@gmail.com, pierre-louis.bossart@linux.dev,
+ yung-chuan.liao@linux.intel.com, abelvesa@kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, yass27106@gmail.com
+Subject: Re: [PATCH v2 1/3] arm64: dts: qcom: add device tree for Asus
+ Vivobook 16 X1607QA - v3 series
+Message-ID: <0a29235e23b24698adc59fd117e0a222@gmail.com>
+In-Reply-To: <9032798812284dd2842cbf003c75cc0b@gmail.com>
+References: <9032798812284dd2842cbf003c75cc0b@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Disposition: inline
 
-Thank you for your contribution! Sashiko AI review found 6 potential
-issues to consider:
-- [High] arm64: dts: qcom: missing Signed-off-by trailer and commit
-  message body
-- [Medium] arm64: dts: qcom: missing /delete-node/ for pmc8380_6 on
-  Purwa X1607QA
-- [Medium] arm64: dts: qcom: missing qcom,dmic-sample-rate and
-  vdd-micb-supply on vamacro
-- [Medium] arm64: dts: qcom: missing x1-el2.dtbo target and
-  &gpu_zap_shader reference
-- [Medium] arm64: dts: qcom: x1p42100-asus-vivobook-16-x1607qa: wrong
-  inherited eDP panel
-- [Low] arm64: dts: qcom: split root node, unsorted nodes, and style
-  violations in DTS
---
-
-commit 0106da8e8437e65f83503717cf06104fc06ff24c
-Author: Daniel Carter <yass27106@gmail.com>
-
-> arm64: dts: qcom: add device tree for Asus Vivobook 16 X1607QA
->=20
-> arch/arm64/boot/dts/qcom/Makefile             |   1 +
->  .../x1p42100-asus-vivobook-16-x1607qa.dts     | 237 ++++++++++++++++++
->  2 files changed, 238 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/qcom/x1p42100-asus-vivobook-16-x1=
-607qa.dts
-
-> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom=
-/Makefile
-> index 88230c4e00ea9..7332a73dbac71 100644
-> --- a/arch/arm64/boot/dts/qcom/Makefile
-> +++ b/arch/arm64/boot/dts/qcom/Makefile
-> @@ -509,6 +509,7 @@ x1e80100-qcp-el2-dtbs	:=3D x1e80100-qcp.dtb x1-el2.dt=
-bo
->  dtb-$(CONFIG_ARCH_QCOM)	+=3D x1e80100-qcp.dtb x1e80100-qcp-el2.dtb
->  x1p42100-asus-vivobook-s15-el2-dtbs	:=3D x1p42100-asus-vivobook-s15.dtb =
-x1-el2.dtbo
->  dtb-$(CONFIG_ARCH_QCOM)	+=3D x1p42100-asus-vivobook-s15.dtb x1p42100-asu=
-s-vivobook-s15-el2.dtb
-> +dtb-$(CONFIG_ARCH_QCOM)	+=3D x1p42100-asus-vivobook-16-x1607qa.dtb
->  x1p42100-asus-zenbook-a14-el2-dtbs	:=3D x1p42100-asus-zenbook-a14.dtb x1=
--el2.dtbo
->  dtb-$(CONFIG_ARCH_QCOM)	+=3D x1p42100-asus-zenbook-a14.dtb x1p42100-asus=
--zenbook-a14-el2.dtb
-
-[Severity: Medium]
-Should this also define x1p42100-asus-vivobook-16-x1607qa-el2-dtbs with
-x1-el2.dtbo and build x1p42100-asus-vivobook-16-x1607qa-el2.dtb, sorted
-alphabetically before x1p42100-asus-vivobook-s15?
-
-scripts/Makefile.dtbs only passes -@ to DTC for base DTBs referenced by a
-composite *-dtbs rule.  Without the -el2-dtbs rule, neither the pre-merged
--el2.dtb is built nor are __symbols__ emitted into the base DTB, so
-x1-el2.dtbo cannot be applied for EL2/KVM boot.
-
-In addition, at the bottom of x1p42100-asus-vivobook-16-x1607qa.dts, the
-GPU zap-shader firmware is specified via a nested zap-shader child under
-&gpu (along with a redundant status =3D "okay" already set in
-x1-asus-vivobook-s15.dtsi) instead of referencing &gpu_zap_shader directly
-as x1p42100-asus-vivobook-s15.dts and x1-el2.dtso do.
-
-> diff --git a/arch/arm64/boot/dts/qcom/x1p42100-asus-vivobook-16-x1607qa.d=
-ts b/arch/arm64/boot/dts/qcom/x1p42100-asus-vivobook-16-x1607qa.dts
-> new file mode 100644
-> index 0000000000000..0092ae3db9cc8
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/qcom/x1p42100-asus-vivobook-16-x1607qa.dts
-> @@ -0,0 +1,237 @@
-> +// SPDX-License-Identifier: BSD-3-Clause
-> +/*
-> + * Copyright (c) 2026, yass27106-hue <yass27106@users.noreply.github.com>
-> + */
-
-[Severity: High]
-The commit message is missing a Signed-off-by: trailer certifying the
-Developer's Certificate of Origin, and its body contains a pasted git
-diffstat instead of a description of the ASUS Vivobook 16 (X1607QA)
-hardware and why it shares x1-asus-vivobook-s15.dtsi.  The copyright
-header here also uses a GitHub handle and noreply address rather than the
-author's name and routable email address.
-
-> +
-> +/dts-v1/;
-> +
-> +#include "purwa.dtsi"
-> +#include "x1-asus-vivobook-s15.dtsi"
-
-[Severity: Medium]
-Does this need to delete &pmc8380_6, &pmc8380_6_thermal, and
-&pmc8380_6_die_temp after including x1-asus-vivobook-s15.dtsi?
-
-x1-asus-vivobook-s15.dtsi transitively includes hamoa-pmics.dtsi, which
-defines pmc8380_6 (SPMI USID 6), pmc8380_6_thermal, and pmc8380_6_die_temp
-for the third CPU cluster on 12-core X1E80100 SoCs.  On 8-core X1P42100
-(Purwa) platforms that cluster and its companion PMIC are unpopulated, so
-leaving these nodes enabled causes the SPMI PMIC, temp-alarm, GPIO, VADC,
-and thermal drivers to probe and poll absent hardware, just as
-x1p42100-asus-vivobook-s15.dts avoids with /delete-node/.
-
-> +#include "x1-asus-vivobook-s15.dtsi"
-
-[Severity: Medium]
-Does the 16-inch Vivobook 16 (X1607QA) really use the 15.6-inch Samsung
-ATNA56AC03 panel inherited from x1-asus-vivobook-s15.dtsi?
-
-x1-asus-vivobook-s15.dtsi configures the mdss_dp3 aux-bus panel node with:
-
-arch/arm64/boot/dts/qcom/x1-asus-vivobook-s15.dtsi:
-	aux-bus {
-		panel {
-			compatible =3D "samsung,atna56ac03", "samsung,atna33xc20";
-			enable-gpios =3D <&pmc8380_3_gpios 4 GPIO_ACTIVE_HIGH>;
-			power-supply =3D <&vreg_edp_3p3>;
-
-Without overriding the panel node for this 16-inch (16:10) laptop, the
-board binds the panel-samsung-atna33xc20 driver for a 15.6-inch 2880x1620
-(16:9) AMOLED panel with Samsung EL_ON3 power sequencing and DP AUX-only
-backlight control instead of the actual panel and backlight configuration.
-
-[ ... ]
-
-> +&lpass_vamacro {
-> +	pinctrl-0 =3D <&dmic01_default>;
-> +	pinctrl-names =3D "default";
-> +};
-
-[Severity: Medium]
-Are qcom,dmic-sample-rate and vdd-micb-supply missing on &lpass_vamacro
-(along with the vreg_l1b_1p8 LDO1 definition in &apps_rsc regulators-0)?
-
-va_macro_probe() logs "qcom,dmic-sample-rate dt entry missing" when
-qcom,dmic-sample-rate is omitted, and its "vdd-micb" DAPM regulator widget
-falls back to a dummy regulator without enabling the 1.8V LDO1 DMIC micbias
-rail unless vdd-micb-supply =3D <&vreg_l1b_1p8> is provided as on other X1
-boards.
-
-> +
-> +/ {
-> +	wcd938x: audio-codec {
-
-[ ... ]
-
-> +	sound {
-> +		compatible =3D "qcom,x1e80100-sndcard";
-> +		model =3D "X1E80100-ASUS-Vivobook-16";
-> +		audio-routing =3D "SpkrLeft IN", "WSA WSA_SPK1 OUT",
-> +						"SpkrRight IN", "WSA WSA_SPK2 OUT",
-
-[ ... ]
-
-> +&swr0 {
-> +	status =3D "okay";
-> +
-> +	pinctrl-0 =3D <&wsa_swr_active>, <&spkr_01_sd_n_active>;
-> +	pinctrl-names =3D "default";
-
-[Severity: Low]
-This isn't a bug, but several parts of this file diverge from the
-devicetree coding style:
-
-- The root node / { ... }; is split into two blocks with phandle references
-  in between instead of a single root node block at the top of the file,
-  and chassis-type =3D "laptop" duplicates x1-asus-vivobook-s15.dtsi.
-- The top-level &label references, the DAI-link child nodes under sound,
-  and the cpu/codec subnodes in wcd-playback-dai-link and
-  wcd-capture-dai-link are not sorted alphabetically.
-- In &swr0, status =3D "okay" is placed before pinctrl-0 and pinctrl-names
-  instead of as the last property before child nodes.
-- Multi-line property continuations in audio-routing, wsa-dai-link
-  sound-dai, and the remoteproc firmware-name properties are aligned
-  assuming 4-space tabs rather than 8-column kernel tabs.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/2c4a807496c04047b6d=
-5735e3946dd16@gmail.com?part=3D2
+SGkgS3J6eXN6dG9mLCBoaSBhbGwsCgp2MyBvZiB0aGUgc2VyaWVzLCBhZGRyZXNzaW5nIHRoZSBT
+YXNoaWtvIHJldmlldyBvZiB2MjoKCi0gYXJtNjQvZHRzOiBhZGQgL2RlbGV0ZS1ub2RlLyBmb3Ig
+cG1jODM4MF82LCBwbWM4MzgwXzZfdGhlcm1hbCBhbmQKICBwbWM4MzgwXzZfZGllX3RlbXAsIHdo
+aWNoIGFyZSB1bnBvcHVsYXRlZCBvbiB0aGUgWDFQLTQyLTEwMAogIChtYXRjaGluZyB0aGUgVml2
+b2Jvb2sgUzE1IGRldmljZSB0cmVlKS4KLSBhcm02NC9kdHM6IGFkZCB0aGUgbWlzc2luZyBxY29t
+LGRtaWMtc2FtcGxlLXJhdGUgYW5kCiAgdmRkLW1pY2Itc3VwcGx5IHByb3BlcnRpZXMgb24gbHBh
+c3NfdmFtYWNyby4KLSBhcm02NC9kdHM6IGFkZCB0aGUgLWVsMiBjb21wb3NpdGUgZGV2aWNlIHRy
+ZWUgYmxvYiB0YXJnZXQgYW5kIGZpeAogIHRoZSBNYWtlZmlsZSBhbHBoYWJldGljYWwgb3JkZXJp
+bmcuCi0gYXJtNjQvZHRzOiBjb3NtZXRpYyBjbGVhbnVwcyAoc2luZ2xlIHJvb3Qgbm9kZSwgZ3B1
+X3phcF9zaGFkZXIgdXNlZAogIGRpcmVjdGx5LCBzb3J0ZWQgbGFiZWwgb3ZlcnJpZGVzKS4KLSBB
+U29DL3NvdW5kd2lyZTogbWFyayB0aGUgTFBBU1MgbWFjcm8gYW5kIFF1YWxjb21tIFNvdW5kV2ly
+ZSBkcml2ZXJzCiAgUFJPQkVfUFJFRkVSX0FTWU5DSFJPTk9VUyBzbyB0aGUgYm91bmRlZCBjbG9j
+ay1hY3F1aXNpdGlvbiByZXRyeQogIGRvZXMgbm90IGJsb2NrIHRoZSBwcm9iZSBvZiB0aGUgY2xv
+Y2sgc3VwcGxpZXIgb24gdGhlIHNpbmdsZQogIHNlcXVlbnRpYWwgcHJvYmUgdGhyZWFkLCBhbmQg
+c2hhcmUgdGhlIHJldHJ5IGhlbHBlcnMgdGhyb3VnaAogIGxwYXNzLW1hY3JvLWNvbW1vbi5oIGlu
+c3RlYWQgb2YgZHVwbGljYXRpbmcgdGhlbSBwZXIgZHJpdmVyLgotIHNvdW5kd2lyZTogY2hlY2sg
+Y2xrX3ByZXBhcmVfZW5hYmxlKCkgcmV0dXJuIHZhbHVlcyAoc2VwYXJhdGUKICBwYXRjaDsgcHJl
+LWV4aXN0aW5nIGlzc3VlIGluIHRoZSBkcml2ZXIpLgoKU2VyaWVzOgpbMS80XSBkdC1iaW5kaW5n
+czogcWNvbTogZG9jdW1lbnQgQXN1cyBWaXZvYm9vayAxNiBYMTYwN1FBClsyLzRdIGFybTY0OiBk
+dHM6IHFjb206IGFkZCBkZXZpY2UgdHJlZSBmb3IgQXN1cyBWaXZvYm9vayAxNiBYMTYwN1FBClsz
+LzRdIEFTb0M6IHFjb206IGxwYXNzIG1hY3JvIC8gc291bmR3aXJlOiBhc3luY2hyb25vdXMgcHJv
+YmUgd2l0aCBjbG9jayByZXRyeQpbNC80XSBzb3VuZHdpcmU6IHFjb206IGNoZWNrIGNsa19wcmVw
+YXJlX2VuYWJsZSgpIHJldHVybiB2YWx1ZXMKCkFsc28gb3BlbiBhcyBwdWxsIHJlcXVlc3QgMTQz
+OSBhdCBnaXRodWIuY29tL3F1YWxjb21tLWxpbnV4L2tlcm5lbC4KCkJlc3QgcmVnYXJkcywKRGFu
+aWVsIENhcnRlcgo=
