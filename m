@@ -1,66 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=52.59.177.22
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.204.34.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794550088;
-	b=hmnm4TQ5IbBvFKn9fItuEYWNPoUeiqILvCgDivUnInhMjEjMvCSWj8umuxMAS9/ZDoZW
-	 BpVB63Ird+KwRObMdGC4SRudNiSblZjggYSUIVH+vqboZEj7LaLufW2XKfbUc6lA/IN4z
-	 UEMZVaUF4SxmQZMzF5i0j0/q3agXfzHPnv2YgS3pexBa8Or0FfLQ0XwDV7Ch8VOiKjWrw
-	 HW4cMPSHBE4QVPv5gwtOCyCXl0b5Zbt1DcO/l9lzDtB5sTXItXeayftEimnHJZg6r026o
-	 Y1u6ra97ufTkq1miqIGYoKxxq5sTvu1sVXjcHY77QVqhCzs3nguHhWbp1TeSbD7esbw==
+	t=1794551116;
+	b=Q12FnS9rVrwU4VIhOs7IVhyrdkzxk5nGMis14Y/FLXkuvN7J38Pp9ZzRGDTxTSH8EL6a
+	 7j5CdJlyIPnRWX8Nqgoc0vFXDJlEmfAj+OXLphuKaSXDB6z2624H3E9DJ0XrLumbxc+Gu
+	 w/IBPMGvpO6Jvi8t0TOOV2K1ldilhUBwvcxke8Pg2JY6KzWTDmTu58nNzWZ8e+f4ePx0A
+	 tg03IsTI9sU2XF7prJz9Ru84gVrxVgdZ11WsVNDBVa2ve+pDQU8JkZ92yz6Q6ofzrjT/L
+	 V3EfVAl0+YO/dP8AP8iWAW/GvG2FzJ5zyitGsRmE5+VvdLptaKB0wbdQ4Tcw5a6zfqQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794550088;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794551116;
 	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
 	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
 	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
 	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
-	bh=wllpHAZYNSNkCt57+HHHYsgQEPuFI+eTbDLLhojO5E8=;
-	b=nJnSQfb4iyfJ/O7xH/H4BQui3LtuMBg5fo+yX/rZYCV7PKDlGzcfyFT4jTLpqT2RlgIq
-	 Ncxm3OBvt45mtQzWQK89tvx1TjCi8tWqtes92qVh0sNyhFWaNDBIqkutcY9b5n+YX516Y
-	 lt7B2w0xOZJFCxNk/SLFKBEZH9tgHkjJhxTJtFATHpyIgQMpFVa51V1kcLhykXpg+UfEI
-	 vxGuMFNeqLixtwAVtJTnfCn2ZvHFmLdocFvqMrRiP50smxdwuPZjQbOO9htCJvWfTFe1a
-	 jOIucGrB27LpXNZLqQ1cDpwZEakGoWs49WgUqjGaTOTg6zWBdZVPaCGKdQYcGpiwh1w==
+	bh=10XdwItay2xjSSdxRndz5fIEXf9huWW90M/UIJxcOJ4=;
+	b=ufZP6A77URh0NIE54ezyGMki0jYZoHGxwiBIlyon2SFTKMGXYy2ift3XN78gg4VZwt8D
+	 o7bkzmkF8Zs1eggOIW1LRKTcLImBTmYN6gY5bvQOWmSrWaTj+L1mbwElL1zp98a/ixr3l
+	 zirCytCdx80m58SiIWDHYKv2dVhiBBeRLOk2YBtYEQjT/QXiI/YwIHPLn3uLrlQ8Mttp5
+	 AE4H4WA10eLMPJGvSZlG7T0+hAsf//Nh8YEk0DsU698m0I7o4kI+vObDeY04Ecl3ukORi
+	 PB/AnqI+Ewpx2tEFfBC5thZEBY+4OftXy5XXrmSeDXhYp2c9viStoyMMUZxR5FwLeQQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=uniontech.com;
 	spf=pass smtp.mailfrom=uniontech.com;
-	dkim=pass header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b="Pl9/Revv";
-	arc=none smtp.remote-ip=52.59.177.22
-Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
+	dkim=pass header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=dcQ929YE;
+	arc=none smtp.remote-ip=54.204.34.130
+Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438FA606A321;
-	Fri, 13 Nov 2026 06:08:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 438FA606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE133606A31C;
+	Fri, 13 Nov 2026 06:25:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE133606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=Pl9/Revv
+	dkim=pass (1024-bit key, unprotected) header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=dcQ929YE
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1794550037;
-	bh=wllpHAZYNSNkCt57+HHHYsgQEPuFI+eTbDLLhojO5E8=;
+	s=onoh2408; t=1794551066;
+	bh=10XdwItay2xjSSdxRndz5fIEXf9huWW90M/UIJxcOJ4=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=Pl9/RevvsMlSHBVs2R+kcCwWmKUoJbVyWBLKwBKUXlpSMYTYNLNjTzA8C7YBRjwxp
-	 2+fZ11LD5vsuKdy5suKatg9jS8HCjJ5Hx+lhuq+5aXCFyoEHCniL5BsZ6pHIiZLZlc
-	 GEwt7q13FanjKbJQu1yLiXv5inDRlv2ej/M9+fx4=
-X-QQ-mid: zesmtpgz5t1794550022tb8788a0c
-X-QQ-Originating-IP: 6UGuInMOY/d7vEfDBEDyZH5feZhcASUzl3QIHaKoVsY=
+	b=dcQ929YEsOGkGPNan7QjS1u7KGx5Z415Yy4PFQDXgyTK1+cYa8s5ovCuw50W2Q3/i
+	 uPso9ewvqsjMI6YQ19qMVbaO8ktjKzZonwAxRcvsOlRsxKFqxjp9DASXa3Y5kKVSuf
+	 GIahXXQkDObLN/BbjfzmZCOgRC1vUYa3s91n5tV8=
+X-QQ-mid: zesmtpgz1t1794551049t4828b390
+X-QQ-Originating-IP: u8uzL0sJRFmJJC5obPseqYa3qPxqgT8Y1IOOnXc81TY=
 Received: from PEC004119 ( [113.57.152.160])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 13 Nov 2026 14:07:00 +0800 (CST)
+	id ; Fri, 13 Nov 2026 14:24:07 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 2535765206702016621
-EX-QQ-RecipientCnt: 7
+X-BIZMAIL-ID: 14666418982326683581
+EX-QQ-RecipientCnt: 11
 From: Haowen Tu <tuhaowen@uniontech.com>
 To: broonie@kernel.org
-Cc: lgirdwood@gmail.com,
+Cc: shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
+	sen@ti.com,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Haowen Tu <tuhaowen@uniontech.com>
-Subject: [PATCH] ASoC: ak4375: Power off the codec if runtime resume fails
-Date: Fri, 13 Nov 2026 14:06:59 +0800
-Message-ID: <8C4BD8E710508D85+20261113060659.1497641-1-tuhaowen@uniontech.com>
+Subject: [PATCH] ASoC: pcm3168a: Leave cache-only mode before resetting on resume
+Date: Fri, 13 Nov 2026 14:24:06 +0800
+Message-ID: <3BB19624DEE17CA9+20261113062406.1504452-1-tuhaowen@uniontech.com>
 X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -74,64 +78,70 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: M4XCXY8dla+qkSZ5YbHjeUhdk8wCSBrjHbfeqDibfjpAkhuCi/U6wvJi
-	NSVoJ7BD18c0RORpBfXNy5fYvoyqseYf3sH1Si+jWyNLGUY3muyFAy9YC1r9c3p176VJewL
-	HnYNc7suaos49SkMNYPF+OhysvNaZhVcWm6QJoEuBJFg9nmbsD6l7QyoMhhRazSoJwiGzMB
-	fsJFM5xETfOuHf+Yp3hWaE3w2pmMOIBT01FZsLzzcDdjBEFsVq4B6R4qrvAayC2J6P3qKbg
-	f7/wv8S8HDSNoK5tyVKA66n4eK9cihdagEIHYUZwq7jqvWCq+s3OydR7H90tJX00HwsbO59
-	un8KGG61uqDgTJY1ApSd2PBQkchgZaass+D6tC7RTNSm0Q4z4bKBTI9k2c9amFyTfBkfu1U
-	0o1x7UQ+yecwQW7fZmu5AnaNsuLN2gV3mxsf4iWG8AIsM3MWxqXxkZBoPiX3N7tvT3JyqcJ
-	PeEj4Yq7Ib+34W94ew+Y0U/C0eyhUGmsxplHR7EdiVIXv00R92ovDrB0sKvVpjuCZlL31yJ
-	yewk4acVQN41aR8iBYAy2DotkvAEYxsfnP5GbLV4Q3PEStt11SqY1tAL80OOzyUtOkGMoV9
-	xhYJzUZGqr7qcvHMo2wkSEhVokuILOIQs8PWZIUY25StOCaKXL4r830iZn+tSIiT3QdfiDD
-	HHr4IK5YkUUuIjRAhuudaeDNV1F+y0mDJzoR1vShNKDR7maB6SyV6JZ7vvp3hAYiiFuvkHJ
-	aHxYdvTbgLnZckCh5u4K6NEmH/aJ1aTtT+rFhknZFf3aY0j1aHHeUIJX3OD9GfpFBRDZ3Th
-	lkCOVw7eSZBw0qceu5vTrGwJVj56EvetpEpiLhci9Q6zhv4Dfrj/IAdZN6A2YOVdKHbULdL
-	mTMidwek7LVMAQOmi7ZvkRcPsEXerRdHBeeZ7dO871L3wjTaPuYM2SfqJnp0uAF7RpQIGXD
-	CCyQEjnDbD3YCdTQzV04fUsqS+PJPUKXNRQcD92acvG2zohR9vxwxT/RGESYREqtU+DFqon
-	3SEmbLdVFsgbkEjBKBDt8SG4rSrOWDU2aWtRJRcF2vUJjJd78iSpW83GpRSs9ebvRmSpiCB
-	lzx+7Mo6G146afIfDcSO2/DY1HKNe0LvA==
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
+X-QQ-XMAILINFO: Nu7meyJZV74IaBvgr8CaXJuC240ykQW8XKjZb3zvUfBOngsI5EwXcBvI
+	OlKGWgdPExmeyEWTUpENYMcJGMX17MO4kCbKhFrVC18XsoPGwQ/pY51jpei4QBnfBRqOie4
+	2IFsLuQURVV8Uxojbm+9ygh2CIlQPy9W4f7Ju+/2MjzX4BMm7AAXsOUZS6aHF9oT8D0nixV
+	v6O4peu5/y8GbBTqKeLxKK12ZS68X99Il1Kx2LVFjUGfu1/AZZyBxz2nH1c00nj7YyfJzBj
+	TuYwi2aXEJFN7yyyJ40HxjiWxMjSkqIkp8qwusbRlXSUQ3O5MGMsRxCVQpEUEnVHef7B4AP
+	lsfEJA19C2sfLRFVvwkmFsTWcWapgpaSjiLyips8c6GjEClnbDzld3+sCss5Ql5gOjl8yB9
+	id46HGyWWvkvvafh7mAUcxJn6ltmDtV45W1nFlrjHDhj9MQluLBOW7EL8KTO56SUasxHjuE
+	zzlIBwoiEVzI7capCLGM3W6A87voRj0tPgXSNdbFk3PFj/lOozRTTXKoQg71cPDUiUQnxiH
+	aBnSoaqEQ8LWj/zSPAp7QAxwdUPw4UutAVf/KXVcnH2bt1h6rqDAif7Ubjl+sai0zmRL4p7
+	ZE2JaMymt6W7aCRSJhrqOx91yOPQ1ntsWZytuY3+TDW/+syu7YZ/8IskW2ZynJ+sADyXTxD
+	hUurJbqLki4Otj3lGA98w30MZJ8TIaQXqx04DSaP5FIXPUpouFssmLHli/uwOAR4XtTZ+C2
+	IUqSD77jIerZVNwMRjMuGMXTG5x38y1lOBWKwQIvr2gKClcSabnywMMRCiV+SC22lgG6VG2
+	6zykJb4v40v1DvOBRbyO7+wcmodJ96Bh04/3BuIlJ9DZXle4VrhS5xDoie76zOoN90QmA10
+	gC93Hh9BIu4XEmgLcfD0SmDfDu9eVd5oHS5L5y7rIEV74MGWb0XExcabZHcZuCi6Z5qmhrd
+	RXx2O9mRRzKvnV0MquWqqOrq2sBkrQuuEfFmHfcTWdm+4YifxZ0JVFsmT3FFYL77EksO55y
+	bdAXUptMhE1k4cZkjvHvz4ud4nKzeRRobpYPyigQ==
+X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
 X-QQ-RECHKSPAM: 0
 
-ak4375_runtime_resume() powers on the codec and leaves cache-only mode
-before synchronizing the register cache. If regcache_sync() fails, it
-returns the error without undoing either operation.
+pcm3168a_rt_suspend() puts the regmap in cache-only mode, but the resume
+callback calls pcm3168a_reset() before leaving that mode. Both writes to
+PCM3168A_RST_SMODE therefore return success without reaching the device.
+The register is volatile, so the writes are not cached and the subsequent
+regcache_sync() cannot replay the reset sequence either.
 
-The runtime PM core leaves the device suspended on a resume error, so
-there is no matching runtime suspend callback to disable the supplies.
-The codec remains powered and register accesses still reach the hardware
-even though restoring its state failed.
+Leave cache-only mode after enabling the clock and supplies, before
+issuing the reset writes. Restore cache-only mode before powering down
+if either the reset or the cache sync fails.
 
-Restore cache-only mode and power off the codec on a cache sync error,
-leaving it in the same state as before the resume attempt.
-
-Fixes: 53778b8292b5 ("ASoC: Add AK4375 support")
+Fixes: a9b17a638af5 ("ASoC: pcm3168a: Add driver for pcm3168a codec")
 Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
 ---
- sound/soc/codecs/ak4375.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ sound/soc/codecs/pcm3168a.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/ak4375.c b/sound/soc/codecs/ak4375.c
-index 28cc41014bd9..469b81c5daca 100644
---- a/sound/soc/codecs/ak4375.c
-+++ b/sound/soc/codecs/ak4375.c
-@@ -460,7 +460,14 @@ static int ak4375_runtime_resume(struct device *dev)
- 	regcache_cache_only(ak4375->regmap, false);
- 	regcache_mark_dirty(ak4375->regmap);
+diff --git a/sound/soc/codecs/pcm3168a.c b/sound/soc/codecs/pcm3168a.c
+index 11fd948ecd27..bb539b9dd0b8 100644
+--- a/sound/soc/codecs/pcm3168a.c
++++ b/sound/soc/codecs/pcm3168a.c
+@@ -855,14 +855,14 @@ static int pcm3168a_rt_resume(struct device *dev)
+ 		goto err_clk;
+ 	}
  
--	return regcache_sync(ak4375->regmap);
-+	ret = regcache_sync(ak4375->regmap);
-+	if (ret) {
-+		regcache_cache_only(ak4375->regmap, true);
-+		ak4375_power_off(ak4375);
-+		return ret;
-+	}
++	regcache_cache_only(pcm3168a->regmap, false);
 +
-+	return 0;
- }
+ 	ret = pcm3168a_reset(pcm3168a);
+ 	if (ret) {
+ 		dev_err(dev, "Failed to reset device: %d\n", ret);
+ 		goto err_regulator;
+ 	}
  
- static const struct snd_soc_component_driver soc_codec_dev_ak4375 = {
+-	regcache_cache_only(pcm3168a->regmap, false);
+-
+ 	regcache_mark_dirty(pcm3168a->regmap);
+ 
+ 	ret = regcache_sync(pcm3168a->regmap);
+@@ -874,6 +874,7 @@ static int pcm3168a_rt_resume(struct device *dev)
+ 	return 0;
+ 
+ err_regulator:
++	regcache_cache_only(pcm3168a->regmap, true);
+ 	regulator_bulk_disable(ARRAY_SIZE(pcm3168a->supplies),
+ 			       pcm3168a->supplies);
+ err_clk:
 -- 
 2.50.1
 
