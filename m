@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.11.138.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794604098;
-	b=rrzDP/MaJIQBtPie5B2rdI2nb5ZqqN3MNAoXvNrYHydJUF0C/Z+dOqfWgY3TmxCa2jzb
-	 F6zIbNp+PLRVIR4ku4Td5Z1VvHfyPd0zK0mbbxgJMeSLAqKuYWrFNCVQVX2bCZSVkUqlc
-	 YW0FatW9LAyAnkndmgNVgUxC099j0jDRa+/LYS3yEkozea7NpmUiw+FTiBKz/OzemQ6O2
-	 HDo8RzopdxWAg28ub2M7F7yTW4LpJ7856bqlIEhBfeiYYr6SZDJM2lSiWFJxz4aV/hcHz
-	 f0ojGbrrvJqG9wG1970wq8Ct/DunOXAGjMjsuYA634g5l6B4OTaVo42VbgwgZbzwUcQ==
+	t=1794604108;
+	b=MFcG31UIgHRDRwSL1RbtNXaoW5+O4mNec5wAaUcqSUT012rIH8VhFSpmrZ5WlDP7iAgB
+	 8RRBDm9hq7PsyZHYYswsTnilj7KuZxYPf8xGEISpvUEY3xVl0eHVCRWush2NnYvrI1ZDN
+	 ZQ6rCle/PuXWkV/+u/IPb2bctZn/5MuOf/JNlLbLBcKp8H0/FYJVjvupOGd4NEq89pn4t
+	 u4yannybdVb3VEBOOk+hYfJZkkKKYmQjPELtKJvTpwHkN/XOCCE4pKh7vYGvP1Jt3ZRfv
+	 8zfdXQBR2EyFGjTFzsAsk+ayq3FUzK8csCipCRakIBiij6f6PqjoNfHioLP8tJwCIMw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794604098;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794604108;
 	h=DMARC-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=OeOsxZrRVRDIqTdGDpdJI5DQe9V4RgKB2bsKt5qqiyw=;
-	b=afIYvaBMy5Aq0C5pc8lKvy7usFM0IOxcVKz3QtcPSV0EqQSAzLfrTkTRCI+jmibH9GDr
-	 yx7yc4E6UrYwFXwfzMH7bWaEp1jKtbtX7D09O4GNvfhuvZ6GVN3xbcBB6OnJcwmZfG0L2
-	 BSQ/wUV9hx/92/DlKAWQY4goeM4RvZ/iiBSJU+nWVi6lHg23vCmJE5O4oCgtlqyikytpI
-	 k7GKqD5dsKlFTy/scXZxXJlbAPmG0JrSUAzymgBUrT0jIrPJvfLmcrCT+8cfpjUUb9K/q
-	 NUE2Bm12VgtPwrDrmFHZ93tNMKShI7Xyl4HgXYgVe6rpYw49H0rJOMClx0SM8MZRfuA==
+	bh=otmMSTCuvsJ6UTk79RPkyL0EYsvw/uUkUKUkDiWOIok=;
+	b=Ubox0jYPdpSKyqk67MBaFVeWHkBh5CREG3h/uOpi3AZTtlxRG7h+ERoGN25h0CaUwBUK
+	 Wtv0IU7kJAXVo6V5dlD14WKDF1I3lOyv5Y4ZOCkDNBd7DrARi9vHRUUBee7nEqQiDIOf2
+	 b500LqqoDUSkaSlG1DXLKPzbviNTj3v+dNZHoP9yY3U7SitOkEt7uHXcMTzsEZLgfrWxL
+	 byQrIK45F0Q6qYltOV4XPumnN05Wy4z5HDu2pXX0Vz5DP2JgbBuD5Icay1EtbyTA7JP6+
+	 YD62ao8rYSuU8RSNCeuECiqXaD7gU1lAWAWbbR5aFTTCWRVkcMMlMjaTEL+PVSssZMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=sntech.de;
 	spf=pass smtp.mailfrom=sntech.de;
-	dkim=pass header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b="S8PF/b2X";
+	dkim=pass header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=mqwTe0LQ;
 	arc=none smtp.remote-ip=185.11.138.130
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A20606A8B8;
-	Fri, 13 Nov 2026 21:08:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65A20606A8B8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61DF606A327;
+	Fri, 13 Nov 2026 21:08:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D61DF606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=S8PF/b2X
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=mqwTe0LQ
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
 	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=OeOsxZrRVRDIqTdGDpdJI5DQe9V4RgKB2bsKt5qqiyw=; b=S8PF/b2XIzZBdeBxgIu2e8xOT7
-	RUj4jb5ZfUUbi5n3xl8mxvE1yJjjMr0KitMyUPIwiZ0Wuutp608PtIQAhn90ASOsLZJUM7BdzgnR5
-	9FxTEfB2aQSACtV5rT5AddyyzRUJVLwLYLk09bUbZX5JHdXYHeckEaDZwic7+V3Bc1F6PGCNm/U+y
-	CVDuUDOP7U8fEgxkjaQqUerDSspjNo7AUow4q4Nqtp+XoIeepWbGPy9HydHv297f2q6297q0rBnlv
-	rujPtcmVu2NbEn9TpuQkShhn5DVOsAXnICWANlP3lQUU625qk4HnNjSyNYrX1yINoEbeJyp4slk2t
-	3rswiM1Q==;
+	bh=otmMSTCuvsJ6UTk79RPkyL0EYsvw/uUkUKUkDiWOIok=; b=mqwTe0LQY8+9MAO5MUFfilqs4I
+	tkQhfewvA2M+CruVyyrxWrOxgtXl5MJ3oXt4un/vqbjGpvqhG8c3SkDlVHTzYmUC/Edy42PnenbPA
+	g08EAC8SsSCulAs0ekNH8rPzNfs/2khzxuJ6mrc1db+QKteLo/PS0/q9UpUl5LQF27XQ1T9ARKUNj
+	ZAz0cMIv7dtIvjpGQZ5ilnXQVDrsWqb+HYOLQXcqA5DrgQxv6QtXd7t7+43gaL9QjDzTRhkgady1n
+	0F9WCnmAGE96ySQl2ItOYi1NER29TRsHoZHwGk0a26tKYilBQSJ0SPq/o8OP/WAlDnjXlVRVOvMFx
+	FgMz5qAw==;
 From: Heiko Stuebner <heiko@sntech.de>
-To: Deomid rojer Ryabkov <rojer@rojer.me>
+To: Jonathan Schmid <kernel@picomail.one>
 Cc: Heiko Stuebner <heiko@sntech.de>,
 	broonie@kernel.org,
 	conor+dt@kernel.org,
@@ -55,15 +55,14 @@ Cc: Heiko Stuebner <heiko@sntech.de>,
 	linux-sound@vger.kernel.org,
 	luca.ceresoli@bootlin.com,
 	robh@kernel.org,
-	jin@mediatomb.cc,
-	shawn.lin@rock-chips.com,
-	jensenhuang@friendlyarm.com
-Subject: Re: [PATCH v2 0/2] arm64: dts: rockchip: NanoPi R2S Plus: fix io-domains, enable SDIO Wi-Fi
-Date: Fri, 13 Nov 2026 22:08:07 +0100
-Message-ID: <179460406454.1165597.838727442879059278.b4-ty@b4>
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: rockchip: Pull down the eMMC data strobe on RK3576
+Date: Fri, 13 Nov 2026 22:08:05 +0100
+Message-ID: <179460406456.1165597.1652547099683766610.b4-ty@b4>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261031104714.3271017-1-rojer@rojer.me>
-References: <20261031104714.3271017-1-rojer@rojer.me>
+In-Reply-To: <20261109145022.75261-1-kernel@picomail.one>
+References: <20261109145022.75261-1-kernel@picomail.one>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -77,22 +76,24 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
 
-On Sat, 31 Oct 2026 13:47:12 +0300, Deomid rojer Ryabkov wrote:
-> Patch 1 fixes the VCCIO4/VCCIO6 supplies of the NanoPi R2S Plus, which
-> were inherited from the NanoPi R2S but are wired differently (see the
-> schematics referenced in the patch).
+On Mon, 09 Nov 2026 15:50:22 +0100, Jonathan Schmid wrote:
+> The eMMC data strobe (DS) is only driven by the card while it sends data
+> or the CRC status token; in between, the card releases the line. RK3576
+> configures emmc_strb with pcfg_pull_none, so DS floats between
+> transfers.
 > 
-> Patch 2 enables the M.2 E-key SDIO slot, which FriendlyElec populates
-> with an optional RTL8822CS (Fn-Link 6222B-SRC) Wi-Fi module.
+> In HS400 the host samples the CRC status token that follows each written
+> block with DS. With the floating line it misreads the token now and
+> then: the write ends with a data CRC error and is retried. Nothing is
+> logged and the data ends up intact, but the errors show up in the
+> controller's err_stats in debugfs, and write throughput drops.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/2] arm64: dts: rockchip: Fix VCCIO4/VCCIO6 supplies on NanoPi R2S Plus
-      commit: f889f5d1f9a809fda80d9c6a9e540d8e0e12761f
-[2/2] arm64: dts: rockchip: Enable SDIO Wi-Fi on NanoPi R2S Plus
-      commit: bcb95c3641b06f20e0c2ed4c849139ad72084d29
+[1/1] arm64: dts: rockchip: Pull down the eMMC data strobe on RK3576
+      commit: 330f3d6b0bd5e8694c7b80791444f70d2535912a
 
 Best regards,
 -- 
