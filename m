@@ -1,100 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.182
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794554314;
-	b=4B6+hTsbrs8zFPcgylRmwXUeIStrcsugU2R64BU6dJLS9g5wOvsv9Pys1Yo14SapU6iX
-	 bM0Lsay3l5JnJeTgvdLTc73Uwjvw0COh+IdSRTF1TDVHcqgOvnoubcTsuyvnAojsI3F3f
-	 oh4Ac0p5GPKe8vDXMKowqKVBOnjizam9Lgtkm/pGGo1SVJ8bCbz4XIpztVLG2TxfUKeiI
-	 8ca80caM+rf20fr44geUHYRMfnkQm2Ib6Vk44HVfJ+82AABEPc28VYrKwui6PHo7OLugS
-	 rGvmka3/gcu6aQ3RdjmumcGS2O/4T9frQzZnqzQjIPBYDxbz6rfM3lLlrJGjMVu41fw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794554314;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=Z0+5b90eI0XV3LtvO+5dJ8DLir8th8z4fv/7Ku1cttA=;
-	b=g3SoBJadf49A2E0omEB3NnjH94PpWYRsa656gxhg81lLEREcGGh9zaK+Vns6GMurfhWN
-	 kJ95bxJPr+VT99m9GMJH5YctYtt8v9VIcTx5aWG/2G7Z8elSPqKcYgd1sthe//VO37Rma
-	 uhJqP1uA9HMPsdeLGZwpUu2fhB1qxWK3e+MiTScNwIxtSk0R8ZX2TsnDLF1jDXUGnTYoR
-	 Ooue/D4GD5wNRsgxTXYu3sq8TrjdsJhCRnmAR6DYUoLBtf/+Ahm5hIyPZCVR85bsp/9Zn
-	 NdBiS3DITdXLUOoNLLah6nHV6OsGWcyBNugrLj6a7+pzVmL4JEvVSCgFwF1XqTxc0eg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WZ9FO35Y;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.182
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794554773;
+	b=VAFBB+f6poXM+sckBq6mmKunwlZr+3o51LIsuz6n+2OPUtd8xkHRPRHmxKgJyJabkmSH
+	 KZ7rX5iYlGpyc/aKbVJaKi+kX0wOoDwoPZeeKsIbRWMrGqN7D3XM3rbmrYbN4bbHHmuAr
+	 sI26G7kQsQ+3idEy+NhFl4HOI6IdCcOYqj9N9U2NKK8q4Ay+68e/j7u3c3LUDqd5fpZkH
+	 1j3qQvvu90M9yTT1dC01BSvFUR38SoPdpHctGbi8qBZSE1dEl/glJVJk1l9T/ErqxaK2G
+	 BpjYiVStT+w+F/pYgFggxBiCC56Ry3D05GVJc/jp7kfwTHpcse/4d0wQ5eeYbv7hhvA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794554773;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=+mqEs1AIiTNdfOSnGwIn5cTuCo9qadPIWZT6yEn5fJY=;
+	b=IBL+mLUMgZ6QSNXGT4pTZr37xgdI8aXSPOERE7emM3NolsGQ08OZvn6UwGWcjR9cQDS9
+	 lKLJlRU/v/ntaOz54QomU+58cPNGoakUFC7/inPD9UTDKlwuFX4l28Dzb3WHuwbTotRpH
+	 w516CpQgCyn/KWSLsFtxgtq2pcWYqurWTF5fjbKlkcwGAN2l735Y9iPV4O/pJ9xLut4w0
+	 CAbGIg4S0mvoTEyHvjbVGJ1w8YhPbY565c7XOXpJm0EdYykBQwOr72Xln6nMYmkJZkab0
+	 imLbxgI/LCQOe1KdmDjZwrYsgit8Rt7dnWJgMqaFPbgr/PF9t4RPADWC3uGJN61HSZg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Pe1L7O2c;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46976606A887
-	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 07:18:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46976606A887
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1397606A31C;
+	Fri, 13 Nov 2026 07:26:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WZ9FO35Y
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-cdab9e9761cso664071a12.2
-        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 23:18:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794554313; cv=none;
-        d=google.com; s=arc-20260327;
-        b=LhigeRuEkmqiblO6KLt9YdgQQqilSnPl7/fi4jhrGvZbROYU0O/WTLzEozH2trw7iM
-         IgjXmt/wUBZ0/gKKP3CuGDmjQAjhTwp1i55ysXqUaPAGoqAR+CFIrb7o+T30s/swxIR/
-         mhm6pjBXIwvOPyxTaC3hTELINB+GjSEsrgE3MUksOQI4df03ZwLwRlT7pf7j65fLX2Uh
-         5Lr6MSXxfSjlCwA59eGX9W6mK8id3+fH1u/+Ux2iPMWoTR4WzwyEbch06Yrcb9aZnYa4
-         OIPMcuqFKujfhe2l7QEX3BQJqx2bSbKGxOcIhfpKxvOqsjaJsk5Ege2dcESS/ENHDtZ2
-         YxpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Z0+5b90eI0XV3LtvO+5dJ8DLir8th8z4fv/7Ku1cttA=;
-        fh=RPXlrIhphW0ejLO+ICD8IUkRFjWe2goTmxanotP6ssE=;
-        b=X6Ut/vd0gPklbLMRuMaYejXYjYueTnIYWsFbR6lyVj21YLQhnjiLiqj26eQIm6Tnxu
-         ieUGGFj0MUiO6ioIYy38WC3FKSFcaocToUs5P1mw89hajnsx6kD50h6+soh+Fg4AHmDu
-         VKqP6mRlTcVnIaWE21378bWV8/MAcADRCzVyJfzEu2i/CRAvZQlRMVDys7Yn8iXulKpu
-         pzvwWH883Y2bdxWs35m0gz9wwndhEKhKtleqkbHbPMnYxqZU9GleNpZTsU9frzLmTWZO
-         M5C2wXxY1z0yCCuQ/Aivb9HZUpMRYoRaBKfxid6x/S7nRU623XNqhy3ZQIg4jye62LrM
-         Fhvg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794554313; x=1795159113; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Z0+5b90eI0XV3LtvO+5dJ8DLir8th8z4fv/7Ku1cttA=;
-        b=WZ9FO35Yj2EGZ3glSIiD7E702fDDmutFYe/FV68QwbfJ0wErGMDSFndeI7bUHZDuzH
-         1fsYwRhy01PCTAZ53snqly4ETL177Q6fAb1zukxr9mnZIqSUxcUmJ71uejWVdqHG0Nq7
-         /lpQDQLbShA3vJ1VnMKScc+4zSGJUWM3NDuVI88nxRKAjjGUFPZL1QK7AcFAmxsbmum3
-         bdsoNqk9m3VURMpsXuePx39UEpio5rM5gGzf05GSyI5ikPaaK5Dyrp1jKBbilKZGvNIW
-         24fxaCAL+apzDOsnsYWvvsYflSmJzykcU3Ek4ElMPIZX4i1hmfsL2ZgemilttfVUcSuA
-         shCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794554313; x=1795159113;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Z0+5b90eI0XV3LtvO+5dJ8DLir8th8z4fv/7Ku1cttA=;
-        b=oEJOkcP76WhGvJDcmQ3eP3jEmLGUBa/WnyWU1y5oAZ9dxERbvb+ZBfy5XYPc7/gJCy
-         Jvycubg9UkSKc2SSk+3lJCqkZ6rr69TqqUO2IlQg1I/VxcFFKcOr5X6w6hfsWyo8hWQV
-         E4wNu1MyvnhhQiAOpr8oyztmHyVYok1FGMbjDMkW3FGbcHfzEk9G/dSSF7MHKBagA0Ae
-         kaKbjrSRpLF976P0DMsZ6vS+nzae8a71wdGcxjQPsP8YGjQagtA8aAwUNzmg8uX0N5wd
-         UcLTBiGOVAU6LvXAmNTelavJChJRSEVPOAlBN3W8HFVVEt7Jh5x7PRk+YEflVe6UrGej
-         528g==
-X-Forwarded-Encrypted: i=1; AL+hErHJLp9GhzSfO+ZCCboz/DCXmex3Wa0m5REUP9sueotfN3aKd+nJALNwrikwRnLkb7If8weATm6Ou+pX3Q==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8RGt1TdeQFyoUEZ3V1jGwYFcT7hOI3bfnoWPWHlkdNRZqmQbQ7
-	9xmGtAqLOl0aeDSwMbbJxBKruc9YJLBXQ4A3k40ui+aWUxZtQPaqve+mO26IVRQKGyXtRv6msO+
-	Bps5+oipws35NaFqz8BK6gbx+LRh2TUY=
-X-Gm-Gg: AYBFou0Xwud+Vh4rmVeaprpDP71Ompe6Vq+LPporTFN6OrW4wzBRtL8vMZBJevgjQE4
-	ZabPfIjJ9PZxvvjXXpI8CkeqRjMlk2QX27M1GkqaL4b4X7vppYVyeN+8slrrIfrzlJK/MqAY7Q/
-	eOgNpibzzGaNbfH3WC5mzJ91rMaOKqLK/EVQ1IAOqR/s29dRHvwnR8z7iYtGw92F4aU+JCHXyzu
-	VstXnHdj4KEAbtOmwjAtS8vOPrWWyTNdU+z104CkGgJ4w/3tF9TekD5lwl39EacIRnf/h+3A+7G
-	F5dOlbG9m91BzKTR/Vu/7zX3zSB/Nr7uarTo4xpBBDNqB4KpufipLrCHVplxlVr2CfE04eElklw
-	dGswLnZG8XPP1fsBJ/tzhrKjq9M7WVmV5BMS0
-X-Received: by 2002:a05:6a20:430c:b0:3e0:f8f3:ac70 with SMTP id
- adf61e73a8af0-3f7a7fc6dc2mr1584952637.61.1794554313512; Thu, 12 Nov 2026
- 23:18:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Pe1L7O2c
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDBDB1F000C4;
+	Fri, 13 Nov 2026 07:26:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794554773;
+	bh=+mqEs1AIiTNdfOSnGwIn5cTuCo9qadPIWZT6yEn5fJY=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Pe1L7O2cp6f+mUIYTaN6SpHzAnxlGZBOYOGty7+KR+PtlyqN0sNE3nYmpVcxNlIKz
+	 rgLL4TZfD2DovJ+eFzmo78d3KvlxW5V1n78fuJXhuv1jM/WWGmuro47v6LDFVMOdZo
+	 tkjGeuHfpNdlBuBQ6YIttd2SjJ5XVu8KfvOnFGzOBGpjY0Ed8JSNjLKMbg6Bhuutdi
+	 XRiGJe650ABbfbzS1rkjdu8Ddq8jv4S3uq/zauVG2Bkua97r7IQ+0QXGchQleBnl3a
+	 1I8JAdh9fKESgll7cH5NPMZDYpnnXz59TxfuUwbiNH12FREACA4iuatld1XDcuS/vp
+	 Tts5UV4LPKsNQ==
+Message-ID: <sashiko-outbox-212346@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v32 18/20] ALSA: virtio: settle PCM control state from
+ late replies
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Joonho Lee" <mynameisjune111@gmail.com>, linux-sound@vger.kernel.org
+Cc: virtualization@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>, "Eugenio
+ Perez" <eperezma@redhat.com>
+In-Reply-To: <20261113-fix-virtio-snd-recovery-final-v32-18-4e95979e312c@gmail.com>
+References: <20261113-fix-virtio-snd-recovery-final-v32-0-4e95979e312c@gmail.com>
+ <20261113-fix-virtio-snd-recovery-final-v32-18-4e95979e312c@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 13 Nov 2026 07:26:12 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -103,60 +61,213 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-References: <20261110075841.12104-1-phucduc.bui@gmail.com> <20261110075841.12104-3-phucduc.bui@gmail.com>
-In-Reply-To: <20261110075841.12104-3-phucduc.bui@gmail.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Fri, 13 Nov 2026 15:18:16 +0800
-X-Gm-Features: AclHuK_pBW-2Dpv2BcGIOJH5pev5KvmpGX7HHdiyRgy9dTc9bXL9f134N_0U2VU
-Message-ID: <CAA+D8AMP=4jc-_Nwog5vqw6nsxjpniy_Rt0xy6ca8d7ko8MQtA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ASoC: fsl_sai: Report dataline configuration read errors
-To: phucduc.bui@gmail.com
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
-	Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linuxppc-dev@lists.ozlabs.org, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 10, 2026 at 3:59=E2=80=AFPM <phucduc.bui@gmail.com> wrote:
->
-> From: bui duc phuc <phucduc.bui@gmail.com>
->
-> fsl_sai_read_dlcfg() returns errors from of_property_read_u32_index()
-> without reporting them.
->
-> Add a dev_err() call in fsl_sai_probe() to report failures returned
-> by fsl_sai_read_dlcfg().
->
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+Thank you for your contribution! Sashiko AI review found 3 potential
+issues to consider:
+- [Medium] ALSA: virtio: premature settle wait in
+  virtsnd_pcm_sync_stop_locked()
+- [Medium] ALSA: virtio: late STOP race in virtsnd_pcm_trigger_inner()
+  pause rollback
+- [Medium] ALSA: virtio: repeated virtsnd_pcm_control_settle() waits in
+  single PCM ops
+--
 
-Reviewed-by: Shengjiu Wang <shengjiu.wang@gmail.com>
+commit dfc3a2dc4d2a8149c7f6f4fd9c5c643964f6b264
+Author: Joonho Lee <mynameisjune111@gmail.com>
 
-Best regards
-Shengjiu Wang
-> ---
->  sound/soc/fsl/fsl_sai.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
-> index 59c9b8c28133..16197f9ac2d8 100644
-> --- a/sound/soc/fsl/fsl_sai.c
-> +++ b/sound/soc/fsl/fsl_sai.c
-> @@ -1621,8 +1621,10 @@ static int fsl_sai_probe(struct platform_device *p=
-dev)
->
->         /* read dataline mask for rx and tx*/
->         ret =3D fsl_sai_read_dlcfg(sai);
-> -       if (ret < 0)
-> +       if (ret < 0) {
-> +               dev_err(dev, "failed to read dlcfg %d\n", ret);
->                 return ret;
-> +       }
->
->         irq =3D platform_get_irq(pdev, 0);
->         if (irq < 0)
-> --
-> 2.43.0
->
+ALSA: virtio: settle PCM control state from late replies
+
+This commit tracks timed-out VirtIO PCM control requests and applies their
+late replies to settle the substream's native device state so sleepable
+PCM operations can wait for completion instead of requiring a device reset.
+
+> diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
+> index 4a10cd3cc57ce..15d4473f4c0a0 100644
+> --- a/sound/virtio/virtio_pcm_ops.c
+> +++ b/sound/virtio/virtio_pcm_ops.c
+> @@ -157,10 +157,79 @@ static bool virtsnd_pcm_pause_restart_transitioning=
+(enum virtio_pcm_pause_restar
+>  	}
+>  }
+> =20
+> +/**
+> + * virtsnd_pcm_ctl_defer_locked() - Record a native control request whose
+> + *                                  sender timed out.
+> + * @vss: VirtIO PCM substream.
+> + * @epoch: Generation of the request.
+> + *
+> + * Context: Control queue lock held with interrupts disabled.
+> + * Return: false if the generation was reset, true otherwise.
+> + */
+> +bool virtsnd_pcm_ctl_defer_locked(struct virtio_pcm_substream *vss, u64 =
+epoch)
+> +{
+> +	guard(spinlock)(&vss->lock);
+> +	if (vss->resetting || vss->reset_epoch !=3D epoch)
+> +		return false;
+> +	vss->control_late++;
+> +	vss->control_uncertain =3D true;
+> +	return true;
+> +}
+> +
+> +/**
+> + * virtsnd_pcm_ctl_settle_locked() - Apply a late native control reply.
+> + * @vss: VirtIO PCM substream.
+> + * @epoch: Generation of the request.
+> + * @command: Control request code (VIRTIO_SND_R_PCM_XXX).
+> + * @status: Reply status converted to an errno value.
+> + *
+> + * No other native control request is sent while one is outstanding, so =
+the
+> + * reply determines the device state. A failed request leaves it unchang=
+ed.
+> + *
+> + * Context: Control queue lock held with interrupts disabled.
+> + */
+> +void virtsnd_pcm_ctl_settle_locked(struct virtio_pcm_substream *vss, u64=
+ epoch,
+> +				   u32 command, int status)
+> +{
+> +	scoped_guard(spinlock, &vss->lock) {
+> +		if (vss->resetting || vss->reset_epoch !=3D epoch ||
+> +		    !vss->control_late)
+> +			return;
+> +		if (!status) {
+> +			switch (command) {
+> +			case VIRTIO_SND_R_PCM_PREPARE:
+> +				vss->release_required =3D true;
+> +				break;
+> +			case VIRTIO_SND_R_PCM_START:
+> +				vss->device_running =3D true;
+> +				break;
+> +			case VIRTIO_SND_R_PCM_STOP:
+> +				vss->device_running =3D false;
+> +				break;
+> +			case VIRTIO_SND_R_PCM_RELEASE:
+> +				vss->release_required =3D false;
+> +				vss->device_running =3D false;
+> +				break;
+> +			}
+> +		}
+> +		if (--vss->control_late)
+> +			return;
+> +		vss->control_uncertain =3D false;
+> +		wake_up_all(&vss->control_wait);
+> +	}
+
+[Severity: Medium]
+Can a late successful VIRTIO_SND_R_PCM_STOP reply race with the
+SNDRV_PCM_TRIGGER_PAUSE_PUSH rollback in virtsnd_pcm_trigger_inner() and
+re-enable vss->xfer_enabled while the device is stopped?
+
+CPU0                                    CPU1 (<hardirq>)
+virtsnd_pcm_trigger_inner(..., PAUSE_PUSH)
+  virtsnd_pcm_stop_device()
+    virtsnd_pcm_send_sync()
+      virtsnd_ctl_msg_send_sync()
+        -> -ETIMEDOUT
+      virtsnd_ctl_msg_defer()
+        vss->control_late =3D 1
+        vss->control_uncertain =3D true
+                                        virtsnd_ctl_notify_cb()
+                                          virtsnd_ctl_msg_complete()
+                                            virtsnd_pcm_ctl_settle_locked()
+                                              vss->device_running =3D false
+                                              vss->control_late =3D 0
+                                              vss->control_uncertain =3D fa=
+lse
+  if (rc && command =3D=3D SNDRV_PCM_TRIGGER_PAUSE_PUSH)
+    virtsnd_pcm_start_queue()
+      vss->xfer_enabled =3D true  <-- queue reopened with device stopped
+
+sound/virtio/virtio_pcm_ops.c:virtsnd_pcm_start_queue() {
+    ...
+	if (vss->stopped || !vss->prepared || vss->xfer_xrun)
+		return vss->xfer_xrun ? -EPIPE : -EBADFD;
+	if (vss->control_uncertain)
+		return -EIO;
+	if (vss->direction =3D=3D SNDRV_PCM_STREAM_CAPTURE) {
+		rc =3D vss->runtime_active ? virtsnd_pcm_capture_send(vss) : -EBADFD;
+	}
+	if (!rc)
+		vss->xfer_enabled =3D true;
+    ...
+}
+
+virtsnd_pcm_start_queue() checks vss->control_uncertain, which CPU1 just
+cleared, but does not check vss->device_running.  In a linked substream
+group, ALSA only rolls back streams preceding the failed one, leaving this
+substream in SNDRV_PCM_STATE_RUNNING with vss->xfer_enabled set while the
+device is stopped; on an unlinked capture stream, rolling back
+vss->capture_quiet_sequence before snd_pcm_undo_pause() resumes the stream
+causes the zero-length RX buffers drained by STOP to trigger a false
+capture XRUN.
+
+> @@ -680,6 +808,10 @@ static int virtsnd_pcm_prepare_locked(struct snd_pcm=
+_substream *substream)
+>  	bool suspended;
+>  	u64 epoch;
+> =20
+> +	/* Teardown decisions below depend on the settled device state. */
+> +	rc =3D virtsnd_pcm_control_settle(vss);
+> +	if (rc)
+> +		return rc;
+>  	scoped_guard(pcm_stream_lock_irqsave, substream) {
+>  		guard(spinlock_irqsave)(&vss->lock);
+>  		if (vss->resetting)
+
+[Severity: Medium]
+Does calling virtsnd_pcm_control_settle() in both
+virtsnd_pcm_sync_stop_locked() and its callers make a single prepare,
+hw_free, or hw_params operation wait 8 to 12 timeouts instead of the
+documented 4?
+
+When a prior control request times out and sets
+substream->runtime->stop_operating, snd_pcm_do_prepare(), do_hw_free(), and
+snd_pcm_hw_params() first call snd_pcm_sync_stop(), which invokes
+virtsnd_pcm_sync_stop_locked() -> virtsnd_pcm_control_settle() (4 timeouts)
+and ignores the -EIO return value.  ALSA core then immediately calls the
+driver's prepare, hw_free, or hw_params callback, which calls
+virtsnd_pcm_control_settle() a second time (8 timeouts total), and when
+virtsnd_pcm_hw_params() fails, snd_pcm_hw_params() unwinds through
+virtsnd_pcm_hw_free() -> virtsnd_pcm_sync_stop_locked() for a third wait
+(12 timeouts total, or 5 timeouts when VIRTIO_SND_R_PCM_SET_PARAMS itself
+times out).
+
+> @@ -1579,6 +1711,9 @@ static int virtsnd_pcm_sync_stop_locked(struct snd_=
+pcm_substream *substream)
+>  	int rc;
+> =20
+>  	lockdep_assert_held(&vss->lifecycle_lock);
+> +	rc =3D virtsnd_pcm_control_settle(vss);
+> +	if (rc)
+> +		return rc;
+>  	scoped_guard(pcm_stream_lock_irqsave, substream) {
+>  		guard(spinlock_irqsave)(&vss->lock);
+>  		preparing =3D vss->preparing;
+
+[Severity: Medium]
+Does returning early when virtsnd_pcm_control_settle() fails here lose
+substream->runtime->stop_operating and skip disabling vss->elapsed_period?
+
+snd_pcm_sync_stop() clears substream->runtime->stop_operating before
+calling ->sync_stop() and ignores the return value, relying on the driver
+to re-arm stop_operating =3D true on failure as virtsnd_pcm_release_locked()
+does.  If virtsnd_pcm_control_settle() returns -ERESTARTSYS or -EIO and the
+late reply later settles, the stream stays in SNDRV_PCM_STATE_SETUP with
+stop_operating =3D=3D false and vss->prepared =3D=3D true, so subsequent
+snd_pcm_sync_stop() calls skip releasing the device stream; on the
+virtsnd_pcm_hw_free() path, returning before virtsnd_pcm_release_locked()
+also skips disable_work_sync(&vss->elapsed_period) before the DMA buffer is
+freed.
+
+Sleeping in virtsnd_pcm_control_settle() before the pcm_stream_lock_irqsave
+block in both virtsnd_pcm_sync_stop_locked() and
+virtsnd_pcm_prepare_locked() also leaves vss->preparing =3D=3D false and
+vss->prepared =3D=3D true open to I/O completions, pointer/ACK callbacks, a=
+nd
+triggers during the wait.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261113-fix-virtio=
+-snd-recovery-final-v32-0-4e95979e312c@gmail.com?part=3D18
