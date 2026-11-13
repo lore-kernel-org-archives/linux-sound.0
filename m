@@ -1,100 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794551809;
-	b=dNKCNT60T8jjc1aUpb+Vq8m92oNqKHSufnc+JjsxwpjW6w+SWZfGgJW1GGMnQkjiR1pl
-	 IfJkw3DDhy5KaJ3THIWGxXvjC4+DJ71FstB/U/PRD96IEZTErXgZdWRLAqrP7Od6Izyoc
-	 A391AJjI8FTORCXyV54ZQT+buEnViyfPtmduUGG3winfNGd+SCcIYrxI3jfcTAutgTyBr
-	 tfF+KBPb+CmK37Dlq/5NjExXSOAeOO/bwYXyT0k3NuUfgzXdE2bp7sfSQSWRrU8ECAJmT
-	 WjwWUeT9v0lF2iCjVFhjz0oUEF6kwbkERXIKPlJMNdEu93JRa4K3rhlv/fpvf78k1WQ==
+	t=1794552113;
+	b=d9MC+/91Uy7UC/8pntCK2AnecFJudNTIODlpZEN1IH4Upi5DoF+VQpp/GI+4mb9DJj+p
+	 Q6WM6vabWXGlhaavB1GFUvYz9da5aKg3jBtye1MQIjZXJaRBLUMyjX5+Lg253gKta7EG8
+	 lqItZx53mC984iMefWNuOxwk/HyOBSw6vuFmND86yTZZkTIEdWokfNrAD4BH0i645nCn0
+	 JKr0Q6I3N8JqKYSY9QYufW7xawwjIssumpj4LJsNqe4XnKiQYpICbO2ciY4hEDt9yJZu5
+	 JYX9Igl5IVZKz8Hi/tUfVr1Svc5EB+iwwkgKVNTx7echhiyi6rNIlAUmRIp4CUluHrA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794551809;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=9FjdCGKO+IXvevdDDEoeEyIunJuJigz0McwLI1lND1w=;
-	b=vwnfRc/b3rFjALjrF6isWfFHDQXS8SPGSfOEKBvRDINGaR+X7ZDsE+oG3aOKzWE+9xTl
-	 scgb9GfZUO47jdJVDX2yhNWxRT6jq0YXY01XRtsj+2zTsfO9QC1cviW1p6wKIwHlAnFed
-	 32JkL0PxD3+QLu3i1gnPuRU52IwLkmOSKPwdiZvBwWYyeaGNaVeee7X/eZgoALVyM9a3B
-	 cuO0+yuXQXYEKVt8lsIlsdOAm4MILvIlHgOjD4w8R6U7sxBZlpBDc8Q8rWn5Q6TFM+gaD
-	 HqYFfrWDo+IC4oXYGCuD5MrMIkYYWJeRbVv+SInLr/5LdWLDms5Svwxo7Sc7if+jmzg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794552113;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=bZjBAo1t7m97hpoMIVSGD7yUPYY2vbST28/Blmlqims=;
+	b=dQbymiXg/eAmgyVl3/RlAsQ6lKWPfiscowbSZZjV2mIkGcFq8zh9rf9tI88kZKiD/UU+
+	 ej2cLLk5qJlc+d95Rd3awy668R8Zomvv0wEkmG3suDbmq6YkqyQMPOOrNy10MxAWsQtYM
+	 wBpbNgOtR8z/0hJcE39WlXRTurRJDDPU+0s8aS1kzJByarFQanvbSsPY0IYDP/sSAduHC
+	 LREECBSA4joDij0kUyn/TP4q3md516nm2lEmSxyISj1qrNFdJrvfY1klcRYAkFFooIOWk
+	 sGi42Tv3ORen0pOlYltAgYX59qc7nEdDxmqyFg8nOGaUr1/qWrFzWtLAHqjDQvoXgwQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=x8mPrAop;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.216.51
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AoehwYGi;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6950A606A31C;
+	Fri, 13 Nov 2026 06:41:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AoehwYGi
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794552113;
+	b=Cjn0HZnF3/rX4ykQGIhEhNBaG+UVcvJkVDwNrZ+k8d9zEZXW9wZAwTCpd/KTynXp3qRv
+	 2mqnNe5f6Dl+3PrQ/coAIdQC5VyblYV+p0sLiHilzE7rrlsY32MVN349ZT2rDX4SXIQkM
+	 2vNdVNocRPOpbXjPDLyltRjNbtqbK7/wubWuW/O4UH0afdccicEXp9FtXE85fPqmEsEPh
+	 VlVKDpqrcgQo+8PNgf+jU4nK7zWVbY9LCLUVmQ6hUT/zD/y5UAGVIKBtqa7OrtZIlbtu4
+	 4TJuJ9M6psRsdMQOAG41iK0bw0jP7FY2MxuSn7lKSr1KPs0cPHCyx+8cfnRUIxd97Mw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794552113;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=bZjBAo1t7m97hpoMIVSGD7yUPYY2vbST28/Blmlqims=;
+	b=X1G25JBlzbQEMQtm1BCzpA7uEqvq+Z+wzuGetWnuiLwCNrBy/dlYZSFtOhEQ3Dj1pRsA
+	 yRV21k+nRqpssID/NkoTyYz29rP97YHSdYU0xNJspelWCiB72UFX/fxpP6NkygCfEWh/M
+	 0TCR1GC5taVs5u5S6eUVcPJ9tUGZ9ydoEkEkPHLwcg+Y6I1nN0JeI772SIIQkA/7VciVT
+	 utL+Y+R31EyZKHUUFBjGiU1twjgsi+2a3PaLYiaYnqawMRFRyZ8EHIelZBQeb8N9O7yNN
+	 7ETrxn+0WoP5CWiC8MtpTzpQ4qo15ii3y+BFQ2l2jPK40i6/6iBhCxJA5bgBksfz3SA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB341606A31C
-	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 06:36:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB341606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=x8mPrAop
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3b1535be329so562315a91.3
-        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 22:36:48 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794551808; cv=none;
-        d=google.com; s=arc-20260327;
-        b=s/Ls+HWe80+OKpuSmhrRjJHyiESv0IVgF128pqCvjNzNpYiOjiPN9FkGcxtfTucmrm
-         xJ992Ilhrbg2Cvdt5GkjVOdtqne3b8wXpT4jjI9GIG0EOvM3ckEZoO/9RrTImzZaw9je
-         7WEEPf/0yonvWSIjw1Z3m7adPWZZ89pVRE1VllgTZYo4HDXQoahGga3Bru5zki4ocAW1
-         EFJ5htoNEJl5c8BR2UvIbwaSk7maLwrtW6yJ411AGUx6s2sQ/7PXHO0nrwBHdobeSb7N
-         1zVrrVwHRD+uki0gDAOGjWdVzkY9wBN65UXPaNKqlPOA6q/BdUCrsXVMk6BlI970MGe7
-         Z1aw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=9FjdCGKO+IXvevdDDEoeEyIunJuJigz0McwLI1lND1w=;
-        fh=I3zeulq0sqvA3Pt90KS8bh8GBIpVL2l0xvRATomNOEs=;
-        b=q4n56j5IcfclbYz8VlR7Mq/eVfMlUw3zIZFXEtl+x8ZirqO2CkmYPp6wOPSfYbGhPh
-         eayNt4/z6sL39CAoSd5r8l6vX5k9PH1Z0GAIM+tadTA/evBAPqwfQPEezLykI7qoYa9Y
-         rDK7rVEmr2ksiBcZtyA5MB/ebgEK2uixjgfgfk1Vo2ANwZeww7gSQOsdyrRy6DF3gewY
-         UTUGQulVNJSzZRCXpkaUzWDxY8vMtNhQL1W3/2ridNrWnLSAyV/ct9BVkNcrhVBMiMHn
-         zGNu7ISEoPx4TdIqT59Jo27wuWpINai+LIg66tOL+X5egyALkLYhTHvG1M11czctzRIO
-         1aDQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794551808; x=1795156608; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9FjdCGKO+IXvevdDDEoeEyIunJuJigz0McwLI1lND1w=;
-        b=x8mPrAoptl7uy2+y2OSPgbGR4k20wDu0gRif7HK9CmhgAbclBzE34Fxt7BbQgi8WQe
-         ZmB3XOMANPEiK4A/CZPoWL9ObT9oDg1iZHueJDO+bwmar2FXqbnTItOE/locGcj3y5j3
-         jVrLWnvZFdCFh1Fw5o0s5Yja3s8AHT5gVPK92JyqL5EDVs5+90Ue8TICmUk4uj1SW+zY
-         KaDbD1KHvtyMAIXaSVW7Oug61VGI+S6aANy2vZ83JL9xj/KYH8lU/U84+39BaFkiGcU6
-         sikP8hgNEWSvbsmJPRJFG9n2cR42tHWF5J1uPFWW0g+8QWjsFCKkf7c15tNpPYlCt6ev
-         ybmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794551808; x=1795156608;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=9FjdCGKO+IXvevdDDEoeEyIunJuJigz0McwLI1lND1w=;
-        b=dludKfCYwt3CgD2SOietOmnf7DlyUYGAy26/F68zl8yy1DpBuh0Wz5XmVBpz836Qlt
-         m73DnCJxL7i8Yoe7lDPyccagmmTYv+kjyi6pnC955yjV8SkBBdm9xmREXVghRAIT/Is8
-         a96KuwmAxvqD6vlYu6lCuWnMu+Zu8hKg17UWj9jfupat13hU/pLfACMrUOWONIRwciIa
-         SDTYrVCMOdMG5mUDNG07BH4IMUJXGzbXTzOBGS/txco0DsXR6LKWSOePw0i2w6r2LkCx
-         8zY62w04kK+vfelzweMcOl1v9Dq3N3w0bEQtcbYRvRMLrsOqM1eHvWHG8pJERAsCcFRO
-         rxCw==
-X-Forwarded-Encrypted: i=1; AL+hErHUSbpQxbKD0VhaCbHBGgrQibUm7UCcBz0mUiYzmMnVI6uerV8lYvMV0v5zCtPN6twoqvlUq1gYTuKhqw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/iCQAujNoZpDyXRZKNsN6/GGJ3kYhn1he5LmkCxNexByXkUeCm
-	qJYrkuopKoFuYOtBe6tw8U7mfG5hmjreiCyimiOuGyHYb3U/k7biGncgsnF3COhw5GSbwPn7yC8
-	0D0EyqhXuOw68OaGQpE12iemheaf9sxk=
-X-Gm-Gg: AYBFou06EicAwjez2SwMqbAFISmuBm4oFXsgY0oRnlBkLMXU3E31tqgkAru/c+n4UzZ
-	AfgR66CgAMKpPUw6AI+zxEdmegOsYMfbC7NvL4vx0jM7qFcyuYhvPQ3unA9mzTJA76zpbEgrHE7
-	4dThkQR5NZz1UipAykJ/58yMVrd+AbGivIYTbN9zruBR1LOurgi3JzBHPwvwmvrOd7jyNY40gbo
-	Lag1bBJpuXRyQD9etlfKTieOc0b01fiS9v53hgNphlvCDgHiWUWXkBRfi8NdRPO7L7ibOKVnbit
-	b0RNLgvwwdo2oNeld2p9XFyHsw46PZftyewOy79G9f0XHMZc7uoSD+MP4L+H7wb9zzXTQKR/SKK
-	THYho43JkXq3loM85ZRtvS7pWwUQY0MdcMB3cRNPuBNSMf3eoMfZjaAzDgIR0l+/p6eG0KvytCy
-	L4nN6O73XGNs3N6Upv43rPKKNcVvsKSghCNfKHLk0OGgSlY9MNPBs9bUSy/CTs9OcF9ohWhA==
-X-Received: by 2002:a17:90b:1d04:b0:3ad:8ecc:5907 with SMTP id
- 98e67ed59e1d1-3b1b0b53d55mr1291888a91.56.1794551808035; Thu, 12 Nov 2026
- 22:36:48 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id 71B791F000C5;
+	Fri, 13 Nov 2026 06:41:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794552113;
+	bh=bZjBAo1t7m97hpoMIVSGD7yUPYY2vbST28/Blmlqims=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=AoehwYGi5IkxryTXNupSF/6QtRyMs2/ZQqbdDO+FwE87tq/mf7KCTj8TvEc914wes
+	 AcFFDaAp0MNNgoHruN1cfEfbZ50OPbftm2Ex1VM2sa7sxCbGO6unIT9zKd16RDhDRs
+	 XanF176jJw9D32LuFF/sniCPuESTrjl9shbZvEZLoCjiqD2u+bd4ZPBjyjlyB+V/09
+	 TWWM2PibxNmWunIqO6LndP2i1eXyhzDyuZ2VDGU+PioHM7cBt5u7SON4aIhyZdv+K+
+	 TIvlKVcy7sLNSO/BEb99PAsVCetHhW4E1QKuYiwdL8fgs5QEk/y4ZzGEHCAB0gm2yT
+	 Dz2hYk2XW5cKQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id C922647630;
+	Fri, 13 Nov 2026 06:41:51 +0000 (UTC)
+From: Joonho Lee via B4 Relay <devnull+mynameisjune111.gmail.com@kernel.org>
+Subject: [PATCH v32 00/20] ALSA: virtio: preserve PCM progress
+Date: Fri, 13 Nov 2026 15:41:44 +0900
+Message-Id: <20261113-fix-virtio-snd-recovery-final-v32-0-4e95979e312c@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,38 +83,127 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261112-mt8195-dai-etdm-fix-startup-v1-1-2a9fb98b9f6e@collabora.com>
-In-Reply-To: <20261112-mt8195-dai-etdm-fix-startup-v1-1-2a9fb98b9f6e@collabora.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 13 Nov 2026 13:36:35 +0700
-X-Gm-Features: AclHuK9Tq39ygLippNfyQDEwgJ14gA2IrkABaa-YFSuCcV67ahZWzbVvf6oujEw
-Message-ID: <CAABR9nGLAEoSU58+PCTSAjTG+Hn-fDXm6vtN6_omx-EH795LrA@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: mediatek: mt8195: Fix ETDM3_OUT DAI startup error
-To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, kernel@collabora.com, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAA/02NQQ7CMAwEv1L5jKUmaaHiK4hDkhpqhFJklwhU9
+ e8kcOG4s/bsCkrCpHBsVhDKrDynEpzdNRAnn66EPBYAtrV7Y4zDC78wsyw8o6YRheKcSd6FJ3/
+ HrjW+G0Lfu8MAxfEQKg/fgdP5l/UZbhSXKq0XwSthEJ/iVNGfOjuLtYVt+wCyd2NbqAAAAA==
+X-Change-ID: 20261113-fix-virtio-snd-recovery-final-401a48b55378
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com, perex@perex.cz, mst@redhat.com, 
+ virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+ linux-doc@vger.kernel.org, Joonho Lee <mynameisjune111@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794552109; l=5146;
+ i=mynameisjune111@gmail.com; s=default; h=from:subject:message-id;
+ bh=CSIvtBwKvaehws07KPUkWyj1WfIDDpl8ZWqHjrythjI=;
+ b=J8jsPXNnjCqRqCBN1b0bIpfLqnKgJOlS++iHQ4OzgdVMfRTDwlZIyhd8DF+qqzU4fYeJwVONk
+ P2JCRQTEfQSCD/mu/aR3oKGY1GnSjv2MAhqhiul+yGm7En0OdfgXCiu
+X-Developer-Key: i=mynameisjune111@gmail.com; a=ed25519;
+ pk=wqkZdvfcC8g8fDi6f0Y58LlaXIo+ubf6Y/9Lr9yhshc=
+X-Endpoint-Received: by B4 Relay for mynameisjune111@gmail.com/default with
+ auth_id=1508
+X-Original-From: Joonho Lee <mynameisjune111@gmail.com>
+Reply-To: mynameisjune111@gmail.com
 
-Hi,
+This series applies directly to sound.git commit
+ a4311e9447bbb219044db38897f95be112f46a8a.
 
-Thanks for fixing this issue.
+The last complete posting was v29:
+https://lore.kernel.org/linux-sound/20261112053446.73504-1-mynameisjune111@gmail.com/T/
 
->
-> Note that the issue root cause was also detected by Sashiko during its
-> "ASoC: mediatek: mt8195: Fix HDMI TX startup error handling" patch
-> review ([2]).
->
-> [1]: https://lore.kernel.org/linux-sound/20261109102536.357134-1-ghidoliemanuele@gmail.com/
-> [2]: https://sashiko.dev/#/patchset/20261014112752.683032-1-phucduc.bui%40gmail.com?part=14
-> ---
+v30 and v31 were incomplete because of mail delivery failures. The
+previous v32 SMTP attempt was rejected before any message was accepted.
+This submission uses the b4 web endpoint.
 
-I wasn't aware of the issue detected by Sashiko,
-as I didn't receive any review notification for that patch.
+Changes since v31:
 
-The fix looks good to me.
+Patches 1-17 retain the previous code and descriptions. Patch 18 lets
+late PCM control replies settle the device state while preserving
+control-command ordering. Sleepable operations wait a bounded time for
+a late reply; trigger operations fail while the state is unknown.
 
-Acked-by: bui duc phuc <phucduc.bui@gmail.com>
+Patch 19 makes PCM suspension available with CONFIG_PM disabled.
+Patch 20 resets a device when its PCM state remains unknown or released
+I/O is not returned. It suspends open streams first so applications can
+recover through prepare. If reset itself fails, it disconnects the ALSA
+card. Existing PCM handles report -ENODEV, and the sound devices are
+removed. A driver rebind is required after this terminal failure.
+Configuration waiters are woken before disconnect, which waits for
+their ALSA power references.
+
+Validation:
+
+ARM64 QEMU tests reproduced both recovery failures in the prior local
+candidate. Without CONFIG_PM, simultaneous playback exited with an I/O
+error after reset. With the revised core it recovered and completed,
+and three capture opens also succeeded. An injected virtqueue restart
+allocation failure previously left repeated opens returning -ECANCELED;
+the revised driver disconnected the card and recording succeeded after
+rebinding. Fault injection is confined to test modules.
+
+Nine production regressions and five focused baseline/candidate runs
+completed without KASAN or lockdep diagnostics. Regression coverage
+includes native and opt-in RW capture, native MMAP capture, RW/MMAP
+RESET and DRAIN, playback PAUSE/DROP, and reopen. Native MMAP includes a
+70-second capture phase after RESET. W=1 builds and sequential patch
+application checks passed.
+
+The new changes have not received physical VZ or fresh KCSAN testing.
+Earlier physical and KCSAN results describe earlier code. These tests
+do not qualify every transport failure or cross-device linked streams.
+The one-period TX queue reduction remains unqualified for worst-case
+scheduling tolerance. This revision does not claim to resolve every
+outstanding review concern in the existing series.
+
+---
+Joonho Lee (20):
+      ALSA: pcm: mark stop-threshold accesses for capture policy sampling
+      ALSA: pcm: report partial progress under the stream lock
+      ALSA: pcm: add an optional reset operation under the stream lock
+      ALSA: pcm: notify drivers after linked prepare completes
+      ALSA: pcm: serialize linked buffer actions
+      ALSA: virtio: propagate playback send failures through ACK
+      ALSA: virtio: Recover PCM state after a failed start
+      ALSA: virtio: Retain queued messages through device reset
+      ALSA: virtio: bound PCM transfers and retain DMA buffers
+      ALSA: virtio: Keep control payloads alive through DMA completion
+      ALSA: virtio: wait through signals for PCM teardown
+      ALSA: virtio: use request-owned capture and serialize recovery
+      ALSA: virtio: prioritize capture period work
+      docs: describe virtio-sound capture options
+      ALSA: virtio: reject invalid playback completions
+      ALSA: pcm: add an explicit application pointer to indirect playback transfer
+      ALSA: virtio: preserve playback progress across pause and buffer access
+      ALSA: virtio: settle PCM control state from late replies
+      ALSA: pcm: allow stream suspension without power management
+      ALSA: virtio: reset the device when PCM state stays unknown
+
+ Documentation/admin-guide/kernel-parameters.txt |   14 +
+ Documentation/sound/alsa-configuration.rst      |   43 +
+ include/sound/pcm-indirect.h                    |   24 +-
+ include/sound/pcm.h                             |   47 +-
+ sound/core/oss/pcm_oss.c                        |    2 +-
+ sound/core/pcm.c                                |    3 +-
+ sound/core/pcm_lib.c                            |   69 +-
+ sound/core/pcm_native.c                         |  277 ++-
+ sound/virtio/virtio_card.c                      |  373 +++-
+ sound/virtio/virtio_card.h                      |   22 +
+ sound/virtio/virtio_ctl_msg.c                   |  433 ++++-
+ sound/virtio/virtio_ctl_msg.h                   |   40 +-
+ sound/virtio/virtio_kctl.c                      |  109 +-
+ sound/virtio/virtio_pcm.c                       |  105 +-
+ sound/virtio/virtio_pcm.h                       |  194 +-
+ sound/virtio/virtio_pcm_msg.c                   |  821 ++++++++-
+ sound/virtio/virtio_pcm_ops.c                   | 2209 +++++++++++++++++++++--
+ 17 files changed, 4392 insertions(+), 393 deletions(-)
+---
+base-commit: a4311e9447bbb219044db38897f95be112f46a8a
+change-id: 20261113-fix-virtio-snd-recovery-final-401a48b55378
+
+Best regards,
+--  
+Joonho Lee <mynameisjune111@gmail.com>
+
+
