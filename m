@@ -1,95 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794556657;
-	b=MethjEsf6hfRyXH/lwlF4CkYxTj9DOzK3UCgKUbVZRM7rwLb/gP+4gVKsGrSGCzFMs0z
-	 0LJL4dpgJPBpOPOllaeTxK3W+/B/9VTEOufQLisjxc/534CZZgSvb9+a1cL6AFRvxsFwi
-	 r7S3UO95uf2Bh4wvNj2dwrmP5K1pCC7afb9VhICNASuxbM2anxYoI+ze/VYW/jYZ+JcTQ
-	 8H+GRg4ZwkR8PC8sPlW5MUhaPw2LBpSp6KBEZOyzqDst1T5mHdITYglgv15SfNE2JHnOm
-	 oqorZ3Au1ejaTSedGzbkMyek2YQocNQEVP0hT69vILTO3jFmOgAxtb3FmpBOIh5XKvw==
+	t=1794560406;
+	b=y+Ewj4iCuYitz+rkAYA1XZ0eoHoToHb/0U4H3ApYDlikvncquJa2xi/XhYp9xNtcZEqC
+	 MHwC5KBfdC4qus1ARmA3GTkcIPVDfZ9yR4tkHwnSxet85Aa3JDPGOQxLOuDNaBMvxM5+N
+	 iA/kqK6ZxRJyrKHGWFnKSzSdF3sdi+Wuv5W+gxkEGJSwMAn6fMYKnzxvMtc4xvW5t4buV
+	 GIW3UXF+JrEze0JvafMchAEAGHTAHPF73bVzx7b4JBm1kpEuaIyXtEC30yRvQbUV2E5Q+
+	 ciT1YMzKTlZNvxMNC6Ef2Fq+GSnD1QdDLN6+ZLFInKkfGiITHQPO3+b4wyStf1qmUrw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794556657;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794560406;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=unPCWJwYB1tZs7CFqUZ99dSuZFBml5Pw5Jco8PgJGMY=;
-	b=l+4vOMlwwGjc70sfsgxPGdTOAtCuru2KZfr+HMrouzexUBlIexb2vul6lUL9dg2LX4TG
-	 okc7DDVVZQhMQyTF2mwZ6P1blu955rhSpuJoZ8MRiNwsCEvaDL48U3x6G6vxtnmMRy1IE
-	 8cpKwj/gEfAmUBxVbLpNZbJ9ITE5447lLLMJfYatrniFGq/uVJNx9L7XQNhYYrzlp6SLC
-	 eWBC3Bga1+/X7InrNasK8Z5AiG4t7ICraS/5wboGvKTwPj4kZeZdW/PyiNInLi+60eRfo
-	 oCvol0Ipo6Qh4BA/JqK8RZOuQU+gW7WI+TuexCmv9X98+IXDnryPK4i+GfMT19Udweg==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=MdbPg10Nu4QUmPPwJMGre1ifKk4CLtSLgtBFQEV4AHU=;
+	b=nwLIZzlWQRo/3qUWrZ/ujsv0oVhWIj/vL0sSNgjIdePU+KM+U0lahdsKLjYp5Mdlj3HO
+	 U6gC1Y3e8oiX2FrKS74pIUAU+EbpaiZlKMkOfeD41DqQuNZ5FqwIlugfxsrH0yuto/9D1
+	 TP9PiBEWwQ0psOxNHSJBTEppBZzCfnwUhvYJjkD6a/hpywCTIf7B2CGLa+vg7r3pOx4Pd
+	 Qzu8mWsHcitrQqHGwd7l1Lwx0aOrXuTOenUDZwT+OWXxY5CrqLgcm4sQLt18f69KtrX8W
+	 Bwgs9gakyrzorMuq6gc6f6cLxBv0/4poKEBGMVboiU90COPqrmKW2TSEP+xKVb8TNAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=owYVeFzH;
-	arc=none smtp.remote-ip=209.85.210.169
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="tjRf3Oc/";
+	arc=none smtp.remote-ip=209.85.221.54
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5747606A327
-	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 07:57:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5747606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A0A606A327
+	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 09:00:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4A0A606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=owYVeFzH
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8a06cc097c7so877962b3a.0
-        for <linux-sound@vger.kernel.org>; Thu, 12 Nov 2026 23:57:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tjRf3Oc/
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-490f38e9688so446969f8f.0
+        for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 01:00:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794556656; x=1795161456; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=unPCWJwYB1tZs7CFqUZ99dSuZFBml5Pw5Jco8PgJGMY=;
-        b=owYVeFzHBbDYpZ+CJJ6Y3JXV6g7NzkZpH1dSvU7MZUHoE8u8pEJLGcKPBn16M5MpXF
-         8/qWmGGsZ0dOZw5yhn4sqj8iaEkKiRYaIxC1I++ovrmRvailrm7orsf/Xyx/w6QBx0Po
-         DDd4F8RoSYXYRDnvTw7u0IBCVe/VVCjbG/qgHhkpietPD5/liNAWDyOTjczvepZG4zNE
-         lPncVGNS2wQGjRZipOpQykW0R8Hka4W4iPVPvHHwteUDk0cRn7INvShr8zgGB5R4Uaoj
-         ojeosi+BXUPykMvUHz6d64FHFWr8v250xYPw2OQAp6kRI9B98IUzEfXHEwnlMESPWLui
-         uZ3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794556656; x=1795161456;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794560404; x=1795165204; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=unPCWJwYB1tZs7CFqUZ99dSuZFBml5Pw5Jco8PgJGMY=;
-        b=pyd9S3+nZSpsA+dNfExgp0hvDOXkysv0nNaANaMPtvxBmMPBr7R7hUHS8411ZVRdTi
-         9ID23KTl/PanvWzBgUk+5bCtWve5GakH4tIWesQJa5z7gFq9UkQBuXkoWGHB9GwPyuc0
-         jVKk+OL9yp53hW+dXAWy+kDubqTbBF8HOJ6QoHwCS/ijYmhBO3jkcWgHpy7GyMEQ/6hF
-         Vu+YhtS0jlHA8C15ExyDddN737WdXGR5O+qoC6PympGB37jIQS8XBUxJEStC5/ZEDIAP
-         UqfQPMc8Q9hmL80oZnLrDay/dvRvX2DKzTCYvH2itF+W/02pur/ALyqM5hQz/rKyiTvc
-         Pcww==
-X-Forwarded-Encrypted: i=1; AL+hErG9puji0aTYbGASOEtN6cuzXzbIaCnvTrlc6ulae/mYv8T+ueP0VjdvTEb4ZhAfml5UZRzkoxx3XdkHqA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8BDS0nl7vZzxD0k9+1UNLRoD6PsDXwpsAwwYg6ZfI7Ki8+N7nN
-	3hl/ZwbAUYKr7Z5oLICO1bADMOC3lGvaxMN05T3e1Xra5xF3iKpEhEQa
-X-Gm-Gg: AYBFou1ZESfjtZn6JSc6aCpTtpe7wDXI1c3BMlP/JRHq/lmDK4Wg27RP0n6K7ahP7Lh
-	kTt7PC9NcDmT0wnfWgiGtPQjVZA7jbWx2lIK+CKxbrPkJBjlbgAy8rdPiOZzSg2toTGq3++/jbJ
-	ao8Lh8mO6udBOTPMVtpmJ4rXvGl9+Q1DyMNMy3jxlEKLAVTjWMWP8NXDUo0Y7HBfUlC/daBmkpP
-	Z4D+swejyBC3BkLFzTiSl8fZzJiZAKvXR2optRU+ifNjgrLFWvgabIbUIKJy0uwR56RvUcQpYIT
-	61cT87hJV6Bt53CnTGnCUwfdxCihUVj8CK7t40iY055y+/ZtlcT9N5oIeR+PELxZCDLdFeJqFxv
-	m4yYNT3KobqdprUe0eQOJUVo9qiscLzPnQn7etYByXzlTdkfvTXq6eLAFhIQsED9ynThAmwA01+
-	fGgpZlTPwVd72g2rvSI8OKw01iXCglkmVN3I8oBQKdyhipJdxPCEhYO6SOCsPskxrznnvrzoyLk
-	NYVsvb9Va6d+io5RTrDrBUsp/S5W4jpSan/AYmgzdMbV56zc2urDU/MDR45X1tRrRI6pVE1/F+N
-	qpEkdKgIeyVc1MLs7kNujLyZtXL4RdROyaXpGg0J06oJhyfab1gJ2HBzQ91NUS1Qs8W4SaJH8Ca
-	CxeeSDiMR5na+GQ94JkZCWmQDT+NJLLHMg8tmbu0OuhSok9pHFWvvNK7a46gWew==
-X-Received: by 2002:aa7:9069:0:b0:8a5:a8a2:95a0 with SMTP id d2e1a72fcca58-8beb88d3244mr1729225b3a.52.1794556655614;
-        Thu, 12 Nov 2026 23:57:35 -0800 (PST)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed2053d26sm681714b3a.36.2026.11.12.23.57.33
+        bh=MdbPg10Nu4QUmPPwJMGre1ifKk4CLtSLgtBFQEV4AHU=;
+        b=tjRf3Oc/WVhaxuk5uYM/h8Cm57hl4wfFADq5g/slpD/8L5wJuGsP647rhZ/4mKv0qG
+         ut7obRF1yW0efslni1ipWxEb2gw4xhTW5b6PDKWsCURm50k3C94a9r4vm8kNm2l38rGq
+         stL9OlS62lbiNcqKVMstWNFf7w0JPHeHedqmW3xIADsWhxvnANqiZzTx/t4G2nPbnxLT
+         K5cgevgyCehSCUJbm4cNxdxyDybiBSu+Iz5iZZdGYKib3YldSTjgtuiuKGaUsPGOAawj
+         eSuxa9EqJ3T2y8Zv6QtvzTY0y6QiCuxBfpnOuH1tki+f4DbnM1maH/c1Lph1cH+WPIyf
+         tk5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794560404; x=1795165204;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MdbPg10Nu4QUmPPwJMGre1ifKk4CLtSLgtBFQEV4AHU=;
+        b=nrowYXVJFfl16fVT18nwqqUncCXjzfYvm8lCTKzOeRKkYG3T2JfhiVg9WfuWECQHla
+         jBWy4+0Lp+cL+DSClCWkFP0pglOToEH065R1PQPFDkXz8KQoEJUwXgRpyTZMOiHnxpjh
+         ScWGb1Y3XKzFyFoj9SkGQVwU9fJZtt/bGNOIZMbG/xrBjUCvCl7O9FKHeWDwfbM905jL
+         rFAiBqw3Ldmo1RoM3n7/OOo0M7jo55x+MPu+KCVTg2leH75o4cwu8r/3516/xaYI9iox
+         Qi+rHtUO++sFo/FKG1qu0G1PnuSDrSGQHxUaWmJH+o6CvmM1JkJcIkdlX6/3b4qlfFIc
+         4RMg==
+X-Forwarded-Encrypted: i=1; AL+hErFrbV/xUr8DQLHCtluWlGjEAHOqZ2DY3BtU+7433emh9smHwbc70OhCtdEQo79ZESlI3C3LAXT2Ep+2AA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+CRWexxmLjCm7/ECnMpcv8PhZ8aLM+XYq3RCDb+C28cUQ6sYru
+	2X6XTapTn4NSrYqZHsYB6NkzsqVG9sWNHfHlvD9Cxkt80PBhI2QcJcHo
+X-Gm-Gg: AYBFou1PAHyxas6WFWFuT4x4Q98O1gqHLn0Qd7IMkcuSxSEzYZoO5/ASsfhjTBqUYyA
+	RCUYw+N1lLcQi9kKTUsZExbsh8jRhJqDRz7d42+1rS6gWFOA5eQaP89+y5yzdd/fzApZLaO/xMZ
+	oam1xilD9EBPLBzGdBKm+FT76uWZIzkfO/IaZikAOWPQ3O2G2ueR87bDNG5WZAQUYD6z3Mh7xcG
+	AcSYQYioV0g9JgzrryOvSjwXAg7FWntcJMT8Dm5Hd7jWWFmY3WJ06jTKHEQQAdZAAo+lRVNsq5I
+	PCBCkFX7S9C2Oig8i8swI2SiXPrYz+mpFGn8pmx+pLsK/jswpNn9jNsBEAmZuLKaLKNDYf/AD45
+	L0h7OItvY0BK1JPmHRJjWlO7F439WvgXwt7O07dtBrJxkFsJpZrZRTwLe8w3nulajMUgJH7amRf
+	bW067c/A2Rjm9WJjADMxE7z9rsyWCFjKeYMVLObY8xVsVxHFU2Y4Na+mMnwRsdHde978cR2GGOz
+	vRES+9QwX3QDYLwHs/licB2at0v7RRuHswEdTtjJjqnnq7Yf5ttgiublbaeJ7O5YUnXG9HcrfoL
+	9OzWV7/AbAiBzplmdHrU8HULZsausXDrnA==
+X-Received: by 2002:a05:6000:4202:b0:493:72f7:1d5b with SMTP id ffacd0b85a97d-49b03217678mr12033138f8f.29.1794560403891;
+        Fri, 13 Nov 2026 01:00:03 -0800 (PST)
+Received: from kreach.multipass ([77.37.5.67])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5d223a29sm4204553f8f.8.2026.11.13.01.00.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 23:57:34 -0800 (PST)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: Shuming Fan <shumingf@realtek.com>,
-	Jack Yu <jack.yu@realtek.com>,
-	Oder Chiou <oder_chiou@realtek.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Fri, 13 Nov 2026 01:00:03 -0800 (PST)
+From: Jude Gyimah <jude.gyimah87@gmail.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
 	linux-sound@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>
-Subject: ASoC: rt711-sdca: headset detected as headphone after runtime resume
-Date: Fri, 13 Nov 2026 16:57:29 +0900
-Message-ID: <20261113075729.1441921-1-sammiee5311@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: aw2-alsa: select SND_PCM
+Date: Fri, 13 Nov 2026 09:59:55 +0100
+Message-ID: <20261113085955.19796-1-jude.gyimah87@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <87a4ndqi39.wl-tiwai@suse.de>
+References: <87a4ndqi39.wl-tiwai@suse.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,49 +100,45 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello Shuming, Jack and Oder,
+> Applied now.  It's interesting why this wasn't caught by build tests
+> for long time...
 
-On a Dell Latitude 9420 (SKU 0A5B, sof_sdw with RT711_JD2 [1]), a
-4-pole headset that stays plugged in is sometimes reported as a
-headphone after the rt711 runtime resumes. The headset mic is then gone
-until a later resume detects it again.
+Thanks for applying it.
 
-Each of these resumes runs rt711_sdca_io_init(), which detects the jack
-again. With a CTIA headset plugged in, GE49 DETECTED_MODE came back 0x3
-in 17 of 69 resumes. Plugging the jack in gave 0x5 every time (5 of 5).
-With runtime PM off for the codec, it does not happen.
+Yes i agree. Quite interesting that this flew under the radar.
+The short answer is that none of the stock configurations can express
+the combination, and each one misses it for a different reason.  On
+arm64 at v7.3:
 
-It is not an early read. Reading DETECTED_MODE again up to 800 ms later
-gave the same value every time. But the wrong result arrives later.
-From "jack_init enable" to the detection, 0x5 took 0.39 to 0.42 s and
-0x3 took 0.47 to 0.50 s, with no overlap in 48 detections:
+  defconfig       SND_AW2 not set     SND_PCM=m   caller absent
+  allmodconfig    SND_AW2=m           SND_PCM=m   caller is a module too
+  allyesconfig    SND_AW2=y           SND_PCM=y   provider built in
+  allnoconfig     neither set
 
-[  947.426026] rt711-sdca sdw:0:0:025d:0711:01: in rt711_sdca_jack_init enable
-[  947.798095] rt711-sdca sdw:0:0:025d:0711:01: rt711_sdca_interrupt_callback control_port_stat=4, sdca_cascade=1
-[  947.832056] rt711-sdca sdw:0:0:025d:0711:01: rt711_sdca_headset_detect, detected_mode=0x5
+The failure needs SND_AW2=y while SND_PCM=m, and allmodconfig and
+allyesconfig are each wrong in exactly one coordinate.
 
-[  930.117765] rt711-sdca sdw:0:0:025d:0711:01: in rt711_sdca_jack_init enable
-[  930.582117] rt711-sdca sdw:0:0:025d:0711:01: rt711_sdca_interrupt_callback control_port_stat=4, sdca_cascade=1
-[  930.615049] rt711-sdca sdw:0:0:025d:0711:01: rt711_sdca_headset_detect, detected_mode=0x3
+randconfig can express it but is unlikely to find it. And the reason is
+kinda counter-intuitive i.e., 110 stanzas in 44 Kconfig files select SND_PCM.  
+Any one of them at =y pins SND_PCM=y and hides every caller that does not
+select it.  So the configuration has to put all 110 at m or n and this
+driver at y.  Treating the tristates as independent and uniform (which
+randconfig and tristates are not, since most sit behind PCI or a
+platform) that is on the order of (2/3)^110.  The real figure will be
+different, but the shape is right. The more drivers select a provider,
+the better hidden the one driver that forgot to.
 
-The rt721-sdca driver checks the jack type on resume since commit
-e2eb4873b901 ("ASoC: rt721-sdca: Adjust blindwrite flow to fix type
-detection issue"). When the new result differs from the retained one,
-it detects again. Here the wrong result does not change when read
-again, so I am not sure that would be enough for rt711.
+So SND_PCM being selected by almost everything is what protected this
+bug rather than what would have exposed it. A sampler would have to be 
+lucky in 110 places at once. Solving for the assignment instead takes 
+it in one step, which is what turned this up.
 
-Would starting the detection again help, or keeping the retained type
-when the jack was not removed? Or is there a register sequence that
-makes the detection after reset and calibration reliable? I can test
-patches on this machine and send the full logs.
+It is not a one-off. The same y/m shape found 14 missing selects in
+sound/, all of them now applied i.e., five Rockchip, three fsl, sunxi,
+four Amlogic, and this. Reproducer configurations and the failing
+vmlinux link log for each are published at
+https://github.com/JGyimah/kreach under results/, if the ALSA side is
+ever interested in running it over sound/ before a merge window.
 
-This was on 7.4-rc1 plus soundwire next, SOF firmware 2:2:0-57864, BIOS
-1.50.0. It also happens on 7.0 and 7.3-rc7. The codec reports
-RT711_JD_PRODUCT_NUM 0x0021 (hw_ver 1, VD1 init path).
-
-[1] https://lore.kernel.org/all/20261106064408.2224910-1-sammiee5311@gmail.com/
-
-I found and checked this with Claude Code (Claude Opus 5.5) on x86_64.
-
-Best regards,
-HyeongJun An
+Best,
+Jude
