@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794561694;
-	b=xzENPuh9zn/Vykm+PDO1SJhSXZJ1jNWJN1T55oHrXk9DIqub+T1EGbfVBEEiCZI+Gftz
-	 D9ELYo+K7dmOeHbP/IsPxCX6SFlW/wnnIvM9b+frTOLdnX7hBtMEiyh5/9FG8SOR542zo
-	 R6U39sU5bsUlalFeQOLVvqv9hrYSWiKKj73SkJzrjYHyMHG5jvwU9ROFyK/TbRoeyEIgL
-	 Lj3MVfeZH1zCCFzsp2Y7dLk86Fl3XgxtXOLmvSqvuKmPnPQdwk7XmwqdAPw5qyiYoSqNs
-	 kATlABPzKqUwKadEk0u6f8dFLBFkL2AxwyCTbKL+hsMfLG9YYAgIzhXly0cyudVd8VA==
+	t=1794561695;
+	b=UnGSInBmSV4/ncQXLGDreoL3FLChwbGcn/I8CiaH8QBEeepwySZcHPvgj3wuYXUbs+7/
+	 cBrR0LltDK+fV/2J0/ertHNfH5AsxHbwyBkv47QEuyoFBf5Z8CHKh3QSaUqyQz8E0c2PO
+	 0qlbiEfIw6+goMyoiO6nd2u/SJh9Yie7nizmqcE0lOd5TPi8AOqGl7zLCD41hb4ew1jb4
+	 L0X2CqUlk7PII3w3fnsM1SzsNSDL/sZsYg8DjiEDcrWq1q0h4sdtgmrnTZG13H6Gw/SG6
+	 A468MD+2H7cCX5jYvKifOzVWIA4HHThDmpAExcZ1wak+AGDFmGDjsgY/1nwpHtXB21w==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794561694;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=Eehbdk+gQ7MqVSJaBOWwCjGtgxZXfWVkHea9CSfuWKw=;
-	b=J6r8amrZ8oJ8oiNF02DvtlanVvnPvjbeQJymdg6f+cuEj2oNlw/gk5TA30LeHSFcVAxx
-	 /A2SvbEoytFBCPqkhdxqsmtwrvUhMZeno1Ugq/10m3sMBA1lAjlkSszqvEheyha0j8w9L
-	 PbTJWavKJE4jKgmXV5+Rj3nmIhSI3fMpFjDY/G+LzMAcbZwVk8Q3qUOC03vLsMD2V7KNO
-	 eapPnzeis446wrf3fZmc0KP+rTVkDDjYtXANTVOynlZAw5kA+ya9Gf4AsXCcMcINzPRuj
-	 bSdWqvc8/OQEMo+LlQfeBFbrrIMiz1yOV7EghWfm9YFv/8qmo7gC44UVok8E3I5P1yQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794561695;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=SEX7Chlco29uusSijY1DnSWMBbbgb6rKB57ST1U1UGo=;
+	b=Tnn5mM9rbD3SnEDmcWiOcdV1aGxVcb4Ftd61h944m5QakuTF6ppCCtOsrG3tXILM7kCj
+	 gpK3BDiVjttSyi5UDDLBdk+QWOrZYdVbQXea0yYWVK+v9Vwzl9HeXa8pT3A+suvSe4Eor
+	 pQvfoTy1SSfjB/fQ/lO1LKrz5BJq6J2hbyJBxjmF5oLF7p5Fc8ysBB8WT1LEBy8wHdkjf
+	 gVpF4MhmivnMgCl5dYuLzrspA8btiYXfCOTQSz6w2PlZo5WKzx8xR1QeNhmQ1dFShDk2q
+	 VMOUlh/1lLvX07doDfHZGGpZYcKOESkvGi/JcI4hRU4ae81YfmqTzEwWbOKQvQoUzFg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XbefYowR;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GL87eisp;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E09F606A335;
-	Fri, 13 Nov 2026 09:21:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C10606A8B1;
+	Fri, 13 Nov 2026 09:21:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XbefYowR
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GL87eisp
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794561694;
-	b=LrQ837k7KMGh39EqAABcM1YUp9ccFeNuneBP04yJGyWmeO8fkAEs4Eha6/Ccjrxud+mM
-	 FPkW6PvlGqcbAloX0zoFXicP92WMvx7QsWRWqGFcuZirEQW151RbjR/PByo4x5g2Lq9P/
-	 D5LKJaD9wHLS5rUgc7bQuk6SguNTWwVTme4D52c88IdI3GT+ztHPjVpOevEFj9twW1Ee5
-	 YybXaRynykpF2FkeBXNEF16cMVLQ0lndL4Qw3uwZo8X7EyyXh4c1NR4BwQoYrnuCVnT5U
-	 PN/QRK1ZkaMIudzVbe6KV58dl39OT1+j2RhSAz5oJfCHG54fpmQ3KQn0eRpah3dAWxA==
+	t=1794561695;
+	b=yoMQkf/AXJdpY2GYUlmJa5/LkUFJknqhYpO3rYU7d+5o5B3OhXsafX8pSJp//IsHHv/7
+	 FgGQbPIAru8ghyzXji6zwVBfGj2Beb+z+MxqmI+CffLECimLczLtiqAHJ12Xt67Cac35y
+	 3dbZxGc3vdUx8meu8tn6CdBtdiNjXvsSBcPIyYkSrtF7bJu3BQYc2SeyA5gtw5nK36xrH
+	 D307IfKHYCu5hpdXv+Ybb9ivc4FPX5h8DBUVX2akWugk3rOFqxas0yJHJXVV8fhLVhccl
+	 7d6fW/iUQnwgmxdV8KrgXmN0SgvLKE7SkCQ1jU2QsozE7394xWhNbM1i9DPSaViVQMQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794561694;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=Eehbdk+gQ7MqVSJaBOWwCjGtgxZXfWVkHea9CSfuWKw=;
-	b=tt67pnJ23Q5wtPPxUo7izB+299aWYXZFF9PgClmMAAxDJNKkL/G1mqxzMht0v6jwvBT8
-	 MAHXQzkbkVq2kmIal4X73VF/b6C4ripP7kSNvHAX/jEEe5dRjEdKPVOruRwKfehG3vRWu
-	 cqHtNbp/of9RcJwPDQyZNp+8kyVimNV94IdEyH1MeehRElb4SoADEW2s8/t/UYAopR422
-	 Z/YFOlt1npDifINd1H5ZouRLTbmHGEXPi4XIV531kb8l3AD5p89YL/zy5TO5XKnDVcovV
-	 eXBc5nn3C+KYZ+hJ/UTL1mLfeLksSu8D/C+3gEeFBDLmfKgNDKmVkgiMsKct91I0BiQ==
+	c=relaxed/relaxed; t=1794561695;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=SEX7Chlco29uusSijY1DnSWMBbbgb6rKB57ST1U1UGo=;
+	b=FJsizQExqI0io9phZKW2ApNrn9q0HpzZ5yYWfOl639+RYxhPHzUv8+8eUxZyNCMqBYAV
+	 hMPb/oUICci33O+h+tujmmgNKh2zDh6x8VDU+KsAk0cq1ba1TdyfsBewETW0uSp6+baat
+	 Pip4VtpqI3FjxYNthTUl66FDxDktSUEe2SfhmGb6/USgIscz096omPQOvy9DpFHL55oOQ
+	 9DoKc3xonY5q8LnJ38AKB1GiUrXVRTR9SU3m+4VHQuHlULvIehSon8liqYyzRMylE2UWt
+	 ybqcQpl2k9p/khmgtHWR24zatm6jawmPzXWFs7+NrOYeFqkgIa96MXcJRxlKGZ8tMKg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D7A961F000C6;
+	by smtp.kernel.org (Postfix) with ESMTPS id EB0131F000C7;
 	Fri, 13 Nov 2026 09:21:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794561694;
-	bh=Eehbdk+gQ7MqVSJaBOWwCjGtgxZXfWVkHea9CSfuWKw=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=XbefYowRk51Rr44JllTCV7OHLpNl8bpR5zsGjRyIZ6qlfzoIO9e5YXnvihliF9o7G
-	 odM+5MV4+x8TdjJ8KEEbjBC5+hffq+WLZdiEIaNDRgDt3sSabCpS2X65V8XTVqz9ao
-	 ZA55oc6HqYw36FFh7RgssaVEhpfPiU12T3ds20qgLHJYUU7uIDps3dlfCzwDbnAd27
-	 7fI7EW1mkC1+x9c/ahiOxDv+KJGczAAEShH9PERkmspWlzlEcv0wxxrc/2tA///9Pv
-	 jJptpbuxTUhxmrG+/vuuZ2IzXkE7rnUuY+b2JfiGJyMPqOoqmJobUZyTwXJ4ZKXm8J
-	 jEYHT9JVp29FQ==
+	s=k20260515; t=1794561695;
+	bh=SEX7Chlco29uusSijY1DnSWMBbbgb6rKB57ST1U1UGo=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=GL87eispFpkyA1wv62Rm0Ta5RVYGDtIwpM9L+TtGsMc4HuL+YhIDDCvecqw7unazb
+	 zIul4aEfxZn1um48eowRolwBUtzTzJotsxz5YLycGMNn743MvvqzHqol0cXG9Tih1v
+	 zqWTTPXmW5cAbm2jH+ZXABcf1p/2ksRM2THZGNu9bwBreTi9coNYeN67Nvfcjf80qm
+	 aFfLRkJ9gieDvlZlVOQWeDvXDowB7vBOyAZENVLTOa1ZyJeJDILV4OfyZDTYN/hVu5
+	 zYFHtMJYGHagunlw19BNuamOamaZ+9K9hDnqDGKeNXXH2J1ETN6DOkOMesJS7aryfo
+	 AOugXbTJ+Hk2w==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 39094476E6;
+	by lkml.kernel.org (Postfix) with ESMTP id 7A6F64770A;
 	Fri, 13 Nov 2026 09:21:32 +0000 (UTC)
 From: Joonho Lee via B4 Relay <devnull+mynameisjune111.gmail.com@kernel.org>
-Subject: [PATCH v33 00/18] ALSA: virtio: preserve PCM progress
-Date: Fri, 13 Nov 2026 18:21:24 +0900
-Message-Id: <20261113-fix-virtio-snd-recovery-final-v33-0-13a934ad5ece@gmail.com>
+Date: Fri, 13 Nov 2026 18:21:27 +0900
+Subject: [PATCH v33 03/18] ALSA: pcm: add an optional reset operation under
+ the stream lock
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -84,12 +84,9 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAA/42OQQ6CMBBFr2K6dgxtQcCV9zAsShlhDLSmxUZCu
- Lstbly6nDd/3vyVeXSEnl0OK3MYyJM1cZDyeGB6UKZHoC4CJjJx5pxLuNMbArmZLHjTgUNtA7o
- lcqNGyDOu8qotCllWLDqeDuPB/uDWfGf/ah+o5yRNiVZ5hNYpo4eEftRBCkjblBrIz9Yte8/Ik
- +7fSkmTQY51UZc1Si70tZ8UjSdtJ9Zs2/YB97F5UAUBAAA=
-X-Change-ID: 20261113-fix-virtio-snd-recovery-final-401a48b55378
+Message-Id: <20261113-fix-virtio-snd-recovery-final-v33-3-13a934ad5ece@gmail.com>
+References: <20261113-fix-virtio-snd-recovery-final-v33-0-13a934ad5ece@gmail.com>
+In-Reply-To: <20261113-fix-virtio-snd-recovery-final-v33-0-13a934ad5ece@gmail.com>
 To: linux-sound@vger.kernel.org, 
  Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
  Matias Ezequiel Vara Larsen <mvaralar@redhat.com>
@@ -99,124 +96,230 @@ Cc: tiwai@suse.com, perex@perex.cz, mst@redhat.com,
  linux-doc@vger.kernel.org, Takashi Iwai <tiwai@suse.de>, 
  Joonho Lee <mynameisjune111@gmail.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794561687; l=5601;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794561687; l=8454;
  i=mynameisjune111@gmail.com; s=default; h=from:subject:message-id;
- bh=3Yz1bL+Yu6b0fA+6aIZz/ij5aRqckyw6VeikfHQlsmA=;
- b=j0q9v5520UUrkCTZdfpVIQAAGKvo06DaXnN6cY3/ikoGPkQFTVv6ZnzFaqbuesJtt7XEemG5X
- rIyRATdQrSEBEW6dRFKNizcEnu9YA0dfoDwjF9QZPA6xCVTKil7hqOQ
+ bh=efD3642upyG77bVZgndIqVLXrjo9sS8u1oil6oXMfIw=;
+ b=z1b4FPH7YFH3RaPduevQv5pR4MkmP3faqAQdrmZ1V0JESN1BaUsFLrB+eQFBrXulDyjJlmSs7
+ 3W08Ja5cnYqBf1EP1UBo6yp/12kV3eBLPniHZs4x9tIXf+Sawuyx8WY
 X-Developer-Key: i=mynameisjune111@gmail.com; a=ed25519;
  pk=wqkZdvfcC8g8fDi6f0Y58LlaXIo+ubf6Y/9Lr9yhshc=
 X-Endpoint-Received: by B4 Relay for mynameisjune111@gmail.com/default with
  auth_id=1508
 X-Original-From: Joonho Lee <mynameisjune111@gmail.com>
 Reply-To: mynameisjune111@gmail.com
+Content-Transfer-Encoding: 7bit
 
-This series is based on sound.git commit
- a4311e9447bbb219044db38897f95be112f46a8a.
+From: Joonho Lee <mynameisjune111@gmail.com>
 
-Previous revision:
-https://lore.kernel.org/linux-sound/20261113-fix-virtio-snd-recovery-final-v32-0-4e95979e312c@gmail.com/T/
+A driver may need to synchronize private capture accounting with the
+common RESET pointer observation and the core's position rebase.
 
-Changes since v32:
+Add an optional reset operation called under the member's stream lock.
+Expose snd_pcm_lib_reset() so the callback can retain common pointer and
+time handling. On zero return the core completes that member's rebase
+before unlocking it. Drivers without the callback retain the ioctl path.
+The operation is also used after a successful prepare.
 
-- Keep a replacement capture stream in DRAINING intact when an older
-  sync_stop callback arrives. The active-state check now covers capture
-  and playback, with the teardown marker retained for later cleanup.
-- Check the settled device state while holding the queue and stream locks
-  before rolling back a failed PAUSE. A late successful STOP keeps the
-  queue closed and does not restore the old capture quiet sequence.
-- Give each uncertain control incident one additional window of four
-  msg_timeout_ms intervals. Sleepable callbacks share the remaining time.
-- Close transfer admission and quiesce period work before waiting for a
-  late control reply. Preserve the stop marker on failure and resample
-  teardown state after the reply settles.
+Zero permits the position rebase; it does not promise XRUN recovery. A
+negative return skips the core rebase, so a callback returning an error
+must leave coherent pointer state even after partial work.
 
-These changes are folded into patches 12 and 18. The other sixteen
-retained patches have unchanged diffs.
+Linked RESET and prepare stop at the first error without rollback.
+Earlier callback members may already have completed. Legacy members keep
+the existing post_action policy. Applications must recover the group
+after partial failure before relying on shared positions.
 
-Automatic device reset from v32 patch 20 is deferred. Its review exposed
-an ALSA link/open lock cycle and unresolved ordering with transport reset
-and power management. The supporting CONFIG_PM-independent suspension
-change from v32 patch 19 is also omitted. Their review findings remain
-open for a separate recovery design.
+This adds an internal kernel operation and no userspace ioctl or layout.
+Out-of-tree modules using snd_pcm_ops need to be rebuilt.
 
-A permanently unanswered PCM control request still requires an explicit
-driver rebind. Late control replies remain supported by patch 18.
-
-Validation:
-
-- ARM64 virtio-snd module build with W=1: no warnings. The review-fix diff
-  passes checkpatch without errors or warnings.
-- Eight QEMU KASAN/lockdep cases cover RW/MMAP capture, RESET/DRAIN,
-  reopen, and playback. All passed with the loaded module hash checked.
-- A test-only sync_stop gate forced an old DROP to resume after a new
-  capture reached DRAINING. The original first-eighteen-patch baseline lost
-  the readable tail with -EBADFD; the candidate preserved it and returned
-  32 frames. Both used the same fixture.
-- A 1500 ms delayed STOP reply smoke test passed on v32 and this candidate.
-- Scarlett 2i2 input 1, macOS VZ, 48 kHz: v32 and the candidate each
-  passed twelve captures totalling 170 seconds, including 70-second RW
-  and MMAP captures and repeated reopen. The candidate passed four more
-  short captures after a fresh VM boot. All three VMs shut down normally.
-
-The physical tests used the existing ABI-matched 7.3.0-rc7 KASAN kernel
-with rebuilt driver modules, capture_packed_status=1 and
-capture_pause_restart=0. Other host recorder processes remained running.
-Expected frame counts and nonzero signal windows were checked; no known
-waveform oracle was available to prove exact sample continuity.
-
-The delayed STOP smoke test does not force the exact late-reply/PAUSE
-rollback interleaving. No fresh KCSAN run or full-kernel rebuild is claimed
-for this revision. Automatic transport reset and PM recovery are outside
-this reduced series.
+Complete appl_ptr rebasing once in the callback path. A later linked
+member can sleep in prepare while the earlier member accepts SYNC_PTR; a
+subsequent unlocked post_prepare assignment would overwrite that
+acknowledgment. Keep explicit RESET playback silence processing and
+leave prepare-time filling to the normal START path, preserving samples
+written and rewound after prepare.
 
 Assisted-by: LLM
-
+Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 ---
-Joonho Lee (18):
-      ALSA: pcm: mark stop-threshold accesses for capture policy sampling
-      ALSA: pcm: report partial progress under the stream lock
-      ALSA: pcm: add an optional reset operation under the stream lock
-      ALSA: pcm: notify drivers after linked prepare completes
-      ALSA: pcm: serialize linked buffer actions
-      ALSA: virtio: propagate playback send failures through ACK
-      ALSA: virtio: Recover PCM state after a failed start
-      ALSA: virtio: Retain queued messages through device reset
-      ALSA: virtio: bound PCM transfers and retain DMA buffers
-      ALSA: virtio: Keep control payloads alive through DMA completion
-      ALSA: virtio: wait through signals for PCM teardown
-      ALSA: virtio: use request-owned capture and serialize recovery
-      ALSA: virtio: prioritize capture period work
-      docs: describe virtio-sound capture options
-      ALSA: virtio: reject invalid playback completions
-      ALSA: pcm: add an explicit application pointer to indirect playback transfer
-      ALSA: virtio: preserve playback progress across pause and buffer access
-      ALSA: virtio: settle PCM control state from late replies
+ include/sound/pcm.h     | 21 +++++++++++++++++++++
+ sound/core/pcm_lib.c    | 29 ++++++++++++++++++++++++-----
+ sound/core/pcm_native.c | 45 ++++++++++++++++++++++++++++++++++++++++-----
+ 3 files changed, 85 insertions(+), 10 deletions(-)
 
- Documentation/admin-guide/kernel-parameters.txt |   14 +
- Documentation/sound/alsa-configuration.rst      |   36 +
- include/sound/pcm-indirect.h                    |   24 +-
- include/sound/pcm.h                             |   40 +
- sound/core/oss/pcm_oss.c                        |    2 +-
- sound/core/pcm.c                                |    3 +-
- sound/core/pcm_lib.c                            |   69 +-
- sound/core/pcm_native.c                         |  275 ++-
- sound/virtio/virtio_card.c                      |  159 +-
- sound/virtio/virtio_card.h                      |    6 +
- sound/virtio/virtio_ctl_msg.c                   |  433 ++++-
- sound/virtio/virtio_ctl_msg.h                   |   40 +-
- sound/virtio/virtio_kctl.c                      |  109 +-
- sound/virtio/virtio_pcm.c                       |  105 +-
- sound/virtio/virtio_pcm.h                       |  195 +-
- sound/virtio/virtio_pcm_msg.c                   |  821 ++++++++-
- sound/virtio/virtio_pcm_ops.c                   | 2227 +++++++++++++++++++++--
- 17 files changed, 4182 insertions(+), 376 deletions(-)
----
-base-commit: a4311e9447bbb219044db38897f95be112f46a8a
-change-id: 20261113-fix-virtio-snd-recovery-final-401a48b55378
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index 965be5603729..6c386d576841 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -77,6 +77,26 @@ struct snd_pcm_ops {
+ 			     unsigned long offset);
+ 	int (*mmap)(struct snd_pcm_substream *substream, struct vm_area_struct *vma);
+ 	int (*ack)(struct snd_pcm_substream *substream);
++	/*
++	 * Optional RESET operation, also used after a successful prepare.
++	 * Called with this substream's PCM lock held; atomic streams must not
++	 * sleep. Do not reacquire the PCM lock through snd_pcm_lib_ioctl().
++	 * snd_pcm_lib_reset() provides the common pointer update under this
++	 * lock. The core completes the position and appl_ptr rebase before
++	 * unlocking a successful member.
++	 *
++	 * Return zero to let the core complete the position rebase. As with
++	 * the legacy RESET ioctl, zero does not guarantee recovery from XRUN;
++	 * callers must still handle the stream state and subsequent I/O errors.
++	 * On a negative return the core does not finish the rebase, so the
++	 * callback must leave coherent pointer state even after partial work.
++	 *
++	 * Linked RESET/prepare
++	 * stops at the first error without rollback. Earlier callback members
++	 * retain their completed reset; legacy members retain the existing
++	 * post_action policy. An error does not guarantee unchanged state.
++	 */
++	int (*reset)(struct snd_pcm_substream *substream);
+ };
+ 
+ /*
+@@ -1179,6 +1199,7 @@ static inline void snd_pcm_set_sync(struct snd_pcm_substream *substream)
+ {
+ 	substream->runtime->std_sync_id = true;
+ }
++int snd_pcm_lib_reset(struct snd_pcm_substream *substream);
+ int snd_pcm_lib_ioctl(struct snd_pcm_substream *substream,
+ 		      unsigned int cmd, void *arg);                      
+ void snd_pcm_period_elapsed_under_stream_lock(struct snd_pcm_substream *substream);
+diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
+index 4fb581b03480..c751f7dad1d3 100644
+--- a/sound/core/pcm_lib.c
++++ b/sound/core/pcm_lib.c
+@@ -1766,14 +1766,25 @@ int snd_pcm_hw_params_bits(const struct snd_pcm_hw_params *p)
+ }
+ EXPORT_SYMBOL(snd_pcm_hw_params_bits);
+ 
+-static int snd_pcm_lib_ioctl_reset(struct snd_pcm_substream *substream,
+-				   void *arg)
++/**
++ * snd_pcm_lib_reset - Reset the pointer while holding the PCM stream lock
++ * @substream: PCM substream
++ *
++ * Context: PCM stream lock held. The caller must not hold driver locks
++ * acquired by the pointer or XRUN callbacks.
++ *
++ * Update a running stream through the ordinary pointer path. Other states
++ * start at zero. Pointer errors keep the existing RESET return semantics;
++ * a zero return does not imply recovery from XRUN.
++ * This helper does not update appl_ptr or acquire the stream lock.
++ *
++ * Return: zero.
++ */
++int snd_pcm_lib_reset(struct snd_pcm_substream *substream)
+ {
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 
+-	guard(pcm_stream_lock_irqsave)(substream);
+-	if (snd_pcm_running(substream) &&
+-	    snd_pcm_update_hw_ptr(substream) >= 0)
++	if (snd_pcm_running(substream) && snd_pcm_update_hw_ptr(substream) >= 0)
+ 		runtime->status->hw_ptr %= runtime->buffer_size;
+ 	else {
+ 		runtime->status->hw_ptr = 0;
+@@ -1781,6 +1792,14 @@ static int snd_pcm_lib_ioctl_reset(struct snd_pcm_substream *substream,
+ 	}
+ 	return 0;
+ }
++EXPORT_SYMBOL(snd_pcm_lib_reset);
++
++static int snd_pcm_lib_ioctl_reset(struct snd_pcm_substream *substream,
++				   void *arg)
++{
++	guard(pcm_stream_lock_irqsave)(substream);
++	return snd_pcm_lib_reset(substream);
++}
+ 
+ static int snd_pcm_lib_ioctl_channel_info(struct snd_pcm_substream *substream,
+ 					  void *arg)
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index a2ea44c3c1d2..a547ac720b51 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -1984,11 +1984,35 @@ static int snd_pcm_pre_reset(struct snd_pcm_substream *substream,
+ 	}
+ }
+ 
+-static int snd_pcm_do_reset(struct snd_pcm_substream *substream,
+-			    snd_pcm_state_t state)
++static int snd_pcm_reset_substream(struct snd_pcm_substream *substream,
++				   bool for_prepare)
+ {
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+-	int err = snd_pcm_ops_ioctl(substream, SNDRV_PCM_IOCTL1_RESET, NULL);
++	int err;
++
++	if (substream->ops->reset) {
++		/*
++		 * Complete this member before releasing its PCM lock. A later
++		 * linked member may fail; RESET has no group rollback operation.
++		 */
++		guard(pcm_stream_lock_irq)(substream);
++
++		err = substream->ops->reset(substream);
++		if (err < 0)
++			return err;
++		runtime->hw_ptr_base = 0;
++		runtime->hw_ptr_interrupt = runtime->status->hw_ptr -
++			runtime->status->hw_ptr % runtime->period_size;
++		runtime->silence_start = runtime->status->hw_ptr;
++		runtime->silence_filled = 0;
++		runtime->control->appl_ptr = runtime->status->hw_ptr;
++		if (!for_prepare && substream->stream == SNDRV_PCM_STREAM_PLAYBACK &&
++		    runtime->silence_size > 0)
++			snd_pcm_playback_silence(substream, ULONG_MAX);
++		return 0;
++	}
++
++	err = snd_pcm_ops_ioctl(substream, SNDRV_PCM_IOCTL1_RESET, NULL);
+ 	if (err < 0)
+ 		return err;
+ 	guard(pcm_stream_lock_irq)(substream);
+@@ -2000,10 +2024,19 @@ static int snd_pcm_do_reset(struct snd_pcm_substream *substream,
+ 	return 0;
+ }
+ 
++static int snd_pcm_do_reset(struct snd_pcm_substream *substream,
++			    snd_pcm_state_t state)
++{
++	return snd_pcm_reset_substream(substream, false);
++}
++
+ static void snd_pcm_post_reset(struct snd_pcm_substream *substream,
+ 			       snd_pcm_state_t state)
+ {
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
++
++	if (substream->ops->reset)
++		return;
+ 	guard(pcm_stream_lock_irq)(substream);
+ 	runtime->control->appl_ptr = runtime->status->hw_ptr;
+ 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK &&
+@@ -2053,14 +2086,16 @@ static int snd_pcm_do_prepare(struct snd_pcm_substream *substream,
+ 	if (err < 0)
+ 		return err;
+ 	pcm_qos_req_update(substream, period_to_usecs(substream->runtime));
+-	return snd_pcm_do_reset(substream, state);
++	return snd_pcm_reset_substream(substream, true);
+ }
+ 
+ static void snd_pcm_post_prepare(struct snd_pcm_substream *substream,
+ 				 snd_pcm_state_t state)
+ {
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+-	runtime->control->appl_ptr = runtime->status->hw_ptr;
++	/* The reset callback path already completed this rebase under the lock. */
++	if (!substream->ops->reset)
++		runtime->control->appl_ptr = runtime->status->hw_ptr;
+ 	snd_pcm_set_state(substream, SNDRV_PCM_STATE_PREPARED);
+ }
+ 
 
-Best regards,
---  
-Joonho Lee <mynameisjune111@gmail.com>
+-- 
+Git-157)
 
 
