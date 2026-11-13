@@ -1,127 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794594994;
-	b=nfVcAY92BIdzYGpI+i4iB2rJn6NttDv7C7N6zldfeJHCjNiYSR8E1ajvu0+UILejwfjx
-	 sI2FvX1851uU3MqpmE1ErvLogR1LCWhMRIE/mKyEpdRJhLdLHxqMsF1Jhw9xZInOcpYjf
-	 3gc292fxVs1Dk+pRyDvJUX7na+YcZd8OVieoA4ByR2cj+t34hmO6nNkC3Zi3WesXVyqab
-	 m4i9yxCy7J3hqQj4jGtYhc37eMTchSHjjJYsEb0vO9lw0dBft1qQTkAeulUKKxRFZs6ST
-	 P75msUvIwYGQDLvrxznvRVRWUTrMwsNPlkqx7N77Qic1d1fMZHNUq5pFCsbwrvWVuDA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794594994;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
-	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
-	 Received:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Reason;
-	bh=TkRXQjaceXtBdSL1xqrTOUvVdKWtE/5wcx/in94dDTo=;
-	b=J5s/UXWT2335zwVkuLePKuYtFMPd2TPqTbA+woeFNhcQbjSEqeIAOEDDes+mmayEzVYQ
-	 1a74d1dPF7mEHVX24SrtM41SM+WwzPiktXxRNEIMzwbYBI5JtVuaHmKgwDKpK5h0alz+b
-	 9LjnKLz7OZTZcyH5gyF1MaOiO1L9XJZxC6I6oDCTLEG94IKi7IGebptWuAY04YIM9W5Vw
-	 uUtcEzJhCteSyzCt5dF6/zwMmFR08ys5XzK6ijHDo/zZdmOfm8wP2OV4TuCehNmc/glus
-	 k7dlCYDF+zAJmkIS4sEnQkP+EKVChtC9NI0XD8AhBuC67MSdtYllFGPCtXmfl9BsSJA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=opensource.cirrus.com;
-	spf=pass smtp.mailfrom=opensource.cirrus.com;
-	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=ZlEI+qpY;
-	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=KL5kxMgx;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794595118;
+	b=hdEbPJMFlXxS1HItxsTCeWQrWRRvfAGtE86qJfGkRxLu1Fay3cCqaZ7PH/qQO6RshdjT
+	 BPPv887euHUGDsU7Yxc1PFrVquzh74tSoCmMpfODkYvOUbnRGPU+nS9qw7fKLdxznALBw
+	 TxGBk2Os0kT8LLbnS3dKSEm4FIlOMKwv+ACoEDgnzNx9+GIAI5TL82N2TVKYRa8SPOOsU
+	 WRy4dxL4in9qYO8h0uhMeJqQxTv5HMFzsxLC2uaHqshzdRYS4sWuWR+QB6/79A4ioXP1A
+	 uhKGhgeInYf8jI2Ev/Vr7CNh2j6BqPYZom5El2DkGbnEsMXXJDwd0o+cPXgF6Qb3k7g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794595118;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=w2uTsZDSakSIiYfZCZm4T/XmbPQKfvOaN5W1vDGvmkk=;
+	b=o6IyJqdUnteSO2Ci5ON5B5HOHPFFA8FDkQV9FimCIodySnMe5cIFk2sInol8yD5YWJqE
+	 RJBmaG8q2fm2i2+yMzeNZLjZXpOt+WBJkT8t1yeXfhM8M0vfmPgtWu4D1M5gDObPTOVCK
+	 5ebn3b6v7ntttgN/f5tUYBEShfVqjquemIWeZHeCctNEbBTkE8CnWTCxMQNIxUHWs6tp/
+	 XRPi0N9VBfnqcPVCR3G1Uua/6ocQKrY04lxwW9umgnwHei8wvg94lQWIC5BaNVn79CZJ1
+	 zpKHULlrfIc0jhPvovFD4RCDfjCYMQ3O1VjWTNhFA+WL0PIc0AJNyzXOaEvZV5igoxQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linaro.org;
+	spf=pass smtp.mailfrom=linaro.org;
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=BxjxiFJr;
+	arc=none smtp.remote-ip=209.85.221.41
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D48606A88B;
-	Fri, 13 Nov 2026 18:36:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41D48606A88B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E059606A65C
+	for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 18:38:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1E059606A65C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=ZlEI+qpY;
-	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=KL5kxMgx
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ADGQ8Ew3659861;
-	Fri, 13 Nov 2026 12:36:25 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=TkRXQjaceXtBdSL1xq
-	rTOUvVdKWtE/5wcx/in94dDTo=; b=ZlEI+qpYxOvzPfyvP5BiVXDNjS/Bjs6f/8
-	TZVzV9ECxRAwVzA40XDqxO5ZTdOP1ZrYjnNml25/UhUTWUmKYJjiEoAYA/txPyLb
-	BEIfmaWt5+omWl3aPui5TCm2PP7RTj1tVewFSiXg1cBzGe1pzCrt9h1uYNTJ4nB7
-	nUUkyrlvP2tcfFbMyaOWOi+XWyWbPN0KURM5P6MzRo2JDn5Au+eIVTkUbGmz82Xu
-	i0nx+ErFu65BKyAJvrvhe5EggU5wfkpHKfVAwRAlDpACnZ3U59Ih1+lun4o9m2Hu
-	u25jgOHQGnNoHY1UDYM69qMoDsmg6c4ZqZF1gGbRtzfeMTnsqWnw==
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11020134.outbound.protection.outlook.com [52.101.193.134])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4hx4h5rdmt-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 13 Nov 2026 12:36:24 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=idognVcs4LwqT427Nt9S454uA8LBYLwCIB0VlQpEmjt6fEhf3+JIw8PoZmbnVnHwlKR6hxGxfHWOC4eS9HUbMmON9ZRyvwtOHNaAzIFPnLHggTreoWvm91NrbuE7V2mNhkix4IgC3dV8ENqcFmhAULqzgTPO9e/X5jxwiql9MFIk2ItuWNX34IJIIM9Op2W3aFEL8qaj6OhTP6x47TD6/xEKb3sKnADtiZNKJT4+hsCuSq1piQxX4uduWgEh+GyprQTmZ7kX2pHu4nVXdpAWlz/VLyQltvxLFsJ2k6YxKVNNUoNMdXokQJrv5wkf92WFuq5ju1NYdtsGB3Vqa68mdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TkRXQjaceXtBdSL1xqrTOUvVdKWtE/5wcx/in94dDTo=;
- b=J/oKzSZXodsDtYBEtR0bMoRLihG5c7RAggTOfM3KavJhOW+8CCPnA1Zb+EK/SVx0BcdRll9++clI/7RX2QH/dw34pJWeycEcZN1PMkXcrC0A/0DEEPXP/KtrCPiECv+1uQZZZ+4XnQ4IxXEajwMZxL+sDnzJSz8eBsYB+AQqyXx3fOrH/G4ol9xTrw3HZEAF8x9XeZBfj9BvkrWBtmaqPXTffoLcAz8dAt37Jy9W65WNYR9UJxuFaV828+syaegopl/XKM+Oe3wjTFpjoGnVG5TKXIhbVFQBzs42smByL7kQ7CByh5Jk2Ries9k9qzX3K7KYwXszaZ07tqdSekEtfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=kernel.org
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=BxjxiFJr
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4922dbcee23so617854f8f.0
+        for <linux-sound@vger.kernel.org>; Fri, 13 Nov 2026 10:38:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TkRXQjaceXtBdSL1xqrTOUvVdKWtE/5wcx/in94dDTo=;
- b=KL5kxMgxniWlOCeQbtzE8C/joshTRC+jAOqrqaibUjFiYPxC/fBR8GMc1NUQpeJnJHeAksckpVXU5JwPe/kGCuakbRcua1r1db3lktLBISOeqHYpAqSc0KR1iS/e2yJqsHlo6IKtCOLZw3XV3OttNqJnDdnKE9DyypuRFGdWYKM=
-Received: from CH0PR04CA0042.namprd04.prod.outlook.com (2603:10b6:610:77::17)
- by SA0PR19MB4272.namprd19.prod.outlook.com (2603:10b6:806:81::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.12; Fri, 13 Nov
- 2026 17:00:59 +0000
-Received: from CH2PEPF000166C2.namprd04.prod.outlook.com
- (2603:10b6:610:77:cafe::31) by CH0PR04CA0042.outlook.office365.com
- (2603:10b6:610:77::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.10 via Frontend Transport; Fri,
- 13 Nov 2026 17:00:58 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
- IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
- not signed) header.d=none;dmarc=fail action=oreject
- header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- CH2PEPF000166C2.mail.protection.outlook.com (10.167.244.228) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.4
- via Frontend Transport; Fri, 13 Nov 2026 17:00:56 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id C83C1406555;
-	Fri, 13 Nov 2026 17:00:52 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id B3BA6820273;
-	Fri, 13 Nov 2026 17:00:52 +0000 (UTC)
-Date: Fri, 13 Nov 2026 17:00:51 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Lee Jones <lee@kernel.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 04/10] soundwire: stream: Clean up allocated runtime
- resources on config failure
-Message-ID: <avdCQwQh8Sf6q9We@opensource.cirrus.com>
-References: <20261103095445.81414-1-lee@kernel.org>
- <20261103095445.81414-5-lee@kernel.org>
+        d=linaro.org; s=google; t=1794595115; x=1795199915; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=w2uTsZDSakSIiYfZCZm4T/XmbPQKfvOaN5W1vDGvmkk=;
+        b=BxjxiFJrM+M5Fan2rzxhw8amdOeFldpsV6DZ/IqNYozeMs26pNhTUj/YiYfbcQg8Ib
+         MRpWEWwoEYOE1pCY/0smk6YXReJWHtI2r0lBvX1Dk+JHpW/Jrk6353E+gC4j07ku6k30
+         F0HqHzeO9rqzBvRFq1eUR4gDM7M/U8lGaaOeI5+FXTbPBanMMxpZ2H60gmxJV2nNkD+o
+         SC+jA1h5YnEBEReCxRHCYXUGDxWMx+1YteqgHtpWPCkFpwpcCKIfvaRAuqJtTqJlQsD5
+         G0RQUPWGpigtC2esCR5zGE95T2V2/CnozL42iBKdsys/Yy+ccpzZKet/cYfoyC8pggDV
+         BKMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794595115; x=1795199915;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=w2uTsZDSakSIiYfZCZm4T/XmbPQKfvOaN5W1vDGvmkk=;
+        b=vghWNKp60GUyJQeD93z57LDfkocYayZYschZy1Fk45VNUDzn45D//o9BYLhCsRVuIi
+         JTKVfXGY9Ne982IXmHZa2Jf7JNzX0haBHcx6OiJHnAO6e4EOzYXEkvynEKHeGCz1+e5L
+         +zcBqPTGFqje8PvV8nL27yts+EjX+HnOgat6AX3ytlKMmuiHmJaAI4Q7Hk/3PkxMPQqF
+         NHe05LLScQ/vBkEeJCNitCqM7k4j9b84E5hIaLlIInwWVwR9909K3VtJwAbfzj5Q4L4U
+         /DWGn5pDHTGII6/kIT8i8eF1anS5AUJXvSdTeTn/GFDiP4WDFQgDNncs7Q1Qph9oIUOr
+         2DUQ==
+X-Forwarded-Encrypted: i=1; AL+hErHx8QrVZqdOx1KkKMqzatUNVrRKhxzV3NuHW9zUsRWQ1dadL3ePP1S/okXtQefBmTCnLugVDpmf/0CPug==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/TCpzgTykJXpMDc2bcUb+M9j/nbwpdnbL0NTOshlLuHtEGA4fH
+	rZ94QZRqYkeHD7wW92RZq5pfvlshViDxyqPYCMwXZejsl3hNhnCa3qX2gTy8FLIIQZo=
+X-Gm-Gg: AYBFou3QKT0hbpgUUVgFiZyqhzlJJgWuEJn8p75PWp6RIBmFJtPpfH7Cxqmjj5XM/5f
+	u8dI9Z0RYfxbjyd/5D3peMgovPbloYEBiL64ewO1JS8MzZrIqpXgz0gAOBOkKRU1D3abJMpb3lS
+	kd7ZidXK78KDL573sKm3toJtEfdd3zM2wOABfm7DkkrZ8oGjvGEPt7xBlGNCj2Y5WOoLIE1gYDl
+	iE4PG7UZcJhWRzRTiDSh088i/aDmBMpwK0x5LLCxuRbGbwt+anSCvTx7G4IGlKkXqumE5nsb6vD
+	gmaRiKpeXcrrakL1UrE4IVzoV55m171asFwMA3rCJA0bU3wa+e0AVIeavE7ZpKB2zx8U+dyu3hq
+	6cMgHE5Hpm1iSo2/wRA5rFguzmP4Y+1DqtS/CcPozp7RETqJ6jtrIcr3hYXvoi0LhZqNXQxpCYz
+	ZVx+7dUre07Abny2xim7kSAoiKYs3AKmT/Igg8k2i+RLILh7E8W/5cx/SAHHvvM0PTWcBrZoAIt
+	L8RR4buiiLIUCw+RCL51dq4+3KeqiY5xz791WjpQQxQqaeUw4cQPlfdJS3+U2FmwmmQIoE6YunH
+	SCwnjIG+NlDrGv2yAStvLw1f8UxvChBEXrdlFHOGnp41EQ/c7TW9JrLQUNedPTDg
+X-Received: by 2002:adf:e008:0:20b0:48e:6f76:de98 with SMTP id ffacd0b85a97d-49c71e3e1c0mr5943328f8f.9.1794595115227;
+        Fri, 13 Nov 2026 10:38:35 -0800 (PST)
+Received: from arrakeen-2.home ([2a01:e0a:106d:1080:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5f7828a4sm6865870f8f.23.2026.11.13.10.38.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 10:38:34 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH RFC 00/23] arm64: qcom: enable SM8650 audio without ADSP
+ firmware
+Date: Fri, 13 Nov 2026 19:38:14 +0100
+Message-Id: <20261113-topic-sm8650-el2-v1-0-5183f6aab9fc@linaro.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -131,73 +93,141 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261103095445.81414-5-lee@kernel.org>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF000166C2:EE_|SA0PR19MB4272:EE_
-X-MS-Office365-Filtering-Correlation-Id: be2a9639-58e0-4f93-ef54-08df41a7afda
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|82310400026|376014|36860700016|61400799027|23010399003|18002099003|16102099003|22082099003|6133799003|10067099003|13003099007|56012099006|4143699003|11063799006|261102123227099003|261022105027099003|261022075727099003|261009223027099003|261026140227099003|261021121427099003|261028144727099003;
-X-Microsoft-Antispam-Message-Info:
- RH90geo2X3huSy5AmnKExKCbBX5X4cRHYBHiYmOXdd1sPKk4G/ZUbAI214IrY6tLFMMsnajbQIrH1lU1yTTZ2vrGTmHUEHDDq+zVSBiWMes5mqn99wmIFB+QiwCsPTF4oCHyomuMAFvUX/2w+BNscC5PiHB/oYIHqPxwo+6i3WyKlaMlXFKndYglsWU16CX5fKvtT7zny6A9dWKkDAviFpzRQE/I4u2RgiVfaKzsMMR6yZsI+VKyZe9BzQHlovW0R4YOXweH02q3wy25RF8/2LSXmU50IMc9R2yDRTf7M9a5YGDjkolPHmMv6uDlGE4WgRMf6zcCdcG55CdNRMN7eAjqRywx4pPZA5aLwixmc9z+PyJtIgY9gq461GCM8W8iEufj0Ut9hAwh1nnVYmRigggJt/ISGzrKGSsGLHuriUUYmcs7ZbMIQZqs10T6ZTW2zTI/oI7HQD1/h6J9T+2fSXRWntSFcR4JOthN5oh1IDxWBpdCi4aW0b1cO6e9J/Kggsm7TssfJqryla5UAh8gEjthfXJlCNlckTzgNpEJVGw2Vc8DlRctczVLG2cNVLeL0NQrPzFEsV+/FoaHnt+Dw6xq3zpLuU7vXZz5yofVzYrIzj0h0Y+H8EoHJKQ00r/xqnlhQ3VA43xhVNfpDqDygQ==
-X-Forefront-Antispam-Report:
- CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700016)(61400799027)(23010399003)(18002099003)(16102099003)(22082099003)(6133799003)(10067099003)(13003099007)(56012099006)(4143699003)(11063799006)(261102123227099003)(261022105027099003)(261022075727099003)(261009223027099003)(261026140227099003)(261021121427099003)(261028144727099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- eM56oqFVBzDjV/wAdECpHBFwTTj79bYl5sej3CrnP3P1a0g5X4xYPfi4ansvdOrOjUbIGouF1aiFRKGhBs3i0G+0uvBU5d2IYnx/JJOPWJauvg1L/oASq0xAU+peTub2CGZrFVfHrS+IqjhPVGghbP38hOpgucuBhMZrNXrblx4ilyVFgR21izwBmkVJ8fiCZWya4mwCZ/WiPLqe0gpZN8Wpu2LnjHb4VhzE+FlUE0ZF9c7ASh3yAyGlw+R8XbBOWHW84z0/UXDdx0NWh9jkqN6YBnL9YNj0RKknvZJYKGBIEVXWhDwJxnF9ffKb2hRXeFg6WBrzw1sfLeYQjOj4m/rVe4S9rbNTmPUM4HFLVzVEcx36C5/TMTRxzEFwvSylupBuu85CvaPjBRL9jzl3KkGi/6JsP64qPyq39WJoIvn/Z5CZsGrKTLl926f3GAKg
-X-Exchange-RoutingPolicyChecked:
- oyj7F07ZbPAlY2NhO9NCpSeof0sZf5huvxDAbns7Fan31gEHOTlvx1qtmoZfi275kGnEnWlOGTklK/zng9H2/r8VF8eCcVPv7wYW6Xqt4dEkXAadyWiPpUxpQCixjNKmMXuXQ9EnUt/EJpI2VxHgtogVozMWUL1Ao8DmNLYSTp3S9uz73weIUiXE/dd6+6QgWiFwVM0Ddf4TM/VOZCsHIDah1iim1zS4wWAL1zgmz2VVQ+lAOLMYwKQmlCciAz00EKYhWzVlVxikc5e/Ze/9xJrfuL0yFnKKig8h/N3Si5e9Ui5vqNCYEkWZxM4tCzC9H17WOW4NTVT3jJYnUSBSpw==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2026 17:00:56.3887
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: be2a9639-58e0-4f93-ef54-08df41a7afda
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH2PEPF000166C2.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR19MB4272
-X-Proofpoint-GUID: LjdTawFGcc9sKjEke98VXDjMXjYQrAv5
-X-Proofpoint-ORIG-GUID: LjdTawFGcc9sKjEke98VXDjMXjYQrAv5
-X-Authority-Analysis: v=2.4 cv=feo4WEQF c=1 sm=1 tr=0 ts=6af758a8 cx=c_pps
- a=Z/t8MQXuUKLmKunBt3LJ5A==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=c92rfblmAAAA:8 a=VwQbUJbxAAAA:8 a=w1d2syhTAAAA:8 a=futKbDvDrAso0Xm9ZjkA:9
- a=CjuIK1q_8ugA:10 a=GvGzcOZaWPEFPQC_NcjD:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEzMDA3NCBTYWx0ZWRfX3QqmjS4ClIsu
- jaaYhAn2XpjIBpZd7BnvCg6SWVBsTAcTtpXwpUNXRcwHY/f9f5Mtr3nlAhCXGwPSgou27eFCEyE
- FTSyunJ7g4ybGhwxBHC/XMSTmIN7W1s=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEzMDA3NCBTYWx0ZWRfX9gSkAMtQC5Yd
- GkIGOerYstwrnr5iUDS/qpCR+TU05AFVa3799fvZvVKEzryRCnK9jW4ZLHWIGBZOjhGCV4vDhAf
- DvoEEV5ACmA9Fkhw9HV8f5D+GEcJl6BRoxYOv7OpKgG9KVSfIheXR8Uazwh5T5nGLdtTcXhyM4d
- a8M3ShryEYAxzS7Hz3Bv7fE4VOTYkxsxc9kzwUCVNQsE/CruVHm57Jlnwtx77NZDlV4jt6iKeCZ
- qCrrZquvjH8+gkWHaT9mxQW+rNt11/bqLuNCmeGW/WWOmTbBA9LPoR/dT3anWXGvTEWE4EyyVLH
- ComHR7L9+0facv3qIq9f0ddO0hoAoplWCBxk2bhZvp3g24hRvHIOWR11dp6gKsZFU8SZP9mu4y0
- NLwhEXIigdWPezINbrtkGRqEhlo6Fj1ftp9LmO7lYL7f38maGOeh6BbegS/JAwgAGtgTW5P1src
- WNeijhwuyQarUu4vt6Q==
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABZZ92oC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDQ0Nj3ZL8gsxk3eJcCzNTA93UHCPdZLPkxDQTI2Pz5ERzJaC2gqLUtMw
+ KsJHRSkFuzkqxEMHi0qSs1OQSkGFKtbUAxccrKHkAAAA=
+X-Change-ID: 20261113-topic-sm8650-el2-c6caf4237ca7
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Abel Vesa <abelvesa@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Brian Masney <bmasney+clk@redhat.com>, 
+ Jerome Brunet <jbrunet+clk@baylibre.com>, 
+ Srinivas Kandagatla <srini@kernel.org>, 
+ Rohit kumar <quic_rohkumar@quicinc.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Konrad Dybcio <konradybcio@kernel.org>, 
+ Bartosz Golaszewski <brgl@kernel.org>, Linus Walleij <linusw@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>, 
+ linux-gpio@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5790;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=nNsA+r5juXKjiRcSwoHtRAKZZ9Tqefl8bh/M49w5Yxs=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBq91kct6ILQiiCLBdkeOYZBX88DapotPq1jQSJmYtF
+ TxO++kKJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCavdZHAAKCRB33NvayMhJ0Qt3D/
+ 4ypug2YvyBD2m7gomADVISy/gSHyEitoz0M8hnoOG086qtlX7QAs3zWxhG9WDSNbqImwU0LbZFHgo7
+ Uiyk5KZ7aUvHg7L8sW0OUiFWbTDDmx8ihF6GJiJm4cPsrO3PaBMQcjca4eaR29JjQafpKE9u8rSPbR
+ UaxgAiGGeAEqEXcK8muyQuUGBJOdCL6o9o2yNo7ckfQDg9K5HI3mDkcdD0er4ax+pJ7aRN1ZpB993R
+ nZx15WZ01xd8vtp0jCd91qCzL/B832FQnwygf6Lp2zwbYElCarQ5d7wxTWFMuJOLJ1vHhFavnXJxb1
+ FFZW3luqvZAREglP+Q1o05SO1N/H3Y3aRFyf/ob9+KPVt83xNSk77jrcSyx0stAJhRndbnMNZOFyPs
+ zbr6V5N0zL4BMFw/ye18a8UpedA93NeohI80VDEfnYwjTHNC5H9GDc0UKBNHK7lJxoMyc3zvDgDNmd
+ OYvbRhzSbVZFWbcNpWVVo3SXFEPolkQBQd8+1ZRnZ/j/XyoN/8F7HyPTYw2K7vAdh9NclY2fbo34Ma
+ /N9qBQqqVvf93PL9mXQgWMNwuGPM1y8Ki/YKzcaYHBhB+wLBuT+nyeajeJj7X5CGI8KVIzCI9CsV6V
+ QiS7q0nqc4VDLj8TiY/mLqSNNFgCPGexp5j6CQi58uspXjJgw38SaaYve4Ww==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-On Tue, Nov 03, 2026 at 09:53:48AM +0000, Lee Jones wrote:
-> In sdw_stream_add_master() and sdw_stream_add_slave(), failures during
-> runtime or port configuration jump directly to the unlock label,
-> bypassing alloc_error and leaving newly allocated master/slave runtime
-> and port structures attached to the stream and bus lists.
-> 
-> Track whether ports were newly allocated in the current invocation and
-> route configuration failures through alloc_error so all resources
-> allocated by the failing call are released.
-> 
-> Closes: https://sashiko.dev/#/bug/linux-546e137d-6e4d-4f22-99c3-8ccc8beb5350
-> Signed-off-by: Lee Jones <lee@kernel.org>
-> ---
+This patchset adds the necessary plumbing to drive the SM8650 audio
+interfaces directly from Linux. This is required for boards like the
+Valve Deckard that boot Linux at EL2 without the ADSP audio firmware,
+meaning the audio interfaces must be driven directly by the application
+processor through lpass-cpu.
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Without the ADSP firmware, the LPASS clocks (MI2S bit clocks,
+codec macro MCLKs, LPM memory clocks) and memory zones must be
+controlled by Linux.
 
-Thanks,
-Charles
+To support this, the series introduces the following changes:
+- Bindings: Adds dt-bindings for the SM8650 LPASS core & audio clock
+  controllers, LPASS CPU, WSA RX/TX channel ids, and Senary/Septenary MI2S ids.
+- Clocks: Adds drivers for the SM8650 LPASS HM, core, audio, and
+  AON clock controllers.
+- ASoC LPASS core: Prepares the lpass and lpass-cdc-dma drivers to
+  handle multiple LPAIFs for I2S ports, allocates and maps LPM buffer
+  memory for DAIs, and adds support for the optional WSA interface
+  and Senary/Septenary MI2S ports.
+- ASoC SM8650: Introduces the SM8650 lpass-cpu variant and allows the
+  sc8280xp machine driver to be used with lpass-cpu to keep sound card
+  bindings working.
+- Device Tree: Refactors the SM8650 dts to move EL1-specific Gunyah nodes
+  to a dedicated sm8650-el1.dtsi. Introduces sm8650-lpass-cpu.dtsi for
+  boards booting at EL2, and wires up the speakers (Senary MI2S) and
+  DMICs (VA macro) on the sm8650-valve-deckard board.
+- Defconfig: Enables the SM8650 LPASS CPU driver as a module in arm64 defconfig
+
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Neil Armstrong (23):
+      dt-bindings: clock: qcom: add SM8650 LPASS core & audio clock controllers
+      clk: qcom: add SM8650 LPASS core & audio clock controllers
+      dt-bindings: pinctrl: qcom,sm8650-lpass-lpi-pinctrl: document clocks and power domaines when ADSP is not used
+      ASoC: dt-bindings: qcom,lpass: add Senary & Septenary MI2S ids
+      ASoC: dt-bindings: qcom,lpass: add WSA RX and TX channels ids
+      ASoC: dt-bindings: qcom,lpass-*-macro: document less clock when ADSP is not used
+      ASoC: dt-bindings: qcom,lpass-cpu: document the SM8650 LPASS
+      ASoC: qcom: lpass-cpu: get the optional codec_mem3 clock
+      ASoC: qcom: lpass: add support for optional WSA interface
+      ASoC: qcom: lpass-cdc-dma: add support for WSA codec DMA
+      ASoC: qcom: lpass: prepare to handle multiple lpaifs for i2s
+      ASoC: qcom: lpass: add support for MI2S_SENARY & MI2S_SEPTENARY
+      ASoC: qcom: lpass: support mapping I2S ports to multiple LPAIFs
+      ASoC: qcom: lpass: support LPM memory type for I2S LPAIFs
+      ASoC: qcom: lpass: allocate LPM buffer memory to DAIs
+      ASoC: qcom: lpass: enable the right codec_mem clock when usin LPM memory
+      ASoC: qcom: add SM8650 LPASS CPU driver
+      ASoC: qcom: swd: allow LPASS_CDC_DMA_WSA_RX0 as soundwire dai
+      ASoC: qcom: sc8280xp: allow using the sc8280xp card with lpass-cpu
+      arm64: dts: qcom: sm8650: move EL1 Gunyah nodes to sm8650-el1.dtsi
+      arm64: dts: qcom: add SM8650 LPASS CPU dtsi
+      arm64: dts: qcom: sm8650-valve-deckard: enable audio
+      arm64: defconfig: enable the SM8650 LPASS CPU driver
+
+ .../bindings/clock/qcom,sm8650-lpasscorecc.yaml    | 179 +++++
+ .../pinctrl/qcom,sm8650-lpass-lpi-pinctrl.yaml     |  20 +-
+ .../devicetree/bindings/sound/qcom,lpass-cpu.yaml  |  74 +-
+ .../bindings/sound/qcom,lpass-rx-macro.yaml        |  17 +-
+ .../bindings/sound/qcom,lpass-tx-macro.yaml        |  20 +-
+ .../bindings/sound/qcom,lpass-va-macro.yaml        |  13 +-
+ .../bindings/sound/qcom,lpass-wsa-macro.yaml       |  21 +-
+ .../boot/dts/qcom/sm8650-ayaneo-pocket-s2.dts      |   1 +
+ arch/arm64/boot/dts/qcom/sm8650-el1.dtsi           | 775 ++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sm8650-hdk.dts            |   1 +
+ arch/arm64/boot/dts/qcom/sm8650-lpass-cpu.dtsi     | 222 ++++++
+ arch/arm64/boot/dts/qcom/sm8650-mtp.dts            |   1 +
+ arch/arm64/boot/dts/qcom/sm8650-qrd.dts            |   1 +
+ arch/arm64/boot/dts/qcom/sm8650-valve-deckard.dts  |  85 ++-
+ arch/arm64/boot/dts/qcom/sm8650.dtsi               | 799 ++-------------------
+ arch/arm64/configs/defconfig                       |   1 +
+ drivers/clk/qcom/Kconfig                           |  12 +
+ drivers/clk/qcom/Makefile                          |   1 +
+ drivers/clk/qcom/lpassaudiocc-sm8650.c             | 777 ++++++++++++++++++++
+ drivers/clk/qcom/lpasscorecc-sm8650.c              | 509 +++++++++++++
+ .../dt-bindings/clock/qcom,lpassaudiocc-sm8650.h   |  47 ++
+ .../dt-bindings/clock/qcom,lpasscorecc-sm8650.h    |  30 +
+ include/dt-bindings/sound/qcom,lpass.h             |  24 +
+ sound/soc/qcom/Kconfig                             |  12 +
+ sound/soc/qcom/Makefile                            |   2 +
+ sound/soc/qcom/lpass-apq8016.c                     |   9 +-
+ sound/soc/qcom/lpass-cdc-dma.c                     |  47 +-
+ sound/soc/qcom/lpass-cpu.c                         | 344 ++++++---
+ sound/soc/qcom/lpass-lpaif-reg.h                   |  51 +-
+ sound/soc/qcom/lpass-platform.c                    | 482 +++++++++++--
+ sound/soc/qcom/lpass-sc7180.c                      |  10 +-
+ sound/soc/qcom/lpass-sc7280.c                      |  10 +-
+ sound/soc/qcom/lpass-sm8650.c                      | 651 +++++++++++++++++
+ sound/soc/qcom/lpass.h                             | 198 ++++-
+ sound/soc/qcom/sc8280xp.c                          |  16 +-
+ sound/soc/qcom/sdw.c                               |   1 +
+ 36 files changed, 4471 insertions(+), 992 deletions(-)
+---
+base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
+change-id: 20261113-topic-sm8650-el2-c6caf4237ca7
+
+Best regards,
+--  
+Neil Armstrong <neil.armstrong@linaro.org>
+
