@@ -1,47 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794584678;
-	b=Hb3+zozKsrkgvEf9xr2TaxO7ZlAODnRsBSeO0ZnoOMShPMO2DLyEBCULilM/EYmLtbfr
-	 o4TQG6nMqU5u5xJ/NccfOqQC8j+UpQ6bSCaCf7/Vw+WYbYalOEivDuJcl8/E7bDmlGh8v
-	 hdP6U4zG8LHIc/mBW3d7tY4qHBicxR/Iojqep/r0O8eLKNwxMG8vbNArL6tweIWcnBesZ
-	 TiWovhxHVd19DMX3Ol483HIKlM7pOdXvRlBNWTsnKKhfVACRO2WxzkQs7eA7N8PltRbg7
-	 b+NKLruvwajg7WQcbff/V0/S0hp1W00W5j3Xd2iwUwIt/E2PTbMdj3tQ6bdR4gENNwQ==
+	t=1794585553;
+	b=r+qAKcWrbvtmUGWjICGYUTPED5ViYlhFzQAc98bZ2IZ/9hhpU1fqG+jkho2wkocNQZ5k
+	 jq3BqDhFqxGGppn2TcwCRCUrDFAxyB2P1wAGTAMf3h2CokXw++8YMMXpy5mplm08PNVyQ
+	 phJ0fIViEo/eKw4dsY1baNWq50sF1VCmjFND8O/S9u0thRjrozBSO+6dYXUU3sRyFCg2a
+	 c3WIoFBWdHxLbjHhjF7uZMIDVEufO/xBrm52XJi4CQaFXPr6KxRYvW4pSjUhpNeAUyFER
+	 mCuhWzhYvJRUcTOi1LUUQ0BryLoI9m6S+HcSdl6oGSJR1tVyEA1pygECKeI1DFP0Q5g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794584678;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=PbD4AtMB8bc+XYwJsGjxS6XrtV8DXvidAzLVTNW7qq0=;
-	b=GBr/gQYvlwSx54HZUFWSVCnCUkJOVWe9a09bit5qWUwnUClVdeAZlvGaVIN0owB3P0Qw
-	 w5nfq2xZjjF9O71g8RAFOISPjOx8XFFXJ6TEfwzyIFX69XwWyxItciOXouhenv/vTxC0A
-	 2DW/nv6oVyu2HA2kz3ev0G7CEl/XNcKnacw1XHX5U8475g6EqCCnmrw0dIAzGva/coGKf
-	 VZ0xHRGP+KD304CzeGnmfWP3ci1yR4WfClJWppBZtnHrO209s0vvl2bV/2n7Egscy4+cD
-	 DjMqI5ycCyZsC0Al6pNBYokLo6poZTnQW1dtOO63yWWW9U5eAzjaj4pSJM5f5xASIlQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794585553;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 User-Agent:MIME-Version:Content-Type:X-Spam-Flag:X-Spam-Level:
+	 X-Spamd-Result:X-Spam-Score;
+	bh=Gx7M6jt6z9Omn/e+tHtHZM2LLzdH97mZcDmy9T8YAF0=;
+	b=3YuatQmT5OelFmwuyC3gquNOCpr8FSCEYFe1RfyGZHa6iJwhTvdWnrF+Vh+pYfI3WN2z
+	 cAInBpydEWV3418uJ6qqJ1msyKAf0zXGP2Hcryk0a5Lr2G6LSs51Ejhaz5t1vG8FFpS9Z
+	 44EJEThTQCPDBrcEQx/VVTixEujiwQmebCexJfy7jMVr68WF82APpeFt0Tf9pn2O7ych2
+	 fv3WcoXb4tAQtuIJFAmUAXui7iSZJA7gLe1vN/53oCba2EgCCyj+CzUNHvODEi0YgmwfB
+	 DTe3qE0KyjWeWnfb4Mkww4XAF3iJI8eI/Atmj2gnBVWmgDROA8GeiBmAU6E1rQ4JBUw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D+6TskSy;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Fz8lVVzq;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=hpTMlQ0C;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Fz8lVVzq;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=hpTMlQ0C;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A9D606A327;
-	Fri, 13 Nov 2026 15:44:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98056606BA8A;
+	Fri, 13 Nov 2026 15:59:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98056606BA8A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=D+6TskSy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 446111F000C4;
-	Fri, 13 Nov 2026 15:44:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794584678;
-	bh=PbD4AtMB8bc+XYwJsGjxS6XrtV8DXvidAzLVTNW7qq0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=D+6TskSyn0FKpFu5tg/C7jAmpR5r/CKULYkdn4H71AEu0ZAs9GFKfxg7OI7ZpOVRP
-	 PjKWss5sth0A9kyeIT+Xw650IetB4HFv44Fcbc83BAOBuG1CEUizlfVq7hXMptDdkB
-	 S6LonQFgC5YlwuVsEcMamNf0FmLS4x11t3ePv6T4BrvdqlMLSlSITqks+AX2DUR/tU
-	 Uaew2SvQbL8Ifz3lxo+XwVuecy1lCOsirWJbbk3MonDPJ7ApEh4AyKuSE/HLjy0dRx
-	 5C/kV1s5GzQMpBi4muWFF3VXOCHh7qpkf9DC1XD4lh8bHu2DNMIXtl3hSBBmOZDHoA
-	 HdVlrjdk+Kb5Q==
-Message-ID: <5a61c395-9eef-4c97-99a5-30f434ad2c7e@kernel.org>
-Date: Fri, 13 Nov 2026 16:44:29 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Fz8lVVzq;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=hpTMlQ0C;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Fz8lVVzq;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=hpTMlQ0C
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BF0FF1F79B;
+	Fri, 13 Nov 2026 15:59:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794585550; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=Gx7M6jt6z9Omn/e+tHtHZM2LLzdH97mZcDmy9T8YAF0=;
+	b=Fz8lVVzqif0Z9k567b4F0Xqe+BA0Am+LsemDnSZ2aotLBU5EYD/5fAIEGMJG/Bm+xTjpjL
+	TmFW6RW4zUKs8uW0IBAcPrArQOLezsGPpDV6QduxQttNevXG6iTysjTiWBJYfJnVSs7DyF
+	nBZh02UgaUz2YX/6PzazX6OvxABRPQE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794585550;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=Gx7M6jt6z9Omn/e+tHtHZM2LLzdH97mZcDmy9T8YAF0=;
+	b=hpTMlQ0CDiVMjFEbmaj1fKLwRV59PilYfNJD9CRWGIITLs0FOf6uwY7Fr+pRy/ZYDBtjVj
+	H6RIQzhWpoNBXYAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794585550; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=Gx7M6jt6z9Omn/e+tHtHZM2LLzdH97mZcDmy9T8YAF0=;
+	b=Fz8lVVzqif0Z9k567b4F0Xqe+BA0Am+LsemDnSZ2aotLBU5EYD/5fAIEGMJG/Bm+xTjpjL
+	TmFW6RW4zUKs8uW0IBAcPrArQOLezsGPpDV6QduxQttNevXG6iTysjTiWBJYfJnVSs7DyF
+	nBZh02UgaUz2YX/6PzazX6OvxABRPQE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794585550;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=Gx7M6jt6z9Omn/e+tHtHZM2LLzdH97mZcDmy9T8YAF0=;
+	b=hpTMlQ0CDiVMjFEbmaj1fKLwRV59PilYfNJD9CRWGIITLs0FOf6uwY7Fr+pRy/ZYDBtjVj
+	H6RIQzhWpoNBXYAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6BDDC1344A;
+	Fri, 13 Nov 2026 15:59:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id //VwEs4z92rLVgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 13 Nov 2026 15:59:10 +0000
+Date: Fri, 13 Nov 2026 16:59:09 +0100
+Message-ID: <87pkw8pvsi.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 7.4-rc3
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -50,121 +103,200 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] arm64: dts: qcom: add device tree for Asus Vivobook
- 16 X1607QA
-To: yass27106 <yass27106@gmail.com>, andersson@kernel.org,
- broonie@kernel.org, srini@kernel.org, konradybcio@kernel.org
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- vkoul@kernel.org, tiwai@suse.com, perex@perex.cz, lgirdwood@gmail.com,
- pierre-louis.bossart@linux.dev, yung-chuan.liao@linux.intel.com,
- abelvesa@kernel.org, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <01b2c920412848ab85493acc2d4f5fc1@gmail.com>
- <5cfd0705da5845b88ffe6d9e8bfeb966@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <5cfd0705da5845b88ffe6d9e8bfeb966@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.30
 
-On 13/11/2026 14:24, yass27106 wrote:
-> arch/arm64/boot/dts/qcom/Makefile             |   1 +
+Linus,
 
-Please run scripts/checkpatch.pl on the patches and fix reported
-warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
-patches and (probably) fix more warnings. Some warnings can be ignored,
-especially from --strict run, but the code here looks like it needs a
-fix. Feel free to get in touch if the warning is not clear.
+please pull sound fixes for v7.4-rc3 from:
 
-Please read submitting patches document to understand DCO.
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.4-rc3
 
-Looks like completely corrupted anonymous patch.
+The topmost commit is bca568589ad118a9b0bac086760baee2a41976a5
 
->  .../x1p42100-asus-vivobook-16-x1607qa.dts     | 239 ++++++++++++++++++
->  2 files changed, 240 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/qcom/x1p42100-asus-vivobook-16-x1607qa.dts
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-> index 88230c4e00e..7332a73dbac 100644
-> --- a/arch/arm64/boot/dts/qcom/Makefile
-> +++ b/arch/arm64/boot/dts/qcom/Makefile
-> @@ -509,6 +509,7 @@ x1e80100-qcp-el2-dtbs	:= x1e80100-qcp.dtb x1-el2.dtbo
->  dtb-$(CONFIG_ARCH_QCOM)	+= x1e80100-qcp.dtb x1e80100-qcp-el2.dtb
->  x1p42100-asus-vivobook-s15-el2-dtbs	:= x1p42100-asus-vivobook-s15.dtb x1-el2.dtbo
->  dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-asus-vivobook-s15.dtb x1p42100-asus-vivobook-s15-el2.dtb
-> +dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-asus-vivobook-16-x1607qa.dtb
->  x1p42100-asus-zenbook-a14-el2-dtbs	:= x1p42100-asus-zenbook-a14.dtb x1-el2.dtbo
->  dtb-$(CONFIG_ARCH_QCOM)	+= x1p42100-asus-zenbook-a14.dtb x1p42100-asus-zenbook-a14-el2.dtb
->  x1p42100-asus-zenbook-a14-lcd-el2-dtbs	:= x1p42100-asus-zenbook-a14-lcd.dtb x1-el2.dtbo
-> diff --git a/arch/arm64/boot/dts/qcom/x1p42100-asus-vivobook-16-x1607qa.dts b/arch/arm64/boot/dts/qcom/x1p42100-asus-vivobook-16-x1607qa.dts
-> new file mode 100644
-> index 00000000000..fc572d779b3
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/qcom/x1p42100-asus-vivobook-16-x1607qa.dts
-> @@ -0,0 +1,239 @@
-> +// SPDX-License-Identifier: BSD-3-Clause
-> +/* Hybrid device tree for ASUS Vivobook 16 X1607QA (X1P-42-100).
-> + * Base: proven x1p42100-asus-vivobook-s15 (panel, USB, boot path).
-> + * Transplanted from x126100-asus-vivobook-16: audio stack
-> + * (WCD9385 codec, WSA8845 speakers, soundwire, sndcard) + firmware paths.
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "purwa.dtsi"
-> +#include "x1-asus-vivobook-s15.dtsi"
-> +
-> +/ {
-> +	model = "ASUS Vivobook 16 (X1607QA)";
-> +	compatible = "asus,vivobook-16-x1607qa", "qcom,x1p42100";
+----------------------------------------------------------------
 
-Missing bindings.
+sound fixes for 7.4-rc3
 
-Best regards,
-Krzysztof
+A collection of small fixes as usual.  A couple of regression fixes
+are included in addition to the various quirks and device-specific
+fixes.
+
+* ALSA Core:
+- PCM: Fix potential inconsistent PCM state reporting after XRUN
+
+* HD-audio:
+- Fix sysfs hint parser
+- Revert CS4208 fixup for MacBookAir 7,2 due to regressions
+- ACPI _DSD fixes for CS35L41 side-codec on various HP laptops
+- Device quirks for Acer (Predator, TravelLite) and Dell (Pro QC1255,
+  XPS 8940)
+
+* USB-audio:
+- Fix for USB controller bugs reporting oversized packets
+- Fix UAF on disconnect in caiaq
+- Quirks for NiceHCK Octave DAC and RYDZ Technology Piva AC20
+
+* ASoC:
+- Fix a regression due to the conversion to devm_kzalloc_flex() that
+  initialized the counter unexpectedly
+- Copy DAI link names into card device to survive component rebind
+- SOF: Fix pin format memory leak in IPC4 process widget setup,
+- SOF: Support alternatively signed firmware loading on AMD platforms
+- AMD: Guard SoundWire context with NULL checks in IRQ handlers
+- AMD: SoundWire support on LG gram 16Z95U,  fix speaker pop noise on
+  ACP3x with ES83xx codecs, quirks for Acer, ASUS, Huawei, and Lenovo
+- Qualcomm: Fix headset jack at card rebind, PCM position fix on q6asm
+- Apple: Fix clock selection for clock consumer FEs in MCA driver
+- Intel: SoundWire jack-detection quirk for Dell Latitude 9420
+- Codecs: Fixes for CS43130 (power down on close), ES9356 (gain dB
+  scale), and MAX98090 (preserve mic boost)
+
+----------------------------------------------------------------
+
+Andrew Davison (1):
+      ALSA: hda: Fix [codec] ID matching in patch files for IDs with bit 31 set
+
+Angel J (1):
+      ALSA: hda/realtek: Fix the Dell XPS 8940 headset microphone
+
+Baoli Zhang (1):
+      ASoC: SOF: ipc4-topology: Fix pin format leak in process widget setup
+
+Devajith Jijush (1):
+      ALSA: hda/conexant: Add quirk for Acer TravelLite TL05-41M
+
+Emanuele Ghidoli (1):
+      ASoC: soc-core: reset rtd->num_components after allocation
+
+Fa-Iz Faadhillah Ibrahim (1):
+      ALSA: hda/realtek: Update quirk for Acer Predator PHN16-72
+
+Gichoon Han (1):
+      ALSA: usb-audio: Drop capture packets with bogus actual_length
+
+HyeongJun An (1):
+      ASoC: Intel: sof_sdw: Add quirk for Dell Latitude 9420
+
+Jaehoon Kim (2):
+      ASoC: amd: acp: Add ACP70 ACPI flag override for LG gram 16Z95U
+      ASoC: amd: acp70: Add rt713 + rt1320 SoundWire machine for LG gram 16Z95U
+
+Janne Grunau (1):
+      ASoC: apple: mca: Fix clock selection for clock consumer FEs
+
+Jude Gyimah (1):
+      ALSA: aw2-alsa: select SND_PCM
+
+Kailang Yang (1):
+      ALSA: hda/realtek - remove headphone MIC support for Dell Pro QC1255
+
+LiangCheng Wang (1):
+      ASoC: max98090: keep the MIC boost across mic input power-up
+
+Lianqin Hu (1):
+      ALSA: usb-audio: Add iface reset and delay quirk for RYDZ Technology Piva AC20
+
+Mario Limonciello (1):
+      ASoC: SOF: amd: Load alternatively signed firmware with an "_l" suffix
+
+Michael McAllister (1):
+      ASoC: qcom: q6asm: Reset PCM positions when preparing a stream
+
+Mikael Magnusson (1):
+      ALSA: pcm: update state after xrun
+
+Olivier Louvignes (1):
+      ASoC: cs43130: Power the playback path down when the stream closes
+
+Samuel Leyva (2):
+      ASoC: amd: acp: Add DMI quirk for Huawei MateBook D 14 (NBM-WXX9)
+      ASoC: amd: acp: es83xx: Enable speaker amplifier after the codec output
+
+Sergei Nizovtsev (1):
+      ALSA: caiaq: Kill EP1 URB before unregistering the input device
+
+Shengyu Qu (1):
+      ALSA: usb-audio: Add native DSD support for NiceHCK Octave
+
+Stefan Binding (1):
+      ALSA: hda: cs35l41: Override malformed _DSD properties for various laptops
+
+Takashi Iwai (1):
+      Revert "ALSA: hda/cs420x: Add CS4208 fixup for MacBookAir 7,2"
+
+Tyler Baker (2):
+      ASoC: soc-core: copy the DAI link names into the card
+      ASoC: qcom: x1e80100: recreate the headset jack on card rebind
+
+Viacheslav-Illia Detsyk (1):
+      ASoC: amd: yc: Add DMI quirk for Acer Nitro AN16-41
+
+Vijendar Mukunda (2):
+      ASoC: amd: ps: guard adata->sdw dereferences with NULL check in IRQ handler
+      ASoC: SOF: amd: guard adata->sdw dereferences with NULL check in IRQ handler
+
+Zachary Huang (1):
+      ASoC: es9356: fix the capture gain dB scale
+
+Zhang Heng (3):
+      ASoC: amd: yc: Fall back to DMI quirk table when _WOV returns 0
+      ASoC: amd: yc: Add DMI quirk for ASUS TUF Gaming A16 FA607NUQ
+      ASoC: amd: acp: Add Lenovo Legion 5 15AGP11 to ACP70 override table
+
+---
+ sound/core/pcm_native.c                            |  8 ++-
+ sound/hda/codecs/cirrus/cs420x.c                   |  2 -
+ sound/hda/codecs/conexant.c                        | 12 ++++
+ sound/hda/codecs/realtek/alc269.c                  | 21 ++----
+ sound/hda/codecs/realtek/alc882.c                  | 10 +++
+ .../hda/codecs/side-codecs/cs35l41_hda_property.c  | 22 +++++-
+ sound/hda/common/sysfs.c                           |  5 +-
+ sound/pci/Kconfig                                  |  1 +
+ sound/soc/amd/acp-config.c                         | 28 ++++++++
+ sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c      | 24 +++++--
+ sound/soc/amd/acp/amd-acp70-acpi-match.c           | 83 ++++++++++++++++++++++
+ sound/soc/amd/ps/pci-ps.c                          | 32 +++++----
+ sound/soc/amd/yc/acp6x-mach.c                      | 16 ++++-
+ sound/soc/apple/mca.c                              | 10 ++-
+ sound/soc/codecs/cs43130.c                         |  2 -
+ sound/soc/codecs/es9356.c                          |  4 +-
+ sound/soc/codecs/max98090.c                        | 22 +++---
+ sound/soc/intel/boards/sof_sdw.c                   | 10 +++
+ sound/soc/qcom/qdsp6/q6asm-dai.c                   |  3 +
+ sound/soc/qcom/qdsp6/q6asm.c                       |  2 +
+ sound/soc/qcom/x1e80100.c                          | 18 +++++
+ sound/soc/soc-core.c                               | 22 ++++++
+ sound/soc/sof/amd/acp.c                            | 61 ++++++++++++----
+ sound/soc/sof/amd/acp.h                            |  2 +
+ sound/soc/sof/ipc4-topology.c                      |  2 +-
+ sound/usb/caiaq/device.c                           | 11 ++-
+ sound/usb/pcm.c                                    |  6 ++
+ sound/usb/quirks.c                                 |  4 ++
+ 28 files changed, 367 insertions(+), 76 deletions(-)
+
