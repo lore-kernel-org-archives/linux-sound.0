@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794641679;
-	b=RVZpKA6FqGK6+X//z4RLDb7VgMM/D6RG/wpobTXWBr9XvYeKGPuov0kZeVh5D2O/uG8U
-	 AD8mye+XL09g3V5UhYjOp3FHpQVkwOq9e6YQpui4pmpcGeDmYGe/3oJfoCAhxunOMarlK
-	 lHCKjiMaaotNCrZMS7sEeyxaggTgCZOjjMUtD9u+M46WJRAhEMEkeXM/WWx6OEs3KW3qD
-	 CVSHcw2GIE6yObjRouXl5vQSvLLD8y0zYwrSP63LETd3jhCZBybOKBpwvg2qyMNdK9yFj
-	 ULRl6UZxo4JNbvrjE7eVoEaxSp6t6hld5THhydJoe7Hpj01p4Stbeye8z+j5bSTTvVg==
+	t=1794641718;
+	b=swDz4sfT0CcRYELC8iDyO0tKflJAPjEY9nl+DKdA58evPrPeymjKBeDMeGOhPZUyQmQR
+	 xQUBkllGBq6XrGUvocvIXFkCchX6WT2fsOf/7FHrypXQ4sa7qd8kYcB/nKTHfI4RjKu5d
+	 rJkO+dJQ6FLNEEQF9GcO/6fvPm6PnZi6kaXkiFfAM7qG9dqewtbgRu3lmIEZLUA26O/No
+	 KldyMLIsngLe6QsSGK9yhYi8GbASgds39OcYjlqB2LwgwyBYRot649o9+xsr/qhs1gwOc
+	 GFRsb6qw9f7vJfHC5mKQEJ3DLxJeJ9yhVI9BtUXyVME/8Y9DIB+Buv0rMxG19Hf64EA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794641679;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794641718;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=uEokkUGALWPMex2Voc4BEuMdUXr/l2om92W9ukshPYg=;
-	b=dOJ+rCASlcEcr5AzD7x02upA10m/yP+O9A7zd5iaXPxmPjYYfx0crStEnZSqwURhN8EE
-	 0GeBpBmbvlTCJ/QKz+G0YR7s7+KD15vcGfwJFwNHf2hfwlHfFKsYTIUDdqWXx4n2TulVD
-	 mKvLflams5WrCFXDTo5RDwAvIVEVS0sflbkgaQSDHrp9cSuQcLbRyYQ1Ti8kT6DuAyT0h
-	 Q1JB0QhEuYVdmGxGIWL30A+zM+MW6/dYIr8hoiofUwzlmcMatfYXbxhPGHPQZYgb9c5Wr
-	 ZCV2wFk4FK3O5eujsFAmbUIHYbm+5lixwr4ObXfrjdpbNWNbmyHGR/b7BYBVH/ldoEg==
+	bh=l2bxq6ple5RWVpikmciXib7wAWIaL5c2jKR3zbAOP9I=;
+	b=3nnrD6eLwPw3Xcs/RbPkhqs67Yp4VPEdXQl+rBpdT6X+w7SK9HUSf0WwkRsQqJWExrz8
+	 EwGyikG2wpuZEoU3A2cT1oLDxoGLx9u+9QJWk5gOmp5mUf3b8Ff/HoZAplQ3RoKz2b6K/
+	 J+cnLj2pj0K+oEZypN9/NqDTVbfV1QIGOJUgedp9UZWIMzhVtY0O/CVG02LbLyzbBsbde
+	 jUlKTdAmNpcMrIsWiF5urG0jCwXtAH5q6hu1jDQ+SMu421tmVmeZFReswZIdY9K6txcDb
+	 9TL/DnYSvXB+lU3MZvXZC47FqEoLG4JyWb2UmLDousQl1m0xfpD4mrbDv7q8uBoOqdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FlsL5vIv;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TNpbNoxZ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A2C606A329;
-	Sat, 14 Nov 2026 07:34:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AA9606A329;
+	Sat, 14 Nov 2026 07:35:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FlsL5vIv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04F8B1F000C4;
-	Sat, 14 Nov 2026 07:34:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TNpbNoxZ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AD341F000C4;
+	Sat, 14 Nov 2026 07:35:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794641678;
-	bh=uEokkUGALWPMex2Voc4BEuMdUXr/l2om92W9ukshPYg=;
+	s=k20260515; t=1794641718;
+	bh=l2bxq6ple5RWVpikmciXib7wAWIaL5c2jKR3zbAOP9I=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=FlsL5vIv1WenXpL7fXrA2kwbY7mqvf4afQo4lgUw+vdE9EN0aY2UPCLtjlWK4qn/F
-	 Ut06NcqVqn3SpiJBfkQluCe/+31O4S7z2ZRHjNQyF/3NOyWGglAp6rnGNSo2ndIB4B
-	 DHDlkYPkqtSIpaAlu1KaipI6wKhXHuEPmyEhU4BCMmFPodnFeHYntMPnwmxla5cjuw
-	 zLrkRnqkQ7qRPIw+QVjOtuPSoJ/oPKZUqyE56B5sfPwI/d71jVlhEYiMhCVFC8slTw
-	 t/XCpWtClKSGRvKqNCUrtdL3DcWLGcTQzYvDePUe8uJqcImGeI8MG3eIsXBQqIMaD/
-	 vEqgALhGSY8DQ==
-Message-ID: <1a94e854-84a5-43a2-9fc1-1de9acf03b9e@kernel.org>
-Date: Sat, 14 Nov 2026 08:34:31 +0100
+	b=TNpbNoxZRA2cu7uMGw7OEeFvhkOzCxL3z080FEZ1UwP0uAOylz4PnASmCiyxnBKg8
+	 I8eWn7cUs9QVU0O8WfDn57UDnRLLry7o1VWclPGktnE7RsxgYbCdsDcuqLSpWgnyOt
+	 cJ6nZHvv96XHGQKwdM2eiYX6IbIvHC/vpUKcsXDIpbYqcsnAGOltTP67w01t3XfEw4
+	 1pnIrBrxGhcemgAdgW64gMf7d5iyCUBHJzFLjEEYewBZRjI+uROvdi1DBEclU05kaQ
+	 hXNL6EZK2C2MmEuzniR1QOHbJ7gY4lmpIcOYl/Ii74MuCAzBsk6EIZIM/VqhC1gdw6
+	 wFVFh6jKVTCrg==
+Message-ID: <ccff0a56-170e-4dbc-bb6c-496abc01f8a1@kernel.org>
+Date: Sat, 14 Nov 2026 08:35:10 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -52,8 +52,8 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: qcom: document Asus Vivobook 16
- X1607QA
+Subject: =?UTF-8?Q?Re=3A_=5BPATCH_1/2=5D_arm64=3A_dts=3A_qcom=3A_add_device_?=
+ =?UTF-8?Q?tree_for_Asus_Vivobook_16_X1607QA_=E2=80=94_v2_series?=
 To: Daniel Carter <yass27106@gmail.com>, andersson@kernel.org,
  broonie@kernel.org, srini@kernel.org, konradybcio@kernel.org
 Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
@@ -62,8 +62,8 @@ Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  abelvesa@kernel.org, linux-arm-msm@vger.kernel.org,
  linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <9032798812284dd2842cbf003c75cc0b@gmail.com>
- <2c4a807496c04047b6d5735e3946dd16@gmail.com>
+References: <5a61c395-9eef-4c97-99a5-30f434ad2c7e@kernel.org>
+ <9032798812284dd2842cbf003c75cc0b@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -109,17 +109,30 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <2c4a807496c04047b6d5735e3946dd16@gmail.com>
+In-Reply-To: <9032798812284dd2842cbf003c75cc0b@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 13/11/2026 21:33, Daniel Carter wrote:
-> Documentation/devicetree/bindings/arm/qcom.yaml | 1 +
->  1 file changed, 1 insertion(+)
+> Hi Krzysztof, hi all,
 > 
+> v2 of the series, addressing your review of v1:
+> 
+> - The binding documentation is now a separate patch (dt-bindings first),
+>   as required by Documentation/devicetree/bindings/submitting-patches.rst.
+> - The board compatible 'asus,vivobook-16-x1607qa' is documented in
+>   Documentation/devicetree/bindings/arm/qcom.yaml.
+> - scripts/checkpatch.pl passes with no errors on all patches; --strict
+>   leaves only the MAINTAINERS note on the new-file patch.
+> - The DCO sign-off is now a real-name sign-off; apologies for the
+>   pseudonymous v1.
+> 
+> Series:
+> [1/3] dt-bindings: qcom: document Asus Vivobook 16 X1607QA
+> [2/3] arm64: dts: qcom: add device tree for Asus Vivobook 16 X1607QA
+> [3/3] ASoC: qcom: lpass macro / soundwire: retry deferred clock acquisition
 
-
-Not much improved.
+You removed entire context and still did not fix issues you said you did.
 
 Best regards,
 Krzysztof
