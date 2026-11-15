@@ -1,56 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794748651;
-	b=eCK72QY38KY7f9qJP5CFVKg2mkxVrVaIXLCygq/NtvSZXUJnCNngPZZsV7vAp0ssSas9
-	 B6X8NhZ0FfjsSiolP98kpaLTGpvnKmOPSoFJkXMLfz+4bjuAEYmdKQIPzHkkGuuR50kzp
-	 p6nKEcFJp9WawCKgJzSQ3U2O9Zot+fT6BfNwVvQktDzqG1Gcq28ScjY+GWemi66GyTJFI
-	 DZTifgmvusnIc28q6vHSDhqKuXOltAXZlEXTX/WLR4VoyYReiF8bdKO94NmgTSn5n9Ziu
-	 Fe17GD1L7yS8Y9Ic/4ClUCh1BRevicI/4pS3nRICc1FCskrK5Dw+vttX1txJq2X5h/Q==
+	t=1794748994;
+	b=Bafu4zyPgRkjh3p36uuQbS9O58+kl5s/dXaCtBzfPNmOpTTFk9znu+ughkSAbr/4rRcn
+	 YhhVoXSRLeaQ1jyh1lwD/Z6JiNdWIMhHlpgl7RYQrdv0+Xbwc5T43bLPA0cx7oeI2FUp/
+	 3Jrq4wZbikydkPvfvgPM3BnuC291cdebpNWA/oJTlvEPbj5ruC5qKrC+hCBmK8Ow5Zs6f
+	 j8KasPGQakgOMjwE5L/a7uHBZ5fhmUrbrYtrZ9faIuqkpMsA/LsQ2y0k7SF8RNExgzkTS
+	 4Pi1tuiKHLMg5gQ78sJwUmvZKsPnmXlc8IVuPxIfRofhLaD9jSLk5GfWAlDAQ7GAQxg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794748651;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=EVZ8n5niBbV60d/xVEjFDweO3Ri3IuUXNrDJ/yPkcyc=;
-	b=VGgxnMCcegyh/GdPMBarqSyT6MqnBcTrZxtwILlwCMdNx+WcNkjJ4Bbyj8HnfNNMOKgQ
-	 uZ1njbz9wMhG74YFh6HZb6ESMmdBPfB5kwcskreIQEBUH54k7J9SO4It+yGf8O8dQDxJa
-	 QEk5vElqsYziUUtiEOJ4VUG75jPFUoEJUzxMDlyiCSH0C9VgxulKnYVcR8IQ0w33V3M+h
-	 OLOleLIpZuenfh+r1pyUHlCoFPb6t4KJ5JFQQRe6LSVcGRqY3X8zwlrHzEvx3t8viWYn1
-	 V8KwPFPByOe7s0hnpFie97eH4r+XDfyCs5BTGqwrki4JSKDk1dJY91bTPXh4BP4yEEQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794748994;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=CjqQPNhZow+JJGKg1R+gp2dO325Gr8fRFWJtkgK9zaE=;
+	b=10woPfGtjhp9JrIXurI3JqR1W7reqxqbp8qckKXehzmDFeUxxbIpWEcCepGbi04QlUPY
+	 hXMwKKCUTKMban0/OzY9MKbDGLB5PTlc3F6ySUB53zgmn33NYJ4KQKdBJgUsHD7ksw/a8
+	 Ddi32Jrq2cc2plkLQOHo5cllaf1zo5Un4nZbBlKTjYywCjV8bIHfHmozFAezE6jDc7o4D
+	 ZLwjs210B29OMMpr3+J0khD+z++ewz7GFD5CJLgG2xWfG+ne0WsQ7FPgXJwAz6v7ItM31
+	 5TAq6ZinnNHM1Werdlhp95D+r3fMP1H4IGq+wGaS0pv4LzSjaQQtJjqxtCSAZnMLq1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nCwukOW5;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=fail header.from=sung-woo.kim;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=74.125.82.46
+Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE0A606A31F
-	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 13:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nCwukOW5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAF361F000C4;
-	Sun, 15 Nov 2026 13:17:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794748651;
-	bh=EVZ8n5niBbV60d/xVEjFDweO3Ri3IuUXNrDJ/yPkcyc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=nCwukOW5srankE2Xe2dNuZwEsxmZG7uV73Zg5GEf2dF7Fbx1XbaFSKIjPE1DlbR+o
-	 OenzBr+hUQR86WgDEU/cxP0hYEMtMFepznbRevUS+oH93VtHUgB4K3SRCptjqpeN5e
-	 OjPNwgN1a7qdvuzsBXeayzO/3ceSNEKHoPE5V/UlsfLrab6NxwP+AJYQojKgGMeTbe
-	 t0hZss+abhchvMfXilRLK77Nds9Jra0M+WdUn5hMnfHRoyiQR+v0gr1aQNz/Rl/PmO
-	 imjF5pMSnXC7WgjFSHY3A0/Jg/zWgV425mv1hs+EB8ew5gZSxcxut9ez9B23+7TlhZ
-	 6YMS8yI/DSp7A==
-Message-ID: <sashiko-outbox-215518@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ASoC: qcom: q6dsp-lpass-clocks: Set driver data before
- registering clocks
-Reply-To: sashiko-reviews@lists.linux.dev
-To: yzddMr6 <yzddmr6@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261115-upstream-q6dsp-clk-drvdata-v1-1-4d7dbea52e52@gmail.com>
-References: <20261115-upstream-q6dsp-clk-drvdata-v1-1-4d7dbea52e52@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 15 Nov 2026 13:17:30 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F40606A31D
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 13:23:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4F40606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=sung-woo.kim
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1b244fb7fffso2864810c88.1
+        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 05:23:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794748993; x=1795353793;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CjqQPNhZow+JJGKg1R+gp2dO325Gr8fRFWJtkgK9zaE=;
+        b=LKWU3SXd5zyftAXyQNhJywLKdpAN/W9w4EJQs604x0MbxDg1o0hm++wa0mceESTq7/
+         U1b/WlS7htdJbwd2i42pLJTB3EKCtN5EI/Urw8IgHeoyjRFsQ0uptFpG9FoOaD262cMk
+         B5maYJehLl8RblYO2Jw3L5UAcMKRlKZOvLm7f3WJ9tjZQbWKoZCIsnXD4Z+qk5y0XL4b
+         O2ry3YTGeYyI59ACcCJjbDtrBuTYOGp08keXXWkLs0mWdebtt+q16NIXSSQDU0+UVy/A
+         FR0WjgFc1ZaaVtBOMIFkCFerG5aZoZowhFs06j7cSyUa14l1tfPyS6sRHCu8NmdvjsIQ
+         EgcA==
+X-Forwarded-Encrypted: i=1; AL+hErG2L5KanEWiPfzTMFHFddXJ/V9vvurI8Pqcj+4ZMJ/fsE2AaKh6CUN2KUa2/2k2QCXYgeZA1ztW7DB0BQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9fzJ/I8UKl069g6VBiat5DoL7XnUiP1GG+AUfiUT3h/39lkJ7S
+	fgTjsl0xy36WSMWN2SGacyX6XVx9RmTsq0XKobZPTNHw2jivKe7vLnsV
+X-Gm-Gg: AYBFou0kS17k7iTFEn/uZt9UNK07GEFb82DsoNbcZ/n/jMOC9I4nbnO6J0e4tm9kNJ0
+	ThngUdULw3+k1EjqDqhEWGFamJxs1dKm+gUeqNUNy+VzqaXiKtt4PIf1X/f9WV/tl/1QAj89dMD
+	H/8F8ZVSiDSDu4pJ4leErc8uPdmGjRUyfpB7BALm+wlR1hqywo7x/EyOyA3sKBuyTW0kUN8C2i0
+	6PmL5LlEkvqmsEnk1pzPUuR1p67yxdfDl0cfFAybmNZ06em8snB1GQdaHsRL9+B84NwqYkmrju+
+	aEFvmb5Z8sKlJ+JPUAJJUx7d/+zO+GSzEjBL/iLeiVJLkfmeiD8W+PeK+BZip84kZ6gH/R5gfl7
+	updOq8CpIHXHea6AlmBx9ATEInH4uS+q4io0s4SOi5oOipWL3h7sQ7ASFcfSk1fmjtRUCHC/KDB
+	6n7+J5tOPhjAnrWzacjg9faCKZ20tDfVEjQv09xfD5QO8ANUc/2UQ6wVyVVufl4QQw8RK3XPMuT
+	p8WNwDWBgaYc/0iwKhe4xoavv/Us9toUxD1SE2U9TbIrV6Z+cXiff9D96E818Cb/LWe/+ECA+L+
+	It5IiJ8AnD4h3Tkt8YAjqqzcvK7hbx7DNyvwiB3MriL2xD++kNoZl3xavqk1YcmxIUGAgg==
+X-Received: by 2002:a05:701b:2415:b0:169:9f67:a91b with SMTP id a92af1059eb24-1b5030e74d1mr6757528c88.12.1794748992847;
+        Sun, 15 Nov 2026 05:23:12 -0800 (PST)
+Received: from tofu.taila6b446.ts.net ([128.210.0.165])
+        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-1b50316d9c2sm21263584c88.7.2026.11.15.05.23.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 05:23:12 -0800 (PST)
+From: Sungwoo Kim <iam@sung-woo.kim>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Dave Tian <daveti@purdue.edu>,
+	Sungwoo Kim <iam@sung-woo.kim>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] ALSA: hda/realtek: fix missing chained flag in fixup
+Date: Sun, 15 Nov 2026 08:22:15 -0500
+Message-ID: <20261115132215.4084031-2-iam@sung-woo.kim>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,85 +81,66 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [High] ASoC: qcom: q6dsp-lpass-clocks: handle used in Signed-off-by
-  trailer
---
+The fixup specifies a chain_id but does not set the chained flag,
+which prevents the chained fixup from being executed.
 
-commit ca8f162c7c729ca1dd4a09d6760be1eed11d7dd6
-Author: yzddMr6 <yzddmr6@gmail.com>
+Should chained be set to true here?
 
-> ASoC: qcom: q6dsp-lpass-clocks: Set driver data before registering clocks
->
-> The clk ops of the q6dsp clock controller look up struct q6dsp_cc with
-> dev_get_drvdata(), but q6dsp_clock_dev_probe() sets the driver data only
-> after it has registered the clocks and added the OF clock provider. A
-> consumer that gets and prepares one of the clocks in between
-> dereferences a NULL pointer.
->
-> fw_devlink does not keep consumers out of that window. The q6prm and
-> q6afe clock controllers are described below the ADSP remoteproc node,
-> and their devices are only created once the ADSP has booted and its
-> GPR/APR services have come up, long after the remoteproc device has
-> bound. fw_devlink therefore makes the remoteproc device the supplier of
-> their consumers. A consumer such as the LPASS LPI pinctrl then just
-> defers until of_clk_get() succeeds, and its retry from the deferred
-> probe worker can run while the clock controller is still in its probe.
->
-> That happened once on a Xiaomi Pad 8 Pro (SM8750). While the LPI pinctrl
-> probe registered its GPIO chip, gpiolib read a GPIO direction, which
-> runtime resumed the device and prepared its q6prm vote clocks through
-> pm_clk. The prepare op then faulted with a NULL pointer dereference at
-> virtual address 0x350 (trimmed):
->
->   pc : clk_vote_q6dsp_block+0x24/0x58 [snd_q6dsp_common]
->   lr : clk_core_prepare+0x7c/0x298
->   Call trace:
->    clk_vote_q6dsp_block+0x24/0x58 [snd_q6dsp_common] (P)
->    clk_core_prepare+0x7c/0x298
->    clk_prepare+0x28/0x44
->    pm_clk_resume+0x10c/0x188
->    pm_generic_runtime_resume+0x2c/0x44
->    ...
->    __pm_runtime_resume+0x50/0x94
->    ...
->    lpi_gpio_get_direction+0x4c/0x8c [pinctrl_lpass_lpi]
->    gpiochip_add_data_with_key+0x7b0/0x10dc
->    devm_gpiochip_add_data_with_key+0x38/0x8c
->    lpi_pinctrl_probe+0x2b8/0x320 [pinctrl_lpass_lpi]
->    ...
->    deferred_probe_work_func+0x88/0xc0
->
-> 0x350 is the offset of desc in struct q6dsp_cc; the driver data pointer
-> it was loaded from was NULL. The oops left the clk prepare_lock held,
-> which blocks every later clk_prepare(), and the system did not finish
-> booting.
->
-> On mainline the window is short, but it includes a wait for prepare_lock
-> in clk_core_reparent_orphans(), which of_clk_add_hw_provider() calls
-> right after listing the provider. The kernel that hit this had
-> out-of-tree changes to drivers/clk/clk.c that do more work at that
-> point, which makes the window wider.
->
-> Both q6afe-clocks and q6prm-clocks use q6dsp_clock_dev_probe(). Set the
-> driver data before the first clock is registered.
->
-> The oops was analysed and the fix written with the help of an AI coding
-> assistant.
->
-> Fixes: 9ab71ac37240 ("ASoC: qdsp6: q6afe-clocks: move audio-clocks to com=
-mon file")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: yzddMr6 <yzddmr6@gmail.com>
+This was identified through static analysis and has not been tested
+on actual hardware.
 
-[Severity: High]
-The Author header and Signed-off-by trailer use an account handle
-(yzddMr6) rather than a real human name.  Under the Developer's
-Certificate of Origin in Documentation/process/submitting-patches.rst, a
-known identity with a real name is required for the patch to be accepted.
+Signed-off-by: Sungwoo Kim <iam@sung-woo.kim>
+---
+ sound/hda/codecs/realtek/alc269.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261115-upstream-q=
-6dsp-clk-drvdata-v1-1-4d7dbea52e52@gmail.com?part=3D1
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 96fa8c2782bb..1be2e609c28d 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6431,6 +6431,7 @@ static const struct hda_fixup alc269_fixups[] = {
+ 			{ 0x1e, 0x411111f0 },
+ 			{ }
+ 		},
++		.chained = true,
+ 		.chain_id = ALC269_FIXUP_DMIC,
+ 	},
+ 	[ALC269_FIXUP_CZC_TMI] = {
+@@ -6449,6 +6450,7 @@ static const struct hda_fixup alc269_fixups[] = {
+ 			{ 0x20, 0x8000ffff },
+ 			{ }
+ 		},
++		.chained = true,
+ 		.chain_id = ALC269_FIXUP_DMIC,
+ 	},
+ 	[ALC269_FIXUP_CZC_L101] = {
+@@ -6467,6 +6469,7 @@ static const struct hda_fixup alc269_fixups[] = {
+ 			{ 0x1e, 0x411111f0 },
+ 			{ }
+ 		},
++		.chained = true,
+ 		.chain_id = ALC269_FIXUP_DMIC,
+ 	},
+ 	[ALC269_FIXUP_LEMOTE_A1802] = {
+@@ -6485,6 +6488,7 @@ static const struct hda_fixup alc269_fixups[] = {
+ 			{ 0x21, 0x03214020 },
+ 			{ }
+ 		},
++		.chained = true,
+ 		.chain_id = ALC269_FIXUP_DMIC,
+ 	},
+ 	[ALC269_FIXUP_LEMOTE_A190X] = {
+@@ -6497,6 +6501,7 @@ static const struct hda_fixup alc269_fixups[] = {
+ 			{ 0x1b, 0x0201401f }, /* front lineout */
+ 			{ }
+ 		},
++		.chained = true,
+ 		.chain_id = ALC269_FIXUP_DMIC,
+ 	},
+ 	[ALC256_FIXUP_INTEL_NUC8_RUGGED] = {
+-- 
+2.47.3
+
