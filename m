@@ -1,110 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794737190;
-	b=x8+oWkF29Pf7JhUP4zeg8+KyB4P36f1a9gZ6vJmAanzLUss+affCpuw8fdbSs3weubep
-	 X3yruWI5XBae5mG/hyYvztxc7cZHQIj9htiMDVqYuFWUszGaTdV8NefMO8bS8pV36GiPT
-	 nwt0FVcdzoHqdPWLsalUK4G97+MQdgQyd+qF4EJw6AZFRJn6BQU4cAL/DEN5jPKBVbGem
-	 wiupq0mJ3+SodSuX1f6UjqIhFQnmJwrvUHC5VOG8H5rQII7QLAf24FNGKH2kHIY2BurOY
-	 wJLRU/zflKp4auTCdCFRyx6JGmFBh36g3XjimGCScSVud62M4D0fEPuAbl2zfaYAcwA==
+	t=1794737424;
+	b=u9KbTpop3JdzHmJYlNRHxff1caURjJzDUU/WbdA8CygEFT6dEdrWiuLuwMsR/MzWlz8+
+	 twDbEZVXE0jhvcdp1Bojrxf9XN7WGYBMYueb6QwCX+9QI19lHOplXL3UA9+jvO9Yg6UQj
+	 uPBwnnLhHAbzoGbba6PIWyhrVteXBGVp560aDZGbpCfPTuMYdPS0Rq1EtlLqtPPJEUwNd
+	 YvIpc5PNxA3fzB7y6NGg+JUEl4jRyTZbP0zJIzW0PkaJ2ZFXKmU8TDK1MT+vfhDoR1I82
+	 6RhgHwt7igOGjM2QjEdZPmQ/uzSwfdWgk92770csT0LMiSI77bVIcWcXSwLPNkilqsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794737190;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794737424;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
 	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
 	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=nCs/TbK1Q7g/vF7JeKiOZLVwlnDyGK+NAQzmLpONZCg=;
-	b=j5zlL9r6y1cG9xk8YFupQRRh46z7rmjLjBEca0rS+vi7x+VdOEmZolD64JDBu5d7EHJQ
-	 PFC6o7hXyM7pDZYJRr4nTJvPa13LyN6YGgjq/X3Jd7QplqUwe3uenNmZH2QXueawsNJE4
-	 jIS9TgozB3qohb8ffWluytHzuJHR4zZRJfozzoTY91UC6S1NtKlZKSw6bsa1+F461vwBt
-	 gFGWXIjng6GGVavPeSLaj4Fpwrd9cR6l/sKjUOxomLGP1ICEZ732PcPYyFbvXTDQChsvD
-	 UCJOGOkYseaalhaKop3v8CFOULbEC7as/PCmCQ1ihZYYvXobPP21EOzF/VfUR/BhWjA==
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=jZbPE80Um1vaL8XJX138DxP5RpxO+K91varTjkhX3aQ=;
+	b=DJ7InnsSOuYeyLteltChNDEGYwlGfmFPFQbuN/U4AsLrVIpN11+FAPaJWA617G0VHnzI
+	 SHFUAS5qf7t3VCYj0GPlcE6yLDLjJgc68Cq1xZOe7OFxKQ2XwVOjN31aW8lMzykxgTBEv
+	 e7p2KXDORO8buw6wvLxm5/kA1bB+JQ0lPVLORQdy/PnEJ5USrS7JG/5u5IwBVnrCwAgZH
+	 cZt7Z9KwJQdBqDFZqEJFbNLOSsicwwjoJk2cQxNK76hoC0nMZPfVZrnNy81UGCDt61Dwu
+	 Ck2Au8Qxpxtu1qwzy9sW+vaOI559QoVfmB1qGH12+Uo9X+FGhKOtoYplOEJtBi56D8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=mJhS6VOq;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=H854WM9m;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Hz9JkJwT;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=UQ5usyu5;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA794606A329
-	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 10:06:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA794606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01786606A31A
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 10:10:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01786606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=mJhS6VOq;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=H854WM9m
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AF7wTCX1871956
-	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 10:06:28 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Hz9JkJwT;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=UQ5usyu5
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AF7wFf21195813
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 10:10:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	nCs/TbK1Q7g/vF7JeKiOZLVwlnDyGK+NAQzmLpONZCg=; b=mJhS6VOqqT5s6RYS
-	IZ/goJ+6AJo7F40qNhP0aVD4hO1jV7egquRQwB9YB4R3hpWFseybL4ohva+84uxu
-	FsiUro2LAwyyHlsHQNBgcnTes0VeHiBvXQhqVj7urF0vNJx0KXJdHmmUbKOD+0VB
-	8+beuCnZaxY+X0OA+rwqLCZQTQfrBjtOGTnlTUxVIao4a+nBM8y4K0Wfd0BmmfWz
-	gte5MJZ8vhCO9J+4PrKtIzwiP6sjh8q6Rgr4LfBkwTV6ZYnu/9twHCMUgdhNTreK
-	89zGyGLBgv3n99oc6XS3TToNTC/36RsJnwDzwZkcerHTuxiquDfB+9KujyhE8PEt
-	51C6qQ==
+	jZbPE80Um1vaL8XJX138DxP5RpxO+K91varTjkhX3aQ=; b=Hz9JkJwT/gzveF3G
+	3VNvnsO9hYMAqIaKP7R0fbgt0tUmRuINmVcKxUCy4ytg3J8cAe8DQYisIj4FT9cR
+	3ZHIIY1EMknBi/UMGuLeASZALvPJtlMLs2JxTLH/GItVc2dMaO3dj4Gv2zT2GF1U
+	ddo6M2aQzYthjFVNCVhwSLSvlgU9maHO70YTuTRtVRZiTeBsvC6j3ISjhhxDTdLQ
+	i1kjw4hnvztF/u0fSfyFUBvMHgetZfD7POFJVZXYkeoWVScfOOIeQKSbBNsnvAgd
+	98Q8updj2DkR8V6Sy8EWbljWLnqLXctHtZHz17Q4pbW+JAla74ykoeud3EjjJWit
+	nGQpUw==
 Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hxhnx2ub4-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hxhmhjqk3-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 10:06:28 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93f3969a2a7so405831885a.2
-        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 02:06:28 -0800 (PST)
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 10:10:22 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-94967c6d4f4so78851785a.2
+        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 02:10:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794737188; x=1795341988; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1794737421; x=1795342221; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=nCs/TbK1Q7g/vF7JeKiOZLVwlnDyGK+NAQzmLpONZCg=;
-        b=H854WM9mSmc8X/BzAxncKlKYhigjoXrQ+t+VZGBH+hPXmkWgF2rAjCVcJfaauvl568
-         9ep62vCYUZ296SVXRW734CnF+R17M4zjt7dnaFY07eh2n0TTTn/eFq1Aqs+NLCj9dxdu
-         5kQ7rp2T+3wvP/gP142sSbcBddPW5A1QUHP6czFTcG+5MNIjgEL2ufovvkuE+umYnx1p
-         tvTrMNLA3QvDUXrpZM5b85iDvZ5FUNJqJwB43aYuQsF6bmg8H7Rv4/n2YuOMBbheBxvr
-         aAV7Q/df7GzdGrpgl8ceuBaLpKSW8jBMFB3P3XSmI36YZnpgz02B0XqiVPqGg+MkFwxc
-         nP3g==
+        bh=jZbPE80Um1vaL8XJX138DxP5RpxO+K91varTjkhX3aQ=;
+        b=UQ5usyu53iyPHsHm3/gNETB4mL2TnBACysh2K3oZo3v1AInamTdjnbLTHRPQFVJYL5
+         WSS3dJYFv/IlV5UzjzdAtM1P08eLMl9eJoAzRsdXYw5foMe5rmG/+QpVKEK1sX8TjQBH
+         nI9kzLtYxEzMJsZDbpCDCTVedXn4D5s0y3lr+GV8UbSHCBYOwvjfTmqFrUMLOCvVtqh6
+         bYPPPFbN51CbeqWO4jY4z/VFUjalRKU3jeVg++GJ1bXmfANxfaNwQfyCEZCW3uL0qpa9
+         LEV1x+niCKvBu6k7D8ItaIQvND8Ndaz7QG5a9Z2Zfbb/HbEFMgtd73TdVDBepMHGzCE7
+         oZ3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794737188; x=1795341988;
+        d=1e100.net; s=20260707; t=1794737421; x=1795342221;
         h=content-transfer-encoding:content-type:in-reply-to:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=nCs/TbK1Q7g/vF7JeKiOZLVwlnDyGK+NAQzmLpONZCg=;
-        b=NODoOwUMdgXsLpp4ZFhs2/EQDnMlXgqlACOAT3yT8ExrYx+eFtib7R/r6chVy8dXLq
-         axJrBwL6e1EvhyehBq6OBlvfSzG+qNfF5drRKDiw5VhrKbywzr5PJDc6ogEibMQ50h4z
-         dWtoE9Ed8fXLOOxlxaiKPet3qx4fbMs9dj3C8hOg5GQHRzy3+9xGcRpvazwhNdHdSy5q
-         VfNn1mGerbqfjQXgUaeokKidOams0qN3hXQacQHpPzz0bALKr0uOaaXNdBrs3GuHbT1P
-         WrBf88LlEAEc6PrNi1139rYgQIUFJpHjjTngjO1wpL9VVS5NbJZkBudAYYaZ4wSOaWZh
-         EDwg==
-X-Forwarded-Encrypted: i=1; AL+hErHBOcC1faJtP67VgXNDuvUhJUL1IBOVzm6n9H5p1l5QtvUNPKXYr/tjXiPrJ/JhX50DxwUwwETK4av0+g==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9C9UIFKxEH7/mvRBwFupabbfFcZJVeVU+XGyokEcyFOh7BocHl
-	xackKZTMB5+qnSUpHQnOwhwIccX0uMYk5r0DSxOENdLVYRujQ4dW7uKFH3nBMgLhPK5u23L2cSQ
-	sdxKnIa/RHoTTLjCQNwFNtQX1GlowR4ziskJOgccpRhBAY+shOy/oF8gcbkpnDg5wtw==
-X-Gm-Gg: AYBFou1WzwarP0YNBKEbV7VSxsjLpLfpXHPOi1317zRFfwaj9SOcqzH5wQEYrTCQL5s
-	31jGEpf+dupcC9+fAsMz5dIPydEX6HxmWhJcLiqFNl6VaeuMQ2JfXaAT1FiRSejb5clMH+wOa6X
-	/2mhPupDCwEnAf1wLXVBw7OuK0k2Y1JoWE+wio+soF0UV2XSZ8gL5ccEnh09YLcGX/WkDCwoZ58
-	FFluob6aaWLa13Wz4zNzAa6floFDfnyFRhsx6U3KBuV9S4nxn8bDYS3wnBQBMUr8ahCNACrPtp6
-	7+QYt7HAAm77TDOaJ9MNTca1XehNjRpeuKjEIEckVuBVrxir5+QIxy373dD5ySdr8OAVm3vC7+h
-	haKgblqySMD/MPcIWImYL3V/F5vW0QcQXIk0T05AETrOnEAEYdC7T0ZrVf2gl2KEAjWqrjTBwsA
-	1shB0qAUD1kEpaZCfegg==
-X-Received: by 2002:a05:620a:2890:b0:93b:c537:fdb8 with SMTP id af79cd13be357-9494ba4b5ccmr1184791885a.6.1794737187941;
-        Sun, 15 Nov 2026 02:06:27 -0800 (PST)
-X-Received: by 2002:a05:620a:2890:b0:93b:c537:fdb8 with SMTP id af79cd13be357-9494ba4b5ccmr1184788685a.6.1794737187463;
-        Sun, 15 Nov 2026 02:06:27 -0800 (PST)
+        bh=jZbPE80Um1vaL8XJX138DxP5RpxO+K91varTjkhX3aQ=;
+        b=NLk7NvMJlvOoQyHTZ5NQ4zEEF4q6Oc9iKCP+cJnQHIX3zOqh+NoMBIDMsXjP8MeZiI
+         FqEmVpZD17y23dOF/8/AydN7YZHbRB4aPgSHvfesxGZ55IOzApZwOAnqM/7gSrl6UWHe
+         UH0vfrknwaYp/Pi5xIXPQn5OFuwNcfXMAo+4tMVbKkP4DPVNUYS8OALI4NlxBcJPoEu8
+         Qa7wiOeR+xVFO3jB4rCwT1KE4BmktfMO/8hltpPIlS+0AvkRs7/ie/OafYUAfZabo48G
+         F6DaQCnKoig73Pom9xw3//7Pr5u8V4u7MUuNl9gCHXmxOhOrltxszS3M823bHGONKnVm
+         nlEw==
+X-Forwarded-Encrypted: i=1; AL+hErGSrdoArQnjcEcfcNf02D/LzhlSw4uax+fEAo4Iu30Uw81rUy/paCGX8LJvriK2dX/XrClRtdn8j4PX0g==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8lmx6YpjYFYiw5XCSQVdGApjxXleGfsm8tubQSxRJoMAysvCw4
+	toG02WhCpZ5u58k8QQ+vh9qd8jViFYcH/JpwFFKmrfAQ2ihLUTZlT5z8g6P9L2QTAdMU6FKr52P
+	GIp5ClAvU4/p/+Tj01SsNUsUdCyk7kSoK29qTe3b+PwBVhyQ6+P+scpuWy5+y6toXwQ==
+X-Gm-Gg: AYBFou01NAYPk+HNeHMriMKPaGKaxmGnzNS6925idldi8/1SM1XMDXnyZAgawR4a8Bw
+	qgRkjbsF64K2aOcaQAhKYKAV61EgOK0ljl1683NLVz2GtcIe6JQS8ZxwpqA0pxFcP00WIG4Qdsf
+	S6Te7vul3sycGbkvJFQVrws3ScDJ1UToWou95+0l6mJWhKdZd1prqKE+TuHzTd+WwssaKS9LRCP
+	CXjZFYQEdlwu0LD70EFTWYFGkPiW6fsJvutz+LllPegLt9rD/eOM3Y2vYP3pjjJD3DR+/O/WLiU
+	Uk5I1oa7i9sTLG7PgKL44rx0z/KrKrVdvG/u03A9IEDbZvaPjQeuSAB17KlCKBQiw57F3XJpSv+
+	tFQr2uS5FQNFF4MJeuv67c2B6uOItdrsLyGz073RTTIGv28AaRGqhMJnQVV4kSgQt0z5FMKd0wu
+	ZOHBD4kiXimYgBkXoDFA==
+X-Received: by 2002:a05:620a:439b:b0:93f:228c:52fc with SMTP id af79cd13be357-9494bc410f7mr1140001385a.58.1794737420889;
+        Sun, 15 Nov 2026 02:10:20 -0800 (PST)
+X-Received: by 2002:a05:620a:439b:b0:93f:228c:52fc with SMTP id af79cd13be357-9494bc410f7mr1139997885a.58.1794737420210;
+        Sun, 15 Nov 2026 02:10:20 -0800 (PST)
 Received: from [172.20.10.5] (82-132-234-47.dab.02.net. [82.132.234.47])
-        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-6b7c236124esm3177401a12.6.2026.11.15.02.06.25
+        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-6b7c23cf6e9sm3264633a12.20.2026.11.15.02.10.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Nov 2026 02:06:26 -0800 (PST)
-Message-ID: <9cde423b-e71a-4038-9e89-d6ecd7da5399@oss.qualcomm.com>
-Date: Sun, 15 Nov 2026 10:06:24 +0000
+        Sun, 15 Nov 2026 02:10:18 -0800 (PST)
+Message-ID: <ae296de2-15fb-4c9d-8fec-26a370b167b4@oss.qualcomm.com>
+Date: Sun, 15 Nov 2026 10:10:14 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -115,121 +116,422 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: qcom: q6apm: Guard callbacks until probe data
- is ready
-To: Mohit Sharma <mohit.sharma@oss.qualcomm.com>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mark Brown <broonie@kernel.org>
-Cc: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20261022144130.2443667-1-mohit.sharma@oss.qualcomm.com>
- <20261022144130.2443667-2-mohit.sharma@oss.qualcomm.com>
+Subject: Re: [PATCH 2/2] ASoC: qcom: lpass macro / soundwire: retry deferred
+ clock acquisition
+To: yass27106 <yass27106@gmail.com>, andersson@kernel.org, broonie@kernel.org,
+        srini@kernel.org, konradybcio@kernel.org
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, vkoul@kernel.org,
+        tiwai@suse.com, perex@perex.cz, lgirdwood@gmail.com,
+        pierre-louis.bossart@linux.dev, yung-chuan.liao@linux.intel.com,
+        abelvesa@kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <5cfd0705da5845b88ffe6d9e8bfeb966@gmail.com>
+ <90d9d32bd8d44c4f97ca3af4e1bc5481@gmail.com>
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 Content-Language: en-US
-In-Reply-To: <20261022144130.2443667-2-mohit.sharma@oss.qualcomm.com>
+In-Reply-To: <90d9d32bd8d44c4f97ca3af4e1bc5481@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE1MDA0MCBTYWx0ZWRfXxvhmgg0cTybC
- M5OiqR5Eg9J8WUfTBPjxPo3AFywLBO2GuT5x6LBeZF11lVl+618Wy8baxsJ3BWa7WLJManSO8pA
- Xiy7yPh949SYg9jJeWW4RtPqOx3g1jgpbaeoJyegTfj9Oxyf1jLRiYx6jJQx7XO0ndlTOpeyQfi
- UWVNk9aLN8a6kepqjcdyif6JLnP1IN1/g13QTjdiFUYJ9iRFFN34lirRvXeF8jOeu13GZqdGQ3q
- ZY9D48VyQAUOpHNtE1vbwjpIf7WzwDMIQBAspQHhF/uP1n1hgjqAgM49ZaxOHcUNZN1bep18VEP
- 31IcC+Qaw+1Z31qG+8EM/Orp8t13jdXHVMxwN6vRcL1ZX/ev7MNFZnoM8FfB24uQcDo8Q4B09Vq
- wv1G2HkgiUcR3aj/pxX+TMkvMUVyR2K/Acu/6VHPc5VgztooWhSUL0t0Gfxrz/TIz/YloY/BkJx
- i0u2Kr13x8LZtMc0Yeg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE1MDA0MCBTYWx0ZWRfX/Yh53i78Hsj5
- QuCFdhN8OsBRebZUcKCUeHynqvBGyz8FW0APLLMtabvsTUQPIMZ18mdIfERhlwzUfM5+4yiLejP
- YLsQaOihGY5I+qY+ZK5xHFVWb4c8b1Q=
-X-Proofpoint-ORIG-GUID: 5bxBFXvsOjMjeqNLrG4CCDpjSkaWmgs7
-X-Proofpoint-GUID: 5bxBFXvsOjMjeqNLrG4CCDpjSkaWmgs7
-X-Authority-Analysis: v=2.4 cv=Jr5kP84C c=1 sm=1 tr=0 ts=6af98424 cx=c_pps
+X-Proofpoint-GUID: 5K9EhohlSyrGfn-8pwTrhGdKOmjv9pKQ
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE1MDA0MCBTYWx0ZWRfX+RF4s08xIBBh
+ fMlz2UKfELbqEdmSJnYLnfuJ9n7WAGYb9i2x0ra59VgP+bg497GtXGRBJdvGYM8NdnHfdzLqokq
+ Hn5UW14fJBEcj9fNohvNCGKhInXUvFo=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE1MDA0MCBTYWx0ZWRfX2vOMmcmt0+A1
+ eaFaiZQGotOyMLAWGGyapt4z/Lx5LvNQAUrIx1dT3ef232jrAdQ8xU1a+Rzu3Qo8resLXObSR0l
+ VC5nVvNtgciPJWvei3tMg7ptVU71afqK+aIdTV9UPs9Qd7ovxw446Re2rMm9WsuQ4np+Fb4mfJd
+ oHcYyACSfouGIqex33C3K5Y6bSKlhglNc59OEyatrdqKZWnHfwlZTYt0eLVCH3Sx06SPoVGG9I5
+ 9HC6r8bjOQZdFiLKpTD0GSujNbxmcHX7hPzhWCaEu2vEmqUp7WZwypgDYvluF7ViYfv1wWHQcIG
+ TDOojRHamgeVh/wU2KfIn84pjJGk+saAT+aY7GnoQ24qBeT1lNpg+LAVhTYUwPUAikvKFgflu2d
+ /w+eS2oWl3a2pmkNhRQ+Jmk6SVk+i4yOZld8KUxF02sYaJgv6iJJ2ZA6neIrBJ+se3vi8pRAIJC
+ uQ3k9Ck5M0KO10C+B1g==
+X-Authority-Analysis: v=2.4 cv=e/2T2qp/ c=1 sm=1 tr=0 ts=6af9850e cx=c_pps
  a=50t2pK5VMbmlHzFWWp8p/g==:117 a=AI3hfGQ59aOwaD8qyfpUrw==:17
  a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=DoK0sgpsY2lmbaFclJUA:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=ZP6RTSIIFES_E-Ul-7cA:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-ORIG-GUID: 5K9EhohlSyrGfn-8pwTrhGdKOmjv9pKQ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-15_03,2026-11-11_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0 clxscore=1015
- priorityscore=1501 impostorscore=0 adultscore=0 malwarescore=0 phishscore=0
+ suspectscore=0 adultscore=0 impostorscore=0 bulkscore=0 priorityscore=1501
+ malwarescore=0 spamscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611150040
 
-On 10/22/26 3:41 PM, Mohit Sharma wrote:
-> The GPR bus needs to make response callbacks available before invoking a
-> client probe because clients can issue synchronous commands from probe.
-> This creates a short interval where a callback can run before the client
-> has published its private data.
+On 11/13/26 1:24 PM, yass27106 wrote:
+
+
+Please explain the problem, its hard to review this without a commit log.
+
+--srini
+
+> drivers/soundwire/qcom.c           | 37 +++++++++++++++++++++++-
+>  sound/soc/codecs/lpass-rx-macro.c  | 45 ++++++++++++++++++++++++++----
+>  sound/soc/codecs/lpass-tx-macro.c  | 45 ++++++++++++++++++++++++++----
+>  sound/soc/codecs/lpass-va-macro.c  | 43 +++++++++++++++++++++++++---
+>  sound/soc/codecs/lpass-wsa-macro.c | 45 ++++++++++++++++++++++++++----
+>  5 files changed, 195 insertions(+), 20 deletions(-)
 > 
-> Make q6apm publish its driver data only after all callback-visible state
-> has been initialized. Have the q6apm and q6prm callbacks ignore packets
-> received before driver data is available.
-> 
-> Fixes: ec1471a898cc ("soc: qcom: apr: Add GPR support")
-> Cc: stable@vger.kernel.org
-> Co-developed-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-> Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-> Signed-off-by: Mohit Sharma <mohit.sharma@oss.qualcomm.com>
-> ---
->  sound/soc/qcom/qdsp6/q6apm.c | 6 ++++--
->  sound/soc/qcom/qdsp6/q6prm.c | 3 +++
->  2 files changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/soc/qcom/qdsp6/q6apm.c b/sound/soc/qcom/qdsp6/q6apm.c
-> index 3ec3c5a18c7a..dbebb643cd5e 100644
-> --- a/sound/soc/qcom/qdsp6/q6apm.c
-> +++ b/sound/soc/qcom/qdsp6/q6apm.c
-> @@ -872,8 +872,6 @@ static int apm_probe(gpr_device_t *gdev)
->  	if (!apm)
+> diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
+> index 6e0c5fb10ef..cb50cf239cd 100644
+> --- a/drivers/soundwire/qcom.c
+> +++ b/drivers/soundwire/qcom.c
+> @@ -21,6 +21,41 @@
+>  #include <sound/pcm_params.h>
+>  #include <sound/soc.h>
+>  #include "bus.h"
+> +#include <linux/delay.h>
+> +
+> +/*
+> + * Bounded retry for deferred clock providers. Clock-provider registration
+> + * does not trigger deferred-probe retries, so a consumer that loses the
+> + * probe-order race stays deferred forever. Wait up to 30 s for providers
+> + * that are registered milliseconds later.
+> + */
+> +static struct clk *clk_get_retry(struct device *dev, const char *id)
+> +{
+> +	struct clk *c;
+> +	int i;
+> +
+> +	for (i = 0; i < 60; i++) {
+> +		c = devm_clk_get(dev, id);
+> +		if (!IS_ERR(c) || PTR_ERR(c) != -EPROBE_DEFER)
+> +			return c;
+> +		msleep(500);
+> +	}
+> +	return c;
+> +}
+> +
+> +static struct clk *clk_get_retry_optional(struct device *dev, const char *id)
+> +{
+> +	struct clk *c;
+> +	int i;
+> +
+> +	for (i = 0; i < 60; i++) {
+> +		c = devm_clk_get_optional(dev, id);
+> +		if (!IS_ERR(c) || PTR_ERR(c) != -EPROBE_DEFER)
+> +			return c;
+> +		msleep(500);
+> +	}
+> +	return c;
+> +}
+>  
+>  #define SWRM_COMP_SW_RESET					0x008
+>  #define SWRM_COMP_STATUS					0x014
+> @@ -1669,7 +1704,7 @@ static int qcom_swrm_probe(struct platform_device *pdev)
+>  		goto err_init;
+>  	}
+>  
+> -	ctrl->hclk = devm_clk_get(dev, "iface");
+> +	ctrl->hclk = clk_get_retry(dev, "iface");
+>  	if (IS_ERR(ctrl->hclk)) {
+>  		ret = dev_err_probe(dev, PTR_ERR(ctrl->hclk), "unable to get iface clock\n");
+>  		goto err_init;
+> diff --git a/sound/soc/codecs/lpass-rx-macro.c b/sound/soc/codecs/lpass-rx-macro.c
+> index c41eb8de616..5d893960dd8 100644
+> --- a/sound/soc/codecs/lpass-rx-macro.c
+> +++ b/sound/soc/codecs/lpass-rx-macro.c
+> @@ -18,6 +18,41 @@
+>  #include <linux/clk-provider.h>
+>  
+>  #include "lpass-macro-common.h"
+> +#include <linux/delay.h>
+> +
+> +/*
+> + * Bounded retry for deferred clock providers. Clock-provider registration
+> + * does not trigger deferred-probe retries, so a consumer that loses the
+> + * probe-order race stays deferred forever. Wait up to 30 s for providers
+> + * that are registered milliseconds later.
+> + */
+> +static struct clk *clk_get_retry(struct device *dev, const char *id)
+> +{
+> +	struct clk *c;
+> +	int i;
+> +
+> +	for (i = 0; i < 60; i++) {
+> +		c = devm_clk_get(dev, id);
+> +		if (!IS_ERR(c) || PTR_ERR(c) != -EPROBE_DEFER)
+> +			return c;
+> +		msleep(500);
+> +	}
+> +	return c;
+> +}
+> +
+> +static struct clk *clk_get_retry_optional(struct device *dev, const char *id)
+> +{
+> +	struct clk *c;
+> +	int i;
+> +
+> +	for (i = 0; i < 60; i++) {
+> +		c = devm_clk_get_optional(dev, id);
+> +		if (!IS_ERR(c) || PTR_ERR(c) != -EPROBE_DEFER)
+> +			return c;
+> +		msleep(500);
+> +	}
+> +	return c;
+> +}
+>  
+>  #define CDC_RX_TOP_TOP_CFG0		(0x0000)
+>  #define CDC_RX_TOP_SWR_CTRL		(0x0008)
+> @@ -3780,25 +3815,25 @@ static int rx_macro_probe(struct platform_device *pdev)
+>  	if (!rx)
 >  		return -ENOMEM;
 >  
-> -	dev_set_drvdata(dev, apm);
-> -
->  	mutex_init(&apm->lock);
->  	apm->dev = dev;
->  	apm->gdev = gdev;
-> @@ -887,6 +885,7 @@ static int apm_probe(gpr_device_t *gdev)
+> -	rx->macro = devm_clk_get_optional(dev, "macro");
+> +	rx->macro = clk_get_retry_optional(dev, "macro");
+>  	if (IS_ERR(rx->macro))
+>  		return dev_err_probe(dev, PTR_ERR(rx->macro), "unable to get macro clock\n");
 >  
->  	idr_init(&apm->modules_idr);
+> -	rx->dcodec = devm_clk_get_optional(dev, "dcodec");
+> +	rx->dcodec = clk_get_retry_optional(dev, "dcodec");
+>  	if (IS_ERR(rx->dcodec))
+>  		return dev_err_probe(dev, PTR_ERR(rx->dcodec), "unable to get dcodec clock\n");
 >  
-> +	dev_set_drvdata(dev, apm);
->  	g_apm = apm;
+> -	rx->mclk = devm_clk_get(dev, "mclk");
+> +	rx->mclk = clk_get_retry(dev, "mclk");
+>  	if (IS_ERR(rx->mclk))
+>  		return dev_err_probe(dev, PTR_ERR(rx->mclk), "unable to get mclk clock\n");
 >  
->  	q6apm_get_apm_state(apm);
-> @@ -930,6 +929,9 @@ static int apm_callback(const struct gpr_resp_pkt *data, void *priv, int op)
->  	const struct gpr_hdr *hdr = &data->hdr;
->  	int graph_id, is_pos_buf;
+>  	if (flags & LPASS_MACRO_FLAG_HAS_NPL_CLOCK) {
+> -		rx->npl = devm_clk_get(dev, "npl");
+> +		rx->npl = clk_get_retry(dev, "npl");
+>  		if (IS_ERR(rx->npl))
+>  			return dev_err_probe(dev, PTR_ERR(rx->npl), "unable to get npl clock\n");
+>  	}
 >  
-> +	if (!apm)
-> +		return 0;
-This is going to silently drop the responses. What are these packets?
-
+> -	rx->fsgen = devm_clk_get(dev, "fsgen");
+> +	rx->fsgen = clk_get_retry(dev, "fsgen");
+>  	if (IS_ERR(rx->fsgen))
+>  		return dev_err_probe(dev, PTR_ERR(rx->fsgen), "unable to get fsgen clock\n");
+>  
+> diff --git a/sound/soc/codecs/lpass-tx-macro.c b/sound/soc/codecs/lpass-tx-macro.c
+> index 6deaaabe43a..4b8635cc2b2 100644
+> --- a/sound/soc/codecs/lpass-tx-macro.c
+> +++ b/sound/soc/codecs/lpass-tx-macro.c
+> @@ -16,6 +16,41 @@
+>  #include <linux/clk-provider.h>
+>  
+>  #include "lpass-macro-common.h"
+> +#include <linux/delay.h>
 > +
->  	result = data->payload;
->  
->  	switch (hdr->opcode) {
-> diff --git a/sound/soc/qcom/qdsp6/q6prm.c b/sound/soc/qcom/qdsp6/q6prm.c
-> index 2042ff1e8ff1..5c927ebd81f4 100644
-> --- a/sound/soc/qcom/qdsp6/q6prm.c
-> +++ b/sound/soc/qcom/qdsp6/q6prm.c
-> @@ -194,6 +194,9 @@ static int prm_callback(const struct gpr_resp_pkt *data, void *priv, int op)
->  	const struct gpr_ibasic_rsp_result_t *result;
->  	const struct gpr_hdr *hdr = &data->hdr;
->  
-> +	if (!prm)
-> +		return 0;
-
-This is going to silently drop the responses.
+> +/*
+> + * Bounded retry for deferred clock providers. Clock-provider registration
+> + * does not trigger deferred-probe retries, so a consumer that loses the
+> + * probe-order race stays deferred forever. Wait up to 30 s for providers
+> + * that are registered milliseconds later.
+> + */
+> +static struct clk *clk_get_retry(struct device *dev, const char *id)
+> +{
+> +	struct clk *c;
+> +	int i;
 > +
->  	switch (hdr->opcode) {
->  	case PRM_CMD_RSP_REQUEST_HW_RSC:
->  	case PRM_CMD_RSP_RELEASE_HW_RSC:
+> +	for (i = 0; i < 60; i++) {
+> +		c = devm_clk_get(dev, id);
+> +		if (!IS_ERR(c) || PTR_ERR(c) != -EPROBE_DEFER)
+> +			return c;
+> +		msleep(500);
+> +	}
+> +	return c;
+> +}
+> +
+> +static struct clk *clk_get_retry_optional(struct device *dev, const char *id)
+> +{
+> +	struct clk *c;
+> +	int i;
+> +
+> +	for (i = 0; i < 60; i++) {
+> +		c = devm_clk_get_optional(dev, id);
+> +		if (!IS_ERR(c) || PTR_ERR(c) != -EPROBE_DEFER)
+> +			return c;
+> +		msleep(500);
+> +	}
+> +	return c;
+> +}
+>  
+>  #define CDC_TX_CLK_RST_CTRL_MCLK_CONTROL (0x0000)
+>  #define CDC_TX_MCLK_EN_MASK		BIT(0)
+> @@ -2258,25 +2293,25 @@ static int tx_macro_probe(struct platform_device *pdev)
+>  
+>  	tx->data = device_get_match_data(dev);
+>  
+> -	tx->macro = devm_clk_get_optional(dev, "macro");
+> +	tx->macro = clk_get_retry_optional(dev, "macro");
+>  	if (IS_ERR(tx->macro))
+>  		return dev_err_probe(dev, PTR_ERR(tx->macro), "unable to get macro clock\n");
+>  
+> -	tx->dcodec = devm_clk_get_optional(dev, "dcodec");
+> +	tx->dcodec = clk_get_retry_optional(dev, "dcodec");
+>  	if (IS_ERR(tx->dcodec))
+>  		return dev_err_probe(dev, PTR_ERR(tx->dcodec), "unable to get dcodec clock\n");
+>  
+> -	tx->mclk = devm_clk_get(dev, "mclk");
+> +	tx->mclk = clk_get_retry(dev, "mclk");
+>  	if (IS_ERR(tx->mclk))
+>  		return dev_err_probe(dev, PTR_ERR(tx->mclk), "unable to get mclk clock\n");
+>  
+>  	if (tx->data->flags & LPASS_MACRO_FLAG_HAS_NPL_CLOCK) {
+> -		tx->npl = devm_clk_get(dev, "npl");
+> +		tx->npl = clk_get_retry(dev, "npl");
+>  		if (IS_ERR(tx->npl))
+>  			return dev_err_probe(dev, PTR_ERR(tx->npl), "unable to get npl clock\n");
+>  	}
+>  
+> -	tx->fsgen = devm_clk_get(dev, "fsgen");
+> +	tx->fsgen = clk_get_retry(dev, "fsgen");
+>  	if (IS_ERR(tx->fsgen))
+>  		return dev_err_probe(dev, PTR_ERR(tx->fsgen), "unable to get fsgen clock\n");
+>  
+> diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-va-macro.c
+> index 03d6434a4a1..fda1bbada11 100644
+> --- a/sound/soc/codecs/lpass-va-macro.c
+> +++ b/sound/soc/codecs/lpass-va-macro.c
+> @@ -19,6 +19,41 @@
+>  #include <sound/tlv.h>
+>  
+>  #include "lpass-macro-common.h"
+> +#include <linux/delay.h>
+> +
+> +/*
+> + * Bounded retry for deferred clock providers. Clock-provider registration
+> + * does not trigger deferred-probe retries, so a consumer that loses the
+> + * probe-order race stays deferred forever. Wait up to 30 s for providers
+> + * that are registered milliseconds later.
+> + */
+> +static struct clk *clk_get_retry(struct device *dev, const char *id)
+> +{
+> +	struct clk *c;
+> +	int i;
+> +
+> +	for (i = 0; i < 60; i++) {
+> +		c = devm_clk_get(dev, id);
+> +		if (!IS_ERR(c) || PTR_ERR(c) != -EPROBE_DEFER)
+> +			return c;
+> +		msleep(500);
+> +	}
+> +	return c;
+> +}
+> +
+> +static struct clk *clk_get_retry_optional(struct device *dev, const char *id)
+> +{
+> +	struct clk *c;
+> +	int i;
+> +
+> +	for (i = 0; i < 60; i++) {
+> +		c = devm_clk_get_optional(dev, id);
+> +		if (!IS_ERR(c) || PTR_ERR(c) != -EPROBE_DEFER)
+> +			return c;
+> +		msleep(500);
+> +	}
+> +	return c;
+> +}
+>  
+>  /* VA macro registers */
+>  #define CDC_VA_CLK_RST_CTRL_MCLK_CONTROL	(0x0000)
+> @@ -1557,15 +1592,15 @@ static int va_macro_probe(struct platform_device *pdev)
+>  
+>  	va->dev = dev;
+>  
+> -	va->macro = devm_clk_get_optional(dev, "macro");
+> +	va->macro = clk_get_retry_optional(dev, "macro");
+>  	if (IS_ERR(va->macro))
+>  		return dev_err_probe(dev, PTR_ERR(va->macro), "unable to get macro clock\n");
+>  
+> -	va->dcodec = devm_clk_get_optional(dev, "dcodec");
+> +	va->dcodec = clk_get_retry_optional(dev, "dcodec");
+>  	if (IS_ERR(va->dcodec))
+>  		return dev_err_probe(dev, PTR_ERR(va->dcodec), "unable to get dcodec clock\n");
+>  
+> -	va->mclk = devm_clk_get(dev, "mclk");
+> +	va->mclk = clk_get_retry(dev, "mclk");
+>  	if (IS_ERR(va->mclk))
+>  		return dev_err_probe(dev, PTR_ERR(va->mclk), "unable to get mclk clock\n");
+>  
+> @@ -1610,7 +1645,7 @@ static int va_macro_probe(struct platform_device *pdev)
+>  		goto err;
+>  
+>  	if (va->has_npl_clk) {
+> -		va->npl = devm_clk_get(dev, "npl");
+> +		va->npl = clk_get_retry(dev, "npl");
+>  		if (IS_ERR(va->npl)) {
+>  			ret = PTR_ERR(va->npl);
+>  			goto err;
+> diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
+> index 899c8bee464..437a0876a8b 100644
+> --- a/sound/soc/codecs/lpass-wsa-macro.c
+> +++ b/sound/soc/codecs/lpass-wsa-macro.c
+> @@ -19,6 +19,41 @@
+>  
+>  #include "lpass-macro-common.h"
+>  #include "lpass-wsa-macro.h"
+> +#include <linux/delay.h>
+> +
+> +/*
+> + * Bounded retry for deferred clock providers. Clock-provider registration
+> + * does not trigger deferred-probe retries, so a consumer that loses the
+> + * probe-order race stays deferred forever. Wait up to 30 s for providers
+> + * that are registered milliseconds later.
+> + */
+> +static struct clk *clk_get_retry(struct device *dev, const char *id)
+> +{
+> +	struct clk *c;
+> +	int i;
+> +
+> +	for (i = 0; i < 60; i++) {
+> +		c = devm_clk_get(dev, id);
+> +		if (!IS_ERR(c) || PTR_ERR(c) != -EPROBE_DEFER)
+> +			return c;
+> +		msleep(500);
+> +	}
+> +	return c;
+> +}
+> +
+> +static struct clk *clk_get_retry_optional(struct device *dev, const char *id)
+> +{
+> +	struct clk *c;
+> +	int i;
+> +
+> +	for (i = 0; i < 60; i++) {
+> +		c = devm_clk_get_optional(dev, id);
+> +		if (!IS_ERR(c) || PTR_ERR(c) != -EPROBE_DEFER)
+> +			return c;
+> +		msleep(500);
+> +	}
+> +	return c;
+> +}
+>  
+>  #define CDC_WSA_CLK_RST_CTRL_MCLK_CONTROL	(0x0000)
+>  #define CDC_WSA_MCLK_EN_MASK			BIT(0)
+> @@ -2701,25 +2736,25 @@ static int wsa_macro_probe(struct platform_device *pdev)
+>  	if (!wsa)
+>  		return -ENOMEM;
+>  
+> -	wsa->macro = devm_clk_get_optional(dev, "macro");
+> +	wsa->macro = clk_get_retry_optional(dev, "macro");
+>  	if (IS_ERR(wsa->macro))
+>  		return dev_err_probe(dev, PTR_ERR(wsa->macro), "unable to get macro clock\n");
+>  
+> -	wsa->dcodec = devm_clk_get_optional(dev, "dcodec");
+> +	wsa->dcodec = clk_get_retry_optional(dev, "dcodec");
+>  	if (IS_ERR(wsa->dcodec))
+>  		return dev_err_probe(dev, PTR_ERR(wsa->dcodec), "unable to get dcodec clock\n");
+>  
+> -	wsa->mclk = devm_clk_get(dev, "mclk");
+> +	wsa->mclk = clk_get_retry(dev, "mclk");
+>  	if (IS_ERR(wsa->mclk))
+>  		return dev_err_probe(dev, PTR_ERR(wsa->mclk), "unable to get mclk clock\n");
+>  
+>  	if (flags & LPASS_MACRO_FLAG_HAS_NPL_CLOCK) {
+> -		wsa->npl = devm_clk_get(dev, "npl");
+> +		wsa->npl = clk_get_retry(dev, "npl");
+>  		if (IS_ERR(wsa->npl))
+>  			return dev_err_probe(dev, PTR_ERR(wsa->npl), "unable to get npl clock\n");
+>  	}
+>  
+> -	wsa->fsgen = devm_clk_get(dev, "fsgen");
+> +	wsa->fsgen = clk_get_retry(dev, "fsgen");
+>  	if (IS_ERR(wsa->fsgen))
+>  		return dev_err_probe(dev, PTR_ERR(wsa->fsgen), "unable to get fsgen clock\n");
+>  
 
