@@ -1,78 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794749211;
-	b=iWW1JKZhQ9clcr2Lk0MKTsNPBovmNrUAUxJztA/e2GA04wO3IPWPr5I1u7K9JPWRC5cN
-	 HF+380TBWSDT+cNVEquQIWjsemo7wiZqUlk/bns3U8kbDygPvKaSy8Gpp6/eMgZoRGcB4
-	 6FUfIOdXw5IjE33GgrmD81t5hfDjlppvh82q4c+HR4Tx7S1dPISzT8MbGnMJ5W8L04QmL
-	 FBoyYvNg2YRAwDO4NI6bF0REQomgmMRd6r1WrFZVpf9gp54BFKMQOdat1sPhXkjwfTBJQ
-	 ZdZ/gcYlCDLdvOotDNoLPz+WW4wrIyLsz+NVhjZKy2ek+aCsJv+cEkq2Qu+pmMpPLLQ==
+	t=1794749527;
+	b=HPleHgc70Jo+b7RodzohUhaf37/N1yMRBBUkbpdfi9SK2fOzIKeYrJcIuU7RyhgBMAnX
+	 meyp2hzrzc6PVxZk0J2xBVr6KPg5M/yl3ltoHfB+5FxR54NeiDmziY+7gmRhCDn/pZLcZ
+	 iRxK7povtvCj8Yvqw3dJfrCvLfm/3HaQFyaCpWZbRxhEtF7Kna8FJQltY/8pEs2RYcP/a
+	 7N0K3fMfAPsiPJgNoCk6TL4lDUitiwg44oGSDzFsjkq0NkL0J7jB14a0HjBCLpe5QPjMh
+	 dap+HXROFJr0AHz1ChBMiHVyT9Ara9Qy4vU8Hdc8MT3onsSPqjLcrmuF5dIVUyTcBeA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794749211;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
-	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=jY3xGG57GVWa+wMl7oxhpSIomPcM/kWyJWqi5RR6jzk=;
-	b=bbTaPKwCuOVOT6H4Zwf7BtReCDULNOgKQU65RiXb4kKE448CElHehSlMdaUcehuduPRc
-	 FVWX5gjrB+JhhdD9fNi80tWLoMhinvN8DEYcHHYehAioT+SzgTWzoDBxasmtnnxCgt3qK
-	 yIctRZB/QC79MxMU46iIg/46HPaMbAVs69c2txZ2jQEQ0mTYmRrh73r+ACJpwIb7AuSmQ
-	 O1mlV/n6fZsAbbBvrSJ4ekdnVRBcq0k5keb95/lXXDjGjItvT+qeFfv5NUzKV2867Vp6h
-	 NaO/ohKjWaKijx1GSqB5BsFOYlir0oWi6/ALMFs4IpM+N3EwVF3ADrDFxVM8ZkRLhFg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794749527;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=xkHz4vxH+Z4yHGdgyrUpQKMyrGOHr8hBeMIbQWYvJQs=;
+	b=phvEf87RhBuiKU1mFJujyachCIOJq6LrGHvgBeUuOKbQQHig75EZ0e121XvMmnHqN5DO
+	 0uySkNQPhWSm9DtYWn02wng8gbUo09TR3PAFIdH8KPFsMII/laQLCUUE6zjnhwE0qPKUZ
+	 WsYiaR0kOl7l0GVVm331jfabtv21gT3bUqB4rAOYKnmgERbfnIsDVktn8tKlqB6j/2NhK
+	 PGzGsU2NHYjJL86WOXXyOrKkNIOd35IoT+QiPlW9XFJ9oPklWXJoWQUmnaRlIuiu8xrDH
+	 8amKuMyI9M2QP4DWSF/w/eUDKDIpGUQLC/4EYbQpN8Tlzqe1qwY/dAqGImvMpVKSfGQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=sung-woo.kim;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.218.45
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VUzrMGGM;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248DF606A33E
-	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 13:26:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 248DF606A33E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=sung-woo.kim
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c4682977f9aso399267966b.1
-        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 05:26:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794749209; x=1795354009;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jY3xGG57GVWa+wMl7oxhpSIomPcM/kWyJWqi5RR6jzk=;
-        b=qEpH0VppOsYLOLf5IaDuDobjS/a35kVt8wi7nUZHhJSUYTR3H+088k0bKVXmF4QZT9
-         vcuA3CPN5aYIBQvlg+4yOPoMefZRa2F3MpJ4EzVRTXd5MkeZq4tdt+jhTBMgdw7JonXz
-         S4c0efeLjs3JGV5da3NXuvmOb+rdH1O8bp/+ppzskkFUpLOTz/S5Yma02bzAN3V1quM6
-         I7TVGJsJlk+lUAy1Vd6vy9mtb8syXqCER1OusZC1M6eBdT3ny7XZNXo4SUcKzKQv0wcM
-         hCuYJ8OebUH4/0hxEfoXjiZkysSpjP/SRkbKxtMhi7I/DU3umt65Ebcefb84kIWP+vN0
-         tezg==
-X-Forwarded-Encrypted: i=1; AL+hErHeO1veprOPhRAHygVrN3O04GAoHmYSU99Vmbgcw6mLLi8HgWxvMf4hohvapWW9ifmPgFqTaHWrERURdw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+bSVWU1keYBA2I6q52+vYjPBmtn8UVlwSlQijF0GgLY0EpBbf0
-	pIuAKvXhRNBFYVaInVMwgTlAzTsqA5qzei0ZoTF+QX0qbD+0Ddt49iQQD1jr4nmoolo=
-X-Gm-Gg: AYBFou3p1zwD7m+nnnQ74EpDlAmGqDI6G5Wwov5ovmpCWODTxgrBTla5avcsrDwhPP2
-	7tXXAsCotKEvuto1gYUs3uoakTItckPMm8ufQ4frlZIGLMUlUo/gwNm4AZzA9bAfvO4h2l6Bwva
-	JkW7MzmRErmdd9aLYNdfiU7kdDyf9rKusWD6tJfXIf4ecRW539JxkxdRdK8UZVGUzk2JQlAh802
-	Ol1+cHjA38MtmXEUkZlgfflkH3RYygEORGeQJdYwAFDMottbDiAdGZpUyLDDVVI3JpZr1ZresBC
-	l1IfsMKlCDpEqflMMPmcOzW8CcSuyFkI0eMelK2MDwPTpPYCm4ogJ2A1owtuNg3Pg1NX78bXjf2
-	qGFYJfuTzhEPuHpU3BZ+v5KG0w059mRlem3mDNIhz9BawfLOsqog9p2cPuKK6+QmI6XnR//Z1FN
-	iQ60gAmbl2mdp6j9GvUamvdj2hrulfupgDRmI2o+ETdtVBAYxqIvN2GSFc775t9H5YRieW5U14/
-	soEjkjlx809Bilo8wuOLejr5XVhi/X9kV2FHsXm1l0qLeS6uydRIev1o6yk9Twqa2UMq4kcRRW3
-	dRho9RiYMbPn1kt7h1CU5d7TUA3HtpdUjXCdY2eb/wCFQjOnZOWrTvS/THZHrv4w7MhDdb504oQ
-	C4RbqEZ+bSjxozbsjRg==
-X-Received: by 2002:a17:907:6ea2:b0:c41:55b4:d88b with SMTP id a640c23a62f3a-c509653b3fcmr658271566b.43.1794749209520;
-        Sun, 15 Nov 2026 05:26:49 -0800 (PST)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com. [209.85.221.48])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b71608sm302900866b.64.2026.11.15.05.26.48
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Nov 2026 05:26:49 -0800 (PST)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-490d59c3f0aso914320f8f.1
-        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 05:26:48 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErEHDIOS9VEMPlI0xGg9kj7HmUeLrot0AheXfiEQTTxFPtNV3v8mtFIvqne1MtEqbpza36ZxaD2sY34GQw==@vger.kernel.org
-X-Received: by 2002:a05:6000:1848:b0:48f:bcbf:26f8 with SMTP id
- ffacd0b85a97d-49c7390fcbamr17525357f8f.48.1794749208648; Sun, 15 Nov 2026
- 05:26:48 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FC7606A31D
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 13:32:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VUzrMGGM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E81F1F000C4;
+	Sun, 15 Nov 2026 13:32:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794749527;
+	bh=xkHz4vxH+Z4yHGdgyrUpQKMyrGOHr8hBeMIbQWYvJQs=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=VUzrMGGMlhNhML6v6kdo9L+DsrjOWZubOaHKA++EZxT3+GPidx2MCyMh0IrYu5sgh
+	 38nE2r3RI85/GPtOylfA9hDqdY8aTl+haKEeZH6M3Zs9FpUFoInXyc/4TF55lwyef6
+	 0V80djApvkMYLjcpehdVio74me6E2iIIqdM3lw1ENBXTdlvbVsRV0n52xuyuhIUD9U
+	 0INjjVzXZO710g/d0Z9ik2XdGH3PV+iq2u96zNprHh9k5h7ZE0PaYO1V8K2hgknA/F
+	 fBzDCfCdj72c4/Nr+1mCTTT/Xzq9IwskG+w34YCXgo68BdUaWAN/wexKvFCrXXPJwG
+	 RIfNqWvpzv55g==
+Message-ID: <sashiko-outbox-215527@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [RFC PATCH] ALSA: hda/realtek: fix missing chained flag in
+ fixup
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Sungwoo Kim" <iam@sung-woo.kim>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261115132215.4084031-2-iam@sung-woo.kim>
+References: <20261115132215.4084031-2-iam@sung-woo.kim>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 15 Nov 2026 13:32:06 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -81,85 +59,96 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-References: <20261115132215.4084031-2-iam@sung-woo.kim>
-In-Reply-To: <20261115132215.4084031-2-iam@sung-woo.kim>
-From: Sungwoo Kim <iam@sung-woo.kim>
-Date: Sun, 15 Nov 2026 08:26:32 -0500
-X-Gmail-Original-Message-ID: <CAJNyHpK8ZpP5uAK0tgtswKVvD3=Z=d+2dR148RSNw-L7X_ih0w@mail.gmail.com>
-X-Gm-Features: AclHuK89S0biKagP1-Gmz3zw0cKplorvpQTCrvEikzedtHJQEI8ZvWsTk-6J-VQ
-Message-ID: <CAJNyHpK8ZpP5uAK0tgtswKVvD3=Z=d+2dR148RSNw-L7X_ih0w@mail.gmail.com>
-Subject: Re: [RFC PATCH] ALSA: hda/realtek: fix missing chained flag in fixup
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: Dave Tian <daveti@purdue.edu>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-One more, ALC668_FIXUP_ASUS_Nx51_HEADSET_MODE in alc662.c also has the
-same issue (missing .chained=3Dtrue)
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [High] ALSA: hda/realtek: chaining ALC269_FIXUP_DMIC clobbers board
+  pin configs
+--
 
-On Sun, Nov 15, 2026 at 8:23=E2=80=AFAM Sungwoo Kim <iam@sung-woo.kim> wrot=
-e:
->
-> The fixup specifies a chain_id but does not set the chained flag,
-> which prevents the chained fixup from being executed.
->
-> Should chained be set to true here?
->
-> This was identified through static analysis and has not been tested
-> on actual hardware.
->
-> Signed-off-by: Sungwoo Kim <iam@sung-woo.kim>
-> ---
->  sound/hda/codecs/realtek/alc269.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
+commit c0d3245c2b82a623907d3583db3347a65c5b33dc
+Author: Sungwoo Kim <iam@sung-woo.kim>
+
+ALSA: hda/realtek: fix missing chained flag in fixup
+
+This commit sets .chained =3D true on five Loongson-3 pin fixup entries in
+alc269_fixups[] that specify .chain_id =3D ALC269_FIXUP_DMIC.
+
 > diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek=
 /alc269.c
-> index 96fa8c2782bb..1be2e609c28d 100644
+> index 96fa8c2782bb4..1be2e609c28d0 100644
 > --- a/sound/hda/codecs/realtek/alc269.c
 > +++ b/sound/hda/codecs/realtek/alc269.c
 > @@ -6431,6 +6431,7 @@ static const struct hda_fixup alc269_fixups[] =3D {
->                         { 0x1e, 0x411111f0 },
->                         { }
->                 },
-> +               .chained =3D true,
->                 .chain_id =3D ALC269_FIXUP_DMIC,
->         },
->         [ALC269_FIXUP_CZC_TMI] =3D {
+>  			{ 0x1e, 0x411111f0 },
+>  			{ }
+>  		},
+> +		.chained =3D true,
+>  		.chain_id =3D ALC269_FIXUP_DMIC,
+>  	},
+>  	[ALC269_FIXUP_CZC_TMI] =3D {
 > @@ -6449,6 +6450,7 @@ static const struct hda_fixup alc269_fixups[] =3D {
->                         { 0x20, 0x8000ffff },
->                         { }
->                 },
-> +               .chained =3D true,
->                 .chain_id =3D ALC269_FIXUP_DMIC,
->         },
->         [ALC269_FIXUP_CZC_L101] =3D {
+>  			{ 0x20, 0x8000ffff },
+>  			{ }
+>  		},
+> +		.chained =3D true,
+>  		.chain_id =3D ALC269_FIXUP_DMIC,
+>  	},
+>  	[ALC269_FIXUP_CZC_L101] =3D {
 > @@ -6467,6 +6469,7 @@ static const struct hda_fixup alc269_fixups[] =3D {
->                         { 0x1e, 0x411111f0 },
->                         { }
->                 },
-> +               .chained =3D true,
->                 .chain_id =3D ALC269_FIXUP_DMIC,
->         },
->         [ALC269_FIXUP_LEMOTE_A1802] =3D {
+>  			{ 0x1e, 0x411111f0 },
+>  			{ }
+>  		},
+> +		.chained =3D true,
+>  		.chain_id =3D ALC269_FIXUP_DMIC,
+>  	},
+>  	[ALC269_FIXUP_LEMOTE_A1802] =3D {
 > @@ -6485,6 +6488,7 @@ static const struct hda_fixup alc269_fixups[] =3D {
->                         { 0x21, 0x03214020 },
->                         { }
->                 },
-> +               .chained =3D true,
->                 .chain_id =3D ALC269_FIXUP_DMIC,
->         },
->         [ALC269_FIXUP_LEMOTE_A190X] =3D {
+>  			{ 0x21, 0x03214020 },
+>  			{ }
+>  		},
+> +		.chained =3D true,
+>  		.chain_id =3D ALC269_FIXUP_DMIC,
+>  	},
+>  	[ALC269_FIXUP_LEMOTE_A190X] =3D {
 > @@ -6497,6 +6501,7 @@ static const struct hda_fixup alc269_fixups[] =3D {
->                         { 0x1b, 0x0201401f }, /* front lineout */
->                         { }
->                 },
-> +               .chained =3D true,
->                 .chain_id =3D ALC269_FIXUP_DMIC,
->         },
->         [ALC256_FIXUP_INTEL_NUC8_RUGGED] =3D {
-> --
-> 2.47.3
->
+>  			{ 0x1b, 0x0201401f }, /* front lineout */
+>  			{ }
+>  		},
+> +		.chained =3D true,
+>  		.chain_id =3D ALC269_FIXUP_DMIC,
+>  	},
+>  	[ALC256_FIXUP_INTEL_NUC8_RUGGED] =3D {
+
+[Severity: High]
+Does chaining ALC269_FIXUP_DMIC here overwrite the board-specific pin
+configurations on all five machines?
+
+sound/hda/codecs/realtek/alc269.c:alc269_fixups[] {
+	[ALC269_FIXUP_DMIC] =3D {
+		.type =3D HDA_FIXUP_PINS,
+		.v.pins =3D (const struct hda_pintbl[]) {
+			{ 0x12, 0x99a3092f }, /* int-mic */
+			{ 0x14, 0x99130110 }, /* speaker */
+			{ 0x15, 0x0121401f }, /* HP out */
+			{ 0x18, 0x01a19c20 }, /* mic */
+			{ }
+		},
+	},
+}
+
+When __snd_hda_apply_fixup() applies ALC269_FIXUP_DMIC after the primary
+fixup, snd_hda_add_pincfg() replaces any existing pin config for the same
+NID in codec->driver_pins.  For example, in ALC269_FIXUP_CZC_L101, pins
+0x12 and 0x15 are disabled because headphone out is on 0x1b and 0x14 is
+an external line-out jack, so running ALC269_FIXUP_DMIC re-enables 0x12
+and 0x15 and turns 0x14 into an internal speaker.
+
+The unused .chain_id =3D ALC269_FIXUP_DMIC initializers appear to be
+copy-paste remnants from commit f1ec5be17b9a ("ALSA: hda/realtek: Add
+alc269/alc662 pin-tables for Loongson-3 laptops") and should be removed
+instead of enabled.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261115132215.4084=
+031-2-iam@sung-woo.kim?part=3D1
