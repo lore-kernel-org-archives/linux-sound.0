@@ -1,245 +1,123 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.143
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794705611;
-	b=pAbAyB+gvgWmC8qbvvS0WGEqCOqfqhza9xxut1a9DkqggxdvPoWuCX1z9BAGi8ft7mPU
-	 bG7UIAtv60hD4NefcO97BMeR6UuQ3P1nGyUSyH0xTPFLJdZuob48bfkodvhePGbloNG9m
-	 513MOK0/I1+1sBM5Zs9y3Q1BpREHxbDsri7BtDk6cn/E+lsr8vmDYIDbEsKTZTdkCxfTH
-	 VWvYCl+Sob+rnvMAkdqEnMHaOHVpRIGVpaHWjEN/M/B5G15eVWNAp/4QXAmy4Phf5WvfB
-	 Ufunz86Hn5lxVUISl85OgNQ0ebu6Mhb6UxlImEW17/nlZ9L91tfWNPtUXQIbqVj+JSw==
+	t=1794712865;
+	b=dlc7XmGkJMGrAZJrxyG3YXaqerJCF3IcDAkxug9kSVw9vudgU7X/oh5/5vx8GPBTG5s2
+	 BhISXtXxQD3GSklyoxc91Qnh1AOeU0rp/XJ0+cdQk4wYENr76sMQGmnlbRA+f+o2YoqAK
+	 LSv+6XMzJNeb85r6QBrxDLih3hV3EwQ+L1GNsBErfHbmCc3hJAlQZCkyADB/VkfQd9Vny
+	 JTeks5gAEYcBhrLP//5U7tSPw/XjjucJ/ZtGgku+qxEde/n5J16Otey/N/r+XB7fT3Be+
+	 VSFtWLL2tDgAzY773NS6JmvCUnQ5dKljLP7rqCXuMuK+BWt6BY7STwQRgAHi1NPYdbQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794705611;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Date:From:To:Cc:Subject:Message-ID:Mail-Followup-To:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=QIES4zNTDxRjCnYHiHcWq6p6uX7fK/EWYh7I/zXroHQ=;
-	b=p3BDM7AzxCHmfkchiqq3YIPZbs6i9r5IMMiw9tPgpbcyWzwQ8sBu4xYYlvb+g/DvsP/J
-	 IwDS3N4g/07HaDOwoG7+hBVb/sH01tGrSVhwSDXS+0DKGr0aNcU2KPf21fxyQoFy9/fJ9
-	 sCWc9pXoa/IQYi132Z0a0MJsTE8n1UrvB0Kq2xzSo6UJjBaQw6dwDeILZO1TCxF6dvRgR
-	 OFdJ4nS4Ei4+QowLsFEJKFqqRyh3CdtFuRLJ5zFpskRWjFDxZ2HuyLkt5h4XUdxljjo6F
-	 cPDUPC8/X+GT0EWR+adp4g/tiw4XFEBHmKcmOyvdBMZ8WdTR4VIMdUP2+csayI2emnQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794712865;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=07srFXNiwuqa3od0r4PhGGeGV/JNplyEKyJ7iLXoLJw=;
+	b=BFtS4HgFgrDoehu6kTQSzy4dzgvLpSJuH8KO9dlSMWRGgcFIduZnL4pLxQ9/9rO/x/i7
+	 ZOEKoUOyqWKvL/M59+NfKaZLOnQbtEjVb5HSD2Tqm6KeYuwEvcvyUm5TGyGF8Ar2LLu5b
+	 HqI0wyEYWljEJ/c7r+rzIMzbwMB5HC32l1bCPemQDDsd2SCjsbZjf1rPbkhcRFbXWS/1t
+	 i6BL1dIWXri6USykYiHpxb515F1Ox2BZ2iXK++eQCSYtppxxp1YjH8UxQvbdeO9bDpzsN
+	 6cRwVt9JeeQdXDWJ5MO6VoeNA/5Crb2XuUOXnIrvwkFyAx1a5uBAeXJmVhhugV5sN8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=sakamocchi.jp;
-	spf=pass smtp.mailfrom=sakamocchi.jp;
-	dkim=pass header.d=sakamocchi.jp header.i=@sakamocchi.jp header.a=rsa-sha256 header.s=fm3 header.b="pjuVmr/L";
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=syy3aDEc;
-	arc=none smtp.remote-ip=103.168.172.143
-Received: from flow-a8-smtp.messagingengine.com (flow-a8-smtp.messagingengine.com [103.168.172.143])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=jCCnJ5d+;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=NyoZa204;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96BC4606A32C
-	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 01:20:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96BC4606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8AB606A334
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 03:21:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C8AB606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.a=rsa-sha256 header.s=fm3 header.b=pjuVmr/L;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=syy3aDEc
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailflow.phl.internal (Postfix) with ESMTP id 822B61381CA6
-	for <linux-sound@vger.kernel.org>; Sat, 14 Nov 2026 20:20:09 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Sat, 14 Nov 2026 20:20:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1794705609; x=
-	1794712809; bh=QIES4zNTDxRjCnYHiHcWq6p6uX7fK/EWYh7I/zXroHQ=; b=p
-	juVmr/LC7nCJ0SQ2rWUhRQGDMnlVGg/71zflyfizaeCefqOj8Wyp1bv5cUdTgRb8
-	7XUxKSQFA4h5chwE1lADu0vrwg8OhHP6GoQHRhO7+gqlPzaI30gfxszAJ8iBZnAq
-	w6LhtavpJKSJHCgIMJ9jaiAQhtgloSfAXiebl32YH12R4n49k4Dhf+Y8W3pLV4v+
-	Lk6DFTk8SpQ9jSXzpScexBSvyhdEJDbrQwMC0927YExgznJjfLZe0flh8fHQL7IO
-	vj78LH6slSiU2T+/dLzxP/iDcsVNxx1fb6S0NI/BKneEKfRIjGfp58LmRDVhLSom
-	qjpjx4Q11TfgHJQJAHUUA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1794705609; x=1794712809; bh=QIES4zNTDxRjCnYHiHcWq6p6uX7fK/EWYh7
-	I/zXroHQ=; b=syy3aDEccFqwMWi7OqQgN+5WtM3ZAfMLRFvK6Ty6zA65HPirgvN
-	ilcYb0Q1wBWUsxvkCfegkY1pzVtpHUOC6WAP6pTtbZPWcSU2JRmZq5bj3XtaI5mJ
-	5KZK4MCZjfikGyCw8udPD79DzKX657SNeo8VKm+NBs1zDN72HR3ZemlLBm38jus1
-	WDdVI20E7k3nTziG5v/jPkof/xTKUHTBh7LLvCto0jlE2c4pmQs/fxRRAq0SyBeZ
-	lruY2Ddh8f3CbRk7/EsENeVrGkeN2qYTfTHHssLqQwRRARUN/edAoqWV9ygwuEYm
-	jIS3U35+DcIoM5H/MAq31DLvDAGEUQlNvVA==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=sakamocchi.jp a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1794705609; d=sakamocchi.jp;
-	mf=PG8tdGFrYXNoaUBzYWthbW9jY2hpLmpwPg==;
-	rt=PGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZz4=;
-	s=fm3:rsa-sha256:Qtc7ur7Hmk+Bpc43vQWVlulbwZ+3ydJaavgEAuG1mCw0KnS
-	00j24n02M2zbRzrMhxHQX5s5RMbJOtvJMqnBXviR0gMdgjGOO9ZSntENdx3ix9IP
-	5igrC1Mhvqo8lnE85zXgFGERM6n726VXhWaOr6yn8I/lT1oFBMBmzB2S0SYaIXq7
-	M1f6az2YOOMHsK2/6Xa+JPxYqrK6eziW2y5Sum8Ku1TnbiQqtkrSGN4uCN/TneSf
-	PJzfNnSZcmVge4Uhj/eOPYHdwy88HJjtC5O+CMSoxwKnNLfvuPzbUa6CavJXiJcN
-	rOJWvRyPwBRjP7APaKP5b0eZ/xzooev+fTeJp7Q==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-disposition,content-type,date,feedback-id,from,
-	in-reply-to,mail-followup-to,message-id,mime-version,references,
-	subject,to;
-Message-Instance: m=1; h=sha256:ntV32t7KOIfGMot6swX3CNi9IkfeqivW9U6qBDwCqc8=:4RP5xhIBVdE4nHZvdVXdOxDGDwEwdGMsIHWUj8/gqfI=;
-X-ME-Sender: <xms:xQj5aiop4gg9dsJ6_Vn6u45zXMYueatHm6sTqNkrPjF6p_uliIn0fA>
-    <xme:xQj5ao-c0CruU-TGxTE7NFYZSaEuQncLSSmM997vVUnXnDFfvxt3Mt5vMRNmSfmhf
-    34fKN--fbmH87piFvayMBFAxnjq6WHAkHe46t3SFxeylFtFg6aPnx9A>
-X-ME-Received: <xmr:xQj5atXGMWjP8faJlCtXj9RrVZeBW-gqDucCpC0ZXa191cT5jnWReGYw_Z8rYiOMsAtlcaNqIM8bDcRsKH9aHiPzWCfQ_w>
-X-ME-Proxy-Cause: dmFkZTGQstm6GOmXFdPQXDqZqAYG7aQouPeZUHJ4IBXrRYWFH6lFNnMWIuGsSOCFSsBuXW
-    LbDJxfVrfV3cl+wc1JM2qA4EvGILGxXqZILW7GfZPYDe6vWDeehuWas6PsFLq2rp3ZCMLK
-    vb2ZkQs61G65smsTsr3W8fx/U8N5II0Wva1plTCgHg5UpMnhi5PWu1EQKVr47yDlfh1UvS
-    LYKjU/U9x7MTbsMHbdhB5rWUTX8pbvj9eAIRg5DGXYvFzZokg4/nvH5yq0IUoDc8xEYNrb
-    hSXdXqov4GW1obuCd3P9CA8Y5vszeSouSKwogVvelkFQGttmZKq/NF5ipA4vDPXyrU1Xrm
-    Zrz3WElYlhVCDcPNRnAGrD/gNAj1b7M9bHXUiJrCqgmTebsAx0cfPWnZGZ3/j9Ea2UWcPj
-    qqJZ67js4v5NriJFPwSb5fBisbBQrZL2hM4YjWQCJ9uoloExIgLFI0L7sZA853RBWP4ncp
-    DBuj0o8Fkgdi7cJEPrTBBMdPRnMErqVngCb+aWeUA0zKt+uaR6UB1bg9ZicNV0ayYa37yt
-    I8T18lqRGBzHHbPK9Mrtu/1JSrYmpYKqgKJaY1owBZ4nprZ++3QPl5fwcLNIPsiGvSmzop
-    Zbr1xrRPLyP5mMh+v5LgBzIwywaOGj2L4LIDZM+0lWqxfhjtWj2WgxvXglrg
-X-ME-Proxy: <xmx:xQj5avAwgflb4ksIG5XRwHT6xxt96MMxRO3omUvuEt-3k_ppqJzgYw>
-    <xmx:xQj5aka9rFrx7_oeihBM0qdilVdSsLFNvKaV60FpVwOaq7EoVM3bNQ>
-    <xmx:xQj5ak3AzNFqwOx2mTfPhYibu1bQ_UDkW9NgFtUhfBWBcyXvs0uL4A>
-    <xmx:xQj5aoGo_8KYcqvEjpNAxM_sotiXZsyQPcuJ_BoRuwGjdfls4pLNfg>
-    <xmx:yQj5amBDENmX5NhRabHbZy5mqP0Iv6_jzPBpOZyadDNP-V1uD_qCKZw->
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 14 Nov 2026 20:19:47 -0500 (EST)
-Date: Sun, 15 Nov 2026 10:19:45 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-	David Hildenbrand <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>, linux-mm@kvack.org,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org, Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
-	oe-linux-nfc@lists.linux.dev, Chas Williams <3chas3@gmail.com>,
-	linux-atm-general@lists.sourceforge.net,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	MPT-FusionLinux.pdl@broadcom.com,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	linux-mtd@lists.infradead.org, Neill Kapron <nkapron@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	xen-devel@lists.xenproject.org, Hans de Goede <hansg@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
-	virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
-	linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
-	devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>,
-	Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	intel-gfx@lists.freedesktop.org,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH 02/12] docs: ioctl-number: update sound entries
-Message-ID: <20261115011945.GA238787@sakamocchi.jp>
-Mail-Followup-To: Randy Dunlap <rdunlap@infradead.org>,
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-	David Hildenbrand <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>, linux-mm@kvack.org,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org, Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
-	oe-linux-nfc@lists.linux.dev, Chas Williams <3chas3@gmail.com>,
-	linux-atm-general@lists.sourceforge.net,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	MPT-FusionLinux.pdl@broadcom.com,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	linux-mtd@lists.infradead.org, Neill Kapron <nkapron@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	xen-devel@lists.xenproject.org, Hans de Goede <hansg@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
-	virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
-	linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
-	devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>,
-	Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	intel-gfx@lists.freedesktop.org,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-References: <20261114202653.3113381-1-rdunlap@infradead.org>
- <20261114202653.3113381-3-rdunlap@infradead.org>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=jCCnJ5d+;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=NyoZa204
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AF0w0aK1358929
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 03:21:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=07srFXNiwuq
+	a3od0r4PhGGeGV/JNplyEKyJ7iLXoLJw=; b=jCCnJ5d+lVbJnsPUKi26d0KGfte
+	+w4m2BcgbA3pljTnRw3U6qnrrIoyW8xTneR1zBMB/UxDD7Js3vAF1MK0gNbvdGvF
+	zY2BxD+yFv8asHfh02EoBkZo5RAuLMZ3jmoZAAdlx8wmuz20RhcL3ffn8J/FSf2P
+	NK1mwDXyoqGTyPs7sEVRVbImX7awIde5awQ5ZsakerA7neGH5ll3Pi/usIgfCVdQ
+	0QPFgrqvu3IUhKb+ebgdnSIYyZavqb1YyueJOK7I1CNrHT9cjpOJAbzSBYZdpSTh
+	n+mJVdBbsNMvweNJNvk7EwOJr5sv0uhEOhQyab6AImOTjt9Xu9O0ssyqu4g==
+Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hxhk226un-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 03:21:03 +0000 (GMT)
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-37549877380so3090258eec.0
+        for <linux-sound@vger.kernel.org>; Sat, 14 Nov 2026 19:21:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1794712863; x=1795317663; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=07srFXNiwuqa3od0r4PhGGeGV/JNplyEKyJ7iLXoLJw=;
+        b=NyoZa204tHakLiahiW9XoUftNRT2h+DfBhIacV0g2HLiII4TDXmOZ2+YAwGUU3Ciru
+         zzdL+ZSD7gQiwKTK53INv/U+hVwF3hN0UhKtG94LA/kD59YPvaUsdroUE2fluMTuc5Ca
+         K1tWpkEgxK/r68L7lK2Ibzzgvstu+EVHlOzeIuC5ttQEHs5y9o5Pmw1kHc3vYnPmjQ5k
+         XR6LZCqZxC/uBoqutKVba0UItaFjiF3emaFs6Nd/xmZkqWdihlZHjnbHb0CugTryKCW9
+         xx+nzrpaHdx1HIUTcVC2LK1LTUh9758C8X3uFBkqMOKpHVBR5lpZbyh+dOzikzBPWHHl
+         RscQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794712863; x=1795317663;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=07srFXNiwuqa3od0r4PhGGeGV/JNplyEKyJ7iLXoLJw=;
+        b=1n2vbvWJDOeOKk21j1C5uWuj8i2jesf13lR5hjoQEGET7HgiEILyAVDYLFmPCol3bc
+         HVge2vH9vNYITCF7SGb/Pi14WtZgLDUzbwZvd+KsOBGuJ5aX14gWQuFRa4JGeaYs7zNB
+         OvJ5gps5QIbXEgiLu/sAZlJfmZUYa0cuPUYc1QGQeshws8pgVkuUXEIac8nrBCVe9YOu
+         vGU7GEpyLXu3+14x7zX/UiiroAJhGUEIIS7zauK3S8RIRCrGINbrbFHY/1obZQ209Xz0
+         MYSXxTt1bQHkyaLoPTff5Nt3AehrRt8KZiZPlHLKy+XR4mr7x3Zx3qndqBFWlqH2A+to
+         QTeQ==
+X-Forwarded-Encrypted: i=1; AL+hErGI5SiJ0DI6VOPz22xZ7PLculKX9EYtOZtwTn5aekA7DbWqkKGwaOS5MRtcymOmbUXvdIi19XSRgfLJUA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9M8kFv+Z48khowj0+lyH/whaN0GKXSZmt/OY7rmkMAFr4dCgyQ
+	XuZMAyySEeEbZUJImnRyscPGnMWzj777WTOC1QSnxHaEleKPxfMiGYJy4tXuAABp6z/xKChBjGq
+	uL5nP+Ik3KVV5Ko8ZE70uainfdXpgFLcTqBNvr3Pafro//2655e2mNiAVwKSVZa1T0O/dSFTb9i
+	/k
+X-Gm-Gg: AYBFou1gdMqBVARho9ps4IeJGW7yns5vB5oGt5V0aDGN+SuwTkcrYVulSZzXxhrt9f0
+	/GW3CIQ6yP3Cpu/ietVPC9CQIBAP8EJNZB7ksTurmlY00/QeNQ/jSGTDWAH/Wd++9jIMSn3N+p6
+	IOUe6EAtHSDTXc4JxzNAmIvM8c1cgu2wyMuxYFjgX3GcICieXv9haBW18tR/ayBTLHbEengpPAY
+	1r/UnzGMfj5R9sqzgNG+0nVKQvzFIgBQbAOcZDkqE+idiCayP7N7wsF0E6a+lAo46p/NBRKeyS3
+	zPQQhOip1Biuz5FtK8827ywYFEuHZpW2qtnfsTD/7j4knGD5xQ40NvLJh1ViX/HOzMWmuR6vQI/
+	d3P4LXOKNhr5wEg1v60rbyKbuAZjVzn9L/5M7Dg4CbpH6bAPD0h47XcqJ4nD9OiGh58knRhYDPS
+	oSqy5tHmYyspuu9yJr1O3ijZEBFEU5sFdU
+X-Received: by 2002:a05:7022:3a87:b0:1b3:afa2:2d7e with SMTP id a92af1059eb24-1b503055284mr7231673c88.1.1794712862869;
+        Sat, 14 Nov 2026 19:21:02 -0800 (PST)
+X-Received: by 2002:a05:7022:3a87:b0:1b3:afa2:2d7e with SMTP id a92af1059eb24-1b503055284mr7231637c88.1.1794712862153;
+        Sat, 14 Nov 2026 19:21:02 -0800 (PST)
+Received: from QCOM-aGQu4IUr3Y.qualcomm.com (i-global052.qualcomm.com. [199.106.103.52])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5031b98e5sm21300791c88.14.2026.11.14.19.20.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Nov 2026 19:21:01 -0800 (PST)
+From: Shawn Guo <shengchao.guo@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Mohit Sharma <mohit.sharma@oss.qualcomm.com>,
+        Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>,
+        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Shawn Guo <shengchao.guo@oss.qualcomm.com>
+Subject: [PATCH 1/3] ASoC: qcom: q6apm: Wait for SPF to be ready before registering
+Date: Sun, 15 Nov 2026 11:20:25 +0800
+Message-ID: <20261115032027.414953-2-shengchao.guo@oss.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261115032027.414953-1-shengchao.guo@oss.qualcomm.com>
+References: <20261115032027.414953-1-shengchao.guo@oss.qualcomm.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -249,55 +127,146 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261114202653.3113381-3-rdunlap@infradead.org>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: IzSVyrIok1hwr_ViGLC-JfQw5K3tT908
+X-Authority-Analysis: v=2.4 cv=QanzLcbv c=1 sm=1 tr=0 ts=6af9251f cx=c_pps
+ a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
+ a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=EUspDBNiAAAA:8
+ a=jCUHPVBPsCGQFQZixyAA:9 a=6Ab_bkdmUrQuMsNx7PHu:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE1MDAxMyBTYWx0ZWRfX4QAUkh9ZdY5/
+ qUJUOjWUBjvXHIWvksNjIxhB6xlPAp/fvx37uCwxmJ/4aTExQ4IA0gdhUR+FUitYGo22FJ+ZxmT
+ T2evTi0jIHX9u1t0gYMJ3rRfiPqz1unBy0gGw2su4okS8GgBXJSvhv1vv3gJmTDR42O1DM+Pnon
+ dW85JCYL+6ElWM+r9y2JmmCt0BaXTGXGpR0WmHQFHU91u4qnH2Qlwnyje6kE8mg8PhcZp1WPtcC
+ q7vVx4VFViy/agoD+BawQWqUd+sZK3XAmrhu4NZoU/lbfewNkVY1uRC4ztqiyVJALeW2tqH47rh
+ B+p+xvU/PIZ5laM1VDhICFCK5/bM6PJNNkYM6v2rU/Qc2XrWMVdTpTztnBYy7y8qgF7eNIe4AX5
+ anwk10zpl4qfvzodqyntp3/hqxTxUM6YdckWLqzAOPm1uBR+B87dkExHiM57df1ztL0fI48RG8I
+ Lq20WEXtTkD0Wx2LCpA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE1MDAxMyBTYWx0ZWRfXwVidVyMJxNej
+ 6am80rCn7sheeh+LhUhVlOGgJ1S/tNtIs9BWpwlNMuWcHixGp2XjoaVCA8DbVfYlmvU179ssc/e
+ SAUtWYMmOSCZmikahsQSF00VEc/s1tc=
+X-Proofpoint-GUID: IzSVyrIok1hwr_ViGLC-JfQw5K3tT908
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-15_01,2026-11-11_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0 impostorscore=0
+ bulkscore=0 priorityscore=1501 suspectscore=0 spamscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611150013
 
-Hi,
+apm_probe() sends APM_CMD_GET_SPF_STATE once and ignores the result.
+At cold boot this is harmless: module loading and PDR lookup delay the
+probe by tens of milliseconds after the DSP is up, so SPF is listening
+by the time the command is sent.
 
-On Sat, Nov 14, 2026 at 12:26:40PM -0800, Randy Dunlap wrote:
-> Update the list of files where sound ioctls are defined and update
-> the ranges of function numbers that are used.
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> [Since having multiple maintainers trying to merge these would
-> cause some conflicts, it would be more manageable for Jon to
-> take all of these through the docs-next tree.]
-> 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: linux-sound@vger.kernel.org
-> 
->  Documentation/userspace-api/ioctl/ioctl-number.rst |   12 +++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
-> 
-> --- linux-next-20261111.orig/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ linux-next-20261111/Documentation/userspace-api/ioctl/ioctl-number.rst
-> ...(snip)...
-> @@ -168,7 +174,7 @@ Code  Seq#    Include File
->  'H'   C0-DF  net/bluetooth/cmtp/cmtp.h                                 conflict!
->  'H'   C0-DF  net/bluetooth/bnep/bnep.h                                 conflict!
->  'H'   F1     linux/hid-roccat.h                                        <mailto:erazor_de@users.sourceforge.net>
-> -'H'   F8-FA  sound/firewire.h
-> +'H'   F8-FE  sound/firewire.h                                          conflict!
-> ...(snip)...
+After an ADSP restart, everything is already loaded and PDR reports the
+audio PD up at once. The GPR service is added about 0.5 ms after the
+remoteproc reports the DSP up, and SPF drops a command sent that early
+without replying:
 
-I overlooked this entry when inserting the additional ioctl commands in
-the following commits:
+  remoteproc remoteproc0: remote processor adsp is now up
+  qcom,apr ...: Adding APR/GPR dev: gprsvc:service:2:1
+  qcom-apm gprsvc:service:2:1: CMD timeout for [1001021] opcode
 
-* 90e8ac5c9d446 ("ALSA: firewire-tascam: add new hwdep ioctl command to get state image")
-* 58b62ab702591 ("ALSA: firewire-motu: add ioctl command to read cached hardware meter")
-* ca15a09ccc5bd ("ALSA: firewire-motu: add ioctl command to read cached parameters in register DSP model")
+Once the q6apm component is registered, a sound card whose other
+components are still bound can bind right away, inside apm_probe(), and
+issue APM_CMD_SHARED_MEM_MAP_REGIONS before SPF can handle it. The map
+times out and the card fails to come up:
 
-Thank you for catching and correcting this.
+  qcom-apm gprsvc:service:2:1: CMD timeout for [100100c] opcode
 
-Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Poll GET_SPF_STATE before registering the component. Simply retrying
+q6apm_get_apm_state() is not enough: it goes through
+audioreach_send_cmd_sync(), whose 5 second timeout makes every dropped
+command stall the probe, and the card with it, for 5 seconds. Instead,
+send the command directly and wait only 100 ms for the reply, for up to
+5 seconds in total, which is the worst case of the single command sent
+before. A timed out try is retried at once, while a "not ready" reply
+or a send failure backs off for 100 ms first. On Nord, SPF answers
+within 100-200 ms of the restart. If it still does not answer, warn and
+carry on as before rather than failing the probe.
 
+Signed-off-by: Shawn Guo <shengchao.guo@oss.qualcomm.com>
+---
+ sound/soc/qcom/qdsp6/q6apm.c | 50 +++++++++++++++++++++++++++++++++++-
+ 1 file changed, 49 insertions(+), 1 deletion(-)
 
-Thanks
+diff --git a/sound/soc/qcom/qdsp6/q6apm.c b/sound/soc/qcom/qdsp6/q6apm.c
+index 4cb597d737b1..e7ba6bc93142 100644
+--- a/sound/soc/qcom/qdsp6/q6apm.c
++++ b/sound/soc/qcom/qdsp6/q6apm.c
+@@ -26,6 +26,8 @@ struct apm_graph_mgmt_cmd {
+ } __packed;
+ 
+ #define APM_GRAPH_MGMT_PSIZE(p, n) ALIGN(struct_size(p, sub_graph_id_list, n), 8)
++#define Q6APM_SPF_POLL_MS	100
++#define Q6APM_SPF_READY_MS	5000
+ 
+ static struct q6apm *g_apm;
+ 
+@@ -154,6 +156,47 @@ static int q6apm_get_apm_state(struct q6apm *apm)
+ 	return apm->state;
+ }
+ 
++/*
++ * Right after the DSP boots, the SPF drops commands without replying. Poll
++ * GET_SPF_STATE with a short timeout per try instead of the 5 s one of
++ * q6apm_send_cmd_sync(), so a dropped command does not stall the probe.
++ */
++static bool q6apm_wait_spf_ready(struct q6apm *apm)
++{
++	unsigned long timeout = jiffies + msecs_to_jiffies(Q6APM_SPF_READY_MS);
++	gpr_device_t *gdev = apm->gdev;
++
++	do {
++		struct gpr_pkt *pkt __free(kfree) =
++			audioreach_alloc_apm_cmd_pkt(0, APM_CMD_GET_SPF_STATE, 0);
++		long rc;
++
++		if (IS_ERR(pkt))
++			return false;
++
++		pkt->hdr.dest_domain = audioreach_gpr_dest_domain(gdev);
++
++		mutex_lock(&apm->lock);
++		apm->result.opcode = 0;
++		apm->state = 0;
++		rc = gpr_send_pkt(gdev, pkt);
++		if (rc >= 0)
++			rc = wait_event_timeout(apm->wait,
++					apm->result.opcode == APM_CMD_RSP_GET_SPF_STATE,
++					msecs_to_jiffies(Q6APM_SPF_POLL_MS));
++		mutex_unlock(&apm->lock);
++
++		if (apm->state)
++			return true;
++
++		/* A timeout has already waited, anything else backs off */
++		if (rc)
++			msleep(Q6APM_SPF_POLL_MS);
++	} while (time_before(jiffies, timeout));
++
++	return false;
++}
++
+ bool q6apm_is_adsp_ready(void)
+ {
+ 	if (g_apm)
+@@ -906,7 +949,12 @@ static int apm_probe(gpr_device_t *gdev)
+ 	dev_set_drvdata(dev, apm);
+ 	g_apm = apm;
+ 
+-	q6apm_get_apm_state(apm);
++	/*
++	 * Once the component is registered a card can bind and send commands
++	 * at once, so wait for the SPF first.
++	 */
++	if (!q6apm_wait_spf_ready(apm))
++		dev_warn(dev, "SPF not ready\n");
+ 
+ 	ret = snd_soc_register_component(dev, &q6apm_audio_component, NULL, 0);
+ 	if (ret < 0) {
+-- 
+2.43.0
 
-Takashi Sakamoto
