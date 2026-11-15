@@ -1,48 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794767236;
-	b=3CYA64HNbD9qfJRjvIMI8cELOBMW47crH7DapFV7GCxbPdKWGxg6okcx3MR0C8V0kZnw
-	 r7fWAootES0ta71+KQbarEJIQkCFPSBchSEdsBS+baDZunz+xPbaIEevTaocGW+upw1KC
-	 DfwaOUb8L06qxY5UpizDOUKc0gs4b1cLM15nJRHkpkZYU1PncqljIamyeBqwXoV6emAkQ
-	 gYrBBmS83klNLQMwP5WV8U4NttwnJZTqzSAY6NgchZZHwlkJvB2cj1sZf2VP3RIomw8nu
-	 oiUeiJq03rrlVHlvokolUG05gavHnBUx3PW7OjU+pdTEoV7FstHGZUIUUP1RMKpp5/Q==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794767236;
-	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=4v9kEdXT9EbKxbjfyQTCBXpQmQO0tv1S0oBUI2ZRadY=;
-	b=Vzi/5i8vOCxS2FKJB2hbGYKgRf1a7rmYgZi1RR6VIaShjeYpDDc8/Qgsdklnz2ivf77L
-	 jcsLqdTSTvxCpjdZhiT9/MxJA3ww8BtbxAshKPWI+wt2cqOGCRWaWDToSQNF+nKQ3zfLR
-	 k9urju0yBycEHKQxzZMnwWpIx03B/RQMV/GrjnsKZU/7lS/KDsQZtildZxu+CbfjJNugn
-	 KK5gLA7o5PXH6TIf5DXMcEfRMJT3nBsugPZ1PjeIm5GDeW171is8SJoPOwfozv9AhIYzv
-	 g/zuFhpcDAl/oC0yOKU7dWIrmyrwVcppi/ccArKzIlT7sKNuOF/wF4UbVYvN88hEGpA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Hs2wFkU6;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794774029;
+	b=ixPBdz9GheMafvfAc2LrHMwAidUVvQLdQqSyZUbsdXu5vlWztUXE9iUX5EMd/m2xK6ZG
+	 VsRGsqKLmbns+UW04GSjcU0j7KHUw53CgYWY1jqD/aLAhm3CpBMKGeWnNrb63AarN8APW
+	 dNu+iXIxqrwlZkwgPsWvd+P0FbzoXaF0/G9qDQEmjHoGEZphaAMFAmeq93ycKD1ULnq00
+	 5zrlo+cEegiZTb2yFtqyzapVIfwADeh49ALzh4o3oIcyXVfGb9b2/rQSG14dBIZqYJ1V3
+	 FGjIOt0scq5TYWKH0VP2/SlFxFgZRhUjfnhFjIKCfOtjoROR0m9l6xHNMItb+AQHv1Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794774029;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=BrOneWWkYW1msZTxiS6i/unWXAYHkcwWmjjLrFEjxDc=;
+	b=rrpjMUiCRmENCNXP0xsosE6qsqL/PMRax4nV70pEVUC6rxzVOWGpgDh0AHPaZhtcC792
+	 1RbjJYNFusedBRCv0XuouDOdACXqjoURViWIdeqzRWl1RPNl7EphX7y00DjKac3i3LwOG
+	 +Xs8SqxpjSZ45JtJ4ZQzaJEGJun1sYUZcwBEj6/aoVMb21/DvIAXVjzp1hLLTOHM+UkUt
+	 LQgewnBmg2j9fklawRYVZBlwUqHq6uRQWkdaoYQVGUrqFMEKA/m+JsafAK0Z2gLocasQi
+	 KC9xJVWExFqHADuf0bk6N//Vh9CmNH+apJENctRQbC0IB7Njgx3jytj+kn2byiISzyQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P8AO9AMA;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B2B606A323;
-	Sun, 15 Nov 2026 18:27:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E59D606BB3E;
+	Sun, 15 Nov 2026 20:20:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Hs2wFkU6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC6721F000C4;
-	Sun, 15 Nov 2026 18:27:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P8AO9AMA
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794774029;
+	b=WX3hKIBEX47ytREEmiC3Y13GofNuJWgdIU3VnOOLagBAceEjbFRjuK7Fm5aZIaBqaUr2
+	 lBC6kB4qpBx0sIuLUm2Y6GCNK6q8q7B+xRoK0ZV2JB1mJz/BmeVydnR1jTKqbuixJWJID
+	 mEfXkoLk9ug/52delrxf2xlIMkLPpxEVyqmRUSDQI3WK9A8uIsCMK1V8n0AVFy78mkmpx
+	 kis0LLvlF8jyeo0ZB+xv8X3asafc+YVBeUPoPvBBn/n3ULMrqsgxYGsfNuv1zsW4nrS2z
+	 LOPdOESA5g0LNVbGAwemU8ZeyL4jEGQ8jHE8h3CRH0GKjbx5zPP6LdfEHMnxAJfp2pA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794774029;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=BrOneWWkYW1msZTxiS6i/unWXAYHkcwWmjjLrFEjxDc=;
+	b=ygPfL0egVFjnrixeAzdGWLck1S5Apm/unHSlNPONBuXhbs1RwqbECjGs/gli1D1LLRlE
+	 GZD0cfQ5pknhko1Ak4IbDbtxjAITlAtGDUJPG9o+LK7z+6+1L85xi37nM+N93Oj1/LvpI
+	 fU+FSfMbJ/eTkyJBd+raNuKIOyJjvUD7Q8G+JRDjUXbqEXUhRJgaBUwXOdPKmFn6pDJ69
+	 3yPVkVP3HWq1/GgwpjmSOO5gLn09pLBiA1U3S2X5Iu+f3MYAWe39dmGJSL1mOvoMqjr4A
+	 1EesOJyT8000R56ziwvDDkHHJxwlK45kPKEVx/x9hIcsFt5uqezMtjq6m3nmAi2Plhw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id D3EAE1F0280E;
+	Sun, 15 Nov 2026 20:20:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794767236;
-	bh=4v9kEdXT9EbKxbjfyQTCBXpQmQO0tv1S0oBUI2ZRadY=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=Hs2wFkU62DxMVcVeVK/hAY2ufoadWt+Durtr+oAEZEZAHVRiIPzUn8lVsPDt5Gn6A
-	 LCjm667oyvLp/6VsY85AeLD12M/krbIKIgKoosrrjyCH8Bs+p2meRhASbg+kMC2cvM
-	 QzOEgYrkeLy0x/CLwV2gYxtqqx1ssQUFYhJbA8s+gu69qB0zN2CezYt1IxGO1LmOcQ
-	 ChvTkCD2Egs8VWSW4BrQHtHenMBDdDB7z4bhmmoqPKGANygD0zgisrIdYkxydir576
-	 UAuL+0VtHWziRhbhZ1qJB9384CqIX5ydm0HVaLZ2YWAeT6u2+v9nTXAYzi/wxW+YGW
-	 95lD+ddDCxnWw==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 4E20633D38DA;
-	Sun, 15 Nov 2026 18:27:01 +0000 (GMT)
+	s=k20260515; t=1794774029;
+	bh=BrOneWWkYW1msZTxiS6i/unWXAYHkcwWmjjLrFEjxDc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=P8AO9AMAhLXpWAWXfva9XSa03cZYyiUGkT2PE2JMR+laagFLvRN3CSQR5EvIvT/UH
+	 W8y0GUw4eCXRw8UYmdk1nJL4Zg3DOk1QUYEQ5Hrgz691AhjMh3KZGkBGzWraDVSsYp
+	 aRmQu4Cgzf2YLWOI54xl+qMhzumUxUglO8rWtptNf6+E/0jGL9XQzNzy663qc3SYmF
+	 hkuPKvuanzkrQuRsH/gxs5jxfgg4szG3VWoOAclRj/ryesCcuzdoE7yRVlC2DNg0qg
+	 bgoEiEwkPkcKAQQJRY/3ipCI39yIxZ3ZmLhZgmB1iXx6PnfrKevx3iCIShZLs+oiPe
+	 if3HLvfTi44Bw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 31C1F4A1E0;
+	Sun, 15 Nov 2026 20:20:28 +0000 (UTC)
+From: Venkat Yadlapati via B4 Relay <devnull+venkat.yadlapati.yahoo.com@kernel.org>
+Date: Mon, 16 Nov 2026 01:50:28 +0530
+Subject: [PATCH 1/2] ASoC: dt-bindings: qcom,sm8250: Add Motorola Signature
+ sound card
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -53,49 +84,57 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v4 00/22] Add speaker and headset jack support for
- Apple Silicon Macs
-From: Mark Brown <broonie@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+Message-Id: <20261116-vantage-sndcard-v1-1-df69a8759833@yahoo.com>
+References: <20261116-vantage-sndcard-v1-0-df69a8759833@yahoo.com>
+In-Reply-To: <20261116-vantage-sndcard-v1-0-df69a8759833@yahoo.com>
+To: Srinivas Kandagatla <srini@kernel.org>, 
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
- Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev, 
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Hector Martin <marcan@marcan.st>, Sasha Finkelstein <k@chaosmail.tech>
-In-Reply-To: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
-References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
-Date: Sun, 15 Nov 2026 18:27:00 +0000
-Message-Id: <179476722024.140154.15587190322612964079.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=317; i=broonie@kernel.org;
- h=from:subject:message-id; bh=ytHYPz0XriWoB7CgG8WB4aH/P5ex9L4TMTkLssWLVm4=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+/iz9N/mHi728XsdGBVdR5aNnVf4dbTT4IdmRdP2n0
- KttyacyOkpZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRD6wM/9S72z3mLK8tSzx9
- 4NSkAKUV6/Z/7dTSuuv6b3nhkq3KnrMZ/uk++dB/R291D1tVuZfLHucp3HoXysLSk7c6Jx4XL/4
- swAwA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+ Venkat Yadlapati <venkat.yadlapati@yahoo.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794774027; l=954;
+ i=venkat.yadlapati@yahoo.com; s=20261023; h=from:subject:message-id;
+ bh=nX9qTnZEW1eY4ue+aHl0y+aU2y03Je7/bL6nIWQuIPg=;
+ b=krJygh5DLJPWif5c4HWThx0qoWh3j05sndx4UrP985vfoE3qbBsy6BWta2MAtuJgpERLrjTJJ
+ oSUITQ3rwU1CO59kTw7NP+J9q7JFDFCsRYSxB6TYLKlTwS3frPSLzKF
+X-Developer-Key: i=venkat.yadlapati@yahoo.com; a=ed25519;
+ pk=e8KStCtEMvUP1Se/riB/KVnDAQFEVR2Dw2PcuA8/eME=
+X-Endpoint-Received: by B4 Relay for venkat.yadlapati@yahoo.com/20261023
+ with auth_id=1303
+X-Original-From: Venkat Yadlapati <venkat.yadlapati@yahoo.com>
+Reply-To: venkat.yadlapati@yahoo.com
+Content-Transfer-Encoding: 7bit
 
-> Hi folks,
-> 
-> This series adds the machine driver and related bindings for the
-> primary audio subsystem on Apple Silicon Macs. The macaudio
-> machine driver is based on an RFC sent many years ago
-> by Martin Povišer[1]. 
+From: Venkat Yadlapati <venkat.yadlapati@yahoo.com>
 
-This needs a rebase against current code.
+Document the sound card of the Motorola Signature (vantage) phone,
+which has its speaker and earpiece amplifiers on an MI2S interface.
+
+An LLM was used to help write this commit message.
+
+Signed-off-by: Venkat Yadlapati <venkat.yadlapati@yahoo.com>
+---
+ Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+index e2e3fc99e6d9..7adf0f5ce2f7 100644
+--- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
++++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+@@ -37,6 +37,7 @@ properties:
+           - fairphone,fp4-sndcard
+           - fairphone,fp5-sndcard
+           - motorola,dubai-sndcard
++          - motorola,vantage-sndcard
+           - qcom,apq8096-sndcard
+           - qcom,glymur-sndcard
+           - qcom,nord-sndcard
 
 -- 
-Mark Brown <broonie@kernel.org>
+2.56.0
+
+
