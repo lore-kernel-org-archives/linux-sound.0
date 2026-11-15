@@ -1,48 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.54.127.139
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794766043;
-	b=CSC0JTu6r43ZabvC7hSs6bcBE2d7tOwCRQvTEehkTT5PlOu9O9lB3WQFveQysqlrGWUc
-	 peiLUXas60SvC4P6bXROhaaxbiuWYdbwa5N9KQJR8fu/3uloemW2QiNDZJIos5V5U38Ml
-	 IPXkd7wLRYwIvfRQ0xXbVB//qK0ZAKg+Iti6Dwxn/ISR+Zbshsw6btHasnHuUFTkOzMSc
-	 MJIPA8EMe42pKgnkraSAwYJ4XYsymN2nKy5uIvlpgTdIVYhr66OaZ+7pk64pcU4smwYfK
-	 x0CtnrAYXiNf+/VNn2Oefq9Sr4OsfkKoUkAbzan9+IGeMHGrxptSuVaJMP2yFdbsjVQ==
+	t=1794766458;
+	b=X30Ze3XfcnnneWOm5tzSZtABdgDr4am0pjTp5iCm3AmhxmqgLRoYWG6WNK2yPKzRBsd3
+	 tlmiyBD92YnkCkC1kTos3Yrvr5CJGmp4FgOCDkcn5ezEacY4DvSUopSUGa2sXZ0by76q6
+	 e3NvcXFSON3E9rt+Dexvym943txNgjyefq6sAj5mxWgJoTX4LMclP3gp/pdSFe/PaeVq8
+	 6boSmhtQnYARUIPH1NgHGuDO7XdjSsUobbYhLD6neN1qC7xsT7paK+yhUy6kesfox/IJ6
+	 XoLXLfILI1JlsL5DfDy1HATCm6wh/pYgLpOjfbp+pyxLiT026p1e745k0KzC7N49pqQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794766043;
-	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=l52lI99/u0xLVXzwr8zRMu9sPhDs2lTdZmlj21zNAjs=;
-	b=oA4T5LAIbSFpa7dDQHl1bqj8xy11KFeg1tGELmiU5n3yw1xyhvaOux0stwGXFKR/IEeV
-	 Z8QWwzTKv6tabYdnyiV+CgDortpdyw7b31iCrjO2NHdHztJonGiqnouti/9HMzxnjbvY9
-	 0EuY2sYxnV8JzZ8qzVRUBUD89Wm3gENYFRpMpY84R3HfetxXx8ELqHNY81V+RVXePreDR
-	 +uBpTi6vfbvue8mCjjZZkipX28qmOfq41e+GzZC7hVtgiqaek5tUPMpVCvw+KtFHfgrsq
-	 JW/9Hbhz+RHa+qn7Z51G9OTbT2ZPbDbghzj0RCGxMOg3FIxd6EDTK3iMG+4CoEf3Clg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794766458;
+	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-Envelope-From;
+	bh=+k5tKf6urPY8lWMEjLDvjWecJXDmPvgqG1+tcJ/GJR4=;
+	b=rRSI18f9fI6FSlVWA9uyP4cKrPG9lA+e6m3EATBLFl9YZYabIwu0f3mTJ68pSWxQx8zQ
+	 OqiRzqAl4TCR7liUie42b/yOEZ3Lqq7R11H/8JvKy53kljr+uu250Szp7NABi/8/qEEpE
+	 XJGqQveNkRYdrdfu6pmQY138TS4muVynPUBArvfIAObDeJs+8aix/r17CvlV+uYa/4B3X
+	 OE86w1WieqiZ8VxE6SDm5rHnhXxanhp0AxYlfWG0TtmyIlOZBnK8WKDzW1oXyVbuHYMOw
+	 tZDP/ZaISiyW0S0ClG61f+0o4a/hC16jsGnzuPSE2SVCzHj2U4JiSt3i9Nb6ePPQ6iw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MuMFYA2z;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=liuolia.eu;
+	spf=pass smtp.mailfrom=liuolia.eu;
+	dkim=pass header.d=liuolia.eu header.i=@liuolia.eu header.a=rsa-sha256 header.s=default header.b=KF7WLUcY;
+	arc=none smtp.remote-ip=198.54.127.139
+Received: from out-2z4y-a139.jellyfish.systems (out-2z4y-a139.jellyfish.systems [198.54.127.139])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEA9606A31A;
-	Sun, 15 Nov 2026 18:07:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D85606A32E
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 18:14:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E6D85606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=liuolia.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=liuolia.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MuMFYA2z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D7851F000C4;
-	Sun, 15 Nov 2026 18:07:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794766042;
-	bh=l52lI99/u0xLVXzwr8zRMu9sPhDs2lTdZmlj21zNAjs=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=MuMFYA2z1Y2oba2gPNcM+zLsP2IUACKuanMnCLrN260zUZnESn85Z40vT22j5b6xc
-	 nACu68Pg8AhhMNoGRfXFwas+reHN1Du6ib6Z65hBpGbcxZtmh5bidPRyscMphxzlZW
-	 AGh4J54081G2eEjo2ipnC2lgl2r3B6kUk1jxu0o4UV3Ok/WoQnvgF3eVIZbmv8N1hz
-	 rgoZHTrsi5C7Cb55VBnya2/jWTEgAkIFz6hxwn73bycIF8eme6s5qX9NOVIFXZmuSJ
-	 KWI9n8zW9uiKC34D028T69IuZDbFO7lmzrdOapo1eVAn/sPIRzTpHAccn5SEHCru9Q
-	 9U1t+wfcHbieA==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 21FCA33BA091;
-	Sun, 15 Nov 2026 18:06:15 +0000 (GMT)
+	dkim=pass (2048-bit key) header.d=liuolia.eu header.i=@liuolia.eu header.a=rsa-sha256 header.s=default header.b=KF7WLUcY
+Received: from mail.privateemail.com (unknown [217.31.190.30])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.privateemail.com (Postfix) with ESMTPSA id 4jSJz34hDhz6tkP;
+	Sun, 15 Nov 2026 18:13:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=liuolia.eu;
+	s=default; t=1794766433;
+	bh=+k5tKf6urPY8lWMEjLDvjWecJXDmPvgqG1+tcJ/GJR4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=KF7WLUcYG9SlWaDOi3S6I1r4AHqLJ+MFcuczAiGYmbAQjcAI28goBj42DAw87uTZ7
+	 AEwqmwCCMPwlQS7YldQb13IlQjQEZCifCMnuo6ghPDjCgCM+q5cDHk/91R8m2/NSuo
+	 x4q8vtE7L3FvIbSifanF70yjK8IZuKuvpfF9IjkBQopmKR4GfdR5y8FiOJQl8R5dOZ
+	 czFRK++hQMYrDl/5f5oE7fPBaztnkaZcwljSNSRIWtL8tj5m1sKPTOPUH4yl5F+Z97
+	 NUl8aqq+RdZPYLOXpWpQN+UZbHP754pTovW14sBSZqFCMz7gFgeRSRUxPeZHVWMgqc
+	 imOQ+L3l6gEOg==
+From: Vytautas Liuolia <vytautas@liuolia.eu>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Vytautas Liuolia <vytautas@liuolia.eu>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: Add quirk for VF0790
+Date: Sun, 15 Nov 2026 19:13:24 +0100
+Message-ID: <20261115181324.97843-1-vytautas@liuolia.eu>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -52,52 +69,87 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH] ASoC: sun8i-codec-analog: Add the headphone inversion
- control
-From: Mark Brown <broonie@kernel.org>
-To: Romain TISSERAND <romain.tisserand@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, sashiko-reviews@lists.linux.dev
-In-Reply-To: <20261103133935.2892210-1-romain.tisserand@gmail.com>
-References: <20261103133935.2892210-1-romain.tisserand@gmail.com>
-Date: Sun, 15 Nov 2026 18:06:13 +0000
-Message-Id: <179476597358.140154.17606905713832103924.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1189; i=broonie@kernel.org;
- h=from:subject:message-id; bh=JgOmomTwucmHGBaErYnCPL+02hVS1hGD2s2sgscCOI4=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+fpl+JKtdsfh+mP0xrYU1ff+61NW5mvkvzQozvvjmy
- EOJi1L6HaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZhI01dGhluTWo2fXDxisKTV
- +OyTR3nfn1p2PN7zZdfql3z3XHKfL2Zk+O+vdl7807Rn4pYhl17yLZb0npt7UaKl/XvrNNupt5Z
- w9jIBAA==
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
+X-Envelope-From: vytautas@liuolia.eu
 
-> Bits 1 and 0 of PAEN_HP_CTRL (analog register 0x07; LTRNMUTE, RTLNMUTE)
-> feed the inverted left output to the right one and the inverted right
-> output to the left one ("Left HPOUT Negative To Right HPOUT Mute" and
-> the reverse in the A23 and A33 user manuals and the V3s datasheet; 0 =
-> mute, the reset value). The driver defines them but nothing can set
-> them.
-> 
-> They are needed when a mono speaker amplifier is bridged across HPL and
-> HPR, as on the PocketGo S30 (A33): with the same signal on both outputs
-> the speaker gets almost nothing. With a mono mix on both DACs and the
-> inverted left added to the right output, HPL - HPR carries the signal.
-> 
-> Expose them as one enum, "Off", "Left to Right" or "Right to Left", so
-> that the two outputs are never fed with each other at the same time. It
-> defaults to "Off" (both muted), so nothing changes for existing boards.
+The Creative Live! Cam Chat HD VF0790 (041e:4097) has the same audio
+interface layout as the VF0770: interface 3 offers S16_LE and S24_3LE
+capture altsettings at 8, 16, 44.1 and 48 kHz. The 24-bit altsettings
+advertise the same wMaxPacketSize as their 16-bit counterparts, e.g.
+216 bytes at 48 kHz, which holds 54 frames of S16_LE but only 36 frames
+of S24_3LE instead of the 48 needed per 1 ms packet. The device then
+delivers only 36 frames per packet.
 
-What about the configuration with both set simultaneously, so HPL = L-R
-and HPR = R-L - that's fairly standard with an actual mono signal (ie,
-one channel as opposed to two copies of the mono signal), doubling the
-signal over the speaker?
+PipeWire picks S24_3LE by default, so 1/4 of the samples are lost: the
+captured audio sounds chopped and carries a constant 1333 Hz buzz, one
+discontinuity every 0.75 ms. Timed raw captures at 48 kHz with arecord
+deliver about 36000 frames/s with S24_3LE and 48000 frames/s with
+S16_LE.
 
+As done for the VF0770, only report the 16-bit 48 kHz altsetting. The
+other 16-bit rates have not been verified, so leave them out as well.
+
+Tested with this patch applied to snd-usb-audio from v7.0: the capture
+stream now only lists the S16_LE 48 kHz altsetting, PipeWire uses it
+without any local configuration, and recordings no longer show the
+1333 Hz artifact.
+
+The problem was diagnosed, and this patch written, with the help of an
+AI coding assistant (Claude Code).
+
+Cc: stable@vger.kernel.org
+Signed-off-by: Vytautas Liuolia <vytautas@liuolia.eu>
+---
+ sound/usb/quirks-table.h | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+
+diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
+index b6da5bcb15e4..56f32b3f873f 100644
+--- a/sound/usb/quirks-table.h
++++ b/sound/usb/quirks-table.h
+@@ -187,6 +187,40 @@
+ 	},
+ },
+ 
++/*
++ * Creative Technology, Ltd Live! Cam Chat HD [VF0790]
++ * Same audio interface layout as the VF0770 above. The 24-bit altsettings
++ * advertise the same wMaxPacketSize as their 16-bit counterparts, so only
++ * 3/4 of the frames fit into each packet and the audio is chopped. Only
++ * report the 16-bit 48kHz altsetting.
++ */
++{
++	USB_AUDIO_DEVICE(0x041e, 0x4097),
++	QUIRK_DRIVER_INFO {
++		QUIRK_DATA_COMPOSITE {
++			{ QUIRK_DATA_STANDARD_MIXER(2) },
++			{
++				QUIRK_DATA_AUDIOFORMAT(3) {
++					.formats = SNDRV_PCM_FMTBIT_S16_LE,
++					.channels = 2,
++					.fmt_bits = 16,
++					.iface = 3,
++					.altsetting = 4,
++					.altset_idx = 4,
++					.endpoint = 0x82,
++					.ep_attr = 0x05,
++					.rates = SNDRV_PCM_RATE_48000,
++					.rate_min = 48000,
++					.rate_max = 48000,
++					.nr_rates = 1,
++					.rate_table = (unsigned int[]) { 48000 },
++				},
++			},
++			QUIRK_COMPOSITE_END
++		},
++	},
++},
++
+ /*
+  * HP Wireless Audio
+  * When not ignored, causes instability issues for some users, forcing them to
+
+base-commit: 6db55dc5b1272e8fe63328a3bca610fe1fb5d382
 -- 
-Mark Brown <broonie@kernel.org>
+2.43.0
+
