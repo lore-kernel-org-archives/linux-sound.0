@@ -1,47 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794761938;
-	b=gOiog8J4XuB2hjV/K6YFNbXcdyhUnElEaqsCPBI3p6GeevjMouGSGiJuQn7+MH2T8mZd
-	 VqI/tyl74+9z6dd24dGfN3ailIyDwHZdEHiTFjzFGgipMKF+qV5k5GIZO10fP67+Lxq6o
-	 XMcmFkoLkh5lpBAP3m9eSbLvMn5KNuaP69gAVbCKAROWpe75ad8DO34PXryRTz0C3VMWa
-	 CRnzmv8JHBKUUO+J9yA7dcS4ALvsNs+vDprw7fy5fyTCHJQsK2ePdAZwSUGolHx1EFHPj
-	 roJ4pTVO+Kj+mcrWtAc3tKIAIM6KLFETP8oc/XV7eRi7swSPrYmS/a5NHIZKv5QAPog==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794761938;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=7icfoIT+Mng+FLAG3S5PMcuwQv7cbo7W5CDYKdjKwU4=;
-	b=uhGkRhQ0X5gGVVF4M3f/wQ0+JdJMr7ntoxErF6nQrPxWrENsdM/TdaQ9xu2QZsBcHzLU
-	 hWvzG5sxYssZCZll1/KB82X02FAFAwHMfYtfL9/ZR4gWGaNCDpgbyh7VjVcD+kBvTjok7
-	 MTm+aOpzZP6iLLuuhJfdi8nPxVCPs3RXe1M7V0bfUztW9WB3uHYYaA8D8taqaZz6wJL+S
-	 mLV9CHK4cHBJ8lSqv6Qzhq4PWGsULBOecTqYWN1dIDROykVXsGRaE3CeyoAXksA8v/hcD
-	 Tlf5JGRrGWdefrMzIwaueRXPteGYEb9/dyqbKw3/4lqvxl8CZ0eumOisAMXLVL5BxYA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GoWFHZsl;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.177
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794762253;
+	b=n7G7G/FV+AW5MKW4tz4yPaQO9Yx2/mVX2PYBegRQAmNpnriy/0FU0RUmCLqVsEzrbd3x
+	 kHP2ROrUHnsQ90m/pUfaTewau1+0spmtTPkPdSHSNyyMySdOwpiSrsk9VcheHNfKp5CyJ
+	 YFDfKyM7iCQzD94RXtuFieihf7fiYQp8zdoT77DbSLdjpa0Z5a91Q1v9Q1dfLKIGVx5/T
+	 /QwTDChc/qk7cjiosz99WhA+nO3UVQxryI5IWCJb5GnPE4FLMI/o7pB7EPuNLceYiQTzB
+	 okUCi6NYSysMOcB+8zdEtindiKJtmQTNnEfvb38fWYLqjhbWyZeadiv9fSYB2IAgRlw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794762253;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=xs47ZMUnv7qJrf341MTMqq2ia87fUm65gwB0tBN5bf0=;
+	b=xessY2iYwN1oo6aJ5Pp+rGAq80rHwfUyDF01kv9m8drBqw7/XKFZ3bSeaBoBTUXlNFsf
+	 cX9HoOZK4dcpjJ0MhK3fT13PwCF15sLLqjLbRMB1NaQ8vSsU5ZR9h/KNh3XnRyI6ElsvP
+	 bFpVfUewiGoYV9SA426w7od9CCBcc4ZKBIUuXQXtTMmTaNMcFUMhBiFv4TNvx71J3JB53
+	 pr09E1uDLmtXCnJDnHvl85OTfBeSWbd3U4/uYtYhbP+cozl2f40mBKG485BqkdKCwvU4v
+	 v5PMCgOSDljH2k3tFOb5C8H5GLuKN2qmdC0uVr5sU6e1MEm27h1Lpau8vnzVehXzpoA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MSDobsxg;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.177
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08485606A31D;
-	Sun, 15 Nov 2026 16:58:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7398606A31E
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 17:04:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7398606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GoWFHZsl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFC631F000C4;
-	Sun, 15 Nov 2026 16:58:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794761937;
-	bh=7icfoIT+Mng+FLAG3S5PMcuwQv7cbo7W5CDYKdjKwU4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=GoWFHZslNnHYuGjrh/bx7l/8F07iyWDyej/GltR19PHb0krwpgQZnzQ/w29MU9yvY
-	 9N/ydZSw/qY2tK5FaOYCK1ORBjMwxhvWBnuouItS4XKDkbn9gWaeGjF+XgXMKjfDRb
-	 yRjP08VgPpWhb821Sp+uoP9Td3foxZ3vOKkFT2wkHSIOuMW3DhfBOncL7YGvQAJ7mS
-	 moyJ26SpKW7UvwaxAzqtXI2cUraP21SQ9Ax6dJRbxzUvfCguVEowEmmIQeonLglFpU
-	 MQxnJgWY8X4ntDgBifkx9ExXqmq/oX+Iv0Gpat2G+lyO4H7GjhcZ2VGKcIIaDnB2Ev
-	 itbJF0Q8f6G0Q==
-Message-ID: <f37ccd71-8e1d-4dd4-b11a-e22b9e617dea@kernel.org>
-Date: Sun, 15 Nov 2026 17:58:23 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MSDobsxg
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-53639b8903bso46921811cf.0
+        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 09:04:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794762251; cv=none;
+        d=google.com; s=arc-20260327;
+        b=QzpYqz+B65NASTKr/NeFrwsR0IQKO6OvxD2JADxXfsM1vD/0AKcLcH1FXDRfahXb7i
+         ZFGwOVIq31GjiE7Z33eoFRfHv4KghB01VwluRGLd4TN9zZrSxafF76mjNsYNxKCccKsV
+         pP9QRDwY0DrbLxsiDi6NAQ3vSYaBHidk7lsuXwAAcx+5wjjW1FXe+ruADXi/O1Kw0+Dm
+         IvcNubHdl8y28KJSo1ypbHPpKOJxPNF69zeLHTCdEJhe12WOURfcfVksOQJTIvIUUa0M
+         RVIf0I2vxC1rqRndxejOh9bxh0GMOJrZCGXFpndlqxpcnU1lniKwuazRPyU4I6U62Xx0
+         qh9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=xs47ZMUnv7qJrf341MTMqq2ia87fUm65gwB0tBN5bf0=;
+        fh=as0RKDD+fiaXY4YDNdBk6vOP3zUZaQ8btkrhg7iUBLs=;
+        b=MNWoz/aDBZvD8mwoQK4QuNFPAooSqeNGttQcWGr+L2/ROpjRtGDfMxhWgzxNtOjbie
+         j45k3TfdAwUl0Q9LBhGriJibuXJeTfbVlvPD8YDDeaIFeJ5ismbfCK8QUNbDMrjA34rg
+         mAM5Zup17mICr+kOpYh74kiinNzU3ZGqLvSedFCi6JA+jHAZduAnZF8FjP914XHz1J5l
+         VIAhS6Akz9ZAH7OgLEcoxzrhyooo3Wz2xgj1mg/7flb9bob5CChSe0yCXJ6tRSFv+UXP
+         GrFNaJanHVn74dz0Fhqe3wHywbJ3zPpVL9FTE11JIQzXdfZZpeMGgdJUQer6OSQCt1DQ
+         4Prg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794762251; x=1795367051; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xs47ZMUnv7qJrf341MTMqq2ia87fUm65gwB0tBN5bf0=;
+        b=MSDobsxg65PyK3+au3CQTh7tCgnqrtVmPT02dXnYOI/V8858elHDNsCxPfRq47z6B5
+         SyrL7tJ8yC2k43P877i3sRb+vHoAHLMDoyaBDsdlnZIDPGR7Qoh/3QkDAtR4vr2JZPEO
+         FYnGcsfBIltha88vPpzrbldlW52ieFSo6Mr+DkHehQLpPa7HP6WTt6vsnpF/iOJ4JuAW
+         FrhhuKWRsGSnDyoEUOXEc/8OIo2iYJp+NISrqFKV/j4F0j9Myi+XkV0GqDTi5ySjcJGE
+         VWVMSQaL78TMJpPiPPO1JIBNfsJaPJ4YAs3iSq6AgT7EXF7EK8Ux1DRhqOkFIqDrK4hC
+         0Gyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794762251; x=1795367051;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=xs47ZMUnv7qJrf341MTMqq2ia87fUm65gwB0tBN5bf0=;
+        b=atO5Or8EW3YQGhXoPgOdEUwg31dLnlDqMeob96IA8tiincAmb21xPxZ33TuHOU6fRZ
+         /Dxx/ncxKCqb/SlYJXoEhQqqVdPtBOr1UH0i/3QN966yK8k0bFjjrm+OfwaDlYtzCpGY
+         BkpaUsvL7GkjyuJRn6qwbBYBzMw0D2eujoD+jJGbeWBGH71biHso1OPzxS5Yrr3MCun2
+         ifGJ2a4mQOvkhPmJU9vxw1/qh8ON2u2t11A/xZygah9MYXcv+NjGNmFtnX7nX3YAimqH
+         vWaltPap7+n8brfuDcuAzIDz8+AKdo1C/6MgqdNyrV+wV4fLg5gcOgQvoNbonJVZtK1N
+         3R1g==
+X-Gm-Message-State: APuU4Z+KCiLHr3SkKV3oDxlV3stYYWYa+I3cOlrpA+RSAjbLfA5PPaYY
+	q9puJnq9a+BkMuYwWZYu4xnoSSbD+LyJgl+71ki+IxlGoVJVctRicj3X3WhRv1gl9XR0F77iyhx
+	OcDW25EiYywFY1q0s24cObAZSabNUBPC4mJlg
+X-Gm-Gg: AYBFou3uOQHwLrLWf62RrqcW6lrLlVqnIp4gEX+h4pefjLLc8Gp5TKuodtYcS197p+i
+	V9JoLwf9VBRPrb0WntPCNpxIgDn5TDtweyjoKmidwnOi4qwbLDVn0vAmvnx7zmAPNBo4ue9P7Gb
+	rgBIHA2ZzJzzbuhKeLSDEvvDFqPs00ReBUOlCK0QjrWidtrGUGeMjYXipEggV3B2DM3aALhaod9
+	QFj4v84KApry/PUKml1pzobPt18q0RXIr4XAVKklXZnpSB4SzZLgbm8/LfF4yl4T50ayIyUWp3E
+	g73HVbYkCeGnuoy7uFGwzQhCcGBrpoNiWL6JU7jbzR1VtzGUwXfpniXpRC3B4wR2rwT8qfECSEP
+	q2Brb0MRbXX6ArCXpGJDUs9tllJeYJIt1jC5dFjpSzBymOF0U65FgH9bVl4j2bcvqxd3rtAG0tv
+	hSxKiTTwS8WpqNT3VcXZ57X41P36QokaLZf5EkppTiij8Xib4cuxpXuUywz5AlBziPnYRpbiW/J
+	RPWdwC9JzmpS8G31iUNOYfjgXq7cVE6tMXg
+X-Received: by 2002:a05:622a:4b0a:b0:51c:b98c:f772 with SMTP id
+ d75a77b69052e-55ac7064dcemr116895271cf.15.1794762251218; Sun, 15 Nov 2026
+ 09:04:11 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -51,122 +104,165 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/12] docs: ioctl-number: update MM entries
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
- linux-mm@kvack.org, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
- Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- linux-bluetooth@vger.kernel.org,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
- oe-linux-nfc@lists.linux.dev, Chas Williams <3chas3@gmail.com>,
- linux-atm-general@lists.sourceforge.net,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- netdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- MPT-FusionLinux.pdl@broadcom.com,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Zhihao Cheng <chengzhihao1@huawei.com>, linux-mtd@lists.infradead.org,
- Neill Kapron <nkapron@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- Hans de Goede <hansg@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- "Michael S. Tsirkin" <mst@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Sean Christopherson <seanjc@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
- virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
- linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
- devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>,
- Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org,
- Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
- linux-f2fs-devel@lists.sourceforge.net,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org
-References: <20261114202653.3113381-1-rdunlap@infradead.org>
- <20261114202653.3113381-2-rdunlap@infradead.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261114202653.3113381-2-rdunlap@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <CACqGD_ebj5hUU2uFJO-aHjeftG_3-dEH1beQj0B7=qqdpWKnSw@mail.gmail.com>
+In-Reply-To: <CACqGD_ebj5hUU2uFJO-aHjeftG_3-dEH1beQj0B7=qqdpWKnSw@mail.gmail.com>
+From: Kresimir Pendic <kresimir.pendic@gmail.com>
+Date: Sun, 15 Nov 2026 18:03:59 +0100
+X-Gm-Features: AclHuK_Yk_aJE7TQV7fcB1hJtna-tEGLPUDcNaAPpxE-Bw61yt6GJduZmBV7WBc
+Message-ID: <CACqGD_d5BCpzLPtnPPkraW+_WBVZbt9+1fiDrcJhCcqaQ5b6aw@mail.gmail.com>
+Subject: Re: [RESEND][BUG] ALSA: hda/conexant: SN6140 internal speakers silent
+ on ThinkPad E14 Gen 8 (17aa:513e), codec beep also silent
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com, perex@perex.cz
+Content-Type: text/plain; charset="UTF-8"
 
-On 11/14/26 21:26, Randy Dunlap wrote:
-> Add ioctl number entries for test_hmm_uapi and gup_test.
+Hi,
 
-Just curious, why do we care about uapi for test interfaces that never see the
-light of day in production kernels and their sole purpose is to go a long a
-dedicated selftest?
+Follow-up: this is fixed by the Lenovo firmware update, no kernel change
+needed. Sorry for the noise.
+
+After flashing System Firmware 1.11 (BIOS R3AET32W, EC R3AHT32W,
+Lenovo package r35uj32wd, released 2026-07-16) the internal speakers
+work on the same kernel (Pop!_OS 7.2.15, snd_hda_intel, generic
+17aa:0000 fixup as before).
+
+The thinkpad_acpi ECRD / AE_TYPE errors are gone with the new firmware
+as well; the driver now reads the EC normally ("mute: off", secondary
+fan control detected).
+
+Lenovo's changelog for 1.11 only mentions a WLAN fix, so for anyone
+else with an E14 Gen 8 / E16 Gen 4 (BIOS R3AET28W / R35ET28W 1.02) and
+silent SN6140 speakers: update to 1.11 first.
+
+Thanks,
+Kresimir
+
+
+On Sun, 15 Nov 2026 at 17:10, Kresimir Pendic <kresimir.pendic@gmail.com> wrote:
+>
+> (Resending as plain text - the first copy was rejected by the list because
+> it contained an HTML part. Sorry for the duplicate, Takashi and Jaroslav.)
+>
+> Hi,
+>
+> The internal speakers on a Lenovo ThinkPad E14 Gen 8 (Intel, Panther Lake)
+> are completely silent under Linux. The whole ALSA/HDA path to the speaker
+> pin looks correct and the PCM runs, but nothing comes out of the speakers.
+> Even the codec's internal beep generator is inaudible. The UEFI/BIOS setup
+> beep IS audible through the speakers, so the hardware works.
+>
+> This looks like the same problem Adrien D reported for the ThinkPad E16 Gen 4
+> ("ThinkPad E16 Gen 4 21YC: internal speakers silent with Conexant SN6140",
+> linux-sound, 2026-08-23). Both machines use the same BIOS family
+> (R3AET28W 1.02) and the same PCI SSID 17aa:513e. I suspect a missing
+> board-specific SN6140 init (amp enable / vendor COEF) that the BIOS performs
+> at POST but that is lost once the Linux driver resets the codec.
+>
+> Hardware
+> --------
+> Machine: Lenovo ThinkPad E14 Gen 8, type 21Y6 (21Y6000SGE)
+> BIOS / EC: R3AET28W (1.02), 2026-03-13 / EC R3AHT28W
+> (BIOS 1.11 exists; its changelog only lists a WLAN fix, not tested yet)
+> Controller: Intel 8086:e428 (Panther Lake), subsystem 17aa:513e
+> Codec: Conexant/Senary SN6140, Vendor Id 0x14f11f87,
+> Subsystem Id 0x17aa513e, Revision Id 0x100100
+> HDMI codec: Intel Panther Lake HDMI
+> NHLT: no DMICs, BT on SSP2
+>
+> Software tested
+> ---------------
+> 1) Pop!_OS 24.04, kernel 7.2.15 (System76 build), SOF driver
+> (sof-audio-pci-intel-ptl, FW 2.14.1.1, topology sof-hda-generic.tplg),
+> PipeWire 1.6.8 / WirePlumber 0.5.12 -> speakers silent
+> 2) Fedora 45 Workstation Live, kernel 7.2.11-300.fc45, legacy snd_hda_intel
+> (no SOF) -> speakers silent
+>
+> So the problem does not depend on the SOF vs. legacy HDA path or on the
+> distribution.
+>
+> Relevant kernel log (identical on both systems)
+> -----------------------------------------------
+> snd_hda_codec_conexant ...: SN6140: BIOS auto-probing.
+> snd_hda_codec_conexant ...: SN6140: picked fixup for PCI SSID 17aa:0000
+> snd_hda_codec_conexant ...: autoconfig for SN6140: line_outs=1
+> (0x17/0x0/0x0/0x0/0x0) type:speaker
+> snd_hda_codec_conexant ...: hp_outs=1 (0x16/0x0/0x0/0x0/0x0)
+> snd_hda_codec_conexant ...: inputs: Mic=0x19 Internal Mic=0x1a
+>
+> i.e. only the generic Lenovo vendor fixup (17aa:0000) is applied; there is
+> no model-specific entry for 17aa:513e.
+>
+> What I verified during playback (speaker-test / pw-play)
+> --------------------------------------------------------
+> - PCM status RUNNING, hw_ptr advancing; no xruns or errors.
+> - Pin 0x17: Pin Default 0x91170110 [Fixed] Speaker at Int Rear,
+> Pin-ctls 0x40 (OUT), EAPD 0x2, power D0, connected to DAC 0x11.
+> - DAC 0x11: Amp-Out vals [0x40 0x40] (unmuted), Converter stream=1, power D0.
+> - ALSA mixer: Master/Speaker on and near max; Auto-Mute disabled.
+> - Codec pins: the only analog output pins are 0x16 (HP) and 0x17 (Speaker),
+> so a wrong BIOS pin config pointing at another pin can be ruled out.
+>
+> Experiments (all with hda-verb on hwC0D0)
+> -----------------------------------------
+> 1) Codec beep generator, bypassing the HDA link / DSP:
+> hda-verb /dev/snd/hwC0D0 0x12 SET_AMP_GAIN_MUTE 0xb007
+> hda-verb /dev/snd/hwC0D0 0x12 0x70a 0x20|0x40|0x80
+> -> silent.
+> 2) Codec GPIOs (io=5) with a continuous 440 Hz tone playing:
+> SET_GPIO_MASK 0x1f, SET_GPIO_DIRECTION 0x1f,
+> SET_GPIO_DATA 0x00..0x1f (3 s each)
+> -> silent for every combination.
+> 3) EAPD / pin-ctl re-writes on 0x16/0x17, power_save=0,
+> model=thinkpad (snd-hda-intel) -> no change.
+> 4) ThinkPad EC hardware mute: the EC register space is memory mapped
+> (ECOR, SystemMemory 0xFE0B0A00). Byte 0x30 (MMUT bit0 / HMUT bit6)
+> reads 0x00, so the EC audio mute is NOT engaged.
+> 5) No external smart amp: no TIAS/CSC/AWDZ/etc. ACPI devices, no audio
+> I2C/SPI devices; the ACPI tables have nothing amp-related under HDAS.
+>
+> Since the codec's own beep is silent too, but the BIOS beep works, the
+> speaker amp inside the SN6140 seems to stay disabled after the driver
+> initialises the codec.
+>
+> Side issue (thinkpad_acpi, probably for platform-driver-x86)
+> ------------------------------------------------------------
+> On this BIOS, thinkpad_acpi fails every EC access:
+>
+> ACPI Error: Aborting method \_SB.PC00.LPCB.EC.ECRD due to previous
+> error (AE_TYPE)
+> thinkpad_acpi: acpi_evalf((null), dd, ...) failed: AE_TYPE
+> thinkpad_acpi: Thinkpad ACPI EC unable to access EC version
+> thinkpad_acpi: Failed to unmute the HW mute switch
+> thinkpad_acpi: ThinkPad ACPI EC access misbehaving, fan status and
+> control unavailable
+>
+> In the DSDT, \_SB.PC00.LPCB.EC.ECRD takes a field reference (the firmware
+> itself calls it as ECRD (RefOf (OHDL))), but thinkpad_acpi passes an integer
+> EC offset. Because the HMUT bit reads 0, this does not cause the silent
+> speakers, but it does break fan/thermal/mute access on this machine.
+>
+> Attachments
+> -----------
+> alsa-info-pop.txt alsa-info.sh output (Pop!_OS, SOF)
+> codec0-pop.txt /proc/asound/card0/codec#0 (Pop!_OS)
+> dmesg-audio-pop.txt audio/thinkpad_acpi kernel messages (Pop!_OS)
+> fedora-audio.txt kernel log, amixer, wpctl and codec dump (Fedora 45 live)
+>
+> I'm happy to test patches, dump more registers or run any hda-verb or COEF
+> sequence you suggest.
+>
+> Thanks,
+> Kresimir
+
+
 
 -- 
-Cheers,
-
-David
+mk#design, web-crafting agency - Naljeskoviceva 5, 10000 Zagreb, Croatia
+Web MK: mk-dizajn.hr | e: hi@mk-dizajn.hr
+Web: udahni.com | e: hi@udahni.com
+in: https://www.linkedin.com/in/mkdizajn/
+secure your email
+*****
+Please consider your environmental responsibility: Before printing
+this e-mail or any other document, ask yourself whether you need a
+hard copy.
