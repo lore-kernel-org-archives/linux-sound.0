@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794774866;
-	b=5ALXKj5NEZpeRsVTSGhBE9hFD3BFJAExvXEGi5H0SM6slqCP0jPSCkoFenQU3mlfeWVK
-	 qPtjH/64WYBMLDfLl24aPdLuS2BoZvUk87fxu8G7OmL1MbkWI9K357JCEfGFRDnDhAixD
-	 NUhO7AGS4iONv7H4vNbi+ZtNovSvLxqXT1bvmyaMuBrcI+xRkm/D/ST41EM8Qi/StMV8l
-	 Jy9aj9gmujJgBU9yt4dPIBGKHjR7mLxs9TchLNxX0IPDy3pt7amSuFADU/iW7zg4O7qr3
-	 zqoKD46OZnRCZlyDNBsiE+5TIyDo//8jx/jlMRmKvfvDwCYYWDGLn1pTWBGpZwotdLg==
+	t=1794775499;
+	b=38atcWQ4C4v1YGuU8VErpiFWCnmg6gJElWkEGmDVHdStdhARjN0cm6HUgdLKJouoiOpy
+	 IGXQhShqUaTC7WVdmamqNCat8Py3lNeJAUOvaS72VEbsekkypwHDXl6dZls8UOOPSaQxd
+	 weUsIGQ1ZcxhnbqysSKCt00aKE3LbtLyvsMu+EAPRrPaRgPGdAf+BTLf87L2j3C9685ez
+	 sUS7/yWi0Ju30ZwyYNKOuCYU6lFkYSXQm/MbEoSYTH7wH51FdVoEQX7SBBhHBoaMlYt+O
+	 mWGnAVXmN20w1JSihfkhzeyIaHJqr2xqmGH8QR4CnWIrd+NXm1fL1bz1VfXx5DHb7ZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794774866;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794775499;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=zjKE1QAme1Pt9AR1gKgwWKqEbtE2dSXtZzIyUtweEsM=;
-	b=sRV8XExUXYNTC/FHdZDGaU9bz8ZD6JKYqOFtaCnWRbdr/IzBx9cFbOfs24DI1HtQc6nT
-	 cIgTFCcme+gXzXuTCV7bxpLe76rY7Y3NVxrYHv/x0uOICsQE7vTJFV/tucxgRbm8zz6y6
-	 1Nrjql7FOGW5vdn9rLuJWLYN/CjeT26dY9wfYNKtPNXvhOXhcvnr6lxzx5MGaOjS4ZXaq
-	 lTO8bsM6we4eyvYU2kVDSnjeiceYJoMsHJbg26esXTW6INIY1EpDSkyX/QxLAtwtZeyfA
-	 drGFClO1GT0jHMeCdYEImjNj2crLNuZZMqbBlRa/JCUJi0g8xa+q3c5iOiVa3Ze7pMA==
+	bh=XP/GYrcE262jt9p3ns5mlsfVOF3Gy7HZ1+8oosGClOE=;
+	b=GikQ7w4mAsQE5RIPW6oM/7NeQZ+HlMGbd+H9eUyhytY8ab+5eQPwSOzB1DuYadpQXogx
+	 k1SspHKSAdjJnxfLxexAN+SE/UU7MUn84IElJ1bQ7CpdW35yd6cYFWOv4zFgcEi8ptX0u
+	 EvgAr7YWgXQlgY0fMcOMVHuAakMaaNmX+CYcmRNsxvtCVGRcabHeYXSkPUdLLSpZxlKxF
+	 EYxWVPaDj/nGaN9eb2jNtgAbKH8DXEJNiZqKs/auUmVVUQHFJoyMTVpUR02yHvOAXNVFF
+	 CFU50n22CUvqj5QhUsyTcSrVuePqvEYNM1ETQOH7zWyq/cRwPHhkC9MCpkLjnSxVFlQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q6cn6nwz;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BzuR8YAf;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0885606A31F;
-	Sun, 15 Nov 2026 20:34:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB94606A333;
+	Sun, 15 Nov 2026 20:44:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q6cn6nwz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28BF51F000C7;
-	Sun, 15 Nov 2026 20:34:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BzuR8YAf
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F5ED1F000C6;
+	Sun, 15 Nov 2026 20:44:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794774866;
-	bh=zjKE1QAme1Pt9AR1gKgwWKqEbtE2dSXtZzIyUtweEsM=;
+	s=k20260515; t=1794775499;
+	bh=XP/GYrcE262jt9p3ns5mlsfVOF3Gy7HZ1+8oosGClOE=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Q6cn6nwzA06PCxkNUBmaM2zstrSMUVa2rIHZes7ZNVzIJBgGoOMIMbnIhpp8Prh24
-	 u8OSoogUqMBxXy+gjHGhG5WE3qtJJj2yU/Aid2yIXtPc6ri+Xe1ASJWb553nq8lUm8
-	 Fr2jX4kH+tW2MgQ72GtgEQ+wy440yjQNFQRYPF+ytR0pZbMt8IMS2vKHBjMKE+XzXN
-	 3mvExwTGinfLsUAkJGL2C5R0X6X1Lgjuf/wM3kJ1FwWz/Mk4BizNzjcWwEGh2KkdJN
-	 Ib0YlS/dODIS7ymbvDmtjVXPOA0ys/VqwHfv9DY+OCfqWhtvVKmuCUnbLuI8V5sWvC
-	 cBoAZhctVFBIw==
-Message-ID: <sashiko-outbox-215837@kernel.org>
+	b=BzuR8YAf9LYurbMQObrD+KIzgARzNB79Te4ywJmeCNWkxffrnwYzaxaNB0+O0bONU
+	 LhAxLUtJ1pDuMDWim8U9k3byvNc4+Cz+Y16rRVirCQsiisoWpTvIXpNJj9IeKIX4yo
+	 2jWfgmCAo1wMVMYhoPGZ7kU3ffOEe7GavPNcgyMYVOg81Sv8LmnSukKyggDKdKxY+j
+	 KZ6q+4J88TNgmMqePdfgO1NTWvrub2UYcj9FcEvWIXfwfDInlNCCyLS1e+2HLbesMT
+	 pPZY81E64ugMkRQObZ1ndeVU1txy/yqNJ+6G2Jzwk4Wn037B/1zSu82ur6SgWHRykl
+	 wRQ2xm7YsKGpA==
+Message-ID: <sashiko-outbox-215853@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: Add NXP TFA9865 amplifier
+Subject: Re: [PATCH 2/2] ASoC: codecs: Add NXP TFA9865 amplifier driver
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Venkat Yadlapati" <venkat.yadlapati@yahoo.com>
 Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261116-vantage-tfa9865-v1-1-e88f0dccc427@yahoo.com>
+In-Reply-To: <20261116-vantage-tfa9865-v1-2-e88f0dccc427@yahoo.com>
 References: <20261116-vantage-tfa9865-v1-0-e88f0dccc427@yahoo.com>
- <20261116-vantage-tfa9865-v1-1-e88f0dccc427@yahoo.com>
+ <20261116-vantage-tfa9865-v1-2-e88f0dccc427@yahoo.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 15 Nov 2026 20:34:25 +0000
+Date: Sun, 15 Nov 2026 20:44:58 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,67 +60,140 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] ASoC: dt-bindings: redundant sound-name-prefix in
-  nxp,tfa9865.yaml
+Thank you for your contribution! Sashiko AI review found 3 potential
+issues to consider:
+- [High] ASoC: tfa9865: sleeping in atomic trigger context in
+  tfa9865_mute_stream()
+- [Medium] ASoC: tfa9865: AMPE state desync on Amp Switch toggle in
+  tfa9865_mute_stream()
+- [Medium] ASoC: tfa9865: missing software reset or MANSCONF clear in
+  tfa9865_init()
 --
 
-commit cf7a1e88df6af54e01055454b9dbda2662c5f8d6
+commit 9362aea049536ac41ce721fb8b374074a607c998
 Author: Venkat Yadlapati <venkat.yadlapati@yahoo.com>
 
-ASoC: dt-bindings: Add NXP TFA9865 amplifier
+ASoC: codecs: Add NXP TFA9865 amplifier driver
 
-This commit adds the Devicetree binding schema and MAINTAINERS entry for
-the NXP TFA9865 mono class-D speaker amplifier.
+This commit adds an ASoC codec driver for the NXP/Goodix TFA9865 mono
+class-D speaker amplifier, supporting the B0 revision with 32-bit I2S
+slots.
 
-> diff --git a/Documentation/devicetree/bindings/sound/nxp,tfa9865.yaml b/D=
-ocumentation/devicetree/bindings/sound/nxp,tfa9865.yaml
+> diff --git a/sound/soc/codecs/tfa9865.c b/sound/soc/codecs/tfa9865.c
 > new file mode 100644
-> index 0000000000000..955e25abe7494
+> index 0000000000000..7467b8b21eda7
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/nxp,tfa9865.yaml
-> @@ -0,0 +1,65 @@
+> +++ b/sound/soc/codecs/tfa9865.c
 
 [ ... ]
 
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: nxp,tfa9865
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  vddd-supply:
-> +    description: Digital supply (1.8 V)
-> +
-> +  '#sound-dai-cells':
-> +    const: 0
-> +
-> +  sound-name-prefix: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - '#sound-dai-cells'
-> +
-> +unevaluatedProperties: false
+> +static const struct snd_soc_dapm_widget tfa9865_dapm_widgets[] =3D {
+> +	SND_SOC_DAPM_OUTPUT("OUT"),
+> +	SND_SOC_DAPM_SUPPLY("POWER", TFA9865_SYS_CTRL0, TFA9865_SYS_CTRL0_PWDN,=
+ 1, NULL, 0),
+> +	SND_SOC_DAPM_SUPPLY("BOOST", TFA9865_SYS_CTRL0, TFA9865_SYS_CTRL0_DCA, =
+0, NULL, 0),
+> +	SND_SOC_DAPM_OUT_DRV("AMPE", SND_SOC_NOPM, 0, 0, NULL, 0),
+> +	SND_SOC_DAPM_SWITCH("Amp", SND_SOC_NOPM, 0, 0, &amp_switch),
 
-[Severity: Low]
-Is sound-name-prefix: true needed here?  dai-common.yaml# references
-component-common.yaml#, which already defines sound-name-prefix, and
-unevaluatedProperties: false permits properties from referenced allOf
-schemas without re-listing them when no extra constraints are added.
+[ ... ]
+
+> +static int tfa9865_mute_stream(struct snd_soc_dai *dai, int mute, int st=
+ream)
+> +{
+> +	struct snd_soc_component *component =3D dai->component;
+> +	unsigned int val;
+> +
+> +	/*
+> +	 * Enable the amplifier only once the I2S clocks run, enabling it
+> +	 * earlier makes it pop when the clocks start. Leave it off if the
+> +	 * output is not powered.
+> +	 */
+> +	if (!mute) {
+> +		val =3D snd_soc_component_read(component, TFA9865_SYS_CTRL0);
+> +		if (val & BIT(TFA9865_SYS_CTRL0_PWDN))
+> +			return 0;
+> +	}
+> +
+> +	return snd_soc_component_update_bits(component, TFA9865_SYS_CTRL0,
+> +					     BIT(TFA9865_SYS_CTRL0_AMPE),
+> +					     mute ? 0 : BIT(TFA9865_SYS_CTRL0_AMPE));
+> +}
+
+[Severity: Medium]
+Does toggling the virtual "Amp Switch" control during playback leave the
+amplifier enable bit out of sync with the dapm power state?
+
+The "AMPE" widget is configured with no register control and no dapm
+event callback, so the amplifier enable bit is only updated in
+tfa9865_mute_stream().  If playback starts while "Amp Switch" is off (its
+initial state), the power supply widget is off, so tfa9865_mute_stream()
+sees the power-down bit set and returns 0 without enabling the amplifier.
+When userspace later turns "Amp Switch" on while the stream is active,
+dapm powers up the supply and boost widgets, but tfa9865_mute_stream() is
+not called again, leaving the speaker silent for the rest of the stream.
+Conversely, turning "Amp Switch" off mid-stream powers down the boost and
+supply widgets while leaving the amplifier enable bit set.
+
+Also, snd_soc_component_read() returns a negative error code cast to
+unsigned int on failure, so testing val without checking for errors first
+misinterprets failed reads.
+
+> +
+> +static const struct snd_soc_dai_ops tfa9865_dai_ops =3D {
+> +	.hw_params =3D tfa9865_hw_params,
+> +	.mute_stream =3D tfa9865_mute_stream,
+> +	.no_capture_mute =3D 1,
+> +	.mute_unmute_on_trigger =3D 1,
+> +};
+
+[Severity: High]
+Does setting .mute_unmute_on_trigger sleep in atomic context when a stream
+starts or stops?
+
+With .mute_unmute_on_trigger set, snd_soc_pcm_dai_trigger() calls
+snd_soc_dai_digital_mute() -> tfa9865_mute_stream() directly from the pcm
+trigger callback while holding the pcm substream spinlock with interrupts
+disabled.  tfa9865_mute_stream() then calls snd_soc_component_read() and
+snd_soc_component_update_bits(), which lock component->io_mutex and
+regmap->mutex and perform sleeping i2c transfers.
+
+[ ... ]
+
+> +static int tfa9865_init(struct tfa9865 *tfa9865)
+> +{
+> +	struct regmap *regmap =3D tfa9865->regmap;
+> +	unsigned int seed;
+> +	int ret;
+> +
+> +	/* Leave power down to make the protected registers accessible */
+> +	regmap_clear_bits(regmap, TFA9865_SYS_CTRL0, BIT(TFA9865_SYS_CTRL0_PWDN=
+));
+> +	regmap_clear_bits(regmap, TFA9865_CLK_GATING_CTRL, TFA9865_CLK_GATING_C=
+TRL_MANAOOSC);
+> +	ret =3D tfa9865_wait_manstate(tfa9865, TFA9865_MANSTATE_WAIT_SRC);
+> +	if (ret)
+> +		return ret;
+
+[ ... ]
+
+> +	/* Configuration done, let the device manager start on power up */
+> +	return regmap_set_bits(regmap, TFA9865_SYS_CTRL1, TFA9865_SYS_CTRL1_MAN=
+SCONF);
+> +}
+
+[Severity: Medium]
+Can tfa9865_wait_manstate() time out on driver rebind or warm reboot when
+no reset gpio is wired?
+
+tfa9865_init() sets the configuration-done bit at the end of probe so the
+device manager advances past the wait-for-source state on later power-ups.
+Because reset_gpiod is optional and tfa9865_init() does not issue a
+software reset or clear the configuration-done bit before clearing the
+power-down bit, re-probing the driver while vddd stays powered lets the
+device manager advance past the wait-for-source state and causes
+tfa9865_wait_manstate() to fail with -ETIMEDOUT.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116-vantage-tf=
-a9865-v1-0-e88f0dccc427@yahoo.com?part=3D1
+a9865-v1-0-e88f0dccc427@yahoo.com?part=3D2
