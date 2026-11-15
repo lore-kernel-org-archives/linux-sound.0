@@ -1,60 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794785246;
-	b=MEiZV4Hgb1Z3i+KT25Wt/ayH8nyIySfmcVCgg5IJiWT1drVJLF+1mNq0eKbp5Id0Ukli
-	 euoGkQjJtgO0M1gw70LNcVVLueozwOPCZWXLsAWqArMlO7lG6eCxwiV1Cjziv/r1IQ121
-	 +lV9XC+wCW2IDwtPC2br5Tg7VNvrivDqCPlTpzF+uMRrwAZK6rFY3HcChk5d5diUb/Wjn
-	 OBSxDKwnuFHrvc0c+l4u+rcfCGgCQ5+nZb6MyCsYANjgj23XKo1GB5OTh5JblADSTuEG3
-	 b81d1NrxFuxPAcEZazD220GSr5RvM9joOt+sU7iCX/1o7zEnuijlnwdIoK2RMpr3bKA==
+	t=1794785455;
+	b=YVFKfhwW5dkZ9l9fo34E5ml2T8R9VGDo0yvw3AB1FbK36RyJ/NnkZ7G6FoFM/xilz4HC
+	 6Tw1QnVP+1eTCeBotdquJ85S4IaAqoGS1LUeLnb0NN6eIMAmbgE70/GkuKb8AxmocLSHD
+	 GH7vV4Jm1YnFmswDNFZpDGaHhtwaNGvfNxr7dB1iBvZ7HcBUtqodMpd3Du9/5LVRVaSDM
+	 lEc6aG60egwfqfWeUAfy8kK6c5k57d09svFT9gKdwdKA5Fjr5lFOPesexGkdDmnp2BJ70
+	 8VPxoU+G6C8Zpphmf1S0IvUfLKkJLKB6Itj2Gl9lSI3CrYIqA0G9zHGolUVFNl52pfg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794785246;
-	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
-	 Subject:Message-Id:Date:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key;
-	bh=cIfzgv3qu6yiC39fCkm4e84KuPvX4hk/OB4bftLSTYo=;
-	b=GsAAw9Emj5P/6JdGBmyeQSHQ1uzfgXQbDxNvony8K6fqzpIKkZAy4iwwjS263E76DWKt
-	 ZpDi0N3Hja0y8pHg3B2MLqsv980eGv62dzVIcPcBvr3Ku/Al8D4M8PKhZvYDTrbQnM382
-	 nLkySGEG6bX+ThK3YlKyl/XoXHJO4R7Wxcu7pQmiAkbpDVsh21gK294MnUPLrm/xI9cjd
-	 AgFHWidnIK0X7AiA3h79ByzNSmbi7Iqni/1SwQmGuQHjW9tyT5wWHP7hBb7A0yPVsqwbb
-	 5nyg/+KATd/LOjDgqZ2a0hbPPkaixMT1QxQvXirnZ5WCUrx/YHm5P/Pri/BTUdPH3Pw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794785455;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=ZSTZnzB+/goUmQY4uXfHNp+kvqr8HTYl/TLMJ0sOAss=;
+	b=f6ZhUGm3TbhykMBQ8vwM1rmzLU2po+I4B1Pd9TIAY5iQJQpuyvlKZ12xKsZ4Yceev2wL
+	 nEyiBBrAvwRvOA5cjUUb2THAcCANW1vUALIroC2wofHz14TmMxQ1AmayrF8xHPCWYxZa6
+	 9VggLXvcDVlyNEGPY8tIDVUaLRq0WT09+TkJc9LvlzFK7u/Q7XRJRPqwHw9YTABz5OmUr
+	 HYt/sjAW476AmzRVLQLdTvM6/GTkKGoIbaCGxptWXln9wvusJ76GaYLDxoudqyWV2vk2o
+	 xbzRXZ0k6ZaQPXhluFHwcvQkAt+TqSf2UeULaG4fYje7Ags5jHhznCrucygAKw8Sa+g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Tj8MZ9Ai;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fNVDzV2y;
+	arc=none smtp.remote-ip=209.85.221.46
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD50606A334;
-	Sun, 15 Nov 2026 23:27:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDDF606A33D
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 23:30:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4CDDF606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Tj8MZ9Ai
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 809291F000C4;
-	Sun, 15 Nov 2026 23:27:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794785246;
-	bh=cIfzgv3qu6yiC39fCkm4e84KuPvX4hk/OB4bftLSTYo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Tj8MZ9AisVgw23GvZTy8kfJAIVljSioV2c9AEIyfYmz+LEqzzin978LRIQYN1TM1w
-	 xOoGxmw7itwSeXXflZUeYaRACoqUNSJ7INT2qv3A2EJ6wUC4a82Pi8JQ0iQ6v789kz
-	 KNVnMKH+EzTc10z/lWVnR8GMyxZB+UfiX+wBSqOMLGrSH1Qab/XqZDXapyrW26Qkmo
-	 QlyYGnvyMnGAj8097Xlgb6Yr1L2m2mib3dCu/SXImCU5d5ego9+Cqx0mlbMc7ZNOCM
-	 OLfotQbFIv4Tu4x1ef5MlPzumz1BtZmKGdHbadEPxjCTuhXrtnJ9TEk/ZBWpovhKAa
-	 igC3a3Nnt1yWQ==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id D97613438EEB;
-	Sun, 15 Nov 2026 23:27:24 +0000 (GMT)
-From: Mark Brown <broonie@kernel.org>
-To: Oder Chiou <oder_chiou@realtek.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Myeonghun Pak <mhun512@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Ijae Kim <ae878000@gmail.com>
-In-Reply-To: <20261110043013.56937-1-mhun512@gmail.com>
-References: <20261110043013.56937-1-mhun512@gmail.com>
-Subject: Re: [PATCH] ASoC: rt5682: disable jack detection works on shutdown
-Message-Id: <179476728283.140154.14405729138456445681.b4-ty@b4>
-Date: Sun, 15 Nov 2026 18:28:02 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fNVDzV2y
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-491846221ffso2563748f8f.3
+        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 15:30:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794785454; x=1795390254; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZSTZnzB+/goUmQY4uXfHNp+kvqr8HTYl/TLMJ0sOAss=;
+        b=fNVDzV2yhbI5v+oAvz+8NTQSoWex0VwqDLorwGjYQuhEoceRB7X0SQpW60GNb+jDPw
+         wnVmMISErQ0itZ9IhpAqKXbQ+r2mmOSzsEqEkcNAMkRpWqokgxPbqMXETN1MnOZpmBNf
+         PtlupY5ZZtW8jDj+b7E6ufidhR+MltZknhrFT8tl7FKbbPiGBqJnCwPEApDQO3vaj4TN
+         PgXOeCGhEuxDEM1y49UFqNFS18rXc3XmPqAdUBJd8ZNPmdhdtVJHPQzTMmYrvgEB3Pkv
+         ktSl9mhdzy0/p6oJASOBrkXimL8OA1vQbGkhJa7nMVBqbugLvdbqafEKIVec2q3AtkE7
+         Ky+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794785454; x=1795390254;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZSTZnzB+/goUmQY4uXfHNp+kvqr8HTYl/TLMJ0sOAss=;
+        b=YjWTxXJD4XEoonm0qqzRLnRbghojSYyzf3Wq2/qLtlfB4l9mghh3vvWK7IaBrro7PW
+         T1IonGRImiD38gqGyrIgxR8jLM/6HrZcjvO0+K5YwlGIXbRSWfZOxF82dZICF0K+9fzg
+         bRXXIid/7skRpvjSN4Y+AevsGu5GubuIfoP411RmzFm7WlqayqPz8DNlQA1UDaAE1B3/
+         9JbDFOP1V0iUrM+OTSGwT6//xpl7Ky9lT1KpDzLuMqIUZZI9sfQxluGSL7xWw9PgwgnN
+         art99A76/snOTUN4xHc154KZuIN89Lp5NVbo+/h0o6BzX+DZXDUXjcumHjsmTjTVPJBm
+         walg==
+X-Gm-Message-State: APuU4Z/qmz8M9KZPjGTqFv+ywdYR96lsrS1rt1G3pANkbxs0tUlWqoPo
+	hW2DGRI+a7uu5zkMUX0fyYVSv6sGBfklVdGumMnzapE5CJFoO8pD6zotqvXfL19a1J0wRA==
+X-Gm-Gg: AYBFou1RlUX5s7iYG8q6LvHqUS7tZV/fWYUqVSxinv9uJwa06a6Q+WjBqDOgsioFkEg
+	f6Yh7WbUCamgPCLO0Ds3Y1UKbHWCl8KxNoWkBk2J2AYoVo0FVIeMTqNopYGqrUb2dpZORV5hXQG
+	LSxcV2z7Pz1Jmqvjb6StfVOPmCmCKHRjf2QrlOrR8n8F4NeCc8+ONW9Tt92Cqmt1V4jVs7TmgJS
+	sXedfGved0qNlDzNHznUVoyUNJTs9TR0ODjzSrjTzm/X7JIWdajQxw67xDcUXiBVucV4BGWN47h
+	y1TWqBJ5+Vfphv0QUeGGYPDCO97rhJceDFbMinSZ+ySwyhESk9My/0rcU4vV58cgYkAQ2Qnc+62
+	h7KsLE+MsN2jvdzX2WOxuYJYFQz2h61YJ6rLsesXwaQJepoZhoWWUqofOmo5wJxnyFtAFWVRHDG
+	GG2lrNDq33BQwlhNbzs6J/kcDLPAEz36vzM1q1VGk6sXaROgBdyE+Xnv9qmZKQgUg94sqXRW7qm
+	mtjLOBBPnfFAiELKg6PBXdpXKDWx1kWE8eNj3haDl7uUITYECpc7eJpn2pvAX2NqExJJ7WxxIAi
+	zjsgNwrez8mad5VGSmKXTCzD7eC88cQP5A3GJtCS5qIadRTMpZBm+nEln8V0S8BdXJapUssWNid
+	U
+X-Received: by 2002:a05:6000:992:b0:48d:c29e:40c3 with SMTP id ffacd0b85a97d-49c71e3db14mr17535675f8f.33.1794785453654;
+        Sun, 15 Nov 2026 15:30:53 -0800 (PST)
+Received: from DOLFIUS (46.85-87-100.dynamic.clientes.euskaltel.es. [85.87.100.46])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c6d079a2asm16787373f8f.16.2026.11.15.15.30.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 15:30:53 -0800 (PST)
+From: Adolfo Morales Tena <spidermanadolfo@gmail.com>
+To: linux-sound@vger.kernel.org,
+	broonie@kernel.org,
+	lgirdwood@gmail.com,
+	Vijendar.Mukunda@amd.com
+Cc: venkataprasad.potturu@amd.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-kernel@vger.kernel.org,
+	Adolfo Morales Tena <spidermanadolfo@gmail.com>
+Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for GIGABYTE EAGLE 9MJ
+Date: Mon, 16 Nov 2026 00:29:42 +0100
+Message-ID: <20261115232942.5820-1-spidermanadolfo@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,46 +99,42 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1127; i=broonie@kernel.org;
- h=from:subject:message-id; bh=HF+jy0ZS6sDiGK3srGFu8ugezhonIivYkip1HGfkOqg=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+2d+Z2D85L39DV4JCRuiP40V8T479dDT7UL52ybQ/u
- 7WlGlSXd5SyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAilqmMDAcvLhc1710QYPva
- qClxseO95NR9OnpZnySnTuzfrSFj8ZGR4YBtJd/eVZEJs1/IRiws9V/TL7Y5g10kXrlqtd3VzXF
- lrAA=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Mon, 09 Nov 2026 23:30:13 -0500, Myeonghun Pak wrote:
-> ASoC: rt5682: disable jack detection works on shutdown
+The GIGABYTE EAGLE 9MJ has a digital microphone connected to the
+ACP6x PDM controller, but it is not listed in the quirk table. As a
+result the machine driver does not register the sound card and the
+internal microphone is unusable.
 
-Applied to
+Add a DMI entry to enable the DMIC. With it, the acp6x card is
+registered and the internal microphone records correctly. The kernel
+log shows:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
+  acp_yc_mach acp_yc_mach.0: Enabling ACP DMIC support via DMI
 
-Thanks!
+Signed-off-by: Adolfo Morales Tena <spidermanadolfo@gmail.com>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-[1/1] ASoC: rt5682: disable jack detection works on shutdown
-      https://git.kernel.org/broonie/sound/c/b45849311e88
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index e14c73e7e..f636b5ba5 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -969,6 +969,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "TUF Gaming A16 FA607NUQ"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "GIGABYTE"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "GIGABYTE EAGLE 9MJ"),
++		}
++	},
+ 	{}
+ };
+ 
+-- 
+2.56.0
 
