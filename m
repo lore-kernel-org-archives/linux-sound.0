@@ -1,65 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.54.127.139
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794766458;
-	b=X30Ze3XfcnnneWOm5tzSZtABdgDr4am0pjTp5iCm3AmhxmqgLRoYWG6WNK2yPKzRBsd3
-	 tlmiyBD92YnkCkC1kTos3Yrvr5CJGmp4FgOCDkcn5ezEacY4DvSUopSUGa2sXZ0by76q6
-	 e3NvcXFSON3E9rt+Dexvym943txNgjyefq6sAj5mxWgJoTX4LMclP3gp/pdSFe/PaeVq8
-	 6boSmhtQnYARUIPH1NgHGuDO7XdjSsUobbYhLD6neN1qC7xsT7paK+yhUy6kesfox/IJ6
-	 XoLXLfILI1JlsL5DfDy1HATCm6wh/pYgLpOjfbp+pyxLiT026p1e745k0KzC7N49pqQ==
+	t=1794767236;
+	b=3CYA64HNbD9qfJRjvIMI8cELOBMW47crH7DapFV7GCxbPdKWGxg6okcx3MR0C8V0kZnw
+	 r7fWAootES0ta71+KQbarEJIQkCFPSBchSEdsBS+baDZunz+xPbaIEevTaocGW+upw1KC
+	 DfwaOUb8L06qxY5UpizDOUKc0gs4b1cLM15nJRHkpkZYU1PncqljIamyeBqwXoV6emAkQ
+	 gYrBBmS83klNLQMwP5WV8U4NttwnJZTqzSAY6NgchZZHwlkJvB2cj1sZf2VP3RIomw8nu
+	 oiUeiJq03rrlVHlvokolUG05gavHnBUx3PW7OjU+pdTEoV7FstHGZUIUUP1RMKpp5/Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794766458;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-Envelope-From;
-	bh=+k5tKf6urPY8lWMEjLDvjWecJXDmPvgqG1+tcJ/GJR4=;
-	b=rRSI18f9fI6FSlVWA9uyP4cKrPG9lA+e6m3EATBLFl9YZYabIwu0f3mTJ68pSWxQx8zQ
-	 OqiRzqAl4TCR7liUie42b/yOEZ3Lqq7R11H/8JvKy53kljr+uu250Szp7NABi/8/qEEpE
-	 XJGqQveNkRYdrdfu6pmQY138TS4muVynPUBArvfIAObDeJs+8aix/r17CvlV+uYa/4B3X
-	 OE86w1WieqiZ8VxE6SDm5rHnhXxanhp0AxYlfWG0TtmyIlOZBnK8WKDzW1oXyVbuHYMOw
-	 tZDP/ZaISiyW0S0ClG61f+0o4a/hC16jsGnzuPSE2SVCzHj2U4JiSt3i9Nb6ePPQ6iw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794767236;
+	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=4v9kEdXT9EbKxbjfyQTCBXpQmQO0tv1S0oBUI2ZRadY=;
+	b=Vzi/5i8vOCxS2FKJB2hbGYKgRf1a7rmYgZi1RR6VIaShjeYpDDc8/Qgsdklnz2ivf77L
+	 jcsLqdTSTvxCpjdZhiT9/MxJA3ww8BtbxAshKPWI+wt2cqOGCRWaWDToSQNF+nKQ3zfLR
+	 k9urju0yBycEHKQxzZMnwWpIx03B/RQMV/GrjnsKZU/7lS/KDsQZtildZxu+CbfjJNugn
+	 KK5gLA7o5PXH6TIf5DXMcEfRMJT3nBsugPZ1PjeIm5GDeW171is8SJoPOwfozv9AhIYzv
+	 g/zuFhpcDAl/oC0yOKU7dWIrmyrwVcppi/ccArKzIlT7sKNuOF/wF4UbVYvN88hEGpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=liuolia.eu;
-	spf=pass smtp.mailfrom=liuolia.eu;
-	dkim=pass header.d=liuolia.eu header.i=@liuolia.eu header.a=rsa-sha256 header.s=default header.b=KF7WLUcY;
-	arc=none smtp.remote-ip=198.54.127.139
-Received: from out-2z4y-a139.jellyfish.systems (out-2z4y-a139.jellyfish.systems [198.54.127.139])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Hs2wFkU6;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D85606A32E
-	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 18:14:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E6D85606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=liuolia.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=liuolia.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B2B606A323;
+	Sun, 15 Nov 2026 18:27:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=liuolia.eu header.i=@liuolia.eu header.a=rsa-sha256 header.s=default header.b=KF7WLUcY
-Received: from mail.privateemail.com (unknown [217.31.190.30])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.privateemail.com (Postfix) with ESMTPSA id 4jSJz34hDhz6tkP;
-	Sun, 15 Nov 2026 18:13:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=liuolia.eu;
-	s=default; t=1794766433;
-	bh=+k5tKf6urPY8lWMEjLDvjWecJXDmPvgqG1+tcJ/GJR4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=KF7WLUcYG9SlWaDOi3S6I1r4AHqLJ+MFcuczAiGYmbAQjcAI28goBj42DAw87uTZ7
-	 AEwqmwCCMPwlQS7YldQb13IlQjQEZCifCMnuo6ghPDjCgCM+q5cDHk/91R8m2/NSuo
-	 x4q8vtE7L3FvIbSifanF70yjK8IZuKuvpfF9IjkBQopmKR4GfdR5y8FiOJQl8R5dOZ
-	 czFRK++hQMYrDl/5f5oE7fPBaztnkaZcwljSNSRIWtL8tj5m1sKPTOPUH4yl5F+Z97
-	 NUl8aqq+RdZPYLOXpWpQN+UZbHP754pTovW14sBSZqFCMz7gFgeRSRUxPeZHVWMgqc
-	 imOQ+L3l6gEOg==
-From: Vytautas Liuolia <vytautas@liuolia.eu>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Vytautas Liuolia <vytautas@liuolia.eu>,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Add quirk for VF0790
-Date: Sun, 15 Nov 2026 19:13:24 +0100
-Message-ID: <20261115181324.97843-1-vytautas@liuolia.eu>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Hs2wFkU6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC6721F000C4;
+	Sun, 15 Nov 2026 18:27:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794767236;
+	bh=4v9kEdXT9EbKxbjfyQTCBXpQmQO0tv1S0oBUI2ZRadY=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=Hs2wFkU62DxMVcVeVK/hAY2ufoadWt+Durtr+oAEZEZAHVRiIPzUn8lVsPDt5Gn6A
+	 LCjm667oyvLp/6VsY85AeLD12M/krbIKIgKoosrrjyCH8Bs+p2meRhASbg+kMC2cvM
+	 QzOEgYrkeLy0x/CLwV2gYxtqqx1ssQUFYhJbA8s+gu69qB0zN2CezYt1IxGO1LmOcQ
+	 ChvTkCD2Egs8VWSW4BrQHtHenMBDdDB7z4bhmmoqPKGANygD0zgisrIdYkxydir576
+	 UAuL+0VtHWziRhbhZ1qJB9384CqIX5ydm0HVaLZ2YWAeT6u2+v9nTXAYzi/wxW+YGW
+	 95lD+ddDCxnWw==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 4E20633D38DA;
+	Sun, 15 Nov 2026 18:27:01 +0000 (GMT)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -69,87 +52,50 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Envelope-From: vytautas@liuolia.eu
+Subject: Re: [PATCH v4 00/22] Add speaker and headset jack support for
+ Apple Silicon Macs
+From: Mark Brown <broonie@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+ Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Hector Martin <marcan@marcan.st>, Sasha Finkelstein <k@chaosmail.tech>
+In-Reply-To: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
+References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
+Date: Sun, 15 Nov 2026 18:27:00 +0000
+Message-Id: <179476722024.140154.15587190322612964079.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=317; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=ytHYPz0XriWoB7CgG8WB4aH/P5ex9L4TMTkLssWLVm4=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+/iz9N/mHi728XsdGBVdR5aNnVf4dbTT4IdmRdP2n0
+ KttyacyOkpZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRD6wM/9S72z3mLK8tSzx9
+ 4NSkAKUV6/Z/7dTSuuv6b3nhkq3KnrMZ/uk++dB/R291D1tVuZfLHucp3HoXysLSk7c6Jx4XL/4
+ swAwA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-The Creative Live! Cam Chat HD VF0790 (041e:4097) has the same audio
-interface layout as the VF0770: interface 3 offers S16_LE and S24_3LE
-capture altsettings at 8, 16, 44.1 and 48 kHz. The 24-bit altsettings
-advertise the same wMaxPacketSize as their 16-bit counterparts, e.g.
-216 bytes at 48 kHz, which holds 54 frames of S16_LE but only 36 frames
-of S24_3LE instead of the 48 needed per 1 ms packet. The device then
-delivers only 36 frames per packet.
+> Hi folks,
+> 
+> This series adds the machine driver and related bindings for the
+> primary audio subsystem on Apple Silicon Macs. The macaudio
+> machine driver is based on an RFC sent many years ago
+> by Martin Povišer[1]. 
 
-PipeWire picks S24_3LE by default, so 1/4 of the samples are lost: the
-captured audio sounds chopped and carries a constant 1333 Hz buzz, one
-discontinuity every 0.75 ms. Timed raw captures at 48 kHz with arecord
-deliver about 36000 frames/s with S24_3LE and 48000 frames/s with
-S16_LE.
+This needs a rebase against current code.
 
-As done for the VF0770, only report the 16-bit 48 kHz altsetting. The
-other 16-bit rates have not been verified, so leave them out as well.
-
-Tested with this patch applied to snd-usb-audio from v7.0: the capture
-stream now only lists the S16_LE 48 kHz altsetting, PipeWire uses it
-without any local configuration, and recordings no longer show the
-1333 Hz artifact.
-
-The problem was diagnosed, and this patch written, with the help of an
-AI coding assistant (Claude Code).
-
-Cc: stable@vger.kernel.org
-Signed-off-by: Vytautas Liuolia <vytautas@liuolia.eu>
----
- sound/usb/quirks-table.h | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
-
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index b6da5bcb15e4..56f32b3f873f 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -187,6 +187,40 @@
- 	},
- },
- 
-+/*
-+ * Creative Technology, Ltd Live! Cam Chat HD [VF0790]
-+ * Same audio interface layout as the VF0770 above. The 24-bit altsettings
-+ * advertise the same wMaxPacketSize as their 16-bit counterparts, so only
-+ * 3/4 of the frames fit into each packet and the audio is chopped. Only
-+ * report the 16-bit 48kHz altsetting.
-+ */
-+{
-+	USB_AUDIO_DEVICE(0x041e, 0x4097),
-+	QUIRK_DRIVER_INFO {
-+		QUIRK_DATA_COMPOSITE {
-+			{ QUIRK_DATA_STANDARD_MIXER(2) },
-+			{
-+				QUIRK_DATA_AUDIOFORMAT(3) {
-+					.formats = SNDRV_PCM_FMTBIT_S16_LE,
-+					.channels = 2,
-+					.fmt_bits = 16,
-+					.iface = 3,
-+					.altsetting = 4,
-+					.altset_idx = 4,
-+					.endpoint = 0x82,
-+					.ep_attr = 0x05,
-+					.rates = SNDRV_PCM_RATE_48000,
-+					.rate_min = 48000,
-+					.rate_max = 48000,
-+					.nr_rates = 1,
-+					.rate_table = (unsigned int[]) { 48000 },
-+				},
-+			},
-+			QUIRK_COMPOSITE_END
-+		},
-+	},
-+},
-+
- /*
-  * HP Wireless Audio
-  * When not ignored, causes instability issues for some users, forcing them to
-
-base-commit: 6db55dc5b1272e8fe63328a3bca610fe1fb5d382
 -- 
-2.43.0
-
+Mark Brown <broonie@kernel.org>
