@@ -1,81 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794779782;
-	b=X54jZqzmj45rOUoMyUkCz/r7UOF+RJribIZ+/MbbdMBxxeuR04sfjXvcpOeudgXwLQLV
-	 xc6osmBpVGifqE++vuYTiNZwhUydrI6Bzk1WwxqqG6yplPWO83VRTw/C6nM9e6K2Bh0ZW
-	 4ejiAq08MkpJNhqehwLQGN+jNyKz/HkjQdurof5z6zwqgDhLyElBLbwIM+/asjFnK6MjA
-	 q1lhMZaepbdhJ03PV+zk0/lX+OIXcbwtXdXVVjwBeWwgxyIknU1b7X0RDaecA2arnemnb
-	 /0lrht4nkDSU4IRKDUouCofDuGB8TMRplXIxA1xVlQ2UJzrr+VcyqmDs6tVzFDgeWPg==
+	t=1794780480;
+	b=1yFaRtdMZcVmLwZILOJSDWq5CI7drFl5UqwCUaTrU+Z7b0alAVLcYyKQlyauEtlyA5LO
+	 4WsekfOtWmJOI7s/Nt4QWBAiz1szYkRvkosUJX4avK7jn/BoDiHH081QhtPYr4cQutOzj
+	 wZ4jUnKusS0lnfgUwbI9mS32Xx/p1VAfSmFU+zimPHYfWt/S5DQzzcK++LFDhdLicn6SF
+	 nAjI3N32lgWAC8rOOaGPhRBKnSSy5GvmzmHWSx9QByFLIi8Y0UHjZvOrLsJYj086nVNfF
+	 4pLMqpftbKzYegKGBjMy+j1cGrIK8gfboUWVwZ6ByYh8f6mnxhwOzQV6gdVJwg/KnwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794779782;
-	h=DMARC-Filter:DKIM2-Signature:Message-Instance:DKIM-Signature:
-	 X-UI-Sender-Class:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Provags-ID:X-Spam-Flag:UI-OutboundReport:Content-Transfer-Encoding;
-	bh=PB2n/hbSbGORBrb7UPYTii6IqkXDV9Ot5Uk04f3ykr4=;
-	b=Z3vb9ICmMoOEoP8fIxNBQCTEnPA/sMbmPsuV+nzmxgnMKCvz9/aKCU/BGHuhGHrBXE6h
-	 /MPjTNTWCtOupFKoM/MA7/UscZlblTjWygY/m2sbygou6GtHXVItr7fwNBx+bNA4Kku1u
-	 S+ZclOE+1L0tCk3Sz4ab6ak4/ojdkjhpWlJmX/qP21cYjUEiDvgiS8UI+/VCLn0cvuvM8
-	 X4G3Be+aqbm8bqRLYoFk3GI1VhgSzerYi8KQFY4xqsjxF0KsWziev6pbi4MxJY5ChRva2
-	 wR4tKC2YjNzqrsW7M8PhE4nT/CJbVr6oWm3G2gQ1l/ojk9sS+j3ZiDjoh8IdKpV/eEw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794780480;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:From:To:Cc:References:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=k9dCgqBsP1JDVCF0pQxP8lz2vqJjfqt5PSS8hR4Mu/I=;
+	b=CKCcQ41q5RlqmoUAcMlW4YFPgN/L+j8Yzg26EM6BhJ67SQ5hR0mNmZ1Tbvv2F7NKhFNu
+	 QPC6ntZo4KPWWY8aOS4jxh2goHSW+2BXMjzOddyNtXFjrHyXSsjv8/b1XxM2EGq6LQ3Qw
+	 P3SeTB/QaFDxfEirs3lM/PxUgztpWgznMQVeS01NDu1Xy7MooJ7n7NlkQbiJ8xVAQd1tj
+	 +ZDAVlQS1XZanqal368vKd2XdL7+SqH66SyGwprDLwUUEfujkqHv45VIfVQqzlyTJsl01
+	 3aC9jeS21xUWof+P9eaeZsVZKO9xHx9Tzlss/evG8yOj9ucbts+p2X9Fnb5NYWMdSZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmx.li;
-	spf=pass smtp.mailfrom=gmx.li;
-	dkim=pass header.d=gmx.li header.i=arc@gmx.li header.a=rsa-sha256 header.s=s31663417 header.b="o5MN0LL/";
-	arc=none smtp.remote-ip=212.227.17.20
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=cKU4jBb1;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=cwMlpBdj;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE37606A33B
-	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 21:56:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5DE37606A33B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.li
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.li
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B6E606A31F
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 22:07:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11B6E606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.li header.i=arc@gmx.li header.a=rsa-sha256 header.s=s31663417 header.b=o5MN0LL/
-DKIM2-Signature:  i=1; m=1; t=1794779779;
- mf=PGFyY0BnbXgubGk+;
- rt=PGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZz4=;
- d=gmx.li;
- s=s31663417:rsa-sha256:M0C8OtqNglMTWsEjuWVuSRxcWZxn
-   YyUxk3SNC6qx4wc1ZnJXUzF5CGg52WgqUvbWkqcqvWiP2Yfx/Tqu8cqyA6/EG1D2yapnPzUVYh+
-   xieVbcBKTSwTzKxxsTzWUGeP92ftmP2oV4VBmQamQzc9jU1lUHke4URNzJXQEsivfijbn2sydtg
-   iGwkNX+sOMOcFwhi00XWkQu53lQ3YayLJgz6hiFfCSIc+bDQn6kts5aiHYOarevQNHr6+CsFcyi
-   zKx862eCt5v1LM9oomcv9qgDZxAD0sxOn5nGV60IYye/7QEto8kERXCzk+DdO8MoH5rOS/hWjU4
-   XOWBQ135OApVaA==;
-Message-Instance:  m=1;
- h=sha256:
-   kcyWeiOxIiHTJSvAMrWzOxO2MvMzoLImV/+pugtrtT8=:
-   TFcGiow7101LOuRJHw1kUcOzHwrKvQxY+Wx5WiwPUno=,
-  sha512:
-   RvlA9KfYHok1UKIc8XjQtpqW5uYqlKhTlSjPjNGLgGWPVM6gw+mExHriKPSqQFnCbgAyN9+u4Y4TavYWQcpwKQ==:
-   gT5YsPeLz8Mz5A/AUsqTIeqmgtVzbCbOQQ42VqRq/Qzr6SepiutamvGPDG5we9V+StEpTtL1b2vub8lN9h4uRA==;
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.li;
-	s=s31663417; t=1794779772; x=1795384572; i=arc@gmx.li;
-	bh=PB2n/hbSbGORBrb7UPYTii6IqkXDV9Ot5Uk04f3ykr4=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=o5MN0LL/XU0U17BPkxcTt70rS/jl4fMSKZH58ra7LHYR7B+uQfcitdWxPal8DLTR
-	 IkeIsiCbfJMVQlgYk4MABS9KTtHQLVMU1U1EyKUXqjJc4Vd1AN8NdxY0bV5itrB+f
-	 pF8DCKZELtT5bp+WXziotFVhkGv+LgpFI/noGOS16OVPcSy0TfAliDPbAjjQaMGwJ
-	 svAF5TdTw5ZoG+a/kuLaJ/PMm7kmMsmiFwyJSLBG38EYBDTaXPlBAI7fTAFQMuBww
-	 m/3mJc9oofdnlFYSBfQoK1k6j1f27lAokyZmepyV7kG3f+KPCrTR9XQgMYDHwcfDy
-	 FWunnPR5lJRGdyC5cw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N2mFY-1wSBS016zM-012CZo; Sun, 15
- Nov 2026 22:56:08 +0100
-Date: Sun, 15 Nov 2026 22:56:07 +0100
-From: Christian Ruppert <arc@gmx.li>
-To: perex@perex.cz, tiwai@suse.com, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Cc: mrwillporter@gmail.com
-Subject: Re: [PATCH 0/4] ALSA: mixer_evo: minor fixes and tlv addition
-Message-ID: <avoqZ4w7pw76NIHZ@khmer.arcnet>
-References: <20261026174427.24947-1-arc@gmx.li>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=cKU4jBb1;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=cwMlpBdj
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AFLmFQo632955
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 22:07:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	k9dCgqBsP1JDVCF0pQxP8lz2vqJjfqt5PSS8hR4Mu/I=; b=cKU4jBb1oLOwttr/
+	x+PM/xgG4ULXw75e8nVkQtD4VZzNqylIGqUp3nRwM2qXuZQq3TQVpklLE8pDkI6J
+	qFCN4F1i29jd30aKeAUAYZhlTqoGR5jUs/9Q1VIjMzqc8k/rbiueb5Soj4Fih6lz
+	EODjcHq9QnuRk0dAHzcUaDUtWEwOr62PyLbjSZgBfmPO1MUPHcNSwnnSIM1LKzjQ
+	BTdxvficyIc3w3j79Q6qs2d9gfpzqbzbFlm/OcwIcQ4f8vqI4S/7KnkaeRYhG0yh
+	TJHKw9ln7huNRG6Qwv1SpLqTMdNX8IR4HL6kwbqN6Ar+H4TigrzLLaq0YbKWMAXG
+	5jbM/Q==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hxhhduus2-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 22:07:59 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93e92aad34aso587960185a.0
+        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 14:07:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1794780478; x=1795385278; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=k9dCgqBsP1JDVCF0pQxP8lz2vqJjfqt5PSS8hR4Mu/I=;
+        b=cwMlpBdjKKbckSpfK9lRkulNcgARW/rozdeQ0ZtTFCbnsQwe+ko5dx5br12kCcJvEZ
+         EGw1vQ2BNEuo/8Z23F5j6LSgTfUfy/rXTewT2hGclNaTQFQSOkygrv57a4ZhOWNlqodz
+         eOEIS+8Kbem47IxV6IKO+0uQIA1UGgrZRpSFdo6FSMI7kMfJqmLM3GOS2YsB08ELntmA
+         TGE4IJ6QQVjyE69ERKrxVKzHLVt6wpS+h57bSlM0QaTGwAvk8fEzeHgHnjo4PXkLx3eV
+         oGwNXhmQ2mx6XytFYXdYhTRmEzPFMhgmHmzxVnGIX7LBfeDsv5+DqvEFS6oJkJldJJH4
+         q1wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794780478; x=1795385278;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=k9dCgqBsP1JDVCF0pQxP8lz2vqJjfqt5PSS8hR4Mu/I=;
+        b=si32Py8yl6fdD/jJ7OTr8GI5mCxE0uES6EiNMuo8l0JmYMvE6RylwNoVaxxoRvQiOn
+         1bsuq7EM1KjQiMhWIgm1vl8qpCNBGmb73DvvNP32IncciJvKaEvtgC2lzu6hRiN3XEdu
+         UYZcejj3mS6DDEHWdv3YC8/rEUf0j5Eg2odMclQYoVPIeywUSXdVy8pvmflkrxjuQwhA
+         VlW3SFnH+Op5py28j6pxjYUTTqXdxhNRdnz4XS7fKZQtH/AkMzZSrJ7rJGB69eb4rQYD
+         ofiCpZ7T3u35zpt1e1++MLzK7gS3kwT/ji4HwfyW4iVXSz5UILYki4ifrgSjY5+guYj4
+         yl7A==
+X-Forwarded-Encrypted: i=1; AL+hErHSmWpkDENpf6bhc5zfzxXQVvJnK01KxEGb86XzplEuOV7Oy8FTqb/CDX5s8sEXJd/VsAyFJNHqwLBNCg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z95Wz7/Pzyl3YJXNCBeUhaMoIyY9Ir1p6NdcqhqfI+P9iv2dIX4
+	wekwqGQsVfl1sB3nBcvcAPTV6x7b2Sb9Viq7Jl7ixobiXDUaNGmoIgjirrufe3LQtMW2WbD+DtL
+	BhiZVvfO1dSdeWDW8c6DlpMPbpzzZFbmdpp9Z2qhVwx0Iu6hx5BoPS2qTggCM0aqsrA==
+X-Gm-Gg: AYBFou2ZDy9xgIhZaGQjBp+dP/lnQ0YUpUPDcDbmpd8sUbDQ8twIA4rEr/LT1TVQyiR
+	8YbxOmdHwqgCoQLGFiRBVvVagoDjr365Qd9H64huDBLdznU1w0yV4BEKs99nSe981bCS9+a+8tt
+	Kc9G2qMDzKHxMBM6ELDsVLJws8JR34DeiQRbqKjPnnVD6RyiBlV4wPUvWqguQB8n9proH+EVnWY
+	AJja/Jrkb8fjzXtRtg9TsOBdvKaiXiH++bS/nBNMXJMCY6b2RfTEW6hZvbG5qPsW6RogV/oTWBY
+	t37m9WAsYEO34oKoSXrrAd8a9cPOU+9ICvjs8Crx4YkILEcpX8gTIGyBdPyczvsOP/sIKt59rHQ
+	FqA9uz2KA9rRE/x00Ch+++VNVlKYZQmiPvn01xqPYwlU9FOxq8RcwCMcrG/Ul+TipmJrSyH3HeZ
+	P/
+X-Received: by 2002:a05:620a:618e:b0:949:816f:cff1 with SMTP id af79cd13be357-949816fd194mr51588685a.7.1794780478209;
+        Sun, 15 Nov 2026 14:07:58 -0800 (PST)
+X-Received: by 2002:a05:620a:618e:b0:949:816f:cff1 with SMTP id af79cd13be357-949816fd194mr51586885a.7.1794780477782;
+        Sun, 15 Nov 2026 14:07:57 -0800 (PST)
+Received: from [172.22.9.204] ([217.110.90.56])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-49c608cf46dsm19639489f8f.43.2026.11.15.14.07.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 15 Nov 2026 14:07:56 -0800 (PST)
+Message-ID: <65e3d2b5-a48d-4ef4-ae89-68a15ae7466c@oss.qualcomm.com>
+Date: Sun, 15 Nov 2026 22:07:55 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -85,145 +114,70 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261026174427.24947-1-arc@gmx.li>
-X-Provags-ID: V03:K1:1Nxp7C1/TRmWCsbXW7rfTg8eE9hQze7I0TLEnGt7rJatHSAAm0U
- aFs2JRwrtqlff2JY181HR5Zst0NIpGIvW6xy0S9DgMG3eW8r4HwyYtBKWTMCGZWbwTIzD4z
- Dqa4swPmD7LuQznUnzDK8TmMHC2DJhJ68kJfFHl5OSDyQ63S8KodV+sYCO50v1+hn2DZGRS
- prfplnvwsuEy5fTh+416w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:kiwTaVQ7dxE=;FHQJY7sE55qpG5O/SKHkLwdA0jY
- 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
- DxRe+AOiyTQ9YXLbykQIofLoXOg==
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 00/23] ASoC: qcom: AudioReach Active speaker
+ protection for WSA884x
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+To: Fabian Renn-Giles <fabian@fielding.dev>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexey Klimov <alexey.klimov@linaro.org>,
+        Ravi Hothi <ravi.hothi@oss.qualcomm.com>, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20261028163152.26892-1-fabian@fielding.dev>
+ <110e1d54-347f-4186-bbe1-6aa03aa8ff3f@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <110e1d54-347f-4186-bbe1-6aa03aa8ff3f@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=VOVIDNPX c=1 sm=1 tr=0 ts=6afa2d3f cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=hzUeyGCwRGS7WCfWEAyTKw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=2dS5UIqEM45N3m7Sd7gA:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE1MDA4OCBTYWx0ZWRfXxwuyVGlUbHtw
+ Qg8jiBIYgJsBJ0/GBFf9FGx9JbS/8dD45EqSA7MDsnoZggUARaYOWb3vQFyz5ZcUjOyqTWImTcv
+ o5/kKU+Uf3lDW0N3nOAgJt33RK3S8jg=
+X-Proofpoint-ORIG-GUID: SIIfMdvYBvpJBjukeA5-FGnv8sn8yokz
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE1MDA4OCBTYWx0ZWRfXz0h5O6EFTprx
+ z6PeKMkF+iJhUrfn8jpDAsEfikaZ9gg+ew/pE3cdC0EB+29EcEfIgbUdZuozqiqiQ6EJqPT0S4q
+ auOcxP/RL8DrytXI5JpV8gejy/Dt2ml7SeQ3yQOft9HPZd/UxXDK53Hd7bUbzyNr2YJyZRc7KF7
+ DBJruvS0ri8w/4Tbx4IOs+uB2LHcT+cUVn19if8ye4u6jP+Of+AAWJVPKZbsyagroAHBylDCby6
+ BYkLPe37ZsU3GrrEGmxgjF9iMPzNUxE3Xe+9XL/cfcoyTnz/UU5u3F2I/70myAYxPdgksj3kPLa
+ v87mGNjXg9n8ioeK+HzYQ4HvHbLeo9+M3Py44Eh+K8BL5h74kLXveoyebMS7o32N4XtRD2p5KVi
+ QOKxm4DGojqfiKds4OOlVU+04CEBf1zdtrKUFSa+qNg8/VgPrb2IhgDnHGJ88hfjELP12CEfgA2
+ 18rbldfXrMzDiQ9Rmxg==
+X-Proofpoint-GUID: SIIfMdvYBvpJBjukeA5-FGnv8sn8yokz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-15_07,2026-11-11_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 priorityscore=1501 malwarescore=0 adultscore=0
+ suspectscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611150088
 
-Hi Takashi,
+On 10/28/26 9:56 PM, Srinivas Kandagatla wrote:
+> 
+@Fabian,
+> My Next target is X1 T14s Gen6 platform, I have not tried it yet, but am
+> hoping that it should work.
+> 
+> I will keep you posted.
 
-I wonder what has become of this patch set. It was intended to be applied
-before the initial driver goes into a stable kernel (7.4 that would be)
-and the iD14 support currently under discussion with Will also requires
-this.
+I have now managed to test it on T14s Gen6, no changes to these patches
+to get it working only thing that I changed is dt and tplg files.
 
-I kept it intentionally short and limited to bugfixes so it can still be
-applied after the merge window is closed. Let me know if this possible or
-if I should refactor it into the bigger patch set for the next merge
-window.
+thanks,
+Srini
+> 
+>> The function allocates
 
-Thanks,
-  Christian
-
-On Mon, Oct 26, 2026 at 06:44:22PM +0100, Christian Ruppert wrote:
-> This patch set contains fixes for minor issues discovered while reviewin=
-g
-> the proposed audient_id driver as well as the tlv definition for the
-> recording mixer channels. Thanks to Will Porter for triggering this with
-> his submission.
->=20
-> Christian Ruppert (4):
->   ALSA: mixer_evo: Remove double end marker device list
->   ALSA: mixer_evo: Add missing snd_usb_lock calls
->   ALSA: mixer_evo: Fix endianness of boolean inversion
->   ALSA: mixer_evo: Add tlv for mixer channels
->=20
->  sound/usb/mixer_evo.c | 35 ++++++++++++++++++++++++++++-------
->  1 file changed, 28 insertions(+), 7 deletions(-)
->=20
-> --=20
-> 2.56.0
->=20
