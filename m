@@ -1,95 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794743031;
-	b=1Y42CS3+WcxsG7MG/XN+3rio/rIA4ssakobJ8hcKlQ2xolJuyP63P6kbTUk+3AItjasX
-	 pVypvY8FYEuSVRbQhTo5j5MuzVnLWTqcuHrpsCUcd+tDTPfkyVo5npHNnQx4sjZkxg2s1
-	 6dij5i+D2i12MoTWsno1dL2AydhyZIZao3FzwerBwrf/rQGtTYkj1gtkbm/5GGk7YYmXd
-	 vGxP4SeOKElCgpmWSfQAYebL1Oa5QDRm08Rq2PNs+iBtj6OaQa/qS8aAFq6X0Ytv22IY+
-	 0+bgyI3BsyyQyd9C6bljKbBrSNFqHgsgUuvVfFRb8mXlS3fSohA1ZMi2KvgxF2NCYFQ==
+	t=1794743542;
+	b=hKPrkwXwRKx3B5zLZGuDhK2Hfi3fyuRjkzgiNwtyF7h2QGobuKs6adVbGubgI//Yklqd
+	 qxmbbNmf/YTdwVDoNZbDiJ6H9sw5Mwh47VmzNFL4OaMkhFIQSs/qxbjnSCmX3/V170gjo
+	 4Ovy1cgU2x9/j+4E7S1aLc/23+ypmTg6vOKjzSVaFS9nREPdQBWdUiINbJeHifAHmBp6c
+	 ECfM3mGntBtcrYQ68P6NzGT0mJgjUArxWALJIXK9RwpPUIU5/Z3LbVgaQM/L8TDaj0QL2
+	 YomhuqGWgh9nyM1fVlItjSmkJ/vmSiyRD7rU9PVBFcZnSg5N3zEiedxdtBAQBx2vLHA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794743031;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=lqTFv9E4nyWFkXQYUk6tdfKXwnxXWSjIz1gt7qDbw3I=;
-	b=MipmzjcaMdFE/oEnLOD7yze08PK8xbMBqehFnwrOFvhVTTjQiupnV4KHZFhTTVnfrkFW
-	 a+6NecpezlpVYEWEpXqXUfNRHhKptuRsfg1CH0ggeyCO3Ro61/GlRXpk4Un1JL8JaWt6A
-	 ruo+Fun7vSKO1ICKxGcn/VAUHtzoT2FtLGkSx0vH3cpDVvq5CJ1x2q7bteH6LTdcoF+Yt
-	 yRG1QFl3NpZ3G1uK1/XyVOXTfsoOqo9kix4hExdoKIQOfZUmmx5QX2J8DaP/uWqWt9Lzn
-	 PurwE/WY/G/sqAj/7RyCcJTzNfFBsvA7tqkklm5CdLVjlb9mtVXxgGC34K7hAnBHFeg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794743542;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
+	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=oxYiqKJNYD9KdwN7WAZXVLTObyEuT47URNMJY5W5BKU=;
+	b=j0Y7lR27F26s0uy06J5/pCAauNKoo/JTzJF2X4qw/y/5i2dWDJVE2zOGu/cgMuEp0VqC
+	 rgtKZde4GmvFimaZsRhyN0flozoJxkRl2bCkfcMXXdsgPlS1iWkxNfKteoH7jBAqzYW7+
+	 vuUBqb3MfMZu5x7AOqxG9WK+cYv2fhnbD41O69MyZLR8ApIA2/6FU9WNnulw/UoMlxSyj
+	 KrNbFm8dWncLzB+e24Dtpm+KAxEK2AploT8PI8wTJKV9VxWDf3r+AUo3v+iZYFdI+yK0R
+	 ksJu8DMxUIlIyFT7U3+e1RJlhMc9X0RvPS7qU/d+mrBe2ScY/kVjYD1yZ6Rk3qhPgAA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xN570IeF;
-	arc=none smtp.remote-ip=74.125.82.173
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=gpZwIVyR;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=hER6r06X;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45BD606A31E
-	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 11:43:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E45BD606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F46606A31E
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 11:52:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9F46606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xN570IeF
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-36e99cf7bb3so3304176eec.0
-        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 03:43:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=gpZwIVyR;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=hER6r06X
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AFBmGtV048172
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 11:52:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	oxYiqKJNYD9KdwN7WAZXVLTObyEuT47URNMJY5W5BKU=; b=gpZwIVyRgd1j6fy7
+	dcYCnJJYu0zIvOCxOyoatxcJDiwNFyLqip9pHtPveVY2+ferjcMo6Q4fcZPlqdlV
+	zrs76Xo2AMXnitQejM3RYw6p1Mx0Z01qDIPRpnHlvU+hDj0uYvwiciEorTQlgDSi
+	A/+G0ngnkN9P0fnc8AqcVc9YLp3aHM8BPJupXikd7aqjQ80ryXhUFMuTRlkV1iry
+	mToXGICmpHo/augQYxe8+Tct9Dn7xkkCNFLXZ260COSULf/K1Y4cGhPOHgbCW2OJ
+	gOEZg1nPB+T0bMgvvPkd6zVt4IAsXJBKXOPu95VC3o1rL/P6HWgW43Jp5XiFyVsO
+	KjmTIQ==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hxhm8tsqe-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 11:52:20 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93f26dd2165so811216585a.3
+        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 03:52:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794743030; x=1795347830; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=lqTFv9E4nyWFkXQYUk6tdfKXwnxXWSjIz1gt7qDbw3I=;
-        b=xN570IeFdWn17Jz1ucA2i/9F+gQiXj7aaQUpaqDnL9XQIsspqpYcM/RplzDeh3Yjat
-         fo8Z6vJPuYY41XePwu22ZRxRWDOyPOh7tdXSv64yd07M3L+vShJaiTIWa5XhPPKq+rEu
-         2T/VYl0fZO3Cfhi5YOvdkE/WzzRY3DRD48gsEC+ZiruDpiBKwHdq+xe1Qq/9sc1sziva
-         H0HH5xu8TpeRKXNwIKywb5muv1IekvrX8Alh49G/FHWeDJSv7UZltMCtZdu66oRnMQkh
-         d6ZJcrHyMJUD7ja4h/GP2eLF8h/BonpP8w/DdQfXT8ndEDbYkiLENtKusVaz99GNhUQC
-         JjMQ==
+        d=oss.qualcomm.com; s=google; t=1794743540; x=1795348340; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=oxYiqKJNYD9KdwN7WAZXVLTObyEuT47URNMJY5W5BKU=;
+        b=hER6r06Xo6bDW7lTR4W6w7xZuYtoW16ZRUcDan9PtrGu6X76NhAIQk3fSX2BsCQRmN
+         uurXUCWAP0HZGBlqMyDQvIwCSzeFefOy5PlqudDOz4rGWEgiQ1j//8B8UnNLitMSQjQ9
+         bOuonyXPeqiXMWJuouG6SSHk4mmTp2tx0iTqGv0d9T6+ezokh40cb2k56i4hgoATOjyZ
+         klpj8x5VHU/bJMqeCKx8cbI0/sWo8GnMDyjnnBhPFtLyXX1B1QEbSRhZQorsVhJJjKA3
+         NZn1g0BFv47kmMeKNpQI19Gr6fcvooFfPyUh5feQLpTMVthIDE/0/d7KzPlcPTrJQJFe
+         25ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794743030; x=1795347830;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lqTFv9E4nyWFkXQYUk6tdfKXwnxXWSjIz1gt7qDbw3I=;
-        b=mtjFAB63xg+qyNs/QFNfaX2MMPsHBmFK2lnGjaa97P7pw78YB9Dn9DrdQxkwcq9KkZ
-         64YblCiBC+Dfmu1W8xqJHFRhSUX0NjgYkzVB1Ites5pKLZQw8t0CncPE4wvvdBMKvHYl
-         ozPWDajZmayARWzPSRCX+zEu273H4tGeu1MlDKclXxL7ZkV5eKYcAVAA7YYDZ6++BXyY
-         A6ZsZGGJ/fOFAIvc7Z152k+ntzix9UCMv4PgkKD2Du2jN8wrwihgH8QxyOPBITZkcB6l
-         dcRkMiYABku8E5r1ipjTHHz6hgQwWjXuXBQ3/jHUgiSfrVnYl+1/ZtR+cHBbxYVEpAO5
-         IPLQ==
-X-Forwarded-Encrypted: i=1; AL+hErF9jsZ0/yOSwL4OE3hmt58h4aCREPpPloxLluOYKpOxHqWA2fXwEHAveRU2Uy8sTfmO5aKl8DS5rj0j1w==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+S0W/BWB+z0sOlNh9dJT0qsfvSwEXyZst3Mw3Tvg+nInj5ZM3A
-	3+5D5mmjAXdT84gQjqiEajEXTJyZevOwXFo9IoMgqoc1eiGyFXiUgy8n
-X-Gm-Gg: AYBFou2961nfC5+5LQEMI0eg7cL7DxP7ifb4ItFBzfN3ixBPebtAsCxEymMYQrY50IB
-	8UNd+Qa7WQ9hUMjsRCffDS8EAF/sWJTX6APKpF0/IsCzlzQdhq+88UcAkh2H9OpGtksVDrtqiMv
-	GRwOR+nGpm9K+7Eh4L+zNcjNSgQyx3KhkFdFEi/AqMg0KqwwvpFub5xusVoxUze9I8I0bW6kPFg
-	p1fFu5Ffj4EoHotc3xp8CDiKP212AXO0TPMTY/uV1kXOqSXZoDhLA7pK1Jfmy7BrpsqWTYjlLpI
-	1SrIIoKkxM3NZfKQS3LbLQultYnCPuqaFxE4eT6B0WS0v2QFglJR09l5n4PmksrlKqktGC1hCk5
-	4I1xttjcsurnkaJrKk+4U4CsN3j6F8mV09mqYAo+tlJ/eKbo4P9q6zxEOw0kqCD9VqQ018WB5VU
-	5rqUDPfZWjb9z9/JF9PX69Dno69ZHrSIgocaSlK6igL+X6Xx5kwEUdDkWXHX/yJuD5NKgUuYh+V
-	Au4x0AZJPdgoj1YWwRiyV+kQ7OwzYQGLSa4b1URk3071eSK6Zt9TQzGOsYW3+C5uLT2A1m+D6C6
-	KhzjqypUmdxka7xwJhXjxCpbcpgMwVM6cgBlW10MQp7RpWUA/MUn
-X-Received: by 2002:a05:7301:da09:b0:36a:1434:c691 with SMTP id 5a478bee46e88-37967506836mr7857848eec.14.1794743029961;
-        Sun, 15 Nov 2026 03:43:49 -0800 (PST)
-Received: from localhost.localdomain ([103.178.204.102])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37955ffcbc9sm35852392eec.18.2026.11.15.03.43.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 03:43:49 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: sreekuttan2156239@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.de
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH v2] ALSA: jack: Fix jack control cleanup on error paths
-Date: Sun, 15 Nov 2026 11:43:15 +0000
-Message-ID: <20261115114315.3679-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261115101949.2483-1-sreekuttan2156239@gmail.com>
-References: <20261115101949.2483-1-sreekuttan2156239@gmail.com>
+        d=1e100.net; s=20260707; t=1794743540; x=1795348340;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=oxYiqKJNYD9KdwN7WAZXVLTObyEuT47URNMJY5W5BKU=;
+        b=sw4fsYDlxypGJXOjEFbZ3jAxPE+S1StxzcTRbAGUKXaU2D7EuPrbVemqrMGTX9+XeP
+         921CtOjgCZqapBbzqlnUApRv9TJKCEeuJvCdiyuZ8IEyl0pJJoo4t+5QtiTDmvQvG90l
+         OUAW3lOZMwkWfXXXsOT5RylotNmGfOhpux9Wy8khixl4ThTKWzguR52wUsEBzaV89hpe
+         BxdE+pltyFtavbl5W/OMpt5ahidRrqbpMLBWaNnCntfPDMCmr8zyTt5NUmkr2gM9PwYZ
+         xNDCMQQTfmIe0StHOdvKxuFKso3NCZ+OTvH6+tZz+lenPYfQueOvxTeUeZOAqWc4qrYF
+         jG/w==
+X-Gm-Message-State: APuU4Z9ZaOOSociyGGjQTWBCxcggUcpb6FuQ+IbfJQe1jQwf7MzLQisr
+	mH/WL/mE0REN6B8aS/qwKWkYDEMQYpcHJgfCInAwrAUUG4v50V+AiRUNEBzwKpbRkkGoH0jlIzN
+	2XXpG1ATEIxsbNBQoSO5uqVpD1gFPZx/HXlWCLMKm2/97/6isS3kkXFw2gAnPuhTcN+86J+nCiw
+	==
+X-Gm-Gg: AYBFou3jGHBoHH39nqkUnTP/KmnFGW51amKZuXAdLacXG+vqKVwiqfMrdqpedVKf17z
+	4ys++j+z52V4qGC4wLFmGOevBP9QteUOxhot+xkqzg4gW6iNsKr9xTquwz4YKLP0ibS4fx0jgC8
+	Ea0EkpVg10Mw7nR6QIZODDXiUGx7WC4tcSkdzjfQ+4anYPgM2DLIDkNNBrojIq6CuI5erux/aSl
+	Fn6LLWXu94gFG6VOM+sx2kgqpE5Vr1JAjjAEWj4IM8qF2YFEWQX3Y0hI7b/f5AbgLGZg/9ZlnLd
+	44X+/jVZAjh8m8SvlzI4qaUKEuRDcIoHIM3flBarqcQMdW6fC8CTqwGva35Q8HvStNg/FsDLGss
+	CWYI1iXGmy1WEZRCY5h2rw7/dd/KrURsBtu2P7cMCWJw8tanJrYds7+bYzH477SWS05Qlx/XSrw
+	WI
+X-Received: by 2002:a05:620a:880a:b0:93f:3bb5:5452 with SMTP id af79cd13be357-9494bb77243mr1195838585a.15.1794743540130;
+        Sun, 15 Nov 2026 03:52:20 -0800 (PST)
+X-Received: by 2002:a05:620a:880a:b0:93f:3bb5:5452 with SMTP id af79cd13be357-9494bb77243mr1195836985a.15.1794743539691;
+        Sun, 15 Nov 2026 03:52:19 -0800 (PST)
+Received: from [10.2.25.60] ([212.140.138.201])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-49c60116323sm15767904f8f.32.2026.11.15.03.52.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 15 Nov 2026 03:52:18 -0800 (PST)
+Message-ID: <9cb2cc9e-7224-48d6-84d2-308ce31fd93d@oss.qualcomm.com>
+Date: Sun, 15 Nov 2026 11:52:17 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,79 +114,119 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] ASoC: qcom: audioreach: use a 32-bit container for
+ S24_LE PCM
+To: marcht@proton.me, Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20261111-q6apm-fixes-v1-0-1beb5702b372@proton.me>
+ <20261111-q6apm-fixes-v1-1-1beb5702b372@proton.me>
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <20261111-q6apm-fixes-v1-1-1beb5702b372@proton.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=ItKL47/g c=1 sm=1 tr=0 ts=6af99cf4 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=YCedeovXjpRL1ZDdAGOthw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=05h1Iz1xiaL5QSpjF5EA:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE1MDA0NiBTYWx0ZWRfX6T2tlDb8yXR4
+ 2AT4/QTLu/EHhS5nQ7ymZsfqoy+DVmzdMldjMyZ0iJXhWaSyJuPwI0SUWbSSj4k5G+3gzbDJ05r
+ ViSCW+nPA9aSYV0qPGK1KVTG2VZZsfM=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE1MDA0NiBTYWx0ZWRfX+qdUARJn+P2W
+ UWjUpp0+q+RlFxrpHci/YFX78e1bvKx6zLOyCZtX5cy41xVF/KS2k2exq6qxO+oI9l5kRl91E+q
+ s42m1BVMTCP2EIxTnDy0pTci4wloSZlWi8sp5a6jx0YQzX1Dj3ni6YFqK34SSrf5aR3lTgqy9Y1
+ tOemeGjV/maMMXhisD5cbOV5pWMBDI6gfb8p2wLOdoRsv+t1TrkC8iKzvZhm+xcMdD1L3hLHAId
+ SSMe6Kt1/iISW56qXeMqNA0jum8aDIBvZqxn6/HOnzUa/4GcwVuQaVQGgbMQRJb/JxykG3Nj7JM
+ UBEOHToC0PmqOjLTnv6RMuWZevx4V7dIkN4ZQOAEfGiX7PqSgLBp3ETJWYmjnSxSgXwm5TZmyj1
+ 4wL/AYQR06i2sk/SiR5SY6yT1ZbVNoipaDr85Hug7b46LHyX27x89B4jnABOGhbuHYmJQGhmVCc
+ Rgh/S+Gsv5nVI/VE11A==
+X-Proofpoint-ORIG-GUID: YkBFRuXvOenA1Pe7fe2RCyxtaryoDHjF
+X-Proofpoint-GUID: YkBFRuXvOenA1Pe7fe2RCyxtaryoDHjF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-15_04,2026-11-11_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 spamscore=0 adultscore=0 malwarescore=0 suspectscore=0
+ priorityscore=1501 lowpriorityscore=0 phishscore=0 impostorscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611150046
 
-snd_jack_new() creates an ALSA jack control before allocating
-the jack structure.
+On 11/11/26 10:54 AM, Marc Herrero via B4 Relay wrote:
+> From: Marc Herrero <marcht@proton.me>
+> 
+> SNDRV_PCM_FORMAT_S24_LE carries 24 valid bits in a 32-bit container, but
+> audioreach_shmem_set_media_format() and audioreach_pcm_set_media_format()
+> set bits_per_sample = bit_width = 24 in PARAM_ID_MEDIA_FORMAT and
+> PARAM_ID_PCM_OUTPUT_FORMAT_CFG, which tells the DSP that the samples are
+> packed 3-byte words.
+> 
+> q6apm-dai advertises S24_LE, so with a topology that allows it on a
+> playback front end the DSP walks the buffer with the wrong stride. On
+> QCS6490 (Radxa Dragon Q6A) this crashes the ADSP audio_process:
+> 
+>   PDM: service 'audio_process' crash: 'EX:audio_process:0x2:...'
+>   q6apm-lpass-dais ...: Failed to start APM port 113
+>   remoteproc remoteproc0: crash detected in adsp: type fatal error
+> 
+> Use the container size (32) for 24-bit data and keep bit_width = 24,
+> alignment = PCM_LSB_ALIGNED and q_factor = 23. With this change S24_LE
+> playback works on the headphone path (codec DMA RX -> LPASS RX macro ->
+> WCD9385), tested with the back end at S16_LE, S24_LE and S32_LE and at
+> 48, 96 and 192 kHz.
+> 
+> The DSP then reads each 32-bit word as Q23, so S24_LE samples must be
+> sign-extended into the top byte, as alsa-lib's conversions do.
+> 
+> Fixes: 25ab80db6b13 ("ASoC: qdsp6: audioreach: add module configuration command helpers")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Marc Herrero <marcht@proton.me>
+> ---
 
-If a later allocation or device registration fails, the
-function returns without removing the previously created
-control. This leaves the control attached to the sound card
-and can cause invalid list operations during card teardown.
+Thanks Marc for fixing this,
 
-Initialize the control list in snd_jack_kctl_new() so that
-the private_free callback can safely remove the list entry.
+>  sound/soc/qcom/qdsp6/audioreach.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
+> index d2dc5d37bccf..937506edf34a 100644
+> --- a/sound/soc/qcom/qdsp6/audioreach.c
+> +++ b/sound/soc/qcom/qdsp6/audioreach.c
+> @@ -1216,7 +1216,7 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
+>  	media_cfg->interleaved = module->interleave_type;
+>  	media_cfg->num_channels = mcfg->num_channels;
+>  	media_cfg->q_factor = mcfg->bit_width - 1;
+> -	media_cfg->bits_per_sample = mcfg->bit_width;
+> +	media_cfg->bits_per_sample = mcfg->bit_width == 24 ? 32 : mcfg->bit_width;
 
-Route all failure paths in snd_jack_new() through common
-cleanup labels to remove the control and free allocated
-resources.
+I think it will be worth adding a comment about the wire format vs the
+sample format so it helps others.
 
-Fixes: 4e3f0dc65883 ("ALSA: jack: extend snd_jack_new to support phantom jack")
-Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
----
-v2:
- - Initialize the jack control list to prevent invalid list operations during cleanup.
- - Handle cleanup of the jack control on all error paths in "snd_jack_new()".
+other than that it looks good to me.
 
- sound/core/jack.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+Reviewed-by: Srinivas Kandagatla<srinivas.kandagatla@oss.qualcomm.com>
 
-diff --git a/sound/core/jack.c b/sound/core/jack.c
-index af2dc2cfbe19..c35a92390527 100644
---- a/sound/core/jack.c
-+++ b/sound/core/jack.c
-@@ -487,6 +487,7 @@ static struct snd_jack_kctl * snd_jack_kctl_new(struct snd_card *card, const cha
- 
- 	jack_kctl->kctl = kctl;
- 	jack_kctl->mask_bits = mask;
-+	INIT_LIST_HEAD(&jack_kctl->list);
- 
- 	kctl->private_data = jack_kctl;
- 	kctl->private_free = snd_jack_kctl_private_free;
-@@ -555,13 +556,15 @@ int snd_jack_new(struct snd_card *card, const char *id, int type,
- 	}
- 
- 	jack = kzalloc_obj(struct snd_jack);
--	if (jack == NULL)
--		return -ENOMEM;
-+	if (!jack) {
-+		err = -ENOMEM;
-+		goto fail_kctl;
-+	}
- 
- 	jack->id = kstrdup(id, GFP_KERNEL);
- 	if (jack->id == NULL) {
--		kfree(jack);
--		return -ENOMEM;
-+		err = -ENOMEM;
-+		goto fail_jack;
- 	}
- 
- #ifdef CONFIG_SND_JACK_INPUT_DEV
-@@ -607,8 +610,13 @@ int snd_jack_new(struct snd_card *card, const char *id, int type,
- #ifdef CONFIG_SND_JACK_INPUT_DEV
- 	input_free_device(jack->input_dev);
- #endif
-+fail_jack:
- 	kfree(jack->id);
- 	kfree(jack);
-+fail_kctl:
-+	if (jack_kctl)
-+		snd_ctl_remove(card, jack_kctl->kctl);
-+
- 	return err;
- }
- EXPORT_SYMBOL(snd_jack_new);
--- 
-2.55.0
+--Srini
+
+
+>  	/* Convert the physical mapping to a logical mapping of the channels */
+>  	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < mcfg->num_channels; i++) {
+>  		if (!mcfg->channel_map[i])
+> @@ -1308,7 +1308,7 @@ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
+>  		cfg->sample_rate = mcfg->sample_rate;
+>  		cfg->bit_width = mcfg->bit_width;
+>  		cfg->alignment = PCM_LSB_ALIGNED;
+> -		cfg->bits_per_sample = mcfg->bit_width;
+> +		cfg->bits_per_sample = mcfg->bit_width == 24 ? 32 : mcfg->bit_width;
+>  		cfg->q_factor = mcfg->bit_width - 1;
+>  		cfg->endianness = PCM_LITTLE_ENDIAN;
+>  		cfg->num_channels = mcfg->num_channels;
+> 
 
