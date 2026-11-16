@@ -1,99 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.136
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794798250;
-	b=RW4SxEX3gMx60zwSOz0JQTWBMBfhSR3eGJ0nc+2qmoUnRepOyfHIHikPuXZCdpHsLGLK
-	 XlFoCq/hOuHml+nSGSylUultf8tXH4TmoAUTonIgkjswpNx8zS7oABMBCb6KiGw5LJ621
-	 kZiAUWzJff2HR2kTLWD/CCfjsWCt7on18s3kgFmsN6hvp4JktePPYVCOt6vxoZGcHcHqN
-	 lsAhWBt8uqnM08VYCkk2YEtuZx38R2x3h7jhXhAcbUIt7f/4RBpaM1M6HU6GUGNcZFCWz
-	 DrDIUJrwVvVaGL8vi6+NzoBqZc97lMcXYpCekaCvde8/h/YhH9DLLTf0pdAHipWCoOw==
+	t=1794799548;
+	b=MqWFspZUVN19MEvhhuQ6B1iDRJjDqXYGHRi11Qfm09NG1HWDjCRvEJFLNxxsw9gIKpoU
+	 KMhhghUSy3bT28GcDdQrpVFW+xwjOHku1kYmx/tqNDsK1AI3a7YeXlDINloG4zHwmX4fe
+	 TTk6lFYjiCriPovMnVOZZ6H8c1OnGgcr3zYy3b03+OZxarykRtG0K/hIqNFHLXpVniglb
+	 FIhpGQmCulkWr8UVKdFUd0elzW/6r0zPugID2gBQB7CFZW8IoWQO1RxORl81vHVATymlT
+	 +HIknRJzeTll1TCOb75WL9BnTFEAXYwVfhVBCDA+TXZdqUwG+KOdl8U9tCFykFYwuUQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794798250;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=AkzCjo5n3Xkuc8ZV8uGQAI/qIaPXp6OBSc8iow3aVtc=;
-	b=H5/hy2IQI27bNmb4dyftILNQlt86EdgeA3b0mSTeihWDRZ9HehilHOqR5tg2Ul6wJ43h
-	 xVfx7IMUGcDzU25ljb8ZWXqPSZ+JRQXZvcZhYt2uNNon6oEM0xhdTFddbzBNC8zfy9DHe
-	 YJK4afDhbNKfUGqwsZ1foBWRKDJsj37yyfZFiHLCRMLDZyYUr813BAY8tW1bVGWMdCmnp
-	 Du0YE0+wPJjgq97LU4OMyOHO3czQRQMZgtFep0oVINggW0wQJOplUci0tKGnZumnINz7p
-	 SZJaS+nfYX9I6Os9YRfPcwhrCWAEjvFaq732EwwrmYZyoern0HeeQwzjmwm0dkbr3fw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794799548;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=q4LcUzQCUtTAVVJJ4EK0d8MuT1mP9AeP0gJC74TLYsc=;
+	b=rG/n/Jf3Z5QuCHq39KU7BP0D8QDQzVvMnbhY5xJS4EHrjElbaF7EcVrDTfkodtLkfbS7
+	 gyFvXkJnCRJIQPwPRZoFRaQZZqxbKS4dK7tlrPw4XFTXJTDwXw1Zlb4JOgWWcZn5Ll6Sq
+	 eby6CpXDfBNuNzIgatvcf0ekWeblhWLWnfw+Lg4iT+yYPgAE5agkk7UF3lLIhv4UP8ilT
+	 hEsNyTEeXze3yJRzPNf/5qxoxQCz1kNyoeO/+tihzRXD0TQjyNFe8j61gHkBR56St6IIl
+	 c53iE5xllGW5r83kL2zmjXn4kyHxCazlaK85KrnRlY9o2SWglMVikGF4yXtPBH16z3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wGKJJAbk;
-	arc=none smtp.remote-ip=74.125.82.169
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=none header.from=arunraghavan.net;
+	spf=pass smtp.mailfrom=arunraghavan.net;
+	dkim=pass header.d=arunraghavan.net header.i=@arunraghavan.net header.a=rsa-sha256 header.s=fm2 header.b=b1wbdTDl;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Jsk8Azh9;
+	arc=none smtp.remote-ip=202.12.124.136
+Received: from flow-b1-smtp.messagingengine.com (flow-b1-smtp.messagingengine.com [202.12.124.136])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD49606A88D
-	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 03:04:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AFD49606A88D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81EC9606A8A5
+	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 03:25:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81EC9606A8A5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arunraghavan.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arunraghavan.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wGKJJAbk
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-372bdb942dbso2584084eec.1
-        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 19:04:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794798247; x=1795403047; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=AkzCjo5n3Xkuc8ZV8uGQAI/qIaPXp6OBSc8iow3aVtc=;
-        b=wGKJJAbkmfyjKBC1FQuCbSaaK2GGZ1hUqDKHVwayShZA3ggvo+gETtlvIHP7K7RbEa
-         tsI2GWa/cRvA/JG5F7dOYaKGGj1GJoGlgoRAzok/e2fqqyC5H3hHVNOzd2997F5OxMNh
-         /r+9mZNT5deGVF0hE/vIbuGM0Oe3CeSRGJ1PAdClkYYvtIGscI02GOfayGnYBx0hPzJ5
-         eht7FSEdi96CghKRznZa9HOvbrxhSI6nXuCJyyizg586FVDnnd1kTVm0hWTtjCyM53+M
-         PDS+N4MTLcdIAakwr6cIJGUqiFKZJPmPejpxqSBfDX3oEmLxUsYWei3l4vXX8+Z2PmoG
-         OlMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794798247; x=1795403047;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=AkzCjo5n3Xkuc8ZV8uGQAI/qIaPXp6OBSc8iow3aVtc=;
-        b=f78W0vANyAc41gY+dTvin3+uRsRoHpvjHJqgLiQbwJq8cYqnWX/XHYxCGjuq7u6v4b
-         vceP+uXzY1kFVMO7fB/Ktq+YxBqnOP3emNZX9HZMHGnaOQGMYVWqlmLoIXq27mjj4eDS
-         IZsMiNebEONcPsKrVq0nvOIaVdKvFCwc0YSf7DuC8yZiycK8pDX03rdRjvZxDrz5prL4
-         4hBMMyFMQFJVKiip0Nm4xQzpnAEuLM72TnLY+NMSFQ/M5/TjwxDLkId+zzA+3nTkVleg
-         Goed5WS3j+WcCJiJcxMaQPeTfDj2yJCPssjQrz6NIQWSG4PoZ2S/pDe5yAhDK+ugHz+8
-         4Fwg==
-X-Forwarded-Encrypted: i=1; AL+hErGKOf7yQt1c4mQDZRpgZXLj2Dz35qNW6AtBvmGzV3s1GlV8X91GrN0KcOuQkKi28pd/3hzTYqxt++jSNw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8FST7uAW/17uw7Ciz3BMCTa9RUGq5NZ2wzFIfoUg0X7GhKd9Ll
-	zXSouhZ5VrpO2L5adhqLK+GTA+4NUt4Mb5OIfqXI27Sg9RUvMLcKEBFf
-X-Gm-Gg: AYBFou3dXv0ZIOD9O/7ULnqghNK+P3rsGGq8anb4HQZpoBiYkGCBrnfzC57lX5g96cE
-	SPVFPL6XDIM64xB3D1WwpAOR2NjW79YuplzNtUxSyZJPAnc4RlPljuLmeFnXh4mhaU66l+rv59j
-	dUwtURbRhzuNLZPNqaWqtGnEhXD/9UJVyppOygBVAUAC1MTw/zJO8SXYB8i36wQ6Mew23YZ7Icp
-	sBmJKA4jXZnkaMMp0RBNFKtj8vK8pTEUJuJQSzHLbCTP1NTzU9nEP2DYZYo81Dg0kFcRwlQXsnh
-	/in/GGHaqP7yY2oXtAOPKHSbInJTYRoFNOvmnDuN0l3fv4ADX/+EtHYbEh4aBkvC3Ii/LbVuZCc
-	luLbXrC+eg9bVHJDJ2BZGtESPrNc+bsUVDtokC5DblaKOBNJHhC4/i/1LA2WLTwYgTwtNUUs7dI
-	gk7L+6QBDRkc6GZt5R2Vfa1Lm189DB6sDzdFmxm66pNfemk6bZviY7m/0p5l9+fTJAwC0ddiTy2
-	GdLL/SoobkrIyO20+6g4Oaa+EkKxW95M00IUgPRbJJ1UllfEQMg4ah4MBH306Eo0c5OyYsvrLrI
-	+EzgHoTXU+gpCQyO1E9GgpjlJ4ZEygb3A5tDU62kR/QjesqaEXhq7b7einKI8v9/EEA2qe41QnY
-	W0Z/Q2IRbSFQkZC8NxrRUFVjj2Qt7TOpTSecxqOc3
-X-Received: by 2002:a05:693c:8206:b0:36f:f3b7:6dee with SMTP id 5a478bee46e88-37966e3ab88mr10427324eec.7.1794798246554;
-        Sun, 15 Nov 2026 19:04:06 -0800 (PST)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379508762a5sm29195595eec.0.2026.11.15.19.04.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 19:04:06 -0800 (PST)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Mark Brown <broonie@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>
-Subject: [PATCH 4/4] selftests/alsa: Test the sequencer UMP Note On/Off conversion
-Date: Mon, 16 Nov 2026 12:03:37 +0900
-Message-ID: <20261116030338.422671-5-sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261116030338.422671-1-sammiee5311@gmail.com>
-References: <20261116030338.422671-1-sammiee5311@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=arunraghavan.net header.i=@arunraghavan.net header.a=rsa-sha256 header.s=fm2 header.b=b1wbdTDl;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Jsk8Azh9
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailflow.stl.internal (Postfix) with ESMTP id EFFAB1302E18
+	for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 22:25:46 -0500 (EST)
+Received: from phl-imap-04 ([10.202.2.82])
+  by phl-compute-07.internal (MEProxy); Sun, 15 Nov 2026 22:25:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	arunraghavan.net; h=cc:cc:content-transfer-encoding:content-type
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to; s=fm2; t=1794799545; x=1794806745; bh=q4LcUzQCUtTAVVJJ4EK0d
+	8MuT1mP9AeP0gJC74TLYsc=; b=b1wbdTDliPuMB88tNz8k/iWBmNRhS2BbSirpL
+	Zba8XBPELw9u78C4B2Mvk0Xs3Ww7tvIMBUuxY+6hzRYJQqAxiLESeBbBkYLaaTMN
+	rNAiFW1/KM043gDSxM3DiPzzVkvEFazddllCNxSGsfb8JNBXeytPOwgFeZwA8oez
+	YMSPqw/IBCHRYm7hurkFvL/s6oOoaZ/qrTDCHExwJseR/bZMBcMC1NlzkNqniQVo
+	Pi3pkLbRsaHdBa2uanhzfrpTd9n8tyRdLxijzVwVzVQDpFM03c0DEY4yXl6uQ6R0
+	Iap/Lr6efZWbHixoldzPnWgWXSrcW2ErzKVhj/2WXYWVmjjCw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794799545; x=
+	1794806745; bh=q4LcUzQCUtTAVVJJ4EK0d8MuT1mP9AeP0gJC74TLYsc=; b=J
+	sk8Azh9tSpb6MnU/Gb0I/SN3dix9QU9iiujlyMLDnt3NtTBAHzDgY+s7P4D73ncx
+	S+4ektxS684Kjq6vbPjVEsD62rSEe2ErmWlzUhz8MUTQMZ4D9i55nRA7xxlpd0M+
+	hZdVNTTHG4gKzCqLCQI1c0iMIZGPlH4/QLEapPxqDBiW6huEa0AxZ3hP37LTJDc+
+	gYfRcy61cS1t+wCGXIYmdTe/w/A7Mu3KjXpKjqQEoZRg9IDpCXqAvkaMZGxV5Y0x
+	sX/MLLcrH9oPLsB1+Q+m4LlgZ8Dy/+OSi0EW7Y/KK4NJ7RYfb+0hyLMmTq/8Aj8y
+	wHzqvND4IiCRDkNonvXOg==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=arunraghavan.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794799545; d=arunraghavan.net;
+	mf=PGFydW5AYXJ1bnJhZ2hhdmFuLm5ldD4=;
+	rt=PGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZz4=;
+	s=fm2:rsa-sha256:In8piWg5sAxUKkguJMDBgOFN7HCV5R0gdv106STY4GVVS50
+	FCX4Dgu2kLJ43HE2DDgVpmYDETO4X37KD3oYb4AL8sf8p9l6waXnAUdSICnmD4IN
+	Ksr8aRtdjpxtBiIW2SBIckriZkyK6uTg2P9e8HT773WrIVduJbMwGm5OPCqDZcCh
+	0GW/LasNmEwX8Du9fYkCJhm7mkaYvZTHha7B5JXA3GCWm7wyiC/dKM5O8capqEWv
+	nHyeCujRv62zJcgUw9ha/tMKwrjiRjL/LAll9iPe1uw3f+YQAx94B1GxZ5PauDGU
+	7HWhK28s79q6/vfE36sQc7BBmw1kqlweIbvunbQ==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:GQYnNjBVtDjE/12OuGq/OsMd8zTMXh0AQkZcVmmNiHo=:xsJNPGbu2Te5aZ2YoaHmx7aGeaH96nP8N7jTslpUZCg=;
+X-ME-Sender: <xms:uHf6apSAHxS_uzWVjPUpxedKdTlkk9N6_vGExtjgjkEpmhOw1nK6nA>
+    <xme:uHf6atmK7Zppw_Plx4s0x6X5rQ27kp5vnUHic0cCL5dCYxSfXMR-IqSpW6rK_xmDd
+    -_vi27RnYKP9zRMsAgdGxx-fIMHZksQ6MMuWg388RSdJNcte_BWvQ>
+X-ME-Proxy-Cause: dmFkZTGJpU0ci2obb7JUc1Cnaaumlqm0f0mvuTjrt8AuKv1oGCYgWAFe0Uq/rm9qehlhVR
+    +VqEmOBuGmSGxuSlYbsz1mzTkCRjzNZx5jzQ6S2hGC502LVIG4zixr/2393bFJy8YikyHe
+    5uy4jO8rTJGrCCLFcPymMjZHUlC7RMY6vRH/wPw+OGTl13L5N4Rxgd1E+rpgQm38zj4evl
+    3UuhFm9PqY0qmcDUXBi+oN/4aER68cjWRN1CY5vcHXRlcRbkulyVA7MDL3WOldhId3A6bZ
+    km6D+9gCtt7HLbPJffwjb8zdDFFSlkCfIhq3xIIHKW+taITTJzFaZ3T+4xPCYr3CPeLUR7
+    FE2yhp9ypT8bw3PImrkxcjWegy4uaB2ZP7s/Z9z9Va+lKLNZE4ueqja5KNYywHYcFNEs97
+    uB6Sycu4/5Rxmk/9kIsj1z9EE2X0laWwCVS4JrTfrxkLmKmKJTh46nRpitKARFdyyqfHa3
+    qDvtgiXxAFGJBJGJ6HANSfpp3Hzl71BIUnSL63492JV/ZH+X5z3H+m5RinplIC3TCfXP6F
+    7Sc/v3D0FrK2Q/LUYUzR0p4Q6R7LSOda7Y7BUvq2Rz6XRNeh6V57Nk5vURJwD+YvMG/w7d
+    7+7qruyTRQA6/e32dEwaM44/r7x+wpYZzSw1ShXZ1UZH5tysNpWJx3LLcRCw
+X-ME-Proxy: <xmx:uHf6auzMXSqsbNiTt1a_A6ed621RFDiM-NwrHQvk8gluCYrrsrKZqA>
+    <xmx:uHf6am0vaFl5_q7yyslifow3l_4avJ9ItfDNb2XZ-WywPkbPb3fSjg>
+    <xmx:uHf6akxYGl7cDq1nY5zMzxR76YkWmReQzkHmRbf8CH45hx4Ok7nSmA>
+    <xmx:uHf6arXhEDvgPVU4y33qp8zBUVcPchLFVE2MfqU9T6eMUjkflkgr_g>
+    <xmx:uXf6asjaUq8SdeeztJ5QseM4h0_xarr9GrOvZfgyZi3xZSzkZpURsVQi>
+Feedback-ID: i42c0435e:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 3883EB6006E; Sun, 15 Nov 2026 22:25:44 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -103,261 +115,57 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: ALfJLjectwYo
+Date: Sun, 15 Nov 2026 19:25:24 -0800
+From: "Arun Raghavan" <arun@arunraghavan.net>
+To: Michael <jagerkin@gmail.com>, arunr@valvesoftware.com
+Cc: "Takashi Iwai" <tiwai@suse.de>, "Takashi Iwai" <tiwai@suse.com>,
+ "Jaroslav Kysela" <perex@perex.cz>, alexander.deucher@amd.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Peter Ujfalusi" <peter.ujfalusi@linux.intel.com>
+Message-Id: <5b34b0ef-9eef-4049-a018-3e60bda634f8@app.fastmail.com>
+In-Reply-To: <20261026013835.98210-1-jagerkin@gmail.com>
+References: <DKT5BQW7XPHP.2KNASR1XE11UD@valvesoftware.com>
+ <20261026013835.98210-1-jagerkin@gmail.com>
+Subject: Re: [PATCH] ALSA: hda/core: Log stream DMA errors on interrupt
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-seq-ump-test only covers the RPN/NRPN conversion. Check that a Note On
-with zero velocity becomes a Note Off and that a key pressure of zero
-stays a key pressure, from a legacy client to UMP MIDI 1.0 and MIDI 2.0
-clients. Also check Note On and Note Off between UMP MIDI 1.0 and MIDI
-2.0 clients.
+On Sun, 25 Oct 2026, at 6:38 PM, Michael wrote:
+> On Wed Aug 19, 2026 at 11:53 AM PDT, Arun Raghavan wrote:
+>> On Wed Aug 5, 2026 at 11:30 PM PDT, Takashi Iwai wrote:
+>>> So what's the best option for users if this happens?
+>>> That is, what happens if we don't restart the stream?  Is it a
+>>> temporary fail-out and the hardware recovers / resync by itself while
+>>> streaming further?  If so and it's short, it might be better to leave
+>>> it as is.
+>>
+>> Unfortunately, there doesn't appear to be much users can do in this
+>> state. The warnings we have introduced should at least point to a cause,
+>> but the issues seem to be around GPU clocks and power management
+>
+> A data point from Intel hardware, where there are no obvious issues
+> with playback quality.
+>
+> 7.3.0 logs this continuously as soon as PipeWire opens the analog
+> playback stream:
+>
+>   snd_hda_intel 0000:00:1f.3: stream 7 dma error: 0x28
+>
+> Per include/sound/hda_register.h, 0x28 is FIFO_READY | FIFO_ERR, the
+> same bits you reported.
+>
+> The only open PCM is pcm0p (2ch, 48 kHz, period 1024, buffer 32768
+> frames), so I'm assuming that's stream 7.
+>
+> Counting the callbacks suppressed, it's something like 7-8/second.
+>
+> ThinkPad X1 Yoga 3rd gen:
+> * i7-8650U, Sunrise Point-LP HDA 8086:9d71 subsystem 17aa:2259
+> * Realtek ALC285
+> * snd_hda_intel
+> * no dGPU
 
-Without the three previous fixes, midi1_key_pressure,
-ump_midi1_to_midi2_note and ump_midi2_to_midi1_note fail.
+Hum, that's not great. I'm not aware of what the Intel hardware might be doing. Maybe Peter (cc'ed) does?
 
-Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
----
- tools/testing/selftests/alsa/seq-ump-test.c | 187 +++++++++++++++++++-
- 1 file changed, 179 insertions(+), 8 deletions(-)
-
-diff --git a/tools/testing/selftests/alsa/seq-ump-test.c b/tools/testing/selftests/alsa/seq-ump-test.c
-index d1eca920cfc8..55bb7ea5b02f 100644
---- a/tools/testing/selftests/alsa/seq-ump-test.c
-+++ b/tools/testing/selftests/alsa/seq-ump-test.c
-@@ -1,11 +1,11 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Test the conversion of MIDI 1.0 sequencer events to UMP.
-+ * Test the sequencer conversion of MIDI 1.0 events to UMP, and of UMP
-+ * packets between MIDI 1.0 and MIDI 2.0 clients.
-  *
-- * A legacy client sends CC and CONTROL14 events to a UMP client, and the
-- * test checks the packets that the UMP client receives. The converter keeps
-- * its RPN/NRPN state per destination port and channel, so each test uses
-- * new clients.
-+ * A client sends events to a UMP client, and the test checks the packets
-+ * that the UMP client receives. The converter keeps its RPN/NRPN state
-+ * per destination port and channel, so each test uses new clients.
-  */
- #include <errno.h>
- #include <fcntl.h>
-@@ -124,6 +124,48 @@ static int send_event(struct seq_client *src, struct seq_client *dst,
- 	return 0;
- }
- 
-+static int send_note(struct seq_client *src, struct seq_client *dst,
-+		     int type, int ch, int note, int velocity)
-+{
-+	struct snd_seq_event ev;
-+
-+	memset(&ev, 0, sizeof(ev));
-+	ev.type = type;
-+	ev.flags = SNDRV_SEQ_TIME_STAMP_TICK | SNDRV_SEQ_EVENT_LENGTH_FIXED;
-+	ev.queue = SNDRV_SEQ_QUEUE_DIRECT;
-+	ev.source.client = src->id;
-+	ev.source.port = src->port;
-+	ev.dest.client = dst->id;
-+	ev.dest.port = dst->port;
-+	ev.data.note.channel = ch;
-+	ev.data.note.note = note;
-+	ev.data.note.velocity = velocity;
-+	if (write(src->fd, &ev, sizeof(ev)) != sizeof(ev))
-+		return -errno;
-+	return 0;
-+}
-+
-+/* send a UMP packet from a UMP client */
-+static int send_ump(struct seq_client *src, struct seq_client *dst,
-+		    unsigned int w0, unsigned int w1)
-+{
-+	struct snd_seq_ump_event ev;
-+
-+	memset(&ev, 0, sizeof(ev));
-+	ev.flags = SNDRV_SEQ_TIME_STAMP_TICK | SNDRV_SEQ_EVENT_LENGTH_FIXED |
-+		   SNDRV_SEQ_EVENT_UMP;
-+	ev.queue = SNDRV_SEQ_QUEUE_DIRECT;
-+	ev.source.client = src->id;
-+	ev.source.port = src->port;
-+	ev.dest.client = dst->id;
-+	ev.dest.port = dst->port;
-+	ev.ump[0] = w0;
-+	ev.ump[1] = w1;
-+	if (write(src->fd, &ev, sizeof(ev)) != sizeof(ev))
-+		return -errno;
-+	return 0;
-+}
-+
- /*
-  * Read what the UMP client received until it is quiet, and keep the
-  * packets of message type @mt. Returns the number of packets kept.
-@@ -212,11 +254,11 @@ static int send_events(struct seq_client *src, struct seq_client *dst,
- 				 ARRAY_SIZE(ev)));			\
- } while (0)
- 
--/* compare the RPN/NRPN packets received with the expected ones */
--#define EXPECT_PACKETS(...) do {					\
-+/* compare the packets of message type @mt with the expected ones */
-+#define EXPECT_MT_PACKETS(mt, ...) do {					\
- 	const struct packet want[] = { __VA_ARGS__ };			\
- 	struct packet got[MAX_PACKETS];					\
--	int n = read_packets(&self->dst, 4, got);			\
-+	int n = read_packets(&self->dst, mt, got);			\
- 	int i;								\
- 									\
- 	ASSERT_EQ((int)ARRAY_SIZE(want), n);				\
-@@ -226,12 +268,22 @@ static int send_events(struct seq_client *src, struct seq_client *dst,
- 	}								\
- } while (0)
- 
-+/* compare the MIDI 2.0 channel voice packets received */
-+#define EXPECT_PACKETS(...)	EXPECT_MT_PACKETS(4, __VA_ARGS__)
-+
- #define EXPECT_NO_PACKETS() do {					\
- 	struct packet got[MAX_PACKETS];					\
- 									\
- 	EXPECT_EQ(0, read_packets(&self->dst, 4, got));			\
- } while (0)
- 
-+#define SEND_NOTE(type, ch, note, velocity)				\
-+	ASSERT_EQ(0, send_note(&self->src, &self->dst,			\
-+			       SNDRV_SEQ_EVENT_##type, ch, note, velocity))
-+
-+#define SEND_UMP(w0, w1) \
-+	ASSERT_EQ(0, send_ump(&self->src, &self->dst, w0, w1))
-+
- /* RPN 0/1 with Data Entry */
- TEST_F(seq_ump, rpn)
- {
-@@ -416,6 +468,20 @@ TEST_F(seq_ump, c14_null_nrpn_keeps_rpn_number)
- 	EXPECT_PACKETS({ RPN(0, 0, 1), data14(0x10, 0) });
- }
- 
-+/* a note-on with zero velocity is a note-off */
-+TEST_F(seq_ump, note_on_zero_velocity)
-+{
-+	SEND_NOTE(NOTEON, 1, 60, 0);
-+	EXPECT_PACKETS({ 0x40813c00, 0 });
-+}
-+
-+/* a key pressure of zero is a key pressure, not a note-off */
-+TEST_F(seq_ump, key_pressure)
-+{
-+	SEND_NOTE(KEYPRESS, 2, 64, 0);
-+	EXPECT_PACKETS({ 0x40a24000, 0 });
-+}
-+
- /* a UMP MIDI 1.0 client gets the CCs as they are, RPN selection included */
- TEST(midi1_passthrough)
- {
-@@ -449,4 +515,109 @@ TEST(midi1_passthrough)
- 	close_client(&dst);
- }
- 
-+/* a pair of clients whose MIDI versions each test chooses */
-+FIXTURE(seq_pair) {
-+	struct seq_client src;
-+	struct seq_client dst;
-+};
-+
-+FIXTURE_SETUP(seq_pair)
-+{
-+	self->src.fd = -1;
-+	self->dst.fd = -1;
-+}
-+
-+FIXTURE_TEARDOWN(seq_pair)
-+{
-+	close_client(&self->src);
-+	close_client(&self->dst);
-+}
-+
-+static int open_pair(struct seq_client *dst, int dst_version,
-+		     struct seq_client *src, int src_version, int *skip)
-+{
-+	int err;
-+
-+	err = open_client(dst, dst_version, CAP_IN, skip);
-+	if (!err)
-+		err = open_client(src, src_version, CAP_OUT, skip);
-+	return err;
-+}
-+
-+/* to UMP MIDI 1.0, a key pressure of zero is a key pressure */
-+TEST_F(seq_pair, midi1_key_pressure)
-+{
-+	int skip = 0;
-+	int err;
-+
-+	err = open_pair(&self->dst, SNDRV_SEQ_CLIENT_UMP_MIDI_1_0,
-+			&self->src, 0, &skip);
-+	if (skip)
-+		SKIP(return, "UMP sequencer client unavailable: %s",
-+		     strerror(-err));
-+	ASSERT_EQ(0, err);
-+
-+	SEND_NOTE(KEYPRESS, 2, 64, 0x50);
-+	SEND_NOTE(KEYPRESS, 2, 64, 0);
-+	EXPECT_MT_PACKETS(2, { 0x20a24050, 0 }, { 0x20a24000, 0 });
-+}
-+
-+/* to UMP MIDI 1.0, a note-on with zero velocity is a note-off */
-+TEST_F(seq_pair, midi1_note_on_zero_velocity)
-+{
-+	int skip = 0;
-+	int err;
-+
-+	err = open_pair(&self->dst, SNDRV_SEQ_CLIENT_UMP_MIDI_1_0,
-+			&self->src, 0, &skip);
-+	if (skip)
-+		SKIP(return, "UMP sequencer client unavailable: %s",
-+		     strerror(-err));
-+	ASSERT_EQ(0, err);
-+
-+	SEND_NOTE(NOTEON, 1, 60, 0);
-+	EXPECT_MT_PACKETS(2, { 0x20813c00, 0 });
-+}
-+
-+/* UMP MIDI 1.0 to MIDI 2.0: a note-on with zero velocity is a note-off */
-+TEST_F(seq_pair, ump_midi1_to_midi2_note)
-+{
-+	int skip = 0;
-+	int err;
-+
-+	err = open_pair(&self->dst, SNDRV_SEQ_CLIENT_UMP_MIDI_2_0,
-+			&self->src, SNDRV_SEQ_CLIENT_UMP_MIDI_1_0, &skip);
-+	if (skip)
-+		SKIP(return, "UMP sequencer client unavailable: %s",
-+		     strerror(-err));
-+	ASSERT_EQ(0, err);
-+
-+	SEND_UMP(0x20913c00, 0);
-+	EXPECT_PACKETS({ 0x40813c00, 0 });
-+}
-+
-+/*
-+ * UMP MIDI 2.0 to MIDI 1.0: a note-on whose velocity scales down to zero
-+ * stays a note-on with velocity 1, and a note-off stays a note-off
-+ */
-+TEST_F(seq_pair, ump_midi2_to_midi1_note)
-+{
-+	int skip = 0;
-+	int err;
-+
-+	err = open_pair(&self->dst, SNDRV_SEQ_CLIENT_UMP_MIDI_1_0,
-+			&self->src, SNDRV_SEQ_CLIENT_UMP_MIDI_2_0, &skip);
-+	if (skip)
-+		SKIP(return, "UMP sequencer client unavailable: %s",
-+		     strerror(-err));
-+	ASSERT_EQ(0, err);
-+
-+	SEND_UMP(0x40913c00, 0xc8000000);
-+	SEND_UMP(0x40913c00, 0x01000000);
-+	SEND_UMP(0x40913c00, 0);
-+	SEND_UMP(0x40813c00, 0);
-+	EXPECT_MT_PACKETS(2, { 0x20913c64, 0 }, { 0x20913c01, 0 },
-+			  { 0x20913c01, 0 }, { 0x20813c00, 0 });
-+}
-+
- TEST_HARNESS_MAIN
--- 
-2.43.0
-
+-- Arun
